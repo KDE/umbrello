@@ -2020,6 +2020,7 @@ bool UMLView::setAssoc(UMLWidget *pWidget) {
 	if( valid ) {
 		AssociationWidget *temp = new AssociationWidget(this, widgetA, type, widgetB);
 		addAssocInViewAndDoc(temp);
+		m_pDoc->setModified();
 	} else {
 		KMessageBox::error(0, i18n("Incorrect use of associations."), i18n("Association Error"));
 	}

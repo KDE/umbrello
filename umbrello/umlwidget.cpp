@@ -369,9 +369,8 @@ void UMLWidget::mouseReleaseEvent(QMouseEvent *me) {
 		m_pView->getDocument()->setModified(true);
 	}
 
-	if ( me->button() == LeftButton && (me->stateAfter() != ShiftButton
-																|| me->stateAfter() != ControlButton) )
-	{
+	if ( me->button() == LeftButton &&
+	     (me->stateAfter() != ShiftButton || me->stateAfter() != ControlButton) )  {
 		m_pView->setAssoc(this);
 	}
 }
@@ -1038,7 +1037,7 @@ bool UMLWidget::loadFromXMI( QDomElement & qElement ) {
 		kdError()<<"Loading from XMI Error - id = "<<id.toInt()<<" but the UMLObject's id is "<<m_pObject->getID()<<endl;
 	}
 	m_nId = id.toInt();
-	
+
 	if( !font.isEmpty() ) {
 		m_Font.fromString( font );
 	}
