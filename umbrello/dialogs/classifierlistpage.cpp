@@ -166,15 +166,24 @@ void ClassifierListPage::slotClicked(QListBoxItem*item) {
 		m_pOldListItem->setDoc( m_pDocTE->text() );
 	}
 
-	//make sure clicked on an item
-	if(!item) {
+	// make sure clicked on an item
+	// it is impossible to deselect all items, because our list box has keyboard
+	// focus and so at least one item is always selected; this doesn't happen, if
+	// there are no items of course;
+	//
+	// for more information see Qt doc for void QListBox::clearSelection()
+	UMLClassifierListItem* listItem;
+	if(!item && m_pItemListLB->count() == 0) {
 		enableWidgets(false);
 		m_pOldListItem = 0;
 		m_pItemListLB->clearSelection();
 		return;
+	} else if (!item && m_pItemListLB->count() > 0) {
+		m_pItemListLB->setSelected(0, true);
+		listItem = getItemList().at(0);
+	} else {
+		listItem = getItemList().at( m_pItemListLB->index(item) );
 	}
-
-	UMLClassifierListItem* listItem = getItemList().at( m_pItemListLB->index(item) );
 
 	//now update screen
 	m_pDocTE->setText( listItem->getDoc() );
@@ -204,7 +213,11 @@ void ClassifierListPage::slotListItemCreated(UMLObject* object) {
 	int index = m_pItemListLB->count();
 	m_pItemListLB ->insertItem((static_cast<UMLClassifierListItem*>(object))->getShortName(), index);
 	m_bSigWaiting = false;
-	slotClicked(0);
+
+	// now select the new item, so that the user can go on adding doc or calling
+	// the property dialog
+	m_pItemListLB->setSelected(index, true);
+	slotClicked(m_pItemListLB->item(index));
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void ClassifierListPage::slotListItemModified() {
