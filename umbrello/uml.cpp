@@ -1080,7 +1080,13 @@ bool UMLApp::editCutCopy( bool bFromView ) {
 void UMLApp::readOptionState() {
 	m_config -> setGroup( "General Options" );
 	m_optionState.generalState.undo = m_config -> readBoolEntry( "undo", true );
-	m_optionState.generalState.tabdiagrams = m_config -> readBoolEntry( "tabdiagrams", true );
+	m_optionState.generalState.tabdiagrams = m_config -> readBoolEntry( "tabdiagrams",
+#if KDE_IS_VERSION(3,1,90)
+										true
+#else
+										false
+#endif
+									  );
 	m_optionState.generalState.newcodegen = m_config -> readBoolEntry( "newcodegen", true );
 	m_optionState.generalState.autosave = m_config -> readBoolEntry( "autosave", true );
 	m_optionState.generalState.time = m_config -> readNumEntry( "time", 0 ); //old autosavetime value kept for compatibility
