@@ -37,6 +37,7 @@ CPPHeaderCodeOperation::~CPPHeaderCodeOperation ( ) { }
 void CPPHeaderCodeOperation::updateMethodDeclaration()
 {
 
+	bool isInterface = ((ClassifierCodeDocument*)getParentDocument())->parentIsInterface();
 	UMLOperation * o = getParentOperation();
 
 	// first, the comment on the operation
@@ -67,9 +68,21 @@ void CPPHeaderCodeOperation::updateMethodDeclaration()
 			paramStr  += ", ";
 	}
 
-	QString startText = returnType + methodName + " ("+paramStr+");";
+	QString startText = returnType + methodName + " ("+paramStr+")";
+	if(isInterface || o->getAbstract()) // write as an abstract operation if explicitly stated OR if child of interface 
+		startText += " = 0";
+	startText+=";";
 	setStartMethodText(startText);
 
+}
+
+int CPPHeaderCodeOperation::lastEditableLine() {
+        ClassifierCodeDocument * doc = (ClassifierCodeDocument*)getParentDocument();
+	UMLOperation * o = getParentOperation();
+        if(doc->parentIsInterface() || o->getAbstract())
+                return -1; // very last line is NOT editable as its a one-line declaration w/ no body in
+                        // an interface.
+        return 0;
 }
 
 void CPPHeaderCodeOperation::init (CPPHeaderCodeDocument * doc )

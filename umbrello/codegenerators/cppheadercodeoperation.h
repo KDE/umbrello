@@ -41,6 +41,8 @@ public:
 	 */
 	virtual ~CPPHeaderCodeOperation ( );
 
+        virtual int lastEditableLine();
+
 protected:
 
         void updateMethodDeclaration();
