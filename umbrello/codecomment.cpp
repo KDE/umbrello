@@ -20,14 +20,8 @@
 // Constructors/Destructors
 //  
 
-CodeComment::CodeComment (CodeDocument * doc, QString comment ) 
+CodeComment::CodeComment (CodeDocument * doc, const QString & comment ) 
     : TextBlock ( doc, comment )
-{
-
-}
-
-CodeComment::CodeComment ( CodeDocument * doc ) 
-    : TextBlock ( doc, "")
 {
 
 }

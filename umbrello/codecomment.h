@@ -40,8 +40,7 @@ public:
 	/**
 	 * Empty Constructor
 	 */
-	CodeComment ( CodeDocument * doc, QString comment);
-	CodeComment ( CodeDocument * doc );
+	CodeComment ( CodeDocument * doc, const QString & comment = "");
 
 	/**
 	 * Empty Destructor

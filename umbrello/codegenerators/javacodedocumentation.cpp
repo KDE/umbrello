@@ -13,7 +13,11 @@
  *      Date   : Mon Jun 23 2003
  */
 
+
 #include <kdebug.h>
+
+#include <qregexp.h>
+
 #include "javacodedocumentation.h"
 #include "javaclassifiercodedocument.h"
 #include "javacodegenerationpolicy.h"
@@ -95,13 +99,58 @@ QString JavaCodeDocumentation::toString ( )
                 		output.append(formatMultiLineText (body, indent +"// ", endLine));
 		} else {
                 	output.append(indent+"/**"+endLine);
-			if(!body.isEmpty())
-                		output.append(formatMultiLineText (body, indent +" * ", endLine));
+                	output.append(formatMultiLineText (body, indent +" * ", endLine));
                 	output.append(indent+" */"+endLine);
 		}
         }
 
         return output; 
+}
+
+QString JavaCodeDocumentation::getNewEditorLine ( int amount ) 
+{
+	JavaCodeGenerationPolicy * p = ((JavaClassifierCodeDocument*)getParentDocument())->getJavaPolicy();
+	if(p->getCommentStyle() == JavaCodeGenerationPolicy::SlashStar)
+        	return getIndentationString(amount) + " * ";
+	else
+        	return getIndentationString(amount) + "// ";
+}
+
+int JavaCodeDocumentation::firstEditableLine() {
+	JavaCodeGenerationPolicy * p = ((JavaClassifierCodeDocument*)getParentDocument())->getJavaPolicy();
+	if(p->getCommentStyle() == JavaCodeGenerationPolicy::SlashStar)
+		return 1; 
+	return 0; 
+}
+
+int JavaCodeDocumentation::lastEditableLine() { 
+	JavaCodeGenerationPolicy * p = ((JavaClassifierCodeDocument*)getParentDocument())->getJavaPolicy();
+	if(p->getCommentStyle() == JavaCodeGenerationPolicy::SlashStar)
+	{
+		return -1; // very last line is NOT editable
+	}
+	return 0;
+}
+
+/** UnFormat a long text string. Typically, this means removing
+ *  the indentaion (linePrefix) and/or newline chars from each line.
+ */
+QString JavaCodeDocumentation::unformatText ( const QString & text , const QString & indent) 
+{
+
+	QString mytext = TextBlock::unformatText(text, indent);
+	JavaCodeGenerationPolicy * p = ((JavaClassifierCodeDocument*)getParentDocument())->getJavaPolicy();
+	// remove leading or trailing comment stuff
+	mytext.remove(QRegExp("^"+indent));
+	if(p->getCommentStyle() == JavaCodeGenerationPolicy::SlashStar)
+	{
+		mytext.remove(QRegExp("^\\/\\*\\*\\s*\n?"));
+		mytext.remove(QRegExp("\\s*\\*\\/\\s*\n?$"));
+		mytext.remove(QRegExp("^\\s*\\*\\s*"));
+	} else
+		mytext.remove(QRegExp("^\\/\\/\\s*"));
+
+	return mytext;
 }
 
 

@@ -14,18 +14,13 @@
  */
 
 #include "javacodecomment.h"
+#include <qregexp.h>
 
 // Constructors/Destructors
 //  
 
-JavaCodeComment::JavaCodeComment ( CodeDocument * doc, QString text ) 
+JavaCodeComment::JavaCodeComment ( CodeDocument * doc, const QString & text ) 
     : CodeComment (doc, text)
-{
-
-}
-
-JavaCodeComment::JavaCodeComment ( CodeDocument * doc ) 
-    : CodeComment (doc)
 {
 
 }
@@ -47,6 +42,25 @@ JavaCodeComment::~JavaCodeComment ( ) { }
 // Other methods
 //  
 
+QString JavaCodeComment::getNewEditorLine ( int amount ) {
+        QString line = getIndentationString(amount) + "// ";
+        return line;
+}
+
+/** UnFormat a long text string. Typically, this means removing
+ *  the indentaion (linePrefix) and/or newline chars from each line.
+ */
+QString JavaCodeComment::unformatText ( const QString & text , const QString & indent)
+{
+
+        // remove leading or trailing comment stuff
+        QString mytext = TextBlock::unformatText(text, indent);
+
+	// now leading slashes
+	mytext.remove(QRegExp("^\\/\\/\\s*"));
+        return mytext;
+}
+
 /**
  * Save the XMI representation of this object
  * @return      bool    status of save
@@ -54,7 +68,7 @@ JavaCodeComment::~JavaCodeComment ( ) { }
 bool JavaCodeComment::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
         bool status = true;
 
-        QDomElement blockElement = doc.createElement( "javacodecomment" );
+        QDomElement blockElement = doc.createElement( "codecomment" );
         setAttributesOnNode(doc, blockElement); // as we added no additional fields to this class we may
                                                 // just use parent TextBlock method
         root.appendChild( blockElement );

@@ -18,14 +18,8 @@
 // Constructors/Destructors
 //  
 
-CPPCodeComment::CPPCodeComment ( CodeDocument * doc, QString text ) 
+CPPCodeComment::CPPCodeComment ( CodeDocument * doc, const QString & text ) 
     : CodeComment (doc, text)
-{
-
-}
-
-CPPCodeComment::CPPCodeComment ( CodeDocument * doc ) 
-    : CodeComment (doc)
 {
 
 }
