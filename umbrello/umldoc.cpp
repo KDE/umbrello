@@ -508,10 +508,22 @@ UMLObject* UMLDoc::findUMLObject(int id) {
 	{
 		if(obj -> getID() == id)
 			return obj;
-		if (obj->getBaseType() == Uml::ot_Package) {
-			UMLObject *o = ((UMLPackage*)obj)->findObject(id);
-			if (o)
-				return o;
+		UMLObject *o;
+		switch (obj->getBaseType()) {
+			case Uml::ot_Package:
+				o = ((UMLPackage*)obj)->findObject(id);
+				if (o)
+					return o;
+				break;
+			case Uml::ot_Interface:
+			case Uml::ot_Class:
+			case Uml::ot_Enum:
+				o = ((UMLClassifier*)obj)->findChildObject(id);
+				if (o)
+					return o;
+				break;
+			default:
+				break;
 		}
 	}
 	return 0;
@@ -617,6 +629,12 @@ QString	UMLDoc::uniqObjectName(const UMLObject_Type type, QString prefix) {
   *   AddUMLObjectPaste if pasting.
   */
 void UMLDoc::addUMLObject(UMLObject* object) {
+	UMLObject_Type ot = object->getBaseType();
+	if (ot == ot_Attribute || ot == ot_Operation || ot == ot_EnumLiteral) {
+		kdDebug() << "UMLDoc::addUMLObject(" << object->getName()
+			<< "): not adding type " << ot << endl;
+		return;
+	}
 	//stop it being added twice
 	if ( objectList.find(object) == -1)  {
 		objectList.append( object );
@@ -1476,8 +1494,15 @@ void UMLDoc::saveToXMI(QIODevice& file) {
 		if (o->getUMLPackage())
 			continue;
 #endif
-		if (t == ot_Attribute || t == ot_Operation || t == ot_Association)
+		if (t == ot_Association)
 			continue;
+		if (t == ot_EnumLiteral || t == ot_Attribute || t == ot_Operation) {
+			kdError() << "UMLDoc::saveToXMI(" << o->getName()
+				  << "): internal error: type " << t
+				  << "is not supposed to be in objectList"
+				  << endl;
+			continue;
+		}
 		o->saveToXMI(doc, objectsElement);
 	}
 
