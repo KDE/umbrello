@@ -250,7 +250,7 @@ void ObjectWidget::drawActor(QPainter & p, int offsetX, int offsetY) {
 }
 
 void ObjectWidget::mouseMoveEvent(QMouseEvent* me) {
-	if( m_bMouseDown ) {
+	if( m_bMouseDown || me->button() == LeftButton ) {
 		QPoint newPosition = doMouseMove(me);
 		int newX = newPosition.x();
 		int newY = newPosition.y();

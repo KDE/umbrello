@@ -303,7 +303,7 @@ void FloatingText::showOpDlg() {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void FloatingText::mouseMoveEvent(QMouseEvent* me) {
-	if( m_bMouseDown ) {
+	if( m_bMouseDown || me->button() == LeftButton ) {
 		QPoint newPosition = doMouseMove(me);
 		int newX = newPosition.x();
 		int newY = newPosition.y();
