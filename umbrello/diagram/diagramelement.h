@@ -16,17 +16,18 @@
 #define DIAGRAMELEMENT_H
 
 #include <qobject.h>
+#include <qcanvas.h>
 #include <qpoint.h>
-#include <kdebug.h>
 
 #include "diagram.h"
 
 class QPopupMenu;
 
 namespace Umbrello{
+class Diagram;
 
 /** @short Base class for all elements shown in a Diagram */
-class DiagramElement :  public QObject, public QCanvasPolygonalItem 
+class DiagramElement :  public QObject, public QCanvasPolygonalItem
 {
 	Q_OBJECT
 
@@ -42,7 +43,7 @@ public:
 	/** Return the ID of this element */
 	int getID() const;
 	
-	/** Move the element to an absolute position in the diagram
+	/** Move the element to an absolute position in the diagram.
 	* @param x X coordinate to move to 
 	* @param y Y coordinate to move to
 	*/
@@ -52,11 +53,22 @@ public:
 	virtual void moveAbs( const QPoint & );
 	
 	/** Move the element a certain distance in the diagram, relative to
-	* its current position
+	* its current position.
 	* @param dx Distance to move in the x axis
 	* @param dy Distance to move in the y axis
 	*/
 	virtual void moveBy( int dx, int dy);
+	
+	virtual void moveHotSpotBy( int h, int dx, int dy );
+	
+	
+	int isHotSpot( const QPoint& ) const ;
+	int closestHotSpot( const QPoint& ) const;
+	QPoint hotSpotPosition( int i ) const;
+	void showHotSpots( int highlight = -1 );
+	void hideHotSpots( );
+	inline bool isShowHotSpots( ) const;
+	int hotSpotSize( ) const;
 	
 	/** Populate a context menu with items / actions for this element
 	*  @param menu The popup menu to insert the actions in
@@ -78,13 +90,13 @@ public:
 	
 public slots:
 	/** Move the element one level up in the element stack */
-	void raise( );
+	virtual void raise( );
 	/** Move the element to the forground */
-	void moveToForeground();
+	virtual void moveToForeground();
 	/** Move the element one level down in the widget stack */
-	void lower( );
+	virtual void lower( );
 	/** Move the element to the background*/
-	void moveToBackground();
+	virtual void moveToBackground();
 	
 	/** Show a dialog to edit the properties of the element */
 	virtual void editProperties();
@@ -92,15 +104,33 @@ public slots:
 signals:
 	/** Signals that the element has been moved */
 	void moved();
+	/** Signals that the element has been selected*/
+	void selected(bool);
 	
 protected:
 	virtual void drawShape(QPainter& ) = 0;
-
-	int m_id;
+	virtual void drawHotSpots(QPainter&);
+	//called whenever the hotspots need to be recalculated. You can override this
+	// to place the hotspots wherever you want on your widget. just append the points
+	// relative to your widget's (0,0) to the list - (the points are the center of the
+	//hotspot )
+	virtual void createHotSpots( );
+	
+	void setHotSpotSize( int s );
+		
+	int  m_id;
 	bool m_useOwnPen;
 	bool m_useOwnBrush;
+	mutable QPtrList<QPoint> m_hotSpots;
+private:
+	int m_highlightHotSpot;
+	int m_hotSpotSize;
+	bool m_showHotSpots;
+	
+
 };
 
+bool DiagramElement::isShowHotSpots( ) const {return m_showHotSpots;}
 
 } // end of namespace Umbrello
 

@@ -1,154 +1,213 @@
 
-
-
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
+ 
 
 #include "associationwidget.h"
-#include "../association.h"
+#include "pathsegment.h"
+#include "diagramwidget.h"
 
-#include <qpainter.h>
-#include <qrect.h>
+#include <qpoint.h>
+#include <qpointarray.h>
+#include <qpopupmenu.h>
+#include <klocale.h>
+
 #include <kdebug.h>
-
-
 
 namespace Umbrello{
 
-AssociationWidget::AssociationWidget(Diagram *diagram, uint id, UMLAssociation *assoc,
-				 UMLWidget *start, UMLWidget *end):
-		UMLWidget(diagram, id, assoc ),m_widgetA(start),m_widgetB(end), m_path(2)
+
+AssociationWidget::AssociationWidget( Diagram *diagram, uint id, DiagramWidget *start, DiagramWidget *end ):
+                   Path( diagram, id ), m_startWidget(start), m_endWidget(end), m_autoAdjust(true)
 {
-	connect(m_widgetA,SIGNAL(moved()),this,SLOT(widgetMoved()));
-	connect(m_widgetB,SIGNAL(moved()),this,SLOT(widgetMoved()));
-	connect(m_widgetA,SIGNAL(destroyed()),this,SLOT(deleteLater()));
-	connect(m_widgetB,SIGNAL(destroyed()),this,SLOT(deleteLater()));
+	//we start with a reasonable default
+	m_startSpot = m_startWidget->closestHotSpot(QPoint((m_endWidget->x() + m_endWidget->width())/2 ,
+	                                                  (m_endWidget->y() + m_endWidget->height())/2 ));
+	QPoint startPoint = m_startWidget->hotSpotPosition( m_startSpot );
+
+	m_endSpot = m_endWidget->closestHotSpot(QPoint((m_startWidget->x() + m_startWidget->width())/2 ,
+	                                                  (m_startWidget->y() + m_startWidget->height())/2 ));
+	QPoint endPoint = m_endWidget->hotSpotPosition( m_endSpot );
+	QPointArray a(2);
+	a[0] = startPoint;
+	a[1] = endPoint;
+	setPathPoints(a);
 	
-//FIXME  for now justr connect to the center of the widget. we should call classWidget->getconnectingpoint to get
-// an appropiate connecting point from the classwidget, depending on where we are comming from	
-	QPoint startPoint = QPoint(m_widgetA->x(), m_widgetA->y()) + QPoint(m_widgetA->width() / 2, m_widgetA->height() / 2 );
-	QPoint endPoint = QPoint(m_widgetB->x(),m_widgetB->y()) + QPoint(m_widgetB->width() / 2, m_widgetB->height() / 2 );
-		
-	moveAbs( startPoint.x(), startPoint.y() );
+	createHotSpots( );
 	
-	m_path[0] = startPoint;
-	m_path[1] = endPoint;
+	connect(m_startWidget,SIGNAL(moved()),this,SLOT(widgetMoved()));
+	connect(m_endWidget,SIGNAL(moved()),this,SLOT(widgetMoved()));
 	
-	//FIXME!!!!
-//m_width = 10;
-//m_height = 10;
-/*	start->registerAssociation(this);
-	end->registerAssociation(this);
-	QPoint aproxEnd = end->pos();
-	QPoint aproxStart = start->pos();
+	connect(m_startWidget,SIGNAL(destroyed()),this,SLOT(deleteLater()));
+	connect(m_endWidget,SIGNAL(destroyed()),this,SLOT(deleteLater()));
 	
-	QPoint p1, p2;
-	start->getConnectingPoint(p1,p2,aproxEnd);
-	m_path.append(p1);
-	m_path.append(p2);
-	end->getConnectingPoint(p1,p2,aproxStart);
-	m_path.append(p2);
-	m_path.append(p1);*/
 }
+
 AssociationWidget::~AssociationWidget()
 {
 	hide();
 	canvas()->update();
 }
 
-void AssociationWidget::setPath( QPointArray path )
+void AssociationWidget::moveBy( int dx, int dy)
 {
-	QPoint start = m_path[0];
-	QPoint end = m_path[ m_path.size() -1 ];
-	
-	//m_path.clear();
-	m_path.resize( path.size() + 2 );
-	m_path[0] = start;
-	for(int i = 0; i < path.size() ; i++)
+	PathSegment *segment(0);
+	for( segment = m_segments.first(); segment; segment = m_segments.next() )
 	{
-		m_path[i+1] = path[i];
+		segment->moveBy(dx,dy);
 	}
-	
-	m_path[ m_path.count() -1 ] = end;
-}
-	
-QPointArray AssociationWidget::areaPoints() const
-{
-
-//Since calculating the areaPoints for a multi-segment path is not so easy, we 
-// just calculate the bounding "polygon" for now (in the worst case == bounding rectangle)
-// and add a margin of 10 to be on the safe side.
-// Implementing this the right way would mean calculating the area points for each segment (easy)
-// and then t
-QPoint topLeft( m_path[0] ), topRight( m_path[0] ), bottomRight( m_path[0] ), bottomLeft( m_path[0] );
-for( int i = 0; i< m_path.count() ; i++)
-{
-	if( m_path[i].x() < topLeft.x() && m_path[i].y() < topLeft.y() )
-		topLeft = m_path[i];
-	if( m_path[i].x() > topRight.x() && m_path[i].y() < topRight.y() )
-		topRight = m_path[i];
-	if( m_path[i].x() > bottomRight.x() && m_path[i].y() > bottomRight.y() )
-		bottomRight = m_path[i];
-	if( m_path[i].x() < bottomLeft.x() && m_path[i].y() > bottomLeft.y() )
-		bottomLeft = m_path[i];
-}
-// //FIXME
-    QPointArray pa(4);   
-    pa[0] = topLeft + QPoint( -10, -10 );
-    pa[1] = topRight + QPoint( 10, -10 );
-    pa[2] = bottomRight + QPoint( 10, 10 );
-    pa[3] = bottomLeft + QPoint( 10, -10 );
-    ////////////////////////////////////////////////7
-//     kdDebug()<<"area points : "<<endl;
-//    for( int i = 0; i< m_path.count() ; i++)
-//    	kdDebug()<<"m_path["<<i<<"] = "<<m_path[i].x()<<","<<m_path[i].y()<<endl;
-///////////////////////////////
-    return pa;
-
-}
-	
-
-void AssociationWidget::umlObjectModified()
-{
-kdDebug()<<"UMLAssociation was modifed. update!"<<endl;
-
-}
-
-
-void AssociationWidget::widgetMoved()
-{
-//FIXME we connect now to the widget's center. we just call widget::getConnectingPoint() here, and have the widget assign us a new point
-	const QObject *sender = QObject::sender();
-	if( sender == m_widgetA )
+	segment = m_segments.first();
+	if(segment)
 	{
-		m_path[0] = QPoint(m_widgetA->x(), m_widgetA->y()) + QPoint(m_widgetA->width() / 2, m_widgetA->height() / 2 );
+		segment->moveBy(-dx,-dy);
+		segment->setPoints(segment->startPoint().x(),segment->startPoint().y(),
+	                           segment->endPoint().x() + dx, segment->endPoint().y() + dy );
 	}
-	else if( sender == m_widgetB )
+	segment = m_segments.last();
+	if(segment)
 	{
-		m_path[ m_path.count() -1 ] = QPoint(m_widgetB->x(), m_widgetB->y()) + QPoint(m_widgetB->width() / 2, m_widgetB->height() / 2 );
+		segment->moveBy(-dx,-dy);
+		segment->setPoints(segment->startPoint().x() + dx ,segment->startPoint().y() + dy,
+	                   segment->endPoint().x(),segment->endPoint().y());
 	}
-	update();
+	createHotSpots( );
 	canvas()->update();
+	emit moved();
 }
 
-void AssociationWidget::drawShape(QPainter &p)
+//reimplemented to make sure the end points are hotspots
+void AssociationWidget::setPathPoints( const QPointArray &a )
 {
-	int pointCount = m_path.count();
-	for( int i = 0; i < pointCount -1 ; i++ )
-	{
-		p.drawLine( m_path[i], m_path[i+1]);
-	}
-	if(isSelected())
-	{
-		p.setPen(Qt::blue);
-		p.setBrush(Qt::blue);
-		QRect selectionRect(0,0,4,4);
-		for( int i = 0; i< m_path.count() ; i++)
-		{
-			selectionRect.moveCenter( m_path[i] );
-			p.drawRect(selectionRect);
-		}
-	}
+	Path::setPathPoints(a);
+	QPoint start, end;
+	m_startSpot = m_startWidget->closestHotSpot(a[0]);
+	//make sure we've got the right spot
+	start = m_startWidget->hotSpotPosition(m_startSpot);
+	end = m_segments.first()->endPoint();
+	m_segments.first()->setPoints(start.x(),start.y(),end.x(),end.y());
+	                           
+	m_endSpot = m_endWidget->closestHotSpot(a[a.size()-1]);
+	//make sure we've got the right spot
+	end = m_endWidget->hotSpotPosition(m_endSpot);
+	start = m_segments.last()->startPoint();
+	m_segments.last()->setPoints(start.x(),start.y(),end.x(),end.y());
+	
+	createHotSpots( );
 }
 
+
+void AssociationWidget::fillContextMenu(QPopupMenu &menu)
+{
+	QPopupMenu *subMenu = new QPopupMenu(&menu, "association popup");
+	subMenu->setCheckable(true);
+	subMenu->insertItem(i18n("AutoAdjust"),this,SLOT(setAutoAdjust()),0,1);
+	subMenu->insertItem(i18n("Fixed to Widget"),this,SLOT(setFixedSpots()),0,0);
+	subMenu->setItemChecked((int)m_autoAdjust,true);
+	menu.insertItem(i18n("Association style"),subMenu);
+	Path::fillContextMenu(menu);
 }
+
+void AssociationWidget::setAutoAdjust( )
+{
+	m_autoAdjust = true;
+	//force a path recalculation
+	widgetMoved();
+}
+
+void AssociationWidget::setFixedSpots( )
+{
+	m_autoAdjust = false;
+	//force a path recalculation
+	widgetMoved();
+}
+
+void AssociationWidget::moveHotSpotBy( int h, int dx, int dy )
+{
+	PathSegment *before,*after;
+	int spot;
+	QPoint point;
+	if( h != 0 && h != m_hotSpots.count() -1 )
+		return Path::moveHotSpotBy(h,dx,dy);
+	kdDebug()<<"AssociationWidget::moveHotSpotBy()"<<endl;
+	if( h == 0)
+	{
+		point.setX( m_segments.first()->startPoint().x() + dx );
+		point.setY( m_segments.first()->startPoint().y() + dy );
+		spot = m_startWidget->closestHotSpot(point);
+		kdDebug()<<"moving hs 0 to widget spot "<<spot<<endl;
+		m_startSpot = spot;
+		m_startWidget->showHotSpots(spot);
+		
+		//point = m_startWidget->hotSpotPosition(spot);
+		after = m_segments.first();
+		after->setPoints( point.x(),
+		                  point.y(),
+		                  after->endPoint().x(),
+		                  after->endPoint().y());
+	}
+	else if ( h == m_hotSpots.count() -1 )
+	{
+		point.setX( m_segments.last()->endPoint().x() + dx );
+		point.setY( m_segments.last()->endPoint().y() + dy );
+		spot = m_endWidget->closestHotSpot(point);
+		kdDebug()<<"moving hs "<<h<<" to widget spot "<<spot<<endl;
+		m_endWidget->showHotSpots(spot);
+		m_endSpot = spot;
+		//point = m_endWidget->hotSpotPosition(spot);
+		before = m_segments.last();
+		before->setPoints( before->startPoint().x(),
+		                   before->startPoint().y(),
+		                   point.x(),
+		                   point.y() );
+	}
+	QPoint *p = m_hotSpots.at(h);
+	p->setX(p->x() + dx);
+	p->setY(p->y() + dy);
+	update();
+	diagram()->update();
+	m_autoAdjust = false;
+//	setFixedSpots();
+}
+
+void AssociationWidget::widgetMoved( )
+{
+	//const DiagramWidget *moved = dynamic_cast<const DiagramWidget*>(sender());
+	
+	PathSegment *segment;
+	QPoint p;
+	//if( moved == m_startWidget || m_segments.count() == 1 )
+	{
+		if(m_autoAdjust)
+		{
+			m_startSpot = m_startWidget->closestHotSpot(m_segments.at(0)->endPoint());
+		}
+		p = m_startWidget->hotSpotPosition(m_startSpot);
+		segment = m_segments.first();
+		segment->setPoints(p.x(),p.y(),segment->endPoint().x(),segment->endPoint().y());
+	}
+	//if( moved == m_endWidget || m_segments.count() == 1 )
+	{
+		if(m_autoAdjust)
+		{
+			m_endSpot = m_endWidget->closestHotSpot(m_segments.at(m_segments.count()-1)->startPoint());
+		}
+		p = m_endWidget->hotSpotPosition(m_endSpot);
+		segment = m_segments.last();
+		segment->setPoints(segment->startPoint().x(),segment->startPoint().y(),p.x(),p.y());
+	}
+	createHotSpots( );
+	update();
+	diagram()->update();
+}
+
+
+
+} // end of namespace Umbrello
 
 #include "associationwidget.moc"

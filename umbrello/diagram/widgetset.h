@@ -7,46 +7,56 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef WIDGET_SET_H
-#define WIDGET_SET_H
+#ifndef UMBRELLO_WIDGETSET_H
+#define UMBRELLO_WIDGETSET_H
 
 #include "../plugin.h"
-#include <qpointarray.h>
-
 
 class UMLObject;
-class UMLAssociation;
-class QPoint;
-class QPointArray;
 
 namespace Umbrello{
-
 class Diagram;
-class DiagramElement;
-class UMLWidget;
-
+class DiagramView;
+class DiagramWidget;
+class Tool;
+/** A WidgetSet is a widget (graphical object) provider for a Diagram - 
+ * each widget provides one or more widgets, normally belonging to one category 
+ * ,for example "UML Widgets" for representing objects in a UML Modell.
+ * A WidgetSet should also provide tools to create and manage its widgets
+ * If the Set creates/manages objects which are part of the modell (and not only
+ * SimpleWidgets, it should also provide a factory function - this takes a void* 
+ * so you have to make shure you are getting the right type by usisng typeinfo()
+ */
 class WidgetSet :  public Plugin
 {Q_OBJECT
 public:
 	
 	virtual QString category() { return QString("widget_set");}
 	
-	/**Returns true if the WidgetSet can/wants to handle the creation of a widget corresponding
-	* to the UMLObject */
-	virtual bool acceptsRequest(UMLObject* ) {return false;}
-	/**Returns true if the WidgetSet can/wants to handle the creation of a "CustomeWidget" of
-	* type  t */
-	virtual bool acceptsRequest(int) {return false;}
+	virtual bool providesTool( const QString &tool );
+	virtual Tool* createTool( const QString &tool, DiagramView *view );
+
+	virtual bool canCreateWidget( UMLObject *obj );
+	virtual DiagramWidget* createWidget( UMLObject* obj, Diagram* );
 	
-	virtual DiagramElement* createUMLWidget( UMLObject* , Diagram *parent ) = 0;
-	virtual DiagramElement* createCustomWidget( int type, Diagram *parent ) = 0;
-	virtual DiagramElement* createAssociationWidget( UMLAssociation*, UMLWidget *wA, UMLWidget *wB,const QPointArray &path, Diagram *parent ) = 0;
 protected:
 	WidgetSet(QObject *parent, const char *name, const QStringList &args);
 	virtual ~WidgetSet();
-};
+	
+	/** reimplemented to define plugin specific startup behavior.
+	 * This implementation registers the plug in to the ToolFactory -
+	 * if your WidgetSet provides tools and you reimplement this method,
+	 * make sure to register yourself or call this implementation */
+	virtual bool onInit();
+
+	/** reimplemented to define plugin specific shutdown behavior 
+	 * This implementation removes the plug from the ToolFactory -
+	 * if your WidgetSet provides tools and you reimplement this method,
+	 * make sure to register yourself or call this implementation */
+	virtual bool onShutdown();
+}; 
 
 
 } // end of namespace Umbrello
 
-#endif  //  WIDGET_SET_H
+#endif  //  UMBRELLO_WIDGETSET_H

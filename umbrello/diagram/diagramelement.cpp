@@ -14,21 +14,32 @@
 
 #include "diagramelement.h"
 #include "diagram.h"
+
 #include <kiconloader.h>
 #include <klocale.h>
 #include <qpoint.h>
 #include <qpopupmenu.h>
+#include <qpainter.h>
+#include <qrect.h>
 
+#include <kdebug.h>
+
+#include <math.h>
 
 
 namespace Umbrello{
 
 DiagramElement::DiagramElement( Diagram *diagram, int id):
-	QCanvasPolygonalItem(diagram),m_id(id), m_useOwnPen(false), m_useOwnBrush(false)
+        QCanvasPolygonalItem(diagram),m_id(id), m_useOwnPen(false), m_useOwnBrush(false)
 {
+	diagram->registerElement( this );
 	setZ(100);  // default depth
 	setPen(this->diagram()->pen());
 	setBrush(this->diagram()->brush());
+	m_showHotSpots = false;
+	m_highlightHotSpot = -1;
+	m_hotSpotSize = 5;
+	m_hotSpots.setAutoDelete(true);
 }
 
 DiagramElement::~DiagramElement()
@@ -45,7 +56,6 @@ int DiagramElement::getID() const
 void DiagramElement::moveAbs( int x, int y )
 {
 	QCanvasItem::move(x,y);
-	update();
 	canvas()->update();
 	emit moved();
 }
@@ -58,10 +68,139 @@ void DiagramElement::moveAbs( const QPoint &point )
 void DiagramElement::moveBy( int dx, int dy)
 {
 	QCanvasPolygonalItem::moveBy(dx,dy);
-	update();
 	canvas()->update();
 	emit moved();
 }
+
+void DiagramElement::setHotSpotSize( int s )
+{
+	m_hotSpotSize = s;
+	if(m_showHotSpots)
+	{// size of bounding box might have changed
+		invalidate();
+		update();
+		diagram()->update();
+	}
+}
+
+int DiagramElement::hotSpotSize( ) const
+{
+	return m_hotSpotSize;
+}
+
+void DiagramElement::showHotSpots( int highlight )
+{
+	m_showHotSpots = true;
+	m_highlightHotSpot = highlight;
+	//we need to call invalidate because the size needs to be recalculated
+	invalidate();
+	update();
+	canvas()->update();
+}
+
+void DiagramElement::hideHotSpots( )
+{
+	//we need to call invalidate because the size needs to be recalculated
+	invalidate();
+	m_showHotSpots = false;
+	m_highlightHotSpot = -1;
+	update();
+	canvas()->update();
+}
+
+int DiagramElement::closestHotSpot( const QPoint &point) const
+{
+	QPoint *offset;
+	int index;
+	double distance;
+	int best_index = -1 ;
+	double best_distance = 99999999999;
+	int dx, dy;
+	for( offset = m_hotSpots.first(), index = 0; offset ; offset = m_hotSpots.next(), index++ )
+	{
+		QPoint hot(QPoint((int)x(),(int)y()) + (*offset) );
+		dx = point.x() - hot.x();
+		dy = point.y() - hot.y();
+		distance = sqrt( (dx*dx) + (dy*dy) );
+		if( distance < best_distance )
+		{
+			best_distance = distance;
+			best_index = index;
+		}
+	}
+	return best_index;
+}
+
+int DiagramElement::isHotSpot( const QPoint &p ) const
+{
+	QRect hotspot(0,0,m_hotSpotSize,m_hotSpotSize);
+	QPoint *offset;
+	int index;
+	for( offset = m_hotSpots.first(), index = 0; offset ; offset = m_hotSpots.next(), index++ )
+	{
+		hotspot.moveCenter(QPoint((int)x(),(int)y()) + (*offset) );
+		if( hotspot.contains( p ) )
+		{
+			return index;
+		}
+	}
+	return -1;
+}
+
+QPoint DiagramElement::hotSpotPosition( int i ) const
+{
+	if( i < 0 || i > m_hotSpots.count() )
+		return QPoint();
+	return QPoint( QPoint((int)x(),(int)y()) + *(m_hotSpots.at(i)) );
+}
+
+void DiagramElement::drawHotSpots(QPainter& p)
+{
+	// save, normal and highlight pen and brushes...
+	QPen spen = p.pen();
+	QBrush sbrush = p.brush();
+	QPen npen(Qt::red);
+	QBrush nbrush(Qt::magenta);
+	QPen hpen(Qt::green);
+	QBrush hbrush(Qt::red);
+	
+	
+	p.setPen(npen);
+	p.setBrush(nbrush);
+	QRect hotspot(0,0,hotSpotSize(),hotSpotSize());
+	QPoint *offset;
+	int index;
+	for( offset = m_hotSpots.first(), index = 0; offset ; offset = m_hotSpots.next(), index++ )
+	{
+		hotspot.moveCenter(QPoint((int)x(),(int)y()) + (*offset) );
+		if( index == m_highlightHotSpot )
+		{
+			p.setPen(hpen);
+			p.setBrush(hbrush);
+			p.drawRect(hotspot);
+			p.setPen(npen);
+			p.setBrush(nbrush);
+		}
+		else
+		{
+			p.drawRect(hotspot);
+		}
+	}
+	p.setBrush(sbrush);
+	p.setPen(spen);
+}
+
+
+void DiagramElement::createHotSpots( )
+{
+	m_hotSpots.clear();
+}
+
+void DiagramElement::moveHotSpotBy( int h, int dx, int dy )
+{//for a simple DiagramElement, move the complete element
+	moveBy(dx,dy);
+}
+
 
 void DiagramElement::fillContextMenu(QPopupMenu &menu)
 {
@@ -76,7 +215,6 @@ void DiagramElement::fillContextMenu(QPopupMenu &menu)
 	menu.insertSeparator( );
 	menu.insertItem(SmallIcon("editdelete"),i18n("Delete"),this,SLOT(deleteLater()));
 }
-
 
 void DiagramElement::moveToForeground()
 {
@@ -188,11 +326,16 @@ void DiagramElement::lower()
 	}
 }
 
+
 void DiagramElement::setSelected(bool sel)
 {
-	QCanvasItem::setSelected(sel);
-	update();
-	canvas()->update();
+	if( isSelected() != sel )
+	{
+		QCanvasPolygonalItem::setSelected(sel);
+		update();
+		canvas()->update();
+		emit selected(sel);
+	}
 }
 
 void DiagramElement::execDefaultAction()

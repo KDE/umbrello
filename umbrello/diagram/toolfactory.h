@@ -1,4 +1,9 @@
-/***************************************************************************
+  /***************************************************************************
+                               toolfactory.h
+                             -------------------
+    copyright            : (C) 2003 Luis De la Parra
+ ***************************************************************************/
+ /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -7,45 +12,41 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef WIDGET_FACTORY_H
-#define WIDGET_FACTORY_H
+#ifndef UMBRELLO_TOOLFACTORY_H
+#define UMBRELLO_TOOLFACTORY_H
 
-#include <qobject.h>
 #include <qvaluelist.h>
 
-class UMLObject;
-
-namespace Umbrello{
-
-class Diagram;
-class DiagramElement;
-class DiagramWidget;
-
+namespace Umbrello
+{
+class Tool;
 class WidgetSet;
+class DiagramView;
 
-class WidgetFactory : public QObject
-{Q_OBJECT
+
+class ToolFactory
+{
 public:
 	typedef QValueList<WidgetSet*> WidgetSetList;
 	
-	static WidgetFactory* instance();
-	virtual ~WidgetFactory();
+	static ToolFactory* instance();
+	virtual ~ToolFactory();
 	
-	virtual bool canCreateWidget( UMLObject *obj );
-	virtual DiagramWidget* createWidget( UMLObject*, Diagram* );
+	Tool* createTool( const QString &tool, DiagramView *view );
 	
+
 	void registerWidgetSet( WidgetSet* );
 	void removeWidgetSet( WidgetSet* );
 	void setDefaultWidgetSet( WidgetSet* );
 private:
-	WidgetFactory();
+	ToolFactory();
 	WidgetSetList widgetSets;
 	WidgetSet* m_defaultSet;
-	static WidgetFactory *s_instance; 
-	
+	static ToolFactory* s_instance;
 };
 
 
-} // end of namespace Umbrello
+}
 
-#endif  //  WIDGET_FACTORY_H
+
+#endif //UMBRELLO_TOOLFACTORY_H
