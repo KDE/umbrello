@@ -94,14 +94,14 @@ void AssocRolePage::constructWidget() {
 	// Rolename A
 	QLabel *pRoleAL = NULL;
 	Umbrello::makeLabeledEditField( propsAGB, propsALayout, 0,
-					    pRoleAL, i18n("Rolename:"),
-					    m_pRoleALE, nameA );
+					pRoleAL, i18n("Rolename:"),
+					m_pRoleALE, nameA );
 
 	// Multi A
 	QLabel *pMultiAL = NULL;
 	Umbrello::makeLabeledEditField( propsAGB, propsALayout, 1,
-					    pMultiAL, i18n("Multiplicity:"),
-					    m_pMultiALE, m_pAssociationWidget->getMulti(A) );
+					pMultiAL, i18n("Multiplicity:"),
+					m_pMultiALE, m_pAssociationWidget->getMulti(A) );
 
 	// Visibility A
         QHBoxLayout * scopeALayout = new QHBoxLayout(scopeABG);
@@ -148,14 +148,14 @@ void AssocRolePage::constructWidget() {
 	// Rolename B
 	QLabel * pRoleBL = NULL;
 	Umbrello::makeLabeledEditField( propsBGB, propsBLayout, 0,
-					    pRoleBL, i18n("Rolename:"),
-					    m_pRoleBLE, nameB );
+					pRoleBL, i18n("Rolename:"),
+					m_pRoleBLE, nameB );
 
 	// Multi B
 	QLabel * pMultiBL = NULL;
 	Umbrello::makeLabeledEditField( propsBGB, propsBLayout, 1,
-					    pMultiBL, i18n("Multiplicity:"),
-					    m_pMultiBLE, m_pAssociationWidget->getMulti(B) );
+					pMultiBL, i18n("Multiplicity:"),
+					m_pMultiBLE, m_pAssociationWidget->getMulti(B) );
 
 	// Visibility B
 
