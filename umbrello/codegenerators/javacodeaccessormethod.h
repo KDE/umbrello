@@ -51,8 +51,8 @@ protected:
          */
         virtual void setAttributesFromNode ( QDomElement & element);
 
-	void updateMethodDeclaration();
-	void updateContent();
+	virtual void updateMethodDeclaration();
+	virtual void updateContent();
 
 private:
 
