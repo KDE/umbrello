@@ -15,7 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <iostream.h>
+#include <kdebug.h>
 #include "selectlanguagesdlg.h"
 
 #include <qlistview.h>
@@ -88,7 +88,7 @@ void SelectLanguagesDlg::offerLanguages(const QStringList & libraries, const Gen
 					if(dicit.current()->library == *libit &&
 					        dicit.current()->object == fact->generatorName(*langit))
 {
-cerr<<"Check on generator object selected: "<<dicit.current()->object.ascii()<<endl;
+kdDebug()<<"Check on generator object selected: "<<dicit.current()->object.ascii()<<endl;
 						check = true;
 }
 

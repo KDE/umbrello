@@ -14,7 +14,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include <iostream.h>
+#include <kdebug.h>
 #include "codegenerationoptionspage.h"
 #include "codegenerationpolicypage.h"
 #include "defaultcodegenpolicypage.h"
@@ -164,7 +164,7 @@ void CodeGenerationOptionsPage::updateCodeGenerationPolicyTab(CodeGenerator * ge
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void CodeGenerationOptionsPage::apply() {
 
-cerr<<"Apply clicked for codegenoptionspage "<<endl;
+kdDebug()<<"Apply clicked for codegenoptionspage "<<endl;
 
 	if(m_parentPolicy) {
 
@@ -189,7 +189,7 @@ cerr<<"Apply clicked for codegenoptionspage "<<endl;
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void CodeGenerationOptionsPage::activeLanguageChanged(int id)
 {
-cerr<<"Active Language changed to id:"<<id<<endl;
+kdDebug()<<"Active Language changed to id:"<<id<<endl;
 	emit languageChanged();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////

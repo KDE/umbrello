@@ -6,7 +6,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include <iostream.h>
+#include <kdebug.h>
 //kde includes
 #include <kiconloader.h>
 #include <klocale.h>

@@ -14,7 +14,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include <iostream.h>
+#include <kdebug.h>
 #include "codevieweroptionspage.h"
 
 //kde include
@@ -43,7 +43,7 @@ void CodeViewerOptionsPage::init( SettingsDlg::CodeViewerState options )
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void CodeViewerOptionsPage::apply() {
 
-cerr<<"Apply clicked for codeviewoptionspage "<<endl;
+kdDebug()<<"Apply clicked for codeviewoptionspage "<<endl;
 
 	m_options.highlightColor = selectColorButton->color();
 	m_options.paperColor = paperColorButton->color();

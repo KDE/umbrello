@@ -7,7 +7,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <iostream.h>
+#include <kdebug.h>
 //qt includes
 #include <qlayout.h>
 

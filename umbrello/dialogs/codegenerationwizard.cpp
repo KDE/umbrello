@@ -15,7 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <iostream.h>
+#include <kdebug.h>
 #include <qdir.h>
 #include <qlistview.h>
 #include <qfileinfo.h>
@@ -105,7 +105,7 @@ void CodeGenerationWizard::generateCode() {
 
 	CodeGenerator* codeGenerator = m_app->getGenerator();
 
-cerr<<" WIZARD: gets generator:"<<codeGenerator<<endl;
+kdDebug()<<" WIZARD: gets generator:"<<codeGenerator<<endl;
 
 	if (codeGenerator) {
 
@@ -122,7 +122,7 @@ cerr<<" WIZARD: gets generator:"<<codeGenerator<<endl;
 			UMLClassifier *concept =  m_doc->findUMLClassifier(item->text(0));
 			cList.append(concept);
 		}
-cerr<<" WIZARD: Writing code to CFile"<<endl;
+kdDebug()<<" WIZARD: Writing code to CFile"<<endl;
 		codeGenerator->writeCodeToFile(cList);
 		finishButton()->setText(i18n("Finish"));
 		finishButton()->disconnect();

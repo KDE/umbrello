@@ -15,7 +15,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include <iostream.h>
+#include <kdebug.h>
 
 #include <qcursor.h>
 #include "codeeditor.h"
@@ -44,7 +44,7 @@ void CodeEditor::contentsMouseMoveEvent ( QMouseEvent * e ) {
 
 void CodeEditor::keyPressEvent ( QKeyEvent * e ) {
 
-	cerr<<"KEY PRESS EVENT:["<<e->text().latin1()<<"] ascii CODE:"<<e->ascii()<<endl;
+	kdDebug()<<"KEY PRESS EVENT:["<<e->text().latin1()<<"] ascii CODE:"<<e->ascii()<<endl;
 
 	if((e->ascii() == 8) ) // || (e->ascii() == 127))
 		emit backspacePressed();
@@ -58,14 +58,14 @@ void CodeEditor::keyPressEvent ( QKeyEvent * e ) {
 
 void CodeEditor::insertParagraph ( const QString & text, int para ) {
 
-	cerr<<"INSERT PARAGRAPH CALLED FOR :"<<para<<endl;
+	kdDebug()<<"INSERT PARAGRAPH CALLED FOR :"<<para<<endl;
 	QTextEdit::insertParagraph(text,para);
 
 }
 
 void CodeEditor::removeParagraph ( int para ) {
 
-	cerr<<"REMOVE PARAGRAPH CALLED FOR :"<<para<<endl;
+	kdDebug()<<"REMOVE PARAGRAPH CALLED FOR :"<<para<<endl;
 
 	QTextEdit::removeParagraph(para);
 }
