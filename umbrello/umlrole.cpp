@@ -14,11 +14,7 @@
 UMLRole::UMLRole(UMLAssociation * parent)
     : UMLObject((UMLObject *)parent)
 {
-	init();
-
-	// connect this up to parent
-        connect(this,SIGNAL(modified()),parent,SIGNAL(modified()));
-
+	init(parent);
 }
 
 bool UMLRole::operator==(UMLRole &rhs) {
@@ -26,7 +22,6 @@ bool UMLRole::operator==(UMLRole &rhs) {
 			return true;
 	}
 	return( UMLObject::operator==( rhs ) &&
-		m_Id == rhs.m_Id &&
 		m_Changeability == rhs.m_Changeability &&
 		m_Visibility == rhs.m_Visibility &&
 		m_Multi == rhs.m_Multi &&
@@ -43,11 +38,17 @@ UMLObject* UMLRole::getObject() {
 	return m_pObject;
 }
 
+/*
+ // This isnt good..there is already a getID for the parent
+ // umlobject class.. should overload that method rather than
+ // spawn a new Id attribute. Also, I cant find anything that
+ // needs this method, so I've commented it out. -b.t.
 int UMLRole::getId() const {
         if(m_pObject)
 		return m_pObject->getID();
 	return m_Id;
 }
+*/
 
 Changeability_Type UMLRole::getChangeability() const {
 	return m_Changeability;
@@ -69,12 +70,14 @@ QString UMLRole::getDoc() const {
 	return m_Doc;
 }
 
+/*
 void UMLRole::setId(int id) {
 	m_Id = id;
         if(m_pObject)
 		m_pObject->setID(id);
 	emit modified();
 }
+*/
 
 void UMLRole::setObject (UMLObject *obj) {
 	// I dont believe we need the 'modified' signal on role -b.t.
@@ -112,13 +115,16 @@ void UMLRole::setDoc(QString doc) {
 	emit modified();
 }
 
-void UMLRole::init() {
+void UMLRole::init(UMLAssociation * parent) {
+
 	m_pObject = 0;
-	m_Id = -1;
 	m_Multi = "";
 	m_Name = "";
 	m_Visibility = Public;
 	m_Changeability = chg_Changeable;
+
+	// connect this up to parent 
+	connect(this,SIGNAL(modified()),parent,SIGNAL(modified()));
 }
 
 #include "umlrole.moc"
