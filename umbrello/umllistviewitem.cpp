@@ -289,6 +289,8 @@ void UMLListViewItem::okRename( int col ) {
 		return;
 	}
 	QString newText = text( col );
+        if ( newText == m_Label )
+            return;
 	UMLDoc * doc = s_pListView -> getDocument();
 	if( newText.isEmpty() ) {
 		KMessageBox::error( kapp->mainWidget() ,
