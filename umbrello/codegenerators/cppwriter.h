@@ -20,6 +20,7 @@
 #ifndef CPPWRITER_H
 #define CPPWRITER_H
 
+#include <qstringlist.h>
 #include "simplecodegenerator.h"
 #include "../umloperationlist.h"
 #include "../umlattributelist.h"

@@ -39,7 +39,9 @@
 #endif
 #include <ktempfile.h>
 #include <kiconloader.h>
+#if KDE_IS_VERSION(3,1,90)
 #include <ktabwidget.h>
+#endif
 
 // app includes
 #include "actor.h"
@@ -141,6 +143,7 @@ void UMLDoc::addView(UMLView *view) {
 		}
 	}
 
+#if KDE_IS_VERSION(3,1,90)
 	Settings::OptionState optionState = UMLApp::app()->getOptionState();
 	KTabWidget* tabWidget = NULL;
 	if (optionState.generalState.tabdiagrams) {
@@ -148,13 +151,16 @@ void UMLDoc::addView(UMLView *view) {
 		tabWidget->addTab(view, view->getName());
 		tabWidget->setTabIconSet(view, Umbrello::iconSet(view->getType()));
 	}
+#endif
 	pApp->setDiagramMenuItemsState(true);
 	pApp->slotUpdateViews();
 	pApp->setCurrentView(view);
+#if KDE_IS_VERSION(3,1,90)
 	if (tabWidget) {
 		tabWidget->showPage(view);
 		tabWidget->setCurrentPage(tabWidget->currentPageIndex());
 	}
+#endif
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLDoc::removeView(UMLView *view , bool enforceCurrentView ) {
@@ -2163,10 +2169,14 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
 		viewToBeSet = findView( m_nViewID );
 	if (viewToBeSet) {
 		changeCurrentView( m_nViewID );
+#if KDE_IS_VERSION(3,1,90)
 		Settings::OptionState optionState = UMLApp::app()->getOptionState();
 		if (optionState.generalState.tabdiagrams) {
 			UMLApp::app()->tabWidget()->showPage(viewToBeSet);
-		} else {
+		}
+		else
+#endif
+		{
 			// Make sure we have a treeview item for each diagram.
 			// It may happen that we are missing them after switching off
 			// tabbed widgets.
@@ -2813,9 +2823,11 @@ void UMLDoc::slotAutoSave() {
 }
 
 void UMLDoc::signalDiagramRenamed(UMLView* pView ) {
+#if KDE_IS_VERSION(3,1,90)
 	Settings::OptionState optionState = UMLApp::app()->getOptionState();
 	if (optionState.generalState.tabdiagrams)
         	UMLApp::app()->tabWidget()->setTabLabel( pView, pView->getName() );
+#endif
 	emit sigDiagramRenamed( pView -> getID() );
 	return;
 }
@@ -3006,7 +3018,7 @@ void UMLDoc::slotDiagramPopupMenu(QWidget* umlview, const QPoint& point) {
 			break;
 	}//end switch
 
-	m_pTabPopupMenu = new ListPopupMenu(UMLApp::app()->tabWidget(), type);
+	m_pTabPopupMenu = new ListPopupMenu(UMLApp::app()->getMainViewWidget(), type);
 	m_pTabPopupMenu->popup(point);
 	connect(m_pTabPopupMenu, SIGNAL(activated(int)), view, SLOT(slotMenuSelection(int)));
 }

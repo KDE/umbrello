@@ -37,7 +37,9 @@
 #include <kstandarddirs.h>
 #include <kstatusbar.h>
 #include <ktip.h>
+#if KDE_IS_VERSION(3,1,90)
 #include <ktabwidget.h>
+#endif
 #include <ktoolbarbutton.h>
 #include <kpopupmenu.h>
 
@@ -404,6 +406,7 @@ void UMLApp::initView() {
 	addToolBar(m_alignToolBar, Qt::DockTop, false);
 
 	m_mainDock = createDockWidget("maindock", 0L, 0L, "main dock");
+#if KDE_IS_VERSION(3,1,90)
 	if (m_optionState.generalState.tabdiagrams) {
 		m_viewStack = NULL;
 		m_tabWidget = new KTabWidget(m_mainDock, "tab_widget");
@@ -443,7 +446,10 @@ void UMLApp::initView() {
 		m_newSessionButton->installEventFilter(this);
 
 		m_mainDock->setWidget(m_tabWidget);
-	} else {
+	}
+	else
+#endif
+	{
 		m_tabWidget = NULL;
 		m_viewStack = new QWidgetStack(m_mainDock, "viewstack");
 		m_mainDock->setWidget(m_viewStack);
@@ -1597,8 +1603,10 @@ void UMLApp::initSavedCodeGenerators() {
 }
 
 QWidget* UMLApp::getMainViewWidget() {
+#if KDE_IS_VERSION(3,1,90)
 	if (m_optionState.generalState.tabdiagrams)
 		return m_tabWidget;
+#endif
 	return m_viewStack;
 }
 
@@ -1643,11 +1651,15 @@ void UMLApp::slotTabChanged(QWidget* view) {
 }
 
 void UMLApp::slotChangeTabLeft() {
+#if KDE_IS_VERSION(3,1,90)
 	m_tabWidget->setCurrentPage( m_tabWidget->currentPageIndex() - 1 );
+#endif
 }
 
 void UMLApp::slotChangeTabRight() {
+#if KDE_IS_VERSION(3,1,90)
 	m_tabWidget->setCurrentPage( m_tabWidget->currentPageIndex() + 1 );
+#endif
 }
 
 void UMLApp::slotMoveTabLeft() {
