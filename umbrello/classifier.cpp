@@ -285,6 +285,14 @@ bool UMLClassifier::acceptAssociationType(Uml::Association_Type type)
 	return false; //shutup compiler warning
 }
 
+bool UMLClassifier::hasAbstractOps () {
+        QPtrList<UMLOperation> *opl = getFilteredOperationsList();
+        for(UMLOperation *op = opl->first(); op ; op = opl->next())
+                if(op->getAbstract())
+                        return true;
+        return false;
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 int UMLClassifier::operations() {
 	return m_OpsList.count();

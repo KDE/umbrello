@@ -217,6 +217,11 @@ public:
 	 */
 	virtual bool isInterface () = 0;
 
+	/**
+	 * return back whether or not this classfiier has abstract operations in it.
+	 */
+	bool hasAbstractOps ();
+
 signals:
 	/** Signals that a new UMLOperation has been added to the classifer.
 	  * The signal is emmited in adition to the generic childObjectAdded( )
