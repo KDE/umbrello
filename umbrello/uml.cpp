@@ -1446,15 +1446,18 @@ void UMLApp::setCurrentView(UMLView* view /*=0*/) {
 }
 
 QPopupMenu* UMLApp::findMenu(QMenuData* menu, QString name) {
-	int menuCount = menu->count();
 
-	for (int i=0; i<menuCount; i++) {
-		int idAt = menu->idAt(i);
-		QPopupMenu* popupMenu = menu->findItem(idAt)->popup();
-		if (popupMenu) {
-			QString menuName = popupMenu->name();
-			if( menuName == name) {
-				return popupMenu;
+        if (menu) {
+		int menuCount = menu->count();
+	
+		for (int i=0; i<menuCount; i++) {
+			int idAt = menu->idAt(i);
+			QPopupMenu* popupMenu = menu->findItem(idAt)->popup();
+			if (popupMenu) {
+				QString menuName = popupMenu->name();
+				if( menuName == name) {
+					return popupMenu;
+				}
 			}
 		}
 	}
