@@ -346,6 +346,7 @@ void ClassifierListPage::slotDelete() {
 	//but really shouldn't matter
 	m_pDoc->removeUMLObject(selectedAttribute);
 	m_pItemListLB->removeItem( m_pItemListLB->currentItem());
+	m_pOldListItem = 0;
 	slotClicked(0);
 }
 
