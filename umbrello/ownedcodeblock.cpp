@@ -133,15 +133,15 @@ void OwnedCodeBlock::setAttributesFromNode ( QDomElement & elem) {
 	                	else if(assoc->getUMLRoleB()->getID() == role_id)
 	                        	role = assoc->getUMLRoleB();
 	                	else // this will cause a crash
-	                        	kdError()<<"ERROR! corrupt save file? cant get proper UMLRole for codeparameter:"<<id<<" w/role_id:"<<role_id<<endl;
+	                        	kdError()<<"corrupt (old) save file? cant get proper UMLRole for ownedcodeblock uml id:"<<id<<" w/role_id:"<<role_id<<endl;
 			} else {
 
-	                	if(role_id == 0) 
+	                	if(role_id == 1) 
 	                        	role = assoc->getUMLRoleA();
-	                	else if(role_id == 1) 
+	                	else if(role_id == 0) 
 	                        	role = assoc->getUMLRoleB();
 	                	else // this will cause a crash
-	                        	kdError()<<"ERROR! corrupt save file? cant get proper UMLRole for codeparameter:"<<id<<" w/role_id:"<<role_id<<endl;
+	                        	kdError()<<"corrupt save file? cant get proper UMLRole for ownedcodeblock uml id:"<<id<<" w/role_id:"<<role_id<<endl;
 			}
 
 	                // init using UMLRole obj

@@ -198,7 +198,7 @@ void CodeParameter::setAttributesFromNode ( QDomElement & root) {
 		// dont go into the document list of UMLobjects, and have the same
 		// ID as their parent UMLAssociations. So..the drill is then special
 		// for Associations..in that case we need to find out which role will
-		// serve as the parametger here. The REAL fix, of course, would be to
+		// serve as the parameter here. The REAL fix, of course, would be to
 		// treat UMLRoles on a more even footing, but im not sure how that change
 		// might ripple throughout the code and cause problems. Thus, since the
 		// change appears to be needed for only this part, I'll do this crappy
@@ -215,16 +215,16 @@ void CodeParameter::setAttributesFromNode ( QDomElement & root) {
 				else if(assoc->getUMLRoleB()->getID() == role_id)
 					role = assoc->getUMLRoleB();
 				else // this will cause a crash
-				kdError()<<"ERROR! corrupt save file? cant get proper UMLRole for codeparameter:"<<id<<" w/role_id:"<<role_id<<endl;
+					kdError()<<"corrupt (old) save file? cant get proper UMLRole for codeparameter uml id:"<<id<<" w/role_id:"<<role_id<<endl;
 
 			} else {
 
-                                if(role_id == 0) 
-                                        role = assoc->getUMLRoleA();
                                 if(role_id == 1) 
+                                        role = assoc->getUMLRoleA();
+                                else if(role_id == 0) 
                                         role = assoc->getUMLRoleB();
                                 else 
-					kdError()<<"ERROR! corrupt save file? cant get proper UMLRole for codeparameter:"<<id<<" w/role_id:"<<role_id<<endl;
+					kdError()<<"corrupt save file? cant get proper UMLRole for codeparameter uml id:"<<id<<" w/role_id:"<<role_id<<endl;
 			}
 
 			// init using UMLRole obj
@@ -234,7 +234,7 @@ void CodeParameter::setAttributesFromNode ( QDomElement & root) {
 			initFields ( m_parentDocument, obj); // just the regular approach 
 
 	} else
-		kdError()<<"CANT LOAD CODE PARARMETER: parentUMLObject w/id:"<<id<<" not found, corrupt save file?"<<endl;
+		kdError()<<"Cant load CodeParam: parentUMLObject w/id:"<<id<<" not found, corrupt save file?"<<endl;
 
 	// other attribs now
 	setInitialValue(root.attribute("initialValue",""));
