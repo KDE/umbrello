@@ -542,7 +542,7 @@ bool CodeGenerator::openFile (QFile & file, QString fileName ) {
 		QDir outputDirectory = getPolicy()->getOutputDirectory();
                 file.setName(outputDirectory.absFilePath(fileName));
                 if(!file.open(IO_WriteOnly)) {
-                        KMessageBox::sorry(0,i18n("Cannot open file %1 for writing. Please make sure the directory exists and you have permissions to write to it.").arg(file.name()),i18n("Cannot Open File"));
+                        KMessageBox::sorry(0,i18n("Cannot open file %1 for writing. Please make sure the folder exists and you have permissions to write to it.").arg(file.name()),i18n("Cannot Open File"));
                         return false;
                 }
                 return true;
@@ -584,9 +584,9 @@ QString CodeGenerator::findFileName ( CodeDocument * codeDocument ) {
 		QDir outputDirectory = getPolicy()->getOutputDirectory();
                 QDir pathDir(outputDirectory.absPath() + path);
                 if (! (pathDir.exists() || pathDir.mkdir(pathDir.absPath()) ) ) {
-                        KMessageBox::error(0, i18n("Cannot create the directory:\n") +
+                        KMessageBox::error(0, i18n("Cannot create the folder:\n") +
                                            pathDir.absPath() + i18n("\nPlease check the access rights"),
-                                           i18n("Cannot Create Directory"));
+                                           i18n("Cannot Create Folder"));
                         return NULL;
                 }
         }

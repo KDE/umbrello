@@ -93,9 +93,9 @@ QString CodeWriter::findFileName(UMLClassifier* concept, QString ext) {
 	if (!package.isEmpty())	{
 		QDir packageDir(m_outputDirectory.absPath() + package);
 		if (! (packageDir.exists() || packageDir.mkdir(packageDir.absPath()) ) ) {
-			KMessageBox::error(0, i18n("Cannot create the package directory:\n") +
+			KMessageBox::error(0, i18n("Cannot create the package folder:\n") +
 					   packageDir.absPath() + i18n("\nPlease check the access rights"),
-					   i18n("Cannot Create Directory"));
+					   i18n("Cannot Create Folder"));
 			return NULL;
 		}
 	}
@@ -178,7 +178,7 @@ bool CodeWriter::openFile(QFile &file, QString fileName) {
 	} else {
 		file.setName(m_outputDirectory.absFilePath(fileName));
 		if(!file.open(IO_WriteOnly)) {
-			KMessageBox::sorry(0,i18n("Cannot open file %1 for writing. Please make sure the directory exists and you have permissions to write to it.").arg(file.name()),i18n("Cannot Open File"));
+			KMessageBox::sorry(0,i18n("Cannot open file %1 for writing. Please make sure the folder exists and you have permissions to write to it.").arg(file.name()),i18n("Cannot Open File"));
 			return false;
 		}
 		return true;

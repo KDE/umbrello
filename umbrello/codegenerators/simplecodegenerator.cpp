@@ -96,9 +96,9 @@ QString SimpleCodeGenerator::findFileName(UMLClassifier* concept, QString ext) {
         if (!package.isEmpty()) {
                 QDir packageDir(m_outputDirectory.absPath() + package);
                 if (! (packageDir.exists() || packageDir.mkdir(packageDir.absPath()) ) ) {
-                        KMessageBox::error(0, i18n("Cannot create the package directory:\n") +
+                        KMessageBox::error(0, i18n("Cannot create the package folder:\n") +
                                            packageDir.absPath() + i18n("\nPlease check the access rights"),
-                                           i18n("Cannot Create Directory"));
+                                           i18n("Cannot Create Folder"));
                         return NULL;
                 }
         }
