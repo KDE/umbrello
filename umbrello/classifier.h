@@ -10,6 +10,8 @@
 #ifndef CONCEPT_H
 #define CONCEPT_H
 
+#include <qpair.h>
+#include <qvaluelist.h>
 #include "package.h"
 #include "umlattributelist.h"
 #include "umloperationlist.h"
@@ -204,6 +206,42 @@ public:
 
 	/** reimplemented from UMLObject */
 	virtual bool acceptAssociationType(Uml::Association_Type);
+
+	/**
+	 * Return type of parseOperation()
+	 */
+	enum OpParseStatus {
+		Op_OK, Op_Empty, Op_Illegal_MethodName, Op_Malformed_Arg,
+		Op_Unknown_ArgType, Op_Unknown_ReturnType, Op_Unspecified_Error
+	};
+
+	/**
+	 * Data structure filled by parseOperation()
+	 */
+	struct OpDescriptor {
+		QString m_name;
+		typedef QPair<QString, UMLClassifier*> NameAndType;
+		typedef QValueList<NameAndType> NameAndType_List;
+		typedef QValueListIterator<NameAndType> NameAndType_ListIt;
+		NameAndType_List m_args;
+		UMLClassifier *m_pReturnType;
+	};
+
+	/**
+	 * Parses an operation given in UML syntax.
+	 *
+	 * @param m		Input text of the operation in UML syntax.
+	 *			Example of a two-argument operation returning "void":
+	 *			methodname (arg1name : arg1type, arg2name : arg2type) : void
+	 * @param desc		OpDescriptor returned by this method.
+	 * @ return	Error status of the parse, Op_OK for success.
+	 */
+	OpParseStatus parseOperation(QString m, OpDescriptor& desc);
+
+	/**
+	 * Returns the OpParseStatus as a text.
+	 */
+	static QString opParseStatusText(OpParseStatus value);
 
 	//
 	// now a number of pure virtual methods..

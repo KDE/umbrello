@@ -23,6 +23,7 @@
 
 // app includes
 #include "class.h"
+#include "attribute.h"
 #include "operation.h"
 #include "umldoc.h"
 #include "umllistview.h"
@@ -330,10 +331,7 @@ void UMLListViewItem::okRename( int col ) {
             return;
         }
 	if( newText.isEmpty() ) {
-		KMessageBox::error( kapp->mainWidget() ,
-				    i18n("The name you entered was invalid.\nRenaming process has been canceled."),
-				    i18n("Name Not Valid") );
-		setText( m_Label );
+		cancelRenameWithMsg();
 		return;
 	}
 	switch( m_Type ) {
@@ -349,6 +347,7 @@ void UMLListViewItem::okRename( int col ) {
 				return;
 			}
 			m_pObject -> setName( newText );
+			doc->setModified(true);
 			m_Label = newText;
 			break;
 
@@ -360,17 +359,43 @@ void UMLListViewItem::okRename( int col ) {
 			}
 			UMLOperation *op = static_cast<UMLOperation*>(m_pObject);
 			UMLClassifier *parent = static_cast<UMLClassifier *>( op -> parent() );
-			//see if op already has that name and not the op/att we are renaming
-			//then give a warning about the name being the same
-			UMLObjectList list = parent -> findChildObject( op->getBaseType(), newText );
-			if(list.isEmpty() || (!list.isEmpty() && KMessageBox::warningYesNo( kapp -> mainWidget() ,
-					      i18n( "The name you entered was not unique.\nIs this what you wanted?" ),
-					      i18n( "Name Not Unique" ) ) == KMessageBox::Yes )) {
-				op->setName( newText );
-				m_Label = newText;
+			UMLClassifier::OpDescriptor od;
+			UMLClassifier::OpParseStatus st = parent->parseOperation(newText, od);
+			if (st == UMLClassifier::Op_OK) {
+			// TODO: Check that no operation with the exact same profile exists.
+				op->setName( od.m_name );
+				op->setType( od.m_pReturnType );
+				UMLAttributeList* parmList = op->getParmList();
+				unsigned i = 0;
+				if (parmList->count() > od.m_args.count()) {
+					for (i = od.m_args.count(); i < parmList->count(); i++) {
+						parmList->remove(i);
+					}
+					i = 0;
+				}
+				for (UMLClassifier::OpDescriptor::NameAndType_ListIt lit =
+				     od.m_args.begin(); lit != od.m_args.end(); ++lit, ++i) {
+					const UMLClassifier::OpDescriptor::NameAndType& nm_tp = *lit;
+					UMLAttribute *a;
+					if (i < parmList->count()) {
+						a = parmList->at(i);
+						a->setName(nm_tp.first);
+						a->setType(nm_tp.second);
+					} else {
+						a = new UMLAttribute(op);
+						a->setID( doc->getUniqueID() );
+						a->setName(nm_tp.first);
+						a->setType(nm_tp.second);
+						op->addParm(a);
+					}
+				}
+				m_Label = op->toString(Uml::st_SigNoScope);
 			} else {
-				QListViewItem::setText(0, m_Label);
+				KMessageBox::error( kapp->mainWidget(),
+						    UMLClassifier::opParseStatusText(st),
+						    i18n("Rename canceled") );
 			}
+			QListViewItem::setText(0, m_Label);
 			break;
 		}
 

@@ -328,8 +328,13 @@ QString UMLObject::getSecondaryId() const {
 }
 
 bool UMLObject::resolveRef() {
-	if (m_pSecondary || m_SecondaryId.isEmpty())
+	UMLDoc* umldoc = UMLApp::app()->getDocument();
+	if (m_pSecondary || m_SecondaryId.isEmpty()) {
+		if (m_BaseType != Uml::ot_Stereotype &&
+		    m_BaseType != Uml::ot_Association && m_BaseType != Uml::ot_UMLObject)
+			umldoc->signalUMLObjectCreated(this);
 		return true;
+	}
 	UMLDoc *pDoc = UMLApp::app()->getDocument();
 	if (pDoc->isNativeXMIFile() && m_SecondaryId.contains(QRegExp("\\D"))) {
 		// Assume we're dealing with the older Umbrello format where
@@ -338,6 +343,9 @@ bool UMLObject::resolveRef() {
 		m_pSecondary = pDoc->findUMLObject( m_SecondaryId, Uml::ot_UMLObject, this );
 		if (m_pSecondary) {
 			m_SecondaryId = "";
+			if (m_BaseType != Uml::ot_Stereotype &&
+			    m_BaseType != Uml::ot_Association && m_BaseType != Uml::ot_UMLObject)
+				umldoc->signalUMLObjectCreated(this);
 			return true;
 		}
 		// Work around UMLDoc::createUMLObject()'s incapability
@@ -346,6 +354,9 @@ bool UMLObject::resolveRef() {
 		m_pSecondary = pDoc->findUMLObject( m_SecondaryId, Uml::ot_UMLObject, this );
 		if (m_pSecondary) {
 			m_SecondaryId = "";
+			if (m_BaseType != Uml::ot_Stereotype &&
+			    m_BaseType != Uml::ot_Association && m_BaseType != Uml::ot_UMLObject)
+				umldoc->signalUMLObjectCreated(this);
 			return true;
 		}
 		kdDebug() << "UMLObject::resolveRef: Creating new type for "
@@ -385,6 +396,9 @@ bool UMLObject::resolveRef() {
 		if (m_pSecondary == NULL)
 			return false;
 		m_SecondaryId = "";
+		if (m_BaseType != Uml::ot_Stereotype &&
+		    m_BaseType != Uml::ot_Association && m_BaseType != Uml::ot_UMLObject)
+			umldoc->signalUMLObjectCreated(this);
 		return true;
 	}
 	// New, XMI standard compliant save format:
@@ -398,6 +412,9 @@ bool UMLObject::resolveRef() {
 		return false;
 	}
 	m_SecondaryId = "";
+	if (m_BaseType != Uml::ot_Stereotype &&
+	    m_BaseType != Uml::ot_Association && m_BaseType != Uml::ot_UMLObject)
+		umldoc->signalUMLObjectCreated(this);
 	return true;
 }
 
@@ -628,7 +645,6 @@ bool UMLObject::loadFromXMI( QDomElement & element, bool loadID /* =true */) {
 			m_pUMLPackage->addObject(this);
 		else
 			umldoc->addUMLObject(this);
-		umldoc->signalUMLObjectCreated(this);
 	}
 	return load(element);
 }

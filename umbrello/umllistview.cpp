@@ -96,11 +96,6 @@ UMLListView::UMLListView(QWidget *parent, const char *name)
 	setItemsMovable(true);
 	setItemsRenameable( true );
 	setSelectionModeExt(FileManager);
-	/* In KDE-3.3, we cannot use KListView's builtin mechanism for
-	   overriding the tooltips. Instead, see the above class LVToolTip.
-	setShowToolTips( true );
-	setTooltipColumn( 0 );
-	 */
 	setFocusPolicy(QWidget::StrongFocus);
 	setDragEnabled(TRUE);
 	setColumnWidthMode( 0, Manual );
@@ -116,9 +111,15 @@ UMLListView::UMLListView(QWidget *parent, const char *name)
 	deploymentView = new UMLListViewItem(rv, i18n("Deployment View"), Uml::lvt_Deployment_View);
 	datatypeFolder = new UMLListViewItem(lv, i18n("Datatypes"), Uml::lvt_Datatype_Folder);
 
+#ifdef WANT_LVTOOLTIP
+	/* In KDE-3.3, we cannot use KListView's builtin mechanism for
+	   overriding the tooltips. Instead, see the above class LVToolTip.
+	setShowToolTips( true );
+	setTooltipColumn( 0 );
+	 */
 	(void) new LVToolTip(viewport());
+#endif
 	init();
-
 	//setup slots/signals
 	connect(this, SIGNAL(dropped(QDropEvent *, QListViewItem *, QListViewItem *)),
 		this, SLOT(slotDropped(QDropEvent *, QListViewItem *, QListViewItem *)));
@@ -527,11 +528,8 @@ void UMLListView::slotObjectCreated(UMLObject* object) {
 	default:
 		kdWarning() << "UMLListView::slotObjectCreated("<< object->getName()
 			    << ") : no appropriate parent found for type " << type
-			    << ", using default" << endl;
-		if (current)
-			parentItem = current;
-		else
-			parentItem = ucv;
+			    << endl;
+		return;
 	}
 
 	connectNewObjectsSlots(object);
@@ -619,7 +617,12 @@ void UMLListView::childObjectAdded(UMLObject* obj, UMLObject* parent) {
 	}
 	if (!m_bCreatingChildObject) {
 		UMLListViewItem *parentItem = findUMLObject(parent);
-		UMLListViewItem *newItem = new UMLListViewItem(parentItem, obj->getName(),
+		QString text = obj->getName();
+		if (ot == Uml::ot_Operation) {
+			UMLOperation *op = static_cast<UMLOperation*>(obj);
+			text = op->toString(Uml::st_SigNoScope);
+		}
+		UMLListViewItem *newItem = new UMLListViewItem(parentItem, text,
 							       convert_OT_LVT(obj->getBaseType()), obj);
 		ensureItemVisible(newItem);
 		clearSelection();
@@ -1999,9 +2002,28 @@ void UMLListView::createChildUMLObject( UMLListViewItem * item, Uml::Object_Type
 	if ( type == Uml::ot_Attribute )  {
 		newObject = m_doc->createAttribute( static_cast<UMLClass*>(parent), name );
 	} else {
-		UMLAttributeList dummyAttList;
-		newObject = m_doc->createOperation( static_cast<UMLClassifier*>(parent),
-						   name, &dummyAttList );
+		UMLClassifier *owningClass = static_cast<UMLClassifier*>(parent);
+		UMLClassifier::OpDescriptor od;
+		UMLClassifier::OpParseStatus st = owningClass->parseOperation(name, od);
+		if (st) {
+			kdError() << "UMLListView::createChildUMLObject(" << name << "): "
+				  << "owningClass->parseOperation returns " << st << endl;
+			m_bCreatingChildObject = false;
+			return;
+		}
+		UMLAttributeList attList;
+		for (UMLClassifier::OpDescriptor::NameAndType_ListIt lit = od.m_args.begin();
+		     lit != od.m_args.end(); ++lit) {
+			const UMLClassifier::OpDescriptor::NameAndType& nm_tp = *lit;
+			UMLAttribute *a = new UMLAttribute(owningClass, nm_tp.first);
+			a->setType(nm_tp.second);
+			attList.append(a);
+		}
+		newObject = m_doc->createOperation( owningClass, od.m_name, &attList );
+		if (od.m_pReturnType) {
+			UMLOperation *op = static_cast<UMLOperation*>(newObject);
+			op->setType(od.m_pReturnType);
+		}
 	}
 
 	//FIXME actually this seems to be unnecessary, when creating by other ways
