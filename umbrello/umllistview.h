@@ -473,31 +473,11 @@ public slots:
 	bool slotItemRenamed(QListViewItem* item , int col);
 
  signals:
-	/**
-	 * Reset the status bar
-	 */
-	void sigResetStatusbarProgress();
 
 	/**
 	 * change the current view
 	 */
 	void diagramSelected(int);
-
-	/*
-	 *
-	 * Set the total range of the progressbar
-	 *
-	 * @param totalSteps Total range of the progressbar (0..totalSteps)
-	 */
-	void sigSetStatusbarProgressSteps(int totalSteps);
-
-	/*
-	 *
-	 * Set the total range of the progressbar
-	 *
-	 * @param totalSteps Total range of the progressbar (0..totalStep
-	 */
-	void sigSetStatusbarProgress(int stepPosition);
 
  private:
 	/**

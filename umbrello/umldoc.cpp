@@ -130,12 +130,12 @@ void UMLDoc::removeView(UMLView *view , bool enforceCurrentView ) {
 			//UMLApp::app()->setDiagramMenuItemsState(false);
 		}
 
-		if ( firstView ) 
+		if ( firstView )
 		{
 			changeCurrentView( firstView->getID() );
 			UMLApp::app()->setDiagramMenuItemsState(true);
 		}
-	} 
+	}
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -381,7 +381,7 @@ void UMLDoc::deleteContents() {
 		listView->init();
 		removeAllViews();
 		if(objectList.count() > 0) {
-			// clear our object list. We do this explicitly since setAutoDelete is false for the objectList now. 
+			// clear our object list. We do this explicitly since setAutoDelete is false for the objectList now.
 			for(UMLObject * obj = objectList.first(); obj != 0; obj = objectList.next())
 				obj->deleteLater();
 			objectList.clear();
@@ -864,8 +864,8 @@ UMLOperation* UMLDoc::createOperation(UMLClassifier* classifier, const QString &
 
 	int id = getUniqueID();
 	UMLOperation *op = new UMLOperation( 0L, name, id);
-	
-	if(params) 
+
+	if(params)
 	{
 		UMLAttributeListIt it(*params);
 		for( ; it.current(); ++it ) {
@@ -1240,7 +1240,7 @@ void UMLDoc::removeUMLObject(UMLObject* umlobject) {
 						break;
 					case Uml::at_Association:
 						// CHECK: doesnt seem correct
-						// But we DO need to remove uni-associations, etc. from the concept, -b.t. 
+						// But we DO need to remove uni-associations, etc. from the concept, -b.t.
 						if (AId == c->getID() || BId == c->getID())
 							c->removeAssociation(a);
 					default:
@@ -1768,7 +1768,9 @@ bool UMLDoc::loadUMLObjectsFromXMI( QDomNode & node ) {
 		return true;//return ok as it means there is no umlobjects
 	emit sigResetStatusbarProgress();
 	emit sigSetStatusbarProgress( 0 );
-	emit sigSetStatusbarProgressSteps( 10 ); //FIX ME
+	emit sigSetStatusbarProgressSteps( 10 ); //FIXME need a way to make status bar actually reflect
+	                                         //how much of the file has been loaded rather than just
+	                                         //counting to 10 (an arbitrary number)
 	emit sigWriteToStatusBar( i18n("Loading UML elements...") );
 	UMLObject * pObject = 0;
 	int count = 0;

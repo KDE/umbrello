@@ -313,6 +313,7 @@ void UMLApp::setupZoomMenu() {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLApp::initStatusBar() {
+	/* Progress bar removed, it didn't reflect the actual load status of a file
 	statProg = new QProgressBar(statusBar(),"Progressbar");
 	statProg->setFixedWidth( 100 );             // arbitrary width
 	statProg->setCenterIndicator(true);
@@ -321,6 +322,7 @@ void UMLApp::initStatusBar() {
 	statProg->setLineWidth(0);
 	statProg->setBackgroundMode( QWidget::PaletteBackground );
 	statProg->setFixedHeight( statProg->sizeHint().height() - 8 );
+	*/
 
 	m_statusLabel = new KStatusBarLabel( i18n("Ready."), 0, statusBar() );
 	m_statusLabel->setFixedHeight( m_statusLabel->sizeHint().height() );
@@ -330,19 +332,18 @@ void UMLApp::initStatusBar() {
 	m_statusLabel->setLineWidth(0);
 
 	statusBar()->addWidget( m_statusLabel, 1, false );
+
+	/*
 	statusBar()->addWidget(statProg, 0,  true);
+	*/
 
 	m_statusLabel->setAlignment(AlignLeft|AlignVCenter);
 
+	/*
 	connect(doc,SIGNAL(sigSetStatusbarProgressSteps(int)),statProg,SLOT(setTotalSteps(int)));
-
 	connect(doc,SIGNAL(sigSetStatusbarProgress(int)),statProg,SLOT(setProgress(int)));
 	connect(doc,SIGNAL(sigResetStatusbarProgress()),statProg,SLOT(reset()));
-
-	connect(listView,SIGNAL(sigSetStatusbarProgressSteps(int)),statProg,SLOT(setTotalSteps(int)));
-	connect(listView,SIGNAL(sigSetStatusbarProgress(int)),statProg,SLOT(setProgress(int)));
-	connect(listView,SIGNAL(sigResetStatusbarProgress()),statProg,SLOT(reset()));
-	//FIXME change name to raiseDiagram
+	*/
 
 	connect(doc, SIGNAL( sigWriteToStatusBar(const QString &) ), this, SLOT( slotStatusMsg(const QString &) ));
 	statusBar()->show(); //needs to be forced to show when on first ever startup for some reason
