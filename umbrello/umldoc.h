@@ -291,14 +291,6 @@ public:
 	UMLStereotype* findOrCreateStereotype(QString name);
 
 	/**
-	 * Creates an operation for the parent concept.
-	 *
-	 * @param o	The parent concept
-	 * @return	The UMLOperation created
-	 */
-	//UMLObject* createOperation(UMLClassifier* classifier);
-
-	/**
 	 * Creates an association between two UMLObjects.
 	 * NOTE: this method does not check if the association is valid / legal
 	 *
