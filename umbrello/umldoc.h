@@ -53,6 +53,7 @@ class UMLView;
 class UMLWidget;
 class UMLClass;
 class UMLClassifier;
+class UMLEnum;
 class UMLApp;
 
 using namespace Uml;
@@ -240,12 +241,20 @@ public:
 	UMLObject* createTemplate(UMLClass* umlclass);
 
 	/**
+	 * Creates an enum literal for the parent enum.
+	 *
+	 * @param o	The parent enum
+	 * @return	The UMLEmun created
+	 */
+	UMLObject* createEnumLiteral(UMLEnum* umlenum);
+
+	/**
 	 * Creates a stereotype for the parent classifier.
 	 *
 	 * @param o	The parent concept
 	 * @return	The UMLStereotype created
 	 */
-	UMLObject* createStereotype(UMLClass* umlclass, UMLObject_Type list);
+	UMLObject* createStereotype(UMLClassifier* classifier, UMLObject_Type list);
 
 	/**
 	 * Creates an operation for the parent concept.

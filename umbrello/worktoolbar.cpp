@@ -82,6 +82,7 @@ void WorkToolBar::slotCheckToolBar(Uml::Diagram_Type dt) {
 		insertHotBtn(tbb_Class, "Class");
 		insertHotBtn(tbb_Interface, "Interface");
 		insertHotBtn(tbb_Datatype, "Datatype");
+		insertHotBtn(tbb_Enum, "Enum");
 		insertHotBtn(tbb_Package, "Package");
 		insertHotBtn(tbb_Composition, "Composition");
 		insertHotBtn(tbb_Generalization,
@@ -236,6 +237,8 @@ QCursor WorkToolBar::currentCursor() {
 		return QCursor(m_CursorPixmaps.Interface, 9, 9);
 	} else if (m_CurrentButtonID == tbb_Datatype)  {
 		return QCursor(m_CursorPixmaps.Datatype, 9, 9);
+	} else if (m_CurrentButtonID == tbb_Enum)  {
+		return QCursor(m_CursorPixmaps.Enum, 9, 9);
 	} else if (m_CurrentButtonID == tbb_Seq_Message_Asynchronous ||
 		   m_CurrentButtonID == tbb_Coll_Message)  {
 		return QCursor(m_CursorPixmaps.MessageAsynchronous, 9, 9);
@@ -331,6 +334,7 @@ void WorkToolBar::loadPixmaps() {
 	m_Pixmaps[tbb_Artifact].load( dataDir + "artifact.xpm" );
 	m_Pixmaps[tbb_Interface].load( dataDir + "interface.xpm" );
 	m_Pixmaps[tbb_Datatype].load( dataDir + "datatype.xpm" );
+	m_Pixmaps[tbb_Enum].load( dataDir + "enum.xpm" );
 
 	m_CursorPixmaps.Actor.load( dataDir + "cursor-actor.xpm");
 	m_CursorPixmaps.Aggregation.load( dataDir + "cursor-aggregation.xpm");
@@ -348,6 +352,7 @@ void WorkToolBar::loadPixmaps() {
 	m_CursorPixmaps.InitialState.load( dataDir + "cursor-initial-state.xpm");
 	m_CursorPixmaps.Interface.load( dataDir + "cursor-interface.xpm");
 	m_CursorPixmaps.Datatype.load( dataDir + "cursor-datatype.xpm");
+	m_CursorPixmaps.Enum.load( dataDir + "cursor-enum.xpm");
 	m_CursorPixmaps.Generalisation.load( dataDir + "cursor-generalisation.xpm");
 	m_CursorPixmaps.MessageAsynchronous.load( dataDir + "cursor-message-asynchronous.xpm");
 	m_CursorPixmaps.MessageSynchronous.load( dataDir + "cursor-message-synchronous.xpm");

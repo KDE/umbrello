@@ -18,8 +18,8 @@
 #include <kdebug.h>
 #include <klocale.h>
 
-UMLClass::UMLClass(UMLDoc * parent, const QString & name, int id) 
-   : UMLClassifier (parent,name, id) 
+UMLClass::UMLClass(UMLDoc * parent, const QString & name, int id)
+   : UMLClassifier (parent,name, id)
 {
 	init();
 }
@@ -32,7 +32,7 @@ UMLClass::~UMLClass() {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLObject* UMLClass::addAttribute(QString name, int id) {
-	Uml::Scope scope = ((UMLDoc*) parent())->getOptionState().classState.defaultAttributeScope; 
+	Uml::Scope scope = ((UMLDoc*) parent())->getOptionState().classState.defaultAttributeScope;
   	UMLAttribute *a = new UMLAttribute(this, name, id, "int", scope);
   	m_AttsList.append(a);
 	emit modified();
@@ -135,14 +135,14 @@ bool UMLClass::addTemplate(UMLTemplate* Template, int position)
 	return false;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-int UMLClass::removeTemplate(UMLTemplate *temp) {
-	if ( !m_TemplateList.remove(temp) ) {
+int UMLClass::removeTemplate(UMLTemplate* umltemplate) {
+	if ( !m_TemplateList.remove(umltemplate) ) {
 		kdWarning() << "can't find att given in list" << endl;
 		return -1;
 	}
-	emit templateRemoved(temp);
+	emit templateRemoved(umltemplate);
 	emit modified();
-	disconnect(temp,SIGNAL(modified()),this,SIGNAL(modified()));
+	disconnect(umltemplate,SIGNAL(modified()),this,SIGNAL(modified()));
 	return m_TemplateList.count();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////

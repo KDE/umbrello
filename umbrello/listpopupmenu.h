@@ -65,10 +65,12 @@ public:
 	    mt_Node,
 	    mt_Artifact,
 	    mt_Interface,
+	    mt_Enum,
 	    mt_Datatype,
 	    mt_Actor,                         //ACTOR
 	    mt_UseCase,                       //USECASE
 	    mt_Attribute,                     //ATTRIBUTE
+	    mt_EnumLiteral,
 	    mt_Object,
 	    mt_Initial_State,
 	    mt_End_State,
@@ -81,10 +83,12 @@ public:
 	    mt_New_Operation,                 //NEWOP
 	    mt_New_Attribute,                 //NEWATT
 	    mt_New_Template,
+	    mt_New_EnumLiteral,
 	    mt_Parameter_Selected,            //PARMSEL
 	    mt_Operation_Selected,            //OPSEL
 	    mt_Attribute_Selected,            //ATTSEL
 	    mt_Template_Selected,
+	    mt_EnumLiteral_Selected,
 	    mt_Association_Selected,          //ASSOCSEL
 	    mt_Show_Attributes,               //SHOWATTS
 	    mt_Show_Attributes_Selection,     //SHOWATTS, multiple items
@@ -162,12 +166,12 @@ public:
 	};
 
 	/**
-	 * Constructs the popup menu.
+	 * Constructs the popup menu for a diagram
 	 *
 	 * @param parent	The parent to ListPopupMenu.
 	 * @param type		The type of menu to display.
 	 */
-	ListPopupMenu(QWidget *parent, Menu_Type type = mt_Undefined, UMLView * view = 0);
+	ListPopupMenu(QWidget* parent, Menu_Type type = mt_Undefined, UMLView* view = 0);
 
 	/**
 	 * Constructs the popup menu for a list view item.
@@ -175,7 +179,7 @@ public:
 	 * @param parent	The parent to ListPopupMenu.
 	 * @param type		The type of menu to display.
 	 */
-	ListPopupMenu(QWidget *parent, Uml::ListView_Type type);
+	ListPopupMenu(QWidget* parent, Uml::ListView_Type type);
 
 	/**
 	 * Constructs the popup menu for a canvas widget.
@@ -186,8 +190,7 @@ public:
 	 * @param unique	True if multiple selected items all have
 	 *			the same type (e.g. Class, Interface)
 	 */
-	ListPopupMenu(QWidget * parent, UMLWidget * object, bool multi = false,
-				 													bool unique = false);
+	ListPopupMenu(QWidget* parent, UMLWidget* object, bool multi = false, bool unique = false);
 
 	/**
 	 * Standard deconstructor.

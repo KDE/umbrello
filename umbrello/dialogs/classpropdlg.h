@@ -102,6 +102,7 @@ private:
 	ClassifierListPage* m_pAttPage;
 	ClassifierListPage* m_pOpsPage;
 	ClassifierListPage* m_pTemplatePage;
+	ClassifierListPage* m_pEnumLiteralPage;
 	AssocPage * m_pAssocPage;
 	ClassOptionsPage * m_pOptionsPage;
 	UMLWidgetColorPage * m_pColorPage;

@@ -11,6 +11,7 @@
 #include "../classifierlistitem.h"
 #include "../umldoc.h"
 #include "../class.h"
+#include "../enum.h"
 #include <kbuttonbox.h>
 #include <kdebug.h>
 #include <klocale.h>
@@ -30,6 +31,9 @@ ClassifierListPage::ClassifierListPage(QWidget* parent, UMLClassifier* classifie
 	} else if (type == ot_Template) {
 		itemTypes = i18n("Templates");
 		newItemType = i18n("N&ew Template...");
+	} else if (type == ot_EnumLiteral) {
+		itemTypes = i18n("Enum Literals");
+		newItemType = i18n("N&ew Enum Literal...");
 	} else {
 		kdWarning() << "unknown listItem type in ClassifierListPage" << endl;
 	}
@@ -86,6 +90,8 @@ ClassifierListPage::ClassifierListPage(QWidget* parent, UMLClassifier* classifie
 		m_pItemList = m_pClassifier->getOpList();
 	} else if (type == ot_Template) {
 		m_pItemList = (static_cast<UMLClass*>(m_pClassifier))->getTemplateList();
+	} else if (type == ot_EnumLiteral) {
+		m_pItemList = (static_cast<UMLEnum*>(m_pClassifier))->getEnumLiteralList();
 	} else {
 		kdWarning() << "unknown type in ClassifierListPage" << endl;
 	}
@@ -229,6 +235,8 @@ void ClassifierListPage::slotRightButtonPressed(QListBoxItem* item, const QPoint
 			type = ListPopupMenu::mt_Operation_Selected;
 		} else if (itemType == ot_Template) {
 			type = ListPopupMenu::mt_Template_Selected;
+		} else if (itemType == ot_EnumLiteral) {
+			type = ListPopupMenu::mt_EnumLiteral_Selected;
 		} else {
 			kdWarning() << "unknown type in ClassifierListPage" << endl;
 		}
@@ -239,6 +247,8 @@ void ClassifierListPage::slotRightButtonPressed(QListBoxItem* item, const QPoint
 			type = ListPopupMenu::mt_New_Operation;
 		} else if (itemType == ot_Template) {
 			type = ListPopupMenu::mt_New_Template;
+		} else if (itemType == ot_EnumLiteral) {
+			type = ListPopupMenu::mt_New_EnumLiteral;
 		} else {
 			kdWarning() << "unknown type in ClassifierListPage" << endl;
 		}
@@ -265,6 +275,7 @@ void ClassifierListPage::slotPopupMenuSel(int id) {
 		case ListPopupMenu::mt_New_Attribute:
 		case ListPopupMenu::mt_New_Operation:
 		case ListPopupMenu::mt_New_Template:
+		case ListPopupMenu::mt_New_EnumLiteral:
 			slotNewListItem();
 			break;
 
@@ -366,9 +377,7 @@ void ClassifierListPage::slotNewListItem() {
 void ClassifierListPage::slotNewStereotype() {
 	saveCurrentItemDocumentation();
 	m_bSigWaiting = true;
-	UMLClass *umlclass = dynamic_cast<UMLClass *>(m_pClassifier);
-	if (umlclass)
-		m_pDoc->createStereotype(umlclass, itemType);
+	m_pDoc->createStereotype(m_pClassifier, itemType);
 }
 
 void ClassifierListPage::saveCurrentItemDocumentation() {

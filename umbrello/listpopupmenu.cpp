@@ -26,12 +26,14 @@
 #include "activitywidget.h"
 #include "objectwidget.h"
 
+//ListPopupMenu for a UMLView (diagram)
 ListPopupMenu::ListPopupMenu(QWidget *parent, Menu_Type type, UMLView * view)
   : KPopupMenu(parent) {
 	setupMenu(type, view);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-ListPopupMenu::ListPopupMenu(QWidget *parent, Uml::ListView_Type type) 
+//ListPopupMenu for the tree list view
+ListPopupMenu::ListPopupMenu(QWidget *parent, Uml::ListView_Type type)
   : KPopupMenu(parent) {
 	Menu_Type mt = mt_Undefined;
 	switch(type)
@@ -132,6 +134,10 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, Uml::ListView_Type type)
 			mt = mt_Interface;
 			break;
 
+		case Uml::lvt_Enum:
+			mt = mt_Enum;
+			break;
+
 		case Uml::lvt_Datatype:
 			mt = mt_Datatype;
 			break;
@@ -149,6 +155,7 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, Uml::ListView_Type type)
 	setupMenu(mt);
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+//ListPopupMenu for a canvas widget
 ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
 			     bool multi, bool unique)
   : KPopupMenu(parent)
@@ -321,8 +328,8 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
 			insertStdItem(mt_Delete);
 			insertStdItem(mt_Rename);
 			insertStdItem(mt_Change_Font);
-			insertItem( SmallIcon( "unknown"), i18n("Refactor"),mt_Refactoring);
-			insertItem( SmallIcon( "unknown"), i18n("View Code"),mt_ViewCode);
+			insertItem(i18n("Refactor"), mt_Refactoring);
+			insertItem(i18n("View Code"), mt_ViewCode);
 			insertStdItem(mt_Properties);
 			break;
 
@@ -362,6 +369,23 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
 			insertItem( SmallIcon( "unknown"), i18n("View Code"),mt_ViewCode);
 			insertItem(i18n("Draw as Circle"), mt_DrawAsCircle);
 			setItemChecked( mt_DrawAsCircle, interfaceWidget->getDrawAsCircle() );
+			insertStdItem(mt_Properties);
+			break;
+
+		case Uml::wt_Enum:
+			m_pInsert = new KPopupMenu(this,"New");
+			m_pInsert->insertItem(SmallIcon("source"), i18n("Enum Literal"), mt_EnumLiteral);
+			insertItem(SmallIcon("filenew"),i18n("New"), m_pInsert);
+
+			setupColor(object->getUseFillColour());
+			insertSeparator();
+			insertStdItem(mt_Cut);
+			insertStdItem(mt_Copy);
+			insertStdItem(mt_Paste);
+			insertSeparator();
+			insertStdItem(mt_Delete);
+			insertStdItem(mt_Rename);
+			insertStdItem(mt_Change_Font);
 			insertStdItem(mt_Properties);
 			break;
 
@@ -673,6 +697,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 	QPixmap packagePixmap(dataDir+"package.xpm");
 	QPixmap interfacePixmap(dataDir+"interface.xpm");
 	QPixmap datatypePixmap(dataDir+"datatype.xpm");
+	QPixmap enumPixmap(dataDir+"enum.xpm");
 	QPixmap actorPixmap(dataDir+"actor.xpm");
 	QPixmap usecasePixmap(dataDir+"case.xpm");
 	QPixmap initialStatePixmap(dataDir+"initial_state.xpm");
@@ -690,6 +715,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 			m_pInsert -> insertItem(classPixmap, i18n("Class..."), mt_Class);
 			m_pInsert -> insertItem(interfacePixmap, i18n("Interface..."), mt_Interface);
 			m_pInsert -> insertItem(datatypePixmap, i18n("Datatype..."), mt_Datatype);
+			m_pInsert -> insertItem(enumPixmap, i18n("Enum..."), mt_Enum);
 			m_pInsert->insertItem(packagePixmap, i18n("Package..."), mt_Package);
 			m_pInsert -> insertItem(SmallIcon( "folder_green"),i18n("Class Diagram"), mt_Class_Diagram);
 			m_pInsert -> insertItem(SmallIcon( "folder_green"),i18n("State Diagram"), mt_State_Diagram);
@@ -872,7 +898,8 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 			m_pInsert = new KPopupMenu( this, "New" );
 			m_pInsert -> insertItem(classPixmap, i18n("Class..."), mt_Class);
 			m_pInsert->insertItem(interfacePixmap, i18n("Interface..."), mt_Interface);
-			m_pInsert->insertItem(interfacePixmap, i18n("Datatype..."), mt_Datatype);
+			m_pInsert->insertItem(datatypePixmap, i18n("Datatype..."), mt_Datatype);
+			m_pInsert->insertItem(enumPixmap, i18n("Enum..."), mt_Enum);
 			m_pInsert -> insertItem(packagePixmap, i18n("Package..."), mt_Package);
 			m_pInsert -> insertItem(SmallIcon( "text"), i18n( "Text Line..." ), mt_FloatText );
 			insertItem(SmallIcon( "filenew"), i18n("New"), m_pInsert);
@@ -964,6 +991,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 			m_pInsert->insertItem(classPixmap, i18n("Class..."), mt_Class);
 			m_pInsert->insertItem(interfacePixmap, i18n("Interface..."), mt_Interface);
 			m_pInsert->insertItem(datatypePixmap, i18n("Datatype..."), mt_Datatype);
+			m_pInsert->insertItem(enumPixmap, i18n("Enum..."), mt_Enum);
 			m_pInsert->insertItem(packagePixmap, i18n("Package..."), mt_Package);
 			insertItem(SmallIcon( "filenew"), i18n("New"), m_pInsert);
 			insertSeparator();
@@ -980,6 +1008,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 			break;
 
 		case mt_Datatype:
+		case mt_Enum:
 		case mt_Component:
 		case mt_Node:
 		case mt_Artifact:
@@ -1010,6 +1039,10 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 
 		case mt_New_Template:
 			insertItem(SmallIcon("source"), i18n("New Template..."), mt_New_Template);
+			break;
+
+		case mt_New_EnumLiteral:
+			insertItem(SmallIcon("source"), i18n("New Literal..."), mt_New_EnumLiteral);
 			break;
 
 		case mt_New_Activity:
@@ -1047,6 +1080,12 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 
 		case mt_Template_Selected:
 			insertItem(SmallIcon("source"),i18n("New Template..."), mt_New_Attribute);
+			insertStdItem(mt_Delete);
+			insertStdItem(mt_Properties);
+			break;
+
+		case mt_EnumLiteral_Selected:
+			insertItem(SmallIcon("source"),i18n("New Literal..."), mt_New_EnumLiteral);
 			insertStdItem(mt_Delete);
 			insertStdItem(mt_Properties);
 			break;

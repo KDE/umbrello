@@ -40,7 +40,7 @@
 
 
 // Jeez. Look at all these constructors each with its own initialzation
-// conditions. bad bad bad. Very easy to mess up a code change. 
+// conditions. bad bad bad. Very easy to mess up a code change.
 UMLWidget::UMLWidget( UMLView * view, UMLObject * o )
 	: QObject(view), QCanvasRectangle( view->canvas() ),
 	  m_pObject(o),
@@ -335,7 +335,7 @@ void UMLWidget::mousePressEvent(QMouseEvent *me) {
 void UMLWidget::updateWidget()
 {
 	calculateSize();
-	adjustAssocs( getX(), getY() ); //adjust assoc lines. 
+	adjustAssocs( getX(), getY() ); //adjust assoc lines.
 	if(isVisible())
 		update();
 }
@@ -443,7 +443,7 @@ void UMLWidget::slotMenuSelection(int sel) {
 			if (wt == wt_Actor || wt == wt_UseCase ||
 			    wt == wt_Package || wt == wt_Interface || wt == wt_Datatype ||
 			    wt == wt_Component || wt == wt_Artifact ||
-			    wt == wt_Node ||
+			    wt == wt_Node || wt == wt_Enum ||
 			    (wt == wt_Class && m_pView -> getType() == dt_Class)) {
 				m_pView->getDocument() -> showProperties(this);
 			} else if (wt == wt_Object) {
@@ -826,7 +826,7 @@ void UMLWidget::setName(QString strName) {
 	if (m_pObject)
 		m_pObject->setName(strName);
 	calculateSize();
-	// adjustAssocs( getX(), getY() ); // no. Let the user do the adjustment, besides this causes screwly looking lines if done here 
+	// adjustAssocs( getX(), getY() ); // no. Let the user do the adjustment, besides this causes screwly looking lines if done here
 }
 
 QString UMLWidget::getName() const {
@@ -848,6 +848,7 @@ bool UMLWidget::widgetHasUMLObject(Uml::UMLWidget_Type type) {
 	    type == wt_UseCase ||
 	    type == wt_Class ||
 	    type == wt_Interface ||
+	    type == wt_Enum ||
 	    type == wt_Datatype ||
 	    type == wt_Package ||
 	    type == wt_Component ||

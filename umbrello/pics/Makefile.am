@@ -39,6 +39,7 @@ implements.xpm \
 initial_state.xpm \
 interface.xpm \
 datatype.xpm \
+enum.xpm \
 largepackage.xpm \
 lifeline.xpm \
 line.xpm \
@@ -74,6 +75,7 @@ cursor-aggregation.xpm \
 cursor-component.xpm \
 cursor-interface.xpm \
 cursor-datatype.xpm \
+cursor-enum.xpm \
 cursor-text.xpm \
 cursor-anchor.xpm \
 cursor-composition.xpm \

@@ -64,6 +64,8 @@
 #include "interface.h"
 #include "datatypewidget.h"
 #include "datatype.h"
+#include "enumwidget.h"
+#include "enum.h"
 #include "actorwidget.h"
 #include "actor.h"
 #include "usecasewidget.h"
@@ -501,6 +503,12 @@ void UMLView::slotObjectCreated(UMLObject* o) {
 		newWidget = new NodeWidget(this,static_cast<UMLNode*>(o));
 	} else if(type == ot_Artifact) {
 		newWidget = new ArtifactWidget(this, static_cast<UMLArtifact*>(o));
+	} else if(type == ot_Node) {
+		newWidget = new NodeWidget(this, static_cast<UMLNode*>(o));
+	} else if(type == ot_Datatype) {
+		newWidget = new DatatypeWidget(this, static_cast<UMLDatatype*>(o));
+	} else if(type == ot_Enum) {
+		newWidget = new EnumWidget(this, static_cast<UMLEnum*>(o));
 	} else if(type == ot_Interface) {
 	        InterfaceWidget* interfaceWidget = new InterfaceWidget(this, static_cast<UMLInterface*>(o));
 		Diagram_Type diagramType = getType();
@@ -543,6 +551,7 @@ void UMLView::slotObjectCreated(UMLObject* o) {
 		case ot_Node:
 		case ot_Artifact:
 		case ot_Interface:
+		case ot_Enum:
 		case ot_Datatype:
 			createAutoAssociations(newWidget);
 			break;
@@ -636,7 +645,7 @@ void UMLView::contentsDragEnterEvent(QDragEnterEvent *e) {
 		return;
 	}
 	if(diagramType == dt_Class &&
-	   (ot != ot_Class && ot != ot_Package && ot != ot_Interface && ot != ot_Datatype) ) {
+	   (ot != ot_Class && ot != ot_Package && ot != ot_Interface && ot != ot_Enum && ot != ot_Datatype)) {
 		e->accept(false);
 		return;
 	}
@@ -1675,6 +1684,7 @@ bool UMLView::addWidget( UMLWidget * pWidget , bool isPasteOperation ) {
 		case wt_Node:
 		case wt_Artifact:
 		case wt_Interface:
+		case wt_Enum:
 		case wt_Datatype:
 		case wt_Actor:
 		case wt_UseCase:
@@ -2188,6 +2198,10 @@ Uml::UMLObject_Type UMLView::convert_TBB_OT(WorkToolBar::ToolBar_Buttons tbb) {
 			ot = ot_Interface;
 			break;
 
+		case WorkToolBar::tbb_Enum:
+			ot = ot_Enum;
+			break;
+
 		case WorkToolBar::tbb_Datatype:
 			ot = ot_Datatype;
 			break;
@@ -2602,6 +2616,11 @@ void UMLView::slotMenuSelection(int sel) {
 		case ListPopupMenu::mt_Interface:
 			m_bCreateObject = true;
 			m_pDoc->createUMLObject(ot_Interface);
+			break;
+
+		case ListPopupMenu::mt_Enum:
+			m_bCreateObject = true;
+			m_pDoc->createUMLObject(ot_Enum);
 			break;
 
 		case ListPopupMenu::mt_Datatype:
@@ -3147,19 +3166,19 @@ UMLWidget* UMLView::loadWidgetFromXMI(QDomElement& widgetElement) {
 		kdWarning() << "UMLView::loadWidgetFromXMI(): m_pDoc is NULL" << endl;
 		return 0L;
 	}
-	
+
 	UMLWidget* widget = 0;
 	QString tag  = widgetElement.tagName();
 	QString str  = widgetElement.attribute( "xmi.id", "-1" );
 	int id = str.toInt();
-	
-	if( tag == "UML:StateWidget" || tag == "UML:NoteWidget" || tag == "boxwidget" || 
+
+	if( tag == "UML:StateWidget" || tag == "UML:NoteWidget" || tag == "boxwidget" ||
 	    tag == "UML:FloatingTextWidget" || tag == "UML:ActivityWidget")
 	{
 	// Loading of widgets wich do NOT reprsent any UMLObject, --> just graphic stuff with
 	// no real Modell-information
 	//--FIXME while boxes and texts are just diagram-objects, activitis and states should
-	// be UMLObjects 
+	// be UMLObjects
 		if (tag == "UML:StateWidget") {
 			widget = new StateWidget(this);
 		} else if (tag == "UML:NoteWidget") {
@@ -3175,13 +3194,13 @@ UMLWidget* UMLView::loadWidgetFromXMI(QDomElement& widgetElement) {
 	else
 	{
 	// Find the UMLObject and create the Widget to represent it
-		UMLObject *o(0);	
+		UMLObject *o(0);
 		if( id < 0 || !( o = m_pDoc->findUMLObject(id)) )
 		{
 			kdWarning()<<"UMLView::loadWidgetFromXMI( ) - ERROR - cannot find Object with id "<<id<<endl;
 			return 0L;
 		}
-	
+
 		if (tag == "UML:ActorWidget") {
 			widget = new ActorWidget(this, static_cast<UMLActor*>(o));
 		} else if (tag == "UML:UseCaseWidget") {
@@ -3201,13 +3220,15 @@ UMLWidget* UMLView::loadWidgetFromXMI(QDomElement& widgetElement) {
 			widget = new InterfaceWidget(this, static_cast<UMLInterface*>(o));
 		} else if (tag == "datatypewidget") {
 			widget = new DatatypeWidget(this, static_cast<UMLDatatype*>(o));
+		} else if (tag == "enumwidget") {
+			widget = new EnumWidget(this, static_cast<UMLEnum*>(o));
 		} else if (tag == "UML:ObjectWidget") {
 			widget = new ObjectWidget(this, o );
 		} else {
 			kdWarning() << "Trying to create an unknown widget:" << tag << endl;
 			return 0L;
 		}
-	} 
+	}
 	if (!widget->loadFromXMI(widgetElement)) {
 		widget->cleanup();
 		delete widget;

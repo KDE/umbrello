@@ -31,10 +31,12 @@ namespace Uml {
 	    ot_Package,
 	    ot_Interface,
 	    ot_Datatype,
+	    ot_Enum,
 	    ot_Class,
 	    ot_Association,
 	    ot_Attribute,
 	    ot_Operation,
+	    ot_EnumLiteral,
 	    ot_Template,
 	    ot_Component,
 	    ot_Artifact,
@@ -57,6 +59,7 @@ namespace Uml {
 	    wt_Class,			// has UMLObject representation
 	    wt_Interface,		// has UMLObject representation
 	    wt_Datatype,		// has UMLObject representation
+	    wt_Enum,			// has UMLObject representation
 	    wt_Package,			// has UMLObject representation
 	    wt_Object,			// has UMLObject representation
 	    wt_Note,			// does not have UMLObject representation
@@ -166,6 +169,7 @@ namespace Uml {
 	    lvt_Node,
 	    lvt_Datatype,
 	    lvt_Datatype_Folder,
+	    lvt_Enum,
 	    lvt_Unknown = -1
 	};
 

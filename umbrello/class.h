@@ -130,11 +130,11 @@ public:
 	/**
 	 * Removes a template from the class.
 	 *
-	 * @param a		The template to remove.
-	 * @return	Count of the remaining attributes after removal.
-	 *		Returns -1 if the given attribute was not found.
+	 * @param template	The template to remove.
+	 * @return	Count of the remaining templates after removal.
+	 *		Returns -1 if the given template was not found.
 	 */
-	int removeTemplate(UMLTemplate* a);
+	int removeTemplate(UMLTemplate* umltemplate);
 
 	/**
 	 * Add an already created stereotype to the list identified by the

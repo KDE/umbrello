@@ -40,6 +40,8 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o) : QWidget(p
 		name = i18n("Component &name:");
 	} else if (t == Uml::ot_Artifact) {
 		name = i18n("Artifact &name:");
+	} else if (t == Uml::ot_Enum) {
+		name = i18n("Enum &name:");
 	} else {
 		kdWarning() << "creating class gen page for unknown widget type" << endl;
 	}
@@ -64,8 +66,8 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o) : QWidget(p
 	m_pAbstractCB = 0;
 	m_pDeconCB = 0;
 
-	if (t == Uml::ot_Class || t == Uml::ot_Package
-	    || t == Uml::ot_Interface || t == Uml::ot_Component || t == Uml::ot_Artifact) {
+	if (t == Uml::ot_Class || t == Uml::ot_Package || t == Uml::ot_Enum || t == Uml::ot_Datatype ||
+	    t == Uml::ot_Interface || t == Uml::ot_Component || t == Uml::ot_Artifact) {
 		m_pStereoTypeL = new QLabel(i18n("&Stereotype name:"), this);
 		m_pNameLayout -> addWidget(m_pStereoTypeL, 1, 0);
 
@@ -75,7 +77,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o) : QWidget(p
 		m_pStereoTypeLE -> setText(o -> getStereotype());
 		m_pStereoTypeL->setBuddy(m_pStereoTypeLE);
 	}
-	if (t == Uml::ot_Interface) {
+	if (t == Uml::ot_Interface || t == Uml::ot_Datatype || t == Uml::ot_Enum) {
 		m_pStereoTypeLE->setEnabled(false);
 	}
 

@@ -17,11 +17,13 @@
 #include "artifact.h"
 #include "interface.h"
 #include "datatype.h"
+#include "enum.h"
 #include "docwindow.h"
 #include "objectwidget.h"
 #include "operation.h"
 #include "attribute.h"
 #include "template.h"
+#include "enumliteral.h"
 #include "stereotype.h"
 #include "classifierlistitem.h"
 #include "uml.h"
@@ -71,7 +73,7 @@ UMLDoc::UMLDoc(QWidget *parent, const char *name) : QObject(parent, name) {
 	m_bLoading = false;
 	m_pAutoSaveTimer = 0;
 	UMLApp * pApp = UMLApp::app();
-	connect(this, SIGNAL(sigDiagramCreated(int)), pApp, SLOT(slotUpdateViews()));	
+	connect(this, SIGNAL(sigDiagramCreated(int)), pApp, SLOT(slotUpdateViews()));
 	connect(this, SIGNAL(sigDiagramRemoved(int)), pApp, SLOT(slotUpdateViews()));
 	connect(this, SIGNAL(sigDiagramRenamed(int)), pApp, SLOT(slotUpdateViews()));
 	connect(this, SIGNAL( sigCurrentViewChanged() ), pApp, SLOT( slotCurrentViewChanged() ) );
@@ -188,7 +190,7 @@ bool UMLDoc::saveModified() {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLDoc::closeDocument() {
-	deleteContents();	
+	deleteContents();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 SettingsDlg::OptionState UMLDoc::getOptionState() {
@@ -512,6 +514,8 @@ QString	UMLDoc::uniqObjectName(const UMLObject_Type type) {
 		currentName = i18n("new_interface");
 	else if(type == ot_Datatype)
 		currentName = i18n("new_datatype");
+	else if(type == ot_Enum)
+		currentName = i18n("new_enum");
 	else if(type == ot_Association)
 		currentName = i18n("new_association");
 	else
@@ -562,6 +566,8 @@ UMLObject* UMLDoc::createUMLObject(const std::type_info &type)
 		t = ot_Interface;
 	} else if ( type == typeid(UMLDatatype) )  {
 		t = ot_Datatype;
+	} else if ( type == typeid(UMLEnum) )  {
+		t = ot_Enum;
 	} else {
 		return static_cast<UMLObject*>(0L);
 	}
@@ -613,6 +619,8 @@ UMLObject* UMLDoc::createUMLObject(UMLObject_Type type, const QString &n) {
 		o = new UMLInterface(this, name, id);
 	} else if(type == ot_Datatype) {
 		o = new UMLDatatype(this, name, id);
+	} else if(type == ot_Enum) {
+		o = new UMLEnum(this, name, id);
 	} else {
 		kdWarning() << "CreateUMLObject(int) error" << endl;
 		return (UMLObject*)0L;
@@ -637,8 +645,13 @@ UMLObject* UMLDoc::createUMLObject(UMLObject* umlobject, UMLObject_Type type) {
 		UMLClass *umlclass = dynamic_cast<UMLClass *>(umlobject);
 		if (umlclass)
 			return createTemplate(umlclass);
+	} else if(type == ot_EnumLiteral) {
+		UMLEnum* umlenum = dynamic_cast<UMLEnum*>(umlobject);
+		if (umlenum)  {
+			return createEnumLiteral(umlenum);
+		}
 	}
-	kdDebug() << "ERROR _CREATEUMLOBJECT" << endl;
+	kdDebug() << "ERROR _CREATEUMLOBJECT type:" << type << endl;
 	return NULL;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -711,10 +724,40 @@ UMLObject* UMLDoc::createTemplate(UMLClass* umlclass) {
 	return newTemplate;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLObject* UMLDoc::createStereotype(UMLClass* umlclass, UMLObject_Type list) {
+UMLObject* UMLDoc::createEnumLiteral(UMLEnum* umlenum) {
 	int id = getUniqueID();
-	QString currentName = umlclass->uniqChildName(Uml::ot_Stereotype);
-	UMLStereotype* newStereotype = new UMLStereotype(umlclass, currentName, id, list);
+	QString currentName = umlenum->uniqChildName(Uml::ot_EnumLiteral);
+	UMLEnumLiteral* newEnumLiteral = new UMLEnumLiteral(umlenum, currentName, id);
+
+	bool ok = true;
+	bool goodName = false;
+
+	while (ok && !goodName) {
+		ok = newEnumLiteral->showPropertiesDialogue( UMLApp::app() );
+		QString name = newEnumLiteral->getName();
+
+		if(name.length() == 0) {
+			KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
+		} else {
+			goodName = true;
+		}
+	}
+
+	if (!ok) {
+		return NULL;
+	}
+
+	umlenum->addEnumLiteral(newEnumLiteral);
+
+	setModified(true);
+	emit sigObjectCreated(newEnumLiteral);
+	return newEnumLiteral;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+UMLObject* UMLDoc::createStereotype(UMLClassifier* classifier, UMLObject_Type list) {
+	int id = getUniqueID();
+	QString currentName = classifier->uniqChildName(Uml::ot_Stereotype);
+	UMLStereotype* newStereotype = new UMLStereotype(classifier, currentName, id, list);
 
 	bool ok = true;
 	bool goodName = false;
@@ -734,7 +777,7 @@ UMLObject* UMLDoc::createStereotype(UMLClass* umlclass, UMLObject_Type list) {
 		return NULL;
 	}
 
-	umlclass->addStereotype(newStereotype, list);
+	classifier->addStereotype(newStereotype, list);
 
 	setModified(true);
 	emit sigObjectCreated(newStereotype);
@@ -745,7 +788,8 @@ UMLObject* UMLDoc::createOperation(UMLClassifier* classifier) {
 	UMLOperation* newOperation = 0;
 
 	// can only create operations for classifiers..
-	if (classifier == NULL) {
+	if (classifier == NULL ||
+	    classifier->getBaseType() == ot_Datatype || classifier->getBaseType() == ot_Enum) {
 		kdWarning() << "creating operation for something which isn't a class or an interface" << endl;
 		return NULL;
 	}
@@ -1674,6 +1718,8 @@ UMLObject* UMLDoc::makeNewUMLObject(QString type) {
 		pObject = new UMLInterface(this);
 	} else if (type == "UML:Datatype") {
 		pObject = new UMLDatatype(this);
+	} else if (type == "UML:Enum") {
+		pObject = new UMLEnum(this);
 	} else if (type == "UML:Association") {
 		pObject = new UMLAssociation(this, Uml::at_Unknown, (UMLObject*)NULL, (UMLObject*) NULL);
 	}
@@ -1748,7 +1794,7 @@ UMLClassifierList UMLDoc::getConcepts() {
 	UMLClassifierList conceptList;
 	for(UMLObject *obj = objectList.first(); obj ; obj = objectList.next())
 		if(obj -> getBaseType() == ot_Class || obj->getBaseType() == ot_Interface
-		   || obj->getBaseType() == ot_Datatype)  {
+		   || obj->getBaseType() == ot_Datatype || obj->getBaseType() == ot_Enum)  {
 			conceptList.append((UMLClassifier *)obj);
 		}
 	return conceptList;
@@ -1756,8 +1802,8 @@ UMLClassifierList UMLDoc::getConcepts() {
 
 UMLClassifierList UMLDoc::getClassesAndInterfaces() {
 	UMLClassifierList conceptList;
-	for(UMLObject *obj = objectList.first(); obj ; obj = objectList.next())
-		if(obj -> getBaseType() == ot_Class || obj->getBaseType() == ot_Interface)  {
+	for(UMLObject* obj = objectList.first(); obj ; obj = objectList.next())
+		if(obj->getBaseType() == ot_Class || obj->getBaseType() == ot_Interface)  {
 			conceptList.append((UMLClassifier *)obj);
 		}
 	return conceptList;

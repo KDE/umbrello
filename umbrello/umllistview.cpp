@@ -17,6 +17,7 @@
 #include "artifact.h"
 #include "interface.h"
 #include "datatype.h"
+#include "enum.h"
 #include "docwindow.h"
 #include "listpopupmenu.h"
 #include "operation.h"
@@ -127,6 +128,7 @@ void UMLListView::contentsMousePressEvent(QMouseEvent *me) {
 		case Uml::lvt_Node:
 		case Uml::lvt_Interface:
 		case Uml::lvt_Datatype:
+		case Uml::lvt_Enum:
 		case Uml::lvt_Actor:
 		case Uml::lvt_Attribute:
 		case Uml::lvt_Operation:
@@ -233,6 +235,10 @@ void UMLListView::popupMenuSel(int sel) {
 
 	case ListPopupMenu::mt_Interface:
 		addNewItem(temp, Uml::lvt_Interface);
+		break;
+
+	case ListPopupMenu::mt_Enum:
+		addNewItem(temp, Uml::lvt_Enum);
 		break;
 
 	case ListPopupMenu::mt_Datatype:
@@ -413,18 +419,15 @@ void UMLListView::slotObjectCreated(UMLObject* object) {
 	case Uml::ot_Attribute:
 	case Uml::ot_Operation:
 	case Uml::ot_Template:
+	case Uml::ot_EnumLiteral:
 	case Uml::ot_Association:
 	case Uml::ot_Stereotype:
 		//this will be handled by childObjectAdded
 		return;
 		break;
 	case Uml::ot_Class:
-		if ( lvt == Uml::lvt_Logical_Folder || lvt == Uml::lvt_Package )
-			parentItem = current;
-		else
-			parentItem = lv;
-		break;
 	case Uml::ot_Interface:
+	case Uml::ot_Enum:
 		if ( lvt == Uml::lvt_Logical_Folder || lvt == Uml::lvt_Package )
 			parentItem = current;
 		else
@@ -497,9 +500,11 @@ void UMLListView::connectNewObjectsSlots(UMLObject* object) {
 		connect(object,SIGNAL(modified()),this,SLOT(slotObjectChanged()));
 		break;
 	case Uml::ot_Datatype:
+	case Uml::ot_Enum:
 	case Uml::ot_Attribute:
 	case Uml::ot_Operation:
 	case Uml::ot_Template:
+	case Uml::ot_EnumLiteral:
 	case Uml::ot_Package:
 	case Uml::ot_Actor:
 	case Uml::ot_UseCase:
@@ -645,6 +650,7 @@ UMLListViewItem * UMLListView::findUMLObjectInFolder(UMLListViewItem* folder, UM
 		case Uml::lvt_Artifact :
 		case Uml::lvt_Interface :
 		case Uml::lvt_Datatype :
+		case Uml::lvt_Enum :
 			if(item->getUMLObject() == obj)
 				return item;
 			break;
@@ -842,6 +848,7 @@ bool UMLListView::acceptDrag(QDropEvent* event) const {
 			case Uml::lvt_Class:
 			case Uml::lvt_Package:
 			case Uml::lvt_Interface:
+			case Uml::lvt_Enum:
 				accept = (dstType == Uml::lvt_Logical_Folder ||
 					  dstType == Uml::lvt_Logical_View ||
 					  dstType == Uml::lvt_Package);
@@ -961,6 +968,7 @@ void UMLListView::slotDropped(QDropEvent* de, QListViewItem* /* parent */, QList
 			case Uml::lvt_Class:
 			case Uml::lvt_Package:
 			case Uml::lvt_Interface:
+			case Uml::lvt_Enum:
 				if (itemType == Uml::lvt_Logical_Folder ||
 				    itemType == Uml::lvt_Logical_View ||
 				    itemType == Uml::lvt_Package) {
@@ -968,7 +976,7 @@ void UMLListView::slotDropped(QDropEvent* de, QListViewItem* /* parent */, QList
 					delete move;
 					UMLObject *o = newItem->getUMLObject();
 					if (o == NULL)
-						kdDebug() << "slotDropped: newItem's UMLObject is NULL" 
+						kdDebug() << "slotDropped: newItem's UMLObject is NULL"
 							  << endl;
 					else if (itemType == Uml::lvt_Package)
 						o->setUMLPackage(
@@ -1023,6 +1031,7 @@ UMLListViewItem* UMLListView::createItem(UMLListViewItem& Data, IDChangeLog& IDC
 	case Uml::lvt_Artifact:
 	case Uml::lvt_Interface:
 	case Uml::lvt_Datatype:
+	case Uml::lvt_Enum:
 		newID = IDChanges.findNewID(Data.getID());
 		//if there is no ListViewItem associated with the new ID,
 		//it could exist an Item already asocciated if the user chose to reuse an uml object
@@ -1204,6 +1213,10 @@ Uml::ListView_Type UMLListView::convert_OT_LVT(Uml::UMLObject_Type ot) {
 		type = Uml::lvt_Datatype;
 		break;
 
+	case Uml::ot_Enum:
+		type = Uml::lvt_Enum;
+		break;
+
 	case Uml::ot_Attribute:
 		type = Uml::lvt_Attribute;
 		break;
@@ -1303,6 +1316,10 @@ QPixmap & UMLListView::getPixmap( Icon_Type type ) {
 		return m_Pixmaps.Datatype;
 		break;
 
+	case it_Enum:
+		return m_Pixmaps.Enum;
+		break;
+
 	case it_Actor:
 		return m_Pixmaps.Actor;
 		break;
@@ -1368,6 +1385,7 @@ void UMLListView::loadPixmaps() {
 	m_Pixmaps.Artifact.load( dataDir + "artifact.xpm" );
 	m_Pixmaps.Interface.load( dataDir + "interface.xpm" );
 	m_Pixmaps.Datatype.load( dataDir + "datatype.xpm" );
+	m_Pixmaps.Enum.load( dataDir + "enum.xpm" );
 	m_Pixmaps.Actor.load( dataDir + "actor.xpm" );
 	m_Pixmaps.UseCase.load( dataDir + "case.xpm" );
 	m_Pixmaps.Public_Method.load( dataDir + "CVpublic_meth.png" );
@@ -1432,8 +1450,6 @@ void UMLListView::addNewItem( QListViewItem * parent, Uml::ListView_Type type ) 
 		parent = datatypeFolder;
 	}
 	UMLListViewItem * parentItem = static_cast<UMLListViewItem *>( parent );
-	kdDebug() << "UMLListView::addNewItem: parent type is " << parentItem->getType()
-		  << ", type to add is " << type << endl;
 	UMLListViewItem * newItem = NULL;
 	parent -> setOpen( true );
 	switch( type ) {
@@ -1492,6 +1508,12 @@ void UMLListView::addNewItem( QListViewItem * parent, Uml::ListView_Type type ) 
 		name = getUniqueUMLObjectName( Uml::ot_Datatype );
 		newItem = new UMLListViewItem( parentItem, name, type, (UMLObject*)0 );
 		newItem->setPixmap( 0, getPixmap( it_Datatype ) );
+		break;
+
+	case Uml::lvt_Enum:
+		name = getUniqueUMLObjectName( Uml::ot_Enum );
+		newItem = new UMLListViewItem( parentItem, name, type, (UMLObject*)0 );
+		newItem->setPixmap( 0, getPixmap( it_Enum ) );
 		break;
 
 	case Uml::lvt_Attribute:
@@ -1640,6 +1662,10 @@ bool UMLListView::slotItemRenamed( QListViewItem * item , int /*col*/ ) {
 		createUMLObject( renamedItem, Uml::ot_Datatype );
 		break;
 
+	case Uml::lvt_Enum:
+		createUMLObject( renamedItem, Uml::ot_Enum );
+		break;
+
 	case Uml::lvt_UseCase:
 		createUMLObject( renamedItem, Uml::ot_UseCase );
 		break;
@@ -1735,6 +1761,10 @@ void UMLListView::createUMLObject( UMLListViewItem * item, Uml::UMLObject_Type t
 		object = new UMLDatatype( m_doc, name, m_doc->getUniqueID() );
 		break;
 
+	case Uml::ot_Enum:
+		object = new UMLEnum( m_doc, name, m_doc->getUniqueID() );
+		break;
+
 	default:
 		kdWarning() << "createing UML Object of unknown type" << endl;
 		break;
@@ -1803,6 +1833,7 @@ QString UMLListView::getUniqueUMLObjectName( Uml::UMLObject_Type type ) {
 	QString newArtifact = i18n("new_artifact");
 	QString newInterface = i18n("new_interface");
 	QString newDatatype = i18n("new_datatype");
+	QString newEnum = i18n("new_enum");
 	QString newActor = i18n("new_actor");
 	QString newUseCase = i18n("new_usecase");
 
@@ -1827,6 +1858,8 @@ QString UMLListView::getUniqueUMLObjectName( Uml::UMLObject_Type type ) {
 		name = newInterface;
 	} else if (type == Uml::ot_Datatype) {
 		name = newDatatype;
+	} else if (type == Uml::ot_Enum) {
+		name = newEnum;
 	} else {
 		kdWarning() << "getting unique uml object name for unknown type" << endl;
 	}
@@ -1942,6 +1975,10 @@ bool UMLListView::isUnique( UMLListViewItem * item, QString name ) {
 		return !m_doc->findUMLObject(Uml::ot_Datatype, name);
 		break;
 
+	case Uml::lvt_Enum:
+		return !m_doc->findUMLObject(Uml::ot_Enum, name);
+		break;
+
 	case Uml::lvt_Attribute:
 	{
 		UMLClass * parent = static_cast<UMLClass *>( parentItem  -> getUMLObject() );
@@ -2035,6 +2072,7 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
 			case Uml::lvt_Class:
 			case Uml::lvt_Interface:
 			case Uml::lvt_Datatype:
+			case Uml::lvt_Enum:
 			case Uml::lvt_Actor:
 			case Uml::lvt_UseCase:
 			case Uml::lvt_Package:
@@ -2159,7 +2197,8 @@ bool UMLListView::typeIsCanvasWidget(ListView_Type type) {
 	    type == lvt_Node ||
 	    type == lvt_Artifact ||
 	    type == lvt_Interface ||
-	    type == lvt_Datatype) {
+	    type == lvt_Datatype ||
+	    type == lvt_Enum) {
 		return true;
 	} else {
 		return false;

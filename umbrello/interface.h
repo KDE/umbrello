@@ -35,9 +35,9 @@ public:
 	/**
 	 * Sets up an interface.
 	 *
-	 * @param parent	The parent to this Concept.
-	 * @param name		The name of the Concept.
-	 * @param id		The unique id of the Concept.
+	 * @param parent	The parent to this Interface.
+	 * @param name		The name of the Interface.
+	 * @param id		The unique id of the Interface.
 	 */
 	UMLInterface(UMLDoc * parent, const QString & name = "", int id = -1);
 
@@ -59,14 +59,12 @@ public:
 	virtual QString uniqChildName(const UMLObject_Type type);
 
 	/**
-	 * Creates the <UML:Concept> element including its operations,
-	 * attributes and templates.
+	 * Creates the <UML:Interface> element including its operations.
 	 */
-	virtual bool saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+	virtual bool saveToXMI( QDomDocument& qDoc, QDomElement& qElement );
 
 	/**
-	 * Loads the <UML:Class> element including its operations,
-	 * attributes and templates.
+	 * Loads the <UML:Interface> element including its operations.
 	 */
 	virtual bool loadFromXMI( QDomElement & element );
 
@@ -77,7 +75,7 @@ protected:
 	/**
 	 * Initializes key variables of the class.
 	 */
-	virtual void init(); // doesnt seem to be any reason for this to be public 
+	virtual void init();
 };
 
 #endif // INTERFACE_H 

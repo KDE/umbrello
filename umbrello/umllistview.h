@@ -68,6 +68,7 @@ class UMLListView : public KListView {
 		it_Artifact,
 		it_Interface,
 		it_Datatype,
+		it_Enum,
 		it_Actor,
 		it_UseCase,
 		it_Public_Method,
@@ -257,6 +258,7 @@ class UMLListView : public KListView {
 		QPixmap Artifact;
 		QPixmap Interface;
 		QPixmap Datatype;
+		QPixmap Enum;
 		QPixmap Actor;
 		QPixmap UseCase;
 		QPixmap Public_Method;

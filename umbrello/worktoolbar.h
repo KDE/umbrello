@@ -103,6 +103,7 @@ public:
 	    tbb_Class,
 	    tbb_Interface,
 	    tbb_Datatype,
+	    tbb_Enum,
 	    tbb_Package,
 	    tbb_Component,
 	    tbb_Node,
@@ -151,6 +152,7 @@ private:
 		QPixmap InitialState;
 		QPixmap Interface;
 		QPixmap Datatype;
+		QPixmap Enum;
 		QPixmap MessageAsynchronous;
 		QPixmap MessageSynchronous;
 		QPixmap Node;

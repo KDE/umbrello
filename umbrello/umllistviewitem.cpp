@@ -171,6 +171,10 @@ void UMLListViewItem::updateObject() {
 			setPixmap( 0, s_pListView -> getPixmap( UMLListView::it_Datatype ) );
 			break;
 
+		case Uml::ot_Enum:
+			setPixmap( 0, s_pListView -> getPixmap( UMLListView::it_Enum ) );
+			break;
+
 		case Uml::ot_Operation:
 			if( scope == Uml::Public )
 				setPixmap( 0, s_pListView -> getPixmap( UMLListView::it_Public_Method ) );
@@ -286,6 +290,7 @@ void UMLListViewItem::okRename( int col ) {
 		case Uml::lvt_Package:
 		case Uml::lvt_Interface:
 		case Uml::lvt_Datatype:
+		case Uml::lvt_Enum:
 			object = m_pObject;
 			if( object ) {
 				object = doc -> findUMLObject( object -> getBaseType(), newText );

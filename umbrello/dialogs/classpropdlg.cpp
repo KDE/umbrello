@@ -33,10 +33,11 @@ ClassPropDlg::ClassPropDlg(QWidget *parent, UMLObject * c, int pageNum, bool ass
 	m_pAttPage = 0;
 	m_pOpsPage = 0;
 	m_pTemplatePage = 0;
+	m_pEnumLiteralPage = 0;
 	m_pOptionsPage = 0;
 	m_pColorPage = 0;
 	m_Type = pt_Object;
-	m_pDoc = ((UMLApp *)parent) -> getDocument();
+	m_pDoc = UMLApp::app()->getDocument();
 	m_pObject = c;
 	setupPages(c, assoc);
 	showPage(pageNum);
@@ -49,10 +50,11 @@ ClassPropDlg::ClassPropDlg(QWidget *parent, ObjectWidget * o) : KDialogBase(Icon
 	m_pAttPage = 0;
 	m_pOpsPage = 0;
 	m_pTemplatePage = 0;
+	m_pEnumLiteralPage = 0;
 	m_pOptionsPage = 0;
 	m_Type = pt_ObjectWidget;
 	m_pObject = m_pWidget->getUMLObject();
-	m_pDoc = ((UMLApp *)parent) -> getDocument();
+	m_pDoc = UMLApp::app()->getDocument();
 	QFrame *page = addPage( i18n("General"), i18n("General Settings"), DesktopIcon( "misc") );
 	page -> setMinimumSize(310, 330);
 	QHBoxLayout * topLayout = new QHBoxLayout(page);
@@ -76,6 +78,7 @@ ClassPropDlg::ClassPropDlg(QWidget *parent, UMLWidget * w) : KDialogBase(IconLis
 	m_pAttPage = 0;
 	m_pOpsPage = 0;
 	m_pTemplatePage = 0;
+	m_pEnumLiteralPage = 0;
 	m_pOptionsPage = 0;
 	m_Type = pt_Widget;
 	m_pObject = w -> getUMLObject();
@@ -145,6 +148,9 @@ void ClassPropDlg::slotApply() {
 	if (m_pTemplatePage) {
 		m_pTemplatePage->updateObject();
 	}
+	if (m_pEnumLiteralPage) {
+		m_pEnumLiteralPage->updateObject();
+	}
 	if (m_pOptionsPage) {
 		m_pOptionsPage->updateUMLWidget();
 	}
@@ -189,6 +195,15 @@ void ClassPropDlg::setupPages(UMLObject * c, bool assoc) {
 		QHBoxLayout* templatesLayout = new QHBoxLayout(newPage);
 		templatesLayout->addWidget(m_pTemplatePage);
 		connect(m_pTemplatePage, SIGNAL(sigUpdateChildObject(int)), this, SLOT(slotUpdateChildObject(int)));
+	}
+	if (c->getBaseType() == Uml::ot_Enum) {
+		//setup enum literals page
+		QFrame* newPage = addPage( i18n("Enum Literals"), i18n("Enum Literals Settings"), DesktopIcon("misc") );
+		m_pEnumLiteralPage = new ClassifierListPage(newPage, (UMLClassifier*)c, m_pDoc, ot_EnumLiteral);
+		QHBoxLayout* enumLiteralsLayout = new QHBoxLayout(newPage);
+		enumLiteralsLayout->addWidget(m_pEnumLiteralPage);
+		connect(m_pEnumLiteralPage, SIGNAL(sigUpdateChildObject(int)),
+			this, SLOT(slotUpdateChildObject(int)));
 	}
 	if (assoc) {
 		QFrame* newPage = addPage(i18n("Associations"), i18n("Class Associations"), DesktopIcon( "misc") );
