@@ -2837,4 +2837,10 @@ void UMLView::resizeCanvasToItems() {
 	setCanvasSize(canvasWidth, canvasHeight);
 }
 
+void UMLView::show() {
+	QWidget::show();
+	resizeCanvasToItems();
+}
+
+
 #include "umlview.moc"

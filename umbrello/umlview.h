@@ -932,6 +932,12 @@ public slots:
 		getDocument() -> changeCurrentView( m_pData -> getID() );
 	}
 
+	/**
+	 *  Overrides standard method from QWidget to resize canvas when
+	 *   it's shown.
+	 */
+	void show();
+
 signals:
 	void sigResetToolBar();
 	void sigColorChanged( int );
