@@ -188,10 +188,10 @@ void SettingsDlg::setupClassPage() {
 	scopeLayout -> setSpacing( spacingHint() );
 	scopeLayout -> setMargin(  fontMetrics().height()  );
  
-        m_ClassWidgets.attributeLabel = new QLabel( i18n("Default Attribute Scope:"), m_ClassWidgets.scopeGB);
+        m_ClassWidgets.attributeLabel = new QLabel( i18n("Default attribute scope:"), m_ClassWidgets.scopeGB);
         scopeLayout -> addWidget( m_ClassWidgets.attributeLabel, 0, 0 );
 
-        m_ClassWidgets.operationLabel = new QLabel( i18n("Default Operation Scope:"), m_ClassWidgets.scopeGB);
+        m_ClassWidgets.operationLabel = new QLabel( i18n("Default operation scope:"), m_ClassWidgets.scopeGB);
         scopeLayout -> addWidget( m_ClassWidgets.operationLabel, 1, 0 );
 
         m_ClassWidgets.m_pAttribScopeCB = new QComboBox(m_ClassWidgets.scopeGB);

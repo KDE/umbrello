@@ -70,7 +70,7 @@ ClassifierListPage::ClassifierListPage(QWidget* parent, UMLClassifier* classifie
 	m_pDeleteListItemButton = buttonBox->addButton( i18n("&Delete"),
 							  this, SLOT(slotDelete()) );
 	m_pPropertiesButton = buttonBox->addButton( i18n("&Properties"), this, SLOT(slotProperties()) );
-	buttonBox->addButton( i18n("Ne&w Stereotype"), this, SLOT(slotNewStereotype()) );
+	buttonBox->addButton( i18n("Ne&w Stereotype..."), this, SLOT(slotNewStereotype()) );
 	attsLayout->addMultiCellWidget(buttonBox, 1, 1, 0, 1);
 
 	mainLayout->addWidget(m_pItemListGB);

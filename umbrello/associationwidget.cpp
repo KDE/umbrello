@@ -2476,7 +2476,7 @@ void AssociationWidget::slotMenuSelection(int sel) {
 			oldText = m_pRoleB -> getText();
 		else
 			oldText = "";
-		newText = KInputDialog::getText(i18n("Role Name"), i18n("Enter role name"), oldText, 0, m_pView);
+		newText = KInputDialog::getText(i18n("Role Name"), i18n("Enter role name:"), oldText, 0, m_pView);
 		if( result && newText != oldText && FloatingText::isTextValid(newText) ) {
 			setRoleNameB(newText);
 		}

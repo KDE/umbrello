@@ -205,18 +205,18 @@ void FloatingText::handleRename() {
 	QString t;
 
 	if( m_Role == tr_RoleAName || m_Role == tr_RoleBName ) {
-		t = i18n("Enter role name");
+		t = i18n("Enter role name:");
 	} else if (m_Role == tr_MultiA || m_Role == tr_MultiB) {
-		t = i18n("Enter multiplicity");
+		t = i18n("Enter multiplicity:");
 		/*
 		// NO! shouldnt be allowed
 		} else if( m_Role == tr_ChangeA || m_Role == tr_ChangeB ) {
 		t = i18n("Enter changeability");
 		*/
 	} else if (m_Role == tr_Name) {
-		t = i18n("Enter association name");
+		t = i18n("Enter association name:");
 	} else if (m_Role == tr_Floating) {
-		t = i18n("Enter new text");
+		t = i18n("Enter new text:");
 	} else {
 		t = i18n("ERROR");
 	}

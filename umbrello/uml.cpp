@@ -202,29 +202,29 @@ void UMLApp::initActions() {
 
 	// The different views
         newDiagram = new KActionMenu(0, SmallIconSet("filenew"), actionCollection(), "new_view");
-	classDiagram = new KAction( i18n( "&Class Diagram" ), SmallIconSet("folder_green"), 0,
+	classDiagram = new KAction( i18n( "&Class Diagram..." ), SmallIconSet("folder_green"), 0,
 	                            this, SLOT( slotClassDiagram() ), actionCollection(), "new_class_diagram" );
 
-	sequenceDiagram= new KAction( i18n( "&Sequence Diagram" ), SmallIconSet("folder_green"), 0,
+	sequenceDiagram= new KAction( i18n( "&Sequence Diagram..." ), SmallIconSet("folder_green"), 0,
 	                              this, SLOT( slotSequenceDiagram() ), actionCollection(), "new_sequence_diagram" );
 
-	collaborationDiagram = new KAction( i18n( "C&ollaboration Diagram" ), SmallIconSet("folder_green"), 0,
+	collaborationDiagram = new KAction( i18n( "C&ollaboration Diagram..." ), SmallIconSet("folder_green"), 0,
 	                                    this, SLOT( slotCollaborationDiagram() ), actionCollection(), "new_collaboration_diagram" );
 
-	useCaseDiagram= new KAction( i18n( "&Use Case Diagram" ), SmallIconSet("folder_grey"), 0,
+	useCaseDiagram= new KAction( i18n( "&Use Case Diagram..." ), SmallIconSet("folder_grey"), 0,
 	                             this, SLOT( slotUseCaseDiagram() ), actionCollection(), "new_use_case_diagram" );
 
-	stateDiagram= new KAction( i18n( "S&tate Diagram" ), SmallIconSet("folder_green"), 0,
+	stateDiagram= new KAction( i18n( "S&tate Diagram..." ), SmallIconSet("folder_green"), 0,
 	                           this, SLOT( slotStateDiagram() ), actionCollection(), "new_state_diagram" );
 
-	activityDiagram= new KAction( i18n( "&Activity Diagram" ), SmallIconSet("folder_green"), 0,
+	activityDiagram= new KAction( i18n( "&Activity Diagram..." ), SmallIconSet("folder_green"), 0,
 	                              this, SLOT( slotActivityDiagram() ), actionCollection(), "new_activity_diagram" );
 
-	componentDiagram = new KAction( i18n("Co&mponent Diagram"), SmallIconSet("folder_red"), 0,
+	componentDiagram = new KAction( i18n("Co&mponent Diagram..."), SmallIconSet("folder_red"), 0,
 					this, SLOT( slotComponentDiagram() ), actionCollection(),
 					"new_component_diagram" );
 
-	deploymentDiagram = new KAction( i18n("&Deployment Diagram"), SmallIconSet("folder_violet"), 0,
+	deploymentDiagram = new KAction( i18n("&Deployment Diagram..."), SmallIconSet("folder_violet"), 0,
 					this, SLOT( slotDeploymentDiagram() ), actionCollection(),
 					"new_deployment_diagram" );
 
