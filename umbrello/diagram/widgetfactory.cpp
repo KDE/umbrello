@@ -33,7 +33,7 @@ namespace Umbrello{
 
 DiagramElement* WidgetFactory:: createUMLWidget( UMLObject *obj , Diagram *parent )
 {
-	DiagramElement *w;
+	DiagramElement *w(0L);
 	int id = parent->document()->getUniqueID();
 	
 	type_info &type = typeid(*obj);
