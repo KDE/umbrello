@@ -90,6 +90,7 @@ UMLView::UMLView(QWidget* parent, UMLDoc* doc) : QCanvasView(parent, "AnUMLView"
 void UMLView::init() {
 	// Initialize loaded/saved data
 	m_nID = -1;
+	m_pDoc = NULL;
 	m_Documentation = "";
 	m_Name = "umlview";
 	m_Type = dt_Undefined;

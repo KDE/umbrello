@@ -372,7 +372,7 @@ void UMLWidget::mouseReleaseEvent(QMouseEvent *me) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLWidget::init() {
-	m_nId = -1;
+	m_nId = m_nOldID = -1;
 	m_Type = wt_UMLWidget;
 	m_bIsInstance = false;
 	if (m_pView) {

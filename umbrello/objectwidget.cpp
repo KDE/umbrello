@@ -28,21 +28,12 @@
 static const int sequenceLineMargin = 20;
 
 ObjectWidget::ObjectWidget(UMLView * view, UMLObject *o, int lid) : UMLWidget(view, o) {
-	m_pLine = 0;
-	m_nLocalID = lid;
-	m_InstanceName = "";
-	m_bMultipleInstance = false;
-	m_bDrawAsActor = false;
-	calculateSize();
 	init();
+	m_nLocalID = lid;
+	calculateSize();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ObjectWidget::ObjectWidget(UMLView *view) : UMLWidget(view) {
-	m_pLine = 0;
-	m_nLocalID = -1;
-	m_InstanceName = "";
-	m_bMultipleInstance = false;
-	m_bDrawAsActor = false;
 	init();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -50,8 +41,13 @@ void ObjectWidget::init() {
 	UMLWidget::setBaseType(wt_Object);
 	m_Doc = "";
 	m_nOldID = 0;
+	m_nLocalID = -1;
+	m_InstanceName = "";
+	m_bMultipleInstance = false;
+	m_bDrawAsActor = false;
+	m_bShowDestruction = false;
 	messageWidgetList.setAutoDelete(false);
-	if( m_pView -> getType() == dt_Sequence ) {
+	if( m_pView != NULL && m_pView -> getType() == dt_Sequence ) {
 		m_pLine = new SeqLineWidget( m_pView, this );
 	} else {
 		m_pLine = NULL;

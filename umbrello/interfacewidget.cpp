@@ -34,23 +34,25 @@ InterfaceWidget::InterfaceWidget(UMLView * view) : UMLWidget(view) {
 void InterfaceWidget::init() {
 	UMLWidget::setBaseType(wt_Interface);
 	m_pMenu = 0;
+	m_bDrawAsCircle = false;
 	//set defaults from m_pView
 	if(m_pView) {
 		//check to see if correct
 		const SettingsDlg::OptionState& ops = m_pView->getOptionState();
+		m_bShowScope = ops.classState.showScope;
 		setShowOpSigs( ops.classState.showOpSig );
 		m_bShowOperations = ops.classState.showOps;
 		m_bShowPackage = ops.classState.showPackage;
-		m_bShowScope = ops.classState.showScope;
-		updateSigs();
+	} else {
+		// For completeness only. Not supposed to happen.
+		m_bShowScope = true;
+		m_ShowOpSigs = Uml::st_NoSig;
+		m_bShowOperations = true;
+		m_bShowPackage = false;
 	}
-	//maybe loading and this may not be set.
-	if( m_pObject ) {
+	updateSigs();
+	if( m_pObject )
 		initUMLObject( m_pObject );
-		calculateSize();
-		update();
-	}
-	setDrawAsCircle(false);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 InterfaceWidget::~InterfaceWidget() {}
