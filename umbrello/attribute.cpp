@@ -136,12 +136,31 @@ bool UMLAttribute::resolveType() {
 			// We're dealing with the older Umbrello format where the
 			// attribute type name was saved in the "type" rather than the
 			// xmi.id of the model object of the attribute type.
-			kdDebug() << "UMLAttribute::resolveType: Creating new type for "
-				  << m_TypeName << endl;
-			if (m_TypeName.contains( QRegExp("\\W") ))
-				typeObj = pDoc->createUMLObject(ot_Datatype, m_TypeName);
-			else
-				typeObj = pDoc->createUMLObject(ot_Class, m_TypeName);
+
+			// Hack: Replace "::" because UMLDoc::findUMLObject() is
+			// sensitive to "::".
+			m_TypeName.replace( "::", "." );
+			typeObj = pDoc->findUMLObject( m_TypeName );
+			if (typeObj) {
+				m_pType = dynamic_cast<UMLClassifier*>(typeObj);
+				if (m_pType == NULL) {
+					kdError() << "UMLAttribute::resolveType(" << m_Name
+						  << "): type with id " << m_TypeName
+						  << " is not a UMLClassifier" << endl;
+					return false;
+				}
+				m_TypeName = "";
+			} else {
+				kdDebug() << "UMLAttribute::resolveType: Creating new type for "
+					  << m_TypeName << endl;
+				//FIXME: This is very C++ specific - we rely on
+				//       some '*' or '&' to decide it's a ref type.
+				if ( m_TypeName.contains('*') ||
+				     m_TypeName.contains('&') )
+					typeObj = pDoc->createUMLObject(ot_Datatype, m_TypeName);
+				else
+					typeObj = pDoc->createUMLObject(ot_Class, m_TypeName);
+			}
 		} else {
 			// It's not an Umbrello format.
 			m_pType = dynamic_cast<UMLClassifier*>(typeObj);
