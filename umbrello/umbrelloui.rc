@@ -1,0 +1,41 @@
+<!DOCTYPE kpartgui>
+<kpartgui name="umbrello" version="1.1">
+<MenuBar>
+  <Menu name="edit"><text>&amp;Edit</text>
+    <Action name="delete_selected"/>
+  </Menu>
+  <Menu name="views"><text>&amp;Diagram</text>
+    <Menu name="new_view"><text>New</text>
+      <Action name="new_class_diagram"/>
+      <Action name="new_sequence_diagram"/>
+      <Action name="new_collaboration_diagram"/>
+      <Action name="new_use_case_diagram"/>
+      <Action name="new_state_diagram"/>
+      <Action name="new_activity_diagram"/>
+    </Menu>
+    <Menu name="show_view"><text>Show</text>
+      <ActionList name="view_list">
+      </ActionList>
+    </Menu>
+    <Action name="view_clear_diagram"/>
+    <Action name="view_snap_to_grid"/>
+    <Action name="view_show_grid"/>
+    <Action name="view_delete"/>
+    <Action name="view_export_image"/>
+    <Action name="view_properties"/>
+  </Menu>
+
+  <Menu name="settings"><text>&amp;Settings</text>
+    <Action name="Show_Documentation"/>
+    <Action name="Configure_UML"/>
+  </Menu>
+  <Menu name="code"><text>&amp;Code</text>
+    <Action name="import_class"/>
+    <Action name="generation_wizard"/>
+    <Action name="generate_all"/>
+    <Action name="configure_languages"/>
+    <Separator/>
+    <Action name="class_wizard"/>
+  </Menu>
+</MenuBar>
+</kpartgui>

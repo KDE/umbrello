@@ -10,13 +10,13 @@ EXTRA_DIST = actor.h actorwidgetdata.h actorwidget.h associationwidgetdata.h ass
 KDE_ICON=AUTO
 
 appdir=$(kde_datadir)/umbrello
-app_DATA = tips umlui.rc
+app_DATA = tips umbrelloui.rc
 
 appsdir = $(kde_appsdir)/Development
-apps_DATA = uml.desktop
+apps_DATA = umbrello.desktop
 
 mimedir = $(kde_mimedir)/application
-mime_DATA = x-uml.desktop
+mime_DATA = x-umbrello.desktop
 
 INCLUDES= -Idialogs $(all_includes)
 
