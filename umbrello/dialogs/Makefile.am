@@ -10,12 +10,10 @@ libdialogs_la_SOURCES = classpropertiesbase.ui \
 			codegenerationwizardbase.ui \
 			codeviewerdialogbase.ui \
 			codevieweroptionsbase.ui \
-			configgeneratorsbase.ui \
 			diagrampropertiespage.ui \
 			interfacepropertiesbase.ui \
 			packagepropertiesbase.ui \
 			parameterpropertiesbase.ui \
-			sellanguagesbase.ui \
 			umlobjectassociationsbase.ui \
 			umlrolepropertiesbase.ui \
 activitydialog.cpp \
