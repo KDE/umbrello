@@ -69,7 +69,7 @@ public:
 private:
 
 	/**
-	 * Writes class's documentation then the class header
+	 * Writes class's documentation to the class header
 	 * public abstract class Foo extents {
 	 */
 	void writeClassDecl(UMLClassifier *c, QTextStream &cpp); 
@@ -95,16 +95,16 @@ private:
 	/**
 	 * write all operations for a given class
 	 * @param c the class for which we are generating code
-	 * @param i whether or not we are writing this to a source or header file
-	 * @param j what type of method to write (by Scope)
-	 * @param k the stream associated with the output file
+	 * @param isHeaderMethod true when writing to a header file, false for body file
+	 * @param permitScope what type of method to write (by Scope)
+	 * @param j the stream associated with the output file
 	 */
 	void writeOperations(UMLClassifier *c, bool isHeaderMethod, Uml::Scope permitScope, QTextStream &j);
 
 	/**
 	 * write a list of operations for a given class
 	 * @param list the list of operations you want to write
-	 * @param i whether or not we are writing this to a source or header file
+	 * @param isHeaderMethod true when writing to a header file, false for body file
 	 * @param j the stream associated with the output file
 	 */
 	void writeOperations(UMLOperationList &list, bool isHeaderMethod, QTextStream &j);
@@ -163,7 +163,7 @@ private:
 
 	/**
 	 * calls @ref writeSingleAttributeAccessorMethods() or @ref
-	 * writeVectorAttributeAccessorMethods() on the assocaition
+	 * writeVectorAttributeAccessorMethods() on the association
 	 * role
 	 */
 	void writeAssociationRoleMethod(QString fieldClassName, bool isHeaderMethod, bool writeMethodBody, QString roleName, QString multi, 
@@ -206,7 +206,7 @@ private:
 	void writeHeaderFile (UMLClassifier *c, QFile &file);
 
 	/**
-	 * write the source code file for this classifier.
+	 * write the source code body file for this classifier.
 	 */
 	void writeSourceFile (UMLClassifier *c, QFile &file);
 
@@ -272,11 +272,6 @@ private:
 	QString INDENT;
 
 	/**
-	 * A \n, used at the end of each line
-	 */
-	QString startline;
-
-	/**
 	 * Summary information about current classifier.
 	 */
 	ClassifierInfo * classifierInfo;
@@ -305,7 +300,7 @@ private:
 	bool INLINE_OPERATION_METHODS;
 
 	/**
-	 * Constrol whether or not we want to write the package name as a namespace
+	 * Control whether or not we want to write the package name as a namespace
 	 * in our class.
 	 */
 	bool WRITE_PACKAGE_NAMESPACE;
