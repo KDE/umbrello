@@ -99,6 +99,9 @@ public:
 
 protected:
 
+        // reset/clear our inventory of textblocks in this document
+        void resetTextBlocks();
+
        /**
          * need to overwrite this for java since we need to pick up the 
 	 * java class declaration block.

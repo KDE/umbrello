@@ -407,8 +407,8 @@ kdWarning()<<" Syncronize code doc:"<<this<<endl;
 
 // need to overload method to beable to clear the childTextBlockMap
 void CodeDocument::resetTextBlocks() {
-	m_childTextBlockTagMap->clear();
 	CodeGenObjectWithTextBlocks::resetTextBlocks();
+	m_childTextBlockTagMap->clear();
 }
 
 /**

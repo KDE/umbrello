@@ -61,6 +61,14 @@ CodeDocument * CodeClassFieldDeclarationBlock::getParentDocument ( ) {
 // Other methods
 //
 
+// this type of textblock is special
+// we DONT release it when resetTextBlocks is
+// called because we re-use it over and over
+// until the codeclassfield is released.
+void CodeClassFieldDeclarationBlock::release () {
+        // do nothing
+}
+
 /**
  * Save the XMI representation of this object
  * @return      bool    status of save

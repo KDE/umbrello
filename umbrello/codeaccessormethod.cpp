@@ -77,6 +77,15 @@ void CodeAccessorMethod::setType ( CodeAccessorMethod::AccessorType atype) {
 // Other methods
 //  
 
+
+// this type of textblock is special
+// we DONT release it when resetTextBlocks is 
+// called because we re-use it over and over
+// until the codeclassfield is released.
+void CodeAccessorMethod::release () {
+	// do nothing	
+}
+
 /**
  * load params from the appropriate XMI element node.
  */

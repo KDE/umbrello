@@ -411,4 +411,9 @@ void HierarchicalCodeBlock::initAttributes ( ) {
 	m_endText = "";
 }
 
+void HierarchicalCodeBlock::release () {
+	resetTextBlocks();
+	TextBlock::release();
+}
+
 #include "hierarchicalcodeblock.moc"

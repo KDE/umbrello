@@ -23,7 +23,6 @@
 
 #include "ownedcodeblock.h"
 #include "codeblockwithcomments.h"
-#include "codeparameter.h"
 #include "umlnamespace.h"
 
 class ClassifierCodeDocument;

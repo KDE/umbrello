@@ -12,7 +12,6 @@
  *      Author : thomas
  *      Date   : Tue Aug 19 2003
  */
-
 #include <kdebug.h>
 #include "codegenobjectwithtextblocks.h"
 
@@ -32,11 +31,11 @@ CodeGenObjectWithTextBlocks::CodeGenObjectWithTextBlocks ( )
 
 CodeGenObjectWithTextBlocks::~CodeGenObjectWithTextBlocks ( ) { 
 
-      // delete all the text blocks we have
+        // delete all the text blocks we have
         for (TextBlock *tb = m_textblockVector.first(); tb; tb=m_textblockVector.next())
-                delete tb;
-	m_textblockVector.clear();
+		delete tb;
 
+	m_textblockVector.clear();
 }
 
 //  
@@ -108,6 +107,7 @@ HierarchicalCodeBlock * CodeGenObjectWithTextBlocks::getHierarchicalCodeBlock (Q
                 if(!addTextBlock(codeBlock))
                         return (HierarchicalCodeBlock*) NULL;
         }
+
         codeBlock->setOverallIndentationLevel (indentLevel);
         codeBlock->getComment()->setText(comment);
 
@@ -214,6 +214,8 @@ CodeBlockWithComments * CodeGenObjectWithTextBlocks::addOrUpdateTaggedCodeBlockW
 }
 
 void CodeGenObjectWithTextBlocks::resetTextBlocks() {
+        for (TextBlock *tb = m_textblockVector.first(); tb; tb=m_textblockVector.next())
+                tb->release();
         m_textBlockTagMap->clear();
         m_textblockVector.clear();
 }
@@ -290,8 +292,10 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( QDomElement & ro
 		                        CodeComment * block = newCodeComment();
 		                        block->loadFromXMI(element);
 		                        if(!addTextBlock(block))
-		                        	kdWarning()<<"Unable to add codeComment to :"<<this<<endl;
-		                        else
+					{
+		                        	kdError()<<"Unable to add codeComment to :"<<this<<endl;
+						block->deleteLater();
+		                        } else
 		                        	gotChildren= true;
 		                } else 
 		                if( name == "codeaccessormethod" || 
@@ -301,7 +305,7 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( QDomElement & ro
 					// search for our method in the 
 		                        TextBlock * tb = findCodeClassFieldTextBlockByTag(acctag);
 		                        if(!tb || !addTextBlock(tb, true))
-		                                kdWarning()<<"Unable to add codeaccessormethod to:"<<this<<endl;
+		                                kdError()<<"Unable to add codeaccessormethod to:"<<this<<endl;
 		                        else
 		                                gotChildren= true;
 		               	} else
@@ -309,16 +313,20 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( QDomElement & ro
 		                        CodeBlock * block = newCodeBlock();
 		                        block->loadFromXMI(element);
 		                        if(!addTextBlock(block))
-		                                kdWarning()<<"Unable to add codeBlock to :"<<this<<endl;
-		                        else
+					{
+		                                kdError()<<"Unable to add codeBlock to :"<<this<<endl;
+						block->deleteLater();
+		                        } else
 		                                gotChildren= true;
 		                } else 
 		                if( name == "codeblockwithcomments" ) {
 		                        CodeBlockWithComments * block = newCodeBlockWithComments();
 		                        block->loadFromXMI(element);
 		                        if(!addTextBlock(block))
-		                                kdWarning()<<"Unable to add codeBlockwithcomments to:"<<this<<endl;
-		                        else
+					{
+		                                kdError()<<"Unable to add codeBlockwithcomments to:"<<this<<endl;
+						block->deleteLater();
+		                        } else
 		                                gotChildren= true;
 		                } else 
 		                if( name == "header" ) {
@@ -328,12 +336,15 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( QDomElement & ro
 		                        HierarchicalCodeBlock * block = newHierarchicalCodeBlock();
 		                        block->loadFromXMI(element);
 		                        if(!addTextBlock(block))
-		                                kdWarning()<<"Unable to add hierarchicalcodeBlock to:"<<this<<endl;
-					else
+					{
+		                                kdError()<<"Unable to add hierarchicalcodeBlock to:"<<this<<endl;
+						block->deleteLater();
+					} else
 		                                gotChildren= true;
 		                } else 
 		               	if( name == "codeoperation" ) {
-					// find the code operation by id
+                                        // search for our operation in this parent
+					QString optag = element.attribute("tag","");
 		                        QString id = element.attribute("parent_id","-1");
 					UMLObject * obj = getParentGenerator()->getDocument()->findUMLObject(id.toInt());
 					UMLOperation * op = dynamic_cast<UMLOperation*>(obj);
@@ -342,10 +353,12 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( QDomElement & ro
 		                        	block->loadFromXMI(element);
 		                        	if(addTextBlock(block))
 		                                	gotChildren= true;
+						else
+							block->deleteLater();
 					} else 
-		                              kdWarning()<<"Unable to add codeoperation to:"<<this<<endl;
+		                              kdError()<<"Unable to add codeoperation to:"<<this<<endl;
 		                } else
-					kdWarning()<<" ERROR: Got strange tag in text block stack:"<<name<<" ignoring."<<endl;
+					kdError()<<" ERROR: Got strange tag in text block stack:"<<name<<" ignoring."<<endl;
 			
                 		node = element.nextSibling();
                 		element = node.toElement();

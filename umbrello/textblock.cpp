@@ -159,6 +159,10 @@ QString TextBlock::getIndentationString ( int level ) {
 // Other methods
 //  
 
+void TextBlock::release () {
+	this->deleteLater();
+}
+
 QString TextBlock::formatMultiLineText ( const QString &work, const QString &linePrefix, 
                                          QString breakStr, bool addBreak, bool lastLineHasBreak ) {
         QString output = "";

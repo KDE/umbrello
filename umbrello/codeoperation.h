@@ -92,7 +92,7 @@ public:
 protected:
 
 	// list of parameters used by this code operation.
-	QPtrList<CodeParameter> m_parameterVector;
+	// QPtrList<CodeParameter> m_parameterVector;
 
         /** set attributes of the node that represents this class
          * in the XMI document.

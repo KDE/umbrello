@@ -29,6 +29,7 @@ class CodeBlockWithComments;
 class CodeClassField;
 class CodeComment; 
 class CodeDocument; 
+class CodeGenerator;
 class CodeOperation; 
 class HierarchicalCodeBlock; 
 class TextBlock;

@@ -80,6 +80,8 @@ public:
 
 protected:
 
+	virtual void release ();
+
         /** set attributes of the node that represents this class
          * in the XMI document.
          */

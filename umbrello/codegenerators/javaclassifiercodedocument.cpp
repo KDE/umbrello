@@ -382,6 +382,14 @@ QString JavaClassifierCodeDocument::scopeToJavaDecl(Uml::Scope scope)
         return scopeString;
 }
 
+void JavaClassifierCodeDocument::resetTextBlocks()
+{
+	ClassifierCodeDocument::resetTextBlocks();
+	operationsBlock = 0;
+	constructorBlock = 0;
+	classDeclCodeBlock = 0;
+}
+
 // This method will cause the class to rebuild its text representation.
 // based on the parent classifier object.
 // For any situation in which this is called, we are either building the code
