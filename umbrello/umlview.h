@@ -503,6 +503,11 @@ public:
 	 */
 	bool widgetOnDiagram(Uml::IDType id);
 
+	/**
+	 * Returns true if this diagram resides in an externalized folder.
+	 * CHECK: It is probably cleaner to move this to the UMLListViewItem.
+	 */
+	bool isSavedInSeparateFile();
 
 	/**
 	 * Get the pos variable.  Used internally to keep track of the cursor.

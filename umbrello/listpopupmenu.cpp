@@ -15,6 +15,8 @@
 #include "listpopupmenu.h"
 #include "umlwidget.h"
 #include "umldoc.h"
+#include "umllistview.h"
+#include "umllistviewitem.h"
 #include "classifierwidget.h"
 #include "classwidget.h"
 #include "interfacewidget.h"
@@ -33,7 +35,7 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, Menu_Type type, UMLView * view)
 	init();
 	setupMenu(type, view);
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 //ListPopupMenu for the tree list view
 ListPopupMenu::ListPopupMenu(QWidget *parent, Uml::ListView_Type type)
   : KPopupMenu(parent) {
@@ -454,12 +456,14 @@ void ListPopupMenu::insertStdItem(Menu_Type m)
 	case mt_Clone:
 		insertItem(i18n("Duplicate"), mt_Clone);
 		break;
-
+	case mt_Externalize_Folder:
+		insertItem(i18n("Externalize Folder..."), mt_Externalize_Folder);
+		break;
+	case mt_Internalize_Folder:
+		insertItem(i18n("Internalize Folder"), mt_Internalize_Folder);
+		break;
 	case mt_Import_Classes:
 		insertItem(BarIcon("source_cpp"), i18n("Import Classes..."), mt_Import_Classes);
-		break;
-	case mt_Component_Folder:
-		m_pInsert->insertItem(BarIcon("folder_new"), i18n("Folder"), mt_Component_Folder);
 		break;
 	case mt_Component:
 		m_pInsert->insertItem(m_pixmap[pm_Component], i18n("Component"), mt_Component);
@@ -479,7 +483,10 @@ void ListPopupMenu::insertStdItem(Menu_Type m)
 				      mt_Deployment_Diagram);
 		break;
 	case mt_Deployment_Folder:
-		m_pInsert->insertItem(BarIcon("folder_new"), i18n("Folder"), mt_Deployment_Folder);
+	case mt_Component_Folder:
+	case mt_UseCase_Folder:
+	case mt_EntityRelationship_Folder:
+		m_pInsert->insertItem(BarIcon("folder_new"), i18n("Folder"), m);
 		break;
 	case mt_Entity:
 		m_pInsert->insertItem(m_pixmap[pm_Entity], i18n("Entity"), mt_Entity);
@@ -487,12 +494,6 @@ void ListPopupMenu::insertStdItem(Menu_Type m)
 	case mt_EntityRelationship_Diagram:
 		m_pInsert->insertItem(Umbrello::iconSet(Uml::dt_EntityRelationship), i18n("Entity Relationship Diagram..."),
 				      mt_EntityRelationship_Diagram);
-		break;
-	case mt_UseCase_Folder:
-		m_pInsert->insertItem(BarIcon("folder_new"), i18n("Folder"), mt_UseCase_Folder);
-		break;
-	case mt_EntityRelationship_Folder:
-		m_pInsert->insertItem(BarIcon("folder_new"), i18n("Folder"), mt_EntityRelationship_Folder);
 		break;
 	case mt_Actor:
 		m_pInsert->insertItem(m_pixmap[pm_Actor], i18n("Actor"), mt_Actor);
@@ -579,6 +580,16 @@ void ListPopupMenu::insertAssocItem(const QString &label, Menu_Type mt) {
 	insertStdItem(mt_Change_Font);
 	insertStdItem(mt_Reset_Label_Positions);
 	insertStdItem(mt_Properties);
+}
+
+void ListPopupMenu::insertSubmodelAction() {
+	UMLListView *listView = UMLApp::app()->getListView();
+	UMLListViewItem *current = static_cast<UMLListViewItem*>(listView->currentItem());
+	QString submodelFile = current->getFolderFile();
+	if (submodelFile.isEmpty())
+		insertStdItem(mt_Externalize_Folder);
+	else
+		insertStdItem(mt_Internalize_Folder);
 }
 
 void ListPopupMenu::makeMultiClassifierPopup(ClassifierWidget *c)
@@ -831,6 +842,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 			insertContainerItems(true);
 			insertStdItems();
 			insertStdItem(mt_Import_Classes);
+			insertSubmodelAction();
 			insertSeparator();
 			insertStdItem(mt_Expand_All);
 			insertStdItem(mt_Collapse_All);
@@ -844,6 +856,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 			insertStdItem(mt_Component_Diagram);
 			insertFileNew();
 			insertStdItems();
+			insertSubmodelAction();
 			insertSeparator();
 			insertStdItem(mt_Expand_All);
 			insertStdItem(mt_Collapse_All);
@@ -856,6 +869,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 			insertStdItem(mt_Deployment_Diagram);
 			insertFileNew();
 			insertStdItems();
+			insertSubmodelAction();
 			insertSeparator();
 			insertStdItem(mt_Expand_All);
 			insertStdItem(mt_Collapse_All);
@@ -869,6 +883,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 			insertStdItem(mt_UseCase_Diagram);
 			insertFileNew();
 			insertStdItems();
+			insertSubmodelAction();
 			insertSeparator();
 			insertStdItem(mt_Expand_All);
 			insertStdItem(mt_Collapse_All);
@@ -881,6 +896,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 			insertStdItem(mt_EntityRelationship_Diagram);
 			insertFileNew();
 			insertStdItems();
+			insertSubmodelAction();
 			insertSeparator();
 			insertStdItem(mt_Expand_All);
 			insertStdItem(mt_Collapse_All);
@@ -1192,3 +1208,4 @@ void ListPopupMenu::setupDiagramMenu(UMLView* view) {
 	setItemChecked(mt_ShowSnapGrid, view->getShowSnapGrid() );
 	insertStdItem(mt_Properties);
 }
+

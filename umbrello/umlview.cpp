@@ -1166,6 +1166,30 @@ Uml::IDType UMLView::getLocalID() {
 	return EXTERNALIZE_ID(m_nLocalID);
 }
 
+bool UMLView::isSavedInSeparateFile() {
+	const QString msgPrefix("UMLView::isSavedInSeparateFile(" + getName() + "): ");
+	UMLListView *listView = UMLApp::app()->getListView();
+	UMLListViewItem *lvItem = listView->findItem(m_nID);
+	if (lvItem == NULL) {
+		kdError() << msgPrefix
+			  << "listView->findUMLObject(this) returns false"
+			  << endl;
+		return false;
+	}
+	UMLListViewItem *parentItem = dynamic_cast<UMLListViewItem*>( lvItem->parent() );
+	if (parentItem == NULL) {
+		kdError() << msgPrefix
+			  << "parent item in listview is not a UMLListViewItem (?)"
+			  << endl;
+		return false;
+	}
+	const Uml::ListView_Type lvt = parentItem->getType();
+	if (! UMLListView::typeIsFolder(lvt))
+		return false;
+	QString folderFile = parentItem->getFolderFile();
+	return !folderFile.isEmpty();
+}
+
 void UMLView::contentsMousePressEvent(QMouseEvent* ome)
 {
 	m_pToolBarState->mousePress(ome);
@@ -1987,7 +2011,7 @@ void UMLView::removeAssocInViewAndDoc(AssociationWidget* a) {
 					UMLListView::convert_OT_LVT(ot),
 					lv->theLogicalView() );
 		} else {
-			kdDebug() << "UMLDoc::removeAssociation(containment): "
+			kdDebug() << "removeAssocInViewAndDoc(containment): "
 				  << "objB is NULL" << endl;
 		}
 	} else {

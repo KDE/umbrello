@@ -1,3 +1,17 @@
+Version 1.5
+
+* Externalization of folders (i.e. submodel files)
+  http://bugs.kde.org/87252
+
+
+Version 1.4.1 (maintenance release)
+Bugs fixed:
+* Crash on deleting attributes / enum literals
+* Crash in UMLView::createAutoAttributeAssociations()
+* Corrected top/bottom relation association attachments
+* Bugs from http://bugs.kde.org :
+53376 57667 100290 100307 101148
+
 Version 1.4
 
 * Entity relationship diagrams
@@ -29,8 +43,6 @@ Version 1.4
 94728 94795 94883 95082 95247 95252 95722 95924 95951 95954
 96216 96221 96964 97155 97182 97697 97887 97984 98603 98899
  99697 100142
-Version 1.4.1:
-53376 57667 100290 100307
 
 Version 1.3
 

@@ -67,6 +67,30 @@ void UMLObject::init() {
 }
 
 
+bool UMLObject::isSavedInSeparateFile() {
+	const QString msgPrefix("UMLObject::isSavedInSeparateFile(" + m_Name + "): ");
+	UMLListView *listView = UMLApp::app()->getListView();
+	UMLListViewItem *lvItem = listView->findUMLObject(this);
+	if (lvItem == NULL) {
+		kdError() << msgPrefix
+			  << "listView->findUMLObject(this) returns false"
+			  << endl;
+		return false;
+	}
+	UMLListViewItem *parentItem = dynamic_cast<UMLListViewItem*>( lvItem->parent() );
+	if (parentItem == NULL) {
+		kdError() << msgPrefix
+			  << "parent item in listview is not a UMLListViewItem (?)"
+			  << endl;
+		return false;
+	}
+	const Uml::ListView_Type lvt = parentItem->getType();
+	if (! UMLListView::typeIsFolder(lvt))
+		return false;
+	QString folderFile = parentItem->getFolderFile();
+	return !folderFile.isEmpty();
+}
+
 bool UMLObject::acceptAssociationType(Uml::Association_Type)
 {// A UMLObject accepts nothing. This should be reimplemented by the subclasses
 	return false;

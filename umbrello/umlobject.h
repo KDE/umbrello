@@ -306,6 +306,12 @@ public:
 	QString getSecondaryId() const;
 
 	/**
+	 * Returns true if this object resides in an externalized folder.
+	 * CHECK: It is probably cleaner to move this to the UMLListViewItem.
+	 */
+	bool isSavedInSeparateFile();
+
+	/**
 	 * Auxiliary to saveToXMI.
 	 * Create a QDomElement with the given tag, and save the XMI attributes
 	 * that are common to all child classes to the newly created element.

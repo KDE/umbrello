@@ -589,7 +589,7 @@ bool UMLDoc::saveDocument(const KURL& url, const char * /* format */) {
 			KMessageBox::error(0, i18n("There was a problem saving file: %1").arg(d.path()), i18n("Save Error"));
 			return false;
 		}
-		saveToXMI(file); // save XMI to this file...
+		saveToXMI(file, true); // save XMI to this file...
 		file.close(); // ...and close it
 
 		// now add this file to the archive, but without the extension
@@ -620,9 +620,6 @@ bool UMLDoc::saveDocument(const KURL& url, const char * /* format */) {
 		delete archive;
 
 	} else
-// stop HERE with the special handling of the KDE_IS_VERSION(3,2,0)
-// as otherwise, the _DEFAULT!!!_ case of saving uncompressed XMI
-// isn't handled anymore!!
 #endif
 	{
 		// save as normal uncompressed XMI
@@ -642,7 +639,7 @@ bool UMLDoc::saveDocument(const KURL& url, const char * /* format */) {
 			KMessageBox::error(0, i18n("There was a problem saving file: %1").arg(d.path()), i18n("Save Error"));
 			return false;
 		}
-		saveToXMI( file ); // save the xmi stuff to it
+		saveToXMI( file, true ); // save the xmi stuff to it
 		file.close();
 		tmpfile.close();
 
@@ -1512,7 +1509,7 @@ void UMLDoc::signalUMLObjectCreated(UMLObject * o) {
 		setModified(true);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void UMLDoc::saveToXMI(QIODevice& file) {
+void UMLDoc::saveToXMI(QIODevice& file, bool saveSubmodelFiles /* = false */) {
 	QDomDocument doc;
 
 	QDomProcessingInstruction xmlHeading =
@@ -1603,9 +1600,10 @@ void UMLDoc::saveToXMI(QIODevice& file) {
 
 	for (UMLObjectListIt oit(m_objectList); oit.current(); ++oit) {
 		UMLObject *o = oit.current();
-		Object_Type ot = o->getBaseType();
-		if (ot == ot_Datatype)
-			o->saveToXMI(doc, ownedNS);
+		if (o->getBaseType() != ot_Datatype ||
+		    (saveSubmodelFiles && o->isSavedInSeparateFile()))
+			continue;
+		o->saveToXMI(doc, ownedNS);
 	}
 
 #ifdef XMI_FLAT_PACKAGES
@@ -1613,8 +1611,7 @@ void UMLDoc::saveToXMI(QIODevice& file) {
 	// This simplifies the establishing of cross reference links from
 	// contained objects to their containing package.
 	for (UMLObject *p = m_objectList.first(); p; p = m_objectList.next() ) {
-		Object_Type t = p->getBaseType();
-		if (t != ot_Package)
+		if (p->getBaseType() != ot_Package)
 			continue;
 		p->saveToXMI(doc, ownedNS);
 	}
@@ -1626,6 +1623,8 @@ void UMLDoc::saveToXMI(QIODevice& file) {
 	// Associations are saved in an extra step (see below.)
 	for (UMLObjectListIt oit(m_objectList); oit.current(); ++oit) {
 		UMLObject *o = oit.current();
+		if (saveSubmodelFiles && o->isSavedInSeparateFile())
+			continue;
 		Object_Type t = o->getBaseType();
 #if defined (XMI_FLAT_PACKAGES)
 		if (t == ot_Package)
@@ -1685,12 +1684,15 @@ void UMLDoc::saveToXMI(QIODevice& file) {
 
 	// Save each view/diagram.
 	QDomElement diagramsElement = doc.createElement( "diagrams" );
-	for(UMLView *pView = m_ViewList.first(); pView; pView = m_ViewList.next() )
-		pView -> saveToXMI( doc, diagramsElement );
+	for (UMLView *pView = m_ViewList.first(); pView; pView = m_ViewList.next()) {
+		if (saveSubmodelFiles && pView->isSavedInSeparateFile())
+			continue;
+		pView->saveToXMI( doc, diagramsElement );
+	}
 	extensions.appendChild( diagramsElement );
 
 	//  save listview
-	UMLApp::app()->getListView() -> saveToXMI( doc, extensions );
+	UMLApp::app()->getListView()->saveToXMI( doc, extensions, saveSubmodelFiles );
 
 	// save code generators
 	QDomElement codeGenElement = doc.createElement( "codegeneration" );
@@ -1705,7 +1707,7 @@ void UMLDoc::saveToXMI(QIODevice& file) {
 	stream.setEncoding(QTextStream::UnicodeUTF8);
 	stream << doc.toString();
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 short UMLDoc::getEncoding(QIODevice & file)
 {
 	QTextStream stream( &file );
@@ -1780,7 +1782,75 @@ short UMLDoc::getEncoding(QIODevice & file)
 	}
 	return ENC_OLD_ENC;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
+bool UMLDoc::loadFolderFile( QString filename ) {
+	QFile file( filename );
+	if ( !file.exists() ) {
+		KMessageBox::error(0, i18n("The folderfile %1 does not exist.").arg(filename), i18n("Load Error"));
+		return false;
+	}
+	if ( !file.open(IO_ReadOnly) ) {
+		KMessageBox::error(0, i18n("The folderfile %1 cannot be opened.").arg(filename), i18n("Load Error"));
+		return false;
+	}
+	QTextStream stream( &file );
+	QString data = stream.read();
+	file.close();
+	QDomDocument doc;
+	QString error;
+	int line;
+	if( !doc.setContent( data, false, &error, &line ) ) {
+		kdError() << "UMLDoc::loadFolderFile: Can't set content:"
+			   << error << " line:" << line << endl;
+		return false;
+	}
+	QDomNode rootNode = doc.firstChild();
+	while (rootNode.isComment() || rootNode.isProcessingInstruction()) {
+		rootNode = rootNode.nextSibling();
+	}
+	if (rootNode.isNull()) {
+		kdError() << "UMLDoc::loadFolderFile: Root node is Null" << endl;
+		return false;
+	}
+	QDomElement element = rootNode.toElement();
+	QString type = element.tagName();
+	if (type != "external_file") {
+		kdError() << "UMLDoc::loadFolderFile: Root node has unknown type "
+			  << type << endl;
+		return false;
+	}
+	for (QDomNode node = rootNode.firstChild(); !node.isNull(); node = node.nextSibling()) {
+		element = node.toElement();
+		type = element.tagName();
+		if (type == "diagram") {
+			UMLView * pView = new UMLView();
+			pView->setOptionState( UMLApp::app()->getOptionState() );
+			bool success = pView->loadFromXMI(element);
+			if (!success) {
+				kdWarning() << "UMLDoc::loadFolderFile(" << filename
+					    << "): failed load on viewdata loadfromXMI" << endl;
+				delete pView;
+				return false;
+			}
+			pView->hide();
+			addView(pView);
+		} else {
+			UMLObject *pObject = makeNewUMLObject(type);
+			if (pObject) {
+				if (! pObject->loadFromXMI(element)) {
+					kdError() << "UMLDoc::loadFolderFile(" << filename
+						  << "): Error loading type " << type << endl;
+					delete pObject;
+				}
+			} else {
+				kdError() << "UMLDoc::loadFolderFile(" << filename
+					  << "): Ignoring unknown type " << type << endl;
+			}
+		}
+	}
+	return true;
+}
+
 bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
 {
 	// old Umbrello versions (version < 1.2) didn't save the XMI in Unicode
@@ -2208,7 +2278,7 @@ bool UMLDoc::loadDiagramsFromXMI( QDomNode & node ) {
 	QDomElement element = node.toElement();
 	if( element.isNull() )
 		return true;//return ok as it means there is no umlobjects
-	Settings::OptionState state = UMLApp::app()->getOptionState();
+	const Settings::OptionState state = UMLApp::app()->getOptionState();
 	UMLView * pView = 0;
 	int count = 0;
 	while( !element.isNull() ) {

@@ -155,7 +155,7 @@ public:
 	 * Loads the document by filename and format and emits the
 	 * updateViews() signal.
 	 *
-	 * @param url		The fileame in KURL format.
+	 * @param url		The filename in KURL format.
 	 * @param format	The format (optional.)
 	 * @return	True if operation successful.
 	 */
@@ -164,7 +164,7 @@ public:
 	/**
 	 * Saves the document using the given filename and format.
 	 *
-	 * @param url		The fileame in KURL format.
+	 * @param url		The filename in KURL format.
 	 * @param format	The format (optional.)
 	 * @return	True if operation successful.
 	 */
@@ -457,8 +457,9 @@ public:
 	 * of the derived classes.
 	 *
 	 * @param file		The file to be saved to.
+	 * @param saveSubmodelFiles	True if external folders should be saved.
 	 */
-	virtual void saveToXMI(QIODevice& file);
+	virtual void saveToXMI(QIODevice& file, bool saveSubmodelFiles = false);
 
 	/**
 	 * Checks the given XMI file if it was saved with correct Unicode
@@ -862,6 +863,15 @@ public:
 	 * Write text to the status bar.
 	 */
 	void writeToStatusBar(const QString &text);
+
+	/**
+	 * Folders in the listview can be marked such that their contents
+	 * are saved to a separate file.
+	 * This method loads the separate folder file.
+	 * CAVEAT: This is not XMI standard compliant.
+	 * If standard compliance is an issue then avoid folder files.
+	 */
+	bool loadFolderFile(QString filename);
 
 private:
 	/**

@@ -165,6 +165,18 @@ public:
 	}
 
 	/**
+	 * Set the folder file name for a separate submodel.
+	 * Only applies to folders.
+	 */
+	void setFolderFile(QString fileName);
+
+	/**
+	 * Get the folder file name for a separate submodel.
+	 * Only applies to folders.
+	 */
+	QString getFolderFile();
+
+	/**
 	 * Overrides default method to make public.
 	 */
 	void cancelRename( int col );
@@ -209,7 +221,8 @@ public:
 	/**
 	 * saves the listview item to a <listitem> tag
 	 */
-	void saveToXMI(QDomDocument& qDoc, QDomElement& qElement );
+	void saveToXMI( QDomDocument& qDoc, QDomElement& qElement,
+			bool saveSubmodelFiles = false );
 
 	/**
 	 * Loads a <listitem> tag, this is only used by the clipboard currently
@@ -248,6 +261,7 @@ protected:
 	int m_nChildren;
 	UMLObject * m_pObject;
 	QString m_Label;
+	QString m_FolderFile;
 };
 
 #endif

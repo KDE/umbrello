@@ -278,7 +278,8 @@ class UMLListView : public KListView {
 	UMLListViewItem *theRootView() { return m_rv; }
 	UMLListViewItem *theLogicalView() { return m_lv; }
 
-	void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+	void saveToXMI( QDomDocument & qDoc, QDomElement & qElement,
+			bool saveSubmodelFiles = false );
 
 	bool loadFromXMI( QDomElement & element );
 

@@ -169,6 +169,8 @@ public:
 		mt_Clone, // Create a deep copy of the object.
 		mt_Show_Public_Only, // (not currently used)
 		mt_Show_Public_Only_Selection,  // Show public operations/attributes only.
+		mt_Externalize_Folder,  // Mark folder for saving as separate submodel
+		mt_Internalize_Folder,  // Reintegrate separate submodel into main model
 
 	    mt_Undefined  =  - 1
 	};
@@ -262,6 +264,12 @@ private:
 	 * @param mt		The menu type.
 	 */
 	void insertAssocItem(const QString &label, Menu_Type mt);
+
+	/**
+	 * Inserts a menu item for externalization/de-externalization
+	 * of a folder.
+	 */
+	void insertSubmodelAction();
 
 	/**
 	 * Creates a popup menu for a multiple selection of class and

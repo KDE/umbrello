@@ -16,6 +16,7 @@
 #include "umllistview.h"
 
 // qt/kde includes
+#include <qregexp.h>
 #include <qpoint.h>
 #include <qrect.h>
 #include <qevent.h>
@@ -133,9 +134,9 @@ UMLListView::UMLListView(QWidget *parent, const char *name)
 	connect( this, SIGNAL( expanded( QListViewItem * ) ), this, SLOT( slotExpanded( QListViewItem * ) ) );
 	connect( UMLApp::app(), SIGNAL( sigCutSuccessful() ), this, SLOT( slotCutSuccessful() ) );
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 UMLListView::~UMLListView() {}
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void UMLListView::contentsMousePressEvent(QMouseEvent *me) {
 	if( m_doc -> getCurrentView() )
 		m_doc -> getCurrentView() -> clearSelected();
@@ -222,7 +223,6 @@ void UMLListView::keyPressEvent(QKeyEvent *ke) {
 	}
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLListView::popupMenuSel(int sel) {
 	UMLListViewItem * temp = (UMLListViewItem*)currentItem();
 	if ( !temp ) {
@@ -342,6 +342,47 @@ void UMLListView::popupMenuSel(int sel) {
 	case ListPopupMenu::mt_Export_Image:
 		m_doc->getCurrentView()->exportImage();
 		break;
+
+	case ListPopupMenu::mt_Externalize_Folder:
+	{
+		// configure & show the file dialog
+		KFileDialog fileDialog(m_doc->URL().directory(), "*.xm1", this,
+				       ":externalize-folder", true);
+		fileDialog.setCaption(i18n("Externalize Folder"));
+		fileDialog.setOperationMode(KFileDialog::Other);
+		UMLListViewItem *current = static_cast<UMLListViewItem*>(currentItem());
+		// set a sensible default filename
+		QString defaultFilename = current->getFolderFile();
+		if (defaultFilename.isEmpty()) {
+			defaultFilename = current->getText().lower();
+			defaultFilename.replace( QRegExp("\\W+"), "_" );
+			defaultFilename.append(".xm1");  // default extension
+		}
+		fileDialog.setSelection(defaultFilename.lower());
+		fileDialog.exec();
+		KURL selURL = fileDialog.selectedURL();
+		if (selURL.isEmpty())
+			return;
+		QString fileName = selURL.fileName();
+		current->setFolderFile( fileName );
+		// Recompute text of the folder
+		QString folderText = current->getText();
+		folderText.remove( QRegExp("\\s*\\(.*$") );
+		folderText.append( " (" + fileName + ")" );
+		current->setText(folderText);
+		break;
+	}
+
+	case ListPopupMenu::mt_Internalize_Folder:
+	{
+		UMLListViewItem *current = static_cast<UMLListViewItem*>(currentItem());
+		current->setFolderFile( QString::null );
+		// Recompute text of the folder
+		QString folderText = current->getText();
+		folderText.remove( QRegExp("\\s*\\(.*$") );
+		current->setText(folderText);
+		break;
+	}
 
 	case ListPopupMenu::mt_Rename:
 		temp-> startRename(0);
@@ -474,7 +515,7 @@ void UMLListView::popupMenuSel(int sel) {
 		break;
 	}//end switch
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void UMLListView::slotDiagramCreated( Uml::IDType id ) {
 	if( m_doc->loading() )
 		return;
@@ -501,7 +542,7 @@ void UMLListView::slotDiagramCreated( Uml::IDType id ) {
 	setSelected( temp, true );
 	UMLApp::app() -> getDocWindow() -> showDocumentation( v , false );
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void UMLListView::slotObjectCreated(UMLObject* object) {
 	/* kdDebug() << "UMLListView::slotObjectCreated(" << object->getName()
 		  << "): ID is " << object->getID() << endl;
@@ -604,7 +645,7 @@ void UMLListView::slotObjectCreated(UMLObject* object) {
 	setSelected(newItem, true);
 	UMLApp::app()->getDocWindow()->showDocumentation(object, false);
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void UMLListView::connectNewObjectsSlots(UMLObject* object) {
 	Uml::Object_Type type = object->getBaseType();
 	switch( type )
@@ -656,7 +697,7 @@ void UMLListView::connectNewObjectsSlots(UMLObject* object) {
 		break;
 	}
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void UMLListView::slotObjectChanged() {
 	if (m_doc->loading()) { //needed for class wizard
 		return;
@@ -667,12 +708,12 @@ void UMLListView::slotObjectChanged() {
 		item->updateObject();
 	}
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void UMLListView::childObjectAdded(UMLObject* obj) {
 	UMLObject *parent = const_cast<UMLObject*>(dynamic_cast<const UMLObject*>(sender()));
 	childObjectAdded(obj, parent);
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void UMLListView::childObjectAdded(UMLObject* obj, UMLObject* parent) {
 	Uml::Object_Type ot = obj->getBaseType();
 	/* kdDebug() << "UMLListView::childObjectAdded(" << obj->getName()
@@ -695,7 +736,7 @@ void UMLListView::childObjectAdded(UMLObject* obj, UMLObject* parent) {
 	}
 	connectNewObjectsSlots(obj);
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void UMLListView::childObjectRemoved(UMLObject* obj) {
 	UMLObject *parent = const_cast<UMLObject*>(dynamic_cast<const UMLObject*>(sender()));
 	UMLListViewItem *item(0);
@@ -711,14 +752,14 @@ void UMLListView::childObjectRemoved(UMLObject* obj) {
 		}
 	}
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void UMLListView::slotDiagramRenamed(Uml::IDType id) {
 	UMLListViewItem* temp;
 	UMLView* v = m_doc->findView(id);
 	temp = findView(v);
 	temp->setText( v->getName() );
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void UMLListView::setDocument(UMLDoc *d) {
 	if( m_doc && m_doc != d)
 	{
@@ -2377,9 +2418,10 @@ void UMLListView::cancelRename( QListViewItem * item ) {
 	}
 }
 
-void UMLListView::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
+void UMLListView::saveToXMI( QDomDocument & qDoc, QDomElement & qElement,
+			     bool saveSubmodelFiles /* = false */) {
 	QDomElement listElement = qDoc.createElement( "listview" );
-	m_rv -> saveToXMI( qDoc, listElement);
+	m_rv -> saveToXMI( qDoc, listElement, saveSubmodelFiles);
 	qElement.appendChild( listElement );
 }
 
@@ -2454,6 +2496,8 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
 			/************ End of hack for copy/paste code ************/
 
 			pObject = m_doc->findObjectById(nID);
+			if (pObject && label.isEmpty())
+				label = pObject->getName();
 
 		} else if (typeIsFolder(lvType) ||
 			   lvType == Uml::lvt_Diagrams) {
@@ -2584,8 +2628,20 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
 					Settings::OptionState optionState = UMLApp::app()->getOptionState();
 					if (!optionState.generalState.tabdiagrams ||
 					    //don't load diagrams any more, tabbed diagrams
-					    !typeIsDiagram(lvType) )
+					    !typeIsDiagram(lvType) ) {
 						item = new UMLListViewItem( parent, label, lvType, nID );
+						if (UMLListView::typeIsFolder(lvType)) {
+							QString folderFile = domElement.attribute( "external_file", "" );
+							if (!folderFile.isEmpty()) {
+								item->setFolderFile(folderFile);
+								const QString fqfn(m_doc->URL().directory(false) + folderFile);
+								kdDebug() << "UMLListView::loadChildrenFromXMI:"
+									  << " fully qualified folderFile is " << fqfn
+									  << endl;
+								m_doc->loadFolderFile(fqfn);
+							}
+						}
+					}
 				}
 				break;
 		}//end switch
