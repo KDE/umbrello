@@ -441,12 +441,11 @@ void UMLWidget::drawSelected(QPainter * p, int offsetX, int offsetY) {
 	p -> fillRect(offsetX, offsetY, s,  s, brush);
 	p -> fillRect(offsetX, offsetY + h - s, s, s, brush);
 	p -> fillRect(offsetX + w - s, offsetY, s, s, brush);
-	p->fillRect(offsetX + w - s, offsetY + h - s, s, s, brush);
 
-	if (getBaseType() == wt_Text || getBaseType() == wt_Box) {
-		QBrush brush(red);
-		p->fillRect(offsetX + w - s, offsetY + h - s, s, s, brush);
+	if (getBaseType() == wt_Note || getBaseType() == wt_Box) {
+		brush.setColor(red);
 	}
+	p->fillRect(offsetX + w - s, offsetY + h - s, s, s, brush);
 }
 
 bool UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */) {
@@ -696,7 +695,7 @@ bool UMLWidget::widgetHasUMLObject(Uml::UMLWidget_Type type) {
 
 void UMLWidget::setSize(int width,int height) {
 	// snap to the next larger size that is a multiple of the grid
-	if (!m_bIgnoreSnapComponentSizeToGrid 
+	if (!m_bIgnoreSnapComponentSizeToGrid
 	    && m_pView -> getSnapComponentSizeToGrid() )
 	{
 		// integer divisions
