@@ -11,6 +11,7 @@
  *      Author : thomas
  *      Date   : Wed Jul 30 2003
  */
+#include <iostream.h>
 
 #include <kdebug.h>
 #include <klocale.h>
@@ -65,7 +66,9 @@ void CPPCodeGenerationPolicyPage::apply()
 	// now do our cpp-specific configs
 	CPPCodeGenerationPolicy * parent = (CPPCodeGenerationPolicy*) m_parentPolicy;
 
-kdDebug()<<"Apply in CPPCodeGenerationPage called (parent:"<<parent<<")"<<endl;
+	// block signals so that we dont generate too many sync signals for child code
+	// documents
+	parent->blockSignals(true);
 
 	parent->setCommentStyle((CPPCodeGenerationPolicy::CPPCommentStyle ) form->m_SelectCommentStyle->currentItem());
 	parent->setAutoGenerateConstructors(form->m_generateConstructors->isChecked());
@@ -85,6 +88,12 @@ kdDebug()<<"Apply in CPPCodeGenerationPage called (parent:"<<parent<<")"<<endl;
 	parent->setVectorClassName(form->m_listClassHCombo->currentText());
 	parent->setVectorClassNameInclude(form->m_listIncludeFileHistoryCombo->currentText());
 	parent->setVectorIncludeIsGlobal(form->m_globalListCheckBox->isChecked());
+
+	parent->blockSignals(false);
+
+	// now send out modified code content signal
+	parent->emitModifiedCodeContentSig();
+
 }
 
 

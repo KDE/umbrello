@@ -52,13 +52,19 @@ void JavaCodeGenerationPolicyPage::apply()
 	// now do our java-specific configs
 	JavaCodeGenerationPolicy * parent = (JavaCodeGenerationPolicy*) m_parentPolicy;
 
-kdDebug()<<"Apply in JavaCodeGenerationPage called (parent:"<<parent<<")"<<endl;
+	// block signals so we dont cause too many update content calls to code documents
+        parent->blockSignals(true);
 
 	parent->setCommentStyle((JavaCodeGenerationPolicy::JavaCommentStyle ) form->m_SelectCommentStyle->currentItem());
 	parent->setAccessorScope((JavaCodeGenerationPolicy::AccessorScope) (form->m_accessorScopeCB->currentItem()+200));
 	parent->setAutoGenerateConstructors(form->m_generateConstructors->isChecked());
 	parent->setAutoGenerateAccessors(form->m_generateAccessors->isChecked());
     	parent->setBuildANTCodeDocument(form->m_makeANTDocumentCheckBox->isChecked());
+
+        parent->blockSignals(false);
+
+	// now send out modified code content signal
+        parent->emitModifiedCodeContentSig();
 
 }
 

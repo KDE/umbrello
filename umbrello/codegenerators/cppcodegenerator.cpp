@@ -191,6 +191,22 @@ bool CPPCodeGenerator::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
 }
 
 /**
+ * Force a synchronize of this code generator, and its present contents, to that of the parent UMLDocument.
+ * Need to override parent method because we have header documents to consider too.
+ */
+void CPPCodeGenerator::syncCodeToDocument ( ) {
+
+        QPtrList<CodeDocument> * docList = getCodeDocumentList();
+
+        for (CodeDocument * doc = docList->first(); doc; doc=docList->next())
+                doc->synchronize();
+
+	for (CodeDocument * hcodeDoc = m_headercodedocumentVector.first(); hcodeDoc; hcodeDoc=m_headercodedocumentVector.next())
+                hcodeDoc->synchronize();
+
+}
+
+/**
  * Write out all code documents to file as appropriate.
  */
 void CPPCodeGenerator::writeCodeToFile ( )

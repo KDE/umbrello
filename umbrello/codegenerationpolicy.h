@@ -286,6 +286,7 @@ public:
 	 */
 	virtual void writeConfig (KConfig * config);
 
+	void emitModifiedCodeContentSig();
 
 signals:
 

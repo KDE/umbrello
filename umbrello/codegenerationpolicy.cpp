@@ -305,6 +305,10 @@ CodeGenerationPolicyPage * CodeGenerationPolicy::createPage ( QWidget *pWidget, 
 // Other methods
 //
 
+void CodeGenerationPolicy::emitModifiedCodeContentSig() {
+	emit modifiedCodeContent();
+}
+
 void CodeGenerationPolicy::setDefaults ( CodeGenerationPolicy * clone , bool emitUpdateSignal)
 {
 

@@ -424,6 +424,10 @@ void ClassifierCodeDocument::updateOperations( ) {
 		if(!addCodeOperation(codeOp)) // wont add if already present
 			if(createdNew)
 				delete codeOp;
+
+		// synchronize all non-new operations
+		if(!createdNew)
+			codeOp->syncToParent();
         }
 
 }
