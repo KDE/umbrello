@@ -145,7 +145,7 @@ bool UMLRole::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	if (m_Name != "")
 		roleElement.setAttribute("name", m_Name);
 	if (m_Doc != "")
-		roleElement.setAttribute("documentation", m_Doc);
+		roleElement.setAttribute("comment", m_Doc);
 	if (m_roleID) {  // role A
 		switch (m_pAssoc->getAssocType()) {
 			case Uml::at_Composition:
@@ -154,10 +154,13 @@ bool UMLRole::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 			case Uml::at_Aggregation:
 				roleElement.setAttribute("aggregation", "shared");
 				break;
-			default:  //at_Association
+			default:
 				roleElement.setAttribute("aggregation", "none");
 				break;
 		}
+	} else {
+		if (m_pAssoc->getAssocType() == Uml::at_UniAssociation)
+			roleElement.setAttribute("isNavigable", "true");
 	}
 	switch (m_Visibility) {
 		case Uml::Private:
@@ -202,6 +205,9 @@ bool UMLRole::loadFromXMI( QDomElement & element ) {
 		return false;
 	}
 	m_pObject = obj;
+
+	// Here comes the handling of the association type.
+	// This is open for discussion - I'm pretty sure there are better ways..
 	if (m_roleID) {  // role A
 		QString aggregation = element.attribute("aggregation", "none");
 		if (aggregation == "composite")
@@ -210,10 +216,27 @@ bool UMLRole::loadFromXMI( QDomElement & element ) {
 			m_pAssoc->setAssocType(Uml::at_Aggregation);
 		else
 			m_pAssoc->setAssocType(Uml::at_Association);
+	} else if (element.hasAttribute("isNavigable")) {
+		/* Role B:
+		   If isNavigable is not given, we make no change to the
+		   association type.
+		   If isNavigable is given, and is "true", then we assume that
+		   the association's other end (role A) is not navigable, and
+		   therefore we change the association type to UniAssociation.
+		   The case that isNavigable is given as "false" is ignored.
+		   Combined with the association type logic for role A, this
+		   allows us to support at_Association and at_UniAssociation.
+		 */
+		if (element.attribute("isNavigable") == "true")
+			m_pAssoc->setAssocType(Uml::at_UniAssociation);
 	}
+
 	m_Multi = element.attribute("multiplicity", "");
 	m_Name = element.attribute("name", "");
-	m_Doc = element.attribute("documentation", "");
+	if (element.hasAttribute("documentation"))  // for bkwd compat.
+		m_Doc = element.attribute("documentation", "");
+	else
+		m_Doc = element.attribute("comment", "");
 
 	// visibilty defaults to Public if it cant set it here..
         m_Visibility = Uml::Public;
