@@ -219,10 +219,9 @@ void CppTree2Uml::parseFunctionDefinition( FunctionDefinitionAST* ast )
 	return;
     }
     QString returnType = typeOfDeclaration( typeSpec, d );
-    UMLOperation *m = m_importer->insertMethod( c, (Uml::Scope)m_currentAccess, id,
-						returnType, isStatic,
-						false,    // isAbstract
-						m_comment );
+    UMLOperation *m = m_importer->makeOperation(c, id);
+    m_importer->insertMethod( c, m, (Uml::Scope)m_currentAccess, returnType,
+			      isStatic, false /*isAbstract*/, m_comment );
     m_comment = "";
     parseFunctionArguments( d, m );
 
@@ -424,10 +423,11 @@ void CppTree2Uml::parseFunctionDeclaration(  GroupAST* funSpec, GroupAST* storag
     }
 
     QString returnType = typeOfDeclaration( typeSpec, d );
-    UMLOperation *m = m_importer->insertMethod( c, (Uml::Scope)m_currentAccess, id,
-						returnType, isStatic, isPure, m_comment );
-    m_comment = "";
+    UMLOperation *m = m_importer->makeOperation(c, id);
     parseFunctionArguments( d, m );
+    m_importer->insertMethod( c, m, (Uml::Scope)m_currentAccess, returnType,
+			      isStatic, isPure, m_comment );
+    m_comment = "";
 }
 
 void CppTree2Uml::parseFunctionArguments(DeclaratorAST* declarator,
@@ -449,7 +449,8 @@ void CppTree2Uml::parseFunctionArguments(DeclaratorAST* declarator,
 
 	    QString tp = typeOfDeclaration( param->typeSpec(), param->declarator() );
 
-	    m_importer->addMethodParameter( method, tp, name, "" /*initialValue*/, "" /*doc*/);
+	    m_importer->addMethodParameter( method, tp, name, "" /*initialValue*/,
+	    							 "" /*doc*/);
 	}
     }
 }

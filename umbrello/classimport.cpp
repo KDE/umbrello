@@ -73,6 +73,11 @@ UMLObject *ClassImport::createUMLObject(Uml::UMLObject_Type type,
 	return o;
 }
 
+UMLOperation* ClassImport::makeOperation(UMLClass *parent, QString name) {
+	UMLOperation *op = new UMLOperation(parent, name, m_umldoc->getUniqueID());
+	return op;
+}
+
 UMLObject* ClassImport::insertAttribute(UMLClass *o, Uml::Scope scope, QString name,
 					QString type, QString comment /* ="" */,
 					bool isStatic /* =false */) {
@@ -118,37 +123,22 @@ UMLObject* ClassImport::insertAttribute(UMLClass *o, Uml::Scope scope, QString n
 	return newObj;
 }
 
-UMLOperation * ClassImport::insertMethod(UMLClass *klass, Uml::Scope scope, QString name,
-					 QString type, bool isStatic, bool isAbstract,
-					 QString comment /* = "" */,
-					 UMLAttributeList *parList /*= NULL*/) {
-	if (klass == NULL) {
-		kdWarning() << "ClassImport::insertMethod: NULL class pointer for "
-			    << name << endl;
-		return NULL;
-	}
-	if (parList == NULL) {
-		parList = new UMLAttributeList();
-		// This prevents UMLDoc::createOperation() from entering into
-		// interactive mode.
-	}
-	UMLOperation *op = m_umldoc->createOperation( klass, name, parList );
-	if(!op)
-	{
-		kdError()<<"Could not create operation with name "<<name<<endl;
-		return NULL;
-	}
+void ClassImport::insertMethod(UMLClass *klass, UMLOperation *op,
+					 Uml::Scope scope, QString type,
+					 bool isStatic, bool isAbstract,
+					 QString comment /* = "" */) {
 	op->setScope(scope);
 	op->setReturnType(type);
 	op->setStatic(isStatic);
 	op->setAbstract(isAbstract);
+	klass->addOperation(op);
+	//m_umldoc->signalUMLObjectCreated(op);
 	QString strippedComment = doxyComment(comment);
 	if (! strippedComment.isEmpty()) {
 		op->setDoc(strippedComment);
 		m_umldoc->getDocWindow()->showDocumentation(op, true);
 	}
 	//setModified(true);
-	return op;
 }
 
 UMLAttribute* ClassImport::addMethodParameter(UMLOperation *method,

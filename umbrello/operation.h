@@ -23,11 +23,12 @@ class UMLOperation : public UMLClassifierListItem {
 	Q_OBJECT
 friend class UMLClassifier;
 friend UMLOperation* UMLDoc::createOperation( UMLClassifier *, const QString &, UMLAttributeList * );
-private:
+public:
 	/**
 	 * Constructs an UMLOperation.
-	 * Note that the constructor is private - if you want to create an Operation use
-	 * the methods in UMLDoc to get one.
+	 * Not intended for general use: The operation is not tied in with
+	 * umbrello's Qt signalling for object creation.
+	 * If you want to create an Operation use the method in UMLDoc instead.
 	 *
 	 * @param parent	The parent to this operation.
 	 * @param name		The name of the operation.
@@ -39,8 +40,9 @@ private:
 
 	/**
 	 * Constructs an UMLOperation.
-	 * Note that the constructor is private - if you want to create an Operation use
-	 * the methods in UMLDoc to get one.
+	 * Not intended for general use: The operation is not tied in with
+	 * umbrello's Qt signalling for object creation.
+	 * If you want to create an Operation use the method in UMLDoc instead.
 	 *
 	 * @param parent	The parent to this operation.
 	 */
