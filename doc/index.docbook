@@ -1,34 +1,32 @@
 <?xml version="1.0" ?>
 <!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.1.2-Based Variant V1.1//EN"
  "dtd/kdex.dtd" [
-
-<!ENTITY introduction-chapter SYSTEM "introduction.docbook">
-<!ENTITY installation-chapter SYSTEM "installation.docbook">
-<!ENTITY uml-basics-chapter SYSTEM "uml_basics.docbook">
-<!ENTITY working-with-umbrello-chapter SYSTEM "working_with_umbrello.docbook">
-<!ENTITY code-import-and-generation-chapter SYSTEM "code_import_and_generation.docbook">
-<!ENTITY other-features-chapter SYSTEM "other_features.docbook">
-<!ENTITY menu-reference-chapter SYSTEM "menu_reference.docbook">
-<!ENTITY faq-chapter SYSTEM "faq.docbook">
-<!ENTITY authors-chapter SYSTEM "authors.docbook">
-
-<!ENTITY % addindex "IGNORE">
-<!ENTITY % English "INCLUDE"><!-- change language only here -->
-
-
+ <!ENTITY umbrello "<application>Umbrello &UML; Modeller</application>">
+ <!ENTITY kappname "&umbrello;">
+ <!ENTITY packagename "kdesdk">
+ <!ENTITY UML "<acronym>UML</acronym>">
+ <!ENTITY introduction-chapter SYSTEM "introduction.docbook">
+ <!ENTITY installation-chapter SYSTEM "installation.docbook">
+ <!ENTITY uml-basics-chapter SYSTEM "uml_basics.docbook">
+ <!ENTITY working-with-umbrello-chapter SYSTEM "working_with_umbrello.docbook">
+ <!ENTITY code-import-and-generation-chapter SYSTEM "code_import_and_generation.docbook">
+ <!ENTITY other-features-chapter SYSTEM "other_features.docbook">
+ <!ENTITY menu-reference-chapter SYSTEM "menu_reference.docbook">
+ <!ENTITY faq-chapter SYSTEM "faq.docbook">
+ <!ENTITY authors-chapter SYSTEM "authors.docbook">
+ <!ENTITY credits-chapter SYSTEM "credits.docbook">
+ <!ENTITY % addindex "IGNORE">
+ <!ENTITY % English "INCLUDE"><!-- change language only here -->
   <!-- Do not define any other entities; instead, use the entities
        from kde-genent.entities and $LANG/user.entities. -->
 ]>
 
 <book id="Umbrello" lang="&language;">
 <bookinfo>
-<title>Umbrello UML Modeller Handbook</title>
+<title>&umbrello; &UML; Modeller Handbook</title>
 
 <authorgroup>
-<author>
-<firstname>The Umbrello developers</firstname>
-<surname></surname>
-</author>
+<corpauthor>The &umbrello; developers</corpauthor>
 </authorgroup>
 
 <copyright>
@@ -41,13 +39,13 @@
 </copyright>
 
 
-<date>11/11/2002</date>
+<date>2002-11-11</date>
 <releaseinfo>1.1</releaseinfo>
 
 <abstract>
 <para>
-Umbrello UML Modeller helps you in the software development process by enabling you to create
-models of your systems using the Unified Modelling Language (UML).
+&umbrello; helps you in the software development
+process by enabling you to create models of your systems using the Unified Modelling Language (&UML;).
 </para>
 </abstract>
 
@@ -63,7 +61,6 @@ models of your systems using the Unified Modelling Language (UML).
 </bookinfo>
 
 &introduction-chapter;
-&installation-chapter;
 &uml-basics-chapter;
 &working-with-umbrello-chapter;
 &code-import-and-generation-chapter;
@@ -71,5 +68,7 @@ models of your systems using the Unified Modelling Language (UML).
 &menu-reference-chapter;
 &faq-chapter;
 &authors-chapter;
+&credits-chapter;
+&installation-chapter;
 
 </book>

@@ -1,13 +1,10 @@
 <chapter id="introduction">
 <title>Introduction</title>
-<!-- The introduction chapter contains a brief introduction for the
-application that explains what it does and where to report
-problems. Basically a long version of the abstract.  Don't include a
-revision history. (see installation appendix comment) -->
+
 <para>
-<application>Umbrello UML Modeller</application> is a UML diagram tool that can support you
+&umbrello; is a &uml; diagram tool that can support you
 in the software development process.
-Specially during the analysis and design phases of this process, Umbrello will help you to
+Especially during the analysis and design phases of this process, &umbrello; will help you to
 get a high quality product.
 </para>
 <para>
@@ -19,8 +16,8 @@ will benefit from a good model because it will give you an overview that will he
 you code things right the first time.
 </para>
 <para>
-UML is the diagramming language used to describing such models. You can represent your ideas in UML
-using different types of diagrams. Umbrello UML Modeller 1.1 supports following types:
+&UML; is the diagramming language used to describing such models. You can represent your ideas in &UML;
+using different types of diagrams. &umbrello; 1.1 supports following types:
 </para>
 <itemizedlist>
 <listitem><para>Class Diagram</para></listitem>
@@ -31,12 +28,12 @@ using different types of diagrams. Umbrello UML Modeller 1.1 supports following 
 <listitem><para>Activity Diagram</para></listitem>
 </itemizedlist>
 <para>
-More information about UML can be found at the
-<ulink url="http://www.omg.org">OMG website. http://www.omg.org.</ulink>
+More information about &UML; can be found at the
+<ulink url="http://www.omg.org"><acronym>OMG</acronym> website, http://www.omg.org.</ulink>
 </para>
 <para>
-We hope you enjoy Umbrello UML Modeller and that it helps you create high quality software.
-Umbrello UML Modeller is a free tool, and the only thing we ask from you, is to report any bugs, problems, or suggestions
-to the Umbrello developers at <email>uml-devel@lists.sourceforge.net</email>
+We hope you enjoy &umbrello; and that it helps you create high quality software.
+&umbrello; is a free tool, and the only thing we ask from you, is to report any bugs, problems, or suggestions
+to the &umbrello; developers at <email>uml-devel@lists.sourceforge.net</email>
 </para>
 </chapter>

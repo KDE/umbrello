@@ -1,39 +1,39 @@
 <chapter id="code-import-generation">
 <title>Code Import and Code Generation</title>
 <para>
-Umbrello is a UML modelling tool, and as such its main purpose is to help you in the 
+&umbrello; is a &UML; modelling tool, and as such its main purpose is to help you in the 
 <emphasis>analysis and design</emphasis> of your systems. However, to make the transition
-between your design and your <emphasis>implementation</emphasis>, Umbrello allows you to
+between your design and your <emphasis>implementation</emphasis>, &umbrello; allows you to
 generate source code in different programming languages to get you started. Also, if you 
-want to start using UML in an already started project, Umbrello can help you create a Model
+want to start using &UML; in an already started project, &umbrello; can help you create a model
 of your system from the source code by analysing your source code and importing the classes
 found in it.
 </para>
 <sect1 id="code-generation">
 <title>Code Generation</title>
 <para>
-Umbrello can generate source code for various programming languages based on your UML Model
+&umbrello; can generate source code for various programming languages based on your &UML; Model
 to help you get started with the implementation of your project. The code generated consists
 of the class declarations, with their methods and attributes so you can <quote>fill in the
 blanks</quote> by providing the functionality of your classes' operations.
 </para>
 <para>
-Umbrello 1.1 comes with Code Generation support for C++, Java and PHP. Other languages can
+&umbrello; comes with code generation support for C++, &Java; and <acronym>PHP</acronym>. Other languages can
 be easily added at a later time as plug-in modules to the application.
 </para>
 <sect2 id="add-languages">
 <title>Adding Languages</title>
 <para>
-Umbrello 1.1 ships with generators for C++, Java, and PHP which will be added to the list
-of supported languages the first time you start Umbrello. You can later on download generators
+&umbrello; ships with generators for C++, &Java;, and <acronym>PHP</acronym> which will be added to the list
+of supported languages the first time you start &umbrello;. You can later on download generators
 for other languages and add them as plug-ins to the application.
 </para>
 <para>
-Basically, the first time Umbrello finds a new Code Generation plug in, it will ask you to confirm
+The first time &umbrello; finds a new Code Generation plug in, it will ask you to confirm
 which of the languages offered by the new plug in you want to install (one plug in may offer
 support for more than one language). You can always add or remove languages from your list of
 available languages by selecting the option <guimenuitem>Add/Remove Languages</guimenuitem> available 
-in the Code menu.
+in the <guimenu>Code</guimenu> menu.
 </para>
 <para>
 <screenshot>
@@ -43,10 +43,10 @@ in the Code menu.
 	    <imagedata fileref="pics/add-remove-languages.png" format="PNG"/>
 	  </imageobject>
 	  <textobject>
-	    <phrase>Add and Remove languages for Code Generation in Umbrello</phrase>
+	    <phrase>Add and Remove languages for Code Generation in &umbrello;</phrase>
 	  </textobject>
 	  <caption>
-	    <para>Add and Remove languages for Code Generation in Umbrello
+	    <para>Add and Remove languages for Code Generation in &umbrello;
 	    </para>
 	  </caption>
 	</mediaobject>
@@ -56,7 +56,7 @@ in the Code menu.
 <sect2 id="generate-code">
 <title>Generating Code</title>
 <para>
-In order to generate code with Umbrello, you first need to create or load a Model
+In order to generate code with &umbrello;, you first need to create or load a Model
 containing at least one class. When you are ready to start writing some code, select the
 <guimenuitem>Code Generation Wizard</guimenuitem> entry from the <guimenuitem>Code</guimenuitem> menu to 
 start a Wizard which will guide you trough the code generation process.
@@ -78,10 +78,10 @@ while writing your code. The following options are available:
 	    <imagedata fileref="pics/generation-options.png" format="PNG"/>
 	  </imageobject>
 	  <textobject>
-	    <phrase>Options for the Code Generation in Umbrello</phrase>
+	    <phrase>Options for the Code Generation in &umbrello;</phrase>
 	  </textobject>
 	  <caption>
-	    <para>Options for the Code Generation in Umbrello
+	    <para>Options for the Code Generation in &umbrello;
 	    </para>
 	  </caption>
 	</mediaobject>
@@ -89,21 +89,23 @@ while writing your code. The following options are available:
 </para>
 <sect3 id="generation-options">
 <title>Generation Options</title>
+<!-- LW; to rearrange -->
+
 <sect4>
 <title>Code Verbosity</title>
 <para>
 The option <guilabel>Write documentation comments even if empty</guilabel> instructs the
  Code Generator to write comments of the /** blah */ style even if the comment blocks are empty.
 If you added documentation to your classes, methods or attributes in your Model, the
-Code Generator will write these comments as Doxygen documentation regardless of what you set here, but
-if you select this option Umbrello will write comment blocks for all classes, methods and attributes
+Code Generator will write these comments as <application>Doxygen</application> documentation regardless of what you set here, but
+if you select this option &umbrello; will write comment blocks for all classes, methods and attributes
 even if there is no documentation in the Model, in which case you should document your classes
 later directly in the source code.
 </para>
 <para>
-<guilabel>Write comments for sections even if section is empty</guilabel>: Umbrello writes comments
+<guilabel>Write comments for sections even if section is empty</guilabel> causes &umbrello; to write comments
 in the source code to delimit the different sections of a class. For example <quote>public methods</quote>
- or <quote>Attributes</quote> before the corresponding sections. If you select this option Umbrello 
+ or <quote>Attributes</quote> before the corresponding sections. If you select this option &umbrello; 
  will write comments for all sections of the class even if the section is empty. For example,
  it would write a comment saying <quote>protected methods</quote> even if there are no protected 
  methods in your class.
@@ -112,7 +114,7 @@ in the source code to delimit the different sections of a class. For example <qu
 <sect4>
 <title>Directories</title>
 <para>
-<guilabel>Write all generated files to directory</guilabel>.Here you should select the directory 
+<guilabel>Write all generated files to directory</guilabel>. Here you should select the directory 
 where you want Umbrello to put the generated sources.
 </para>
 <para>

@@ -1,46 +1,45 @@
 <chapter id="other-features">
 <title>Other Features</title>
 <sect1> 
-<title></title><!-- we need to make all extra features sect2, since sect1 makes them appear one per page in KDE
-help system. So we just put everything in an empty sect1...  -->
-<para>This chapter will briefly explain some other features Umbrello offers you.</para>
+<title>Other &umbrello; Features</title>
+<para>This chapter will briefly explain some other features &umbrello; offers you.</para>
 <sect2 id="copying-as-png">
 <title>Copying objects as PNG images</title>
 <para>
-Apart from offering you the normal Copy, Cut and Paste functionality that you would expect to copy
-objects between different diagrams, Umbrello can copy the objects as PNG pictures so that you can
+Apart from offering you the normal copy, cut and paste functionality that you would expect to copy
+objects between different diagrams, &umbrello; can copy the objects as PNG pictures so that you can
 insert them into any other type of document. You don't need to do anything special to use this feature,
-just select an object from a diagram (Class, Actor, etc) and copy it (Ctrl+C , or using the Menu), then
-open a KWord document (or any programme which you can paste images) and select Paste. This is a great feature
+just select an object from a diagram (Class, Actor, &etc;) and copy it (<keycombo>&Ctrl;<keycap>C</keycap></keycombo>,
+ or using the menu), then open a &kword; document (or any program into which you can paste images) and select <guimenuitem>Paste</guimenuitem>. This is a great feature
 to export parts of your diagram as simple pictures.
 </para>
 </sect2>
 <sect2 id="export-as-png">
 <title>Exporting to PNG</title>
 <para>
-You can also export a complete Diagram as a PNG picture. The only thing you need to do is select
-the Diagram you want to export, and then the option <guimenuitem>Export as Picture...</guimenuitem> from
-the Diagram menu.
+You can also export a complete diagram as a PNG picture. The only thing you need to do is select
+the diagram you want to export, and then the option <guimenuitem>Export as Picture...</guimenuitem> from
+the <guimenu>Diagram</guimenu> menu.
 </para>
 </sect2>
 <sect2 id="printing">
 <title>Printing</title>
 <para>
-Umbrello allows you to print individual Diagrams. Press the <guibutton>Print</guibutton> button on the
- Application Toolbar or selecting the <guimenuitem>Print</guimenuitem> option from the
-<guimenu>File</guimenu> menu will give you a standard KDE Print dialog from where you can print
-your Diagrams.
+Umbrello allows you to print individual diagrams. Press the <guiicon>Print</guiicon> button on the
+ application toolbar or selecting the <guimenuitem>Print</guimenuitem> option from the
+<guimenu>File</guimenu> menu will give you a standard &kde; Print dialog from where you can print
+your diagrams.
 </para>
 </sect2>
 <sect2 id="logical-folders">
 <title>Logical Folders</title>
 <para>
-To better organise your Model, specially for larger projects you can create logical Folders in
+To better organise your model, especially for larger projects, you can create logical folders in
 the Tree View. Just select the option <menuchoice><guimenu>New</guimenu><guimenuitem>Folder</guimenuitem></menuchoice> from the context menu
-of the default Folders in the Tree View to create them. Folders can be nested, and you can
-move objects around by Dragging them from one folder and dropping them into another.
+of the default folders in the Tree View to create them. Folders can be nested, and you can
+move objects around by dragging them from one folder and dropping them into another.
 </para>
-<para>
+
 <screenshot>
 <screeninfo>Organising your Model with Folders</screeninfo>
 	<mediaobject>
@@ -48,15 +47,15 @@ move objects around by Dragging them from one folder and dropping them into anot
 	    <imagedata fileref="pics/folders.png" format="PNG"/>
 	  </imageobject>
 	  <textobject>
-	    <phrase>Organising a Model with Logical Folders in Umbrello</phrase>
+	    <phrase>Organising a Model with Logical Folders in &umbrello;</phrase>
 	  </textobject>
 	  <caption>
-	    <para>Organising a Model with Logical Folders in Umbrello
+	    <para>Organising a Model with Logical Folders in &umbrello;
 	    </para>
 	  </caption>
 	</mediaobject>
 </screenshot>
-</para>
+
 </sect2>
 </sect1>
 </chapter>

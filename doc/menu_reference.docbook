@@ -1,185 +1,366 @@
 <chapter id="menu-reference">
 <title>Menu Reference</title>
-<para>This Chapter is a quick reference of the commands found in Umbrello's menus.</para>
+
+<para>This Chapter is a quick reference of the commands found in &umbrello;'s menus.</para>
+
 <sect1 id="file-menu">
-<title>The File Menu</title>
-<sect2>
-<title>New</title>
-<para>Creates a new Model (new Document). If you have made changes to your current
-Model you will be asked if these should be saved before creating the new document.
-</para>
-</sect2>
-<sect2>
-<title>Open</title>
-<para>Opens an existing file. If your current file has been modified, you will have the option
-of saving your document before opening the new file.
-</para>
-</sect2>
-<sect2>
-<title>Open Recent</title>
-<para>Opens one of the most recently used documents. If there are any changes that need to be saved
-before loading the new document, you will have the option to do so.
-</para>
-</sect2>
-<sect2>
-<title>Save</title>
-<para>Saves the current document to disk. If the file has not been saved before, you will have
-to specify a name and a path for the file.</para>
-</sect2>
-<sect2>
-<title>Save As...</title>
-<para>Saves the current document under a different name or in a different location</para>
-</sect2>
-<sect2>
-<title>Close</title>
+<title>The <guimenu>File</guimenu> Menu</title>
+
+<variablelist>
+<varlistentry>
+<term><menuchoice>
+<shortcut><keycombo>&Ctrl;<keycap>N</keycap></keycombo></shortcut>
+<guimenu>File</guimenu><guimenuitem>New</guimenuitem>
+</menuchoice></term>
+<listitem><para>Creates a new model (new document). If you have made changes to your current
+model you will be asked if these should be saved before creating the new document.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut><keycombo>&Ctrl;<keycap>O</keycap></keycombo></shortcut>
+<guimenu>File</guimenu><guimenuitem>Open</guimenuitem>
+</menuchoice></term>
+<listitem><para>
+Opens an existing file. If your current file has been modified, you will have the option
+of saving your document before opening the new file.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>File</guimenu><guimenuitem>Open Recent</guimenuitem>
+</menuchoice></term>
+<listitem><para>
+Opens one of the most recently used documents. If there are any changes that need to be saved
+before loading the new document, you will have the option to do so.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut><keycombo>&Ctrl;<keycap>S</keycap></keycombo></shortcut>
+<guimenu>File</guimenu><guimenuitem>Save</guimenuitem>
+</menuchoice></term>
+<listitem><para>Saves the current document to disk. If the file has not been saved before, you will have
+to specify a name and a path for the file.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>File</guimenu><guimenuitem>Save As...</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para>Saves the current document under a different name or in a different location</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut><keycombo>&Ctrl;<keycap>P</keycap></keycombo></shortcut>
+<guimenu>File</guimenu><guimenuitem>Print...</guimenuitem>
+</menuchoice></term>
+<listitem><para>Prints the current diagram</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut><keycombo>&Ctrl;<keycap>W</keycap></keycombo></shortcut>
+<guimenu>File</guimenu><guimenuitem>Close</guimenuitem>
+</menuchoice></term>
+<listitem>
 <para>Closes the current document. If the file needs to be saved you will have the option to do
-so before closing the document. When you close the current document Umbrello will automatically
+so before closing the document. When you close the current document &umbrello; will automatically
 create a new, empty document</para>
-</sect2>
-<sect2>
-<title>Print</title>
-<para>Prints the current diagram</para>
-</sect2>
-<sect2>
-<title>Quit</title>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut><keycombo>&Ctrl;<keycap>Q</keycap></keycombo></shortcut>
+<guimenu>File</guimenu><guimenuitem>Quit</guimenuitem>
+</menuchoice></term>
+<listitem>
 <para>Exits the application. If the current document has been modified you have the option of saving
-your changes before terminating Umbrello</para>
-</sect2>
+your changes before terminating &umbrello;</para>
+</listitem>
+</varlistentry>
+</variablelist>
+
 </sect1>
 
 <sect1 id="edit-menu">
-<title>The Edit Menu</title>
-<sect2>
-<title>Cut</title>
+<title>The <guimenu>Edit</guimenu> Menu</title>
+
+<variablelist>
+<varlistentry>
+<term><menuchoice><shortcut>
+<keycombo>&Ctrl;<keycap>X</keycap></keycombo></shortcut>
+<guimenu>Edit</guimenu><guimenuitem>Cut</guimenuitem>
+</menuchoice></term>
+<listitem>
 <para>Cuts the currently selected objects and puts them into the clipboard.</para>
-</sect2>
-<sect2>
-<title>Copy</title>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice><shortcut>
+<keycombo>&Ctrl;<keycap>C</keycap></keycombo></shortcut>
+<guimenu>Edit</guimenu><guimenuitem>Copy</guimenuitem>
+</menuchoice></term>
+<listitem>
 <para>Copies the selected objects to the clipboard.</para>
-</sect2>
-<sect2>
-<title>Paste</title>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice><shortcut>
+<keycombo>&Ctrl;<keycap>V</keycap></keycombo></shortcut>
+<guimenu>Edit</guimenu><guimenuitem>Paste</guimenuitem>
+</menuchoice></term>
+<listitem>
 <para>Pastes the contents of the application clipboard</para>
-</sect2>
-<sect2>
-<title>Select All</title>
-<para>Selects all the items in the current diagram</para>
-</sect2>
-<sect2>
-<title>Delete Selected</title>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice><shortcut>
+<keycombo>&Ctrl;<keycap>A</keycap></keycombo></shortcut>
+<guimenu>Edit</guimenu><guimenuitem>Select All</guimenuitem>
+</menuchoice></term>
+<listitem><para>
+Selects all the items in the current diagram</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice><shortcut><keycap>Delete</keycap></shortcut>
+<guimenu>Edit</guimenu><guimenuitem>Delete Selected</guimenuitem>
+</menuchoice></term>
+<listitem>
 <para>Removes the currently selected items from the Diagram.</para>
-</sect2>
+</listitem>
+</varlistentry>
+</variablelist>
+
 </sect1>
 
 <sect1 id="diagram-menu">
-<title>The Diagram Menu</title>
-<sect2>
-<title>New</title>
+<title>The <guimenu>Diagram</guimenu> Menu</title>
+
+<variablelist>
+<varlistentry>
+<term><menuchoice>
+<guimenu>Diagram</guimenu>
+<guisubmenu>New</guisubmenu>
+</menuchoice></term>
+<listitem>
 <para>The <guisubmenu>New</guisubmenu> submenu allows you to create the different types of diagrams.</para>
-</sect2>
-<sect2>
-<title>Show</title>
+<para>The entries available are:
+<itemizedlist>
+<listitem><para><guimenuitem>Class Diagram</guimenuitem></para></listitem>
+<listitem><para><guimenuitem>Sequence Diagram</guimenuitem></para></listitem>
+<listitem><para><guimenuitem>Collaboration Diagram</guimenuitem></para></listitem>
+<listitem><para><guimenuitem>Use Case Diagram</guimenuitem></para></listitem>
+<listitem><para><guimenuitem>State Diagram</guimenuitem></para></listitem>
+<listitem><para><guimenuitem>Activity Diagram</guimenuitem></para></listitem>
+</itemizedlist>
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Diagram</guimenu>
+<guisubmenu>Show</guisubmenu>
+</menuchoice></term>
+<listitem>
 <para>The <guisubmenu>Show</guisubmenu> submenu allows you to select one of your diagrams and makes it
 the active diagram.</para>
-</sect2>
-<sect2>
-<title>Clear Diagram</title>
-<para>Clears (deletes) the contents of the active diagram.</para>
-</sect2>
-<sect2>
-<title>Snap to Grid</title>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Diagram</guimenu><guimenuitem>Clear Diagram</guimenuitem>
+</menuchoice></term>
+<listitem><para>
+Clears (deletes) the contents of the active diagram.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Diagram</guimenu>
+<guimenuitem>Snap to Grid</guimenuitem>
+</menuchoice></term>
+<listitem>
 <para>Aligns the elements in the active diagram to the grid.</para>
-</sect2>
-<sect2>
-<title>Show Grid</title>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Diagram</guimenu>
+<guimenuitem>Show Grid</guimenuitem>
+</menuchoice></term>
+<listitem>
 <para>Shows the grid for the current diagram.</para>
-</sect2>
-<sect2>
-<title>Delete</title>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Diagram</guimenu>
+<guimenuitem>Delete</guimenuitem>
+</menuchoice></term>
+<listitem>
 <para>Deletes the active diagram.</para>
-</sect2>
-<sect2>
-<title>Export as Picture...</title>
-<para>Exports the active diagram as a PNG picture.</para>
-</sect2>
-<sect2>
-<title>Properties...</title>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Diagram</guimenu>
+<guimenuitem>Export as Picture...</guimenuitem>
+</menuchoice></term>
+<listitem><para>
+Exports the active diagram as a PNG picture.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Diagram</guimenu>
+<guisubmenu>Zoom</guisubmenu></menuchoice>
+</term>
+<listitem><para> Scale the active diagram by the amount chosen,
+relative to it's original size.  You can choose ratios from
+<guimenuitem>33&percnt;</guimenuitem> up to
+<guimenuitem>300&percnt;</guimenuitem></para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Diagram</guimenu>
+<guimenuitem>Properties</guimenuitem>
+</menuchoice></term>
+<listitem>
 <para>Shows the properties dialog for the active diagram.</para>
-</sect2>
+<!-- LW: Is this dialog explained anywhere? This should link to that explanation. -->
+</listitem>
+</varlistentry>
+</variablelist>
+
 </sect1>
 
 <sect1 id="code-menu">
-<title>The Code Menu</title>
-<sect2>
-<title>Import Classes...</title>
-<para>Allows you to import classes from programming source code into your Model.</para>
-</sect2>
-<sect2>
-<title>Code Generation Wizard...</title>
-<para>Shows a wizard to guide you through the process of Code Generation.</para>
-</sect2>
-<sect2>
-<title>Generate All Code</title>
-<para>Immediately generates code for all classes in your Model, using the parameters configured
-in the Code Generation settings.</para>
-</sect2>
-<sect2>
-<title>Class Wizard...</title>
-<para>Shows a wizard to guide you through the creation of new classes in your Model. The new classes
-will be added to your Model into the Tree View, but not to any diagram.</para>
-</sect2>
-<sect2>
-<title>Active Language</title>
-<para>Allows you to select the active language, which will be used as default for Code Generation.</para>
-</sect2>
-<sect2>
-<title>Add/Remove Generation Languages...</title>
-<para>Shows a dialog to add or remove languages found in your Code Generation plug-ins.</para>
-</sect2>
+<title>The <guimenu>Code</guimenu> Menu</title>
+
+<variablelist>
+<varlistentry>
+<term><menuchoice>
+<guimenu>Code</guimenu>
+<guimenuitem>Import Classes...</guimenuitem></menuchoice>
+</term>
+<listitem><para>Allows you to import classes from programming source code into your model.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Code</guimenu>
+<guimenuitem>Code Generation Wizard...</guimenuitem>
+</menuchoice></term>
+<listitem>
+<para>Shows a wizard to guide you through the process of code generation.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Code</guimenu>
+<guimenuitem>Generate All Code</guimenuitem>
+</menuchoice></term>
+<listitem><para>Immediately generates code for all classes in your model, using the parameters configured
+in the code generation settings.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice><guimenu>Code</guimenu>
+<guimenuitem>Add/Remove Generation Languages...</guimenuitem>
+</menuchoice></term>
+<listitem>
+<para>Shows a dialog to add or remove languages found in your code generation plug-ins.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice><guimenu>Code</guimenu>
+<guisubmenu>Active Language</guisubmenu></menuchoice></term>
+<listitem>
+<para>Allows you to select the active language, which will be used as default for code generation.
+</para></listitem>
+</varlistentry>
+</variablelist>
+
 </sect1>
 
 <sect1 id="settings-menu">
-<title>The Settings Menu</title>
-<sect2>
-<title>Show Toolbar</title>
-<para>Shows or Hides the toolbar.</para>
-</sect2>
-<sect2>
-<title>Show Statusbar</title>
-<para>Shows or Hides the statusbar.</para>
-</sect2>
-<sect2>
-<title>Show Documentation</title>
+<title>The <guimenu>Settings</guimenu> Menu</title>
+
+<variablelist>
+<varlistentry>
+<term><menuchoice>
+<guimenu>Settings</guimenu>
+<guimenuitem>Show Toolbar</guimenuitem>
+</menuchoice></term>
+<listitem>
+<para>Shows or hides the toolbar.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Settings</guimenu>
+<guimenuitem>Show Statusbar</guimenuitem>
+</menuchoice></term>
+<listitem>
+<para>Shows or hides the statusbar.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Settings</guimenu>
+<guimenuitem>Show Documentation</guimenuitem>
+</menuchoice></term>
+<listitem>
 <para>Shows or hides the documentation window.</para>
-</sect2>
-<sect2>
-<title>Configure Umbrello...</title>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Settings</guimenu>
+<guimenuitem>Configure Umbrello...</guimenuitem>
+</menuchoice></term>
+<listitem>
 <para>Allows you configure many aspects of the application.</para>
-</sect2>
+<!-- LW: The configuration dialog needs a section somewhere. -->
+</listitem>
+</varlistentry>
+</variablelist>
+
 </sect1>
 
 <sect1 id="help-menu">
-<title>The Help Menu</title>
-<sect2>
-<title>Umbrello UML Modeller Handbook</title>
-<para>Shows this user manual for Umbrello.</para>
-</sect2>
-<sect2>
-<title>What's this</title>
-<para>Sets the mouse cursor to the <guimenuitem>What's this</guimenuitem> tool, with which you can
-get information of some elements in the user interface.</para>
-</sect2>
-<sect2>
-<title>Report bug</title>
-<para>Gives you information about how to report a bug found in Umbrello.</para>
-</sect2>
-<sect2>
-<title>About Umbrello UML Modeller</title>
-<para>Displays About information on Umbrello, including copying information.</para>
-</sect2>
-<sect2>
-<title>About KDE</title>
-<para>Displays About information on KDE, the desktop environment Umbrello is designed for.</para>
-</sect2>
+<title>The <guimenu>Help</guimenu> Menu</title>
+
+&help.menu.documentation;
+
 </sect1>
+
 </chapter>

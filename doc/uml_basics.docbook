@@ -1,32 +1,32 @@
 <chapter id="uml-basics">
-<title>UML Basics</title>
+<title>&UML; Basics</title>
 <sect1 id="about-uml">
-<title>About UML</title>
+<title>About &UML;</title>
 <para>
-This chapter will give you a quick overview of the basics of UML. Keep in mind
-that this is not a comprehensive tutorial on UML. If you would like to learn more about the
+This chapter will give you a quick overview of the basics of &UML;. Keep in mind
+that this is not a comprehensive tutorial on &UML;. If you would like to learn more about the
 Unified Modelling Language, or in general about software analysis and design, refer to one of the
 many books available on the topic. There are also a lot of tutorials on the Internet, which you
 can take as a starting point.
 </para>
 
 <para>
-The Unified Modelling Language (UML) is a diagramming language or notation to specify, visualise and document
-models of Object Orientated software systems. UML is not a development method, that means it does not tell you
+The Unified Modelling Language (&UML;) is a diagramming language or notation to specify, visualise and document
+models of Object Orientated software systems. &UML; is not a development method, that means it does not tell you
 what to do first and what to do next or how to design your system, but it helps you to visualise
-your design and communicate with others. UML is controlled by the Object Management Group (OMG) and is the
+your design and communicate with others. &UML; is controlled by the Object Management Group (<acronym>OMG</acronym>) and is the
 industry standard for describing software models.
 </para>
 <para>
-UML is designed for Object Orientated software design and has limited use for other programming paradigms.
+&UML; is designed for Object Orientated software design and has limited use for other programming paradigms.
 </para>
 <para>
-UML is composed of many model elements that represent the different parts of a software system.
+&UML; is composed of many model elements that represent the different parts of a software system.
 The UML elements are used to create diagrams, which represent a certain part, or a point of view of
 the system.
-The following types of diagrams are supported by Umbrello:
+The following types of diagrams are supported by &umbrello;:
 </para>
-<!-- FIXME, is it possible to link from these to the next pages? -->
+
 <itemizedlist>
 <listitem><para><emphasis><link linkend="class-diagram">Class Diagram</link></emphasis> shows classes and the relationships between them</para>
 </listitem>
@@ -48,8 +48,8 @@ the events occurring in some part of the system</para></listitem>
 
 </sect1>   <!-- about-uml -->
 
-<sect1 id="uml-elements">   <!--FIXME diagram-types ????  -->     
-<title>UML Elements</title>
+<sect1 id="uml-elements">  
+<title>&UML; Elements</title>
 <sect2 id="use-case-diagram">
 <title>Use Case Diagram</title>
 <para>Use Case Diagrams describe the relationships and dependencies between a group of <emphasis>Use Cases</emphasis>
@@ -58,7 +58,7 @@ and the Actor participating in the process</para>
 and cannot describe the internals of a system. Use Case Diagrams are meant to facilitate the communication
 with the future users of the system, and with the customer, and are specially helpful to determine the required
 features the system is to have. In other words, Use Case Diagrams tell, <emphasis>what</emphasis> the system
-should do, but do  not --and cannot-- specify <emphasis>how</emphasis> this is to be achieved.</para>
+should do, but do  not &mdash; and cannot &mdash; specify <emphasis>how</emphasis> this is to be achieved.</para>
 <para>
 <screenshot>
 <screeninfo>An example Use Case diagram.</screeninfo>
@@ -67,10 +67,10 @@ should do, but do  not --and cannot-- specify <emphasis>how</emphasis> this is t
 	    <imagedata fileref="pics/use-case-diagram.png" format="PNG"/>
 	  </imageobject>
 	  <textobject>
-	    <phrase>Umbrello showing an Use Case Diagram</phrase>
+	    <phrase>&umbrello; showing an Use Case Diagram</phrase>
 	  </textobject>
 	  <caption>
-	    <para>Umbrello showing an Use Case Diagram
+	    <para>&umbrello; showing an Use Case Diagram
 	    </para>
 	  </caption>
 	</mediaobject>
@@ -88,7 +88,7 @@ system has to do (remember, only what, not how).
 <para>When working with Use Cases, it is important to remember some simple rules:
  <itemizedlist>
  <listitem><para>Each Use Case is related a to minimum of one actor</para></listitem>
- <listitem><para>Each Use Case has an initiator (i.e. an actor)</para></listitem>
+ <listitem><para>Each Use Case has an initiator (&ie; an actor)</para></listitem>
  <listitem><para>Each Use Case leads to a relevant result ( A result with <quote>business value</quote> )</para>
  </listitem>
  </itemizedlist>
@@ -165,24 +165,24 @@ between them (method call).
 A Class defines the attributes and the methods of a set of objects. All objects of this class (instances
 of this class) share the same behaviour, and have the same set of attributes (each object has its own set).
 The term <quote>Type</quote> is sometimes used instead of Class, but it is important to mention that these
-two are not the same, and Type a more general term is.
+two are not the same, and Type is a more general term.
 </para>
 <para>
-In UML, Classes are represented by rectangles, with the name of the class, and can also show
+In &uml;, Classes are represented by rectangles, with the name of the class, and can also show
 the attributes and operations of the class in two other <quote>compartments</quote> inside the rectangle.
 </para>
 <para>
 <screenshot>
-<screeninfo>A Class in UML</screeninfo>
+<screeninfo>A Class in &uml;</screeninfo>
 	<mediaobject>
 	  <imageobject>
 	    <imagedata fileref="pics/class.png" format="PNG"/>
 	  </imageobject>
 	  <textobject>
-	    <phrase>Visual representation of a Class in UML</phrase>
+	    <phrase>Visual representation of a Class in &UML;</phrase>
 	  </textobject>
 	  <caption>
-	    <para>Visual representation of a Class in UML
+	    <para>Visual representation of a Class in &UML;
 	    </para>
 	  </caption>
 	</mediaobject>
@@ -191,14 +191,14 @@ the attributes and operations of the class in two other <quote>compartments</quo
 <sect4 id="attribute">
 <title>Attributes</title>
 <para>
-In UML, Attributes are shown with at least their name, and can also show their type, initial value and
+In UML;, Attributes are shown with at least their name, and can also show their type, initial value and
 other properties.
 Attributes can also be displayed with their visibility:
 </para>
 <itemizedlist>
-<listitem><para>+  Stands for <emphasis>public</emphasis> attributes</para></listitem>
-<listitem><para>#  Stands for <emphasis>protected</emphasis> attributes</para></listitem>
-<listitem><para>-  Stands for <emphasis>private</emphasis> attributes</para></listitem>
+<listitem><para><literal>+</literal>  Stands for <emphasis>public</emphasis> attributes</para></listitem>
+<listitem><para><literal>#</literal>  Stands for <emphasis>protected</emphasis> attributes</para></listitem>
+<listitem><para><literal>-</literal>  Stands for <emphasis>private</emphasis> attributes</para></listitem>
 </itemizedlist>
 </sect4>
 <sect4 id="operation">
@@ -208,9 +208,9 @@ Operations (methods) are also displayed with at least their name, and can also s
 types.
 Operations can, just as Attributes, display their visibility:
 <itemizedlist>
-<listitem><para>+  Stands for <emphasis>public</emphasis> operations</para></listitem>
-<listitem><para>#  Stands for <emphasis>protected</emphasis> operations</para></listitem>
-<listitem><para>-  Stands for <emphasis>private</emphasis> operations</para></listitem>
+<listitem><para><literal>+</literal>  Stands for <emphasis>public</emphasis> operations</para></listitem>
+<listitem><para><literal>#</literal>  Stands for <emphasis>protected</emphasis> operations</para></listitem>
+<listitem><para><literal>-</literal>  Stands for <emphasis>private</emphasis> operations</para></listitem>
 </itemizedlist>
 </para>
 
@@ -226,8 +226,8 @@ Operations can, just as Attributes, display their visibility:
 <quote>gets</quote> all of the attributes and operations of the class it inherits from, and can
 override/modify some of them, as well as add more attributes and operations of its own.</para>
 <para>
-In UML, a <emphasis>Generalization</emphasis> association between two classes puts them in a hierarchy
-representing the concept of inheritance of a derived class from a base class. In UML, Generalizations are
+In &UML;, a <emphasis>Generalization</emphasis> association between two classes puts them in a hierarchy
+representing the concept of inheritance of a derived class from a base class. In &UML;, Generalizations are
 represented by a line connecting the two classes, with an arrow on the side of the base class.
 <screenshot>
 <screeninfo>Generalization</screeninfo>
@@ -236,17 +236,16 @@ represented by a line connecting the two classes, with an arrow on the side of t
 	    <imagedata fileref="pics/generalization.png" format="PNG"/>
 	  </imageobject>
 	  <textobject>
-	    <phrase>Visual representation of a generalization in UML</phrase>
+	    <phrase>Visual representation of a generalization in &UML;</phrase>
 	  </textobject>
 	  <caption>
-	    <para>Visual representation of a generalization in UML
+	    <para>Visual representation of a generalization in &UML;
 	    </para>
 	  </caption>
 	</mediaobject>
 </screenshot>
 </para>
 </sect4>
-
 
 <sect4 id="uml-associations">
 <title>Associations</title>
@@ -263,27 +262,26 @@ one of them knows about the other). Each end of the association also has a multi
 how many objects on this side of the association can relate to one object on the other side.
 </para>
 <para>
-In UML, associations are represented as lines connecting the classes participating in the relationship,
+In &UML;, associations are represented as lines connecting the classes participating in the relationship,
 and can also show the role and the multiplicity of each of the participants. Multiplicity is displayed as a
-range [min..max] of non-negative values, with a star (*) on the maximum side representing infinite.
+range [min..max] of non-negative values, with a star (<literal>*</literal>) on the maximum side representing infinite.
 <screenshot>
-<screeninfo>UML Association</screeninfo>
+<screeninfo>&UML; Association</screeninfo>
 	<mediaobject>
 	  <imageobject>
 	    <imagedata fileref="pics/association.png" format="PNG"/>
 	  </imageobject>
 	  <textobject>
-	    <phrase>Visual representation of an Association in UML</phrase>
+	    <phrase>Visual representation of an Association in &UML;</phrase>
 	  </textobject>
 	  <caption>
-	    <para>Visual representation of an Association in UML
+	    <para>Visual representation of an Association in &UML;
 	    </para>
 	  </caption>
 	</mediaobject>
 </screenshot>
 </para>
 </sect4>
-
 
 <sect4 id="aggregation">
 <title>Aggregation</title>
@@ -293,7 +291,7 @@ that takes the role of the whole, is composed (has) of other classes, which take
 For Aggregations, the class acting as the whole always has a multiplicity of one.
 </para>
 <para>
-In UML, Aggregations are represented by an association that shows a rhomb on the side of the whole.
+In &UML;, Aggregations are represented by an association that shows a rhomb on the side of the whole.
 <screenshot>
 <screeninfo>Aggregation</screeninfo>
 	<mediaobject>
@@ -301,10 +299,10 @@ In UML, Aggregations are represented by an association that shows a rhomb on the
 	    <imagedata fileref="pics/aggregation.png" format="PNG"/>
 	  </imageobject>
 	  <textobject>
-	    <phrase>Visual representation of an Aggregation relationship in UML</phrase>
+	    <phrase>Visual representation of an Aggregation relationship in &UML;</phrase>
 	  </textobject>
 	  <caption>
-	    <para>Visual representation of an Aggregation relationship in UML
+	    <para>Visual representation of an Aggregation relationship in &UML;
 	    </para>
 	  </caption>
 	</mediaobject>
@@ -316,7 +314,7 @@ In UML, Aggregations are represented by an association that shows a rhomb on the
 <para>Compositions are associations that represent <emphasis>very strong</emphasis> aggregations. This means,
 Compositions form whole-part relationships as well, but the relationship is so strong that the parts cannot
 exist on its own. They exist only inside the whole, and if the whole is destroyed the parts die too.</para>
-<para>In UML, Compositions are represented by a solid rhomb on the side of the whole.
+<para>In &UML;, Compositions are represented by a solid rhomb on the side of the whole.
 </para>
 <para><screenshot>
 <screeninfo>Composition</screeninfo>
@@ -325,7 +323,7 @@ exist on its own. They exist only inside the whole, and if the whole is destroye
 	    <imagedata fileref="pics/composition.png" format="PNG"/>
 	  </imageobject>
 	  <textobject>
-	    <phrase>Visual representation of a Composition relationship in UML</phrase>
+	    <phrase>Visual representation of a Composition relationship in &UML;</phrase>
 	  </textobject>
 	</mediaobject>
 </screenshot></para>
@@ -347,10 +345,10 @@ Activities.
 	    <imagedata fileref="pics/activity-diagram.png" format="PNG"/>
 	  </imageobject>
 	  <textobject>
-	    <phrase>Umbrello showing an Activity Diagram</phrase>
+	    <phrase>&umbrello; showing an Activity Diagram</phrase>
 	  </textobject>
 	  <caption>
-	    <para>Umbrello showing an Activity Diagram
+	    <para>&umbrello; showing an Activity Diagram
 	    </para>
 	  </caption>
 	</mediaobject>
@@ -385,7 +383,7 @@ of the detail diagram.
 <sect2 id="sequence-diagram">
 <title>Sequence Diagrams</title>
 
-<para> Sequence Diagrams show the message exchange (i.e. method call)
+<para> Sequence Diagrams show the message exchange (&ie; method call)
 between several Objects, in a specific, time-delimited
 situation. Sequence Diagrams put special emphasis in the order and the
 times in which the messages to the objects are sent.</para>
@@ -399,7 +397,7 @@ Rectangles are drawn on top of the dashed
 lines, which represent that that object has control of the program flow.
 -->
 </para>
-<para>
+
 <screenshot>
 <screeninfo>Sequence Diagram</screeninfo>
 	<mediaobject>
@@ -407,15 +405,15 @@ lines, which represent that that object has control of the program flow.
 	    <imagedata fileref="pics/sequence-diagram.png" format="PNG"/>
 	  </imageobject>
 	  <textobject>
-	    <phrase>Umbrello showing a Sequence Diagram</phrase>
+	    <phrase>&umbrello; showing a Sequence Diagram</phrase>
 	  </textobject>
 	  <caption>
-	    <para>Umbrello showing a Sequence Diagram
+	    <para>&umbrello; showing a Sequence Diagram
 	    </para>
 	  </caption>
 	</mediaobject>
 </screenshot>
-</para>
+
 </sect2>
 <sect2 id="collaboration-diagram">
 <title>Collaboration Diagrams</title>
@@ -429,7 +427,7 @@ the message name, parameters, and the sequence of the message. Collaboration Dia
 to showing a specific program flow or situation and are one of the best diagram types to quickly demonstrate
 or explain one process in the program logic.
 </para>
-<para>
+
 <screenshot>
 <screeninfo>Collaboration</screeninfo>
 	<mediaobject>
@@ -437,15 +435,15 @@ or explain one process in the program logic.
 	    <imagedata fileref="pics/collaboration-diagram.png" format="PNG"/>
 	  </imageobject>
 	  <textobject>
-	    <phrase>Umbrello showing a Collaboration Diagram</phrase>
+	    <phrase>&umbrello; showing a Collaboration Diagram</phrase>
 	  </textobject>
 	  <caption>
-	    <para>Umbrello showing a Collaboration Diagram
+	    <para>&umbrello; showing a Collaboration Diagram
 	    </para>
 	  </caption>
 	</mediaobject>
 </screenshot>
-</para>
+
 </sect2>
 
 <sect2 id="state-diagram">
@@ -481,10 +479,10 @@ an Object of type <emphasis>NetServer</emphasis> can be in one of following stat
 	    <imagedata fileref="pics/state-diagram.png" format="PNG"/>
 	  </imageobject>
 	  <textobject>
-	    <phrase>Umbrello showing a State Diagram</phrase>
+	    <phrase>&umbrello; showing a State Diagram</phrase>
 	  </textobject>
 	  <caption>
-	    <para>Umbrello showing a State Diagram
+	    <para>&umbrello; showing a State Diagram
 	    </para>
 	  </caption>
 	</mediaobject>
@@ -493,7 +491,7 @@ an Object of type <emphasis>NetServer</emphasis> can be in one of following stat
 <sect3 id="state">
 <title>State</title>
 <para>States are the building block of State Diagrams. A State belongs to exactly one class and represents
-a summary of the values the attributes of a class can take. A UML State describes the internal state of an 
+a summary of the values the attributes of a class can take. A &UML; State describes the internal state of an 
 object of one particular class
 </para>                       
 <para>Note that not every change in one of the attributes of an object should be represented by a State
@@ -508,7 +506,7 @@ an Object out of its End state once it has reached it.
 </sect2>
 <sect2 id="helper-elements">
 <title>Helper Elements</title>
-<para>There are two elements in UML that have no real semantic value for the model, but help to clarify
+<para>There are two elements in &UML; that have no real semantic value for the model, but help to clarify
 parts of the diagram. These elements are </para>
 <itemizedlist>
 <listitem><para>Text lines</para></listitem>
@@ -521,11 +519,11 @@ meaning to the Model itself.
 </para>           
 <para> 
 Notes are useful to add more detailed information about an object or a specific situation. They have the great
-advantage that Notes can be anchored to UML Elements to show that the Note <quote>belongs</quote> to a specific
+advantage that notes can be anchored to &UML; Elements to show that the note <quote>belongs</quote> to a specific
 object or situation
 </para>    
 <para>Anchors have also no semantic value, but are useful to link two elements close together. Anchors are
-specially used to associate a Note to a particular object in a Diagram.
+specially used to associate a note to a particular object in a Diagram.
 </para>
 
 <!-- FIXME, screenshot -->
