@@ -749,8 +749,10 @@ void UMLWidget::adjustAssocs(int x, int y)
 	if ( m_pView->getDocument()->loading() ) {
 		// don't recalculate the assocs during load of XMI
 		// -> return immediately without action
+		QString trace = kdBacktrace();
 		kdDebug() << "UMLWidget::adjustAssocs() called during load of XMI for ViewType: " << m_pView -> getType()
 			<< ", and BaseType: " << getBaseType()
+			<< ",\nwith Backtrace: " << trace
 			<< endl;
 		return;
 	}

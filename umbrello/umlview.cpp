@@ -1514,7 +1514,7 @@ bool UMLView::activate() {
 		if(obj->isActivated())
 			continue;
 
-		if(!m_pDoc->loading() && !obj->activate(m_pDoc->getChangeLog())) {
+		if(!m_pDoc->loading() || !obj->activate(m_pDoc->getChangeLog())) {
 			kdDebug() << "Couldn't activate message widget" << endl;
 			continue;
 		}

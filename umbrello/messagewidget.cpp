@@ -327,7 +327,14 @@ bool MessageWidget::activate(IDChangeLog * Log /*= 0*/) {
 	m_pFText -> setUMLObject( m_pOw[B] -> getUMLObject() );
 	connect(m_pOw[A], SIGNAL(sigWidgetMoved(int)), this, SLOT(slotWidgetMoved(int)));
 	connect(m_pOw[B], SIGNAL(sigWidgetMoved(int)), this, SLOT(slotWidgetMoved(int)));
-	calculateDimensions();
+	if ( ! m_pView->getDocument()->loading() )
+	{ // calculate the dimensions only if no XMI file is loaded
+		// - this functions derives the dimension properties of this widget ( as said by the
+		//   function
+		// - thus it calls also the UMLWidget::adjustAssocs() function - which is bad
+		// Despite in case of a _NEW_ message widget, this calculation is important
+		calculateDimensions();
+	}
 
 	connect(this, SIGNAL(sigMessageMoved()), m_pOw[A], SLOT(slotMessageMoved()) );
 	connect(this, SIGNAL(sigMessageMoved()), m_pOw[B], SLOT(slotMessageMoved()) );
