@@ -209,11 +209,7 @@ void InterfaceWidget::calculateAsConceptSize() {
 	height = width = 0;
 	//set the height of the concept
 	if (m_bShowOperations) {
-		UMLOperationList list((static_cast<UMLClassifier*>(m_pObject))->getOpList());
-		for (UMLOperation *obj = list.first(); obj; obj = list.next()) {
-			if (!(m_bShowPublicOnly && obj->getScope() != Uml::Public))
-				numOps++;
-		}
+		numOps = ClassifierWidget::displayedOperations();
 		lines += numOps;
 		if(numOps == 0) {
 			height += fontHeight / 2;//no ops, so just add a but of space
