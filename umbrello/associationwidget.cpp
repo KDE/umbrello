@@ -1014,6 +1014,18 @@ void AssociationWidget::mouseDoubleClickEvent(QMouseEvent * me) {
 }
 
 void AssociationWidget::moveEvent(QMoveEvent* me) {
+	// 2004-04-30: Achim Spangler
+	// Simple Approach to block moveEvent during load of
+	// XMI
+	/// @todo avoid trigger of this event during load
+	if ( m_pView->getDocument()->loading() ) {
+		// hmmh - change of position during load of XMI
+		// -> there is something wrong
+		// -> avoid movement during opening
+		// -> print warn and stay at old position
+		kdWarning() << "AssociationWidget::moveEvent() called during load of XMI" << endl;
+		return;
+	}
 	/*to be here a line segment has moved.
 	  we need to see if the three text widgets needs to be moved.
 	  there are a few things to check first though:
@@ -1309,6 +1321,18 @@ void AssociationWidget::mergeAssociationDataIntoUMLRepresentation()
 
 /** Adjusts the ending point of the association that connects to Widget */
 void AssociationWidget::widgetMoved(UMLWidget* widget, int x, int y ) {
+	// 2004-04-30: Achim Spangler
+	// Simple Approach to block moveEvent during load of
+	// XMI
+	/// @todo avoid trigger of this event during load
+	if ( m_pView->getDocument()->loading() ) {
+		// hmmh - change of position during load of XMI
+		// -> there is something wrong
+		// -> avoid movement during opening
+		// -> print warn and stay at old position
+		kdDebug() << "AssociationWidget::widgetMoved() called during load of XMI" << endl;
+		return;
+	}
 	QPoint oldNamePoint = calculateTextPosition(tr_Name);
 	QPoint oldMultiAPoint = calculateTextPosition(tr_MultiA);
 	QPoint oldMultiBPoint = calculateTextPosition(tr_MultiB);
@@ -3201,6 +3225,16 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
 
 				case Uml::tr_RoleAName:
 					m_role[A].m_pRole = ft;
+					// <2004-05-13: Achim Spangler>
+					// Old style xmi files did store RoleNameA text
+					// only within FloatingTextWidget for this role
+					// -> without this change, each role name gets lost
+					//    if the corresponding association properties are edited
+					//    ( during activation of property dialog, the text of
+					//      previously displayed role labels gets overwritten
+					//      by the empty AssociationEndRole texts )
+					setRoleNameA( ft->getText() );
+					// </2004-05-13: Achim Spangler>
 					if(oldStyleLoad)
 						if( AssocRules::allowRole( getAssocType()) )
 							setRoleNameA(m_role[A].m_pRole->getText());
@@ -3211,6 +3245,16 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
 					break;
 				case Uml::tr_RoleBName:
 					m_role[B].m_pRole = ft;
+					// <2004-05-13: Achim Spangler>
+					// Old style xmi files did store RoleNameA text
+					// only within FloatingTextWidget for this role
+					// -> without this change, each role name gets lost
+					//    if the corresponding association properties are edited
+					//    ( during activation of property dialog, the text of
+					//      previously displayed role labels gets overwritten
+					//      by the empty AssociationEndRole texts )
+					setRoleNameB( ft->getText() );
+					// </2004-05-13: Achim Spangler>
 					if(oldStyleLoad)
 						if( AssocRules::allowRole( getAssocType()) )
 							setRoleNameB(m_role[B].m_pRole->getText());
