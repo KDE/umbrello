@@ -335,7 +335,7 @@ If 'Snap to Grid' is enabled a component will always be aligned with the grid on
                                         <cstring>TextLabe15</cstring>
                                     </property>
                                     <property name="text">
-                                        <string>Line Width:  </string>
+                                        <string>Line width:  </string>
                                     </property>
                                 </widget>
                                 <widget class="QSpinBox">
