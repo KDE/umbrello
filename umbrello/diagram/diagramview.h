@@ -45,7 +45,7 @@ protected:
 	virtual void contentsMousePressEvent( QMouseEvent *e );
 	virtual void contentsMouseReleaseEvent(QMouseEvent *e );
 	virtual void contentsMouseMoveEvent( QMouseEvent *e );
-	virtual void contentsDoubleClickEvent( QMouseEvent *e );
+	virtual void contentsMouseDoubleClickEvent( QMouseEvent *e );
 	virtual void contentsDragEnterEvent(QDragEnterEvent *e);
 	virtual void contentsContextMenuEvent(QContextMenuEvent *e);
 	virtual void contentsDropEvent(QDropEvent *e);

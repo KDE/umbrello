@@ -76,7 +76,7 @@ Diagram* DiagramView::diagram() const
 
 void DiagramView::setTool( WorkToolBar::EditTool tool )
 {
-kdDebug()<<"setting current tool to : "<<tool<<endl;
+//kdDebug()<<"setting current tool to : "<<tool<<endl;
 	m_tool = tool;
 
 	QCursor cursor;
@@ -178,7 +178,10 @@ void DiagramView::contentsMousePressEvent( QMouseEvent *e )
 		if( diagram()->acceptType(*(umlTypeMap[m_tool])))
 		{
 			UMLObject *obj = diagram()->document()->createUMLObject(*(umlTypeMap[m_tool]));
-			diagram()->createUMLWidget(obj, diagramPos);
+			if( obj )
+			{
+				diagram()->createUMLWidget(obj, diagramPos);
+			}
 			return;
 		}
 		break;
@@ -205,8 +208,7 @@ void DiagramView::contentsMousePressEvent( QMouseEvent *e )
 		{//association creation is already in progres...
 			if(list.isEmpty())
 			{//make an anchor point / create a path
-				kdDebug()<<"anchor point here.."<<endl;
-				kdDebug()<<"check for shift/ctl to make orthogonal lines"<<endl;
+				//kdDebug()<<"check for shift/ctl to make orthogonal lines"<<endl;
 				QCanvasLine *line = m_linePath->last();
 				line->setPoints(line->startPoint().x(),line->startPoint().y(),diagramPos.x(),diagramPos.y());
 				line = new QCanvasLine(canvas());
@@ -217,24 +219,26 @@ void DiagramView::contentsMousePressEvent( QMouseEvent *e )
 				return;
 			}
 			else
-			{//check if assoc ok, create association and widget
-				kdDebug()<<"create association here, then create assocWidget, and then set widget's path to linePath."<<endl;
+			{//check if assoc ok, create association and widget				
 				UMLWidget *wB = dynamic_cast<UMLWidget*>(list.first());
 				if(!wB)
 				{
-				kdDebug()<<"we hit something that is not an UMLWidget!!"<<endl;
-				return;
+					kdDebug()<<"we hit something that is not an UMLWidget!!"<<endl;
+					return;
 				}
-				QPtrList<QPoint> path;
-				path.setAutoDelete(true);
-
-				for(QCanvasLine *line = m_linePath->first(); line ; line = m_linePath->next() )
+				//FIXME checkAssociation widgatA->umlObject(), widgetB->umlObject(), assoctype
+				// or have the document check the association and return 0 / throw exception if not valid
+				QPointArray path( m_linePath->count() );
+				for( int i = 0; i < m_linePath->count(); i++ )
 				{
-					path.append(new QPoint(line->endPoint()));
+					path[i] = m_linePath->at(i)->endPoint();
 				}
 				UMLWidget *wA = dynamic_cast<UMLWidget*>(m_widgetStack->first());
 				UMLAssociation *assoc = diagram()->document()->createUMLAssociation( wA->umlObject( ), wB->umlObject( ), associationTypeMap[m_tool]);
-				diagram()->createAssociationWidget( assoc,wA, wB, path );
+				if( assoc )
+				{
+					diagram()->createAssociationWidget( assoc,wA, wB, path );
+				}
 
 				viewport()->setMouseTracking(false);
 				m_linePath->clear();
@@ -253,7 +257,6 @@ void DiagramView::contentsMousePressEvent( QMouseEvent *e )
 		else
 		{
 			m_currentAction = CreatingAssociation;
-			kdDebug()<<"starting association. first ask if object can accept this association"<<endl;
 			UMLWidget *w = dynamic_cast<UMLWidget*>(list.first());
 			if(!w)
 			{//we hit something but it was not a UMLWidget (maybe a customwidget or another kind of
@@ -345,15 +348,16 @@ if( m_tool == WorkToolBar::Select && m_currentAction == Selecting )
 }
 m_savedPosition = e->pos();
 QPoint diagramPos = e->pos(); //FIXME transform coordinates
-QCanvasItemList list = diagram()->collisions(diagramPos);
 switch( m_tool )
 {
 	case WorkToolBar::Select:
+		{QCanvasItemList list = diagram()->collisions(diagramPos);
 		if(list.isEmpty())
 		{
 			return;
 		}
 		diagram()->moveSelectedBy(diff.x(),diff.y());
+		}
 		break;
 	case WorkToolBar::Generalization:
 	case WorkToolBar::Aggregation:
@@ -370,13 +374,13 @@ switch( m_tool )
 }
 }
 
-void DiagramView::contentsDoubleClickEvent( QMouseEvent *e )
+void DiagramView::contentsMouseDoubleClickEvent( QMouseEvent *e )
 {
 QPoint diagramPos = e->pos(); //translate FIXME
 QCanvasItemList list = diagram()->collisions(diagramPos);
 if(!list.isEmpty())
 {
-	dynamic_cast<DiagramElement*>(list.first())->doubleClick();
+	dynamic_cast<DiagramElement*>(list.first())->execDefaultAction();
 }
 
 
@@ -398,7 +402,6 @@ diagram()->dropEvent(e);
 
 void DiagramView::focusInEvent(QFocusEvent *e)
 {
-kdDebug()<<"telling toolbar to change icons"<<endl;
 	toolBar->slotCheckToolBar((Uml::Diagram_Type)diagram()->diagramType());
 	QCanvasView::focusInEvent(e);
 }
