@@ -125,20 +125,6 @@ public:
 	int enumLiterals();
 
 	/**
-	 * Return the list of enumliterals for the class.
-	 *
-	 * @return	Pointer to the list of enumliterals for the class.
-	 */
-	UMLClassifierListItemList* getEnumLiteralList();
-
-	/**
-	 * Returns the entries in m_EnumLiteralList that are actually enumliterals.
-	 *
-	 * @return	The list of true enumliterals for the class.
-	 */
-	UMLEnumLiteralList getFilteredEnumLiteralList();
-
-	/**
 	 * Find a list of enumliterals with the given name.
 	 *
 	 * @param t		The type to find.
@@ -165,10 +151,6 @@ protected:
 	 */
 	bool load( QDomElement & element );
 
-	/**
-	 * List of all the enumliterals in this class.
-	 */
-	UMLClassifierListItemList m_EnumLiteralList;
 private:
 	/**
 	 * Initializes key variables of the class.

@@ -27,8 +27,8 @@
 #include "../umldoc.h"
 #include "../class.h"
 #include "../enum.h"
-#include "../enumliteral.h"
-#include "../umlenumliterallist.h"
+#include "../classifierlistitem.h"
+#include "../umlclassifierlistitemlist.h"
 #include "../package.h"
 #include "../association.h"
 #include "../attribute.h"
@@ -199,11 +199,11 @@ void IDLWriter::writeClass(UMLClassifier *c) {
 
 	if (c->getBaseType() == Uml::ot_Enum) {
 		UMLEnum *ue = static_cast<UMLEnum*>(c);
-		UMLEnumLiteralList litList = ue->getFilteredEnumLiteralList();
+		UMLClassifierListItemList litList = ue->getFilteredList(Uml::ot_EnumLiteral);
 		uint i = 0;
 		idl << spc() << "enum " << classname << " {" << m_newLineEndingChars;
 		indentlevel++;
-		for (UMLEnumLiteral *lit = litList.first(); lit; lit = litList.next()) {
+		for (UMLClassifierListItem *lit = litList.first(); lit; lit = litList.next()) {
 			QString enumLiteral = cleanName(lit->getName());
 			idl << spc() << enumLiteral;
 			if (++i < litList.count())

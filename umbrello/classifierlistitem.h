@@ -80,12 +80,12 @@ public:
 	void setType(UMLClassifier *type);
 
 	/**
-	 * Returns a string representation of the operation.
+	 * Returns a string representation of the list item.
 	 *
 	 * @param sig		What type of operation string to show.
 	 * @return	The string representation of the operation.
 	 */
-	virtual QString toString(Signature_Type sig = st_NoSig) = 0;
+	virtual QString toString(Signature_Type sig = st_NoSig);
 
 	/**
 	 * Display the properties configuration dialogue for the list item.

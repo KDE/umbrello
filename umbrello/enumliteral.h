@@ -69,15 +69,6 @@ public:
 	QString getTypeName();
 
 	/**
-	 * Returns a string representation of the UMLEnumLiteral.
-	 *
-	 * @param sig		If true will show the enum literal type and
-	 *			inital value.
-	 * @return	Returns a string representation of the UMLEnumLiteral.
-	 */
-	QString toString(Signature_Type sig = st_NoSig);
-
-	/**
 	 * Creates the <UML:EnumLiteral> XMI element.
 	 */
 	void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);

@@ -34,6 +34,10 @@ void UMLClassifierListItem::copyInto(UMLClassifierListItem *rhs) const
 	UMLObject::copyInto(rhs);
 }
 
+QString UMLClassifierListItem::toString(Signature_Type /*sig*/) {
+	return getName();
+}
+
 UMLClassifier * UMLClassifierListItem::getType() {
 	return m_pType;
 }

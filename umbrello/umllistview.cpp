@@ -65,6 +65,8 @@ class LVToolTip : public QToolTip
 	virtual void maybeTip (const QPoint& pos) {
 		UMLListView *lv = UMLApp::app()->getListView();
 		UMLListViewItem * item = (UMLListViewItem*)lv->itemAt(pos);
+		if (item == NULL)
+			return;
 		UMLObject *obj = item->getUMLObject();
 		if (obj == NULL || obj->getBaseType() != Uml::ot_Operation)
 			return;

@@ -172,22 +172,31 @@ void ClassifierListPage::slotClicked(QListBoxItem*item) {
 	//
 	// for more information see Qt doc for void QListBox::clearSelection()
 	UMLClassifierListItem* listItem;
-	if(!item && m_pItemListLB->count() == 0) {
-		enableWidgets(false);
-		m_pOldListItem = 0;
-		m_pItemListLB->clearSelection();
+	if (item == NULL) {
+		if (m_pItemListLB->count() == 0) {
+			enableWidgets(false);
+			m_pOldListItem = 0;
+			m_pItemListLB->clearSelection();
+		} else {
+			kdDebug() << "ClassifierListPage::slotClicked: item is NULL"
+				  << endl;
+		}
 		return;
-	} else if (!item && m_pItemListLB->count() > 0) {
-		m_pItemListLB->setSelected(0, true);
-		listItem = getItemList().at(0);
-	} else {
-		listItem = getItemList().at( m_pItemListLB->index(item) );
 	}
-
-	//now update screen
-	m_pDocTE->setText( listItem->getDoc() );
-	enableWidgets(true);
-	m_pOldListItem = listItem;
+	UMLClassifierListItemList itemList(getItemList());
+	if (m_pItemListLB->count() > 0) {
+		m_pItemListLB->setSelected(0, true);
+		listItem = itemList.at(0);
+	} else {
+		int index = m_pItemListLB->index(item);
+		listItem = itemList.at(index);
+	}
+	if (listItem) {
+		//now update screen
+		m_pDocTE->setText( listItem->getDoc() );
+		enableWidgets(true);
+		m_pOldListItem = listItem;
+	}
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void ClassifierListPage::updateObject() {
@@ -210,7 +219,7 @@ void ClassifierListPage::slotListItemCreated(UMLObject* object) {
 		return;
 	}
 	int index = m_pItemListLB->count();
-	m_pItemListLB ->insertItem((static_cast<UMLClassifierListItem*>(object))->getName(), index);
+	m_pItemListLB->insertItem(object->getName(), index);
 	m_bSigWaiting = false;
 
 	// now select the new item, so that the user can go on adding doc or calling

@@ -10,6 +10,8 @@
 #include "enumwidget.h"
 #include "enum.h"
 #include "enumliteral.h"
+#include "classifier.h"
+#include "umlclassifierlistitemlist.h"
 #include "classifierlistitem.h"
 #include "umlview.h"
 #include "umldoc.h"
@@ -89,10 +91,11 @@ void EnumWidget::draw(QPainter& p, int offsetX, int offsetY) {
 	p.drawLine(offsetX, offsetY + y, offsetX + w - 1, offsetY + y);
 
 	QFontMetrics fontMetrics(font);
+	UMLClassifier *classifier = (UMLClassifier*)m_pObject;
 	UMLClassifierListItem* enumLiteral = 0;
-	UMLClassifierListItemList* list = ((UMLEnum*)m_pObject)->getEnumLiteralList();
-	for(enumLiteral=list->first(); enumLiteral != 0; enumLiteral=list->next()) {
-		QString text = enumLiteral->toString( st_NoSig );
+	UMLClassifierListItemList list = classifier->getFilteredList(Uml::ot_EnumLiteral);
+	for (enumLiteral = list.first(); enumLiteral; enumLiteral = list.next()) {
+		QString text = enumLiteral->getName();
 		p.setPen( QPen(black) );
 		p.drawText(offsetX + ENUM_MARGIN, offsetY + y,
 			   fontMetrics.width(text), fontHeight, AlignVCenter, text);
@@ -145,10 +148,11 @@ void EnumWidget::calculateSize() {
 
 	width = w > width?w:width;
 
-	UMLClassifierListItemList* list = ((UMLEnum*)m_pObject)->getEnumLiteralList();
+	UMLClassifier *classifier = (UMLClassifier*)m_pObject;
+	UMLClassifierListItemList list = classifier->getFilteredList(Uml::ot_EnumLiteral);
 	UMLClassifierListItem* listItem = 0;
-	for (listItem = list->first();listItem != 0; listItem = list->next()) {
-		int w = fm.width( listItem->toString(st_NoSig) );
+	for (listItem = list.first(); listItem; listItem = list.next()) {
+		int w = fm.width( listItem->getName() );
 		width = w > width?w:width;
 	}
 

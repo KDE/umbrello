@@ -48,10 +48,6 @@ UMLObject* UMLEnumLiteral::clone() const
 }
 
 
-QString UMLEnumLiteral::toString(Signature_Type /*sig = st_NoSig*/) {
-	return getName();
-}
-
 void UMLEnumLiteral::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
 	QDomElement attributeElement = UMLObject::save("UML:EnumerationLiteral", qDoc);
 	qElement.appendChild( attributeElement );
