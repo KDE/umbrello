@@ -37,6 +37,13 @@ UMLObjectList& UMLPackage::containedObjects() {
 	return m_objects;
 }
 
+UMLObject * UMLPackage::findObject(QString name) {
+	for (UMLObject *obj = m_objects.first(); obj; obj = m_objects.next())
+		if (obj->getName() == name)
+			return obj;
+	return NULL;
+}
+
 bool UMLPackage::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
 	QDomElement packageElement = qDoc.createElement("UML:Package");
 	bool status = UMLObject::saveToXMI(qDoc, packageElement);

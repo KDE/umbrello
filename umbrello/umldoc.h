@@ -193,7 +193,14 @@ public:
 	 * @param lv		Pointer to the UMLListView.
 	 */
 	void setupListView(UMLListView *lv);
-	
+
+	/**
+	 * Returns true if the given name is unique within its scope.
+	 *
+	 * @param name		The name to check.
+	 * @return	True if name is unique.
+	 */
+	bool isUnique(QString name);
 
 	/**
 	 * Creates a @ref UMLObject of the given type.
@@ -220,12 +227,12 @@ public:
 	 * @return	The UMLObject created
 	 */
 	UMLObject* createUMLObject(UMLObject* o, UMLObject_Type type);
-	
+
 	/**
 	 * Creates an operation in the current document.
 	 * The new Operation is already initialized with name, id, etc.
 	 * If no name is provided, or if the name given as parameter conflicts with
-	 * other operations in the classifier, an Operation Dialog is shown to ask the user 
+	 * other operations in the classifier, an Operation Dialog is shown to ask the user
 	 * for a name and gives the chance to set other Op. properties
 	 * The Operation's signature is checked for validity within the parent classifier.
 	 *
@@ -378,7 +385,7 @@ public:
          * @param o		Pointer to the UMLObject to delete.
          */
         void removeUMLObject(UMLObject*o);
-	
+
 
 	/**
 	 * Used to rename a document.  This method takes care of everything.
@@ -468,7 +475,7 @@ public:
 	 * @return	Pointer to the view found, or NULL if not found.
 	 */
 	UMLView * findView(Diagram_Type type, QString name);
-	
+
 
 	/**
 	 * Used to give a unique ID to any sort of object.
@@ -838,7 +845,7 @@ public:
 	/**
 	 * Allow checking to see if saved XMI parameters exist already.
 	 */
-	bool hasCodeGeneratorXMIParams ( QString lang ); 
+	bool hasCodeGeneratorXMIParams ( QString lang );
 
 	/**
 	 * All the UMLViews (i.e. diagrams)
@@ -929,7 +936,7 @@ private:
 	void initSaveTimer();
 
 	CodeGenerator * m_currentcodegenerator;
-	UMLObjectList objectList;	
+	UMLObjectList objectList;
 	int uniqueID;
 	bool m_modified;
 	KURL doc_url;
@@ -1020,7 +1027,7 @@ public slots:
 signals:
 	void sigUpdateItem(int id);
 
-	void sigDiagramCreated(int id);	
+	void sigDiagramCreated(int id);
 	void sigDiagramRemoved(int id);
 	void sigDiagramRenamed(int t);
 	void sigDiagramChanged(Uml::Diagram_Type);

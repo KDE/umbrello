@@ -76,6 +76,14 @@ public:
 	UMLObjectList& containedObjects();
 
 	/**
+	 * Find the object of the given name in the list of contained objects.
+	 *
+	 * @param name		The name to seek.
+	 * @return	Pointer to the UMLObject found or NULL if not found.
+	 */
+	UMLObject * findObject(QString name);
+
+	/**
 	 * Creates the <UML:Package> XMI element.
 	 */
 	bool saveToXMI(QDomDocument& qDoc, QDomElement& qElement);

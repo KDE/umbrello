@@ -555,9 +555,8 @@ QString	UMLDoc::uniqObjectName(const UMLObject_Type type) {
 		currentName = i18n("new_object");
 
 	QString name = currentName;
-	for (int number = 0; findUMLObject(type, name); ++number,
-	        name = currentName + "_" + QString::number(number))
-		;
+	for (int number = 0; !isUnique(name); ++number)
+		name = currentName + "_" + QString::number(number);
 	return name;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -577,6 +576,21 @@ void UMLDoc::slotRemoveUMLObject( UMLObject * object )
 	objectList.remove(object);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+bool UMLDoc::isUnique(QString name)
+{
+	UMLListViewItem *parentItem = (UMLListViewItem*)listView->currentItem();
+	if (parentItem != NULL && parentItem->getType() == lvt_Package) {
+		UMLPackage *parentPkg = (UMLPackage*)parentItem->getUMLObject();
+		return (parentPkg->findObject(name) == NULL);
+	}
+	// Not currently in a package:
+	// Check against all objects that _dont_ have a parent package.
+	for (UMLObject *obj = objectList.first(); obj; obj = objectList.next())
+		if (obj->getUMLPackage() == NULL && obj->getName() == name)
+			return false;
+	return true;
+}
+
 UMLObject* UMLDoc::createUMLObject(const std::type_info &type)
 {
 //adapter.. just transform and forward request
@@ -609,9 +623,8 @@ UMLObject* UMLDoc::createUMLObject(const std::type_info &type)
 UMLObject* UMLDoc::createUMLObject(UMLObject_Type type, const QString &n) {
 	bool ok = false;
 	int id;
-	UMLObject *o = 0L;
 	QString name;
-	if( n.length() != 0 && !(o = findUMLObject(type,n)) )
+	if( !n.isEmpty() && isUnique(n) )
 	{
 		name = n;
 	}
@@ -627,12 +640,13 @@ UMLObject* UMLDoc::createUMLObject(UMLObject_Type type, const QString &n) {
 				KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
 				continue;
 			}
-			o = findUMLObject(type, name);
-			if (o) {
+			if (! isUnique(name)) {
 				KMessageBox::error(0, i18n("That name is already being used."), i18n("Not a Unique Name"));
+				name = "";
 			}
-		}while( name.length() == 0 || o != 0L );
+		} while (name.isEmpty());
 	}
+	UMLObject *o = NULL;
 	id = getUniqueID();
 	if(type == ot_Actor) {
 		o = new UMLActor(this, name, id);
@@ -1079,7 +1093,9 @@ void UMLDoc::renameUMLObject(UMLObject *o) {
 			break;
 		if(name.length() == 0)
 			KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
-		else if(!findUMLObject(o->getBaseType(), name)) {
+		else if (isUnique(name))  /* o->getBaseType() used to be considered here
+					     but I don't think it should be  --okellogg */
+		{
 			o->setName(name);
 			setModified(true);
 			break;
