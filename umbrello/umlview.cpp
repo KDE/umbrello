@@ -1047,6 +1047,12 @@ QRect UMLView::getDiagramRect() {
 		++assoc_it; // next assoc
 	}
 
+	// Margin:
+	startx -= 24;
+	starty -= 20;
+	endx += 24;
+	endy += 20;
+
 	return QRect(startx, starty,  endx - startx, endy - starty);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
