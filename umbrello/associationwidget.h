@@ -655,6 +655,12 @@ private:
 	QPoint calculateTextPosition(Text_Role role);
 
 	/**
+	 * Returns the FloatingText identified by the given text role.
+	 * Returns NULL if there is no FloatingText active for the text role.
+	 */
+	FloatingText* AssociationWidget::floatingText(Text_Role role);
+
+	/**
 	 * Puts the text widget with the given role at the given position.
 	 * This method is usually called after calling @ref calculateTextPostion
 	 * to get the needed postion.  It is a separate function in case there

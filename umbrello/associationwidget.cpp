@@ -1854,6 +1854,37 @@ void AssociationWidget::calculateNameTextSegment() {
 	}
 }
 
+FloatingText* AssociationWidget::floatingText(Text_Role role) {
+	FloatingText *ft = NULL;
+	switch(role) {
+		case tr_MultiA:
+			ft = m_role[A].m_pMulti;
+			break;
+		case tr_MultiB:
+			ft = m_role[B].m_pMulti;
+			break;
+		case tr_Name:
+		case tr_Coll_Message:
+			ft = m_pName;
+			break;
+		case tr_RoleAName:
+			ft = m_role[A].m_pRole;
+			break;
+		case tr_RoleBName:
+			ft = m_role[B].m_pRole;
+			break;
+		case tr_ChangeA:
+			ft = m_role[A].m_pChangeWidget;
+			break;
+		case tr_ChangeB:
+			ft = m_role[B].m_pChangeWidget;
+			break;
+		default:
+			break;
+	}
+	return ft;
+}
+
 void AssociationWidget::setTextPosition(Text_Role role, QPoint pos) {
 	bool startMove = false;
 	if( m_role[A].m_pMulti && m_role[A].m_pMulti->getStartMove() )
@@ -1874,32 +1905,9 @@ void AssociationWidget::setTextPosition(Text_Role role, QPoint pos) {
 	if (startMove) {
 		return;
 	}
-
-	switch(role) {
-		case tr_MultiA:
-			m_role[A].m_pMulti->setLinePos( pos.x(), pos.y() );
-			break;
-		case tr_MultiB:
-			m_role[B].m_pMulti->setLinePos( pos.x(), pos.y() );
-			break;
-		case tr_Name:
-		case tr_Coll_Message:
-			m_pName->setLinePos( pos.x(), pos.y() );
-			break;
-		case tr_RoleAName:
-			m_role[A].m_pRole->setLinePos( pos.x(), pos.y() );
-			break;
-		case tr_RoleBName:
-			m_role[B].m_pRole->setLinePos( pos.x(), pos.y() );
-			break;
-		case tr_ChangeA:
-			m_role[A].m_pChangeWidget->setLinePos( pos.x(), pos.y() );
-			break;
-		case tr_ChangeB:
-			m_role[B].m_pChangeWidget->setLinePos( pos.x(), pos.y() );
-			break;
-		default:
-			break;
+	FloatingText *ft = floatingText(role);
+	if (ft) {
+		ft->setLinePos( pos.x(), pos.y() );
 	}
 }
 
@@ -1923,41 +1931,10 @@ void AssociationWidget::setTextPositionRelatively(Text_Role role, QPoint pos, QP
 	if (startMove) {
 		return;
 	}
-
-	switch(role) {
-		case tr_MultiA:
-			m_role[A].m_pMulti->setLinePositionRelatively( pos.x(), pos.y(),
-							      oldPosition.x(), oldPosition.y() );
-			break;
-
-		case tr_MultiB:
-			m_role[B].m_pMulti->setLinePositionRelatively( pos.x(), pos.y(),
-							      oldPosition.x(), oldPosition.y() );
-			break;
-
-		case tr_Name:
-		case tr_Coll_Message:
-			m_pName->setLinePositionRelatively( pos.x(), pos.y(),
-							    oldPosition.x(), oldPosition.y() );
-			break;
-		case tr_RoleAName:
-			m_role[A].m_pRole->setLinePositionRelatively( pos.x(), pos.y(),
-							     oldPosition.x(), oldPosition.y() );
-			break;
-		case tr_RoleBName:
-			m_role[B].m_pRole->setLinePositionRelatively( pos.x(), pos.y(),
-							     oldPosition.x(), oldPosition.y() );
-			break;
-		case tr_ChangeA:
-			m_role[A].m_pChangeWidget->setLinePositionRelatively( pos.x(), pos.y(),
-								     oldPosition.x(), oldPosition.y() );
-			break;
-		case tr_ChangeB:
-			m_role[B].m_pChangeWidget->setLinePositionRelatively( pos.x(), pos.y(),
-								     oldPosition.x(), oldPosition.y() );
-			break;
-		default:
-			break;
+	FloatingText *ft = floatingText(role);
+	if (ft) {
+		ft->setLinePositionRelatively( pos.x(), pos.y(),
+					       oldPosition.x(), oldPosition.y() );
 	}
 }
 
