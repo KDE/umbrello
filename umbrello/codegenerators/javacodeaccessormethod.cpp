@@ -201,13 +201,6 @@ void JavaCodeAccessorMethod::updateMethodDeclaration()
         setStartMethodText(strVis+" "+methodReturnType+" "+methodName+" ( "+methodParams+" ) {");
         setEndMethodText("}");
 
-	// now, determine if this code block will even appear at all. The 
-	// code generation policy will set this
-        if(javapolicy->getAutoGenerateAccessors())
-		setWriteOutText(true);
-	else
-		setWriteOutText(false);
-
 }
 
 void JavaCodeAccessorMethod::init ( JavaCodeClassField * field) 
