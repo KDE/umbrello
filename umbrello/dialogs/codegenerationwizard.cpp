@@ -172,7 +172,7 @@ void CodeGenerationWizard::showPage(QWidget *page) {
 		{
 			if (KMessageBox::questionYesNo(this,
 					i18n("The directory %1 does not exist. Do you want to create it now?").arg(info.filePath()),
-					i18n("Output Directoy Does Not Exist")) == KMessageBox::Yes)
+					i18n("Output Directory Does Not Exist")) == KMessageBox::Yes)
 			{
 				QDir dir;
 				if(!dir.mkdir(info.filePath()))
