@@ -2197,21 +2197,6 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
 		switch( lvType ) {
 			case Uml::lvt_Actor:
 			case Uml::lvt_UseCase:
-			  /* check if UMLListViewItem with same nID is already created by
-				// SLOT-EVENT from creation of corresponding UMLObject
-				item = findItem(nID);
-				if (item == NULL)
-				{ // All items should already exist - they should have been created
-				  // by the slot event triggered by creation of corresponding object.
-				  // This is done so that we can load foreign XMI files which do not
-				  // have the umbrello specific <listview> info.
-					//FIXME: Item does not exist yet? It should.
-					kdDebug() << "UMLListView::loadChildrenFromXMI(): item "
-						  << label << " does not exist yet (?)" << endl;
-					item = new UMLListViewItem(parent, label, lvType, pObject);
-				}
-				break;
-			   */
 			case Uml::lvt_Class:
 			case Uml::lvt_Interface:
 			case Uml::lvt_Datatype:
@@ -2241,6 +2226,23 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
 					} else {
 						item = new UMLListViewItem(parent, label, lvType, pObject);
 					}
+				}
+				else
+				{ // The existing item was created by the slot event triggered
+				  // by the loading of the corresponding model object from the
+				  // XMI file.
+				  // This early creation is done in order to support the loading
+				  // of foreign XMI files that do not have the umbrello specific
+				  // <listview> tag.
+				  // However, now that we encountered the real <listview> info,
+				  // we need to delete the existing item: Its parent is always
+				  // one of the default predefined folders, but the actual
+				  // listview item might be located in a user created folder.
+				  // Thanks to Achim Spangler for spotting the problem.
+					if (label.isEmpty())
+						label = item->getText();
+					delete item;
+					item = new UMLListViewItem(parent, label, lvType, pObject);
 				}
 				break;
 			case Uml::lvt_Attribute:
