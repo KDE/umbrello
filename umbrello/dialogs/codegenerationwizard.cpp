@@ -48,6 +48,7 @@ CodeGenerationWizard::CodeGenerationWizard(UMLDoc *doc,
 
 	m_CodeGenerationOptionsPage = new CodeGenerationOptionsPage(doc->getCurrentCodeGenerator(), ldict,
 								    activeLanguage, this);
+	connect( m_CodeGenerationOptionsPage, SIGNAL(languageChanged()), this, SLOT(changeLanguage()) );
 
 	insertPage(m_CodeGenerationOptionsPage, i18n("Code Generation Options"), 1);
 
@@ -105,8 +106,6 @@ void CodeGenerationWizard::generateCode() {
 
 	CodeGenerator* codeGenerator = m_app->getGenerator();
 
-kdDebug()<<" WIZARD: gets generator:"<<codeGenerator<<endl;
-
 	if (codeGenerator) {
 
 		cancelButton()->setEnabled(false);
@@ -122,7 +121,6 @@ kdDebug()<<" WIZARD: gets generator:"<<codeGenerator<<endl;
 			UMLClassifier *concept =  m_doc->findUMLClassifier(item->text(0));
 			cList.append(concept);
 		}
-kdDebug()<<" WIZARD: Writing code to CFile"<<endl;
 		codeGenerator->writeCodeToFile(cList);
 		finishButton()->setText(i18n("Finish"));
 		finishButton()->disconnect();
@@ -134,7 +132,7 @@ kdDebug()<<" WIZARD: Writing code to CFile"<<endl;
 void CodeGenerationWizard::classGenerated(UMLClassifier* concept, bool generated) {
 	QListViewItem* item = m_statusList->findItem( concept->getName(), 0 );
 	if( !item ) {
-		kdDebug()<<"GenerationStatusPage::Error finding class in list view"<<endl;
+		kdError()<<"GenerationStatusPage::Error finding class in list view"<<endl;
 	} else if (generated) {
 		item->setText( 1, i18n("Code Generated") );
 	} else {
@@ -241,6 +239,15 @@ CodeGenerator* CodeGenerationWizard::generator() {
 	return g;
 */
 	return (CodeGenerator*) NULL;
+}
+
+// when we change language, we need to update the codegenoptions page
+// language-dependent stuff. THe way to do this is to call its "apply" method.
+void CodeGenerationWizard::changeLanguage() 
+{
+	m_app->setActiveLanguage( m_CodeGenerationOptionsPage->getCodeGenerationLanguage() );
+	m_CodeGenerationOptionsPage->setCodeGenerator(m_doc->getCurrentCodeGenerator());
+	m_CodeGenerationOptionsPage->apply();
 }
 
 #include "codegenerationwizard.moc"

@@ -56,6 +56,10 @@ protected slots:
 	void generateCode();
 	void classGenerated(UMLClassifier* concept, bool generated);
 
+private slots:
+	void changeLanguage();
+
+
 private:
 	CodeGenerator* generator();
 
