@@ -2473,21 +2473,33 @@ void UMLView::createAutoAssociations( UMLWidget * widget ) {
 		if (pOtherWidget == NULL)
 			continue;
 		// Both objects are represented in this view:
+		// Assign widget roles as indicated by the UMLAssociation.
+		UMLWidget *widgetA, *widgetB;
+		if (myID == roleAObj->getID()) {
+			widgetA = widget;
+			widgetB = pOtherWidget;
+		} else {
+			widgetA = pOtherWidget;
+			widgetB = widget;
+		}
 		// Check that the assocwidget does not already exist.
 		Uml::Association_Type assocType = assoc->getAssocType();
-		AssociationWidget * temp = findAssocWidget(assocType, widget, pOtherWidget);
+		AssociationWidget * temp = findAssocWidget(assocType, widgetA, widgetB);
 		if (temp) {
 			temp->calculateEndingPoints();  // recompute assoc lines
 			continue;
 		}
 		// Check that the assoc is allowed.
-		if (!AssocRules::allowAssociation(assocType, widget, pOtherWidget, false)) {
+		if (!AssocRules::allowAssociation(assocType, widgetA, widgetB, false)) {
 			kdDebug() << "createAutoAssociations: not transferring assoc "
 				  << "of type " << assocType << endl;
 			continue;
 		}
 		// Create the AssociationWidget.
-		temp = new AssociationWidget( this, widget, assocType, pOtherWidget );
+		temp = new AssociationWidget( this );
+		temp->setWidgetA(widgetA);
+		temp->setWidgetB(widgetB);
+		temp->setAssocType(assocType);
 		temp->setVisibilityA(assoc->getVisibilityA());
 		temp->setVisibilityB(assoc->getVisibilityB());
 		temp->setChangeabilityA(assoc->getChangeabilityA());
@@ -2496,6 +2508,8 @@ void UMLView::createAutoAssociations( UMLWidget * widget ) {
 		temp->setMultiB(assoc->getMultiB());
 		temp->setRoleNameA(assoc->getRoleNameA());
 		temp->setRoleNameB(assoc->getRoleNameB());
+		temp->calculateEndingPoints();
+		temp->setActivated(true);
 		if (! addAssociation(temp))
 			delete temp;
 	}
