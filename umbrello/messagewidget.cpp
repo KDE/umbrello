@@ -225,23 +225,6 @@ bool MessageWidget::onWidget(const QPoint & p) {
 	return true;
 }
 
-QPoint MessageWidget::calculateTextPosition() {
-	const int xLowerBound = getX() + 5;
-	int ftX = m_pFText->getX();
-	if (ftX < xLowerBound || m_pFText->getRole() == Uml::tr_Seq_Message_Self)
-		ftX = xLowerBound;
-	else {
-		const int objB_seqLineX = m_pOw[Uml::B]->getX() + m_pOw[Uml::B]->getWidth() / 2;
-		const int xUpperBound = objB_seqLineX - m_pFText->getWidth() - 5;
-		if (xUpperBound <= xLowerBound)
-			ftX = xLowerBound;
-		else if (ftX > xUpperBound)
-			ftX = xUpperBound;
-	}
-	int ftY = getY() - m_pFText->getHeight();
-	return QPoint(ftX, ftY);
-}
-
 void MessageWidget::setTextPosition() {
 	if (m_pFText == NULL) {
 		kdDebug() << "MessageWidget::setTextPosition: m_pFText is NULL"
@@ -251,31 +234,39 @@ void MessageWidget::setTextPosition() {
 	if (m_pFText->getText().isEmpty())
 		return;
 	m_pFText->calculateSize();
-	QPoint ftPos = calculateTextPosition();
-	m_pFText->setX( ftPos.x() );
-	m_pFText->setY( ftPos.y() );
+	int ftX = constrainX(m_pFText->getX(), m_pFText->getWidth(), m_pFText->getRole());
+	int ftY = getY() - m_pFText->getHeight();
+	m_pFText->setX( ftX );
+	m_pFText->setY( ftY );
 }
 
-void MessageWidget::updateMessagePos(int textHeight, int& newX, int& newY) {
-	newX = getX() + 5;
-	int minHeight = getMinHeight();
-	if (newY < minHeight)
-		newY = minHeight;
-	int maxHeight = getMaxHeight() - textHeight - 5;
-	if (newY > maxHeight)
-		newY = maxHeight;
-	setX( newX - 5 );  // what good is this? coordinate remains the same
-	setY( newY + textHeight );
+int MessageWidget::constrainX(int textX, int textWidth, Uml::Text_Role tr) {
+	int result = textX;
+	const int minTextX = getX() + 5;
+	if (textX < minTextX || tr == Uml::tr_Seq_Message_Self) {
+		result = minTextX;
+	} else {
+		const int objB_seqLineX = m_pOw[Uml::B]->getX() + m_pOw[Uml::B]->getWidth() / 2;
+		const int maxTextX = objB_seqLineX - textWidth - 5;
+		if (maxTextX <= minTextX)
+			result = minTextX;
+		else if (textX > maxTextX)
+			result = maxTextX;
+	}
+	return result;
 }
 
-void MessageWidget::constrainY(int &y, int height) {
-	const int minHeight = getMinHeight();
-	const int maxHeight = getMaxHeight() - height - 5;
-	if (y < minHeight)
-		y = minHeight;
-	else if (y > maxHeight)
-		y = maxHeight;
-	setY( y + height );
+void MessageWidget::constrainTextPos(int &textX, int &textY, int textWidth, int textHeight,
+				     Uml::Text_Role tr) {
+	textX = constrainX(textX, textWidth, tr);
+	// Constrain Y.
+	const int minTextY = getMinHeight();
+	const int maxTextY = getMaxHeight() - textHeight - 5;
+	if (textY < minTextY)
+		textY = minTextY;
+	else if (textY > maxTextY)
+		textY = maxTextY;
+	setY( textY + textHeight );   // NB: side effect
 }
  
 void MessageWidget::setLinkAndTextPos() {
@@ -286,6 +277,7 @@ void MessageWidget::setLinkAndTextPos() {
 }
 
 void MessageWidget::moveEvent(QMoveEvent* /*m*/) {
+	//kdDebug() << "MessageWidget::moveEvent: m_pFText is " << m_pFText << endl; 
 	if (!m_pFText) {
 		return;
 	}

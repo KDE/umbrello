@@ -78,11 +78,9 @@ void LinkWidget::setSeqNumAndOp(QString /*seqNum*/, QString /*op*/) {
 	// Only applicable to MessageWidget and AssociationWidget.
 }
 
-void LinkWidget::updateMessagePos(int /*textHeight*/, int& /*X*/, int& /*Y*/) {
-	// Only applicable to MessageWidget and AssociationWidget.
-}
-
-void LinkWidget::constrainY(int & /*y*/, int /*height*/) {
+void LinkWidget::constrainTextPos(int & /*textX*/, int & /*textY*/,
+				  int /*textWidth*/, int /*textHeight*/,
+				  Uml::Text_Role /*tr*/) {
 	// Only applicable to MessageWidget.
 }
  

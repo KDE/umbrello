@@ -186,11 +186,6 @@ public:
 							 QString& op);
 
 	/**
-	 * Calculate the position of the text based on the message arrow.
-	 */
-	QPoint calculateTextPosition();
-
-	/**
 	 * Calculate the geometry of the widget.
 	 */
 	void calculateWidget();
@@ -241,20 +236,17 @@ public:
 	void setTextPosition();
 
 	/**
-	 * Updates the message widget X and Y coordinates based on
-	 * the given height of a floating text.
-	 * Overrides operation from LinkWidget.
-	 */
-	void updateMessagePos(int textHeight, int& newX, int& newY);
-
-	/**
-	 * Constrains the Y value supplied.
+	 * Constrains the FloatingText X and Y values supplied.
 	 * Overrides operation from LinkWidget.
 	 *
-	 * @param y		Y value (may be modified by the constraint.)
-	 * @param height	Height of the associated FloatingText.
+	 * @param textX		Candidate X value (may be modified by the constraint.)
+	 * @param textY		Candidate Y value (may be modified by the constraint.)
+	 * @param textWidth	Width of the text.
+	 * @param textHeight	Height of the text.
+	 * @param tr		Uml::Text_Role of the text.
 	 */
-	void constrainY(int &y, int height);
+	void constrainTextPos(int &textX, int &textY, int textWidth, int textHeight,
+			      Uml::Text_Role tr);
 
 	/**
 	 * Used to cleanup any other widget it may need to delete.
@@ -322,6 +314,12 @@ protected:
 	 * this->setTextPosition().
 	 */
 	void setLinkAndTextPos();
+
+	/**
+	 * Returns the textX arg with constraints applied.
+	 * Auxiliary to setTextPosition() and constrainTextPos().
+	 */
+	int constrainX(int textX, int textWidth, Uml::Text_Role tr);
 
 	// Data loaded/saved
 	QString m_SequenceNumber;

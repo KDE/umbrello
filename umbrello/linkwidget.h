@@ -152,12 +152,8 @@ public:
 	/**
 	 * Motivated by FloatingText::mouseMoveEvent()
 	 */
-	virtual void updateMessagePos(int textHeight, int& newX, int& newY);
-
-	/**
-	 * Motivated by FloatingText::mouseMoveEvent()
-	 */
-	virtual void constrainY(int &y, int height);
+	virtual void constrainTextPos(int &textX, int &textY, int textWidth, int textHeight,
+				      Uml::Text_Role tr);
  
 	/**
 	 * Motivated by FloatingText::setLink(). Bad.
