@@ -133,6 +133,8 @@ void CppTree2Uml::parseTypedef( TypedefAST* ast )
 //#ifdef DEBUG_CPPTREE2UML
 	    kdDebug() << "CppTree2Uml::parseTypedef: name=" << id << ", type=" << type << endl;
 //#endif
+	    /* @todo Trace typedefs back to their root type for deciding
+	             whether to build a Datatype (for pointers.)  */
 	    if (type.contains('*')) {
 		UMLObject *inner =
 	        m_importer->createUMLObject( Uml::ot_Class, typeId,
