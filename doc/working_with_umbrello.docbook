@@ -7,7 +7,7 @@
 
 <para>
 This chapter will introduce you to &umbrello;'s user interface and will
-tell you all you need to know to start modelling.  All actions in &umbrello; are accessible via the menu and
+tell you all you need to know to start modeling.  All actions in &umbrello; are accessible via the menu and
 the toolbars, but &umbrello; also makes extensive use of <mousebutton>right</mousebutton> mouse
 button context menus. You can &RMB; click on almost any element in
 &umbrello;'s work area or tree view to get a menu with the most useful
@@ -58,7 +58,7 @@ your model into the current diagram.
 If you are working on a model with more than just a few classes and diagrams, the Tree View may help
 you stay on top of things by organising your model elements in folders. You can create 
 folders by selecting the appropriate option from the context menu (&RMB; click on one of the folders
-in the tree view) and you can organise your elements by moving them to the appropriate folder (drag and drop)
+in the tree view) and you can organize your elements by moving them to the appropriate folder (drag and drop)
 <!-- (screen shot) FIXME-->
 </para>
 </sect2>
@@ -208,7 +208,7 @@ Once you have created your diagrams it is time to start editing them. Here you s
 the (for beginners subtle) difference between editing your diagram, and editing the
 <emphasis>model</emphasis>. As you already know, Diagrams are <emphasis>views</emphasis> of your model.
 For example, if you create a class by editing a Class Diagram, you are really editing both, your
-Diagram and your model. If you change the colour or other display options of a Class in your Class
+Diagram and your model. If you change the color or other display options of a Class in your Class
 Diagram, you are only editing the Diagram, but nothing is changed in your model.
 </para>
 <sect2 id="insert-elements">
@@ -367,10 +367,10 @@ This option is only available if you select the class properties from within a D
 the class properties from the Tree View this page is missing since such Display Options do not make sense
 in that case</para>
 </sect3>
-<sect3 id="class-colour-page">
-<title>Class Colour Page</title>
+<sect3 id="class-color-page">
+<title>Class Color Page</title>
 <para>
-In the <guilabel>Widget Colour</guilabel> page you can configure the colours you want for the line
+In the <guilabel>Widget Color</guilabel> page you can configure the colors you want for the line
 and the fill of the widget. This option obviously makes sense only for classes displayed in diagrams,
 and is missing if you open the class' properties dialog from the Tree View.
 </para>

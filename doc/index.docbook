@@ -45,14 +45,14 @@
 <abstract>
 <para>
 &umbrello; helps you in the software development
-process by enabling you to create models of your systems using the Unified Modelling Language (&UML;).
+process by enabling you to create models of your systems using the Unified Modeling Language (&UML;).
 </para>
 </abstract>
 
 <keywordset>
 <keyword>KDE</keyword>
 <keyword>UML</keyword>
-<keyword>modelling</keyword>
+<keyword>modeling</keyword>
 <keyword>diagrams</keyword>
 <keyword>software development</keyword>
 <keyword>development</keyword>

@@ -1,7 +1,7 @@
 <chapter id="code-import-generation">
 <title>Code Import and Code Generation</title>
 <para>
-&umbrello; is a &UML; modelling tool, and as such its main purpose is to help you in the 
+&umbrello; is a &UML; modeling tool, and as such its main purpose is to help you in the 
 <emphasis>analysis and design</emphasis> of your systems. However, to make the transition
 between your design and your <emphasis>implementation</emphasis>, &umbrello; allows you to
 generate source code in different programming languages to get you started. Also, if you 

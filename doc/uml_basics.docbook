@@ -5,13 +5,13 @@
 <para>
 This chapter will give you a quick overview of the basics of &UML;. Keep in mind
 that this is not a comprehensive tutorial on &UML;. If you would like to learn more about the
-Unified Modelling Language, or in general about software analysis and design, refer to one of the
+Unified Modeling Language, or in general about software analysis and design, refer to one of the
 many books available on the topic. There are also a lot of tutorials on the Internet, which you
 can take as a starting point.
 </para>
 
 <para>
-The Unified Modelling Language (&UML;) is a diagramming language or notation to specify, visualise and document
+The Unified Modeling Language (&UML;) is a diagramming language or notation to specify, visualise and document
 models of Object Orientated software systems. &UML; is not a development method, that means it does not tell you
 what to do first and what to do next or how to design your system, but it helps you to visualise
 your design and communicate with others. &UML; is controlled by the Object Management Group (<acronym>OMG</acronym>) and is the
@@ -163,7 +163,7 @@ between them (method call).
 <title>Class</title>
 <para>
 A Class defines the attributes and the methods of a set of objects. All objects of this class (instances
-of this class) share the same behaviour, and have the same set of attributes (each object has its own set).
+of this class) share the same behavior, and have the same set of attributes (each object has its own set).
 The term <quote>Type</quote> is sometimes used instead of Class, but it is important to mention that these
 two are not the same, and Type is a more general term.
 </para>

@@ -34,7 +34,7 @@ your diagrams.
 <sect2 id="logical-folders">
 <title>Logical Folders</title>
 <para>
-To better organise your model, especially for larger projects, you can create logical folders in
+To better organize your model, especially for larger projects, you can create logical folders in
 the Tree View. Just select the option <menuchoice><guimenu>New</guimenu><guimenuitem>Folder</guimenuitem></menuchoice> from the context menu
 of the default folders in the Tree View to create them. Folders can be nested, and you can
 move objects around by dragging them from one folder and dropping them into another.
