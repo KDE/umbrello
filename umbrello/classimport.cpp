@@ -30,7 +30,7 @@ ClassImport::~ClassImport() {}
 
 UMLObject *ClassImport::createUMLObject(QString name, Uml::UMLObject_Type type,
 					UMLPackage *parentPkg) {
-	UMLObject * o = findUMLObject(type, name);
+	UMLObject * o = findUMLObject(name);
 	if (o == NULL)
 		o = UMLDoc::createUMLObject( type, name, parentPkg );
 	return o;
@@ -174,7 +174,7 @@ void ClassImport::importCPP(QStringList headerFileList) {
 	// Create generalizations.
 	for (QStrListIterator cit(*cList); cit.current(); ++cit) {
 		CParsedClass* currentParsedClass =  classParser.store.getClassByName(cit);
-		UMLObject *classObj = findUMLObject(Uml::ot_Class, currentParsedClass->name);
+		UMLObject *classObj = findUMLObject(currentParsedClass->name, Uml::ot_Class);
 		if (classObj == NULL) {
 			kdDebug() << "ClassImport::importCPP: Could not find UML object for "
 				  << currentParsedClass->name << endl;
@@ -184,7 +184,7 @@ void ClassImport::importCPP(QStringList headerFileList) {
 		QPtrListIterator<CParsedParent> pit(currentParsedClass->parents);
 		for (; pit.current() ; ++pit) {
 			CParsedParent *parsedParent = pit.current();
-			UMLObject *parentObj = findUMLObject(Uml::ot_Class, parsedParent->name);
+			UMLObject *parentObj = findUMLObject(parsedParent->name, Uml::ot_Class);
 			if (parentObj == NULL) {
 				kdDebug() << "ClassImport::importCPP: Could not find UML object for parent "
 					  << parsedParent->name << endl;

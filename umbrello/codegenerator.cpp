@@ -631,14 +631,12 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLClassifierList &cLis
         for(UMLOperation *op = opl->first(); op ; op = opl->next()) {
                 temp =0;
                 //check return value
-                // temp =(UMLClassifier*) m_document->findUMLObject(Uml::ot_Concept,op->getReturnType());
                 temp =(UMLClassifier*) m_document->findUMLClassifier(op->getReturnType());
                 if(temp && !cList.containsRef(temp))
                         cList.append(temp);
                 //check parameters
                 atl = op->getParmList();
                 for(at = atl->first(); at; at = atl->next()) {
-                        // temp = (UMLClassifier*)m_document->findUMLObject(Uml::ot_Concept,at->getTypeName());
                         temp = (UMLClassifier*)m_document->findUMLClassifier(at->getTypeName());
                         if(temp && !cList.containsRef(temp))
                                 cList.append(temp);
@@ -652,7 +650,6 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLClassifierList &cLis
 		atl = myClass->getFilteredAttributeList();
                 for(at = atl->first(); at; at = atl->next()) {
                         temp=0;
-                        // temp =(UMLClassifier*) m_document->findUMLObject(Uml::ot_Concept,at->getTypeName());
                         temp =(UMLClassifier*) m_document->findUMLClassifier(at->getTypeName());
                         if(temp && !cList.containsRef(temp))
                                 cList.append(temp);

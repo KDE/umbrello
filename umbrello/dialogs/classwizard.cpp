@@ -27,7 +27,7 @@ ClassWizard::ClassWizard( UMLDoc * pDoc ) : KWizard( (QWidget*)pDoc -> parent(),
 	m_pClass = new UMLClass( m_pDoc, newName, m_pDoc -> getUniqueID() );
 	do {
 		m_pClass -> setName( newName );
-		pTemp = m_pDoc -> findUMLObject( Uml::ot_Class, newName );
+		pTemp = m_pDoc -> findUMLObject( newName );
 		num.setNum( ++i);
 		newName = name;
 		newName.append("_").append( num );

@@ -379,8 +379,10 @@ void UMLDoc::deleteContents() {
 		removeAllViews();
 		if(objectList.count() > 0) {
 			// clear our object list. We do this explicitly since setAutoDelete is false for the objectList now. 
+			/* Sorry Brian, but this crashes (see bug 68701.)
 			for(UMLObject * obj = objectList.first(); obj != 0; obj = objectList.next())
 				delete obj;
+			 */
 			objectList.clear();
 		}
 	}
@@ -485,12 +487,12 @@ UMLObject* UMLDoc::findUMLObject(int id) {
 	return 0;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLObject* UMLDoc::findUMLObject(UMLObject_Type type, QString name) {
-	return findUMLObject(type, name, objectList);
+UMLObject* UMLDoc::findUMLObject(QString name, UMLObject_Type type /* = ot_UMLObject */) {
+	return findUMLObject(objectList, name, type);
 }
 
-UMLObject* UMLDoc::findUMLObject(UMLObject_Type type, QString name,
-				 UMLObjectList inList) {
+UMLObject* UMLDoc::findUMLObject(UMLObjectList inList, QString name,
+				 UMLObject_Type type /* = ot_UMLObject */) {
 	QStringList components = QStringList::split("::", name);
 	QString nameWithoutFirstPrefix;
 	if (components.size() > 1) {
@@ -503,9 +505,7 @@ UMLObject* UMLDoc::findUMLObject(UMLObject_Type type, QString name,
 			continue;
 		UMLObject_Type foundType = obj->getBaseType();
 		if (nameWithoutFirstPrefix.isEmpty()) {
-			if (type != foundType) {
-				// Really the `type' should be irrelevant...
-				// CHECK: Consider removing the `type' arg.
+			if (type != ot_UMLObject && type != foundType) {
 				kdDebug() << "findUMLObject: type mismatch for "
 					  << name << " (actual type: "
 					  << foundType << ")" << endl;
@@ -519,8 +519,8 @@ UMLObject* UMLDoc::findUMLObject(UMLObject_Type type, QString name,
 			continue;
 		}
 		UMLPackage *pkg = static_cast<UMLPackage*>(obj);
-		return findUMLObject( type, nameWithoutFirstPrefix,
-				      pkg->containedObjects() );
+		return findUMLObject( pkg->containedObjects(),
+				      nameWithoutFirstPrefix, type );
 	}
 	return 0;
 }
@@ -529,9 +529,7 @@ UMLObject* UMLDoc::findUMLObject(UMLObject_Type type, QString name,
 UMLClassifier* UMLDoc::findUMLClassifier(QString name) {
 	// could be either UMLClass or UMLInterface..
 	//this is used only by code generator so we don't need to look at Datatypes
-	UMLObject * obj = findUMLObject(ot_Class, name);
-	if (!obj)
-		obj = findUMLObject(ot_Interface, name);
+	UMLObject * obj = findUMLObject(name);
 	return dynamic_cast<UMLClassifier*>(obj);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2015,7 +2013,7 @@ bool UMLDoc::addUMLObjectPaste(UMLObject* Obj) {
 		kdDebug() << "no Obj || Changelog" << endl;
 		return false;
 	}
-	UMLObject * temp = findUMLObject(Obj->getBaseType(), Obj -> getName() );
+	UMLObject * temp = findUMLObject( Obj -> getName() );
 	if( temp ) {
 		m_pChangeLog->addIDChange( Obj -> getID(), temp -> getID() );
 		delete Obj;
@@ -2370,7 +2368,7 @@ void UMLDoc::addDefaultDatatypes() {
 }
 
 void UMLDoc::createDatatype(QString name)  {
-	UMLObject* umlobject = findUMLObject(ot_Datatype, name);
+	UMLObject* umlobject = findUMLObject(name, ot_Datatype);
 	if (!umlobject) {
 		createUMLObject(ot_Datatype, name);
 	}

@@ -293,7 +293,7 @@ void UMLListViewItem::okRename( int col ) {
 		case Uml::lvt_Enum:
 			object = m_pObject;
 			if( object ) {
-				object = doc -> findUMLObject( object -> getBaseType(), newText );
+				object = doc -> findUMLObject( newText );
 				if( object && object == m_pObject )
 					object = 0;
 				if( !object ) {

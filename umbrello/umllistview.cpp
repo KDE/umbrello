@@ -1945,7 +1945,7 @@ QString UMLListView::getUniqueUMLObjectName( Uml::UMLObject_Type type ) {
 		temp = name;
 		if( count > 0 )
 			temp.append("_").append( QString::number( count ) );
-		object = m_doc -> findUMLObject( type, temp );
+		object = m_doc -> findUMLObject( temp );
 		count++;
 	} while( object );
 
@@ -2027,12 +2027,7 @@ bool UMLListView::isUnique( UMLListViewItem * item, QString name ) {
 	case Uml::lvt_Datatype:
 	case Uml::lvt_Enum:
 	{
-		Uml::UMLObject_Type ot;
-		if (! convert_LVT_OT(type, ot)) {
-			kdError() << "UMLListView::isUnique: internal." << endl;
-			return false;
-		}
-		UMLObject *o = m_doc -> findUMLObject( ot, name );
+		UMLObject *o = m_doc -> findUMLObject( name );
 		if (o == NULL)
 			return true;
 		if (type == lvt_Package)  // This is perhaps a little coarse,

@@ -452,11 +452,15 @@ public:
 	/**
 	 * Used to find a @ref UMLObject by its type and name.
 	 *
-	 * @param type		The type of @ref UMLObject to find.
 	 * @param name		The name of the @ref UMLObject to find.
+	 * @param type		UMLObject_Type of the object to find (optional.)
+	 *			When the given type is ot_UMLObject the type is
+	 *			disregarded, i.e. the given name is the only
+	 *			search criterion.
 	 * @return	Pointer to the UMLObject found, or NULL if not found.
 	 */
-	UMLObject* findUMLObject(UMLObject_Type type, QString name);
+	UMLObject* findUMLObject(QString name,
+				 UMLObject_Type type = Uml::ot_UMLObject);
 
 	/**
 	 * Used to find a @ref UMLClassifier by its name.
@@ -932,9 +936,17 @@ private:
 	 * UML object of the given type and name in the passed-in list.
 	 * There is nothing that binds this method to UMLDoc thus it is easily
 	 * relocated if need be.
+	 *
+	 * @param inList	List in which to seek the object.
+	 * @param name		Name of the object to find.
+	 * @param type		UMLObject_Type of the object to find (optional.)
+	 *			When the given type is ot_UMLObject the type is
+	 *			disregarded, i.e. the given name is the only
+	 *			search criterion.
+	 * @return	Pointer to the UMLObject found, or NULL if not found.
 	 */
-	static UMLObject* findUMLObject( UMLObject_Type type, QString name,
-					 UMLObjectList inList );
+	static UMLObject* findUMLObject( UMLObjectList inList, QString name,
+					 UMLObject_Type type = Uml::ot_UMLObject);
 
 	/**
 	 * Sets up the autosave timer.

@@ -42,7 +42,8 @@ void UMLObject::init() {
 	m_pUMLPackage = NULL;
 	m_Name = "";
 	m_Scope = Public;
-	m_Stereotype = m_Doc = "";
+	m_Stereotype = "";
+	m_Doc = "";
 	m_bAbstract = false;
 	m_bStatic = false;
 }
@@ -178,7 +179,7 @@ void UMLObject::setPackage(QString _name) {
 				  << m_Name << endl;
 			return;
 		}
-		pkgObj = umldoc->findUMLObject(ot_Package, _name);
+		pkgObj = umldoc->findUMLObject(_name, ot_Package);
 		if (pkgObj == NULL) {
 			kdDebug() << "UMLObject::setPackage: creating UMLPackage "
 				  << _name << " for " << m_Name << endl;
