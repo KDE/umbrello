@@ -374,11 +374,11 @@ void LinePath::calculateHead() {
 	double arrowSlope = slope + arrowAngle;
 
 	m_LastPoint = getPoint(size - 1);
-	m_ArrowPointA.setX( (int)(m_LastPoint.x() - halfLength * cos(arrowSlope)) );
-	m_ArrowPointA.setY( (int)(m_LastPoint.y() - halfLength * sin(arrowSlope)) );
+	m_ArrowPointA.setX( (int)rint(m_LastPoint.x() - halfLength * cos(arrowSlope)) );
+	m_ArrowPointA.setY( (int)rint(m_LastPoint.y() - halfLength * sin(arrowSlope)) );
 	arrowSlope = slope - arrowAngle;
-	m_ArrowPointB.setX( (int)(m_LastPoint.x() - halfLength * cos(arrowSlope)) );
-	m_ArrowPointB.setY( (int)(m_LastPoint.y() - halfLength * sin(arrowSlope)) );
+	m_ArrowPointB.setX( (int)rint(m_LastPoint.x() - halfLength * cos(arrowSlope)) );
+	m_ArrowPointB.setY( (int)rint(m_LastPoint.y() - halfLength * sin(arrowSlope)) );
 
 	if(xa > xb)
 		cosx = cosx > 0 ? cosx : cosx * -1;
@@ -390,10 +390,10 @@ void LinePath::calculateHead() {
 	else
 		siny = siny > 0 ? siny * -1 : siny;
 
-	m_MidPoint.setX( (int)(m_LastPoint.x() + cosx) );
-	m_MidPoint.setY( (int)(m_LastPoint.y() + siny) );
-	m_FullPoint.setX( (int)(m_LastPoint.x() + cosx * 2) );
-	m_FullPoint.setY( (int)(m_LastPoint.y() + siny * 2) );
+	m_MidPoint.setX( (int)rint(m_LastPoint.x() + cosx) );
+	m_MidPoint.setY( (int)rint(m_LastPoint.y() + siny) );
+	m_FullPoint.setX( (int)rint(m_LastPoint.x() + cosx * 2) );
+	m_FullPoint.setY( (int)rint(m_LastPoint.y() + siny * 2) );
 
 	m_PointArray.setPoint(0, m_LastPoint);
 	m_PointArray.setPoint(1, m_ArrowPointA);
