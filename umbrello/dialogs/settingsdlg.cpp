@@ -167,10 +167,13 @@ void SettingsDlg::setupGeneralPage() {
 				i18n("Collaboration Diagram"), i18n("State Diagram"),
 				i18n("Activity Diagram"), i18n("Component Diagram"),
 				i18n("Deployment Diagram") };
-	for( int i=0; i<9; i++)
-		m_GeneralWidgets.diagramKB -> insertItem( diagrams[i] );
 
-	m_GeneralWidgets.diagramKB -> setCurrentItem( (int) m_pOptionState->generalState.diagram );
+	//start at 1 because we don't allow No Diagram any more
+	for (int i=1; i<9; i++) {
+		m_GeneralWidgets.diagramKB->insertItem( diagrams[i] );
+	}
+
+	m_GeneralWidgets.diagramKB->setCurrentItem( (int)m_pOptionState->generalState.diagram-1 );
 	connect( m_GeneralWidgets.autosaveCB, SIGNAL(clicked()), this, SLOT(slotAutosaveCBClicked()) );
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -336,7 +339,7 @@ void SettingsDlg::applyPage( Settings::Page page ) {
 			m_pOptionState->generalState.logo = m_GeneralWidgets.logoCB -> isChecked();
 			m_pOptionState->generalState.tip = m_GeneralWidgets.tipCB -> isChecked();
 			m_pOptionState->generalState.loadlast = m_GeneralWidgets.loadlastCB -> isChecked();
-			m_pOptionState->generalState.diagram  = ( Settings::Diagram ) m_GeneralWidgets.diagramKB -> currentItem();
+			m_pOptionState->generalState.diagram  = (Settings::Diagram)(m_GeneralWidgets.diagramKB->currentItem() + 1);
 			break;
 
 		case Settings::page_font:

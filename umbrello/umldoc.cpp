@@ -310,6 +310,7 @@ bool UMLDoc::newDocument() {
 			createDiagram( Uml::dt_UseCase, false);
 			break;
 
+		case Settings::diagram_no: //don't allow no diagram
 		case Settings::diagram_class:
 			createDiagram( Uml::dt_Class, false );
 			break;
