@@ -156,7 +156,6 @@ QPtrList<UMLObject> UMLConcept::findChildObject(UMLObject_Type t , QString n) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLObject* UMLConcept::findChildObject(int id) {
-/*FIXME no idea what's upsetting this method
         UMLOperation * o=0;
 	for(o=m_OpsList.first();o != 0;o=m_OpsList.next()) {
 		if(o->getID() == id)
@@ -173,13 +172,7 @@ UMLObject* UMLConcept::findChildObject(int id) {
 			return t;
 		}
 	}
-	UMLAssociation * asso = 0;
-	for (asso = m_AssocsList.first(); asso != 0; asso = m_AssocsList.next()) {
-		if (asso->getID() == id)
-			return asso;
-	}
-*/
-	return 0;
+	return UMLCanvasObject::findChildObject(id);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool UMLConcept::serialize(QDataStream *s, bool archive, int fileversion) {

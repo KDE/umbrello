@@ -78,7 +78,7 @@ void UMLListView::contentsMousePressEvent(QMouseEvent *me) {
 				KMessageBox::error( kapp -> mainWidget(), i18n("Could not activate the diagram."), i18n("Diagram Load Error"));
 			else
 				doc -> changeCurrentView(item->getID());
-			emit diagramSelected( item->getID());	
+			emit diagramSelected( item->getID());
 			doc -> getDocWindow() -> showDocumentation( doc -> findView( item -> getID() ), false );
 			break;
 
@@ -305,12 +305,11 @@ void UMLListView::popupMenuSel(int sel) {
 	}//end switch
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void UMLListView::diagramCreated(Diagram *d)
-{
-new UMLListViewItem( diagramFolder, d->name(), convert_DT_LVT((Uml::Diagram_Type)d->diagramType()), d->getID());	
-	
+void UMLListView::diagramCreated(Diagram* d) {
+	new UMLListViewItem( diagramFolder, d->name(),
+			     convert_DT_LVT((Uml::Diagram_Type)d->diagramType()), d->getID() );
 }
-/////
+////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLListView::slotDiagramCreated( int id ) {
 	if( loading )
 		return;

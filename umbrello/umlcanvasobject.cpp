@@ -78,7 +78,6 @@ QString UMLCanvasObject::uniqChildName(UMLObject_Type type) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 QPtrList<UMLObject> UMLCanvasObject::findChildObject(UMLObject_Type t, QString n) {
-	kdDebug() << k_funcinfo << endl;
   	QPtrList<UMLObject> list;
  	if (t == ot_Association) {
  		UMLAssociation * obj=0;
@@ -93,7 +92,6 @@ QPtrList<UMLObject> UMLCanvasObject::findChildObject(UMLObject_Type t, QString n
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLObject* UMLCanvasObject::findChildObject(int id) {
-	kdDebug() << k_funcinfo << endl;
 	UMLAssociation * asso = 0;
 	for (asso = m_AssocsList.first(); asso != 0; asso = m_AssocsList.next()) {
 		if (asso->getID() == id)
