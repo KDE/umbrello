@@ -282,7 +282,8 @@ void UMLWidget::slotMenuSelection(int sel) {
 
 
 		case ListPopupMenu::mt_Properties:
-			if(m_pData->m_Type == wt_Actor || m_pData->m_Type == wt_UseCase ||
+			if (m_pData->m_Type == wt_Actor || m_pData->m_Type == wt_UseCase
+			    || m_pData->m_Type == wt_Package ||
 			        (m_pData->m_Type == wt_Class && m_pView -> getType() == dt_Class))
 				m_pView->getDocument() -> showProperties(this);
 			else
@@ -390,8 +391,8 @@ void UMLWidget::slotColorChanged(int m_pViewID) {
 void UMLWidget::mouseDoubleClickEvent( QMouseEvent * me ) {
 	if( me -> button() != LeftButton )
 		return;
-	if(m_pView -> m_CurrentCursor == WorkToolBar::tbb_Arrow && m_pData->m_Type >= wt_Actor &&
-	        m_pData->m_Type <= wt_Object)
+	if (m_pView->m_CurrentCursor == WorkToolBar::tbb_Arrow &&
+	    m_pData->m_Type >= wt_Actor && m_pData->m_Type <= wt_Object)
 		slotMenuSelection(ListPopupMenu::mt_Properties);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////

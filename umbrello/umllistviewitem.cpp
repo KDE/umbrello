@@ -99,6 +99,10 @@ void UMLListViewItem::updateObject() {
 			setPixmap( 0, m_pListView -> getPixmap( UMLListView::it_Class ) );
 			break;
 
+		case Uml::ot_Package:
+			setPixmap( 0, m_pListView -> getPixmap( UMLListView::it_Package ) );
+			break;
+
 		case Uml::ot_Operation:
 			if( scope == Uml::Public )
 				setPixmap( 0, m_pListView -> getPixmap( UMLListView::it_Public_Method ) );
@@ -191,6 +195,7 @@ void UMLListViewItem::okRename( int col ) {
 		case Uml::lvt_UseCase:
 		case Uml::lvt_Actor:
 		case Uml::lvt_Class:
+		case Uml::lvt_Package:
 			object = m_Data.getUMLObject();
 			if( object ) {
 				object = m_pListView -> getDocument() -> findUMLObject( object -> getBaseType(), newText );

@@ -10,6 +10,7 @@
 #include "actor.h"
 #include "classimport.h"
 #include "concept.h"
+#include "package.h"
 #include "docwindow.h"
 #include "listpopupmenu.h"
 #include "operation.h"
@@ -56,7 +57,7 @@ void UMLListView::contentsMousePressEvent(QMouseEvent *me) {
 	}
 
 	Uml::ListView_Type type;
-	type = item ? item -> getType() : lvt_Unknown;
+	type = item ? item->getType() : lvt_Unknown;
 	if (me->button() == LeftButton) {
 		switch( type ) {
 			//If is necesary activate the view
@@ -75,6 +76,7 @@ void UMLListView::contentsMousePressEvent(QMouseEvent *me) {
 
 		case Uml::lvt_UseCase:
 		case Uml::lvt_Class:
+		case Uml::lvt_Package:
 		case Uml::lvt_Actor:
 		case Uml::lvt_Attribute:
 		case Uml::lvt_Operation:
@@ -153,6 +155,10 @@ void UMLListView::popupMenuSel(int sel) {
 			addNewItem( temp, Uml::lvt_Class );
 			break;
 
+		case ListPopupMenu::mt_Package:
+			addNewItem(temp, Uml::lvt_Package);
+			break;
+
 		case ListPopupMenu::mt_Actor:
 			addNewItem( temp, Uml::lvt_Actor );
 			break;
@@ -223,9 +229,9 @@ void UMLListView::popupMenuSel(int sel) {
 			/* ok, we are on another object, so find out on which one */
 			umlType = object -> getBaseType();
 
-			if(umlType >= Uml::ot_Actor && umlType <= Uml::ot_Concept)
+			if(umlType >= Uml::ot_Actor && umlType <= Uml::ot_Concept) {
 				doc -> showProperties(object, ClassPropDlg::page_gen);
-			else if(umlType == Uml::ot_Attribute) {
+			} else if(umlType == Uml::ot_Attribute) {
 				// show the attribute dialogue
 				UMLAttribute* selectedAttribute = (UMLAttribute*)object;
 				UMLAttributeDialog dialogue( this, selectedAttribute );
@@ -300,10 +306,14 @@ void UMLListView::slotObjectCreated(UMLObject* newObject) {
 
 	//See if we wanted to create diagram in currently selected folder
 	UMLListViewItem* current = (UMLListViewItem*) currentItem();
-	if( (current->getType() == Uml::lvt_Logical_Folder && type == Uml::ot_Concept)
-	    || (current->getType() == Uml::lvt_UseCase_Folder && (type == Uml::ot_Actor || type == Uml::ot_UseCase)) ) {
+	if( (current->getType() == Uml::lvt_Logical_Folder &&
+	     (type == Uml::ot_Concept || type == Uml::ot_Package))
+	    || (current->getType() == Uml::lvt_UseCase_Folder &&
+		(type == Uml::ot_Actor || type == Uml::ot_UseCase)) ) {
 		parentItem = current;
 	} else if( type == Uml::ot_Concept ) {
+		parentItem = lv;
+	} else if( type == Uml::ot_Package ) {
 		parentItem = lv;
 	} else if( type == Uml::ot_Association ) {
 		return;
@@ -384,7 +394,7 @@ QDragObject* UMLListView::dragObject() {
 	while((item=it.current()) != 0) {
 		++it;
 		type = item->getType();
-		if((type < Uml::lvt_Actor || type > Uml::lvt_Class) && (type < Uml::lvt_UseCase_Diagram || type > Uml::lvt_Sequence_Diagram) &&
+		if((type < Uml::lvt_Actor || type > Uml::lvt_Package) && (type < Uml::lvt_UseCase_Diagram || type > Uml::lvt_Sequence_Diagram) &&
 		        (type != Uml::lvt_UseCase_Folder) && (type != Uml::lvt_Logical_Folder)) {
 			return 0;
 		}
@@ -401,8 +411,7 @@ void UMLListView::startDrag() {
 		o->dragCopy();
 }
 
-UMLListViewItem * UMLListView::findUMLObjectInFolder(UMLListViewItem *folder, UMLObject *obj)
-{
+UMLListViewItem * UMLListView::findUMLObjectInFolder(UMLListViewItem* folder, UMLObject* obj) {
 	UMLListViewItem *item = static_cast<UMLListViewItem *>(folder->firstChild());
 	while(item)
 	{
@@ -411,6 +420,7 @@ UMLListViewItem * UMLListView::findUMLObjectInFolder(UMLListViewItem *folder, UM
 			case Uml::lvt_Actor :
 			case Uml::lvt_UseCase :
 			case Uml::lvt_Class :
+			case Uml::lvt_Package :
 				if(item->getUMLObject() == obj)
 					return item;
 				break;
@@ -432,13 +442,12 @@ UMLListViewItem * UMLListView::findUMLObjectInFolder(UMLListViewItem *folder, UM
 UMLListViewItem * UMLListView::findUMLObject(UMLObject *p) {
 	Uml::UMLObject_Type pt = p->getBaseType();
 	UMLListViewItem *item, *temp;
-
-	if(pt == Uml::ot_Concept) {
+	if(pt == Uml::ot_Concept || pt == Uml::ot_Package) {
 		item = lv;
 	} else if(pt == Uml::ot_Actor || pt == Uml::ot_UseCase) {
 		item = ucv;
 	} else {
-		kdDebug() << "ERROR:listview:find" << endl;
+		kdWarning() << "listview:findUMLObject" << endl;
 		return 0;
 	}
 	temp = static_cast<UMLListViewItem *>(item->firstChild());
@@ -446,11 +455,13 @@ UMLListViewItem * UMLListView::findUMLObject(UMLObject *p) {
 		Uml::ListView_Type type = temp->getType();
 		if(type == Uml::lvt_Logical_Folder || type == Uml::lvt_UseCase_Folder) {
 			item = findUMLObjectInFolder(temp, p);
-			if (item)
+			if (item) {
 				return item;
-		} else if(type >= Uml::lvt_Actor && type <=Uml::lvt_Class) {
-			if(temp->getUMLObject() == p)
+			}
+		} else if(type >= Uml::lvt_Actor && type <= Uml::lvt_Package) {
+			if(temp->getUMLObject() == p) {
 				return temp;
+			}
 		}
 		temp = static_cast<UMLListViewItem *>(temp->nextSibling());
 	}
@@ -637,7 +648,8 @@ bool UMLListView::acceptDrag(QDropEvent* event) const {
 	type = item->getType();
 	while(accept && ((data = it.current()) != 0)) {
 		++it;
-		if(data->getType() == Uml::lvt_Class && (type == Uml::lvt_Logical_Folder || type == Uml::lvt_Logical_View) ) {
+		if((data->getType() == Uml::lvt_Class || data->getType() == Uml::lvt_Package)
+		   && (type == Uml::lvt_Logical_Folder || type == Uml::lvt_Logical_View) ) {
 			continue;
 		}
 		if( (data->getType() == Uml::lvt_Actor || data->getType() == Uml::lvt_UseCase
@@ -690,7 +702,7 @@ void UMLListView::slotDropped(QDropEvent * de, QListViewItem * parent, QListView
 		if( (data->getType() == Uml::lvt_UseCase_Folder || data->getType() == Uml::lvt_Actor || data->getType() == Uml::lvt_UseCase || data->getType() == Uml::lvt_UseCase_Diagram) && (type == Uml::lvt_UseCase_Folder || type == Uml::lvt_UseCase_View) ) {
 			moveItem(move, item, item);
 		}
-		if( ((data->getType() >= Uml::lvt_Collaboration_Diagram && data->getType() <= Uml::lvt_Sequence_Diagram) || data->getType() == Uml::lvt_Class) && (type == Uml::lvt_Logical_Folder || type == Uml::lvt_Logical_View)) {
+		if( ((data->getType() >= Uml::lvt_Collaboration_Diagram && data->getType() <= Uml::lvt_Sequence_Diagram) || data->getType() == Uml::lvt_Class || data->getType() == Uml::lvt_Package) && (type == Uml::lvt_Logical_Folder || type == Uml::lvt_Logical_View)) {
 			moveItem(move, item, item);
 		}
 	}
@@ -875,7 +887,8 @@ bool UMLListView::ReadChilds( UMLListViewItem* parent, QDataStream *s) {
 	>> childs
 	>> open;
 	type = (Uml::ListView_Type)t;
-	if(type == Uml::lvt_Actor || type == Uml::lvt_UseCase || type == Uml::lvt_Class) {
+	if(type == Uml::lvt_Actor || type == Uml::lvt_UseCase ||
+	   type == Uml::lvt_Class || type == Uml::lvt_Package) {
 		o = doc -> findUMLObject(id);
 		item = new UMLListViewItem(parent, text, type, o);
 	} else if(type == Uml::lvt_Attribute || type == Uml::lvt_Operation) {
@@ -1046,6 +1059,7 @@ UMLListViewItem* UMLListView::createItem(UMLListViewItemData& Data, IDChangeLog&
 		case Uml::lvt_Actor:
 		case Uml::lvt_UseCase:
 		case Uml::lvt_Class:
+		case Uml::lvt_Package:
 			newID = IDChanges.findNewID(Data.getID());
 			//if there is no ListViewItem associated with the new ID,
 			//it could exist an Item already asocciated if the user chose to reuse an uml object
@@ -1161,6 +1175,10 @@ Uml::ListView_Type UMLListView::convert_OT_LVT(Uml::UMLObject_Type ot) {
 			type = Uml::lvt_Class;
 			break;
 
+		case Uml::ot_Package:
+			type = Uml::lvt_Package;
+			break;
+
 		case Uml::ot_Attribute:
 			type = Uml::lvt_Attribute;
 			break;
@@ -1206,6 +1224,10 @@ QPixmap & UMLListView::getPixmap( Icon_Type type ) {
 
 		case it_Class:
 			return m_Pixmaps.Class;
+			break;
+
+		case it_Package:
+			return m_Pixmaps.Package;
 			break;
 
 		case it_Actor:
@@ -1255,6 +1277,7 @@ void UMLListView::loadPixmaps() {
 	m_Pixmaps.Folder_Grey_Open.load( dataDir + "folder_grey_open.png" );
 	m_Pixmaps.Diagram.load( dataDir + "CVnamespace.png" ); //change to have different one for each type of diagram
 	m_Pixmaps.Class.load( dataDir + "umlclass.xpm" );
+	m_Pixmaps.Package.load( dataDir + "package.xpm" );
 	m_Pixmaps.Actor.load( dataDir + "actor.xpm" );
 	m_Pixmaps.UseCase.load( dataDir + "case.xpm" );
 	m_Pixmaps.Public_Method.load( dataDir + "CVpublic_meth.png" );
@@ -1324,6 +1347,12 @@ void UMLListView::addNewItem( QListViewItem * parent, Uml::ListView_Type type ) 
 			newItem -> setPixmap( 0, getPixmap( it_Class ) );
 			break;
 
+		case Uml::lvt_Package:
+			name = getUniqueUMLObjectName( Uml::ot_Package );
+			newItem = new UMLListViewItem( static_cast<UMLListViewItem *>( parent ), name, type, (UMLObject *)0 );
+			newItem->setPixmap( 0, getPixmap( it_Package ) );
+			break;
+
 		case Uml::lvt_Attribute:
 			childParent = static_cast<UMLConcept *>( newItem -> getdata() -> getUMLObject() );
 			name = getUniqueChildUMLObjectName( childParent, Uml::ot_Attribute );
@@ -1377,9 +1406,9 @@ void UMLListView::addNewItem( QListViewItem * parent, Uml::ListView_Type type ) 
 	}
 	m_bIgnoreCancelRename = false;
 	ensureItemVisible(newItem);
-	newItem -> setOpen( true );
-	newItem -> setCreating( true );
-	newItem -> startRename( 0 );
+	newItem->setOpen( true );
+	newItem->setCreating( true );
+	newItem->startRename( 0 );
 }
 
 bool UMLListView::slotItemRenamed( QListViewItem * item , int /*col*/ ) {
@@ -1427,6 +1456,10 @@ bool UMLListView::slotItemRenamed( QListViewItem * item , int /*col*/ ) {
 
 		case Uml::lvt_Class:
 			createUMLObject( renamedItem, Uml::ot_Concept );
+			break;
+
+		case Uml::lvt_Package:
+			createUMLObject( renamedItem, Uml::ot_Package );
 			break;
 
 		case Uml::lvt_UseCase:
@@ -1491,7 +1524,12 @@ void UMLListView::createUMLObject( UMLListViewItem * item, Uml::UMLObject_Type t
 		case Uml::ot_Concept:
 			object = new UMLConcept( doc, name, doc -> getUniqueID() );
 			break;
+
+		case Uml::ot_Package:
+			object = new UMLPackage( doc, name, doc->getUniqueID() );
+			break;
 		default:
+			kdWarning() << "createing UML Object of unknown type" << endl;
 			break;
 	}
 	doc -> addUMLObject( object );
@@ -1549,18 +1587,24 @@ QString UMLListView::getUniqueUMLObjectName( Uml::UMLObject_Type type ) {
 	QString temp = "";
 	QString name = "";
 	QString newClass = i18n("new_class");
+	QString newPackage = i18n("new_package");
 	QString newActor = i18n("new_actor");
 	QString newUseCase = i18n("new_usecase");
 
 	UMLObject * object = 0;
 	int count = 0;
 
-	if( type == Uml::ot_Actor )
+	if (type == Uml::ot_Actor) {
 		name = newActor;
-	else if( type == Uml::ot_UseCase )
+	} else if (type == Uml::ot_UseCase) {
 		name = newUseCase;
-	else
+	} else if (type == Uml::ot_Concept) {
 		name = newClass;
+	} else if (type == Uml::ot_Package) {
+		name = newPackage;
+	} else {
+		kdWarning() << "getting unique uml object name for unknown type" << endl;
+	}
 
 	do {
 		temp = name;
@@ -1675,6 +1719,10 @@ bool UMLListView::isUnique( UMLListViewItem * item, QString name ) {
 			return !doc -> findUMLObject( Uml::ot_Concept, name );
 			break;
 
+		case Uml::lvt_Package:
+			return !doc->findUMLObject(Uml::ot_Package, name);
+			break;
+
 		case Uml::lvt_Attribute:
 			return ( parent -> findChildObject( Uml::ot_Attribute, name ).count() == 0 );
 			break;
@@ -1748,6 +1796,7 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
 				case Uml::lvt_Actor:
 				case Uml::lvt_UseCase:
 				case Uml::lvt_Class:
+				case Uml::lvt_Package:
 					pObject = doc -> findUMLObject( nID );
 					item = new UMLListViewItem( parent, label, lvType, pObject );
 					break;

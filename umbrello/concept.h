@@ -161,18 +161,14 @@ public:
 	 *
 	 *	@return	The number of associations for the Concept.
 	 */
-	int associations() {
-		return m_AssocsList.count();
-	}
+	int associations();
 
 	/**
 	 *	Returns the number of attributes for the Concept.
 	 *
 	 *	@return	The number of attributes for the Concept.
 	 */
-	int attributes() {
-		return m_AttsList.count();
-	}
+	int attributes();
 
 	/**
 	 *	Returns the number of templates for the Concept.

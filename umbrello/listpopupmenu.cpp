@@ -81,6 +81,10 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, Uml::ListView_Type type) : KPopupM
 			mt = mt_Concept;
 			break;
 
+		case Uml::lvt_Package:
+			mt = mt_Package;
+			break;
+
 		case Uml::lvt_Attribute:
 			mt = mt_Attribute;
 			break;
@@ -104,7 +108,6 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object, bool multi) :
 	bool sig = false;
 	if(!object)
 		return;
-
 	StateWidget * pState = static_cast< StateWidget *>( object );
 	ActivityWidget * pActivity = static_cast<ActivityWidget *>( object );
 	ConceptWidget * c = static_cast< ConceptWidget *>( object );
@@ -182,6 +185,18 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object, bool multi) :
 			insertItem( SmallIcon( "charset"), i18n("Rename..."), mt_Rename);
 			insertItem( SmallIcon( "fonts"),  i18n( "Change Font..." ), mt_Change_Font );
 			insertItem(SmallIcon( "info"), i18n("Properties"), mt_Properties);
+			break;
+
+		case Uml::wt_Package:
+			setupColor(object->getUseFillColor());
+			insertItem(SmallIcon("editcut"), i18n("Cut"), mt_Cut);
+			insertItem(SmallIcon("editcopy"), i18n("Copy"), mt_Copy);
+			insertItem(SmallIcon("editpaste"), i18n("Paste"), mt_Paste);
+			insertSeparator();
+			insertItem(SmallIcon("editdelete"), i18n("Delete"), mt_Delete);
+			insertItem(SmallIcon("charset"), i18n("Rename..."), mt_Rename);
+			insertItem(SmallIcon("fonts"),  i18n("Change Font..."), mt_Change_Font );
+			insertItem(SmallIcon("info"), i18n("Properties"), mt_Properties);
 			break;
 
 		case Uml::wt_Object:
@@ -371,8 +386,7 @@ Uml::Diagram_Type ListPopupMenu::convert_MT_DT(Menu_Type mt) {
 	return type;
 }
 
-Uml::UMLObject_Type ListPopupMenu::convert_MT_OT(Menu_Type mt)
-{
+Uml::UMLObject_Type ListPopupMenu::convert_MT_OT(Menu_Type mt) {
 	Uml::UMLObject_Type type =  Uml::ot_UMLObject;
 
 	switch(mt) {
@@ -415,6 +429,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 	QString dataDir = dirs->findResourceDir("data", "umbrello/pics/object.xpm");
 	dataDir += "/umbrello/pics/";
 	QPixmap classPixmap(dataDir+"umlclass.xpm");
+	QPixmap packagePixmap(dataDir+"package.xpm");
 	QPixmap actorPixmap(dataDir+"actor.xpm");
 	QPixmap usecasePixmap(dataDir+"case.xpm");
 	QPixmap initialStatePixmap(dataDir+"initial_state.xpm");
@@ -427,6 +442,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 			m_pInsert = new KPopupMenu(this, "New");
 			m_pInsert -> insertItem(SmallIcon( "folder_new"), i18n("Folder"), mt_Logical_Folder);
 			m_pInsert -> insertItem(classPixmap, i18n("Class..."), mt_Concept);
+			m_pInsert->insertItem(packagePixmap, i18n("Package..."), mt_Package);
 			m_pInsert -> insertItem(SmallIcon( "folder_green"),i18n("Class Diagram"), mt_Class_Diagram);
 			m_pInsert -> insertItem(SmallIcon( "folder_green"),i18n("State Diagram"), mt_State_Diagram);
 			m_pInsert -> insertItem(SmallIcon( "folder_green"),i18n("Activity Diagram"), mt_Activity_Diagram);
@@ -466,6 +482,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 			m_pInsert = new KPopupMenu(this, "New");
 			m_pInsert -> insertItem(SmallIcon( "folder_new"),i18n("Folder"), mt_Logical_Folder);
 			m_pInsert -> insertItem(classPixmap, i18n("Class..."), mt_Concept);
+			m_pInsert -> insertItem(packagePixmap, i18n("Package..."), mt_Package);
 			m_pInsert -> insertItem(SmallIcon( "folder_green"),i18n("Class Diagram"), mt_Class_Diagram);
 			m_pInsert -> insertItem(SmallIcon( "folder_green"),i18n("State Diagram"), mt_State_Diagram);
 
@@ -536,6 +553,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 		case mt_On_Class_Diagram:
 			m_pInsert = new KPopupMenu( this, "New" );
 			m_pInsert -> insertItem(classPixmap, i18n("Class..."), mt_Concept);
+			m_pInsert -> insertItem(packagePixmap, i18n("Package..."), mt_Package);
 			m_pInsert -> insertItem(SmallIcon( "text"), i18n( "Text Line..." ), mt_FloatText );
 			insertItem(SmallIcon( "filenew"), i18n("New"), m_pInsert);
 			insertSeparator();
@@ -588,6 +606,16 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 			insertItem(SmallIcon( "charset"), i18n("Rename..."), mt_Rename);
 			insertItem(SmallIcon( "editdelete"), i18n("Delete"), mt_Delete);
 			insertItem(SmallIcon( "info"), i18n("Properties"), mt_Properties);
+			break;
+
+		case mt_Package:
+			insertItem(SmallIcon("editcut"), i18n("Cut"), mt_Cut);
+			insertItem(SmallIcon("editcopy"), i18n("Copy"), mt_Copy);
+			insertItem(SmallIcon("editpaste"), i18n("Paste"), mt_Paste);
+			insertSeparator();
+			insertItem(SmallIcon("charset"), i18n("Rename..."), mt_Rename);
+			insertItem(SmallIcon("editdelete"), i18n("Delete"), mt_Delete);
+			insertItem(SmallIcon("info"), i18n("Properties"), mt_Properties);
 			break;
 
 		case mt_Actor:

@@ -76,6 +76,7 @@ public:
 	    tbb_Actor,
 	    tbb_UseCase,
 	    tbb_Concept,
+	    tbb_Package,
 	    tbb_Object,
 	    tbb_Initial_State,
 	    tbb_State,
@@ -115,7 +116,8 @@ private:
 		Initial_State,
 		End_State,
 		Branch,
-		Fork;
+		Fork,
+		Package;
 	}
 	m_Pixmaps;
 

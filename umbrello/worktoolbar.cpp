@@ -11,6 +11,7 @@
 #include "umldoc.h"
 #include "umlview.h"
 #include "worktoolbar.h"
+#include <kdebug.h>
 #include <klocale.h>
 #include <kstddirs.h>
 #include <ktoolbarbutton.h>
@@ -45,6 +46,7 @@ void WorkToolBar::slotCheckToolBar(Uml::Diagram_Type dt) {
 	clear();
 	m_Type = dt;
 
+	//insert note, anchor and lines of text on all diagrams
 	if( m_Type != Uml::dt_Undefined ) {
 		insertButton( m_Pixmaps.Arrow, tbb_Arrow );
 		setToggle( tbb_Arrow,true );
@@ -60,14 +62,13 @@ void WorkToolBar::slotCheckToolBar(Uml::Diagram_Type dt) {
 		insertButton( m_Pixmaps.Text, tbb_Text, true, i18n("Line of text"));
 		setToggle( tbb_Text, true );
 	}
+
+	//insert diagram specific tools
 	if( m_Type == Uml::dt_UseCase ) {
-
-
-
 		insertButton( m_Pixmaps.Actor, tbb_Actor, true, i18n("Actor"));
 		setToggle( tbb_Actor, true );
 
-		insertButton( m_Pixmaps.UseCase, tbb_UseCase,true, i18n("Use case"));
+		insertButton( m_Pixmaps.UseCase, tbb_UseCase, true, i18n("Use case"));
 		setToggle( tbb_UseCase, true );
 
 		insertButton( m_Pixmaps.Generalization, tbb_Generalization, true, i18n("Generalization"));
@@ -84,6 +85,9 @@ void WorkToolBar::slotCheckToolBar(Uml::Diagram_Type dt) {
 	} else if( m_Type == Uml::dt_Class ) {
 		insertButton( m_Pixmaps.Concept, tbb_Concept, true, i18n("Class"));
 		setToggle( tbb_Concept,true );
+
+		insertButton( m_Pixmaps.Package, tbb_Package, true, i18n("Package"));
+		setToggle( tbb_Package,true );
 
 		insertButton( m_Pixmaps.Composition, tbb_Composition, true, i18n("Composition"));
 		setToggle( tbb_Composition, true );
@@ -210,7 +214,7 @@ void WorkToolBar::setOldTool() {
 	if(b)
 		b -> animateClick();
 }
-
+///////////////////////////////////////////////////////////////////////////////////////////
 void WorkToolBar::setDefaultTool() {
 	KToolBarButton *b = (KToolBarButton*) getWidget(tbb_Arrow);
 	if(b)
@@ -243,8 +247,7 @@ void WorkToolBar::loadPixmaps() {
 	m_Pixmaps.End_State.load( dataDir + "end_state.xpm" );
 	m_Pixmaps.Branch.load( dataDir + "branch.xpm" );
 	m_Pixmaps.Fork.load( dataDir + "fork.xpm" );
+	m_Pixmaps.Package.load( dataDir + "package.xpm" );
 }
-
-
 
 #include "worktoolbar.moc"

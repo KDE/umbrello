@@ -22,12 +22,18 @@ AssocRules::~AssocRules() {}
 bool AssocRules::allowAssociation( Association_Type assocType, UMLWidget * widget ) {
 	UMLWidget_Type widgetType = widget -> getBaseType();
 	bool bValid = false;
-	for( int i = 0; i < m_nNumRules; i++ )
-		if( assocType == m_AssocRules[ i ].assoc_type )
-			if( widgetType == m_AssocRules[ i ].widgetA_type || widgetType == m_AssocRules[ i ].widgetB_type )
+	for (int i = 0; i < m_nNumRules; i++) {
+		if (assocType == m_AssocRules[i].assoc_type ) {
+			if (widgetType == m_AssocRules[i].widgetA_type
+			    || widgetType == m_AssocRules[i].widgetB_type ) {
 				bValid =  true;
-	if( !bValid )
+			}
+		}
+	}
+
+	if( !bValid ) {
 		return false;
+	}
 	AssociationWidgetList list = widget -> getData() -> getAssocList();
 	AssociationWidgetListIt it( list );
 	AssociationWidget * assoc = 0;
@@ -202,37 +208,47 @@ bool AssocRules::allowSelf( Association_Type assocType, UMLWidget_Type widgetTyp
 }
 
 AssocRules::Assoc_Rule AssocRules::m_AssocRules []= {
-            //		Association					widgetA				widgetB				role	multiplicity	directional	self
-            { at_Association,				wt_Class,			wt_Class,			true,		true,			true,			true },
-            { at_Association,				wt_Actor,			wt_UseCase,		true,		false,		false,		false },
-            { at_Association,				wt_UseCase,		wt_UseCase,		true,		false,		false,		false },
-            { at_Association,				wt_Actor,			wt_Actor,			true,		false,		false,		false },
-            { at_Association,				wt_Actor,			wt_UseCase,		true,		false,		false,		false },
-            { at_UniAssociation,		wt_Class,			wt_Class,			true,		true,			true,			true },
-            { at_UniAssociation,		wt_Actor,			wt_Actor,			true,		false,		false,		false },
-            { at_UniAssociation,		wt_UseCase,		wt_UseCase,		true,		false,		false,		false },
-            { at_UniAssociation,		wt_UseCase,		wt_Actor,			true,		false,		false,		false },
-            { at_Generalization,		wt_Class,			wt_Class,			false,	false,		false,		false },
-            { at_Generalization,		wt_UseCase,		wt_UseCase,		false,	false,		false,		false },
-            { at_Generalization,		wt_Actor,			wt_Actor,			false,	false,		false,		false },
-            {	at_Aggregation,				wt_Class,			wt_Class,			true,		true,			false,		false },
-            { at_Dependency,				wt_Class,			wt_Class,			false,	false,		false,		false },
-            { at_Dependency,				wt_UseCase,		wt_UseCase,		false,	false,		false,		false },
-            { at_Dependency,				wt_Actor,			wt_Actor,			false,	false,		false,		false },
-            { at_Dependency,				wt_Actor,			wt_UseCase,		false,	false,		false,		false },
-            { at_Realization,				wt_Class,			wt_Class,			false,	false,		false,		false },
-            { at_Composition,				wt_Class,			wt_Class,			true,		true,			false,		false },
-            { at_Implementation,		wt_Class,			wt_Class,			false,	false,		false,		false },
-            { at_Coll_Message,			wt_Object,		wt_Object,		true,		false,		true,			true },
-            { at_State,							wt_State,			wt_State,			true,		false,		true,			true },
-            { at_Activity,					wt_Activity,	wt_Activity,	true,		false,		true,			true },
-            { at_Anchor,						wt_Class,			wt_Note,			false,	false,		false,		false},
-            { at_Anchor,						wt_Object,		wt_Note,			false,	false,		false,		false},
-            { at_Anchor,						wt_Actor,			wt_Note,			false,	false,		false,		false},
-            { at_Anchor,						wt_UseCase,		wt_Note,			false,	false,		false,		false},
-            { at_Anchor,						wt_Message,		wt_Note,			false,	false,		false,		false},
-            { at_Anchor,						wt_State,			wt_Note,			false,	false,		false,		false},
-            { at_Anchor,						wt_Activity,	wt_Note,			false,	false,		false,		false},
+            //	Association	widgetA		widgetB		role	multiplicity	directional	self
+            { at_Association,	wt_Class,	wt_Class,	true,	true,	true,	true  },
+            { at_Association,	wt_Package,	wt_Package,	true,	true,	true,	true  },
+            { at_Association,	wt_Package,	wt_Class,	true,	true,	true,	true  },
+            { at_Association,	wt_Class,	wt_Package,	true,	true,	true,	true  },
+            { at_Association,	wt_Actor,	wt_UseCase,	true,	false,	false,	false },
+            { at_Association,	wt_UseCase,	wt_UseCase,	true,	false,	false,	false },
+            { at_Association,	wt_Actor,	wt_Actor,	true,	false,	false,	false },
+            { at_Association,	wt_Actor,	wt_UseCase,	true,	false,	false,	false },
+            { at_UniAssociation,wt_Class,	wt_Class,	true,	true,	true,	true  },
+            { at_UniAssociation,wt_Package,	wt_Package,	true,	true,	true,	true  },
+            { at_UniAssociation,wt_Package,	wt_Class,	true,	true,	true,	true  },
+            { at_UniAssociation,wt_Class,	wt_Package,	true,	true,	true,	true  },
+            { at_UniAssociation,wt_Actor,	wt_Actor,	true,	false,	false,	false },
+            { at_UniAssociation,wt_UseCase,	wt_UseCase,	true,	false,	false,	false },
+            { at_UniAssociation,wt_UseCase,	wt_Actor,	true,	false,	false,	false },
+            { at_Generalization,wt_Class,	wt_Class,	false,	false,	false,	false },
+            { at_Generalization,wt_UseCase,	wt_UseCase,	false,	false,	false,	false },
+            { at_Generalization,wt_Actor,	wt_Actor,	false,	false,	false,	false },
+            { at_Aggregation,	wt_Class,	wt_Class,	true,	true,	false,	false },
+            { at_Dependency,	wt_Class,	wt_Class,	false,	false,	false,	false },
+            { at_Dependency,	wt_UseCase,	wt_UseCase,	false,	false,	false,	false },
+            { at_Dependency,	wt_Actor,	wt_Actor,	false,	false,	false,	false },
+            { at_Dependency,	wt_Actor,	wt_UseCase,	false,	false,	false,	false },
+            { at_Dependency,	wt_Package,	wt_Package,	true,	true,	true,	true  },
+            { at_Dependency,	wt_Package,	wt_Class,	true,	true,	true,	true  },
+            { at_Dependency,	wt_Class,	wt_Package,	true,	true,	true,	true  },
+            { at_Realization,	wt_Class,	wt_Class,	false,	false,	false,	false },
+            { at_Composition,	wt_Class,	wt_Class,	true,	true,	false,	false },
+            { at_Implementation,wt_Class,	wt_Class,	false,	false,	false,	false },
+            { at_Coll_Message,	wt_Object,	wt_Object,	true,	false,	true,	true  },
+            { at_State,		wt_State,	wt_State,	true,	false,	true,	true  },
+            { at_Activity,	wt_Activity,	wt_Activity,	true,	false,	true,	true  },
+            { at_Anchor,	wt_Class,	wt_Note,	false,	false,	false,	false },
+            { at_Anchor,	wt_Class,	wt_Package,	false,	false,	false,	false },
+            { at_Anchor,	wt_Object,	wt_Note,	false,	false,	false,	false },
+            { at_Anchor,	wt_Actor,	wt_Note,	false,	false,	false,	false },
+            { at_Anchor,	wt_UseCase,	wt_Note,	false,	false,	false,	false },
+            { at_Anchor,	wt_Message,	wt_Note,	false,	false,	false,	false },
+            { at_Anchor,	wt_State,	wt_Note,	false,	false,	false,	false },
+            { at_Anchor,	wt_Activity,	wt_Note,	false,	false,	false,	false },
         };
 
 int AssocRules::m_nNumRules = sizeof( m_AssocRules ) / sizeof( AssocRules::Assoc_Rule );

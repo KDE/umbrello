@@ -323,7 +323,7 @@ protected:
 	UMLWidgetDataList m_MessageList;
 
 	/**
-	 *		Contains all the data for @ref MessageWidgets on the diagram.
+	 *		Contains all the data for @ref UMLWidgets on the diagram.
 	 */
 	UMLWidgetDataList m_WidgetList;
 

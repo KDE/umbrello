@@ -17,6 +17,7 @@
 #include "actorwidgetdata.h"
 #include "associationwidgetdata.h"
 #include "conceptwidgetdata.h"
+#include "packagewidgetdata.h"
 #include "floatingtextdata.h"
 #include "notewidgetdata.h"
 #include "messagewidgetdata.h"
@@ -646,6 +647,8 @@ bool UMLViewData::loadWidgetsFromXMI( QDomElement & qElement ) {
 			widgetData = new UseCaseWidgetData(getOptionState());
 		} else if( tag == "UML:ConceptWidget" ) {
 			widgetData = new ConceptWidgetData(getOptionState());
+		} else if( tag == "packagewidget" ) {
+			widgetData = new PackageWidgetData(getOptionState());
 		} else if( tag == "UML:StateWidget" ) {
 			widgetData = new StateWidgetData(getOptionState());
 		} else if( tag == "UML:NoteWidget" ) {
@@ -657,7 +660,7 @@ bool UMLViewData::loadWidgetsFromXMI( QDomElement & qElement ) {
 		} else if( tag == "UML:ActivityWidget" ) {
 			widgetData = new ActivityWidgetData(getOptionState());
 		} else {
-			kdDebug()<<"Trying to create an unknown widget"<<endl;
+			kdWarning()<<"Trying to create an unknown widget"<<endl;
 			return false;
 		}
 		if( !widgetData -> loadFromXMI( widgetElement ) )

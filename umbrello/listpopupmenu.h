@@ -51,6 +51,7 @@ public:
 	    mt_UseCase_Folder,                //UCFOLDER
 
 	    mt_Concept,                       //CONCEPT
+	    mt_Package,
 	    mt_Actor,                         //ACTOR
 	    mt_UseCase,                       //USECASE
 	    mt_Attribute,                     //ATTRIBUTE

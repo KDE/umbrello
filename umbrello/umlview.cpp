@@ -49,6 +49,7 @@
 #include "clipboard/umldrag.h"
 
 #include "conceptwidget.h"
+#include "packagewidget.h"
 #include "actorwidget.h"
 #include "usecasewidget.h"
 #include "notewidget.h"
@@ -205,7 +206,6 @@ void UMLView::print(KPrinter *pPrinter, QPainter & pPainter) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome) {
-
 	m_bMouseButtonPressed = false;
 	QMouseEvent *me = new QMouseEvent(QEvent::MouseButtonRelease, inverseWorldMatrix().map(ome->pos()),
 					  ome->button(),ome->state());
@@ -225,7 +225,6 @@ void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome) {
 	if( allocateMouseReleaseEvent(me) ) {
 		return;
 	}
-
 	if( m_CurrentCursor == WorkToolBar::tbb_Arrow || me -> state() != LeftButton ) {
 		viewport()->setMouseTracking( false );
 		if (me->state() == RightButton) {
@@ -290,7 +289,6 @@ void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome) {
 		return;
 	}
 	//create a activity widget
-
 	if( m_CurrentCursor == WorkToolBar::tbb_Activity )
 	{
 		bool ok = false;
@@ -428,7 +426,6 @@ void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome) {
 		m_pFirstSelectedWidget = 0;
 		return;
 	}
-
 	//if we are creating an object, we really create a class
 	if(m_CurrentCursor == WorkToolBar::tbb_Object) {
 		m_CurrentCursor = WorkToolBar::tbb_Concept;
@@ -473,20 +470,22 @@ UMLListView * UMLView::getListView() {
 	return getDocument()->listView;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void UMLView::slotObjectCreated(UMLObject * o) {
+void UMLView::slotObjectCreated(UMLObject* o) {
 	m_bPaste = false;
 	int type  = o->getBaseType();
-
 	//check to see if we want the message
 	//may be wanted by someone else e.g. list view
 	if(m_bCreateObject) {
-		UMLWidget *temp = 0;
+		UMLWidget* temp = 0;
 		if(type == ot_Actor) {
 			ActorWidget * a = new ActorWidget(this, o);
 			temp = (UMLWidget*)a;
 		} else if(type == ot_UseCase) {
 			UseCaseWidget * u = new UseCaseWidget(this, o);
 			temp = (UMLWidget*)u;
+		} else if(type == ot_Package) {
+		        PackageWidget* packageWidget = new PackageWidget(this, o);
+			temp = (UMLWidget*)packageWidget;
 		} else if(type == ot_Concept) {
 			//see if we really want an object widget or concept widget
 			if(m_pData -> m_Type == dt_Class) {
@@ -496,8 +495,9 @@ void UMLView::slotObjectCreated(UMLObject * o) {
 				ObjectWidget * ow = new ObjectWidget(this, o, m_pData -> getUniqueID() );
 				temp = (UMLWidget *)ow;
 			}
-		} else
-			kdDebug() << "ERROR: trying to create an invalid widget" << endl;
+		} else {
+			kdWarning() << "ERROR: trying to create an invalid widget" << endl;
+		}
 		int y=m_Pos.y();
 
 		if (temp->getBaseType() == wt_Object
@@ -517,15 +517,12 @@ void UMLView::slotObjectCreated(UMLObject * o) {
 			case ot_Actor:
 			case ot_UseCase:
 			case ot_Concept:
+			case ot_Package:
 				createAutoAssociations( temp );
 				break;
 		}
 	}
 }
-
-
-
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLView::slotObjectRemoved(UMLObject * o) {
 	m_bPaste = false;
@@ -597,7 +594,11 @@ void UMLView::contentsDragEnterEvent(QDragEnterEvent *e) {
 		   && (ot != ot_Concept) ) {
 				status = false;
 		}
-		if((m_pData->m_Type == dt_UseCase || m_pData->m_Type == dt_Class) && widgetOnDiagram(data->getID()) ) {
+		if (m_pData->m_Type == dt_Class && ot == ot_Package) {
+			status = true;
+		}
+		if((m_pData->m_Type == dt_UseCase || m_pData->m_Type == dt_Class)
+		   && widgetOnDiagram(data->getID()) ) {
 				status = false;
 		}
 	}
@@ -1344,6 +1345,7 @@ UMLObjectList* UMLView::getUMLObjects() {
 		{
 			case wt_Actor:
 			case wt_Class:
+			case wt_Package:
 			case wt_UseCase:
 			case wt_Object:
 				list->append( obj->getUMLObject() );
@@ -1420,6 +1422,7 @@ bool UMLView::getSelectedWidgets(UMLWidgetList&WidgetList)
 			case wt_Actor:
 			case wt_UseCase:
 			case wt_Class:
+			case wt_Package:
 			case wt_Object:
 			case wt_Note:
 			case wt_Message:
@@ -1447,6 +1450,7 @@ bool UMLView::getSelectedWidgetDatas(UMLWidgetDataList&WidgetDataList) {
 			case wt_Actor:
 			case wt_UseCase:
 			case wt_Class:
+			case wt_Package:
 			case wt_Object:
 			case wt_Note:
 			case wt_State:
@@ -1501,6 +1505,10 @@ bool UMLView::createWidget(UMLWidgetData* WidgetData) {
 			widget = new ConceptWidget(this, object, WidgetData);
 			break;
 
+		case wt_Package:
+			widget = new PackageWidget(this, object, WidgetData);
+			break;
+
 		case wt_Text:
 			widget = new FloatingText(this, WidgetData);
 			break;
@@ -1526,6 +1534,7 @@ bool UMLView::createWidget(UMLWidgetData* WidgetData) {
 			break;
 
 		default:
+			kdWarning() << "trying to create widget of unkent type" << endl;
 			return false;
 			break;
 	}
@@ -1559,6 +1568,7 @@ bool UMLView::addWidget( UMLWidgetData * pWidgetData ) {
 	switch( pWidgetData -> getType() ) {
 
 		case wt_Class:
+		case wt_Package:
 		case wt_Actor:
 		case wt_UseCase:
 			newID = log->findNewID( pWidgetData -> getId() );
@@ -2056,7 +2066,6 @@ Uml::Association_Type UMLView::convert_TBB_AT(WorkToolBar::ToolBar_Buttons tbb) 
 
 Uml::UMLObject_Type UMLView::convert_TBB_OT(WorkToolBar::ToolBar_Buttons tbb) {
 	UMLObject_Type ot = ot_UMLObject;
-
 	switch(tbb) {
 		case WorkToolBar::tbb_Actor:
 			ot = ot_Actor;
@@ -2068,6 +2077,10 @@ Uml::UMLObject_Type UMLView::convert_TBB_OT(WorkToolBar::ToolBar_Buttons tbb) {
 
 		case WorkToolBar::tbb_Concept:
 			ot = ot_Concept;
+			break;
+
+		case WorkToolBar::tbb_Package:
+			ot = ot_Package;
 			break;
 		default:
 			break;
@@ -2584,6 +2597,11 @@ void UMLView::slotMenuSelection(int sel) {
 			getDocument()->createUMLObject( ot_Concept );
 			break;
 
+		case ListPopupMenu::mt_Package:
+			m_bCreateObject = true;
+			getDocument()->createUMLObject(ot_Package);
+			break;
+
 		case ListPopupMenu::mt_Paste:
 			m_PastePoint = m_Pos;
 			m_Pos.setX( 2000 );
@@ -2720,6 +2738,7 @@ void UMLView::synchronizeData() {
 			case wt_Actor:
 			case wt_UseCase:
 			case wt_Class:
+			case wt_Package:
 			case wt_Object:
 			case wt_Note:
 			case wt_State:

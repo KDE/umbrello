@@ -11,6 +11,7 @@
 #include "associationwidget.h"
 #include "association.h"
 #include "concept.h"
+#include "package.h"
 #include "docwindow.h"
 #include "objectwidget.h"
 #include "operation.h"
@@ -411,6 +412,8 @@ QString	UMLDoc::uniqObjectName(const UMLObject_Type type) {
 		currentName = i18n("new_actor");
 	else if(type == ot_UseCase)
 		currentName = i18n("new_usecase");
+	else if(type == ot_Package)
+		currentName = i18n("new_package");
 	else
 		currentName = i18n("new_object");
 
@@ -448,8 +451,11 @@ void UMLDoc::createUMLObject(UMLObject_Type type) {
 			} else if(type == ot_Concept) {
 				UMLConcept *c = new UMLConcept(this, name, ++uniqueID);
 				o = (UMLObject*)c;
+			} else if(type == ot_Package) {
+				UMLPackage* package = new UMLPackage(this, name, ++uniqueID);
+				o = (UMLObject*)package;
 			} else {
-				kdDebug() << "CreateUMLObject(int) error" << endl;
+				kdWarning() << "CreateUMLObject(int) error" << endl;
 				return;
 			}
 
@@ -905,18 +911,17 @@ void UMLDoc::removeUMLObject(UMLObject *o) {
 
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void UMLDoc::showProperties(UMLObject *o, int page, bool assoc) {
-	getDocWindow() -> updateDocumentation( false );
-	ClassPropDlg *dlg = new ClassPropDlg((QWidget*)parent(), o, page, assoc);
+void UMLDoc::showProperties(UMLObject* object, int page, bool assoc) {
+	getDocWindow()->updateDocumentation( false );
+	ClassPropDlg* dialogue = new ClassPropDlg((QWidget*)parent(), object, page, assoc);
 
-	if(dlg->exec()) {
-		getDocWindow() -> showDocumentation( o, true );
-		emit sigWidgetUpdated(o);
-		emit sigObjectChanged(o);
+	if ( dialogue->exec() ) {
+		getDocWindow()->showDocumentation(object, true);
+		emit sigWidgetUpdated(object);
+		emit sigObjectChanged(object);
 		setModified(true);
 	}
-	dlg -> close(true);//wipe from memory
-	return;
+	dialogue->close(true);//wipe from memory
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1329,14 +1334,15 @@ bool UMLDoc::loadUMLObjectsFromXMI( QDomNode & node ) {
 	while( !element.isNull() ) {
 		pObject = 0;
 		QString type = element.tagName();
-		if( type == "UML:UseCase" )
-			pObject = new UMLUseCase( this );
-		else if( type == "UML:Actor" )
-			pObject = new UMLActor( this );
-		else if( type == "UML:Class" )
-			pObject = new UMLConcept( this );
- 		else if( type == "UML:Association" )
- 		{
+		if (type == "UML:UseCase") {
+			pObject = new UMLUseCase(this);
+		} else if (type == "UML:Actor") {
+			pObject = new UMLActor(this);
+		} else if (type == "UML:Class") {
+			pObject = new UMLConcept(this);
+		} else if (type == "UML:Package") {
+			pObject = new UMLPackage(this);
+		} else if( type == "UML:Association" ) {
  			//For the time being, we skip loading asociations from
  			// here. Instead, we will get them from the association widgets.
  			// meaning that UML:Association nodes are effectively ignored

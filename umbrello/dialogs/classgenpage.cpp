@@ -48,7 +48,8 @@ ClassGenPage::ClassGenPage(UMLDoc *d, QWidget *parent, UMLObject * o) : QWidget(
 	m_pPackageLE = 0;
 	m_pAbstractCB = 0;
 	m_pDeconCB = 0;
-	if(t == Uml::ot_Concept) {
+
+	if (t == Uml::ot_Concept || t == Uml::ot_Package) {
 		m_pStereoTypeL = new QLabel(i18n("Stereotype name:"), this);
 		m_pNameLayout -> addWidget(m_pStereoTypeL, 1, 0);
 
@@ -56,7 +57,9 @@ ClassGenPage::ClassGenPage(UMLDoc *d, QWidget *parent, UMLObject * o) : QWidget(
 		m_pNameLayout -> addWidget(m_pStereoTypeLE, 1, 1);
 
 		m_pStereoTypeLE -> setText(o -> getStereotype());
+	}
 
+	if (t == Uml::ot_Concept) {
 		m_pPackageL = new QLabel(i18n("Package name:"), this);
 		m_pNameLayout -> addWidget(m_pPackageL, 2, 0);
 

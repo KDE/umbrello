@@ -418,6 +418,14 @@ int UMLConcept::operations() {
 	return m_OpsList.count();
 }
 
+int UMLConcept::associations() {
+	return m_AssocsList.count();
+}
+
+int UMLConcept::attributes() {
+	return m_AttsList.count();
+}
+
 const QPtrList<UMLAssociation>& UMLConcept::getAssociations() {
 	return m_AssocsList;
 }

@@ -302,7 +302,3 @@ bool ConceptWidgetData::loadFromXMI( QDomElement & qElement ) {
 
 	return true;
 }
-
-
-
-
