@@ -12,14 +12,17 @@
  *                                                                         *
  ***************************************************************************/
 
+// own header
 #include "attribute.h"
+// qt/kde includes
+#include <qregexp.h>
+#include <kdebug.h>
+// app includes
 #include "classifier.h"
 #include "umldoc.h"
 #include "uml.h"
 #include "dialogs/umlattributedialog.h"
 
-#include <qregexp.h>
-#include <kdebug.h>
 
 UMLAttribute::UMLAttribute( const UMLObject *parent, QString Name, Uml::IDType id,
 			    Uml::Scope s, QString type, QString iv )
