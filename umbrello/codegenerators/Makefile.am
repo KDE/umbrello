@@ -7,9 +7,8 @@ libcodegenerator_la_METASOURCES = AUTO
 libcodegenerator_la_SOURCES = codegenfactory.cpp classifierinfo.cpp \
 				javacodegenerator.cpp javaantcodedocument.cpp javacodeclassfield.cpp \
 				javaclassifiercodedocument.cpp javacodecomment.cpp javacodedocumentation.cpp \
-				javacodeoperation.cpp javasetaccessormethod.cpp javagetaccessormethod.cpp \
+				javacodeoperation.cpp javacodeaccessormethod.cpp \
 				javaclassdeclarationblock.cpp javacodeclassfielddeclarationblock.cpp \
-				javalistaccessormethod.cpp javaremoveaccessormethod.cpp javaaddaccessormethod.cpp \
 				javacodegenerationpolicy.cpp javacodegenerationpolicypage.cpp \
 				javacodegenerationformbase.ui \
 				cppcodegenerator.cpp cppcodedocumentation.cpp cppcodeclassfield.cpp \
