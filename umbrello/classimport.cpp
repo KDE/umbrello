@@ -42,6 +42,7 @@ public:
 ClassImport::ClassImport(UMLDoc * parentDoc) {
 	m_umldoc = parentDoc;
 	m_driver = new CppDriver();
+	m_putAtGlobalScope = false;
 }
 
 ClassImport::~ClassImport() {}
