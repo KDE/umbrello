@@ -25,3 +25,6 @@ libcodegenerator_la_SOURCES = codegenfactory.cpp classifierinfo.cpp \
 				phpwriter.cpp pythonwriter.cpp sqlwriter.cpp xmlschemawriter.cpp \
 				xmlelementcodeblock.cpp xmlcodecomment.cpp
 libcodegenerator_la_COMPILE_FIRST = ../dialogs/codegenerationpolicybase.h
+
+KDE_OPTIONS = nofinal
+
