@@ -1521,10 +1521,17 @@ void UMLDoc::saveToXMI(QIODevice& file) {
 #endif
 		if (t == ot_Association)
 			continue;
+		if (t == ot_Stereotype || t == ot_Template) {
+			kdDebug() << "UMLDoc::saveToXMI(" << o->getName()
+				  << "): FIXME: type " << t
+				  << " is not supposed to be in objectList"
+				  << endl;
+			continue;
+		}
 		if (t == ot_EnumLiteral || t == ot_Attribute || t == ot_Operation) {
 			kdError() << "UMLDoc::saveToXMI(" << o->getName()
 				  << "): internal error: type " << t
-				  << "is not supposed to be in objectList"
+				  << " is not supposed to be in objectList"
 				  << endl;
 			continue;
 		}
