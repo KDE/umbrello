@@ -146,9 +146,9 @@ protected:
 	Uml::IDType m_DiagramLink;
 
 	/**
-	 * Draws the text.  Called by draw and not called by anyone else.
+	 * Draws the text.  Auxiliary to draw().
 	 */
-	void drawText();
+	void drawText(QPainter * p = NULL, int offsetX = 0, int offsetY = 0);
 private:
 	/**
 	 * Initializes key variables for the class.
@@ -156,7 +156,11 @@ private:
 	void init();
 
 	void setEditorGeometry(int dx = 0, int dy = 0);
+#if defined (NOTEWIDGET_EMBED_EDITOR)
 	QTextEdit *m_pEditor;
+#else
+	QString m_Text;
+#endif
 };
 
 #endif
