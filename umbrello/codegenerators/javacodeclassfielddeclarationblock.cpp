@@ -18,6 +18,8 @@
 #include "javacodeclassfield.h"
 #include "javaclassifiercodedocument.h"
 #include "javacodegenerationpolicy.h"
+#include "../interface.h"
+#include "../umlrole.h"
 
 // Constructors/Destructors
 //  
@@ -89,6 +91,12 @@ void JavaCodeClassFieldDeclarationBlock::updateContent( )
                 body.append(" = " + initialV);
 	else if (!cf->parentIsAttribute())
 	{
+		UMLRole * role = dynamic_cast<UMLRole*>(cf->getParentObject());
+		if(dynamic_cast<UMLInterface*>(role->getObject()) ) 
+		{
+			// do nothing.. can't instanciate an interface
+		} else {
+
 		// FIX?: IF a constructor method exists in the classifiercodedoc
 		// of the parent Object, then we can use that instead (if its empty).
  		if(cf->fieldIsSingleValue())
@@ -97,12 +105,11 @@ void JavaCodeClassFieldDeclarationBlock::updateContent( )
                 		body.append(" = new " + typeName + " ( )");
 		} else
                 	body.append(" = new Vector ( )");
+		}
 	}
 
         setText(body+";");
 
 }
-
-
 
 #include "javacodeclassfielddeclarationblock.moc"
