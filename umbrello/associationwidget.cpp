@@ -1109,6 +1109,10 @@ void AssociationWidget::mergeUMLRepresentationIntoAssociationData()
 {
 	UMLAssociation *uml = getAssociation();
 
+	if (uml == NULL) {
+		kdDebug() << "The UMLAssociation* uml is null -- returning from the function to avoid crashing."  << endl;
+		return;
+	}
 	// block signals until finished
 	uml->blockSignals(true);
 
