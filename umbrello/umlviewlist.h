@@ -18,12 +18,10 @@
 #ifndef UMLVIEWLIST_H
 #define UMLVIEWLIST_H
 
-#include "umlviewdata.h"
+#include "umlview.h"
 #include <qptrlist.h>
 
 typedef QPtrList<UMLView> UMLViewList;
 typedef QPtrListIterator<UMLView> UMLViewListIt;
 
-typedef QPtrList<UMLViewData> UMLViewDataList;
-typedef QPtrListIterator<UMLViewData> UMLViewDataListIt;
 #endif

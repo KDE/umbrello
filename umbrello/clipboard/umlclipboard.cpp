@@ -26,7 +26,6 @@
 #include "../umllistviewitemdatalist.h"
 #include "../umlobjectlist.h"
 #include "../umlview.h"
-#include "../umlviewlist.h"
 #include "../umlwidgetdata.h"
 #include "../umlwidgetlist.h"
 #include "../umlwidget.h"

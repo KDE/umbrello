@@ -14,7 +14,7 @@
 #include "../umlobjectlist.h"
 #include "../umllistviewitemdatalist.h"
 #include "../umllistviewitemlist.h"
-#include "../umlviewlist.h"
+#include "../umlviewdatalist.h"
 #include "../umlwidgetlist.h"
 
 class IDChangeLog;
