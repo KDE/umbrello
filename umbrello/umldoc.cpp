@@ -572,10 +572,22 @@ UMLObject* UMLDoc::findObjectByIdStr(QString idStr) {
 	for (UMLObject * o = objectList.first(); o; o = objectList.next()) {
 		if (o->getAuxId() == idStr)
 			return o;
-		if (o->getBaseType() == Uml::ot_Package) {
-			UMLObject *inner = ((UMLPackage*)o)->findObjectByIdStr(idStr);
-			if (inner)
-				return inner;
+		UMLObject *inner = NULL;
+		switch (o->getBaseType()) {
+			case Uml::ot_Package:
+				inner = ((UMLPackage*)o)->findObjectByIdStr(idStr);
+				if (inner)
+					return inner;
+				break;
+			case Uml::ot_Interface:
+			case Uml::ot_Class:
+			case Uml::ot_Enum:
+				inner = ((UMLClassifier*)o)->findChildObjectByIdStr(idStr);
+				if (inner)
+					return inner;
+				break;
+			default:
+				break;
 		}
 	}
 	return NULL;
@@ -633,6 +645,19 @@ void UMLDoc::addUMLObject(UMLObject* object) {
 	if (ot == ot_Attribute || ot == ot_Operation || ot == ot_EnumLiteral) {
 		kdDebug() << "UMLDoc::addUMLObject(" << object->getName()
 			<< "): not adding type " << ot << endl;
+		return;
+	}
+	UMLPackage *pkg = object->getUMLPackage();
+	if (pkg != NULL) {
+		// CHECK: If UMLDoc::addUMLObject is invoked on an object
+		// that is inside a package then that is really a misuse.
+		// The following is nothing but a hack to deal with such
+		// misuse:
+		pkg->addObject(object);
+		kdDebug() << "UMLDoc::addUMLObject(" << object->getName()
+			  << "): bad call, adding at containing package instead"
+			  << endl;
+		// end of hack
 		return;
 	}
 	//stop it being added twice
