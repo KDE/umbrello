@@ -1,6 +1,3 @@
-<?xml version="1.0"?>
-<xs:schema targetNamespace="http://foo.example.com/tns" xmlns:xs="http://www.w3.org/2001/XMLSchema" 
-xmlns:tns="http://foo.example.com/tns">
 <!--
 This heading is genearated using the file at
 %headingpath%

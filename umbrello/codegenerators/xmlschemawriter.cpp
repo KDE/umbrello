@@ -31,15 +31,13 @@
 
 // Constructor
 XMLSchemaWriter::XMLSchemaWriter( QObject *parent, const char *name ) : CodeGenerator(parent, name) {
-
 	packageNamespaceTag = "tns";
-	packageNamespaceURI = "http://change.this.value/";
+	packageNamespaceURI = "http://foo.example.com/";
 	schemaNamespaceTag = "xs";
 	schemaNamespaceURI = "http://www.w3.org/2001/XMLSchema";
 	indent = "\t";
 	indentLevel = 0;
 	startline = "\n" + indent; // using UNIX newLine standard.. bad
-
 }
 
 // form of..."the Destructor"!!
@@ -78,6 +76,10 @@ void XMLSchemaWriter::writeClass(UMLClassifier *c)
 
 	// START WRITING
 
+	// 0. FIRST THING: open the xml processing instruction. This MUST be
+	// the first thing in the file
+	XMLschema<<"<?xml version=\"1.0\"?>"<<endl;
+
 	// 1. create the header
 	QString headerText = getHeadingFile(".xsd");
 	if(!headerText.isEmpty()) {
@@ -87,9 +89,16 @@ void XMLSchemaWriter::writeClass(UMLClassifier *c)
 	if(!headerText.isEmpty())
 		XMLschema<<headerText<<endl;
 
+	// 2. Open schema element node with appropriate namespace decl
+	XMLschema<<"<"<<makeSchemaTag("schema");
+	// common namespaces we know will be in the file..
+	XMLschema<<" xmlns:"<<schemaNamespaceTag<<"=\""<<schemaNamespaceURI<<"\"";
+	XMLschema<<" xmlns:"<<packageNamespaceTag<<"=\""<<packageNamespaceURI+packageNamespaceTag<<"\"";
+	XMLschema<<">"<<endl; // close opening declaration
+
 	indentLevel++;
 
-        // 2? IMPORT statements -- do we need to do anything here? I suppose if
+        // 3? IMPORT statements -- do we need to do anything here? I suppose if
 	// our document has more than one package, which is possible, we are missing
 	// the correct import statements. Leave that for later at this time.
         /*
@@ -101,17 +110,17 @@ void XMLSchemaWriter::writeClass(UMLClassifier *c)
                         XMLschema<<"import "<<con->getPackage()<<"."<<cleanName(con->getName())<<";"<<endl;
         */
 
-	// 3. BODY of the schema.
+	// 4. BODY of the schema.
 	// start the writing by sending this classifier, the "root" for this particular
 	// schema, to writeClassifier method, which will subsequently call itself on all
 	// related classifiers and thus populate the schema.
 	writeClassifier(c, XMLschema);
 
-	// 4. What remains is to make the root node declaration
+	// 5. What remains is to make the root node declaration
 	XMLschema<<endl;
 	writeElementDecl(getElementName(c), getElementTypeName(c), XMLschema);
 
-	// 5. Finished: now we may close schema decl
+	// 6. Finished: now we may close schema decl
 	indentLevel--;
 	XMLschema<<getIndent()<<"</"<<makeSchemaTag("schema")<<">"<<endl; // finished.. close schema node
 
