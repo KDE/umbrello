@@ -203,7 +203,7 @@ void UMLView::print(KPrinter *pPrinter, QPainter & pPainter) {
 			pPainter.translate(offsetX,offsetY);
 
 			//draw foot note
-			QString string = i18n("Diagram: ") + getName() +i18n(" Page %1").arg(page + 1);
+			QString string = i18n("Diagram: %2 Page %1").arg(page + 1).arg(getName());
 			QColor textColor(50, 50, 50);
 			pPainter.setPen(textColor);
 			pPainter.drawLine(0, height + 2, width, height + 2);
@@ -577,12 +577,6 @@ void UMLView::slotObjectRemoved(UMLObject * o) {
 		if(obj -> getID() == id)
 		{
 			removeWidget(obj);
-			delete l;
-
-			// keep calling self while a widget representing o exits
-			// as there may be others
-			slotObjectRemoved(o);
-			return;
 		}
 	}
 	delete l;
@@ -709,9 +703,6 @@ void UMLView::checkMessages(UMLWidget * w) {
 				m_SelectedList.remove(obj);
 
 				delete obj;
-				delete l;
-				checkMessages(w);
-				return;
 			}
 		}
 	}
@@ -842,7 +833,7 @@ void UMLView::removeWidget(UMLWidget * o) {
 	disconnect( this, SIGNAL( sigRemovePopupMenu() ), o, SLOT( slotRemovePopupMenu() ) );
 	disconnect( this, SIGNAL( sigClearAllSelected() ), o, SLOT( slotClearAllSelected() ) );
 	disconnect( this, SIGNAL(sigColorChanged(int)), o, SLOT(slotColorChanged(int)));
-	o -> deleteLater();
+	delete o;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLView::setFillColour(QColor colour) {
@@ -989,8 +980,6 @@ void UMLView::deleteSelection()
 			temp -> hide();
 		} else {
 			removeWidget(temp);
-			deleteSelection();
-			return;
 		}
 	}
 
@@ -1951,19 +1940,17 @@ bool UMLView::activateAfterSerialize( bool bUseLog ) {
 }
 
 void UMLView::beginPartialWidgetPaste() {
-	if(m_pIDChangesLog) {
-		delete m_pIDChangesLog;
-		m_pIDChangesLog = 0;
-	}
+	delete m_pIDChangesLog;
+	m_pIDChangesLog = 0;
+
 	m_pIDChangesLog = new IDChangeLog();
 	m_bPaste = true;
 }
 
 void UMLView::endPartialWidgetPaste() {
-	if(m_pIDChangesLog) {
-		delete    m_pIDChangesLog;
-		m_pIDChangesLog = 0;
-	}
+	delete    m_pIDChangesLog;
+	m_pIDChangesLog = 0;
+
 	m_bPaste = false;
 }
 
@@ -1994,7 +1981,8 @@ void UMLView::removeAssocInViewAndDoc(AssociationWidget* a, bool deleteLater) {
  	if (deleteLater) {
  		a->deleteLater();
 	}
- 	delete a;
+	else
+	 	delete a;
 }
 
 bool UMLView::getAssocWidgets(AssociationWidgetList & Associations) {
@@ -2145,8 +2133,6 @@ void UMLView::removeAllWidgets() {
 		++it;
 		if( !( temp -> getBaseType() == wt_Text && ((FloatingText *)temp)-> getRole() != tr_Floating ) ) {
 			removeWidget( temp );
-			removeAllWidgets();
-			return;
 		}
 	}
 	delete l;

@@ -694,10 +694,8 @@ void UMLWidget::setName(QString strName) {
 
 
 void UMLWidget::cleanup() {
-	if( m_pData ) {
-		delete m_pData;
-		m_pData = 0;
-	}
+	delete m_pData;
+	m_pData = 0;
 }
 
 void UMLWidget::slotSnapToGrid( ) {
