@@ -167,7 +167,7 @@ void ClassOpsPage::slotOpRightButtonPressed(QListBoxItem *item, const QPoint &p)
 	connect(m_pMenu, SIGNAL(activated(int)), this, SLOT(slotOpPopupMenuSel(int)));
 }
 
-void ClassOpsPage::slotOpRightButtonClicked(QListBoxItem */*item*/, const QPoint &/*p*/) {
+void ClassOpsPage::slotOpRightButtonClicked(QListBoxItem * /*item*/, const QPoint & /*p*/) {
 	if(m_pMenu) {
 		m_pMenu -> hide();
 		disconnect(m_pMenu, SIGNAL(activated(int)), this, SLOT(slotOpPopupMenuSel(int)));
@@ -284,6 +284,11 @@ void ClassOpsPage::slotDoubleClick( QListBoxItem * item ) {
 }
 
 void ClassOpsPage::slotProperties() {
+	//save highlighted item first
+	UMLOperation* selectedOperation = m_pOpList->at( m_pOpsLB -> currentItem() );
+	if (selectedOperation)
+		selectedOperation -> setDoc( m_pDocTE -> text() );
+
 	slotDoubleClick( m_pOpsLB -> item( m_pOpsLB -> currentItem() ) );
 }
 
@@ -297,6 +302,11 @@ void ClassOpsPage::slotDelete() {
 }
 
 void ClassOpsPage::slotNewOperation() {
+	//save highlighted item first
+	UMLOperation* selectedOperation = m_pOpList->at( m_pOpsLB -> currentItem() );
+	if (selectedOperation)
+		selectedOperation -> setDoc( m_pDocTE -> text() );
+
 	m_bSigWaiting = true;
 	m_pDoc->createUMLObject(m_pConcept, Uml::ot_Operation);
 }

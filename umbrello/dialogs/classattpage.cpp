@@ -312,10 +312,20 @@ void ClassAttPage::slotDelete() {
 }
 
 void ClassAttPage::slotProperties() {
+	//save highlighted item first
+	UMLAttribute* selectedAttribute = m_pAttList->at( m_pAttsLB->currentItem() );
+	if (selectedAttribute)
+		selectedAttribute -> setDoc( m_pDocTE -> text() );
+
 	slotDoubleClick( m_pAttsLB->item( m_pAttsLB->currentItem() ) );
 }
 
 void ClassAttPage::slotNewAttribute() {
+	//save highlighted item first
+	UMLAttribute* selectedAttribute = m_pAttList->at( m_pAttsLB->currentItem() );
+	if (selectedAttribute)
+		selectedAttribute -> setDoc( m_pDocTE -> text() );
+
 	m_bSigWaiting = true;
 	m_pDoc->createUMLObject(m_pClass, Uml::ot_Attribute);
 }
