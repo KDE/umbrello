@@ -83,10 +83,28 @@ UMLObject * UMLPackage::findObject(int id) {
 	{
 		if (obj->getID() == id)
 			return obj;
-		if (obj->getBaseType() == Uml::ot_Package) {
-			UMLObject *o = ((UMLPackage*)obj)->findObject(id);
-			if (o)
-				return o;
+		UMLObject *o;
+		UMLObject_Type t = obj->getBaseType();
+		switch (t) {
+			case Uml::ot_Package:
+				o = ((UMLPackage*)obj)->findObject(id);
+				if (o)
+					return o;
+				break;
+			case Uml::ot_Interface:
+			case Uml::ot_Class:
+			case Uml::ot_Enum:
+				o = ((UMLClassifier*)obj)->findChildObject(id);
+				if (o)
+					return o;
+				if (t == ot_Interface || t == ot_Class) {
+					o = ((UMLPackage*)obj)->findObject(id);
+					if (o)
+						return o;
+				}
+				break;
+			default:
+				break;
 		}
 	}
 	return NULL;
