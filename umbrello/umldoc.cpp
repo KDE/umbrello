@@ -1010,6 +1010,7 @@ void UMLDoc::addAssocToConcepts(UMLAssociation* a) {
 			case Uml::at_Realization:
 			case Uml::at_Association:
 			case Uml::at_Association_Self:
+			case Uml::at_UniAssociation:
 			case Uml::at_Aggregation:
 			case Uml::at_Composition:
 				if (AId == c->getID() || (BId == c->getID()))
@@ -1241,6 +1242,7 @@ void UMLDoc::removeUMLObject(UMLObject* umlobject) {
 						break;
 					case Uml::at_Association:
 					case Uml::at_Association_Self:
+					case Uml::at_UniAssociation:
 						// CHECK: doesnt seem correct
 						// But we DO need to remove uni-associations, etc. from the concept, -b.t.
 						if (AId == c->getID() || BId == c->getID())
