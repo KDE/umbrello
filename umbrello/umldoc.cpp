@@ -45,8 +45,6 @@
 #include <kprinter.h>
 #include <ktempfile.h>
 
-#include <typeinfo>
-
 #define FILE_VERSION 5
 #define XMI_FILE_VERSION "1.1.5"
 static const uint undoMax = 30;

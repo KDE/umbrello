@@ -22,6 +22,8 @@
 #include <kurl.h>
 #include <kdockwidget.h>
 
+#include <typeinfo>
+
 #include "diagram/diagram.h"
 
 // forward declaration of the UML classes
@@ -43,10 +45,6 @@ class UMLConcept;
 class UMLInterface;
 class UMLAssociation;
 class UMLApp;
-
-namespace std {
-	class type_info;
-}
 
 using namespace Uml;
 
