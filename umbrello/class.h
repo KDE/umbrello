@@ -203,15 +203,6 @@ public:
 	bool isEnumeration();
 
 	/**
-	 * Calls the parent (i.e. UMLClassifier) resolveTypes(), and calls
-	 * resolveType() on all attributes.
-	 * Needs to be called after all UML objects are loaded from file.
-	 *
-	 * @return	True for overall success.
-	 */
-	bool resolveTypes();
-
-	/**
 	 * Creates the <UML:Class> XMI element including its operations,
 	 * attributes and templates.
 	 */

@@ -7,29 +7,36 @@
  *                                                                         *
  ***************************************************************************/
 
+// own header
 #include "template.h"
-#include "dialogs/umltemplatedialog.h"
+
+// qt/kde includes
+#include <qregexp.h>
 #include <kdebug.h>
+
+// app includes
+#include "uml.h"
+#include "umldoc.h"
+#include "dialogs/umltemplatedialog.h"
 
 UMLTemplate::UMLTemplate(const UMLObject *parent, QString name, int id, QString type)
   : UMLClassifierListItem( parent, name, id ) {
-	m_TypeName = type;
+	setTypeName( type );
 	m_BaseType = Uml::ot_Template;
 }
 
 UMLTemplate::UMLTemplate(const UMLObject *parent)
   : UMLClassifierListItem( parent ) {
 	m_BaseType = Uml::ot_Template;
-	m_TypeName = "";
 }
 
 UMLTemplate::~UMLTemplate() {}
 
 QString UMLTemplate::toString(Uml::Signature_Type /*sig = st_NoSig*/) {
-	if (m_TypeName == "" || m_TypeName == "class") {
+	if (m_pSecondary == NULL || m_pSecondary->getName() == "class") {
 		return getName();
 	} else {
-		return getName() + " : " + m_TypeName;
+		return getName() + " : " + m_pSecondary->getName();
 	}
 }
 
@@ -40,7 +47,7 @@ bool UMLTemplate::operator==(UMLTemplate &rhs) {
 	if ( !UMLObject::operator==( rhs ) ) {
 		return false;
 	}
-	if (m_TypeName != rhs.m_TypeName) {
+	if (m_pSecondary != rhs.m_pSecondary) {
 		return false;
 	}
 	return true;
@@ -49,8 +56,6 @@ bool UMLTemplate::operator==(UMLTemplate &rhs) {
 void UMLTemplate::copyInto(UMLTemplate *rhs) const
 {
 	UMLClassifierListItem::copyInto(rhs);
-
-	rhs->m_TypeName = m_TypeName;
 }
 
 UMLObject* UMLTemplate::clone() const
@@ -65,12 +70,22 @@ UMLObject* UMLTemplate::clone() const
 void UMLTemplate::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
 	//FIXME: uml13.dtd compliance
 	QDomElement attributeElement = UMLObject::save("template", qDoc);
-	attributeElement.setAttribute("type", m_TypeName);
+	if (m_pSecondary)
+		attributeElement.setAttribute("type", m_pSecondary->getID());
 	qElement.appendChild(attributeElement);
 }
 
 bool UMLTemplate::load(QDomElement& element) {
-	m_TypeName = element.attribute("type", "");
+	m_SecondaryId = element.attribute("type", "");
+	if (m_SecondaryId.contains( QRegExp("^\\d+$") )) {
+		UMLDoc *pDoc = UMLApp::app()->getDocument();
+		m_pSecondary = pDoc->findUMLObject( m_SecondaryId.toInt() );
+		if (m_pSecondary)
+			m_SecondaryId = "";
+		else
+			kdDebug() << "UMLTemplate::load: Cannot find UML object"
+				  << " for type " << m_SecondaryId << endl;
+	}
 	return true;
 }
 

@@ -186,19 +186,6 @@ UMLObject* UMLClass::clone() const
 	return clone;
 }
 
-bool UMLClass::resolveTypes() {
-	bool opSuccess = UMLClassifier::resolveTypes();
-	UMLAttributeList attributes = getFilteredAttributeList();
-	bool attribSuccess = true;
-	// See remark on iteration style in UMLClassifier::resolveTypes()
-	for (UMLAttributeListIt ait(attributes); ait.current(); ++ait) {
-		UMLAttribute *pAtt = ait.current();
-		if (! pAtt->resolveType())
-			attribSuccess = false;
-	}
-	return (opSuccess && attribSuccess);
-}
-
 void UMLClass::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement classElement = UMLObject::save("UML:Class", qDoc);
 	//save operations

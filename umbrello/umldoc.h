@@ -364,6 +364,10 @@ public:
 	 */
 	void removeUMLObject(UMLObject*o);
 
+	/**
+	 * Moves the last entry in m_ObjectList to the start of the list.
+	 */
+	void moveTailToHead();
 
 	/**
 	 * Used to rename a document.  This method takes care of everything.
@@ -922,12 +926,6 @@ private:
 	 * Sets up the autosave timer.
 	 */
 	void initSaveTimer();
-
-	/**
-	 * Returns whether the given type is a classifierListItem
-	 * (attribute, operation, template, enumliteral or stereotype)
-	 */
-	bool objectTypeIsClassifierListItem(Uml::Object_Type type);
 
 	ClassImport * m_classImporter;
 	CodeGenerator * m_currentcodegenerator;

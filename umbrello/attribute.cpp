@@ -23,16 +23,14 @@ UMLAttribute::UMLAttribute( const UMLObject *parent, QString Name, int id,
 	m_BaseType = Uml::ot_Attribute;
 	m_Scope = s;
 	m_ParmKind = Uml::pd_In;
-	m_TypeName = type;
 	UMLDoc *pDoc = UMLApp::app()->getDocument();
-	UMLObject *typeObj = pDoc->findUMLObject(type);
-	if (typeObj == NULL) {
+	m_pSecondary = pDoc->findUMLObject(type);
+	if (m_pSecondary == NULL) {
 		if (type.contains( QRegExp("\\W") ))
-			typeObj = pDoc->createUMLObject(Uml::ot_Datatype, type);
+			m_pSecondary = pDoc->createUMLObject(Uml::ot_Datatype, type);
 		else
-			typeObj = pDoc->createUMLObject(Uml::ot_Class, type);
+			m_pSecondary = pDoc->createUMLObject(Uml::ot_Class, type);
 	}
-	UMLClassifierListItem::m_pType = static_cast<UMLClassifier*>(typeObj);
 }
 
 UMLAttribute::UMLAttribute(const UMLObject *parent) : UMLClassifierListItem(parent) {
@@ -93,7 +91,7 @@ bool UMLAttribute::operator==( UMLAttribute &rhs) {
 
 	// The type name is the only distinguishing criterion.
 	// (Some programming languages might support more, but others don't.)
-	if (m_pType != rhs.m_pType)
+	if (m_pSecondary != rhs.m_pSecondary)
 		return false;
 
 	return true;
@@ -105,8 +103,8 @@ void UMLAttribute::copyInto(UMLAttribute *rhs) const
 	UMLClassifierListItem::copyInto(rhs);
 
 	// Copy all datamembers
-	rhs->m_pType = m_pType;
-	rhs->m_TypeName = m_TypeName;
+	rhs->m_pSecondary = m_pSecondary;
+	rhs->m_SecondaryId = m_SecondaryId;
 	rhs->m_InitialValue = m_InitialValue;
 	rhs->m_ParmKind = m_ParmKind;
 }
@@ -120,97 +118,23 @@ UMLObject* UMLAttribute::clone() const
 }
 
 
-bool UMLAttribute::resolveType() {
-	if (m_pType) {
-#ifdef VERBOSE_DEBUGGING
-		kdDebug() << "UMLAttribute::resolveType(" << m_Name
-			  << "): type is already resolved." << endl;
-#endif
-		return true;
-	}
-	UMLDoc *pDoc = UMLApp::app()->getDocument();
-	if (m_TypeName.contains(QRegExp("\\D"))) {
-		// Check whether this is a foreign XMI file.
-		UMLObject *typeObj = pDoc->findObjectByIdStr( m_TypeName );
-		if (typeObj == NULL) {
-			// We're dealing with the older Umbrello format where the
-			// attribute type name was saved in the "type" rather than the
-			// xmi.id of the model object of the attribute type.
-
-			// Hack: Replace "::" because UMLDoc::findUMLObject() is
-			// sensitive to "::".
-			m_TypeName.replace( "::", "." );
-			typeObj = pDoc->findUMLObject( m_TypeName );
-			if (typeObj) {
-				m_pType = dynamic_cast<UMLClassifier*>(typeObj);
-				if (m_pType == NULL) {
-					kdError() << "UMLAttribute::resolveType(" << m_Name
-						  << "): type with id " << m_TypeName
-						  << " is not a UMLClassifier" << endl;
-					return false;
-				}
-				m_TypeName = "";
-			} else {
-				kdDebug() << "UMLAttribute::resolveType: Creating new type for "
-					  << m_TypeName << endl;
-				//FIXME: This is very C++ specific - we rely on
-				//       some '*' or '&' to decide it's a ref type.
-				if ( m_TypeName.contains('*') ||
-				     m_TypeName.contains('&') )
-					typeObj = pDoc->createUMLObject(Uml::ot_Datatype, m_TypeName);
-				else
-					typeObj = pDoc->createUMLObject(Uml::ot_Class, m_TypeName);
-			}
-		} else {
-			// It's not an Umbrello format.
-			m_pType = dynamic_cast<UMLClassifier*>(typeObj);
-			if (m_pType == NULL) {
-				kdError() << "UMLAttribute::resolveType(" << m_Name
-					  << "): type with id " << m_TypeName
-					  << " is not a UMLClassifier" << endl;
-				return false;
-			}
-			m_TypeName = "";
-		}
-	} else {
-		// New, XMI standard compliant save format:
-		// The type is the xmi.id of a UMLClassifier.
-		int id = m_TypeName.toInt();
-		UMLObject *typeObj = pDoc->findUMLObject(id);
-		if (typeObj == NULL) {
-			kdError() << "UMLAttribute::resolveType(" << m_Name
-				  << "): cannot find type with id "
-				  << id << endl;
-			return false;
-		}
-		m_pType = dynamic_cast<UMLClassifier*>(typeObj);
-		if (m_pType == NULL) {
-			kdError() << "UMLAttribute::resolveType(" << m_Name
-				  << "): type with id " << id
-				  << " is not a UMLClassifier" << endl;
-			return false;
-		}
-		m_TypeName = "";
-	}
-	return true;
-}
-
 void UMLAttribute::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement attributeElement = UMLObject::save("UML:Attribute", qDoc);
-	if (m_pType == NULL) {
-		kdDebug() << "UMLAttribute::saveToXMI: m_pType is NULL, using "
-			  << "local name " << m_TypeName << endl;
-		attributeElement.setAttribute( "type", m_TypeName );
+	if (m_pSecondary == NULL) {
+		kdDebug() << "UMLAttribute::saveToXMI(" << m_Name
+			  << "): m_pSecondary is NULL, using local name "
+			  << m_SecondaryId << endl;
+		attributeElement.setAttribute( "type", m_SecondaryId );
 	} else {
-		attributeElement.setAttribute( "type", m_pType->getID() );
+		attributeElement.setAttribute( "type", m_pSecondary->getID() );
 	}
 	attributeElement.setAttribute( "initialValue", m_InitialValue );
 	qElement.appendChild( attributeElement );
 }
 
 bool UMLAttribute::load( QDomElement & element ) {
-	m_TypeName = element.attribute( "type", "" );
-	// We use the m_TypeName as a temporary store for the xmi.id
+	m_SecondaryId = element.attribute( "type", "" );
+	// We use the m_SecondaryId as a temporary store for the xmi.id
 	// of the attribute type model object.
 	// It is resolved later on, when all classes have been loaded.
 	// This deferred resolution is required because the xmi.id may

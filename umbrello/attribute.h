@@ -89,15 +89,6 @@ public:
 	QString toString(Uml::Signature_Type sig = Uml::st_NoSig);
 
 	/**
-	 * This needs to be called after all UML objects have been loaded.
-	 * It resolves the xmi.id of the UML:Attribute "type".
-	 * This needs to be done after all classifiers are loaded because
-	 * the xmi.id might be a "forward reference", i.e. it may identify
-	 * a classifier which was not yet loaded at that point.
-	 */
-	bool resolveType();
-
-	/**
 	 * Creates the <UML:Attribute> XMI element.
 	 */
 	void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );

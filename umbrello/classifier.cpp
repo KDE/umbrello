@@ -240,8 +240,8 @@ void UMLClassifier::copyInto(UMLClassifier *rhs) const
 }
 
 
-bool UMLClassifier::resolveTypes() {
-	bool success = true;
+bool UMLClassifier::resolveRef() {
+	bool success = UMLPackage::resolveRef();
 	/**** Mysterious. The following loop does not work:
 	for (UMLClassifierListItem *obj = m_List.first(); obj; obj = m_List.next())
 	 {  ....  }
@@ -250,10 +250,7 @@ bool UMLClassifier::resolveTypes() {
 	for (UMLClassifierListItemListIt oit(m_List); oit.current(); ++oit) {
 		UMLClassifierListItem* obj = oit.current();
 	/**** End of replacement ****/
-		if (obj->getBaseType() != ot_Operation)
-			continue;
-		UMLOperation *op = static_cast<UMLOperation*>(obj);
-		if (! op->resolveTypes())
+		if (! obj->resolveRef())
 			success = false;
 	}
 	return success;

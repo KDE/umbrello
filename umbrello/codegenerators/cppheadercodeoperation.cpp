@@ -72,7 +72,7 @@ void CPPHeaderCodeOperation::updateMethodDeclaration()
         }
 
 	// no return type for constructors
-	QString methodReturnType = o->isConstructorOperation() ? QString("") : (o->getReturnType() + QString(" "));
+	QString methodReturnType = o->isConstructorOperation() ? QString("") : (o->getTypeName() + QString(" "));
 	QString methodName = o->getName();
 	QString paramStr = QString("");
 

@@ -52,10 +52,11 @@ UMLObject * findObjectInList(int id, UMLObjectList inList) {
 			case Uml::ot_Class:
 			case Uml::ot_Enum:
 				o = ((UMLClassifier*)obj)->findChildObject(id);
+				if (o == NULL &&
+				    (t == Uml::ot_Interface || t == Uml::ot_Class))
+					o = ((UMLPackage*)obj)->findObject(id);
 				if (o)
 					return o;
-				if (t == Uml::ot_Interface || t == Uml::ot_Class)
-					o = ((UMLPackage*)obj)->findObject(id);
 				break;
 			default:
 				break;

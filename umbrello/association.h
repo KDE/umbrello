@@ -205,11 +205,11 @@ public:
 	 * Resolve types. Required when dealing with foreign XMI files.
 	 * Needs to be called after all UML objects are loaded from file.
 	 * Overrides the method from UMLObject.
-	 * Calls UMLRole:resolveType() for each role.
+	 * Calls resolveRef() for each role.
 	 *
 	 * @return	True for success.
 	 */
-	virtual bool resolveTypes();
+	virtual bool resolveRef();
 
 	/**
 	 * Creates the <UML:Generalization> or <UML:Association> XMI element

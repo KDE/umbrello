@@ -72,25 +72,6 @@ public:
 	virtual UMLObject* clone() const;
 
 	/**
-	 * Sets the return type of the operation.
-	 * DEPRECATED - The return type should be managed as a model object.
-	 *
-	 * @param rt	The return type to set the operation to.
-	 */
-	void setReturnType(QString rt) {
-		UMLClassifierListItem::m_TypeName = rt;
-	}
-
-	/**
-	 * Get the return type of the operation.
-	 *
-	 * @return	The return type.
-	 */
-	QString getReturnType() {
-		return UMLClassifierListItem::getTypeName();
-	}
-
-	/**
 	 * Add a parameter to the operation.
 	 *
 	 * @param type		The type of the parameter.
@@ -146,12 +127,12 @@ public:
 	void addParm(UMLAttribute *parameter, int position = -1);
 
 	/**
-	 * Calls resolveType() on all parameters.
+	 * Calls resolveRef() on all parameters.
 	 * Needs to be called after all UML objects are loaded from file.
 	 *
 	 * @return	True for success.
 	 */
-	bool resolveTypes();
+	bool resolveRef();
 
 	/**
 	 * Returns an unused parameter name for a new parameter.

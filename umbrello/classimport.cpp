@@ -167,7 +167,7 @@ void ClassImport::insertMethod(UMLClass *klass, UMLOperation *op,
 					 bool isStatic, bool isAbstract,
 					 QString comment /* = "" */) {
 	op->setScope(scope);
-	op->setReturnType(type);
+	op->setTypeName(type);
 	op->setStatic(isStatic);
 	op->setAbstract(isAbstract);
 	klass->addOperation(op);

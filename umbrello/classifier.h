@@ -158,13 +158,14 @@ public:
 	UMLClassifierListItemList getFilteredList(Uml::Object_Type ot);
 
 	/**
-	 * Required for resolving the xmi.id's of operation parameters.
-	 * Calls UMLOperation::resolveTypes() on all operations.
+	 * Needs to be called after all UML objects are loaded from file.
+	 * Calls the parent resolveRef(), and calls resolveRef() on all
+	 * UMLClassifierListItems.
 	 * Overrides the method from UMLObject.
 	 *
 	 * @return 	true for success.
 	 */
-	virtual bool resolveTypes();
+	virtual bool resolveRef();
 
 	/**
 	 * Find a list of attributes, operations, associations or

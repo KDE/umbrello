@@ -7,10 +7,15 @@
  *                                                                         *
  ***************************************************************************/
 
+// own header
+#include "operation.h"
+
+// qt/kde includes
+#include <qregexp.h>
 #include <kdebug.h>
 #include <klocale.h>
 
-#include "operation.h"
+// app includes
 #include "attribute.h"
 #include "classifier.h"
 #include "uml.h"
@@ -21,7 +26,7 @@ UMLOperation::UMLOperation(const UMLClassifier *parent, QString Name, int id,
 			   Uml::Scope s, QString rt)
     : UMLClassifierListItem(parent, Name, id)
 {
-	m_TypeName = rt;   // FIXME: Change to use true model object.
+	setTypeName( rt );
 	m_Scope = s;
 	m_BaseType = Uml::ot_Operation;
 	m_List.setAutoDelete(false);
@@ -168,12 +173,12 @@ UMLObject* UMLOperation::clone() const
 	return clone;
 }
 
-bool UMLOperation::resolveTypes() {
-	bool overallSuccess = true;
-	// See remark on iteration style in UMLClassifier::resolveTypes()
+bool UMLOperation::resolveRef() {
+	bool overallSuccess = UMLObject::resolveRef();
+	// See remark on iteration style in UMLClassifier::resolveRef()
 	for (UMLAttributeListIt ait(m_List); ait.current(); ++ait) {
 		UMLAttribute *pAtt = ait.current();
-		if (! pAtt->resolveType())
+		if (! pAtt->resolveRef())
 			overallSuccess = false;
 	}
 	return overallSuccess;
@@ -181,7 +186,9 @@ bool UMLOperation::resolveTypes() {
 
 void UMLOperation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement operationElement = UMLObject::save("UML:Operation", qDoc);
-	operationElement.setAttribute( "type", getTypeName() );  // FIXME use model obj.
+	if (m_pSecondary) {
+		operationElement.setAttribute( "type", m_pSecondary->getID() );
+	}
 	//save each attribute here, type different
 	UMLAttribute* pAtt = 0;
 	for( pAtt = m_List.first(); pAtt != 0; pAtt = m_List.next() ) {
@@ -207,8 +214,20 @@ void UMLOperation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 }
 
 bool UMLOperation::load( QDomElement & element ) {
-	QString typeName = element.attribute( "type", "" );
-	UMLClassifierListItem::setTypeName( typeName );  // FIXME use model obj.
+	QString type = element.attribute( "type", "" );
+	UMLDoc *pDoc = UMLApp::app()->getDocument();
+	if (type.isEmpty()) {
+		UMLClassifierListItem::setTypeName( "void" );
+	} else if (type.contains( QRegExp("\\D") )) {
+		m_SecondaryId = type;  // defer type resolution
+	} else {
+		m_pSecondary = pDoc->findUMLObject( type.toInt() );
+		if (m_pSecondary == NULL) {
+			kdError() << "UMLOperation::load: Cannot find UML object"
+				  << " for type " << type << endl;
+			UMLClassifierListItem::setTypeName( "void" );
+		}
+	}
 	QDomNode node = element.firstChild();
 	if (node.isComment())
 		node = node.nextSibling();
@@ -246,7 +265,7 @@ bool UMLOperation::isConstructorOperation() {
 
 	QString cName = c->getName();
 	QString opName = getName();
-	QString opReturn = getReturnType();
+	QString opReturn = getTypeName();
 
 	// its a constructor operation if the operation name and return type
 	// match that of the parent classifier

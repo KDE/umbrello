@@ -448,6 +448,9 @@ bool UMLDoc::openDocument(const KURL& url, const char* /*format =0*/) {
 	clearUndoStack();
 	addToUndoStack();
 
+	// Add default stuff.
+	//createUMLObject(ot_Datatype, "void");  // "void" is used to indicate "no return type"
+
 	return true;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -603,7 +606,11 @@ CodeGenerator* UMLDoc::getCurrentCodeGenerator() {
 	return m_currentcodegenerator;
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
+void UMLDoc::moveTailToHead() {
+	UMLObject *o = m_objectList.take(m_objectList.count() - 1);
+	m_objectList.prepend(o);
+}
+
 void UMLDoc::deleteContents() {
 
 	m_Doc = "";
@@ -1017,7 +1024,7 @@ UMLObject* UMLDoc::createUMLObject(Object_Type type, const QString &n,
 				KMessageBox::error(0, i18n("This is a reserved keyword for the language of the configured code generator."),
 						   i18n("Reserved Keyword"));
 				continue;
-      }
+			}
 			if (! isUnique(name, parentPkg)) {
 				KMessageBox::error(0, i18n("That name is already being used."),
 						   i18n("Not a Unique Name"));
@@ -1564,7 +1571,7 @@ void UMLDoc::removeUMLObject(UMLObject* umlobject) {
 	Object_Type type = umlobject->getBaseType();
 
 	umlobject->setUMLStereotype(NULL);  // triggers possible cleanup of UMLStereotype
-	if (objectTypeIsClassifierListItem(type))  {
+	if (dynamic_cast<UMLClassifierListItem*>(umlobject))  {
 		UMLClassifier* parent = (UMLClassifier*)umlobject->parent();
 		if (parent == NULL) {
 			kdError() << "UMLDoc::removeUMLObject: parent of umlobject is NULL"
@@ -1735,6 +1742,18 @@ void UMLDoc::saveToXMI(QIODevice& file) {
 
 	QDomElement objectsElement = doc.createElement( "UML:Model" );
 
+	// Save stereotypes and toplevel datatypes first so that upon loading
+	// they are known first.
+	for (UMLStereotype *s = m_stereoList.first(); s; s = m_stereoList.next() ) {
+		s->saveToXMI(doc, objectsElement);
+	}
+	for (UMLObjectListIt oit(m_objectList); oit.current(); ++oit) {
+		UMLObject *o = oit.current();
+		Object_Type ot = o->getBaseType();
+		if (ot == ot_Datatype)
+			o->saveToXMI(doc, objectsElement);
+	}
+
 #ifdef XMI_FLAT_PACKAGES
 	// Save packages first so that when loading they are known first.
 	// This simplifies the establishing of cross reference links from
@@ -1746,11 +1765,6 @@ void UMLDoc::saveToXMI(QIODevice& file) {
 		p->saveToXMI(doc, objectsElement);
 	}
 #endif
-
-	// Save stereotypes first so that upon loading they are known first.
-	for (UMLStereotype *s = m_stereoList.first(); s; s = m_stereoList.next() ) {
-		s->saveToXMI(doc, objectsElement);
-	}
 
 	// Save everything except operations, attributes, and associations.
 	// Operations and attributes are owned by classifiers and will show up
@@ -1767,7 +1781,7 @@ void UMLDoc::saveToXMI(QIODevice& file) {
 		if (o->getUMLPackage())
 			continue;
 #endif
-		if (t == ot_Association)
+		if (t == ot_Association || t == ot_Datatype)
 			continue;
 		if (t == ot_Stereotype || t == ot_Template) {
 			kdDebug() << "UMLDoc::saveToXMI(" << o->getName()
@@ -2167,10 +2181,10 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element) {
 	for (UMLObjectListIt oit(m_objectList); oit.current(); ++oit) {
 		UMLObject *obj = oit.current();
 #ifdef VERBOSE_DEBUGGING
-		kdDebug() << "UMLDoc: invoking resolveTypes() for " << obj->getName()
+		kdDebug() << "UMLDoc: invoking resolveRef() for " << obj->getName()
 			  << " (id=" << obj->getID() << ")" << endl;
 #endif
-		obj->resolveTypes();
+		obj->resolveRef();
 	}
 
 	return true;
@@ -2748,15 +2762,6 @@ void UMLDoc::createDatatype(QString name)  {
 		createUMLObject(ot_Datatype, name);
 	}
 	UMLApp::app()->getListView()->closeDatatypesFolder();
-}
-
-bool UMLDoc::objectTypeIsClassifierListItem(Object_Type type)  {
-	if (type == ot_Attribute || type == ot_Operation || type == ot_Template
-	    || type == ot_EnumLiteral)  {
-		return true;
-	} else {
-		return false;
-	}
 }
 
 void UMLDoc::addObject(UMLObject* o)

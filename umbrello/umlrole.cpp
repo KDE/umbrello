@@ -39,12 +39,12 @@ UMLAssociation * UMLRole::getParentAssociation () {
 }
 
 UMLObject* UMLRole::getObject() {
-	return m_pObject;
+	return m_pSecondary;
 }
 
 int UMLRole::getID() const {
-	if(m_pObject)
-		return m_pObject->getID();
+	if (m_pSecondary)
+		return m_pSecondary->getID();
 	return -1;
 }
 
@@ -53,9 +53,10 @@ void UMLRole::setID( int id) {
 }
 
 QString UMLRole::getAuxId() const {
-	if (m_pObject)
-		return m_pObject->getAuxId();
-	return m_idStr;
+	// CHECK: Not sure this logic is correct
+	if (m_pSecondary)
+		return m_pSecondary->getAuxId();
+	return m_SecondaryId;
 }
 
 Uml::Changeability_Type UMLRole::getChangeability() const {
@@ -90,7 +91,7 @@ void UMLRole::setObject (UMLObject *obj) {
 		return;
 	}
 
-	m_pObject = obj;
+	m_pSecondary = obj;
 	emit modified();
 }
 
@@ -122,45 +123,21 @@ int UMLRole::getRoleID() {
 	return m_roleID;
 }
 
-QString UMLRole::getIdStr() const {
-	return m_idStr;
-}
-
 void UMLRole::setIdStr(QString idStr) {
-	m_idStr = idStr;
+	m_SecondaryId = idStr;
 }
 
 void UMLRole::init(UMLAssociation * parent, UMLObject * parentObj, int id) {
 
 	m_roleID = id;
 	m_pAssoc = parent;
-	m_pObject = parentObj;
+	m_pSecondary = parentObj;
 	m_Multi = "";
 	m_Name = "";
 	m_Changeability = Uml::chg_Changeable;
 
 	// connect this up to parent 
 	connect(this,SIGNAL(modified()),parent,SIGNAL(modified()));
-}
-
-bool UMLRole::resolveType() {
-	if (m_pObject != NULL) {
-		return true;
-	}
-	if (m_idStr.isEmpty()) {
-		kdError() << "UMLRole::resolveTypes: m_idStr is empty - "
-			  << "cannot resolve type." << endl;
-		return false;
-	}
-	UMLDoc *doc = UMLApp::app()->getDocument();
-	m_pObject = doc->findObjectByIdStr(m_idStr);
-	if (m_pObject == NULL) {
-		kdError() << "UMLRole::resolveTypes: Could not resolve type "
-			  << m_idStr << endl;
-		return false;
-	}
-	m_idStr = "";
-	return true;
 }
 
 void UMLRole::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
@@ -220,19 +197,19 @@ void UMLRole::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 
 bool UMLRole::load( QDomElement & element ) {
 	UMLDoc * doc = UMLApp::app()->getDocument();
-	m_idStr = element.attribute("type", "-1");
-	if (m_idStr == "-1") {
+	m_SecondaryId = element.attribute("type", "-1");
+	if (m_SecondaryId == "-1") {
 		kdError() << "UMLRole::load: type not given or illegal" << endl;
 		return false;
 	}
 	UMLObject * obj;
-	if (m_idStr.contains(QRegExp("\\D")))
-		obj = doc->findObjectByIdStr(m_idStr);
+	if (m_SecondaryId.contains(QRegExp("\\D")))
+		obj = doc->findObjectByIdStr(m_SecondaryId);
 	else
-		obj = doc->findUMLObject(m_idStr.toInt());
+		obj = doc->findUMLObject(m_SecondaryId.toInt());
 	if (obj) {
-		m_pObject = obj;
-		m_idStr = "";
+		m_pSecondary = obj;
+		m_SecondaryId = "";
 	}
 
 	// block signals to prevent needless updating

@@ -110,9 +110,9 @@ bool UMLAssociation::assocTypeHasUMLRepresentation(Uml::Association_Type atype)
 		atype == Uml::at_Composition);
 }
 
-bool UMLAssociation::resolveTypes() {
-	bool successA = getUMLRole(A)->resolveType();
-	bool successB = getUMLRole(B)->resolveType();
+bool UMLAssociation::resolveRef() {
+	bool successA = getUMLRole(A)->resolveRef();
+	bool successB = getUMLRole(B)->resolveRef();
 	if (successA && successB) {
 		UMLObject *objA = getUMLRole(A)->getObject();
 		UMLObject *objB = getUMLRole(B)->getObject();
@@ -178,7 +178,7 @@ bool UMLAssociation::load( QDomElement & element ) {
 		else
 			objA = doc->findUMLObject(roleAIdStr.toInt());
 		if (objA == NULL) {
-			getUMLRole(A)->setIdStr(roleAIdStr);  // defer to resolveTypes()
+			getUMLRole(A)->setIdStr(roleAIdStr);  // defer to resolveRef()
 		} else {
 			getUMLRole(A)->setObject(objA);
 		}
@@ -188,7 +188,7 @@ bool UMLAssociation::load( QDomElement & element ) {
 		else
 			objB = doc->findUMLObject(roleBIdStr.toInt());
 		if (objB == NULL) {
-			getUMLRole(B)->setIdStr(roleBIdStr);  // defer to resolveTypes()
+			getUMLRole(B)->setIdStr(roleBIdStr);  // defer to resolveRef()
 		} else {
 			getUMLRole(B)->setObject(objB);
 		}

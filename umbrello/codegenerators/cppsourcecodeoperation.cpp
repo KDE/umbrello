@@ -64,7 +64,7 @@ void CPPSourceCodeOperation::updateMethodDeclaration()
 	getComment()->setText(comment);
 
 	// no return type for constructors
-	QString returnType = o->isConstructorOperation() ? QString("") : o->getReturnType();
+	QString returnType = o->isConstructorOperation() ? QString("") : o->getTypeName();
 	QString methodName = o->getName();
 	QString paramStr = QString("");
 	QString className = gen->getCPPClassName(c->getName());

@@ -47,7 +47,7 @@ void JavaCodeOperation::updateMethodDeclaration()
 	// now, the starting text.
 	QString strVis = javadoc->scopeToJavaDecl(o->getScope());
 	// no return type for constructors
-        QString fixedReturn = gen->fixTypeName(o->getReturnType());
+        QString fixedReturn = gen->fixTypeName(o->getTypeName());
 	QString returnType = o->isConstructorOperation() ? QString("") : (fixedReturn + QString(" "));
 	QString methodName = o->getName();
 	QString paramStr = QString("");

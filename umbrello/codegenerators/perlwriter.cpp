@@ -290,7 +290,7 @@ void PerlWriter::writeOperations(QString /* classname */, UMLOperationList &opLi
 			}//end for : write parameter documentation
 			perl << m_newLineEndingChars;
             		perl << "   Return : " << m_newLineEndingChars ;
-	        	perl << "      " << op->getReturnType() ;
+	        	perl << "      " << op->getTypeName() ;
 			perl << m_newLineEndingChars 
 			<< m_newLineEndingChars ;            		
             		perl << "   Description : " << m_newLineEndingChars ;

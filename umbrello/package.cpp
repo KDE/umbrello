@@ -151,11 +151,13 @@ void UMLPackage::appendInterfaces( UMLInterfaceList& interfaces,
 	}
 }
 
-bool UMLPackage::resolveTypes() {
-	bool overallSuccess = true;
+bool UMLPackage::resolveRef() {
+	// UMLObject::resolveRef() is not required by ot_Package itself
+	// but might be required by some inheriting class.
+	bool overallSuccess = UMLObject::resolveRef();
 	for (UMLObjectListIt oit(m_objects); oit.current(); ++oit) {
 		UMLObject *obj = oit.current();
-		if (! obj->resolveTypes())
+		if (! obj->resolveRef())
 			overallSuccess = false;
 	}
 	return overallSuccess;
@@ -165,8 +167,14 @@ void UMLPackage::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
 	QDomElement packageElement = UMLObject::save("UML:Package", qDoc);
 
 #ifndef XMI_FLAT_PACKAGES
+	// Save datatypes first.
+	// This will cease to be necessary once deferred type resolution is up.
 	for (UMLObject *obj = m_objects.first(); obj; obj = m_objects.next())
-		obj->saveToXMI (qDoc, packageElement);
+		if (obj->getBaseType() == Uml::ot_Datatype)
+			obj->saveToXMI (qDoc, packageElement);
+	for (UMLObject *obj = m_objects.first(); obj; obj = m_objects.next())
+		if (obj->getBaseType() != Uml::ot_Datatype)
+			obj->saveToXMI (qDoc, packageElement);
 #endif
 	qElement.appendChild(packageElement);
 }

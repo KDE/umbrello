@@ -43,11 +43,11 @@ UMLObject* UMLDatatype::clone() const
 }
 
 void UMLDatatype::setOriginType(UMLClassifier *origType) {
-	m_pOrigType = origType;
+	m_pSecondary = origType;
 }
 
 UMLClassifier * UMLDatatype::originType() {
-	return m_pOrigType;
+	return static_cast<UMLClassifier*>(m_pSecondary);
 }
 
 void UMLDatatype::setIsReference(bool isRef) {
@@ -61,7 +61,7 @@ bool UMLDatatype::isReference() {
 void UMLDatatype::init() {
 	m_BaseType = Uml::ot_Datatype;
 	setStereotype( i18n("datatype") );
-	m_pOrigType = NULL;
+	m_pSecondary = NULL;
 	m_isRef = false;
 }
 
@@ -69,28 +69,18 @@ bool UMLDatatype::isInterface() {
 	return false;
 }
 
-bool UMLDatatype::resolveTypes() {
-	if (m_idStr.isEmpty())
-		return true;
-	int id = m_idStr.toInt();
-	UMLDoc *pDoc = UMLApp::app()->getDocument();
-	UMLObject *typeObj = pDoc->findUMLObject(id);
-	m_pOrigType = static_cast<UMLClassifier*>(typeObj);
-	return true;
-}
-
 void UMLDatatype::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
 	QDomElement classElement = UMLObject::save("UML:DataType", qDoc);
-	if (m_pOrigType)
-		classElement.setAttribute( "elementReference", m_pOrigType->getID() );
+	if (m_pSecondary)
+		classElement.setAttribute( "elementReference", m_pSecondary->getID() );
 	qElement.appendChild( classElement );
 }
 
 bool UMLDatatype::load(QDomElement& element) {
 	//CHECK: Does our usage of the elementReference attribute
-	//       violate the XMI standard? - See resolveTypes()
-	m_idStr = element.attribute( "elementReference", "" );
-	if (!m_idStr.isEmpty()) {
+	//       violate the XMI standard? - See resolveRef()
+	m_SecondaryId = element.attribute( "elementReference", "" );
+	if (!m_SecondaryId.isEmpty()) {
 		// @todo We do not currently support composition.
 		m_isRef = true;
 	}

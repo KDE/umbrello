@@ -20,6 +20,7 @@
 
 class kdbgstream;
 class UMLStereotype;
+class UMLObject;
 
 /**
  * This class is the non-graphical version of @ref UMLWidget.  These are
@@ -237,13 +238,17 @@ public:
 	void setInPaste(bool bInPaste = true);
 
 	/**
-	 * Resolve types (if any.)
+	 * Resolve referenced objects (if any.)
 	 * Needs to be called after all UML objects are loaded from file.
-	 * The default implementation of this method is empty.
+	 * This needs to be done after all model objects are loaded because
+	 * some of the xmi.id's might be forward references, i.e. they may
+	 * identify model objects which were not yet loaded at the point of
+	 * reference.
+	 * The default implementation attempts resolution of the m_SecondaryId.
 	 *
 	 * @return	True for success.
 	 */
-	virtual bool resolveTypes();
+	virtual bool resolveRef();
 
 	/**
 	 * This method saves the XMI attributes of each specific model class.
@@ -407,6 +412,21 @@ protected:
 	 * Caller sets this true when in paste operation.
 	 */
 	bool m_bInPaste;
+
+	/**
+	 * Pointer to an associated object.
+	 * Only a few of the classes inheriting from UMLObject use this.
+	 * However, it needs to be here because of inheritance graph
+	 * disjunctness.
+	 */
+	UMLObject* m_pSecondary;
+
+	/**
+	 * xmi.id of the secondary object for intermediate use during
+	 * loading.  The secondary ID is resolved to the m_pSecondary
+	 * in the course of resolveRef() at the end of loading.
+	 */
+	QString m_SecondaryId;
 };
 
 /**

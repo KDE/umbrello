@@ -417,7 +417,7 @@ void IDLWriter::writeClass(UMLClassifier *c) {
 
 void IDLWriter::writeOperation(UMLOperation *op, QTextStream &idl, bool is_comment) {
 	UMLAttributeList *atl = op->getParmList();
-	QString rettype = op->getReturnType();
+	QString rettype = op->getTypeName();
 
 	idl << spc();
 	if (is_comment)

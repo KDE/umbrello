@@ -107,14 +107,6 @@ public:
 	 */
 	virtual UMLObject* clone() const = 0;
 
-protected:
-	UMLClassifier *m_pType;
-	/**
-	 * Text for the type - DEPRECATED.
-	 * Only used if m_pType is NULL.
-	 * FIXME: Change all usages of setTypeName() to setType().
-	 */
-	QString m_TypeName;
 };
 
 #endif

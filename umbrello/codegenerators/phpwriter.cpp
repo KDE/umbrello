@@ -257,7 +257,7 @@ void PhpWriter::writeOperations(QString /* classname */, UMLOperationList &opLis
 					php << " " + formatDoc(at->getDoc(),"");
 				}
 			}//end for : write parameter documentation
-			php << m_indentation << " * @return " << op->getReturnType() << endl;
+			php << m_indentation << " * @return " << op->getTypeName() << endl;
 			if (op->getAbstract()) php << m_indentation << " * @abstract" << m_newLineEndingChars;
 			if (op->getStatic()) php << m_indentation << " * @static" << m_newLineEndingChars;
 			switch(op->getScope()) {

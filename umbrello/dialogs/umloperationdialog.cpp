@@ -139,7 +139,7 @@ void UMLOperationDialog::setupDialog() {
 	bool foundReturnType = false;
 	while (returnBoxCount < m_pRtypeCB->count() && foundReturnType == false) {
 		QString returnBoxString = m_pRtypeCB->text(returnBoxCount);
-		if ( returnBoxString == m_pOperation->getReturnType() ) {
+		if ( returnBoxString == m_pOperation->getTypeName() ) {
 			foundReturnType = true;
 			m_pRtypeCB->setCurrentItem(returnBoxCount);
 		} else {
@@ -148,7 +148,7 @@ void UMLOperationDialog::setupDialog() {
 	}
 
 	if (!foundReturnType) {
-		insertType( m_pOperation->getReturnType(), 0 );
+		insertType( m_pOperation->getTypeName(), 0 );
 		m_pRtypeCB->setCurrentItem(0);
 	}
 
@@ -377,7 +377,7 @@ bool UMLOperationDialog::apply()
 		m_pOperation -> setScope( Uml::Private );
 	else
 		m_pOperation -> setScope( Uml::Protected );
-	m_pOperation -> setReturnType( m_pRtypeCB -> currentText() );
+	m_pOperation -> setTypeName( m_pRtypeCB -> currentText() );
 	m_pOperation -> setAbstract( m_pAbstractCB -> isChecked() );
 	m_pOperation -> setStatic( m_pStaticCB -> isChecked() );
 	m_pOperation -> setStereotype( m_pStereoTypeLE->text() );
