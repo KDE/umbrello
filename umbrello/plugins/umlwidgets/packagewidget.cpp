@@ -51,7 +51,7 @@ PackageWidget::~PackageWidget()
 
 void PackageWidget::umlObjectModified()
 {
-	invalidate(); //canvas()->setChanged( this->boundingRec() );
+	invalidate(); //canvas()->setChanged( boundingRec() );
 	calculateSize();
 	update();
 	canvas()->update();
@@ -72,7 +72,7 @@ void PackageWidget::drawShape(QPainter &p)
 	int currentX,  currentY;
 	currentX = (int) x();
 	currentY = (int) y();
-	
+
 
 
 	p.setPen(drawPen);
@@ -81,7 +81,7 @@ void PackageWidget::drawShape(QPainter &p)
 	currentY += tabHeight;
 	p.drawRect(currentX, currentY, width() , height() - tabHeight );
 	currentY += vMargin;
-	
+
 	p.setPen(textPen);
 	font.setBold(true);
 	p.setFont(font);
@@ -92,7 +92,7 @@ void PackageWidget::drawShape(QPainter &p)
 	}
 
 	p.drawText(currentX, currentY, width(), lineHeight, Qt::AlignCenter,m_name);
-	
+
 	if(isSelected())
 	{
 	p.setPen(Qt::blue);
@@ -143,7 +143,7 @@ void PackageWidget::calculateSize()
 
 	maxWidth = kMax(maxWidth,fm.width(m_stereotype));
 	maxWidth = kMax(maxWidth, fm.width(m_name));
-	
+
 	uint width = maxWidth + (2 * hMargin);
 
 	lineHeight = fm.lineSpacing();
@@ -151,7 +151,7 @@ void PackageWidget::calculateSize()
 	uint height = ( 2*vMargin) + tabHeight +
 		( ((m_nameDisplayOpts & ShowStereotype) && (!m_stereotype.isEmpty()))? lineHeight : 0 )  + //stereotype
 		lineHeight; //name
-	
+
 	setSize(width,height);
 }
 
@@ -166,7 +166,7 @@ void PackageWidget::editProperties()
 	 */
 	//dialog.addPage(new PackageDisplayOptionsPage( this,0L), i18n("Display Options"));
 	dialog.addPage(new WidgetColorsPage( this,  0L), i18n("Colors"));
-	
+
 	dialog.exec();
 }
 

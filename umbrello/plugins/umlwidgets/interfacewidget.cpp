@@ -60,7 +60,7 @@ void InterfaceWidget::refactor( )
 
 void InterfaceWidget::umlObjectModified()
 {
-	invalidate(); //canvas()->setChanged( this->boundingRec() );
+	invalidate(); //canvas()->setChanged( boundingRec() );
 	calculateSize();
 	update();
 	canvas()->update();

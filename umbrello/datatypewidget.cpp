@@ -53,7 +53,7 @@ void DatatypeWidget::draw(QPainter& p, int offsetX, int offsetY) {
 
 	QFontMetrics &fm = getFontMetrics(FT_NORMAL);
 	int fontHeight  = fm.lineSpacing();
-	QString name = this->getName();
+	QString name = getName();
 
 	p.drawRect(offsetX, offsetY, w, h);
 	p.setPen(QPen(black));

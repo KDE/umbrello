@@ -158,7 +158,7 @@ UMLClassifierList UMLCanvasObject::getSuperClasses() {
 	UMLClassifierList list;
 	for (UMLAssociation* a = m_AssocsList.first(); a; a = m_AssocsList.next()) {
 		if ( a->getAssocType() != Uml::at_Generalization ||
-		     a->getRoleId(Uml::A) != this->getID() )
+		     a->getRoleId(Uml::A) != getID() )
 			continue;
 		UMLClassifier *c = dynamic_cast<UMLClassifier*>(a->getObject(Uml::B));
 		if (c)
@@ -177,7 +177,7 @@ UMLClassifierList UMLCanvasObject::getSubClasses() {
 	// WARNING: See remark at getSuperClasses()
 	for (UMLAssociation* a = m_AssocsList.first(); a; a = m_AssocsList.next()) {
 		if ( a->getAssocType() != Uml::at_Generalization ||
-		     a->getRoleId(Uml::B) != this->getID() )
+		     a->getRoleId(Uml::B) != getID() )
 			continue;
 		UMLClassifier *c = dynamic_cast<UMLClassifier*>(a->getObject(Uml::A));
 		if (c)

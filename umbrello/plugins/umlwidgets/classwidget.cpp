@@ -63,7 +63,7 @@ void ClassWidget::refactor( )
 
 void ClassWidget::umlObjectModified()
 {
-	invalidate(); //canvas()->setChanged( this->boundingRec() );
+	invalidate(); //canvas()->setChanged( boundingRec() );
 	calculateSize();
 	update();
 	canvas()->update();
@@ -344,7 +344,7 @@ void ClassWidget::editProperties()
 void ClassWidget::setNameDisplayOptions( int o )
 {
 	m_nameDisplayOpts = o;
-	invalidate(); //canvas()->setChanged( this->boundingRec() );
+	invalidate(); //canvas()->setChanged( boundingRec() );
 	calculateSize();
 	update();
 	canvas()->update();
@@ -352,7 +352,7 @@ void ClassWidget::setNameDisplayOptions( int o )
 void ClassWidget::setAttsDisplayOptions( int o )
 {
 	m_attsDisplayOpts = o;
-	invalidate(); //canvas()->setChanged( this->boundingRec() );
+	invalidate(); //canvas()->setChanged( boundingRec() );
 	calculateSize();
 	update();
 	canvas()->update();
@@ -360,7 +360,7 @@ void ClassWidget::setAttsDisplayOptions( int o )
 void ClassWidget::setOpsDisplayOptions( int o )
 {
 	m_opsDisplayOpts = o;
-	invalidate(); //canvas()->setChanged( this->boundingRec() );
+	invalidate(); //canvas()->setChanged( boundingRec() );
 	calculateSize();
 	update();
 	canvas()->update();

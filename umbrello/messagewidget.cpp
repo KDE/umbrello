@@ -493,7 +493,7 @@ void MessageWidget::calculateDimensionsSynchronous() {
 
 	m_nPosX = x;
 	setSize(widgetWidth, widgetHeight);
-	adjustAssocs( this->getX(), this->getY() );//adjust assoc lines
+	adjustAssocs( getX(), getY() );//adjust assoc lines
 }
 
 void MessageWidget::calculateDimensionsAsynchronous() {
@@ -527,7 +527,7 @@ void MessageWidget::calculateDimensionsAsynchronous() {
 	widgetWidth -= 2;
 	m_nPosX = x;
 	setSize(widgetWidth, widgetHeight);
-	adjustAssocs( this->getX(), this->getY() );//adjust assoc lines
+	adjustAssocs( getX(), getY() );//adjust assoc lines
 }
 
 void MessageWidget::cleanup() {
@@ -592,7 +592,7 @@ void MessageWidget::mouseMoveEvent(QMouseEvent *me) {
 	newY = getY() + moveY;
 	newY = newY < 0?0:newY;
 	if( count > 2 )
-		newY = this -> getY();  //only change y if not selected
+		newY = getY();  //only change y if not selected
 	newX = m_nPosX;
 	newY = newY < getMinHeight() ? getMinHeight() : newY;
 	newY = newY > getMaxHeight() ? getMaxHeight() : newY;
@@ -650,7 +650,7 @@ int MessageWidget::getMaxHeight() {
 	if( heightA > heightB ) {
 		height = heightB;
 	}
-	return (height - this->height());
+	return (height - height());
 }
 
 void MessageWidget::mousePressEvent(QMouseEvent* me) {

@@ -158,11 +158,11 @@ UMLObject* UMLClassifier::findChildObject(Uml::IDType id) {
 }
 
 UMLClassifierList UMLClassifier::findSubClassConcepts (ClassifierType type) {
-	UMLClassifierList list = this->getSubClasses();
-	UMLAssociationList rlist = this->getRealizations();
+	UMLClassifierList list = getSubClasses();
+	UMLAssociationList rlist = getRealizations();
 
 	UMLClassifierList inheritingConcepts;
-	Uml::IDType myID = this->getID();
+	Uml::IDType myID = getID();
 	for (UMLClassifier *c = list.first(); c; c = list.next())
 	{
 		if (type == ALL || (!c->isInterface() && type == CLASS)
@@ -186,11 +186,11 @@ UMLClassifierList UMLClassifier::findSubClassConcepts (ClassifierType type) {
 }
 
 UMLClassifierList UMLClassifier::findSuperClassConcepts (ClassifierType type) {
-	UMLClassifierList list = this->getSuperClasses();
-	UMLAssociationList rlist = this->getRealizations();
+	UMLClassifierList list = getSuperClasses();
+	UMLAssociationList rlist = getRealizations();
 
 	UMLClassifierList parentConcepts;
-	Uml::IDType myID = this->getID();
+	Uml::IDType myID = getID();
 	for (UMLClassifier *concept = list.first(); concept; concept = list.next())
 	{
 		if (type == ALL || (!concept->isInterface() && type == CLASS)
@@ -324,7 +324,7 @@ void UMLClassifier::init() {
 }
 
 bool UMLClassifier::load(QDomElement& element) {
-	
+
 	for (QDomNode node = element.firstChild(); !node.isNull();
 	     node = node.nextSibling()) {
 		if (node.isComment())
@@ -347,8 +347,8 @@ bool UMLClassifier::load(QDomElement& element) {
 				delete op;
 				return false;
 			}
-			if (!this->addOperation(op) ) {
-				kdError() << "UMLClassifier::load: error from this->addOperation(op)"
+			if (!addOperation(op) ) {
+				kdError() << "UMLClassifier::load: error from addOperation(op)"
 					  << endl;
 				delete op;
 				//return false;
