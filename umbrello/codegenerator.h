@@ -231,7 +231,7 @@ public:
 	virtual QString getHeadingFile (QString file );
 
 	/**
-	 * Finds an appropiate file name for class c, taking into account the Overwrite
+	 * Finds an appropriate file name for class c, taking into account the Overwrite
 	 * Policy and asking the user what to do if need be. (if policy == Ask)
 	 *
 	 * @param concept the class for which an output file name is desired.
@@ -259,8 +259,8 @@ public:
 
        /**
 	 * Finds all classes in the current document to which objects of class c
-	 * are in some way related. Posible relations are Associations (gneratlization,
-	 * composition, etc) as well as parameters to methos and return values
+	 * are in some way related. Possible relations are Associations (generalization,
+	 * composition, etc) as well as parameters to methods and return values
 	 * this is useful in deciding which classes/files to import/include in code generation
 	 * @param c the class for which relations are to be found
 	 * @param cList a reference to the list into which return the result
@@ -283,7 +283,7 @@ public:
 
 	/**
 	 * Create a new code generation policy object.
-	 * This is not pure virutal because the vannila codegenerationpolicy may be
+	 * This is not pure virutal because the vanilla codegenerationpolicy may be
 	 * of sufficient utility that a sub-class isnt needed.
 	 */
 	virtual CodeGenerationPolicy * newCodeGenerationPolicy ( KConfig * config );

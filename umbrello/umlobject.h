@@ -288,7 +288,7 @@ public:
 	 * accept certain types of associations. Note that this only
 	 * tells if this UMLObject can accept the association
 	 * type. When creating an association another check is made to
-	 * see if the associaiton is valid. For example a UMLClass
+	 * see if the association is valid. For example a UMLClass
 	 * (UMLClassifier) can accept generalizations and should
 	 * return true. If while creating a generalization the
 	 * superclass is already subclassed from this, the association
@@ -319,7 +319,7 @@ public slots:
 	void emitModified();
 
 signals:
-	/** emited when the UMLObject has changed. Note that some objects emit
+	/** Emitted when the UMLObject has changed. Note that some objects emit
 	  * this signal when one of its children changes, for example, a UMLClass
 	  * emits a modified() signal when one of its operation changes while the Operation
 	  * itself emits the corresponding signal as well.
