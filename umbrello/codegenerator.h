@@ -29,9 +29,9 @@ class UMLClassifier;
 class UMLClass;
 
 /**
- * CodeGenerator is the basis class for all CodeGenerators. It
- * provides the Interface trough wich all Generators are invoked and
- * the all the basicfunctionality. The only thing it doesnt do is to
+ * CodeGenerator is the base class for all CodeGenerators. It
+ * provides the interface through which all Generators are invoked and
+ * the all the basic functionality. The only thing it doesn't do is to
  * generate code =)
  *
  * If you want to implement a CodeGenerator for some language follow
@@ -202,15 +202,17 @@ protected:
 	bool m_applyToAllRemaining;
 
 	/**
-	 * Maps UMLObjects to filenames. Used to know to which file
-	 * each class was written to.  this is useful in varios places
+	 * Maps UMLObjects to filenames. Used for finding out which file
+	 * each class was written to.
 	 */
 	QMap<UMLClassifier*,QString> *m_fileMap;
 
 signals:
 	/**
-	 * This signal is emited when code for UMLClassifier c has been 
-	 * successfully or unsuccessfully generated
+	 * This signal is emitted when code for a UMLClassifier has been 
+	 * generated.
+	 * @param concept    The concept which was processed
+	 * @param generated  Flag, set to true if generation was successfull
 	 */
 	void codeGenerated(UMLClassifier* concept, bool generated);
 };
