@@ -2854,7 +2854,7 @@ void AssociationWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 		assocElement.setAttribute( "changeabilityB", m_role[B].m_Changeability);
 		assocElement.setAttribute( "roleAdoc", m_role[A].m_RoleDoc);
 		assocElement.setAttribute( "roleBdoc", m_role[B].m_RoleDoc);
-		// assocElement.setAttribute( "documentation", m_Doc );
+		assocElement.setAttribute( "documentation", m_Doc );
 	}
 	assocElement.setAttribute( "widgetaid", getWidgetID(A) );
 	assocElement.setAttribute( "widgetbid", getWidgetID(B) );
