@@ -1113,12 +1113,13 @@ UMLObject* UMLDoc::createAttribute(UMLClass* umlclass, const QString &name /*=nu
 	return newAttribute;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLObject* UMLDoc::createTemplate(UMLClass* umlclass) {
-	QString currentName = umlclass->uniqChildName(Uml::ot_Template);
-	UMLTemplate* newTemplate = new UMLTemplate(umlclass, currentName);
+UMLObject* UMLDoc::createTemplate(UMLClassifier* o, QString currentName /*= QString::null*/) {
+	bool goodName = !currentName.isEmpty();
+	if (!goodName)
+		currentName = o->uniqChildName(Uml::ot_Template);
+	UMLTemplate* newTemplate = new UMLTemplate(o, currentName);
 
 	int button = QDialog::Accepted;
-	bool goodName = false;
 
 	while (button==QDialog::Accepted && !goodName) {
 		UMLTemplateDialog templateDialogue(0, newTemplate);
@@ -1127,7 +1128,7 @@ UMLObject* UMLDoc::createTemplate(UMLClass* umlclass) {
 
 		if(name.length() == 0) {
 			KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
-		} else if ( umlclass->findChildObject(Uml::ot_Template, name).count() > 0 ) {
+		} else if ( o->findChildObject(Uml::ot_Template, name).count() > 0 ) {
 			KMessageBox::error(0, i18n("That name is already being used."), i18n("Not a Unique Name"));
 		} else {
 			goodName = true;
@@ -1138,7 +1139,7 @@ UMLObject* UMLDoc::createTemplate(UMLClass* umlclass) {
 		return NULL;
 	}
 
-	umlclass->addTemplate(newTemplate);
+	o->addTemplate(newTemplate);
 
 	emit sigObjectCreated(newTemplate);
 	return newTemplate;

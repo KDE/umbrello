@@ -286,7 +286,7 @@ public:
 	 * @param o	The parent concept
 	 * @return	The UMLTemplate created
 	 */
-	UMLObject* createTemplate(UMLClass* umlclass);
+	UMLObject* createTemplate(UMLClassifier* o, QString name = QString::null);
 
 	/**
 	 * Creates an enum literal for the parent enum.
