@@ -89,7 +89,7 @@ void UMLObject::setName(QString strName) {
 	emit modified();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-QString UMLObject::getName() {
+QString UMLObject::getName() const {
 	return m_Name;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -176,7 +176,7 @@ bool UMLObject::operator==(UMLObject & rhs ) {
 
 }
 
-bool UMLObject::getAbstract() {
+bool UMLObject::getAbstract() const{
 	return m_bAbstract;
 }
 

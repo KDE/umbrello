@@ -65,7 +65,7 @@ public:
 	 *
 	 *	@return	Returns the type of the object.
 	 */
-	UMLObject_Type getBaseType() {
+	UMLObject_Type getBaseType() const {
 		return m_BaseType;
 	}
 
@@ -74,7 +74,7 @@ public:
 	 *
 	 *	@return	Returns the ID of the object.
 	 */
-	int getID() {
+	int getID() const{
 		return m_nId;
 	}
 
@@ -92,7 +92,7 @@ public:
 	 *
 	 *	@return	Returns the documentation for the object.
 	 */
-	QString getDoc() {
+	QString getDoc() const{
 		return m_Doc;
 	}
 
@@ -101,7 +101,7 @@ public:
 	 *
 	 *	@return	Returns the scope of the object.
 	 */
-	Scope getScope() {
+	Scope getScope() const{
 		return m_Scope;
 	}
 
@@ -175,7 +175,7 @@ public:
 	/**
 	 *   Returns a copy of m_Name
 	 */
-	QString getName();
+	QString getName() const;
 
 	/**
 	 *    Set the UMlObject's name
@@ -185,7 +185,7 @@ public:
 	/**
 	 *   Returns the abstract state of the object.
 	 */
-	bool getAbstract();
+	bool getAbstract() const;
 
 	/**
 	 *     Sets the abstract state of the object.
