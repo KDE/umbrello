@@ -345,6 +345,23 @@ public:
 	void removeAssociation(UMLAssociation *pAssoc);
 
 	/**
+	 * Finds an association.
+	 *
+	 * @param assocType	Type of the UMLAssociation to seek.
+	 * @param roleAObj	Pointer to the role A UMLCanvasObject.
+	 * @param roleBObj	Pointer to the role B UMLCanvasObject.
+	 * @param swap		Optional pointer to boolean.
+	 *			The bool is set to true if the assocation
+	 *			matched with swapped roles, else it is set
+	 *			to false.
+	 * @return	Pointer to the UMLAssociation found or NULL if not found.
+	 */
+	UMLAssociation * findAssociation(Uml::Association_Type assocType,
+					 UMLObject *roleAObj,
+					 UMLObject *roleBObj,
+					 bool *swap = NULL);
+
+	/**
 	 * Creates a diagram of the given type.
 	 *
 	 * @param type		The type of diagram to create.
@@ -731,7 +748,7 @@ public:
 	 */
 	bool activateAllViews();
 
-	/**
+	/**  DEPRECATED - CANDIDATE FOR REMOVAL
 	 * Puts into the list variable a list of associations on all
 	 * diagrams that contain the given object.  The view is
 	 * given so it doesn't check its association list to save

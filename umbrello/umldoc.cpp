@@ -853,11 +853,36 @@ void UMLDoc::removeAssocFromConcepts(UMLAssociation *assoc)
 			c->removeAssociation(assoc);
 }
 
+UMLAssociation * UMLDoc::findAssociation(Uml::Association_Type assocType,
+					 UMLObject *roleAObj,
+					 UMLObject *roleBObj,
+					 bool *swap)
+{
+	UMLAssociationList assocs = getAssociations();
+	UMLAssociation *a, *ret = NULL;
+	for (a = assocs.first(); a; a = assocs.next()) {
+		if (a->getAssocType() != assocType)
+			continue;
+		if (a->getObjectA() == roleAObj && a->getObjectB() == roleBObj)
+			return a;
+		if (a->getObjectA() == roleBObj && a->getObjectB() == roleAObj) {
+			ret = a;
+		}
+	}
+	if (swap)
+		*swap = (ret != NULL);
+	return ret;
+}
+
 // create AND add an association. Not currently used by anything.. remove? -b.t.
 UMLAssociation* UMLDoc::createUMLAssociation(UMLObject *a, UMLObject *b, Uml::Association_Type type)
 {
-	UMLAssociation *assoc = new UMLAssociation( this, type, a, b );
-	addAssociation(assoc);
+	bool swap;
+	UMLAssociation *assoc = findAssociation(type, a, b, &swap);
+	if (assoc == NULL) {
+		assoc = new UMLAssociation( this, type, a, b );
+		addAssociation(assoc);
+	}
 	return assoc;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
