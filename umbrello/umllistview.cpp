@@ -256,7 +256,7 @@ void UMLListView::popupMenuSel(int sel) {
 		case ListPopupMenu::mt_Import_Classes:
 			((ClassImport*)m_doc)->importCPP(
 			    KFileDialog::getOpenFileNames(":import-classes",
-			                                  i18n("*.h|Header Files (*.h)\n*.*|All Files"),
+			                                  i18n("*.h|Header Files (*.h)\n*|All Files"),
 			                                  this, i18n("Select Classes to Import") ));
 		case ListPopupMenu::mt_Expand_All:
 				expandAll(temp);
@@ -489,12 +489,12 @@ void UMLListView::slotObjectChanged( ) {
 // 			if(item)
 // 			{
 // 				item -> updateObject();
-// 				for( item = static_cast<UMLListViewItem*>(item->firstChild()); 
-// 				     item; 
+// 				for( item = static_cast<UMLListViewItem*>(item->firstChild());
+// 				     item;
 // 				     item = static_cast<UMLListViewItem*>(item->nextSibling()) )
 // 					item -> updateObject();
 // 			}
-// 				
+//
 // 			break;
 // 		default:
 // 			kdDebug()<<"ignoring modified signal from object "<<obj->getName()<<endl;
@@ -504,10 +504,10 @@ void UMLListView::slotObjectChanged( ) {
 void UMLListView::childObjectAdded( UMLObject *obj)
 {
 	UMLObject *parent = const_cast<UMLObject*>(dynamic_cast<const UMLObject*>(sender()));
-	
+
 	UMLListViewItem *parentItem = findUMLObject(parent);
 	UMLListViewItem *newItem = new UMLListViewItem(parentItem, obj->getName(), convert_OT_LVT(obj->getBaseType()), obj);
-	
+
 	connect(obj,SIGNAL(modified()),this,SLOT(slotObjectChanged()));
 
 	ensureItemVisible(newItem);
@@ -520,8 +520,8 @@ void UMLListView::childObjectRemoved( UMLObject *obj)
 	UMLObject *parent = const_cast<UMLObject*>(dynamic_cast<const UMLObject*>(sender()));
 	UMLListViewItem *item(0);
 	UMLListViewItem *parentItem = findUMLObject(parent);
-	for( item = static_cast<UMLListViewItem*>(parentItem->firstChild()); 
-	     item; 
+	for( item = static_cast<UMLListViewItem*>(parentItem->firstChild());
+	     item;
 	     item = static_cast<UMLListViewItem*>(item->nextSibling()) )
 	     {
 	     	if(item->getdata()->getUMLObject() == obj)
@@ -545,13 +545,13 @@ void UMLListView::setDocument(UMLDoc *d) {
 		//disconnect signals from old doc and reset view
 	}
 	m_doc = d;
-	
-	
+
+
 	connect(m_doc, SIGNAL(sigDiagramCreated(int)), this, SLOT(slotDiagramCreated(int)));
 	connect(m_doc, SIGNAL(diagramCreated(Umbrello::Diagram*)), this, SLOT( diagramCreated(Umbrello::Diagram*)));
 	connect(m_doc, SIGNAL(sigDiagramRemoved(int)), this, SLOT(slotDiagramRemoved(int)));
 	connect(m_doc, SIGNAL(sigDiagramRenamed(int)), this, SLOT(slotDiagramRenamed(int)));
-	
+
 	connect(m_doc, SIGNAL(sigObjectCreated(UMLObject *)), this, SLOT(slotObjectCreated(UMLObject *)));
 	connect(m_doc, SIGNAL(sigObjectRemoved(UMLObject *)), this, SLOT(slotObjectRemoved(UMLObject *)));
 }
@@ -2153,7 +2153,7 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
 				case Uml::lvt_Class:
 					connect(pObject,SIGNAL(attributeAdded(UMLObject*)),this,SLOT(childObjectAdded(UMLObject*)));
 					connect(pObject,SIGNAL(attributeRemoved(UMLObject*)),this,SLOT(childObjectRemoved(UMLObject*)));
-				case Uml::lvt_Interface:	
+				case Uml::lvt_Interface:
 					connect(pObject,SIGNAL(operationAdded(UMLObject*)),this,SLOT(childObjectAdded(UMLObject*)));
 					connect(pObject,SIGNAL(operationRemoved(UMLObject*)),this,SLOT(childObjectRemoved(UMLObject*)));
 				case Uml::lvt_Actor:

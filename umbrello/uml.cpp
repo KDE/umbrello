@@ -564,7 +564,7 @@ void UMLApp::slotFileOpen() {
 		// here saving wasn't successful
 
 	} else {
-		KURL url=KFileDialog::getOpenURL(":open-umbrello-file", i18n("*.xmi|XMI Files\n*.uml|Old UML Files\n*.*|All Files"),
+		KURL url=KFileDialog::getOpenURL(":open-umbrello-file", i18n("*.xmi|XMI Files\n*.uml|Old UML Files\n*|All Files"),
 				this, i18n("Open File"));
 		if(!url.isEmpty()) {
 			if(doc->openDocument(url))
@@ -620,7 +620,7 @@ bool UMLApp::slotFileSaveAs()
 	KURL url;
 	QString ext;
 	while(cont) {
-		url=KFileDialog::getSaveURL(":save-umbrello-file", i18n("*.xmi|XMI Files\n*.*|All Files"), this, i18n("Save As"));
+		url=KFileDialog::getSaveURL(":save-umbrello-file", i18n("*.xmi|XMI Files\n*|All Files"), this, i18n("Save As"));
 
 		if(url.isEmpty())
 			cont = false;
@@ -1175,7 +1175,7 @@ void UMLApp::slotUpdateViews() {
 
 void UMLApp::slotImportClasses() {
 	QStringList fileList = KFileDialog::getOpenFileNames(":import-classes",
-	                       i18n("*.h *.hpp *.hxx|Header Files (*.h *.hpp *.hxx)\n*.*|All Files"), this, i18n("Select Classes to Import") );
+	                       i18n("*.h *.hpp *.hxx|Header Files (*.h *.hpp *.hxx)\n*|All Files"), this, i18n("Select Classes to Import") );
 	((ClassImport*)doc)->importCPP( fileList );
 }
 
