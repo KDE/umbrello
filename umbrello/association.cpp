@@ -26,7 +26,7 @@ using namespace Uml;
 
 // static members
 const Uml::Association_Type UMLAssociation::atypeFirst = Uml::at_Generalization;
-const Uml::Association_Type UMLAssociation::atypeLast = Uml::at_Activity;
+const Uml::Association_Type UMLAssociation::atypeLast = Uml::at_Relationship;
 const unsigned UMLAssociation::nAssocTypes = (unsigned)atypeLast -
 					     (unsigned)atypeFirst + 1;
 
@@ -133,6 +133,7 @@ bool UMLAssociation::assocTypeHasUMLRepresentation(Uml::Association_Type atype)
 {
 	return (atype == Uml::at_Generalization ||
 		atype == Uml::at_Realization ||
+		atype == Uml::at_Association ||
 		atype == Uml::at_Association_Self ||
 		atype == Uml::at_UniAssociation ||
 		atype == Uml::at_Aggregation ||
@@ -339,9 +340,8 @@ bool UMLAssociation::load( QDomElement & element ) {
 		if(getAssocType() == Uml::at_Unknown)
 		{
 			m_AssocType = Uml::at_Association;
-			// Q: is this truely a warning condition? Do state diagrams store
-			// stuff this way (for example)?
-			kdWarning()<<" Warning: load can't determine association type, setting to 'plain' association"<<endl;
+			kdDebug() << "load can't determine association type, setting to 'plain' association"
+				  << endl;
 		}
 
 		return true;
@@ -352,7 +352,6 @@ bool UMLAssociation::load( QDomElement & element ) {
 	Uml::Association_Type assocType = Uml::at_Unknown;
 	if (assocTypeStr[0] >= 'a' && assocTypeStr[0] <= 'z') {
 		// In an earlier version, the natural assoctype names were saved.
-		const unsigned nAssocTypes = 16;
 		const QString assocTypeString[nAssocTypes] = {
 			"generalization",	// at_Generalization
 			"aggregation",		// at_Aggregation
@@ -369,7 +368,7 @@ bool UMLAssociation::load( QDomElement & element ) {
 			"uniassociation",	// at_UniAssociation
 			"anchor",		// at_Anchor
 			"state",		// at_State
-			"activity" 		// at_Activity
+			"activity",		// at_Activity
 			"relationship" 		// at_Relationship
 		};
 
