@@ -83,7 +83,7 @@ bool AdaWriter::isOOClass(UMLClassifier *c) {
 	if (! dynamic_cast<UMLClass*>(c))
 		return true;
 	UMLClass *cl = dynamic_cast<UMLClass *>(c);
-	if (cl->isEnumeration())
+	if (cl && cl->isEnumeration())
 		return false;
 
 	// CORBAValue, CORBAInterface, and all empty/unknown stereotypes are
@@ -146,11 +146,11 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 
 	UMLClass * myClass = dynamic_cast<UMLClass*>(c);
 	QString classname = cleanName(c->getName());
-	QString fileName = c->getName().lower();
-	fileName.replace(QRegExp("."), "-");
+	QString fileName = qualifiedName(c).lower();
+	fileName.replace('.', '-');
 
 	//find an appropriate name for our file
-	fileName = findFileName(c, ".ads");
+	fileName = overwritableName(c, fileName, ".ads");
 	if (!fileName) {
 		emit codeGenerated(c, false);
 		return;
@@ -190,22 +190,20 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 		QString stype = c->getStereotype();
 		if (stype == "CORBAConstant") {
 			ada << spc() << "-- " << stype << " is Not Yet Implemented\n\n";
-		} else if(stype == "CORBAEnum") {
-			if(myClass) {
-				QPtrList<UMLAttribute> *atl = myClass->getAttList();
-				UMLAttribute *at;
-				ada << spc() << "type " << classname << " is (\n";
-				indentlevel++;
-				uint i = 0;
-				for (at = atl->first(); at; at = atl->next()) {
-					QString enumLiteral = cleanName(at->getName());
-					ada << spc() << enumLiteral;
-					if (++i < atl->count()) //FIXME warning
-						ada << ",\n";
-				}
-				indentlevel--;
-				ada << ");\n\n";
+		} else if (myClass && myClass->isEnumeration()) {
+			QPtrList<UMLAttribute> *atl = myClass->getAttList();
+			UMLAttribute *at;
+			ada << spc() << "type " << classname << " is (\n";
+			indentlevel++;
+			uint i = 0;
+			for (at = atl->first(); at; at = atl->next()) {
+				QString enumLiteral = cleanName(at->getName());
+				ada << spc() << enumLiteral;
+				if (++i < atl->count()) //FIXME warning
+					ada << ",\n";
 			}
+			indentlevel--;
+			ada << ");\n\n";
 		} else if(stype == "CORBAStruct") {
 			if(myClass) {
 				QPtrList<UMLAttribute> *atl = myClass->getAttList();
