@@ -29,25 +29,17 @@
 #include "listpopupmenu.h"
 
 MessageWidget::MessageWidget(UMLView * view, ObjectWidget* a, ObjectWidget* b,
-			     FloatingText* ft, int y,
-			     Uml::Sequence_Message_Type sequenceMessageType,
+			     int y, Uml::Sequence_Message_Type sequenceMessageType,
 			     Uml::IDType id /* = Uml::id_None */)
   : UMLWidget(view, id) {
 	init();
 	m_pOw[Uml::A] = a;
 	m_pOw[Uml::B] = b;
-	m_pFText = ft;
 	m_nY = y;
 	m_sequenceMessageType = sequenceMessageType;
 	if (m_sequenceMessageType == Uml::sequence_message_creation) {
 		y -= m_pOw[Uml::B]->getHeight() / 2;
 		m_pOw[Uml::B]->setY(y);
-	}
-
-	//CHECK: This is contorted - it should be in the caller's responsibility:
-	if (ft) {
-		ft->setUMLObject(b->getUMLObject());
-		setLinkAndTextPos();
 	}
 
 	connect(m_pOw[Uml::A], SIGNAL(sigWidgetMoved(Uml::IDType)), this, SLOT(slotWidgetMoved(Uml::IDType)));
@@ -449,7 +441,7 @@ void MessageWidget::setText(FloatingText *ft, const QString &newText) {
 
 void MessageWidget::setSeqNumAndOp(const QString &seqNum, const QString &op) {
 	setSequenceNumber( seqNum );
-	setOperation( op );
+	m_Operation = op;
 }
 
 void MessageWidget::setSequenceNumber( const QString &sequenceNumber ) {
@@ -458,14 +450,6 @@ void MessageWidget::setSequenceNumber( const QString &sequenceNumber ) {
 
 QString MessageWidget::getSequenceNumber() const {
 	return m_SequenceNumber;
-}
-
-void MessageWidget::setOperation( const QString &operation ) {
-	m_Operation = operation;
-}
-
-QString MessageWidget::getOperation() const {
-	return m_Operation;
 }
 
 void MessageWidget::lwSetFont (QFont font) {
@@ -481,7 +465,7 @@ UMLClassifier *MessageWidget::getOperationOwner(FloatingText *ft) {
 }
 
 void MessageWidget::setOperationText(FloatingText *ft, const QString &opText) {
-	setOperation(opText);
+	m_Operation = opText;
 	ft->setMessageText();
 }
 
