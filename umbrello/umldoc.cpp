@@ -6,7 +6,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-
+#include <iostream.h>
 #include "actor.h"
 #include "associationwidget.h"
 #include "associationwidgetdata.h"
@@ -14,6 +14,7 @@
 #include "class.h"
 #include "package.h"
 #include "component.h"
+#include "codegenerator.h"
 #include "node.h"
 #include "artifact.h"
 #include "interface.h"
@@ -63,6 +64,7 @@ UMLDoc::UMLDoc(QWidget *parent, const char *name) : QObject(parent, name) {
 	listView = 0;
 	currentView = 0;
 	uniqueID = 0;
+	m_currentcodegenerator = 0;
 	objectList.clear();
 	objectList.setAutoDelete(true);
 	diagrams.setAutoDelete(true);
@@ -329,13 +331,31 @@ bool UMLDoc::saveDocument(const KURL& url, const char * /*format =0*/) {
 	setModified(false);
 	return (status && uploaded);
 }
+
+void UMLDoc::setCurrentCodeGenerator ( CodeGenerator * gen ) {
+	addCodeGenerator(gen); // wont add IF it already exists
+	m_currentcodegenerator = gen;
+}
+
+CodeGenerator* UMLDoc::getCurrentCodeGenerator() {
+        return m_currentcodegenerator;
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLDoc::deleteContents() {
+
 	m_Doc = "";
 	DocWindow* dw = getDocWindow();
 	if (dw) {
 		dw->newDocumentation();
 	}
+
+        // remove all code generators
+        QDictIterator<CodeGenerator> it( m_codeGeneratorDictionary );
+        for( ; it.current(); ++it )
+                removeCodeGenerator(it.current());
+
+        m_currentcodegenerator = 0;
 
 	if (listView) {
 		listView->init();
@@ -365,6 +385,48 @@ void UMLDoc::setupListView(UMLListView *lv) {
 QWidget* UMLDoc::getMainViewWidget() {
 	UMLApp* app = (UMLApp*)parent();
 	return app->getMainViewWidget();
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+bool UMLDoc::addCodeGenerator ( CodeGenerator * gen)
+{
+	if(!gen)
+		return false;
+
+        QString tag = gen->getLanguage(); // this should be unique 
+
+        if(m_codeGeneratorDictionary.find(tag))
+                return false; // return false, we already have some object with this tag in the list
+        else
+                m_codeGeneratorDictionary.insert(tag, gen);
+ 
+        return true;
+}
+
+QDomElement UMLDoc::getCodeGeneratorXMIParams ( )
+{
+	return CodeGenerationParams;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+/**
+ * Remove a CodeGenerator object 
+ */
+bool UMLDoc::removeCodeGenerator ( CodeGenerator * remove_object ) {
+        QString lang = remove_object->getLanguage();
+        if(!(lang.isEmpty()))
+	{
+                m_codeGeneratorDictionary.remove(lang);
+		delete remove_object;
+        } else
+                return false;
+
+        return true;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+CodeGenerator * UMLDoc::findCodeGeneratorByLanguage (QString lang) {
+	return m_codeGeneratorDictionary.find(lang);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -662,42 +724,43 @@ UMLObject* UMLDoc::createStereotype(UMLObject* umlobject, UMLObject_Type list) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLObject* UMLDoc::createOperation(UMLObject* umlobject) {
 	UMLOperation* newOperation = 0;
-	int id = getUniqueID();
-	QString currentName;
-	if (umlobject->getBaseType() == ot_Class || umlobject->getBaseType() == ot_Interface) {
-		currentName = static_cast<UMLClassifier*>(umlobject)->uniqChildName(Uml::ot_Operation);
-	} else {
-		kdDebug() << "creating operation for something which isn't a class or an interface" << endl;
-	}
-	newOperation = new UMLOperation(umlobject, currentName, id);
+	UMLClassifier * classifier = dynamic_cast<UMLClassifier*>(umlobject);
 
-	int button = QDialog::Accepted;
-	bool goodName = false;
-
-	while (button==QDialog::Accepted && !goodName) {
-		UMLOperationDialog operationDialogue(0, newOperation);
-		button = operationDialogue.exec();
-		QString name = newOperation->getName();
-
-		if(name.length() == 0) {
-			KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
-		} else {
-			goodName = true;
+	// can only create operations for classifiers..
+	if(classifier) 
+	{
+		int id = getUniqueID();
+		QString currentName = classifier->uniqChildName(Uml::ot_Operation);
+		newOperation = new UMLOperation(classifier, currentName, id);
+	
+		int button = QDialog::Accepted;
+		bool goodName = false;
+	
+		while (button==QDialog::Accepted && !goodName) {
+			UMLOperationDialog operationDialogue(0, newOperation);
+			button = operationDialogue.exec();
+			QString name = newOperation->getName();
+	
+			if(name.length() == 0) {
+				KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
+			} else {
+				goodName = true;
+			}
 		}
-	}
+	
+		if (button != QDialog::Accepted) {
+			return NULL;
+		}
 
-	if (button != QDialog::Accepted) {
-		return NULL;
-	}
+		classifier->addOperation(newOperation);
 
-	if (umlobject->getBaseType() == ot_Class || umlobject->getBaseType() == ot_Interface ) {
-		((UMLClassifier*)umlobject)->addOperation(newOperation);
+		setModified(true);
+		emit sigObjectCreated(newOperation);
+
 	} else {
 		kdWarning() << "creating operation for something which isn't a class or an interface" << endl;
 	}
 
-	setModified(true);
-	emit sigObjectCreated(newOperation);
 	return newOperation;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1055,29 +1118,34 @@ void UMLDoc::removeUMLObject(UMLObject *o) {
 
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void UMLDoc::showProperties(UMLObject* object, int page, bool assoc) {
+bool UMLDoc::showProperties(UMLObject* object, int page, bool assoc) {
 	getDocWindow()->updateDocumentation( false );
 	ClassPropDlg* dialogue = new ClassPropDlg((QWidget*)parent(), object, page, assoc);
 
+	bool modified = false;
 	if ( dialogue->exec() ) {
 		getDocWindow()->showDocumentation(object, true);
 		setModified(true);
+		modified = true;
 	}
 	dialogue->close(true);//wipe from memory
+	return modified;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void UMLDoc::showProperties(ObjectWidget *o) {
+bool UMLDoc::showProperties(ObjectWidget *o) {
 	getDocWindow() -> updateDocumentation( false );
 	ClassPropDlg *dlg = new ClassPropDlg((QWidget*)parent(), o);
 
+	bool modified = false;
 	if(dlg->exec()) {
 		getDocWindow() -> showDocumentation( o, true );
 		o->getUMLObject();
 		setModified(true);
+		modified = true;
 	}
 	dlg -> close(true);//wipe from memory
-	return;
+	return modified;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1175,6 +1243,13 @@ bool UMLDoc::saveToXMI(QIODevice& file) {
 	//  save listview
 	status = listView -> saveToXMI( doc, content );
 
+	// save code generators
+	QDomElement codeGenElement = doc.createElement( "codegeneration" );
+        QDictIterator<CodeGenerator> it( m_codeGeneratorDictionary );
+        for( ; it.current(); ++it )
+                status = it.current()->saveToXMI ( doc, codeGenElement );
+	content.appendChild( codeGenElement );
+
 	root.appendChild( content );
 	QTextStream stream( &file );
 	stream.setEncoding(QTextStream::UnicodeUTF8);
@@ -1185,6 +1260,7 @@ bool UMLDoc::saveToXMI(QIODevice& file) {
 short UMLDoc::getEncoding(QIODevice & file)
 {
 	QTextStream stream( &file );
+	stream.setEncoding(QTextStream::UnicodeUTF8);
 	QString data = stream.read();
 	QString error;
 	int line;
@@ -1261,6 +1337,103 @@ short UMLDoc::getEncoding(QIODevice & file)
 	}
 	return ENC_OLD_ENC; // never reached
 }
+////////////////////////////////////////////////////////////////////////////////////////////////////
+/*
+bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
+{
+	// old Umbrello versions (version < 1.2) didn't save the XMI in Unicode
+	// this wasn't correct, because non Latin1 chars where lost
+	// to ensure backward compatibility we have to ensure to load the old files
+	// with non Unicode encoding
+	if (encode == ENC_UNKNOWN)
+	{
+		if ((encode = getEncoding(file)) == ENC_UNKNOWN)
+			return false;
+		file.reset();
+	}
+	QTextStream stream( &file );
+	if (encode == ENC_UNICODE)
+	{
+		stream.setEncoding(QTextStream::UnicodeUTF8);
+	}
+		
+	QString data = stream.read();
+	QString error;
+	int line;
+	QDomDocument doc;
+	if( !doc.setContent( data, false, &error, &line ) )
+	{
+		kdWarning()<<"Can't set content: "<<error<<" Line: "<<line<<endl;
+		return ENC_UNKNOWN;
+	}
+
+	// we start at the beginning and go to the point in the header where we can
+	// find out if the file was saved using Unicode
+	QDomNode node = doc.firstChild();
+	if (node.isProcessingInstruction())
+	{
+		node = node.nextSibling();
+	}
+	QDomElement root = node.toElement();
+	if( root.isNull() )
+	{
+		return ENC_UNKNOWN;
+	}
+	//  make sure it is an XMI file
+	if( root.tagName() != "XMI" )
+	{
+		return ENC_UNKNOWN;
+	}
+	node = node.firstChild();
+
+	if ( !node.isNull() )
+	{
+		QDomElement element = node.toElement();
+
+		// check header
+		if( !element.isNull() && element.tagName() == "XMI.header" )
+		{
+			QDomNode headerNode = node.firstChild();
+			QDomElement headerElement = headerNode.toElement();
+			while ( !headerNode.isNull() )
+			{
+				// the information if Unicode was used is now stored in the
+				// XMI.documenation section of the header
+				if (! headerElement.isNull() && headerElement.tagName() ==
+							"XMI.documentation")
+				{
+					QDomNode docuNode = headerNode.firstChild();
+					QDomElement docuElement = docuNode.toElement();
+					while ( !docuNode.isNull() )
+					{
+						// a tag XMI.exporterEncoding was added since version 1.2 to
+						// mark a file as saved with Unicode
+						if (! docuElement.isNull() && docuElement.tagName() ==
+									"XMI.exporterEncoding")
+						{
+							// at the moment this if isn't really neccesary, but maybe
+							// later we will have other encoding standards
+							if (docuElement.text() == QString("UnicodeUTF8"))
+							{
+								return ENC_UNICODE; // stop here
+							}
+						}
+						docuNode = docuNode.nextSibling();
+						docuElement = docuNode.toElement();
+					}
+					return ENC_OLD_ENC;
+				}
+				headerNode = headerNode.nextSibling();
+				headerElement = headerNode.toElement();
+			}
+			return ENC_OLD_ENC;
+		}
+	} else {
+		return ENC_UNKNOWN;
+	}
+	return ENC_OLD_ENC; // never reached
+}
+*/
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
 {
@@ -1348,6 +1521,9 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
 						kdWarning() << "failed load on listview" << endl;
 						return false;
 					}
+				} else if( tag == "codegeneration" ) {
+					// save for later on
+					CodeGenerationParams = element;
 				}
 				node = node.nextSibling();
 				element = node.toElement();
@@ -1423,6 +1599,7 @@ bool UMLDoc::loadUMLObjectsFromXMI( QDomNode & node ) {
 	return true;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+/*
 UMLObject* UMLDoc::makeNewClassifierObject(QString type, QDomElement& element) {
 	UMLObject* pObject = 0;
 	if (type == "UML:Operation") {
@@ -1446,6 +1623,7 @@ UMLObject* UMLDoc::makeNewClassifierObject(QString type, QDomElement& element) {
 	}
 	return pObject;
 }
+*/
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLObject* UMLDoc::makeNewUMLObject(QString type) {
 	UMLObject* pObject = 0;
@@ -1581,17 +1759,20 @@ void UMLDoc::print(KPrinter * pPrinter) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void UMLDoc::showProperties(UMLWidget * o) {
+bool UMLDoc::showProperties(UMLWidget * o) {
 	// will already be selected so make sure docWindow updates the doc
 	// back it the widget
 	getDocWindow() -> updateDocumentation( false );
 	ClassPropDlg *dlg = new ClassPropDlg((QWidget*)parent(), o);
 
+	bool modified = false;
 	if(dlg->exec()) {
 		getDocWindow() -> showDocumentation( o -> getUMLObject() , true );
 		setModified(true);
+		modified = true;
 	}
 	dlg -> close(true);//wipe from memory
+	return modified;
 }
 
 void UMLDoc::setModified(bool modified /*=true*/, bool addToUndo /*=true*/) {

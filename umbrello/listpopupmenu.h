@@ -145,6 +145,7 @@ public:
 			mt_Collapse_All,                   //Collapse all items in the list
 			
 		mt_Refactoring,
+		mt_ViewCode, // view code document contents 
 
 	    mt_Undefined  =  - 1
 	};

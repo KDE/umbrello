@@ -6,7 +6,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-
+#include <iostream.h>
 #include <qpainter.h>
 #include <qcolor.h>
 
@@ -14,6 +14,8 @@
 #include <kcursor.h>
 #include <kcolordialog.h>
 #include <kfontdialog.h>
+#include <kmessagebox.h>
+#include <klocale.h>
 
 #include "umlobject.h"
 #include "class.h"
@@ -27,6 +29,8 @@
 #include "classifier.h"
 #include "associationwidget.h"
 #include "dialogs/settingsdlg.h"
+#include "codegenerator.h"
+#include "codedocument.h"
 #include "floatingtext.h"
 #include "objectwidget.h"
 #include "messagewidget.h"
@@ -359,6 +363,15 @@ void UMLWidget::slotMenuSelection(int sel) {
 				m_pData->setUsesDiagramUseFillColour(false);
 				m_pView->selectionUseFillColor( m_pData->getUseFillColor() );
 				break;
+
+			case ListPopupMenu::mt_ViewCode: {
+                        	UMLClassifier *c = dynamic_cast<UMLClassifier*>(m_pObject);
+                        	if(c)
+                        	{
+					UMLApp::app()->viewCodeDocument(c);
+                        	}
+                        	break;
+                	}
 
 			case ListPopupMenu::mt_Delete_Selection:
 				m_pView -> deleteSelection();

@@ -20,6 +20,7 @@
 #include "umlobjectlist.h"
 #include "umlnamespace.h"
 #include <qdatastream.h>
+#include <qdict.h>
 #include <qptrstack.h>
 #include <kurl.h>
 #include <kdockwidget.h>
@@ -40,6 +41,7 @@ class QSplitter;
 
 class KPrinter;
 
+class CodeGenerator;
 class DocWindow;
 class IDChangeLog;
 class ObjectWidget;
@@ -400,15 +402,16 @@ public:
 	 *	@param	o	The object to show properties for.
 	 *	@param page	The page to show.
 	 *	@param assoc	Whether to show association page.
+	 * 	@return bool 	whether we modified the object or not.
 	 */
-	void showProperties(UMLObject *o, int page = 0, bool assoc = false);
+	bool showProperties(UMLObject *o, int page = 0, bool assoc = false);
 
 	/**
 	 * This method is called for saving the given model as a XMI file. It is
 	 * virtual and calls the corresponding saveToXMI() functions of the derived
 	 * classes
 	 *
-	 * @param file The file to be saved to.
+	 * 	@param file The file to be saved to.
 	 */
 	virtual bool saveToXMI(QIODevice& file);
 
@@ -446,7 +449,7 @@ public:
 	 * Creates a new Classifier UMLObjects (attribute, operation, template)
 	 * used by the clipboard when pasteing them
 	 */
-	UMLObject* makeNewClassifierObject(QString type, QDomElement& element);
+//	UMLObject* makeNewClassifierObject(QString type, QDomElement& element);
 
 	/**
 	 * Make a new UMLObject, used by loadFromXMI and clipboard paste
@@ -477,15 +480,17 @@ public:
 	 *	Show a properties dialog for an @ref ObjectWidget.
 	 *
 	 *	@param	o	The ObjectWidget to represent.
+	 * 	@return bool 	whether we modified the object or not.
 	 */
-	void showProperties(ObjectWidget * o);
+	bool showProperties(ObjectWidget * o);
 
 	/**
 	 *	Show a properties dialog for an @ref UMLWidget.
 	 *
 	 *	@param	o	The UMLWidget to represent.
+	 * 	@return bool 	whether we modified the object or not.
 	 */
-	void showProperties(UMLWidget * o);
+	bool showProperties(UMLWidget * o);
 
 	/**
 	 *	Returns the current view.
@@ -705,6 +710,10 @@ public:
 	 */
 	void clearRedoStack();
 
+	/** Get the root node for the code generation parameters.
+	 */
+	QDomElement getCodeGeneratorXMIParams ( ); 
+
 	/**
 	 * All the UMLViews (i.e. diagrams)
 	 */
@@ -721,6 +730,30 @@ public:
 	 * diagram_1 etc
 	 */
 	QString uniqViewName(const Diagram_Type type);
+
+        /**
+         * Find a code generator by the given language.
+         */
+        CodeGenerator * findCodeGeneratorByLanguage (QString lang);
+
+	/**
+         * Add a CodeGenerator object to this UMLDoc
+	 */
+	bool addCodeGenerator ( CodeGenerator * add_gen );
+
+        /**
+         * Remove and delete a CodeGenerator object from this UMLDoc.
+         * @return boolean - will return false if it couldnt remove a generator.
+         */
+        bool removeCodeGenerator ( CodeGenerator * remove_object );
+
+	/** Set the current (active) code generator for this document
+	 */
+	void setCurrentCodeGenerator ( CodeGenerator * gen );
+
+	/** get the current (active) code generator for this document
+	 */
+	CodeGenerator* getCurrentCodeGenerator();
 
 private:
 
@@ -742,12 +775,18 @@ private:
 	 */
 	void initSaveTimer();
 
+	CodeGenerator * m_currentcodegenerator;
 	UMLObjectList objectList;
 	QPtrList<Umbrello::Diagram> diagrams;
 	int uniqueID;
 	bool m_modified;
 	KURL doc_url;
 	UMLView* currentView;
+	QDomElement CodeGenerationParams;
+
+        // A dictionary of various code generators we currently have configured 
+	// for this UML document.
+        QDict<CodeGenerator> m_codeGeneratorDictionary;
 
 	/**
 	 * Contains all the UMLObject id changes of paste session
@@ -792,6 +831,7 @@ private:
 	 * undo is called.
 	 */
 	QPtrList<QDataStream> redoStack;
+
 
 public slots:
 
@@ -850,6 +890,8 @@ signals:
 	 * UMLApp uses this to keep it's menu items state up to date.
 	 */
 	void sigCurrentViewChanged();
+
+
 };
 
 #endif // UMLDOC_H
