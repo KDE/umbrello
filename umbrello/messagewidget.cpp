@@ -289,6 +289,7 @@ bool MessageWidget::activate(IDChangeLog * Log /*= 0*/) {
 	m_pWA -> messageAdded(this);
 	m_pWB -> messageAdded(this);
 
+	emit sigMessageMoved();
 	return status;
 }
 
