@@ -555,8 +555,9 @@ QString	UMLDoc::uniqObjectName(const UMLObject_Type type) {
 		currentName = i18n("new_object");
 
 	QString name = currentName;
-	for (int number = 0; !isUnique(name); ++number)
+	for (int number = 1; !isUnique(name); number++)  {
 		name = currentName + "_" + QString::number(number);
+	}
 	return name;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
