@@ -657,8 +657,6 @@ bool UMLWidget::isActivated() {
 	return m_bActivated;
 }
 
-void UMLWidget::synchronizeData() {}
-
 void UMLWidget::setActivated(bool Active /*=true*/) {
 	m_bActivated = Active;
 }

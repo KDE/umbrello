@@ -484,12 +484,6 @@ public:
 	bool isActivated();
 
 	/**
-	 * Synchronize the Widget's m_pData member with its display properties, for example:
-	 * the X and Y positions of the widget, etc.
-	 */
-	virtual void synchronizeData();
-
-	/**
 	 * Sets the name in the corresponding UMLObject.
 	 * No-op if m_pObject is NULL.
 	 *
