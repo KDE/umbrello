@@ -48,9 +48,13 @@ void UMLObject::init() {
 	m_bAbstract = false;
 	m_bStatic = false;
 
+/*
+// not sure this is correct... umllistview is making slot/signal connections
+// for objects (!!) Seems wrong..-b.t.
         UMLDoc * parent = UMLApp::app()->getDocument();
         connect(this,SIGNAL(childObjectAdded(UMLObject*)),parent,SLOT(addUMLObject(UMLObject*)));
         connect(this,SIGNAL(childObjectRemoved(UMLObject*)),parent,SLOT(slotRemoveUMLObject(UMLObject*)));
+*/
 
 }
 
