@@ -23,6 +23,9 @@
 #include "worktoolbar.h"
 #include "floatingtext.h"
 #include "optionstate.h"
+#include "dialogs/settingsdlg.h"
+
+#include "toolbarstate.h"
 
 // QT includes
 #include <qcanvas.h>
@@ -43,6 +46,7 @@ class UMLApp;
 class UMLDoc;
 
 class KPrinter;
+class ToolBarStateFactory;
 
 using namespace Uml;
 
@@ -58,6 +62,11 @@ using namespace Uml;
  */
 class UMLView : public QCanvasView {
 	Q_OBJECT
+
+	friend class ToolBarState;
+	friend class ToolBarStateOther; // TODO
+	friend class ToolBarStateAssociation; // TODO
+	friend class ToolBarStateMessages; // TODO
 public:
 	/**
 	 * Constructor for the main view
@@ -846,6 +855,18 @@ public:
 	 */
 	void addObject(UMLObject *object);
 
+	/**
+	 * Selects all the widgets within an internally kept rectangle.
+	 */
+	void selectWidgets(int px, int py, int qx, int qy);
+
+	/**
+	 * Determine whether on a sequence diagram we have clicked on a line of an Object.
+	 *
+	 * @returns	Returns the widget thats line was clicked on.  Returns 0 if no line was clicked on.
+	 */
+	ObjectWidget * onWidgetLine( QPoint point );
+
 protected:
 
 	// Methods and members related to loading/saving
@@ -961,12 +982,6 @@ protected:
 	 */
 	void contentsDropEvent(QDropEvent* mouseEvent);
 
-	/**
-	 * Determine whether on a sequence diagram we have clicked on a line of an Object.
-	 *
-	 * @returns	Returns the widget thats line was clicked on.  Returns 0 if no line was clicked on.
-	 */
-	ObjectWidget * onWidgetLine( QPoint point );
 
 	/**
 	 * Adds an AssociationWidget to the association list
@@ -1012,10 +1027,6 @@ protected:
 	 */
 	QRect getDiagramRect();
 
-	/**
-	 * Selects all the widgets within an internally kept rectangle.
-	 */
-	void selectWidgets();
 
 	/**
 	 * Selects all the widgets of the given association widget.
@@ -1072,37 +1083,16 @@ public:
 	WorkToolBar::ToolBar_Buttons getCurrentCursor() const;
 
 private:
+
+	ToolBarStateFactory* m_pToolBarStateFactory;
+	ToolBarState* m_pToolBarState;
+	
 	WorkToolBar::ToolBar_Buttons m_CurrentCursor;
 
 	/**
 	 * converts toolbar button enums to association type enums
 	 */
 	Uml::Association_Type convert_TBB_AT(WorkToolBar::ToolBar_Buttons tbb);
-
-	/**
-	 * convert toolbar button enums to umlobject type enums
-	 */
-	Uml::UMLObject_Type convert_TBB_OT(WorkToolBar::ToolBar_Buttons tbb);
-
-	/**
-	 * Sees if the MousePressEvent needs to be allocated to a UMLWidget
-	 */
-	bool allocateMousePressEvent(QMouseEvent * me);
-
-	/**
-	 * Sees if the MouseReleaseEvent needs to be allocated to a UMLWidget
-	 */
-	bool allocateMouseReleaseEvent(QMouseEvent * me);
-
-	/**
-	 * Sees if the MouseDoubleClickEvent needs to be allocated to a UMLWidget
-	 */
-	bool allocateMouseDoubleClickEvent(QMouseEvent * me);
-
-	/**
-	 * Sees if the MouseMoveEvent needs to be allocated to a UMLWidget
-	 */
-	bool allocateMouseMoveEvent(QMouseEvent * me);
 
 	/**
 	 * LocalID Changes Log for paste actions

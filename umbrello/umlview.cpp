@@ -86,6 +86,8 @@
 
 #include "umlwidget.h"
 
+#include "toolbarstatefactory.h"
+
 // static members
 const int UMLView::defaultCanvasSize = 1300;
 
@@ -123,7 +125,7 @@ void UMLView::init() {
 	m_bDrawSelectedOnly = false;
 	m_bPopupShowing = false;
 	m_bStartedCut = false;
-	m_bMouseButtonPressed = false;
+	//m_bMouseButtonPressed = false;
 	//clear pointers
 	m_pMoveAssoc = 0;
 	m_pOnWidget = 0;
@@ -140,13 +142,23 @@ void UMLView::init() {
 	setAcceptDrops(TRUE);
 	viewport() -> setAcceptDrops(TRUE);
 	setDragAutoScroll(false);
+
 	viewport() -> setMouseTracking(false);
-	m_SelectionRect.setAutoDelete( true );
+	//m_SelectionRect.setAutoDelete( true );
+
+	// TODO: Still needed at some places.
 	m_CurrentCursor = WorkToolBar::tbb_Arrow;
+
 	//setup signals
 	connect( this, SIGNAL(sigRemovePopupMenu()), this, SLOT(slotRemovePopupMenu() ) );
 	connect( UMLApp::app(), SIGNAL( sigCutSuccessful() ),
 	         this, SLOT( slotCutSuccessful() ) );
+
+	// Create the ToolBarState factory. This class is not a singleton, because it 
+	// needs a pointer to this object.
+	m_pToolBarStateFactory = new ToolBarStateFactory(this);
+	m_pToolBarState = m_pToolBarStateFactory->getState(WorkToolBar::tbb_Arrow);
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -155,9 +167,13 @@ UMLView::~UMLView() {
 		delete    m_pIDChangesLog;
 		m_pIDChangesLog = 0;
 	}
-	if( m_pAssocLine )
+
+	if( m_pAssocLine ) 
+	{
 		delete m_pAssocLine;
-	m_SelectionRect.clear();
+		m_pAssocLine = NULL;
+	}
+	//m_SelectionRect.clear();
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -320,199 +336,33 @@ void UMLView::setupNewWidget(UMLWidget *w, bool setNewID) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome) {
+	m_pToolBarState->mouseRelease(ome);
 
-	m_bMouseButtonPressed = false;
-	QMouseEvent* me = new QMouseEvent(QEvent::MouseButtonRelease, inverseWorldMatrix().map(ome->pos()),
-					  ome->button(),ome->state());
+	// TODO: Move to the toolbar states.
+	resizeCanvasToItems();
+	m_pDoc->setModified();
 
-	if(m_bDrawRect) {
-		viewport()->setMouseTracking( false );
-		m_bDrawRect = false;
-		m_SelectionRect.clear();
-	}
-	if( m_pAssocLine ) {
-		delete m_pAssocLine;
-		m_pAssocLine = 0;
-	}
-	m_Pos.setX(me->x());
-	m_Pos.setY(me->y());
 
-	if( allocateMouseReleaseEvent(me) ) {
-		return;
-	}
-
-	if( m_CurrentCursor == WorkToolBar::tbb_Arrow || me -> state() != LeftButton ) {
-		viewport()->setMouseTracking( false );
-		if (me->state() != RightButton)
-			return;
-
-		/* if the user right clicks on the diagram, first the default tool is
-		 * selected from the toolbar; this only happens when the default tool
-		 * wasn't selected yet AND there is no other widget under the mouse
-		 * pointer
-		 * in any other case the right click menu will be shown */
-		if ( m_CurrentCursor != WorkToolBar::tbb_Arrow )
-			UMLApp::app()->getWorkToolBar()->setDefaultTool();
-		else
-			setMenu();
-		return;
-	}
-
-	//create an activity widget
-	ActivityWidget::ActivityType actType;
-	if (ActivityWidget::isActivity(m_CurrentCursor, actType)) {
-		ActivityWidget * temp = new ActivityWidget( this , actType );
-		if( m_CurrentCursor == WorkToolBar::tbb_Activity ) {
-			bool ok = false;
-			QString name = KInputDialog::getText( i18n("Enter Activity Name"),
-							      i18n("Enter the name of the new activity:"),
-							      i18n("new activity"), &ok, UMLApp::app() );
-			if( !ok ) {
-				temp->cleanup();
-				delete temp;
-				resizeCanvasToItems();
-				m_pDoc->setModified();
-				return;
-			}
-			temp->setName( name );
-		}
-		setupNewWidget( temp );
-		return;
-	}
-
-	//create a state widget
-	StateWidget::StateType stateType;
-	if (StateWidget::isState(m_CurrentCursor, stateType)) {
-		StateWidget * temp = new StateWidget( this , stateType );
-		if( m_CurrentCursor == WorkToolBar::tbb_State ) {
-			bool ok = false;
-			QString name = KInputDialog::getText( i18n("Enter State Name"),
-							      i18n("Enter the name of the new state:"),
-							      i18n("new state"), &ok, UMLApp::app() );
-			if( !ok ) {
-				temp->cleanup();
-				delete temp;
-				resizeCanvasToItems();
-				m_pDoc->setModified();
-				return;
-			}
-			temp -> setName( name );
-		}
-		setupNewWidget( temp );
-		return;
-	}
-
-	//Create a NoteBox widget
-	if(m_CurrentCursor == WorkToolBar::tbb_Note) {
-		//no need to register with document but get an id from it
-		//id used when checking to delete object and assocs
-		NoteWidget *temp= new NoteWidget(this, getDocument()->getUniqueID());
-		setupNewWidget( temp, false );
-		return;
-	}
-
-	//Create a Box widget
-	if(m_CurrentCursor == WorkToolBar::tbb_Box) {
-		//no need to register with document but get a id from it
-		//id used when checking to delete object and assocs
-		BoxWidget* newBox = new BoxWidget(this, getDocument()->getUniqueID());
-		setupNewWidget( newBox, false );
-		return;
-	}
-
-	//Create a Floating Text widget
-	if(m_CurrentCursor == WorkToolBar::tbb_Text) {
-		FloatingText * ft = new FloatingText(this, tr_Floating, "");
-		ft -> changeTextDlg();
-		//if no text entered delete
-		if(!FloatingText::isTextValid(ft -> getText())) {
-			ft->cleanup();
-			delete ft;
-			resizeCanvasToItems();
-			m_pDoc->setModified();
-		} else {
-			setupNewWidget( ft );
-		}
-		return;
-	}
-
-	//Create a Message on a Sequence diagram
-	bool isSyncMsg = (m_CurrentCursor == WorkToolBar::tbb_Seq_Message_Synchronous);
-	bool isAsyncMsg = (m_CurrentCursor == WorkToolBar::tbb_Seq_Message_Asynchronous);
-	if (isSyncMsg || isAsyncMsg) {
-		ObjectWidget* clickedOnWidget = onWidgetLine( me->pos() );
-		if( !clickedOnWidget ) {
-			//did not click on widget line, clear the half made message
-			m_pFirstSelectedWidget = 0;
-			return;
-		}
-		if(!m_pFirstSelectedWidget) { //we are starting a new message
-			m_pFirstSelectedWidget = clickedOnWidget;
-			viewport()->setMouseTracking( true );
-			m_pAssocLine = new QCanvasLine( canvas() );
-			m_pAssocLine->setPoints( me->x(), me->y(), me->x(), me->y() );
-			m_pAssocLine->setPen( QPen( getLineColor(), getLineWidth(), DashLine ) );
-			m_pAssocLine->setVisible( true );
-			return;
-		}
-		//clicked on second sequence line to create message
-		FloatingText* messageText = new FloatingText(this, tr_Seq_Message, "");
-		messageText->setFont( getFont() );
-
-		Sequence_Message_Type msgType = (isSyncMsg ? sequence_message_synchronous :
-							     sequence_message_asynchronous);
-		ObjectWidget* pFirstSelectedObj = dynamic_cast<ObjectWidget*>(m_pFirstSelectedWidget);
-		if (pFirstSelectedObj == NULL) {
-			kdDebug() << "first selected widget is not an object" << endl;
-			return;
-		}
-		MessageWidget* message = new MessageWidget(this, pFirstSelectedObj,
-							   clickedOnWidget, messageText,
-							   m_pDoc->getUniqueID(),
-							   me->y(),
-							   msgType);
-		connect(this, SIGNAL(sigColorChanged(int)),
-			message, SLOT(slotColorChanged(int)));
-
-		// WAS:
-		//	messageText->setID(m_pDoc -> getUniqueID());
-		// EXPERIMENTALLY CHANGED TO:
-			messageText->setID( message->getID() );
-
-		messageText->setMessage( message );
-		messageText->setActivated();
-		message->setActivated();
-		m_pFirstSelectedWidget = 0;
-		resizeCanvasToItems();
-		m_MessageList.append(message);
-		m_pDoc->setModified();
-		return;
-	}
-
+	// TODO: Not inserted into the toolbar state. Is this really needed?
+	/*
 	if ( m_CurrentCursor < WorkToolBar::tbb_Actor || m_CurrentCursor > WorkToolBar::tbb_State ) {
 		m_pFirstSelectedWidget = 0;
 		return;
 	}
-
-	//if we are creating an object, we really create a class
-	if(m_CurrentCursor == WorkToolBar::tbb_Object) {
-		m_CurrentCursor = WorkToolBar::tbb_Class;
-	}
-	m_bCreateObject = true;
-	m_pDoc->createUMLObject(convert_TBB_OT(m_CurrentCursor));
-	resizeCanvasToItems();
+	*/
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void UMLView::slotToolBarChanged(int c) {
+void UMLView::slotToolBarChanged(int c) 
+{
+	m_pToolBarState = m_pToolBarStateFactory->getState((WorkToolBar::ToolBar_Buttons)c);
+	m_pToolBarState->init();
+
+	// TODO This should be deleted once. 
 	m_CurrentCursor = (WorkToolBar::ToolBar_Buttons)c;
+
 	m_pFirstSelectedWidget = 0;
 	m_bPaste = false;
-	m_bDrawRect = false;
-	if( m_pAssocLine ) {
-		delete m_pAssocLine;
-		m_pAssocLine = 0;
-	}
-	viewport() -> setMouseTracking( false );
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLView::showEvent(QShowEvent* /*se*/) {
@@ -815,61 +665,12 @@ bool UMLView::widgetOnDiagram(int id) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void UMLView::contentsMouseMoveEvent(QMouseEvent* ome) {
-	//Autoscroll
-	if (m_bMouseButtonPressed) {
-		int vx = ome->x();
-		int vy = ome->y();
-		int contsX = contentsX();
-		int contsY = contentsY();
-		int visw = visibleWidth();
-		int vish = visibleHeight();
-		int dtr = visw - (vx-contsX);
-		int dtb = vish - (vy-contsY);
-		int dtt =  (vy-contsY);
-		int dtl =  (vx-contsX);
-		if (dtr < 30) scrollBy(30-dtr,0);
-		if (dtb < 30) scrollBy(0,30-dtb);
-		if (dtl < 30) scrollBy(-(30-dtl),0);
-		if (dtt < 30) scrollBy(0,-(30-dtt));
-	}
 
-
-	QMouseEvent *me = new QMouseEvent(QEvent::MouseMove,
-					inverseWorldMatrix().map(ome->pos()),
-					ome->button(),
-					ome->state());
-
-	m_LineToPos = me->pos();
-	if( m_pFirstSelectedWidget ) {
-		if( m_pAssocLine ) {
-			QPoint sp = m_pAssocLine -> startPoint();
-			m_pAssocLine -> setPoints( sp.x(), sp.y(), me->x(), me->y() );
-		}
-		return;
-	}
-	if(m_bDrawRect) {
-
-		if( m_SelectionRect.count() == 4) {
-
-			QCanvasLine * line = m_SelectionRect.at( 0 );
-			line -> setPoints( m_Pos.x(), m_Pos.y(), me->x(), m_Pos.y() );
-
-			line = m_SelectionRect.at( 1 );
-			line -> setPoints( me->x(), m_Pos.y(), me->x(), me->y() );
-
-			line = m_SelectionRect.at( 2 );
-			line -> setPoints( me->x(), me->y(), m_Pos.x(), me->y() );
-
-			line = m_SelectionRect.at( 3 );
-			line -> setPoints( m_Pos.x(), me->y(), m_Pos.x(), m_Pos.y() );
-
-			selectWidgets();
-		}
-	}
-
-	allocateMouseMoveEvent(me);
+void UMLView::contentsMouseMoveEvent(QMouseEvent* ome) 
+{
+	m_pToolBarState->mouseMove(ome);
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // search both our UMLWidget AND MessageWidget lists
 UMLWidget * UMLView::findWidget( int id ) {
@@ -982,14 +783,9 @@ void UMLView::setLineWidth(uint width) {
 	canvas() -> setAllChanged();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void UMLView::contentsMouseDoubleClickEvent(QMouseEvent* ome) {
-
-	QMouseEvent *me = new QMouseEvent(QEvent::MouseButtonDblClick,inverseWorldMatrix().map(ome->pos()),
-					  ome->button(),ome->state());
-	if ( allocateMouseDoubleClickEvent(me) ) {
-		return;
-	}
-	clearSelected();
+void UMLView::contentsMouseDoubleClickEvent(QMouseEvent* ome) 
+{
+	m_pToolBarState->mouseDoubleClick(ome);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 QRect UMLView::getDiagramRect() {
@@ -1253,63 +1049,15 @@ void UMLView::deleteSelection()
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void UMLView::selectAll() {
-	m_Pos.setX(0);
-	m_Pos.setY(0);
-	m_LineToPos.setX(canvas()->width());
-	m_LineToPos.setY(canvas()->height());
-	selectWidgets();
+void UMLView::selectAll() 
+{
+	selectWidgets(0, 0, canvas()->width(), canvas()->height());
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void UMLView::contentsMousePressEvent(QMouseEvent* ome) {
-	m_bMouseButtonPressed = true;
-	QMouseEvent *me = new QMouseEvent(QEvent::MouseButtonPress,
-					  inverseWorldMatrix().map(ome->pos()),
-					  ome->button(),
-					  ome->state());
-	int x, y;
-	if( m_pAssocLine ) {
-		delete m_pAssocLine;
-		m_pAssocLine = 0;
-	}
-	viewport()->setMouseTracking(true);
-	emit sigRemovePopupMenu();
-
-	//bit of a kludge to allow you to click over sequence diagram messages when
-	//adding a new message
-	if ( m_CurrentCursor != WorkToolBar::tbb_Seq_Message_Synchronous &&
-	     m_CurrentCursor != WorkToolBar::tbb_Seq_Message_Asynchronous && allocateMousePressEvent(me) ) {
-		return;
-	}
-
-
-	x = me->x();
-	y = me->y();
-	m_Pos.setX( x );
-	m_Pos.setY( y );
-	m_LineToPos.setX( x );
-	m_LineToPos.setY( y );
-	if(m_bPaste) {
-		m_bPaste = false;
-		//Execute m_bPaste action when pasting widget from another diagram
-		//This needs to be changed to use UMLClipboard
-		//clipboard -> m_bPaste(this, pos);
-	}
-	if (me->button() != RightButton)
-		clearSelected();
-
-	if (me->button() == RightButton || m_CurrentCursor != WorkToolBar::tbb_Arrow)
-		return;
-	for (int i = 0; i < 4; i++) {	//four lines needed for rect.
-		QCanvasLine* line = new QCanvasLine( canvas() );
-		line->setPoints(x, y, x, y);
-		line->setPen( QPen(QColor("grey"), 0, DotLine) );
-		line->setVisible(true);
-		line->setZ(100);
-		m_SelectionRect.append(line);
-	}
-	m_bDrawRect = true;
+void UMLView::contentsMousePressEvent(QMouseEvent* ome) 
+{
+	m_pToolBarState->mousePress(ome);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1339,14 +1087,15 @@ void UMLView::selectWidgetsOfAssoc (AssociationWidget * a) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void UMLView::selectWidgets() {
+void UMLView::selectWidgets(int px, int py, int qx, int qy) {
 	clearSelected();
 
 	QRect rect;
-	int px = m_Pos.x();
+	/*int px = m_Pos.x();
 	int py = m_Pos.y();
 	int qx = m_LineToPos.x();
 	int qy = m_LineToPos.y();
+	*/
 	if(px <= qx) {
 		rect.setLeft(px);
 		rect.setRight(qx);
@@ -2139,8 +1888,15 @@ bool UMLView::setAssoc(UMLWidget *pWidget) {
 		m_LineToPos = pos;
 		m_pFirstSelectedWidget = pWidget;
 		viewport() -> setMouseTracking( true );
-		if( m_pAssocLine )
+
+		// TODO Reachable?
+		if( m_pAssocLine ) 
+		{
+			kdDebug() << "delete m_pAssocLine is reachable" << endl;
 			delete m_pAssocLine;
+			m_pAssocLine = NULL;
+		}
+
 		m_pAssocLine = new QCanvasLine( canvas() );
 		m_pAssocLine -> setPoints( pos.x(), pos.y(), pos.x(), pos.y() );
 		m_pAssocLine -> setPen( QPen( getLineColor(), getLineWidth(), DashLine ) );
@@ -2262,6 +2018,7 @@ WorkToolBar::ToolBar_Buttons UMLView::getCurrentCursor() const {
 	return m_CurrentCursor;
 }
 
+
 Uml::Association_Type UMLView::convert_TBB_AT(WorkToolBar::ToolBar_Buttons tbb) {
 	Association_Type at = at_Unknown;
 	switch(tbb) {
@@ -2320,181 +2077,6 @@ Uml::Association_Type UMLView::convert_TBB_AT(WorkToolBar::ToolBar_Buttons tbb) 
 	}
 	return at;
 }
-
-Uml::UMLObject_Type UMLView::convert_TBB_OT(WorkToolBar::ToolBar_Buttons tbb) {
-	UMLObject_Type ot = ot_UMLObject;
-	switch(tbb) {
-		case WorkToolBar::tbb_Actor:
-			ot = ot_Actor;
-			break;
-
-		case WorkToolBar::tbb_UseCase:
-			ot = ot_UseCase;
-			break;
-
-		case WorkToolBar::tbb_Class:
-			ot = ot_Class;
-			break;
-
-		case WorkToolBar::tbb_Package:
-			ot = ot_Package;
-			break;
-
-		case WorkToolBar::tbb_Component:
-			ot = ot_Component;
-			break;
-
-		case WorkToolBar::tbb_Node:
-			ot = ot_Node;
-			break;
-
-		case WorkToolBar::tbb_Artifact:
-			ot = ot_Artifact;
-			break;
-
-		case WorkToolBar::tbb_Interface:
-			ot = ot_Interface;
-			break;
-
-		case WorkToolBar::tbb_Enum:
-			ot = ot_Enum;
-			break;
-
-		case WorkToolBar::tbb_Datatype:
-			ot = ot_Datatype;
-			break;
-
-		default:
-			break;
-	}
-	return ot;
-}
-
-bool UMLView::allocateMousePressEvent(QMouseEvent * me) {
-	m_pMoveAssoc = 0;
-	m_pOnWidget = 0;
-
-	UMLWidget* backup = 0;
-	UMLWidget* boxBackup = 0;
-
-	// Check widgets.
-	UMLWidgetListIt it( m_WidgetList );
-	UMLWidget* obj = 0;
-	while ( (obj = it.current()) != 0 ) {
-		++it;
-		if( !obj->isVisible() || !obj->onWidget(me->pos()) )
-			continue;
-		//Give text object priority,
-		//they can easily get into a position where
-		//you can't touch them.
-		//Give Boxes lowest priority, we want to be able to move things that
-		//are on top of them.
-		if( obj -> getBaseType() == wt_Text ) {
-			m_pOnWidget = obj;
-			obj ->  mousePressEvent( me );
-			return true;
-		} else if (obj->getBaseType() == wt_Box) {
-			boxBackup = obj;
-		} else {
-			backup = obj;
-		}
-	}//end while
-	//if backup is set then let it have the event
-	if(backup) {
-		backup -> mousePressEvent( me );
-		m_pOnWidget = backup;
-		return true;
-	}
-
-	// Check messages.
-	MessageWidgetListIt mit( m_MessageList );
-	obj = 0;
-	while ((obj = (UMLWidget*)mit.current()) != 0) {
-		if (obj->isVisible() && obj->onWidget(me->pos())) {
-			m_pOnWidget = obj;
-			obj ->  mousePressEvent( me );
-			return true;
-		}
-		++mit;
-	}
-
-	// Boxes have lower priority.
-	if (boxBackup) {
-		boxBackup -> mousePressEvent( me );
-		m_pOnWidget = boxBackup;
-		return true;
-	}
-
-	// Check associations.
-	AssociationWidgetListIt assoc_it(m_AssociationList);
-	AssociationWidget* assocwidget = 0;
-	while((assocwidget=assoc_it.current())) {
-		if( assocwidget -> onAssociation( me -> pos() )) {
-			assocwidget->mousePressEvent(me);
-			m_pMoveAssoc = assocwidget;
-			return true;
-		}
-		++assoc_it;
-	}
-	m_pMoveAssoc = 0;
-	m_pOnWidget = 0;
-	return false;
-}
-
-bool UMLView::allocateMouseReleaseEvent(QMouseEvent * me) {
-	//values will already be set through press event.
-	//may not be over it, but should still get the event.
-
-	//cursor tests are to stop this being wrongly used when
-	//adding a message to a sequence diagram when the object is selected
-	if( m_pOnWidget &&
-	    !(m_CurrentCursor == WorkToolBar::tbb_Seq_Message_Synchronous ||
-	      m_CurrentCursor == WorkToolBar::tbb_Seq_Message_Asynchronous) ) {
-		m_pOnWidget -> mouseReleaseEvent( me );
-		return true;
-	}
-
-	if( m_pMoveAssoc ) {
-		m_pMoveAssoc -> mouseReleaseEvent( me );
-		return true;
-	}
-
-	m_pOnWidget = 0;
-	m_pMoveAssoc = 0;
-	return false;
-}
-
-bool UMLView::allocateMouseDoubleClickEvent(QMouseEvent * me) {
-	//values will already be set through press and release events
-	if( m_pOnWidget && m_pOnWidget -> onWidget( me -> pos() )) {
-		m_pOnWidget -> mouseDoubleClickEvent( me );
-		return true;
-	}
-	if( m_pMoveAssoc && m_pMoveAssoc -> onAssociation( me -> pos() )) {
-		m_pMoveAssoc -> mouseDoubleClickEvent( me );
-		return true;
-	}
-	m_pOnWidget = 0;
-	m_pMoveAssoc = 0;
-	return false;
-}
-
-bool UMLView::allocateMouseMoveEvent(QMouseEvent * me) {
-	//tracking may have been set by someone else
-	//only move if we set it.  We only want it if
-	//left mouse button down.
-	if(m_pOnWidget) {
-		m_pOnWidget -> mouseMoveEvent( me );
-		return true;
-	}
-	if(m_pMoveAssoc) {
-		m_pMoveAssoc -> mouseMoveEvent( me );
-		return true;
-	}
-	return false;
-}
-
-
 
 void UMLView::showDocumentation( UMLObject * object, bool overwrite ) {
 	m_pDoc -> getDocWindow() -> showDocumentation( object, overwrite );

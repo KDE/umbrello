@@ -1,0 +1,34 @@
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
+#include "toolbarstatepool.h"
+
+#include <qevent.h>
+#include "umlview.h"
+#include "umldoc.h"
+
+ToolBarStatePool::ToolBarStatePool(UMLView *umlView): ToolBarState(umlView)
+{
+	m_ToolBarButton = WorkToolBar::tbb_Arrow;
+};	
+
+void ToolBarStatePool::setButton(const WorkToolBar::ToolBar_Buttons &button)
+{
+	if (button != m_ToolBarButton) 
+	{
+		m_ToolBarButton = button;
+
+		init(); // Go back to the initial state.
+	}
+}
+
+WorkToolBar::ToolBar_Buttons ToolBarStatePool::getButton() const
+{
+	return m_ToolBarButton;
+}
+

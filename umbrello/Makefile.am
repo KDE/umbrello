@@ -67,6 +67,13 @@ statewidget.cpp \
 stereotype.cpp \
 template.cpp \
 textblock.cpp \
+toolbarstate.cpp \
+toolbarstatearrow.cpp \
+toolbarstateassociation.cpp \
+toolbarstatefactory.cpp \
+toolbarstatemessages.cpp \
+toolbarstateother.cpp \
+toolbarstatepool.cpp \
 uml.cpp \
 umlattributelist.cpp \
 umlcanvasobject.cpp \
