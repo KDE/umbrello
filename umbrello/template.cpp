@@ -45,6 +45,12 @@ QString UMLTemplate::toString(Uml::Signature_Type /*sig = st_NoSig*/) {
 	}
 }
 
+QString UMLTemplate::getTypeName() {
+	if (m_pSecondary == NULL)
+		return "class";
+	return m_pSecondary->getName();
+}
+
 bool UMLTemplate::operator==(UMLTemplate &rhs) {
 	if (this == &rhs) {
 		return true;

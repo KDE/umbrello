@@ -78,6 +78,16 @@ public:
 	QString toString(Uml::Signature_Type sig = Uml::st_NoSig);
 
 	/**
+	 * Overrides method from UMLClassifierListItem.
+	 * Returns the type name of the UMLTemplate.
+	 * If the template parameter is a class, there is no separate
+	 * type object. In this case, getTypeName() returns "class".
+	 *
+	 * @return	The type name of the UMLClassifierListItem.
+	 */
+	virtual QString getTypeName();
+
+	/**
 	 * Display the properties configuration dialogue for the template.
 	 *
 	 * @return	Success status.
