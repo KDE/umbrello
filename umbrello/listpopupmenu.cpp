@@ -368,7 +368,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
 	if(m_pColor)
 		connect(m_pColor, SIGNAL(activated(int)), this, SIGNAL(activated(int)));
 
-	bool bCutState = pView -> getDocument() -> getCutCopyState();
+	bool bCutState = UMLApp::app() -> getCutCopyState();
 	setItemEnabled( mt_Cut, bCutState );
 	setItemEnabled( mt_Copy, bCutState );
 	setItemEnabled( mt_Paste, false );
@@ -1057,12 +1057,12 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 	}//end switch
 
 	if( view ) {
-		bool bCutState = view -> getDocument() -> getCutCopyState();
+		bool bCutState = UMLApp::app() -> getCutCopyState();
 		setItemEnabled( mt_Undo, UMLApp::app()->getUndoEnabled() );
 		setItemEnabled( mt_Redo, UMLApp::app()->getRedoEnabled() );
 		setItemEnabled( mt_Cut, bCutState );
 		setItemEnabled( mt_Copy, bCutState );
-		setItemEnabled( mt_Paste, view -> getDocument() -> getPasteState() );
+		setItemEnabled( mt_Paste, UMLApp::app() -> getPasteState() );
 	}
 	if(m_pInsert)
 		connect(m_pInsert, SIGNAL(activated(int)), this, SIGNAL(activated(int)));

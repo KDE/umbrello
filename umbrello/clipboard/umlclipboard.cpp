@@ -346,17 +346,21 @@ bool UMLClipboard::pasteClip1(UMLDoc* doc, QMimeSource* data) {
 	objects.setAutoDelete(false);
 	IDChangeLog* idchanges = 0;
 	bool result = UMLDrag::decodeClip1(data, objects, itemdatalist, doc);
-	return result;
 	if(!result) {
 		return false;
 	}
+	UMLListView *lv = UMLApp::app()->getListView();
+	if ( !lv->startedCopy() )
+		return true;
+	lv->setStartedCopy(false);
+	// If we get here we are pasting after a Copy and need to
+	// assign new IDs to the copied items/objects.
 	UMLObject *obj = 0;
 	UMLObjectListIt object_it(objects);
 	while ( (obj=object_it.current()) != 0 ) {
 		++object_it;
-		if(!doc->addUMLObjectPaste(obj)) {
+		if(!doc->assignNewIDs(obj)) {
 			return false;
-
 		}
 		idchanges = doc->getChangeLog();
 		if(!idchanges) {
@@ -364,18 +368,15 @@ bool UMLClipboard::pasteClip1(UMLDoc* doc, QMimeSource* data) {
 		}
 	}
 	bool objectAlreadyExists = false;
-	UMLListView *lv = UMLApp::app()->getListView();
 	UMLListViewItem* item = 0;
 	UMLListViewItem* itemdata = 0;
 	UMLListViewItemListIt it(itemdatalist);
 	while ( (itemdata=it.current()) != 0 ) {
 		UMLListViewItem *parent = (UMLListViewItem *)lv->currentItem();
-		/*
 		if ( (item = lv->findItem(idchanges->findNewID(itemdata->getID()))) ) {
 			objectAlreadyExists = true;
-		} else  */
+		} else
 			item = lv->createItem(*itemdata, *idchanges, parent);
-
 
 		if(!item) {
 			return false;
@@ -384,7 +385,6 @@ bool UMLClipboard::pasteClip1(UMLDoc* doc, QMimeSource* data) {
 			if(!pasteChildren(item, &it, *idchanges, doc)) {
 				return false;
 			}
-
 		}
 		++it;
 	}
@@ -417,7 +417,7 @@ bool UMLClipboard::pasteClip2(UMLDoc* doc, QMimeSource* data) {
 	}
 	while ( (obj=object_it.current()) != 0 ) {
 		++object_it;
-		if(!doc->addUMLObjectPaste(obj)) {
+		if(!doc->assignNewIDs(obj)) {
 			kdDebug()<<"UMLClipboard: error adding umlobject"<<endl;
 			return false;
 		}
@@ -526,7 +526,7 @@ bool UMLClipboard::pasteClip4(UMLDoc* doc, QMimeSource* data) {
 	UMLObject* obj = 0;
 	while ( (obj=object_it.current()) != 0 ) {
 		++object_it;
-		if(!doc->addUMLObjectPaste(obj)) {
+		if(!doc->assignNewIDs(obj)) {
 			return false;
 		}
 	}

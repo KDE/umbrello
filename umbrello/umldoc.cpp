@@ -100,7 +100,8 @@ UMLDoc::~UMLDoc() {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLDoc::addView(UMLView *view) {
-	if ( UMLApp::app()->getListView() )
+	UMLApp * pApp = UMLApp::app();
+	if ( pApp->getListView() )
 		connect(this, SIGNAL(sigObjectRemoved(UMLObject *)), view, SLOT(slotObjectRemoved(UMLObject *)));
 	m_ViewList.append(view);
 
@@ -113,7 +114,6 @@ void UMLDoc::addView(UMLView *view) {
 			view -> hide();
 		}
 	}
-	UMLApp * pApp = UMLApp::app();
 	pApp->setDiagramMenuItemsState(true);
 	pApp->slotUpdateViews();
 	pApp->setCurrentView(view);
@@ -215,17 +215,13 @@ bool UMLDoc::saveModified() {
 void UMLDoc::closeDocument() {
 	deleteContents();
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
-Settings::OptionState UMLDoc::getOptionState() {
-	return UMLApp::app()-> getOptionState();
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool UMLDoc::newDocument() {
 	/*deleteContents();*/ closeDocument();
 	m_currentView = NULL;
 	m_doc_url.setFileName(i18n("Untitled"));
 	//see if we need to start with a new diagram
-	Settings::OptionState optionState = getOptionState();
+	Settings::OptionState optionState = UMLApp::app()->getOptionState();
 
 	switch( optionState.generalState.diagram ) {
 		case Settings::diagram_usecase:
@@ -593,7 +589,7 @@ CodeGenerator* UMLDoc::getCurrentCodeGenerator() {
 void UMLDoc::deleteContents() {
 
 	m_Doc = "";
-	DocWindow* dw = getDocWindow();
+	DocWindow* dw = UMLApp::app()->getDocWindow();
 	if (dw) {
 		dw->newDocumentation();
 	}
@@ -1084,7 +1080,8 @@ UMLObject* UMLDoc::createAttribute(UMLClass* umlclass, const QString &name /*=nu
 	} else {
 		currentName = name;
 	}
-	Uml::Scope scope = getOptionState().classState.defaultAttributeScope;
+	const Settings::OptionState optionState = UMLApp::app()->getOptionState();
+	Uml::Scope scope = optionState.classState.defaultAttributeScope;
 	UMLAttribute* newAttribute = new UMLAttribute(umlclass, currentName, id, "int", scope);
 
 	int button = QDialog::Accepted;
@@ -1433,7 +1430,7 @@ void UMLDoc::createDiagram(Diagram_Type type, bool askForName /*= true */) {
 			KMessageBox::error(0, i18n("That is an invalid name for a diagram."), i18n("Invalid Name"));
 		} else if(!findView(type, name)) {
 			UMLView* temp = new UMLView(UMLApp::app()->getMainViewWidget(), this);
-			temp -> setOptionState( getOptionState() );
+			temp -> setOptionState( UMLApp::app()->getOptionState() );
 			temp->setName( name );
 			temp->setType( type );
 			temp->setID( getUniqueID() );
@@ -1541,7 +1538,7 @@ void UMLDoc::changeCurrentView(int id) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLDoc::removeDiagram(int id) {
-	getDocWindow()->updateDocumentation(true);
+	UMLApp::app()->getDocWindow()->updateDocumentation(true);
 	UMLView* umlview = findView(id);
 	if(!umlview)
 	{
@@ -1562,7 +1559,7 @@ void UMLDoc::removeDiagram(int id) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLDoc::removeUMLObject(UMLObject* umlobject) {
-	getDocWindow()->updateDocumentation(true);
+	UMLApp::app()->getDocWindow()->updateDocumentation(true);
 	UMLObject_Type type = umlobject->getBaseType();
 
 	if (objectTypeIsClassifierListItem(type))  {
@@ -1626,12 +1623,12 @@ void UMLDoc::removeUMLObject(UMLObject* umlobject) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool UMLDoc::showProperties(UMLObject* object, int page, bool assoc) {
-	getDocWindow()->updateDocumentation( false );
+	UMLApp::app()->getDocWindow()->updateDocumentation( false );
 	ClassPropDlg* dialogue = new ClassPropDlg((QWidget*)parent(), object, page, assoc);
 
 	bool modified = false;
 	if ( dialogue->exec() ) {
-		getDocWindow()->showDocumentation(object, true);
+		UMLApp::app()->getDocWindow()->showDocumentation(object, true);
 		setModified(true);
 		modified = true;
 	}
@@ -1641,12 +1638,12 @@ bool UMLDoc::showProperties(UMLObject* object, int page, bool assoc) {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool UMLDoc::showProperties(ObjectWidget *o) {
-	getDocWindow() -> updateDocumentation( false );
+	UMLApp::app()->getDocWindow() -> updateDocumentation( false );
 	ClassPropDlg *dlg = new ClassPropDlg((QWidget*)parent(), o);
 
 	bool modified = false;
 	if(dlg->exec()) {
-		getDocWindow() -> showDocumentation( o, true );
+		UMLApp::app()->getDocWindow() -> showDocumentation( o, true );
 		setModified(true);
 		modified = true;
 	}
@@ -2236,7 +2233,7 @@ void UMLDoc::loadExtensionsFromXMI(QDomNode& node) {
 
 		m_nViewID = viewID.toInt();
 		m_uniqueID = uniqueid.toInt();
-		getDocWindow() -> newDocumentation();
+		UMLApp::app()->getDocWindow() -> newDocumentation();
 
 	} else if (tag == "diagrams") {
 		QDomNode diagramNode = node.firstChild();
@@ -2303,7 +2300,7 @@ bool UMLDoc::loadDiagramsFromXMI( QDomNode & node ) {
 	QDomElement element = node.toElement();
 	if( element.isNull() )
 		return true;//return ok as it means there is no umlobjects
-	Settings::OptionState state =  getOptionState();
+	Settings::OptionState state = UMLApp::app()->getOptionState();
 	UMLView * pView = 0;
 	int count = 0;
 	while( !element.isNull() ) {
@@ -2450,12 +2447,12 @@ void UMLDoc::print(KPrinter * pPrinter) {
 bool UMLDoc::showProperties(UMLWidget * o) {
 	// will already be selected so make sure docWindow updates the doc
 	// back it the widget
-	getDocWindow() -> updateDocumentation( false );
+	UMLApp::app()->getDocWindow() -> updateDocumentation( false );
 	ClassPropDlg *dlg = new ClassPropDlg((QWidget*)parent(), o);
 
 	bool modified = false;
 	if(dlg->exec()) {
-		getDocWindow() -> showDocumentation( o -> getUMLObject() , true );
+		UMLApp::app()->getDocWindow() -> showDocumentation( o -> getUMLObject() , true );
 		setModified(true);
 		modified = true;
 	}
@@ -2475,21 +2472,12 @@ void UMLDoc::setModified(bool modified /*=true*/, bool addToUndo /*=true*/) {
 	}
 }
 
-bool UMLDoc::addUMLObjectPaste(UMLObject* Obj) {
+bool UMLDoc::assignNewIDs(UMLObject* Obj) {
 	if(!Obj || !m_pChangeLog) {
 		kdDebug() << "no Obj || Changelog" << endl;
 		return false;
 	}
-	/**** What is this code doing?
-	      We know for sure that the UMLObject that has just been cut
-	      is found, thus this call is totally pointless.
-	UMLObject * temp = findUMLObject( Obj -> getName() );
-	if( temp ) {
-		m_pChangeLog->addIDChange( Obj -> getID(), temp -> getID() );
-		delete Obj;
-		return true;
-	}
-	int result =  assignNewID(Obj->getID());
+	int result = assignNewID(Obj->getID());
 	Obj->setID(result);
 
 	//If it is a CONCEPT then change the ids of all its operations and attributes
@@ -2515,9 +2503,7 @@ bool UMLDoc::addUMLObjectPaste(UMLObject* Obj) {
 			listItem->setID(result);
 		}
 	}
-	 ****/
 
-	m_objectList.append(Obj);
 	setModified(true);
 
 	return true;
@@ -2586,7 +2572,7 @@ bool UMLDoc::addUMLView(UMLView * pView ) {
 		return false;
 	}
 	pView->endPartialWidgetPaste();
-	pView->setOptionState( getOptionState() );
+	pView->setOptionState( UMLApp::app()->getOptionState() );
 	addView(pView);
 	setModified(true);
 	return true;
@@ -2612,36 +2598,6 @@ void UMLDoc::settingsChanged(Settings::OptionState optionState) {
 	return;
 }
 
-DocWindow * UMLDoc::getDocWindow() {
-	UMLApp* app = (UMLApp*)parent();
-	return app -> getDocWindow();
-}
-
-void UMLDoc::editCopy() {
-	UMLApp * app =( UMLApp *) parent();
-	app -> slotEditCopy();
-}
-
-void UMLDoc::editCut() {
-	UMLApp * app =( UMLApp *) parent();
-	app -> slotEditCut();
-}
-
-void UMLDoc::editPaste() {
-	UMLApp * app =( UMLApp *) parent();
-	app -> slotEditPaste();
-}
-
-bool UMLDoc::getPasteState() {
-	UMLApp * app =( UMLApp *) parent();
-	return app -> getPasteState();
-}
-
-bool UMLDoc::getCutCopyState() {
-	UMLApp * app =( UMLApp *) parent();
-	return app -> getCutCopyState();
-}
-
 void UMLDoc::initSaveTimer() {
 	if( m_pAutoSaveTimer ) {
 		m_pAutoSaveTimer -> stop();
@@ -2649,7 +2605,7 @@ void UMLDoc::initSaveTimer() {
 		delete m_pAutoSaveTimer;
 		m_pAutoSaveTimer = 0;
 	}
-	Settings::OptionState optionState = getOptionState();
+	Settings::OptionState optionState = UMLApp::app()->getOptionState();
 	if( optionState.generalState.autosave ) {
 		m_pAutoSaveTimer = new QTimer(this, "_AUTOSAVETIMER_" );
 		connect( m_pAutoSaveTimer, SIGNAL( timeout() ), this, SLOT( slotAutoSave() ) );
@@ -2674,7 +2630,7 @@ void UMLDoc::slotAutoSave() {
 		QString orgFileName = m_doc_url.fileName();
 		// don't overwrite manually saved file with autosave content
 		QString fileName = tempURL.fileName();
-		Settings::OptionState optionState = getOptionState();
+		Settings::OptionState optionState = UMLApp::app()->getOptionState();
 		fileName.replace( ".xmi", optionState.generalState.autosavesuffix );
 		tempURL.setFileName( fileName );
 		// End Achim Spangler
@@ -2700,7 +2656,7 @@ void UMLDoc::signalDiagramRenamed(UMLView * pView ) {
 }
 
 void UMLDoc::addToUndoStack() {
-	Settings::OptionState optionState = getOptionState();
+	Settings::OptionState optionState = UMLApp::app()->getOptionState();
 	if (!m_bLoading && optionState.generalState.undo) {
 		QBuffer* buffer = new QBuffer();
 		buffer->open(IO_WriteOnly);

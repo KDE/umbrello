@@ -766,7 +766,7 @@ void UMLView::removeWidget(UMLWidget * o) {
 		checkMessages( static_cast<ObjectWidget*>(o) );
 
 	if( m_pOnWidget == o ) {
-		m_pDoc -> getDocWindow() -> updateDocumentation( true );
+		UMLApp::app() -> getDocWindow() -> updateDocumentation( true );
 		m_pOnWidget = 0;
 	}
 
@@ -1893,7 +1893,7 @@ void UMLView::removeAssoc(AssociationWidget* pAssoc) {
 	if(!pAssoc)
 		return;
 	if( pAssoc == m_pMoveAssoc ) {
-		m_pDoc -> getDocWindow() -> updateDocumentation( true );
+		UMLApp::app() -> getDocWindow() -> updateDocumentation( true );
 		m_pMoveAssoc = 0;
 	}
 	// Remove the association in this view.
@@ -2143,19 +2143,19 @@ Uml::Association_Type UMLView::convert_TBB_AT(WorkToolBar::ToolBar_Buttons tbb) 
 }
 
 void UMLView::showDocumentation( UMLObject * object, bool overwrite ) {
-	m_pDoc -> getDocWindow() -> showDocumentation( object, overwrite );
+	UMLApp::app() -> getDocWindow() -> showDocumentation( object, overwrite );
 }
 
 void UMLView::showDocumentation( UMLWidget * widget, bool overwrite ) {
-	m_pDoc -> getDocWindow() -> showDocumentation( widget, overwrite );
+	UMLApp::app() -> getDocWindow() -> showDocumentation( widget, overwrite );
 }
 
 void UMLView::showDocumentation( AssociationWidget * widget, bool overwrite ) {
-	m_pDoc -> getDocWindow() -> showDocumentation( widget, overwrite );
+	UMLApp::app() -> getDocWindow() -> showDocumentation( widget, overwrite );
 }
 
 void UMLView::updateDocumentation( bool clear ) {
-	m_pDoc -> getDocWindow() -> updateDocumentation( clear );
+	UMLApp::app() -> getDocWindow() -> updateDocumentation( clear );
 }
 
 void UMLView::createAutoAssociations( UMLWidget * widget ) {
@@ -2576,7 +2576,7 @@ void UMLView::slotMenuSelection(int sel) {
 			m_PastePoint = m_Pos;
 			m_Pos.setX( 2000 );
 			m_Pos.setY( 2000 );
-			m_pDoc -> editPaste();
+			UMLApp::app() -> slotEditPaste();
 
 			m_PastePoint.setX( 0 );
 			m_PastePoint.setY( 0 );

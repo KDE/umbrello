@@ -680,16 +680,14 @@ public:
 	}
 
 	/**
-	 * Adds an already created UMLObject to the document, it gets
-	 * assigned a new ID, if its name is already in use then the
-	 * function appends a number to it to differentiate it from
-	 * the others; this number is incremental so if number 1 is in
-	 * use then it tries 2 and then 3 and so on
+	 * Assigns an already created UMLObject a new ID.
+	 * If the object is a classifier then the operations/attributes 
+	 * are also assigned new IDs.
 	 *
 	 * @param Obj		Pointer to the UMLObject to add.
 	 * @return	True if operation successful.
 	 */
-	bool addUMLObjectPaste(UMLObject* Obj);
+	bool assignNewIDs(UMLObject* Obj);
 
 	/**
 	 * Adds an already created UMLView to the document, it gets
@@ -731,18 +729,6 @@ public:
 	int assignNewID(int OldID);
 
 	/**
-	 * Returns the document window.
-	 *
-	 * @return	Pointer to the DocWindow.
-	 */
-	DocWindow * getDocWindow();
-
-	/** a friendly little utility method to allow accessing
-	 * the parent UMLApps option state.
-	 */
-	Settings::OptionState getOptionState();
-
-	/**
 	 * Returns the documentation for the project.
 	 *
 	 * @return	The documentation text of this UMLDoc.
@@ -767,34 +753,6 @@ public:
 	 * @return	True if operation successful.
 	 */
 	bool activateAllViews();
-
-	/**
-	 * Passes onto @ref UMLApp that an event equivalent to
-	 * edit copy has occured.
-	 */
-	void editCopy();
-
-	/**
-	 * Passes onto @ref UMLApp that an event
-	 * equivalent to edit cut has occured.
-	 */
-	void editCut();
-
-	/**
-	 * Passes onto @ref UMLApp that an event equivalent to
-	 * edit paste has occured.
-	 */
-	void editPaste();
-
-	/**
-	 * Returns the paste state
-	 */
-	bool getPasteState();
-
-	/**
-	 * Returns the state on Cut/Copy
-	 */
-	bool getCutCopyState();
 
 	/**
 	 * Returns the central dock widget used for diagrams

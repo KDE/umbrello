@@ -10,6 +10,7 @@
 #include <cmath>
 
 #include "activitywidget.h"
+#include "uml.h"
 #include "umlview.h"
 #include "umldoc.h"
 #include "umlwidget.h"
@@ -2137,15 +2138,15 @@ void AssociationWidget::slotMenuSelection(int sel) {
 
 	case ListPopupMenu::mt_Cut:
 		m_pView->setStartedCut();
-		m_pView->getDocument()->editCut();
+		UMLApp::app()->slotEditCut();
 		break;
 
 	case ListPopupMenu::mt_Copy:
-		m_pView->getDocument()->editCopy();
+		UMLApp::app()->slotEditCopy();
 		break;
 
 	case ListPopupMenu::mt_Paste:
-		m_pView->getDocument()->editPaste();
+		UMLApp::app()->slotEditPaste();
 		break;
 
 	case ListPopupMenu::mt_Reset_Label_Positions:

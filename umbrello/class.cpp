@@ -15,7 +15,6 @@
 #include "classifierlistitem.h"
 #include "template.h"
 #include "clipboard/idchangelog.h"
-#include "umldoc.h"
 #include "uml.h"
 #include <kdebug.h>
 #include <klocale.h>
@@ -39,10 +38,10 @@ UMLAttribute* UMLClass::addAttribute(QString name, int id /* = -1 */) {
 		if (obj->getBaseType() == ot_Attribute && obj->getName() == name)
 			return static_cast<UMLAttribute*>(obj);
 	}
-	UMLDoc *umldoc = UMLApp::app()->getDocument();
+	UMLApp *app = UMLApp::app();
 	if (id == -1)
-		id = umldoc->getUniqueID();
-	Uml::Scope scope = umldoc->getOptionState().classState.defaultAttributeScope;
+		id = app->getDocument()->getUniqueID();
+	Uml::Scope scope = app->getOptionState().classState.defaultAttributeScope;
 	UMLAttribute *a = new UMLAttribute(this, name, id, "int", scope);
 	m_AttsList.append(a);
 	emit modified();

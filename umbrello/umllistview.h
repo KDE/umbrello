@@ -252,6 +252,18 @@ class UMLListView : public KListView {
 	void setStartedCut(bool startedCut);
 
 	/**
+	 * Set the variable m_bStartedCopy.
+	 * NB: While m_bStartedCut is reset as soon as the Cut operation is done,
+	 *     the variable m_bStartedCopy is reset much later - upon pasting.
+	 */
+	void setStartedCopy(bool startedCopy);
+
+	/**
+	 * Return the variable m_bStartedCopy.
+	 */
+	bool startedCopy() const;
+
+	/**
 	 * Converts an object type enum to the equivalent list view type
 	 */
 	static Uml::ListView_Type convert_OT_LVT(Uml::UMLObject_Type ot);
@@ -283,7 +295,7 @@ class UMLListView : public KListView {
 	ListPopupMenu * m_pMenu;
 	QString oldText, message;
 	UMLDoc *m_doc;
-	bool loading, m_bStartedCut, m_bIgnoreCancelRename;
+	bool loading, m_bStartedCut, m_bStartedCopy, m_bIgnoreCancelRename;
 
 	/**
 	 * Used when creating an attribute or an operation to stop it adding a second listViewItem

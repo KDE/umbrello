@@ -68,7 +68,7 @@ UMLObject *ClassImport::createUMLObject(Uml::UMLObject_Type type,
 	QString strippedComment = doxyComment(comment);
 	if (! strippedComment.isEmpty()) {
 		o->setDoc(strippedComment);
-		m_umldoc->getDocWindow()->showDocumentation(o, true);
+		UMLApp::app()->getDocWindow()->showDocumentation(o, true);
 	}
 	o->setStereotype(stereotype);
 	return o;
@@ -117,7 +117,7 @@ UMLObject* ClassImport::insertAttribute(UMLClass *o, Uml::Scope scope, QString n
 	}
 	if (! strippedComment.isEmpty()) {
 		newObj->setDoc(strippedComment);
-		m_umldoc->getDocWindow()->showDocumentation(newObj, true);
+		UMLApp::app()->getDocWindow()->showDocumentation(newObj, true);
 	}
 
 	m_umldoc->setModified(true);
@@ -137,7 +137,7 @@ void ClassImport::insertMethod(UMLClass *klass, UMLOperation *op,
 	QString strippedComment = doxyComment(comment);
 	if (! strippedComment.isEmpty()) {
 		op->setDoc(strippedComment);
-		m_umldoc->getDocWindow()->showDocumentation(op, true);
+		UMLApp::app()->getDocWindow()->showDocumentation(op, true);
 	}
 	//setModified(true);
 }

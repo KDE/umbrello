@@ -97,7 +97,7 @@ void UMLListView::contentsMousePressEvent(QMouseEvent *me) {
 
 
 	if(  me -> button() != RightButton && me -> button() != LeftButton  ) {
-		m_doc -> getDocWindow() -> updateDocumentation( true );
+		UMLApp::app() -> getDocWindow() -> updateDocumentation( true );
 		return;
 	}
 
@@ -116,7 +116,7 @@ void UMLListView::contentsMousePressEvent(QMouseEvent *me) {
 		case Uml::lvt_Deployment_Diagram:
 			m_doc -> changeCurrentView(item->getID());
 			emit diagramSelected( item->getID());
-			m_doc -> getDocWindow() -> showDocumentation( m_doc -> findView( item -> getID() ), false );
+			UMLApp::app() -> getDocWindow() -> showDocumentation( m_doc -> findView( item -> getID() ), false );
 			break;
 
 		case Uml::lvt_UseCase:
@@ -131,11 +131,11 @@ void UMLListView::contentsMousePressEvent(QMouseEvent *me) {
 		case Uml::lvt_Attribute:
 		case Uml::lvt_Operation:
 		case Uml::lvt_Template:
-			m_doc -> getDocWindow() -> showDocumentation( item -> getUMLObject(), false );
+			UMLApp::app() -> getDocWindow() -> showDocumentation( item -> getUMLObject(), false );
 			break;
 
 		default:
-			m_doc -> getDocWindow() -> updateDocumentation( true );
+			UMLApp::app() -> getDocWindow() -> updateDocumentation( true );
 			break;
 		}
 	}//end switch
@@ -307,9 +307,9 @@ void UMLListView::popupMenuSel(int sel) {
 			if( !pView ) {
 				return;
 			}
-			m_doc->getDocWindow()->updateDocumentation(false);
+			UMLApp::app()->getDocWindow()->updateDocumentation(false);
 			pView->showPropDialog();
-			m_doc->getDocWindow()->showDocumentation(pView, true);
+			UMLApp::app()->getDocWindow()->showDocumentation(pView, true);
 			temp->cancelRename(0);
 			return;
 		}
@@ -357,15 +357,18 @@ void UMLListView::popupMenuSel(int sel) {
 
 	case ListPopupMenu::mt_Cut:
 		m_bStartedCut = true;
-		m_doc -> editCut();
+		m_bStartedCopy = false;
+		UMLApp::app() -> slotEditCut();
 		break;
 
 	case ListPopupMenu::mt_Copy:
-		m_doc -> editCopy();
+		m_bStartedCut = false;
+		m_bStartedCopy = true;
+		UMLApp::app() -> slotEditCopy();
 		break;
 
 	case ListPopupMenu::mt_Paste:
-		m_doc -> editPaste();
+		UMLApp::app() -> slotEditPaste();
 		break;
 
 	default:
@@ -403,7 +406,7 @@ void UMLListView::slotDiagramCreated( int id ) {
 	}
 	temp = new UMLListViewItem( p, v->getName(), convert_DT_LVT( v->getType() ),  id );
 	setSelected( temp, true );
-	m_doc -> getDocWindow() -> showDocumentation( v , false );
+	UMLApp::app() -> getDocWindow() -> showDocumentation( v , false );
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLListView::slotObjectCreated(UMLObject* object) {
@@ -492,7 +495,7 @@ void UMLListView::slotObjectCreated(UMLObject* object) {
 	newItem->setOpen(true);
 	clearSelection();
 	setSelected(newItem, true);
-	m_doc->getDocWindow()->showDocumentation(object, false);
+	UMLApp::app()->getDocWindow()->showDocumentation(object, false);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLListView::connectNewObjectsSlots(UMLObject* object) {
@@ -638,13 +641,13 @@ void UMLListView::slotObjectRemoved(UMLObject* object) {
 	disconnect(object,SIGNAL(modified()),this,SLOT(slotObjectChanged()));
 	UMLListViewItem* item = findItem(object->getID());
 	delete item;
-	m_doc->getDocWindow()->updateDocumentation(true);
+	UMLApp::app()->getDocWindow()->updateDocumentation(true);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLListView::slotDiagramRemoved(int id) {
 	UMLListViewItem* item = findItem(id);
 	delete item;
-	m_doc->getDocWindow()->updateDocumentation(true);
+	UMLApp::app()->getDocWindow()->updateDocumentation(true);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 QDragObject* UMLListView::dragObject() {
@@ -806,7 +809,7 @@ void UMLListView::init() {
 	//setup misc.
 	delete m_pMenu;
 	m_pMenu = 0;
-	m_bStartedCut = false;
+	m_bStartedCut = m_bStartedCopy = false;
 	loading = false;
 	m_bIgnoreCancelRename = true;
 	m_bCreatingChildObject = false;
@@ -834,9 +837,9 @@ void UMLListView::contentsMouseDoubleClickEvent(QMouseEvent * me) {
 		UMLView * pView = m_doc -> findView( item -> getID() );
 		if( !pView )
 			return;
-		m_doc -> getDocWindow() -> updateDocumentation( false );
+		UMLApp::app() -> getDocWindow() -> updateDocumentation( false );
 		pView -> showPropDialog();
-		m_doc -> getDocWindow() -> showDocumentation( pView, true );
+		UMLApp::app() -> getDocWindow() -> showDocumentation( pView, true );
 		item -> cancelRename( 0 );
 		return;
 	}
@@ -2351,6 +2354,14 @@ void UMLListView::collapseAll(QListViewItem *item) {
 
 void UMLListView::setStartedCut(bool startedCut) {
 	m_bStartedCut = startedCut;
+}
+
+void UMLListView::setStartedCopy(bool startedCopy) {
+	m_bStartedCopy = startedCopy;
+}
+
+bool UMLListView::startedCopy() const {
+	return m_bStartedCopy;
 }
 
 bool UMLListView::typeIsCanvasWidget(ListView_Type type) {
