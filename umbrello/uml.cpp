@@ -849,15 +849,17 @@ WorkToolBar* UMLApp::getWorkToolBar() {
 	return toolsbar;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void UMLApp::setModified(bool _m) {
-	//fileSave -> setEnabled(_m);
+void UMLApp::setModified(bool modified) {
+	//fileSave -> setEnabled(modified);
 
 	//if anything else needs to be done on a mofication, put it here
 
 	// printing should be possible whenever there is something to print
-	if ( _m == true && doc->getCurrentView() )  {
+	if ( modified == true && doc->getCurrentView() )  {
 		enablePrint(true);
 	}
+
+	setCaption(doc->URL().fileName(), modified); //add disk icon to taskbar if modified
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLApp::enablePrint(bool enable) {

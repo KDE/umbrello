@@ -2315,10 +2315,10 @@ void UMLDoc::loadUndoData() {
 
 		undoStack.setAutoDelete(true);
 		if (undoStack.count() <= 1) {
-			((UMLApp*)parent())->enableUndo(false);
+			UMLApp::app()->enableUndo(false);
 		}
 		if (redoStack.count() >= 1) {
-			((UMLApp*)parent())->enableRedo(true);
+			UMLApp::app()->enableRedo(true);
 		}
 		while (undoStack.count() > undoMax) {
 			undoStack.removeLast();
@@ -2351,10 +2351,10 @@ void UMLDoc::loadRedoData() {
 
 		redoStack.setAutoDelete(true);
 		if (redoStack.count() < 1) {
-			((UMLApp*)parent())->enableRedo(false);
+			UMLApp::app()->enableRedo(false);
 		}
 		if (undoStack.count() > 1) {
-			((UMLApp*)parent())->enableUndo(true);
+			UMLApp::app()->enableUndo(true);
 		}
 		if (currentView->getID() != currentViewID) {
 			changeCurrentView(currentViewID);
