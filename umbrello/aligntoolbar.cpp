@@ -244,6 +244,7 @@ void AlignToolBar::slotButtonChanged(int btn)
 			++it;
 			widget->updateWidget();
 		}
+		UMLApp::app()->getDocument()->setModified();
 	} else {
 		KMessageBox::messageBox(0, KMessageBox::Information, i18n("For alignment you have to select at least 2 objects like classes or actors. You can not align associations."), i18n("Information"), i18n("&Ok"), QString(""), "showAlignInformation");
 	} // if (widgetList.count() > 1)
