@@ -127,11 +127,11 @@ public:
 	QPtrList<UMLClassifierListItem>* getEnumLiteralList();
 
 	/**
-	 * Returns the entries in m_pAttList that are actually enumliterals.
+	 * Returns the entries in m_EnumLiteralList that are actually enumliterals.
 	 *
-	 * @return	Pointer to the list of true enumliterals for the class.
+	 * @return	The list of true enumliterals for the class.
 	 */
-	UMLEnumLiteralList* getFilteredEnumLiteralList();
+	UMLEnumLiteralList getFilteredEnumLiteralList();
 
 	/**
 	 * Find a list of enumliterals with the given name.

@@ -214,12 +214,12 @@ QPtrList<UMLClassifierListItem>* UMLEnum::getEnumLiteralList() {
 	return &m_EnumLiteralList;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLEnumLiteralList* UMLEnum::getFilteredEnumLiteralList() {
-	UMLEnumLiteralList* enumLiteralList = new UMLEnumLiteralList;
+UMLEnumLiteralList UMLEnum::getFilteredEnumLiteralList() {
+	UMLEnumLiteralList enumLiteralList;
 	for(UMLClassifierListItem* listItem = m_EnumLiteralList.first(); listItem;
 	    listItem = m_EnumLiteralList.next())  {
 		if (listItem->getBaseType() == ot_EnumLiteral) {
-			enumLiteralList->append(static_cast<UMLEnumLiteral*>(listItem));
+			enumLiteralList.append(static_cast<UMLEnumLiteral*>(listItem));
 		}
 	}
 	return enumLiteralList;
