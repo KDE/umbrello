@@ -1600,6 +1600,7 @@ void UMLDoc::changeCurrentView(Uml::IDType id) {
 		m_currentView = w;
 		emit sigDiagramChanged(w->getType());
 		pApp->setDiagramMenuItemsState( true );
+		setModified(true);
 	}
 	emit sigCurrentViewChanged();
 }
@@ -2162,8 +2163,11 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
 	m_currentView = NULL;
 	activateAllViews();
 
-	if( m_nViewID != Uml::id_None && findView( m_nViewID ) ) {
-		changeCurrentView( m_nViewID );
+	UMLView *viewToBeSet = NULL;
+	if (m_nViewID != Uml::id_None)
+		viewToBeSet = findView( m_nViewID );
+	if (viewToBeSet) {
+		UMLApp::app()->tabWidget()->showPage(viewToBeSet);
 	} else {
 		createDiagram( Uml::dt_Class, false );
 	}
@@ -2837,39 +2841,49 @@ void UMLDoc::clearRedoStack() {
 }
 
 void UMLDoc::loadUndoData() {
-	if (undoStack.count() > 1) {
-		Uml::IDType currentViewID = m_currentView->getID();
-		// store old setting - for restore of last setting
-		bool m_bLoading_old = m_bLoading;
-		m_bLoading = true;
-		closeDocument();
-		redoStack.prepend( undoStack.take(0) );
-		QDataStream* undoData = undoStack.getFirst();
-		QBuffer* buffer = static_cast<QBuffer*>( undoData->device() );
-		buffer->open(IO_ReadOnly);
-		loadFromXMI(*buffer);
-		buffer->close();
-
-		setModified(true, false);
-		getCurrentView()->resizeCanvasToItems();
-		m_bLoading = m_bLoading_old;
-
-		undoStack.setAutoDelete(true);
-		if (undoStack.count() <= 1) {
-			UMLApp::app()->enableUndo(false);
-		}
-		if (redoStack.count() >= 1) {
-			UMLApp::app()->enableRedo(true);
-		}
-		while (undoStack.count() > undoMax) {
-			undoStack.removeLast();
-		}
-		if (m_currentView->getID() != currentViewID) {
-			changeCurrentView(currentViewID);
-		}
-		undoStack.setAutoDelete(false);
-	} else {
+	if (undoStack.count() < 1) {
 		kdWarning() << "no data in undostack" << endl;
+		return;
+	}
+	if (m_currentView == NULL) {
+		kdWarning() << "UMLDoc::loadUndoData: m_currentView is NULL" << endl;
+		undoStack.setAutoDelete(true);
+		undoStack.clear();
+		undoStack.setAutoDelete(false);
+		UMLApp::app()->enableUndo(false);
+		return;
+	}
+	Uml::IDType currentViewID = m_currentView->getID();
+	// store old setting - for restore of last setting
+	bool m_bLoading_old = m_bLoading;
+	m_bLoading = true;
+	closeDocument();
+	redoStack.prepend( undoStack.take(0) );
+	QDataStream* undoData = undoStack.getFirst();
+	QBuffer* buffer = static_cast<QBuffer*>( undoData->device() );
+	buffer->open(IO_ReadOnly);
+	loadFromXMI(*buffer);
+	buffer->close();
+
+	setModified(true, false);
+	m_bLoading = m_bLoading_old;
+
+	undoStack.setAutoDelete(true);
+	if (undoStack.count() <= 1) {
+		UMLApp::app()->enableUndo(false);
+	}
+	if (redoStack.count() >= 1) {
+		UMLApp::app()->enableRedo(true);
+	}
+	while (undoStack.count() > undoMax) {
+		undoStack.removeLast();
+	}
+	undoStack.setAutoDelete(false);
+
+	if (m_currentView) {
+		if (m_currentView->getID() != currentViewID)
+			changeCurrentView( m_currentView->getID() );
+		m_currentView->resizeCanvasToItems();
 	}
 }
 

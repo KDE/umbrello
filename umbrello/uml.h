@@ -301,6 +301,11 @@ public:
 	 */
 	bool editCutCopy( bool bFromView );
 
+	/**
+	 * Return the tab widget.
+	 */
+	KTabWidget *tabWidget();
+
 protected:
 	virtual void keyPressEvent(QKeyEvent* e);
 	virtual void keyReleaseEvent(QKeyEvent* e);
@@ -904,7 +909,7 @@ private:
 	/**
 	 * Shows, and is parent of, all the UMLViews (diagrams).
 	 */
-	KTabWidget* tabWidget;
+	KTabWidget* m_tabWidget;
 		
 
 	/**
