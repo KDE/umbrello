@@ -2323,14 +2323,7 @@ void UMLView::createAutoAssociations( UMLWidget * widget ) {
 		// because their positions are computed according to the
 		// assocwidget line positions.
 		assocwidget->calculateEndingPoints();
-		assocwidget->setVisibility(assoc->getVisibility(A), A);
-		assocwidget->setVisibility(assoc->getVisibility(B), B);
-		assocwidget->setChangeability(assoc->getChangeability(A), A);
-		assocwidget->setChangeability(assoc->getChangeability(B), B);
-		assocwidget->setMulti(assoc->getMulti(A), A);
-		assocwidget->setMulti(assoc->getMulti(B), B);
-		assocwidget->setRoleName(assoc->getRoleName(A), A);
-		assocwidget->setRoleName(assoc->getRoleName(B), B);
+		assocwidget->syncToModel();
 		assocwidget->setActivated(true);
 		if (! addAssociation(assocwidget))
 			delete assocwidget;
@@ -3557,12 +3550,7 @@ bool UMLView::loadUisDiagramPresentation(QDomElement & qElement) {
 					if (wA != NULL && wB != NULL) {
 						AssociationWidget *aw =
 						    new AssociationWidget(this, wA, at, wB, umla);
-						QString multiA = umla->getMulti(Uml::A);
-						if (!multiA.isEmpty())
-							aw->setMulti(multiA, Uml::A);
-						QString multiB = umla->getMulti(Uml::B);
-						if (!multiB.isEmpty())
-							aw->setMulti(multiB, Uml::B);
+						aw->syncToModel();
 						m_AssociationList.append(aw);
 					} else {
 						kdError() << "cannot create assocwidget from ("
