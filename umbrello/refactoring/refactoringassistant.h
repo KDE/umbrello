@@ -39,6 +39,8 @@ class RefactoringAssistant : public KListView
 {
         Q_OBJECT
 public:
+	typedef std::map<QListViewItem*, UMLObject*> UMLObjectMap;
+	
 	RefactoringAssistant( UMLDoc *doc, UMLClassifier *obj = 0, QWidget *parent = 0, const char *name = 0 );
 	virtual ~RefactoringAssistant();
 	
@@ -49,6 +51,12 @@ public slots:
 	void addSuperClassifier();
 	void addDerivedClassifier();
 	void addInterfaceImplementation();
+	void addOperation();
+	void addAttribute();
+	void editProperties( );
+	void operationAdded( UMLObject *op );
+	void attributeAdded( UMLObject *att );
+	void umlObjectModified( const UMLObject *obj = 0 );
 	
 protected:
 	struct { QPixmap Public,
@@ -58,15 +66,18 @@ protected:
 			 Subclass;
 		} m_pixmaps;
 		
+	UMLObject* findUMLObject( const QListViewItem* );
+	QListViewItem* findListViewItem( const UMLObject *obj );
+	void editProperties( UMLObject *obj );
 	void addClassifier( UMLClassifier *classifier, QListViewItem *parent = 0, bool addSuper = true, bool addSub = true, bool recurse = false );
 	void loadPixmaps();
 	virtual bool acceptDrag(QDropEvent *event) const;
 	virtual void movableDropEvent (QListViewItem* parent, QListViewItem* afterme);
+	void setVisibilityIcon( QListViewItem *item , const UMLObject *obj );
 	UMLClassifier *m_umlObject;
 	UMLDoc *m_doc;
-	QPopupMenu *m_menu;
-
-	std::map<QListViewItem*, UMLObject*> m_umlObjectMap;
+	QPopupMenu *m_menu;	
+	UMLObjectMap m_umlObjectMap;
 	
  
  };
