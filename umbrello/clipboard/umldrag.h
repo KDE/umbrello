@@ -12,6 +12,7 @@
 
 #include <qdragobject.h>
 #include <qobject.h>
+#include <qptrlist.h>
 
 #include "../umllistviewitemlist.h"
 #include "../associationwidgetlist.h"
@@ -38,35 +39,35 @@ class Q_EXPORT UMLDrag : public QDragObject  {
 public:
 
 	/**
-	 *	For use when the user selects only UML Objects from
-	 *	the ListView but no diagrams to be copied, Mime type =
-	 *	"application/x-uml-clip1
+	 * For use when the user selects only UML Objects from
+	 * the ListView but no diagrams to be copied, Mime type =
+	 * "application/x-uml-clip1
 	 */
 	UMLDrag(UMLObjectList& Objects, UMLListViewItemList& UMLListViewItems,
 		 QWidget* dragSource = 0, const char* name = 0 );
 
 	/**
-	 *	For use when the user selects UML Object and Diagrams
-	 *	from the ListView to be copied, Mime type =
-	 *	"application/x-uml-clip2
+	 * For use when the user selects UML Object and Diagrams
+	 * from the ListView to be copied, Mime type =
+	 * "application/x-uml-clip2
 	 */
 	UMLDrag(UMLObjectList &Objects, UMLListViewItemList& UMLListViewItems,
 		 UMLViewList& Diagrams, QWidget * dragSource = 0, const char * name = 0 );
 
 	/**
-	 *	For use when the user selects only empty folders from
-	 *	the ListView to be copied, Mime type =
-	 *	"application/x-uml-clip3
+	 * For use when the user selects only empty folders from
+	 * the ListView to be copied, Mime type =
+	 * "application/x-uml-clip3
 	 */
 	UMLDrag(UMLListViewItemList& UMLListViewItems, QWidget* dragSource = 0,
 		const char* name = 0 );
 
 	/*
-	 *	For use when the user selects UMLObjects from a
-	 *	Diagram. The Selected widegets and the relationships *
-	 *	between only selected widgets will be copied and also
-	 *	its respective ListView Items, Mime type =
-	 *	"application/x-uml-clip4
+	 * For use when the user selects UMLObjects from a
+	 * Diagram. The Selected widegets and the relationships *
+	 * between only selected widgets will be copied and also
+	 * its respective ListView Items, Mime type =
+	 * "application/x-uml-clip4
 	 */
 	UMLDrag(UMLObjectList& Objects, UMLListViewItemList& UMLListViewItems,
 		UMLWidgetList& Widgets, AssociationWidgetList& Associations,
@@ -74,47 +75,47 @@ public:
 		const char* name = 0 );
 
 	/**
-	 *	For use when the user selects only Operations and/or
-	 *	Attributes from the ListView, Mime type =
-	 *	"application/x-uml-clip5
+	 * For use when the user selects only Operations and/or
+	 * Attributes from the ListView, Mime type =
+	 * "application/x-uml-clip5
 	 */
 	UMLDrag(UMLObjectList& Objects, UMLListViewItemList& UMLListViewItems,
 		int, QWidget* dragSource = 0, const char* name = 0);
 
 	/**
-	 * 	Constructor
+	 *  Constructor
 	 */
 	UMLDrag(QWidget* dragSource = 0, const char* name = 0);
 
 	/**
-	 * 	Deconstructor
+	 *  Deconstructor
 	 */
 	~UMLDrag();
 
 	/**
-	 *	For use when the user selects only UMLObjects from the
-	 *	ListView but no diagrams to be copied
+	 * For use when the user selects only UMLObjects from the
+	 * ListView but no diagrams to be copied
 	 */
 	void setUMLDataClip1(UMLObjectList& Objects, UMLListViewItemList& UMLListViewItems);
 
 	/**
-	 *	For use when the user selects UML Object and Diagrams
-	 *	from the ListView to be copied
+	 * For use when the user selects UML Object and Diagrams
+	 * from the ListView to be copied
 	 */
 	void setUMLDataClip2(UMLObjectList& Objects, UMLListViewItemList& UMLListViewItems,
 			     UMLViewList& Diagrams);
 
 	/**
-	 *	For use when the user selects only empty folders from the ListView
-	 *	to be copied.
+	 * For use when the user selects only empty folders from the ListView
+	 * to be copied.
 	 */
 	void setUMLDataClip3(UMLListViewItemList& UMLListViewItems);
 
 	/**
-	 *	For use when the user selects UML Objects from a
-	 *	Diagram. The Selected widegets and the relationships
-	 *	between only selected widgets will be copied and also
-	 *	its respective ListView Items
+	 * For use when the user selects UML Objects from a
+	 * Diagram. The Selected widegets and the relationships
+	 * between only selected widgets will be copied and also
+	 * its respective ListView Items
 	 */
 	void setUMLDataClip4(UMLObjectList& Objects, UMLListViewItemList& UMLListViewItems,
 			     UMLWidgetList& WidgetDatas,
@@ -122,29 +123,29 @@ public:
 			     Uml::Diagram_Type dType);
 
 	/**
-	 *	For use when the user selects only Attirbutes and/or
-	 *	Operation from the ListView
+	 * For use when the user selects only Attirbutes and/or
+	 * Operation from the ListView
 	 */
 	void setUMLDataClip5(UMLObjectList& Objects, UMLListViewItemList& UMLListViewItems);
 
 	/**
-	 * 	Returns whether it can decode the given mimesource
+	 *  Returns whether it can decode the given mimesource
 	 */
 	static bool canDecode(const QMimeSource* mimeSource);
 
 	/**
-	 *	Sets the type of the clip to "application/x-uml-" + sub
+	 * Sets the type of the clip to "application/x-uml-" + sub
 	 *	sub should be clip[1-5]
 	 */
 	virtual void setSubType(const QCString& sub, int index);
 
 	/**
-	 *	Sets the data in the clip
+	 * Sets the data in the clip
 	 */
 	virtual void setEncodedData(const QByteArray&, int index);
 
 	/**
-	 *	Returns the type set by setSubType
+	 * Returns the type set by setSubType
 	 */
 	const char* format(int index) const;
 
@@ -156,38 +157,55 @@ public:
 	virtual QByteArray encodedData(const char* dataName) const;
 
 	/**
-	 *	For use when the user selects only UML Objects
-	 *	from the ListView but no diagrams to be
-	 *	copied, decodes Mime type =
-	 *	"application/x-uml-clip1
+	 * For use when the user selects only UML Objects
+	 * from the ListView but no diagrams to be
+	 * copied, decodes Mime type =
+	 * "application/x-uml-clip1
 	 */
 	static bool decodeClip1(const QMimeSource* mimeSource, UMLObjectList& objects,
 				UMLListViewItemList& umlListViewItems, UMLDoc* doc);
 
 	/**
-	 *	For use when the user selects UML Object and Diagrams
-	 *	from the ListView to be copied, decodes Mime type =
-	 *	"application/x-uml-clip2
+	 * For use when the user selects UML Object and Diagrams
+	 * from the ListView to be copied, decodes Mime type =
+	 * "application/x-uml-clip2
 	 */
 	static bool decodeClip2(const QMimeSource* mimeSource, UMLObjectList& objects,
 				UMLListViewItemList& umlListViewItems,
 				UMLViewList& diagrams, UMLDoc* doc);
 
 	/**
-	 *	For use when the user selects UMLObjects from
-	 *	the ListView to be copied, decodes Mime * type =
-	 *	"application/x-uml-clip3
+	 * For use when the user selects UMLObjects from
+	 * the ListView to be copied, decodes Mime * type =
+	 * "application/x-uml-clip3
 	 */
 	static bool decodeClip3(const QMimeSource* mimeSource,
 				UMLListViewItemList& umlListViewItems,
 				const UMLListView* parentListView=0);
 
+	struct LvTypeAndID {
+		Uml::ListView_Type type;
+		int id;
+	};
+	typedef QPtrList<LvTypeAndID> LvTypeAndID_List;
+	typedef QPtrListIterator<LvTypeAndID> LvTypeAndID_It;
+
 	/**
-	 *	For use when the user selects UML Objects from a
-	 *	Diagram. The Selected widegets and the relationships
-	 *	between only * selected widgets will be copied and
-	 *	also its respective ListView Items, * decodes Mime
-	 *	type = "application/x-uml-clip4
+	 * Return just the LvTypeAndID of a Clip3.
+	 *
+	 * @param mimeSource	The encoded source.
+	 * @param type		The LvTypeAndID_List decoded from the source.
+	 * @return	True if decoding was successful.
+	 */
+	static bool getClip3TypeAndID(const QMimeSource* mimeSource,
+				      LvTypeAndID_List& typeAndIdList);
+
+	/**
+	 * For use when the user selects UML Objects from a
+	 * Diagram. The Selected widegets and the relationships
+	 * between only * selected widgets will be copied and
+	 * also its respective ListView Items, * decodes Mime
+	 * type = "application/x-uml-clip4
 	 */
 	static bool decodeClip4(const QMimeSource* mimeSource, UMLObjectList& objects,
 				UMLListViewItemList& umlListViewItems,
@@ -196,15 +214,15 @@ public:
 				Uml::Diagram_Type & dType, UMLDoc* doc);
 
 	/**
-	 *	For use when the user selects only Attributes and/or
-	 *	Operations from the ListView * copied, decodes Mime
-	 *	type = "application/x-uml-clip5
+	 * For use when the user selects only Attributes and/or
+	 * Operations from the ListView * copied, decodes Mime
+	 * type = "application/x-uml-clip5
 	 */
 	static bool decodeClip5(const QMimeSource* mimeSource, UMLObjectList& objects,
 				UMLListViewItemList& umlListViewItems, UMLDoc* doc);
 
 	/**
-	 *	Converts application/x-uml-clip[1-5] clip type to an integer
+	 * Converts application/x-uml-clip[1-5] clip type to an integer
 	 */
 	static int getCodingType(const QMimeSource* mimeSource);
 

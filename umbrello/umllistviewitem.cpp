@@ -50,10 +50,8 @@ UMLListViewItem::UMLListViewItem(UMLListView * parent)
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLListViewItem::UMLListViewItem(UMLListViewItem * parent)
-  : QListViewItem(parent) {
+  : QListViewItem(parent)  {
 	m_bCreating = false;
-	if (parent == NULL)
-		kdDebug() << "UMLListViewItem constructor called with a NULL lvitem parent" << endl;
 	m_Type = Uml::lvt_Unknown;
 	m_pObject = NULL;
 	m_nId = -1;

@@ -810,20 +810,20 @@ bool UMLListView::acceptDrag(QDropEvent* event) const {
 		return false;
 	}
 	((QListView*)this)->setCurrentItem( (QListViewItem*)item );
-	UMLListViewItemList list;
+	UMLDrag::LvTypeAndID_List list;
 
-	bool status = UMLDrag::decodeClip3(event, list, this);
+	bool status = UMLDrag::getClip3TypeAndID(event, list);
 	if(!status) {
 		return false;
 	}
 
-	UMLListViewItemListIt it(list);
-	UMLListViewItem* data = 0;
+	UMLDrag::LvTypeAndID_It it(list);
+	UMLDrag::LvTypeAndID * data = 0;
 	int itemType = item->getType();
 	bool accept = true;
 	while(accept && ((data = it.current()) != 0)) {
 		++it;
-		Uml::ListView_Type lvType = data->getType();
+		Uml::ListView_Type lvType = data->type;
 		if((lvType == Uml::lvt_Class || lvType == Uml::lvt_Package
 		    || lvType == Uml::lvt_Interface || lvType == Uml::lvt_Class_Diagram
 		    || lvType == Uml::lvt_Collaboration_Diagram
@@ -859,24 +859,24 @@ void UMLListView::slotDropped(QDropEvent* de, QListViewItem* parent, QListViewIt
 	if(!item) {
 		return;
 	}
-	UMLListViewItemList list;
-	bool status = UMLDrag::decodeClip3(de, list, this);
+	UMLDrag::LvTypeAndID_List list;
+	bool status = UMLDrag::getClip3TypeAndID(de, list);
 
 	if(!status) {
 		return;
 	}
 	Uml::ListView_Type itemType = ((UMLListViewItem*)item) -> getType();
-	UMLListViewItemListIt it(list);
-	UMLListViewItem* data = 0;
-	while((data =  it.current()) != 0) {
+	UMLDrag::LvTypeAndID_It it(list);
+	UMLDrag::LvTypeAndID * data = 0;
+	while((data = it.current()) != 0) {
 		++it;
 		UMLListViewItem * move;
-		Uml::ListView_Type lvType = data->getType();
+		Uml::ListView_Type lvType = data->type;
 		if( typeIsDiagram(lvType) ) {
-			UMLView * v = m_doc -> findView(data->getID());
+			UMLView * v = m_doc -> findView(data->id);
 			move = findView(v);
 		} else {
-			UMLObject * o = m_doc -> findUMLObject(data->getID());
+			UMLObject * o = m_doc -> findUMLObject(data->id);
 			move = findUMLObject(o);
 		}
 		if(!move)

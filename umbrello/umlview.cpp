@@ -572,15 +572,19 @@ void UMLView::slotObjectRemoved(UMLObject * o) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLView::contentsDragEnterEvent(QDragEnterEvent *e) {
-	UMLListViewItemList list;
-	if(!UMLDrag::decodeClip3(e, list, getListView())) {
+	UMLDrag::LvTypeAndID_List tidList;
+	if(!UMLDrag::getClip3TypeAndID(e, tidList)) {
 		return;
 	}
-	UMLListViewItemListIt it(list);
-
-	UMLListViewItem* data = it.current();
-
-	ListView_Type lvtype = data -> getType();
+	UMLDrag::LvTypeAndID_It tidIt(tidList);
+	UMLDrag::LvTypeAndID * tid = tidIt.current();
+	if (!tid) {
+		kdDebug() << "UMLView::contentsDragEnterEvent: "
+			  << "UMLDrag::getClip3TypeAndID returned empty list" << endl;
+		return;
+	}
+	ListView_Type lvtype = tid->type;
+	int id = tid->id;
 
 	Diagram_Type diagramType = getType();
 
@@ -604,7 +608,7 @@ void UMLView::contentsDragEnterEvent(QDragEnterEvent *e) {
 		return;
 	}
 	//make sure can find UMLObject
-	if( !(temp = m_pDoc->findUMLObject(data -> getID()) ) ) {
+	if( !(temp = m_pDoc->findUMLObject(id) ) ) {
 		kdDebug() << " object not found" << endl;
 		e->accept(false);
 		return;
@@ -635,7 +639,7 @@ void UMLView::contentsDragEnterEvent(QDragEnterEvent *e) {
 	}
 	if((diagramType == dt_UseCase || diagramType == dt_Class ||
 	    diagramType == dt_Component || diagramType == dt_Deployment)
-	   && widgetOnDiagram(data->getID()) ) {
+	   && widgetOnDiagram(id) ) {
 		e->accept(false);
 		return;
 	}
@@ -643,19 +647,25 @@ void UMLView::contentsDragEnterEvent(QDragEnterEvent *e) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLView::contentsDropEvent(QDropEvent *e) {
-	UMLListViewItemList list;
-	if( !UMLDrag::decodeClip3(e, list, getListView()) ) {
+	UMLDrag::LvTypeAndID_List tidList;
+	if( !UMLDrag::getClip3TypeAndID(e, tidList) ) {
 		return;
 	}
+	UMLDrag::LvTypeAndID_It tidIt(tidList);
+	UMLDrag::LvTypeAndID * tid = tidIt.current();
+	if (!tid) {
+		kdDebug() << "UMLView::contentsDropEvent: "
+			  << "UMLDrag::getClip3TypeAndID returned empty list" << endl;
+		return;
+	}
+	ListView_Type lvtype = tid->type;
+	int id = tid->id;
 
-	UMLListViewItemListIt it(list);
-	UMLListViewItem* data = it.current();
-	ListView_Type lvtype = data->getType();
-	UMLObject* o = 0;
 	if(lvtype >= lvt_UseCase_Diagram && lvtype <= lvt_Sequence_Diagram) {
 		return;
 	}
-	if( !( o = m_pDoc->findUMLObject(data->getID()) ) ) {
+	UMLObject* o = m_pDoc->findUMLObject(id);
+	if( !o ) {
 		kdDebug() << " object not found" << endl;
 		return;
 	}

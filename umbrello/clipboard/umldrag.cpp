@@ -466,6 +466,64 @@ bool UMLDrag::decodeClip2(const QMimeSource* mimeSource, UMLObjectList& objects,
 	return true;
 }
 
+bool UMLDrag::getClip3TypeAndID(const QMimeSource* mimeSource,
+				LvTypeAndID_List& typeAndIdList)
+{
+	if ( !mimeSource->provides("application/x-uml-clip3") ) {
+		return false;
+	}
+	QByteArray payload = mimeSource->encodedData("application/x-uml-clip3");
+	if ( !payload.size() ) {
+		return false;
+	}
+	QTextStream clipdata(payload, IO_ReadOnly);
+	QString xmiClip(payload);
+
+	QString error;
+	int line;
+	QDomDocument domDoc;
+	if( !domDoc.setContent(xmiClip, false, &error, &line) ) {
+		kdWarning() << "getClip3Type: Can't set content:" << error << " Line:" << line << endl;
+		return false;
+	}
+	QDomNode xmiClipNode = domDoc.firstChild();
+	QDomElement root = xmiClipNode.toElement();
+	if ( root.isNull() ) {
+		return false;
+	}
+	//  make sure it is an XMI clip
+	if (root.tagName() != "xmiclip") {
+		return false;
+	}
+
+	QDomNode listItemNode = xmiClipNode.firstChild();
+	QDomNode listItems = listItemNode.firstChild();
+	QDomElement listItemElement = listItems.toElement();
+	if ( listItemElement.isNull() ) {
+		kdWarning() << "getClip3Type: no listitems in XMI clip" << endl;
+		return false;
+	}
+	while ( !listItemElement.isNull() ) {
+		QString typeStr = listItemElement.attribute( "type", "-1" );
+		if (typeStr == "-1") {
+			kdDebug() << "getClip3Type: bad type" << endl;
+			return false;
+		}
+		QString idStr = listItemElement.attribute( "id", "-1" );
+		if (idStr == "-1") {
+			kdDebug() << "getClip3Type: bad type" << endl;
+			return false;
+		}
+		LvTypeAndID * pData = new LvTypeAndID;
+		pData->type = (Uml::ListView_Type)(typeStr.toInt());
+		pData->id = idStr.toInt();
+		typeAndIdList.append(pData);
+		listItems = listItems.nextSibling();
+		listItemElement = listItems.toElement();
+	}
+	return true;
+}
+
 bool UMLDrag::decodeClip3(const QMimeSource* mimeSource,
 			  UMLListViewItemList& umlListViewItems,
 			  const UMLListView* parentListView) {
