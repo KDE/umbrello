@@ -131,6 +131,8 @@ UMLObject* UMLClassifier::findChildObject(int id) {
 // This should be changed in the future.
 UMLClassifierList UMLClassifier::findSubClassConcepts ( UMLDoc *doc, ClassifierType type) {
         UMLAssociationList list = this->getGeneralizations();
+        UMLAssociationList rlist = this->getRealizations();
+
         UMLClassifierList inheritingConcepts;
         int myID = this->getID();
         for (UMLAssociation *a = list.first(); a; a = list.next())
@@ -151,6 +153,19 @@ UMLClassifierList UMLClassifier::findSubClassConcepts ( UMLDoc *doc, ClassifierT
                 }
 
         }
+
+        for (UMLAssociation *a = rlist.first(); a; a = rlist.next())
+	{
+                if (a->getRoleAId() != myID)
+		{
+                        UMLObject* obj = doc->findUMLObject(a->getRoleAId());
+                        UMLClassifier *concept = dynamic_cast<UMLClassifier*>(obj);
+                        if (concept && (type == ALL || (!concept->isInterface() && type == CLASS) 
+					|| (concept->isInterface() && type == INTERFACE)))
+                                inheritingConcepts.append(concept);
+		}
+	}
+
         return inheritingConcepts;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -158,6 +173,8 @@ UMLClassifierList UMLClassifier::findSubClassConcepts ( UMLDoc *doc, ClassifierT
 // each Concept already know its UMLdocument.
 UMLClassifierList UMLClassifier::findSuperClassConcepts ( UMLDoc *doc, ClassifierType type ) {
         UMLAssociationList list = this->getGeneralizations();
+        UMLAssociationList rlist = this->getRealizations();
+
         UMLClassifierList parentConcepts;
         int myID = this->getID();
         for (UMLAssociation *a = list.first(); a; a = list.next())
@@ -175,6 +192,19 @@ UMLClassifierList UMLClassifier::findSuperClassConcepts ( UMLDoc *doc, Classifie
                                 parentConcepts.append(concept);
                 }
         }
+
+        for (UMLAssociation *a = rlist.first(); a; a = rlist.next())
+	{
+                if (a->getRoleBId() != myID)
+		{
+                        UMLObject* obj = doc->findUMLObject(a->getRoleBId());
+                        UMLClassifier *concept = dynamic_cast<UMLClassifier*>(obj);
+                        if (concept && (type == ALL || (!concept->isInterface() && type == CLASS)
+                                        || (concept->isInterface() && type == INTERFACE)))
+                                parentConcepts.append(concept);
+                }
+        }
+
         return parentConcepts;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////

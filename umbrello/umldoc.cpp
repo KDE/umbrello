@@ -874,6 +874,7 @@ void UMLDoc::addAssocToConcepts(UMLAssociation* a) {
 			// for the next cases should add association to all classes involved
 			// in the interaction.
 			case Uml::at_Generalization:
+			case Uml::at_Realization:
 			case Uml::at_Association:
 			case Uml::at_Aggregation:
 			case Uml::at_Composition:

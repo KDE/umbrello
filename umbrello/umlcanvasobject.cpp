@@ -138,6 +138,10 @@ UMLAssociationList UMLCanvasObject::getGeneralizations() {
 	return getSpecificAssocs(Uml::at_Generalization);
 }
 
+UMLAssociationList UMLCanvasObject::getRealizations() {
+	return getSpecificAssocs(Uml::at_Realization);
+}
+
 UMLAssociationList UMLCanvasObject::getAggregations() {
 	return getSpecificAssocs(Uml::at_Aggregation);
 }

@@ -106,6 +106,13 @@ public:
 	virtual UMLAssociationList getGeneralizations();
 
 	/**
+	 *	Shorthand for getSpecificAssocs(Uml::at_Realization)
+	 * 
+	 *	@return The list of realizations for the Concept.
+	 */
+	virtual UMLAssociationList getRealizations();
+
+	/**
 	 *	Shorthand for getSpecificAssocs(Uml::at_Aggregation)
 	 *
 	 *	@return The list of aggregations for the Concept.
