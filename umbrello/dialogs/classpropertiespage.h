@@ -12,8 +12,7 @@
 
 #include "classpropertiesbase.h"
 
-class UMLConcept;
-typedef UMLConcept UMLClass;
+class UMLClass;
 
 /** @short A Page to display / change basic properties of a UMLClass 
  *

@@ -6,9 +6,9 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
- 
+
 #include "classattributespage.h"
-#include "../concept.h"
+#include "../class.h"
 #include "../umldoc.h"
 #include "../attribute.h"
 
@@ -72,7 +72,7 @@ void ClassAttributesPage::saveData()
 	}
 	m_deletedAtts.clear();
 //	blockSignals(true);
-	
+
 	/*m_umlObject->setName(m_className->text());
 	m_umlObject->setStereotype(m_stereotype->text());
 	m_umlObject->setPackage(m_packageName->text());
@@ -80,10 +80,10 @@ void ClassAttributesPage::saveData()
 		m_umlObject->setScope(Uml::Public);
 	else if (m_protected->isChecked())
 		m_umlObject->setScope(Uml::Protected);
-	else 
+	else
 		m_umlObject->setScope(Uml::Private);
 	m_umlObject->setDoc(m_documentation->text());*/
-	
+
 //	blockSignals(false);
 }
 
@@ -119,7 +119,7 @@ void ClassAttributesPage::moveDown( )
 		item->moveItem( below );
 		emit pageModified( );
 	}
-	
+
 
 }
 void ClassAttributesPage::createAttribute( )
@@ -144,7 +144,7 @@ void ClassAttributesPage::deleteSelected( )
 	{
 		m_deletedAtts.append(att);
 		delete item;
-		
+
 	}
 emit pageModified( );
 }

@@ -27,8 +27,8 @@
 class UMLOperation;
 
 /**
-  * class JavaWriter is a code generator for UMLConcept objects.
-  * Create an instance of this class, and feed it a UMLConcept when
+  * class JavaWriter is a code generator for UMLClassifier objects.
+  * Create an instance of this class, and feed it a UMLClassifier when
   * calling writeClass and it will generate a java source file for
   * that concept
   */
@@ -46,10 +46,10 @@ public:
 	virtual ~JavaWriter();
 
 	/**
-	 * call this method to generate java code for a UMLConcept
+	 * call this method to generate java code for a UMLClassifier
 	 * @param c the class to generate code for
 	 */
-	virtual void writeClass(UMLConcept *c);
+	virtual void writeClass(UMLClassifier *c);
 
 private:
 
@@ -57,19 +57,19 @@ private:
 	 * Writes class's documentation then the class header
 	 * public abstract class Foo extents {
 	 */
-	void writeClassDecl(UMLConcept *c, QTextStream &java); 
+	void writeClassDecl(UMLClassifier *c, QTextStream &java); 
 
 	/**
 	 * Writes the comment and class constructor
 	 */
-	void writeConstructor(UMLConcept *c, QTextStream &java); 
+	void writeConstructor(UMLClassifier *c, QTextStream &java); 
 
 	/**
 	 * write all operations for a given class
 	 * @param c the class for which we are generating code
 	 * @param j the stream associated with the output file
 	 */
-	void writeOperations(UMLConcept *c, QTextStream &j);
+	void writeOperations(UMLClassifier *c, QTextStream &j);
 
 	/**
 	 * write a list of operations for a given class
@@ -83,7 +83,7 @@ private:
 	 * @param c the class for which we are generating code
 	 * @param j the stream associated with the output file
 	 */
-	void writeAttributes(UMLConcept *c, QTextStream &j);
+	void writeAttributes(UMLClassifier *c, QTextStream &j);
 
 	/**
 	 * writes the Attribute declarations
@@ -114,7 +114,7 @@ private:
 	/**
 	 * calls @ref writeAssociationRoleMethod() on each of the associations in the given list
 	 */
-	void writeAssociationMethods(QPtrList<UMLAssociation> associations, UMLConcept *thisClass,
+	void writeAssociationMethods(QPtrList<UMLAssociation> associations, UMLClassifier *thisClass,
 				     QTextStream &java); 
 	
 	/**
@@ -191,6 +191,11 @@ private:
 	 * A \n, used at the end of each line
 	 */
 	QString startline;
+
+	/**
+	 * Whether or not this concept is an interface.
+	 */
+	bool isInterface;
 
 };
 

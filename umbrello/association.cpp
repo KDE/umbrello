@@ -9,7 +9,7 @@
 
 
 #include "association.h"
-#include "concept.h"
+#include "classifier.h"
 #include "umldoc.h"
 
 UMLAssociation::UMLAssociation(UMLDoc* parent) : UMLObject((UMLObject *)parent) {

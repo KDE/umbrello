@@ -48,7 +48,7 @@
 #include "clipboard/idchangelog.h"
 #include "clipboard/umldrag.h"
 
-#include "conceptwidget.h"
+#include "classwidget.h"
 #include "packagewidget.h"
 #include "componentwidget.h"
 #include "nodewidget.h"
@@ -448,7 +448,7 @@ void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome) {
 	}
 	//if we are creating an object, we really create a class
 	if(m_CurrentCursor == WorkToolBar::tbb_Object) {
-		m_CurrentCursor = WorkToolBar::tbb_Concept;
+		m_CurrentCursor = WorkToolBar::tbb_Class;
 	}
 	m_bCreateObject = true;
 	getDocument()->createUMLObject(convert_TBB_OT(m_CurrentCursor));
@@ -518,10 +518,10 @@ void UMLView::slotObjectCreated(UMLObject* o) {
 				interfaceWidget->setDrawAsCircle(true);
 			}
 			newWidget = (UMLWidget*)interfaceWidget;
-		} else if(type == ot_Concept) {
-			//see if we really want an object widget or concept widget
+		} else if(type == ot_Class ) { // CORRECT?
+			//see if we really want an object widget or class widget
 			if(m_pData->m_Type == dt_Class) {
-				newWidget = new ConceptWidget(this, o);
+				newWidget = new ClassWidget(this, o);
 			} else {
 				newWidget = new ObjectWidget(this, o, m_pData -> getUniqueID() );
 			}
@@ -544,7 +544,7 @@ void UMLView::slotObjectCreated(UMLObject* o) {
 		switch( type ) {
 			case ot_Actor:
 			case ot_UseCase:
-			case ot_Concept:
+			case ot_Class:
 			case ot_Package:
 			case ot_Component:
 			case ot_Node:
@@ -625,11 +625,11 @@ void UMLView::contentsDragEnterEvent(QDragEnterEvent *e) {
 		}
 		if((m_pData->m_Type == dt_Sequence || m_pData->m_Type == dt_Class ||
 		    m_pData->m_Type == dt_Collaboration) &&
-		   (ot != ot_Concept && ot != ot_Package && ot != ot_Interface) ) {
+		   (ot != ot_Class && ot != ot_Package && ot != ot_Interface) ) {
 			status = false;
 		}
 		if (m_pData->m_Type == dt_Deployment &&
-		    (ot != ot_Interface && ot != ot_Component && ot != ot_Concept && ot != ot_Node)) {
+		    (ot != ot_Interface && ot != ot_Component && ot != ot_Class && ot != ot_Node)) {
 			status = false;
 		}
 		if (m_pData->m_Type == dt_Component &&
@@ -1518,7 +1518,7 @@ bool UMLView::createWidget(UMLWidgetData* WidgetData) {
 			break;
 
 		case wt_Class:
-			widget = new ConceptWidget(this, object, WidgetData);
+			widget = new ClassWidget(this, object, WidgetData);
 			break;
 
 		case wt_Package:
@@ -2102,8 +2102,8 @@ Uml::UMLObject_Type UMLView::convert_TBB_OT(WorkToolBar::ToolBar_Buttons tbb) {
 			ot = ot_UseCase;
 			break;
 
-		case WorkToolBar::tbb_Concept:
-			ot = ot_Concept;
+		case WorkToolBar::tbb_Class:
+			ot = ot_Class;
 			break;
 
 		case WorkToolBar::tbb_Package:
@@ -2652,10 +2652,10 @@ void UMLView::slotMenuSelection(int sel) {
 			getDocument()->createUMLObject( ot_Actor );
 			break;
 
-		case ListPopupMenu::mt_Concept:
+		case ListPopupMenu::mt_Class:
 		case ListPopupMenu::mt_Object:
 			m_bCreateObject = true;
-			getDocument()->createUMLObject( ot_Concept );
+			getDocument()->createUMLObject( ot_Class);
 			break;
 
 		case ListPopupMenu::mt_Package:
@@ -2869,14 +2869,14 @@ void UMLView::setFont( QFont font ) {
 	canvas() -> setAllChanged();
 }
 
-void UMLView::setConceptWidgetOptions( ClassOptionsPage * page ) {
+void UMLView::setClassWidgetOptions( ClassOptionsPage * page ) {
 	UMLWidget * pWidget = 0;
 	QObjectList * wl = queryList( "UMLWidget" );
 	QObjectListIt wit( *wl );
 	while ( ( pWidget = static_cast<UMLWidget *>( wit.current() ) )  != 0 ) {
 		++wit;
 		if( pWidget -> getBaseType() == Uml::wt_Class ) {
-			page -> setWidget( static_cast<ConceptWidget *>( pWidget ) );
+			page -> setWidget( static_cast<ClassWidget *>( pWidget ) );
 			page -> updateUMLWidget();
 		}
 	}

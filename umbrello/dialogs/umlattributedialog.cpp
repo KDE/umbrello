@@ -10,7 +10,7 @@
 #include "umlattributedialog.h"
 #include "../attribute.h"
 #include "../interface.h"
-#include "../concept.h"
+#include "../classifier.h"
 #include "../umldoc.h"
 #include <klocale.h>
 #include <kmessagebox.h>
@@ -25,7 +25,7 @@ UMLAttributeDialog::UMLAttributeDialog( QWidget * pParent, UMLAttribute * pAttri
 UMLAttributeDialog::~UMLAttributeDialog() {}
 
 void UMLAttributeDialog::setupDialog() {
-	UMLConcept * pConcept = dynamic_cast<UMLConcept *>( m_pAttribute -> parent() );
+	UMLClassifier * pConcept = dynamic_cast<UMLClassifier *>( m_pAttribute -> parent() );
 	UMLDoc * pDoc = dynamic_cast<UMLDoc *>( pConcept -> parent() );
 	int margin = fontMetrics().height();
 
@@ -99,8 +99,8 @@ void UMLAttributeDialog::setupDialog() {
 	m_pTypeCB->setAutoCompletion(true);
 
 	//now add the Concepts
-	QList<UMLConcept> namesList( pDoc->getConcepts() );
-	UMLConcept* obj;
+	QList<UMLClassifier> namesList( pDoc->getConcepts() );
+	UMLClassifier* obj;
 	for (obj=namesList.first(); obj!=0; obj=namesList.next()) {
 		m_pTypeCB->insertItem( obj->getName() );
 	}
@@ -132,7 +132,7 @@ void UMLAttributeDialog::setupDialog() {
 }
 
 bool UMLAttributeDialog::apply() {
-	UMLConcept * pConcept = dynamic_cast<UMLConcept *>( m_pAttribute->parent() );
+	UMLClassifier * pConcept = dynamic_cast<UMLClassifier *>( m_pAttribute->parent() );
 
 	if ( m_pPublicRB->isChecked() ) {
 		m_pAttribute->setScope(Uml::Public);

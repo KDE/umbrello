@@ -25,7 +25,7 @@
 #include <qtextstream.h>
 #include <qregexp.h>
 
-#include "../concept.h"
+#include "../class.h"
 #include "../operation.h"
 #include "../umlnamespace.h"
 #include "../association.h"
@@ -35,7 +35,7 @@ SQLWriter::SQLWriter( QObject *parent, const char *name )
 
 SQLWriter::~SQLWriter() {}
 
-void SQLWriter::writeClass(UMLConcept *c) {
+void SQLWriter::writeClass(UMLClassifier *c) {
 
 
 	if(!c) {
@@ -43,6 +43,7 @@ void SQLWriter::writeClass(UMLConcept *c) {
 		return;
 	}
 
+	UMLClass * myClass = dynamic_cast<UMLClass*>(c);
 	QString classname = cleanName(c->getName());
 	QString fileName = c->getName().lower();
 
@@ -81,7 +82,8 @@ void SQLWriter::writeClass(UMLConcept *c) {
 
 	sql << "CREATE TABLE "<< classname << " ( " << endl;
 
-	writeAttributes(c,sql);
+	if(myClass)
+		writeAttributes(myClass,sql);
 
 	QPtrList<UMLAssociation> aggregations = c->getAggregations();
 	if( forceSections() || !aggregations.isEmpty() ) {
@@ -98,7 +100,7 @@ void SQLWriter::writeClass(UMLConcept *c) {
 }
 
 
-void SQLWriter::writeAttributes(UMLConcept *c, QTextStream &sql) {
+void SQLWriter::writeAttributes(UMLClass *c, QTextStream &sql) {
 	QList<UMLAttribute>* atl;
 	QList<UMLAttribute> atpub, atprot, atpriv;
 	atpub.setAutoDelete(false);

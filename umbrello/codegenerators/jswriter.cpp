@@ -17,7 +17,7 @@
 
 #include "jswriter.h"
 #include "../association.h"
-#include "../concept.h"
+#include "../class.h"
 #include "../operation.h"
 #include "../umldoc.h"
 #include <kdebug.h>
@@ -30,7 +30,7 @@ JSWriter::JSWriter( QObject *parent, const char *name )
 JSWriter::~JSWriter() {}
 
 
-void JSWriter::writeClass(UMLConcept *c)
+void JSWriter::writeClass(UMLClassifier *c)
 {
 	if(!c)
 	{
@@ -74,9 +74,9 @@ void JSWriter::writeClass(UMLConcept *c)
 
 
 	//write includes
-	QList<UMLConcept> includes;
+	QList<UMLClassifier> includes;
 	findObjectsRelated(c,includes);
-	UMLConcept *conc;
+	UMLClassifier *conc;
 	for(conc = includes.first(); conc ;conc = includes.next())
 	{
 		QString headerName = findFileName(conc, ".js");
@@ -125,30 +125,33 @@ void JSWriter::writeClass(UMLConcept *c)
 
 	js << endl;
 
-	QList<UMLAttribute> *atl = c->getAttList();
+	UMLClass *myClass = dynamic_cast<UMLClass*>(c);
+	if(myClass) {
+		QList<UMLAttribute> *atl = myClass->getAttList();
 
- 	js << "/**" << endl;
-	QString temp = "_init sets all " + classname + " attributes to its default\
- value make sure to call this method within your class constructor";
-	js << formatDoc(temp, " * ");
-	js << " */" << endl;
-	js << classname << ".prototype._init = function ()" << endl;
-	js << "{" << endl;
-	for(UMLAttribute *at = atl->first(); at ; at = atl->next())
-	{
-		if (forceDoc() || !at->getDoc().isEmpty())
+	 	js << "/**" << endl;
+		QString temp = "_init sets all " + classname + " attributes to its default\
+	 value make sure to call this method within your class constructor";
+		js << formatDoc(temp, " * ");
+		js << " */" << endl;
+		js << classname << ".prototype._init = function ()" << endl;
+		js << "{" << endl;
+		for(UMLAttribute *at = atl->first(); at ; at = atl->next())
 		{
-			js << "\t/**" << endl
-			 << formatDoc(at->getDoc(), "\t * ")
-			 << "\t */" << endl;
-		}
-		if(!at->getInitialValue().isEmpty())
-		{
-			js << "\tthis.m_" << cleanName(at->getName()) << " = " << at->getInitialValue() << ";" << endl;
-		}
-		else
-		{
- 			js << "\tthis.m_" << cleanName(at->getName()) << " = \"\";" << endl;
+			if (forceDoc() || !at->getDoc().isEmpty())
+			{
+				js << "\t/**" << endl
+				 << formatDoc(at->getDoc(), "\t * ")
+				 << "\t */" << endl;
+			}
+			if(!at->getInitialValue().isEmpty())
+			{
+				js << "\tthis.m_" << cleanName(at->getName()) << " = " << at->getInitialValue() << ";" << endl;
+			}
+			else
+			{
+	 			js << "\tthis.m_" << cleanName(at->getName()) << " = \"\";" << endl;
+			}
 		}
 	}
 

@@ -41,7 +41,7 @@ class UMLObject;
 class UMLView;
 class UMLViewData;
 class UMLWidget;
-class UMLConcept;
+class UMLClassifier;
 class UMLInterface;
 class UMLAssociation;
 class UMLApp;
@@ -343,6 +343,12 @@ public:
 	UMLObject* findUMLObject(UMLObject_Type type, QString name);
 
 	/**
+	 *	Used to find a @ref UMLClassifier by its name.
+	 *	@param	name	The name of the @ref UMLObject to find.
+	 */
+	UMLClassifier * findUMLClassifier (QString name);
+
+	/**
 	 *	Finds a view (diagram) by the ID given to method.
 	 *	@param	id	The ID of the view to search for.
 	 *
@@ -485,7 +491,7 @@ public:
 	 *
 	 *	@return	Returns a list of concepts
 	 */
-	QList<UMLConcept> getConcepts();
+	QList<UMLClassifier> getConcepts();
 
 	/**
 	 *	Returns a list of interfaces

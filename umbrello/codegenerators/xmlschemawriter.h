@@ -27,12 +27,12 @@
 class UMLOperation;
 
 /**
-  * class XMLSchemaWriter is a code generator for UMLConcept objects.
-  * Create an instance of this class, and feed it a UMLConcept when
+  * class XMLSchemaWriter is a code generator for UMLClassifier objects.
+  * Create an instance of this class, and feed it a UMLClassifier when
   * calling writeClass and it will generate a XMLschema source file for
   * that concept
   *
-  * Our basic approach is to map UMLConcepts (classes) in to XML elements (or 
+  * Our basic approach is to map UMLClassifiers (classes) in to XML elements (or 
   * nodes). We declare these element in the schema either as complexType or
   * as groups based on whether they are concrete or abstract in nature.
   * This is not a perfect decision, but thats life with XML Schema... you 
@@ -53,28 +53,28 @@ public:
 	virtual ~XMLSchemaWriter();
 
 	/**
-	 * call this method to generate XMLschema code for a UMLConcept
+	 * call this method to generate XMLschema code for a UMLClassifier
 	 * @param c the class to generate code for
 	 */
-	virtual void writeClass(UMLConcept *c);
+	virtual void writeClass(UMLClassifier *c);
 
 private:
 
 	/**
 	 * Writes concept's documentation then  guts
 	 */
-	void writeConcept(UMLConcept *c, QTextStream &XMLSchema); 
-	void writeAbstractConcept(UMLConcept *c, QTextStream &XMLSchema); 
-	void writeConcreteConcept(UMLConcept *c, QTextStream &XMLSchema); 
+	void writeConcept(UMLClassifier *c, QTextStream &XMLSchema); 
+	void writeAbstractConcept(UMLClassifier *c, QTextStream &XMLSchema); 
+	void writeConcreteConcept(UMLClassifier *c, QTextStream &XMLSchema); 
 
-	bool determineIfHasChildNodes( UMLConcept *c); 
+	bool determineIfHasChildNodes( UMLClassifier *c); 
 
 	/**
 	 * write all attributes for a given class
 	 * @param c the class for which we are generating code
 	 * @param j the stream associated with the output file
 	 */
-	void writeAttributes(UMLConcept *c, QTextStream &j);
+	void writeAttributes(UMLClassifier *c, QTextStream &j);
 
 	/**
 	 * write an element declaration.
@@ -96,13 +96,13 @@ private:
 	/**
 	 * Find all attributes for this concept.
 	 */
-	QPtrList <UMLAttribute> findAttributes (UMLConcept *c); 
+	QPtrList <UMLAttribute> findAttributes (UMLClassifier *c); 
 
 	/**
 	 * Discover the string name of all the attribute groups (which are child nodes)
 	 * of this concept (err.. element)
 	 */
-	QStringList findAttributeGroups (UMLConcept *c); 
+	QStringList findAttributeGroups (UMLClassifier *c); 
 
 	/**
 	 * Searches a list of associations for appropriate ones to write out as attributes.
@@ -119,7 +119,7 @@ private:
 	/**
 	 * Writes out an association as an attribute using Vector
 	 */
-	void writeAssociationRoleDecl(UMLConcept *c, QString multi, QTextStream &XMLschema); 
+	void writeAssociationRoleDecl(UMLClassifier *c, QString multi, QTextStream &XMLschema); 
 
 	/**
 	 * Construct an element tag with the schema namespace 
@@ -136,7 +136,7 @@ private:
 	 */
 	void writeComment(QString text, QTextStream &XMLschema); 
 
-	QPtrList<UMLObject> findChildObjsInAssociations (UMLConcept *c, QPtrList<UMLAssociation> associations);
+	QPtrList<UMLObject> findChildObjsInAssociations (UMLClassifier *c, QPtrList<UMLAssociation> associations);
 
 	/**
 	 * Returns the current indent string
@@ -162,29 +162,29 @@ private:
 	/**
 	 * Find the element node name for this concept.
 	 */
-	QString getElementName(UMLConcept *c);
+	QString getElementName(UMLClassifier *c);
 
 	/**
 	 * Find the element node "type" name. Used in the "complexType" which
 	 * might define that element node.
 	 */
-	QString getElementTypeName(UMLConcept *c);
+	QString getElementTypeName(UMLClassifier *c);
 
 	/**
 	 * Find all the child objects in this association and make sure they get 
 	 * written out (if they havent already been)
 	 */
-	void writeChildObjsInAssociation (UMLConcept *c, QPtrList<UMLAssociation> assoc, QTextStream &s); 
+	void writeChildObjsInAssociation (UMLClassifier *c, QPtrList<UMLAssociation> assoc, QTextStream &s); 
 
 	/**
 	 * Quick check to see if we have written the declaration for this concept yet.
 	 */
-	bool hasBeenWritten(UMLConcept *c);
+	bool hasBeenWritten(UMLClassifier *c);
 
 	/**
 	 * mark a concept as written, so it is not repeatedly re-declared in the schema
 	 */ 
-	void markAsWritten(UMLConcept *c);
+	void markAsWritten(UMLClassifier *c);
 
 	/**
 	 * Basic unit of whitespace used to indent code
@@ -222,9 +222,9 @@ private:
 	QString startline;
 
 	/**
-	 * a list of UMLConcepts we have already written
+	 * a list of UMLClassifiers we have already written
 	 */
-	QPtrList <UMLConcept> writtenConcepts;
+	QPtrList <UMLClassifier> writtenConcepts;
 
 };
 

@@ -2479,7 +2479,7 @@ void AssociationWidget::slotMenuSelection(int sel) {
 
 	case ListPopupMenu::mt_Operation:
 
-		m_pView->getDocument() -> createUMLObject( (UMLConcept *)m_pWidgetB -> getUMLObject(), ListPopupMenu::convert_MT_OT((ListPopupMenu::Menu_Type)sel));
+		m_pView->getDocument() -> createUMLObject( (UMLClassifier *)m_pWidgetB -> getUMLObject(), ListPopupMenu::convert_MT_OT((ListPopupMenu::Menu_Type)sel));
 		done = true;
 		break;
 
@@ -2646,7 +2646,7 @@ void AssociationWidget::showOpDlg() {
 
 	// CHECK THIS, WHY WigetB?? !!!
 	// (I suppose because we dont have a WidgetA when in seq diagram?!?)
-	UMLConcept * c = (UMLConcept *) m_pWidgetB -> getUMLObject();
+	UMLClassifier * c = (UMLClassifier *) m_pWidgetB -> getUMLObject();
 	SelectOpDlg selectDlg(m_pView, c);
 
 	selectDlg.setSeqNumber(m_pName-> getSeqNum());

@@ -26,7 +26,7 @@
 UMLViewDialog::UMLViewDialog( QWidget * pParent, UMLView * pView ) : KDialogBase(IconList, i18n("Properties"), Ok | Apply | Cancel | Help,
         Ok, pParent, "_VIEWDLG_", true, true) {
 	m_pView = pView;
-	m_pTempWidget = new ConceptWidget( m_pView );
+	m_pTempWidget = new ClassWidget( m_pView );
 	setupPages();
 }
 
@@ -137,7 +137,7 @@ void UMLViewDialog::applyPage( Page page ) {
 				return;
 			}
 			m_pOptionsPage->updateUMLWidget();
-			m_pView->setConceptWidgetOptions( m_pOptionsPage );
+			m_pView->setClassWidgetOptions( m_pOptionsPage );
 			m_pOptionsPage->setWidget( m_pTempWidget );
 			options.classState.showAtts = m_pTempWidget->getShowAtts();
 			options.classState.showOps = m_pTempWidget->getShowOps();

@@ -292,12 +292,12 @@ for in the right hand side list</string>
     </connection>
 </connections>
 <forwards>
-    <forward>class UMLConcept</forward>
+    <forward>class UMLClassifier</forward>
 </forwards>
 <slots>
     <slot>selectClass()</slot>
     <slot access="protected">deselectClass()</slot>
-    <slot>classGenerated( UMLConcept * /* c */ )</slot>
+    <slot>classGenerated( UMLClassifier * /* c */ )</slot>
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
 </UI>

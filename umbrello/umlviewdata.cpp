@@ -16,7 +16,7 @@
 #include "activitywidgetdata.h"
 #include "actorwidgetdata.h"
 #include "associationwidgetdata.h"
-#include "conceptwidgetdata.h"
+#include "classwidgetdata.h"
 #include "packagewidgetdata.h"
 #include "componentwidgetdata.h"
 #include "nodewidgetdata.h"
@@ -352,7 +352,7 @@ bool UMLViewData::serializeWidgets( QDataStream * stream, bool bArchive, int fil
 					ActorWidgetData * a = new ActorWidgetData(getOptionState() );
 					widgetData = static_cast<UMLWidgetData *>( a );
 				} else if( type == wt_Class ) {
-					ConceptWidgetData * c = new ConceptWidgetData(getOptionState() );
+					ClassWidgetData * c = new ClassWidgetData(getOptionState() );
 					widgetData = static_cast<UMLWidgetData *>( c );
 				} else if( type == wt_Object ) {
 					ObjectWidgetData * o = new ObjectWidgetData(getOptionState() );
@@ -391,8 +391,8 @@ bool UMLViewData::serializeWidgets( QDataStream * stream, bool bArchive, int fil
 				} else if( stype == "ACTOR" ) {
 					ActorWidgetData * a = new ActorWidgetData(m_Options);
 					widgetData = static_cast<UMLWidgetData *>( a );
-				} else if( stype == "CONCEPT" ) {
-					ConceptWidgetData * c = new ConceptWidgetData(m_Options);
+				} else if( stype == "CLASS" || stype == "CONCEPT" ) { // Have "CONCEPT" for backwards compatability 
+					ClassWidgetData * c = new ClassWidgetData(m_Options);
 					widgetData = static_cast<UMLWidgetData *>( c );
 				} else if( stype == "OBJECT" ) {
 					ObjectWidgetData * o = new ObjectWidgetData(m_Options);
@@ -658,8 +658,8 @@ bool UMLViewData::loadWidgetsFromXMI( QDomElement & qElement ) {
 			widgetData = new ActorWidgetData(getOptionState());
 		} else if( tag == "UML:UseCaseWidget" ) {
 			widgetData = new UseCaseWidgetData(getOptionState());
-		} else if( tag == "UML:ConceptWidget" ) {
-			widgetData = new ConceptWidgetData(getOptionState());
+		} else if( tag == "UML:ClassWidget" || tag == "UML:ConceptWidget" ) { // Have ConceptWidget for backwards compatability 
+			widgetData = new ClassWidgetData(getOptionState());
 		} else if( tag == "packagewidget" ) {
 			widgetData = new PackageWidgetData(getOptionState());
 		} else if( tag == "componentwidget" ) {

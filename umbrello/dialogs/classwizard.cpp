@@ -23,10 +23,10 @@ ClassWizard::ClassWizard( UMLDoc * pDoc ) : KWizard( (QWidget*)pDoc -> parent(),
 	QString newName = name;
 	QString num = "";
 	int i = 0;
-	m_pClass = new UMLConcept( m_pDoc, newName, m_pDoc -> getUniqueID() );
+	m_pClass = new UMLClass( m_pDoc, newName, m_pDoc -> getUniqueID() );
 	do {
 		m_pClass -> setName( newName );
-		pTemp = m_pDoc -> findUMLObject( Uml::ot_Concept, newName );
+		pTemp = m_pDoc -> findUMLObject( Uml::ot_Class, newName );
 		num.setNum( ++i);
 		newName = name;
 		newName.append("_").append( num );

@@ -16,7 +16,7 @@
 //app includes
 #include "messagewidget.h"
 #include "objectwidget.h"
-#include "concept.h"
+#include "classifier.h"
 #include "dialogs/selectopdlg.h"
 #include "umlview.h"
 

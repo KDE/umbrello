@@ -19,7 +19,7 @@
 #include <karrowbutton.h>
 
 //app includes
-#include "../concept.h"
+#include "../class.h"
 #include "../listpopupmenu.h"
 class UMLDoc;
 
@@ -41,7 +41,7 @@ public:
 	 *	@param	parent	The parent to the ClassAttPage.
 	 *	@param	c	The Concept to display the properties of.
 	 */
-	ClassAttPage(QWidget *parent, UMLConcept *c, UMLDoc * doc);
+	ClassAttPage(QWidget *parent, UMLClass *c, UMLDoc * doc);
 
 	/**
 	 *	Standard deconstructor.
@@ -62,7 +62,7 @@ private:
 	 */
 	void enableWidgets(bool state);
 
-	UMLConcept * m_pConcept;
+	UMLClass * m_pClass;
 	QGroupBox * m_pDocGB, * m_pAttsGB;
 	QListBox * m_pAttsLB;
 	QTextEdit * m_pDocTE;

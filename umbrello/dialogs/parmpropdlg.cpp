@@ -8,7 +8,7 @@
  ***************************************************************************/
 
 #include "parmpropdlg.h"
-#include "../concept.h"
+#include "../classifier.h"
 #include "../interface.h"
 #include "../umldoc.h"
 #include <klocale.h>
@@ -82,8 +82,8 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a) : KDi
 	m_pTypeCB->setAutoCompletion(true);
 
 	//now add the Concepts
-	QList<UMLConcept> namesList( m_pUmldoc->getConcepts() );
-	UMLConcept * obj;
+	QList<UMLClassifier> namesList( m_pUmldoc->getConcepts() );
+	UMLClassifier * obj;
 	for(obj=namesList.first(); obj!=0 ;obj=namesList.next()) {
 		m_pTypeCB->insertItem( obj->getName() );
 	}

@@ -26,8 +26,8 @@ class UMLOperation;
 class UMLAttribute;
 
 /**
-  * class PhpWriter is a PHP code generator for UMLConcept objects
-  * Just call writeClass and feed it a UMLConcept;
+  * class PhpWriter is a PHP code generator for UMLClassifier objects
+  * Just call writeClass and feed it a UMLClassifier;
   */
 class PhpWriter : public CodeGenerator {
 public:
@@ -36,10 +36,10 @@ public:
 	virtual ~PhpWriter();
 
 	/**
-	  * call this method to generate Php code for a UMLConcept
+	  * call this method to generate Php code for a UMLClassifier
 	  * @param c the class you want to generate code for.
 	  */
-	virtual void writeClass(UMLConcept *c);
+	virtual void writeClass(UMLClassifier *c);
 
 private:
 
@@ -54,7 +54,7 @@ private:
 	  * @param c the concept we are generating code for
 	  * @param php output stream for the PHP file
 	  */
-	void writeOperations(UMLConcept *c, QTextStream &php);
+	void writeOperations(UMLClassifier *c, QTextStream &php);
 
 	/**
 	  * write a list of class operations
@@ -70,7 +70,7 @@ private:
 	  * @param c the class we are generating code for
 	  * @param php output stream for the PHP file
 	  */
-	void writeAttributes(UMLConcept *c, QTextStream &php);
+	void writeAttributes(UMLClass *c, QTextStream &php);
 
 	/** write a list of class attributes
 	  * @param atList the list of attributes

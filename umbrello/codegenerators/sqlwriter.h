@@ -28,8 +28,8 @@ class UMLOperation;
 class UMLAttribute;
 
 /**
-  * class SQLWriter is a code generator for UMLConcept objects.
-  * Create an instance of this class, and feed it a UMLConcept when
+  * class SQLWriter is a code generator for UMLClassifier objects.
+  * Create an instance of this class, and feed it a UMLClassifier when
   * calling writeClass and it will generate a sql source file for
   * that concept
   */
@@ -40,10 +40,10 @@ public:
 	virtual ~SQLWriter();
 
 	/**
-	 * call this method to generate sql code for a UMLConcept
+	 * call this method to generate sql code for a UMLClassifier
 	 * @param c the class to generate code for
 	 */
-	virtual void writeClass(UMLConcept *c);
+	virtual void writeClass(UMLClassifier *c);
 private:
 
 	/**
@@ -51,7 +51,7 @@ private:
 	 * @param c the class for which we are generating code
 	 * @param j the stream associated with the output file
 	 */
-	void writeAttributes(UMLConcept *c, QTextStream &j);
+	void writeAttributes(UMLClass *c, QTextStream &j);
 
 	/**
 	 * Prints out attributes as columns in the table

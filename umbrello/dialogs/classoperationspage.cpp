@@ -6,17 +6,15 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
- 
+
 #include "classoperationspage.h"
-#include "../concept.h"
+#include "../class.h"
 #include "../umldoc.h"
 #include "../operation.h"
-
 
 #include <qtextedit.h>
 #include <qlistview.h>
 #include <qpushbutton.h>
-
 
 #include <kdebug.h>
 
@@ -56,15 +54,15 @@ void ClassOperationsPage::loadData()
 	{
 		new QListViewItem( m_operationsList, "", op->getName( ) );
 	}
-	
+
 }
 
 void ClassOperationsPage::saveData()
 {
 	blockSignals(true);
-	
 
-	
+
+
 	blockSignals(false);
 }
 
@@ -113,7 +111,7 @@ void ClassOperationsPage::moveDown( )
 		{
 			m_downButton->setEnabled(false);
 		}
-		
+
 	}
 }
 

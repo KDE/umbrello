@@ -16,10 +16,10 @@
 #include <klocale.h>
 #include <qlayout.h>
 
-ClassAttPage::ClassAttPage(QWidget *parent, UMLConcept * c, UMLDoc * doc) : QWidget(parent) {
+ClassAttPage::ClassAttPage(QWidget *parent, UMLClass * c, UMLDoc * doc) : QWidget(parent) {
 	m_bSigWaiting = false;
 	m_pDoc = doc;
-	m_pConcept = c;
+	m_pClass = c;
 	m_pMenu = 0;
 	int margin = fontMetrics().height();
 	setMinimumSize(310,330);
@@ -153,7 +153,7 @@ void ClassAttPage::updateObject() {
 	for( int j = 0; j < count ; j++ )
 		stringList.append( m_pAttsLB -> text( j ) );
 	/*	if( count > 0 )
-			m_pConcept -> reorderAttributes( stringList );             */
+			m_pClass -> reorderAttributes( stringList );             */
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void ClassAttPage::slotAttributeCreated(UMLObject * object) {
@@ -308,7 +308,7 @@ void ClassAttPage::slotProperties() {
 
 void ClassAttPage::slotNewAttribute() {
 	m_bSigWaiting = true;
-	m_pDoc->createUMLObject(m_pConcept, Uml::ot_Attribute);
+	m_pDoc->createUMLObject(m_pClass, Uml::ot_Attribute);
 }
 
 #include "classattpage.moc"

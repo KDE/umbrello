@@ -22,7 +22,7 @@
 #include "associationwidget.h"
 
 #include "../umldoc.h"
-#include "../concept.h"
+#include "../class.h"
 #include "../interface.h"
 #include "../package.h"
 #include "../template.h"

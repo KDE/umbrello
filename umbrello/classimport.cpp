@@ -8,7 +8,7 @@
  ***************************************************************************/
 
 #include "classimport.h"
-#include "concept.h"
+#include "class.h"
 #include "operation.h"
 #include "classparser/ClassParser.h"
 #include "classparser/ParsedArgument.h"
@@ -16,9 +16,6 @@
 #include "classparser/ParsedClass.h"
 #include "classparser/ParsedMethod.h"
 #include <kdebug.h>
-
-//ClassImport::ClassImport(){
-//}
 
 ClassImport::ClassImport(QWidget *parent, const char *name) : UMLDoc(parent, name) {
 }
@@ -31,8 +28,8 @@ UMLObject *ClassImport::createUMLObject(QString className, Uml::UMLObject_Type t
 	UMLObject * o = findUMLObject(type, className);
 
 	if(!o) {
-		if(type == Uml::ot_Concept) {
-			UMLConcept *c = new UMLConcept(this, className, ++uniqueID);
+		if(type == Uml::ot_Class) {
+			UMLClass *c = new UMLClass(this, className, ++uniqueID);
 			o = (UMLObject*)c;
 		} else {
 			kdDebug() << "CreateUMLObject(int) error" << endl;
@@ -51,7 +48,7 @@ UMLObject *ClassImport::createUMLObject(QString className, Uml::UMLObject_Type t
 void ClassImport::insertAttribute(UMLObject *o, Uml::Scope scope, QString name, QString type, QString value /*= ""*/) {
 	int attID = ++uniqueID;
 
-	UMLAttribute *temp = reinterpret_cast<UMLAttribute *>(((UMLConcept*)o)->addAttribute(name , attID));
+	UMLAttribute *temp = reinterpret_cast<UMLAttribute *>(((UMLClass*)o)->addAttribute(name , attID));
 
 	temp->setTypeName(type);
 	temp->setInitialValue(value);
@@ -66,7 +63,7 @@ void ClassImport::insertAttribute(UMLObject *o, Uml::Scope scope, QString name, 
 void ClassImport::insertMethod(UMLObject *o, Uml::Scope scope, QString name, QString type, QList<UMLAttribute> *parList /*= NULL*/) {
 	int attID = ++uniqueID;
 
-	UMLOperation *temp = reinterpret_cast<UMLOperation *>(((UMLConcept*)o)->addOperation(name , attID));
+	UMLOperation *temp = reinterpret_cast<UMLOperation *>(((UMLClass*)o)->addOperation(name , attID));
 	temp->setReturnType(type);
 
 	if(parList != NULL) {
@@ -103,7 +100,7 @@ void ClassImport::importCPP(QStringList headerFileList) {
 		QList<CParsedAttribute> *attributes = currentParsedClass->getSortedAttributeList();
 		QListIterator<CParsedAttribute> aIt(*attributes);
 
-		currentClass = createUMLObject(currentParsedClass->name, Uml::ot_Concept);
+		currentClass = createUMLObject(currentParsedClass->name, Uml::ot_Class);
 
 		for( ; aIt.current() ; ++aIt) {
 			CParsedAttribute *attr = aIt.current();
@@ -182,7 +179,7 @@ void ClassImport::importCPP(QStringList headerFileList) {
 
 /** No descriptions */
 bool ClassImport::createClass(QString className, UMLObject *uObject) {
-	uObject = this->createUMLObject(className, Uml::ot_Concept); // create class
+	uObject = this->createUMLObject(className, Uml::ot_Class); // create class
 	if(uObject != NULL)
 		return true;
 	else {

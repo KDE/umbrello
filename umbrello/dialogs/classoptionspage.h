@@ -15,9 +15,9 @@
 #include <qgroupbox.h>
 #include <qcheckbox.h>
 
-#include "../conceptwidget.h"
+#include "../classwidget.h"
 
-class ConceptWidget;
+class ClassWidget;
 class InterfaceWidget;
 
 /**
@@ -51,7 +51,7 @@ public:
 	*	Sets the widget to be used.  Only used by @ref UMLView to set
 	*	settings of a widget.
 	*/
-	void setWidget( ConceptWidget * pWidget ) {
+	void setWidget( ClassWidget * pWidget ) {
 		m_pClassWidget = pWidget;
 	}
 protected:
@@ -86,7 +86,7 @@ protected:
 	/**
 	*	The class widget to represent in the dialog page.
 	*/
-	ConceptWidget* m_pClassWidget;
+	ClassWidget* m_pClassWidget;
 
 	/**
 	*	The interface widget to represent in the dialog page.

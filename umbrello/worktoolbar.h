@@ -81,7 +81,7 @@ InitialState, State, EndState, InitialActivity, Activity, EndActivity, Branch, F
 	    tbb_Text,
 	    tbb_Actor,
 	    tbb_UseCase,
-	    tbb_Concept,
+	    tbb_Class,
 	    tbb_Interface,
 	    tbb_Package,
 	    tbb_Component,

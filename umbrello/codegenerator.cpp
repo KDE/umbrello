@@ -30,11 +30,10 @@
 
 #include "codegenerator.h"
 #include "umldoc.h"
-#include "concept.h"
+#include "class.h"
 #include "operation.h"
-#include "attribute.h"
-#include "umlview.h"  //for getting associations!! I´ll fix this someday!!
-#include "associationwidget.h" //and I´ll fix this someday too
+#include "umlview.h"  //for getting associations!! I'll fix this someday!!
+#include "associationwidget.h" //and I'll fix this someday too
 #include "dialogs/overwritedialogue.h"
 
 #define MAXLINES 100
@@ -49,7 +48,7 @@ CodeGenerator::CodeGenerator(QObject *parent, const char *name)
 	m_outputDirectory = QDir::home();
 	m_headingFiles = QDir::home();
 	m_headingFiles.cd("headings");
-	m_fileMap = new QMap<UMLConcept*,QString>;
+	m_fileMap = new QMap<UMLClassifier*,QString>;
 	m_applyToAllRemaining = true;
 }
 
@@ -57,7 +56,7 @@ CodeGenerator::~CodeGenerator() {
 	delete m_fileMap;
 }
 
-QString CodeGenerator::findFileName(UMLConcept* concept, QString ext) {
+QString CodeGenerator::findFileName(UMLClassifier* concept, QString ext) {
 	//if we already know to which file this class was written/should be written, just return it.
 	if(m_fileMap->contains(concept))
 		return ((*m_fileMap)[concept]);
@@ -271,8 +270,8 @@ QString CodeGenerator::formatDoc(const QString &text, const QString &linePrefix,
 	return output;
 }
 
-void CodeGenerator::findObjectsRelated(UMLConcept *c, QList<UMLConcept> &cList) {
-	UMLConcept *temp;
+void CodeGenerator::findObjectsRelated(UMLClassifier *c, QList<UMLClassifier> &cList) {
+	UMLClassifier *temp;
 	UMLView *view;
 
 	view = m_doc->getCurrentView();
@@ -290,14 +289,14 @@ void CodeGenerator::findObjectsRelated(UMLConcept *c, QList<UMLConcept> &cList) 
 		switch(a->getAssocType()) {
 			case Uml::at_Generalization:
 				if(a->getData()->getWidgetAID()==c->getID())
-					temp =(UMLConcept*) m_doc->findUMLObject(a->getData()->getWidgetBID());
+					temp =(UMLClassifier*) m_doc->findUMLObject(a->getData()->getWidgetBID());
 				if(temp  && !cList.containsRef(temp))
 					cList.append(temp);
 				break;
 			case Uml::at_Aggregation:
 			case Uml::at_Composition:
 				if(a->getData()->getWidgetBID()==c->getID())
-					temp = (UMLConcept*)m_doc->findUMLObject(a->getData()->getWidgetAID());
+					temp = (UMLClassifier*)m_doc->findUMLObject(a->getData()->getWidgetAID());
 				if(temp  && !cList.containsRef(temp))
 					cList.append(temp);
 				break;
@@ -311,13 +310,15 @@ void CodeGenerator::findObjectsRelated(UMLConcept *c, QList<UMLConcept> &cList) 
 	for(UMLOperation *op = opl->first(); op ; op = opl->next()) {
 		temp =0;
 		//check return value
-		temp =(UMLConcept*) m_doc->findUMLObject(Uml::ot_Concept,op->getReturnType());
+		// temp =(UMLClassifier*) m_doc->findUMLObject(Uml::ot_Concept,op->getReturnType());
+		temp =(UMLClassifier*) m_doc->findUMLClassifier(op->getReturnType());
 		if(temp && !cList.containsRef(temp))
 			cList.append(temp);
 		//check parameters
 		atl = op->getParmList();
 		for(at = atl->first(); at; at = atl->next()) {
-			temp = (UMLConcept*)m_doc->findUMLObject(Uml::ot_Concept,at->getTypeName());
+			// temp = (UMLClassifier*)m_doc->findUMLObject(Uml::ot_Concept,at->getTypeName());
+			temp = (UMLClassifier*)m_doc->findUMLClassifier(at->getTypeName());
 			if(temp && !cList.containsRef(temp))
 				cList.append(temp);
 		}
@@ -325,19 +326,23 @@ void CodeGenerator::findObjectsRelated(UMLConcept *c, QList<UMLConcept> &cList) 
 	}
 
 	//attributes
-	atl = c->getAttList();
-	for(at = atl->first(); at; at = atl->next()) {
-		temp=0;
-		temp =(UMLConcept*) m_doc->findUMLObject(Uml::ot_Concept,at->getTypeName());
-		if(temp && !cList.containsRef(temp))
-			cList.append(temp);
+	UMLClass * myClass = dynamic_cast<UMLClass*>(c);
+	if(myClass) {
+		atl = myClass->getAttList();
+		for(at = atl->first(); at; at = atl->next()) {
+			temp=0;
+			// temp =(UMLClassifier*) m_doc->findUMLObject(Uml::ot_Concept,at->getTypeName());
+			temp =(UMLClassifier*) m_doc->findUMLClassifier(at->getTypeName());
+			if(temp && !cList.containsRef(temp))
+				cList.append(temp);
+		}
 	}
 
 
 }
 
 
-bool CodeGenerator::hasDefaultValueAttr(UMLConcept *c) {
+bool CodeGenerator::hasDefaultValueAttr(UMLClass *c) {
 	QList<UMLAttribute> *atl = c->getAttList();
 	for(UMLAttribute *at = atl->first(); at; at = atl->next())
 		if(!at->getInitialValue().isEmpty())
@@ -345,7 +350,7 @@ bool CodeGenerator::hasDefaultValueAttr(UMLConcept *c) {
 	return false;
 }
 
-bool CodeGenerator::hasAbstractOps(UMLConcept *c) {
+bool CodeGenerator::hasAbstractOps(UMLClassifier *c) {
 	QList<UMLOperation> *opl = c->getOpList();
 	for(UMLOperation *op = opl->first(); op ; op = opl->next())
 		if(op->getAbstract())
@@ -359,24 +364,24 @@ void CodeGenerator::generateAllClasses() {
 		return;
 	}
 	m_fileMap->clear();
-	QList<UMLConcept> cList = m_doc->getConcepts();
+	QList<UMLClassifier> cList = m_doc->getConcepts();
 	generateCode(cList);
 }
 
 
-void CodeGenerator::generateCode( QPtrList<UMLConcept> &list ) {
+void CodeGenerator::generateCode( QPtrList<UMLClassifier> &list ) {
 	if(!m_doc) {
 		kdWarning() << "generateCode::Error: doc is NULL!" << endl;
 		return;
 	}
 
-	UMLConcept *c;
+	UMLClassifier *c;
 	m_fileMap->clear();
 	for( c = list.first(); c ; c = list.next() )
 		this->writeClass(c);    //call the right virtual function writeClass
 }
 
-void CodeGenerator::generateCode( UMLConcept * c ) {
+void CodeGenerator::generateCode( UMLClassifier * c ) {
 	if(!m_doc) {
 		kdWarning() << "generateCode::Error: doc is NULL!" << endl;
 		return;

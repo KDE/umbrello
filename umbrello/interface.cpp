@@ -8,98 +8,21 @@
  ***************************************************************************/
 
 #include "interface.h"
-#include "association.h"
 #include "operation.h"
 #include "clipboard/idchangelog.h"
 #include <kdebug.h>
 #include <klocale.h>
 
-UMLInterface::UMLInterface(QObject* parent, QString name, int id) : UMLCanvasObject(parent, name, id) {
+UMLInterface::UMLInterface(QObject* parent, QString name, int id) : UMLClassifier(parent, name, id) {
 	init();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLInterface::UMLInterface(QObject* parent) : UMLCanvasObject(parent) {
+UMLInterface::UMLInterface(QObject* parent) : UMLClassifier(parent) {
 	init();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLInterface::~UMLInterface() {
   	m_OpsList.clear();
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLObject* UMLInterface::addOperation(QString name, int id) {
-	UMLOperation* operation = new UMLOperation(this, name, id);
-	m_OpsList.append(operation);
-	return operation;
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////
-bool UMLInterface::addOperation(UMLOperation* Op) {
-	m_OpsList.append( Op );
-	return true;
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////
-bool UMLInterface::addOperation(UMLOperation* Op, IDChangeLog* Log) {
-	QString name = (QString)Op->getName();
-	if( findChildObject( Uml::ot_Operation, name).count() == 0 ) {
-		Op->parent()->removeChild( Op );
-		this->insertChild( Op );
-		m_OpsList.append( Op );
-		return true;
-	} else if( Log ) {
-		Log->removeChangeByNewID( Op->getID() );
-		delete Op;
-	}
-	return false;
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////
-int UMLInterface::removeOperation(UMLObject *o) {
-	if(!m_OpsList.remove((UMLOperation *)o)) {
-		kdWarning() << "can't find opp given in list" << endl;
-		return -1;
-	}
-	return m_OpsList.count();
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-QPtrList<UMLObject> UMLInterface::findChildObject(UMLObject_Type t , QString n) {
-  	QPtrList<UMLObject> list;
- 	if (t == ot_Association) {
-		return UMLCanvasObject::findChildObject(t, n);
-	} else if (t == ot_Operation) {
-		UMLOperation * obj=0;
-		for(obj=m_OpsList.first();obj != 0;obj=m_OpsList.next()) {
-			if(obj->getBaseType() == t && obj->getName() == n)
-				list.append( obj );
-		}
-	} else {
-		kdWarning() << "finding child object which isn't association or op for interface" << endl;
-	}
-	return list;
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////
-QString UMLInterface::uniqChildName(UMLObject_Type type) {
-	QString currentName;
-	if (type == ot_Association) {
-		return UMLCanvasObject::uniqChildName(type);
-	} else if (type == ot_Operation) {
-		currentName = i18n("new_operation");
-	} else {
-		kdWarning() << "uniqChildName() called for unknown child type" << endl;
-	}
-
-	QString name = currentName;
-	for (int number = 1; findChildObject(type, name).count(); ++number) {
-	        name = currentName + "_" + QString::number(number);
-	}
-	return name;
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLObject* UMLInterface::findChildObject(int id) {
-	UMLOperation * o=0;
-	for(o=m_OpsList.first();o != 0;o=m_OpsList.next()) {
-		if(o->getID() == id)
-			return o;
-	}
-	return UMLCanvasObject::findChildObject(id);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool UMLInterface::serialize(QDataStream *s, bool archive, int fileversion) {
@@ -130,14 +53,8 @@ bool UMLInterface::serialize(QDataStream *s, bool archive, int fileversion) {
 	}//end else
 	return status;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
-void UMLInterface::init() {
-	m_BaseType = ot_Interface;
-	m_OpsList.clear();
-	m_OpsList.setAutoDelete(true);
-	setStereotype( i18n("interface") );
-}
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
 long UMLInterface::getClipSizeOf() {
 	long l_size = UMLObject::getClipSizeOf();
 	//  Q_UINT32 tmp; //tmp is used to calculate the size of each serialized null string
@@ -151,13 +68,33 @@ long UMLInterface::getClipSizeOf() {
 	return l_size;
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
 bool UMLInterface::operator==( UMLInterface & rhs ) {
 	if ( m_OpsList.count() != rhs.m_OpsList.count() ) {
 		return false;
 	}
-	return UMLCanvasObject::operator==(rhs);
+	return UMLClassifier::operator==(rhs);
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+QString UMLInterface::uniqChildName(UMLObject_Type type) {
+	QString currentName;
+	if (type == ot_Association) {
+		return UMLCanvasObject::uniqChildName(type);
+	} else if (type == ot_Operation) {
+		currentName = i18n("new_operation");
+	} else {
+		kdWarning() << "uniqChildName() called for unknown child type" << endl;
+	}
+
+	QString name = currentName;
+	for (int number = 1; findChildObject(type, name).count(); ++number) {
+		name = currentName + "_" + QString::number(number);
+	}
+	return name;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
 bool UMLInterface::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement classElement = qDoc.createElement("UML:Interface");
 	bool status = UMLObject::saveToXMI( qDoc, classElement );
@@ -170,6 +107,7 @@ bool UMLInterface::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	return status;
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
 bool UMLInterface::loadFromXMI( QDomElement & element ) {
 	if( !UMLObject::loadFromXMI(element) ) {
 		return false;
@@ -192,10 +130,10 @@ bool UMLInterface::loadFromXMI( QDomElement & element ) {
 	return true;
 }
 
-int UMLInterface::operations() {
-	return m_OpsList.count();
-}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+void UMLInterface::init() {
 
-QPtrList<UMLOperation>* UMLInterface::getOpList() {
-	return &m_OpsList;
+	UMLClassifier::init();
+	m_BaseType = ot_Interface;
+	setStereotype( i18n("interface") );
 }

@@ -28,7 +28,7 @@ namespace Uml {
 	    ot_UseCase,
 	    ot_Package,
 	    ot_Interface,
-	    ot_Concept,
+	    ot_Class,
 	    ot_Association,
 	    ot_Attribute,
 	    ot_Operation,

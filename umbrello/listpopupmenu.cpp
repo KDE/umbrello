@@ -14,7 +14,7 @@
 
 #include "listpopupmenu.h"
 #include "umlwidget.h"
-#include "conceptwidget.h"
+#include "classwidget.h"
 #include "interfacewidget.h"
 #include "floatingtext.h"
 #include "umlview.h"
@@ -104,7 +104,7 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, Uml::ListView_Type type) : KPopupM
 			break;
 
 		case Uml::lvt_Class:
-			mt = mt_Concept;
+			mt = mt_Class;
 			break;
 
 		case Uml::lvt_Package:
@@ -152,7 +152,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object, bool multi) :
 		return;
 	StateWidget * pState = static_cast< StateWidget *>( object );
 	ActivityWidget * pActivity = static_cast<ActivityWidget *>( object );
-	ConceptWidget * c = static_cast< ConceptWidget *>( object );
+	ClassWidget * c = static_cast< ClassWidget *>( object );
 	InterfaceWidget* interfaceWidget = static_cast<InterfaceWidget*>(object);
 	UMLView * pView = static_cast<UMLView *>( parent );
 	Uml::UMLWidget_Type type = object -> getBaseType();
@@ -485,13 +485,11 @@ Uml::UMLObject_Type ListPopupMenu::convert_MT_OT(Menu_Type mt) {
 			type = Uml::ot_Actor;
 			break;
 
-		case mt_Concept:
-			type = Uml::ot_Concept;
-
+		case mt_Class:
+			type = Uml::ot_Class;
 			break;
 
 		case mt_Attribute:
-
 			type = Uml::ot_Attribute;
 			break;
 
@@ -532,7 +530,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 		case mt_Logical_View:
 			m_pInsert = new KPopupMenu(this, "New");
 			m_pInsert -> insertItem(SmallIcon( "folder_new"), i18n("Folder"), mt_Logical_Folder);
-			m_pInsert -> insertItem(classPixmap, i18n("Class..."), mt_Concept);
+			m_pInsert -> insertItem(classPixmap, i18n("Class..."), mt_Class);
 			m_pInsert -> insertItem(interfacePixmap, i18n("Interface..."), mt_Interface);
 			m_pInsert->insertItem(packagePixmap, i18n("Package..."), mt_Package);
 			m_pInsert -> insertItem(SmallIcon( "folder_green"),i18n("Class Diagram"), mt_Class_Diagram);
@@ -602,7 +600,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 		case mt_Logical_Folder:
 			m_pInsert = new KPopupMenu(this, "New");
 			m_pInsert -> insertItem(SmallIcon( "folder_new"),i18n("Folder"), mt_Logical_Folder);
-			m_pInsert -> insertItem(classPixmap, i18n("Class..."), mt_Concept);
+			m_pInsert -> insertItem(classPixmap, i18n("Class..."), mt_Class);
 			m_pInsert -> insertItem(packagePixmap, i18n("Package..."), mt_Package);
 			m_pInsert -> insertItem(SmallIcon( "folder_green"),i18n("Class Diagram"), mt_Class_Diagram);
 			m_pInsert -> insertItem(SmallIcon( "folder_green"),i18n("State Diagram"), mt_State_Diagram);
@@ -714,7 +712,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 
 		case mt_On_Class_Diagram:
 			m_pInsert = new KPopupMenu( this, "New" );
-			m_pInsert -> insertItem(classPixmap, i18n("Class..."), mt_Concept);
+			m_pInsert -> insertItem(classPixmap, i18n("Class..."), mt_Class);
 			m_pInsert->insertItem(interfacePixmap, i18n("Interface..."), mt_Interface);
 			m_pInsert -> insertItem(packagePixmap, i18n("Package..."), mt_Package);
 			m_pInsert -> insertItem(SmallIcon( "text"), i18n( "Text Line..." ), mt_FloatText );
@@ -773,7 +771,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 			setupDiagramMenu(view);
 			break;
 
-		case mt_Concept:
+		case mt_Class:
 			m_pInsert = new KPopupMenu(this,"New");
 			m_pInsert -> insertItem(SmallIcon( "source"), i18n("Attribute"), mt_Attribute);
 			m_pInsert -> insertItem(SmallIcon( "source"), i18n("Operation"), mt_Operation);

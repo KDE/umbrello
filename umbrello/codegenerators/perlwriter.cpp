@@ -17,7 +17,7 @@
 
 
 #include "perlwriter.h"
-#include "../concept.h"
+#include "../class.h"
 #include "../operation.h"
 #include "../umldoc.h"
 #include "../association.h"
@@ -33,7 +33,7 @@ PerlWriter::PerlWriter( QObject *parent, const char *name )
 PerlWriter::~PerlWriter() {}
 
 
-void PerlWriter::writeClass(UMLConcept *c) {
+void PerlWriter::writeClass(UMLClassifier *c) {
 	if(!c) {
 		kdDebug()<<"Cannot write class of NULL concept!\n";
 		return;
@@ -100,9 +100,9 @@ void PerlWriter::writeClass(UMLConcept *c) {
 	}
 
 	//write includes
-	QList<UMLConcept> includes;//ca existe en perl??
+	QList<UMLClassifier> includes;//ca existe en perl??
 	findObjectsRelated(c,includes);
-	UMLConcept *conc;
+	UMLClassifier *conc;
 	for(conc = includes.first(); conc ;conc = includes.next()) {
 			perl << "use " << cleanName(conc->getName()) << ";" << endl; // seems OK
 	}
@@ -138,7 +138,9 @@ void PerlWriter::writeClass(UMLConcept *c) {
         perl << "=head1 ABSTRACT CLASS\n\n=cut" << endl;
 
 	//attributes
-	writeAttributes(c, perl);      // keep for documentation's sake
+	UMLClass *myClass = dynamic_cast<UMLClass*>(c);
+	if (myClass)
+		writeAttributes(myClass, perl);      // keep for documentation's sake
 
 	//operations
 	writeOperations(c,perl);
@@ -156,7 +158,7 @@ void PerlWriter::writeClass(UMLConcept *c) {
 ////////////////////////////////////////////////////////////////////////////////////
 //  Helper Methods
 
-void PerlWriter::writeOperations(UMLConcept *c, QTextStream &perl) {
+void PerlWriter::writeOperations(UMLClassifier *c, QTextStream &perl) {
 
 	//Lists to store operations  sorted by scope
 	QList<UMLOperation> *opl;
@@ -208,8 +210,10 @@ void PerlWriter::writeOperations(UMLConcept *c, QTextStream &perl) {
 	}
 
     // moved here for perl
-	if(hasDefaultValueAttr(c)) {
-		QList<UMLAttribute> *atl = c->getAttList();
+	UMLClass *myClass = dynamic_cast<UMLClass*>(c);
+
+	if(myClass && hasDefaultValueAttr(myClass)) {
+		QList<UMLAttribute> *atl = myClass->getAttList();
 
 		perl << endl;
 		perl << endl << "=item _init\n\n" << endl;
@@ -269,7 +273,7 @@ void PerlWriter::writeOperations(QString /* classname */, QList<UMLOperation> &o
 }
 
 
-void PerlWriter::writeAttributes(UMLConcept *c, QTextStream &perl) {
+void PerlWriter::writeAttributes(UMLClass *c, QTextStream &perl) {
 	QList<UMLAttribute> *atl;
 
 	QList <UMLAttribute>  atpub, atprot, atpriv, atdefval;

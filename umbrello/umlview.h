@@ -638,9 +638,9 @@ public:
 	bool showPropDialog();
 
 	/**
-	 *		Sets some options for all the @ref ConceptWidget on the view.
+	 *		Sets some options for all the @ref ClassWidget on the view.
 	 */
-	void setConceptWidgetOptions( ClassOptionsPage * page );
+	void setClassWidgetOptions( ClassOptionsPage * page );
 
 	/**
 	*		Call before copying/cutting selected widgets.  This will make sure

@@ -16,10 +16,10 @@
 #include <klocale.h>
 #include <qlayout.h>
 
-ClassTemplatePage::ClassTemplatePage(QWidget* parent, UMLConcept* concept, UMLDoc* doc) : QWidget(parent) {
+ClassTemplatePage::ClassTemplatePage(QWidget* parent, UMLClass * myclass , UMLDoc* doc) : QWidget(parent) {
 	m_bSigWaiting = false;
 	m_pDoc = doc;
-	m_pConcept = concept;
+	m_pClass = myclass;
 	m_pMenu = 0;
 	int margin = fontMetrics().height();
 	setMinimumSize(310,330);
@@ -63,7 +63,7 @@ ClassTemplatePage::ClassTemplatePage(QWidget* parent, UMLConcept* concept, UMLDo
 
 	//add attributes to list
 	UMLTemplate* theTemplate;
-	m_pTemplateList = concept->getTemplateList();
+	m_pTemplateList = myclass->getTemplateList();
 	for (theTemplate=m_pTemplateList->first();theTemplate != 0;theTemplate=m_pTemplateList->next()) {
 		m_pTemplateLB->insertItem( theTemplate->getName() );
 	}
@@ -310,7 +310,7 @@ void ClassTemplatePage::slotProperties() {
 
 void ClassTemplatePage::slotNewTemplate() {
 	m_bSigWaiting = true;
-	m_pDoc->createUMLObject(m_pConcept, Uml::ot_Template);
+	m_pDoc->createUMLObject(m_pClass, Uml::ot_Template);
 }
 
 #include "classtemplatepage.moc"

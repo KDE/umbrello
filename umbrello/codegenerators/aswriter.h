@@ -26,8 +26,8 @@ class UMLOperation;
 class UMLAttribute;
 
 /**
-  * class ASWriter is a ActionScript code generator for UMLConcept objects
-  * Just call writeClass and feed it a UMLConcept;
+  * class ASWriter is a ActionScript code generator for UMLClassifier objects
+  * Just call writeClass and feed it a UMLClassifier;
   */
 class ASWriter : public CodeGenerator {
 public:
@@ -36,10 +36,10 @@ public:
 	virtual ~ASWriter();
 
 	/**
-	  * call this method to generate Actionscript code for a UMLConcept
+	  * call this method to generate Actionscript code for a UMLClassifier
 	  * @param c the class you want to generate code for.
 	  */
-	virtual void writeClass(UMLConcept *c);
+	virtual void writeClass(UMLClassifier *c);
 
 private:
 

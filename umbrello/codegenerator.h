@@ -25,8 +25,8 @@
 #include <qobject.h>
 
 class UMLDoc;
-class UMLConcept;
-
+class UMLClassifier;
+class UMLClass;
 
 /**
  * CodeGenerator is the basis class for all CodeGenerators. It
@@ -44,9 +44,9 @@ class UMLConcept;
  *
  * The only method which you should implement in your class is:
  *
- *    void writeClass(UMLConcept *)
+ *    void writeClass(UMLClassifier *)
  *
- * in which you get a pointer to the UMLConcept (class) for which you
+ * in which you get a pointer to the UMLClassifier (class) for which you
  * have to write the code, and you write a file with the code.
  *
  * The code you generate should be output to "outputDirectory" and you
@@ -84,12 +84,12 @@ public:
 	/**
 	 *   Generate code for the list of classes given.
 	 */
-	void generateCode( QPtrList<UMLConcept> &list );
+	void generateCode( QPtrList<UMLClassifier> &list );
 
 	/**
 	 *   Generate code for class c
 	 */
-	void generateCode( UMLConcept *c);
+	void generateCode( UMLClassifier *c);
 
 	void setDocument(UMLDoc *d);
 
@@ -119,7 +119,7 @@ protected:
 	/**
 	 * To be implemented by the Language Writers
 	 */
-	virtual void writeClass(UMLConcept *) {};
+	virtual void writeClass(UMLClassifier *) {};
 
 	/**
 	 * Finds an appropiate file name for class c, taking into account the Overwrite
@@ -130,7 +130,7 @@ protected:
 	 * @return the file name that should be used. (without extension) or 
 	 * 	NULL if none to be used
 	 */
-	QString findFileName(UMLConcept* concept, QString ext);
+	QString findFileName(UMLClassifier* concept, QString ext);
 
 	/** Opens a file named "name" for writing in the outputDirectory.
 	 * If something goes wrong, it informs the user
@@ -178,11 +178,11 @@ protected:
 	 * @param c the class for which relations are to be found
 	 * @param cList a reference to the list into which return the result
 	 */
-	void findObjectsRelated(UMLConcept *c, QList<UMLConcept> &cList);
+	void findObjectsRelated(UMLClassifier *c, QList<UMLClassifier> &cList);
 
-	bool hasDefaultValueAttr(UMLConcept *c);
+	bool hasDefaultValueAttr(UMLClass *c);
 
-	bool hasAbstractOps(UMLConcept *c);
+	bool hasAbstractOps(UMLClassifier *c);
 
 	/* Attributes*/
 	QDir m_outputDirectory;
@@ -205,14 +205,14 @@ protected:
 	 * Maps UMLObjects to filenames. Used to know to which file
 	 * each class was written to.  this is useful in varios places
 	 */
-	QMap<UMLConcept*,QString> *m_fileMap;
+	QMap<UMLClassifier*,QString> *m_fileMap;
 
 signals:
 	/**
-	 * This signal is emited when code for UMLConcept c has been 
+	 * This signal is emited when code for UMLClassifier c has been 
 	 * successfully or unsuccessfully generated
 	 */
-	void codeGenerated(UMLConcept* concept, bool generated);
+	void codeGenerated(UMLClassifier* concept, bool generated);
 };
 
 

@@ -20,7 +20,7 @@
  * @author Paul Hensgen
  */
 class UMLView;
-class ConceptWidget;
+class ClassWidget;
 
 class QCheckBox;
 class QLabel;
@@ -96,7 +96,7 @@ protected:
 	/**
 	*	Used to setup widget defaults.
 	*/
-	ConceptWidget * m_pTempWidget;
+	ClassWidget * m_pTempWidget;
 
 	KFontChooser * m_pChooser;
 	DiagramPropertiesPage *m_diagramProperties;

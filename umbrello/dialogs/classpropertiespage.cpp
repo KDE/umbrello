@@ -6,9 +6,9 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
- 
+
 #include "classpropertiespage.h"
-#include "../concept.h"
+#include "../class.h"
 
 #include <qlineedit.h>
 #include <qtextedit.h>
@@ -32,8 +32,8 @@ ClassPropertiesPage::ClassPropertiesPage(UMLClass *c, QWidget *parent, const cha
 	connect(m_protected,SIGNAL(toggled(bool)),this,SIGNAL(pageModified()));
 	connect(m_private,SIGNAL(toggled(bool)),this,SIGNAL(pageModified()));
 	connect(m_documentation,SIGNAL(textChanged()),this,SIGNAL(pageModified()));
-	
-	
+
+
 	connect(m_umlObject,SIGNAL(modified()),this,SLOT(loadData()));
 	connect(this,SIGNAL(pageModified()),this,SLOT(pageContentsModified()));
 }
@@ -52,17 +52,19 @@ void ClassPropertiesPage::cancel()
 
 void ClassPropertiesPage::pageContentsModified()
 {
-	if(m_autoApply) 
+	/*FIXMEnow m_autoApply doesn't seem to exist -- jr 13/3/2003
+	if(m_autoApply)
 	{
 		saveData();
 	}
+	*/
 }
 
 
 void ClassPropertiesPage::loadData()
 {kdDebug()<<"ClassPropertiesPage::loadData() : disconnecting signal pageModified()"<<endl;
 	disconnect(this,SIGNAL(pageModified()),this,SLOT(pageContentsModified()));
-	
+
 	m_className->setText(m_umlObject->getName());
 	m_stereotype->setText(m_umlObject->getStereotype());
 	m_packageName->setText(m_umlObject->getPackage());
@@ -80,15 +82,15 @@ void ClassPropertiesPage::loadData()
 			m_private->setChecked(true);
 	}
 	m_documentation->setText(m_umlObject->getDoc());
-	
+
 	connect(this,SIGNAL(pageModified()),this,SLOT(pageContentsModified()));
-kdDebug()<<"reconnecting singal"<<endl;	
+kdDebug()<<"reconnecting singal"<<endl;
 }
 
 void ClassPropertiesPage::saveData()
 {kdDebug()<<"ClassPropertiesPage::loadData() : disconnecting signal UMLObject::modified()"<<endl;
 	disconnect(m_umlObject,SIGNAL(modified()),this,SLOT(loadData()));
-	
+
 	m_umlObject->setName(m_className->text());
 	m_umlObject->setStereotype(m_stereotype->text());
 	m_umlObject->setPackage(m_packageName->text());
@@ -96,12 +98,12 @@ void ClassPropertiesPage::saveData()
 		m_umlObject->setScope(Uml::Public);
 	else if (m_protected->isChecked())
 		m_umlObject->setScope(Uml::Protected);
-	else 
+	else
 		m_umlObject->setScope(Uml::Private);
 	m_umlObject->setDoc(m_documentation->text());
-	
+
 	connect(m_umlObject,SIGNAL(modified()),this,SLOT(loadData()));
-kdDebug()<<"reconnecting singal"<<endl;		
+kdDebug()<<"reconnecting singal"<<endl;
 }
 
 #include "classpropertiespage.moc"

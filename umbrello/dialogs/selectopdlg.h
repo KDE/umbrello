@@ -19,7 +19,7 @@
 #include <qbuttongroup.h>
 #include <qlineedit.h>
 #include <qlabel.h>
-#include "../concept.h"
+#include "../classifier.h"
 
 
 #define OP 				0
@@ -43,7 +43,7 @@ public:
 	 *	@param	parent	The parent to this instance.
 	 *	@param	c	The concept to get the operations from.
 	 */
-	SelectOpDlg(QWidget * parent, UMLConcept * c);
+	SelectOpDlg(QWidget * parent, UMLClassifier * c);
 
 	/**
 	 *	Standard deconstructor.

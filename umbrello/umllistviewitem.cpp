@@ -7,7 +7,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "concept.h"
+#include "class.h"
 #include "umldoc.h"
 #include "umllistview.h"
 #include "umllistviewitem.h"
@@ -96,7 +96,7 @@ void UMLListViewItem::updateObject() {
 			setPixmap( 0, s_pListView -> getPixmap( UMLListView::it_UseCase ) );
 			break;
 
-		case Uml::ot_Concept:
+		case Uml::ot_Class:
 			setPixmap( 0, s_pListView -> getPixmap( UMLListView::it_Class ) );
 			break;
 
@@ -222,7 +222,7 @@ void UMLListViewItem::okRename( int col ) {
 	QListViewItem::okRename( col );
 	QString newText = text( col );
 	UMLObject * object = 0;
-	UMLConcept * parent = 0;
+	UMLClassifier * parent = 0;
 	UMLView * view = 0, * anotherView;
 	if( newText.length() == 0 ) {
 		KMessageBox::error( kapp->mainWidget() ,
@@ -254,7 +254,7 @@ void UMLListViewItem::okRename( int col ) {
 		case Uml::lvt_Operation:
 			object = m_Data.getUMLObject();
 			if( object ) {
-				parent = static_cast<UMLConcept *>( object -> parent() );
+				parent = static_cast<UMLClassifier *>( object -> parent() );
 				//see if op already has that name and not the op/att we are renaming
 				//then give a warning about the name being the same
 				QPtrList<UMLObject> list = parent -> findChildObject( object -> getBaseType(), newText );
@@ -274,7 +274,7 @@ void UMLListViewItem::okRename( int col ) {
 		case Uml::lvt_Attribute:
 			object = m_Data.getUMLObject();
 			if( object ) {
-				parent = static_cast<UMLConcept *>( object -> parent() );
+				parent = static_cast<UMLClass*>( object -> parent() );
 				QPtrList<UMLObject> list = parent -> findChildObject( object -> getBaseType(), newText );
 				if (list.isEmpty()) {
 					object -> setName( newText );

@@ -5,9 +5,7 @@
 #include <qstringlist.h>
 
 class Diagram;
-class UMLConcept;
-typedef UMLConcept UMLClass;
-
+class UMLClass;
 
 namespace Umbrello{
 

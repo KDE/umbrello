@@ -26,7 +26,7 @@
 #include <qregexp.h>
 
 #include "../umldoc.h"
-#include "../concept.h"
+#include "../class.h"
 #include "../association.h"
 #include "../attribute.h"
 #include "../operation.h"
@@ -74,7 +74,7 @@ QString AdaWriter::adatype(QString umbtype) {
 	return retval;
 }
 
-bool AdaWriter::isOOClass(UMLConcept *c) {
+bool AdaWriter::isOOClass(UMLClassifier *c) {
 	QString stype = c->getStereotype();
 	if (stype == "CORBAConstant" || stype == "CORBAEnum" ||
 	        stype == "CORBAStruct" || stype == "CORBAUnion" ||
@@ -86,7 +86,7 @@ bool AdaWriter::isOOClass(UMLConcept *c) {
 	return true;
 }
 
-QString AdaWriter::qualifiedName(UMLConcept *c, bool withType, bool byValue) {
+QString AdaWriter::qualifiedName(UMLClassifier *c, bool withType, bool byValue) {
 	QString umlPkg = c->getPackage();
 	QString className = cleanName(c->getName());
 	QString retval;
@@ -117,7 +117,7 @@ QString AdaWriter::qualifiedName(UMLConcept *c, bool withType, bool byValue) {
 
 void AdaWriter::computeAssocTypeAndRole
        (UMLAssociation *a, QString& typeName, QString& roleName) {
-	UMLConcept* c = (UMLConcept*) m_doc->findUMLObject(a->getRoleAId());
+	UMLClassifier* c = (UMLClassifier*) m_doc->findUMLObject(a->getRoleAId());
 	typeName = cleanName(c->getName());
 	if (! a->getMultiA().isEmpty())
 		typeName.append("_Array_Access");
@@ -133,12 +133,13 @@ void AdaWriter::computeAssocTypeAndRole
 	}
 }
 
-void AdaWriter::writeClass(UMLConcept *c) {
+void AdaWriter::writeClass(UMLClassifier *c) {
 	if (!c) {
 		kdDebug() << "Cannot write class of NULL concept!\n";
 		return;
 	}
 
+	UMLClass * myClass = dynamic_cast<UMLClass*>(c);
 	QString classname = cleanName(c->getName());
 	QString fileName = c->getName().lower();
 	fileName.replace(QRegExp("."), "-");
@@ -169,10 +170,10 @@ void AdaWriter::writeClass(UMLConcept *c) {
 	}
 
 	// Import referenced classes.
-	QList<UMLConcept> imports;
+	QList<UMLClassifier> imports;
 	findObjectsRelated(c, imports);
 	if (imports.count()) {
-		for (UMLConcept *con = imports.first(); con; con = imports.next())
+		for (UMLClassifier *con = imports.first(); con; con = imports.next())
 			ada << "with " << qualifiedName(con) << "; \n";
 		ada << "\n";
 	}
@@ -185,35 +186,39 @@ void AdaWriter::writeClass(UMLConcept *c) {
 		if (stype == "CORBAConstant") {
 			ada << spc() << "-- " << stype << " is Not Yet Implemented\n\n";
 		} else if(stype == "CORBAEnum") {
-			QList<UMLAttribute> *atl = c->getAttList();
-			UMLAttribute *at;
-			ada << spc() << "type " << classname << " is(\n";
-			indentlevel++;
-			uint i = 0;
-			for (at = atl->first(); at; at = atl->next()) {
-				QString enumLiteral = cleanName(at->getName());
-				ada << spc() << enumLiteral;
-				if (++i < atl->count()) //FIXME warning
-					ada << ",\n";
+			if(myClass) {
+				QList<UMLAttribute> *atl = myClass->getAttList();
+				UMLAttribute *at;
+				ada << spc() << "type " << classname << " is(\n";
+				indentlevel++;
+				uint i = 0;
+				for (at = atl->first(); at; at = atl->next()) {
+					QString enumLiteral = cleanName(at->getName());
+					ada << spc() << enumLiteral;
+					if (++i < atl->count()) //FIXME warning
+						ada << ",\n";
+				}
+				indentlevel--;
+				ada << ");\n\n";
 			}
-			indentlevel--;
-			ada << ");\n\n";
 		} else if(stype == "CORBAStruct") {
-			QList<UMLAttribute> *atl = c->getAttList();
-			UMLAttribute *at;
-			ada << spc() << "type " << classname << " is record\n";
-			indentlevel++;
-			for (at = atl->first(); at; at = atl->next()) {
-				QString name = cleanName(at->getName());
-				QString typeName = adatype(at->getTypeName());
-				ada << spc() << name << " : " << typeName;
-				QString initialVal = at->getInitialValue();
-				if (initialVal.latin1() && ! initialVal.isEmpty())
-					ada << " := " << initialVal;
-				ada << ";\n";
+			if(myClass) {
+				QList<UMLAttribute> *atl = myClass->getAttList();
+				UMLAttribute *at;
+				ada << spc() << "type " << classname << " is record\n";
+				indentlevel++;
+				for (at = atl->first(); at; at = atl->next()) {
+					QString name = cleanName(at->getName());
+					QString typeName = adatype(at->getTypeName());
+					ada << spc() << name << " : " << typeName;
+					QString initialVal = at->getInitialValue();
+					if (initialVal.latin1() && ! initialVal.isEmpty())
+						ada << " := " << initialVal;
+					ada << ";\n";
+				}
+				indentlevel--;
+				ada << spc() << "end record;\n\n";
 			}
-			indentlevel--;
-			ada << spc() << "end record;\n\n";
 		} else if(stype == "CORBAUnion") {
 			ada << spc() << "-- " << stype << " is Not Yet Implemented\n\n";
 		} else if(stype == "CORBATypedef") {
@@ -245,33 +250,38 @@ void AdaWriter::writeClass(UMLConcept *c) {
 	} else {
 		// FIXME: Multiple inheritance is not yet supported
 		UMLAssociation *a = generalizations.first();
-		UMLConcept* parent = (UMLConcept*) m_doc->findUMLObject(a->getRoleBId());
+		UMLClassifier* parent = (UMLClassifier*) m_doc->findUMLObject(a->getRoleBId());
 		ada << "new " << qualifiedName(parent) << ".Object with ";
 	}
 	ada << "private;\n\n";
 	ada << spc() << "type Object_Ptr is access all Object'Class;\n\n";
 
 	// Generate accessors for public attributes.
-	QList<UMLAttribute> *atl = c->getAttList();
-	QList<UMLAttribute> atpub;
-	atpub.setAutoDelete(false);
-	UMLAttribute *at;
-	for (at = atl->first(); at; at = atl->next()) {
-		if (at->getScope() == Uml::Public)
-			atpub.append(at);
-	}
-	if (forceSections() || atpub.count())
-		ada << spc() << "-- Accessors for public attributes:\n\n";
-	for (at = atpub.first(); at; at = atpub.next()) {
-		QString member = cleanName(at->getName());
-		ada << spc() << "procedure Set_" << member << " (";
-		if (! at->getStatic())
-			ada << "Self : access Object; ";
-		ada << "To : " << adatype(at->getTypeName()) << ");\n";
-		ada << spc() << "function  Get_" << member;
-		if (! at->getStatic())
-			ada << " (Self : access Object)";
-		ada << " return " << adatype(at->getTypeName()) << ";\n\n";
+	QPtrList<UMLAttribute> *atl;
+        if(myClass) {
+		QList<UMLAttribute> atpub;
+		atpub.setAutoDelete(false);
+
+		atl = myClass->getAttList();
+
+		UMLAttribute *at;
+		for (at = atl->first(); at; at = atl->next()) {
+			if (at->getScope() == Uml::Public)
+				atpub.append(at);
+		}
+		if (forceSections() || atpub.count())
+			ada << spc() << "-- Accessors for public attributes:\n\n";
+		for (at = atpub.first(); at; at = atpub.next()) {
+			QString member = cleanName(at->getName());
+			ada << spc() << "procedure Set_" << member << " (";
+			if (! at->getStatic())
+				ada << "Self : access Object; ";
+			ada << "To : " << adatype(at->getTypeName()) << ");\n";
+			ada << spc() << "function  Get_" << member;
+			if (! at->getStatic())
+				ada << " (Self : access Object)";
+			ada << " return " << adatype(at->getTypeName()) << ";\n\n";
+		}
 	}
 
 	// Generate public operations.
@@ -298,7 +308,7 @@ void AdaWriter::writeClass(UMLConcept *c) {
 		for (UMLAssociation *a = aggregations.first(); a; a = aggregations.next()) {
 			if (a->getMultiA().isEmpty())
 				continue;
-			UMLConcept* other = (UMLConcept*) m_doc->findUMLObject(a->getRoleAId());
+			UMLClassifier* other = (UMLClassifier*) m_doc->findUMLObject(a->getRoleAId());
 			QString member = cleanName(other->getName());
 			// Handling of packages is missing here
 			// A test and error action is missing here for !isOOClass()
@@ -332,7 +342,7 @@ void AdaWriter::writeClass(UMLConcept *c) {
 	} else {
 		// FIXME: Multiple inheritance is not yet supported
 		UMLAssociation *a = generalizations.first();
-		UMLConcept* parent = (UMLConcept*) m_doc->findUMLObject(a->getRoleBId());
+		UMLClassifier* parent = (UMLClassifier*) m_doc->findUMLObject(a->getRoleBId());
 		ada << "new " << qualifiedName(parent) << ".Object with ";
 	}
 	ada << "record\n";
@@ -359,6 +369,7 @@ void AdaWriter::writeClass(UMLConcept *c) {
 
 	if (forceSections() || atl->count()) {
 		ada << spc() << "-- Attributes:\n";
+		UMLAttribute *at;
 		for (at = atl->first(); at; at = atl->next()) {
 			if (at->getStatic())
 				continue;
@@ -374,6 +385,7 @@ void AdaWriter::writeClass(UMLConcept *c) {
 	indentlevel--;
 	ada << spc() << "end record;\n\n";
 	bool seen_static_attr = false;
+	UMLAttribute *at;
 	for (at = atl->first(); at; at = atl->next()) {
 		if (! at->getStatic())
 			continue;

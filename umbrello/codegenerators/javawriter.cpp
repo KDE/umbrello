@@ -24,7 +24,8 @@
 #include <qregexp.h>
 
 #include "../umldoc.h"
-#include "../concept.h"
+#include "../class.h"
+#include "../interface.h"
 #include "../operation.h"
 #include "../umlnamespace.h"
 
@@ -35,13 +36,18 @@ JavaWriter::JavaWriter( QObject *parent, const char *name ) : CodeGenerator(pare
 
 JavaWriter::~JavaWriter() {}
 
-void JavaWriter::writeClass(UMLConcept *c)
+void JavaWriter::writeClass(UMLClassifier *c)
 {
 
 	if (!c) {
 		kdDebug()<<"Cannot write class of NULL concept!\n";
 		return;
 	}
+
+	if(dynamic_cast<UMLInterface*>(c))
+		isInterface = true;
+	else
+		isInterface = false;
 
 	QString fileName = cleanName(c->getName().lower());
 
@@ -74,30 +80,34 @@ void JavaWriter::writeClass(UMLConcept *c)
         atpriv.setAutoDelete(false);
         final_atpriv.setAutoDelete(false);
 
-        atl = c->getAttList();
-        for(at=atl->first(); at ; at=atl->next()) {
-                switch(at->getScope())
-                {
-		case Uml::Public:
-			if(at->getStatic())
-				final_atpub.append(at);
-			else
-				atpub.append(at);
-			break;
-		case Uml::Protected:
-			if(at->getStatic())
-				final_atprot.append(at);
-			else
-				atprot.append(at);
-			break;
-		case Uml::Private:
-			if(at->getStatic())
-				final_atprot.append(at);
-			else
-				atpriv.append(at);
-			break;
-                }
-        }
+	UMLClass * myClass = dynamic_cast<UMLClass *>(c);
+
+	if(myClass) {
+	        atl = myClass->getAttList();
+	        for(at=atl->first(); at ; at=atl->next()) {
+	                switch(at->getScope())
+	                {
+			case Uml::Public:
+				if(at->getStatic())
+					final_atpub.append(at);
+				else
+					atpub.append(at);
+				break;
+			case Uml::Protected:
+				if(at->getStatic())
+					final_atprot.append(at);
+				else
+					atprot.append(at);
+				break;
+			case Uml::Private:
+				if(at->getStatic())
+					final_atprot.append(at);
+				else
+					atpriv.append(at);
+				break;
+	                }
+	        }
+	}
 
 	// another preparation, determine what we have
 	QPtrList <UMLAssociation> associations = c->getSpecificAssocs(Uml::at_Association); // BAD! only way to get "general" associations.
@@ -143,9 +153,9 @@ void JavaWriter::writeClass(UMLConcept *c)
 	}
 
 	//only import classes in a different package as this class
-	QList<UMLConcept> imports;
+	QList<UMLClassifier> imports;
 	findObjectsRelated(c,imports);
-	for(UMLConcept *con = imports.first(); con ; con = imports.next())
+	for(UMLClassifier *con = imports.first(); con ; con = imports.next())
 		if(con->getPackage() != c->getPackage())
 			java<<"import "<<con->getPackage()<<"."<<cleanName(con->getName())<<";"<<endl;
 	writeBlankLine(java);
@@ -179,7 +189,8 @@ void JavaWriter::writeClass(UMLConcept *c)
 
 	// Constructors: anything we more we need to do here ?
 	//
-	writeConstructor(c, java);
+	if(!isInterface)
+		writeConstructor(c, java);
 
 	// METHODS
 	//
@@ -238,7 +249,7 @@ void JavaWriter::writeClass(UMLConcept *c)
 	emit codeGenerated(c, true);
 }
 
-void JavaWriter::writeClassDecl(UMLConcept *c, QTextStream &java)
+void JavaWriter::writeClassDecl(UMLClassifier *c, QTextStream &java)
 {
 
 	QPtrList<UMLAssociation> generalizations = c->getGeneralizations(); // list of what we inherit from
@@ -247,7 +258,11 @@ void JavaWriter::writeClassDecl(UMLConcept *c, QTextStream &java)
 	// write documentation for class, if any, first
         if(forceDoc() || !c->getDoc().isEmpty())
 	{
-		writeDocumentation("Class "+classname,c->getDoc(),"","",java);
+		if(isInterface)
+			writeDocumentation("Interface "+classname,c->getDoc(),"","",java);
+		else
+			writeDocumentation("Class "+classname,c->getDoc(),"","",java);
+
 		writeBlankLine(java);
 	}
 
@@ -262,13 +277,18 @@ void JavaWriter::writeClassDecl(UMLConcept *c, QTextStream &java)
 	} else
 		scope = "public ";
 
-	java<<(c->getAbstract()?QString("abstract "):QString(""))
-	    <<scope<<"class "<<classname;
+	java<<(c->getAbstract()?QString("abstract "):QString(""))<<scope;
+	if(isInterface)
+		java<<"interface ";
+	else
+		java<<"class ";
+
+	java<<classname;
 
 
 	// write inheritances out
-	UMLConcept *concept;
-	QPtrList<UMLConcept> superclasses = c->findSuperClassConcepts(m_doc);
+	UMLClassifier *concept;
+	QPtrList<UMLClassifier> superclasses = c->findSuperClassConcepts(m_doc);
 
 	if(superclasses.count()>0)
 		java<<" extends ";
@@ -403,16 +423,16 @@ void JavaWriter::writeAssociationDecls(QPtrList<UMLAssociation> associations, in
 
 			// First: we insert documentaion for association IF it has either role AND some documentation (!)
 			if ((printRoleA || printRoleB) && !(a->getDoc().isEmpty()))
-				writeComment(a->getDoc(), indent, java); 
+				writeComment(a->getDoc(), indent, java);
 
-			// print RoleB decl 
+			// print RoleB decl
 			if (printRoleB)
 			{
 				QString fieldClassName = cleanName(getUMLObjectName(a->getObjectB()));
 				writeAssociationRoleDecl(fieldClassName, a->getRoleNameB(), a->getMultiB(), a->getRoleBDoc(), a->getVisibilityB(), java);
 			}
 
-			// print RoleA decl 
+			// print RoleA decl
 			if (printRoleA)
 			{
 				QString fieldClassName = cleanName(getUMLObjectName(a->getObjectA()));
@@ -422,8 +442,8 @@ void JavaWriter::writeAssociationDecls(QPtrList<UMLAssociation> associations, in
 	}
 }
 
-void JavaWriter::writeAssociationRoleDecl(QString fieldClassName, 
-					QString roleName, QString multi, 
+void JavaWriter::writeAssociationRoleDecl(QString fieldClassName,
+					QString roleName, QString multi,
 					QString doc, Scope visib, QTextStream &java)
 {
 	// ONLY write out IF there is a rolename given
@@ -457,7 +477,7 @@ void JavaWriter::writeAssociationRoleDecl(QString fieldClassName,
 
 }
 
-void JavaWriter::writeAssociationMethods (QPtrList<UMLAssociation> associations, UMLConcept *thisClass, QTextStream &java)
+void JavaWriter::writeAssociationMethods (QPtrList<UMLAssociation> associations, UMLClassifier *thisClass, QTextStream &java)
 {
 	if( forceSections() || !associations.isEmpty() )
 	{
@@ -551,7 +571,7 @@ void JavaWriter::writeVectorAttributeAccessorMethods (QString fieldClassName, QS
 	java<<startline<<"{";
 	java<<startline<<indent<<"return (List) "<<fieldVarName<<";";
 	java<<startline<<"}"<<endl;
-	writeBlankLine(java); 
+	writeBlankLine(java);
 }
 
 
@@ -583,7 +603,7 @@ void JavaWriter::writeSingleAttributeAccessorMethods(QString fieldClassName, QSt
 	writeBlankLine(java);
 }
 
-void JavaWriter::writeConstructor(UMLConcept *c, QTextStream &java)
+void JavaWriter::writeConstructor(UMLClassifier *c, QTextStream &java)
 {
 
 	if (forceDoc())
@@ -611,7 +631,7 @@ QString JavaWriter::fixTypeName(QString string)
 	return string;
 }
 
-void JavaWriter::writeOperations(UMLConcept *c, QTextStream &java) {
+void JavaWriter::writeOperations(UMLClassifier *c, QTextStream &java) {
 	QList<UMLOperation> *opl;
 	QList <UMLOperation> oppub,opprot,oppriv;
 	oppub.setAutoDelete(false);
@@ -684,7 +704,7 @@ void JavaWriter::writeOperations(QList<UMLOperation> &oplist, QTextStream &java)
 			returnStr += "@return	"+methodReturnType+"\n";
 
 		str = ""; // reset for next method
-		str += (op->getAbstract() ? "abstract ":"");
+		str += ((op->getAbstract() || isInterface) ? "abstract ":"");
 		str += (op->getStatic() ? "final":"");
 		str += scopeToJavaDecl(op->getScope()) + " ";
 		str += methodReturnType + " " +cleanName(op->getName()) + "( ";
@@ -705,7 +725,7 @@ void JavaWriter::writeOperations(QList<UMLOperation> &oplist, QTextStream &java)
 		str+= " )";
 
 		// method only gets a body IF its not abstract
-		if (op->getAbstract())
+		if (op->getAbstract() || isInterface)
 			str+=";\n\n"; // terminate now
 		else
 			str+=startline+"{\n\n"+indent+"}\n\n"; // empty method body
@@ -762,7 +782,7 @@ QString JavaWriter::capitaliseFirstLetter(QString string)
 	return string;
 }
 
-void JavaWriter::writeBlankLine(QTextStream &java) 
+void JavaWriter::writeBlankLine(QTextStream &java)
 {
 	java<<endl;
 }

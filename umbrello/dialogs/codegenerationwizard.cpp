@@ -23,12 +23,12 @@
 
 #include "codegenerationwizard.h"
 #include "codegenerationoptionspage.h"
-#include "../concept.h"
+#include "../classifier.h"
 #include "../codegenerator.h"
 #include "../umldoc.h"
 
 CodeGenerationWizard::CodeGenerationWizard(UMLDoc *doc,
-					   QPtrList<UMLConcept> *classList,
+					   QPtrList<UMLClassifier> *classList,
 					   SettingsDlg::CodeGenState codegenState,
 					   QDict<GeneratorInfo> ldict,
 					   QString activeLanguage,
@@ -48,14 +48,14 @@ CodeGenerationWizard::CodeGenerationWizard(UMLDoc *doc,
 
 	insertPage(m_CodeGenerationOptionsPage, i18n("Code Generation Options"), 1);
 
-	QList<UMLConcept> cList = m_doc->getConcepts();
+	QList<UMLClassifier> cList = m_doc->getConcepts();
 
 	if(classList) {
-		for(UMLConcept *c = classList->first(); c ; c = classList->next()) {
+		for(UMLClassifier *c = classList->first(); c ; c = classList->next()) {
 			new QListViewItem( m_selectedList, c->getName());
 		}
 	} else {
-		for(UMLConcept *c = cList.first(); c ; c = cList.next()) {
+		for(UMLClassifier *c = cList.first(); c ; c = cList.next()) {
 			new QListViewItem( m_selectedList, c->getName());
 		}
 	}
@@ -117,15 +117,16 @@ void CodeGenerationWizard::generateCode() {
 		codeGenerator->setOutputDirectory(codegenState.outputDir);
 		codeGenerator->setOverwritePolicy(codegenState.overwritePolicy);
 
-		connect( codeGenerator, SIGNAL(codeGenerated(UMLConcept*, bool)),
-			 this, SLOT(classGenerated(UMLConcept*, bool)) );
+		connect( codeGenerator, SIGNAL(codeGenerated(UMLClassifier*, bool)),
+			 this, SLOT(classGenerated(UMLClassifier*, bool)) );
 
-		QList<UMLConcept> cList;
+		QList<UMLClassifier> cList;
 		cList.setAutoDelete(false);
 
 		for(QListViewItem *item = m_statusList->firstChild(); item;
 		    item = item-> nextSibling()) {
-			cList.append((UMLConcept*)m_doc->findUMLObject(Uml::ot_Concept,item->text(0)));
+			UMLClassifier *concept =  m_doc->findUMLClassifier(item->text(0));
+			cList.append(concept);
 		}
 		codeGenerator->generateCode(cList);
 		finishButton()->setText(i18n("Finish"));
@@ -136,7 +137,7 @@ void CodeGenerationWizard::generateCode() {
 	}
 }
 
-void CodeGenerationWizard::classGenerated(UMLConcept* concept, bool generated) {
+void CodeGenerationWizard::classGenerated(UMLClassifier* concept, bool generated) {
 	QListViewItem* item = m_statusList->findItem( concept->getName(), 0 );
 	if( !item ) {
 		kdDebug()<<"GenerationStatusPage::Error finding class in list view"<<endl;

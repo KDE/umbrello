@@ -25,7 +25,7 @@
 #include <qregexp.h>
 
 #include "../umldoc.h"
-#include "../concept.h"
+#include "../class.h"
 #include "../association.h"
 #include "../attribute.h"
 #include "../operation.h"
@@ -46,7 +46,7 @@ QString IDLWriter::spc() {
 	return s;
 }
 
-bool IDLWriter::isOOClass(UMLConcept *c) {
+bool IDLWriter::isOOClass(UMLClassifier *c) {
 	QString stype = c->getStereotype();
 	if (stype == "CORBAConstant" || stype == "CORBAEnum" ||
 	        stype == "CORBAStruct" || stype == "CORBAUnion" ||
@@ -58,7 +58,7 @@ bool IDLWriter::isOOClass(UMLConcept *c) {
 	return true;
 }
 
-QString IDLWriter::qualifiedName(UMLConcept *c) {
+QString IDLWriter::qualifiedName(UMLClassifier *c) {
 	QString umlPkg = c->getPackage();
 	QString className = cleanName(c->getName());
 	QString retval;
@@ -73,7 +73,7 @@ QString IDLWriter::qualifiedName(UMLConcept *c) {
 
 void IDLWriter::computeAssocTypeAndRole
        (UMLAssociation *a, QString& typeName, QString& roleName) {
-	UMLConcept* c = (UMLConcept*) m_doc->findUMLObject(a->getRoleAId());
+	UMLClassifier* c = (UMLClassifier*) m_doc->findUMLObject(a->getRoleAId());
 	typeName = cleanName(c->getName());
 	QString multiplicity = a->getMultiA();
 	if (!multiplicity.isEmpty() && multiplicity != "1")
@@ -90,12 +90,13 @@ void IDLWriter::computeAssocTypeAndRole
 	}
 }
 
-void IDLWriter::writeClass(UMLConcept *c) {
+void IDLWriter::writeClass(UMLClassifier *c) {
 	if (!c) {
 		kdDebug() << "Cannot write class of NULL concept!\n";
 		return;
 	}
 
+	UMLClass * myClass = dynamic_cast<UMLClass*>(c);
 	QString classname = cleanName(c->getName());
 	QString fileName = c->getName().lower();
 	fileName.replace(QRegExp("."), "-");
@@ -126,10 +127,10 @@ void IDLWriter::writeClass(UMLConcept *c) {
 	}
 
 	// Write includes.
-	QList<UMLConcept> includes;
+	QList<UMLClassifier> includes;
 	findObjectsRelated(c, includes);
 	if (includes.count()) {
-		for (UMLConcept *conc = includes.first(); conc; conc = includes.next()) {
+		for (UMLClassifier *conc = includes.first(); conc; conc = includes.next()) {
 			QString baseName = findFileName(conc, ".idl");
 			if (!baseName.isEmpty())
 				idl << "#include \"" << baseName << ".idl\"\n";
@@ -156,32 +157,36 @@ void IDLWriter::writeClass(UMLConcept *c) {
 		if (stype == "CORBAConstant") {
 			idl << spc() << "// " << stype << " is Not Yet Implemented\n\n";
 		} else if(stype == "CORBAEnum") {
-			QList<UMLAttribute> *atl = c->getAttList();
-			UMLAttribute *at;
-			idl << spc() << "enum " << classname << " {\n";
-			indentlevel++;
-			uint i = 0;
-			for (at = atl->first(); at; at = atl->next()) {
-				QString enumLiteral = cleanName(at->getName());
-				idl << spc() << enumLiteral;
-				if (++i < atl->count())
-					idl << ",";
-				idl << endl;
+			if(myClass) {
+				QPtrList<UMLAttribute> *atl = myClass->getAttList();
+				UMLAttribute *at;
+				idl << spc() << "enum " << classname << " {\n";
+				indentlevel++;
+				uint i = 0;
+				for (at = atl->first(); at; at = atl->next()) {
+					QString enumLiteral = cleanName(at->getName());
+					idl << spc() << enumLiteral;
+					if (++i < atl->count())
+						idl << ",";
+					idl << endl;
+				}
+				indentlevel--;
+				idl << spc() << "};\n\n";
 			}
-			indentlevel--;
-			idl << spc() << "};\n\n";
 		} else if(stype == "CORBAStruct") {
-			QList<UMLAttribute> *atl = c->getAttList();
-			UMLAttribute *at;
-			idl << spc() << "struct " << classname << " {\n";
-			indentlevel++;
-			for (at = atl->first(); at; at = atl->next()) {
-				QString name = cleanName(at->getName());
-				idl << spc() << at->getTypeName() << " " << name << ";\n";
-				// Initial value not possible in IDL.
+			if(myClass) {
+				QPtrList<UMLAttribute> *atl = myClass->getAttList();
+				UMLAttribute *at;
+				idl << spc() << "struct " << classname << " {\n";
+				indentlevel++;
+				for (at = atl->first(); at; at = atl->next()) {
+					QString name = cleanName(at->getName());
+					idl << spc() << at->getTypeName() << " " << name << ";\n";
+					// Initial value not possible in IDL.
+				}
+				indentlevel--;
+				idl << spc() << "};\n\n";
 			}
-			indentlevel--;
-			idl << spc() << "};\n\n";
 		} else if(stype == "CORBAUnion") {
 			idl << spc() << "// " << stype << " is Not Yet Implemented\n\n";
 		} else if(stype == "CORBATypedef") {
@@ -210,7 +215,7 @@ void IDLWriter::writeClass(UMLConcept *c) {
 		a = generalizations.first();
 		int n_parents = generalizations.count();
 		while (n_parents--) {
-			UMLConcept* parent = (UMLConcept*)m_doc->findUMLObject(a->getRoleBId());
+			UMLClassifier* parent = (UMLClassifier*)m_doc->findUMLObject(a->getRoleBId());
 			idl << qualifiedName(parent);
 			if (n_parents)
 				idl << ", ";
@@ -230,7 +235,7 @@ void IDLWriter::writeClass(UMLConcept *c) {
 			idl << spc() << "// Types for association multiplicities\n\n";
 			didComment = true;
 		}
-		UMLConcept* other = (UMLConcept*)m_doc->findUMLObject(a->getRoleAId());
+		UMLClassifier* other = (UMLClassifier*)m_doc->findUMLObject(a->getRoleAId());
 		QString bareName = cleanName(other->getName());
 		idl << spc() << "typedef sequence<" << qualifiedName(other) << "> "
 		    << bareName << "Vector;\n\n";
@@ -243,26 +248,28 @@ void IDLWriter::writeClass(UMLConcept *c) {
 			idl << spc() << "// Types for association multiplicities\n\n";
 			didComment = true;
 		}
-		UMLConcept* other = (UMLConcept*)m_doc->findUMLObject(a->getRoleAId());
+		UMLClassifier* other = (UMLClassifier*)m_doc->findUMLObject(a->getRoleAId());
 		QString bareName = cleanName(other->getName());
 		idl << spc() << "typedef sequence<" << qualifiedName(other) << "> "
 		    << bareName << "Vector;\n\n";
 	}
 
 	// Generate public attributes.
-	QList<UMLAttribute> *atl = c->getAttList();
-	QList<UMLAttribute> atpub;
-	UMLAttribute *at;
-	for (at = atl->first(); at; at = atl->next()) {
-		if (at->getScope() == Uml::Public)
-			atpub.append(at);
-	}
-	if (forceSections() || atpub.count()) {
-		idl << spc() << "// Public attributes:\n\n";
-		for (at = atpub.first(); at; at = atpub.next()) {
-			QString attName = cleanName(at->getName());
-			idl << spc() << "attribute " << at->getTypeName()
-			    << " " << attName << ";\n\n";
+	if(myClass) {
+		QPtrList<UMLAttribute> *atl = myClass->getAttList();
+		QList<UMLAttribute> atpub;
+		UMLAttribute *at;
+		for (at = atl->first(); at; at = atl->next()) {
+			if (at->getScope() == Uml::Public)
+				atpub.append(at);
+		}
+		if (forceSections() || atpub.count()) {
+			idl << spc() << "// Public attributes:\n\n";
+			for (at = atpub.first(); at; at = atpub.next()) {
+				QString attName = cleanName(at->getName());
+				idl << spc() << "attribute " << at->getTypeName()
+				    << " " << attName << ";\n\n";
+			}
 		}
 	}
 

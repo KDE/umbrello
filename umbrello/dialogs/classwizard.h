@@ -16,7 +16,7 @@
 #include "classopspage.h"
 #include "classattpage.h"
 
-class UMLConcept;
+class UMLClass;
 class UMLDoc;
 
 /**
@@ -89,7 +89,7 @@ protected:
 	/**
 	*	Class to create
 	*/
-	UMLConcept * m_pClass;
+	UMLClass * m_pClass;
 
 protected slots:
 	/**

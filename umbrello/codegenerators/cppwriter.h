@@ -26,8 +26,8 @@ class UMLOperation;
 class UMLAttribute;
 
 /**
-  * class CppWriter is a C++ code generator for UMLConcept objects
-  * Just call writeClass and feed it a UMLConcept;
+  * class CppWriter is a C++ code generator for UMLClassifier objects
+  * Just call writeClass and feed it a UMLClassifier;
   */
 class CppWriter : public CodeGenerator {
 public:
@@ -36,10 +36,10 @@ public:
 	virtual ~CppWriter();
 
 	/**
-	  * call this method to generate C++ code for a UMLConcept
+	  * call this method to generate C++ code for a UMLClassifier
 	  * @param c the class you want to generate code for.
 	  */
-	virtual void writeClass(UMLConcept *c);
+	virtual void writeClass(UMLClassifier *c);
 
 private:
 
@@ -50,7 +50,7 @@ private:
 	  * @param h output stream for the header file
 	  * @param cpp output stream for the C++ file
 	  */
-	void writeOperations(UMLConcept *c, QTextStream &h, QTextStream &cpp);
+	void writeOperations(UMLClassifier *c, QTextStream &h, QTextStream &cpp);
 
 	/**
 	  * write a list of class operations
@@ -67,7 +67,7 @@ private:
 	  * @param c the class we are generating code for
 	  * @param h output stream for the header file
 	  */
-	void writeAttributes(UMLConcept *c, QTextStream &h);
+	void writeAttributes(UMLClass *c, QTextStream &h);
 
 	/** write a list of class attributes
 	  * @param atList the list of attributes

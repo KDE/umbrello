@@ -16,7 +16,7 @@
 #include <klocale.h>
 #include <qlayout.h>
 
-ClassOpsPage::ClassOpsPage(QWidget *parent, UMLConcept * c, UMLDoc * doc) : QWidget(parent) {
+ClassOpsPage::ClassOpsPage(QWidget *parent, UMLClassifier * c, UMLDoc * doc) : QWidget(parent) {
 	m_bSigWaiting = false;
 	this -> m_pDoc = doc;
 	m_pConcept = c;

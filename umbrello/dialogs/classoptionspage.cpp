@@ -12,13 +12,13 @@
 #include <kdebug.h>
 
 #include "../umlview.h"
-#include "../conceptwidget.h"
+#include "../classwidget.h"
 #include "../interfacewidget.h"
 #include "classoptionspage.h"
 
 ClassOptionsPage::ClassOptionsPage(QWidget* pParent, UMLWidget* pWidget, UMLWidget_Type type) : QWidget( pParent ) {
 	if (type == wt_Class) {
-		m_pClassWidget = static_cast<ConceptWidget*>(pWidget);
+		m_pClassWidget = static_cast<ClassWidget*>(pWidget);
 		m_pInterfaceWidget = 0;
 		setupClassPage();
 	} else if (type == wt_Interface) {

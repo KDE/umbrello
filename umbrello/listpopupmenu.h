@@ -58,7 +58,7 @@ public:
 	    mt_Component_Folder,
 	    mt_Deployment_Folder,
 
-	    mt_Concept,                       //CONCEPT
+	    mt_Class,                       //CLASS
 	    mt_Package,
 	    mt_Component,
 	    mt_Node,

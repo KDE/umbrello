@@ -26,7 +26,7 @@
 #include <qregexp.h>
 
 #include "../umldoc.h"
-#include "../concept.h"
+#include "../class.h"
 #include "../association.h"
 #include "../attribute.h"
 #include "../operation.h"
@@ -39,7 +39,7 @@ CppWriter::CppWriter( QObject *parent, const char *name )
 CppWriter::~CppWriter() {}
 
 
-void CppWriter::writeClass(UMLConcept *c) {
+void CppWriter::writeClass(UMLClassifier *c) {
 	if(!c) {
 		kdDebug()<<"Cannot write class of NULL concept!\n";
 		return;
@@ -92,9 +92,9 @@ void CppWriter::writeClass(UMLConcept *c) {
 	cpp << "\n#include \"" << fileName << ".h\"\n\n";
 
 	//write includes and take namespaces into account
-	QList<UMLConcept> includes;
+	QList<UMLClassifier> includes;
 	findObjectsRelated(c,includes);
-	UMLConcept* conc;
+	UMLClassifier* conc;
 	for(conc = includes.first(); conc ;conc = includes.next()) {
 		QString headerName = findFileName(conc, ".h");
 		if (headerName.isEmpty()) {
@@ -181,8 +181,12 @@ void CppWriter::writeClass(UMLConcept *c) {
 	}
 
 
+	//probably we need to check for concept being class much earlier
+	UMLClass * myClass = dynamic_cast<UMLClass *>(c);
+
 	//attributes
-	writeAttributes(c,h);
+	if(myClass)
+		writeAttributes(myClass,h);
 
 	//finish files
 	h<<"\n};\n\n";
@@ -190,8 +194,8 @@ void CppWriter::writeClass(UMLConcept *c) {
 		h<<"};  //end of class namespace\n";
 	h<<"#endif // " << hashDefine + "_H\n";
 
-	if(hasDefaultValueAttr(c)) {
-		QList<UMLAttribute> *atl = c->getAttList();
+	if(myClass && hasDefaultValueAttr(myClass)) {
+		QList<UMLAttribute> *atl = myClass->getAttList();
 		cpp<<"void "<<classname<<"::initAttributes( )\n{\n";
 		for(UMLAttribute *at = atl->first(); at ; at = atl->next())
 			if(!at->getInitialValue().isEmpty())
@@ -210,7 +214,7 @@ void CppWriter::writeClass(UMLConcept *c) {
 ////////////////////////////////////////////////////////////////////////////////////
 //  Helper Methods
 
-void CppWriter::writeOperations(UMLConcept *c,QTextStream &h, QTextStream &cpp) {
+void CppWriter::writeOperations(UMLClassifier *c,QTextStream &h, QTextStream &cpp) {
 
 	//Lists to store operations  sorted by scope
 	QList<UMLOperation> *opl;
@@ -254,7 +258,8 @@ void CppWriter::writeOperations(UMLConcept *c,QTextStream &h, QTextStream &cpp) 
 		writeOperations(classname,oppriv,h,cpp);
 	}
 
-	if(hasDefaultValueAttr(c)) {
+	UMLClass * myClass = dynamic_cast<UMLClass *>(c);
+	if(myClass && hasDefaultValueAttr(myClass)) {
 		QString temp = "initAttributes sets all " + classname + " attributes to its default \
 		               value make sure to call this method within your class constructor";
 		h<<"  /**\n";
@@ -319,7 +324,7 @@ void CppWriter::writeOperations(QString classname, QList<UMLOperation> &opList, 
 	}//end for
 }
 
-void CppWriter::writeAttributes(UMLConcept *c, QTextStream &h) {
+void CppWriter::writeAttributes(UMLClass *c, QTextStream &h) {
 	QList<UMLAttribute> *atl;
 
 	QList <UMLAttribute>  atpub, atprot, atpriv, atdefval;

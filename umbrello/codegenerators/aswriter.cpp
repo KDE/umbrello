@@ -17,7 +17,7 @@
 
 #include "aswriter.h"
 #include "../association.h"
-#include "../concept.h"
+#include "../class.h"
 #include "../operation.h"
 #include "../umldoc.h"
 #include <kdebug.h>
@@ -30,7 +30,7 @@ ASWriter::ASWriter( QObject *parent, const char *name )
 ASWriter::~ASWriter() {}
 
 
-void ASWriter::writeClass(UMLConcept *c)
+void ASWriter::writeClass(UMLClassifier *c)
 {
 	if(!c)
 	{
@@ -74,9 +74,9 @@ void ASWriter::writeClass(UMLConcept *c)
 
 
 	//write includes
-	QList<UMLConcept> includes;
+	QList<UMLClassifier> includes;
 	findObjectsRelated(c,includes);
-	UMLConcept *conc;
+	UMLClassifier *conc;
 	for(conc = includes.first(); conc ;conc = includes.next())
 	{
 		QString headerName = findFileName(conc, ".as");
@@ -124,30 +124,34 @@ void ASWriter::writeClass(UMLConcept *c)
 
 	as << endl;
 
-	QList<UMLAttribute> *atl = c->getAttList();
+	UMLClass *myClass = dynamic_cast<UMLClass*>(c);
+	if(myClass) {
 
- 	as << "/**" << endl;
-	QString temp = "_init sets all " + classname + " attributes to its default\
- value make sure to call this method within your class constructor";
-	as << formatDoc(temp, " * ");
-	as << " */" << endl;
-	as << classname << ".prototype._init = function ()" << endl;
-	as << "{" << endl;
-	for(UMLAttribute *at = atl->first(); at ; at = atl->next())
-	{
-		if (forceDoc() || !at->getDoc().isEmpty())
+		QList<UMLAttribute> *atl = myClass->getAttList();
+
+	 	as << "/**" << endl;
+		QString temp = "_init sets all " + classname + " attributes to its default\
+	 value make sure to call this method within your class constructor";
+		as << formatDoc(temp, " * ");
+		as << " */" << endl;
+		as << classname << ".prototype._init = function ()" << endl;
+		as << "{" << endl;
+		for(UMLAttribute *at = atl->first(); at ; at = atl->next())
 		{
-			as << "\t/**" << endl
-			 << formatDoc(at->getDoc(), "\t * ")
-			 << "\t */" << endl;
-		}
-		if(!at->getInitialValue().isEmpty())
-		{
-			as << "\tthis.m_" << cleanName(at->getName()) << " = " << at->getInitialValue() << ";" << endl;
-		}
-		else
-		{
- 			as << "\tthis.m_" << cleanName(at->getName()) << " = \"\";" << endl;
+			if (forceDoc() || !at->getDoc().isEmpty())
+			{
+				as << "\t/**" << endl
+				 << formatDoc(at->getDoc(), "\t * ")
+				 << "\t */" << endl;
+			}
+			if(!at->getInitialValue().isEmpty())
+			{
+				as << "\tthis.m_" << cleanName(at->getName()) << " = " << at->getInitialValue() << ";" << endl;
+			}
+			else
+			{
+	 			as << "\tthis.m_" << cleanName(at->getName()) << " = \"\";" << endl;
+			}
 		}
 	}
 
@@ -177,13 +181,17 @@ void ASWriter::writeClass(UMLConcept *c)
 	as << endl;
 
 	as << "\t/**Protected: */\n";
-	for (UMLAttribute *at = atl->first(); at ; at = atl->next())
-	{
-		if (at->getScope() == Uml::Protected)
+	if(myClass) {
+		QPtrList<UMLAttribute> *atl = myClass->getAttList();
+		for (UMLAttribute *at = atl->first(); at ; at = atl->next())
 		{
-			as << "\tASSetPropFlags (this, \"" << cleanName(at->getName()) << "\", 1);" << endl;
+			if (at->getScope() == Uml::Protected)
+			{
+				as << "\tASSetPropFlags (this, \"" << cleanName(at->getName()) << "\", 1);" << endl;
+			}
 		}
 	}
+
  	QList<UMLOperation> *opList = c->getOpList();
 	for (UMLOperation *op = opList->first(); op; op = opList->next())
 	{
@@ -194,11 +202,14 @@ void ASWriter::writeClass(UMLConcept *c)
 	}
 	as << endl;
 	as << "\t/**Private: */\n";
-	for (UMLAttribute *at = atl->first(); at; at = atl->next())
-	{
-		if (at->getScope() == Uml::Private)
+	if(myClass) {
+		QPtrList<UMLAttribute> *atl = myClass->getAttList();
+		for (UMLAttribute *at = atl->first(); at; at = atl->next())
 		{
-			as << "\tASSetPropFlags (this, \"" << cleanName(at->getName()) << "\", 7);" << endl;
+			if (at->getScope() == Uml::Private)
+			{
+				as << "\tASSetPropFlags (this, \"" << cleanName(at->getName()) << "\", 7);" << endl;
+			}
 		}
 	}
 

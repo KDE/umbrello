@@ -25,7 +25,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o) : QWidget(p
 	int margin = fontMetrics().height();
 	Uml::UMLObject_Type t = o -> getBaseType();
 	m_pUmldoc = d;
-	if (t == Uml::ot_Concept) {
+	if (t == Uml::ot_Class) {
 		name = i18n("Class name:");
 	} else if (t == Uml::ot_Actor) {
 		name = i18n("Actor name:");
@@ -62,7 +62,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o) : QWidget(p
 	m_pAbstractCB = 0;
 	m_pDeconCB = 0;
 
-	if (t == Uml::ot_Concept || t == Uml::ot_Package
+	if (t == Uml::ot_Class || t == Uml::ot_Package
 	    || t == Uml::ot_Interface || t == Uml::ot_Component || t == Uml::ot_Artifact) {
 		m_pStereoTypeL = new QLabel(i18n("Stereotype name:"), this);
 		m_pNameLayout -> addWidget(m_pStereoTypeL, 1, 0);
@@ -76,7 +76,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o) : QWidget(p
 		m_pStereoTypeLE->setEnabled(false);
 	}
 
-	if (t == Uml::ot_Concept || t == Uml::ot_Interface) {
+	if (t == Uml::ot_Class || t == Uml::ot_Interface) {
 		m_pPackageL = new QLabel(i18n("Package name:"), this);
 		m_pNameLayout -> addWidget(m_pPackageL, 2, 0);
 
@@ -86,7 +86,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o) : QWidget(p
 		m_pPackageLE -> setText(o -> getPackage());
 	}
 
-	if (t == Uml::ot_Concept) {
+	if (t == Uml::ot_Class ) {
 		m_pAbstractCB = new QCheckBox( i18n("A&bstract class"), this );
 		m_pAbstractCB -> setChecked( o -> getAbstract() );
 		m_pNameLayout -> addWidget( m_pAbstractCB, 3, 0 );

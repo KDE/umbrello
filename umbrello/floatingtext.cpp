@@ -7,7 +7,7 @@
  *                                                                         *
  ***************************************************************************/
 #include "associationwidget.h"
-#include "concept.h"
+#include "classifier.h"
 #include "floatingtext.h"
 #include "floatingtextdata.h"
 #include "messagewidget.h"
@@ -105,7 +105,7 @@ void FloatingText::slotMenuSelection(int sel) {
 	QString t, newText;
 	bool ok;
 	int result;
-	UMLConcept * c = (UMLConcept *)getUMLObject();
+	UMLClassifier * c = (UMLClassifier *)getUMLObject();
 	bool done = false;
   	QFont font;
   	KLineEditDlg * dlg = 0;
@@ -348,7 +348,7 @@ void FloatingText::mouseDoubleClickEvent(QMouseEvent * /* me*/) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void FloatingText::showOpDlg() {
-	UMLConcept* c = (UMLConcept*)getUMLObject();
+	UMLClassifier* c = (UMLClassifier*)getUMLObject();
 	SelectOpDlg selectDlg((QWidget*)m_pView, c);
 	selectDlg.setSeqNumber( getSeqNum() );
 	selectDlg.setCustomOp( getOperation() );

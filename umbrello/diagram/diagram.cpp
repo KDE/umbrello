@@ -17,7 +17,7 @@
 //include declarations of umlobject and subclasses
 //needed for the RTTI
 #include "../umlobject.h"
-#include "../concept.h"
+#include "../class.h"
 #include "../interface.h"
 #include "../package.h"
 #include "../template.h"
@@ -42,7 +42,6 @@
 #include <kdebug.h>
 
 
-typedef UMLConcept UMLClass;
 using std::map;
 using std::find;
 using std::list;
@@ -144,7 +143,7 @@ void Diagram::createUMLWidget( UMLObject *obj, const QPoint &pos)
 		return;
 	}
 	DiagramElement *w;
-	if( w = WidgetFactory::createUMLWidget(obj,this) )
+	if( (w = WidgetFactory::createUMLWidget(obj,this)) )
 	{
 		w->moveAbs(pos.x(),pos.y());
 		w->show();

@@ -26,8 +26,8 @@ class UMLOperation;
 class UMLAttribute;
 
 /**
-  * class PerlWriter is a Perl code generator for UMLConcept objects
-  * Just call writeClass and feed it a UMLConcept;
+  * class PerlWriter is a Perl code generator for UMLClassifier objects
+  * Just call writeClass and feed it a UMLClassifier;
   */
 class PerlWriter : public CodeGenerator {
 public:
@@ -36,10 +36,10 @@ public:
 	virtual ~PerlWriter();
 
 	/**
-	  * call this method to generate Perl code for a UMLConcept
+	  * call this method to generate Perl code for a UMLClassifier
 	  * @param c the class you want to generate code for.
 	  */
-	virtual void writeClass(UMLConcept *c);
+	virtual void writeClass(UMLClassifier *c);
 
 
 
@@ -57,7 +57,7 @@ private:
 	  * @param c the concept we are generating code for
 	  * @param perl output stream for the Perl file
 	  */
-	void writeOperations(UMLConcept *c, QTextStream &perl);
+	void writeOperations(UMLClassifier *c, QTextStream &perl);
 
 	/**
 	  * write a list of class operations
@@ -73,7 +73,7 @@ private:
 	  * @param c the class we are generating code for
 	  * @param perl output stream for the Perl file
 	  */
-	void writeAttributes(UMLConcept *c, QTextStream &perl);
+	void writeAttributes(UMLClass *c, QTextStream &perl);
 
 	/** write a list of class attributes
 	  * @param atList the list of attributes

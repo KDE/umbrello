@@ -27,8 +27,8 @@ class UMLAttribute;
 enum Access {PRIVATE, PUBLIC, PROTECTED};
 
 /**
-  * class PythonWriter is a python code generator for UMLConcept objects
-  * Just call writeClass and feed it a UMLConcept;
+  * class PythonWriter is a python code generator for UMLClassifier objects
+  * Just call writeClass and feed it a UMLClassifier;
   */
 class PythonWriter : public CodeGenerator {
 public:
@@ -37,10 +37,10 @@ public:
 	virtual ~PythonWriter();
 
 	/**
-	  * call this method to generate C++ code for a UMLConcept
+	  * call this method to generate C++ code for a UMLClassifier
 	  * @param c the class you want to generate code for.
 	  */
-	virtual void writeClass(UMLConcept *c);
+	virtual void writeClass(UMLClassifier *c);
 
   void setSpaceIndent(int number);
   int getSpaceIndent(void);
@@ -55,7 +55,7 @@ private:
 	  * @param c the concept we are generating code for
 	  * @param h output stream for the header file
 	  */
-	void writeOperations(UMLConcept *c, QTextStream &h);
+	void writeOperations(UMLClassifier *c, QTextStream &h);
 
 	/**
 	  * write a list of class operations

@@ -20,7 +20,7 @@
 #include <karrowbutton.h>
 
 #include "../umldoc.h"
-#include "../concept.h"
+#include "../class.h"
 
 class ListPopupMenu;
 
@@ -40,7 +40,7 @@ public:
 	 *	@param	parent	The parent to the ClassTemplatePage.
 	 *	@param	c	The Concept to display the properties of.
 	 */
-	ClassTemplatePage(QWidget* parent, UMLConcept* c, UMLDoc* doc);
+	ClassTemplatePage(QWidget* parent, UMLClass * c, UMLDoc* doc);
 
 	/**
 	 *	Standard deconstructor.
@@ -61,7 +61,7 @@ private:
 	 */
 	void enableWidgets(bool state);
 
-	UMLConcept* m_pConcept;
+	UMLClass * m_pClass;
 	QGroupBox* m_pDocGB;
 	QGroupBox* m_pTemplateGB;
 	QListBox* m_pTemplateLB;

@@ -29,7 +29,7 @@
 #include "../umldoc.h"
 #include "../association.h"
 #include "../attribute.h"
-#include "../concept.h"
+#include "../classifier.h"
 #include "../operation.h"
 #include "../umlnamespace.h"
 
@@ -49,7 +49,7 @@ int PythonWriter::getSpaceIndent(void) {
 	return spaceIndent.length();
 }
 
-void PythonWriter::writeClass(UMLConcept *c) {
+void PythonWriter::writeClass(UMLClassifier *c) {
 	if(!c) {
 		kdDebug()<<"Cannot write class of NULL concept!\n";
 		return;
@@ -102,9 +102,9 @@ void PythonWriter::writeClass(UMLConcept *c) {
 
 
 	//write includes and take namespaces into account
-	QList<UMLConcept> includes;
+	QList<UMLClassifier> includes;
 	findObjectsRelated(c,includes);
-	UMLConcept* conc;
+	UMLClassifier* conc;
 	for(conc = includes.first(); conc ;conc = includes.next()) {
 		QString headerName = findFileName(conc, ".py");
 		if ( !headerName.isEmpty() ) {
@@ -152,7 +152,7 @@ void PythonWriter::writeClass(UMLConcept *c) {
 ////////////////////////////////////////////////////////////////////////////////////
 //  Helper Methods
 
-void PythonWriter::writeOperations(UMLConcept *c,QTextStream &h) {
+void PythonWriter::writeOperations(UMLClassifier *c,QTextStream &h) {
 
 	//Lists to store operations  sorted by scope
 	QList<UMLOperation> *opl;

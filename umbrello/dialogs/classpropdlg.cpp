@@ -83,8 +83,10 @@ ClassPropDlg::ClassPropDlg(QWidget *parent, UMLWidget * w) : KDialogBase(IconLis
 	m_pObject = w -> getUMLObject();
 	m_pDoc = ((UMLApp *)parent) -> getDocument();
 
-	if (w->getBaseType() == Uml::wt_Class || w->getBaseType() == Uml::wt_Package ||
-	    w->getBaseType() == Uml::wt_Interface) {
+	if (w->getBaseType() == Uml::wt_Class
+		|| w->getBaseType() == Uml::wt_Interface
+		|| w->getBaseType() == Uml::wt_Package
+	) {
 		setupPages(m_pObject, true);
 	} else if (w->getBaseType() == Uml::wt_Component) {
 		UMLWidgetData* widgetData = w->getData();
@@ -123,10 +125,18 @@ void ClassPropDlg::slotOk() {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void ClassPropDlg::slotUpdateChildObject(int id) {
-	UMLObject * o = ((UMLConcept*)m_pObject) -> findChildObject(id);
-	if(o)
-		m_pDoc -> signalChildUMLObjectUpdate(o);
+
+	UMLObject * o; // = ((UMLClassifier*)m_pObject) -> findChildObject(id);
+
+	if (typeid(m_pObject) == typeid(UMLClass))
+		o = ((UMLClass *)m_pObject) -> findChildObject(id);
 	else
+		o = ((UMLClassifier *)m_pObject) -> findChildObject(id);
+
+	if(o)
+	{
+		m_pDoc -> signalChildUMLObjectUpdate(o);
+	} else
 		kdDebug() << "slot dlg: can't find child" << endl;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -161,30 +171,30 @@ void ClassPropDlg::setupPages(UMLObject * c, bool assoc) {
 	page -> setMinimumSize(310, 330);
 	m_pGenPage = new ClassGenPage(m_pDoc, page, c);
 	genLayout -> addWidget(m_pGenPage);
-	//add extra pages for concept
-	if (c->getBaseType() == Uml::ot_Concept) {
+	//add extra pages for class
+	if (c->getBaseType() == Uml::ot_Class ) {
 		//setup attributes page
 		QFrame* newPage = addPage( i18n("Attributes"), i18n("Attribute Settings"), DesktopIcon("misc") );
-		m_pAttPage = new ClassAttPage(newPage, (UMLConcept*)c, m_pDoc);
+		m_pAttPage = new ClassAttPage(newPage, (UMLClass *)c, m_pDoc);
 		QHBoxLayout * attLayout = new QHBoxLayout(newPage);
 		attLayout -> addWidget(m_pAttPage);
 		connect(m_pAttPage, SIGNAL(sigUpdateChildObject(int)), this, SLOT(slotUpdateChildObject(int)));
 	}
 
-	if (c->getBaseType() == Uml::ot_Concept || c->getBaseType() == Uml::ot_Interface) {
+	if (c->getBaseType() == Uml::ot_Class || c->getBaseType() == Uml::ot_Interface) {
 
 		//setup operations page
 		QFrame* newPage = addPage( i18n("Operations"), i18n("Operation Settings"), DesktopIcon("misc") );
-		m_pOpsPage = new ClassOpsPage(newPage, (UMLConcept*)c, m_pDoc);
+		m_pOpsPage = new ClassOpsPage(newPage, (UMLClassifier*)c, m_pDoc);
 		QHBoxLayout* pOpsLayout = new QHBoxLayout(newPage);
 		pOpsLayout -> addWidget(m_pOpsPage);
 		connect(m_pOpsPage, SIGNAL(sigUpdateChildObject(int)), this, SLOT(slotUpdateChildObject(int)));
 	}
 
-	if (c->getBaseType() == Uml::ot_Concept) {
+	if (c->getBaseType() == Uml::ot_Class ) {
 		//setup templates page
 		QFrame* newPage = addPage( i18n("Templates"), i18n("Templates Settings"), DesktopIcon("misc") );
-		m_pTemplatePage = new ClassTemplatePage(newPage, (UMLConcept*)c, m_pDoc);
+		m_pTemplatePage = new ClassTemplatePage(newPage, (UMLClass *)c, m_pDoc);
 		QHBoxLayout* templatesLayout = new QHBoxLayout(newPage);
 		templatesLayout->addWidget(m_pTemplatePage);
 		connect(m_pTemplatePage, SIGNAL(sigUpdateChildObject(int)), this, SLOT(slotUpdateChildObject(int)));

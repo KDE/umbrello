@@ -9,8 +9,7 @@
 
 #include "umltemplatedialog.h"
 #include "../template.h"
-#include "../concept.h"
-#include "../umldoc.h"
+#include "../class.h"
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kdebug.h>
@@ -24,7 +23,6 @@ UMLTemplateDialog::UMLTemplateDialog(QWidget* pParent, UMLTemplate* pTemplate) :
 UMLTemplateDialog::~UMLTemplateDialog() {}
 
 void UMLTemplateDialog::setupDialog() {
-	UMLConcept* pConcept = dynamic_cast<UMLConcept*>( m_pTemplate->parent() );
 	int margin = fontMetrics().height();
 
 	QVBoxLayout* mainLayout = new QVBoxLayout( plainPage() );
@@ -85,7 +83,7 @@ void UMLTemplateDialog::setupDialog() {
 }
 
 bool UMLTemplateDialog::apply() {
-	UMLConcept* pConcept = dynamic_cast<UMLConcept *>( m_pTemplate->parent() );
+	UMLClass * pClass = dynamic_cast<UMLClass *>( m_pTemplate->parent() );
 
 	m_pTemplate->setTypeName( m_pTypeCB->currentText() );
 	QString name = m_pNameLE->text();
@@ -96,7 +94,7 @@ bool UMLTemplateDialog::apply() {
 		return false;
 	}
 
-	QPtrList<UMLObject> list= pConcept->findChildObject(Uml::ot_Attribute, name);
+	QPtrList<UMLObject> list= pClass->findChildObject(Uml::ot_Attribute, name);
 	if( list.count() != 0 && list.findRef( m_pTemplate ) ) {
 		KMessageBox::error(this, i18n("The attribute name you have chosen is already being used in this operation."),
 		                   i18n("Attribute Name Not Unique"), false);

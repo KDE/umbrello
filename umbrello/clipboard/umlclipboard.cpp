@@ -16,7 +16,8 @@
 #include "idchangelog.h"
 #include "../associationwidgetdatalist.h"
 #include "../attribute.h"
-#include "../concept.h"
+#include "../class.h"
+#include "../classifier.h"
 #include "../floatingtextdata.h"
 #include "../operation.h"
 #include "../umldoc.h"
@@ -694,7 +695,6 @@ bool UMLClipboard::pasteClip5(UMLDoc* doc, QMimeSource* data) {
 
 	bool objectAlreadyExists = false;
 	UMLObject 	*obj = 0;
-	UMLConcept	*parent;
 	UMLObjectListIt object_it(objects);
 	doc->setModified(true);
 	idchanges = doc->getChangeLog();
@@ -703,21 +703,25 @@ bool UMLClipboard::pasteClip5(UMLDoc* doc, QMimeSource* data) {
 		obj->setID(doc->assignNewID(obj->getID()));
 		switch(obj->getBaseType()) {
 			case Uml::ot_Attribute :
-				parent = dynamic_cast<UMLConcept *>(lvitem -> getUMLObject());
+			{
+				UMLClass * parent = dynamic_cast<UMLClass *>(lvitem -> getUMLObject());
 				if (parent -> addAttribute(dynamic_cast<UMLAttribute*>(obj), idchanges)) {
 					doc -> signalChildUMLObjectCreated(obj);
 				} else {
 					objectAlreadyExists = true;
 				}
 				break;
+			}
 			case Uml::ot_Operation :
-				parent = dynamic_cast<UMLConcept *>(lvitem -> getUMLObject());
+			{
+				UMLClassifier * parent = dynamic_cast<UMLClassifier *>(lvitem -> getUMLObject());
 				if (parent -> addOperation(dynamic_cast<UMLOperation*>(obj), idchanges)) {
 					doc -> signalChildUMLObjectCreated(obj);
 				} else {
 					objectAlreadyExists = true;
 				}
 				break;
+			}
 			default :
 				kdDebug() << k_funcinfo << ": Unknown type: not Att or Op" << endl;
 				return false;

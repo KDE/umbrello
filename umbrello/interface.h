@@ -10,16 +10,11 @@
 #ifndef INTERFACE_H
 #define INTERFACE_H
 
-#include "umlcanvasobject.h"
-#include <qptrlist.h>
-
-class IDChangeLog;
-class UMLAssociation;
-class UMLOperation;
+#include "classifier.h"
 
 /**
  *	This class contains the non-graphical information required for a UML Interface.
- *	This class inherits from @ref UMLCanvasObject which contains most of the information.
+ *	This class inherits from @ref UMLClassifier which contains most of the information.
  *	The @ref UMLDoc class creates instances of this type.  All Interfaces will need a unique
  *	id.  This will be given by the @ref UMLDoc class.  If you don't leave it up to the @ref UMLDoc
  *	class then call the method @ref UMLDoc::getUniqueID to get a unique id.
@@ -27,8 +22,7 @@ class UMLOperation;
  *	@short	Information for a non-graphical Interface.
  *	@author Jonathan Riddell
  */
-
-class UMLInterface : public UMLCanvasObject {
+class UMLInterface : public UMLClassifier {
 public:
 	/**
 	 *	Sets up an interface.
@@ -57,76 +51,6 @@ public:
   	bool operator==(UMLInterface& rhs);
   
 	/**
-	 *	Adds an operation to the Interface.
-	 *
-	 *	@param	name	The name of the operation.
-	 *	@param	id	The id of the operation.
-	 */
-	UMLObject* addOperation(QString name, int id);
-
-	/**
-	 *	Adds an already created Operation. The Operation must not belong to any other
-	 *	interface
-	 */
-	bool addOperation(UMLOperation* Op);
-
-	/**
-	 *	Adds an already created Operation and checks for
-	 *	operations with the same name. The Operation must not
-	 *	belong to any other interface.  Used by the clipboard
-	 *	when pasteing.
-	 */
-	bool addOperation(UMLOperation* Op, IDChangeLog* Log);
-
-	/**
-	 *	Remove an operation from the interface.
-	 *
-	 *	@param	o	The operation to remove.
-	 */
-	int removeOperation(UMLObject *o);
-
-	/**
-	 *	Return the list of operations for the Interface.
-	 *
-	 *	@return The list of operation for the Interface.
-	 */
-	QPtrList<UMLOperation>* getOpList();
-
-	/**
-	 * Returns a name for the new association, operation, template
-	 * or attribute appended with a number if the default name is
-	 * taken e.g. new_association, new_association_1 etc
-	 */
-	virtual QString uniqChildName(const UMLObject_Type type);
-
-	/**
-	 *	Find a list of operations or associations 
-	 *	with the given name.
-	 *
-	 *	@param	t	The type to find.
-	 *	@param	n	The name of the object to find.
-	 *
-	 *	@return	The object found.  Will return 0 if none found.
-	 */
-	QPtrList<UMLObject> findChildObject(UMLObject_Type t, QString n);
-
-	/**
-	 *	Find an attribute, operation, association or template.
-	 *
-	 *	@param	id	The id of the object to find.
-	 *
-	 *	@return	The object found.  Will return 0 if none found.
-	 */
-	UMLObject* findChildObject(int id);
-
-	/**
-	 *	Returns the number of operations for the interface.
-	 *
-	 *	@return	The number of operations for the interface.
-	 */
-	int operations() ;
-
-	/**
 	 * Used to save or load this classes information for the clipboard
 	 *
 	 *	@param	s	Pointer to the datastream (file) to save/load from.
@@ -136,7 +60,14 @@ public:
 	 *
 	 *	@return	Returns the result of the operation.
 	 */
-	virtual bool serialize(QDataStream* s, bool archive, int fileversion);
+	 virtual bool serialize(QDataStream* s, bool archive, int fileversion);
+
+	/**
+	 * Returns a name for the new association, operation, template
+	 * or attribute appended with a number if the default name is
+	 * taken e.g. new_association, new_association_1 etc
+	 */
+	virtual QString uniqChildName(const UMLObject_Type type);
 
 	/**
 	 * Returns the amount of bytes needed to serialize an instance object to the clipboard
@@ -144,28 +75,21 @@ public:
 	virtual long getClipSizeOf();
 
 	/**
+	 * Creates the UML:Concept element including it's operations, attributes and templates
+	 */
+	virtual bool saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+
+	/**
+	 * Loads the UML:Class element including it's operations, attributes and templates
+	 */
+	virtual bool loadFromXMI( QDomElement & element );
+
+protected:
+
+	/**
 	 *	Initializes key variables of the class.
 	 */
-	virtual void init();
-
-	/**
-	 * Creates the UML:Interface element including it's operations,
-	 * attributes and templates
-	 */
-	bool saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
-
-	/**
-	 * Loads the UML:Interface element including it's operations,
-	 * attributes and templates
-	 */
-	bool loadFromXMI(QDomElement& element);
-
-private:
-	/**
-	 * 	List of all the operations in this interface.
-	 */
-	QPtrList<UMLOperation> m_OpsList;
-
+	virtual void init(); // doesnt seem to be any reason for this to be public 
 };
 
-#endif
+#endif // INTERFACE_H 

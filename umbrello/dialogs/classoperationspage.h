@@ -12,10 +12,9 @@
 
 #include "classoperationsbase.h"
 
-class UMLConcept;
+class UMLClass;
 class UMLDoc;
 class QListViewItem;
-typedef UMLConcept UMLClass;
 
 /** @short A Page to display / change the operations of a UMLClass 
  *

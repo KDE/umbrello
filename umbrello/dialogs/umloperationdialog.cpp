@@ -25,7 +25,7 @@
 #include <kbuttonbox.h>
 //app includes
 #include "../operation.h"
-#include "../concept.h"
+#include "../classifier.h"
 #include "../interface.h"
 #include "../umldoc.h"
 #include "../listpopupmenu.h"
@@ -119,16 +119,11 @@ void UMLOperationDialog::setupDialog() {
 	m_pRtypeCB->setEditable(true);
 	m_pRtypeCB->setAutoCompletion(true);
 
-	//now add the Concepts and Interfaces
-	QPtrList<UMLConcept> namesList( pDoc->getConcepts() );
-	UMLConcept* pConcept = 0;
+	//now add the Classes and Interfaces (both are Concepts)
+	QPtrList<UMLClassifier> namesList( pDoc->getConcepts() );
+	UMLClassifier* pConcept = 0;
 	for(pConcept=namesList.first(); pConcept!=0 ;pConcept=namesList.next()) {
 		m_pRtypeCB->insertItem( pConcept->getName() );
-	}
-	QPtrList<UMLInterface> interfaceList( pDoc->getInterfaces() );
-	UMLInterface* pInterface = 0;
-	for(pInterface=interfaceList.first(); pInterface!=0 ;pInterface=interfaceList.next()) {
-		m_pRtypeCB->insertItem( pInterface->getName() );
 	}
 
 	//work out which one to select
@@ -329,14 +324,18 @@ bool UMLOperationDialog::apply() {
 	m_pOperation -> setStatic( m_pStaticCB -> isChecked() );
 
 	QPtrList<UMLObject> list;
-	if (static_cast<UMLObject*>(m_pOperation->parent())->getBaseType() == Uml::ot_Concept) {
-		UMLConcept* pConcept = static_cast<UMLConcept*>( m_pOperation->parent() );
-		list= pConcept->findChildObject(Uml::ot_Operation, name);
+	if (static_cast<UMLObject*>(m_pOperation->parent())->getBaseType() == Uml::ot_Class
+	    || static_cast<UMLObject*>(m_pOperation->parent())->getBaseType() == Uml::ot_Interface
+	) {
+		UMLClassifier* pConcept = static_cast<UMLClassifier*>( m_pOperation->parent() );
+		list = pConcept->findChildObject(Uml::ot_Operation, name);
+		/*
 	} else if (static_cast<UMLObject*>(m_pOperation->parent())->getBaseType() == Uml::ot_Interface) {
 		UMLInterface* pInterface = static_cast<UMLInterface*>( m_pOperation->parent() );
 		list = pInterface->findChildObject(Uml::ot_Operation, name);
+		*/
 	} else {
-		kdWarning() << "not a concept or interface" << endl;
+		kdWarning() << "not a class or interface" << endl;
 	}
 
 	if( name.length() == 0 ) {
@@ -365,11 +364,5 @@ void UMLOperationDialog::slotOk() {
 		accept();
 	}
 }
-
-
-
-
-
-
 
 #include "umloperationdialog.moc"

@@ -13,11 +13,10 @@
 #include "classattributesbase.h"
 #include <qlist.h>
 
-class UMLConcept;
+class UMLClass;
 class UMLAttribute;
 class UMLDoc;
 class QListViewItem;
-typedef UMLConcept UMLClass;
 
 /** @short A Page to display / change the attributes of a UMLClass 
  *

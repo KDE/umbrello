@@ -22,7 +22,7 @@
 #include <qstring.h>
 
 #include "../umldoc.h"
-#include "../concept.h"
+#include "../class.h"
 #include "../association.h"
 #include "../attribute.h"
 #include "../operation.h"
@@ -34,7 +34,7 @@ PhpWriter::PhpWriter( QObject *parent, const char *name )
 PhpWriter::~PhpWriter() {}
 
 
-void PhpWriter::writeClass(UMLConcept *c) {
+void PhpWriter::writeClass(UMLClassifier *c) {
 	if(!c) {
 		kdDebug()<<"Cannot write class of NULL concept!\n";
 		return;
@@ -73,9 +73,9 @@ void PhpWriter::writeClass(UMLConcept *c) {
 
 
 	//write includes
-	QList<UMLConcept> includes;
+	QList<UMLClassifier> includes;
 	findObjectsRelated(c,includes);
-	UMLConcept *conc;
+	UMLClassifier *conc;
 	for(conc = includes.first(); conc ;conc = includes.next()) {
 		QString headerName = findFileName(conc, ".php");
 		if (headerName.isEmpty()) {
@@ -145,14 +145,17 @@ void PhpWriter::writeClass(UMLConcept *c) {
 		}
 	}
 
+	UMLClass * myClass = dynamic_cast<UMLClass *>(c);
+
 	//attributes
-	writeAttributes(c, php);
+	if(myClass)
+		writeAttributes(myClass, php);
 
 	//operations
 	writeOperations(c,php);
 
-	if(hasDefaultValueAttr(c)) {
-		QList<UMLAttribute> *atl = c->getAttList();
+	if(myClass && hasDefaultValueAttr(myClass)) {
+		QList<UMLAttribute> *atl = myClass->getAttList();
 		php << endl;
 
 		php << endl << "  /**" << endl;
@@ -182,7 +185,7 @@ void PhpWriter::writeClass(UMLConcept *c) {
 ////////////////////////////////////////////////////////////////////////////////////
 //  Helper Methods
 
-void PhpWriter::writeOperations(UMLConcept *c, QTextStream &php) {
+void PhpWriter::writeOperations(UMLClassifier *c, QTextStream &php) {
 
 	//Lists to store operations  sorted by scope
 	QList<UMLOperation> *opl;
@@ -270,7 +273,7 @@ void PhpWriter::writeOperations(QString /* classname */, QList<UMLOperation> &op
 	}//end for
 }
 
-void PhpWriter::writeAttributes(UMLConcept *c, QTextStream &php) {
+void PhpWriter::writeAttributes(UMLClass *c, QTextStream &php) {
 	QList<UMLAttribute> *atl;
 
 	QList <UMLAttribute>  atpub, atprot, atpriv, atdefval;

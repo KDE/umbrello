@@ -19,7 +19,7 @@
 #include "uml.h"
 #include "umllistview.h"
 #include "umlview.h"
-#include "concept.h"
+#include "classifier.h"
 #include "associationwidget.h"
 #include "dialogs/settingsdlg.h"
 #include "floatingtext.h"

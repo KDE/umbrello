@@ -32,7 +32,7 @@ class DiagramView;
 } 
 class IDChangeLog;
 class ListPopupMenu;
-class UMLConcept;
+class UMLClassifier;
 class UMLDoc;
 class UMLListViewItem;
 class UMLView;
@@ -192,7 +192,7 @@ public:
 	/**
 	*     Returns a unique name for a child umlobject.
 	*/
-	QString getUniqueChildUMLObjectName( UMLConcept * parent, Uml::UMLObject_Type type );
+	QString getUniqueChildUMLObjectName( UMLClassifier * parent, Uml::UMLObject_Type type );
 
 	/**
 	*     Returns a unique name for an object.

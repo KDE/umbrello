@@ -14,8 +14,9 @@
 #include "../actor.h"
 #include "../actorwidgetdata.h"
 #include "../attribute.h"
-#include "../concept.h"
-#include "../conceptwidgetdata.h"
+#include "../interface.h"
+#include "../class.h"
+#include "../classwidgetdata.h"
 #include "../floatingtextdata.h"
 #include "../messagewidgetdata.h"
 #include "../notewidgetdata.h"
@@ -287,7 +288,7 @@ void UMLDrag::setUMLData( UMLObjectList& Objects, UMLListViewItemDataList& UMLLi
 				stype = "USECASE";
 				break;
 			case Uml::wt_Class:
-				stype = "CONCEPT";
+				stype = "CLASS";
 				break;
 			case Uml::wt_Object:
 				stype = "OBJECT";
@@ -374,11 +375,10 @@ void UMLDrag::setUMLData( UMLObjectList& Objects, UMLListViewItemDataList& UMLLi
 				stype = "USECASE";
 				break;
 			case Uml::wt_Class:
-				stype = "CONCEPT";
+				stype = "CLASS";
 				break;
 			case Uml::wt_Object:
 				stype = "OBJECT";
-
 				break;
 			case Uml::wt_Note:
 				stype = "NOTE";
@@ -509,8 +509,11 @@ bool UMLDrag::decode( const QMimeSource* e, UMLObjectList& Objects,
 			{
 				UMLUseCase * uc = new UMLUseCase(Doc);
 				object = (UMLObject *)uc;
-			} else if(type == Uml::ot_Concept) {
-				UMLConcept * c = new UMLConcept(Doc);
+			} else if(type == Uml::ot_Interface) {
+				UMLInterface * c = new UMLInterface(Doc);
+				object = (UMLObject *)c;
+			} else if(type == Uml::ot_Class) {
+				UMLClass * c = new UMLClass(Doc);
 				object = (UMLObject *)c;
 			} else {
 				return false;
@@ -560,8 +563,11 @@ bool UMLDrag::decode( const QMimeSource* e, UMLObjectList& Objects, UMLListViewI
 			} else if(type == Uml::ot_UseCase) {
 				UMLUseCase * uc = new UMLUseCase(Doc);
 				object = (UMLObject *)uc;
-			} else if(type == Uml::ot_Concept) {
-				UMLConcept * c = new UMLConcept(Doc);
+			} else if(type == Uml::ot_Class ) {
+				UMLClass * c = new UMLClass (Doc);
+				object = (UMLObject *)c;
+			} else if(type == Uml::ot_Interface) {
+				UMLInterface * c = new UMLInterface(Doc);
 				object = (UMLObject *)c;
 			} else {
 				return false;
@@ -644,8 +650,11 @@ bool UMLDrag::decode( const QMimeSource* e, UMLObjectList& Objects, UMLListViewI
 			} else if(type == Uml::ot_UseCase) {
 				UMLUseCase * uc = new UMLUseCase(Doc);
 				object = (UMLObject *)uc;
-			} else if(type == Uml::ot_Concept) {
-				UMLConcept * c = new UMLConcept(Doc);
+			} else if(type == Uml::ot_Class ) {
+				UMLClass * c = new UMLClass(Doc);
+				object = (UMLObject *)c;
+			} else if(type == Uml::ot_Interface) {
+				UMLInterface * c = new UMLInterface(Doc);
 				object = (UMLObject *)c;
 			} else {
 				return false;
@@ -681,8 +690,8 @@ bool UMLDrag::decode( const QMimeSource* e, UMLObjectList& Objects, UMLListViewI
 				UseCaseWidgetData * uc = new UseCaseWidgetData(optionState);
 				widgetdata = (UMLWidgetData *)uc;
 			}//end if usecase
-			else if(stype == "CONCEPT") {
-				ConceptWidgetData * c = new ConceptWidgetData(optionState);
+			else if(stype == "CLASS" || stype == "CONCEPT") { // leave in "CONCEPT" for backwards compatability? 
+				ClassWidgetData * c = new ClassWidgetData(optionState);
 				widgetdata = (UMLWidgetData *)c;
 			}//end if concept
 			else if(stype == "FLOATTEXT") {

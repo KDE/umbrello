@@ -13,7 +13,7 @@
 #include <klocale.h>
 #include <qlayout.h>
 
-SelectOpDlg::SelectOpDlg(QWidget * parent, UMLConcept * c) : KDialogBase(Plain, i18n("Select Operation"), Ok | Cancel , Ok, parent, "_SELOPDLG_", true, true) {
+SelectOpDlg::SelectOpDlg(QWidget * parent, UMLClassifier * c) : KDialogBase(Plain, i18n("Select Operation"), Ok | Cancel , Ok, parent, "_SELOPDLG_", true, true) {
 	QVBoxLayout * topLayout = new QVBoxLayout(plainPage());
 
 	m_pOpGB = new QGroupBox(i18n("Select Operation"), plainPage());

@@ -6,13 +6,13 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
- 
+
 #include "diagramview.h"
 #include "diagram.h"
 #include "umlwidget.h"
 #include "diagramelement.h"
 
-#include "../concept.h"
+#include "../class.h"
 #include "../package.h"
 #include "../interface.h"
 #include "../template.h"
@@ -31,8 +31,6 @@
 
 using namespace Umbrello;
 using std::map;
-
-typedef UMLConcept UMLClass;
 
 namespace
 {	const long None = 0;
@@ -53,13 +51,13 @@ DiagramView::DiagramView( Diagram *diagram, WorkToolBar *toolbar,
 	{
 		initMaps();
 	}
-	
+
 	m_contextMenu = new QPopupMenu(this);
 	m_linePath = new QPtrList<QCanvasLine>();
 	m_linePath->setAutoDelete(true);
 	m_widgetStack = new QPtrList<DiagramElement>();
 	m_widgetStack->setAutoDelete(false);
-	
+
 	viewport()->setAcceptDrops(true);
 	connect(toolbar,SIGNAL(toolSelected(WorkToolBar::EditTool)),this,SLOT(setTool(WorkToolBar::EditTool)));
 	setTool(toolbar->currentTool());
@@ -80,8 +78,8 @@ void DiagramView::setTool( WorkToolBar::EditTool tool )
 {
 kdDebug()<<"setting current tool to : "<<tool<<endl;
 	m_tool = tool;
-	
-	QCursor cursor;	
+
+	QCursor cursor;
 	switch(m_tool)
 	{
 		case WorkToolBar::Select:
@@ -93,27 +91,27 @@ kdDebug()<<"setting current tool to : "<<tool<<endl;
  			setCursor(Qt::CrossCursor);
 			break;
 //FIXME add others
-		
+
 		default:
 			setCursor(Qt::ArrowCursor);
 
 	}
 	m_currentAction = None;
 	m_linePath->clear();
-	if(m_selectionRect) 
+	if(m_selectionRect)
 	{
 		delete m_selectionRect;
 		m_selectionRect = 0L;
 		canvas()->update();
  	}
-	
+
 }
 
 void DiagramView::contentsMousePressEvent( QMouseEvent *e )
 {
 	if(e->button() == RightButton && m_currentAction == CreatingAssociation )
 	{	kdDebug()<<"aborting association"<<endl;
-	
+
 		viewport()->setMouseTracking(false);
 		m_currentAction = None;
 		m_linePath->clear();
@@ -149,7 +147,7 @@ void DiagramView::contentsMousePressEvent( QMouseEvent *e )
 		else
 		{
 			DiagramElement *el = dynamic_cast<DiagramElement*>(list.first());
-			
+
 			bool state = el->isSelected();
 			if((e->state() & ShiftButton) == NoButton)
 			{
@@ -185,7 +183,7 @@ void DiagramView::contentsMousePressEvent( QMouseEvent *e )
 		}
 		break;
 ////////////////////////////////////////////////////////
-//FIXME	
+//FIXME
 	case WorkToolBar::InitialActivity: //initial/end activities and states are just
 	case WorkToolBar::EndActivity:	  //roles of states/activites, not sub classes. how should we
 	case WorkToolBar::Branch:	//handle this? create a state/activity, and then call setRole(type)?
@@ -229,7 +227,7 @@ void DiagramView::contentsMousePressEvent( QMouseEvent *e )
 				}
 				QPtrList<QPoint> path;
 				path.setAutoDelete(true);
-				
+
 				for(QCanvasLine *line = m_linePath->first(); line ; line = m_linePath->next() )
 				{
 					path.append(new QPoint(line->endPoint()));
@@ -237,7 +235,7 @@ void DiagramView::contentsMousePressEvent( QMouseEvent *e )
 				UMLWidget *wA = dynamic_cast<UMLWidget*>(m_widgetStack->first());
 				UMLAssociation *assoc = diagram()->document()->createUMLAssociation( wA->umlObject( ), wB->umlObject( ), associationTypeMap[m_tool]);
 				diagram()->createAssociationWidget( assoc,wA, wB, path );
-				
+
 				viewport()->setMouseTracking(false);
 				m_linePath->clear();
 				m_widgetStack->clear();
@@ -258,7 +256,7 @@ void DiagramView::contentsMousePressEvent( QMouseEvent *e )
 			kdDebug()<<"starting association. first ask if object can accept this association"<<endl;
 			UMLWidget *w = dynamic_cast<UMLWidget*>(list.first());
 			if(!w)
-			{//we hit something but it was not a UMLWidget (maybe a customwidget or another kind of 
+			{//we hit something but it was not a UMLWidget (maybe a customwidget or another kind of
 			// DiagramElement or CanvasItem
 				return;
 			}
@@ -272,13 +270,13 @@ void DiagramView::contentsMousePressEvent( QMouseEvent *e )
 			QCanvasLine *line = new QCanvasLine(canvas());
 			line->setPoints(diagramPos.x(),diagramPos.y(),diagramPos.x(),diagramPos.y());
 			m_linePath->append(line);
-			line->show();	
+			line->show();
 			canvas()->update();
 			viewport()->setMouseTracking(true);
 			return;
 		}
 		break;
-	
+
 	//create Generic / Custom Widgets
 	case WorkToolBar::Note:
 	case WorkToolBar::Text:
@@ -290,7 +288,7 @@ void DiagramView::contentsMousePressEvent( QMouseEvent *e )
 
 }
 
-	
+
 
 void DiagramView::contentsContextMenuEvent(QContextMenuEvent *e)
 {
@@ -305,7 +303,7 @@ QCanvasItemList list = diagram()->collisions(diagramPos);
 	{
 		dynamic_cast<DiagramElement*>(list.first())->fillContextMenu(*m_contextMenu);
 	}
-	
+
 m_contextMenu->exec(QCursor::pos());
 canvas()->update();
 e->accept();
@@ -315,7 +313,7 @@ e->accept();
 void DiagramView::contentsMouseReleaseEvent(QMouseEvent *e )
 {
 m_currentAction &= ~Selecting;
-if(m_selectionRect) 
+if(m_selectionRect)
 {
 	delete m_selectionRect;
 	m_selectionRect = 0L;
@@ -340,7 +338,7 @@ if( m_tool == WorkToolBar::Select && m_currentAction == Selecting )
 		{
 			(*it)->setSelected(true);
 		}
-		
+
 	}
 	canvas()->update();
 	return;
@@ -414,13 +412,13 @@ void DiagramView::initMaps()
 // UMLObject type map
 	umlTypeMap[WorkToolBar::Actor] = &typeid(UMLActor);
 	umlTypeMap[WorkToolBar::UseCase] = &typeid(UMLUseCase);
-	
+
 	umlTypeMap[WorkToolBar::Class] = &typeid(UMLClass);
 	umlTypeMap[WorkToolBar::Package] = &typeid(UMLPackage);
 	umlTypeMap[WorkToolBar::Interface] = &typeid(UMLInterface);
-	
+
 	//FIXME missing: template, activity, state..
-	
+
 // Association type map
 
 	associationTypeMap[WorkToolBar::Generalization] = Uml::at_Generalization;
@@ -433,11 +431,11 @@ void DiagramView::initMaps()
 	associationTypeMap[WorkToolBar::UniAssociation] = Uml::at_UniAssociation;
 	associationTypeMap[WorkToolBar::StateTransition] = Uml::at_State;
 	associationTypeMap[WorkToolBar::ActivityTransition] = Uml::at_Activity;
-	
+
 // custom widget map
 	customWidgetMap[WorkToolBar::Note] = (int)Uml::wt_Note;
 	customWidgetMap[WorkToolBar::Text] = (int)Uml::wt_Text;
-	
+
 	 /** self-msgs?, at_Implementation,
 	    at_Composition, at_Anchor*/
 }

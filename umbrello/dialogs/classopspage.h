@@ -23,7 +23,7 @@
 
 #include <karrowbutton.h>
 
-#include "../concept.h"
+#include "../classifier.h"
 #include "../listpopupmenu.h"
 class UMLDoc;
 
@@ -48,7 +48,7 @@ public:
 	 *	@param	parent	The parent to the ClassOpsPage.
 	 *	@param	c	The Concept to display the properties of.
 	 */
-	ClassOpsPage(QWidget *parent, UMLConcept *c, UMLDoc * doc);
+	ClassOpsPage(QWidget *parent, UMLClassifier *c, UMLDoc * doc);
 
 	/**
 	 *	Standard deconstructor.
@@ -63,7 +63,7 @@ public:
 	void updateObject();
 
 private:
-	UMLConcept * m_pConcept;
+	UMLClassifier * m_pConcept;
 	QGroupBox * m_pOpsGB, * m_pDocGB;
 	QListBox * m_pOpsLB;
 	QTextEdit * m_pDocTE;

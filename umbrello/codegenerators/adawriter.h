@@ -26,8 +26,8 @@ class UMLAssociation;
 class UMLOperation;
 
 /**
-  * class AdaWriter is a code generator for UMLConcept objects.
-  * Create an instance of this class, and feed it a UMLConcept when
+  * class AdaWriter is a code generator for UMLClassifier objects.
+  * Create an instance of this class, and feed it a UMLClassifier when
   * calling writeClass and it will generate an Ada package spec for
   * that concept
   */
@@ -38,10 +38,10 @@ public:
 	virtual ~AdaWriter ();
 
 	/**
-	 * call this method to generate Ada code for a UMLConcept
+	 * call this method to generate Ada code for a UMLClassifier
 	 * @param c the class to generate code for
 	 */
-	virtual void writeClass (UMLConcept *c);
+	virtual void writeClass (UMLClassifier *c);
 
 private:
 
@@ -54,10 +54,10 @@ private:
 
 	void computeAssocTypeAndRole (UMLAssociation *a, QString& typeName, QString& roleName);
 
-	bool isOOClass (UMLConcept *c);
+	bool isOOClass (UMLClassifier *c);
 
 	QString qualifiedName
-	(UMLConcept *c, bool withType = false, bool byValue = false);
+	(UMLClassifier *c, bool withType = false, bool byValue = false);
 
 	QString adatype (QString umbtype);
 

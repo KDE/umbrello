@@ -87,8 +87,8 @@ void WorkToolBar::slotCheckToolBar(Uml::Diagram_Type dt) {
 		insertButton( m_Pixmaps.UniAssociation, tbb_UniAssociation, true, i18n("Unidirectional association"));
 		setToggle( tbb_UniAssociation, true );
 	} else if( m_Type == Uml::dt_Class ) {
-		insertButton( m_Pixmaps.Concept, tbb_Concept, true, i18n("Class"));
-		setToggle( tbb_Concept,true );
+		insertButton( m_Pixmaps.Concept, tbb_Class, true, i18n("Class"));
+		setToggle( tbb_Class,true );
 
 		insertButton( m_Pixmaps.Interface, tbb_Interface, true, i18n("Interface"));
 		setToggle( tbb_Interface,true );

@@ -24,7 +24,7 @@
 #include <qregexp.h>
 
 #include "../umldoc.h"
-#include "../concept.h"
+#include "../class.h"
 #include "../operation.h"
 #include "../umlnamespace.h"
 
@@ -43,7 +43,7 @@ XMLSchemaWriter::XMLSchemaWriter( QObject *parent, const char *name ) : CodeGene
 XMLSchemaWriter::~XMLSchemaWriter() {}
 
 // main method for invoking..
-void XMLSchemaWriter::writeClass(UMLConcept *c)
+void XMLSchemaWriter::writeClass(UMLClassifier *c)
 {
 
 	if (!c) {
@@ -90,9 +90,9 @@ void XMLSchemaWriter::writeClass(UMLConcept *c)
 	// the correct import statements. Leave that for later at this time.
         /*
         //only import classes in a different package as this class
-        QList<UMLConcept> imports;
+        QList<UMLClassifier> imports;
         findObjectsRelated(c,imports);
-        for(UMLConcept *con = imports.first(); con ; con = imports.next())
+        for(UMLClassifier *con = imports.first(); con ; con = imports.next())
                 if(con->getPackage() != c->getPackage())
                         XMLschema<<"import "<<con->getPackage()<<"."<<cleanName(con->getName())<<";"<<endl;
         */
@@ -129,7 +129,7 @@ void XMLSchemaWriter::writeElementDecl( QString elementName, QString elementType
 
 }
 
-void XMLSchemaWriter::writeConcept (UMLConcept *c, QTextStream &XMLschema)
+void XMLSchemaWriter::writeConcept (UMLClassifier *c, QTextStream &XMLschema)
 {
 	XMLschema<<endl;
 
@@ -144,39 +144,42 @@ void XMLSchemaWriter::writeConcept (UMLConcept *c, QTextStream &XMLschema)
 
 }
 
-QPtrList <UMLAttribute> XMLSchemaWriter::findAttributes (UMLConcept *c)
+QPtrList <UMLAttribute> XMLSchemaWriter::findAttributes (UMLClassifier *c)
 {
         // sort attributes by Scope
-        QPtrList <UMLAttribute> *atl = c->getAttList();
         QPtrList <UMLAttribute> attribs;
         attribs.setAutoDelete(false);
 
-        for(UMLAttribute *at=atl->first(); at ; at=atl->next()) {
-                switch(at->getScope())
-                {
-                        case Uml::Public:
-                        case Uml::Protected:
-                                attribs.append(at);
-                                break;
-                        case Uml::Private:
-                                // DO NOTHING! no way to print in the schema
-                                break;
-                }
-        }
+	UMLClass * myClass = dynamic_cast<UMLClass*>(c);
+	if(myClass) {
+	        QPtrList <UMLAttribute> *atl = myClass->getAttList();
+	        for(UMLAttribute *at=atl->first(); at ; at=atl->next()) {
+	                switch(at->getScope())
+	                {
+	                        case Uml::Public:
+	                        case Uml::Protected:
+	                                attribs.append(at);
+	                                break;
+	                        case Uml::Private:
+	                                // DO NOTHING! no way to print in the schema
+	                                break;
+	                }
+	        }
+	}
 	return attribs;
 }
 
-void XMLSchemaWriter::writeAbstractConcept (UMLConcept *c, QTextStream &XMLschema)
+void XMLSchemaWriter::writeAbstractConcept (UMLClassifier *c, QTextStream &XMLschema)
 {
 
-	UMLConcept * concept;
+	UMLClassifier * concept;
         QPtrList <UMLAttribute> attribs = findAttributes(c);
 	QStringList attribGroups = findAttributeGroups(c);
 
 	// name of class, subclassing concepts
 	QString elementName = getElementName(c);
 	QString elementTypeName = getElementTypeName(c);
-	QPtrList<UMLConcept> subclasses = c->findSubClassConcepts(m_doc); // list of what inherits from us
+	QPtrList<UMLClassifier> subclasses = c->findSubClassConcepts(m_doc); // list of what inherits from us
 
 	// start Writing node
 	if(subclasses.count() > 0)
@@ -222,7 +225,7 @@ void XMLSchemaWriter::writeAbstractConcept (UMLConcept *c, QTextStream &XMLschem
 
 }
 
-void XMLSchemaWriter::writeConcreteConcept (UMLConcept *c, QTextStream &XMLschema)
+void XMLSchemaWriter::writeConcreteConcept (UMLClassifier *c, QTextStream &XMLschema)
 {
 
 	// Preparations
@@ -335,22 +338,25 @@ void XMLSchemaWriter::writeNodeWithoutChildren ( QString elementTypeName,
 }
 */
 
-QStringList XMLSchemaWriter::findAttributeGroups (UMLConcept *c)
+QStringList XMLSchemaWriter::findAttributeGroups (UMLClassifier *c)
 {
 	// we need to look for any class we inherit from. IF these
 	// have attributes, then we need to notice
 	QStringList list;
-	QPtrList<UMLConcept> superclasses = c->findSuperClassConcepts(m_doc); // list of what inherits from us
-	for(UMLConcept *concept = superclasses.first(); concept; concept = superclasses.next())
+	QPtrList<UMLClassifier> superclasses = c->findSuperClassConcepts(m_doc); // list of what inherits from us
+	for(UMLClassifier *concept = superclasses.first(); concept; concept = superclasses.next())
 	{
-		QPtrList<UMLAttribute>* attribs = concept->getAttList();
-		if (attribs->count() > 0)
-			list.append(getElementName(concept)+"AttribGroupType");
+		UMLClass * myClass = dynamic_cast<UMLClass*>(concept);
+		if(myClass) {
+			QPtrList<UMLAttribute>* attribs = myClass->getAttList();
+			if (attribs->count() > 0)
+				list.append(getElementName(concept)+"AttribGroupType");
+		}
 	}
 	return list;
 }
 
-bool XMLSchemaWriter::determineIfHasChildNodes( UMLConcept *c)
+bool XMLSchemaWriter::determineIfHasChildNodes( UMLClassifier *c)
 {
 	QPtrList<UMLObject> aggList = findChildObjsInAssociations (c, c->getAggregations());
 	QPtrList<UMLObject> compList = findChildObjsInAssociations (c, c->getCompositions());
@@ -359,27 +365,27 @@ bool XMLSchemaWriter::determineIfHasChildNodes( UMLConcept *c)
 	return aggList.count() > 0 || compList.count() > 0 || assocList.count() > 0;
 }
 
-void XMLSchemaWriter::writeChildObjsInAssociation (UMLConcept *c,
+void XMLSchemaWriter::writeChildObjsInAssociation (UMLClassifier *c,
 		QPtrList<UMLAssociation> assoc,
 		QTextStream &XMLschema)
 {
 	QPtrList<UMLObject> list = findChildObjsInAssociations (c, assoc);
 	for(UMLObject * obj = list.first(); obj; obj = list.next())
 	{
-		UMLConcept * thisConcept = dynamic_cast<UMLConcept*>(obj);
+		UMLClassifier * thisConcept = dynamic_cast<UMLClassifier*>(obj);
 		if(thisConcept && !hasBeenWritten(thisConcept))
 			writeConcept(thisConcept, XMLschema);
 	}
 }
 
-bool XMLSchemaWriter::hasBeenWritten(UMLConcept *c) {
+bool XMLSchemaWriter::hasBeenWritten(UMLClassifier *c) {
 	if (writtenConcepts.contains(c))
 	       return true;
 	else
 		return false;
 }
 
-void XMLSchemaWriter::markAsWritten(UMLConcept *c) {
+void XMLSchemaWriter::markAsWritten(UMLClassifier *c) {
 	writtenConcepts.append(c);
 }
 
@@ -516,7 +522,7 @@ bool XMLSchemaWriter::writeAssociationDecls(QPtrList<UMLAssociation> association
 // between different classes are to be treated
 			if (printRoleB)
 			{
-				UMLConcept *classB = dynamic_cast<UMLConcept*>(a->getObjectB());
+				UMLClassifier *classB = dynamic_cast<UMLClassifier*>(a->getObjectB());
 				if (classB) {
 					// ONLY write out IF there is a rolename given
 					// otherwise its not meant to be declared
@@ -529,7 +535,7 @@ bool XMLSchemaWriter::writeAssociationDecls(QPtrList<UMLAssociation> association
 			// print RoleA decl
 			if (printRoleA)
 			{
-				UMLConcept *classA = dynamic_cast<UMLConcept*>(a->getObjectA());
+				UMLClassifier *classA = dynamic_cast<UMLClassifier*>(a->getObjectA());
 				if (classA) {
 					// ONLY write out IF there is a rolename given
 					// otherwise its not meant to be declared
@@ -544,7 +550,7 @@ bool XMLSchemaWriter::writeAssociationDecls(QPtrList<UMLAssociation> association
 	return didFirstOne;
 }
 
-QPtrList<UMLObject> XMLSchemaWriter::findChildObjsInAssociations (UMLConcept *c, QPtrList<UMLAssociation> associations)
+QPtrList<UMLObject> XMLSchemaWriter::findChildObjsInAssociations (UMLClassifier *c, QPtrList<UMLAssociation> associations)
 {
 	int id = c->getID();
 	QPtrList<UMLObject> list;
@@ -565,7 +571,7 @@ QPtrList<UMLObject> XMLSchemaWriter::findChildObjsInAssociations (UMLConcept *c,
 	return list;
 }
 
-void XMLSchemaWriter::writeAssociationRoleDecl( UMLConcept *c, QString multi, QTextStream &XMLschema)
+void XMLSchemaWriter::writeAssociationRoleDecl( UMLClassifier *c, QString multi, QTextStream &XMLschema)
 {
 
 	bool isAbstract = c->getAbstract();
@@ -692,13 +698,13 @@ QString XMLSchemaWriter::getIndent ()
 	return myIndent;
 }
 
-QString XMLSchemaWriter::getElementName(UMLConcept *c)
+QString XMLSchemaWriter::getElementName(UMLClassifier *c)
 {
 	// return cleanName(lowerFirstLetterCase(c->getName()));
 	return cleanName(c->getName());
 }
 
-QString XMLSchemaWriter::getElementTypeName(UMLConcept *c)
+QString XMLSchemaWriter::getElementTypeName(UMLClassifier *c)
 {
 	QString elementName = getElementName(c);
 	return elementName + "Type";

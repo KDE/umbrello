@@ -10,7 +10,7 @@
 #include "actor.h"
 #include "associationwidget.h"
 #include "association.h"
-#include "concept.h"
+#include "class.h"
 #include "package.h"
 #include "component.h"
 #include "node.h"
@@ -438,10 +438,19 @@ UMLObject* UMLDoc::findUMLObject(UMLObject_Type type, QString name) {
 			return obj;
 	return 0;
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+UMLClassifier* UMLDoc::findUMLClassifier(QString name) {
+	// could be either UMLClass or UMLInterface..
+	UMLObject * obj = findUMLObject(ot_Class, name);
+	if (!obj)
+		obj = findUMLObject(ot_Interface, name);
+	return dynamic_cast<UMLClassifier*>(obj);
+}
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 QString	UMLDoc::uniqObjectName(const UMLObject_Type type) {
 	QString	currentName;
-	if(type == ot_Concept)
+	if(type == ot_Class)
 		currentName = i18n("new_class");
 	else if(type == ot_Actor)
 		currentName = i18n("new_actor");
@@ -471,9 +480,9 @@ UMLObject* UMLDoc::createUMLObject(const std::type_info &type)
 {
 //adapter.. just transform and forward request
 	UMLObject_Type t;
-	if( type == typeid(UMLConcept) )
+	if( type == typeid(UMLClass) )
 	{
-		t = ot_Concept;
+		t = ot_Class;
 	}
 	else if ( type == typeid(UMLUseCase) )
 	{
@@ -535,8 +544,8 @@ UMLObject* UMLDoc::createUMLObject(UMLObject_Type type) {
 				o = new UMLActor(this, name, id);
 			} else if(type == ot_UseCase) {
 				o = new UMLUseCase(this,name, id);
-			} else if(type == ot_Concept) {
-				o = new UMLConcept(this, name, id);
+			} else if(type == ot_Class ) {
+				o = new UMLClass (this, name, id);
 			} else if(type == ot_Package) {
 				o = new UMLPackage(this, name, id);
 			} else if(type == ot_Component) {
@@ -578,7 +587,7 @@ UMLObject* UMLDoc::createUMLObject(UMLObject* umlobject, UMLObject_Type type) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLObject* UMLDoc::createAttribute(UMLObject* umlobject) {
 	int id = getUniqueID();
-	QString currentName = dynamic_cast<UMLConcept *>(umlobject)->uniqChildName(Uml::ot_Attribute);
+	QString currentName = dynamic_cast<UMLClass *>(umlobject)->uniqChildName(Uml::ot_Attribute);
 	UMLAttribute* newAttribute = new UMLAttribute(umlobject, currentName, id);
 
 	int button = QDialog::Accepted;
@@ -591,7 +600,7 @@ UMLObject* UMLDoc::createAttribute(UMLObject* umlobject) {
 
 		if(name.length() == 0) {
 			KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
-		} else if ( ((UMLConcept*)umlobject)->findChildObject(Uml::ot_Attribute, name).count() > 0 ) {
+		} else if ( ((UMLClass*)umlobject)->findChildObject(Uml::ot_Attribute, name).count() > 0 ) {
 			KMessageBox::error(0, i18n("That name is already being used."), i18n("Not a Unique Name"));
 		} else {
 			goodName = true;
@@ -602,7 +611,7 @@ UMLObject* UMLDoc::createAttribute(UMLObject* umlobject) {
 		return NULL;
 	}
 
-	((UMLConcept*)umlobject)->addAttribute((UMLAttribute*)newAttribute);
+	((UMLClass*)umlobject)->addAttribute((UMLAttribute*)newAttribute);
 
 	setModified(true);
 	emit sigChildObjectCreated(newAttribute);
@@ -612,7 +621,7 @@ UMLObject* UMLDoc::createAttribute(UMLObject* umlobject) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLObject* UMLDoc::createTemplate(UMLObject* umlobject) {
 	int id = getUniqueID();
-	QString currentName = dynamic_cast<UMLConcept*>(umlobject)->uniqChildName(Uml::ot_Template);
+	QString currentName = dynamic_cast<UMLClass*>(umlobject)->uniqChildName(Uml::ot_Template);
 	UMLTemplate* newTemplate = new UMLTemplate(umlobject, currentName, id);
 
 	int button = QDialog::Accepted;
@@ -625,7 +634,7 @@ UMLObject* UMLDoc::createTemplate(UMLObject* umlobject) {
 
 		if(name.length() == 0) {
 			KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
-		} else if ( ((UMLConcept*)umlobject)->findChildObject(Uml::ot_Template, name).count() > 0 ) {
+		} else if ( ((UMLClass*)umlobject)->findChildObject(Uml::ot_Template, name).count() > 0 ) {
 			KMessageBox::error(0, i18n("That name is already being used."), i18n("Not a Unique Name"));
 		} else {
 			goodName = true;
@@ -636,7 +645,7 @@ UMLObject* UMLDoc::createTemplate(UMLObject* umlobject) {
 		return NULL;
 	}
 
-	((UMLConcept*)umlobject)->addTemplate((UMLTemplate*)newTemplate);
+	((UMLClass*)umlobject)->addTemplate((UMLTemplate*)newTemplate);
 
 	setModified(true);
 	emit sigChildObjectCreated(newTemplate);
@@ -648,10 +657,8 @@ UMLObject* UMLDoc::createOperation(UMLObject* umlobject) {
 	UMLOperation* newOperation = 0;
 	int id = getUniqueID();
 	QString currentName;
-	if (umlobject->getBaseType() == ot_Concept) {
-		currentName = static_cast<UMLConcept*>(umlobject)->uniqChildName(Uml::ot_Operation);
-	} else if (umlobject->getBaseType() == ot_Interface) {
-		currentName = static_cast<UMLConcept*>(umlobject)->uniqChildName(Uml::ot_Operation);
+	if (umlobject->getBaseType() == ot_Class || umlobject->getBaseType() == ot_Interface) {
+		currentName = static_cast<UMLClassifier*>(umlobject)->uniqChildName(Uml::ot_Operation);
 	} else {
 		kdDebug() << "creating operation for something which isn't a class or an interface" << endl;
 	}
@@ -676,10 +683,8 @@ UMLObject* UMLDoc::createOperation(UMLObject* umlobject) {
 		return NULL;
 	}
 
-	if (umlobject->getBaseType() == ot_Concept) {
-		((UMLConcept*)umlobject)->addOperation((UMLOperation*)newOperation);
-	} else if (umlobject->getBaseType() == ot_Interface) {
-		((UMLInterface*)umlobject)->addOperation((UMLOperation*)newOperation);
+	if (umlobject->getBaseType() == ot_Class || umlobject->getBaseType() == ot_Interface ) {
+		((UMLClassifier*)umlobject)->addOperation((UMLOperation*)newOperation);
 	} else {
 		kdWarning() << "creating operation for something which isn't a class or an interface" << endl;
 	}
@@ -703,8 +708,8 @@ void UMLDoc::removeAssociation(Association_Type assocType, int AId, int BId) {
 			continue;
 		}
 		// Remove the UMLAssociation at the concept that plays role B.
-		QList<UMLConcept> concepts = getConcepts();
-		for (UMLConcept *c = concepts.first(); c; c = concepts.next())
+		QList<UMLClassifier> concepts = getConcepts();
+		for (UMLClassifier *c = concepts.first(); c; c = concepts.next())
 			if (BId == c->getID())
 				c->removeAssociation(a);
 		object = o;
@@ -737,8 +742,8 @@ void UMLDoc::removeAssociation (UMLAssociation * assoc) {
 
 void UMLDoc::removeAssocFromConcepts(UMLAssociation *assoc)
 {
-	QList<UMLConcept> concepts = getConcepts();
-	for (UMLConcept *c = concepts.first(); c; c = concepts.next())
+	QList<UMLClassifier> concepts = getConcepts();
+	for (UMLClassifier *c = concepts.first(); c; c = concepts.next())
 		if (c->hasAssociation(assoc))
 			c->removeAssociation(assoc);
 }
@@ -788,8 +793,8 @@ void UMLDoc::addAssociation(UMLAssociation *Assoc)
 void UMLDoc::addAssocToConcepts(UMLAssociation* a) {
 	int AId = a->getRoleAId();
 	int BId = a->getRoleBId();
-	QList<UMLConcept> concepts = getConcepts();
-	for (UMLConcept *c = concepts.first(); c; c = concepts.next()) {
+	QList<UMLClassifier> concepts = getConcepts();
+	for (UMLClassifier *c = concepts.first(); c; c = concepts.next()) {
 		switch (a->getAssocType()) {
 			// for the next cases should add association to all classes involved
 			// in the interaction.
@@ -942,7 +947,7 @@ void UMLDoc::renameChildUMLObject(UMLObject *o) {
 		if(name.length() == 0)
 			KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
 		else {
-			if((dynamic_cast<UMLConcept *>(p)->findChildObject(o->getBaseType(), name)
+			if((dynamic_cast<UMLClassifier *>(p)->findChildObject(o->getBaseType(), name)
 			        .count() == 0)
 			        || ((o->getBaseType() == Uml::ot_Operation) && KMessageBox::warningYesNo( kapp -> mainWidget() ,
 			                i18n( "The name you entered was not unique!\nIs this what you wanted?" ),
@@ -997,8 +1002,8 @@ void UMLDoc::removeUMLObject(UMLObject *o) {
  			Uml::Association_Type assocType = a->getAssocType();
  			int AId = a->getRoleAId();
  			int BId = a->getRoleBId();
- 			QList<UMLConcept> concepts = getConcepts();
- 			for (UMLConcept *c = concepts.first(); c; c = concepts.next()) {
+ 			QList<UMLClassifier> concepts = getConcepts();
+ 			for (UMLClassifier *c = concepts.first(); c; c = concepts.next()) {
  				switch (assocType) {
  					case Uml::at_Generalization:
  						if (AId == c->getID())
@@ -1026,14 +1031,18 @@ void UMLDoc::removeUMLObject(UMLObject *o) {
 		return;
 	}
 	//must be att or op
-	UMLConcept *p = (UMLConcept*)o->parent();
+	UMLClassifier *p = (UMLClassifier*)o->parent();
 	emit sigObjectRemoved(o);
 	if (type == ot_Operation) {
 		p->removeOperation(o);
 	} else if (type == ot_Attribute) {
-		p->removeAttribute(o);
+		UMLClass *pClass = dynamic_cast<UMLClass *>(p);
+		if(pClass)
+			pClass->removeAttribute(o);
 	} else if (type == ot_Template) {
-		p->removeTemplate((UMLTemplate*)o);
+		UMLClass *pClass = dynamic_cast<UMLClass *>(p);
+		if(pClass)
+			pClass->removeTemplate((UMLTemplate*)o);
 	}
 	emit sigWidgetUpdated(p);
 
@@ -1053,15 +1062,15 @@ void UMLDoc::showProperties(UMLObject* object, int page, bool assoc) {
 	}
 	dialogue->close(true);//wipe from memory
 /*
-	if(typeid(*object) == typeid(UMLConcept))
+	if(typeid(*object) == typeid(UMLClassifier))
 	{
 	kdDebug()<<"showing props for class"<<endl;
-	ClassPropertiesPage *p = new ClassPropertiesPage(dynamic_cast<UMLConcept*>(object),0L,"class page" );
+	ClassPropertiesPage *p = new ClassPropertiesPage(dynamic_cast<UMLClassifier*>(object),0L,"class page" );
 	p->show();
 	}
 	else
 	{
-	kdDebug()<<"object is of type "<<typeid(*object).name()<<" and not of type "<<typeid(UMLConcept).name()<<endl;
+	kdDebug()<<"object is of type "<<typeid(*object).name()<<" and not of type "<<typeid(UMLClassifier).name()<<endl;
 	}
 */
 }
@@ -1183,9 +1192,12 @@ bool UMLDoc::serialize(QDataStream *s, bool archive, int fileversion) {
 				|| (version < 5 && type == /* ot_UseCase */ 101)) {
 				UMLUseCase * uc = new UMLUseCase(this);
 				temp = (UMLObject *)uc;
-			} else if((version > 4 && type == ot_Concept)
+			} else if((version > 4 && type == ot_Class)
 				|| (version < 5 && type == /*ot_Concept */ 102)) {
-				UMLConcept * c = new UMLConcept(this);
+				UMLClass * c = new UMLClass(this);
+				temp = (UMLObject *)c;
+			} else if(version > 4 && type == ot_Interface) {
+				UMLInterface * c = new UMLInterface(this);
 				temp = (UMLObject *)c;
 			} else
 				return false;
@@ -1239,17 +1251,17 @@ bool UMLDoc::serialize(QDataStream *s, bool archive, int fileversion) {
 			for(UMLObject *o = objectList.first(); o ; o = objectList.next())
 			{
 				emit sigObjectCreated(o);
-				if (o->getBaseType() == Uml::ot_Concept)
+				if (o->getBaseType() == Uml::ot_Class)
 				{
-					QPtrList<UMLOperation> *opList = dynamic_cast<UMLConcept *>(o)->getOpList();
+					QPtrList<UMLOperation> *opList = dynamic_cast<UMLClassifier *>(o)->getOpList();
 					for (UMLOperation *op = opList->first(); op; op = opList->next())
 						emit sigChildObjectCreated(op);
 
-					QPtrList<UMLAttribute> *attList = dynamic_cast<UMLConcept *>(o)->getAttList();
+					QPtrList<UMLAttribute> *attList = dynamic_cast<UMLClass *>(o)->getAttList();
 					for (UMLAttribute *att = attList->first(); att; att = attList->next())
 						emit sigChildObjectCreated(att);
 
-					QPtrList<UMLTemplate>* templateList = dynamic_cast<UMLConcept*>(o)->getTemplateList();
+					QPtrList<UMLTemplate>* templateList = dynamic_cast<UMLClass *>(o)->getTemplateList();
 					for (UMLTemplate* theTemplate = templateList->first(); theTemplate;
 					     theTemplate = templateList->next())
 						emit sigChildObjectCreated(theTemplate);
@@ -1481,7 +1493,7 @@ bool UMLDoc::loadUMLObjectsFromXMI( QDomNode & node ) {
 		} else if (type == "UML:Actor") {
 			pObject = new UMLActor(this);
 		} else if (type == "UML:Class") {
-			pObject = new UMLConcept(this);
+			pObject = new UMLClass(this);
 		} else if (type == "UML:Package") {
 			pObject = new UMLPackage(this);
 		} else if (type == "UML:Component") {
@@ -1558,11 +1570,11 @@ void UMLDoc::removeAllViews() {
 	dynamic_cast<UMLApp *>( parent() )->setDiagramMenuItemsState(false);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-QList<UMLConcept> UMLDoc::getConcepts() {
-	QList<UMLConcept> conceptList;
+QList<UMLClassifier> UMLDoc::getConcepts() {
+	QList<UMLClassifier> conceptList;
 	for(UMLObject *obj = objectList.first(); obj ; obj = objectList.next())
-		if(obj -> getBaseType() == ot_Concept)
-			conceptList.append((UMLConcept *)obj);
+		if(obj -> getBaseType() == ot_Class || obj->getBaseType() == ot_Interface)
+			conceptList.append((UMLClassifier *)obj);
 	return conceptList;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1647,26 +1659,29 @@ bool UMLDoc::addUMLObjectPaste(UMLObject* Obj) {
 	Obj->setID(result);
 
 	//If it is a CONCEPT then change the ids of all its operations and attributes
-	if(Obj->getBaseType() == ot_Concept) {
+	if(Obj->getBaseType() == ot_Class ) {
 
-		QList<UMLAttribute>* attibutes = ((UMLConcept*)Obj)->getAttList();
+		QList<UMLAttribute>* attibutes = ((UMLClass *)Obj)->getAttList();
 		for(UMLObject *o = attibutes->first(); o; o = attibutes->next()) {
 			result = assignNewID(o->getID());
 			o->setID(result);
 		}
 
-		QList<UMLOperation>* operations = ((UMLConcept*)Obj)->getOpList();
-		for(UMLObject *o = operations->first(); o; o = operations->next()) {
-			result =  assignNewID(o->getID());
-			o->setID(result);
-		}
-
-		QList<UMLTemplate>* templates = ((UMLConcept*)Obj)->getTemplateList();
+		QList<UMLTemplate>* templates = ((UMLClass *)Obj)->getTemplateList();
 		for(UMLObject* o = templates->first(); o; o = templates->next()) {
 			result = assignNewID(o->getID());
 			o->setID(result);
 		}
 	}
+
+	if(Obj->getBaseType() == ot_Interface || Obj->getBaseType() == ot_Class ) {
+		QList<UMLOperation>* operations = ((UMLClassifier*)Obj)->getOpList();
+		for(UMLObject *o = operations->first(); o; o = operations->next()) {
+			result =  assignNewID(o->getID());
+			o->setID(result);
+		}
+	}
+
 	objectList.append(Obj);
 	setModified(true);
 

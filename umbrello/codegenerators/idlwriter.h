@@ -25,8 +25,8 @@ class UMLAssociation;
 class UMLOperation;
 
 /**
-  * class IDLWriter is a code generator for UMLConcept objects.
-  * Create an instance of this class, and feed it a UMLConcept when
+  * class IDLWriter is a code generator for UMLClassifier objects.
+  * Create an instance of this class, and feed it a UMLClassifier when
   * calling writeClass and it will generate an IDL package spec for
   * that concept
   */
@@ -37,10 +37,10 @@ public:
 	virtual ~IDLWriter ();
 
 	/**
-	 * call this method to generate IDL code for a UMLConcept
+	 * call this method to generate IDL code for a UMLClassifier
 	 * @param c the class to generate code for
 	 */
-	virtual void writeClass (UMLConcept *c);
+	virtual void writeClass (UMLClassifier *c);
 
 private:
 
@@ -53,9 +53,9 @@ private:
 
 	void computeAssocTypeAndRole(UMLAssociation* a, QString& typeName, QString& roleName);
 
-	bool isOOClass(UMLConcept* c);
+	bool isOOClass(UMLClassifier* c);
 
-	QString qualifiedName(UMLConcept* c);
+	QString qualifiedName(UMLClassifier* c);
 
 	QString spc();
 

@@ -203,7 +203,7 @@ public:
   /** This should be reimplemented by subclasses if they wish to accept certain
   	types of associations. Note that this only tells if this UMLObject can accept
 	the association type. When creating an association another check is made to see
-	if the associaiton is valid. For example a UMLClass (UMLConcept) can accept
+	if the associaiton is valid. For example a UMLClass (UMLClassifier) can accept
 	generalizations and should return true. If while creating a generalization
 	the superclass is already subclassed from this, the association is not valid and
 	will not be created.

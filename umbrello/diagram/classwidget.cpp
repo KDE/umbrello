@@ -6,11 +6,11 @@
 #include <qpainter.h>
 #include <qvbox.h>
 
+#include "../class.h"
 #include "../dialogs/umbrellodialog.h"
 #include "../dialogs/classpropertiespage.h"
 #include "../dialogs/classattributespage.h"
 #include "../dialogs/classoperationspage.h"
-#include "../concept.h"
 #include "../attribute.h"
 #include "../operation.h"
 #include <qlist.h>
@@ -19,17 +19,17 @@
 namespace{
  enum {DisplayPackage = 0x1, DisplayStereotype = 0x2 };
  enum {ShowAtts = 0x1, ShowOps = 0x2, DisplayType = 0x4, DisplayVisibility = 0x8};
- 
- 
+
+
  int max(int a, int b) { return a>b?a:b; };
- 
+
  //vertical and horizontal margins
  int vMargin = 10;
  int hMargin = 10;
  int lineHeight = 1;
 }
 
-	
+
 
 namespace Umbrello{
 
@@ -39,16 +39,16 @@ ClassWidget::ClassWidget(Diagram *diagram, uint id, UMLClass *object):
 	m_nameDisplayOpts = DisplayPackage | DisplayStereotype;
 	m_attsDisplayOpts = ShowAtts | DisplayType;
 	m_opsDisplayOpts =ShowOps;
-	
+
 	calculateSize();
-}	
-	 
+}
+
 ClassWidget::~ClassWidget()
 {
 	hide();
 	canvas()->update();//FIXME do the sam for all other widgets (update)
-}	
-	
+}
+
 void ClassWidget::umlObjectModified()
 {
 calculateSize();
@@ -67,7 +67,7 @@ void ClassWidget::drawShape(QPainter &p)
 	int currentX,  currentY;
 	currentX = x();
 	currentY = y();
-	
+
 	p.drawRect(currentX, currentY, width(), height());
 	currentX +=hMargin;
 	currentY +=vMargin;
@@ -87,17 +87,17 @@ void ClassWidget::drawShape(QPainter &p)
 		currentY += vMargin;
 		currentY += lineHeight;
 	}
-	
-	for(QStringList::Iterator it = m_atts.begin(); it != m_atts.end(); ++it ) 
+
+	for(QStringList::Iterator it = m_atts.begin(); it != m_atts.end(); ++it )
 	{
 		p.drawText(currentX,currentY,*it);
 		currentY += lineHeight;
-	}                              
+	}
 	if(!m_atts.isEmpty())
 	{
 		currentY -= lineHeight;
 	}
-	
+
 	if(!m_ops.isEmpty())
 	{
 		currentY += vMargin;
@@ -105,8 +105,8 @@ void ClassWidget::drawShape(QPainter &p)
 		currentY += vMargin;
 		currentY += lineHeight;
 	}
-	
-	for(QStringList::Iterator it = m_ops.begin(); it != m_ops.end(); ++it ) 
+
+	for(QStringList::Iterator it = m_ops.begin(); it != m_ops.end(); ++it )
 	{
 		p.drawText(currentX,currentY,*it);
 		currentY += lineHeight;
@@ -127,31 +127,31 @@ void ClassWidget::drawShape(QPainter &p)
 			p.drawRect(selectionRect);
 
 	}
-	                                    
-}	
+
+}
 
 void ClassWidget::calculateSize()
 {
 UMLClass *obj = dynamic_cast<UMLClass*>(m_umlObject);
 
-//Cache texts	
-//kdDebug()<<"calculating size.."<<endl;	
+//Cache texts
+//kdDebug()<<"calculating size.."<<endl;
 	m_name = "";
 	m_atts.clear();
 	m_ops.clear();
-	
+
 	if( m_nameDisplayOpts & DisplayPackage )
 	{
 		m_name += obj->getPackage() + "::";
 	}
 	m_name += obj->getName();
-	
+
 	if (m_attsDisplayOpts & ShowAtts )
 	{
 		QString str;
 		QList<UMLAttribute> *atts = obj->getAttList();
 		UMLAttribute *att;
-		for(att=atts->first();att != 0;att=atts->next()) 
+		for(att=atts->first();att != 0;att=atts->next())
 		{
 			str = att->getName();
 			if( m_attsDisplayOpts & DisplayType )
@@ -160,17 +160,17 @@ UMLClass *obj = dynamic_cast<UMLClass*>(m_umlObject);
 			}
 			m_atts.append(str);
 			str = "";
-		
+
 		}
-	
+
 	}
-	
+
 	if (m_opsDisplayOpts & ShowOps )
 	{
 		QString str;
 		QList<UMLOperation> *ops = obj->getOpList();
 		UMLOperation *op;
-		for(op=ops->first();op != 0;op=ops->next()) 
+		for(op=ops->first();op != 0;op=ops->next())
 		{
 			str = op->getName();
 			str += "( )";
@@ -180,61 +180,60 @@ UMLClass *obj = dynamic_cast<UMLClass*>(m_umlObject);
 			}
 			m_ops.append(str);
 			str = "";
-		
+
 		}
-	
+
 	}
-	
-	
+
+
 	QFontMetrics fm(qApp->font());
 	int maxWidth = 0;
 	int currentWidth = 0;
-	
+
 	currentWidth = fm.width(m_name);
 	maxWidth = max(maxWidth,currentWidth);
-	
-	
-	for(QStringList::Iterator it = m_atts.begin(); it != m_atts.end(); ++it ) 
+
+
+	for(QStringList::Iterator it = m_atts.begin(); it != m_atts.end(); ++it )
 	{
 		currentWidth = fm.width(*it);
 		maxWidth = max(maxWidth,currentWidth);
 	}
-	
-	for(QStringList::Iterator it = m_ops.begin(); it != m_ops.end(); ++it ) 
+
+	for(QStringList::Iterator it = m_ops.begin(); it != m_ops.end(); ++it )
 	{
 		currentWidth = fm.width(*it);
 		maxWidth = max(maxWidth,currentWidth);
 	}
-	
+
 	m_width = maxWidth + (2*hMargin);
-	
+
 	lineHeight = fm.lineSpacing();
 //	kdDebug()<<"lineHeight set to "<<lineHeight<<endl;
-	
+
 	m_height = 1*lineHeight + (2*vMargin) +
 		   ((m_atts.isEmpty())? 0 : (2*vMargin) ) +
-		   (m_atts.count() * lineHeight) + 
+		   (m_atts.count() * lineHeight) +
 		   ((m_ops.isEmpty())?0:(2*vMargin) ) +
 		   (m_ops.count() * lineHeight ) ;
-		   
-		   
-		   
+
+
+
 //	kdDebug()<<"width set to "<<width()<<" and height to "<<height()<<endl;
-		   
-	
+
+
 }
-	
+
 void ClassWidget::editProperties()
 {
 kdDebug()<<"class widget properties"<<endl;
 	UmbrelloDialog *dialog = new UmbrelloDialog(0);
 
-	dialog->addPage(new ClassPropertiesPage( dynamic_cast<UMLClass*>(m_umlObject),0L),"class properties");
+//FIXMEnow	dialog->addPage(new ClassPropertiesPage( dynamic_cast<UMLClass*>(m_umlObject),0L),"class properties");
 	dialog->addPage(new ClassAttributesPage( dynamic_cast<UMLClass*>(m_umlObject), diagram()->document(),0L),"class attributes");
 	dialog->addPage(new ClassOperationsPage( dynamic_cast<UMLClass*>(m_umlObject), diagram()->document(),0L),"class operations");
-	
+
 	dialog->show();
-	
 
 }
 } //end of namespace NewDiagram
