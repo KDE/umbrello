@@ -18,8 +18,8 @@
  *
  *	@short Sets up attribute information.
  *	@author Paul Hensgen <phensgen@techie.com>
- *	@version 1.0
  *	@see	UMLObject
+ * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
 class UMLAttribute : public UMLObject {

@@ -18,6 +18,7 @@
  * object is saved With this class we are trying to achieve
  * isolation between data and display layers.
  * @author Gustavo Madrigal
+ * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class UseCaseWidgetData : public UMLWidgetData {
 public:

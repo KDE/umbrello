@@ -2,6 +2,7 @@
                           umlobjectassociationspage.h
                              -------------------
     copyright            : (C) 2003 Luis De la Parra
+  Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  ***************************************************************************/
 /***************************************************************************
  *                                                                         *
@@ -27,8 +28,7 @@ namespace Umbrello{
  * @description Dialog page to display  the properties of all
  * Associations related to a particular object
  * @see also DialogPage
- *
-*/
+ */
 class UMLObjectAssociationsPage : public  UMLObjectAssociationsBase, public DialogPage
 {
 Q_OBJECT

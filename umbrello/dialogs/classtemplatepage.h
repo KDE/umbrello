@@ -30,6 +30,7 @@ class ListPopupMenu;
  *	@short	A dialogue page to display class templates.
  *	@author Jonathan Riddell
  *	@see	ClassPropDlg
+ * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class ClassTemplatePage : public QWidget {
 	Q_OBJECT

@@ -23,6 +23,7 @@ class UMLView;
  *	@short	A graphical version of a Package.
  *	@author Jonathan Riddell
  *	@see	UMLWidget
+ * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class PackageWidget : public UMLWidget {
 public:

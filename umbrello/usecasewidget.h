@@ -19,7 +19,7 @@
 class QPainter;
 
 /**
- *	This class is the graphical version of a UML UseCase.  A UseCaseWidget is created
+ * This class is the graphical version of a UML UseCase.  A UseCaseWidget is created
  * by a @ref UMLView.  An UseCaseWidget belongs to only one @ref UMLView instance.
  * When the @ref UMLView instance that this class belongs to, it will be automatically deleted.
  *
@@ -30,8 +30,8 @@ class QPainter;
  * to this class.
  *
  * @short  A graphical version of a UML UseCase.
- *	@author Paul Hensgen <phensgen@techie.com>
- * @version 1.0
+ * @author Paul Hensgen <phensgen@techie.com>
+ * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class UseCaseWidget : public UMLWidget {
 public:

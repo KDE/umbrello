@@ -3,6 +3,7 @@
                              -------------------
     copyright            : (C) 2003 by Oliver Kellogg
     email                : okellogg@users.sourceforge.net
+  Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  ***************************************************************************/
 
 /***************************************************************************

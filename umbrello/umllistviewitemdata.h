@@ -16,6 +16,7 @@
  *	Contains all the uml data of
  *	a UMLListViewItem object
  *	@author Gustavo Madrigal
+ * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
 class UMLListViewItem;

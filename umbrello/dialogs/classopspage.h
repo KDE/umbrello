@@ -31,11 +31,10 @@ class UMLDoc;
  *	A dialog page to display class operation properties.  This is not normally setup
  *	called by you.  It is used by the @ref ClassPropDlg.
  *
-
  *	@short	A dialog page to display class operation properties.
  *	@author Paul Hensgen <phensgen@techie.com>
- *	@version	1.0
  *	@see	ClassPropDlg
+ * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
 class ClassOpsPage : public QWidget {

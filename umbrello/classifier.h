@@ -28,6 +28,7 @@ class UMLDoc;
  *
  *	@short	Information for a non-graphical Concept/Class.
  *	@author Paul Hensgen	<phensgen@techie.com>
+ * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
 class UMLClassifier : public UMLCanvasObject {

@@ -30,7 +30,7 @@
  *
  *	@short A dialog to select an operation.
  *	@author Paul Hensgen	<phensgen@techie.com>
- *	@version	1.0
+ * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
 class SelectOpDlg : public KDialogBase

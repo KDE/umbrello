@@ -1,4 +1,6 @@
-
+/*
+ * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
+ */
 
 
 

@@ -63,7 +63,7 @@ class RefactoringAssistant;
  * @see KConfig
  *
  * @author Paul Hensgen	<phensgen@techie.com>
- * @version 1.0
+ * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
 class UMLApp : public KDockMainWindow {

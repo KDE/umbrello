@@ -19,6 +19,7 @@ class FloatingTextData;
  *	This class holds all the information
  *	from an association
  *	@author Gustavo Madrigal
+ * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class AssociationWidgetData {
 	friend class LinePath;

@@ -23,6 +23,7 @@ class UMLView;
  *	@short	A graphical version of an interface.
  *	@author Jonathan Riddell
  *	@see	UMLWidget
+ * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class InterfaceWidget : public UMLWidget {
 public:

@@ -26,6 +26,7 @@ class UMLAssociation;
  *	@short	Non-graphical information for a Package.
  *	@author Jonathan Riddell
  *	@see	UMLCanvasObject
+ * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
 class UMLPackage : public UMLCanvasObject {

@@ -21,8 +21,8 @@ class UMLListView;
  *
  *	@short	Items used by @ref UMLListView.
  *	@author Paul Hensgen	<phensgen@techie.com>
- *	@version	1.0
  *	@see	UMLListView
+ * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
 class UMLListViewItem : public QListViewItem {

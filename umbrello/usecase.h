@@ -21,6 +21,7 @@
  *
  * @short Information for a non-graphical UML UseCase.
  * @author Paul Hensgen <phensgen@techie.com>
+ * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
 class UMLUseCase : public UMLCanvasObject {

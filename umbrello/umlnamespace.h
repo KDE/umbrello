@@ -19,6 +19,7 @@ enum Visibility {Public = 200, Private, Protected };
 
 /**
  *@author Paul Hensgen
+ * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 namespace Uml {
 	enum UMLObject_Type

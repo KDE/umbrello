@@ -35,6 +35,7 @@ using namespace Uml;
  *
  * @author Gustavo Madrigal
  * @short This class represents an association inside a diagram.
+ * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class AssociationWidget : public QObject, public AssociationWidgetData {
 	Q_OBJECT

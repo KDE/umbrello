@@ -25,6 +25,7 @@ class UMLAssociation;
  *	@short	Non-graphical information for a UMLCanvasObject.
  *	@author Jonathan Riddell
  *	@see	UMLObject
+ * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
 class UMLCanvasObject : public UMLObject {

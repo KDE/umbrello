@@ -67,7 +67,7 @@ using namespace Uml;
   * files.
   *
   * @author Paul Hensgen	<phensgen@techie.com>
-  * @version 1.0
+  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
   */
 class UMLDoc : public QObject {
 	Q_OBJECT

@@ -22,6 +22,7 @@
  *	@short	Displays a box.
  *	@author Jonathan Riddell
  *	@see	UMLWidget
+ * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class BoxWidget : public UMLWidget {
 public:

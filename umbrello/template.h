@@ -20,6 +20,7 @@
  *	@short Sets up template information.
  *	@author Jonathan Riddell
  *	@see	UMLObject
+ * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
 class UMLTemplate : public UMLObject {

@@ -12,12 +12,13 @@
 
 
 /**
-*	This class contains all the ID translations done for each
-*	UMLObject pasted. It contains for each old id its new
-*	assigned id.
-*
-*	@author Gustavo Madrigal
-*/
+ *	This class contains all the ID translations done for each
+ *	UMLObject pasted. It contains for each old id its new
+ *	assigned id.
+ *
+ *	@author Gustavo Madrigal
+ * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
+ */
 
 #include <qpointarray.h>
 

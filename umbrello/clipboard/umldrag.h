@@ -26,7 +26,8 @@
  *	that will be use in a drag and drop operation or in a copy or paste
  *	operation.
  *
- *	@author Gustavo Madrigal, Jonathan Riddell
+ *	@author Gustavo Madrigal, Jonathan Riddell (XMI conversion)
+ * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
 class UMLListView;

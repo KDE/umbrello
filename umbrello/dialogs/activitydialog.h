@@ -31,6 +31,7 @@ class ActivityWidget;
  *   Displays the properties for a @ref ActivityWidget
  *
  *   @author   Paul Hensgen
+ * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
 class ActivityDialog : public KDialogBase {

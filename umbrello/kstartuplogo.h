@@ -1,12 +1,4 @@
 /***************************************************************************
-                          kstartuplogo.h  -  description
-                             -------------------
-    begin                : Sun Feb 28 1999
-    copyright            : (C) 1999 by
-    email                :
- ***************************************************************************/
-
-/***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -23,7 +15,9 @@
 
 
 /**
- * Displays a startup splash screen
+ * Displays a startup splash screen.
+ * This class is mostly borrowed from another project, probably KMyMoney2.
+ * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class KStartupLogo : public QWidget  {
 	Q_OBJECT

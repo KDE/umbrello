@@ -23,6 +23,7 @@ class UMLTemplate;
  * A dialogue to edit the properties of a class template (paramaterised class)
  *
  * @author Jonathan Riddell
+ * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
 class UMLTemplateDialog : public KDialogBase {

@@ -22,6 +22,7 @@ class QDataStream;
  *	when an BoxWidget object is saved.
  *
  *	@author Jonathan Riddell
+ * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
 class BoxWidgetData : public UMLWidgetData {

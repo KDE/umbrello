@@ -22,6 +22,7 @@ using namespace Uml;
  * Used to determine rules for associations.
  *
  *	@author Paul Hensgen
+ * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class AssocRules {
 public:

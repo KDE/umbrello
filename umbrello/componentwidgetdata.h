@@ -19,6 +19,7 @@
  * isolation between data and display layers.
  *
  * @author Jonathan Riddell
+ * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class ComponentWidgetData : public UMLWidgetData {
 public:

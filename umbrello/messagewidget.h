@@ -28,9 +28,9 @@ class FloatingText;
  *
  *	@short	Displays a message.
  *	@author Paul Hensgen
- *	@version  1.0
  *	@see	UMLWidget
  *	@see	FloatingText
+ * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class MessageWidget : public UMLWidget {
 	Q_OBJECT

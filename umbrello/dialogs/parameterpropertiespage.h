@@ -2,6 +2,7 @@
                           parameterpropertiespage.h
                              -------------------
     copyright            : (C) 2003 Luis De la Parra
+  Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  ***************************************************************************/
 /***************************************************************************
  *                                                                         *
@@ -22,15 +23,15 @@ class UMLAttribute;
 
 namespace Umbrello{
 
-/** @short A Page to display / change the properties of a UMLAttribute
+/** 
+ * @short A Page to display / change the properties of a UMLAttribute
  * 
  * @description Dialog page to display / change the properties of
  * a parameter: Name, type, and initial value.
  * If the parent widget is null, the page will default to autoApply, but you can
  * change this at any time. 
  * @see also DialogPage
- *
-*/
+ */
 class ParameterPropertiesPage : public  ParameterPropertiesBase, public DialogPage
 {
 Q_OBJECT

@@ -19,6 +19,7 @@ class UMLAttribute;
 /**
  * Interfaces classparser library to uml models
  * @author Mikko Pasanen
+ * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
 class ClassImport : private UMLDoc {

@@ -23,6 +23,7 @@ class QCheckBox;
  * better to use user defined buttons but I couldn't work out how.  KDialogBase guru needed.
  *
  * @author Jonathan Riddell <jr@jriddell.org>
+ * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class OverwriteDialogue: public KDialogBase {
 	Q_OBJECT

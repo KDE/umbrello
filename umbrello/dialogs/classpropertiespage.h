@@ -2,6 +2,7 @@
                           classpropertiespage.h
                              -------------------
     copyright            : (C) 2003 Luis De la Parra
+  Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  ***************************************************************************/
 /***************************************************************************
  *                                                                         *

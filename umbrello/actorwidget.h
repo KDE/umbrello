@@ -28,10 +28,9 @@
  *
  *	@short	A graphical version of a UML Actor.
  *	@author Paul Hensgen <phensgen@techie.com>
- *	@version	1.0
  *	@see	UMLWidget
- *
  *	@see	UMLView
+ * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
 class ActorWidget : public UMLWidget {

@@ -22,6 +22,7 @@
  *	@short Information for a non-graphical UML Actor.
  *	@author Paul Hensgen <phensgen@techie.com>
  *	@see	UMLCanvasObject
+ * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class UMLActor : public UMLCanvasObject {
 public:

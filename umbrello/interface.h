@@ -21,6 +21,7 @@
  *
  *	@short	Information for a non-graphical Interface.
  *	@author Jonathan Riddell
+ * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class UMLInterface : public UMLClassifier {
 public:

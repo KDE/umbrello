@@ -4,6 +4,7 @@
     begin                : Mon Jul 15 2002
     copyright            : (C) 2002 by Luis De la Parra
     email                : luis@delaparra.org
+  Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  ***************************************************************************/
 
 /***************************************************************************

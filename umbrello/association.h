@@ -22,8 +22,8 @@ class UMLDoc;
  *
  *	@short Sets up association information.
  *	@author Oliver Kellogg <okellogg@users.sourceforge.net>
- *	@version 1.0
  *	@see	UMLObject
+ * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
 class UMLAssociation : public UMLObject {

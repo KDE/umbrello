@@ -21,7 +21,7 @@
  *
  *	@short	The toolbar that is different for each type of diagram.
  *	@author Paul Hensgen <phensgen@techie.com>
- *	@version 1.0
+ * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class WorkToolBar : public KToolBar {
 	Q_OBJECT

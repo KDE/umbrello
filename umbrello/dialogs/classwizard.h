@@ -21,6 +21,7 @@ class UMLDoc;
 
 /**
  *	@author Paul Hensgen
+ * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class ClassWizard : public KWizard {
 public:

@@ -30,6 +30,7 @@ class KFontChooser;
  *   Displays the properties for a @ref StateWidget
  *
  *   @author   Paul Hensgen
+ * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
 class StateDialog : public KDialogBase {

@@ -25,7 +25,7 @@ class UMLDoc;
 /**
  * 	Based off of AssocPropDlg class
  *	@author Brian Thomas <Brian.A.Thomas@gsfc.nasa.gov>
- *	@version	1.0
+ * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class AssocPropDlg : public KDialogBase {
 	Q_OBJECT

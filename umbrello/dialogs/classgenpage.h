@@ -31,7 +31,7 @@
  *
  *	@short	Display properties on a UMLObject.
  *	@author Paul Hensgen	<phensgen@techie.com>
- *	@version 1.0
+ * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class ClassGenPage : public QWidget {
 	Q_OBJECT

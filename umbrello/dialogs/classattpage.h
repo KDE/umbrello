@@ -29,8 +29,8 @@ class UMLDoc;
  *
  *	@short	A dialog page to display class attribute properties.
  *	@author Paul Hensgen <phensgen@techie.com>
- *	@version	1.0
  *	@see	ClassPropDlg
+ * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class ClassAttPage : public QWidget {
 	Q_OBJECT

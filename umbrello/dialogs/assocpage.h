@@ -34,7 +34,7 @@
  *
  * @short	The page shows all the Associations that belong to a @ref ConceptWidget.
  * @author Paul Hensgen	<phensgen@techie.com>
- * @version 1.0
+ * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class AssocPage : public QWidget {
 	Q_OBJECT

@@ -4,6 +4,7 @@
     begin                : Sun Jan 13 2002
     copyright            : (C) 2002 by Gustavo Madrigal
     email                : gmadrigal@nextphere.com
+  Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  ***************************************************************************/
 
 /***************************************************************************

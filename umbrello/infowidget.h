@@ -19,6 +19,7 @@
  *	@short	Displays an information widget.
  *	@author Paul Hensgen	<phensgen@techie.com>
  *	@version	1.0
+ * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class InfoWidget : public QWidget {
 public:

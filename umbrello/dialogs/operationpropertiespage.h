@@ -2,6 +2,7 @@
                           operationpropertiespage.h
                              -------------------
     copyright            : (C) 2003 Luis De la Parra
+  Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  ***************************************************************************/
 /***************************************************************************
  *                                                                         *
@@ -22,15 +23,15 @@ class UMLOperation;
 class UMLAttribute;
 class UMLDoc;
 
-/** @short A Page to display / change the properties of a UMLOperation 
+/** 
+ * @short A Page to display / change the properties of a UMLOperation 
  * 
  * @description Dialog page to display / change the  properties of
  * an operation: Name, type, visibility, parameters, etc
  * If the parent widget is null, the page will default to autoApply, but you can
  * change this at any time. 
  * @see also DialogPage
- *
-*/
+ */
 class OperationPropertiesPage : public  OperationPropertiesBase, public DialogPage
 {
 Q_OBJECT

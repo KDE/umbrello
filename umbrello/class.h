@@ -27,6 +27,7 @@ class UMLTemplate;
  *
  *	@short	Information for a non-graphical Concept/Class.
  *	@author Brian Thomas <brian.thomas@gsfc.nasa.gov>
+ * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class UMLClass : public UMLClassifier {
 Q_OBJECT

@@ -28,6 +28,7 @@ class UMLDrag;
  *	instance to another one.
  *
  *	@author Gustavo Madrigal
+ * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class UMLClipboard : public QObject {
 	//Q_OBJECT

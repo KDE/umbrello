@@ -11,7 +11,10 @@
 #define DIALOG_PAGE
 
 
-/** @short A basic interface for all Dialog Pages in Umbrello. */
+/** 
+ * @short A basic interface for all Dialog Pages in Umbrello. 
+ * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
+ */
 
 class DialogPage
 {

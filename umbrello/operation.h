@@ -22,8 +22,8 @@ class UMLAttribute;
  *
  *	@short	Holds the information to represent an operation.
  *	@author Paul Hensgen	<phensgen@techie.com>
- *	@version	1.0
  *	@see	UMLObject
+ * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
 class UMLOperation : public UMLObject {

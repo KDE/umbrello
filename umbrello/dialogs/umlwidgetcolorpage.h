@@ -13,6 +13,7 @@
 #include <qwidget.h>
 /**
  * @author Paul Hensgen
+ * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class UMLWidget;
 class UMLView;

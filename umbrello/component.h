@@ -25,6 +25,7 @@ class UMLAssociation;
  *	@short	Non-graphical information for a Component.
  *	@author Jonathan Riddell
  *	@see	UMLCanvasObject
+ * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
 class UMLComponent : public UMLCanvasObject {

@@ -36,6 +36,7 @@ enum Artifact_draw_type {
  *	@short	Non-graphical information for a Artifact.
  *	@author Jonathan Riddell
  *	@see	UMLCanvasObject
+ * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class UMLArtifact : public UMLCanvasObject {
 public:
