@@ -1023,8 +1023,7 @@ void UMLDoc::showProperties(UMLObject* object, int page, bool assoc) {
 		setModified(true);
 	}
 	dialogue->close(true);//wipe from memory
-//FIXME
-//FIXME
+/*
 	if(typeid(*object) == typeid(UMLConcept))
 	{
 	kdDebug()<<"showing props for class"<<endl;
@@ -1035,6 +1034,7 @@ void UMLDoc::showProperties(UMLObject* object, int page, bool assoc) {
 	{
 	kdDebug()<<"object is of type "<<typeid(*object).name()<<" and not of type "<<typeid(UMLConcept).name()<<endl;
 	}
+*/	
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
