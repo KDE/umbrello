@@ -945,15 +945,18 @@ void UMLDoc::createDiagram(Diagram_Type type, bool askForName /*= true */) {
 	dname = uniqViewName(type);
 
 	while(true) {
-		if( askForName )
+		if (askForName)  {
+			kdDebug() << k_funcinfo << endl;
 			name = KInputDialog::getText(i18n("Name"), i18n("Enter name:"), dname, &ok, (QWidget*)parent());
-		else
+		} else {
 			name = dname;
-		if(!ok)
+		}
+		if (!ok)  {
 			break;
-		if(name.length() == 0)
+		}
+		if (name.length() == 0)  {
 			KMessageBox::error(0, i18n("That is an invalid name for a diagram."), i18n("Invalid Name"));
-		else if(!findView(type, name)) {
+		} else if(!findView(type, name)) {
 			UMLView* temp = new UMLView(UMLApp::app()->getMainViewWidget(), this);
 			temp->setName( name );
 			temp->setType( type );
@@ -965,8 +968,9 @@ void UMLDoc::createDiagram(Diagram_Type type, bool askForName /*= true */) {
 			((UMLApp*)parent())->enablePrint(true);
 			changeCurrentView(uniqueID);
 			break;
-		} else
+		} else {
 			KMessageBox::error(0, i18n("A diagram is already using that name."), i18n("Not a Unique Name"));
+		}
 	}//end while
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////

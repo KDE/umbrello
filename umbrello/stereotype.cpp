@@ -64,7 +64,7 @@ bool UMLStereotype::loadFromXMI(QDomElement& element) {
 
 bool UMLStereotype::showPropertiesDialogue(QWidget* parent) {
 	bool ok;
-	QString name = KInputDialog::getText( i18n("Enter name:"), getName(), QString::null,&ok, parent);
+	QString name = KInputDialog::getText(i18n("Stereotype"), i18n("Enter name:"), getName(),&ok, parent);
 	if (ok) {
 		setName(name);
 	}
