@@ -1416,6 +1416,38 @@ void UMLApp::keyReleaseEvent(QKeyEvent *e) {
 			toolsbar->setDefaultTool();
 			e->accept();
 			break;
+		case Qt::Key_Left:
+			if (m_view && m_view->getSelectCount()) {
+				m_view->moveSelectedBy(-1,  0 );
+				e->accept();
+			} else {
+				e->ignore();
+			}
+			break;
+		case Qt::Key_Right:
+			if (m_view && m_view->getSelectCount()) {
+				m_view->moveSelectedBy( 1,  0 );
+				e->accept();
+			} else {
+				e->ignore();
+			}
+			break;
+		case Qt::Key_Up:
+			if (m_view && m_view->getSelectCount()) {
+				m_view->moveSelectedBy( 0, -1 );
+				e->accept();
+			} else {
+				e->ignore();
+			}
+			break;
+		case Qt::Key_Down:
+			if (m_view && m_view->getSelectCount()) {
+				m_view->moveSelectedBy( 0,  1 );
+				e->accept();
+			} else {
+				e->ignore();
+			}
+			break;
 		default:
 			e->ignore();
 	}

@@ -13,6 +13,7 @@
 // qt/kde includes
 #include <qpoint.h>
 #include <qrect.h>
+#include <qevent.h>
 #include <qtooltip.h>
 #include <kiconloader.h>
 #include <kapplication.h>
@@ -200,6 +201,18 @@ void UMLListView::contentsMousePressEvent(QMouseEvent *me) {
 void UMLListView::contentsMouseReleaseEvent(QMouseEvent *me) {
 	this->KListView::contentsMouseReleaseEvent(me);
 }
+
+void UMLListView::keyPressEvent(QKeyEvent *ke) {
+	UMLView *view = UMLApp::app()->getCurrentView();
+	if (view && view->getSelectCount()) {
+		// Widgets have been selected in the diagram area,
+		// assume they handle the keypress.
+		ke->accept();                 // munge and do nothing
+	} else {
+		QListView::keyPressEvent(ke); // let parent handle it
+	}
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLListView::popupMenuSel(int sel) {
 	UMLListViewItem * temp = (UMLListViewItem*)currentItem();
@@ -1071,6 +1084,8 @@ void UMLListView::slotDropped(QDropEvent* de, QListViewItem* /* parent */, QList
 		return;
 	}
 	UMLListViewItem *newParent = (UMLListViewItem*)item;
+	kdDebug() << "moveObj: newParent->getText() is " << newParent->getText()
+		  << endl;
 	UMLDrag::LvTypeAndID_It it(srcList);
 	UMLDrag::LvTypeAndID * src = 0;
 	while((src = it.current()) != 0) {

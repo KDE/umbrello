@@ -28,6 +28,7 @@
  */
  
 class QMouseEvent;
+class QKeyEvent;
 class IDChangeLog;
 class ListPopupMenu;
 class UMLClassifier;
@@ -346,6 +347,7 @@ class UMLListView : public KListView {
 	void startDrag();
 	void tidyChangeItem();
 	bool acceptDrag (QDropEvent* event) const;
+	void keyPressEvent(QKeyEvent *);
 
 	/**
 	 * This methods looks for a object in a folder an its subfolders recursive.
