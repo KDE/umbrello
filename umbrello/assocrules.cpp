@@ -325,7 +325,7 @@ AssocRules::Assoc_Rule AssocRules::m_AssocRules []= {
             { at_Anchor,	wt_Object,	wt_Note,	false,	false,	false,	false },
             { at_Anchor,	wt_Actor,	wt_Note,	false,	false,	false,	false },
             { at_Anchor,	wt_UseCase,	wt_Note,	false,	false,	false,	false },
-            { at_Anchor,	wt_Message,	wt_Note,	false,	false,	false,	false },
+            { at_Anchor,	wt_Message,	wt_Note,	false,	false,	false,	true },
             { at_Anchor,	wt_State,	wt_Note,	false,	false,	false,	false },
             { at_Anchor,	wt_Activity,	wt_Note,	false,	false,	false,	false },
         };
