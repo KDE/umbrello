@@ -76,10 +76,10 @@ class UMLListView : public KListView {
 	};
 
 	/**
-	 *	Constructs the tree view.
+	 * Constructs the tree view.
 	 *
-	 *	@param	parent	The parent to this.
-	 *	@param	name	The internal name for this class.
+	 * @param parent	The parent to this.
+	 * @param name		The internal name for this class.
 	 */
 	UMLListView(QWidget *parent,const char *name);
 
@@ -89,10 +89,10 @@ class UMLListView : public KListView {
 	~UMLListView();
 
 	/**
-	 *	Sets the document his is associated with.  This is important as
-	 *	this is required as to setup the callbacks.
+	 * Sets the document his is associated with.  This is important as
+	 * this is required as to setup the callbacks.
 	 *
-	 *	@param	d	The document to associate with this class.
+	 * @param d		The document to associate with this class.
 	 */
 	void setDocument(UMLDoc * d);
 
@@ -102,14 +102,14 @@ class UMLListView : public KListView {
 	void init();
 
 	/**
-	 *	Set the current view to the given view.
+	 * Set the current view to the given view.
 	 *
-	 *	@param	v	The current view.
+	 * @param v		The current view.
 	 */
 	void setView(UMLView* v);
 
 	/**
-	 * sets loading boolean flag to the value given
+	 * Sets loading boolean flag to the value given.
 	 */
 	void setLoading(bool state);
 
@@ -126,66 +126,75 @@ class UMLListView : public KListView {
 				    UMLListViewItem* parent = 0);
 
 	/**
-	 * 	Return the amount of items selected.
+	 * Determine the parent ListViewItem given a ListView_Type.
+	 * This parent is used for creating new UMLListViewItems.
+	 *
+	 * @param lvt	The ListView_Type for which to lookup the parent.
+	 * @return	Pointer to the parent UMLListViewItem chosen.
+	 */
+	UMLListViewItem* parentItem(Uml::ListView_Type lvt) const;
+
+	/**
+	 *  Return the amount of items selected.
 	 */
 	int getSelectedCount();
 
 	/**
-	 *   Returns the correct pixmap for the given type.
+	 * Returns the correct pixmap for the given type.
 	 */
 	QPixmap & getPixmap( Icon_Type type );
 
 	/**
-	 *     Returns the document pointer.  Called by the UMLListViewItem class.
+	 * Returns the document pointer.  Called by the UMLListViewItem class.
 	 */
 	UMLDoc * getDocument() {
 		return m_doc;
 	}
 
 	/**
-	 *     Adds a new item to the tree of the given type under the given parent.
-	 *     Method will take care of signalling anyone needed on creation of new item.
-	 *     e.g. UMLDoc if an UMLObject is created.
+	 * Adds a new item to the tree of the given type under the given parent.
+	 * Method will take care of signalling anyone needed on creation of new item.
+	 * e.g. UMLDoc if an UMLObject is created.
 	 */
 	void addNewItem( QListViewItem * parent, Uml::ListView_Type type );
 
 	/**
-	 *   Creates a UMLObject out of the given list view item.
+	 * Creates a UMLObject out of the given list view item.
 	 */
 	void createUMLObject( UMLListViewItem * item, Uml::UMLObject_Type type );
 
 	/**
-	 *   Creates a child UMLObject out of the given list view item.
+	 * Creates a child UMLObject out of the given list view item.
 	 */
 	void createChildUMLObject( UMLListViewItem * item, Uml::UMLObject_Type type );
 
 	/**
-	 *   Creates a diagram out of the given list view item.
+	 * Creates a diagram out of the given list view item.
 	 */
 	void createDiagram( UMLListViewItem * item, Uml::Diagram_Type type );
 
 	/**
-	 *     Returns a unique name for a diagram.
+	 * Returns a unique name for a diagram.
 	 */
 	QString getUniqueDiagramName( Uml::Diagram_Type type );
 
 	/**
-	 *     Returns a unique name for a child umlobject.
+	 * Returns a unique name for a child umlobject.
 	 */
 	QString getUniqueChildUMLObjectName( UMLClassifier * parent, Uml::UMLObject_Type type );
 
 	/**
-	 *     Returns a unique name for an object.
+	 * Returns a unique name for an object.
 	 */
 	QString getUniqueUMLObjectName( Uml::UMLObject_Type type );
 
 	/**
-	 *     Returns if the given name is unique for the given items type.
+	 * Returns if the given name is unique for the given items type.
 	 */
 	bool isUnique( UMLListViewItem * item, QString name );
 
 	/**
-	 *   Cancel rename event has occurred for the given item.
+	 * Cancel rename event has occurred for the given item.
 	 */
 	void  cancelRename( QListViewItem * item );
 
@@ -434,7 +443,7 @@ public slots:
 
  signals:
 	/**
-	 *   Reset the status bar
+	 * Reset the status bar
 	 */
 	void sigResetStatusbarProgress();
 

@@ -506,7 +506,7 @@ bool UMLClipboard::pasteClip3(UMLDoc* doc, QMimeSource* data) {
 		return false;
 	}
 
-	bool result = UMLDrag::decodeClip3(data, itemdatalist);
+	bool result = UMLDrag::decodeClip3(data, itemdatalist, doc->listView);
 	if(!result) {
 		return false;
 	}

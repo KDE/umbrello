@@ -39,11 +39,21 @@ UMLListViewItem::UMLListViewItem( UMLListView * parent, QString name,
 UMLListViewItem::UMLListViewItem(UMLListView * parent)
   : QListViewItem(parent) {
 	m_bCreating = false;
-	if (s_pListView == NULL) {
+	if (parent != NULL)
 		s_pListView = parent;
-	}
+	else
+		kdDebug() << "UMLListViewItem constructor called with a NULL listview parent" << endl;
+	m_Type = Uml::lvt_Unknown;
+	m_pObject = NULL;
+	m_nId = -1;
+	m_nChildren = 0;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+UMLListViewItem::UMLListViewItem(UMLListViewItem * parent)
+  : QListViewItem(parent) {
+	m_bCreating = false;
 	if (parent == NULL)
-		kdDebug() << "UMLListViewItem constructor called with a NULL parent" << endl;
+		kdDebug() << "UMLListViewItem constructor called with a NULL lvitem parent" << endl;
 	m_Type = Uml::lvt_Unknown;
 	m_pObject = NULL;
 	m_nId = -1;

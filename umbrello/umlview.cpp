@@ -573,7 +573,7 @@ void UMLView::slotObjectRemoved(UMLObject * o) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLView::contentsDragEnterEvent(QDragEnterEvent *e) {
 	UMLListViewItemList list;
-	if(!UMLDrag::decodeClip3(e, list)) {
+	if(!UMLDrag::decodeClip3(e, list, getListView())) {
 		return;
 	}
 	UMLListViewItemListIt it(list);
@@ -644,7 +644,7 @@ void UMLView::contentsDragEnterEvent(QDragEnterEvent *e) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLView::contentsDropEvent(QDropEvent *e) {
 	UMLListViewItemList list;
-	if( !UMLDrag::decodeClip3(e, list) ) {
+	if( !UMLDrag::decodeClip3(e, list, getListView()) ) {
 		return;
 	}
 

@@ -178,7 +178,9 @@ public:
 	 *	the ListView to be copied, decodes Mime * type =
 	 *	"application/x-uml-clip3
 	 */
-	static bool decodeClip3(const QMimeSource* mimeSource, UMLListViewItemList& umlListViewItems);
+	static bool decodeClip3(const QMimeSource* mimeSource,
+				UMLListViewItemList& umlListViewItems,
+				const UMLListView* parentListView=0);
 
 	/**
 	 *	For use when the user selects UML Objects from a

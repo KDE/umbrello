@@ -15,6 +15,7 @@
 #include "../umlview.h"
 #include "../umlobject.h"
 #include "../umlwidget.h"
+#include "../umllistview.h"
 #include "../umllistviewitem.h"
 #include "../associationwidget.h"
 
@@ -465,7 +466,9 @@ bool UMLDrag::decodeClip2(const QMimeSource* mimeSource, UMLObjectList& objects,
 	return true;
 }
 
-bool UMLDrag::decodeClip3(const QMimeSource* mimeSource, UMLListViewItemList& umlListViewItems) {
+bool UMLDrag::decodeClip3(const QMimeSource* mimeSource,
+			  UMLListViewItemList& umlListViewItems,
+			  const UMLListView* parentListView) {
 	if ( !mimeSource->provides("application/x-uml-clip3") ) {
 		return false;
 	}
@@ -502,9 +505,18 @@ bool UMLDrag::decodeClip3(const QMimeSource* mimeSource, UMLListViewItemList& um
 		return false;
 	}
 	while ( !listItemElement.isNull() ) {
-		UMLListViewItem* itemData = new UMLListViewItem(NULL);
-		itemData->loadFromXMI(listItemElement);
-		umlListViewItems.append(itemData);
+		// Get the ListView_Type beforehand so that we can construct an
+		// UMLListViewItem instance.
+		QString type = listItemElement.attribute( "type", "-1" );
+		if (type == "-1") {
+			kdDebug() << "Pech gehabt" << endl;
+			continue;
+		}
+		Uml::ListView_Type t = (Uml::ListView_Type)(type.toInt());
+		UMLListViewItem* parent = parentListView->parentItem(t);
+		UMLListViewItem* item = new UMLListViewItem(parent);
+		item->loadFromXMI(listItemElement);
+		umlListViewItems.append(item);
 		listItems = listItems.nextSibling();
 		listItemElement = listItems.toElement();
 	}

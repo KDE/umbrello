@@ -812,7 +812,7 @@ bool UMLListView::acceptDrag(QDropEvent* event) const {
 	((QListView*)this)->setCurrentItem( (QListViewItem*)item );
 	UMLListViewItemList list;
 
-	bool status = UMLDrag::decodeClip3(event, list);
+	bool status = UMLDrag::decodeClip3(event, list, this);
 	if(!status) {
 		return false;
 	}
@@ -860,7 +860,7 @@ void UMLListView::slotDropped(QDropEvent* de, QListViewItem* parent, QListViewIt
 		return;
 	}
 	UMLListViewItemList list;
-	bool status = UMLDrag::decodeClip3(de, list);
+	bool status = UMLDrag::decodeClip3(de, list, this);
 
 	if(!status) {
 		return;
@@ -941,22 +941,9 @@ UMLListViewItem* UMLListView::createItem(UMLListViewItem& Data, IDChangeLog& IDC
 	UMLListViewItem* item = 0;
 	Uml::ListView_Type lvt = Data.getType();
 	if(!parent) {
-		if(lvt == Uml::lvt_Actor || lvt == Uml::lvt_UseCase || lvt == Uml::lvt_UseCase_Folder || lvt == Uml::lvt_UseCase_Diagram) {
-			parent = ucv;
-		} else if ( lvt == Uml::lvt_Component_Diagram ||
-			    lvt == Uml::lvt_Component ||
-			    lvt == Uml::lvt_Artifact) {
-			parent = componentView;
-		} else if ( lvt == Uml::lvt_Deployment_Diagram ||
-			    lvt == Uml::lvt_Node) {
-			parent = deploymentView;
-		} else if( typeIsDiagram(lvt) ) {
-			parent = lv;
-		} else if( !typeIsClassifierList(lvt) ) {
-			parent = lv;
-		} else {
+		parent = parentItem(lvt);
+		if (!parent)
 			return 0;
-		}
 	}
 	int newID;
 
@@ -1026,6 +1013,25 @@ UMLListViewItem* UMLListView::createItem(UMLListViewItem& Data, IDChangeLog& IDC
 		break;
 	}
 	return item;
+}
+
+UMLListViewItem* UMLListView::parentItem(Uml::ListView_Type lvt) const {
+	UMLListViewItem* parent = 0;
+	if(lvt == Uml::lvt_Actor || lvt == Uml::lvt_UseCase || lvt == Uml::lvt_UseCase_Folder || lvt == Uml::lvt_UseCase_Diagram) {
+		parent = ucv;
+	} else if ( lvt == Uml::lvt_Component_Diagram ||
+		    lvt == Uml::lvt_Component ||
+		    lvt == Uml::lvt_Artifact) {
+		parent = componentView;
+	} else if ( lvt == Uml::lvt_Deployment_Diagram ||
+		    lvt == Uml::lvt_Node) {
+		parent = deploymentView;
+	} else if( typeIsDiagram(lvt) ) {
+		parent = lv;
+	} else if( !typeIsClassifierList(lvt) ) {
+		parent = lv;
+	}
+	return parent;
 }
 
 int UMLListView::getSelectedCount() {

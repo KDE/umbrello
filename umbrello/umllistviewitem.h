@@ -46,6 +46,13 @@ public:
 	UMLListViewItem(UMLListView * parent);
 
 	/**
+	 * Sets up an instance for subsequent loadFromXMI().
+	 *
+	 * @param parent	The parent to this instance.
+	 */
+	UMLListViewItem(UMLListViewItem * parent);
+
+	/**
 	 * Sets up an instance.
 	 *
 	 * @param parent	The parent to this instance.
