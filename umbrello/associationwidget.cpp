@@ -388,6 +388,7 @@ bool AssociationWidget::setRoleName (QString strRole, Role_Type role) {
 		newLabel = true;
 		m_role[role].m_pRole = new FloatingText(m_pView, tr, strRole);
 		m_role[role].m_pRole->setAssoc(this);
+		m_pView->addWidget(m_role[role].m_pRole);
 		Scope scope = (role == A ? getVisibilityA() : getVisibilityB());
 		m_role[role].m_pRole->setPreText(UMLAssociation::ScopeToString(scope));
 	} else {
@@ -518,6 +519,7 @@ bool AssociationWidget::setChangeWidget(QString strChangeWidget, Role_Type role)
 		newLabel = true;
                 m_role[role].m_pChangeWidget = new FloatingText(m_pView, tr, strChangeWidget);
                 m_role[role].m_pChangeWidget->setAssoc(this);
+		m_pView->addWidget(m_role[role].m_pChangeWidget);
 		m_role[role].m_pChangeWidget->setPreText("{"); // all types have this
 		m_role[role].m_pChangeWidget->setPostText("}"); // all types have this
         } else {
