@@ -392,7 +392,7 @@ void UMLView::slotToolBarChanged(int c)
 void UMLView::showEvent(QShowEvent* /*se*/) {
 
 #	ifdef MANUAL_CONTROL_DOUBLE_BUFFERING
-	kdWarning() << "Show Event for " << getName() << endl;
+	//kdWarning() << "Show Event for " << getName() << endl;
 	canvas()->setDoubleBuffering( true );
 	// as the diagram gets now visible again,
 	// the update of the diagram elements shall be
@@ -418,7 +418,7 @@ void UMLView::hideEvent(QHideEvent* /*he*/) {
 	disconnect(m_pDoc, SIGNAL(sigObjectCreated(UMLObject *)), this, SLOT(slotObjectCreated(UMLObject *)));
 
 #	ifdef MANUAL_CONTROL_DOUBLE_BUFFERING
-	kdWarning() << "Hide Event for " << getName() << endl;
+	//kdWarning() << "Hide Event for " << getName() << endl;
 	canvas()->setDoubleBuffering( false );
 	// a periodic update of all - also invisible - diagrams
 	// can cause a very high CPU load if more than 100diagrams

@@ -21,8 +21,12 @@
 
 EnumWidget::EnumWidget(UMLView* view, UMLObject* o) : UMLWidget(view, o) {
 	init();
-	setSize(100,30);
-	calculateSize();
+	if ( ! UMLApp::app()->getDocument()->loading() )
+	{ // set default size - but only if we aren't loading a XMI file at the
+		// moment - then just recreate the saved settings
+		setSize(100,30);
+		calculateSize();
+	}
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void EnumWidget::init() {
