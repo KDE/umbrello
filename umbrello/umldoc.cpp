@@ -2485,12 +2485,16 @@ bool UMLDoc::addUMLObjectPaste(UMLObject* Obj) {
 		kdDebug() << "no Obj || Changelog" << endl;
 		return false;
 	}
+	/**** What is this code doing?
+	      We know for sure that the UMLObject that has just been cut
+	      is found, thus this call is totally pointless.
 	UMLObject * temp = findUMLObject( Obj -> getName() );
 	if( temp ) {
 		m_pChangeLog->addIDChange( Obj -> getID(), temp -> getID() );
 		delete Obj;
 		return true;
 	}
+	 ****/
 	int result =  assignNewID(Obj->getID());
 	Obj->setID(result);
 
@@ -2591,14 +2595,6 @@ bool UMLDoc::addUMLView(UMLView * pView ) {
 	addView(pView);
 	setModified(true);
 	return true;
-}
-
-bool UMLDoc::activateView ( int /*viewID*/ ) {
-	//CHECK: Obsolete ?
-	bool status = true;
-
-	m_bLoading = false;
-	return status;
 }
 
 bool UMLDoc::activateAllViews() {

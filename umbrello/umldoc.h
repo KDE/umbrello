@@ -779,14 +779,6 @@ public:
 	}
 
 	/**
-	 * Activate a diagram after loading a new document
-	 *
-	 * @param viewID	ID of the UMLView to activate.
-	 * @return	True on successful activation.
-	 */
-	bool activateView ( int viewID );
-
-	/**
 	 * Activate all the diagrams/views after loading so all their
 	 * widgets keep their IDs.
 	 *
