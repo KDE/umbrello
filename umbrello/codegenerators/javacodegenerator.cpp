@@ -22,8 +22,8 @@
 
 #include "javacodegenerator.h"
 #include "javacodecomment.h"
-#include "javacodeclassfield.h"
-#include "javacodeclassfielddeclarationblock.h"
+//#include "javacodeclassfield.h"
+//#include "javacodeclassfielddeclarationblock.h"
 #include "codeviewerdialog.h"
 
 const bool JavaCodeGenerator::DEFAULT_BUILD_ANT_DOC = false;
