@@ -1,3 +1,15 @@
+You need to be the parent directory to configure the compile,
+depending on where you got the source you may need to do the extra KDE
+step of Makefile.cvs.
+
+cd kdesdk
+make -f Makefile.cvs
+./configure --prefix=`kde-config --prefix`
+cd umbrello
+make
+sudo make install
+
+
 Basic Installation
 ==================
 
