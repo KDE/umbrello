@@ -405,6 +405,17 @@ public:
 	AssociationWidget * findAssocWidget(int id);
 
 	/**
+	 * Finds an association widget with the given type and widgets.
+	 *
+	 * @param at		The Association_Type of the widget to find.
+	 * @param pWidgetA	Pointer to the UMLWidget of role A.
+	 * @param pWidgetB	Pointer to the UMLWidget of role B.
+	 *
+	 * @return	Returns the widget found, returns 0 if no widget found.
+	 */
+	AssociationWidget * findAssocWidget(Association_Type at,
+					    UMLWidget *pWidgetA, UMLWidget *pWidgetB);
+	/**
 	 * Remove a widget from view.
 	 *
 	 * @param o		The widget to remove.

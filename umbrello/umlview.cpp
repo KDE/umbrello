@@ -283,18 +283,18 @@ void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome) {
 
 	if( m_CurrentCursor == WorkToolBar::tbb_Arrow || me -> state() != LeftButton ) {
 		viewport()->setMouseTracking( false );
-		if (me->state() == RightButton) {
+		if (me->state() != RightButton)
+			return;
 
-			/* if the user right clicks on the diagram, first the default tool is
-			 * selected from the toolbar; this only happens when the default tool
-			 * wasn't selected yet AND there is no other widget under the mouse
-			 * pointer
-			 * in any other case the right click menu will be shown */
-			if ( m_CurrentCursor != WorkToolBar::tbb_Arrow )
-				UMLApp::app()->getWorkToolBar()->setDefaultTool();
-			else
-				setMenu();
-		}
+		/* if the user right clicks on the diagram, first the default tool is
+		 * selected from the toolbar; this only happens when the default tool
+		 * wasn't selected yet AND there is no other widget under the mouse
+		 * pointer
+		 * in any other case the right click menu will be shown */
+		if ( m_CurrentCursor != WorkToolBar::tbb_Arrow )
+			UMLApp::app()->getWorkToolBar()->setDefaultTool();
+		else
+			setMenu();
 		return;
 	}
 
@@ -850,6 +850,31 @@ AssociationWidget * UMLView::findAssocWidget( int id ) {
 	return 0;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+AssociationWidget * UMLView::findAssocWidget(Association_Type at,
+					     UMLWidget *pWidgetA, UMLWidget *pWidgetB) {
+	AssociationWidget *assoc;
+	AssociationWidgetListIt it(m_AssociationList);
+	while ((assoc = it.current()) != 0) {
+		++it;
+		Association_Type testType = assoc->getAssocType();
+		if (testType != at)
+			continue;
+		if (pWidgetA->getID() == assoc->getWidgetAID() &&
+		    pWidgetB->getID() == assoc->getWidgetBID())
+			return assoc;
+		// Allow for the swapped roles of generalization/realization assocwidgets.
+		// When the swapped roles bug is fixed, this code can disappear.
+		if (pWidgetA->getID() == assoc->getWidgetBID() &&
+		    pWidgetB->getID() == assoc->getWidgetAID()) {
+			kdDebug() << "UMLView::findAssocWidget: found assoctype " << at
+				  << "with swapped roles (A: " << pWidgetA->getName()
+				  << ", B: " << pWidgetB->getName() << ")" << endl;
+			return assoc;
+		}
+	}
+	return 0;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLView::removeWidget(UMLWidget * o) {
 	if(!o)
 		return;
@@ -1196,9 +1221,10 @@ void UMLView::contentsMousePressEvent(QMouseEvent* ome) {
 		//This needs to be changed to use UMLClipboard
 		//clipboard -> m_bPaste(this, pos);
 	}
-	clearSelected();
+	if (me->button() != RightButton)
+		clearSelected();
 
-	if(m_CurrentCursor != WorkToolBar::tbb_Arrow)
+	if (me->button() == RightButton || m_CurrentCursor != WorkToolBar::tbb_Arrow)
 		return;
 	for (int i = 0; i < 4; i++) {	//four lines needed for rect.
 		QCanvasLine* line = new QCanvasLine( canvas() );
@@ -1264,7 +1290,7 @@ void UMLView::selectWidgets() {
 	UMLWidget * temp = NULL;
 	while ( (temp = it.current()) != 0 ) {
 		int x = temp -> getX();
-		int y =  temp -> getY();
+		int y = temp -> getY();
 		int w = temp -> getWidth();
 		int h = temp -> getHeight();
 		QRect rect2(x, y, w, h);
@@ -1869,10 +1895,11 @@ bool UMLView::addAssociation( AssociationWidget* pAssoc , bool isPasteOperation)
 		return false;
 
 	//make sure valid
-	if( !AssocRules::allowAssociation( pAssoc->getAssocType(), m_pWidgetA, m_pWidgetB, isPasteOperation ) ) {
+	if( !isPasteOperation &&
+	    !AssocRules::allowAssociation(pAssoc->getAssocType(), m_pWidgetA, m_pWidgetB, false) ) {
 		kdDebug() << "UMLView::addAssociation: allowAssociation returns false "
 			  << "for AssocType " << pAssoc->getAssocType() << endl;
-		return isPasteOperation; //in a paste we still need to be true
+		return false;
 	}
 
 	//make sure there isn't already the same assoc
@@ -2013,7 +2040,6 @@ bool UMLView::setAssoc(UMLWidget *pWidget) {
 		viewport() -> setMouseTracking( true );
 		if( m_pAssocLine )
 			delete m_pAssocLine;
-		m_pAssocLine = 0;
 		m_pAssocLine = new QCanvasLine( canvas() );
 		m_pAssocLine -> setPoints( pos.x(), pos.y(), pos.x(), pos.y() );
 		m_pAssocLine -> setPen( QPen( getLineColor(), 0, DashLine ) );
@@ -2385,8 +2411,10 @@ void UMLView::createAutoAssociations( UMLWidget * widget ) {
 	// If this widget has an underlying UMLCanvasObject then
 	//   for each of the UMLCanvasObject's UMLAssociations
 	//     if umlassoc's "other" role has a widget representation on this view then
-	//       if the assoc type is permitted in the current diagram type then
-	//         create the AssocWidget
+	//       if the AssocWidget does not already exist then
+	//         if the assoc type is permitted in the current diagram type then
+	//           create the AssocWidget
+	//         end if
 	//       end if
 	//     end if
 	//   end loop
@@ -2438,16 +2466,21 @@ void UMLView::createAutoAssociations( UMLWidget * widget ) {
 		if (pOtherWidget == NULL)
 			continue;
 		// Both objects are represented in this view:
-		// Check that the assoc is allowed.
+		// Check that the assocwidget does not already exist.
 		Uml::Association_Type assocType = assoc->getAssocType();
-		if (!AssocRules::allowAssociation(assocType, widget, pOtherWidget)) {
+		AssociationWidget * temp = findAssocWidget(assocType, widget, pOtherWidget);
+		if (temp) {
+			temp->calculateEndingPoints();  // recompute assoc lines
+			continue;
+		}
+		// Check that the assoc is allowed.
+		if (!AssocRules::allowAssociation(assocType, widget, pOtherWidget, false)) {
 			kdDebug() << "createAutoAssociations: not transferring assoc "
 				  << "of type " << assocType << endl;
 			continue;
 		}
 		// Create the AssociationWidget.
-		AssociationWidget * temp = new AssociationWidget( this, widget,
-		                                             assocType, pOtherWidget );
+		temp = new AssociationWidget( this, widget, assocType, pOtherWidget );
 		temp->setVisibilityA(assoc->getVisibilityA());
 		temp->setVisibilityB(assoc->getVisibilityB());
 		temp->setChangeabilityA(assoc->getChangeabilityA());
@@ -2699,6 +2732,17 @@ void UMLView::slotMenuSelection(int sel) {
 		case ListPopupMenu::mt_Datatype:
 			m_bCreateObject = true;
 			m_pDoc->createUMLObject(ot_Datatype);
+			break;
+
+		case ListPopupMenu::mt_Cut:
+			if ( m_SelectedList.count() &&
+			     UMLApp::app()->editCutCopy(true) ) {
+				deleteSelection();
+				m_pDoc->setModified(true);
+			}
+			break;
+
+		case ListPopupMenu::mt_Copy:
 			break;
 
 		case ListPopupMenu::mt_Paste:
