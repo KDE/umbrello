@@ -18,6 +18,7 @@
 
 #include "codegenerator.h"
 #include "dialogs/settingsdlg.h"
+#include <qmap.h>
 
 #include <kdockwidget.h>
 #include <kurl.h>
@@ -39,6 +40,10 @@ class WorkToolBar;
 class InfoWidget;
 class QWidgetStack;
 class QMenuData;
+namespace Umbrello
+{
+class DiagramView;
+}
 
 /**
  * The base class for UML application windows. It sets up the main
@@ -269,6 +274,9 @@ protected slots:
 	void updateLangSelectMenu();
 
 public slots:
+
+	void UdiagramSelected( int );
+	void UcreateDiagram();
 
 	/** Sets up information for dinamically loaded libraries. It
 	 *  scans directories looking for new libraries and registers
@@ -651,7 +659,13 @@ private:
 	KAction* activityDiagram;
 	KAction* componentDiagram;
 	KAction* viewClearDiagram;
-	
+	KAction *UclassDiagram;
+	KAction *UsequenceDiagram;
+	KAction *UcollaborationDiagram;
+	KAction *UuseCaseDiagram;
+	KAction *UstateDiagram;
+	KAction *UactivityDiagram;
+
 	KToggleAction* viewSnapToGrid;
 	KToggleAction* viewShowGrid;
 	KAction* viewExportImage;
@@ -692,6 +706,8 @@ private:
 	 * Shows, and is parent of, all the UMLViews (diagrams).
 	 */
 	QWidgetStack* viewStack;
+	
+	QMap<int,Umbrello::DiagramView*> diagramViews;
 
 public:
 	/**
