@@ -155,27 +155,44 @@ bool UMLAssociation::assocTypeHasUMLRepresentation(Uml::Association_Type atype)
 }
 
 bool UMLAssociation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
+	if (m_AssocType == Uml::at_Generalization) {
+		QDomElement assocElement = qDoc.createElement( "UML:Generalization" );
+		bool status = UMLObject::saveToXMI( qDoc, assocElement );
+		assocElement.setAttribute( "child", getRoleAId() );
+		assocElement.setAttribute( "parent", getRoleBId() );
+		qElement.appendChild( assocElement );
+		return status;
+	}
 	QDomElement associationElement = qDoc.createElement( "UML:Association" );
 	bool status = UMLObject::saveToXMI( qDoc, associationElement );
+	if (m_AssocType != Uml::at_Association &&
+	    m_AssocType != Uml::at_Aggregation &&
+	    m_AssocType != Uml::at_Composition) {
+		kdDebug() << "UMLAssociation::saveToXMI: FIXME: saving assoctype "
+			  << m_AssocType << " is not yet uml13.dtd compliant"
+			  << endl;
+		// Old style stuff - FIXME: Convert to new style.
+		associationElement.setAttribute( "assoctype", getAssocType() );
+		associationElement.setAttribute( "rolea", getRoleAId() );
+		associationElement.setAttribute( "roleb", getRoleBId() );
+		associationElement.setAttribute( "multia", getMultiA() );
+		associationElement.setAttribute( "multib", getMultiB() );
+		associationElement.setAttribute( "namea", getRoleNameA() );
+		associationElement.setAttribute( "nameb", getRoleNameB() );
+		associationElement.setAttribute( "doca", getRoleADoc() );
+		associationElement.setAttribute( "docb", getRoleBDoc() );
+		associationElement.setAttribute( "visibilitya", getVisibilityA() );
+		associationElement.setAttribute( "visibilityb", getVisibilityB() );
+		associationElement.setAttribute( "changeabilitya", getChangeabilityA() );
+		associationElement.setAttribute( "changeabilityb", getChangeabilityB() );
+		qElement.appendChild( associationElement );
+		return true;
+	}
 
-	associationElement.setAttribute( "assoctype", getAssocType() );
-	associationElement.setAttribute( "rolea", getRoleAId() );
-	associationElement.setAttribute( "roleb", getRoleBId() );
-	associationElement.setAttribute( "multia", getMultiA() );
-	associationElement.setAttribute( "multib", getMultiB() );
-	associationElement.setAttribute( "namea", getRoleNameA() );
-	associationElement.setAttribute( "nameb", getRoleNameB() );
-	associationElement.setAttribute( "doca", getRoleADoc() );
-	associationElement.setAttribute( "docb", getRoleBDoc() );
-	associationElement.setAttribute( "visibilitya", getVisibilityA() );
-	associationElement.setAttribute( "visibilityb", getVisibilityB() );
-	associationElement.setAttribute( "changeabilitya", getChangeabilityA() );
-	associationElement.setAttribute( "changeabilityb", getChangeabilityB() );
-/*
-// the future...
-	getUMLRoleA()->saveToXMI (doc, associationElement);
-	getUMLRoleB()->saveToXMI (doc, associationElement);
-*/
+	QDomElement connElement = qDoc.createElement("UML:Association.connection");
+	getUMLRoleA()->saveToXMI (qDoc, connElement);
+	getUMLRoleB()->saveToXMI (qDoc, connElement);
+	associationElement.appendChild (connElement);
 
 	qElement.appendChild( associationElement );
 	return status;
@@ -189,6 +206,73 @@ bool UMLAssociation::loadFromXMI( QDomElement & element ) {
 	if (getID() == -1)
 		return false; // old style XMI file. No real info in this association.
 
+	if (m_AssocType == Uml::at_Generalization) {
+		int roleAObjID = element.attribute( "child", "-1" ).toInt();
+		int roleBObjID = element.attribute( "parent", "-1" ).toInt();
+		UMLDoc * doc = ((UMLDoc*)parent());
+		UMLObject * objA = doc->findUMLObject(roleAObjID);
+		UMLObject * objB = doc->findUMLObject(roleBObjID);
+		if (objA == NULL)
+			return false;
+		getUMLRoleA()->setObject(objA);
+		if (objB == NULL)
+			return false;
+		getUMLRoleB()->setObject(objB);
+		return true;
+	}
+	QDomNode node = element.firstChild();
+	if (!node.isNull()) {
+		// uml13.dtd compliant format (new style)
+		QDomElement tempElement;
+		QString tag;
+		tempElement = node.toElement();
+		if (tempElement.isNull()) {
+			kdWarning() << "UMLAssociation::loadFromXMI: "
+				<< "expecting UML:Association.connection" << endl;
+			return false;
+		}
+		tag = tempElement.tagName();
+		if (tag != "UML:Association.connection") {
+			kdWarning() << "UMLAssociation::loadFromXMI: "
+				    << "unknown child node" << tag << endl;
+			return false;
+		}
+		// Load role A.
+		node = tempElement.firstChild();
+		tempElement = node.toElement();
+		if (tempElement.isNull()) {
+			kdWarning() << "UML:AssociationEnd: "
+				    << "element (A) is Null" << endl;
+			return false;
+		}
+		tag = tempElement.tagName();
+		if (tag != "UML:AssociationEnd") {
+			kdWarning() << "UMLAssociation::loadFromXMI: "
+				    << "unknown child (A) tag " << tag << endl;
+			return false;
+		}
+		if (! getUMLRoleA()->loadFromXMI(tempElement))
+			return false;
+		// Load role B.
+		node = node.nextSibling();
+		tempElement = node.toElement();
+		if (tempElement.isNull()) {
+			kdWarning() << "UML:AssociationEnd: "
+				    << "element (B) is Null" << endl;
+			return false;
+		}
+		tag = tempElement.tagName();
+		if (tag != "UML:AssociationEnd") {
+			kdWarning() << "UMLAssociation::loadFromXMI: "
+				    << "unknown child (B) tag " << tag << endl;
+			return false;
+		}
+		if (! getUMLRoleB()->loadFromXMI(tempElement))
+			return false;
+		return true;
+	}
+
+	// From here on it's old-style stuff.
 	QString assocTypeStr = element.attribute( "assoctype", "-1" );
 	Uml::Association_Type assocType = Uml::at_Unknown;
 	if (assocTypeStr[0] >= 'a' && assocTypeStr[0] <= 'z') {

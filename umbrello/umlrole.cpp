@@ -10,6 +10,7 @@
 #include <kdebug.h>
 #include "umlrole.h"
 #include "association.h"
+#include "umldoc.h"
 
 // constructor
 UMLRole::UMLRole(UMLAssociation * parent, UMLObject * parentObj, int roleID)
@@ -134,6 +135,103 @@ void UMLRole::init(UMLAssociation * parent, UMLObject * parentObj, int id) {
 
 	// connect this up to parent 
 	connect(this,SIGNAL(modified()),parent,SIGNAL(modified()));
+}
+
+bool UMLRole::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
+	QDomElement roleElement = qDoc.createElement( "UML:AssociationEnd" );
+	roleElement.setAttribute( "type", getID() );
+	if (m_Multi != "")
+		roleElement.setAttribute("multiplicity", m_Multi);
+	if (m_Name != "")
+		roleElement.setAttribute("name", m_Name);
+	if (m_Doc != "")
+		roleElement.setAttribute("documentation", m_Doc);
+	if (m_roleID) {  // role A
+		switch (m_pAssoc->getAssocType()) {
+			case Uml::at_Composition:
+				roleElement.setAttribute("aggregation", "composite");
+				break;
+			case Uml::at_Aggregation:
+				roleElement.setAttribute("aggregation", "shared");
+				break;
+			default:  //at_Association
+				roleElement.setAttribute("aggregation", "none");
+				break;
+		}
+	}
+	switch (m_Visibility) {
+		case Uml::Private:
+			roleElement.setAttribute("visibility", "private");
+			break;
+		case Uml::Protected:
+			roleElement.setAttribute("visibility", "protected");
+			break;
+		case Uml::Public:
+			roleElement.setAttribute("visibility", "public");
+			break;
+	}
+	switch (m_Changeability) {
+		case Uml::chg_Frozen:
+			roleElement.setAttribute("changeable", "frozen");
+			break;
+		case Uml::chg_AddOnly:
+			roleElement.setAttribute("changeable", "addOnly");
+			break;
+		case Uml::chg_Changeable:
+			// This is the default.
+			// roleElement.setAttribute("changeable", "none");
+			break;
+	}
+	qElement.appendChild( roleElement );
+
+	return true;
+}
+
+bool UMLRole::loadFromXMI( QDomElement & element ) {
+	UMLDoc * doc = (UMLDoc*)(m_pAssoc->parent());
+	if (doc == NULL) {
+		kdError() << "UMLRole::loadFromXMI failed to retrieve the UMLDoc"
+			  << endl;
+		return false;
+	}
+	QString idStr = element.attribute("type", "-1");
+	UMLObject * obj = doc->findUMLObject(idStr.toInt());
+	if (obj == NULL) {
+		kdError() << "UMLRole::loadFromXMI: cannot find object of ID "
+			  << idStr << endl;
+		return false;
+	}
+	m_pObject = obj;
+	if (m_roleID) {  // role A
+		QString aggregation = element.attribute("aggregation", "none");
+		if (aggregation == "composite")
+			m_pAssoc->setAssocType(Uml::at_Composition);
+		else if (aggregation == "shared")
+			m_pAssoc->setAssocType(Uml::at_Aggregation);
+		else
+			m_pAssoc->setAssocType(Uml::at_Association);
+	}
+	m_Multi = element.attribute("multiplicity", "");
+	m_Name = element.attribute("name", "");
+	m_Doc = element.attribute("documentation", "");
+
+	// visibilty defaults to Public if it cant set it here..
+        m_Visibility = Uml::Public;
+        QString vis = element.attribute("visibility", "public");
+	if (vis == "private")
+		m_Visibility = Uml::Private;
+	else if (vis == "protected")
+		m_Visibility = Uml::Protected;
+
+	// Changeability defaults to Changeable if it cant set it here..
+	m_Changeability = Uml::chg_Changeable;
+        QString changeable = element.attribute("changeable", "none");
+        if (changeable == "frozen")
+		m_Changeability = Uml::chg_Frozen;
+        else if (changeable == "addOnly")
+		m_Changeability = Uml::chg_AddOnly;
+
+	return true;
 }
 
 #include "umlrole.moc"

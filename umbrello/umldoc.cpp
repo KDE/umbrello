@@ -1369,7 +1369,7 @@ bool UMLDoc::saveToXMI(QIODevice& file) {
 	docElement.setAttribute( "uniqueid", uniqueID );
 	content.appendChild( docElement );
 
-	QDomElement objectsElement = doc.createElement( "umlobjects" );
+	QDomElement objectsElement = doc.createElement( "UML:Model" );
 
 	// Save packages first so that when loading they are known first.
 	// This simplifies the establishing of cross reference links from
@@ -1701,7 +1701,8 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
 				nViewID = viewID.toInt();
 				uniqueID = uniqueid.toInt();
 				getDocWindow() -> newDocumentation();
-			} else if( tag == "umlobjects" ) {
+			} else if( tag == "umlobjects"  // for bkwd compat.
+			         || tag == "UML:Model" ) {
 				QDomNode objectNode = node.firstChild();
 				if( !loadUMLObjectsFromXMI( objectNode ) ) {
 					kdWarning() << "failed load on objects" << endl;
@@ -1842,6 +1843,8 @@ UMLObject* UMLDoc::makeNewUMLObject(QString type) {
 		pObject = new UMLEnum(this);
 	} else if (type == "UML:Association") {
 		pObject = new UMLAssociation(this, Uml::at_Unknown, (UMLObject*)NULL, (UMLObject*) NULL);
+	} else if (type == "UML:Generalization") {
+		pObject = new UMLAssociation(this, Uml::at_Generalization, NULL, NULL);
 	}
 	return pObject;
 }

@@ -10,6 +10,7 @@
 #ifndef UMLROLE_H
 #define UMLROLE_H
 
+#include <qdom.h>
 #include "umlnamespace.h"
 #include "umlobject.h"
 
@@ -136,16 +137,23 @@ public:
 	virtual int getID() const;
 	virtual void setID ( int id);
 
-	// bool saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
-
-	// bool loadFromXMI(QDomElement& element);
 	/** get the 'id' of the role (NOT the parent object). This could be
 	 * either a '0' (roleA) or '1' (roleB). Yes, it would be better if we
-	 * could get along without this, but we need it to distinquish saved
+	 * could get along without this, but we need it to distinguish saved
 	 * umlrole objects in the XMI for 'self' associations where both roles
 	 * will point to the same underlying UMLObject.
 	 */
 	int getRoleID();
+
+	/**
+	 * Creates the <UML:AssociationEnd> XMI element.
+	 */
+	bool saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
+
+	/**
+	 * Loads the <UML:AssociationEnd> XMI element.
+	 */
+	bool loadFromXMI(QDomElement& element);
 
 private:
 

@@ -10,6 +10,7 @@
 #ifndef ASSOCIATION_H
 #define ASSOCIATION_H
 
+#include <qdom.h>
 #include "umlnamespace.h"
 #include "umlobject.h"
 
@@ -305,12 +306,14 @@ public:
 	UMLRole * getUMLRoleB();
 
 	/**
-	 * Saves the <UML:Association> XMI element.
+	 * Creates the <UML:Generalization> or <UML:Association> XMI element
+	 * including its role objects.
 	 */
 	bool saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
 	/**
-	 * Loads the <UML:Association> XMI element.
+	 * Creates the <UML:Generalization> or <UML:Association> XMI element
+	 * including its role objects.
 	 */
 	bool loadFromXMI(QDomElement& element);
 

@@ -214,10 +214,11 @@ bool UMLObject::saveToXMI( QDomDocument & /*qDoc*/, QDomElement & qElement ) {
 	  Type must be set in the child class.
 	*/
 	qElement.setAttribute( "xmi.id", m_nId );
-	qElement.setAttribute( "name", m_Name );
+	if (!m_Name.isEmpty())
+		qElement.setAttribute( "name", m_Name );
 	if (! m_Doc.isEmpty())
-		qElement.setAttribute( "documentation", m_Doc );
-	if (m_pUMLPackage)
+		qElement.setAttribute( "comment", m_Doc );  //CHECK: uml13.dtd compliance
+	if (m_pUMLPackage)             //FIXME: uml13.dtd compliance
 		qElement.setAttribute( "packageid", m_pUMLPackage->getID() );
 	switch (m_Scope) {
 		case Uml::Public:
@@ -234,19 +235,24 @@ bool UMLObject::saveToXMI( QDomDocument & /*qDoc*/, QDomElement & qElement ) {
 		qElement.setAttribute( "stereotype", m_Stereotype );
 	if (m_bAbstract)
 		qElement.setAttribute( "isAbstract", "true" );
-	else
+	/* else
 		qElement.setAttribute( "isAbstract", "false" );
+	 *** isAbstract defaults to false if not set **********/
 	if (m_bStatic)
  		qElement.setAttribute( "ownerScope", "classifier" );
-	else
+	/* else
  		qElement.setAttribute( "ownerScope", "instance" );
+	 *** ownerScope defaults to instance if not set **********/
 	return true;
 }
 
 bool UMLObject::loadFromXMI( QDomElement & element ) {
 	QString id = element.attribute( "xmi.id", "-1" );
 	m_Name = element.attribute( "name", "" );
-	m_Doc = element.attribute( "documentation", "" );
+	if (element.hasAttribute("documentation"))  // for bkwd compat.
+		m_Doc = element.attribute( "documentation", "" );
+	else
+		m_Doc = element.attribute( "comment", "" );  //CHECK: need a UML:Comment?
 
 	if (element.hasAttribute("scope")) {        // for bkwd compat.
 		QString scope = element.attribute( "scope", "200" );

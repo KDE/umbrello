@@ -115,7 +115,6 @@ void ASWriter::writeClass(UMLClassifier *c)
 	as << "\tthis._init ();" << endl;
 	as << "}" << endl;
 	as << endl;
-	int i;
 
 	for(UMLClassifier *obj = superclasses.first();
 	    obj; obj = superclasses.next()) {
