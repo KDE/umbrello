@@ -75,10 +75,6 @@
 #include "usecase.h"
 #include "clipboard/idchangelog.h"
 #include "dialogs/classpropdlg.h"
-#include "dialogs/umlattributedialog.h"
-#include "dialogs/umlentityattributedialog.h"
-#include "dialogs/umltemplatedialog.h"
-#include "dialogs/umloperationdialog.h"
 #include "inputdialog.h"
 #include "listpopupmenu.h"
 #include "version.h"
@@ -899,7 +895,7 @@ void UMLDoc::writeToStatusBar(const QString &text) {
 void UMLDoc::slotRemoveUMLObject(UMLObject* object)  {
 	m_objectList.remove(object);
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool UMLDoc::isUnique(const QString &name)
 {
 	UMLListView *listView = UMLApp::app()->getListView();
@@ -1057,177 +1053,34 @@ UMLObject* UMLDoc::createUMLObject(Object_Type type, const QString &n,
 	return o;
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLObject* UMLDoc::createChildObject(UMLObject* umlobject, Object_Type type) {
 	UMLObject* returnObject = NULL;
 	if(type == ot_Attribute) {
 		UMLClass *umlclass = dynamic_cast<UMLClass *>(umlobject);
 		if (umlclass)
-			returnObject = createAttribute(umlclass);
+			returnObject = umlclass->createAttribute();
 	} else if(type == ot_Operation) {
 		UMLClassifier *umlclassifier = dynamic_cast<UMLClassifier *>(umlobject);
 		if (umlclassifier)
-			returnObject = createOperation(umlclassifier);
+			returnObject = umlclassifier->createOperation();
 	} else if(type == ot_Template) {
 		UMLClassifier *umlclass = dynamic_cast<UMLClassifier *>(umlobject);
 		if (umlclass)
-			returnObject = createTemplate(umlclass);
+			returnObject = umlclass->createTemplate();
 	} else if(type == ot_EnumLiteral) {
 		UMLEnum* umlenum = dynamic_cast<UMLEnum*>(umlobject);
 		if (umlenum) {
-			returnObject = createEnumLiteral(umlenum);
+			returnObject = umlenum->createEnumLiteral();
 		}
 	} else if(type == ot_EntityAttribute) {
 		UMLEntity* umlentity = dynamic_cast<UMLEntity*>(umlobject);
 		if (umlentity) {
-			returnObject = createEntityAttribute(umlentity);
+			returnObject = umlentity->createEntityAttribute();
 		}
 	} else {
 		kdDebug() << "ERROR UMLDoc::createChildObject type:" << type << endl;
 	}
 	return returnObject;
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLObject* UMLDoc::createAttribute(UMLClass* umlclass, const QString &name /*=null*/) {
-	Uml::IDType id = getUniqueID();
-	QString currentName;
-	if (name.isNull())  {
-		currentName = umlclass->uniqChildName(Uml::ot_Attribute);
-	} else {
-		currentName = name;
-	}
-	const Settings::OptionState optionState = UMLApp::app()->getOptionState();
-	Uml::Scope scope = optionState.classState.defaultAttributeScope;
-	UMLAttribute* newAttribute = new UMLAttribute(umlclass, currentName, id, scope);
-
-	int button = QDialog::Accepted;
-	bool goodName = false;
-
-	//check for name.isNull() stops dialogue being shown
-	//when creating attribute via list view
-	while (button==QDialog::Accepted && !goodName && name.isNull()) {
-		UMLAttributeDialog attributeDialogue(0, newAttribute);
-		button = attributeDialogue.exec();
-		QString name = newAttribute->getName();
-
-		if(name.length() == 0) {
-			KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
-		} else if ( umlclass->findChildObject(Uml::ot_Attribute, name).count() > 0 ) {
-			KMessageBox::error(0, i18n("That name is already being used."), i18n("Not a Unique Name"));
-		} else {
-			goodName = true;
-		}
-	}
-
-	if (button != QDialog::Accepted) {
-		return NULL;
-	}
-
-	umlclass->addAttribute(newAttribute);
-
-	emit sigObjectCreated(newAttribute);
-	return newAttribute;
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLObject* UMLDoc::createTemplate(UMLClassifier* o, QString currentName /*= QString::null*/) {
-	bool goodName = !currentName.isEmpty();
-	if (!goodName)
-		currentName = o->uniqChildName(Uml::ot_Template);
-	UMLTemplate* newTemplate = new UMLTemplate(o, currentName);
-
-	int button = QDialog::Accepted;
-
-	while (button==QDialog::Accepted && !goodName) {
-		UMLTemplateDialog templateDialogue(0, newTemplate);
-		button = templateDialogue.exec();
-		QString name = newTemplate->getName();
-
-		if(name.length() == 0) {
-			KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
-		} else if ( o->findChildObject(Uml::ot_Template, name).count() > 0 ) {
-			KMessageBox::error(0, i18n("That name is already being used."), i18n("Not a Unique Name"));
-		} else {
-			goodName = true;
-		}
-	}
-
-	if (button != QDialog::Accepted) {
-		return NULL;
-	}
-
-	o->addTemplate(newTemplate);
-
-	emit sigObjectCreated(newTemplate);
-	return newTemplate;
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLObject* UMLDoc::createEnumLiteral(UMLEnum* umlenum) {
-	QString currentName = umlenum->uniqChildName(Uml::ot_EnumLiteral);
-	UMLEnumLiteral* newEnumLiteral = new UMLEnumLiteral(umlenum, currentName);
-
-	bool ok = true;
-	bool goodName = false;
-
-	while (ok && !goodName) {
-		ok = newEnumLiteral->showPropertiesDialogue( UMLApp::app() );
-		QString name = newEnumLiteral->getName();
-
-		if(name.length() == 0) {
-			KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
-		} else {
-			goodName = true;
-		}
-	}
-
-	if (!ok) {
-		return NULL;
-	}
-
-	umlenum->addEnumLiteral(newEnumLiteral);
-
-	emit sigObjectCreated(newEnumLiteral);
-	return newEnumLiteral;
-}
-
-UMLObject* UMLDoc::createEntityAttribute(UMLEntity* umlentity, const QString &name /*=null*/) {
-	Uml::IDType id = getUniqueID();
-	QString currentName;
-	if (name.isNull())  {
-		currentName = umlentity->uniqChildName(Uml::ot_EntityAttribute);
-	} else {
-		currentName = name;
-	}
-	const Settings::OptionState optionState = UMLApp::app()->getOptionState();
-	Uml::Scope scope = optionState.classState.defaultAttributeScope;
-	UMLEntityAttribute* newAttribute = new UMLEntityAttribute(umlentity, currentName, id, scope);
-
-	int button = QDialog::Accepted;
-	bool goodName = false;
-
-	//check for name.isNull() stops dialogue being shown
-	//when creating attribute via list view
-	while (button==QDialog::Accepted && !goodName && name.isNull()) {
-		UMLEntityAttributeDialog attributeDialogue(0, newAttribute);
-		button = attributeDialogue.exec();
-		QString name = newAttribute->getName();
-
-		if(name.length() == 0) {
-			KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
-		} else if ( umlentity->findChildObject(Uml::ot_EntityAttribute, name).count() > 0 ) {
-			KMessageBox::error(0, i18n("That name is already being used."), i18n("Not a Unique Name"));
-		} else {
-			goodName = true;
-		}
-	}
-
-	if (button != QDialog::Accepted) {
-		return NULL;
-	}
-
-	umlentity->addEntityAttribute(newAttribute);
-
-	emit sigObjectCreated(newAttribute);
-	return newAttribute;
 }
 
 UMLStereotype* UMLDoc::findStereotype(const QString &name) {
@@ -1249,94 +1102,6 @@ UMLStereotype* UMLDoc::findOrCreateStereotype(const QString &name) {
 	return s;
 }
 
-UMLOperation* UMLDoc::createOperation(UMLClassifier* classifier,
-				      const QString &name /*=null*/,
-				      bool *isExistingOp  /*=NULL*/,
-				      Umbrello::NameAndType_List *params  /*=NULL*/)
-{
-	if(!classifier)
-	{
-		kdWarning() << "UMLDoc::createOperation called with classifier == NULL"
-			    << endl;
-		return NULL;
-	}
-	bool nameNotSet = (name.isNull() || name.isEmpty());
-	if (! nameNotSet) {
-		UMLObjectList list = classifier->findChildObject(Uml::ot_Operation, name);
-		// If there are operation(s) with the same name then compare the parameter list
-		if (list.count()) {
-			const int inputParmCount = (params ? params->count() : 0);
-			for (UMLObjectListIt oit(list); oit.current(); ++oit) {
-				UMLOperation* test = dynamic_cast<UMLOperation*>(oit.current());
-				if (test == NULL)
-					continue;
-				UMLAttributeList *testParams = test->getParmList();
-				if (params == NULL) {
-					if (testParams->count() == 0) {
-						if (isExistingOp != NULL)
-							*isExistingOp = true;
-						return test;
-					}
-					continue;
-				}
-				const int pCount = testParams->count();
-				if (pCount != inputParmCount)
-					continue;
-				int i = 0;
-				for (; i < pCount; ++i) {
-					Umbrello::NameAndType_ListIt nt(params->at(i));
-					UMLObject *c = (*nt).second;
-					QString typeName = testParams->at(i)->getTypeName();
-					if (c == NULL) {       //template parameter
-						if (typeName != "class")
-							break;
-					} else if (typeName != c->getName())
-						break;
-				}
-				if (i == pCount) {
-					//all parameters matched -> the signature is not unique
-					if (isExistingOp != NULL)
-						*isExistingOp = true;
-					return test;
-				}
-			}
-			// we did not find an exact match, so the signature is unique ( acceptable )
-		}
-	}
-	UMLOperation *op = new UMLOperation(classifier, name);
-	if (params)
-	{
-		for (Umbrello::NameAndType_ListIt it = params->begin(); it != params->end(); ++it ) {
-			const Umbrello::NameAndType &nt = *it;
-			UMLAttribute *par = new UMLAttribute(op, nt.first);
-			par->setType(nt.second);
-			op->addParm(par);
-		}
-	}
-	if (nameNotSet || params == NULL) {
-		if (nameNotSet)
-			op->setName( classifier->uniqChildName(Uml::ot_Operation) );
-		do {
-			UMLOperationDialog operationDialogue(0, op);
-			if( operationDialogue.exec() != QDialog::Accepted ) {
-				delete op;
-				return NULL;
-			} else if (classifier->checkOperationSignature(op->getName(), op->getParmList())) {
-				KMessageBox::information(0,
-				 i18n("An operation with the same name and signature already exists. You can not add it again."));
-			} else {
-				break;
-			}
-		} while(1);
-	}
-
-	// operation name is ok, formally add it to the classifier
-	classifier->addOperation( op );
-
-	sigObjectCreated(op);
-	return op;
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLDoc::removeAssociation (UMLAssociation * assoc) {
 	if(!assoc)
 		return;
@@ -1633,7 +1398,7 @@ void UMLDoc::removeUMLObject(UMLObject* umlobject) {
 
 	umlobject->setUMLStereotype(NULL);  // triggers possible cleanup of UMLStereotype
 	if (dynamic_cast<UMLClassifierListItem*>(umlobject))  {
-		UMLClassifier* parent = (UMLClassifier*)umlobject->parent();
+		UMLClassifier* parent = dynamic_cast<UMLClassifier*>(umlobject->parent());
 		if (parent == NULL) {
 			kdError() << "UMLDoc::removeUMLObject: parent of umlobject is NULL"
 				  << endl;
@@ -1737,7 +1502,8 @@ bool UMLDoc::showProperties(ObjectWidget *o) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLDoc::signalUMLObjectCreated(UMLObject * o) {
 	emit sigObjectCreated(o);
-	setModified(true);
+	if (!m_bLoading)
+		setModified(true);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLDoc::saveToXMI(QIODevice& file) {

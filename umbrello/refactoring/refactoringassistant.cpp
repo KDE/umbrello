@@ -426,7 +426,7 @@ void RefactoringAssistant::createOperation()
 	UMLClassifier *c = dynamic_cast<UMLClassifier*>(findUMLObject( item ));
 	if( !c )
 		return;
-	m_doc->createOperation( c );
+	c->createOperation();
 }
 
 void RefactoringAssistant::createAttribute()
@@ -441,7 +441,7 @@ void RefactoringAssistant::createAttribute()
 	UMLClass *c = dynamic_cast<UMLClass*>(findUMLObject( item ));
 	if( !c )
 		return;
-	m_doc->createAttribute( c );
+	c->createAttribute();
 }
 
 

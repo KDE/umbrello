@@ -70,8 +70,7 @@ SelectOpDlg::SelectOpDlg(UMLView * parent, UMLClassifier * c)
 	else
 		sigType = Uml::st_NoSigNoScope;
 	UMLOperationList list = c -> getOpList(true);
-	UMLOperation* obj=0;
-	for(obj=list.first();obj != 0;obj=list.next()) {
+	for (UMLOperation *obj = list.first(); obj; obj=list.next()) {
 		m_pOpCB->insertItem( obj->toString(sigType) );
 	}
 	//disableResize();

@@ -64,6 +64,14 @@ public:
 	bool operator==( UMLClass & rhs );
 
 	/**
+	 * Creates an attribute for the class.
+	 *
+	 * @param name  An optional name, used by when creating through UMLListView
+	 * @return	The UMLAttribute created
+	 */
+	UMLObject* createAttribute(const QString &name = QString::null);
+
+	/**
 	 * Adds an attribute to the class.
 	 * If an attribute of the given name already exists, then
 	 * returns the existing attribute instead of creating a new one.

@@ -178,7 +178,7 @@ void WorkToolBar::buttonChanged(int b) {
 	ToolBar_Buttons tbb = (ToolBar_Buttons)b;
 	if (tbb == tbb_Arrow && m_CurrentButtonID == tbb_Arrow) {
 		toggleButton(tbb_Arrow);
-                view->setCursor( currentCursor() );
+		view->setCursor( currentCursor() );
 		return;
 	}
 
@@ -195,7 +195,7 @@ void WorkToolBar::buttonChanged(int b) {
 	toggleButton(m_CurrentButtonID);
 	m_CurrentButtonID = tbb;
 	emit sigButtonChanged(m_CurrentButtonID);
-        view->setCursor( currentCursor() );
+	view->setCursor( currentCursor() );
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 QCursor WorkToolBar::currentCursor() {

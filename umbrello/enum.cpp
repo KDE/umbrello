@@ -12,21 +12,26 @@
  *                                                                         *
  ***************************************************************************/
 
+// own header
 #include "enum.h"
-#include "enumliteral.h"
-#include "stereotype.h"
-#include "clipboard/idchangelog.h"
+// qt/kde includes
 #include <kdebug.h>
 #include <klocale.h>
+#include <kmessagebox.h>
+// app includes
+#include "enumliteral.h"
+#include "umldoc.h"
+#include "uml.h"
+#include "clipboard/idchangelog.h"
 
 UMLEnum::UMLEnum(const QString& name, Uml::IDType id) : UMLClassifier(name, id) {
 	init();
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 UMLEnum::~UMLEnum() {
 	m_List.clear();
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool UMLEnum::operator==( UMLEnum & rhs ) {
 	return UMLClassifier::operator==(rhs);
 }
@@ -44,50 +49,40 @@ UMLObject* UMLEnum::clone() const
 	return clone;
 }
 
-
-void UMLEnum::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
-	QDomElement enumElement = UMLObject::save("UML:Enumeration", qDoc);
-	//save operations
-	UMLClassifierListItem* pEnumLiteral = 0;
-	for ( pEnumLiteral = m_List.first(); pEnumLiteral != 0;
-	      pEnumLiteral = m_List.next() ) {
-		pEnumLiteral->saveToXMI(qDoc, enumElement);
-	}
-	qElement.appendChild(enumElement);
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////
-bool UMLEnum::load(QDomElement& element) {
-	QDomNode node = element.firstChild();
-	while( !node.isNull() ) {
-		if (node.isComment()) {
-			node = node.nextSibling();
-			continue;
-		}
-		QDomElement tempElement = node.toElement();
-		QString tag = tempElement.tagName();
-		if (Uml::tagEq(tag, "EnumerationLiteral") ||
-		    Uml::tagEq(tag, "EnumLiteral")) {   // for backward compatibility
-			UMLEnumLiteral* pEnumLiteral = new UMLEnumLiteral(this);
-			if( !pEnumLiteral->loadFromXMI(tempElement) ) {
-				return false;
-			}
-			m_List.append(pEnumLiteral);
-		} else if (tag == "stereotype") {
-			kdDebug() << "UMLEnum::load(" << m_Name
-				  << "): losing old-format stereotype." << endl;
-		} else {
-			kdWarning() << "unknown child type in UMLEnum::load" << endl;
-		}
-		node = node.nextSibling();
-	}//end while
-	return true;
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLEnum::init() {
 	m_BaseType = Uml::ot_Enum;
 	setStereotype( i18n("enum") );
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
+UMLObject* UMLEnum::createEnumLiteral() {
+	QString currentName = uniqChildName(Uml::ot_EnumLiteral);
+	UMLEnumLiteral* newEnumLiteral = new UMLEnumLiteral(this, currentName);
+
+	bool ok = true;
+	bool goodName = false;
+
+	while (ok && !goodName) {
+		ok = newEnumLiteral->showPropertiesDialogue( UMLApp::app() );
+		QString name = newEnumLiteral->getName();
+
+		if(name.length() == 0) {
+			KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
+		} else {
+			goodName = true;
+		}
+	}
+
+	if (!ok) {
+		return NULL;
+	}
+
+	addEnumLiteral(newEnumLiteral);
+
+	UMLDoc *umldoc = UMLApp::app()->getDocument();
+	umldoc->signalUMLObjectCreated(newEnumLiteral);
+	return newEnumLiteral;
+}
+
 UMLObject* UMLEnum::addEnumLiteral(const QString &name, Uml::IDType id) {
 	UMLEnumLiteral* literal = new UMLEnumLiteral(this, name, id);
 	m_List.append(literal);
@@ -96,7 +91,7 @@ UMLObject* UMLEnum::addEnumLiteral(const QString &name, Uml::IDType id) {
 	emit enumLiteralAdded(literal);
 	return literal;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool UMLEnum::addEnumLiteral(UMLEnumLiteral* literal, IDChangeLog* Log /* = 0*/) {
 	QString name = (QString)literal->getName();
 	if (findChildObject(Uml::ot_EnumLiteral, name).count() == 0) {
@@ -113,7 +108,7 @@ bool UMLEnum::addEnumLiteral(UMLEnumLiteral* literal, IDChangeLog* Log /* = 0*/)
 	}
 	return false;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool UMLEnum::addEnumLiteral(UMLEnumLiteral* literal, int position) {
 	QString name = (QString)literal->getName();
 	if (findChildObject( Uml::ot_EnumLiteral, name).count() == 0) {
@@ -131,7 +126,7 @@ bool UMLEnum::addEnumLiteral(UMLEnumLiteral* literal, int position) {
 	}
 	return false;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 int UMLEnum::removeEnumLiteral(UMLObject* literal) {
 	if (!m_List.remove((UMLEnumLiteral*)literal)) {
 		kdDebug() << "can't find att given in list" << endl;
@@ -145,7 +140,7 @@ int UMLEnum::removeEnumLiteral(UMLObject* literal) {
 	delete literal;
 	return m_List.count();
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 UMLEnumLiteral* UMLEnum::takeEnumLiteral(UMLEnumLiteral* el) {
 	int index = m_List.findRef( el );
 	el = (index == -1 ? 0 : dynamic_cast<UMLEnumLiteral*>(m_List.take( )));
@@ -174,9 +169,48 @@ UMLObjectList UMLEnum::findChildObject(Uml::Object_Type t, const QString &n) {
 
 	return list;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 int UMLEnum::enumLiterals() {
 	return m_List.count();
+}
+
+
+void UMLEnum::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
+	QDomElement enumElement = UMLObject::save("UML:Enumeration", qDoc);
+	//save operations
+	UMLClassifierListItem* pEnumLiteral = 0;
+	for ( pEnumLiteral = m_List.first(); pEnumLiteral != 0;
+	      pEnumLiteral = m_List.next() ) {
+		pEnumLiteral->saveToXMI(qDoc, enumElement);
+	}
+	qElement.appendChild(enumElement);
+}
+
+bool UMLEnum::load(QDomElement& element) {
+	QDomNode node = element.firstChild();
+	while( !node.isNull() ) {
+		if (node.isComment()) {
+			node = node.nextSibling();
+			continue;
+		}
+		QDomElement tempElement = node.toElement();
+		QString tag = tempElement.tagName();
+		if (Uml::tagEq(tag, "EnumerationLiteral") ||
+		    Uml::tagEq(tag, "EnumLiteral")) {   // for backward compatibility
+			UMLEnumLiteral* pEnumLiteral = new UMLEnumLiteral(this);
+			if( !pEnumLiteral->loadFromXMI(tempElement) ) {
+				return false;
+			}
+			m_List.append(pEnumLiteral);
+		} else if (tag == "stereotype") {
+			kdDebug() << "UMLEnum::load(" << m_Name
+				  << "): losing old-format stereotype." << endl;
+		} else {
+			kdWarning() << "unknown child type in UMLEnum::load" << endl;
+		}
+		node = node.nextSibling();
+	}//end while
+	return true;
 }
 
 

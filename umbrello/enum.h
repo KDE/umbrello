@@ -66,12 +66,14 @@ public:
 	 */
 	virtual UMLObject* clone() const;
 
-	/**
-	 * Creates the <UML:Enum> element including its enumliterals.
-	 */
-	virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
-
 	virtual bool isInterface () { return false; }
+
+	/**
+	 * Creates a literal for the enum.
+	 *
+	 * @return	The UMLEnum created
+	 */
+	UMLObject* createEnumLiteral();
 
  	/**
   	 * Adds an enumliteral to the enum.
@@ -138,6 +140,11 @@ public:
 	 * @return	List of objects found.  Will be empty if none found.
 	 */
 	 virtual UMLObjectList findChildObject(Uml::Object_Type t, const QString &n);
+
+	/**
+	 * Creates the <UML:Enum> element including its enumliterals.
+	 */
+	virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 signals:
 	void enumLiteralAdded(UMLObject*);

@@ -15,7 +15,7 @@
 #ifndef OPERATION_H
 #define OPERATION_H
 
-#include "umldoc.h"
+#include "umlattributelist.h"
 #include "classifierlistitem.h"
 
 class UMLClassifier;

@@ -271,9 +271,8 @@ void FloatingText::showOpDlg() {
 	Umbrello::OpDescriptor od;
 	Umbrello::Parse_Status st = Umbrello::parseOperation(opText, od, c);
 	if (st == Umbrello::PS_OK) {
-		UMLDoc *umldoc = UMLApp::app()->getDocument();
 		bool isExistingOp = false;
-		UMLObject *o = umldoc->createOperation(c, od.m_name, &isExistingOp, &od.m_args);
+		UMLObject *o = c->createOperation(od.m_name, &isExistingOp, &od.m_args);
 		UMLOperation *op = static_cast<UMLOperation*>(o);
 		if (od.m_pReturnType) {
 			op->setType(od.m_pReturnType);

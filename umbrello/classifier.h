@@ -16,6 +16,7 @@
 #include "umlclassifierlistitemlist.h"
 #include "classifierlistitem.h"
 #include "umltemplatelist.h"
+#include "model_utils.h"
 
 class IDChangeLog;
 
@@ -75,6 +76,31 @@ public:
 	 * functions. Underlying classes must implement the clone functionality.
 	 */
 	virtual UMLObject* clone() const = 0;
+
+	/**
+	 * Creates an operation in the current document.
+	 * The new operation is initialized with name, id, etc.
+	 * If a method with the given profile already exists in the classifier,
+	 * no new method is created and the existing operation is returned.
+	 * If no name is provided, or if the params are NULL, an Operation
+	 * Dialog is shown to ask the user for a name and parameters.
+	 * The operation's signature is checked for validity within the parent
+	 * classifier.
+	 *
+	 * @param name		The operation name (will be chosen internally if
+	 *			none given.)
+	 * @param isExistingOp	Optional pointer to bool. If supplied, the bool is
+	 *			set to true if an existing operation is returned.
+	 * @param params	Optional list of parameter names and types.
+	 *			If supplied, new operation parameters are
+	 *			constructed using this list.
+	 * @return The new operation, or NULL if the operation could not be
+	 *         created because for example, the user canceled the dialog
+	 *         or no appropriate name can be found.
+	*/
+	UMLOperation* createOperation( const QString &name = QString::null,
+				       bool *isExistingOp = NULL,
+				       Umbrello::NameAndType_List *params = NULL);
 
 	/**
 	 * Adds an operation to the classifier, at the given position.
@@ -150,6 +176,13 @@ public:
 	 * @return	The list of operations for the Classifier.
 	 */
 	UMLOperationList getOpList(bool includeInherited = false);
+
+	/**
+	 * Creates a template for the concept.
+	 *
+	 * @return	The UMLTemplate created
+	 */
+	UMLObject* createTemplate(QString name = QString::null);
 
 	/**
 	 * Adds a template to the class if it is not there yet.
