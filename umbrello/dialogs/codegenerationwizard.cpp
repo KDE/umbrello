@@ -51,16 +51,14 @@ CodeGenerationWizard::CodeGenerationWizard(UMLDoc *doc,
 
 	insertPage(m_CodeGenerationOptionsPage, i18n("Code Generation Options"), 1);
 
-	UMLClassifierList cList = m_doc->getClassesAndInterfaces();
+	UMLClassifierList cList;
 
-	if(classList) {
-		for(UMLClassifier *c = classList->first(); c ; c = classList->next()) {
-			new QListViewItem( m_selectedList, c->getName());
-		}
-	} else {
-		for(UMLClassifier *c = cList.first(); c ; c = cList.next()) {
-			new QListViewItem( m_selectedList, c->getName());
-		}
+	if (classList == NULL) {
+		cList = m_doc->getClassesAndInterfaces();
+		classList = &cList;
+	}
+	for (UMLClassifier *c = classList->first(); c ; c = classList->next()) {
+		new QListViewItem( m_selectedList, c->getFullyQualifiedName());
 	}
 
 	setNextEnabled(page(0),m_selectedList->childCount() > 0);
@@ -135,7 +133,7 @@ void CodeGenerationWizard::generateCode() {
 }
 
 void CodeGenerationWizard::classGenerated(UMLClassifier* concept, bool generated) {
-	QListViewItem* item = m_statusList->findItem( concept->getName(), 0 );
+	QListViewItem* item = m_statusList->findItem( concept->getFullyQualifiedName(), 0 );
 	if( !item ) {
 		kdError()<<"GenerationStatusPage::Error finding class in list view"<<endl;
 	} else if (generated) {
