@@ -3384,32 +3384,31 @@ bool UMLView::loadFromXMI( QDomElement & qElement ) {
 	if( !linewidth.isEmpty() )
 		m_Options.uiState.lineWidth = linewidth.toInt();
 	m_nLocalID = localid.toInt();
-	//load the widgets
+
 	QDomNode node = qElement.firstChild();
-	QDomElement element = node.toElement();
-	if( !element.isNull() && element.tagName() != "widgets" )
-		return false;
-	if( !loadWidgetsFromXMI( element ) ) {
+	bool widgetsLoaded = false, messagesLoaded = false, associationsLoaded = false;
+	while (!node.isNull()) {
+		QDomElement element = node.toElement();
+		if (!element.isNull()) {
+			if (element.tagName() == "widgets")
+				widgetsLoaded = loadWidgetsFromXMI( element );
+			else if (element.tagName() == "messages")
+				messagesLoaded = loadMessagesFromXMI( element );
+			else if (element.tagName() == "associations")
+				associationsLoaded = loadAssociationsFromXMI( element );
+		}
+		node = node.nextSibling();
+	}
+ 
+	if (!widgetsLoaded) {
 		kdWarning() << "failed umlview load on widgets" << endl;
 		return false;
 	}
-
-	//load the message widgets
-	node = element.nextSibling();
-	element = node.toElement();
-	if( !element.isNull() && element.tagName() != "messages" )
-		return false;
-	if( !loadMessagesFromXMI( element ) ) {
+	if (!messagesLoaded) {
 		kdWarning() << "failed umlview load on messages" << endl;
 		return false;
 	}
-
-	//load the associations
-	node = element.nextSibling();
-	element = node.toElement();
-	if( !element.isNull() && element.tagName() != "associations" )
-		return false;
-	if( !loadAssociationsFromXMI( element ) ) {
+	if (!associationsLoaded) {
 		kdWarning() << "failed umlview load on associations" << endl;
 		return false;
 	}
@@ -3503,7 +3502,7 @@ UMLWidget* UMLView::loadWidgetFromXMI(QDomElement& widgetElement) {
 			   || tag == "UML:UseCaseWidget") {  // for bkwd compatibility
 			widget = new UseCaseWidget(this, static_cast<UMLUseCase*>(o));
 		} else if (tag == "classwidget"
-		           || tag == "UML:ClassWidget"       // for bkwd compatibility
+			   || tag == "UML:ClassWidget"       // for bkwd compatibility
 			   || tag == "UML:ConceptWidget") {  // for bkwd compatibility
 			widget = new ClassWidget(this, static_cast<UMLClass*>(o));
 		} else if (tag == "packagewidget") {
