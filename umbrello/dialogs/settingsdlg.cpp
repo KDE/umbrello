@@ -192,7 +192,6 @@ void SettingsDlg::setupCodeGenPage(QDict<GeneratorInfo> ldict, QString activeLan
 void SettingsDlg::setupFontPage() {
 	QVBox * page = addVBoxPage( i18n("Font"), i18n("Font Settings"), DesktopIcon( "fonts")  );
 	m_FontWidgets.chooser = new KFontChooser( page, "font", false, QStringList(), false);
-	m_FontWidgets.chooser->setSampleText(i18n("Umbrello font"));
 
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////

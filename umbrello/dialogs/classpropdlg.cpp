@@ -218,7 +218,6 @@ void ClassPropDlg::setupFontPage() {
 	QVBox * page = addVBoxPage( i18n("Font"), i18n("Font Settings"), DesktopIcon( "fonts")  );
 	m_pChooser = new KFontChooser( (QWidget*)page, "font", false, QStringList(), false);
 	m_pChooser -> setFont( m_pWidget -> getFont() );
-	m_pChooser->setSampleText(i18n("Umbrello font"));
 }
 
 
