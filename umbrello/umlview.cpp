@@ -78,6 +78,11 @@
 #include "umlwidgetdata.h"
 #include "floatingtextdata.h"
 
+// static members
+const int UMLView::defaultCanvasSize = 1300;
+
+
+// constructor
 UMLView::UMLView(QWidget* parent, UMLViewData* pData, UMLDoc* doc) : QCanvasView(parent, "AnUMLView" ) {
 	m_pData = pData;
 	m_pDoc = doc;

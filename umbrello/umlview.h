@@ -742,7 +742,7 @@ public:
 	/**
 	 *      the width and height of a diagram canvas in pixels
 	 */
-	static const int defaultCanvasSize = 1300;
+	static const int defaultCanvasSize;
 
 protected:
 
