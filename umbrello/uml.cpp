@@ -150,13 +150,8 @@ void UMLApp::initActions() {
 	editCut = KStdAction::cut(this, SLOT(slotEditCut()), actionCollection());
 	editCopy = KStdAction::copy(this, SLOT(slotEditCopy()), actionCollection());
 	editPaste = KStdAction::paste(this, SLOT(slotEditPaste()), actionCollection());
-#if KDE_VERSION >= 0x030190
 	createStandardStatusBarAction();
 	setStandardToolBarMenuEnabled(true);
-#else
-	viewToolBar = KStdAction::showToolbar(this, SLOT(slotViewToolBar()), actionCollection());
-	viewStatusBar = KStdAction::showStatusbar(this, SLOT(slotViewStatusBar()), actionCollection());
-#endif
 	selectAll = KStdAction::selectAll(this,  SLOT( slotSelectAll() ), actionCollection());
 
 	classWizard = new KAction(i18n("&New Class Wizard..."),0,this,SLOT(slotClassWizard()),
@@ -185,10 +180,6 @@ void UMLApp::initActions() {
 	editCut->setStatusText(i18n("Cuts the selected section and puts it to the clipboard"));
 	editCopy->setStatusText(i18n("Copies the selected section to the clipboard"));
 	editPaste->setStatusText(i18n("Pastes the clipboard contents to actual position"));
-#if KDE_VERSION < 0x030190
-	viewToolBar->setStatusText(i18n("Enables/disables the toolbar"));
-	viewStatusBar->setStatusText(i18n("Enables/disables the statusbar"));
-#endif
 	preferences->setStatusText( i18n( "Set the default program preferences") );
 
 	deleteSelectedWidget = new KAction( i18n("Delete &Selected"),
