@@ -135,11 +135,6 @@ void ObjectWidget::calculateSize() {
 		}
 	}//end else drawasactor
 	setSize(width, height);
-	if( m_pView -> getType() == dt_Sequence ) {
-//FIXME not quite sure what this did, but it broke paste
-//		setY( getY() + (oldHeight - height ) );
-	}
-	emit sigWidgetMoved( m_nLocalID );//makes any message widgets connected resize themselves
 	adjustAssocs( getX(), getY() );//adjust assoc lines
 	moveEvent( 0 );
 }
@@ -170,6 +165,16 @@ bool ObjectWidget::activate(IDChangeLog* ChangeLog /*= 0*/) {
 	}
 	moveEvent(0);
 	return status;
+}
+
+void ObjectWidget::setX( int x ) {
+	UMLWidget::setX(x);
+	moveEvent(0);
+}
+
+void ObjectWidget::setY( int y ) {
+	UMLWidget::setY(y);
+	moveEvent(0);
 }
 
 void ObjectWidget::moveEvent(QMoveEvent */*m*/) {
@@ -270,7 +275,6 @@ void ObjectWidget::mouseMoveEvent(QMouseEvent* me) {
 		setY( newY );
 		adjustAssocs(newX, newY);
 		m_pView->resizeCanvasToItems();
-		moveEvent(0);
 	}
 }
 

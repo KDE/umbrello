@@ -48,6 +48,22 @@ public:
 	virtual ~ObjectWidget();
 
 	/**
+	 * Sets the x-coordinate.
+	 * Reimplements the method from UMLWidget.
+	 *
+	 * @param x The x-coordinate to be set.
+	 */
+	virtual void setX( int x );
+
+	/**
+	 * Sets the y-coordinate.
+	 * Reimplements the method from UMLWidget.
+	 *
+	 * @param y The y-coordinate to be set.
+	 */
+	virtual void setY( int y );
+
+	/**
 	 * Returns the local ID for this object.  This ID is used so that
 	 * many objects of the same @ref UMLObject instance can be on the
 	 * same diagram.
