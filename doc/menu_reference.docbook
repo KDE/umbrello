@@ -1,0 +1,185 @@
+<chapter id="menu-reference">
+<title>Menu Reference</title>
+<para>This Chapter is a quick reference of the commands found in Umbrello's menus.</para>
+<sect1 id="file-menu">
+<title>The File Menu</title>
+<sect2>
+<title>New</title>
+<para>Creates a new Model (new Document). If you have made changes to your current
+Model you will be asked if these should be saved before creating the new document.
+</para>
+</sect2>
+<sect2>
+<title>Open</title>
+<para>Opens an existing file. If your current file has been modified, you will have the option
+of saving your document before opening the new file.
+</para>
+</sect2>
+<sect2>
+<title>Open Recent</title>
+<para>Opens one of the most recently used documents. If there are any changes that need to be saved
+before loading the new document, you will have the option to do so.
+</para>
+</sect2>
+<sect2>
+<title>Save</title>
+<para>Saves the current document to disk. If the file has not been saved before, you will have
+to specify a name and a path for the file.</para>
+</sect2>
+<sect2>
+<title>Save As...</title>
+<para>Saves the current document under a different name or in a different location</para>
+</sect2>
+<sect2>
+<title>Close</title>
+<para>Closes the current document. If the file needs to be saved you will have the option to do
+so before closing the document. When you close the current document Umbrello will automatically
+create a new, empty document</para>
+</sect2>
+<sect2>
+<title>Print</title>
+<para>Prints the current diagram</para>
+</sect2>
+<sect2>
+<title>Quit</title>
+<para>Exits the application. If the current document has been modified you have the option of saving
+your changes before terminating Umbrello</para>
+</sect2>
+</sect1>
+
+<sect1 id="edit-menu">
+<title>The Edit Menu</title>
+<sect2>
+<title>Cut</title>
+<para>Cuts the currently selected objects and puts them into the clipboard.</para>
+</sect2>
+<sect2>
+<title>Copy</title>
+<para>Copies the selected objects to the clipboard.</para>
+</sect2>
+<sect2>
+<title>Paste</title>
+<para>Pastes the contents of the application clipboard</para>
+</sect2>
+<sect2>
+<title>Select All</title>
+<para>Selects all the items in the current diagram</para>
+</sect2>
+<sect2>
+<title>Delete Selected</title>
+<para>Removes the currently selected items from the Diagram.</para>
+</sect2>
+</sect1>
+
+<sect1 id="diagram-menu">
+<title>The Diagram Menu</title>
+<sect2>
+<title>New</title>
+<para>The <guisubmenu>New</guisubmenu> submenu allows you to create the different types of diagrams.</para>
+</sect2>
+<sect2>
+<title>Show</title>
+<para>The <guisubmenu>Show</guisubmenu> submenu allows you to select one of your diagrams and makes it
+the active diagram.</para>
+</sect2>
+<sect2>
+<title>Clear Diagram</title>
+<para>Clears (deletes) the contents of the active diagram.</para>
+</sect2>
+<sect2>
+<title>Snap to Grid</title>
+<para>Aligns the elements in the active diagram to the grid.</para>
+</sect2>
+<sect2>
+<title>Show Grid</title>
+<para>Shows the grid for the current diagram.</para>
+</sect2>
+<sect2>
+<title>Delete</title>
+<para>Deletes the active diagram.</para>
+</sect2>
+<sect2>
+<title>Export as Picture...</title>
+<para>Exports the active diagram as a PNG picture.</para>
+</sect2>
+<sect2>
+<title>Properties...</title>
+<para>Shows the properties dialog for the active diagram.</para>
+</sect2>
+</sect1>
+
+<sect1 id="code-menu">
+<title>The Code Menu</title>
+<sect2>
+<title>Import Classes...</title>
+<para>Allows you to import classes from programming source code into your Model.</para>
+</sect2>
+<sect2>
+<title>Code Generation Wizard...</title>
+<para>Shows a wizard to guide you through the process of Code Generation.</para>
+</sect2>
+<sect2>
+<title>Generate All Code</title>
+<para>Immediately generates code for all classes in your Model, using the parameters configured
+in the Code Generation settings.</para>
+</sect2>
+<sect2>
+<title>Class Wizard...</title>
+<para>Shows a wizard to guide you through the creation of new classes in your Model. The new classes
+will be added to your Model into the Tree View, but not to any diagram.</para>
+</sect2>
+<sect2>
+<title>Active Language</title>
+<para>Allows you to select the active language, which will be used as default for Code Generation.</para>
+</sect2>
+<sect2>
+<title>Add/Remove Generation Languages...</title>
+<para>Shows a dialog to add or remove languages found in your Code Generation plug-ins.</para>
+</sect2>
+</sect1>
+
+<sect1 id="settings-menu">
+<title>The Settings Menu</title>
+<sect2>
+<title>Show Toolbar</title>
+<para>Shows or Hides the toolbar.</para>
+</sect2>
+<sect2>
+<title>Show Statusbar</title>
+<para>Shows or Hides the statusbar.</para>
+</sect2>
+<sect2>
+<title>Show Documentation</title>
+<para>Shows or hides the documentation window.</para>
+</sect2>
+<sect2>
+<title>Configure Umbrello...</title>
+<para>Allows you configure many aspects of the application.</para>
+</sect2>
+</sect1>
+
+<sect1 id="help-menu">
+<title>The Help Menu</title>
+<sect2>
+<title>Umbrello UML Modeller Handbook</title>
+<para>Shows this user manual for Umbrello.</para>
+</sect2>
+<sect2>
+<title>What's this</title>
+<para>Sets the mouse cursor to the <guimenuitem>What's this</guimenuitem> tool, with which you can
+get information of some elements in the user interface.</para>
+</sect2>
+<sect2>
+<title>Report bug</title>
+<para>Gives you information about how to report a bug found in Umbrello.</para>
+</sect2>
+<sect2>
+<title>About Umbrello UML Modeller</title>
+<para>Displays About information on Umbrello, including copying information.</para>
+</sect2>
+<sect2>
+<title>About KDE</title>
+<para>Displays About information on KDE, the desktop environment Umbrello is designed for.</para>
+</sect2>
+</sect1>
+</chapter>

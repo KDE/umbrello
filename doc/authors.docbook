@@ -1,0 +1,52 @@
+<chapter id="authors">
+<title>Authors and History</title>
+<para>
+This project was started by Paul Hensgen as one of his University projects.
+The original name of the application was <emphasis>UML Modeller</emphasis>.  Paul did
+all the development until the end of 2001 when the program reached version 1.0.
+</para>
+<para>
+Version 1.0 already offered a lot of functionality, but after the project had been reviewed at
+Paul's University, other developers could join and they started making valuable contributions
+to UML Modeller, like switching from a binary file format to an XML file, support for more
+types of UML Diagrams, Code Generation and Code Import just to name a few.
+</para>
+<para>
+Paul had to retire from the development team in Summer 2002 but, as Free and Open Source Software, the
+program continues to improve and evolve, and is being maintained by a group of developers from different
+parts of the world. Also, in September 2002, the project changed its name from UML Modeller, to
+<emphasis>Umbrello UML Modeller</emphasis>. There are several reasons for the change of names, the most
+important ones being that just <quote>uml</quote>--as it was commonly known-- was a way too generic name
+and caused problems with some distributions. The other important reason is that the developers think
+<emphasis>Umbrello</emphasis> is a much cooler name. =)
+</para>
+<para>
+The Development of Umbrello as well as discussions as to where the program should head for future versions
+is open and takes place over the Internet. If you would like to contribute to the project, please don't
+hesitate to contact the developers. There are many ways in which you can help Umbrello:
+</para>
+<itemizedlist>
+<listitem><para>Reporting bugs or improvements suggestions</para></listitem>
+<listitem><para>Fixing bugs or adding features</para></listitem>
+<listitem><para>Writing good documentation or translating it to other languages</para></listitem>
+<listitem><para>And of course...coding with us!</para></listitem>
+</itemizedlist>
+<para>
+As you see, there are many ways in which you can contribute. All of them are very important and
+everyone is welcome to participate.
+</para>
+<para>
+The Umbrello developers can be reached at <email>uml-devel@lists.sourceforge.net</email>.
+</para>
+</chapter>
+<chapter id="copyright">
+<title>Copyright</title>
+<para>This program is released under the GNU General Public License.  For more information about the GPL,
+select (from the menu) <menuchoice><guimenu>Help</guimenu><guimenuitem>About Umbrello UML Modeller</guimenuitem></menuchoice> and click on the License tab.
+</para>
+<para>Copyright 2001, Paul Hensgen</para>
+<para>Copyright 2002, The Umbrello developers. See <ulink url="http://uml.sf.net">uml.sf.net</ulink> 
+for more information</para>
+<para>This documentation is copyright 2002 Luis De la Parra and may be copied under the terms
+of the GNU Free Documentation License, version 1.1.  <!-- FIXME, 1.2 is out now --></para>
+</chapter>

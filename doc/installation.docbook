@@ -1,0 +1,133 @@
+<chapter id="installation">
+<title>Installation</title>
+
+<sect1 id="general_instructions">
+<title>General Instructions</title>
+<para>
+The easiest way to install Umbrello is to get a pre-compiled binary package (rpm, deb) for your system.
+<!-- If you are running Linux, chances are that your distribution includes Umbrello UML Modeller, 
+so you can install
+it directly from your CDs. FIXME not true as far as I know -->
+If you prefer to compile your applications yourself or are running a system
+for which there are no binary packages, you can download the sources and follow the instructions for
+source installations.
+</para>
+<para>
+<!--
+The Umbrello developers only release source packages of the program, and these source packages are
+the only ones we can officially support. However, 
+FIXME I officially support the packages I make -->
+We understand that for many users it is difficult to
+install a program from sources, so we try to build pre-compiled packages for the systems/distributions
+we have access to.
+If you want to install Umbrello from a binary package <!-- and the program is not included in your CDs, --> 
+you can check if there is a pre-compiled package available for your platform at
+<ulink url="http://uml.sourceforge.net">Umbrello's home page</ulink>.
+There we will publish the packages we can make ourselves, as well as packages made by 3rd parties for
+the systems we do not have access to.
+</para>
+<para>
+If you can make a binary package for a distribution for which there are currently no packages available
+at our site, please consider contacting the Umbrello developers and contributing your package so that
+other users can benefit from it.
+</para>
+</sect1>
+
+<sect1 id="binary_installation">
+<title>Binary Package Installation</title>
+<para>
+To install Umbrello from a pre-compiled package, use the package management program that
+came with your system.
+You can also call the package manager directly from the command line.
+For example, to install a deb package change to the directory where you downloaded the file
+and enter the following command:
+<screen width="40">
+<prompt>% </prompt><userinput>dpkg -i umbrello-1.1-i386.deb</userinput>
+</screen>
+</para>
+<para>
+In case of rpm packages the command to enter is
+<screen width="40">
+<prompt>% </prompt><userinput>rpm -i umbrello-1.1-i386.rpm</userinput>
+</screen>
+</para>
+<para>
+For other platforms, please consult the documentation provided with your system.
+</para>
+</sect1>
+
+<sect1 id="source_installation">
+<title>Source Installation</title>
+<para>
+When installing from sources it is important that you check the README and INSTALL files 
+for the latest information on this program.
+</para>
+<para>
+In order to install the program, the first step is to unpack the sources so that you can build them.
+To do this, cd into the directory where you downloaded the archive file and execute the following command.
+<screen width="40">
+<prompt>% </prompt><userinput>tar -xvzf umbrello-1.1.tar.gz</userinput>
+</screen>
+</para>
+<para>
+This will create a new directory into which all source files are contained.
+</para>
+<para>
+The next step is to change into this new directory to configure and build the program.
+For this you need to execute following commands:
+<screen width="40">
+<prompt>% </prompt><userinput>./configure --prefix=&lt;path to your KDE base directory here&gt;</userinput>
+<prompt>% </prompt><userinput>make</userinput>
+</screen>
+</para>
+<para>
+Please substitute the correct path for your base KDE installation in the <quote>--prefix</quote>, as this
+will make sure Umbrello finds all the files and libraries it needs to work correctly when you install it.
+</para>
+<para>
+When the build process finishes, the only thing left to do is to install the files to their final
+destination. Normally you will need root access for this, in which case you should execute
+<screen width="40">
+<prompt>% </prompt><userinput>su</userinput>
+</screen>
+</para>
+<para>
+and then enter the root password. To finally install the program simply type
+<screen width="40">
+<prompt>% </prompt><userinput>make install</userinput>
+</screen>                           
+</para>
+</sect1>
+
+
+<sect1 id="running_program">
+<title>Starting the program</title>
+<para>
+Once you have installed Umbrello, you can run it from any command line by typing
+<screen width="40">
+<prompt>% </prompt><userinput>umbrello</userinput>
+</screen>
+</para>
+<para>
+Or by selecting the entry from the KDE menu.
+The program is located under the <guimenu>Development</guimenu> menu as <emphasis>Umbrello UML Modeller</emphasis>.
+</para>
+<para>
+<screenshot>
+<screeninfo>Umbrello's main window</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="pics/umbrello-main-screen.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase>The main Window of Umbrello</phrase>
+	  </textobject>
+	  <caption>
+	    <para>The main Window of Umbrello
+	    </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+</sect1>
+</chapter>

@@ -1,0 +1,458 @@
+<chapter id="working-with-umbrello">
+<title>Working with Umbrello</title>
+<!-- Umbrello basics: creating diagrams, creating classes, adding objects to diagrams,
+   associations, editing properties, anchor points in associations, removing objects, removing
+   diagrams
+-->
+
+<para>
+This chapter will introduce you to Umbrello's user interface and will
+tell you all you need to know to start modelling.  As normal, (almost)
+<!--FIXME-->all actions in Umbrello are accessible via the menu and
+the toolbars, but Umbrello also makes extensive use of right mouse
+button context menus. You can right click on almost any element in
+Umbrello's work area or tree view to get a menu with the most useful
+functions that can be applied to the particular element you are
+working on. Some users find this a little confusing at the beginning
+(because they are more used to working with the menu or tool bars) but
+once you get used to right-clicking, it will greatly speed up your work.
+</para>
+
+<sect1 id="user-interface">
+<title>User Interface</title>
+<para>
+Umbrello's main window is divided in three areas that will help you keep an overview of your entire system
+and access the different diagrams quickly while working on your model.
+</para>
+<para>These areas are called:</para>
+<itemizedlist>
+<listitem><para>Tree View</para></listitem>
+<listitem><para>Work Area</para></listitem>
+<listitem><para>Documentation Window</para></listitem>
+</itemizedlist>
+<para>
+<screenshot>
+<screeninfo>Umbrello's User Interface</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="pics/umbrello-ui.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase>Umbrello's User Interface</phrase>
+	  </textobject>
+	  <caption>
+	    <para>Umbrello's User Interface
+	    </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+<sect2 id="tree-view">
+<title>Tree View</title>
+<para>
+The Tree View is located on the top left hand side of the window, and shows the all the diagrams,
+classes, actors and use cases that build up your model.
+The Tree View allows you to have a quick overview of the elements composing your model. The Tree View also
+gives you a quick way to switch between the different diagrams in your model and inserting elements from
+your model into the current diagram.
+</para>
+<para>
+If you are working on a model with more than just a few classes and diagrams, the Tree View may help
+you stay on top of things by organising your model elements in folders. You can create 
+folders by selecting the appropriate option from the context menu (right click on one of the folders
+in the tree view) and you can organise your elements by moving them to the appropriate folder (drag and drop)
+<!-- (screen shot) FIXME-->
+</para>
+</sect2>
+
+<sect2 id="documentation-window">
+<title>Documentation Window</title>
+<para>
+The Documentation Window is the small window located on the left bottom of Umbrello, and it gives
+you a quick preview of the documentation for the currently selected Object. The Documentation Window is
+rather small because it is intended to allow you just a quick pick into the element's documentation while
+taking as little screen space as possible. If you need to view the documentation in more detail you can always
+open the element properties.
+</para>
+</sect2>
+<sect2 id="work-area">
+<title>Work Area</title>
+<para>
+The Work Area is the main window in Umbrello and is where the real action takes place. You use the Work Area
+to edit and view the diagrams in your model. The Work Area shows the currently active diagram.  Currently
+only one diagram can be shown on the Work Area at any time.
+</para>
+</sect2>
+</sect1> <!--user-interface-->
+<sect1 id="load-save">
+<title>Creating, Loading and Saving Models</title>
+<para>
+The first thing you need to start doing something useful with Umbrello is to create a model to work on.
+When you start Umbrello it always loads the last used model or creates a new, empty model (depending on
+your preferences set in the configuration dialog). This will allow you to start working right away.
+</para>
+<sect2 id="new-model">
+<title>New Model</title>
+<para>
+If at any time you need to create a new model you can do this by selecting the New entry from the
+File menu, or by clicking on the New icon from the application toolbar. If you are currently working on
+a model which has been modified Umbrello will ask you if it should save your changes before loading the
+new model.
+</para>
+</sect2>
+<sect2 id="save-model">
+<title>Save Model</title>
+<para>
+You can save your model at any time by selecting the option Save from the File Menu or by clicking
+on the Save button from the application toolbar. If you need to save your model under a different name
+you can use the option Save As from the File Menu.
+</para>
+<para>For your convenience Umbrello also offers you the option to automatically save your work
+each certain time period. You can configure if you want this option as well as the time intervals
+in the Settings from Umbrello</para>
+</sect2>
+<sect2 id="load-model">
+<title>Load Model</title>
+<para>
+For loading an already existing model you may select the option Open from the File Menu or click on the Open
+icon from the application toolbar. The most recently used models are also available under the submenu
+Open Recent in the File Menu to speed up access to your most frequently used models.
+</para>
+<para>
+Umbrello can only work on one model at a time, so if you ask the programme to load a model for you and your
+current model has been modified since the last time you save it, Umbrello will ask you whether your changes
+should be saved to prevent any loss of work.
+</para>
+</sect2>
+</sect1>  <!--load-save-->
+<sect1 id="edit-model">
+<title>Editing Models</title>
+<para>
+In Umbrello, there are basically two ways for editing the elements in your model.
+<itemizedlist>
+<listitem><para>Edit model elements directly through the Tree View</para></listitem>
+<listitem><para>Edit model elements through a Diagram</para></listitem>
+</itemizedlist>
+</para>
+<para>
+Using the context menu of the different items in the Tree View you are able to add, remove, 
+and modify almost all the elements in your model. Right-clicking on the folders in the Tree View
+will give you options for creating the different types of diagrams as well as, depending on whether
+the folder is a <emphasis>Use Case View</emphasis> or a <emphasis>Logical View</emphasis>, Actors,
+Use Cases and Classes.
+</para>
+<para>
+Once you have added elements to your model you can also edit this elements by accessing its properties
+dialog, which you find by selecting the option <emphasis>Properties</emphasis> from the context menu
+shown when right-clicking on the items in the Tree View.
+</para>
+<para>
+You can also edit your model by creating or modifying elements through diagrams. More details on how
+to do this are given in the following sections.
+</para>
+</sect1>
+<sect1 id="add-remove-diagrams">
+<title>Adding and Removing Diagrams</title>
+<para>
+Your UML model consists of a set of UML elements and associations between them. However you cannot see the model
+directly, you use <emphasis>Diagrams</emphasis> to look at it.
+</para>
+<sect2 id="create-diagram">
+<title>Creating Diagrams</title>
+<para>
+To create a new diagram in your model simply select the diagram type you need from the New submenu in the
+diagram menu and give a name to it. The diagram will be created and made active, and you will immediately
+see it in the tree view.
+</para>
+<para>
+Remember that Umbrello makes extensive use of context menus: you can also right click on a folder in the Tree
+View and select the appropriate diagram type from the New submenu in the context menu. Note that you can create
+Use Case Diagrams only in Use Case View folders, and the other types of diagram can only be created in the
+Logical View folders.
+</para>
+</sect2>
+<sect2 id="remove-diagram">
+<title>Removing Diagrams</title>
+<para>
+Should you need to remove a diagram from your model, you can do this by making it active and selecting
+Delete from the Diagram Menu. You can also achieve this by selecting Delete from the Diagrams context menu
+in the Tree View
+</para>
+<para>Since deleting a Diagram is something serious that could cause loss of work if done by accident, Umbrello
+will ask you to confirm the delete operation before actually removing the Diagram. Once a diagram has been
+deleted and the file has been saved there is no way to undo this action.
+</para>
+</sect2>
+<sect2 id="rename-diagram">
+<title>Renaming Diagrams</title>
+<para>
+If you want to change the name of an existing diagram you can easily do this by selecting the Rename option
+from its context menu in the Tree View.
+</para>
+<para>Another way to rename a diagram is to do this via its properties dialog, which you obtain by
+selecting Properties from its Context Menu or by double clicking on it in the Tree View.
+<!-- FIXME, not sure on this one
+Yet another way to rename a diagram is to single click on an already selected Diagram and change
+the name directly in the Tree View.    
+-->
+</para>
+</sect2>
+</sect1>
+<sect1 id="edit-diagram">
+<title>Editing Diagrams</title>
+<para>
+When working on a diagram, Umbrello will try to guide you by applying some simple rules as to which
+elements are valid in the different types of diagrams, as well as the relationships that can exist
+between them. If you are an UML expert you will probably not even notice it, but this will help
+UML novices create standard-conformant diagrams.
+</para>
+<para>
+Once you have created your diagrams it is time to start editing them. Here you should notice between
+the (for beginners subtle) difference between editing your diagram, and editing the
+<emphasis>model</emphasis>. As you already know, Diagrams are <emphasis>views</emphasis> of your model.
+For example, if you create a class by editing a Class Diagram, you are really editing both, your
+Diagram and your model. If you change the colour or other display options of a Class in your Class
+Diagram, you are only editing the Diagram, but nothing is changed in your model.
+</para>
+<sect2 id="insert-elements">
+<title>Insert Elements</title>
+<para>
+One of the first things you will do when editing a new diagram is to insert elements into them (Classes,
+Actors, Use Cases, etc). There is basically two ways of doing this:</para>
+<itemizedlist>
+<listitem><para>Dragging existing elements in your model from the Tree View</para></listitem>
+<listitem><para>Creating new elements in your model and adding them to your diagram at the
+same time, by using one of the Edit Tools in the Work Toolbar</para></listitem>
+</itemizedlist>
+<para>
+To insert elements that already exist in your model, just drag them from the Tree View and
+drop them where you want them to be in your Diagram. You can always move elements around
+in your Diagram using the Select Tool
+</para>
+<para>
+The second way of adding elements to your diagram is by using the Work Toolbar's edit tools (note
+that this will also add the elements to your model).
+</para>
+<para>
+The Work Toolbar is by default located on the far right of the application window, but you
+can dock it into other edge or have it floating around if you prefer. The tools available
+on this toolbar (the buttons you see on it) change depending on the type of diagram
+you are currently working on. The button for the currently
+selected tool is activated in the toolbar, and you can always switch to the previously used tool
+by pressing the <keycap>Shift Key</keycap>. You can also switch to the <keycap>Select Tool</keycap>
+by pressing the <keycap>Escape Key</keycap>.
+</para>
+<para>
+When you have selected an edit tool from the Work Toolbar (for example, the tool to insert classes)
+the mouse pointer changes to a cross, and you can insert the elements in your model by single-clicking
+in your diagram. Note that elements in UML must have a <emphasis>Unique Name</emphasis>. So that if
+you have a class in one diagram whose name is <quote>ClassA</quote> and then you use the insert Class
+tool to insert a class into another diagram you cannot name this new class <quote>ClassA</quote> as well.
+If these two are supposed to be two different elements, you have to give them a unique name. If you are
+trying to add the <emphasis>same</emphasis> element to your diagram, then the Insert Class is not
+the right tool for that. You should drag and drop the class from the Tree View instead.
+</para>
+</sect2>
+<sect2 id="delete-elements">
+<title>Deleting Elements</title>
+<para>
+You can delete any element by selecting the option <guimenuitem>Delete</guimenuitem> from its context menu.
+In other words, you just need to right click on the element you want to delete and select the corresponding
+option from the Popup menu
+</para>
+<para>
+Again, here is a <emphasis>big</emphasis> difference between removing an object from a diagram, and
+deleting an object from your model:
+If you delete an object from within a diagram, you are only removing the object from that particular
+diagram: the element will still be part of your model and if there are other diagrams using the same
+element they will not suffer any change.
+If, on the other hand, you delete the element from the Tree View, you are actually deleting the
+element from your <emphasis>model</emphasis>. Since the element no longer exist in your model,
+it will be automatically removed from all the diagrams it appears in.
+</para>
+</sect2>
+<sect2 id="edit-elements">
+<title>Editing Elements</title>
+<para>
+You can edit most of the UML elements in your model and diagrams by opening its Properties dialog
+and selecting the appropriate options.
+To edit the properties of an object, select <guimenuitem>Properties</guimenuitem> from its context menu (right
+click). Each element has a Dialog consisting of several pages where you can configure the options
+corresponding to that element. For some elements, like actors you can only set a couple of options,
+like the object name and documentation, while for other elements, like classes, you can edit its
+attributes and operations, select what you want to be shown in the diagram (whole operation signature
+or just operation names, etc) and even the colours you want to use for the line and fill of the class'
+representation on the diagram.
+</para>
+
+<para>
+For most UML elements you can also open the properties dialog by
+double clicking on it if you are using the selection tool (arrow). The
+exception to this is Associations, in which case a double click
+creates an anchor point. For associations you need to use the right
+click context menu to get the properties dialog.
+</para>
+
+<para>
+Note that you can also select the properties option from the context
+menu of the elements in the Tree View. This allows you to also edit
+the properties for the diagrams, like setting whether the grid should
+be shown or not.
+</para>
+</sect2>
+<sect2 id="edit-classes">
+<title>Editing Classes</title>
+<para>
+Even though editing the properties of all objects was already covered in the previous section,
+classes deserve a special section because they are a bit more complicated and have more options
+than most of the other UML elements.
+</para>
+<para>
+In the properties dialog for a class you can set everything, from the colour it uses to the operations
+and attributes it has.
+</para>
+<sect3 id="class-general-settings">
+<title>Class General Settings</title>
+<para>
+The General Settings page of the properties dialog is self-explanatory. Here you can change the
+class' name, visibility, documentation, etc.
+This page is always available.
+</para>
+</sect3>
+<sect3 id="class-attributes-settings">
+<title>Class Attribute Settings</title>
+<para>
+In the Attributes Settings page you can add, edit, or delete attributes of this class.
+For adding a new attribute you only need to press the <guimenuitem>New Attribute</guimenuitem> button
+and for Editing or Deleting one you need to select an attribute from the list and then press the
+appropriate button. You can also move attributes up and down the list by pressing the arrow button
+on the side.
+This page is always available.
+</para>
+</sect3>
+<sect3 id="class-operations-settings">
+<title>Class Operations Settings</title>
+<para>
+Similar to the Attribute Settings Page, in the Operation Settings Page you can add, edit, or
+remove operations for your class. When adding or editing an operation, you enter the basic data in
+the <emphasis>Operation Properties</emphasis> dialog. If you want to add parameters to your operation
+you need to click the <guibutton>New Parameter</guibutton> button, which will show the
+<emphasis>Parameter Properties</emphasis> dialog.
+This page is always available
+</para>
+</sect3>
+<sect3 id="class-associations-page">
+<title>Class Associations Page</title>
+<para>
+The <guilabel>Class Associations</guilabel> page shows all the associations of this class
+in the current diagram. Double clicking on an association shows its properties, and depending
+on the type of association you may modify some parameters here such as setting Multiplicity and Role
+name. If the association does not allow such options be be modified, the Association Properties dialog
+is read-only and you can only modify the Documentation associated with this association.
+</para>
+<para>
+This page is only available if you open the Class Properties from within a diagram. If you select
+the class properties from the context menu in the Tree View this page is not available.
+</para>
+</sect3>
+<sect3 id="class-display-page">
+<title>Class Display Page</title>
+<para>
+In the <guilabel>Display Options</guilabel> page, you can set what is to be shown in the diagram.
+A class can be shown as only one rectangle with the class name in it (useful if you have many
+classes in your diagram, or are for the moment not interested in the details of each class) or
+as complete as showing packages, stereotypes, and attributes and operations with full signature and
+visibility
+</para>
+<para>Depending on the amount of information you want to see you can select the corresponding
+options in this page. The changes you make here are only <emphasis>display options</emphasis>
+for the diagram. This means that <quote>hiding</quote> a class' operations only makes them
+not to be shown in the diagram, but the operation are still there as part of your model.
+This option is only available if you select the class properties from within a Diagram. If you open
+the class properties from the Tree View this page is missing since such Display Options do not make sense
+in that case</para>
+</sect3>
+<sect3 id="class-colour-page">
+<title>Class Colour Page</title>
+<para>
+In the <guilabel>Widget Colour</guilabel> page you can configure the colours you want for the line
+and the fill of the widget. This option obviously makes sense only for classes displayed in diagrams,
+and is missing if you open the class' properties dialog from the Tree View.
+</para>
+</sect3>
+</sect2>
+<sect2 id="associations">
+<title>Associations</title>
+<para>
+Associations relate two UML objects to each other. Normally associations are defined between two classes,
+but some types of associations can also exists between use cases and actors.
+</para>
+<para>
+To create an association select the appropriate tool from the Work Toolbar (generic Association,
+Generalization, Aggregation, etc) and single click on the first element participating in the association
+and then single click on the second item participating. Note that those are two clicks, one on each
+on the objects participating in the association, it is <emphasis>not</emphasis> a drag from one object
+to the other. <!-- yet :) -->
+</para>
+<para>
+If you try to use an association in a way against the UML specification Umbrello will refuse to create
+the association and you will get an error message. This would be the case if, for example, a Generalization
+exists from class A to class B and then you try to create another Generalization from Class B to class A
+</para>
+<para>
+Right clicking on an association will show a context menu with the actions you can apply on it. If you
+need to delete an association simply select the <guimenuitem>Delete</guimenuitem> option from this context menu.
+You can also select the <guimenuitem>Properties</guimenuitem> option and, depending on the association type
+edit attributes such as roles and multiplicity.
+</para>
+<sect3 id="anchor-points">
+<title>Anchor Points</title>
+<para>
+Associations are drawn, by default, as a straight line connecting the two objects in the diagram. If
+you want to make the association line bend to improve the visibility of your diagram, you can do this
+by inserting anchor points to break the association line in several segments.
+</para>
+<para>
+You can add anchor points by double clicking some where along the association line. This will insert
+an anchor point (displayed as a blue point when the association line is selected) which you can move
+around to give shape to the association
+</para>
+<para>
+If you need to remove an anchor point, double click on it again to remove it
+</para>
+<para>
+Note that the only way to edit the properties of an association is through the context menu. If you
+try to double click on it as with other UML objects, this will only insert an anchor point.
+</para>
+</sect3>
+</sect2>
+<sect2 id="notes">
+<title>Notes and Text</title>
+<para>
+Text Notes and Lines Of Text are elements that can be present in any type of diagram and have no real
+semantic value, but are very helpful to add extra comments or explanations that can make your
+diagram easier to understand.
+</para>
+<para>
+To add a Note or a Line Of Text, select the corresponding tool from the Work Toolbar and single click
+on the diagram where you want to put your comment. You can edit the text by opening the element through
+its context menu or in the case of Notes by double clicking on them as well.
+</para>
+<sect3 id="anchors">
+<title>Anchors</title>
+<para>
+Anchors are used to link a Text Note and another UML Element together. For example, you normally
+use a Text Note to explain or make some comment about a class or a particular association, in which
+case you can use the Anchor to make it clear that the Note <quote>belongs</quote> to that particular
+element.
+</para>
+<para>
+To add an anchor between a note and another UML element, use the anchor tool from the Work Toolbar.
+You first need to click on the note and then click on the UML element you want the note to be linked
+to.
+</para>
+</sect3>
+</sect2>
+</sect1>
+</chapter>
+<!--edit-diagram-->
