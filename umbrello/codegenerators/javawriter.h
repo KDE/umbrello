@@ -103,8 +103,8 @@ private:
 	/**
 	 * Writes out an association as an attribute using Vector
 	 */
-	void writeAssociationRoleDecl(QString fieldClassName, QString roleName, QString multi, Scope visib, 
-				      QTextStream &java); 
+	void writeAssociationRoleDecl(QString fieldClassName, QString roleName, QString multi, 
+				      QString doc, Scope visib, QTextStream &java); 
 
 	/**
 	 * calls @ref writeSingleAttributeAccessorMethods() on each of the attributes in atpub
@@ -171,6 +171,11 @@ private:
 	 * check that initial values of strings have quotes around them
 	 */
 	QString fixInitialStringDeclValue(QString value, QString type);
+
+	/**
+	 * Write a blank line
+	 */
+	void writeBlankLine(QTextStream& java); 
 
 	/**
 	 * a little method for converting scope to string value

@@ -15,7 +15,6 @@
 
 #include "javawriter.h"
 
-#include <iostream.h>
 #include <kdebug.h>
 
 #include <klocale.h>
@@ -138,7 +137,8 @@ void JavaWriter::writeClass(UMLConcept *c)
 	// used arent in another package (and thus need to be explicitly imported here).
 	if (hasVectorFields )
 	{
-		java<<endl<<"import java.util.List;"<<endl;
+		writeBlankLine(java);
+		java<<"import java.util.List;"<<endl;
 		java<<"import java.util.Vector;"<<endl;
 	}
 
@@ -148,14 +148,15 @@ void JavaWriter::writeClass(UMLConcept *c)
 	for(UMLConcept *con = imports.first(); con ; con = imports.next())
 		if(con->getPackage() != c->getPackage())
 			java<<"import "<<con->getPackage()<<"."<<cleanName(con->getName())<<";"<<endl;
-	java<<endl;
+	writeBlankLine(java);
 
 	// write the opening declaration for the class incl any documentation,
 	// interfaces and/or inheritence issues we have
 	writeClassDecl(c, java);
 
 	// start body of class
-	java<<endl<<"{"<<endl;
+	writeBlankLine(java);
+	java<<"{"<<endl;
 
 	// ATTRIBUTES
 	//
@@ -166,7 +167,7 @@ void JavaWriter::writeClass(UMLConcept *c)
 		writeComment(" ", indent, java);
 		writeComment("Fields", indent, java);
 		writeComment(" ", indent, java);
-		java<<endl;
+		writeBlankLine(java);
 	}
 
 	writeAttributeDecls(final_atpub, final_atprot, final_atpriv, java);
@@ -191,7 +192,8 @@ void JavaWriter::writeClass(UMLConcept *c)
 		writeComment(" ", indent, java);
 		writeComment("Methods", indent, java);
 		writeComment(" ", indent, java);
-		java<<endl;
+		writeBlankLine(java);
+		writeBlankLine(java);
 	}
 
 	// write comment for sub-section IF needed
@@ -199,7 +201,7 @@ void JavaWriter::writeClass(UMLConcept *c)
 	{
 		writeComment("Accessor methods", indent, java);
 		writeComment(" ", indent, java);
-		java<<endl;
+		writeBlankLine(java);
 	}
 
 	// Accessors for attributes
@@ -225,11 +227,12 @@ void JavaWriter::writeClass(UMLConcept *c)
 	{
 		writeComment("Other methods", indent, java);
 		writeComment(" ", indent, java);
-		java<<endl;
+		writeBlankLine(java);
 	}
 	writeOperations(c,java);
 
-	java<<endl<<"}"<<endl; // end class
+	writeBlankLine(java);
+	java<<"}"<<endl; // end class
 
 	file.close();
 	emit codeGenerated(c, true);
@@ -245,7 +248,7 @@ void JavaWriter::writeClassDecl(UMLConcept *c, QTextStream &java)
         if(forceDoc() || !c->getDoc().isEmpty())
 	{
 		writeDocumentation("Class "+classname,c->getDoc(),"","",java);
-		java<<endl;
+		writeBlankLine(java);
 	}
 
 	// Now write the actual class declaration
@@ -349,17 +352,21 @@ void JavaWriter::writeComment(QString comment, QString myIndent, QTextStream &ja
 		QStringList lines = QStringList::split( "\n", comment);
 		for(uint i= 0; i < lines.count(); i++)
 		{
-			java<<endl<<myIndent<<"// "<<lines[i];
+			writeBlankLine(java);
+			java<<myIndent<<"// "<<lines[i];
 		}
-	} else
+	} else {
 		// this should be more fancy in the future, breaking it up into 80 char
 		// lines so that it doesnt look too bad
-		java<<endl<<myIndent<<"// "<<comment;
+		writeBlankLine(java);
+		java<<myIndent<<"// "<<comment;
+	}
 }
 
 void JavaWriter::writeDocumentation(QString header, QString body, QString end, QString indent, QTextStream &java)
 {
-	java<<endl<<indent<<"/**"<<endl;
+	writeBlankLine(java);
+	java<<indent<<"/**"<<endl;
 	if (!header.isEmpty())
 		java<<formatDoc(header, indent+" * ");
 	if (!body.isEmpty())
@@ -378,26 +385,41 @@ void JavaWriter::writeAssociationDecls(QPtrList<UMLAssociation> associations, in
 
 	if( forceSections() || !associations.isEmpty() )
 	{
+		bool printRoleA = false, printRoleB = false;
 		for(UMLAssociation *a = associations.first(); a; a = associations.next())
 		{
-
-			// insert the role of the other class in the code of this one
+			// it may seem counter intuitive, but you want to insert the role of the
+			// *other* class into *this* class.
 			if (a->getRoleAId() == id)
-			{
-				QString fieldClassName = cleanName(getUMLObjectName(a->getObjectB()));
-				writeAssociationRoleDecl(fieldClassName, a->getRoleNameB(), a->getMultiB(), a->getVisibilityB(), java);
-			}
+				printRoleB = true;
 
 			if (a->getRoleBId() == id)
+				printRoleA = true;
+
+			// First: we insert documentaion for association IF it has either role AND some documentation (!)
+			if ((printRoleA || printRoleB) && !(a->getDoc().isEmpty()))
+				writeComment(a->getDoc(), indent, java); 
+
+			// print RoleB decl 
+			if (printRoleB)
+			{
+				QString fieldClassName = cleanName(getUMLObjectName(a->getObjectB()));
+				writeAssociationRoleDecl(fieldClassName, a->getRoleNameB(), a->getMultiB(), a->getRoleBDoc(), a->getVisibilityB(), java);
+			}
+
+			// print RoleA decl 
+			if (printRoleA)
 			{
 				QString fieldClassName = cleanName(getUMLObjectName(a->getObjectA()));
-				writeAssociationRoleDecl(fieldClassName, a->getRoleNameA(), a->getMultiA(), a->getVisibilityA(), java);
+				writeAssociationRoleDecl(fieldClassName, a->getRoleNameA(), a->getMultiA(), a->getRoleADoc(), a->getVisibilityA(), java);
 			}
 		}
 	}
 }
 
-void JavaWriter::writeAssociationRoleDecl(QString fieldClassName, QString roleName, QString multi, Scope visib, QTextStream &java)
+void JavaWriter::writeAssociationRoleDecl(QString fieldClassName, 
+					QString roleName, QString multi, 
+					QString doc, Scope visib, QTextStream &java)
 {
 	// ONLY write out IF there is a rolename given
 	// otherwise its not meant to be declared in the code
@@ -405,6 +427,12 @@ void JavaWriter::writeAssociationRoleDecl(QString fieldClassName, QString roleNa
 		return;
 
 	QString scope = scopeToJavaDecl(visib);
+
+	// always put space between this and prior decl, if any
+	writeBlankLine(java);
+
+	if (!doc.isEmpty())
+		writeComment(doc, indent, java);
 
 	// declare the association based on whether it is this a single variable
 	// or a List (Vector). One day this will be done correctly with special
@@ -421,6 +449,7 @@ void JavaWriter::writeAssociationRoleDecl(QString fieldClassName, QString roleNa
 		// from here we could initialize default values, or put in an init() section
 		// of the constructors
 	}
+
 }
 
 void JavaWriter::writeAssociationMethods (QPtrList<UMLAssociation> associations, UMLConcept *thisClass, QTextStream &java)
@@ -439,7 +468,7 @@ void JavaWriter::writeAssociationMethods (QPtrList<UMLAssociation> associations,
 					QString fieldClassName = getUMLObjectName(a->getObjectB());
 					writeAssociationRoleMethod(fieldClassName,
 								   a->getRoleNameB(),
-								   a->getMultiB(), a->getDoc(),
+								   a->getMultiB(), a->getRoleBDoc(),
 								   a->getVisibilityB(),
 								   a->getChangeabilityB(), java);
 				}
@@ -452,7 +481,7 @@ void JavaWriter::writeAssociationMethods (QPtrList<UMLAssociation> associations,
 					QString fieldClassName = getUMLObjectName(a->getObjectA());
 					writeAssociationRoleMethod(fieldClassName, a->getRoleNameA(),
 								   a->getMultiA(),
-								   a->getDoc(),
+								   a->getRoleADoc(),
 								   a->getVisibilityA(),
 								   a->getChangeabilityA(),
 								   java);
@@ -517,8 +546,7 @@ void JavaWriter::writeVectorAttributeAccessorMethods (QString fieldClassName, QS
 	java<<startline<<"{";
 	java<<startline<<indent<<"return (List) "<<fieldVarName<<";";
 	java<<startline<<"}"<<endl;
-
-	java<<endl;
+	writeBlankLine(java); 
 }
 
 
@@ -547,8 +575,7 @@ void JavaWriter::writeSingleAttributeAccessorMethods(QString fieldClassName, QSt
 	java<<startline<<"{";
 	java<<startline<<indent<<"return "<<fieldVarName<<";";
 	java<<startline<<"}";
-
-	java<<endl;
+	writeBlankLine(java);
 }
 
 void JavaWriter::writeConstructor(UMLConcept *c, QTextStream &java)
@@ -560,7 +587,7 @@ void JavaWriter::writeConstructor(UMLConcept *c, QTextStream &java)
 		writeComment(" ", indent, java);
 		writeComment("Constructors", indent, java);
 		writeComment(" ", indent, java);
-		java<<endl;
+		writeBlankLine(java);
 	}
 
 	// write the first constructor
@@ -608,7 +635,7 @@ void JavaWriter::writeOperations(UMLConcept *c, QTextStream &java) {
 	  if(forceSections() || oppub.count())
 	  {
 	  writeComment("public operations",indent,java);
-	  java<<endl;
+		writeBlankLine(java);
 	  }
 	*/
 	writeOperations(oppub,java);
@@ -617,7 +644,7 @@ void JavaWriter::writeOperations(UMLConcept *c, QTextStream &java) {
 	  if(forceSections() || opprot.count())
 	  {
 	  writeComment("protected operations",indent,java);
-	  java<<endl;
+		writeBlankLine(java);
 	  }
 	*/
 	writeOperations(opprot,java);
@@ -626,7 +653,7 @@ void JavaWriter::writeOperations(UMLConcept *c, QTextStream &java) {
 	  if(forceSections() || oppriv.count())
 	  {
 	  writeComment("private operations",indent,java);
-	  java<<endl;
+		writeBlankLine(java);
 	  }
 	*/
 	writeOperations(oppriv,java);
@@ -723,8 +750,15 @@ QString JavaWriter::getUMLObjectName(UMLObject *obj)
 
 QString JavaWriter::capitaliseFirstLetter(QString string)
 {
+	// we could lowercase everything tostart and then capitalize? Nah, it would
+	// screw up formatting like getMyRadicalVariable() to getMyradicalvariable(). Bah.
 	QChar firstChar = string.at(0);
 	string.replace( 0, 1, firstChar.upper());
 	return string;
+}
+
+void JavaWriter::writeBlankLine(QTextStream &java) 
+{
+	java<<endl;
 }
 

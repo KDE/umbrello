@@ -140,6 +140,34 @@ public:
 	virtual FloatingTextData* getRoleBData();
 
 	/**
+	* Read property of QString m_pRoleADoc.
+	*/
+	QString getRoleADoc() {
+		return m_RoleADoc;
+	}
+
+	/**
+	 * Write property of QString m_pRoleADoc.
+	 */
+	void setRoleADoc(QString doc) {
+		m_RoleADoc = doc;
+	}
+		
+	/**
+	 * Read property of QString m_pRoleBDoc.
+	 */
+	QString getRoleBDoc() {
+		return m_RoleBDoc;
+	}
+
+	/**
+	 * Write property of QString m_pRoleBDoc.
+	 */
+	void setRoleBDoc(QString doc) {
+		m_RoleBDoc = doc;
+	}
+
+	/**
 	 * Write property of m_Visibitity[AB]
 	 */
 	virtual void setVisibilityA ( Scope scope);
@@ -340,6 +368,16 @@ protected:
 	 * the definition of Rolename B changeability
 	 */
 	Changeability_Type m_ChangeabilityB;
+
+	/*
+	 * the Role A documentation.
+	 */
+	QString m_RoleADoc;
+
+	/**
+	 * the Role B documentation.
+	 */
+	QString m_RoleBDoc;
 
 	/**
 	* This member holds the identification number the the UMLWidget at the starting side

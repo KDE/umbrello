@@ -192,9 +192,9 @@ void AssocRolePage::constructWidget() {
 	docALayout -> setMargin(margin);
 	m_pDocA = new QMultiLineEdit(docAGB);
 	docALayout -> addWidget(m_pDocA);
-	// m_pDocA-> setText(m_pAssociationWidget-> getDoc());
-	m_pDocA-> setText("<<not implemented yet>>");
-	m_pDocA-> setEnabled(false);
+	m_pDocA-> setText(m_pAssociationWidget-> getRoleADoc());
+	// m_pDocA-> setText("<<not implemented yet>>");
+	// m_pDocA-> setEnabled(false);
 	m_pDocA->setWordWrap(QMultiLineEdit::WidgetWidth);
 
 	// Document B
@@ -202,9 +202,8 @@ void AssocRolePage::constructWidget() {
 	docBLayout -> setMargin(margin);
 	m_pDocB = new QMultiLineEdit(docBGB);
 	docBLayout -> addWidget(m_pDocB);
-	m_pDocB-> setText("<<not implemented yet>>");
-	m_pDocB-> setEnabled(false);
-	// m_pDocB-> setText(m_pAssociationWidget-> getDoc());
+	m_pDocB-> setText(m_pAssociationWidget-> getRoleBDoc());
+	// m_pDocB-> setEnabled(false);
 	m_pDocB->setWordWrap(QMultiLineEdit::WidgetWidth);
 
 }
@@ -248,9 +247,8 @@ void AssocRolePage::updateObject() {
 		else
 			m_pAssociationWidget->setChangeabilityB(Uml::chg_Changeable);
 
-		// TODO: documentation doesnt go in correct spot right now
-//		m_pAssociationWidget->setDoc(m_pDocA->text());
-//		m_pAssociationWidget->setDoc(m_pDocB->text());
+		m_pAssociationWidget->setRoleADoc(m_pDocA->text());
+		m_pAssociationWidget->setRoleBDoc(m_pDocB->text());
 
 		// needed?
 //		if(m_pUmldoc->getCurrentView())

@@ -376,7 +376,7 @@ bool AssociationWidgetData::serialize(QDataStream *s, bool archive, int filevers
 		*s << m_nWidgetAID;
 		*s << m_nWidgetBID;
 		*s << m_nIndexA << m_nIndexB;
-		*s << m_nTotalCountA << m_nTotalCountB << m_Doc;
+		*s << m_nTotalCountA << m_nTotalCountB << m_Doc << m_RoleADoc << m_RoleBDoc;
 		m_LinePath.serialize( s, archive, fileversion);
 	} else //if (archive)
 	{
@@ -451,7 +451,7 @@ bool AssociationWidgetData::serialize(QDataStream *s, bool archive, int filevers
 			*s >> m_nWidgetAID;
 			*s >> m_nWidgetBID;
 			*s >> m_nIndexA >> m_nIndexB;
-			*s >> m_nTotalCountA >> m_nTotalCountB >> m_Doc;
+			*s >> m_nTotalCountA >> m_nTotalCountB >> m_Doc >> m_RoleADoc >> m_RoleBDoc;
 			m_LinePath.serialize( s, archive, fileversion);
 		} else {
 
@@ -629,12 +629,26 @@ long AssociationWidgetData::getClipSizeOf() {
 		l_size += (str.length()*sizeof(QChar));
 
 	}
+
 	if ( !m_Doc.length() ) {
 		l_size += sizeof(tmp);
-
 	} else {
 		l_size += (m_Doc.length()*sizeof(QChar));
 
+	}
+
+	// role A documentation
+	if ( !m_RoleADoc.length() ) {
+		l_size += sizeof(tmp);
+	} else {
+		l_size += (m_RoleADoc.length()*sizeof(QChar));
+	}
+	
+	// role B documentation
+	if ( !m_RoleBDoc.length() ) {
+		l_size += sizeof(tmp);
+	} else {
+		l_size += (m_RoleBDoc.length()*sizeof(QChar));
 	}
 
 	l_size += sizeof(Q_INT32); //assoc type
@@ -807,6 +821,8 @@ bool AssociationWidgetData::saveToXMI( QDomDocument & qDoc, QDomElement & qEleme
 	assocElement.setAttribute( "widgetaid", m_nWidgetAID );
 	assocElement.setAttribute( "widgetbid", m_nWidgetBID );
 	assocElement.setAttribute( "documentation", m_Doc );
+	assocElement.setAttribute( "roleAdoc", m_RoleADoc);
+	assocElement.setAttribute( "roleBdoc", m_RoleBDoc);
 	m_LinePath.saveToXMI( qDoc, assocElement );
 	qElement.appendChild( assocElement );
 	return status;
@@ -814,6 +830,8 @@ bool AssociationWidgetData::saveToXMI( QDomDocument & qDoc, QDomElement & qEleme
 
 bool AssociationWidgetData::loadFromXMI( QDomElement & qElement ) {
 	m_Doc = qElement.attribute( "documentation", "" );
+	m_RoleADoc = qElement.attribute( "roleAdoc", "" );
+	m_RoleBDoc = qElement.attribute( "roleBdoc", "" );
 	QString indexa = qElement.attribute( "indexa", "0" );
 	QString indexb = qElement.attribute( "indexb", "0" );
 	QString totalcounta = qElement.attribute( "totalcounta", "0" );

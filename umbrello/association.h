@@ -154,6 +154,16 @@ public:
 	QString getRoleNameB() const;
 
 	/**
+	 *	Returns the documentation assigned to the role A.
+	 */
+	QString getRoleADoc() const;
+
+	/**
+	 *	Returns the documentation assigned to the role B.
+	*/
+	QString getRoleBDoc() const;
+
+	/**
 	 *	Sets the assocType of the UMLAssociation.
 	 *
 	 *	@param	assocType	The assocType of the UMLAssociation.
@@ -235,11 +245,23 @@ public:
 	void setRoleNameA(QString roleNameA);
 
 	/**
+	 * 	Sets the documentation on role A in the association.
+	 * 	@param	doc	The string with the documentation.
+	 */
+	void setRoleADoc(QString doc);
+
+	/**
 	 *	Sets the name of role B of the UMLAssociation.
 	 *
 	 *	@param	roleNameB	The name of role B of the UMLAssociation.
 	 */
 	void setRoleNameB(QString roleNameB);
+
+	/**
+	 * 	Sets the documentation on role B in the association.
+	 * 	@param	doc	The string with the documentation.
+	 */
+	void setRoleBDoc(QString doc);
 
 	/**
 	 * Use to save or load this classes information
@@ -292,7 +314,7 @@ protected:
 	Uml::Association_Type m_AssocType;
 	int m_RoleAId;
 	int m_RoleBId;
-	QString m_Name;
+	QString m_Name, m_RoleADoc, m_RoleBDoc;
 	UMLObject* m_pObjectA;
 	UMLObject* m_pObjectB;
 	QString m_RoleNameA, m_RoleNameB;

@@ -54,9 +54,21 @@ public:
 		return m_pAssoc->getRoleNameA(); 
 	}
 
+	QString getDoc() { 
+		return m_pAssoc->getDoc(); 
+	}
+
+	QString getRoleADoc() { 
+		return m_pAssoc->getRoleADoc(); 
+	}
+
 	QString getRoleBName() { 
 		return m_pAssoc->getRoleNameB(); 
 	} 
+
+	QString getRoleBDoc() { 
+		return m_pAssoc->getRoleBDoc(); 
+	}
 
 	QString getMultiA() { 
 		return m_pAssoc->getMultiA(); 

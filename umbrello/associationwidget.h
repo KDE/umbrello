@@ -146,15 +146,30 @@ public:
 	virtual  FloatingText* getRoleBWidget();
 
 	/**
+	 * Returns the documentation about this association.
+	 */
+	virtual  QString getDoc();
+
+	/**
 	* Returns the m_pRoleA's text.
 	*/
 	virtual  QString getRoleNameA();
+
+	/**
+	 * Returns the documentation about RoleA.
+	 */
+	virtual  QString getRoleADoc();
 
 	/**
 	* Returns the m_pRoleB's text.
 	*/
 	virtual  QString getRoleNameB();
 
+	/**
+	 * Returns the documentation about Role B.
+	 */
+	virtual  QString getRoleBDoc();
+ 
 	/**
 	 * Sets the text to the FloatingText representing the Name of this association
 	 */
@@ -359,20 +374,6 @@ public:
 	bool onAssociation(const QPoint & point);
 
 	/**
-	 *  	Returns the associations documentation.
-	 */
-	QString getDoc() {
-		return m_pData -> getDoc();
-	}
-
-	/**
-	 *	Sets the associations documentation.
-	 */
-	void setDoc( QString doc) {
-		m_pData -> setDoc( doc );
-	}
-
-	/**
 	* 	Moves all the mid points (all expcept start /end ) by the given amount
 	*/
 	void moveMidPointsBy( int x, int y );
@@ -425,6 +426,17 @@ public:
 	 */
 	bool setRoleNameA(QString strRole); 
 	bool setRoleNameB(QString strRole);
+
+	/** 
+	 * Set the documentation on this association
+	 */
+	void setDoc(QString doc); 
+
+	/**
+	 * Set the documentation on roles A,B.
+	 */
+	void setRoleADoc(QString doc); 
+	void setRoleBDoc(QString doc); 
 
 	/**
 	 * Returns the UMLAssociaiton representation of this object.

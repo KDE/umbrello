@@ -148,6 +148,8 @@ bool UMLAssociation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	associationElement.setAttribute( "multib", getMultiB() );
 	associationElement.setAttribute( "namea", getRoleNameA() );
 	associationElement.setAttribute( "nameb", getRoleNameB() );
+	associationElement.setAttribute( "doca", getRoleADoc() );
+	associationElement.setAttribute( "docb", getRoleBDoc() );
 	associationElement.setAttribute( "visibilitya", getVisibilityA() );
 	associationElement.setAttribute( "visibilityb", getVisibilityB() );
 	associationElement.setAttribute( "changeabilitya", getChangeabilityA() );
@@ -173,6 +175,9 @@ bool UMLAssociation::loadFromXMI( QDomElement & element ) {
 
 	setRoleNameA(element.attribute( "namea", "" ));
 	setRoleNameB(element.attribute( "nameb", "" ));
+
+	setRoleADoc(element.attribute( "doca", "" ));
+	setRoleBDoc(element.attribute( "docb", "" ));
 
         // visibilty defaults to Public if it cant set it here..
         QString visibilityA = element.attribute( "visibilitya", "0");
@@ -238,8 +243,16 @@ QString UMLAssociation::getRoleNameA() const {
 	return m_RoleNameA;
 }
 
+QString UMLAssociation::getRoleADoc() const {
+	return m_RoleADoc;
+}
+
 QString UMLAssociation::getRoleNameB() const {
 	return m_RoleNameB;
+}
+
+QString UMLAssociation::getRoleBDoc() const {
+	return m_RoleBDoc;
 }
 
 void UMLAssociation::setAssocType(Uml::Association_Type assocType) {
@@ -290,8 +303,16 @@ void UMLAssociation::setRoleNameA(QString roleNameA) {
 	m_RoleNameA = roleNameA;
 }
 
+void UMLAssociation::setRoleADoc(QString doc) {
+	m_RoleADoc = doc;
+}
+
 void UMLAssociation::setRoleNameB(QString roleNameB) {
 	m_RoleNameB = roleNameB;
+}
+
+void UMLAssociation::setRoleBDoc(QString doc) {
+	m_RoleBDoc = doc;
 }
 
 QString UMLAssociation::ChangeabilityToString(Uml::Changeability_Type type) {

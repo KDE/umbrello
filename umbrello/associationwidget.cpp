@@ -132,6 +132,10 @@ QString AssociationWidget::getName() {
 	}
 }
 
+QString AssociationWidget::getDoc() {
+	return m_pAssociation->getDoc();
+}
+
 FloatingText* AssociationWidget::getRoleAWidget()
 {
 	return m_pRoleA;
@@ -160,12 +164,20 @@ QString AssociationWidget::getRoleNameA() {
 	}
 }
 
+QString AssociationWidget::getRoleADoc() {
+	return m_pAssociation->getRoleADoc();
+}
+
 QString AssociationWidget::getRoleNameB() {
 	if(m_pRoleB) {
 		return m_pRoleB->getText();
 	} else {
 		return "";
 	}
+}
+
+QString AssociationWidget::getRoleBDoc() {
+	return m_pAssociation->getRoleBDoc();
 }
 
 void AssociationWidget::setName(QString strName) {
@@ -303,6 +315,16 @@ bool AssociationWidget::setRoleNameA (QString strRole) {
 	return true;
 }
 
+void AssociationWidget::setDoc (QString doc) {
+	m_pAssociation->setDoc(doc);
+	m_pData->setDoc(doc);
+}
+
+void AssociationWidget::setRoleADoc (QString doc) {
+	m_pAssociation->setRoleADoc(doc);
+	m_pData->setRoleADoc(doc);
+}
+
 bool AssociationWidget::setRoleNameB(QString strRole) {
 	bool newLabel = false;
         Association_Type type = m_pData->getAssocType();
@@ -336,6 +358,11 @@ bool AssociationWidget::setRoleNameB(QString strRole) {
                 m_pRoleB -> hide();
         synchronizeData();
         return true;
+}
+
+void AssociationWidget::setRoleBDoc (QString doc) {
+	m_pAssociation->setRoleBDoc(doc);
+	m_pData->setRoleBDoc(doc);
 }
 
 Scope AssociationWidget::getVisibilityA ( )
@@ -850,7 +877,9 @@ void AssociationWidget::setAssocType(Association_Type type) {
 	if( !AssocRules::allowRole( type ) )
 	{
 		setRoleNameA("");
+		setRoleADoc("");
 		setRoleNameB("");
+		setRoleBDoc("");
 	}
 	m_pData->setAssocType(type);
 	m_pAssociation->setAssocType(type);
@@ -1258,13 +1287,16 @@ void AssociationWidget::mergeAssociationDataIntoUMLRepresentation()
 	// in case we missed something here.
 	uml->init();
 
-
 	// all attributes should be synched based on data widget
 	uml->setRoleAId(data->getWidgetAID());
 	uml->setRoleBId(data->getWidgetBID());
 	uml->setAssocType(data->getAssocType());
 	uml->setChangeabilityA(data->getChangeabilityA());
 	uml->setChangeabilityB(data->getChangeabilityB());
+
+	uml->setDoc(data->getDoc());
+	uml->setRoleADoc(data->getRoleADoc());
+	uml->setRoleBDoc(data->getRoleBDoc());
 
 	// dont believe this is needed here.
 	if(getWidgetA() != 0) {
@@ -2413,6 +2445,7 @@ void AssociationWidget::slotMenuSelection(int sel) {
 			AssocPropDlg dlg(static_cast<QWidget*>(m_pView), this );
 			int result = dlg.exec();
 			QString name = dlg.getName();
+			QString doc = dlg.getDoc(), roleADoc = dlg.getRoleADoc(), roleBDoc = dlg.getRoleBDoc();
 			QString rnA = dlg.getRoleAName(), rnB = dlg.getRoleBName(),
 				 ma = dlg.getMultiA(), mb = dlg.getMultiB();
 			Scope vA = dlg.getVisibilityA(), vB = dlg.getVisibilityB();
@@ -2422,6 +2455,9 @@ void AssociationWidget::slotMenuSelection(int sel) {
 				setName(name);
 				setRoleNameA(rnA);
 				setRoleNameB(rnB);
+				setDoc(doc);
+				setRoleADoc(roleADoc);
+				setRoleBDoc(roleBDoc);
 				setMultiA(ma);
 				setMultiB(mb);
 				setVisibilityA(vA);
