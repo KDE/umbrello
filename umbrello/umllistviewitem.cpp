@@ -23,14 +23,12 @@ UMLListView* UMLListViewItem::s_pListView = 0;
 UMLListViewItem::UMLListViewItem( UMLListView * parent, QString name,
                                   Uml::ListView_Type t, UMLObject* o)
   : QListViewItem(parent, name) {
-	m_bCreating = false;
+	init();
 	s_pListView = parent;
-	m_Type = t ;
+	m_Type = t;
 	m_pObject = o;
 	if (o)
 		m_nId = o->getID();
-	else
-		m_nId = -1;
 	setPixmap( 0, s_pListView -> getPixmap( UMLListView::it_Home ) );
 	setText( name );
 	setRenameEnabled( 0, false );
@@ -38,33 +36,25 @@ UMLListViewItem::UMLListViewItem( UMLListView * parent, QString name,
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLListViewItem::UMLListViewItem(UMLListView * parent)
   : QListViewItem(parent) {
-	m_bCreating = false;
+	init();
 	if (parent != NULL)
 		s_pListView = parent;
 	else
 		kdDebug() << "UMLListViewItem constructor called with a NULL listview parent" << endl;
-	m_Type = Uml::lvt_Unknown;
-	m_pObject = NULL;
-	m_nId = -1;
-	m_nChildren = 0;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLListViewItem::UMLListViewItem(UMLListViewItem * parent)
   : QListViewItem(parent)  {
-	m_bCreating = false;
-	m_Type = Uml::lvt_Unknown;
-	m_pObject = NULL;
-	m_nId = -1;
-	m_nChildren = 0;
+	init();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLListViewItem::UMLListViewItem(UMLListViewItem * parent, QString name, Uml::ListView_Type t,UMLObject*o)
   : QListViewItem(parent, name) {
-	m_bCreating = false;
 	if (s_pListView == NULL) {
 		kdDebug() << "UMLListViewItem internal error 1: s_pListView is NULL" << endl;
 		exit(1);
 	}
+	init();
 	m_Type = t;
 	m_pObject = o;
 	if( !o ) {
@@ -86,13 +76,12 @@ UMLListViewItem::UMLListViewItem(UMLListViewItem * parent, QString name, Uml::Li
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLListViewItem::UMLListViewItem(UMLListViewItem * parent, QString name, Uml::ListView_Type t,int id)
   : QListViewItem(parent, name) {
-	m_bCreating = false;
 	if (s_pListView == NULL) {
 		kdDebug() << "UMLListViewItem internal error 2: s_pListView is NULL" << endl;
 		exit(1);
 	}
+	init();
 	m_Type = t;
-	m_pObject = NULL;
 	m_nId = id;
 	setPixmap(0, s_pListView -> getPixmap( UMLListView::it_Diagram ) );
 	/*
@@ -105,6 +94,14 @@ UMLListViewItem::UMLListViewItem(UMLListViewItem * parent, QString name, Uml::Li
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLListViewItem::~UMLListViewItem() {}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+void UMLListViewItem::init() {
+	m_Type = Uml::lvt_Unknown;
+	m_bCreating = false;
+	m_pObject = NULL;
+	m_nId = -1;
+	m_nChildren = 0;
+}
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 Uml::ListView_Type UMLListViewItem::getType() const {
 	return m_Type;
@@ -263,10 +260,10 @@ void UMLListViewItem::okRename( int col ) {
 	QListViewItem::okRename( col );
 	if (m_bCreating) {
 		m_bCreating = false;
-		if ( s_pListView -> slotItemRenamed( this, 0 ) ) {
+		if ( s_pListView -> slotItemRenamed( this, col ) ) {
 			m_Label = text(col);
 		} else {
-			startRename(0);
+			startRename(col);
 		}
 		return;
 	}

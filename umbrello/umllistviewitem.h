@@ -180,6 +180,10 @@ public:
 	bool loadFromXMI(QDomElement& qElement);
 
 protected:
+	/**
+	 * Initializes key variables of the class.
+	 */
+	void init();
 
 	/**
 	 * This function is called if the user presses Enter during in-place renaming

@@ -1220,16 +1220,28 @@ bool UMLDoc::saveToXMI(QIODevice& file) {
 	docElement.setAttribute( "uniqueid", uniqueID );
 	content.appendChild( docElement );
 
-	//  save each UMLObject.. No! ONLY classifiers (class/interfaces/datatypes), packages,
-	// usecases, actors, and associations are saved.
-	// The operations, attributes are owned by these things and will show up
-	// as child nodes.
 	QDomElement objectsElement = doc.createElement( "umlobjects" );
 
-	for(UMLObject *o = objectList.first(); o; o = objectList.next() ) {
+	// Save packages first so that when loading they are known first.
+	// This simplifies the establishing of cross reference links from
+	// contained objects to their containing package.
+	for (UMLObject *p = objectList.first(); p; p = objectList.next() ) {
+		UMLObject_Type t = p->getBaseType();
+		if (t != ot_Package)
+			continue;
+		if (! p->saveToXMI(doc, objectsElement))
+			status = false;
+	}
+
+	// Save classifiers (class/interfaces/datatypes), usecases, and actors.
+	// The operations, attributes are owned by these things and will show up
+	// as child nodes.
+	for (UMLObject *o = objectList.first(); o; o = objectList.next() ) {
 		UMLObject_Type t = o->getBaseType();
+		if (t == ot_Package)
+			continue;
 		if (t != ot_Class && t != ot_Interface && t != ot_Actor &&
-		    t != ot_UseCase && t != ot_Package && t != ot_Datatype) {
+		    t != ot_UseCase && t != ot_Node && t != ot_Datatype) {
 			if (t != ot_Attribute && t != ot_Operation && t != ot_Association)
 		   	 	kdDebug() << "UMLDoc::saveToXMI(): skipping object of type "
 					  << t << endl;
@@ -1238,6 +1250,11 @@ bool UMLDoc::saveToXMI(QIODevice& file) {
 		if (! o->saveToXMI(doc, objectsElement))
 			status = false;
 	}
+
+	// Save the UMLAssociations.
+	// These are saved last so that upon loading, an association's role
+	// objects are known beforehand. This simplifies the establishing of
+	// cross reference links from the association to its role objects.
         UMLAssociationList alist = getAssociations();
 	for (UMLAssociation * a = alist.first(); a; a = alist.next())
 		a->saveToXMI(doc, objectsElement);
@@ -1245,7 +1262,8 @@ bool UMLDoc::saveToXMI(QIODevice& file) {
 
 	if( !status )
 		return status;
-	//  save each view/diagram
+
+	// Save each view/diagram.
 	QDomElement diagramsElement = doc.createElement( "diagrams" );
 	for(UMLView *pView = m_ViewList.first(); pView && status; pView = m_ViewList.next() )
 		status = pView -> saveToXMI( doc, diagramsElement );
@@ -1624,6 +1642,13 @@ bool UMLDoc::loadUMLObjectsFromXMI( QDomNode & node ) {
 			delete pObject;
 			return false;
 		} else {
+			/* CHECK: Does the UMLPackage require knowledge
+			   of its children? If so then:
+			UMLPackage *umlpkg = pObject->getUMLPackage();
+			if (umlpkg)
+				umlpkg->addObjRef( pObject );
+				// Add the method addObjRef() to UMLPackage.
+			 */
 			objectList.append( pObject );
 		}
 		emit sigSetStatusbarProgress( ++count );

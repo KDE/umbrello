@@ -10,29 +10,32 @@
 #include <kdebug.h>
 
 #include "umlobject.h"
+#include "umldoc.h"
+#include "package.h"
 
 UMLObject::UMLObject(QObject * parent, QString Name, int id)
   : QObject(parent, "AnUMLObject") {
+	init();
 	m_nId = id;
-	m_BaseType = ot_UMLObject;
 	m_Name = Name;
-	m_Scope = Public;
-	m_Stereotype = m_Package = "";
-	m_bAbstract = false;
-	m_bStatic = false;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLObject::UMLObject(QObject * parent) : QObject(parent) {
-	m_BaseType = ot_UMLObject;
-	m_nId = -1;
-	m_Scope = Public;
-	m_Name = "";
-	m_Stereotype = m_Package = "";
-	m_bAbstract = false;
-	m_bStatic = false;
+	init();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLObject::~UMLObject() {
+}
+
+void UMLObject::init() {
+	m_BaseType = ot_UMLObject;
+	m_nId = -1;
+	m_pUMLPackage = NULL;
+	m_Name = "";
+	m_Scope = Public;
+	m_Stereotype = m_Doc = "";
+	m_bAbstract = false;
+	m_bStatic = false;
 }
 
 bool UMLObject::acceptAssociationType(Uml::Association_Type)
@@ -69,7 +72,7 @@ bool UMLObject::operator==(UMLObject & rhs ) {
 	if( m_Doc != rhs.m_Doc )
 		return false;
 
-	if( m_Package != rhs.m_Package )
+	if( m_pUMLPackage != rhs.m_pUMLPackage )
 		return false;
 
 	if( m_Scope != rhs.m_Scope )
@@ -102,7 +105,8 @@ bool UMLObject::saveToXMI( QDomDocument & /*qDoc*/, QDomElement & qElement ) {
 	qElement.setAttribute( "xmi.id", m_nId );
 	qElement.setAttribute( "name", m_Name );
 	qElement.setAttribute( "documentation", m_Doc );
-	qElement.setAttribute( "package", m_Package );
+	if (m_pUMLPackage)
+		qElement.setAttribute( "packageid", m_pUMLPackage->getID() );
 	qElement.setAttribute( "scope", m_Scope );
 	qElement.setAttribute( "stereotype", m_Stereotype );
 	qElement.setAttribute( "abstract", m_bAbstract );
@@ -114,11 +118,10 @@ bool UMLObject::loadFromXMI( QDomElement & element ) {
 	QString id = element.attribute( "xmi.id", "-1" );
 	m_Name = element.attribute( "name", "" );
 	m_Doc = element.attribute( "documentation", "" );
-	m_Package = element.attribute( "package", "" );
 	QString scope = element.attribute( "scope", "-1" );
 	m_Stereotype = element.attribute( "stereotype", "" );
 	QString abstract = element.attribute( "abstract", "0" );
-   QString staticScope = element.attribute( "static", "0" );
+	QString staticScope = element.attribute( "static", "0" );
 
 	m_nId = id.toInt();
 	m_Scope = (Scope)scope.toInt();
@@ -126,6 +129,25 @@ bool UMLObject::loadFromXMI( QDomElement & element ) {
 	m_bStatic = (bool)staticScope.toInt();
 	if( m_nId == -1 || m_Scope == -1 )
 		return false;
+
+	QString pkgId = element.attribute( "packageid", "-1" );
+	if (pkgId == "-1") {
+		// Old files used "package" instead so test for it.
+		QString pkgName = element.attribute( "package", "" );
+		if (pkgName != "") {
+			setPackage( pkgName );
+		}
+	} else {
+		UMLDoc* umldoc = dynamic_cast<UMLDoc *>( parent() );
+		if (umldoc == NULL) {
+			kdDebug() << "UMLObject::loadFromXMI: cannot set package on "
+				  << m_Name << endl;
+			return true;  // soft error
+		}
+		UMLObject *pkgObj = umldoc->findUMLObject( pkgId.toInt() );
+		if (pkgObj)
+			m_pUMLPackage = static_cast<UMLPackage *>(pkgObj);
+	}
 	return true;
 }
 
@@ -178,7 +200,28 @@ void UMLObject::setStereotype(QString _name) {
 }
 
 void UMLObject::setPackage(QString _name) {
-	m_Package = _name;
+	// TBD: Resolve nested packages given in _name (e.g. A::B::C)
+	UMLObject *pkgObj = NULL;
+	if (_name != "") {
+		UMLDoc* umldoc = dynamic_cast<UMLDoc *>( parent() );
+		if (umldoc == NULL) {
+			kdError() << "UMLObject::setPackage: cannot set package name on "
+				  << m_Name << endl;
+			return;
+		}
+		pkgObj = umldoc->findUMLObject(ot_Package, _name);
+		if (pkgObj == NULL) {
+			kdDebug() << "UMLObject::setPackage: creating UMLPackage "
+				  << _name << " for " << m_Name << endl;
+			pkgObj = umldoc->createUMLObject(ot_Package, _name);
+		}
+	}
+	m_pUMLPackage = static_cast<UMLPackage *>(pkgObj);
+	emit modified();
+}
+
+void UMLObject::setUMLPackage(UMLPackage* pPkg) {
+	m_pUMLPackage = pPkg;
 	emit modified();
 }
 
@@ -187,7 +230,13 @@ QString UMLObject::getStereotype() {
 }
 
 QString UMLObject::getPackage() {
-	return m_Package;
+	if (m_pUMLPackage == NULL)
+		return "";
+	return m_pUMLPackage->getName();
+}
+
+UMLPackage* UMLObject::getUMLPackage() {
+	return m_pUMLPackage;
 }
 
 #include "umlobject.moc"

@@ -19,12 +19,14 @@
 
 using namespace Uml;
 
+class UMLPackage;
+
 /**
  * This class is the non-graphical version of @ref UMLWidget.  These are
  * created and maintained in the class @ref UMLDoc.  This class holds all
  * the generic information needed for all UMLObjects.
  *
- * @short	The base class for UML objects.
+ * @short The base class for UML objects.
  * @author Paul Hensgen	<phensgen@techie.com>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
@@ -109,10 +111,18 @@ public:
 
 	/**
 	 * Sets the classes Package.
+	 * DEPRECATED - use SetUMLPackage instead.
 	 *
 	 * @param _name	The classes Package name.
 	 */
 	void setPackage(QString _name);
+
+	/**
+	 * Sets the UMLPackage in which this class is located.
+	 *
+	 * @param pPkg		Pointer to the class' UMLPackage.
+	 */
+	void setUMLPackage(UMLPackage* pPkg);
 
 	/**
 	 * Returns the classes Stereotype.
@@ -122,11 +132,18 @@ public:
 	QString getStereotype();
 
 	/**
-	 * Returns the classes Package.
+	 * Returns the classes package as a text.
 	 *
-	 * @return	Returns the classes Package.
+	 * @return	Returns the classes package as a text.
 	 */
 	QString getPackage();
+
+	/**
+	 * Returns the UMLPackage that this class is located in.
+	 *
+	 * @return	Pointer to the UMLPackage of this class.
+	 */
+	UMLPackage* getUMLPackage();
 
 	/**
 	 * Assigns a new Id to the object
@@ -139,7 +156,7 @@ public:
 	QString getName() const;
 
 	/**
-	 * Set the UMlObject's name
+	 * Set the UMLObject's name
 	 */
 	void setName(QString strName);
 
@@ -196,6 +213,11 @@ signals:
 
 protected:
 	/**
+	 * Initializes key variables of the class.
+	 */
+	virtual void init();
+
+	/**
 	 *   The object's id.
 	 */
 	int m_nId;
@@ -208,7 +230,7 @@ protected:
 	/**
 	 * The package the object belongs to if applicable.
 	 */
-	QString m_Package;
+	UMLPackage* m_pUMLPackage;
 
 	/**
 	 * The stereotype of the object if applicable.
