@@ -114,11 +114,9 @@ void IDLWriter::writeClass(UMLClassifier *c) {
 
 	UMLClass * myClass = dynamic_cast<UMLClass*>(c);
 	QString classname = cleanName(c->getName());
-	QString fileName = c->getName().lower();
-	fileName.replace(QRegExp("."), "-");
 
 	//find an appropriate name for our file
-	fileName = findFileName(c, ".idl");
+	QString fileName = findFileName(c, ".idl");
 	if (!fileName) {
 		emit codeGenerated(c, false);
 		return;
