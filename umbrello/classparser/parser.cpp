@@ -215,7 +215,10 @@ bool Parser::skipUntilDeclaration()
 	case Token_private:
 	case Token_signals:      // Qt
 	case Token_slots:        // Qt
-  	    return true;
+	    return true;
+
+	case '}':
+	    return false;
 
 	default:
 	    lex->nextToken();
@@ -272,7 +275,7 @@ bool Parser::skipUntilStatement()
 		    return true;
 
 	    default:
-  	        lex->nextToken();
+	        lex->nextToken();
 	}
     }
 
@@ -803,7 +806,7 @@ bool Parser::parseOperatorFunctionId( AST::Node& node )
 
 	AST::Node ptrOp;
 	while( parsePtrOperator(ptrOp) )
-  	    ;
+	    ;
 
 	AST::Node asn = CreateNode<AST>();
 	node = asn;
@@ -1327,7 +1330,7 @@ bool Parser::parseAbstractDeclarator( DeclaratorAST::Node& node )
 
     bool skipParen = false;
     if( lex->lookAhead(0) == Token_identifier && lex->lookAhead(1) == '(' && lex->lookAhead(2) == '(' ){
-    	lex->nextToken();
+	lex->nextToken();
 	lex->nextToken();
 	skipParen = true;
     }
@@ -1364,7 +1367,7 @@ bool Parser::parseAbstractDeclarator( DeclaratorAST::Node& node )
     }
 
     if( skipParen ){
-    	if( lex->lookAhead(0) != ')' ){
+	if( lex->lookAhead(0) != ')' ){
 	    reportError( i18n("')' expected") );
 	} else
 	    lex->nextToken();
@@ -1827,7 +1830,7 @@ bool Parser::parseClassSpecifier( TypeSpecifierAST::Node& node )
     parseWinDeclSpec( winDeclSpec );
 
     while( lex->lookAhead(0) == Token_identifier && lex->lookAhead(1) == Token_identifier )
-    	lex->nextToken();
+	lex->nextToken();
 
     NameAST::Node name;
     parseName( name );
@@ -1988,7 +1991,7 @@ bool Parser::parseMemberSpecification( DeclarationAST::Node& node )
         parseCvQualify( cv2 );
         spec->setCv2Qualify( cv2 );
 
-    	InitDeclaratorListAST::Node declarators;
+	InitDeclaratorListAST::Node declarators;
 	parseInitDeclaratorList( declarators );
 	ADVANCE( ';', ";" );
 
@@ -2535,7 +2538,7 @@ bool Parser::parseCondition( ConditionAST::Node& node )
 
     TypeSpecifierAST::Node spec;
     if( parseTypeSpecifier(spec) ){
-    	DeclaratorAST::Node decl;
+	DeclaratorAST::Node decl;
 	if( parseDeclarator(decl) && lex->lookAhead(0) == '=' ) {
 	    lex->nextToken();
 
@@ -3242,7 +3245,7 @@ bool Parser::parsePrimaryExpression( AST::Node& /*node*/ )
         case Token_string_literal:
 	{
 	    AST::Node lit;
-  	    parseStringLiteral( lit );
+	    parseStringLiteral( lit );
 	}
 	return true;
 
