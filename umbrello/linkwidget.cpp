@@ -12,37 +12,6 @@
 #include "umlview.h"
 #include "umlobject.h"
 
-LinkWidget::LinkWidget(UMLView *view)
-  : QObject(view), m_Type(Uml::wt_UMLWidget), m_pView(view), m_pObject(NULL) {
-}
-
-void LinkWidget::setBaseType( Uml::Widget_Type type ) {
-	m_Type = type;
-}
-
-Uml::Widget_Type LinkWidget::getBaseType() const {
-	return m_Type;
-}
-
-UMLObject *LinkWidget::getUMLObject() {
-	return m_pObject;
-}
-
-void LinkWidget::setUMLObject(UMLObject * o) {
-	m_pObject = o;
-}
-
-QString LinkWidget::getDoc() const {
-	if (m_pObject != NULL)
-		return m_pObject->getDoc();
-	return "";
-}
-
-void LinkWidget::setDoc( QString doc ) {
-	if (m_pObject != NULL)
-		m_pObject->setDoc( doc );
-}
-
 UMLClassifier *LinkWidget::getOperationOwner(FloatingText *) {
 	// Only applicable to MessageWidget and AssociationWidget.
 	return NULL;
@@ -89,4 +58,3 @@ void LinkWidget::calculateNameTextSegment() {
 }
 
 
-#include "linkwidget.moc"

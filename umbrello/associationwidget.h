@@ -10,15 +10,13 @@
 #ifndef ASSOCIATIONWIDGET_H
 #define ASSOCIATIONWIDGET_H
 
+#include "widgetbase.h"
 #include "linkwidget.h"
 #include "umlwidgetlist.h"
 #include "messagewidgetlist.h"
 #include "associationwidgetlist.h"
 #include "linepath.h"
 
-// qt includes
-
-class FloatingText;
 class IDChangeLog;
 class ListPopupMenu;
 class QBitmap;
@@ -48,7 +46,7 @@ class UMLAttribute;
  * @version $Revision$
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class AssociationWidget : public LinkWidget {
+class AssociationWidget : public WidgetBase, public LinkWidget {
 	Q_OBJECT
 public:
 	/**
@@ -370,7 +368,7 @@ public:
 	/**
 	 * Set all 'owned' child widgets to this font.
 	 */
-	void setFont (QFont font);
+	void lwSetFont (QFont font);
 
 	/**
 	 * Return the given role's changeability FloatingText widget.

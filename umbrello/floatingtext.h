@@ -11,6 +11,7 @@
 #define FLOATINGTEXT_H
 
 #include "umlwidget.h"
+#include "linkwidget.h"
 
 class UMLView;
 

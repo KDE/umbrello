@@ -131,7 +131,7 @@ void FloatingText::slotMenuSelection(int sel) {
 				if( m_Role == Uml::tr_Floating || m_Role == Uml::tr_Seq_Message ) {
 					setFont( font );
 				} else if (m_pLink) {
-					m_pLink->setFont(font);
+					m_pLink->lwSetFont(font);
 				}
 			}
 		}

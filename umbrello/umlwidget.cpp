@@ -42,7 +42,7 @@ using namespace Uml;
 
 
 UMLWidget::UMLWidget( UMLView * view, UMLObject * o )
-	: LinkWidget(view), QCanvasRectangle( view->canvas() ),
+	: WidgetBase(view), QCanvasRectangle( view->canvas() ),
 	  m_pMenu(0)
 {
 	init();
@@ -54,7 +54,7 @@ UMLWidget::UMLWidget( UMLView * view, UMLObject * o )
 }
 
 UMLWidget::UMLWidget(UMLView * view, Uml::IDType id /* = Uml::id_None */)
-	: LinkWidget(view), QCanvasRectangle( view->canvas() ),
+	: WidgetBase(view), QCanvasRectangle( view->canvas() ),
 	  m_pMenu(0)
 {
 	init();

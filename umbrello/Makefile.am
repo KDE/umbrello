@@ -94,6 +94,7 @@ umlviewcanvas.cpp \
 umlwidget.cpp \
 usecase.cpp \
 usecasewidget.cpp \
+widgetbase.cpp \
 widget_utils.cpp \
 worktoolbar.cpp
 

@@ -71,7 +71,7 @@ void AssocPropDlg::slotApply() {
   	}
 
  	if (m_pAssoc) {
- 		m_pAssoc->setFont( m_pChooser->font() );
+ 		m_pAssoc->lwSetFont( m_pChooser->font() );
   	}
 
 

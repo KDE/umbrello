@@ -37,7 +37,7 @@ using namespace Uml;
 // is bad..and shouldnt be allowed as it creates an incomplete
 // associationwidget.
 AssociationWidget::AssociationWidget(UMLView *view)
-	: LinkWidget(view)
+	: WidgetBase(view)
 {
 	init(view);
 }
@@ -45,7 +45,7 @@ AssociationWidget::AssociationWidget(UMLView *view)
 // the preferred constructor
 AssociationWidget::AssociationWidget(UMLView *view, UMLWidget* pWidgetA,
 				     Association_Type assocType, UMLWidget* pWidgetB )
-	: LinkWidget(view)
+	: WidgetBase(view)
 {
 	init(view);
 	UMLDoc *umldoc = UMLApp::app()->getDocument();
@@ -2164,7 +2164,7 @@ void AssociationWidget::slotMenuSelection(int sel) {
 	case ListPopupMenu::mt_Change_Font:
 		font = getFont();
 		if( KFontDialog::getFont( font, false, m_pView ) )
-			setFont(font);
+			lwSetFont(font);
 		break;
 
 	case ListPopupMenu::mt_Change_Font_Selection:
@@ -2193,8 +2193,7 @@ void AssociationWidget::slotMenuSelection(int sel) {
 }
 
 
-// utility method
-void AssociationWidget::setFont (QFont font) {
+void AssociationWidget::lwSetFont (QFont font) {
 	if( m_pName) {
 		m_pName->setFont( font );
 	}

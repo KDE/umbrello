@@ -421,6 +421,10 @@ QString MessageWidget::getOperation() const {
 	return m_Operation;
 }
 
+void MessageWidget::lwSetFont (QFont font) {
+	UMLWidget::setFont( font );
+}
+
 UMLClassifier *MessageWidget::getOperationOwner(FloatingText *ft) {
 	UMLObject *pObject = ft->getUMLObject();
 	if (pObject == NULL)

@@ -11,6 +11,7 @@
 #define MESSAGEWIDGET_H
 
 #include "umlwidget.h"
+#include "linkwidget.h"
 
 // forward declarations
 class FloatingText;
@@ -32,7 +33,7 @@ class ObjectWidget;
  * @see	FloatingText
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class MessageWidget : public UMLWidget {
+class MessageWidget : public UMLWidget, public LinkWidget {
 	Q_OBJECT
 public:
 
@@ -135,6 +136,12 @@ public:
 	void setFloatingText(FloatingText * f) {
 		m_pFText = f;
 	}
+
+	/**
+	 * Implements operation from LinkWidget.
+	 * Required by FloatingText.
+	 */
+	void lwSetFont (QFont font);
 
 	/**
 	 * Overrides operation from LinkWidget.

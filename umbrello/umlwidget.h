@@ -9,11 +9,13 @@
 
 #ifndef UMLWIDGET_H
 #define UMLWIDGET_H
+
 #include <qcanvas.h>
 #include <qdom.h>
 #include <qdatetime.h>
 
-#include "linkwidget.h"
+#include "umlnamespace.h"
+#include "widgetbase.h"
 #include "associationwidgetlist.h"
 #include "optionstate.h"
 
@@ -34,7 +36,7 @@ class QFontMetrics;
  * @author 	Paul Hensgen <phensgen@techie.com>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class UMLWidget : public LinkWidget, public QCanvasRectangle {
+class UMLWidget : public WidgetBase, public QCanvasRectangle {
 	Q_OBJECT
 public:
 	/**
@@ -50,7 +52,7 @@ public:
 	 *
 	 * @param view	The view to be displayed on.
 	 * @param id	The id of the widget.
-	 *		The default value (-1) will prompt generation of a new ID.
+	 *		The default value (id_None) will prompt generation of a new ID.
 	 */
 	UMLWidget( UMLView * view, Uml::IDType id = Uml::id_None );
 
