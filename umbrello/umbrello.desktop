@@ -2,11 +2,19 @@
 [Desktop Entry]
 Type=Application
 Exec=umbrello -caption "%c" %i %m
-Icon=umbrello.png
-MiniIcon=umbrello.png
+Icon=umbrello
+MiniIcon=umbrello
 DocPath=umbrello/index.html
 Terminal=false
 Name=Umbrello
 GenericName=UML Modeller
+GenericName[cs]=UML modelář
+GenericName[cy]=Modelydd UML
+GenericName[de]=UML-Modellierer
+GenericName[et]=UML-i modelleerimise rakendus
+GenericName[hu]=UML modellező
+GenericName[nl]=UML-modeller
+GenericName[pt]=Modelador de UML
+GenericName[sr]=Umbrello UML моделар
 MimeType=application/x-uml
 Categories=Qt;KDE;Development
