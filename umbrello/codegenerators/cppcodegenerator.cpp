@@ -393,6 +393,7 @@ void CPPCodeGenerator::createDefaultDatatypes() {
 	m_document->createDatatype("double");
 	m_document->createDatatype("long");
 	m_document->createDatatype("short");
+	m_document->createDatatype("string");
 }
 
 #include "cppcodegenerator.moc"
