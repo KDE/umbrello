@@ -361,7 +361,11 @@ bool UMLClassifier::load(QDomElement& element) {
 			if( !op->loadFromXMI(element) ||
 			    !this->addOperation(op) ) {
 				delete op;
-				return false;
+				//return false;
+				// Returning false here will spoil the entire
+				// load. At this point the user has been warned
+				// that something went wrong so let's still try
+				// our best effort.
 			}
 		} else if (!loadSpecialized(element)) {
 			return false;
