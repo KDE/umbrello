@@ -7,6 +7,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <kdebug.h>
+
 #include "association.h"
 #include "classifier.h"
 #include "umldoc.h"
@@ -86,7 +88,6 @@ bool UMLAssociation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement associationElement = qDoc.createElement( "UML:Association" );
 	bool status = UMLObject::saveToXMI( qDoc, associationElement );
 
-	// associationElement.setAttribute( "assoctype", toString( getAssocType() ) );
 	associationElement.setAttribute( "assoctype", getAssocType() );
 	associationElement.setAttribute( "rolea", getRoleAId() );
 	associationElement.setAttribute( "roleb", getRoleBId() );
@@ -109,7 +110,12 @@ bool UMLAssociation::loadFromXMI( QDomElement & element ) {
 	if( !UMLObject::loadFromXMI( element ) )
 		return false;
 
-	setAssocType( toAssocType( element.attribute( "assoctype", "" )));
+	int atype = element.attribute( "assoctype", "-1" ).toInt();
+	if (atype < (int)atypeFirst | atype > (int)atypeLast) {
+		kdWarning() << "bad assoctype of UML:Association " << getID() << endl;
+		return false;
+	}
+	setAssocType( (Uml::Association_Type)atype );
 
 	setRoleAId(element.attribute( "rolea", "-1" ).toInt());
 	setRoleBId(element.attribute( "roleb", "-1" ).toInt());

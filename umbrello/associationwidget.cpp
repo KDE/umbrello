@@ -26,6 +26,8 @@
 #include <klineeditdlg.h>
 #include <klocale.h>
 
+static int idCounterForSyntheticUMLAssocs = 7000;
+
 AssociationWidget::AssociationWidget(QWidget *parent)
 	: QObject(parent)
 {
@@ -44,6 +46,7 @@ AssociationWidget::AssociationWidget(QWidget *parent, UMLWidget* WidgetA,
 			    umldoc->findUMLObject( WidgetB->getID() ) );
 	if (isUMLAssoc) {
 		m_pAssociation = new UMLAssociation( umldoc );
+		umldoc->addAssociation( m_pAssociation );
 		connect(m_pAssociation, SIGNAL(modified()), this,
 			SLOT(mergeUMLRepresentationIntoAssociationData()));
 	}
@@ -875,12 +878,13 @@ void AssociationWidget::setWidgetAID(int AID) {
 		return;
 	int uml_AID = m_pAssociation->getRoleAId();
 	if (uml_AID != AID) {
-		kdDebug() << "AssociationWidget::setWidgetAID(): ";
 		if (uml_AID == -1)
-			kdDebug() << "initializing UMLAssociation::RoleAId to id "
+			kdDebug() << "AssocWidget::setWidgetAID(): "
+				  << "initializing UMLAssociation::RoleAId to id "
 				  << AID << endl;
 		else
-			kdDebug() << "widget id " << AID << " does not match UML object's id "
+			kdDebug() << "AssocWidget::setWidgetAID(): "
+				  << "widget id " << AID << " does not match UML object's id "
 				  << uml_AID << endl;
 	}
 	m_pAssociation->setRoleAId(AID);
@@ -898,12 +902,13 @@ void AssociationWidget::setWidgetBID(int BID) {
 		return;
 	int uml_BID = m_pAssociation->getRoleBId();
 	if (uml_BID != BID) {
-		kdDebug() << "AssociationWidget::setWidgetBID(): ";
 		if (uml_BID == -1)
-			kdDebug() << "initializing UMLAssociation::RoleBId to id "
+			kdDebug() << "AssocWidget::setWidgetBID(): "
+				  << "initializing UMLAssociation::RoleBId to id "
 				  << BID << endl;
 		else
-			kdDebug() << "widget id " << BID << " does not match UML object's id "
+			kdDebug() << "AssocWidget::setWidgetBID(): "
+				  << "widget id " << BID << " does not match UML object's id "
 				  << uml_BID << endl;
 	}
 	m_pAssociation->setRoleBId(BID);
@@ -3208,6 +3213,8 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement ) {
 				    umldoc->findUMLObject(bId) );
 		if (isUMLAssoc) {
 			m_pAssociation = new UMLAssociation(umldoc);
+			m_pAssociation->setID( ++idCounterForSyntheticUMLAssocs );
+			umldoc->addAssociation( m_pAssociation );
 			connect(m_pAssociation, SIGNAL(modified()), this,
 				SLOT(mergeUMLRepresentationIntoAssociationData()));
 		} else {
@@ -3278,6 +3285,7 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement ) {
 		m_nIndexB = indexb.toInt();
 		m_nTotalCountA = totalcounta.toInt();
 		m_nTotalCountB = totalcountb.toInt();
+		m_LinePath.setAssocType( m_pAssociation->getAssocType() );
 	}
 	//now load child elements
 	QDomNode node = qElement.firstChild();
