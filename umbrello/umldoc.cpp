@@ -2171,10 +2171,21 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
 		viewToBeSet = findView( m_nViewID );
 	if (viewToBeSet) {
 		Settings::OptionState optionState = UMLApp::app()->getOptionState();
-		if (optionState.generalState.tabdiagrams)
+		if (optionState.generalState.tabdiagrams) {
 			UMLApp::app()->tabWidget()->showPage(viewToBeSet);
-		else
+		} else {
 			changeCurrentView( m_nViewID );
+			// Make sure we have a treeview item for each diagram.
+			// It may happen that we are missing them after switching off
+			// tabbed widgets.
+			UMLListView *lv = UMLApp::app()->getListView();
+			for (UMLViewListIt vit(m_ViewList); vit.current(); ++vit) {
+				UMLView *v = vit.current();
+				if (lv->findItem(v->getID()) != NULL)
+					continue;
+				lv->createDiagramItem(v);
+			}
+		}
 	} else {
 		createDiagram( Uml::dt_Class, false );
 	}
