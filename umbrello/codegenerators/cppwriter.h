@@ -66,18 +66,33 @@ private:
 	void writeConstructorMethods(QTextStream &cpp); 
 
 	/**
+	 * write all field declarations, for both attributes and associations for the
+         * given permitted scope.
+         */
+	void writeFieldDecl(UMLClassifier *c, Scope permitScope, QTextStream &stream); 
+
+        /**
+	 * write all method declarations, for attributes and associations 
+         * for the given permitted scope.
+         */
+	void writeAccessorMethodDecl(UMLClassifier *c, Scope permitScope, QTextStream &stream); 
+
+	/**
 	 * write all operations for a given class
 	 * @param c the class for which we are generating code
-	 * @param j the stream associated with the output file
+	 * @param i whether or not we are writing this to a source or header file
+	 * @param j what type of method to write (by Scope)
+	 * @param k the stream associated with the output file
 	 */
-	void writeOperations(UMLClassifier *c, QTextStream &j);
+	void writeOperations(UMLClassifier *c, bool isHeaderMethod, Scope permitScope, QTextStream &j);
 
 	/**
 	 * write a list of operations for a given class
 	 * @param list the list of operations you want to write
+	 * @param i whether or not we are writing this to a source or header file
 	 * @param j the stream associated with the output file
 	 */
-	void writeOperations(QPtrList<UMLOperation> &list, QTextStream &j);
+	void writeOperations(QPtrList<UMLOperation> &list, bool isHeaderMethod, QTextStream &j);
 
 	/**
 	 * write all attributes for a given class
@@ -98,7 +113,13 @@ private:
 	 * Write out fields and operations for this class selected on a particular
 	 * visibility.
 	 */
-	void writeFieldAndOperationDecl(UMLClassifier *c, Scope permitVisibility, QTextStream &stream); 
+	void writeHeaderFieldDecl(UMLClassifier *c, Scope permitVisibility, QTextStream &stream); 
+
+	void writeHeaderAttributeAccessorMethods (Scope visibility, bool writeStatic, QTextStream &stream ); 
+
+	void writeHeaderAttributeAccessorMethodDecls(UMLClassifier *c, Scope permitVisibility, QTextStream &stream); 
+        void writeHeaderAccessorMethodDecl(UMLClassifier *c, Scope permitScope, QTextStream &stream); 
+
 
 	/**
 	 * Searches a list of associations for appropriate ones to write out as attributes
@@ -115,6 +136,7 @@ private:
 	 * calls @ref writeSingleAttributeAccessorMethods() on each of the attributes in attribs list.
 	 */
 	void writeAttributeMethods(QPtrList<UMLAttribute> *attribs, Scope visib, bool isHeaderMethod, 
+				bool isStatic,
 				bool writeMethodBody, QTextStream &stream);
 
 	/**
@@ -202,7 +224,7 @@ private:
 	/**
 	 * current level of indentation for code
 	 */
-	int indentLevel;
+	int IndentLevel;
 
 	/**
 	 * Returns the name of the given object (if it exists)
@@ -267,13 +289,21 @@ private:
 	QString VECTOR_TYPENAME_INCLUDE;
 	QString VECTOR_METHOD_APPEND;
 	QString VECTOR_METHOD_REMOVE;
+	QString VECTOR_METHOD_INIT;
+	QString OBJECT_METHOD_INIT;
 
 	/**
-	 * Create accessor methods for class attributes/associations as inline decl in header.
+	 * Create various methods for class attributes/associations/operations as inline decl in header.
 	 */
 	bool INLINE_ATTRIBUTE_METHODS;
 	bool INLINE_ASSOCIATION_METHODS;
+	bool INLINE_OPERATION_METHODS;
 
+	/**
+	 * Constrol whether or not we want to write the package name as a namespace
+	 * in our class.
+	 */
+	bool WRITE_PACKAGE_NAMESPACE;
 	/**
 	 * Constrol whether or not we want to have a constructor/destructor written
 	 */
@@ -290,10 +320,8 @@ private:
 	 */
 	bool WRITE_VIRTUAL_DESTRUCTORS;
 
-	/**
-	 * Do we declare our member fields to be virtual?
-	 */
-	bool FieldIsVirtual;
+	QStringList ObjectFieldVariables;
+	QStringList VectorFieldVariables;
 
 };
 
