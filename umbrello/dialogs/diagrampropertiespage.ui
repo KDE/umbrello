@@ -61,7 +61,7 @@
                                 <cstring>showGrid</cstring>
                             </property>
                             <property name="text">
-                                <string>show grid</string>
+                                <string>Show grid</string>
                             </property>
                         </widget>
                         <widget class="QCheckBox">
@@ -147,7 +147,7 @@
                                 <cstring>TextLabel4</cstring>
                             </property>
                             <property name="text">
-                                <string>Zoom</string>
+                                <string>Zoom:</string>
                             </property>
                         </widget>
                         <widget class="QSpinBox">
@@ -255,7 +255,7 @@
                                 <cstring>TextLabel1</cstring>
                             </property>
                             <property name="text">
-                                <string>Name</string>
+                                <string>Name:</string>
                             </property>
                         </widget>
                         <widget class="QLineEdit">

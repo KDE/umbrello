@@ -57,7 +57,7 @@ void UMLViewDialog::setupPages()
 
 void UMLViewDialog::setupDiagramPropertiesPage()
 {
-	QVBox *page = addVBoxPage( i18n("General"), i18n("General settings"), DesktopIcon( "misc") );
+	QVBox *page = addVBoxPage( i18n("General"), i18n("General Settings"), DesktopIcon( "misc") );
 	m_diagramProperties = new DiagramPropertiesPage(page);
 
 	m_diagramProperties->diagramName->setText( m_pView->getName() );

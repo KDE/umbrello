@@ -37,7 +37,7 @@ SettingsDlg::~SettingsDlg() {}
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void SettingsDlg::setupUIPage() {
 	//setup UI page
-	QVBox * page = addVBoxPage( i18n("User Interface"), i18n("User Interface settings"), DesktopIcon( "window_list") );
+	QVBox * page = addVBoxPage( i18n("User Interface"), i18n("User Interface Settings"), DesktopIcon( "window_list") );
 
 	m_UiWidgets.colorGB = new QGroupBox( i18n("Color"), page );
 	QGridLayout * colorLayout = new QGridLayout( m_UiWidgets.colorGB, 3, 3 );
@@ -67,7 +67,7 @@ void SettingsDlg::setupUIPage() {
 	colorLayout -> addWidget( m_UiWidgets.useFillColorCB, 2, 0 );
 	m_UiWidgets.useFillColorCB -> setChecked( m_OptionState.uiState.useFillColor );
 
-	m_UiWidgets.miscGB = new QGroupBox( i18n( "Misc." ), page );
+	m_UiWidgets.miscGB = new QGroupBox( i18n( "Documentation Window" ), page );
 	QVBoxLayout * miscLayout = new QVBoxLayout( m_UiWidgets.miscGB );
 	miscLayout -> setSpacing( spacingHint() );
 	miscLayout -> setMargin( fontMetrics().height() );
