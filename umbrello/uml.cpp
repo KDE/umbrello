@@ -227,7 +227,7 @@ void UMLApp::initActions() {
 #endif
 	preferences->setStatusText( i18n( "Set the default program preferences") );
 
-	deleteSelectedWidget = new KAction( i18n("&Delete Selected"),
+	deleteSelectedWidget = new KAction( i18n("Delete &Selected"),
 					    SmallIconSet("editdelete"),
 					    KShortcut(Key_Delete), this,
 					    SLOT( slotDeleteSelectedWidget() ), actionCollection(),
@@ -335,7 +335,7 @@ void UMLApp::setupZoomMenu() {
 	zoomSelect->insertItem(i18n("&100 %"),100);
 	zoomSelect->insertItem(i18n("1&50 %"),150);
 	zoomSelect->insertItem(i18n("&200 %"),200);
-	zoomSelect->insertItem(i18n("&300 %"),300);
+	zoomSelect->insertItem(i18n("3&00 %"),300);
 
 
 	int zoom = doc->getCurrentView()->currentZoom();

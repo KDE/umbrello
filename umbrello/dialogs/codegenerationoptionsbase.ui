@@ -115,7 +115,7 @@
                                             <cstring>m_browseOutput</cstring>
                                         </property>
                                         <property name="text">
-                                            <string>&amp;Browse...</string>
+                                            <string>Bro&amp;wse...</string>
                                         </property>
                                     </widget>
                                     <widget class="QPushButton" row="3" column="2">
@@ -220,7 +220,7 @@ generator wants to use as output file already exists:</string>
                                             <cstring>m_overwrite</cstring>
                                         </property>
                                         <property name="text">
-                                            <string>&amp;Overwrite</string>
+                                            <string>O&amp;verwrite</string>
                                         </property>
                                         <property name="whatsThis" stdset="0">
                                             <string>Overwrite existing files if they exist in the destination directory</string>

@@ -35,7 +35,7 @@
                         <cstring>textLabel1</cstring>
                     </property>
                     <property name="text">
-                        <string>Name:</string>
+                        <string>Na&amp;me:</string>
                     </property>
                 </widget>
                 <widget class="QLineEdit" row="0" column="1" rowspan="1" colspan="2">
@@ -93,7 +93,7 @@
                         <cstring>m_public</cstring>
                     </property>
                     <property name="text">
-                        <string>Public</string>
+                        <string>P&amp;ublic</string>
                     </property>
                 </widget>
                 <widget class="QRadioButton">
