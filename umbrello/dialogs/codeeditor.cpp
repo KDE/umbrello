@@ -689,12 +689,12 @@ void CodeEditor::init ( CodeViewerDialog * parentDlg, CodeDocument * parentDoc )
                 parentDocName = "";
 
         // set some viewability parameters
-        int margin = fontMetrics().height();
+        //int margin = fontMetrics().height();
 
         QBrush pbrush = QBrush ( getState().paperColor);
         setPaper(pbrush);
 
-        setMargin(margin);
+        // setMargin(margin);
 
 //       connect(this,SIGNAL(newLinePressed()),this,SLOT(newLinePressed()));
 //       connect(this,SIGNAL(backspacePressed()),this,SLOT(backspacePressed()));
