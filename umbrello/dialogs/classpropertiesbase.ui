@@ -13,7 +13,7 @@
         </rect>
     </property>
     <property name="caption">
-        <string>Class properties</string>
+        <string>Class Properties</string>
     </property>
     <vbox>
         <property name="name">
@@ -161,4 +161,7 @@
     </vbox>
 </widget>
 <layoutdefaults spacing="6" margin="11"/>
+<includehints>
+    <includehint>qwidget.h</includehint>
+</includehints>
 </UI>

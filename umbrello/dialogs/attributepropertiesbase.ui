@@ -8,12 +8,12 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>297</width>
-            <height>226</height>
+            <width>314</width>
+            <height>231</height>
         </rect>
     </property>
     <property name="caption">
-        <string>Attribute properties</string>
+        <string>Attribute Properties</string>
     </property>
     <vbox>
         <property name="name">
@@ -24,7 +24,7 @@
                 <cstring>groupBox7</cstring>
             </property>
             <property name="title">
-                <string>Attribute properties</string>
+                <string>Attribute Properties</string>
             </property>
             <grid>
                 <property name="name">
@@ -136,4 +136,7 @@
     </vbox>
 </widget>
 <layoutdefaults spacing="6" margin="11"/>
+<includehints>
+    <includehint>qwidget.h</includehint>
+</includehints>
 </UI>

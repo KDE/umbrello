@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>389</width>
-            <height>441</height>
+            <width>444</width>
+            <height>489</height>
         </rect>
     </property>
     <property name="caption">
@@ -290,4 +290,7 @@ wants to use as output file already exists:</string>
     <slot access="protected">browseClicked()</slot>
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
+<includehints>
+    <includehint>qwidget.h</includehint>
+</includehints>
 </UI>

@@ -142,11 +142,11 @@ void Path::fillContextMenu(QPopupMenu &menu)
 {
 	QPopupMenu *pathMenu = new QPopupMenu(&menu, "path popup");
 	pathMenu->setCheckable(true);
-	pathMenu->insertItem(i18n("Direct lines"),this,SLOT(setDirectStyle()),0,Direct);
-	pathMenu->insertItem(i18n("Orthogonal lines"),this,SLOT(setOrthogonalStyle()),0,Orthogonal);
+	pathMenu->insertItem(i18n("Direct Lines"),this,SLOT(setDirectStyle()),0,Direct);
+	pathMenu->insertItem(i18n("Orthogonal Lines"),this,SLOT(setOrthogonalStyle()),0,Orthogonal);
 	pathMenu->setItemChecked(m_style,true);
-	menu.insertItem(i18n("Path style"),pathMenu);
-	
+	menu.insertItem(i18n("Path Style"),pathMenu);
+
 	DiagramElement::fillContextMenu(menu);
 }
 

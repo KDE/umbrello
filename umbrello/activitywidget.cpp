@@ -154,7 +154,7 @@ void ActivityWidget::slotMenuSelection(int sel) {
 
 	switch( sel ) {
 		case ListPopupMenu::mt_Rename:
-			name = KLineEditDlg::getText( i18n("Enter Activity Name"), i18n("Enter the name of the new Activity:"), getName(), &ok );
+			name = KLineEditDlg::getText( i18n("Enter Activity Name"), i18n("Enter the name of the new activity:"), getName(), &ok );
 			if( ok && name.length() > 0 )
 				setName( name );
 			done = true;

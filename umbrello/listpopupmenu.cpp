@@ -323,7 +323,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object, bool multi) :
 			insertItem(SmallIcon( "charset"), i18n("Change Text..."), mt_Rename);
 			insertItem(SmallIcon( "editDelete"), i18n("Delete"), mt_Delete);
 			insertItem(SmallIcon( "fonts"),  i18n( "Change Font..." ), mt_Change_Font );
-			//insertItem(i18n("link documentation"), mt_Link_Docs);
+			//insertItem(i18n("Link Documentation"), mt_Link_Docs);
 			//setItemChecked(mt_Link_Docs, ((NoteWidget*)object)->getLinkState());
 			break;
 
@@ -912,9 +912,9 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 
  		case mt_RoleName:
   			insertItem(SmallIcon( "editdelete"),i18n("Delete Association"), mt_Delete_Association);
- 			insertItem(SmallIcon( "charset"), i18n("Change association name"), mt_Rename_Name);
- 			insertItem(SmallIcon( "charset"), i18n("Change role A name"), mt_Rename_RoleAName);
- 			insertItem(SmallIcon( "charset"), i18n("Change role B name"), mt_Rename_RoleBName);
+ 			insertItem(SmallIcon( "charset"), i18n("Change Association Name"), mt_Rename_Name);
+ 			insertItem(SmallIcon( "charset"), i18n("Change Role A Name"), mt_Rename_RoleAName);
+ 			insertItem(SmallIcon( "charset"), i18n("Change Role B Name"), mt_Rename_RoleBName);
   			insertItem(SmallIcon( "fonts"), i18n( "Change Font" ), mt_Change_Font );
 			insertItem(i18n("Reset Label Positions"), mt_Reset_Label_Positions);
   			insertItem(SmallIcon( "info"),i18n("Properties..."), mt_Properties);

@@ -8,7 +8,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>384</width>
+            <width>437</width>
             <height>342</height>
         </rect>
     </property>
@@ -72,7 +72,7 @@ to install for code ceneration.</string>
         <widget class="QListView" row="1" column="0" rowspan="1" colspan="3">
             <column>
                 <property name="text">
-                    <string>Languages</string>
+                    <string>Language</string>
                 </property>
                 <property name="clickable">
                     <bool>false</bool>

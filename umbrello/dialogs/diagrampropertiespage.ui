@@ -194,7 +194,7 @@
                                         <cstring>snapComponentSizeToGrid</cstring>
                                     </property>
                                     <property name="text">
-                                        <string>Snap Component Size</string>
+                                        <string>Snap component size</string>
                                     </property>
                                     <property name="whatsThis" stdset="0">
                                         <string>Snap the size of the components to be a multiple of the grid spacing.

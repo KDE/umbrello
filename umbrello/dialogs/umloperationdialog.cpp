@@ -297,7 +297,7 @@ void UMLOperationDialog::slotParameterProperties() {
 			pDoc->setModified( true );
 		} else if( pAtt != pOldAtt ) {
 			KMessageBox::error(this, i18n("The parameter name you have chosen is already being used in this operation."),
-					   i18n("Parameter Name Not Unique."), false);
+					   i18n("Parameter Name Not Unique"), false);
 		}
 	}
 }
@@ -348,7 +348,7 @@ bool UMLOperationDialog::apply() {
 	}
 	if( list.count() != 0 && list.findRef( m_pOperation ) ) {
 		if( KMessageBox::warningYesNo( this , i18n( "The name you entered was not unique!\nIs this what you wanted?" ),
-		                               i18n( "Name Not unique" ) ) == KMessageBox::No ) {
+		                               i18n( "Name Not Unique" ) ) == KMessageBox::No ) {
 			m_pNameLE -> setText( m_pOperation -> getName() );
 			return false;
 		}

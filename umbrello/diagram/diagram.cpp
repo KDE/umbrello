@@ -107,8 +107,8 @@ Diagram::~Diagram()
 
 void Diagram::fillContextMenu(QPopupMenu &menu) const
 {
-	menu.insertItem(i18n("Create view"),this,SLOT(createView()));
-	menu.insertItem(i18n("Diagram properties"),this,SLOT(properties()));
+	menu.insertItem(i18n("Create View"),this,SLOT(createView()));
+	menu.insertItem(i18n("Diagram Properties"),this,SLOT(properties()));
 }
 
 

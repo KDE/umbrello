@@ -32,7 +32,7 @@ namespace Umbrello
 SelectTool::SelectTool( DiagramView  *view): Tool(view,"selecttool") , m_selectionRect(0)
 {
 	setIcon("arrow");
-	setToolTip(i18n("Select and move Diagram Elements"));
+	setToolTip(i18n("Select and move diagram elements"));
 }
 
 SelectTool::~SelectTool()

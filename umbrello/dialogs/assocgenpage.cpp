@@ -161,19 +161,19 @@ AssocGenPage::AssocGenPage(UMLDoc *d, QWidget *parent, ObjectWidget * o, Associa
 	m_pNameLayout -> addWidget(m_pInstanceLE, 1, 1);
 	UMLView * view = m_pUmldoc -> getCurrentView();
 
-	m_pDrawActorCB = new QCheckBox( i18n( "Draw As Actor" ) , this );
+	m_pDrawActorCB = new QCheckBox( i18n( "Draw as actor" ) , this );
 	m_pDrawActorCB -> setChecked( o -> getDrawAsActor() );
 	m_pNameLayout -> addWidget( m_pDrawActorCB, 2, 0 );
 
 	if(view -> getType() == Uml::dt_Collaboration) {
-		m_pMultiCB = new QCheckBox(i18n("Multiple Instance"), this);
+		m_pMultiCB = new QCheckBox(i18n("Multiple instance"), this);
 		m_pMultiCB -> setChecked(o -> getMultipleInstance());
 		m_pNameLayout -> addWidget(m_pMultiCB, 2,1);
 		if( m_pDrawActorCB -> isChecked() )
 			m_pMultiCB -> setEnabled( false );
 	} else//sequence diagram
 	{
-		m_pDeconCB = new QCheckBox(i18n("Show Deconstruction"), this);
+		m_pDeconCB = new QCheckBox(i18n("Show deconstruction"), this);
 		m_pDeconCB -> setChecked(o -> getShowDeconstruction());
 		m_pNameLayout -> addWidget(m_pDeconCB, 2,1);
 	}

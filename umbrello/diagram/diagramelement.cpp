@@ -205,10 +205,10 @@ void DiagramElement::moveHotSpotBy( int h, int dx, int dy )
 void DiagramElement::fillContextMenu(QPopupMenu &menu)
 {
 	QPopupMenu *submenu = new QPopupMenu( &menu, "diagramelement submenu");
-	submenu->insertItem(SmallIcon("foreground"),i18n("To forground"),this,SLOT(moveToForeground()));
+	submenu->insertItem(SmallIcon("foreground"),i18n("To Foreground"),this,SLOT(moveToForeground()));
 	submenu->insertItem(SmallIcon("raise"),i18n("Raise"),this,SLOT(raise()));
 	submenu->insertItem(SmallIcon("lower"),i18n("Lower"),this,SLOT(lower()));
-	submenu->insertItem(SmallIcon("backround"),i18n("To background"),this,SLOT(moveToBackground()));
+	submenu->insertItem(SmallIcon("backround"),i18n("To Background"),this,SLOT(moveToBackground()));
 	menu.insertItem(i18n("Depth..."),submenu);
 
 	menu.insertItem(SmallIcon("info"),i18n("Properties"),this,SLOT(editProperties()));

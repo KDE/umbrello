@@ -111,13 +111,13 @@ void RefactoringAssistant::showContextMenu(KListView *v,QListViewItem *item, con
 	if(typeid(*obj) == typeid(UMLClass))
 	{
 		m_menu->insertItem(i18n("Add Superclass"),this,SLOT(addSuperClassifier()));
-		m_menu->insertItem(i18n("Add derived class"),this,SLOT(addDerivedClassifier()));
-		m_menu->insertItem(i18n("Add interface implementation"),this,SLOT(addInterfaceImplementation()));
+		m_menu->insertItem(i18n("Add Derived Class"),this,SLOT(addDerivedClassifier()));
+		m_menu->insertItem(i18n("Add Interface Implementation"),this,SLOT(addInterfaceImplementation()));
 	}
 	else if(typeid(*obj) == typeid(UMLInterface))
 	{
-		m_menu->insertItem(i18n("Add superinterface"),this,SLOT(addSuperClassifier()));
-		m_menu->insertItem(i18n("Add derived interface"),this,SLOT(addDerivedClassifier()));
+		m_menu->insertItem(i18n("Add Superinterface"),this,SLOT(addSuperClassifier()));
+		m_menu->insertItem(i18n("Add Derived Interface"),this,SLOT(addDerivedClassifier()));
 	}
 	else
 	{
@@ -125,7 +125,7 @@ void RefactoringAssistant::showContextMenu(KListView *v,QListViewItem *item, con
 		return;
 	}
 	m_menu->exec(p);
-	
+
 }
 
 void RefactoringAssistant::addSuperClassifier()

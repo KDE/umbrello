@@ -1173,7 +1173,7 @@ bool UMLDoc::serialize(QDataStream *s, bool archive, int fileversion) {
 			objectList.append(temp);
 		}//end for i
 
-		this->emit sigWriteToStatusBar( i18n("Loading Diagrams...") );
+		this->emit sigWriteToStatusBar( i18n("Loading diagrams...") );
 		//load each views/diagrams
 		*s >> count;
 		steps = count - 1;
@@ -1513,7 +1513,7 @@ UMLObject* UMLDoc::makeNewUMLObject(QString type) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool UMLDoc::loadDiagramsFromXMI( QDomNode & node ) {
-	emit sigWriteToStatusBar( i18n("Loading Diagrams...") );
+	emit sigWriteToStatusBar( i18n("Loading diagrams...") );
 	emit sigResetStatusbarProgress();
 	emit sigSetStatusbarProgress( 0 );
 	emit sigSetStatusbarProgressSteps( 10 ); //FIX ME

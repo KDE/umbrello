@@ -166,13 +166,13 @@ void UMLViewDialog::checkName() {
 	UMLView * pView = pDoc -> findView( m_pView -> getType(), name );
 	if( name.length() == 0 ) {
 		KMessageBox::sorry(this, i18n("The name you have entered is invalid."),
-		                   i18n("Invalid Name."), false);
+		                   i18n("Invalid Name"), false);
 		m_diagramProperties->diagramName->setText( m_pView->getName() );
 		return;
 	}
 	if( pView && pView != m_pView ) {
 		KMessageBox::sorry(this, i18n("The name you have entered is not unique."),
-		                   i18n("Name Not Unique."), false);
+		                   i18n("Name Not Unique"), false);
 		m_diagramProperties->diagramName->setText( m_pView->getName() );
 		return;
 	}

@@ -109,7 +109,7 @@ void AssociationWidget::fillContextMenu(QPopupMenu &menu)
 	subMenu->insertItem(i18n("AutoAdjust"),this,SLOT(setAutoAdjust()),0,1);
 	subMenu->insertItem(i18n("Fixed to Widget"),this,SLOT(setFixedSpots()),0,0);
 	subMenu->setItemChecked((int)m_autoAdjust,true);
-	menu.insertItem(i18n("Association style"),subMenu);
+	menu.insertItem(i18n("Association Style"),subMenu);
 	Path::fillContextMenu(menu);
 }
 

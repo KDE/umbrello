@@ -324,7 +324,7 @@ void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome) {
 	//create a state widget
 	if( m_CurrentCursor == WorkToolBar::tbb_State ) {
 		bool ok = false;
-		QString name = KLineEditDlg::getText( i18n("Enter State Name"), i18n("Enter the name of the new State:"), i18n("new state"), &ok );
+		QString name = KLineEditDlg::getText( i18n("Enter State Name"), i18n("Enter the name of the new state:"), i18n("new state"), &ok );
 		if( ok ) {
 			StateWidget * temp = new StateWidget( this , StateWidget::Normal );
 			temp -> setName( name );
@@ -2823,7 +2823,7 @@ void UMLView::slotMenuSelection(int sel) {
 			break;
 
 		case ListPopupMenu::mt_State:
-			name = KLineEditDlg::getText( i18n("Enter State Name"), i18n("Enter the name of the new State:"), i18n("new state"), &ok );
+			name = KLineEditDlg::getText( i18n("Enter State Name"), i18n("Enter the name of the new state:"), i18n("new state"), &ok );
 			if( ok ) {
 				state = new StateWidget( this , StateWidget::Normal );
 				state -> setName( name );
@@ -2864,7 +2864,7 @@ void UMLView::slotMenuSelection(int sel) {
 			break;
 
 		case ListPopupMenu::mt_Activity:
-			name = KLineEditDlg::getText( i18n("Enter Activity Name"), i18n("Enter the name of the new Activity:"), i18n("new activity"), &ok );
+			name = KLineEditDlg::getText( i18n("Enter Activity Name"), i18n("Enter the name of the new activity:"), i18n("new activity"), &ok );
 			if( ok ) {
 				activity = new ActivityWidget( this , ActivityWidget::Normal );
 				activity -> setName( name );

@@ -124,7 +124,7 @@ void ActivityPage::slotRename() {
 	bool ok = false;
 	QString name = m_pActivityLB -> currentText();
 	QString oldName = name;
-	name = KLineEditDlg::getText( i18n("Rename Activity"), i18n("Enter the new name of the Activity:"), name, &ok );
+	name = KLineEditDlg::getText( i18n("Rename Activity"), i18n("Enter the new name of the activity:"), name, &ok );
 	if( ok && name.length() > 0 ) {
 		m_pActivityLB -> changeItem( name, m_pActivityLB -> currentItem());
 		m_pStateWidget -> renameActivity( oldName, name );
