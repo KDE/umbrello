@@ -63,6 +63,8 @@ public:
 	 */
 	virtual bool loadFromXMI( QDomElement & element );
 
+	virtual bool isInterface () { return true; }
+
 protected:
 
 	/**

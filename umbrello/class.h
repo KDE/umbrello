@@ -198,6 +198,9 @@ public:
 	 * Loads the UML:Class element including it's operations, attributes and templates
 	 */
 	virtual bool loadFromXMI( QDomElement & element );
+
+	virtual bool isInterface () { return false; }
+
 signals:
 	void attributeAdded(UMLObject*);
 	void attributeRemoved(UMLObject*);
