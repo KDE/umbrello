@@ -44,6 +44,7 @@
 #include "umlobject.h"
 #include "docwindow.h"
 #include "assocrules.h"
+#include "umlrole.h"
 #include "umlviewcanvas.h"
 #include "dialogs/classoptionspage.h"
 #include "dialogs/umlviewdialog.h"
@@ -3541,11 +3542,27 @@ bool UMLView::loadUisDiagramPresentation(QDomElement & qElement) {
 					if (wA != NULL && wB != NULL) {
 						AssociationWidget *aw =
 						    new AssociationWidget(this, wA, at, wB);
+						QString multiA = umla->getMulti(Uml::A);
+						if (!multiA.isEmpty())
+							aw->setMulti(multiA, Uml::A);
+						QString multiB = umla->getMulti(Uml::B);
+						if (!multiB.isEmpty())
+							aw->setMulti(multiB, Uml::B);
 						m_AssociationList.append(aw);
 					} else {
 						kdError() << "cannot create assocwidget from ("
 							  << wA << ", " << wB << ")" << endl;
 					}
+					break;
+				}
+				case Uml::ot_Role:
+				{
+					UMLRole *robj = static_cast<UMLRole*>(o);
+					UMLAssociation *umla = robj->getParentAssociation();
+					// @todo properly display role names.
+					//       For now, in order to get the role names displayed
+					//       simply delete the participating diagram objects
+					//       and drag them from the list view to the diagram.
 					break;
 				}
 				default:
