@@ -826,7 +826,7 @@ void AssociationWidget::cleanup() {
 
 	// We should to remove the UMLAssociation from the document
 	if (m_pAssociation) {
-		m_pView->getDocument()->removeAssociation(m_pAssociation);
+		//m_pView->getDocument()->removeAssociation(m_pAssociation);
 	        m_pAssociation = 0;
 	}
 
@@ -3087,8 +3087,6 @@ void AssociationWidget::init (QWidget *parent)
 	m_bSelected = false;
 	m_nMovingPoint = -1;
 
-	m_LinePath.setAssociation( this );
-
 	// Initialize local members.
 	// These are only used if we don't have a UMLAssociation attached.
 	m_VisibilityA = Public;
@@ -3098,6 +3096,8 @@ void AssociationWidget::init (QWidget *parent)
 	m_nWidgetAID = -1;
 	m_nWidgetBID = -1;
 	m_AssocType = Uml::at_Association;
+
+	m_LinePath.setAssociation( this );
 
 	connect(m_pView, SIGNAL(sigRemovePopupMenu()), this, SLOT(slotRemovePopupMenu()));
 	connect(m_pView, SIGNAL( sigClearAllSelected() ), this, SLOT( slotClearAllSelected() ) );

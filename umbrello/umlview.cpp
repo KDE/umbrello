@@ -103,6 +103,7 @@ void UMLView::init() {
 	m_nCanvasHeight = UMLView::defaultCanvasSize;
 
 	// Initialize other data
+	m_AssociationList.setAutoDelete( true );
 	//Setup up booleans
 	m_bPaste = false;
 	m_bDrawRect = false;
@@ -287,6 +288,7 @@ void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome) {
 							      i18n("Enter the name of the new activity:"),
 							      i18n("new activity"), &ok );
 			if( !ok ) {
+				temp->cleanup();
 				delete temp;
 				resizeCanvasToItems();
 				m_pDoc->setModified();
@@ -308,6 +310,7 @@ void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome) {
 							      i18n("Enter the name of the new state:"),
 							      i18n("new state"), &ok );
 			if( !ok ) {
+				temp->cleanup();
 				delete temp;
 				resizeCanvasToItems();
 				m_pDoc->setModified();
@@ -343,6 +346,7 @@ void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome) {
 		ft -> changeTextDlg();
 		//if no text entered delete
 		if(!FloatingText::isTextValid(ft -> getText())) {
+			ft->cleanup();
 			delete ft;
 			resizeCanvasToItems();
 			m_pDoc->setModified();
@@ -670,7 +674,7 @@ void UMLView::checkMessages(UMLWidget * w) {
 		obj -> cleanup();
 		//make sure not in selected list
 		m_SelectedList.remove(obj);
-
+		m_MessageList.remove(obj);
 		delete obj;
 	}
 }
@@ -1777,11 +1781,12 @@ void UMLView::removeAssocInViewAndDoc(AssociationWidget* a, bool deleteLater) {
 	// Remove the association in this view.
 	a->cleanup();
 	m_AssociationList.remove(a);
-	if (deleteLater) {
+/*	if (deleteLater) {
 		a->deleteLater();
 	}
 	else
 		delete a;
+ */
 }
 
 bool UMLView::setAssoc(UMLWidget *pWidget) {
@@ -1858,6 +1863,7 @@ void UMLView::removeAssociations(UMLWidget* Widget) {
 
 		}
 	}
+	m_AssociationList.clear();
 }
 
 void UMLView::selectAssociations(bool bSelect) {
@@ -1902,6 +1908,7 @@ void UMLView::removeAllAssociations() {
 		++assoc_it;
 		removeAssocInViewAndDoc(assocwidget);
 	}
+	m_AssociationList.clear();
 }
 
 
@@ -1915,6 +1922,7 @@ void UMLView::removeAllWidgets() {
 			removeWidget( temp );
 		// }
 	}
+	m_WidgetList.clear();
 }
 
 
@@ -3063,6 +3071,7 @@ UMLWidget* UMLView::loadWidgetFromXMI(QDomElement& widgetElement) {
 		return 0;
 	}
 	if (!widget->loadFromXMI(widgetElement)) {
+		widget->cleanup();
 		delete widget;
 		return 0;
 	}
@@ -3104,7 +3113,7 @@ bool UMLView::loadAssociationsFromXMI( QDomElement & qElement ) {
 		if( assocElement.tagName() == "UML:AssocWidget" ) {
 			AssociationWidget *assoc = new AssociationWidget(this);
 			if( !assoc->loadFromXMI( assocElement ) ) {
-				delete assoc;
+				assoc->cleanup(); delete assoc;
 				return false;
 			}
 			m_AssociationList.append( assoc );

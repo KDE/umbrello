@@ -64,6 +64,7 @@ UMLDoc::UMLDoc(QWidget *parent, const char *name) : QObject(parent, name) {
 	objectList.clear();
 	objectList.setAutoDelete(true);
 	diagrams.setAutoDelete(true);
+	m_ViewList.setAutoDelete(true);
 
 	m_pChangeLog = 0;
 	m_Doc = "";
@@ -113,15 +114,20 @@ void UMLDoc::removeView(UMLView *view) {
 	//children being deleted.
 	view->removeAllWidgets();
 	m_ViewList.remove(view);
+/*
 	if(view == currentView) {
 		currentView = 0;
-		if (UMLView* firstView = m_ViewList.first()) {
+		UMLView* firstView = m_ViewList.first();
+		if (firstView != NULL) {
 			changeCurrentView( firstView->getID() );
 			UMLApp::app()->setDiagramMenuItemsState(true);
 		} else {
 			UMLApp::app()->setDiagramMenuItemsState(false);
+			delete view;
 		}
-	}
+	} else
+		delete view;
+ */
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -185,10 +191,11 @@ bool UMLDoc::saveModified() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLDoc::closeDocument() {
 	deleteContents();
+	diagrams.clear();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool UMLDoc::newDocument() {
-	deleteContents();
+	/*deleteContents();*/ closeDocument();
 	currentView = 0;
 	doc_url.setFileName(i18n("Untitled"));
 	//see if we need to start with a new diagram
@@ -1692,10 +1699,10 @@ void UMLDoc::removeAllViews() {
 		v->removeAllAssociations();
 		removeView(v);
 	}
-	// m_ViewList.clear();
-	// currentView = 0;
+	m_ViewList.clear();
+	currentView = 0;
 	emit sigDiagramChanged(dt_Undefined);
-	// UMLApp::app()->setDiagramMenuItemsState(false);
+	UMLApp::app()->setDiagramMenuItemsState(false);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 QStringList UMLDoc::getModelTypes()
