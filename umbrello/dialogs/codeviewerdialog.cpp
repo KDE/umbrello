@@ -23,7 +23,6 @@
 #include <qlayout.h>
 #include <qregexp.h>
 
-#include "codeoperationdialog.h"
 #include "codeviewerdialog.h"
 #include "../attribute.h"
 #include "../classifier.h"

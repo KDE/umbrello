@@ -22,8 +22,7 @@ libdialogs_la_SOURCES = overwritedialogue.cpp codegenerationwizard.cpp codegener
                         parameterpropertiesbase.ui parameterpropertiespage.cpp \
                         classtemplatesbase.ui classtemplatespage.cpp templatepropertiesbase.ui templatepropertiespage.cpp \
                         umlobjectassociationsbase.ui umlobjectassociationspage.cpp umlroledialog.cpp umlroleproperties.cpp \
-                        widgetcolorsbase.ui widgetcolorspage.cpp codeoperationdialog.cpp codevieweroptionspage.cpp \
-			codeoperationdialogbase.cpp
+                        widgetcolorsbase.ui widgetcolorspage.cpp codevieweroptionspage.cpp
 
 libdialogs_la_LDFLAGS = $(all_libraries) $(KDE_RPATH) -export-dynamic
 
