@@ -502,7 +502,7 @@ void RefactoringAssistant::addClassifier( UMLClassifier *classifier, QListViewIt
 	{
 		QListViewItem *superFolder = new KListViewItem( classifierItem, i18n("Base Classifiers") );
 		superFolder->setExpandable( true );
-		UMLClassifierList super = classifier->findSuperClassConcepts( m_doc );
+		UMLClassifierList super = classifier->findSuperClassConcepts();
 		for( UMLClassifier *cl = super.first(); cl ; cl = super.next() )
 		{
 			item = new KListViewItem( superFolder, cl->getName() );
@@ -521,7 +521,7 @@ void RefactoringAssistant::addClassifier( UMLClassifier *classifier, QListViewIt
 	//add derived classifiers
 		QListViewItem *derivedFolder = new KListViewItem( classifierItem, i18n("Derived Classifiers") );
 		derivedFolder->setExpandable( true );
-		UMLClassifierList derived = classifier->findSubClassConcepts ( m_doc );
+		UMLClassifierList derived = classifier->findSubClassConcepts();
 		for( UMLClassifier *d = derived.first(); d ; d = derived.next() )
 		{
 			item = new KListViewItem( derivedFolder, d->getName() );

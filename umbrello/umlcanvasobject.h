@@ -12,6 +12,7 @@
 
 #include "umlobject.h"
 #include "umlobjectlist.h"
+#include "umlclassifierlist.h"
 #include "umlassociationlist.h"
 #include <qptrlist.h>
 
@@ -104,11 +105,22 @@ public:
 	UMLAssociationList getSpecificAssocs(Uml::Association_Type assocType);
 
 	/**
-	 * Shorthand for getSpecificAssocs(Uml::at_Generalization)
+	 * Return a list of the superclasses of this concept.
+	 * TODO: This overlaps with UMLClassifier::findSuperClassConcepts(),
+	 *       see if we can merge the two.
 	 *
-	 * @return	The list of generalizations for the Concept.
+	 * @return	The list of superclasses for the concept.
 	 */
-	virtual UMLAssociationList getGeneralizations();
+	UMLClassifierList getSuperClasses();
+
+	/**
+	 * Return a list of the classes that inherit from this concept.
+	 * TODO: This overlaps with UMLClassifier::findSubClassConcepts(),
+	 *       see if we can merge the two.
+	 *
+	 * @return	The list of classes inheriting from the concept.
+	 */
+	UMLClassifierList getSubClasses();
 
 	/**
 	 * Shorthand for getSpecificAssocs(Uml::at_Realization)
@@ -171,12 +183,6 @@ protected:
 	 * List of all the associations in this class.
 	 */
 	UMLAssociationList m_AssocsList;
-
-	/**
-	 * List for computation of subsets of m_AssocsList.
-	 * This is always computed from m_AssocsList.
-	 */
-	UMLAssociationList m_TmpAssocs;
 
 private:
 

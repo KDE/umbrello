@@ -100,10 +100,6 @@ void JSWriter::writeClass(UMLClassifier *c)
 	}
 
 
-	UMLAssociationList generalizations = c->getGeneralizations();
-	UMLAssociationList aggregations = c->getAggregations();
-	UMLAssociationList compositions = c->getCompositions();
-
 	//check if class is abstract and / or has abstract methods
 	if(c->getAbstract() && !hasAbstractOps(c))
 		js << "/******************************* Abstract Class ****************************" << endl << "  "
@@ -117,12 +113,10 @@ void JSWriter::writeClass(UMLClassifier *c)
 	js << "\tthis._init ();" << endl;
 	js << "}" << endl;
 	js << endl;
-	int i;
-	UMLAssociation* association;
 
-	for (association = generalizations.first(), i = generalizations.count();
-	     association && i; association = generalizations.next(), i--) {
-		UMLObject* obj = m_doc->findUMLObject(association->getRoleBId());
+	UMLClassifierList superclasses = c->getSuperClasses();
+	for (UMLClassifier *obj = superclasses.first();
+	     obj; obj = superclasses.next()) {
 		js << classname << ".prototype = new " << cleanName(obj->getName()) << " ();" << endl;
 	}
 
@@ -159,6 +153,7 @@ void JSWriter::writeClass(UMLClassifier *c)
 	}
 
 	//associations
+	UMLAssociationList aggregations = c->getAggregations();
 	if (forceSections() || !aggregations.isEmpty ())
 	{
 		js << "\n\t/**Aggregations: */\n";
@@ -170,6 +165,7 @@ void JSWriter::writeClass(UMLClassifier *c)
 				js << "\tthis.m_" << cleanName(a->getObjectA()->getName()).lower() << " = new Array ();\n";
 		}
 	}
+	UMLAssociationList compositions = c->getCompositions();
 	if( forceSections() || !compositions.isEmpty())
 	{
 		js << "\n\t/**Compositions: */\n";

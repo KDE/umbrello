@@ -98,7 +98,7 @@ void ASWriter::writeClass(UMLClassifier *c)
 		as << "  */" << endl << endl;
 	}
 
-	UMLAssociationList generalizations = c->getGeneralizations();
+	UMLClassifierList superclasses = c->getSuperClasses();
 	UMLAssociationList aggregations = c->getAggregations();
 	UMLAssociationList compositions = c->getCompositions();
 
@@ -116,11 +116,9 @@ void ASWriter::writeClass(UMLClassifier *c)
 	as << "}" << endl;
 	as << endl;
 	int i;
-	UMLAssociation* association;
 
-	for(association = generalizations.first(), i = generalizations.count();
-	    association && i; association = generalizations.next(), i--) {
-		UMLObject* obj = m_doc->findUMLObject(association->getRoleBId());
+	for(UMLClassifier *obj = superclasses.first();
+	    obj; obj = superclasses.next()) {
 		as << classname << ".prototype = new " << cleanName(obj->getName()) << " ();" << endl;
 	}
 

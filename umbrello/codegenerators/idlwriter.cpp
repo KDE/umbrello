@@ -238,32 +238,29 @@ void IDLWriter::writeClass(UMLClassifier *c) {
 		return;
 	}
 
-	UMLAssociationList generalizations = c->getGeneralizations();
-	UMLAssociationList aggregations = c->getAggregations();
-	UMLAssociationList compositions = c->getCompositions();
-	UMLAssociation *a;
-
 	idl << spc();
 	if (c->getAbstract())
 		idl << "abstract ";
 	idl << "interface " << c->getName();
-	if (! generalizations.isEmpty()) {
+	UMLClassifierList superclasses = c->getSuperClasses();
+	if (! superclasses.isEmpty()) {
 		idl << " : ";
-		a = generalizations.first();
-		int n_parents = generalizations.count();
+		UMLClassifier *parent = superclasses.first();
+		int n_parents = superclasses.count();
 		while (n_parents--) {
-			UMLClassifier* parent = (UMLClassifier*)m_doc->findUMLObject(a->getRoleBId());
 			idl << qualifiedName(parent);
 			if (n_parents)
 				idl << ", ";
-	        	a = generalizations.next();
+	        	parent = superclasses.next();
 		}
 	}
 	idl << " {\n\n";
 	indentlevel++;
 
 	// Generate auxiliary declarations for multiplicity of associations
+	UMLAssociation *a;
 	bool didComment = false;
+	UMLAssociationList aggregations = c->getAggregations();
 	for (a = aggregations.first(); a; a = aggregations.next()) {
 		QString multiplicity = a->getMultiA();
 		if (multiplicity.isEmpty() || multiplicity == "1")
@@ -277,6 +274,8 @@ void IDLWriter::writeClass(UMLClassifier *c) {
 		idl << spc() << "typedef sequence<" << qualifiedName(other) << "> "
 		    << bareName << "Vector;\n\n";
 	}
+
+	UMLAssociationList compositions = c->getCompositions();
 	for (a = compositions.first(); a; a = compositions.next()) {
 		QString multiplicity = a->getMultiA();
 		if (multiplicity.isEmpty() || multiplicity == "1")

@@ -68,7 +68,6 @@ public:
 	UMLAssociationList plainAssociations;
 	UMLAssociationList aggregations;
 	UMLAssociationList compositions;
-	UMLAssociationList generalizations;
 
 	/**
 	 * what sub and super classifiers are related to this class
@@ -111,7 +110,7 @@ public:
 
 
 protected:
-	void init (UMLClassifier *c, UMLDoc *doc);
+	void init (UMLClassifier *c);
 
 private:
 

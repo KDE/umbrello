@@ -111,18 +111,14 @@ void PerlWriter::writeClass(UMLClassifier *c) {
 	}
 	perl << endl;
 
-	UMLAssociationList generalizations = c->getGeneralizations();
+	UMLClassifierList superclasses = c->getSuperClasses();
 	UMLAssociationList aggregations = c->getAggregations();
 	UMLAssociationList compositions = c->getCompositions();
-	UMLAssociation *a;
 
-	if (generalizations.count()) {
-		int i;
+	if (superclasses.count()) {
 		perl << "use base qw( ";
-		for (a = generalizations.first(), i = generalizations.count();
-		     a && i;
-		     a = generalizations.next(), i--) {
-			UMLObject* obj = m_doc->findUMLObject(a->getRoleBId());
+		for (UMLClassifier *obj = superclasses.first();
+		     obj; obj = superclasses.next()) {
 			perl << cleanName(obj->getName()) << " ";
 		}
 		perl << ");\n";

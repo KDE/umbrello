@@ -410,7 +410,7 @@ void CPPHeaderCodeDocument::updateContent( )
 	bool forcedoc = forceDoc();
         QString endLine = gen->getNewLineEndingChars(); // a shortcut..so we dont have to call this all the time
 
-        UMLClassifierList superclasses = c->findSuperClassConcepts(gen->getDocument(), UMLClassifier::ALL);
+        UMLClassifierList superclasses = c->findSuperClassConcepts();
 
 
 	// START GENERATING CODE/TEXT BLOCKS and COMMENTS FOR THE DOCUMENT

@@ -7,6 +7,7 @@
  *                                                                         *
  ***************************************************************************/
 #include "umlcanvasobject.h"
+#include "classifier.h"
 #include "association.h"
 #include "attribute.h"
 #include "operation.h"
@@ -103,7 +104,6 @@ UMLDoc * UMLCanvasObject::getParentUMLDoc ( )
 void UMLCanvasObject::init( UMLDoc * parentDoc ) {
 	m_parentDoc = parentDoc;
 	m_AssocsList.setAutoDelete(false);
-	m_TmpAssocs.setAutoDelete(false);
 }
 
 bool UMLCanvasObject::operator==(UMLCanvasObject& rhs) {
@@ -130,8 +130,49 @@ const UMLAssociationList& UMLCanvasObject::getAssociations() {
 	return m_AssocsList;
 }
 
-UMLAssociationList UMLCanvasObject::getGeneralizations() {
-	return getSpecificAssocs(Uml::at_Generalization);
+UMLClassifierList UMLCanvasObject::getSuperClasses() {
+	UMLClassifierList list;
+	// WARNING:
+	// Currently there's quite some chaos regarding role assignments in
+	// generalizations. The diagram code (AssociationWidget et al.) assumes
+	//    B -> A
+	// i.e. the specialized class is role B and the general class is role A,
+	// while the document code (i.e. UMLAssociation et al.) assumes
+	//    A -> B
+	// i.e. the general class is role B and the specialized class is role A,
+	// Right here, we have the A->B case.
+	// I hope to clean this up shortly   --okellogg 2003/12/22
+	for (UMLAssociation* a = m_AssocsList.first(); a; a = m_AssocsList.next()) {
+		if ( a->getAssocType() != Uml::at_Generalization ||
+		     a->getRoleAId() != this->getID() )
+			continue;
+		UMLClassifier *c = dynamic_cast<UMLClassifier*>(a->getObjectB());
+		if (c)
+			list.append(c);
+		else
+			kdDebug() << "UMLCanvasObject::getSuperClasses: generalization's"
+				  << " other end is not a UMLClassifier"
+				  << " (id= " << a->getRoleBId() << ")" << endl;
+	}
+	return list;
+}
+
+UMLClassifierList UMLCanvasObject::getSubClasses() {
+	UMLClassifierList list;
+	// WARNING: See remark at getSuperClasses()
+	for (UMLAssociation* a = m_AssocsList.first(); a; a = m_AssocsList.next()) {
+		if ( a->getAssocType() != Uml::at_Generalization ||
+		     a->getRoleBId() != this->getID() )
+			continue;
+		UMLClassifier *c = dynamic_cast<UMLClassifier*>(a->getObjectA());
+		if (c)
+			list.append(c);
+		else
+			kdDebug() << "UMLCanvasObject::getSubClasses: specialization's"
+				  << " other end is not a UMLClassifier"
+				  << " (id=" << a->getRoleAId() << ")" << endl;
+	}
+	return list;
 }
 
 UMLAssociationList UMLCanvasObject::getRealizations() {

@@ -108,9 +108,9 @@ void JavaClassDeclarationBlock::updateContent ( )
 
         // write inheritances out
         UMLClassifierList superclasses =
-                        c->findSuperClassConcepts(parentDoc->getParentGenerator()->getDocument(), UMLClassifier::CLASS);
+                        c->findSuperClassConcepts(UMLClassifier::CLASS);
         UMLClassifierList superinterfaces =
-                        c->findSuperClassConcepts(parentDoc->getParentGenerator()->getDocument(), UMLClassifier::INTERFACE);
+                        c->findSuperClassConcepts(UMLClassifier::INTERFACE);
 	int nrof_superclasses = superclasses.count();
 	int nrof_superinterfaces = superinterfaces.count();
 

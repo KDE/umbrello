@@ -7,7 +7,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "uml.h"
 #include "umldoc.h" 
 #include "interface.h"
 #include "operation.h"
@@ -51,45 +50,6 @@ QString UMLInterface::uniqChildName(UMLObject_Type type) {
 	}
 	return name;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
-bool UMLInterface::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
-	QDomElement classElement = qDoc.createElement("UML:Interface");
-	bool status = UMLObject::saveToXMI( qDoc, classElement );
-	//save operations
-	UMLClassifierListItem* pOp = 0;
-	for ( pOp = m_OpsList.first(); pOp != 0; pOp = m_OpsList.next() ) {
-		pOp->saveToXMI(qDoc, classElement);
-	}
-	qElement.appendChild( classElement );
-	return status;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-bool UMLInterface::loadFromXMI( QDomElement & element ) {
-	if( !UMLObject::loadFromXMI(element) ) {
-		return false;
-	}
-
-	QDomNode node = element.firstChild();
-	QDomElement tempElement = node.toElement();
-	while( !tempElement.isNull() ) {
-		QString tag = tempElement.tagName();
-		if (tag == "UML:Operation") {
-			UMLOperation* op = UMLApp::app()->getDocument()->createOperation( );
-			if( !op->loadFromXMI(tempElement) ||
-			    !this->addOperation(op) ) {
-				delete op;
-				return false;
-			}
-		} else {
-			kdWarning() << "loading unknown child type in UMLInterface::loadFromXMI" << endl;
-		}
-		node = node.nextSibling();
-		tempElement = node.toElement();
-	}//end while
-	return true;
-}
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLInterface::init() {
 

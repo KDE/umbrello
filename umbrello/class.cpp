@@ -292,7 +292,7 @@ bool UMLClass::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 }
 
 bool UMLClass::loadFromXMI( QDomElement & element ) {
-	if( !UMLObject::loadFromXMI( element ) ) {
+	if( !UMLClassifier::loadFromXMI( element ) ) {
 		return false;
 	}
 
@@ -300,12 +300,7 @@ bool UMLClass::loadFromXMI( QDomElement & element ) {
 	QDomElement tempElement = node.toElement();
 	while( !tempElement.isNull() ) {
 		QString tag = tempElement.tagName();
-		if( tag == "UML:Operation" ) {
-			UMLOperation *op = UMLApp::app()->getDocument()->createOperation( );
-			if( !op -> loadFromXMI( tempElement ) ||
-			    !addOperation( op, -1 ) )
-				return false;
-		} else if( tag == "UML:Attribute" ) {
+		if (tag == "UML:Attribute") {
 			UMLAttribute * pAtt = new UMLAttribute( this );
 			if( !pAtt -> loadFromXMI( tempElement ) )
 				return false;
@@ -334,7 +329,7 @@ bool UMLClass::loadFromXMI( QDomElement & element ) {
 			} else {
 				kdWarning() << "unknown listtype with stereotype:" << listType << endl;
 			}
-		} else {
+		} else if (tag != "UML:Operation") {
 			kdWarning() << "loading unknown child type in UMLClass::loadFromXMI" << endl;
 		}
 		node = node.nextSibling();

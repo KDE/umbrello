@@ -58,15 +58,9 @@ public:
 	 */
 	virtual QString uniqChildName(const UMLObject_Type type);
 
-	/**
-	 * Creates the <UML:Interface> element including its operations.
+	/*
+	 * For loadFromXMI/saveToXMI, the base class methods are used.
 	 */
-	virtual bool saveToXMI( QDomDocument& qDoc, QDomElement& qElement );
-
-	/**
-	 * Loads the <UML:Interface> element including its operations.
-	 */
-	virtual bool loadFromXMI( QDomElement & element );
 
 	virtual bool isInterface () { return true; }
 

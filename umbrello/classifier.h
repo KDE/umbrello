@@ -175,42 +175,38 @@ public:
         /**
          * Returns a list of concepts which this concept inherits from.
 	 *
-	 * @param doc		Pointer to the UMLDoc to use for the lookup.
 	 * @param type		The ClassifierType to seek.
          * @return	List of UMLClassifiers we inherit from.
          */
-        UMLClassifierList findSuperClassConcepts ( UMLDoc *doc, ClassifierType type = ALL);
+        UMLClassifierList findSuperClassConcepts(ClassifierType type = ALL);
 
         /**
          * Returns a list of concepts which inherit from this concept.
 	 *
-	 * @param doc		Pointer to the UMLDoc to use for the lookup.
 	 * @param type		The ClassifierType to seek.
          * @return	List of UMLClassifiers that inherit from us.
          */
-        UMLClassifierList findSubClassConcepts ( UMLDoc *doc, ClassifierType type = ALL);
+        UMLClassifierList findSubClassConcepts(ClassifierType type = ALL);
 
 	/** reimplemented from UMLObject */
 	virtual bool acceptAssociationType(Uml::Association_Type);
+
+	/**
+	 * Creates the XMI element including its operations and generalizations.
+	 * This method is usually overridden/extended by the inheriting classes.
+	 */
+	virtual bool saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+
+	/**
+	 * Creates the XMI element including its operations and generalizations.
+	 * This method is usually overridden/extended by the inheriting classes.
+	 */
+	virtual bool loadFromXMI( QDomElement & element );
 
 	//
 	// now a number of pure virtual methods..
 	//
 	
-	/**
-	 * Creates the XMI element including its operations, attributes and
-	 * templates.
-	 * This method must be implemented by the inheriting classes.
-	 */
-	virtual bool saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) = 0;
-
-	/**
-	 * Loads the XMI element including its operations, attributes and
-	 * templates.
-	 * This method must be implemented by the inheriting classes.
-	 */
-	virtual bool loadFromXMI( QDomElement & element ) = 0;
-
 	/**
 	 * Returns true if this classifier represents an interface.
 	 * This method must be implemented by the inheriting classes.

@@ -252,7 +252,6 @@ void JavaWriter::writeClass(UMLClassifier *c)
 void JavaWriter::writeClassDecl(UMLClassifier *c, QTextStream &java)
 {
 
-	UMLAssociationList generalizations = c->getGeneralizations(); // list of what we inherit from
 	QString classname = cleanName(c->getName()); // our class name
 
 	// write documentation for class, if any, first
@@ -288,7 +287,7 @@ void JavaWriter::writeClassDecl(UMLClassifier *c, QTextStream &java)
 
 	// write inheritances out
 	UMLClassifier *concept;
-	UMLClassifierList superclasses = c->findSuperClassConcepts(m_doc);
+	UMLClassifierList superclasses = c->findSuperClassConcepts();
 
 	if(superclasses.count()>0)
 		java<<" extends ";

@@ -123,8 +123,7 @@ void CPPHeaderClassDeclarationBlock::updateContent ( )
         startText.append(CPPHeaderClassName);
 
         // write inheritances out
-        UMLClassifierList superclasses =
-                        c->findSuperClassConcepts(parentDoc->getParentGenerator()->getDocument(), UMLClassifier::ALL);
+        UMLClassifierList superclasses = c->findSuperClassConcepts();
         int nrof_superclasses = superclasses.count();
 
         // write out inheritance

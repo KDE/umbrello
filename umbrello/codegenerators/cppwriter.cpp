@@ -239,16 +239,20 @@ void CppWriter::writeHeaderFile (UMLClassifier *c, QFile &fileh) {
 			return;
 		}
 	}
-	h<<"class "<<classifierInfo->className<<(classifierInfo->superclasses.count() > 0 ? " : ":"");
+	h << "class " << classifierInfo->className;
+	if (classifierInfo->superclasses.count() > 0)
+		h << " : ";
 	uint numOfSuperClasses = classifierInfo->superclasses.count();
 	uint i = 0;
 	for (UMLClassifier *superClass = classifierInfo->superclasses.first();
 			superClass ; superClass = classifierInfo->superclasses.next())
 	{
 		i++;
-		QString abstract = (superClass->getAbstract() || (dynamic_cast<UMLInterface*>(superClass))) ? "virtual ": "";
-		h<<abstract<<"public "<<cleanName(superClass->getName());
-                h<<((i==numOfSuperClasses || numOfSuperClasses == 1) ? "" : ", ");
+		if (superClass->getAbstract() || (dynamic_cast<UMLInterface*>(superClass)))
+			h << "virtual ";
+		h << "public " << cleanName(superClass->getName());
+                if (i < numOfSuperClasses)
+			h << ", ";
 	}
 
 	h<<endl<<"{"<<endl; // begin the body of the class
@@ -451,7 +455,6 @@ void CppWriter::writeSourceFile (UMLClassifier *c, QFile &filecpp ) {
 void CppWriter::writeClassDecl(UMLClassifier *c, QTextStream &cpp)
 {
 
-	UMLAssociationList generalizations = c->getGeneralizations(); // list of what we inherit from
 	QString classname = cleanName(c->getName()); // our class name
 
 	// write documentation for class, if any, first
@@ -465,29 +468,11 @@ void CppWriter::writeClassDecl(UMLClassifier *c, QTextStream &cpp)
 		writeBlankLine(cpp);
 	}
 
-	// Now write the actual class declaration
-	QString scope = ""; // = scopeToCPPDecl(c->getScope());
-	if (c->getScope() != Uml::Public) {
-		// We should emit a warning in here .. cpp doesnt like to allow
-		// private/protected classes. The best we can do (I believe)
-		// is to let these declarations default to "package visibility"
-		// which is a level between traditional "private" and "protected"
-		// scopes. To get this visibility level we just print nothing..
-	} else
-		scope = "public ";
-
-	cpp<<(c->getAbstract()?QString("abstract "):QString(""))<<scope;
-	if(classifierInfo->isInterface)
-		cpp<<"interface ";
-	else
-		cpp<<"class ";
-
-	cpp<<classname;
-
+	cpp << "class " << classname;
 
 	// write inheritances out
 	UMLClassifier *concept;
-	UMLClassifierList superclasses = c->findSuperClassConcepts(m_doc);
+	UMLClassifierList superclasses = c->findSuperClassConcepts();
 
 	int i = 0;
 	for (concept= superclasses.first(); concept; concept = superclasses.next())

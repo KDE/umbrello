@@ -1,18 +1,18 @@
 /***************************************************************************
-                          phpwriter.cpp  -  description
-                             -------------------
-    begin                : Thu Oct 17 2002
-    copyright            : (C) 2002 by Heiko Nardmann
-    email                : h.nardmann@secunet.de
+			  phpwriter.cpp  -  description
+			     -------------------
+    begin		: Thu Oct 17 2002
+    copyright	    : (C) 2002 by Heiko Nardmann
+    email		: h.nardmann@secunet.de
  ***************************************************************************/
 
 /***************************************************************************
- *                                                                         *
+ *									 *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
+ *   (at your option) any later version.				   *
+ *									 *
  ***************************************************************************/
 
 #include "phpwriter.h"
@@ -92,7 +92,7 @@ void PhpWriter::writeClass(UMLClassifier *c) {
 		php << " */" << endl ;
 	}
 
-	UMLAssociationList generalizations = c->getGeneralizations();
+	UMLClassifierList superclasses = c->getSuperClasses();
 	UMLAssociationList aggregations = c->getAggregations();
 	UMLAssociationList compositions = c->getCompositions();
 	UMLAssociation *a;
@@ -106,13 +106,9 @@ void PhpWriter::writeClass(UMLClassifier *c) {
 		<< "  Inherit from it instead and create only objects from the derived classes" << endl
 		<< "*****************************************************************************/" << endl << endl;
 
-	php << "class " << classname << (generalizations.count() > 0 ? " extends ":"");
-	int i;
-
-	for (a = generalizations.first(), i = generalizations.count();
-	        a && i;
-	        a = generalizations.next(), i--) {
-		UMLObject* obj = m_doc->findUMLObject(a->getRoleBId());
+	php << "class " << classname << (superclasses.count() > 0 ? " extends ":"");
+	for (UMLClassifier *obj = superclasses.first();
+		obj; obj = superclasses.next()) {
  		php<<cleanName(obj->getName());
 	}
 	php<<"\n{\n";
@@ -163,11 +159,11 @@ void PhpWriter::writeClass(UMLClassifier *c) {
 
 		php << "\t/**" << endl;
 		QString temp = "initAttributes sets all " + classname + " attributes to its default \
-		               value make sure to call this method within your class constructor";
+			       value make sure to call this method within your class constructor";
 		php << formatDoc(temp,"\t * ");
 		php << "\t */" << endl;
 		php << "\tfunction "<<"initAttributes( )" << endl;
-                php << "\t{" << endl;
+		php << "\t{" << endl;
 		for(UMLAttribute* at = atl->first(); at; at = atl->next())  {
 			if(!at->getInitialValue().isEmpty())  {
 				php << "\t\t$this->" << cleanName(at->getName()) << " = " <<
@@ -365,13 +361,13 @@ void PhpWriter::writeAttributes(UMLAttributeList &atList, QTextStream &php) {
 }
 
 QString PhpWriter::getLanguage() {
-        return "PHP";
+	return "PHP";
 }
 
 bool PhpWriter::isType (QString & type)
 {
    if(type == "PhpWriter")
-        return true;
+	return true;
    return false;
 }
 

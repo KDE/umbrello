@@ -222,8 +222,8 @@ void XMLSchemaWriter::writeAbstractClassifier (UMLClassifier *c, QTextStream &XM
 {
 
 	// preparations
-	UMLClassifierList subclasses = c->findSubClassConcepts(m_doc); // list of what inherits from us
-	UMLClassifierList superclasses = c->findSuperClassConcepts(m_doc); // list of what inherits from us
+	UMLClassifierList subclasses = c->findSubClassConcepts(); // list of what inherits from us
+	UMLClassifierList superclasses = c->findSuperClassConcepts(); // list of what we inherit from
 
 	// write the main declaration
 	writeConcreteClassifier (c, XMLschema);
@@ -382,8 +382,8 @@ void XMLSchemaWriter::writeConcreteClassifier (UMLClassifier *c, QTextStream &XM
 
 	// preparations.. gather information about this classifier
 	//
-	UMLClassifierList superclasses = c->findSuperClassConcepts(m_doc); // list of what inherits from us
-	UMLClassifierList subclasses = c->findSubClassConcepts(m_doc); // list of what inherits from us
+	UMLClassifierList superclasses = c->findSuperClassConcepts(); // list of what inherits from us
+	UMLClassifierList subclasses = c->findSubClassConcepts(); // list of what we inherit from
 	UMLAssociationList aggregations = c->getAggregations();
 	UMLAssociationList compositions = c->getCompositions();
 	// BAD! only way to get "general" associations.
@@ -414,7 +414,7 @@ QStringList XMLSchemaWriter::findAttributeGroups (UMLClassifier *c)
 	// we need to look for any class we inherit from. IF these
 	// have attributes, then we need to notice
 	QStringList list;
-	UMLClassifierList superclasses = c->findSuperClassConcepts(m_doc); // list of what inherits from us
+	UMLClassifierList superclasses = c->findSuperClassConcepts(); // list of what inherits from us
 	for(UMLClassifier *classifier = superclasses.first(); classifier; classifier = superclasses.next())
 	{
 		if(classifier->getAbstract())
@@ -721,7 +721,7 @@ void XMLSchemaWriter::writeAssociationRoleDecl( UMLClassifier *c, QString multi,
 	// UPDATE: partial solution to the above: as of 13-Mar-2003 we now write BOTH a complexType
 	//         AND a group declaration for interfaces AND classes which are inherited from.
 	//
-	if ((isAbstract || isInterface ) && c->findSubClassConcepts(m_doc).count() > 0)
+	if ((isAbstract || isInterface ) && c->findSubClassConcepts().count() > 0)
 		XMLschema<<getIndent()<<"<"<<makeSchemaTag("group")
 			<<" ref=\""<<makePackageTag(getElementGroupTypeName(c))<<"\"";
 	else

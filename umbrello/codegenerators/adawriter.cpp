@@ -283,18 +283,16 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 		ada << "\n";
 	}
 
-	UMLAssociationList generalizations = c->getGeneralizations();
-	generalizations.setAutoDelete(false);
+	UMLClassifierList superclasses = c->getSuperClasses();
 
 	ada << spc() << "type Object is ";
 	if (c->getAbstract())
 		ada << "abstract ";
-	if (generalizations.isEmpty()) {
+	if (superclasses.isEmpty()) {
 		ada << "tagged ";
 	} else {
 		// FIXME: Multiple inheritance is not yet supported
-		UMLAssociation *a = generalizations.first();
-		UMLClassifier* parent = (UMLClassifier*) m_doc->findUMLObject(a->getRoleBId());
+		UMLClassifier* parent = superclasses.first();
 		ada << "new " << qualifiedName(parent) << ".Object with ";
 	}
 	ada << "private;\n\n";
@@ -384,12 +382,11 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 	ada << spc() << "type Object is ";
 	if (c->getAbstract())
 		ada << "abstract ";
-	if (generalizations.isEmpty()) {
+	if (superclasses.isEmpty()) {
 		ada << "tagged ";
 	} else {
 		// FIXME: Multiple inheritance is not yet supported
-		UMLAssociation *a = generalizations.first();
-		UMLClassifier* parent = (UMLClassifier*) m_doc->findUMLObject(a->getRoleBId());
+		UMLClassifier* parent = superclasses.first();
 		ada << "new " << qualifiedName(parent) << ".Object with ";
 	}
 	ada << "record\n";

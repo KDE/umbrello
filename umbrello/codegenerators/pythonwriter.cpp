@@ -61,10 +61,9 @@ void PythonWriter::writeClass(UMLClassifier *c) {
 	QString classname = cleanName(c->getName());
 	QString fileName = c->getName();
 
-	UMLAssociationList generalizations = c->getGeneralizations();
+	UMLClassifierList superclasses = c->getSuperClasses();
 	UMLAssociationList aggregations = c->getAggregations();
 	UMLAssociationList compositions = c->getCompositions();
-	UMLAssociation *a;
 
 	//find an appropriate name for our file
 	fileName = findFileName(c,".py");
@@ -117,18 +116,17 @@ void PythonWriter::writeClass(UMLClassifier *c) {
 	}
 	h<<endl;
 
-	h<<"class "<<classname<<(generalizations.count() > 0 ? " (":"");
-	int i;
+	h<<"class "<<classname<<(superclasses.count() > 0 ? " (":"");
+	int i = superclasses.count();
 
-	for (a = generalizations.first(), i = generalizations.count();
-	     a && i; a = generalizations.next(), i--) {
+	for (UMLClassifier *obj = superclasses.first();
+	     obj && i; obj = superclasses.next(), i--) {
 
-		UMLObject* obj = m_doc->findUMLObject(a->getRoleBId());
 		h<<cleanName(obj->getName())<<(i>1?", ":"");
 	}
 
 
-	h<<(generalizations.count() > 0 ? ")":"")<<":"<<endl<<endl;
+	h<<(superclasses.count() > 0 ? ")":"")<<":"<<endl<<endl;
 
 	if(forceDoc() || !c->getDoc().isEmpty()) {
 		h<<spaceIndent<<"\"\"\""<<endl;

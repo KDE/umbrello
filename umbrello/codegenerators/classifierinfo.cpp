@@ -24,12 +24,12 @@
 ClassifierInfo::ClassifierInfo( UMLClassifier *classifier , UMLDoc *doc)
 {
 
-	init(classifier, doc);
+	init(classifier);
 }
 
 ClassifierInfo::~ClassifierInfo() { }
 
-void ClassifierInfo::init(UMLClassifier *c, UMLDoc *doc) {
+void ClassifierInfo::init(UMLClassifier *c) {
 
 	// make all QPtrLists autoDelete false
 	atpub.setAutoDelete(false);
@@ -84,10 +84,10 @@ void ClassifierInfo::init(UMLClassifier *c, UMLDoc *doc) {
 	}
 
 	// inheritance issues
-	superclasses = c->findSuperClassConcepts(doc); // list of we inherit from
+	superclasses = c->getSuperClasses(); // list of what we inherit from
 	superclasses.setAutoDelete(false);
 
-	subclasses = c->findSubClassConcepts(doc); // list of what inherits from us
+	subclasses = c->getSubClasses();     // list of what inherits from us
 	subclasses.setAutoDelete(false);
 
 	// another preparation, determine what we have
@@ -99,9 +99,6 @@ void ClassifierInfo::init(UMLClassifier *c, UMLDoc *doc) {
 
 	compositions = c->getCompositions();
 	compositions.setAutoDelete(false);
-
-	generalizations = c->getGeneralizations();
-	generalizations.setAutoDelete(false);
 
 	// set some summary information about the classifier now
 	hasAssociations = plainAssociations.count() > 0 || aggregations.count() > 0 || compositions.count() > 0;

@@ -14,6 +14,7 @@
 #include "stereotype.h"
 #include "clipboard/idchangelog.h"
 #include "umldoc.h"
+#include "uml.h"
 #include <kdebug.h>
 #include <klocale.h>
 
@@ -26,16 +27,6 @@ UMLClassifier::UMLClassifier(UMLDoc * parent, const QString & name, int id)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLClassifier::~UMLClassifier() {
 }
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-// UMLObject* UMLClassifier::addOperation(QString name, int id) {
-// 	UMLOperation *o = new UMLOperation(this, name, id);
-// 	m_OpsList.append(o);
-// 	emit modified();
-// 	emit operationAdded(o);
-// 	connect(o,SIGNAL(modified()),this,SIGNAL(modified()));
-// 	return o;
-// }
 
 bool UMLClassifier::checkOperationSignature( UMLOperation *op )
 {
@@ -54,7 +45,7 @@ bool UMLClassifier::checkOperationSignature( UMLOperation *op )
 	for( UMLOperation *test = dynamic_cast<UMLOperation*>(list.first()); 
 	     test != 0; 
 	     test = dynamic_cast<UMLOperation*>(list.next()) )
-	{// Should we test for defautl values? ( ambiguous signatures, or is that language/compiler dependent?
+	{// Should we test for default values? ( ambiguous signatures, or is that language/compiler dependent?
 		testParams = test->getParmList( );
 		opParams   = op->getParmList( );
 		
@@ -78,23 +69,22 @@ bool UMLClassifier::checkOperationSignature( UMLOperation *op )
 
 bool UMLClassifier::addOperation(UMLOperation* op, int position )
 {
-	if( m_OpsList.findRef( op ) == -1  &&
-	    checkOperationSignature( op ) == true ) 
-	{
-		if( op -> parent() )
-			op -> parent() -> removeChild( op );
-		this -> insertChild( op );
-		if( position >= 0 && position <= (int)m_OpsList.count() )
-			m_OpsList.insert(position,op);
-		else
-			m_OpsList.append( op );
-		emit childObjectAdded(op);
-		emit operationAdded(op);
-		emit modified();
-		connect(op,SIGNAL(modified()),this,SIGNAL(modified()));
-		return true;
-	}
-	return false;
+	if( m_OpsList.findRef( op ) != -1  ||
+	    checkOperationSignature( op ) == false ) 
+		return false;
+
+	if( op -> parent() )
+		op -> parent() -> removeChild( op );
+	this -> insertChild( op );
+	if( position >= 0 && position <= (int)m_OpsList.count() )
+		m_OpsList.insert(position,op);
+	else
+		m_OpsList.append( op );
+	emit childObjectAdded(op);
+	emit operationAdded(op);
+	emit modified();
+	connect(op,SIGNAL(modified()),this,SIGNAL(modified()));
+	return true;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool UMLClassifier::addOperation(UMLOperation* Op, IDChangeLog* Log) {
@@ -171,87 +161,60 @@ UMLObject* UMLClassifier::findChildObject(int id) {
 	return UMLCanvasObject::findChildObject(id);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// the sad thing here is that we have to pass along a UMLDocument pointer.
-// It would be better if each concept knew what document it belonged to.
-// This should be changed in the future.
-UMLClassifierList UMLClassifier::findSubClassConcepts ( UMLDoc *doc, ClassifierType type) {
-        UMLAssociationList list = this->getGeneralizations();
-        UMLAssociationList rlist = this->getRealizations();
+UMLClassifierList UMLClassifier::findSubClassConcepts (ClassifierType type) {
+	UMLClassifierList list = this->getSubClasses();
+	UMLAssociationList rlist = this->getRealizations();
 
-        UMLClassifierList inheritingConcepts;
-        int myID = this->getID();
-        for (UMLAssociation *a = list.first(); a; a = list.next())
-        {
-                // Concepts on the "A" side inherit FROM this class
-                // as long as the ID of the role A class isnt US (in
-                // that case, the generalization describes how we inherit
-                // from another class).
-                // SO check for roleA id, it DOESNT match this concepts ID,
-                // then its a concept which inherits from us
-                if (a->getRoleAId() != myID)
-                {
-                        UMLObject* obj = doc->findUMLObject(a->getRoleAId());
-                        UMLClassifier *concept = dynamic_cast<UMLClassifier*>(obj);
-			//FIXME does the addition of Datatypes break these if statements?
-			if (concept && (type == ALL || (!concept->isInterface() && type == CLASS)
-					|| (concept->isInterface() && type == INTERFACE)))
-                                inheritingConcepts.append(concept);
-                }
-
-        }
-
-        for (UMLAssociation *a = rlist.first(); a; a = rlist.next())
+	UMLClassifierList inheritingConcepts;
+	int myID = this->getID();
+	for (UMLClassifier *c = list.first(); c; c = list.next())
 	{
-                if (a->getRoleAId() != myID)
+		if (type == ALL || (!c->isInterface() && type == CLASS)
+				|| (c->isInterface() && type == INTERFACE))
+			inheritingConcepts.append(c);
+	}
+
+	for (UMLAssociation *a = rlist.first(); a; a = rlist.next())
+	{
+		if (a->getRoleAId() != myID)
 		{
-                        UMLObject* obj = doc->findUMLObject(a->getRoleAId());
-                        UMLClassifier *concept = dynamic_cast<UMLClassifier*>(obj);
+			UMLObject* obj = a->getObjectA();
+			UMLClassifier *concept = dynamic_cast<UMLClassifier*>(obj);
 			if (concept && (type == ALL || (!concept->isInterface() && type == CLASS)
 					|| (concept->isInterface() && type == INTERFACE)))
-                                inheritingConcepts.append(concept);
+				inheritingConcepts.append(concept);
 		}
 	}
 
-        return inheritingConcepts;
+	return inheritingConcepts;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// Same note as for the above findSubClassConcepts method. Need to have
-// each Concept already know its UMLdocument.
-UMLClassifierList UMLClassifier::findSuperClassConcepts ( UMLDoc *doc, ClassifierType type ) {
-        UMLAssociationList list = this->getGeneralizations();
-        UMLAssociationList rlist = this->getRealizations();
+UMLClassifierList UMLClassifier::findSuperClassConcepts (ClassifierType type) {
+	UMLClassifierList list = this->getSuperClasses();
+	UMLAssociationList rlist = this->getRealizations();
 
-        UMLClassifierList parentConcepts;
-        int myID = this->getID();
-        for (UMLAssociation *a = list.first(); a; a = list.next())
-        {
-                // Concepts on the "B" side are parent (super) classes of this one
-                // So check for roleB id, it DOESNT match this concepts ID,
-                // then its a concept which we inherit from
-                if (a->getRoleBId() != myID)
-                {
-                        UMLObject* obj = doc->findUMLObject(a->getRoleBId());
-                        UMLClassifier *concept = dynamic_cast<UMLClassifier*>(obj);
-
-                        if (concept && (type == ALL || (!concept->isInterface() && type == CLASS)
-					|| (concept->isInterface() && type == INTERFACE)))
-                                parentConcepts.append(concept);
-                }
-        }
-
-        for (UMLAssociation *a = rlist.first(); a; a = rlist.next())
+	UMLClassifierList parentConcepts;
+	int myID = this->getID();
+	for (UMLClassifier *concept = list.first(); concept; concept = list.next())
 	{
-                if (a->getRoleBId() != myID)
-		{
-                        UMLObject* obj = doc->findUMLObject(a->getRoleBId());
-                        UMLClassifier *concept = dynamic_cast<UMLClassifier*>(obj);
-                        if (concept && (type == ALL || (!concept->isInterface() && type == CLASS)
-                                        || (concept->isInterface() && type == INTERFACE)))
-                                parentConcepts.append(concept);
-                }
-        }
+		if (type == ALL || (!concept->isInterface() && type == CLASS)
+				|| (concept->isInterface() && type == INTERFACE))
+			parentConcepts.append(concept);
+	}
 
-        return parentConcepts;
+	for (UMLAssociation *a = rlist.first(); a; a = rlist.next())
+	{
+		if (a->getRoleBId() != myID)
+		{
+			UMLObject* obj = a->getObjectB();
+			UMLClassifier *concept = dynamic_cast<UMLClassifier*>(obj);
+			if (concept && (type == ALL || (!concept->isInterface() && type == CLASS)
+					|| (concept->isInterface() && type == INTERFACE)))
+				parentConcepts.append(concept);
+		}
+	}
+
+	return parentConcepts;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool UMLClassifier::operator==( UMLClassifier & rhs ) {
@@ -318,5 +281,54 @@ void UMLClassifier::init() {
 	m_BaseType = ot_UMLObject;
 	m_OpsList.setAutoDelete(false);
 }
+////////////////////////////////////////////////////////////////////////////////////////////////////
+bool UMLClassifier::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
+	QDomElement classElement = qDoc.createElement("UML:Interface");
+	bool status = UMLObject::saveToXMI( qDoc, classElement );
+	//save operations
+	UMLClassifierListItem* pOp = 0;
+	for ( pOp = m_OpsList.first(); pOp != 0; pOp = m_OpsList.next() ) {
+		pOp->saveToXMI(qDoc, classElement);
+	}
+	qElement.appendChild( classElement );
+	return status;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+bool UMLClassifier::loadFromXMI( QDomElement & element ) {
+	if( !UMLObject::loadFromXMI(element) ) {
+		return false;
+	}
+	QString gen = "generalization";
+	/* I'm working on this  --okellogg 2003/12/22
+	int count = 0;
+	while (element.hasAttribute(gen)) {
+		QString superIdStr = element.attribute( gen, "-1" );
+		int superId = superIdStr.toInt();
+
+		gen = "generalization_" + QString::number(++count);
+		// Yup, this is non-standard - but I don't know how to handle
+		// more than one parent in a uml13.dtd conforming way.
+		// Enlightenment, anyone?
+	}
+	 */
+	QDomNode node = element.firstChild();
+	QDomElement tempElement = node.toElement();
+	while( !tempElement.isNull() ) {
+		QString tag = tempElement.tagName();
+		if (tag == "UML:Operation") {
+			UMLOperation* op = UMLApp::app()->getDocument()->createOperation( );
+			if( !op->loadFromXMI(tempElement) ||
+			    !this->addOperation(op) ) {
+				delete op;
+				return false;
+			}
+		}
+		node = node.nextSibling();
+		tempElement = node.toElement();
+	}//end while
+	return true;
+}
+
 
 #include "classifier.moc"
