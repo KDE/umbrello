@@ -142,7 +142,7 @@ QString CodeParameter::getID () {
 	{
 		// cant use Role "ID" as that is used to distinquish if its
 		// role "A" or "B"
-		UMLAssociation *assoc = (UMLAssociation*) role->parent();
+		UMLAssociation *assoc = role->getParentAssociation();
         	return QString::number(assoc->getID());
 	} else
         	return QString::number(getParentObject()->getID());
