@@ -10,6 +10,7 @@
 // own header
 #include "classimport.h"
 // qt/kde includes
+#include <qmap.h>
 #include <qregexp.h>
 //#include <kapplication.h>
 #include <kmessagebox.h>
@@ -172,15 +173,18 @@ UMLObject* ClassImport::insertAttribute(UMLClass *o, Uml::Scope scope, QString n
 			  << o->getName() << " (object type " << ot << ")" << endl;
 		return NULL;
 	}
-	QString strippedComment = doxyComment(comment);
-	UMLAttribute *attr = ((UMLClass*)o)->addAttribute(name);
-	attr->setScope(scope);
-	attr->setStatic(isStatic);
+	UMLClass *owner = static_cast<UMLClass*>(o);
+	UMLObjectList atts = owner->findChildObject(Uml::ot_Attribute, name);
+	if (atts.count()) {
+		return atts.first();
+	}
 	m_putAtGlobalScope = true;
 	UMLObject *obj = createUMLObject(Uml::ot_UMLObject, type, parentPkg);
 	m_putAtGlobalScope = false;
-	UMLClassifier *classifier = dynamic_cast<UMLClassifier*>(obj);
-	attr->setType(classifier);
+	UMLClassifier *attrType = dynamic_cast<UMLClassifier*>(obj);
+	UMLAttribute *attr = owner->addAttribute(name, attrType, scope);
+	attr->setStatic(isStatic);
+	QString strippedComment = doxyComment(comment);
 	if (! strippedComment.isEmpty()) {
 		attr->setDoc(strippedComment);
 		UMLApp::app()->getDocWindow()->showDocumentation(attr, true);
@@ -241,6 +245,33 @@ void ClassImport::createGeneralization(UMLClass *child, const QString &parentNam
 	m_umldoc->addAssociation(assoc);
 }
 
+void ClassImport::feedTheModel(QString fileName) {
+	QMap<QString, Dependence> deps = m_driver->dependences(fileName);
+	if (deps.empty()) {
+		if (m_seenFiles.find(fileName) != m_seenFiles.end())
+			return;
+		m_seenFiles.append(fileName);
+	} else {
+		QMap<QString, Dependence>::Iterator it;
+		for (it = deps.begin(); it != deps.end(); ++it) {
+			if (it.data().second == Dep_Global)  // don't want these
+				continue;
+			QString includeFile = it.key();
+			kdDebug() << fileName << ": " << includeFile << " => " << it.data().first << endl;
+			feedTheModel(includeFile);
+		}
+	}
+	TranslationUnitAST *ast = m_driver->translationUnit( fileName );
+	if (ast == NULL) {
+		kdError() << "ClassImport::feedTheModel: " << fileName << " not found" << endl;
+		return;
+	}
+	CppTree2Uml modelFeeder( fileName, this );
+	kdDebug() << "Now calling modelFeeder.parseTranslationUnit for file "
+		  << fileName << endl;
+	modelFeeder.parseTranslationUnit( ast );
+}
+
 void ClassImport::importCPP(QStringList headerFileList) {
 	// Reset the driver
 	m_driver->reset();
@@ -267,6 +298,7 @@ void ClassImport::importCPP(QStringList headerFileList) {
                 }
 
 	}
+	m_seenFiles.clear();
 	for (QStringList::Iterator fileIT = headerFileList.begin();
 				   fileIT != headerFileList.end(); ++fileIT) {
 		QString fileName = (*fileIT);
@@ -277,14 +309,10 @@ void ClassImport::importCPP(QStringList headerFileList) {
 		// many large header files but slows down import because the list view is
 		// intermittently updated.
 
-		m_driver->parseFile( fileName );
-		TranslationUnitAST *ast = m_driver->translationUnit( fileName );
-		if (ast == NULL)
+		if (m_seenFiles.find(fileName) != m_seenFiles.end())
 			continue;
-		CppTree2Uml modelFeeder( fileName, this );
-		// kdDebug() << "Now calling modelFeeder.parseTranslationUnit for file "
-		//	   << fileName << endl;
-		modelFeeder.parseTranslationUnit( ast );
+		m_driver->parseFile( fileName );
+		feedTheModel(fileName);
 	}
 	m_umldoc->writeToStatusBar("Ready.");
 }

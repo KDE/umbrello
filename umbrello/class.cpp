@@ -29,14 +29,14 @@ UMLClass::UMLClass(const QString & name, Uml::IDType id) : UMLClassifier (name, 
 	init();
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 UMLClass::~UMLClass() {
 	// The parent (UMLClassifier) destructor is called automatically (C++)
 	// Also, no need for explicitly clear()ing any lists - the QList
 	// destructor does this for us. (Similarly, the QList constructor
 	// already gives us clear()ed lists.)
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 UMLAttribute* UMLClass::addAttribute(const QString &name, Uml::IDType id /* = Uml::id_None */) {
 	for (UMLClassifierListItemListIt lit(m_List); lit.current(); ++lit) {
 		UMLClassifierListItem *obj = lit.current();
@@ -52,7 +52,18 @@ UMLAttribute* UMLClass::addAttribute(const QString &name, Uml::IDType id /* = Um
 	emit attributeAdded(a);
 	return a;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
+UMLAttribute* UMLClass::addAttribute(const QString &name, UMLClassifier *type, Uml::Scope scope) {
+	UMLAttribute *a = new UMLAttribute(this, name, Uml::id_None, scope);
+	if (type)
+		a->setType(type);
+	m_List.append(a);
+	emit modified();
+	connect(a,SIGNAL(modified()),this,SIGNAL(modified()));
+	emit attributeAdded(a);
+	return a;
+}
+
 bool UMLClass::addAttribute(UMLAttribute* Att, IDChangeLog* Log /* = 0 */,
 			    int position /* = -1 */) {
 	QString name = (QString)Att->getName();
@@ -73,7 +84,7 @@ bool UMLClass::addAttribute(UMLAttribute* Att, IDChangeLog* Log /* = 0 */,
 	}
 	return false;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 int UMLClass::removeAttribute(UMLObject* a) {
 	if(!m_List.remove((UMLAttribute *)a)) {
 		kdDebug() << "can't find att given in list" << endl;
@@ -87,7 +98,7 @@ int UMLClass::removeAttribute(UMLObject* a) {
 	delete a;
 	return m_List.count();
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 UMLAttribute* UMLClass::takeAttribute(UMLAttribute* a) {
 	int index = m_List.findRef( a );
 	a = (index == -1 ? 0 : dynamic_cast<UMLAttribute*>(m_List.take( )));
@@ -97,7 +108,7 @@ UMLAttribute* UMLClass::takeAttribute(UMLAttribute* a) {
 	}
 	return a;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 UMLObject* UMLClass::addTemplate(const QString &name, Uml::IDType id) {
 	UMLTemplate* newTemplate = new UMLTemplate(this, name, id);
 	m_List.append(newTemplate);
@@ -106,7 +117,7 @@ UMLObject* UMLClass::addTemplate(const QString &name, Uml::IDType id) {
 	emit templateAdded(newTemplate);
 	return newTemplate;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool UMLClass::addTemplate(UMLTemplate* newTemplate, IDChangeLog* log /* = 0*/) {
 	QString name = newTemplate->getName();
 	if (findChildObject(Uml::ot_Template, name).count() == 0) {
@@ -123,6 +134,7 @@ bool UMLClass::addTemplate(UMLTemplate* newTemplate, IDChangeLog* log /* = 0*/) 
 	}
 	return false;
 }
+
 bool UMLClass::addTemplate(UMLTemplate* Template, int position)
 {
 	QString name = Template->getName();
@@ -141,7 +153,7 @@ bool UMLClass::addTemplate(UMLTemplate* Template, int position)
 	//else
 	return false;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 int UMLClass::removeTemplate(UMLTemplate* umltemplate) {
 	if ( !m_List.remove(umltemplate) ) {
 		kdWarning() << "can't find att given in list" << endl;
@@ -152,7 +164,7 @@ int UMLClass::removeTemplate(UMLTemplate* umltemplate) {
 	disconnect(umltemplate,SIGNAL(modified()),this,SIGNAL(modified()));
 	return m_List.count();
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 UMLTemplate* UMLClass::takeTemplate(UMLTemplate* t) {
 	int index = m_List.findRef( t );
 	t = (index == -1 ? 0 : dynamic_cast<UMLTemplate*>(m_List.take( )));

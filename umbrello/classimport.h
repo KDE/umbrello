@@ -108,9 +108,12 @@ public:
 	 */
 	QString doxyComment(const QString &comment);
 
+	void feedTheModel(QString fileName);
+
 private:
 	UMLDoc * m_umldoc;  // just a shorthand for UMLApp::app()->getDocument()
 	CppDriver * m_driver;
+	QStringList m_seenFiles;
 	/**
 	 * On encountering a scoped typename string where the scopes
 	 * have not yet been seen, we synthesize UML objects for the
