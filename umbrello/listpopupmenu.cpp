@@ -282,10 +282,11 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object, bool multi) :
 			break;
 
 		case Uml::wt_Object:
-			setupColor(object -> getUseFillColor());
-			insertSeparator();
-			if( pView -> getType() == Uml::dt_Sequence ) {
-				//FIXME
+			//Used for sequence diagram and collaboration diagram widgets
+
+			setupColor( object->getUseFillColor() );
+			if( pView->getType() == Uml::dt_Sequence ) {
+				insertSeparator();
 				int tabUp = insertItem( SmallIcon( "1uparrow"), i18n("Move Up"), mt_Up);
 				insertItem( SmallIcon( "1downarrow"), i18n("Move Down"), mt_Down);
 				if ( !(static_cast<ObjectWidget*>(object))->canTabUp() ) {
