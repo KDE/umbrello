@@ -34,8 +34,8 @@ const char * CPPCodeGenerationPolicy::DEFAULT_STRING_CLASS_INCLUDE = "string";
 const char * CPPCodeGenerationPolicy::DEFAULT_VECTOR_CLASS_NAME = "vector";
 const char * CPPCodeGenerationPolicy::DEFAULT_VECTOR_CLASS_INCLUDE = "vector";
 const char * CPPCodeGenerationPolicy::DEFAULT_VECTOR_METHOD_APPEND = "%VARNAME%.push_back(value);";
-const char * CPPCodeGenerationPolicy::DEFAULT_VECTOR_METHOD_REMOVE = "int size = %VARNAME%.size();\nfor ( int i = 0; i < size; i++) {\n\t%ITEMCLASS% item = %VARNAME%.at(i);\n\tif(item == value) {\n\t\tvector<%ITEMCLASS%>::iterator it = %VARNAME%.begin() + i;\n\t\t%VARNAME%.erase(it);\n\t\treturn;\n\t}\n }";
-const char * CPPCodeGenerationPolicy::DEFAULT_VECTOR_METHOD_INIT = ""; // nothing to do in std::vector 
+const char * CPPCodeGenerationPolicy::DEFAULT_VECTOR_METHOD_REMOVE = "int size = %VARNAME%.size();\nfor ( int i = 0; i < size; ++i) {\n\t%ITEMCLASS% item = %VARNAME%.at(i);\n\tif(item == value) {\n\t\tvector<%ITEMCLASS%>::iterator it = %VARNAME%.begin() + i;\n\t\t%VARNAME%.erase(it);\n\t\treturn;\n\t}\n }";
+const char * CPPCodeGenerationPolicy::DEFAULT_VECTOR_METHOD_INIT = ""; // nothing to do in std::vector
 const char * CPPCodeGenerationPolicy::DEFAULT_OBJECT_METHOD_INIT = "%VARNAME% = new %ITEMCLASS%( );";
 const bool CPPCodeGenerationPolicy::DEFAULT_STRING_INCLUDE_GLOBAL = true;
 const bool CPPCodeGenerationPolicy::DEFAULT_VECTOR_INCLUDE_GLOBAL = true;
@@ -448,8 +448,8 @@ void CPPCodeGenerationPolicy::initFields ( CPPCodeGenerator * parent ) {
 	m_vectorClassNameInclude = DEFAULT_VECTOR_CLASS_INCLUDE;
 	m_vectorIncludeIsGlobal = DEFAULT_VECTOR_INCLUDE_GLOBAL;
 
-	m_vectorMethodAppendBase = DEFAULT_VECTOR_METHOD_APPEND; 
-	m_vectorMethodRemoveBase = DEFAULT_VECTOR_METHOD_REMOVE; 
+	m_vectorMethodAppendBase = DEFAULT_VECTOR_METHOD_APPEND;
+	m_vectorMethodRemoveBase = DEFAULT_VECTOR_METHOD_REMOVE;
 	m_vectorMethodInitBase = DEFAULT_VECTOR_METHOD_INIT;
 	m_objectMethodInitBase = DEFAULT_OBJECT_METHOD_INIT;
 

@@ -229,8 +229,9 @@ void ClassImport::importCPP(QStringList headerFileList) {
 		QStringList includes = QStringList::split( ':', umbrello_incpath );
 
 		QStringList::Iterator end(includes.end());
-		for (QStringList::Iterator i(includes.begin()); i != end; i++)
+		for (QStringList::Iterator i(includes.begin()); i != end; ++i) {
 			m_driver->addIncludePath( *i );
+                }
 
 	}
 	for (QStringList::Iterator fileIT = headerFileList.begin();
