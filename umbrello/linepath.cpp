@@ -7,7 +7,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <math.h>
+#include <cmath>
 
 #include <kdebug.h>
 
@@ -357,6 +357,9 @@ void LinePath::calculateHead() {
 	int ya = getPoint(size - 2).y();
 	int xb = getPoint(size -1).x();
 	int yb = getPoint(size -1).y();
+	double deltaX = xb - xa;
+	double deltaY = yb - ya;
+	double hypotenuse = sqrt(deltaX*deltaX + deltaY*deltaY); // the length
 	int halfLength = 10;
 	double arrowAngle = 0.5 * atan(sqrt(3.0) / 3.0);
 	if (getAssocType() == at_Generalization)
@@ -364,10 +367,10 @@ void LinePath::calculateHead() {
 		arrowAngle *= 2;	// wider
 		halfLength += 3;	// longer
 	}
-	double slope = atan2(double(yb - ya), double(xb - xa));	//slope of line
-	double cosx = halfLength * cos(slope);
+	double slope = atan2(deltaY, deltaX);	//slope of line
+	double cosx = hypotenuse==0?1:halfLength * deltaX/hypotenuse;
 
-	double siny = halfLength * sin(slope);
+	double siny = hypotenuse==0?0:halfLength * deltaY/hypotenuse;
 	double arrowSlope = slope + arrowAngle;
 
 	m_LastPoint = getPoint(size - 1);
