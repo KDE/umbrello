@@ -1355,11 +1355,11 @@ void UMLDoc::addAssociation(UMLAssociation *Assoc)
 	// If we get here it's really a new association, so lets
 	// add it to our concept list and the document.
 
-	// Adding the UMLAssociation at the appropriate concepts is done
-	// later (in UMLAssociation::resolveRef()) in order to support
-	// xmi.idref forward references. (The participating concepts
-	// might not yet be known right here.)
-	//addAssocToConcepts(Assoc);
+	// Adding the UMLAssociation at the participating concepts is done
+	// again later (in UMLAssociation::resolveRef()) if they are not yet
+	// known right here.
+	if (Assoc->getObject(A) && Assoc->getObject(B))
+		addAssocToConcepts(Assoc);
 
 	// Add the UMLAssociation in this UMLDoc.
 	m_objectList.append( (UMLObject*) Assoc);
