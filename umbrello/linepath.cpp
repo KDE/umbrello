@@ -285,9 +285,9 @@ void LinePath::setLineColor( QColor color ) {
 	}
 
 	if( getAssocType() == at_Aggregation )
-		m_pClearPoly -> setBrush( QBrush( white ) );
+		if (m_pClearPoly) m_pClearPoly -> setBrush( QBrush( white ) );
 	else if( getAssocType() == at_Composition )
-		m_pClearPoly -> setBrush( QBrush( color ) );
+		if (m_pClearPoly) m_pClearPoly -> setBrush( QBrush( color ) );
 
 	if( m_pEllipse )
 		m_pEllipse -> setPen( color );
