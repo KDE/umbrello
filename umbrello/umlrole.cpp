@@ -196,30 +196,103 @@ void UMLRole::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 bool UMLRole::load( QDomElement & element ) {
 	UMLDoc * doc = UMLApp::app()->getDocument();
 	m_SecondaryId = element.attribute("type", "");
-	if (m_SecondaryId.isEmpty()) {
-		// Check if type is saved in a child node.
-		QDomNode node = element.firstChild();
-		while (!node.isNull()) {
-			if (node.isComment()) {
+	// Inspect child nodes - for multiplicity (and type if not set above.)
+	QDomNode node = element.firstChild();
+	while (!node.isNull()) {
+		if (node.isComment()) {
+			node = node.nextSibling();
+			continue;
+		}
+		QDomElement tempElement = node.toElement();
+		QString tag = tempElement.tagName();
+		if (Uml::tagEq(tag, "name")) {
+			m_Name = tempElement.text();
+		} else if (Uml::tagEq(tag, "AssociationEnd.multiplicity")) {
+			/**
+			 * There are different ways in which the multiplicity might be given:
+			 *  - direct value in the <AssociationEnd.multiplicity> tag,
+			 *  - attributes "lower" and "upper" of a subordinate <MultiplicityRange>,
+			 *  - direct value in subordinate <MultiplicityRange.lower> and
+			 *    <MultiplicityRange.upper> tags
+			 */
+			m_Multi = tempElement.text().stripWhiteSpace();
+			if (!m_Multi.isEmpty()) {
+				kdDebug() << "UMLRole::load: m_Multi is " << m_Multi << endl;
 				node = node.nextSibling();
 				continue;
 			}
-			QDomElement tempElement = node.toElement();
-			QString tag = tempElement.tagName();
-			if (Uml::tagEq(tag, "type") || Uml::tagEq(tag, "participant")) {
-				m_SecondaryId = tempElement.attribute("xmi.id", "");
-				if (m_SecondaryId.isEmpty())
-					m_SecondaryId = tempElement.attribute("xmi.idref", "");
-				if (m_SecondaryId.isEmpty()) {
-					QDomNode inner = tempElement.firstChild();
-					QDomElement innerElem = inner.toElement();
-					m_SecondaryId = innerElem.attribute("xmi.id", "");
-					if (m_SecondaryId.isEmpty())
-						m_SecondaryId = innerElem.attribute("xmi.idref", "");
-				}
+			QDomNode n = tempElement.firstChild();
+			tempElement = n.toElement();
+			tag = tempElement.tagName();
+			if (!Uml::tagEq(tag, "Multiplicity")) {
+				kdDebug() << "UMLRole::load: "
+					  << "expecting Multiplicity in AssociationEnd.multiplicity"
+					  << endl;
+				node = node.nextSibling();
+				continue;
 			}
-			node = node.nextSibling();
+			n = tempElement.firstChild();
+			tempElement = n.toElement();
+			tag = tempElement.tagName();
+			if (!Uml::tagEq(tag, "Multiplicity.range")) {
+				kdDebug() << "UMLRole::load: "
+					  << "expecting Multiplicity.range in Multiplicity"
+					  << endl;
+				node = node.nextSibling();
+				continue;
+			}
+			n = tempElement.firstChild();
+			tempElement = n.toElement();
+			tag = tempElement.tagName();
+			if (!Uml::tagEq(tag, "MultiplicityRange")) {
+				kdDebug() << "UMLRole::load: "
+					  << "expecting MultiplicityRange in Multiplicity.range"
+					  << endl;
+				node = node.nextSibling();
+				continue;
+			}
+			QString multiUpper;
+			if (tempElement.hasAttribute("lower")) {
+				m_Multi = tempElement.attribute("lower", "");
+				multiUpper = tempElement.attribute("upper", "");
+				if (!multiUpper.isEmpty()) {
+					if (!m_Multi.isEmpty())
+						m_Multi.append("..");
+					m_Multi.append(multiUpper);
+				}
+				node = node.nextSibling();
+				continue;
+			}
+			n = tempElement.firstChild();
+			while (!n.isNull()) {
+				tempElement = n.toElement();
+				tag = tempElement.tagName();
+				if (Uml::tagEq(tag, "MultiplicityRange.lower")) {
+					m_Multi = tempElement.text();
+				} else if (Uml::tagEq(tag, "MultiplicityRange.upper")) {
+					multiUpper = tempElement.text();
+				}
+				n = n.nextSibling();
+			}
+			if (!multiUpper.isEmpty()) {
+				if (!m_Multi.isEmpty())
+					m_Multi.append("..");
+				m_Multi.append(multiUpper);
+			}
+		} else if (m_SecondaryId.isEmpty() &&
+			   Uml::tagEq(tag, "type") || Uml::tagEq(tag, "participant")) {
+			m_SecondaryId = tempElement.attribute("xmi.id", "");
+			if (m_SecondaryId.isEmpty())
+				m_SecondaryId = tempElement.attribute("xmi.idref", "");
+			if (m_SecondaryId.isEmpty()) {
+				QDomNode inner = tempElement.firstChild();
+				QDomElement innerElem = inner.toElement();
+				m_SecondaryId = innerElem.attribute("xmi.id", "");
+				if (m_SecondaryId.isEmpty())
+					m_SecondaryId = innerElem.attribute("xmi.idref", "");
+			}
 		}
+		node = node.nextSibling();
 	}
 	if (m_SecondaryId.isEmpty()) {
 		kdError() << "UMLRole::load: type not given or illegal" << endl;
