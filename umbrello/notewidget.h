@@ -19,117 +19,117 @@
 class QPainter;
 
 /**
- *	Displays a note box to allow multiple lines of text to be displayed.
- *	These widgets are diagram specific.  They will still need a unique id
- *	from the @ref UMLDoc class for deletion and other purposes.
+ * Displays a note box to allow multiple lines of text to be displayed.
+ * These widgets are diagram specific.  They will still need a unique id
+ * from the @ref UMLDoc class for deletion and other purposes.
  *
- *	@short	Displays a note box.
- *	@author Paul Hensgen	<phensgen@techie.com>
- *	@see	UMLWidget
+ * @short Displays a note box.
+ * @author Paul Hensgen	<phensgen@techie.com>
+ * @see	UMLWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class NoteWidget : public UMLWidget {
 public:
 
 	/**
-	 *	Constructs a NoteWidget.
+	 * Constructs a NoteWidget.
 	 *
-	 *	@param	view		The parent to this widget.
-	 *	@param	id		The unique id of the widget.
+	 * @param view		The parent to this widget.
+	 * @param id		The unique id of the widget.
 	 */
 	NoteWidget(UMLView * view, int id);
 
 	/**
-	 *	Constructs a NoteWidget.
+	 * Constructs a NoteWidget.
 	 *
-	 *	@param	view 		The parent to this widget.
+	 * @param view 		The parent to this widget.
 	 */
 	NoteWidget(UMLView * view);
 
 	/**
-	 *	Initializes key variables for the class.
+	 * Initializes key variables for the class.
 	 */
 	void init();
 
 	/**
-	 *	Standard deconstructor.
+	 * Standard deconstructor.
 	 */
 	~NoteWidget();
 
 	/**
-	 *	Overrides the standard function.
+	 * Overrides the standard function.
 	 */
 	void mousePressEvent(QMouseEvent *me);
 
 	/**
-	 *	Overrides the standard function.
+	 * Overrides the standard function.
 	 */
 	void mouseMoveEvent(QMouseEvent *me);
 
 	/**
-	 *	Overrides the standard operation.
+	 * Overrides the standard operation.
 	 */
 	void mouseReleaseEvent(QMouseEvent * me);
 
 	/**
-	 *		Overrides the standard operation.
+	 * Overrides the standard operation.
 	 */
 	void mouseDoubleClickEvent(QMouseEvent * /*me*/);
 
 	/**
-	 *	Returns the text in the box.
+	 * Returns the text in the box.
 	 *
-	 *	@return Returns the text in the box.
+	 * @return	The text in the box.
 	 */
 	QString getDoc() const {
 		return m_Text;
 	}
 
 	/**
-	 *   Sets the note documentation.
+	 * Sets the note documentation.
+	 *
+	 * @param newText	The text to set the documentation to.
 	 */
 	void setDoc(QString newText) {
 		m_Text = newText;
 	}
 
 	/**
-	 *   Read property of bool m_bLinkDocumentation.
+	 * Read property of bool m_bLinkDocumentation.
 	 */
 	bool getLinkState() const {
 		return m_bLinkDocumentation;
 	}
 
 	/**
-	 *   Write property of bool m_bLinkDocumentation.
+	 * Write property of bool m_bLinkDocumentation.
 	 */
 	void setLinkState( bool linkDocumentation ) {
 		m_bLinkDocumentation = linkDocumentation;
 	}
 
 	/**
-	 *Activate the NoteWidget after the saved data has been loaded
+	 * Activate the NoteWidget after the saved data has been loaded.
 	 */
 	virtual bool activate( IDChangeLog* ChangeLog = 0 );
 
 	/**
-	 * Override default method
+	 * Override default method.
 	 */
 	void draw(QPainter & p, int offsetX, int offsetY);
 
 	/**
-	 *	Saves the box to XMI using <UML:NoteWidget>
+	 * Saves to the <UML:NoteWidget> XMI element.
 	 */
 	bool saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 	/**
-	 *	Loads the <UML:NoteWidget> element
+	 * Loads a <UML:NoteWidget> XMI element.
 	 */
 	bool loadFromXMI( QDomElement & qElement );
 
 protected:
-	/**
-	 * Data loaded/saved
-	 */
+	// Data loaded/saved
 	QString m_Text;
 	bool m_bLinkDocumentation;
 

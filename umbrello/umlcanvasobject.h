@@ -19,14 +19,17 @@ class UMLDoc;
 class IDChangeLog;
 
 /**
- *	This class contains the non-graphical information required for UMLObjects which appear as
- *	moveable widgets on the canvas.
- *	This class inherits from @ref UMLObject which contains most of the information.
- *	It is not instantiated itself, it's just used as a super class for actual model objects.
+ * This class contains the non-graphical information required for UMLObjects
+ * which appear as moveable widgets on the canvas.
  *
- *	@short	Non-graphical information for a UMLCanvasObject.
- *	@author Jonathan Riddell
- *	@see	UMLObject
+ * This class inherits from @ref UMLObject which contains most of the
+ * information.
+ * It is not instantiated itself, it's just used as a super class for
+ * actual model objects.
+ *
+ * @short Non-graphical information for a UMLCanvasObject.
+ * @author Jonathan Riddell
+ * @see	UMLObject
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
@@ -34,145 +37,151 @@ class UMLCanvasObject : public UMLObject {
 	Q_OBJECT
 public:
 	/**
-	 *	Sets up a UMLCanvasObject.
+	 * Sets up a UMLCanvasObject.
 	 *
-	 *	@param	parent	The parent to this Concept.
-	 *	@param	name	The name of the Concept.
-	 *	@param	id	The unique id of the Concept.
+	 * @param parent	The parent to this Concept.
+	 * @param name		The name of the Concept.
+	 * @param id		The unique id of the Concept.
 	 */
 	UMLCanvasObject(UMLDoc * doc, const QString & name = "", int id = -1);
 
 	/**
-	 *	Standard deconstructor.
+	 * Standard deconstructor.
 	 */
 	virtual ~UMLCanvasObject();
 
 	/**
-	 * 		Overloaded '==' operator
+	 *  Overloaded '==' operator
 	 */
   	virtual bool operator==(UMLCanvasObject& rhs);
   
   	/**
- 	 *	Adds an association.
- 	 *	Which role is "this" side (i.e. identifies the current concept)
- 	 *	depends on the association type:
- 	 *	For generalizations, role A is "this" side.
- 	 *	For aggregations and compositions, role B is "this" side.
+ 	 * Adds an association.
+ 	 * Which role is "this" side (i.e. identifies the current concept)
+ 	 * depends on the association type:
+ 	 * For generalizations, role A is "this" side.
+ 	 * For aggregations and compositions, role B is "this" side.
  	 *
- 	 *	@param	assoc	The association to add.
+ 	 * @param assoc		The association to add.
  	 */
  	bool addAssociation(UMLAssociation* assoc);
  
  	/**
- 	 *	Determine if this canvasobject has this association.
- 	 *	@param	assoc	The association to check.
+ 	 * Determine if this canvasobject has the given association.
+	 *
+ 	 * @param assoc		The association to check.
  	 */
  	bool hasAssociation(UMLAssociation* assoc);
  
  	/**
- 	 *	Remove an association from the CanvasObject.
+ 	 * Remove an association from the CanvasObject.
  	 *
- 	 *	@param	o	The association to remove.
+ 	 * @param o		The association to remove.
  	 */
  	int removeAssociation(UMLAssociation *assoc);
  
 	/**
-	 *	Returns the number of associations for the CanvasObject.
-	 *	This is the sum of the aggregations and compositions.
+	 * Returns the number of associations for the CanvasObject.
+	 * This is the sum of the aggregations and compositions.
 	 *
-	 *	@return	The number of associations for the Concept.
+	 * @return	The number of associations for the Concept.
 	 */
 	int associations();
 
  	/**
-	 *	Return the list of associations for the CanvasObject.
+	 * Return the list of associations for the CanvasObject.
 	 *
-	 *	@return The list of associations for the CanvasObject.
+	 * @return	The list of associations for the CanvasObject.
 	 */
 	const UMLAssociationList& getAssociations();
 
 	/**
-	 *	Return the subset of m_AssocsList that matches `assocType'.
+	 * Return the subset of m_AssocsList that matches the given type.
 	 *
-	 *	@return The list of associations that match `assocType'.
+	 * @param assocType	The Association_Type to match.
+	 * @return	The list of associations that match assocType.
 	 */
 	UMLAssociationList getSpecificAssocs(Uml::Association_Type assocType);
 
 	/**
-	 *	Shorthand for getSpecificAssocs(Uml::at_Generalization)
+	 * Shorthand for getSpecificAssocs(Uml::at_Generalization)
 	 *
-	 *	@return The list of generalizations for the Concept.
+	 * @return	The list of generalizations for the Concept.
 	 */
 	virtual UMLAssociationList getGeneralizations();
 
 	/**
-	 *	Shorthand for getSpecificAssocs(Uml::at_Realization)
+	 * Shorthand for getSpecificAssocs(Uml::at_Realization)
 	 * 
-	 *	@return The list of realizations for the Concept.
+	 * @return	The list of realizations for the Concept.
 	 */
 	virtual UMLAssociationList getRealizations();
 
 	/**
-	 *	Shorthand for getSpecificAssocs(Uml::at_Aggregation)
+	 * Shorthand for getSpecificAssocs(Uml::at_Aggregation)
 	 *
-	 *	@return The list of aggregations for the Concept.
+	 * @return	The list of aggregations for the Concept.
 	 */
 	UMLAssociationList getAggregations();
 
 	/**
-	 *	Shorthand for getSpecificAssocs(Uml::at_Composition)
+	 * Shorthand for getSpecificAssocs(Uml::at_Composition)
 	 *
-	 *	@return The list of compositions for the Concept.
+	 * @return	The list of compositions for the Concept.
 	 */
 	UMLAssociationList getCompositions();
 
 	/**
-	 *	Find a list of associations with the given name.
+	 * Find a list of associations with the given name.
 	 *
-	 *	@param	t	The type to find.
-	 *	@param	n	The name of the object to find.
-	 *
-	 *	@return	The object found.  Will return 0 if none found.
+	 * @param t		The type to find.
+	 * @param n		The name of the object to find.
+	 * @return	List of objects found (empty if none found.)
 	 */
 	virtual UMLObjectList findChildObject(UMLObject_Type t, QString n);
 
 	/**
-	 *	Find an association.
+	 * Find an association.
 	 *
-	 *	@param	id	The id of the object to find.
-	 *
-	 *	@return	The object found.  Will return 0 if none found.
+	 * @param id		The id of the object to find.
+	 * @return	Pointer to the object found (NULL if not found.)
 	 */
 	virtual UMLObject* findChildObject(int id);
 
 	/**
 	 * Returns a name for the new association, operation, template
 	 * or attribute appended with a number if the default name is
-	 * taken e.g. new_association, new_association_1 etc
+	 * taken e.g. new_association, new_association_1 etc.
+	 *
+	 * @param type		The object type for which to make a name.
+	 * @return	Unique name string for the UMLObject_Type given.
 	 */
 	virtual QString uniqChildName(const UMLObject_Type type);
 
-	/** Return the parent UMLDoc for this object.
+	/**
+	 * Return the parent UMLDoc for this object.
+	 *
+	 * @return	Pointer to the parent UMLDoc.
 	 */
 	UMLDoc * getParentUMLDoc ( );
 
 protected:
 
 	/**
-	 * 	List of all the associations in this class.
+	 * List of all the associations in this class.
 	 */
 	UMLAssociationList m_AssocsList;
 
 	/**
-	 * 	List for computation of subsets of m_AssocsList.
-	 * 	This is always computed from m_AssocsList.
+	 * List for computation of subsets of m_AssocsList.
+	 * This is always computed from m_AssocsList.
 	 */
 	UMLAssociationList m_TmpAssocs;
 
 private:
 
         /**
-         *      Initialises key variables of the class.
+         * Initialises key variables of the class.
          */
         void init(UMLDoc * parentDoc);
 

@@ -18,12 +18,15 @@
 #define STATE_HEIGHT 10
 
 /**
- * This class is the graphical version of a UML State.  A StateWidget is created
- * by a @ref UMLView.  An StateWidget belongs to only one @ref UMLView instance.
- * When the @ref UMLView instance that this class belongs to, it will be automatically deleted.
+ * This class is the graphical version of a UML State.
  *
- * The StateWidget class inherits from the @ref UMLWidget class which adds most of the functionality
- * to this class.
+ * A StateWidget is created by a @ref UMLView.  A StateWidget belongs to
+ * only one @ref UMLView instance.
+ * When the @ref UMLView instance that this class belongs to is destroyed,
+ * it will be automatically deleted.
+ *
+ * The StateWidget class inherits from the @ref UMLWidget class which adds
+ * most of the functionality to this class.
  *
  * @short  A graphical version of a UML State.
  * @author Paul Hensgen <phensgen@techie.com>
@@ -33,6 +36,7 @@ class StateWidget : public UMLWidget {
 	Q_OBJECT
 public:
 
+	/// Enumeration that codes the different types of state.
 	enum StateType
 	{
 	    Initial = 0,
@@ -43,20 +47,20 @@ public:
 	/**
 	 * Creates a State widget.
 	 *
-	 * @param	view		The parent of the widget.
-	 * @param	stateType	The type of state.
+	 * @param view		The parent of the widget.
+	 * @param stateType	The type of state.
 	 */
 	StateWidget( UMLView * view, StateType stateType );
 
 	/**
 	 * Creates a State widget.
 	 *
-	 * @param	view		The parent of the widget.
+	 * @param view		The parent of the widget.
 	 */
 	StateWidget(UMLView * view);
 
 	/**
-	 *	Standard deconstructor
+	 * Standard deconstructor
 	 */
 	~StateWidget();
 
@@ -81,7 +85,7 @@ public:
 	QString getDoc() const;
 
 	/**
-	 *   Sets the documenation of the state.
+	 * Sets the documenation of the state.
 	 */
 	void setDoc( QString doc );
 
@@ -91,7 +95,7 @@ public:
 	StateType getStateType() const;
 
 	/**
-	 *     Sets the type of state.
+	 * Sets the type of state.
 	 */
 	void setStateType( StateType stateType );
 
@@ -135,8 +139,14 @@ public:
 	static bool isState( WorkToolBar::ToolBar_Buttons tbb,
 			     StateType& resultType );
 
+	/**
+	 * Creates the <UML:StateWidget> XMI element.
+	 */
 	bool saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
+	/**
+	 * Loads a <UML:StateWidget> XMI element.
+	 */
 	bool loadFromXMI( QDomElement & qElement );
 
 protected:

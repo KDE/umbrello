@@ -15,58 +15,58 @@
 #include "umlwidget.h"
 
 /**
- *	Displays a rectangular box.
- *	These widgets are diagram specific.  They will still need a unique id
- *	from the @ref UMLDoc class for deletion and other purposes.
+ * Displays a rectangular box.
+ * These widgets are diagram specific.  They will still need a unique id
+ * from the @ref UMLDoc class for deletion and other purposes.
  *
- *	@short	Displays a box.
- *	@author Jonathan Riddell
- *	@see	UMLWidget
+ * @short Displays a box.
+ * @author Jonathan Riddell
+ * @see	UMLWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class BoxWidget : public UMLWidget {
 public:
 
 	/**
-	 *	Constructs a BoxWidget.
+	 * Constructs a BoxWidget.
 	 *
-	 *	@param	view	The parent to this widget.
-	 *	@param	id	The unique id of the widget.
+	 * @param view		The parent to this widget.
+	 * @param id		The unique id of the widget.
 	 */
 	BoxWidget(UMLView * view, int id);
 
 	/**
-	 *	Constructs a BoxWidget.
+	 * Constructs a BoxWidget.
 	 *
-	 *	@param	view 		The parent to this widget.
+	 * @param view 		The parent to this widget.
 	 */
 	BoxWidget(UMLView * view);
 
 	/**
-	 *	Initializes key variables for the class.
+	 * Initializes key variables for the class.
 	 */
 	void init();
 
 	/**
-	 *	Empty deconstructor.
+	 * Empty deconstructor.
 	 */
 	~BoxWidget();
 
 	/**
-	 *	Overrides the standard function.
-	 *	Changes the cursor if in the lower right corner
+	 * Overrides the standard function.
+	 * Changes the cursor if in the lower right corner.
 	 */
 	void mousePressEvent(QMouseEvent* me);
 
 	/**
-	 *	Overrides the standard function.
-	 *	Resizes the widget if necessary.
+	 * Overrides the standard function.
+	 * Resizes the widget if necessary.
 	 */
 	void mouseMoveEvent(QMouseEvent* me);
 
 	/**
-	 *	Overrides the standard operation.
-	 *	Stops the resize event and resets the mouse cursor.
+	 * Overrides the standard operation.
+	 * Stops the resize event and resets the mouse cursor.
 	 */
 	void mouseReleaseEvent(QMouseEvent* me);
 
@@ -76,11 +76,10 @@ public:
 	void draw(QPainter & p, int offsetX, int offsetY);
 
 	/**
-	 * Saves to the <boxwidget> element
+	 * Saves the widget to the <UML:BoxWidget> XMI element.
+	 * Note: For loading from XMI, the inherited parent method is used.
 	 */
 	bool saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
-
-	// For loadFromXMI we can use the UMLWidgetData inherited method.
 
 };
 

@@ -72,127 +72,161 @@ class UMLApp : public KDockMainWindow {
 	Q_OBJECT
 public:
 	/**
-	 * 	construtor of UMLApp, calls all init functions to create the application.
+	 * Constructor. Calls all init functions to create the application.
 	 */
 	UMLApp(QWidget* parent=0, const char* name=0);
 
 	/**
-	 *	Standard deconstructor.
+	 * Standard deconstructor.
 	 */
 	~UMLApp();
 	
 	static UMLApp* app();
 
 	/**
-	 *	opens a file specified by commandline option
+	 * Opens a file specified by commandline option.
 	 */
 	void openDocumentFile(const KURL& url=0);
 
 	/**
-	 * calls umldoc to create a new Document
+	 * Calls the UMLDoc method to create a new Document.
 	 */
 	void newDocument();
 
 	/**
-	 *	returns a pointer to the current document connected to the KTMainWindow instance and is used by
-	 * the View class to access the document object's methods
+	 * Returns a pointer to the current document connected to the
+	 * KTMainWindow instance.
+	 * Used by the View class to access the document object's methods.
 	 */
 	UMLDoc *getDocument() const;
 
 	/**
-	 *	Returns the toolbar being used.
+	 * Returns the toolbar being used.
 	 *
-	 * @return Returns the toolbar being used.
+	 * @return	The toolbar being used.
 	 */
 	WorkToolBar* getWorkToolBar();
 
 	/**
-	 *	Sets whether the program has been modified.
-	 *	This will change how the program saves/exits.
+	 * Sets whether the program has been modified.
+	 * This will change how the program saves/exits.
 	 *
-	 *	@param	_m	true - modified.
+	 * @param _m	true - modified.
 	 */
 	void setModified(bool _m);
 
 	/**
-	 *	Set whether to allow printing.  It will enable/disable the menu/toolbar options.
+	 * Set whether to allow printing.
+	 * It will enable/disable the menu/toolbar options.
 	 *
-	 *	@param enable Set whether to allow printing.
+	 * @param enable	Set whether to allow printing.
 	 */
 	void enablePrint(bool enable);
 
 	/**
-	 *	Set whether to allow printing.  It will enable/disable the menu/toolbar options.
+	 * Set whether to allow printing.
+	 * It will enable/disable the menu/toolbar options.
 	 *
-	 *	@param enable Set whether to allow printing.
+	 * @param enable	Set whether to allow printing.
 	 */
 	void enableUndo(bool enable);
 
 	/**
-	 *	Set whether to allow printing.  It will enable/disable the menu/toolbar options.
+	 * Set whether to allow printing.
+	 * It will enable/disable the menu/toolbar options.
 	 *
-	 *	@param enable Set whether to allow printing.
+	 * @param enable	Set whether to allow printing.
 	 */
 	void enableRedo(bool enable);
 
 	/**
-	 *      Returns a pointer to the documentation window.
+	 * Returns a pointer to the documentation window.
+	 *
+	 * @return	Pointer to the DocWindow.
 	 */
 	DocWindow * getDocWindow() {
 		return m_pDocWindow;
 	}
 
 	/**
-	 *	Returns the undo state
+	 * Returns the undo state.
+	 *
+	 * @return	True if Undo is enabled.
 	 */
 	bool getUndoEnabled();
 
 	/**
-	 *	Returns the redo state
+	 * Returns the redo state.
+	 *
+	 * @return	True if Redo is enabled.
 	 */
 	bool getRedoEnabled();
 
 	/**
-	 *	Returns the paste state
+	 * Returns the paste state.
+	 *
+	 * @return	True if Paste is enabled.
 	 */
 	bool getPasteState();
 
 	/**
-	 *	Returns the state on Cut/Copy
+	 * Returns the state on Cut/Copy.
+	 *
+	 * @return	True if Cut/Copy is enabled.
 	 */
 	bool getCutCopyState();
 
 	/**
-	 *	gets the appropriate CodeGenerator
+	 * Gets the appropriate CodeGenerator.
+	 *
+	 * @return	Pointer to the CodeGenerator.
 	 */
 	CodeGenerator * getGenerator(bool warnMissing = true);
 
-	/** set the current generator for this app.
-	 * if giveWarning is true, then a popup box warning that the
+	/**
+	 * Set the current generator for this app.
+	 * If giveWarning is true, then a popup box warning that the
 	 * code generation library is out-of-date will show if you
 	 * attempt to set the generator to NULL.
+	 *
+	 * @param gen		Pointer to the CodeGenerator to set.
+	 * @param giveWarning	True to enable out-of-date warning.
          */
 	void setGenerator( CodeGenerator * gen , bool giveWarning = true );
 
 	/**
-	 * creates a new code generator for the given active language.
+	 * Creates a new code generator for the given active language.
+	 *
+	 * @return	Pointer to the CodeGenerator created.
   	 */
 	CodeGenerator* createGenerator();
 	
 
-	/** Call the refactoring assistant on a classifier */
+	/**
+	 * Call the refactoring assistant on a classifier.
+	 *
+	 * @param	Pointer to the classifier to refactor.
+	 */
 	void refactor( UMLClassifier* );
 
-	/** Call the code viewing assistant on a given UMLClassifier*/
+	/**
+	 * Call the code viewing assistant on a given UMLClassifier.
+	 *
+	 * @param	Pointer to the classifier to view.
+	 */
 	void viewCodeDocument ( UMLClassifier * c);
 
 	/**
-	 *	Sets the state of the view properties menu item.
+	 * Sets the state of the view properties menu item.
+	 *
+	 * @param	Boolean, true to enable the view properties item.
 	 */
 	void setDiagramMenuItemsState(bool bState);
 
 	/**
-	 * Returns the widget used as the parent for UMLViews
+	 * Returns the widget used as the parent for UMLViews.
+	 *
+	 * @return	The main view widget.
 	 */
 	QWidget* getMainViewWidget();
 
@@ -200,97 +234,116 @@ public:
 	 * Puts this view to the top of the viewStack, i.e. makes it
 	 * visible to the user.  If no view is specified the blank
 	 * infoWidget is shown instead.
+	 *
+	 * @param view		Pointer to the UMLView to push.
 	 */
 	void setCurrentView(UMLView* view = 0);
 
 	/**
 	 * Sets the default mimetype for all diagrams that are exported as 
-	 * images
+	 * images.
+	 *
+	 * @param mimetype	The MIME type to set as the default.
 	 */
 	void setImageMimetype(QString const & mimetype){m_imageMimetype=mimetype;};
 
+	/**
+	 * Gets the default mimetype for all diagrams that are exported as 
+	 * images.
+	 *
+	 * @return	The default MIME type for images.
+	 */
 	QString const & getImageMimetype()const{return m_imageMimetype;};
+
 protected:
 	virtual void keyPressEvent(QKeyEvent* e);
 	virtual void keyReleaseEvent(QKeyEvent* e);
 	/**
-	 *	Carries out the cut/copy command with different action performed
-	 *	depending on if from view or list view.
-	 *	Cut/Copy are the same.  It is up to the caller to delete/cut the selection..
+	 * Carries out the cut/copy command with different action performed
+	 * depending on if from view or list view.
+	 * Cut/Copy are the same.  It is up to the caller to delete/cut the selection..
 	 *
-	 *	If the operation is successful, the signal sigCutSuccessful() is emitted.
+	 * If the operation is successful, the signal sigCutSuccessful() is emitted.
 	 *
-	 *	Callers should connect to this signal to know what to do next.
+	 * Callers should connect to this signal to know what to do next.
 	 */
 	bool editCutCopy( bool bFromView );
 
 	/**
-	 *	save general Options like all bar positions and status
-	 *	as well as the geometry and the recent file list to
-	 *	the configuration file.
+	 * Save general Options like all bar positions and status
+	 * as well as the geometry and the recent file list to
+	 * the configuration file.
 	 */
 	void saveOptions();
 
 	/**
-	 * read general Options again and initialize all variables
-	 * like the recent file list
+	 * Read general Options again and initialize all variables
+	 * like the recent file list.
 	 */
 	void readOptions();
 
 	/**
-	 * initializes the KActions of the application
+	 * Initializes the KActions of the application.
 	 */
 	void initActions();
 
 	/**
-	 *	sets up the statusbar for the main window by
-	 *	initialzing a statuslabel.
+	 * Sets up the statusbar for the main window by
+	 * initialzing a statuslabel.
 	 */
 	void initStatusBar();
 
 	/**
-	 *	initializes the document object of the main window
-	 *	that is connected to the view in initView().
-	 *      @see initView();
+	 * Initializes the document object of the main window
+	 * that is connected to the view in initView().
+	 * @see initView();
 	 */
 	void initDocument();
 
 	/**
-	 *	creates the centerwidget of the KTMainWindow instance and sets it as the view
+	 * Creates the centerwidget of the KTMainWindow instance and
+	 * sets it as the view.
 	 */
 	void initView();
 
 	/**
-	 * queryClose is called by KTMainWindow on each closeEvent of a window. Against the
-	 * default implementation (only returns true), this calles saveModified() on the document object to ask if the document shall
-	 * be saved if Modified; on cancel the closeEvent is rejected.
+	 * queryClose is called by KTMainWindow on each closeEvent of a
+	 * window. Counter to the default implementation (which only
+	 * returns true), this calls saveModified() on the document object
+	 * to ask if the document shall be saved if Modified; on cancel
+	 * the closeEvent is rejected.
 	 * @see KTMainWindow#queryClose
 	 * @see KTMainWindow#closeEvent
+	 *
+	 * @return	True if window may be closed.
 	 */
 	virtual bool queryClose();
 
 	/**
-	 *	queryExit is called by KTMainWindow when the last
-	 *	window of the application is going to be closed during
-	 *	the closeEvent().  Against the default
-	 *	implementation that just returns true, this calls
-	 *	saveOptions() to save the settings of the last
-	 *	window's properties.
+	 * queryExit is called by KTMainWindow when the last
+	 * window of the application is going to be closed during
+	 * the closeEvent().  In contrast to the default
+	 * implementation that just returns true, this calls
+	 * saveOptions() to save the settings of the last
+	 * window's properties.
 	 * @see KTMainWindow#queryExit
 	 * @see KTMainWindow#closeEvent
+	 *
+	 * @return	True if window may be closed.
 	 */
 	virtual bool queryExit();
 
 	/**
-	 *	saves the window properties for each open window
-	 *	during session end to the session config file,
-	 *	including saving the currently opened file by a
-	 *	temporary filename provided by KApplication.
+	 * Saves the window properties for each open window
+	 * during session end to the session config file,
+	 * including saving the currently opened file by a
+	 * temporary filename provided by KApplication.
 	 * @see KTMainWindow#saveProperties
 	 */
 	virtual void saveProperties(KConfig *_cfg);
 
-	/** reads the session config file and restores the
+	/**
+	 * Reads the session config file and restores the
 	 * application's state including the last opened files and
 	 * documents by reading the temporary files saved by
 	 * saveProperties()
@@ -302,7 +355,8 @@ protected:
 
 protected slots:
 
-	/** Updates the Menu for language selection and sets the
+	/**
+	 * Updates the Menu for language selection and sets the
 	 * active lanugage. If no active lanugage is found or if it is
 	 * not one of the registered languages it tries to fall back
 	 * to Cpp
@@ -314,138 +368,141 @@ public slots:
 	void UdiagramSelected( int );
 	void UcreateDiagram();
 
-	/** Sets up information for dinamically loaded libraries. It
-	 *  scans directories looking for new libraries and registers
-	 *  them, and deregister the libraries that are not found
+	/**
+	 * Sets up information for dinamically loaded libraries. It
+	 * scans directories looking for new libraries and registers
+	 * them, and deregister the libraries that are not found
 	 */
 	void initLibraries();
 
 	/**
-	 * Runs the code generation wizard
+	 * Runs the code generation wizard.
 	 */
 	void generationWizard();
 
 	/**
-	 * clears the document in the actual view to reuse it as the new document
+	 * Clears the document in the actual view to reuse it as the new
+	 * document.
 	 */
 	void slotFileNew();
 
 	/**
-	 * open a file and load it into the document
+	 * Open a file and load it into the document.
 	 */
 	void slotFileOpen();
 
 	/**
-	 * opens a file from the recent files menu
+	 * Opens a file from the recent files menu.
 	 */
 	void slotFileOpenRecent(const KURL& url);
 
 	/**
-	 * save a document
+	 * Save a document.
 	 */
 	void slotFileSave();
 
 	/**
-	 * save a document by a new filename
+	 * Save a document by a new filename.
 	 */
 	bool slotFileSaveAs();
 
 	/**
-	 * asks for saving if the file is modified, then closes the actual file and window
+	 * Asks for saving if the file is modified, then closes the current
+	 * file and window.
 	 */
 	void slotFileClose();
 
 	/**
-	 * print the actual file
+	 * Print the current file.
 	 */
 	void slotFilePrint();
 
 	/**
-	 * closes all open windows by calling close() on each
+	 * Closes all open windows by calling close() on each
 	 * memberList item until the list is empty, then quits the
 	 * application.  If queryClose() returns false because the
 	 * user canceled the saveModified() dialog, the closing
-	 * breaks.
+	 * aborts.
 	 */
 	void slotFileQuit();
 
 	/**
-	 * put the marked text/object into the clipboard and remove
-	 *	it from the document
+	 * Put the marked text/object into the clipboard and remove
+	 * it from the document.
 	 */
 	void slotEditCut();
 
 	/**
-	 * put the marked text/object into the clipboard
+	 * Put the marked text/object into the clipboard.
 	 */
 	void slotEditCopy();
 
 	/**
-	 * paste the clipboard into the document
+	 * Paste the clipboard into the document.
 	 */
 	void slotEditPaste();
 
 #if KDE_VERSION < 0x030190
 	/**
-	 * toggles the toolbar
+	 * Toggles the toolbar.
 	 */
 	void slotViewToolBar();
 
 	/**
-	 * toggles the statusbar
+	 * Toggles the statusbar.
 	 */
 	void slotViewStatusBar();
 #endif
 
 	/**
-	 * changes the statusbar contents for the standard label
+	 * Changes the statusbar contents for the standard label
 	 * permanently, used to indicate current actions.
-	 * @param text the text that is displayed in the statusbar
+	 * @param text	The text that is displayed in the statusbar
 	 */
 	void slotStatusMsg(const QString &text);
 
 	/**
-	* 	Create this view
-	*/
+	 * Create this view.
+	 */
 	void slotClassDiagram();
 
 	/**
-	*	 Create this view
-	*/
+	 * Create this view.
+	 */
 	void slotSequenceDiagram();
 
 	/**
-	*	 Create this view
-	*/
+	 * Create this view.
+	 */
 	void slotCollaborationDiagram();
 
 	/**
-	*	Create this view
-	*/
+	 * Create this view.
+	 */
 	void slotUseCaseDiagram();
 
 	/**
-	*	Create this view
-	*/
+	 * Create this view.
+	 */
 	void slotStateDiagram();
 
 	/**
-	*	Create this view
-	*/
+	 * Create this view.
+	 */
 	void slotActivityDiagram();
 
 	/**
-	 *	Create this view
+	 * Create this view.
 	 */
 	void slotComponentDiagram();
 
 	/**
-	 *	Create this view
+	 * Create this view.
 	 */
 	void slotDeploymentDiagram();
 
 	/**
-	 *
+	 * Notification of changed clipboard data.
 	 */
 	void slotClipDataChanged();
 
@@ -455,80 +512,83 @@ public slots:
 	void slotCopyChanged();
 
 	/**
-	 * 	Shows the global preferences dialog.
+	 * Shows the global preferences dialog.
 	 */
 	void slotPrefs();
 
 	/**
-	 * 	Commits the changes from the global preferences dialog.
+	 * Commits the changes from the global preferences dialog.
 	 */
 	void slotApplyPrefs();
 
 	/**
-	 *	register new views (aka diagram) with the GUI so they show up in the menu
-	*/
+	 * Register new views (aka diagram) with the GUI so they show up
+	 * in the menu.
+	 */
 	void slotUpdateViews();
 
 	/**
-	*	generate code for all classes
-	*/
+	 * Generate code for all classes.
+	 */
 	void generateAllCode();
 
 	/**
-	*	set the language for which code will be generated
-	*	@param menuID the ID of the langSelect menu item for 
-	*			the relevant language
-	*/
+	 * Set the language for which code will be generated.
+	 *
+	 * @param menuID	the ID of the langSelect menu item for 
+	 *			the relevant language.
+	 */
 	void setActiveLanguage(int menuID);
 
 	/**
-	*	set the language for which code will be generated
-	*	@param  activeLanguage  The name of the language to set
-	*/
+	 * Set the language for which code will be generated.
+	 *
+	 * @param activeLanguage The name of the language to set
+	 */
 	void setActiveLanguage(QString activeLanguage);
 
 	/**
-	*	shows a dialog to add or remove Generators (languages)
-	*/
+	 * Shows a dialog to add or remove Generators (languages)
+	 */
 	void configureLanguages();
 
 	/**
-	*	Menu selection for clear current view.
-	*/
+	 * Menu selection for clear current view.
+	 */
 	void slotCurrentViewClearDiagram();
 
 	/**
-	*	Menu selection for current view snap to grid property.
-	*/
+	 * Menu selection for current view snap to grid property.
+	 */
 	void slotCurrentViewToggleSnapToGrid();
 
 	/**
-	*	Menu selection for current view show grid property.
-	*/
+	 * Menu selection for current view show grid property.
+	 */
 	void slotCurrentViewToggleShowGrid();
 
 	/**
-	*	Menu selection for exporting current view as an image.
-	*/
+	 * Menu selection for exporting current view as an image.
+	 */
 	void slotCurrentViewExportImage();
 
 	/**
-	*	Menu selection for current view properties.
-	*/
+	 * Menu selection for current view properties.
+	 */
 	void slotCurrentViewProperties();
 
 	/**
-	*	Import classes menu selection.
-	*/
+	 * Import classes menu selection.
+	 */
 	void slotImportClasses();
 
 	/**
-	*	Class wizard menu selection.
-	*/
+	 * Class wizard menu selection.
+	 */
 	void slotClassWizard();
 
 	/**
-	 *  The displayed diagram has changed.
+	 * The displayed diagram has changed.
 	 */
 	void slotCurrentViewChanged();
 	
@@ -543,38 +603,40 @@ public slots:
 	void slotShowGridToggled(bool gridOn);
 
 	/**
-	 * Select all widgets on the current diagram
+	 * Select all widgets on the current diagram.
 	 */
 	void slotSelectAll();
 
 	/**
-	 * Deletes the selected widget
+	 * Deletes the selected widget.
 	 */
 	void slotDeleteSelectedWidget();
 
 	/**
-	 * Deletes the current diagram
+	 * Deletes the current diagram.
 	 */
 	void slotDeleteDiagram();
 
 	/**
-	* zooms in the current diagram
-	*/
+	 * Zooms in the current diagram.
+	 */
 	void slotZoomIn();
+
 	/**
-	* zooms out of the current diagram
-	*/
+	 * Zooms out of the current diagram.
+	 */
 	void slotZoomOut();
 	
 	/**
-	* set the zoom factor of the current diagram
-	* the parameter is in percentage
-	*/
+	 * Set the zoom factor of the current diagram.
+	 *
+	 * @param z		Zoom factor in percentage.
+	 */
 	void setZoom(int z);
 	
 	/**
-	* prepares the zoom menu for display
-	*/
+	 * Prepares the zoom menu for display.
+	 */
 	void setupZoomMenu();
 
 	/**
@@ -592,47 +654,50 @@ public slots:
 	/**
 	 * Searches for a menu with the given name
 	 *
-	 * @param menu the QPopupMenu or QMenuBar to search through
-	 * @param name the name of the menu to search for (name, not text)
+	 * @param menu	The QPopupMenu or QMenuBar to search through.
+	 * @param name	The name of the menu to search for (name, not text)
 	 */
 	QPopupMenu* findMenu(QMenuData* menu, QString name);
-private:
 
+private:
 	static UMLApp* s_instance;
+
 	/**
-	 * to slect the active language
+	 * For selecting the active language.
 	 */
 	QPopupMenu *langSelect;
 	
 	/**
-	* Popup menu for zoom selection
+	* Popup menu for zoom selection.
 	*/
 	QPopupMenu *zoomSelect;
 
 	/**
-	 *	active language
+	 * Active language.
 	 */
 	QString activeLanguage;
 
 	/**
-	 *	dictionary containing all the info needed to load a Code Generator at run
-	 *	time: Language (so that the user can choose), library and object name
+	 * Dictionary containing all the info needed to load a Code Generator
+	 * at run time:
+	 * Language (so that the user can choose), library and object name.
 	 */
 	QDict<GeneratorInfo> ldict;
 
 	/**
-	 *		Reads from the config file the options state.
-	 *		Not in @ref readOptions as it needs to be read earlier than some of
-	 *		the other options, before some items are created.
+	 * Reads from the config file the options state.
+	 * Not in @ref readOptions as it needs to be read earlier than some
+	 * of the other options, before some items are created.
 	 */
 	void readOptionState();
 
 	/**
-	 *		initialize the QT's global clipboard support for the application
+	 * Initialize Qt's global clipboard support for the application.
 	 */
 	void initClip();
 
-	/** Initialize code generators at startup. 
+	/**
+	 * Initialize code generators at startup. 
 	 * Why is this important? Because IF we dont do this, then changes
 	 * to the UML may not be synced with the saved code generation params
 	 * for those languages which arent currently active.
@@ -640,12 +705,12 @@ private:
 	void initSavedCodeGenerators();
 
 	/**
-	 * the configuration object of the application
+	 * The configuration object of the application.
 	 */
 	KConfig* config;
 
 	/**
-	 * view is the main widget which represents your working
+	 * View is the main widget which represents your working
 	 * area. The View class should handle all events of the view
 	 * widget.  It is kept empty so you can create your view
 	 * according to your application's needs by changing the view
@@ -654,18 +719,19 @@ private:
 	UMLView* view;
 
 	/**
-	 * doc represents your actual document and is created only once. It keeps
-	 * information such as filename and does the loading and saving of your files
+	 * doc represents your actual document and is created only once.
+	 * It keeps information such as filename and does the loading and
+	 * saving of your files.
 	 */
 	UMLDoc* doc;
 
 	/**
-	 *	listview shows the current open file
+	 * Listview shows the current open file.
 	 */
 	UMLListView* listView;
 
 	/**
-	 * 	The widget which shows the diagrams
+	 * The widget which shows the diagrams.
 	 */
 	KDockWidget* m_mainDock;
 
@@ -675,16 +741,16 @@ private:
 	KDockWidget* m_listDock;
 
 	/**
-	 * Contains the documentation DocWindow widget
+	 * Contains the documentation DocWindow widget.
 	 */
 	KDockWidget* m_documentationDock;
 
 	/**
-	 * 	Documentation window.
+	 * Documentation window.
 	 */
 	DocWindow* m_pDocWindow;
 	
-	/** Refactoring assistant */
+	/** Refactoring assistant. */
 	Umbrello::RefactoringAssistant* m_refactoringAssist;
 
 	//KAction pointers to enable/disable actions
@@ -783,7 +849,7 @@ public:
 signals:
 
 	/**
-	 * 	Emitted when a cut operation is successful.
+	 * Emitted when a cut operation is successful.
 	 */
 	void sigCutSuccessful();
 };

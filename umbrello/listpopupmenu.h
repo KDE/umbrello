@@ -17,17 +17,18 @@
 class UMLView;
 class UMLWidget;
 /**
- *	A popup menu that depending on what type it is set to will
- *	display a different menu.
+ * A popup menu that depending on what type it is set to will
+ * display a different menu.
  *
- *	@short	Displays a popup menu.
- *	@author Paul Hensgen	<phensgen@techie.com>
+ * @short Displays a popup menu.
+ * @author Paul Hensgen	<phensgen@techie.com>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
 class ListPopupMenu : public KPopupMenu {
 public:
 
+	/// This type hosts all possible menu types.
 	enum Menu_Type
 	{
 	    //new type on left which replaces listed on right
@@ -160,42 +161,64 @@ public:
 	};
 
 	/**
-	 *	Constructs the popup menu.
+	 * Constructs the popup menu.
 	 *
-	 *	@param	parent		The parent to ListPopupMenu.
-	 *	@param	type		The type of menu to display.
+	 * @param parent	The parent to ListPopupMenu.
+	 * @param type		The type of menu to display.
 	 */
 	ListPopupMenu(QWidget *parent, Menu_Type type = mt_Undefined, UMLView * view = 0);
 
 	/**
-	 *	Constructs the popup menu for a list view item.
+	 * Constructs the popup menu for a list view item.
 	 *
-	 *	@param	parent		The parent to ListPopupMenu.
-	 *	@param	type		The type of menu to display.
+	 * @param parent	The parent to ListPopupMenu.
+	 * @param type		The type of menu to display.
 	 */
 	ListPopupMenu(QWidget *parent, Uml::ListView_Type type);
 
 	/**
-	 *	Constructs the popup menu for a canvas widget.
+	 * Constructs the popup menu for a canvas widget.
 	 *
-	 *	@param	parent		The parent to ListPopupMenu.
-	 *	@param	object		The UMLWidget to represent a menu for.
-	 *	@param	multi			True, if multiple items are selected.
-	 *	@param	unique		True, if multiple selected items all have the same
-	 *								type (e.g. Class, Interface)
+	 * @param parent	The parent to ListPopupMenu.
+	 * @param object	The UMLWidget to represent a menu for.
+	 * @param multi		True if multiple items are selected.
+	 * @param unique	True if multiple selected items all have
+	 *			the same type (e.g. Class, Interface)
 	 */
 	ListPopupMenu(QWidget * parent, UMLWidget * object, bool multi = false,
-						 													bool unique = false);
+				 													bool unique = false);
 
 	/**
-	 *	Standard	deconstructor.
+	 * Standard deconstructor.
 	 */
 	~ListPopupMenu();
+
+	/**
+	 * Utility: Convert a Menu_Type value to an UMLObject_Type value.
+	 */
 	static Uml::UMLObject_Type convert_MT_OT(Menu_Type mt);
+
+	/**
+	 * Utility: Convert a Menu_Type value to a Diagram_Type value.
+	 */
 	static Uml::Diagram_Type convert_MT_DT(Menu_Type mt);
+
 private:
-	void insrtItm(Menu_Type m);  // shortcut for frequently used insertItem()s
-	void setupMenu(Menu_Type type, UMLView * view  = 0);
+	/**
+	 * Shortcut for the most frequently used insertItem() calls.
+	 *
+	 * @param m	The Menu_Type for which to insert a menu item.
+	 */
+	void insrtItm(Menu_Type m);
+
+	/**
+	 * Shortcut for commonly used menu initializations.
+	 *
+	 * @param type	The Menu_Type for which to set up the menu.
+	 * @param view	The UMLView parent of the menu.
+	 */
+	void setupMenu(Menu_Type type, UMLView * view = 0);
+
 	KPopupMenu * m_pInsert, * m_pShow, * m_pColor;
 	void setupColor(bool fc);
 	void setupColorSelection(bool fc);

@@ -17,72 +17,71 @@ class UMLView;
 #define NODE_MARGIN 10
 
 /**
- *	Defines a graphical version of the Node.  Most of the functionality
- *	will come from the @ref UMLNode class.
+ * Defines a graphical version of the Node.  Most of the functionality
+ * will come from the @ref UMLNode class.
  *
- *	@short	A graphical version of a Node.
- *	@author Jonathan Riddell
- *	@see	UMLWidget
+ * @short A graphical version of a Node.
+ * @author Jonathan Riddell
+ * @see	UMLWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class NodeWidget : public UMLWidget {
 public:
 
 	/**
-	 *	Constructs a NodeWidget.
+	 * Constructs a NodeWidget.
 	 *
-	 *	@param	view	The parent of this NodeWidget.
-	 *	@param	o	The UMLObject this will be representing.
+	 * @param view		The parent of this NodeWidget.
+	 * @param o		The UMLObject this will be representing.
 	 */
 	NodeWidget(UMLView * view, UMLObject * o);
 
 	/**
-	 *	Constructs a NodeWidget.
+	 * Constructs a NodeWidget.
 	 *
-	 *	@param	view	The parent of this NodeWidget.
+	 * @param view		The parent of this NodeWidget.
 	 */
 	NodeWidget(UMLView * view);
 
 	/**
-	 *	Standard deconstructor.
+	 * Standard deconstructor.
 	 */
 	~NodeWidget();
 
 	/**
-	 *	Initializes key variables of the class.
+	 * Initializes key variables of the class.
 	 */
 	void init();
 
 	/**
-	 *	Returns the status of whether to show StereoType.
+	 * Returns the status of whether to show StereoType.
 	 *
-	 *	@return  Returns the status of whether to show StereoType.
+	 * @return	True if stereotype is shown.
 	 */
 	bool getShowStereotype() const;
 
 	/**
-	 * 	Set the status of whether to show StereoType
+	 * Set the status of whether to show StereoType
 	 *
-	 *	@param _show  The status of whether to show StereoType
+	 * @param _status	True if stereotype is shown.
 	 */
 	void setShowStereotype(bool _status);
 
 	/**
-	 * Activate the object after serializing it from a QDataStream
+	 * Activate the object after serializing it from a QDataStream.
 	 */
 	virtual bool activate(IDChangeLog* ChangeLog  = 0 );
 
 	/**
-	 *	Overrides standards method
+	 * Overrides standard method.
 	 */
 	void draw(QPainter& p, int offsetX, int offsetY);
 
 	/**
-	 * Saves to the <nodewidget> element
+	 * Saves to the <UML:NodeWidget> XMI element.
+	 * Note: For loading we use the method inherited from the parent.
 	 */
 	bool saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
-
-	// For loading we can use the loadFromXMI() inherited from UMLWidgetData.
 
 protected:
 	/**
@@ -94,12 +93,12 @@ protected:
 private:
 
 	/**
-	 *	Automatically calculates the size of the object.
+	 * Automatically calculates the size of the object.
 	 */
 	void calculateSize();
 
 	/**
-	 * The right mouse button menu
+	 * The right mouse button menu.
 	 */
 	ListPopupMenu* m_pMenu;
 };

@@ -15,34 +15,38 @@
 class UMLDoc;
 
 /**
- *	This class contains the non-graphical information required for a UML Interface.
- *	This class inherits from @ref UMLClassifier which contains most of the information.
- *	The @ref UMLDoc class creates instances of this type.  All Interfaces will need a unique
- *	id.  This will be given by the @ref UMLDoc class.  If you don't leave it up to the @ref UMLDoc
- *	class then call the method @ref UMLDoc::getUniqueID to get a unique id.
+ * This class contains the non-graphical information required for a UML
+ * Interface.
+ * This class inherits from @ref UMLClassifier which contains most of the
+ * information.
  *
- *	@short	Information for a non-graphical Interface.
- *	@author Jonathan Riddell
+ * The @ref UMLDoc class creates instances of this type.  All Interfaces
+ * will need a unique id.  This will be given by the @ref UMLDoc class.
+ * If you don't leave it up to the @ref UMLDoc class then call the method
+ * @ref UMLDoc::getUniqueID to get a unique id.
+ *
+ * @short Information for a non-graphical Interface.
+ * @author Jonathan Riddell
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class UMLInterface : public UMLClassifier {
 public:
 	/**
-	 *	Sets up an interface.
+	 * Sets up an interface.
 	 *
-	 *	@param	parent	The parent to this Concept.
-	 *	@param	name	The name of the Concept.
-	 *	@param	id	The unique id of the Concept.
+	 * @param parent	The parent to this Concept.
+	 * @param name		The name of the Concept.
+	 * @param id		The unique id of the Concept.
 	 */
 	UMLInterface(UMLDoc * parent, const QString & name = "", int id = -1);
 
 	/**
-	 *	Standard deconstructor.
+	 * Standard deconstructor.
 	 */
 	virtual ~UMLInterface();
 
 	/**
-	 * 		Overloaded '==' operator
+	 * Overloaded '==' operator.
 	 */
   	bool operator==(UMLInterface& rhs);
   
@@ -54,12 +58,14 @@ public:
 	virtual QString uniqChildName(const UMLObject_Type type);
 
 	/**
-	 * Creates the UML:Concept element including it's operations, attributes and templates
+	 * Creates the <UML:Concept> element including its operations,
+	 * attributes and templates.
 	 */
 	virtual bool saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 	/**
-	 * Loads the UML:Class element including it's operations, attributes and templates
+	 * Loads the <UML:Class> element including its operations,
+	 * attributes and templates.
 	 */
 	virtual bool loadFromXMI( QDomElement & element );
 
@@ -68,7 +74,7 @@ public:
 protected:
 
 	/**
-	 *	Initializes key variables of the class.
+	 * Initializes key variables of the class.
 	 */
 	virtual void init(); // doesnt seem to be any reason for this to be public 
 };

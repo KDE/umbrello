@@ -18,12 +18,12 @@ class UMLAttribute;
 class UMLClassifier;
 
 /**
- *	This class is used to set up information for an operation.  This is like
- *	a programming operation.  It has a return type, scope, name and paramters.
+ * This class is used to set up information for an operation.  This is like
+ * a programming operation.  It has a return type, scope, name and paramters.
  *
- *	@short	Holds the information to represent an operation.
- *	@author Paul Hensgen	<phensgen@techie.com>
- *	@see	UMLObject
+ * @short Holds the information to represent an operation.
+ * @author Paul Hensgen	<phensgen@techie.com>
+ * @see	UMLObject
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
@@ -31,89 +31,89 @@ class UMLOperation : public UMLClassifierListItem {
 	Q_OBJECT
 public:
 	/**
-	 *	Constructs an UMLOperation.
+	 * Constructs an UMLOperation.
 	 *
-	 *	@param	parent		The parent to this operation.
-	 *	@param	name		The name of the operation.
-	 *	@param	id				The id of the operation.
-	 *	@param	s				The scope of the operation.
-	 *	@param	rt				The return type of the operation.
+	 * @param parent	The parent to this operation.
+	 * @param name		The name of the operation.
+	 * @param id		The id of the operation.
+	 * @param s		The scope of the operation.
+	 * @param rt		The return type of the operation.
 	 */
 	UMLOperation(UMLClassifier * parent, QString Name, int id, Scope s = Public, QString rt = "void");
 
 	/**
-	 *	Constructs an UMLOperation.
+	 * Constructs an UMLOperation.
 	 *
-	 *	@param	parent		The parent to this operation.
+	 * @param parent	The parent to this operation.
 	 */
 	UMLOperation(UMLClassifier * parent);
 
 	/**
-	 * 		Overloaded '==' operator
+	 * Overloaded '==' operator.
 	 */
 	bool operator==( UMLOperation & rhs );
 
 	/**
-	 *	Standard deconstructor.
+	 * Standard deconstructor.
 	 */
 	~UMLOperation();
 
 	/**
-	 *	Sets the return type of the operation.
+	 * Sets the return type of the operation.
 	 *
-	 *	@param	rt	The return type to set the operation to.
+	 * @param rt	The return type to set the operation to.
 	 */
 	void setReturnType(QString rt) {
 		m_ReturnType = rt;
 	}
 
 	/**
-	 *	Get the return type of the operation.
+	 * Get the return type of the operation.
 	 *
-	 *	@return	The return type.
+	 * @return	The return type.
 	 */
 	QString getReturnType() {
 		return m_ReturnType;
 	}
 
 	/**
-	 *	Add a parameter to the operation.
+	 * Add a parameter to the operation.
 	 *
-	 *	@param	type		The type of the parameter.
-	 *	@param	name		The name of the parameter.
-	 *	@param	initialValue	The initial value of the parameter.
+	 * @param type		The type of the parameter.
+	 * @param name		The name of the parameter.
+	 * @param initialValue	The initial value of the parameter.
 	 */
 	void addParm(QString type, QString name, QString initialValue, QString doc);
 
 	/**
-	 *	Remove a parameter from the operation.
+	 * Remove a parameter from the operation.
 	 *
-	 *	@param	a		The paramter to remove.
+	 * @param a		The paramter to remove.
 	 */
 	void removeParm(UMLAttribute *a);
 
 	/**
-	 *	Returns a list of parameters.
+	 * Returns a list of parameters.
 	 *
-	 *	@return A list of the paramters in the operation.
+	 * @return A list of the paramters in the operation.
 	 */
 	QPtrList<UMLAttribute>* getParmList() {
 		return &m_List;
 	}
 
 	/**
-	 *	Finds a parameter of the operation.
+	 * Finds a parameter of the operation.
 	 *
-	 *	@param	name	The parameter name to search for.
-	 *	@return	The found parameter, 0 if not found.
+	 * @param name	The parameter name to search for.
+	 * @return	The found parameter, 0 if not found.
 	 */
 	UMLAttribute * findParm(QString name);
 
 	/**
-	 *	Returns a string representation of the operation.
+	 * Returns a string representation of the operation.
 	 *
-	 *	@param	sig	What type of operation string to show.
-	 *	@return	The string representation of the operation.
+	 * @param sig	What type of operation string to show.
+	 * @return	The string representation of the operation.
 	 */
 	QString toString(Signature_Type sig = st_NoSig);
 
@@ -121,16 +121,17 @@ public:
 		return m_nUniqueID;
 	}
 	/**
-	 *	Add a parameter to the operation.
+	 * Add a parameter to the operation.
 	 *
-	 *	@param	parameter The paramter to add
-	 *	@param	position The position in the parameter list. If position = -1 the parameter
-	 *              will be appended to the list
+	 * @param parameter	The paramter to add.
+	 * @param position	The position in the parameter list.
+	 *			If position = -1 the parameter will be
+	 *			appended to the list.
 	 */
 	void addParm(UMLAttribute *parameter, int position = -1);
 
 	/**
-	 *  Returns an unused parameter name for a new parameter
+	 * Returns an unused parameter name for a new parameter.
 	 */
 	QString getUniqueParameterName();
 
@@ -139,11 +140,21 @@ public:
 	 */
 	bool showPropertiesDialogue(QWidget* parent);
 
-
+	/**
+	 * Saves to the <UML:Operation> XMI element.
+	 */
 	bool saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
+	/**
+	 * Loads a <UML:Operation> XMI element.
+	 */
 	bool loadFromXMI( QDomElement & element );
 
+	/**
+	 * Returns whether this operation is a constructor.
+	 *
+	 * @return	True if this operation is a constructor.
+	 */
 	bool isConstructorOperation ( );
 
 private:

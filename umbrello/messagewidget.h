@@ -16,20 +16,20 @@
 class FloatingText;
 class ObjectWidget;
 /**
- *	Used to display a message on a sequence diagram.  The message
- *	could be between two objects or a message that calls itself on
- *	an object.  This class will only display the line that is
- *	required and the text will be setup by the @ref FloatingText
- *	widget that is passed in the constructor.  A message can be
- *	synchronous (calls a method and gains control back on return,
- *	as happens in most programming languages) or asynchronous
- *	(calls a method and gains back control immediately).
+ * Used to display a message on a sequence diagram.  The message
+ * could be between two objects or a message that calls itself on
+ * an object.  This class will only display the line that is
+ * required and the text will be setup by the @ref FloatingText
+ * widget that is passed in the constructor.  A message can be
+ * synchronous (calls a method and gains control back on return,
+ * as happens in most programming languages) or asynchronous
+ * (calls a method and gains back control immediately).
  *
- *	@short	Displays a message.
- *	@author Paul Hensgen
- *	@see	UMLWidget
- *	@see	ObjectWidget
- *	@see	FloatingText
+ * @short Displays a message.
+ * @author Paul Hensgen
+ * @see	UMLWidget
+ * @see	ObjectWidget
+ * @see	FloatingText
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class MessageWidget : public UMLWidget {
@@ -37,33 +37,33 @@ class MessageWidget : public UMLWidget {
 public:
 
 	/**
-	 *	Constructs a MessageWidget.
+	 * Constructs a MessageWidget.
 	 *
-	 *	@param	view	The parent to this class.
-	 *	@param	a	The role A widget for this message.
-	 *	@param	b	The role B widget for this message.
-	 *	@param	ft	The FloatingText widget that is needed to display text.
-	 *	@param	id	A unique id used for deleting this object cleanly.
-	 *	@param	y	The vertical position to display this message.
-	 *	@param sequenceMessageType Whether synchronous or asynchronous
+	 * @param view	The parent to this class.
+	 * @param a	The role A widget for this message.
+	 * @param b	The role B widget for this message.
+	 * @param ft	The FloatingText widget that is needed to display text.
+	 * @param id	A unique id used for deleting this object cleanly.
+	 * @param y	The vertical position to display this message.
+	 * @param sequenceMessageType Whether synchronous or asynchronous
 	 */
 	MessageWidget(UMLView * view, ObjectWidget* a, ObjectWidget* b, FloatingText* ft, 
 		      int id, int y, Sequence_Message_Type sequenceMessageType);
 
 	/**
-	 *	Constructs a MessageWidget.
+	 * Constructs a MessageWidget.
 	 *
-	 *	@param	view		The parent to this class.
+	 * @param view		The parent to this class.
 	 */
 	MessageWidget(UMLView * view, Sequence_Message_Type sequenceMessageType);
 
 	/**
-	 *	Initializes key variables of the class.
+	 * Initializes key variables of the class.
 	 */
 	void init();
 
 	/**
-	 *	Standard deconstructor.
+	 * Standard deconstructor.
 	 */
 	virtual ~MessageWidget();
 
@@ -95,67 +95,67 @@ public:
 	}
 
 	/**
-	 *	Check to see if the given ObjectWidget is involved in the message.
+	 * Check to see if the given ObjectWidget is involved in the message.
 	 *
-	 *	@param	w	The ObjectWidget to check for.
-	 *	@return		true - if is contained, false - not contained.
+	 * @param w	The ObjectWidget to check for.
+	 * @return 	true - if is contained, false - not contained.
 	 */
 	bool contains(ObjectWidget * w);
 
 	/**
-	 *	Returns the A widget it is related to.
+	 * Returns the A widget it is related to.
 	 *
-	 *	@return Returns the A widget it is related to.
+	 * @return	The A widget we are related to.
 	 */
 	ObjectWidget* getWidgetA();
 
 	/**
-	 *	Returns the B widget it is related to.
+	 * Returns the B widget it is related to.
 	 *
-	 *	@return Returns the B widget it is related to.
+	 * @return	The B widget we are related to.
 	 */
         ObjectWidget* getWidgetB();
 
 	/**
-	 *	Sets the A widget it is related to.
+	 * Sets the A widget it is related to.
 	 *
-	 *	@param wa the A widget it is related to.
+	 * @param wa	The A widget we are related to.
 	 */
 	void setWidgetA(ObjectWidget * wa) ;
 
 	/**
-	 *	Sets the B widget it is related to.
+	 * Sets the B widget it is related to.
 	 *
-	 *	@param wa the B widget it is related to.
+	 * @param wb	The B widget we are related to.
 	 */
 	void setWidgetB(ObjectWidget * wb);
 
 	/**
-	 *	Returns the text widget it is related to.
+	 * Returns the text widget it is related to.
 	 *
-	 *	@return Returns the text widget it is related to.
+	 * @return	The text widget we are related to.
 	 */
 	FloatingText * getFloatingText() {
 		return m_pFText;
 	}
 
 	/**
-	 *	Sets the text widget it is related to.
+	 * Sets the text widget it is related to.
 	 *
-	 *	@param f	The text widget it is related to.
+	 * @param f	The text widget we are related to.
 	 */
 	void setFloatingText(FloatingText * f) {
 		m_pFText = f;
 	}
 
 	/**
-	 *	Calculate the geometry of the widget.
+	 * Calculate the geometry of the widget.
 	 */
 	void calculateWidget();
 
 	/**
-	 * Activates a MessageWidget, Connects its m_pWA and m_pWB pointers to UMLObjects
-	 * and also send signals about its floatingText
+	 * Activates a MessageWidget.  Connects its m_pWA and m_pWB pointers
+	 * to UMLObjects and also send signals about its FloatingText.
 	 */
 	bool activate(IDChangeLog * Log = 0);
 
@@ -177,71 +177,71 @@ public:
 	void calculateDimensionsAsynchronous();
 
 	/** 
-	 * calls drawSynchronous() or drawAsynchronous()
+	 * Calls drawSynchronous() or drawAsynchronous()
 	 */
 	void draw(QPainter& p, int offsetX, int offsetY);
 
 	/**
 	 * Draws the calling arrow with filled in arrowhead, the
 	 * timeline box and the returning arrow with a dashed line and
-	 * stick arrowhead
+	 * stick arrowhead.
 	 */
 	void drawSynchronous(QPainter& p, int offsetX, int offsetY);
 
 	/**
-	 * Draws a solid arrow line and a stick arrow head
+	 * Draws a solid arrow line and a stick arrow head.
 	 */
 	void drawAsynchronous(QPainter& p, int offsetX, int offsetY);
 
 
 	/**
-	 *   Used to cleanup any other widget it may need to delete.
+	 * Used to cleanup any other widget it may need to delete.
 	 */
 	void cleanup();
 
 	/**
-	 *	Overrides the standard operation.
+	 * Overrides the standard operation.
 	 */
 	void mouseMoveEvent(QMouseEvent *me);
 
 	/**
-	 *	Sets the state of whether the widget is selected.
+	 * Sets the state of whether the widget is selected.
 	 *
-	 *	@param _select The state of whether the widget is selected.
+	 * @param _select	True if the widget is selected.
 	 */
 	void setSelected(bool _select);
 
 	/**
-	 *	Returns the minimum height this widget should be set at on
-	 *	a sequence diagrams.  Takes into account the widget positions
-	 *	it is related to.
+	 * Returns the minimum height this widget should be set at on
+	 * a sequence diagrams.  Takes into account the widget positions
+	 * it is related to.
 	 */
 	int getMinHeight();
 
 	/**
-	 *	Returns the maximum height this widget should be set at on
-	 *	a sequence diagrams.  Takes into account the widget positions
-	 *	it is related to.
+	 * Returns the maximum height this widget should be set at on
+	 * a sequence diagrams.  Takes into account the widget positions
+	 * it is related to.
 	 */
 	int getMaxHeight();
 
 	/**
-	 *	Overrides the standard operation.
+	 * Overrides the standard operation.
 	 */
 	virtual void mouseReleaseEvent(QMouseEvent * me);
 
 	/**
-	 *	Overrides the standard operation.
+	 * Overrides the standard operation.
 	 */
 	virtual void mousePressEvent(QMouseEvent *me);
 
 	/**
-	 * saves properties for the supplied <UML:MessageWidget> tag
+	 * Saves to the <UML:MessageWidget> XMI element.
 	 */
 	bool saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 	/**
-	 * loads properties from a supplied <UML:MessageWidget> tag
+	 * Loads from the <UML:MessageWidget> XMI element.
 	 */
 	bool loadFromXMI( QDomElement & qElement );
 
@@ -250,7 +250,7 @@ protected:
 	QString m_SequenceNumber;
 	QString m_Operation;
 	/**
-	 *	Whether the message is synchronous or asynchronous
+	 * Whether the message is synchronous or asynchronous
 	 */
         Sequence_Message_Type m_sequenceMessageType;
 

@@ -23,92 +23,122 @@ class UMLDoc;
 class UMLDrag;
 
 /**
- *	This class manages the uml's interaction with the KDE
- *	Clipboard. It makes possible to copy stuff from one uml
- *	instance to another one.
+ * This class manages the uml's interaction with the KDE
+ * Clipboard. It makes possible to copy stuff from one uml
+ * instance to another one.
  *
- *	@author Gustavo Madrigal
+ * @short Clipboard management class
+ * @author Gustavo Madrigal
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class UMLClipboard : public QObject {
 public:
 	/**
-	* 	Constructor
-	*/
+	 * Constructor.
+	 */
 	UMLClipboard();
 
 	/**
-	* 	Deconstructor
-	*/
+	 * Deconstructor.
+	 */
 	virtual ~UMLClipboard();
 
 	/**
-	* 	Inserts the clipboard's contents into an UML Document
-	*/
+	 * Inserts the clipboard's contents into an UML Document.
+	 *
+	 * @param Doc		Pointer to the UMLDoc to insert into.
+	 * @param Data		Pointer to the MIME format clipboard data.
+	 * @return	True for successful operation.
+	 */
 	bool paste(UMLDoc * Doc, QMimeSource* Data);
 
 	/**
-	*	Copies the selected stuff from an UMLDocument to a
-	*	QMimeSource ready to be put in the clipboard
-	*/
+	 * Copies the selected stuff from an UMLDocument to a
+	 * QMimeSource ready to be put in the clipboard.
+	 *
+	 * @param Doc		Pointer to the source UMLDoc.
+	 * @return	Pointer to the created clipboard data.
+	 */
 	QMimeSource* copy(UMLDoc * Doc, bool fromView = false);
 
+	/// Enumeration that codes the different types of UML clips.
 	enum UMLCopyType
 	{
-	    clip1 = 1, //UMLObjects and UMLListViewItems (not diagrams)
-	    clip2 = 2, //UMLObjects, UMLListViewItems (not diagrams) and diagrams
-	    clip3 = 3, //UMLListViewItems (not diagrams)
-	    clip4 = 4, //UMLObjects, UMLListViewItems, Associations and UMLWidgets
-	    clip5 = 5  //Only Attributes and Operations
+	    clip1 = 1, ///<UMLObjects and UMLListViewItems (not diagrams)
+	    clip2 = 2, ///<UMLObjects, UMLListViewItems (not diagrams) and diagrams
+	    clip3 = 3, ///<UMLListViewItems (not diagrams)
+	    clip4 = 4, ///<UMLObjects, UMLListViewItems, Associations and UMLWidgets
+	    clip5 = 5  ///<Only Attributes and Operations
 	};
+
 private:
 	/**
-	*	Cleans the list of associations taking out the ones
-	*	that point to an object not in m_pObjectList
-	*/
+	 * Cleans the list of associations taking out the ones
+	 * that point to an object not in m_pObjectList.
+	 *
+	 * @param associations	The list of associations to process.
+	 */
 	void CleanAssociations(AssociationWidgetList& associations);
 
 	/**
-	*	If clipboard has mime type application/x-uml-clip1,
-	*	Pastes the data from the clipboard into the current
-	*	Doc
-	*/
+	 * If clipboard has mime type application/x-uml-clip1,
+	 * pastes the data from the clipboard into the given Doc.
+	 *
+	 * @param doc		Pointer to the target UMLDoc.
+	 * @param data		Pointer to the source clip.
+	 * @return	True for successful operation.
+	 */
 	bool pasteClip1(UMLDoc* doc, QMimeSource* data);
 
 	/**
-	*	If clipboard has mime type application/x-uml-clip2,
-	*	Pastes the data from the clipboard into the current
-	*	Doc
-	*/
+	 * If clipboard has mime type application/x-uml-clip2,
+	 * pastes the data from the clipboard into the given Doc.
+	 *
+	 * @param doc		Pointer to the target UMLDoc.
+	 * @param data		Pointer to the source clip.
+	 * @return	True for successful operation.
+	 */
 	bool pasteClip2(UMLDoc* doc, QMimeSource* data);
 
 	/**
-	*	If clipboard has mime type application/x-uml-clip3,
-	*	Pastes the data from the clipboard into the current
-	*	Doc
-	*/
+	 * If clipboard has mime type application/x-uml-clip3,
+	 * pastes the data from the clipboard into the given Doc.
+	 *
+	 * @param doc		Pointer to the target UMLDoc.
+	 * @param data		Pointer to the source clip.
+	 * @return	True for successful operation.
+	 */
 	bool pasteClip3(UMLDoc* doc, QMimeSource* data);
 
 	/**
-	*	If clipboard has mime type application/x-uml-clip4,
-	*	Pastes the data from the clipboard into the current
-	*	Doc
-	*/
+	 * If clipboard has mime type application/x-uml-clip4,
+	 * pastes the data from the clipboard into the given Doc.
+	 *
+	 * @param doc		Pointer to the target UMLDoc.
+	 * @param data		Pointer to the source clip.
+	 * @return	True for successful operation.
+	 */
 	bool pasteClip4(UMLDoc* doc, QMimeSource* data);
 
 	/**
-	*	If clipboard has mime type application/x-uml-clip5,
-	*	Pastes the data from the clipboard into the current
-	*	Doc
-	*/
+	 * If clipboard has mime type application/x-uml-clip5,
+	 * pastes the data from the clipboard into the given Doc.
+	 *
+	 * @param doc		Pointer to the target UMLDoc.
+	 * @param data		Pointer to the source clip.
+	 * @return	True for successful operation.
+	 */
 	bool pasteClip5(UMLDoc* doc, QMimeSource* data);
 
 	/**
-	*	When pasting widgets see if they can be pasted on
-	*	different diagram types.  Will return true if all the
-	*	widgets to be pasted can be.  At the moment this only
-	*	includes NoteWidgets and lines of text.
-	*/
+	 * When pasting widgets see if they can be pasted on
+	 * different diagram types.  Will return true if all the
+	 * widgets to be pasted can be.  At the moment this only
+	 * includes NoteWidgets and lines of text.
+	 *
+	 * @param widgetList	List of widgets to examine.
+	 * @return	True if all widgets can be put on different diagrams.
+	 */
 	bool checkPasteWidgets(UMLWidgetList & widgetList);
 
 	UMLObjectList* m_pObjectList;
@@ -116,50 +146,55 @@ private:
 	UMLWidgetList* m_pWidgetList;
 	AssociationWidgetList* m_pAssociationList;
 	UMLViewList* m_pViewList;
-	UMLCopyType m_type; //Type of copy operation to perform
+	UMLCopyType m_type; ///< Type of copy operation to perform.
 
 private:
 	/**
-	*	Fills the member lists with all the objects and other
-	*	stuff to be copied to the clipboard
-	*/
+	 * Fills the member lists with all the objects and other
+	 * stuff to be copied to the clipboard.
+	 */
 	bool fillSelectionLists(UMLListViewItemList& SelectedItems);
 
 	/**
-	* 	Checks the whole list to determine the copy action
-	* 	type to be * performed, sets the type in the m_type
-	* 	member variable
-	*/
+	 * Checks the whole list to determine the copy action
+	 * type to be * performed, sets the type in the m_type
+	 * member variable.
+	 */
 	void setCopyType(UMLListViewItemList& SelectedItems, UMLDoc* Doc);
 
 	/**
-	*	Searches the child items of a UMLListViewItem to
-	*	establish * with Copy type is to be perfomed
-	*/
-	void checkItemForCopyType(UMLListViewItem* Item, bool & WithDiagrams, bool &WithObjects, bool &OnlyAttsOps,	UMLDoc* Doc);
-
-	/**
-	 *	Adds the children of a UMLListViewItem to m_pItemList
+	 * Searches the child items of a UMLListViewItem to
+	 * establish which Copy type is to be perfomed.
 	 */
-	bool insertItemChildren(UMLListViewItem* Item, UMLListViewItemList& SelectedItems);
+	void checkItemForCopyType(UMLListViewItem* Item,
+				  bool& WithDiagrams,
+				  bool& WithObjects,
+				  bool& OnlyAttsOps,
+				  UMLDoc* Doc);
 
 	/**
-	 * 	Inserts the data of the children of the given item
-	 * 	into the item data list.  Used for clip type 4.  Used
-	 * 	to make * sure classes have all the attributes and
-	 * 	operations saved.
+	 * Adds the children of a UMLListViewItem to m_pItemList.
+	 */
+	bool insertItemChildren(UMLListViewItem* Item,
+				UMLListViewItemList& SelectedItems);
+
+	/**
+	 * Inserts the data of the children of the given item
+	 * into the item data list.  Used for clip type 4.  Used
+	 * to make * sure classes have all the attributes and
+	 * operations saved.
 	 */
 	bool insertItemChildren(UMLListViewItem* item);
 
 	/**
-	 *	 Pastes the children of a UMLListViewItem (The Parent)
+	 * Pastes the children of a UMLListViewItem (The Parent)
 	 */
 	bool pasteChildren(UMLListViewItem* Parent, UMLListViewItemListIt* It,
 			   IDChangeLog& ChangeLog, UMLDoc * Doc);
 
 	/**
-	 * Gives a `sorry' message box if you're pasting an item which already exists
-	 * and can't be duplicated
+	 * Gives a `sorry' message box if you're pasting an item which
+	 * already exists and can't be duplicated.
 	 */
 	void pasteItemAlreadyExists(UMLDoc* doc);
 };

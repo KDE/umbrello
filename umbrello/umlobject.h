@@ -20,12 +20,12 @@
 using namespace Uml;
 
 /**
- *	This class is the non-graphical version of @ref UMLWidget.  These are
- *	created and maintained in the class @ref UMLDoc.  This class holds all
- *	the generic information needed for all UMLObjects.
+ * This class is the non-graphical version of @ref UMLWidget.  These are
+ * created and maintained in the class @ref UMLDoc.  This class holds all
+ * the generic information needed for all UMLObjects.
  *
- *	@short	The base class for UML objects.
- *	@author Paul Hensgen	<phensgen@techie.com>
+ * @short	The base class for UML objects.
+ * @author Paul Hensgen	<phensgen@techie.com>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class UMLObject : public QObject {
@@ -35,9 +35,9 @@ public:
 	/**
 	 * Creates a UMLObject.
 	 *
-	 * @param	parent		The parent of the object.
-	 * @param	name		The name of the object.
-	 * @param	id		The ID of the object.
+	 * @param parent	The parent of the object.
+	 * @param name		The name of the object.
+	 * @param id		The ID of the object.
 	 */
 	UMLObject(QObject * parent, QString Name, int id);
 
@@ -75,7 +75,7 @@ public:
 	/**
 	 * Sets the documentation for the object.
 	 *
-	 * @param	d	The documentation for the object.
+	 * @param d	The documentation for the object.
 	 */
 	void setDoc(QString d);
 
@@ -96,7 +96,7 @@ public:
 	/**
 	 * Sets the scope of the object.
 	 *
-	 * @param	s	The scope of the object.
+	 * @param s	The scope of the object.
 	 */
 	void setScope(Scope s);
 

@@ -17,73 +17,73 @@ class UMLView;
 #define PACKAGE_MARGIN 5
 
 /**
- *	Defines a graphical version of the Package.  Most of the functionality
- *	will come from the @ref UMLPackage class.
+ * Defines a graphical version of the Package.  Most of the functionality
+ * will come from the @ref UMLPackage class.
  *
- *	@short	A graphical version of a Package.
- *	@author Jonathan Riddell
- *	@see	UMLWidget
+ * @short A graphical version of a Package.
+ * @author Jonathan Riddell
+ * @see	UMLWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class PackageWidget : public UMLWidget {
 public:
 
 	/**
-	 *	Constructs a PackageWidget.
+	 * Constructs a PackageWidget.
 	 *
-	 *	@param	view	The parent of this PackageWidget.
-	 *	@param	o	The UMLObject this will be representing.
+	 * @param view		The parent of this PackageWidget.
+	 * @param o		The UMLObject this will be representing.
 	 */
 	PackageWidget(UMLView * view, UMLObject * o);
 
 	/**
-	 *	Constructs a PackageWidget.
+	 * Constructs a PackageWidget.
 	 *
-	 *	@param	view	The parent of this PackageWidget.
+	 * @param view		The parent of this PackageWidget.
 	 */
 	PackageWidget(UMLView * view);
 
 	/**
-	 *	Standard deconstructor.
+	 * Standard deconstructor.
 	 */
 	~PackageWidget();
 
 	/**
-	 *	Initializes key variables of the class.
+	 * Initializes key variables of the class.
 	 */
 	void init();
 
 	/**
-	 *	Returns the status of whether to show StereoType.
+	 * Returns the status of whether to show StereoType.
 	 *
-	 *	@return  Returns the status of whether to show StereoType.
+	 * @return	True if stereotype is shown.
 	 */
 	bool getShowStereotype();
 
 	/**
-	 * 	Set the status of whether to show StereoType
+	 * Set the status of whether to show StereoType.
 	 *
-	 *	@param _show  The status of whether to show StereoType
+	 * @param _show		True if stereotype shall be shown.
 	 */
 	void setShowStereotype(bool _status);
 
 	/**
-	 * Activate the object after serializing it from a QDataStream
+	 * Activate the object after serializing it from a QDataStream.
 	 */
 	virtual bool activate(IDChangeLog* ChangeLog  = 0 );
 
 	/**
-	 *	Overrides standards method
+	 * Overrides standard method.
 	 */
 	void draw(QPainter& p, int offsetX, int offsetY);
 
 	/**
-	 * Saves to the <packagewidget> element
+	 * Saves to the <UML:PackageWidget> XMI element.
 	 */
 	bool saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
 	/**
-	 * Loads from a <packagewidget> element
+	 * Loads from a <UML:PackageWidget> XMI element.
 	 */
 	bool loadFromXMI(QDomElement& qElement);
 
@@ -98,12 +98,12 @@ protected:
 
 private:
 	/**
-	 *	Automatically calculates the size of the object.
+	 * Automatically calculates the size of the object.
 	 */
 	void calculateSize();
 
 	/**
-	 * The right mouse button menu
+	 * The right mouse button menu.
 	 */
 	ListPopupMenu* m_pMenu;
 };

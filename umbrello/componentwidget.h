@@ -17,53 +17,53 @@ class UMLView;
 #define COMPONENT_MARGIN 10
 
 /**
- *	Defines a graphical version of the Component.  Most of the functionality
- *	will come from the @ref UMLComponent class.
+ * Defines a graphical version of the Component.  Most of the functionality
+ * will come from the @ref UMLComponent class.
  *
- *	@short	A graphical version of a Component.
- *	@author Jonathan Riddell
- *	@see	UMLWidget
+ * @short A graphical version of a Component.
+ * @author Jonathan Riddell
+ * @see	UMLWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class ComponentWidget : public UMLWidget {
 public:
 
 	/**
-	 *	Constructs a ComponentWidget.
+	 * Constructs a ComponentWidget.
 	 *
-	 *	@param	view	The parent of this ComponentWidget.
-	 *	@param	o	The UMLObject this will be representing.
+	 * @param view	The parent of this ComponentWidget.
+	 * @param o	The UMLObject this will be representing.
 	 */
 	ComponentWidget(UMLView * view, UMLObject * o);
 
 	/**
-	 *	Constructs a ComponentWidget.
+	 * Constructs a ComponentWidget.
 	 *
-	 *	@param	view	The parent of this ComponentWidget.
+	 * @param view	The parent of this ComponentWidget.
 	 */
 	ComponentWidget(UMLView * view);
 
 	/**
-	 *	Standard deconstructor.
+	 * Standard deconstructor.
 	 */
 	~ComponentWidget();
 
 	/**
-	 *	Initializes key variables of the class.
+	 * Initializes key variables of the class.
 	 */
 	void init();
 
 	/**
-	 *	Returns the status of whether to show StereoType.
+	 * Returns the status of whether to show StereoType.
 	 *
-	 *	@return  Returns the status of whether to show StereoType.
+	 * @return	Status of whether to show stereotype.
 	 */
 	bool getShowStereotype() const;
 
 	/**
-	 * 	Set the status of whether to show StereoType
+	 * Set the status of whether to show StereoType
 	 *
-	 *	@param _show  The status of whether to show StereoType
+	 * @param _show		True if stereotype shall be shown.
 	 */
 	void setShowStereotype(bool _status);
 
@@ -78,12 +78,12 @@ public:
 	void draw(QPainter& p, int offsetX, int offsetY);
 
 	/**
-	 * Saves to the <componentwidget> element
+	 * Saves to the <UML:ComponentWidget> XMI element.
 	 */
 	bool saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
 	/**
-	 * Loads from a <componentwidget> element
+	 * Loads from a <UML:ComponentWidget> XMI element.
 	 */
 	bool loadFromXMI(QDomElement& qElement);
 
@@ -96,7 +96,7 @@ protected:
 
 private:
 	/**
-	 *	Automatically calculates the size of the object.
+	 * Automatically calculates the size of the object.
 	 */
 	void calculateSize();
 

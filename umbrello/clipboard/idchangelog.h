@@ -12,11 +12,11 @@
 
 
 /**
- *	This class contains all the ID translations done for each
- *	UMLObject pasted. It contains for each old id its new
- *	assigned id.
+ * This class contains all the ID translations done for each
+ * UMLObject pasted. It contains for each old id its new
+ * assigned id.
  *
- *	@author Gustavo Madrigal
+ * @author Gustavo Madrigal
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
@@ -25,59 +25,60 @@
 class IDChangeLog {
 public:
 	/**
-	 * 	Constructor
+	 * Constructor.
 	 */
 	IDChangeLog();
 
 	/**
-	 *	Copy constructor
+	 * Copy constructor.
 	 */
 	IDChangeLog(const IDChangeLog& Other);
 
 	/**
-	 * 		Deconstructor
+	 * Deconstructor.
 	 */
 	~IDChangeLog();
 
 	/**
-	 *  	Overloaded '=' operator
+	 * Overloaded '=' operator.
 	 */
 	IDChangeLog& operator=(const IDChangeLog& Other);
 
 	/**
-	 *  	Overloaded '==' operator
+	 * Overloaded '==' operator.
 	 */
 	bool operator==(const IDChangeLog& Other);
 
 	/**
-	 * Adds a new ID Change to the log
+	 * Adds a new ID Change to the log.
 	 */
 	void addIDChange(int OldID, int NewID);
 
 	/**
-	 *	Appends another IDChangeLog to this instance of IDChangeLog and
-	 *	returns a reference to itself
+	 * Appends another IDChangeLog to this instance of IDChangeLog and
+	 * returns a reference to itself.
 	 */
 	IDChangeLog& operator+=(const IDChangeLog& Other);
 
 	/**
-	 * Returns the new assigned ID of the object that had OldID as its previous id
+	 * Returns the new assigned ID of the object that had OldID as its
+	 * previous id.
 	 */
 	int findNewID(int OldID);
 
 	/**
-	 *	Returns the old ID of an UMLobject given its new one
+	 * Returns the old ID of an UMLobject given its new one.
 	 */
 	int findOldID(int NewID);
 
 	/**
-	 *	 Removes a change giving an New ID
+	 * Removes a change giving an New ID.
 	 */
 	void removeChangeByNewID( int OldID);
 
 	enum SpecialIDs
 	{
-	    NullID = -1000 //A not posible id
+	    NullID = -1000 ///< An impossible id value.
 	};
 
 public:
@@ -88,7 +89,7 @@ public:
 
 private:
 	/**
-	 * Finds a specific change in the log
+	 * Finds a specific change in the log.
 	 */
 	bool findIDChange(int OldID, int NewID, uint& pos);
 };
