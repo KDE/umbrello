@@ -445,7 +445,7 @@ void CPPHeaderCodeDocument::updateContent( )
 	QString cppClassName = gen->getCPPClassName(c->getName());
 	QString hashDefine = gen->getCPPClassName(c->getName()).upper().simplifyWhiteSpace().replace(QRegExp(" "),  "_");
 	QString defText = "#ifndef "+hashDefine + "_H"+ endLine + "#define "+ hashDefine + "_H";
-	addOrUpdateTaggedCodeBlockWithComments("hashDefBlock", defText, QString(""), 0, false);
+	addOrUpdateTaggedCodeBlockWithComments("hashDefBlock", defText, QString::null, 0, false);
 
        	// INCLUDE CODEBLOCK 
        	//
