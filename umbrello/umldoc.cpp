@@ -68,7 +68,7 @@
 static const uint undoMax = 30;
 
 
-UMLDoc::UMLDoc(QWidget *parent, const char *name) : QObject(parent, name) {
+UMLDoc::UMLDoc() {
 	m_currentView = 0;
 	m_uniqueID = 0;
 	m_count = 0;
@@ -177,7 +177,7 @@ bool UMLDoc::saveModified() {
 	if (!m_modified)
 		return completed;
 
-	UMLApp *win=(UMLApp *) parent();
+	UMLApp *win = UMLApp::app();
 	int want_save = KMessageBox::warningYesNoCancel(win, i18n("The current file has been modified.\nDo you want to save it?"), i18n("Warning"));
 	switch(want_save) {
 		case KMessageBox::Yes:
@@ -426,7 +426,7 @@ bool UMLDoc::openDocument(const KURL& url, const char* /*format =0*/) {
 	m_bLoading = false;
 	initSaveTimer();
 
-	((UMLApp*)parent())->enableUndo(false);
+	UMLApp::app()->enableUndo(false);
 	clearUndoStack();
 	addToUndoStack();
 
@@ -626,7 +626,7 @@ void UMLDoc::deleteContents() {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLDoc::setupSignals() {
-	WorkToolBar *tb = ((UMLApp*)parent()) -> getWorkToolBar();
+	WorkToolBar *tb = UMLApp::app() -> getWorkToolBar();
 
 
 	connect(this, SIGNAL(sigDiagramChanged(Uml::Diagram_Type)), tb, SLOT(slotCheckToolBar(Uml::Diagram_Type)));
@@ -985,7 +985,7 @@ UMLObject* UMLDoc::createUMLObject(UMLObject_Type type, const QString &n,
 		name = uniqObjectName(type);
 		bool bValidNameEntered = false;
 		do {
-			name = KInputDialog::getText(i18n("Name"), i18n("Enter name:"), name, &ok, (QWidget*)parent());
+			name = KInputDialog::getText(i18n("Name"), i18n("Enter name:"), name, &ok, (QWidget*)UMLApp::app());
 			if (!ok) {
 				return 0;
 			}
@@ -1414,7 +1414,7 @@ void UMLDoc::createDiagram(Diagram_Type type, bool askForName /*= true */) {
 
 	while(true) {
 		if (askForName)  {
-			name = KInputDialog::getText(i18n("Name"), i18n("Enter name:"), dname, &ok, (QWidget*)parent());
+			name = KInputDialog::getText(i18n("Name"), i18n("Enter name:"), dname, &ok, (QWidget*)UMLApp::app());
 		} else {
 			name = dname;
 		}
@@ -1432,7 +1432,7 @@ void UMLDoc::createDiagram(Diagram_Type type, bool askForName /*= true */) {
 			addView(temp);
 			emit sigDiagramCreated(m_uniqueID);
 			setModified(true);
-			((UMLApp*)parent())->enablePrint(true);
+			UMLApp::app()->enablePrint(true);
 			changeCurrentView(m_uniqueID);
 			break;
 		} else {
@@ -1449,7 +1449,7 @@ void UMLDoc::renameDiagram(int id) {
 
 	QString oldName= temp->getName();
 	while(true) {
-		QString name = KInputDialog::getText(i18n("Name"), i18n("Enter name:"), oldName, &ok, (QWidget*)parent());
+		QString name = KInputDialog::getText(i18n("Name"), i18n("Enter name:"), oldName, &ok, (QWidget*)UMLApp::app());
 
 		if(!ok)
 			break;
@@ -1471,7 +1471,7 @@ void UMLDoc::renameUMLObject(UMLObject *o) {
 	bool ok = false;
 	QString oldName= o->getName();
 	while(true) {
-		QString name = KInputDialog::getText(i18n("Name"), i18n("Enter name:"), oldName, &ok, (QWidget*)parent());
+		QString name = KInputDialog::getText(i18n("Name"), i18n("Enter name:"), oldName, &ok, (QWidget*)UMLApp::app());
 		if(!ok)
 			break;
 		if(name.length() == 0)
@@ -1499,7 +1499,7 @@ void UMLDoc::renameChildUMLObject(UMLObject *o) {
 
 	QString oldName= o->getName();
 	while(true) {
-		QString name = KInputDialog::getText(i18n("Name"), i18n("Enter name:"), oldName, &ok, (QWidget*)parent());
+		QString name = KInputDialog::getText(i18n("Name"), i18n("Enter name:"), oldName, &ok, (QWidget*)UMLApp::app());
 		if(!ok)
 			break;
 		if(name.length() == 0)
@@ -1546,7 +1546,7 @@ void UMLDoc::removeDiagram(int id) {
 		setModified(true);
 /*		if(infoWidget->isVisible()) {
 			emit sigDiagramChanged(dt_Undefined);
-			((UMLApp*)parent())->enablePrint(false);
+			UMLApp::app()->enablePrint(false);
 		}
 */ //FIXME sort out all the KActions for when there's no diagram
    //also remove the buttons from the WorkToolBar, then get rid of infowidget
@@ -1619,7 +1619,7 @@ void UMLDoc::removeUMLObject(UMLObject* umlobject) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool UMLDoc::showProperties(UMLObject* object, int page, bool assoc) {
 	UMLApp::app()->getDocWindow()->updateDocumentation( false );
-	ClassPropDlg* dialogue = new ClassPropDlg((QWidget*)parent(), object, page, assoc);
+	ClassPropDlg* dialogue = new ClassPropDlg((QWidget*)UMLApp::app(), object, page, assoc);
 
 	bool modified = false;
 	if ( dialogue->exec() ) {
@@ -1634,7 +1634,7 @@ bool UMLDoc::showProperties(UMLObject* object, int page, bool assoc) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool UMLDoc::showProperties(ObjectWidget *o) {
 	UMLApp::app()->getDocWindow() -> updateDocumentation( false );
-	ClassPropDlg *dlg = new ClassPropDlg((QWidget*)parent(), o);
+	ClassPropDlg *dlg = new ClassPropDlg((QWidget*)UMLApp::app(), o);
 
 	bool modified = false;
 	if(dlg->exec()) {
@@ -2346,7 +2346,7 @@ bool UMLDoc::showProperties(UMLWidget * o) {
 	// will already be selected so make sure docWindow updates the doc
 	// back it the widget
 	UMLApp::app()->getDocWindow() -> updateDocumentation( false );
-	ClassPropDlg *dlg = new ClassPropDlg((QWidget*)parent(), o);
+	ClassPropDlg *dlg = new ClassPropDlg((QWidget*)UMLApp::app(), o);
 
 	bool modified = false;
 	if(dlg->exec()) {
@@ -2361,7 +2361,7 @@ bool UMLDoc::showProperties(UMLWidget * o) {
 void UMLDoc::setModified(bool modified /*=true*/, bool addToUndo /*=true*/) {
 	if(!m_bLoading) {
 		m_modified = modified;
-		((UMLApp *) parent())->setModified(modified);
+		UMLApp::app()->setModified(modified);
 
 		if (modified && addToUndo) {
 			addToUndoStack();
@@ -2565,7 +2565,7 @@ void UMLDoc::addToUndoStack() {
 		undoStack.prepend(undoData);
 
 		if (undoStack.count() > 1) {
-			((UMLApp*)parent())->enableUndo(true);
+			UMLApp::app()->enableUndo(true);
 		}
 	}
 }
@@ -2573,7 +2573,7 @@ void UMLDoc::addToUndoStack() {
 void UMLDoc::clearUndoStack() {
 	undoStack.setAutoDelete(true);
 	undoStack.clear();
-	((UMLApp*)parent())->enableRedo(false);
+	UMLApp::app()->enableRedo(false);
 	undoStack.setAutoDelete(false);
 	clearRedoStack();
 }
@@ -2581,7 +2581,7 @@ void UMLDoc::clearUndoStack() {
 void UMLDoc::clearRedoStack() {
 	redoStack.setAutoDelete(true);
 	redoStack.clear();
-	((UMLApp*)parent())->enableRedo(false);
+	UMLApp::app()->enableRedo(false);
 	redoStack.setAutoDelete(false);
 }
 

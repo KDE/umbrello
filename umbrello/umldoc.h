@@ -82,7 +82,7 @@ public:
 	/**
 	 * Constructor for the fileclass of the application
 	 */
-	UMLDoc(QWidget *parent, const char *name=0);
+	UMLDoc();
 
 	/**
 	 * Destructor for the fileclass of the application
