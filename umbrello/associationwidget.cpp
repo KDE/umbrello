@@ -3178,6 +3178,7 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
 			{
 				oldStyleLoad = true; // flag for further special config below
 				if (aType == at_Aggregation || aType == at_Composition) {
+					kdWarning()<<" Old Style save file? swapping roles on association widget"<<this<<endl;
 					// We have to swap the A and B widgets to compensate
 					// for the long standing bug in LinePath of drawing
 					// the diamond at the wrong end which was fixed
