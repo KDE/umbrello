@@ -806,3 +806,5 @@ QString XMLSchemaWriter::makeSchemaTag (QString tagName) {
 	tagName.prepend( schemaNamespaceTag + ":");
 	return tagName;
 }
+
+#include "xmlschemawriter.moc"
