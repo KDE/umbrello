@@ -677,8 +677,9 @@ QString CodeGenerator::formatDoc(const QString &text, const QString &linePrefix,
 			output += linePrefix + input + endLine;
 			continue;
 		}
+		int index;
 		do {
-			const int index = comment.findRev(" ", lineWidth + 1);
+			index = comment.findRev(" ", lineWidth + 1);
 			output += linePrefix + input.left(index) + endLine; // add line
 			input.remove(0, index + 1);	//and remove processed string, including
 							// white space
