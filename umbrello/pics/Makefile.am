@@ -60,7 +60,6 @@ vline.xpm \
 branch.xpm \
 fork.xpm \
 package.xpm \
-interface.xpm \
 artifact.xpm \
 box.xpm \
 public.png \
