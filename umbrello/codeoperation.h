@@ -81,9 +81,7 @@ public:
 
 	/** Find the value of the tag that this operation would have.
 	 */
-	static QString findTag (UMLOperation * op) {
-        	return QString("operation_" + QString::number(op->getID()));
-	}
+	static QString findTag (UMLOperation * op) ;
 
         /** set the class attributes from a passed object
          */

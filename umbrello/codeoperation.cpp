@@ -91,6 +91,10 @@ UMLObject * CodeOperation::getParentObject ( ) {
 // Other methods
 //  
 
+QString CodeOperation::findTag (UMLOperation * op) {
+	return QString("operation_" + QString::number(op->getID()));
+}
+
 /** set attributes of the node that represents this class
  * in the XMI document.
  */
