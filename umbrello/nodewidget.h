@@ -69,7 +69,7 @@ public:
 	 * Saves to the <UML:NodeWidget> XMI element.
 	 * Note: For loading we use the method inherited from the parent.
 	 */
-	bool saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
+	void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
 protected:
 	/**

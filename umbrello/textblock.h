@@ -73,18 +73,18 @@ public:
 	QString getText ( ) const;
 
     	/**
-         * Get the tag of this text block. This tag
-         * may be used to find this text block in the code document
-         * to which it belongs.
-         */
-        QString getTag( ) const;
+	 * Get the tag of this text block. This tag
+	 * may be used to find this text block in the code document
+	 * to which it belongs.
+	 */
+	QString getTag( ) const;
 
-        /**
-         * Set the tag of this text block. This tag
-         * may be used to find this text block in the code document
-         * to which it belongs.
-         */
-        void setTag( QString value );
+	/**
+	 * Set the tag of this text block. This tag
+	 * may be used to find this text block in the code document
+	 * to which it belongs.
+	 */
+	void setTag( QString value );
  
 	/**
 	 * Get the value of m_parentDoc
@@ -119,7 +119,7 @@ public:
 	int getIndentationLevel ( );
 
 	/** Get the actual amount of indentation for a given level of indentation.
-         */
+	 */
 	QString getIndentationString ( int level = 0);
 
 	/** Get how much a single "level" of indentation will actually indent.
@@ -132,7 +132,7 @@ public:
 	 */
 	// should be static 
 	QString formatMultiLineText ( const QString &text, const QString &linePrefix, QString breakStr, 
-                                      bool alwaysAddBreak = true, bool lastLineHasBreak = true);
+				      bool alwaysAddBreak = true, bool lastLineHasBreak = true);
 
 	/** UnFormat a long text string. Typically, this means removing
 	 *  the indentaion (linePrefix) and/or newline chars from each line.
@@ -152,21 +152,20 @@ public:
 	static QString encodeText( QString text , QString endChars);
 
 
-        /** decode text from XML storage
-         * We simply convert all newLine entity &#010; to chosen line ending.
-         */
+	/** decode text from XML storage
+	 * We simply convert all newLine entity &#010; to chosen line ending.
+	 */
 	static QString decodeText( QString text ,QString endChars);
 
 	/**
-         * Save the XMI representation of this object
-         * @return      bool    status of save
-         */
-        virtual bool saveToXMI ( QDomDocument & doc, QDomElement & root ) = 0;
+	 * Save the XMI representation of this object
+	 */
+	virtual void saveToXMI ( QDomDocument & doc, QDomElement & root ) = 0;
 
-        /**
-         * load params from the appropriate XMI element node.
-         */
-        virtual void loadFromXMI ( QDomElement & root ) = 0;
+	/**
+	 * load params from the appropriate XMI element node.
+	 */
+	virtual void loadFromXMI ( QDomElement & root ) = 0;
 
 	/** Determine if its OK to delete this textblock from the document.
 	 * Used by the text editor to know if deletion could cause a crash of
@@ -174,9 +173,9 @@ public:
 	 */
 	bool canDelete ();
 
-        /** set the class attributes from a passed object
-         */
-        virtual void setAttributesFromObject (TextBlock * obj);
+	/** set the class attributes from a passed object
+	 */
+	virtual void setAttributesFromObject (TextBlock * obj);
 
 	/** Used by the CodeEditor. It provides it with an appropriate
 	 * starting string for a new line of text within the given textblock
@@ -204,11 +203,11 @@ protected:
 	 */
 	virtual	void release ();
 
-        /**
-         * Set the value of m_parentDocument
-         * @param new_var the new value of m_parentDoc
-         */
-        void setParentDocument ( CodeDocument * new_var );
+	/**
+	 * Set the value of m_parentDocument
+	 * @param new_var the new value of m_parentDoc
+	 */
+	void setParentDocument ( CodeDocument * new_var );
 
 	/** set attributes of the node that represents this class
 	 * in the XMI document.
@@ -224,12 +223,12 @@ protected:
 
 private:
 
-        // The actual text of this code block.
-        QString m_text;
-        QString m_tag;
+	// The actual text of this code block.
+	QString m_text;
+	QString m_tag;
 
-        // Whether or not to include the text of this TextBlock into a file.
-        bool m_writeOutText;
+	// Whether or not to include the text of this TextBlock into a file.
+	bool m_writeOutText;
 
 	int m_indentationLevel;
 	CodeDocument * m_parentDocument;

@@ -547,9 +547,9 @@ void FloatingText::setSelected(bool _select) {
 	m_pMessage -> setSelected( m_bSelected );
 }
 
-bool FloatingText::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
+void FloatingText::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement textElement = qDoc.createElement( "UML:FloatingTextWidget" );
-	bool status = UMLWidget::saveToXMI( qDoc, textElement );
+	UMLWidget::saveToXMI( qDoc, textElement );
 	textElement.setAttribute( "text", m_Text );
 	textElement.setAttribute( "pretext", m_PreText );
 	textElement.setAttribute( "posttext", m_PostText );
@@ -561,7 +561,6 @@ bool FloatingText::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 
 	textElement.setAttribute( "role", m_Role );
 	qElement.appendChild( textElement );
-	return status;
 }
 
 bool FloatingText::playsAssocRole() const {

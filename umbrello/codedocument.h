@@ -55,12 +55,12 @@ public:
 	/**
 	 * Empty Constructor
 	 */
-        /**
-         * Basic constructor for class.
-         * @param       gen 
-         */
-        CodeDocument ( CodeGenerator * gen );
-        CodeDocument ( CodeGenerator * gen , QDomElement & element );
+	/**
+	 * Basic constructor for class.
+	 * @param       gen 
+	 */
+	CodeDocument ( CodeGenerator * gen );
+	CodeDocument ( CodeGenerator * gen , QDomElement & element );
 
 	/**
 	 * Empty Destructor
@@ -73,17 +73,17 @@ public:
 	// Public attribute accessor methods
 	//  
 
-        /**
-         * Set the value of m_fileExtension
-         * @param new_var the new value of m_fileExtension
-         */
-        void setFileExtension ( QString new_var );
+	/**
+	 * Set the value of m_fileExtension
+	 * @param new_var the new value of m_fileExtension
+	 */
+	void setFileExtension ( QString new_var );
 
-        /**
-         * Get the value of m_fileExtension
-         * @return the value of m_fileExtension
-         */
-        QString getFileExtension ( ) const;
+	/**
+	 * Get the value of m_fileExtension
+	 * @return the value of m_fileExtension
+	 */
+	QString getFileExtension ( ) const;
 
 	/**
 	 * Set the complete value (name plus any extension) of m_filename
@@ -98,35 +98,35 @@ public:
 	 */
 	QString getFileName ( ) const;
 
-        /**
-         * Set the value of m_packageName
-         * @param new_var the new value of m_packageName
-         */
-        void setPackage ( QString new_var );
+	/**
+	 * Set the value of m_packageName
+	 * @param new_var the new value of m_packageName
+	 */
+	void setPackage ( QString new_var );
 
-        /**
-         * Get the value of the package of this codedocument.
-         * @return the value of m_pathName
-         */
-        QString getPackage ( ) const;
+	/**
+	 * Get the value of the package of this codedocument.
+	 * @return the value of m_pathName
+	 */
+	QString getPackage ( ) const;
 
-        /**
-         * Get the value of the path to this codedocument.
-         * @return the value of m_pathName
-         */
-        virtual QString getPath ( );
+	/**
+	 * Get the value of the path to this codedocument.
+	 * @return the value of m_pathName
+	 */
+	virtual QString getPath ( );
 
-        /**
-         * Set the value of m_ID
-         * @param new_var the new value of m_ID
-         */
-        void setID ( QString new_id);
+	/**
+	 * Set the value of m_ID
+	 * @param new_var the new value of m_ID
+	 */
+	void setID ( QString new_id);
 
-        /**
-         * Get the value of m_ID
-         * @return the value of m_ID
-         */
-        QString getID ( ) const;
+	/**
+	 * Get the value of m_ID
+	 * @return the value of m_ID
+	 */
+	QString getID ( ) const;
 
 	/**
 	 * Set the value of m_writeOutCode
@@ -164,15 +164,15 @@ public:
 	 */
 	CodeComment * getHeader ( );
 
-        /**
-         * Insert a new text block after the existing text block. Returns
-         * false if it cannot insert the textblock.
-         */
-        bool insertTextBlock (TextBlock * newBlock, TextBlock * existingBlock, bool after = true);
+	/**
+	 * Insert a new text block after the existing text block. Returns
+	 * false if it cannot insert the textblock.
+	 */
+	bool insertTextBlock (TextBlock * newBlock, TextBlock * existingBlock, bool after = true);
 
 	/**
 	 * Lookup a certain textblock by its tag value, returns NULL if it cant
-         * find the TextBlock with such a tag. If descendIntoChildren is true, then
+	 * find the TextBlock with such a tag. If descendIntoChildren is true, then
  	 * any child hierarchical textblocks will also be searched for a match.
    	 */
 	TextBlock * findTextBlockByTag( QString tag , bool descendIntoChildren = false);
@@ -185,9 +185,8 @@ public:
 
 	/**
 	 * Save the XMI representation of this object
-	 * @return	bool 	status of save
 	 */
-	virtual bool saveToXMI ( QDomDocument & doc, QDomElement & root );
+	virtual void saveToXMI ( QDomDocument & doc, QDomElement & root );
 
 	/** 
  	 * load params from the appropriate XMI element node.
@@ -195,10 +194,10 @@ public:
 	virtual void loadFromXMI ( QDomElement & root );
 
        /**
-         * create a new CodeBlock object belonging to this CodeDocument.
-         * @return      CodeBlock
-         */
-        virtual CodeBlock * newCodeBlock ( );
+	 * create a new CodeBlock object belonging to this CodeDocument.
+	 * @return      CodeBlock
+	 */
+	virtual CodeBlock * newCodeBlock ( );
 
 	/**
 	 * create a new HierarchicalCodeBlock object belonging to this CodeDocument.
@@ -242,16 +241,16 @@ public:
 	bool getVerboseDocumentComments ( );
 
 	// Utility accessor. Wrapper around getParentGenerator->getNewLineEndingChars()
-        QString getNewLineEndingChars ( );
+	QString getNewLineEndingChars ( );
 
 	// return a unique, and currently unallocated, text block tag for this document 
 	virtual QString getUniqueTag(QString prefix = QString(""));
 
        /**
-         * Get the value of m_parentgenerator
-         * @return the value of m_parentgenerator
-         */
-        CodeGenerator * getParentGenerator ( );
+	 * Get the value of m_parentgenerator
+	 * @return the value of m_parentgenerator
+	 */
+	CodeGenerator * getParentGenerator ( );
 
 	/** a little utility method to make life easier for the code document programmer
 	 */
@@ -264,14 +263,14 @@ public:
 protected:
 
        /** set attributes of the node that represents this class
-         * in the XMI document.
-         */
-        virtual void setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement);
+	 * in the XMI document.
+	 */
+	virtual void setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement);
 
-        /** set the class attributes of this object from
-         * the passed element node.
-         */
-        virtual void setAttributesFromNode ( QDomElement & element);
+	/** set the class attributes of this object from
+	 * the passed element node.
+	 */
+	virtual void setAttributesFromNode ( QDomElement & element);
 
 	// these next 2 are needed by child hierarchical code blocks so
 	// that when they call getUniqueTag, we really get a unique tag
@@ -287,10 +286,10 @@ protected:
 	// reset/clear our inventory of textblocks in this document
 	void resetTextBlocks();
 
-        // update the content of this code document
-        // this is where you should lay out your code document structure of textblocks
-        // in the inheriting class, should it have any text in it.
-        virtual void updateContent();
+	// update the content of this code document
+	// this is where you should lay out your code document structure of textblocks
+	// in the inheriting class, should it have any text in it.
+	virtual void updateContent();
 
 	// this is needed by the parent codegenobjectwithtextblocks class
 	// in order to search for text blocks by tag when loading from XMI
@@ -309,17 +308,17 @@ private:
 	QString m_pathName;
 	QString m_packageName;
 
-        bool m_writeOutCode; // Whether or not to write out this code document 
+	bool m_writeOutCode; // Whether or not to write out this code document 
 		 	     // and any codeblocks, etc that it owns.
 
-        CodeGenerator * m_parentgenerator;
-        CodeGenerationPolicy * m_codegeneratorpolicy;
-        CodeComment * m_header;
+	CodeGenerator * m_parentgenerator;
+	CodeGenerationPolicy * m_codegeneratorpolicy;
+	CodeComment * m_header;
 
 
 	void initDoc ( CodeGenerator * parent ) ;
 
-        // QPtrList<TextBlock> m_textblockVector;
+	// QPtrList<TextBlock> m_textblockVector;
 	// QMap<QString, TextBlock *> * m_textBlockTagMap;
 
 	// for recording all of the textblocks held by child hierarchical codeblocks

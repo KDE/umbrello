@@ -823,7 +823,7 @@ bool UMLWidget::onWidget(const QPoint & p) {
 
 
 	return ( x() <= p.x() && x() + width() >= p.x() &&
-	         y() <= p.y() && y() + height() >= p.y() );
+		 y() <= p.y() && y() + height() >= p.y() );
 
 }
 
@@ -1058,7 +1058,7 @@ void UMLWidget::forceUpdateFontMetrics(QPainter *painter) {
 	calculateSize();
 }
 
-bool UMLWidget::saveToXMI( QDomDocument & /*qDoc*/, QDomElement & qElement ) {
+void UMLWidget::saveToXMI( QDomDocument & /*qDoc*/, QDomElement & qElement ) {
 	/*
 	  Call after required actions in child class.
 	  Type must be set in the child class.
@@ -1092,7 +1092,6 @@ bool UMLWidget::saveToXMI( QDomDocument & /*qDoc*/, QDomElement & qElement ) {
 	qElement.setAttribute("isinstance", m_bIsInstance);
 	if (!m_instanceName.isEmpty())
 		qElement.setAttribute("instancename", m_instanceName);
-	return true;
 }
 
 bool UMLWidget::loadFromXMI( QDomElement & qElement ) {

@@ -70,42 +70,37 @@ CodeComment * CodeBlockWithComments::getComment ( ) {
 
 /**
  * Save the XMI representation of this object
- * @return      bool    status of save
  */
-bool CodeBlockWithComments::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
-        bool status = true;
+void CodeBlockWithComments::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
+	QDomElement blockElement = doc.createElement( "codeblockwithcomments" );
 
-        QDomElement blockElement = doc.createElement( "codeblockwithcomments" );
+	// set attributes
+	setAttributesOnNode(doc, blockElement);
 
-        // set attributes
-        setAttributesOnNode(doc, blockElement);
-
-        root.appendChild( blockElement );
-
-        return status;
+	root.appendChild( blockElement );
 }
 
 void CodeBlockWithComments::setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement) 
 {
 
-        // set super-class attributes
-        CodeBlock::setAttributesOnNode(doc, blockElement);
+	// set super-class attributes
+	CodeBlock::setAttributesOnNode(doc, blockElement);
 
 	// set local attributes now..e.g. a comment 
 	// which we will store in its own separate child node block
-        QDomElement commElement = doc.createElement( "header" );
-        getComment()->saveToXMI(doc, commElement); // comment
-        blockElement.appendChild( commElement);
+	QDomElement commElement = doc.createElement( "header" );
+	getComment()->saveToXMI(doc, commElement); // comment
+	blockElement.appendChild( commElement);
 
 }
 
 void CodeBlockWithComments::setAttributesFromObject(TextBlock * obj)
 {
 
-        CodeBlock::setAttributesFromObject(obj);
+	CodeBlock::setAttributesFromObject(obj);
 
-        CodeBlockWithComments * cb = dynamic_cast<CodeBlockWithComments*>(obj);
-        if(cb)
+	CodeBlockWithComments * cb = dynamic_cast<CodeBlockWithComments*>(obj);
+	if(cb)
 		getComment()->setAttributesFromObject((TextBlock*)cb->getComment());
 
 }
@@ -115,25 +110,25 @@ void CodeBlockWithComments::setAttributesFromObject(TextBlock * obj)
  */
 void CodeBlockWithComments::loadFromXMI ( QDomElement & root ) 
 {
-        setAttributesFromNode(root);
+	setAttributesFromNode(root);
 }
 
 void CodeBlockWithComments::setAttributesFromNode( QDomElement & root) 
 {
 
-        // set attributes from superclass method the XMI
+	// set attributes from superclass method the XMI
 	CodeBlock::setAttributesFromNode(root);
 
 	// load comment now
 	// by looking for our particular child element
-        QDomNode node = root.firstChild();
-        QDomElement element = node.toElement();
+	QDomNode node = root.firstChild();
+	QDomElement element = node.toElement();
 	bool gotComment = false;
-        while( !element.isNull() ) {
-                QString tag = element.tagName();
-                if( tag == "header" ) {
-        		QDomNode cnode = element.firstChild();
-        		QDomElement celem = cnode.toElement();
+	while( !element.isNull() ) {
+		QString tag = element.tagName();
+		if( tag == "header" ) {
+			QDomNode cnode = element.firstChild();
+			QDomElement celem = cnode.toElement();
 			getComment()->loadFromXMI(celem);
 			gotComment = true;
 			break;

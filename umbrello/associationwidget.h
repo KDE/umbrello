@@ -556,7 +556,7 @@ public:
 	/**
 	 * Saves this widget to the <UML:AssociationWidget> XMI element.
 	 */
-	bool saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+	void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 	/**
 	 * Loads this widget from the <UML:AssociationWidget> XMI element.

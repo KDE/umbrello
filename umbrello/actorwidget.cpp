@@ -58,10 +58,9 @@ void ActorWidget::calculateSize() {
 	adjustAssocs( getX(), getY() );//adjust assoc lines
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-bool ActorWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
+void ActorWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement actorElement = qDoc.createElement( "UML:ActorWidget" );
-	bool status = UMLWidget::saveToXMI( qDoc, actorElement );
+	UMLWidget::saveToXMI( qDoc, actorElement );
 	qElement.appendChild( actorElement );
-	return status;
 }
 

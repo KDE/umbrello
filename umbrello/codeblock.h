@@ -82,32 +82,31 @@ public:
 	 */
 //	CodeBlockDialog getDialog ( );
 
-      /**
-         * Save the XMI representation of this object
-         * @return      bool    status of save
-         */
-        virtual bool saveToXMI ( QDomDocument & doc, QDomElement & root );
+	/**
+	 * Save the XMI representation of this object
+	 */
+	virtual void saveToXMI ( QDomDocument & doc, QDomElement & root );
 
-        /**
-         * load params from the appropriate XMI element node.
-         */
-        virtual void loadFromXMI ( QDomElement & root );
+	/**
+	 * load params from the appropriate XMI element node.
+	 */
+	virtual void loadFromXMI ( QDomElement & root );
 
-        /** set the class attributes from a passed object
-         */
-        virtual void setAttributesFromObject (TextBlock * obj);
+	/** set the class attributes from a passed object
+	 */
+	virtual void setAttributesFromObject (TextBlock * obj);
 
 protected:
 
        /** set attributes of the node that represents this class
-         * in the XMI document.
-         */
-        virtual void setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement);
+	 * in the XMI document.
+	 */
+	virtual void setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement);
 
-        /** set the class attributes of this object from
-         * the passed element node.
-         */
-        virtual void setAttributesFromNode ( QDomElement & element);
+	/** set the class attributes of this object from
+	 * the passed element node.
+	 */
+	virtual void setAttributesFromNode ( QDomElement & element);
 
 private:
 

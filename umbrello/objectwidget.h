@@ -220,7 +220,7 @@ public:
 	/**
 	 * Saves to the <UML:ObjectWidget> XMI element.
 	 */
-	bool saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+	void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 	/**
 	 * Loads from a <UML:ObjectWidget> XMI element.

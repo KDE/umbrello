@@ -102,7 +102,7 @@ CodeOperation * HierarchicalCodeBlock::newCodeOperation( UMLOperation * op) {
 }
 
 CodeBlock * HierarchicalCodeBlock::newCodeBlock() {
-        return getParentDocument()->newCodeBlock();
+	return getParentDocument()->newCodeBlock();
 }
 
 CodeComment * HierarchicalCodeBlock::newCodeComment() {
@@ -138,10 +138,10 @@ bool HierarchicalCodeBlock::addTextBlock(TextBlock* add_object )
 bool HierarchicalCodeBlock::insertTextBlock(TextBlock * newBlock, TextBlock * existingBlock, bool after)
 {
 
-        if(!newBlock || !existingBlock)
-                return false;
+	if(!newBlock || !existingBlock)
+		return false;
 
-        QString tag = existingBlock->getTag();
+	QString tag = existingBlock->getTag();
 	// FIX: just do a quick check if the parent DOCUMENT has this.
 	// IF it does, then the lack of an index will force us into
 	// a search of any child hierarchical codeblocks we may have
@@ -149,48 +149,48 @@ bool HierarchicalCodeBlock::insertTextBlock(TextBlock * newBlock, TextBlock * ex
 	// right now for the current implementation, but in the future
 	// when code import/roundtripping is done, it *may* be. -b.t.
 	if(!getParentDocument()->findTextBlockByTag(tag, true))
-                return false;
+		return false;
 
-        int index = m_textblockVector.findRef(existingBlock);
-        if(index < 0)
-        {
-                // may be hiding in child hierarchical codeblock
-                for(TextBlock * tb = m_textblockVector.first(); tb ; tb = m_textblockVector.next())
-                {
-                        HierarchicalCodeBlock * hb = dynamic_cast<HierarchicalCodeBlock*>(tb);
-                        if(hb && hb->insertTextBlock(newBlock, existingBlock, after))
-                                return true; // found, and inserted, otherwise keep going
-                }
+	int index = m_textblockVector.findRef(existingBlock);
+	if(index < 0)
+	{
+		// may be hiding in child hierarchical codeblock
+		for(TextBlock * tb = m_textblockVector.first(); tb ; tb = m_textblockVector.next())
+		{
+			HierarchicalCodeBlock * hb = dynamic_cast<HierarchicalCodeBlock*>(tb);
+			if(hb && hb->insertTextBlock(newBlock, existingBlock, after))
+				return true; // found, and inserted, otherwise keep going
+		}
 		kdWarning()<<" Warning: couldnt insert text block (tag:"<<newBlock->getTag()<<"). Reference text block (tag:"<<existingBlock->getTag()<<") not found."<<endl;
 		return false;
-        }
+	}
 
-        // if we get here.. it was in this object so insert
+	// if we get here.. it was in this object so insert
 
-        // check for tag FIRST
-        QString new_tag = newBlock->getTag();
+	// check for tag FIRST
+	QString new_tag = newBlock->getTag();
 
-        // assign a tag if one doesnt already exist
-        if(new_tag.isEmpty())
-        {
-                new_tag = getUniqueTag();
-                newBlock->setTag(new_tag);
-        }
+	// assign a tag if one doesnt already exist
+	if(new_tag.isEmpty())
+	{
+		new_tag = getUniqueTag();
+		newBlock->setTag(new_tag);
+	}
 
-        if(m_textBlockTagMap->contains(new_tag))
-                return false; // return false, we already have some object with this tag in the list
-        else {
-                m_textBlockTagMap->insert(new_tag, newBlock);
-                getParentDocument()->addChildTagToMap(new_tag, newBlock);
+	if(m_textBlockTagMap->contains(new_tag))
+		return false; // return false, we already have some object with this tag in the list
+	else {
+		m_textBlockTagMap->insert(new_tag, newBlock);
+		getParentDocument()->addChildTagToMap(new_tag, newBlock);
 	}
 
 
-        if(after)
-                index++;
+	if(after)
+		index++;
 
-        m_textblockVector.insert(index,newBlock);
+	m_textblockVector.insert(index,newBlock);
 
-        return true;
+	return true;
 }
 
 /**
@@ -199,25 +199,25 @@ bool HierarchicalCodeBlock::insertTextBlock(TextBlock * newBlock, TextBlock * ex
 bool HierarchicalCodeBlock::removeTextBlock ( TextBlock * remove_object ) {
 
 	// try to remove from the list in this object
-        if(!m_textblockVector.removeRef(remove_object))
-        {
-                // may be hiding in child hierarchical codeblock
-                for(TextBlock * tb = m_textblockVector.first(); tb ; tb = m_textblockVector.next())
+	if(!m_textblockVector.removeRef(remove_object))
+	{
+		// may be hiding in child hierarchical codeblock
+		for(TextBlock * tb = m_textblockVector.first(); tb ; tb = m_textblockVector.next())
 		{
-                        HierarchicalCodeBlock * hb = dynamic_cast<HierarchicalCodeBlock*>(tb);
-                        if(hb && hb->removeTextBlock(remove_object))
-                                return true; // because we got in child hb;
+			HierarchicalCodeBlock * hb = dynamic_cast<HierarchicalCodeBlock*>(tb);
+			if(hb && hb->removeTextBlock(remove_object))
+				return true; // because we got in child hb;
 		}
 		return false;
-        }
+	}
 
 	// IF we get here, the text block was in THIS object (and not a child)..
-        QString tag = remove_object->getTag();
-        if(!(tag.isEmpty()))
-        {
-                m_textBlockTagMap->erase(tag);
-                getParentDocument()->removeChildTagFromMap(tag);
-        }
+	QString tag = remove_object->getTag();
+	if(!(tag.isEmpty()))
+	{
+		m_textBlockTagMap->erase(tag);
+		getParentDocument()->removeChildTagFromMap(tag);
+	}
 	return true;
 
 }
@@ -242,13 +242,13 @@ QString HierarchicalCodeBlock::getStartText ( ) {
 void HierarchicalCodeBlock::addCodeClassFieldMethods(QPtrList<CodeClassField> &list )
 {
 
-        for (CodeClassField * field = list.first(); field ; field = list.next())
-        {
-                QPtrList <CodeAccessorMethod> * list = field->getMethodList();
-                for (CodeAccessorMethod * method = list->first(); method; method = list->next())
-                {
-                        QString tag = method->getTag();
-                        if(tag.isEmpty())
+	for (CodeClassField * field = list.first(); field ; field = list.next())
+	{
+		QPtrList <CodeAccessorMethod> * list = field->getMethodList();
+		for (CodeAccessorMethod * method = list->first(); method; method = list->next())
+		{
+			QString tag = method->getTag();
+			if(tag.isEmpty())
 			{
 				tag = getUniqueTag();
 				method->setTag(tag);
@@ -256,26 +256,21 @@ void HierarchicalCodeBlock::addCodeClassFieldMethods(QPtrList<CodeClassField> &l
 
 			addTextBlock(method); // wont add if already exists in object;
 
-                }
+		}
 
-        }
+	}
 
 }
 
 /**
  * Save the XMI representation of this object
- * @return      bool    status of save
  */
-bool HierarchicalCodeBlock::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
-        bool status = true;
-
-        QDomElement blockElement = doc.createElement( "hierarchicalcodeblock" );
+void HierarchicalCodeBlock::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
+	QDomElement blockElement = doc.createElement( "hierarchicalcodeblock" );
 
 	setAttributesOnNode(doc, blockElement);
 
-        root.appendChild( blockElement );
-
-        return status;
+	root.appendChild( blockElement );
 }
 
 void HierarchicalCodeBlock::setAttributesOnNode (QDomDocument & doc, QDomElement & elem ) {
@@ -287,9 +282,9 @@ void HierarchicalCodeBlock::setAttributesOnNode (QDomDocument & doc, QDomElement
 	// set local class attributes
 	if(getContentType() != CodeBlock::AutoGenerated)
 	{
-        	QString endLine = getParentDocument()->getNewLineEndingChars();
-        	elem.setAttribute("startText",encodeText(getStartText(),endLine));
-        	elem.setAttribute("endText",encodeText(getEndText(),endLine));
+		QString endLine = getParentDocument()->getNewLineEndingChars();
+		elem.setAttribute("startText",encodeText(getStartText(),endLine));
+		elem.setAttribute("endText",encodeText(getEndText(),endLine));
 	}
 }
 
@@ -307,14 +302,14 @@ void HierarchicalCodeBlock::loadFromXMI ( QDomElement & root ) {
 void HierarchicalCodeBlock::setAttributesFromNode ( QDomElement & root)
 {
 
-        // set attributes from the XMI
+	// set attributes from the XMI
 	CodeBlockWithComments::setAttributesFromNode(root); // superclass load
 
 	if(getContentType() != CodeBlock::AutoGenerated)
 	{
-        	QString endLine = getParentDocument()->getNewLineEndingChars();
-        	setStartText(decodeText(root.attribute("startText",""),endLine));
-        	setEndText(decodeText(root.attribute("endText",""),endLine));
+		QString endLine = getParentDocument()->getNewLineEndingChars();
+		setStartText(decodeText(root.attribute("startText",""),endLine));
+		setEndText(decodeText(root.attribute("endText",""),endLine));
 	}
 
 	// do this *after* all other attributes saved
@@ -344,15 +339,15 @@ void HierarchicalCodeBlock::setAttributesFromObject (TextBlock * obj) {
  */
 QString HierarchicalCodeBlock::toString ( ) {
 
-        QString string = QString();
+	QString string = QString();
 
-        if(getWriteOutText()) {
-                QString indent = getIndentationString();
-                QString endLine = getNewLineEndingChars();
-                QString startText = "";
-                QString endText = "";
+	if(getWriteOutText()) {
+		QString indent = getIndentationString();
+		QString endLine = getNewLineEndingChars();
+		QString startText = "";
+		QString endText = "";
 		if (!getStartText().isEmpty())
-                	startText = formatMultiLineText (getStartText(), indent, endLine);
+			startText = formatMultiLineText (getStartText(), indent, endLine);
 		if (!getEndText().isEmpty())
 			endText = formatMultiLineText (getEndText(), indent, endLine);
 
@@ -361,19 +356,19 @@ QString HierarchicalCodeBlock::toString ( ) {
 
 		// tack in text, if there is something there..
 		if(!comment.isEmpty() && getComment()->getWriteOutText())
-                	string.append(comment);
+			string.append(comment);
 
 		if (!startText.isEmpty())
-                	string.append(startText);
+			string.append(startText);
 
 		if (!body.isEmpty())
-                	string.append(body);
+			string.append(body);
 
 		if (!endText.isEmpty())
-                	string.append(endText);
-        }
+			string.append(endText);
+	}
 
-        return string;
+	return string;
 }
 
 QString  HierarchicalCodeBlock::childTextBlocksToString() {
@@ -397,8 +392,8 @@ TextBlock * HierarchicalCodeBlock::findCodeClassFieldTextBlockByTag (QString tag
 	else
 		kdError()<<" HierarchicalCodeBlock: findCodeClassFieldTextBlockByTag() finds NO parent document! Badly constructed textblock?!?"<<endl;
 
-        // if we get here, we failed.
-        return (TextBlock*) NULL;
+	// if we get here, we failed.
+	return (TextBlock*) NULL;
 
 }
 

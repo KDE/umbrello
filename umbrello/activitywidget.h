@@ -111,7 +111,7 @@ public:
 	/**
 	 * Saves the widget to the <UML:ActivityWidget> XMI element.
 	 */
-	bool saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+	void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 	/**
 	 * Loads the widget from the <UML:ActivityWidget> XMI element.

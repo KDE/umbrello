@@ -285,10 +285,9 @@ bool ArtifactWidget::activate(IDChangeLog* ChangeLog /* = 0 */) {
 	return status;
 }
 
-bool ArtifactWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
+void ArtifactWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
 	QDomElement conceptElement = qDoc.createElement("artifactwidget");
-	bool status = UMLWidget::saveToXMI(qDoc, conceptElement);
+	UMLWidget::saveToXMI(qDoc, conceptElement);
 	qElement.appendChild(conceptElement);
-	return status;
 }
 

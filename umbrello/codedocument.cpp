@@ -44,7 +44,7 @@ CodeDocument::CodeDocument (CodeGenerator * gen )
 CodeDocument::~CodeDocument ( ) {
 
 	// delete all the text blocks we have
-//        for (TextBlock *tb = m_textblockVector.first(); tb; tb=m_textblockVector.next())
+//	for (TextBlock *tb = m_textblockVector.first(); tb; tb=m_textblockVector.next())
 //		delete tb;
 
 }
@@ -83,7 +83,7 @@ QString CodeDocument::getFileName ( ) const {
  * @param new_var the new value of m_filename
  */
 void CodeDocument::setFileExtension ( QString new_var ) {
-        m_fileExtension = new_var;
+	m_fileExtension = new_var;
 	updateHeader(); // because we are using new heading file
 }
 
@@ -92,7 +92,7 @@ void CodeDocument::setFileExtension ( QString new_var ) {
  * @return the value of m_filename
  */
 QString CodeDocument::getFileExtension( ) const {
-        return m_fileExtension;
+	return m_fileExtension;
 }
 
 /**
@@ -100,7 +100,7 @@ QString CodeDocument::getFileExtension( ) const {
  * @param new_var the new value of m_packageName
  */
 void CodeDocument::setPackage ( QString new_var ) {
-        m_packageName = new_var;
+	m_packageName = new_var;
 }
 
 /**
@@ -109,19 +109,19 @@ void CodeDocument::setPackage ( QString new_var ) {
  */
 QString CodeDocument::getPath ( ) {
 
-        QString path = getPackage();
+	QString path = getPackage();
 
     	// Replace all white spaces with blanks
-        path.simplifyWhiteSpace();
+	path.simplifyWhiteSpace();
 
-        // Replace all blanks with underscore
-        path.replace(QRegExp(" "), "_");
+	// Replace all blanks with underscore
+	path.replace(QRegExp(" "), "_");
 
-        // this allows multiple directory paths (ala Java, some other languages)
-        // in from the package specification
-        path.replace(QRegExp("\\."),"/"); // Simple hack!.. but this is more or less language
-                                          // dependant and should probably be commented out.
-                                          // Still, as a general default it may be usefull -b.t.
+	// this allows multiple directory paths (ala Java, some other languages)
+	// in from the package specification
+	path.replace(QRegExp("\\."),"/"); // Simple hack!.. but this is more or less language
+					  // dependant and should probably be commented out.
+					  // Still, as a general default it may be usefull -b.t.
 	return path;
 }
 
@@ -130,7 +130,7 @@ QString CodeDocument::getPath ( ) {
  * @return the value of m_packageName
  */
 QString CodeDocument::getPackage ( ) const {
-        return m_packageName;
+	return m_packageName;
 }
 
 /**
@@ -138,7 +138,7 @@ QString CodeDocument::getPackage ( ) const {
  * @param new_var the new value of m_ID
  */
 void CodeDocument::setID ( QString new_var ) {
-        m_ID = new_var;
+	m_ID = new_var;
 }
 
 /**
@@ -146,7 +146,7 @@ void CodeDocument::setID ( QString new_var ) {
  * @return the value of m_ID
  */
 QString CodeDocument::getID ( ) const {
-        return m_ID;
+	return m_ID;
 }
 
 /**
@@ -218,13 +218,13 @@ QString CodeDocument::getUniqueTag ( QString prefix )
 	if(prefix.isEmpty())
 		prefix = "tblock";
 
-        QString tag = prefix + "_0";
-        int number = lastTagIndex;
-        for ( ; findTextBlockByTag(tag, true); number++) {
-                tag = prefix + "_" + QString::number(number);
-        }
+	QString tag = prefix + "_0";
+	int number = lastTagIndex;
+	for ( ; findTextBlockByTag(tag, true); number++) {
+		tag = prefix + "_" + QString::number(number);
+	}
 	lastTagIndex = number;
-        return tag;
+	return tag;
 }
 
 /**
@@ -259,19 +259,19 @@ bool CodeDocument::insertTextBlock(TextBlock * newBlock, TextBlock * existingBlo
 	// if we get here.. it was in this object so insert
 
 	// check for tag FIRST
-        QString new_tag = newBlock->getTag();
+	QString new_tag = newBlock->getTag();
 
-        // assign a tag if one doesnt already exist
-        if(new_tag.isEmpty())
-        {
-                new_tag = getUniqueTag();
-                newBlock->setTag(new_tag);
-        }
+	// assign a tag if one doesnt already exist
+	if(new_tag.isEmpty())
+	{
+		new_tag = getUniqueTag();
+		newBlock->setTag(new_tag);
+	}
 
-        if(m_textBlockTagMap->contains(new_tag))
-                return false; // return false, we already have some object with this tag in the list
-        else
-                m_textBlockTagMap->insert(new_tag, newBlock);
+	if(m_textBlockTagMap->contains(new_tag))
+		return false; // return false, we already have some object with this tag in the list
+	else
+		m_textBlockTagMap->insert(new_tag, newBlock);
 
 	if(after)
 		index++;
@@ -295,28 +295,28 @@ CodeDocumentDialog * CodeDocument::getDialog ( ) {
 //
 
 QString CodeDocument::cleanName (QString name) {
-        CodeGenerator *g = getParentGenerator();
-        return g->cleanName(name);
+	CodeGenerator *g = getParentGenerator();
+	return g->cleanName(name);
 }
 
 // update the text and status of the head comment
 void CodeDocument::updateHeader () {
 
-        //try to find a heading file (license, coments, etc) then extract its text
-        QString headingText = getParentGenerator()->getHeadingFile(getFileExtension());
+	//try to find a heading file (license, coments, etc) then extract its text
+	QString headingText = getParentGenerator()->getHeadingFile(getFileExtension());
 
-        headingText.replace(QRegExp("%filename%"),getFileName()+getFileExtension());
-        headingText.replace(QRegExp("%filepath%"),getPath());
-        headingText.replace( QRegExp("%time%"), QTime::currentTime().toString());
-        headingText.replace( QRegExp("%date%"), QDate::currentDate().toString());
+	headingText.replace(QRegExp("%filename%"),getFileName()+getFileExtension());
+	headingText.replace(QRegExp("%filepath%"),getPath());
+	headingText.replace( QRegExp("%time%"), QTime::currentTime().toString());
+	headingText.replace( QRegExp("%date%"), QDate::currentDate().toString());
 
-        getHeader()->setText(headingText);
+	getHeader()->setText(headingText);
 
-        // update the write out status of the header
-        if(getPolicy()->getIncludeHeadings())
-                getHeader()->setWriteOutText(true);
-        else
-                getHeader()->setWriteOutText(false);
+	// update the write out status of the header
+	if(getPolicy()->getIncludeHeadings())
+		getHeader()->setWriteOutText(true);
+	else
+		getHeader()->setWriteOutText(false);
 
 }
 
@@ -331,21 +331,21 @@ QString CodeDocument::toString ( ) {
 	if(!getWriteOutCode())
 		return QString("");
 
-        QString content = getHeader()->toString();
+	QString content = getHeader()->toString();
 
 	// update the time/date
 
-        // comments, import, package codeblocks go next
-        QPtrList<TextBlock> * items = getTextBlockList();
-        for (TextBlock *c = items->first(); c; c = items->next())
-        {
+	// comments, import, package codeblocks go next
+	QPtrList<TextBlock> * items = getTextBlockList();
+	for (TextBlock *c = items->first(); c; c = items->next())
+	{
 		if(c->getWriteOutText()) {
 			QString str = c->toString();
 			if(!str.isEmpty())
-                		content.append(str);
+				content.append(str);
 		}
-        }
-        return content;
+	}
+	return content;
 }
 
 void CodeDocument::synchronize() {
@@ -362,7 +362,7 @@ void CodeDocument::resetTextBlocks() {
  * load params from the appropriate XMI element node.
  */
 void CodeDocument::loadFromXMI ( QDomElement & root ) {
-        setAttributesFromNode(root);
+	setAttributesFromNode(root);
 }
 
 /** set attributes of the node that represents this class
@@ -375,17 +375,17 @@ void CodeDocument::setAttributesOnNode ( QDomDocument & doc, QDomElement & docEl
 	CodeGenObjectWithTextBlocks::setAttributesOnNode(doc,docElement);
 
 	// now set local attributes/fields
-        docElement.setAttribute("fileName",getFileName());
-        docElement.setAttribute("fileExt",getFileExtension());
-        docElement.setAttribute("package",getPackage());
-        docElement.setAttribute("writeOutCode",getWriteOutCode()?"true":"false");
-        docElement.setAttribute("id",getID());
+	docElement.setAttribute("fileName",getFileName());
+	docElement.setAttribute("fileExt",getFileExtension());
+	docElement.setAttribute("package",getPackage());
+	docElement.setAttribute("writeOutCode",getWriteOutCode()?"true":"false");
+	docElement.setAttribute("id",getID());
 
-        // set the a header
-        // which we will store in its own separate child node block
-        QDomElement commElement = doc.createElement( "header" );
-        getHeader()->saveToXMI(doc, commElement); // comment
-        docElement.appendChild( commElement);
+	// set the a header
+	// which we will store in its own separate child node block
+	QDomElement commElement = doc.createElement( "header" );
+	getHeader()->saveToXMI(doc, commElement); // comment
+	docElement.appendChild( commElement);
 
 	// doc codePolicy?
 	// FIX: store ONLY if different from the parent generator
@@ -399,27 +399,27 @@ void CodeDocument::setAttributesOnNode ( QDomDocument & doc, QDomElement & docEl
 void CodeDocument::setAttributesFromNode ( QDomElement & root) {
 
 	// now set local attributes
-        setFileName(root.attribute("fileName",""));
-        setFileExtension(root.attribute("fileExt",""));
-        setPackage(root.attribute("package",""));
-        setWriteOutCode(root.attribute("writeOutCode","true") == "true" ? true : false);
-        setID(root.attribute("id",""));
+	setFileName(root.attribute("fileName",""));
+	setFileExtension(root.attribute("fileExt",""));
+	setPackage(root.attribute("package",""));
+	setWriteOutCode(root.attribute("writeOutCode","true") == "true" ? true : false);
+	setID(root.attribute("id",""));
 
-        // load comment now
-        // by looking for our particular child element
-        QDomNode node = root.firstChild();
-        QDomElement element = node.toElement();
-        while( !element.isNull() ) {
-                QString tag = element.tagName();
-                if( tag == "header" ) {
-                        QDomNode cnode = element.firstChild();
-                        QDomElement celem = cnode.toElement();
-                        getHeader()->loadFromXMI(celem);
-                        break;
-                }
-                node = element.nextSibling();
-                element = node.toElement();
-        }
+	// load comment now
+	// by looking for our particular child element
+	QDomNode node = root.firstChild();
+	QDomElement element = node.toElement();
+	while( !element.isNull() ) {
+		QString tag = element.tagName();
+		if( tag == "header" ) {
+			QDomNode cnode = element.firstChild();
+			QDomElement celem = cnode.toElement();
+			getHeader()->loadFromXMI(celem);
+			break;
+		}
+		node = element.nextSibling();
+		element = node.toElement();
+	}
 
 	// a rare case where the super-class load is AFTER local attributes
 	CodeGenObjectWithTextBlocks::setAttributesFromNode(root);
@@ -427,25 +427,20 @@ void CodeDocument::setAttributesFromNode ( QDomElement & root) {
 
 /**
  * Save the XMI representation of this object
- * @return      bool    status of save
  */
-bool CodeDocument::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
-	bool status = true;
-
+void CodeDocument::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
  	QDomElement docElement = doc.createElement( "codedocument" );
 
 	setAttributesOnNode(doc, docElement);
 
-        root.appendChild( docElement );
-
-	return status;
+	root.appendChild( docElement );
 }
 
 // vanilla code documents dont have much
 // to do.. override this with a different
 // version for your own documents
 void CodeDocument::updateContent() {
-        updateHeader(); // doing this insures time/date stamp is at the time of this call
+	updateHeader(); // doing this insures time/date stamp is at the time of this call
 }
 
 /**
@@ -453,7 +448,7 @@ void CodeDocument::updateContent() {
  * @return      CodeBlock
  */
 CodeBlock * CodeDocument::newCodeBlock ( ) {
-        return new CodeBlock(this);
+	return new CodeBlock(this);
 }
 
 /**
@@ -469,7 +464,7 @@ CodeBlockWithComments * CodeDocument::newCodeBlockWithComments ( ) {
  * @return      CodeBlockWithComments
  */
 CodeComment * CodeDocument::newCodeComment ( ) {
-        return new CodeComment(this);
+	return new CodeComment(this);
 }
 
 HierarchicalCodeBlock * CodeDocument::newHierarchicalCodeBlock ( ) {
@@ -511,7 +506,7 @@ bool CodeDocument::getVerboseDocumentComments ( ) {
 }
 
 QString CodeDocument::getNewLineEndingChars ( ) {
-        return getPolicy()->getNewLineEndingChars( );
+	return getPolicy()->getNewLineEndingChars( );
 }
 
 void CodeDocument::removeChildTagFromMap ( QString tag )
@@ -526,13 +521,13 @@ void CodeDocument::addChildTagToMap ( QString tag, TextBlock * tb)
 
 TextBlock * CodeDocument::findTextBlockByTag( QString tag , bool descendIntoChildren)
 {
-        //if we already know to which file this class was written/should be written, just return it.
-        if(m_textBlockTagMap->contains(tag))
-                return ((*m_textBlockTagMap)[tag]);
+	//if we already know to which file this class was written/should be written, just return it.
+	if(m_textBlockTagMap->contains(tag))
+		return ((*m_textBlockTagMap)[tag]);
 
 	if (descendIntoChildren)
-        	if(m_childTextBlockTagMap->contains(tag))
-                	return ((*m_childTextBlockTagMap)[tag]);
+		if(m_childTextBlockTagMap->contains(tag))
+			return ((*m_childTextBlockTagMap)[tag]);
 
 	return (TextBlock*) NULL;
 }
@@ -541,9 +536,9 @@ void CodeDocument::initDoc ( CodeGenerator * gen ) {
 
 	m_parentgenerator = gen;
 	m_writeOutCode = true;
-        m_packageName = QString(""); // no package name is the default
-        m_fileExtension = QString("");
-        m_ID = QString(""); // leave with NO ID as a default
+	m_packageName = QString(""); // no package name is the default
+	m_fileExtension = QString("");
+	m_ID = QString(""); // leave with NO ID as a default
 
 	//m_textblockVector.setAutoDelete(false);
 

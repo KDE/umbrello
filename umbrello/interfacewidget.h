@@ -76,7 +76,7 @@ public:
 	/**
 	 * Saves to the <interfacewidget> XMI element.
 	 */
-	bool saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+	void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 	/**
 	 * Loads from an <interfacewidget> XMI element.

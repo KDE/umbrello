@@ -149,7 +149,7 @@ public:
 	*/
 	void setSelected( bool select );
 
-	bool saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+	void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 	bool loadFromXMI( QDomElement & qElement );
 

@@ -240,11 +240,11 @@ bool UMLDoc::newDocument() {
 			createDiagram( Uml::dt_Activity, false );
 			break;
 
-	        case Settings::diagram_component:
+		case Settings::diagram_component:
 			createDiagram( Uml::dt_Component, false );
 			break;
 
-	        case Settings::diagram_deployment:
+		case Settings::diagram_deployment:
 			createDiagram( Uml::dt_Deployment, false );
 			break;
 		default:
@@ -336,7 +336,7 @@ bool UMLDoc::saveDocument(const KURL& url, const char * /*format =0*/) {
 				   i18n("Save Error"));
 		return false;
 	}
-	bool status = saveToXMI( file );
+	saveToXMI( file );
 	file.close();
 	if ( !url.isLocalFile() ) {
 		uploaded = KIO::NetAccess::upload( tmpfile.name(), doc_url
@@ -346,16 +346,12 @@ bool UMLDoc::saveDocument(const KURL& url, const char * /*format =0*/) {
 						 );
 		tmpfile.unlink();
 	}
-	if (!status ) {
-		KMessageBox::error(0, i18n("There was a problem saving file: %1").arg(d.path()), i18n("Save Error"));
-		doc_url.setFileName(i18n("Untitled"));
-	}
 	if( !uploaded ) {
 		KMessageBox::error(0, i18n("There was a problem uploading file: %1").arg(d.path()), i18n("Save Error"));
 		doc_url.setFileName(i18n("Untitled"));
 	}
 	setModified(false);
-	return (status && uploaded);
+	return uploaded;
 }
 
 void UMLDoc::setCurrentCodeGenerator ( CodeGenerator * gen ) {
@@ -665,16 +661,16 @@ bool UMLDoc::isUnique(QString name)
 bool UMLDoc::isUnique(QString name, UMLPackage *package)
 {
 
-        // if a package, then only do check in that
-        if (package) 
-                return (package->findObject(name) == NULL);
+	// if a package, then only do check in that
+	if (package) 
+		return (package->findObject(name) == NULL);
 
-        // Not currently in a package:
-        // Check against all objects that _dont_ have a parent package.
-        for (UMLObject *obj = objectList.first(); obj; obj = objectList.next())
-                if (obj->getUMLPackage() == NULL && obj->getName() == name)
-                        return false;
-        return true;
+	// Not currently in a package:
+	// Check against all objects that _dont_ have a parent package.
+	for (UMLObject *obj = objectList.first(); obj; obj = objectList.next())
+		if (obj->getUMLPackage() == NULL && obj->getName() == name)
+			return false;
+	return true;
 
 }
 
@@ -1126,7 +1122,7 @@ QString UMLDoc::uniqViewName(const Diagram_Type type) {
 	}
 	QString name = dname;
 	for (int number = 0; findView(type, name); ++number,
-	        name = dname + "_" + QString::number(number))
+		name = dname + "_" + QString::number(number))
 		;
 	return name;
 }
@@ -1232,10 +1228,10 @@ void UMLDoc::renameChildUMLObject(UMLObject *o) {
 			KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
 		else {
 			if((dynamic_cast<UMLClassifier *>(p)->findChildObject(o->getBaseType(), name)
-			        .count() == 0)
-			        || ((o->getBaseType() == Uml::ot_Operation) && KMessageBox::warningYesNo( kapp -> mainWidget() ,
-			                i18n( "The name you entered was not unique.\nIs this what you wanted?" ),
-			                i18n( "Name Not Unique")) == KMessageBox::Yes) ) {
+				.count() == 0)
+				|| ((o->getBaseType() == Uml::ot_Operation) && KMessageBox::warningYesNo( kapp -> mainWidget() ,
+					i18n( "The name you entered was not unique.\nIs this what you wanted?" ),
+					i18n( "Name Not Unique")) == KMessageBox::Yes) ) {
 				o->setName(name);
 				setModified(true);
 				break;
@@ -1379,7 +1375,7 @@ void UMLDoc::signalUMLObjectCreated(UMLObject * o) {
 	setModified(true);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-bool UMLDoc::saveToXMI(QIODevice& file) {
+void UMLDoc::saveToXMI(QIODevice& file) {
 	QDomDocument doc;
 
 	QDomProcessingInstruction xmlHeading =
@@ -1494,31 +1490,26 @@ bool UMLDoc::saveToXMI(QIODevice& file) {
 		a->saveToXMI(doc, objectsElement);
 	content.appendChild( objectsElement );
 
-	bool status = true;
-
 	// Save each view/diagram.
 	QDomElement diagramsElement = doc.createElement( "diagrams" );
-	for(UMLView *pView = m_ViewList.first(); pView && status; pView = m_ViewList.next() )
-		status = pView -> saveToXMI( doc, diagramsElement );
+	for(UMLView *pView = m_ViewList.first(); pView; pView = m_ViewList.next() )
+		pView -> saveToXMI( doc, diagramsElement );
 	content.appendChild( diagramsElement );
-	if( !status )
-		return status;
+
 	//  save listview
-	status = listView -> saveToXMI( doc, content );
+	listView -> saveToXMI( doc, content );
 
 	// save code generators
 	QDomElement codeGenElement = doc.createElement( "codegeneration" );
 	QDictIterator<CodeGenerator> it( m_codeGeneratorDictionary );
 	for( ; it.current(); ++it )
-		status = it.current()->saveToXMI ( doc, codeGenElement );
+		it.current()->saveToXMI ( doc, codeGenElement );
 	content.appendChild( codeGenElement );
 
 	root.appendChild( content );
 	QTextStream stream( &file );
 	stream.setEncoding(QTextStream::UnicodeUTF8);
 	stream << doc.toString();
-
-	return status;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 short UMLDoc::getEncoding(QIODevice & file)
@@ -1779,13 +1770,13 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
 				uniqueID = uniqueid.toInt();
 				getDocWindow() -> newDocumentation();
 			} else if( tag == "umlobjects"  // for bkwd compat.
-			         || tagEq(tag, "Model") ) {
+				 || tagEq(tag, "Model") ) {
 				emit sigResetStatusbarProgress();
 				emit sigSetStatusbarProgress( 0 );
 				emit sigSetStatusbarProgressSteps( 10 );
 						//FIXME need a way to make status bar actually reflect
-	                                        //how much of the file has been loaded rather than just
-	                                        //counting to 10 (an arbitrary number)
+						//how much of the file has been loaded rather than just
+						//counting to 10 (an arbitrary number)
 				emit sigWriteToStatusBar( i18n("Loading UML elements...") );
 				m_count = 0;
 				if( !loadUMLObjectsFromXMI( element ) ) {
@@ -1961,7 +1952,7 @@ UMLObject* UMLDoc::makeNewUMLObject(QString type) {
 		pObject = new UMLArtifact();
 	} else if (tagEq(type, "Interface")) {
 		pObject = new UMLInterface();
-	} else if (tagEq(type, "Datatype")        // for bkwd compat.
+	} else if (tagEq(type, "Datatype")	// for bkwd compat.
 		|| tagEq(type, "DataType")) {
 		pObject = new UMLDatatype();
 	} else if (tagEq(type, "Enum")) {

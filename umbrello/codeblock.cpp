@@ -24,7 +24,7 @@
 CodeBlock::CodeBlock ( HierarchicalCodeBlock * hblock , const QString & body )
     : TextBlock ( hblock->getParentDocument(), body )
 {
-        initFields ( );
+	initFields ( );
 }
 
 CodeBlock::CodeBlock ( CodeDocument * doc, const QString & body ) 
@@ -83,19 +83,14 @@ CodeBlockDialog * CodeBlock::getDialog ( ) {
 
 /**
  * Save the XMI representation of this object
- * @return      bool    status of save
  */
-bool CodeBlock::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
-        bool status = true;
-
-        QDomElement blockElement = doc.createElement( "codeblock" );
+void CodeBlock::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
+	QDomElement blockElement = doc.createElement( "codeblock" );
 
 	// set attributes
 	setAttributesOnNode(doc, blockElement);
 
-        root.appendChild( blockElement );
-
-        return status;
+	root.appendChild( blockElement );
 }
 
 void CodeBlock::setAttributesOnNode( QDomDocument & doc, QDomElement & blockElement)
@@ -121,7 +116,7 @@ void CodeBlock::loadFromXMI ( QDomElement & root ) {
 
 void CodeBlock::setAttributesFromNode (QDomElement & elem) {
 
-        // set attributes from the XMI in super-class 
+	// set attributes from the XMI in super-class 
 	TextBlock::setAttributesFromNode(elem);
 
 	// set local fields now

@@ -65,7 +65,7 @@ public:
 	 * Saves the widget to the <UML:ActorWidget> XMI element.
 	 * Note: For loading from XMI, the inherited parent method is used.
 	 */
-	bool saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+	void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 protected:
 	/**

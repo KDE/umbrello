@@ -97,20 +97,20 @@ public:
 	 * Constructors
 	 */
 
-        /**
+	/**
 	 * Build a code generator.
-         * @return      CodeGenerator
-         * @param       doc 
-         */
-        CodeGenerator (UMLDoc * doc, const char *name);
+	 * @return      CodeGenerator
+	 * @param       doc 
+	 */
+	CodeGenerator (UMLDoc * doc, const char *name);
 
-        /**
+	/**
 	 * Build a code generator and then initialize it from an XMI element.
-         * @return      CodeGenerator
-         * @param       doc 
-         * @param       element an element from an XMI document 
-         */
-        CodeGenerator (UMLDoc * doc, const char *name, QDomElement & element );
+	 * @return      CodeGenerator
+	 * @param       doc 
+	 * @param       element an element from an XMI document 
+	 */
+	CodeGenerator (UMLDoc * doc, const char *name, QDomElement & element );
 
 	/**
 	 * Empty Destructor
@@ -125,7 +125,7 @@ public:
 
 	/**
 	 * Add a CodeDocument object to the m_codedocumentVector List
-         * @return boolean - will return false if it couldnt add a document.
+	 * @return boolean - will return false if it couldnt add a document.
 	 */
 	bool addCodeDocument ( CodeDocument * add_object );
 
@@ -133,15 +133,15 @@ public:
 	 * Replace (or possiblity Add a new) CodeDocument object to the m_codedocumentVector List. 
 	 * As names must be unique and each code document must have a name.
 	 * @return  boolean value which will be true if the passed document was able to replace some
-         *          other document OR was added(no prior document existed..only when addIfPriorDocumentNotPresent is true). 
-         *          The document which was replaced will be deleted IF deleteReplacedDocument is true.
+	 *	  other document OR was added(no prior document existed..only when addIfPriorDocumentNotPresent is true). 
+	 *	  The document which was replaced will be deleted IF deleteReplacedDocument is true.
 	 */
 	// bool replaceCodeDocument (  CodeDocument * replace_doc=0, bool addIfPriorDocumentNotPresent=true,
-        //                                      bool deleteReplacedDocument=true ); 
+	//				      bool deleteReplacedDocument=true ); 
 
 	/**
 	 * Remove a CodeDocument object from m_codedocumentVector List
-         * @return boolean - will return false if it couldnt remove a document.
+	 * @return boolean - will return false if it couldnt remove a document.
 	 */
 	bool removeCodeDocument ( CodeDocument * remove_object );
 
@@ -172,12 +172,12 @@ public:
 	QString getUniqueID ( CodeDocument * codeDoc );
 
 	/**
-	 * @return	QString
+	 * Save the XMI representation of this object
 	 */
-	virtual bool saveToXMI ( QDomDocument & doc, QDomElement & root );
+	virtual void saveToXMI ( QDomDocument & doc, QDomElement & root );
 
 	/**
-         * Find a code document by the given id string.
+	 * Find a code document by the given id string.
 	 * @return	CodeDocument
    	 */
 	CodeDocument * findCodeDocumentByID(QString id);
@@ -187,132 +187,132 @@ public:
 	 */
 	virtual void writeCodeToFile ( );
 
-        // this method is here to provide class wizard the
-        // ability to write out only those classes which
-        // are selected by the user.
-        virtual void writeCodeToFile(UMLClassifierList &list);
+	// this method is here to provide class wizard the
+	// ability to write out only those classes which
+	// are selected by the user.
+	virtual void writeCodeToFile(UMLClassifierList &list);
 
 	// these are utility methods for accessing the default 
-        // code gen policy object and *perhaps* should go away when we 
+	// code gen policy object and *perhaps* should go away when we 
 	// finally implement the CodeGenDialog class -b.t. 
-        QString getNewLineEndingChars ( );
+	QString getNewLineEndingChars ( );
 
-        void setOutputDirectory(QString d);
-        QString outputDirectory() const;
+	void setOutputDirectory(QString d);
+	QString outputDirectory() const;
 
-        void setOverwritePolicy(CodeGenerationPolicy::OverwritePolicy p);
-        CodeGenerationPolicy::OverwritePolicy overwritePolicy() const;
+	void setOverwritePolicy(CodeGenerationPolicy::OverwritePolicy p);
+	CodeGenerationPolicy::OverwritePolicy overwritePolicy() const;
 
-        void setModifyNamePolicy(CodeGenerationPolicy::ModifyNamePolicy p);
-        CodeGenerationPolicy::ModifyNamePolicy modifyNamePolicy()const;
+	void setModifyNamePolicy(CodeGenerationPolicy::ModifyNamePolicy p);
+	CodeGenerationPolicy::ModifyNamePolicy modifyNamePolicy()const;
 
-        void setIncludeHeadings(bool i);
-        bool includeHeadings() const;
+	void setIncludeHeadings(bool i);
+	bool includeHeadings() const;
 
-        void setHeadingFileDir(const QString &);
-        QString headingFileDir() const;
+	void setHeadingFileDir(const QString &);
+	QString headingFileDir() const;
 
-        void setForceDoc(bool f);
-        bool forceDoc() const;
+	void setForceDoc(bool f);
+	bool forceDoc() const;
 
-        void setForceSections(bool f);
-        bool forceSections() const;
+	void setForceSections(bool f);
+	bool forceSections() const;
 
 
-        /**
-         *  Gets the heading file (as a string) to be inserted at the
-         *  begining of the generated file. you give the file type as
-         *  parameter and get the string. if fileName starts with a
-         *  period (.) then fileName is the extension (.cpp, .h,
-         *  .java) if fileName starts with another character you are
-         *  requesting a specific file (mylicensefile.txt).  The files
-         *  can have parameters which are denoted by %parameter%.
-         *
-         *  current parameters are
-         *  %author%
-         *  %date%
-         *  %time%
-         *  %filepath%
-         *
-         * @return      QString
-         * @param       file 
-         */
-        virtual QString getHeadingFile (QString file );
+	/**
+	 *  Gets the heading file (as a string) to be inserted at the
+	 *  begining of the generated file. you give the file type as
+	 *  parameter and get the string. if fileName starts with a
+	 *  period (.) then fileName is the extension (.cpp, .h,
+	 *  .java) if fileName starts with another character you are
+	 *  requesting a specific file (mylicensefile.txt).  The files
+	 *  can have parameters which are denoted by %parameter%.
+	 *
+	 *  current parameters are
+	 *  %author%
+	 *  %date%
+	 *  %time%
+	 *  %filepath%
+	 *
+	 * @return      QString
+	 * @param       file 
+	 */
+	virtual QString getHeadingFile (QString file );
 
-        /**
-         * Finds an appropiate file name for class c, taking into account the Overwrite
-         * Policy and asking the user what to do if need be. (if policy == Ask)
-         *
-         * @param concept the class for which an output file name is desired.
-         * @return the file name that should be used. (with extension) or 
-         *      NULL if none to be used
-         */
-        virtual QString findFileName(CodeDocument * doc);
+	/**
+	 * Finds an appropiate file name for class c, taking into account the Overwrite
+	 * Policy and asking the user what to do if need be. (if policy == Ask)
+	 *
+	 * @param concept the class for which an output file name is desired.
+	 * @return the file name that should be used. (with extension) or 
+	 *      NULL if none to be used
+	 */
+	virtual QString findFileName(CodeDocument * doc);
 
-        /**
-         * Replaces spaces with underscores and capitalises as defined in m_modname
-         * @return      QString
-         * @param       name 
-         */
-        QString cleanName (QString name );
+	/**
+	 * Replaces spaces with underscores and capitalises as defined in m_modname
+	 * @return      QString
+	 * @param       name 
+	 */
+	QString cleanName (QString name );
 
        /** Format documentation for output in source files
-         *
-         * @param text the documentation which has to be formatted
-         * @param linePrefix the prefix which has to be added in the beginnig of each line
-         * @param lineWidth the line width used for word-wrapping the documentation
-         *
-         * @return the formatted documentation text
-         */
-        QString formatDoc (const QString & text, const QString & lineprefix = " *", int linewidth = 80 );
+	 *
+	 * @param text the documentation which has to be formatted
+	 * @param linePrefix the prefix which has to be added in the beginnig of each line
+	 * @param lineWidth the line width used for word-wrapping the documentation
+	 *
+	 * @return the formatted documentation text
+	 */
+	QString formatDoc (const QString & text, const QString & lineprefix = " *", int linewidth = 80 );
 
        /**
-         * Finds all classes in the current document to which objects of class c
-         * are in some way related. Posible relations are Associations (gneratlization,
-         * composition, etc) as well as parameters to methos and return values
-         * this is useful in deciding which classes/files to import/include in code generation
-         * @param c the class for which relations are to be found
-         * @param cList a reference to the list into which return the result
-         */
-        void findObjectsRelated(UMLClassifier *c, UMLClassifierList &cList);
+	 * Finds all classes in the current document to which objects of class c
+	 * are in some way related. Posible relations are Associations (gneratlization,
+	 * composition, etc) as well as parameters to methos and return values
+	 * this is useful in deciding which classes/files to import/include in code generation
+	 * @param c the class for which relations are to be found
+	 * @param cList a reference to the list into which return the result
+	 */
+	void findObjectsRelated(UMLClassifier *c, UMLClassifierList &cList);
 
-        // a series of accessor method constructors that we need to define
-        // for any particular language.
-        virtual CodeDocument * newClassifierCodeDocument (UMLClassifier * classifier ) = 0;
+	// a series of accessor method constructors that we need to define
+	// for any particular language.
+	virtual CodeDocument * newClassifierCodeDocument (UMLClassifier * classifier ) = 0;
 
        /** get the name of the class which holds lists, e.g. "QPtrlist" or
-         * "Vector" or "List" and so on. Not all languages may need this.
-         */
+	 * "Vector" or "List" and so on. Not all languages may need this.
+	 */
 	virtual QString getListFieldClassName();
 
-        /**
-         * @param       element
-         */
-        virtual void loadFromXMI (QDomElement & element );
+	/**
+	 * @param       element
+	 */
+	virtual void loadFromXMI (QDomElement & element );
 
-        /**
-         * Create a new code generation policy object.
-         * This is not pure virutal because the vannila codegenerationpolicy may be
-         * of sufficient utility that a sub-class isnt needed.
-         */
-        virtual CodeGenerationPolicy * newCodeGenerationPolicy ( KConfig * config );
+	/**
+	 * Create a new code generation policy object.
+	 * This is not pure virutal because the vannila codegenerationpolicy may be
+	 * of sufficient utility that a sub-class isnt needed.
+	 */
+	virtual CodeGenerationPolicy * newCodeGenerationPolicy ( KConfig * config );
 
 	/**
  	 * Create a new Code document belonging to this package.
 	 * @return CodeDocument pointer to new code document.
-         */
+	 */
 	virtual CodeDocument * newCodeDocument ( );
 
-        /**
-         * Return the unique language string that identifies this type of code generator
-         */
-        virtual QString getLanguage() = 0;
+	/**
+	 * Return the unique language string that identifies this type of code generator
+	 */
+	virtual QString getLanguage() = 0;
 
-        /**
-         * Find a code document by the given classifier.
-         * @return      CodeDocument
-         * @param       classifier
-         */
+	/**
+	 * Find a code document by the given classifier.
+	 * @return      CodeDocument
+	 * @param       classifier
+	 */
 //FIX
 	// NOTE: this should be 'protected' or we could have problems with CPP code generator
 	CodeDocument * findCodeDocumentByClassifier (UMLClassifier * classifier );
@@ -322,82 +322,82 @@ public:
 	 */
 	virtual void createDefaultDatatypes();
 
-        /** Get the editing dialog for this code document
-         */
-        virtual CodeViewerDialog * getCodeViewerDialog( QWidget* parent, CodeDocument * doc, 
-                                                        Settings::CodeViewerState state);
+	/** Get the editing dialog for this code document
+	 */
+	virtual CodeViewerDialog * getCodeViewerDialog( QWidget* parent, CodeDocument * doc, 
+							Settings::CodeViewerState state);
 
 protected:
 
-        /**
-         * Remove (and possibly delete) all AutoGenerted content type CodeDocuments but leave 
+	/**
+	 * Remove (and possibly delete) all AutoGenerted content type CodeDocuments but leave 
 	 * the UserGenerated (and any other type) documents in this generator alone.
-         */
+	 */
 	// void removeAndDeleteAllAutoGeneratedCodeDocuments ( bool deleteRemovedDocs=true );
 
-        /**
-         * Returns a name that can be written to in the output directory,
-         * respecting the overwrite policy.
-         * If a file of the given name and extension does not exist,
-         * then just returns the name.
-         * If a file of the given name and extension does exist,
-         * then opens an overwrite dialog. In this case the name returned
-         * may be a modification of the input name.
-         * This method is invoked by findFileName().
-         *
-         * @param name the proposed output file name (incl. extension) 
-         * @return the real file name that should be used. (with extension?) or 
-         *      NULL if none to be used
-         */
+	/**
+	 * Returns a name that can be written to in the output directory,
+	 * respecting the overwrite policy.
+	 * If a file of the given name and extension does not exist,
+	 * then just returns the name.
+	 * If a file of the given name and extension does exist,
+	 * then opens an overwrite dialog. In this case the name returned
+	 * may be a modification of the input name.
+	 * This method is invoked by findFileName().
+	 *
+	 * @param name the proposed output file name (incl. extension) 
+	 * @return the real file name that should be used. (with extension?) or 
+	 *      NULL if none to be used
+	 */
 	QString overwritableName (QString name, QString extention);
 
-        /** Opens a file named "name" for writing in the outputDirectory.
-         * If something goes wrong, it informs the user
-         * if this function returns true, you know you can write to the file
-         * @return      bool
-         * @param       file 
-         * @param       name 
-         */
-        bool openFile (QFile& file, QString name);
+	/** Opens a file named "name" for writing in the outputDirectory.
+	 * If something goes wrong, it informs the user
+	 * if this function returns true, you know you can write to the file
+	 * @return      bool
+	 * @param       file 
+	 * @param       name 
+	 */
+	bool openFile (QFile& file, QString name);
 
        /**
-         * Initialize this code generator from its parent UMLDoc. When this is called, it will
-         * (re-)generate the list of code documents for this project (generator) by checking
-         * for new objects/attributes which have been added or changed in the documnet. One or more
-         * CodeDocuments will be created/overwritten/amended as is appropriate for the given language.
-         */
-        virtual void initFromParentDocument( );
+	 * Initialize this code generator from its parent UMLDoc. When this is called, it will
+	 * (re-)generate the list of code documents for this project (generator) by checking
+	 * for new objects/attributes which have been added or changed in the documnet. One or more
+	 * CodeDocuments will be created/overwritten/amended as is appropriate for the given language.
+	 */
+	virtual void initFromParentDocument( );
 
-        /** the actual internal routine which writes code documents
-         */
-        void writeListedCodeDocsToFile(QPtrList<CodeDocument> * docs);
+	/** the actual internal routine which writes code documents
+	 */
+	void writeListedCodeDocsToFile(QPtrList<CodeDocument> * docs);
 
 	static const char * hierarchicalCodeBlockNodeName;
 
 	// map of what code documents we currently have in this generator.
 	QDict<CodeDocument> m_codeDocumentDictionary;
 
-        /**
-         * used by overwriteDialogue to know if the apply to all
-         * remaining files checkbox should be checked (is by default)
-         */
-        bool m_applyToAllRemaining;
+	/**
+	 * used by overwriteDialogue to know if the apply to all
+	 * remaining files checkbox should be checked (is by default)
+	 */
+	bool m_applyToAllRemaining;
 
 	/**
 	 * The document object
 	 */
-        UMLDoc* m_document;
+	UMLDoc* m_document;
 private:
 
-        /**
-         * Maps CodeDocuments to filenames. Used for finding out which file
-         * each class was written to.
-         */
+	/**
+	 * Maps CodeDocuments to filenames. Used for finding out which file
+	 * each class was written to.
+	 */
 	// this seems silly and overkill now. -b.t.
-        // QMap<CodeDocument*,QString> *m_fileMap;
+	// QMap<CodeDocument*,QString> *m_fileMap;
 
-        QPtrList<CodeDocument> m_codedocumentVector;
-        CodeGenerationPolicy * m_codegeneratorpolicy;
+	QPtrList<CodeDocument> m_codedocumentVector;
+	CodeGenerationPolicy * m_codegeneratorpolicy;
 	int lastIDIndex;
 
 	void initFields ( UMLDoc * doc ) ;
@@ -408,22 +408,22 @@ public slots:
 	virtual void checkAddUMLObject (UMLObject * obj);
 	virtual void checkRemoveUMLObject (UMLObject * obj);
 
-        /**
-         * Force a synchronize of this code generator, and its present contents, to that of the parent UMLDocument.
-         * "UserGenerated" code will be preserved, but Autogenerated contents will be updated/replaced
-         * or removed as is apppropriate.
-         */
-        virtual void syncCodeToDocument ( );
+	/**
+	 * Force a synchronize of this code generator, and its present contents, to that of the parent UMLDocument.
+	 * "UserGenerated" code will be preserved, but Autogenerated contents will be updated/replaced
+	 * or removed as is apppropriate.
+	 */
+	virtual void syncCodeToDocument ( );
 
 signals:
 
-        /**
-         * This signal is emitted when code for a UMLClassifier has been
-         * generated. Its only really used by the codegenerationwizard to
+	/**
+	 * This signal is emitted when code for a UMLClassifier has been
+	 * generated. Its only really used by the codegenerationwizard to
 	 * update its progress.
-         * @param concept    The concept which was processed
-         * @param generated  Flag, set to true if generation was successfull
-         */
+	 * @param concept    The concept which was processed
+	 * @param generated  Flag, set to true if generation was successfull
+	 */
 	void codeGenerated(UMLClassifier* concept, bool generated);
 
 };
@@ -435,8 +435,8 @@ signals:
 // (needs editing uml.cpp in various places) -- jr
 class GeneratorInfo {
 public:
-        QString language;
-        QString object;
+	QString language;
+	QString object;
 
 };
 

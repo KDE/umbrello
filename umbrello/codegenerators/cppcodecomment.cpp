@@ -45,17 +45,12 @@ CPPCodeComment::~CPPCodeComment ( ) { }
 
 /**
  * Save the XMI representation of this object
- * @return      bool    status of save
  */
-bool CPPCodeComment::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
-        bool status = true;
-
-        QDomElement blockElement = doc.createElement( "cppcodecomment" );
-        setAttributesOnNode(doc, blockElement); // as we added no additional fields to this class we may
-                                                // just use parent TextBlock method
-        root.appendChild( blockElement );
-
-        return status;
+void CPPCodeComment::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
+	QDomElement blockElement = doc.createElement( "cppcodecomment" );
+	setAttributesOnNode(doc, blockElement); // as we added no additional fields to this class we may
+						// just use parent TextBlock method
+	root.appendChild( blockElement );
 }
 
 /**
@@ -66,20 +61,20 @@ QString CPPCodeComment::toString ( )
 
 	QString output = "";
 
-        // simple output method
-        if(getWriteOutText())
-        {
+	// simple output method
+	if(getWriteOutText())
+	{
 		QString indent = getIndentationString();
-                QString endLine = getNewLineEndingChars();
-                output.append(formatMultiLineText (getText()+endLine, indent +"// ", endLine));
-        }
+		QString endLine = getNewLineEndingChars();
+		output.append(formatMultiLineText (getText()+endLine, indent +"// ", endLine));
+	}
 
-        return output; 
+	return output; 
 }
 
 QString CPPCodeComment::getNewEditorLine ( int amount ) {
-        QString line = getIndentationString(amount) + "// ";
-        return line;
+	QString line = getIndentationString(amount) + "// ";
+	return line;
 }
 
 /** UnFormat a long text string. Typically, this means removing
@@ -88,12 +83,12 @@ QString CPPCodeComment::getNewEditorLine ( int amount ) {
 QString CPPCodeComment::unformatText ( const QString & text , const QString & indent)
 {
 
-        // remove leading or trailing comment stuff
-        QString mytext = TextBlock::unformatText(text, indent);
+	// remove leading or trailing comment stuff
+	QString mytext = TextBlock::unformatText(text, indent);
 
-        // now leading slashes
-        mytext.remove(QRegExp("^\\/\\/\\s*"));
-        return mytext;
+	// now leading slashes
+	mytext.remove(QRegExp("^\\/\\/\\s*"));
+	return mytext;
 }
 
 #include "cppcodecomment.moc"

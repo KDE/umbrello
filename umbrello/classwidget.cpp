@@ -455,9 +455,9 @@ void ClassWidget::setShowAttSigs(bool _status) {
 	update();
 }
 
-bool ClassWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
+void ClassWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement conceptElement = qDoc.createElement( "classwidget" );
-	bool status = UMLWidget::saveToXMI( qDoc, conceptElement );
+	UMLWidget::saveToXMI( qDoc, conceptElement );
 	conceptElement.setAttribute( "showattributes", m_bShowAttributes );
 	conceptElement.setAttribute( "showoperations", m_bShowOperations );
 	conceptElement.setAttribute( "showpubliconly", m_bShowPublicOnly );
@@ -467,7 +467,6 @@ bool ClassWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	conceptElement.setAttribute( "showstereotype", m_bShowStereotype );
 	conceptElement.setAttribute( "showscope", m_bShowScope );
 	qElement.appendChild( conceptElement );
-	return status;
 }
 
 bool ClassWidget::loadFromXMI( QDomElement & qElement ) {
@@ -505,7 +504,7 @@ void ClassWidget::toggleShowAtts()
 void ClassWidget::toggleShowAttSigs()
 {
 	if (m_ShowAttSigs == Uml::st_ShowSig ||
-        m_ShowAttSigs == Uml::st_SigNoScope) {
+	m_ShowAttSigs == Uml::st_SigNoScope) {
 		if (m_bShowScope) {
 			m_ShowAttSigs = Uml::st_NoSig;
 		} else {

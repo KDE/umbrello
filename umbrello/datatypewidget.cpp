@@ -107,11 +107,10 @@ bool DatatypeWidget::activate(IDChangeLog* ChangeLog /* = 0*/) {
 	return status;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-bool DatatypeWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
+void DatatypeWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement conceptElement = qDoc.createElement("datatypewidget");
-	bool status = UMLWidget::saveToXMI(qDoc, conceptElement);
+	UMLWidget::saveToXMI(qDoc, conceptElement);
 	qElement.appendChild(conceptElement);
-	return status;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool DatatypeWidget::loadFromXMI( QDomElement & qElement ) {

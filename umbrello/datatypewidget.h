@@ -54,7 +54,7 @@ public:
 	/**
 	 * Saves to the <UML:DatatypeWidget> XMI element.
 	 */
-	bool saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
+	void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
 	/**
 	 * Loads from an <UML:DatatypeWidget> XMI element.

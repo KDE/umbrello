@@ -246,7 +246,7 @@ class UMLListView : public KListView {
 
 	void closeDatatypesFolder();
 
-	bool saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+	void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 	bool loadFromXMI( QDomElement & element );
 

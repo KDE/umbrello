@@ -81,19 +81,14 @@ UMLOperation * CodeOperation::getParentOperation( ) {
 //  
 
 /** Save the XMI representation of this object
- * @return      bool    status of save
  */
-bool CodeOperation::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
-        bool status = true;
+void CodeOperation::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
+	QDomElement blockElement = doc.createElement( "codeoperation" );
 
-        QDomElement blockElement = doc.createElement( "codeoperation" );
+	// set attributes
+	setAttributesOnNode(doc, blockElement);
 
-        // set attributes
-        setAttributesOnNode(doc, blockElement);
-
-        root.appendChild( blockElement );
-
-        return status;
+	root.appendChild( blockElement );
 }
 
 /**
@@ -101,7 +96,7 @@ bool CodeOperation::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
  */
 void CodeOperation::loadFromXMI ( QDomElement & root )
 {
-        setAttributesFromNode(root);
+	setAttributesFromNode(root);
 }
 
 QString CodeOperation::findTag (UMLOperation * op) {
@@ -146,10 +141,10 @@ void CodeOperation::setAttributesFromNode ( QDomElement & element)
 void CodeOperation::setAttributesFromObject(TextBlock * obj)
 {
 
-        CodeMethodBlock::setAttributesFromObject(obj);
+	CodeMethodBlock::setAttributesFromObject(obj);
 
-        CodeOperation * op = dynamic_cast<CodeOperation*>(obj);
-        if(op)
+	CodeOperation * op = dynamic_cast<CodeOperation*>(obj);
+	if(op)
 		init((UMLOperation*) op->getParentObject());
 
 }
@@ -166,7 +161,7 @@ void CodeOperation::init (UMLOperation * parentOp)
 }
 
 void CodeOperation::updateContent() {
-        // Empty. Unlike codeaccessor methods for most (all?) languages
+	// Empty. Unlike codeaccessor methods for most (all?) languages
 	// we dont auto-generate content for operations
 }
 

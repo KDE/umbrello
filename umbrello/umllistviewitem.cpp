@@ -27,7 +27,7 @@
 UMLListView* UMLListViewItem::s_pListView = 0;
 
 UMLListViewItem::UMLListViewItem( UMLListView * parent, QString name,
-                                  Uml::ListView_Type t, UMLObject* o)
+				  Uml::ListView_Type t, UMLObject* o)
   : QListViewItem(parent, name) {
 	init();
 	s_pListView = parent;
@@ -221,7 +221,7 @@ void UMLListViewItem::updateFolder() {
 				setPixmap( 0, s_pListView -> getPixmap( UMLListView::it_Folder_Green ) );
 			break;
 
-	        case Uml::lvt_Datatype_Folder:
+		case Uml::lvt_Datatype_Folder:
 			if ( isOpen() )  {
 				setPixmap( 0, s_pListView->getPixmap(UMLListView::it_Folder_Orange_Open) );
 			} else {
@@ -285,7 +285,7 @@ void UMLListViewItem::okRename( int col ) {
 	if( newText.length() == 0 ) {
 		KMessageBox::error( kapp->mainWidget() ,
 				    i18n("The name you entered was invalid.\nRenaming process has been canceled."),
-		                    i18n("Name Not Valid") );
+				    i18n("Name Not Valid") );
 		setText( m_Label );
 		return;
 	}
@@ -317,8 +317,8 @@ void UMLListViewItem::okRename( int col ) {
 				//then give a warning about the name being the same
 				UMLObjectList list = parent -> findChildObject( object -> getBaseType(), newText );
 				if(list.isEmpty() || (!list.isEmpty() && KMessageBox::warningYesNo( kapp -> mainWidget() ,
-				                      i18n( "The name you entered was not unique.\nIs this what you wanted?" ),
-				                      i18n( "Name Not Unique" ) ) == KMessageBox::Yes )) {
+						      i18n( "The name you entered was not unique.\nIs this what you wanted?" ),
+						      i18n( "Name Not Unique" ) ) == KMessageBox::Yes )) {
 					object -> setName( newText );
 					m_Label = newText;
 					return;
@@ -374,7 +374,7 @@ void UMLListViewItem::okRename( int col ) {
 	}
 	KMessageBox::error( kapp->mainWidget() ,
 			    i18n("The name you entered was invalid.\nRenaming process has been canceled."),
-	                    i18n("Name Not Valid") );
+			    i18n("Name Not Valid") );
 	QListViewItem::setText(0, m_Label);
 }
 
@@ -432,7 +432,7 @@ UMLListViewItem* UMLListViewItem::findUMLObject(UMLObject *o) {
 	return NULL;
 }
 
-bool UMLListViewItem::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
+void UMLListViewItem::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement itemElement = qDoc.createElement( "listitem" );
 	itemElement.setAttribute( "id", getID() );
 	itemElement.setAttribute( "type", m_Type );
@@ -441,13 +441,10 @@ bool UMLListViewItem::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	itemElement.setAttribute( "open", isOpen() );
 	UMLListViewItem * childItem = static_cast<UMLListViewItem *> ( firstChild() );
 	while( childItem ) {
-		bool status = childItem -> saveToXMI( qDoc, itemElement );
-		if( !status )
-			return false;
+		childItem -> saveToXMI( qDoc, itemElement );
 		childItem = static_cast<UMLListViewItem *> ( childItem -> nextSibling() );
 	}
 	qElement.appendChild( itemElement );
-	return true;
 }
 
 bool UMLListViewItem::loadFromXMI(QDomElement& qElement) {

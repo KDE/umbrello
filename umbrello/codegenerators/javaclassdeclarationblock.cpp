@@ -33,18 +33,13 @@ JavaClassDeclarationBlock::~JavaClassDeclarationBlock ( ) { }
 
 /**
  * Save the XMI representation of this object
- * @return      bool    status of save
  */
-bool JavaClassDeclarationBlock::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
-        bool status = true;
+void JavaClassDeclarationBlock::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
+	QDomElement blockElement = doc.createElement( "javaclassdeclarationblock" );
 
-        QDomElement blockElement = doc.createElement( "javaclassdeclarationblock" );
+	setAttributesOnNode(doc, blockElement);
 
-        setAttributesOnNode(doc, blockElement);
-
-        root.appendChild( blockElement );
-
-        return status;
+	root.appendChild( blockElement );
 }
 
 /**
@@ -52,7 +47,7 @@ bool JavaClassDeclarationBlock::saveToXMI ( QDomDocument & doc, QDomElement & ro
  */
 void JavaClassDeclarationBlock::loadFromXMI ( QDomElement & root ) 
 {
-        setAttributesFromNode(root);
+	setAttributesFromNode(root);
 }
 
 // Accessor methods
@@ -69,85 +64,85 @@ void JavaClassDeclarationBlock::updateContent ( )
 
 	JavaClassifierCodeDocument *parentDoc = (JavaClassifierCodeDocument*)getParentDocument();
 	UMLClassifier *c = parentDoc->getParentClassifier();
-        CodeGenerator *g = parentDoc->getParentGenerator();
+	CodeGenerator *g = parentDoc->getParentGenerator();
 	QString endLine = parentDoc->getNewLineEndingChars();
-        bool isInterface = parentDoc->parentIsInterface(); // a little shortcut
-        QString JavaClassName = parentDoc->getJavaClassName(c->getName());
+	bool isInterface = parentDoc->parentIsInterface(); // a little shortcut
+	QString JavaClassName = parentDoc->getJavaClassName(c->getName());
 
 	// COMMENT
-        if(isInterface)
-        	getComment()->setText("Interface "+JavaClassName+endLine+c->getDoc());
-        else
-        	getComment()->setText("Class "+JavaClassName+endLine+c->getDoc());
+	if(isInterface)
+		getComment()->setText("Interface "+JavaClassName+endLine+c->getDoc());
+	else
+		getComment()->setText("Class "+JavaClassName+endLine+c->getDoc());
 
-        if(g->forceDoc() || !c->getDoc().isEmpty())
+	if(g->forceDoc() || !c->getDoc().isEmpty())
 		getComment()->setWriteOutText(true);
 	else
 		getComment()->setWriteOutText(false);
 
 
 	// Now set START/ENDING Text
-        QString startText = "";
+	QString startText = "";
 	// In Java, we need declare abstract only on classes
-        if (c->getAbstract() && !isInterface)
-                startText.append("abstract ");
+	if (c->getAbstract() && !isInterface)
+		startText.append("abstract ");
 
-        if (c->getScope() != Uml::Public) {
-                // We should probably emit a warning in here .. java doesnt like to allow
-                // private/protected classes. The best we can do (I believe)
-                // is to let these declarations default to "package visibility"
-                // which is a level between traditional "private" and "protected"
-                // scopes. To get this visibility level we just print nothing..
-        } else
-                startText.append("public ");
+	if (c->getScope() != Uml::Public) {
+		// We should probably emit a warning in here .. java doesnt like to allow
+		// private/protected classes. The best we can do (I believe)
+		// is to let these declarations default to "package visibility"
+		// which is a level between traditional "private" and "protected"
+		// scopes. To get this visibility level we just print nothing..
+	} else
+		startText.append("public ");
 
-        if(parentDoc->parentIsInterface())
-                startText.append("interface ");
-        else
-                startText.append("class ");
+	if(parentDoc->parentIsInterface())
+		startText.append("interface ");
+	else
+		startText.append("class ");
 
-        startText.append(JavaClassName);
+	startText.append(JavaClassName);
 
-        // write inheritances out
-        UMLClassifierList superclasses =
-                        c->findSuperClassConcepts(UMLClassifier::CLASS);
-        UMLClassifierList superinterfaces =
-                        c->findSuperClassConcepts(UMLClassifier::INTERFACE);
+	// write inheritances out
+	UMLClassifierList superclasses =
+			c->findSuperClassConcepts(UMLClassifier::CLASS);
+	UMLClassifierList superinterfaces =
+			c->findSuperClassConcepts(UMLClassifier::INTERFACE);
 	int nrof_superclasses = superclasses.count();
 	int nrof_superinterfaces = superinterfaces.count();
 
 	// write out inheritance
-        int i = 0;
-        if(nrof_superclasses >0)
-                startText.append(" extends ");
-        for (UMLClassifier * concept= superclasses.first(); concept; concept = superclasses.next())
-        {
-                startText.append(parentDoc->cleanName(concept->getName()));
-                if(i != (nrof_superclasses-1))
-                      startText.append(", ");
-                i++;
-        }
+	int i = 0;
+	if(nrof_superclasses >0)
+		startText.append(" extends ");
+	for (UMLClassifier * concept= superclasses.first(); concept; concept = superclasses.next())
+	{
+		startText.append(parentDoc->cleanName(concept->getName()));
+		if(i != (nrof_superclasses-1))
+		      startText.append(", ");
+		i++;
+	}
 
 	// write out what we 'implement'
 	i = 0;
-        if(nrof_superinterfaces >0)
+	if(nrof_superinterfaces >0)
 	{
 		// In Java interfaces "extend" other interfaces. Classes "implement" interfaces
 		if(isInterface)
-                	startText.append(" extends ");
+			startText.append(" extends ");
 		else
-                	startText.append(" implements ");
+			startText.append(" implements ");
 	}
-        for (UMLClassifier * concept= superinterfaces.first(); concept; concept = superinterfaces.next())
+	for (UMLClassifier * concept= superinterfaces.first(); concept; concept = superinterfaces.next())
 	{
-                startText.append(parentDoc->cleanName(concept->getName()));
-                if(i != (nrof_superinterfaces-1))
-                      startText.append(", ");
-                i++;
+		startText.append(parentDoc->cleanName(concept->getName()));
+		if(i != (nrof_superinterfaces-1))
+		      startText.append(", ");
+		i++;
 	}
 
-        // Set the header and end text for the hier.codeblock
-        setStartText(startText+" {");
+	// Set the header and end text for the hier.codeblock
+	setStartText(startText+" {");
 
 	// setEndText("}"); // not needed 
 

@@ -52,39 +52,38 @@ public:
 	// Return the parent code document
 	CodeDocument * getParentDocument();
 
-	// these next 2 methods should be supplited by inheriting classes
-       /**
-         * Save the XMI representation of this object
-         * @return      bool    status of save
-         */
-        virtual bool saveToXMI ( QDomDocument & doc, QDomElement & root ) = 0;
+	// these next 2 methods should be supplied by inheriting classes
+	/**
+	 * Save the XMI representation of this object
+	 */
+	virtual void saveToXMI ( QDomDocument & doc, QDomElement & root ) = 0;
 
-        /**
-         * load params from the appropriate XMI element node.
-         */
-        virtual void loadFromXMI ( QDomElement & root ) = 0;
+	/**
+	 * load params from the appropriate XMI element node.
+	 */
+	virtual void loadFromXMI ( QDomElement & root ) = 0;
 
 protected:
 
        /** causes the text block to release all of its connections
-         * and any other text blocks that it 'owns'.
-         * needed to be called prior to deletion of the textblock.
-         */
-        virtual void release ();
+	 * and any other text blocks that it 'owns'.
+	 * needed to be called prior to deletion of the textblock.
+	 */
+	virtual void release ();
 
        /** set attributes of the node that represents this class
-         * in the XMI document.
-         */
-        virtual void setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement);
+	 * in the XMI document.
+	 */
+	virtual void setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement);
 
-        /** set the class attributes of this object from
-         * the passed element node.
-         */
-        virtual void setAttributesFromNode ( QDomElement & element);
+	/** set the class attributes of this object from
+	 * the passed element node.
+	 */
+	virtual void setAttributesFromNode ( QDomElement & element);
 
        /** set the class attributes from a passed object
-         */
-        virtual void setAttributesFromObject (TextBlock * obj);
+	 */
+	virtual void setAttributesFromObject (TextBlock * obj);
 
 	virtual void updateContent ( ) = 0;
 
@@ -92,7 +91,7 @@ private:
 
 public slots:
 
-        void syncToParent ( );
+	void syncToParent ( );
 
 
 };

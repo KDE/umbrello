@@ -136,7 +136,7 @@ public:
 	/**
 	 * Creates the <UML:StateWidget> XMI element.
 	 */
-	bool saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+	void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 	/**
 	 * Loads a <UML:StateWidget> XMI element.

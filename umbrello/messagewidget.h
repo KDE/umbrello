@@ -238,7 +238,7 @@ public:
 	/**
 	 * Saves to the <UML:MessageWidget> XMI element.
 	 */
-	bool saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+	void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 	/**
 	 * Loads from the <UML:MessageWidget> XMI element.

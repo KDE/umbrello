@@ -3294,7 +3294,7 @@ void UMLView::forceUpdateWidgetFontMetrics(QPainter * painter) {
 	}
 }
 
-bool UMLView::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
+void UMLView::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement viewElement = qDoc.createElement( "diagram" );
 	viewElement.setAttribute( "xmi.id", m_nID );
 	viewElement.setAttribute( "name", m_Name );
@@ -3372,7 +3372,6 @@ bool UMLView::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	}
 	viewElement.appendChild( assocElement );
 	qElement.appendChild( viewElement );
-	return true;
 }
 
 bool UMLView::loadFromXMI( QDomElement & qElement ) {

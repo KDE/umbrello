@@ -297,7 +297,7 @@ public:
 	/**
 	 * Creates the <UML:FloatingTextWidget> XMI element.
 	 */
-	bool saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+	void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 	/**
 	 * Loads the <UML:FloatingTextWidget> XMI element.

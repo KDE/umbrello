@@ -68,11 +68,11 @@ public:
 	 */
 	bool addTextBlock ( TextBlock * add_object );
 
-        /**
-         * Insert a new text block before/after the existing text block. Returns
-         * false if it cannot insert the textblock.
-         */
-        bool insertTextBlock (TextBlock * newBlock, TextBlock * existingBlock, bool after = true);
+	/**
+	 * Insert a new text block before/after the existing text block. Returns
+	 * false if it cannot insert the textblock.
+	 */
+	bool insertTextBlock (TextBlock * newBlock, TextBlock * existingBlock, bool after = true);
 
 	/**
 	 * Remove a TextBlock object from m_textblockVector List
@@ -90,16 +90,15 @@ public:
 	 */
 	QString getStartText ( );
 
-        /**
-         * Save the XMI representation of this object
-         * @return      bool    status of save
-         */
-        virtual bool saveToXMI ( QDomDocument & doc, QDomElement & root );
+	/**
+	 * Save the XMI representation of this object
+	 */
+	virtual void saveToXMI ( QDomDocument & doc, QDomElement & root );
 
-        /**
-         * load params from the appropriate XMI element node.
-         */
-        virtual void loadFromXMI ( QDomElement & root );
+	/**
+	 * load params from the appropriate XMI element node.
+	 */
+	virtual void loadFromXMI ( QDomElement & root );
 
 	/**
 	 * @return	QString
@@ -112,20 +111,20 @@ public:
 
 	/** 
 	 * Utility method to add accessormethods in this object
-         */
-        void addCodeClassFieldMethods ( QPtrList<CodeClassField> &list );
+	 */
+	void addCodeClassFieldMethods ( QPtrList<CodeClassField> &list );
 
        /**
-         * create a new CodeAccesorMethod object belonging to this Hierarchical code block.
-         * @return      CodeAccessorMethod
-         */
-        virtual CodeAccessorMethod * newCodeAccesorMethod( CodeClassField *cf, CodeAccessorMethod::AccessorType type);
+	 * create a new CodeAccesorMethod object belonging to this Hierarchical code block.
+	 * @return      CodeAccessorMethod
+	 */
+	virtual CodeAccessorMethod * newCodeAccesorMethod( CodeClassField *cf, CodeAccessorMethod::AccessorType type);
 
        /**
-         * Create a new CodeOperation object belonging to this Hierarchical code block.
-         * @return      CodeOperation
-         */
-        virtual CodeOperation * newCodeOperation( UMLOperation *op);
+	 * Create a new CodeOperation object belonging to this Hierarchical code block.
+	 * @return      CodeOperation
+	 */
+	virtual CodeOperation * newCodeOperation( UMLOperation *op);
 
 	virtual CodeBlock * newCodeBlock();
 	virtual CodeComment * newCodeComment();
@@ -140,28 +139,28 @@ public:
 protected:
 
        /** causes the text block to release all of its connections
-         * and any other text blocks that it 'owns'.
-         * needed to be called prior to deletion of the textblock.
-         */
-        virtual void release ();
+	 * and any other text blocks that it 'owns'.
+	 * needed to be called prior to deletion of the textblock.
+	 */
+	virtual void release ();
 
-        /** set attributes of the node that represents this class
-         * in the XMI document.
-         */
+	/** set attributes of the node that represents this class
+	 * in the XMI document.
+	 */
 	virtual void setAttributesOnNode (QDomDocument & doc, QDomElement & elem );
 
-        /** set the class attributes of this object from
-         * the passed element node.
-         */
-        virtual void setAttributesFromNode ( QDomElement & element);
+	/** set the class attributes of this object from
+	 * the passed element node.
+	 */
+	virtual void setAttributesFromNode ( QDomElement & element);
 
 	/** set the class attributes from a passed object
-         */
-        virtual void setAttributesFromObject (TextBlock * obj);
+	 */
+	virtual void setAttributesFromObject (TextBlock * obj);
 
-        // this is needed by the parent codegenobjectwithtextblocks class
-        // in order to search for text blocks by tag when loading from XMI
-        CodeDocument * getCodeDocument();
+	// this is needed by the parent codegenobjectwithtextblocks class
+	// in order to search for text blocks by tag when loading from XMI
+	CodeDocument * getCodeDocument();
 
 	// look for specific text blocks which belong to code classfields
 	TextBlock * findCodeClassFieldTextBlockByTag (QString tag);

@@ -40,19 +40,18 @@ public:
 	 */
 	virtual ~CPPHeaderClassDeclarationBlock ( );
 
-       /**
-         * Save the XMI representation of this object
-         * @return      bool    status of save
-         */
-        virtual bool saveToXMI ( QDomDocument & doc, QDomElement & root );
+	/**
+	 * Save the XMI representation of this object
+	 */
+	virtual void saveToXMI ( QDomDocument & doc, QDomElement & root );
 
 	virtual void loadFromXMI ( QDomElement & root ); 
 
 protected:
 
-        /** set the class attributes from a passed object
-         */
-        virtual void setAttributesFromObject (TextBlock * obj);
+	/** set the class attributes from a passed object
+	 */
+	virtual void setAttributesFromObject (TextBlock * obj);
 
 	/**
 	 * Update the start/end text of this codeblock.

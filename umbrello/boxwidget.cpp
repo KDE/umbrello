@@ -77,10 +77,9 @@ void BoxWidget::mouseReleaseEvent(QMouseEvent* me) {
 	m_pView->setCursor( KCursor::arrowCursor() );
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-bool BoxWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
+void BoxWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
 	QDomElement boxElement = qDoc.createElement("boxwidget");
-	bool status = UMLWidget::saveToXMI(qDoc, boxElement);
+	UMLWidget::saveToXMI(qDoc, boxElement);
 	qElement.appendChild(boxElement);
-	return status;
 }
 

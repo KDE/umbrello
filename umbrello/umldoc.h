@@ -529,7 +529,7 @@ public:
 	 *
 	 * @param file		The file to be saved to.
 	 */
-	virtual bool saveToXMI(QIODevice& file);
+	virtual void saveToXMI(QIODevice& file);
 
 	/**
 	 * Checks the given XMI file if it was saved with correct Unicode

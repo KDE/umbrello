@@ -494,7 +494,7 @@ public:
 		return m_instanceName;
 	}
 
-	virtual bool saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+	virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 	virtual bool loadFromXMI( QDomElement & qElement );
 

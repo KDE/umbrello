@@ -150,12 +150,11 @@ bool ComponentWidget::getShowStereotype() const {
 	return m_bShowStereotype;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-bool ComponentWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
+void ComponentWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
 	QDomElement conceptElement = qDoc.createElement("componentwidget");
-	bool status = UMLWidget::saveToXMI(qDoc, conceptElement);
+	UMLWidget::saveToXMI(qDoc, conceptElement);
 	conceptElement.setAttribute("showstereotype", m_bShowStereotype);
 	qElement.appendChild(conceptElement);
-	return status;
 }
 
 bool ComponentWidget::loadFromXMI(QDomElement& qElement) {

@@ -46,17 +46,12 @@ JavaCodeDocumentation::~JavaCodeDocumentation ( ) { }
 
 /**
  * Save the XMI representation of this object
- * @return      bool    status of save
  */
-bool JavaCodeDocumentation::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
-        bool status = true;
-
-        QDomElement blockElement = doc.createElement( "javacodedocumentation" );
-        setAttributesOnNode(doc, blockElement); // as we added no additional fields to this class we may
-                                                // just use parent TextBlock method
-        root.appendChild( blockElement );
-
-        return status;
+void JavaCodeDocumentation::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
+	QDomElement blockElement = doc.createElement( "javacodedocumentation" );
+	setAttributesOnNode(doc, blockElement); // as we added no additional fields to this class we may
+						// just use parent TextBlock method
+	root.appendChild( blockElement );
 }
 
 /**
@@ -67,9 +62,9 @@ QString JavaCodeDocumentation::toString ( )
 
 	QString output = "";
 
-        // simple output method
-        if(getWriteOutText())
-        {
+	// simple output method
+	if(getWriteOutText())
+	{
 		bool useDoubleDashOutput = true;
 
 		// need to figure out output type from java policy
@@ -78,29 +73,29 @@ QString JavaCodeDocumentation::toString ( )
 			useDoubleDashOutput = false;
 
 		QString indent = getIndentationString();
-                QString endLine = getNewLineEndingChars();
+		QString endLine = getNewLineEndingChars();
 		QString body = getText();
 		if(useDoubleDashOutput) 
 		{
 			if(!body.isEmpty())
-                		output.append(formatMultiLineText (body, indent +"// ", endLine));
+				output.append(formatMultiLineText (body, indent +"// ", endLine));
 		} else {
-                	output.append(indent+"/**"+endLine);
-                	output.append(formatMultiLineText (body, indent +" * ", endLine));
-                	output.append(indent+" */"+endLine);
+			output.append(indent+"/**"+endLine);
+			output.append(formatMultiLineText (body, indent +" * ", endLine));
+			output.append(indent+" */"+endLine);
 		}
-        }
+	}
 
-        return output; 
+	return output; 
 }
 
 QString JavaCodeDocumentation::getNewEditorLine ( int amount ) 
 {
 	JavaCodeGenerationPolicy * p = ((JavaClassifierCodeDocument*)getParentDocument())->getJavaPolicy();
 	if(p->getCommentStyle() == JavaCodeGenerationPolicy::SlashStar)
-        	return getIndentationString(amount) + " * ";
+		return getIndentationString(amount) + " * ";
 	else
-        	return getIndentationString(amount) + "// ";
+		return getIndentationString(amount) + "// ";
 }
 
 int JavaCodeDocumentation::firstEditableLine() {

@@ -188,14 +188,12 @@ bool EnumWidget::activate(IDChangeLog* ChangeLog /* = 0 */) {
 	return status;
 }
 
-bool EnumWidget::saveToXMI( QDomDocument& qDoc, QDomElement& qElement ) {
+void EnumWidget::saveToXMI( QDomDocument& qDoc, QDomElement& qElement ) {
 	QDomElement conceptElement = qDoc.createElement("enumwidget");
-	bool status = UMLWidget::saveToXMI(qDoc, conceptElement);
+	UMLWidget::saveToXMI(qDoc, conceptElement);
 
 	conceptElement.setAttribute("showpackage", m_bShowPackage);
 	qElement.appendChild(conceptElement);
-
-	return status;
 }
 
 bool EnumWidget::loadFromXMI( QDomElement & qElement ) {

@@ -829,7 +829,7 @@ public:
 	/**
 	 * Creates the <diagram> tag and fills it with the contents of the diagram.
 	 */
-	virtual bool saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+	virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 	/**
 	 * Loads the <diagram> tag.

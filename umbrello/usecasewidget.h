@@ -58,7 +58,7 @@ public:
 	/**
 	*	Saves this UseCase to file.
 	*/
-	bool saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+	void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 	// For loading we can use the loadFromXMI() inherited from UMLWidget.
 

@@ -52,48 +52,47 @@ public:
 	void updateContent();
 
        /**
-         * Save the XMI representation of this object
-         * @return      bool    status of save
-         */
-        virtual bool saveToXMI ( QDomDocument & doc, QDomElement & root );
+	 * Save the XMI representation of this object
+	 */
+	virtual void saveToXMI ( QDomDocument & doc, QDomElement & root );
 
-        /**
-         * load params from the appropriate XMI element node.
-         */
-        virtual void loadFromXMI ( QDomElement & root );
+	/**
+	 * load params from the appropriate XMI element node.
+	 */
+	virtual void loadFromXMI ( QDomElement & root );
 
-        /**
-         * create a new HierarchicalCodeBlock object belonging to this CodeDocument.
-         * @return      HierarchicalCodeBlock
-         */
-        virtual HierarchicalCodeBlock * newHierarchicalCodeBlock ( );
+	/**
+	 * create a new HierarchicalCodeBlock object belonging to this CodeDocument.
+	 * @return      HierarchicalCodeBlock
+	 */
+	virtual HierarchicalCodeBlock * newHierarchicalCodeBlock ( );
 
-        /**
-         * create a new CodeBlockWithComments object belonging to this CodeDocument.
-         * @return      CodeBlockWithComments
-         */
-//        virtual CodeBlockWithComments * newCodeBlockWithComments ( );
+	/**
+	 * create a new CodeBlockWithComments object belonging to this CodeDocument.
+	 * @return      CodeBlockWithComments
+	 */
+//	virtual CodeBlockWithComments * newCodeBlockWithComments ( );
 
-        // create a code comment for this document
-        virtual CodeComment * newCodeComment();
+	// create a code comment for this document
+	virtual CodeComment * newCodeComment();
 
 protected:
 
        /** set attributes of the node that represents this class
-         * in the XMI document.
-         */
-        virtual void setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement);
+	 * in the XMI document.
+	 */
+	virtual void setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement);
 
-        /** set the class attributes of this object from
-         * the passed element node.
-         */
-        virtual void setAttributesFromNode ( QDomElement & element);
+	/** set the class attributes of this object from
+	 * the passed element node.
+	 */
+	virtual void setAttributesFromNode ( QDomElement & element);
 
        /**
-         * need to overwrite this for java since we need to pick up the
-         * xml declaration blocks.
-         */
-        virtual void loadChildTextBlocksFromNode ( QDomElement & root);
+	 * need to overwrite this for java since we need to pick up the
+	 * xml declaration blocks.
+	 */
+	virtual void loadChildTextBlocksFromNode ( QDomElement & root);
 
 private:
 

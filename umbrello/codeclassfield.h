@@ -83,12 +83,12 @@ public:
 	 */
 	CodeClassFieldDeclarationBlock * getDeclarationCodeBlock( );
 
-        /**
-         * Get the list of Method objects held by m_methodVector
-         * @return QPtrList<CodeAccessorMethod> list of Method objects held by
-         * m_methodVector
-         */
-        QPtrList<CodeAccessorMethod> * getMethodList ( );
+	/**
+	 * Get the list of Method objects held by m_methodVector
+	 * @return QPtrList<CodeAccessorMethod> list of Method objects held by
+	 * m_methodVector
+	 */
+	QPtrList<CodeAccessorMethod> * getMethodList ( );
 
 	/** Utility method to allow finding particular accessor method of this
  	 *  code class field by its type identifier.
@@ -118,17 +118,17 @@ public:
 	  */
 	QString getListFieldClassName();
 
-        /** determine if we will *allow* methods to be viewable.
-         * this flag is often used to toggle autogeneration of accessor
-         * methods in the code class field.
-         */
-        bool getWriteOutMethods ();
+	/** determine if we will *allow* methods to be viewable.
+	 * this flag is often used to toggle autogeneration of accessor
+	 * methods in the code class field.
+	 */
+	bool getWriteOutMethods ();
 
-        /** determine if we will *allow* methods to be viewable.
-         * this flag is often used to toggle autogeneration of accessor
-         * methods in the code class field.
-         */
-        void setWriteOutMethods( bool val);
+	/** determine if we will *allow* methods to be viewable.
+	 * this flag is often used to toggle autogeneration of accessor
+	 * methods in the code class field.
+	 */
+	void setWriteOutMethods( bool val);
 
 	/** Find the minimum number of things that can occur in an association
 	  * If mistakenly called on attribute CF's the default value of is "0" 
@@ -137,23 +137,22 @@ public:
 	  */
 	int minimumListOccurances( );
 
-        /** Find the maximum number of things that can occur in an association
-          * If mistakenly called on attribute CF's the default value of is "1"
-          * is returned. If the association (role) CF doesnt have a multiplicty
-          * or has a "*" specified then '-1' (unbounded) is returned.
-          */
+	/** Find the maximum number of things that can occur in an association
+	  * If mistakenly called on attribute CF's the default value of is "1"
+	  * is returned. If the association (role) CF doesnt have a multiplicty
+	  * or has a "*" specified then '-1' (unbounded) is returned.
+	  */
 	int maximumListOccurances( );
 
-        /**
-         * Save the XMI representation of this object
-         * @return      bool    status of save
-         */
-        virtual bool saveToXMI ( QDomDocument & doc, QDomElement & root );
+	/**
+	 * Save the XMI representation of this object
+	 */
+	virtual void saveToXMI ( QDomDocument & doc, QDomElement & root );
 
-        /**
-         * load params from the appropriate XMI element node.
-         */
-        virtual void loadFromXMI ( QDomElement & root );
+	/**
+	 * load params from the appropriate XMI element node.
+	 */
+	virtual void loadFromXMI ( QDomElement & root );
 
 	/** Force the syncronization of the content (methods and declarations) 
    	 *  of this class field.
@@ -168,9 +167,9 @@ protected:
 
 //	CodeClassFieldDialog * m_dialog;
 
-        /** a little utility method to make life easier for code document programmers
-         */
-        QString cleanName(QString name);
+	/** a little utility method to make life easier for code document programmers
+	 */
+	QString cleanName(QString name);
 
 	/** another utility method to make life easier for code document programmers
 	 * this one fixes the initial declared value of string attributes so that if
@@ -215,15 +214,15 @@ private:
 	  */
 	bool m_writeOutMethods;
 
-      /** set attributes of the node that represents this class
-         * in the XMI document.
-         */
-        virtual void setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement);
+	/** set attributes of the node that represents this class
+	 * in the XMI document.
+	 */
+	virtual void setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement);
 
-        /** set the class attributes of this object from
-         * the passed element node.
-         */
-        virtual void setAttributesFromNode ( QDomElement & element);
+	/** set the class attributes of this object from
+	 * the passed element node.
+	 */
+	virtual void setAttributesFromNode ( QDomElement & element);
 
 	/** init class fields */
 	void initFields (  );

@@ -34,7 +34,7 @@ class CodeClassField;
 
 class CodeClassFieldDeclarationBlock : public CodeBlockWithComments, public OwnedCodeBlock 
 {
-        friend class CodeClassField;
+	friend class CodeClassField;
 	Q_OBJECT
 public:
 
@@ -64,38 +64,37 @@ public:
 	// get the parent document
 	CodeDocument * getParentDocument ( );
 
-       /**
-         * Save the XMI representation of this object
-         * @return      bool    status of save
-         */
-        virtual bool saveToXMI ( QDomDocument & doc, QDomElement & root );
+	/**
+	 * Save the XMI representation of this object
+	 */
+	virtual void saveToXMI ( QDomDocument & doc, QDomElement & root );
 
-        /**
-         * load params from the appropriate XMI element node.
-         */
-        virtual void loadFromXMI ( QDomElement & root );
+	/**
+	 * load params from the appropriate XMI element node.
+	 */
+	virtual void loadFromXMI ( QDomElement & root );
 
-        /** set the class attributes from a passed object
-         */
-        virtual void setAttributesFromObject (TextBlock * obj);
+	/** set the class attributes from a passed object
+	 */
+	virtual void setAttributesFromObject (TextBlock * obj);
 
 protected:
 
 	virtual void release ();
 
-        /** set attributes of the node that represents this class
-         * in the XMI document.
-         */
-        virtual void setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement);
+	/** set attributes of the node that represents this class
+	 * in the XMI document.
+	 */
+	virtual void setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement);
 
-        /** set the class attributes of this object from
-         * the passed element node.
-         */
-        virtual void setAttributesFromNode ( QDomElement & element);
+	/** set the class attributes of this object from
+	 * the passed element node.
+	 */
+	virtual void setAttributesFromNode ( QDomElement & element);
 
 	/** this is called by syncToParent
 	 */
-        virtual void updateContent() = 0;
+	virtual void updateContent() = 0;
 
 	// so parent can actually release this block
 	void forceRelease ();

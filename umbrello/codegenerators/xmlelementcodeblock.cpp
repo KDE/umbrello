@@ -37,18 +37,13 @@ XMLElementCodeBlock::~XMLElementCodeBlock ( ) { }
 
 /**
  * Save the XMI representation of this object
- * @return      bool    status of save
  */
-bool XMLElementCodeBlock::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
-        bool status = true;
+void XMLElementCodeBlock::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
+	QDomElement blockElement = doc.createElement( "xmlelementblock" );
 
-        QDomElement blockElement = doc.createElement( "xmlelementblock" );
+	setAttributesOnNode(doc, blockElement);
 
-        setAttributesOnNode(doc, blockElement);
-
-        root.appendChild( blockElement );
-
-        return status;
+	root.appendChild( blockElement );
 }
 
 /**
@@ -56,7 +51,7 @@ bool XMLElementCodeBlock::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
  */
 void XMLElementCodeBlock::loadFromXMI ( QDomElement & root ) 
 {
-        setAttributesFromNode(root);
+	setAttributesFromNode(root);
 }
 
 /** set attributes of the node that represents this class
@@ -65,11 +60,11 @@ void XMLElementCodeBlock::loadFromXMI ( QDomElement & root )
 void XMLElementCodeBlock::setAttributesOnNode ( QDomDocument & doc, QDomElement & docElement)
 {
 
-        // superclass call
+	// superclass call
 	HierarchicalCodeBlock::setAttributesOnNode(doc,docElement);
 
-        // now set local attributes/fields
-        docElement.setAttribute("nodeName",getNodeName());
+	// now set local attributes/fields
+	docElement.setAttribute("nodeName",getNodeName());
 
 }
 
@@ -78,11 +73,11 @@ void XMLElementCodeBlock::setAttributesOnNode ( QDomDocument & doc, QDomElement 
  */
 void XMLElementCodeBlock::setAttributesFromNode ( QDomElement & root) {
 
-        // superclass call
+	// superclass call
 	HierarchicalCodeBlock::setAttributesFromNode(root);
 
-        // now set local attributes
-        setNodeName(root.attribute("nodeName","UNKNOWN"));
+	// now set local attributes
+	setNodeName(root.attribute("nodeName","UNKNOWN"));
 
 }
 
@@ -117,10 +112,10 @@ void XMLElementCodeBlock::updateContent ( )
 
 	QString endLine = getNewLineEndingChars();
 
-        QString nodeName = getNodeName();
+	QString nodeName = getNodeName();
 
 	// Now update START/ENDING Text
-        QString startText = "<"+nodeName;
+	QString startText = "<"+nodeName;
 	QString endText = "";
 
 	QPtrList<UMLAttribute> * alist = getAttributeList();

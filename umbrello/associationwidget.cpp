@@ -292,23 +292,23 @@ QString AssociationWidget::getRoleBDoc() const {
 
 void AssociationWidget::setName(QString strName) {
 	bool newLabel = false;
-        if(!m_pName) {
+	if(!m_pName) {
 		// Don't construct the FloatingText if the string is empty.
 		if (strName.isEmpty())
 			return;
 
 		newLabel = true;
-                m_pName = new FloatingText(m_pView, CalculateNameType(tr_Name), strName);
-                m_pName->setAssoc(this);
+		m_pName = new FloatingText(m_pView, CalculateNameType(tr_Name), strName);
+		m_pName->setAssoc(this);
 		m_pName->setUMLObject(m_role[B].m_pWidget->getUMLObject());
 		m_pView->addWidget(m_pName);
-        } else {
+	} else {
 		if (m_pName->getText() == "") {
 			newLabel = true;
 		}
-                m_pName->setText(strName);
-        }
-        m_pName->setActivated();
+		m_pName->setText(strName);
+	}
+	m_pName->setActivated();
 
 	// set attribute of UMLAssociation associated with this associationwidget
 	if (m_pAssociation)
@@ -318,10 +318,10 @@ void AssociationWidget::setName(QString strName) {
 		setTextPosition( tr_Name, calculateTextPosition(tr_Name) );
 	}
 
-        if(FloatingText::isTextValid(m_pName->getText()))
-                m_pName -> show();
-        else
-                m_pName -> hide();
+	if(FloatingText::isTextValid(m_pName->getText()))
+		m_pName -> show();
+	else
+		m_pName -> hide();
 
 }
 
@@ -528,33 +528,33 @@ void AssociationWidget::setChangeWidget(QString strChangeWidget, Role_Type role)
 	bool newLabel = false;
 	Text_Role tr = (role == A ? tr_ChangeA : tr_ChangeB);
 
-        if(!m_role[role].m_pChangeWidget) {
+	if(!m_role[role].m_pChangeWidget) {
 		// Don't construct the FloatingText if the string is empty.
 		if (strChangeWidget.isEmpty())
 			return;
 
 		newLabel = true;
-                m_role[role].m_pChangeWidget = new FloatingText(m_pView, tr, strChangeWidget);
-                m_role[role].m_pChangeWidget->setAssoc(this);
+		m_role[role].m_pChangeWidget = new FloatingText(m_pView, tr, strChangeWidget);
+		m_role[role].m_pChangeWidget->setAssoc(this);
 		m_pView->addWidget(m_role[role].m_pChangeWidget);
 		m_role[role].m_pChangeWidget->setPreText("{"); // all types have this
 		m_role[role].m_pChangeWidget->setPostText("}"); // all types have this
-        } else {
+	} else {
 		if (m_role[role].m_pChangeWidget->getText() == "") {
 			newLabel = true;
 		}
-                m_role[role].m_pChangeWidget->setText(strChangeWidget);
-        }
-        m_role[role].m_pChangeWidget->setActivated();
+		m_role[role].m_pChangeWidget->setText(strChangeWidget);
+	}
+	m_role[role].m_pChangeWidget->setActivated();
 
 	if (newLabel) {
 		setTextPosition( tr, calculateTextPosition(tr) );
 	}
 
-        if(FloatingText::isTextValid(m_role[role].m_pChangeWidget->getText()))
-                m_role[role].m_pChangeWidget -> show();
-        else
-                m_role[role].m_pChangeWidget -> hide();
+	if(FloatingText::isTextValid(m_role[role].m_pChangeWidget->getText()))
+		m_role[role].m_pChangeWidget -> show();
+	else
+		m_role[role].m_pChangeWidget -> hide();
 }
 
 Changeability_Type AssociationWidget::getChangeabilityB() const
@@ -644,18 +644,18 @@ bool AssociationWidget::activate() {
 		}
 	}
 
-        if( m_pName != NULL ) {
+	if( m_pName != NULL ) {
 		m_pName->setAssoc(this);
-                m_pName->setRole( CalculateNameType(tr_Name) );
+		m_pName->setRole( CalculateNameType(tr_Name) );
 
 		if ( FloatingText::isTextValid(m_pName->getText()) ) {
 			m_pName-> show();
 		} else {
 			m_pName-> hide();
 		}
-                if( m_pView->getType() == dt_Collaboration && m_pName) {
-                        m_pName->setUMLObject(m_role[B].m_pWidget->getUMLObject());
-                }
+		if( m_pView->getType() == dt_Collaboration && m_pName) {
+			m_pName->setUMLObject(m_role[B].m_pWidget->getUMLObject());
+		}
 		m_pName->activate();
 		calculateNameTextSegment();
 	}
@@ -869,7 +869,7 @@ void AssociationWidget::setUMLAssociation (UMLAssociation * assoc)
 
 		m_pAssociation->nrof_parent_widgets++;
 		connect(m_pAssociation, SIGNAL(modified()), this,
-                                        SLOT(mergeUMLRepresentationIntoAssociationData()));
+					SLOT(mergeUMLRepresentationIntoAssociationData()));
 	}
 
 }
@@ -1072,17 +1072,17 @@ void AssociationWidget::calculateEndingPoints() {
 	/*
 	 * For each UMLWidget the diagram is divided in four regions by its diagonals
 	 * as indicated below
-	 *                                         Region 2
-	 *                                    \                /
-	 *                                      \            /
-	 *                                        +--------+
-	 *                                        | \    / |
-	 *                           Region 1     |   ><   |    Region 3
-	 *                                        | /    \ |
-	 *                                        +--------+
-	 *                                      /            \
-	 *                                    /                \
-	 *                                         Region 4
+	 *					 Region 2
+	 *				    \		/
+	 *				      \	    /
+	 *					+--------+
+	 *					| \    / |
+	 *			   Region 1     |   ><   |    Region 3
+	 *					| /    \ |
+	 *					+--------+
+	 *				      /	    \
+	 *				    /		\
+	 *					 Region 4
 	 *
 	 * Each diagonal is defined by two corners of the bounding rectangle
 	 *
@@ -1228,35 +1228,35 @@ void AssociationWidget::mergeUMLRepresentationIntoAssociationData()
 	// block signals until finished
 	uml->blockSignals(true);
 
-        // floating text widgets
-        FloatingText *text = getNameWidget();
-        if (text)
-                text->setText(uml->getName());
+	// floating text widgets
+	FloatingText *text = getNameWidget();
+	if (text)
+		text->setText(uml->getName());
 
-        text = getRoleAWidget();
-        if (text)
-        {
-                text->setText(uml->getRoleNameA());
-                // it doesnt make sense to have visibility wi/o Rolename
-                // so we only set it when its in here. Probably should have
-                // error condition thrown when visb is set but rolename isnt.
-                setVisibilityA(uml->getVisibilityA());
-        }
+	text = getRoleAWidget();
+	if (text)
+	{
+		text->setText(uml->getRoleNameA());
+		// it doesnt make sense to have visibility wi/o Rolename
+		// so we only set it when its in here. Probably should have
+		// error condition thrown when visb is set but rolename isnt.
+		setVisibilityA(uml->getVisibilityA());
+	}
 
-        text = getRoleBWidget();
-        if (text)
-        {
-                text->setText(uml->getRoleNameB());
-                setVisibilityB(uml->getVisibilityB());
-        }
+	text = getRoleBWidget();
+	if (text)
+	{
+		text->setText(uml->getRoleNameB());
+		setVisibilityB(uml->getVisibilityB());
+	}
 
-        text = getMultiAWidget();
-        if (text)
-                text->setText(uml->getMultiA());
+	text = getMultiAWidget();
+	if (text)
+		text->setText(uml->getMultiA());
 
-        text = getMultiBWidget();
-        if (text)
-                text->setText(uml->getMultiB());
+	text = getMultiBWidget();
+	if (text)
+		text->setText(uml->getMultiB());
 
 	uml->blockSignals(false);
 
@@ -1477,26 +1477,26 @@ QPoint AssociationWidget::calculatePointAtDistance(QPoint P1, QPoint P2, float D
 	/*
 	  the distance D between points (x1, y1) and (x3, y3) has the following formula:
 	      ---     ------------------------------
-	  D =    \   /           2             2
-	          \ /   (x3 - x1)  +  (y3 - y1)
+	  D =    \   /	   2	     2
+		  \ /   (x3 - x1)  +  (y3 - y1)
 
 	  D, x1 and y1 are known and the point (x3, y3) is inside line (x1,y1)(x2,y2), so if the
 	  that line has the formula y = mx + b
 	  then y3 = m*x3 + b
 
-	   2             2             2
+	   2	     2	     2
 	  D   = (x3 - x1)  +  (y3 - y1)
 
-	   2       2                 2      2                 2
+	   2       2		 2      2		 2
 	  D    = x3    - 2*x3*x1 + x1   + y3   - 2*y3*y1  + y1
 
-	   2       2       2       2                  2
+	   2       2       2       2		  2
 	  D    - x1    - y1    = x3    - 2*x3*x1  + y3   - 2*y3*y1
 
-	   2       2       2       2                          2
+	   2       2       2       2			  2
 	  D    - x1    - y1    = x3    - 2*x3*x1  + (m*x3 + b)  - 2*(m*x3 + b)*y1
 
-	   2       2       2              2       2        2
+	   2       2       2	      2       2	2
 	  D    - x1    - y1   + 2*b*y1 - b   =  (m  + 1)*x3   + (-2*x1 + 2*m*b -2*m*y1)*x3
 
 	   2      2       2       2
@@ -1512,18 +1512,18 @@ QPoint AssociationWidget::calculatePointAtDistance(QPoint P1, QPoint P2, float D
 	   2
 	  A * x3 + B * x3 - C = 0
 
-	                         ---------------
-	             -B +  ---  /  2
-	                      \/  B   - 4*A*C
+				 ---------------
+		     -B +  ---  /  2
+			      \/  B   - 4*A*C
 	  sol_1  = --------------------------------
-	                       2*A
+			       2*A
 
 
-	                         ---------------
-	             -B -  ---  /  2
-	                      \/  B   - 4*A*C
+				 ---------------
+		     -B -  ---  /  2
+			      \/  B   - 4*A*C
 	  sol_2  = --------------------------------
-	                       2*A
+			       2*A
 
 
 	  then in the distance formula we have only one variable x3 and that is easy
@@ -1596,35 +1596,35 @@ QPoint AssociationWidget::calculatePointAtDistanceOnPerpendicular(QPoint P1, QPo
 	  the distance D between points (x2, y2) and (x3, y3) has the following formula:
 
 	       ---     ------------------------------
-	  D =     \   /           2             2
-	           \ /   (x3 - x2)  +  (y3 - y2)
+	  D =     \   /	   2	     2
+		   \ /   (x3 - x2)  +  (y3 - y2)
 
 	  D, x2 and y2 are known and line P2P3 is perpendicular to line (x1,y1)(x2,y2), so if the
 	  line P1P2 has the formula y = m*x + b,
-	  then          (x1 - x2)
-	          m =  -----------    , because it is perpendicular to line P1P2
-	                (y2 - y1)
+	  then	  (x1 - x2)
+		  m =  -----------    , because it is perpendicular to line P1P2
+			(y2 - y1)
 
 	  also y2 = m*x2 + b
 	  => b = y2 - m*x2
 
 	  then P3 = (x3, m*x3 + b)
 
-	   2             2            2
+	   2	     2	    2
 	  D  = (x3 - x2)  + (y3 - y2)
 
-	   2     2                 2      2                 2
+	   2     2		 2      2		 2
 	  D  = x3    - 2*x3*x2 + x2   + y3   - 2*y3*y2  + y2
 
-	   2       2       2       2                  2
+	   2       2       2       2		  2
 	  D    - x2    - y2    = x3    - 2*x3*x2  + y3   - 2*y3*y2
 
 
 
-	   2       2       2       2                          2
+	   2       2       2       2			  2
 	  D    - x2    - y2    = x3    - 2*x3*x2  + (m*x3 + b)  - 2*(m*x3 + b)*y2
 
-	   2       2       2                2       2        2
+	   2       2       2		2       2	2
 	  D    - x2    - y2     + 2*b*y2 - b   =  (m  + 1)*x3     + (-2*x2 + 2*m*b -2*m*y2)*x3
 
 	   2      2       2       2
@@ -1640,18 +1640,18 @@ QPoint AssociationWidget::calculatePointAtDistanceOnPerpendicular(QPoint P1, QPo
 	  A * x3 + B * x3 - C = 0
 
 
-	                         ---------------
-	             -B +  ---  /  2
-	                      \/  B   - 4*A*C
+				 ---------------
+		     -B +  ---  /  2
+			      \/  B   - 4*A*C
 	  sol_1  = --------------------------------
-	                       2*A
+			       2*A
 
 
-	                         ---------------
+				 ---------------
 	  sol_2  =   -B -  ---  /  2
-	                      \/  B   - 4*A*C
-	           --------------------------------
-	                       2*A
+			      \/  B   - 4*A*C
+		   --------------------------------
+			       2*A
 
 	  then in the distance formula we have only one variable x3 and that is easy
 	  to calculate
@@ -2931,9 +2931,8 @@ UMLWidget* AssociationWidget::findWidget( int id, const UMLWidgetList& widgets,
 	return NULL;
 }
 
-bool AssociationWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
+void AssociationWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement assocElement = qDoc.createElement( "UML:AssocWidget" );
-	bool status = true;
 
 	if (m_pAssociation) {
 		assocElement.setAttribute( "xmi.id", m_pAssociation->getID() );
@@ -2956,28 +2955,27 @@ bool AssociationWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 	m_LinePath.saveToXMI( qDoc, assocElement );
 
 	if( m_pName )
-		status =  m_pName -> saveToXMI( qDoc, assocElement );
+		m_pName -> saveToXMI( qDoc, assocElement );
 
 	if( m_role[A].m_pMulti )
-		status =  m_role[A].m_pMulti -> saveToXMI( qDoc, assocElement );
+		m_role[A].m_pMulti -> saveToXMI( qDoc, assocElement );
 
 	if( m_role[B].m_pMulti )
-		status = m_role[B].m_pMulti -> saveToXMI( qDoc, assocElement );
+		m_role[B].m_pMulti -> saveToXMI( qDoc, assocElement );
 
 	if( m_role[A].m_pRole )
-		status = m_role[A].m_pRole -> saveToXMI( qDoc, assocElement );
+		m_role[A].m_pRole -> saveToXMI( qDoc, assocElement );
 
 	if( m_role[B].m_pRole )
-		status = m_role[B].m_pRole -> saveToXMI( qDoc, assocElement );
+		m_role[B].m_pRole -> saveToXMI( qDoc, assocElement );
 
 	if( m_role[A].m_pChangeWidget )
-		status =  m_role[A].m_pChangeWidget -> saveToXMI( qDoc, assocElement );
+		m_role[A].m_pChangeWidget -> saveToXMI( qDoc, assocElement );
 
 	if( m_role[B].m_pChangeWidget )
-		status =  m_role[B].m_pChangeWidget -> saveToXMI( qDoc, assocElement );
+		m_role[B].m_pChangeWidget -> saveToXMI( qDoc, assocElement );
 
 	qElement.appendChild( assocElement );
-	return status;
 }
 
 bool AssociationWidget::loadFromXMI( QDomElement & qElement,
@@ -2986,24 +2984,24 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
 {
 
 	// load child widgets first
-        QString widgetaid = qElement.attribute( "widgetaid", "-1" );
-        QString widgetbid = qElement.attribute( "widgetbid", "-1" );
-        int aId = widgetaid.toInt();
-        int bId = widgetbid.toInt();
-        UMLWidget *pWidgetA = findWidget( aId, widgets, pMessages );
-        if (!pWidgetA) {
+	QString widgetaid = qElement.attribute( "widgetaid", "-1" );
+	QString widgetbid = qElement.attribute( "widgetbid", "-1" );
+	int aId = widgetaid.toInt();
+	int bId = widgetbid.toInt();
+	UMLWidget *pWidgetA = findWidget( aId, widgets, pMessages );
+	if (!pWidgetA) {
 		kdError() << "AssociationWidget::loadFromXMI(): "
 			  << "cannot find widget for roleA id " << aId << endl;
 		return false;
-        }
-        UMLWidget *pWidgetB = findWidget( bId, widgets, pMessages );
-        if (!pWidgetB) {
+	}
+	UMLWidget *pWidgetB = findWidget( bId, widgets, pMessages );
+	if (!pWidgetB) {
 		kdError() << "AssociationWidget::loadFromXMI(): "
 			  << "cannot find widget for roleB id " << bId << endl;
 		return false;
-        }
-        setWidgetA(pWidgetA);
-        setWidgetB(pWidgetB);
+	}
+	setWidgetA(pWidgetA);
+	setWidgetB(pWidgetB);
 
 	QString id = qElement.attribute( "xmi.id", "-1" );
 	bool oldStyleLoad = false;
@@ -3017,7 +3015,7 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
 		// Create the UMLAssociation if both roles are UML objects;
 		// else load the info locally.
 
-                QString type = qElement.attribute( "type", "-1" );
+		QString type = qElement.attribute( "type", "-1" );
 		Uml::Association_Type aType = (Uml::Association_Type) type.toInt();
 		if (UMLAssociation::assocTypeHasUMLRepresentation(aType)) {
 			// lack of an association in our widget AND presence of
@@ -3046,8 +3044,8 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
 					UMLWidget *tmpWidget = pWidgetA;
 					pWidgetA = pWidgetB;
 					pWidgetB = tmpWidget;
-				        setWidgetA(pWidgetA);
-				        setWidgetB(pWidgetB);
+					setWidgetA(pWidgetA);
+					setWidgetB(pWidgetB);
 					umlRoleA = pWidgetA->getUMLObject();
 					umlRoleB = pWidgetB->getUMLObject();
 				}
@@ -3067,7 +3065,7 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
 		setRoleADoc( qElement.attribute("roleAdoc", "") );
 		setRoleBDoc( qElement.attribute("roleBdoc", "") );
 
-                setAssocType(aType);
+		setAssocType(aType);
 
 		// visibilty defaults to Public if it cant set it here..
 		QString visibilityA = qElement.attribute( "visibilityA", "0");
@@ -3191,7 +3189,7 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
 					ft->setAssoc(this);
 					ft->setActivated();
 					setTextPosition( tr_Name, calculateTextPosition(tr_Name) );
-        				if(FloatingText::isTextValid(ft->getText()))
+					if(FloatingText::isTextValid(ft->getText()))
 						ft -> show();
 					else
 						ft -> hide();

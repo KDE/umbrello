@@ -85,7 +85,7 @@ public:
 	/**
 	 * Saves to the <UML:EnumWidget> XMI element.
 	 */
-	bool saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
+	void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
 	/**
 	 * Loads from an <UML:EnumWidget> XMI element.

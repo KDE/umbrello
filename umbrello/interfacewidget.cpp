@@ -301,9 +301,9 @@ bool InterfaceWidget::getDrawAsCircle() const {
 	return m_bDrawAsCircle;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-bool InterfaceWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
+void InterfaceWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement conceptElement = qDoc.createElement("interfacewidget");
-	bool status = UMLWidget::saveToXMI(qDoc, conceptElement);
+	UMLWidget::saveToXMI(qDoc, conceptElement);
 
 	conceptElement.setAttribute("showoperations", m_bShowOperations);
 	conceptElement.setAttribute("showopsigs", m_ShowOpSigs);
@@ -311,8 +311,6 @@ bool InterfaceWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	conceptElement.setAttribute("showscope", m_bShowScope);
 	conceptElement.setAttribute("drawascircle", m_bDrawAsCircle);
 	qElement.appendChild(conceptElement);
-
-	return status;
 }
 
 bool InterfaceWidget::loadFromXMI( QDomElement & qElement ) {

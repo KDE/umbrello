@@ -60,7 +60,7 @@ bool CodeAccessorMethod::parentIsAttribute( ) {
  */
 /*
 UMLObject * CodeAccessorMethod::getParentObject ( ) {
-        return getParentClassField()->getParentObject();
+	return getParentClassField()->getParentObject();
 }
 */
 
@@ -91,7 +91,7 @@ void CodeAccessorMethod::release () {
 // ok, a method so the parent can force it to release
 void CodeAccessorMethod::forceRelease () {
 	if(m_parentclassfield)
-        	m_parentclassfield->disconnect(this);
+		m_parentclassfield->disconnect(this);
 	CodeMethodBlock::release();
 }
 
@@ -99,23 +99,18 @@ void CodeAccessorMethod::forceRelease () {
  * load params from the appropriate XMI element node.
  */
 void CodeAccessorMethod::loadFromXMI ( QDomElement & root ) {
-        setAttributesFromNode(root);
+	setAttributesFromNode(root);
 }
 
 /**
  * Save the XMI representation of this object
- * @return      bool    status of save
  */
-bool CodeAccessorMethod::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
-        bool status = true;
+void CodeAccessorMethod::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
+	QDomElement docElement = doc.createElement( "codeaccessormethod" );
 
-        QDomElement docElement = doc.createElement( "codeaccessormethod" );
+	setAttributesOnNode(doc, docElement);
 
-        setAttributesOnNode(doc, docElement);
-
-        root.appendChild( docElement );
-
-        return status;
+	root.appendChild( docElement );
 }
 
 /** set attributes of the node that represents this class
@@ -124,12 +119,12 @@ bool CodeAccessorMethod::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
 void CodeAccessorMethod::setAttributesOnNode ( QDomDocument & doc, QDomElement & elem) 
 {
 
-        // set super-class attributes
-        CodeMethodBlock::setAttributesOnNode(doc, elem);
+	// set super-class attributes
+	CodeMethodBlock::setAttributesOnNode(doc, elem);
 
-        // set local class attributes
-        elem.setAttribute("accessType",getType());
-        elem.setAttribute("classfield_id",getParentClassField()->getID());
+	// set local class attributes
+	elem.setAttribute("accessType",getType());
+	elem.setAttribute("classfield_id",getParentClassField()->getID());
 
 }
 
@@ -138,8 +133,8 @@ void CodeAccessorMethod::setAttributesOnNode ( QDomDocument & doc, QDomElement &
   */
 void CodeAccessorMethod::setAttributesFromNode ( QDomElement & root) {
 
-        // set attributes from the XMI
-        CodeMethodBlock::setAttributesFromNode(root); // superclass load
+	// set attributes from the XMI
+	CodeMethodBlock::setAttributesFromNode(root); // superclass load
 
 /*
 	// I dont believe this is needed for a load from XMI. We never delete
@@ -149,38 +144,38 @@ void CodeAccessorMethod::setAttributesFromNode ( QDomElement & root) {
 	// clipping and pasting of these methods between classes/ classfields
 	// then we may have problems (ugh.. I cant imagine allowing this, but
 	// perhaps someone will see a need to allow it. -b.t.)
-        QString id = root.attribute("classfield_id","-1");
-        CodeClassField * newCF = 0;
+	QString id = root.attribute("classfield_id","-1");
+	CodeClassField * newCF = 0;
 	ClassifierCodeDocument * cdoc = dynamic_cast<ClassifierCodeDocument*>(getParentDocument());
 	if(cdoc)
-        	newCF = cdoc->findCodeClassFieldFromParentID (id.toInt());
+		newCF = cdoc->findCodeClassFieldFromParentID (id.toInt());
 
-        m_parentclassfield->disconnect(this); // always disconnect 
+	m_parentclassfield->disconnect(this); // always disconnect 
 	if(newCF) 
 		initFields(newCF);
 	else
 		kdError()<<"ERROR: code accessor method cant load parent codeclassfield, corrupt file?"<<endl;
 
 */
-        // now load/set other local attributes
-        setType((AccessorType) root.attribute("accessType","0").toInt());
+	// now load/set other local attributes
+	setType((AccessorType) root.attribute("accessType","0").toInt());
  
 }
 
 void CodeAccessorMethod::setAttributesFromObject(TextBlock * obj)
 {
 
-        CodeMethodBlock::setAttributesFromObject(obj);
+	CodeMethodBlock::setAttributesFromObject(obj);
 
-        CodeAccessorMethod * mb = dynamic_cast<CodeAccessorMethod*>(obj);
-        if(mb)
-        {
-        	m_parentclassfield->disconnect(this); // always disconnect 
+	CodeAccessorMethod * mb = dynamic_cast<CodeAccessorMethod*>(obj);
+	if(mb)
+	{
+		m_parentclassfield->disconnect(this); // always disconnect 
 
 		initFields(mb->getParentClassField());
 
-                setType(mb->getType());
-        }
+		setType(mb->getType());
+	}
 
 }
 
@@ -190,7 +185,7 @@ void CodeAccessorMethod::initFields(CodeClassField * parentClassField ) {
 	m_accessorType = GET;
 	m_canDelete = false; // we cant delete these with the codeeditor, delete the UML operation instead.
 
-        connect(m_parentclassfield,SIGNAL(modified()),this,SLOT(syncToParent()));
+	connect(m_parentclassfield,SIGNAL(modified()),this,SLOT(syncToParent()));
 }
 
 #include "codeaccessormethod.moc"

@@ -42,17 +42,12 @@ CodeComment::~CodeComment ( ) { }
 
 /**
  * Save the XMI representation of this object
- * @return      bool    status of save
  */
-bool CodeComment::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
-        bool status = true;
-
-        QDomElement blockElement = doc.createElement( "codecomment" );
+void CodeComment::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
+	QDomElement blockElement = doc.createElement( "codecomment" );
 	setAttributesOnNode(doc, blockElement); // as we added no additional fields to this class we may 
-                                                // just use parent TextBlock method 
-        root.appendChild( blockElement );
-
-        return status;
+						// just use parent TextBlock method 
+	root.appendChild( blockElement );
 }
 
 /**

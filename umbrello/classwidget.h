@@ -121,7 +121,7 @@ public:
 	/**
 	 * Creates the <UML:ClassWidget> XML element.
 	 */
-	bool saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+	void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 	/**
 	 * Loads the <UML:ClassWidget> XML element.

@@ -191,14 +191,13 @@ bool ActivityWidget::isActivity(WorkToolBar::ToolBar_Buttons tbb,
 	return status;
 }
 
-bool ActivityWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
+void ActivityWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement activityElement = qDoc.createElement( "UML:ActivityWidget" );
-	bool status = UMLWidget::saveToXMI( qDoc, activityElement );
+	UMLWidget::saveToXMI( qDoc, activityElement );
 	activityElement.setAttribute( "activityname", m_Name );
 	activityElement.setAttribute( "documentation", m_Doc );
 	activityElement.setAttribute( "activitytype", m_ActivityType );
 	qElement.appendChild( activityElement );
-	return status;
 }
 
 bool ActivityWidget::loadFromXMI( QDomElement & qElement ) {

@@ -233,9 +233,9 @@ bool StateWidget::isState(WorkToolBar::ToolBar_Buttons tbb, StateType& resultTyp
 	return status;
 }
 
-bool StateWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
+void StateWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement stateElement = qDoc.createElement( "UML:StateWidget" );
-	bool status = UMLWidget::saveToXMI( qDoc, stateElement );
+	UMLWidget::saveToXMI( qDoc, stateElement );
 	stateElement.setAttribute( "statename", m_Name );
 	stateElement.setAttribute( "documentation", m_Doc );
 	stateElement.setAttribute( "statetype", m_StateType );
@@ -248,7 +248,6 @@ bool StateWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	}//end for
 	stateElement.appendChild( activitiesElement );
 	qElement.appendChild( stateElement );
-	return status;
 }
 
 bool StateWidget::loadFromXMI( QDomElement & qElement ) {

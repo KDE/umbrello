@@ -552,9 +552,9 @@ void MessageWidget::setWidgetB(ObjectWidget * wb) {
 	m_pWB = wb;
 }
 
-bool MessageWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
+void MessageWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement messageElement = qDoc.createElement( "UML:MessageWidget" );
-	bool status = UMLWidget::saveToXMI( qDoc, messageElement );
+	UMLWidget::saveToXMI( qDoc, messageElement );
 	//messageElement.setAttribute( "textid", m_nTextID );
 	messageElement.setAttribute( "widgetaid", m_pWA->getLocalID() );
 	messageElement.setAttribute( "widgetbid", m_pWB->getLocalID() );
@@ -562,7 +562,6 @@ bool MessageWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	messageElement.setAttribute( "seqnum", m_SequenceNumber );
 	messageElement.setAttribute( "sequencemessagetype", m_sequenceMessageType );
 	qElement.appendChild( messageElement );
-	return status;
 }
 
 bool MessageWidget::loadFromXMI(QDomElement& qElement) {

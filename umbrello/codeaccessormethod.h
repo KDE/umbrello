@@ -29,7 +29,7 @@ class UMLRole;
 
 class CodeAccessorMethod : public CodeMethodBlock
 {
-        friend class CodeClassField;
+	friend class CodeClassField;
 	Q_OBJECT
 public:
 
@@ -75,38 +75,37 @@ public:
 
 	bool parentIsAttribute();
 
-        /**
-         * Save the XMI representation of this object
-         * @return      bool    status of save
-         */
-        virtual bool saveToXMI ( QDomDocument & doc, QDomElement & root );
+	/**
+	 * Save the XMI representation of this object
+	 */
+	virtual void saveToXMI ( QDomDocument & doc, QDomElement & root );
 
-        /**
-         * load params from the appropriate XMI element node.
-         */
-        virtual void loadFromXMI ( QDomElement & root );
+	/**
+	 * load params from the appropriate XMI element node.
+	 */
+	virtual void loadFromXMI ( QDomElement & root );
 
-        /** set the class attributes from a passed object
-         */
-        virtual void setAttributesFromObject (TextBlock * obj);
+	/** set the class attributes from a passed object
+	 */
+	virtual void setAttributesFromObject (TextBlock * obj);
 
 protected:
 
 	virtual void release ();
 
        /** set attributes of the node that represents this class
-         * in the XMI document.
-         */
-        virtual void setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement);
+	 * in the XMI document.
+	 */
+	virtual void setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement);
 
-        /** set the class attributes of this object from
-         * the passed element node.
-         */
-        virtual void setAttributesFromNode ( QDomElement & element);
+	/** set the class attributes of this object from
+	 * the passed element node.
+	 */
+	virtual void setAttributesFromNode ( QDomElement & element);
 
-        virtual void updateMethodDeclaration() = 0;
+	virtual void updateMethodDeclaration() = 0;
 
-        virtual void updateContent() = 0;
+	virtual void updateContent() = 0;
 
 	// a method so the parent code classfield can force code block to release
 	void forceRelease ();

@@ -183,7 +183,7 @@ void NoteWidget::drawText(QPainter & p, int offsetX, int offsetY) {
 					p.drawText( offsetX + textX, offsetY + textY , textWidth, fontHeight, AlignLeft, word );
 				}
 			}//end if
-                        textX = margin;
+			textX = margin;
 			textY += fontHeight;
 			word = "";
 		} else if( c.isSpace() ) {
@@ -232,12 +232,11 @@ void NoteWidget::drawText(QPainter & p, int offsetX, int offsetY) {
 	}//end if
 }
 
-bool NoteWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
+void NoteWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement noteElement = qDoc.createElement( "UML:NoteWidget" );
-	bool status = UMLWidget::saveToXMI( qDoc, noteElement );
+	UMLWidget::saveToXMI( qDoc, noteElement );
 	noteElement.setAttribute( "text", m_Text );
 	qElement.appendChild( noteElement );
-	return status;
 }
 
 bool NoteWidget::loadFromXMI( QDomElement & qElement ) {

@@ -137,14 +137,14 @@ bool LinePath::isPoint( int pointIndex, QPoint point, unsigned short delta) {
 
 	/* check if the given point is the start or end point of the line */
 	if ( (
-	            abs( line -> endPoint().x() - point.x() ) <= delta
-	            &&
-	            abs( line -> endPoint().y() - point.y() ) <= delta
-	        ) || (
-	            abs( line -> startPoint().x() - point.x() ) <= delta
-	            &&
-	            abs( line -> startPoint().y() - point.y() ) <= delta
-	        ) )
+		    abs( line -> endPoint().x() - point.x() ) <= delta
+		    &&
+		    abs( line -> endPoint().y() - point.y() ) <= delta
+		) || (
+		    abs( line -> startPoint().x() - point.x() ) <= delta
+		    &&
+		    abs( line -> startPoint().y() - point.y() ) <= delta
+		) )
 		return true;
 
 	/* check if the given point is the start or end point of the line */
@@ -856,7 +856,7 @@ void LinePath::dumpPoints () {
 	}
 }
 
-bool LinePath::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
+void LinePath::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	int count = m_LineList.count();
 	QPoint point = getPoint( 0 );
 	QDomElement lineElement = qDoc.createElement( "linepath" );
@@ -877,7 +877,6 @@ bool LinePath::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 		lineElement.appendChild( pointElement );
 	}
 	qElement.appendChild( lineElement );
-	return true;
 }
 
 bool LinePath::loadFromXMI( QDomElement & qElement ) {

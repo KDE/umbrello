@@ -106,27 +106,27 @@ public:
 
 	/**
 	 * Get a list of codeoperation objects held by this classifiercodedocument.
-         * @return      QPtrList<CodeOperation>
-         */
-        QPtrList<CodeOperation> getCodeOperations ( );
+	 * @return      QPtrList<CodeOperation>
+	 */
+	QPtrList<CodeOperation> getCodeOperations ( );
 
 	/** Get a list of codeclassifier objects held by this classifiercodedocument that meet the passed criteria.
-         * @return      QPtrList<CodeClassField>
+	 * @return      QPtrList<CodeClassField>
 	 */
 	QPtrList<CodeClassField> getSpecificClassFields (CodeClassField::ClassFieldType cfType);
 
 	/** Get a list of codeclassifier objects held by this classifiercodedocument that meet the passed criteria.
-         * @return      QPtrList<CodeClassField>
+	 * @return      QPtrList<CodeClassField>
 	 */
 	QPtrList<CodeClassField> getSpecificClassFields (CodeClassField::ClassFieldType cfType, bool isStatic);
 
 	/** Get a list of codeclassifier objects held by this classifiercodedocument that meet the passed criteria.
-         * @return      QPtrList<CodeClassField>
+	 * @return      QPtrList<CodeClassField>
 	 */
 	QPtrList<CodeClassField> getSpecificClassFields (CodeClassField::ClassFieldType cfType, Uml::Scope visibility);
 
 	/** Get a list of codeclassifier objects held by this classifiercodedocument that meet the passed criteria.
-         * @return      QPtrList<CodeClassField>
+	 * @return      QPtrList<CodeClassField>
 	 */
 	QPtrList<CodeClassField> getSpecificClassFields (CodeClassField::ClassFieldType cfType, bool isStatic, Uml::Scope visibility);
 
@@ -146,9 +146,9 @@ public:
 	void addCodeClassFieldMethods(QPtrList<CodeClassField> &list );
 
        /**
-         * Utility method to appropriately populate the code classfields for this document.
-         */
-        virtual void initCodeClassFields ( );
+	 * Utility method to appropriately populate the code classfields for this document.
+	 */
+	virtual void initCodeClassFields ( );
 
 	// cause this classifier code document to synchronize to current policy
 	virtual void synchronize();
@@ -158,16 +158,15 @@ public:
  	 */
 	virtual bool addCodeOperation (CodeOperation *opBlock) = 0;
 
-       /**
-         * Save the XMI representation of this object
-         * @return      bool    status of save
-         */
-        virtual bool saveToXMI ( QDomDocument & doc, QDomElement & root );
+	/**
+	 * Save the XMI representation of this object
+	 */
+	virtual void saveToXMI ( QDomDocument & doc, QDomElement & root );
 
-        /**
-         * load params from the appropriate XMI element node.
-         */
-        virtual void loadFromXMI ( QDomElement & root );
+	/**
+	 * load params from the appropriate XMI element node.
+	 */
+	virtual void loadFromXMI ( QDomElement & root );
 
 	virtual CodeClassFieldDeclarationBlock * newDeclarationCodeBlock (CodeClassField * cf) = 0;
 	virtual CodeAccessorMethod * newCodeAccessorMethod ( CodeClassField *cp, CodeAccessorMethod::AccessorType type) = 0;
@@ -181,34 +180,34 @@ protected:
 	 */
 	void loadClassFieldsFromXMI( QDomElement & childElem);
 
-        /**
-         * @return      CodeClassField
-         * @param       attribute attribute which is parent of this class field.
-         */
-        virtual CodeClassField * newCodeClassField (UMLAttribute * attribute ) = 0;
+	/**
+	 * @return      CodeClassField
+	 * @param       attribute attribute which is parent of this class field.
+	 */
+	virtual CodeClassField * newCodeClassField (UMLAttribute * attribute ) = 0;
 
-        /**
-         * @return      CodeClassField
-         * @param       role 
-         */
-        virtual CodeClassField * newCodeClassField (UMLRole * role ) = 0;
+	/**
+	 * @return      CodeClassField
+	 * @param       role 
+	 */
+	virtual CodeClassField * newCodeClassField (UMLRole * role ) = 0;
 
-        /** set attributes of the node that represents this class
-         * in the XMI document.
-         */
-        virtual void setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement);
+	/** set attributes of the node that represents this class
+	 * in the XMI document.
+	 */
+	virtual void setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement);
 
-        /** set the class attributes of this object from
-         * the passed element node.
-         */
-        virtual void setAttributesFromNode ( QDomElement & element);
+	/** set the class attributes of this object from
+	 * the passed element node.
+	 */
+	virtual void setAttributesFromNode ( QDomElement & element);
 
 	// find a specific textblock held by any code class field in this document 
 	// by its tag
 	TextBlock * findCodeClassFieldTextBlockByTag (QString tag);
 
-        // add the declaration text blocks for various classfields
-        void declareClassFields (QPtrList<CodeClassField> & list , CodeGenObjectWithTextBlocks * parent);
+	// add the declaration text blocks for various classfields
+	void declareClassFields (QPtrList<CodeClassField> & list , CodeGenObjectWithTextBlocks * parent);
 
 	virtual void updateContent( ) = 0;
  
@@ -218,7 +217,7 @@ protected:
 	// IF the classifier object is modified, this will get called.
 	// Possible mods include changing the filename and package
 	// based on values the classifier has.
-        virtual void syncNamesToParent( );
+	virtual void syncNamesToParent( );
 
 private:
 
@@ -233,16 +232,16 @@ private:
 	void updateOperations( );
 
 	/**
-         * Maps CodeClassFields to UMLObjects. Used to prevent re-adding a class
+	 * Maps CodeClassFields to UMLObjects. Used to prevent re-adding a class
      	 * field.
-         */
-        QMap<UMLObject *,CodeClassField *> * m_classFieldMap;
+	 */
+	QMap<UMLObject *,CodeClassField *> * m_classFieldMap;
 
-        /**
-         * Init from a UMLClassifier object.
-         * @param       classifier 
-         */
-        void init ( UMLClassifier * classifier );
+	/**
+	 * Init from a UMLClassifier object.
+	 * @param       classifier 
+	 */
+	void init ( UMLClassifier * classifier );
 
 public slots:
 

@@ -55,11 +55,10 @@ public:
 	// Other
 	//  
 
-        /**
-         * Save the XMI representation of this object
-         * @return      bool    status of save
-         */
-        virtual bool saveToXMI ( QDomDocument & doc, QDomElement & root );
+	/**
+	 * Save the XMI representation of this object
+	 */
+	virtual void saveToXMI ( QDomDocument & doc, QDomElement & root );
 
 	/**
 	 * @return	QString
@@ -67,8 +66,8 @@ public:
 	QString toString ( );
 
        /** UnFormat a long text string. Typically, this means removing
-         *  the indentaion (linePrefix) and/or newline chars from each line.
-         */
+	 *  the indentaion (linePrefix) and/or newline chars from each line.
+	 */
 	virtual QString unformatText ( const QString & text, const QString & indent = "" );
 
 	/** a special version here because we want to not only indent
@@ -77,14 +76,14 @@ public:
 	virtual QString getNewEditorLine ( int amount );
 
 	/** Ush. These are terrifically bad and must one day go away.
-         * Both methods indicate the range of lines in this textblock
-         * which may be edited by the codeeditor (assuming that any are
-         * actually editable). The default case is no lines are editable.
-         * The line numbering starts with '0' and a '-1' means no line
-         * qualifies.
-         */
-        virtual int firstEditableLine();
-        virtual int lastEditableLine();
+	 * Both methods indicate the range of lines in this textblock
+	 * which may be edited by the codeeditor (assuming that any are
+	 * actually editable). The default case is no lines are editable.
+	 * The line numbering starts with '0' and a '-1' means no line
+	 * qualifies.
+	 */
+	virtual int firstEditableLine();
+	virtual int lastEditableLine();
 
 
 protected:

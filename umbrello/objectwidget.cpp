@@ -337,16 +337,15 @@ bool ObjectWidget::messageOverlap(int y, MessageWidget* messageWidget) {
 	return false;
 }
 
-bool ObjectWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
+void ObjectWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement objectElement = qDoc.createElement( "UML:ObjectWidget" );
-	bool status = UMLWidget::saveToXMI( qDoc, objectElement );
+	UMLWidget::saveToXMI( qDoc, objectElement );
 	objectElement.setAttribute( "instancename", m_InstanceName );
 	objectElement.setAttribute( "drawasactor", m_bDrawAsActor );
 	objectElement.setAttribute( "multipleinstance", m_bMultipleInstance );
 	objectElement.setAttribute( "localid", m_nLocalID );
 	objectElement.setAttribute( "decon", m_bShowDestruction );
 	qElement.appendChild( objectElement );
-	return status;
 }
 
 bool ObjectWidget::loadFromXMI( QDomElement & qElement ) {

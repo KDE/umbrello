@@ -109,7 +109,7 @@ public:
 	/**
 	 * Saves to the <UML:NoteWidget> XMI element.
 	 */
-	bool saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+	void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 	/**
 	 * Loads a <UML:NoteWidget> XMI element.

@@ -68,7 +68,7 @@ public:
 	/**
 	 * Saves to the <UML:PackageWidget> XMI element.
 	 */
-	bool saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
+	void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
 	/**
 	 * Loads from a <UML:PackageWidget> XMI element.
