@@ -32,7 +32,7 @@ UMLAttribute::UMLAttribute( const UMLObject *parent, QString Name, Uml::IDType i
 		UMLDoc *pDoc = UMLApp::app()->getDocument();
 		m_pSecondary = pDoc->findUMLObject(type);
 		if (m_pSecondary == NULL) {
-			if (type.contains( QRegExp("\\W") ))
+			if (type.contains( QRegExp("[\\*\\&]") ))
 				m_pSecondary = pDoc->createUMLObject(Uml::ot_Datatype, type);
 			else
 				m_pSecondary = pDoc->createUMLObject(Uml::ot_Class, type);

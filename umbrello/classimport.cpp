@@ -22,6 +22,7 @@
 #include "classparser/lexer.h"
 #include "classparser/driver.h"
 #include "classparser/cpptree2uml.h"
+#include <kmessagebox.h>
 #include <kdebug.h>
 #include <klocale.h>
 #include <qregexp.h>
@@ -78,13 +79,32 @@ UMLObject *ClassImport::createUMLObject(Uml::Object_Type type,
 		int isPointer = typeName.contains('*');
 		typeName.replace(QRegExp("^const\\s+"), "");
 		typeName.replace(QRegExp("[^:\\w].*$"), "");
-		if (isPointer) {
-			UMLObject *origType = m_umldoc->findUMLObject(typeName,
-								      Uml::ot_UMLObject,
-								      parentPkg);
-			if (origType == NULL)
-				origType = m_umldoc->createUMLObject(Uml::ot_Class, typeName, parentPkg);
-			o = m_umldoc->createUMLObject(Uml::ot_Datatype, name, parentPkg);
+		o = m_umldoc->findUMLObject(typeName,
+					    Uml::ot_UMLObject,
+					    parentPkg);
+		if (o == NULL) {
+			if (typeName.contains("::")) {
+				QStringList components = QStringList::split("::", typeName);
+				typeName = components.back();
+				components.pop_back();
+				while ( components.count() ) {
+					QString scopeName = components.front();
+					components.pop_front();
+					int wantClass = KMessageBox::questionYesNo(NULL,
+						i18n("Treat the scope %1 as a class? (Select No for package)").arg(scopeName),
+						i18n("C++ import requests your help"));
+					Uml::Object_Type ot = (wantClass == KMessageBox::Yes ? Uml::ot_Class : Uml::ot_Package);
+					o = m_umldoc->createUMLObject(ot, scopeName, parentPkg);
+					parentPkg = dynamic_cast<UMLPackage*>(o);  //static_cast?
+				}
+			}
+			if (isPointer)
+				type = Uml::ot_Datatype;
+			else if (type == Uml::ot_UMLObject)
+				type = Uml::ot_Class;
+			o = m_umldoc->createUMLObject(type, typeName, parentPkg);
+		}
+		/* if (isPointer) {
 			UMLDatatype *dt = static_cast<UMLDatatype*>(o);
 			UMLClassifier *c = dynamic_cast<UMLClassifier*>(origType);
 			if (c)
@@ -94,10 +114,10 @@ UMLObject *ClassImport::createUMLObject(Uml::Object_Type type,
 					  << "origType " << typeName << " is not a UMLClassifier"
 					  << endl;
 			dt->setIsReference();
-		} else
-			o = m_umldoc->createUMLObject(type, name, parentPkg);
-	} else
+		}  */
+	} else if (parentPkg) {
 		o->setUMLPackage(parentPkg);
+	}
 	QString strippedComment = doxyComment(comment);
 	if (! strippedComment.isEmpty()) {
 		o->setDoc(strippedComment);
@@ -127,7 +147,7 @@ UMLObject* ClassImport::insertAttribute(UMLClass *o, Uml::Scope scope, QString n
 	UMLAttribute *attr = ((UMLClass*)o)->addAttribute(name);
 	attr->setScope(scope);
 	attr->setStatic(isStatic);
-	UMLObject *obj = m_umldoc->findUMLObject(type, Uml::ot_UMLObject, o);
+	UMLObject *obj = createUMLObject(Uml::ot_UMLObject, type);
 	UMLClassifier *classifier = dynamic_cast<UMLClassifier*>(obj);
 	if (classifier == NULL) {
 		kdDebug() << "ClassImport::insertAttribute(" << name
@@ -171,7 +191,8 @@ void ClassImport::insertMethod(UMLClass *klass, UMLOperation *op,
 					 bool isStatic, bool isAbstract,
 					 QString comment /* = "" */) {
 	op->setScope(scope);
-	op->setTypeName(type);
+	UMLObject *typeObj = createUMLObject(Uml::ot_UMLObject, type);
+	op->setType(dynamic_cast<UMLClassifier*>(typeObj));
 	op->setStatic(isStatic);
 	op->setAbstract(isAbstract);
 	klass->addOperation(op);
