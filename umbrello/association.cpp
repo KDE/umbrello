@@ -33,7 +33,7 @@ UMLAssociation::UMLAssociation( UMLDoc* parent,
 UMLAssociation::~UMLAssociation( ) {
 	// delete ourselves from the parent document
 	kdDebug() << k_funcinfo << "destructor!!" << endl;
-	((UMLDoc *)parent())->removeAssociation(this);
+	//((UMLDoc *)parent())->removeAssociation(this);
 }
 
 bool UMLAssociation::operator==(UMLAssociation &rhs) {
