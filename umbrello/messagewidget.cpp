@@ -220,24 +220,11 @@ void MessageWidget::drawCreation(QPainter& p, int offsetX, int offsetY) {
 	int x1 = m_pOw[Uml::A]->getX();
 	int x2 = m_pOw[Uml::B]->getX();
 	int w = getWidth() - 1;
-	int h = getHeight() - 1;
+	//int h = getHeight() - 1;
 	bool messageOverlapsA = m_pOw[Uml::A] -> messageOverlap( getY(), this );
 	//bool messageOverlapsB = m_pOw[Uml::B] -> messageOverlap( getY(), this );
 
-	if(m_pOw[Uml::A] == m_pOw[Uml::B]) {
-		if (messageOverlapsA)  {
-			offsetX += 7;
-			w -= 7;
-		}
-		p.drawLine(offsetX, offsetY, offsetX + w, offsetY);
-		p.drawLine(offsetX + w, offsetY, offsetX + w, offsetY + h - 3);
-		p.drawLine(offsetX + w, offsetY + h - 3, offsetX, offsetY + h - 3);
-		p.drawLine(offsetX, offsetY + h - 3, offsetX + 4, offsetY + h);
-		p.drawLine(offsetX, offsetY + h - 3, offsetX + 4, offsetY + h - 6);
-		if (messageOverlapsA)  {
-			offsetX -= 7; //reset for drawSelected()
-		}
-	} else if(x1 < x2) {
+	if (x1 < x2) {
 		if (messageOverlapsA)  {
 			offsetX += 7;
 			w -= 7;
@@ -600,15 +587,7 @@ void MessageWidget::calculateDimensionsCreation() {
 
 	int widgetWidth = 0;
 	int widgetHeight = 8;
-	if( m_pOw[Uml::A] == m_pOw[Uml::B] ) {
-		widgetWidth = 50;
-		x = x1;
-		if( height() < 20 ) {
-			widgetHeight = 20;
-		} else {
-			widgetHeight = height();
-		}
-	} else if( x1 < x2 ) {
+	if ( x1 < x2 ) {
 		x = x1;
 		widgetWidth = x2 - x1;
 	} else {
@@ -697,6 +676,10 @@ void MessageWidget::mouseMoveEvent(QMouseEvent *me) {
 	setX( newX );
 	setY( newY );
 	adjustAssocs(newX, newY);
+	if (m_sequenceMessageType == Uml::sequence_message_creation) {
+		const int objWidgetHalfHeight = m_pOw[Uml::B]->getHeight() / 2;
+		m_pOw[Uml::B]->UMLWidget::setY( newY - objWidgetHalfHeight );
+	}
 	moveEvent(0);
 }
 
@@ -720,7 +703,8 @@ void MessageWidget::setSelected(bool _select) {
 }
 
 int MessageWidget::getMinHeight() {
-	if( !m_pOw[Uml::A] || !m_pOw[Uml::B] ) {
+	if (!m_pOw[Uml::A] || !m_pOw[Uml::B] ||
+	    m_sequenceMessageType == Uml::sequence_message_creation) {
 		return 0;
 	}
 	int heightA = m_pOw[Uml::A]->getY() + m_pOw[Uml::A]->getHeight();
