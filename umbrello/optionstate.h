@@ -44,6 +44,7 @@ namespace Settings {
 
 	//public structs
 	struct GeneralState {
+		bool undo;
 		bool autosave;
 		int time;        //old autosave time, kept for compatibility
 		int autosavetime;

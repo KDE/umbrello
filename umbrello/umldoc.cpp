@@ -2409,7 +2409,8 @@ void UMLDoc::signalDiagramRenamed(UMLView * pView ) {
 }
 
 void UMLDoc::addToUndoStack() {
-	if (!m_bLoading) {
+	Settings::OptionState optionState = getOptionState();
+	if (!m_bLoading && optionState.generalState.undo) {
 		QBuffer* buffer = new QBuffer();
 		buffer->open(IO_WriteOnly);
 		QDataStream* undoData = new QDataStream();

@@ -421,6 +421,7 @@ void UMLApp::saveOptions() {
 	config->setGroup( "General Options" );
 	config->writeEntry( "Geometry", size() );
 
+	config->writeEntry( "undo", optionState.generalState.undo );
 	config->writeEntry( "autosave", optionState.generalState.autosave );
 	config->writeEntry( "time", optionState.generalState.time );
 	config->writeEntry( "autosavetime", optionState.generalState.autosavetime );
@@ -925,7 +926,7 @@ void UMLApp::slotPrefs() {
 	config->setGroup("TipOfDay");
 	optionState.generalState.tip = config->readBoolEntry( "RunOnStart", true );
 
-	dlg = new SettingsDlg(this, optionState, generatorDict, activeLanguage, getGenerator());
+	dlg = new SettingsDlg(this, &optionState, generatorDict, activeLanguage, getGenerator());
 	connect(dlg, SIGNAL( applyClicked() ), this, SLOT( slotApplyPrefs() ) );
 
 	if ( dlg->exec() == QDialog::Accepted && dlg->getChangesApplied() ) {
@@ -938,9 +939,6 @@ void UMLApp::slotPrefs() {
 
 void UMLApp::slotApplyPrefs() {
 	if (dlg) {
-		//changes made so let the document tell the views
-		optionState = dlg->getOptionState();
-
 		/* we need this to sync both values */
 		config -> setGroup( "TipOfDay");
 		config -> writeEntry( "RunOnStart", optionState.generalState.tip );
@@ -982,6 +980,7 @@ bool UMLApp::editCutCopy( bool bFromView ) {
 
 void UMLApp::readOptionState() {
 	config -> setGroup( "General Options" );
+	optionState.generalState.undo = config -> readBoolEntry( "undo", true );
 	optionState.generalState.autosave = config -> readBoolEntry( "autosave", true );
 	optionState.generalState.time = config -> readNumEntry( "time", 0 ); //old autosavetime value kept for compatibility
 	optionState.generalState.autosavetime = config -> readNumEntry( "autosavetime", 0 );

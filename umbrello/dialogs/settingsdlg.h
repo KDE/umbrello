@@ -44,14 +44,11 @@ class SettingsDlg : public KDialogBase {
 	Q_OBJECT
 
 public:
-	SettingsDlg( QWidget * parent, Settings::OptionState state,
+	SettingsDlg( QWidget * parent, Settings::OptionState *state,
 		     QDict<GeneratorInfo> ldict, QString activeLanguage, CodeGenerator * gen);
 	~SettingsDlg();
 
 	//public methods
-	Settings::OptionState getOptionState() {
-		return m_OptionState;
-	}
 	bool getChangesApplied() {
 		return m_bChangesApplied;
 	}
@@ -81,12 +78,14 @@ private:
 	;//end struct UIWidgets
 
 	struct GeneralWidgets {
+		QGroupBox * miscGB;
 		QGroupBox * autosaveGB;
 		QGroupBox * startupGB;
 
 		KIntSpinBox * timeISB;
 		KComboBox * diagramKB;
 
+		QCheckBox * undoCB;
 		QCheckBox * autosaveCB;
 		QCheckBox * logoCB;
 		QCheckBox * tipCB;
@@ -143,7 +142,7 @@ private:
 	GeneralWidgets m_GeneralWidgets;
 	UIWidgets m_UiWidgets;
 	ClassWidgets m_ClassWidgets;
-	Settings::OptionState m_OptionState;
+	Settings::OptionState *m_pOptionState;
 	CodeGenerationOptionsPage * m_pCodeGenPage;
 	CodeViewerOptionsPage * m_pCodeViewerPage;
 

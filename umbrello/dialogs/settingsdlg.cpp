@@ -20,19 +20,19 @@
 #include "codegenerationoptionspage.h"
 #include "codevieweroptionspage.h"
 
-SettingsDlg::SettingsDlg( QWidget * parent, Settings::OptionState state,
+SettingsDlg::SettingsDlg( QWidget * parent, Settings::OptionState *state,
 			  QDict<GeneratorInfo> ldict, QString activeLanguage, CodeGenerator * gen)
 	: KDialogBase( IconList, i18n("Umbrello Setup"),
         Help | Default | Apply | Ok | Cancel, Ok, parent, 0, true, true ) {
 	m_bChangesApplied = false;
-	m_OptionState = state;
+	m_pOptionState = state;
 	setHelp( "umbrello/index.html", QString::null );
 	setupGeneralPage();
 	setupFontPage();
 	setupUIPage();
 	setupClassPage();
 	setupCodeGenPage(gen, ldict, activeLanguage);
-	setupCodeViewerPage(state.codeViewerState);
+	setupCodeViewerPage(state->codeViewerState);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 SettingsDlg::~SettingsDlg() {}
@@ -49,7 +49,7 @@ void SettingsDlg::setupUIPage() {
 	m_UiWidgets.lineColorL = new QLabel( i18n("Line color:"), m_UiWidgets.colorGB );
 	colorLayout -> addWidget( m_UiWidgets.lineColorL, 0, 0 );
 
-	m_UiWidgets.lineColorB = new KColorButton( m_OptionState.uiState.lineColor, m_UiWidgets.colorGB );
+	m_UiWidgets.lineColorB = new KColorButton( m_pOptionState->uiState.lineColor, m_UiWidgets.colorGB );
 	colorLayout -> addWidget( m_UiWidgets.lineColorB, 0, 1 );
 
 	m_UiWidgets.lineDefaultB = new QPushButton( i18n("D&efault Color"), m_UiWidgets.colorGB );
@@ -58,7 +58,7 @@ void SettingsDlg::setupUIPage() {
 	m_UiWidgets.fillColorL = new QLabel( i18n("Fill color:"), m_UiWidgets.colorGB );
 	colorLayout -> addWidget( m_UiWidgets.fillColorL, 1, 0 );
 
-	m_UiWidgets.fillColorB = new KColorButton( m_OptionState.uiState.fillColor, m_UiWidgets.colorGB );
+	m_UiWidgets.fillColorB = new KColorButton( m_pOptionState->uiState.fillColor, m_UiWidgets.colorGB );
 	colorLayout -> addWidget( m_UiWidgets.fillColorB, 1, 1 );
 
 	m_UiWidgets.fillDefaultB = new QPushButton( i18n("De&fault Color"), m_UiWidgets.colorGB );
@@ -68,9 +68,9 @@ void SettingsDlg::setupUIPage() {
 	m_UiWidgets.lineWidthL = new QLabel( i18n("Line width:"), m_UiWidgets.colorGB );
 	colorLayout -> addWidget( m_UiWidgets.lineWidthL, 2, 0 );
 
-	// Low-Limit: 0, High-Limit: 10, Step: 1, Initial-Val: m_OptionState.uiState.lineWidth
+	// Low-Limit: 0, High-Limit: 10, Step: 1, Initial-Val: m_pOptionState->uiState.lineWidth
 	// Number-Base: 10 ( decimal ), Parent: m_UiWidgets.colorGB
-	m_UiWidgets.lineWidthB = new KIntSpinBox( 0, 10, 1, m_OptionState.uiState.lineWidth, 10, m_UiWidgets.colorGB );
+	m_UiWidgets.lineWidthB = new KIntSpinBox( 0, 10, 1, m_pOptionState->uiState.lineWidth, 10, m_UiWidgets.colorGB );
 	colorLayout -> addWidget( m_UiWidgets.lineWidthB, 2, 1 );
 
 	m_UiWidgets.lineWidthDefaultB = new QPushButton( i18n("D&efault Width"), m_UiWidgets.colorGB );
@@ -81,7 +81,7 @@ void SettingsDlg::setupUIPage() {
 	m_UiWidgets.useFillColorCB = new QCheckBox( i18n("&Use fill color"), m_UiWidgets.colorGB );
 	colorLayout -> setRowStretch( 3, 2 );
 	colorLayout -> addWidget( m_UiWidgets.useFillColorCB, 3, 0 );
-	m_UiWidgets.useFillColorCB -> setChecked( m_OptionState.uiState.useFillColor );
+	m_UiWidgets.useFillColorCB -> setChecked( m_pOptionState->uiState.useFillColor );
 
 	//connect button signals up
 	connect( m_UiWidgets.lineDefaultB, SIGNAL(clicked()), this, SLOT(slotLineBClicked()) );
@@ -93,6 +93,17 @@ void SettingsDlg::setupGeneralPage() {
 
 	QVBox * page = addVBoxPage( i18n("General"), i18n("General Settings"), DesktopIcon( "misc")  );
 
+	// Set up undo setting
+	m_GeneralWidgets.miscGB = new QGroupBox( i18n("Miscellaneous"), page );
+
+	QGridLayout * miscLayout = new QGridLayout( m_GeneralWidgets.miscGB, 1, 1 );
+	miscLayout -> setSpacing( spacingHint() );
+	miscLayout -> setMargin( fontMetrics().height() );
+
+	m_GeneralWidgets.undoCB = new QCheckBox( i18n("Enable undo"), m_GeneralWidgets.miscGB );
+	m_GeneralWidgets.undoCB -> setChecked( m_pOptionState->generalState.undo );
+	miscLayout -> addWidget( m_GeneralWidgets.undoCB, 0, 0 );
+
 	//setup autosave settings
 
 	m_GeneralWidgets.autosaveGB = new QGroupBox( i18n("Autosave"), page );
@@ -102,14 +113,14 @@ void SettingsDlg::setupGeneralPage() {
 	autosaveLayout -> setMargin( fontMetrics().height() );
 
 	m_GeneralWidgets.autosaveCB = new QCheckBox( i18n("E&nable autosave"), m_GeneralWidgets.autosaveGB );
-	m_GeneralWidgets.autosaveCB -> setChecked( m_OptionState.generalState.autosave );
+	m_GeneralWidgets.autosaveCB -> setChecked( m_pOptionState->generalState.autosave );
 	autosaveLayout -> addWidget( m_GeneralWidgets.autosaveCB, 0, 0 );
 
 	m_GeneralWidgets.autosaveL = new QLabel( i18n("Select auto-save time interval (mins):"), m_GeneralWidgets.autosaveGB );
 	autosaveLayout -> addWidget( m_GeneralWidgets.autosaveL, 1, 0 );
 
-	m_GeneralWidgets.timeISB = new KIntSpinBox( 1, 600, 1, m_OptionState.generalState.autosavetime, 10, m_GeneralWidgets.autosaveGB );
-	m_GeneralWidgets.timeISB -> setEnabled( m_OptionState.generalState.autosave );
+	m_GeneralWidgets.timeISB = new KIntSpinBox( 1, 600, 1, m_pOptionState->generalState.autosavetime, 10, m_GeneralWidgets.autosaveGB );
+	m_GeneralWidgets.timeISB -> setEnabled( m_pOptionState->generalState.autosave );
 	autosaveLayout -> addWidget( m_GeneralWidgets.timeISB, 1, 1 );
 
 	// 2004-05-17 Achim Spangler: Allow definition of Suffix for autosave
@@ -117,7 +128,7 @@ void SettingsDlg::setupGeneralPage() {
 	m_GeneralWidgets.autosaveSuffixL = new QLabel( i18n("Set Autosave suffix:"), m_GeneralWidgets.autosaveGB );
 	autosaveLayout -> addWidget( m_GeneralWidgets.autosaveSuffixL, 2, 0 );
 	m_GeneralWidgets.autosaveSuffixT = new QLineEdit( ".xmi", m_GeneralWidgets.autosaveGB );
-	m_GeneralWidgets.autosaveSuffixT->setText( m_OptionState.generalState.autosavesuffix );
+	m_GeneralWidgets.autosaveSuffixT->setText( m_pOptionState->generalState.autosavesuffix );
 	autosaveLayout -> addWidget( m_GeneralWidgets.autosaveSuffixT, 2, 1 );
 
 	//setup startup settings
@@ -128,15 +139,15 @@ void SettingsDlg::setupGeneralPage() {
 	startupLayout -> setMargin( fontMetrics().height() );
 
 	m_GeneralWidgets.logoCB = new QCheckBox( i18n("Sta&rtup logo"), m_GeneralWidgets.startupGB );
-	m_GeneralWidgets.logoCB -> setChecked( m_OptionState.generalState.logo );
+	m_GeneralWidgets.logoCB -> setChecked( m_pOptionState->generalState.logo );
 	startupLayout -> addWidget( m_GeneralWidgets.logoCB, 0, 0 );
 
 	m_GeneralWidgets.tipCB = new QCheckBox( i18n("&Tip of the day"), m_GeneralWidgets.startupGB );
-	m_GeneralWidgets.tipCB -> setChecked( m_OptionState.generalState.tip );
+	m_GeneralWidgets.tipCB -> setChecked( m_pOptionState->generalState.tip );
 	startupLayout -> addWidget( m_GeneralWidgets.tipCB, 0, 1 );
 
 	m_GeneralWidgets.loadlastCB = new QCheckBox( i18n("&Load last project"), m_GeneralWidgets.startupGB );
-	m_GeneralWidgets.loadlastCB -> setChecked( m_OptionState.generalState.loadlast );
+	m_GeneralWidgets.loadlastCB -> setChecked( m_pOptionState->generalState.loadlast );
 	startupLayout -> addWidget( m_GeneralWidgets.loadlastCB, 1, 0 );
 
 	m_GeneralWidgets.startL = new QLabel( i18n("Start new project with:"), m_GeneralWidgets.startupGB );
@@ -153,7 +164,7 @@ void SettingsDlg::setupGeneralPage() {
 	for( int i=0; i<9; i++)
 		m_GeneralWidgets.diagramKB -> insertItem( diagrams[i] );
 
-	m_GeneralWidgets.diagramKB -> setCurrentItem( (int) m_OptionState.generalState.diagram );
+	m_GeneralWidgets.diagramKB -> setCurrentItem( (int) m_pOptionState->generalState.diagram );
 	connect( m_GeneralWidgets.autosaveCB, SIGNAL(clicked()), this, SLOT(slotAutosaveCBClicked()) );
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -168,32 +179,32 @@ void SettingsDlg::setupClassPage() {
 	visibilityLayout -> setMargin(  fontMetrics().height()  );
 
 	m_ClassWidgets.showScopeCB = new QCheckBox(i18n("Show &visibility"), m_ClassWidgets.visibilityGB);
-	m_ClassWidgets.showScopeCB -> setChecked(  m_OptionState.classState.showScope );
+	m_ClassWidgets.showScopeCB -> setChecked(  m_pOptionState->classState.showScope );
 	visibilityLayout -> addWidget( m_ClassWidgets.showScopeCB, 0, 0 );
 
 	m_ClassWidgets.showAttsCB = new QCheckBox( i18n("Show attributes"), m_ClassWidgets.visibilityGB );
-	m_ClassWidgets.showAttsCB -> setChecked(  m_OptionState.classState.showAtts );
+	m_ClassWidgets.showAttsCB -> setChecked(  m_pOptionState->classState.showAtts );
 	visibilityLayout -> addWidget( m_ClassWidgets.showAttsCB, 0, 1 );
 
 	m_ClassWidgets.showOpsCB = new QCheckBox( i18n("Show operations"), m_ClassWidgets.visibilityGB );
-	m_ClassWidgets.showOpsCB -> setChecked(  m_OptionState.classState.showOps );
+	m_ClassWidgets.showOpsCB -> setChecked(  m_pOptionState->classState.showOps );
 	visibilityLayout -> addWidget( m_ClassWidgets.showOpsCB, 1, 0 );
 
 	m_ClassWidgets.showStereotypeCB = new QCheckBox( i18n("Show stereot&ype"), m_ClassWidgets.visibilityGB );
-	m_ClassWidgets.showStereotypeCB -> setChecked(  m_OptionState.classState.showStereoType );
+	m_ClassWidgets.showStereotypeCB -> setChecked(  m_pOptionState->classState.showStereoType );
 	visibilityLayout -> addWidget( m_ClassWidgets.showStereotypeCB, 1, 1 );
 
 	m_ClassWidgets.showAttSigCB = new QCheckBox(i18n("Show attribute signature"), m_ClassWidgets.visibilityGB);
-	m_ClassWidgets.showAttSigCB -> setChecked(   m_OptionState.classState.showAttSig );
+	m_ClassWidgets.showAttSigCB -> setChecked(   m_pOptionState->classState.showAttSig );
 	visibilityLayout -> addWidget( m_ClassWidgets.showAttSigCB, 2, 0 );
 
 
 	m_ClassWidgets.showPackageCB = new QCheckBox(i18n("Show package"), m_ClassWidgets.visibilityGB);
-	m_ClassWidgets.showPackageCB -> setChecked(  m_OptionState.classState.showPackage );
+	m_ClassWidgets.showPackageCB -> setChecked(  m_pOptionState->classState.showPackage );
 	visibilityLayout -> addWidget( m_ClassWidgets.showPackageCB, 2, 1 );
 
 	m_ClassWidgets.showOpSigCB = new QCheckBox( i18n("Show operation signature"), m_ClassWidgets.visibilityGB );
-	m_ClassWidgets.showOpSigCB -> setChecked(  m_OptionState.classState.showOpSig );
+	m_ClassWidgets.showOpSigCB -> setChecked(  m_pOptionState->classState.showOpSig );
 	visibilityLayout -> addWidget( m_ClassWidgets.showOpSigCB, 3, 0 );
 	visibilityLayout -> setRowStretch( 3, 1 );
 
@@ -212,14 +223,14 @@ void SettingsDlg::setupClassPage() {
 	m_ClassWidgets.m_pAttribScopeCB->insertItem( tr2i18n( "Public" ) );
 	m_ClassWidgets.m_pAttribScopeCB->insertItem( tr2i18n( "Private" ) );
 	m_ClassWidgets.m_pAttribScopeCB->insertItem( tr2i18n( "Protected" ) );
-	m_ClassWidgets.m_pAttribScopeCB->setCurrentItem((m_OptionState.classState.defaultAttributeScope - 200));
+	m_ClassWidgets.m_pAttribScopeCB->setCurrentItem((m_pOptionState->classState.defaultAttributeScope - 200));
         scopeLayout -> addWidget( m_ClassWidgets.m_pAttribScopeCB, 0, 1 );
 
         m_ClassWidgets.m_pOperationScopeCB = new QComboBox(m_ClassWidgets.scopeGB);
 	m_ClassWidgets.m_pOperationScopeCB->insertItem( tr2i18n( "Public" ) );
 	m_ClassWidgets.m_pOperationScopeCB->insertItem( tr2i18n( "Private" ) );
 	m_ClassWidgets.m_pOperationScopeCB->insertItem( tr2i18n( "Protected" ) );
-	m_ClassWidgets.m_pOperationScopeCB->setCurrentItem((m_OptionState.classState.defaultOperationScope - 200));
+	m_ClassWidgets.m_pOperationScopeCB->setCurrentItem((m_pOptionState->classState.defaultOperationScope - 200));
         scopeLayout -> addWidget( m_ClassWidgets.m_pOperationScopeCB, 1, 1 );
 
 }
@@ -310,37 +321,38 @@ void SettingsDlg::applyPage( Settings::Page page ) {
 	m_bChangesApplied = true;
 	switch( page ) {
 		case Settings::page_general:
-			m_OptionState.generalState.autosave = m_GeneralWidgets.autosaveCB -> isChecked();
-			m_OptionState.generalState.autosavetime = m_GeneralWidgets.timeISB -> value();
+			m_pOptionState->generalState.undo = m_GeneralWidgets.undoCB -> isChecked();
+			m_pOptionState->generalState.autosave = m_GeneralWidgets.autosaveCB -> isChecked();
+			m_pOptionState->generalState.autosavetime = m_GeneralWidgets.timeISB -> value();
 			// 2004-05-17 Achim Spangler: retrieve Suffix setting from dialog entry
-			m_OptionState.generalState.autosavesuffix = m_GeneralWidgets.autosaveSuffixT -> text();
-			m_OptionState.generalState.logo = m_GeneralWidgets.logoCB -> isChecked();
-			m_OptionState.generalState.tip = m_GeneralWidgets.tipCB -> isChecked();
-			m_OptionState.generalState.loadlast = m_GeneralWidgets.loadlastCB -> isChecked();
-			m_OptionState.generalState.diagram  = ( Settings::Diagram ) m_GeneralWidgets.diagramKB -> currentItem();
+			m_pOptionState->generalState.autosavesuffix = m_GeneralWidgets.autosaveSuffixT -> text();
+			m_pOptionState->generalState.logo = m_GeneralWidgets.logoCB -> isChecked();
+			m_pOptionState->generalState.tip = m_GeneralWidgets.tipCB -> isChecked();
+			m_pOptionState->generalState.loadlast = m_GeneralWidgets.loadlastCB -> isChecked();
+			m_pOptionState->generalState.diagram  = ( Settings::Diagram ) m_GeneralWidgets.diagramKB -> currentItem();
 			break;
 
 		case Settings::page_font:
-			m_OptionState.uiState.font = m_FontWidgets.chooser -> font();
+			m_pOptionState->uiState.font = m_FontWidgets.chooser -> font();
 			break;
 
 		case Settings::page_UI:
-			m_OptionState.uiState.useFillColor = m_UiWidgets.useFillColorCB -> isChecked();
-			m_OptionState.uiState.fillColor = m_UiWidgets.fillColorB -> color();
-			m_OptionState.uiState.lineColor = m_UiWidgets.lineColorB -> color();
-			m_OptionState.uiState.lineWidth = m_UiWidgets.lineWidthB -> value();
+			m_pOptionState->uiState.useFillColor = m_UiWidgets.useFillColorCB -> isChecked();
+			m_pOptionState->uiState.fillColor = m_UiWidgets.fillColorB -> color();
+			m_pOptionState->uiState.lineColor = m_UiWidgets.lineColorB -> color();
+			m_pOptionState->uiState.lineWidth = m_UiWidgets.lineWidthB -> value();
 			break;
 
 		case Settings::page_class:
-			m_OptionState.classState.showScope = m_ClassWidgets.showScopeCB -> isChecked();
-			m_OptionState.classState.showAtts = m_ClassWidgets.showAttsCB -> isChecked();
-			m_OptionState.classState.showOps = m_ClassWidgets.showOpsCB -> isChecked();
-			m_OptionState.classState.showStereoType = m_ClassWidgets.showStereotypeCB -> isChecked();
-			m_OptionState.classState.showAttSig = m_ClassWidgets.showAttSigCB -> isChecked();
-			m_OptionState.classState.showOpSig = m_ClassWidgets.showOpSigCB -> isChecked();
-			m_OptionState.classState.showPackage = m_ClassWidgets.showPackageCB -> isChecked();
-			m_OptionState.classState.defaultAttributeScope = (Uml::Scope) (m_ClassWidgets.m_pAttribScopeCB->currentItem() + 200);
-			m_OptionState.classState.defaultOperationScope = (Uml::Scope) (m_ClassWidgets.m_pOperationScopeCB->currentItem() + 200);
+			m_pOptionState->classState.showScope = m_ClassWidgets.showScopeCB -> isChecked();
+			m_pOptionState->classState.showAtts = m_ClassWidgets.showAttsCB -> isChecked();
+			m_pOptionState->classState.showOps = m_ClassWidgets.showOpsCB -> isChecked();
+			m_pOptionState->classState.showStereoType = m_ClassWidgets.showStereotypeCB -> isChecked();
+			m_pOptionState->classState.showAttSig = m_ClassWidgets.showAttSigCB -> isChecked();
+			m_pOptionState->classState.showOpSig = m_ClassWidgets.showOpSigCB -> isChecked();
+			m_pOptionState->classState.showPackage = m_ClassWidgets.showPackageCB -> isChecked();
+			m_pOptionState->classState.defaultAttributeScope = (Uml::Scope) (m_ClassWidgets.m_pAttribScopeCB->currentItem() + 200);
+			m_pOptionState->classState.defaultOperationScope = (Uml::Scope) (m_ClassWidgets.m_pOperationScopeCB->currentItem() + 200);
 			break;
 
 		case Settings::page_codegen:
@@ -349,7 +361,7 @@ void SettingsDlg::applyPage( Settings::Page page ) {
 
 		case Settings::page_codeview:
 			m_pCodeViewerPage->apply();
-			m_OptionState.codeViewerState = m_pCodeViewerPage->getOptions();
+			m_pOptionState->codeViewerState = m_pCodeViewerPage->getOptions();
 			break;
 	}
 }
