@@ -67,7 +67,7 @@ public:
 	 *
 	 * @return	The type name of the UMLClassifierListItem.
 	 */
-	QString getTypeName();
+	virtual QString getTypeName();
 
 	/**
 	 * Sets the type name of the UMLClassifierListItem.
