@@ -166,7 +166,7 @@ void ClassifierListPage::slotClicked(QListBoxItem*item) {
 		m_pItemListLB->clearSelection();
 		return;
 	}
-	QString name = m_pItemListLB ->currentText();
+
 	UMLClassifierListItem* listItem = m_pItemList->at( m_pItemListLB->index(item) );
 
 	//now update screen
@@ -328,7 +328,7 @@ void ClassifierListPage::slotDownClicked() {
 void ClassifierListPage::slotDoubleClick( QListBoxItem* item ) {
 	if( !item )
 		return;
-	QString name = item->text();
+
 	UMLClassifierListItem* listItem  = m_pItemList->at( m_pItemListLB->index( item ) );
 	if( !listItem ) {
 		kdDebug() << "can't find att from selection" << endl;
