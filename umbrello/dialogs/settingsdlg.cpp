@@ -351,4 +351,8 @@ QString SettingsDlg::getCodeGenerationLanguage() {
 	return m_pCodeGenPage->getCodeGenerationLanguage();
 }
 
+void SettingsDlg::setCodeGenerator(CodeGenerator *gen) {
+	m_pCodeGenPage->setCodeGenerator(gen);
+}
+
 #include "settingsdlg.moc"

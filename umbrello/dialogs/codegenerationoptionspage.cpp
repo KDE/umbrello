@@ -46,33 +46,48 @@ void CodeGenerationOptionsPage::init( CodeGenerator * gen,
                                     )
 {
 
-	if (gen ) {
+	m_pCodeGenerator = 0;
+	m_parentPolicy = 0;
+	m_pCodePolicyPage = 0;
 
-		CodeGenerationPolicy *policy = gen->getPolicy();
+	if(gen)
+		setCodeGenerator(gen);
 
-        	m_forceDoc->setChecked(policy->getCodeVerboseDocumentComments());
-       		m_forceSections->setChecked(policy->getCodeVerboseSectionComments());
+	setupActiveLanguageBox(ldict,activeLanguage); 
+}
 
-        	m_outputDir->setText(policy->getOutputDirectory().absPath());
-        	m_includeHeadings->setChecked(policy->getIncludeHeadings());
-        	m_headingsDir->setText(policy->getHeadingFileDir());
-        	m_overwriteGroup->setButton(overwriteToInteger(policy->getOverwritePolicy())); 
+void CodeGenerationOptionsPage::setCodeGenerator ( CodeGenerator * gen) {
 
-		m_SelectEndLineCharsBox->setCurrentItem(newLineToInteger(policy->getLineEndingType()));
-		m_SelectIndentationTypeBox->setCurrentItem(indentTypeToInteger(policy->getIndentationType()));
-		m_SelectIndentationNumber->setValue(policy->getIndentationAmount());
-
-		m_parentPolicy = policy;
-		connect(this,SIGNAL(syncCodeDocumentsToParent()),gen,SLOT(syncCodeToDocument()));
-
-	} else {
-		m_parentPolicy = 0;
+	if(m_pCodeGenerator)
+	{
+		m_pCodeGenerator->disconnect();
+		m_pCodeGenerator = 0;
 	}
+
+	m_parentPolicy = 0;
+
+	CodeGenerationPolicy *policy = gen->getPolicy();
+	m_parentPolicy = policy;
+	m_pCodeGenerator = gen;
+
+
+	m_forceDoc->setChecked(policy->getCodeVerboseDocumentComments());
+	m_forceSections->setChecked(policy->getCodeVerboseSectionComments());
+
+	m_outputDir->setText(policy->getOutputDirectory().absPath());
+	m_includeHeadings->setChecked(policy->getIncludeHeadings());
+	m_headingsDir->setText(policy->getHeadingFileDir());
+	m_overwriteGroup->setButton(overwriteToInteger(policy->getOverwritePolicy()));
+
+	m_SelectEndLineCharsBox->setCurrentItem(newLineToInteger(policy->getLineEndingType()));
+	m_SelectIndentationTypeBox->setCurrentItem(indentTypeToInteger(policy->getIndentationType()));
+	m_SelectIndentationNumber->setValue(policy->getIndentationAmount());
+
+	connect(this,SIGNAL(syncCodeDocumentsToParent()),m_pCodeGenerator,SLOT(syncCodeToDocument()));
 
 	// now insert the language-dependant page, should there be one
 	updateCodeGenerationPolicyTab(gen);
 
-	setupActiveLanguageBox(ldict,activeLanguage); 
 }
 
 void CodeGenerationOptionsPage::setupActiveLanguageBox(QDict<GeneratorInfo> ldict, QString activeLanguage)
@@ -151,7 +166,10 @@ int CodeGenerationOptionsPage::overwriteToInteger(CodeGenerationPolicy::Overwrit
 void CodeGenerationOptionsPage::updateCodeGenerationPolicyTab(CodeGenerator * gen) {
 
 	if(m_pCodePolicyPage) 
+	{
+		m_pCodePolicyPage->disconnect();
 		m_pCodePolicyPage = 0;
+	}
 
 	if(!gen)
 		m_pCodePolicyPage = new DefaultCodeGenPolicyPage(languageOptionsFrame, "codelangpolicypage");
@@ -163,8 +181,6 @@ void CodeGenerationOptionsPage::updateCodeGenerationPolicyTab(CodeGenerator * ge
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void CodeGenerationOptionsPage::apply() {
-
-kdDebug()<<"Apply clicked for codegenoptionspage "<<endl;
 
 	if(m_parentPolicy) {
 
@@ -187,9 +203,8 @@ kdDebug()<<"Apply clicked for codegenoptionspage "<<endl;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void CodeGenerationOptionsPage::activeLanguageChanged(int id)
+void CodeGenerationOptionsPage::activeLanguageChanged(int /*id*/)
 {
-kdDebug()<<"Active Language changed to id:"<<id<<endl;
 	emit languageChanged();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////

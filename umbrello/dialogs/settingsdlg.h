@@ -121,6 +121,7 @@ public:
 		return m_bChangesApplied;
 	}
 
+	void setCodeGenerator(CodeGenerator *gen);
 	QString getCodeGenerationLanguage();
 
 private:

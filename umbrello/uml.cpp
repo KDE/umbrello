@@ -935,6 +935,7 @@ void UMLApp::slotApplyPrefs() {
 
 		doc -> settingsChanged( optionState );
 		setActiveLanguage( dlg->getCodeGenerationLanguage() );
+		dlg->setCodeGenerator(getDocument()->getCurrentCodeGenerator()); // do this AFTER setActiveLanguage;
 	}
 }
 

@@ -41,12 +41,14 @@ public:
 	QString getCodeGenerationLanguage();
 	void updateCodeGenerationPolicyTab(CodeGenerator * gen);
 	void apply();
+	void setCodeGenerator ( CodeGenerator * gen);
 
 protected:
 	CodeGenerationPolicy * m_parentPolicy;
 
 private:
 
+	CodeGenerator * m_pCodeGenerator;
 	CodeGenerationPolicyPage * m_pCodePolicyPage;
 	void init (CodeGenerator * gen, QDict<GeneratorInfo> ldict, QString activeLanguage);
 	int overwriteToInteger(CodeGenerationPolicy::OverwritePolicy value);
@@ -55,8 +57,8 @@ private:
 	void setupActiveLanguageBox(QDict<GeneratorInfo> ldict, QString activeLanguage); 
 
 protected slots:
+	void activeLanguageChanged(int id); 
 	void browseClicked();
-	void activeLanguageChanged (int id); 
 
 signals:
 	void applyClicked();
