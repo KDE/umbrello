@@ -613,7 +613,7 @@ void UMLListView::init() {
 	ucv = new UMLListViewItem(rv, i18n("Use Case View"), Uml::lvt_UseCase_View);
 	lv = new UMLListViewItem(rv, i18n("Logical View"), Uml::lvt_Logical_View);
 	componentView = new UMLListViewItem(rv, i18n("Component View"), Uml::lvt_Component_View);
-	diagramFolder = new UMLListViewItem(rv,i18n("Diagrams"),Uml::lvt_Logical_View);
+	diagramFolder = new UMLListViewItem(rv,i18n("Diagrams"),Uml::lvt_Diagrams);
 	rv->setOpen(true);
 	ucv->setOpen(true);
 	lv->setOpen(true);
@@ -1905,6 +1905,8 @@ bool UMLListView::loadFromXMI( QDomElement & element ) {
 	lv = 0;
 	delete componentView;
 	componentView = 0;
+	delete diagramFolder;
+	diagramFolder = 0;
 	QDomNode node = element.firstChild();
 	QDomElement domElement = node.toElement();
 	while( !domElement.isNull() ) {
@@ -1978,6 +1980,11 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
 				case Uml::lvt_Component_View:
 					item = new UMLListViewItem(parent, i18n("Component View"), lvType, nID );
 					componentView = item;
+					break;
+
+				case Uml::lvt_Diagrams:
+					item = new UMLListViewItem(parent, i18n("Diagrams"), lvType, nID );
+					diagramFolder = item;
 					break;
 
 				default:

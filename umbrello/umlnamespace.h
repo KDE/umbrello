@@ -154,6 +154,7 @@ namespace Uml {
 	    lvt_Component_Folder,
 	    lvt_Component_View,
 	    lvt_Component,
+	    lvt_Diagrams,
   	    lvt_Unknown = -1
   	};
  
