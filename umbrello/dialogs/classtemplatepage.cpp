@@ -301,7 +301,6 @@ void ClassTemplatePage::slotDoubleClick(QListBoxItem* item) {
 	UMLTemplateDialog dialogue(this, pTemplate);
 	if ( dialogue.exec() ) {
 		m_pTemplateLB->changeItem( pTemplate->getName(), m_pTemplateLB->index(item) );
-//FIXME		m_pDoc->signalChildUMLObjectUpdate(pTemplate);
 	}
 }
 
