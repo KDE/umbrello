@@ -67,6 +67,7 @@ void StateDialog::applyPage( Page page ) {
 
 		case ColorPage:
 			m_pColorPage -> updateUMLWidget();
+			break;
 
 		case FontPage:
 			m_pStateWidget -> setFont( m_pChooser -> font() );
@@ -116,6 +117,8 @@ void StateDialog::setupGeneralPage() {
 }
 
 void StateDialog::setupFontPage() {
+	if ( !m_pStateWidget )
+		return;
 	QVBox * page = addVBoxPage( i18n("Font"), i18n("Font Settings"), DesktopIcon( "fonts")  );
 	m_pChooser = new KFontChooser( (QWidget*)page, "font", false, QStringList(), false);
 	m_pChooser -> setFont( m_pStateWidget -> getFont() );
