@@ -333,18 +333,8 @@ bool FloatingText::activate( IDChangeLog* ChangeLog /*= 0 */) {
 	return status;
 }
 
-// God this is bad. Why not use the assocList in the
-// parent umlwidget class? At the very least, we should
-// keep them synced.
-// Also, there seems to be some issues with setting id to the association
-// XMI id. There CAN be more than one floating text widget with this id
-// but a findWidget will come up with only the first one.
 void FloatingText::setLink(LinkWidget * l) {
-	if (m_pLink)  // remove pre-existing link
-		m_pLink->cleanupBeforeFTsetLink(this);
 	m_pLink = l;
-	if (m_pLink)
-		m_pLink->setupAfterFTsetLink(this);
 }
 
 LinkWidget * FloatingText::getLink() {

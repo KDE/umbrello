@@ -497,18 +497,6 @@ public:
 							 QString& op);
 
 	/**
-	 * Overrides operation from LinkWidget.
-	 * Required by FloatingText.
-	 */
-	void cleanupBeforeFTsetLink(FloatingText *ft);
-
-	/**
-	 * Overrides operation from LinkWidget.
-	 * Required by FloatingText.
-	 */
-	void setupAfterFTsetLink(FloatingText *ft);
-
-	/**
 	 * Calculates and sets the first and last point in the association's
 	 * LinePath.
 	 * Each point is a middle point of its respective UMLWidget's bounding
@@ -669,7 +657,7 @@ private:
 
 	/**
 	 * Puts the text widget with the given role at the given position.
-	 * This method calls @ref calculateTextPostion to get the needed postion.
+	 * This method calls @ref calculateTextPostion to get the needed position.
 	 * I.e. the line segment it is on has moved and it should move the same
 	 * amount as the line.
 	 */

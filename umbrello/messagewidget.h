@@ -186,10 +186,9 @@ public:
 							 QString& op);
 
 	/**
-	 * Overrides operation from LinkWidget.
-	 * Required by FloatingText.
+	 * Calculate the position of the text based on the message arrow.
 	 */
-	void setupAfterFTsetLink(FloatingText *ft);
+	QPoint calculateTextPosition();
 
 	/**
 	 * Calculate the geometry of the widget.
@@ -318,6 +317,12 @@ public:
 	bool loadFromXMI( QDomElement & qElement );
 
 protected:
+	/**
+	 * Shortcut for calling m_pFText->setLink() followed by
+	 * this->setTextPosition().
+	 */
+	void setLinkAndTextPos();
+
 	// Data loaded/saved
 	QString m_SequenceNumber;
 	QString m_Operation;

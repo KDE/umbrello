@@ -2824,14 +2824,6 @@ void AssociationWidget::setOperationText(FloatingText *, QString opText) {
 	setName(opText);
 }
 
-void AssociationWidget::cleanupBeforeFTsetLink(FloatingText *ft) {
-	ft->removeAssoc(this);  // FIXME: This is horrible.
-}
-
-void AssociationWidget::setupAfterFTsetLink(FloatingText *ft) {
-	ft->addAssoc(this);    // FIXME: This is horrible.
-}
-
 void AssociationWidget::setWidget( UMLWidget* widget, Role_Type role) {
 	m_role[role].m_pWidget = widget;
 	if (widget) {

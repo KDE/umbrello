@@ -164,16 +164,6 @@ public:
 	 */
 	virtual void calculateNameTextSegment();
 
-	/**
-	 * Particularly horrible. Motivated by FloatingText::setLink().
-	 */
-	virtual void cleanupBeforeFTsetLink(FloatingText *ft);
-
-	/**
-	 * Particularly horrible. Motivated by FloatingText::setLink().
-	 */
-	virtual void setupAfterFTsetLink(FloatingText *ft);
-
 protected:
 	/**
 	 * Type of widget.

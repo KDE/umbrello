@@ -37,7 +37,7 @@ MessageWidget::MessageWidget(UMLView * view, ObjectWidget* a, ObjectWidget* b,
 	//CHECK: This is contorted - it should be in the caller's responsibility:
 	if (ft) {
 		ft->setUMLObject(b->getUMLObject());
-		ft->setLink(this);
+		setLinkAndTextPos();
 	}
 
 	connect(m_pOw[Uml::A], SIGNAL(sigWidgetMoved(Uml::IDType)), this, SLOT(slotWidgetMoved(Uml::IDType)));
@@ -225,15 +225,7 @@ bool MessageWidget::onWidget(const QPoint & p) {
 	return true;
 }
 
-void MessageWidget::setTextPosition() {
-	if (m_pFText == NULL) {
-		kdDebug() << "MessageWidget::setTextPosition: m_pFText is NULL"
-			  << endl;
-		return;
-	}
-	if (m_pFText->getText().isEmpty())
-		return;
-	m_pFText->calculateSize();
+QPoint MessageWidget::calculateTextPosition() {
 	const int xLowerBound = getX() + 5;
 	int ftX = m_pFText->getX();
 	if (ftX < xLowerBound || m_pFText->getRole() == Uml::tr_Seq_Message_Self)
@@ -247,16 +239,21 @@ void MessageWidget::setTextPosition() {
 			ftX = xUpperBound;
 	}
 	int ftY = getY() - m_pFText->getHeight();
-	if ( (ftX < 0 || ftX > FloatingText::restrictPositionMax) ||
-	     (ftY < 0 || ftY > FloatingText::restrictPositionMax) ) {
-		kdDebug() << "MessageWidget::setTextPosition( " << ftX << " , " << ftY << " ) "
-			<< "- was blocked because at least one value is out of bounds: ["
-			<< "0 ... " << FloatingText::restrictPositionMax << "]"
-			<< endl;
+	return QPoint(ftX, ftY);
+}
+
+void MessageWidget::setTextPosition() {
+	if (m_pFText == NULL) {
+		kdDebug() << "MessageWidget::setTextPosition: m_pFText is NULL"
+			  << endl;
 		return;
 	}
-	m_pFText->setX( ftX );
-	m_pFText->setY( ftY );
+	if (m_pFText->getText().isEmpty())
+		return;
+	m_pFText->calculateSize();
+	QPoint ftPos = calculateTextPosition();
+	m_pFText->setX( ftPos.x() );
+	m_pFText->setY( ftPos.y() );
 }
 
 void MessageWidget::updateMessagePos(int textHeight, int& newX, int& newY) {
@@ -281,7 +278,10 @@ void MessageWidget::constrainY(int &y, int height) {
 	setY( y + height );
 }
  
-void MessageWidget::setupAfterFTsetLink(FloatingText* /*ft*/) {
+void MessageWidget::setLinkAndTextPos() {
+	if (m_pFText == NULL)
+		return;
+	m_pFText->setLink(this);
 	setTextPosition();
 }
 
@@ -341,7 +341,7 @@ void MessageWidget::slotMenuSelection(int sel) {
 				tr = Uml::tr_Seq_Message_Self;
 			m_pFText = new FloatingText( m_pView, tr );
 			m_pFText->setFont(UMLWidget::getFont());
-			m_pFText->setLink(this);
+			setLinkAndTextPos();
 			m_pFText->setText("");
 			m_pFText->setActivated();
 			m_pFText->setUMLObject( m_pOw[Uml::B]->getUMLObject() );
@@ -371,7 +371,7 @@ bool MessageWidget::activate(IDChangeLog * Log /*= 0*/) {
 		m_pFText = new FloatingText( m_pView, tr, "" );
 		m_pFText->setFont(UMLWidget::getFont());
 	}
-	m_pFText -> setLink(this);
+	setLinkAndTextPos();
 	m_pFText -> setText("");
 	m_pFText->setActivated();
 	QString messageText = m_pFText->getText();
@@ -754,7 +754,7 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement) {
 			// This only happens when loading files produced by
 			// umbrello-1.3-beta2.
 			m_pFText = static_cast<FloatingText*>(flotext);
-			m_pFText->setLink(this);
+			setLinkAndTextPos();
 			return true;
 		}
 	} else {
@@ -785,8 +785,7 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement) {
 	}
 
 	// always need this
-	if (m_pFText)
-		m_pFText->setLink(this);
+	setLinkAndTextPos();
 
 	return true;
 }

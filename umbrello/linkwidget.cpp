@@ -90,13 +90,5 @@ void LinkWidget::calculateNameTextSegment() {
 	// Only applicable to MessageWidget and AssociationWidget.
 }
 
-void LinkWidget::cleanupBeforeFTsetLink(FloatingText *) {
-	// Only applicable to MessageWidget and AssociationWidget.
-}
-
-void LinkWidget::setupAfterFTsetLink(FloatingText *) {
-	// Only applicable to MessageWidget and AssociationWidget.
-}
-
 
 #include "linkwidget.moc"
