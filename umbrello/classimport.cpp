@@ -253,20 +253,25 @@ void ClassImport::createGeneralization(UMLClass *child, const QString &parentNam
 
 void ClassImport::feedTheModel(QString fileName) {
 	QMap<QString, Dependence> deps = m_driver->dependences(fileName);
-	if (deps.empty()) {
-		if (m_seenFiles.find(fileName) != m_seenFiles.end())
-			return;
-		m_seenFiles.append(fileName);
-	} else {
+	if (! deps.empty()) {
 		QMap<QString, Dependence>::Iterator it;
 		for (it = deps.begin(); it != deps.end(); ++it) {
 			if (it.data().second == Dep_Global)  // don't want these
 				continue;
 			QString includeFile = it.key();
+			if (includeFile.isEmpty()) {
+				kdError() << fileName << ": " << it.data().first
+					  << " not found" << endl;
+				continue;
+			}
 			kdDebug() << fileName << ": " << includeFile << " => " << it.data().first << endl;
-			feedTheModel(includeFile);
+			if (m_seenFiles.find(includeFile) == m_seenFiles.end())
+				feedTheModel(includeFile);
 		}
 	}
+	if (m_seenFiles.find(fileName) != m_seenFiles.end())
+		return;
+	m_seenFiles.append(fileName);
 	TranslationUnitAST *ast = m_driver->translationUnit( fileName );
 	if (ast == NULL) {
 		kdError() << "ClassImport::feedTheModel: " << fileName << " not found" << endl;
