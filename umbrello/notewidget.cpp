@@ -34,6 +34,7 @@ NoteWidget::NoteWidget(UMLView * view, Uml::IDType id) : UMLWidget(view, id) {
 	setSize(100,80);
 	m_pEditor = new QTextEdit(view);
 	m_pEditor->setFrameStyle(QFrame::NoFrame | QFrame::Plain);
+	m_pEditor->setShown(true);
 	setEditorGeometry();
 }
 
