@@ -776,7 +776,7 @@ void UMLView::contentsMouseMoveEvent(QMouseEvent* ome) {
 	allocateMouseMoveEvent(me);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLWidget * UMLView::findWidget( int id ) {
+UMLWidget * UMLView::findWidget( int id, bool allowClassForObject ) {
 	UMLWidget *obj;
 
 	UMLWidgetListIt it( m_WidgetList );
@@ -788,6 +788,8 @@ UMLWidget * UMLView::findWidget( int id ) {
 
 				return obj;
 			}
+			if (allowClassForObject && obj->getID() == id)
+				return obj;
 		} else if( obj -> getID() == id ) {
 			return obj;
 		}
@@ -3222,10 +3224,15 @@ bool UMLView::loadAssociationsFromXMI( QDomElement & qElement ) {
 		if( assocElement.tagName() == "UML:AssocWidget" ) {
 			AssociationWidget *assoc = new AssociationWidget(this);
 			if( !assoc->loadFromXMI( assocElement ) ) {
-				assoc->cleanup(); delete assoc;
-				return false;
+				assoc->cleanup();
+				delete assoc;
+				/* return false;
+				   Returning false here is a little harsh when the
+				   rest of the diagram might load okay.
+				 */
+			} else {
+				m_AssociationList.append( assoc );
 			}
-			m_AssociationList.append( assoc );
 		}
 		node = assocElement.nextSibling();
 		assocElement = node.toElement();
