@@ -130,6 +130,20 @@ public:
          */
         void setWriteOutMethods( bool val);
 
+	/** Find the minimum number of things that can occur in an association
+	  * If mistakenly called on attribute CF's the default value of is "0" 
+	  * is returned. Similarly, if the association (role) CF doesnt have a multiplicty
+	  * 0 is returned.
+	  */
+	int CodeClassField::minimumListOccurances( );
+
+        /** Find the maximum number of things that can occur in an association
+          * If mistakenly called on attribute CF's the default value of is "1"
+          * is returned. If the association (role) CF doesnt have a multiplicty
+          * or has a "*" specified then '-1' (unbounded) is returned.
+          */
+	int CodeClassField::maximumListOccurances( );
+
         /**
          * Save the XMI representation of this object
          * @return      bool    status of save
@@ -140,6 +154,11 @@ public:
          * load params from the appropriate XMI element node.
          */
         virtual void loadFromXMI ( QDomElement & root );
+
+	/** Force the syncronization of the content (methods and declarations) 
+   	 *  of this class field.
+	 */
+	virtual void syncronize ();
 
 protected:
 

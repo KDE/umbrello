@@ -108,7 +108,7 @@ QString CodeClassField::getTypeName ( ) {
                 if(fieldIsSingleValue()) {
                         return getUMLObjectName(role->getObject());
                 } else {
-                        return getListFieldClassName();
+                        return role->getName();
                 }
         }
 }
@@ -328,6 +328,42 @@ bool CodeClassField::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
         return status;
 }
 
+int CodeClassField::minimumListOccurances( ) {
+        if (!parentIsAttribute())
+	{
+		UMLRole * role = dynamic_cast<UMLRole*>(getParentObject());
+		QString multi = role->getMultiplicity();
+		// ush. IF we had a multiplicty object, this would be much easier.
+		if(!multi.isEmpty())
+		{
+             		QString lowerBoundString = multi.remove(QRegExp("\\.\\.\\d+$"));
+			if(!lowerBoundString.isEmpty() &&lowerBoundString.contains(QRegExp("^\\d+$")))
+					return lowerBoundString.toInt();
+		}
+
+	}
+	return 0;
+} 
+
+int CodeClassField::maximumListOccurances( ) {
+        if (!parentIsAttribute())
+	{
+                UMLRole * role = dynamic_cast<UMLRole*>(getParentObject());
+                QString multi = role->getMultiplicity();
+                // ush. IF we had a multiplicty object, this would be much easier.
+                if(!multi.isEmpty())
+                {
+                        QString upperBoundString = multi.section(QRegExp("(\\.\\.)"),1);
+                        if(!upperBoundString.isEmpty() && upperBoundString.contains(QRegExp("^\\d+$")))
+                                return upperBoundString.toInt();
+			else
+				return -1; // unbounded
+                } else 
+			return -1; // unbounded
+
+        }
+        return 1;
+}
 
 QString CodeClassField::cleanName (QString name) {
         return getParentDocument()->cleanName(name);
@@ -345,6 +381,17 @@ QString CodeClassField::fixInitialStringDeclValue(QString value, QString type)
         return value;
 }
 
+void CodeClassField::syncronize () 
+{
+	updateContent();
+	QPtrList<CodeAccessorMethod> * list = getMethodList();
+	for(CodeAccessorMethod * method=list->first(); method; method=list->next()) 
+		method->syncToParent();
+
+	if(m_declCodeBlock)
+		m_declCodeBlock->syncToParent();
+}
+
 CodeAccessorMethod * CodeClassField::findMethodByType ( CodeAccessorMethod::AccessorType type )
 {
         //if we already know to which file this class was written/should be written, just return it.
@@ -352,8 +399,8 @@ CodeAccessorMethod * CodeClassField::findMethodByType ( CodeAccessorMethod::Acce
 	// argh. this wont work because "accessorType' doesnt inherit from QObject.
         if(m_methodMap->contains(type))
                 return ((*m_methodMap)[type]);
-*/
         CodeAccessorMethod * obj = NULL;
+*/
 	for (CodeAccessorMethod * m = m_methodVector.first(); m ; m= m_methodVector.next())
 		if( m->getType() == type)
 			return m;
@@ -523,7 +570,8 @@ bool CodeClassField::fieldIsSingleValue ( )
 
 	QString multi = role->getMultiplicity();
 
-        if(multi.isEmpty() || multi.contains(QRegExp("^[01]$")))
+        if(multi.isEmpty() || multi.contains(QRegExp("^(0|1)$")) 
+             || multi.contains(QRegExp("^0\\.\\.1$")))
 		return true;
 
 	return false;
