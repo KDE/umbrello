@@ -38,3 +38,5 @@ bool UMLNode::loadFromXMI(QDomElement& element) {
 	}
 	return true;
 }
+
+#include "node.moc"

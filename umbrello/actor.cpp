@@ -35,3 +35,5 @@ bool UMLActor::loadFromXMI(QDomElement& element) {
 
 
 
+
+#include "actor.moc"

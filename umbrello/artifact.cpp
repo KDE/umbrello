@@ -51,3 +51,5 @@ void UMLArtifact::setDrawAsType(Artifact_draw_type type) {
 Artifact_draw_type UMLArtifact::getDrawAsType() {
 	return m_drawAsType;
 }
+
+#include "artifact.moc"
