@@ -1645,7 +1645,7 @@ bool UMLView::addWidget( UMLWidget * pWidget , bool isPasteOperation ) {
 		return false;
 	}
 	UMLWidget_Type type = pWidget->getBaseType();
-	kdDebug() << "UMLView::addWidget called for basetype " << type << endl;
+	//kdDebug() << "UMLView::addWidget called for basetype " << type << endl;
 	IDChangeLog * log = m_pDoc -> getChangeLog();
 	if( isPasteOperation && (!log || !m_pIDChangesLog)) {
 		kdError()<<" Cant addWidget to view in paste op because a log is not open"<<endl;
