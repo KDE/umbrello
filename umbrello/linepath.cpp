@@ -576,14 +576,21 @@ void LinePath::updateHead() {
 			if (count < 2) {
 				return;
 			}
-			//FIXME fix for when association is on top/bottom of widget
-			line = m_HeadList.at( 0 );
-			line->setPoints( m_PointArray[2].x(), m_PointArray[2].y(),
-					 m_PointArray[0].x(), m_PointArray[0].y()-8 );
+			{
+				int xoffset = 0;
+				int yoffset = 0;
+				if( m_DockRegion == TopBottom )
+					xoffset = 8;
+				else
+					yoffset = 8;
+				line = m_HeadList.at( 0 );
+				line->setPoints( m_PointArray[2].x(), m_PointArray[2].y(),
+						 m_PointArray[0].x()-xoffset, m_PointArray[0].y()-yoffset );
 
-			line = m_HeadList.at( 1 );
-			line->setPoints( m_PointArray[2].x(), m_PointArray[2].y(),
-					 m_PointArray[0].x(), m_PointArray[0].y()+8 );
+				line = m_HeadList.at( 1 );
+				line->setPoints( m_PointArray[2].x(), m_PointArray[2].y(),
+						 m_PointArray[0].x()+xoffset, m_PointArray[0].y()+yoffset );
+			}
 
 		case Uml::at_Generalization:
 		case Uml::at_Realization:
@@ -850,6 +857,10 @@ void LinePath::cleanup() {
 		}
 		m_pAssociation = NULL;
 	}
+}
+
+void LinePath::setDockRegion( Region region ) {
+	m_DockRegion = region;
 }
 
 bool LinePath::hasPoints () {
