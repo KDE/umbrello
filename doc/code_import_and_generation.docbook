@@ -1,7 +1,7 @@
 <chapter id="code-import-generation">
 <title>Code Import and Code Generation</title>
 <para>
-&umbrello; is a &UML; modeling tool, and as such its main purpose is to help you in the 
+&umbrello; is a &UML; modelling tool, and as such its main purpose is to help you in the 
 <emphasis>analysis and design</emphasis> of your systems. However, to make the transition
 between your design and your <emphasis>implementation</emphasis>, &umbrello; allows you to
 generate source code in different programming languages to get you started. Also, if you 
@@ -26,7 +26,7 @@ blanks</quote> by providing the functionality of your classes' operations.
 In order to generate code with &umbrello;, you first need to create or load a Model
 containing at least one class. When you are ready to start writing some code, select the
 <guimenuitem>Code Generation Wizard</guimenuitem> entry from the <guimenuitem>Code</guimenuitem> menu to 
-start a Wizard which will guide you trough the code generation process.
+start a wizard which will guide you trough the code generation process.
 </para>
 <para>
 The first step is to select the classes for which you want to generate source code.
@@ -82,13 +82,13 @@ in the source code to delimit the different sections of a class. For example <qu
 <title>Folders</title>
 <para>
 <guilabel>Write all generated files to folder</guilabel>. Here you should select the folder 
-where you want Umbrello to put the generated sources.
+where you want &umbrello; to put the generated sources.
 </para>
 <para>
 The <guilabel>Include heading files from folder</guilabel> option allows you to insert a 
 heading at the beginning of each generated file. Heading files can contain copyright or licensing
  information and contain variables that are evaluated at generation time. You can take a look
- at the template heading files shipped with Umbrello to see how to use this variables for replacing
+ at the template heading files shipped with &umbrello; to see how to use this variables for replacing
  your name or the current date at generation time.
 </para>
 </sect4>
@@ -96,17 +96,17 @@ heading at the beginning of each generated file. Heading files can contain copyr
 <title>Overwrite Policy</title>
 <!-- FIXME update for Umbrello 1.2's new C++ and Java code generators -->
 <para>
-This option tells Umbrello what to do if the file it wants to create already exists in
-the destination folder. Umbrello 1.1 <emphasis>cannot modify existing source files</emphasis>,
+This option tells &umbrello; what to do if the file it wants to create already exists in
+the destination folder. &umbrello; <emphasis>cannot modify existing source files</emphasis>,
 so you have to choose between overwriting the existing file, skipping the generation of
-that particular file or letting Umbrello choose a different file name. If you choose the option
-to use a different name, Umbrello will add a suffix to the file name.
+that particular file or letting &umbrello; choose a different file name. If you choose the option
+to use a different name, &umbrello; will add a suffix to the file name.
 </para>
 </sect4>
 <sect4>
 <title>Language</title>
 <para>
-Umbrello will by default generate code in the language you have selected as Active Language, but
+&umbrello; will by default generate code in the language you have selected as Active Language, but
 with the Code Generation Wizard you have the option to change this to another language.
 </para>
 </sect4>
@@ -118,11 +118,11 @@ The third and last step of the wizard shows the status of the Code Generation pr
 You need only to click on the Generate button to get your classes written for you.
 </para>
 <para>
-Note that the Options you select during the Code Generation wizard are only valid for the current
-generation. The next time you run the Wizard you will need to re-select all the options
-(your headings folder, overwrite policy, and so on). You can set the defaults used by Umbrello 
-in the <guilabel>Code Generation</guilabel> section of the Umbrello settings, available
-at <menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure Umbrello...</guimenuitem></menuchoice>
+Note that the Options you select during the Code Generation Wizard are only valid for the current
+generation. The next time you run the wizard you will need to re-select all the options
+(your headings folder, overwrite policy, and so on). You can set the defaults used by &umbrello; 
+in the <guilabel>Code Generation</guilabel> section of the &umbrello; settings, available
+at <menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure &umbrello;...</guimenuitem></menuchoice>
 </para>
 <para>
 If you have set your Code Generation options to the right settings and want to generate
@@ -137,7 +137,7 @@ This will generate code for all the classes in your Model using the current sett
 <sect1 id="code-import">
 <title>Code Import</title>
 <para>
-Umbrello can import source code from your existing projects to help you build Model of 
+&umbrello; can import source code from your existing projects to help you build Model of 
 your systems. &umbrello; 1.2 supports only C++ source code, but other languages
 should be available in future versions.
 </para>
@@ -145,7 +145,7 @@ should be available in future versions.
 To import classes into your Model, select the entry <guimenuitem>Import Classes...</guimenuitem> from
 the <guimenu>Code</guimenu> menu. In the file dialog select the files containing the C++
 class declarations and press OK. The classes will be imported and you will find them as part of
-your Model in the Tree View. Note that Umbrello will not create any kind of Diagram for showing
+your Model in the Tree View. Note that &umbrello; will not create any kind of Diagram for showing
 your classes, they will only be imported into your Model so that you can use them later in any 
 diagram you want.
 </para>
@@ -157,10 +157,10 @@ diagram you want.
 	    <imagedata fileref="pics/code-import.png" format="PNG"/>
 	  </imageobject>
 	  <textobject>
-	    <phrase>Menu for importing source code in Umbrello</phrase>
+	    <phrase>Menu for importing source code in &umbrello;</phrase>
 	  </textobject>
 	  <caption>
-	    <para>Menu for importing source code in Umbrello
+	    <para>Menu for importing source code in &umbrello;
 	    </para>
 	  </caption>
 	</mediaobject>

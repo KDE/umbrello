@@ -47,7 +47,7 @@ and access the different diagrams quickly while working on your model.
 <sect2 id="tree-view">
 <title>Tree View</title>
 <para>
-The Tree View is located on the top left hand side of the window, and shows the all the diagrams,
+The Tree View is usually located on the top left hand side of the window and shows the all the diagrams,
 classes, actors and use cases that build up your model.
 The Tree View allows you to have a quick overview of the elements composing your model. The Tree View also
 gives you a quick way to switch between the different diagrams in your model and inserting elements from
@@ -118,7 +118,7 @@ icon from the application toolbar. The most recently used models are also availa
 <para>
 &umbrello; can only work on one model at a time, so if you ask the program to load a model for you and your
 current model has been modified since the last time you save it, &umbrello; will ask you whether your changes
-should be saved to prevent any loss of work.
+should be saved to prevent any loss of work.  You can start two or more instances of &umbrello; at any one time, you can also copy and paste between instances.
 </para>
 </sect2>
 </sect1>  <!--load-save-->
@@ -174,7 +174,7 @@ Should you need to remove a diagram from your model, you can do this by making i
 <guimenuitem>Delete</guimenuitem> from the <guimenu>Diagram</guimenu> Menu. You can also achieve this by selecting <guimenuitem>Delete</guimenuitem> from the diagrams context menu
 in the Tree View
 </para>
-<para>Since deleting a Diagram is something serious that could cause loss of work if done by accident, Umbrello
+<para>Since deleting a diagram is something serious that could cause loss of work if done by accident, &umbrello;
 will ask you to confirm the delete operation before actually removing the Diagram. Once a diagram has been
 deleted and the file has been saved there is no way to undo this action.
 </para>
@@ -226,7 +226,7 @@ The second way of adding elements to your diagram is by using the Work Toolbar's
 that this will also add the elements to your model).
 </para>
 <para>
-The Work Toolbar was by default located on the far right of the application window, Umbrello 1.2 has moved this to the top of the window.
+The Work Toolbar was by default located on the far right of the application window, &umbrello; 1.2 has moved this to the top of the window.
 You can dock it into other edge or have it floating around if you prefer. The tools available
 on this toolbar (the buttons you see on it) change depending on the type of diagram
 you are currently working on. The button for the currently
@@ -399,12 +399,10 @@ edit attributes such as roles and multiplicity.
 <sect3 id="anchor-points">
 <title>Anchor Points</title>
 <para>
-Associations are drawn, by default, as a straight line connecting the two objects in the diagram. If
-you want to make the association line bend to improve the visibility of your diagram, you can do this
-by inserting anchor points to break the association line in several segments.
+Associations are drawn, by default, as a straight line connecting the two objects in the diagram. 
 </para>
 <para>
-You can add anchor points by <mousebutton>double</mousebutton> clicking some where along the association line. This will insert
+You can add anchor points to bend an association by <mousebutton>double</mousebutton> clicking some where along the association line. This will insert
 an anchor point (displayed as a blue point when the association line is selected) which you can move
 around to give shape to the association
 </para>

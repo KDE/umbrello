@@ -76,7 +76,7 @@ relationships.</para></listitem>
 <sect2 id="use-case-diagram">
 <title>Use Case Diagram</title>
 <para>Use Case Diagrams describe the relationships and dependencies between a group of <emphasis>Use Cases</emphasis>
-and the Actors participating in the process</para>
+and the Actors participating in the process.</para>
 <para>It is important to notice that Use Case Diagrams are not suited to represent the design,
 and cannot describe the internals of a system. Use Case Diagrams are meant to facilitate the communication
 with the future users of the system, and with the customer, and are specially helpful to determine the required
@@ -173,10 +173,10 @@ between them.
 	    <imagedata fileref="pics/class-diagram.png" format="PNG"/>
 	  </imageobject>
 	  <textobject>
-	    <phrase>Umbrello showing a Class Diagram</phrase>
+	    <phrase>&umbrello; showing a Class Diagram</phrase>
 	  </textobject>
 	  <caption>
-	    <para>Umbrello showing a Class Diagram
+	    <para>&umbrello; showing a Class Diagram
 	    </para>
 	  </caption>
 	</mediaobject>
@@ -253,7 +253,7 @@ they will be called Generics.
 <para>Classes can relate (be associated with) to each other in different ways:</para>
 <sect4 id="generalization">
 <title>Generalization</title>
-<para>Inheritance is one of the fundamental concepts of Object Oriented programming, in which a class
+<para>Inheritance is one of the fundamental concepts of Object Orientated programming, in which a class
 <quote>gains</quote> all of the attributes and operations of the class it inherits from, and can
 override/modify some of them, as well as add more attributes and operations of its own.</para>
 <para>
@@ -377,7 +377,7 @@ They can not have relationships to classes but classes can have relationships to
 </sect4>
 <sect4 id="enum">
 <title>Enums</title>
-<para>Enums are a simple list of values.  A typical example is an enum for days of the week.
+<para>Enums are a simple list of values.  A typical example is an enum for days of the week.  The options of an enum are called Enum Literals.
 Like datatypes they can not have relationships to classes but classes can have relationships to them.</para>
 <!-- FIXME screenshot -->
 </sect4>
@@ -462,7 +462,7 @@ or explain one process in the program logic.
 
 <sect2 id="state-diagram">
 <title>State Diagram</title>
-<para>State Diagrams show the different states of an Object during its life, and the stimuli that
+<para>State Diagrams show the different states of an Object during its life and the stimuli that
 cause the Object to change its state.
 </para>                              
 <para>State Diagrams view Objects as <emphasis>state machines</emphasis> or finite automates that can
@@ -580,11 +580,14 @@ parts of the diagram. These elements are </para>
 Text lines are useful to add short text information to a diagram. It is free-standing text and has no 
 meaning to the Model itself.
 </para>           
+
 <para> 
-Notes are useful to add more detailed information about an object or a specific situation. They have the great
-advantage that notes can be anchored to &UML; Elements to show that the note <quote>belongs</quote> to a specific
-object or situation
-</para>    
+Notes are useful to add more detailed information about an
+object or a specific situation. They have the great advantage that
+notes can be anchored to &UML; Elements to show that the note
+<quote>belongs</quote> to a specific object or situation.  
+</para>
+
 <para>Boxes are free-standing rectangles which can be used to group items together to make diagrams more readable.  They
 have no logical meaning in the model.</para>
 

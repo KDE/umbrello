@@ -8,7 +8,7 @@
 <para>
 Apart from offering you the normal copy, cut and paste functionality that you would expect to copy
 objects between different diagrams, &umbrello; can copy the objects as PNG pictures so that you can
-insert them into any other type of document. You don't need to do anything special to use this feature,
+insert them into any other type of document. You do not need to do anything special to use this feature,
 just select an object from a diagram (Class, Actor, &etc;) and copy it (<keycombo>&Ctrl;<keycap>C</keycap></keycombo>,
  or using the menu), then open a &kword; document (or any program into which you can paste images) and select <guimenuitem>Paste</guimenuitem>. This is a great feature
 to export parts of your diagram as simple pictures.
@@ -25,7 +25,7 @@ the <guimenu>Diagram</guimenu> menu.
 <sect2 id="printing">
 <title>Printing</title>
 <para>
-Umbrello allows you to print individual diagrams. Press the <guiicon>Print</guiicon> button on the
+&umbrello; allows you to print individual diagrams. Press the <guiicon>Print</guiicon> button on the
  application toolbar or selecting the <guimenuitem>Print</guimenuitem> option from the
 <guimenu>File</guimenu> menu will give you a standard &kde; Print dialog from where you can print
 your diagrams.
