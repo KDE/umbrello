@@ -3,11 +3,11 @@ Version 1.2
 * Canvas zoom
 
 * Undo and redo
-	
+
 * Clipboard now uses XMI, old binary .uml file format no longer supported
-	
+
 * Resizeable canvas
-	
+
 * Refactoring agent
 
 * Improved code export and many new code export languages
@@ -20,8 +20,11 @@ Version 1.2
 
 * Stereotypes on operations, attributes, etc
 
-* Asymetric and symetric sequence diagram messages
-	
+* Asymmetric and symmetric sequence diagram messages
+
+* Corrected placement of the diamond in aggregations/compositions,
+  the diamond is at the owning class
+
 * Can change properties of multiple items at one time
 
 * Code base is tightened up (no more WidgetData classes)
