@@ -26,10 +26,10 @@ UMLClass::UMLClass(UMLDoc * parent, const QString & name, int id)
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLClass::~UMLClass() {
-	// we should just call the parent (UMLClassifier) method here instead of being explicit
-  	m_AttsList.clear();
-  	m_TemplateList.clear();
-  	m_OpsList.clear();
+	// The parent (UMLClassifier) destructor is called automatically (C++)
+	// Also, no need for explicitly clear()ing any lists - the QList
+	// destructor does this for us. (Similarly, the QList constructor
+	// already gives us clear()ed lists.)
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLObject* UMLClass::addAttribute(QString name, int id) {
@@ -261,9 +261,7 @@ void UMLClass::init() {
 	m_BaseType = ot_Class;
 	setStereotype( i18n("class") );
 
-	m_AttsList.clear();
 	m_AttsList.setAutoDelete(false);
-	m_TemplateList.clear();
 	m_TemplateList.setAutoDelete(false);
 
 	UMLDoc * parent = getParentUMLDoc();

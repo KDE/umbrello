@@ -24,8 +24,6 @@ UMLCanvasObject::UMLCanvasObject(UMLDoc * parent, const QString & name, int id)
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLCanvasObject::~UMLCanvasObject() {
-	m_AssocsList.clear();
-	m_TmpAssocs.clear();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLAssociationList UMLCanvasObject::getSpecificAssocs(Uml::Association_Type assocType) {
@@ -103,11 +101,8 @@ UMLDoc * UMLCanvasObject::getParentUMLDoc ( )
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLCanvasObject::init( UMLDoc * parentDoc ) {
-	
 	m_parentDoc = parentDoc;
-	m_AssocsList.clear();
 	m_AssocsList.setAutoDelete(false);
-	m_TmpAssocs.clear();
 	m_TmpAssocs.setAutoDelete(false);
 }
 
