@@ -214,10 +214,12 @@ Parse_Status parseOperation(QString m, OpDescriptor& desc, UMLPackage *owningSco
 	pos = pat.search(m);
 	if (pos != -1) {  // return type is optional
 		QString retType = pat.cap(1);
-		UMLObject *pRetType = pDoc->findUMLObject(retType, Uml::ot_UMLObject, owningScope);
-		if (pRetType == NULL)
-			return PS_Unknown_ReturnType;
-		desc.m_pReturnType = dynamic_cast<UMLClassifier*>(pRetType);
+		if (retType != "void") {
+			UMLObject *pRetType = pDoc->findUMLObject(retType, Uml::ot_UMLObject, owningScope);
+			if (pRetType == NULL)
+				return PS_Unknown_ReturnType;
+			desc.m_pReturnType = dynamic_cast<UMLClassifier*>(pRetType);
+		}
 	}
 	desc.m_args.clear();
 	pat = QRegExp( "\\((.*)\\)" );
