@@ -20,6 +20,7 @@
 #include "classifier.h"
 #include "class.h"
 #include "interface.h"
+#include "model_utils.h"
 
 UMLPackage::UMLPackage(const QString & name, int id)
   : UMLCanvasObject(name, id) {
@@ -79,35 +80,7 @@ UMLObject * UMLPackage::findObject(QString name) {
 }
 
 UMLObject * UMLPackage::findObject(int id) {
-	for (UMLObject *obj = m_objects.first(); obj; obj = m_objects.next())
-	{
-		if (obj->getID() == id)
-			return obj;
-		UMLObject *o;
-		UMLObject_Type t = obj->getBaseType();
-		switch (t) {
-			case Uml::ot_Package:
-				o = ((UMLPackage*)obj)->findObject(id);
-				if (o)
-					return o;
-				break;
-			case Uml::ot_Interface:
-			case Uml::ot_Class:
-			case Uml::ot_Enum:
-				o = ((UMLClassifier*)obj)->findChildObject(id);
-				if (o)
-					return o;
-				if (t == ot_Interface || t == ot_Class) {
-					o = ((UMLPackage*)obj)->findObject(id);
-					if (o)
-						return o;
-				}
-				break;
-			default:
-				break;
-		}
-	}
-	return NULL;
+	return Umbrello::findObjectInList(id, m_objects);
 }
 
 UMLObject* UMLPackage::findObjectByIdStr(QString idStr) {

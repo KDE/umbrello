@@ -6,6 +6,33 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+// own header
+#include "umldoc.h"
+
+// qt includes
+#include <qpainter.h>
+#include <qtimer.h>
+#include <qbuffer.h>
+#include <qdir.h>
+#include <qregexp.h>
+
+// kde includes
+#include <kapplication.h>
+#include <kdeversion.h>
+#include <kdebug.h>
+#include <kio/job.h>
+#include <kio/netaccess.h>
+#include <klocale.h>
+#include <kmessagebox.h>
+#include <kmimetype.h>
+#include <kprinter.h>
+#include <ktar.h>
+#if KDE_IS_VERSION(3,2,0)
+# include <ktempdir.h>
+#endif
+#include <ktempfile.h>
+
+// app includes
 #include "actor.h"
 #include "associationwidget.h"
 #include "association.h"
@@ -27,8 +54,8 @@
 #include "enumliteral.h"
 #include "stereotype.h"
 #include "classifierlistitem.h"
+#include "model_utils.h"
 #include "uml.h"
-#include "umldoc.h"
 #include "umllistview.h"
 #include "umlview.h"
 #include "usecase.h"
@@ -38,27 +65,6 @@
 #include "dialogs/umltemplatedialog.h"
 #include "dialogs/umloperationdialog.h"
 #include "inputdialog.h"
-
-#include <qpainter.h>
-#include <qtimer.h>
-#include <qbuffer.h>
-#include <qdir.h>
-#include <qregexp.h>
-
-#include <kapplication.h>
-#include <kdeversion.h>
-#include <kdebug.h>
-#include <kio/job.h>
-#include <kio/netaccess.h>
-#include <klocale.h>
-#include <kmessagebox.h>
-#include <kmimetype.h>
-#include <kprinter.h>
-#include <ktar.h>
-#if KDE_IS_VERSION(3,2,0)
-# include <ktempdir.h>
-#endif
-#include <ktempfile.h>
 
 #define XMI_FILE_VERSION "1.2.90"
 // Hmm, if the XMI_FILE_VERSION is meant to reflect the umbrello version
@@ -725,36 +731,7 @@ UMLView * UMLDoc::findView(Diagram_Type type, QString name) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLObject* UMLDoc::findUMLObject(int id) {
-	for (UMLObjectListIt oit(m_objectList); oit.current(); ++oit)
-	{
-		UMLObject *obj = oit.current();
-		if(obj -> getID() == id)
-			return obj;
-		UMLObject *o;
-		UMLObject_Type t = obj->getBaseType();
-		switch (t) {
-			case Uml::ot_Package:
-				o = ((UMLPackage*)obj)->findObject(id);
-				if (o)
-					return o;
-				break;
-			case Uml::ot_Interface:
-			case Uml::ot_Class:
-			case Uml::ot_Enum:
-				o = ((UMLClassifier*)obj)->findChildObject(id);
-				if (o)
-					return o;
-				if (t == ot_Interface || t == ot_Class) {
-					o = ((UMLPackage*)obj)->findObject(id);
-					if (o)
-						return o;
-				}
-				break;
-			default:
-				break;
-		}
-	}
-	return 0;
+	return Umbrello::findObjectInList(id, m_objectList);
 }
 
 UMLStereotype * UMLDoc::findStereotype(int id) {

@@ -361,7 +361,7 @@ class UMLListView : public KListView {
 	UMLListViewItem * findView(UMLView *v);
 
 	/**
-	 * Converts a diagram type enum to the equivalent list view type
+	 * Utility: Converts a diagram type enum to the equivalent list view type
 	 */
 	static Uml::ListView_Type convert_DT_LVT(Uml::Diagram_Type dt);
 

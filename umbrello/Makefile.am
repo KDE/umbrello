@@ -53,6 +53,7 @@ linkwidget.cpp \
 listpopupmenu.cpp \
 main.cpp \
 messagewidget.cpp \
+model_utils.cpp \
 node.cpp \
 nodewidget.cpp \
 notewidget.cpp \
@@ -92,6 +93,7 @@ umlviewcanvas.cpp \
 umlwidget.cpp \
 usecase.cpp \
 usecasewidget.cpp \
+widget_utils.cpp \
 worktoolbar.cpp
 
 umbrello_LDADD   = ./refactoring/librefactoring.la ./classparser/libclassparser.la ./clipboard/libclipboard.la ./dialogs/libdialogs.la ./codegenerators/libcodegenerator.la -lfl $(LIB_KDEPRINT) $(LIB_KIO)

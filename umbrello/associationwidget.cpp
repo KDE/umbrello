@@ -23,6 +23,7 @@
 #include "assocrules.h"
 #include "floatingtext.h"
 #include "objectwidget.h"
+#include "widget_utils.h"
 #include "dialogs/assocpropdlg.h"
 #include "dialogs/selectopdlg.h"
 #include "inputdialog.h"
@@ -2802,33 +2803,6 @@ void AssociationWidget::setWidget( UMLWidget* widget, Role_Type role) {
 	}
 }
 
-UMLWidget* AssociationWidget::findWidget( int id, const UMLWidgetList& widgets,
-						  const MessageWidgetList* pMessages /* = NULL */)
-{
-	UMLWidgetListIt it( widgets );
-	UMLWidget * obj = NULL;
-	while ( (obj = it.current()) != NULL ) {
-		++it;
-		if (obj->getBaseType() == wt_Object) {
-			if (static_cast<ObjectWidget *>(obj)->getLocalID() == id)
-				return obj;
-		} else if (obj->getID() == id) {
-			return obj;
-		}
-	}
-
-	if (pMessages == NULL)
-		return NULL;
-
-	MessageWidgetListIt mit( *pMessages );
-	while ( (obj = (UMLWidget*)mit.current()) != NULL ) {
-		++mit;
-		if( obj -> getID() == id )
-			return obj;
-	}
-	return NULL;
-}
-
 void AssociationWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement assocElement = qDoc.createElement( "assocwidget" );
 
@@ -2889,13 +2863,13 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
 	QString widgetbid = qElement.attribute( "widgetbid", "-1" );
 	int aId = widgetaid.toInt();
 	int bId = widgetbid.toInt();
-	UMLWidget *pWidgetA = findWidget( aId, widgets, pMessages );
+	UMLWidget *pWidgetA = Umbrello::findWidget( aId, widgets, pMessages );
 	if (!pWidgetA) {
 		kdError() << "AssociationWidget::loadFromXMI(): "
 			  << "cannot find widget for roleA id " << aId << endl;
 		return false;
 	}
-	UMLWidget *pWidgetB = findWidget( bId, widgets, pMessages );
+	UMLWidget *pWidgetB = Umbrello::findWidget( bId, widgets, pMessages );
 	if (!pWidgetB) {
 		kdError() << "AssociationWidget::loadFromXMI(): "
 			  << "cannot find widget for roleB id " << bId << endl;

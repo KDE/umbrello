@@ -817,17 +817,6 @@ private:
 	bool linePathStartsAt(const UMLWidget* widget);
 
 	/**
-	 * Utility: Find the widget identified by the given ID in the given
-	 * widget or message list.
-	 * It's somewhat arbitrary that this utility is here as it has no
-	 * dependencies whatsoever on AssociationWidget.  It just happens
-	 * to be needed here.  We should pull it out from here if it also
-	 * becomes needed somewhere else.
-	 */
-	static UMLWidget* findWidget(int id, const UMLWidgetList& widgets,
-					     const MessageWidgetList* pMessages = NULL);
-
-	/**
 	 * Auxiliary method for updateAssociations():
 	 * Put position into m_positions and assoc into m_ordered at the
 	 * correct index.

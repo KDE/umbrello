@@ -20,6 +20,7 @@
 #include "interfacewidget.h"
 #include "floatingtext.h"
 #include "uml.h"
+#include "model_utils.h"
 #include "umlview.h"
 #include "notewidget.h"
 #include "boxwidget.h"
@@ -500,7 +501,7 @@ void ListPopupMenu::insertStdItems(bool insertLeadingSeparator /* = true */,
 	insertSeparator();
 	if (type == wt_UMLWidget)
 		insertStdItem(mt_Rename);
-	else if (isCloneable(type))
+	else if (Umbrello::isCloneable(type))
 		insertStdItem(mt_Clone);
 	insertStdItem(mt_Delete);
 }
@@ -521,25 +522,6 @@ void ListPopupMenu::insertContainerItems(bool folderAndDiagrams) {
 		m_pInsert->insertItem(BarIconSet("umbrello_diagram_collaboration"), i18n("Collaboration Diagram..."), mt_Collaboration_Diagram);
 	}
 	insertFileNew();
-}
-
-bool ListPopupMenu::isCloneable(Uml::UMLWidget_Type type)
-{
-	switch (type) {
-		case Uml::wt_Actor:
-		case Uml::wt_UseCase:
-		case Uml::wt_Class:
-		case Uml::wt_Interface:
-		case Uml::wt_Enum:
-		case Uml::wt_Datatype:
-		case Uml::wt_Package:
-		case Uml::wt_Component:
-		case Uml::wt_Node:
-		case Uml::wt_Artifact:
-			return true;
-		default:
-			return false;
-	}
 }
 
 void ListPopupMenu::makeMultiClassifierPopup(ClassifierWidget *c)

@@ -251,13 +251,6 @@ private:
 	void insertContainerItems(bool folderAndDiagrams);
 
 	/**
-	 * Utility: Determines whether the given widget type is cloneable.
-	 * NOTE: This has no coupling into class ListPopupMenu whatsoever
-	 *       and can easily be moved to a better place.
-	 */
-	static bool isCloneable(Uml::UMLWidget_Type type);
-
-	/**
 	 * Creates a popup menu for a multiple selection of class and
 	 * interface widgets.
 	 */
