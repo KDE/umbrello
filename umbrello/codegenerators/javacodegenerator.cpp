@@ -23,11 +23,6 @@
 #include "javacodecomment.h"
 #include "javacodeclassfield.h"
 #include "javacodeclassfielddeclarationblock.h"
-#include "javagetaccessormethod.h"
-#include "javasetaccessormethod.h"
-#include "javaaddaccessormethod.h"
-#include "javaremoveaccessormethod.h"
-#include "javalistaccessormethod.h"
 
 // Constructors/Destructors
 //
