@@ -37,6 +37,7 @@ class ObjectWidget;
 
 class UMLApp;
 class UMLDoc;
+class UMLCanvasObject;
 
 class KPrinter;
 class ToolBarStateFactory;
@@ -1002,6 +1003,10 @@ protected:
 	 */
 	QRect getDiagramRect();
 
+	/**
+	 * Auxiliary method for createAutoAssociations()
+	 */
+	void createAutoAttributeAssociations(UMLWidget *widget);
 
 	/**
 	 * Selects all the widgets of the given association widget.

@@ -73,12 +73,12 @@ public:
 	/**
 	 * Set the origin type (in case of e.g. typedef)
 	 */
-	void setOriginType(UMLObject *origType);
+	void setOriginType(UMLClassifier *origType);
 
 	/**
 	 * Get the origin type (in case of e.g. typedef)
 	 */
-	UMLObject * originType();
+	UMLClassifier * originType();
 
 	/**
 	 * Set the m_isRef flag (true when dealing with a pointer type)
@@ -101,7 +101,7 @@ protected:
 	 */
 	virtual void init(); // doesnt seem to be any reason for this to be public
 
-	UMLObject *m_pOrigType;
+	UMLClassifier *m_pOrigType;
 	bool m_isRef;
 };
 

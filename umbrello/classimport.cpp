@@ -73,7 +73,13 @@ UMLObject *ClassImport::createUMLObject(Uml::UMLObject_Type type,
 				origType = m_umldoc->createUMLObject(ot_Class, typeName, parentPkg);
 			o = m_umldoc->createUMLObject(ot_Datatype, name, parentPkg);
 			UMLDatatype *dt = static_cast<UMLDatatype*>(o);
-			dt->setOriginType(origType);
+			UMLClassifier *c = dynamic_cast<UMLClassifier*>(origType);
+			if (c)
+				dt->setOriginType(c);
+			else
+				kdError() << "ClassImport::createUMLObject(" << name << "): "
+					  << "origType " << typeName << " is not a UMLClassifier"
+					  << endl;
 			dt->setIsReference();
 		} else
 			o = m_umldoc->createUMLObject(type, name, parentPkg);
@@ -131,7 +137,7 @@ UMLObject* ClassImport::insertAttribute(UMLClass *o, Uml::Scope scope, QString n
 			if (isPointer) {
 				UMLObject *pointerDecl = m_umldoc->createUMLObject(ot_Datatype, type);
 				UMLDatatype *dt = static_cast<UMLDatatype*>(pointerDecl);
-				dt->setOriginType(obj);
+				dt->setOriginType(classifier);
 				dt->setIsReference();
 				classifier = dt;
 			}

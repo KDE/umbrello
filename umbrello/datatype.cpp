@@ -42,11 +42,11 @@ UMLObject* UMLDatatype::clone() const
 	return clone;
 }
 
-void UMLDatatype::setOriginType(UMLObject *origType) {
+void UMLDatatype::setOriginType(UMLClassifier *origType) {
 	m_pOrigType = origType;
 }
 
-UMLObject * UMLDatatype::originType() {
+UMLClassifier * UMLDatatype::originType() {
 	return m_pOrigType;
 }
 

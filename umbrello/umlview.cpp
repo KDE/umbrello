@@ -85,6 +85,7 @@
 #include "umllistview.h"
 #include "umlobjectlist.h"
 #include "association.h"
+#include "attribute.h"
 
 #include "umlwidget.h"
 
@@ -515,6 +516,16 @@ void UMLView::slotObjectCreated(UMLObject* o) {
 		case ot_Enum:
 		case ot_Datatype:
 			createAutoAssociations(newWidget);
+			if (type == ot_Class) {
+				// We need to invoke createAutoAttributeAssociations()
+				// on all other widgets again because the newly created
+				// widget might saturate some latent attribute assocs.
+				for (UMLWidgetListIt it(m_WidgetList); it.current(); ++it) {
+					UMLWidget *w = it.current();
+					if (w != newWidget)
+						createAutoAttributeAssociations(w);
+				}
+			}
 			break;
 	}
 	resizeCanvasToItems();
@@ -2183,6 +2194,7 @@ void UMLView::createAutoAssociations( UMLWidget * widget ) {
 	//       end if
 	//     end if
 	//   end loop
+	//   Do createAutoAttributeAssociations()
 	//   if this object is capable of containing nested objects then
 	//     for each of the object's containedObjects
 	//       if the containedObject has a widget representation on this view then
@@ -2286,6 +2298,7 @@ void UMLView::createAutoAssociations( UMLWidget * widget ) {
 		if (! addAssociation(assocwidget))
 			delete assocwidget;
 	}
+	createAutoAttributeAssociations(widget);
 	// if this object is capable of containing nested objects then
 	Uml::UMLObject_Type t = umlObj->getBaseType();
 	if (t == ot_Package || t == ot_Class || t == ot_Interface) {
@@ -2329,6 +2342,99 @@ void UMLView::createAutoAssociations( UMLWidget * widget ) {
 	a->setActivated(true);
 	if (! addAssociation(a))
 		delete a;
+}
+
+void UMLView::createAutoAttributeAssociations(UMLWidget *widget) {
+	// Pseudocode:
+	//   if the underlying model object is really a UMLClass then
+	//     for each of the UMLClass's UMLAttributes
+	//       if the attribute type has a widget representation on this view then
+	//         if the AssocWidget does not already exist then
+	//           if the current diagram type permits compositions then
+	//             create a composition AssocWidget
+	//           end if
+	//         end if
+	//       elsif the attribute type is a UMLDatatype then
+	//         if the UMLDatatype is a reference (pointer) type then
+	//           if the referenced type has a widget representation on this view then
+	//             if the AssocWidget does not already exist then
+	//               if the current diagram type permits aggregations then
+	//                 create an aggregation AssocWidget from the ClassWidget to the
+	//                                                 widget of the referenced type
+	//               end if
+	//             end if
+	//           end if
+	//         end if
+	//       end if
+	//     end loop
+	//   end if
+	//
+	// Implementation:
+	UMLObject *tmpUmlObj = widget->getUMLObject();
+	if (tmpUmlObj == NULL)
+		return;
+	// if the underlying model object is really a UMLClass then
+	if (tmpUmlObj->getBaseType() != Uml::ot_Class)
+		return;
+	UMLClass * klass = static_cast<UMLClass*>(tmpUmlObj);
+	// for each of the UMLClass's UMLAttributes
+	UMLAttributeList attrList = klass->getFilteredAttributeList();
+	for (UMLAttributeListIt ait(attrList); ait.current(); ++ait) {
+		UMLAttribute *attr = ait.current();
+		UMLClassifier *attrType = attr->getType();
+		UMLWidget *w = findWidget( attrType->getID() );
+		// if the attribute type has a widget representation on this view
+		if (w) {
+			// if the AssocWidget does not already exist then
+			AssociationWidget * aw = findAssocWidget(at_Composition, widget, w);
+			if (aw)
+				return;
+			// if the current diagram type permits compositions
+			if (! AssocRules::allowAssociation(at_Composition, widget, w, false))
+				return;
+			// create a composition AssocWidget
+			AssociationWidget *a = new AssociationWidget (this, widget, at_Composition, w);
+			a->calculateEndingPoints();
+			a->setVisibility(attr->getScope(), B);
+			//a->setChangeability(true, B);
+			//a->setMulti("whatShouldThisBe?", B);
+			a->setRoleName(attr->getName(), B);
+			a->setActivated(true);
+			if (! addAssociation(a))
+				delete a;
+		} else if (attrType->getBaseType() == ot_Datatype) {
+			// elsif the attribute type is a UMLDatatype then
+			UMLDatatype *dt = static_cast<UMLDatatype*>(attrType);
+			// if the UMLDatatype is a reference (pointer) type
+			if (dt->isReference()) {
+				// if the referenced type has a widget representation on this view
+				UMLClassifier *c = dt->originType();
+				UMLWidget *w = findWidget( c->getID() );
+				if (w == NULL)
+					return;
+				// if the AssocWidget does not already exist then
+				AssociationWidget * aw = findAssocWidget(at_Aggregation, widget, w);
+				if (aw)
+					return;
+				// if the current diagram type permits aggregations
+				if (! AssocRules::allowAssociation(at_Aggregation,
+								   widget, w, false))
+					return;
+				// create an aggregation AssocWidget from the ClassWidget
+				// to the widget of the referenced type
+				AssociationWidget *a = new AssociationWidget
+							(this, widget, at_Aggregation, w);
+				a->calculateEndingPoints();
+				a->setVisibility(attr->getScope(), B);
+				//a->setChangeability(true, B);
+				//a->setMulti("whatShouldThisBe?", B);
+				a->setRoleName(attr->getName(), B);
+				a->setActivated(true);
+				if (! addAssociation(a))
+					delete a;
+			}
+		}
+	}
 }
 
 void UMLView::findMaxBoundingRectangle(const FloatingText* ft, int& px, int& py, int& qx, int& qy)
