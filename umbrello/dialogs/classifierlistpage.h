@@ -163,12 +163,6 @@ public slots:
 	 * shows properties dialogue for currently selected attribute
 	 */
 	void slotProperties();
-
-signals:
-	/**
-	 * slots into classpropdlg::slotUpdateChildObject() whatever that does
-	 */
-	void sigUpdateChildObject(int id);
 };
 
 #endif
