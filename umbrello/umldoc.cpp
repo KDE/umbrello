@@ -655,8 +655,14 @@ bool UMLDoc::saveDocument(const KURL& url, const char * /* format */) {
 							 );
 		} else {
 			// now remove the original file
-			if ( KIO::file_move( tmpfile.name(), d.path(), -1, true ) == false ) {
+			if ( KIO::
+#if KDE_IS_VERSION(3,1,90)
+				NetAccess::
+#endif
+				file_move( tmpfile.name(), d.path(), -1, true ) == false ) {
 				KMessageBox::error(0, i18n("There was a problem saving file: %1").arg(d.path()), i18n("Save Error"));
+				m_doc_url.setFileName(i18n("Untitled"));
+				return false;
 			}
 		}
 	}

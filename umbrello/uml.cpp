@@ -779,11 +779,13 @@ bool UMLApp::slotFileSaveAs()
 		}
 	}
 	if(!url.isEmpty()) {
-		m_doc->saveDocument(url);
-		fileOpenRecent->addURL(url);
-		setCaption(url.fileName(),m_doc->isModified());
-		slotStatusMsg(i18n("Ready."));
-		return true;
+		bool b = m_doc->saveDocument(url);
+		if (b) {
+			fileOpenRecent->addURL(url);
+			setCaption(url.fileName(),m_doc->isModified());
+			slotStatusMsg(i18n("Ready."));
+		}
+		return b;
 
 	} else {
 		slotStatusMsg(i18n("Ready."));
