@@ -679,7 +679,7 @@ bool AssociationWidget::activate() {
 		return true;
 
 	bool status = true;
-	//Association_Type type = getAssocType();
+	Association_Type type = getAssocType();
 
 	if (m_pWidgetA == NULL)
 		setWidgetA(m_pView->findWidget(getWidgetAID()));
@@ -693,6 +693,111 @@ bool AssociationWidget::activate() {
 
 	calculateEndingPoints();
 	m_LinePath.activate();
+
+	/*
+	  There used to be calls to to setRole( ), setMultiA, setMultiB here.  But I
+	  have removed them and cut and pasted most of that code here - why??
+	  There was a call to SynchronizeData in each of them which deleted the
+	  data we needed.  The other way is to add a loading variable to miss that call
+	  but just as easy to put the code we need here.
+	*/
+
+	if( m_pRoleA != NULL && AssocRules::allowRole( type ) ) {
+		// CHECK: How much of this is still needed
+		m_pRoleA->setAssoc(this);		// probably redundant
+		m_pRoleA->setRole( tr_RoleAName);	// probably redundant
+		m_pRoleA->setPreText(UMLAssociation::ScopeToString(getVisibilityA()));
+
+		if(FloatingText::isTextValid(m_pRoleA->getText()) ) {
+			m_pRoleA -> show();
+		} else {
+			m_pRoleA -> hide();
+		}
+		if( m_pView->getType() == dt_Collaboration) {
+			m_pRoleA->setUMLObject(m_pWidgetB->getUMLObject());
+		}
+		m_pRoleA->activate();
+	}
+
+        if( m_pRoleB != NULL && AssocRules::allowRole( type ) ) {
+                m_pRoleB->setAssoc(this);
+                m_pRoleB->setRole( tr_RoleBName) ;
+		m_pRoleB->setPreText(UMLAssociation::ScopeToString(getVisibilityB()));
+
+                if(FloatingText::isTextValid(m_pRoleB->getText()) ) {
+                        m_pRoleB -> show();
+                } else {
+                        m_pRoleB -> hide();
+                }
+                if( m_pView->getType() == dt_Collaboration ) {
+                        m_pRoleB->setUMLObject(m_pWidgetB->getUMLObject());
+                }
+		m_pRoleB->activate();
+        }
+
+        if( m_pName != NULL ) {
+		m_pName->setAssoc(this);
+                m_pName->setRole( CalculateNameType(tr_Name) );
+
+		if ( FloatingText::isTextValid(m_pName->getText()) ) {
+			m_pName-> show();
+		} else {
+			m_pName-> hide();
+		}
+                if( m_pView->getType() == dt_Collaboration && m_pName) {
+                        m_pName->setUMLObject(m_pWidgetB->getUMLObject());
+                }
+		m_pName->activate();
+		calculateNameTextSegment();
+	}
+
+	if( m_pMultiA != NULL && AssocRules::allowMultiplicity( type, getWidgetA() -> getBaseType() ) ) {
+		m_pMultiA->setAssoc(this);
+		m_pMultiA->setRole(tr_MultiA);
+
+		if ( FloatingText::isTextValid(m_pMultiA->getText()) ) {
+			m_pMultiA -> show();
+		} else {
+			m_pMultiA -> hide();
+		}
+		m_pMultiA->activate();
+	}
+
+	if( m_pMultiB != NULL && AssocRules::allowMultiplicity( type, getWidgetA() -> getBaseType() ) ) {
+		m_pMultiB->setAssoc(this);
+		m_pMultiB->setRole( tr_MultiB );
+
+		if (FloatingText::isTextValid(m_pMultiB->getText()) ) {
+			m_pMultiB -> show();
+		} else {
+			m_pMultiB -> hide();
+		}
+		m_pMultiB->activate();
+	}
+
+	if( m_pChangeWidgetA != NULL ) {
+		m_pChangeWidgetA->setAssoc(this);
+		m_pChangeWidgetA->setRole( tr_ChangeA );
+
+		if (FloatingText::isTextValid(m_pChangeWidgetA->getText()) ) {
+			m_pChangeWidgetA -> show();
+		} else {
+			m_pChangeWidgetA -> hide ();
+		}
+		m_pChangeWidgetA->activate();
+	}
+
+	if( m_pChangeWidgetB != NULL ) {
+		m_pChangeWidgetB->setAssoc(this);
+		m_pChangeWidgetB->setRole( tr_ChangeB );
+
+		if (FloatingText::isTextValid(m_pChangeWidgetB->getText()) ) {
+			m_pChangeWidgetB -> show();
+		} else {
+			m_pChangeWidgetB -> hide ();
+		}
+		m_pChangeWidgetB->activate();
+	}
 
 	// CHECK
 	// m_LinePath.setAssocType( getAssocType() );
