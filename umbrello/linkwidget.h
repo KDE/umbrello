@@ -103,16 +103,6 @@ public:
 	virtual bool showDialog();
 
 	/**
-	 * Usage pattern:
-	 * If the operation pointer is non-NULL, use it; else use the freetext.
-	 */
-	struct OpOrFreetext {
-		UMLOperation *operation;
-		QString freetext;
-		OpOrFreetext() { operation = NULL; }
-	};
-
-	/**
 	 * Motivated by FloatingText::showOpDlg()
 	 */
 	virtual UMLClassifier *getSeqNumAndOp(FloatingText *ft, QString& seqNum, QString& op) = 0;
