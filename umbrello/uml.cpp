@@ -1397,7 +1397,10 @@ void UMLApp::slotImportClasses() {
 	} else {
 		fileList = KFileDialog::getOpenFileNames(":import-classes",
 	                       i18n("*.h *.hpp *.hxx|Header Files (*.h *.hpp *.hxx)\n*|All Files"), this, i18n("Select Classes to Import") );
-		m_classImporter->importCPP( fileList );
+		if (fileList.first().endsWith(".idl"))
+			m_classImporter->importIDL( fileList );
+		else
+			m_classImporter->importCPP( fileList );
 	}
 	m_doc->setLoading(false);
 }
