@@ -108,11 +108,15 @@ AssociationWidget::AssociationWidget(UMLView *view, UMLWidget* pWidgetA,
 	//collaboration messages need a name label because it's that
 	//which handles the right click menu options
 	if (getAssocType() == at_Coll_Message) {
-		setName("");
+		// Create a temporary name to bring on setName()
+		ObjectWidget *ow = static_cast<ObjectWidget*>(m_role[B].m_pWidget);
+		QString localIdStr;
+		localIdStr.setNum(ow->getLocalID());
+		setName("m" + localIdStr);
 		if (m_pAssociation)
 			m_pName->setUMLObject( m_pAssociation );
 		else
-			m_pName->setUMLObject( m_role[B].m_pWidget->getUMLObject() );
+			m_pName->setUMLObject( ow->getUMLObject() );
 	}
 }
 
