@@ -161,7 +161,7 @@ void UMLOperationDialog::setupDialog() {
 	UMLClassifierList namesList( m_doc->getConcepts() );
 	UMLClassifier* pConcept = 0;
 	for(pConcept=namesList.first(); pConcept!=0 ;pConcept=namesList.next()) {
-		insertType( pConcept->getFullyQualifiedName(".") );
+		insertType( pConcept->getFullyQualifiedName() );
 	}
 
 	//work out which one to select
@@ -352,7 +352,7 @@ void UMLOperationDialog::slotParameterProperties() {
 				UMLClassifierList namesList( m_doc->getConcepts() );
 				UMLClassifier* obj = NULL;
 				for (obj=namesList.first(); obj!=0; obj=namesList.next()) {
-					if (typeName == obj->getFullyQualifiedName(".")) {
+					if (typeName == obj->getFullyQualifiedName()) {
 						pOldAtt->setType( obj );
 						break;
 					}

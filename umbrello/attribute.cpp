@@ -102,7 +102,7 @@ QString UMLAttribute::toString(Uml::Signature_Type sig) {
 		if (type) {
 			UMLPackage *typeScope = type->getUMLPackage();
 			if (typeScope != ownParent && typeScope != ownParent->getUMLPackage())
-				typeName = type->getFullyQualifiedName(".");
+				typeName = type->getFullyQualifiedName();
 			else
 				typeName = type->getName();
 		}

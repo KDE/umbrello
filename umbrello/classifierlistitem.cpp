@@ -58,7 +58,7 @@ QString UMLClassifierListItem::getTypeName() {
 		return m_SecondaryId;
 	const UMLPackage *typePkg = m_pSecondary->getUMLPackage();
 	if (typePkg != NULL && typePkg != m_pUMLPackage)
-		return m_pSecondary->getFullyQualifiedName(".");
+		return m_pSecondary->getFullyQualifiedName();
 	return m_pSecondary->getName();
 }
 

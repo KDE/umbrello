@@ -85,7 +85,7 @@ QString UMLObject::getName() const {
 	return m_Name;
 }
 
-QString UMLObject::getFullyQualifiedName(const QString &separator /* = "::" */) const {
+QString UMLObject::getFullyQualifiedName(const QString &separator /* = "." */) const {
 	QString fqn;
 	if (m_pUMLPackage) {
 		fqn = m_pUMLPackage->getFullyQualifiedName(separator);
@@ -296,7 +296,7 @@ QString UMLObject::getStereotype(bool includeAdornments /* = true */) {
 	return name;
 }
 
-QString UMLObject::getPackage(const QString &separator /* ="::" */) {
+QString UMLObject::getPackage(const QString &separator /* ="." */) {
 	if (m_pUMLPackage == NULL)
 		return "";
 	QStringList pkgList;
