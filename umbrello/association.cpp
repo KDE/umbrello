@@ -25,7 +25,7 @@ const unsigned UMLAssociation::nAssocTypes = (unsigned)atypeLast -
 // constructor
 UMLAssociation::UMLAssociation( UMLDoc * parent, Association_Type type,
 				UMLObject * roleA, UMLObject * roleB )
-    : UMLObject((UMLObject*)parent, "", -1) 
+    : UMLObject((UMLObject*)parent, "", -1)
 {
 	init(parent, type, roleA, roleB);
 }
@@ -298,14 +298,14 @@ bool UMLAssociation::loadFromXMI( QDomElement & element ) {
 		//
 		// In the old days, we could just record this on the association,
 		// and be done with it. But thats not how the UML13.dtd does things.
-		// As a result, we are checking roleA for information about the 
+		// As a result, we are checking roleA for information about the
 		// parent association (!) which by this point in the parse, should
 		// be set. However, the information that the roles are allowed to have
 		// is not complete, so we need to finish the analysis here.
 
 		// find self-associations
-		if(getAssocType() == Uml::at_Association && getRoleAId() == getRoleBId()) 
-			m_AssocType = Uml::at_Association_Self; 
+		if(getAssocType() == Uml::at_Association && getRoleAId() == getRoleBId())
+			m_AssocType = Uml::at_Association_Self;
 
 		// fall-back default type
 		if(getAssocType() == Uml::at_Unknown)
@@ -452,11 +452,11 @@ UMLRole * UMLAssociation::getUMLRoleB() {
 
 void UMLAssociation::setAssocType(Uml::Association_Type assocType) {
 	m_AssocType = assocType;
-	if(m_AssocType == at_UniAssociation) 
+	if(m_AssocType == at_UniAssociation)
 	{
-		// In this case we need to auto-set the multiplicity/rolenames 
+		// In this case we need to auto-set the multiplicity/rolenames
 		// of the roles
-		kdWarning()<<" A new uni-association has been created. Shame on you."<<endl;
+		kdWarning()<<" A new uni-association has been created."<<endl;
 	}
 	emit modified();
 }
@@ -552,7 +552,7 @@ void UMLAssociation::init(UMLDoc * parent, Association_Type type, UMLObject *rol
 	m_pRoleA = new UMLRole (this, roleAObj, 1);
 	m_pRoleB = new UMLRole (this, roleBObj, 0);
 
-	parentDoc = parent; 
+	parentDoc = parent;
 
 }
 
