@@ -422,7 +422,7 @@ QDomElement UMLObject::save( const QString &tag, QDomDocument & qDoc ) {
 	*/
 	QDomElement qElement = qDoc.createElement(tag);
 	qElement.setAttribute( "isSpecification", "false" );
-	if (m_BaseType != Uml::ot_Association) {
+	if (m_BaseType != Uml::ot_Role) {
 		qElement.setAttribute( "isLeaf", "false" );
 		qElement.setAttribute( "isRoot", "false" );
 		if (m_bAbstract)
