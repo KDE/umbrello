@@ -178,7 +178,7 @@ bool LinePath::removePoint( int pointIndex, QPoint point, unsigned short delta )
 	if (pointIndex != 0)
 		pointIndex--;
 
-	/* we don't know if the user clicked on the start- or endpoint of a 
+	/* we don't know if the user clicked on the start- or endpoint of a
 	 * line segment */
 	QCanvasLine * current_line = m_LineList.at( pointIndex );
 	if (abs( current_line -> endPoint().x() - point.x() ) <= delta
@@ -400,10 +400,12 @@ void LinePath::calculateHead() {
 	double hypotenuse = sqrt(deltaX*deltaX + deltaY*deltaY); // the length
 	int halfLength = 10;
 	double arrowAngle = 0.5 * atan(sqrt(3.0) / 3.0);
-	if (getAssocType() == at_Generalization)
-	{
+	if (getAssocType() != at_Aggregation && getAssocType() != at_Composition) {
 		arrowAngle *= 2;	// wider
 		halfLength += 3;	// longer
+	} else {
+		arrowAngle *= 1.5;	// wider
+		halfLength += 1;	// longer
 	}
 	double slope = atan2(deltaY, deltaX);	//slope of line
 	double cosx = hypotenuse==0?1:halfLength * deltaX/hypotenuse;
@@ -802,7 +804,7 @@ void LinePath::dumpPoints () {
 	}
 
 }
- 
+
 bool LinePath::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	int count = m_LineList.count();
 	QPoint point = getPoint( 0 );
