@@ -69,7 +69,7 @@ void ClassAttributesPage::loadData()
 	// create list view and working-copy of attributes
 	for( UMLAttribute *att = list->last(); att; att = list->prev() )
 	{
-		copy = new UMLAttribute(this,att->getName(),att->getID(),att->getTypeName(), att->getScope(),att->getInitialValue());
+		copy = new UMLAttribute(m_doc,att->getName(),att->getID(),att->getTypeName(), att->getScope(),att->getInitialValue());
 		m_attList.prepend(copy);
 		item = new QListViewItem( m_attributesList, copy->getName() );
 		item->setPixmap(0, (copy->getScope() == Uml::Public ? m_pixmaps.Public :
@@ -123,7 +123,7 @@ void ClassAttributesPage::saveData()
 		if( !old )
 		{//add new attribute
 		kdDebug()<<"new attribute!"<<endl;
-			UMLAttribute *a = new UMLAttribute( m_umlObject, att->getName(),m_doc->getUniqueID(),
+			UMLAttribute *a = new UMLAttribute( m_doc, att->getName(),m_doc->getUniqueID(),
                                                             att->getTypeName(),att->getScope(),att->getInitialValue());
 			a->setDoc( att->getDoc() );
 			m_umlObject->addAttribute(a,index);
@@ -196,7 +196,7 @@ void ClassAttributesPage::moveDown( )
 
 void ClassAttributesPage::createAttribute( )
 {
-	UMLAttribute *a = new UMLAttribute(this,"new_att",-1);
+	UMLAttribute *a = new UMLAttribute(m_doc,"new_att",-1);
 	UmbrelloDialog dialog(this, UmbrelloDialog::Swallow, "edit_attribute", true, i18n("Attribute properties"),
 	                       UmbrelloDialog::Ok | UmbrelloDialog::Cancel );
 	AttributePropertiesPage *page = new AttributePropertiesPage(a,&dialog,0);

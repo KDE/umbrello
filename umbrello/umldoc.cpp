@@ -646,21 +646,26 @@ UMLObject* UMLDoc::createUMLObject(UMLObject_Type type, const QString &n) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLObject* UMLDoc::createUMLObject(UMLObject* umlobject, UMLObject_Type type) {
 	if(type == ot_Attribute) {
-		return createAttribute(umlobject);
+		UMLClass *umlclass = dynamic_cast<UMLClass *>(umlobject);
+		if (umlclass)
+			return createAttribute(umlclass);
 	} else if(type == ot_Operation) {
-		return createOperation(umlobject);
+		UMLClassifier *umlclassifier = dynamic_cast<UMLClassifier *>(umlobject);
+		if (umlclassifier)
+			return createOperation(umlclassifier);
 	} else if(type == ot_Template) {
-		return createTemplate(umlobject);
-	} else {
-		kdDebug() << "ERROR _CREATEUMLOBJECT" << endl;
-		return NULL;
+		UMLClass *umlclass = dynamic_cast<UMLClass *>(umlobject);
+		if (umlclass)
+			return createTemplate(umlclass);
 	}
+	kdDebug() << "ERROR _CREATEUMLOBJECT" << endl;
+	return NULL;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLObject* UMLDoc::createAttribute(UMLObject* umlobject) {
+UMLObject* UMLDoc::createAttribute(UMLClass* umlclass) {
 	int id = getUniqueID();
-	QString currentName = dynamic_cast<UMLClass *>(umlobject)->uniqChildName(Uml::ot_Attribute);
-	UMLAttribute* newAttribute = new UMLAttribute(umlobject, currentName, id);
+	QString currentName = umlclass->uniqChildName(Uml::ot_Attribute);
+	UMLAttribute* newAttribute = new UMLAttribute(this, currentName, id);
 
 	int button = QDialog::Accepted;
 	bool goodName = false;
@@ -672,7 +677,7 @@ UMLObject* UMLDoc::createAttribute(UMLObject* umlobject) {
 
 		if(name.length() == 0) {
 			KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
-		} else if ( ((UMLClass*)umlobject)->findChildObject(Uml::ot_Attribute, name).count() > 0 ) {
+		} else if ( umlclass->findChildObject(Uml::ot_Attribute, name).count() > 0 ) {
 			KMessageBox::error(0, i18n("That name is already being used."), i18n("Not a Unique Name"));
 		} else {
 			goodName = true;
@@ -683,7 +688,7 @@ UMLObject* UMLDoc::createAttribute(UMLObject* umlobject) {
 		return NULL;
 	}
 
-	((UMLClass*)umlobject)->addAttribute(newAttribute);
+	umlclass->addAttribute(newAttribute);
 
 	// addUMLObject(newAttribute);
 
@@ -692,10 +697,10 @@ UMLObject* UMLDoc::createAttribute(UMLObject* umlobject) {
 	return newAttribute;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLObject* UMLDoc::createTemplate(UMLObject* umlobject) {
+UMLObject* UMLDoc::createTemplate(UMLClass* umlclass) {
 	int id = getUniqueID();
-	QString currentName = dynamic_cast<UMLClass*>(umlobject)->uniqChildName(Uml::ot_Template);
-	UMLTemplate* newTemplate = new UMLTemplate(umlobject, currentName, id);
+	QString currentName = umlclass->uniqChildName(Uml::ot_Template);
+	UMLTemplate* newTemplate = new UMLTemplate(umlclass, currentName, id);
 
 	int button = QDialog::Accepted;
 	bool goodName = false;
@@ -707,7 +712,7 @@ UMLObject* UMLDoc::createTemplate(UMLObject* umlobject) {
 
 		if(name.length() == 0) {
 			KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
-		} else if ( ((UMLClass*)umlobject)->findChildObject(Uml::ot_Template, name).count() > 0 ) {
+		} else if ( umlclass->findChildObject(Uml::ot_Template, name).count() > 0 ) {
 			KMessageBox::error(0, i18n("That name is already being used."), i18n("Not a Unique Name"));
 		} else {
 			goodName = true;
@@ -718,17 +723,17 @@ UMLObject* UMLDoc::createTemplate(UMLObject* umlobject) {
 		return NULL;
 	}
 
-	((UMLClass*)umlobject)->addTemplate(newTemplate);
+	umlclass->addTemplate(newTemplate);
 
 	setModified(true);
 	emit sigObjectCreated(newTemplate);
 	return newTemplate;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLObject* UMLDoc::createStereotype(UMLObject* umlobject, UMLObject_Type list) {
+UMLObject* UMLDoc::createStereotype(UMLClass* umlclass, UMLObject_Type list) {
 	int id = getUniqueID();
-	QString currentName = dynamic_cast<UMLClass*>(umlobject)->uniqChildName(Uml::ot_Stereotype);
-	UMLStereotype* newStereotype = new UMLStereotype(umlobject, currentName, id, list);
+	QString currentName = umlclass->uniqChildName(Uml::ot_Stereotype);
+	UMLStereotype* newStereotype = new UMLStereotype(umlclass, currentName, id, list);
 
 	bool ok = true;
 	bool goodName = false;
@@ -748,54 +753,50 @@ UMLObject* UMLDoc::createStereotype(UMLObject* umlobject, UMLObject_Type list) {
 		return NULL;
 	}
 
-	((UMLClassifier*)umlobject)->addStereotype(newStereotype, list);
+	umlclass->addStereotype(newStereotype, list);
 
 	setModified(true);
 	emit sigObjectCreated(newStereotype);
 	return newStereotype;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLObject* UMLDoc::createOperation(UMLObject* umlobject) {
+UMLObject* UMLDoc::createOperation(UMLClassifier* classifier) {
 	UMLOperation* newOperation = 0;
-	UMLClassifier * classifier = dynamic_cast<UMLClassifier*>(umlobject);
 
 	// can only create operations for classifiers..
-	if(classifier)
-	{
-		int id = getUniqueID();
-		QString currentName = classifier->uniqChildName(Uml::ot_Operation);
-		newOperation = new UMLOperation(classifier, currentName, id);
-
-		int button = QDialog::Accepted;
-		bool goodName = false;
-
-		while (button==QDialog::Accepted && !goodName) {
-			UMLOperationDialog operationDialogue(0, newOperation);
-			button = operationDialogue.exec();
-			QString name = newOperation->getName();
-
-			if(name.length() == 0) {
-				KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
-			} else {
-				goodName = true;
-			}
-		}
-
-		if (button != QDialog::Accepted) {
-			return NULL;
-		}
-
-		classifier->addOperation(newOperation);
-
-		// addUMLObject(newOperation);
-
-		setModified(true);
-		emit sigObjectCreated(newOperation);
-
-	} else {
+	if (classifier == NULL) {
 		kdWarning() << "creating operation for something which isn't a class or an interface" << endl;
+		return NULL;
+	}
+	int id = getUniqueID();
+	QString currentName = classifier->uniqChildName(Uml::ot_Operation);
+	newOperation = new UMLOperation(classifier, currentName, id);
+
+	int button = QDialog::Accepted;
+	bool goodName = false;
+
+	while (button==QDialog::Accepted && !goodName) {
+		UMLOperationDialog operationDialogue(0, newOperation);
+		button = operationDialogue.exec();
+		QString name = newOperation->getName();
+
+		if(name.length() == 0) {
+			KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
+		} else {
+			goodName = true;
+		}
 	}
 
+	if (button != QDialog::Accepted) {
+		return NULL;
+	}
+
+	classifier->addOperation(newOperation);
+
+	// addUMLObject(newOperation);
+
+	setModified(true);
+	emit sigObjectCreated(newOperation);
 
 	return newOperation;
 }
@@ -1656,32 +1657,6 @@ bool UMLDoc::loadUMLObjectsFromXMI( QDomNode & node ) {
 	}//end while
 	return true;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
-/*
-UMLObject* UMLDoc::makeNewClassifierObject(QString type, QDomElement& element) {
-	UMLObject* pObject = 0;
-	if (type == "UML:Operation") {
-		UMLOperation* newOperation = new UMLOperation(this);
-		if( !newOperation->loadFromXMI(element) ) {
-			return false;
-		}
-		pObject = newOperation;
-	} else if (type == "UML:Attribute") {
-		UMLAttribute* newAttribute = new UMLAttribute(this);
-		if( !newAttribute->loadFromXMI(element) ) {
-			return false;
-		}
-		pObject = newAttribute;
-	} else if (type == "template") {
-		UMLTemplate* newTemplate = new UMLTemplate(this);
-		if ( !newTemplate->loadFromXMI(element) ) {
-			return false;
-		}
-		pObject = newTemplate;
-	}
-	return pObject;
-}
-*/
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLObject* UMLDoc::makeNewUMLObject(QString type) {
 	UMLObject* pObject = 0;

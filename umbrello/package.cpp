@@ -8,13 +8,12 @@
  ***************************************************************************/
 
 #include "package.h"
-#include "association.h"
-#include "clipboard/idchangelog.h"
 #include "umldoc.h"
 #include <kdebug.h>
 #include <klocale.h>
 
-UMLPackage::UMLPackage(UMLDoc * parent, const QString & name, int id) : UMLCanvasObject(parent, name, id) {
+UMLPackage::UMLPackage(UMLDoc * parent, const QString & name, int id)
+  : UMLObject(parent, name, id) {
 	init();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -8,13 +8,11 @@
  ***************************************************************************/
 
 #include "node.h"
-#include "association.h"
-#include "clipboard/idchangelog.h"
-#include "umldoc.h"
 #include <kdebug.h>
 #include <klocale.h>
 
-UMLNode::UMLNode(UMLDoc * parent, const QString & name, int id) : UMLCanvasObject(parent, name, id) {
+UMLNode::UMLNode(UMLDoc * parent, const QString & name, int id)
+  : UMLObject(parent, name, id) {
 	init();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////

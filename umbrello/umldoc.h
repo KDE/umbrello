@@ -52,6 +52,7 @@ class ObjectWidget;
 class UMLListView;
 class UMLView;
 class UMLWidget;
+class UMLClass;
 class UMLClassifier;
 class UMLApp;
 
@@ -230,7 +231,7 @@ public:
 	 * @param o	The parent concept
 	 * @return	The UMLAttribute created
 	 */
-	UMLObject* createAttribute(UMLObject* o);
+	UMLObject* createAttribute(UMLClass* umlclass);
 
 	/**
 	 * Creates a template for the parent concept.
@@ -238,15 +239,15 @@ public:
 	 * @param o	The parent concept
 	 * @return	The UMLTemplate created
 	 */
-	UMLObject* createTemplate(UMLObject* o);
+	UMLObject* createTemplate(UMLClass* umlclass);
 
 	/**
 	 * Creates a stereotype for the parent classifier.
 	 *
 	 * @param o	The parent concept
-	 * @return	The UMLTemplate created
+	 * @return	The UMLStereotype created
 	 */
-	UMLObject* createStereotype(UMLObject* umlobject, UMLObject_Type list);
+	UMLObject* createStereotype(UMLClass* umlclass, UMLObject_Type list);
 
 	/**
 	 * Creates an operation for the parent concept.
@@ -254,7 +255,7 @@ public:
 	 * @param o	The parent concept
 	 * @return	The UMLOperation created
 	 */
-	UMLObject* createOperation(UMLObject* o);
+	UMLObject* createOperation(UMLClassifier* classifier);
 
 	/**
 	 * Creates an association between two UMLObjects.

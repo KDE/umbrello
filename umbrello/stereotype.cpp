@@ -9,17 +9,21 @@
 
 
 #include "stereotype.h"
+#include "class.h"
 #include "inputdialog.h"
 
 #include <klocale.h>
 #include <kdebug.h>
 
-UMLStereotype::UMLStereotype(QObject* parent, QString name, int id, UMLObject_Type listType) : UMLClassifierListItem(parent, name, id) {
+UMLStereotype::UMLStereotype( UMLClass* parent, QString name, int id,
+			      UMLObject_Type listType)
+  : UMLClassifierListItem( parent->getParentUMLDoc(), name, id ) {
 	m_BaseType = ot_Stereotype;
 	m_listType = listType;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLStereotype::UMLStereotype(QObject* parent) : UMLClassifierListItem(parent) {
+UMLStereotype::UMLStereotype(UMLClass* parent)
+  : UMLClassifierListItem( parent->getParentUMLDoc() ) {
 	m_BaseType = ot_Stereotype;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////

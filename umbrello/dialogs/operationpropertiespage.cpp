@@ -108,7 +108,7 @@ void OperationPropertiesPage::loadData()
 	// create list view and working-copy of attributes
 	for( UMLAttribute *att = list->last(); att; att = list->prev() )
 	{
-		copy = new UMLAttribute(this,att->getName(),att->getID(),att->getTypeName(), att->getScope(),att->getInitialValue());
+		copy = new UMLAttribute(m_doc,att->getName(),att->getID(),att->getTypeName(), att->getScope(),att->getInitialValue());
 		m_paramList.prepend(copy);
 		item = new QListViewItem( m_parameterList, copy->getName() );
 		item->setPixmap(0, (copy->getScope() == Uml::Public ? m_pixmaps.Public :
@@ -171,7 +171,7 @@ void OperationPropertiesPage::saveData()
 		if( !old )
 		{//add new attribute
 		kdDebug()<<"new attribute!"<<endl;
-			UMLAttribute *a = new UMLAttribute( m_pOperation, att->getName(),m_doc->getUniqueID(),
+			UMLAttribute *a = new UMLAttribute( m_doc, att->getName(),m_doc->getUniqueID(),
                                                             att->getTypeName(),att->getScope(),att->getInitialValue());
 			a->setDoc( att->getDoc() );
 			m_pOperation->addParm(a,index);

@@ -10,7 +10,8 @@
 #include "actor.h"
 #include "umldoc.h"
 
-UMLActor::UMLActor(UMLDoc * parent, const QString & name, int id) : UMLCanvasObject(parent, name, id) {
+UMLActor::UMLActor(UMLDoc * parent, const QString & name, int id)
+  : UMLObject(parent, name, id) {
 	init();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////

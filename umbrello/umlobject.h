@@ -16,6 +16,7 @@
 #include <qdom.h>
 
 #include "umlnamespace.h"
+#include "umldoc.h"
 
 using namespace Uml;
 
@@ -39,14 +40,14 @@ public:
 	 * @param name		The name of the object.
 	 * @param id		The ID of the object.
 	 */
-	UMLObject(QObject * parent, QString Name, int id);
+	UMLObject(UMLDoc * parent, QString Name, int id);
 
 	/**
 	 * Creates a UMLObject.
 	 *
 	 * @param	parent		The parent of the object.
 	 */
-	UMLObject(QObject * parent);
+	UMLObject(UMLDoc * parent);
 
 	/**
 	 * Overloaded '==' operator
@@ -183,6 +184,15 @@ public:
 	 */
 	virtual bool acceptAssociationType(Uml::Association_Type);
 
+	/**
+	 * Return the parent UMLDoc for this object.
+	 *
+	 * @return	Pointer to the parent UMLDoc.
+	 */
+	UMLDoc * getParentUMLDoc () {
+		return m_parentDoc;
+	}
+
 public slots:
 	/**
 	 * Forces the emition of the modified signal.  Useful when
@@ -196,12 +206,17 @@ signals:
 
 protected:
 	/**
-	 *   The objects id.
+	 * Pointer to the parent UMLDoc as passed into the constructor.
+	 */
+	UMLDoc * m_parentDoc;
+
+	/**
+	 * The object's id.
 	 */
 	int m_nId;
 
 	/**
-	 * The objects documentation.
+	 * The object's documentation.
 	 */
 	QString m_Doc;
 

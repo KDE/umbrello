@@ -23,24 +23,26 @@
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
+class UMLClass;
+
 class UMLTemplate : public UMLClassifierListItem {
 public:
 	/**
-	 * Sets up an template.
+	 * Sets up a template.
 	 *
 	 * @param parent	The parent of this UMLTemplate (i.e. its concept).
 	 * @param name		The name of this UMLTemplate.
 	 * @param id		The unique id given to this UMLTemplate.
 	 * @param type		The type of this UMLTemplate.
 	 */
-	UMLTemplate(QObject* parent, QString name, int id, QString type = "class");
+	UMLTemplate(UMLClass* parent, QString name, int id, QString type = "class");
 
 	/**
 	 * Sets up a template.
 	 *
 	 * @param parent	The parent of this UMLTemplate (i.e. its concept).
 	 */
-	UMLTemplate(QObject* parent);
+	UMLTemplate(UMLClass* parent);
 
 	/**
 	 * Overloaded '==' operator

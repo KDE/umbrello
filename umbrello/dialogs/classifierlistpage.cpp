@@ -10,6 +10,7 @@
 #include "classifierlistpage.h"
 #include "../classifierlistitem.h"
 #include "../umldoc.h"
+#include "../class.h"
 #include <kbuttonbox.h>
 #include <kdebug.h>
 #include <klocale.h>
@@ -359,7 +360,9 @@ void ClassifierListPage::slotNewListItem() {
 void ClassifierListPage::slotNewStereotype() {
 	saveCurrentItemDocumentation();
 	m_bSigWaiting = true;
-	m_pDoc->createStereotype(m_pClassifier, itemType);
+	UMLClass *umlclass = dynamic_cast<UMLClass *>(m_pClassifier);
+	if (umlclass)
+		m_pDoc->createStereotype(umlclass, itemType);
 }
 
 void ClassifierListPage::saveCurrentItemDocumentation() {

@@ -17,11 +17,14 @@
 // static members
 const Uml::Association_Type UMLAssociation::atypeFirst = Uml::at_Generalization;
 const Uml::Association_Type UMLAssociation::atypeLast = Uml::at_Activity;
-const unsigned UMLAssociation::nAssocTypes = (unsigned)atypeLast - (unsigned)atypeFirst + 1;
+const unsigned UMLAssociation::nAssocTypes = (unsigned)atypeLast -
+					     (unsigned)atypeFirst + 1;
 
 // constructor
-UMLAssociation::UMLAssociation(UMLDoc* parent, Association_Type type, UMLObject * roleA, UMLObject * roleB) 
-    : UMLObject((UMLObject *)parent) 
+UMLAssociation::UMLAssociation( UMLDoc* parent,
+				Association_Type type,
+				UMLObject * roleA, UMLObject * roleB )
+    : UMLObject(parent) 
 {
 	init(type, roleA, roleB);
 }
@@ -35,16 +38,6 @@ bool UMLAssociation::operator==(UMLAssociation &rhs) {
                 m_Name == rhs.m_Name &&
                 m_pRoleA == rhs.m_pRoleA &&
                 m_pRoleB == rhs.m_pRoleB );
-/*
-	return( UMLObject::operator==( rhs ) &&
-		m_AssocType == rhs.m_AssocType &&
-		m_RoleAId == rhs.m_RoleAId &&
-		m_RoleBId == rhs.m_RoleBId &&
-		m_MultiA == rhs.m_MultiA &&
-		m_MultiB == rhs.m_MultiB &&
-		m_RoleNameA == rhs.m_RoleNameA &&
-		m_RoleNameB == rhs.m_RoleNameB );
-*/
 }
 
 const QString UMLAssociation::assocTypeStr[UMLAssociation::nAssocTypes] = {

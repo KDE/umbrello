@@ -22,10 +22,12 @@
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
+class UMLClass;
+
 class UMLStereotype : public UMLClassifierListItem {
 public:
 	/**
-	 * Sets up an stereotype.
+	 * Sets up a stereotype.
 	 *
 	 * @param parent	The parent of this UMLStereotype.
 	 * @param name		The name of this UMLStereotype.
@@ -33,14 +35,14 @@ public:
 	 * @param listType	The list which this stereotype is part of
 	 *			(attribute, operation etc)
 	 */
-	UMLStereotype(QObject* parent, QString name, int id, UMLObject_Type listType);
+	UMLStereotype(UMLClass* parent, QString name, int id, UMLObject_Type listType);
 
 	/**
 	 * Sets up a stereotype.
 	 *
 	 * @param parent	The parent of this UMLStereotype.
 	 */
-	UMLStereotype(QObject* parent);
+	UMLStereotype(UMLClass* parent);
 
 	/**
 	 * Overloaded '==' operator

@@ -17,7 +17,7 @@
 #include "../../package.h"
 #include "../../dialogs/umbrellodialog.h"
 #include "../../dialogs/packagepropertiespage.h"
-#include "../../dialogs/umlobjectassociationspage.h"
+//#include "../../dialogs/umlobjectassociationspage.h"
 //#include "../../dialogs/classdisplayoptionspage.h"
 #include "../../dialogs/widgetcolorspage.h"
 
@@ -161,7 +161,9 @@ void PackageWidget::editProperties()
 	UmbrelloDialog dialog;
 
 	dialog.addPage(new PackagePropertiesPage( static_cast<UMLPackage*>(m_umlObject),0L),i18n("General"));
+	/* Packages cannot have associations:
 	dialog.addPage(new UMLObjectAssociationsPage( static_cast<UMLPackage*>(m_umlObject),0L),i18n("Associations"));
+	 */
 	//dialog.addPage(new PackageDisplayOptionsPage( this,0L), i18n("Display Options"));
 	dialog.addPage(new WidgetColorsPage( this,  0L), i18n("Colors"));
 	

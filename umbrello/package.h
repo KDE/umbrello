@@ -19,7 +19,7 @@ class UMLDoc;
 /**
  * This class contains the non-graphical information required for a UML
  * Package.
- * This class inherits from @ref UMLCanvasObject which contains most of the
+ * This class inherits from @ref UMLObject which contains most of the
  * information.
  *
  * The @ref UMLDoc class creates instances of this type.  All Packages will
@@ -29,11 +29,11 @@ class UMLDoc;
  *
  * @short Non-graphical information for a Package.
  * @author Jonathan Riddell
- * @see	UMLCanvasObject
+ * @see	UMLObject
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
-class UMLPackage : public UMLCanvasObject {
+class UMLPackage : public UMLObject {
 	Q_OBJECT
 public:
 	/**
