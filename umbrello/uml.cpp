@@ -7,7 +7,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <iostream.h>
 #include "uml.h"
 
 #include "infowidget.h"
@@ -392,7 +391,6 @@ void UMLApp::initStatusBar() {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLApp::initDocument() {
-cerr <<" NEW DOC CALLED "<<endl;
 	doc = new UMLDoc(this);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -433,7 +431,6 @@ void UMLApp::initView() {
 void UMLApp::openDocumentFile(const KURL& url) {
 	slotStatusMsg(i18n("Opening file..."));
 
-cerr<<"OPEN FILE"<<endl;
 	doc->openDocument( url);
 	fileOpenRecent->addURL( url );
 	slotStatusMsg(i18n("Ready."));
@@ -637,8 +634,6 @@ void UMLApp::slotFileOpen() {
 	slotStatusMsg(i18n("Opening file..."));
 	loading = true;
 
-cerr<<"OPEN FILE (SLOT)"<<endl;
-
 	if(!doc->saveModified()) {
 
 		// here saving wasn't successful
@@ -663,8 +658,6 @@ cerr<<"OPEN FILE (SLOT)"<<endl;
 void UMLApp::slotFileOpenRecent(const KURL& url) {
 	slotStatusMsg(i18n("Opening file..."));
 	loading = true;
-
-cerr<<"OPEN FILE (SLOT RECENT)"<<endl;
 
 	KURL oldURL = doc->URL();
 
@@ -1252,8 +1245,6 @@ void UMLApp::generationWizard() {
 
 void UMLApp::setActiveLanguage(int id) {
 
-cerr<<"select active language(id) called"<<endl;
-
 	// only change the active language IF different from one we currently have
 	if (!langSelect->isItemChecked(id)) 
 	{
@@ -1272,8 +1263,6 @@ cerr<<"select active language(id) called"<<endl;
 }
 
 void UMLApp::setActiveLanguage(QString activeLanguage) {
-
-cerr<<"select active language(activeLanguage) called"<<endl;
 
 	for(unsigned int j=0; j < langSelect->count(); j++) {
 		int id = langSelect->idAt(j);

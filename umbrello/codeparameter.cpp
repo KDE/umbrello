@@ -14,7 +14,6 @@
  */
 
 
-#include <iostream.h>
 #include <kdebug.h>
 #include "codeparameter.h"
 
@@ -206,9 +205,7 @@ void CodeParameter::initFields ( ClassifierCodeDocument * doc, UMLObject * obj) 
 	m_parentObject = obj;
 	m_initialValue = QString("");
 
-cerr<<"CodeParm creates comment"<<endl;
 	m_comment = m_parentDocument->newCodeComment();
-cerr<<"CodeParm finish creates comment"<<endl;
 	m_comment->setText(getParentObject()->getDoc());
 
 	connect(m_parentObject,SIGNAL(modified()),this,SLOT(syncToParent()));

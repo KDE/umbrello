@@ -13,7 +13,6 @@
  *      Date   : Thu Jun 19 2003
  */
 
-#include <iostream.h>
 #include <cstdlib> //to get the user name
 
 #include <qdatetime.h>
@@ -110,11 +109,11 @@ CodeDocument * CodeGenerator::findCodeDocumentByID(QString tag) {
 	CodeDocument * doc = (CodeDocument*)NULL;
         if((doc = m_codeDocumentDictionary.find(tag)))
 {
-	cerr<<" * findCodeDocumentByID finds a match to ["<<tag.latin1()<<"]"<<":"<<doc<<endl;
+	kdWarning()<<" * findCodeDocumentByID finds a match to ["<<tag.latin1()<<"]"<<":"<<doc<<endl;
                 return doc;
 }
 
-	cerr<<" * findCodeDocumentByID finds NO match to ["<<tag.latin1()<<"]"<<endl;
+	kdWarning()<<" * findCodeDocumentByID finds NO match to ["<<tag.latin1()<<"]"<<endl;
         return doc;
 }
 
@@ -212,7 +211,7 @@ UMLDoc * CodeGenerator::getDocument ( ) {
  */
 void CodeGenerator::initFromParentDocument( ) {
 
-cerr<<"INITTOPARENT called"<<endl;
+kdWarning()<<"INITTOPARENT called"<<endl;
 
         // Walk through the document converting classifiers into
         // classifier code documents as needed (e.g only if doesnt exist)
@@ -230,7 +229,7 @@ cerr<<"INITTOPARENT called"<<endl;
 		}
         }
 
-cerr<<"INITTOPARENT END"<<endl;
+kdWarning()<<"INITTOPARENT END"<<endl;
 
 }
 
@@ -240,7 +239,7 @@ cerr<<"INITTOPARENT END"<<endl;
  * or removed as is apppropriate.
  */
 void CodeGenerator::syncCodeToDocument ( ) {
-cerr<<"============ sync CODE TO DOCUMENT CALLED =========="<<endl;
+kdWarning()<<"============ sync CODE TO DOCUMENT CALLED =========="<<endl;
 	for (CodeDocument * doc = m_codedocumentVector.first(); doc; doc=m_codedocumentVector.next())
 		doc->syncronize();
 }
@@ -321,7 +320,7 @@ void CodeGenerator::writeCodeToFile ( QPtrList<CodeDocument> & docs ) {
 		if(doc->getWriteOutCode())
 		{
 			QString filename = findFileName(doc);
-cerr<<"CODE GEN writes code for:"<<filename.latin1()<<endl;
+kdWarning()<<"CODE GEN writes code for:"<<filename.latin1()<<endl;
 	   		// check that we may open that file for writing
 	        	QFile file;
 	        	if ( openFile(file,filename) ) {
@@ -385,7 +384,7 @@ CodeDocument * CodeGenerator::newCodeDocument ( ) {
 // override it.
 CodeComment * CodeGenerator::newCodeComment(CodeDocument * doc) 
 {
-cerr<<" NEW CODE COMMENT "<<endl;
+kdWarning()<<" NEW CODE COMMENT "<<endl;
 	return new CodeComment(doc);
 }
 
@@ -393,7 +392,7 @@ cerr<<" NEW CODE COMMENT "<<endl;
 // override it.
 CodeBlock * CodeGenerator::newCodeBlock(CodeDocument * doc)
 {
-cerr<<" NEW CODE BLock "<<endl;
+kdWarning()<<" NEW CODE BLock "<<endl;
         return new CodeBlock(doc);
 }
 

@@ -13,8 +13,7 @@
  *      Date   : Thu Jun 19 2003
  */
 
-#include <iostream.h>
-
+#include <kdebug.h>
 #include <qregexp.h>
 
 #include "codegenerator.h"
@@ -258,7 +257,7 @@ void ClassifierCodeDocument::addOperation (UMLObject * op ) {
  */
 void ClassifierCodeDocument::removeOperation (UMLObject * op ) {
 // FIX
-cerr<<"REMOVE OPERATION CALLED for op:"<<op<<endl;
+kdWarning()<<"REMOVE OPERATION CALLED for op:"<<op<<endl;
 }
 
 // Other methods
@@ -316,7 +315,7 @@ CodeClassField * ClassifierCodeDocument::newCodeClassField (UMLRole * role ) {
 void ClassifierCodeDocument::init (UMLClassifier * c ) 
 {
 
-cerr<<" **> Start INIT Classifier code doc"<<endl;
+kdWarning()<<" **> Start INIT Classifier code doc"<<endl;
 
   	m_parentclassifier = c;
 	m_classfieldVector.setAutoDelete(true);
@@ -336,7 +335,7 @@ cerr<<" **> Start INIT Classifier code doc"<<endl;
 
 	connect(c,SIGNAL(modified()),this,SLOT(syncToParent()));
 
-cerr<<" **> END INIT Classifier code doc"<<endl;
+kdWarning()<<" **> END INIT Classifier code doc"<<endl;
 }
 
 // IF the classifier object is modified, this will get called. 
@@ -350,7 +349,7 @@ void ClassifierCodeDocument::syncNamesToParent( ) {
 
 void ClassifierCodeDocument::syncronize( ) {
 
-cerr<<" Syncronize classifier code doc:"<<this<<endl;
+kdWarning()<<" Syncronize classifier code doc:"<<this<<endl;
 
 	updateHeader(); // doing this insures time/date stamp is at the time of this call
 	syncNamesToParent(); 
@@ -384,7 +383,7 @@ void ClassifierCodeDocument::syncToParent( ) {
  */
 void ClassifierCodeDocument::initCodeClassFields ( ) {
 
-cerr<<" INIT CODE CLASSFIELDS IN CLASSIFIER DOC"<<endl;
+kdWarning()<<" INIT CODE CLASSFIELDS IN CLASSIFIER DOC"<<endl;
 	UMLClassifier * c = getParentClassifier();
 	// first, do the code classifields that arise from attributes
         if (!parentIsInterface()) {
@@ -407,7 +406,7 @@ cerr<<" INIT CODE CLASSFIELDS IN CLASSIFIER DOC"<<endl;
 	updateAssociationClassFields(ag);
 	updateAssociationClassFields(ac);
 
-cerr<<" FINISH - INIT CODE CLASSFIELDS IN CLASSIFIER DOC"<<endl;
+kdWarning()<<" FINISH - INIT CODE CLASSFIELDS IN CLASSIFIER DOC"<<endl;
 
 }
 
@@ -421,7 +420,7 @@ void ClassifierCodeDocument::updateAssociationClassFields ( QPtrList<UMLAssociat
 void ClassifierCodeDocument::addAssociationClassField (UMLAssociation * a, bool syncToParentIfAdded) 
 {
 
-cerr<<"ADD ASSOCIATION CLASSFIELD CALLED FOR :"<<a<<endl;
+kdWarning()<<"ADD ASSOCIATION CLASSFIELD CALLED FOR :"<<a<<endl;
 	int cid = getParentClassifier()->getID(); // so we know who 'we' are 
 	bool printRoleA = false, printRoleB = false;
 	// it may seem counter intuitive, but you want to insert the role of the
@@ -470,7 +469,7 @@ void ClassifierCodeDocument::setAttributesFromNode ( QDomElement & elem )
 
         // set attributes
 	int parent_id = elem.attribute("parent_class","-1").toInt();
-cerr<<"setAttributeFromNode in classifiercodedoc got parent class id:"<<parent_id<<endl;
+kdWarning()<<"setAttributeFromNode in classifiercodedoc got parent class id:"<<parent_id<<endl;
 // FIX
 
 }

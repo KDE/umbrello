@@ -13,8 +13,7 @@
  *      Date   : Wed Jun 18 2003
  */
 
-#include <iostream.h>
-
+#include <kdebug.h>
 #include <qregexp.h>
 
 #include "codedocument.h"
@@ -31,7 +30,7 @@ CodeDocument::CodeDocument (CodeGenerator * gen , QDomElement & elem)
     : QObject (gen, "ACodeDocument") 
 {
 
-cerr<< " DOC LOADING FROM XMI" <<endl;
+kdWarning()<< " DOC LOADING FROM XMI" <<endl;
 	initDoc( gen );
 	loadFromXMI(elem);
 }
@@ -49,7 +48,7 @@ CodeDocument::~CodeDocument ( ) {
 //        for (TextBlock *tb = m_textblockVector.first(); tb; tb=m_textblockVector.next())
 //		delete tb;
 
-	cerr<<"DESTROYED CODE DOCUMENT name:"<<getFileName().latin1()<<" id:"<<this<<endl;
+	kdWarning()<<"DESTROYED CODE DOCUMENT name:"<<getFileName().latin1()<<" id:"<<this<<endl;
 };
 
 //  
@@ -342,7 +341,7 @@ QString CodeDocument::toString ( ) {
 }
 
 void CodeDocument::syncronize() {
-cerr<<" Syncronize code doc:"<<this<<endl;
+kdWarning()<<" Syncronize code doc:"<<this<<endl;
 	updateContent();
 }
 
@@ -533,7 +532,7 @@ TextBlock * CodeDocument::findTextBlockByTag( QString tag , bool descendIntoChil
 
 void CodeDocument::initDoc ( CodeGenerator * gen ) {
 
-cerr<<"INIT CODE DOCUMENT"<<endl;
+kdWarning()<<"INIT CODE DOCUMENT"<<endl;
 
 	m_parentgenerator = gen;
 	m_writeOutCode = true;
@@ -553,6 +552,6 @@ cerr<<"INIT CODE DOCUMENT"<<endl;
 
 //	m_dialog = new CodeDocumentDialog( );
 
-cerr<<"INIT CODE DOCUMENT - FINISHED "<<endl;
+kdWarning()<<"INIT CODE DOCUMENT - FINISHED "<<endl;
 }
 

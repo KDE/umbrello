@@ -13,7 +13,6 @@
  *      Date   : Wed Jun 18 2003
  */
 
-#include <iostream.h>
 #include <kdebug.h>
 #include "hierarchicalcodeblock.h"
 

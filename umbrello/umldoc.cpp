@@ -6,7 +6,6 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include <iostream.h>
 #include "actor.h"
 #include "associationwidget.h"
 #include "associationwidgetdata.h"

@@ -7,7 +7,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <iostream.h>
 #include "umlrole.h"
 #include "association.h"
 
@@ -34,72 +33,6 @@ bool UMLRole::operator==(UMLRole &rhs) {
 		m_Name == rhs.m_Name 
               );
 }
-
-/*
-bool UMLRole::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
-	QDomElement associationElement = qDoc.createElement( "UML:Association" );
-	bool status = UMLObject::saveToXMI( qDoc, associationElement );
-
-	associationElement.setAttribute( "name", getName() );
-	// associationElement.setAttribute( "assoctype", toString( getAssocType() ) );
-	associationElement.setAttribute( "assoctype", getAssocType() );
-	associationElement.setAttribute( "rolea", getRoleAId() );
-	associationElement.setAttribute( "roleb", getRoleBId() );
-	associationElement.setAttribute( "multia", getMultiA() );
-	associationElement.setAttribute( "multib", getMultiB() );
-	associationElement.setAttribute( "namea", getRoleNameA() );
-	associationElement.setAttribute( "nameb", getRoleNameB() );
-	associationElement.setAttribute( "doca", getRoleADoc() );
-	associationElement.setAttribute( "docb", getRoleBDoc() );
-	associationElement.setAttribute( "visibilitya", getVisibilityA() );
-	associationElement.setAttribute( "visibilityb", getVisibilityB() );
-	associationElement.setAttribute( "changeabilitya", getChangeabilityA() );
-	associationElement.setAttribute( "changeabilityb", getChangeabilityB() );
-	qElement.appendChild( associationElement );
-	return status;
-}
-
-bool UMLRole::loadFromXMI( QDomElement & element ) {
-
-	if( !UMLObject::loadFromXMI( element ) )
-		return false;
-
-	setName(element.attribute( "name", "" ));
-
-	setAssocType( toAssocType( element.attribute( "assoctype", "" )));
-
-	setRoleAId(element.attribute( "rolea", "-1" ).toInt());
-	setRoleBId(element.attribute( "roleb", "-1" ).toInt());
-
-	setMultiA(element.attribute( "multia", "" ));
-	setMultiB(element.attribute( "multib", "" ));
-
-	setRoleNameA(element.attribute( "namea", "" ));
-	setRoleNameB(element.attribute( "nameb", "" ));
-
-	setRoleADoc(element.attribute( "doca", "" ));
-	setRoleBDoc(element.attribute( "docb", "" ));
-
-        // visibilty defaults to Public if it cant set it here..
-        QString visibilityA = element.attribute( "visibilitya", "0");
-        QString visibilityB = element.attribute( "visibilityb", "0");
-        if (visibilityA.toInt() > 0)
-                setVisibilityA( (Scope) visibilityA.toInt());
-        if (visibilityB.toInt() > 0)
-                setVisibilityB( (Scope) visibilityB.toInt());
-
-        // Changeability defaults to "Changeable" if it cant set it here..
-        QString changeabilityA = element.attribute( "changeabilitya", "0");
-        QString changeabilityB = element.attribute( "changeabilityb", "0");
-        if (changeabilityA.toInt() > 0)
-                setChangeabilityA ( (Changeability_Type) changeabilityA.toInt());
-        if (changeabilityB.toInt() > 0)
-                setChangeabilityB ( (Changeability_Type) changeabilityB.toInt());
-
-	((UMLDoc*)parent())->addAssocToConcepts(this);
-	return true;
-}
-*/
 
 UMLAssociation * UMLRole::getParentAssociation () {
 	UMLAssociation * assoc = dynamic_cast<UMLAssociation*>(this->parent());

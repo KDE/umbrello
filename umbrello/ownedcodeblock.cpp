@@ -13,8 +13,6 @@
  *      Date   : Tue Aug 19 2003
  */
 
-#include <iostream.h>
-
 #include <kdebug.h>
 #include "ownedcodeblock.h"
 #include "umlobject.h"

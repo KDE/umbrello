@@ -13,7 +13,6 @@
  *      Date   : Wed Jun 18 2003
  */
 
-#include <iostream.h>
 #include <qregexp.h>
 
 #include "textblock.h"
@@ -219,9 +218,7 @@ QString TextBlock::encodeText( QString text , QString endLine) {
 // we simply convert all types of newLines to the "\n" or &#010;
 // entity.
 QString TextBlock::decodeText( QString text , QString endLine) {
-cerr<<"DECODE TEXT GOT:["<<text.latin1()<<"]"<<endl; 
 	QString decoded = text.replace(QRegExp("&#010;"),endLine);
-cerr<<"DECODE TEXT RETURNS:["<<decoded.latin1()<<"]"<<endl; 
 	return decoded;
 }
 
