@@ -1,3 +1,14 @@
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *  copyright (C) 2005                                                     *
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                  *
+ ***************************************************************************/
+
 // own header
 #include "idlimport.h"
 
@@ -14,7 +25,7 @@
 #include "package.h"
 #include "interface.h"
 #include "class.h"
-//#include "umldoc.h"
+#include "enum.h"
 
 namespace IDLImport {
 
@@ -22,6 +33,9 @@ QStringList source;
 int srcIndex = 0;
 UMLPackage *scope[32];
 int scopeIndex = 0;  // index 0 is reserved for global scope
+UMLClassifier *classifier = NULL;
+bool isAbstract = false, isOneway = false, isReadonly = false, isAttribute = false;
+Uml::Scope currentAccess = Uml::Public;
 
 void skipStmt() {
 	const int srcLength = source.count();
@@ -59,7 +73,8 @@ void parseFile(QString filename) {
 		line = line.simplifyWhiteSpace();
 		if (line.isEmpty())
 			continue;
-		kdDebug() << "line: " << line << endl;
+		//kdDebug() << "line: " << line << endl;
+
 		// doesn't work:
 		// QStringList tmpList = QStringList::split( QRegExp("\\b"), line );
 		// instead:
@@ -94,12 +109,92 @@ void parseFile(QString filename) {
 		if (keyword == "interface") {
 			UMLObject *ns = importer->createUMLObject(Uml::ot_Interface,
 						  source[++srcIndex], scope[scopeIndex]);
-			scope[++scopeIndex] = static_cast<UMLPackage*>(ns);
+			scope[++scopeIndex] = classifier = static_cast<UMLClassifier*>(ns);
 			// inheritance: TBD
-			if (source[++srcIndex] != "{")
-				kdError() << "importIDL: unexpected: " << source[srcIndex] << endl;
+			while (++srcIndex < srcLength && source[srcIndex] != "{")
+				;
 			continue;
 		}
+		if (keyword == "struct") {
+			UMLObject *ns = importer->createUMLObject(Uml::ot_Class,
+						  source[++srcIndex], scope[scopeIndex]);
+			scope[++scopeIndex] = classifier = static_cast<UMLClassifier*>(ns);
+			continue;
+		}
+		if (keyword == "union" || keyword == "exception") {
+			// TBD. <gulp>
+			while (++srcIndex < srcLength)
+				if (source[srcIndex].contains("}"))
+					break;
+			continue;
+		}
+		if (keyword == "enum") {
+			UMLObject *ns = importer->createUMLObject(Uml::ot_Enum,
+						  source[++srcIndex], scope[scopeIndex]);
+			UMLEnum *enumType = static_cast<UMLEnum*>(ns);
+			classifier = enumType;
+			while (++srcIndex < srcLength) {
+				if (source[srcIndex].contains("}"))
+					break;
+				if (source[srcIndex] == ",")
+					srcIndex++;
+				importer->addEnumLiteral(enumType, source[srcIndex]);
+			}
+			continue;
+		}
+		if (keyword == "typedef") {
+			skipStmt();  // TBD.
+			continue;
+		}
+		if (keyword == "const") {
+			skipStmt();
+			continue;
+		}
+		if (keyword == "abstract") {
+			isAbstract = true;
+			continue;
+		}
+		if (keyword == "valuetype") {
+			UMLObject *ns = importer->createUMLObject(Uml::ot_Class,
+						  source[++srcIndex], scope[scopeIndex]);
+			scope[++scopeIndex] = classifier = static_cast<UMLClassifier*>(ns);
+			classifier->setAbstract(isAbstract);
+			isAbstract = false;
+			// inheritance: TBD
+			while (++srcIndex < srcLength && source[srcIndex] != "{")
+				;
+			continue;
+		}
+		if (keyword == "public") {
+			currentAccess = Uml::Public;
+			continue;
+		}
+		if (keyword == "private") {
+			currentAccess = Uml::Private;
+			continue;
+		}
+		if (keyword == "readonly") {
+			isReadonly = true;
+			continue;
+		}
+		if (keyword == "attribute") {
+			isAttribute = true;
+			continue;
+		}
+		if (keyword == "oneway") {
+			isOneway = true;
+			continue;
+		}
+		if (keyword.contains("}")) {
+			if (scopeIndex)
+				scopeIndex--;
+			else
+				kdError() << "importIDL: too many }" << endl;
+			continue;
+		}
+		// At this point, we expect a type name (of a member of struct
+		// or valuetype, or return type of an operation.)
+		skipStmt();  // TBD
 	}
 	pclose(fp);
 }
