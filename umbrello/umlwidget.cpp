@@ -24,6 +24,8 @@
 #include "umllistview.h"
 #include "umlview.h"
 
+#include "codegenerator.h"
+#include "codegenerators/simplecodegenerator.h"
 #include "listpopupmenu.h"
 #include "classifier.h"
 #include "associationwidget.h"
@@ -678,26 +680,29 @@ void UMLWidget::startPopupMenu(QPoint At) {
 	int count = m_pView -> getSelectCount();
 	//a MessageWidget when selected will select its text widget and vice versa
 	//so take that into account for popup menu.
-	if( m_bSelected ) {
+
+	// determine multi state
+	bool multi = false;
+	if( m_bSelected ) 
 		if( m_pView -> getType() == dt_Sequence ) {
 			if( getBaseType() == wt_Message && count == 2 ) {
-				m_pMenu = new ListPopupMenu(static_cast<QWidget*>(m_pView), this);
+				multi = false; 
 			} else if( getBaseType() == wt_Text &&
 				   ((FloatingText*)this) -> getRole() == tr_Seq_Message && count == 2 ) {
-				m_pMenu = new ListPopupMenu(static_cast<QWidget*>(m_pView), this);
+				multi = false; 
 			} else if( count > 1 ) {
-				m_pMenu = new ListPopupMenu(static_cast<QWidget*>(m_pView), this, true );
-			} else {
-				m_pMenu = new ListPopupMenu(static_cast<QWidget*>(m_pView), this);
+				multi = true;
 			}
 		} else if( count > 1 ) {
-			m_pMenu = new ListPopupMenu(static_cast<QWidget*>(m_pView), this, true );
-		} else {
-			m_pMenu = new ListPopupMenu(static_cast<QWidget*>(m_pView), this);
-		}
-	} else {
-		m_pMenu = new ListPopupMenu(static_cast<QWidget*>(m_pView), this);
-	}
+			multi = true;
+		} 
+
+	m_pMenu = new ListPopupMenu(static_cast<QWidget*>(m_pView), this, multi);
+
+	// disable the "view code" menu for simple code generators
+	CodeGenerator * currentCG = m_pView->getDocument()->getCurrentCodeGenerator();
+	if(currentCG && dynamic_cast<SimpleCodeGenerator*>(currentCG))
+			m_pMenu->setItemEnabled(ListPopupMenu::mt_ViewCode, false);
 
 	m_pMenu->popup(At);
 
