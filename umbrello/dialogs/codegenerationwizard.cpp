@@ -193,8 +193,7 @@ void CodeGenerationWizard::showPage(QWidget *page) {
 		//directory exists.. make sure we can write to it
 			if(!info.isWritable())
 			{
-      	KMessageBox::sorry(this,i18n("The output directory exists, but it is not writable.\nPlease set\
-				the appropriate permissions or choose another directory."),
+      	KMessageBox::sorry(this,i18n("The output directory exists, but it is not writable.\nPlease set the appropriate permissions or choose another directory."),
 				i18n("Error Writing to Output Directory"));
 				return;
 			}
