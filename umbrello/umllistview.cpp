@@ -58,7 +58,7 @@ UMLListView::UMLListView(QWidget *parent,const char *name) : KListView(parent,na
 	setFocusPolicy(QWidget::StrongFocus);
 	setDragEnabled(TRUE);
 	setColumnWidthMode( 0, Manual );
-	setDefaultRenameAction( Reject );
+	setDefaultRenameAction( Accept );
 	setResizeMode( LastColumn );
 	//add columns and initial items
 	addColumn(i18n("UML Diagrams"));
@@ -86,8 +86,6 @@ UMLListView::UMLListView(QWidget *parent,const char *name) : KListView(parent,na
 UMLListView::~UMLListView() {}
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLListView::contentsMousePressEvent(QMouseEvent *me) {
-	if( isRenaming() )
-		return;
 	if( m_doc -> getCurrentView() )
 		m_doc -> getCurrentView() -> clearSelected();
 	if( me -> state() != ShiftButton )
@@ -159,15 +157,12 @@ void UMLListView::contentsMousePressEvent(QMouseEvent *me) {
 	  We don't need to do anything for Left button.
 	  But if we do in future, just put and else statement in here
 	*/
-	if( !isRenaming() )
-		this->KListView::contentsMousePressEvent(me);
+	this->KListView::contentsMousePressEvent(me);
 
 
 }
 
 void UMLListView::contentsMouseReleaseEvent(QMouseEvent *me) {
-	if( isRenaming() )
-		return;
 	this->KListView::contentsMouseReleaseEvent(me);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
