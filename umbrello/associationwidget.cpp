@@ -311,7 +311,7 @@ void AssociationWidget::setMulti(QString strMulti, Role_Type role) {
 		m_role[role].m_pMulti->setLink(this);
 		m_pView->addWidget(m_role[role].m_pMulti);
 	} else {
-		if (m_role[role].m_pMulti->getText() == "") {
+		if (m_role[role].m_pMulti->getText().isEmpty()) {
 			newLabel = true;
 		}
 		m_role[role].m_pMulti->setText(strMulti);
@@ -353,7 +353,7 @@ bool AssociationWidget::setRoleName (QString strRole, Role_Type role) {
 		Scope scope = getVisibility(role);
 		m_role[role].m_pRole->setPreText(UMLAssociation::ScopeToString(scope));
 	} else {
-		if (m_role[role].m_pRole->getText() == "") {
+		if (m_role[role].m_pRole->getText().isEmpty()) {
 			newLabel = true;
 		}
 		m_role[role].m_pRole->setText(strRole);
@@ -452,7 +452,7 @@ void AssociationWidget::setChangeWidget(QString strChangeWidget, Role_Type role)
 		m_role[role].m_pChangeWidget->setPreText("{"); // all types have this
 		m_role[role].m_pChangeWidget->setPostText("}"); // all types have this
 	} else {
-		if (m_role[role].m_pChangeWidget->getText() == "") {
+		if (m_role[role].m_pChangeWidget->getText().isEmpty()) {
 			newLabel = true;
 		}
 		m_role[role].m_pChangeWidget->setText(strChangeWidget);

@@ -347,7 +347,7 @@ bool UMLDoc::openDocument(const KURL& url, const char* /*format =0*/) {
 		QStringList::Iterator it;
 
 		// now go through all entries till we find an xmi file
-		for (it = entries.begin(); it != entries.end(); it++)
+		for (it = entries.begin(); it != entries.end(); ++it)
 		{
 			// only check files, we do not go in subdirectories
 			if (rootDir->entry(*it)->isFile() == true)
@@ -1045,7 +1045,7 @@ UMLObject* UMLDoc::createChildObject(UMLObject* umlobject, Object_Type type) {
 UMLObject* UMLDoc::createAttribute(UMLClass* umlclass, const QString &name /*=null*/) {
 	Uml::IDType id = getUniqueID();
 	QString currentName;
-	if (name == QString::null)  {
+	if (name.isNull())  {
 		currentName = umlclass->uniqChildName(Uml::ot_Attribute);
 	} else {
 		currentName = name;
@@ -1059,7 +1059,7 @@ UMLObject* UMLDoc::createAttribute(UMLClass* umlclass, const QString &name /*=nu
 
 	//check for name == QString::null stops dialogue being shown
 	//when creating attribute via list view
-	while (button==QDialog::Accepted && !goodName && name == QString::null) {
+	while (button==QDialog::Accepted && !goodName && name.isNull()) {
 		UMLAttributeDialog attributeDialogue(0, newAttribute);
 		button = attributeDialogue.exec();
 		QString name = newAttribute->getName();
@@ -1171,7 +1171,7 @@ UMLOperation* UMLDoc::createOperation(UMLClassifier* classifier,
 			    << endl;
 		return NULL;
 	}
-	bool nameNotSet = (name == QString::null || name.isEmpty());
+	bool nameNotSet = (name.isNull() || name.isEmpty());
 	if (! nameNotSet) {
 		UMLOperation *existingOp = classifier->checkOperationSignature(name, params);
 		if (existingOp)

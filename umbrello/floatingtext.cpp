@@ -395,7 +395,7 @@ bool FloatingText::loadFromXMI( QDomElement & qElement ) {
 	// CAVEAT: The caller should not interpret the false return value
 	//  as an indication of failure since previous umbrello versions
 	//  saved lots of these empty FloatingTexts.
-	bool isDummy = (m_Text == "" && m_PreText == "" && m_PostText == "");
+	bool isDummy = (m_Text.isEmpty() && m_PreText.isEmpty() && m_PostText.isEmpty());
 	return !isDummy;
 }
 
