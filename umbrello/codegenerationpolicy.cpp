@@ -12,7 +12,6 @@
  *      Author : thomas
  *      Date   : Fri Jun 20 2003
  */
-
 #include <cstdlib> //to get the user name
 
 #include <kconfig.h>
@@ -313,6 +312,7 @@ void CodeGenerationPolicy::setDefaults ( CodeGenerationPolicy * clone , bool emi
 	setIncludeHeadings ( clone->getIncludeHeadings());
 	setOutputDirectory ( clone->getOutputDirectory());
 	setLineEndingType ( clone->getLineEndingType());
+	setIndentationAmount ( clone->getIndentationAmount());
 	setIndentationType ( clone->getIndentationType());
 	setModifyPolicy ( clone->getModifyPolicy());
 	setOverwritePolicy ( clone->getOverwritePolicy() );
