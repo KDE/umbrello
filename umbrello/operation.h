@@ -15,9 +15,6 @@
 #include "classifierlistitem.h"
 #include "umlattributelist.h"
 
-// forward declarations
-class UMLClassifier;
-
 /**
  * This class represents an operation in the UML model.
  *
@@ -26,9 +23,8 @@ class UMLClassifier;
 
 class UMLOperation : public UMLClassifierListItem {
 	Q_OBJECT
-friend UMLOperation* UMLDoc::createOperation( );
+friend class UMLClassifier;
 friend UMLOperation* UMLDoc::createOperation( UMLClassifier *, const QString &, UMLAttributeList * );
-
 private:
 	/**
 	 * Constructs an UMLOperation.
