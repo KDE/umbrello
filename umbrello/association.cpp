@@ -6,7 +6,6 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-
 #include <kdebug.h>
 
 #include "association.h"
@@ -28,6 +27,9 @@ UMLAssociation::UMLAssociation( UMLDoc* parent,
 {
 	init(type, roleA, roleB);
 }
+
+// destructor
+UMLAssociation::~UMLAssociation( ) { }
 
 bool UMLAssociation::operator==(UMLAssociation &rhs) {
 	if (this == &rhs) {

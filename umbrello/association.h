@@ -46,7 +46,7 @@ public:
 	/**
 	 * Standard deconstructor.
 	 */
-	virtual ~UMLAssociation() {}
+	virtual ~UMLAssociation();
 
 	/**
 	 * Converts a Uml::Association_Type to its string representation.
