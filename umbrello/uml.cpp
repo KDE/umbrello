@@ -7,6 +7,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "infowidget.h"
 #include "classimport.h"
 #include "docwindow.h"
 #include "uml.h"
@@ -36,8 +37,9 @@
 #include <qclipboard.h>
 #include <qpopmenu.h>
 #include <qtimer.h>
+#include <qwidgetstack.h>
 
-UMLApp::UMLApp(QWidget* , const char* name):KMainWindow(0, name) {
+UMLApp::UMLApp(QWidget* , const char* name):KDockMainWindow(0, name) {
 	m_pDocWindow = 0;
 	config=kapp->config();
 	listView = 0;
@@ -56,10 +58,6 @@ UMLApp::UMLApp(QWidget* , const char* name):KMainWindow(0, name) {
 	initClip();
 	initStatusBar();
 	readOptions();
-	if( optionState.uiState.showDocWindow )
-		m_pDocWindow -> show();
-	else
-		m_pDocWindow -> hide();
 	///////////////////////////////////////////////////////////////////
 	// disable actions at startup
 	fileSave->setEnabled(true);
@@ -357,27 +355,39 @@ void UMLApp::initDocument() {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLApp::initView() {
-	splitter = new QSplitter( this,"SPLITTER" );
-	m_pDocSplitter = new QSplitter( splitter ,"DOC SPLITTER" );
-	m_pDocSplitter -> setOrientation( Vertical );
+	setCaption(doc->URL().fileName(),false);
 
-	listView = new UMLListView( m_pDocSplitter ,"LISTVIEW" );
-	m_pDocSplitter -> setResizeMode( listView, QSplitter::Stretch );
-	m_pDocWindow = new DocWindow( doc, m_pDocSplitter, "DOCWINDOW" );
-	m_pDocWindow -> setMaximumSize( this -> width(), this -> height() / 2 );
-	if( optionState.uiState.showDocWindow )
-		m_pDocWindow -> show();
-	else
-		m_pDocWindow -> hide();
-	m_pDocSplitter -> setResizeMode( m_pDocWindow, QSplitter::Stretch );
-	splitter -> setResizeMode( m_pDocSplitter, QSplitter::KeepSize );
 	toolsbar = new WorkToolBar(this,"WORKTOOLBAR");
 	addToolBar(toolsbar,Right,true);
-	doc -> setupListView(listView);//make sure has a link to list view and add info widget
-	doc -> setupSignals();//make sure gets signal from list view
-	listView -> setDocument(doc);
-	setCentralWidget( splitter );
-	setCaption(doc->URL().fileName(),false);
+
+	m_mainDock = createDockWidget("maindock", 0L, 0L, "main dock");
+	viewStack = new QWidgetStack(m_mainDock, "viewstack");
+
+	m_mainDock->setWidget(viewStack);
+	m_mainDock->setDockSite(KDockWidget::DockCorner);
+	m_mainDock->setEnableDocking(KDockWidget::DockNone);
+	setView(m_mainDock);
+	setMainDockWidget(m_mainDock);
+
+	m_listDock = createDockWidget("Model", 0L, 0L, "list window");
+	listView = new UMLListView(m_listDock ,"LISTVIEW");
+	m_listDock->setWidget(listView);
+	m_listDock->setDockSite(KDockWidget::DockCorner);
+	m_listDock->manualDock(m_mainDock, KDockWidget::DockLeft, 20);
+
+	m_documentationDock = createDockWidget("Documentation", 0L, 0L, "doc window");
+	m_pDocWindow = new DocWindow(doc, m_documentationDock, "DOCWINDOW");
+	m_documentationDock->setWidget(m_pDocWindow);
+	m_documentationDock->setDockSite(KDockWidget::DockCorner);
+	m_documentationDock->manualDock(m_listDock, KDockWidget::DockBottom, 80);
+	connect(m_documentationDock, SIGNAL(headerCloseButtonClicked()),
+		this, SLOT(slotDocumentationDockClosed()) );
+
+	listView->setDocument(doc);
+	doc->setupListView(listView);//make sure has a link to list view and add info widget
+	doc->setupSignals();//make sure gets signal from list view
+
+	readDockConfig(); //reposition all the DockWindows to their saved positions
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLApp::openDocumentFile(const KURL& url) {
@@ -402,11 +412,6 @@ void UMLApp::saveOptions() {
 	config->setGroup( "General Options" );
 	config->writeEntry( "Geometry", size() );
 
-	QValueList<int> list = splitter->sizes();
-	config->writeEntry( "listviewwidth", *list.begin() );
-	list = m_pDocSplitter->sizes();
-	config->writeEntry( "listviewheight", *list.begin() );
-
 	config->writeEntry( "autosave", optionState.generalState.autosave );
 	config->writeEntry( "time", optionState.generalState.time );
 	config->writeEntry( "logo", optionState.generalState.logo );
@@ -426,9 +431,8 @@ void UMLApp::saveOptions() {
 	config->writeEntry( "useFillColor", optionState.uiState.useFillColor );
 	config->writeEntry( "fillColor", optionState.uiState.fillColor );
 	config->writeEntry( "lineColor", optionState.uiState.lineColor );
-	config->writeEntry( "showDocWindow", optionState.uiState.showDocWindow );
+	config->writeEntry( "showDocWindow", m_documentationDock->isVisible() );
 	config->writeEntry( "font", optionState.uiState.font );
-
 
 	config->setGroup( "Class Options" );
 	config->writeEntry( "showVisibility", optionState.classState.showScope );
@@ -479,14 +483,6 @@ void UMLApp::readOptions() {
 	fileOpenRecent->loadEntries(config,"Recent Files");
 	config->setGroup("General Options");
 	resize( config->readSizeEntry("Geometry", new QSize(630,460)) );
-
-	QValueList<int> list = splitter->sizes();
-	list[0] = config->readNumEntry( "listviewwidth", 132);
-	splitter->setSizes(list);
-
-	list = m_pDocSplitter->sizes();
-	list[0] = config->readNumEntry( "listviewheight", 226);
-	m_pDocSplitter->setSizes(list);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -535,9 +531,8 @@ void UMLApp::readProperties(KConfig* _config) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 bool UMLApp::queryClose() {
+	writeDockConfig();
 	return doc->saveModified();
-
-
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool UMLApp::queryExit() {
@@ -684,11 +679,10 @@ void UMLApp::slotFilePrint()
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLApp::slotFileQuit() {
 	slotStatusMsg(i18n("Exiting..."));
-	if(!doc->saveModified()) {
-	}
-	else {
+	if(doc->saveModified()) {
+		writeDockConfig();
 		saveOptions();
-		kapp -> quit();
+		kapp->quit();
 	}
 	slotStatusMsg(i18n("Ready."));
 }
@@ -926,12 +920,13 @@ bool UMLApp::editCutCopy( bool bFromView ) {
 }
 
 void UMLApp::slotShowDocWindow() {
-	if(! m_pDocWindow -> isVisible() ) {
-		m_pDocWindow -> show();
+	if ( m_pDocWindow->isVisible() ) {
+		makeDockInvisible(m_documentationDock);
 	} else {
-		m_pDocWindow -> hide();
+		makeDockVisible(m_documentationDock);
 	}
-	showDocumentation -> setChecked( m_pDocWindow -> isVisible() );
+	showDocumentation->setChecked( m_documentationDock->isVisible() );
+	optionState.uiState.showDocWindow = m_documentationDock->isVisible();
 }
 
 void UMLApp::readOptionState() {
@@ -1369,5 +1364,23 @@ void UMLApp::newDocument() {
 	doc->newDocument();
 	slotUpdateViews();
 }
+
+QWidget* UMLApp::getMainViewWidget() {
+	return viewStack;
+}
+
+void UMLApp::setCurrentView(UMLView* view /*=0*/) {
+	if (view) {
+		viewStack->raiseWidget(view);
+	} else {
+		viewStack->raiseWidget(blankWidget);
+	}
+}
+
+void UMLApp::slotDocumentationDockClosed() {
+	showDocumentation->setChecked(false);
+	optionState.uiState.showDocWindow = false;
+}
+
 
 #include "uml.moc"

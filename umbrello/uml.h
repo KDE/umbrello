@@ -18,7 +18,8 @@
 
 #include "codegenerator.h"
 #include "dialogs/settingsdlg.h"
-#include <kmainwindow.h>
+
+#include <kdockwidget.h>
 #include <kurl.h>
 #include <qprogressbar.h>
 
@@ -35,6 +36,8 @@ class UMLDoc;
 class UMLListView;
 class UMLView;
 class WorkToolBar;
+class InfoWidget;
+class QWidgetStack;
 
 /**
  * The base class for UML application windows. It sets up the main
@@ -51,7 +54,7 @@ class WorkToolBar;
  * @version 1.0
  */
 
-class UMLApp : public KMainWindow {
+class UMLApp : public KDockMainWindow {
 	Q_OBJECT
 
 	friend class UMLView;
@@ -145,6 +148,18 @@ public:
 	 *	Sets the state of the view properties menu item.
 	 */
 	void setDiagramMenuItemsState(bool bState);
+
+	/**
+	 * Returns the widget used as the parent for UMLViews
+	 */
+	QWidget* getMainViewWidget();
+
+	/**
+	 * Puts this view to the top of the viewStack, i.e. makes it
+	 * visible to the user.  If no view is specified the blank
+	 * infoWidget is shown instead.
+	 */
+	void setCurrentView(UMLView* view = 0);
 
 protected:
 	virtual void keyPressEvent(QKeyEvent* e);
@@ -510,6 +525,11 @@ public slots:
 	 * last undo.
 	 */
 	void slotEditRedo();
+
+	/**
+	 *  Unchecks the menu entry and box in the settings dialogue.
+	 */
+	void slotDocumentationDockClosed();
 private:
 	/**
 	 * to slect the active language
@@ -570,14 +590,24 @@ private:
 	UMLListView * listView;
 
 	/**
-	* 	Splitter used for documentation window
-	*/
-	QSplitter * m_pDocSplitter;
+	 * 	The widget which shows the diagrams
+	 */
+	KDockWidget* m_mainDock;
 
 	/**
-	* 	Documentation window.
-	*/
-	DocWindow	* m_pDocWindow;
+	 * Contains the UMLListView tree view.
+	 */
+	KDockWidget* m_listDock;
+
+	/**
+	 * Contains the documentation DocWindow widget
+	 */
+	KDockWidget* m_documentationDock;
+
+	/**
+	 * 	Documentation window.
+	 */
+	DocWindow* m_pDocWindow;
 
 	//KAction pointers to enable/disable actions
 	KAction* fileNew;
@@ -638,11 +668,17 @@ private:
 	bool loading;
 	SettingsDlg::OptionState optionState;
 
-public:
 	/**
-	 *  splitter used to split main window
+	 * Blank widget, displayed when there are no diagrams
 	 */
-	QSplitter * splitter;
+	InfoWidget* blankWidget;
+
+	/**
+	 * Shows, and is parent of, all the UMLViews (diagrams).
+	 */
+	QWidgetStack* viewStack;
+
+public:
 	/**
 	 * the global UML settings dialogue
 	 */

@@ -20,6 +20,7 @@
 #include <qdatastream.h>
 #include <qptrstack.h>
 #include <kurl.h>
+#include <kdockwidget.h>
 
 // forward declaration of the UML classes
 class QDomNode;
@@ -30,7 +31,6 @@ class KPrinter;
 
 class DocWindow;
 class IDChangeLog;
-class InfoWidget;
 class ObjectWidget;
 class UMLListView;
 class UMLObject;
@@ -39,6 +39,7 @@ class UMLViewData;
 class UMLWidget;
 class UMLConcept;
 class UMLAssociation;
+class UMLApp;
 
 using namespace Uml;
 
@@ -587,10 +588,9 @@ public:
 	}
 
 	/**
-	 *   Returns the splitter widget used between the views and
-	 *   the listview.
+	 *   Returns the central dock widget used for diagrams
 	 */
-	QSplitter* getSplitter();
+	QWidget* getMainViewWidget();
 
 	/**
 	 *   Sets the default settings to the given settings.
@@ -639,15 +639,14 @@ public:
 	QList<UMLView> *pViewList;
 
 	/**
-	 * The infowidget, the blank widget which is shown when there
-	 * are no diagrams (no longer displays any info though).
-	 */
-	InfoWidget* infoWidget;
-
-	/**
 	 * The tree view of diagrams and objects.
 	 */
 	UMLListView* listView;
+
+	/**
+	 * Returns the UMLApp main window
+	 */
+	UMLApp* getUMLApp();
 private:
 	/**
 	 * Returns a name for the new object, appended with a number

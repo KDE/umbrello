@@ -1530,7 +1530,7 @@ void UMLListView::createDiagram( UMLListViewItem * item, Uml::Diagram_Type type 
 	pData -> setName( name );
 	pData -> setType( type );
 	pData -> setID( doc -> getUniqueID() );
-	view =  new UMLView( doc -> getSplitter(), pData );
+	view = new UMLView(doc->getUMLApp()->getMainDockWidget(), pData, doc);
 	doc -> addView( view );
 	view  -> setOptionState( ((UMLApp *) doc -> parent()) -> getOptionState() );
 	UMLListViewItemData * data = item -> getdata();

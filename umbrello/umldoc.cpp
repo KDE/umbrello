@@ -12,7 +12,6 @@
 #include "association.h"
 #include "concept.h"
 #include "docwindow.h"
-#include "infowidget.h"
 #include "objectwidget.h"
 #include "operation.h"
 #include "uml.h"
@@ -48,7 +47,6 @@ UMLDoc::UMLDoc(QWidget *parent, const char *name) : QObject(parent, name) {
 
 	listView = 0;
 	currentView = 0;
-	infoWidget = 0;
 	uniqueID = 0;
 	objectList.clear();
 	objectList.setAutoDelete(true);
@@ -78,7 +76,6 @@ void UMLDoc::addView(UMLView *view) {
 
 	if ( ! loading ) {
 		if(currentView == 0) {
-			infoWidget ->hide();
 			currentView = view;
 			view -> show();
 			emit sigDiagramChanged(view ->getType());
@@ -86,10 +83,10 @@ void UMLDoc::addView(UMLView *view) {
 			view -> hide();
 		}
 	}
-	UMLApp * pApp = dynamic_cast<UMLApp *>( this -> parent() );
+	UMLApp * pApp = getUMLApp();
 	pApp->setDiagramMenuItemsState(true);
 	pApp->slotUpdateViews();
-	return;
+	pApp->setCurrentView(view);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLDoc::removeView(UMLView *view) {
@@ -108,7 +105,6 @@ void UMLDoc::removeView(UMLView *view) {
 			changeCurrentView( firstView->getID() );
 			dynamic_cast<UMLApp*>( parent() )->setDiagramMenuItemsState(true);
 		} else {
-			infoWidget->show();
 			dynamic_cast<UMLApp*>( parent() )->setDiagramMenuItemsState(false);
 		}
 	}
@@ -358,18 +354,12 @@ void UMLDoc::setupSignals() {
 
 void UMLDoc::setupListView(UMLListView *lv) {
 	listView = lv;
-	if(!infoWidget) {
-		infoWidget = new InfoWidget(getSplitter(), "_Info Widget_");
-		infoWidget -> hide();
-	}
-	if(!currentView)
-		infoWidget -> show();
 	return;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-QSplitter * UMLDoc::getSplitter() {
+QWidget* UMLDoc::getMainViewWidget() {
 	UMLApp* app = (UMLApp*)parent();
-	return app->splitter;
+	return app->getMainViewWidget();
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -672,7 +662,7 @@ void UMLDoc::createDiagram(Diagram_Type type, bool askForName /*= true */) {
 			pData -> setName( name );
 			pData -> setType( type );
 			pData -> setID( ++uniqueID );
-			UMLView *temp =  new UMLView(getSplitter(), pData );
+			UMLView* temp = new UMLView(getUMLApp()->getMainViewWidget(), pData, this);
 			addView(temp);
 			temp -> setOptionState( ((UMLApp *) parent()) -> getOptionState() );
 			emit sigDiagramCreated(uniqueID);
@@ -769,16 +759,11 @@ void UMLDoc::renameChildUMLObject(UMLObject *o) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLDoc::changeCurrentView(int id) {
 	UMLView* w = findView(id);
-	if(w != currentView && w) {
-		if(currentView) {
-			currentView->hide();
-		} else {
-			infoWidget->hide();
-		}
-		w->show();
+	if (w != currentView && w) {
+		UMLApp* pApp = getUMLApp();
+		pApp->setCurrentView(w);
 		currentView = w;
 		emit sigDiagramChanged(w->getType());
-		UMLApp* pApp = dynamic_cast<UMLApp *>( this->parent() );
 		pApp->setDiagramMenuItemsState( true );
 	}
 	emit sigCurrentViewChanged();
@@ -791,10 +776,12 @@ void UMLDoc::removeDiagram(int id) {
 		removeView(umlview);
 		emit sigDiagramRemoved(id);
 		setModified(true);
-		if(infoWidget->isVisible()) {
+/*		if(infoWidget->isVisible()) {
 			emit sigDiagramChanged(dt_Undefined);
 			((UMLApp*)parent())->enablePrint(false);
 		}
+*/ //FIXME sort out all the KActions for when there's no diagram
+   //also remove the buttons from the WorkToolBar, then get rid of infowidget
 	}
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1000,7 +987,7 @@ bool UMLDoc::serialize(QDataStream *s, bool archive, int fileversion) {
 		UMLApp* app = (UMLApp*)parent();
 		SettingsDlg::OptionState state =  app -> getOptionState();
 		for(int i=0;i<count;i++) {
-			UMLView * v = new UMLView(getSplitter(), new UMLViewData());
+			UMLView * v = new UMLView(getUMLApp()->getMainViewWidget(), new UMLViewData(), this);
 			v -> hide();
 			v -> setOptionState( state );
 			status = v -> serialize(s, archive, fileversion);
@@ -1296,7 +1283,7 @@ bool UMLDoc::loadDiagramsFromXMI( QDomNode & node ) {
 	int count = 0;
 	while( !element.isNull() ) {
 		if( element.tagName() == "diagram" ) {
-			pView = new UMLView( getSplitter(), new UMLViewData() );
+			pView = new UMLView(getUMLApp()->getMainViewWidget(), new UMLViewData(), this);
 			pView -> hide();
 			pView -> setOptionState( state );
 			if( !pView -> getData() -> loadFromXMI( element ) )
@@ -1315,7 +1302,6 @@ void UMLDoc::removeAllViews() {
 		v->removeAllAssociations();
 	pViewList -> clear();
 	currentView = 0;
-	infoWidget -> show();
 	emit sigDiagramChanged(dt_Undefined);
 	dynamic_cast<UMLApp *>( parent() )->setDiagramMenuItemsState(false);
 }
@@ -1478,7 +1464,7 @@ bool UMLDoc::addUMLView(UMLViewData * pViewData ) {
 	}
 	int result = assignNewID(pViewData->getID());
 	pViewData->setID(result);
-	UMLView * pView = new UMLView( getSplitter(), pViewData );
+	UMLView* pView = new UMLView(getUMLApp()->getMainViewWidget(), pViewData, this);
 
 	if (!pView->activateAfterSerialize( true ) ) {
 		kdDebug()<<"Error activating diagram"<<endl;
@@ -1740,5 +1726,10 @@ void UMLDoc::loadRedoData() {
 		kdWarning() << "no data in redostack" << endl;
 	}
 }
+
+UMLApp* UMLDoc::getUMLApp() {
+	return static_cast<UMLApp*>( this->parent() );
+}
+
 
 #include "umldoc.moc"

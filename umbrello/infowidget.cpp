@@ -8,10 +8,11 @@
  ***************************************************************************/
 
 #include "infowidget.h"
+#include <kdebug.h>
 
-InfoWidget::InfoWidget(QWidget *parent, const char *name ) : QWidget(parent,name) {
+InfoWidget::InfoWidget(QWidget* parent, const char* name) : QWidget(parent,name) {
 	setBackgroundColor(white);
-	resize( 300, 200 );
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 InfoWidget::~InfoWidget() {}
+

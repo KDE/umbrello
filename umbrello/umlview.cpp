@@ -67,8 +67,9 @@
 #include "umlwidgetdata.h"
 #include "floatingtextdata.h"
 
-UMLView::UMLView( QWidget * parent, UMLViewData * pData ) : QCanvasView(  parent,  "AnUMLView" ) {
+UMLView::UMLView(QWidget* parent, UMLViewData* pData, UMLDoc* doc) : QCanvasView(parent, "AnUMLView" ) {
 	m_pData = pData;
+	m_pDoc = doc;
 	init();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -103,7 +104,7 @@ void UMLView::init() {
 	m_CurrentCursor = WorkToolBar::tbb_Arrow;
 	//setup signals
 	connect( this, SIGNAL(sigRemovePopupMenu()), this, SLOT(slotRemovePopupMenu() ) );
-	connect( (UMLApp *)getDocument() -> parent() , SIGNAL( sigCutSuccessful() ),
+	connect( getUMLApp(), SIGNAL( sigCutSuccessful() ),
 	         this, SLOT( slotCutSuccessful() ) );
 }
 
@@ -120,10 +121,12 @@ UMLView::~UMLView() {
 	m_SelectionRect.clear();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLDoc *UMLView::getDocument() const {
-	UMLApp *theApp=(UMLApp *) (parentWidget()->parentWidget());
-
-	return theApp->getDocument();
+UMLApp* UMLView::getUMLApp() const {
+	return static_cast<UMLApp*>( m_pDoc->parent() );
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+UMLDoc* UMLView::getDocument() const {
+	return m_pDoc;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLView::print(KPrinter *pPrinter, QPainter & pPainter) {
@@ -446,17 +449,19 @@ void UMLView::slotToolBarChanged(int c) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLView::showEvent(QShowEvent */*se*/) {
-	UMLApp *theApp=(UMLApp *) (parentWidget()->parentWidget());
-	WorkToolBar *tb = theApp -> getWorkToolBar();
+	UMLApp* theApp = getUMLApp();
+	WorkToolBar* tb = theApp->getWorkToolBar();
 	connect(tb,SIGNAL(sigButtonChanged(int)), this, SLOT(slotToolBarChanged(int)));
 	connect(this,SIGNAL(sigResetToolBar()), tb, SLOT(slotResetToolBar()));
-	connect(getDocument(), SIGNAL(sigObjectCreated(UMLObject *)), this, SLOT(slotObjectCreated(UMLObject *)));
+	connect(getDocument(), SIGNAL(sigObjectCreated(UMLObject *)),
+		this, SLOT(slotObjectCreated(UMLObject *)));
 	resetToolbar();
+
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLView::hideEvent(QHideEvent */*he*/) {
-	UMLApp *theApp=(UMLApp *) (parentWidget()->parentWidget());
-	WorkToolBar *tb = theApp -> getWorkToolBar();
+	UMLApp* theApp = getUMLApp();
+	WorkToolBar* tb = theApp->getWorkToolBar();
 	disconnect(tb,SIGNAL(sigButtonChanged(int)), this, SLOT(slotToolBarChanged(int)));
 	disconnect(this,SIGNAL(sigResetToolBar()), tb, SLOT(slotResetToolBar()));
 	disconnect(getDocument(), SIGNAL(sigObjectCreated(UMLObject *)), this, SLOT(slotObjectCreated(UMLObject *)));

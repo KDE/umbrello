@@ -14,11 +14,13 @@
 #include <config.h>
 #endif
 
+#include "uml.h"
 #include "umldoc.h"
 #include "umlobjectlist.h"
 #include "umlviewdata.h"
 #include "umlwidgetlist.h"
 #include "worktoolbar.h"
+
 #include <qcanvas.h>
 
 // #define OFFSET		50
@@ -30,6 +32,16 @@ class ListPopupMenu;
 class MessageWidget;
 class SeqLineWidget;
 class UMLListView;
+/*
+class UMLApp;
+class UMLDoc;
+class UMLObjectList;
+class UMLObjectListIt;
+class UMLViewData;
+class UMLWidgetList;
+class UMLWidgetListIt;
+class WorkToolBar;
+*/
 
 using namespace Uml;
 
@@ -49,7 +61,7 @@ public:
 	/**
 	 * Constructor for the main view
 	 */
-	UMLView(QWidget * parent, UMLViewData * pData);
+	UMLView(QWidget* parent, UMLViewData* pData, UMLDoc* doc);
 
 	/**
 	 * Destructor for the main view
@@ -80,6 +92,11 @@ public:
 	 * @see UMLApp#getDocument
 	 */
 	UMLDoc* getDocument() const;
+
+	/**
+	 * Returns the UMLApp main window
+	 */
+	UMLApp* getUMLApp() const;
 
 	/**
 	 * contains the implementation for printing functionality
@@ -887,6 +904,11 @@ private:
 	 *		Holds a list of all the sequence lines on a sequence diagram.
 	 */
 	QPtrList<SeqLineWidget> m_SeqLineList;
+
+	/**
+	 * Pointer to the UMLDoc
+	 */
+	UMLDoc* m_pDoc;
 
 public slots:
 
