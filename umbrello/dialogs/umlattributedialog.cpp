@@ -113,7 +113,7 @@ void UMLAttributeDialog::setupDialog() {
 	UMLClassifierList namesList( pDoc->getConcepts() );
 	UMLClassifier* obj;
 	for (obj=namesList.first(); obj!=0; obj=namesList.next()) {
-		insertType( obj->getName() );
+		insertType( obj->getFullyQualifiedName(".") );
 	}
 
 	//work out which one to select
