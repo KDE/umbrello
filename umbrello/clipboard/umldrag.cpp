@@ -551,6 +551,8 @@ bool UMLDrag::decodeClip4(const QMimeSource* mimeSource, UMLObjectList& objects,
 		UMLObject* pObject = 0;
 		QString type = element.tagName();
 		//FIXME associations don't load
+		if (type == "UML:Association")
+			continue;
 		pObject = doc->makeNewUMLObject(type);
 
 		if ( !pObject ) {
