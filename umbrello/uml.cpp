@@ -106,18 +106,10 @@ UMLApp::UMLApp(QWidget* , const char* name):KMainWindow(0, name) {
 			m->insertItem(i18n("&Zoom"),zoomSelect,-1,m->count()-1);
 		}
 	}
-	//setup zoomSelect menu
+	//connect zoomSelect menu
 	zoomSelect->setCheckable(true);
 	connect(zoomSelect,SIGNAL(aboutToShow()),this,SLOT(setupZoomMenu()));
 	connect(zoomSelect,SIGNAL(activated(int)),this,SLOT(setZoom(int)));
-	//IMPORTANT: The ID's must match the zoom value (text)
-	zoomSelect->insertItem(i18n(" &33 %"),33);
-	zoomSelect->insertItem(i18n(" &50 %"),50);
-	zoomSelect->insertItem(i18n(" &75 %"),75);
-	zoomSelect->insertItem(i18n("&100 %"),100);
-	zoomSelect->insertItem(i18n("1&50 %"),150);
-	zoomSelect->insertItem(i18n("&200 %"),200);
-	zoomSelect->insertItem(i18n("&300 %"),300);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLApp::~UMLApp() {
@@ -245,13 +237,35 @@ void UMLApp::setZoom(int z)
 
 void UMLApp::setupZoomMenu()
 {
+	zoomSelect->clear();
+	
+	//IMPORTANT: The ID's must match the zoom value (text)
+	zoomSelect->insertItem(i18n(" &33 %"),33);
+	zoomSelect->insertItem(i18n(" &50 %"),50);
+	zoomSelect->insertItem(i18n(" &75 %"),75);
+	zoomSelect->insertItem(i18n("&100 %"),100);
+	zoomSelect->insertItem(i18n("1&50 %"),150);
+	zoomSelect->insertItem(i18n("&200 %"),200);
+	zoomSelect->insertItem(i18n("&300 %"),300);
+	
+	
 	int zoom = doc->getCurrentView()->currentZoom();
-
-	//first uncheck all
-	for (uint index = 0; index < zoomSelect->count(); index++) {
-		zoomSelect->setItemChecked(zoomSelect->idAt(index),false);
+	//if current zoom is not a "standard zoom" (because of zoom in / zoom out step
+	//we add it for information
+	switch(zoom){
+		case 33:
+		case 50:
+		case 75:
+		case 100:
+		case 150:
+		case 200:
+		case 300: 
+			break;
+		default:
+			zoomSelect->insertSeparator();
+			zoomSelect->insertItem(QString::number(zoom)+" %",zoom);
 	}
-	zoomSelect->setItemChecked(zoom,true);
+	zoomSelect->setItemChecked(zoom,true);	
 }
 
 void UMLApp::zoomIn()
