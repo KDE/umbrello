@@ -47,8 +47,6 @@ typedef QPtrListIterator<QCanvasRectangle> RectListIt;
  */
 class LinePath : public QObject {
 	Q_OBJECT
-	//friend class AssociationWidget;
-
 public:
 	/**
 	*   Constructor
@@ -257,7 +255,7 @@ protected:
 	 *
 	 * @param by		The number of lines to insert into m_HeadList.
 	 */
-	void growHeadList(int by);
+	void growList(LineList &list, int by);
 
 	/**
 	*   Updates the head lines.  Call after calculating the new points.

@@ -315,27 +315,25 @@ void LinePath::setAssocType( Uml::Association_Type type ) {
 		delete m_pClearPoly;
 		m_pClearPoly = 0;
 	}
-	createHeadLines();
 	if( type == Uml::at_Coll_Message )
 		setupParallelLine();
+	else
+		createHeadLines();
 	update();
 }
 
 void LinePath::update() {
-	if( m_bHeadCreated ) {
-		calculateHead();
-		updateHead();
-	} else {
-		createHeadLines();
-	}
-
-	if( getAssocType() == Uml::at_Coll_Message ) {
-		if( m_bParallelLineCreated ) {
+	if (getAssocType() == Uml::at_Coll_Message) {
+		if (m_bParallelLineCreated) {
 			calculateParallelLine();
 			updateParallelLine();
 		} else
 			setupParallelLine();
-
+	} else if (m_bHeadCreated) {
+		calculateHead();
+		updateHead();
+	} else {
+		createHeadLines();
 	}
 }
 
@@ -619,14 +617,14 @@ void LinePath::updateHead() {
 	}
 }
 
-void LinePath::growHeadList(int by) {
+void LinePath::growList(LineList &list, int by) {
 	QPen pen( getLineColor(), getLineWidth() );
 	for (int i = 0; i < by; i++) {
 		QCanvasLine * line = new QCanvasLine( getCanvas() );
 		line -> setZ( 0 );
 		line -> setPen( pen );
 		line -> setVisible( true );
-		m_HeadList.append( line );
+		list.append( line );
 	}
 }
 
@@ -638,12 +636,12 @@ void LinePath::createHeadLines() {
 		case Uml::at_State:
 		case Uml::at_Dependency:
 		case Uml::at_UniAssociation:
-			growHeadList( 2 );
+			growList(m_HeadList, 2);
 			break;
 
 		case Uml::at_Generalization:
 		case Uml::at_Realization:
-			growHeadList( 3 );
+			growList(m_HeadList, 3);
 			m_pClearPoly = new QCanvasPolygon( canvas );
 			m_pClearPoly -> setVisible( true );
 			m_pClearPoly -> setBrush( QBrush( white ) );
@@ -652,7 +650,7 @@ void LinePath::createHeadLines() {
 
 		case Uml::at_Composition:
 		case Uml::at_Aggregation:
-			growHeadList( 4 );
+			growList(m_HeadList, 4);
 			m_pClearPoly = new QCanvasPolygon( canvas );
 			m_pClearPoly -> setVisible( true );
 			if( getAssocType() == Uml::at_Aggregation )
@@ -663,7 +661,7 @@ void LinePath::createHeadLines() {
 			break;
 
 		case Uml::at_Containment:
-			growHeadList( 1 );
+			growList(m_HeadList, 1);
 			if (!m_pCircle) {
 				m_pCircle = new Circle( canvas, 6 );
 				m_pCircle->show();
@@ -726,25 +724,7 @@ void LinePath::calculateParallelLine() {
 
 void LinePath::setupParallelLine() {
 	m_ParallelList.clear();
-	QCanvas * canvas = getCanvas();
-	QPen pen( getLineColor(), getLineWidth() );
-	QCanvasLine * line = new QCanvasLine( canvas );
-	line -> setZ( 0 );
-	line -> setPen( pen );
-	line -> setVisible( true );
-	m_ParallelList.append( line );
-
-	line = new QCanvasLine( canvas );
-	line -> setZ( 0 );
-	line -> setPen( pen );
-	line -> setVisible( true );
-	m_ParallelList.append( line );
-
-	line = new QCanvasLine( canvas );
-	line -> setZ( 0 );
-	line -> setPen( pen );
-	line -> setVisible( true );
-	m_ParallelList.append( line );
+	growList(m_ParallelList, 3);
 	m_bParallelLineCreated = true;
 }
 
@@ -801,7 +781,7 @@ LinePath & LinePath::operator=( LinePath & rhs ) {
 QCanvas * LinePath::getCanvas() {
 	if( !m_pAssociation )
 		return 0;
-	UMLView * view =  (UMLView *)m_pAssociation -> parent();
+	const UMLView * view =  m_pAssociation->getUMLView();
 	return view -> canvas();
 }
 
