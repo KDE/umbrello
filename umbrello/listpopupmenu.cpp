@@ -164,7 +164,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
 	StateWidget *pState;
 	ActivityWidget *pActivity;
 	ClassWidget *c;
-	InterfaceWidget *interfaceWidget;
+	InterfaceWidget *interfaceWidget = 0;
 	UMLView * pView = static_cast<UMLView *>( parent );
 	Uml::UMLWidget_Type type = object -> getBaseType();
 
@@ -213,6 +213,8 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
 					break;
 				case Uml::wt_Interface:
 					interfaceWidget = static_cast<InterfaceWidget*>(object);
+					if (! interfaceWidget)
+						break;
 					m_pShow = new KPopupMenu(this, "Show");
 					m_pShow->setCheckable(true);
 					m_pShow->insertItem(i18n("Operations"),
@@ -326,6 +328,8 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
 
 		case Uml::wt_Interface:
 			interfaceWidget = static_cast<InterfaceWidget*>(object);
+			if (! interfaceWidget)
+				break;
 			m_pInsert = new KPopupMenu(this,"New");
 			m_pInsert->insertItem(SmallIcon("source"), i18n("Operation"), mt_Operation);
 			insertItem(SmallIcon("filenew"),i18n("New"), m_pInsert);
