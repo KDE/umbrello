@@ -18,21 +18,26 @@
 #ifndef PERLWRITER_H
 #define PERLWRITER_H
 
-#include "../codegenerator.h"
+#include "simplecodegenerator.h"
 #include "../umlattributelist.h"
 #include "../umloperationlist.h"
 
 #include <qptrlist.h>
 #include <qstringlist.h>
 
+class UMLOperation;
+class UMLAttribute;
+class UMLClass;
+
 /**
   * class PerlWriter is a Perl code generator for UMLClassifier objects
   * Just call writeClass and feed it a UMLClassifier;
   */
-class PerlWriter : public CodeGenerator {
+class PerlWriter : public SimpleCodeGenerator {
+	Q_OBJECT
 public:
 
-	PerlWriter( QObject* parent = 0, const char* name = 0 );
+	PerlWriter( UMLDoc *doc, const char* name = 0 );
 	virtual ~PerlWriter();
 
 	/**
@@ -41,7 +46,8 @@ public:
 	  */
 	virtual void writeClass(UMLClassifier *c);
 
-
+	bool isType (QString & type); 
+	QString getLanguage();
 
 private:
 

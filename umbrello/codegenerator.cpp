@@ -688,7 +688,7 @@ void CodeGenerator::setOutputDirectory(QString d) {
 
 QString CodeGenerator::outputDirectory() const {
 	QDir dir = m_codegeneratorpolicy->getOutputDirectory();
-	return dir.dirName();
+	return dir.absPath(); // dir.dirName();
 }
 
 void  CodeGenerator::setOverwritePolicy(CodeGenerationPolicy::OverwritePolicy p) {

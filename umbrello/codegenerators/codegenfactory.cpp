@@ -1,8 +1,9 @@
 /***************************************************************************
-                          factory.cpp  -  description
+                          codegenfactory.cpp  -  description
                              -------------------
     begin                : Mon Jun 17 2002
     copyright            : (C) 2002 by Luis De la Parra Blum
+					and Brian Thomas
     email                : luis@delaparra.org
  ***************************************************************************/
 
@@ -27,7 +28,9 @@
 #include "idlwriter.h"
 #include "javawriter.h"
 #include "phpwriter.h"
+*/
 #include "perlwriter.h"
+/*
 #include "pythonwriter.h"
 #include "sqlwriter.h"
 #include "aswriter.h"
@@ -61,9 +64,10 @@ QStringList CodeGeneratorFactory::languagesAvailable() {
 	l.append("IDL");
 */
 	l.append("Java");
-/*
-	l.append("JavaScript");
+
+//	l.append("JavaScript");
  	l.append("Perl");
+/*
 	l.append("PHP");
 	l.append("Python");
 	l.append("SQL");
@@ -83,20 +87,18 @@ QString CodeGeneratorFactory::generatorName(const QString &l) {
 		return "AdaWriter";
 	if (l == "ActionScript")
 		return "ASWriter";
-	if (l=="Cpp")
-		return "CppWriter";
 	if (l=="C#")
 		return "C#Writer";
 	if (l=="IDL")
 		return "IDLWriter";
-	if (l=="Java")
-		return "JavaWriter";
 	if (l == "JavaScript")
 		return "JSWriter";
 	if (l == "PHP")
 		return "PHPWriter";
+*/
  	if (l == "Perl")
  		return "PerlWriter";
+/*
  	if (l == "Python")
  		return "PythonWriter";
  	if (l == "SQL")
@@ -148,8 +150,10 @@ cerr<<"CreateObject called with parent:"<<parent<<endl;
 		obj = new JSWriter( parent, name );
 	} else if (n == "PHPWriter") {
 		obj = new PhpWriter(parent, name);
- 	} else if (n == "PerlWriter") {
-		obj = new PerlWriter(parent, name);
+*/
+ 		} else if (n == "PerlWriter") {
+			obj = new PerlWriter(doc, name);
+/*
  	} else if (n == "PythonWriter") {
 		obj = new PythonWriter(parent, name);
  	} else if (n == "SQLWriter") {

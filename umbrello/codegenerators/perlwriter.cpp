@@ -14,7 +14,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-
+#include <iostream.h>
 
 #include "perlwriter.h"
 #include "../class.h"
@@ -22,13 +22,17 @@
 #include "../umldoc.h"
 #include "../association.h"
 #include "../attribute.h"
+
 #include <kdebug.h>
 #include <qregexp.h>
 #include <qstring.h>
 #include <qdir.h>
 
-PerlWriter::PerlWriter( QObject *parent, const char *name )
-	:CodeGenerator( parent, name) {}
+PerlWriter::PerlWriter( UMLDoc * doc, const char *name )
+	: SimpleCodeGenerator ( doc, name )
+{
+
+}
 
 PerlWriter::~PerlWriter() {}
 
@@ -49,6 +53,7 @@ void PerlWriter::writeClass(UMLClassifier *c) {
 						// actual solution: shameful ".pm" hack in codegenerator
 
 	QString curDir = outputDirectory();
+cerr<<"CURRENT DIR:"<<curDir.latin1()<<endl;
 	if (fileName.contains("::")) {
 		// create new directories for each level
 		QString newDir;
@@ -153,6 +158,17 @@ void PerlWriter::writeClass(UMLClassifier *c) {
 	//close files and notify we are done
 	fileperl.close();
 	emit codeGenerated(c, true);
+}
+
+QString PerlWriter::getLanguage() {
+        return "Perl";
+}
+
+bool PerlWriter::isType (QString & type)
+{
+   if(type == "PerlWriter")
+        return true;
+   return false;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////

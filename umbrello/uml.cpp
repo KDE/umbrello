@@ -30,6 +30,7 @@
 #include "dialogs/selectlanguagesdlg.h"
 #include "diagram/diagramview.h"
 #include "refactoring/refactoringassistant.h"
+#include "codegenerators/simplecodegenerator.h"
 
 #include <kaction.h>
 #include <kapplication.h>
@@ -1099,14 +1100,19 @@ void UMLApp::viewCodeDocument ( UMLClassifier * c)
 	CodeGenerator * currentGen = getGenerator();
         if(currentGen && c)
         {
-		CodeDocument *cdoc = currentGen->findCodeDocumentByClassifier(c);
+ 		if(!dynamic_cast<SimpleCodeGenerator*>(currentGen))
+		{
+		   CodeDocument *cdoc = currentGen->findCodeDocumentByClassifier(c);
 
-		if (cdoc) {
+		   if (cdoc) {
 			CodeViewerDialog * dialog = new CodeViewerDialog(this,cdoc,optionState.codeViewerState);
 			dialog->exec();
 			optionState.codeViewerState = dialog->getState();
-		} else {
+		   } else {
 			KMessageBox::sorry(0, i18n("Cannot view code until you generate some first!"),i18n("Cannot View Code"));
+		   }
+		} else {
+		    KMessageBox::sorry(0, i18n("Cannot view code from compatability code writer!"),i18n("Cannot View Code"));
 		}
 	}
 
