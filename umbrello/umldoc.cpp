@@ -303,10 +303,18 @@ bool UMLDoc::openDocument(const KURL& url, const char* /*format =0*/) {
 	// status of XMI loading
 	bool status = false;
 
-	// check if the xmi file is a compressed archive like tar.bzip2 or tar.gz
-	QString mimetype = KMimeType::findByPath(m_doc_url.path(0), 0, true)->name();
 # if KDE_IS_VERSION(3,1,90)
-	if (mimetype == "application/x-tgz" || mimetype == "application/x-tbz" || mimetype == "application/x-bzip2")
+	// check if the xmi file is a compressed archive like tar.bzip2 or tar.gz
+	QString filetype = m_doc_url.fileName(true);
+	QString mimetype = "";
+	if (filetype.find(QRegExp("\\.tgz$")) != -1)
+	{
+		mimetype = "application/x-gzip";
+	} else if (filetype.find(QRegExp("\\.tar.bz2$")) != -1) {
+		mimetype = "application/x-bzip2";
+	}
+
+	if (mimetype.isEmpty() == false)
 	{
 		KTar archive(tmpfile, mimetype);
 		if (archive.open(IO_ReadOnly) == false)
@@ -444,12 +452,12 @@ bool UMLDoc::saveDocument(const KURL& url, const char * /* format */) {
 	QFileInfo fileInfo(strFileName);
 	QString fileExt = fileInfo.extension();
 	QString fileFormat = "xmi";
-	if (fileExt == "xmi")
+	if (fileExt == "xmi" || fileExt == "bak.xmi")
 	{
 		fileFormat = "xmi";
-	} else if (fileExt == "xmi.tgz") { 
+	} else if (fileExt == "xmi.tgz" || fileExt == "bak.xmi.tgz") { 
 		fileFormat = "tgz";
-	} else if (fileExt == "xmi.tar.bz2") {
+	} else if (fileExt == "xmi.tar.bz2" || fileExt == "bak.xmi.tar.bz2") {
 		fileFormat = "bz2";
 	} else {
 		fileFormat = "xmi";
