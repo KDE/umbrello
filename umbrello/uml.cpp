@@ -356,9 +356,8 @@ void UMLApp::initDocument() {
 void UMLApp::initView() {
 	setCaption(doc->URL().fileName(),false);
 
-	//the name of the toolbar is used as a tool tip so should be i18n, unfortunatly it
-	//has to be a char* and not a QString
-	toolsbar = new WorkToolBar(this, I18N_NOOP("Diagram Toolbar"));
+	toolsbar = new WorkToolBar(this, "");
+	toolsbar->setLabel(i18n("Diagram Toolbar"));
 	addToolBar(toolsbar, Qt::DockTop, false);
 
 	m_mainDock = createDockWidget("maindock", 0L, 0L, "main dock");
