@@ -1137,12 +1137,14 @@ bool UMLDoc::saveToXMI(QIODevice& file) {
 
 	root.appendChild( content );
 	QTextStream stream( &file );
+	stream.setEncoding(QTextStream::UnicodeUTF8);
 	stream << doc.toString();
 	return status;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool UMLDoc::loadFromXMI( QIODevice & file ) {
 	QTextStream stream( &file );
+	stream.setEncoding(QTextStream::UnicodeUTF8);
 	QString data = stream.read();
 	QString error;
 	int line;
