@@ -29,9 +29,7 @@ using namespace Uml;
  *	@version	1.0
  */
 class UMLObject : public QObject {
-
 	Q_OBJECT
-	friend class UMLWidget;
 public:
 
 	/**
