@@ -250,10 +250,6 @@ void AssocRolePage::updateObject() {
 		m_pAssociationWidget->setRoleADoc(m_pDocA->text());
 		m_pAssociationWidget->setRoleBDoc(m_pDocB->text());
 
-		// needed?
-//		if(m_pUmldoc->getCurrentView())
-//			m_pUmldoc->getCurrentView()->updateNoteWidgets();
-
 	} //end if m_pAssociationWidget
 
 }
