@@ -1089,7 +1089,8 @@ bool UMLWidget::saveToXMI( QDomDocument & /*qDoc*/, QDomElement & qElement ) {
 		qElement.setAttribute( "linewidth", m_LineWidth );
 	}
 	qElement.setAttribute("isinstance", m_bIsInstance);
-	qElement.setAttribute("instancename", m_instanceName);
+	if (!m_instanceName.isEmpty())
+		qElement.setAttribute("instancename", m_instanceName);
 	return true;
 }
 
