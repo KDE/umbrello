@@ -15,7 +15,7 @@
 #ifndef CLASS_ATTRIBUTES_PAGE
 #define CLASS_ATTRIBUTES_PAGE
 
-#include "umbrello/umbrello/dialogs/classattributesbase.h"
+#include "classattributesbase.h"
 #include <qptrlist.h>
 #include <qpixmap.h>
 #include "dialogpage.h"
