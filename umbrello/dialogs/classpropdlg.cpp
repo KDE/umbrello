@@ -179,7 +179,8 @@ void ClassPropDlg::setupPages(UMLObject * c, bool assoc) {
 		m_pAttPage = new ClassifierListPage(newPage, (UMLClassifier *)c, m_pDoc, Uml::ot_Attribute);
 		QHBoxLayout * attLayout = new QHBoxLayout(newPage);
 		attLayout -> addWidget(m_pAttPage);
-		connect(m_pAttPage, SIGNAL(sigUpdateChildObject(int)), this, SLOT(slotUpdateChildObject(int)));
+		connect(m_pAttPage, SIGNAL(sigUpdateChildObject(int)),
+			this, SLOT(slotUpdateChildObject(UML::IDType)));
 	}
 
 	if (c->getBaseType() == Uml::ot_Class || c->getBaseType() == Uml::ot_Interface) {
@@ -189,7 +190,8 @@ void ClassPropDlg::setupPages(UMLObject * c, bool assoc) {
 		m_pOpsPage = new ClassifierListPage(newPage, (UMLClassifier*)c, m_pDoc, Uml::ot_Operation);
 		QHBoxLayout* pOpsLayout = new QHBoxLayout(newPage);
 		pOpsLayout -> addWidget(m_pOpsPage);
-		connect(m_pOpsPage, SIGNAL(sigUpdateChildObject(int)), this, SLOT(slotUpdateChildObject(int)));
+		connect(m_pOpsPage, SIGNAL(sigUpdateChildObject(int)),
+			this, SLOT(slotUpdateChildObject(UML::IDType)));
 	}
 
 	if (c->getBaseType() == Uml::ot_Class ) {
@@ -198,7 +200,8 @@ void ClassPropDlg::setupPages(UMLObject * c, bool assoc) {
 		m_pTemplatePage = new ClassifierListPage(newPage, (UMLClassifier *)c, m_pDoc, Uml::ot_Template);
 		QHBoxLayout* templatesLayout = new QHBoxLayout(newPage);
 		templatesLayout->addWidget(m_pTemplatePage);
-		connect(m_pTemplatePage, SIGNAL(sigUpdateChildObject(int)), this, SLOT(slotUpdateChildObject(int)));
+		connect(m_pTemplatePage, SIGNAL(sigUpdateChildObject(int)),
+			this, SLOT(slotUpdateChildObject(UML::IDType)));
 	}
 	if (c->getBaseType() == Uml::ot_Enum) {
 		//setup enum literals page
@@ -207,7 +210,7 @@ void ClassPropDlg::setupPages(UMLObject * c, bool assoc) {
 		QHBoxLayout* enumLiteralsLayout = new QHBoxLayout(newPage);
 		enumLiteralsLayout->addWidget(m_pEnumLiteralPage);
 		connect(m_pEnumLiteralPage, SIGNAL(sigUpdateChildObject(int)),
-			this, SLOT(slotUpdateChildObject(int)));
+			this, SLOT(slotUpdateChildObject(UML::IDType)));
 	}
 	if (c->getBaseType() == Uml::ot_Package ) {
 		// Set up containment page.
