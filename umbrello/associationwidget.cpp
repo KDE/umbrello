@@ -722,7 +722,7 @@ bool AssociationWidget::activate() {
 			m_pRoleA -> hide();
 		}
 		if( m_pView->getType() == dt_Collaboration) {
-			m_pRoleA->setUMLObject(m_pWidgetB->getUMLObject());
+			m_pRoleA->setUMLObject(m_pWidgetA->getUMLObject());
 		}
 		m_pRoleA->activate();
 	}
