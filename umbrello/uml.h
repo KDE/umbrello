@@ -739,17 +739,17 @@ private:
 	/**
 	 * For selecting the active language.
 	 */
-	QPopupMenu *langSelect;
+	QPopupMenu *m_langSelect;
 	
 	/**
 	* Popup menu for zoom selection.
 	*/
-	QPopupMenu *zoomSelect;
+	QPopupMenu *m_zoomSelect;
 
 	/**
 	 * Active language.
 	 */
-	QString activeLanguage;
+	QString m_activeLanguage;
 
 	/**
 	 * Dictionary containing all the info needed to load a Code Generator
@@ -786,7 +786,7 @@ private:
 	/**
 	 * The configuration object of the application.
 	 */
-	KConfig* config;
+	KConfig* m_config;
 
 	/**
 	 * View is the main widget which represents your working
@@ -897,8 +897,8 @@ private:
 	/**
 	 * True if the application is opening an existing document
 	 */
-	bool loading;
-	Settings::OptionState optionState;
+	bool m_loading;
+	Settings::OptionState m_optionState;
 
 	/**
 	 * Blank widget, displayed when there are no diagrams
@@ -923,13 +923,14 @@ private:
 	 */
 	QString m_imageMimetype;
 
-public:
 	/**
 	 * the global UML settings dialogue
 	 */
-	SettingsDlg* dlg;
+	SettingsDlg* m_dlg;
+
+public:
 	Settings::OptionState getOptionState() {
-		return optionState;
+		return m_optionState;
 	}
 
 signals:

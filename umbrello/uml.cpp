@@ -74,12 +74,12 @@
 UMLApp::UMLApp(QWidget* , const char* name):KDockMainWindow(0, name) {
 	s_instance = this;
 	m_pDocWindow = 0;
-	config=kapp->config();
+	m_config = kapp->config();
 	m_listView = 0;
 	m_generatorDict.setAutoDelete(true);
-	langSelect = 0L;
-	zoomSelect = 0L;
-	loading = false;
+	m_langSelect = NULL;
+	m_zoomSelect = NULL;
+	m_loading = false;
 	m_clipTimer = 0;
 	m_copyTimer = 0;
 	m_defaultcodegenerationpolicy = 0;
@@ -105,31 +105,31 @@ UMLApp::UMLApp(QWidget* , const char* name):KDockMainWindow(0, name) {
 
 	//get a reference to the Code->Active Lanugage and to the Diagram->Zoom menu
 	QPopupMenu* menu = findMenu( menuBar(), QString("code") );
-	langSelect = findMenu( menu, QString("active_lang_menu") );
+	m_langSelect = findMenu( menu, QString("active_lang_menu") );
 
 	//in case langSelect hasnt been initialized we create the Popup menu.
 	//it will be hidden, but at least we wont crash if someone takes the entry away from the ui.rc file
-	if (langSelect == 0L) {
-		langSelect = new QPopupMenu(this);
+	if (m_langSelect == NULL) {
+		m_langSelect = new QPopupMenu(this);
 	}
 
 	menu = findMenu( menuBar(), QString("views") );
-	zoomSelect = findMenu( menu, QString("zoom_menu") );
+	m_zoomSelect = findMenu( menu, QString("zoom_menu") );
 
 	//in case zoomSelect hasnt been initialized we create the Popup menu.
 	//it will be hidden, but at least we wont crash if some one takes the entry away from the ui.rc file
-	if (zoomSelect == 0L) {
-		zoomSelect = new QPopupMenu(this);
+	if (m_zoomSelect == NULL) {
+		m_zoomSelect = new QPopupMenu(this);
 	}
 
 	//connect zoomSelect menu
-	zoomSelect->setCheckable(true);
-	connect(zoomSelect,SIGNAL(aboutToShow()),this,SLOT(setupZoomMenu()));
-	connect(zoomSelect,SIGNAL(activated(int)),this,SLOT(setZoom(int)));
+	m_zoomSelect->setCheckable(true);
+	connect(m_zoomSelect,SIGNAL(aboutToShow()),this,SLOT(setupZoomMenu()));
+	connect(m_zoomSelect,SIGNAL(activated(int)),this,SLOT(setZoom(int)));
 
 	m_refactoringAssist = 0L;
 
-	m_defaultcodegenerationpolicy = new CodeGenerationPolicy(config);
+	m_defaultcodegenerationpolicy = new CodeGenerationPolicy(m_config);
 
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -324,16 +324,16 @@ void UMLApp::setZoom(int zoom) {
 }
 
 void UMLApp::setupZoomMenu() {
-	zoomSelect->clear();
+	m_zoomSelect->clear();
 
 	//IMPORTANT: The ID's must match the zoom value (text)
-	zoomSelect->insertItem(i18n(" &33%"),33);
-	zoomSelect->insertItem(i18n(" &50%"),50);
-	zoomSelect->insertItem(i18n(" &75%"),75);
-	zoomSelect->insertItem(i18n("&100%"),100);
-	zoomSelect->insertItem(i18n("1&50%"),150);
-	zoomSelect->insertItem(i18n("&200%"),200);
-	zoomSelect->insertItem(i18n("3&00%"),300);
+	m_zoomSelect->insertItem(i18n(" &33%"),33);
+	m_zoomSelect->insertItem(i18n(" &50%"),50);
+	m_zoomSelect->insertItem(i18n(" &75%"),75);
+	m_zoomSelect->insertItem(i18n("&100%"),100);
+	m_zoomSelect->insertItem(i18n("1&50%"),150);
+	m_zoomSelect->insertItem(i18n("&200%"),200);
+	m_zoomSelect->insertItem(i18n("3&00%"),300);
 
 
 	int zoom = m_doc->getCurrentView()->currentZoom();
@@ -349,10 +349,10 @@ void UMLApp::setupZoomMenu() {
 		case 300:
 			break;
 		default:
-			zoomSelect->insertSeparator();
-			zoomSelect->insertItem(QString::number(zoom)+" %",zoom);
+			m_zoomSelect->insertSeparator();
+			m_zoomSelect->insertItem(QString::number(zoom)+" %",zoom);
 	}
-	zoomSelect->setItemChecked(zoom, true);
+	m_zoomSelect->setItemChecked(zoom, true);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -404,7 +404,7 @@ void UMLApp::initView() {
 	addToolBar(m_alignToolBar, Qt::DockTop, false);
 
 	m_mainDock = createDockWidget("maindock", 0L, 0L, "main dock");
-	if (optionState.generalState.tabdiagrams) {
+	if (m_optionState.generalState.tabdiagrams) {
 		m_viewStack = NULL;
 		m_tabWidget = new KTabWidget(m_mainDock, "tab_widget");
 
@@ -499,72 +499,72 @@ UMLListView* UMLApp::getListView() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void UMLApp::saveOptions() {
-	toolBar("mainToolBar")->saveSettings(config, "toolbar");
-	toolsbar->saveSettings(config, "workbar");
-	m_alignToolBar->saveSettings(config, "aligntoolbar");
-	fileOpenRecent->saveEntries(config,"Recent Files");
-	config->setGroup( "General Options" );
-	config->writeEntry( "Geometry", size() );
+	toolBar("mainToolBar")->saveSettings(m_config, "toolbar");
+	toolsbar->saveSettings(m_config, "workbar");
+	m_alignToolBar->saveSettings(m_config, "aligntoolbar");
+	fileOpenRecent->saveEntries(m_config,"Recent Files");
+	m_config->setGroup( "General Options" );
+	m_config->writeEntry( "Geometry", size() );
 
-	config->writeEntry( "undo", optionState.generalState.undo );
-	config->writeEntry( "tabdiagrams", optionState.generalState.tabdiagrams );
-	config->writeEntry( "newcodegen", optionState.generalState.newcodegen );
-	config->writeEntry( "autosave", optionState.generalState.autosave );
-	config->writeEntry( "time", optionState.generalState.time );
-	config->writeEntry( "autosavetime", optionState.generalState.autosavetime );
-	config->writeEntry( "autosavesuffix", optionState.generalState.autosavesuffix );
+	m_config->writeEntry( "undo", m_optionState.generalState.undo );
+	m_config->writeEntry( "tabdiagrams", m_optionState.generalState.tabdiagrams );
+	m_config->writeEntry( "newcodegen", m_optionState.generalState.newcodegen );
+	m_config->writeEntry( "autosave", m_optionState.generalState.autosave );
+	m_config->writeEntry( "time", m_optionState.generalState.time );
+	m_config->writeEntry( "autosavetime", m_optionState.generalState.autosavetime );
+	m_config->writeEntry( "autosavesuffix", m_optionState.generalState.autosavesuffix );
 
-	config->writeEntry( "logo", optionState.generalState.logo );
-	config->writeEntry( "loadlast", optionState.generalState.loadlast );
+	m_config->writeEntry( "logo", m_optionState.generalState.logo );
+	m_config->writeEntry( "loadlast", m_optionState.generalState.loadlast );
 
-	config->writeEntry( "diagram", optionState.generalState.diagram );
+	m_config->writeEntry( "diagram", m_optionState.generalState.diagram );
 	if( m_doc->URL().fileName() == i18n( "Untitled" ) ) {
-		config -> writeEntry( "lastFile", "" );
+		m_config -> writeEntry( "lastFile", "" );
 	} else {
 #if KDE_IS_VERSION(3,1,3)
-		config -> writePathEntry( "lastFile", m_doc -> URL().prettyURL() );
+		m_config -> writePathEntry( "lastFile", m_doc -> URL().prettyURL() );
 #else
-		config -> writeEntry( "lastFile", m_doc -> URL().prettyURL() );
+		m_config -> writeEntry( "lastFile", m_doc -> URL().prettyURL() );
 #endif
 	}
-	config->writeEntry( "imageMimetype", getImageMimetype() );
+	m_config->writeEntry( "imageMimetype", getImageMimetype() );
 
-	config->setGroup( "TipOfDay");
-	optionState.generalState.tip = config -> readBoolEntry( "RunOnStart", true );
-	config->writeEntry( "RunOnStart", optionState.generalState.tip );
+	m_config->setGroup( "TipOfDay");
+	m_optionState.generalState.tip = m_config -> readBoolEntry( "RunOnStart", true );
+	m_config->writeEntry( "RunOnStart", m_optionState.generalState.tip );
 
-	config->setGroup( "UI Options" );
-	config->writeEntry( "useFillColor", optionState.uiState.useFillColor );
-	config->writeEntry( "fillColor", optionState.uiState.fillColor );
-	config->writeEntry( "lineColor", optionState.uiState.lineColor );
-	config->writeEntry( "lineWidth", optionState.uiState.lineWidth );
-	config->writeEntry( "showDocWindow", m_documentationDock->isVisible() );
-	config->writeEntry( "font", optionState.uiState.font );
+	m_config->setGroup( "UI Options" );
+	m_config->writeEntry( "useFillColor", m_optionState.uiState.useFillColor );
+	m_config->writeEntry( "fillColor", m_optionState.uiState.fillColor );
+	m_config->writeEntry( "lineColor", m_optionState.uiState.lineColor );
+	m_config->writeEntry( "lineWidth", m_optionState.uiState.lineWidth );
+	m_config->writeEntry( "showDocWindow", m_documentationDock->isVisible() );
+	m_config->writeEntry( "font", m_optionState.uiState.font );
 
-	config->setGroup( "Class Options" );
-	config->writeEntry( "showVisibility", optionState.classState.showScope );
-	config->writeEntry( "showAtts", optionState.classState.showAtts);
-	config->writeEntry( "showOps", optionState.classState.showOps );
-	config->writeEntry( "showStereoType", optionState.classState.showStereoType );
-	config->writeEntry( "showAttSig", optionState.classState.showAttSig );
-	config->writeEntry( "ShowOpSig", optionState.classState.showOpSig );
-	config->writeEntry( "showPackage", optionState.classState.showPackage );
-	config->writeEntry( "defaultAttributeScope", optionState.classState.defaultAttributeScope);
-	config->writeEntry( "defaultOperationScope", optionState.classState.defaultOperationScope);
+	m_config->setGroup( "Class Options" );
+	m_config->writeEntry( "showVisibility", m_optionState.classState.showScope );
+	m_config->writeEntry( "showAtts", m_optionState.classState.showAtts);
+	m_config->writeEntry( "showOps", m_optionState.classState.showOps );
+	m_config->writeEntry( "showStereoType", m_optionState.classState.showStereoType );
+	m_config->writeEntry( "showAttSig", m_optionState.classState.showAttSig );
+	m_config->writeEntry( "ShowOpSig", m_optionState.classState.showOpSig );
+	m_config->writeEntry( "showPackage", m_optionState.classState.showPackage );
+	m_config->writeEntry( "defaultAttributeScope", m_optionState.classState.defaultAttributeScope);
+	m_config->writeEntry( "defaultOperationScope", m_optionState.classState.defaultOperationScope);
 
-	config -> setGroup( "Code Viewer Options" );
-	config->writeEntry( "height", optionState.codeViewerState.height );
-	config->writeEntry( "width", optionState.codeViewerState.width);
-	config->writeEntry( "font", optionState.codeViewerState.font);
-	config->writeEntry( "fontColor", optionState.codeViewerState.fontColor);
-	config->writeEntry( "paperColor", optionState.codeViewerState.paperColor);
-	config->writeEntry( "selectedColor", optionState.codeViewerState.selectedColor);
-	config->writeEntry( "editBlockColor", optionState.codeViewerState.editBlockColor);
-	config->writeEntry( "nonEditBlockColor", optionState.codeViewerState.nonEditBlockColor);
-	config->writeEntry( "umlObjectBlockColor", optionState.codeViewerState.umlObjectColor);
-	config->writeEntry( "blocksAreHighlighted", optionState.codeViewerState.blocksAreHighlighted);
-	config->writeEntry( "showHiddenBlocks", optionState.codeViewerState.showHiddenBlocks);
-	config->writeEntry( "hiddenColor", optionState.codeViewerState.hiddenColor);
+	m_config -> setGroup( "Code Viewer Options" );
+	m_config->writeEntry( "height", m_optionState.codeViewerState.height );
+	m_config->writeEntry( "width", m_optionState.codeViewerState.width);
+	m_config->writeEntry( "font", m_optionState.codeViewerState.font);
+	m_config->writeEntry( "fontColor", m_optionState.codeViewerState.fontColor);
+	m_config->writeEntry( "paperColor", m_optionState.codeViewerState.paperColor);
+	m_config->writeEntry( "selectedColor", m_optionState.codeViewerState.selectedColor);
+	m_config->writeEntry( "editBlockColor", m_optionState.codeViewerState.editBlockColor);
+	m_config->writeEntry( "nonEditBlockColor", m_optionState.codeViewerState.nonEditBlockColor);
+	m_config->writeEntry( "umlObjectBlockColor", m_optionState.codeViewerState.umlObjectColor);
+	m_config->writeEntry( "blocksAreHighlighted", m_optionState.codeViewerState.blocksAreHighlighted);
+	m_config->writeEntry( "showHiddenBlocks", m_optionState.codeViewerState.showHiddenBlocks);
+	m_config->writeEntry( "hiddenColor", m_optionState.codeViewerState.hiddenColor);
 
 	// merge current defaults into the default policy, just in case they
 	// are out of sync (yes, yes, we could have a callback do this).
@@ -572,34 +572,34 @@ void UMLApp::saveOptions() {
 	if(gen && gen->getPolicy())
 	      m_defaultcodegenerationpolicy->setDefaults(gen->getPolicy());
 
-	// write the config for each language-specific code gen policies
+	// write the m_config for each language-specific code gen policies
 	GeneratorDictIt it( m_generatorDict );
 	for(it.toFirst() ; it.current(); ++it )
 	{
 		CodeGenerator * gen = m_doc->findCodeGeneratorByLanguage(it.current()->language);
 		if (gen)
-			gen->getPolicy()->writeConfig(config);
+			gen->getPolicy()->writeConfig(m_config);
 	}
 
-	// now write the basic defaults to the config file
-	m_defaultcodegenerationpolicy->writeConfig(config);
+	// now write the basic defaults to the m_config file
+	m_defaultcodegenerationpolicy->writeConfig(m_config);
 
 	// next, we record the activeLanguage in the Code Generation Group
-	config->setGroup("Code Generation");
-	config->writeEntry("activeLanguage", activeLanguage);
+	m_config->setGroup("Code Generation");
+	m_config->writeEntry("activeLanguage", m_activeLanguage);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLApp::readOptions() {
 	// bar status settings
-	toolBar("mainToolBar")->applySettings(config, "toolbar");
-	//do config for work toolbar
-	toolsbar->applySettings(config, "workbar");
-	m_alignToolBar->applySettings(config, "aligntoolbar");
-	fileOpenRecent->loadEntries(config,"Recent Files");
-	config->setGroup("General Options");
-	setImageMimetype(config->readEntry("imageMimetype","image/png"));
+	toolBar("mainToolBar")->applySettings(m_config, "toolbar");
+	//do m_config for work toolbar
+	toolsbar->applySettings(m_config, "workbar");
+	m_alignToolBar->applySettings(m_config, "aligntoolbar");
+	fileOpenRecent->loadEntries(m_config,"Recent Files");
+	m_config->setGroup("General Options");
+	setImageMimetype(m_config->readEntry("imageMimetype","image/png"));
 	QSize tmpQSize(630,460);
-	resize( config->readSizeEntry("Geometry", & tmpQSize) );
+	resize( m_config->readSizeEntry("Geometry", & tmpQSize) );
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -684,7 +684,7 @@ void UMLApp::slotFileNew() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLApp::slotFileOpen() {
 	slotStatusMsg(i18n("Opening file..."));
-	loading = true;
+	m_loading = true;
 
 	if(!m_doc->saveModified()) {
 
@@ -703,13 +703,13 @@ void UMLApp::slotFileOpen() {
 	}
 	setGenerator(createGenerator());
 	slotUpdateViews();
-	loading = false;
+	m_loading = false;
 	slotStatusMsg(i18n("Ready."));
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLApp::slotFileOpenRecent(const KURL& url) {
 	slotStatusMsg(i18n("Opening file..."));
-	loading = true;
+	m_loading = true;
 
 	KURL oldURL = m_doc->URL();
 
@@ -724,7 +724,7 @@ void UMLApp::slotFileOpenRecent(const KURL& url) {
 		setCaption(m_doc->URL().fileName(), false);
 	}
 
-	loading = false;
+	m_loading = false;
 	setGenerator(createGenerator());
 	slotUpdateViews();
 	slotStatusMsg(i18n("Ready."));
@@ -956,11 +956,11 @@ void UMLApp::setModified(bool modified) {
 	//if anything else needs to be done on a mofication, put it here
 
 	// printing should be possible whenever there is something to print
-	if ( loading == false && modified == true && m_doc->getCurrentView() )  {
+	if ( m_loading == false && modified == true && m_doc->getCurrentView() )  {
 		enablePrint(true);
 	}
 
-	if (loading == false)  {
+	if (m_loading == false)  {
 		setCaption(m_doc->URL().fileName(), modified); //add disk icon to taskbar if modified
 	}
 }
@@ -1016,29 +1016,29 @@ void UMLApp::slotCopyChanged() {
 
 void UMLApp::slotPrefs() {
 	/* the KTipDialog may have changed the value */
-	config->setGroup("TipOfDay");
-	optionState.generalState.tip = config->readBoolEntry( "RunOnStart", true );
+	m_config->setGroup("TipOfDay");
+	m_optionState.generalState.tip = m_config->readBoolEntry( "RunOnStart", true );
 
-	dlg = new SettingsDlg(this, &optionState, activeLanguage, getGenerator());
-	connect(dlg, SIGNAL( applyClicked() ), this, SLOT( slotApplyPrefs() ) );
+	m_dlg = new SettingsDlg(this, &m_optionState, m_activeLanguage, getGenerator());
+	connect(m_dlg, SIGNAL( applyClicked() ), this, SLOT( slotApplyPrefs() ) );
 
-	if ( dlg->exec() == QDialog::Accepted && dlg->getChangesApplied() ) {
+	if ( m_dlg->exec() == QDialog::Accepted && m_dlg->getChangesApplied() ) {
 		slotApplyPrefs();
 	}
 
-	delete dlg;
-	dlg = NULL;
+	delete m_dlg;
+	m_dlg = NULL;
 }
 
 void UMLApp::slotApplyPrefs() {
-	if (dlg) {
+	if (m_dlg) {
 		/* we need this to sync both values */
-		config -> setGroup( "TipOfDay");
-		config -> writeEntry( "RunOnStart", optionState.generalState.tip );
+		m_config -> setGroup( "TipOfDay");
+		m_config -> writeEntry( "RunOnStart", m_optionState.generalState.tip );
 
-		m_doc -> settingsChanged( optionState );
-		setActiveLanguage( dlg->getCodeGenerationLanguage() );
-		dlg->setCodeGenerator(getDocument()->getCurrentCodeGenerator()); // do this AFTER setActiveLanguage;
+		m_doc -> settingsChanged( m_optionState );
+		setActiveLanguage( m_dlg->getCodeGenerationLanguage() );
+		m_dlg->setCodeGenerator(getDocument()->getCurrentCodeGenerator()); // do this AFTER setActiveLanguage;
 	}
 }
 
@@ -1072,76 +1072,76 @@ bool UMLApp::editCutCopy( bool bFromView ) {
 }
 
 void UMLApp::readOptionState() {
-	config -> setGroup( "General Options" );
-	optionState.generalState.undo = config -> readBoolEntry( "undo", true );
-	optionState.generalState.tabdiagrams = config -> readBoolEntry( "tabdiagrams", true );
-	optionState.generalState.newcodegen = config -> readBoolEntry( "newcodegen", true );
-	optionState.generalState.autosave = config -> readBoolEntry( "autosave", true );
-	optionState.generalState.time = config -> readNumEntry( "time", 0 ); //old autosavetime value kept for compatibility
-	optionState.generalState.autosavetime = config -> readNumEntry( "autosavetime", 0 );
+	m_config -> setGroup( "General Options" );
+	m_optionState.generalState.undo = m_config -> readBoolEntry( "undo", true );
+	m_optionState.generalState.tabdiagrams = m_config -> readBoolEntry( "tabdiagrams", true );
+	m_optionState.generalState.newcodegen = m_config -> readBoolEntry( "newcodegen", true );
+	m_optionState.generalState.autosave = m_config -> readBoolEntry( "autosave", true );
+	m_optionState.generalState.time = m_config -> readNumEntry( "time", 0 ); //old autosavetime value kept for compatibility
+	m_optionState.generalState.autosavetime = m_config -> readNumEntry( "autosavetime", 0 );
 	//if we don't have a "new" autosavetime value, convert the old one
-	if (optionState.generalState.autosavetime == 0) {
-		switch (optionState.generalState.time) {
-			case 0: optionState.generalState.autosavetime = 5; break;
-			case 1: optionState.generalState.autosavetime = 10; break;
-			case 2: optionState.generalState.autosavetime = 15; break;
-			case 3: optionState.generalState.autosavetime = 20; break;
-			case 4: optionState.generalState.autosavetime = 25; break;
-			default: optionState.generalState.autosavetime = 5; break;
+	if (m_optionState.generalState.autosavetime == 0) {
+		switch (m_optionState.generalState.time) {
+			case 0: m_optionState.generalState.autosavetime = 5; break;
+			case 1: m_optionState.generalState.autosavetime = 10; break;
+			case 2: m_optionState.generalState.autosavetime = 15; break;
+			case 3: m_optionState.generalState.autosavetime = 20; break;
+			case 4: m_optionState.generalState.autosavetime = 25; break;
+			default: m_optionState.generalState.autosavetime = 5; break;
 		}
 	}
-	// 2004-05-17 Achim Spangler: read new config entry for autosave sufix
-	optionState.generalState.autosavesuffix = config -> readEntry( "autosavesuffix", ".xmi" );
+	// 2004-05-17 Achim Spangler: read new m_config entry for autosave sufix
+	m_optionState.generalState.autosavesuffix = m_config -> readEntry( "autosavesuffix", ".xmi" );
 
-	optionState.generalState.logo = config -> readBoolEntry( "logo", true );
-	optionState.generalState.loadlast = config -> readBoolEntry( "loadlast", true );
+	m_optionState.generalState.logo = m_config -> readBoolEntry( "logo", true );
+	m_optionState.generalState.loadlast = m_config -> readBoolEntry( "loadlast", true );
 
-	optionState.generalState.diagram  = ( Settings::Diagram ) config -> readNumEntry( "diagram", 1 );
-	config -> setGroup( "TipOfDay");
+	m_optionState.generalState.diagram  = ( Settings::Diagram ) m_config -> readNumEntry( "diagram", 1 );
+	m_config -> setGroup( "TipOfDay");
 
-	optionState.generalState.tip = config -> readBoolEntry( "RunOnStart", true );
+	m_optionState.generalState.tip = m_config -> readBoolEntry( "RunOnStart", true );
 
-	config -> setGroup( "UI Options" );
-	optionState.uiState.useFillColor = config -> readBoolEntry( "useFillColor", true );
+	m_config -> setGroup( "UI Options" );
+	m_optionState.uiState.useFillColor = m_config -> readBoolEntry( "useFillColor", true );
 	QColor defaultYellow = QColor( 255, 255, 192 );
 
-	optionState.uiState.fillColor = config -> readColorEntry( "fillColor", &defaultYellow );
-	optionState.uiState.lineColor = config -> readColorEntry( "lineColor", &red );
-	optionState.uiState.lineWidth = config -> readNumEntry( "lineWidth", 0 );
+	m_optionState.uiState.fillColor = m_config -> readColorEntry( "fillColor", &defaultYellow );
+	m_optionState.uiState.lineColor = m_config -> readColorEntry( "lineColor", &red );
+	m_optionState.uiState.lineWidth = m_config -> readNumEntry( "lineWidth", 0 );
 	QFont font = ((QWidget *) this)->font() ;
-	optionState.uiState.font = config -> readFontEntry("font", &font );
+	m_optionState.uiState.font = m_config -> readFontEntry("font", &font );
 
-	config -> setGroup( "Class Options" );
+	m_config -> setGroup( "Class Options" );
 
-	optionState.classState.showScope = config -> readBoolEntry("showVisibility", true);
-	optionState.classState.showAtts = config -> readBoolEntry("showAtts", true);
-	optionState.classState.showOps = config -> readBoolEntry("showOps", true);
-	optionState.classState.showStereoType = config -> readBoolEntry("showStereoType", false);
-	optionState.classState.showAttSig = config -> readBoolEntry("showAttSig", true);
-	optionState.classState.showOpSig = config -> readBoolEntry("ShowOpSig", true);
-	optionState.classState.showPackage = config -> readBoolEntry("showPackage", false);
-	optionState.classState.defaultAttributeScope = (Uml::Scope) config -> readNumEntry("defaultAttributeScope", Uml::Private);
-	optionState.classState.defaultOperationScope = (Uml::Scope) config -> readNumEntry("defaultOperationScope", Uml::Public);
+	m_optionState.classState.showScope = m_config -> readBoolEntry("showVisibility", true);
+	m_optionState.classState.showAtts = m_config -> readBoolEntry("showAtts", true);
+	m_optionState.classState.showOps = m_config -> readBoolEntry("showOps", true);
+	m_optionState.classState.showStereoType = m_config -> readBoolEntry("showStereoType", false);
+	m_optionState.classState.showAttSig = m_config -> readBoolEntry("showAttSig", true);
+	m_optionState.classState.showOpSig = m_config -> readBoolEntry("ShowOpSig", true);
+	m_optionState.classState.showPackage = m_config -> readBoolEntry("showPackage", false);
+	m_optionState.classState.defaultAttributeScope = (Uml::Scope) m_config -> readNumEntry("defaultAttributeScope", Uml::Private);
+	m_optionState.classState.defaultOperationScope = (Uml::Scope) m_config -> readNumEntry("defaultOperationScope", Uml::Public);
 
-	config -> setGroup( "Code Viewer Options" );
+	m_config -> setGroup( "Code Viewer Options" );
 
 	QColor defaultWhite = QColor( "white" );
 	QColor defaultBlack = QColor( "black" );
 	QColor defaultPink = QColor( "pink" );
 	QColor defaultGrey = QColor( "grey" );
 
-	optionState.codeViewerState.height = config -> readNumEntry( "height", 40 );
-	optionState.codeViewerState.width = config -> readNumEntry( "width", 80 );
-	optionState.codeViewerState.font = config -> readFontEntry("font", &font );
-	optionState.codeViewerState.showHiddenBlocks = config -> readBoolEntry( "showHiddenBlocks", false);
-	optionState.codeViewerState.blocksAreHighlighted = config -> readBoolEntry( "blocksAreHighlighted", false);
-	optionState.codeViewerState.selectedColor = config -> readColorEntry( "selectedColor", &defaultYellow );
-	optionState.codeViewerState.paperColor = config -> readColorEntry( "paperColor", &defaultWhite);
-	optionState.codeViewerState.fontColor = config -> readColorEntry( "fontColor", &defaultBlack);
-	optionState.codeViewerState.editBlockColor = config -> readColorEntry( "editBlockColor", &defaultPink);
-	optionState.codeViewerState.umlObjectColor = config -> readColorEntry( "umlObjectBlockColor", &defaultPink);
-	optionState.codeViewerState.nonEditBlockColor = config -> readColorEntry( "nonEditBlockColor", &defaultGrey);
-	optionState.codeViewerState.hiddenColor = config -> readColorEntry( "hiddenColor", &defaultGrey);
+	m_optionState.codeViewerState.height = m_config -> readNumEntry( "height", 40 );
+	m_optionState.codeViewerState.width = m_config -> readNumEntry( "width", 80 );
+	m_optionState.codeViewerState.font = m_config -> readFontEntry("font", &font );
+	m_optionState.codeViewerState.showHiddenBlocks = m_config -> readBoolEntry( "showHiddenBlocks", false);
+	m_optionState.codeViewerState.blocksAreHighlighted = m_config -> readBoolEntry( "blocksAreHighlighted", false);
+	m_optionState.codeViewerState.selectedColor = m_config -> readColorEntry( "selectedColor", &defaultYellow );
+	m_optionState.codeViewerState.paperColor = m_config -> readColorEntry( "paperColor", &defaultWhite);
+	m_optionState.codeViewerState.fontColor = m_config -> readColorEntry( "fontColor", &defaultBlack);
+	m_optionState.codeViewerState.editBlockColor = m_config -> readColorEntry( "editBlockColor", &defaultPink);
+	m_optionState.codeViewerState.umlObjectColor = m_config -> readColorEntry( "umlObjectBlockColor", &defaultPink);
+	m_optionState.codeViewerState.nonEditBlockColor = m_config -> readColorEntry( "nonEditBlockColor", &defaultGrey);
+	m_optionState.codeViewerState.hiddenColor = m_config -> readColorEntry( "hiddenColor", &defaultGrey);
 
 }
 
@@ -1156,9 +1156,9 @@ void UMLApp::viewCodeDocument(UMLClassifier* classifier) {
 		   CodeDocument *cdoc = currentGen->findCodeDocumentByClassifier(classifier);
 
 		   if (cdoc) {
-			CodeViewerDialog * dialog = currentGen->getCodeViewerDialog(this,cdoc,optionState.codeViewerState);
+			CodeViewerDialog * dialog = currentGen->getCodeViewerDialog(this,cdoc,m_optionState.codeViewerState);
 			dialog->exec();
-			optionState.codeViewerState = dialog->getState();
+			m_optionState.codeViewerState = dialog->getState();
 			delete dialog;
 			dialog = NULL;
 		   } else {
@@ -1224,13 +1224,13 @@ CodeGenerator* UMLApp::createGenerator() {
 	GeneratorInfo* info;
 	CodeGenerator* g = 0;
 
-	if(activeLanguage.isEmpty()) {
+	if(m_activeLanguage.isEmpty()) {
 		KMessageBox::sorry(this,i18n("There is no active language defined.\nPlease select "
 		                             "one of the installed languages to generate the code with."),
 				   i18n("No Language Selected"));
 		return 0;
 	}
-	info = m_generatorDict.find(activeLanguage);
+	info = m_generatorDict.find(m_activeLanguage);
 	if(!info) {
 		KMessageBox::sorry(this,i18n("Could not find active language.\nPlease select "
 		                             "one of the installed languages to generate the code with."),
@@ -1240,13 +1240,13 @@ CodeGenerator* UMLApp::createGenerator() {
 
 	// does the code generator for our activeLanguage already exist?
 	// then simply return that
-	g = getDocument()->findCodeGeneratorByLanguage(activeLanguage);
+	g = getDocument()->findCodeGeneratorByLanguage(m_activeLanguage);
 	if(g) {
 		return g;
 	}
 
 	CodeGeneratorFactory codeGeneratorFactory;
-	QString generatorName = codeGeneratorFactory.generatorName(activeLanguage);
+	QString generatorName = codeGeneratorFactory.generatorName(m_activeLanguage);
 	g = codeGeneratorFactory.createObject(getDocument(), generatorName.latin1());
 	if (getDocument()->getCurrentCodeGenerator() == NULL)
 		getDocument()->setCurrentCodeGenerator(g);
@@ -1256,7 +1256,7 @@ CodeGenerator* UMLApp::createGenerator() {
 	// since it was first created. In both cases, DONT emit the modifiedCodeContent
 	// signal as we will be doing that later.
 	//
-	g->getPolicy()->setDefaults(config, false); // picks up language specific stuff
+	g->getPolicy()->setDefaults(m_config, false); // picks up language specific stuff
 	g->getPolicy()->setDefaults(m_defaultcodegenerationpolicy, false);
 
 	// configure it from XMI
@@ -1282,23 +1282,23 @@ void UMLApp::generateAllCode() {
 }
 
 void UMLApp::generationWizard() {
-	CodeGenerationWizard wizard(m_doc, 0, activeLanguage, this);
+	CodeGenerationWizard wizard(m_doc, 0, m_activeLanguage, this);
 	wizard.exec();
 }
 
 void UMLApp::setActiveLanguage(int id) {
 
 	// only change the active language IF different from one we currently have
-	if (!langSelect->isItemChecked(id))
+	if (!m_langSelect->isItemChecked(id))
 	{
 
-		for(unsigned int i=0; i < langSelect->count(); i++) {
-			langSelect->setItemChecked(langSelect->idAt(i),false);  //uncheck everything
+		for(unsigned int i=0; i < m_langSelect->count(); i++) {
+			m_langSelect->setItemChecked(m_langSelect->idAt(i),false);  //uncheck everything
 		}
 
 
-		langSelect->setItemChecked(id,true);
-		activeLanguage = langSelect->text(id);
+		m_langSelect->setItemChecked(id,true);
+		m_activeLanguage = m_langSelect->text(id);
 
 		// update the generator
 		setGenerator(createGenerator());
@@ -1307,20 +1307,20 @@ void UMLApp::setActiveLanguage(int id) {
 
 void UMLApp::setActiveLanguage( const QString &activeLanguage ) {
 
-	for(unsigned int j=0; j < langSelect->count(); j++) {
-		int id = langSelect->idAt(j);
+	for(unsigned int j=0; j < m_langSelect->count(); j++) {
+		int id = m_langSelect->idAt(j);
 
-		if (langSelect->text(id) == activeLanguage &&
-		      langSelect->isItemChecked(id))
+		if (m_langSelect->text(id) == activeLanguage &&
+		      m_langSelect->isItemChecked(id))
 			return; // already set.. no need to do anything
 	}
 
-	for(unsigned int i=0; i < langSelect->count(); i++) {
-		bool isActiveLang = (langSelect->text(langSelect->idAt(i)) == activeLanguage);
+	for(unsigned int i=0; i < m_langSelect->count(); i++) {
+		bool isActiveLang = (m_langSelect->text(m_langSelect->idAt(i)) == activeLanguage);
 		//uncheck everything except the active language
-		langSelect->setItemChecked(langSelect->idAt(i), isActiveLang);
+		m_langSelect->setItemChecked(m_langSelect->idAt(i), isActiveLang);
 	}
-	this->activeLanguage = activeLanguage;
+	this->m_activeLanguage = activeLanguage;
 
 	setGenerator(createGenerator());
 }
@@ -1437,8 +1437,8 @@ void UMLApp::slotDeleteDiagram() {
 }
 
 void UMLApp::initGenerators() {
-	config->setGroup("Code Generation");
-	activeLanguage = config->readEntry("activeLanguage", "Cpp");
+	m_config->setGroup("Code Generation");
+	m_activeLanguage = m_config->readEntry("activeLanguage", "Cpp");
 
 	CodeGeneratorFactory codeGeneratorFactory;
 	QStringList languages = codeGeneratorFactory.languagesAvailable();
@@ -1456,34 +1456,34 @@ void UMLApp::initGenerators() {
 }
 
 void UMLApp::updateLangSelectMenu() {
-	langSelect->clear();
-	langSelect->setCheckable(true);
+	m_langSelect->clear();
+	m_langSelect->setCheckable(true);
 	int id;
 	bool foundActive = false;
 	GeneratorDictIt it( m_generatorDict );
 	for(it.toFirst() ; it.current(); ++it ) {
-		id = langSelect->insertItem(it.current()->language,this,SLOT(setActiveLanguage(int)));
-		if(activeLanguage == it.current()->language) {
-			langSelect->setItemChecked(id,true);
+		id = m_langSelect->insertItem(it.current()->language,this,SLOT(setActiveLanguage(int)));
+		if(m_activeLanguage == it.current()->language) {
+			m_langSelect->setItemChecked(id,true);
 			foundActive = true;
 		} else
-			langSelect->setItemChecked(id,false);
+			m_langSelect->setItemChecked(id,false);
 	}
 
 	//if we could not find the active language, we try to fall back to C++
 	if(!foundActive) {
-		for(uint index=0; index <langSelect->count(); index++)
-			if ( langSelect->text(langSelect->idAt(index)) == "Cpp" ) {
-				langSelect->setItemChecked(langSelect->idAt(index),true);
-				activeLanguage = langSelect->text(langSelect->idAt(index));
+		for(uint index=0; index <m_langSelect->count(); index++)
+			if ( m_langSelect->text(m_langSelect->idAt(index)) == "Cpp" ) {
+				m_langSelect->setItemChecked(m_langSelect->idAt(index),true);
+				m_activeLanguage = m_langSelect->text(m_langSelect->idAt(index));
 				break;
 			}
 	}
 	//last try... if we dont have an activeLanguage and we have no Cpp installed we just
 	//take the first language we find as "active"
-	if(activeLanguage.isEmpty() && langSelect->count() > 0) {
-		langSelect -> setItemChecked(langSelect->idAt(0),true);
-		activeLanguage = langSelect -> text(langSelect->idAt(0));
+	if(m_activeLanguage.isEmpty() && m_langSelect->count() > 0) {
+		m_langSelect -> setItemChecked(m_langSelect->idAt(0),true);
+		m_activeLanguage = m_langSelect -> text(m_langSelect->idAt(0));
 	}
 
 }
@@ -1572,22 +1572,22 @@ void UMLApp::newDocument() {
 }
 
 void UMLApp::initSavedCodeGenerators() {
-	QString activeLang = activeLanguage;
+	QString activeLang = m_activeLanguage;
         GeneratorDictIt it( m_generatorDict );
         for(it.toFirst() ; it.current(); ++it )
 	{
-		activeLanguage = it.current()->language;
-		if( m_doc->hasCodeGeneratorXMIParams(activeLanguage))
+		m_activeLanguage = it.current()->language;
+		if( m_doc->hasCodeGeneratorXMIParams(m_activeLanguage))
 			createGenerator();
 	}
 
 	// now set back to old activeLanguage
-	activeLanguage = activeLang;
+	m_activeLanguage = activeLang;
 	setGenerator(createGenerator());
 }
 
 QWidget* UMLApp::getMainViewWidget() {
-	if (optionState.generalState.tabdiagrams)
+	if (m_optionState.generalState.tabdiagrams)
 		return m_tabWidget;
 	return m_viewStack;
 }
