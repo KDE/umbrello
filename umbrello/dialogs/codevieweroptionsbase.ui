@@ -43,7 +43,7 @@
                         <property name="name">
                             <cstring>unnamed</cstring>
                         </property>
-                        <widget class="QLabel" row="1" column="1">
+                        <widget class="QLabel" row="0" column="2">
                             <property name="name">
                                 <cstring>fontLabel</cstring>
                             </property>
@@ -59,24 +59,7 @@
                                 <string>Font Color</string>
                             </property>
                         </widget>
-                        <spacer row="1" column="0">
-                            <property name="name">
-                                <cstring>fontLabelSpacer</cstring>
-                            </property>
-                            <property name="orientation">
-                                <enum>Horizontal</enum>
-                            </property>
-                            <property name="sizeType">
-                                <enum>Expanding</enum>
-                            </property>
-                            <property name="sizeHint">
-                                <size>
-                                    <width>40</width>
-                                    <height>20</height>
-                                </size>
-                            </property>
-                        </spacer>
-                        <widget class="KColorButton" row="2" column="2">
+                        <widget class="KColorButton" row="0" column="5">
                             <property name="name">
                                 <cstring>selectColorButton</cstring>
                             </property>
@@ -91,7 +74,7 @@
                                 </color>
                             </property>
                         </widget>
-                        <widget class="QLabel" row="0" column="1">
+                        <widget class="QLabel" row="0" column="0">
                             <property name="name">
                                 <cstring>paperLabel</cstring>
                             </property>
@@ -107,41 +90,7 @@
                                 <string>Paper Color</string>
                             </property>
                         </widget>
-                        <spacer row="0" column="0">
-                            <property name="name">
-                                <cstring>paperLabelSpacer</cstring>
-                            </property>
-                            <property name="orientation">
-                                <enum>Horizontal</enum>
-                            </property>
-                            <property name="sizeType">
-                                <enum>Expanding</enum>
-                            </property>
-                            <property name="sizeHint">
-                                <size>
-                                    <width>40</width>
-                                    <height>20</height>
-                                </size>
-                            </property>
-                        </spacer>
-                        <spacer row="2" column="0">
-                            <property name="name">
-                                <cstring>selectLabelSpacer</cstring>
-                            </property>
-                            <property name="orientation">
-                                <enum>Horizontal</enum>
-                            </property>
-                            <property name="sizeType">
-                                <enum>Expanding</enum>
-                            </property>
-                            <property name="sizeHint">
-                                <size>
-                                    <width>40</width>
-                                    <height>20</height>
-                                </size>
-                            </property>
-                        </spacer>
-                        <widget class="KColorButton" row="0" column="2">
+                        <widget class="KColorButton" row="0" column="1">
                             <property name="name">
                                 <cstring>paperColorButton</cstring>
                             </property>
@@ -156,7 +105,7 @@
                                 </color>
                             </property>
                         </widget>
-                        <widget class="QLabel" row="2" column="1">
+                        <widget class="QLabel" row="0" column="4">
                             <property name="name">
                                 <cstring>selectedLabel</cstring>
                             </property>
@@ -172,14 +121,14 @@
                                 <string>Selected Color</string>
                             </property>
                         </widget>
-                        <widget class="KColorButton" row="1" column="2">
+                        <widget class="KColorButton" row="0" column="3">
                             <property name="name">
                                 <cstring>fontColorButton</cstring>
                             </property>
                             <property name="sizePolicy">
                                 <sizepolicy>
-                                    <hsizetype>4</hsizetype>
-                                    <vsizetype>0</vsizetype>
+                                    <hsizetype>1</hsizetype>
+                                    <vsizetype>5</vsizetype>
                                     <horstretch>0</horstretch>
                                     <verstretch>0</verstretch>
                                 </sizepolicy>
