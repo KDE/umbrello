@@ -18,16 +18,15 @@ ArtifactWidget::ArtifactWidget(UMLView * view, UMLObject * o) : UMLWidget(view, 
 	init();
 	setSize(100, 30);
 	calculateSize();
-	UMLWidget::setBaseType( wt_Artifact );
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ArtifactWidget::ArtifactWidget(UMLView * view) : UMLWidget(view) {
 	init();
 	setSize(100,30);
-	UMLWidget::setBaseType( wt_Artifact );
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void ArtifactWidget::init() {
+	UMLWidget::setBaseType( wt_Artifact );
 	m_pMenu = 0;
 	//maybe loading and this may not be set.
 	if (m_pObject) {

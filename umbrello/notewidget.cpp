@@ -23,18 +23,16 @@
 NoteWidget::NoteWidget(UMLView * view, int id) : UMLWidget(view, id) {
 	init();
 	setSize(100,80);
-	UMLWidget::setBaseType( wt_Note );
-	m_bLinkDocumentation = false;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 NoteWidget::NoteWidget(UMLView * view) : UMLWidget(view) {
 	init();
 	setSize(100,80);
-	UMLWidget::setBaseType(wt_Note);
-	m_bLinkDocumentation = false;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void NoteWidget::init() {
+	UMLWidget::setBaseType(wt_Note);
+	m_bLinkDocumentation = false;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 NoteWidget::~NoteWidget() {

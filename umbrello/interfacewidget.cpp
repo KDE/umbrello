@@ -24,16 +24,15 @@ InterfaceWidget::InterfaceWidget(UMLView * view, UMLObject * o) : UMLWidget(view
 	init();
 	setSize(100,30);
 	calculateSize();
-	UMLWidget::setBaseType(wt_Interface);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 InterfaceWidget::InterfaceWidget(UMLView * view) : UMLWidget(view) {
 	init();
 	setSize(100,30);
-	UMLWidget::setBaseType(wt_Interface);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void InterfaceWidget::init() {
+	UMLWidget::setBaseType(wt_Interface);
 	m_pMenu = 0;
 	//set defaults from m_pView
 	if(m_pView) {

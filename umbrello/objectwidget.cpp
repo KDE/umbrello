@@ -32,7 +32,6 @@ ObjectWidget::ObjectWidget(UMLView * view, UMLObject *o, int lid) : UMLWidget(vi
 	m_nLocalID = lid;
 	m_InstanceName = "";
 	m_bMultipleInstance = false;
-	UMLWidget::setBaseType(wt_Object);
 	calculateSize();
 	init();
 }
@@ -46,6 +45,7 @@ ObjectWidget::ObjectWidget(UMLView *view) : UMLWidget(view) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void ObjectWidget::init() {
+	UMLWidget::setBaseType(wt_Object);
 	m_Doc = "";
 	m_nOldID = 0;
 	messageWidgetList.setAutoDelete(false);
@@ -165,7 +165,7 @@ bool ObjectWidget::activate(IDChangeLog* ChangeLog /*= 0*/) {
 }
 
 void ObjectWidget::moveEvent(QMoveEvent */*m*/) {
-	emit sigWidgetMoved( UMLWidget::getID() );
+	emit sigWidgetMoved( m_nLocalID );
 	if( m_pLine )
 		m_pLine -> setStartPoint( getX() + width() / 2, getY() + height() );
 }

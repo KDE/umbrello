@@ -18,16 +18,15 @@ PackageWidget::PackageWidget(UMLView * view, UMLObject * o) : UMLWidget(view, o)
 	init();
 	setSize(100, 30);
 	calculateSize();
-	UMLWidget::setBaseType(wt_Package);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 PackageWidget::PackageWidget(UMLView * view) : UMLWidget(view) {
 	init();
 	setSize(100,30);
-	UMLWidget::setBaseType(wt_Package);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void PackageWidget::init() {
+	UMLWidget::setBaseType(wt_Package);
 	m_pMenu = 0;
 	//set defaults from m_pView
 	if (m_pView) {
