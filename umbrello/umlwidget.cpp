@@ -633,8 +633,12 @@ void UMLWidget::drawSelected(QPainter * p, int offsetX, int offsetY, bool resize
 
 	if (resizeable) {
 		brush.setColor(red);
+		p->drawLine(offsetX + w - s, offsetY + h - 1, offsetX + w - 1, offsetY + h - s);
+		p->drawLine(offsetX + w - (s*2), offsetY + h - 1, offsetX + w - 1, offsetY + h - (s*2) );
+		p->drawLine(offsetX + w - (s*3), offsetY + h - 1, offsetX + w - 1, offsetY + h - (s*3) );
+	} else {
+		p->fillRect(offsetX + w - s, offsetY + h - s, s, s, brush);
 	}
-	p->fillRect(offsetX + w - s, offsetY + h - s, s, s, brush);
 }
 
 bool UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */) {
