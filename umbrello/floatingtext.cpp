@@ -164,6 +164,15 @@ void FloatingText::slotMenuSelection(int sel) {
 				return;
 			}
 			UMLClassifier* c = m_pLink->getOperationOwner(this);
+			if (c == NULL) {
+				bool ok = false;
+				QString opText = KInputDialog::getText(i18n("Name"),
+								       i18n("Enter operation name:"),
+								       getText(), &ok, m_pView);
+				if (ok)
+					m_pLink->setOperationText(this, opText);
+				return;
+			}
 			UMLObject* umlObj = m_pView->getDocument()->createChildObject(c, Uml::ot_Operation);
 			if (umlObj) {
 				UMLOperation* newOperation = static_cast<UMLOperation*>( umlObj );

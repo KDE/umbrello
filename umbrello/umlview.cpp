@@ -416,7 +416,12 @@ void UMLView::slotObjectCreated(UMLObject* o) {
 
 	UMLWidget* newWidget = 0;
 	if(type == ot_Actor) {
-		newWidget = new ActorWidget(this, static_cast<UMLActor*>(o));
+		if (getType() == dt_Sequence) {
+			ObjectWidget *ow = new ObjectWidget(this, o, getLocalID() );
+			ow->setDrawAsActor(true);
+			newWidget = ow;
+		} else
+			newWidget = new ActorWidget(this, static_cast<UMLActor*>(o));
 	} else if(type == ot_UseCase) {
 		newWidget = new UseCaseWidget(this, static_cast<UMLUseCase*>(o));
 	} else if(type == ot_Package) {
@@ -558,7 +563,7 @@ void UMLView::contentsDragEnterEvent(QDragEnterEvent *e) {
 		return;
 	}
 	if((diagramType == dt_Sequence || diagramType == dt_Collaboration) &&
-	   ot != ot_Class ) {
+	   ot != ot_Class && ot != ot_Actor) {
 		e->accept(false);
 		return;
 	}

@@ -369,10 +369,6 @@ UMLClassifier *MessageWidget::getOperationOwner(FloatingText *ft) {
 	if (pObject == NULL)
 		return NULL;
 	UMLClassifier *c = dynamic_cast<UMLClassifier*>(pObject);
-	if (c == NULL)
-		kdError() << "MessageWidget::getOperationOwner: "
-			  << "ft->getUMLObject() is not a classifier"
-			  << endl;
 	return c;
 }
 
