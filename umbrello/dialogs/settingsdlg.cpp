@@ -6,7 +6,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-
+#include <iostream.h>
 //kde includes
 #include <kiconloader.h>
 #include <klocale.h>
@@ -16,11 +16,12 @@
 #include <qlayout.h>
 #include <qvbox.h>
 //app includes
-#include "codegenerationoptionspage.h"
 #include "settingsdlg.h"
+#include "codegenerationoptionspage.h"
+#include "codevieweroptionspage.h"
 
 SettingsDlg::SettingsDlg( QWidget * parent, OptionState state,
-			  QDict<GeneratorInfo> ldict, QString activeLanguage)
+			  QDict<GeneratorInfo> ldict, QString activeLanguage, CodeGenerator * gen)
 	: KDialogBase( IconList, i18n("Umbrello Setup"),
         Help | Default | Apply | Ok | Cancel, Ok, parent, 0, true, true ) {
 	m_bChangesApplied = false;
@@ -30,7 +31,8 @@ SettingsDlg::SettingsDlg( QWidget * parent, OptionState state,
 	setupFontPage();
 	setupUIPage();
 	setupClassPage();
-	setupCodeGenPage(ldict, activeLanguage);
+	setupCodeGenPage(gen, ldict, activeLanguage);
+	setupCodeViewerPage(state.codeViewerState);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 SettingsDlg::~SettingsDlg() {}
@@ -182,11 +184,17 @@ void SettingsDlg::setupClassPage() {
 	visibilityLayout -> setRowStretch( 3, 1 );
 }
 
-void SettingsDlg::setupCodeGenPage(QDict<GeneratorInfo> ldict, QString activeLanguage) {
+void SettingsDlg::setupCodeGenPage(CodeGenerator *gen, QDict<GeneratorInfo> ldict, QString activeLanguage) {
 	//setup code generation settings page
 	QVBox * page = addVBoxPage( i18n("Code Generation"), i18n("Code Generation Settings"), DesktopIcon( "source") );
-	m_pCodeGenPage = new CodeGenerationOptionsPage(m_OptionState.codegenState, ldict,
-						       activeLanguage, page);
+	m_pCodeGenPage = new CodeGenerationOptionsPage(gen, ldict, activeLanguage, page);
+	connect( m_pCodeGenPage, SIGNAL(languageChanged()), this, SLOT(slotOk()) );
+}
+
+void SettingsDlg::setupCodeViewerPage(CodeViewerState options) {
+	//setup code generation settings page
+	QVBox * page = addVBoxPage( i18n("Code Viewer"), i18n("Code Viewer Settings"), DesktopIcon( "source") );
+	m_pCodeViewerPage = new CodeViewerOptionsPage(options, page);
 }
 
 void SettingsDlg::setupFontPage() {
@@ -206,6 +214,7 @@ void SettingsDlg::slotOk() {
 	applyPage( page_UI );
 	applyPage( page_class );
 	applyPage( page_codegen );
+	applyPage( page_codeview );
 	accept();
 }
 
@@ -247,7 +256,8 @@ void SettingsDlg::slotDefault() {
 			break;
 
 		case page_codegen:
-			m_pCodeGenPage -> setDefaults();
+		case page_codeview:
+			// do nothing
 			break;
 	};
 }
@@ -285,7 +295,12 @@ void SettingsDlg::applyPage( Page page ) {
 			break;
 
 		case page_codegen:
-			m_pCodeGenPage->state(m_OptionState.codegenState);
+			m_pCodeGenPage->apply();
+			break;
+
+		case page_codeview:
+			m_pCodeViewerPage->apply();
+			m_OptionState.codeViewerState = m_pCodeViewerPage->getOptions();
 			break;
 	}
 }
@@ -304,14 +319,5 @@ void SettingsDlg::slotAutosaveCBClicked() {
 QString SettingsDlg::getCodeGenerationLanguage() {
 	return m_pCodeGenPage->getCodeGenerationLanguage();
 }
-
-
-
-
-
-
-
-
-
 
 #include "settingsdlg.moc"

@@ -24,11 +24,14 @@
 #include <kdialogbase.h>
 #include <kcolorbutton.h>
 //app includes
-#include "../codegenerator.h"
 
+#include "../codegenerator.h"
 class CodeGenerationOptionsPage;
+class CodeViewerOptionsPage;
+
 /**
  * @author Paul Hensgen
+ * modified by brian thomas Aug-2003
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
@@ -44,7 +47,8 @@ public:
 	    page_font,
 	    page_UI,
 	    page_class,
-	    page_codegen
+	    page_codegen, 
+	    page_codeview
 	};
 
 	enum Diagram
@@ -59,17 +63,6 @@ public:
 	    diagram_component,
 	    diagram_deployment
 	};
-
-	struct CodeGenState {
-		QString outputDir;
-		QString headingsDir;
-		bool includeHeadings;
-		bool forceDoc;
-		bool forceSections;
-		CodeGenerator::OverwritePolicy overwritePolicy;
-		CodeGenerator::ModifyNamePolicy modname;
-	}
-	;//end struct CodeGenState
 
 	//public structs
 	struct GeneralState {
@@ -102,16 +95,28 @@ public:
 	}
 	;//end struct ClassState
 
+	// configurable params for the code viewer tool
+	struct CodeViewerState {
+		int height;
+		int width;
+		QFont font;
+		QColor paperColor;
+		QColor fontColor;
+		QColor highlightColor;
+	}
+	;// end struct CodeViewerState
+
 	struct OptionState {
 		GeneralState generalState;
 		UIState uiState;
 		ClassState classState;
-		CodeGenState  codegenState;
+		CodeViewerState codeViewerState;
+	//	CodeGenState codegenState;
 	}
 	;//end struct OptionState
 
 	SettingsDlg( QWidget * parent, OptionState state, 
-		     QDict<GeneratorInfo> ldict, QString activeLanguage);
+		     QDict<GeneratorInfo> ldict, QString activeLanguage, CodeGenerator * gen);
 	~SettingsDlg();
 
 	//public methods
@@ -182,7 +187,8 @@ private:
 	void setupUIPage();
 	void setupGeneralPage();
 	void setupClassPage();
-	void setupCodeGenPage(QDict<GeneratorInfo> ldict, QString activeLanguage);
+  	void setupCodeGenPage( CodeGenerator *gen, QDict<GeneratorInfo> ldict, QString activeLanguage);
+	void setupCodeViewerPage(CodeViewerState options);
 	void applyPage( Page page );
 
 	//private attributes
@@ -192,6 +198,7 @@ private:
 	ClassWidgets m_ClassWidgets;
 	OptionState m_OptionState;
 	CodeGenerationOptionsPage * m_pCodeGenPage;
+	CodeViewerOptionsPage * m_pCodeViewerPage;
 
 	KConfig * m_pCfg;
 	bool m_bChangesApplied;
