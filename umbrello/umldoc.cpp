@@ -379,10 +379,8 @@ void UMLDoc::deleteContents() {
 		removeAllViews();
 		if(objectList.count() > 0) {
 			// clear our object list. We do this explicitly since setAutoDelete is false for the objectList now. 
-			/* Sorry Brian, but this crashes (see bug 68701.)
 			for(UMLObject * obj = objectList.first(); obj != 0; obj = objectList.next())
-				delete obj;
-			 */
+				obj->deleteLater();
 			objectList.clear();
 		}
 	}
