@@ -340,10 +340,6 @@ void FloatingText::mouseMoveEvent(QMouseEvent* me) {
 	//implement specific rules for a sequence diagram
 	if (m_Role == tr_Seq_Message) {
 		MessageWidget *pMessage = static_cast<MessageWidget*>(m_pLink);
-		if (m_Role == tr_Seq_Message_Self) {
-			newX = pMessage->getX() + 5;
-			pMessage->setX( newX - 5 );
-		}
 		const int minHeight = pMessage->getMinHeight();
 		newY = newY < minHeight ? minHeight : newY;
 		const int maxHeight = pMessage->getMaxHeight() - height() - 5;
