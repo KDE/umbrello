@@ -54,6 +54,9 @@ AssociationWidget::AssociationWidget(UMLView *view, UMLWidget* WidgetA,
 	UMLObject* umlRoleB = WidgetB->getUMLObject();
 	if (umlRoleA != NULL && umlRoleB != NULL) {
 		m_pAssociation = new UMLAssociation (umldoc, Type, umlRoleA, umlRoleB );
+		/* I think this should be:
+		m_pAssociation = umldoc->createUMLAssociation( umlRoleA, umlRoleB, Type);
+		   Brian, why did you change it?  --Oliver  */
 		connect(m_pAssociation, SIGNAL(modified()), this,
 			SLOT(mergeUMLRepresentationIntoAssociationData()));
 	}
@@ -1484,17 +1487,19 @@ void AssociationWidget::widgetMoved(UMLWidget* widget, int x, int y ) {
 		}
 
 	}//end if widgetA = widgetB
-	else if( (m_pWidgetA==widget) && m_pName && (m_unNameLineSegment == 0)
-		&& !m_pWidgetA->getSelected() ) {
-		//only calculate position and move text if the segment it is on is moving
+	else if (m_pWidgetA==widget) {
+		if (m_pName && (m_unNameLineSegment == 0) && !m_pWidgetA->getSelected() ) {
+			//only calculate position and move text if the segment it is on is moving
 			setTextPositionRelatively(tr_Name, calculateTextPosition(tr_Name),
 						  oldNamePoint);
+		}
 	}//end if widgetA moved
-	else if ( (m_pWidgetB==widget) && m_pName && (m_unNameLineSegment == pos-1)
-		  && !m_pName->getSelected() ) {
-		//only calculate position and move text if the segment it is on is moving
+	else if (m_pWidgetB==widget) {
+		if (m_pName && (m_unNameLineSegment == pos-1) && !m_pName->getSelected() ) {
+			//only calculate position and move text if the segment it is on is moving
 			setTextPositionRelatively(tr_Name, calculateTextPosition(tr_Name),
 						  oldNamePoint);
+		}
 	}//end if widgetB moved
 
 	if ( m_pRoleA && !m_pRoleA->getSelected() ) {
@@ -1546,7 +1551,6 @@ AssociationWidget::Region AssociationWidget::findPointRegion(QRect Rect, int Pos
 	//if inside region 1
 	if(eval1 > PosX && eval2 > PosX) {
 		result = West;
-
 	}
 	//if inside region 2
 	else if (eval1 > PosX && eval2 < PosX) {
@@ -1565,10 +1569,8 @@ AssociationWidget::Region AssociationWidget::findPointRegion(QRect Rect, int Pos
 		result = NorthWest;
 	}
 	//if inside region 6
-
 	else if (eval1 < PosX && eval2 == PosX) {
 		result = NorthEast;
-
 	}
 	//if inside region 7
 	else if (eval1 == PosX && eval2 > PosX) {
@@ -1642,6 +1644,11 @@ QPoint AssociationWidget::findRectIntersectionPoint(UMLWidget* pWidget, QPoint P
 	return result;
 }
 
+QPoint AssociationWidget::swapXY(QPoint p) {
+	QPoint swapped( p.y(), p.x() );
+	return swapped;
+}
+
 /** Returns the intersection point between lines P1P2 and P3P4, if the intersection
     point is not contained in the segment P1P2 then it returns (-1, -1)*/
 QPoint AssociationWidget::findIntersection(QPoint P1, QPoint P2, QPoint P3, QPoint P4) {
@@ -1665,22 +1672,22 @@ QPoint AssociationWidget::findIntersection(QPoint P1, QPoint P2, QPoint P3, QPoi
 	int y2 = P2.x();
 	int x3 = P3.y();
 	int y3 = P3.x();
-	int x4 = P4.x();
-	int y4 = P4.y();
+	int x4 = P4.y();
+	int y4 = P4.x();
 
 	//Line 1 is the line between (x1,y1) and (x2,y2)
 	//Line 2 is the line between (x3,y3) and (x4, y4)
 	bool no_line1 = true; //it is false if Line 1 is a linear function
 	bool no_line2 = true; //it is false if Line 2 is a linear function
-	float slope1 = 0, slope2 = 0, b1 = 0, b2 = 0;
+	float slope1 = 0.0, slope2 = 0.0, b1 = 0.0, b2 = 0.0;
 	if(x2 != x1) {
-		slope1 = (y2 - y1) / (x2 - x1);
-		b1 = y1 - (slope1*x1);
+		slope1 = (float)(y2 - y1) / (float)(x2 - x1);
+		b1 = (float)y1 - (slope1 * (float)x1);
 		no_line1 = false;
 	}
 	if(x4 != x3) {
-		slope2 = (y4 - y3) / (x4 - x3);
-		b2 = y3 - (slope2*x3);
+		slope2 = (float)(y4 - y3) / (float)(x4 - x3);
+		b2 = (float)y3 - (slope2 * (float)x3);
 		no_line2 = false;
 	}
 	QPoint pt;
@@ -1704,56 +1711,52 @@ QPoint AssociationWidget::findIntersection(QPoint P1, QPoint P2, QPoint P3, QPoi
 				return QPoint(y2, x2);
 			}
 		}
-
 	} else if( no_line1) {
-		pt.setX(static_cast<int>((slope2*x1) + b2));
-		pt.setY(x1);
+		pt.setX(x1);
+		pt.setY((int)((slope2 * (float)x1) + b2));
 		if(y1 >= y2) {
-			if( !(y2 <= pt.x() && pt.x() <= y1)) {
+			if( !(y2 <= pt.y() && pt.y() <= y1)) {
 				pt.setX(-1);
 				pt.setY(-1);
 			}
 		}
 		else {
-			if( !(y1 <= pt.x() && pt.x() <= y2)) {
+			if( !(y1 <= pt.y() && pt.y() <= y2)) {
 				pt.setX(-1);
 				pt.setY(-1);
 			}
 		}
-		return pt;
+		return swapXY(pt);
 	} else if( no_line2) {
-		pt.setX(static_cast<int>((slope1*x3) + b1));
-		pt.setY(x3);
+		pt.setX(x3);
+		pt.setY((int)((slope1 * (float)x3) + b1));
 		if(y3 >= y4) {
-			if( !(y4 <= pt.x() && pt.x() <= y3)) {
-
+			if( !(y4 <= pt.y() && pt.y() <= y3)) {
 				pt.setX(-1);
 				pt.setY(-1);
 			}
 		} else {
-			if( !(y3 <= pt.x() && pt.x() <= y4)) {
+			if( !(y3 <= pt.y() && pt.y() <= y4)) {
 				pt.setX(-1);
 				pt.setY(-1);
 			}
 		}
-		return pt;
+		return swapXY(pt);
 	}
-	pt.setY(static_cast<int>((b2 - b1) / (slope1 - slope2)));
-	pt.setX(static_cast<int>((slope1*pt.y()) + b1));
+	pt.setX((int)((b2 - b1) / (slope1 - slope2)));
+	pt.setY((int)((slope1 * (float)pt.x()) + b1));
 	//the intersection point must be inside the segment (x1, y1) (x2, y2)
 	if(x2 >= x1&& y2 >= y1) {
 		if(! ((x1 <= pt.x() && pt.x() <= x2)	&& (y1 <= pt.y() && pt.y() <= y2)) ) {
 			pt.setX(-1);
 			pt.setY(-1);
 		}
-	} else if (x2 < x1 && y2 >= y1)
-	{
+	} else if (x2 < x1 && y2 >= y1) {
 		if(! ((x2 <= pt.x() && pt.x() <= x1)	&& (y1 <= pt.y() && pt.y() <= y2)) ) {
 			pt.setX(-1);
 			pt.setY(-1);
 		}
-	} else if (x2 >= x1 && y2 < y1)
-	{
+	} else if (x2 >= x1 && y2 < y1) {
 		if(! ((x1 <= pt.x() && pt.x() <= x2)	&& (y2 <= pt.y() && pt.y() <= y1)) ) {
 			pt.setX(-1);
 			pt.setY(-1);
@@ -1765,29 +1768,115 @@ QPoint AssociationWidget::findIntersection(QPoint P1, QPoint P2, QPoint P3, QPoi
 		}
 	}
 
-
-	return pt;
+	return swapXY(pt);  // Swap X and Y in target to go back to Qt coord.sys.
 }
 
-/** Returns the total length of the assocition's LinePath:
+void AssociationWidget::resolveCrossing(AssociationWidget *a) {
+	if (m_LinePath.count() > 2) {
+		kdDebug() << "resolveCrossing: m_LinePath.count() is " << m_LinePath.count()
+			  << endl;
+		return;
+	}
+	LinePath *pOther = a->getLinePath();
+	if (pOther->count() > 2) {
+		kdDebug() << "resolveCrossing: pOther->count() is " << pOther->count()
+			  << endl;
+		return;
+	}
+	/* not needed:
+	UMLWidget *commonWidget = NULL;
+	if (a->getWidgetA() == m_pWidgetA || a->getWidgetB() == m_pWidgetA)
+		commonWidget = m_pWidgetA;
+	else if (a->getWidgetA() == m_pWidgetB || a->getWidgetB() == m_pWidgetB)
+		commonWidget = m_pWidgetB;
+	else {
+		kdDebug() << "resolveCrossing: No common widget between the two assocs"
+			  << endl;
+		return;
+	}
+	 */
+	QPoint myStart = m_LinePath.getPoint(0);
+	QPoint myEnd = m_LinePath.getPoint(1);
+	QPoint otherStart = pOther->getPoint(0);
+	QPoint otherEnd = pOther->getPoint(1);
+	QPoint none(-1, -1);
+	if (findIntersection(myStart, myEnd, otherStart, otherEnd) == none)
+		return;
+	if (myStart.x() == otherStart.x()) {
+		kdDebug() << "resolveCrossing: myStart.x() == otherStart.x()" << endl;
+		// Swap Y coordinates
+		QPoint my(myStart.x(), otherStart.y());
+		m_LinePath.setPoint(0, my);
+		QPoint other(otherStart.x(), myStart.y());
+		pOther->setPoint(0, other);
+	} else if (myStart.y() == otherStart.y()) {
+		kdDebug() << "resolveCrossing: myStart.y() == otherStart.y()" << endl;
+		// Swap X coordinates
+		QPoint my(otherStart.x(), myStart.y());
+		m_LinePath.setPoint(0, my);
+		QPoint other(myStart.x(), otherStart.y());
+		pOther->setPoint(0, other);
+	} else if (myEnd.x() == otherEnd.x()) {
+		kdDebug() << "resolveCrossing: myEnd.x() == otherEnd.x()" << endl;
+		// Swap Y coordinates
+		QPoint my(myEnd.x(), otherEnd.y());
+		m_LinePath.setPoint(1, my);
+		QPoint other(otherEnd.x(), myEnd.y());
+		pOther->setPoint(1, other);
+	} else if (myEnd.y() == otherEnd.y()) {
+		kdDebug() << "resolveCrossing: myEnd.y() == otherEnd.y()" << endl;
+		// Swap X coordinates
+		QPoint my(otherEnd.x(), myEnd.y());
+		m_LinePath.setPoint(1, my);
+		QPoint other(myEnd.x(), otherEnd.y());
+		pOther->setPoint(1, other);
+	} else if (myStart.x() == otherEnd.x()) {
+		kdDebug() << "resolveCrossing: myStart.x() == otherEnd.x()" << endl;
+		// Swap Y coordinates
+		QPoint my(myStart.x(), otherEnd.y());
+		m_LinePath.setPoint(0, my);
+		QPoint other(otherEnd.x(), myStart.y());
+		pOther->setPoint(1, other);
+	} else if (myStart.y() == otherEnd.y()) {
+		kdDebug() << "resolveCrossing: myStart.y() == otherEnd.y()" << endl;
+		// Swap X coordinates
+		QPoint my(otherEnd.x(), myStart.y());
+		m_LinePath.setPoint(0, my);
+		QPoint other(myStart.x(), otherEnd.y());
+		pOther->setPoint(1, other);
+	} else if (myEnd.x() == otherStart.x()) {
+		kdDebug() << "resolveCrossing: myEnd.x() == otherStart.x()" << endl;
+		// Swap Y coordinates
+		QPoint my(myEnd.x(), otherStart.y());
+		m_LinePath.setPoint(1, my);
+		QPoint other(otherStart.x(), myEnd.y());
+		pOther->setPoint(0, other);
+	} else if (myEnd.y() == otherStart.y()) {
+		kdDebug() << "resolveCrossing: myEnd.y() == otherStart.y()" << endl;
+		// Swap X coordinates
+		QPoint my(otherStart.x(), myEnd.y());
+		m_LinePath.setPoint(1, my);
+		QPoint other(myEnd.x(), otherStart.y());
+		pOther->setPoint(0, other);
+	} else {
+		kdDebug() << "resolveCrossing: Oops, boog: Cannot swap." << endl;
+	}
+}
 
-result = segment_1_length + segment_2_length + ..... + segment_n_length  */
+/* Returns the total length of the association's LinePath:
+   result = segment_1_length + segment_2_length + ..... + segment_n_length
+ */
 float AssociationWidget::totalLength() {
 	uint size = m_LinePath.count();
-
-	//Open space in the LinePath point array to insert the new point
-	//move all the points from j position one space ahead
-	int xi = 0, xj = 0, yi = 0, yj = 0;
-
 	float total_length = 0;
+
 	for(uint i = 0; i < size - 1; i++) {
 		QPoint pi = m_LinePath.getPoint( i );
 		QPoint pj = m_LinePath.getPoint( i+1 );
-		xi = pi.y();
-		xj = pj.y();
-		yi = pi.x();
-		yj = pj.x();
-
+		int xi = pi.y();
+		int xj = pj.y();
+		int yi = pi.x();
+		int yj = pj.x();
 		total_length +=  sqrt( double(((xj - xi)*(xj - xi)) + ((yj - yi)*(yj - yi))) );
 	}
 
@@ -1861,9 +1950,9 @@ QPoint AssociationWidget::calculatePointAtDistance(QPoint P1, QPoint P2, float D
 	int y2 = P2.x();
 
 	if(x2 == x1) {
-		return QPoint(x1, static_cast<int>(y1 + Distance));
+		return QPoint(x1, y1 + (int)Distance);
 	}
-	float slope = (static_cast<float>(y2) - static_cast<float>(y1)) / (static_cast<float>(x2) - static_cast<float>(x1));
+	float slope = ((float)y2 - (float)y1) / ((float)x2 - (float)x1);
 	float b = (y1 - slope*x1);
 	float A = (slope * slope) + 1;
 	float B = (2*slope*b) - (2*x1)  - (2*slope*y1);
@@ -1879,8 +1968,8 @@ QPoint AssociationWidget::calculatePointAtDistance(QPoint P1, QPoint P2, float D
 	if(sol_1 < 0.0 && sol_2 < 0.0) {
 		return QPoint(-1, -1);
 	}
-	QPoint sol1Point(static_cast<int>(slope*sol_1 + b), static_cast<int>(sol_1));
-	QPoint sol2Point(static_cast<int>(slope*sol_2 + b), static_cast<int>(sol_2));
+	QPoint sol1Point((int)(slope*sol_1 + b), (int)(sol_1));
+	QPoint sol2Point((int)(slope*sol_2 + b), (int)(sol_2));
 	if(sol_1 < 0 && sol_2 >=0) {
 		if(x2 > x1) {
 			if(x1 <= sol_2 && sol_2 <= x2)
@@ -1979,20 +2068,18 @@ QPoint AssociationWidget::calculatePointAtDistanceOnPerpendicular(QPoint P1, QPo
 	           --------------------------------
 	                       2*A
 
-
 	  then in the distance formula we have only one variable x3 and that is easy
 	  to calculate
 	*/
 	int x1 = P1.y();
 	int y1 = P1.x();
 	int x2 = P2.y();
-
 	int y2 = P2.x();
 
 	if(x2 == x1) {
-		return QPoint(static_cast<int>(x2+ Distance), y2);
+		return QPoint((int)(x2+ Distance), y2);
 	}
-	float slope = (static_cast<float>(x1) - static_cast<float>(x2)) / (static_cast<float>(y2) - static_cast<float>(y1));
+	float slope = ((float)x1 - (float)x2) / ((float)y2 - (float)y1);
 	float b = (y2 - slope*x2);
 	float A = (slope * slope) + 1;
 	float B = (2*slope*b) - (2*x2)  - (2*slope*y2);
@@ -2008,8 +2095,8 @@ QPoint AssociationWidget::calculatePointAtDistanceOnPerpendicular(QPoint P1, QPo
 	if(sol_1 < 0 && sol_2 < 0) {
 		return QPoint(-1, -1);
 	}
-	QPoint sol1Point(static_cast<int>(slope*sol_1 + b), static_cast<int>(sol_1));
-	QPoint sol2Point(static_cast<int>(slope*sol_2 + b), static_cast<int>(sol_2));
+	QPoint sol1Point((int)(slope*sol_1 + b), (int)sol_1);
+	QPoint sol2Point((int)(slope*sol_2 + b), (int)sol_2);
 	if(sol_1 < 0 && sol_2 >=0) {
 		return sol2Point;
 	} else if(sol_1 >= 0 && sol_2 < 0) {
@@ -2034,9 +2121,9 @@ QPoint AssociationWidget::calculatePointAtDistanceOnPerpendicular(QPoint P1, QPo
 /** Calculates the intersection (PS) between line P1P2 and a perpendicular line containing
     P3, the result is returned in ResultingPoint. and result value represents the distance
     between ResultingPoint and P3; if this value is negative an error ocurred. */
-float AssociationWidget::perpendicularProjection(QPoint P1, QPoint P2, QPoint P3, QPoint ResultingPoint) {
+float AssociationWidget::perpendicularProjection(QPoint P1, QPoint P2, QPoint P3,
+						 QPoint& ResultingPoint) {
 	//line P1P2 is Line 1 = y=slope1*x + b1
-
 
 	//line P3PS is Line 1 = y=slope2*x + b2
 
@@ -2068,10 +2155,10 @@ float AssociationWidget::perpendicularProjection(QPoint P1, QPoint P2, QPoint P3
 		sx = (b2 - b1) / (slope1 - slope2);
 		sy = slope1*sx + b1;
 	}
-	distance = static_cast<int>( sqrt( ((x3 - sx)*(x3 - sx)) + ((y3 - sy)*(y3 - sy)) ) );
+	distance = (int)( sqrt( ((x3 - sx)*(x3 - sx)) + ((y3 - sy)*(y3 - sy)) ) );
 
-	ResultingPoint.setX(static_cast<int>(sy));
-	ResultingPoint.setY(static_cast<int>(sx));
+	ResultingPoint.setX( (int)sy );
+	ResultingPoint.setY( (int)sx );
 
 	return distance;
 }
@@ -2742,16 +2829,12 @@ void AssociationWidget::updateAssociations(int totalCount,
 	AssociationWidget* assocwidget2 = 0;
 
 	AssociationWidgetList ordered;
-	uint counter;
-	bool out;
 
 	// we order the AssociationWidget list by region and x/y value
-	while ( (assocwidget = assoc_it.current()) )
-	{
+	while ( (assocwidget = assoc_it.current()) ) {
 		++assoc_it;
 		// widgetA is given as function parameter!
-		if (widgetA)
-		{
+		if (widgetA) {
 			// so we have to look at m_pWidgetA
 			// now we must find out with which end assocwidget connects to
 			// m_pWidgetA
@@ -2761,15 +2844,13 @@ void AssociationWidget::updateAssociations(int totalCount,
 						 region == assocwidget -> getWidgetBRegion());
 			if ( !inWidgetARegion && !inWidgetBRegion )
 				continue;
-			counter = 0;
-			out = false;
+			uint counter = 0;
+			bool out = false;
 			// now we go through all already known associations and insert
 			// assocwidget at the right position so that the lines don't cross
 			for (assocwidget2 = ordered.first(); assocwidget2;
-			     assocwidget2 = ordered.next())
-			{
-				switch (region)
-				{
+			     assocwidget2 = ordered.next()) {
+				switch (region) {
 				case North:
 				case South:
 					if ( (inWidgetARegion &&
@@ -2777,8 +2858,7 @@ void AssociationWidget::updateAssociations(int totalCount,
 					      assocwidget->getWidgetB()->x()) ||
 					     (inWidgetBRegion &&
 					      assocwidget2->getWidgetB()->x() >
-					      assocwidget->getWidgetA()->x()) )
-					{
+					      assocwidget->getWidgetA()->x()) ) {
 						ordered.insert(counter, assocwidget);
 						out = true;
 					}
@@ -2790,8 +2870,7 @@ void AssociationWidget::updateAssociations(int totalCount,
 					      assocwidget->getWidgetB()->y()) ||
 					     (inWidgetBRegion &&
 					      assocwidget2->getWidgetB()->y() >
-					      assocwidget->getWidgetA()->y()) )
-					{
+					      assocwidget->getWidgetA()->y()) ) {
 						ordered.insert(counter, assocwidget);
 						out = true;
 					}
@@ -2799,7 +2878,7 @@ void AssociationWidget::updateAssociations(int totalCount,
 				default:
 					break;
 				} // switch (region)
-				if (out == true)
+				if (out)
 					break;
 				counter++;
 			} // for (assocwidget2 = ordered.first(); assocwidget2; ...
@@ -2815,16 +2894,14 @@ void AssociationWidget::updateAssociations(int totalCount,
 						 region == assocwidget -> getWidgetBRegion() );
 			if ( !inWidgetARegion && !inWidgetBRegion )
 				continue;
-			counter = 0;
-			out = false;
+			uint counter = 0;
+			bool out = false;
 
 			// now we go through all already known associations and insert
 			// assocwidget at the right position so that the lines don't cross
 			for (assocwidget2 = ordered.first(); assocwidget2;
-			     assocwidget2 = ordered.next())
-			{
-				switch (region)
-				{
+			     assocwidget2 = ordered.next()) {
+				switch (region) {
 				case North:
 				case South:
 					if ( (inWidgetARegion &&
@@ -2832,8 +2909,7 @@ void AssociationWidget::updateAssociations(int totalCount,
 					      assocwidget->getWidgetB()->x()) ||
 					     (inWidgetBRegion &&
 					      assocwidget2->getWidgetA()->x() >
-					      assocwidget->getWidgetA()->x()) )
-					{
+					      assocwidget->getWidgetA()->x()) ) {
 						ordered.insert(counter, assocwidget);
 						out = true;
 					}
@@ -2845,8 +2921,7 @@ void AssociationWidget::updateAssociations(int totalCount,
 					      assocwidget->getWidgetB()->y()) ||
 					     (inWidgetBRegion &&
 					      assocwidget2->getWidgetA()->y() >
-					      assocwidget->getWidgetA()->y()) )
-					{
+					      assocwidget->getWidgetA()->y()) ) {
 						ordered.insert(counter, assocwidget);
 						out = true;
 					}
@@ -2854,7 +2929,7 @@ void AssociationWidget::updateAssociations(int totalCount,
 				default:
 					break;
 				} // switch (region)
-				if (out == true)
+				if (out)
 					break;
 				counter++;
 			} // for (assocwidget2 = ordered.first(); assocwidget2; ...
@@ -2865,19 +2940,15 @@ void AssociationWidget::updateAssociations(int totalCount,
 
 	// we now have an ordered list and we only have to call updateRegionLineCount
 	int index = 1;
-	for (assocwidget = ordered.first(); assocwidget; assocwidget = ordered.next())
-	{
-		if(widgetA)
-		{
-			if( m_pWidgetA == assocwidget -> getWidgetA() )
-			{
+	for (assocwidget = ordered.first(); assocwidget; assocwidget = ordered.next()) {
+		if(widgetA) {
+			if( m_pWidgetA == assocwidget -> getWidgetA() ) {
 				assocwidget -> updateRegionLineCount(index++, totalCount, region, true);
 			} else if( m_pWidgetA == assocwidget -> getWidgetB() ) {
 				assocwidget -> updateRegionLineCount(index++, totalCount, region, false);
 			}
 		} else { //end widgetA
-			if(m_pWidgetB == assocwidget -> getWidgetA() )
-			{
+			if(m_pWidgetB == assocwidget -> getWidgetA() ) {
 				assocwidget -> updateRegionLineCount(index++, totalCount, region, true);
 			} else if(m_pWidgetB == assocwidget -> getWidgetB() ) {
 				assocwidget -> updateRegionLineCount(index++, totalCount, region, false);
@@ -2946,8 +3017,8 @@ void AssociationWidget::updateRegionLineCount(int index, int totalCount, Associa
 		y = m_pWidgetA -> getY();
 		ww = m_pWidgetA->width();
 		wh = m_pWidgetA->height();
-		ch = static_cast<int>(( wh * index / totalCount));
-		cw = static_cast<int>(( ww * index / totalCount));
+		ch = wh * index / totalCount;
+		cw = ww * index / totalCount;
 		m_OldCornerA.setX(x);
 		m_OldCornerA.setY(y);
 	} else {
@@ -2957,8 +3028,8 @@ void AssociationWidget::updateRegionLineCount(int index, int totalCount, Associa
 		y = m_pWidgetB -> getY();
 		ww = m_pWidgetB->getWidth();
 		wh = m_pWidgetB->getHeight();
-		ch = static_cast<int>(( wh * index / totalCount));
-		cw = static_cast<int>(( ww * index / totalCount));
+		ch = wh * index / totalCount;
+		cw = ww * index / totalCount;
 		m_OldCornerB.setX(x);
 		m_OldCornerB.setY(y);
 	}
@@ -3115,9 +3186,9 @@ QRect AssociationWidget::getAssocLineRectangle()
 		if (p.y() < rectangle.y())
 			rectangle.setY(p.y());
 		if (p.x() > rectangle.x() + rectangle.width())
-			rectangle.setWidth(abs(static_cast<int>(p.x() - rectangle.x() + pen_width)));
+			rectangle.setWidth(abs((int)(p.x() - rectangle.x() + pen_width)));
 		if (p.y() > rectangle.y() + rectangle.height())
-			rectangle.setHeight(abs(static_cast<int>(p.y() - rectangle.y() + pen_width)));
+			rectangle.setHeight(abs((int)(p.y() - rectangle.y() + pen_width)));
 	}
 	return rectangle;
 }

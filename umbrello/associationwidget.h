@@ -375,6 +375,13 @@ public:
 	}
 
 	/**
+	 * Returns a pointer to the association widget's line path.
+	 */
+	LinePath* getLinePath() {
+		return &m_LinePath;
+	}
+
+	/**
 	 * Adjusts the ending point of the association that connects to Widget
 	 *
 	 * @param widget	Pointer to the widget that was moved.
@@ -415,6 +422,11 @@ public:
 	 */
 	void mouseMoveEvent(QMouseEvent * me);
 
+	/**
+	 * Resolves the crossing of the line of the given association with
+	 * our own association line.
+	 */
+	void resolveCrossing(AssociationWidget *a);
 
 	/**
 	 *  Returns true if the given point is on the Association.
@@ -619,7 +631,7 @@ private:
 	 *		8 = On diagonal 1 between Region4 and 1
 	 *		9 = On diagonal 1 and On diagonal 2 (the center)
 	 */
-	AssociationWidget::Region findPointRegion(QRect Rect, int PosX, int PosY);
+	static AssociationWidget::Region findPointRegion(QRect Rect, int PosX, int PosY);
 
 	/**
 	 * Overrides moveEvent.
@@ -649,18 +661,24 @@ private:
 				     uint & StartSegmentIndex, uint & EndSegmentIndex);
 
 	/**
+	 * Returns a point with interchanged X and Y coordinates.
+	 */
+	static QPoint swapXY(QPoint p);
+
+	/**
 	 * Returns the intersection point between line P1P2 and the bounding
 	 * rectangle of pWidget.
+	 * Not currently used.
 	 */
 	QPoint findRectIntersectionPoint(UMLWidget* pWidget, QPoint P1, QPoint P2);
 
 	/**
 	 * Returns the intersection point between lines P1P2 and P3P4.
 	 */
-	QPoint findIntersection(QPoint P1, QPoint P2, QPoint P3, QPoint P4);
+	static QPoint findIntersection(QPoint P1, QPoint P2, QPoint P3, QPoint P4);
 
 	/**
-	 * Returns the total length of the assocition's LinePath:
+	 * Returns the total length of the association's LinePath:
 	 * result = segment_1_length + segment_2_length + ... + segment_n_length
 	 */
 	float totalLength();
@@ -672,7 +690,7 @@ private:
 	 * to Distance and if PX is not a point of the segment P1P2 then the
 	 * function returns (-1,-1).
 	 */
-	QPoint calculatePointAtDistance(QPoint P1, QPoint P2, float Distance);
+	static QPoint calculatePointAtDistance(QPoint P1, QPoint P2, float Distance);
 
 	/**
 	 * Calculates which point of a perpendicular line to segment P1P2 that
@@ -680,15 +698,16 @@ private:
 	 * Let's say such point is PX, the distance from P2 to PX must be equal
 	 * to Distance.
 	 */
-	QPoint calculatePointAtDistanceOnPerpendicular(QPoint P1, QPoint P2, float Distance);
+	static QPoint calculatePointAtDistanceOnPerpendicular(QPoint P1, QPoint P2, float Distance);
 
 	/**
 	 * Calculates the intersection between line P1P2 and a perpendicular
 	 * line containing P3, the result is returned in ResultingPoint.
 	 * The result value represents the distance between ResultingPoint and
 	 * P3. If this value is negative an error ocurred.
+	 * This method is not currently used.
 	 */
-	float perpendicularProjection(QPoint P1, QPoint P2, QPoint P3, QPoint ResultingPoint);
+	static float perpendicularProjection(QPoint P1, QPoint P2, QPoint P3, QPoint& ResultingPoint);
 
 	/**
 	 * Calculates the position of the text widget depending on the role
