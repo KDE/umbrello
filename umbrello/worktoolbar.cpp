@@ -296,8 +296,7 @@ void WorkToolBar::loadPixmaps() {
 	QString dataDir = dirs -> findResourceDir( "data", "umbrello/pics/object.png" );
 	dataDir += "/umbrello/pics/";
 
-//FIXMEnow	m_Pixmaps[tbb_Object].load( dataDir + "object.png" );
-	m_Pixmaps[tbb_Object] = BarIcon( "folder_green_open" );
+        m_Pixmaps[tbb_Object].load( dataDir + "object.png" );
 	m_Pixmaps[tbb_Seq_Message_Synchronous].load( dataDir + "message-synchronous.png" );
 	m_Pixmaps[tbb_Seq_Message_Asynchronous].load( dataDir + "message-asynchronous.png" );
 	m_Pixmaps[tbb_Arrow].load( dataDir + "arrow.png" );
