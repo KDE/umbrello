@@ -271,10 +271,8 @@ public:
 	 * of the specifics of each child class.
 	 *
 	 * @param element	The QDomElement from which to load.
-	 * @param loadID	Optional: When set to false, the xmi.id
-	 *			is not loaded.
 	 */
-	virtual bool loadFromXMI( QDomElement & element, bool loadID = true );
+	virtual bool loadFromXMI( QDomElement & element );
 
 	/**
 	 * Returns true if this UMLObject has classifier scope,

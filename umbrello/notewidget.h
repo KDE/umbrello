@@ -146,7 +146,7 @@ protected:
 	/**
 	 * Draws the text.  Called by draw and not called by anyone else.
 	 */
-	void drawText(QPainter & p, int offsetX, int offsetY);
+	void drawText();
 private:
 	/**
 	 * Initializes key variables for the class.

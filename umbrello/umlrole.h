@@ -34,7 +34,7 @@ public:
 	 *
 	 * @param parent	The parent of this UMLRole.
 	 */
-	UMLRole (UMLAssociation * parent, UMLObject * parentUMLObject, Uml::Role_Type roleId);
+	UMLRole (UMLAssociation * parent, UMLObject * parentUMLObject, Uml::Role_Type role);
 
 	/**
 	 * Overloaded '==' operator
@@ -131,14 +131,8 @@ public:
 
 	UMLAssociation * getParentAssociation ();
 
-	/** overload UMLObject methods..we want to slave the ID of the
-	 * UMLRole to that of the UMLObject which owns it. The wrinkle
-	 * here is that we CANT allow UMLRole to be the parent object
-	 * of a UMLRole, got it?
-	 */
-	virtual Uml::IDType getID() const;
-	virtual void setID ( Uml::IDType id );
-
+	// Sets the m_SecondaryId
+	// @todo  Candidate for removal
 	void setIdStr( const QString &idStr );
 
 	/** get the 'id' of the role (NOT the parent object). This could be
@@ -147,7 +141,7 @@ public:
 	 * umlrole objects in the XMI for 'self' associations where both roles
 	 * will point to the same underlying UMLObject.
 	 */
-	Uml::Role_Type getRoleID();
+	Uml::Role_Type getRole();
 
 	/**
 	 * Make a clone of this object.
@@ -174,7 +168,7 @@ private:
 
 	QString m_Doc;
 	UMLAssociation * m_pAssoc;
-	Uml::Role_Type m_roleID;
+	Uml::Role_Type m_role;
 	QString m_Name;
 	QString m_Multi;
 	Uml::Changeability_Type m_Changeability;

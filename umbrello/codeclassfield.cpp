@@ -417,7 +417,7 @@ CodeAccessorMethod * CodeClassField::findMethodByType ( CodeAccessorMethod::Acce
 			UMLRole * role = dynamic_cast<UMLRole*>(m->getParentObject());
 			if(!role)
 				kdError()<<"    FindMethodByType()  cant create role for method type:"<<m->getType()<<endl;
-			if( role && m->getType() == type && role->getRoleID() == role_id)
+			if( role && m->getType() == type && role->getRole() == role_id)
 				return m;
 		}
 

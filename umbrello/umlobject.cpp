@@ -472,7 +472,7 @@ bool UMLObject::load( QDomElement& ) {
 	return true;
 }
 
-bool UMLObject::loadFromXMI( QDomElement & element, bool loadID /* =true */) {
+bool UMLObject::loadFromXMI( QDomElement & element) {
 	UMLDoc* umldoc = UMLApp::app()->getDocument();
 	if (umldoc == NULL) {
 		kdError() << "UMLObject::loadFromXMI: umldoc is NULL" << endl;
@@ -481,13 +481,18 @@ bool UMLObject::loadFromXMI( QDomElement & element, bool loadID /* =true */) {
 	// Read the name first so that if we encounter a problem, the error
 	// message can say the name.
 	m_Name = element.attribute( "name", "" );
-	if (loadID) {
-		QString id = element.attribute( "xmi.id", "" );
-		if (id.isEmpty() || id == "-1") {
+	QString id = element.attribute( "xmi.id", "" );
+	if (id.isEmpty() || id == "-1") {
+		if (m_BaseType == Uml::ot_Role) {
+			// Before version 1.4, Umbrello did not save the xmi.id
+			// of UMLRole objects.
+			m_nId = umldoc->getUniqueID();
+		} else {
 			kdError() << "UMLObject::loadFromXMI(" << m_Name
 				  << "): nonexistent or illegal xmi.id" << endl;
 			return false;
 		}
+	} else {
 		m_nId = STR2ID(id);
 	}
 
@@ -588,9 +593,7 @@ bool UMLObject::loadFromXMI( QDomElement & element, bool loadID /* =true */) {
 
 	// If the name is not set, let's check whether the attributes are saved
 	// as child nodes.
-	// We only do this for the regular loadFromXMI call (when the loading
-	// of the xmi.id is done.)
-	if (loadID && m_Name.isEmpty()) {
+	if (m_Name.isEmpty()) {
 		QDomNode node = element.firstChild();
 		if (node.isComment())
 			node = node.nextSibling();

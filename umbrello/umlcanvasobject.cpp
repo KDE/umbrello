@@ -160,7 +160,7 @@ UMLClassifierList UMLCanvasObject::getSuperClasses() {
 	UMLClassifierList list;
 	for (UMLAssociation* a = m_AssocsList.first(); a; a = m_AssocsList.next()) {
 		if ( a->getAssocType() != Uml::at_Generalization ||
-		     a->getRoleId(Uml::A) != getID() )
+		     a->getObjectId(Uml::A) != getID() )
 			continue;
 		UMLClassifier *c = dynamic_cast<UMLClassifier*>(a->getObject(Uml::B));
 		if (c)
@@ -168,7 +168,7 @@ UMLClassifierList UMLCanvasObject::getSuperClasses() {
 		else
 			kdDebug() << "UMLCanvasObject::getSuperClasses(" << m_Name
 				  << "): generalization's other end is not a "
-				  << "UMLClassifier (id= " << ID2STR(a->getRoleId(Uml::B)) << ")"
+				  << "UMLClassifier (id= " << ID2STR(a->getObjectId(Uml::B)) << ")"
 				  << endl;
 	}
 	return list;
@@ -179,7 +179,7 @@ UMLClassifierList UMLCanvasObject::getSubClasses() {
 	// WARNING: See remark at getSuperClasses()
 	for (UMLAssociation* a = m_AssocsList.first(); a; a = m_AssocsList.next()) {
 		if ( a->getAssocType() != Uml::at_Generalization ||
-		     a->getRoleId(Uml::B) != getID() )
+		     a->getObjectId(Uml::B) != getID() )
 			continue;
 		UMLClassifier *c = dynamic_cast<UMLClassifier*>(a->getObject(Uml::A));
 		if (c)
@@ -187,7 +187,7 @@ UMLClassifierList UMLCanvasObject::getSubClasses() {
 		else
 			kdDebug() << "UMLCanvasObject::getSubClasses: specialization's"
 				  << " other end is not a UMLClassifier"
-				  << " (id=" << ID2STR(a->getRoleId(Uml::A)) << ")" << endl;
+				  << " (id=" << ID2STR(a->getObjectId(Uml::A)) << ")" << endl;
 	}
 	return list;
 }

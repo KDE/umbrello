@@ -70,7 +70,7 @@ void NoteWidget::setEditorGeometry(int dx /*=0*/, int dy /*=0*/) {
 				    UMLWidget::getWidth() - 16,
 				    UMLWidget::getHeight() - 16);
 	m_pEditor->setGeometry( editorGeometry );
-	m_pEditor->setShown(true);
+	drawText();
 }
 
 void NoteWidget::setX( int x ) {
@@ -117,7 +117,7 @@ void NoteWidget::draw(QPainter & p, int offsetX, int offsetY) {
 		drawSelected(&p, offsetX, offsetY,  true);
 	}
 
-	drawText( p, offsetX, offsetY );
+	drawText();
 }
 
 void NoteWidget::mouseMoveEvent(QMouseEvent *me) {
@@ -138,8 +138,8 @@ void NoteWidget::mouseMoveEvent(QMouseEvent *me) {
 	newW = newW < 50?50:newW;
 	newH = newH < 50?50:newH;
 	setSize( newW, newH );
-	setEditorGeometry();
 	adjustAssocs( getX(), getY() );
+	setEditorGeometry();
 }
 
 void NoteWidget::mousePressEvent(QMouseEvent *me) {
@@ -189,9 +189,12 @@ bool NoteWidget::activate ( IDChangeLog* ChangeLog /*= 0*/ ) {
 
 void NoteWidget::mouseReleaseEvent( QMouseEvent * me ) {
 	UMLWidget::mouseReleaseEvent( me );
+	kdDebug() << "NoteWidget::mouseReleaseEvent: m_bResizing="
+		  << m_bResizing << endl;
 	if ( m_bResizing ) {
 		m_bResizing = false;
 		m_pView -> setCursor( KCursor::arrowCursor() );
+		drawText();
 		UMLApp::app()->getDocument()->setModified(true);
 	}
 }
@@ -202,9 +205,10 @@ void NoteWidget::mouseDoubleClickEvent( QMouseEvent * me ) {
 	slotMenuSelection( ListPopupMenu::mt_Rename );
 }
 
-void NoteWidget::drawText(QPainter &, int, int) {
+void NoteWidget::drawText() {
 	m_pEditor->setText( getDoc() );
 	m_pEditor->setShown(true);
+	m_pEditor->repaint();
 }
 
 void NoteWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {

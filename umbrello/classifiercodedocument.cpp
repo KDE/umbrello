@@ -485,10 +485,10 @@ void ClassifierCodeDocument::addAssociationClassField (UMLAssociation * a, bool 
 	bool printRoleA = false, printRoleB = false, shouldSync = false;
 	// it may seem counter intuitive, but you want to insert the role of the
 	// *other* class into *this* class.
-	if (a->getRoleId(Uml::A) == cid)
+	if (a->getObjectId(Uml::A) == cid)
 		printRoleB = true;
 
-	if (a->getRoleId(Uml::B) == cid)
+	if (a->getObjectId(Uml::B) == cid)
 		printRoleA = true;
 
 	// grab RoleB decl
@@ -570,7 +570,7 @@ ClassifierCodeDocument::findCodeClassFieldFromParentID (Uml::IDType id,
 		for(CodeClassField * cf = list->first(); cf; cf=list->next())
 		{
 			UMLRole * role = dynamic_cast<UMLRole *>(cf->getParentObject());
-			if(role && STR2ID(cf->getID()) == id && role->getRoleID() == role_id)
+			if(role && STR2ID(cf->getID()) == id && role->getRole() == role_id)
 				return cf;
 		}
 

@@ -36,10 +36,13 @@ UMLAssociation::UMLAssociation( Association_Type type,
     : UMLObject("")
 {
 	init(type, roleA, roleB);
+	UMLDoc *pDoc = UMLApp::app()->getDocument();
+	m_pRole[Uml::A]->setID( pDoc->getUniqueID() );
+	m_pRole[Uml::B]->setID( pDoc->getUniqueID() );
 }
 
 UMLAssociation::UMLAssociation( Association_Type type /* = Uml::at_Unknown */)
-    : UMLObject("", "0")
+    : UMLObject("", Uml::id_Reserved)
 {
 	init(type, NULL, NULL);
 }
@@ -140,8 +143,8 @@ void UMLAssociation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	if (m_AssocType == Uml::at_Generalization ||
 	    m_AssocType == Uml::at_Realization) {
 		QDomElement assocElement = UMLObject::save("UML:Generalization", qDoc);
-		assocElement.setAttribute( "child", ID2STR(getRoleId(A)) );
-		assocElement.setAttribute( "parent", ID2STR(getRoleId(B)) );
+		assocElement.setAttribute( "child", ID2STR(getObjectId(A)) );
+		assocElement.setAttribute( "parent", ID2STR(getObjectId(B)) );
 		qElement.appendChild( assocElement );
 		return;
 	}
@@ -253,7 +256,7 @@ bool UMLAssociation::load( QDomElement & element ) {
 		    !tagEq(tag, "Namespace.contents")) {
 			kdWarning() << "UMLAssociation::load: "
 				    << "unknown child node " << tag << endl;
-			return false;
+			continue;
 		}
 		// Load role A.
 		node = tempElement.firstChild();
@@ -271,7 +274,7 @@ bool UMLAssociation::load( QDomElement & element ) {
 				    << "unknown child (A) tag " << tag << endl;
 			return false;
 		}
-		if (! getUMLRole(A)->loadFromXMI(tempElement, false)) // do not load xmi.id
+		if (! getUMLRole(A)->loadFromXMI(tempElement))
 			return false;
 		// Load role B.
 		node = node.nextSibling();
@@ -289,7 +292,7 @@ bool UMLAssociation::load( QDomElement & element ) {
 				    << "unknown child (B) tag " << tag << endl;
 			return false;
 		}
-		if (! getUMLRole(B)->loadFromXMI(tempElement, false)) // do not load xmi.id
+		if (! getUMLRole(B)->loadFromXMI(tempElement))
 			return false;
 
 		// setting the association type:
@@ -302,7 +305,7 @@ bool UMLAssociation::load( QDomElement & element ) {
 		// is not complete, so we need to finish the analysis here.
 
 		// find self-associations
-		if(getAssocType() == Uml::at_Association && getRoleId(A) == getRoleId(B))
+		if(getAssocType() == Uml::at_Association && getObjectId(A) == getObjectId(B))
 			m_AssocType = Uml::at_Association_Self;
 
 		// fall-back default type
@@ -414,6 +417,10 @@ UMLObject* UMLAssociation::getObject(Role_Type role) {
 	return m_pRole[role]->getObject();
 }
 
+Uml::IDType UMLAssociation::getObjectId(Role_Type role) {
+	return getObject(role)->getID();
+}
+
 Uml::IDType UMLAssociation::getRoleId(Role_Type role) const {
 	return m_pRole[role]->getID();
 }
@@ -517,6 +524,9 @@ void UMLAssociation::init(Association_Type type, UMLObject *roleAObj, UMLObject 
 
 	m_pRole[Uml::A] = new UMLRole (this, roleAObj, Uml::A);
 	m_pRole[Uml::B] = new UMLRole (this, roleBObj, Uml::B);
+	UMLDoc *pDoc = UMLApp::app()->getDocument();
+	pDoc->addUMLObject(m_pRole[Uml::A]);
+	pDoc->addUMLObject(m_pRole[Uml::B]);
 }
 
 

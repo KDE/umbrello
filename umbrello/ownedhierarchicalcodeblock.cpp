@@ -69,7 +69,7 @@ void OwnedHierarchicalCodeBlock::setAttributesOnNode (QDomDocument & doc, QDomEl
         // (change would break the XMI format..save for big version change )
         UMLRole * role = dynamic_cast<UMLRole*>(getParentObject());
         if(role)
-                elem.setAttribute("role_id", (role->getRoleID() == Uml::A));
+                elem.setAttribute("role_id", (role->getRole() == Uml::A));
         /* else
                 elem.setAttribute("role_id","-1");
 	 */

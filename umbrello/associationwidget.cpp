@@ -824,7 +824,7 @@ Uml::IDType AssociationWidget::getWidgetID(Role_Type role) const {
 	if (m_role[role].m_pWidget == NULL) {
 		if (m_pObject && m_pObject->getBaseType() == ot_Association) {
 			UMLAssociation *umla = static_cast<UMLAssociation*>(m_pObject);
-			return umla->getRoleId(role);
+			return umla->getObjectId(role);
 		}
 		kdError() << "AssociationWidget::getWidgetID(): m_pWidget is NULL" << endl;
 		return Uml::id_None;

@@ -164,7 +164,7 @@ void CodeParameter::setAttributesOnNode ( QDomDocument & doc, QDomElement & bloc
 	// (change would break the XMI format..save for big version change )
 	UMLRole * role = dynamic_cast<UMLRole*>(m_parentObject);
 	if(role) 
-		blockElement.setAttribute("role_id",role->getRoleID());
+		blockElement.setAttribute("role_id", role->getRole());
 	else 
 		blockElement.setAttribute("role_id","-1");
 

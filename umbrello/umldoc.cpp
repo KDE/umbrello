@@ -1367,8 +1367,8 @@ void UMLDoc::addAssociation(UMLAssociation *Assoc)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLDoc::addAssocToConcepts(UMLAssociation* a) {
 
-	Uml::IDType AId = a->getRoleId(Uml::A);
-	Uml::IDType BId = a->getRoleId(Uml::B);
+	Uml::IDType AId = a->getObjectId(Uml::A);
+	Uml::IDType BId = a->getObjectId(Uml::B);
 	UMLClassifierList concepts = getConcepts();
 	for (UMLClassifier *c = concepts.first(); c; c = concepts.next()) {
 		switch (a->getAssocType()) {
@@ -1604,8 +1604,8 @@ void UMLDoc::removeUMLObject(UMLObject* umlobject) {
 			// Remove the UMLAssociation at the concept that plays role B.
 			UMLAssociation *a = (UMLAssociation *)umlobject;
 			Uml::Association_Type assocType = a->getAssocType();
-			Uml::IDType AId = a->getRoleId(A);
-			Uml::IDType BId = a->getRoleId(B);
+			Uml::IDType AId = a->getObjectId(A);
+			Uml::IDType BId = a->getObjectId(B);
 			UMLClassifierList concepts = getConcepts();
 			for (UMLClassifier *c = concepts.first(); c; c = concepts.next()) {
 				switch (assocType) {
@@ -2143,14 +2143,16 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element) {
 		QString type = tempElement.tagName();
 		if (tagEq(type, "Namespace.ownedElement") ||
 		    tagEq(type, "Namespace.contents") ||
-		    tagEq(type, "ModelElement.stereotype")) {
+		    tagEq(type, "Model") || tagEq(type, "ModelElement.stereotype")) {
 			//CHECK: Umbrello currently assumes that nested elements
 			// are ownedElements anyway.
 			// Therefore the <UML:Namespace.ownedElement> tag is of no
 			// significance.
 			if( !loadUMLObjectsFromXMI( tempElement ) ) {
-				kdWarning() << "failed load on " << type << endl;
-				return false;
+				if (! tagEq(type, "ModelElement.stereotype")) {  // not yet implemented
+					kdWarning() << "failed load on " << type << endl;
+					return false;
+				}
 			}
 			continue;
 		}

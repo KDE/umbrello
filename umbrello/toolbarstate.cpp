@@ -35,8 +35,6 @@ void ToolBarState::init()
 {
 	m_pUMLView->viewport()->setMouseTracking( false );
 	m_bIsButtonPressed = false;
-
-
 }
 
 void ToolBarState::setMouseEvent (QMouseEvent* ome, const QEvent::Type &type)

@@ -101,6 +101,14 @@ public:
 
 	/**
 	 * Returns the ID of the UMLObject assigned to the given role.
+	 * Shorthand for getObject(role)->getID().
+	 *
+	 * @return	ID of the UMLObject in the given role.
+	 */
+	Uml::IDType getObjectId(Uml::Role_Type role);
+
+	/**
+	 * Returns the ID of the UMLObject assigned to the given role.
 	 *
 	 * @return	ID of the UMLObject of the given role.
 	 */

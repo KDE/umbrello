@@ -84,7 +84,7 @@ void OwnedCodeBlock::setAttributesOnNode(QDomDocument& /*doc*/, QDomElement& ele
         if(role)
 	{
         	elem.setAttribute("parent_id",ID2STR(role->getParentAssociation()->getID()));
-                elem.setAttribute("role_id", (role->getRoleID() == Uml::A));
+                elem.setAttribute("role_id", (role->getRole() == Uml::A));
 	}
         else
 	{

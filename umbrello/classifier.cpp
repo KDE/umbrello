@@ -175,7 +175,7 @@ UMLClassifierList UMLClassifier::findSubClassConcepts (ClassifierType type) {
 
 	for (UMLAssociation *a = rlist.first(); a; a = rlist.next())
 	{
-		if (a->getRoleId(A) != myID)
+		if (a->getObjectId(A) != myID)
 		{
 			UMLObject* obj = a->getObject(A);
 			UMLClassifier *concept = dynamic_cast<UMLClassifier*>(obj);
@@ -203,7 +203,7 @@ UMLClassifierList UMLClassifier::findSuperClassConcepts (ClassifierType type) {
 
 	for (UMLAssociation *a = rlist.first(); a; a = rlist.next())
 	{
-		if (a->getRoleId(B) != myID)
+		if (a->getObjectId(B) != myID)
 		{
 			UMLObject* obj = a->getObject(B);
 			UMLClassifier *concept = dynamic_cast<UMLClassifier*>(obj);
