@@ -284,7 +284,7 @@ void AssociationWidget::setName(QString strName) {
 	if (m_pObject)
 		m_pObject->setName(strName);
 
-	setTextPosition( tr_Name, calculateTextPosition(tr_Name) );
+	setTextPosition( tr_Name );
 	if (newLabel) {
 		m_pName->setActivated();
 		m_pView->addWidget(m_pName);
@@ -320,7 +320,7 @@ void AssociationWidget::setMulti(QString strMulti, Role_Type role) {
 	m_role[role].m_pMulti->setActivated();
 
 	if (newLabel) {
-		setTextPosition( tr, calculateTextPosition(tr) );
+		setTextPosition( tr );
 	}
 
 	if(FloatingText::isTextValid(m_role[role].m_pMulti->getText()))
@@ -367,7 +367,7 @@ bool AssociationWidget::setRoleName (QString strRole, Role_Type role) {
 	m_role[role].m_pRole->setActivated();
 
 	if (newLabel) {
-		setTextPosition( tr, calculateTextPosition(tr) );
+		setTextPosition( tr );
 	}
 
 	if(FloatingText::isTextValid(m_role[role].m_pRole->getText()))
@@ -460,7 +460,7 @@ void AssociationWidget::setChangeWidget(QString strChangeWidget, Role_Type role)
 	m_role[role].m_pChangeWidget->setActivated();
 
 	if (newLabel) {
-		setTextPosition( tr, calculateTextPosition(tr) );
+		setTextPosition( tr );
 	}
 
 	if(FloatingText::isTextValid(m_role[role].m_pChangeWidget->getText()))
@@ -928,30 +928,30 @@ void AssociationWidget::moveEvent(QMoveEvent* me) {
 		calculateEndingPoints();
 	}
 	if (m_role[A].m_pChangeWidget && (m_nMovingPoint == 1)) {
-		setTextPositionRelatively(tr_ChangeA, calculateTextPosition(tr_ChangeA), oldChangeAPoint);
+		setTextPositionRelatively(tr_ChangeA, oldChangeAPoint);
 	}
 	if (m_role[B].m_pChangeWidget && (m_nMovingPoint == 1)) {
-		setTextPositionRelatively(tr_ChangeB, calculateTextPosition(tr_ChangeB), oldChangeBPoint);
+		setTextPositionRelatively(tr_ChangeB, oldChangeBPoint);
 	}
 	if (m_role[A].m_pMulti && (m_nMovingPoint == 1)) {
-		setTextPositionRelatively(tr_MultiA, calculateTextPosition(tr_MultiA), oldMultiAPoint);
+		setTextPositionRelatively(tr_MultiA, oldMultiAPoint);
 	}
 	if (m_role[B].m_pMulti && (m_nMovingPoint == pos-1)) {
-		setTextPositionRelatively(tr_MultiB, calculateTextPosition(tr_MultiB), oldMultiBPoint);
+		setTextPositionRelatively(tr_MultiB, oldMultiBPoint);
 	}
 
 	if (m_pName) {
 		if(m_nMovingPoint == (int)m_unNameLineSegment ||
 		   m_nMovingPoint - 1 == (int)m_unNameLineSegment) {
-			setTextPositionRelatively(tr_Name, calculateTextPosition(tr_Name), oldNamePoint);
+			setTextPositionRelatively(tr_Name, oldNamePoint);
 		}
 	}
 
 	if (m_role[A].m_pRole) {
-		setTextPositionRelatively(tr_RoleAName, calculateTextPosition(tr_RoleAName), oldRoleAPoint);
+		setTextPositionRelatively(tr_RoleAName, oldRoleAPoint);
 	}
 	if (m_role[B].m_pRole) {
-		setTextPositionRelatively(tr_RoleBName, calculateTextPosition(tr_RoleBName), oldRoleBPoint);
+		setTextPositionRelatively(tr_RoleBName, oldRoleBPoint);
 	}
 }
 
@@ -1241,42 +1241,40 @@ void AssociationWidget::widgetMoved(UMLWidget* widget, int x, int y ) {
 		}
 
 		if ( m_pName && !m_pName->getSelected() ) {
-			setTextPositionRelatively(tr_Name, calculateTextPosition(tr_Name), oldNamePoint);
+			setTextPositionRelatively(tr_Name, oldNamePoint);
 		}
 
 	}//end if widgetA = widgetB
 	else if (m_role[A].m_pWidget==widget) {
 		if (m_pName && m_unNameLineSegment == 0 && !m_pName->getSelected() ) {
 			//only calculate position and move text if the segment it is on is moving
-			setTextPositionRelatively(tr_Name, calculateTextPosition(tr_Name),
-						  oldNamePoint);
+			setTextPositionRelatively(tr_Name, oldNamePoint);
 		}
 	}//end if widgetA moved
 	else if (m_role[B].m_pWidget==widget) {
 		if (m_pName && (m_unNameLineSegment == pos-1) && !m_pName->getSelected() ) {
 			//only calculate position and move text if the segment it is on is moving
-			setTextPositionRelatively(tr_Name, calculateTextPosition(tr_Name),
-						  oldNamePoint);
+			setTextPositionRelatively(tr_Name, oldNamePoint);
 		}
 	}//end if widgetB moved
 
 	if ( m_role[A].m_pRole && !m_role[A].m_pRole->getSelected() ) {
-		setTextPositionRelatively(tr_RoleAName, calculateTextPosition(tr_RoleAName), oldRoleAPoint);
+		setTextPositionRelatively(tr_RoleAName, oldRoleAPoint);
 	}
 	if ( m_role[B].m_pRole && !m_role[B].m_pRole->getSelected() ) {
-		setTextPositionRelatively(tr_RoleBName, calculateTextPosition(tr_RoleBName), oldRoleBPoint);
+		setTextPositionRelatively(tr_RoleBName, oldRoleBPoint);
 	}
 	if ( m_role[A].m_pMulti && !m_role[A].m_pMulti->getSelected() ) {
-		setTextPositionRelatively(tr_MultiA, calculateTextPosition(tr_MultiA), oldMultiAPoint);
+		setTextPositionRelatively(tr_MultiA, oldMultiAPoint);
 	}
 	if ( m_role[B].m_pMulti && !m_role[B].m_pMulti->getSelected() ) {
-		setTextPositionRelatively(tr_MultiB, calculateTextPosition(tr_MultiB), oldMultiBPoint);
+		setTextPositionRelatively(tr_MultiB, oldMultiBPoint);
 	}
 	if ( m_role[A].m_pChangeWidget && !m_role[A].m_pChangeWidget->getSelected() ) {
-		setTextPositionRelatively(tr_ChangeA, calculateTextPosition(tr_ChangeA), oldChangeAPoint);
+		setTextPositionRelatively(tr_ChangeA, oldChangeAPoint);
 	}
 	if ( m_role[B].m_pChangeWidget && !m_role[B].m_pChangeWidget->getSelected() ) {
-		setTextPositionRelatively(tr_ChangeB, calculateTextPosition(tr_ChangeB), oldChangeBPoint);
+		setTextPositionRelatively(tr_ChangeB, oldChangeBPoint);
 	}
 }//end method widgetMoved
 
@@ -1893,7 +1891,7 @@ FloatingText* AssociationWidget::floatingText(Text_Role role) {
 	return ft;
 }
 
-void AssociationWidget::setTextPosition(Text_Role role, QPoint pos) {
+void AssociationWidget::setTextPosition(Text_Role role) {
 	bool startMove = false;
 	if( m_role[A].m_pMulti && m_role[A].m_pMulti->getStartMove() )
 		startMove = true;
@@ -1914,12 +1912,24 @@ void AssociationWidget::setTextPosition(Text_Role role, QPoint pos) {
 		return;
 	}
 	FloatingText *ft = floatingText(role);
-	if (ft) {
-		ft->setLinePos( pos.x(), pos.y() );
+	if (ft == NULL)
+		return;
+	QPoint pos = calculateTextPosition(role);
+	int x = pos.x();
+	int y = pos.y();
+	if ( (x < 0 || x > FloatingText::restrictPositionMax) ||
+	     (y < 0 || y > FloatingText::restrictPositionMax) ) {
+		kdDebug() << "AssociationWidget::setTextPosition( " << x << " , " << y << " ) "
+			<< "- was blocked because at least one value is out of bounds: ["
+			<< "0 ... " << FloatingText::restrictPositionMax << "]"
+			<< endl;
+		return;
 	}
+	ft->setX( x );
+	ft->setY( y );
 }
 
-void AssociationWidget::setTextPositionRelatively(Text_Role role, QPoint pos, QPoint oldPosition) {
+void AssociationWidget::setTextPositionRelatively(Text_Role role, QPoint oldPosition) {
 	bool startMove = false;
 	if( m_role[A].m_pMulti && m_role[A].m_pMulti->getStartMove() )
 		startMove = true;
@@ -1940,10 +1950,36 @@ void AssociationWidget::setTextPositionRelatively(Text_Role role, QPoint pos, QP
 		return;
 	}
 	FloatingText *ft = floatingText(role);
-	if (ft) {
-		ft->setLinePositionRelatively( pos.x(), pos.y(),
-					       oldPosition.x(), oldPosition.y() );
+	if (ft == NULL)
+		return;
+	int ftX = ft->getX();
+	int ftY = ft->getY();
+	if ( (ftX < 0 || ftX > FloatingText::restrictPositionMax) ||
+	     (ftY < 0 || ftY > FloatingText::restrictPositionMax) ) {
+		kdDebug() << "AssociationWidget::setTextPositionRelatively: "
+			<< "blocked because the FloatingText original position ("
+			<< ftX << "," << ftY << " is out of bounds: [0 ... "
+			<< FloatingText::restrictPositionMax << "]" << endl;
+		return;
 	}
+	QPoint pos = calculateTextPosition(role);
+	int relX = pos.x() - oldPosition.x();
+	int relY = pos.y() - oldPosition.y();
+	int ftNewX = ftX + relX;
+	int ftNewY = ftY + relY;
+	if ( (ftNewX < 0 || ftNewX > FloatingText::restrictPositionMax) ||
+	     (ftNewY < 0 || ftNewY > FloatingText::restrictPositionMax) ) {
+		kdDebug() << "AssociationWidget::setTextPositionRelatively: "
+			<< "blocked because the FloatingText new position ("
+			<< ftNewX << "," << ftNewY << " is out of bounds: [0 ... "
+			<< FloatingText::restrictPositionMax << "]" << endl;
+		return;
+	}
+	bool oldIgnoreSnapToGrid = ft->getIgnoreSnapToGrid();
+	ft->setIgnoreSnapToGrid( true );
+	ft->setX( ftNewX );
+	ft->setY( ftNewY );
+	ft->setIgnoreSnapToGrid( oldIgnoreSnapToGrid );
 }
 
 void AssociationWidget::mousePressEvent(QMouseEvent * me) {
@@ -2721,25 +2757,25 @@ void AssociationWidget::init (UMLView *view)
 
 void AssociationWidget::resetTextPositions() {
 	if (m_role[A].m_pMulti) {
-		setTextPosition( tr_MultiA, calculateTextPosition(tr_MultiA) );
+		setTextPosition( tr_MultiA );
 	}
 	if (m_role[B].m_pMulti) {
-		setTextPosition( tr_MultiB, calculateTextPosition(tr_MultiB) );
+		setTextPosition( tr_MultiB );
 	}
 	if (m_role[A].m_pChangeWidget) {
-		setTextPosition( tr_ChangeA, calculateTextPosition(tr_ChangeA) );
+		setTextPosition( tr_ChangeA );
 	}
 	if (m_role[B].m_pChangeWidget) {
-		setTextPosition( tr_ChangeB, calculateTextPosition(tr_ChangeB) );
+		setTextPosition( tr_ChangeB );
 	}
 	if (m_pName) {
-		setTextPosition( tr_Name, calculateTextPosition(tr_Name) );
+		setTextPosition( tr_Name );
 	}
 	if (m_role[A].m_pRole) {
-		setTextPosition( tr_RoleAName, calculateTextPosition(tr_RoleAName) );
+		setTextPosition( tr_RoleAName );
 	}
 	if (m_role[B].m_pRole) {
-		setTextPosition( tr_RoleBName, calculateTextPosition(tr_RoleBName) );
+		setTextPosition( tr_RoleBName );
 	}
 }
 

@@ -669,19 +669,17 @@ private:
 
 	/**
 	 * Puts the text widget with the given role at the given position.
-	 * This method is usually called after calling @ref calculateTextPostion
-	 * to get the needed postion.  It is a separate function in case there
-	 * is a need to place the text without calculation.
+	 * This method calls @ref calculateTextPostion to get the needed postion.
 	 * I.e. the line segment it is on has moved and it should move the same
 	 * amount as the line.
 	 */
-	void setTextPosition(Uml::Text_Role role, QPoint pos);
+	void setTextPosition(Uml::Text_Role role);
 
 	/**
 	 * Moves the text widget with the given role by the difference between
 	 * the two points.
 	 */
-	void setTextPositionRelatively(Uml::Text_Role role, QPoint pos, QPoint oldPosition);
+	void setTextPositionRelatively(Uml::Text_Role role, QPoint oldPosition);
 
 	/**
 	 * Returns the Region the widget to line intersection is for the given
