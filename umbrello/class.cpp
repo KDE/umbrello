@@ -53,7 +53,7 @@ UMLAttribute* UMLClass::addAttribute(const QString &name, Uml::IDType id /* = Um
 	return a;
 }
 
-UMLAttribute* UMLClass::addAttribute(const QString &name, UMLClassifier *type, Uml::Scope scope) {
+UMLAttribute* UMLClass::addAttribute(const QString &name, UMLObject *type, Uml::Scope scope) {
 	UMLAttribute *a = new UMLAttribute(this, name, Uml::id_None, scope);
 	if (type)
 		a->setType(type);
