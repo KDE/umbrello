@@ -62,6 +62,7 @@ void UMLObject::init() {
 	m_bAbstract = false;
 	m_bStatic = false;
 	m_bInPaste = false;
+	m_bCreationWasSignalled = false;
 	m_pSecondary = NULL;
 }
 
@@ -327,11 +328,13 @@ QString UMLObject::getSecondaryId() const {
 }
 
 void UMLObject::maybeSignalObjectCreated() {
-	if (m_BaseType != Uml::ot_Stereotype &&
+	if (!m_bCreationWasSignalled &&
+	    m_BaseType != Uml::ot_Stereotype &&
 	    m_BaseType != Uml::ot_Association &&
 	    m_BaseType != Uml::ot_Role) {
 		UMLDoc* umldoc = UMLApp::app()->getDocument();
 		umldoc->signalUMLObjectCreated(this);
+		m_bCreationWasSignalled = true;
 	}
 }
 

@@ -599,6 +599,8 @@ void UMLListView::slotObjectCreated(UMLObject* object) {
 
 	connectNewObjectsSlots(object);
 	newItem = new UMLListViewItem(parentItem, object->getName(), convert_OT_LVT(type), object);
+	if (m_doc->loading())
+		return;
 	ensureItemVisible(newItem);
 	newItem->setOpen(true);
 	clearSelection();
@@ -688,9 +690,11 @@ void UMLListView::childObjectAdded(UMLObject* obj, UMLObject* parent) {
 		QString text = child->toString(Uml::st_SigNoScope);
 		UMLListViewItem *newItem = new UMLListViewItem(parentItem, text,
 							       convert_OT_LVT(obj->getBaseType()), obj);
-		ensureItemVisible(newItem);
-		clearSelection();
-		setSelected(newItem, true);
+		if (! m_doc->loading()) {
+			ensureItemVisible(newItem);
+			clearSelection();
+			setSelected(newItem, true);
+		}
 	}
 	connectNewObjectsSlots(obj);
 }
