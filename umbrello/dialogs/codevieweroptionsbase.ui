@@ -345,7 +345,7 @@
 <customwidgets>
     <customwidget>
         <class>KFontChooser</class>
-        <header location="global">/usr/include/kde/kfontdialog.h</header>
+        <header location="global">kfontdialog.h</header>
         <sizehint>
             <width>-1</width>
             <height>-1</height>
