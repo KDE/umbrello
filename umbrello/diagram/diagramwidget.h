@@ -16,7 +16,7 @@
 #define DIAGRAMWIDGET_H
 
 #include "diagramelement.h"
-#include <qlist.h>
+#include <qptrlist.h>
 
 
 namespace Umbrello{

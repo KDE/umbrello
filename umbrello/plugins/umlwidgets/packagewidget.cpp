@@ -26,7 +26,6 @@
 #include <qpainter.h>
 #include <qpopupmenu.h>
 #include <qvbox.h>
-#include <qlist.h>
 #include <qptrlist.h>
 
 

@@ -17,7 +17,7 @@
 
 #include "diagramelement.h"
 #include "pathsegment.h"
-#include <qlist.h>
+#include <qptrlist.h>
 
 class QPointArray;
 

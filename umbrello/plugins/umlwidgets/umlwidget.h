@@ -16,7 +16,7 @@
 #define UMBRELLO_UMLWIDGET_H
 
 #include "../../diagram/diagramwidget.h"
-#include <qlist.h>
+#include <qptrlist.h>
 
 class UMLObject;
 
