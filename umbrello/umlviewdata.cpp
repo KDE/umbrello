@@ -38,6 +38,8 @@ UMLViewData::UMLViewData() {
 	m_nSnapX = 10;
 	m_nSnapY = 10;
 	m_nZoom = 100;
+	m_nCanvasWidth = UMLView::defaultCanvasSize;
+	m_nCanvasHeight = UMLView::defaultCanvasSize;
 }
 
 UMLViewData::UMLViewData( UMLViewData & other ) {
@@ -149,7 +151,7 @@ bool UMLViewData::serialize( QDataStream * stream, bool bArchive, int fileversio
 		m_Options.uiState.useFillColor = nUseFC;
 		m_bUseSnapToGrid = nSnapgrid;
 		m_bShowSnapGrid = nShowsnap;
-		//FIXME serialise zoom
+		//FIXME serialise zoom, canvas height & width
 
 		if (fileversion > 4)
 			m_Type = (Uml::Diagram_Type)nType;
@@ -284,6 +286,22 @@ int UMLViewData::getZoom() {
 
 void UMLViewData::setZoom(int zoom) {
 	m_nZoom = zoom;
+}
+
+int UMLViewData::getCanvasHeight() {
+	return m_nCanvasHeight;
+}
+
+void UMLViewData::setCanvasHeight(int height) {
+	m_nCanvasHeight = height;
+}
+
+int UMLViewData::getCanvasWidth() {
+	return m_nCanvasWidth;
+}
+
+void UMLViewData::setCanvasWidth(int width) {
+	m_nCanvasWidth = width;
 }
 
 int UMLViewData::getUniqueID() {
@@ -491,6 +509,8 @@ bool UMLViewData::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	viewElement.setAttribute( "snapx", m_nSnapX );
 	viewElement.setAttribute( "snapy", m_nSnapY );
 	viewElement.setAttribute( "zoom", m_nZoom );
+	viewElement.setAttribute( "canvasheight", m_nCanvasHeight );
+	viewElement.setAttribute( "canvaswidth", m_nCanvasWidth );
 	//now save all the widgets
 	UMLWidgetData * widgetData = 0;
 	UMLWidgetDataListIt w_it( m_WidgetList );
@@ -568,6 +588,12 @@ bool UMLViewData::loadFromXMI( QDomElement & qElement ) {
 
 	QString zoom = qElement.attribute( "zoom", "100" );
 	m_nZoom = zoom.toInt();
+
+	QString height = qElement.attribute( "canvasheight", QString("%1").arg(UMLView::defaultCanvasSize) );
+	m_nCanvasHeight = height.toInt();
+
+	QString width = qElement.attribute( "canvaswidth", QString("%1").arg(UMLView::defaultCanvasSize) );
+	m_nCanvasWidth = width.toInt();
 
 	m_Type = (Uml::Diagram_Type)type.toInt();
 	if( fillcolor != "" )

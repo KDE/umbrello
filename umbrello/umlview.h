@@ -676,6 +676,16 @@ public:
 	 */
 	void fileLoaded();
 
+	/**
+	 * Sets the diagram width and height in pixels
+	 */
+	void setCanvasSize(int width, int height);
+
+	/**                                                                                
+	 *      the width and height of a diagram canvas in pixels                         
+	 */	
+	static const int defaultCanvasSize = 1300;
+
 protected:
 
 	/**

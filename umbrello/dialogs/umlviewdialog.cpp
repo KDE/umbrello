@@ -7,11 +7,11 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "umlviewdialog.h"
-#include "diagrampropertiespage.h"
 #include <kiconloader.h>
 #include <klocale.h>
 #include <kmessagebox.h>
+#include <kfontdialog.h>
+#include <kdebug.h>
 #include <qlayout.h>
 #include <qcheckbox.h>
 #include <qlabel.h>
@@ -19,10 +19,9 @@
 #include <qgroupbox.h>
 #include <qtextedit.h>
 #include <qspinbox.h>
-//kde includes
-#include <kfontdialog.h>
 #include <qvbox.h>
-
+#include "umlviewdialog.h"
+#include "diagrampropertiespage.h"
 
 UMLViewDialog::UMLViewDialog( QWidget * pParent, UMLView * pView ) : KDialogBase(IconList, i18n("Properties"), Ok | Apply | Cancel | Help,
         Ok, pParent, "_VIEWDLG_", true, true) {
@@ -67,7 +66,7 @@ void UMLViewDialog::setupDiagramPropertiesPage()
 
 	m_diagramProperties->showGrid->setChecked(m_pView -> getShowSnapGrid());
 	m_diagramProperties->snapToGrid->setChecked(m_pView-> getSnapToGrid());
-	
+
 	m_diagramProperties->gridSpaceX->setValue( m_pView -> getSnapX());
 	m_diagramProperties->gridSpaceY->setValue( m_pView -> getSnapY());
 	m_diagramProperties->documentation->setText(m_pView -> getDoc());
@@ -113,33 +112,30 @@ void UMLViewDialog::applyPage( Page page ) {
 
 	switch (page) {
 		case General:
+			{
 			checkName();
-	// resizing a canvas is a very expensive operation, so we first
-	// check if the size has changed
-	{
-	int w = m_diagramProperties->width->value();
-	int h = m_diagramProperties->height->value();
-	if (( w != m_pView->canvas()->width()) ||
-			( h != m_pView->canvas()->height()) )
-	{ //the input fields in the dialog page are set to only allow reasonable values
-		//but we check here again just to be on the safe side. 500 < size < 5000
-		if(h<500) h = 500;
-		if(h>5000) h = 5000;
-		if(w<500) w = 500;
-		if(w>5000) w = 5000;
-		m_pView->canvas()->resize(w,h);
-	}
-	}
-	m_diagramProperties->width->setValue(m_pView->canvas()->width());
-	m_diagramProperties->height->setValue(m_pView->canvas()->height());
-//
-			m_pView -> setDoc( m_diagramProperties->documentation->text() );
-			m_pView -> setSnapX(  m_diagramProperties->gridSpaceX->value() );
-			m_pView -> setSnapY( m_diagramProperties->gridSpaceY->value() );
-			m_pView -> setSnapToGrid( m_diagramProperties->snapToGrid->isChecked() );
-			m_pView -> setShowSnapGrid( m_diagramProperties->showGrid->isChecked() );
+			// resizing a canvas is a very expensive operation, so we first
+			// check if the size has changed
+			int w = m_diagramProperties->width->value();
+			int h = m_diagramProperties->height->value();
+			if (( w != m_pView->canvas()->width()) || ( h != m_pView->canvas()->height()) ) {
+				//the input fields in the dialog page are set to only allow reasonable values
+				//but we check here again just to be on the safe side. 500 < size < 5000
+				if(h<500) h = 500;
+				if(h>5000) h = 5000;
+				if(w<500) w = 500;
+				if(w>5000) w = 5000;
+				m_pView->setCanvasSize(w,h);
+			}
+			m_diagramProperties->width->setValue( m_pView->canvas()->width() );
+			m_diagramProperties->height->setValue( m_pView->canvas()->height() );
+			m_pView->setDoc( m_diagramProperties->documentation->text() );
+			m_pView->setSnapX( m_diagramProperties->gridSpaceX->value() );
+			m_pView->setSnapY( m_diagramProperties->gridSpaceY->value() );
+			m_pView->setSnapToGrid( m_diagramProperties->snapToGrid->isChecked() );
+			m_pView->setShowSnapGrid( m_diagramProperties->showGrid->isChecked() );
 			break;
-
+			}
 		case Color:
 			m_pColorPage->updateUMLWidget();
 			m_pView->setUseFillColor( m_pTempWidget->getUseFillColor() );

@@ -150,6 +150,26 @@ public:
 	void setZoom(int zoom);
 
 	/**
+	 * 		Returns the height of the diagram.
+	 */
+	int getCanvasHeight();
+
+	/**
+	 * 		Sets the height of the diagram.
+	 */
+	void setCanvasHeight(int height);
+
+	/**
+	 * 		Returns the width of the diagram.
+	 */
+	int getCanvasWidth();
+
+	/**
+	 * 		Sets the height of the diagram.
+	 */
+	void setCanvasWidth(int width);
+
+	/**
 	 * 		Returns an ID unique to this diagram.  ObjectWidgets will
 	 *		need one of these.
 	 */
@@ -336,6 +356,16 @@ protected:
 	 * The zoom level in percent, default 100
 	 */
 	int m_nZoom;
+
+	/**
+	 * Width of canvas in pixels
+	 */
+	int m_nCanvasWidth;
+
+	/**
+	 * Height of canvas in pixels
+	 */
+	int m_nCanvasHeight;
 
 };
 
