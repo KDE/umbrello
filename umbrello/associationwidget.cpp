@@ -27,14 +27,16 @@
 #include <klineeditdlg.h>
 #include <klocale.h>
 
-// this constructor really is bad..shouldnt be allowed. -b.t. 
+// this constructor really only for loading from XMI, otherwise it
+// is bad..and shouldnt be allowed as it creates an incomplete 
+// associationwidget. 
 AssociationWidget::AssociationWidget(UMLView *view)
 	: QObject(view)
 {
 	init(view);
 }
 
-// preferred constructor
+// the preferred constructor
 AssociationWidget::AssociationWidget(UMLView *view, UMLWidget* WidgetA,
 				     Association_Type Type, UMLWidget* WidgetB )
 	: QObject(view)
@@ -1374,6 +1376,7 @@ void AssociationWidget::mergeUMLRepresentationIntoAssociationData()
 // this will synchronize UMLAssociation w/ this new Widget
 void AssociationWidget::mergeAssociationDataIntoUMLRepresentation()
 {
+
 	UMLAssociation *uml = m_pAssociation;
 	if (uml == NULL)
 		return;
@@ -3331,7 +3334,10 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement )
 		if (m_pAssociation == NULL) {
 			kdDebug() << " cannot find UML:Association " << nId << endl;
 			return false;
-		}
+		} else 
+			connect(m_pAssociation, SIGNAL(modified()), this,
+				SLOT(mergeUMLRepresentationIntoAssociationData()));
+
 		m_LinePath.setAssocType( m_pAssociation->getAssocType() );
 
 	}
