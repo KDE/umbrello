@@ -472,6 +472,17 @@ void UMLWidget::slotMenuSelection(int sel) {
 			m_bUsesDiagramUseFillColour = false;
 			m_pView->selectionUseFillColor( m_bUseFillColour );
 			break;
+	    case ListPopupMenu::mt_Show_Attributes_Selection:
+	    case ListPopupMenu::mt_Show_Operations_Selection:
+	    case ListPopupMenu::mt_Scope_Selection:
+	    case ListPopupMenu::mt_DrawAsCircle_Selection:
+	    case ListPopupMenu::mt_Show_Operation_Signature_Selection:
+	    case ListPopupMenu::mt_Show_Attribute_Signature_Selection:
+	    case ListPopupMenu::mt_Show_Packages_Selection:
+	    case ListPopupMenu::mt_Show_Stereotypes_Selection:
+		 	m_pView->selectionToggleShow(sel);
+			m_pView->getDocument()->setModified(true);
+		 	break;
 
 		case ListPopupMenu::mt_ViewCode: {
 	UMLClassifier *c = dynamic_cast<UMLClassifier*>(m_pObject);
@@ -683,6 +694,10 @@ void UMLWidget::startPopupMenu(QPoint At) {
 
 	// determine multi state
 	bool multi = false;
+
+	// if multiple selected items have the same type
+	bool unique = false;
+
 	if( m_bSelected ) 
 		if( m_pView -> getType() == dt_Sequence ) {
 			if( getBaseType() == wt_Message && count == 2 ) {
@@ -697,7 +712,14 @@ void UMLWidget::startPopupMenu(QPoint At) {
 			multi = true;
 		} 
 
-	m_pMenu = new ListPopupMenu(static_cast<QWidget*>(m_pView), this, multi);
+	// if multiple items are selected, we have to check if they all have the same
+	// base type
+	if (multi == true)
+		unique = m_pView -> checkUniqueSelection();
+
+	// create the right click context menu
+	m_pMenu = new ListPopupMenu(static_cast<QWidget*>(m_pView), this,
+																					multi, unique);
 
 	// disable the "view code" menu for simple code generators
 	CodeGenerator * currentCG = m_pView->getDocument()->getCurrentCodeGenerator();
