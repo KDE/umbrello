@@ -314,8 +314,10 @@ bool Parser::skipCommaExpression( AST::Node& node )
     if( !skipExpression(expr) )
 	return false;
 
+    QString comment;
     while( lex->lookAhead(0) == ',' ){
-	lex->nextToken();
+	comment = QString::null;
+	advanceAndCheckTrailingComment( comment );
 
 	if( !skipExpression(expr) ){
 	    reportError( i18n("expression expected") );
@@ -828,8 +830,10 @@ bool Parser::parseTemplateArgumentList( TemplateArgumentListAST::Node& node, boo
 	return false;
     ast->addArgument( templArg );
 
+    QString comment;
     while( lex->lookAhead(0) == ',' ){
-	lex->nextToken();
+	comment = QString::null;
+	advanceAndCheckTrailingComment( comment );
 
 	if( !parseTemplateArgument(templArg) ){
 	    if( reportError ){
@@ -838,6 +842,8 @@ bool Parser::parseTemplateArgumentList( TemplateArgumentListAST::Node& node, boo
 	    } else
 	       return false;
 	}
+	if (!comment.isEmpty())
+	    templArg->setComment(comment);
 	ast->addArgument( templArg );
     }
 
@@ -1455,13 +1461,17 @@ bool Parser::parseTemplateParameterList( TemplateParameterListAST::Node& node )
     }
     ast->addTemplateParameter( param );
 
+    QString comment;
     while( lex->lookAhead(0) == ',' ){
-	lex->nextToken();
+	comment = QString::null;
+	advanceAndCheckTrailingComment( comment );
 
 	if( !parseTemplateParameter(param) ){
 	    syntaxError();
 	    break;
 	} else {
+	    if (!comment.isEmpty())
+		param->setComment(comment);
 	    ast->addTemplateParameter( param );
 	}
     }
@@ -1681,13 +1691,17 @@ bool Parser::parseInitDeclaratorList( InitDeclaratorListAST::Node& node )
     }
     ast->addInitDeclarator( decl );
 
+    QString comment;
     while( lex->lookAhead(0) == ',' ){
-	lex->nextToken();
+	comment = "";
+	advanceAndCheckTrailingComment( comment );
 
 	if( !parseInitDeclarator(decl) ){
 	    syntaxError();
 	    break;
 	}
+	if ( !comment.isEmpty() )
+	    decl->setComment( comment );
 	ast->addInitDeclarator( decl );
     }
     //kdDebug(9007)<< "--- tok = " << lex->lookAhead(0).text() << " -- "  << "Parser::parseInitDeclaratorList() -- end" << endl;
@@ -1752,8 +1766,10 @@ bool Parser::parseParameterDeclarationList( ParameterDeclarationListAST::Node& n
     }
     ast->addParameter( param );
 
+    QString comment;
     while( lex->lookAhead(0) == ',' ){
-	lex->nextToken();
+	comment = QString::null;
+	advanceAndCheckTrailingComment( comment );
 
 	if( lex->lookAhead(0) == Token_ellipsis )
 	    break;
@@ -1762,6 +1778,8 @@ bool Parser::parseParameterDeclarationList( ParameterDeclarationListAST::Node& n
 	    lex->setIndex( start );
 	    return false;
 	}
+	if (!comment.isEmpty())
+		param->setComment(comment);
         ast->addParameter( param );
     }
 
@@ -2184,13 +2202,17 @@ bool Parser::parseBaseClause( BaseClauseAST::Node& node )
     if( parseBaseSpecifier(baseSpec) ){
         bca->addBaseSpecifier( baseSpec );
 
-        while( lex->lookAhead(0) == ',' ){
-	    lex->nextToken();
+	QString comment;
+	while( lex->lookAhead(0) == ',' ){
+	    comment = QString::null;
+	    advanceAndCheckTrailingComment( comment );
 
 	    if( !parseBaseSpecifier(baseSpec) ){
 	        reportError( i18n("Base class specifier expected") );
 	        return false;
 	    }
+	    if (!comment.isEmpty())
+		baseSpec->setComment(comment);
 	    bca->addBaseSpecifier( baseSpec );
         }
     } else
@@ -2234,8 +2256,10 @@ bool Parser::parseMemInitializerList( AST::Node& /*node*/ )
 	return false;
     }
 
+    QString comment;
     while( lex->lookAhead(0) == ',' ){
-	lex->nextToken();
+	comment = QString::null;
+	advanceAndCheckTrailingComment( comment );
 
 	if( parseMemInitializer(init) ){
 	} else {
@@ -2277,9 +2301,13 @@ bool Parser::parseTypeIdList( GroupAST::Node& node )
     GroupAST::Node ast = CreateNode<GroupAST>();
     ast->addNode( typeId );
 
+    QString comment;
     while( lex->lookAhead(0) == ',' ){
-	lex->nextToken();
+	comment = QString::null;
+	advanceAndCheckTrailingComment( comment );
 	if( parseTypeId(typeId) ){
+	    if (!comment.isEmpty())
+		typeId->setComment(comment);
 	    ast->addNode( typeId );
 	} else {
 	    reportError( i18n("Type id expected") );
@@ -3850,11 +3878,15 @@ bool Parser::parseCommaExpression( AST::Node& node )
     if( !parseAssignmentExpression(expr) )
         return false;
 
+    QString comment;
     while( lex->lookAhead(0) == ',' ){
-        lex->nextToken();
+	comment = QString::null;
+	advanceAndCheckTrailingComment( comment );
 
         if( !parseAssignmentExpression(expr) )
             return false;
+	if (!comment.isEmpty())
+	    expr->setComment(comment);
     }
 
     AST::Node ast = CreateNode<AST>();
@@ -4052,8 +4084,10 @@ bool Parser::parseIdentifierList( GroupAST::Node & node )
     ast->addNode( tk );
     lex->nextToken();
 
+    QString comment;
     while( lex->lookAhead(0) == ',' ){
-	lex->nextToken();
+	comment = QString::null;
+	advanceAndCheckTrailingComment( comment );
 	if( lex->lookAhead(0) == Token_identifier ){
 	    AST_FROM_TOKEN( tk, lex->index() );
 	    ast->addNode( tk );
