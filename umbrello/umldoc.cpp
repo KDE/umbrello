@@ -792,34 +792,6 @@ UMLObject* UMLDoc::createOperation(UMLObject* umlobject) {
 	return newOperation;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-		/*
-void UMLDoc::removeAssociation(Association_Type assocType, int AId, int BId) {
-	removeAssocFromConcepts(assoc);
-	UMLObject *object = NULL;
-	for (UMLObject *o = objectList.first(); o; o = objectList.next()) {
-		if (o -> getBaseType() != ot_Association)
-			continue;
-		UMLAssociation *a = (UMLAssociation *)o;
-		if (a->getAssocType() != assocType ||
-		    a->getRoleAId() != AId || a->getRoleBId() != BId) {
-			continue;
-		}
-		// Remove the UMLAssociation at the concept that plays role B.
-		UMLClassifierList concepts = getConcepts();
-		for (UMLClassifier *c = concepts.first(); c; c = concepts.next())
-			if (BId == c->getID())
-				c->removeAssociation(a);
-		object = o;
-	}
-	if (object == NULL)
-		return;
-	// Remove the UMLAssociation in this UMLDoc.
-	emit sigObjectRemoved(object);
-	objectList.remove(object);
-	setModified(true);
-}
-	*/
-////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLDoc::removeAssociation (UMLAssociation * assoc) {
 
 	if(!assoc)
@@ -845,6 +817,7 @@ void UMLDoc::removeAssocFromConcepts(UMLAssociation *assoc)
 			c->removeAssociation(assoc);
 }
 
+// create AND add an association. Not currently used by anything.. remove? -b.t.
 UMLAssociation* UMLDoc::createUMLAssociation(UMLObject *a, UMLObject *b, Uml::Association_Type type)
 {
 	UMLAssociation *assoc = new UMLAssociation( this, type, a, b );
@@ -1478,6 +1451,7 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
 {
+
 	// old Umbrello versions (version < 1.2) didn't save the XMI in Unicode
 	// this wasn't correct, because non Latin1 chars where lost
 	// to ensure backward compatibility we have to ensure to load the old files
@@ -1643,10 +1617,11 @@ bool UMLDoc::loadUMLObjectsFromXMI( QDomNode & node ) {
 				// May happen when dealing with the pre-1.2 file format.
 				// In this case all association info is given in the
 				// UML:AssocWidget section.  --okellogg
+				removeAssociation((UMLAssociation*)pObject);
 				delete pObject;
 			} else {
-				addAssociation( (UMLAssociation*)pObject );
-			}
+				addAssociation((UMLAssociation*) pObject);
+			} 
 		} else if ( !status ) {
 			delete pObject;
 			return false;

@@ -51,7 +51,7 @@ AssociationWidget::AssociationWidget(QWidget *parent, UMLWidget* WidgetA,
 	UMLObject* umlRoleA = WidgetA->getUMLObject();
 	UMLObject* umlRoleB = WidgetB->getUMLObject();
 	if (umlRoleA != NULL && umlRoleB != NULL) {
-		m_pAssociation = umldoc->createUMLAssociation( umlRoleA, umlRoleB, Type);
+		m_pAssociation = new UMLAssociation (umldoc, Type, umlRoleA, umlRoleB );
 		connect(m_pAssociation, SIGNAL(modified()), this,
 			SLOT(mergeUMLRepresentationIntoAssociationData()));
 	}

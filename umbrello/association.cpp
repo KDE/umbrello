@@ -176,7 +176,7 @@ bool UMLAssociation::loadFromXMI( QDomElement & element ) {
         if (changeabilityB.toInt() > 0)
                 setChangeabilityB ( (Changeability_Type) changeabilityB.toInt());
 
-	((UMLDoc*)parent())->addAssocToConcepts(this);
+	// ((UMLDoc*)parent())->addAssocToConcepts(this); // NO! this is handled by the parent
 	return true;
 }
 
