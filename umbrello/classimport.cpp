@@ -115,7 +115,8 @@ UMLObject *ClassImport::createUMLObject(Uml::Object_Type type,
 					o = m_umldoc->createUMLObject(ot, scopeName, parentPkg);
 					parentPkg = static_cast<UMLPackage*>(o);
 				}
-				name.remove(QRegExp("^.*::"));  // may also zap "const "
+				// All scope qualified datatypes live in the global scope.
+				m_putAtGlobalScope = true;
 			}
 			Uml::Object_Type t = type;
 			if (type == Uml::ot_UMLObject || isConst || isRef || isPointer)
@@ -124,15 +125,11 @@ UMLObject *ClassImport::createUMLObject(Uml::Object_Type type,
 		}
 		if (isConst || isPointer || isRef) {
 			// Create the full given type (including adornments.)
-			if (isPointer || isRef) {
-				type = Uml::ot_Datatype;
-			} else if (type == Uml::ot_UMLObject)
-				type = Uml::ot_Class;
 			if (isConst)
 				name.prepend("const ");
 			if (m_putAtGlobalScope)
 				parentPkg = NULL;
-			o = m_umldoc->createUMLObject(type, name, parentPkg);
+			o = m_umldoc->createUMLObject(Uml::ot_Datatype, name);
 			UMLDatatype *dt = static_cast<UMLDatatype*>(o);
 			UMLClassifier *c = dynamic_cast<UMLClassifier*>(origType);
 			if (c)

@@ -97,9 +97,23 @@ UMLObject * findObjectInList(Uml::IDType id, UMLObjectList inList) {
 UMLObject* findUMLObject(UMLObjectList inList, QString name,
 			 Uml::Object_Type type /* = ot_UMLObject */,
 			 UMLObject *currentObj /* = NULL */) {
-	QStringList components = QStringList::split("::", name);
+	QStringList components;
+	if (name.contains("::"))
+		components = QStringList::split("::", name);
+	else if (name.contains("."))
+		components = QStringList::split(".", name);
 	QString nameWithoutFirstPrefix;
 	if (components.size() > 1) {
+		if (name.contains(QRegExp("[^\\w:\\.]"))) {
+			// It's obviously a datatype.
+			// Scope qualified datatypes live in the global scope.
+			for (UMLObjectListIt oit(inList); oit.current(); ++oit) {
+				UMLObject *obj = oit.current();
+				if (obj->getName() == name)
+					return obj;
+			}
+			return NULL;
+		}
 		name = components.front();
 		components.pop_front();
 		nameWithoutFirstPrefix = components.join("::");
