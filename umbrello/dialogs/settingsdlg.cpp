@@ -24,7 +24,7 @@
 #include "dialog_utils.h"
 
 SettingsDlg::SettingsDlg( QWidget * parent, Settings::OptionState *state,
-			  QDict<GeneratorInfo> ldict, QString activeLanguage, CodeGenerator * gen)
+			  QString activeLanguage, CodeGenerator * gen)
 	: KDialogBase( IconList, i18n("Umbrello Setup"),
         Help | Default | Apply | Ok | Cancel, Ok, parent, 0, true, true ) {
 	m_bChangesApplied = false;
@@ -34,7 +34,7 @@ SettingsDlg::SettingsDlg( QWidget * parent, Settings::OptionState *state,
 	setupFontPage();
 	setupUIPage();
 	setupClassPage();
-	setupCodeGenPage(gen, ldict, activeLanguage);
+	setupCodeGenPage(gen, activeLanguage);
 	setupCodeViewerPage(state->codeViewerState);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -236,10 +236,10 @@ void SettingsDlg::setupClassPage() {
 
 }
 
-void SettingsDlg::setupCodeGenPage(CodeGenerator *gen, QDict<GeneratorInfo> ldict, QString activeLanguage) {
+void SettingsDlg::setupCodeGenPage(CodeGenerator *gen, QString activeLanguage) {
 	//setup code generation settings page
 	QVBox * page = addVBoxPage( i18n("Code Generation"), i18n("Code Generation Settings"), DesktopIcon( "source") );
-	m_pCodeGenPage = new CodeGenerationOptionsPage(gen, ldict, activeLanguage, page);
+	m_pCodeGenPage = new CodeGenerationOptionsPage(gen, activeLanguage, page);
 	connect( m_pCodeGenPage, SIGNAL(languageChanged()), this, SLOT(slotApply()) );
 }
 

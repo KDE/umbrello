@@ -39,7 +39,6 @@ class CodeGenerationWizard : public CodeGenerationWizardBase {
 	Q_OBJECT
 public:
 	CodeGenerationWizard(UMLDoc *doc, UMLClassifierList *classList,
-	                     QDict<GeneratorInfo> ldict, 
 			     QString activeLanguage, UMLApp *parent,
 			     const char *name=0);
 	~CodeGenerationWizard();
@@ -66,7 +65,6 @@ private:
 	UMLApp* m_app;
 	UMLDoc* m_doc;
 	CodeGenerationOptionsPage* m_CodeGenerationOptionsPage;
-	QDict<GeneratorInfo> m_ldict;
 };
 
 #endif

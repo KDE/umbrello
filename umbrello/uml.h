@@ -15,6 +15,7 @@
 #endif
 
 #include "optionstate.h"
+#include "generatorinfo.h"
 
 #include <qmap.h>
 #include <qdict.h>
@@ -29,7 +30,6 @@ class AlignToolBar;
 class CodeDocument;
 class CodeGenerator;
 class CodeGenerationPolicy;
-class GeneratorInfo;
 class DocWindow;
 class UMLClassifier;
 class UMLDoc;
@@ -209,7 +209,13 @@ public:
 	 * @return	Pointer to the CodeGenerator created.
   	 */
 	CodeGenerator* createGenerator();
-	
+
+	/**
+	 * Returns the dictionary of available languages.
+	 *
+	 * @return	Pointer to the dictionary of available languages.
+	 */
+	GeneratorDict& generatorDict();
 
 	/**
 	 * Call the refactoring assistant on a classifier.
@@ -707,7 +713,7 @@ private:
 	 * at run time:
 	 * Language (so that the user can choose), library and object name.
 	 */
-	QDict<GeneratorInfo> generatorDict;
+	GeneratorDict m_generatorDict;
 
 	/**
 	 * Reads from the config file the options state.

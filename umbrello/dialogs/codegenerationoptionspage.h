@@ -34,7 +34,7 @@
 class CodeGenerationOptionsPage : public CodeGenerationOptionsBase  {
 	Q_OBJECT
 public:
-	CodeGenerationOptionsPage(CodeGenerator * gen, QDict<GeneratorInfo> ldict,
+	CodeGenerationOptionsPage(CodeGenerator * gen,
 	                          QString activeLanguage, QWidget *parent=0, const char *name=0);
 	~CodeGenerationOptionsPage();
 	void setDefaults();
@@ -50,11 +50,11 @@ private:
 
 	CodeGenerator * m_pCodeGenerator;
 	CodeGenerationPolicyPage * m_pCodePolicyPage;
-	void init (CodeGenerator * gen, QDict<GeneratorInfo> ldict, QString activeLanguage);
+	void init (CodeGenerator * gen, QString activeLanguage);
 	int overwriteToInteger(CodeGenerationPolicy::OverwritePolicy value);
 	int newLineToInteger(CodeGenerationPolicy::NewLineType value);
 	int indentTypeToInteger(CodeGenerationPolicy::IndentationType value);
-	void setupActiveLanguageBox(QDict<GeneratorInfo> ldict, QString activeLanguage); 
+	void setupActiveLanguageBox(QString activeLanguage); 
 
 protected slots:
 	void activeLanguageChanged(int id); 

@@ -27,18 +27,17 @@
 #include "codegenerationoptionspage.h"
 #include "../classifier.h"
 #include "../codegenerator.h"
+#include "../generatorinfo.h"
 #include "../uml.h"
 #include "../umldoc.h"
 
 CodeGenerationWizard::CodeGenerationWizard(UMLDoc *doc,
 					   UMLClassifierList *classList,
-					   QDict<GeneratorInfo> ldict,
 					   QString activeLanguage,
 					   UMLApp *parent, const char *name)
 		:CodeGenerationWizardBase((QWidget*)parent,name) {
 	m_doc = doc;
 	m_app = parent;
-	m_ldict = ldict;
 	m_availableList -> setAllColumnsShowFocus(true);
 	m_availableList -> setResizeMode(QListView::AllColumns);
 	m_selectedList  -> setAllColumnsShowFocus(true);
@@ -46,7 +45,7 @@ CodeGenerationWizard::CodeGenerationWizard(UMLDoc *doc,
 	m_statusList    -> setAllColumnsShowFocus(true);
 	m_statusList    -> setResizeMode(QListView::AllColumns);
 
-	m_CodeGenerationOptionsPage = new CodeGenerationOptionsPage(doc->getCurrentCodeGenerator(), ldict,
+	m_CodeGenerationOptionsPage = new CodeGenerationOptionsPage(doc->getCurrentCodeGenerator(),
 								    activeLanguage, this);
 	connect( m_CodeGenerationOptionsPage, SIGNAL(languageChanged()), this, SLOT(changeLanguage()) );
 
@@ -219,7 +218,8 @@ CodeGenerator* CodeGenerationWizard::generator() {
 				   i18n("No Language Selected"));
 		return 0;
 	}
-	info = m_ldict.find( m_CodeGenerationOptionsPage->getCodeGenerationLanguage() );
+	GeneratorDict ldict = UMLApp::app()->generatorDict();
+	info = ldict.find( m_CodeGenerationOptionsPage->getCodeGenerationLanguage() );
 	if(!info) {
 		kdDebug()<<"error looking up library information (dictionary)"<<endl;
 		return 0;

@@ -18,6 +18,8 @@
 #include "codegenerationoptionspage.h"
 #include "codegenerationpolicypage.h"
 #include "defaultcodegenpolicypage.h"
+#include "../generatorinfo.h"
+#include "../uml.h"
 
 //kde include
 #include <knuminput.h>
@@ -30,18 +32,18 @@
 #include <qbuttongroup.h>
 
 CodeGenerationOptionsPage::CodeGenerationOptionsPage( CodeGenerator * gen, 
-						     QDict<GeneratorInfo> ldict, QString activeLanguage,
+						     QString activeLanguage,
 						     QWidget *parent, 
 						     const char *name )
 	:CodeGenerationOptionsBase(parent,name) 
 {
-	init (gen, ldict, activeLanguage);
+	init (gen, activeLanguage);
 }
 
 CodeGenerationOptionsPage::~CodeGenerationOptionsPage() { }
 
 void CodeGenerationOptionsPage::init( CodeGenerator * gen,
-                                      QDict<GeneratorInfo> ldict, QString activeLanguage
+                                      QString activeLanguage
                                     )
 {
 
@@ -52,7 +54,7 @@ void CodeGenerationOptionsPage::init( CodeGenerator * gen,
 	if(gen)
 		setCodeGenerator(gen);
 
-	setupActiveLanguageBox(ldict,activeLanguage); 
+	setupActiveLanguageBox(activeLanguage); 
 }
 
 void CodeGenerationOptionsPage::setCodeGenerator ( CodeGenerator * gen) {
@@ -89,12 +91,12 @@ void CodeGenerationOptionsPage::setCodeGenerator ( CodeGenerator * gen) {
 
 }
 
-void CodeGenerationOptionsPage::setupActiveLanguageBox(QDict<GeneratorInfo> ldict, QString activeLanguage)
+void CodeGenerationOptionsPage::setupActiveLanguageBox(QString activeLanguage)
 {
-
+	GeneratorDict ldict = UMLApp::app()->generatorDict();
 	//last but not least.. populate language list
 	bool foundActive = false;
-	QDictIterator<GeneratorInfo> it(ldict);
+	GeneratorDictIt it(ldict);
 	int indexCounter = 0;
 	for (it.toFirst(); it.current(); ++it) {
 		m_SelectLanguageBox->insertItem(it.current()->language, indexCounter);

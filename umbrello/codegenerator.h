@@ -318,18 +318,18 @@ public:
 	virtual CodeViewerDialog * getCodeViewerDialog( QWidget* parent, CodeDocument * doc, 
 							Settings::CodeViewerState state);
 
-  /**
-   * Check whether the given string is a reserved word for the
-   * language of this code generator
-   *
-   * @param rPossiblyReservedKeyword is the string to check
-   *
-   */
-  virtual bool isReservedKeyword(const QString & rPossiblyReservedKeyword);
+	/**
+	 * Check whether the given string is a reserved word for the
+	 * language of this code generator
+	 *
+	 * @param rPossiblyReservedKeyword is the string to check
+	 *
+	 */
+	virtual bool isReservedKeyword(const QString & rPossiblyReservedKeyword);
 
-  /**
-   * get list of reserved keywords
-   */
+	/**
+	 * get list of reserved keywords
+	 */
 	virtual const QPtrList<const char *> * getReservedKeywords() { return NULL; }
 
 protected:
@@ -436,18 +436,6 @@ signals:
 	 * @param generated  Flag, set to true if generation was successfull
 	 */
 	void codeGenerated(UMLClassifier* concept, bool generated);
-
-};
-
-//FIXME
-// is this class really needed still??
-//
-// not really, it's just too much effort to replace it with a QStringList
-// (needs editing uml.cpp in various places) -- jr
-class GeneratorInfo {
-public:
-	QString language;
-	QString object;
 
 };
 

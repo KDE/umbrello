@@ -7,13 +7,39 @@
  *                                                                         *
  ***************************************************************************/
 
+// own header
 #include "uml.h"
 
+// qt includes
+#include <qclipboard.h>
+#include <qpopupmenu.h>
+#include <qtimer.h>
+#include <qwidgetstack.h>
+#include <qslider.h>
+
+// kde includes
+#include <kaction.h>
+#include <kapplication.h>
+#include <kconfig.h>
+#include <kcursor.h>
+#include <kdebug.h>
+#include <kfiledialog.h>
+#include <kiconloader.h>
+#include <klocale.h>
+#include <kprinter.h>
+#include <kmenubar.h>
+#include <kmessagebox.h>
+#include <kstandarddirs.h>
+#include <kstatusbar.h>
+#include <ktip.h>
+
+// app includes
 #include "aligntoolbar.h"
 #include "infowidget.h"
 #include "classimport.h"
 #include "docwindow.h"
 #include "codegenerator.h"
+#include "generatorinfo.h"
 #include "codegenerationpolicy.h"
 #include "codegenerators/codegenfactory.h"
 
@@ -34,27 +60,6 @@
 
 #include "kplayerslideraction.h"
 
-#include <kaction.h>
-#include <kapplication.h>
-#include <kconfig.h>
-#include <kcursor.h>
-#include <kdebug.h>
-#include <kfiledialog.h>
-#include <kiconloader.h>
-#include <klocale.h>
-#include <kprinter.h>
-#include <kmenubar.h>
-#include <kmessagebox.h>
-#include <kstandarddirs.h>
-#include <kstatusbar.h>
-#include <ktip.h>
-
-#include <qclipboard.h>
-#include <qpopupmenu.h>
-#include <qtimer.h>
-#include <qwidgetstack.h>
-#include <qslider.h>
-
 #include "configurable.h"
 
 
@@ -63,7 +68,7 @@ UMLApp::UMLApp(QWidget* , const char* name):KDockMainWindow(0, name) {
 	m_pDocWindow = 0;
 	config=kapp->config();
 	m_listView = 0;
-	generatorDict.setAutoDelete(true);
+	m_generatorDict.setAutoDelete(true);
 	langSelect = 0L;
 	zoomSelect = 0L;
 	loading = false;
@@ -493,7 +498,7 @@ void UMLApp::saveOptions() {
 	      m_defaultcodegenerationpolicy->setDefaults(gen->getPolicy());
 
 	// write the config for each language-specific code gen policies
-	QDictIterator<GeneratorInfo> it( generatorDict );
+	GeneratorDictIt it( m_generatorDict );
 	for(it.toFirst() ; it.current(); ++it )
 	{
 		CodeGenerator * gen = m_doc->findCodeGeneratorByLanguage(it.current()->language);
@@ -933,7 +938,7 @@ void UMLApp::slotPrefs() {
 	config->setGroup("TipOfDay");
 	optionState.generalState.tip = config->readBoolEntry( "RunOnStart", true );
 
-	dlg = new SettingsDlg(this, &optionState, generatorDict, activeLanguage, getGenerator());
+	dlg = new SettingsDlg(this, &optionState, activeLanguage, getGenerator());
 	connect(dlg, SIGNAL( applyClicked() ), this, SLOT( slotApplyPrefs() ) );
 
 	if ( dlg->exec() == QDialog::Accepted && dlg->getChangesApplied() ) {
@@ -1142,7 +1147,7 @@ CodeGenerator* UMLApp::createGenerator() {
 				   i18n("No Language Selected"));
 		return 0;
 	}
-	info = generatorDict.find(activeLanguage);
+	info = m_generatorDict.find(activeLanguage);
 	if(!info) {
 		KMessageBox::sorry(this,i18n("Could not find active language.\nPlease select "
 		                             "one of the installed languages to generate the code with."),
@@ -1180,6 +1185,10 @@ CodeGenerator* UMLApp::createGenerator() {
 
 }
 
+GeneratorDict& UMLApp::generatorDict() {
+	return m_generatorDict;
+}
+
 void UMLApp::generateAllCode() {
 	CodeGenerator* gen = getGenerator();
 	if (gen) {
@@ -1188,7 +1197,7 @@ void UMLApp::generateAllCode() {
 }
 
 void UMLApp::generationWizard() {
-	CodeGenerationWizard wizard(m_doc, 0, generatorDict, activeLanguage, this);
+	CodeGenerationWizard wizard(m_doc, 0, activeLanguage, this);
 	wizard.exec();
 }
 
@@ -1348,7 +1357,7 @@ void UMLApp::initGenerators() {
 		info = new GeneratorInfo;
 		info->language = *langit;  //language name
 		info->object = codeGeneratorFactory.generatorName(*langit);
-		generatorDict.insert(info->language,info);
+		m_generatorDict.insert(info->language,info);
 	}
 
 	updateLangSelectMenu();
@@ -1359,7 +1368,7 @@ void UMLApp::updateLangSelectMenu() {
 	langSelect->setCheckable(true);
 	int id;
 	bool foundActive = false;
-	QDictIterator<GeneratorInfo> it( generatorDict );
+	GeneratorDictIt it( m_generatorDict );
 	for(it.toFirst() ; it.current(); ++it ) {
 		id = langSelect->insertItem(it.current()->language,this,SLOT(setActiveLanguage(int)));
 		if(activeLanguage == it.current()->language) {
@@ -1462,7 +1471,7 @@ void UMLApp::newDocument() {
 
 void UMLApp::initSavedCodeGenerators() {
 	QString activeLang = activeLanguage;
-        QDictIterator<GeneratorInfo> it( generatorDict );
+        GeneratorDictIt it( m_generatorDict );
         for(it.toFirst() ; it.current(); ++it )
 	{
 		activeLanguage = it.current()->language;
