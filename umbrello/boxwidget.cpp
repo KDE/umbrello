@@ -58,8 +58,8 @@ void BoxWidget::mouseMoveEvent(QMouseEvent *me) {
 		return;
 	int newW = m_nOldW + me->x()- m_nOldX - m_nPressOffsetX;
 	int newH = m_nOldH + me->y()- m_nOldY - m_nPressOffsetY;
-	newW = newW < 50?50:newW;
-	newH = newH < 50?50:newH;
+	newW = newW < 20?20:newW;
+	newH = newH < 20?20:newH;
 	setSize( newW, newH );
 	adjustAssocs( (int)x(), (int)y() );
 }
