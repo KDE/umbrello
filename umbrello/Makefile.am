@@ -63,4 +63,6 @@ messages: rc.cpp
 version.h: $(top_srcdir)/umbrello/VERSION
 	printf "#undef UMBRELLO_VERSION\n#define UMBRELLO_VERSION \"`cat $(top_srcdir)/umbrello/VERSION`\"\n" > version.h
 
+CLEANFILES = version.h
+
 noinst_HEADERS = version.h
