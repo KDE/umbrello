@@ -72,9 +72,16 @@ UMLOperation * UMLClassifier::checkOperationSignature( QString name,
 
 bool UMLClassifier::addOperation(UMLOperation* op, int position )
 {
-	if( m_OpsList.findRef( op ) != -1  ||
-	    checkOperationSignature(op->getName(), op->getParmList()) )
+	if (m_OpsList.findRef(op) != -1) {
+		kdDebug() << "UMLClassifier::addOperation: findRef("
+			  << op->getName() << ") finds op (bad)"
+			  << endl;
 		return false;
+	} else if (checkOperationSignature(op->getName(), op->getParmList()) ) {
+		kdDebug() << "UMLClassifier::addOperation: checkOperationSignature("
+			  << op->getName() << ") op is non-unique" << endl;
+		return false;
+	}
 
 	if( op -> parent() )
 		op -> parent() -> removeChild( op );
@@ -358,9 +365,14 @@ bool UMLClassifier::load(QDomElement& element) {
 				return false;
 		} else if (tagEq(tag, "Operation")) {
 			UMLOperation* op = new UMLOperation(NULL);
-			if( !op->loadFromXMI(element) ||
-			    !this->addOperation(op) ) {
+			if (!op->loadFromXMI(element)) {
+				kdError() << "UMLClassifier::load: error from op->loadFromXMI()"
+					  << endl;
 				delete op;
+				return false;
+			} else if (!this->addOperation(op) ) {
+				kdError() << "UMLClassifier::load: error from this->addOperation(op)"
+					  << endl;
 				//return false;
 				// Returning false here will spoil the entire
 				// load. At this point the user has been warned
