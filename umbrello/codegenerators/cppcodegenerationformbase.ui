@@ -8,109 +8,128 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>523</width>
-            <height>680</height>
+            <width>648</width>
+            <height>549</height>
         </rect>
     </property>
-    <grid>
+    <property name="caption">
+        <string>CPPCodeGenerationFormBase</string>
+    </property>
+    <widget class="QGroupBox">
         <property name="name">
-            <cstring>unnamed</cstring>
+            <cstring>groupBox1</cstring>
         </property>
-        <widget class="QGroupBox" row="1" column="0">
+        <property name="geometry">
+            <rect>
+                <x>11</x>
+                <y>44</y>
+                <width>436</width>
+                <height>72</height>
+            </rect>
+        </property>
+        <property name="sizePolicy">
+            <sizepolicy>
+                <hsizetype>5</hsizetype>
+                <vsizetype>0</vsizetype>
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+            </sizepolicy>
+        </property>
+        <property name="title">
+            <string>Documentation</string>
+        </property>
+        <grid>
             <property name="name">
-                <cstring>groupBox1</cstring>
+                <cstring>unnamed</cstring>
             </property>
-            <property name="sizePolicy">
-                <sizepolicy>
-                    <hsizetype>5</hsizetype>
-                    <vsizetype>0</vsizetype>
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                </sizepolicy>
-            </property>
-            <property name="title">
-                <string>Documentation</string>
-            </property>
-            <grid>
+            <widget class="QLayoutWidget" row="0" column="0">
                 <property name="name">
-                    <cstring>unnamed</cstring>
+                    <cstring>layout4</cstring>
                 </property>
-                <widget class="QLayoutWidget" row="0" column="0">
+                <grid>
                     <property name="name">
-                        <cstring>layout4</cstring>
+                        <cstring>unnamed</cstring>
                     </property>
-                    <grid>
-                        <property name="name">
-                            <cstring>unnamed</cstring>
-                        </property>
-                        <widget class="QComboBox" row="0" column="1">
-                            <item>
-                                <property name="text">
-                                    <string>Slash-Star (/**  */)</string>
-                                </property>
-                            </item>
-                            <item>
-                                <property name="text">
-                                    <string>Slash-Slash (//)</string>
-                                </property>
-                            </item>
-                            <property name="name">
-                                <cstring>m_SelectCommentStyle</cstring>
-                            </property>
-                        </widget>
-                        <widget class="QLabel" row="0" column="0">
-                            <property name="name">
-                                <cstring>textLabel1</cstring>
-                            </property>
+                    <widget class="QComboBox" row="0" column="1">
+                        <item>
                             <property name="text">
-                                <string>Style:</string>
+                                <string>Slash-Star (/**  */)</string>
                             </property>
-                        </widget>
-                    </grid>
-                </widget>
-            </grid>
-        </widget>
-        <widget class="QGroupBox" row="3" column="0">
+                        </item>
+                        <item>
+                            <property name="text">
+                                <string>Slash-Slash (//)</string>
+                            </property>
+                        </item>
+                        <property name="name">
+                            <cstring>m_SelectCommentStyle</cstring>
+                        </property>
+                    </widget>
+                    <widget class="QLabel" row="0" column="0">
+                        <property name="name">
+                            <cstring>textLabel1</cstring>
+                        </property>
+                        <property name="text">
+                            <string>Style:</string>
+                        </property>
+                    </widget>
+                </grid>
+            </widget>
+        </grid>
+    </widget>
+    <widget class="QLabel">
+        <property name="name">
+            <cstring>textLabel1_2</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>11</x>
+                <y>11</y>
+                <width>436</width>
+                <height>27</height>
+            </rect>
+        </property>
+        <property name="sizePolicy">
+            <sizepolicy>
+                <hsizetype>5</hsizetype>
+                <vsizetype>4</vsizetype>
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+            </sizepolicy>
+        </property>
+        <property name="text">
+            <string>&lt;p align="center"&gt;C++ Code Generation&lt;/p&gt;</string>
+        </property>
+    </widget>
+    <widget class="QTabWidget">
+        <property name="name">
+            <cstring>tabWidget2</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>10</x>
+                <y>120</y>
+                <width>436</width>
+                <height>340</height>
+            </rect>
+        </property>
+        <widget class="QWidget">
             <property name="name">
-                <cstring>groupBox3</cstring>
+                <cstring>tab</cstring>
             </property>
-            <property name="title">
-                <string>Project Generation</string>
-            </property>
-            <vbox>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <widget class="QCheckBox">
-                    <property name="name">
-                        <cstring>m_createMakefileCheckBox</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Create Makefile document</string>
-                    </property>
-                </widget>
-            </vbox>
-        </widget>
-        <widget class="QGroupBox" row="2" column="0">
-            <property name="name">
-                <cstring>groupBox2</cstring>
-            </property>
-            <property name="title">
-                <string>Auto-Generate Methods</string>
-            </property>
+            <attribute name="title">
+                <string>General</string>
+            </attribute>
             <grid>
                 <property name="name">
                     <cstring>unnamed</cstring>
                 </property>
-                <widget class="QCheckBox" row="1" column="0">
+                <widget class="QCheckBox" row="3" column="0">
                     <property name="name">
-                        <cstring>m_generateAccessors</cstring>
+                        <cstring>m_packageIsNamespaceCheckBox</cstring>
                     </property>
                     <property name="text">
-                        <string>Generate accessor methods</string>
-                    </property>
-                    <property name="checked">
-                        <bool>true</bool>
+                        <string>Package is a namespace</string>
                     </property>
                 </widget>
                 <widget class="QCheckBox" row="2" column="0">
@@ -119,6 +138,17 @@
                     </property>
                     <property name="text">
                         <string>Virtual destructors</string>
+                    </property>
+                    <property name="checked">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+                <widget class="QCheckBox" row="1" column="0">
+                    <property name="name">
+                        <cstring>m_generateAccessors</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Generate accessor methods</string>
                     </property>
                     <property name="checked">
                         <bool>true</bool>
@@ -137,54 +167,166 @@
                 </widget>
                 <widget class="QCheckBox" row="5" column="0">
                     <property name="name">
-                        <cstring>checkBox7</cstring>
+                        <cstring>m_inlineOperationsCheckBox</cstring>
                     </property>
                     <property name="text">
                         <string>Operations are inline</string>
                     </property>
                 </widget>
-                <widget class="QGroupBox" row="6" column="0">
+                <widget class="QCheckBox" row="4" column="0">
                     <property name="name">
-                        <cstring>groupBox4</cstring>
+                        <cstring>m_inlineAccessorsCheckBox</cstring>
                     </property>
-                    <property name="title">
-                        <string>Accessor Generation</string>
+                    <property name="text">
+                        <string>Accessors are inline</string>
+                    </property>
+                </widget>
+                <widget class="QCheckBox" row="6" column="0">
+                    <property name="name">
+                        <cstring>m_createMakefileCheckBox</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Create Makefile document</string>
+                    </property>
+                </widget>
+            </grid>
+        </widget>
+        <widget class="QWidget">
+            <property name="name">
+                <cstring>tab</cstring>
+            </property>
+            <attribute name="title">
+                <string>Method Body Generation</string>
+            </attribute>
+            <grid>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <spacer row="2" column="0">
+                    <property name="name">
+                        <cstring>spacer4</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Vertical</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>410</width>
+                            <height>113</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="QLabel" row="0" column="0">
+                    <property name="name">
+                        <cstring>textLabel2_2_2_2</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Use following for classes in generated code:</string>
+                    </property>
+                </widget>
+                <widget class="QLayoutWidget" row="1" column="0">
+                    <property name="name">
+                        <cstring>layout17</cstring>
                     </property>
                     <grid>
                         <property name="name">
                             <cstring>unnamed</cstring>
                         </property>
-                        <widget class="QLabel" row="1" column="0">
-                            <property name="name">
-                                <cstring>textLabel1_3</cstring>
-                            </property>
-                            <property name="text">
-                                <string>&lt;b&gt;Type&lt;/b&gt;</string>
-                            </property>
-                        </widget>
-                        <widget class="KHistoryCombo" row="2" column="1">
+                        <widget class="KHistoryCombo" row="1" column="1" rowspan="1" colspan="2">
                             <property name="name">
                                 <cstring>m_listClassHCombo</cstring>
                             </property>
+                            <property name="sizePolicy">
+                                <sizepolicy>
+                                    <hsizetype>4</hsizetype>
+                                    <vsizetype>0</vsizetype>
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
+                                </sizepolicy>
+                            </property>
+                            <property name="editable">
+                                <bool>false</bool>
+                            </property>
+                            <property name="currentItem">
+                                <number>1</number>
+                            </property>
                             <property name="insertionPolicy">
-                                <enum>AtTop</enum>
+                                <enum>NoInsertion</enum>
                             </property>
                             <property name="duplicatesEnabled">
                                 <bool>false</bool>
                             </property>
                             <property name="historyItems">
                                 <stringlist>
-                                    <string>vector</string>
                                     <string>QPtrList</string>
+                                    <string>vector</string>
                                 </stringlist>
                             </property>
                         </widget>
-                        <widget class="KHistoryCombo" row="3" column="1">
+                        <widget class="QLabel" row="0" column="0" rowspan="1" colspan="2">
+                            <property name="name">
+                                <cstring>textLabel1_3_2_2_2</cstring>
+                            </property>
+                            <property name="text">
+                                <string>&lt;b&gt;Variable&lt;/b&gt;</string>
+                            </property>
+                        </widget>
+                        <widget class="QPushButton" row="2" column="4" rowspan="1" colspan="2">
+                            <property name="name">
+                                <cstring>m_browseStringButton</cstring>
+                            </property>
+                            <property name="sizePolicy">
+                                <sizepolicy>
+                                    <hsizetype>0</hsizetype>
+                                    <vsizetype>0</vsizetype>
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
+                                </sizepolicy>
+                            </property>
+                            <property name="maximumSize">
+                                <size>
+                                    <width>32</width>
+                                    <height>32767</height>
+                                </size>
+                            </property>
+                            <property name="text">
+                                <string>...</string>
+                            </property>
+                        </widget>
+                        <widget class="QCheckBox" row="2" column="7">
+                            <property name="name">
+                                <cstring>m_globalStringCheckBox</cstring>
+                            </property>
+                            <property name="text">
+                                <string></string>
+                            </property>
+                            <property name="checked">
+                                <bool>true</bool>
+                            </property>
+                        </widget>
+                        <widget class="KHistoryCombo" row="2" column="1" rowspan="1" colspan="2">
                             <property name="name">
                                 <cstring>m_stringClassHCombo</cstring>
                             </property>
+                            <property name="sizePolicy">
+                                <sizepolicy>
+                                    <hsizetype>4</hsizetype>
+                                    <vsizetype>0</vsizetype>
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
+                                </sizepolicy>
+                            </property>
+                            <property name="editable">
+                                <bool>false</bool>
+                            </property>
+                            <property name="currentItem">
+                                <number>1</number>
+                            </property>
                             <property name="insertionPolicy">
-                                <enum>AtTop</enum>
+                                <enum>NoInsertion</enum>
                             </property>
                             <property name="duplicatesEnabled">
                                 <bool>false</bool>
@@ -196,71 +338,41 @@
                                 </stringlist>
                             </property>
                         </widget>
-                        <widget class="QLabel" row="1" column="1">
+                        <spacer row="2" column="6">
                             <property name="name">
-                                <cstring>textLabel2</cstring>
+                                <cstring>spacer2_2_2_2</cstring>
                             </property>
-                            <property name="text">
-                                <string>&lt;b&gt;Class Name&lt;/b&gt;</string>
+                            <property name="orientation">
+                                <enum>Horizontal</enum>
                             </property>
-                        </widget>
-                        <widget class="QLabel" row="1" column="2" rowspan="1" colspan="2">
+                            <property name="sizeType">
+                                <enum>Minimum</enum>
+                            </property>
+                            <property name="sizeHint">
+                                <size>
+                                    <width>20</width>
+                                    <height>20</height>
+                                </size>
+                            </property>
+                        </spacer>
+                        <spacer row="1" column="6">
                             <property name="name">
-                                <cstring>textLabel5</cstring>
+                                <cstring>spacer1_2_2_2</cstring>
                             </property>
-                            <property name="text">
-                                <string>&lt;p align="center"&gt;File&lt;/p&gt;</string>
+                            <property name="orientation">
+                                <enum>Horizontal</enum>
                             </property>
-                        </widget>
-                        <widget class="QLabel" row="1" column="4" rowspan="1" colspan="2">
-                            <property name="name">
-                                <cstring>textLabel4</cstring>
+                            <property name="sizeType">
+                                <enum>Minimum</enum>
                             </property>
-                            <property name="text">
-                                <string>global?</string>
+                            <property name="sizeHint">
+                                <size>
+                                    <width>20</width>
+                                    <height>20</height>
+                                </size>
                             </property>
-                        </widget>
-                        <widget class="QPushButton" row="3" column="3">
-                            <property name="name">
-                                <cstring>m_browseStringButton</cstring>
-                            </property>
-                            <property name="text">
-                                <string>Browse...</string>
-                            </property>
-                        </widget>
-                        <widget class="QPushButton" row="2" column="3">
-                            <property name="name">
-                                <cstring>m_browseListButton</cstring>
-                            </property>
-                            <property name="text">
-                                <string>Browse...</string>
-                            </property>
-                        </widget>
-                        <widget class="QLabel" row="0" column="2" rowspan="1" colspan="4">
-                            <property name="name">
-                                <cstring>textLabel3</cstring>
-                            </property>
-                            <property name="text">
-                                <string>&lt;p align="center"&gt;&lt;b&gt;Includes&lt;/b&gt;&lt;/p&gt;</string>
-                            </property>
-                        </widget>
+                        </spacer>
                         <widget class="QLabel" row="2" column="0">
-                            <property name="name">
-                                <cstring>listClassTextLabel</cstring>
-                            </property>
-                            <property name="sizePolicy">
-                                <sizepolicy>
-                                    <hsizetype>1</hsizetype>
-                                    <vsizetype>5</vsizetype>
-                                    <horstretch>0</horstretch>
-                                    <verstretch>0</verstretch>
-                                </sizepolicy>
-                            </property>
-                            <property name="text">
-                                <string>&lt;p align="center"&gt;List&lt;/p&gt;</string>
-                            </property>
-                        </widget>
-                        <widget class="QLabel" row="3" column="0">
                             <property name="name">
                                 <cstring>stringClassTextLabel</cstring>
                             </property>
@@ -276,7 +388,23 @@
                                 <string>&lt;p align="center"&gt;String&lt;/p&gt;</string>
                             </property>
                         </widget>
-                        <widget class="KHistoryCombo" row="2" column="2">
+                        <widget class="QLabel" row="1" column="0">
+                            <property name="name">
+                                <cstring>listClassTextLabel</cstring>
+                            </property>
+                            <property name="sizePolicy">
+                                <sizepolicy>
+                                    <hsizetype>1</hsizetype>
+                                    <vsizetype>5</vsizetype>
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
+                                </sizepolicy>
+                            </property>
+                            <property name="text">
+                                <string>&lt;p align="center"&gt;List&lt;/p&gt;</string>
+                            </property>
+                        </widget>
+                        <widget class="KHistoryCombo" row="1" column="3">
                             <property name="name">
                                 <cstring>m_listIncludeFileHistoryCombo</cstring>
                             </property>
@@ -288,17 +416,28 @@
                                     <verstretch>0</verstretch>
                                 </sizepolicy>
                             </property>
+                            <property name="currentItem">
+                                <number>1</number>
+                            </property>
                             <property name="insertionPolicy">
                                 <enum>AtTop</enum>
                             </property>
                             <property name="historyItems">
                                 <stringlist>
-                                    <string>vector.h</string>
                                     <string>qptrlist.h</string>
+                                    <string>vector.h</string>
                                 </stringlist>
                             </property>
                         </widget>
-                        <widget class="KHistoryCombo" row="3" column="2">
+                        <widget class="QLabel" row="0" column="5" rowspan="1" colspan="3">
+                            <property name="name">
+                                <cstring>textLabel4_2_2_2</cstring>
+                            </property>
+                            <property name="text">
+                                <string>&lt;i&gt;global?&lt;/i&gt;</string>
+                            </property>
+                        </widget>
+                        <widget class="KHistoryCombo" row="2" column="3">
                             <property name="name">
                                 <cstring>m_stringIncludeFileHistoryCombo</cstring>
                             </property>
@@ -310,6 +449,9 @@
                                     <verstretch>0</verstretch>
                                 </sizepolicy>
                             </property>
+                            <property name="currentItem">
+                                <number>1</number>
+                            </property>
                             <property name="insertionPolicy">
                                 <enum>AtTop</enum>
                             </property>
@@ -320,43 +462,9 @@
                                 </stringlist>
                             </property>
                         </widget>
-                        <spacer row="2" column="4">
+                        <widget class="QCheckBox" row="1" column="7">
                             <property name="name">
-                                <cstring>spacer1</cstring>
-                            </property>
-                            <property name="orientation">
-                                <enum>Horizontal</enum>
-                            </property>
-                            <property name="sizeType">
-                                <enum>Minimum</enum>
-                            </property>
-                            <property name="sizeHint">
-                                <size>
-                                    <width>30</width>
-                                    <height>20</height>
-                                </size>
-                            </property>
-                        </spacer>
-                        <spacer row="3" column="4">
-                            <property name="name">
-                                <cstring>spacer2</cstring>
-                            </property>
-                            <property name="orientation">
-                                <enum>Horizontal</enum>
-                            </property>
-                            <property name="sizeType">
-                                <enum>Minimum</enum>
-                            </property>
-                            <property name="sizeHint">
-                                <size>
-                                    <width>30</width>
-                                    <height>20</height>
-                                </size>
-                            </property>
-                        </spacer>
-                        <widget class="QCheckBox" row="2" column="5">
-                            <property name="name">
-                                <cstring>checkBox8</cstring>
+                                <cstring>m_globalListCheckBox</cstring>
                             </property>
                             <property name="text">
                                 <string></string>
@@ -365,63 +473,54 @@
                                 <bool>true</bool>
                             </property>
                         </widget>
-                        <widget class="QCheckBox" row="3" column="5">
+                        <widget class="QLabel" row="0" column="2">
                             <property name="name">
-                                <cstring>checkBox9</cstring>
+                                <cstring>textLabel3_2_2</cstring>
                             </property>
                             <property name="text">
-                                <string></string>
+                                <string>Class name</string>
                             </property>
-                            <property name="checked">
-                                <bool>true</bool>
+                        </widget>
+                        <widget class="QPushButton" row="1" column="4" rowspan="1" colspan="2">
+                            <property name="name">
+                                <cstring>m_browseListButton</cstring>
+                            </property>
+                            <property name="sizePolicy">
+                                <sizepolicy>
+                                    <hsizetype>4</hsizetype>
+                                    <vsizetype>0</vsizetype>
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
+                                </sizepolicy>
+                            </property>
+                            <property name="maximumSize">
+                                <size>
+                                    <width>32</width>
+                                    <height>32767</height>
+                                </size>
+                            </property>
+                            <property name="text">
+                                <string>...</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel" row="0" column="3" rowspan="1" colspan="2">
+                            <property name="name">
+                                <cstring>textLabel5_2_2_2</cstring>
+                            </property>
+                            <property name="text">
+                                <string>&lt;i&gt;&lt;p align="center"&gt;Include file&lt;/p&gt;&lt;/i&gt;</string>
                             </property>
                         </widget>
                     </grid>
                 </widget>
-                <widget class="QCheckBox" row="3" column="0">
-                    <property name="name">
-                        <cstring>m_packageIsNamespaceCheckBox</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Package is a namespace</string>
-                    </property>
-                </widget>
-                <widget class="QCheckBox" row="4" column="0">
-                    <property name="name">
-                        <cstring>checkBox6</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Accessors are inline</string>
-                    </property>
-                </widget>
             </grid>
         </widget>
-        <widget class="QLabel" row="0" column="0">
-            <property name="name">
-                <cstring>textLabel1_2</cstring>
-            </property>
-            <property name="sizePolicy">
-                <sizepolicy>
-                    <hsizetype>5</hsizetype>
-                    <vsizetype>4</vsizetype>
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                </sizepolicy>
-            </property>
-            <property name="text">
-                <string>&lt;p align="center"&gt;C++ Code Generation&lt;/p&gt;</string>
-            </property>
-        </widget>
-    </grid>
+    </widget>
 </widget>
-<customwidgets>
-</customwidgets>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>kcombobox.h</includehint>
-    <includehint>klineedit.h</includehint>
     <includehint>kcombobox.h</includehint>
-    <includehint>klineedit.h</includehint>
     <includehint>kcombobox.h</includehint>
     <includehint>klineedit.h</includehint>
     <includehint>kcombobox.h</includehint>
