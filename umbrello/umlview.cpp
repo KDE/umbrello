@@ -1390,6 +1390,7 @@ void UMLView::printToFile(QString filename, QRect rect) {
 void UMLView::exportImage() {
 	UMLApp *app = getUMLApp();
 	QStringList fmt = QImage::outputFormatList();
+	QString imageMimetype = "image/png";
 
 	// get all supported mimetypes
 	QStringList mimetypes;
@@ -1409,31 +1410,41 @@ void UMLView::exportImage() {
 	fileDialog.setCaption(i18n("Save As"));
 	fileDialog.setOperationMode(KFileDialog::Saving);
 	if (app)
-	  fileDialog.setMimeFilter(mimetypes, app->getImageMimetype());
+		imageMimetype = app->getImageMimetype();
+	fileDialog.setMimeFilter(mimetypes, imageMimetype);
+	
+	// set a sensible default filename
+	if (m_ImageURL.isEmpty()) {
+	  fileDialog.setSelection(getName()+"."+mimeTypeToImageType(imageMimetype).lower());
+	} else {
+	  fileDialog.setURL(m_ImageURL);
+	  fileDialog.setSelection(m_ImageURL.fileName());
+	}
 	fileDialog.exec();
-	KURL url = fileDialog.selectedURL();
-	QString imageMimetype = fileDialog.currentMimeFilter();
-	if (app) app->setImageMimetype(imageMimetype);
 
 	// save
-	if(!url.isEmpty())
+	if(! fileDialog.selectedURL().isEmpty())
 	{
+		imageMimetype = fileDialog.currentMimeFilter();
+		if (app) app->setImageMimetype(imageMimetype);
+		m_ImageURL = fileDialog.selectedURL();
+
 		QString s;
 		KTempFile tmpfile;
 
-		if (url.isLocalFile()) {
-			QString file = url.path(-1);
+		if (m_ImageURL.isLocalFile()) {
+			QString file = m_ImageURL.path(-1);
 			QFileInfo info(file);
 			QString ext = info.extension(false);
 			QString extDef = mimeTypeToImageType(imageMimetype).lower();
 			if(ext != extDef) {
-				url.setFileName(url.fileName() + "."+extDef);
+				m_ImageURL.setFileName(m_ImageURL.fileName() + "."+extDef);
 			}
-			s = url.path();
+			s = m_ImageURL.path();
 			info = QFileInfo(s);
 			if (info.exists())
 			{
-				int want_save = KMessageBox::questionYesNo(0, i18n("The selected file %1 exists.\nDo you want to overwrite it?").arg(url.fileName()),
+				int want_save = KMessageBox::questionYesNo(0, i18n("The selected file %1 exists.\nDo you want to overwrite it?").arg(m_ImageURL.fileName()),
 									i18n("File Already Exists"),
 									i18n("Yes"), i18n("No"));
 				if (want_save == KMessageBox::No)
@@ -1458,17 +1469,17 @@ void UMLView::exportImage() {
 				getDiagram(rect, diagram);
 				diagram.save(s, mimeTypeToImageType(imageMimetype).ascii());
 			}
-			if (!url.isLocalFile()) {
-				if(!KIO::NetAccess::upload(tmpfile.name(), url)) {
+			if (!m_ImageURL.isLocalFile()) {
+				if(!KIO::NetAccess::upload(tmpfile.name(), m_ImageURL)) {
 					KMessageBox::error(0,
-					                   i18n("There was a problem saving file: %1").arg(url.path()),
+					                   i18n("There was a problem saving file: %1").arg(m_ImageURL.path()),
 					                   i18n("Save Error"));
 				}
 				tmpfile.unlink();
 			} //!isLocalFile
 		} //rect.isEmpty()
 
-	} //!url.isEmpty()
+	} //!m_ImageURL.isEmpty()
 }//exportImage()
 
 void UMLView::slotActivate() {

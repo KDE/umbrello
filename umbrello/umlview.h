@@ -950,6 +950,11 @@ private:
 	 */
 	UMLDoc* m_pDoc;
 
+	/** 
+	 * The url of the last saved image
+	 */
+	KURL m_ImageURL;
+
 	/**
 	 * Used by @ref contentsMouseMoveEvent() to know if a mouse button is pressed.
 	 */
