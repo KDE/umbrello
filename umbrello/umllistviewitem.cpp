@@ -184,10 +184,16 @@ void UMLListViewItem::updateObject() {
 		return;
 
 	Uml::Scope scope = m_pObject->getScope();
-	setText( m_pObject->getName() );
+	Uml::Object_Type ot = m_pObject->getBaseType();
+	QString modelObjText = m_pObject->getName();
+	if (ot == Uml::ot_Operation || ot == Uml::ot_Attribute) {
+		UMLClassifierListItem *pNarrowed = static_cast<UMLClassifierListItem*>(m_pObject);
+		modelObjText = pNarrowed->toString(Uml::st_SigNoScope);
+	}
+	setText(modelObjText);
 
 	UMLListView::Icon_Type icon = UMLListView::it_Home;
-	switch( m_pObject->getBaseType() ) {
+	switch (ot) {
 		case Uml::ot_Actor:
 			icon = UMLListView::it_Actor;
 			break;
