@@ -163,9 +163,9 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object, bool multi) :
 	if(multi) {
 		setupColorSelection(object -> getUseFillColour());
 		insertSeparator();
-		insertItem(SmallIcon( "editcut" ) , i18n("Cut"), mt_Cut);
-		insertItem(SmallIcon( "editcopy" ), i18n("Copy"), mt_Copy);
-		insertItem(SmallIcon( "editpaste"), i18n("Paste"), mt_Paste);
+		insrtItm(mt_Cut);
+		insrtItm(mt_Copy);
+		insrtItm(mt_Paste);
 		insertSeparator();
 		insertItem(SmallIcon( "fonts" ), i18n( "Change Font..." ), mt_Change_Font_Selection );
 		insertItem(SmallIcon( "editdelete" ), i18n("Delete Selected Items"), mt_Delete_Selection);
@@ -183,14 +183,14 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object, bool multi) :
 		case Uml::wt_UseCase:
 			setupColor(object -> getUseFillColour());
 			insertSeparator();
-			insertItem( SmallIcon( "editcut" ) , i18n("Cut"), mt_Cut);
-			insertItem( SmallIcon( "editcopy" ), i18n("Copy"), mt_Copy);
-			insertItem( SmallIcon( "editpaste" ), i18n("Paste"), mt_Paste);
+			insrtItm(mt_Cut);
+			insrtItm(mt_Copy);
+			insrtItm(mt_Paste);
 			insertSeparator();
-			insertItem( SmallIcon( "editdelete" ), i18n("Delete"), mt_Delete);
-			insertItem( SmallIcon( "charset" ), i18n("Rename..."), mt_Rename);
-			insertItem( SmallIcon( "fonts" ),  i18n( "Change Font..." ), mt_Change_Font );
-			insertItem( SmallIcon( "info" ), i18n("Properties"), mt_Properties);
+			insrtItm(mt_Delete);
+			insrtItm(mt_Rename);
+			insrtItm(mt_Change_Font);
+			insrtItm(mt_Properties);
 			break;
 
 		case Uml::wt_Class:
@@ -223,16 +223,16 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object, bool multi) :
 
 			setupColor(object -> getUseFillColour());
 			insertSeparator();
-			insertItem( SmallIcon( "editcut"), i18n("Cut"), mt_Cut);
-			insertItem( SmallIcon( "editcopy"), i18n("Copy"), mt_Copy);
-			insertItem( SmallIcon( "editpaste"), i18n("Paste"), mt_Paste);
+			insrtItm(mt_Cut);
+			insrtItm(mt_Copy);
+			insrtItm(mt_Paste);
 			insertSeparator();
-			insertItem( SmallIcon( "editdelete"), i18n("Delete"), mt_Delete);
-			insertItem( SmallIcon( "charset"), i18n("Rename..."), mt_Rename);
-			insertItem( SmallIcon( "fonts"),  i18n( "Change Font..." ), mt_Change_Font );
+			insrtItm(mt_Delete);
+			insrtItm(mt_Rename);
+			insrtItm(mt_Change_Font);
 			insertItem( SmallIcon( "unknown"), i18n("Refactor"),mt_Refactoring);
 			insertItem( SmallIcon( "unknown"), i18n("View Code"),mt_ViewCode);
-			insertItem(SmallIcon( "info"), i18n("Properties"), mt_Properties);
+			insrtItm(mt_Properties);
 			break;
 
 		case Uml::wt_Interface:
@@ -256,16 +256,16 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object, bool multi) :
 
 			setupColor(object->getUseFillColour());
 			insertSeparator();
-			insertItem(SmallIcon("editcut"), i18n("Cut"), mt_Cut);
-			insertItem(SmallIcon("editcopy"), i18n("Copy"), mt_Copy);
-			insertItem(SmallIcon("editpaste"), i18n("Paste"), mt_Paste);
+			insrtItm(mt_Cut);
+			insrtItm(mt_Copy);
+			insrtItm(mt_Paste);
 			insertSeparator();
-			insertItem(SmallIcon("editdelete"), i18n("Delete"), mt_Delete);
-			insertItem(SmallIcon("charset"), i18n("Rename..."), mt_Rename);
-			insertItem(SmallIcon("fonts"),  i18n("Change Font..." ), mt_Change_Font);
+			insrtItm(mt_Delete);
+			insrtItm(mt_Rename);
+			insrtItm(mt_Change_Font);
 			insertItem(i18n("Draw as Circle"), mt_DrawAsCircle);
 			setItemChecked( mt_DrawAsCircle, interfaceWidget->getDrawAsCircle() );
-			insertItem(SmallIcon("info"), i18n("Properties"), mt_Properties);
+			insrtItm(mt_Properties);
 			break;
 
 		case Uml::wt_Package:
@@ -273,14 +273,14 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object, bool multi) :
 		case Uml::wt_Node:
 		case Uml::wt_Artifact:
 			setupColor(object->getUseFillColour());
-			insertItem(SmallIcon("editcut"), i18n("Cut"), mt_Cut);
-			insertItem(SmallIcon("editcopy"), i18n("Copy"), mt_Copy);
-			insertItem(SmallIcon("editpaste"), i18n("Paste"), mt_Paste);
+			insrtItm(mt_Cut);
+			insrtItm(mt_Copy);
+			insrtItm(mt_Paste);
 			insertSeparator();
-			insertItem(SmallIcon("editdelete"), i18n("Delete"), mt_Delete);
-			insertItem(SmallIcon("charset"), i18n("Rename..."), mt_Rename);
-			insertItem(SmallIcon("fonts"),  i18n("Change Font..."), mt_Change_Font );
-			insertItem(SmallIcon("info"), i18n("Properties"), mt_Properties);
+			insrtItm(mt_Delete);
+			insrtItm(mt_Rename);
+			insrtItm(mt_Change_Font);
+			insrtItm(mt_Properties);
 			break;
 
 		case Uml::wt_Object:
@@ -296,24 +296,24 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object, bool multi) :
 				}
 			}
 			insertSeparator();
-			insertItem( SmallIcon( "editcut"), i18n("Cut"), mt_Cut);
-			insertItem( SmallIcon( "editcopy"), i18n("Copy"), mt_Copy);
-			insertItem( SmallIcon( "editpaste"), i18n("Paste"), mt_Paste);
+			insrtItm(mt_Cut);
+			insrtItm(mt_Copy);
+			insrtItm(mt_Paste);
 			insertSeparator();
-			insertItem(SmallIcon( "editdelete"), i18n( "Delete"), mt_Delete);
+			insrtItm(mt_Delete);
 			insertItem( SmallIcon( "charset"), i18n("Rename Class..."), mt_Rename);
 			insertItem(SmallIcon( "charset"), i18n("Rename Object..."), mt_Rename_Object);
-			insertItem( SmallIcon( "fonts"),  i18n( "Change Font..." ), mt_Change_Font );
-			insertItem(SmallIcon( "info"), i18n("Properties"), mt_Properties);
+			insrtItm(mt_Change_Font);
+			insrtItm(mt_Properties);
 			break;
 
 		case Uml::wt_Message:
-			insertItem(SmallIcon( "editcut"), i18n("Cut"), mt_Cut);
-			insertItem(SmallIcon( "editcopy"), i18n("Copy"), mt_Copy);
-			insertItem(SmallIcon( "editpaste"), i18n("Paste"), mt_Paste);
+			insrtItm(mt_Cut);
+			insrtItm(mt_Copy);
+			insrtItm(mt_Paste);
 			insertSeparator();
-			insertItem(SmallIcon( "editdelete"), i18n("Delete"), mt_Delete);
-			insertItem(SmallIcon( "fonts"),  i18n( "Change Font..." ), mt_Change_Font );
+			insrtItm(mt_Delete);
+			insrtItm(mt_Change_Font);
 			insertItem(SmallIcon( "filenew"), i18n("New Operation..."), mt_Operation);
 			insertItem(SmallIcon( "charset"), i18n("Select Operation..."), mt_Select_Operation);
 			insertItem(SmallIcon( "charset"), i18n("Set Sequence Number..."), mt_Sequence_Number);
@@ -322,24 +322,24 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object, bool multi) :
 		case Uml::wt_Note:
 			setupColor(object -> getUseFillColour());
 			insertSeparator();
-			insertItem(SmallIcon( "editcut"), i18n("Cut"), mt_Cut);
-			insertItem(SmallIcon( "editcopy"), i18n("Copy"), mt_Copy);
-			insertItem(SmallIcon( "editpaste"), i18n("Paste"), mt_Paste);
+			insrtItm(mt_Cut);
+			insrtItm(mt_Copy);
+			insrtItm(mt_Paste);
 			insertItem(SmallIcon( "editdelete"), i18n("Clear"), mt_Clear);
 			insertSeparator();
 			insertItem(SmallIcon( "charset"), i18n("Change Text..."), mt_Rename);
-			insertItem(SmallIcon( "editDelete"), i18n("Delete"), mt_Delete);
-			insertItem(SmallIcon( "fonts"),  i18n( "Change Font..." ), mt_Change_Font );
+			insrtItm(mt_Delete);
+			insrtItm(mt_Change_Font);
 			//insertItem(i18n("Link Documentation"), mt_Link_Docs);
 			//setItemChecked(mt_Link_Docs, ((NoteWidget*)object)->getLinkState());
 			break;
 
 		case Uml::wt_Box:
-			insertItem(SmallIcon("editcut"), i18n("Cut"), mt_Cut);
-			insertItem(SmallIcon("editcopy"), i18n("Copy"), mt_Copy);
-			insertItem(SmallIcon("editpaste"), i18n("Paste"), mt_Paste);
+			insrtItm(mt_Cut);
+			insrtItm(mt_Copy);
+			insrtItm(mt_Paste);
 			insertSeparator();
-			insertItem(SmallIcon("editDelete"), i18n("Delete"), mt_Delete);
+			insrtItm(mt_Delete);
 			break;
 
 		case Uml::wt_State:
@@ -349,30 +349,30 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object, bool multi) :
 				insertItem(SmallIcon( "filenew"),i18n("New"), m_pInsert);
 			}
 			setupColor( object -> getUseFillColour() );
-			insertItem(SmallIcon( "editcut"), i18n("Cut"), mt_Cut);
-			insertItem(SmallIcon( "editcopy"), i18n("Copy"), mt_Copy);
-			insertItem(SmallIcon( "editpaste"), i18n("Paste"), mt_Paste);
+			insrtItm(mt_Cut);
+			insrtItm(mt_Copy);
+			insrtItm(mt_Paste);
 			insertSeparator();
-			insertItem(SmallIcon( "editdelete"), i18n("Delete"), mt_Delete);
+			insrtItm(mt_Delete);
 			if( pState -> getStateType() == StateWidget::Normal ) {
 				insertItem(SmallIcon( "charset"), i18n("Change State Name..."), mt_Rename);
-				insertItem(SmallIcon( "fonts"),  i18n( "Change Font..." ), mt_Change_Font );
-				insertItem(SmallIcon( "info"), i18n("Properties"), mt_Properties);
+				insrtItm(mt_Change_Font);
+				insrtItm(mt_Properties);
 			}
 			break;
 
 		case Uml::wt_Activity:
 			if( pActivity -> getActivityType() == ActivityWidget::Normal )
 				setupColor( object -> getUseFillColour() );
-			insertItem(SmallIcon( "editcut"), i18n("Cut"), mt_Cut);
-			insertItem(SmallIcon( "editcopy"), i18n("Copy"), mt_Copy);
-			insertItem(SmallIcon( "editpaste"), i18n("Paste"), mt_Paste);
+			insrtItm(mt_Cut);
+			insrtItm(mt_Copy);
+			insrtItm(mt_Paste);
 			insertSeparator();
-			insertItem(SmallIcon( "editdelete"), i18n("Delete"), mt_Delete);
+			insrtItm(mt_Delete);
 			if( pActivity -> getActivityType() == ActivityWidget::Normal ) {
 				insertItem(SmallIcon( "charset"), i18n("Change Activity Name"), mt_Rename);
-				insertItem(SmallIcon( "fonts"),  i18n( "Change Font..." ), mt_Change_Font );
-				insertItem(SmallIcon( "info"), i18n("Properties"), mt_Properties);
+				insrtItm(mt_Change_Font);
+				insrtItm(mt_Properties);
 			}
 			break;
 
@@ -386,7 +386,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object, bool multi) :
 				case Uml::tr_ChangeA:
 				case Uml::tr_ChangeB:
 					insertItem(SmallIcon("editdelete"), i18n("Delete Association"), mt_Delete_Association);
-					insertItem(SmallIcon("fonts"),  i18n("Change Font..."), mt_Change_Font );
+					insrtItm(mt_Change_Font);
 					insertItem(i18n("Reset Label Positions"), mt_Reset_Label_Positions);
 					insertItem(SmallIcon( "info"), i18n("Properties..."), mt_Properties);
 					break;
@@ -395,12 +395,12 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object, bool multi) :
 				case Uml::tr_Coll_Message:
 				case Uml::tr_Seq_Message_Self:
 				case Uml::tr_Seq_Message:
-//					insertItem(SmallIcon( "editcut"), i18n("Cut"), mt_Cut);
-//					insertItem(SmallIcon( "editcopy"), i18n("Copy"), mt_Copy);
-//					insertItem(SmallIcon( "editpaste"), i18n("Paste"), mt_Paste);
+//					insrtItm(mt_Cut);
+//					insrtItm(mt_Copy);
+//					insrtItm(mt_Paste);
 //					insertSeparator();
 					insertItem(SmallIcon( "editdelete"), i18n("Delete"), mt_Delete_Message);
-					insertItem(SmallIcon( "fonts"),  i18n( "Change Font..." ), mt_Change_Font );
+					insrtItm(mt_Change_Font);
 					insertItem(SmallIcon( "filenew"), i18n("New Operation..."), mt_Operation);
 					insertItem(SmallIcon( "charset"), i18n("Select Operation..."), mt_Select_Operation);
 					insertItem(SmallIcon( "charset"), i18n("Set Sequence Number..."), mt_Sequence_Number);
@@ -408,13 +408,13 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object, bool multi) :
 
 				case Uml::tr_Floating:
 				default:
-					insertItem(SmallIcon( "editcut"), i18n("Cut"), mt_Cut);
-					insertItem(SmallIcon( "editcopy"), i18n("Copy"), mt_Copy);
-					insertItem(SmallIcon( "editpaste"), i18n("Paste"), mt_Paste);
+					insrtItm(mt_Cut);
+					insrtItm(mt_Copy);
+					insrtItm(mt_Paste);
 					insertSeparator();
-					insertItem(SmallIcon( "editdelete"), i18n("Delete"), mt_Delete);
+					insrtItm(mt_Delete);
 					insertItem(SmallIcon( "charset"), i18n("Change Text..."), mt_Rename);
-					insertItem(SmallIcon( "fonts"),  i18n( "Change Font..." ), mt_Change_Font );
+					insrtItm(mt_Change_Font);
 					break;
 			}
 			break;
@@ -436,6 +436,42 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object, bool multi) :
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ListPopupMenu::~ListPopupMenu() {}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+void ListPopupMenu::insrtItm(Menu_Type m)
+{
+	switch (m) {
+	case mt_Properties:
+		insertItem(SmallIcon("info"), i18n("Properties"), mt_Properties);
+		break;
+	case mt_Rename:
+		insertItem(SmallIcon("charset"), i18n("Rename..."), mt_Rename);
+		break;
+	case mt_Delete:
+		insertItem(SmallIcon("editdelete"), i18n("Delete"), mt_Delete);
+		break;
+	case mt_Cut:
+		insertItem(SmallIcon("editcut"), i18n("Cut"), mt_Cut);
+		break;
+	case mt_Copy:
+		insertItem(SmallIcon("editcopy"), i18n("Copy"), mt_Copy);
+		break;
+	case mt_Paste:
+		insertItem(SmallIcon("editpaste"), i18n("Paste"), mt_Paste);
+		break;
+	case mt_Change_Font:
+		insertItem(SmallIcon("fonts"), i18n("Change Font..."), mt_Change_Font);
+		break;
+	case mt_Expand_All:
+		insertItem(i18n("Expand All"), mt_Expand_All);
+		break;
+	case mt_Collapse_All:
+		insertItem(i18n("Collapse All"), mt_Collapse_All);
+		break;
+	default:
+		kdWarning() << "ListPopupMenu::insrtItm called on unimplemented Menu_Type " << m << endl;
+		break;
+	}
+}
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void ListPopupMenu::setupColor(bool fc)
 {
@@ -560,15 +596,15 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 			m_pInsert -> insertItem(SmallIcon( "folder_green"),i18n("Collaboration Diagram"), mt_Collaboration_Diagram);
 			insertItem(SmallIcon( "filenew"), i18n("New"), m_pInsert);
 			insertSeparator();
-//			insertItem(SmallIcon( "editcut"), i18n("Cut"), mt_Cut);
-//			insertItem(SmallIcon( "editcopy"), i18n("Copy"), mt_Copy);
-			insertItem(SmallIcon( "editpaste"), i18n("Paste"), mt_Paste);
+//			insrtItm(mt_Cut);
+//			insrtItm(mt_Copy);
+			insrtItm(mt_Paste);
 			insertSeparator();
-//			insertItem(SmallIcon( "editdelete"), i18n("Delete"), mt_Delete);
+//			insrtItm(mt_Delete);
 			insertItem(SmallIcon( "source_cpp"), i18n("Import Classes..."), mt_Import_Classes);
 			insertSeparator();
-			insertItem(i18n("Expand All"),mt_Expand_All);
-			insertItem(i18n("Collapse All"),mt_Collapse_All);
+			insrtItm(mt_Expand_All);
+			insrtItm(mt_Collapse_All);
 			break;
 
 
@@ -581,10 +617,10 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 					      mt_Component_Diagram);
 			insertItem(SmallIcon("filenew"), i18n("New"), m_pInsert);
 			insertSeparator();
-			insertItem(SmallIcon("editpaste"), i18n("Paste"), mt_Paste);
+			insrtItm(mt_Paste);
 			insertSeparator();
-			insertItem(i18n("Expand All"),mt_Expand_All);
-			insertItem(i18n("Collapse All"),mt_Collapse_All);
+			insrtItm(mt_Expand_All);
+			insrtItm(mt_Collapse_All);
 			break;
 
 		case mt_Deployment_View:
@@ -595,10 +631,10 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 					      mt_Deployment_Diagram);
 			insertItem(SmallIcon("filenew"), i18n("New"), m_pInsert);
 			insertSeparator();
-			insertItem(SmallIcon("editpaste"), i18n("Paste"), mt_Paste);
+			insrtItm(mt_Paste);
 			insertSeparator();
-			insertItem(i18n("Expand All"),mt_Expand_All);
-			insertItem(i18n("Collapse All"),mt_Collapse_All);
+			insrtItm(mt_Expand_All);
+			insrtItm(mt_Collapse_All);
 			break;
 
 		case mt_UseCase_View:
@@ -609,12 +645,12 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 			m_pInsert -> insertItem(SmallIcon( "folder_grey"),i18n("Use Case Diagram"), mt_UseCase_Diagram);
 			insertItem(SmallIcon( "filenew"), i18n("New"), m_pInsert);
 			insertSeparator();
-//			insertItem(SmallIcon( "editcut"), i18n("Cut"), mt_Cut);
-//			insertItem(SmallIcon( "editcopy"), i18n("Copy"), mt_Copy);
-			insertItem(SmallIcon( "editpaste"), i18n("Paste"), mt_Paste);
+//			insrtItm(mt_Cut);
+//			insrtItm(mt_Copy);
+			insrtItm(mt_Paste);
 			insertSeparator();
-			insertItem(i18n("Expand All"),mt_Expand_All);
-			insertItem(i18n("Collapse All"),mt_Collapse_All);
+			insrtItm(mt_Expand_All);
+			insrtItm(mt_Collapse_All);
 			break;
 
 		case mt_Logical_Folder:
@@ -630,18 +666,18 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 			m_pInsert -> insertItem(SmallIcon( "folder_green"),i18n("Collaboration Diagram"), mt_Collaboration_Diagram);
 			insertItem(SmallIcon( "filenew"), i18n("New"), m_pInsert);
 			insertSeparator();
-			insertItem(SmallIcon( "editcut"), i18n("Cut"), mt_Cut);
+			insrtItm(mt_Cut);
 
-			insertItem(SmallIcon( "editcopy"), i18n("Copy"), mt_Copy);
-			insertItem(SmallIcon( "editpaste"), i18n("Paste"), mt_Paste);
+			insrtItm(mt_Copy);
+			insrtItm(mt_Paste);
 			insertSeparator();
-			insertItem(SmallIcon( "charset"), i18n("Rename..."), mt_Rename);
-			insertItem(SmallIcon( "editdelete"), i18n("Delete"), mt_Delete);
+			insrtItm(mt_Rename);
+			insrtItm(mt_Delete);
 
 			insertItem(SmallIcon( "source_cpp"), i18n("Import Classes..."), mt_Import_Classes);
 			insertSeparator();
-			insertItem(i18n("Expand All"),mt_Expand_All);
-			insertItem(i18n("Collapse All"),mt_Collapse_All);
+			insrtItm(mt_Expand_All);
+			insrtItm(mt_Collapse_All);
 			break;
 
 		case mt_Component_Folder:
@@ -653,15 +689,15 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 					      mt_Component_Diagram);
 			insertItem(SmallIcon("filenew"), i18n("New"), m_pInsert);
 			insertSeparator();
-			insertItem(SmallIcon("editcut"), i18n("Cut"), mt_Cut);
-			insertItem(SmallIcon("editcopy"), i18n("Copy"), mt_Copy);
-			insertItem(SmallIcon("editpaste"), i18n("Paste"), mt_Paste);
+			insrtItm(mt_Cut);
+			insrtItm(mt_Copy);
+			insrtItm(mt_Paste);
 			insertSeparator();
-			insertItem(SmallIcon("charset"), i18n("Rename..."), mt_Rename);
-			insertItem(SmallIcon("editdelete"), i18n("Delete"), mt_Delete);
+			insrtItm(mt_Rename);
+			insrtItm(mt_Delete);
 			insertSeparator();
-			insertItem(i18n("Expand All"),mt_Expand_All);
-			insertItem(i18n("Collapse All"),mt_Collapse_All);
+			insrtItm(mt_Expand_All);
+			insrtItm(mt_Collapse_All);
 			break;
 
 		case mt_Deployment_Folder:
@@ -672,15 +708,15 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 					      mt_Deployment_Diagram);
 			insertItem(SmallIcon("filenew"), i18n("New"), m_pInsert);
 			insertSeparator();
-			insertItem(SmallIcon("editcut"), i18n("Cut"), mt_Cut);
-			insertItem(SmallIcon("editcopy"), i18n("Copy"), mt_Copy);
-			insertItem(SmallIcon("editpaste"), i18n("Paste"), mt_Paste);
+			insrtItm(mt_Cut);
+			insrtItm(mt_Copy);
+			insrtItm(mt_Paste);
 			insertSeparator();
-			insertItem(SmallIcon("charset"), i18n("Rename..."), mt_Rename);
-			insertItem(SmallIcon("editdelete"), i18n("Delete"), mt_Delete);
+			insrtItm(mt_Rename);
+			insrtItm(mt_Delete);
 			insertSeparator();
-			insertItem(i18n("Expand All"),mt_Expand_All);
-			insertItem(i18n("Collapse All"),mt_Collapse_All);
+			insrtItm(mt_Expand_All);
+			insrtItm(mt_Collapse_All);
 			break;
 
 		case mt_UseCase_Folder:
@@ -691,15 +727,15 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 			m_pInsert -> insertItem(SmallIcon( "folder_grey"),i18n("Use Case Diagram"), mt_UseCase_Diagram);
 			insertItem(SmallIcon( "filenew"), i18n("New"), m_pInsert);
 			insertSeparator();
-			insertItem(SmallIcon( "editcut"), i18n("Cut"), mt_Cut);
-			insertItem(SmallIcon( "editcopy"), i18n("Copy"), mt_Copy);
-			insertItem(SmallIcon( "editpaste"), i18n("Paste"), mt_Paste);
+			insrtItm(mt_Cut);
+			insrtItm(mt_Copy);
+			insrtItm(mt_Paste);
 			insertSeparator();
-			insertItem(SmallIcon( "charset"), i18n("Rename..."), mt_Rename);
-			insertItem(SmallIcon( "editdelete"), i18n("Delete"), mt_Delete);
+			insrtItm(mt_Rename);
+			insrtItm(mt_Delete);
 			insertSeparator();
-			insertItem(i18n("Expand All"),mt_Expand_All);
-			insertItem(i18n("Collapse All"),mt_Collapse_All);
+			insrtItm(mt_Expand_All);
+			insrtItm(mt_Collapse_All);
 			break;
 
 		case mt_UseCase_Diagram:
@@ -710,14 +746,14 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 		case mt_Activity_Diagram:
 		case mt_Component_Diagram:
 		case mt_Deployment_Diagram:
-			insertItem(SmallIcon( "editcut"), i18n("Cut"), mt_Cut);
-			insertItem(SmallIcon( "editcopy"), i18n("Copy"), mt_Copy);
-			insertItem(SmallIcon( "editpaste"), i18n("Paste"), mt_Paste);
+			insrtItm(mt_Cut);
+			insrtItm(mt_Copy);
+			insrtItm(mt_Paste);
 			insertSeparator();
-			insertItem(SmallIcon( "charset"), i18n("Rename..."), mt_Rename);
-			insertItem(SmallIcon( "editdelete"), i18n("Delete"), mt_Delete);
+			insrtItm(mt_Rename);
+			insrtItm(mt_Delete);
 			insertItem(SmallIcon( "image"), i18n("Export as Picture..."), mt_Export_Image);
-			insertItem(SmallIcon( "info"), i18n("Properties"), mt_Properties);
+			insrtItm(mt_Properties);
 			break;
 
 		case mt_On_UseCase_Diagram:
@@ -797,13 +833,13 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 			m_pInsert -> insertItem(SmallIcon( "source"), i18n("Operation"), mt_Operation);
 			insertItem(SmallIcon( "filenew"), i18n("New"), m_pInsert);
 			insertSeparator();
-			insertItem(SmallIcon( "editcut"), i18n("Cut"), mt_Cut);
-			insertItem(SmallIcon( "editcopy"), i18n("Copy"), mt_Copy);
-			insertItem(SmallIcon( "editpaste"), i18n("Paste"), mt_Paste);
+			insrtItm(mt_Cut);
+			insrtItm(mt_Copy);
+			insrtItm(mt_Paste);
 			insertSeparator();
-			insertItem(SmallIcon( "charset"), i18n("Rename..."), mt_Rename);
-			insertItem(SmallIcon( "editdelete"), i18n("Delete"), mt_Delete);
-			insertItem(SmallIcon( "info"), i18n("Properties"), mt_Properties);
+			insrtItm(mt_Rename);
+			insrtItm(mt_Delete);
+			insrtItm(mt_Properties);
 			break;
 
 		case mt_Interface:
@@ -811,13 +847,13 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 			m_pInsert->insertItem(SmallIcon("source"), i18n("Operation"), mt_Operation);
 			insertItem(SmallIcon("filenew"), i18n("New"), m_pInsert);
 			insertSeparator();
-			insertItem(SmallIcon("editcut"), i18n("Cut"), mt_Cut);
-			insertItem(SmallIcon("editcopy"), i18n("Copy"), mt_Copy);
-			insertItem(SmallIcon("editpaste"), i18n("Paste"), mt_Paste);
+			insrtItm(mt_Cut);
+			insrtItm(mt_Copy);
+			insrtItm(mt_Paste);
 			insertSeparator();
-			insertItem(SmallIcon("charset"), i18n("Rename..."), mt_Rename);
-			insertItem(SmallIcon("editdelete"), i18n("Delete"), mt_Delete);
-			insertItem(SmallIcon("info"), i18n("Properties"), mt_Properties);
+			insrtItm(mt_Rename);
+			insrtItm(mt_Delete);
+			insrtItm(mt_Properties);
 			break;
 
 		case mt_Package:
@@ -828,13 +864,13 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 		case mt_UseCase:
 		case mt_Attribute:
 		case mt_Operation:
-			insertItem(SmallIcon("editcut"), i18n("Cut"), mt_Cut);
-			insertItem(SmallIcon("editcopy"), i18n("Copy"), mt_Copy);
-			insertItem(SmallIcon("editpaste"), i18n("Paste"), mt_Paste);
+			insrtItm(mt_Cut);
+			insrtItm(mt_Copy);
+			insrtItm(mt_Paste);
 			insertSeparator();
-			insertItem(SmallIcon("charset"), i18n("Rename..."), mt_Rename);
-			insertItem(SmallIcon("editdelete"), i18n("Delete"), mt_Delete);
-			insertItem(SmallIcon("info"), i18n("Properties"), mt_Properties);
+			insrtItm(mt_Rename);
+			insrtItm(mt_Delete);
+			insrtItm(mt_Properties);
 			break;
 
 		case mt_New_Parameter:
@@ -863,38 +899,38 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 			m_pInsert = new KPopupMenu(this,"New");
 			m_pInsert -> insertItem(SmallIcon( "source"),i18n("Activity..."), mt_New_Activity);
 			insertItem(SmallIcon("filenew"), i18n("New"), m_pInsert);
-			insertItem(SmallIcon("charset"), i18n("Rename..."), mt_Rename);
-			insertItem(SmallIcon("editdelete"), i18n("Delete"), mt_Delete);
+			insrtItm(mt_Rename);
+			insrtItm(mt_Delete);
 			break;
 
 		case mt_Parameter_Selected:
 			insertItem(SmallIcon("source"),i18n("New Parameter..."), mt_New_Parameter);
-			insertItem(SmallIcon("charset"), i18n("Rename..."), mt_Rename);
-			insertItem(SmallIcon("editdelete"), i18n("Delete"), mt_Delete);
-			insertItem(SmallIcon("info"), i18n("Properties"), mt_Properties);
+			insrtItm(mt_Rename);
+			insrtItm(mt_Delete);
+			insrtItm(mt_Properties);
 			break;
 
 		case mt_Operation_Selected:
 			insertItem(SmallIcon("source"),i18n("New Operation..."), mt_New_Operation);
-			insertItem(SmallIcon("editdelete"), i18n("Delete"), mt_Delete);
-			insertItem(SmallIcon("info"), i18n("Properties"), mt_Properties);
+			insrtItm(mt_Delete);
+			insrtItm(mt_Properties);
 			break;
 
 		case mt_Attribute_Selected:
 			insertItem(SmallIcon("source"),i18n("New Attribute..."), mt_New_Attribute);
-			insertItem(SmallIcon("editdelete"), i18n("Delete"), mt_Delete);
-			insertItem(SmallIcon("info"), i18n("Properties"), mt_Properties);
+			insrtItm(mt_Delete);
+			insrtItm(mt_Properties);
 			break;
 
 		case mt_Template_Selected:
 			insertItem(SmallIcon("source"),i18n("New Template..."), mt_New_Attribute);
-			insertItem(SmallIcon("editdelete"), i18n("Delete"), mt_Delete);
-			insertItem(SmallIcon("info"), i18n("Properties"), mt_Properties);
+			insrtItm(mt_Delete);
+			insrtItm(mt_Properties);
 			break;
 
 		case mt_Association_Selected:
-			insertItem(SmallIcon( "editdelete"), i18n("Delete"), mt_Delete);
-			insertItem(SmallIcon( "info"), i18n("Properties"), mt_Properties);
+			insrtItm(mt_Delete);
+			insrtItm(mt_Properties);
 			break;
 
 		case mt_Anchor:
@@ -904,15 +940,15 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 		case mt_MultiB:
 			insertItem(SmallIcon( "editdelete"),i18n("Delete Association"), mt_Delete_Association);
 			insertItem(SmallIcon( "charset"),i18n("Change Multiplicity..."), mt_Rename_MultiB);
-			insertItem(SmallIcon( "fonts"),i18n( "Change Font..." ), mt_Change_Font );
+			insrtItm(mt_Change_Font);
 			insertItem(i18n("Reset Label Positions"), mt_Reset_Label_Positions);
-			insertItem(SmallIcon( "info"),i18n("Properties"), mt_Properties);
+			insrtItm(mt_Properties);
 			break;
 
 		case mt_MultiA:
 			insertItem(SmallIcon( "editdelete"),i18n("Delete Association"), mt_Delete_Association);
 			insertItem(SmallIcon( "charset"),i18n("Change Multiplicity..."), mt_Rename_MultiA);
-			insertItem(SmallIcon( "fonts"),i18n( "Change Font..." ), mt_Change_Font );
+			insrtItm(mt_Change_Font);
 			insertItem(i18n("Reset Label Positions"), mt_Reset_Label_Positions);
 			insertItem(SmallIcon( "info"),i18n("Properties..."), mt_Properties);
 			break;
@@ -936,19 +972,19 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 			break;
 
 		case mt_Collaboration_Message:
-//			insertItem(SmallIcon( "editcut"), i18n("Cut"), mt_Cut);
-//			insertItem(SmallIcon( "editcopy"), i18n("Copy"), mt_Copy);
-//			insertItem(SmallIcon( "editpaste"), i18n("Paste"), mt_Paste);
+//			insrtItm(mt_Cut);
+//			insrtItm(mt_Copy);
+//			insrtItm(mt_Paste);
 //			insertSeparator();
-			insertItem(SmallIcon( "editdelete"), i18n("Delete"), mt_Delete);
-			insertItem(SmallIcon( "fonts"),  i18n( "Change Font..." ), mt_Change_Font );
+			insrtItm(mt_Delete);
+			insrtItm(mt_Change_Font);
 			insertItem(SmallIcon( "filenew"), i18n("New Operation..."), mt_Operation);
 			insertItem(SmallIcon( "charset"), i18n("Select Operation..."), mt_Select_Operation);
 			insertItem(SmallIcon( "charset"), i18n("Set Sequence Number..."), mt_Sequence_Number);
 			break;
 		default:
-			insertItem(i18n("Expand All"),mt_Expand_All);
-			insertItem(i18n("Collapse All"),mt_Collapse_All);
+			insrtItm(mt_Expand_All);
+			insrtItm(mt_Collapse_All);
 			break;
 	}//end switch
 
@@ -972,9 +1008,9 @@ void ListPopupMenu::setupDiagramMenu(UMLView* view) {
 	insertItem(SmallIcon("undo"), i18n("Undo"), mt_Undo);
 	insertItem(SmallIcon("redo"), i18n("Redo"), mt_Redo);
 	insertSeparator();
-	insertItem(SmallIcon("editcut"), i18n("Cut"), mt_Cut);
-	insertItem(SmallIcon("editcopy"), i18n("Copy"), mt_Copy);
-	insertItem(SmallIcon("editpaste"), i18n("Paste"), mt_Paste);
+	insrtItm(mt_Cut);
+	insrtItm(mt_Copy);
+	insrtItm(mt_Paste);
 	insertSeparator();
 	insertItem(SmallIcon("editclear"), i18n("Clear Diagram"), mt_Clear);
 	insertItem(SmallIcon("image"), i18n("Export as Picture..."), mt_Export_Image);
@@ -983,5 +1019,5 @@ void ListPopupMenu::setupDiagramMenu(UMLView* view) {
 	setItemChecked(mt_SnapToGrid, view->getSnapToGrid() );
 	insertItem(i18n("Show Grid"), mt_ShowSnapGrid );
 	setItemChecked(mt_ShowSnapGrid, view->getShowSnapGrid() );
-	insertItem(SmallIcon("info"), i18n("Properties"), mt_Properties);
+	insrtItm(mt_Properties);
 }

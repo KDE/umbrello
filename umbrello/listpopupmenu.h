@@ -181,6 +181,7 @@ public:
 	static Uml::UMLObject_Type convert_MT_OT(Menu_Type mt);
 	static Uml::Diagram_Type convert_MT_DT(Menu_Type mt);
 private:
+	void insrtItm(Menu_Type m);  // shortcut for frequently used insertItem()s
 	void setupMenu(Menu_Type type, UMLView * view  = 0);
 	KPopupMenu * m_pInsert, * m_pShow, * m_pColor;
 	void setupColor(bool fc);
