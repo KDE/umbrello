@@ -25,6 +25,7 @@
 #include "umlwidgetcolorpage.h"
 #include "../umlobject.h"
 #include "../umldoc.h"
+#include "../classifierwidget.h"
 #include "../objectwidget.h"
 #include "../componentwidget.h"
 #include "../uml.h"
@@ -96,8 +97,7 @@ ClassPropDlg::ClassPropDlg(QWidget *parent, UMLWidget * w)
 
 	if (w->getBaseType() == Uml::wt_Class
 		|| w->getBaseType() == Uml::wt_Interface
-		|| w->getBaseType() == Uml::wt_Package
-	) {
+		|| w->getBaseType() == Uml::wt_Package) {
 		setupPages(m_pObject, true);
 	} else if (w->getBaseType() == Uml::wt_Component) {
 		if ( w->getIsInstance() ) {
@@ -115,7 +115,8 @@ ClassPropDlg::ClassPropDlg(QWidget *parent, UMLWidget * w)
 	if (w->getBaseType() == Uml::wt_Class || w->getBaseType() == Uml::wt_Interface) {
 		QFrame* newPage = addPage( i18n("Display"), i18n("Display Options"), DesktopIcon("info") );
 		QHBoxLayout* m_pOptionsLayout = new QHBoxLayout(newPage);
-		m_pOptionsPage = new ClassOptionsPage( newPage, w, w->getBaseType() );
+		ClassifierWidget *cw = static_cast<ClassifierWidget*>(w);
+		m_pOptionsPage = new ClassOptionsPage( newPage, cw );
 		m_pOptionsLayout -> addWidget(m_pOptionsPage);
 	}
 

@@ -68,6 +68,18 @@ public:
 	*/
 	LinePath & operator=( LinePath & rhs );
 
+	/**
+	*   Enum to tell whether the line docks top/bottom or left/right
+	*/
+	enum Region {
+		TopBottom, LeftRight
+	};
+
+	/**
+	*   Tell the line where the line docks
+	*/
+	void setDockRegion( Region region );
+
 	bool hasPoints ();
 	void dumpPoints ();
 
@@ -335,6 +347,11 @@ protected:
 	*   on a collaboration message to use.
 	*/
 	QPointArray m_ParallelLines;
+
+	/**
+	*   Region where the line docks
+	*/
+	Region m_DockRegion;
 
 	bool m_bHeadCreated;
 

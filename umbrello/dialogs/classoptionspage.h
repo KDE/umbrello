@@ -20,78 +20,71 @@
 #include <qgroupbox.h>
 #include <qcheckbox.h>
 
-#include "../classwidget.h"
 #include "../optionstate.h"
 
-class ClassWidget;
-class InterfaceWidget;
+class ClassifierWidget;
 
 /**
- *	A dialog page to display options for a @ref UMLWidget and it's
- *	children.  This is not normally called by you.  It is used by
- *	the @ref ClassPropDlg.
+ * A dialog page to display options for a @ref UMLWidget and its
+ * children.  This is not normally called by you.  It is used by
+ * the @ref ClassPropDlg.
  *
- *	@short	A dialog page to display the options for a UMLWidget.
- *	@author Paul Hensgen <phensgen@techie.com>
- *	@see	ClassPropDlg
+ * @short A dialog page to display the options for a UMLWidget.
+ * @author Paul Hensgen <phensgen@techie.com>
+ * @see	ClassPropDlg
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class ClassOptionsPage : public QWidget {
 public:
 	/**
-	*	Constructor - observe and modify a Widget
-	*/
-	ClassOptionsPage(QWidget* pParent, UMLWidget* pWidget, Uml::Widget_Type type);
+	 * Constructor - observe and modify a Widget
+	 */
+	ClassOptionsPage(QWidget* pParent, ClassifierWidget* pWidget);
 	
 	/**
-	*	Constructor - observe and modify an OptionState structure
-	*/
+	 * Constructor - observe and modify an OptionState structure
+	 */
 	ClassOptionsPage(QWidget* pParent, Settings::OptionState *options );
 
 	/**
-	*	destructor
-	*/
+	 * destructor
+	 */
 	virtual ~ClassOptionsPage();
 
 	/**
-	*	Updates the widget with the dialog page properties.
-	*/
+	 * Updates the widget with the dialog page properties.
+	 */
 	void updateUMLWidget();
 
 	/**
-	*	Sets the widget to be used.  Only used by @ref UMLView to set
-	*	settings of a widget.
-	*/
-	void setWidget( ClassWidget * pWidget ) {
-		m_pClassWidget = pWidget;
+	 * Sets the widget to be used.  Only used by @ref UMLView to set
+	 * settings of a widget.
+	 */
+	void setWidget( ClassifierWidget * pWidget ) {
+		m_pWidget = pWidget;
 	}
+
 protected:
+	/**
+	 * Initialize optional items
+	 */
+	void init();
 
 	/**
-	 * Creates the page with the correct options for a class/concept
+	 * Creates the page with the correct options for the class/interface
 	 */
-	void setupClassPage();
+	void setupPage();
 
 	/**
-	 * Creates the page with the correct options for an interface
-	 */
-	void setupInterfacePage();
-	
-	/**
-	 * Creates the page base on de OptionState
+	 * Creates the page based on the OptionState
 	 */
 	void setupClassPageOption();
 
 	/**
-	 * Sets the class's properties to those selected in this dialogue page.
+	 * Sets the ClassifierWidget's properties to those selected in this dialogue page.
 	 */
-	void updateClassWidget();
+	void updateWidget();
 
-	/**
-	 * Sets the interface's properties to those selected in this dialogue page.
-	 */
-	void updateInterfaceWidget();
-	
 	/**
 	 * Sets the OptionState to the values selected in this dialogue page.
 	 */
@@ -105,16 +98,12 @@ protected:
 	QCheckBox* m_pDrawAsCircleCB;
 
 	/**
-	*	The class widget to represent in the dialog page.
-	*/
-	ClassWidget* m_pClassWidget;
+	 * The classifier widget to represent in the dialog page.
+	 */
+	ClassifierWidget* m_pWidget;
 	/**
-	*	The interface widget to represent in the dialog page.
-	*/
-	InterfaceWidget* m_pInterfaceWidget;
-	/**
-	*	The OptionState structure to represent in the dialog page.
-	*/
+	 * The OptionState structure to represent in the dialog page.
+	 */
 	Settings::OptionState *m_options;
 };
 #endif

@@ -2997,8 +2997,9 @@ void UMLView::setClassWidgetOptions( ClassOptionsPage * page ) {
 	UMLWidgetListIt wit( m_WidgetList );
 	while ( (pWidget = wit.current()) != 0 ) {
 		++wit;
-		if( pWidget -> getBaseType() == Uml::wt_Class ) {
-			page -> setWidget( static_cast<ClassWidget *>( pWidget ) );
+		Uml::Widget_Type wt = pWidget->getBaseType();
+		if (wt == Uml::wt_Class || wt == Uml::wt_Interface) {
+			page -> setWidget( static_cast<ClassifierWidget *>(pWidget) );
 			page -> updateUMLWidget();
 		}
 	}

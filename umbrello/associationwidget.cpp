@@ -2583,8 +2583,12 @@ void AssociationWidget::updateRegionLineCount(int index, int totalCount,
 	}
 	if (role == A)
 		m_LinePath.setPoint( 0, pt );
-	else
+	else {
 		m_LinePath.setPoint( m_LinePath.count() - 1, pt );
+		LinePath::Region r = ( region == South || region == North ) ?
+			LinePath::TopBottom : LinePath::LeftRight;
+		m_LinePath.setDockRegion( r );
+	}
 }
 
 void AssociationWidget::setSelected(bool _select /* = true */) {
