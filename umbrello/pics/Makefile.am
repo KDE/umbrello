@@ -28,11 +28,6 @@ CVpublic_var.png \
 CVstruct.png \
 dependency.xpm \
 end_state.xpm \
-folder_green_open.png \
-folder_green.png \
-folder_grey_open.png \
-folder_grey.png \
-folder_home.png \
 generalization.xpm \
 hline.xpm \
 implements.xpm \
