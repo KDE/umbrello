@@ -92,7 +92,7 @@ bool JavaANTCodeDocument::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
 void JavaANTCodeDocument::updateContent( ) {
    	// FIX : fill in more content based on classes
 	// which exist
-	CodeBlock * block = 0;
+	TextBlock * block = 0;
 	if( !(block = findTextBlockByTag("title")))
 	{
 		block = newCodeBlock();
