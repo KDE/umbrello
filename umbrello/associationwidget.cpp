@@ -12,6 +12,7 @@
 #include "umlview.h"
 #include "umldoc.h"
 #include "umlwidget.h"
+#include "messagewidget.h"
 #include "umlrole.h"
 #include "listpopupmenu.h"
 #include "association.h"
@@ -3207,11 +3208,12 @@ void AssociationWidget::setWidgetB( UMLWidget* widgetB) {
 	}
 }
 
-UMLWidget* AssociationWidget::findWidget(const UMLWidgetList& widgets, int id)
+UMLWidget* AssociationWidget::findWidget( int id, const UMLWidgetList& widgets,
+						  const MessageWidgetList* pMessages /* = NULL */)
 {
 	UMLWidgetListIt it( widgets );
 	UMLWidget * obj = NULL;
-	while ( (obj = it.current()) != 0 ) {
+	while ( (obj = it.current()) != NULL ) {
 		++it;
 		if (obj->getBaseType() == wt_Object) {
 			if (static_cast<ObjectWidget *>(obj)->getLocalID() == id) 
@@ -3219,6 +3221,16 @@ UMLWidget* AssociationWidget::findWidget(const UMLWidgetList& widgets, int id)
 		} else if (obj->getID() == id) {
 			return obj;
 		}
+	}
+
+	if (pMessages == NULL)
+		return NULL;
+
+	MessageWidgetListIt mit( *pMessages );
+	while ( (obj = (UMLWidget*)mit.current()) != NULL ) {
+		++mit;
+		if( obj -> getID() == id )
+			return obj;
 	}
 	return NULL;
 }
@@ -3273,7 +3285,8 @@ bool AssociationWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 }
 
 bool AssociationWidget::loadFromXMI( QDomElement & qElement,
-				     const UMLWidgetList& widgets )
+				     const UMLWidgetList& widgets,
+				     const MessageWidgetList* pMessages )
 {
 
 	// load child widgets first
@@ -3281,13 +3294,13 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
         QString widgetbid = qElement.attribute( "widgetbid", "-1" );
         int aId = widgetaid.toInt();
         int bId = widgetbid.toInt();
-        UMLWidget *pWidgetA = findWidget( widgets, aId );
+        UMLWidget *pWidgetA = findWidget( aId, widgets, pMessages );
         if (!pWidgetA) {
 		kdError() << "AssociationWidget::loadFromXMI(): "
 			  << "cannot find widget for roleA id " << aId << endl;
 		return false;
         }
-        UMLWidget *pWidgetB = findWidget( widgets, bId );
+        UMLWidget *pWidgetB = findWidget( bId, widgets, pMessages );
         if (!pWidgetB) {
 		kdError() << "AssociationWidget::loadFromXMI(): "
 			  << "cannot find widget for roleB id " << bId << endl;
@@ -3314,9 +3327,9 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
 		// lack of an association in our widget AND presence of
 		// both uml objects for each role clearly identifies this
 		// as reading in an old-school file. Note it as such, and
-		// create, and add, the UMLassociation ot this widget.
-        	// Remove this special code when backwards compatability
-		// with older files isnt important anymore. -b.t.
+		// create, and add, the UMLAssociation for this widget.
+        	// Remove this special code when backwards compatibility
+		// with older files isn't important anymore. -b.t.
         	UMLObject* umlRoleA = pWidgetA->getUMLObject();
         	UMLObject* umlRoleB = pWidgetB->getUMLObject();
 		if(!m_pAssociation && umlRoleA && umlRoleB)
@@ -3392,7 +3405,7 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
 				// set up 'old' corner from first point in line
 				// as IF this ISNT done, then the subsequent call to
 				// widgetMoved will inadvertantly think we have made a 
-				// big move in the position of hte assocition when we havent.
+				// big move in the position of the association when we haven't.
 				QPoint p = m_LinePath.getPoint(0);
 				m_OldCornerA.setX(p.x()); 
 				m_OldCornerA.setY(p.y());
@@ -3491,7 +3504,8 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
 }
 
 bool AssociationWidget::loadFromXMI( QDomElement & qElement ) {
-	return loadFromXMI( qElement, m_pView->getWidgetList() );
+	const MessageWidgetList& messages = m_pView->getMessageList();
+	return loadFromXMI( qElement, m_pView->getWidgetList(), &messages );
 }
 
 #include "associationwidget.moc"

@@ -12,6 +12,7 @@
 
 #include "umlnamespace.h"
 #include "umlwidgetlist.h"
+#include "messagewidgetlist.h"
 #include "linepath.h"
 
 // qt includes
@@ -575,7 +576,8 @@ public:
 	 * the UMLView for these widgets.)
 	 * Required for clipboard operations.
 	 */
-	bool loadFromXMI( QDomElement & qElement, const UMLWidgetList& widgets );
+	bool loadFromXMI( QDomElement & qElement, const UMLWidgetList& widgets,
+					     const MessageWidgetList* pMessages = NULL);
 
 private:
 	/**
@@ -865,13 +867,14 @@ private:
 
 	/**
 	 * Utility: Find the widget identified by the given ID in the given
-	 * widget list.
+	 * widget or message list.
 	 * It's somewhat arbitrary that this utility is here as it has no
 	 * dependencies whatsoever on AssociationWidget.  It just happens
 	 * to be needed here.  We should pull it out from here if it also
 	 * becomes needed somewhere else.
 	 */
-	static UMLWidget* findWidget(const UMLWidgetList& widgets, int id);
+	static UMLWidget* findWidget(int id, const UMLWidgetList& widgets,
+					     const MessageWidgetList* pMessages = NULL);
 
 	/*QPixmap 	*m_pPix;
 	QBitmap 	*m_pMask;*/
