@@ -521,57 +521,55 @@ UMLObject* UMLDoc::createUMLObject(const std::type_info &type)
 UMLObject* UMLDoc::createUMLObject(UMLObject_Type type, const QString &n) {
 	bool ok = false;
 	int id;
-	bool askForName = !n.isEmpty();
-	QString name = n,
-	currentName = uniqObjectName(type);
 	UMLObject *o = 0L;
-	while (true) {
-		if( askForName ){
-		name = KLineEditDlg::getText(i18n("Enter name:"), currentName, &ok, (QWidget*)parent());
-		}
-		currentName = name;
+	QString name;
+	if( n.length() != 0 && !(o = findUMLObject(type,n)) )
+	{
+		name = n;
+	}
+	else
+	{ 
+		name = uniqObjectName(type);
+		do {
+		name = KLineEditDlg::getText(i18n("Enter name:"), name, &ok, (QWidget*)parent());
 		if (!ok) {
-			break;
+			return;
 		}
-		o = findUMLObject(type, name);
 		if (name.length() == 0) {
 			KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
+			continue;
 		}
+		o = findUMLObject(type, name);
 		if (o) {
 			KMessageBox::error(0, i18n("That name is already being used."), i18n("Not a Unique Name"));
-			askForName = true;
-		} else {  //create an object
-
-			id = getUniqueID();
-
-			if(type == ot_Actor) {
-				o = new UMLActor(this, name, id);
-			} else if(type == ot_UseCase) {
-				o = new UMLUseCase(this,name, id);
-			} else if(type == ot_Class ) {
-				o = new UMLClass (this, name, id);
-			} else if(type == ot_Package) {
-				o = new UMLPackage(this, name, id);
-			} else if(type == ot_Component) {
-				o = new UMLComponent(this, name, id);
-			} else if(type == ot_Node) {
-				o = new UMLNode(this, name, id);
-			} else if(type == ot_Artifact) {
-				o = new UMLArtifact(this, name, id);
-			} else if(type == ot_Interface) {
-				o = new UMLInterface(this, name, id);
-			} else {
-				kdWarning() << "CreateUMLObject(int) error" << endl;
-				return o;
-			}
-
-			objectList.append(o);
-			emit sigObjectCreated(o);
-
-			setModified(true);
-			break;
 		}
-	}//end while
+		}while( name.length() == 0 || o != 0L );
+	}
+	
+	id = getUniqueID();
+	if(type == ot_Actor) {
+		o = new UMLActor(this, name, id);
+	} else if(type == ot_UseCase) {
+		o = new UMLUseCase(this,name, id);
+	} else if(type == ot_Class ) {
+		o = new UMLClass (this, name, id);
+	} else if(type == ot_Package) {
+		o = new UMLPackage(this, name, id);
+	} else if(type == ot_Component) {
+		o = new UMLComponent(this, name, id);
+	} else if(type == ot_Node) {
+		o = new UMLNode(this, name, id);
+	} else if(type == ot_Artifact) {
+		o = new UMLArtifact(this, name, id);
+	} else if(type == ot_Interface) {
+		o = new UMLInterface(this, name, id);
+	} else {
+		kdWarning() << "CreateUMLObject(int) error" << endl;
+		return (UMLObject*)0L;
+	}
+	objectList.append(o);
+	emit sigObjectCreated(o);
+	setModified(true);
 	return o;
 }
 
