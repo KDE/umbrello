@@ -1040,6 +1040,8 @@ void UMLView::deleteSelection()
 		if( temp -> getBaseType() == wt_Text &&
 			((FloatingText *)temp) -> getRole() != tr_Floating )
 		{
+			m_SelectedList.remove(); // remove advances the iterator to the next position,
+			m_SelectedList.prev();      // let's allow for statement do the advancing
 			temp -> hide();
 		} else {
 			removeWidget(temp);
