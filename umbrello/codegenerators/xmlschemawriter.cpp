@@ -30,7 +30,10 @@
 #include "../umlnamespace.h"
 
 // Constructor
-XMLSchemaWriter::XMLSchemaWriter( QObject *parent, const char *name ) : CodeGenerator(parent, name) {
+XMLSchemaWriter::XMLSchemaWriter( UMLDoc *doc, const char *name ) 
+   : SimpleCodeGenerator ( doc, name )
+{
+
 	packageNamespaceTag = "tns";
 	packageNamespaceURI = "http://foo.example.com/";
 	schemaNamespaceTag = "xs";
@@ -42,6 +45,17 @@ XMLSchemaWriter::XMLSchemaWriter( QObject *parent, const char *name ) : CodeGene
 
 // form of..."the Destructor"!!
 XMLSchemaWriter::~XMLSchemaWriter() {
+}
+
+QString XMLSchemaWriter::getLanguage() {
+        return "XMLSchema";
+}
+
+bool XMLSchemaWriter::isType (QString & type)
+{
+   if(type == "XMLSchemaWriter")
+        return true;
+   return false;
 }
 
 // main method for invoking..

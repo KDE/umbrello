@@ -22,11 +22,10 @@ libcodegenerator_la_SOURCES = codegenfactory.cpp classifierinfo.cpp \
 				cppheadercodeclassfielddeclarationblock.cpp \
 				cppcodegenerationpolicy.cpp cppcodegenerationpolicypage.cpp \
 				cppcodegenerationformbase.ui \
-				xmlschemacodegenerator.cpp xmlschemaclassifiercodedocument.cpp \
-				xmlschemacodeclassfield.cpp \
 				simplecodegenerator.cpp \
 				adawriter.cpp aswriter.cpp jswriter.cpp idlwriter.cpp perlwriter.cpp \
-				phpwriter.cpp pythonwriter.cpp sqlwriter.cpp
+				phpwriter.cpp pythonwriter.cpp sqlwriter.cpp xmlschemawriter.cpp \
+				xmlelementcodeblock.cpp xmlcodecomment.cpp
 libcodegenerator_la_COMPILE_FIRST = ../dialogs/codegenerationpolicybase.h
 
 install-data-local:

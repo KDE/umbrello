@@ -23,6 +23,7 @@
 #include "../umlattributelist.h"
 #include "../umlobjectlist.h"
 #include "../umlassociationlist.h"
+#include "simplecodegenerator.h"
 
 #include <qptrlist.h>
 #include <qstringlist.h>
@@ -41,13 +42,15 @@
   * you cant fully represent Objects in the XML world ..yet. -b.t.
   */
 
-class XMLSchemaWriter : public CodeGenerator {
+class XMLSchemaWriter : public SimpleCodeGenerator 
+{
+	Q_OBJECT
 public:
 
 	/**
 	 * Constructor, initialises a couple of variables
 	 */
-	XMLSchemaWriter(QObject* parent = 0, const char* name = 0);
+	XMLSchemaWriter(UMLDoc * doc, const char* name = 0);
 
 	/**
 	 * Destructor, empty
@@ -59,6 +62,9 @@ public:
 	 * @param c the class to generate code for
 	 */
 	virtual void writeClass(UMLClassifier *c);
+ 
+        bool isType (QString & type);
+        QString getLanguage();
 
 private:
 

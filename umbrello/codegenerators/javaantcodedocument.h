@@ -18,10 +18,11 @@
 #ifndef JAVAANTCODEDOCUMENT_H
 #define JAVAANTCODEDOCUMENT_H
 
-#include "../codedocument.h"
 #include <qstring.h>
+#include <qdom.h>
 
 class JavaCodeGenerator;
+#include "../codedocument.h"
 
 /**
   * class JavaANTCodeDocument
@@ -61,6 +62,20 @@ public:
          */
         virtual void loadFromXMI ( QDomElement & root );
 
+        /**
+         * create a new HierarchicalCodeBlock object belonging to this CodeDocument.
+         * @return      HierarchicalCodeBlock
+         */
+        virtual HierarchicalCodeBlock * newHierarchicalCodeBlock ( );
+
+        /**
+         * create a new CodeBlockWithComments object belonging to this CodeDocument.
+         * @return      CodeBlockWithComments
+         */
+        virtual CodeBlockWithComments * newCodeBlockWithComments ( );
+
+        // create a code comment for this document
+        virtual CodeComment * newCodeComment();
 
 protected:
 

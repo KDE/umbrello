@@ -13,9 +13,14 @@
  *      Date   : Tue Jun 24 2003
  */
 
+#include <qregexp.h>
+
+#include "javaantcodedocument.h"
 #include "javacodegenerator.h"
 
-#include <qregexp.h>
+#include "xmlcodecomment.h"
+#include "xmlelementcodeblock.h"
+
 
 // Constructors/Destructors
 //  
@@ -36,6 +41,26 @@ JavaANTCodeDocument::~JavaANTCodeDocument ( ) { }
 
 // Other methods
 //  
+
+/**
+ * create a new CodeBlockWithComments object belonging to this CodeDocument.
+ * @return      CodeBlockWithComments
+ */
+CodeBlockWithComments * JavaANTCodeDocument::newCodeBlockWithComments ( ) {
+        return new XMLElementCodeBlock(this,"empty");
+}
+
+/**
+ * create a new CodeBlockWithComments object belonging to this CodeDocument.
+ * @return      CodeBlockWithComments
+ */
+CodeComment * JavaANTCodeDocument::newCodeComment ( ) {
+        return new XMLCodeComment(this);
+}
+
+HierarchicalCodeBlock * JavaANTCodeDocument::newHierarchicalCodeBlock ( ) {
+        return new XMLElementCodeBlock(this,"empty");
+}
 
 /** set the class attributes of this object from
  * the passed element node.
@@ -92,13 +117,31 @@ bool JavaANTCodeDocument::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
 void JavaANTCodeDocument::updateContent( ) {
    	// FIX : fill in more content based on classes
 	// which exist
-	TextBlock * block = 0;
-	if( !(block = findTextBlockByTag("title")))
-	{
-		block = newCodeBlock();
-		block->setText("<!-- java ANT build document -->");
-		addTextBlock(block);
-	}
+	CodeBlockWithComments * xmlDecl = getCodeBlockWithComments("xmlDecl","",0);
+	xmlDecl->setText("<?xml version=\"1.0\"?>");
+
+	XMLElementCodeBlock * rootNode = (XMLElementCodeBlock*) getHierarchicalCodeBlock("projectDecl", "Java ANT build document", 1);
+	rootNode->setNodeName("project");
+
+// <project name="XDF" default="help" basedir=".">
+	//HierarchicalCodeBlock * projDecl = xmlDecl->getHierarchicalCodeBlock("projectDecl", "Java ANT build document", 1);
+
+	// set some global properties for the build
+/*
+  <!-- set global properties for this build -->
+  <!-- paths -->
+  <property name="docApi.dir"  value="docs/api"/>
+  <property name="path" value="gov/nasa/gsfc/adc/xdf"/>
+  <property name="src" value="src/${path}/"/>
+  <property name="top" value="."/>
+  <property name="build" value="${top}/gov"/>
+  <property name="buildDir" value="${path}"/>
+  <!-- compiler directives -->
+  <property name="build.compiler" value="modern"/>
+  <property name="useDeprecation" value="no"/>
+  <property name="jarname" value="${project}.jar"/>
+*/
+
 }
 
 // We overwritten by Java language implementation to get lowercase path

@@ -21,7 +21,7 @@
 // the new 
 #include "cppcodegenerator.h"
 #include "javacodegenerator.h"
-#include "xmlschemacodegenerator.h"
+#include "xmlschemawriter.h"
 
 // the old
 #include "adawriter.h"
@@ -93,7 +93,8 @@ QString CodeGeneratorFactory::generatorName(const QString &l) {
  	if (l == "SQL")
  		return "SQLWriter";
  	if (l == "XMLSchema")
- 		return "XMLSchemaCodeGenerator";
+ 		//return "XMLSchemaCodeGenerator";
+ 		return "XMLSchemaWriter";
 	//else...
 	kdDebug()<<"CodeGeneratorFactory::Error: no generator for language "<<l<<endl;
 	return "";
@@ -118,7 +119,8 @@ QObject* CodeGeneratorFactory::createObject ( QObject* parent, const char* name,
 		} else if( n == "CppCodeGenerator") {
 			obj = new CPPCodeGenerator(doc, name);
  		} else if (n == "XMLSchemaCodeGenerator") {
-			obj = new XMLSchemaCodeGenerator(doc, name);
+			//obj = new XMLSchemaCodeGenerator(doc, name);
+			obj = new XMLSchemaWriter(doc, name);
 		} else if (n == "AdaWriter") {
 			obj = new AdaWriter(doc, name);
 		} else if(n == "ASWriter") {
