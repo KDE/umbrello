@@ -40,12 +40,13 @@ void LinkWidget::setOperation(UMLOperation *op) {
 	m_pOperation = op;
 }
 
-QString LinkWidget::getOperationText() {
+QString LinkWidget::getOperationText(UMLView *view /* = NULL */) {
 	if (m_pOperation == NULL)
 		return getCustomOpText();
-	UMLView *view = UMLApp::app()->getCurrentView();
+	if (view == NULL)
+		view = UMLApp::app()->getCurrentView();
 	Uml::Signature_Type sigType;
-	if (view->getShowOpSig())
+	if (view && view->getShowOpSig())
 		sigType = Uml::st_SigNoScope;
 	else
 		sigType = Uml::st_NoSigNoScope;

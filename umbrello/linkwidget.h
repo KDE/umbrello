@@ -23,6 +23,7 @@
 class UMLClassifier;
 class UMLOperation;
 class FloatingText;
+class UMLView;
 
 /**
  * This is an interface realized by AssociationWidget and MessageWidget.
@@ -77,7 +78,7 @@ public:
 	/**
 	 * Uses m_pOperation if set, else calls getCustomOpText().
 	 */
-	QString getOperationText();
+	QString getOperationText(UMLView *view = NULL);
 
 	/**
 	 * Motivated by FloatingText::slotMenuSelection(mt_Reset_Label_Positions)
