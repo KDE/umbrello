@@ -2127,6 +2127,11 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
 			if (pObject) {
 				connectNewObjectsSlots(pObject);
 			}
+		} else if (typeIsFolder(lvType) ||
+			   lvType == Uml::lvt_Diagrams) {
+			// Pre-1.2 format: Folders did not have their ID set.
+			// Pull a new ID now.
+			nID = m_doc->getUniqueID();
 		}
 
 		switch( lvType ) {
