@@ -2350,7 +2350,8 @@ void UMLView::createAutoAttributeAssociations(UMLWidget *widget) {
 	//             create a composition AssocWidget
 	//           end if
 	//         end if
-	//       elsif the attribute type is a UMLDatatype then
+	//       end if
+	//       if the attribute type is a UMLDatatype then
 	//         if the UMLDatatype is a reference (pointer) type then
 	//           if the referenced type has a widget representation on this view then
 	//             if the AssocWidget does not already exist then
@@ -2369,7 +2370,17 @@ void UMLView::createAutoAttributeAssociations(UMLWidget *widget) {
 	UMLObject *tmpUmlObj = widget->getUMLObject();
 	if (tmpUmlObj == NULL)
 		return;
+	Uml::Association_Type assocType = Uml::at_Composition;
 	// if the underlying model object is really a UMLClass then
+	if (tmpUmlObj->getBaseType() == Uml::ot_Datatype) {
+		UMLDatatype *dt = static_cast<UMLDatatype*>(tmpUmlObj);
+		while (dt->originType() != NULL) {
+			tmpUmlObj = dt->originType();
+			if (tmpUmlObj->getBaseType() != Uml::ot_Datatype)
+				break;
+			dt = static_cast<UMLDatatype*>(tmpUmlObj);
+		}
+	}
 	if (tmpUmlObj->getBaseType() != Uml::ot_Class)
 		return;
 	UMLClass * klass = static_cast<UMLClass*>(tmpUmlObj);
@@ -2380,56 +2391,51 @@ void UMLView::createAutoAttributeAssociations(UMLWidget *widget) {
 		UMLClassifier *attrType = attr->getType();
 		UMLWidget *w = findWidget( attrType->getID() );
 		// if the attribute type has a widget representation on this view
-		if (w) {
-			// if the AssocWidget does not already exist then
-			AssociationWidget * aw = findAssocWidget(at_Composition, widget, w);
-			if (aw)
-				continue;
-			// if the current diagram type permits compositions
-			if (! AssocRules::allowAssociation(at_Composition, widget, w, false))
-				continue;
+		if (w &&
+		    // if the AssocWidget does not already exist then
+		    findAssocWidget(assocType, widget, w) == NULL &&
+		    // if the current diagram type permits compositions
+		    AssocRules::allowAssociation(assocType, widget, w, false)) {
 			// create a composition AssocWidget
-			AssociationWidget *a = new AssociationWidget (this, widget, at_Composition, w);
+			AssociationWidget *a = new AssociationWidget (this, widget, assocType, w);
 			a->setUMLObject(attr);
 			a->calculateEndingPoints();
 			a->setVisibility(attr->getScope(), B);
 			//a->setChangeability(true, B);
-			//a->setMulti("whatShouldThisBe?", B);
+			if (assocType == at_Aggregation)
+				a->setMulti("0..1", B);
 			a->setRoleName(attr->getName(), B);
 			a->setActivated(true);
 			if (! addAssociation(a))
 				delete a;
-		} else if (attrType->getBaseType() == ot_Datatype) {
-			// elsif the attribute type is a UMLDatatype then
+		}
+		// if the attribute type is a UMLDatatype then
+		if (attrType->getBaseType() == ot_Datatype) {
 			UMLDatatype *dt = static_cast<UMLDatatype*>(attrType);
 			// if the UMLDatatype is a reference (pointer) type
 			if (dt->isReference()) {
-				// if the referenced type has a widget representation on this view
 				UMLClassifier *c = dt->originType();
 				UMLWidget *w = findWidget( c->getID() );
-				if (w == NULL)
-					continue;
-				// if the AssocWidget does not already exist then
-				AssociationWidget * aw = findAssocWidget(at_Aggregation, widget, w);
-				if (aw)
-					continue;
-				// if the current diagram type permits aggregations
-				if (! AssocRules::allowAssociation(at_Aggregation,
-								   widget, w, false))
-					continue;
-				// create an aggregation AssocWidget from the ClassWidget
-				// to the widget of the referenced type
-				AssociationWidget *a = new AssociationWidget
-							(this, widget, at_Aggregation, w);
-				a->setUMLObject(attr);
-				a->calculateEndingPoints();
-				a->setVisibility(attr->getScope(), B);
-				//a->setChangeability(true, B);
-				//a->setMulti("whatShouldThisBe?", B);
-				a->setRoleName(attr->getName(), B);
-				a->setActivated(true);
-				if (! addAssociation(a))
-					delete a;
+				// if the referenced type has a widget representation on this view
+				if (w &&
+				    // if the AssocWidget does not already exist then
+				    findAssocWidget(at_Aggregation, widget, w) == NULL &&
+				    // if the current diagram type permits aggregations
+				    AssocRules::allowAssociation(at_Aggregation, widget, w, false)) {
+					// create an aggregation AssocWidget from the ClassWidget
+					// to the widget of the referenced type
+					AssociationWidget *a = new AssociationWidget
+								(this, widget, at_Aggregation, w);
+					a->setUMLObject(attr);
+					a->calculateEndingPoints();
+					a->setVisibility(attr->getScope(), B);
+					//a->setChangeability(true, B);
+					a->setMulti("0..1", B);
+					a->setRoleName(attr->getName(), B);
+					a->setActivated(true);
+					if (! addAssociation(a))
+						delete a;
+				}
 			}
 		}
 	}
