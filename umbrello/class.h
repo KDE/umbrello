@@ -209,8 +209,11 @@ public:
 
 	/**
 	 * Return true if this class has an enumeration stereotype.
+	 * Notice that since Umbrello now has a proper Enum construct,
+	 * it is no longer necessary to use stereotypes to produce
+	 * enumerations.
 	 * Currently the following stereotypes are supported:
-	 * <<Enumeration>>  <<enumeration>>  <<CORBAEnum>>
+	 * <<enum>> <<Enumeration>>  <<enumeration>>  <<CORBAEnum>>
 	 *
 	 * @return	True if this class has an enumeration stereotype.
 	 */

@@ -248,7 +248,12 @@ UMLObject* UMLClass::findChildObject(int id) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool UMLClass::isEnumeration() {
 	QString st = getStereotype();
-	return st == "Enumeration" || st == "enumeration" || st == "CORBAEnum";
+	if (st == "CORBAEnum")
+		return true;
+	if (st.isEmpty() || st.at(0).upper() != 'E')
+		return false;
+	QString tail = st.right(st.length() - 1);
+	return (tail == "num" || tail == "numeration");
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLClass::init() {
