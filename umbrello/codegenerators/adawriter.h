@@ -44,8 +44,8 @@ public:
 	 */
 	virtual void writeClass (UMLClassifier *c);
 
-	bool isType (QString & type);
-        QString getLanguage();
+	virtual bool isType (QString & type);
+        virtual QString getLanguage();
 
 private:
 
