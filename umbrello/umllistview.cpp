@@ -38,9 +38,41 @@
 
 //using Umbrello::Diagram;
 
-UMLListView::UMLListView(QWidget *parent,const char *name) : KListView(parent,name) {
+UMLListView::UMLListView(QWidget *parent,const char *name) : 
+	KListView(parent,name),
+	menu(0)
+{
 	loadPixmaps();
+
+	//setup list view
+	setBackgroundColor(white);
+	setAcceptDrops(true);
+	setDropVisualizer(false);
+	setItemsMovable(true);
+	setItemsRenameable( true );
+	setSelectionModeExt(FileManager);
+	setShowToolTips( true );
+	setTooltipColumn( 0 );
+	setFocusPolicy(QWidget::StrongFocus);
+	setDragEnabled(TRUE);
+	setColumnWidthMode( 0, Manual );
+	setDefaultRenameAction( Reject );
+	setResizeMode( LastColumn );
+	//add columns and initial items
+	addColumn(i18n("UML Diagrams"));
+
+	rv =  new UMLListViewItem(this, i18n("Views"), Uml::lvt_View);
+	ucv = new UMLListViewItem(rv, i18n("Use Case View"), Uml::lvt_UseCase_View);
+	lv = new UMLListViewItem(rv, i18n("Logical View"), Uml::lvt_Logical_View);
+	componentView = new UMLListViewItem(rv, i18n("Component View"), Uml::lvt_Component_View);
+	diagramFolder = new UMLListViewItem(rv,i18n("Diagrams"),Uml::lvt_Diagrams);
+
 	init();
+
+	//setup slots/signals
+	connect(this, SIGNAL(dropped(QDropEvent *, QListViewItem *, QListViewItem *)), this, SLOT(slotDropped(QDropEvent *, QListViewItem *, QListViewItem *)));
+	connect( this, SIGNAL( collapsed( QListViewItem * ) ), this, SLOT( slotCollapsed( QListViewItem * ) ) );
+	connect( this, SIGNAL( expanded( QListViewItem * ) ), this, SLOT( slotExpanded( QListViewItem * ) ) );
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLListView::~UMLListView() {}
@@ -130,6 +162,10 @@ void UMLListView::contentsMouseReleaseEvent(QMouseEvent *me) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLListView::popupMenuSel(int sel) {
 	UMLListViewItem * temp = (UMLListViewItem*)currentItem();
+	if( !temp ) {
+		kdDebug() << "popupMenuSel invoked without currently selectedItem" << endl;
+		return;
+	}
 	int id = temp -> getID();
 	UMLObject * object = temp -> getUMLObject();
 	Uml::ListView_Type lvtType = temp -> getType();
@@ -315,9 +351,11 @@ void UMLListView::slotDiagramCreated( int id ) {
 		return;
 	UMLListViewItem * temp = 0, *p = 0;
 	UMLView *v = doc -> findView( id );
+	if( !v )
+		return;
 	//See if we wanted to create diagram in folder
 	UMLListViewItem * current = (UMLListViewItem *) currentItem();
-	if ( typeIsFolder(current->getType()) ) {
+	if ( current && typeIsFolder(current->getType()) ) {
 		p = current;
 	} else if (v->getType() == Uml::dt_UseCase) {
 		p = ucv;
@@ -341,7 +379,8 @@ void UMLListView::slotObjectCreated(UMLObject* newObject) {
 
 	//See if we wanted to create diagram in currently selected folder
 	UMLListViewItem* current = (UMLListViewItem*) currentItem();
-	if( (current->getType() == Uml::lvt_Logical_Folder &&
+	if( current &&
+	    (current->getType() == Uml::lvt_Logical_Folder &&
 	     (type == Uml::ot_Concept || type == Uml::ot_Package || type == Uml::ot_Interface))
 	    || (current->getType() == Uml::lvt_UseCase_Folder &&
 		(type == Uml::ot_Actor || type == Uml::ot_UseCase))
@@ -411,8 +450,7 @@ void UMLListView::slotObjectRemoved(UMLObject * o) {
 	if(loading)//needed for class wizard
 		return;
 	UMLListViewItem * t = findItem(o -> getID());
-	if(t)
-		delete t;
+	delete t;
 	doc -> getDocWindow() -> updateDocumentation( true );
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -590,43 +628,29 @@ UMLListViewItem* UMLListView::findItem(int id) {
 	return 0;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//
+// This method is called more than once during an instance's lifetime (by UMLDoc)!
+// So we must not allocate any memory before freeing the previously allocated one
+// or do connect()s.
+//
 void UMLListView::init() {
-	//setup list view
-	setBackgroundColor(white);
-	setAcceptDrops(true);
-	setDropVisualizer(false);
-	setItemsMovable(true);
-	setItemsRenameable( true );
-	setSelectionModeExt(FileManager);
-	setShowToolTips( true );
-	setTooltipColumn( 0 );
-	setFocusPolicy(QWidget::StrongFocus);
-	setDragEnabled(TRUE);
-	setColumnWidthMode( 0, Manual );
-	setDefaultRenameAction( Reject );
-	setResizeMode( LastColumn );
-	//add columns and initial item
-	clear();
-	if(columns()  == 0)
-		addColumn(i18n("UML Diagrams"));
-	rv =  new UMLListViewItem(this, i18n("Views"), Uml::lvt_View);
-	ucv = new UMLListViewItem(rv, i18n("Use Case View"), Uml::lvt_UseCase_View);
-	lv = new UMLListViewItem(rv, i18n("Logical View"), Uml::lvt_Logical_View);
-	componentView = new UMLListViewItem(rv, i18n("Component View"), Uml::lvt_Component_View);
-	diagramFolder = new UMLListViewItem(rv,i18n("Diagrams"),Uml::lvt_Diagrams);
+	deleteChildrenOf( ucv );
+	deleteChildrenOf( lv );
+	deleteChildrenOf( componentView );
+	deleteChildrenOf( diagramFolder );
+
 	rv->setOpen(true);
 	ucv->setOpen(true);
 	lv->setOpen(true);
 	componentView->setOpen(true);
+
 	//setup misc.
+	delete menu;
 	menu = 0;
 	m_bStartedCut = false;
 	loading = false;
 	m_bIgnoreCancelRename = true;
-	//setup slots/signals
-	connect(this, SIGNAL(dropped(QDropEvent *, QListViewItem *, QListViewItem *)), this, SLOT(slotDropped(QDropEvent *, QListViewItem *, QListViewItem *)));
-	connect( this, SIGNAL( collapsed( QListViewItem * ) ), this, SLOT( slotCollapsed( QListViewItem * ) ) );
-	connect( this, SIGNAL( expanded( QListViewItem * ) ), this, SLOT( slotExpanded( QListViewItem * ) ) );
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLListView::setView(UMLView * v) {
@@ -795,12 +819,11 @@ bool UMLListView::serialize(QDataStream *s, bool archive, int fileversion) {
 			temp->getdata()->serialize(s, archive, fileversion);
 		}
 	} else {
-		/* Delete all default folder views because they will be readed from the file, this change is so in order to
-		   support folders inside folders*/
-		delete ucv;
-		ucv = 0;
-		delete lv;
-		lv = 0;
+		deleteChildrenOf( ucv );
+		deleteChildrenOf( lv );
+		deleteChildrenOf( componentView );
+		deleteChildrenOf( diagramFolder );
+
 		int id, childs =0, rootchilds =0;
 		Uml::ListView_Type type = Uml::lvt_Unknown;
 		QString text;
@@ -818,7 +841,6 @@ bool UMLListView::serialize(QDataStream *s, bool archive, int fileversion) {
 				type = (Uml::ListView_Type)t;
 				switch( type) {
 					case Uml::lvt_UseCase_View:
-						ucv = new UMLListViewItem(rv, i18n("Use Case View"), Uml::lvt_UseCase_View);
 						ucv -> setOpen( (bool)open );
 						for(int i =0; i < childs ; i++) {
 							if( !ReadChilds( ucv, s ) ) {
@@ -827,7 +849,6 @@ bool UMLListView::serialize(QDataStream *s, bool archive, int fileversion) {
 						}
 						break;
 					case Uml::lvt_Logical_View:
-						lv = new UMLListViewItem(rv, i18n("Logical View"), Uml::lvt_Logical_View);
 						lv -> setOpen( (bool)open );
 						for(int i =0; i < childs ; i++) {
 							if( !ReadChilds( lv, s ) ) {
@@ -845,9 +866,7 @@ bool UMLListView::serialize(QDataStream *s, bool archive, int fileversion) {
 				UMLListViewItem         *folder = 0,
 							*item = 0,
 							*prev = 0;
-				ucv = new UMLListViewItem(rv, i18n("Use Case View"), Uml::lvt_UseCase_View);
 				ucv -> setOpen( (bool)open );
-				lv = new UMLListViewItem(rv, i18n("Logical View"), Uml::lvt_Logical_View);
 				lv -> setOpen( (bool)open );
 				UMLObject       *o = 0;
 
@@ -1899,14 +1918,11 @@ bool UMLListView::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 }
 
 bool UMLListView::loadFromXMI( QDomElement & element ) {
-	delete ucv;
-	ucv = 0;
-	delete lv;
-	lv = 0;
-	delete componentView;
-	componentView = 0;
-	delete diagramFolder;
-	diagramFolder = 0;
+	deleteChildrenOf( ucv );
+	deleteChildrenOf( lv );
+	deleteChildrenOf( componentView );
+	deleteChildrenOf( diagramFolder );
+
 	QDomNode node = element.firstChild();
 	QDomElement domElement = node.toElement();
 	while( !domElement.isNull() ) {
@@ -1968,23 +1984,17 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
 				break;
 
 				case Uml::lvt_Logical_View:
-					item = new UMLListViewItem( parent, i18n("Logical View"), lvType, nID );
-					lv = item;
+					item = lv;
 					break;
-
 				case Uml::lvt_UseCase_View:
-					item = new UMLListViewItem( parent, i18n("Use Case View"), lvType, nID );
-					ucv = item;
+					item = ucv;
 					break;
-
 				case Uml::lvt_Component_View:
-					item = new UMLListViewItem(parent, i18n("Component View"), lvType, nID );
-					componentView = item;
+					item = componentView;
 					break;
 
 				case Uml::lvt_Diagrams:
-					item = new UMLListViewItem(parent, i18n("Diagrams"), lvType, nID );
-					diagramFolder = item;
+					item = diagramFolder;
 					break;
 
 				default:
@@ -2066,5 +2076,15 @@ bool UMLListView::typeIsDiagram(ListView_Type type) {
 		return false;
 	}
 }
+
+void UMLListView::deleteChildrenOf( QListViewItem *parent )
+{
+    if ( !parent )
+        return;
+
+    while ( parent->firstChild() )
+        delete parent->firstChild();
+}
+
 
 #include "umllistview.moc"
