@@ -2442,7 +2442,6 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
 
 		if (item)  {
 			item->setOpen( (bool)bOpen );
-			kapp->processEvents();  // give UI events a chance
 			if ( !loadChildrenFromXMI(item, domElement) ) {
 				return false;
 			}

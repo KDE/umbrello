@@ -2199,7 +2199,6 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element) {
 		/* FIXME see comment at loadUMLObjectsFromXMI
 		emit sigSetStatusbarProgress( ++m_count );
 		 */
-		kapp->processEvents();  // give UI events a chance
 	}
 
 	if (m_bTypesAreResolved)
