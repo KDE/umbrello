@@ -380,6 +380,14 @@ void UMLDoc::deleteContents() {
 
 	if (listView) {
 		listView->init();
+		m_bLoading = true; // This is to prevent document becoming modified.
+		// For reference, here is an example of a call sequence that would
+		// otherwise result in futile addToUndoStack() calls:
+		//  removeAllViews()  =>
+		//   UMLView::removeAllAssociations()  =>
+		//    UMLView::removeAssoc()  =>
+		//     UMLDoc::setModified(true, true)  =>
+		//      addToUndoStack().
 		removeAllViews();
 		if(objectList.count() > 0) {
 			// clear our object list. We do this explicitly since setAutoDelete is false for the objectList now.
@@ -2261,7 +2269,6 @@ void UMLDoc::signalDiagramRenamed(UMLView * pView ) {
 
 void UMLDoc::addToUndoStack() {
 	if (!m_bLoading) {
-
 		QBuffer* buffer = new QBuffer();
 		buffer->open(IO_WriteOnly);
 		QDataStream* undoData = new QDataStream();
