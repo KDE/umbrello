@@ -23,6 +23,7 @@
 #include "boxwidget.h"
 #include "statewidget.h"
 #include "activitywidget.h"
+#include "objectwidget.h"
 
 ListPopupMenu::ListPopupMenu(QWidget *parent, Menu_Type type, UMLView * view) : KPopupMenu(parent) {
 	setupMenu(type, view);
@@ -281,13 +282,16 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object, bool multi) :
 			break;
 
 		case Uml::wt_Object:
-			if( pView -> getType() == Uml::dt_Sequence ) {
-				m_pShow = new KPopupMenu( this, "Tab" );
-				m_pShow -> insertItem( SmallIcon( "1uparrow"), i18n("Up"), mt_Up);
-				m_pShow -> insertItem( SmallIcon( "1downarrow"), i18n("Down"), mt_Down);
-				insertItem(SmallIcon( "misc"),i18n("Tab"), m_pShow);
-			}
 			setupColor(object -> getUseFillColor());
+			insertSeparator();
+			if( pView -> getType() == Uml::dt_Sequence ) {
+				//FIXME
+				int tabUp = insertItem( SmallIcon( "1uparrow"), i18n("Move Up"), mt_Up);
+				insertItem( SmallIcon( "1downarrow"), i18n("Move Down"), mt_Down);
+				if ( !(static_cast<ObjectWidget*>(object))->canTabUp() ) {
+					setItemEnabled(tabUp, false);
+				}
+			}
 			insertSeparator();
 			insertItem( SmallIcon( "editcut"), i18n("Cut"), mt_Cut);
 			insertItem( SmallIcon( "editcopy"), i18n("Copy"), mt_Copy);

@@ -222,6 +222,11 @@ public:
 	 */
 	void messageRemoved(MessageWidget* message);
 
+	/**
+	 * returns whether or not the widget can be moved vertically up
+	 */
+	bool canTabUp();
+
 protected:
 	QString m_Doc;
 	int m_nOldID;

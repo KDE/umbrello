@@ -276,7 +276,7 @@ void ObjectWidget::mouseMoveEvent(QMouseEvent* me) {
 
 void ObjectWidget::tabUp() {
 	int newY = (int)y() - height();
-	newY = newY + height() < 80?80 - height():newY;
+	newY = ( newY + height() ) < 80?80 - height():newY;
 	setY( newY );
 	moveEvent( 0 );
 	adjustAssocs( (int)x(), newY);
@@ -287,6 +287,10 @@ void ObjectWidget::tabDown() {
 	setY( newY );
 	moveEvent( 0 );
 	adjustAssocs( (int)x(), newY);
+}
+
+bool ObjectWidget::canTabUp() {
+	return (int)y() >= 80;
 }
 
 void ObjectWidget::setShowDeconstruction( bool bShow ) {
@@ -318,7 +322,7 @@ void ObjectWidget::slotMessageMoved() {
 	int lowestMessage = 0;
 	while ( (message = iterator.current()) != 0 ) {
 		++iterator;
-		int messageHeight = message->y() + message->height();
+		int messageHeight = (int)message->y() + message->height();
 		if (lowestMessage < messageHeight) {
 			lowestMessage = messageHeight;
 		}
