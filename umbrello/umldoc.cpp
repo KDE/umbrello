@@ -1246,7 +1246,7 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
 	{
 		stream.setEncoding(QTextStream::UnicodeUTF8);
 	}
-		
+
 	QString data = stream.read();
 	QString error;
 	int line;

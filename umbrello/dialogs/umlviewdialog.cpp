@@ -178,6 +178,7 @@ void UMLViewDialog::checkName() {
 		return;
 	}
 	((UMLViewData *)m_pView)->setName( name );
+	pDoc->signalDiagramRenamed(m_pView);
 }
 
 
