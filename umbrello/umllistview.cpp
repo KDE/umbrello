@@ -1465,7 +1465,7 @@ bool UMLListView::slotItemRenamed( QListViewItem * item , int /*col*/ ) {
 
 	//if the length of any type then delete it.
 	if( newText.length() == 0 ) {
-		KMessageBox::error( kapp -> mainWidget() , i18n( "The name you entered was invalid!\nCreation process has been cancelled" ),
+		KMessageBox::error( kapp -> mainWidget() , i18n( "The name you entered was invalid!\nCreation process has been canceled." ),
 		                    i18n( "Name Not Valid" ) );
 		delete item;
 		return false;
@@ -1484,7 +1484,7 @@ bool UMLListView::slotItemRenamed( QListViewItem * item , int /*col*/ ) {
 				return false;
 			}
 		} else {
-			KMessageBox::error( kapp -> mainWidget() , i18n( "The name you entered was not unique!\nCreation process has been cancelled" ),
+			KMessageBox::error( kapp -> mainWidget() , i18n( "The name you entered was not unique!\nCreation process has been canceled." ),
 			                    i18n( "Name Not Unique" ) );
 			delete item;
 			return false;

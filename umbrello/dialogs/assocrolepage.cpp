@@ -76,13 +76,13 @@ void AssocRolePage::constructWidget() {
 	//
 
 	// Rolename A
-	propsALayout -> addWidget(new QLabel(i18n("Rolename"),propsAGB), 0, 0);
+	propsALayout -> addWidget(new QLabel(i18n("Rolename:"),propsAGB), 0, 0);
 	m_pRoleALE = new QLineEdit(propsAGB);
 	propsALayout -> addWidget(m_pRoleALE, 0, 1);
 	m_pRoleALE -> setText(m_pAssociationWidget->getRoleNameA());
 
 	// Multi A
-	propsALayout -> addWidget(new QLabel(i18n("Multiplicity"),propsAGB), 1, 0);
+	propsALayout -> addWidget(new QLabel(i18n("Multiplicity:"),propsAGB), 1, 0);
 	m_pMultiALE = new QLineEdit(propsAGB);
 	propsALayout -> addWidget(m_pMultiALE, 1, 1);
 	m_pMultiALE -> setText(m_pAssociationWidget->getMultiA());
@@ -130,13 +130,13 @@ void AssocRolePage::constructWidget() {
 		m_AddOnlyARB -> setChecked( true );
 
 	// Rolename B
-        propsBLayout -> addWidget(new QLabel(i18n("Rolename"),propsBGB), 0, 0);
+        propsBLayout -> addWidget(new QLabel(i18n("Rolename:"),propsBGB), 0, 0);
 	m_pRoleBLE = new QLineEdit(propsBGB);
 	propsBLayout -> addWidget(m_pRoleBLE, 0, 1);
 	m_pRoleBLE -> setText( m_pAssociationWidget->getRoleNameB() );
 
 	// Multi B
-        propsBLayout -> addWidget(new QLabel(i18n("Multiplicity"),propsBGB), 1, 0);
+        propsBLayout -> addWidget(new QLabel(i18n("Multiplicity:"),propsBGB), 1, 0);
 	m_pMultiBLE = new QLineEdit(propsBGB);
 	propsBLayout -> addWidget(m_pMultiBLE, 1, 1);
 	m_pMultiBLE -> setText( m_pAssociationWidget->getMultiB() );

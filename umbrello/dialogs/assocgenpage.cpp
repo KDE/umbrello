@@ -59,7 +59,7 @@ void AssocGenPage::constructWidget() {
 	nameLayout -> setMargin(margin);
 
 	//Association name
-	nameLayout -> addWidget(new QLabel(i18n("Name"),nameGB), 0, 0);
+	nameLayout -> addWidget(new QLabel(i18n("Name:"),nameGB), 0, 0);
 	m_pAssocNameLE = new QLineEdit(nameGB);
 	nameLayout -> addWidget(m_pAssocNameLE, 0, 1);
 	m_pAssocNameLE->setText( m_pAssociationWidget->getName() );
@@ -74,7 +74,7 @@ void AssocGenPage::constructWidget() {
 
 
 	// Association Type
-	nameLayout -> addWidget(new QLabel(i18n("Type"), nameGB), 1, 0);
+	nameLayout -> addWidget(new QLabel(i18n("Type:"), nameGB), 1, 0);
 	m_pTypeLE = new QLineEdit(nameGB);
 	m_pTypeLE->setEnabled(false);
 	nameLayout -> addWidget(m_pTypeLE, 1, 1);

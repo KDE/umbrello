@@ -225,7 +225,7 @@ void UMLListViewItem::okRename( int col ) {
 	UMLView * view = 0, * anotherView;
 	if( newText.length() == 0 ) {
 		KMessageBox::error( kapp->mainWidget() ,
-				    i18n("The name you entered was invalid!\nRenaming process has been cancelled."),
+				    i18n("The name you entered was invalid!\nRenaming process has been canceled."),
 		                    i18n("Name Not Valid") );
 		setText( m_Data.getLabel() );
 		return;
@@ -313,7 +313,7 @@ void UMLListViewItem::okRename( int col ) {
 			break;
 	}
 	KMessageBox::error( kapp->mainWidget() ,
-			    i18n("The name you entered was invalid!\nRenaming process has been cancelled."),
+			    i18n("The name you entered was invalid!\nRenaming process has been canceled."),
 	                    i18n("Name Not Valid") );
 	setText( m_Data.getLabel() );
 }
