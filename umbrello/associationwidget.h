@@ -544,6 +544,15 @@ public:
 	int getTotalCountB() const;
 
 	/**
+	 * Calculates and sets the first and last point in the association's
+	 * LinePath.
+	 * Each point is a middle point of its respective UMLWidget's bounding
+	 * rectangle.
+	 * This method picks which sides to use for the association.
+	 */
+	void calculateEndingPoints();
+
+	/**
 	 * Saves this widget to the <UML:AssociationWidget> XMI element.
 	 */
 	bool saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
@@ -623,15 +632,6 @@ private:
 	 * FloatingText.
 	 */
 	Text_Role CalculateNameType(Text_Role defaultRoleType);
-
-	/**
-	 * Calculates and sets the first and last point in the Association's
-	 * LinePath.
-	 * Each point is a middle point of its respective UMLWidget's bounding
-	 * rectangle.
-	 * This method picks which sides to use for the association.
-	 */
-	void calculateEndingPoints();
 
 	/**
 	 * Returns true if point (PosX, PosY) is close enough to any of the

@@ -776,10 +776,22 @@ void AssociationWidget::setUMLAssociation (UMLAssociation * assoc)
 		//   last widget does. UMLAssociations which never had a parent
 		//   in the first place wont be affected by this code, and can happily
 		//   live on without a parent.
+		//DISCUSS: Sorry Brian, but this breaks cut/paste.
+		//    In particular, cut/paste means that the UMLAssociation _does_
+		//    have the assocwidget parent - the only means of doing a cut/paste
+		//    on the diagram is via the widgets. I.e. in practice there is no
+		//    such thing as an "orphan" UMLAssociation.
+		//    BTW, IMHO the concept of a widget being the parent of a UML object
+		//    is fundamentally flawed. Widgets are pure presentation - they can
+		//    come and go at a whim. If at all, the widgets could be considered
+		//    children of the corresponding UML object.
+		//   
+		/*
 		if(m_pAssociation->nrof_parent_widgets == 0)
 		{
 			m_pAssociation->deleteLater();
 		}
+		 */
 	
 		m_pAssociation = 0;
 	}
