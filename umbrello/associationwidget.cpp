@@ -158,7 +158,6 @@ AssociationWidget& AssociationWidget::operator=(AssociationWidget & Other) {
 
 		lhs.m_pWidget = rhs.m_pWidget;
 		lhs.m_OldCorner = rhs.m_OldCorner;
-		lhs.m_nCornerRegion = rhs.m_nCornerRegion;
 		lhs.m_WidgetRegion = rhs.m_WidgetRegion;
 	}
 
@@ -295,6 +294,7 @@ void AssociationWidget::setName(QString strName) {
                 m_pName = new FloatingText(m_pView, CalculateNameType(tr_Name), strName);
                 m_pName->setAssoc(this);
 		m_pName->setUMLObject(m_role[B].m_pWidget->getUMLObject());
+		m_pView->addWidget(m_pName);
         } else {
 		if (m_pName->getText() == "") {
 			newLabel = true;
@@ -326,6 +326,7 @@ bool AssociationWidget::setMulti(QString strMulti, Role_Type role) {
 		newLabel = true;
 		m_role[role].m_pMulti = new FloatingText(m_pView, tr, strMulti);
 		m_role[role].m_pMulti->setAssoc(this);
+		m_pView->addWidget(m_role[role].m_pMulti);
 	} else {
 		if (m_role[role].m_pMulti->getText() == "") {
 			newLabel = true;
@@ -1300,6 +1301,7 @@ void AssociationWidget::widgetMoved(UMLWidget* widget, int x, int y ) {
 	uint pos = size - 1;
 	calculateEndingPoints();
 
+	// Assoc to self - move all points:
 	if( m_role[A].m_pWidget == m_role[B].m_pWidget ) {
 		for( int i=1 ; i < (int)pos ; i++ ) {
 			QPoint p = m_LinePath.getPoint( i );
@@ -1324,7 +1326,7 @@ void AssociationWidget::widgetMoved(UMLWidget* widget, int x, int y ) {
 
 	}//end if widgetA = widgetB
 	else if (m_role[A].m_pWidget==widget) {
-		if (m_pName && (m_unNameLineSegment == 0) && !m_role[A].m_pWidget->getSelected() ) {
+		if (m_pName && m_unNameLineSegment == 0 && !m_pName->getSelected() ) {
 			//only calculate position and move text if the segment it is on is moving
 			setTextPositionRelatively(tr_Name, calculateTextPosition(tr_Name),
 						  oldNamePoint);
@@ -1423,187 +1425,9 @@ AssociationWidget::Region AssociationWidget::findPointRegion(QRect Rect, int Pos
 	return result;
 }
 
-QPoint AssociationWidget::findRectIntersectionPoint(UMLWidget* pWidget, QPoint P1, QPoint P2) {
-	QPoint result(-1, -1);
-
-	int old_region = -1;
-	if(!pWidget) {
-		return result;
-	}
-	int X = -1, Y = -1;
-	if(pWidget == m_role[A].m_pWidget)
-	{
-		X = m_role[B].m_pWidget -> getX();
-		Y = m_role[B].m_pWidget -> getY();
-		old_region = m_role[A].m_nCornerRegion;
-	} else {
-		X = m_role[A].m_pWidget -> getX();
-		Y = m_role[A].m_pWidget -> getY();
-		old_region = m_role[B].m_nCornerRegion;
-	}
-	QRect rc(pWidget -> getX(), pWidget -> getY(), pWidget->getWidth(), pWidget->getHeight());
-	int region = findPointRegion(rc, X, Y);
-	if(region == old_region) {
-		return QPoint(-1, -1);
-	}
-	switch(region)
-	{
-	case West:
-		result = findIntersection(rc.topLeft(), rc.bottomLeft(), P1, P2);
-		break;
-	case North:
-		result = findIntersection(rc.topLeft(), rc.topRight(), P1, P2);
-		break;
-	case East:
-		result = findIntersection(rc.topRight(), rc.bottomRight(), P1, P2);
-		break;
-	case South:
-		result = findIntersection(rc.bottomLeft(), rc.bottomRight(), P1, P2);
-		break;
-
-	case NorthWest:
-		result = rc.topLeft();
-		break;
-	case NorthEast:
-		result  = rc.topRight();
-		break;
-	case SouthEast:
-		result = rc.bottomRight();
-		break;
-
-	case SouthWest:
-	case Center:
-		result = rc.bottomLeft();
-		break;
-	}
-	return result;
-}
-
 QPoint AssociationWidget::swapXY(QPoint p) {
 	QPoint swapped( p.y(), p.x() );
 	return swapped;
-}
-
-/** Returns the intersection point between lines P1P2 and P3P4, if the intersection
-    point is not contained in the segment P1P2 then it returns (-1, -1)*/
-QPoint AssociationWidget::findIntersection(QPoint P1, QPoint P2, QPoint P3, QPoint P4) {
-	/*
-	 * For the function's internal calculations remember:
-	 * QT coordinates start with the point (0,0) as the topleft corner and x-values
-	 * increase from left to right and y-values increase from top to bottom; it means
-	 * the visible area is quadrant I in the regular XY coordinate system
-	 *
-	 *                     |
-	 *      Quadrant II    |   Quadrant I
-	 *    -----------------|-----------------
-	 *      Quadrant III   |   Quadrant IV
-	 *                     |
-	 * In order for the linear function calculations to work in this method we must switch x and y values
-	 * (x values become y values and viceversa)
-	 */
-	int x1 = P1.y();
-	int y1 = P1.x();
-	int x2 = P2.y();
-	int y2 = P2.x();
-	int x3 = P3.y();
-	int y3 = P3.x();
-	int x4 = P4.y();
-	int y4 = P4.x();
-
-	//Line 1 is the line between (x1,y1) and (x2,y2)
-	//Line 2 is the line between (x3,y3) and (x4, y4)
-	bool no_line1 = true; //it is false if Line 1 is a linear function
-	bool no_line2 = true; //it is false if Line 2 is a linear function
-	float slope1 = 0.0, slope2 = 0.0, b1 = 0.0, b2 = 0.0;
-	if(x2 != x1) {
-		slope1 = (float)(y2 - y1) / (float)(x2 - x1);
-		b1 = (float)y1 - (slope1 * (float)x1);
-		no_line1 = false;
-	}
-	if(x4 != x3) {
-		slope2 = (float)(y4 - y3) / (float)(x4 - x3);
-		b2 = (float)y3 - (slope2 * (float)x3);
-		no_line2 = false;
-	}
-	QPoint pt;
-	//if either line is not a function
-	if(no_line2 && no_line1) {
-		//if the lines are not the same one
-		if(x1 != x3) {
-			return QPoint(-1, -1);
-		}
-		//if the lines are the same one
-		if(y3 <= y4) {
-			if( y3 <= y1 && y1 <= y4) {
-				return QPoint(y1, x1);
-			} else {
-				return QPoint(y2, x2);
-			}
-		} else {
-			if( y4 <= y1 && y1 <= y3) {
-				return QPoint(y1, x1);
-			} else {
-				return QPoint(y2, x2);
-			}
-		}
-	} else if( no_line1) {
-		pt.setX(x1);
-		pt.setY((int)((slope2 * (float)x1) + b2));
-		if(y1 >= y2) {
-			if( !(y2 <= pt.y() && pt.y() <= y1)) {
-				pt.setX(-1);
-				pt.setY(-1);
-			}
-		}
-		else {
-			if( !(y1 <= pt.y() && pt.y() <= y2)) {
-				pt.setX(-1);
-				pt.setY(-1);
-			}
-		}
-		return swapXY(pt);
-	} else if( no_line2) {
-		pt.setX(x3);
-		pt.setY((int)((slope1 * (float)x3) + b1));
-		if(y3 >= y4) {
-			if( !(y4 <= pt.y() && pt.y() <= y3)) {
-				pt.setX(-1);
-				pt.setY(-1);
-			}
-		} else {
-			if( !(y3 <= pt.y() && pt.y() <= y4)) {
-				pt.setX(-1);
-				pt.setY(-1);
-			}
-		}
-		return swapXY(pt);
-	}
-	pt.setX((int)((b2 - b1) / (slope1 - slope2)));
-	pt.setY((int)((slope1 * (float)pt.x()) + b1));
-	//the intersection point must be inside the segment (x1, y1) (x2, y2)
-	if(x2 >= x1&& y2 >= y1) {
-		if(! ((x1 <= pt.x() && pt.x() <= x2)	&& (y1 <= pt.y() && pt.y() <= y2)) ) {
-			pt.setX(-1);
-			pt.setY(-1);
-		}
-	} else if (x2 < x1 && y2 >= y1) {
-		if(! ((x2 <= pt.x() && pt.x() <= x1)	&& (y1 <= pt.y() && pt.y() <= y2)) ) {
-			pt.setX(-1);
-			pt.setY(-1);
-		}
-	} else if (x2 >= x1 && y2 < y1) {
-		if(! ((x1 <= pt.x() && pt.x() <= x2)	&& (y2 <= pt.y() && pt.y() <= y1)) ) {
-			pt.setX(-1);
-			pt.setY(-1);
-		}
-	} else {
-		if(! ((x2 <= pt.x() && pt.x() <= x1)	&& (y2 <= pt.y() && pt.y() <= y1)) ) {
-			pt.setX(-1);
-			pt.setY(-1);
-		}
-	}
-
-	return swapXY(pt);  // Swap X and Y in target to go back to Qt coord.sys.
 }
 
 /* Returns the total length of the association's LinePath:
@@ -2549,8 +2373,8 @@ int AssociationWidget::findInterceptOnEdge(QRect rect,
 					   QPoint point)
 {
 	// The Qt coordinate system has (0,0) in the top left corner.
-	// In order to go to the regular XY coordinate system, we swap
-	// the X and Y axis (see also explanations at findIntersection().)
+	// In order to go to the regular XY coordinate system with (0,0)
+	// in the bottom left corner, we swap the X and Y axis.
 	// That's why the following assignments look twisted.
 	const int rectHalfWidth = rect.height() / 2;
 	const int rectHalfHeight = rect.width() / 2;
@@ -2640,9 +2464,9 @@ void AssociationWidget::updateAssociations(int totalCount,
 	AssociationWidgetList list = m_pView -> getAssociationList();
 	AssociationWidgetListIt assoc_it(list);
 	AssociationWidget* assocwidget = 0;
-	Role_Type other = (role == A ? B : A);
 	UMLWidget *ownWidget = m_role[role].m_pWidget;
 #ifdef DEBUG_ASSOCLINES
+	Role_Type other = (role == A ? B : A);
 	kdDebug() << "looking at assoc type " << getAssocType()
 	    << ";  own widget: " << ownWidget->getName() << ", other end: "
 	    << m_role[other].m_pWidget->getName() << endl;
@@ -2760,7 +2584,13 @@ void AssociationWidget::updateRegionLineCount(int index, int totalCount,
 	// meet in the middle.
 	if (pWidget->getBaseType() == Uml::wt_Activity) {
 		ActivityWidget *act = static_cast<ActivityWidget*>(pWidget);
-		if (act->getActivityType() == ActivityWidget::Fork) {
+		ActivityWidget::ActivityType atype = act->getActivityType();
+		if (atype == ActivityWidget::Fork) {
+			totalCount = 2;
+			index = 1;
+		} else if (atype == ActivityWidget::Initial ||
+			   atype == ActivityWidget::End) {
+			region = Center;
 			totalCount = 2;
 			index = 1;
 		}
@@ -2769,32 +2599,37 @@ void AssociationWidget::updateRegionLineCount(int index, int totalCount,
 	robj.m_nTotalCount = totalCount;
 	int x = pWidget->getX();
 	int y = pWidget->getY();
+	robj.m_OldCorner.setX(x);
+	robj.m_OldCorner.setY(y);
 	int ww = pWidget->getWidth();
 	int wh = pWidget->getHeight();
 	int ch = wh * index / totalCount;
 	int cw = ww * index / totalCount;
-	robj.m_OldCorner.setX(x);
-	robj.m_OldCorner.setY(y);
+	int snapX = m_pView->snappedX(x + cw);
+	int snapY = m_pView->snappedY(y + ch);
 
 	QPoint pt;
 
 	switch(region) {
 	case West:
 		pt.setX(x);
-		pt.setY(y + ch);
+		pt.setY(snapY);
 		break;
 	case North:
-		pt.setX(x + cw);
+		pt.setX(snapX);
 		pt.setY(y);
 		break;
 	case East:
 		pt.setX(x + ww);
-		pt.setY(y + ch);
+		pt.setY(snapY);
 		break;
 	case South:
-	case Center:
-		pt.setX(x + cw);
+		pt.setX(snapX);
 		pt.setY(y + wh);
+		break;
+	case Center:
+		pt.setX(x + ww / 2);
+		pt.setY(y + wh / 2);
 		break;
 	default:
 		break;
@@ -2951,8 +2786,6 @@ void AssociationWidget::init (UMLView *view)
 	m_role[B].m_pWidget = 0;
 
 	// associationwidget attributes
-	m_role[A].m_nCornerRegion = -1;
-	m_role[B].m_nCornerRegion = -1;
 	m_role[A].m_WidgetRegion = Error;
 	m_role[B].m_WidgetRegion = Error;
 	m_bActivated = false;

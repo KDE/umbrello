@@ -659,18 +659,6 @@ private:
 	static QPoint swapXY(QPoint p);
 
 	/**
-	 * Returns the intersection point between line P1P2 and the bounding
-	 * rectangle of pWidget.
-	 * Not currently used.
-	 */
-	QPoint findRectIntersectionPoint(UMLWidget* pWidget, QPoint P1, QPoint P2);
-
-	/**
-	 * Returns the intersection point between lines P1P2 and P3P4.
-	 */
-	static QPoint findIntersection(QPoint P1, QPoint P2, QPoint P3, QPoint P4);
-
-	/**
 	 * Returns the total length of the association's LinePath:
 	 * result = segment_1_length + segment_2_length + ... + segment_n_length
 	 */
@@ -779,13 +767,6 @@ private:
 		 * This role's old top left corner before moving.
 		 */
 		QPoint m_OldCorner;
-
-		/**
-		 * This role's old top left region according to the other role's bounding
-		 * rectangle.
-		 * Not currently used. (findRectIntersectionPoint() is inactive.)
-		 */
-		int m_nCornerRegion;
 
 		/**
 		 * The region of this role's widget.
