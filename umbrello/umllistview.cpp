@@ -1922,8 +1922,10 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
 				if (!umlObject)
 					return false;
 				umlObject = static_cast<UMLClass *>(umlObject)->findChildObject(nID);
-				connectNewObjectsSlots(umlObject);
-				item = new UMLListViewItem( parent, label, lvType, umlObject);
+				if (umlObject) {
+					connectNewObjectsSlots(umlObject);
+					item = new UMLListViewItem( parent, label, lvType, umlObject);
+				}
 				break;
 			}
 			case Uml::lvt_Logical_View:
@@ -1955,7 +1957,7 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
 				return false;
 			}
 		} else {
-			kdWarning() << "unused list view item" << endl;
+			kdWarning() << "unused list view item " << nID << endl;
 		}
 		domElement = node.toElement();
 	}//end while
