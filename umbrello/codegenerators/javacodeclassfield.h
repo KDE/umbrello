@@ -48,6 +48,7 @@ public:
 	QString getFieldName();
 	QString getInitialValue();
 
+	QString getTypeName ( );
 protected:
 
 private:

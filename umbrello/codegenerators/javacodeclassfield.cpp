@@ -100,5 +100,9 @@ QString JavaCodeClassField::getInitialValue() {
 
 }
 
+QString JavaCodeClassField::getTypeName ( ) 
+{
+	return fixTypeName(CodeClassField::getTypeName());
+}
 
 #include "javacodeclassfield.moc"
