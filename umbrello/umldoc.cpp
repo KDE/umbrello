@@ -33,6 +33,7 @@
 #include "dialogs/umlattributedialog.h"
 #include "dialogs/umltemplatedialog.h"
 #include "dialogs/umloperationdialog.h"
+#include "inputdialog.h"
 
 #include <qpainter.h>
 #include <qtimer.h>
@@ -40,9 +41,9 @@
 #include <qdir.h>
 
 #include <kapplication.h>
+#include <kdeversion.h>
 #include <kdebug.h>
 #include <kio/netaccess.h>
-#include <kinputdialog.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kprinter.h>
@@ -261,7 +262,11 @@ bool UMLDoc::openDocument(const KURL& url, const char* /*format =0*/) {
 	QDir d = url.path(1);
 	deleteContents();
 	QString tmpfile;
-	KIO::NetAccess::download( url, tmpfile, UMLApp::app() );
+	KIO::NetAccess::download( url, tmpfile
+#if KDE_IS_VERSION(3,1,90)
+					      , UMLApp::app()
+#endif
+				 );
 	QFile file( tmpfile );
 	if ( !file.exists() ) {
 		KMessageBox::error(0, i18n("The file %1 does not exist.").arg(d.path()), i18n("Load Error"));
@@ -318,7 +323,11 @@ bool UMLDoc::saveDocument(const KURL& url, const char * /*format =0*/) {
 	bool status = saveToXMI( file );
 	file.close();
 	if ( !url.isLocalFile() ) {
-		uploaded = KIO::NetAccess::upload( tmpfile.name(), doc_url, UMLApp::app() );
+		uploaded = KIO::NetAccess::upload( tmpfile.name(), doc_url
+#if KDE_IS_VERSION(3,1,90)
+								, UMLApp::app()
+#endif
+						 );
 		tmpfile.unlink();
 	}
 	if (!status ) {

@@ -15,12 +15,11 @@
 #include "messagewidget.h"
 #include "listpopupmenu.h"
 #include "operation.h"
-
+#include "inputdialog.h"
 #include "dialogs/assocpropdlg.h"
 #include "dialogs/selectopdlg.h"
 
 #include <kdebug.h>
-#include <kinputdialog.h>
 #include <klocale.h>
 #include <qpainter.h>
 

@@ -12,13 +12,7 @@
 #include "listpopupmenu.h"
 #include "dialogs/activitydialog.h"
 
-#include <kdeversion.h>
-#if !KDE_IS_VERSION(3,1,90)
-# include <klineeditdlg.h>  //deprecated
-# define KInputDialog       KLineEditDlg
-#else
-# include <kinputdialog.h>
-#endif
+#include "inputdialog.h"
 #include <klocale.h>
 #include <qpainter.h>
 

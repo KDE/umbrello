@@ -21,7 +21,7 @@
 #include "../interface.h"
 #include "../attribute.h"
 #include "../operation.h"
-
+#include "../inputdialog.h"
 #include "../dialogs/operationpropertiespage.h"
 #include "../dialogs/attributepropertiespage.h"
 #include "../dialogs/umbrellodialog.h"
@@ -33,13 +33,12 @@
 #include <kstandarddirs.h>
 #include <kiconloader.h>
 #include <klocale.h>
-#include <kinputdialog.h>
 #include <kdebug.h>
 
 using std::type_info;
 
 
- namespace Umbrello{
+namespace Umbrello {
 
 
 RefactoringAssistant::RefactoringAssistant( UMLDoc *doc, UMLClassifier *obj, QWidget *parent, const char *name ):
@@ -502,7 +501,7 @@ void RefactoringAssistant::loadPixmaps()
 
 }
 
-}
+}  //namespace Umbrello
 
 
 

@@ -9,15 +9,9 @@
 
 #include "statewidget.h"
 
-#include <kdeversion.h>
-#if !KDE_IS_VERSION(3,1,90)
-# include <klineeditdlg.h>  //deprecated
-# define KInputDialog       KLineEditDlg
-#else
-# include <kinputdialog.h>
-#endif
 #include <klocale.h>
 #include <kdebug.h>
+#include "inputdialog.h"
 #include "umlwidget.h"
 #include "umlview.h"
 #include "dialogs/statedialog.h"

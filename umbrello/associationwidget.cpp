@@ -22,9 +22,9 @@
 #include "objectwidget.h"
 #include "dialogs/assocpropdlg.h"
 #include "dialogs/selectopdlg.h"
+#include "inputdialog.h"
 
 #include <kdebug.h>
-#include <kinputdialog.h>
 #include <klocale.h>
 
 // this constructor really only for loading from XMI, otherwise it

@@ -12,8 +12,8 @@
 
 #include <klocale.h>
 #include <kdebug.h>
-#include <kinputdialog.h>
 
+#include "inputdialog.h"
 #include "seqlinewidget.h"
 #include "umlview.h"
 #include "umldoc.h"
@@ -73,7 +73,16 @@ void ObjectWidget::slotMenuSelection(int sel) {
 		{
 			bool ok;
 			QRegExpValidator* validator = new QRegExpValidator(QRegExp(".*"), 0);
-			name = KInputDialog::getText(i18n("Rename Object"), i18n("Enter object name:"), m_InstanceName, &ok, m_pView, "renameobject", validator);
+			name = KInputDialog::getText
+				(i18n("Rename Object"),
+				 i18n("Enter object name:"),
+				 m_InstanceName,
+				 &ok,
+				 m_pView,
+#if KDE_IS_VERSION(3,1,90)
+				 "renameobject",
+#endif
+				 validator);
 			if (ok) {
 				m_InstanceName = name;
 				calculateSize();
