@@ -106,13 +106,13 @@ UMLListView::UMLListView(QWidget *parent, const char *name)
 	//add columns and initial items
 	addColumn(i18n("UML Model"));
 
-	rv =  new UMLListViewItem(this, i18n("Views"), Uml::lvt_View);
-	ucv = new UMLListViewItem(rv, i18n("Use Case View"), Uml::lvt_UseCase_View);
-	lv = new UMLListViewItem(rv, i18n("Logical View"), Uml::lvt_Logical_View);
-	componentView = new UMLListViewItem(rv, i18n("Component View"), Uml::lvt_Component_View);
-	deploymentView = new UMLListViewItem(rv, i18n("Deployment View"), Uml::lvt_Deployment_View);
-	entityRelationshipModel = new UMLListViewItem(rv, i18n("Entity Relationship Model"), Uml::lvt_EntityRelationship_Model);
-	datatypeFolder = new UMLListViewItem(lv, i18n("Datatypes"), Uml::lvt_Datatype_Folder);
+	m_rv =  new UMLListViewItem(this, i18n("Views"), Uml::lvt_View);
+	m_ucv = new UMLListViewItem(m_rv, i18n("Use Case View"), Uml::lvt_UseCase_View);
+	m_lv = new UMLListViewItem(m_rv, i18n("Logical View"), Uml::lvt_Logical_View);
+	componentView = new UMLListViewItem(m_rv, i18n("Component View"), Uml::lvt_Component_View);
+	deploymentView = new UMLListViewItem(m_rv, i18n("Deployment View"), Uml::lvt_Deployment_View);
+	entityRelationshipModel = new UMLListViewItem(m_rv, i18n("Entity Relationship Model"), Uml::lvt_EntityRelationship_Model);
+	datatypeFolder = new UMLListViewItem(m_lv, i18n("Datatypes"), Uml::lvt_Datatype_Folder);
 
 #ifdef WANT_LVTOOLTIP
 	/* In KDE-3.3, we cannot use KListView's builtin mechanism for
@@ -232,7 +232,7 @@ void UMLListView::popupMenuSel(int sel) {
 		return;
 	}
 	UMLObject * object = temp -> getUMLObject();
-	Uml::ListView_Type lvtType = temp -> getType();
+	Uml::ListView_Type lvt = temp -> getType();
 	Uml::Object_Type umlType = Uml::ot_UMLObject;
 	QString name;
 
@@ -349,18 +349,30 @@ void UMLListView::popupMenuSel(int sel) {
 		break;
 
 	case ListPopupMenu::mt_Delete:
-		if ( typeIsDiagram(lvtType) ) {
+		if ( typeIsDiagram(lvt) ) {
 			m_doc->removeDiagram( temp->getID() );
-		} else if( typeIsFolder(lvtType) ) {
+		} else if( typeIsFolder(lvt) ) {
 			if ( temp->firstChild() ) {
 				KMessageBox::error(
 				    kapp->mainWidget(),
 				    i18n("The folder must be emptied before it can be deleted."),
 				    i18n("Folder Not Empty"));
-				return;
+			} else {
+				delete temp;
 			}
-			delete temp;
-		} else if ( typeIsCanvasWidget(lvtType) || typeIsClassifierList(lvtType) ) {
+		} else if ( typeIsCanvasWidget(lvt) || typeIsClassifierList(lvt) ) {
+			if (lvt == Uml::lvt_Package || lvt == Uml::lvt_Class) {
+				UMLPackage *nmSpc = dynamic_cast<UMLPackage*>(object);
+				if (nmSpc == NULL) {
+					kdError() << "internal problem: object is not a package" << endl;
+					return;
+				}
+				UMLObjectList contained = nmSpc->containedObjects();
+				for (UMLObjectListIt it(contained); it.current(); ++it) {
+					UMLObject *obj = it.current();
+					moveObject(obj->getID(), convert_OT_LVT(obj->getBaseType()), m_lv);
+				}
+			}
 			m_doc->removeUMLObject(object);
 		} else {
 			kdWarning() << "umllistview::listpopupmenu::mt_Delete called with unknown type"
@@ -371,7 +383,7 @@ void UMLListView::popupMenuSel(int sel) {
 
 	case ListPopupMenu::mt_Properties:
 		/* first check if we are on a diagram */
-		if( typeIsDiagram(lvtType) ) {
+		if( typeIsDiagram(lvt) ) {
 			UMLView * pView = m_doc->findView( temp->getID() );
 			if( !pView ) {
 				return;
@@ -386,7 +398,7 @@ void UMLListView::popupMenuSel(int sel) {
 		/* ok, we are on another object, so find out on which one */
 		umlType = object->getBaseType();
 
-		if ( typeIsCanvasWidget(lvtType) ) {
+		if ( typeIsCanvasWidget(lvt) ) {
 			m_doc->showProperties(object, ClassPropDlg::page_gen);
 		} else if(umlType == Uml::ot_Attribute) {
 			// show the attribute dialogue
@@ -459,7 +471,7 @@ void UMLListView::slotDiagramCreated( Uml::IDType id ) {
 	if ( current && typeIsFolder(current->getType()) ) {
 		p = current;
 	} else if (v->getType() == Uml::dt_UseCase) {
-		p = ucv;
+		p = m_ucv;
 	} else if (v->getType() == Uml::dt_Component) {
 		p = componentView;
 	} else if (v->getType() == Uml::dt_Deployment) {
@@ -467,7 +479,7 @@ void UMLListView::slotDiagramCreated( Uml::IDType id ) {
 	} else if (v->getType() == Uml::dt_EntityRelationship) {
 		p = entityRelationshipModel;
 	} else {
-		p = lv;
+		p = m_lv;
 	}
 	temp = new UMLListViewItem( p, v->getName(), convert_DT_LVT( v->getType() ),  id );
 	setSelected( temp, true );
@@ -528,7 +540,7 @@ void UMLListView::slotObjectCreated(UMLObject* object) {
 		else if (type == Uml::ot_Datatype)
 			parentItem = datatypeFolder;
 		else
-			parentItem = lv;
+			parentItem = m_lv;
 	}
 		break;
 	case Uml::ot_Actor:
@@ -536,7 +548,7 @@ void UMLListView::slotObjectCreated(UMLObject* object) {
 		if ( lvt == Uml::lvt_UseCase_Folder )
 			parentItem = current;
 		else
-			parentItem = ucv;
+			parentItem = m_ucv;
 		break;
 	case Uml::ot_Component:
 	case Uml::ot_Artifact:
@@ -807,7 +819,7 @@ UMLListViewItem* UMLListView::findView(UMLView* v) {
 	Uml::ListView_Type type = convert_DT_LVT( dType );
 	Uml::IDType id = v->getID();
 	if (dType == Uml::dt_UseCase) {
-		item = ucv;
+		item = m_ucv;
 	} else if (dType == Uml::dt_Component) {
 		item = componentView;
 	} else if (dType == Uml::dt_Deployment) {
@@ -815,7 +827,7 @@ UMLListViewItem* UMLListView::findView(UMLView* v) {
 	} else if (dType == Uml::dt_EntityRelationship) {
 		item = entityRelationshipModel;
 	} else {
-		item = lv;
+		item = m_lv;
 	}
 
 	UMLListViewItem* searchStartItem = (UMLListViewItem *)item->firstChild();
@@ -865,17 +877,17 @@ UMLListViewItem* UMLListView::findItem(Uml::IDType id) {
 // or do connect()s.
 //
 void UMLListView::init() {
-	deleteChildrenOf( ucv );
-	deleteChildrenOf( lv );
+	deleteChildrenOf( m_ucv );
+	deleteChildrenOf( m_lv );
 	deleteChildrenOf( componentView );
 	deleteChildrenOf( deploymentView );
 	deleteChildrenOf( entityRelationshipModel );
 //Uncomment for using Luis diagram display code
 //	deleteChildrenOf( diagramFolder );
 
-	rv->setOpen(true);
-	ucv->setOpen(true);
-	lv->setOpen(true);
+	m_rv->setOpen(true);
+	m_ucv->setOpen(true);
+	m_lv->setOpen(true);
 	datatypeFolder->setOpen(false);
 	componentView->setOpen(true);
 	deploymentView->setOpen(true);
@@ -1268,7 +1280,7 @@ UMLListViewItem* UMLListView::determineParentItem(Uml::ListView_Type lvt) const 
 		case Uml::lvt_UseCase:
 		case Uml::lvt_UseCase_Folder:
 		case Uml::lvt_UseCase_Diagram:
-			parent = ucv;
+			parent = m_ucv;
 			break;
 		case Uml::lvt_Component_Diagram:
 		case Uml::lvt_Component:
@@ -1285,7 +1297,7 @@ UMLListViewItem* UMLListView::determineParentItem(Uml::ListView_Type lvt) const 
 			break;
 		default:
 			if (typeIsDiagram(lvt) || !typeIsClassifierList(lvt))
-				parent = lv;
+				parent = m_lv;
 			break;
 	}
 	return parent;
@@ -2374,14 +2386,14 @@ void UMLListView::cancelRename( QListViewItem * item ) {
 
 void UMLListView::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement listElement = qDoc.createElement( "listview" );
-	rv -> saveToXMI( qDoc, listElement);
+	m_rv -> saveToXMI( qDoc, listElement);
 	qElement.appendChild( listElement );
 }
 
 bool UMLListView::loadFromXMI( QDomElement & element ) {
 /*
-	deleteChildrenOf( ucv );
-	deleteChildrenOf( lv );
+	deleteChildrenOf( m_ucv );
+	deleteChildrenOf( m_lv );
 	deleteChildrenOf( componentView );
 	deleteChildrenOf( deploymentView );
 //Uncomment for using Luis diagram display code
@@ -2396,7 +2408,7 @@ bool UMLListView::loadFromXMI( QDomElement & element ) {
 				return false;
 			Uml::ListView_Type lvType = (Uml::ListView_Type)type.toInt();
 			if( lvType == Uml::lvt_View ) {
-				if( !loadChildrenFromXMI( rv, domElement ) )
+				if( !loadChildrenFromXMI( m_rv, domElement ) )
 					return false;
 			} else
 				return false;
@@ -2535,13 +2547,13 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
 				}
 				break;
 			case Uml::lvt_Logical_View:
-				item = lv;
+				item = m_lv;
 				break;
 			case Uml::lvt_Datatype_Folder:
 				item = datatypeFolder;
 				break;
 			case Uml::lvt_UseCase_View:
-				item = ucv;
+				item = m_ucv;
 				break;
 			case Uml::lvt_Component_View:
 				item = componentView;
@@ -2669,8 +2681,8 @@ void UMLListView::deleteChildrenOf(QListViewItem* parent) {
 	while ( parent->firstChild() ) {
 		delete parent->firstChild();
 	}
-	if (parent == lv)  {
-		datatypeFolder = new UMLListViewItem(lv, i18n("Datatypes"), Uml::lvt_Datatype_Folder);
+	if (parent == m_lv)  {
+		datatypeFolder = new UMLListViewItem(m_lv, i18n("Datatypes"), Uml::lvt_Datatype_Folder);
 	}
 }
 

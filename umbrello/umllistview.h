@@ -278,8 +278,8 @@ class UMLListView : public KListView {
 
 	void closeDatatypesFolder();
 
-	UMLListViewItem *theRootView() { return rv; }
-	UMLListViewItem *theLogicalView() { return lv; }
+	UMLListViewItem *theRootView() { return m_rv; }
+	UMLListViewItem *theLogicalView() { return m_lv; }
 
 	void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
@@ -288,9 +288,9 @@ class UMLListView : public KListView {
 	bool loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & element );
 
  protected:
-	UMLListViewItem* rv;//root view
-	UMLListViewItem* ucv;//use case view item
-	UMLListViewItem* lv;//logical view item
+	UMLListViewItem* m_rv;//root view
+	UMLListViewItem* m_ucv;//use case view item
+	UMLListViewItem* m_lv;//logical view item
 	UMLListViewItem* componentView;//component view item
 	UMLListViewItem* deploymentView;//deployment view item
 	UMLListViewItem* entityRelationshipModel;//entity relationship view item
