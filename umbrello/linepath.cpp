@@ -44,10 +44,8 @@ LinePath::~LinePath() {}
 void LinePath::setAssociation(AssociationWidget * association ) {
 	if( !association )
 		return;
-	if (m_pAssociation)
-		m_LineList.clear();
-	m_pAssociation = association;
 	cleanup();
+	m_pAssociation = association;
 	createHeadLines();
 	if( getAssocType() == at_Coll_Message )
 		setupParallelLine();
@@ -742,7 +740,8 @@ QColor LinePath::getLineColor() {
 }
 
 void LinePath::cleanup() {
-	//m_LineList.clear();   // Don't do this here - see setAssociation()
+	if (m_pAssociation)
+		m_LineList.clear();
 	m_HeadList.clear();
 	m_RectList.clear();
 	m_ParallelList.clear();

@@ -321,7 +321,7 @@ protected:
 	/**
 	* The definition points for the association line
 	*/
-	LinePath m_LinePath;
+	LinePath* m_LinePath;
 
 	/**
 	 * the definition of Rolename A visibility

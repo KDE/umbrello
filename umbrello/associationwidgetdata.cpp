@@ -34,17 +34,26 @@ AssociationWidgetData::AssociationWidgetData() {
 	m_nWidgetAID = -1;
 	m_nWidgetBID = -1;
 	m_AssocType = Uml::at_Association;
+	m_LinePath = new LinePath;
 }
 
-AssociationWidgetData::~AssociationWidgetData() {}
+AssociationWidgetData::~AssociationWidgetData() {
+	/*
+	if (m_LinePath) {
+		delete m_LinePath;
+		m_LinePath = NULL;
+	}
+	 */
+}
 
 AssociationWidgetData::AssociationWidgetData(AssociationWidgetData & Other) {
+	m_LinePath = new LinePath;
 	*this = Other;
 }
 
 AssociationWidgetData & AssociationWidgetData::operator=(AssociationWidgetData & Other) {
 	m_AssocType = Other.m_AssocType;
-	m_LinePath = Other.m_LinePath ;
+	*m_LinePath = *(Other.m_LinePath);
 	m_nWidgetAID = Other.m_nWidgetAID;
 	m_nWidgetBID = Other.m_nWidgetBID;
 	m_nIndexA = Other.m_nIndexA;
@@ -286,7 +295,7 @@ Uml::Association_Type AssociationWidgetData::getAssocType() {
 
 void AssociationWidgetData::setAssocType( Uml::Association_Type Type) {
 	m_AssocType = Type;
-	m_LinePath.setAssocType( Type );
+	m_LinePath->setAssocType( Type );
 }
 
 int AssociationWidgetData::getWidgetAID() {
@@ -438,7 +447,7 @@ bool AssociationWidgetData::saveToXMI( QDomDocument & qDoc, QDomElement & qEleme
 	assocElement.setAttribute( "documentation", m_Doc );
 	assocElement.setAttribute( "roleAdoc", m_RoleADoc);
 	assocElement.setAttribute( "roleBdoc", m_RoleBDoc);
-	m_LinePath.saveToXMI( qDoc, assocElement );
+	m_LinePath->saveToXMI( qDoc, assocElement );
 	qElement.appendChild( assocElement );
 	return status;
 }
@@ -488,7 +497,7 @@ bool AssociationWidgetData::loadFromXMI( QDomElement & qElement ) {
 	while( !element.isNull() ) {
 		QString tag = element.tagName();
 		if( tag == "linepath" ) {
-			if( !m_LinePath.loadFromXMI( element ) )
+			if( !m_LinePath->loadFromXMI( element ) )
 				return false;
 		} else if( tag == "UML:FloatingTextWidget" ) {
 			QString r = element.attribute( "role", "-1");
@@ -547,7 +556,7 @@ bool AssociationWidgetData::loadFromXMI( QDomElement & qElement ) {
 }
 
 void AssociationWidgetData::cleanup() {
-	m_LinePath.cleanup();
+	m_LinePath->cleanup();
 }
 
 
