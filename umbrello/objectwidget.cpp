@@ -40,7 +40,6 @@ ObjectWidget::ObjectWidget(UMLView *view) : UMLWidget(view) {
 void ObjectWidget::init() {
 	UMLWidget::setBaseType(wt_Object);
 	m_Doc = "";
-	m_nOldID = 0;
 	m_nLocalID = -1;
 	m_InstanceName = "";
 	m_bMultipleInstance = false;
