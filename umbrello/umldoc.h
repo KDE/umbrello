@@ -926,6 +926,17 @@ public:
 	 */
 	void addObject(UMLObject *o);
 
+	/**
+	 * Returns a name for the new object, appended with a number
+	 * if the default name is taken e.g. new_actor, new_actor_1
+	 * etc.
+	 * @param type		The object type.
+	 * @param prefix	The prefix to use (optional.)
+	 *			If no prefix is given then a type related
+	 *			prefix will be chosen internally.
+	 */
+	QString uniqObjectName(const UMLObject_Type type, QString prefix = "");
+
 private:
 
 	/**
@@ -933,13 +944,6 @@ private:
 	 * a public method if removeAssociation is removed.
 	 */
 	void removeAssocFromConcepts(UMLAssociation *assoc);
-
-	/**
-	 * Returns a name for the new object, appended with a number
-	 * if the default name is taken e.g. new actor, new actor_1
-	 * etc.
-	 */
-	QString uniqObjectName(const UMLObject_Type type);
 
 	/**
 	 * Utility method for the public findUMLObject() method: Find the

@@ -570,33 +570,34 @@ UMLClassifier* UMLDoc::findUMLClassifier(QString name) {
 	return dynamic_cast<UMLClassifier*>(obj);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-QString	UMLDoc::uniqObjectName(const UMLObject_Type type) {
-	QString	currentName;
-	if(type == ot_Class)
-		currentName = i18n("new_class");
-	else if(type == ot_Actor)
-		currentName = i18n("new_actor");
-	else if(type == ot_UseCase)
-		currentName = i18n("new_usecase");
-	else if(type == ot_Package)
-		currentName = i18n("new_package");
-	else if(type == ot_Component)
-		currentName = i18n("new_component");
-	else if(type == ot_Node)
-		currentName = i18n("new_node");
-	else if(type == ot_Artifact)
-		currentName = i18n("new_artifact");
-	else if(type == ot_Interface)
-		currentName = i18n("new_interface");
-	else if(type == ot_Datatype)
-		currentName = i18n("new_datatype");
-	else if(type == ot_Enum)
-		currentName = i18n("new_enum");
-	else if(type == ot_Association)
-		currentName = i18n("new_association");
-	else
-		currentName = i18n("new_object");
-
+QString	UMLDoc::uniqObjectName(const UMLObject_Type type, QString prefix) {
+	QString	currentName = prefix;
+	if (currentName.isEmpty()) {
+		if(type == ot_Class)
+			currentName = i18n("new_class");
+		else if(type == ot_Actor)
+			currentName = i18n("new_actor");
+		else if(type == ot_UseCase)
+			currentName = i18n("new_usecase");
+		else if(type == ot_Package)
+			currentName = i18n("new_package");
+		else if(type == ot_Component)
+			currentName = i18n("new_component");
+		else if(type == ot_Node)
+			currentName = i18n("new_node");
+		else if(type == ot_Artifact)
+			currentName = i18n("new_artifact");
+		else if(type == ot_Interface)
+			currentName = i18n("new_interface");
+		else if(type == ot_Datatype)
+			currentName = i18n("new_datatype");
+		else if(type == ot_Enum)
+			currentName = i18n("new_enum");
+		else if(type == ot_Association)
+			currentName = i18n("new_association");
+		else
+			currentName = i18n("new_object");
+	}
 	QString name = currentName;
 	for (int number = 1; !isUnique(name); number++)  {
 		name = currentName + "_" + QString::number(number);
