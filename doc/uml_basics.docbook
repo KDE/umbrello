@@ -4,18 +4,19 @@
 <title>About &UML;</title>
 <para>
 This chapter will give you a quick overview of the basics of &UML;. Keep in mind
-that this is not a comprehensive tutorial on &UML;. If you would like to learn more about the
-Unified Modeling Language, or in general about software analysis and design, refer to one of the
-many books available on the topic. There are also a lot of tutorials on the Internet, which you
+that this is not a comprehensive tutorial on &UML; but rather a brief introducation to &UML; which can be read as a &UML; tutorial. 
+If you would like to learn more about the
+Unified Modelling Language, or in general about software analysis and design, refer to one of the
+many books available on the topic. There are also a lot of tutorials on the Internet which you
 can take as a starting point.
 </para>
 
 <para>
-The Unified Modeling Language (&UML;) is a diagramming language or notation to specify, visualize and document
+The Unified Modelling Language (&UML;) is a diagramming language or notation to specify, visualize and document
 models of Object Orientated software systems. &UML; is not a development method, that means it does not tell you
 what to do first and what to do next or how to design your system, but it helps you to visualize
 your design and communicate with others. &UML; is controlled by the Object Management Group (<acronym>OMG</acronym>) and is the
-industry standard for describing software models.
+industry standard for graphically describing software.
 </para>
 <para>
 &UML; is designed for Object Orientated software design and has limited use for other programming paradigms.
@@ -28,22 +29,44 @@ The following types of diagrams are supported by &umbrello;:
 </para>
 
 <itemizedlist>
-<listitem><para><emphasis><link linkend="class-diagram">Class Diagram</link></emphasis> shows classes and the relationships between them</para>
+
+<listitem><para><emphasis><link linkend="use-case-diagram">Use Case
+Diagrams</link></emphasis> show actors (people or other users of the
+system), use cases (the scenarios when they use the system), and their
+relationships</para> </listitem>
+
+<listitem><para><emphasis><link linkend="class-diagram">Class
+Diagrams</link></emphasis> show classes and the relationships between
+them</para> </listitem>
+
+<listitem><para><emphasis><link linkend="sequence-diagram">Sequence
+Diagrams</link></emphasis> show objects and a sequence of method calls
+they make to other objects.</para> </listitem>
+
+<listitem><para><emphasis><link
+linkend="collaboration-diagram">Collaboration
+Diagrams</link></emphasis> show objects and their relationship,
+ putting emphasis on the objects that participate in the message exchange</para>
 </listitem>
-<listitem><para><emphasis><link linkend="use-case-diagram">Use Case Diagram</link></emphasis> shows actors
-(people or other users of the system), use cases(the scenarios when
-they use the system), and their relationships</para>
-</listitem>
-<listitem><para><emphasis><link linkend="sequence-diagram">Sequence Diagram</link></emphasis> shows objects and their relationships, putting emphasis
-on the chronological message exchange between the objects.</para>
-</listitem>
-<listitem><para><emphasis><link linkend="collaboration-diagram">Collaboration Diagram</link></emphasis> shows objects and their relationship, putting emphasis
-on the objects that participate in the message exchange</para>
-</listitem>
-<listitem><para><emphasis><link linkend="state-diagram">State Diagram</link></emphasis> shows states, state changes and events in an object or a part of the system</para> 
-</listitem>
-<listitem><para><emphasis><link linkend="activity-diagram">Activity Diagram</link></emphasis> shows activities, states and the changes of state of objects and
-the events occurring in some part of the system</para></listitem>
+
+<listitem><para><emphasis><link linkend="state-diagram">State
+Diagrams</link></emphasis> show states, state changes and events in an
+object or a part of the system</para> </listitem>
+
+<listitem><para><emphasis><link linkend="activity-diagram">Activity
+Diagrams</link></emphasis> show activities and the changes from one
+activity to another with the events occurring in some part of the
+system</para></listitem>
+
+<listitem><para><emphasis><link linkend="component-diagram">Component
+Diagrams</link></emphasis> show the high level programming components
+(such as KParts or Java Beans).</para></listitem>
+
+<listitem><para><emphasis><link
+linkend="deployment-diagram">Deployment Diagrams</link></emphasis> show
+the instances of the components and their
+relationships.</para></listitem> 
+
 </itemizedlist>
 
 </sect1>   <!-- about-uml -->
@@ -53,12 +76,12 @@ the events occurring in some part of the system</para></listitem>
 <sect2 id="use-case-diagram">
 <title>Use Case Diagram</title>
 <para>Use Case Diagrams describe the relationships and dependencies between a group of <emphasis>Use Cases</emphasis>
-and the Actor participating in the process</para>
-<para>It is important to notice, that Use Case Diagrams are not suited to represent the design,
+and the Actors participating in the process</para>
+<para>It is important to notice that Use Case Diagrams are not suited to represent the design,
 and cannot describe the internals of a system. Use Case Diagrams are meant to facilitate the communication
 with the future users of the system, and with the customer, and are specially helpful to determine the required
-features the system is to have. In other words, Use Case Diagrams tell, <emphasis>what</emphasis> the system
-should do, but do  not &mdash; and cannot &mdash; specify <emphasis>how</emphasis> this is to be achieved.</para>
+features the system is to have. Use Case Diagrams tell, <emphasis>what</emphasis> the system
+should do but do not &mdash; and cannot &mdash; specify <emphasis>how</emphasis> this is to be achieved.</para>
 <para>
 <screenshot>
 <screeninfo>An example Use Case diagram.</screeninfo>
@@ -67,10 +90,10 @@ should do, but do  not &mdash; and cannot &mdash; specify <emphasis>how</emphasi
 	    <imagedata fileref="pics/use-case-diagram.png" format="PNG"/>
 	  </imageobject>
 	  <textobject>
-	    <phrase>&umbrello; showing an Use Case Diagram</phrase>
+	    <phrase>&umbrello; showing a Use Case Diagram</phrase>
 	  </textobject>
 	  <caption>
-	    <para>&umbrello; showing an Use Case Diagram
+	    <para>&umbrello; showing a Use Case Diagram
 	    </para>
 	  </caption>
 	</mediaobject>
@@ -78,7 +101,7 @@ should do, but do  not &mdash; and cannot &mdash; specify <emphasis>how</emphasi
 </para>
 <sect3 id="use-case">
 <title>Use Case</title>
-<para>A <emphasis>Use Case</emphasis> describes --from the point of view of the actors-- a group of activities
+<para>A <emphasis>Use Case</emphasis> describes &mdash; from the point of view of the actors &mdash; a group of activities
 in a system that produces a concrete, tangible result.</para>
 <para>
 Use Cases are descriptions of the typical interactions between the users of a system and the system itself.
@@ -87,9 +110,9 @@ system has to do (remember, only what, not how).
 </para>
 <para>When working with Use Cases, it is important to remember some simple rules:
  <itemizedlist>
- <listitem><para>Each Use Case is related a to minimum of one actor</para></listitem>
+ <listitem><para>Each Use Case is related to at least one actor</para></listitem>
  <listitem><para>Each Use Case has an initiator (&ie; an actor)</para></listitem>
- <listitem><para>Each Use Case leads to a relevant result ( A result with <quote>business value</quote> )</para>
+ <listitem><para>Each Use Case leads to a relevant result (a result with <quote>business value</quote>)</para>
  </listitem>
  </itemizedlist>
 </para>
@@ -99,8 +122,8 @@ between Use Cases are:</para>
 <itemizedlist>
 <listitem><para><emphasis>&lt;&lt;include&gt;&gt;</emphasis> which specifies that a Use Case takes place <emphasis>inside</emphasis>
 another Use Case</para></listitem>
-<listitem><para><emphasis>&lt;&lt;extends&gt;&gt;</emphasis> which specifies that in certain situations, or at some point ( called
-extension point ) a Use Case will be extended by another.</para></listitem>
+<listitem><para><emphasis>&lt;&lt;extends&gt;&gt;</emphasis> which specifies that in certain situations, or at some point (called an
+extension point) a Use Case will be extended by another.</para></listitem>
 <listitem><para><emphasis>Generalization</emphasis> specifies that a Use Case inherits the characteristics
 of the <quote>Super</quote>-Use Case, and can override some of them or add new ones in a similar way as the
 inheritance between classes.
@@ -139,8 +162,8 @@ place in the Use Case.
 Class Diagrams show the different classes that make up a system and how they relate to each other. Class Diagrams
 are said to be <quote>static</quote> diagrams because they show the classes, along with their methods and
 attributes as well as the static relationships between them: which classes <quote>know</quote> about which classes
-or which classes <quote>are part</quote> of another classes, but do not show the message exchange
-between them (method call).
+or which classes <quote>are part</quote> of another class, but do not show the method calls
+between them.
 </para>
 <para>
 <screenshot>
@@ -168,12 +191,12 @@ The term <quote>Type</quote> is sometimes used instead of Class, but it is impor
 two are not the same, and Type is a more general term.
 </para>
 <para>
-In &uml;, Classes are represented by rectangles, with the name of the class, and can also show
+In &UML;, Classes are represented by rectangles, with the name of the class, and can also show
 the attributes and operations of the class in two other <quote>compartments</quote> inside the rectangle.
 </para>
 <para>
 <screenshot>
-<screeninfo>A Class in &uml;</screeninfo>
+<screeninfo>A Class in &UML;</screeninfo>
 	<mediaobject>
 	  <imageobject>
 	    <imagedata fileref="pics/class.png" format="PNG"/>
@@ -213,17 +236,25 @@ Operations can, just as Attributes, display their visibility:
 <listitem><para><literal>-</literal>  Stands for <emphasis>private</emphasis> operations</para></listitem>
 </itemizedlist>
 </para>
+</sect4>
 
-
+<sect4 id="templates">
+<title>Templates</title>
+<para>
+Classes can have templates, a value which is used for an unspecified class or type.  The template type is specified
+when a class is initiated (&ie; an object is created).  Templates exist in modern C++ and will be introduced in Java 1.5 where 
+they will be called Generics.
+</para>
 </sect4>
 </sect3>
+
 <sect3 id="class-associations">
 <title>Class Associations</title>
 <para>Classes can relate (be associated with) to each other in different ways:</para>
 <sect4 id="generalization">
 <title>Generalization</title>
 <para>Inheritance is one of the fundamental concepts of Object Oriented programming, in which a class
-<quote>gets</quote> all of the attributes and operations of the class it inherits from, and can
+<quote>gains</quote> all of the attributes and operations of the class it inherits from, and can
 override/modify some of them, as well as add more attributes and operations of its own.</para>
 <para>
 In &UML;, a <emphasis>Generalization</emphasis> association between two classes puts them in a hierarchy
@@ -329,75 +360,53 @@ exist on its own. They exist only inside the whole, and if the whole is destroye
 </screenshot></para>
 </sect4>
 </sect3> <!--class-associations-->
-</sect2> <!-- class diagram -->
 
-<sect2 id="activity-diagram">
-<title>Activity Diagram</title>
-<para>Activity Diagrams describe the sequence of activities in a system with the
-help of Activities. Activity Diagrams are a special form of State Diagrams, that only (or mostly) contains
-Activities.
-</para>
-<para>
-<screenshot>
-<screeninfo>An example Activity Diagram.</screeninfo>
-	<mediaobject>
-	  <imageobject>
-	    <imagedata fileref="pics/activity-diagram.png" format="PNG"/>
-	  </imageobject>
-	  <textobject>
-	    <phrase>&umbrello; showing an Activity Diagram</phrase>
-	  </textobject>
-	  <caption>
-	    <para>&umbrello; showing an Activity Diagram
-	    </para>
-	  </caption>
-	</mediaobject>
-</screenshot>
-</para>
-<para>Activity Diagrams are similar to procedural Flux Diagrams, with the difference that all Activities
-are clearly attached to Objects.</para>
-
-<para>Activity Diagrams are always associated to a
-<emphasis>Class</emphasis>, an <emphasis>Operation</emphasis> or a
-<emphasis>Use Case</emphasis>.</para>
-
-<para>Activity Diagrams support sequential as well as parallel Activities. Parallel execution is represented
-via Fork/Wait icons, and for the Activities running
-in parallel, it is not important the order in which they are carried out (they can be executed at the same
-time or one after the other)</para>
-<sect3 id="activity">
-<title>Activity</title>
-<para>An Activity is a single step in a process. One Activity is one state
-in the system with internal activity and, at least, one outgoing transition. Activities can also have
-more than one outgoing transition if they have different conditions.
-</para> 
-<para>Activities can form hierarchies, this means that an Activity can be composed of several <quote>detail</quote>
-Activities, in which case the incoming and outgoing transitions should match the incoming and outgoing transitions
-of the detail diagram.
-</para>
-
+<sect3 id="other-class-diagram-items">
+<title>Other Class Diagram Items</title>
+<para>Class diagrams can contain several other items besides classes.</para>
+<sect4 id="interfaces">
+<title>Interfaces</title>
+<para>Interfaces are abstract classes which means instances can not be directly created of them.  They can contain operations but no attributes.  Classes can inherit from interfaces (through a realisation association) and instances can then be made of these diagrams.</para>
+<!-- FIXME screenshot -->
+</sect4>
+<sect4 id="datatype">
+<title>Datatypes</title>
+<para>Datatypes are primitives which are typically built into a programming language.  Common examples include integers and booleans.  
+They can not have relationships to classes but classes can have relationships to them.</para>
+<!-- FIXME screenshot -->
+</sect4>
+<sect4 id="enum">
+<title>Enums</title>
+<para>Enums are a simple list of values.  A typical example is an enum for days of the week.
+Like datatypes they can not have relationships to classes but classes can have relationships to them.</para>
+<!-- FIXME screenshot -->
+</sect4>
+<sect4 id="package">
+<title>Packages</title>
+<para>Packages represent a namespace in a programming language.  In a diagram 
+they are used to represent parts of a system which contain more than one class, maybe hundereds of classes.</para>
+<!-- FIXME screenshot -->
+</sect4>
 </sect3>
-</sect2> <!-- activity diagram -->
 
+</sect2> <!-- class diagram -->
 
 <sect2 id="sequence-diagram">
 <title>Sequence Diagrams</title>
 
 <para> Sequence Diagrams show the message exchange (&ie; method call)
-between several Objects, in a specific, time-delimited
-situation. Sequence Diagrams put special emphasis in the order and the
+between several Objects in a specific time-delimited
+situation. Objects are instances of classes.
+Sequence Diagrams put special emphasis in the order and the
 times in which the messages to the objects are sent.</para>
 
 <para> 
 In Sequence Diagrams objects are represented through vertical dashed lines, with the name of the Object
 on the top. The time axis is also vertical, increasing downwards, so that messages are sent from one Object
 to another in the form of arrows with the operation and parameters name. 
-<!-- FIXME, not quite sure what this is saying
-Rectangles are drawn on top of the dashed
-lines, which represent that that object has control of the program flow.
--->
 </para>
 
+<!-- FIXME update screenshot to show synchronous messages -->
 <screenshot>
 <screeninfo>Sequence Diagram</screeninfo>
 	<mediaobject>
@@ -414,14 +423,19 @@ lines, which represent that that object has control of the program flow.
 	</mediaobject>
 </screenshot>
 
-</sect2>
+<para>Messages can be either synchronous, the normal type of message call where control is passed to the called object until that
+method has finished running, or asynchronous where control is passed back directly to the calling object.  Synchronous messages have
+a vertical box on the side of the called object to show the flow of program control.</para>
+</sect2> <!-- sequence diagrams -->
+
 <sect2 id="collaboration-diagram">
 <title>Collaboration Diagrams</title>
+
 <para>Collaboration Diagrams show the interactions occurring between the objects participating in a specific
-situation. This is more or less the same information shown by Sequence Diagrams, but there the emphasis is
-put on how the interactions occur in time, while the Collaboration Diagrams 
-put the relationships between the objects
-and their topology in the foreground.</para>
+situation. This is more or less the same information shown by Sequence Diagrams but there the emphasis is
+put on how the interactions occur in time while the Collaboration Diagrams 
+put the relationships between the objects and their topology in the foreground.</para>
+
 <para>In Collaboration Diagrams messages sent from one object to another are represented by arrows, showing
 the message name, parameters, and the sequence of the message. Collaboration Diagrams are specially well suited
 to showing a specific program flow or situation and are one of the best diagram types to quickly demonstrate
@@ -444,7 +458,7 @@ or explain one process in the program logic.
 	</mediaobject>
 </screenshot>
 
-</sect2>
+</sect2> <!-- collaboration diagrams -->
 
 <sect2 id="state-diagram">
 <title>State Diagram</title>
@@ -500,18 +514,67 @@ but only those changes that can significantly affect the workings of the object<
 There are two special types of States: Start and End. They are special in that there is no event that 
 can cause an Object to return to its Start state, in the same way as there is no event that can possible take
 an Object out of its End state once it has reached it.
-<!-- (screenshots) FIXME -->
 </para>
 </sect3>
-</sect2>
+
+</sect2> <!-- state diagrams -->
+
+<sect2 id="activity-diagram">
+<title>Activity Diagram</title>
+<para>Activity Diagrams describe the sequence of activities in a system with the
+help of Activities. Activity Diagrams are a special form of State Diagrams, that only (or mostly) contains
+Activities.
+</para>
+<para>
+<screenshot>
+<screeninfo>An example Activity Diagram.</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="pics/activity-diagram.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase>&umbrello; showing an Activity Diagram</phrase>
+	  </textobject>
+	  <caption>
+	    <para>&umbrello; showing an Activity Diagram
+	    </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+<para>Activity Diagrams are similar to procedural Flux Diagrams, with the difference that all Activities
+are clearly attached to Objects.</para>
+
+<para>Activity Diagrams are always associated to a
+<emphasis>Class</emphasis>, an <emphasis>Operation</emphasis> or a
+<emphasis>Use Case</emphasis>.</para>
+
+<para>Activity Diagrams support sequential as well as parallel Activities. Parallel execution is represented
+via Fork/Wait icons, and for the Activities running
+in parallel, it is not important the order in which they are carried out (they can be executed at the same
+time or one after the other)</para>
+<sect3 id="activity">
+<title>Activity</title>
+<para>An Activity is a single step in a process. One Activity is one state
+in the system with internal activity and, at least, one outgoing transition. Activities can also have
+more than one outgoing transition if they have different conditions.
+</para> 
+<para>Activities can form hierarchies, this means that an Activity can be composed of several <quote>detail</quote>
+Activities, in which case the incoming and outgoing transitions should match the incoming and outgoing transitions
+of the detail diagram.
+</para>
+
+</sect3>
+</sect2> <!-- activity diagram -->
+
 <sect2 id="helper-elements">
 <title>Helper Elements</title>
-<para>There are two elements in &UML; that have no real semantic value for the model, but help to clarify
+<para>There are a few elements in &UML; that have no real semantic value for the model, but help to clarify
 parts of the diagram. These elements are </para>
 <itemizedlist>
 <listitem><para>Text lines</para></listitem>
-<listitem><para>Text Notes</para></listitem>
-<listitem><para>Anchors</para></listitem>
+<listitem><para>Text Notes and anchors</para></listitem>
+<listitem><para>Boxes</para></listitem>
 </itemizedlist>   
 <para>
 Text lines are useful to add short text information to a diagram. It is free-standing text and has no 
@@ -522,12 +585,29 @@ Notes are useful to add more detailed information about an object or a specific 
 advantage that notes can be anchored to &UML; Elements to show that the note <quote>belongs</quote> to a specific
 object or situation
 </para>    
-<para>Anchors have also no semantic value, but are useful to link two elements close together. Anchors are
-specially used to associate a note to a particular object in a Diagram.
-</para>
+<para>Boxes are free-standing rectanges which can be used to group items together to make diagrams more readable.  They
+have no logcal meaning in the model.</para>
 
 <!-- FIXME, screenshot -->
+</sect2> <!-- helper elements -->
+
+<sect2 id="component-diagram">
+<title>Component Diagrams</title>
+<para>Component Diagrams show the software components (either component technologies such as KParts, CORBA components or Java Beans or 
+just sections of the system which are clearly distinguishable) and the artifacts they
+are made out of such as source code files, programming libraries or relational database tables.</para>
+
+<para>Components can have interfaces (&ie; abstract classes with operations) that allow associations between components.</para>
 </sect2>
 
-</sect1> <!-- uml-elements -> diagram types ??? -->
+<sect2 id="deployment-diagram">
+<title>Deployment Diagrams</title>
+
+<para>Deployment diagrams show the runtime component instances and their
+associations.  They include Nodes which are physical resources,
+typically a single computer.  They also show interfaces and objects (class instances).</para>
+
+</sect2>
+
+</sect1> 
 </chapter>

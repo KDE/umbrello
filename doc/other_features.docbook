@@ -15,9 +15,9 @@ to export parts of your diagram as simple pictures.
 </para>
 </sect2>
 <sect2 id="export-as-png">
-<title>Exporting to PNG</title>
+<title>Exporting to an Image</title>
 <para>
-You can also export a complete diagram as a PNG picture. The only thing you need to do is select
+You can also export a complete diagram as an image. The only thing you need to do is select
 the diagram you want to export, and then the option <guimenuitem>Export as Picture...</guimenuitem> from
 the <guimenu>Diagram</guimenu> menu.
 </para>

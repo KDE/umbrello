@@ -6,13 +6,10 @@
  <!ENTITY packagename "kdesdk">
  <!ENTITY UML "<acronym>UML</acronym>">
  <!ENTITY introduction-chapter SYSTEM "introduction.docbook">
- <!ENTITY installation-chapter SYSTEM "installation.docbook">
  <!ENTITY uml-basics-chapter SYSTEM "uml_basics.docbook">
  <!ENTITY working-with-umbrello-chapter SYSTEM "working_with_umbrello.docbook">
  <!ENTITY code-import-and-generation-chapter SYSTEM "code_import_and_generation.docbook">
  <!ENTITY other-features-chapter SYSTEM "other_features.docbook">
- <!ENTITY menu-reference-chapter SYSTEM "menu_reference.docbook">
- <!ENTITY faq-chapter SYSTEM "faq.docbook">
  <!ENTITY authors-chapter SYSTEM "authors.docbook">
  <!ENTITY credits-chapter SYSTEM "credits.docbook">
  <!ENTITY % addindex "IGNORE">
@@ -23,10 +20,10 @@
 
 <book id="Umbrello" lang="&language;">
 <bookinfo>
-<title>&umbrello; &UML; Modeller Handbook</title>
+<title>&umbrello; Handbook</title>
 
 <authorgroup>
-<corpauthor>The &umbrello; developers</corpauthor>
+<corpauthor>&umbrello; Authors</corpauthor>
 </authorgroup>
 
 <copyright>
@@ -34,25 +31,26 @@
 <holder>Paul Hensgen</holder>
 </copyright>
 <copyright>
-<year>2002</year>
-<holder>The Umbrello developers</holder>
+<year>2002, 2003</year>
+<holder>&umbrello; Authors</holder>
 </copyright>
 
 
-<date>2002-11-11</date>
-<releaseinfo>1.1</releaseinfo>
+<date>2003-10-15</date>
+<releaseinfo>1.2</releaseinfo>
 
 <abstract>
 <para>
-&umbrello; helps you in the software development
-process by enabling you to create models of your systems using the Unified Modeling Language (&UML;).
+&umbrello; helps the software development
+process by using the industry standard Unified Modelling Language (&UML;) 
+to enable you to create diagrams for designing and documenting your systems.
 </para>
 </abstract>
 
 <keywordset>
 <keyword>KDE</keyword>
 <keyword>UML</keyword>
-<keyword>modeling</keyword>
+<keyword>modelling</keyword>
 <keyword>diagrams</keyword>
 <keyword>software development</keyword>
 <keyword>development</keyword>
@@ -65,10 +63,7 @@ process by enabling you to create models of your systems using the Unified Model
 &working-with-umbrello-chapter;
 &code-import-and-generation-chapter;
 &other-features-chapter;
-&menu-reference-chapter;
-&faq-chapter;
 &authors-chapter;
 &credits-chapter;
-&installation-chapter;
 
 </book>
