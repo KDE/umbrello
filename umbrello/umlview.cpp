@@ -145,7 +145,13 @@ void UMLView::init() {
 	//setup graphical items
 	viewport() -> setBackgroundMode( NoBackground );
 	setCanvas( new UMLViewCanvas( this ) );
-	canvas() -> setUpdatePeriod( 20 );
+	// don't set the quite frequent update rate for each
+	// diagram, as that causes also an update of invisible
+	// diagrams, which can cost high CPU load for many
+	// diagrams.
+	// Instead: set the updatePeriod to 20 on Show event,
+	//          and switch update back off on Hide event
+	canvas() -> setUpdatePeriod( -1 );
 	resizeContents(defaultCanvasSize, defaultCanvasSize);
 	canvas() -> resize(defaultCanvasSize, defaultCanvasSize);
 	setAcceptDrops(TRUE);
@@ -392,6 +398,10 @@ void UMLView::showEvent(QShowEvent* /*se*/) {
 #	ifdef MANUAL_CONTROL_DOUBLE_BUFFERING
 	kdWarning() << "Show Event for " << getName() << endl;
 	canvas()->setDoubleBuffering( true );
+	// as the diagram gets now visible again,
+	// the update of the diagram elements shall be
+	// at the normal value of 20
+	canvas()-> setUpdatePeriod( 20 );
 #	endif
 
 	UMLApp* theApp = UMLApp::app();
@@ -414,6 +424,11 @@ void UMLView::hideEvent(QHideEvent* /*he*/) {
 #	ifdef MANUAL_CONTROL_DOUBLE_BUFFERING
 	kdWarning() << "Hide Event for " << getName() << endl;
 	canvas()->setDoubleBuffering( false );
+	// a periodic update of all - also invisible - diagrams
+	// can cause a very high CPU load if more than 100diagrams
+	// are inside a project - and this without any need
+	// => switch the update of for hidden diagrams
+	canvas()-> setUpdatePeriod( -1 );
 #	endif
 }
 

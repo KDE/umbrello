@@ -1,5 +1,7 @@
 Version 1.3
 
+* heavily reduced memory usage and CPU load on large projects
+
 * reserved keywords added for supported languages
 
 * new tools for aligning several objects
