@@ -130,11 +130,11 @@ public:
 	 */
 	QPtrList<CodeClassField> getSpecificClassFields (CodeClassField::ClassFieldType cfType, bool isStatic, Uml::Scope visibility);
 
-	/** Using the parent object's UML ID, find the cooresponding
+	/** Using the parent object's UML ID, find the corresponding
 	 * codeclassfield object in this classifiercodedocument. Returns
 	 * NULL if no such codeclassfield object exists in this document.
 	 */
-	CodeClassField * findCodeClassFieldFromParentID (int id, int role_id = -1);
+	CodeClassField * findCodeClassFieldFromParentID (Uml::IDType id, Uml::Role_Type role_id);
 
 	/**
 	 * Get the value of m_parentclassifier
@@ -246,7 +246,7 @@ private:
 public slots:
 
 	/**
-	 * Syncronize this document to the attributes/associations of the parent classifier.
+	 * Synchronize this document to the attributes/associations of the parent classifier.
 	 */
 	void addAttributeClassField(UMLObject *at=0, bool syncToParentIfAdded = true);
 	void addAssociationClassField (UMLAssociation * assoc=0, bool syncToParentIfAdded = true);

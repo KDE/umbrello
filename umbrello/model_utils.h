@@ -38,13 +38,13 @@ namespace Umbrello {
 	 * @return	Pointer to the UMLObject that matches the ID
 	 *		(NULL if none matches.)
 	 */
-	UMLObject * findObjectInList(int id, UMLObjectList inList);
+	UMLObject * findObjectInList(Uml::IDType id, UMLObjectList inList);
 
 	/**
 	 * Seek the given auxiliary id in the given list of objects.
 	 * See findObjectInList().
 	 */
-	UMLObject* findObjectByIdStr(QString idStr, UMLObjectList inList);
+	UMLObject* findObjectByAuxId(QString idStr, UMLObjectList inList);
 
 	/**
 	 * Find the UML object of the given type and name in the passed-in list.

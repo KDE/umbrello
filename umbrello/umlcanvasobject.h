@@ -42,7 +42,7 @@ public:
 	 * @param name		The name of the Concept.
 	 * @param id		The unique id of the Concept.
 	 */
-	UMLCanvasObject(const QString & name = "", int id = -1);
+	UMLCanvasObject(const QString & name = "", Uml::IDType id = Uml::id_None);
 
 
 	/**
@@ -162,7 +162,7 @@ public:
 	 * @param id		The id of the object to find.
 	 * @return	Pointer to the object found (NULL if not found.)
 	 */
-	virtual UMLObject* findChildObject(int id);
+	virtual UMLObject* findChildObject(Uml::IDType id);
 
 	/**
 	 * Returns a name for the new association, operation, template

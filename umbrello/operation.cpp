@@ -22,7 +22,7 @@
 #include "umldoc.h"
 #include "dialogs/umloperationdialog.h"
 
-UMLOperation::UMLOperation(const UMLClassifier *parent, QString Name, int id,
+UMLOperation::UMLOperation(const UMLClassifier *parent, QString Name, Uml::IDType id,
 			   Uml::Scope s, QString rt)
     : UMLClassifierListItem(parent, Name, id)
 {
@@ -222,7 +222,7 @@ bool UMLOperation::load( QDomElement & element ) {
 			m_SecondaryId = type;  // defer type resolution
 		} else {
 			UMLDoc *pDoc = UMLApp::app()->getDocument();
-			m_pSecondary = pDoc->findUMLObject( type.toInt() );
+			m_pSecondary = pDoc->findObjectById( STR2ID(type) );
 			if (m_pSecondary == NULL) {
 				kdError() << "UMLOperation::load: Cannot find UML object"
 					  << " for type " << type << endl;
@@ -260,6 +260,12 @@ bool UMLOperation::load( QDomElement & element ) {
 					pAtt->setParmKind(Uml::pd_InOut);
 				else
 					pAtt->setParmKind(Uml::pd_In);
+				Uml::IDType id = pAtt->getID();
+				if (id.contains( QRegExp("\\D") )) {
+					UMLDoc *pDoc = UMLApp::app()->getDocument();
+					(void) pDoc->getUniqueID();
+					// This counts up UMLDoc::m_HighestIDForForeignFile.
+				}
 				m_List.append( pAtt );
 			}
 		}

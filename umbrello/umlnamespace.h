@@ -197,7 +197,6 @@ namespace Uml {
 	 */
 	enum Parameter_Direction { pd_In, pd_InOut, pd_Out };
 
-#if defined (ID_USE_STRING)
 	/**
 	 * The data type used for unique IDs.
 	 */
@@ -209,15 +208,7 @@ namespace Uml {
 
 #	define STR2ID(id)  id
 #	define ID2STR(id)  id
-#else
-	// DEPRECATED
-	// This configuration will be removed shortly
-	typedef int IDType;
-	const IDType id_None = -1;
 
-#	define STR2ID(id)  (id).toInt()
-#	define ID2STR(id)  QString::number(id)
-#endif
 
 	/**
 	 * Function for comparing tags in XMI files.

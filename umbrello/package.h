@@ -41,7 +41,7 @@ public:
 	 * @param name		The name of the Concept.
 	 * @param id		The unique id of the Concept.
 	 */
-	UMLPackage(const QString & Name = "", int id = -1);
+	UMLPackage(const QString & Name = "", Uml::IDType id = Uml::id_None);
 
 	/**
 	 * Empty deconstructor.
@@ -97,7 +97,7 @@ public:
 	 * @param id		The ID to seek.
 	 * @return	Pointer to the UMLObject found or NULL if not found.
 	 */
-	UMLObject * findObject(int id);
+	UMLObject * findObjectById(Uml::IDType id);
 
 	/**
 	 * Find the object of the given (non-numeric) auxiliary ID
@@ -108,7 +108,7 @@ public:
 	 * @param idStr		The ID to seek.
 	 * @return	Pointer to the UMLObject found or NULL if not found.
 	 */
-	UMLObject* findObjectByIdStr(QString idStr);
+	UMLObject* findObjectByAuxId(QString idStr);
 
 	/**
 	 * Append all classifiers from this package (and those from

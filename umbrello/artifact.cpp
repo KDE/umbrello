@@ -13,7 +13,7 @@
 #include <kdebug.h>
 #include <klocale.h>
 
-UMLArtifact::UMLArtifact(const QString & name, int id)
+UMLArtifact::UMLArtifact(const QString & name, Uml::IDType id)
   : UMLCanvasObject(name, id) {
 	init();
 }

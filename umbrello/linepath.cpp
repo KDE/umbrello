@@ -77,8 +77,8 @@ void LinePath::setAssociation(AssociationWidget * association ) {
 	if( getAssocType() == Uml::at_Coll_Message )
 		setupParallelLine();
 	UMLView * view =  (UMLView *)m_pAssociation -> parent();
-	connect( view, SIGNAL( sigLineColorChanged( int ) ), this, SLOT( slotLineColorChanged( int ) ) );
-	connect( view, SIGNAL( sigLineWidthChanged( int ) ), this, SLOT( slotLineWidthChanged( int ) ) );
+	connect( view, SIGNAL( sigLineColorChanged( Uml::IDType ) ), this, SLOT( slotLineColorChanged( Uml::IDType ) ) );
+	connect( view, SIGNAL( sigLineWidthChanged( Uml::IDType ) ), this, SLOT( slotLineWidthChanged( Uml::IDType ) ) );
 }
 
 QPoint LinePath::getPoint( int pointIndex ) {
@@ -334,7 +334,7 @@ void LinePath::update() {
 	}
 }
 
-void LinePath::slotLineColorChanged( int viewID ) {
+void LinePath::slotLineColorChanged( Uml::IDType viewID ) {
 	if(m_pAssociation->getUMLView()->getID() != viewID) {
 		return;
 	}
@@ -375,7 +375,7 @@ void LinePath::setLineColor( QColor color ) {
 	}
 }
 
-void LinePath::slotLineWidthChanged( int viewID ) {
+void LinePath::slotLineWidthChanged( Uml::IDType viewID ) {
 	if(m_pAssociation->getUMLView()->getID() != viewID) {
 		return;
 	}
@@ -850,8 +850,8 @@ void LinePath::cleanup() {
 	if( m_pAssociation ) {
 		UMLView * view =  (UMLView *)m_pAssociation -> parent();
 		if(view) {
-			disconnect( view, SIGNAL( sigLineColorChanged( int ) ), this, SLOT( slotLineColorChanged( int ) ) );
-			disconnect( view, SIGNAL( sigLineWidthChanged( int ) ), this, SLOT( slotLineWidthChanged( int ) ) );
+			disconnect( view, SIGNAL( sigLineColorChanged( Uml::IDType ) ), this, SLOT( slotLineColorChanged( Uml::IDType ) ) );
+			disconnect( view, SIGNAL( sigLineWidthChanged( Uml::IDType ) ), this, SLOT( slotLineWidthChanged( Uml::IDType ) ) );
 		}
 		m_pAssociation = NULL;
 	}

@@ -28,9 +28,15 @@ const unsigned UMLAssociation::nAssocTypes = (unsigned)atypeLast -
 // constructor
 UMLAssociation::UMLAssociation( Association_Type type,
 				UMLObject * roleA, UMLObject * roleB )
-    : UMLObject("", -1)
+    : UMLObject("")
 {
 	init(type, roleA, roleB);
+}
+
+UMLAssociation::UMLAssociation( Association_Type type /* = Uml::at_Unknown */)
+    : UMLObject("", 0)
+{
+	init(type, NULL, NULL);
 }
 
 // destructor
@@ -43,11 +49,11 @@ bool UMLAssociation::operator==(UMLAssociation &rhs) {
 	if (this == &rhs) {
 			return true;
 	}
-       return( UMLObject::operator== ( rhs ) &&
-                m_AssocType == rhs.m_AssocType &&
-                m_Name == rhs.m_Name &&
-                m_pRole[A] == rhs.m_pRole[A] &&
-                m_pRole[B] == rhs.m_pRole[B] );
+	return( UMLObject::operator== ( rhs ) &&
+		m_AssocType == rhs.m_AssocType &&
+		m_Name == rhs.m_Name &&
+		m_pRole[A] == rhs.m_pRole[A] &&
+		m_pRole[B] == rhs.m_pRole[B] );
 }
 
 const QString UMLAssociation::assocTypeStr[UMLAssociation::nAssocTypes] = {
@@ -143,7 +149,7 @@ void UMLAssociation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 }
 
 bool UMLAssociation::load( QDomElement & element ) {
-	if (getID() == -1)
+	if (getID() == Uml::id_None)
 		return false; // old style XMI file. No real info in this association.
 
 	UMLDoc * doc = UMLApp::app()->getDocument();
@@ -162,9 +168,9 @@ bool UMLAssociation::load( QDomElement & element ) {
 
 			// set umlobject of role if possible (else defer resolution)
 			if (roleIdStr.contains(QRegExp("\\D")))
-				obj[r] = doc->findObjectByIdStr(roleIdStr);
+				obj[r] = doc->findObjectByAuxId(roleIdStr);
 			else
-				obj[r] = doc->findUMLObject(roleIdStr.toInt());
+				obj[r] = doc->findObjectById(STR2ID(roleIdStr));
 			Uml::Role_Type role = (Uml::Role_Type)r;
 			if (obj[r] == NULL) {
 				getUMLRole(role)->setIdStr(roleIdStr);  // defer to resolveRef()
@@ -349,18 +355,18 @@ bool UMLAssociation::load( QDomElement & element ) {
 	}
 	setAssocType( assocType );
 
-	int roleAObjID = element.attribute( "rolea", "-1" ).toInt();
-	int roleBObjID = element.attribute( "roleb", "-1" ).toInt();
+	Uml::IDType roleAObjID = STR2ID(element.attribute( "rolea", "-1" ));
+	Uml::IDType roleBObjID = STR2ID(element.attribute( "roleb", "-1" ));
 	if (assocType == at_Aggregation || assocType == at_Composition) {
 		// Flip roles to compensate for changed diamond logic in LinePath.
 		// For further explanations see AssociationWidget::loadFromXMI.
-		int tmp = roleAObjID;
+		Uml::IDType tmp = roleAObjID;
 		roleAObjID = roleBObjID;
 		roleBObjID = tmp;
 	}
 
-	UMLObject * objA = doc->findUMLObject(roleAObjID);
-	UMLObject * objB = doc->findUMLObject(roleBObjID);
+	UMLObject * objA = doc->findObjectById(roleAObjID);
+	UMLObject * objB = doc->findObjectById(roleBObjID);
 
 	if(objA)
 		getUMLRole(A)->setObject(objA);
@@ -404,7 +410,7 @@ UMLObject* UMLAssociation::getObject(Role_Type role) {
 	return m_pRole[role]->getObject();
 }
 
-int UMLAssociation::getRoleId(Role_Type role) const {
+Uml::IDType UMLAssociation::getRoleId(Role_Type role) const {
 	return m_pRole[role]->getID();
 }
 
@@ -505,8 +511,8 @@ void UMLAssociation::init(Association_Type type, UMLObject *roleAObj, UMLObject 
 	m_Name = "";
 	nrof_parent_widgets = -1;
 
-	m_pRole[A] = new UMLRole (this, roleAObj, 1);
-	m_pRole[B] = new UMLRole (this, roleBObj, 0);
+	m_pRole[Uml::A] = new UMLRole (this, roleAObj, Uml::A);
+	m_pRole[Uml::B] = new UMLRole (this, roleBObj, Uml::B);
 }
 
 

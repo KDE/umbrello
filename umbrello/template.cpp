@@ -19,7 +19,7 @@
 #include "umldoc.h"
 #include "dialogs/umltemplatedialog.h"
 
-UMLTemplate::UMLTemplate(const UMLObject *parent, QString name, int id, QString type)
+UMLTemplate::UMLTemplate(const UMLObject *parent, QString name, Uml::IDType id, QString type)
   : UMLClassifierListItem( parent, name, id ) {
 	setTypeName( type );
 	m_BaseType = Uml::ot_Template;
@@ -79,7 +79,7 @@ bool UMLTemplate::load(QDomElement& element) {
 	m_SecondaryId = element.attribute("type", "");
 	if (m_SecondaryId.contains( QRegExp("^\\d+$") )) {
 		UMLDoc *pDoc = UMLApp::app()->getDocument();
-		m_pSecondary = pDoc->findUMLObject( m_SecondaryId.toInt() );
+		m_pSecondary = pDoc->findObjectById( STR2ID(m_SecondaryId) );
 		if (m_pSecondary)
 			m_SecondaryId = "";
 		else

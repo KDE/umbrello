@@ -16,7 +16,7 @@
 
 namespace Umbrello {
 
-UMLWidget* findWidget(int id,
+UMLWidget* findWidget(Uml::IDType id,
 		      const UMLWidgetList& widgets,
 		      const MessageWidgetList* pMessages /* = NULL */)
 {

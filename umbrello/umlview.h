@@ -159,14 +159,14 @@ public:
 	/**
 	 * Returns the ID of the diagram.
 	 */
-	int getID() const {
+	Uml::IDType getID() const {
 		return m_nID;
 	}
 
 	/**
 	 * Sets the ID of the diagram.
 	 */
-	void setID( int id ) {
+	void setID( Uml::IDType id ) {
 		m_nID = id;
 	}
 
@@ -390,7 +390,7 @@ public:
 	 *
 	 * @return	Returns the widget found, returns 0 if no widget found.
 	 */
-	UMLWidget * findWidget(int id);
+	UMLWidget * findWidget(Uml::IDType id);
 
 	/**
 	 * Finds an association widget with the given ID.
@@ -399,7 +399,7 @@ public:
 	 *
 	 * @return	Returns the widget found, returns 0 if no widget found.
 	 */
-	AssociationWidget * findAssocWidget(int id);
+	AssociationWidget * findAssocWidget(Uml::IDType id);
 
 	/**
 	 * Finds an association widget with the given type and widgets.
@@ -497,9 +497,7 @@ public:
 	 *
 	 * @return Return a unique ID for the diagram.
 	 */
-	int getLocalID() {
-		return --m_nLocalID;
-	}
+	Uml::IDType getLocalID();
 
 	/**
 	 * Returns whether a widget is already on the diagram.
@@ -508,7 +506,7 @@ public:
 	 *
 	 * @return	Returns true if the widget is already on the diagram, false if not.
 	 */
-	bool widgetOnDiagram(int id);
+	bool widgetOnDiagram(Uml::IDType id);
 
 
 	/**
@@ -852,15 +850,19 @@ protected:
 	bool loadAssociationsFromXMI( QDomElement & qElement );
 
 	/**
-	 * Contains the unique IDs to allocate to and widget that that needs an
+	 * Contains the unique ID to allocate to a widget that needs an
 	 * ID for the view.  @ref ObjectWidgets are an example of this.
+	 * NOTE: Currently this is an int although Uml::IDType is a string
+	 *       (unless ID_USE_INT is defined.) Perhaps it should be changed
+	 *       to Uml::IDType but then we need a unique string generator.
+	 *       See also UMLDoc::m_uniqueID.
 	 */
 	int m_nLocalID;
 
 	/**
 	 * The ID of the view.  Allocated by @ref UMLDoc
 	 */
-	int m_nID;
+	Uml::IDType m_nID;
 
 	/**
 	 * The type of diagram to represent.
@@ -1185,11 +1187,11 @@ public slots:
 
 signals:
 	void sigResetToolBar();
-	void sigColorChanged( int );
+	void sigColorChanged( Uml::IDType );
 	void sigRemovePopupMenu();
 	void sigClearAllSelected();
-	void sigLineColorChanged( int );
-	void sigLineWidthChanged( int );
+	void sigLineColorChanged( Uml::IDType );
+	void sigLineWidthChanged( Uml::IDType );
 	void sigSnapToGridToggled(bool);
 	void sigSnapComponentSizeToGridToggled(bool);
 	void sigShowGridToggled(bool);

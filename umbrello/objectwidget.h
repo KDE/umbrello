@@ -40,7 +40,7 @@ public:
 	 * @param o		The object it will be representing.
 	 * @param lid		The local id for the object.
 	 */
-	ObjectWidget(UMLView * view, UMLObject *o, int lid = -1 );
+	ObjectWidget(UMLView * view, UMLObject *o, Uml::IDType lid = Uml::id_None );
 
 	/**
 	 * destructor 
@@ -70,7 +70,7 @@ public:
 	 *
 	 * @return	The local ID.
 	 */
-	int getLocalID() const {
+	Uml::IDType getLocalID() const {
 		return m_nLocalID;
 	}
 
@@ -129,7 +129,7 @@ public:
 	 *
 	 * @param id		The local id of the object.
 	 */
-	void setLocalID(int id) {
+	void setLocalID(Uml::IDType id) {
 		m_nLocalID = id;
 	}
 
@@ -255,7 +255,7 @@ public slots:
 	/**
 	 * Handles a color change signal.
 	 */
-	virtual void slotColorChanged(int viewID);
+	virtual void slotColorChanged(Uml::IDType viewID);
 
 	/**
 	 * Called when a message widget with an end on this object has
@@ -304,7 +304,7 @@ protected:
 	 * Local ID used on views.  Needed as a it can represent a class
 	 * that has many objects representing it.
 	 */
-	int m_nLocalID;
+	Uml::IDType m_nLocalID;
 
 	/**
 	 * Determines whether to draw an object as a multiple object

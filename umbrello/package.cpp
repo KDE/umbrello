@@ -24,7 +24,7 @@
 
 using namespace Uml;
 
-UMLPackage::UMLPackage(const QString & name, int id)
+UMLPackage::UMLPackage(const QString & name, Uml::IDType id)
   : UMLCanvasObject(name, id) {
 	init();
 }
@@ -52,7 +52,7 @@ UMLObject* UMLPackage::clone() const
 }
 
 void UMLPackage::addObject(const UMLObject *pObject) {
-	int id = pObject->getID();
+	Uml::IDType id = pObject->getID();
 	for (UMLObject *o = m_objects.first(); o; o = m_objects.next()) {
 		if (o->getID() == id) {
 #ifdef VERBOSE_DEBUGGING
@@ -81,12 +81,12 @@ UMLObject * UMLPackage::findObject(QString name) {
 	return NULL;
 }
 
-UMLObject * UMLPackage::findObject(int id) {
+UMLObject * UMLPackage::findObjectById(Uml::IDType id) {
 	return Umbrello::findObjectInList(id, m_objects);
 }
 
-UMLObject* UMLPackage::findObjectByIdStr(QString idStr) {
-	return Umbrello::findObjectByIdStr(idStr, m_objects);
+UMLObject* UMLPackage::findObjectByAuxId(QString idStr) {
+	return Umbrello::findObjectByAuxId(idStr, m_objects);
 }
 
 void UMLPackage::appendClassifiers(UMLClassifierList& classifiers,

@@ -17,33 +17,39 @@
 #include "package.h"
 #include "stereotype.h"
 
-UMLObject::UMLObject(const UMLObject * parent, const QString &name, int id)
+UMLObject::UMLObject(const UMLObject * parent, const QString &name, Uml::IDType id)
   : QObject(const_cast<UMLObject*>(parent), "UMLObject" ) {
 	init();
-	m_nId = id;
+	if (id == Uml::id_None)
+		m_nId = UMLApp::app()->getDocument()->getUniqueID();
+	else
+		m_nId = id;
 	m_Name = name;
 }
 
-UMLObject::UMLObject(const QString &name, int id)
+UMLObject::UMLObject(const QString &name, Uml::IDType id)
   :  QObject(UMLApp::app()->getDocument(), "UMLObject") {
 	init();
-	m_nId = id;
+	if (id == Uml::id_None)
+		m_nId = UMLApp::app()->getDocument()->getUniqueID();
+	else
+		m_nId = id;
 	m_Name = name;
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
+/* /////////////////////////////////////////////////////////////////////////////////////////////////
 UMLObject::UMLObject(const UMLObject * parent)
   : QObject(const_cast<UMLObject*>(parent)) {
 	init();
 }
-
+ */
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLObject::~UMLObject() {
 }
 
 void UMLObject::init() {
 	m_BaseType = Uml::ot_UMLObject;
-	m_nId = -1;
+	m_nId = Uml::id_None;
 	m_pUMLPackage = NULL;
 	m_Name = "";
 	m_Scope = Uml::Public;
@@ -62,7 +68,7 @@ bool UMLObject::acceptAssociationType(Uml::Association_Type)
 	return false;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void UMLObject::setID(int NewID) {
+void UMLObject::setID(Uml::IDType NewID) {
 	m_nId = NewID;
 	emit modified();
 }
@@ -205,7 +211,7 @@ Uml::Object_Type UMLObject::getBaseType() const {
 	return m_BaseType;
 }
 
-int UMLObject::getID() const {
+Uml::IDType UMLObject::getID() const {
 	return m_nId;
 }
 
@@ -329,8 +335,8 @@ bool UMLObject::resolveRef() {
 	if (!m_SecondaryId.contains(QRegExp("\\D"))) {
 		// New, XMI standard compliant save format:
 		// The type is the xmi.id of a UMLClassifier.
-		int id = m_SecondaryId.toInt();
-		m_pSecondary = pDoc->findUMLObject(id);
+		Uml::IDType id = STR2ID(m_SecondaryId);
+		m_pSecondary = pDoc->findObjectById(id);
 		if (m_pSecondary == NULL) {
 			kdError() << "UMLObject::resolveRef(" << m_Name
 				  << "): cannot find type with id "
@@ -341,7 +347,7 @@ bool UMLObject::resolveRef() {
 		return true;
 	}
 	// Check whether this is a foreign XMI file.
-	m_pSecondary = pDoc->findObjectByIdStr( m_SecondaryId );
+	m_pSecondary = pDoc->findObjectByAuxId( m_SecondaryId );
 	if (m_pSecondary) {
 		m_SecondaryId = "";
 		return true;
@@ -467,10 +473,11 @@ bool UMLObject::loadFromXMI( QDomElement & element, bool loadID /* =true */) {
 			return false;
 		}
 		if (id.contains(QRegExp("\\D"))) {
+			/************** TODO eliminate AuxID ******************* 2004.09.03 */
 			m_AuxId = id;
 			m_nId = umldoc->getUniqueID();
 		} else {
-			m_nId = id.toInt();
+			m_nId = STR2ID(id);
 		}
 	}
 
@@ -510,8 +517,8 @@ bool UMLObject::loadFromXMI( QDomElement & element, bool loadID /* =true */) {
 			// Old versions saved the stereotype name instead of the xmi.id.
 			setStereotype( stereo );
 		} else {
-			int stereoID = stereo.toInt();
-			m_pStereotype = umldoc->findStereotype(stereoID);
+			Uml::IDType stereoID = STR2ID(stereo);
+			m_pStereotype = umldoc->findStereotypeById(stereoID);
 			if (m_pStereotype)
 				m_pStereotype->incrRefCount();
 			else
@@ -540,9 +547,9 @@ bool UMLObject::loadFromXMI( QDomElement & element, bool loadID /* =true */) {
 	/**** Handle XMI_FLAT_PACKAGES and old files *************************/
 	QString pkg = element.attribute( "packageid", "-1" );
 	// Some interim versions used "packageid" so test for it.
-	int pkgId = -1;
+	Uml::IDType pkgId = Uml::id_None;
 	if (pkg != "-1") {
-		pkgId = pkg.toInt();
+		pkgId = STR2ID(pkg);
 	} else {
 		pkg = element.attribute( "package", "" );
 		if (! pkg.isEmpty()) {
@@ -550,11 +557,11 @@ bool UMLObject::loadFromXMI( QDomElement & element, bool loadID /* =true */) {
 				// Old versions saved the package name instead of the xmi.id.
 				setPackage( pkg );
 			else
-				pkgId = pkg.toInt();
+				pkgId = STR2ID(pkg);
 		}
 	}
-	if (pkgId != -1) {
-		UMLObject *pkgObj = umldoc->findUMLObject( pkgId );
+	if (pkgId != Uml::id_None) {
+		UMLObject *pkgObj = umldoc->findObjectById( pkgId );
 		if (pkgObj != NULL) {
 			m_pUMLPackage = dynamic_cast<UMLPackage *>(pkgObj);
 			if (m_pUMLPackage == NULL)  // soft error

@@ -353,13 +353,13 @@ public slots:
 	*
 	* @param viewID The id of the object behind the widget.
 	*/
-	void slotLineColorChanged( int viewID );
+	void slotLineColorChanged( Uml::IDType viewID );
 	/**
 	*   Sets the line width used by the line.
 	*
 	* @param viewID The id of the object behind the widget.
 	*/
-	void slotLineWidthChanged( int viewID );
+	void slotLineWidthChanged( Uml::IDType viewID );
 };
 
 #endif

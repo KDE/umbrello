@@ -13,7 +13,7 @@
 #include <kdebug.h>
 #include <klocale.h>
 
-UMLInterface::UMLInterface(const QString & name, int id)
+UMLInterface::UMLInterface(const QString & name, Uml::IDType id)
    : UMLClassifier(name, id)
 {
 	init();

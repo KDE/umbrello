@@ -21,7 +21,7 @@
 
 using namespace Uml;
 
-UMLClassifier::UMLClassifier(const QString & name, int id)
+UMLClassifier::UMLClassifier(const QString & name, Uml::IDType id)
   : UMLPackage(name, id)
 {
 	init();
@@ -149,7 +149,7 @@ UMLObjectList UMLClassifier::findChildObject(Object_Type t , QString n) {
 	return list;
 }
 
-UMLObject* UMLClassifier::findChildObject(int id) {
+UMLObject* UMLClassifier::findChildObject(Uml::IDType id) {
 	for (UMLClassifierListItem *o = m_List.first(); o; o = m_List.next()) {
 		if(o->getID() == id)
 			return o;
@@ -171,7 +171,7 @@ UMLClassifierList UMLClassifier::findSubClassConcepts (ClassifierType type) {
 	UMLAssociationList rlist = this->getRealizations();
 
 	UMLClassifierList inheritingConcepts;
-	int myID = this->getID();
+	Uml::IDType myID = this->getID();
 	for (UMLClassifier *c = list.first(); c; c = list.next())
 	{
 		if (type == ALL || (!c->isInterface() && type == CLASS)
@@ -199,7 +199,7 @@ UMLClassifierList UMLClassifier::findSuperClassConcepts (ClassifierType type) {
 	UMLAssociationList rlist = this->getRealizations();
 
 	UMLClassifierList parentConcepts;
-	int myID = this->getID();
+	Uml::IDType myID = this->getID();
 	for (UMLClassifier *concept = list.first(); concept; concept = list.next())
 	{
 		if (type == ALL || (!concept->isInterface() && type == CLASS)

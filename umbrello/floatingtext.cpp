@@ -28,7 +28,7 @@
 #include "dialogs/assocpropdlg.h"
 #include "dialogs/selectopdlg.h"
 
-FloatingText::FloatingText(UMLView * view, Uml::Text_Role role, QString text, int id)
+FloatingText::FloatingText(UMLView * view, Uml::Text_Role role, QString text, Uml::IDType id)
   : UMLWidget(view, id)
 {
 	init();
@@ -445,32 +445,7 @@ bool FloatingText::isTextValid(QString text) {
 	return false;
 }
 
-/*
-void FloatingText::setSeqNum(QString sn)
-{
-	m_SeqNum = sn;
-	update();
-}
-
-QString FloatingText::getSeqNum() const {
-	return m_SeqNum;
-}
-
-void FloatingText::setOperation(QString op) {
-	m_Operation = op;
-}
-
-QString FloatingText::getOperation() const {
-	return m_Operation;
-}
-*/
-
 void FloatingText::setSelected(bool _select) {
-	if( m_nOldID == -10 )//used to stop a recursive call
-	{
-		m_nOldID = 0;
-		return;
-	}
 	UMLWidget::setSelected( _select );
 }
 

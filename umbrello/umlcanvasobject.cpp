@@ -18,7 +18,7 @@
 #include <kdebug.h>
 #include <klocale.h>
 
-UMLCanvasObject::UMLCanvasObject(const QString & name, int id)
+UMLCanvasObject::UMLCanvasObject(const QString & name, Uml::IDType id)
    : UMLObject(name, id)
 {
 	init();
@@ -107,7 +107,7 @@ UMLObjectList UMLCanvasObject::findChildObject(Uml::Object_Type t, QString n) {
 	return list;
 }
 
-UMLObject* UMLCanvasObject::findChildObject(int id) {
+UMLObject* UMLCanvasObject::findChildObject(Uml::IDType id) {
 	UMLAssociation * asso = 0;
 	for (asso = m_AssocsList.first(); asso != 0; asso = m_AssocsList.next()) {
 		if (asso->getID() == id)

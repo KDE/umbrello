@@ -15,7 +15,7 @@
 #include "uml.h"
 
 // constructor
-UMLRole::UMLRole(UMLAssociation * parent, UMLObject * parentObj, int roleID)
+UMLRole::UMLRole(UMLAssociation * parent, UMLObject * parentObj, Uml::Role_Type roleID)
     : UMLObject(const_cast<UMLAssociation*>(parent))
 {
 	init(parent, parentObj, roleID);
@@ -42,13 +42,13 @@ UMLObject* UMLRole::getObject() {
 	return m_pSecondary;
 }
 
-int UMLRole::getID() const {
+Uml::IDType UMLRole::getID() const {
 	if (m_pSecondary)
 		return m_pSecondary->getID();
-	return -1;
+	return Uml::id_None;
 }
 
-void UMLRole::setID( int id) {
+void UMLRole::setID( Uml::IDType id) {
 	kdError()<<"ERROR: not allowed to setID("<<id<<") for UMLRole (id is derived from parent UMLObject), ignoring set request"<<endl; 
 }
 
@@ -119,7 +119,7 @@ void UMLRole::setDoc(QString doc) {
 	emit modified();
 }
 
-int UMLRole::getRoleID() {
+Uml::Role_Type UMLRole::getRoleID() {
 	return m_roleID;
 }
 
@@ -127,9 +127,9 @@ void UMLRole::setIdStr(QString idStr) {
 	m_SecondaryId = idStr;
 }
 
-void UMLRole::init(UMLAssociation * parent, UMLObject * parentObj, int id) {
+void UMLRole::init(UMLAssociation * parent, UMLObject * parentObj, Uml::Role_Type r) {
 
-	m_roleID = id;
+	m_roleID = r;
 	m_pAssoc = parent;
 	m_pSecondary = parentObj;
 	m_Multi = "";
@@ -151,7 +151,7 @@ void UMLRole::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 		roleElement.setAttribute("name", m_Name);
 	if (m_Doc != "")
 		roleElement.setAttribute("comment", m_Doc);
-	if (m_roleID) {  // role aggregation based on parent type
+	if (m_roleID == Uml::A) {  // role aggregation based on parent type
 		// role A
 		switch (m_pAssoc->getAssocType()) {
 			case Uml::at_Composition:
@@ -229,9 +229,9 @@ bool UMLRole::load( QDomElement & element ) {
 	}
 	UMLObject * obj;
 	if (m_SecondaryId.contains(QRegExp("\\D")))
-		obj = doc->findObjectByIdStr(m_SecondaryId);
+		obj = doc->findObjectByAuxId(m_SecondaryId);
 	else
-		obj = doc->findUMLObject(m_SecondaryId.toInt());
+		obj = doc->findObjectById(STR2ID(m_SecondaryId));
 	if (obj) {
 		m_pSecondary = obj;
 		m_SecondaryId = "";
@@ -249,7 +249,7 @@ bool UMLRole::load( QDomElement & element ) {
 	// the component roles/linked items needs to be done in order to get things
 	// right. *sigh* -b.t.
  
-	if (m_roleID) {  // setting association type from the role (A)
+	if (m_roleID == Uml::A) {  // setting association type from the role (A)
 		QString aggregation = element.attribute("aggregation", "none");
 		if (aggregation == "composite")
 			m_pAssoc->setAssocType(Uml::at_Composition);

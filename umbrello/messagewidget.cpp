@@ -26,7 +26,7 @@
 
 MessageWidget::MessageWidget(UMLView * view, ObjectWidget* a, ObjectWidget* b,
 			     FloatingText* ft, int y,
-			     Uml::Sequence_Message_Type sequenceMessageType, int id)
+			     Uml::Sequence_Message_Type sequenceMessageType, Uml::IDType id)
   : UMLWidget(view, id) {
 	init();
 	m_pOw[Uml::A] = a;
@@ -39,8 +39,8 @@ MessageWidget::MessageWidget(UMLView * view, ObjectWidget* a, ObjectWidget* b,
 	ft->setUMLObject(b->getUMLObject());
 	ft -> setLink(this);
 
-	connect(m_pOw[Uml::A], SIGNAL(sigWidgetMoved(int)), this, SLOT(slotWidgetMoved(int)));
-	connect(m_pOw[Uml::B], SIGNAL(sigWidgetMoved(int)), this, SLOT(slotWidgetMoved(int)));
+	connect(m_pOw[Uml::A], SIGNAL(sigWidgetMoved(Uml::IDType)), this, SLOT(slotWidgetMoved(Uml::IDType)));
+	connect(m_pOw[Uml::B], SIGNAL(sigWidgetMoved(Uml::IDType)), this, SLOT(slotWidgetMoved(Uml::IDType)));
 	calculateWidget();
 	y = y < getMinHeight() ? getMinHeight() : y;
 	y = y > getMaxHeight() ? getMaxHeight() : y;
@@ -52,10 +52,10 @@ MessageWidget::MessageWidget(UMLView * view, ObjectWidget* a, ObjectWidget* b,
 	m_pOw[Uml::B] -> messageAdded(this);
 }
 
-MessageWidget::MessageWidget(UMLView * view, Uml::Sequence_Message_Type sequenceMessageType, int id)
+MessageWidget::MessageWidget(UMLView * view, Uml::Sequence_Message_Type seqMsgType, Uml::IDType id)
   : UMLWidget(view, id) {
 	init();
-	m_sequenceMessageType = sequenceMessageType;
+	m_sequenceMessageType = seqMsgType;
 }
 
 void MessageWidget::init() {
@@ -65,6 +65,7 @@ void MessageWidget::init() {
 	m_pOw[Uml::A] = m_pOw[Uml::B] = NULL;
 	m_pFText = NULL;
 	m_nY = 0;
+	m_inSelection = false;
 	setVisible(true);
 }
 
@@ -266,7 +267,7 @@ void MessageWidget::calculateWidget() {
 	setY(m_nY);
 }
 
-void MessageWidget::slotWidgetMoved(int id) {
+void MessageWidget::slotWidgetMoved(Uml::IDType id) {
 	if(m_pOw[Uml::A] -> getLocalID() == id || m_pOw[Uml::B] -> getLocalID() == id) {
 		m_nY = getY();
 		m_nY = m_nY < getMinHeight()?getMinHeight():m_nY;
@@ -314,11 +315,6 @@ bool MessageWidget::activate(IDChangeLog * Log /*= 0*/) {
 			tr = Uml::tr_Seq_Message_Self;
 		m_pFText = new FloatingText( m_pView, tr, "" );
 		m_pFText->setFont(UMLWidget::getFont());
-	} else if (m_pFText->getID() == -1) {
-		int newid = UMLApp::app()->getDocument()->getUniqueID();
-		kdDebug() << "MessageWidget::activate: assigning new id=" << newid
-			  << " to m_pFText" << endl;
-		m_pFText -> setID(newid);
 	}
 	m_pFText -> setLink(this);
 	m_pFText -> setText("");
@@ -326,8 +322,8 @@ bool MessageWidget::activate(IDChangeLog * Log /*= 0*/) {
 	QString messageText = m_pFText->getText();
 	m_pFText->setVisible( messageText.length() > 1 );
 	m_pFText -> setUMLObject( m_pOw[Uml::B] -> getUMLObject() );
-	connect(m_pOw[Uml::A], SIGNAL(sigWidgetMoved(int)), this, SLOT(slotWidgetMoved(int)));
-	connect(m_pOw[Uml::B], SIGNAL(sigWidgetMoved(int)), this, SLOT(slotWidgetMoved(int)));
+	connect(m_pOw[Uml::A], SIGNAL(sigWidgetMoved(Uml::IDType)), this, SLOT(slotWidgetMoved(Uml::IDType)));
+	connect(m_pOw[Uml::B], SIGNAL(sigWidgetMoved(Uml::IDType)), this, SLOT(slotWidgetMoved(Uml::IDType)));
 	if ( ! UMLApp::app()->getDocument()->loading() )
 	{ // calculate the dimensions only if no XMI file is loaded
 		// - this functions derives the dimension properties of this widget ( as said by the
@@ -557,9 +553,9 @@ void MessageWidget::mouseMoveEvent(QMouseEvent *me) {
 }
 
 void MessageWidget::setSelected(bool _select) {
-	if( m_nOldID == -10 )//used to stop a recursive call
+	if( m_inSelection )//used to stop a recursive call
 	{
-		m_nOldID = 0;
+		m_inSelection = false;
 		return;
 	}
 	UMLWidget::setSelected( _select );
@@ -570,7 +566,7 @@ void MessageWidget::setSelected(bool _select) {
 	if( !m_bSelected && !m_pFText -> getSelected() )
 		return;
 
-	m_nOldID = -10;
+	m_inSelection = true;
 	m_pView -> setSelected( m_pFText, 0 );
 	m_pFText -> setSelected( m_bSelected );
 }
@@ -667,8 +663,8 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement) {
 	QString sequenceMessageType = qElement.attribute( "sequencemessagetype", "1001" );
 	m_sequenceMessageType = (Uml::Sequence_Message_Type)sequenceMessageType.toInt();
 
-	int aId = widgetaid.toInt();
-	int bId = widgetbid.toInt();
+	Uml::IDType aId = STR2ID(widgetaid);
+	Uml::IDType bId = STR2ID(widgetbid);
 
 	UMLWidget *pWA = m_pView -> findWidget( aId );
 	if (pWA == NULL) {
@@ -695,8 +691,8 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement) {
 		return false;
 	}
 
-	int textId = textid.toInt();
-	if (textId > 0) {
+	Uml::IDType textId = STR2ID(textid);
+	if (textId != Uml::id_None) {
 		UMLWidget *flotext = m_pView -> findWidget( textId );
 		if (flotext != NULL) {
 			// This only happens when loading files produced by

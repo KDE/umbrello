@@ -374,7 +374,7 @@ public:
 	 *
 	 * @param id	The ID of the diagram to rename.
 	 */
-	void renameDiagram(int id);
+	void renameDiagram(Uml::IDType id);
 
 	/**
 	 * Returns a list of the predefined programming-language types
@@ -407,14 +407,14 @@ public:
 	 *
 	 * @param id		The ID of the view to change to.
 	 */
-	void  changeCurrentView(int id);
+	void  changeCurrentView(Uml::IDType id);
 
 	/**
 	 * Deletes a diagram from the current file.
 	 *
 	 * @param id		The ID of the diagram to delete.
 	 */
-	void removeDiagram(int id);
+	void removeDiagram(Uml::IDType id);
 
 	/**
 	 * Used to find a reference to a @ref UMLObject by its ID.
@@ -422,7 +422,7 @@ public:
 	 * @param id		The @ref UMLObject to find.
 	 * @return	Pointer to the UMLObject found, or NULL if not found.
 	 */
-	UMLObject* findUMLObject(int id);
+	UMLObject* findObjectById(Uml::IDType id);
 
 	/**
 	 * Used to find a @ref UMLObject by its type and name.
@@ -450,7 +450,7 @@ public:
 	 * @param idStr		The AuxId for the @ref UMLObject to find.
 	 * @return	Pointer to the UMLObject found, or NULL if not found.
 	 */
-	UMLObject* findObjectByIdStr(QString idStr);
+	UMLObject* findObjectByAuxId(QString idStr);
 
 	/**
 	 * Used to find a @ref UMLClassifier by its name.
@@ -473,7 +473,7 @@ public:
 	 * @param id		The ID of the view to search for.
 	 * @return	Pointer to the view found, or NULL if not found.
 	 */
-	UMLView * findView(int id);
+	UMLView * findView(Uml::IDType id);
 
 	/**
 	 * Finds a view (diagram) by the type and name given.
@@ -490,7 +490,7 @@ public:
 	 *
 	 * @return	A new unique ID.
 	 */
-	int getUniqueID();
+	Uml::IDType getUniqueID();
 
 	/**
 	 * This method is called if you wish to see the properties of a
@@ -726,7 +726,7 @@ public:
 	 * @param OldID		The present ID of the object.
 	 * @return	The new ID assigned to the object.
 	 */
-	int assignNewID(int OldID);
+	Uml::IDType assignNewID(Uml::IDType OldID);
 
 	/**
 	 * Returns the documentation for the project.
@@ -872,7 +872,7 @@ public:
 	/**
 	 * Find a UMLStereotype by its unique ID.
 	 */
-	UMLStereotype * findStereotype(int id);
+	UMLStereotype * findStereotypeById(Uml::IDType id);
 
 	/**
 	 * Add a UMLStereotype to the application.
@@ -900,6 +900,16 @@ public:
 	 */
 	void writeToStatusBar(const QString &text);
 
+	/**
+	 * Setter for m_highestIDforForeignFile.
+	 */
+	void getHighestIDforForeignFile(int value);
+
+	/**
+	 * Getter for m_highestIDforForeignFile.
+	 */
+	int setHighestIDforForeignFile() const;
+
 private:
 
 	/**
@@ -926,7 +936,17 @@ private:
 	 */
 	UMLStereotypeList m_stereoList;
 
+	/**
+	 * In principle, each model object gets assigned a unique ID.
+	 * ("In principle" because there are exceptions - such as UMLRole -
+	 * but the aim is to remove those exceptions.)
+	 * NOTE: Currently this is an int although Uml::IDType is a string
+	 *       (unless ID_USE_INT is defined.) Perhaps it should be changed
+	 *       to Uml::IDType but then we need a unique string generator.
+	 *       See also UMLView::m_nLocalID.
+	 */
 	int m_uniqueID;
+
 	int m_count;   ///< auxiliary counter for the progress bar
 	bool m_modified;
 	KURL m_doc_url;
@@ -988,7 +1008,7 @@ private:
 	/**
 	 * Auxiliary to <docsettings> processing
 	 */
-	int m_nViewID;
+	Uml::IDType m_nViewID;
 
 public slots:
 
@@ -1016,9 +1036,9 @@ public slots:
 	void slotAutoSave();
 
 signals:
-	void sigDiagramCreated(int id);
-	void sigDiagramRemoved(int id);
-	void sigDiagramRenamed(int t);
+	void sigDiagramCreated(Uml::IDType id);
+	void sigDiagramRemoved(Uml::IDType id);
+	void sigDiagramRenamed(Uml::IDType t);
 	void sigDiagramChanged(Uml::Diagram_Type);
 
 	void sigObjectCreated(UMLObject *);

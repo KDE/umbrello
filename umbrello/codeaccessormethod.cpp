@@ -148,7 +148,7 @@ void CodeAccessorMethod::setAttributesFromNode ( QDomElement & root) {
 	CodeClassField * newCF = 0;
 	ClassifierCodeDocument * cdoc = dynamic_cast<ClassifierCodeDocument*>(getParentDocument());
 	if(cdoc)
-		newCF = cdoc->findCodeClassFieldFromParentID (id.toInt());
+		newCF = cdoc->findCodeClassFieldFromParentID (STR2ID(id));
 
 	m_parentclassfield->disconnect(this); // always disconnect 
 	if(newCF) 

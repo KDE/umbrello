@@ -72,7 +72,7 @@ public:
 	 * @param t		The type of this instance.
 	 * @param id		The id of this instance.
 	 */
-	UMLListViewItem(UMLListViewItem * parent, QString name, Uml::ListView_Type t, int id);
+	UMLListViewItem(UMLListViewItem * parent, QString name, Uml::ListView_Type t, Uml::IDType id);
 
 	/**
 	 * Standard deconstructor.
@@ -93,14 +93,14 @@ public:
 	 *
 	 * @return	The id this class represents.
 	 */
-	void setID(int id);
+	void setID(Uml::IDType id);
 
 	/**
 	 * Returns the id this class represents.
 	 *
 	 * @return	The id this class represents.
 	 */
-	int getID() const;
+	Uml::IDType getID() const;
 
 	/**
 	 * Set the UMLObject associated with this instance.
@@ -193,7 +193,7 @@ public:
 	 * @param id		The ID to search for.
 	 * @return	The item with the given ID or NULL if not found.
 	 */
-	UMLListViewItem * findItem(int id);
+	UMLListViewItem * findItem(Uml::IDType id);
 
 	/**
 	 * saves the listview item to a <listitem> tag
@@ -233,7 +233,8 @@ protected:
 	bool m_bCreating;
 
 	Uml::ListView_Type m_Type;
-	int m_nId, m_nChildren;
+	Uml::IDType m_nId;
+	int m_nChildren;
 	UMLObject * m_pObject;
 	QString m_Label;
 };

@@ -30,7 +30,7 @@ public:
 	 *
 	 * @param parent	The parent of this UMLRole.
 	 */
-	UMLRole (UMLAssociation * parent, UMLObject * parentUMLObject, int roleId);
+	UMLRole (UMLAssociation * parent, UMLObject * parentUMLObject, Uml::Role_Type roleId);
 
 	/**
 	 * Overloaded '==' operator
@@ -132,19 +132,19 @@ public:
 	 * here is that we CANT allow UMLRole to be the parent object
 	 * of a UMLRole, got it?
 	 */
-	virtual int getID() const;
-	virtual void setID ( int id);
+	virtual Uml::IDType getID() const;
+	virtual void setID ( Uml::IDType id);
 	virtual QString getAuxId() const;
 
 	void setIdStr(QString idStr);
 
 	/** get the 'id' of the role (NOT the parent object). This could be
-	 * either a '1' (roleA) or '0' (roleB). Yes, it would be better if we
+	 * either Uml::A or Uml::B. Yes, it would be better if we
 	 * could get along without this, but we need it to distinguish saved
 	 * umlrole objects in the XMI for 'self' associations where both roles
 	 * will point to the same underlying UMLObject.
 	 */
-	int getRoleID();
+	Uml::Role_Type getRoleID();
 
 	/**
 	 * Make a clone of this object.
@@ -167,11 +167,11 @@ protected:
 private:
 
 	/** do some initialization at construction time */
-	void init (UMLAssociation * parent, UMLObject * parentObj, int id);
+	void init (UMLAssociation * parent, UMLObject * parentObj, Uml::Role_Type r);
 
 	QString m_Doc;
 	UMLAssociation * m_pAssoc;
-	int m_roleID;
+	Uml::Role_Type m_roleID;
 	QString m_Name;
 	QString m_Multi;
 	Uml::Changeability_Type m_Changeability;

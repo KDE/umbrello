@@ -28,7 +28,7 @@
  */
 static const int sequenceLineMargin = 20;
 
-ObjectWidget::ObjectWidget(UMLView * view, UMLObject *o, int lid) : UMLWidget(view, o) {
+ObjectWidget::ObjectWidget(UMLView * view, UMLObject *o, Uml::IDType lid) : UMLWidget(view, o) {
 	init();
 	if( lid >= 0 )
 		m_nLocalID = lid;
@@ -40,7 +40,7 @@ ObjectWidget::ObjectWidget(UMLView * view, UMLObject *o, int lid) : UMLWidget(vi
 void ObjectWidget::init() {
 	UMLWidget::setBaseType(Uml::wt_Object);
 	m_Doc = "";
-	m_nLocalID = -1;
+	m_nLocalID = Uml::id_None;
 	m_InstanceName = "";
 	m_bMultipleInstance = false;
 	m_bDrawAsActor = false;
@@ -184,7 +184,7 @@ void ObjectWidget::moveEvent(QMoveEvent */*m*/) {
 		m_pLine -> setStartPoint( getX() + width() / 2, getY() + height() );
 }
 
-void ObjectWidget::slotColorChanged(int /*viewID*/) {
+void ObjectWidget::slotColorChanged(Uml::IDType /*viewID*/) {
 	UMLWidget::getFillColour() = m_pView->getFillColor();
 	UMLWidget::getLineColour() = m_pView->getLineColor();
 
@@ -377,7 +377,7 @@ bool ObjectWidget::loadFromXMI( QDomElement & qElement ) {
 
 	m_bDrawAsActor = (bool)draw.toInt();
 	m_bMultipleInstance = (bool)multi.toInt();
-	m_nLocalID = localid.toInt();
+	m_nLocalID = STR2ID(localid);
 	m_bShowDestruction = (bool)decon.toInt();
 	return true;
 

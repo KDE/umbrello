@@ -49,7 +49,7 @@ public:
 	 * @param name		The name of the Concept.
 	 * @param id		The unique id of the Concept.
 	 */
-	UMLArtifact(const QString & Name = "", int id = -1);
+	UMLArtifact(const QString & Name = "", Uml::IDType id = Uml::id_None);
 
 	/**
 	 * Standard deconstructor.

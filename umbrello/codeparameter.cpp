@@ -143,9 +143,9 @@ QString CodeParameter::getID () {
 		// cant use Role "ID" as that is used to distinquish if its
 		// role "A" or "B"
 		UMLAssociation *assoc = role->getParentAssociation();
-		return QString::number(assoc->getID());
+		return ID2STR(assoc->getID());
 	} else
-        	return QString::number(m_parentObject->getID());
+        	return ID2STR(m_parentObject->getID());
 
 }
 
@@ -183,13 +183,14 @@ void CodeParameter::setAttributesOnNode ( QDomDocument & doc, QDomElement & bloc
 void CodeParameter::setAttributesFromNode ( QDomElement & root) {
 
         // set local attributes, parent object first
-	int id = root.attribute("parent_id","-1").toInt();
+	QString idStr = root.attribute("parent_id","-1");
+	Uml::IDType id = STR2ID(idStr);
 
 	// always disconnect
 	m_parentObject->disconnect(this);
 
 	// now, what is the new object we want to set?
-	UMLObject * obj = m_parentDocument->getParentGenerator()->getDocument()->findUMLObject(id);
+	UMLObject * obj = m_parentDocument->getParentGenerator()->getDocument()->findObjectById(id);
 	if(obj)
 	{
 
@@ -208,24 +209,12 @@ void CodeParameter::setAttributesFromNode ( QDomElement & root) {
 			// In this case we init with indicated role child obj. 
 			UMLRole * role = 0;
 			int role_id = root.attribute("role_id","-1").toInt();
-			// deal with OLD save files (make go away some time soon)
-			if (role_id > 1) {
-				if(assoc->getUMLRole(Uml::A)->getID() == role_id)
-					role = assoc->getUMLRole(Uml::A);
-				else if(assoc->getUMLRole(Uml::B)->getID() == role_id)
-					role = assoc->getUMLRole(Uml::B);
-				else // this will cause a crash
-					kdError()<<"corrupt (old) save file? cant get proper UMLRole for codeparameter uml id:"<<id<<" w/role_id:"<<role_id<<endl;
-
-			} else {
-
-                                if(role_id == 1) 
-                                        role = assoc->getUMLRole(Uml::A);
-                                else if(role_id == 0) 
-                                        role = assoc->getUMLRole(Uml::B);
-                                else 
-					kdError()<<"corrupt save file? cant get proper UMLRole for codeparameter uml id:"<<id<<" w/role_id:"<<role_id<<endl;
-			}
+			if(role_id == 1) 
+				role = assoc->getUMLRole(Uml::A);
+			else if(role_id == 0) 
+				role = assoc->getUMLRole(Uml::B);
+			else 
+				kdError()<<"corrupt save file? cant get proper UMLRole for codeparameter uml id:"<<id<<" w/role_id:"<<role_id<<endl;
 
 			// init using UMLRole obj
 			initFields ( m_parentDocument, role); 

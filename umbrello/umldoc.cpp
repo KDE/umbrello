@@ -67,6 +67,9 @@
 #include "dialogs/umloperationdialog.h"
 #include "inputdialog.h"
 
+# define EXTERNALIZE_ID(id)  QString::number(id)
+# define INTERNALIZE_ID(id)  (id).toInt()
+
 #define XMI_FILE_VERSION "1.3.90"
 // Hmm, if the XMI_FILE_VERSION is meant to reflect the umbrello version
 // then the version number "1.3" is prone to create confusion with the UML
@@ -95,12 +98,12 @@ UMLDoc::UMLDoc() {
 	m_modified = false;
 	m_bLoading = false;
 	m_pAutoSaveTimer = 0;
-	m_nViewID = -1;
+	m_nViewID = Uml::id_None;
 	m_highestIDforForeignFile = 0;
 	UMLApp * pApp = UMLApp::app();
-	connect(this, SIGNAL(sigDiagramCreated(int)), pApp, SLOT(slotUpdateViews()));
-	connect(this, SIGNAL(sigDiagramRemoved(int)), pApp, SLOT(slotUpdateViews()));
-	connect(this, SIGNAL(sigDiagramRenamed(int)), pApp, SLOT(slotUpdateViews()));
+	connect(this, SIGNAL(sigDiagramCreated(Uml::IDType)), pApp, SLOT(slotUpdateViews()));
+	connect(this, SIGNAL(sigDiagramRemoved(Uml::IDType)), pApp, SLOT(slotUpdateViews()));
+	connect(this, SIGNAL(sigDiagramRenamed(Uml::IDType)), pApp, SLOT(slotUpdateViews()));
 	connect(this, SIGNAL( sigCurrentViewChanged() ), pApp, SLOT( slotCurrentViewChanged() ) );
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -716,7 +719,7 @@ ClassImport * UMLDoc::classImport() {
 	return m_classImporter;
 }
 
-UMLView * UMLDoc::findView(int id) {
+UMLView * UMLDoc::findView(Uml::IDType id) {
 	for(UMLView *w = m_ViewList.first(); w; w = m_ViewList.next()) {
 		if(w->getID() ==id) {
 			return w;
@@ -735,11 +738,11 @@ UMLView * UMLDoc::findView(Diagram_Type type, QString name) {
 	return 0;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLObject* UMLDoc::findUMLObject(int id) {
+UMLObject* UMLDoc::findObjectById(Uml::IDType id) {
 	return Umbrello::findObjectInList(id, m_objectList);
 }
 
-UMLStereotype * UMLDoc::findStereotype(int id) {
+UMLStereotype * UMLDoc::findStereotypeById(Uml::IDType id) {
 	for (UMLStereotype *s = m_stereoList.first(); s; s = m_stereoList.next() ) {
 		if (s->getID() == id)
 			return s;
@@ -753,8 +756,8 @@ UMLObject* UMLDoc::findUMLObject(QString name,
 	return Umbrello::findUMLObject(m_objectList, name, type, currentObj);
 }
 
-UMLObject* UMLDoc::findObjectByIdStr(QString idStr) {
-	return Umbrello::findObjectByIdStr(idStr, m_objectList);
+UMLObject* UMLDoc::findObjectByAuxId(QString idStr) {
+	return Umbrello::findObjectByAuxId(idStr, m_objectList);
 }
 
 UMLClassifier* UMLDoc::findUMLClassifier(QString name) {
@@ -828,8 +831,10 @@ void UMLDoc::addUMLObject(UMLObject* object) {
 	//stop it being added twice
 	if ( m_objectList.find(object) == -1)  {
 		m_objectList.append( object );
-		if (object->getID() > m_highestIDforForeignFile)
-			m_highestIDforForeignFile = object->getID();
+		Uml::IDType id = object->getID();
+		int nId = INTERNALIZE_ID(id);
+		if (nId > m_highestIDforForeignFile)
+			m_highestIDforForeignFile = nId;
 	} else {
 #ifdef VERBOSE_DEBUGGING
 		kdDebug() << "UMLDoc::addUMLObject: not adding " << object->getName()
@@ -850,6 +855,14 @@ void UMLDoc::removeStereotype(const UMLStereotype *s) {
 
 void UMLDoc::writeToStatusBar(const QString &text) {
 	emit sigWriteToStatusBar(text);
+}
+
+void UMLDoc::getHighestIDforForeignFile(int value) {
+	m_highestIDforForeignFile = value;
+}
+
+int UMLDoc::setHighestIDforForeignFile() const {
+	return m_highestIDforForeignFile;
 }
 
 // simple removal of an object
@@ -939,7 +952,6 @@ UMLObject* UMLDoc::createUMLObject(Object_Type type, const QString &n,
 				   UMLPackage *parentPkg /* = NULL */,
 				   bool prepend /* = false */) {
 	bool ok = false;
-	int id;
 	QString name;
 	if( !n.isEmpty() && isUnique(n, parentPkg) )
 	{
@@ -974,27 +986,26 @@ UMLObject* UMLDoc::createUMLObject(Object_Type type, const QString &n,
 		} while (bValidNameEntered == false);
 	}
 	UMLObject *o = NULL;
-	id = getUniqueID();
 	if(type == ot_Actor) {
-		o = new UMLActor(name, id);
+		o = new UMLActor(name);
 	} else if(type == ot_UseCase) {
-		o = new UMLUseCase(name, id);
+		o = new UMLUseCase(name);
 	} else if(type == ot_Class ) {
-		o = new UMLClass (name, id);
+		o = new UMLClass (name);
 	} else if(type == ot_Package) {
-		o = new UMLPackage(name, id);
+		o = new UMLPackage(name);
 	} else if(type == ot_Component) {
-		o = new UMLComponent(name, id);
+		o = new UMLComponent(name);
 	} else if(type == ot_Node) {
-		o = new UMLNode(name, id);
+		o = new UMLNode(name);
 	} else if(type == ot_Artifact) {
-		o = new UMLArtifact(name, id);
+		o = new UMLArtifact(name);
 	} else if(type == ot_Interface) {
-		o = new UMLInterface(name, id);
+		o = new UMLInterface(name);
 	} else if(type == ot_Datatype) {
-		o = new UMLDatatype(name, id);
+		o = new UMLDatatype(name);
 	} else if(type == ot_Enum) {
-		o = new UMLEnum(name, id);
+		o = new UMLEnum(name);
 	} else {
 		kdWarning() << "CreateUMLObject(int) error" << endl;
 		return (UMLObject*)0L;
@@ -1036,7 +1047,7 @@ UMLObject* UMLDoc::createChildObject(UMLObject* umlobject, Object_Type type) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLObject* UMLDoc::createAttribute(UMLClass* umlclass, const QString &name /*=null*/) {
-	int id = getUniqueID();
+	Uml::IDType id = getUniqueID();
 	QString currentName;
 	if (name == QString::null)  {
 		currentName = umlclass->uniqChildName(Uml::ot_Attribute);
@@ -1077,9 +1088,8 @@ UMLObject* UMLDoc::createAttribute(UMLClass* umlclass, const QString &name /*=nu
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLObject* UMLDoc::createTemplate(UMLClass* umlclass) {
-	int id = getUniqueID();
 	QString currentName = umlclass->uniqChildName(Uml::ot_Template);
-	UMLTemplate* newTemplate = new UMLTemplate(umlclass, currentName, id);
+	UMLTemplate* newTemplate = new UMLTemplate(umlclass, currentName);
 
 	int button = QDialog::Accepted;
 	bool goodName = false;
@@ -1109,9 +1119,8 @@ UMLObject* UMLDoc::createTemplate(UMLClass* umlclass) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLObject* UMLDoc::createEnumLiteral(UMLEnum* umlenum) {
-	int id = getUniqueID();
 	QString currentName = umlenum->uniqChildName(Uml::ot_EnumLiteral);
-	UMLEnumLiteral* newEnumLiteral = new UMLEnumLiteral(umlenum, currentName, id);
+	UMLEnumLiteral* newEnumLiteral = new UMLEnumLiteral(umlenum, currentName);
 
 	bool ok = true;
 	bool goodName = false;
@@ -1150,8 +1159,7 @@ UMLStereotype* UMLDoc::findOrCreateStereotype(QString name) {
 	if (s != NULL) {
 		return s;
 	}
-	int id = getUniqueID();
-	s = new UMLStereotype(name, id);
+	s = new UMLStereotype(name);
 	addStereotype(s);
 	//emit modified();
 	return s;
@@ -1173,14 +1181,14 @@ UMLOperation* UMLDoc::createOperation(UMLClassifier* classifier,
 		if (existingOp)
 			return existingOp;
 	}
-	UMLOperation *op = new UMLOperation(classifier, name, getUniqueID());
+	UMLOperation *op = new UMLOperation(classifier, name);
 	if (params)
 	{
 		UMLAttributeListIt it(*params);
 		for( ; it.current(); ++it ) {
 			UMLAttribute *par = it.current();
-			int parID = getUniqueID();
-			par->setID(parID);
+			if (par->getID() <= 0)
+				par->setID(getUniqueID());
 			op->addParm(par);
 		}
 	}
@@ -1209,22 +1217,16 @@ UMLOperation* UMLDoc::createOperation(UMLClassifier* classifier,
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLDoc::removeAssociation (UMLAssociation * assoc) {
-
 	if(!assoc)
 		return;
-
 	removeAssocFromConcepts(assoc);
 
 	// Remove the UMLAssociation from m_objectList.
 	UMLObject *object = (UMLObject *) assoc;
 	m_objectList.remove(object);
 
-	// I dont believe this appropriate, UMLAssociations ARENT UMLWidgets -b.t.
-	// emit sigObjectRemoved(object);
-
 	// so we will save our document
 	setModified(true, false);
-
 }
 
 void UMLDoc::removeAssocFromConcepts(UMLAssociation *assoc)
@@ -1291,11 +1293,6 @@ void UMLDoc::addAssociation(UMLAssociation *Assoc)
 	// If we get here it's really a new association, so lets
 	// add it to our concept list and the document.
 
-	// This is the one and only place where the UMLAssociation is assigned
-	// its unique ID (unless it was successfully loaded from XMI.)
-	if (Assoc->getID() == -1)
-		Assoc->setID( getUniqueID() );
-
 	// Add the UMLAssociation at the appropriate concept.
 	addAssocToConcepts(Assoc);
 
@@ -1310,8 +1307,8 @@ void UMLDoc::addAssociation(UMLAssociation *Assoc)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLDoc::addAssocToConcepts(UMLAssociation* a) {
 
-	int AId = a->getRoleId(Uml::A);
-	int BId = a->getRoleId(Uml::B);
+	Uml::IDType AId = a->getRoleId(Uml::A);
+	Uml::IDType BId = a->getRoleId(Uml::B);
 	UMLClassifierList concepts = getConcepts();
 	for (UMLClassifier *c = concepts.first(); c; c = concepts.next()) {
 		switch (a->getAssocType()) {
@@ -1386,10 +1383,10 @@ void UMLDoc::createDiagram(Diagram_Type type, bool askForName /*= true */) {
 			temp->setType( type );
 			temp->setID( getUniqueID() );
 			addView(temp);
-			emit sigDiagramCreated(m_uniqueID);
+			emit sigDiagramCreated( EXTERNALIZE_ID(m_uniqueID) );
 			setModified(true);
 			UMLApp::app()->enablePrint(true);
-			changeCurrentView(m_uniqueID);
+			changeCurrentView( EXTERNALIZE_ID(m_uniqueID) );
 			break;
 		} else {
 			KMessageBox::error(0, i18n("A diagram is already using that name."), i18n("Not a Unique Name"));
@@ -1397,7 +1394,7 @@ void UMLDoc::createDiagram(Diagram_Type type, bool askForName /*= true */) {
 	}//end while
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void UMLDoc::renameDiagram(int id) {
+void UMLDoc::renameDiagram(Uml::IDType id) {
 	bool ok = false;
 
 	UMLView *temp =  findView(id);
@@ -1476,7 +1473,7 @@ void UMLDoc::renameChildUMLObject(UMLObject *o) {
 	}
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void UMLDoc::changeCurrentView(int id) {
+void UMLDoc::changeCurrentView(Uml::IDType id) {
 	UMLView* w = findView(id);
 	if (w != m_currentView && w) {
 		UMLApp* pApp = UMLApp::app();
@@ -1488,7 +1485,7 @@ void UMLDoc::changeCurrentView(int id) {
 	emit sigCurrentViewChanged();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void UMLDoc::removeDiagram(int id) {
+void UMLDoc::removeDiagram(Uml::IDType id) {
 	UMLApp::app()->getDocWindow()->updateDocumentation(true);
 	UMLView* umlview = findView(id);
 	if(!umlview)
@@ -1547,8 +1544,8 @@ void UMLDoc::removeUMLObject(UMLObject* umlobject) {
 			// Remove the UMLAssociation at the concept that plays role B.
 			UMLAssociation *a = (UMLAssociation *)umlobject;
 			Uml::Association_Type assocType = a->getAssocType();
-			int AId = a->getRoleId(A);
-			int BId = a->getRoleId(B);
+			Uml::IDType AId = a->getRoleId(A);
+			Uml::IDType BId = a->getRoleId(B);
 			UMLClassifierList concepts = getConcepts();
 			for (UMLClassifier *c = concepts.first(); c; c = concepts.next()) {
 				switch (assocType) {
@@ -1761,7 +1758,7 @@ void UMLDoc::saveToXMI(QIODevice& file) {
 	extensions.setAttribute( "xmi.extender", "umbrello" );
 
 	QDomElement docElement = doc.createElement( "docsettings" );
-	int viewID = -1;
+	Uml::IDType viewID = Uml::id_None;
 	if( m_currentView )
 		viewID = m_currentView -> getID();
 	docElement.setAttribute( "viewid", viewID );
@@ -1909,7 +1906,7 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
 		return false;
 	}
 
-	m_nViewID = -1;
+	m_nViewID = Uml::id_None;
 	m_highestIDforForeignFile = 0;
 	for (node = node.firstChild(); !node.isNull(); node = node.nextSibling()) {
 		if (node.isComment())
@@ -1973,7 +1970,7 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
 		}
 	}
 
-	if (m_nViewID == -1) {
+	if (m_nViewID == Uml::id_None) {
 		m_uniqueID = m_highestIDforForeignFile;
 		// We must do this because there is no <docsettings> to
 		// tell us the highest ID when loading foreign XMI files.
@@ -1990,7 +1987,7 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
 	m_currentView = NULL;
 	activateAllViews();
 
-	if( m_nViewID != -1 && findView( m_nViewID ) ) {
+	if( m_nViewID != Uml::id_None && findView( m_nViewID ) ) {
 		changeCurrentView( m_nViewID );
 	} else {
 		createDiagram( Uml::dt_Class, false );
@@ -2116,7 +2113,7 @@ void UMLDoc::loadExtensionsFromXMI(QDomNode& node) {
 		m_Doc = element.attribute( "documentation", "" );
 		QString uniqueid = element.attribute( "uniqueid", "0" );
 
-		m_nViewID = viewID.toInt();
+		m_nViewID = STR2ID(viewID);
 		m_uniqueID = uniqueid.toInt();
 		UMLApp::app()->getDocWindow() -> newDocumentation();
 
@@ -2174,11 +2171,11 @@ UMLObject* UMLDoc::makeNewUMLObject(QString type) {
 		pObject = new UMLStereotype();
 	} else if (tagEq(type, "Association") ||
 		   tagEq(type, "AssociationClass")) {
-		pObject = new UMLAssociation(Uml::at_Unknown, (UMLObject*)NULL, (UMLObject*) NULL);
+		pObject = new UMLAssociation();
 	} else if (tagEq(type, "Generalization")) {
-		pObject = new UMLAssociation(Uml::at_Generalization, NULL, NULL);
+		pObject = new UMLAssociation(Uml::at_Generalization);
 	} else if (tagEq(type, "Dependency")) {
-		pObject = new UMLAssociation(Uml::at_Dependency, NULL, NULL);
+		pObject = new UMLAssociation(Uml::at_Dependency);
 	}
 	return pObject;
 }
@@ -2342,7 +2339,6 @@ UMLAssociationList UMLDoc::getAssociations() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLDoc::print(KPrinter * pPrinter) {
 	UMLView * printView = 0;
-	int id = -1;
 	int count = QString(pPrinter -> option("kde-uml-count")).toInt();
 	QPainter painter(pPrinter);
 	for(int i = 0;i < count;i++) {
@@ -2350,7 +2346,7 @@ void UMLDoc::print(KPrinter * pPrinter) {
 			pPrinter -> newPage();
 		QString diagram = i18n("kde-uml-Diagram") + QString("%1").arg(i);
 		QString sID = pPrinter -> option(diagram);
-		id = sID.toInt();
+		Uml::IDType id = STR2ID(sID);
 		printView = findView(id);
 
 		if(printView)
@@ -2394,7 +2390,7 @@ bool UMLDoc::assignNewIDs(UMLObject* Obj) {
 		kdDebug() << "no Obj || Changelog" << endl;
 		return false;
 	}
-	int result = assignNewID(Obj->getID());
+	Uml::IDType result = assignNewID(Obj->getID());
 	Obj->setID(result);
 
 	//If it is a CONCEPT then change the ids of all its operations and attributes
@@ -2451,14 +2447,15 @@ void UMLDoc::endPaste() {
 	}
 }
 
-int UMLDoc::getUniqueID() {
-	return ++m_uniqueID;
+Uml::IDType UMLDoc::getUniqueID() {
+	++m_uniqueID;
+	return EXTERNALIZE_ID(m_uniqueID);
 }
 
 /** Assigns a New ID to an Object, and also logs the assignment to its internal
 ChangeLog */
-int UMLDoc::assignNewID(int OldID) {
-	int result = getUniqueID();
+Uml::IDType UMLDoc::assignNewID(Uml::IDType OldID) {
+	Uml::IDType result = getUniqueID();
 	if (m_pChangeLog) {
 		m_pChangeLog->addIDChange(OldID, result);
 	}
@@ -2481,7 +2478,7 @@ bool UMLDoc::addUMLView(UMLView * pView ) {
 	}
 	if(i) //If name was modified
 		pView->setName(name);
-	int result = assignNewID(pView->getID());
+	Uml::IDType result = assignNewID(pView->getID());
 	pView->setID(result);
 
 	if (!pView->activateAfterLoad( true ) ) {
@@ -2606,7 +2603,7 @@ void UMLDoc::clearRedoStack() {
 
 void UMLDoc::loadUndoData() {
 	if (undoStack.count() > 1) {
-		int currentViewID = m_currentView->getID();
+		Uml::IDType currentViewID = m_currentView->getID();
 		// store old setting - for restore of last setting
 		bool m_bLoading_old = m_bLoading;
 		m_bLoading = true;
@@ -2644,7 +2641,7 @@ void UMLDoc::loadUndoData() {
 
 void UMLDoc::loadRedoData() {
 	if (redoStack.count() >= 1) {
-		int currentViewID = m_currentView->getID();
+		Uml::IDType currentViewID = m_currentView->getID();
 		// store old setting - for restore of last setting
 		bool m_bLoading_old = m_bLoading;
 		m_bLoading = true;

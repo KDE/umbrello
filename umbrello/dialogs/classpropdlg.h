@@ -14,6 +14,8 @@
 #include <kdialogbase.h>
 #include <kfontdialog.h>
 
+#include "../umlnamespace.h"
+
 class ClassGenPage;
 class ClassifierListPage;
 class ClassOpsPage;
@@ -122,7 +124,7 @@ public slots:
         /**
 	 * FIXME not honestly sure what this does
 	 */
-	void slotUpdateChildObject(int id);
+	void slotUpdateChildObject(Uml::IDType id);
 };
 
 #endif

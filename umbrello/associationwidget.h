@@ -202,7 +202,7 @@ public:
 	/**
 	 * Gets the ID of the given role widget.
 	 */
-	int getWidgetID(Uml::Role_Type role) const;
+	Uml::IDType getWidgetID(Uml::Role_Type role) const;
 
 	/**
 	 * Gets the given role widget.

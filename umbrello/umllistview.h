@@ -175,9 +175,9 @@ class UMLListView : public KListView {
 	 * Searches through the tree for the item with the given ID.
 	 *
 	 * @param id		The ID to search for.
-	 * @return	The item with the given ID or -1 if not found.
+	 * @return	The item with the given ID or NULL if not found.
 	 */
-	UMLListViewItem * findItem(int id);
+	UMLListViewItem * findItem(Uml::IDType id);
 
 	/**
 	 * Returns true if the listview type also has a widget representation in diagrams.
@@ -264,11 +264,11 @@ class UMLListView : public KListView {
 	static Uml::ListView_Type convert_OT_LVT(Uml::Object_Type ot);
 
 	/**
-	 * Moves an object given is unique ID and listview type into an
+	 * Moves an object given is unique ID and listview type to an
 	 * other listview parent item.
 	 * Also takes care of the corresponding move in the model.
 	 */
-	UMLListViewItem * moveObject(int srcId, Uml::ListView_Type srcType,
+	UMLListViewItem * moveObject(Uml::IDType srcId, Uml::ListView_Type srcType,
 				     UMLListViewItem *newParent);
 
 	void closeDatatypesFolder();
@@ -393,13 +393,13 @@ public slots:
 	 * Creates a new item to represent a new diagram
 	 * @param id the id of the new diagram
 	 */
-	void slotDiagramCreated(int id);
+	void slotDiagramCreated(Uml::IDType id);
 
 	/**
 	 * renames a diagram in the list view
 	 * @param the id of the renamed diagram
 	 */
-	void slotDiagramRenamed(int id);
+	void slotDiagramRenamed(Uml::IDType id);
 
 	/**
 	 * Creates a new list view item and connects the appropriate signals/slots
@@ -448,7 +448,7 @@ public slots:
 	 * removes the item representing a diagram
 	 * @param id the id of the diagram
 	 */
-	void slotDiagramRemoved(int id);
+	void slotDiagramRemoved(Uml::IDType id);
 
 	/**
 	 * Called when a right mouse button menu has an item selected
@@ -498,7 +498,7 @@ public slots:
 	/**
 	 * change the current view
 	 */
-	void diagramSelected(int);
+	void diagramSelected(Uml::IDType);
 
  private:
 	/**
@@ -506,7 +506,7 @@ public slots:
 	 * Used by findView().
 	 */
 	UMLListViewItem* recursiveSearchForView(UMLListViewItem* folder,
-						Uml::ListView_Type type, int id);
+						Uml::ListView_Type type, Uml::IDType id);
 
 };
 

@@ -62,17 +62,17 @@ void OwnedHierarchicalCodeBlock::setAttributesOnNode (QDomDocument & doc, QDomEl
         OwnedCodeBlock::setAttributesOnNode(doc, elem);
 
         // set local class attributes
-        elem.setAttribute("parent_id",QString::number(getParentObject()->getID()));
+        elem.setAttribute("parent_id",ID2STR(getParentObject()->getID()));
 
         // setting ID's takes special treatment
         // as UMLRoles arent properly stored in the XMI right now.
         // (change would break the XMI format..save for big version change )
         UMLRole * role = dynamic_cast<UMLRole*>(getParentObject());
         if(role)
-                elem.setAttribute("role_id",role->getRoleID());
-        else
+                elem.setAttribute("role_id", (role->getRoleID() == Uml::A));
+        /* else
                 elem.setAttribute("role_id","-1");
-
+	 */
 }
 
 /** set the class attributes of this object from

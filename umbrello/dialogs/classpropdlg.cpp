@@ -128,7 +128,7 @@ void ClassPropDlg::slotOk() {
 	KDialogBase::accept();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void ClassPropDlg::slotUpdateChildObject(int id) {
+void ClassPropDlg::slotUpdateChildObject(Uml::IDType id) {
 
 	UMLObject * o; // = ((UMLClassifier*)m_pObject) -> findChildObject(id);
 

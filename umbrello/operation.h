@@ -36,7 +36,7 @@ public:
 	 * @param s		The scope of the operation.
 	 * @param rt		The return type of the operation.
 	 */
-	UMLOperation(const UMLClassifier * parent, QString Name, int id,
+	UMLOperation(const UMLClassifier * parent, QString Name, Uml::IDType id = Uml::id_None,
 		     Uml::Scope s = Uml::Public, QString rt = "void");
 
 	/**

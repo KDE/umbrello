@@ -100,7 +100,7 @@ void CodeOperation::loadFromXMI ( QDomElement & root )
 }
 
 QString CodeOperation::findTag (UMLOperation * op) {
-	return QString("operation_" + QString::number(op->getID()));
+	return QString("operation_" + ID2STR(op->getID()));
 }
 
 /** set attributes of the node that represents this class
@@ -126,9 +126,10 @@ void CodeOperation::setAttributesFromNode ( QDomElement & element)
 	// oops..this is done in the parent class "ownedcodeblock".
 	// we simply need to record the parent operation here
 	// m_parentOperation->disconnect(this); // always disconnect from current parent
-
-	int id = element.attribute("parent_id","-1").toInt();
-	UMLObject * obj = getParentDocument()->getParentGenerator()->getDocument()->findUMLObject(id); 
+ 
+	QString idStr = element.attribute("parent_id","-1");
+	Uml::IDType id = STR2ID(idStr);
+	UMLObject * obj = getParentDocument()->getParentGenerator()->getDocument()->findObjectById(id); 
 	UMLOperation * op = dynamic_cast<UMLOperation*>(obj);
 
 	if(op)

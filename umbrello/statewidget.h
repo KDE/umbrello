@@ -52,7 +52,7 @@ public:
 	 * @param stateType	The type of state.
 	 * @param id		The ID to assign (-1 will prompt a new ID.)
 	 */
-	StateWidget( UMLView * view, StateType stateType = Normal, int id = -1 );
+	StateWidget( UMLView * view, StateType stateType = Normal, Uml::IDType id = Uml::id_None );
 
 	/**
 	 * destructor

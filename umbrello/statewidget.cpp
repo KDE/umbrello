@@ -17,7 +17,7 @@
 #include "dialogs/statedialog.h"
 #include "listpopupmenu.h"
 
-StateWidget::StateWidget(UMLView * view, StateType stateType, int id)
+StateWidget::StateWidget(UMLView * view, StateType stateType, Uml::IDType id)
   : UMLWidget(view, id) {
 	UMLWidget::setBaseType(Uml::wt_State);
 	m_StateType = stateType;

@@ -36,7 +36,7 @@ public:
 	 * @param name		The name of the operation.
 	 * @param id		The id of the operation.
 	 */
-	UMLClassifierListItem(const UMLObject *parent, QString Name, int id);
+	UMLClassifierListItem(const UMLObject *parent, QString Name, Uml::IDType id = Uml::id_None);
 
 	/**
 	 * Constructor.  Empty.

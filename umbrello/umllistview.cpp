@@ -129,10 +129,8 @@ void UMLListView::contentsMousePressEvent(QMouseEvent *me) {
 		m_doc -> getCurrentView() -> clearSelected();
 	if( me -> state() != ShiftButton )
 		clearSelection();
-	//UMLListViewItem *item = (UMLListViewItem *)currentItem();
 	QPoint pt = ((UMLListView*)this) -> contentsToViewport( me -> pos() );
 	UMLListViewItem * item = (UMLListViewItem*)itemAt(pt);
-
 
 	if(  me -> button() != RightButton && me -> button() != LeftButton  ) {
 		UMLApp::app() -> getDocWindow() -> updateDocumentation( true );
@@ -193,10 +191,9 @@ void UMLListView::contentsMousePressEvent(QMouseEvent *me) {
 
 	/*
 	  We don't need to do anything for Left button.
-	  But if we do in future, just put and else statement in here
+	  But if we do in future, just put an else statement in here
 	*/
 	this->KListView::contentsMousePressEvent(me);
-
 
 }
 
@@ -210,7 +207,6 @@ void UMLListView::popupMenuSel(int sel) {
 		kdDebug() << "popupMenuSel invoked without currently selectedItem" << endl;
 		return;
 	}
-	int id = temp -> getID();
 	UMLObject * object = temp -> getUMLObject();
 	Uml::ListView_Type lvtType = temp -> getType();
 	Uml::Object_Type umlType = Uml::ot_UMLObject;
@@ -322,7 +318,7 @@ void UMLListView::popupMenuSel(int sel) {
 
 	case ListPopupMenu::mt_Delete:
 		if ( typeIsDiagram(lvtType) ) {
-			m_doc->removeDiagram(id);
+			m_doc->removeDiagram( temp->getID() );
 		} else if( typeIsFolder(lvtType) ) {
 			if ( temp->firstChild() ) {
 				KMessageBox::error(
@@ -419,7 +415,7 @@ void UMLListView::popupMenuSel(int sel) {
 	}//end switch
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void UMLListView::slotDiagramCreated( int id ) {
+void UMLListView::slotDiagramCreated( Uml::IDType id ) {
 	if( loading )
 		return;
 	UMLListViewItem * temp = 0, *p = 0;
@@ -634,7 +630,7 @@ void UMLListView::childObjectRemoved(UMLObject* obj) {
 	}
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void UMLListView::slotDiagramRenamed(int id) {
+void UMLListView::slotDiagramRenamed(Uml::IDType id) {
 	UMLListViewItem* temp;
 	UMLView* v = m_doc->findView(id);
 	temp = findView(v);
@@ -649,9 +645,9 @@ void UMLListView::setDocument(UMLDoc *d) {
 	m_doc = d;
 
 
-	connect(m_doc, SIGNAL(sigDiagramCreated(int)), this, SLOT(slotDiagramCreated(int)));
-	connect(m_doc, SIGNAL(sigDiagramRemoved(int)), this, SLOT(slotDiagramRemoved(int)));
-	connect(m_doc, SIGNAL(sigDiagramRenamed(int)), this, SLOT(slotDiagramRenamed(int)));
+	connect(m_doc, SIGNAL(sigDiagramCreated(Uml::IDType)), this, SLOT(slotDiagramCreated(Uml::IDType)));
+	connect(m_doc, SIGNAL(sigDiagramRemoved(Uml::IDType)), this, SLOT(slotDiagramRemoved(Uml::IDType)));
+	connect(m_doc, SIGNAL(sigDiagramRenamed(Uml::IDType)), this, SLOT(slotDiagramRenamed(Uml::IDType)));
 
 	connect(m_doc, SIGNAL(sigObjectCreated(UMLObject *)), this, SLOT(slotObjectCreated(UMLObject *)));
 	connect(m_doc, SIGNAL(sigObjectRemoved(UMLObject *)), this, SLOT(slotObjectRemoved(UMLObject *)));
@@ -667,7 +663,7 @@ void UMLListView::slotObjectRemoved(UMLObject* object) {
 	UMLApp::app()->getDocWindow()->updateDocumentation(true);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void UMLListView::slotDiagramRemoved(int id) {
+void UMLListView::slotDiagramRemoved(Uml::IDType id) {
 	UMLListViewItem* item = findItem(id);
 	delete item;
 	UMLApp::app()->getDocWindow()->updateDocumentation(true);
@@ -757,7 +753,7 @@ UMLListViewItem* UMLListView::findView(UMLView* v) {
 	UMLListViewItem* item;
 	Uml::Diagram_Type dType = v->getType();
 	Uml::ListView_Type type = convert_DT_LVT( dType );
-	int id = v->getID();
+	Uml::IDType id = v->getID();
 	if (dType == Uml::dt_UseCase) {
 		item = ucv;
 	} else if (dType == Uml::dt_Component) {
@@ -779,7 +775,7 @@ UMLListViewItem* UMLListView::findView(UMLView* v) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLListViewItem* UMLListView::recursiveSearchForView(UMLListViewItem* listViewItem,
-						     Uml::ListView_Type type, int id) {
+						     Uml::ListView_Type type, Uml::IDType id) {
 	while (listViewItem) {
 		if ( typeIsFolder(listViewItem->getType()) ) {
 			UMLListViewItem* child = (UMLListViewItem *)listViewItem->firstChild();
@@ -797,7 +793,7 @@ UMLListViewItem* UMLListView::recursiveSearchForView(UMLListViewItem* listViewIt
 	return 0;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLListViewItem* UMLListView::findItem(int id) {
+UMLListViewItem* UMLListView::findItem(Uml::IDType id) {
 	UMLListViewItem *temp;
 	QListViewItemIterator it(this);
 	for( ; (temp = (UMLListViewItem*)it.current()); ++it ) {
@@ -966,7 +962,7 @@ bool UMLListView::acceptDrag(QDropEvent* event) const {
 	return accept;
 }
 
-UMLListViewItem * UMLListView::moveObject(int srcId, Uml::ListView_Type srcType,
+UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type srcType,
 					  UMLListViewItem *newParent) {
 	if (newParent == NULL)
 		return NULL;
@@ -975,7 +971,7 @@ UMLListViewItem * UMLListView::moveObject(int srcId, Uml::ListView_Type srcType,
 		return NULL;
 
 	// Remove the source object at the old parent package.
-	UMLObject *srcObj = m_doc->findUMLObject(srcId);
+	UMLObject *srcObj = m_doc->findObjectById(srcId);
 	if (srcObj) {
 		UMLPackage *srcPkg = srcObj->getUMLPackage();
 		if (srcPkg)
@@ -1128,10 +1124,10 @@ UMLListViewItem* UMLListView::createItem(UMLListViewItem& Data, IDChangeLog& IDC
 		//if there is no ListViewItem associated with the new ID,
 		//it could exist an Item already asocciated if the user chose to reuse an uml object
 		if(!(item = findItem(newID))) {
-			pObject = m_doc->findUMLObject( IDChanges.findNewID(Data.getID()) );
+			pObject = m_doc->findObjectById( IDChanges.findNewID(Data.getID()) );
 			item = new UMLListViewItem(parent, Data.getText(), lvt, pObject);
 		} ***/
-		pObject = m_doc->findUMLObject( Data.getID() );
+		pObject = m_doc->findObjectById( Data.getID() );
 		item = new UMLListViewItem(parent, Data.getText(), lvt, pObject);
 		break;
 	case Uml::lvt_Logical_Folder:
@@ -1145,7 +1141,7 @@ UMLListViewItem* UMLListView::createItem(UMLListViewItem& Data, IDChangeLog& IDC
 	case Uml::lvt_Template:
 	{
 		UMLClass * pClass =  (UMLClass *)parent -> getUMLObject();
-		int newID = IDChanges.findNewID( Data.getID() );
+		Uml::IDType newID = IDChanges.findNewID( Data.getID() );
 		pObject = pClass -> findChildObject( newID );
 		if (pObject) {
 			item = new UMLListViewItem( parent, Data.getText(), lvt, pObject );
@@ -1740,42 +1736,42 @@ void UMLListView::addNewItem( QListViewItem * parent, Uml::ListView_Type type ) 
 
 	case Uml::lvt_Class_Diagram:
 		name = getUniqueDiagramName( Uml::dt_Class );
-		newItem = new UMLListViewItem( parentItem, name, type, -1 );
+		newItem = new UMLListViewItem( parentItem, name, type, Uml::id_None );
 		break;
 
 	case Uml::lvt_UseCase_Diagram:
 		name = getUniqueDiagramName( Uml::dt_UseCase );
-		newItem = new UMLListViewItem( parentItem, name, type, -1 );
+		newItem = new UMLListViewItem( parentItem, name, type, Uml::id_None );
 		break;
 
 	case Uml::lvt_Sequence_Diagram:
 		name = getUniqueDiagramName( Uml::dt_Sequence );
-		newItem = new UMLListViewItem( parentItem, name, type, -1 );
+		newItem = new UMLListViewItem( parentItem, name, type, Uml::id_None );
 		break;
 
 	case Uml::lvt_Collaboration_Diagram:
 		name = getUniqueDiagramName( Uml::dt_Collaboration );
-		newItem = new UMLListViewItem( parentItem, name, type, -1 );
+		newItem = new UMLListViewItem( parentItem, name, type, Uml::id_None );
 		break;
 
 	case Uml::lvt_State_Diagram:
 		name = getUniqueDiagramName( Uml::dt_State );
-		newItem = new UMLListViewItem( parentItem, name, type, -1 );
+		newItem = new UMLListViewItem( parentItem, name, type, Uml::id_None );
 		break;
 
 	case Uml::lvt_Activity_Diagram:
 		name = getUniqueDiagramName( Uml::dt_Activity );
-		newItem = new UMLListViewItem( parentItem, name, type, -1 );
+		newItem = new UMLListViewItem( parentItem, name, type, Uml::id_None );
 		break;
 
 	case Uml::lvt_Component_Diagram:
 		name = getUniqueDiagramName(Uml::dt_Component);
-		newItem = new UMLListViewItem(parentItem, name, type, -1);
+		newItem = new UMLListViewItem(parentItem, name, type, Uml::id_None);
 		break;
 
 	case Uml::lvt_Deployment_Diagram:
 		name = getUniqueDiagramName(Uml::dt_Deployment);
-		newItem = new UMLListViewItem(parentItem, name, type, -1);
+		newItem = new UMLListViewItem(parentItem, name, type, Uml::id_None);
 		break;
 	default:
 		break;
@@ -1908,43 +1904,43 @@ void UMLListView::createUMLObject( UMLListViewItem * item, Uml::Object_Type type
 	UMLObject * object = NULL;
 	switch( type ) {
 	case Uml::ot_UseCase:
-		object = new UMLUseCase( name, m_doc -> getUniqueID() );
+		object = new UMLUseCase( name );
 		break;
 
 	case Uml::ot_Actor:
-		object = new UMLActor( name, m_doc -> getUniqueID() );
+		object = new UMLActor( name );
 		break;
 
 	case Uml::ot_Class:
-		object = new UMLClass( name, m_doc -> getUniqueID() );
+		object = new UMLClass( name );
 		break;
 
 	case Uml::ot_Package:
-		object = new UMLPackage( name, m_doc->getUniqueID() );
+		object = new UMLPackage( name );
 		break;
 
 	case Uml::ot_Component:
-		object = new UMLComponent( name, m_doc->getUniqueID() );
+		object = new UMLComponent( name );
 		break;
 
 	case Uml::ot_Node:
-		object = new UMLNode( name, m_doc->getUniqueID() );
+		object = new UMLNode( name );
 		break;
 
 	case Uml::ot_Artifact:
-		object = new UMLArtifact( name, m_doc->getUniqueID() );
+		object = new UMLArtifact( name );
 		break;
 
 	case Uml::ot_Interface:
-		object = new UMLInterface( name, m_doc->getUniqueID() );
+		object = new UMLInterface( name );
 		break;
 
 	case Uml::ot_Datatype:
-		object = new UMLDatatype( name, m_doc->getUniqueID() );
+		object = new UMLDatatype( name );
 		break;
 
 	case Uml::ot_Enum:
-		object = new UMLEnum( name, m_doc->getUniqueID() );
+		object = new UMLEnum( name );
 		break;
 
 	default:
@@ -2237,11 +2233,11 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
 			return false;
 		Uml::ListView_Type lvType = (Uml::ListView_Type)type.toInt();
 		bool bOpen = (bool)open.toInt();
-		int nID = id.toInt();
+		Uml::IDType nID = STR2ID(id);
 		UMLObject * pObject = 0;
 		UMLListViewItem * item = 0;
-		if (nID != -1) {
-			pObject = m_doc->findUMLObject(nID);
+		if (nID != Uml::id_None) {
+			pObject = m_doc->findObjectById(nID);
 			//if (pObject) {
 			//	connectNewObjectsSlots(pObject);
 			//}
@@ -2323,7 +2319,7 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
 					UMLObject* umlObject = parent->getUMLObject();
 					if (!umlObject)
 						return false;
-					if (nID == -1) {
+					if (nID == Uml::id_None) {
 						kdWarning() << "UMLListView::loadChildrenFromXMI: lvtype " << lvType
 							    << " has id -1" << endl;
 					} else {

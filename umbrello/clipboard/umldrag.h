@@ -185,7 +185,7 @@ public:
 
 	struct LvTypeAndID {
 		Uml::ListView_Type type;
-		int id;
+		Uml::IDType id;
 	};
 	typedef QPtrList<LvTypeAndID> LvTypeAndID_List;
 	typedef QPtrListIterator<LvTypeAndID> LvTypeAndID_It;

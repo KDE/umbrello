@@ -39,7 +39,7 @@ bool isCloneable(Uml::Widget_Type type) {
 	}
 }
 
-UMLObject * findObjectInList(int id, UMLObjectList inList) {
+UMLObject * findObjectInList(Uml::IDType id, UMLObjectList inList) {
 	for (UMLObjectListIt oit(inList); oit.current(); ++oit) {
 		UMLObject *obj = oit.current();
 		if (obj->getID() == id)
@@ -48,7 +48,7 @@ UMLObject * findObjectInList(int id, UMLObjectList inList) {
 		Uml::Object_Type t = obj->getBaseType();
 		switch (t) {
 			case Uml::ot_Package:
-				o = ((UMLPackage*)obj)->findObject(id);
+				o = ((UMLPackage*)obj)->findObjectById(id);
 				if (o)
 					return o;
 				break;
@@ -58,7 +58,7 @@ UMLObject * findObjectInList(int id, UMLObjectList inList) {
 				o = ((UMLClassifier*)obj)->findChildObject(id);
 				if (o == NULL &&
 				    (t == Uml::ot_Interface || t == Uml::ot_Class))
-					o = ((UMLPackage*)obj)->findObject(id);
+					o = ((UMLPackage*)obj)->findObjectById(id);
 				if (o)
 					return o;
 				break;
@@ -69,7 +69,7 @@ UMLObject * findObjectInList(int id, UMLObjectList inList) {
 	return NULL;
 }
 
-UMLObject* findObjectByIdStr(QString idStr, UMLObjectList inList) {
+UMLObject* findObjectByAuxId(QString idStr, UMLObjectList inList) {
 	for (UMLObjectListIt oit(inList); oit.current(); ++oit) {
 		UMLObject *o = oit.current();
 		if (o->getAuxId() == idStr)
@@ -77,7 +77,7 @@ UMLObject* findObjectByIdStr(QString idStr, UMLObjectList inList) {
 		UMLObject *inner = NULL;
 		switch (o->getBaseType()) {
 			case Uml::ot_Package:
-				inner = ((UMLPackage*)o)->findObjectByIdStr(idStr);
+				inner = ((UMLPackage*)o)->findObjectByAuxId(idStr);
 				if (inner)
 					return inner;
 				break;
@@ -86,7 +86,7 @@ UMLObject* findObjectByIdStr(QString idStr, UMLObjectList inList) {
 			case Uml::ot_Enum:
 				inner = ((UMLClassifier*)o)->findChildObjectByIdStr(idStr);
 				if (inner == NULL)
-					inner = ((UMLPackage*)o)->findObjectByIdStr(idStr);
+					inner = ((UMLPackage*)o)->findObjectByAuxId(idStr);
 				if (inner)
 					return inner;
 				break;

@@ -92,8 +92,7 @@ AssociationWidget::AssociationWidget(UMLView *view, UMLWidget* pWidgetA,
 	if (getAssocType() == at_Coll_Message) {
 		// Create a temporary name to bring on setName()
 		ObjectWidget *ow = static_cast<ObjectWidget*>(m_role[B].m_pWidget);
-		QString localIdStr;
-		localIdStr.setNum(ow->getLocalID());
+		QString localIdStr = ID2STR(ow->getLocalID());
 		setName("m" + localIdStr);
 		if (m_pObject)
 			m_pName->setUMLObject( m_pObject );
@@ -816,18 +815,18 @@ void AssociationWidget::setAssocType(Association_Type type) {
 	}
 }
 
-int AssociationWidget::getWidgetID(Role_Type role) const {
+Uml::IDType AssociationWidget::getWidgetID(Role_Type role) const {
 	if (m_role[role].m_pWidget == NULL) {
 		if (m_pObject && m_pObject->getBaseType() == ot_Association) {
 			UMLAssociation *umla = static_cast<UMLAssociation*>(m_pObject);
 			return umla->getRoleId(role);
 		}
 		kdError() << "AssociationWidget::getWidgetID(): m_pWidget is NULL" << endl;
-		return -1;
+		return Uml::id_None;
 	}
 	if (m_role[role].m_pWidget->getBaseType() == Uml::wt_Object)
 		return static_cast<ObjectWidget*>(m_role[role].m_pWidget)->getLocalID();
-	int id = m_role[role].m_pWidget->getID();
+	Uml::IDType id = m_role[role].m_pWidget->getID();
 	return id;
 }
 
@@ -2863,8 +2862,8 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
 	// load child widgets first
 	QString widgetaid = qElement.attribute( "widgetaid", "-1" );
 	QString widgetbid = qElement.attribute( "widgetbid", "-1" );
-	int aId = widgetaid.toInt();
-	int bId = widgetbid.toInt();
+	Uml::IDType aId = STR2ID(widgetaid);
+	Uml::IDType bId = STR2ID(widgetbid);
 	UMLWidget *pWidgetA = Umbrello::findWidget( aId, widgets, pMessages );
 	if (!pWidgetA) {
 		kdError() << "AssociationWidget::loadFromXMI(): "
@@ -2882,8 +2881,7 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
 
 	QString id = qElement.attribute( "xmi.id", "-1" );
 	bool oldStyleLoad = false;
-	int nId = id.toInt();
-	if (nId == -1) {
+	if (id == "-1") {
 		// xmi.id not present, ergo either a pure widget association,
 		// or old (pre-1.2) style:
 		// Everything is loaded from the AssociationWidget.
@@ -2966,7 +2964,8 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
 
 		// New style: The xmi.id is a reference to the UMLAssociation.
 		UMLDoc* umldoc = UMLApp::app()->getDocument();
-		UMLObject *myObj = umldoc->findUMLObject(nId);
+		Uml::IDType nId = STR2ID(id);
+		UMLObject *myObj = umldoc->findObjectById(nId);
 		if (myObj == NULL) {
 			kdError() << "AssociationWidget::loadFromXMI: cannot find UMLObject "
 				  << nId << endl;

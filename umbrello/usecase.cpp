@@ -9,7 +9,7 @@
 
 #include "usecase.h"
 
-UMLUseCase::UMLUseCase(const QString & name, int id)
+UMLUseCase::UMLUseCase(const QString & name, Uml::IDType id)
   : UMLCanvasObject(name, id) {
 	init();
 }

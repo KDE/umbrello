@@ -13,7 +13,7 @@
 #include <kdebug.h>
 #include <klocale.h>
 
-UMLComponent::UMLComponent(const QString & name, int id)
+UMLComponent::UMLComponent(const QString & name, Uml::IDType id)
   : UMLCanvasObject(name, id) {
 	init();
 }

@@ -53,12 +53,12 @@ UMLWidget::UMLWidget( UMLView * view, UMLObject * o )
 	}
 }
 
-UMLWidget::UMLWidget(UMLView * view, int id /* = -1 */)
+UMLWidget::UMLWidget(UMLView * view, Uml::IDType id /* = Uml::id_None */)
 	: LinkWidget(view), QCanvasRectangle( view->canvas() ),
 	  m_pMenu(0)
 {
 	init();
-	if (id == -1)
+	if (id == Uml::id_None)
 		m_nId = m_pDoc->getUniqueID();
 	else
 		m_nId = id;
@@ -167,9 +167,9 @@ bool UMLWidget::operator==(const UMLWidget& other) {
 	 */
 }
 
-void UMLWidget::setID(int id) {
+void UMLWidget::setID(Uml::IDType id) {
 	if (m_Type != wt_Text && m_pObject && m_pObject->getBaseType() == ot_Association) {
-		if (m_pObject->getID() != -1)
+		if (m_pObject->getID() != Uml::id_None)
 			kdWarning() << "UMLWidget::setID(): changing old UMLObject "
 				    << m_pObject->getID() << " to " << id << endl;
 		m_pObject->setID( id );
@@ -177,7 +177,7 @@ void UMLWidget::setID(int id) {
 	m_nId = id;
 }
 
-int UMLWidget::getID() const {
+Uml::IDType UMLWidget::getID() const {
 	if (m_Type != wt_Text && m_pObject && m_pObject->getBaseType() == ot_Association)
 		return m_pObject->getID();
 	return m_nId;
@@ -380,7 +380,7 @@ void UMLWidget::mouseReleaseEvent(QMouseEvent *me) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLWidget::init() {
-	m_nId = m_nOldID = -1;
+	m_nId = m_nOldID = Uml::id_None;
 	m_bIsInstance = false;
 	if (m_pView) {
 		m_bUseFillColour = true;
@@ -419,13 +419,14 @@ void UMLWidget::init() {
 	m_nPressOffsetX = m_nPressOffsetY = 0;
 	m_pMenu = 0;
 	m_pDoc = UMLApp::app()->getDocument();
-	m_nPosX = m_nOldX = m_nOldY = m_nOldID = 0;
+	m_nPosX = m_nOldX = m_nOldY = 0;
+	m_nOldID = Uml::id_None;
 	m_nOldH = m_nOldW = 0;
 	connect( m_pView, SIGNAL( sigRemovePopupMenu() ), this, SLOT( slotRemovePopupMenu() ) );
 	connect( m_pView, SIGNAL( sigClearAllSelected() ), this, SLOT( slotClearAllSelected() ) );
 
-	connect( m_pView, SIGNAL(sigColorChanged(int)), this, SLOT(slotColorChanged(int)));
-	connect( m_pView, SIGNAL(sigLineWidthChanged(int)), this, SLOT(slotLineWidthChanged(int)));
+	connect( m_pView, SIGNAL(sigColorChanged(Uml::IDType)), this, SLOT(slotColorChanged(Uml::IDType)));
+	connect( m_pView, SIGNAL(sigLineWidthChanged(Uml::IDType)), this, SLOT(slotLineWidthChanged(Uml::IDType)));
 
 
 //	connect( m_pView, SIGNAL(sigColorChanged(int)), this, SLOT(slotColorChanged(int)));
@@ -555,9 +556,9 @@ void UMLWidget::slotMenuSelection(int sel) {
 	}
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void UMLWidget::slotWidgetMoved(int /*id*/) {}
+void UMLWidget::slotWidgetMoved(Uml::IDType /*id*/) {}
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void UMLWidget::slotColorChanged(int viewID) {
+void UMLWidget::slotColorChanged(Uml::IDType viewID) {
 	//only change if on the diagram concerned
 	if(m_pView->getID() != viewID) {
 		return;
@@ -574,7 +575,7 @@ void UMLWidget::slotColorChanged(int viewID) {
 	update();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void UMLWidget::slotLineWidthChanged(int viewID) {
+void UMLWidget::slotLineWidthChanged(Uml::IDType viewID) {
 	//only change if on the diagram concerned
 	if(m_pView->getID() != viewID) {
 		return;
@@ -861,13 +862,13 @@ void UMLWidget::setView(UMLView * v) {
 	//remove signals from old view - was probably 0 anyway
 	disconnect( m_pView, SIGNAL( sigRemovePopupMenu() ), this, SLOT( slotRemovePopupMenu() ) );
 	disconnect( m_pView, SIGNAL( sigClearAllSelected() ), this, SLOT( slotClearAllSelected() ) );
-	disconnect( m_pView, SIGNAL(sigColorChanged(int)), this, SLOT(slotColorChanged(int)));
-	disconnect( m_pView, SIGNAL(sigLineWidthChanged(int)), this, SLOT(slotLineWidthChanged(int)));
+	disconnect( m_pView, SIGNAL(sigColorChanged(Uml::IDType)), this, SLOT(slotColorChanged(Uml::IDType)));
+	disconnect( m_pView, SIGNAL(sigLineWidthChanged(Uml::IDType)), this, SLOT(slotLineWidthChanged(Uml::IDType)));
 	m_pView = v;
 	connect( m_pView, SIGNAL( sigRemovePopupMenu() ), this, SLOT( slotRemovePopupMenu() ) );
 	connect( m_pView, SIGNAL( sigClearAllSelected() ), this, SLOT( slotClearAllSelected() ) );
-	connect( m_pView, SIGNAL(sigColorChanged(int)), this, SLOT(slotColorChanged(int)));
-	connect( m_pView, SIGNAL(sigLineWidthChanged(int)), this, SLOT(slotLineWidthChanged(int)));
+	connect( m_pView, SIGNAL(sigColorChanged(Uml::IDType)), this, SLOT(slotColorChanged(Uml::IDType)));
+	connect( m_pView, SIGNAL(sigLineWidthChanged(Uml::IDType)), this, SLOT(slotLineWidthChanged(Uml::IDType)));
 }
 
 void UMLWidget::setX( int x ) {
@@ -1091,7 +1092,7 @@ bool UMLWidget::loadFromXMI( QDomElement & qElement ) {
 	QString usesDiagramLineWidth  = qElement.attribute( "usesdiagramlinewidth", "1" );
 	QString usesDiagramUseFillColour = qElement.attribute( "usesdiagramusefillcolour", "1" );
 
-	m_nId = id.toInt();
+	m_nId = STR2ID(id);
 
 	if( !font.isEmpty() ) {
 		//QFont newFont;

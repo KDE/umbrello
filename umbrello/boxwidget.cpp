@@ -17,7 +17,7 @@
 #include "umlview.h"
 #include "boxwidget.h"
 
-BoxWidget::BoxWidget(UMLView * view, int id) : UMLWidget( view, id ) {
+BoxWidget::BoxWidget(UMLView * view, Uml::IDType id) : UMLWidget( view, id ) {
 	init();
 }
 

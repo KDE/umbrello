@@ -16,7 +16,7 @@
 #include <qregexp.h>
 #include <kdebug.h>
 
-UMLAttribute::UMLAttribute( const UMLObject *parent, QString Name, int id,
+UMLAttribute::UMLAttribute( const UMLObject *parent, QString Name, Uml::IDType id,
 			    Uml::Scope s, QString type, QString iv )
   : UMLClassifierListItem(parent, Name, id) {
 	m_InitialValue = iv;

@@ -51,7 +51,7 @@ public:
 	 * @param id	The ID to assign (-1 will prompt a new ID.)
 	 */
 	FloatingText(UMLView * view, Uml::Text_Role role = Uml::tr_Floating,
-		     QString text = "", int id = -1);
+		     QString text = "", Uml::IDType id = Uml::id_None);
 
 	/**
 	 * destructor

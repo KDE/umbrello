@@ -30,7 +30,7 @@ bool IDChangeLog::operator==(const IDChangeLog& /*Other*/) {
 	return false;
 }
 
-int IDChangeLog::findNewID(int OldID) {
+Uml::IDType IDChangeLog::findNewID(Uml::IDType OldID) {
 	uint count = m_LogArray.size();
 	for(uint i = 0; i < count; i++) {
 		if((m_LogArray.point(i)).y() ==  OldID) {
@@ -38,7 +38,7 @@ int IDChangeLog::findNewID(int OldID) {
 		}
 	}
 
-	return -1;
+	return Uml::id_None;
 }
 
 IDChangeLog& IDChangeLog::operator+=(const IDChangeLog& Other) {
@@ -51,7 +51,7 @@ IDChangeLog& IDChangeLog::operator+=(const IDChangeLog& Other) {
 	return *this;
 }
 
-void IDChangeLog::addIDChange(int OldID, int NewID) {
+void IDChangeLog::addIDChange(Uml::IDType OldID, Uml::IDType NewID) {
 	uint pos;
 	if(!findIDChange(OldID, NewID, pos)) {
 		pos = m_LogArray.size();
@@ -62,7 +62,7 @@ void IDChangeLog::addIDChange(int OldID, int NewID) {
 	}
 }
 
-int IDChangeLog::findOldID(int NewID) {
+Uml::IDType IDChangeLog::findOldID(Uml::IDType NewID) {
 	uint count = m_LogArray.size();
 	for(uint i = 0; i < count; i++) {
 		if((m_LogArray.point(i)).x() ==  NewID) {
@@ -70,10 +70,10 @@ int IDChangeLog::findOldID(int NewID) {
 		}
 	}
 
-	return -1;
+	return Uml::id_None;
 }
 
-bool IDChangeLog::findIDChange(int OldID, int NewID, uint& pos) {
+bool IDChangeLog::findIDChange(Uml::IDType OldID, Uml::IDType NewID, uint& pos) {
 	uint count = m_LogArray.size();
 	for(uint i = 0; i < count; i++) {
 		if(((m_LogArray.point(i)).y() ==  OldID) && ((m_LogArray.point(i)).x() ==  NewID)) {
@@ -85,11 +85,11 @@ bool IDChangeLog::findIDChange(int OldID, int NewID, uint& pos) {
 	return false;
 }
 
-void IDChangeLog::removeChangeByNewID(int OldID) {
+void IDChangeLog::removeChangeByNewID(Uml::IDType OldID) {
 	uint count = m_LogArray.size();
 	for(uint i = 0; i < count; i++) {
 		if((m_LogArray.point(i)).y() ==  OldID) {
-			m_LogArray.setPoint(i, NullID, OldID);
+			m_LogArray.setPoint(i, Uml::id_None, OldID);
 		}
 	}
 }

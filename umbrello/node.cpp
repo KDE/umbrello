@@ -11,7 +11,7 @@
 #include <kdebug.h>
 #include <klocale.h>
 
-UMLNode::UMLNode(const QString & name, int id)
+UMLNode::UMLNode(const QString & name, Uml::IDType id)
   : UMLCanvasObject(name, id) {
 	init();
 }

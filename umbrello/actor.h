@@ -35,7 +35,7 @@ public:
 	 * @param name		The name of the Actor.
 	 * @param id		The unique id to assign to this Actor.
 	 */
-	UMLActor(const QString & name = "", int id = -1);
+	UMLActor(const QString & name = "", Uml::IDType id = Uml::id_None);
 
 	/**
 	 * Standard deconstructor.

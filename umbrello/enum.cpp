@@ -14,7 +14,7 @@
 #include <kdebug.h>
 #include <klocale.h>
 
-UMLEnum::UMLEnum(const QString& name, int id) : UMLClassifier(name, id) {
+UMLEnum::UMLEnum(const QString& name, Uml::IDType id) : UMLClassifier(name, id) {
 	init();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -83,7 +83,7 @@ void UMLEnum::init() {
 	setStereotype( i18n("enum") );
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLObject* UMLEnum::addEnumLiteral(QString name, int id) {
+UMLObject* UMLEnum::addEnumLiteral(QString name, Uml::IDType id) {
 	UMLEnumLiteral* literal = new UMLEnumLiteral(this, name, id);
 	m_List.append(literal);
 	emit modified();
@@ -168,15 +168,6 @@ UMLObjectList UMLEnum::findChildObject(Uml::Object_Type t, QString n) {
 	}
 
 	return list;
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLObject* UMLEnum::findChildObject(int id) {
-	UMLClassifierListItem * a = 0;
-	for ( a = m_List.first(); a != 0; a = m_List.next()) {
-		if(a->getID() == id)
-			return a;
-	}
-	return UMLClassifier::findChildObject(id);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 int UMLEnum::enumLiterals() {

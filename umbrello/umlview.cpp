@@ -92,6 +92,8 @@
 #include "toolbarstatefactory.h"
 
 
+# define EXTERNALIZE_ID(id)  QString::number(id)
+
 // control the manual DoubleBuffering of QCanvas
 // with a define, so that this memory X11 effect can
 // be tested more easily
@@ -111,7 +113,7 @@ UMLView::UMLView() : QCanvasView(UMLApp::app()->getMainViewWidget(), "AnUMLView"
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLView::init() {
 	// Initialize loaded/saved data
-	m_nID = -1;
+	m_nID = Uml::id_None;
 	m_pDoc = NULL;
 	m_Documentation = "";
 	m_Name = "umlview";
@@ -531,7 +533,7 @@ void UMLView::slotObjectCreated(UMLObject* o) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLView::slotObjectRemoved(UMLObject * o) {
 	m_bPaste = false;
-	int id = o->getID();
+	Uml::IDType id = o->getID();
 	UMLWidgetListIt it( m_WidgetList );
 	UMLWidget *obj;
 
@@ -556,7 +558,7 @@ void UMLView::contentsDragEnterEvent(QDragEnterEvent *e) {
 		return;
 	}
 	ListView_Type lvtype = tid->type;
-	int id = tid->id;
+	Uml::IDType id = tid->id;
 
 	Diagram_Type diagramType = getType();
 
@@ -580,7 +582,7 @@ void UMLView::contentsDragEnterEvent(QDragEnterEvent *e) {
 		return;
 	}
 	//make sure can find UMLObject
-	if( !(temp = m_pDoc->findUMLObject(id) ) ) {
+	if( !(temp = m_pDoc->findObjectById(id) ) ) {
 		kdDebug() << " object not found" << endl;
 		e->accept(false);
 		return;
@@ -635,12 +637,12 @@ void UMLView::contentsDropEvent(QDropEvent *e) {
 		return;
 	}
 	ListView_Type lvtype = tid->type;
-	int id = tid->id;
+	Uml::IDType id = tid->id;
 
 	if(lvtype >= lvt_UseCase_Diagram && lvtype <= lvt_Sequence_Diagram) {
 		return;
 	}
-	UMLObject* o = m_pDoc->findUMLObject(id);
+	UMLObject* o = m_pDoc->findObjectById(id);
 	if( !o ) {
 		kdDebug() << " object not found" << endl;
 		return;
@@ -683,7 +685,7 @@ void UMLView::checkMessages(ObjectWidget * w) {
 	}
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-bool UMLView::widgetOnDiagram(int id) {
+bool UMLView::widgetOnDiagram(Uml::IDType id) {
 	UMLWidget *obj;
 
 	UMLWidgetListIt it( m_WidgetList );
@@ -712,7 +714,7 @@ void UMLView::contentsMouseMoveEvent(QMouseEvent* ome)
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // search both our UMLWidget AND MessageWidget lists
-UMLWidget * UMLView::findWidget( int id ) {
+UMLWidget * UMLView::findWidget( Uml::IDType id ) {
 
 	UMLWidgetListIt it( m_WidgetList );
 	UMLWidget * obj = NULL;
@@ -738,7 +740,7 @@ UMLWidget * UMLView::findWidget( int id ) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-AssociationWidget * UMLView::findAssocWidget( int id ) {
+AssociationWidget * UMLView::findAssocWidget( Uml::IDType id ) {
 	AssociationWidget *obj;
 	AssociationWidgetListIt it( m_AssociationList );
 	while ( (obj = it.current()) != 0 ) {
@@ -794,7 +796,7 @@ void UMLView::removeWidget(UMLWidget * o) {
 	m_SelectedList.remove(o);
 	disconnect( this, SIGNAL( sigRemovePopupMenu() ), o, SLOT( slotRemovePopupMenu() ) );
 	disconnect( this, SIGNAL( sigClearAllSelected() ), o, SLOT( slotClearAllSelected() ) );
-	disconnect( this, SIGNAL(sigColorChanged(int)), o, SLOT(slotColorChanged(int)));
+	disconnect( this, SIGNAL(sigColorChanged(Uml::IDType)), o, SLOT(slotColorChanged(Uml::IDType)));
 	if (t == wt_Message)
 		m_MessageList.remove(static_cast<MessageWidget*>(o));
 	else
@@ -1087,19 +1089,21 @@ void UMLView::deleteSelection()
 	m_SelectedList.clear();
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLView::selectAll()
 {
 	selectWidgets(0, 0, canvas()->width(), canvas()->height());
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
+Uml::IDType UMLView::getLocalID() {
+	--m_nLocalID;
+	return EXTERNALIZE_ID(m_nLocalID);
+}
+
 void UMLView::contentsMousePressEvent(QMouseEvent* ome)
 {
 	m_pToolBarState->mousePress(ome);
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLView::makeSelected (UMLWidget * uw) {
 	if (uw == NULL)
 		return;
@@ -1108,7 +1112,6 @@ void UMLView::makeSelected (UMLWidget * uw) {
 	m_SelectedList.append(uw);
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLView::selectWidgetsOfAssoc (AssociationWidget * a) {
 	if (!a)
 		return;
@@ -1125,7 +1128,6 @@ void UMLView::selectWidgetsOfAssoc (AssociationWidget * a) {
 	makeSelected( a->getChangeWidget(B) );
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLView::selectWidgets(int px, int py, int qx, int qy) {
 	clearSelected();
 
@@ -1200,7 +1202,7 @@ void UMLView::selectWidgets(int px, int py, int qx, int qy) {
 		}//end if
 	}//end while
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void  UMLView::getDiagram(const QRect &rect, QPixmap & diagram) {
 	QPixmap pixmap(rect.x() + rect.width(), rect.y() + rect.height());
 	QPainter painter(&pixmap);
@@ -1651,15 +1653,15 @@ bool UMLView::addWidget( UMLWidget * pWidget , bool isPasteOperation ) {
 		case wt_Actor:
 		case wt_UseCase:
 			{
-				int id = pWidget -> getID();
-				int newID = log->findNewID( id );
-				if( newID == -1 ) {  // happens after a cut
-					if (id == -1)
+				Uml::IDType id = pWidget -> getID();
+				Uml::IDType newID = log->findNewID( id );
+				if( newID == Uml::id_None ) {  // happens after a cut
+					if (id == Uml::id_None)
 						return false;
 					newID = id; //don't stop paste
 				} else
 					pWidget -> setID( newID );
-				UMLObject * pObject = m_pDoc -> findUMLObject( newID );
+				UMLObject * pObject = m_pDoc -> findObjectById( newID );
 				if( !pObject ) {
 					kdDebug() << "addWidget: Can't find UMLObject for id "
 						  << newID << endl;
@@ -1680,7 +1682,7 @@ bool UMLView::addWidget( UMLWidget * pWidget , bool isPasteOperation ) {
 		case wt_State:
 		case wt_Activity:
 			{
-				int newID = m_pDoc->assignNewID( pWidget->getID() );
+				Uml::IDType newID = m_pDoc->assignNewID( pWidget->getID() );
 				pWidget->setID(newID);
 				if (type != wt_Message) {
 					m_WidgetList.append( pWidget );
@@ -1695,11 +1697,11 @@ bool UMLView::addWidget( UMLWidget * pWidget , bool isPasteOperation ) {
 				}
 				ObjectWidget *objWidgetA = pMessage -> getWidget(A);
 				ObjectWidget *objWidgetB = pMessage -> getWidget(B);
-				int waID = objWidgetA -> getLocalID();
-				int wbID = objWidgetB -> getLocalID();
-				int newWAID = m_pIDChangesLog ->findNewID( waID );
-				int newWBID = m_pIDChangesLog ->findNewID( wbID );
-				if( newWAID == -1 || newWBID == -1 ) {
+				Uml::IDType waID = objWidgetA -> getLocalID();
+				Uml::IDType wbID = objWidgetB -> getLocalID();
+				Uml::IDType newWAID = m_pIDChangesLog ->findNewID( waID );
+				Uml::IDType newWBID = m_pIDChangesLog ->findNewID( wbID );
+				if( newWAID == Uml::id_None || newWBID == Uml::id_None ) {
 					kdDebug() << "Error with ids : " << newWAID << " " << newWBID << endl;
 					return false;
 				}
@@ -1710,10 +1712,10 @@ bool UMLView::addWidget( UMLWidget * pWidget , bool isPasteOperation ) {
 				FloatingText *ft = pMessage->getFloatingText();
 				if (ft == NULL)
 					kdDebug() << "UMLView::addWidget: FloatingText of Message is NULL" << endl;
-				else if (ft->getID() == -1)
+				else if (ft->getID() == Uml::id_None)
 					ft->setID( m_pDoc->getUniqueID() );
 				else {
-					int newTextID = m_pDoc->assignNewID( ft->getID() );
+					Uml::IDType newTextID = m_pDoc->assignNewID( ft->getID() );
 					ft->setID( newTextID );
 				}
 				m_MessageList.append( pMessage );
@@ -1727,16 +1729,16 @@ bool UMLView::addWidget( UMLWidget * pWidget , bool isPasteOperation ) {
 					kdDebug() << "UMLView::addWidget(): pObjectWidget is NULL" << endl;
 					return false;
 				}
-				int newID = log->findNewID( pWidget -> getID() );
-				if (newID == -1) {
+				Uml::IDType newID = log->findNewID( pWidget -> getID() );
+				if (newID == Uml::id_None) {
 					return false;
 				}
 				pObjectWidget -> setID( newID );
-				int nNewLocalID = getLocalID();
-				int nOldLocalID = pObjectWidget -> getLocalID();
+				Uml::IDType nNewLocalID = getLocalID();
+				Uml::IDType nOldLocalID = pObjectWidget -> getLocalID();
 				m_pIDChangesLog->addIDChange( nOldLocalID, nNewLocalID );
 				pObjectWidget -> setLocalID( nNewLocalID );
-				UMLObject *pObject = m_pDoc -> findUMLObject( newID );
+				UMLObject *pObject = m_pDoc -> findObjectById( newID );
 				if( !pObject ) {
 					kdDebug() << "addWidget::Can't find UMLObject" << endl;
 					return false;
@@ -1768,7 +1770,7 @@ bool UMLView::addAssociation( AssociationWidget* pAssoc , bool isPasteOperation)
 		if(!log )
 			return false;
 
-		int ida = -1, idb = -1;
+		Uml::IDType ida = Uml::id_None, idb = Uml::id_None;
 		Association_Type type = pAssoc -> getAssocType();
 		IDChangeLog* localLog = getLocalIDChangeLog();
 		if( getType() == dt_Collaboration || getType() == dt_Sequence ) {
@@ -1777,27 +1779,27 @@ bool UMLView::addAssociation( AssociationWidget* pAssoc , bool isPasteOperation)
 			idb = localLog->findNewID( pAssoc->getWidgetID(B) );
 			//if either is still not found and assoc type is anchor
 			//we are probably linking to a notewidet - else an error
-			if( ida == -1 && type == at_Anchor )
+			if( ida == Uml::id_None && type == at_Anchor )
 				ida = log->findNewID(pAssoc->getWidgetID(A));
-			if( idb == -1 && type == at_Anchor )
+			if( idb == Uml::id_None && type == at_Anchor )
 				idb = log->findNewID(pAssoc->getWidgetID(B));
 		} else {
-			int oldIdA = pAssoc->getWidgetID(A);
-			int oldIdB = pAssoc->getWidgetID(B);
+			Uml::IDType oldIdA = pAssoc->getWidgetID(A);
+			Uml::IDType oldIdB = pAssoc->getWidgetID(B);
 			ida = log->findNewID( oldIdA );
-			if (ida == -1) {  // happens after a cut
-				if (oldIdA == -1)
+			if (ida == Uml::id_None) {  // happens after a cut
+				if (oldIdA == Uml::id_None)
 					return false;
 				ida = oldIdA;
 			}
 			idb = log->findNewID( oldIdB );
-			if (idb == -1) {  // happens after a cut
-				if (oldIdB == -1)
+			if (idb == Uml::id_None) {  // happens after a cut
+				if (oldIdB == Uml::id_None)
 					return false;
 				idb = oldIdB;
 			}
 		}
-		if(ida == -1 || idb == -1) {
+		if(ida == Uml::id_None || idb == Uml::id_None) {
 			return false;
 		}
 		// cant do this anymore.. may cause problem for pasting
@@ -2215,7 +2217,7 @@ void UMLView::createAutoAssociations( UMLWidget * widget ) {
 	const UMLAssociationList& umlAssocs = umlObj->getAssociations();
 	UMLAssociationListIt it(umlAssocs);
 	UMLAssociation *assoc = NULL;
-	int myID = umlObj->getID();
+	Uml::IDType myID = umlObj->getID();
 	while ((assoc = it.current()) != NULL) {
 		++it;
 		UMLCanvasObject *other = NULL;
@@ -2242,7 +2244,7 @@ void UMLView::createAutoAssociations( UMLWidget * widget ) {
 		}
 		// Now that we have determined the "other" UMLObject, seek it in
 		// this view's UMLWidgets.
-		int otherID = other->getID();
+		Uml::IDType otherID = other->getID();
 		UMLWidget *pOtherWidget;
 		UMLWidgetListIt wit(m_WidgetList);
 		while ((pOtherWidget = wit.current()) != NULL) {
@@ -2305,7 +2307,7 @@ void UMLView::createAutoAssociations( UMLWidget * widget ) {
 		UMLObjectList& lst = umlPkg->containedObjects();
 		for (UMLObject *obj = lst.first(); obj; obj = lst.next()) {
 			// if the containedObject has a widget representation on this view then
-			int id = obj->getID();
+			Uml::IDType id = obj->getID();
 			for (UMLWidget *w = m_WidgetList.first(); w; w = m_WidgetList.next()) {
 				if (w->getID() != id)
 					continue;
@@ -2324,7 +2326,7 @@ void UMLView::createAutoAssociations( UMLWidget * widget ) {
 	if (parent == NULL)
 		return;
 	// if the parentPackage has a widget representation on this view then
-	int pkgID = parent->getID();
+	Uml::IDType pkgID = parent->getID();
 	UMLWidget *pWidget;
 	UMLWidgetListIt wit(m_WidgetList);
 	while ((pWidget = wit.current()) != NULL) {
@@ -3149,8 +3151,8 @@ void UMLView::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 
 bool UMLView::loadFromXMI( QDomElement & qElement ) {
 	QString id = qElement.attribute( "xmi.id", "-1" );
-	m_nID = id.toInt();
-	if( m_nID == -1 )
+	m_nID = STR2ID(id);
+	if( m_nID == Uml::id_None )
 		return false;
 	m_Name = qElement.attribute( "name", "" );
 	QString type = qElement.attribute( "type", "-1" );
@@ -3316,9 +3318,9 @@ UMLWidget* UMLView::loadWidgetFromXMI(QDomElement& widgetElement) {
 	   to a separate method.
 	 */
 		QString idstr  = widgetElement.attribute( "xmi.id", "-1" );
-		int id = idstr.toInt();
+		Uml::IDType id = STR2ID(idstr);
 		UMLObject *o(0);
-		if( id < 0 || !( o = m_pDoc->findUMLObject(id)) )
+		if( id == Uml::id_None || !( o = m_pDoc->findObjectById(id)) )
 		{
 			kdError() << "UMLView::loadWidgetFromXMI: cannot find object with id "
 				  << id << endl;

@@ -34,7 +34,7 @@ public:
 	 * @param type		The type of this UMLAttribute.
 	 * @param iv		The initial value of the attribute.
 	 */
-	UMLAttribute(const UMLObject *parent, QString name, int id,
+	UMLAttribute(const UMLObject *parent, QString name, Uml::IDType id = Uml::id_None,
 		     Uml::Scope s = Uml::Private, QString type = "int", QString iv = 0);
 
 	/**

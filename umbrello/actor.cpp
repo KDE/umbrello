@@ -9,7 +9,7 @@
 
 #include "actor.h"
 
-UMLActor::UMLActor(const QString & name, int id) : UMLCanvasObject(name, id) {
+UMLActor::UMLActor(const QString & name, Uml::IDType id) : UMLCanvasObject(name, id) {
 	init();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////

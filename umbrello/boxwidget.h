@@ -36,7 +36,7 @@ public:
 	 * @param view		The parent to this widget.
 	 * @param id		The ID to assign (-1 will prompt a new ID.)
 	 */
-	BoxWidget(UMLView * view, int id = -1);
+	BoxWidget(UMLView * view, Uml::IDType id = Uml::id_None);
 
 	/**
 	 * destructor

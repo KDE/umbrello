@@ -22,7 +22,7 @@
 #include "notewidget.h"
 #include "listpopupmenu.h"
 
-NoteWidget::NoteWidget(UMLView * view, int id) : UMLWidget(view, id) {
+NoteWidget::NoteWidget(UMLView * view, Uml::IDType id) : UMLWidget(view, id) {
 	init();
 	setSize(100,80);
 }

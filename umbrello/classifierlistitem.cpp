@@ -15,7 +15,7 @@
 #include "uml.h"
 #include "umldoc.h"
 
-UMLClassifierListItem::UMLClassifierListItem(const UMLObject *parent, QString Name, int id)
+UMLClassifierListItem::UMLClassifierListItem(const UMLObject *parent, QString Name, Uml::IDType id)
   : UMLObject(parent, Name, id) {
 }
 

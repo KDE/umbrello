@@ -19,7 +19,7 @@
 #include <kdebug.h>
 #include <klocale.h>
 
-UMLClass::UMLClass(const QString & name, int id) : UMLClassifier (name, id)
+UMLClass::UMLClass(const QString & name, Uml::IDType id) : UMLClassifier (name, id)
 {
 	init();
 }
@@ -32,15 +32,13 @@ UMLClass::~UMLClass() {
 	// already gives us clear()ed lists.)
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLAttribute* UMLClass::addAttribute(QString name, int id /* = -1 */) {
+UMLAttribute* UMLClass::addAttribute(QString name, Uml::IDType id /* = Uml::id_None */) {
 	UMLClassifierListItem *obj = NULL;
 	for (obj = m_List.first(); obj; obj = m_List.next()) {
 		if (obj->getBaseType() == Uml::ot_Attribute && obj->getName() == name)
 			return static_cast<UMLAttribute*>(obj);
 	}
 	UMLApp *app = UMLApp::app();
-	if (id == -1)
-		id = app->getDocument()->getUniqueID();
 	Uml::Scope scope = app->getOptionState().classState.defaultAttributeScope;
 	UMLAttribute *a = new UMLAttribute(this, name, id, scope);
 	m_List.append(a);
@@ -95,7 +93,7 @@ UMLAttribute* UMLClass::takeAttribute(UMLAttribute* a) {
 	return a;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLObject* UMLClass::addTemplate(QString name, int id) {
+UMLObject* UMLClass::addTemplate(QString name, Uml::IDType id) {
 	UMLTemplate* newTemplate = new UMLTemplate(this, name, id);
 	m_List.append(newTemplate);
 	emit modified();

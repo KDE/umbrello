@@ -50,7 +50,7 @@ public:
 	 * @param name		The name of the Concept.
 	 * @param id		The unique id of the Concept.
 	 */
-	UMLClassifier(const QString & name = "", int id = -1);
+	UMLClassifier(const QString & name = "", Uml::IDType id = Uml::id_None);
 
 	/**
 	 * Standard deconstructor.
@@ -184,7 +184,7 @@ public:
 	 *
 	 * @return	The object found.  Will return 0 if none found.
 	 */
-	virtual UMLObject* findChildObject(int id);
+	virtual UMLObject* findChildObject(Uml::IDType id);
 
 	/**
 	 * Find the object of the given (non-numeric) auxiliary ID

@@ -30,7 +30,7 @@ namespace Umbrello {
 	 * @param pMessages	Optional pointer to a MessageWidgetList to
 	 *			search in.
 	 */
-	UMLWidget* findWidget(int id,
+	UMLWidget* findWidget(Uml::IDType id,
 			      const UMLWidgetList& widgets,
 			      const MessageWidgetList* pMessages = NULL);
 

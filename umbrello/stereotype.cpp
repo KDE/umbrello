@@ -16,7 +16,7 @@
 #include <klocale.h>
 #include <kdebug.h>
 
-UMLStereotype::UMLStereotype(QString name, int id /* = -1 */)
+UMLStereotype::UMLStereotype(QString name, Uml::IDType id /* = Uml::id_None */)
   : UMLObject( name, id ) {
 	m_BaseType = Uml::ot_Stereotype;
 	m_refCount = 0;

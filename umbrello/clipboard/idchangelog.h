@@ -20,7 +20,10 @@
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
-#include <qpointarray.h>
+#include <qstring.h>
+#include <qmemarray.h>
+
+#include "../umlnamespace.h"
 
 class IDChangeLog {
 public:
@@ -52,7 +55,7 @@ public:
 	/**
 	 * Adds a new ID Change to the log.
 	 */
-	void addIDChange(int OldID, int NewID);
+	void addIDChange(Uml::IDType OldID, Uml::IDType NewID);
 
 	/**
 	 * Appends another IDChangeLog to this instance of IDChangeLog and
@@ -64,34 +67,53 @@ public:
 	 * Returns the new assigned ID of the object that had OldID as its
 	 * previous id.
 	 */
-	int findNewID(int OldID);
+	Uml::IDType findNewID(Uml::IDType OldID);
 
 	/**
 	 * Returns the old ID of an UMLobject given its new one.
 	 */
-	int findOldID(int NewID);
+	Uml::IDType findOldID(Uml::IDType NewID);
 
 	/**
 	 * Removes a change giving an New ID.
 	 */
-	void removeChangeByNewID( int OldID);
+	void removeChangeByNewID( Uml::IDType OldID);
 
 	enum SpecialIDs
 	{
 	    NullID = -1000 ///< An impossible id value.
 	};
 
-public:
-	/**
-	 * Each change is a QPoint (x=newID, y=oldID)
-	 */
-	QPointArray m_LogArray;
-
 private:
+	/**
+	 * Each change is a Point (x=newID, y=oldID)
+	 */
+	class Point {
+	public:
+		Point(Uml::IDType x, Uml::IDType y) { m_x = x; m_y = y; }
+		virtual ~Point() {}
+		void   setX( Uml::IDType x ) { m_x = x; }
+		Uml::IDType x() { return m_x; }
+		void   setY( Uml::IDType y ) { m_y = y; }
+		Uml::IDType y() { return m_y; }
+	private:
+		Uml::IDType m_x, m_y;
+	};
+	class PointArray : QMemArray<Point> {
+	public:
+		void  setPoint( uint i, Uml::IDType x, Uml::IDType y ) {
+			QMemArray<Point>::at(i) = Point(x, y);
+		}
+		Point& point( uint i ) const { return QMemArray<Point>::at(i); }
+		uint   size() const          { return QMemArray<Point>::size(); }
+		bool   resize( uint size )   { return QMemArray<Point>::resize(size); }
+	};
+	PointArray m_LogArray;
+
 	/**
 	 * Finds a specific change in the log.
 	 */
-	bool findIDChange(int OldID, int NewID, uint& pos);
+	bool findIDChange(Uml::IDType OldID, Uml::IDType NewID, uint& pos);
 };
 
 #endif

@@ -49,7 +49,7 @@ public:
 	 *              The default (-1) will prompt generation of a new ID.
 	 */
 	MessageWidget(UMLView * view, ObjectWidget* a, ObjectWidget* b, FloatingText* ft, 
-		      int y, Uml::Sequence_Message_Type sequenceMessageType, int id = -1);
+		      int y, Uml::Sequence_Message_Type sequenceMessageType, Uml::IDType id = Uml::id_None);
 
 	/**
 	 * Constructs a MessageWidget.
@@ -57,7 +57,7 @@ public:
 	 * @param view		The parent to this class.
 	 * @param id		The ID to assign (-1 will prompt a new ID.)
 	 */
-	MessageWidget(UMLView * view, Uml::Sequence_Message_Type sequenceMessageType, int id = -1);
+	MessageWidget(UMLView * view, Uml::Sequence_Message_Type sequenceMessageType, Uml::IDType id = Uml::id_None);
 
 	/**
 	 * Initializes key variables of the class.
@@ -316,8 +316,9 @@ private:
 	ObjectWidget * m_pOw[2];
 	FloatingText * m_pFText;
 	int m_nY;
+	bool m_inSelection;
 public slots:
-	void slotWidgetMoved(int id);
+	void slotWidgetMoved(Uml::IDType id);
 	void slotMenuSelection(int sel);
 signals:
 	/**

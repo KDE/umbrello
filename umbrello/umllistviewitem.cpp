@@ -65,7 +65,7 @@ UMLListViewItem::UMLListViewItem(UMLListViewItem * parent, QString name, Uml::Li
 	m_Type = t;
 	m_pObject = o;
 	if( !o ) {
-		m_nId = -1;
+		m_nId = Uml::id_None;
 		updateFolder();
 	} else {
 		updateObject();
@@ -81,7 +81,7 @@ UMLListViewItem::UMLListViewItem(UMLListViewItem * parent, QString name, Uml::Li
 	setText( name );
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLListViewItem::UMLListViewItem(UMLListViewItem * parent, QString name, Uml::ListView_Type t,int id)
+UMLListViewItem::UMLListViewItem(UMLListViewItem * parent, QString name, Uml::ListView_Type t,Uml::IDType id)
   : QListViewItem(parent, name) {
 	if (s_pListView == NULL) {
 		kdDebug() << "UMLListViewItem internal error 2: s_pListView is NULL" << endl;
@@ -133,7 +133,7 @@ void UMLListViewItem::init() {
 	m_Type = Uml::lvt_Unknown;
 	m_bCreating = false;
 	m_pObject = NULL;
-	m_nId = -1;
+	m_nId = Uml::id_None;
 	m_nChildren = 0;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -141,16 +141,16 @@ Uml::ListView_Type UMLListViewItem::getType() const {
 	return m_Type;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-int UMLListViewItem::getID() const {
+Uml::IDType UMLListViewItem::getID() const {
 	if (m_pObject)
 		return m_pObject->getID();
 	return m_nId;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void UMLListViewItem::setID(int id) {
+void UMLListViewItem::setID(Uml::IDType id) {
 	if (m_pObject) {
-		int oid = m_pObject->getID();
-		if (id != -1 && oid != id)
+		Uml::IDType oid = m_pObject->getID();
+		if (id != Uml::id_None && oid != id)
 			kdDebug() << "UMLListViewItem::setID: new id " << id
 				  << " does not agree with object id " << oid << endl;
 	}
@@ -468,7 +468,7 @@ UMLListViewItem* UMLListViewItem::findUMLObject(UMLObject *o) {
 	return NULL;
 }
 
-UMLListViewItem * UMLListViewItem::findItem(int id) {
+UMLListViewItem * UMLListViewItem::findItem(Uml::IDType id) {
 	if (getID() == id)
 		return this;
 	UMLListViewItem *childItem = static_cast<UMLListViewItem*>(firstChild());
@@ -483,13 +483,15 @@ UMLListViewItem * UMLListViewItem::findItem(int id) {
 
 void UMLListViewItem::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement itemElement = qDoc.createElement( "listitem" );
-	itemElement.setAttribute( "id", getID() );
+	Uml::IDType id = getID();
+	if (id != Uml::id_None)
+		itemElement.setAttribute( "id", id );
 	itemElement.setAttribute( "type", m_Type );
 	if (m_pObject == NULL) {
 		// The predefined listview items such as "Logical View" etc. do
 		// not have a model counterpart thus their label is saved here.
 		itemElement.setAttribute( "label", m_Label );
-	} else if (m_pObject->getID() == -1) {
+	} else if (m_pObject->getID() == Uml::id_None) {
 		if (m_Label.isEmpty()) {
 			kdDebug() << "UMLListViewItem::saveToXMI(): Skipping empty item"
 				  << endl;
@@ -523,9 +525,9 @@ bool UMLListViewItem::loadFromXMI(QDomElement& qElement) {
 
 	m_nChildren = qElement.childNodes().count();
 
-	m_nId = id.toInt();
-	if (m_nId != -1)
-		m_pObject = s_pListView->getDocument()->findUMLObject( m_nId );
+	m_nId = STR2ID(id);
+	if (m_nId != Uml::id_None)
+		m_pObject = s_pListView->getDocument()->findObjectById( m_nId );
 	m_Type = (Uml::ListView_Type)(type.toInt());
 	setOpen( (bool)open.toInt() );
 	return true;

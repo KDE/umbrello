@@ -108,7 +108,7 @@ UMLObject *ClassImport::createUMLObject(Uml::Object_Type type,
 }
 
 UMLOperation* ClassImport::makeOperation(UMLClass *parent, QString name) {
-	UMLOperation *op = new UMLOperation(parent, name, m_umldoc->getUniqueID());
+	UMLOperation *op = new UMLOperation(parent, name);
 	return op;
 }
 
@@ -196,7 +196,7 @@ UMLAttribute* ClassImport::addMethodParameter(UMLOperation *method,
 
 void ClassImport::addEnumLiteral(UMLEnum *enumType, QString literal) {
 	// Why an extra wrapper? See comment at addMethodParameter()
-	enumType->addEnumLiteral( literal, m_umldoc->getUniqueID() );
+	enumType->addEnumLiteral( literal );
 }
 
 void ClassImport::createGeneralization(UMLClass *child, QString parentName) {

@@ -36,7 +36,7 @@ public:
 	 * @param name		The name of the class.
 	 * @param id		The unique id of the class.
 	 */
-	UMLClass(const QString & Name = "", int id = -1);
+	UMLClass(const QString & Name = "", Uml::IDType id = Uml::id_None);
 
 	/**
 	 * Copy the internal presentation of this object into the new
@@ -71,7 +71,7 @@ public:
 	 *                      will internally assign a new ID.
 	 * @return	Pointer to the UMLAttribute created or found.
 	 */
-	UMLAttribute* addAttribute(QString name, int id = -1);
+	UMLAttribute* addAttribute(QString name, Uml::IDType id = Uml::id_None);
 
 	/**
 	 * Adds an already created attribute.
@@ -114,7 +114,7 @@ public:
 	 * @param id		The id of the template.
 	 * @return	Pointer to the UMLTemplate object created.
 	 */
-	UMLObject* addTemplate(QString name, int id);
+	UMLObject* addTemplate(QString name, Uml::IDType id = Uml::id_None);
 
 	/**
 	 * Adds an already created template.

@@ -52,7 +52,7 @@ public:
 	 * @param id	The id of the widget.
 	 *		The default value (-1) will prompt generation of a new ID.
 	 */
-	UMLWidget( UMLView * view, int id = -1 );
+	UMLWidget( UMLView * view, Uml::IDType id = Uml::id_None );
 
 	/**
 	 * Standard deconstructor
@@ -77,12 +77,12 @@ public:
 	/**
 	* Write property of m_nId.
 	*/
-	void setID( int id );
+	void setID( Uml::IDType id );
 
 	/**
 	* Read property of m_nId.
 	*/
-	int getID() const;
+	Uml::IDType getID() const;
 
 	/**
 	 * Overrides the standard operation.
@@ -212,7 +212,7 @@ public:
 	 *
 	 * @return Returns the old id of the widget.
 	 */
-	virtual int getOldID() const {
+	virtual Uml::IDType getOldID() const {
 		return m_nOldID;
 	}
 
@@ -221,7 +221,7 @@ public:
 	 *
 	 * @param _id Sets the old id of the widget.
 	 */
-	virtual void setOldID(int _id) {
+	virtual void setOldID(Uml::IDType _id) {
 		m_nOldID = _id;
 	}
 
@@ -586,7 +586,7 @@ protected:
 	 * corresponding UMLObject (i.e. the m_pObject pointer is NULL.)
 	 * For UML objects, the ID from the UMLObject is used.
 	 */
-	int m_nId;
+	Uml::IDType m_nId;
 
 	/**
 	 * This flag indicates if the UMLWidget uses the Diagram FillColour
@@ -653,8 +653,8 @@ protected:
 
 	int  		m_nOldX,
 			m_nOldY,
-			m_nPosX,
-			m_nOldID;
+			m_nPosX;
+	Uml::IDType	m_nOldID;
 	ListPopupMenu 	*m_pMenu;
 	UMLDoc		*m_pDoc;  ///< shortcut for UMLApp::app()->getDocument()
 	bool 		m_bResizing;
@@ -711,21 +711,21 @@ public slots:
 	 *
 	 * @param id The id of object behind the widget.
 	 */
-	virtual void slotWidgetMoved(int id);
+	virtual void slotWidgetMoved(Uml::IDType id);
 
 	/**
 	 * Captures a color change signal.
 	 *
 	 * @param viewID The id of the object behind the widget.
 	 */
-	virtual void slotColorChanged(int viewID);
+	virtual void slotColorChanged(Uml::IDType viewID);
 
 	/**
 	 * Captures a linewidth change signal.
 	 *
 	 * @param viewID The id of the object behind the widget.
 	 */
-	virtual void slotLineWidthChanged(int viewID);
+	virtual void slotLineWidthChanged(Uml::IDType viewID);
 
 	/**
 	 *   Captures a sigClearAllSelected signal sent by @ref UMLView
@@ -744,7 +744,7 @@ signals:
 	 *
 	 * @param id The id of the object behind the widget.
 	 */
-	void sigWidgetMoved(int id);
+	void sigWidgetMoved(Uml::IDType id);
 };
 
 #endif

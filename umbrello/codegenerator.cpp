@@ -92,7 +92,7 @@ QString CodeGenerator::getUniqueID(CodeDocument * codeDoc)
 	ClassifierCodeDocument * classDoc = dynamic_cast<ClassifierCodeDocument*>(codeDoc);
 	if(classDoc) {
 		UMLClassifier *c = classDoc->getParentClassifier();
-		id = QString::number(c->getID()); // this is supposed to be unique already..
+		id = ID2STR(c->getID()); // this is supposed to be unique already..
 	} else {
 
 		QString prefix = "doc";
@@ -329,7 +329,7 @@ void CodeGenerator::checkRemoveUMLObject (UMLObject * obj)
  * @param	classifier
  */
 CodeDocument * CodeGenerator::findCodeDocumentByClassifier ( UMLClassifier * classifier ) {
-	return findCodeDocumentByID(QString::number(classifier->getID()));
+	return findCodeDocumentByID(ID2STR(classifier->getID()));
 }
 
 
@@ -585,7 +585,7 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLClassifierList &cLis
 			case Uml::at_Realization:
 				// only the "b" end is seen by the "a" end, not other way around
 				if(a->getWidgetID(Uml::B)!=c->getID())
-					temp =(UMLClassifier*) m_document->findUMLObject(a->getWidgetID(Uml::B));
+					temp =(UMLClassifier*) m_document->findObjectById(a->getWidgetID(Uml::B));
 				break;
 			case Uml::at_UniAssociation:
 				// What the hell are these things? My assumption is that they are
@@ -595,9 +595,9 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLClassifierList &cLis
 				// shall include it. The individual code generators will need to know
 				// what to do with a "role-less" uni-associated classifier. -b.t.
 				if(a->getWidgetID(Uml::A)!=c->getID())
-					temp = (UMLClassifier*)m_document->findUMLObject(a->getWidgetID(Uml::A));
+					temp = (UMLClassifier*)m_document->findObjectById(a->getWidgetID(Uml::A));
 				else if(a->getWidgetID(Uml::B)!=c->getID())
-					temp = (UMLClassifier*)m_document->findUMLObject(a->getWidgetID(Uml::B));
+					temp = (UMLClassifier*)m_document->findObjectById(a->getWidgetID(Uml::B));
 				break;
 			case Uml::at_Aggregation:
 			case Uml::at_Composition:
@@ -605,9 +605,9 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLClassifierList &cLis
 			case Uml::at_Association:
 				// add related objects ONLY if the rolename is NOT empty
 				if(a->getWidgetID(Uml::A)!=c->getID() && !a->getRoleName(Uml::A).isEmpty())
-					temp = (UMLClassifier*)m_document->findUMLObject(a->getWidgetID(Uml::A));
+					temp = (UMLClassifier*)m_document->findObjectById(a->getWidgetID(Uml::A));
 				else if(a->getWidgetID(Uml::B)!=c->getID() && !a->getRoleName(Uml::B).isEmpty())
-					temp =(UMLClassifier*) m_document->findUMLObject(a->getWidgetID(Uml::B));
+					temp =(UMLClassifier*) m_document->findObjectById(a->getWidgetID(Uml::B));
 				break;
 			default: /* all others.. like for state diagrams..we currently dont use */
 				break;

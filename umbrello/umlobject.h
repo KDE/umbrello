@@ -40,9 +40,10 @@ public:
 	 *
 	 * @param parent	The parent of the object.
 	 * @param name		The name of the object.
-	 * @param id		The ID of the object.
+	 * @param id		The ID of the object (optional.) If omitted
+	 *			then a new ID will be assigned internally.
 	 */
-	UMLObject(const UMLObject * parent, const QString &name, int id);
+	UMLObject(const UMLObject * parent, const QString &name, Uml::IDType id = Uml::id_None);
 
 	/**
 	 * Creates a UMLObject.
@@ -57,7 +58,7 @@ public:
 	 * @param	name		The name of the object.
 	 * @param	id		The unique ID of the object.
 	 */
-	UMLObject(const QString &name = "" , int id = -1);
+	UMLObject(const QString &name = "" , Uml::IDType id = Uml::id_None);
 
 	/**
 	 * Overloaded '==' operator
@@ -93,7 +94,7 @@ public:
 	 *
 	 * @return	Returns the ID of the object.
 	 */
-	virtual int getID() const;
+	virtual Uml::IDType getID() const;
 
 	/**
 	 * Sets the documentation for the object.
@@ -202,7 +203,7 @@ public:
 	/**
 	 * Assigns a new Id to the object
 	 */
-	virtual void setID(int NewID);
+	virtual void setID(Uml::IDType NewID);
 
 	/**
 	 * Returns a copy of m_Name
@@ -361,7 +362,7 @@ protected:
 	/**
 	 * The object's id.
 	 */
-	int m_nId;
+	Uml::IDType m_nId;
 
 	/**
 	 * The object's xmi.id string when non-numeric.

@@ -36,7 +36,7 @@ public:
 	 * @param name		The name of the Interface.
 	 * @param id		The unique id of the Interface.
 	 */
-	UMLInterface(const QString & name = "", int id = -1);
+	UMLInterface(const QString & name = "", Uml::IDType id = Uml::id_None);
 
 	/**
 	 * Standard deconstructor.

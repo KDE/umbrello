@@ -481,7 +481,7 @@ void ClassifierCodeDocument::updateAssociationClassFields ( UMLAssociationList &
 void ClassifierCodeDocument::addAssociationClassField (UMLAssociation * a, bool syncToParentIfAdded)
 {
 
-	int cid = getParentClassifier()->getID(); // so we know who 'we' are
+	Uml::IDType cid = getParentClassifier()->getID(); // so we know who 'we' are
 	bool printRoleA = false, printRoleB = false, shouldSync = false;
 	// it may seem counter intuitive, but you want to insert the role of the
 	// *other* class into *this* class.
@@ -554,14 +554,15 @@ void ClassifierCodeDocument::setAttributesFromNode ( QDomElement & elem )
 
 // look at all classfields currently in document.. match up
 // by parent object ID and Role ID (needed for self-association CF's)
-CodeClassField * ClassifierCodeDocument::findCodeClassFieldFromParentID (int id, int role_id)
+CodeClassField *
+ClassifierCodeDocument::findCodeClassFieldFromParentID (Uml::IDType id,
+							Uml::Role_Type role_id)
 {
-
 	QPtrList<CodeClassField> * list = getCodeClassFieldList();
 
-	if(role_id == -1) { // attribute-based
+	if((int)role_id == -1) { // attribute-based
 		for(CodeClassField * cf = list->first(); cf; cf=list->next())
-			if(cf->getID().toInt() == id)
+			if (STR2ID(cf->getID()) == id)
 				return cf;
 
 	} else { // association(role)-based
@@ -569,7 +570,7 @@ CodeClassField * ClassifierCodeDocument::findCodeClassFieldFromParentID (int id,
 		for(CodeClassField * cf = list->first(); cf; cf=list->next())
 		{
 			UMLRole * role = dynamic_cast<UMLRole *>(cf->getParentObject());
-			if(role && cf->getID().toInt() == id && role->getRoleID() == role_id)
+			if(role && STR2ID(cf->getID()) == id && role->getRoleID() == role_id)
 				return cf;
 		}
 
@@ -590,8 +591,9 @@ void ClassifierCodeDocument::loadClassFieldsFromXMI( QDomElement & elem) {
 		if( nodeName == "codeclassfield")
 		{
 			QString id = childElem.attribute("parent_id","-1");
-			QString role_id = childElem.attribute("role_id","-1");
-			CodeClassField * cf = findCodeClassFieldFromParentID(id.toInt(), role_id.toInt());
+			int role_id = childElem.attribute("role_id","-1").toInt();
+			Uml::Role_Type r = (role_id == 1 ? Uml::A : Uml::B);
+			CodeClassField * cf = findCodeClassFieldFromParentID(STR2ID(id), r);
 			if(cf)
 			{
 				// Because we just may change the parent object here, 
@@ -645,7 +647,7 @@ void ClassifierCodeDocument::setAttributesOnNode ( QDomDocument & doc, QDomEleme
 	CodeDocument::setAttributesOnNode(doc, docElement);
 
 	// cache local attributes/fields
-	docElement.setAttribute("parent_class",QString::number(getParentClassifier()->getID()));
+	docElement.setAttribute("parent_class", ID2STR(getParentClassifier()->getID()));
 
 	// (code) class fields
 	// which we will store in its own separate child node block

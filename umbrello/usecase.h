@@ -32,7 +32,7 @@ public:
 	 *	@param name		The name of the object.
 	 *	@param	id				The id of the object.
 	 */
-	UMLUseCase(const QString & name = "", int id = -1);
+	UMLUseCase(const QString & name = "", Uml::IDType id = Uml::id_None);
 
 	/**
 	 *	Standard deconstructor

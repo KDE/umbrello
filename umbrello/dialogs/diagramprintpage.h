@@ -77,7 +77,7 @@ private:
 	/**
 	 * list containing the IDs of diagrams to print
 	 */
-	QValueList<int> m_nIdList;
+	QValueList<Uml::IDType> m_nIdList;
 
 	enum FilterType{Current = 0, All, Select, Type};
 public slots:

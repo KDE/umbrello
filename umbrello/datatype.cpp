@@ -17,7 +17,7 @@
 #include "uml.h"
 #include "stereotype.h"
 
-UMLDatatype::UMLDatatype(const QString& name, int id)
+UMLDatatype::UMLDatatype(const QString& name, Uml::IDType id)
   : UMLClassifier(name, id) {
 	init();
 }

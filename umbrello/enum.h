@@ -38,7 +38,7 @@ public:
 	 * @param name		The name of the Enum.
 	 * @param id		The unique id of the Enum.
 	 */
-	UMLEnum(const QString& name = "", int id = -1);
+	UMLEnum(const QString& name = "", Uml::IDType id = Uml::id_None);
 
 	/**
 	 * Standard deconstructor.
@@ -72,10 +72,11 @@ public:
   	 * Adds an enumliteral to the enum.
   	 *
   	 * @param name		The name of the enumliteral.
-	 * @param id		The id of the enumliteral.
+	 * @param id		The id of the enumliteral (optional.)
+	 *			If omitted a new ID is assigned internally.
 	 * @return	Pointer to the UMLEnumliteral created.
 	 */
-	UMLObject* addEnumLiteral(QString name, int id);
+	UMLObject* addEnumLiteral(QString name, Uml::IDType id = Uml::id_None);
 
 	/**
 	 * Adds an already created enumliteral.
@@ -132,14 +133,6 @@ public:
 	 * @return	List of objects found.  Will be empty if none found.
 	 */
 	 virtual UMLObjectList findChildObject(Uml::Object_Type t, QString n);
-
-	/**
-	 * Find an enumliteral
-	 *
-	 * @param id		The id of the object to find.
-	 * @return	Pointer to the object found; NULL if not found.
-	 */
-	virtual UMLObject* findChildObject(int id);
 
 signals:
 	void enumLiteralAdded(UMLObject*);

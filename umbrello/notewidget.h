@@ -38,7 +38,7 @@ public:
 	 * @param id		The unique id of the widget.
 	 *			The default (-1) will prompt a new ID.
 	 */
-	NoteWidget(UMLView * view, int id = -1 );
+	NoteWidget(UMLView * view, Uml::IDType id = Uml::id_None );
 
 	/**
 	 * destructor
