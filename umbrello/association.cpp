@@ -136,6 +136,7 @@ bool UMLAssociation::assocTypeHasUMLRepresentation(Uml::Association_Type atype)
 		atype == Uml::at_Association_Self ||
 		atype == Uml::at_UniAssociation ||
 		atype == Uml::at_Aggregation ||
+		atype == Uml::at_Relationship ||
 		atype == Uml::at_Composition);
 }
 
@@ -361,6 +362,7 @@ bool UMLAssociation::load( QDomElement & element ) {
 			"anchor",		// at_Anchor
 			"state",		// at_State
 			"activity" 		// at_Activity
+			"relationship" 		// at_Relationship
 		};
 
 		unsigned index;

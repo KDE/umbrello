@@ -81,6 +81,8 @@ QString UMLCanvasObject::uniqChildName( const Uml::Object_Type type,
 		currentName = i18n("new_operation");
 	} else if (type == Uml::ot_EnumLiteral) {
 		currentName = i18n("new_literal");
+	} else if (type == Uml::ot_EntityAttribute) {
+		currentName = i18n("new_field");
 	} else {
 		kdWarning() << "uniqChildName() called for unknown child type " << type << endl;
 		return "ERROR_in_UMLCanvasObject_uniqChildName";
@@ -202,5 +204,9 @@ UMLAssociationList UMLCanvasObject::getAggregations() {
 
 UMLAssociationList UMLCanvasObject::getCompositions() {
 	return getSpecificAssocs(Uml::at_Composition);
+}
+
+UMLAssociationList UMLCanvasObject::getRelationships() {
+	return getSpecificAssocs(Uml::at_Relationship);
 }
 #include "umlcanvasobject.moc"

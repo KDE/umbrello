@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
+"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   id="svg1"
+   sodipodi:version="0.32"
+   inkscape:version="0.40"
+   width="22pt"
+   height="22pt"
+   sodipodi:docbase="/home/jr/devel/kdesdk/umbrello/umbrello/pics/sources"
+   sodipodi:docname="entity.svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xml="http://www.w3.org/XML/1998/namespace"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   inkscape:export-filename="/home/jr/devel/kdesdk/umbrello/umbrello/pics/entity.png"
+   inkscape:export-xdpi="72.000000"
+   inkscape:export-ydpi="72.000000">
+  <metadata
+     id="metadata23">
+    <rdf:RDF
+       id="RDF24">
+      <cc:Work
+         rdf:about=""
+         id="Work25">
+        <dc:format
+           id="format26">image/svg+xml</dc:format>
+        <dc:type
+           id="type28"
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs3">
+    <linearGradient
+       id="linearGradient830">
+      <stop
+         style="stop-color:#ebffff;stop-opacity:0.0000000;"
+         offset="0.0000000"
+         id="stop831" />
+      <stop
+         style="stop-color:#fff;stop-opacity:1;"
+         offset="1"
+         id="stop832" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient826">
+      <stop
+         style="stop-color:#000;stop-opacity:1;"
+         offset="0"
+         id="stop827" />
+      <stop
+         style="stop-color:#fff;stop-opacity:1;"
+         offset="1"
+         id="stop828" />
+    </linearGradient>
+    <linearGradient
+       xlink:href="#linearGradient830"
+       id="linearGradient829"
+       x1="1.5500000"
+       y1="0.52343750"
+       x2="0.20422535"
+       y2="-0.12195122"
+       spreadMethod="reflect" />
+    <linearGradient
+       xlink:href="#linearGradient830"
+       id="linearGradient834"
+       x1="-0.31159419"
+       y1="0.19531250"
+       x2="0.77536231"
+       y2="0.94531250" />
+    <linearGradient
+       xlink:href="#linearGradient830"
+       id="linearGradient836" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient830"
+       id="linearGradient1089"
+       spreadMethod="reflect"
+       x1="23.537647"
+       y1="37.602750"
+       x2="3.7720042"
+       y2="28.123806"
+       gradientTransform="matrix(1.701614,0.000000,0.000000,1.095210,0.000000,-22.63705)"
+       gradientUnits="userSpaceOnUse" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="17.104372"
+     inkscape:cx="12.250321"
+     inkscape:cy="20.076918"
+     inkscape:window-width="1016"
+     inkscape:window-height="692"
+     gridspacingy="1.0000000pt"
+     gridspacingx="1.0000000pt"
+     gridtolerance="1.0000000px"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     snaptogrid="false"
+     showgrid="true"
+     inkscape:current-layer="svg1" />
+  <g
+     id="g1196">
+    <rect
+       style="font-size:12.000000;fill:#ffff00;fill-rule:evenodd;stroke:#ff0000;stroke-width:1.2396300;"
+       id="rect837"
+       width="26.24992934"
+       height="26.18856802"
+       x="0.66534913"
+       y="0.71917963" />
+    <rect
+       style="font-size:12.000000;fill:url(#linearGradient829);fill-opacity:0.75000000;fill-rule:evenodd;stroke-width:0.45652699pt;"
+       id="rect825"
+       width="24.99192419"
+       height="7.33014917"
+       ry="0"
+       x="1.21161342"
+       y="1.36787295" />
+    <text
+       xml:space="preserve"
+       style="font-size:12.000000;font-weight:normal;stroke-width:1.0000000pt;font-family:Bitstream Vera Sans;"
+       x="2.59171310"
+       y="11.3147535"
+       id="text838"
+       transform="scale(0.933669,0.722645)"><tspan
+         id="tspan839">ABC</tspan></text>
+    <path
+       style="font-size:12.000000;fill:none;fill-opacity:0.75000000;fill-rule:evenodd;stroke:#ff0000;stroke-width:1.2500000;"
+       d="M 1.1533278 9.3908034 L 26.731652 9.3908034 "
+       id="path842" />
+    <rect
+       style="font-size:12.000000;fill:url(#linearGradient1089);fill-opacity:0.75000000;fill-rule:evenodd;stroke-width:0.45652699pt"
+       id="rect847"
+       width="24.991922"
+       height="16.085562"
+       ry="0.0000000"
+       x="1.3145113"
+       y="10.126090" />
+  </g>
+</svg>

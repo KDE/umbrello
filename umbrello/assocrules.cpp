@@ -58,6 +58,7 @@ bool AssocRules::allowAssociation( Association_Type assocType, UMLWidget * widge
 		case at_Coll_Message:
 		case at_Generalization://can have many sub/super types
 		case at_Aggregation:
+		case at_Relationship:
 		case at_Composition:
 		case at_Containment:
 			return true;//doesn't matter whats already connected to widget
@@ -97,8 +98,8 @@ bool AssocRules::allowAssociation( Association_Type assocType, UMLWidget * widge
 // when we know what we are going to connect both ends of the association to, we can
 // use this method.
 bool AssocRules::allowAssociation( Association_Type assocType, UMLWidget * widgetA, UMLWidget * widgetB , bool extendedCheck) {
-	Widget_Type widgetTypeA = widgetA -> getBaseType();
-	Widget_Type widgetTypeB = widgetB -> getBaseType();
+	Widget_Type widgetTypeA = widgetA->getBaseType();
+	Widget_Type widgetTypeB = widgetB->getBaseType();
 	bool bValid = false;
 	for (int i = 0; i < m_nNumRules; i++) {
 		if (assocType == m_AssocRules[i].assoc_type) {
@@ -111,8 +112,9 @@ bool AssocRules::allowAssociation( Association_Type assocType, UMLWidget * widge
 	}
 	// we can bail here for quick checks, as occur in loading files
 	// for paste or regular creation operations, we need to go further
-	if(!extendedCheck)
+	if (!extendedCheck) {
 		return bValid;
+	}
 
 	if (!bValid) {
 		return false;
@@ -127,6 +129,7 @@ bool AssocRules::allowAssociation( Association_Type assocType, UMLWidget * widge
 		case at_Dependency:
 		case at_Coll_Message:
 		case at_Aggregation:
+		case at_Relationship:
 		case at_Composition:
 		case at_Containment:
 			return true;//doesn't matter whats already connected to widget
@@ -333,6 +336,7 @@ AssocRules::Assoc_Rule AssocRules::m_AssocRules []= {
             { at_Anchor,	wt_Message,	wt_Note,	false,	false,	false,	false },
             { at_Anchor,	wt_State,	wt_Note,	false,	false,	false,	false },
             { at_Anchor,	wt_Activity,	wt_Note,	false,	false,	false,	false },
+            { at_Relationship,	wt_Entity,	wt_Entity,	true,	false,	true,	false },
         };
 
 int AssocRules::m_nNumRules = sizeof( m_AssocRules ) / sizeof( AssocRules::Assoc_Rule );

@@ -14,6 +14,7 @@
       <Action name="new_activity_diagram"/>
       <Action name="new_component_diagram"/>
       <Action name="new_deployment_diagram"/>
+      <Action name="new_entityrelationship_diagram"/>
     </Menu>
     <Action name="view_clear_diagram"/>
     <Action name="view_delete"/>

@@ -441,7 +441,7 @@ void UMLWidget::slotMenuSelection(int sel) {
 			if (wt == wt_Actor || wt == wt_UseCase ||
 			    wt == wt_Package || wt == wt_Interface || wt == wt_Datatype ||
 			    wt == wt_Component || wt == wt_Artifact ||
-			    wt == wt_Node || wt == wt_Enum ||
+			    wt == wt_Node || wt == wt_Enum || wt == wt_Entity ||
 			    (wt == wt_Class && m_pView -> getType() == dt_Class)) {
 				m_pDoc -> showProperties(this);
 			} else if (wt == wt_Object) {
@@ -1016,6 +1016,7 @@ void UMLWidget::setDefaultFontMetrics(UMLWidget::FontType fontType, QPainter &pa
 	setFontMetrics(fontType, painter.fontMetrics());
 }
 
+//FIXME this is probably the source of problems with widgets not being wide enough
 QFontMetrics &UMLWidget::getFontMetrics(UMLWidget::FontType fontType) {
 	if (m_pFontMetrics[fontType] == 0) {
 		setDefaultFontMetrics(fontType);

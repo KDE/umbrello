@@ -12,10 +12,12 @@
 #include "../umldoc.h"
 #include "../class.h"
 #include "../enum.h"
+#include "../entity.h"
 #include "../attribute.h"
 #include "../operation.h"
 #include "../template.h"
 #include "../enumliteral.h"
+#include "../entityattribute.h"
 #include <kbuttonbox.h>
 #include <kdebug.h>
 #include <klocale.h>
@@ -40,6 +42,9 @@ ClassifierListPage::ClassifierListPage(QWidget* parent, UMLClassifier* classifie
 	} else if (type == ot_EnumLiteral) {
 		typeName = i18n("Enum Literals");
 		newItemType = i18n("N&ew Enum Literal...");
+	} else if (type == ot_EntityAttribute) {
+		typeName = i18n("Entity Attributes");
+		newItemType = i18n("N&ew Entity Attribute...");
 	} else {
 		kdWarning() << "unknown listItem type in ClassifierListPage" << endl;
 	}
@@ -254,6 +259,8 @@ void ClassifierListPage::slotRightButtonPressed(QListBoxItem* item, const QPoint
 			type = ListPopupMenu::mt_Template_Selected;
 		} else if (itemType == ot_EnumLiteral) {
 			type = ListPopupMenu::mt_EnumLiteral_Selected;
+		} else if (itemType == ot_EntityAttribute) {
+			type = ListPopupMenu::mt_EntityAttribute_Selected;
 		} else {
 			kdWarning() << "unknown type in ClassifierListPage" << endl;
 		}
@@ -266,6 +273,8 @@ void ClassifierListPage::slotRightButtonPressed(QListBoxItem* item, const QPoint
 			type = ListPopupMenu::mt_New_Template;
 		} else if (itemType == ot_EnumLiteral) {
 			type = ListPopupMenu::mt_New_EnumLiteral;
+		} else if (itemType == ot_EntityAttribute) {
+			type = ListPopupMenu::mt_New_EntityAttribute;
 		} else {
 			kdWarning() << "unknown type in ClassifierListPage" << endl;
 		}
@@ -293,6 +302,7 @@ void ClassifierListPage::slotPopupMenuSel(int id) {
 		case ListPopupMenu::mt_New_Operation:
 		case ListPopupMenu::mt_New_Template:
 		case ListPopupMenu::mt_New_EnumLiteral:
+		case ListPopupMenu::mt_New_EntityAttribute:
 			slotNewListItem();
 			break;
 
@@ -425,6 +435,13 @@ UMLClassifierListItemList ClassifierListPage::getItemList() {
 			}
 			break;
 		}
+		case ot_EntityAttribute: {
+			UMLEntity* classifier = dynamic_cast<UMLEntity*>(m_pClassifier);
+			if (classifier) {
+				return classifier->getFilteredList(ot_EntityAttribute);
+			}
+			break;
+		}
 		default: {
 			kdWarning() << "unknown type in ClassifierListPage" << endl;
 			return UMLClassifierListItemList();
@@ -456,6 +473,13 @@ bool ClassifierListPage::addClassifier(UMLClassifierListItem* classifier, int po
 			UMLEnum* c = dynamic_cast<UMLEnum*>(m_pClassifier);
 			if (c) {
 				return c->addEnumLiteral(dynamic_cast<UMLEnumLiteral*>(classifier), position);
+			}
+			break;
+		}
+		case ot_EntityAttribute: {
+			UMLEntity* c = dynamic_cast<UMLEntity*>(m_pClassifier);
+			if (c) {
+				return c->addEntityAttribute(dynamic_cast<UMLEntityAttribute*>(classifier), position);
 			}
 			break;
 		}
@@ -494,6 +518,13 @@ UMLClassifierListItem* ClassifierListPage::takeClassifier(UMLClassifierListItem*
 			}
 			break;
 		}
+		case ot_EntityAttribute: {
+			UMLEntity* c = dynamic_cast<UMLEntity*>(m_pClassifier);
+			if (c) {
+				return c->takeEntityAttribute(dynamic_cast<UMLEntityAttribute*>(classifier));
+			}
+			break;
+		}
 		default: {
 			kdWarning() << "unknown type in ClassifierListPage" << endl;
 			return 0;
@@ -526,6 +557,13 @@ int ClassifierListPage::removeClassifier(UMLClassifierListItem* classifier) {
 			UMLEnum* c = dynamic_cast<UMLEnum*>(m_pClassifier);
 			if (c) {
 				return c->removeEnumLiteral(dynamic_cast<UMLEnumLiteral*>(classifier));
+			}
+			break;
+		}
+		case ot_EntityAttribute: {
+			UMLEntity* c = dynamic_cast<UMLEntity*>(m_pClassifier);
+			if (c) {
+				return c->removeEntityAttribute(dynamic_cast<UMLEntityAttribute*>(classifier));
 			}
 			break;
 		}

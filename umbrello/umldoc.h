@@ -62,6 +62,7 @@ class UMLWidget;
 class UMLOperation;
 class UMLPackage;
 class UMLEnum;
+class UMLEntity;
 class UMLApp;
 
 /**
@@ -294,6 +295,15 @@ public:
 	 * @return	The UMLEnum created
 	 */
 	UMLObject* createEnumLiteral(UMLEnum* umlenum);
+
+	/**
+	 * Creates an entity attribute for the parent concept.
+	 *
+	 * @param o	The parent concept
+	 * @param name  An optional name, used by when creating through UMLListView
+	 * @return	The UMLEntityAttribute created
+	 */
+	UMLObject* createEntityAttribute(UMLEntity* umlentity, const QString &name = QString::null);
 
 	/**
 	 * Finds or creates a stereotype for the parent object.

@@ -260,6 +260,7 @@ bool UMLClassifier::acceptAssociationType(Uml::Association_Type type)
 	{
 		case at_Generalization:
 		case at_Aggregation:
+		case at_Relationship:
 		case at_Dependency:
 		case at_Association:
 		case at_Association_Self:

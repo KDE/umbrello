@@ -74,6 +74,10 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, Uml::ListView_Type type)
 			mt = mt_Deployment_Folder;
 			break;
 
+		case Uml::lvt_EntityRelationship_Folder:
+			mt = mt_EntityRelationship_Folder;
+			break;
+
 		case Uml::lvt_UseCase_Diagram:
 			mt = mt_UseCase_Diagram;
 			break;
@@ -104,6 +108,10 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, Uml::ListView_Type type)
 
 		case Uml::lvt_Deployment_Diagram:
 			mt = mt_Deployment_Diagram;
+			break;
+
+		case Uml::lvt_EntityRelationship_Diagram:
+			mt = mt_EntityRelationship_Diagram;
 			break;
 
 		case Uml::lvt_Actor:
@@ -153,6 +161,15 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, Uml::ListView_Type type)
 		case Uml::lvt_Operation:
 			mt = mt_Operation;
 			break;
+
+		case Uml::lvt_Entity:
+			mt = mt_Entity;
+			break;
+
+		case Uml::lvt_EntityAttribute:
+			mt = mt_EntityAttribute;
+			break;
+
 		default:   ;
 			//break;
 	}
@@ -226,6 +243,17 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
 		case Uml::wt_Enum:
 			m_pInsert = new KPopupMenu(this,"New");
 			m_pInsert->insertItem(SmallIcon("source"), i18n("Enum Literal..."), mt_EnumLiteral);
+			insertFileNew();
+			setupColor(object->getUseFillColour());
+			insertStdItems(true, type);
+			insertStdItem(mt_Rename);
+			insertStdItem(mt_Change_Font);
+			insertStdItem(mt_Properties);
+			break;
+
+		case Uml::wt_Entity:
+			m_pInsert = new KPopupMenu(this,"New");
+			m_pInsert->insertItem(SmallIcon("source"), i18n("Entity Attribute..."), mt_EntityAttribute);
 			insertFileNew();
 			setupColor(object->getUseFillColour());
 			insertStdItems(true, type);
@@ -445,8 +473,18 @@ void ListPopupMenu::insertStdItem(Menu_Type m)
 		m_pInsert->insertItem(BarIconSet("umbrello_diagram_deployment"),i18n("Deployment Diagram..."),
 				      mt_Deployment_Diagram);
 		break;
+	case mt_Entity:
+		m_pInsert->insertItem(m_pixmap[pm_Entity], i18n("Entity"), mt_Entity);
+		break;
+	case mt_EntityRelationship_Diagram:
+		m_pInsert->insertItem(BarIconSet("umbrello_diagram_entityrelationship"),i18n("Entity Relationship Diagram..."),
+				      mt_EntityRelationship_Diagram);
+		break;
 	case mt_UseCase_Folder:
 		m_pInsert->insertItem(BarIcon("folder_new"), i18n("Folder"), mt_UseCase_Folder);
+		break;
+	case mt_EntityRelationship_Folder:
+		m_pInsert->insertItem(BarIcon("folder_new"), i18n("Folder"), mt_EntityRelationship_Folder);
 		break;
 	case mt_Actor:
 		m_pInsert->insertItem(m_pixmap[pm_Actor], i18n("Actor"), mt_Actor);
@@ -478,6 +516,9 @@ void ListPopupMenu::insertStdItem(Menu_Type m)
 		break;
 	case mt_New_EnumLiteral:
 		insertItem(SmallIcon("source"), i18n("New Literal..."), mt_New_EnumLiteral);
+		break;
+	case mt_New_EntityAttribute:
+		insertItem(SmallIcon("source"), i18n("New Entity Attribute..."), mt_New_EntityAttribute);
 		break;
 	case mt_New_Activity:
 		m_pInsert->insertItem(SmallIcon("source"), i18n("Activity..."), mt_New_Activity);
@@ -643,6 +684,9 @@ Uml::Diagram_Type ListPopupMenu::convert_MT_DT(Menu_Type mt) {
 		case mt_Activity_Diagram:
 			type = Uml::dt_Activity;
 			break;
+		case mt_EntityRelationship_Diagram:
+			type = Uml::dt_EntityRelationship;
+			break;
 		default:
 			break;
 	}
@@ -664,6 +708,9 @@ Uml::Object_Type ListPopupMenu::convert_MT_OT(Menu_Type mt) {
 			break;
 		case mt_Attribute:
 			type = Uml::ot_Attribute;
+			break;
+		case mt_EntityAttribute:
+			type = Uml::ot_EntityAttribute;
 			break;
 		case mt_Operation:
 			type = Uml::ot_Operation;
@@ -698,6 +745,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 	m_pixmap[pm_Object]      .load(dataDir+"object.png",        "PNG");
 	m_pixmap[pm_Component]   .load(dataDir+"component.png",     "PNG");
 	m_pixmap[pm_Node]        .load(dataDir+"node.png",          "PNG");
+	m_pixmap[pm_Entity]      .load(dataDir+"entity.png",        "PNG");
 	m_pixmap[pm_Artifact]    .load(dataDir+"artifact.png",      "PNG");
 	m_pixmap[pm_Text]        .load(dataDir+"text.png",          "PNG");
 
@@ -733,6 +781,17 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 			insertStdItem(mt_Component_Folder);
 			insertStdItem(mt_Node);
 			insertStdItem(mt_Deployment_Diagram);
+			insertFileNew();
+			insertSeparator();
+			insertStdItem(mt_Paste);
+			insertSeparator();
+			insertStdItem(mt_Expand_All);
+			insertStdItem(mt_Collapse_All);
+			break;
+
+		case mt_EntityRelationship_Model:
+			m_pInsert = new KPopupMenu(this, "New");
+			insertStdItem(mt_Entity);
 			insertFileNew();
 			insertSeparator();
 			insertStdItem(mt_Paste);
@@ -805,6 +864,18 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 			insertStdItem(mt_Collapse_All);
 			break;
 
+		case mt_EntityRelationship_Folder:
+			m_pInsert = new KPopupMenu(this,"New");
+			insertStdItem(mt_EntityRelationship_Folder);
+			insertStdItem(mt_Entity);
+			insertStdItem(mt_EntityRelationship_Diagram);
+			insertFileNew();
+			insertStdItems();
+			insertSeparator();
+			insertStdItem(mt_Expand_All);
+			insertStdItem(mt_Collapse_All);
+			break;
+
 		case mt_UseCase_Diagram:
 		case mt_Sequence_Diagram:
 		case mt_Class_Diagram:
@@ -813,6 +884,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 		case mt_Activity_Diagram:
 		case mt_Component_Diagram:
 		case mt_Deployment_Diagram:
+		case mt_EntityRelationship_Diagram:
 			//don't insert standard items because cut/copy not currently
 			// possible with tabbed diagrams (it didn't work anyway)
 			//insertStdItems(false);
@@ -822,6 +894,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 			insertStdItem(mt_Properties);
 			break;
 
+		//FIXME a lot of these insertItem()s could be insertStandardItem()s
 		case mt_On_UseCase_Diagram:
 			m_pInsert = new KPopupMenu( this, "New" );
 			m_pInsert -> insertItem(m_pixmap[pm_Actor], i18n( "Actor..." ), mt_Actor );
@@ -880,6 +953,14 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 		case mt_On_Deployment_Diagram:
 			m_pInsert = new KPopupMenu(this, "New");
 			m_pInsert->insertItem(m_pixmap[pm_Node], i18n("Node..."), mt_Node);
+			insertFileNew();
+			insertSeparator();
+			setupDiagramMenu(view);
+			break;
+
+		case mt_On_EntityRelationship_Diagram:
+			m_pInsert = new KPopupMenu(this, "New");
+			m_pInsert->insertItem(m_pixmap[pm_Entity], i18n("Entity..."), mt_Entity);
 			insertFileNew();
 			insertSeparator();
 			setupDiagramMenu(view);
@@ -955,6 +1036,10 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 			insertStdItem(mt_New_EnumLiteral);
 			break;
 
+		case mt_New_EntityAttribute:
+			insertStdItem(mt_New_EntityAttribute);
+			break;
+
 		case mt_New_Activity:
 			m_pInsert = new KPopupMenu(this,"New");
 			insertStdItem(mt_New_Activity);
@@ -996,6 +1081,12 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 
 		case mt_EnumLiteral_Selected:
 			insertStdItem(mt_New_EnumLiteral);
+			insertStdItem(mt_Delete);
+			insertStdItem(mt_Properties);
+			break;
+
+		case mt_EntityAttribute_Selected:
+			insertStdItem(mt_New_EntityAttribute);
 			insertStdItem(mt_Delete);
 			insertStdItem(mt_Properties);
 			break;

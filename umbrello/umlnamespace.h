@@ -43,7 +43,9 @@ namespace Uml {
 	    ot_Artifact,
 	    ot_Node,
 	    ot_Stereotype,
-	    ot_Role
+	    ot_Role,
+	    ot_Entity,
+	    ot_EntityAttribute
 	};
 
 	enum Scope
@@ -62,6 +64,7 @@ namespace Uml {
 	    wt_Interface,		// has UMLObject representation
 	    wt_Datatype,		// has UMLObject representation
 	    wt_Enum,			// has UMLObject representation
+	    wt_Entity,			// has UMLObject representation
 	    wt_Package,			// has UMLObject representation
 	    wt_Object,			// has UMLObject representation
 	    wt_Note,			// does not have UMLObject representation
@@ -88,6 +91,7 @@ namespace Uml {
 	    dt_Activity,
 	    dt_Component,
 	    dt_Deployment,
+	    dt_EntityRelationship,
 	    dt_Undefined = -1
 	};
 
@@ -109,6 +113,7 @@ namespace Uml {
 	    at_Anchor,
 	    at_State,
 	    at_Activity,
+	    at_Relationship,
 	    at_Unknown  =  - 1
 	};
 
@@ -173,6 +178,11 @@ namespace Uml {
 	    lvt_Datatype,
 	    lvt_Datatype_Folder,
 	    lvt_Enum,
+	    lvt_Entity,
+	    lvt_EntityAttribute,
+	    lvt_EntityRelationship_Diagram,
+	    lvt_EntityRelationship_Folder,
+	    lvt_EntityRelationship_Model,
 	    lvt_Unknown = -1
 	};
 
@@ -189,6 +199,14 @@ namespace Uml {
 		sequence_message_synchronous = 1000,
 		sequence_message_asynchronous,
 		sequence_message_creation
+	};
+
+	enum DBIndex_Type
+	{
+	    None  =  1100,
+	    Primary,
+	    Index,
+	    Unique
 	};
 
 	/**

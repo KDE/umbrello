@@ -236,6 +236,10 @@ void UMLApp::initActions() {
 					this, SLOT( slotDeploymentDiagram() ), actionCollection(),
 					"new_deployment_diagram" );
 
+	entityRelationshipDiagram = new KAction( i18n("&Entity Relationship Diagram..."), SmallIconSet("umbrello_diagram_entityrelationship"), 0,
+					this, SLOT( slotEntityRelationshipDiagram() ), actionCollection(),
+					"new_entityrelationship_diagram" );
+
 	viewClearDiagram = new KAction(i18n("&Clear Diagram"), SmallIconSet("editclear"), 0,
 	                        this, SLOT( slotCurrentViewClearDiagram() ), actionCollection(), "view_clear_diagram");
 	viewSnapToGrid = new KToggleAction(i18n("&Snap to Grid"), 0,
@@ -399,6 +403,10 @@ void UMLApp::initView() {
 	m_mainDock = createDockWidget("maindock", 0L, 0L, "main dock");
 	tabWidget = new KTabWidget(m_mainDock, "tab_widget");
 
+#if KDE_IS_VERSION(3,3,89)
+	tabWidget->setAutomaticResizeTabs( true );
+#endif
+
 	KToolBarButton* m_newSessionButton = new KToolBarButton("tab_new", 0, tabWidget);
 	m_newSessionButton->setIconSet( SmallIcon( "tab_new" ) );
 	m_newSessionButton->adjustSize();
@@ -413,6 +421,7 @@ void UMLApp::initView() {
 	m_diagramMenu->insertItem(BarIconSet("umbrello_diagram_activity"), i18n("Activity Diagram..."), this, SLOT(slotActivityDiagram()) );
 	m_diagramMenu->insertItem(BarIconSet("umbrello_diagram_component"), i18n("Component Diagram..."), this, SLOT(slotComponentDiagram()) );
 	m_diagramMenu->insertItem(BarIconSet("umbrello_diagram_deployment"), i18n("Deployment Diagram..."), this, SLOT(slotDeploymentDiagram()) );
+	m_diagramMenu->insertItem(BarIconSet("umbrello_diagram_entityrelationship"), i18n("Entity Relationship Diagram..."), this, SLOT(slotEntityRelationshipDiagram()) );
 	m_newSessionButton->setPopup(m_diagramMenu);
 	//FIXME why doesn't this work?
 	//m_newSessionButton->setPopup(newDiagram->popupMenu());
@@ -922,6 +931,10 @@ void UMLApp::slotDeploymentDiagram() {
 	getDocument()->createDiagram(Uml::dt_Deployment);
 }
 
+void UMLApp::slotEntityRelationshipDiagram() {
+	getDocument()->createDiagram(Uml::dt_EntityRelationship);
+}
+
 WorkToolBar* UMLApp::getWorkToolBar() {
 	return toolsbar;
 }
@@ -1353,7 +1366,6 @@ void UMLApp::slotUpdateViews() {
 		menu->insertItem( view->getName(), view, SLOT( slotShowView() ) );
 		view->fileLoaded();
 	}
-
 }
 
 ClassImport * UMLApp::classImport() {

@@ -68,6 +68,8 @@
 #include "datatype.h"
 #include "enumwidget.h"
 #include "enum.h"
+#include "entitywidget.h"
+#include "entity.h"
 #include "actorwidget.h"
 #include "actor.h"
 #include "usecasewidget.h"
@@ -475,6 +477,8 @@ void UMLView::slotObjectCreated(UMLObject* o) {
 		newWidget = new DatatypeWidget(this, static_cast<UMLDatatype*>(o));
 	} else if(type == ot_Enum) {
 		newWidget = new EnumWidget(this, static_cast<UMLEnum*>(o));
+	} else if(type == ot_Entity) {
+		newWidget = new EntityWidget(this, static_cast<UMLEntity*>(o));
 	} else if(type == ot_Interface) {
 	        InterfaceWidget* interfaceWidget = new InterfaceWidget(this, static_cast<UMLInterface*>(o));
 		Diagram_Type diagramType = getType();
@@ -517,6 +521,7 @@ void UMLView::slotObjectCreated(UMLObject* o) {
 		case ot_Artifact:
 		case ot_Interface:
 		case ot_Enum:
+		case ot_Entity:
 		case ot_Datatype:
 			createAutoAssociations(newWidget);
 			// We need to invoke createAutoAttributeAssociations()
@@ -613,6 +618,11 @@ void UMLView::contentsDragEnterEvent(QDragEnterEvent *e) {
 	}
 	if (diagramType == dt_Component &&
 	    (ot != ot_Interface && ot != ot_Component && ot != ot_Artifact)) {
+		e->accept(false);
+		return;
+	}
+	if (diagramType == dt_EntityRelationship &&
+	    (ot != ot_Entity )) {
 		e->accept(false);
 		return;
 	}
@@ -1665,6 +1675,7 @@ bool UMLView::addWidget( UMLWidget * pWidget , bool isPasteOperation ) {
 		case wt_Artifact:
 		case wt_Interface:
 		case wt_Enum:
+		case wt_Entity:
 		case wt_Datatype:
 		case wt_Actor:
 		case wt_UseCase:
@@ -1777,8 +1788,9 @@ bool UMLView::addWidget( UMLWidget * pWidget , bool isPasteOperation ) {
 // Add the association, and its child widgets to this view
 bool UMLView::addAssociation( AssociationWidget* pAssoc , bool isPasteOperation) {
 
-	if(!pAssoc)
+	if (!pAssoc) {
 		return false;
+	}
 
 	if( isPasteOperation )
 	{
@@ -1829,14 +1841,15 @@ bool UMLView::addAssociation( AssociationWidget* pAssoc , bool isPasteOperation)
 	UMLWidget * m_pWidgetA = findWidget(pAssoc->getWidgetID(A));
 	UMLWidget * m_pWidgetB = findWidget(pAssoc->getWidgetID(B));
 	//make sure valid widget ids
-	if(!m_pWidgetA || !m_pWidgetB)
+	if (!m_pWidgetA || !m_pWidgetB) {
 		return false;
+	}
 
 	//make sure valid
 	if( !isPasteOperation &&
 	    !AssocRules::allowAssociation(pAssoc->getAssocType(), m_pWidgetA, m_pWidgetB, false) ) {
-		kdDebug() << "UMLView::addAssociation: allowAssociation returns false "
-			  << "for AssocType " << pAssoc->getAssocType() << endl;
+		kdWarning() << "UMLView::addAssociation: allowAssociation returns false "
+			    << "for AssocType " << pAssoc->getAssocType() << endl;
 		return false;
 	}
 
@@ -2166,6 +2179,10 @@ Uml::Association_Type UMLView::convert_TBB_AT(WorkToolBar::ToolBar_Buttons tbb) 
 
 		case WorkToolBar::tbb_Aggregation:
 			at = at_Aggregation;
+			break;
+
+		case WorkToolBar::tbb_Relationship:
+			at = at_Relationship;
 			break;
 
 		case WorkToolBar::tbb_Dependency:
@@ -2610,6 +2627,10 @@ void UMLView::setMenu() {
 			menu = ListPopupMenu::mt_On_Deployment_Diagram;
 			break;
 
+		case dt_EntityRelationship:
+			menu = ListPopupMenu::mt_On_EntityRelationship_Diagram;
+			break;
+
 		default:
 			kdWarning() << "setMenu() called on unknown diagram type" << endl;
 			menu = ListPopupMenu::mt_Undefined;
@@ -2715,6 +2736,11 @@ void UMLView::slotMenuSelection(int sel) {
 		case ListPopupMenu::mt_Enum:
 			m_bCreateObject = true;
 			m_pDoc->createUMLObject(ot_Enum);
+			break;
+
+		case ListPopupMenu::mt_Entity:
+			m_bCreateObject = true;
+			m_pDoc->createUMLObject(ot_Entity);
 			break;
 
 		case ListPopupMenu::mt_Datatype:
@@ -3157,7 +3183,7 @@ void UMLView::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 		// section when each owning association is dumped. -b.t.
 		if (widget->getBaseType() != wt_Text ||
 		    static_cast<FloatingText*>(widget)->getLink() == NULL)
-			widget -> saveToXMI( qDoc, widgetElement );
+			widget->saveToXMI( qDoc, widgetElement );
 	}
 	viewElement.appendChild( widgetElement );
 	//now save the message widgets
@@ -3397,6 +3423,8 @@ UMLWidget* UMLView::loadWidgetFromXMI(QDomElement& widgetElement) {
 			widget = new DatatypeWidget(this, static_cast<UMLDatatype*>(o));
 		} else if (tag == "enumwidget") {
 			widget = new EnumWidget(this, static_cast<UMLEnum*>(o));
+		} else if (tag == "entitywidget") {
+			widget = new EntityWidget(this, static_cast<UMLEntity*>(o));
 		} else if (tag == "objectwidget"
 			   || tag == "UML:ObjectWidget") {  // for bkwd compatibility
 			widget = new ObjectWidget(this, o );

@@ -48,6 +48,8 @@ class UMLListView : public KListView {
 
 	enum Icon_Type	{
 		it_Home = 0,
+		it_Folder_Cyan,
+		it_Folder_Cyan_Open,
 		it_Folder_Green,
 		it_Folder_Green_Open,
 		it_Folder_Grey,
@@ -68,6 +70,7 @@ class UMLListView : public KListView {
 		it_Interface,
 		it_Datatype,
 		it_Enum,
+		it_Entity,
 		it_Actor,
 		it_UseCase,
 		it_Public_Method,
@@ -81,6 +84,7 @@ class UMLListView : public KListView {
 		it_Diagram_Collaboration,
 		it_Diagram_Component,
 		it_Diagram_Deployment,
+		it_Diagram_EntityRelationship,
 		it_Diagram_Sequence,
 		it_Diagram_State,
 		it_Diagram_Usecase
@@ -289,6 +293,7 @@ class UMLListView : public KListView {
 	UMLListViewItem* lv;//logical view item
 	UMLListViewItem* componentView;//component view item
 	UMLListViewItem* deploymentView;//deployment view item
+	UMLListViewItem* entityRelationshipModel;//entity relationship view item
 	UMLListViewItem* datatypeFolder;
 	UMLListViewItem* diagramFolder;
 	ListPopupMenu * m_pMenu;
@@ -303,6 +308,8 @@ class UMLListView : public KListView {
 
 	struct Pixmaps {
 		QPixmap Home;
+		QPixmap Folder_Cyan;
+		QPixmap Folder_Cyan_Open;
 		QPixmap Folder_Green;
 		QPixmap Folder_Green_Open;
 		QPixmap Folder_Grey;
@@ -323,6 +330,7 @@ class UMLListView : public KListView {
 		QPixmap Interface;
 		QPixmap Datatype;
 		QPixmap Enum;
+		QPixmap Entity;
 		QPixmap Actor;
 		QPixmap UseCase;
 		QPixmap Public_Method;
@@ -336,6 +344,7 @@ class UMLListView : public KListView {
 		QPixmap Diagram_Collaboration;
 		QPixmap Diagram_Component;
 		QPixmap Diagram_Deployment;
+		QPixmap Diagram_EntityRelationship;
 		QPixmap Diagram_Sequence;
 		QPixmap Diagram_State;
 		QPixmap Diagram_Usecase;

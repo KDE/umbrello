@@ -53,12 +53,14 @@
 #include "interface.h"
 #include "datatype.h"
 #include "enum.h"
+#include "entity.h"
 #include "docwindow.h"
 #include "objectwidget.h"
 #include "operation.h"
 #include "attribute.h"
 #include "template.h"
 #include "enumliteral.h"
+#include "entityattribute.h"
 #include "stereotype.h"
 #include "classifierlistitem.h"
 #include "model_utils.h"
@@ -70,6 +72,7 @@
 #include "clipboard/idchangelog.h"
 #include "dialogs/classpropdlg.h"
 #include "dialogs/umlattributedialog.h"
+#include "dialogs/umlentityattributedialog.h"
 #include "dialogs/umltemplatedialog.h"
 #include "dialogs/umloperationdialog.h"
 #include "inputdialog.h"
@@ -138,6 +141,10 @@ void UMLDoc::addView(UMLView *view) {
 
 	KTabWidget* tabWidget = ( KTabWidget* )UMLApp::app()->getMainViewWidget();
 	tabWidget->addTab(view, view->getName());
+	//set title again to adjust tabs to window width
+	//FIXMEnowTAB not sure why this is required, need to check my ktabwidget code
+	tabWidget->setTabLabel(view, view->getName());
+
 	QIconSet diagramIconSet;
 	switch ( view->getType() ) {
 		case dt_UseCase: diagramIconSet = BarIconSet("umbrello_diagram_usecase"); break;
@@ -148,6 +155,7 @@ void UMLDoc::addView(UMLView *view) {
 		case dt_Activity: diagramIconSet = BarIconSet("umbrello_diagram_activity"); break;
 		case dt_Component: diagramIconSet = BarIconSet("umbrello_diagram_component"); break;
 		case dt_Deployment: diagramIconSet = BarIconSet("umbrello_diagram_deployment"); break;
+		case dt_EntityRelationship: diagramIconSet = BarIconSet("umbrello_diagram_entityrelationship"); break;
 		default:
 			kdDebug() << "unknown diagram type in addView()" << endl;
 			diagramIconSet = BarIconSet("unknown");
@@ -335,6 +343,10 @@ bool UMLDoc::newDocument() {
 
 		case Settings::diagram_deployment:
 			createDiagram( Uml::dt_Deployment, false );
+			break;
+
+		case Settings::diagram_entityrelationship:
+			createDiagram( Uml::dt_EntityRelationship, false );
 			break;
 		default:
 			break;
@@ -805,10 +817,14 @@ QString	UMLDoc::uniqObjectName(const Object_Type type, QString prefix) {
 			currentName = i18n("new_datatype");
 		else if(type == ot_Enum)
 			currentName = i18n("new_enum");
+		else if(type == ot_Entity)
+			currentName = i18n("new_entity");
 		else if(type == ot_Association)
 			currentName = i18n("new_association");
-		else
+		else {
 			currentName = i18n("new_object");
+			kdWarning() << "unknown object type in umldoc::uniqObjectName()" << endl;
+		}
 	}
 	QString name = currentName;
 	for (int number = 1; !isUnique(name); number++)  {
@@ -824,8 +840,8 @@ QString	UMLDoc::uniqObjectName(const Object_Type type, QString prefix) {
   */
 void UMLDoc::addUMLObject(UMLObject* object) {
 	Object_Type ot = object->getBaseType();
-	if (ot == ot_Attribute || ot == ot_Operation || ot == ot_EnumLiteral ||
-	    ot == ot_Stereotype) {
+	if (ot == ot_Attribute || ot == ot_Operation || ot == ot_EnumLiteral
+	    || ot == ot_EntityAttribute || ot == ot_Stereotype) {
 		kdDebug() << "UMLDoc::addUMLObject(" << object->getName()
 			<< "): not adding type " << ot << endl;
 		return;
@@ -960,6 +976,8 @@ UMLObject* UMLDoc::createUMLObject(const std::type_info &type)
 		t = ot_Datatype;
 	} else if ( type == typeid(UMLEnum) )  {
 		t = ot_Enum;
+	} else if ( type == typeid(UMLEntity) )  {
+		t = ot_Entity;
 	} else {
 		return static_cast<UMLObject*>(0L);
 	}
@@ -1024,8 +1042,10 @@ UMLObject* UMLDoc::createUMLObject(Object_Type type, const QString &n,
 		o = new UMLDatatype(name);
 	} else if(type == ot_Enum) {
 		o = new UMLEnum(name);
+	} else if(type == ot_Entity) {
+		o = new UMLEntity(name);
 	} else {
-		kdWarning() << "CreateUMLObject(int) error" << endl;
+		kdWarning() << "CreateUMLObject(int) error unknown type: " << type << endl;
 		return (UMLObject*)0L;
 	}
 	o->setUMLPackage(parentPkg);
@@ -1057,6 +1077,11 @@ UMLObject* UMLDoc::createChildObject(UMLObject* umlobject, Object_Type type) {
 		UMLEnum* umlenum = dynamic_cast<UMLEnum*>(umlobject);
 		if (umlenum) {
 			returnObject = createEnumLiteral(umlenum);
+		}
+	} else if(type == ot_EntityAttribute) {
+		UMLEntity* umlentity = dynamic_cast<UMLEntity*>(umlobject);
+		if (umlentity) {
+			returnObject = createEntityAttribute(umlentity);
 		}
 	} else {
 		kdDebug() << "ERROR UMLDoc::createChildObject type:" << type << endl;
@@ -1164,6 +1189,47 @@ UMLObject* UMLDoc::createEnumLiteral(UMLEnum* umlenum) {
 	return newEnumLiteral;
 }
 
+UMLObject* UMLDoc::createEntityAttribute(UMLEntity* umlentity, const QString &name /*=null*/) {
+	Uml::IDType id = getUniqueID();
+	QString currentName;
+	if (name.isNull())  {
+		currentName = umlentity->uniqChildName(Uml::ot_EntityAttribute);
+	} else {
+		currentName = name;
+	}
+	const Settings::OptionState optionState = UMLApp::app()->getOptionState();
+	Uml::Scope scope = optionState.classState.defaultAttributeScope;
+	UMLEntityAttribute* newAttribute = new UMLEntityAttribute(umlentity, currentName, id, scope);
+
+	int button = QDialog::Accepted;
+	bool goodName = false;
+
+	//check for name.isNull() stops dialogue being shown
+	//when creating attribute via list view
+	while (button==QDialog::Accepted && !goodName && name.isNull()) {
+		UMLEntityAttributeDialog attributeDialogue(0, newAttribute);
+		button = attributeDialogue.exec();
+		QString name = newAttribute->getName();
+
+		if(name.length() == 0) {
+			KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
+		} else if ( umlentity->findChildObject(Uml::ot_EntityAttribute, name).count() > 0 ) {
+			KMessageBox::error(0, i18n("That name is already being used."), i18n("Not a Unique Name"));
+		} else {
+			goodName = true;
+		}
+	}
+
+	if (button != QDialog::Accepted) {
+		return NULL;
+	}
+
+	umlentity->addEntityAttribute(newAttribute);
+
+	emit sigObjectCreated(newAttribute);
+	return newAttribute;
+}
+
 UMLStereotype* UMLDoc::findStereotype(const QString &name) {
 	for (UMLStereotype *s = m_stereoList.first(); s; s = m_stereoList.next() ) {
 		if (s->getName() == name)
@@ -1236,7 +1302,7 @@ UMLOperation* UMLDoc::createOperation(UMLClassifier* classifier,
 	UMLOperation *op = new UMLOperation(classifier, name);
 	if (params)
 	{
-		
+
 		for (Umbrello::NameAndType_ListIt it = params->begin(); it != params->end(); ++it ) {
 			const Umbrello::NameAndType &nt = *it;
 			UMLAttribute *par = new UMLAttribute(op, nt.first);
@@ -1378,6 +1444,7 @@ void UMLDoc::addAssocToConcepts(UMLAssociation* a) {
 			case Uml::at_Association_Self:
 			case Uml::at_UniAssociation:
 			case Uml::at_Aggregation:
+			case Uml::at_Relationship:
 			case Uml::at_Composition:
 				if (AId == c->getID() || (BId == c->getID()))
 					c->addAssociation(a);
@@ -1406,6 +1473,8 @@ QString UMLDoc::uniqViewName(const Diagram_Type type) {
 		dname = i18n( "component diagram" );
 	else if( type == dt_Deployment )
 		dname = i18n( "deployment diagram" );
+	else if( type == dt_EntityRelationship )
+		dname = i18n( "entity relationship diagram" );
 	else {
 		kdWarning() << "uniqViewName() called with unknown diagram type" << endl;
 	}
@@ -1587,6 +1656,8 @@ void UMLDoc::removeUMLObject(UMLObject* umlobject) {
 			parent->removeOperation(static_cast<UMLOperation*>(umlobject));
 		} else if (type == ot_EnumLiteral) {
 			static_cast<UMLEnum*>(parent)->removeEnumLiteral(umlobject);
+		} else if (type == ot_EntityAttribute) {
+			static_cast<UMLEntity*>(parent)->removeEntityAttribute(umlobject);
 		} else {
 			UMLClass* pClass = dynamic_cast<UMLClass*>(parent);
 			if (pClass == NULL)  {
@@ -1624,6 +1695,7 @@ void UMLDoc::removeUMLObject(UMLObject* umlobject) {
 							c->removeAssociation(a);
 						break;
 					case Uml::at_Association:
+					case Uml::at_Relationship:
 					case Uml::at_Association_Self:
 					case Uml::at_UniAssociation:
 						// CHECK: doesnt seem correct
@@ -1800,7 +1872,8 @@ void UMLDoc::saveToXMI(QIODevice& file) {
 				  << endl;
 			continue;
 		}
-		if (t == ot_EnumLiteral || t == ot_Attribute || t == ot_Operation) {
+		if (t == ot_EnumLiteral || t == ot_EntityAttribute ||
+		    t == ot_Attribute || t == ot_Operation) {
 			kdError() << "UMLDoc::saveToXMI(" << o->getName()
 				  << "): internal error: type " << t
 				  << " is not supposed to be in m_objectList"
@@ -2317,6 +2390,8 @@ UMLObject* UMLDoc::makeNewUMLObject(const QString &type) {
 	} else if (tagEq(type, "Enumeration") ||
 		   tagEq(type, "Enum")) {	// for bkwd compat.
 		pObject = new UMLEnum();
+	} else if (tagEq(type, "Entity")) {
+		pObject = new UMLEntity();
 	} else if (tagEq(type, "Stereotype")) {
 		pObject = new UMLStereotype();
 	} else if (tagEq(type, "Association") ||
@@ -2419,7 +2494,8 @@ UMLClassifierList UMLDoc::getConcepts(bool includeNested /* =true */) {
 	for (UMLObjectListIt oit(m_objectList); oit.current(); ++oit) {
 		UMLObject *obj = oit.current();
 		Uml::Object_Type ot = obj->getBaseType();
-		if(ot == ot_Class || ot == ot_Interface || ot == ot_Datatype || ot == ot_Enum)  {
+		if(ot == ot_Class || ot == ot_Interface || ot == ot_Datatype ||
+		   ot == ot_Enum || ot == ot_Entity) {
 			conceptList.append((UMLClassifier *)obj);
 		} else if (includeNested && ot == ot_Package) {
 			UMLPackage *pkg = static_cast<UMLPackage *>(obj);
@@ -2724,7 +2800,7 @@ void UMLDoc::slotAutoSave() {
 
 void UMLDoc::signalDiagramRenamed(UMLView* pView ) {
         KTabWidget* tabWidget = ( KTabWidget* )UMLApp::app()->getMainViewWidget();
-	tabWidget->changeTab( pView, pView->getName() );
+	tabWidget->setTabLabel( pView, pView->getName() );
 	emit sigDiagramRenamed( pView -> getID() );
 	return;
 }
@@ -2891,6 +2967,10 @@ void UMLDoc::slotDiagramPopupMenu(QWidget* umlview, const QPoint& point) {
 
 		case dt_Deployment:
 			type = lvt_Deployment_Diagram;
+			break;
+
+		case dt_EntityRelationship:
+			type = lvt_EntityRelationship_Diagram;
 			break;
 
 		default:

@@ -36,7 +36,8 @@ namespace Settings {
 	    diagram_state,
 	    diagram_activity,
 	    diagram_component,
-	    diagram_deployment
+	    diagram_deployment,
+	    diagram_entityrelationship
 	};
 
 	//public structs

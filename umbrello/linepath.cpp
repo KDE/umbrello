@@ -551,11 +551,13 @@ void LinePath::calculateHead() {
 		m_PointArray.setPoint(2, diamondFarPoint);
 		m_PointArray.setPoint(3, m_ArrowPointB);
 	}
+
 }
 
 void LinePath::updateHead() {
 	int count = m_HeadList.count();
 	QCanvasLine * line = 0;
+
 	switch( getAssocType() ) {
 		case Uml::at_State:
 		case Uml::at_Activity:
@@ -569,6 +571,19 @@ void LinePath::updateHead() {
 			line = m_HeadList.at( 1 );
 			line -> setPoints( m_EgdePoint.x(), m_EgdePoint.y(), m_ArrowPointB.x(), m_ArrowPointB.y() );
 			break;
+
+		case Uml::at_Relationship:
+			if (count < 2) {
+				return;
+			}
+			//FIXME fix for when association is on top/bottom of widget
+			line = m_HeadList.at( 0 );
+			line->setPoints( m_PointArray[2].x(), m_PointArray[2].y(),
+					 m_PointArray[0].x(), m_PointArray[0].y()-8 );
+
+			line = m_HeadList.at( 1 );
+			line->setPoints( m_PointArray[2].x(), m_PointArray[2].y(),
+					 m_PointArray[0].x(), m_PointArray[0].y()+8 );
 
 		case Uml::at_Generalization:
 		case Uml::at_Realization:
@@ -636,6 +651,7 @@ void LinePath::createHeadLines() {
 		case Uml::at_State:
 		case Uml::at_Dependency:
 		case Uml::at_UniAssociation:
+		case Uml::at_Relationship:
 			growList(m_HeadList, 2);
 			break;
 

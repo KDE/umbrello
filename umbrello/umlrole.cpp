@@ -147,8 +147,13 @@ void UMLRole::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 				break;
 		}
 	} else {
-		if (m_pAssoc->getAssocType() == Uml::at_UniAssociation)
+		if (m_pAssoc->getAssocType() == Uml::at_UniAssociation) {
 			roleElement.setAttribute("isNavigable", "true");
+		}
+		//FIXME obviously this isn't standard XMI
+		if (m_pAssoc->getAssocType() == Uml::at_Relationship) {
+			roleElement.setAttribute("relationship", "true");
+		}
 	}
 	switch (getScope()) {
 		case Uml::Private:
@@ -319,6 +324,13 @@ bool UMLRole::load( QDomElement & element ) {
 		 */
 		if (element.attribute("isNavigable") == "true")
 			m_pAssoc->setAssocType(Uml::at_UniAssociation);
+	}
+
+	//FIXME not standard XMI
+	if (element.hasAttribute("relationship")) {
+		if (element.attribute("relationship") == "true") {
+			m_pAssoc->setAssocType(Uml::at_Relationship);
+		}
 	}
 
 	if (m_Multi.isEmpty())

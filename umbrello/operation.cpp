@@ -76,9 +76,7 @@ void UMLOperation::moveParmLeft(UMLAttribute * a) {
 	if ( idx == 0 )
 		return;
 	m_List.remove( a );
-	kdDebug() << k_funcinfo << endl;
 	m_List.insert( idx-1, a );
-	kdDebug() << k_funcinfo << endl;
 }
 
 void UMLOperation::moveParmRight(UMLAttribute * a) {

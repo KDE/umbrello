@@ -238,6 +238,10 @@ void UMLListViewItem::updateObject() {
 			icon =  UMLListView::it_Enum;
 			break;
 
+		case Uml::ot_Entity:
+			icon =  UMLListView::it_Entity;
+			break;
+
 		case Uml::ot_Operation:
 			if( scope == Uml::Public )
 				icon =  UMLListView::it_Public_Method;
@@ -287,6 +291,11 @@ void UMLListViewItem::updateFolder() {
 		case Uml::lvt_Deployment_View:
 		case Uml::lvt_Deployment_Folder:
 			icon = UMLListView::it_Folder_Violet;
+			break;
+
+		case Uml::lvt_EntityRelationship_Model:
+		case Uml::lvt_EntityRelationship_Folder:
+			icon = UMLListView::it_Folder_Cyan;
 			break;
 
 		default:

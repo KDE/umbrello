@@ -538,6 +538,10 @@ public slots:
 	 * Create this view.
 	 */
 	void slotDeploymentDiagram();
+	/**
+	 * Create this view.
+	 */
+	void slotEntityRelationshipDiagram();
 
 	/**
 	 * Notification of changed clipboard data.
@@ -851,6 +855,7 @@ private:
 	KAction* activityDiagram;
 	KAction* componentDiagram;
 	KAction* deploymentDiagram;
+	KAction* entityRelationshipDiagram;
 	KAction* viewClearDiagram;
 		
 	KToggleAction* viewSnapToGrid;

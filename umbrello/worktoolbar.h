@@ -73,6 +73,7 @@ public:
 	    tbb_Seq_Message_Synchronous,
 	    tbb_Seq_Message_Asynchronous,
 	    tbb_Composition,
+	    tbb_Relationship,
 	    tbb_UniAssociation,
 	    tbb_State_Transition,
 	    tbb_Activity_Transition,
@@ -86,6 +87,7 @@ public:
 	    tbb_Interface,
 	    tbb_Datatype,
 	    tbb_Enum,
+	    tbb_Entity,
 	    tbb_Package,
 	    tbb_Component,
 	    tbb_Node,
@@ -136,6 +138,7 @@ private:
 		QPixmap Interface;
 		QPixmap Datatype;
 		QPixmap Enum;
+		QPixmap Entity;
 		QPixmap MessageAsynchronous;
 		QPixmap MessageSynchronous;
 		QPixmap Node;
@@ -145,6 +148,7 @@ private:
 		QPixmap Text;
 		QPixmap Class;
 		QPixmap UniAssoc;
+		QPixmap Relationship;
 	}
 	m_CursorPixmaps;
 

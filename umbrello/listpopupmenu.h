@@ -29,6 +29,8 @@ class ClassifierWidget;
 class ListPopupMenu : public KPopupMenu {
 public:
 
+//FIXME needs renumbering
+
 	/// This type hosts all possible menu types.
 	enum Menu_Type
 	{
@@ -37,6 +39,7 @@ public:
 	    mt_UseCase_View,                  //UCVIEW
 	    mt_Component_View,			// 1902
 	    mt_Deployment_View,			// 1903
+	    mt_EntityRelationship_Model,	// 1903
 	    mt_UseCase_Diagram,               //UCDIAGRAM
 	    mt_Sequence_Diagram,              //SEQDIAGRAM
 	    mt_Class_Diagram,                 //CONDIAGRAM
@@ -45,6 +48,7 @@ public:
 	    mt_Activity_Diagram,		// 1909
 	    mt_Component_Diagram,		// 1910
 	    mt_Deployment_Diagram,		// 1911
+	    mt_EntityRelationship_Diagram,		// 1911
 
 	    mt_On_UseCase_Diagram,            //UCDIAGRAM
 	    mt_On_Sequence_Diagram,           //SEQDIAGRAM
@@ -54,11 +58,13 @@ public:
 	    mt_On_Activity_Diagram,		// 1917
 	    mt_On_Component_Diagram,		// 1918
 	    mt_On_Deployment_Diagram,		// 1919
+	    mt_On_EntityRelationship_Diagram,
 
 	    mt_Logical_Folder,                //LFOLDER
 	    mt_UseCase_Folder,                //UCFOLDER
 	    mt_Component_Folder,		// 1922
 	    mt_Deployment_Folder,		// 1923
+	    mt_EntityRelationship_Folder,		// 1923
 
 	    mt_Class,                       //CLASS
 	    mt_Package,				// 1925
@@ -67,10 +73,12 @@ public:
 	    mt_Artifact,			// 1928
 	    mt_Interface,			// 1929
 	    mt_Enum,				// 1930
+	    mt_Entity,				// 1930
 	    mt_Datatype,			// 1931
 	    mt_Actor,                         //ACTOR
 	    mt_UseCase,                       //USECASE
 	    mt_Attribute,                     //ATTRIBUTE
+	    mt_EntityAttribute,                     //ATTRIBUTE
 	    mt_EnumLiteral,			// 1935
 	    mt_Object,				// 1936
 	    mt_Initial_State,			// 1937
@@ -85,11 +93,13 @@ public:
 	    mt_New_Attribute,                 //NEWATT
 	    mt_New_Template,			// 1947
 	    mt_New_EnumLiteral,			// 1948
+	    mt_New_EntityAttribute,			// 1948
 	    mt_Parameter_Selected,            //PARMSEL
 	    mt_Operation_Selected,            //OPSEL
 	    mt_Attribute_Selected,            //ATTSEL
 	    mt_Template_Selected,		// 1952
 	    mt_EnumLiteral_Selected,		// 1953
+	    mt_EntityAttribute_Selected,		// 1953
 	    mt_Association_Selected,          // Association without role names
 	    mt_Show_Attributes,               //SHOWATTS
 	    mt_Show_Attributes_Selection,     //SHOWATTS, multiple items
@@ -292,6 +302,7 @@ private:
 		pm_Node,
 		pm_Artifact,
 		pm_Text,
+		pm_Entity,
 		pm_NUMBER_OF_PIXMAPS
 	};
 	QPixmap m_pixmap[pm_NUMBER_OF_PIXMAPS];

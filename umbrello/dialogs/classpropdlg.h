@@ -106,6 +106,7 @@ private:
 	ClassifierListPage* m_pOpsPage;
 	ClassifierListPage* m_pTemplatePage;
 	ClassifierListPage* m_pEnumLiteralPage;
+	ClassifierListPage* m_pEntityAttributePage;
 	PkgContentsPage * m_pPkgContentsPage;
 	AssocPage * m_pAssocPage;
 	ClassOptionsPage * m_pOptionsPage;

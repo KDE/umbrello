@@ -152,6 +152,11 @@ void WorkToolBar::slotCheckToolBar(Uml::Diagram_Type dt) {
 		insertBasicAssociations();
 		break;
 
+	case Uml::dt_EntityRelationship:
+		insertHotBtn(tbb_Entity, i18n("Entity"));
+		insertHotBtn(tbb_Relationship, i18n("Relationship"));
+		break;
+
 	default:
 		kdWarning() << "slotCheckToolBar() on unknown diagram type:"
 			    << m_Type << endl;
@@ -233,6 +238,8 @@ QCursor WorkToolBar::currentCursor() {
 		return QCursor(m_CursorPixmaps.Datatype, 9, 9);
 	} else if (m_CurrentButtonID == tbb_Enum)  {
 		return QCursor(m_CursorPixmaps.Enum, 9, 9);
+	} else if (m_CurrentButtonID == tbb_Entity)  {
+		return QCursor(m_CursorPixmaps.Entity, 9, 9);
 	} else if (m_CurrentButtonID == tbb_Seq_Message_Asynchronous ||
 		   m_CurrentButtonID == tbb_Coll_Message)  {
 		return QCursor(m_CursorPixmaps.MessageAsynchronous, 9, 9);
@@ -246,6 +253,8 @@ QCursor WorkToolBar::currentCursor() {
 		return QCursor(m_CursorPixmaps.Object, 9, 9);
 	} else if (m_CurrentButtonID == tbb_Package)  {
 		return QCursor(m_CursorPixmaps.Package, 9, 9);
+	} else if (m_CurrentButtonID == tbb_Relationship) {
+		return QCursor(m_CursorPixmaps.Relationship, 9, 9);
 	} else if (m_CurrentButtonID == tbb_Text)  {
 		return QCursor(m_CursorPixmaps.Text, 9, 9);
 	} else if (m_CurrentButtonID == tbb_Class)  {
@@ -287,9 +296,6 @@ void WorkToolBar::setDefaultTool() {
 	if(b)
 		b -> animateClick();
 }
-//FIXMEnow
-#include <kicontheme.h>
-#include <kiconloader.h>
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void WorkToolBar::loadPixmaps() {
 	KStandardDirs * dirs = KGlobal::dirs();
@@ -309,6 +315,7 @@ void WorkToolBar::loadPixmaps() {
 	m_Pixmaps[tbb_Actor].load( dataDir + "actor.png" );
 	m_Pixmaps[tbb_Dependency].load( dataDir + "dependency.png" );
 	m_Pixmaps[tbb_Aggregation].load( dataDir + "aggregation.png" );
+	m_Pixmaps[tbb_Relationship].load( dataDir + "relationship.png" );
 	m_Pixmaps[tbb_UniAssociation].load( dataDir + "uniassociation.png" );
 	m_Pixmaps[tbb_Generalization].load( dataDir + "generalisation.png" );
 	m_Pixmaps[tbb_Composition].load( dataDir + "composition.png" );
@@ -325,6 +332,7 @@ void WorkToolBar::loadPixmaps() {
 	m_Pixmaps[tbb_Interface].load( dataDir + "interface.png" );
 	m_Pixmaps[tbb_Datatype].load( dataDir + "datatype.png" );
 	m_Pixmaps[tbb_Enum].load( dataDir + "enum.png" );
+	m_Pixmaps[tbb_Entity].load( dataDir + "entity.png" );
 
 	m_CursorPixmaps.Actor.load( dataDir + "cursor-actor.png");
 	m_CursorPixmaps.Aggregation.load( dataDir + "cursor-aggregation.png");
@@ -344,6 +352,7 @@ void WorkToolBar::loadPixmaps() {
 	m_CursorPixmaps.Interface.load( dataDir + "cursor-interface.png");
 	m_CursorPixmaps.Datatype.load( dataDir + "cursor-datatype.png");
 	m_CursorPixmaps.Enum.load( dataDir + "cursor-enum.png");
+	m_CursorPixmaps.Entity.load( dataDir + "cursor-entity.png");
 	m_CursorPixmaps.Generalisation.load( dataDir + "cursor-generalisation.png");
 	m_CursorPixmaps.MessageAsynchronous.load( dataDir + "cursor-message-asynchronous.png");
 	m_CursorPixmaps.MessageSynchronous.load( dataDir + "cursor-message-synchronous.png");
@@ -354,6 +363,7 @@ void WorkToolBar::loadPixmaps() {
 	m_CursorPixmaps.Text.load( dataDir + "cursor-text.png");
 	m_CursorPixmaps.Class.load( dataDir + "cursor-class.png");
 	m_CursorPixmaps.UniAssoc.load( dataDir + "cursor-uniassociation.png");
+	m_CursorPixmaps.Relationship.load( dataDir + "cursor-relationship.png");
 }
 
 void WorkToolBar::insertBasicAssociations()  {

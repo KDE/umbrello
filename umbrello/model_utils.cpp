@@ -66,6 +66,7 @@ UMLObject * findObjectInList(Uml::IDType id, UMLObjectList inList) {
 			case Uml::ot_Interface:
 			case Uml::ot_Class:
 			case Uml::ot_Enum:
+			case Uml::ot_Entity:
 				o = ((UMLClassifier*)obj)->findChildObject(id);
 				if (o == NULL &&
 				    (t == Uml::ot_Interface || t == Uml::ot_Class))
@@ -255,7 +256,7 @@ Parse_Status parseOperation(QString m, OpDescriptor& desc, UMLPackage *owningSco
 }
 
 QString psText(Parse_Status value) {
-	const QString text[] = { 
+	const QString text[] = {
 		i18n("OK"), i18n("Empty"), i18n("Malformed argument"),
 		i18n("Unknown argument type"), i18n("Illegal method name"),
 		i18n("Unknown return type"), i18n("Unspecified error")

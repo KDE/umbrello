@@ -39,6 +39,7 @@ selectopdlg.cpp \
 settingsdlg.cpp \
 statedialog.cpp \
 umlattributedialog.cpp \
+umlentityattributedialog.cpp \
 umloperationdialog.cpp \
 umltemplatedialog.cpp \
 umlroledialog.cpp \

@@ -74,6 +74,7 @@ int ToolBarStateFactory::getKey(const WorkToolBar::ToolBar_Buttons &toolbarButto
 		// Associations
 		case WorkToolBar::tbb_Dependency:          return 1;
 		case WorkToolBar::tbb_Aggregation:         return 1;
+		case WorkToolBar::tbb_Relationship:        return 1;
 		case WorkToolBar::tbb_Generalization:      return 1;
 		case WorkToolBar::tbb_Association:         return 1;
 	    	case WorkToolBar::tbb_UniAssociation:      return 1;

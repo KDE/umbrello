@@ -39,6 +39,9 @@ datatype.cpp \
 datatypewidget.cpp \
 dialog_utils.cpp \
 docwindow.cpp \
+entity.cpp \
+entityattribute.cpp \
+entitywidget.cpp \
 enum.cpp \
 enumliteral.cpp \
 enumwidget.cpp \
@@ -80,6 +83,7 @@ toolbarstateother.cpp \
 toolbarstatepool.cpp \
 uml.cpp \
 umlattributelist.cpp \
+umlentityattributelist.cpp \
 umlcanvasobject.cpp \
 umlclassifierlistitemlist.cpp \
 umldoc.cpp \

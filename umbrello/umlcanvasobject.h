@@ -148,6 +148,13 @@ public:
 	UMLAssociationList getCompositions();
 
 	/**
+	 * Shorthand for getSpecificAssocs(Uml::at_Relationship)
+	 *
+	 * @return	The list of relationships for the entity.
+	 */
+	UMLAssociationList getRelationships();
+
+	/**
 	 * Find a list of associations with the given name.
 	 *
 	 * @param t		The type to find.

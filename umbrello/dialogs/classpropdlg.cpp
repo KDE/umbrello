@@ -36,6 +36,7 @@ ClassPropDlg::ClassPropDlg(QWidget *parent, UMLObject * c, int pageNum, bool ass
 	m_pOpsPage = 0;
 	m_pTemplatePage = 0;
 	m_pEnumLiteralPage = 0;
+	m_pEntityAttributePage = 0;
 	m_pOptionsPage = 0;
 	m_pColorPage = 0;
 	m_Type = pt_Object;
@@ -54,6 +55,7 @@ ClassPropDlg::ClassPropDlg(QWidget *parent, ObjectWidget * o)
 	m_pOpsPage = 0;
 	m_pTemplatePage = 0;
 	m_pEnumLiteralPage = 0;
+	m_pEntityAttributePage = 0;
 	m_pOptionsPage = 0;
 	m_Type = pt_ObjectWidget;
 	m_pObject = m_pWidget->getUMLObject();
@@ -83,6 +85,7 @@ ClassPropDlg::ClassPropDlg(QWidget *parent, UMLWidget * w)
 	m_pOpsPage = 0;
 	m_pTemplatePage = 0;
 	m_pEnumLiteralPage = 0;
+	m_pEntityAttributePage = 0;
 	m_pOptionsPage = 0;
 	m_Type = pt_Widget;
 	m_pObject = w -> getUMLObject();
@@ -144,6 +147,9 @@ void ClassPropDlg::slotApply() {
 	if (m_pEnumLiteralPage) {
 		m_pEnumLiteralPage->updateObject();
 	}
+	if (m_pEntityAttributePage) {
+		m_pEntityAttributePage->updateObject();
+	}
 	if (m_pOptionsPage) {
 		m_pOptionsPage->updateUMLWidget();
 	}
@@ -192,6 +198,13 @@ void ClassPropDlg::setupPages(UMLObject * c, bool assoc) {
 		m_pEnumLiteralPage = new ClassifierListPage(newPage, (UMLClassifier*)c, m_pDoc, Uml::ot_EnumLiteral);
 		QHBoxLayout* enumLiteralsLayout = new QHBoxLayout(newPage);
 		enumLiteralsLayout->addWidget(m_pEnumLiteralPage);
+	}
+	if (c->getBaseType() == Uml::ot_Entity) {
+		//setup enum literals page
+		QFrame* newPage = addPage( i18n("Entity Attributes"), i18n("Entity Attributes Settings"), DesktopIcon("misc") );
+		m_pEntityAttributePage = new ClassifierListPage(newPage, (UMLClassifier*)c, m_pDoc, Uml::ot_EntityAttribute);
+		QHBoxLayout* entityAttributesLayout = new QHBoxLayout(newPage);
+		entityAttributesLayout->addWidget(m_pEntityAttributePage);
 	}
 	if (c->getBaseType() == Uml::ot_Package ) {
 		// Set up containment page.
