@@ -79,7 +79,7 @@ ClassifierListPage::ClassifierListPage(QWidget* parent, UMLClassifier* classifie
 	docLayout->addWidget( m_pDocTE );
 	mainLayout->addWidget(m_pDocGB);
 
-	//add attributes to list
+	// get the item list
 	if (type == ot_Attribute)  {
 		m_pItemList = (static_cast<UMLClass*>(m_pClassifier))->getAttList();
 	} else if (type == ot_Operation)  {
@@ -90,6 +90,8 @@ ClassifierListPage::ClassifierListPage(QWidget* parent, UMLClassifier* classifie
 		kdWarning() << "unknown type in ClassifierListPage" << endl;
 	}
 
+	// add each item in the list to the ListBox and connect each item modified signal
+	// to the ListItemModified slot in this class
 	UMLClassifierListItem* listItem;
 	for ( listItem = m_pItemList->first(); listItem != 0; listItem = m_pItemList->next() ) {
 		m_pItemListLB->insertItem(listItem->getShortName());
@@ -130,9 +132,9 @@ void ClassifierListPage::enableWidgets(bool state) {
 	}
 	/*now check the order buttons.
 		Double check an item is selected
-	   If only one att. in list make sure there disabled.
-		If at top item,only allow down arrow to be enabled.
-		If at bottom item. only allow up arrow to be enabled.
+		If only one item in list make sure they are disabled.
+		If at top item, only allow down arrow to be enabled.
+		If at bottom item, only allow up arrow to be enabled.
 	*/
 	int index = m_pItemListLB->currentItem();
 	if( m_pItemListLB->count() == 1 || index == -1 ) {
@@ -157,7 +159,7 @@ void ClassifierListPage::slotClicked(QListBoxItem*item) {
 	//save old highlighted item first
 	if(m_pOldListItem) {
 		m_pOldListItem->setDoc( m_pDocTE->text() );
-	}//end if old att
+	}
 
 	//make sure clicked on an item
 	if(!item) {
@@ -288,12 +290,12 @@ void ClassifierListPage::slotUpClicked() {
 	if( count <= 1 || index <= 0 )
 		return;
 
-	//swap the text around ( meaning attributes )
+	//swap the text around in the ListBox
 	QString aboveString = m_pItemListLB->text( index - 1 );
 	QString currentString = m_pItemListLB->text( index );
 	m_pItemListLB->changeItem( currentString, index -1 );
 	m_pItemListLB->changeItem( aboveString, index );
-	//set the moved atttribute selected
+	//set the moved item selected
 	QListBoxItem* item = m_pItemListLB->item( index - 1 );
 	m_pItemListLB->setSelected( item, true );
 	//now change around in the list
@@ -310,12 +312,12 @@ void ClassifierListPage::slotDownClicked() {
 	if( count <= 1 || index >= count - 1 )
 		return;
 
-	//swap the text around ( meaning attributes )
+	//swap the text around in the ListBox
 	QString belowString = m_pItemListLB->text( index + 1 );
 	QString currentString = m_pItemListLB->text( index );
 	m_pItemListLB->changeItem( currentString, index + 1 );
 	m_pItemListLB->changeItem( belowString, index );
-	//set the moved atttribute selected
+	//set the moved item selected
 	QListBoxItem* item = m_pItemListLB->item( index + 1 );
 	m_pItemListLB->setSelected( item, true );
 	//now change around in the list
@@ -341,10 +343,10 @@ void ClassifierListPage::slotDoubleClick( QListBoxItem* item ) {
 }
 
 void ClassifierListPage::slotDelete() {
-	UMLClassifierListItem* selectedAttribute = m_pItemList->at( m_pItemListLB->currentItem() );
+	UMLClassifierListItem* selectedItem = m_pItemList->at( m_pItemListLB->currentItem() );
 	//should really wait for signal back
 	//but really shouldn't matter
-	m_pDoc->removeUMLObject(selectedAttribute);
+	m_pDoc->removeUMLObject(selectedItem);
 	m_pItemListLB->removeItem( m_pItemListLB->currentItem());
 	m_pOldListItem = 0;
 	slotClicked(0);
@@ -370,9 +372,9 @@ void ClassifierListPage::slotNewStereotype() {
 }
 
 void ClassifierListPage::saveCurrentItemDocumentation() {
-	UMLClassifierListItem* selectedAttribute = m_pItemList->at( m_pItemListLB->currentItem() );
-	if (selectedAttribute) {
-		selectedAttribute->setDoc( m_pDocTE->text() );
+	UMLClassifierListItem* selectedItem = m_pItemList->at( m_pItemListLB->currentItem() );
+	if (selectedItem) {
+		selectedItem->setDoc( m_pDocTE->text() );
 	}
 }
 
