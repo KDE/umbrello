@@ -1646,7 +1646,6 @@ bool UMLDoc::showProperties(ObjectWidget *o) {
 	bool modified = false;
 	if(dlg->exec()) {
 		getDocWindow() -> showDocumentation( o, true );
-		o->getUMLObject();
 		setModified(true);
 		modified = true;
 	}
