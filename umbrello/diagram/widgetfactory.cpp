@@ -43,7 +43,7 @@ DiagramElement* WidgetFactory:: createUMLWidget( UMLObject *obj , Diagram *paren
 {
 	DiagramElement *w(0L);
 	int id = parent->document()->getUniqueID();
-	
+
 	type_info &type = typeid(*obj);
 	if( type == typeid(UMLClass) )
 	{

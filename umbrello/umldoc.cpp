@@ -528,12 +528,12 @@ UMLObject* UMLDoc::createUMLObject(UMLObject_Type type, const QString &n) {
 		name = n;
 	}
 	else
-	{ 
+	{
 		name = uniqObjectName(type);
 		do {
 		name = KLineEditDlg::getText(i18n("Enter name:"), name, &ok, (QWidget*)parent());
 		if (!ok) {
-			return;
+			return 0;
 		}
 		if (name.length() == 0) {
 			KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
@@ -545,7 +545,7 @@ UMLObject* UMLDoc::createUMLObject(UMLObject_Type type, const QString &n) {
 		}
 		}while( name.length() == 0 || o != 0L );
 	}
-	
+
 	id = getUniqueID();
 	if(type == ot_Actor) {
 		o = new UMLActor(this, name, id);
@@ -1615,14 +1615,15 @@ QStringList UMLDoc::getModelTypes()
 	types.append("double");
 	types.append("float");
 	types.append("date");
-	
+
 	//now add the Classes and Interfaces (both are Concepts)
 	QPtrList<UMLClassifier> namesList( getConcepts() );
 	UMLClassifier* pConcept = 0;
-	for(pConcept=namesList.first(); pConcept!=0 ;pConcept=namesList.next()) 
+	for(pConcept=namesList.first(); pConcept!=0 ;pConcept=namesList.next())
 	{
 		types.append( pConcept->getName() );
 	}
+	return types;
 }
 
 QPtrList<UMLClassifier> UMLDoc::getConcepts() {

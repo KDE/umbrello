@@ -58,7 +58,7 @@ public slots:
 	void refactor( );
 	
 protected:
-	enum TextFlags { Bold = 0x1, Italics = 0x2, Underline = 0x4 };
+	enum TextFlags { EmptyFlag = 0x0, Bold = 0x1, Italics = 0x2, Underline = 0x4 };
 	struct AttString { TextFlags flags; QString string; };
 	struct OpString  { TextFlags flags; QString string; };
 //FIXME - rename this method...

@@ -199,7 +199,7 @@ void ClassWidget::calculateSize()
 			AttString attString;
 			//why??
 			attString.string = "";
-			attString.flags = 0;
+			attString.flags = EmptyFlag;
 			switch(att->getScope( )) //FIXME Visibility!
 			{
 				case Uml::Public:
@@ -238,7 +238,7 @@ void ClassWidget::calculateSize()
 			OpString opString;
 			//why is this needed??
 			opString.string = "";
-			opString.flags = 0;
+			opString.flags = EmptyFlag;
 			switch(op->getScope( )) //FIXME Visibility!
 			{
 				case Uml::Public:
@@ -271,11 +271,11 @@ void ClassWidget::calculateSize()
 			opString.string+=" : " + op->getReturnType();
 			if( op->getAbstract() )
 			{
-				opString.flags |= Italics;
+				opString.flags = (TextFlags)(opString.flags|Italics);
 			}
 			if( op->getStatic() )
 			{
-				opString.flags |= Underline;
+				opString.flags = (TextFlags)(opString.flags|Underline);
 			}
 			m_ops.append(opString);
 		}
@@ -284,7 +284,7 @@ void ClassWidget::calculateSize()
 	QFont font;  // for now use application font
 
 	int maxWidth = 0;
-	int currentWidth = 0;
+/*	int currentWidth = 0;  FIXME unused variable */
 
 	// we calculate the screen space needed using bold, underline and italics
 	// this may give a slightly larger area but it's easier than testing
