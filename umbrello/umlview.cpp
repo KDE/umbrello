@@ -1938,10 +1938,11 @@ void UMLView::removeAssoc(AssociationWidget* pAssoc) {
 
 		m_pMoveAssoc = 0;
 	}
-	// Remove the association in this view.
-//	pAssoc->cleanup();
-	m_AssociationList.remove(pAssoc); // will delete our association
+	// Remove the association in this view - but set the document
+	// modified BEFORE physically deleting it because it is still
+	// needed for an entry in the undo stack (when Undo is enabled.)
 	m_pDoc->setModified();
+	m_AssociationList.remove(pAssoc); // will delete our association
 }
 
 void UMLView::removeAssocInViewAndDoc(AssociationWidget* a) {
