@@ -26,6 +26,7 @@
 #include <kdebug.h>
 // app includes
 #include "classifierinfo.h"
+#include "codegen_utils.h"
 #include "../umldoc.h"
 #include "../classifier.h"
 #include "../class.h"
@@ -33,7 +34,7 @@
 #include "../operation.h"
 #include "../umlclassifierlistitemlist.h"
 #include "../classifierlistitem.h"
-#include "../umlnamespace.h"
+#include "../model_utils.h"
 
 // 3-14-2003: this code developed from the javawriter with parts of the
 // original cppwriter by Luis De la Parra Blum
@@ -316,7 +317,7 @@ void CppWriter::writeHeaderFile (UMLClassifier *c, QFile &fileh) {
 	//
 
 	// PUBLIC attribs/methods
-	h<<scopeToCPPDecl(Uml::Public)<<":"<<m_endl<<m_endl; // print visibility decl.
+	h<<"public:"<<m_endl<<m_endl; // print visibility decl.
 	// for public: constructors are first ops we print out
 	if(!classifierInfo->isInterface)
 		writeConstructorDecls(h);
@@ -326,14 +327,14 @@ void CppWriter::writeHeaderFile (UMLClassifier *c, QFile &fileh) {
 
 	// PROTECTED attribs/methods
 	//
-	h<<scopeToCPPDecl(Uml::Protected)<<":"<<m_endl<<m_endl; // print visibility decl.
+	h<<"protected"<<":"<<m_endl<<m_endl; // print visibility decl.
 	writeHeaderFieldDecl(c,Uml::Protected, h);
         writeHeaderAccessorMethodDecl(c, Uml::Protected, h);
 	writeOperations(c,true,Uml::Protected,h);
 
 	// PRIVATE attribs/methods
 	//
-	h<<scopeToCPPDecl(Uml::Private)<<":"<<m_endl<<m_endl; // print visibility decl.
+	h<<"private"<<":"<<m_endl<<m_endl; // print visibility decl.
 	writeHeaderFieldDecl(c,Uml::Private, h);
         writeHeaderAccessorMethodDecl(c, Uml::Private, h);
 	writeOperations(c,true,Uml::Private,h);
@@ -568,7 +569,7 @@ void CppWriter::writeAttributeDecls (Uml::Scope visibility, bool writeStatic, QT
         //write documentation
         if(forceDoc() || list->count() > 0)
         {
-                QString strVis = capitalizeFirstLetter(scopeToCPPDecl(visibility));
+                QString strVis = capitalizeFirstLetter(Umbrello::scopeToString(visibility));
                 QString strStatic = writeStatic ? "Static ":"";
                 writeComment(strStatic+strVis+" attributes",getIndent(), stream);
                 writeComment(" ",getIndent(), stream);
@@ -661,7 +662,7 @@ void CppWriter::writeAttributeMethods(UMLAttributeList *attribs,
 
 	if(forceDoc() || attribs->count()>0)
 	{
-		QString strVis = capitalizeFirstLetter(scopeToCPPDecl(visibility));
+		QString strVis = capitalizeFirstLetter(Umbrello::scopeToString(visibility));
 		QString strStatic = (isStatic ? " static" : "");
         	writeBlankLine(stream);
 		writeComment(strVis+strStatic+" attribute accessor methods",getIndent(),stream);
@@ -1311,25 +1312,6 @@ QString CppWriter::fixInitialStringDeclValue(QString value, QString type)
 	return value;
 }
 
-QString CppWriter::scopeToCPPDecl(Uml::Scope scope)
-{
-	QString scopeString;
-	switch(scope)
-	{
-		case Uml::Public:
-			scopeString = "public";
-			break;
-		case Uml::Protected:
-			scopeString = "protected";
-			break;
-		case Uml::Private:
-		default:
-			scopeString = "private";
-			break;
-	}
-	return scopeString;
-}
-
 // methods like this _shouldnt_ be needed IF we properly did things thruought the code.
 QString CppWriter::getUMLObjectName(UMLObject *obj)
 {
@@ -1365,3 +1347,12 @@ QString CppWriter::getAttributeVariableName (UMLAttribute *at)
 	QString fieldName = "m_" + cleanName(at->getName());
 	return fieldName;
 }
+
+void CppWriter::createDefaultDatatypes() {
+	Umbrello::createCppDatatypes();
+}
+
+const QStringList CppWriter::reservedKeywords() const {
+	return Umbrello::reservedCppKeywords();
+}
+

@@ -108,9 +108,6 @@ public:
 	 */
 	QString getLanguage(); 
 
-	// should be 'static' method
-	QString scopeToCPPDecl(Uml::Scope scope);
-
 	// generate 2 different types of classifier code documents.
 	CodeDocument * newClassifierCodeDocument (UMLClassifier * classifier);
 	CodeComment * newCodeComment ( CodeDocument * doc);

@@ -1,4 +1,3 @@
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -16,6 +15,7 @@
 #include "cppsourcecodeclassfielddeclarationblock.h"
 
 #include "cppcodeclassfield.h"
+#include "../model_utils.h"
 
 // Constructors/Destructors
 //  
@@ -53,7 +53,7 @@ void CPPSourceCodeClassFieldDeclarationBlock::updateContent( )
 
         // Set the body
         QString staticValue = getParentObject()->getStatic() ? "static " : "";
-        QString scopeStr = jdoc->scopeToCPPDecl(getParentObject()->getScope());
+        QString scopeStr = Umbrello::scopeToString(getParentObject()->getScope());
 
         QString typeName = jcf->getTypeName();
         QString fieldName = jcf->getFieldName();

@@ -66,6 +66,16 @@ public:
 	 */
 	virtual QString getLanguage();
 
+	/**
+	 * Add C++ primitives as datatypes
+	 */
+	void createDefaultDatatypes();
+
+	/**
+	 * get list of reserved keywords
+	 */
+	virtual const QStringList reservedKeywords() const;
+
 private:
 
 	/**
@@ -260,11 +270,6 @@ private:
 	 * Write a blank line
 	 */
 	void writeBlankLine(QTextStream &stream); 
-
-	/**
-	 * a little method for converting scope to string value
-	 */
-	QString scopeToCPPDecl(Uml::Scope scope); 
 
 	/**
 	 * Basic "unit" of indentation 

@@ -1,4 +1,3 @@
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,6 +16,7 @@
 #include "cppcodegenerator.h"
 #include "cppcodegenerationpolicy.h"
 #include "cppcodedocumentation.h"
+#include "../model_utils.h"
 
 // Constructors/Destructors
 //  
@@ -127,7 +127,7 @@ void CPPHeaderClassDeclarationBlock::updateContent ( )
 		startText.append(" : ");
 	for (UMLClassifier * concept= superclasses.first(); concept; concept = superclasses.next())
 	{
-		startText.append(g->scopeToCPPDecl(concept->getScope())+" "+parentDoc->getCPPClassName(concept->getName()));
+		startText.append(Umbrello::scopeToString(concept->getScope())+" "+parentDoc->getCPPClassName(concept->getName()));
 		if(i != (nrof_superclasses-1))
 		      startText.append(", ");
 		i++;
