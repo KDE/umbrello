@@ -46,6 +46,7 @@
 #include <kmessagebox.h>
 #include <kstandarddirs.h>
 #include <kstatusbar.h>
+#include <ktip.h>
 
 #include <qclipboard.h>
 #include <qpopupmenu.h>
@@ -253,6 +254,8 @@ void UMLApp::initActions() {
 	zoom100Action = new KAction(i18n( "Z&oom to 100%" ), "viewmag1", 0,
 	                            this, SLOT( slotZoom100() ), actionCollection(),
 				    "zoom100");
+
+	KStdAction::tipOfDay( this, SLOT( tipOfTheDay() ), actionCollection() );
 
 	// use the absolute path to your umbrelloui.rc file for testing purpose in createGUI();
 	createGUI();
@@ -1346,7 +1349,10 @@ void UMLApp::updateLangSelectMenu() {
 
 }
 
-
+void UMLApp::tipOfTheDay()
+{
+   KTipDialog::showTip(this ,QString::null, true);
+}
 
 void UMLApp::keyPressEvent(QKeyEvent *e) {
 	switch(e->key()) {

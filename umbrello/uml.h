@@ -363,6 +363,11 @@ protected slots:
 	 */
 	void updateLangSelectMenu();
 
+	/**
+	 * Show "Tip of the Day" dialog
+	 */
+	void tipOfTheDay();
+
 public slots:
 	
 
