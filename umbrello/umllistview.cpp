@@ -2370,6 +2370,7 @@ bool UMLListView::loadFromXMI( QDomElement & element ) {
  */
 	QDomNode node = element.firstChild();
 	QDomElement domElement = node.toElement();
+	m_doc->writeToStatusBar( i18n("Loading listview...") );
 	while( !domElement.isNull() ) {
 		if( domElement.tagName() == "listitem" ) {
 			QString type = domElement.attribute( "type", "-1" );

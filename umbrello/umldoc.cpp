@@ -2312,6 +2312,7 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element) {
 #endif
 	// Resolve the types.
 	// This is done in a separate pass because of possible forward references.
+	writeToStatusBar( i18n("Resolving object references...") );
 	for (UMLObjectListIt oit(m_objectList); oit.current(); ++oit) {
 		UMLObject *obj = oit.current();
 #ifdef VERBOSE_DEBUGGING
