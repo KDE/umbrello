@@ -1,5 +1,19 @@
 <tip category="Umbrello">
 <html>
+<p>Welcome to Umbrello.</p>
+
+<p>UML diagrams let you design and document object orientated software.  <a href="help:/umbrello">The Umbrello Handbook</a> is a good introduction to using UML.</p>
+</html>
+</tip>
+
+<tip category="Umbrello">
+<html>
+<p>Welcome to Umbrello 1.4.  New in this version is tabbed diagrams, canvas items can be moved with the keyboard, a PHP 5 code generator and many fixes.</p>
+</html>
+</tip>
+
+<tip category="Umbrello">
+<html>
 <p>Most diagram items can not be resized, they will resize themselves to fit to their contents.
 Boxes, notes and sequence diagram messages can be resized just click and drag on the red square.</p>
 </html>
@@ -13,14 +27,7 @@ Boxes, notes and sequence diagram messages can be resized just click and drag on
 
 <tip category="Umbrello">
 <html>
-<p>Many new code generators have been added in this release.  You can now generate code for
-JavaScript, ActionScript, XMLSchema, Perl, Python, SQL, IDL and Ada.</p>
-</html>
-</tip>
-
-<tip category="Umbrello">
-<html>
-<p>Umbrello's new refactoring agent lets you move operations between a class and its derived and base 
+<p>Umbrello's refactoring agent lets you move operations between a class and its derived and base 
 classes.
 Right click a class to open the refactoring agent.</p>
 </html>
@@ -35,6 +42,12 @@ the Properties dialogue.</p>
 
 <tip category="Umbrello">
 <html>
+<p>Sequence diagram messages can act as contructors.  Click on the object box (rather than the vertical line) to make it a constructor.</p>
+</html>
+</tip>
+
+<tip category="Umbrello">
+<html>
 <p>Cut and Copy will also export the image to a PNG clipboard which can be pasted into KWord
 and other applications.</p>
 </html>
@@ -42,8 +55,7 @@ and other applications.</p>
 
 <tip category="Umbrello">
 <html>
-<p>Associations don't have to be in straight lines, double clicking on one will create a movable
-point.</p>
+<p>Associations don't have to be in straight lines, double clicking on one will create a movable point.</p>
 </html>
 </tip>
 
