@@ -446,11 +446,15 @@ void UMLListViewItem::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement itemElement = qDoc.createElement( "listitem" );
 	itemElement.setAttribute( "id", getID() );
 	itemElement.setAttribute( "type", m_Type );
+	/* UNDER CONSTRUCTION: Activate when the restoring of attribute/
+	   operation names in the listview is possible using just the
+	   model object loading mechanism.
 	if (m_pObject == NULL) {
 		kdDebug() << "UMLListViewItem::saveToXMI: saving local label "
 			  << m_Label << " because m_pObject is NULL" << endl;
+         *********************/
 		itemElement.setAttribute( "label", m_Label );
-	}
+	//******************** }
 	itemElement.setAttribute( "open", isOpen() );
 	UMLListViewItem * childItem = static_cast<UMLListViewItem *> ( firstChild() );
 	while( childItem ) {
