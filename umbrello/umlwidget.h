@@ -605,7 +605,6 @@ protected:
 	/** Returns the font metric used by this object for Text which uses bold/italic fonts*/
 	QFontMetrics &getFontMetrics(UMLWidget::FontType fontType);
 	/** set the font metric to use */
-	void setFontMetrics(UMLWidget::FontType fontType, QFontMetrics &fm);
 	void setFontMetrics(UMLWidget::FontType fontType, QFontMetrics fm);
 	void setupFontType(QFont &font, UMLWidget::FontType fontType);
 	/**

@@ -994,10 +994,6 @@ QFontMetrics &UMLWidget::getFontMetrics(UMLWidget::FontType fontType) {
 	return *m_pFontMetrics[fontType];
 }
 
-void UMLWidget::setFontMetrics(UMLWidget::FontType fontType, QFontMetrics &fm) {
-	delete m_pFontMetrics[fontType];
-	m_pFontMetrics[fontType] = new QFontMetrics(fm);
-}
 void UMLWidget::setFontMetrics(UMLWidget::FontType fontType, QFontMetrics fm) {
 	delete m_pFontMetrics[fontType];
 	m_pFontMetrics[fontType] = new QFontMetrics(fm);
