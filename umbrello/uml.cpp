@@ -786,6 +786,7 @@ bool UMLApp::getCutCopyState() {
 bool UMLApp::editCutCopy( bool bFromView ) {
 	UMLClipboard clipboard;
 	QMimeSource * clipdata = 0;
+
 	if((clipdata = clipboard.copy(doc, bFromView)) != 0) {
 		QClipboard* clip = QApplication::clipboard();
 		clip->setData(clipdata);//the global clipboard takes ownership of the clipdata memory

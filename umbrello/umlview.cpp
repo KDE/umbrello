@@ -543,7 +543,7 @@ void UMLView::contentsDragEnterEvent(QDragEnterEvent *e) {
 	}
 	//make sure can find UMLObject
 	if(status && !(temp = getDocument()->findUMLObject(data -> getID()) ) ) {
-		kdDebug() << k_funcinfo << " object not found" << endl;
+		kdDebug() << " object not found" << endl;
 		status = false;
 	}
 	//make sure dragging item onto correct diagram
@@ -580,7 +580,7 @@ void UMLView::contentsDropEvent(QDropEvent *e) {
 		status = false;
 	}
 	if(status && !( o = getDocument()->findUMLObject(data->getID()) ) ) {
-		kdDebug() << k_funcinfo << " object not found" << endl;
+		kdDebug() << " object not found" << endl;
 		status = false;
 	}
 	if(status) {
@@ -1121,6 +1121,7 @@ void  UMLView::getDiagram(const QRect &rect, QPixmap & diagram) {
 	}
 
 	// we don't want to get the grid
+	bool showSnapGrid = getShowSnapGrid();
 	setShowSnapGrid(false);
 	QPixmap pixmap(rect.x() + rect.width(), rect.y() + rect.height());
 	QPainter painter;
@@ -1130,7 +1131,7 @@ void  UMLView::getDiagram(const QRect &rect, QPixmap & diagram) {
 	painter.end();
 
 	bitBlt(&diagram, QPoint(0, 0), &pixmap, rect);
-	setShowSnapGrid(getShowSnapGrid());
+	setShowSnapGrid(showSnapGrid);
 
 	canvas()->setAllChanged();
 	//select again
