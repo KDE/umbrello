@@ -30,10 +30,12 @@
 #include "../enum.h"
 #include "../classifierlistitem.h"
 #include "../umlclassifierlistitemlist.h"
+#include "../umltemplatelist.h"
 #include "../package.h"
 #include "../association.h"
 #include "../attribute.h"
 #include "../operation.h"
+#include "../template.h"
 #include "../umlnamespace.h"
 
 const QString AdaWriter::defaultPackageSuffix = "_Holder";
@@ -182,21 +184,19 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 	}
 
 	// Generate generic formals.
-	UMLClassifierListItemList template_params = c->getFilteredList(Uml::ot_Template);
+	UMLTemplateList template_params = c->getTemplateList();
 	if (template_params.count()) {
 		ada << getIndent() << "generic" << m_endl;
 		m_indentLevel++;
-		for (UMLClassifierListItemListIt lit(template_params); lit.current(); ++lit) {
-			UMLClassifierListItem *listItem = lit.current();
-			// UMLTemplate tmpl = static_cast<UMLTemplate*>(listItem);  // not needed
-			QString typeName = listItem->getTypeName();
-			QString formalName = listItem->getName();
+		for (UMLTemplate *t = template_params.first(); t; t = template_params.next()) {
+			QString formalName = t->getName();
+			QString typeName = t->getTypeName();
 			if (typeName == "class") {
 				ada << getIndent() << "type " << formalName << " is tagged private;"
 				    << m_endl;
 			} else {
 				// Check whether it's a data type.
-				UMLClassifier *typeObj = listItem->getType();
+				UMLClassifier *typeObj = t->getType();
 				if (typeObj == NULL) {
 					kdError() << "AdaWriter::writeClass(template_param "
 						  << typeName << "): typeObj is NULL" << endl;

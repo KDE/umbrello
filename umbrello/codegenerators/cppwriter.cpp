@@ -32,6 +32,8 @@
 #include "../class.h"
 #include "../interface.h"
 #include "../operation.h"
+#include "../template.h"
+#include "../umltemplatelist.h"
 #include "../umlclassifierlistitemlist.h"
 #include "../classifierlistitem.h"
 #include "../model_utils.h"
@@ -268,23 +270,14 @@ void CppWriter::writeHeaderFile (UMLClassifier *c, QFile &fileh) {
 	}
 
 	// Generate template parameters.
-	UMLClassifierListItemList template_params = c->getFilteredList(Uml::ot_Template);
+	UMLTemplateList template_params = c->getTemplateList();
 	if (template_params.count()) {
 		h << "template<";
-		for (UMLClassifierListItem *li = template_params.first(); li; ) {
-			QString formalName = li->getName();
-			QString typeName = li->getTypeName();
-			UMLClassifier *typeObj = li->getType();
-			if (typeName == "class") {
-				h << "class";
-			} else if (typeObj == NULL) {
-				kdError() << "CppWriter::writeClass(" << classifierInfo->className
-					  << "): typeObj is NULL" << endl;
-			} else {
-				h << li->getTypeName();
-			}
-			h << " " << formalName;
-			if ((li = template_params.next()) != NULL)
+		for (UMLTemplate *t = template_params.first(); t; ) {
+			QString formalName = t->getName();
+			QString typeName = t->getTypeName();
+			h << typeName << " " << formalName;
+			if ((t = template_params.next()) != NULL)
 				h << ", ";
 		}
 		h << ">" << m_endl;
