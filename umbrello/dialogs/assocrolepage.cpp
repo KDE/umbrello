@@ -118,7 +118,7 @@ void AssocRolePage::constructWidget() {
 	m_FrozenARB = new QRadioButton(i18n("Frozen"), changeABG);
 	changeALayout -> addWidget(m_FrozenARB);
 
-	m_AddOnlyARB = new QRadioButton(i18n("AddOnly"), changeABG);
+	m_AddOnlyARB = new QRadioButton(i18n("Add Only"), changeABG);
 	changeALayout -> addWidget(m_AddOnlyARB);
 
 	Uml::Changeability_Type changeability = m_pAssociationWidget->getChangeabilityA();
@@ -173,7 +173,7 @@ void AssocRolePage::constructWidget() {
 	m_FrozenBRB = new QRadioButton(i18n("Frozen"), changeBBG);
 	changeBLayout -> addWidget(m_FrozenBRB);
 
-	m_AddOnlyBRB = new QRadioButton(i18n("AddOnly"), changeBBG);
+	m_AddOnlyBRB = new QRadioButton(i18n("Add Only"), changeBBG);
 	changeBLayout -> addWidget(m_AddOnlyBRB);
 
 	changeability = m_pAssociationWidget->getChangeabilityB();

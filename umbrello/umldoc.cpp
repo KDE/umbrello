@@ -927,7 +927,7 @@ void UMLDoc::renameUMLObject(UMLObject *o) {
 			setModified(true);
 			break;
 		} else {
-			KMessageBox::error(0, i18n("That name is already being used."), i18n("Not a Uunique Name"));
+			KMessageBox::error(0, i18n("That name is already being used."), i18n("Not a Unique Name"));
 		}
 	}
 	return;
@@ -981,7 +981,7 @@ void UMLDoc::changeCurrentView(int id) {
 void UMLDoc::removeDiagram(int id) {
 	getDocWindow()->updateDocumentation(true);
 	UMLView* umlview = findView(id);
-	if (KMessageBox::warningYesNo(0, i18n("Are you sure you want to delete diagram %1?").arg(umlview->getName()), i18n("Delete Fiagram")) == KMessageBox::Yes) {
+	if (KMessageBox::warningYesNo(0, i18n("Are you sure you want to delete diagram %1?").arg(umlview->getName()), i18n("Delete Diagram")) == KMessageBox::Yes) {
 		removeView(umlview);
 		emit sigDiagramRemoved(id);
 		setModified(true);
