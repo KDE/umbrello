@@ -249,7 +249,7 @@ bool MessageWidget::contains(ObjectWidget * w) {
 void MessageWidget::slotMenuSelection(int sel) {
 	if(sel == ListPopupMenu::mt_Delete) {
 		// This will clean up this widget and the text widget:
-		m_pView -> removeWidget(this, true);
+		m_pView -> removeWidget(this);
 	} else
 		m_pFText -> slotMenuSelection(sel);
 }
