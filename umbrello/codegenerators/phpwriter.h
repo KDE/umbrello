@@ -57,14 +57,14 @@ public:
 	/**
 	 * get list of reserved keywords
 	 */
-	virtual const char **getReservedKeywords();
+	virtual const QPtrList<const char *> * getReservedKeywords();
 
 private:
 
-        /**
-          * we do not want to write the comment "Private methods" twice
-          */
-        bool bPrivateSectionCommentIsWritten;
+	/**
+	 * we do not want to write the comment "Private methods" twice
+	 */
+	bool bPrivateSectionCommentIsWritten;
 
 	/**
 	  * write all operations for a given class
@@ -96,7 +96,10 @@ private:
 	  */
 	void writeAttributes(UMLAttributeList &atList, QTextStream &php);
 
+	/**
+	 * list of reserved keywords
+	 */
+	QPtrList<const char *> *pListOfReservedKeywords;
 };
 
 #endif //PHPWRITER
-

@@ -1,4 +1,3 @@
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -777,25 +776,46 @@ void CodeGenerator::createDefaultDatatypes()  {
  *
  */
 bool CodeGenerator::isReservedKeyword(const QString & rPossiblyReservedKeyword) {
-  const char **tmpReservedWords = getReservedKeywords();
+  const QPtrList<const char *> *listOfReservedKeywords = getReservedKeywords();
 
-  if (tmpReservedWords == NULL)
+  if (listOfReservedKeywords == NULL)
   {
     return false;
   }
 
-  while (tmpReservedWords[0] != NULL) {
-		QString keyword(tmpReservedWords[0]);
+  QPtrListIterator<const char *> iteratorReservedKeywords (*listOfReservedKeywords);
+  const char **ppszReservedKeyword = NULL;
+
+  while ( (ppszReservedKeyword = iteratorReservedKeywords.current()) != 0 )
+  {
+		QString keyword(*ppszReservedKeyword);
 
 		if (keyword == rPossiblyReservedKeyword) {
 			return true;
 		}
 
-    tmpReservedWords++;
+		++iteratorReservedKeywords;
 	}
 
 	return false;
 }
+ 
+/**
+ * convert a NULL terminated char * list of reserved keywords to a new
+ * QPtrList<const char *>
+ */
+QPtrList<const char *> * CodeGenerator::convertListOfReservedKeywords(const char ** ppszReservedKeywords) {
+  QPtrList<const char *> * pListOfReservedKeywords = new QPtrList<const char *>;
+
+  const char **reservedKeywords = ppszReservedKeywords;
+
+  while (reservedKeywords[0] != NULL)
+  {
+    pListOfReservedKeywords->append(&reservedKeywords[0]);
+    reservedKeywords++;
+  }
+
+  return pListOfReservedKeywords;
+}
 
 #include "codegenerator.moc"
-

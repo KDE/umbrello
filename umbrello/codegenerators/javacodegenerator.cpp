@@ -36,6 +36,7 @@ JavaCodeGenerator::JavaCodeGenerator ( UMLDoc * parentDoc , const char * name, Q
 {
 	initFields();
 	loadFromXMI(elem);
+	pListOfReservedKeywords = NULL;
 }
 
 JavaCodeGenerator::JavaCodeGenerator ( UMLDoc * parentDoc, const char * name )
@@ -209,7 +210,7 @@ void JavaCodeGenerator::createDefaultDatatypes() {
  * Just add new keywords, then mark all lines and
  * pipe it through the external 'sort' program.
  */
-static const char *ReservedWords[] = {
+static const char *ReservedKeywords[] = {
   "abstract",
   "AbstractMethodError",
   "ArithmeticException",
@@ -373,9 +374,13 @@ static const char *ReservedWords[] = {
 /**
  * get list of reserved keywords
  */
-const char **
-JavaCodeGenerator::getReservedKeywords() {
-  return ReservedWords;
+const QPtrList<const char *> * JavaCodeGenerator::getReservedKeywords() {
+  if (pListOfReservedKeywords == NULL)
+  {
+    pListOfReservedKeywords = convertListOfReservedKeywords(ReservedKeywords);
+  }
+
+  return pListOfReservedKeywords;
 }
 
 #include "javacodegenerator.moc"

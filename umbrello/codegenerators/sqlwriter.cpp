@@ -32,7 +32,9 @@
 #include "../attribute.h"
 
 SQLWriter::SQLWriter( UMLDoc *parent, const char *name )
-		:SimpleCodeGenerator( parent, name) {}
+	:SimpleCodeGenerator( parent, name) {
+	pListOfReservedKeywords = NULL;
+}
 
 SQLWriter::~SQLWriter() {}
 
@@ -216,7 +218,7 @@ bool SQLWriter::isType (QString & type)
  * Just add new keywords, then mark all lines and
  * pipe it through the external 'sort' program.
  */
-static const char *ReservedWords[] = {
+static const char *ReservedKeywords[] = {
   "access",
   "add",
   "all",
@@ -360,9 +362,13 @@ static const char *ReservedWords[] = {
 /**
  * get list of reserved keywords
  */
-const char **
-SQLWriter::getReservedKeywords() {
-  return ReservedWords;
+const QPtrList<const char *> * SQLWriter::getReservedKeywords() {
+  if (pListOfReservedKeywords == NULL)
+  {
+    pListOfReservedKeywords = convertListOfReservedKeywords(ReservedKeywords);
+  }
+
+  return pListOfReservedKeywords;
 }
 
 #include "sqlwriter.moc"

@@ -41,8 +41,22 @@ public:
 	  */
 	virtual void writeClass(UMLClassifier *c);
 
+	/**
+	 * checks whether type is "ASWriter"
+	 *
+	 * @param type
+	 */
 	virtual bool isType (QString & type);
-        virtual QString getLanguage();
+
+	/**
+	 * returns "ActionScript"
+	 */
+	virtual QString getLanguage();
+
+	/**
+	 * get list of reserved keywords
+	 */
+	virtual const QPtrList<const char *> * getReservedKeywords();
 
 
 private:
@@ -62,7 +76,11 @@ private:
 	void writeOperations(QString classname, UMLOperationList *opList,
 	                     QTextStream &as);
 
-};
+	/**
+	 * list of reserved keywords
+	 */
+	QPtrList<const char *> *pListOfReservedKeywords;
 
+};
 
 #endif //ASWRITER

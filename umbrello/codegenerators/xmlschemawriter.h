@@ -63,8 +63,22 @@ public:
 	 */
 	virtual void writeClass(UMLClassifier *c);
  
-        virtual bool isType (QString & type);
-        virtual QString getLanguage();
+	/**
+	 * checks whether type is "XMLSchemaWriter"
+	 *
+	 * @param type
+	 */
+	virtual bool isType (QString & type);
+
+	/**
+	 * returns "XMLSchema"
+	 */
+	virtual QString getLanguage();
+
+	/**
+	 * get list of reserved keywords
+	 */
+	virtual const QPtrList<const char *> * getReservedKeywords();
 
 private:
 
@@ -264,8 +278,10 @@ private:
 	 */
 	UMLClassifierList writtenClassifiers;
 
+	/**
+	 * list of reserved keywords
+	 */
+	QPtrList<const char *> *pListOfReservedKeywords;
 };
-
-
 
 #endif // XMLSCHEMAWRITER_H

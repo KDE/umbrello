@@ -41,6 +41,7 @@ const QString AdaWriter::defaultPackageSuffix = "_Holder";
 AdaWriter::AdaWriter(UMLDoc *parent, const char *name)
 		: SimpleCodeGenerator(parent, name) {
 	indentlevel = 0;
+	pListOfReservedKeywords = NULL;
 	// FIXME: Eventually we should fabricate an Indenter class
 	// that can be used by all code generators.
 	// NOTE: this now exists under new code gen system. Dont do here! -b.t.
@@ -542,7 +543,7 @@ void AdaWriter::createDefaultDatatypes() {
  * Just add new keywords, then mark all lines and
  * pipe it through the external 'sort' program.
  */
-static const char *ReservedWords[] = {
+static const char *ReservedKeywords[] = {
   "abort",
   "abs",
   "abstract",
@@ -668,21 +669,28 @@ static const char *ReservedWords[] = {
  * @param rPossiblyReservedKeyword  The string to check.
  */
 bool AdaWriter::isReservedKeyword(const QString & rPossiblyReservedKeyword) {
-  const char **tmpReservedWords = getReservedKeywords();
+  const QPtrList<const char *> *listOfReservedKeywords = getReservedKeywords();
 
-  if (tmpReservedWords == NULL)
+  if (listOfReservedKeywords == NULL)
   {
     return false;
   }
 
-  while (tmpReservedWords[0] != NULL) {
-		QString keyword(tmpReservedWords[0]);
+  QPtrListIterator<const char *> iteratorReservedKeywords (*listOfReservedKeywords);
+  const char **ppszReservedKeyword = NULL;
+ 
+  while ( (ppszReservedKeyword = iteratorReservedKeywords.current()) != 0 )
+  {
+		QString keyword(*ppszReservedKeyword);
 
+    /*
+     * ADA is completely case insensitive
+     */
 		if (keyword.lower() == rPossiblyReservedKeyword.lower()) {
 			return true;
 		}
 
-    tmpReservedWords++;
+    ++iteratorReservedKeywords;
 	}
 
 	return false;
@@ -691,10 +699,13 @@ bool AdaWriter::isReservedKeyword(const QString & rPossiblyReservedKeyword) {
 /**
  * get list of reserved keywords
  */
-const char **
-AdaWriter::getReservedKeywords() {
-  return ReservedWords;
+const QPtrList<const char *> * AdaWriter::getReservedKeywords() {
+  if (pListOfReservedKeywords == NULL)
+  {
+    pListOfReservedKeywords = convertListOfReservedKeywords(ReservedKeywords);
+  }
+
+  return pListOfReservedKeywords;
 }
 
 #include "adawriter.moc"
-

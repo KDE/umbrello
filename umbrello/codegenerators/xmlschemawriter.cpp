@@ -38,19 +38,28 @@ XMLSchemaWriter::XMLSchemaWriter( UMLDoc *doc, const char *name )
 	packageNamespaceURI = "http://foo.example.com/";
 	schemaNamespaceTag = "xs";
 	schemaNamespaceURI = "http://www.w3.org/2001/XMLSchema";
-	indent = "\t";
+	indent = m_indentation;
 	indentLevel = 0;
-	startline = "\n" + indent; // using UNIX newLine standard.. bad
+	startline = m_newLineEndingChars;
+	pListOfReservedKeywords = NULL;
 }
 
 // form of..."the Destructor"!!
 XMLSchemaWriter::~XMLSchemaWriter() {
 }
 
+/**
+ * returns "XMLSchema"
+ */
 QString XMLSchemaWriter::getLanguage() {
         return "XMLSchema";
 }
 
+/**
+ * checks whether type is "XMLSchemaWriter"
+ *
+ * @param type
+ */
 bool XMLSchemaWriter::isType (QString & type)
 {
    if(type == "XMLSchemaWriter")
@@ -805,6 +814,44 @@ QString XMLSchemaWriter::makePackageTag (QString tagName) {
 QString XMLSchemaWriter::makeSchemaTag (QString tagName) {
 	tagName.prepend( schemaNamespaceTag + ":");
 	return tagName;
+}
+
+/**
+ * List of reserved keywords for this code generator.
+ *
+ * Just add new keywords, then mark all lines and
+ * pipe it through the external 'sort' program.
+ */
+static const char *ReservedKeywords[] = {
+  "ATTLIST",
+  "CDATA",
+  "DOCTYPE",
+  "ELEMENT",
+  "ENTITIES",
+  "ENTITY",
+  "ID",
+  "IDREF",
+  "IDREFS",
+  "NMTOKEN",
+  "NMTOKENS",
+  "NOTATION",
+  "PUBLIC",
+  "SHORTREF",
+  "SYSTEM",
+  "USEMAP",
+  NULL
+};
+
+/**
+ * get list of reserved keywords
+ */
+const QPtrList<const char *> * XMLSchemaWriter::getReservedKeywords() {
+  if (pListOfReservedKeywords == NULL)
+  {
+    pListOfReservedKeywords = convertListOfReservedKeywords(ReservedKeywords);
+  }
+
+  return pListOfReservedKeywords;
 }
 
 #include "xmlschemawriter.moc"

@@ -28,7 +28,9 @@
 #include <qstring.h>
 
 JSWriter::JSWriter( UMLDoc *parent, const char *name )
-	:SimpleCodeGenerator( parent, name) {}
+	:SimpleCodeGenerator( parent, name) {
+	pListOfReservedKeywords = NULL;
+}
 
 JSWriter::~JSWriter() {}
 
@@ -269,7 +271,7 @@ bool JSWriter::isType (QString & type)
  * Just add new keywords, then mark all lines and
  * pipe it through the external 'sort' program.
  */
-static const char *ReservedWords[] = {
+static const char *ReservedKeywords[] = {
   "break",
   "case",
   "const",
@@ -295,10 +297,13 @@ static const char *ReservedWords[] = {
 /**
  * get list of reserved keywords
  */
-const char **
-JSWriter::getReservedKeywords() {
-  return ReservedWords;
+const QPtrList<const char *> * JSWriter::getReservedKeywords() {
+  if (pListOfReservedKeywords == NULL)
+  {
+    pListOfReservedKeywords = convertListOfReservedKeywords(ReservedKeywords);
+  }
+
+  return pListOfReservedKeywords;
 }
 
 #include "jswriter.moc"
-

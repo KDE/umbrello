@@ -42,8 +42,22 @@ public:
 	  */
 	virtual void writeClass(UMLClassifier *c);
 
+	/**
+	 * checks whether type is "PythonWriter"
+	 *
+	 * @param type
+	 */
 	virtual bool isType (QString & type);
+
+	/**
+	 * returns "Python"
+	 */
 	virtual QString getLanguage();
+
+	/**
+	 * get list of reserved keywords
+	 */
+	virtual const QPtrList<const char *> * getReservedKeywords();
 
 private:
 
@@ -65,8 +79,10 @@ private:
 	void writeOperations(QString classname, UMLOperationList &opList,
 	                     QTextStream &h, Access access);
 
-
+	/**
+	 * list of reserved keywords
+	 */
+	QPtrList<const char *> *pListOfReservedKeywords;
 };
-
 
 #endif //PYTHONWRITER

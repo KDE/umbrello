@@ -49,17 +49,17 @@ public:
    */
 	virtual bool isType (QString & type);
 
-  /**
-   * returns "IDL"
-   */
-  virtual QString getLanguage();
+	/**
+	 * returns "IDL"
+	 */
+	virtual QString getLanguage();
 
 	void createDefaultDatatypes();
 
 	/**
 	 * get list of reserved keywords
 	 */
-	virtual const char **getReservedKeywords();
+	virtual const QPtrList<const char *> * getReservedKeywords();
 
 private:
 
@@ -80,6 +80,11 @@ private:
 	QString spc();
 
 	int indentlevel;
+
+	/**
+	 * list of reserved keywords
+	 */
+	QPtrList<const char *> *pListOfReservedKeywords;
 };
 
 #endif // IDLWRITER_H

@@ -30,7 +30,7 @@
 PerlWriter::PerlWriter( UMLDoc * doc, const char *name )
 	: SimpleCodeGenerator ( doc, name )
 {
-
+	pListOfReservedKeywords = NULL;
 }
 
 PerlWriter::~PerlWriter() {}
@@ -365,7 +365,7 @@ m_newLineEndingChars << "=over 4" << m_newLineEndingChars;
  * Just add new keywords, then mark all lines and
  * pipe it through the external 'sort' program.
  */
-static const char *ReservedWords[] = {
+static const char *ReservedKeywords[] = {
   "abs",
   "accept",
   "alarm",
@@ -612,11 +612,13 @@ static const char *ReservedWords[] = {
 /**
  * get list of reserved keywords
  */
-const char **
-PerlWriter::getReservedKeywords() {
-  return ReservedWords;
+const QPtrList<const char *> * PerlWriter::getReservedKeywords() {
+  if (pListOfReservedKeywords == NULL)
+  {
+    pListOfReservedKeywords = convertListOfReservedKeywords(ReservedKeywords);
+  }
+ 
+  return pListOfReservedKeywords;
 }
 
-
 #include "perlwriter.moc"
-

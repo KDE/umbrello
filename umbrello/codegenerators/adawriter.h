@@ -76,7 +76,7 @@ public:
   /**
    * get list of reserved keywords
    */
-  virtual const char **getReservedKeywords();
+	virtual const QPtrList<const char *> * getReservedKeywords();
 
 private:
 
@@ -99,6 +99,12 @@ private:
 	static const QString defaultPackageSuffix;
 
 	int indentlevel;
+
+	/**
+	 * list of reserved keywords
+	 */
+	QPtrList<const char *> *pListOfReservedKeywords;
+
 };
 
 #endif // ADAWRITER_H

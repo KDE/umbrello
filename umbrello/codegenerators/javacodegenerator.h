@@ -143,7 +143,7 @@ public:
 	/**
 	 * get list of reserved keywords
 	 */
-	virtual const char **getReservedKeywords();
+	virtual const QPtrList<const char *> * getReservedKeywords();
 
 protected:
 
@@ -157,22 +157,33 @@ protected:
 	 */
 	JavaANTCodeDocument * newANTCodeDocument ( );
 
-        void setJavaPolicy( JavaCodeGenerationPolicy * policy);
-        void setPolicy( CodeGenerationPolicy * policy);
+	/**
+	 *
+	 */
+	void setJavaPolicy( JavaCodeGenerationPolicy * policy);
+
+	/**
+	 *
+	 */
+	void setPolicy( CodeGenerationPolicy * policy);
 
 private:
 
-        // bool m_createANTBuildFile;
+	// bool m_createANTBuildFile;
 
-        // Make it easier on ourselves, utility function to get the java code generation policy
-        // by simply storing in explict field (rather than in CodeGenerationPolicy *)
-        JavaCodeGenerationPolicy * m_javacodegenerationpolicy;
+	// Make it easier on ourselves, utility function to get the java code
+	// generation policy by simply storing in explict field (rather than in
+	// CodeGenerationPolicy *)
+	JavaCodeGenerationPolicy * m_javacodegenerationpolicy;
 
 	void initFields( ) ;
 
 	bool m_createANTBuildFile;
 
+	/**
+	 * list of reserved keywords
+	 */
+	QPtrList<const char *> *pListOfReservedKeywords;
 };
 
 #endif // JAVACODEGENERATOR_H
-

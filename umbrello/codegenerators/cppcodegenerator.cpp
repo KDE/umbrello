@@ -36,6 +36,8 @@ CPPCodeGenerator::CPPCodeGenerator ( UMLDoc * parentDoc , const char * name)
 
 	//m_parentDoc = parentDoc; // this should be done by the call to the parent constructor?
 	initAttributes();
+
+	pListOfReservedKeywords = NULL;
 }
 
 CPPCodeGenerator::~CPPCodeGenerator ( ) {
@@ -419,7 +421,7 @@ void CPPCodeGenerator::createDefaultDatatypes() {
  * Just add new keywords, then mark all lines and
  * pipe it through the external 'sort' program.
  */
-static const char *ReservedWords[] = {
+static const char *ReservedKeywords[] = {
 	"and",
 	"and_eq",
 	"__asm__",
@@ -778,10 +780,13 @@ static const char *ReservedWords[] = {
 /**
  * get list of reserved keywords
  */
-const char **
-CPPCodeGenerator::getReservedKeywords() {
-  return ReservedWords;
+const QPtrList<const char *> * CPPCodeGenerator::getReservedKeywords() {
+  if (pListOfReservedKeywords == NULL)
+  {
+    pListOfReservedKeywords = convertListOfReservedKeywords(ReservedKeywords);
+  }
+
+  return pListOfReservedKeywords;
 }
 
 #include "cppcodegenerator.moc"
-

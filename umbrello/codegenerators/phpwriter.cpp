@@ -29,7 +29,9 @@
 #include "../umlnamespace.h"
 
 PhpWriter::PhpWriter( UMLDoc *parent, const char *name )
-	:SimpleCodeGenerator( parent, name) {}
+	:SimpleCodeGenerator( parent, name) {
+	pListOfReservedKeywords = NULL;
+}
 
 PhpWriter::~PhpWriter() {}
 
@@ -380,7 +382,7 @@ bool PhpWriter::isType (QString & type)
  * Just add new keywords, then mark all lines and
  * pipe it through the external 'sort' program.
  */
-static const char *ReservedWords[] = {
+static const char *ReservedKeywords[] = {
   "abs",
   "acos",
   "acosh",
@@ -3339,9 +3341,13 @@ static const char *ReservedWords[] = {
 /**
  * get list of reserved keywords
  */
-const char **
-PhpWriter::getReservedKeywords() {
-  return ReservedWords;
+const QPtrList<const char *> * PhpWriter::getReservedKeywords() {
+  if (pListOfReservedKeywords == NULL)
+  {
+    pListOfReservedKeywords = convertListOfReservedKeywords(ReservedKeywords);
+  }
+
+  return pListOfReservedKeywords;
 }
 
 #include "phpwriter.moc"

@@ -38,6 +38,7 @@
 IDLWriter::IDLWriter(UMLDoc *parent, const char *name)
 		: SimpleCodeGenerator(parent, name, false) {
 	indentlevel = 0;
+	pListOfReservedKeywords = NULL;
 	// FIXME: Eventually we should fabricate an Indenter class
 	// that can be used by all code generators.
 	// NOTE: this has now been done in new code gen class. -b.t.
@@ -465,7 +466,7 @@ void IDLWriter::createDefaultDatatypes() {
  * Just add new keywords, then mark all lines and
  * pipe it through the external 'sort' program.
  */
-static const char *ReservedWords[] = {
+static const char *ReservedKeywords[] = {
   "any",
   "attribute",
   "boolean",
@@ -505,9 +506,13 @@ static const char *ReservedWords[] = {
 /**
  * get list of reserved keywords
  */
-const char **
-IDLWriter::getReservedKeywords() {
-  return ReservedWords;
+const QPtrList<const char *> * IDLWriter::getReservedKeywords() {
+  if (pListOfReservedKeywords == NULL)
+  {
+    pListOfReservedKeywords = convertListOfReservedKeywords(ReservedKeywords);
+  }
+
+  return pListOfReservedKeywords;
 }
 
 

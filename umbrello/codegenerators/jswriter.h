@@ -41,29 +41,29 @@ public:
 	  */
 	virtual void writeClass(UMLClassifier *c);
 
-  /**
-   * checks whether type is "JSWriter"
-   *
-   * @param type
-   */
+	/**
+	 * checks whether type is "JSWriter"
+	 *
+	 * @param type
+	 */
 	virtual bool isType (QString & type);
 
-  /**
-   * returns "JavaScript"
-   */
-  virtual QString getLanguage();
+	/**
+	 * returns "JavaScript"
+	 */
+	virtual QString getLanguage();
 
-  /**
-   * get list of reserved keywords
-   */
-  virtual const char **getReservedKeywords();
+	/**
+	 * get list of reserved keywords
+	 */
+	virtual const QPtrList<const char *> * getReservedKeywords();
 
 private:
 
-        /**
-          * we do not want to write the comment "Private methods" twice
-          */
-        bool bPrivateSectionCommentIsWritten;
+	/**
+	 * we do not want to write the comment "Private methods" twice
+	 */
+	bool bPrivateSectionCommentIsWritten;
 
 	/**
 	  * write a list of class operations
@@ -75,7 +75,10 @@ private:
 	void writeOperations(QString classname, UMLOperationList *opList,
 	                     QTextStream &js);
 
+	/**
+	 * list of reserved keywords
+	 */
+	QPtrList<const char *> *pListOfReservedKeywords;
 };
-
 
 #endif //JSWRITER

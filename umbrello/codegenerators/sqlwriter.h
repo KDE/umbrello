@@ -59,7 +59,7 @@ public:
 	/**
 	 * get list of reserved keywords
 	 */
-	virtual const char **getReservedKeywords();
+	virtual const QPtrList<const char *> * getReservedKeywords();
 
 private:
 
@@ -78,8 +78,11 @@ private:
 	 * @param first if the attributes are the first one
 	 */
 	void printAttributes(QTextStream& sql, UMLAttributeList attributeList, bool first);
+
+	/**
+	 * list of reserved keywords
+	 */
+	QPtrList<const char *> *pListOfReservedKeywords;
 };
-
-
 
 #endif // SQLWRITER_H

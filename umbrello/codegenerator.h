@@ -330,7 +330,7 @@ public:
   /**
    * get list of reserved keywords
    */
-  virtual const char **getReservedKeywords() { return NULL; }
+	virtual const QPtrList<const char *> * getReservedKeywords() { return NULL; }
 
 protected:
 
@@ -392,6 +392,11 @@ protected:
 	 * The document object
 	 */
 	UMLDoc* m_document;
+
+	/**
+	 * convert a NULL terminated char * list of reserved keywords to a new QPtrList<const char *>
+	 */
+	QPtrList<const char *> * convertListOfReservedKeywords(const char **);
 
 private:
 
