@@ -44,6 +44,8 @@ UMLObject* UMLRole::getObject() {
 }
 
 int UMLRole::getId() const {
+        if(m_pObject)
+		return m_pObject->getID();
 	return m_Id;
 }
 
@@ -69,6 +71,8 @@ QString UMLRole::getDoc() const {
 
 void UMLRole::setId(int id) {
 	m_Id = id;
+        if(m_pObject)
+		m_pObject->setID(id);
 	emit modified();
 }
 
