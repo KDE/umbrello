@@ -166,7 +166,7 @@ UMLClassifierList UMLCanvasObject::getSuperClasses() {
 		else
 			kdDebug() << "UMLCanvasObject::getSuperClasses(" << m_Name
 				  << "): generalization's other end is not a "
-				  << "UMLClassifier (id= " << a->getRoleId(Uml::B) << ")"
+				  << "UMLClassifier (id= " << ID2STR(a->getRoleId(Uml::B)) << ")"
 				  << endl;
 	}
 	return list;
@@ -185,7 +185,7 @@ UMLClassifierList UMLCanvasObject::getSubClasses() {
 		else
 			kdDebug() << "UMLCanvasObject::getSubClasses: specialization's"
 				  << " other end is not a UMLClassifier"
-				  << " (id=" << a->getRoleId(Uml::A) << ")" << endl;
+				  << " (id=" << ID2STR(a->getRoleId(Uml::A)) << ")" << endl;
 	}
 	return list;
 }

@@ -187,7 +187,7 @@ bool UMLOperation::resolveRef() {
 void UMLOperation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement operationElement = UMLObject::save("UML:Operation", qDoc);
 	if (m_pSecondary) {
-		operationElement.setAttribute( "type", m_pSecondary->getID() );
+		operationElement.setAttribute( "type", ID2STR(m_pSecondary->getID()) );
 	} else {
 		operationElement.setAttribute( "type", m_SecondaryId );
 	}
@@ -197,7 +197,7 @@ void UMLOperation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 		QDomElement attElement = pAtt->UMLObject::save("UML:Parameter", qDoc);
 		UMLClassifier *attrType = pAtt->getType();
 		if (attrType) {
-			attElement.setAttribute( "type", attrType->getID() );
+			attElement.setAttribute( "type", ID2STR(attrType->getID()) );
 		} else {
 			attElement.setAttribute( "type", pAtt -> getTypeName() );
 		}
@@ -261,7 +261,7 @@ bool UMLOperation::load( QDomElement & element ) {
 				else
 					pAtt->setParmKind(Uml::pd_In);
 				Uml::IDType id = pAtt->getID();
-				if (id.contains( QRegExp("\\D") )) {
+				if (ID2STR(id).contains( QRegExp("\\D") )) {
 					UMLDoc *pDoc = UMLApp::app()->getDocument();
 					(void) pDoc->getUniqueID();
 					// This counts up UMLDoc::m_HighestIDForForeignFile.

@@ -140,7 +140,7 @@ void Php5Writer::writeClass(UMLClassifier *c) {
 			UMLObject *o = m_doc->findObjectById(id);
 			if (o == NULL) {
 				kdError() << "Cannot find aggregation role A object with ID "
-					  << id << endl;
+					  << ID2STR(id) << endl;
 				continue;
 			}
 			QString typeName = cleanName(o->getName());
@@ -160,7 +160,7 @@ void Php5Writer::writeClass(UMLClassifier *c) {
 			UMLObject *o = m_doc->findObjectById(id);
 			if (o == NULL) {
 				kdError() << "Cannot find composition role A object with ID "
-					  << id << endl;
+					  << ID2STR(id) << endl;
 				continue;
 			}
 			QString typeName = cleanName(o->getName());

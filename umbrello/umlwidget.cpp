@@ -171,7 +171,8 @@ void UMLWidget::setID(Uml::IDType id) {
 	if (m_Type != wt_Text && m_pObject && m_pObject->getBaseType() == ot_Association) {
 		if (m_pObject->getID() != Uml::id_None)
 			kdWarning() << "UMLWidget::setID(): changing old UMLObject "
-				    << m_pObject->getID() << " to " << id << endl;
+				    << ID2STR(m_pObject->getID()) << " to "
+				    << ID2STR(id) << endl;
 		m_pObject->setID( id );
 	}
 	m_nId = id;
@@ -1050,7 +1051,7 @@ void UMLWidget::saveToXMI( QDomDocument & /*qDoc*/, QDomElement & qElement ) {
 	  Call after required actions in child class.
 	  Type must be set in the child class.
 	*/
-	qElement.setAttribute( "xmi.id", getID() );
+	qElement.setAttribute( "xmi.id", ID2STR(getID()) );
 	qElement.setAttribute( "font", m_Font.toString() );
 	qElement.setAttribute( "usefillcolor", m_bUseFillColour );
 	qElement.setAttribute( "x", getX() );
@@ -1105,7 +1106,7 @@ bool UMLWidget::loadFromXMI( QDomElement & qElement ) {
 		//setFont(newFont);
 	} else {
 		kdWarning() << "Using default font " << m_Font.toString()
-			    << " for widget with xmi.id " << m_nId << endl;
+			    << " for widget with xmi.id " << ID2STR(m_nId) << endl;
 		//setFont( m_Font );
 	}
 	m_bUseFillColour = (bool)usefillcolor.toInt();

@@ -151,8 +151,9 @@ void UMLListViewItem::setID(Uml::IDType id) {
 	if (m_pObject) {
 		Uml::IDType oid = m_pObject->getID();
 		if (id != Uml::id_None && oid != id)
-			kdDebug() << "UMLListViewItem::setID: new id " << id
-				  << " does not agree with object id " << oid << endl;
+			kdDebug() << "UMLListViewItem::setID: new id " << ID2STR(id)
+				  << " does not agree with object id " << ID2STR(oid)
+				  << endl;
 	}
 	m_nId = id;
 }
@@ -485,7 +486,7 @@ void UMLListViewItem::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement itemElement = qDoc.createElement( "listitem" );
 	Uml::IDType id = getID();
 	if (id != Uml::id_None)
-		itemElement.setAttribute( "id", id );
+		itemElement.setAttribute( "id", ID2STR(id) );
 	itemElement.setAttribute( "type", m_Type );
 	if (m_pObject == NULL) {
 		// The predefined listview items such as "Logical View" etc. do

@@ -577,7 +577,10 @@ ClassifierCodeDocument::findCodeClassFieldFromParentID (Uml::IDType id,
 	}
 
 	// shouldnt happen..
-	kdError()<<"Failed to find codeclassfield for parent uml id:"<<id<<" (role id:"<<role_id<<") Do you have a corrupt classifier code document?"<<endl;
+	kdError() << "Failed to find codeclassfield for parent uml id:"
+	          << ID2STR(id) << " (role id:" << role_id
+		  << ") Do you have a corrupt classifier code document?"
+		  << endl;
 
 	return (CodeClassField*) NULL; // not found
 }

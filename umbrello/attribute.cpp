@@ -128,7 +128,7 @@ void UMLAttribute::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 			  << m_SecondaryId << endl;
 		attributeElement.setAttribute( "type", m_SecondaryId );
 	} else {
-		attributeElement.setAttribute( "type", m_pSecondary->getID() );
+		attributeElement.setAttribute( "type", ID2STR(m_pSecondary->getID()) );
 	}
 	attributeElement.setAttribute( "initialValue", m_InitialValue );
 	qElement.appendChild( attributeElement );

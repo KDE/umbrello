@@ -106,7 +106,7 @@ void DiagramPrintPage::getOptions( QMap<QString,QString>& opts, bool /*incldef =
 		if(m_pSelectLB -> isSelected(i)) {
 			UMLView *view = (UMLView *)m_pDoc -> findView(m_nIdList[i]);
 			QString sCount = QString("%1").arg(count);
-			QString sID = QString("%1").arg(view -> getID());
+			QString sID = QString("%1").arg(ID2STR(view -> getID()));
 			opts.insert(diagram + sCount, sID);
 			count++;
 		}

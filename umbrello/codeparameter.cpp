@@ -214,7 +214,9 @@ void CodeParameter::setAttributesFromNode ( QDomElement & root) {
 			else if(role_id == 0) 
 				role = assoc->getUMLRole(Uml::B);
 			else 
-				kdError()<<"corrupt save file? cant get proper UMLRole for codeparameter uml id:"<<id<<" w/role_id:"<<role_id<<endl;
+				kdError() << "corrupt save file? "
+					  << "cant get proper UMLRole for codeparameter uml id:"
+					  << ID2STR(id) << " w/role_id:" << role_id << endl;
 
 			// init using UMLRole obj
 			initFields ( m_parentDocument, role); 
@@ -223,7 +225,8 @@ void CodeParameter::setAttributesFromNode ( QDomElement & root) {
 			initFields ( m_parentDocument, obj); // just the regular approach 
 
 	} else
-		kdError()<<"Cant load CodeParam: parentUMLObject w/id:"<<id<<" not found, corrupt save file?"<<endl;
+		kdError() << "Cant load CodeParam: parentUMLObject w/id:"
+			  << ID2STR(id) << " not found, corrupt save file?" << endl;
 
 	// other attribs now
 	setInitialValue(root.attribute("initialValue",""));

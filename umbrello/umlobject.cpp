@@ -389,7 +389,7 @@ bool UMLObject::resolveRef() {
 	if (m_pSecondary == NULL) {
 		kdError() << "UMLObject::resolveRef(" << m_Name
 			  << "): cannot find type with id "
-			  << id << endl;
+			  << ID2STR(id) << endl;
 		return false;
 	}
 	m_SecondaryId = "";
@@ -403,7 +403,7 @@ QDomElement UMLObject::save( QString tag, QDomDocument & qDoc ) {
 	*/
 	QDomElement qElement = qDoc.createElement(tag);
 
-	qElement.setAttribute( "xmi.id", m_nId );
+	qElement.setAttribute( "xmi.id", ID2STR(m_nId) );
 	if (!m_Name.isEmpty())
 		qElement.setAttribute( "name", m_Name );
 	if (! m_Doc.isEmpty())
@@ -424,7 +424,7 @@ QDomElement UMLObject::save( QString tag, QDomDocument & qDoc ) {
 			break;
 	}
 	if (m_pStereotype != NULL)
-		qElement.setAttribute( "stereotype", m_pStereotype->getID() );
+		qElement.setAttribute( "stereotype", ID2STR(m_pStereotype->getID()) );
 	if (m_bAbstract)
 		qElement.setAttribute( "isAbstract", "true" );
 	/* else
@@ -505,8 +505,8 @@ bool UMLObject::loadFromXMI( QDomElement & element, bool loadID /* =true */) {
 				m_pStereotype->incrRefCount();
 			else
 				kdError() << "UMLObject::loadFromXMI(" << m_Name << "): "
-					  << "UMLStereotype " << stereoID << " not found"
-					  << endl;
+					  << "UMLStereotype " << ID2STR(stereoID)
+					  << " not found" << endl;
 		}
 	}
 
@@ -549,11 +549,11 @@ bool UMLObject::loadFromXMI( QDomElement & element, bool loadID /* =true */) {
 			if (m_pUMLPackage == NULL)  // soft error
 				kdError() << "UMLObject::loadFromXMI(" << m_Name
 					  << "): object of packageid "
-					  << pkgId << " is not a package" << endl;
+					  << ID2STR(pkgId) << " is not a package" << endl;
 		} else {  // soft error
 			kdError() << "UMLObject::loadFromXMI(" << m_Name
 				  << "): cannot resolve packageid "
-				  << pkgId << endl;
+				  << ID2STR(pkgId) << endl;
 		}
 	}
 	/**** End of XMI_FLAT_PACKAGES and old files handling ****************/

@@ -49,7 +49,9 @@ Uml::IDType UMLRole::getID() const {
 }
 
 void UMLRole::setID( Uml::IDType id) {
-	kdError()<<"ERROR: not allowed to setID("<<id<<") for UMLRole (id is derived from parent UMLObject), ignoring set request"<<endl; 
+	kdError() << "ERROR: not allowed to setID(" << ID2STR(id)
+		  << ") for UMLRole (id is derived from parent UMLObject), ignoring set request"
+		  << endl; 
 }
 
 Uml::Changeability_Type UMLRole::getChangeability() const {
@@ -137,7 +139,7 @@ void UMLRole::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	//CHECK: What should the tag be, "AssociationEnd" or "AssociationEndRole" ?
 	// We use AssociationEndRole, other products use AssociationEnd.
 	QDomElement roleElement = qDoc.createElement( "UML:AssociationEndRole" );
-	roleElement.setAttribute( "type", getID() );
+	roleElement.setAttribute( "type", ID2STR(getID()) );
 	if (m_Multi != "")
 		roleElement.setAttribute("multiplicity", m_Multi);
 	if (m_Name != "")

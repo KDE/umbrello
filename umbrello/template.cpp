@@ -71,7 +71,7 @@ void UMLTemplate::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
 	//FIXME: uml13.dtd compliance
 	QDomElement attributeElement = UMLObject::save("template", qDoc);
 	if (m_pSecondary)
-		attributeElement.setAttribute("type", m_pSecondary->getID());
+		attributeElement.setAttribute("type", ID2STR(m_pSecondary->getID()));
 	qElement.appendChild(attributeElement);
 }
 

@@ -652,15 +652,15 @@ ObjectWidget* MessageWidget::getWidget(Uml::Role_Type role) {
 void MessageWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement messageElement = qDoc.createElement( "messagewidget" );
 	UMLWidget::saveToXMI( qDoc, messageElement );
-	messageElement.setAttribute( "widgetaid", m_pOw[Uml::A]->getLocalID() );
-	messageElement.setAttribute( "widgetbid", m_pOw[Uml::B]->getLocalID() );
+	messageElement.setAttribute( "widgetaid", ID2STR(m_pOw[Uml::A]->getLocalID()) );
+	messageElement.setAttribute( "widgetbid", ID2STR(m_pOw[Uml::B]->getLocalID()) );
 	messageElement.setAttribute( "operation", m_Operation );
 	messageElement.setAttribute( "seqnum", m_SequenceNumber );
 	messageElement.setAttribute( "sequencemessagetype", m_sequenceMessageType );
 
 	// save the corresponding message text
 	if (m_pFText && !m_pFText->getText().isEmpty()) {
-		messageElement.setAttribute( "textid", m_pFText->getID() );
+		messageElement.setAttribute( "textid", ID2STR(m_pFText->getID()) );
 		m_pFText -> saveToXMI( qDoc, messageElement );
 	}
 
@@ -684,26 +684,26 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement) {
 
 	UMLWidget *pWA = m_pView -> findWidget( aId );
 	if (pWA == NULL) {
-		kdDebug() << "MessageWidget::loadFromXMI: role A object " << aId
-			  << " not found" << endl;
+		kdDebug() << "MessageWidget::loadFromXMI: role A object "
+			  << ID2STR(aId) << " not found" << endl;
 		return false;
 	}
 	UMLWidget *pWB = m_pView -> findWidget( bId );
 	if (pWB == NULL) {
-		kdDebug() << "MessageWidget::loadFromXMI: role B object " << bId
-			  << " not found" << endl;
+		kdDebug() << "MessageWidget::loadFromXMI: role B object "
+			  << ID2STR(bId) << " not found" << endl;
 		return false;
 	}
 	m_pOw[Uml::A] = dynamic_cast<ObjectWidget*>(pWA);
 	if (m_pOw[Uml::A] == NULL) {
-		kdDebug() << "MessageWidget::loadFromXMI: role A widget " << aId
-			  << " is not an ObjectWidget" << endl;
+		kdDebug() << "MessageWidget::loadFromXMI: role A widget "
+			  << ID2STR(aId) << " is not an ObjectWidget" << endl;
 		return false;
 	}
 	m_pOw[Uml::B] = dynamic_cast<ObjectWidget*>(pWB);
 	if (m_pOw[Uml::B] == NULL) {
-		kdDebug() << "MessageWidget::loadFromXMI: role B widget " << bId
-			  << " is not an ObjectWidget" << endl;
+		kdDebug() << "MessageWidget::loadFromXMI: role B widget "
+			  << ID2STR(bId) << " is not an ObjectWidget" << endl;
 		return false;
 	}
 

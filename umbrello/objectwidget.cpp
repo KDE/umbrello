@@ -362,7 +362,7 @@ void ObjectWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	objectElement.setAttribute( "instancename", m_InstanceName );
 	objectElement.setAttribute( "drawasactor", m_bDrawAsActor );
 	objectElement.setAttribute( "multipleinstance", m_bMultipleInstance );
-	objectElement.setAttribute( "localid", m_nLocalID );
+	objectElement.setAttribute( "localid", ID2STR(m_nLocalID) );
 	objectElement.setAttribute( "decon", m_bShowDestruction );
 	qElement.appendChild( objectElement );
 }

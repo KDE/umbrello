@@ -111,8 +111,9 @@ QListViewItem* RefactoringAssistant::findListViewItem( const UMLObject *obj )
 	for( it = m_umlObjectMap.begin() ; it != m_umlObjectMap.end() ; ++it )
 		if( (*it).second == obj )
 			return (*it).first;
-	kdWarning()<<"RefactoringAssistant::findListViewItem( UMLObject *obj )"
-			   <<"object id "<<obj->getID()<<"does not have s ListItem"<<endl;
+	kdWarning() << "RefactoringAssistant::findListViewItem:"
+		    << "object id " << ID2STR(obj->getID())
+		    << "does not have a ListItem" << endl;
 	return 0L;
 }
 

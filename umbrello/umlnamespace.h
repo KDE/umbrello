@@ -10,6 +10,7 @@
 #ifndef UMLNAMESPACE_H
 #define UMLNAMESPACE_H
 
+#include <string>
 #include <qstring.h>
 
 
@@ -200,14 +201,15 @@ namespace Uml {
 	/**
 	 * The data type used for unique IDs.
 	 */
-	typedef QString IDType;
+	typedef std::string IDType;
 	/**
 	 * Reserved value for uninitialized/illegal ID.
 	 */
 	const IDType id_None = "-1";
+	const IDType id_Reserved = "0";
 
-#	define STR2ID(id)  id
-#	define ID2STR(id)  id
+#	define STR2ID(id)  id.ascii()
+#	define ID2STR(id)  QString(id.c_str())
 
 
 	/**

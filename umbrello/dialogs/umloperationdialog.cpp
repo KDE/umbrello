@@ -245,7 +245,7 @@ void UMLOperationDialog::slotNewParameter() {
 	UMLAttribute* pAtt = 0;
 
 	QString currentName = m_pOperation->getUniqueParameterName();
-	UMLAttribute* newAttribute = new UMLAttribute(m_pOperation, currentName, 0);
+	UMLAttribute* newAttribute = new UMLAttribute(m_pOperation, currentName, Uml::id_Reserved);
 
 	ParmPropDlg dlg(this, m_doc, newAttribute);
 	result = dlg.exec();

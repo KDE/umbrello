@@ -439,7 +439,7 @@ bool ClassifierListPage::addClassifier(UMLClassifierListItem* classifier, int po
 		case ot_Attribute: {
 			UMLClass* c = dynamic_cast<UMLClass*>(m_pClassifier);
 			if (c) {
-				return c->addAttribute(dynamic_cast<UMLAttribute*>(classifier), 0, position);
+				return c->addAttribute(dynamic_cast<UMLAttribute*>(classifier), NULL, position);
 			}
 			break;
 		}

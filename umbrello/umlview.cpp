@@ -92,7 +92,7 @@
 #include "toolbarstatefactory.h"
 
 
-# define EXTERNALIZE_ID(id)  QString::number(id)
+# define EXTERNALIZE_ID(id)  QString::number(id).ascii()
 
 // control the manual DoubleBuffering of QCanvas
 // with a define, so that this memory X11 effect can
@@ -1613,7 +1613,7 @@ bool UMLView::addWidget( UMLWidget * pWidget , bool isPasteOperation ) {
 	}
 	if (!isPasteOperation && findWidget(pWidget->getID())) {
 		kdDebug() << "UMLView::addWidget: Not adding "
-			  << "(id=" << pWidget->getID()
+			  << "(id=" << ID2STR(pWidget->getID())
 			  << "/type=" << pWidget->getBaseType()
 			  << "/name=" << pWidget->getName()
 			  << ") because it's already there" << endl;
@@ -1679,7 +1679,7 @@ bool UMLView::addWidget( UMLWidget * pWidget , bool isPasteOperation ) {
 				UMLObject * pObject = m_pDoc -> findObjectById( newID );
 				if( !pObject ) {
 					kdDebug() << "addWidget: Can't find UMLObject for id "
-						  << newID << endl;
+						  << ID2STR(newID) << endl;
 					return false;
 				}
 				pWidget -> setUMLObject( pObject );
@@ -1717,7 +1717,8 @@ bool UMLView::addWidget( UMLWidget * pWidget , bool isPasteOperation ) {
 				Uml::IDType newWAID = m_pIDChangesLog ->findNewID( waID );
 				Uml::IDType newWBID = m_pIDChangesLog ->findNewID( wbID );
 				if( newWAID == Uml::id_None || newWBID == Uml::id_None ) {
-					kdDebug() << "Error with ids : " << newWAID << " " << newWBID << endl;
+					kdDebug() << "Error with ids : " << ID2STR(newWAID)
+						  << " " << ID2STR(newWBID) << endl;
 					return false;
 				}
 				// Assumption here is that the A/B objectwidgets and the textwidget
@@ -2243,13 +2244,13 @@ void UMLView::createAutoAssociations( UMLWidget * widget ) {
 		UMLObject *roleAObj = assoc->getObject(A);
 		if (roleAObj == NULL) {
 			kdDebug() << "createAutoAssociations: roleA object is NULL at UMLAssoc "
-				  << assoc->getID() << endl;
+				  << ID2STR(assoc->getID()) << endl;
 			continue;
 		}
 		UMLObject *roleBObj = assoc->getObject(B);
 		if (roleBObj == NULL) {
 			kdDebug() << "createAutoAssociations: roleB object is NULL at UMLAssoc "
-				  << assoc->getID() << endl;
+				  << ID2STR(assoc->getID()) << endl;
 			continue;
 		}
 		if (roleAObj->getID() == myID) {
@@ -2258,7 +2259,8 @@ void UMLView::createAutoAssociations( UMLWidget * widget ) {
 			other = static_cast<UMLCanvasObject*>(roleAObj);
 		} else {
 			kdDebug() << "createAutoAssociations: Can't find own object "
-				  << myID << " in UMLAssoc " << assoc->getID() << endl;
+				  << ID2STR(myID) << " in UMLAssoc "
+				  << ID2STR(assoc->getID()) << endl;
 			continue;
 		}
 		// Now that we have determined the "other" UMLObject, seek it in
@@ -3089,7 +3091,7 @@ void UMLView::forceUpdateWidgetFontMetrics(QPainter * painter) {
 
 void UMLView::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement viewElement = qDoc.createElement( "diagram" );
-	viewElement.setAttribute( "xmi.id", m_nID );
+	viewElement.setAttribute( "xmi.id", ID2STR(m_nID) );
 	viewElement.setAttribute( "name", m_Name );
 	viewElement.setAttribute( "type", m_Type );
 	viewElement.setAttribute( "documentation", m_Documentation );
@@ -3309,18 +3311,18 @@ UMLWidget* UMLView::loadWidgetFromXMI(QDomElement& widgetElement) {
 	// be UMLObjects
 		if (tag == "statewidget"
 		    || tag == "UML:StateWidget") {         // for bkwd compatibility
-			widget = new StateWidget(this, StateWidget::Normal, 0);
+			widget = new StateWidget(this, StateWidget::Normal, Uml::id_Reserved);
 		} else if (tag == "notewidget"
 		    || tag == "UML:NoteWidget") {          // for bkwd compatibility
-			widget = new NoteWidget(this, 0);
+			widget = new NoteWidget(this, Uml::id_Reserved);
 		} else if (tag == "boxwidget") {
-			widget = new BoxWidget(this, 0);
+			widget = new BoxWidget(this, Uml::id_Reserved);
 		} else if (tag == "floatingtext"
 		    || tag == "UML:FloatingTextWidget") {  // for bkwd compatibility
-			widget = new FloatingText(this, Uml::tr_Floating, "", 0);
+			widget = new FloatingText(this, Uml::tr_Floating, "", Uml::id_Reserved);
 		} else if (tag == "activitywidget"
 		    || tag == "UML:ActivityWidget") {      // for bkwd compatibility
-			widget = new ActivityWidget(this, ActivityWidget::Normal, 0);
+			widget = new ActivityWidget(this, ActivityWidget::Normal, Uml::id_Reserved);
 		}
 	}
 	else
@@ -3342,7 +3344,7 @@ UMLWidget* UMLView::loadWidgetFromXMI(QDomElement& widgetElement) {
 		if( id == Uml::id_None || !( o = m_pDoc->findObjectById(id)) )
 		{
 			kdError() << "UMLView::loadWidgetFromXMI: cannot find object with id "
-				  << id << endl;
+				  << ID2STR(id) << endl;
 			return NULL;
 		}
 
@@ -3405,7 +3407,8 @@ bool UMLView::loadMessagesFromXMI( QDomElement & qElement ) {
 				m_WidgetList.append( ft );
 			else
 				kdError() << "UMLView::loadMessagesFromXMI: ft is NULL"
-					  << " for message " << message->getID() << endl;
+					  << " for message " << ID2STR(message->getID())
+					  << endl;
 		}
 		node = messageElement.nextSibling();
 		messageElement = node.toElement();

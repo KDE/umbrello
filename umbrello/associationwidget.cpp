@@ -2812,7 +2812,7 @@ void AssociationWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 	QDomElement assocElement = qDoc.createElement( "assocwidget" );
 
 	if (m_pObject) {
-		assocElement.setAttribute( "xmi.id", m_pObject->getID() );
+		assocElement.setAttribute( "xmi.id", ID2STR(m_pObject->getID()) );
 	}
 	if (getAssociation() == NULL) {
 		assocElement.setAttribute( "type", m_AssocType );
@@ -2826,8 +2826,8 @@ void AssociationWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 			assocElement.setAttribute( "documentation", m_Doc );
 		}
 	}
-	assocElement.setAttribute( "widgetaid", getWidgetID(A) );
-	assocElement.setAttribute( "widgetbid", getWidgetID(B) );
+	assocElement.setAttribute( "widgetaid", ID2STR(getWidgetID(A)) );
+	assocElement.setAttribute( "widgetbid", ID2STR(getWidgetID(B)) );
 	assocElement.setAttribute( "indexa", m_role[A].m_nIndex );
 	assocElement.setAttribute( "indexb", m_role[B].m_nIndex );
 	assocElement.setAttribute( "totalcounta", m_role[A].m_nTotalCount );
@@ -2871,13 +2871,13 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
 	UMLWidget *pWidgetA = Umbrello::findWidget( aId, widgets, pMessages );
 	if (!pWidgetA) {
 		kdError() << "AssociationWidget::loadFromXMI(): "
-			  << "cannot find widget for roleA id " << aId << endl;
+			  << "cannot find widget for roleA id " << ID2STR(aId) << endl;
 		return false;
 	}
 	UMLWidget *pWidgetB = Umbrello::findWidget( bId, widgets, pMessages );
 	if (!pWidgetB) {
 		kdError() << "AssociationWidget::loadFromXMI(): "
-			  << "cannot find widget for roleB id " << bId << endl;
+			  << "cannot find widget for roleB id " << ID2STR(bId) << endl;
 		return false;
 	}
 	setWidget(pWidgetA, A);
@@ -2972,7 +2972,7 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
 		UMLObject *myObj = umldoc->findObjectById(nId);
 		if (myObj == NULL) {
 			kdError() << "AssociationWidget::loadFromXMI: cannot find UMLObject "
-				  << nId << endl;
+				  << ID2STR(nId) << endl;
 			return false;
 		} else if (myObj->getBaseType() == ot_Attribute) {
 			m_pObject = myObj;
@@ -3018,7 +3018,7 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
 			if( r == "-1" )
 				return false;
 			Uml::Text_Role role = (Uml::Text_Role)r.toInt();
-			FloatingText *ft = new FloatingText(m_pView, role, "", 0);
+			FloatingText *ft = new FloatingText(m_pView, role, "", Uml::id_Reserved);
 			if( ! ft->loadFromXMI(element) ) {
 				// Most likely cause: The FloatingText is empty.
 				delete ft;

@@ -72,7 +72,8 @@ bool UMLDatatype::isInterface() {
 void UMLDatatype::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
 	QDomElement classElement = UMLObject::save("UML:DataType", qDoc);
 	if (m_pSecondary)
-		classElement.setAttribute( "elementReference", m_pSecondary->getID() );
+		classElement.setAttribute( "elementReference",
+					   ID2STR(m_pSecondary->getID()) );
 	qElement.appendChild( classElement );
 }
 

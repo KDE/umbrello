@@ -131,7 +131,9 @@ void OwnedCodeBlock::setAttributesFromNode ( QDomElement & elem) {
 			else if(role_id == 0) 
 				role = assoc->getUMLRole(Uml::B);
 			else // this will cause a crash
-				kdError()<<"corrupt save file? cant get proper UMLRole for ownedcodeblock uml id:"<<id<<" w/role_id:"<<role_id<<endl;
+				kdError() << "corrupt save file? "
+					  << "cant get proper UMLRole for ownedcodeblock uml id:"
+					  << ID2STR(id) << " w/role_id:" << role_id << endl;
 
 	                // init using UMLRole obj
 			initFields ( role ); 
@@ -140,7 +142,8 @@ void OwnedCodeBlock::setAttributesFromNode ( QDomElement & elem) {
 
 	}
 	else
-		kdError()<<"ERROR: can't load ownedcodeblock: parentUMLObject w/id:"<<id<<" not found, corrupt save file?"<<endl;
+		kdError() << "ERROR: can't load ownedcodeblock: parentUMLObject w/id:"
+			  << ID2STR(id) << " not found, corrupt save file?" << endl;
 
 }
 

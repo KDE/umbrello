@@ -2292,7 +2292,7 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
 						if (pkgItem == NULL) {
 							kdDebug() << "UMLListView::loadChildrenFromXMI: "
 								  << "synthesizing ListViewItem for package "
-								  << umlpkg->getID() << endl;
+								  << ID2STR(umlpkg->getID()) << endl;
 							pkgItem = new UMLListViewItem(parent, umlpkg->getName(),
 										      Uml::lvt_Package, umlpkg);
 							pkgItem->setOpen(true);
@@ -2346,8 +2346,8 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
 								item = new UMLListViewItem( parent, label, lvType, umlObject);
 							} else {
 								kdDebug() << "UMLListView::loadChildrenFromXMI: "
-									  << " lvtype " << lvType << " child object " << nID
-									  << " not found" << endl;
+									  << " lvtype " << lvType << " child object "
+									  << ID2STR(nID) << " not found" << endl;
 							}
 						} else {
 							kdDebug() << "UMLListView::loadChildrenFromXMI: "
@@ -2386,7 +2386,7 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
 				return false;
 			}
 		} else {
-			kdWarning() << "unused list view item " << nID
+			kdWarning() << "unused list view item " << ID2STR(nID)
 				    << " of lvtype " << lvType << endl;
 		}
 		domElement = node.toElement();

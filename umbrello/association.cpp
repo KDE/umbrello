@@ -34,7 +34,7 @@ UMLAssociation::UMLAssociation( Association_Type type,
 }
 
 UMLAssociation::UMLAssociation( Association_Type type /* = Uml::at_Unknown */)
-    : UMLObject("", 0)
+    : UMLObject("", "0")
 {
 	init(type, NULL, NULL);
 }
@@ -135,8 +135,8 @@ void UMLAssociation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	if (m_AssocType == Uml::at_Generalization ||
 	    m_AssocType == Uml::at_Realization) {
 		QDomElement assocElement = UMLObject::save("UML:Generalization", qDoc);
-		assocElement.setAttribute( "child", getRoleId(A) );
-		assocElement.setAttribute( "parent", getRoleId(B) );
+		assocElement.setAttribute( "child", ID2STR(getRoleId(A)) );
+		assocElement.setAttribute( "parent", ID2STR(getRoleId(B)) );
 		qElement.appendChild( assocElement );
 		return;
 	}
@@ -202,7 +202,7 @@ bool UMLAssociation::load( QDomElement & element ) {
 				}
 				if (idStr.isEmpty()) {
 					kdError() << "UMLAssociation::load (type " << m_AssocType
-					  << ", id " << getID() << "): "
+					  << ", id " << ID2STR(getID()) << "): "
 					  << "xmi id not given for " << tag << endl;
 					continue;
 				}
@@ -345,7 +345,8 @@ bool UMLAssociation::load( QDomElement & element ) {
 	} else {
 		int assocTypeNum = assocTypeStr.toInt();
 		if (assocTypeNum < (int)atypeFirst || assocTypeNum > (int)atypeLast) {
-			kdWarning() << "bad assoctype of UML:Association " << getID() << endl;
+			kdWarning() << "bad assoctype of UML:Association "
+			            << ID2STR(getID()) << endl;
 			return false;
 		}
 		assocType = (Uml::Association_Type)assocTypeNum;

@@ -67,8 +67,8 @@
 #include "dialogs/umloperationdialog.h"
 #include "inputdialog.h"
 
-# define EXTERNALIZE_ID(id)  QString::number(id)
-# define INTERNALIZE_ID(id)  (id).toInt()
+# define EXTERNALIZE_ID(id)  QString::number(id).ascii()
+# define INTERNALIZE_ID(id)  ID2STR(id).toInt()
 
 #define XMI_FILE_VERSION "1.3.90"
 // Hmm, if the XMI_FILE_VERSION is meant to reflect the umbrello version
@@ -1486,7 +1486,7 @@ void UMLDoc::removeDiagram(Uml::IDType id) {
 	UMLView* umlview = findView(id);
 	if(!umlview)
 	{
-		kdError()<<"Request to remove diagram "<<id<<": Diagram not found!"<<endl;
+		kdError()<<"Request to remove diagram " << ID2STR(id) << ": Diagram not found!"<<endl;
 		return;
 	}
 	if (KMessageBox::warningContinueCancel(0, i18n("Are you sure you want to delete diagram %1?").arg(umlview->getName()), i18n("Delete Diagram"),KGuiItem( i18n("&Delete"), "editdelete")) == KMessageBox::Continue) {
@@ -1757,7 +1757,7 @@ void UMLDoc::saveToXMI(QIODevice& file) {
 	Uml::IDType viewID = Uml::id_None;
 	if( m_currentView )
 		viewID = m_currentView -> getID();
-	docElement.setAttribute( "viewid", viewID );
+	docElement.setAttribute( "viewid", ID2STR(viewID) );
 	docElement.setAttribute( "documentation", m_Doc );
 	docElement.setAttribute( "uniqueid", m_uniqueID );
 	extensions.appendChild( docElement );
@@ -2706,3 +2706,4 @@ void UMLDoc::addObject(UMLObject* o)
 }
 
 #include "umldoc.moc"
+
