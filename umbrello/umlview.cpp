@@ -2093,13 +2093,10 @@ void UMLView::selectAssociations(bool bSelect) {
 	AssociationWidget* assocwidget = 0;
 	while((assocwidget=assoc_it.current())) {
 		++assoc_it;
-		if(bSelect) {
-			if(assocwidget->getWidgetA()->getSelected() &&
-			   assocwidget->getWidgetB()->getSelected()) {
-				assocwidget->setSelected(true);
-			} else {
-				assocwidget->setSelected(false);
-			}
+		if(bSelect &&
+		  assocwidget->getWidgetA() && assocwidget->getWidgetA()->getSelected() &&
+		  assocwidget->getWidgetB() && assocwidget->getWidgetB()->getSelected() ) {
+			assocwidget->setSelected(true);
 		} else {
 			assocwidget->setSelected(false);
 		}
