@@ -267,6 +267,7 @@ AssocRules::Assoc_Rule AssocRules::m_AssocRules []= {
             { at_UniAssociation,wt_Actor,	wt_Actor,	true,	false,	false,	false },
             { at_UniAssociation,wt_UseCase,	wt_UseCase,	true,	false,	false,	false },
             { at_UniAssociation,wt_UseCase,	wt_Actor,	true,	false,	false,	false },
+            { at_Generalization,wt_Class,	wt_Datatype,	false,	false,	false,	false },
             { at_Generalization,wt_Class,	wt_Class,	false,	false,	false,	false },
             { at_Generalization,wt_Interface,	wt_Interface,	false,	false,	false,	false },
             { at_Generalization,wt_UseCase,	wt_UseCase,	false,	false,	false,	false },

@@ -55,6 +55,7 @@ bool IDLWriter::isOOClass(UMLClassifier *c) {
 	QString stype = c->getStereotype();
 	if (stype == "CORBAConstant" || stype == "CORBAEnum" ||
 	        stype == "CORBAStruct" || stype == "CORBAUnion" ||
+	        stype == "CORBASequence" || stype == "CORBAArray" ||
 	        stype == "CORBATypedef")
 		return false;
 
@@ -192,42 +193,51 @@ void IDLWriter::writeClass(UMLClassifier *c) {
 	if (! isOOClass(c)) {
 		QString stype = c->getStereotype();
 		if (stype == "CORBAConstant") {
-			idl << spc() << "// " << stype << " is Not Yet Implemented\n\n";
-		} else if(stype == "CORBAEnum") {
-			if(myClass) {
-				UMLAttributeList *atl = myClass->getFilteredAttributeList();
-				UMLAttribute *at;
-				idl << spc() << "enum " << classname << " {\n";
-				indentlevel++;
-				uint i = 0;
-				for (at = atl->first(); at; at = atl->next()) {
-					QString enumLiteral = cleanName(at->getName());
-					idl << spc() << enumLiteral;
-					if (++i < atl->count())
-						idl << ",";
-					idl << endl;
-				}
-				indentlevel--;
-				idl << spc() << "};\n\n";
+			kdError() << "The stereotype " << stype << " cannot be applied to "
+				  << c->getName() << ", but only to attributes." << endl;
+			return;
+		}
+		if (myClass == NULL) {
+			kdError() << "The stereotype " << stype
+				  << " cannot be applied to " << c->getName()
+				  << ", but only to classes." << endl;
+			return;
+		}
+		if (stype == "CORBAEnum") {
+			UMLAttributeList *atl = myClass->getFilteredAttributeList();
+			UMLAttribute *at;
+			idl << spc() << "enum " << classname << " {\n";
+			indentlevel++;
+			uint i = 0;
+			for (at = atl->first(); at; at = atl->next()) {
+				QString enumLiteral = cleanName(at->getName());
+				idl << spc() << enumLiteral;
+				if (++i < atl->count())
+					idl << ",";
+				idl << endl;
 			}
-		} else if(stype == "CORBAStruct") {
-			if(myClass) {
-				UMLAttributeList *atl = myClass->getFilteredAttributeList();
-				UMLAttribute *at;
-				idl << spc() << "struct " << classname << " {\n";
-				indentlevel++;
-				for (at = atl->first(); at; at = atl->next()) {
-					QString name = cleanName(at->getName());
-					idl << spc() << at->getTypeName() << " " << name << ";\n";
-					// Initial value not possible in IDL.
-				}
-				indentlevel--;
-				idl << spc() << "};\n\n";
+			indentlevel--;
+			idl << spc() << "};\n\n";
+		} else if (stype == "CORBAStruct") {
+			UMLAttributeList *atl = myClass->getFilteredAttributeList();
+			UMLAttribute *at;
+			idl << spc() << "struct " << classname << " {\n";
+			indentlevel++;
+			for (at = atl->first(); at; at = atl->next()) {
+				QString name = cleanName(at->getName());
+				idl << spc() << at->getTypeName() << " " << name << ";\n";
+				// Initial value not possible in IDL.
 			}
-		} else if(stype == "CORBAUnion") {
-			idl << spc() << "// " << stype << " is Not Yet Implemented\n\n";
-		} else if(stype == "CORBATypedef") {
-			idl << spc() << "// " << stype << " is Not Yet Implemented\n\n";
+			indentlevel--;
+			idl << spc() << "};\n\n";
+		} else if (stype == "CORBAUnion") {
+			idl << spc() << "// " << stype << " " << c->getName()
+			    << " is Not Yet Implemented\n\n";
+		} else if (stype == "CORBATypedef") {
+			UMLClassifierList superclasses = c->getSuperClasses();
+			UMLClassifier* firstParent = superclasses.first();
+			idl << spc() << "typedef " << firstParent->getName() << " "
+			    << c->getName() << ";\n\n";
 		} else {
 			idl << spc() << "// " << stype << ": Unknown stereotype\n\n";
 		}
