@@ -832,7 +832,7 @@ QString UMLDoc::uniqObjectName(const Object_Type type, QString prefix) {
 void UMLDoc::addUMLObject(UMLObject* object) {
 	Object_Type ot = object->getBaseType();
 	if (ot == ot_Attribute || ot == ot_Operation || ot == ot_EnumLiteral
-	    || ot == ot_EntityAttribute || ot == ot_Stereotype) {
+	    || ot == ot_EntityAttribute || ot == ot_Template || ot == ot_Stereotype) {
 		kdDebug() << "UMLDoc::addUMLObject(" << object->getName()
 			<< "): not adding type " << ot << endl;
 		return;
@@ -1053,7 +1053,7 @@ UMLObject* UMLDoc::createChildObject(UMLObject* umlobject, Object_Type type) {
 		if (umlclassifier)
 			returnObject = createOperation(umlclassifier);
 	} else if(type == ot_Template) {
-		UMLClass *umlclass = dynamic_cast<UMLClass *>(umlobject);
+		UMLClassifier *umlclass = dynamic_cast<UMLClassifier *>(umlobject);
 		if (umlclass)
 			returnObject = createTemplate(umlclass);
 	} else if(type == ot_EnumLiteral) {
