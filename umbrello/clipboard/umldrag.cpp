@@ -102,6 +102,7 @@ void UMLDrag::setSubType(const QCString& string, int index) {
 }
 
 void UMLDrag::setEncodedData(const QByteArray& encodedData, int index) {
+	encodedData.copy();
 	data->enc[index] = encodedData.copy();
 }
 
@@ -258,9 +259,8 @@ void UMLDrag::setUMLDataClip4(UMLObjectList& objects, UMLListViewItemList& umlLi
 
 	data->setType("image/PNG", 1);
 	long l_size = (pngImage.convertToImage()).numBytes();
-	char* data = new char[l_size];
 	QByteArray clipdata;
-	clipdata.setRawData(data, l_size);
+	clipdata.resize(l_size);
 	QDataStream clipstream(clipdata, IO_WriteOnly);
 	clipstream << pngImage;
 	setEncodedData(clipdata, 1);

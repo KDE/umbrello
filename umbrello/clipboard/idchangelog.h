@@ -26,7 +26,7 @@
  */
 
 #include <qstring.h>
-#include <qmemarray.h>
+#include <qvaluevector.h>
 
 #include "../umlnamespace.h"
 
@@ -95,23 +95,28 @@ private:
 	 */
 	class Point {
 	public:
-		Point(Uml::IDType x, Uml::IDType y) { m_x = x; m_y = y; }
+		Point()
+		{}
+		Point(const Uml::IDType &x, const Uml::IDType &y)
+			: m_x(x), m_y(y)
+		{}
 		virtual ~Point() {}
-		void   setX( Uml::IDType x ) { m_x = x; }
-		Uml::IDType x() { return m_x; }
-		void   setY( Uml::IDType y ) { m_y = y; }
-		Uml::IDType y() { return m_y; }
+		void setX(const Uml::IDType &x) { m_x = x; }
+		Uml::IDType x() const { return m_x; }
+		void setY(const Uml::IDType &y) { m_y = y; }
+		Uml::IDType y() const { return m_y; }
 	private:
 		Uml::IDType m_x, m_y;
 	};
-	class PointArray : QMemArray<Point> {
+	class PointArray : QValueVector<Point> {
 	public:
-		void  setPoint( uint i, Uml::IDType x, Uml::IDType y ) {
-			QMemArray<Point>::at(i) = Point(x, y);
+		void  setPoint(uint i, const Uml::IDType &x, const Uml::IDType &y) {
+			Point point(x, y);
+			QValueVector<Point>::at(i) = point;
 		}
-		Point& point( uint i ) const { return QMemArray<Point>::at(i); }
-		uint   size() const          { return QMemArray<Point>::size(); }
-		bool   resize( uint size )   { return QMemArray<Point>::resize(size); }
+		const Point& point( uint i ) const { return QValueVector<Point>::at(i); }
+		uint   size() const          { return QValueVector<Point>::size(); }
+		bool   resize( uint size )   { QValueVector<Point>::resize(size); return true; }
 	};
 	PointArray m_LogArray;
 
