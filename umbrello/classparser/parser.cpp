@@ -549,7 +549,7 @@ bool Parser::parseDeclaration( DeclarationAST::Node& node )
 	    }
 
 	    lex->setIndex( start );
-	    success = parseDeclarationInternal( node );
+	    success = parseDeclarationInternal( node, comment );
 	}
 
     } // end switch
@@ -1898,6 +1898,23 @@ bool Parser::parseAccessSpecifier( AST::Node& node )
     return false;
 }
 
+void Parser::advanceAndCheckTrailingComment(QString& comment)
+{
+    Token t = lex->tokenAt( lex->index() );
+    int previousTokenEndLine = 0;
+    t.getEndPosition( &previousTokenEndLine, 0 );
+    lex->nextToken();
+    if( lex->lookAhead(0) != Token_comment )
+	return;
+    t = lex->tokenAt( lex->index() );
+    int commentStartLine = 0;
+    t.getStartPosition( &commentStartLine, 0 );
+    if( commentStartLine != previousTokenEndLine )
+	return;
+    comment += lex->lookAhead(0).text();
+    lex->nextToken();
+}
+
 bool Parser::parseMemberSpecification( DeclarationAST::Node& node )
 {
     //kdDebug(9007)<< "--- tok = " << lex->lookAhead(0).text() << " -- "  << "Parser::parseMemberSpecification()" << endl;
@@ -1915,7 +1932,9 @@ bool Parser::parseMemberSpecification( DeclarationAST::Node& node )
     AST::Node access;
 
     if( lex->lookAhead(0) == ';' ){
-	lex->nextToken();
+	advanceAndCheckTrailingComment( comment );
+	if ( !comment.isEmpty() )
+	    node->setComment( comment );
 	return true;
     } else if( lex->lookAhead(0) == Token_Q_OBJECT || lex->lookAhead(0) == Token_K_DCOP ){
 	lex->nextToken();
@@ -1989,7 +2008,7 @@ bool Parser::parseMemberSpecification( DeclarationAST::Node& node )
 
     lex->setIndex( start );
 
-    bool success = parseDeclarationInternal(node);
+    bool success = parseDeclarationInternal(node, comment);
     if( success && !comment.isEmpty() ) {
 	node->setComment( comment );
         //kdDebug(9007) << "Parser::parseMemberSpecification(): comment is " << comment << endl;
@@ -2910,7 +2929,7 @@ bool Parser::parseDeclarationStatement( StatementAST::Node& node )
     return true;
 }
 
-bool Parser::parseDeclarationInternal( DeclarationAST::Node& node )
+bool Parser::parseDeclarationInternal( DeclarationAST::Node& node, QString& comment )
 {
     //kdDebug(9007)<< "--- tok = " << lex->lookAhead(0).text() << " -- "  << "Parser::parseDeclarationInternal()" << endl;
 
@@ -3070,7 +3089,7 @@ start_decl:
 	switch( lex->lookAhead(0) ){
 	case ';':
 	    {
-		lex->nextToken();
+		advanceAndCheckTrailingComment( comment );
 		SimpleDeclarationAST::Node ast = CreateNode<SimpleDeclarationAST>();
 		ast->setStorageSpecifier( storageSpec );
 		ast->setFunctionSpecifier( funSpec );

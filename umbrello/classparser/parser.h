@@ -60,7 +60,7 @@ public /*rules*/ :
     bool parseTypedef( DeclarationAST::Node& node );
     bool parseAsmDefinition( DeclarationAST::Node& node );
     bool parseTemplateDeclaration( DeclarationAST::Node& node );
-    bool parseDeclarationInternal( DeclarationAST::Node& node );
+    bool parseDeclarationInternal( DeclarationAST::Node& node, QString& comment );
     
     bool parseUnqualifiedName( ClassOrNamespaceNameAST::Node& node );
     bool parseStringLiteral( AST::Node& node );
@@ -195,8 +195,9 @@ public /*rules*/ :
     bool parseObjcProtocolExpr( AST::Node& node ); 
     bool parseObjcOpenBracketExpr( AST::Node& node ); 
     bool parseObjcCloseBracket( AST::Node& node );
-  
-    
+
+    void advanceAndCheckTrailingComment(QString& comment);
+
     bool skipUntil( int token );
     bool skipUntilDeclaration();
     bool skipUntilStatement();
