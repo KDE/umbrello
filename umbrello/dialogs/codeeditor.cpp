@@ -66,15 +66,26 @@ CodeEditor::CodeEditor ( CodeViewerDialog * parent, const char* name, CodeDocume
 /*
  *  Destroys the object and frees any allocated resources
  */
-CodeEditor::~CodeEditor() { }
+CodeEditor::~CodeEditor() {
+	clearText();
+	delete m_tbInfoMap;
+}
 
 // clear the display of all text
 void CodeEditor::clearText () {
 
-//        setCaption( tr2i18n("") );
-        m_selectedTextBlock = 0;
-        m_textBlockList.clear();
-        m_tbInfoMap->clear();
+	m_selectedTextBlock = 0;
+
+	// clearing the text means more then just calling clear()!
+	// because the data() is a pointer and must be deleted first
+	QMap<TextBlock*,TextBlockInfo*>::Iterator it;
+	for ( it = m_tbInfoMap->begin(); it != m_tbInfoMap->end(); ++it ) 
+	{
+		delete it.data();
+	}
+	m_textBlockList.clear();
+
+	m_tbInfoMap->clear();
 
 	// now call super-class
 	clear();
@@ -769,6 +780,9 @@ void CodeEditor::init ( CodeViewerDialog * parentDlg, CodeDocument * parentDoc )
 
 	// safety to insure that we are up to date
 	parentDoc->synchronize();
+
+	// at startup there is no last parameter
+	m_lastPara = -1;
 
 	m_parentDlg = parentDlg;
 	m_parentDoc = parentDoc;
