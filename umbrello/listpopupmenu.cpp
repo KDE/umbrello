@@ -478,6 +478,9 @@ void ListPopupMenu::insertStdItem(Menu_Type m)
 		m_pInsert->insertItem(Umbrello::iconSet(Uml::dt_Deployment), i18n("Deployment Diagram..."),
 				      mt_Deployment_Diagram);
 		break;
+	case mt_Deployment_Folder:
+		m_pInsert->insertItem(BarIcon("folder_new"), i18n("Folder"), mt_Deployment_Folder);
+		break;
 	case mt_Entity:
 		m_pInsert->insertItem(m_pixmap[pm_Entity], i18n("Entity"), mt_Entity);
 		break;
@@ -783,7 +786,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 
 		case mt_Deployment_View:
 			m_pInsert = new KPopupMenu(this, "New");
-			insertStdItem(mt_Component_Folder);
+			insertStdItem(mt_Deployment_Folder);
 			insertStdItem(mt_Node);
 			insertStdItem(mt_Deployment_Diagram);
 			insertFileNew();
@@ -796,7 +799,9 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 
 		case mt_EntityRelationship_Model:
 			m_pInsert = new KPopupMenu(this, "New");
+			insertStdItem(mt_EntityRelationship_Folder);
 			insertStdItem(mt_Entity);
+			insertStdItem(mt_EntityRelationship_Diagram);
 			insertFileNew();
 			insertSeparator();
 			insertStdItem(mt_Paste);
@@ -846,7 +851,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 
 		case mt_Deployment_Folder:
 			m_pInsert = new KPopupMenu(this, "New");
-			insertStdItem(mt_Component_Folder);
+			insertStdItem(mt_Deployment_Folder);
 			insertStdItem(mt_Node);
 			insertStdItem(mt_Deployment_Diagram);
 			insertFileNew();
