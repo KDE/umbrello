@@ -1945,9 +1945,14 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
 				break;
 			}//end switch
 
-			item -> setOpen( (bool)bOpen );
-			if( !loadChildrenFromXMI( item, domElement ) )
-				return false;
+			if (item)  {
+				item->setOpen( (bool)bOpen );
+				if ( !loadChildrenFromXMI(item, domElement) ) {
+					return false;
+				}
+			} else {
+				kdWarning() << "unused list view item" << endl;
+			}
 		}//end if
 		node = domElement.nextSibling();
 		domElement = node.toElement();
