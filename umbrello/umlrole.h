@@ -23,7 +23,6 @@ class UMLAssociation;
  * This class contains the non-graphic representation of an association role.
  *
  * @author Brian Thomas <brian.thomas@gsfc.nasa.gov>
- * @version $Revision$
  * @see	UMLObject
  */
 

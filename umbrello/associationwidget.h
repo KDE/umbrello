@@ -48,7 +48,6 @@ class UMLAttribute;
  *
  * @author Gustavo Madrigal
  * @short This class represents an association inside a diagram.
- * @version $Revision$
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class AssociationWidget : public WidgetBase, public LinkWidget {
