@@ -172,6 +172,8 @@ bool HierarchicalCodeBlock::insertTextBlock(TextBlock * newBlock, TextBlock * ex
                         if(hb && hb->insertTextBlock(newBlock, existingBlock, after))
                                 return true; // found, and inserted, otherwise keep going
                 }
+		kdWarning()<<" Warning: couldnt insert text block (tag:"<<newBlock->getTag()<<"). Reference text block (tag:"<<existingBlock->getTag()<<") not found."<<endl;
+		return false;
         }
 
         // if we get here.. it was in this object so insert

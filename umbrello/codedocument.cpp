@@ -30,7 +30,6 @@ CodeDocument::CodeDocument (CodeGenerator * gen , QDomElement & elem)
     : QObject (gen, "ACodeDocument")
 {
 
-kdWarning()<< " DOC LOADING FROM XMI" <<endl;
 	initDoc( gen );
 	loadFromXMI(elem);
 }
@@ -48,7 +47,6 @@ CodeDocument::~CodeDocument ( ) {
 //        for (TextBlock *tb = m_textblockVector.first(); tb; tb=m_textblockVector.next())
 //		delete tb;
 
-	kdWarning()<<"DESTROYED CODE DOCUMENT name:"<<getFileName().latin1()<<" id:"<<this<<endl;
 }
 
 //
@@ -301,6 +299,9 @@ bool CodeDocument::insertTextBlock(TextBlock * newBlock, TextBlock * existingBlo
 			if(hb && hb->insertTextBlock(newBlock, existingBlock, after))
 				return true; // found, and inserted, otherwise keep going
 		}
+		// ugh. where is the child block?
+		kdWarning()<<" Warning: couldnt insert text block (tag:"<<newBlock->getTag()<<"). Reference text block (tag:"<<existingBlock->getTag()<<") not found."<<endl;
+		return false;
 	}
 
 	// if we get here.. it was in this object so insert
@@ -396,7 +397,6 @@ QString CodeDocument::toString ( ) {
 }
 
 void CodeDocument::syncronize() {
-kdWarning()<<" Syncronize code doc:"<<this<<endl;
 	updateContent();
 }
 
@@ -587,8 +587,6 @@ TextBlock * CodeDocument::findTextBlockByTag( QString tag , bool descendIntoChil
 
 void CodeDocument::initDoc ( CodeGenerator * gen ) {
 
-kdWarning()<<"INIT CODE DOCUMENT"<<endl;
-
 	m_parentgenerator = gen;
 	m_writeOutCode = true;
         m_packageName = QString(""); // no package name is the default
@@ -607,7 +605,6 @@ kdWarning()<<"INIT CODE DOCUMENT"<<endl;
 
 //	m_dialog = new CodeDocumentDialog( );
 
-kdWarning()<<"INIT CODE DOCUMENT - FINISHED "<<endl;
 }
 
 TextBlock * CodeDocument::findCodeClassFieldTextBlockByTag (QString tag) {
