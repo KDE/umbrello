@@ -60,7 +60,6 @@ void NodeWidget::draw(QPainter & p, int offsetX, int offsetY) {
 	QFontMetrics &fm = getFontMetrics(FT_BOLD);
 	int fontHeight  = fm.lineSpacing();
 	QString name = getName();
-	QString stereotype = m_pObject->getStereotype();
 
 	QPointArray pointArray(6);
 	pointArray.setPoint(0, offsetX, bodyOffsetY);
@@ -76,16 +75,14 @@ void NodeWidget::draw(QPainter & p, int offsetX, int offsetY) {
 	p.setPen( QPen(black) );
 	p.setFont(font);
 
-	if (stereotype != "") {
-		p.drawText(offsetX, bodyOffsetY + (bodyHeight/2) - fontHeight,
-			   bodyWidth, fontHeight, AlignCenter, "<< " + stereotype + " >>");
-	}
-
-	int lines;
-	if (stereotype != "") {
-		lines = 2;
-	} else {
-		lines = 1;
+	int lines = 1;
+	if (m_pObject) {
+		QString stereotype = m_pObject->getStereotype();
+		if (stereotype != "") {
+			p.drawText(offsetX, bodyOffsetY + (bodyHeight/2) - fontHeight,
+				   bodyWidth, fontHeight, AlignCenter, "<< " + stereotype + " >>");
+			lines = 2;
+		}
 	}
 
 	if ( UMLWidget::getIsInstance() ) {
