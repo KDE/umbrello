@@ -10,7 +10,7 @@ Bugs fixed:
 * Crash in UMLView::createAutoAttributeAssociations()
 * Corrected top/bottom relation association attachments
 * Bugs from http://bugs.kde.org :
-53376 57667 100290 100307 101148
+53376 57667 100290 100307 101148 103123 103133
 
 Version 1.4
 

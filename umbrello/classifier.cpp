@@ -220,7 +220,10 @@ int UMLClassifier::removeOperation(UMLOperation *op) {
 	return m_List.count();
 }
 
-UMLOperation* UMLClassifier::takeOperation(UMLOperation* o) {
+UMLOperation* UMLClassifier::takeOperation(UMLOperation* o, int *wasAtIndex) {
+	int index = m_List.findRef(o);
+	if (wasAtIndex)
+		*wasAtIndex = index;
 	if (removeOperation(o) >= 0) {
 		return o;
 	}
@@ -515,8 +518,10 @@ int UMLClassifier::removeTemplate(UMLTemplate* umltemplate) {
 	return m_List.count();
 }
 
-UMLTemplate* UMLClassifier::takeTemplate(UMLTemplate* t) {
+UMLTemplate* UMLClassifier::takeTemplate(UMLTemplate* t, int *wasAtIndex) {
 	int index = m_List.findRef( t );
+	if (wasAtIndex)
+		*wasAtIndex = index;
 	t = (index == -1 ? 0 : dynamic_cast<UMLTemplate*>(m_List.take( )));
 	if (t) {
 		emit templateRemoved(t);

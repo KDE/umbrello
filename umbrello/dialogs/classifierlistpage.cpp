@@ -27,7 +27,7 @@ using namespace Uml;
 
 ClassifierListPage::ClassifierListPage(QWidget* parent, UMLClassifier* classifier,
 				       UMLDoc* doc, Object_Type type) : QWidget(parent) {
-	itemType = type;
+	m_itemType = type;
 	QString typeName("");
 	QString newItemType("");
 	if (type == ot_Attribute) {
@@ -104,7 +104,7 @@ ClassifierListPage::ClassifierListPage(QWidget* parent, UMLClassifier* classifie
 	// add each item in the list to the ListBox and connect each item modified signal
 	// to the ListItemModified slot in this class
 	for (UMLClassifierListItem* listItem = itemList.first(); listItem != 0; listItem = itemList.next() ) {
-		m_pItemListLB->insertItem(listItem->getName());
+		m_pItemListLB->insertItem(listItem->toString(Uml::st_SigNoScope));
 		connect( listItem, SIGNAL(modified()),this,SLOT(slotListItemModified()) );
 	}
 
@@ -251,29 +251,29 @@ void ClassifierListPage::slotRightButtonClicked(QListBoxItem* /*item*/, const QP
 void ClassifierListPage::slotRightButtonPressed(QListBoxItem* item, const QPoint& p) {
 	ListPopupMenu::Menu_Type type = ListPopupMenu::mt_Undefined;
 	if (item) { //pressed on a list item
-		if (itemType == ot_Attribute) {
+		if (m_itemType == ot_Attribute) {
 			type = ListPopupMenu::mt_Attribute_Selected;
-		} else if (itemType == ot_Operation) {
+		} else if (m_itemType == ot_Operation) {
 			type = ListPopupMenu::mt_Operation_Selected;
-		} else if (itemType == ot_Template) {
+		} else if (m_itemType == ot_Template) {
 			type = ListPopupMenu::mt_Template_Selected;
-		} else if (itemType == ot_EnumLiteral) {
+		} else if (m_itemType == ot_EnumLiteral) {
 			type = ListPopupMenu::mt_EnumLiteral_Selected;
-		} else if (itemType == ot_EntityAttribute) {
+		} else if (m_itemType == ot_EntityAttribute) {
 			type = ListPopupMenu::mt_EntityAttribute_Selected;
 		} else {
 			kdWarning() << "unknown type in ClassifierListPage" << endl;
 		}
 	} else { //pressed into fresh air
-		if (itemType == ot_Attribute) {
+		if (m_itemType == ot_Attribute) {
 			type = ListPopupMenu::mt_New_Attribute;
-		} else if (itemType == ot_Operation) {
+		} else if (m_itemType == ot_Operation) {
 			type = ListPopupMenu::mt_New_Operation;
-		} else if (itemType == ot_Template) {
+		} else if (m_itemType == ot_Template) {
 			type = ListPopupMenu::mt_New_Template;
-		} else if (itemType == ot_EnumLiteral) {
+		} else if (m_itemType == ot_EnumLiteral) {
 			type = ListPopupMenu::mt_New_EnumLiteral;
-		} else if (itemType == ot_EntityAttribute) {
+		} else if (m_itemType == ot_EntityAttribute) {
 			type = ListPopupMenu::mt_New_EntityAttribute;
 		} else {
 			kdWarning() << "unknown type in ClassifierListPage" << endl;
@@ -339,7 +339,11 @@ void ClassifierListPage::slotUpClicked() {
 
 	//now change around in the list
 	UMLClassifierListItem* currentAtt = getItemList().at( index );
-	takeClassifier(currentAtt);
+	// NB: The index in the m_pItemListLB is not necessarily the same
+	//     as the index in the UMLClassifier::m_List.
+	//     Reason: getItemList() returns only a subset of all entries
+	//     in UMLClassifier::m_List.
+	takeClassifier(currentAtt, index);  // now we index the UMLClassifier::m_List
 	addClassifier(currentAtt, index - 1);
 	slotClicked( item );
 }
@@ -361,7 +365,11 @@ void ClassifierListPage::slotDownClicked() {
 	m_pItemListLB->setSelected( item, true );
 	//now change around in the list
 	UMLClassifierListItem* currentAtt = getItemList().at( index );
-	takeClassifier(currentAtt);
+	// NB: The index in the m_pItemListLB is not necessarily the same
+	//     as the index in the UMLClassifier::m_List.
+	//     Reason: getItemList() returns only a subset of all entries
+	//     in UMLClassifier::m_List.
+	takeClassifier(currentAtt, index);  // now we index the UMLClassifier::m_List
 	addClassifier(currentAtt, index + 1);
 	slotClicked( item );
 }
@@ -399,7 +407,7 @@ void ClassifierListPage::slotProperties() {
 void ClassifierListPage::slotNewListItem() {
 	saveCurrentItemDocumentation();
 	m_bSigWaiting = true;
-	m_pDoc->createChildObject(m_pClassifier, itemType);
+	m_pDoc->createChildObject(m_pClassifier, m_itemType);
 }
 
 void ClassifierListPage::saveCurrentItemDocumentation() {
@@ -410,43 +418,11 @@ void ClassifierListPage::saveCurrentItemDocumentation() {
 }
 
 UMLClassifierListItemList ClassifierListPage::getItemList() {
-	switch (itemType) {
-		case ot_Attribute: {
-			UMLClass* classifier = dynamic_cast<UMLClass*>(m_pClassifier);
-			if (classifier) {
-				return classifier->getFilteredList(ot_Attribute);
-			}
-			break;
-		}
-		case ot_Operation:
-		case ot_Template:
-			return m_pClassifier->getFilteredList(itemType);
-			break;
-		case ot_EnumLiteral: {
-			UMLEnum* classifier = dynamic_cast<UMLEnum*>(m_pClassifier);
-			if (classifier) {
-				return classifier->getFilteredList(ot_EnumLiteral);
-			}
-			break;
-		}
-		case ot_EntityAttribute: {
-			UMLEntity* classifier = dynamic_cast<UMLEntity*>(m_pClassifier);
-			if (classifier) {
-				return classifier->getFilteredList(ot_EntityAttribute);
-			}
-			break;
-		}
-		default: {
-			kdWarning() << "unknown type in ClassifierListPage" << endl;
-			return UMLClassifierListItemList();
-		}
-	}
-	kdError() << "ClassifierListPage is in an inconsistent state!" << endl;
-	return UMLClassifierListItemList();
+	return m_pClassifier->getFilteredList(m_itemType);
 }
 
 bool ClassifierListPage::addClassifier(UMLClassifierListItem* listitem, int position) {
-	switch (itemType) {
+	switch (m_itemType) {
 		case ot_Attribute: {
 			UMLClass* c = dynamic_cast<UMLClass*>(m_pClassifier);
 			if (c) {
@@ -486,36 +462,37 @@ bool ClassifierListPage::addClassifier(UMLClassifierListItem* listitem, int posi
 	return false;
 }
 
-UMLClassifierListItem* ClassifierListPage::takeClassifier(UMLClassifierListItem* listitem) {
-	switch (itemType) {
+UMLClassifierListItem* ClassifierListPage::takeClassifier(UMLClassifierListItem* listitem,
+							  int &wasAtIndex) {
+	switch (m_itemType) {
 		case ot_Attribute: {
 			UMLClass* c = dynamic_cast<UMLClass*>(m_pClassifier);
 			if (c) {
-				return c->takeAttribute(dynamic_cast<UMLAttribute*>(listitem));
+				return c->takeAttribute(dynamic_cast<UMLAttribute*>(listitem), &wasAtIndex);
 			}
 			break;
 		}
 		case ot_Operation: {
-			return m_pClassifier->takeOperation(dynamic_cast<UMLOperation*>(listitem));
+			return m_pClassifier->takeOperation(dynamic_cast<UMLOperation*>(listitem), &wasAtIndex);
 		}
 		case ot_Template: {
 			UMLClass* c = dynamic_cast<UMLClass*>(m_pClassifier);
 			if (c) {
-				return c->takeTemplate(dynamic_cast<UMLTemplate*>(listitem));
+				return c->takeTemplate(dynamic_cast<UMLTemplate*>(listitem), &wasAtIndex);
 			}
 			break;
 		}
 		case ot_EnumLiteral: {
 			UMLEnum* c = dynamic_cast<UMLEnum*>(m_pClassifier);
 			if (c) {
-				return c->takeEnumLiteral(dynamic_cast<UMLEnumLiteral*>(listitem));
+				return c->takeEnumLiteral(dynamic_cast<UMLEnumLiteral*>(listitem), &wasAtIndex);
 			}
 			break;
 		}
 		case ot_EntityAttribute: {
 			UMLEntity* c = dynamic_cast<UMLEntity*>(m_pClassifier);
 			if (c) {
-				return c->takeEntityAttribute(dynamic_cast<UMLEntityAttribute*>(listitem));
+				return c->takeEntityAttribute(dynamic_cast<UMLEntityAttribute*>(listitem), &wasAtIndex);
 			}
 			break;
 		}
@@ -528,45 +505,6 @@ UMLClassifierListItem* ClassifierListPage::takeClassifier(UMLClassifierListItem*
 	return 0;
 }
 
-int ClassifierListPage::removeClassifier(UMLClassifierListItem* listitem) {
-	switch (itemType) {
-		case ot_Attribute: {
-			UMLClass* c = dynamic_cast<UMLClass*>(m_pClassifier);
-			if (c) {
-				return c->removeAttribute(dynamic_cast<UMLAttribute*>(listitem));
-			}
-			break;
-		}
-		case ot_Operation: {
-			return m_pClassifier->removeOperation(dynamic_cast<UMLOperation*>(listitem));
-		}
-		case ot_Template: {
-			UMLClass* c = dynamic_cast<UMLClass*>(m_pClassifier);
-			if (c) {
-				return c->removeTemplate(dynamic_cast<UMLTemplate*>(listitem));
-			}
-			break;
-		}
-		case ot_EnumLiteral: {
-			UMLEnum* c = dynamic_cast<UMLEnum*>(m_pClassifier);
-			if (c) {
-				return c->removeEnumLiteral(dynamic_cast<UMLEnumLiteral*>(listitem));
-			}
-			break;
-		}
-		case ot_EntityAttribute: {
-			UMLEntity* c = dynamic_cast<UMLEntity*>(m_pClassifier);
-			if (c) {
-				return c->removeEntityAttribute(dynamic_cast<UMLEntityAttribute*>(listitem));
-			}
-			break;
-		}
-		default: {
-			kdWarning() << "unknown type in ClassifierListPage" << endl;
-			return -1;
-		}
-	}
-	kdError() << "ClassifierListPage::removeClassifier unable to handle listitem type in current state" << endl;
-	return -1;
-}
+
 #include "classifierlistpage.moc"
+

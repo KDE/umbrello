@@ -25,11 +25,11 @@
 class UMLDoc;
 
 /**
- *	A dialogue page to display classifier list properties.  This is not normally setup
- *	by you.  It is used by the @ref ClassPropDlg and new class wizard.
+ * A dialogue page to display classifier list properties.  This is not normally setup
+ * by you.  It is used by the @ref ClassPropDlg and new class wizard.
  *
- *	@short	A dialogue page to display classifier properties.
- *	@author Paul Hensgen, Jonathan Riddell
+ * @short A dialogue page to display classifier properties.
+ * @author Paul Hensgen, Jonathan Riddell
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class ClassifierListPage : public QWidget {
@@ -83,28 +83,24 @@ private:
 	 *
 	 */
 	bool addClassifier(UMLClassifierListItem* classifier, int position = -1);
-	
-	/**
-	 * Remove classifier
-	 * @param classifier Classifier to be removed.
-	 * @returns number of remaining classifiers if found, and -1 if not.
-	 */
-	int removeClassifier(UMLClassifierListItem* classifier);
-	
+
 	/**
 	 * Take classifier, It is the client responsibility to hand over
 	 * ownership of the classifier, or to delete it.
-	 * @param classifier Classifier to be take.
-	 * @returns number of remaining classifiers if found, and -1 if not.
+	 * @param classifier	Classifier to take.
+	 * @param wasAtIndex	Return value: Index in the UMLClassifier's item
+	 *			list at which the item was taken.
+	 * @return	Pointer to the UMLClassifierListItem taken.
 	 */
-	UMLClassifierListItem* takeClassifier(UMLClassifierListItem* classifier);
+	UMLClassifierListItem* takeClassifier(UMLClassifierListItem* classifier,
+					      int &wasAtIndex);
 	
 	UMLClassifier* m_pClassifier;
 	QGroupBox* m_pDocGB;
 	QGroupBox* m_pItemListGB;
 	QListBox* m_pItemListLB;
 	QTextEdit* m_pDocTE;
-	Uml::Object_Type itemType;
+	Uml::Object_Type m_itemType;
 
 	KArrowButton* m_pUpArrowB;
 	KArrowButton* m_pDownArrowB;
