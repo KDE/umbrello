@@ -18,7 +18,8 @@
 #include <kdebug.h>
 #include <qpainter.h>
 
-ClassWidget::ClassWidget(UMLView * view, UMLClass *o) : UMLWidget(view, o)
+ClassWidget::ClassWidget(UMLView * view, UMLClass *o)
+  : ClassifierWidget(view, o, Uml::wt_Class)
 {
 	init();
 	setSize(100,30);
@@ -27,28 +28,13 @@ ClassWidget::ClassWidget(UMLView * view, UMLClass *o) : UMLWidget(view, o)
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void ClassWidget::init() {
-	UMLWidget::setBaseType(wt_Class);
-	m_pMenu = 0;
 	m_ShowAttSigs = Uml::st_ShowSig;
-	m_ShowOpSigs = Uml::st_ShowSig;
 	//set defaults from m_pView
-	if ( m_pView ) {
-		const Settings::OptionState& ops = m_pView -> getOptionState();
-		m_bShowAttributes = ops.classState.showAtts;
-		m_bShowOperations = ops.classState.showOps;
-		m_bShowPackage = ops.classState.showPackage;
-		m_bShowStereotype = ops.classState.showStereoType;
-		m_bShowScope = ops.classState.showScope;
-		setShowAttSigs( ops.classState.showAttSig );
-		setShowOpSigs( ops.classState.showOpSig );
-		updateSigs();
-	} else {
-		m_bShowAttributes = true;
-		m_bShowOperations = true;
-		m_bShowPackage = false;
-		m_bShowStereotype = false;
-		m_bShowScope = true;
-	}
+	const Settings::OptionState& ops = m_pView -> getOptionState();
+	m_bShowAttributes = ops.classState.showAtts;
+	m_bShowStereotype = ops.classState.showStereoType;
+	setShowAttSigs( ops.classState.showAttSig );
+	updateSigs();
 	//maybe loading and this may not be set.
 	if( m_pObject ) {
 		calculateSize();
@@ -68,27 +54,17 @@ void ClassWidget::draw(QPainter & p, int offsetX, int offsetY) {
 		p.setBrush( UMLWidget::getFillColour() );
 	else
 		p.setBrush(m_pView -> viewport() -> backgroundColor());
-	int na = ((UMLClass *)m_pObject)->attributes();
 
 	QSize templatesBoxSize = calculateTemplatesBoxSize();
-	int bodyOffsetY;
-	if (templatesBoxSize.height() == 0) {
-		bodyOffsetY = offsetY;
-	} else {
-		bodyOffsetY = offsetY + templatesBoxSize.height() - MARGIN;
-	}
-	int w;
-	if (templatesBoxSize.width() == 0) {
-		w = width();
-	} else {
-		w = width() - (templatesBoxSize.width() / 2);
-	}
-	int h;
-	if (templatesBoxSize.height() == 0) {
-		h = height();
-	} else {
-		h = height() - (templatesBoxSize.height() - MARGIN);
-	}
+	int bodyOffsetY = offsetY;
+	if (templatesBoxSize.height() > 0)
+		bodyOffsetY += templatesBoxSize.height() - MARGIN;
+	int w = width();
+	if (templatesBoxSize.width() > 0)
+		w -= templatesBoxSize.width() / 2;
+	int h = height();
+	if (templatesBoxSize.height() > 0)
+		h -= templatesBoxSize.height() - MARGIN;
 	QFontMetrics &fm = getFontMetrics(UMLWidget::FT_NORMAL);
 	int fontHeight  = fm.lineSpacing();
 	QString name;
@@ -142,24 +118,31 @@ void ClassWidget::draw(QPainter & p, int offsetX, int offsetY) {
 		}
 	}
 	int aStart = fontHeight;
-	int oStart = na * fontHeight + aStart;
+	int numAtts = 0;
+	if (m_bShowAttributes) {
+		UMLClassifierListItemList* list = ((UMLClass*)m_pObject)->getAttList();
+		for(UMLClassifierListItem *obj = list->first(); obj; obj = list->next()) {
+			if (!(m_bShowPublicOnly && obj->getScope() != Uml::Public))
+				numAtts++;
+		}
+	}
+	int oStart = numAtts * fontHeight + aStart;
 	if (m_bShowStereotype) {
 		aStart += fontHeight;
 		oStart += fontHeight;
 	}
 
-
-	if(na==0)
+	if (numAtts == 0)
 		oStart = aStart + fontHeight / 2;
-	int y;
 	//change so only going through list once
 	p.setPen(QPen(black));
 	if (m_bShowAttributes) {
 		QFont f = UMLWidget::getFont();
-		y = aStart;
-		UMLClassifierListItem* obj=0;
+		int y = aStart;
 		UMLClassifierListItemList* list = ((UMLClass*)m_pObject)->getAttList();
-		for(obj=list->first();obj != 0;obj=list->next()) {
+		for(UMLClassifierListItem *obj = list->first(); obj; obj = list->next()) {
+			if (m_bShowPublicOnly && obj->getScope() != Uml::Public)
+				continue;
 			QString att = obj -> toString( m_ShowAttSigs);
 			f.setItalic(false);
 			f.setBold(false);
@@ -175,16 +158,17 @@ void ClassWidget::draw(QPainter & p, int offsetX, int offsetY) {
 	}//end if att
 	if (m_bShowOperations) {
 		QFont f = UMLWidget::getFont();
-		y = oStart;
+		int y = oStart;
 		p.setPen( UMLWidget::getLineColour() );
 		if (m_bShowAttributes)
 			p.drawLine(offsetX, bodyOffsetY + y, offsetX + w - 1, bodyOffsetY + y);
 		else
 			y = aStart;
 		p.setPen(QPen(black));
-		UMLClassifierListItem* obj = 0;
-		UMLClassifierListItemList list(((UMLClass*)m_pObject)->getOpList());
-		for(obj=list.first();obj != 0;obj=list.next()) {
+		UMLClassifierListItemList list((static_cast<UMLClass*>(m_pObject))->getOpList());
+		for (UMLClassifierListItem *obj = list.first(); obj; obj = list.next()) {
+			if (m_bShowPublicOnly && obj->getScope() != Uml::Public)
+				continue;
 			QString op = obj -> toString( m_ShowOpSigs );
 			f.setItalic( obj -> getAbstract() );
 			f.setUnderline( obj -> getStatic() );
@@ -264,8 +248,8 @@ void ClassWidget::calculateSize() {
 	int fontHeight  = fm.lineSpacing();
 
 	int lines = 1;//always have one line - for name
-	int numAtts = ((UMLClass *)m_pObject)->attributes();
-	int numOps = ((UMLClass *)m_pObject)->operations();
+	int numAtts = 0;
+	int numOps = 0;
 
 	if (m_bShowStereotype)
 		lines++;
@@ -273,15 +257,24 @@ void ClassWidget::calculateSize() {
 	height = width = 0;
 	//set the height of the concept
 	if (m_bShowAttributes) {
+		UMLClassifierListItemList* list = ((UMLClass*)m_pObject)->getAttList();
+		for (UMLClassifierListItem *obj = list->first(); obj; obj = list->next()) {
+			if (!(m_bShowPublicOnly && obj->getScope() != Uml::Public))
+				numAtts++;
+		}
 		lines += numAtts;
 		if(numAtts == 0)
 			height += fontHeight / 2;//no atts, so just add a bit of space
 	}
 
 	if (m_bShowOperations) {
+		UMLClassifierListItemList list(((UMLClass*)m_pObject)->getOpList());
+		for (UMLClassifierListItem *obj = list.first(); obj; obj = list.next()) {
+			if (!(m_bShowPublicOnly && obj->getScope() != Uml::Public))
+				numOps++;
+		}
 		lines += numOps;
 		if(numOps == 0)
-
 			height += fontHeight / 2;//no ops, so just add a but of space
 	}
 	height += lines * fontHeight;
@@ -309,6 +302,8 @@ void ClassWidget::calculateSize() {
 		UMLClassifierListItemList* list = ((UMLClass *)m_pObject)->getAttList();
 		UMLClassifierListItem* a = 0;
 		for(a = list->first();a != 0; a = list->next()) {
+			if (m_bShowPublicOnly && a->getScope() != Uml::Public)
+				continue;
 			bool isStatic = a->getStatic();
 			QFont font = UMLWidget::getFont();
 			font.setUnderline(isStatic);
@@ -324,6 +319,8 @@ void ClassWidget::calculateSize() {
 		UMLClassifierListItemList list((static_cast<UMLClass*>(m_pObject))->getOpList());
 		UMLClassifierListItem* listItem = 0;
 		for(listItem = list.first();listItem != 0; listItem = list.next()) {
+			if (m_bShowPublicOnly && listItem->getScope() != Uml::Public)
+				continue;
 			QFont font = UMLWidget::getFont();
 			font.setUnderline( listItem->getStatic() );
 			font.setItalic( listItem->getAbstract() );
@@ -375,6 +372,10 @@ void ClassWidget::slotMenuSelection(int sel) {
 			toggleShowAtts();
 			break;
 
+		case ListPopupMenu::mt_Show_Public_Only:
+			toggleShowPublicOnly();
+			break;
+
 		case ListPopupMenu::mt_Show_Operation_Signature:
 			toggleShowOpSigs();
 			break;
@@ -401,22 +402,13 @@ void ClassWidget::slotMenuSelection(int sel) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void ClassWidget::updateSigs() {
+	ClassifierWidget::updateSigs();
 	if (m_bShowScope) {
-		if (m_ShowOpSigs == Uml::st_NoSigNoScope)
-			m_ShowOpSigs = Uml::st_NoSig;
-		else if (m_ShowOpSigs == Uml::st_SigNoScope)
-			m_ShowOpSigs = Uml::st_ShowSig;
-
 		if (m_ShowAttSigs == Uml::st_NoSigNoScope)
 			m_ShowAttSigs = Uml::st_NoSig;
 		else if (m_ShowAttSigs == Uml::st_SigNoScope)
 			m_ShowAttSigs = Uml::st_ShowSig;
 	} else {
-		if (m_ShowOpSigs == Uml::st_ShowSig)
-			m_ShowOpSigs = Uml::st_SigNoScope;
-		else if (m_ShowOpSigs == Uml::st_NoSig)
-			m_ShowOpSigs = Uml::st_NoSigNoScope;
-
 		if (m_ShowAttSigs == Uml::st_ShowSig)
 			m_ShowAttSigs = Uml::st_SigNoScope;
 		else if(m_ShowAttSigs == Uml::st_NoSig)
@@ -426,31 +418,10 @@ void ClassWidget::updateSigs() {
 	update();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void ClassWidget::setShowScope(bool _scope) {
-	m_bShowScope = _scope;
-	updateSigs();
-	calculateSize();
-	update();
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////
 void ClassWidget::setShowAtts(bool _show) {
 	m_bShowAttributes = _show;
 	updateSigs();
 
-	calculateSize();
-	update();
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////
-void ClassWidget::setShowOps(bool _show) {
-	m_bShowOperations = _show;
-	updateSigs();
-	calculateSize();
-	update();
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////
-void ClassWidget::setOpSignature(Signature_Type sig) {
-	m_ShowOpSigs = sig;
-	updateSigs();
 	calculateSize();
 	update();
 }
@@ -466,21 +437,6 @@ void ClassWidget::setShowStereotype(bool _status) {
 	m_bShowStereotype = _status;
 	calculateSize();
 	update();
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////
-void ClassWidget::setShowPackage(bool _status) {
-	m_bShowPackage = _status;
-	calculateSize();
-	update();
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////
-bool ClassWidget::activate(IDChangeLog* ChangeLog /* = 0 */) {
-	bool status = UMLWidget::activate(ChangeLog);
-	if(status) {
-		calculateSize();
-	}
-
-	return status;
 }
 
 void ClassWidget::setShowAttSigs(bool _status) {
@@ -498,26 +454,12 @@ void ClassWidget::setShowAttSigs(bool _status) {
 	update();
 }
 
-void ClassWidget::setShowOpSigs(bool _status) {
-	if( !_status ) {
-		if (m_bShowScope)
-			m_ShowOpSigs = Uml::st_NoSig;
-		else
-			m_ShowOpSigs = Uml::st_NoSigNoScope;
-
-	} else if (m_bShowScope)
-		m_ShowOpSigs = Uml::st_ShowSig;
-	else
-		m_ShowOpSigs = Uml::st_SigNoScope;
-	calculateSize();
-	update();
-}
-
 bool ClassWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
-	QDomElement conceptElement = qDoc.createElement( "UML:ClassWidget" );
+	QDomElement conceptElement = qDoc.createElement( "classwidget" );
 	bool status = UMLWidget::saveToXMI( qDoc, conceptElement );
 	conceptElement.setAttribute( "showattributes", m_bShowAttributes );
 	conceptElement.setAttribute( "showoperations", m_bShowOperations );
+	conceptElement.setAttribute( "showpubliconly", m_bShowPublicOnly );
 	conceptElement.setAttribute( "showattsigs", m_ShowAttSigs );
 	conceptElement.setAttribute( "showopsigs", m_ShowOpSigs );
 	conceptElement.setAttribute( "showpackage", m_bShowPackage );
@@ -532,6 +474,7 @@ bool ClassWidget::loadFromXMI( QDomElement & qElement ) {
 		return false;
 	QString showatts = qElement.attribute( "showattributes", "1" );
 	QString showops = qElement.attribute( "showoperations", "1" );
+	QString showpubliconly = qElement.attribute( "showpubliconly", "0" );
 	QString showattsigs = qElement.attribute( "showattsigs", "600" );
 	QString showopsigs = qElement.attribute( "showopsigs", "600" );
 	QString showpackage = qElement.attribute( "showpackage", "0" );
@@ -540,6 +483,7 @@ bool ClassWidget::loadFromXMI( QDomElement & qElement ) {
 
 	m_bShowAttributes = (bool)showatts.toInt();
 	m_bShowOperations = (bool)showops.toInt();
+	m_bShowPublicOnly = (bool)showpubliconly.toInt();
 	m_ShowAttSigs = (Uml::Signature_Type)showattsigs.toInt();
 	m_ShowOpSigs = (Uml::Signature_Type)showopsigs.toInt();
 	m_bShowPackage = (bool)showpackage.toInt();
@@ -555,38 +499,6 @@ void ClassWidget::toggleShowAtts()
 	updateSigs();
 	calculateSize();
 	update();
-
-	return;
-}
-
-void ClassWidget::toggleShowOps()
-{
-	m_bShowOperations = !m_bShowOperations;
-	updateSigs();
-	calculateSize();
-
-	update();
-
-	return;
-}
-
-void ClassWidget::toggleShowOpSigs()
-{
-	if (m_ShowOpSigs == Uml::st_ShowSig || m_ShowOpSigs == Uml::st_SigNoScope) {
-		if (m_bShowScope) {
-			m_ShowOpSigs = Uml::st_NoSig;
-		} else {
-			m_ShowOpSigs = Uml::st_NoSigNoScope;
-		}
-	} else if (m_bShowScope) {
-		m_ShowOpSigs = Uml::st_ShowSig;
-	} else {
-		m_ShowOpSigs = Uml::st_SigNoScope;
-	}
-	calculateSize();
-	update();
-
-	return;
 }
 
 void ClassWidget::toggleShowAttSigs()
@@ -605,28 +517,6 @@ void ClassWidget::toggleShowAttSigs()
 	}
 	calculateSize();
 	update();
-
-	return;
-}
-
-void ClassWidget::toggleShowScope()
-{
-	m_bShowScope = !m_bShowScope;
-	updateSigs();
-	calculateSize();
-	update();
-
-	return;
-}
-
-void ClassWidget::toggleShowPackage()
-{
-	m_bShowPackage = !m_bShowPackage;
-	updateSigs();
-	calculateSize();
-	update();
-
-	return;
 }
 
 void ClassWidget::toggleShowStereotype()
@@ -635,6 +525,4 @@ void ClassWidget::toggleShowStereotype()
 	updateSigs();
 	calculateSize();
 	update();
-
-	return;
 }

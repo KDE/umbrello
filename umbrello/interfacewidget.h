@@ -10,7 +10,7 @@
 #ifndef INTERFACEWIDGET_H
 #define INTERFACEWIDGET_H
 
-#include "umlwidget.h"
+#include "classifierwidget.h"
 
 class UMLInterface;
 
@@ -18,14 +18,14 @@ class UMLInterface;
 
 /**
  * Defines a graphical version of the interface.  Most of the functionality
- * will come from the @ref UMLWidget class from which class inherits from.
+ * comes from its ancestors, @ref ClassifierWidget and @ref UMLWidget.
  *
  * @short A graphical version of an interface.
  * @author Jonathan Riddell
  * @see	UMLWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class InterfaceWidget : public UMLWidget {
+class InterfaceWidget : public ClassifierWidget {
 public:
 
 	/**
@@ -40,89 +40,6 @@ public:
 	 * destructor
 	 */
 	virtual ~InterfaceWidget();
-
-	/**
-	 * Return the status of showing operations.
-	 *
-	 * @return	Return the status of showing operations.
-	 */
-	bool getShowOps() const;
-
-	/**
-	 * Toggles the status of showing operations.
-	 */
-	void toggleShowOps();
-
-	/**
-	 * Return the status of showing operation signatures.
-	 *
-	 * @return	Status of showing operation signatures.
-	 */
-	Uml::Signature_Type getShowOpSigs() const;
-
-	/**
-	 * Toggles the status of showing operation signatures.
-	 */
-	void toggleShowOpSigs();
-
-	/**
-	 * Set the status of whether to show scope
-	 *
-	 * @param _scope	True if scope shall be shown.
-	 */
-	void setShowScope(bool _scope);
-
-	/**
-	 * Returns the status of whether to show scope.
-	 *
-	 * @return	True if scope is shown.
-	 */
-	bool getShowScope() const;
-
-	/**
-	 * Toggles the status of whether to show scope
-	 */
-	void toggleShowScope();
-
-	/**
-	 * Set the status of whether to show Operation signature
-	 *
-	 * @param _show		True if operation signatures shall be shown.
-	 */
-	void setShowOpSigs(bool _show);
-
-	/**
-	 *  Set the status of whether to show Operations
-	 *
-	 * @param _show		True if operations shall be shown.
-	 */
-	void setShowOps(bool _show);
-
-	/**
-	 * Set the type of signature to display for an Operation
-	 *
-	 * @param sig	Type of signature to display for an operation.
-	 */
-	void setOpSignature(Uml::Signature_Type sig);
-
-	/**
-	 * Returns the status of whether to show Package.
-	 *
-	 * @return	True if package is shown.
-	 */
-	bool getShowPackage() const;
-
-	/**
-	 * Toggles the status of whether to show package.
-	 */
-	void toggleShowPackage();
-
-	/**
-	 * Set the status of whether to show Package.
-	 *
-	 * @param _show		True if package shall be shown.
-	 */
-	void setShowPackage(bool _status);
 
 	/**
 	 * Returns the status of whether to draw as circle.
@@ -144,11 +61,6 @@ public:
 	void setDrawAsCircle(bool drawAsCircle);
 
 	/**
-	 * Activate the object after serializing it from a QDataStream.
-	 */
-	virtual bool activate(IDChangeLog* ChangeLog  = 0 );
-
-	/**
 	 * Overrides standard method.
 	 */
 	void draw(QPainter& p, int offsetX, int offsetY);
@@ -162,28 +74,24 @@ public:
 	virtual void setUMLObject(UMLObject* object);
 
 	/**
-	 * Saves to the <UML:InterfaceWidget> XMI element.
+	 * Saves to the <interfacewidget> XMI element.
 	 */
 	bool saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 	/**
-	 * Loads from an <UML:InterfaceWidget> XMI element.
+	 * Loads from an <interfacewidget> XMI element.
 	 */
 	bool loadFromXMI( QDomElement & qElement );
 
 protected:
-	// Data loaded/saved
-	bool m_bShowOperations;
-	bool m_bShowScope;
-	bool m_bShowPackage;
-	bool m_bDrawAsCircle;
-	Uml::Signature_Type m_ShowOpSigs;
+	bool m_bDrawAsCircle;   ///< Loaded/saved item.
 
 private:
 	/**
 	 * Initializes key variables of the class.
 	 */
 	void init();
+
 	/**
 	 * Sets e.g. the abstract attribute.
 	 */
@@ -220,11 +128,6 @@ private:
 	 * Updates m_ShowOpSigs to match m_bShowScope.
 	 */
 	void updateSigs();
-
-	/**
-	 * The right mouse button menu.
-	 */
-	ListPopupMenu* m_pMenu;
 
 public slots:
 	/**

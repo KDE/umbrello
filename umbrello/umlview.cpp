@@ -1145,66 +1145,57 @@ void UMLView::selectionSetFillColor( QColor color )
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLView::selectionToggleShow(int sel)
 {
-	UMLWidget * temp = 0;
-
 	// loop through all selected items
-	for(temp=(UMLWidget *) m_SelectedList.first();
-				temp;
-					temp=(UMLWidget *)m_SelectedList.next()) {
+	for(UMLWidget *temp = (UMLWidget *)m_SelectedList.first();
+			temp; temp=(UMLWidget *)m_SelectedList.next()) {
+		UMLWidget_Type type = temp->getBaseType();
+		ClassifierWidget *cw = NULL;
+		if (type == wt_Class || type == wt_Interface)
+			cw = static_cast<ClassWidget *>(temp);
+
 		// toggle the show setting sel
 		switch (sel)
 		{
 			// some setting are only avaible for class, some for interface and some
 			// for both
 		   case ListPopupMenu::mt_Show_Attributes_Selection:
-				if (temp -> getBaseType() == wt_Class) {
-					(static_cast<ClassWidget *> (temp)) -> toggleShowAtts();
-				}
-				break;
+			if (type == wt_Class)
+				(static_cast<ClassWidget*>(temp)) -> toggleShowAtts();
+			break;
 		   case ListPopupMenu::mt_Show_Operations_Selection:
-				if (temp -> getBaseType() == wt_Class) {
-					(static_cast<ClassWidget*> (temp)) -> toggleShowOps();
-				} else if (temp -> getBaseType() == wt_Interface) {
-					(static_cast<InterfaceWidget*> (temp)) -> toggleShowOps();
-				}
-				break;
+			if (cw)
+				cw -> toggleShowOps();
+			break;
 		   case ListPopupMenu::mt_Scope_Selection:
-				if (temp -> getBaseType() == wt_Class) {
-					(static_cast<ClassWidget *> (temp)) -> toggleShowScope();
-				} else if (temp -> getBaseType() == wt_Interface) {
-					(static_cast<InterfaceWidget *> (temp)) -> toggleShowScope();
-				}
-				break;
+			if (cw)
+				cw -> toggleShowScope();
+			break;
 		   case ListPopupMenu::mt_DrawAsCircle_Selection:
-				if (temp -> getBaseType() == wt_Interface) {
-					(static_cast<InterfaceWidget *> (temp)) -> toggleDrawAsCircle();
-				}
-				break;
+			if (type == wt_Interface)
+				(static_cast<InterfaceWidget*>(temp)) -> toggleDrawAsCircle();
+			break;
 		   case ListPopupMenu::mt_Show_Operation_Signature_Selection:
-				if (temp -> getBaseType() == wt_Class) {
-					(static_cast<ClassWidget *> (temp)) -> toggleShowOpSigs();
-				} else if (temp -> getBaseType() == wt_Interface) {
-					(static_cast<InterfaceWidget *> (temp)) -> toggleShowOpSigs();
-				}
-				break;
+			if (cw)
+				cw -> toggleShowOpSigs();
+			break;
 		   case ListPopupMenu::mt_Show_Attribute_Signature_Selection:
-				if (temp -> getBaseType() == wt_Class) {
-					(static_cast<ClassWidget *> (temp)) -> toggleShowAttSigs();
-				}
-				break;
-	    	case ListPopupMenu::mt_Show_Packages_Selection:
-				if (temp -> getBaseType() == wt_Class) {
-					(static_cast<ClassWidget *> (temp)) -> toggleShowPackage();
-				} else if (temp -> getBaseType() == wt_Interface) {
-					(static_cast<InterfaceWidget *> (temp)) -> toggleShowPackage();
-				}
-				break;
-	    	case ListPopupMenu::mt_Show_Stereotypes_Selection:
-				if (temp -> getBaseType() == wt_Class) {
-					(static_cast<ClassWidget *> (temp)) -> toggleShowStereotype();
-				}
-				break;
-			default: break;
+			if (type == wt_Class)
+				(static_cast<ClassWidget*>(temp)) -> toggleShowAttSigs();
+			break;
+		   case ListPopupMenu::mt_Show_Packages_Selection:
+			if (cw)
+				cw -> toggleShowPackage();
+			break;
+		   case ListPopupMenu::mt_Show_Stereotypes_Selection:
+			if (type == wt_Class)
+				(static_cast<ClassWidget*>(temp)) -> toggleShowStereotype();
+			break;
+		   case ListPopupMenu::mt_Show_Public_Only_Selection:
+			if (cw)
+				cw -> toggleShowPublicOnly();
+			break;
+		   default:
+			break;
 		} // switch (sel)
 	}
 }
@@ -3545,7 +3536,9 @@ UMLWidget* UMLView::loadWidgetFromXMI(QDomElement& widgetElement) {
 		} else if (tag == "UML:UseCaseWidget") {
 			widget = new UseCaseWidget(this, static_cast<UMLUseCase*>(o));
 		// Have ConceptWidget for backwards compatability
-		} else if (tag == "UML:ClassWidget" || tag == "UML:ConceptWidget") {
+		} else if (tag == "classwidget"
+		           || tag == "UML:ClassWidget"   // for bkwd compatibility
+			   || tag == "UML:ConceptWidget") {  // for bkwd compatibility
 			widget = new ClassWidget(this, static_cast<UMLClass*>(o));
 		} else if (tag == "packagewidget") {
 			widget = new PackageWidget(this, static_cast<UMLPackage*>(o));

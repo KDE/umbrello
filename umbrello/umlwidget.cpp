@@ -515,26 +515,27 @@ void UMLWidget::slotMenuSelection(int sel) {
 			m_bUsesDiagramUseFillColour = false;
 			m_pView->selectionUseFillColor( m_bUseFillColour );
 			break;
-	    case ListPopupMenu::mt_Show_Attributes_Selection:
-	    case ListPopupMenu::mt_Show_Operations_Selection:
-	    case ListPopupMenu::mt_Scope_Selection:
-	    case ListPopupMenu::mt_DrawAsCircle_Selection:
-	    case ListPopupMenu::mt_Show_Operation_Signature_Selection:
-	    case ListPopupMenu::mt_Show_Attribute_Signature_Selection:
-	    case ListPopupMenu::mt_Show_Packages_Selection:
-	    case ListPopupMenu::mt_Show_Stereotypes_Selection:
+		case ListPopupMenu::mt_Show_Attributes_Selection:
+		case ListPopupMenu::mt_Show_Operations_Selection:
+		case ListPopupMenu::mt_Scope_Selection:
+		case ListPopupMenu::mt_DrawAsCircle_Selection:
+		case ListPopupMenu::mt_Show_Operation_Signature_Selection:
+		case ListPopupMenu::mt_Show_Attribute_Signature_Selection:
+		case ListPopupMenu::mt_Show_Packages_Selection:
+		case ListPopupMenu::mt_Show_Stereotypes_Selection:
+		case ListPopupMenu::mt_Show_Public_Only_Selection:
 		 	m_pView->selectionToggleShow(sel);
 			m_pView->getDocument()->setModified(true);
 		 	break;
 
 		case ListPopupMenu::mt_ViewCode: {
-	UMLClassifier *c = dynamic_cast<UMLClassifier*>(m_pObject);
-	if(c)
-	{
+			UMLClassifier *c = dynamic_cast<UMLClassifier*>(m_pObject);
+			if(c)
+			{
 				UMLApp::app()->viewCodeDocument(c);
-	}
-	break;
-	}
+			}
+			break;
+		}
 
 		case ListPopupMenu::mt_Delete_Selection:
 			m_pView -> deleteSelection();
@@ -796,7 +797,7 @@ void UMLWidget::startPopupMenu(QPoint At) {
 
 	// create the right click context menu
 	m_pMenu = new ListPopupMenu(static_cast<QWidget*>(m_pView), this,
-																					multi, unique);
+								multi, unique);
 
 	// disable the "view code" menu for simple code generators
 	CodeGenerator * currentCG = m_pView->getDocument()->getCurrentCodeGenerator();

@@ -15,6 +15,7 @@
 #include "listpopupmenu.h"
 #include "umlwidget.h"
 #include "umldoc.h"
+#include "classifierwidget.h"
 #include "classwidget.h"
 #include "interfacewidget.h"
 #include "floatingtext.h"
@@ -165,101 +166,32 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
 	m_pInsert = 0;
 	m_pShow = 0;
 	m_pColor = 0;
-	bool sig = false;
 	if(!object)
 		return;
-	StateWidget *pState;
-	ActivityWidget *pActivity;
-	ClassWidget *c;
-	InterfaceWidget *interfaceWidget = 0;
-	UMLView * pView = static_cast<UMLView *>( parent );
 	Uml::UMLWidget_Type type = object -> getBaseType();
 
 	if(multi) {
-		if (unique == true) {
-			switch (type) {
-				case Uml::wt_Class:
-					c = static_cast<ClassWidget *>( object );
-					m_pShow = new KPopupMenu(this, "Show");
-					m_pShow -> setCheckable(true);
-					m_pShow -> insertItem( i18n("Attributes"),
-											mt_Show_Attributes_Selection);
-					m_pShow -> setItemChecked(mt_Show_Attributes_Selection,
-											c -> getShowAtts());
-					m_pShow -> insertItem( i18n("Operations"),
-											mt_Show_Operations_Selection);
-					m_pShow -> setItemChecked(mt_Show_Operations_Selection,
-											c -> getShowOps());
-					m_pShow -> insertItem(i18n("Visibility"), mt_Scope_Selection);
-					m_pShow -> setItemChecked(mt_Scope_Selection,
-											c -> getShowScope());
-					m_pShow -> insertItem(i18n("Operation Signature"),
-											mt_Show_Operation_Signature_Selection);
-					sig = false;
-					if( c -> getShowOpSigs() == Uml::st_SigNoScope ||
-					        c -> getShowOpSigs() == Uml::st_ShowSig)
-						sig = true;
-					m_pShow -> setItemChecked(mt_Show_Operation_Signature_Selection,
-											sig);
-					m_pShow -> insertItem(i18n("Attribute Signature"),
-											mt_Show_Attribute_Signature_Selection);
-					sig = false;
-					if( c -> getShowAttSigs() == Uml::st_SigNoScope ||
-					        c -> getShowAttSigs() == Uml::st_ShowSig)
-						sig = true;
-					m_pShow -> setItemChecked(mt_Show_Attribute_Signature_Selection,
-											sig);
-					m_pShow->insertItem(i18n("Package"), mt_Show_Packages_Selection);
-					m_pShow->setItemChecked(mt_Show_Packages_Selection,
-											c -> getShowPackage());
-					m_pShow->insertItem(i18n("Stereotype"),
-											mt_Show_Stereotypes_Selection);
-					m_pShow->setItemChecked(mt_Show_Stereotypes_Selection,
-											c -> getShowStereotype());
-					insertItem(i18n("Show"), m_pShow);
-					break;
-				case Uml::wt_Interface:
-					interfaceWidget = static_cast<InterfaceWidget*>(object);
-					if (! interfaceWidget)
-						break;
-					m_pShow = new KPopupMenu(this, "Show");
-					m_pShow->setCheckable(true);
-					m_pShow->insertItem(i18n("Operations"),
-											mt_Show_Operations_Selection);
-					m_pShow->setItemChecked(mt_Show_Operations_Selection,
-											interfaceWidget->getShowOps());
-					m_pShow->insertItem(i18n("Visibility"), mt_Scope_Selection);
-					m_pShow->setItemChecked(mt_Scope_Selection,
-											interfaceWidget->getShowScope());
-					m_pShow->insertItem(i18n("Operation Signature"),
-											mt_Show_Operation_Signature_Selection);
-					sig = false;
-					if( interfaceWidget->getShowOpSigs() == Uml::st_SigNoScope ||
-					        interfaceWidget->getShowOpSigs() == Uml::st_ShowSig)
-						sig = true;
-					m_pShow->setItemChecked(mt_Show_Operation_Signature_Selection,
-											sig);
-					m_pShow->insertItem(i18n("Package"), mt_Show_Packages_Selection);
-					m_pShow->setItemChecked(mt_Show_Packages_Selection,
-											interfaceWidget->getShowPackage());
-					insertItem(i18n("Show"), m_pShow);
-				default: break;
-			} // switch (type)
-		} // if (unique == true)
+		if (unique && (type == Uml::wt_Class || type == Uml::wt_Interface)) {
+			ClassifierWidget *c = static_cast<ClassifierWidget *>( object );
+			makeMultiClassifierPopup(c);
+		}
 		setupColorSelection(object -> getUseFillColour());
 		insertSeparator();
 		insertStdItem(mt_Cut);
 		insertStdItem(mt_Copy);
 		insertStdItem(mt_Paste);
 		insertSeparator();
-		insertItem(SmallIcon( "fonts" ), i18n( "Change Font..." ), mt_Change_Font_Selection );
-		insertItem(SmallIcon( "editdelete" ), i18n("Delete Selected Items"), mt_Delete_Selection);
+		insertItem(SmallIcon( "fonts" ), i18n( "Change Font..." ),
+			   mt_Change_Font_Selection );
+		insertItem(SmallIcon( "editdelete" ), i18n("Delete Selected Items"),
+			   mt_Delete_Selection);
 
 		// add this here and not above with the other stuff of the interface
 		// user might expect it at this position of the context menu
 		if (unique == true && type == Uml::wt_Interface) {
 			insertItem(i18n("Draw as Circle"), mt_DrawAsCircle_Selection);
-			setItemChecked( mt_DrawAsCircle_Selection, interfaceWidget->getDrawAsCircle() );
+			setItemChecked( mt_DrawAsCircle_Selection,
+					((InterfaceWidget*)object)->getDrawAsCircle() );
 		}
 
 		if(m_pInsert)
@@ -271,108 +203,24 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
 		return;
 	}
 
+	StateWidget *pState;
+	ActivityWidget *pActivity;
+	UMLView * pView = static_cast<UMLView *>( parent );
+
 	switch(type) {
 		case Uml::wt_Actor:
 		case Uml::wt_UseCase:
 			setupColor(object -> getUseFillColour());
 			insertSeparator();
-			insertStdItem(mt_Cut);
-			insertStdItem(mt_Copy);
-			insertStdItem(mt_Paste);
-			insertStdItem(mt_Clone);
-			insertSeparator();
-			insertStdItem(mt_Delete);
+			insertStdItems(type);
 			insertStdItem(mt_Rename);
 			insertStdItem(mt_Change_Font);
 			insertStdItem(mt_Properties);
 			break;
 
 		case Uml::wt_Class:
-			c = static_cast<ClassWidget *>(object);
-			m_pInsert = new KPopupMenu(this,"New");
-			m_pInsert -> insertItem(SmallIcon( "source" ), i18n("Attribute..."), mt_Attribute);
-			m_pInsert -> insertItem( SmallIcon( "source"), i18n("Operation..."), mt_Operation);
-			insertItem(SmallIcon( "filenew"),i18n("New"), m_pInsert);
-
-			m_pShow = new KPopupMenu(this, "Show");
-			m_pShow -> setCheckable(true);
-			m_pShow -> insertItem( i18n("Attributes"), mt_Show_Attributes);
-			m_pShow -> setItemChecked(mt_Show_Attributes, c -> getShowAtts());
-			m_pShow -> insertItem( i18n("Operations"), mt_Show_Operations);
-			m_pShow -> setItemChecked(mt_Show_Operations, c -> getShowOps());
-			m_pShow -> insertItem(i18n("Visibility"), mt_Scope);
-			m_pShow -> setItemChecked(mt_Scope, c -> getShowScope());
-			m_pShow -> insertItem(i18n("Operation Signature"), mt_Show_Operation_Signature);
-			sig = false;
-			if( c -> getShowOpSigs() == Uml::st_SigNoScope ||
-			        c -> getShowOpSigs() == Uml::st_ShowSig)
-				sig = true;
-			m_pShow -> setItemChecked(mt_Show_Operation_Signature, sig);
-			m_pShow -> insertItem(i18n("Attribute Signature"), mt_Show_Attribute_Signature);
-			sig = false;
-			if( c -> getShowAttSigs() == Uml::st_SigNoScope ||
-			        c -> getShowAttSigs() == Uml::st_ShowSig)
-				sig = true;
-			m_pShow -> setItemChecked(mt_Show_Attribute_Signature, sig);
-			m_pShow->insertItem(i18n("Package"), mt_Show_Packages);
-			m_pShow->setItemChecked(mt_Show_Packages, c -> getShowPackage());
-			m_pShow->insertItem(i18n("Stereotype"), mt_Show_Stereotypes);
-			m_pShow->setItemChecked(mt_Show_Stereotypes, c -> getShowStereotype());
-			insertItem(i18n("Show"), m_pShow);
-
-			setupColor(object -> getUseFillColour());
-			insertSeparator();
-			insertStdItem(mt_Cut);
-			insertStdItem(mt_Copy);
-			insertStdItem(mt_Paste);
-			insertStdItem(mt_Clone);
-			insertSeparator();
-			insertStdItem(mt_Delete);
-			insertStdItem(mt_Rename);
-			insertStdItem(mt_Change_Font);
-			insertItem(i18n("Refactor"), mt_Refactoring);
-			insertItem(i18n("View Code"), mt_ViewCode);
-			insertStdItem(mt_Properties);
-			break;
-
 		case Uml::wt_Interface:
-			interfaceWidget = static_cast<InterfaceWidget*>(object);
-			if (! interfaceWidget)
-				break;
-			m_pInsert = new KPopupMenu(this,"New");
-			m_pInsert->insertItem(SmallIcon("source"), i18n("Operation..."), mt_Operation);
-			insertItem(SmallIcon("filenew"),i18n("New"), m_pInsert);
-
-			m_pShow = new KPopupMenu(this, "Show");
-			m_pShow->setCheckable(true);
-			m_pShow->insertItem(i18n("Operations"), mt_Show_Operations);
-			m_pShow->setItemChecked(mt_Show_Operations, interfaceWidget->getShowOps());
-			m_pShow->insertItem(i18n("Visibility"), mt_Scope);
-			m_pShow->setItemChecked(mt_Scope, interfaceWidget->getShowScope());
-			m_pShow->insertItem(i18n("Operation Signature"), mt_Show_Operation_Signature);
-			sig = false;
-			if( interfaceWidget->getShowOpSigs() == Uml::st_SigNoScope ||
-			        interfaceWidget->getShowOpSigs() == Uml::st_ShowSig)
-				sig = true;
-			m_pShow->setItemChecked(mt_Show_Operation_Signature, sig);
-			m_pShow->insertItem(i18n("Package"), mt_Show_Packages);
-			m_pShow->setItemChecked(mt_Show_Packages, interfaceWidget->getShowPackage());
-			insertItem(i18n("Show"), m_pShow);
-
-			setupColor(object->getUseFillColour());
-			insertSeparator();
-			insertStdItem(mt_Cut);
-			insertStdItem(mt_Copy);
-			insertStdItem(mt_Paste);
-			insertStdItem(mt_Clone);
-			insertSeparator();
-			insertStdItem(mt_Delete);
-			insertStdItem(mt_Rename);
-			insertStdItem(mt_Change_Font);
-			insertItem( SmallIcon( "unknown"), i18n("View Code"),mt_ViewCode);
-			insertItem(i18n("Draw as Circle"), mt_DrawAsCircle);
-			setItemChecked( mt_DrawAsCircle, interfaceWidget->getDrawAsCircle() );
-			insertStdItem(mt_Properties);
+			makeClassifierPopup(static_cast<ClassifierWidget*>(object));
 			break;
 
 		case Uml::wt_Enum:
@@ -382,12 +230,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
 
 			setupColor(object->getUseFillColour());
 			insertSeparator();
-			insertStdItem(mt_Cut);
-			insertStdItem(mt_Copy);
-			insertStdItem(mt_Paste);
-			insertStdItem(mt_Clone);
-			insertSeparator();
-			insertStdItem(mt_Delete);
+			insertStdItems(type);
 			insertStdItem(mt_Rename);
 			insertStdItem(mt_Change_Font);
 			insertStdItem(mt_Properties);
@@ -399,12 +242,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
 		case Uml::wt_Node:
 		case Uml::wt_Artifact:
 			setupColor(object->getUseFillColour());
-			insertStdItem(mt_Cut);
-			insertStdItem(mt_Copy);
-			insertStdItem(mt_Paste);
-			insertStdItem(mt_Clone);
-			insertSeparator();
-			insertStdItem(mt_Delete);
+			insertStdItems(type);
 			insertStdItem(mt_Rename);
 			insertStdItem(mt_Change_Font);
 			insertStdItem(mt_Properties);
@@ -423,24 +261,15 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
 				}
 			}
 			insertSeparator();
-			insertStdItem(mt_Cut);
-			insertStdItem(mt_Copy);
-			insertStdItem(mt_Paste);
-			insertStdItem(mt_Clone);
-			insertSeparator();
-			insertStdItem(mt_Delete);
-			insertItem( i18n("Rename Class..."), mt_Rename);
+			insertStdItems(type);
+			insertItem(i18n("Rename Class..."), mt_Rename);
 			insertItem(i18n("Rename Object..."), mt_Rename_Object);
 			insertStdItem(mt_Change_Font);
 			insertStdItem(mt_Properties);
 			break;
 
 		case Uml::wt_Message:
-			insertStdItem(mt_Cut);
-			insertStdItem(mt_Copy);
-			insertStdItem(mt_Paste);
-			insertSeparator();
-			insertStdItem(mt_Delete);
+			insertStdItems(type);
 			insertStdItem(mt_Change_Font);
 			insertItem(SmallIcon( "filenew"), i18n("New Operation..."), mt_Operation);
 			insertItem(i18n("Select Operation..."), mt_Select_Operation);
@@ -462,11 +291,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
 			break;
 
 		case Uml::wt_Box:
-			insertStdItem(mt_Cut);
-			insertStdItem(mt_Copy);
-			insertStdItem(mt_Paste);
-			insertSeparator();
-			insertStdItem(mt_Delete);
+			insertStdItems(type);
 			break;
 
 		case Uml::wt_State:
@@ -477,12 +302,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
 				insertItem(SmallIcon( "filenew"),i18n("New"), m_pInsert);
 			}
 			setupColor( object -> getUseFillColour() );
-			insertStdItem(mt_Cut);
-			insertStdItem(mt_Copy);
-			insertStdItem(mt_Paste);
-			insertStdItem(mt_Clone);
-			insertSeparator();
-			insertStdItem(mt_Delete);
+			insertStdItems(type);
 			if( pState -> getStateType() == StateWidget::Normal ) {
 				insertItem(i18n("Change State Name..."), mt_Rename);
 				insertStdItem(mt_Change_Font);
@@ -494,11 +314,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
 			pActivity = static_cast<ActivityWidget *>( object );
 			if( pActivity -> getActivityType() == ActivityWidget::Normal )
 				setupColor( object -> getUseFillColour() );
-			insertStdItem(mt_Cut);
-			insertStdItem(mt_Copy);
-			insertStdItem(mt_Paste);
-			insertSeparator();
-			insertStdItem(mt_Delete);
+			insertStdItems(type);
 			if( pActivity -> getActivityType() == ActivityWidget::Normal ) {
 				insertItem(i18n("Change Activity Name..."), mt_Rename);
 				insertStdItem(mt_Change_Font);
@@ -537,11 +353,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
 
 				case Uml::tr_Floating:
 				default:
-					insertStdItem(mt_Cut);
-					insertStdItem(mt_Copy);
-					insertStdItem(mt_Paste);
-					insertSeparator();
-					insertStdItem(mt_Delete);
+					insertStdItems(type);
 					insertItem(i18n("Change Text..."), mt_Rename);
 					insertStdItem(mt_Change_Font);
 					break;
@@ -604,7 +416,105 @@ void ListPopupMenu::insertStdItem(Menu_Type m)
 		break;
 	}
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void ListPopupMenu::insertStdItems(Uml::UMLWidget_Type type)
+{
+	insertStdItem(mt_Cut);
+	insertStdItem(mt_Copy);
+	insertStdItem(mt_Paste);
+	insertSeparator();
+	if (isCloneable(type))
+		insertStdItem(mt_Clone);
+	insertStdItem(mt_Delete);
+}
+
+bool ListPopupMenu::isCloneable(Uml::UMLWidget_Type type)
+{
+	switch (type) {
+		case Uml::wt_Actor:
+		case Uml::wt_UseCase:
+		case Uml::wt_Class:
+		case Uml::wt_Interface:
+		case Uml::wt_Enum:
+		case Uml::wt_Datatype:
+		case Uml::wt_Package:
+		case Uml::wt_Component:
+		case Uml::wt_Node:
+		case Uml::wt_Artifact:
+			return true;
+		default:
+			return false;
+	}
+}
+
+void ListPopupMenu::makeMultiClassifierPopup(ClassifierWidget *c)
+{
+	Uml::UMLWidget_Type type = c->getBaseType();
+	ClassWidget *cls = NULL;
+
+	m_pShow = new KPopupMenu(this, "Show");
+	m_pShow->setCheckable(true);
+	if (type == Uml::wt_Class) {
+		cls = static_cast<ClassWidget*>(c);
+		m_pShow->insertItem( i18n("Attributes"), mt_Show_Attributes_Selection);
+		m_pShow->setItemChecked(mt_Show_Attributes_Selection,
+					cls->getShowAtts());
+	}
+	m_pShow->insertItem(i18n("Operations"), mt_Show_Operations_Selection);
+	m_pShow->setItemChecked(mt_Show_Operations_Selection, c->getShowOps());
+	m_pShow->insertItem(i18n("Public Only"), mt_Show_Public_Only_Selection);
+	m_pShow->setItemChecked(mt_Show_Public_Only_Selection, c->getShowPublicOnly());
+	m_pShow->insertItem(i18n("Visibility"), mt_Scope_Selection);
+	m_pShow->setItemChecked(mt_Scope_Selection, c->getShowScope());
+	m_pShow->insertItem(i18n("Operation Signature"),
+			    mt_Show_Operation_Signature_Selection);
+	bool sig = (c->getShowOpSigs() == Uml::st_SigNoScope ||
+		    c->getShowOpSigs() == Uml::st_ShowSig);
+	m_pShow->setItemChecked(mt_Show_Operation_Signature_Selection, sig);
+	if (type == Uml::wt_Class) {
+		m_pShow->insertItem(i18n("Attribute Signature"),
+				    mt_Show_Attribute_Signature_Selection);
+		sig = (cls->getShowAttSigs() == Uml::st_SigNoScope ||
+		       cls->getShowAttSigs() == Uml::st_ShowSig);
+		m_pShow->setItemChecked(mt_Show_Attribute_Signature_Selection, sig);
+	}
+	m_pShow->insertItem(i18n("Package"), mt_Show_Packages_Selection);
+	m_pShow->setItemChecked(mt_Show_Packages_Selection, c->getShowPackage());
+	if (type == Uml::wt_Class) {
+		m_pShow->insertItem(i18n("Stereotype"), mt_Show_Stereotypes_Selection);
+		m_pShow->setItemChecked(mt_Show_Stereotypes_Selection,
+					cls->getShowStereotype());
+	}
+	insertItem(i18n("Show"), m_pShow);
+}
+
+void ListPopupMenu::makeClassifierPopup(ClassifierWidget *c)
+{
+	Uml::UMLWidget_Type type = c->getBaseType();
+	m_pInsert = new KPopupMenu(this,"New");
+	if (type == Uml::wt_Class)
+		m_pInsert->insertItem(SmallIcon( "source" ), i18n("Attribute..."), mt_Attribute);
+	m_pInsert->insertItem( SmallIcon( "source"), i18n("Operation..."), mt_Operation);
+	insertItem(SmallIcon( "filenew"),i18n("New"), m_pInsert);
+
+	makeMultiClassifierPopup(c);
+
+	setupColor(c->getUseFillColour());
+	insertSeparator();
+	insertStdItems(type);
+	insertStdItem(mt_Rename);
+	insertStdItem(mt_Change_Font);
+	if (type == Uml::wt_Interface) {
+		insertItem(i18n("Draw as Circle"), mt_DrawAsCircle);
+		setItemChecked( mt_DrawAsCircle,
+				((InterfaceWidget*)c)->getDrawAsCircle() );
+	} else {
+		insertItem(i18n("Refactor"), mt_Refactoring);
+		insertItem(i18n("View Code"), mt_ViewCode);
+	}
+	insertStdItem(mt_Properties);
+}
+
 void ListPopupMenu::setupColor(bool fc)
 {
 	m_pColor = new KPopupMenu( this, "Colour");

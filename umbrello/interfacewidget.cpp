@@ -20,7 +20,8 @@
 
 #define CIRCLE_SIZE 30
 
-InterfaceWidget::InterfaceWidget(UMLView * view, UMLInterface *i) : UMLWidget(view, i) {
+InterfaceWidget::InterfaceWidget(UMLView * view, UMLInterface *i)
+  : ClassifierWidget(view, i, Uml::wt_Interface) {
 	init();
 	setSize(100,30);
 	calculateSize();
@@ -29,21 +30,11 @@ InterfaceWidget::InterfaceWidget(UMLView * view, UMLInterface *i) : UMLWidget(vi
 InterfaceWidget::~InterfaceWidget() {}
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void InterfaceWidget::init() {
-	UMLWidget::setBaseType(wt_Interface);
-	m_pMenu = 0;
 	m_bDrawAsCircle = false;
-
-	const Settings::OptionState& ops = m_pView->getOptionState();
-	m_bShowScope = ops.classState.showScope;
-	setShowOpSigs( ops.classState.showOpSig );
-	m_bShowOperations = ops.classState.showOps;
-	m_bShowPackage = ops.classState.showPackage;
 
 	updateSigs();
 	initUMLObject( m_pObject );
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 void InterfaceWidget::initUMLObject(UMLObject* object)
 {
@@ -157,6 +148,8 @@ void InterfaceWidget::drawAsConcept(QPainter& p, int offsetX, int offsetY) {
 		UMLClassifierListItem* obj = 0;
 		UMLClassifierListItemList list(((UMLInterface*)m_pObject)->getOpList());
 		for(obj=list.first();obj != 0;obj=list.next()) {
+			if (m_bShowPublicOnly && obj->getScope() != Uml::Public)
+				continue;
 			QString op = obj->toString( m_ShowOpSigs );
 			p.setPen( QPen(black) );
 			font.setUnderline( obj->getStatic() );
@@ -211,13 +204,18 @@ void InterfaceWidget::calculateAsConceptSize() {
 	int fontHeight = fm.lineSpacing();
 
 	int lines = 1;//always have one line - for name
-	int numOps = ((UMLInterface*)m_pObject)->operations();
+	int numOps = 0;
 
 	lines++; //for the stereotype
 
 	height = width = 0;
 	//set the height of the concept
 	if (m_bShowOperations) {
+		UMLClassifierListItemList list((static_cast<UMLClassifier*>(m_pObject))->getOpList());
+		for (UMLClassifierListItem *obj = list.first(); obj; obj = list.next()) {
+			if (!(m_bShowPublicOnly && obj->getScope() != Uml::Public))
+				numOps++;
+		}
 		lines += numOps;
 		if(numOps == 0) {
 			height += fontHeight / 2;//no ops, so just add a but of space
@@ -240,6 +238,8 @@ void InterfaceWidget::calculateAsConceptSize() {
 		UMLClassifierListItemList list(((UMLInterface*)m_pObject)->getOpList());
 		UMLClassifierListItem* listItem = 0;
 		for(listItem = list.first();listItem != 0; listItem = list.next()) {
+			if (m_bShowPublicOnly && listItem->getScope() != Uml::Public)
+				continue;
 			QFont font = UMLWidget::getFont();
 			font.setUnderline( listItem->getStatic() );
 			font.setItalic( listItem->getAbstract() );
@@ -286,53 +286,9 @@ void InterfaceWidget::slotMenuSelection(int sel) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void InterfaceWidget::updateSigs() {
-	//turn on scope
-	if (m_bShowScope) {
-		if (m_ShowOpSigs == Uml::st_NoSigNoScope) {
-			m_ShowOpSigs = Uml::st_NoSig;
-		} else if (m_ShowOpSigs == Uml::st_SigNoScope) {
-			m_ShowOpSigs = Uml::st_ShowSig;
-		}
-	} else { //turn off scope
-		if (m_ShowOpSigs == Uml::st_ShowSig) {
-			m_ShowOpSigs = Uml::st_SigNoScope;
-		} else if (m_ShowOpSigs == Uml::st_NoSig) {
-			m_ShowOpSigs = Uml::st_NoSigNoScope;
-		}
-	}
+	ClassifierWidget::updateSigs();
 	calculateSize();
 	update();
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////
-void InterfaceWidget::setShowScope(bool _scope) {
-	m_bShowScope = _scope;
-	updateSigs();
-	calculateSize();
-	update();
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////
-void InterfaceWidget::setShowOps(bool _show) {
-	m_bShowOperations = _show;
-	updateSigs();
-	calculateSize();
-	update();
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////
-void InterfaceWidget::setOpSignature(Signature_Type sig) {
-	m_ShowOpSigs = sig;
-	updateSigs();
-	calculateSize();
-	update();
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////
-void InterfaceWidget::setShowPackage(bool _status) {
-	m_bShowPackage = _status;
-	calculateSize();
-	update();
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////
-bool InterfaceWidget::getShowPackage() const {
-	return m_bShowPackage;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void InterfaceWidget::setDrawAsCircle(bool drawAsCircle) {
@@ -345,41 +301,6 @@ bool InterfaceWidget::getDrawAsCircle() const {
 	return m_bDrawAsCircle;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-bool InterfaceWidget::activate(IDChangeLog* ChangeLog /* = 0 */) {
-	bool status = UMLWidget::activate(ChangeLog);
-	if (status) {
-		calculateSize();
-	}
-	return status;
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////
-void InterfaceWidget::setShowOpSigs(bool _status) {
-	if( !_status ) {
-		if (m_bShowScope)
-			m_ShowOpSigs = Uml::st_NoSig;
-		else
-			m_ShowOpSigs = Uml::st_NoSigNoScope;
-
-	} else if (m_bShowScope)
-		m_ShowOpSigs = Uml::st_ShowSig;
-	else
-		m_ShowOpSigs = Uml::st_SigNoScope;
-	calculateSize();
-	update();
-}
-
-bool InterfaceWidget::getShowOps() const {
-	return m_bShowOperations;
-}
-
-Uml::Signature_Type InterfaceWidget::getShowOpSigs() const {
-	return m_ShowOpSigs;
-}
-
-bool InterfaceWidget::getShowScope() const {
-	return m_bShowScope;
-}
-
 bool InterfaceWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement conceptElement = qDoc.createElement("interfacewidget");
 	bool status = UMLWidget::saveToXMI(qDoc, conceptElement);
@@ -413,63 +334,11 @@ bool InterfaceWidget::loadFromXMI( QDomElement & qElement ) {
 	return true;
 }
 
-void InterfaceWidget::toggleShowOps()
-{
-	m_bShowOperations = !m_bShowOperations;
-	updateSigs();
-	calculateSize();
-
-	update();
-
-	return;
-}
-
-void InterfaceWidget::toggleShowScope()
-{
-	m_bShowScope = !m_bShowScope;
-	updateSigs();
-	calculateSize();
-	update();
-
-	return;
-}
-
-void InterfaceWidget::toggleShowOpSigs()
-{
-	if (m_ShowOpSigs == Uml::st_ShowSig || m_ShowOpSigs == Uml::st_SigNoScope) {
-		if (m_bShowScope) {
-			m_ShowOpSigs = Uml::st_NoSig;
-		} else {
-			m_ShowOpSigs = Uml::st_NoSigNoScope;
-		}
-	} else if (m_bShowScope) {
-		m_ShowOpSigs = Uml::st_ShowSig;
-	} else {
-		m_ShowOpSigs = Uml::st_SigNoScope;
-	}
-
-	calculateSize();
-	update();
-
-	return;
-}
-
 void InterfaceWidget::toggleDrawAsCircle()
 {
 	m_bDrawAsCircle = !m_bDrawAsCircle;
 	updateSigs();
 	calculateSize();
 	update();
-
-	return;
 }
 
-void InterfaceWidget::toggleShowPackage()
-{
-	m_bShowPackage = !m_bShowPackage;
-	updateSigs();
-	calculateSize();
-	update();
-
-	return;
-}

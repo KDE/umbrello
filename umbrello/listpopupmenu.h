@@ -13,9 +13,10 @@
 #include <kpopupmenu.h>
 #include "umlnamespace.h"
 
-
 class UMLView;
 class UMLWidget;
+class ClassifierWidget;
+
 /**
  * A popup menu that depending on what type it is set to will
  * display a different menu.
@@ -162,6 +163,8 @@ public:
 		mt_Refactoring,
 		mt_ViewCode, // view code document contents
 		mt_Clone, // Create a deep copy of the object.
+		mt_Show_Public_Only, // (not currently used)
+		mt_Show_Public_Only_Selection,  // Show public operations/attributes only.
 
 	    mt_Undefined  =  - 1
 	};
@@ -215,6 +218,31 @@ private:
 	 * @param m	The Menu_Type for which to insert a menu item.
 	 */
 	void insertStdItem(Menu_Type m);
+
+	/**
+	 * Shortcut for the most frequently used insertStdItem() calls.
+	 *
+	 * @param type	The UMLWidget_Type for which to insert the menu items.
+	 */
+	void insertStdItems(Uml::UMLWidget_Type type);
+
+	/**
+	 * Utility: Determines whether the given widget type is cloneable.
+	 * NOTE: This has no coupling into class ListPopupMenu whatsoever
+	 *       and can easily be moved to a better place.
+	 */
+	static bool isCloneable(Uml::UMLWidget_Type type);
+
+	/**
+	 * Creates a popup menu for a multiple selection of class and
+	 * interface widgets.
+	 */
+	void makeMultiClassifierPopup(ClassifierWidget *c);
+
+	/**
+	 * Creates a popup menu for a single class or interface widgets.
+	 */
+	void makeClassifierPopup(ClassifierWidget *c);
 
 	/**
 	 * Shortcut for commonly used menu initializations.

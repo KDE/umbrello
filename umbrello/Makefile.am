@@ -15,6 +15,7 @@ class.cpp \
 classifier.cpp \
 classifiercodedocument.cpp \
 classifierlistitem.cpp \
+classifierwidget.cpp \
 classimport.cpp \
 classwidget.cpp \
 codeaccessormethod.cpp \
