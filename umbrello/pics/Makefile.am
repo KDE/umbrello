@@ -82,4 +82,5 @@ cursor-branch.png \
 cursor-generalisation.png \
 cursor-object.png
 
-KDE_ICON = AUTO
+KDE_ICON = umbrello_diagram_activity umbrello_diagram_class umbrello_diagram_collaboration umbrello_diagram_component umbrello_diagram_deployment umbrello_diagram_sequence umbrello_diagram_state umbrello_diagram_usecase
+
