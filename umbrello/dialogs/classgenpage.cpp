@@ -27,19 +27,19 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o) : QWidget(p
 	Uml::UMLObject_Type t = o -> getBaseType();
 	m_pUmldoc = d;
 	if (t == Uml::ot_Class) {
-		name = i18n("Class name:");
+		name = i18n("Class &name:");
 	} else if (t == Uml::ot_Actor) {
-		name = i18n("Actor name:");
+		name = i18n("Actor &name:");
 	} else if (t == Uml::ot_Package) {
-		name = i18n("Package name:");
+		name = i18n("Package &name:");
 	} else if (t == Uml::ot_UseCase) {
-		name = i18n("Use case name:");
+		name = i18n("Use case &name:");
 	} else if (t == Uml::ot_Interface) {
-		name = i18n("Interface name:");
+		name = i18n("Interface &name:");
 	} else if (t == Uml::ot_Component) {
-		name = i18n("Component name:");
+		name = i18n("Component &name:");
 	} else if (t == Uml::ot_Artifact) {
-		name = i18n("Artifact name:");
+		name = i18n("Artifact &name:");
 	} else {
 		kdWarning() << "creating class gen page for unknown widget type" << endl;
 	}
@@ -57,6 +57,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o) : QWidget(p
 	m_pClassNameLE = new QLineEdit(this);
 	m_pNameLayout -> addWidget(m_pClassNameLE, 0, 1);
 	m_pClassNameLE->setFocus();
+	m_pNameL->setBuddy(m_pClassNameLE);
 
 	m_pStereoTypeLE = 0;
 	m_pPackageLE = 0;
@@ -65,26 +66,28 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o) : QWidget(p
 
 	if (t == Uml::ot_Class || t == Uml::ot_Package
 	    || t == Uml::ot_Interface || t == Uml::ot_Component || t == Uml::ot_Artifact) {
-		m_pStereoTypeL = new QLabel(i18n("Stereotype name:"), this);
+		m_pStereoTypeL = new QLabel(i18n("&Stereotype name:"), this);
 		m_pNameLayout -> addWidget(m_pStereoTypeL, 1, 0);
 
 		m_pStereoTypeLE = new QLineEdit(this);
 		m_pNameLayout -> addWidget(m_pStereoTypeLE, 1, 1);
 
 		m_pStereoTypeLE -> setText(o -> getStereotype());
+		m_pStereoTypeL->setBuddy(m_pStereoTypeLE);
 	}
 	if (t == Uml::ot_Interface) {
 		m_pStereoTypeLE->setEnabled(false);
 	}
 
 	if (t == Uml::ot_Class || t == Uml::ot_Interface) {
-		m_pPackageL = new QLabel(i18n("Package name:"), this);
+		m_pPackageL = new QLabel(i18n("&Package name:"), this);
 		m_pNameLayout -> addWidget(m_pPackageL, 2, 0);
 
 		m_pPackageLE = new QLineEdit(this);
 		m_pNameLayout -> addWidget(m_pPackageLE, 2, 1);
 
 		m_pPackageLE -> setText(o -> getPackage());
+		m_pPackageL->setBuddy(m_pPackageLE);
 	}
 
 	if (t == Uml::ot_Class ) {

@@ -33,20 +33,22 @@ UMLWidgetColorPage::UMLWidgetColorPage( QWidget * pParent, UMLWidget * pWidget )
 	QGridLayout * colorLayout = new QGridLayout( m_pColorGB, 3, 3 );
 	colorLayout -> setMargin( margin );
 
-	m_pLineColorL = new QLabel( i18n( "Line:" ), m_pColorGB );
+	m_pLineColorL = new QLabel( i18n( "&Line:" ), m_pColorGB );
 	colorLayout -> addWidget( m_pLineColorL, 0, 0 );
 
 	m_pLineColorB = new KColorButton( pWidget -> getLineColor(), m_pColorGB );
 	colorLayout -> addWidget( m_pLineColorB, 0, 1 );
+	m_pLineColorL->setBuddy(m_pLineColorB);
 
 	m_pLineDefaultB = new QPushButton( i18n( "&Default" ), m_pColorGB) ;
 	colorLayout -> addWidget( m_pLineDefaultB, 0, 2 );
 
-	m_pFillColorL = new QLabel( i18n( "Fill:" ), m_pColorGB );
+	m_pFillColorL = new QLabel( i18n( "&Fill:" ), m_pColorGB );
 	colorLayout -> addWidget( m_pFillColorL, 1, 0 );
 
 	m_pFillColorB = new KColorButton( pWidget->getFillColour(), m_pColorGB );
 	colorLayout -> addWidget( m_pFillColorB, 1, 1 );
+	m_pFillColorL->setBuddy(m_pFillColorB);
 
 	m_pFillDefaultB = new QPushButton( i18n( "D&efault" ), m_pColorGB );
 	colorLayout -> addWidget( m_pFillDefaultB, 1, 2 );

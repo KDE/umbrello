@@ -39,25 +39,28 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a) : KDi
 	propLayout -> setSpacing(10);
 	propLayout -> setMargin(margin);
 
-	m_pNameL = new QLabel(i18n("Name:"), m_pParmGB);
+	m_pNameL = new QLabel(i18n("&Name:"), m_pParmGB);
 	propLayout -> addWidget(m_pNameL, 1, 0);
 
 	m_pNameLE = new QLineEdit(m_pParmGB);
 	m_pNameLE -> setText(name);
 	propLayout -> addWidget(m_pNameLE, 1, 1);
+	m_pNameL->setBuddy(m_pNameLE);
 
-	m_pTypeL = new QLabel(i18n("Type:"), m_pParmGB);
+	m_pTypeL = new QLabel(i18n("&Type:"), m_pParmGB);
 	propLayout -> addWidget(m_pTypeL, 0, 0);
 
 	m_pTypeCB = new QComboBox(m_pParmGB);
 	propLayout -> addWidget(m_pTypeCB, 0, 1);
+	m_pTypeL->setBuddy(m_pTypeCB);
 
-	m_pInitialL = new QLabel(i18n("Initial value:"), m_pParmGB);
+	m_pInitialL = new QLabel(i18n("&Initial value:"), m_pParmGB);
 	propLayout -> addWidget(m_pInitialL, 2, 0);
 
 	m_pInitialLE = new QLineEdit(m_pParmGB);
 	m_pInitialLE -> setText(initialValue);
 	propLayout -> addWidget(m_pInitialLE, 2, 1);
+	m_pInitialL->setBuddy(m_pInitialLE);
 
 	m_pDocGB = new QGroupBox(i18n("Documentation"), plainPage());
 	QHBoxLayout * docLayout = new QHBoxLayout(m_pDocGB);

@@ -50,18 +50,20 @@ void UMLOperationDialog::setupDialog() {
 	genLayout -> setMargin(margin);
 	genLayout -> setSpacing(10);
 
-	m_pNameL = new QLabel(i18n("Name:"), m_pGenGB);
+	m_pNameL = new QLabel(i18n("&Name:"), m_pGenGB);
 	genLayout -> addWidget(m_pNameL, 0, 0 );
 
 	m_pNameLE = new QLineEdit(m_pGenGB );
 	m_pNameLE -> setText( m_pOperation -> getName() );
 	genLayout -> addWidget(m_pNameLE, 0, 1);
+	m_pNameL->setBuddy(m_pNameLE);
 
-	m_pRtypeL = new QLabel(i18n("Type:"), m_pGenGB );
+	m_pRtypeL = new QLabel(i18n("&Type:"), m_pGenGB );
 	genLayout -> addWidget(m_pRtypeL, 0, 2);
 
 	m_pRtypeCB = new QComboBox(m_pGenGB );
 	genLayout -> addWidget(m_pRtypeCB, 0, 3);
+	m_pRtypeL->setBuddy(m_pRtypeCB);
 
 	m_pAbstractCB = new QCheckBox( i18n("&Abstract operation"), m_pGenGB );
 	m_pAbstractCB -> setChecked( m_pOperation -> getAbstract() );
@@ -83,7 +85,7 @@ void UMLOperationDialog::setupDialog() {
 	m_pPrivateRB = new QRadioButton(i18n("P&rivate"), m_pScopeBG);
 	scopeLayout -> addWidget(m_pPrivateRB);
 
-	m_pProtectedRB = new QRadioButton(i18n("Pro&tected"), m_pScopeBG);
+	m_pProtectedRB = new QRadioButton(i18n("Prot&ected"), m_pScopeBG);
 	scopeLayout -> addWidget(m_pProtectedRB);
 	topLayout -> addWidget(m_pScopeBG);
 
@@ -117,7 +119,6 @@ void UMLOperationDialog::setupDialog() {
 
 	m_pRtypeCB->setDuplicatesEnabled(false);//only allow one of each type in box
 	m_pRtypeCB->setEditable(true);
-	m_pRtypeCB->setAutoCompletion(true);
 
 	//now add the Classes and Interfaces (both are Concepts)
 	QPtrList<UMLClassifier> namesList( pDoc->getConcepts() );

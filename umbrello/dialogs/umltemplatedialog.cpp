@@ -38,10 +38,10 @@ void UMLTemplateDialog::setupDialog() {
 	valuesLayout->setMargin(margin);
 	valuesLayout->setSpacing(10);
 
-	m_pTypeL = new QLabel(i18n("Type:"), m_pValuesGB);
+	m_pTypeL = new QLabel(i18n("&Type:"), m_pValuesGB);
 	valuesLayout->addWidget(m_pTypeL, 0, 0);
 
-	m_pNameL = new QLabel(i18n("Name:"), m_pValuesGB);
+	m_pNameL = new QLabel(i18n("&Name:"), m_pValuesGB);
 	valuesLayout->addWidget(m_pNameL, 1, 0);
 
 	m_pTypeCB = new QComboBox(m_pValuesGB);
@@ -50,6 +50,9 @@ void UMLTemplateDialog::setupDialog() {
 	m_pNameLE = new QLineEdit(m_pValuesGB);
 	valuesLayout->addWidget(m_pNameLE, 1, 1);
 	m_pNameLE->setText( m_pTemplate->getName() );
+
+	m_pTypeL->setBuddy(m_pTypeCB);
+	m_pNameL->setBuddy(m_pNameLE);
 
 	mainLayout->addWidget(m_pValuesGB);
 

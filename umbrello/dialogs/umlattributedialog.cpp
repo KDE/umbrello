@@ -36,13 +36,13 @@ void UMLAttributeDialog::setupDialog() {
 	valuesLayout -> setMargin(margin);
 	valuesLayout -> setSpacing(10);
 
-	m_pTypeL = new QLabel(i18n("Type:"), m_pValuesGB);
+	m_pTypeL = new QLabel(i18n("&Type:"), m_pValuesGB);
 	valuesLayout -> addWidget(m_pTypeL, 0, 0);
 
-	m_pNameL = new QLabel(i18n("Name:"), m_pValuesGB);
+	m_pNameL = new QLabel(i18n("&Name:"), m_pValuesGB);
 	valuesLayout -> addWidget(m_pNameL, 1, 0);
 
-	m_pInitialL = new QLabel(i18n("Initial value:"), m_pValuesGB);
+	m_pInitialL = new QLabel(i18n("&Initial value:"), m_pValuesGB);
 	valuesLayout -> addWidget(m_pInitialL, 2, 0);
 
 	m_pTypeCB = new QComboBox(m_pValuesGB);
@@ -59,6 +59,10 @@ void UMLAttributeDialog::setupDialog() {
 	m_pStaticCB -> setChecked( m_pAttribute -> getStatic() );
 	valuesLayout -> addWidget(m_pStaticCB, 3, 0);
 
+	m_pTypeL->setBuddy(m_pTypeCB);
+	m_pNameL->setBuddy(m_pNameLE);
+	m_pInitialL->setBuddy(m_pInitialLE);
+
 	mainLayout -> addWidget(m_pValuesGB);
 	m_pInitialLE -> setText( m_pAttribute -> getInitialValue() );
 
@@ -73,7 +77,7 @@ void UMLAttributeDialog::setupDialog() {
 	m_pPrivateRB = new QRadioButton(i18n("P&rivate"), m_pScopeBG);
 	scopeLayout -> addWidget(m_pPrivateRB);
 
-	m_pProtectedRB = new QRadioButton(i18n("Pro&tected"), m_pScopeBG);
+	m_pProtectedRB = new QRadioButton(i18n("Prot&ected"), m_pScopeBG);
 	scopeLayout -> addWidget(m_pProtectedRB);
 	mainLayout -> addWidget(m_pScopeBG);
 	Uml::Scope scope = m_pAttribute -> getScope();
@@ -96,7 +100,6 @@ void UMLAttributeDialog::setupDialog() {
 
 	m_pTypeCB->setEditable(true);
 	m_pTypeCB->setDuplicatesEnabled(false);//only allow one of each type in box
-	m_pTypeCB->setAutoCompletion(true);
 
 	//now add the Concepts
 	QPtrList<UMLClassifier> namesList( pDoc->getConcepts() );
