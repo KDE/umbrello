@@ -929,6 +929,14 @@ bool UMLWidget::widgetHasUMLObject(Uml::Widget_Type type) {
 	}
 }
 
+void UMLWidget::setIgnoreSnapToGrid(bool to) {
+	m_bIgnoreSnapToGrid = to;
+}
+
+bool UMLWidget::getIgnoreSnapToGrid() const {
+	return m_bIgnoreSnapToGrid;
+}
+
 void UMLWidget::setSize(int width,int height) {
 	// snap to the next larger size that is a multiple of the grid
 	if (!m_bIgnoreSnapComponentSizeToGrid

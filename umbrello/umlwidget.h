@@ -313,6 +313,16 @@ public:
 	void setSize(int width,int height);
 
 	/**
+	 * Set m_bIgnoreSnapToGrid.
+	 */
+	void setIgnoreSnapToGrid(bool to);
+
+	/**
+	 * Return the value of m_bIgnoreSnapToGrid.
+	 */
+	bool getIgnoreSnapToGrid() const;
+
+	/**
 	 * Move the widget by an X and Y offseti relative to
 	 * the current position.
 	 */
