@@ -93,7 +93,7 @@ UMLApp::UMLApp(QWidget* , const char* name):KDockMainWindow(0, name) {
 	// disable actions at startup
 	fileSave->setEnabled(true);
 	fileSaveAs->setEnabled(true);
-	filePrint->setEnabled(false);
+	enablePrint(false);
 	editCut->setEnabled(false);
 	editCopy->setEnabled(false);
 	editPaste->setEnabled(false);
@@ -431,6 +431,7 @@ void UMLApp::openDocumentFile(const KURL& url) {
 	fileOpenRecent->addURL( url );
 	slotStatusMsg(i18n("Ready."));
 	setCaption(doc->URL().fileName(), false);
+	enablePrint(true);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLDoc *UMLApp::getDocument() const {
@@ -565,18 +566,23 @@ void UMLApp::readProperties(KConfig* _config) {
 		if(canRecover) {
 			doc->openDocument(_url);
 			doc->setModified();
+			enablePrint(true);
 			setCaption(_url.fileName(),true);
 			QFile::remove
 				(tempname);
+		} else {
+			enablePrint(false);
 		}
 	} else {
 		if(!filename.isEmpty()) {
 			doc->openDocument(url);
+			enablePrint(true);
 			setCaption(url.fileName(),false);
 
+		} else {
+			enablePrint(false);
 		}
 	}
-
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -599,6 +605,7 @@ void UMLApp::slotFileNew() {
 		setCaption(doc->URL().fileName(), false);
 		fileOpenRecent->setCurrentItem( -1 );
 		setModified(false);
+		enablePrint(false);
 	}
 	slotUpdateViews();
 	slotStatusMsg(i18n("Ready."));
@@ -619,6 +626,7 @@ void UMLApp::slotFileOpen() {
 		if(!url.isEmpty()) {
 			if(doc->openDocument(url))
 				fileOpenRecent->addURL( url );
+			enablePrint(true);
 			setCaption(doc->URL().fileName(), false);
 		}
 
@@ -641,6 +649,7 @@ void UMLApp::slotFileOpenRecent(const KURL& url) {
 			fileOpenRecent->removeURL(url);
 			fileOpenRecent->setCurrentItem( -1 );
 		}
+		enablePrint(true);
 		setCaption(doc->URL().fileName(), false);
 	}
 
@@ -905,12 +914,9 @@ void UMLApp::setModified(bool _m) {
 
 	//if anything else needs to be done on a mofication, put it here
 
-
-	//if a file is modified, allow printing
-	//we don't stop printing just because a file is modified, if a file has content
-	//then we allow printing
-	if(_m)
-		enablePrint(_m);
+	// printing should be possible whenever there is something to print
+	if (_m == true)
+		enablePrint(true);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLApp::enablePrint(bool enable) {
