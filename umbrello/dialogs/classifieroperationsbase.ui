@@ -1,0 +1,227 @@
+<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
+<class>ClassifierOperationsBase</class>
+<widget class="QWidget">
+    <property name="name">
+        <cstring>ClassifierOperationsBase</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>389</width>
+            <height>374</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Classifier operations</string>
+    </property>
+    <vbox>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <widget class="QGroupBox">
+            <property name="name">
+                <cstring>groupBox7</cstring>
+            </property>
+            <property name="title">
+                <string>Operations</string>
+            </property>
+            <vbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QLayoutWidget">
+                    <property name="name">
+                        <cstring>layout14</cstring>
+                    </property>
+                    <grid>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="QListView" row="0" column="0" rowspan="2" colspan="1">
+                            <column>
+                                <property name="text">
+                                    <string>Name</string>
+                                </property>
+                                <property name="clickable">
+                                    <bool>true</bool>
+                                </property>
+                                <property name="resizable">
+                                    <bool>true</bool>
+                                </property>
+                            </column>
+                            <property name="name">
+                                <cstring>m_operationsList</cstring>
+                            </property>
+                            <property name="sizePolicy">
+                                <sizepolicy>
+                                    <hsizetype>7</hsizetype>
+                                    <vsizetype>5</vsizetype>
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
+                                </sizepolicy>
+                            </property>
+                        </widget>
+                        <spacer row="1" column="1">
+                            <property name="name">
+                                <cstring>spacer4</cstring>
+                            </property>
+                            <property name="orientation">
+                                <enum>Vertical</enum>
+                            </property>
+                            <property name="sizeType">
+                                <enum>Expanding</enum>
+                            </property>
+                            <property name="sizeHint">
+                                <size>
+                                    <width>31</width>
+                                    <height>61</height>
+                                </size>
+                            </property>
+                        </spacer>
+                        <widget class="QLayoutWidget" row="0" column="1">
+                            <property name="name">
+                                <cstring>layout10</cstring>
+                            </property>
+                            <vbox>
+                                <property name="name">
+                                    <cstring>unnamed</cstring>
+                                </property>
+                                <widget class="QPushButton">
+                                    <property name="name">
+                                        <cstring>m_upButton</cstring>
+                                    </property>
+                                    <property name="text">
+                                        <string></string>
+                                    </property>
+                                    <property name="pixmap">
+                                        <pixmap>image0</pixmap>
+                                    </property>
+                                </widget>
+                                <widget class="QPushButton">
+                                    <property name="name">
+                                        <cstring>m_downButton</cstring>
+                                    </property>
+                                    <property name="text">
+                                        <string></string>
+                                    </property>
+                                    <property name="pixmap">
+                                        <pixmap>image1</pixmap>
+                                    </property>
+                                </widget>
+                            </vbox>
+                        </widget>
+                    </grid>
+                </widget>
+                <widget class="QLayoutWidget">
+                    <property name="name">
+                        <cstring>layout13</cstring>
+                    </property>
+                    <hbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="QPushButton">
+                            <property name="name">
+                                <cstring>m_newButton</cstring>
+                            </property>
+                            <property name="text">
+                                <string>New</string>
+                            </property>
+                        </widget>
+                        <widget class="QPushButton">
+                            <property name="name">
+                                <cstring>m_propertiesButton</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Properties</string>
+                            </property>
+                        </widget>
+                        <widget class="QPushButton">
+                            <property name="name">
+                                <cstring>m_deleteButton</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Delete</string>
+                            </property>
+                        </widget>
+                    </hbox>
+                </widget>
+            </vbox>
+        </widget>
+        <widget class="QGroupBox">
+            <property name="name">
+                <cstring>groupBox6</cstring>
+            </property>
+            <property name="title">
+                <string>Documentation</string>
+            </property>
+            <vbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QTextEdit">
+                    <property name="name">
+                        <cstring>m_documentation</cstring>
+                    </property>
+                </widget>
+            </vbox>
+        </widget>
+    </vbox>
+</widget>
+<images>
+    <image name="image0">
+        <data format="XPM.GZ" length="2061">789c7d944953dc481085effc8a0eea464ca4b597141373f0de5ec0e0157b620eb54203cdd6cd6687fffb54bd4c35cd843d4a08f8544f55a997997ab435d9dfdd9e6c3dda582ccd72e626eed05c4eb6fcd57c7ef7f73f7ffdd8d82cbb49fa198a49b5f9c7c6e6de72e2263b67a721034d13a8025766759bb9f4da7b07be110ede8317e0a06bd781af57acc179735535bd0e03f804dc69e3709eba00eba18911ecc14e5bc7fa73e63e44ce670ef64315711eb599eb5a3bd762fd10dc0eb5e803b81b3ad6ab4bb01b7cb478fe33d8f78d03ab19f310391feac061d081f323e13e9658ff96b93149cfe75f819d6922f2a75d701c5ce8c14f32b765df5bdeef185c998ef5ca815bd347037d031e8c957c5f82435a6fc09f8443e47aa8cc5d61247f750aae8d97fca2708ca80f21dfae3185e7fd35b8b5859cff18dc1917d12cf4056c6c2df9a0be5d4c7af603e7e9c61601f910eaa5b56d620dde063bebe479d44b7bdb737e5480a31dfd3fc89caa5309bfcb3c14ae157ff7c0ad33b2fe22b3295c90fd2db8f1a5f871044e09483f9e81adf3521ff48bf1be93fd5e65b685ef85bf83d30044cc039daf98f737e0ca97bc3f39e1f1799c6fdbdc60e001dcfb56fc7a2a6c651df366adf7c2656657f841f45fc1a537dcefb4108e91e7f935b8f281ebade087d3de049e9f1a9c5e3870bdd11fc99d56de07fe3be75de0fabc07fb50c87927c2a2a78fe0188ac0e77b61f1879e65f64518ebd783cba4677e0bae4323fd5681bb50497d66c2a33ffb601d1af103f54cee3859c7f72bbded383f3be0348dd2afd7c2a3bf1fc021e8c0f5c5f729d4b1143f51df94fdd88f6fc05d7a9efdc03c8721caf78c9e837dd2b37f7799631b7b797f7c8f52bb3b9e5fc2fc465cfc711e8314c7fd9d1ceb1aac1bb2e47ea781c253a0480774f82b0d14333aa2e3f4f784e674fa5f0d1467744e17748958d092aed635505cd30dddd2dd2abed3637af24063e8293da3e70fe205bda4e99ae615bda63788b7b44d3bf2ff3bdacd2ad1ecd17bfa90e2237da2cff485f6415fe9db9aa6a0922aaaa9a196a6d491a63ef1a0e85e932ea3ac72ca27450a15545407e9dee19a66a68ed4b13a6145da77aae6ea549da9f335cd85ba540b56885b53b55457eafa5eb3b75437a3825d4fbf5375cb7756b55853ac6a3c7da8f9bfd8fcf9e7c6bfc8aef49a</data>
+    </image>
+    <image name="image1">
+        <data format="XPM.GZ" length="2125">789c6dd4c752dc401006e03b4fb145df28575b599a72f900ce010c8ed82e1f26127709bb4b72f9dd3dfaa7c58ab27738f0a97f859969e9f1c6647f777bb2f1786dbed08b233bb187fa72b2e196d3e9edcf5f4f7fafade7cd24fea96a52ac3f5a5b679ad8c9ced9cc03218232fc7a53b2c975a1e02dd896556de169efbc2cebba856fe1bace3a0d2fe0a66ada06be834d5bd80ede844357f9e465efa2e94248f939dcb6d6e161e90656aa0e013e855d1b6cf22c5965a182afc46dc0fce8ac77592a253e806b5585747d0f375de9d2fc0f61ad9cdc8fe1d0752e8775b2d2e97e5cf5aeb2d619837abfb85417ba0a35ea0dacb40a582ffe065bdd04dc8fb77b378d3601d7e75770a7bd9c8ff56a3353c8fdaec4a5d43fc285e9647ed7706b1ab91ef6abd5b18ef5e60bd81815b05f7c040763c52f7b77b909e97abc0f973697f570b0b34528e113d8c77a9a8f129732dfa5b891f32fe16073ef50df114b9dcbde2ab37540fff127b8b15dc0fa722e5662ec9fd2d684d49f988fceac4ad72723d6f27c359cbb4c9ee71c2e623ecd3fe58ba1ce5b62993fb770659dec07fa45d7ae903afa5337f7c67ae9ce95e2efb089f5b43e580f6ddd30ff63d839e977fe0cfbe8b45ee85fd3382d750b2b67c56f607d6ff4ab314efa99dfc236d6d3fecec4431def4b8c0fc6fb673337f403fa2beedeb07ee8276b9df1e97dc2f3bbcc799fd6e72b9cfb5ae69bc17574cae3f95de38bf43de00fb0f2c3fbf21ed6de487f76b0f7adc77ef39ed8a4ef0717bd7de6b5f4ff9d38c8fa61bf7d1986fd7c06572193ebff801befa45fbec02ad6d3fb7622aee4fc17b00e85f4eb5c5cc9fd766117ebe9fc77bda35ac9e37b19d34af2cfe13a7452c7f735ca48fd356cfad17b2f9d8f5f721a4cab313e3664588f535237e30c5b76ec393c481cf0211ff5c72473cc277ccad3fe8824667cc6e77c31ca5cf29c17bce42b0e485cf30ddff21d6f8e325bfc8c9ff30b7ec9aff835bfe1b7fc2efa3d6f8f323bfc8177e3d8e38ffc893ff317e82b7f1b65f6f93bffc0c838e742fe2fb91a656a6eb8e5eec150c4311156eb43449a0cd9fbe1c8535865d27ce9800ee9888e314ee894a62931642435a3333aa70bbaa4392d86c42a23a9255dd135ddd0ed2a31cef42926baa34dda1a271e6664848789ff66fe19eb7f9eacfd05a70cec6f</data>
+    </image>
+</images>
+<connections>
+    <connection>
+        <sender>m_operationsList</sender>
+        <signal>selectionChanged(QListViewItem*)</signal>
+        <receiver>ClassifierOperationsBase</receiver>
+        <slot>itemSelected(QListViewItem*)</slot>
+    </connection>
+    <connection>
+        <sender>m_newButton</sender>
+        <signal>clicked()</signal>
+        <receiver>ClassifierOperationsBase</receiver>
+        <slot>createOperation()</slot>
+    </connection>
+    <connection>
+        <sender>m_deleteButton</sender>
+        <signal>clicked()</signal>
+        <receiver>ClassifierOperationsBase</receiver>
+        <slot>deleteSelected()</slot>
+    </connection>
+    <connection>
+        <sender>m_propertiesButton</sender>
+        <signal>clicked()</signal>
+        <receiver>ClassifierOperationsBase</receiver>
+        <slot>editSelected()</slot>
+    </connection>
+    <connection>
+        <sender>m_upButton</sender>
+        <signal>clicked()</signal>
+        <receiver>ClassifierOperationsBase</receiver>
+        <slot>moveUp()</slot>
+    </connection>
+    <connection>
+        <sender>m_downButton</sender>
+        <signal>clicked()</signal>
+        <receiver>ClassifierOperationsBase</receiver>
+        <slot>moveDown()</slot>
+    </connection>
+</connections>
+<slots>
+    <slot>itemSelected(QListViewItem*)</slot>
+    <slot>createOperation()</slot>
+    <slot>editSelected()</slot>
+    <slot>deleteSelected()</slot>
+    <slot>moveUp()</slot>
+    <slot>moveDown()</slot>
+</slots>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>
