@@ -425,7 +425,7 @@
                             <property name="historyItems">
                                 <stringlist>
                                     <string>qptrlist.h</string>
-                                    <string>vector.h</string>
+                                    <string>vector</string>
                                 </stringlist>
                             </property>
                         </widget>
@@ -458,7 +458,7 @@
                             <property name="historyItems">
                                 <stringlist>
                                     <string>qstring.h</string>
-                                    <string>string.h</string>
+                                    <string>string</string>
                                 </stringlist>
                             </property>
                         </widget>

@@ -30,9 +30,9 @@ const bool CPPCodeGenerationPolicy::DEFAULT_INLINE_OPERATIONS = false;
 const bool CPPCodeGenerationPolicy::DEFAULT_VIRTUAL_DESTRUCTORS = true;
 const bool CPPCodeGenerationPolicy::DEFAULT_PACKAGE_IS_NAMESPACE = false;
 const char * CPPCodeGenerationPolicy::DEFAULT_STRING_CLASS_NAME = "string";
-const char * CPPCodeGenerationPolicy::DEFAULT_STRING_CLASS_INCLUDE = "string.h";
+const char * CPPCodeGenerationPolicy::DEFAULT_STRING_CLASS_INCLUDE = "string";
 const char * CPPCodeGenerationPolicy::DEFAULT_VECTOR_CLASS_NAME = "vector";
-const char * CPPCodeGenerationPolicy::DEFAULT_VECTOR_CLASS_INCLUDE = "vector.h";
+const char * CPPCodeGenerationPolicy::DEFAULT_VECTOR_CLASS_INCLUDE = "vector";
 const char * CPPCodeGenerationPolicy::DEFAULT_VECTOR_METHOD_APPEND = "%VARNAME%.push_back(value);";
 const char * CPPCodeGenerationPolicy::DEFAULT_VECTOR_METHOD_REMOVE = "int size = %VARNAME%.size();\nfor ( int i = 0; i < size; i++) {\n\t%ITEMCLASS% item = %VARNAME%.at(i);\n\tif(item == value) {\n\t\tvector<%ITEMCLASS%>::iterator it = %VARNAME%.begin() + i;\n\t\t%VARNAME%.erase(it);\n\t\treturn;\n\t}\n }";
 const char * CPPCodeGenerationPolicy::DEFAULT_VECTOR_METHOD_INIT = ""; // nothing to do in std::vector 
