@@ -1682,14 +1682,19 @@ void UMLDoc::saveToXMI(QIODevice& file) {
 
 	// Save stereotypes and toplevel datatypes first so that upon loading
 	// they are known first.
-	for (UMLStereotype *s = m_stereoList.first(); s; s = m_stereoList.next() ) {
-		s->saveToXMI(doc, objectsElement);
+	if (m_stereoList.count()) {
+		QDomElement stElem = doc.createElement("UML:ModelElement.stereotype");
+		for (UMLStereotype *s = m_stereoList.first(); s; s = m_stereoList.next() ) {
+			s->saveToXMI(doc, stElem);
+		}
+		objectsElement.appendChild( stElem );
 	}
+	QDomElement ownedNS = doc.createElement( "UML:Namespace.ownedElement" );
 	for (UMLObjectListIt oit(m_objectList); oit.current(); ++oit) {
 		UMLObject *o = oit.current();
 		Object_Type ot = o->getBaseType();
 		if (ot == ot_Datatype)
-			o->saveToXMI(doc, objectsElement);
+			o->saveToXMI(doc, ownedNS);
 	}
 
 #ifdef XMI_FLAT_PACKAGES
@@ -1700,7 +1705,7 @@ void UMLDoc::saveToXMI(QIODevice& file) {
 		Object_Type t = p->getBaseType();
 		if (t != ot_Package)
 			continue;
-		p->saveToXMI(doc, objectsElement);
+		p->saveToXMI(doc, ownedNS);
 	}
 #endif
 
@@ -1735,7 +1740,7 @@ void UMLDoc::saveToXMI(QIODevice& file) {
 				  << endl;
 			continue;
 		}
-		o->saveToXMI(doc, objectsElement);
+		o->saveToXMI(doc, ownedNS);
 	}
 
 	// Save the UMLAssociations.
@@ -1744,7 +1749,10 @@ void UMLDoc::saveToXMI(QIODevice& file) {
 	// cross reference links from the association to its role objects.
 	UMLAssociationList alist = getAssociations();
 	for (UMLAssociation * a = alist.first(); a; a = alist.next())
-		a->saveToXMI(doc, objectsElement);
+		a->saveToXMI(doc, ownedNS);
+
+	objectsElement.appendChild( ownedNS );
+
 	content.appendChild( objectsElement );
 
 	root.appendChild( content );
@@ -2039,7 +2047,8 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element) {
 		QDomElement tempElement = node.toElement();
 		QString type = tempElement.tagName();
 		if (tagEq(type, "Namespace.ownedElement") ||
-		    tagEq(type, "Namespace.contents")) {
+		    tagEq(type, "Namespace.contents") ||
+		    tagEq(type, "ModelElement.stereotype")) {
 			//CHECK: Umbrello currently assumes that nested elements
 			// are ownedElements anyway.
 			// Therefore the <UML:Namespace.ownedElement> tag is of no
