@@ -283,13 +283,13 @@ void UMLApp::setupZoomMenu() {
 	zoomSelect->clear();
 
 	//IMPORTANT: The ID's must match the zoom value (text)
-	zoomSelect->insertItem(i18n(" &33 %"),33);
-	zoomSelect->insertItem(i18n(" &50 %"),50);
-	zoomSelect->insertItem(i18n(" &75 %"),75);
-	zoomSelect->insertItem(i18n("&100 %"),100);
-	zoomSelect->insertItem(i18n("1&50 %"),150);
-	zoomSelect->insertItem(i18n("&200 %"),200);
-	zoomSelect->insertItem(i18n("3&00 %"),300);
+	zoomSelect->insertItem(i18n(" &33%"),33);
+	zoomSelect->insertItem(i18n(" &50%"),50);
+	zoomSelect->insertItem(i18n(" &75%"),75);
+	zoomSelect->insertItem(i18n("&100%"),100);
+	zoomSelect->insertItem(i18n("1&50%"),150);
+	zoomSelect->insertItem(i18n("&200%"),200);
+	zoomSelect->insertItem(i18n("3&00%"),300);
 
 
 	int zoom = doc->getCurrentView()->currentZoom();
