@@ -2146,12 +2146,28 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
 		}
 
 		switch( lvType ) {
+			case Uml::lvt_Actor:
+			case Uml::lvt_UseCase:
+			  // check if UMLListViewItem with same nID is already created by
+				// SLOT-EVENT from creation of corresponding UMLObject
+				item = findItem(nID);
+				if ( item != NULL )
+				{ // this item shouldn't exist right now - maybe it is created
+				  // by the slot event triggered by creation of corresponding
+					// object -> delete wrong created item, as only _now_ all
+					// relevant information is accessible for insertion in UMLListView
+					kdDebug()
+						<< "UMLListView::loadChildrenFromXMI() Delete UMLListViewItem instance which was created\
+						    before the corresponding loadChildrenFromXMI() call"
+						<< endl;
+					delete item;
+				}
+				item = new UMLListViewItem(parent, label, lvType, pObject);
+				break;
 			case Uml::lvt_Class:
 			case Uml::lvt_Interface:
 			case Uml::lvt_Datatype:
 			case Uml::lvt_Enum:
-			case Uml::lvt_Actor:
-			case Uml::lvt_UseCase:
 			case Uml::lvt_Package:
 			case Uml::lvt_Component:
 			case Uml::lvt_Node:
