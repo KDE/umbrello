@@ -14,6 +14,8 @@
 #include "docwindow.h"
 #include "objectwidget.h"
 #include "operation.h"
+#include "attribute.h"
+#include "template.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "umllistview.h"
@@ -22,6 +24,7 @@
 #include "clipboard/idchangelog.h"
 #include "dialogs/classpropdlg.h"
 #include "dialogs/umlattributedialog.h"
+#include "dialogs/umltemplatedialog.h"
 #include "dialogs/umloperationdialog.h"
 
 #include <qpainter.h>
@@ -434,7 +437,7 @@ void UMLDoc::createUMLObject(UMLObject_Type type) {
 			KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
 		}
 		if (o) {
-			KMessageBox::error(0, i18n("That name is already being used."), i18n("None Unique Name"));
+			KMessageBox::error(0, i18n("That name is already being used."), i18n("Not a Unique Name"));
 		} else {  //create an object
 			if(type == ot_Actor) {
 				UMLActor *a = new UMLActor(this, name, ++uniqueID);
@@ -466,6 +469,8 @@ UMLObject* UMLDoc::createUMLObject(UMLObject* umlobject, UMLObject_Type type) {
 		return createAttribute(umlobject);
 	} else if(type == ot_Operation) {
 		return createOperation(umlobject);
+	} else if(type == ot_Template) {
+		return createTemplate(umlobject);
 	} else {
 		kdDebug() << "ERROR _CREATEUMLOBJECT" << endl;
 		return NULL;
@@ -488,7 +493,7 @@ UMLObject* UMLDoc::createAttribute(UMLObject* umlobject) {
 		if(name.length() == 0) {
 			KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
 		} else if ( ((UMLConcept*)umlobject)->findChildObject(Uml::ot_Attribute, name).count() > 0 ) {
-			KMessageBox::error(0, i18n("That name is already being used."), i18n("None Unique Name"));
+			KMessageBox::error(0, i18n("That name is already being used."), i18n("Not a Unique Name"));
 		} else {
 			goodName = true;
 		}
@@ -504,6 +509,40 @@ UMLObject* UMLDoc::createAttribute(UMLObject* umlobject) {
 	emit sigChildObjectCreated(newAttribute);
 	emit sigWidgetUpdated(umlobject);
 	return newAttribute;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+UMLObject* UMLDoc::createTemplate(UMLObject* umlobject) {
+	int id = getUniqueID();
+	QString currentName = dynamic_cast<UMLConcept*>(umlobject)->uniqChildName(Uml::ot_Template);
+	UMLTemplate* newTemplate = new UMLTemplate(umlobject, currentName, id);
+
+	int button = QDialog::Accepted;
+	bool goodName = false;
+
+	while (button==QDialog::Accepted && !goodName) {
+		UMLTemplateDialog templateDialogue(0, newTemplate);
+		button = templateDialogue.exec();
+		QString name = newTemplate->getName();
+
+		if(name.length() == 0) {
+			KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
+		} else if ( ((UMLConcept*)umlobject)->findChildObject(Uml::ot_Template, name).count() > 0 ) {
+			KMessageBox::error(0, i18n("That name is already being used."), i18n("Not a Unique Name"));
+		} else {
+			goodName = true;
+		}
+	}
+
+	if (button != QDialog::Accepted) {
+		return NULL;
+	}
+
+	((UMLConcept*)umlobject)->addTemplate((UMLTemplate*)newTemplate);
+
+	setModified(true);
+	emit sigChildObjectCreated(newTemplate);
+	emit sigWidgetUpdated(umlobject);
+	return newTemplate;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLObject* UMLDoc::createOperation(UMLObject* umlobject) {
@@ -698,7 +737,7 @@ void UMLDoc::createDiagram(Diagram_Type type, bool askForName /*= true */) {
 			changeCurrentView(uniqueID);
 			break;
 		} else
-			KMessageBox::error(0, i18n("A diagram is already using that name."), i18n("None Unique Name"));
+			KMessageBox::error(0, i18n("A diagram is already using that name."), i18n("Not a Unique Name"));
 	}//end while
 	return;
 }
@@ -724,7 +763,7 @@ void UMLDoc::renameDiagram(int id) {
 			setModified(true);
 			break;
 		} else
-			KMessageBox::error(0, i18n("A diagram is already using that name."), i18n("None Unique Name"));
+			KMessageBox::error(0, i18n("A diagram is already using that name."), i18n("Not a Unique Name"));
 	}
 	return;
 }
@@ -745,15 +784,15 @@ void UMLDoc::renameUMLObject(UMLObject *o) {
 			setModified(true);
 			break;
 		} else {
-			KMessageBox::error(0, i18n("That name is already being used."), i18n("None Uunique Name"));
+			KMessageBox::error(0, i18n("That name is already being used."), i18n("Not a Uunique Name"));
 		}
 	}
 	return;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLDoc::renameChildUMLObject(UMLObject *o) {
-	bool 	ok =false;
-	UMLObject *p = (UMLObject *)o->parent();
+	bool ok = false;
+	UMLObject* p = (UMLObject *)o->parent();
 	if(!p) {
 		kdDebug() << "Can't create object, no parent found" << endl;
 		return;
@@ -778,7 +817,7 @@ void UMLDoc::renameChildUMLObject(UMLObject *o) {
 				setModified(true);
 				break;
 			} else {
-				KMessageBox::error(0, i18n("That name is already being used."), i18n("None Unique Name"));
+				KMessageBox::error(0, i18n("That name is already being used."), i18n("Not a Unique Name"));
 			}
 		}
 	}
@@ -853,11 +892,13 @@ void UMLDoc::removeUMLObject(UMLObject *o) {
 	//must be att or op
 	UMLConcept *p = (UMLConcept*)o->parent();
 	emit sigObjectRemoved(o);
-	if(type == ot_Operation)
+	if (type == ot_Operation) {
 		p->removeOperation(o);
-	else if(type == ot_Attribute)
-
+	} else if (type == ot_Attribute) {
 		p->removeAttribute(o);
+	} else if (type == ot_Template) {
+		p->removeTemplate((UMLTemplate*)o);
+	}
 	emit sigWidgetUpdated(p);
 
 	setModified(true);
@@ -1056,9 +1097,15 @@ bool UMLDoc::serialize(QDataStream *s, bool archive, int fileversion) {
 					QPtrList<UMLOperation> *opList = dynamic_cast<UMLConcept *>(o)->getOpList();
 					for (UMLOperation *op = opList->first(); op; op = opList->next())
 						emit sigChildObjectCreated(op);
+
 					QPtrList<UMLAttribute> *attList = dynamic_cast<UMLConcept *>(o)->getAttList();
 					for (UMLAttribute *att = attList->first(); att; att = attList->next())
 						emit sigChildObjectCreated(att);
+
+					QPtrList<UMLTemplate>* templateList = dynamic_cast<UMLConcept*>(o)->getTemplateList();
+					for (UMLTemplate* theTemplate = templateList->first(); theTemplate;
+					     theTemplate = templateList->next())
+						emit sigChildObjectCreated(theTemplate);
 				}
 			}
 		}
@@ -1169,7 +1216,7 @@ bool UMLDoc::loadFromXMI( QIODevice & file ) {
 	int line;
 	QDomDocument doc;
 	if( !doc.setContent( data, false, &error, &line ) ) {
-		kdDebug()<<"Can't set content:"<<error<<" Line:"<<line<<endl;
+		kdWarning()<<"Can't set content:"<<error<<" Line:"<<line<<endl;
 		return false;
 	}
 	QDomNode node = doc.firstChild();
@@ -1216,16 +1263,19 @@ bool UMLDoc::loadFromXMI( QIODevice & file ) {
 					getDocWindow() -> newDocumentation();
 				} else if( tag == "umlobjects" ) {
 					QDomNode objectNode = node.firstChild();
-					if( !loadUMLObjectsFromXMI( objectNode ) )
+					if( !loadUMLObjectsFromXMI( objectNode ) ) {
 						return false;
+					}
 				} else if( tag == "diagrams" ) {
 					QDomNode diagramNode = node.firstChild();
 
-					if( !loadDiagramsFromXMI( diagramNode ) )
+					if( !loadDiagramsFromXMI( diagramNode ) ) {
 						return false;
+					}
 				} else if( tag == "listview" ) {
-					if( !listView -> loadFromXMI( element ) )
+					if( !listView -> loadFromXMI( element ) ) {
 						return false;
+					}
 				}
 				node = node.nextSibling();
 				element = node.toElement();
@@ -1303,8 +1353,9 @@ bool UMLDoc::loadUMLObjectsFromXMI( QDomNode & node ) {
 			kdDebug()<<"Given wrong type of umlobject to create"<<endl;
 			return false;
 		}
-		if( !pObject -> loadFromXMI( element ) )
+		if( !pObject -> loadFromXMI( element ) ) {
 			return false;
+		}
 		objectList.append( pObject );
 		emit sigSetStatusbarProgress( ++count );
 		node = node.nextSibling();
@@ -1330,8 +1381,9 @@ bool UMLDoc::loadDiagramsFromXMI( QDomNode & node ) {
 			pView = new UMLView(getUMLApp()->getMainViewWidget(), new UMLViewData(), this);
 			pView -> hide();
 			pView -> setOptionState( state );
-			if( !pView -> getData() -> loadFromXMI( element ) )
+			if( !pView -> getData() -> loadFromXMI( element ) ) {
 				return false;
+			}
 			addView( pView );
 			emit sigSetStatusbarProgress( ++count );
 		}
@@ -1440,6 +1492,12 @@ bool UMLDoc::addUMLObjectPaste(UMLObject* Obj) {
 		QList<UMLOperation>* operations = ((UMLConcept*)Obj)->getOpList();
 		for(UMLObject *o = operations->first(); o; o = operations->next()) {
 			result =  assignNewID(o->getID());
+			o->setID(result);
+		}
+
+		QList<UMLTemplate>* templates = ((UMLConcept*)Obj)->getTemplateList();
+		for(UMLObject* o = templates->first(); o; o = templates->next()) {
+			result = assignNewID(o->getID());
 			o->setID(result);
 		}
 	}

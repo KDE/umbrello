@@ -17,6 +17,7 @@
 #include "classgenpage.h"
 #include "classattpage.h"
 #include "classopspage.h"
+#include "classtemplatepage.h"
 #include "assocpage.h"
 #include "classoptionspage.h"
 #include "umlwidgetcolorpage.h"
@@ -32,6 +33,7 @@ ClassPropDlg::ClassPropDlg(QWidget *parent, UMLObject * c, int pageNum, bool ass
 	m_pGenPage = 0;
 	m_pAttPage = 0;
 	m_pOpsPage = 0;
+	m_pTemplatePage = 0;
 	m_pOptionsPage = 0;
 	m_pColorPage = 0;
 	m_Type = pt_Object;
@@ -47,6 +49,7 @@ ClassPropDlg::ClassPropDlg(QWidget *parent, ObjectWidget * o) : KDialogBase(Icon
 	m_pGenPage = 0;
 	m_pAttPage = 0;
 	m_pOpsPage = 0;
+	m_pTemplatePage = 0;
 	m_pOptionsPage = 0;
 	m_Type = pt_ObjectWidget;
 	m_pObject = m_pWidget->getUMLObject();
@@ -73,6 +76,7 @@ ClassPropDlg::ClassPropDlg(QWidget *parent, UMLWidget * w) : KDialogBase(IconLis
 	m_pGenPage = 0;
 	m_pAttPage = 0;
 	m_pOpsPage = 0;
+	m_pTemplatePage = 0;
 	m_pOptionsPage = 0;
 	m_Type = pt_Widget;
 	m_pObject = w -> getUMLObject();
@@ -122,6 +126,9 @@ void ClassPropDlg::slotApply() {
 	if (m_pOpsPage) {
 		m_pOpsPage->updateObject();
 	}
+	if (m_pTemplatePage) {
+		m_pTemplatePage->updateObject();
+	}
 	if (m_pOptionsPage) {
 		m_pOptionsPage->updateUMLWidget();
 	}
@@ -142,18 +149,29 @@ void ClassPropDlg::setupPages(UMLObject * c, bool assoc) {
 	genLayout -> addWidget(m_pGenPage);
 	//add extra pages for concept
 	if(c->getBaseType() == Uml::ot_Concept) {
-		QFrame *newPage = addPage(i18n("Attributes"), i18n("Attribute Settings"), DesktopIcon( "misc") );
+		//setup attributes page
+		QFrame *newPage = addPage( i18n("Attributes"), i18n("Attribute Settings"), DesktopIcon("misc") );
 		m_pAttPage = new ClassAttPage(newPage, (UMLConcept*)c, m_pDoc);
 		QHBoxLayout * attLayout = new QHBoxLayout(newPage);
 		attLayout -> addWidget(m_pAttPage);
 		connect(m_pAttPage, SIGNAL(sigUpdateChildObject(int)), this, SLOT(slotUpdateChildObject(int)));
 
-		newPage = addPage(i18n("Operations"), i18n("Operation Settings"), DesktopIcon( "misc") );
+		//setup operations page
+		newPage = addPage( i18n("Operations"), i18n("Operation Settings"), DesktopIcon("misc") );
 		m_pOpsPage = new ClassOpsPage(newPage, (UMLConcept*)c, m_pDoc);
-		QHBoxLayout * m_pOpsLayout = new QHBoxLayout(newPage);
-		m_pOpsLayout -> addWidget(m_pOpsPage);
+		QHBoxLayout* pOpsLayout = new QHBoxLayout(newPage);
+		pOpsLayout -> addWidget(m_pOpsPage);
 		connect(m_pOpsPage, SIGNAL(sigUpdateChildObject(int)), this, SLOT(slotUpdateChildObject(int)));
-		if(assoc) {
+
+		//setup templates page
+		newPage = addPage( i18n("Templates"), i18n("Templates Settings"), DesktopIcon("misc") );
+		m_pTemplatePage = new ClassTemplatePage(newPage, (UMLConcept*)c, m_pDoc);
+		QHBoxLayout* templatesLayout = new QHBoxLayout(newPage);
+		templatesLayout->addWidget(m_pTemplatePage);
+		connect(m_pTemplatePage, SIGNAL(sigUpdateChildObject(int)), this, SLOT(slotUpdateChildObject(int)));
+
+
+		if (assoc) {
 			newPage = addPage(i18n("Associations"), i18n("Class Associations"), DesktopIcon( "misc") );
 			m_pAssocPage = new AssocPage(newPage, m_pDoc -> getCurrentView(), m_pObject);
 			QHBoxLayout * assocLayout = new QHBoxLayout(newPage);

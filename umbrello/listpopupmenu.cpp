@@ -633,6 +633,10 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 			insertItem(SmallIcon( "source"), i18n("New Attribute..."), mt_New_Attribute);
 			break;
 
+		case mt_New_Template:
+			insertItem(SmallIcon("source"), i18n("New Template..."), mt_New_Template);
+			break;
+
 		case mt_New_Activity:
 			m_pInsert = new KPopupMenu(this,"New");
 			m_pInsert -> insertItem(SmallIcon( "source"),i18n("Activity..."), mt_New_Activity);
@@ -666,6 +670,13 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 			insertItem(SmallIcon( "charset"), i18n("Rename..."), mt_Rename);
 			insertItem(SmallIcon( "editdelete"), i18n("Delete"), mt_Delete);
 			insertItem(SmallIcon( "info"), i18n("Properties"), mt_Properties);
+			break;
+
+		case mt_Template_Selected:
+			insertItem(SmallIcon("source"),i18n("New Template..."), mt_New_Attribute);
+			insertItem(SmallIcon("charset"), i18n("Rename..."), mt_Rename);
+			insertItem(SmallIcon("editdelete"), i18n("Delete"), mt_Delete);
+			insertItem(SmallIcon("info"), i18n("Properties"), mt_Properties);
 			break;
 
 		case mt_Association_Selected:

@@ -17,6 +17,7 @@
 class ClassGenPage;
 class ClassAttPage;
 class ClassOpsPage;
+class ClassTemplatePage;
 class AssocPage;
 class ClassOptionsPage;
 class UMLWidgetColorPage;
@@ -65,7 +66,8 @@ public:
 	 */
 	~ClassPropDlg();
 
-	enum Page{page_gen = 0, page_att, page_op, page_assoc, page_options, page_color, page_font};
+	enum Page{page_gen = 0, page_att, page_op, page_template, 
+		  page_assoc, page_options, page_color, page_font};
 
 protected:
 	void slotOk();
@@ -77,6 +79,7 @@ private:
 	ClassGenPage * m_pGenPage;
 	ClassAttPage *	m_pAttPage;
 	ClassOpsPage * m_pOpsPage;
+	ClassTemplatePage* m_pTemplatePage;
 	AssocPage * m_pAssocPage;
 	ClassOptionsPage * m_pOptionsPage;
 	UMLWidgetColorPage * m_pColorPage;

@@ -13,7 +13,7 @@
 #include "umlobject.h"
 
 /**
- *	This class is used to set up information for an atrtibute.  This is like
+ *	This class is used to set up information for an attribute.  This is like
  *	a programming attribute.  It has a type, name, scope and initial value.
  *
  *	@short Sets up attribute information.

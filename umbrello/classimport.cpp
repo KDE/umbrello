@@ -20,7 +20,8 @@
 //ClassImport::ClassImport(){
 //}
 
-ClassImport::ClassImport(QWidget *parent, const char *name) : UMLDoc(parent, name) {}
+ClassImport::ClassImport(QWidget *parent, const char *name) : UMLDoc(parent, name) {
+}
 
 ClassImport::~ClassImport() {}
 /** No descriptions */

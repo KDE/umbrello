@@ -17,6 +17,7 @@ class IDChangeLog;
 class UMLAssociation;
 class UMLAttribute;
 class UMLOperation;
+class UMLTemplate;
 
 /**
  *	This class contains the non-graphical information required for a UML Concept (ie a class).
@@ -104,6 +105,27 @@ public:
 	 */
 	int removeAttribute(UMLObject *a);
 
+ 	/**
+  	 *	Adds a template to the Concept.
+  	 *
+  	 *	@param	name	The name of the template.
+	 *	@param	id	The id of the template.
+	 */
+	UMLObject* addTemplate(QString name, int id);
+
+	/**
+	 * Adds an already created template, the template object must not belong to any other
+	 *	concept
+	 */
+	bool addTemplate(UMLTemplate* newTemplate, IDChangeLog* log = 0);
+
+	/**
+	 *	Removes a template from the Concept.
+	 *
+	 *	@param	a	The template to remove.
+	 */
+	int removeTemplate(UMLTemplate* a);
+
 	/**
 	 *	Adds an operation to the Concept.
 	 *
@@ -153,22 +175,25 @@ public:
 	}
 
 	/**
+	 *	Returns the number of templates for the Concept.
+	 *
+	 *	@return	The number of templates for the Concept.
+	 */
+	int templates();
+
+	/**
 	 *	Returns the number of operations for the Concept.
 	 *
 	 *	@return	The number of operations for the Concept.
 	 */
-	int operations() {
-		return m_OpsList.count();
-	}
+	int operations() ;
 
  	/**
 	 *	Return the list of associations for the Concept.
 	 *
 	 *	@return The list of associations for the Concept.
 	 */
-	const QPtrList<UMLAssociation>& getAssociations() {
-		return m_AssocsList;
-	}
+	const QPtrList<UMLAssociation>& getAssociations();
 
 	/**
 	 *	Return the subset of m_AssocsList that matches `assocType'.
@@ -182,64 +207,62 @@ public:
 	 *
 	 *	@return The list of generalizations for the Concept.
 	 */
-	QPtrList<UMLAssociation> getGeneralizations() {
-		return getSpecificAssocs(Uml::at_Generalization);
-	}
+	QPtrList<UMLAssociation> getGeneralizations();
 
 	/**
 	 *	Shorthand for getSpecificAssocs(Uml::at_Aggregation)
 	 *
 	 *	@return The list of aggregations for the Concept.
 	 */
-	QPtrList<UMLAssociation> getAggregations() {
-		return getSpecificAssocs(Uml::at_Aggregation);
-	}
+	QPtrList<UMLAssociation> getAggregations();
 
 	/**
 	 *	Shorthand for getSpecificAssocs(Uml::at_Composition)
 	 *
 	 *	@return The list of compositions for the Concept.
 	 */
-	QPtrList<UMLAssociation> getCompositions() {
-		return getSpecificAssocs(Uml::at_Composition);
-	}
+	QPtrList<UMLAssociation> getCompositions();
 
 	/**
 	 *	Return the list of attributes for the Concept.
 	 *
 	 *	@return The list of attributes for the Concept.
 	 */
-	QPtrList<UMLAttribute>* getAttList() {
-		return &m_AttsList;
-	}
+	QPtrList<UMLAttribute>* getAttList();
+
+	/**
+	 *	Return the list of templates for the Concept.
+	 *
+	 *	@return The list of templates for the Concept.
+	 */
+	QPtrList<UMLTemplate>* getTemplateList();
 
 	/**
 	 *	Return the list of operations for the Concept.
 	 *
 	 *	@return The list of operation for the Concept.
 	 */
-	QPtrList<UMLOperation>* getOpList() {
-		return &m_OpsList;
-	}
+	QPtrList<UMLOperation>* getOpList();
 
 	/**
-	 *	Find a list of  attributes or operations with the given name.
+	 *	Find a list of attributes, operations, associations or
+	 *	templates with the given name.
 	 *
 	 *	@param	t	The type to find.
-	 *	@param	n	The name of the attribute or operation to find.
+	 *	@param	n	The name of the object to find.
 	 *
-	 *	@return	The operation or attribute found.  Will return 0 if none found.
+	 *	@return	The object found.  Will return 0 if none found.
 	 */
 	QPtrList<UMLObject> findChildObject(UMLObject_Type t, QString n);
 
 	/**
-	 *	Find an attribute or operation.
+	 *	Find an attribute, operation, association or template.
 	 *
-	 *	@param	id	The id of the attribute or operation to find.
+	 *	@param	id	The id of the object to find.
 	 *
-	 *	@return	The operation or attribute found.  Will return 0 if none found.
+	 *	@return	The object found.  Will return 0 if none found.
 	 */
-	UMLObject * findChildObject(int id);
+	UMLObject* findChildObject(int id);
 
 	/**
 	 * Use to save or load this classes information
@@ -263,13 +286,23 @@ public:
 	 */
 	void init();
 
+	/**
+	 * Creates the UML:Class element including it's operations,
+	 * attributes and templates
+	 */
 	bool saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
-	bool loadFromXMI( QDomElement & element );
 	/**
-	 * Returns a name for the new attribute or operation,
-	 * appended with a number if the default name is taken
-	 * e.g. new attribute, new attribute_1 etc
+	 * Loads the UML:Class element including it's operations,
+	 * attributes and templates
+	 */
+	bool loadFromXMI( QDomElement & element );
+
+	/**
+	 * Returns a name for the new attribute, operation,
+	 * association or template appended with a number if the
+	 * default name is taken e.g. new attribute, new attribute_1
+	 * etc
 	 */
 	QString uniqChildName(const UMLObject_Type type);
 
@@ -294,6 +327,11 @@ private:
 	 * 	List of all the attributes in this class.
 	 */
 	QPtrList<UMLAttribute> m_AttsList;
+
+	/**
+	 * 	List of all the templates in this class.
+	 */
+	QPtrList<UMLTemplate> m_TemplateList;
 };
 
 #endif

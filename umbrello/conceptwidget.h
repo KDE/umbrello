@@ -12,6 +12,7 @@
 
 #include "conceptwidgetdata.h"
 #include "umlwidget.h"
+#include <qsize.h>
 
 class UMLView;
 
@@ -209,9 +210,18 @@ private:
 	 */
 	void calculateSize();
 
+	/**
+	 * Calculcates the size of the templates box in the top left
+	 * if it exists, returns QSize(0,0) if it doesn't.
+	 */
+	QSize calculateTemplatesBoxSize();
+
 	void updateSigs();
 
-	ListPopupMenu *m_pMenu;
+	/**
+	 * The right mouse button menu
+	 */
+	ListPopupMenu* m_pMenu;
 
 public slots:
 	/**

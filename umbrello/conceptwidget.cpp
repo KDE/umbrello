@@ -10,6 +10,7 @@
 #include "conceptwidget.h"
 #include "concept.h"
 #include "operation.h"
+#include "template.h"
 #include "umlview.h"
 #include <kdebug.h>
 #include <qpainter.h>
@@ -68,18 +69,36 @@ void ConceptWidget::draw(QPainter & p, int offsetX, int offsetY) {
 	else
 		p.setBrush(m_pView -> viewport() -> backgroundColor());
 	int na = ((UMLConcept*)m_pObject)->attributes();
-	int w = width();
-	int h = height();
+
+	QSize templatesBoxSize = calculateTemplatesBoxSize();
+	int bodyOffsetY;
+	if (templatesBoxSize.height() == 0) {
+		bodyOffsetY = offsetY;
+	} else {
+		bodyOffsetY = offsetY + templatesBoxSize.height() - MARGIN;
+	}
+	int w;
+	if (templatesBoxSize.width() == 0) {
+		w = width();
+	} else {
+		w = width() - (templatesBoxSize.width() / 2);
+	}
+	int h;
+	if (templatesBoxSize.height() == 0) {
+		h = height();
+	} else {
+		h = height() - (templatesBoxSize.height() - MARGIN);
+	}
 	QFontMetrics fm = QFontMetrics( m_pData -> getFont() );
 	int fontHeight  = fm.lineSpacing();
 	QString name;
-	if( ((ConceptWidgetData*)m_pData)->m_bShowPackage )
+	if ( ((ConceptWidgetData*)m_pData)->m_bShowPackage ) {
 		name = m_pObject -> getPackage() + "::" + this -> getName();
-
-	else
+	} else {
 		name = this -> getName();
+	}
 
-	p.drawRect(offsetX, offsetY, w, h);
+	p.drawRect(offsetX, bodyOffsetY, w, h);
 	p.setPen(QPen(black));
 	if(!((ConceptWidgetData*)m_pData)->m_bShowOperations &&
 	        ! ((ConceptWidgetData*)m_pData)->m_bShowAttributes &&
@@ -88,35 +107,36 @@ void ConceptWidget::draw(QPainter & p, int offsetX, int offsetY) {
 		font.setBold( true );
 		font.setItalic( m_pObject-> getAbstract() );
 		p.setFont( font );
-		p.drawText(offsetX + MARGIN, offsetY, w - MARGIN * 2, h, AlignCenter, name);
+		p.drawText(offsetX + MARGIN, bodyOffsetY, w - MARGIN * 2, h, AlignCenter, name);
 		font.setBold( false );
-		font.setItalic( false ); 
+		font.setItalic( false );
 		p.setFont( font );
 	} else {
 		if(((ConceptWidgetData*)m_pData)->m_bShowStereotype) {
 			QFont f( m_pData -> getFont() );
 			f.setBold( true );
 			p.setFont( f );
-			p.drawText(offsetX + MARGIN, offsetY ,w-MARGIN * 2,fontHeight,AlignCenter, "<< " + m_pObject -> getStereotype() + " >>");
+			p.drawText(offsetX + MARGIN, bodyOffsetY, w-MARGIN * 2,fontHeight,AlignCenter, "<< " + m_pObject -> getStereotype() + " >>");
 			f.setItalic( m_pObject -> getAbstract() );
 			p.setFont( f );
-			p.drawText(offsetX + MARGIN, offsetY + fontHeight,w-MARGIN * 2,fontHeight,AlignCenter, name);
+			p.drawText(offsetX + MARGIN, bodyOffsetY + fontHeight,w-MARGIN * 2,fontHeight,AlignCenter, name);
 			f.setItalic( false );
 			f.setBold( false );
 			p.setFont( f );
 			p.setPen(m_pData->getLineColour());
-			p.drawLine(offsetX , offsetY + fontHeight * 2, offsetX + w - 1, offsetY + fontHeight * 2);
+			p.drawLine(offsetX, bodyOffsetY + fontHeight * 2, offsetX + w - 1,
+				   bodyOffsetY + fontHeight * 2);
 		} else {
 			QFont f( m_pData -> getFont() );
 			f.setBold( true );
 			f.setItalic( m_pObject -> getAbstract() );
 			p.setFont( f );
-			p.drawText(offsetX + MARGIN, offsetY, w-MARGIN * 2,fontHeight,AlignCenter, name);
+			p.drawText(offsetX + MARGIN, bodyOffsetY, w-MARGIN * 2,fontHeight,AlignCenter, name);
 			f.setItalic( false );
 			f.setBold( false );
 			p.setFont( f );
 			p.setPen(m_pData->getLineColour());
-			p.drawLine(offsetX , offsetY + fontHeight, offsetX + w - 1, offsetY + fontHeight);
+			p.drawLine(offsetX, bodyOffsetY + fontHeight, offsetX + w - 1, bodyOffsetY + fontHeight);
 		}
 	}
 	int aStart = fontHeight;
@@ -140,7 +160,8 @@ void ConceptWidget::draw(QPainter & p, int offsetX, int offsetY) {
 		for(obj=list->first();obj != 0;obj=list->next()) {
 			f.setUnderline( obj -> getStatic() );
 			p.setFont( f );
-			p.drawText(offsetX + MARGIN, offsetY + y, w-MARGIN * 2, fontHeight, AlignVCenter, obj-> toString(((ConceptWidgetData*)m_pData)->m_ShowAttSigs));
+			p.drawText(offsetX + MARGIN, bodyOffsetY + y, w-MARGIN * 2, fontHeight, AlignVCenter,
+				   obj->toString(((ConceptWidgetData*)m_pData)->m_ShowAttSigs));
 			f.setUnderline(false);
 			p.setFont(f);
 			y+=fontHeight;
@@ -152,7 +173,7 @@ void ConceptWidget::draw(QPainter & p, int offsetX, int offsetY) {
 		y = oStart;
 		p.setPen(m_pData->getLineColour());
 		if(((ConceptWidgetData*)m_pData)->m_bShowAttributes)
-			p.drawLine(offsetX, offsetY + y, offsetX + w - 1, offsetY + y);
+			p.drawLine(offsetX, bodyOffsetY + y, offsetX + w - 1, bodyOffsetY + y);
 		else
 			y = aStart;
 		UMLOperation * obj = 0;
@@ -163,15 +184,66 @@ void ConceptWidget::draw(QPainter & p, int offsetX, int offsetY) {
 			f.setItalic( obj -> getAbstract() );
 			f.setUnderline( obj -> getStatic() );
 			p.setFont( f );
-			p.drawText(offsetX + MARGIN, offsetY + y, w-MARGIN * 2,fontHeight,AlignVCenter,op);
+			p.drawText(offsetX + MARGIN, bodyOffsetY + y, w-MARGIN * 2,fontHeight,AlignVCenter,op);
 			f.setItalic( false );
 			f.setUnderline(false);
 			p.setFont( f );
 			y+=fontHeight;
 		}
 	}//end if op
+
+	//If there are any templates the draw them
+	//this should really be controlled by a property in conceptwidgetdata
+	if ( ((UMLConcept*)m_pObject)->getTemplateList()->count() > 0 ) {
+
+		QFont font = m_pData->getFont();
+		p.setPen( QPen(m_pData->getLineColour(), 0, Qt::DotLine) );
+		p.drawRect( offsetX + width() - templatesBoxSize.width(), offsetY,
+			    templatesBoxSize.width(), templatesBoxSize.height() );
+
+		p.setPen( QPen(black) );
+		font.setItalic(false);
+		font.setUnderline(false);
+		font.setBold(false);
+		QList<UMLTemplate>* list = ((UMLConcept*)m_pObject)->getTemplateList();
+		UMLTemplate* theTemplate = 0;
+		int y = offsetY + MARGIN;
+		for ( theTemplate=list->first(); theTemplate != 0; theTemplate=list->next() ) {
+			QString text = theTemplate->toString();
+			p.drawText(offsetX + width() - templatesBoxSize.width() + MARGIN, y,
+				   width()-MARGIN, fontHeight, AlignVCenter, text);
+			y += fontHeight;
+		}
+	}
 	if(m_bSelected)
 		drawSelected(&p, offsetX, offsetY);
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+QSize ConceptWidget::calculateTemplatesBoxSize() {
+	int count = ((UMLConcept*)m_pObject)->templates();
+	if (count == 0) {
+		return QSize(0, 0);
+	}
+
+	int width, height;
+	height = width = 0;
+
+	QFont font = m_pData->getFont();
+	font.setBold(true);//use bold for all calculations
+	font.setItalic(true);
+	QFontMetrics fm = QFontMetrics(font);
+
+	height = count * fm.lineSpacing() + (MARGIN*2);
+
+	QList<UMLTemplate>* list = ((UMLConcept*)m_pObject)->getTemplateList();
+	UMLTemplate* theTemplate = 0;
+	for ( theTemplate=list->first(); theTemplate != 0; theTemplate=list->next() ) {
+		int textWidth = fm.width( theTemplate->toString() );
+		width = textWidth>width ? textWidth : width;
+	}
+
+	width += (MARGIN*2);
+	return QSize(width, height);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void ConceptWidget::calculateSize() {
@@ -243,6 +315,15 @@ void ConceptWidget::calculateSize() {
 	        !((ConceptWidgetData*)m_pData)->m_bShowStereotype) {
 		height += MARGIN * 2;
 	}
+
+	QSize templatesBoxSize = calculateTemplatesBoxSize();
+	if (templatesBoxSize.width() != 0) {
+		width += templatesBoxSize.width() / 2;
+	}
+	if (templatesBoxSize.height() != 0) {
+		height += templatesBoxSize.height() - MARGIN;
+	}
+
 	setSize(width, height);
 	adjustAssocs( (int)x(), (int)y() );//adjust assoc lines
 }

@@ -65,9 +65,11 @@ public:
 	    mt_New_Parameter,                 //PARM  and PARMNEW
 	    mt_New_Operation,                 //NEWOP
 	    mt_New_Attribute,                 //NEWATT
+	    mt_New_Template,
 	    mt_Parameter_Selected,            //PARMSEL
 	    mt_Operation_Selected,            //OPSEL
 	    mt_Attribute_Selected,            //ATTSEL
+	    mt_Template_Selected,
 	    mt_Association_Selected,          //ASSOCSEL
 	    mt_Show_Attributes,               //SHOWATTS
 	    mt_Show_Operations,               //SHOWOPS

@@ -23,7 +23,8 @@ namespace Uml {
 	    ot_Concept,
             ot_Association,
 	    ot_Attribute,
-	    ot_Operation
+	    ot_Operation,
+	    ot_Template
 	};
 
 	enum Scope
@@ -122,6 +123,7 @@ namespace Uml {
 	    lvt_Class,
 	    lvt_Attribute,
   	    lvt_Operation,
+  	    lvt_Template,
   	    lvt_Unknown = -1
   	};
  

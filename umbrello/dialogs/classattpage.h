@@ -10,7 +10,7 @@
 #ifndef CLASSATTPAGE_H
 #define CLASSATTPAGE_H
 
-//quicktime  includes
+//qt  includes
 #include <qwidget.h>
 #include <qgroupbox.h>
 #include <qlistbox.h>

@@ -182,6 +182,14 @@ public:
  	 *	@return		The UMLAttribute created
   	 */
   	UMLObject* createAttribute(UMLObject* o);
+
+  	/**
+ 	 *  Creates a template for the parent concept.
+  	 *
+ 	 *	@param	o	The parent concept
+ 	 *	@return		The UMLTemplate created
+  	 */
+  	UMLObject* createTemplate(UMLObject* o);
   
   	/**
  	 *  Creates an operation for the parent concept.

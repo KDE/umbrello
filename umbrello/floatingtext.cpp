@@ -102,7 +102,6 @@ void FloatingText::calculateSize() {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void FloatingText::slotMenuSelection(int sel) {
-	kdDebug() << k_funcinfo << endl;
 	QString t, newText;
 	bool ok;
 	int result;

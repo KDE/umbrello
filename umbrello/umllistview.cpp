@@ -319,8 +319,9 @@ void UMLListView::slotObjectCreated(UMLObject* newObject) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void UMLListView::slotChildObjectCreated(UMLObject * o) {
-	if(loading)
+	if(loading) {
 		return;
+	}
 	UMLListViewItem *item = findUMLObject((UMLObject*)o->parent());
 	UMLListViewItem *temp = new UMLListViewItem(item, o->getName(), convert_OT_LVT( o->getBaseType() ), o);
 	ensureItemVisible(item);
@@ -1166,6 +1167,10 @@ Uml::ListView_Type UMLListView::convert_OT_LVT(Uml::UMLObject_Type ot) {
 
 		case Uml::ot_Operation:
 			type = Uml::lvt_Operation;
+			break;
+
+		case Uml::ot_Template:
+			type = Uml::lvt_Template;
 			break;
 		default:
 			break;
