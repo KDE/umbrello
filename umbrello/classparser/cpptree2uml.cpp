@@ -1,13 +1,13 @@
 /***************************************************************************
- *                     based on kdevelop/languages/cpp/store_walker.cpp,   *
- *		     Copyright (C) 2003 by Roberto Raggi		 *
+ *   Based on kdevelop/languages/cpp/store_walker.cpp,                     *
+ *	             Copyright (C) 2003 by Roberto Raggi                   *
  *   Copyright (C) 2004 by Oliver Kellogg <okellogg@users.sourceforge.net> *
- *									 *
+ *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.				   *
- *									 *
+ *                                                                         *
  ***************************************************************************/
 
 #include "cpptree2uml.h"
@@ -24,7 +24,7 @@
 #include <qdir.h>
 
 CppTree2Uml::CppTree2Uml( const QString& fileName, ClassImport* store )
-    : m_importer( store ), m_anon( 0 ), m_nsCnt( 0 ), m_clsCnt( 0 ), m_anonTypeCnt( 0 )
+    : m_importer( store ), m_anon( 0 ), m_nsCnt( 0 ), m_clsCnt( 0 )
 {
     m_fileName = URLUtil::canonicalPath(fileName);
 }
@@ -286,7 +286,8 @@ void CppTree2Uml::parseClassSpecifier( ClassSpecifierAST* ast )
     }
 
     if (className.isEmpty()) {
-	className = "anon_" + QString::number(++m_anonTypeCnt);
+	className = "anon_" + QString::number(m_anon);
+	m_anon++;
     }
     UMLObject * o = m_importer->createUMLObject( Uml::ot_Class, className,
 						 m_currentNamespace[m_nsCnt],

@@ -85,7 +85,7 @@ private:
     UMLClass* m_currentClass[32];  ///< stack
     int m_nsCnt;  ///< stack top for m_currentNamespace
     int m_clsCnt;  ///< stack top for m_currentClass
-    int m_anonTypeCnt;
+
 private:
     CppTree2Uml( const CppTree2Uml& source );
     void operator = ( const CppTree2Uml& source );
