@@ -314,6 +314,16 @@ public:
 	}
 
 	/**
+	 * Returns the input coordinate with possible grid-snap applied.
+	 */
+	int snappedX( int x );
+
+	/**
+	 * Returns the input coordinate with possible grid-snap applied.
+	 */
+	int snappedY( int y );
+
+	/**
 	 * Sets the x-coordinate.
 	 *
 	 * @param x The x-coordinate to be set.
