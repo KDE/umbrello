@@ -209,19 +209,22 @@ UMLObjectList UMLClass::findChildObject(UMLObject_Type t , QString n) {
   			if(obj->getBaseType() == t && obj -> getName() == n)
 				list.append( obj );
 		}
- 	} else if (t == ot_Template || t == ot_Stereotype) {
+ 	}
+	if (t == ot_Template || t == ot_Stereotype) {
   		UMLClassifierListItem* obj=0;
   		for(obj=m_TemplateList.first(); obj != 0; obj=m_TemplateList.next()) {
   			if (obj->getBaseType() == t && obj->getName() == n)
 				list.append(obj);
 		}
-	} else if (t == ot_Operation || t == ot_Stereotype) {
+	}
+	if (t == ot_Operation || t == ot_Stereotype) {
 		UMLClassifierListItem* obj=0;
 		for(obj=m_OpsList.first();obj != 0;obj=m_OpsList.next()) {
 			if(obj->getBaseType() == t && obj -> getName() == n)
 				list.append( obj );
 		}
-	} else {
+	}
+	if (t != ot_Association && t != ot_Attribute && t != ot_Template && t != ot_Operation && t != ot_Stereotype) {
 		kdWarning() << "finding child object of unknown type" <<t<<" (requested name = "<<n<<")"<<endl;
 	}
 
