@@ -308,10 +308,10 @@ void IDLWriter::writeClass(UMLClassifier *c) {
 	}
 
 	// Generate public operations.
-	UMLOperationList *opl = c->getFilteredOperationsList();
+	UMLOperationList opl(c->getFilteredOperationsList());
 	UMLOperationList oppub;
 	UMLOperation *op;
-	for (op = opl->first(); op; op = opl->next()) {
+	for (op = opl.first(); op; op = opl.next()) {
 		if (op->getScope() == Uml::Public)
 			oppub.append(op);
 	}
@@ -370,8 +370,14 @@ void IDLWriter::writeOperation(UMLOperation *op, QTextStream &idl, bool is_comme
 			idl << spc();
 			if (is_comment)
 				idl << "// ";
-			idl << "in " << at->getTypeName() << " "
-			    << cleanName(at->getName());
+			Uml::Parameter_Kind pk = at->getParmKind();
+			if (pk == Uml::pk_Out)
+				idl << "out ";
+			else if (pk == Uml::pk_InOut)
+				idl << "inout ";
+			else
+				idl << "in ";
+			idl << at->getTypeName() << " " << cleanName(at->getName());
 			if (++i < atl->count())
 				idl << ",\n";
 		}

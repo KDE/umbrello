@@ -40,7 +40,7 @@ class UMLStereotype;
 class UMLClassifier : public UMLCanvasObject {
 	Q_OBJECT
 public:
-	
+
 	/**
 	 * Enumeration identifying the type of classifier.
 	 */
@@ -76,7 +76,6 @@ public:
 	 * @return true if the Operation could be added to the Classifier.
 	 */
 	bool addOperation(UMLOperation* Op, int position = -1);
-	
 
 	/**
 	 * Appends an operation to the classifier.
@@ -88,7 +87,7 @@ public:
 	 * @return	True if the operation was added successfully.
 	 */
 	bool addOperation(UMLOperation* Op, IDChangeLog* Log);
-	
+
 	/**
 	 * Checks whether an operation is valid based on its signature -
 	 * An operation is "valid" if the operation's name and paramter list
@@ -116,6 +115,16 @@ public:
 	int removeOperation(UMLOperation *op);
 
 	/**
+	 * Take and return an operation from class. 
+	 * It is the callers responsibility to pass on ownership of
+	 * the returned operation (or to delete the operation)
+	 *
+	 * @param  o operation to take
+	 * @return pointer to the operation or null if not found.
+	 */
+	UMLOperation* takeOperation(UMLOperation* o);
+
+	/**
 	 * Add an already created stereotype to the list identified by the
 	 * UMLObject_Type.
 	 *
@@ -125,7 +134,7 @@ public:
 	 * @return	True if the stereotype was successfully added.
 	 */
 	virtual bool addStereotype(UMLStereotype* newStereotype, UMLObject_Type list, IDChangeLog* log = 0);
-	
+
 
         /**
          * Remove a stereotype from the Classifier.
@@ -153,18 +162,19 @@ public:
 	int stereotypes();
 
 	/**
-	 * Return the list of operations for the Classifier.
+	 * Return a list of operations for the Classifier.
+	 * @param includeInherited Includes operations from superclasses.
 	 *
 	 * @return	The list of operations for the Classifier.
 	 */
-	UMLClassifierListItemList* getOpList();
+	UMLClassifierListItemList getOpList(bool includeInherited = false);
 
 	/**
 	 * Returns the entries in m_pOpsList that are actually operations.
 	 *
 	 * @return	The list of true operations for the Concept.
 	 */
-	UMLOperationList* getFilteredOperationsList();
+	UMLOperationList getFilteredOperationsList(bool includeInherited = false);
 
 	/**
 	 * Returns a name for the new association, operation, template
@@ -230,7 +240,7 @@ public:
 	//
 	// now a number of pure virtual methods..
 	//
-	
+
 	/**
 	 * Returns true if this classifier represents an interface.
 	 * This method must be implemented by the inheriting classes.

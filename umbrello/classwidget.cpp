@@ -183,8 +183,8 @@ void ClassWidget::draw(QPainter & p, int offsetX, int offsetY) {
 			y = aStart;
 		p.setPen(QPen(black));
 		UMLClassifierListItem* obj = 0;
-		UMLClassifierListItemList *list = ((UMLClass*)m_pObject)->getOpList();
-		for(obj=list->first();obj != 0;obj=list->next()) {
+		UMLClassifierListItemList list(((UMLClass*)m_pObject)->getOpList());
+		for(obj=list.first();obj != 0;obj=list.next()) {
 			QString op = obj -> toString( m_ShowOpSigs );
 			f.setItalic( obj -> getAbstract() );
 			f.setUnderline( obj -> getStatic() );
@@ -321,9 +321,9 @@ void ClassWidget::calculateSize() {
 
 	/* calculate width of the operations */
 	if (m_bShowOperations) {
-		UMLClassifierListItemList * list = ((UMLClass *)m_pObject)->getOpList();
+		UMLClassifierListItemList list((static_cast<UMLClass*>(m_pObject))->getOpList());
 		UMLClassifierListItem* listItem = 0;
-		for(listItem = list->first();listItem != 0; listItem = list->next()) {
+		for(listItem = list.first();listItem != 0; listItem = list.next()) {
 			QFont font = UMLWidget::getFont();
 			font.setUnderline( listItem->getStatic() );
 			font.setItalic( listItem->getAbstract() );

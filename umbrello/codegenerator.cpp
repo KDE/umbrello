@@ -624,8 +624,8 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLClassifierList &cLis
         }
 
         //operations
-	UMLOperationList *opl = c->getFilteredOperationsList();
-        for(UMLOperation *op = opl->first(); op ; op = opl->next()) {
+	UMLOperationList opl(c->getFilteredOperationsList());
+        for(UMLOperation *op = opl.first(); op ; op = opl.next()) {
                 temp =0;
                 //check return value
                 temp =(UMLClassifier*) m_document->findUMLClassifier(op->getReturnType());

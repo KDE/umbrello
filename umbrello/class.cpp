@@ -78,6 +78,16 @@ int UMLClass::removeAttribute(UMLObject* a) {
 	return m_AttsList.count();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+UMLAttribute* UMLClass::takeAttribute(UMLAttribute* a) {
+	int index = m_AttsList.findRef( a );
+	a = (index == -1 ? 0 : dynamic_cast<UMLAttribute*>(m_AttsList.take( )));
+	if (a) {
+		emit attributeRemoved(a);
+		emit modified();
+	}
+	return a;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLObject* UMLClass::addTemplate(QString name, int id) {
   	UMLTemplate* newTemplate = new UMLTemplate(this, name, id);
   	m_TemplateList.append(newTemplate);
@@ -131,6 +141,16 @@ int UMLClass::removeTemplate(UMLTemplate* umltemplate) {
 	emit modified();
 	disconnect(umltemplate,SIGNAL(modified()),this,SIGNAL(modified()));
 	return m_TemplateList.count();
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+UMLTemplate* UMLClass::takeTemplate(UMLTemplate* t) {
+	int index = m_TemplateList.findRef( t );
+	t = (index == -1 ? 0 : dynamic_cast<UMLTemplate*>(m_TemplateList.take( )));
+	if (t) {
+		emit templateRemoved(t);
+		emit modified();
+	}
+	return t;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool UMLClass::addStereotype(UMLStereotype* newStereotype, UMLObject_Type list, IDChangeLog* log /* = 0*/) {
@@ -388,5 +408,7 @@ QPtrList<UMLTemplate>* UMLClass::getFilteredTemplateList() {
 	}
 	return templateList;
 }
+
+
 
 #include "class.moc"

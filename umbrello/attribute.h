@@ -11,6 +11,7 @@
 #define ATTRIBUTE_H
 
 #include "classifierlistitem.h"
+#include "umlnamespace.h"
 
 /**
  * This class is used to set up information for an attribute.  This is like
@@ -105,10 +106,13 @@ public:
 	 */
 	bool showPropertiesDialogue(QWidget* parent);
 
+	void setParmKind (Uml::Parameter_Kind pk);
+	Uml::Parameter_Kind getParmKind () const;
+
 private:
 	QString m_TypeName;     ///< text for the attribute type.
 	QString m_InitialValue; ///< text for the attribute's initial value.
-
+	Uml::Parameter_Kind m_ParmKind;
 };
 
 #endif

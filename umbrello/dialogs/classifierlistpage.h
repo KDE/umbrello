@@ -69,12 +69,41 @@ private:
 	 */
 	void saveCurrentItemDocumentation();
 
+	/**
+	 * Get classifiers
+	 */
+	UMLClassifierListItemList getItemList();
+	
+	/**
+	 * Attempts to add classifier to the appropriate list
+	 *
+	 * @param classifier	Pointer to the classifier to add.
+	 * @param position	Index at which to insert into the list.
+	 * @return true if the classifier could be added
+	 *
+	 */
+	bool addClassifier(UMLClassifierListItem* classifier, int position = -1);
+	
+	/**
+	 * Remove classifier
+	 * @param classifier Classifier to be removed.
+	 * @returns number of remaining classifiers if found, and -1 if not.
+	 */
+	int removeClassifier(UMLClassifierListItem* classifier);
+	
+	/**
+	 * Take classifier, It is the client responsibility to hand over
+	 * ownership of the classifier, or to delete it.
+	 * @param classifier Classifier to be take.
+	 * @returns number of remaining classifiers if found, and -1 if not.
+	 */
+	UMLClassifierListItem* takeClassifier(UMLClassifierListItem* classifier);
+	
 	UMLClassifier* m_pClassifier;
 	QGroupBox* m_pDocGB;
 	QGroupBox* m_pItemListGB;
 	QListBox* m_pItemListLB;
 	QTextEdit* m_pDocTE;
-	UMLClassifierListItemList* m_pItemList;
 	UMLObject_Type itemType;
 
 	KArrowButton* m_pUpArrowB;

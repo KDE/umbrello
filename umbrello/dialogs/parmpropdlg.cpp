@@ -15,8 +15,11 @@
 #include <kdebug.h>
 #include <qlayout.h>
 
-ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a) : KDialogBase(Plain, i18n("Parameter Properties"), Help | Ok | Cancel , Ok, parent, "_PARMPROPDLG_", true, true) {
+ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a)
+  : KDialogBase(Plain, i18n("Parameter Properties"), Help | Ok | Cancel , Ok, parent, "_PARMPROPDLG_", true, true)
+{
 	m_pUmldoc = doc;
+	m_pAtt = a;
 	QString type, text, name, initialValue;
 	if(!a) {
 		type = text = name = initialValue = "";
@@ -32,12 +35,40 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a) : KDi
 	QVBoxLayout * topLayout = new QVBoxLayout(plainPage());
 	topLayout -> setSpacing(10);
 	topLayout -> setMargin(margin);
+
+	m_pKind =  new QButtonGroup(i18n("Kind"), plainPage());
+	m_pKind->setExclusive(true);
+	m_pKindLayout = new QHBoxLayout( m_pKind );
+	m_pKindLayout->setMargin(margin);
+	// m_pKind->setTitle("Kind");
+	//m_pKind->setColumnLayout(0, Qt::Vertical );
+	//m_pKind->layout()->setSpacing( 6 );
+	//m_pKindLayout->setAlignment( Qt::AlignTop );
+
+	m_pIn =  new QRadioButton( "in", m_pKind );
+	m_pKindLayout->addWidget( m_pIn );
+
+	m_pInOut =  new QRadioButton( "inout", m_pKind );
+	m_pKindLayout->addWidget( m_pInOut );
+
+	m_pOut =  new QRadioButton( "out", m_pKind );
+	m_pKindLayout->addWidget( m_pOut );
+
+	topLayout -> addWidget(m_pKind);
+
 	m_pParmGB = new QGroupBox(i18n("Properties"), plainPage());
 	topLayout -> addWidget(m_pParmGB);
 
 	QGridLayout * propLayout = new QGridLayout(m_pParmGB, 3, 2);
 	propLayout -> setSpacing(10);
 	propLayout -> setMargin(margin);
+
+	m_pTypeL = new QLabel(i18n("&Type:"), m_pParmGB);
+	propLayout -> addWidget(m_pTypeL, 0, 0);
+
+	m_pTypeCB = new QComboBox(m_pParmGB);
+	propLayout -> addWidget(m_pTypeCB, 0, 1);
+	m_pTypeL->setBuddy(m_pTypeCB);
 
 	m_pNameL = new QLabel(i18n("&Name:"), m_pParmGB);
 	propLayout -> addWidget(m_pNameL, 1, 0);
@@ -46,13 +77,6 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a) : KDi
 	m_pNameLE -> setText(name);
 	propLayout -> addWidget(m_pNameLE, 1, 1);
 	m_pNameL->setBuddy(m_pNameLE);
-
-	m_pTypeL = new QLabel(i18n("&Type:"), m_pParmGB);
-	propLayout -> addWidget(m_pTypeL, 0, 0);
-
-	m_pTypeCB = new QComboBox(m_pParmGB);
-	propLayout -> addWidget(m_pTypeCB, 0, 1);
-	m_pTypeL->setBuddy(m_pTypeCB);
 
 	m_pInitialL = new QLabel(i18n("&Initial value:"), m_pParmGB);
 	propLayout -> addWidget(m_pInitialL, 2, 0);
@@ -73,6 +97,18 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a) : KDi
 	m_pDoc -> setText(text);
 	docLayout -> addWidget(m_pDoc);
 	topLayout -> addWidget(m_pDocGB);
+
+	// Check the proper Kind radiobutton.
+	if (a) {
+		Uml::Parameter_Kind kind = a->getParmKind();
+		if (kind == Uml::pk_Out)
+			m_pOut->setChecked(true);
+		else if (kind == Uml::pk_InOut)
+			m_pInOut->setChecked(true);
+		else
+			m_pIn->setChecked(true);
+	} else
+		m_pIn->setChecked(true);
 
 	//add some standard attribute types to combo box
 	QString types[] ={i18n("int"), i18n("long"), i18n("bool"), i18n("string"), i18n("double"), i18n("float"), i18n("date")};
@@ -116,5 +152,18 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a) : KDi
 
 	m_pNameLE->setFocus();
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void ParmPropDlg::slotOk() {
+	if (m_pAtt != NULL) {
+		if (m_pOut->isChecked())
+			m_pAtt->setParmKind(Uml::pk_Out);
+		else if (m_pInOut->isChecked())
+			m_pAtt->setParmKind(Uml::pk_InOut);
+		else
+			m_pAtt->setParmKind(Uml::pk_In);
+	}
+	accept();
+}
+
 ParmPropDlg::~ParmPropDlg() {}
+

@@ -191,8 +191,8 @@ void ASWriter::writeClass(UMLClassifier *c)
 		}
 	}
 
- 	UMLOperationList *opList = c->getFilteredOperationsList();
-	for (UMLOperation *op = opList->first(); op; op = opList->next())
+ 	UMLOperationList opList(c->getFilteredOperationsList());
+	for (UMLOperation *op = opList.first(); op; op = opList.next())
 	{
 		if (op->getScope() == Uml::Protected)
 		{
@@ -212,7 +212,7 @@ void ASWriter::writeClass(UMLClassifier *c)
 		}
 	}
 
-	for (UMLOperation *op = opList->first(); op; op = opList->next())
+	for (UMLOperation *op = opList.first(); op; op = opList.next())
 	{
 		if (op->getScope() == Uml::Protected)
 		{
@@ -224,7 +224,8 @@ void ASWriter::writeClass(UMLClassifier *c)
 	as << endl;
 
 	//operations
-	writeOperations(classname, c->getFilteredOperationsList(), as);
+	UMLOperationList ops(c->getFilteredOperationsList());
+	writeOperations(classname, &ops, as);
 
 	as << endl;
 

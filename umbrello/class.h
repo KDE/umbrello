@@ -51,7 +51,7 @@ public:
 	 * Overloaded '==' operator.
 	 */
   	bool operator==( UMLClass & rhs );
-  
+
  	/**
   	 * Adds an attribute to the class.
   	 *
@@ -84,6 +84,16 @@ public:
 	 *		Returns -1 if the given attribute was not found.
 	 */
 	int removeAttribute(UMLObject *a);
+
+	/**
+	 * Take and return an attribute from class.
+	 * It is the callers responsibility to pass on ownership of
+	 * the returned attribute (or to delete the attribute)
+	 *
+	 * @param  a		attribute to take
+	 * @return	pointer to the attribute or null if not found.
+	 */
+	UMLAttribute* takeAttribute(UMLAttribute* a);
 
  	/**
   	 * Adds a template to the class.
@@ -125,6 +135,16 @@ public:
 	 *		Returns -1 if the given template was not found.
 	 */
 	int removeTemplate(UMLTemplate* umltemplate);
+
+	/**
+	 * Take and return a templatee from class.
+	 * It is the callers responsibility to pass on ownership of
+	 * the returned template (or to delete the template)
+	 *
+	 * @param t		template to take
+	 * @return	pointer to the template or null if not found.
+	 */
+	UMLTemplate* takeTemplate(UMLTemplate* t);
 
 	/**
 	 * Add an already created stereotype to the list identified by the
@@ -249,7 +269,7 @@ private:
 	/**
 	 * Initializes key variables of the class.
 	 */
-	void init(); 
+	void init();
 
 	/**
 	 * Auxiliary to loadFromXMI.
@@ -267,4 +287,5 @@ private:
 	UMLClassifierListItemList m_TemplateList;
 };
 
-#endif // UMLCLASS_H 
+#endif // UMLCLASS_H
+

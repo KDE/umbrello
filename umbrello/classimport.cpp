@@ -268,6 +268,9 @@ void ClassImport::importCPP(QStringList headerFileList) {
 					  << parsedParent->name << endl;
 				continue;
 			}
+			kdDebug() << "ClassImport::importCPP: Adding generalization, self: "
+				  << currentParsedClass->name << ", parent: "
+				  << parsedParent->name << endl;
 			UMLAssociation *assoc = new UMLAssociation( this, Uml::at_Generalization,
 								    classObj, parentObj );
 			addAssociation(assoc);

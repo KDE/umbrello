@@ -155,8 +155,8 @@ void InterfaceWidget::drawAsConcept(QPainter& p, int offsetX, int offsetY) {
 		p.drawLine(offsetX, offsetY + y, offsetX + w - 1, offsetY + y);
 
 		UMLClassifierListItem* obj = 0;
-		UMLClassifierListItemList* list = ((UMLInterface*)m_pObject)->getOpList();
-		for(obj=list->first();obj != 0;obj=list->next()) {
+		UMLClassifierListItemList list(((UMLInterface*)m_pObject)->getOpList());
+		for(obj=list.first();obj != 0;obj=list.next()) {
 			QString op = obj->toString( m_ShowOpSigs );
 			p.setPen( QPen(black) );
 			font.setUnderline( obj->getStatic() );
@@ -237,9 +237,9 @@ void InterfaceWidget::calculateAsConceptSize() {
 	width++;
 
 	if (m_bShowOperations) {
-		UMLClassifierListItemList* list = ((UMLInterface*)m_pObject)->getOpList();
+		UMLClassifierListItemList list(((UMLInterface*)m_pObject)->getOpList());
 		UMLClassifierListItem* listItem = 0;
-		for(listItem = list->first();listItem != 0; listItem = list->next()) {
+		for(listItem = list.first();listItem != 0; listItem = list.next()) {
 			QFont font = UMLWidget::getFont();
 			font.setUnderline( listItem->getStatic() );
 			font.setItalic( listItem->getAbstract() );

@@ -118,9 +118,6 @@ public:
 	 */
 	QString toString(Signature_Type sig = st_NoSig);
 
-	int getUniqueID() const {
-		return m_nUniqueID;
-	}
 	/**
 	 * Add a parameter to the operation.
 	 *
@@ -161,7 +158,6 @@ public:
 private:
 	QString m_ReturnType;
 	UMLAttributeList m_List;
-	int m_nUniqueID;
 };
 
 #endif

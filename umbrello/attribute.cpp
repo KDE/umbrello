@@ -19,6 +19,7 @@ UMLAttribute::UMLAttribute( UMLObject *parent, QString Name, int id, QString typ
 	m_InitialValue = iv;
 	m_BaseType = ot_Attribute;
 	m_Scope = s;
+	m_ParmKind = pk_In;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLAttribute::UMLAttribute(UMLObject *parent) : UMLClassifierListItem(parent) {
@@ -44,13 +45,21 @@ QString UMLAttribute::getInitialValue() {
 	return m_InitialValue;
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLAttribute::setInitialValue(QString iv) {
 	if(m_InitialValue != iv) {
 		m_InitialValue = iv;
 		emit modified();
 	}
 }
+
+void UMLAttribute::setParmKind (Uml::Parameter_Kind pk) {
+	m_ParmKind = pk;
+}
+
+Uml::Parameter_Kind UMLAttribute::getParmKind () const {
+	return m_ParmKind;
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 QString UMLAttribute::toString(Signature_Type sig) {
 	QString s;

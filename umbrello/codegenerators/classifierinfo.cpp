@@ -21,7 +21,7 @@
 #include "../interface.h"
 #include "../operation.h"
 
-ClassifierInfo::ClassifierInfo( UMLClassifier *classifier , UMLDoc *doc)
+ClassifierInfo::ClassifierInfo( UMLClassifier *classifier , UMLDoc */*doc*/)
 {
 
 	init(classifier);
@@ -113,7 +113,7 @@ void ClassifierInfo::init(UMLClassifier *c) {
 
 	hasAccessorMethods = hasAttributes || hasAssociations;
 
-	hasOperationMethods = c->getFilteredOperationsList()->last() ? true : false;
+	hasOperationMethods = c->getFilteredOperationsList().last() ? true : false;
 
 	hasMethods = hasOperationMethods || hasAccessorMethods;
 

@@ -49,7 +49,7 @@ public:
 	 * Overloaded '==' operator.
 	 */
   	bool operator==(UMLEnum& rhs);
-  
+
 	/**
 	 * Returns a name for the new enumliteral
 	 * appended with a number if the default name is
@@ -87,7 +87,7 @@ public:
 	 * @return	True if the enumliteral was sucessfully added.
 	 */
 	bool addEnumLiteral(UMLEnumLiteral* Att, IDChangeLog* Log = 0);
-	
+
 	/**
 	 * Adds an enumliteral to the enum, at the given position.
 	 * If position is negative or too large, the enumliteral is added
@@ -108,6 +108,15 @@ public:
 	 *		Returns -1 if the given enumliteral was not found.
 	 */
 	int removeEnumLiteral(UMLObject *a);
+	/**
+	 * Take and return an enumliteral from class.
+	 * It is the callers responsibility to pass on ownership of
+	 * the returned enumliteral (or to delete the enumliteral)
+	 *
+	 * @param  el enumliteral to tkae
+	 * @return pointer to the enumliteral or null if not found.
+	 */
+	UMLEnumLiteral* takeEnumLiteral(UMLEnumLiteral* el);
 
 	/**
 	 * Returns the number of enumliterals for the class.
@@ -175,4 +184,5 @@ private:
 
 };
 
-#endif // ENUM_H 
+#endif // ENUM_H
+

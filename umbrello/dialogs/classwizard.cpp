@@ -89,8 +89,8 @@ void ClassWizard::accept() {
 		m_pDoc->getListView()->childObjectAdded(attribute, m_pClass);
 	}
 
-	UMLClassifierListItemList* operations = m_pClass->getOpList();
-	for ( UMLClassifierListItem* operation = operations->first(); operation; operation = operations->next() )  {
+	UMLClassifierListItemList operations = m_pClass->getOpList();
+	for ( UMLClassifierListItem* operation = operations.first(); operation; operation = operations.next() )  {
 		m_pDoc->getListView()->childObjectAdded(operation, m_pClass);
 	}
 

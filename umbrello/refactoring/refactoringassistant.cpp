@@ -491,8 +491,8 @@ void RefactoringAssistant::addClassifier( UMLClassifier *classifier, QListViewIt
 	QListViewItem *opsFolder = new KListViewItem( classifierItem, i18n("Operations"), "operations" );
 	opsFolder->setPixmap(0,SmallIcon("folder_blue_open"));
 	opsFolder->setExpandable( true );
-	UMLOperationList *ops = classifier->getFilteredOperationsList();
-	for( UMLOperation *op = ops->first(); op ; op = ops->next() )
+	UMLOperationList ops(classifier->getFilteredOperationsList());
+	for( UMLOperation *op = ops.first(); op ; op = ops.next() )
 	{
 		operationAdded( op );
 	}

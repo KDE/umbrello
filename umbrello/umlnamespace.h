@@ -187,6 +187,15 @@ namespace Uml {
 		sequence_message_asynchronous
 	};
 
+	/**
+	 * Direction of operation parameters:
+	 *   in = operation uses the parameter as an input value
+	 *   out = operation fills the parameter as a return value
+	 *   inout = operation both reads and writes the parameter
+	 * The numeric values of this enum are not currently saved to file.
+	 */
+	enum Parameter_Kind { pk_In, pk_InOut, pk_Out };
+
   }
 
 #endif

@@ -183,8 +183,8 @@ bool SimpleCodeGenerator::hasDefaultValueAttr(UMLClass *c) {
 }
 
 bool SimpleCodeGenerator::hasAbstractOps(UMLClassifier *c) {
-        QPtrList<UMLOperation> *opl = c->getFilteredOperationsList();
-        for(UMLOperation *op = opl->first(); op ; op = opl->next())
+        QPtrList<UMLOperation> opl(c->getFilteredOperationsList());
+        for(UMLOperation *op = opl.first(); op ; op = opl.next())
                 if(op->getAbstract())
                         return true;
         return false;

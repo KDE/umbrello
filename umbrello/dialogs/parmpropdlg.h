@@ -13,6 +13,8 @@
 #include <kdialogbase.h>
 #include <qgroupbox.h>
 #include <qlabel.h>
+#include <qlayout.h>
+#include <qradiobutton.h>
 #include <qlineedit.h>
 #include <qbuttongroup.h>
 #include <qmultilineedit.h>
@@ -79,13 +81,21 @@ public:
 	QString getTypeName() {
 		return m_pTypeCB -> currentText();
 	}
+
+public slots:
+	void slotOk();
+
 private:
 	QGroupBox * m_pParmGB, * m_pDocGB;
+	QHBoxLayout *m_pKindLayout;
+	QButtonGroup *m_pKind;
+	QRadioButton * m_pIn, * m_pOut, *m_pInOut;
 	QLabel * m_pTypeL, * m_pNameL, * m_pInitialL;
 	QComboBox * m_pTypeCB;
 	QLineEdit * m_pNameLE, * m_pInitialLE;
 	QMultiLineEdit * m_pDoc;
 	UMLDoc * m_pUmldoc;
+	UMLAttribute * m_pAtt;
 };
 
 #endif

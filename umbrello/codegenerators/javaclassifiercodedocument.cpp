@@ -391,7 +391,7 @@ void JavaClassifierCodeDocument::updateContent( )
         QPtrList<CodeClassField> compositionClassFields = getSpecificClassFields ( CodeClassField::Composition );
 
 	bool isInterface = parentIsInterface();
-        bool hasOperationMethods = c->getFilteredOperationsList()->last() ? true : false;
+	bool hasOperationMethods = c->getFilteredOperationsList().last() ? true : false;
         QString endLine = gen->getNewLineEndingChars(); // a shortcut..so we dont have to call this all the time
 
 	//

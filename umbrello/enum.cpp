@@ -160,6 +160,16 @@ int UMLEnum::removeEnumLiteral(UMLObject* literal) {
 	return m_EnumLiteralList.count();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+UMLEnumLiteral* UMLEnum::takeEnumLiteral(UMLEnumLiteral* el) {
+	int index = m_EnumLiteralList.findRef( el );
+	el = (index == -1 ? 0 : dynamic_cast<UMLEnumLiteral*>(m_EnumLiteralList.take( )));
+	if (el) {
+		emit enumLiteralRemoved(el);
+		emit modified();
+	}
+	return el;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
 bool UMLEnum::addStereotype(UMLStereotype* newStereotype, UMLObject_Type list, IDChangeLog* log /* = 0*/) {
 	QString name = newStereotype->getName();
 	if (findChildObject(Uml::ot_Template, name).count() == 0) {

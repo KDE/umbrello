@@ -305,11 +305,11 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 	}
 
 	// Generate public operations.
-	UMLOperationList *opl = c->getFilteredOperationsList();
+	UMLOperationList opl(c->getFilteredOperationsList());
 	UMLOperationList oppub;
 	oppub.setAutoDelete(false);
 	UMLOperation *op;
-	for (op = opl->first(); op; op = opl->next()) {
+	for (op = opl.first(); op; op = opl.next()) {
 		if (op->getScope() == Uml::Public)
 			oppub.append(op);
 	}
@@ -426,7 +426,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 	// Generate protected operations.
 	UMLOperationList opprot;
 	opprot.setAutoDelete(false);
-	for (op = opl->first(); op; op = opl->next()) {
+	for (op = opl.first(); op; op = opl.next()) {
 		if (op->getScope() == Uml::Protected)
 			opprot.append(op);
 	}
@@ -443,7 +443,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 	// into the package body.
 	UMLOperationList oppriv;
 	oppriv.setAutoDelete(false);
-	for (op = opl->first(); op; op = opl->next()) {
+	for (op = opl.first(); op; op = opl.next()) {
 		if (op->getScope() == Uml::Private)
 			oppriv.append(op);
 	}
@@ -486,8 +486,15 @@ void AdaWriter::writeOperation(UMLOperation *op, QTextStream &ada, bool is_comme
 			ada << spc();
 			if (is_comment)
 				ada << "-- ";
-			ada << cleanName(at->getName()) << " : "
-			    << at->getTypeName();
+			ada << cleanName(at->getName()) << " : ";
+			Uml::Parameter_Kind pk = at->getParmKind();
+			if (pk == Uml::pk_Out)
+				ada << "out ";
+			else if (pk == Uml::pk_InOut)
+				ada << "inout ";
+			else
+				ada << "in ";
+			ada << at->getTypeName();
 			if (! at->getInitialValue().isEmpty())
 				ada << " := " << at->getInitialValue();
 			if (++i < atl->count()) //FIXME gcc warning

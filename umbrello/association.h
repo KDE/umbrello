@@ -66,17 +66,6 @@ public:
 	static QString typeAsString(Uml::Association_Type atype);
 
 	/**
-	 * Converts an association type string to the corresponding
-	 * Uml::Association_Type.
-	 *
-	 * @param atype		The string representation of the Association_Type.
-	 * @return	The corresponding Association_Type enum value.
-	 *		This is set to at_Unknown if the string is not a valid
-	 *		Association_Type.
-	 */
-	static Uml::Association_Type toAssocType(QString atype);
-
-	/**
 	 * Returns true if the given Association_Type has a representation as a
 	 * UMLAssociation.
 	 */

@@ -12,6 +12,10 @@
 #include "../umldoc.h"
 #include "../class.h"
 #include "../enum.h"
+#include "../attribute.h"
+#include "../operation.h"
+#include "../template.h"
+#include "../enumliteral.h"
 #include <kbuttonbox.h>
 #include <kdebug.h>
 #include <klocale.h>
@@ -89,23 +93,11 @@ ClassifierListPage::ClassifierListPage(QWidget* parent, UMLClassifier* classifie
 	docLayout->addWidget( m_pDocTE );
 	mainLayout->addWidget(m_pDocGB);
 
-	// get the item list
-	if (type == ot_Attribute)  {
-		m_pItemList = (static_cast<UMLClass*>(m_pClassifier))->getAttList();
-	} else if (type == ot_Operation)  {
-		m_pItemList = m_pClassifier->getOpList();
-	} else if (type == ot_Template) {
-		m_pItemList = (static_cast<UMLClass*>(m_pClassifier))->getTemplateList();
-	} else if (type == ot_EnumLiteral) {
-		m_pItemList = (static_cast<UMLEnum*>(m_pClassifier))->getEnumLiteralList();
-	} else {
-		kdWarning() << "unknown type in ClassifierListPage" << endl;
-	}
-
+	UMLClassifierListItemList itemList(getItemList());
+	
 	// add each item in the list to the ListBox and connect each item modified signal
 	// to the ListItemModified slot in this class
-	UMLClassifierListItem* listItem;
-	for ( listItem = m_pItemList->first(); listItem != 0; listItem = m_pItemList->next() ) {
+	for (UMLClassifierListItem* listItem = itemList.first(); listItem != 0; listItem = itemList.next() ) {
 		m_pItemListLB->insertItem(listItem->getShortName());
 		connect( listItem, SIGNAL(modified()),this,SLOT(slotListItemModified()) );
 	}
@@ -181,7 +173,7 @@ void ClassifierListPage::slotClicked(QListBoxItem*item) {
 		return;
 	}
 
-	UMLClassifierListItem* listItem = m_pItemList->at( m_pItemListLB->index(item) );
+	UMLClassifierListItem* listItem = getItemList().at( m_pItemListLB->index(item) );
 
 	//now update screen
 	m_pDocTE->setText( listItem->getDoc() );
@@ -193,6 +185,8 @@ void ClassifierListPage::updateObject() {
 	saveCurrentItemDocumentation();
 	QListBoxItem*i = m_pItemListLB->item(m_pItemListLB->currentItem());
 	slotClicked(i);
+	
+	// The rest of this function does nothing?!
 	QStringList stringList;
 	int count = m_pItemListLB->count();
 	for( int j = 0; j < count ; j++ )
@@ -272,7 +266,7 @@ void ClassifierListPage::slotRightButtonPressed(QListBoxItem* item, const QPoint
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void ClassifierListPage::slotPopupMenuSel(int id) {
-	UMLClassifierListItem* listItem = m_pItemList->at( m_pItemListLB->currentItem() );
+	UMLClassifierListItem* listItem = getItemList().at( m_pItemListLB->currentItem() );
 	if(!listItem && id != ListPopupMenu::mt_New_Attribute) {
 		kdDebug() << "can't find att from selection" << endl;
 		return;
@@ -315,10 +309,11 @@ void ClassifierListPage::slotUpClicked() {
 	//set the moved item selected
 	QListBoxItem* item = m_pItemListLB->item( index - 1 );
 	m_pItemListLB->setSelected( item, true );
+	
 	//now change around in the list
-	UMLClassifierListItem* aboveAtt = m_pItemList->at( index - 1 );
-	UMLClassifierListItem* currentAtt = m_pItemList->take( index );
-	m_pItemList->insert( m_pItemList->findRef( aboveAtt ), currentAtt );
+	UMLClassifierListItem* currentAtt = getItemList().at( index );
+	takeClassifier(currentAtt);
+	addClassifier(currentAtt, index - 1);
 	slotClicked( item );
 }
 
@@ -338,9 +333,9 @@ void ClassifierListPage::slotDownClicked() {
 	QListBoxItem* item = m_pItemListLB->item( index + 1 );
 	m_pItemListLB->setSelected( item, true );
 	//now change around in the list
-	UMLClassifierListItem* aboveAtt = m_pItemList->at( index + 1 );
-	UMLClassifierListItem* currentAtt = m_pItemList->take( index );
-	m_pItemList->insert( m_pItemList->findRef( aboveAtt ) + 1, currentAtt );
+	UMLClassifierListItem* currentAtt = getItemList().at( index );
+	takeClassifier(currentAtt);
+	addClassifier(currentAtt, index + 2);
 	slotClicked( item );
 }
 
@@ -348,7 +343,7 @@ void ClassifierListPage::slotDoubleClick( QListBoxItem* item ) {
 	if( !item )
 		return;
 
-	UMLClassifierListItem* listItem  = m_pItemList->at( m_pItemListLB->index( item ) );
+	UMLClassifierListItem* listItem  = getItemList().at( m_pItemListLB->index( item ) );
 	if( !listItem ) {
 		kdDebug() << "can't find att from selection" << endl;
 		return;
@@ -360,7 +355,7 @@ void ClassifierListPage::slotDoubleClick( QListBoxItem* item ) {
 }
 
 void ClassifierListPage::slotDelete() {
-	UMLClassifierListItem* selectedItem = m_pItemList->at( m_pItemListLB->currentItem() );
+	UMLClassifierListItem* selectedItem = getItemList().at( m_pItemListLB->currentItem() );
 	//should really wait for signal back
 	//but really shouldn't matter
 	m_pDoc->removeUMLObject(selectedItem);
@@ -387,10 +382,148 @@ void ClassifierListPage::slotNewStereotype() {
 }
 
 void ClassifierListPage::saveCurrentItemDocumentation() {
-	UMLClassifierListItem* selectedItem = m_pItemList->at( m_pItemListLB->currentItem() );
+	UMLClassifierListItem* selectedItem = getItemList().at( m_pItemListLB->currentItem() );
 	if (selectedItem) {
 		selectedItem->setDoc( m_pDocTE->text() );
 	}
 }
 
+UMLClassifierListItemList ClassifierListPage::getItemList() {
+	switch (itemType) {
+		case ot_Attribute: {
+			UMLClass* classifier = dynamic_cast<UMLClass*>(m_pClassifier);
+			if (classifier) {
+				return UMLClassifierListItemList(*classifier->getAttList());
+			}
+			break;
+		}
+		case ot_Operation: {
+			return m_pClassifier->getOpList();
+		}
+		case ot_Template: {
+			UMLClass* classifier = dynamic_cast<UMLClass*>(m_pClassifier);
+			if (classifier) {
+				return UMLClassifierListItemList(*classifier->getTemplateList());
+			}
+			break;
+		}
+		case ot_EnumLiteral: {
+			UMLEnum* classifier = dynamic_cast<UMLEnum*>(m_pClassifier);
+			if (classifier) {
+				return UMLClassifierListItemList(*classifier->getEnumLiteralList());
+			}
+			break;
+		}
+		default: {
+			kdWarning() << "unknown type in ClassifierListPage" << endl;
+			return UMLClassifierListItemList();
+		}
+	}
+	kdError() << "ClassifierListPage is in an inconsistent state!" << endl;
+	return UMLClassifierListItemList();
+}
+	
+bool ClassifierListPage::addClassifier(UMLClassifierListItem* classifier, int position) {
+	switch (itemType) {
+		case ot_Attribute: {
+			UMLClass* c = dynamic_cast<UMLClass*>(m_pClassifier);
+			if (c) {
+				return c->addAttribute(dynamic_cast<UMLAttribute*>(classifier), 0, position);
+			}
+			break;
+		}
+		case ot_Operation: {
+			return m_pClassifier->addOperation(dynamic_cast<UMLOperation*>(classifier), position);
+		case ot_Template:
+			UMLClass* c = dynamic_cast<UMLClass*>(m_pClassifier);
+			if (c) {
+				return c->addTemplate(dynamic_cast<UMLTemplate*>(classifier), position);
+			}
+			break;
+		}
+		case ot_EnumLiteral: {
+			UMLEnum* c = dynamic_cast<UMLEnum*>(m_pClassifier);
+			if (c) {
+				return c->addEnumLiteral(dynamic_cast<UMLEnumLiteral*>(classifier), position);
+			}
+			break;
+		}
+		default: {
+			kdWarning() << "unknown type in ClassifierListPage" << endl;
+			return false;
+		}
+	}
+	kdError() << "ClassifierListPage::addClassifier unable to handle classifier type in current state" << endl;
+	return false;
+}
+
+UMLClassifierListItem* ClassifierListPage::takeClassifier(UMLClassifierListItem* classifier) {
+	switch (itemType) {
+		case ot_Attribute: {
+			UMLClass* c = dynamic_cast<UMLClass*>(m_pClassifier);
+			if (c) {
+				return c->takeAttribute(dynamic_cast<UMLAttribute*>(classifier));
+			}
+			break;
+		}
+		case ot_Operation: {
+			return m_pClassifier->takeOperation(dynamic_cast<UMLOperation*>(classifier));
+		}
+		case ot_Template: {
+			UMLClass* c = dynamic_cast<UMLClass*>(m_pClassifier);
+			if (c) {
+				return c->takeTemplate(dynamic_cast<UMLTemplate*>(classifier));
+			}
+			break;
+		}
+		case ot_EnumLiteral: {
+			UMLEnum* c = dynamic_cast<UMLEnum*>(m_pClassifier);
+			if (c) {
+				return c->takeEnumLiteral(dynamic_cast<UMLEnumLiteral*>(classifier));
+			}
+			break;
+		}
+		default: {
+			kdWarning() << "unknown type in ClassifierListPage" << endl;
+			return 0;
+		}
+	}
+	kdError() << "ClassifierListPage::takeClassifier unable to handle classifier type in current state" << endl;
+	return 0;
+}
+
+int ClassifierListPage::removeClassifier(UMLClassifierListItem* classifier) {
+	switch (itemType) {
+		case ot_Attribute: {
+			UMLClass* c = dynamic_cast<UMLClass*>(m_pClassifier);
+			if (c) {
+				return c->removeAttribute(dynamic_cast<UMLAttribute*>(classifier));
+			}
+			break;
+		}
+		case ot_Operation: {
+			return m_pClassifier->removeOperation(dynamic_cast<UMLOperation*>(classifier));
+		}
+		case ot_Template: {
+			UMLClass* c = dynamic_cast<UMLClass*>(m_pClassifier);
+			if (c) {
+				return c->removeTemplate(dynamic_cast<UMLTemplate*>(classifier));
+			}
+			break;
+		}
+		case ot_EnumLiteral: {
+			UMLEnum* c = dynamic_cast<UMLEnum*>(m_pClassifier);
+			if (c) {
+				return c->removeEnumLiteral(dynamic_cast<UMLEnumLiteral*>(classifier));
+			}
+			break;
+		}
+		default: {
+			kdWarning() << "unknown type in ClassifierListPage" << endl;
+			return -1;
+		}
+	}
+	kdError() << "ClassifierListPage::removeClassifier unable to handle classifier type in current state" << endl;
+	return -1;
+}
 #include "classifierlistpage.moc"

@@ -13,6 +13,7 @@
 #include "operation.h"
 #include "attribute.h"
 #include "classifier.h"
+#include "uml.h"
 #include "umldoc.h"
 #include "dialogs/umloperationdialog.h"
 
@@ -22,7 +23,6 @@ UMLOperation::UMLOperation(UMLClassifier *parent, QString Name, int id, Scope s,
 	m_ReturnType = rt;
 	m_Scope = s;
 	m_BaseType = ot_Operation;
-	m_nUniqueID = 0;//used for parm ids - local only to this op
 	m_List.clear();
 	m_List.setAutoDelete(false);
 }
@@ -32,7 +32,6 @@ UMLOperation::UMLOperation(UMLClassifier * parent)
 {
 	m_ReturnType = "";
 	m_BaseType = ot_Operation;
-	m_nUniqueID = 0;
 	m_List.clear();
 	m_List.setAutoDelete(true);
 }
@@ -43,7 +42,8 @@ UMLOperation::~UMLOperation() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLOperation::addParm(QString type, QString name, QString initialValue, QString doc) {
 	// make the new parameter (attribute) public, just to be safe
-	UMLAttribute * a = new UMLAttribute(this, name, ++m_nUniqueID,type, Uml::Public);
+	UMLDoc *umldoc = UMLApp::app()->getDocument();
+	UMLAttribute * a = new UMLAttribute(this, name, umldoc->getUniqueID(), type, Uml::Public);
 	a -> setDoc(doc);
 	a -> setInitialValue(initialValue);
 	addParm(a);
@@ -131,9 +131,6 @@ bool UMLOperation::operator==( UMLOperation & rhs ) {
 	if( !UMLObject::operator==( rhs ) )
 		return false;
 
-	if( m_nUniqueID != rhs.m_nUniqueID )
-		return false;
-
 	if( m_ReturnType != rhs.m_ReturnType )
 		return false;
 
@@ -157,6 +154,14 @@ bool UMLOperation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 		pAtt -> UMLObject::saveToXMI( qDoc, attElement );
 		attElement.setAttribute( "type", pAtt -> getTypeName() );
 		attElement.setAttribute( "value", pAtt -> getInitialValue() );
+
+		Uml::Parameter_Kind kind = pAtt->getParmKind();
+		if (kind == Uml::pk_Out)
+			attElement.setAttribute("kind", "out");
+		else if (kind == Uml::pk_InOut)
+			attElement.setAttribute("kind", "inout");
+		// The default for the parameter kind is "in".
+
 		operationElement.appendChild( attElement );
 	}
 	qElement.appendChild( operationElement );
@@ -171,16 +176,25 @@ bool UMLOperation::loadFromXMI( QDomElement & element ) {
 	QDomNode node = element.firstChild();
 	QDomElement attElement = node.toElement();
 	while( !attElement.isNull() ) {
-		//should be UML:Paramater tag name but check anyway
-		if( attElement.tagName() == "UML:Parameter" ) {
+		// Should be UML:Parameter tag name but check anyway.
+		QString tag = attElement.tagName();
+		if (tag == "UML:Parameter" ) {
 			UMLAttribute * pAtt = new UMLAttribute( this );
 			if( !pAtt -> UMLObject::loadFromXMI( attElement ) )
 				return false;
+			QString kind = attElement.attribute("kind", "in");
+			if (kind == "out")
+				pAtt->setParmKind(Uml::pk_Out);
+			else if (kind == "inout")
+				pAtt->setParmKind(Uml::pk_InOut);
+			else
+				pAtt->setParmKind(Uml::pk_In);
 			pAtt -> setTypeName( attElement.attribute( "type", "" ) );
 			pAtt -> setInitialValue( attElement.attribute( "value", "" ) );
-			if( m_nUniqueID < pAtt -> getID() )
-				m_nUniqueID = pAtt -> getID();
 			m_List.append( pAtt );
+		} else {
+			kdDebug() << "UMLOperation::loadFromXMI: Ignoring unknown tag "
+				  << tag << endl;
 		}
 		node = node.nextSibling();
 		attElement = node.toElement();

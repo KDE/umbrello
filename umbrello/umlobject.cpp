@@ -358,5 +358,9 @@ bool UMLObject::loadFromXMI( QDomElement & element ) {
 	return true;
 }
 
+kdbgstream& operator<< (kdbgstream& s, const UMLObject& a) {
+	s << a.getName();
+	return s;
+}
 
 #include "umlobject.moc"

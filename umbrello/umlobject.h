@@ -19,6 +19,7 @@
 using namespace Uml;
 
 class UMLPackage;
+class kdbgstream;
 
 /**
  * This class is the non-graphical version of @ref UMLWidget.  These are
@@ -231,20 +232,20 @@ public slots:
 	void emitModified();
 
 signals:
-	/** emited when the UMLObject has changed. Note that some objects emit 
+	/** emited when the UMLObject has changed. Note that some objects emit
 	  * this signal when one of its children changes, for example, a UMLClass
 	  * emits a modified() signal when one of its operation changes while the Operation
 	  * itself emits the corresponding signal as well.
 	  */
 	void modified();
 	/** Signals that a new UMLObject has been added to this object.
-	  * More specialized classes like UMLPackages or UMLClass emit 
+	  * More specialized classes like UMLPackages or UMLClass emit
 	  * more specialized signals, like "classAdded" or "operationAdded" in
 	  * addition to this one.
 	  */
 	void childObjectAdded( UMLObject *obj );
 	/** Signals that a UMLObject has been removed from this object.
-	  * More specialized classes like UMLPackages or UMLClass emit 
+	  * More specialized classes like UMLPackages or UMLClass emit
 	  * more specialized signals, like "classRemoved" or "operationRemoved" in
 	  * addition to this one.
 	  */
@@ -311,5 +312,11 @@ protected:
 	 */
 	bool m_bStatic;
 };
+
+/**
+ * Print UML Object to kdgstream, so it can be used like
+ *   kdWarn() << "This object shouldn't be here:" << illegalObject << endl;
+ */
+kdbgstream& operator<< (kdbgstream& s, const UMLObject& a);
 
 #endif
