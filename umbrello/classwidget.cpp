@@ -190,6 +190,9 @@ void ClassWidget::draw(QPainter & p, int offsetX, int offsetY) {
 
 		QFont font = UMLWidget::getFont();
 		UMLWidget::draw(p, offsetX, offsetY);
+		QPen pen = p.pen();
+		pen.setStyle(DotLine);
+		p.setPen(pen);
 		p.drawRect( offsetX + width() - templatesBoxSize.width(), offsetY,
 			    templatesBoxSize.width(), templatesBoxSize.height() );
 
