@@ -79,8 +79,14 @@ QString CPPCodeClassField::getInitialValue() {
 
         if (parentIsAttribute()) 
 	{
-		UMLAttribute * at = (UMLAttribute*) getParentObject();
-                return fixInitialStringDeclValue(at->getInitialValue(), getTypeName());
+		UMLAttribute * at = dynamic_cast<UMLAttribute*>( getParentObject() );
+		if (at) {
+                	return fixInitialStringDeclValue(at->getInitialValue(), getTypeName());
+		} else {
+			kdError() << "CPPCodeClassField::getInitialValue: parent object is not a UMLAttribute"
+				  << endl;
+			return "";
+		}
         } 
 	else 
 	{
