@@ -67,10 +67,11 @@ UMLAttribute* UMLClass::addAttribute(const QString &name, UMLObject *type, Uml::
 bool UMLClass::addAttribute(UMLAttribute* Att, IDChangeLog* Log /* = 0 */,
 			    int position /* = -1 */) {
 	QString name = (QString)Att->getName();
-	if( findChildObject( Uml::ot_Attribute, name).count() == 0 ) {
+	UMLObjectList list = findChildObject(Uml::ot_Attribute, name);
+	if (list.count() == 0 ) {
 		Att -> parent() -> removeChild( Att );
 		this -> insertChild( Att );
-		if( position >= 0 && position <= (int)m_List.count() )
+		if( position >= 0 && position < (int)m_List.count() )
 			m_List.insert(position,Att);
 		else
 			m_List.append( Att );
@@ -101,12 +102,16 @@ int UMLClass::removeAttribute(UMLObject* a) {
 
 UMLAttribute* UMLClass::takeAttribute(UMLAttribute* a) {
 	int index = m_List.findRef( a );
-	a = (index == -1 ? 0 : dynamic_cast<UMLAttribute*>(m_List.take( )));
-	if (a) {
-		emit attributeRemoved(a);
+	UMLAttribute *retval = NULL;
+	if (index != -1)
+		retval = dynamic_cast<UMLAttribute*>(m_List.take( ));
+	if (retval) {
+		emit attributeRemoved(retval);
 		emit modified();
 	}
-	return a;
+	kdDebug() << "UMLClass::takeAttribute: findRef returns " << index
+		  << ", a=" << a << ", retval=" << retval << endl;
+	return retval;
 }
 
 bool UMLClass::isEnumeration() {
