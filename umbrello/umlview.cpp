@@ -899,6 +899,7 @@ void UMLView::removeWidget(UMLWidget * o) {
 	else
 		m_WidgetList.remove(o);
 	delete o;
+	m_pDoc->setModified();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLView::setFillColor(QColor color) {
@@ -1174,7 +1175,6 @@ void UMLView::deleteSelection()
 
 	//make sure list empty - it should be anyway, just a check.
 	m_SelectedList.clear();
-	m_pDoc->setModified();
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1998,6 +1998,7 @@ void UMLView::removeAssoc(AssociationWidget* pAssoc) {
 	// Remove the association in this view.
 //	pAssoc->cleanup();
 	m_AssociationList.remove(pAssoc); // will delete our association
+	m_pDoc->setModified();
 }
 
 void UMLView::removeAssocInViewAndDoc(AssociationWidget* a) {
