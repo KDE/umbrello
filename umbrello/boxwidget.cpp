@@ -48,8 +48,14 @@ void BoxWidget::mouseMoveEvent(QMouseEvent *me) {
 	}
 	if( !m_bMouseDown )
 		return;
-	int newW = m_nOldW + me->x()- m_nOldX - m_nPressOffsetX;
-	int newH = m_nOldH + me->y()- m_nOldY - m_nPressOffsetY;
+	int newX = me->x();
+	int newY = me->y();
+	if (! m_bIgnoreSnapToGrid) {
+		newX = m_pView->snappedX( newX );
+		newY = m_pView->snappedY( newY );
+	}
+	int newW = m_nOldW + newX - m_nOldX - m_nPressOffsetX;
+	int newH = m_nOldH + newY - m_nOldY - m_nPressOffsetY;
 	newW = newW < 20?20:newW;
 	newH = newH < 20?20:newH;
 	setSize( newW, newH );
