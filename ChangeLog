@@ -10,7 +10,9 @@ Version 1.4
 
 * Move canvas items using the keyboard (Alt + arrow keys)
 
-* Improved suport for parameterized classes
+* Improved support for parameterized classes
+
+* CORBA IDL import
 
 * PHP 5 code generator
 
