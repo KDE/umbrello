@@ -1882,20 +1882,23 @@ QStringList UMLDoc::getModelTypes()
 
 UMLClassifierList UMLDoc::getConcepts() {
 	UMLClassifierList conceptList;
-	for(UMLObject *obj = objectList.first(); obj ; obj = objectList.next())
-		if(obj -> getBaseType() == ot_Class || obj->getBaseType() == ot_Interface
-		   || obj->getBaseType() == ot_Datatype || obj->getBaseType() == ot_Enum)  {
+	for(UMLObject *obj = objectList.first(); obj ; obj = objectList.next()) {
+		Uml::UMLObject_Type ot = obj->getBaseType();
+		if(ot == ot_Class || ot == ot_Interface || ot == ot_Datatype || ot == ot_Enum)  {
 			conceptList.append((UMLClassifier *)obj);
 		}
+	}
 	return conceptList;
 }
 
 UMLClassifierList UMLDoc::getClassesAndInterfaces() {
 	UMLClassifierList conceptList;
-	for(UMLObject* obj = objectList.first(); obj ; obj = objectList.next())
-		if(obj->getBaseType() == ot_Class || obj->getBaseType() == ot_Interface)  {
+	for(UMLObject* obj = objectList.first(); obj ; obj = objectList.next()) {
+		Uml::UMLObject_Type ot = obj->getBaseType();
+		if(ot == ot_Class || ot == ot_Interface || ot == ot_Enum)  {
 			conceptList.append((UMLClassifier *)obj);
 		}
+	}
 	return conceptList;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
