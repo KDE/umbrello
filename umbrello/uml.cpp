@@ -171,7 +171,7 @@ void UMLApp::initActions() {
 	genAll = new KAction(i18n("&Generate All Code"),0,this,SLOT(generateAllCode()),
 	                     actionCollection(),"generate_all");
 
-	importClasses = new KAction(i18n("&Import Classes..."), SmallIconSet("source_cpp"), 0,
+	importClasses = new KAction(i18n("&Import C++ Classes..."), SmallIconSet("source_cpp"), 0,
 				    this,SLOT(slotImportClasses()), actionCollection(),"import_class");
 
 	fileNew->setStatusText(i18n("Creates a new document"));

@@ -648,7 +648,7 @@ switch(type) {
 		insertStdItem(mt_Paste);
 		insertSeparator();
 //			insertStdItem(mt_Delete);
-		insertItem(BarIcon( "source_cpp"), i18n("Import Classes..."), mt_Import_Classes);
+		insertItem(BarIcon("source_cpp"), i18n("Import C++ Classes..."), mt_Import_Classes);
 		insertSeparator();
 		insertStdItem(mt_Expand_All);
 		insertStdItem(mt_Collapse_All);
@@ -721,7 +721,7 @@ switch(type) {
 			insertStdItem(mt_Rename);
 			insertStdItem(mt_Delete);
 
-			insertItem(SmallIcon( "source_cpp"), i18n("Import Classes..."), mt_Import_Classes);
+			insertItem(SmallIcon("source_cpp"), i18n("Import C++ Classes..."), mt_Import_Classes);
 			insertSeparator();
 			insertStdItem(mt_Expand_All);
 			insertStdItem(mt_Collapse_All);
