@@ -8,6 +8,7 @@
  ***************************************************************************/
 
 #include <qpainter.h>
+#include <qvalidator.h>
 
 #include <klineeditdlg.h>
 #include <klocale.h>
@@ -78,17 +79,20 @@ void ObjectWidget::slotMenuSelection(int sel) {
 	QString name = "";
 	switch(sel) {
 		case ListPopupMenu::mt_Rename_Object:
-
+		{
 			bool ok;
-			name = KLineEditDlg::getText(i18n("Enter object name:"), ((ObjectWidgetData*)m_pData)->m_InstanceName, &ok, m_pView);
-			if(ok) {
+			QRegExpValidator* validator = new QRegExpValidator(QRegExp(".*"), 0);
+			name = KLineEditDlg::getText(i18n("Enter object name:"), ((ObjectWidgetData*)m_pData)->m_InstanceName, &ok, m_pView, validator);
+			if (ok) {
 				((ObjectWidgetData*)m_pData)->m_InstanceName = name;
 				calculateSize();
 				moveEvent( 0 );
 				update();
+				m_pView->getDocument()->setModified(true);
 			}
+			delete validator;
 			break;
-
+		}
 		case ListPopupMenu::mt_Properties:
 			m_pView->getDocument() -> showProperties(this);
 			calculateSize();
