@@ -14,6 +14,8 @@
 #include <kdebug.h>
 
 #include "assocrolepage.h"
+#include "../association.h"
+#include "../umlrole.h"
 
 AssocRolePage::AssocRolePage (UMLDoc *d, QWidget *parent, AssociationWidget *assoc)
 	: QWidget(parent)
@@ -36,6 +38,20 @@ AssocRolePage::~AssocRolePage() {}
 
 void AssocRolePage::constructWidget() {
 
+	// underlying roles and objects
+	UMLRole * roleA = m_pAssociationWidget->getAssociation()->getUMLRoleA();
+	UMLRole * roleB = m_pAssociationWidget->getAssociation()->getUMLRoleB();
+	UMLObject * objA = roleA->getObject();
+	UMLObject * objB = roleB->getObject();
+	QString nameA = objA->getName();
+	QString nameB = objB->getName();
+	QString titleA = i18n("Role A Properties");
+	QString titleB = i18n("Role B Properties"); 
+	if(!nameA.isEmpty())
+		titleA.append( "("+nameA+")"); 
+	if(!nameB.isEmpty())
+		titleB.append( "("+nameB+")"); 
+
 	// general configuration of the GUI
 	int margin = fontMetrics().height();
 	setMinimumSize(310,330);
@@ -51,8 +67,8 @@ void AssocRolePage::constructWidget() {
         QButtonGroup * changeBBG = new QButtonGroup(i18n("Role B Changeability"), this );
 	QGroupBox *docAGB = new QGroupBox(this);
 	QGroupBox *docBGB = new QGroupBox(this);
-	propsAGB -> setTitle(i18n("Role A Properties"));
-	propsBGB -> setTitle(i18n("Role B Properties"));
+	propsAGB -> setTitle(titleA);
+	propsBGB -> setTitle(titleB);
 	docAGB -> setTitle(i18n("Documentation"));
 	docBGB -> setTitle(i18n("Documentation"));
 	mainLayout -> addWidget( propsAGB, 0, 0);
