@@ -81,6 +81,9 @@ void CodeEditor::clearText () {
 	QMap<TextBlock*,TextBlockInfo*>::Iterator it;
 	for ( it = m_tbInfoMap->begin(); it != m_tbInfoMap->end(); ++it ) 
 	{
+		it.data()->m_paraList.setAutoDelete(true);
+		it.data()->m_paraList.clear();
+
 		delete it.data();
 	}
 	m_textBlockList.clear();
