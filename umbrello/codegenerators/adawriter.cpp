@@ -73,7 +73,7 @@ bool AdaWriter::isOOClass(UMLClassifier *c) {
 	if (ot == Uml::ot_Enum)
 		return false;
 	if (ot != Uml::ot_Class) {
-		kdWarning() << "AdaWriter::isOOClass: unknown object type " << ot << endl;
+		kdDebug() << "AdaWriter::isOOClass: unknown object type " << ot << endl;
 		return false;
 	}
 	QString stype = c->getStereotype();
@@ -176,8 +176,10 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 	UMLClassifierList imports;
 	findObjectsRelated(c, imports);
 	if (imports.count()) {
-		for (UMLClassifier *con = imports.first(); con; con = imports.next())
-			ada << "with " << qualifiedName(con) << "; \n";
+		for (UMLClassifier *con = imports.first(); con; con = imports.next()) {
+			if (con->getBaseType() != Uml::ot_Datatype)
+				ada << "with " << qualifiedName(con) << "; \n";
+		}
 		ada << "\n";
 	}
 
@@ -274,7 +276,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 	ada << spc() << "type Object_Ptr is access all Object'Class;\n\n";
 
 	// Generate accessors for public attributes.
-	UMLAttributeList *atl;
+	UMLAttributeList *atl = NULL;
         if(myClass) {
 		UMLAttributeList atpub;
 		atpub.setAutoDelete(false);
@@ -299,9 +301,6 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 				ada << " (Self : access Object)";
 			ada << " return " << at->getTypeName() << ";\n\n";
 		}
-	} else {
-		kdWarning() << "atl not initialised in writeClass()" << endl;
-		atl = 0;
 	}
 
 	// Generate public operations.
@@ -386,7 +385,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 		ada << endl;
 	}
 
-	if (forceSections() || atl->count()) {
+	if (myClass && (forceSections() || atl->count())) {
 		ada << spc() << "-- Attributes:\n";
 		UMLAttribute *at;
 		for (at = atl->first(); at; at = atl->next()) {
@@ -399,30 +398,31 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 			ada << ";\n";
 		}
 	}
-	if (aggregations.isEmpty() && compositions.isEmpty() && !atl->count())
+	bool haveAttrs = (myClass && atl->count());
+	if (aggregations.isEmpty() && compositions.isEmpty() && !haveAttrs)
 		ada << spc() << "null;\n";
 	indentlevel--;
 	ada << spc() << "end record;\n\n";
-	bool seen_static_attr = false;
-	UMLAttribute *at;
-	for (at = atl->first(); at; at = atl->next()) {
-		if (! at->getStatic())
-			continue;
-		if (! seen_static_attr) {
-			ada << spc() << "-- Static attributes:\n";
-			seen_static_attr = true;
+	if (haveAttrs) {
+		bool seen_static_attr = false;
+		for (UMLAttribute *at = atl->first(); at; at = atl->next()) {
+			if (! at->getStatic())
+				continue;
+			if (! seen_static_attr) {
+				ada << spc() << "-- Static attributes:\n";
+				seen_static_attr = true;
+			}
+			ada << spc();
+			if (at->getScope() == Uml::Private)
+				ada << "-- Private:  ";
+			ada << cleanName(at->getName()) << " : " << at->getTypeName();
+			if (at && at->getInitialValue().latin1() && ! at->getInitialValue().isEmpty())
+				ada << " := " << at->getInitialValue();
+			ada << ";\n";
 		}
-		ada << spc();
-		if (at->getScope() == Uml::Private)
-			ada << "-- Private:  ";
-		ada << cleanName(at->getName()) << " : " << at->getTypeName();
-		if (at && at->getInitialValue().latin1() && ! at->getInitialValue().isEmpty())
-			ada << " := " << at->getInitialValue();
-		ada << ";\n";
+		if (seen_static_attr)
+			ada << "\n";
 	}
-	if (seen_static_attr)
-		ada << "\n";
-
 	// Generate protected operations.
 	UMLOperationList opprot;
 	opprot.setAutoDelete(false);
@@ -491,7 +491,7 @@ void AdaWriter::writeOperation(UMLOperation *op, QTextStream &ada, bool is_comme
 			if (pk == Uml::pk_Out)
 				ada << "out ";
 			else if (pk == Uml::pk_InOut)
-				ada << "inout ";
+				ada << "in out ";
 			else
 				ada << "in ";
 			ada << at->getTypeName();
