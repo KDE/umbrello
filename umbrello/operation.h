@@ -13,15 +13,15 @@
 #include "umldoc.h"
 #include "classifierlistitem.h"
 
+class UMLClassifier;
+
 /**
  * This class represents an operation in the UML model.
  *
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-
 class UMLOperation : public UMLClassifierListItem {
 	Q_OBJECT
-friend class UMLClassifier;
 friend UMLOperation* UMLDoc::createOperation( UMLClassifier *, const QString &, UMLAttributeList * );
 public:
 	/**

@@ -44,7 +44,7 @@ using namespace Uml;
  */
 class LinePath : public QObject {
 	Q_OBJECT
-	friend class AssociationWidget;
+	//friend class AssociationWidget;
 
 public:
 	/**
@@ -169,6 +169,11 @@ public:
 	*/
 	void cleanup();
 
+	/**
+	 * Returns the type of pen to use depending on the type of Association.
+	 */
+	QPen getPen();
+
 protected:
 
 	/**
@@ -233,11 +238,6 @@ protected:
 	*   Sets up the selected canvases needed.
 	*/
 	void setupSelected();
-
-	/**
-	*   Returns the type of pen to use depending on the type of Association.
-	*/
-	QPen getPen();
 
 	/**
 	*   Calculates the head points.
