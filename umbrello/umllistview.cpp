@@ -263,7 +263,7 @@ void UMLListView::popupMenuSel(int sel) {
 		break;
 
 	case ListPopupMenu::mt_Import_Classes:
-		((ClassImport*)m_doc)->importCPP(
+		m_doc->classImport()->importCPP(
 			KFileDialog::getOpenFileNames(":import-classes",
 						      i18n("*.h|Header Files (*.h)\n*|All Files"),
 						      this, i18n("Select Classes to Import") ));

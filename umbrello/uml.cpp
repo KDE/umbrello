@@ -1267,7 +1267,7 @@ void UMLApp::slotUpdateViews() {
 void UMLApp::slotImportClasses() {
 	QStringList fileList = KFileDialog::getOpenFileNames(":import-classes",
 	                       i18n("*.h *.hpp *.hxx|Header Files (*.h *.hpp *.hxx)\n*|All Files"), this, i18n("Select Classes to Import") );
-	((ClassImport*)doc)->importCPP( fileList );
+	doc->classImport()->importCPP( fileList );
 }
 
 void UMLApp::slotClassWizard() {

@@ -44,6 +44,7 @@ class QSplitter;
 
 class KPrinter;
 
+class ClassImport;
 class CodeGenerator;
 class DocWindow;
 class IDChangeLog;
@@ -880,6 +881,11 @@ public:
 	}
 
 	/**
+	 * Return the ClassImport object.
+	 */
+	ClassImport * classImport();
+
+	/**
 	 * Find a code generator by the given language.
 	 */
 	CodeGenerator * findCodeGeneratorByLanguage (QString lang);
@@ -962,6 +968,7 @@ private:
 	 */
 	bool objectTypeIsClassifierListItem(UMLObject_Type type);
 
+	ClassImport * m_classImporter;
 	CodeGenerator * m_currentcodegenerator;
 	UMLObjectList objectList;
 	int uniqueID;

@@ -13,6 +13,7 @@
 #include "package.h"
 #include "component.h"
 #include "codegenerator.h"
+#include "classimport.h"
 #include "node.h"
 #include "artifact.h"
 #include "interface.h"
@@ -61,6 +62,7 @@ UMLDoc::UMLDoc(QWidget *parent, const char *name) : QObject(parent, name) {
 	currentView = 0;
 	uniqueID = 0;
 	m_count = 0;
+	m_classImporter = 0;
 	m_currentcodegenerator = 0;
 	objectList.clear();
 	objectList.setAutoDelete(false); // DONT autodelete
@@ -475,7 +477,12 @@ CodeGenerator * UMLDoc::findCodeGeneratorByLanguage (QString lang) {
 	return m_codeGeneratorDictionary.find(lang);
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
+ClassImport * UMLDoc::classImport() {
+	if (m_classImporter == NULL)
+		m_classImporter = new ClassImport(this);
+	return m_classImporter;
+}
+
 UMLView * UMLDoc::findView(int id) {
 	for(UMLView *w = m_ViewList.first(); w; w = m_ViewList.next()) {
 		if(w->getID() ==id) {

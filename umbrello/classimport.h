@@ -11,9 +11,12 @@
 #define CLASSIMPORT_H
 
 #include <qptrlist.h>
-#include "umldoc.h"
+#include <qstringlist.h>
+#include "umlnamespace.h"
 #include "umlattributelist.h"
 
+class UMLDoc;
+class UMLObject;
 class UMLPackage;
 class CClassStore;
 
@@ -23,9 +26,9 @@ class CClassStore;
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
-class ClassImport : public UMLDoc {
+class ClassImport {
 public:
-	ClassImport(QWidget *parent, const char *name);
+	ClassImport(UMLDoc *parentDoc);
 	~ClassImport();
 
 	/**
@@ -62,6 +65,9 @@ public:
 	 * Strip the comment lines of leading whitespace and stars.
 	 */
 	QString doxyComment(QString comment);
+
+private:
+	UMLDoc * m_umldoc;  // just a shorthand for UMLApp::app()->getDocument()
 };
 
 #endif

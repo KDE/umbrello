@@ -10,6 +10,7 @@
 #include "classimport.h"
 #include "uml.h"
 #include "umldoc.h"
+#include "umlobject.h"
 #include "docwindow.h"
 #include "package.h"
 #include "enum.h"
@@ -26,7 +27,8 @@
 #include <kdebug.h>
 #include <qregexp.h>
 
-ClassImport::ClassImport(QWidget *parent, const char *name) : UMLDoc(parent, name) {
+ClassImport::ClassImport(UMLDoc * parentDoc) {
+	m_umldoc = parentDoc;
 }
 
 ClassImport::~ClassImport() {}
@@ -50,15 +52,15 @@ UMLObject *ClassImport::createUMLObject(Uml::UMLObject_Type type,
 					QString name,
 					QString comment,
 					UMLPackage *parentPkg) {
-	UMLObject * o = findUMLObject(name);
+	UMLObject * o = m_umldoc->findUMLObject(name);
 	if (o == NULL)
-		o = UMLDoc::createUMLObject(type, name, parentPkg);
+		o = m_umldoc->createUMLObject(type, name, parentPkg);
 	else
 		o->setUMLPackage(parentPkg);
 	QString strippedComment = doxyComment(comment);
 	if (! strippedComment.isEmpty()) {
 		o->setDoc(strippedComment);
-		UMLDoc::getDocWindow()->showDocumentation(o, true);
+		m_umldoc->getDocWindow()->showDocumentation(o, true);
 	}
 	return o;
 }
@@ -73,7 +75,7 @@ void ClassImport::insertAttribute(CClassStore& store,
 	typeName.replace(QRegExp("^const\\s+"), "");
 	typeName.replace(QRegExp("[^:\\w].*$"), "");
 	UMLObject *newObj = NULL;
-	UMLObject *other = findUMLObject(typeName);
+	UMLObject *other = m_umldoc->findUMLObject(typeName);
 	if (other == NULL && store.hasClass(typeName.latin1())) {
 		// "Forward declare" the class.
 		other = createUMLObject(Uml::ot_Class, typeName);
@@ -86,13 +88,19 @@ void ClassImport::insertAttribute(CClassStore& store,
 			assocType = Uml::at_Aggregation;
 		else
 			assocType = Uml::at_Composition;
-		UMLAssociation *assoc = new UMLAssociation(this, assocType, o, other);
+		UMLAssociation *assoc = new UMLAssociation(m_umldoc, assocType, o, other);
 		assoc->setRoleNameB(name);
 		assoc->setVisibilityB(scope);
-		UMLDoc::addAssociation(assoc);
+		m_umldoc->addAssociation(assoc);
 		newObj = assoc;
 	} else {
-		int attID = getUniqueID();
+		Uml::UMLObject_Type ot = o->getBaseType();
+		if (ot != Uml::ot_Class) {
+			kdDebug() << "ClassImport::insertAttribute: Don't know what to do with "
+				  << o->getName() << " (object type " << ot << ")" << endl;
+			return;
+		}
+		int attID = m_umldoc->getUniqueID();
 		UMLAttribute *attr = ((UMLClass*)o)->addAttribute(name , attID);
 		attr->setTypeName(type);
 		attr->setScope(scope);
@@ -101,10 +109,10 @@ void ClassImport::insertAttribute(CClassStore& store,
 	}
 	if (! strippedComment.isEmpty()) {
 		newObj->setDoc(strippedComment);
-		UMLDoc::getDocWindow()->showDocumentation(newObj, true);
+		m_umldoc->getDocWindow()->showDocumentation(newObj, true);
 	}
 
-	setModified(true);
+	m_umldoc->setModified(true);
 }
 
 void ClassImport::insertMethod(UMLObject *o, Uml::Scope scope, QString name,
@@ -123,7 +131,7 @@ void ClassImport::insertMethod(UMLObject *o, Uml::Scope scope, QString name,
 		kdWarning()<<"ClassImport::insertMethod() cannot cast object to UMLClass"<<endl;
 		return;
 	}
-	UMLOperation *op = UMLDoc::createOperation( klass, name, parList );
+	UMLOperation *op = m_umldoc->createOperation( klass, name, parList );
 	if(!op)
 	{
 		kdError()<<"Could not create operation with name "<<name<<endl;
@@ -136,7 +144,7 @@ void ClassImport::insertMethod(UMLObject *o, Uml::Scope scope, QString name,
 	QString strippedComment = doxyComment(comment);
 	if (! strippedComment.isEmpty()) {
 		op->setDoc(strippedComment);
-		UMLDoc::getDocWindow()->showDocumentation(op, true);
+		m_umldoc->getDocWindow()->showDocumentation(op, true);
 	}
 	//setModified(true);
 }
@@ -257,7 +265,7 @@ void ClassImport::importCPP(QStringList headerFileList) {
 	// Create generalizations.
 	for (QStrListIterator cit(*cList); cit.current(); ++cit) {
 		CParsedClass* currentParsedClass =  classParser.store.getClassByName(cit);
-		UMLObject *classObj = findUMLObject(currentParsedClass->name, Uml::ot_Class);
+		UMLObject *classObj = m_umldoc->findUMLObject(currentParsedClass->name, Uml::ot_Class);
 		if (classObj == NULL) {
 			kdDebug() << "ClassImport::importCPP: Could not find UML object for "
 				  << currentParsedClass->name << endl;
@@ -267,7 +275,7 @@ void ClassImport::importCPP(QStringList headerFileList) {
 		QPtrListIterator<CParsedParent> pit(currentParsedClass->parents);
 		for (; pit.current() ; ++pit) {
 			CParsedParent *parsedParent = pit.current();
-			UMLObject *parentObj = findUMLObject(parsedParent->name, Uml::ot_Class);
+			UMLObject *parentObj = m_umldoc->findUMLObject(parsedParent->name, Uml::ot_Class);
 			if (parentObj == NULL) {
 				kdDebug() << "ClassImport::importCPP: Could not find UML object for parent "
 					  << parsedParent->name << endl;
@@ -276,9 +284,9 @@ void ClassImport::importCPP(QStringList headerFileList) {
 			kdDebug() << "ClassImport::importCPP: Adding generalization, self: "
 				  << currentParsedClass->name << ", parent: "
 				  << parsedParent->name << endl;
-			UMLAssociation *assoc = new UMLAssociation( this, Uml::at_Generalization,
+			UMLAssociation *assoc = new UMLAssociation( m_umldoc, Uml::at_Generalization,
 								    classObj, parentObj );
-			addAssociation(assoc);
+			m_umldoc->addAssociation(assoc);
 		}
 	}
 
@@ -291,9 +299,9 @@ void ClassImport::importCPP(QStringList headerFileList) {
 		QString scopeName( parsedEnum->declaredInScope );
 		UMLPackage *pkg = NULL;
 		if (! scopeName.isEmpty()) {
-			UMLObject *scopeObj = findUMLObject(scopeName);
+			UMLObject *scopeObj = m_umldoc->findUMLObject(scopeName);
 			if (scopeObj == NULL)
-				pkg = (UMLPackage*)UMLDoc::createUMLObject(Uml::ot_Package, scopeName);
+				pkg = (UMLPackage*)(m_umldoc->createUMLObject(Uml::ot_Package, scopeName));
 			else if (scopeObj->getBaseType() == Uml::ot_Package)
 				pkg = (UMLPackage *)scopeObj;
 			// We don't support class scope.
@@ -304,12 +312,12 @@ void ClassImport::importCPP(QStringList headerFileList) {
 					       pkg);
 		if (pkg) {
 			pkg->addObject( c );
-			UMLDoc::setModified(true, false);
+			m_umldoc->setModified(true, false);
 		}
 		UMLEnum *e = static_cast<UMLEnum*>( c );
 		for (QStringList::Iterator lit = parsedEnum->literals.begin();
 		     lit != parsedEnum->literals.end(); ++lit)
-			e->addEnumLiteral(*lit, UMLDoc::getUniqueID());
+			e->addEnumLiteral(*lit, m_umldoc->getUniqueID());
 	}
 
 	// Do the typedefs.
@@ -321,9 +329,9 @@ void ClassImport::importCPP(QStringList headerFileList) {
 		QString scopeName( parsedTypedef->declaredInScope );
 		UMLPackage *pkg = NULL;
 		if (! scopeName.isEmpty()) {
-			UMLObject *scopeObj = findUMLObject(scopeName);
+			UMLObject *scopeObj = m_umldoc->findUMLObject(scopeName);
 			if (scopeObj == NULL)
-				pkg = (UMLPackage*)UMLDoc::createUMLObject(Uml::ot_Package, scopeName);
+				pkg = (UMLPackage*)(m_umldoc->createUMLObject(Uml::ot_Package, scopeName));
 			else if (scopeObj->getBaseType() == Uml::ot_Package)
 				pkg = (UMLPackage *)scopeObj;
 			// We don't support class scope.
@@ -334,7 +342,7 @@ void ClassImport::importCPP(QStringList headerFileList) {
 					       pkg);
 		if (pkg) {
 			pkg->addObject( c );
-			UMLDoc::setModified(true, false);
+			m_umldoc->setModified(true, false);
 		}
 	}
 
