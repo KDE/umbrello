@@ -54,7 +54,8 @@ public:
 	    diagram_sequence,
 	    diagram_collaboration,
 	    diagram_state,
-	    diagram_activity
+	    diagram_activity,
+	    diagram_component
 	};
 
 	struct CodeGenState {

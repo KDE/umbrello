@@ -178,6 +178,7 @@ bool UMLViewData::serialize( QDataStream * stream, bool bArchive, int fileversio
 				case /* SEQDIAGRAM */ 303 :
 					m_Type = Uml::dt_Sequence;
 					break;
+					//FIXME what about the other diagram types?
 				default:
 					kdDebug() << "Unknown diagram type (" << nType << ")" << endl;
 					return false;

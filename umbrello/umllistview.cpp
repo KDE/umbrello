@@ -26,6 +26,7 @@
 #include "dialogs/classpropdlg.h"
 #include "dialogs/umlattributedialog.h"
 #include "dialogs/umloperationdialog.h"
+#include <kiconloader.h>
 #include <kapplication.h>
 #include <kdebug.h>
 #include <kfiledialog.h>
@@ -68,6 +69,7 @@ void UMLListView::contentsMousePressEvent(QMouseEvent *me) {
 		case Uml::lvt_Sequence_Diagram:
 		case Uml::lvt_State_Diagram:
 		case Uml::lvt_Activity_Diagram:
+		case Uml::lvt_Component_Diagram:
 			if( ! doc->activateView( item->getID()))
 				KMessageBox::error( kapp -> mainWidget(), i18n("Could not activate the diagram."), i18n("Diagram Load Error"));
 			else
@@ -153,6 +155,10 @@ void UMLListView::popupMenuSel(int sel) {
 			doc->createDiagram(dt_State);
 			break;
 
+		case ListPopupMenu::mt_Component_Diagram:
+			doc->createDiagram(dt_Component);
+			break;
+
 		case ListPopupMenu::mt_Concept:
 			addNewItem( temp, Uml::lvt_Class );
 			break;
@@ -192,9 +198,6 @@ void UMLListView::popupMenuSel(int sel) {
 		case ListPopupMenu::mt_Collapse_All:
 				collapseAll(temp);
 				break;
-			break;
-
-
 
 		case ListPopupMenu::mt_Export_Image:
 			doc->getCurrentView()->exportImage();
@@ -205,38 +208,39 @@ void UMLListView::popupMenuSel(int sel) {
 			break;
 
 		case ListPopupMenu::mt_Delete:
-			if(lvtType >= Uml::lvt_UseCase_Diagram && lvtType <= Uml::lvt_Sequence_Diagram)
+			if ( typeIsDiagram(lvtType) ) {
 				doc->removeDiagram(id);
-			else if(lvtType == Uml::lvt_Logical_Folder || lvtType == Uml::lvt_UseCase_Folder) {
-				if(temp -> firstChild()) {
-					KMessageBox::error( kapp -> mainWidget(), i18n("The folder must be emptied before it can be deleted."), i18n("Folder Not Empty"));
+			} else if( typeIsFolder(lvtType) ) {
+				if ( temp->firstChild() ) {
+					KMessageBox::error(kapp->mainWidget(), i18n("The folder must be emptied before it can be deleted."), i18n("Folder Not Empty"));
 					return;
 				}
 				delete temp;
-			} else
-				doc ->removeUMLObject(object);
+			} else {
+				doc->removeUMLObject(object);
+			}
 			return;
 			break;
 
 		case ListPopupMenu::mt_Properties:
 			/* first check if we are on a diagram */
-			if( lvtType >= Uml::lvt_UseCase_Diagram &&
-			        lvtType <= Uml::lvt_Sequence_Diagram ) {
-				UMLView * pView = doc -> findView( temp -> getID() );
-				if( !pView )
+			if( typeIsDiagram(lvtType) ) {
+				UMLView * pView = doc->findView( temp->getID() );
+				if( !pView ) {
 					return;
-				doc -> getDocWindow() -> updateDocumentation( false );
-				pView -> showPropDialog();
-				doc -> getDocWindow() -> showDocumentation( pView, true );
-				temp -> cancelRename( 0 );
+				}
+				doc->getDocWindow()->updateDocumentation(false);
+				pView->showPropDialog();
+				doc->getDocWindow()->showDocumentation(pView, true);
+				temp->cancelRename(0);
 				return;
 			}
 
 			/* ok, we are on another object, so find out on which one */
-			umlType = object -> getBaseType();
+			umlType = object->getBaseType();
 
-			if(umlType >= Uml::ot_Actor && umlType <= Uml::ot_Concept) {
-				doc -> showProperties(object, ClassPropDlg::page_gen);
+			if ( typeIsCanvasWidget(lvtType) ) {
+				doc->showProperties(object, ClassPropDlg::page_gen);
 			} else if(umlType == Uml::ot_Attribute) {
 				// show the attribute dialogue
 				UMLAttribute* selectedAttribute = (UMLAttribute*)object;
@@ -251,6 +255,8 @@ void UMLListView::popupMenuSel(int sel) {
 				if (dialogue.exec()) {
 					doc->signalChildUMLObjectUpdate(selectedOperation);
 				}
+			} else {
+				kdWarning() << "calling properties on unknown type" << endl;
 			}
 			temp -> cancelRename( 0 );
 			break;
@@ -263,6 +269,11 @@ void UMLListView::popupMenuSel(int sel) {
 		case ListPopupMenu::mt_UseCase_Folder:
 			addNewItem( temp, Uml::lvt_UseCase_Folder );
 			doc -> setModified( true );
+			break;
+
+		case ListPopupMenu::mt_Component_Folder:
+			addNewItem(temp, Uml::lvt_Component_Folder);
+			doc->setModified(true);
 			break;
 
 		case ListPopupMenu::mt_Cut:
@@ -291,12 +302,15 @@ void UMLListView::slotDiagramCreated( int id ) {
 	UMLView *v = doc -> findView( id );
 	//See if we wanted to create diagram in folder
 	UMLListViewItem * current = (UMLListViewItem *) currentItem();
-	if( current -> getType() == Uml::lvt_Logical_Folder || current -> getType() == Uml::lvt_UseCase_Folder )
+	if ( typeIsFolder(current->getType()) ) {
 		p = current;
-	else if( v->getType() == Uml::dt_UseCase )
+	} else if (v->getType() == Uml::dt_UseCase) {
 		p = ucv;
-	else
+	} else if (v->getType() == Uml::dt_Component) {
+		p = componentView;
+	} else {
 		p = lv;
+	}
 	temp = new UMLListViewItem( p, v->getName(), convert_DT_LVT( v->getType() ),  id );
 	setSelected( temp, true );
 	doc -> getDocWindow() -> showDocumentation( v , false );
@@ -402,9 +416,7 @@ QDragObject* UMLListView::dragObject() {
 	while((item=it.current()) != 0) {
 		++it;
 		type = item->getType();
-		if (!typeIsCanvasWidget(type) &&
-		    (type < Uml::lvt_UseCase_Diagram || type > Uml::lvt_Sequence_Diagram) &&
-		    (type != Uml::lvt_UseCase_Folder) && (type != Uml::lvt_Logical_Folder)) {
+		if ( !typeIsCanvasWidget(type) && !typeIsDiagram(type) && !typeIsFolder(type) ) {
 			return 0;
 		}
 		list.append(item->getdata());
@@ -436,6 +448,7 @@ UMLListViewItem * UMLListView::findUMLObjectInFolder(UMLListViewItem* folder, UM
 				break;
 			case Uml::lvt_Logical_Folder :
 			case Uml::lvt_UseCase_Folder :
+			case Uml::lvt_Component_Folder :
 				{
 				UMLListViewItem *temp = findUMLObjectInFolder(item, obj);
 				if (temp)
@@ -463,7 +476,7 @@ UMLListViewItem * UMLListView::findUMLObject(UMLObject *p) {
 	temp = static_cast<UMLListViewItem *>(item->firstChild());
 	while(temp) {
 		Uml::ListView_Type type = temp->getType();
-		if(type == Uml::lvt_Logical_Folder || type == Uml::lvt_UseCase_Folder) {
+		if( typeIsFolder(type) ) {
 			item = findUMLObjectInFolder(temp, p);
 			if (item) {
 				return item;
@@ -479,6 +492,7 @@ UMLListViewItem * UMLListView::findUMLObject(UMLObject *p) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLListViewItem * UMLListView::findChildUMLObject(UMLObject *c) {
+	//FIXMEnow does this need editing?
 	UMLListViewItem *item, *child, *temp;
 	//must be an att or op we are looking for here
 	item = (UMLListViewItem *)lv->firstChild();
@@ -521,14 +535,17 @@ UMLListViewItem* UMLListView::findView(UMLView *v) {
 	Uml::Diagram_Type dType = v->getType();
 	Uml::ListView_Type type = convert_DT_LVT( dType );
 	int id = v->getID();
-	if(dType == Uml::dt_UseCase)
+	if (dType == Uml::dt_UseCase) {
 		item = ucv;
-	else
+	} else if (dType == Uml::dt_Component) {
+		item = componentView;
+	} else {
 		item = lv;
+	}
 
 	temp = (UMLListViewItem *)item->firstChild();
 	while(temp) {
-		if(temp -> getType() == Uml::lvt_Logical_Folder || temp -> getType() == Uml::lvt_UseCase_Folder) {
+		if( typeIsFolder(temp->getType()) ) {
 			child = (UMLListViewItem *)temp -> firstChild();
 			while(child) {
 				if( child -> getType() == type && child -> getID() == id)
@@ -575,9 +592,11 @@ void UMLListView::init() {
 	rv =  new UMLListViewItem(this, i18n("Views"), Uml::lvt_View);
 	ucv = new UMLListViewItem(rv, i18n("Use Case View"), Uml::lvt_UseCase_View);
 	lv = new UMLListViewItem(rv, i18n("Logical View"), Uml::lvt_Logical_View);
-	rv -> setOpen(true);
-	ucv -> setOpen(true);
-	lv -> setOpen(true);
+	componentView = new UMLListViewItem(rv, i18n("Component View"), Uml::lvt_Component_View);
+	rv->setOpen(true);
+	ucv->setOpen(true);
+	lv->setOpen(true);
+	componentView->setOpen(true);
 	//setup misc.
 	menu = 0;
 	m_bStartedCut = false;
@@ -603,7 +622,7 @@ void UMLListView::contentsMouseDoubleClickEvent(QMouseEvent * me) {
 		return;
 	//see if on view
 	Uml::ListView_Type lvType = item -> getType();
-	if( lvType >= Uml::lvt_UseCase_Diagram && lvType <= Uml::lvt_Sequence_Diagram ) {
+	if( typeIsDiagram(lvType) ) {
 		UMLView * pView = doc -> findView( item -> getID() );
 		if( !pView )
 			return;
@@ -658,6 +677,7 @@ bool UMLListView::acceptDrag(QDropEvent* event) const {
 	type = item->getType();
 	while(accept && ((data = it.current()) != 0)) {
 		++it;
+		//FIXMEnow for components
 		if((data->getType() == Uml::lvt_Class || data->getType() == Uml::lvt_Package
 		    || data->getType() == Uml::lvt_Interface)
 		   && (type == Uml::lvt_Logical_Folder || type == Uml::lvt_Logical_View) ) {
@@ -697,7 +717,7 @@ void UMLListView::slotDropped(QDropEvent * de, QListViewItem * parent, QListView
 	UMLObject * o =0;
 	while((data =  it.current()) != 0) {
 		++it;
-		if(data->getType() >= Uml::lvt_UseCase_Diagram && data->getType() <= Uml::lvt_Sequence_Diagram) {
+		if( typeIsDiagram(data->getType()) ) {
 			v = doc -> findView(data->getID());
 			move = findView(v);
 			if(!move)
@@ -710,6 +730,8 @@ void UMLListView::slotDropped(QDropEvent * de, QListViewItem * parent, QListView
 		}
 		type = ((UMLListViewItem*)item)  -> getType();
 		//make sure trying to place in correct location
+
+		//FIXMEnow for components
 		if( (data->getType() == Uml::lvt_UseCase_Folder || data->getType() == Uml::lvt_Actor || data->getType() == Uml::lvt_UseCase || data->getType() == Uml::lvt_UseCase_Diagram) && (type == Uml::lvt_UseCase_Folder || type == Uml::lvt_UseCase_View) ) {
 			moveItem(move, item, item);
 		}
@@ -840,6 +862,7 @@ bool UMLListView::serialize(QDataStream *s, bool archive, int fileversion) {
 							item = new UMLListViewItem(folder, text, Uml::lvt_Sequence_Diagram, id);
 						createDiagram(item, Uml::dt_Sequence);
 						break;
+						//FIXME what about the other diagram types?
 					case /* ACTOR */ 100 :
 						o = doc->findUMLObject(id);
 						if ( !useFolder || !folder) {
@@ -1054,7 +1077,9 @@ UMLListViewItem* UMLListView::createItem(UMLListViewItemData& Data, IDChangeLog&
 	if(!parent) {
 		if(Data.getType() == Uml::lvt_Actor || Data.getType() == Uml::lvt_UseCase || Data.getType() == Uml::lvt_UseCase_Folder || Data.getType() == Uml::lvt_UseCase_Diagram) {
 			parent = ucv;
-		} else if(Data.getType() > Uml::lvt_UseCase_Diagram && Data.getType() <= Uml::lvt_Sequence_Diagram) {
+		} else if ( Data.getType() == Uml::lvt_Component_Diagram) {
+			parent = componentView;
+		} else if( typeIsDiagram(Data.getType()) ) {
 			parent = lv;
 		} else if(Data.getType() != Uml::lvt_Attribute && Data.getType() != Uml::lvt_Operation) {
 			parent = lv;
@@ -1082,6 +1107,7 @@ UMLListViewItem* UMLListView::createItem(UMLListViewItemData& Data, IDChangeLog&
 			break;
 		case Uml::lvt_Logical_Folder:
 		case Uml::lvt_UseCase_Folder:
+		case Uml::lvt_Component_Folder:
 			item = new UMLListViewItem(parent, Data.getLabel(), Data.getType());
 			break;
 		case Uml::lvt_Attribute:
@@ -1108,6 +1134,7 @@ UMLListViewItem* UMLListView::createItem(UMLListViewItemData& Data, IDChangeLog&
 		case Uml::lvt_Class_Diagram:
 		case Uml::lvt_State_Diagram:
 		case Uml::lvt_Activity_Diagram:
+		case Uml::lvt_Component_Diagram:
 			v = doc->findView(IDChanges.findNewID(Data.getID()));
 			if(!v) {
 				return 0;
@@ -1166,7 +1193,14 @@ Uml::ListView_Type UMLListView::convert_DT_LVT(Uml::Diagram_Type dt) {
 
 		case Uml::dt_Activity:
 			type = Uml::lvt_Activity_Diagram;
+			break;
+
+		case Uml::dt_Component:
+			type = Uml::lvt_Component_Diagram;
+			break;
+
 		default:
+			kdWarning() << "convert_DT_LVT() called on unknown diagram type" << endl;
 			break;
 	}
 	return type;
@@ -1234,6 +1268,14 @@ QPixmap & UMLListView::getPixmap( Icon_Type type ) {
 			return m_Pixmaps.Folder_Grey_Open;
 			break;
 
+		case it_Folder_Red:
+			return m_Pixmaps.Folder_Red;
+			break;
+
+		case it_Folder_Red_Open:
+			return m_Pixmaps.Folder_Red_Open;
+			break;
+
 		case it_Diagram:
 			return m_Pixmaps.Diagram;
 			break;
@@ -1285,6 +1327,10 @@ QPixmap & UMLListView::getPixmap( Icon_Type type ) {
 		case it_Protected_Attribute:
 			return m_Pixmaps.Protected_Attribute;
 			break;
+
+		default:
+			kdWarning() << "getPixmap() called on unknown icon" << endl;
+			break;
 	}//end switch
 	return m_Pixmaps.Home;//you'll know you have a problem if this shows up in the list!!
 }
@@ -1294,11 +1340,14 @@ void UMLListView::loadPixmaps() {
 	QString dataDir = dirs -> findResourceDir("data", "umbrello/pics/object.xpm");
 	dataDir += "/umbrello/pics/";
 
-	m_Pixmaps.Home.load( dataDir + "folder_home.png" );
-	m_Pixmaps.Folder_Green.load( dataDir + "folder_green.png" );
-	m_Pixmaps.Folder_Green_Open.load( dataDir + "folder_green_open.png" );
-	m_Pixmaps.Folder_Grey.load( dataDir + "folder_grey.png" );
-	m_Pixmaps.Folder_Grey_Open.load( dataDir + "folder_grey_open.png" );
+	m_Pixmaps.Home = SmallIcon("folder_home");
+	m_Pixmaps.Folder_Green = SmallIcon("folder_green");
+	m_Pixmaps.Folder_Green_Open = SmallIcon("folder_green_open");
+	m_Pixmaps.Folder_Grey = SmallIcon("folder_grey");
+	m_Pixmaps.Folder_Grey_Open = SmallIcon("folder_grey_open");
+	m_Pixmaps.Folder_Red = SmallIcon("folder_red");
+	m_Pixmaps.Folder_Red_Open = SmallIcon("folder_red_open");
+
 	m_Pixmaps.Diagram.load( dataDir + "CVnamespace.png" ); //change to have different one for each type of diagram
 	m_Pixmaps.Class.load( dataDir + "umlclass.xpm" );
 	m_Pixmaps.Template.load( dataDir + "umlclass_template.xpm" );
@@ -1319,8 +1368,10 @@ void UMLListView::slotExpanded( QListViewItem * item ) {
 	switch( myItem -> getType() ) {
 		case Uml::lvt_Logical_View:
 		case Uml::lvt_UseCase_View:
+		case Uml::lvt_Component_View:
 		case Uml::lvt_Logical_Folder:
 		case Uml::lvt_UseCase_Folder:
+		case Uml::lvt_Component_Folder:
 			myItem -> updateFolder();
 			break;
 		default:
@@ -1333,8 +1384,10 @@ void UMLListView::slotCollapsed( QListViewItem * item ) {
 	switch( myItem -> getType() ) {
 		case Uml::lvt_Logical_View:
 		case Uml::lvt_UseCase_View:
+		case Uml::lvt_Component_View:
 		case Uml::lvt_Logical_Folder:
 		case Uml::lvt_UseCase_Folder:
+		case Uml::lvt_Component_Folder:
 			myItem -> updateFolder();
 			break;
 		default:
@@ -1358,6 +1411,7 @@ void UMLListView::addNewItem( QListViewItem * parent, Uml::ListView_Type type ) 
 	switch( type ) {
 		case Uml::lvt_UseCase_Folder:
 		case Uml::lvt_Logical_Folder:
+		case Uml::lvt_Component_Folder:
 			newItem = new UMLListViewItem( static_cast<UMLListViewItem *>( parent ), name, type, -1 );
 			break;
 
@@ -1433,6 +1487,11 @@ void UMLListView::addNewItem( QListViewItem * parent, Uml::ListView_Type type ) 
 			name = getUniqueDiagramName( Uml::dt_Activity );
 			newItem = new UMLListViewItem( static_cast<UMLListViewItem *>( parent ), name, type, -1 );
 			break;
+
+		case Uml::lvt_Component_Diagram:
+			name = getUniqueDiagramName(Uml::dt_Component);
+			newItem = new UMLListViewItem(static_cast<UMLListViewItem*>(parent), name, type, -1);
+			break;
 		default:
 			break;
 	}
@@ -1462,8 +1521,9 @@ bool UMLListView::slotItemRenamed( QListViewItem * item , int /*col*/ ) {
 		return false;
 	}
 	// No need to do anything for folders if the string length was > 0
-	if( type == Uml::lvt_Logical_Folder || type == Uml::lvt_UseCase_Folder )
+	if( typeIsFolder(type) ) {
 		return true;
+	}
 
 	if( !isUnique( renamedItem, newText ) ) {
 		//if operation ask if ok not to be unique i.e overloading
@@ -1532,6 +1592,10 @@ bool UMLListView::slotItemRenamed( QListViewItem * item , int /*col*/ ) {
 
 		case Uml::lvt_Activity_Diagram:
 			createDiagram( renamedItem, Uml::dt_Activity );
+			break;
+
+		case Uml::lvt_Component_Diagram:
+			createDiagram( renamedItem, Uml::dt_Component );
 			break;
 
 		default:
@@ -1684,41 +1748,8 @@ QString UMLListView::getUniqueChildUMLObjectName( UMLConcept * parent, Uml::UMLO
 	return temp;
 }
 
-QString UMLListView::getUniqueDiagramName( Uml::Diagram_Type type )
-{
-	QString	name = "",
-				temp = "",
-				classDiagram = i18n("class diagram"),
-				seqDiagram = i18n("sequence diagram"),
-				collDiagram = i18n("collaboration diagram"),
-				ucDiagram = i18n("usecase diagram"),
-				stateDiagram = i18n("state diagram"),
-				activityDiagram = i18n("activity diagram");
-
-	UMLView * view = 0;
-	int count = 0;
-
-	if( type == Uml::dt_Class )
-		name = classDiagram;
-	else if( type == Uml::dt_Sequence )
-		name = seqDiagram;
-	else if( type == Uml::dt_Collaboration )
-		name =collDiagram;
-	else if( type == Uml::dt_UseCase )
-		name = ucDiagram;
-	else if( type == Uml::dt_State )
-		name = stateDiagram;
-	else
-		name = activityDiagram;
-
-	do {
-		temp = name;
-		if( count > 0 )
-			temp.append("_").append( QString::number( count ) );
-		view = doc -> findView( type, temp );
-		count++;
-	} while( view );
-	return temp;
+QString UMLListView::getUniqueDiagramName(Uml::Diagram_Type type) {
+	return doc->uniqViewName(type);
 }
 
 bool UMLListView::isUnique( UMLListViewItem * item, QString name ) {
@@ -1748,6 +1779,10 @@ bool UMLListView::isUnique( UMLListViewItem * item, QString name ) {
 
 		case Uml::lvt_Activity_Diagram:
 			return !doc -> findView( Uml::dt_Activity, name );
+			break;
+
+		case Uml::lvt_Component_Diagram:
+			return !doc->findView(Uml::dt_Component, name);
 			break;
 
 		case Uml::lvt_Actor:
@@ -1802,6 +1837,8 @@ bool UMLListView::loadFromXMI( QDomElement & element ) {
 	ucv = 0;
 	delete lv;
 	lv = 0;
+	delete componentView;
+	componentView = 0;
 	QDomNode node = element.firstChild();
 	QDomElement domElement = node.toElement();
 	while( !domElement.isNull() ) {
@@ -1870,6 +1907,11 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
 					ucv = item;
 					break;
 
+				case Uml::lvt_Component_View:
+					item = new UMLListViewItem(parent, i18n("Component View"), lvType, nID );
+					componentView = item;
+					break;
+
 				default:
 					item = new UMLListViewItem( parent, label, lvType, nID );
 					break;
@@ -1911,4 +1953,29 @@ bool UMLListView::typeIsCanvasWidget(ListView_Type type) {
 		return false;
 	}
 }
+
+bool UMLListView::typeIsFolder(ListView_Type type) {
+	if (type == Uml::lvt_Logical_Folder ||
+	    type == Uml::lvt_UseCase_Folder ||
+	    type == Uml::lvt_Component_Folder) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+bool UMLListView::typeIsDiagram(ListView_Type type) {
+	if (type == Uml::lvt_Class_Diagram ||
+	    type == Uml::lvt_Collaboration_Diagram ||
+	    type == Uml::lvt_State_Diagram ||
+	    type == Uml::lvt_Activity_Diagram ||
+	    type == Uml::lvt_Sequence_Diagram ||
+	    type == Uml::lvt_UseCase_Diagram ||
+	    type == Uml::lvt_Component_Diagram) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
 #include "umllistview.moc"

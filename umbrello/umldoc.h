@@ -673,6 +673,14 @@ public:
 	 * Returns the UMLApp main window
 	 */
 	UMLApp* getUMLApp();
+
+	/**
+	 * Returns a name for the new object, appended with a number
+	 * if the default name is taken e.g. class diagram, class
+	 * diagram_1 etc
+	 */
+	QString uniqViewName(const Diagram_Type type);
+
 private:
 
 	/**
@@ -687,13 +695,6 @@ private:
 	 * etc
 	 */
 	QString uniqObjectName(const UMLObject_Type type);
-
-	/**
-	 * Returns a name for the new object, appended with a number
-	 * if the default name is taken e.g. class diagram, class
-	 * diagram_1 etc
-	 */
-	QString uniqViewName(const Diagram_Type type);
 
 	/**
 	 *	Sets up the autosave timer.

@@ -60,6 +60,7 @@ namespace Uml {
 	    dt_Sequence,
 	    dt_State,
 	    dt_Activity,
+	    dt_Component,
 	    dt_Undefined = -1
 	};
 
@@ -111,9 +112,11 @@ namespace Uml {
   
   	enum ListView_Type
 	{
+		//the values in this enum are saved out to the file
+		//for file compatibility, only add new values to the end
 	    lvt_View  =  800,
-	    lvt_Logical_View,     //main view
-	    lvt_UseCase_View,  //main view
+	    lvt_Logical_View,
+	    lvt_UseCase_View,
 	    lvt_Logical_Folder,
 	    lvt_UseCase_Folder,
 	    lvt_UseCase_Diagram,
@@ -121,7 +124,7 @@ namespace Uml {
 	    lvt_Class_Diagram,
 	    lvt_State_Diagram,
 	    lvt_Activity_Diagram,
-	    lvt_Sequence_Diagram,//leave as last diagram
+	    lvt_Sequence_Diagram,
 	    lvt_Actor,
 	    lvt_UseCase,
 	    lvt_Class,
@@ -130,6 +133,9 @@ namespace Uml {
   	    lvt_Template,
 	    lvt_Interface,
 	    lvt_Package,
+	    lvt_Component_Diagram,
+	    lvt_Component_Folder,
+	    lvt_Component_View,
   	    lvt_Unknown = -1
   	};
  

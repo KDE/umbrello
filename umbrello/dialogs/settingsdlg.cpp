@@ -130,9 +130,10 @@ void SettingsDlg::setupGeneralPage() {
 	startupLayout -> addWidget( m_GeneralWidgets.diagramKB, 2, 1 );
 
 	QString diagrams [] = { i18n("No Diagram"), i18n("Class Diagram"),
-	                        i18n("Use Case Diagram"), i18n("Sequence Diagram"), i18n("Collaboration Diagram"),
-	                        i18n("State Diagram"), i18n("Activity Diagram") };
-	for( int i=0; i<7; i++)
+	                        i18n("Use Case Diagram"), i18n("Sequence Diagram"),
+				i18n("Collaboration Diagram"), i18n("State Diagram"),
+				i18n("Activity Diagram"), i18n("Component Diagram") };
+	for( int i=0; i<8; i++)
 		m_GeneralWidgets.diagramKB -> insertItem( diagrams[i] );
 
 	m_GeneralWidgets.diagramKB -> setCurrentItem( (int) m_OptionState.generalState.diagram );

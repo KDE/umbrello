@@ -45,7 +45,7 @@ UMLListViewItem::UMLListViewItem(UMLListViewItem * parent, QString name, Uml::Li
 		updateObject();
 		m_Data.setID( o -> getID() );
 	}
-	if( t == Uml::lvt_Logical_View || t == Uml::lvt_UseCase_View )
+	if( t == Uml::lvt_Logical_View || t == Uml::lvt_UseCase_View || t == Uml::lvt_Component_View )
 		setRenameEnabled( 0, false );
 	else
 		setRenameEnabled( 0, true );
@@ -159,6 +159,16 @@ void UMLListViewItem::updateFolder() {
 			else
 				setPixmap( 0, m_pListView -> getPixmap( UMLListView::it_Folder_Green ) );
 			break;
+
+		case Uml::lvt_Component_View:
+		case Uml::lvt_Component_Folder:
+			if ( isOpen() ) {
+				setPixmap(0, m_pListView->getPixmap(UMLListView::it_Folder_Red_Open) );
+			} else {
+				setPixmap(0, m_pListView->getPixmap(UMLListView::it_Folder_Red) );
+			}
+			break;
+
 		default:
 			break;
 	}
@@ -259,6 +269,7 @@ void UMLListViewItem::okRename( int col ) {
 		case Uml::lvt_Collaboration_Diagram:
 		case Uml::lvt_State_Diagram:
 		case Uml::lvt_Activity_Diagram:
+		case Uml::lvt_Component_Diagram:
 			view = m_pListView -> getDocument() -> findView( m_Data.getID() );
 			if( view ) {
 				anotherView = m_pListView -> getDocument() -> findView( view -> getType(), newText );
@@ -274,6 +285,7 @@ void UMLListViewItem::okRename( int col ) {
 			break;
 		case Uml::lvt_UseCase_Folder:
 		case Uml::lvt_Logical_Folder:
+		case Uml::lvt_Component_Folder:
 			m_Data.setLabel( newText );
 			return;
 			break;

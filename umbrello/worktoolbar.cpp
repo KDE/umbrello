@@ -153,6 +153,19 @@ void WorkToolBar::slotCheckToolBar(Uml::Diagram_Type dt) {
 
 		insertButton( m_Pixmaps.UniAssociation, tbb_Activity_Transition, true, i18n("Activity transition"));
 		setToggle( tbb_Activity_Transition, true );
+	} else if (m_Type == Uml::dt_Component) {
+		insertButton( m_Pixmaps.Interface, tbb_Interface, true, i18n("Interface"));
+		setToggle( tbb_Interface,true );
+
+		insertButton( m_Pixmaps.Generalization, tbb_Generalization, true,
+			      i18n("Implements (Generalisation/Realisation)"));
+		setToggle( tbb_Generalization, true );
+
+		insertButton( m_Pixmaps.Dependency, tbb_Dependency, true, i18n("Dependency"));
+		setToggle( tbb_Dependency, true );
+
+		insertButton( m_Pixmaps.Association, tbb_Association, true, i18n("Association"));
+		setToggle( tbb_Association,true );
 	}
 }
 

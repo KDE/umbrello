@@ -33,12 +33,14 @@ public:
 	    //new type on left which replaces listed on right
 	    mt_Logical_View = 1900,           //LVIEW
 	    mt_UseCase_View,                  //UCVIEW
+	    mt_Component_View,
 	    mt_UseCase_Diagram,               //UCDIAGRAM
 	    mt_Sequence_Diagram,              //SEQDIAGRAM
 	    mt_Class_Diagram,                 //CONDIAGRAM
 	    mt_Collaboration_Diagram,         //COLLDIAGRAM
 	    mt_State_Diagram,
 	    mt_Activity_Diagram,
+	    mt_Component_Diagram,
 
 	    mt_On_UseCase_Diagram,            //UCDIAGRAM
 	    mt_On_Sequence_Diagram,           //SEQDIAGRAM
@@ -46,9 +48,11 @@ public:
 	    mt_On_Collaboration_Diagram,      //COLLDIAGRAM
 	    mt_On_State_Diagram,
 	    mt_On_Activity_Diagram,
+	    mt_On_Component_Diagram,
 
 	    mt_Logical_Folder,                //LFOLDER
 	    mt_UseCase_Folder,                //UCFOLDER
+	    mt_Component_Folder,
 
 	    mt_Concept,                       //CONCEPT
 	    mt_Package,
@@ -143,7 +147,7 @@ public:
 	ListPopupMenu(QWidget *parent, Menu_Type type = mt_Undefined, UMLView * view = 0);
 
 	/**
-	 *	Constructs the popup menu.
+	 *	Constructs the popup menu for a list view item.
 	 *
 	 *	@param	parent		The parent to ListPopupMenu.
 	 *	@param	type		The type of menu to display.
@@ -151,7 +155,7 @@ public:
 	ListPopupMenu(QWidget *parent, Uml::ListView_Type type);
 
 	/**
-	 *	Constructs the popup menu.
+	 *	Constructs the popup menu for a canvas widget.
 	 *
 	 *	@param	parent		The parent to ListPopupMenu.
 	 *	@param	object		The UMLWidget to represent a menu for.

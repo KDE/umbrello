@@ -169,7 +169,7 @@ void UMLApp::initActions() {
 	sequenceDiagram= new KAction( i18n( "&Sequence Diagram" ), SmallIconSet("folder_green"), 0,
 	                              this, SLOT( slotSequenceDiagram() ), actionCollection(), "new_sequence_diagram" );
 
-	collaborationDiagram = new KAction( i18n( "Collaboration &Diagram" ), SmallIconSet("folder_green"), 0,
+	collaborationDiagram = new KAction( i18n( "C&ollaboration Diagram" ), SmallIconSet("folder_green"), 0,
 	                                    this, SLOT( slotCollaborationDiagram() ), actionCollection(), "new_collaboration_diagram" );
 
 	useCaseDiagram= new KAction( i18n( "&Use Case Diagram" ), SmallIconSet("folder_grey"), 0,
@@ -180,6 +180,10 @@ void UMLApp::initActions() {
 
 	activityDiagram= new KAction( i18n( "&Activity Diagram" ), SmallIconSet("folder_green"), 0,
 	                              this, SLOT( slotActivityDiagram() ), actionCollection(), "new_activity_diagram" );
+
+	componentDiagram = new KAction( i18n("Co&mponent Diagram"), SmallIconSet("folder_red"), 0,
+					this, SLOT( slotComponentDiagram() ), actionCollection(),
+					"new_component_diagram" );
 
 	viewClearDiagram = new KAction(i18n("&Clear Diagram"), SmallIconSet("editclear"), 0,
 	                        this, SLOT( slotCurrentViewClearDiagram() ), actionCollection(), "view_clear_diagram");
@@ -724,18 +728,20 @@ void UMLApp::slotStatusMsg(const QString &text) {
 void UMLApp::slotClassDiagram() {
 	getDocument() -> createDiagram( Uml::dt_Class ) ;
 }
+
 void UMLApp::slotSequenceDiagram() {
 	getDocument() -> createDiagram( Uml::dt_Sequence );
 }
+
 void UMLApp::slotCollaborationDiagram() {
 	getDocument() -> createDiagram( Uml::dt_Collaboration );
 }
+
 void UMLApp::slotUseCaseDiagram() {
 	getDocument() -> createDiagram( Uml::dt_UseCase );
 }
 
-void UMLApp::slotStateDiagram()
-{
+void UMLApp::slotStateDiagram() {
 	getDocument() -> createDiagram( Uml::dt_State );
 }
 
@@ -743,6 +749,9 @@ void UMLApp::slotActivityDiagram() {
 	getDocument() -> createDiagram( Uml::dt_Activity );
 }
 
+void UMLApp::slotComponentDiagram() {
+	getDocument()->createDiagram( Uml::dt_Component );
+}
 
 WorkToolBar* UMLApp::getWorkToolBar() {
 	return toolsbar;

@@ -389,6 +389,11 @@ public slots:
 	void slotActivityDiagram();
 
 	/**
+	 *	Create this view
+	 */
+	void slotComponentDiagram();
+
+	/**
 	 *
 	 */
 	void slotClipDataChanged();
@@ -644,6 +649,7 @@ private:
 	KAction* useCaseDiagram;
 	KAction* stateDiagram;
 	KAction* activityDiagram;
+	KAction* componentDiagram;
 	KAction* viewClearDiagram;
 	
 	KToggleAction* viewSnapToGrid;

@@ -38,6 +38,10 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, Uml::ListView_Type type) : KPopupM
 			mt = mt_UseCase_View;
 			break;
 
+		case Uml::lvt_Component_View:
+			mt = mt_Component_View;
+			break;
+
 		case Uml::lvt_Logical_Folder:
 			mt = mt_Logical_Folder;
 			break;
@@ -68,6 +72,10 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, Uml::ListView_Type type) : KPopupM
 
 		case Uml::lvt_Activity_Diagram:
 			mt = mt_Activity_Diagram;
+			break;
+
+		case Uml::lvt_Component_Diagram:
+			mt = mt_Component_Diagram;
 			break;
 
 		case Uml::lvt_Actor:
@@ -503,6 +511,20 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 			break;
 
 
+		case mt_Component_View:
+			m_pInsert = new KPopupMenu(this, "New");
+			m_pInsert->insertItem(SmallIcon("folder_new"), i18n("Folder"), mt_Component_Folder);
+//FIXMEnow			m_pInsert -> insertItem(classPixmap, i18n("Class..."), mt_Concept);
+			m_pInsert->insertItem(SmallIcon("folder_red"),i18n("Component Diagram"),
+					      mt_Component_Diagram);
+			insertItem(SmallIcon("filenew"), i18n("New"), m_pInsert);
+			insertSeparator();
+			insertItem(SmallIcon("editpaste"), i18n("Paste"), mt_Paste);
+			insertSeparator();
+			insertItem(i18n("Expand All"),mt_Expand_All);
+			insertItem(i18n("Collapse All"),mt_Collapse_All);
+			break;
+
 		case mt_UseCase_View:
 			m_pInsert = new KPopupMenu(this,"New");
 			m_pInsert -> insertItem(SmallIcon( "folder_new"),i18n("Folder"), mt_UseCase_Folder);
@@ -571,6 +593,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 		case mt_Collaboration_Diagram:
 		case mt_State_Diagram:
 		case mt_Activity_Diagram:
+		case mt_Component_Diagram:
 			insertItem(SmallIcon( "editcut"), i18n("Cut"), mt_Cut);
 			insertItem(SmallIcon( "editcopy"), i18n("Copy"), mt_Copy);
 			insertItem(SmallIcon( "editpaste"), i18n("Paste"), mt_Paste);
@@ -621,6 +644,14 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 			m_pInsert -> insertItem(branchPixmap, i18n("Branch/Merge"), mt_Branch );
 			m_pInsert -> insertItem(SmallIcon( "text"), i18n( "Text Line..." ), mt_FloatText );
 			insertItem(SmallIcon( "filenew"), i18n("New"), m_pInsert);
+			insertSeparator();
+			setupDiagramMenu(view);
+			break;
+
+		case mt_On_Component_Diagram:
+//FIXMEnow			m_pInsert = new KPopupMenu( this, "New" );
+//			m_pInsert -> insertItem(initialStatePixmap, i18n("Initial Activity"), mt_Initial_Activity );
+//			insertItem(SmallIcon( "filenew"), i18n("New"), m_pInsert);
 			insertSeparator();
 			setupDiagramMenu(view);
 			break;

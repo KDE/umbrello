@@ -43,6 +43,8 @@ public:
 	    it_Folder_Green_Open,
 	    it_Folder_Grey,
 	    it_Folder_Grey_Open,
+	    it_Folder_Red,
+	    it_Folder_Red_Open,
 	    it_Diagram, //change to have different one for each type of diagram
 	    it_Class,
 	    it_Template,
@@ -210,9 +212,10 @@ public:
 	
 
 protected:
-	UMLListViewItem * rv;//root view
-	UMLListViewItem * ucv;//use case view item
-	UMLListViewItem * lv;//logical view item
+	UMLListViewItem* rv;//root view
+	UMLListViewItem* ucv;//use case view item
+	UMLListViewItem* lv;//logical view item
+	UMLListViewItem* componentView;//component view item
 	ListPopupMenu * menu;
 	QString oldText, message;
 	UMLDoc * doc;
@@ -224,6 +227,8 @@ protected:
 		QPixmap Folder_Green_Open;
 		QPixmap Folder_Grey;
 		QPixmap Folder_Grey_Open;
+		QPixmap Folder_Red;
+		QPixmap Folder_Red_Open;
 		QPixmap Diagram; //change to have different one for each type of diagram
 		QPixmap Class;
 		QPixmap Template;
@@ -278,6 +283,16 @@ protected:
 	 * returns true if the listview type is actor, usecase, class, package or interface
 	 */
 	bool typeIsCanvasWidget(ListView_Type type);
+
+	/**
+	 * returns true if the listview type is logical, usecase or component folder
+	 */
+	bool typeIsFolder(ListView_Type type);
+
+	/**
+	 * returns true if the listview type is a diagram
+	 */
+	bool typeIsDiagram(ListView_Type type);
 
 public slots:
 	void slotDiagramCreated(int id);

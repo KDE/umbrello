@@ -489,6 +489,9 @@ void UMLView::slotObjectCreated(UMLObject* o) {
 			temp = (UMLWidget*)packageWidget;
 		} else if(type == ot_Interface) {
 		        InterfaceWidget* interfaceWidget = new InterfaceWidget(this, o);
+			if (getType() == dt_Component) {
+				interfaceWidget->setDrawAsCircle(true);
+			}
 			temp = (UMLWidget*)interfaceWidget;
 		} else if(type == ot_Concept) {
 			//see if we really want an object widget or concept widget
@@ -600,6 +603,9 @@ void UMLView::contentsDragEnterEvent(QDragEnterEvent *e) {
 				status = false;
 		}
 		if (m_pData->m_Type == dt_Class && (ot == ot_Package || ot == ot_Interface)) {
+			status = true;
+		}
+		if (m_pData->m_Type == dt_Component && ot == ot_Interface) {
 			status = true;
 		}
 		if((m_pData->m_Type == dt_UseCase || m_pData->m_Type == dt_Class)
@@ -2526,7 +2532,12 @@ void UMLView::setMenu() {
 			menu = ListPopupMenu::mt_On_Activity_Diagram;
 			break;
 
+		case dt_Component:
+			menu = ListPopupMenu::mt_On_Component_Diagram;
+			break;
+
 		default:
+			kdWarning() << "setMenu() called on unknown diagram type" << endl;
 			menu = ListPopupMenu::mt_Undefined;
 			break;
 	}//end switch

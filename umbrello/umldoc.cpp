@@ -212,6 +212,10 @@ bool UMLDoc::newDocument() {
 		case SettingsDlg::diagram_activity:
 			createDiagram( Uml::dt_Activity, false );
 			break;
+
+	        case SettingsDlg::diagram_component:
+			createDiagram( Uml::dt_Component, false );
+			break;
 		default:
 			break;
 	}//end switch
@@ -659,7 +663,6 @@ void UMLDoc::removeAssocFromConcepts(UMLAssociation *assoc)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLDoc::addAssociation(UMLAssociation *Assoc)
 {
-	kdDebug() << k_funcinfo << endl;
 	// First, check that this association has not already been added.
 	// This may happen as long as we are still in transition from the old
 	// widget based association fabrication. (See explanation at method
@@ -726,8 +729,13 @@ QString UMLDoc::uniqViewName(const Diagram_Type type) {
 		dname = i18n("collaboration diagram");
 	else if( type == dt_State )
 		dname = i18n( "state diagram" );
-	else
+	else if( type == dt_Activity )
 		dname = i18n( "activity diagram" );
+	else if( type == dt_Component )
+		dname = i18n( "component diagram" );
+	else {
+		kdWarning() << "uniqViewName() called with unknown diagram type" << endl;
+	}
 	QString name = dname;
 	for (int number = 0; findView(type, name); ++number,
 	        name = dname + "_" + QString::number(number))
