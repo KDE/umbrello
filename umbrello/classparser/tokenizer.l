@@ -22,7 +22,6 @@
   #include <iostream>
   #include <qstring.h>
   #include "tokenizer.h"
-  #include "FlexLexer.h"
 
   /* Line where a comment starts. */
   int comment_start = -1;
