@@ -1776,13 +1776,13 @@ bool UMLListView::slotItemRenamed( QListViewItem * item , int /*col*/ ) {
 		if( type == Uml::lvt_Operation ) {
 			if( KMessageBox::warningYesNo( kapp -> mainWidget() , i18n( "The name you entered was not unique.\nIs this what you wanted?" ),
 						       i18n( "Name Not Unique" ) ) == KMessageBox::No ) {
-				//CRASH: delete item;
+				delete item;
 				return false;
 			}
 		} else {
 			KMessageBox::error( kapp -> mainWidget() , i18n( "The name you entered was not unique!\nCreation process has been canceled." ),
 					    i18n( "Name Not Unique" ) );
-			//CRASH: delete item;
+			delete item;
 			return false;
 		}
 	}
