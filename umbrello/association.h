@@ -306,10 +306,10 @@ protected:
 	 * The ordering within assocTypeStr must match the enumeration
 	 * order of Uml::Association_Type.
 	 */
-	static const Uml::Association_Type atypeFirst = Uml::at_Generalization;
-	static const Uml::Association_Type atypeLast = Uml::at_Activity;
-	static const unsigned nAssocTypes = (unsigned)atypeLast - (unsigned)atypeFirst + 1;
-	static const QString assocTypeStr[nAssocTypes];
+	static const Uml::Association_Type atypeFirst;
+	static const Uml::Association_Type atypeLast;
+	static const unsigned nAssocTypes;
+	static const QString assocTypeStr[];
 
 	Uml::Association_Type m_AssocType;
 	int m_RoleAId;

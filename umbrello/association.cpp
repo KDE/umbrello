@@ -12,6 +12,12 @@
 #include "classifier.h"
 #include "umldoc.h"
 
+// static members
+const Uml::Association_Type UMLAssociation::atypeFirst = Uml::at_Generalization;
+const Uml::Association_Type UMLAssociation::atypeLast = Uml::at_Activity;
+const unsigned UMLAssociation::nAssocTypes = (unsigned)atypeLast - (unsigned)atypeFirst + 1;
+
+// constructor
 UMLAssociation::UMLAssociation(UMLDoc* parent) : UMLObject((UMLObject *)parent) {
 	init();
 }
