@@ -40,6 +40,7 @@ class UMLDoc;
 class UMLCanvasObject;
 
 class KPrinter;
+class ToolBarState;
 class ToolBarStateFactory;
 
 /** The UMLView class provides the view widget for the UMLApp
@@ -54,11 +55,6 @@ class ToolBarStateFactory;
  */
 class UMLView : public QCanvasView {
 	Q_OBJECT
-
-	friend class ToolBarState;
-	friend class ToolBarStateOther; // TODO
-	friend class ToolBarStateAssociation; // TODO
-	friend class ToolBarStateMessages; // TODO
 public:
 	/**
 	 * Constructor for the main view
@@ -509,6 +505,13 @@ public:
 
 
 	/**
+	 * Get the pos variable.  Used internally to keep track of the cursor.
+	 */
+	QPoint & getPos() {
+		return m_Pos;
+	}
+
+	/**
 	 * Set the pos variable.  Used internally to keep track of the cursor.
 	 *
 	 * @param _pos	The position to set to.
@@ -538,6 +541,13 @@ public:
 	 */
 	bool getPaste() const {
 		return m_bPaste;
+	}
+
+	/**
+	 * Sets the status on whether in a paste state.
+	 */
+	void setPaste(bool paste) {
+		m_bPaste = paste;
 	}
 
 	/**
@@ -842,11 +852,100 @@ public:
 	void selectWidgets(int px, int py, int qx, int qy);
 
 	/**
-	 * Determine whether on a sequence diagram we have clicked on a line of an Object.
+	 * Determine whether on a sequence diagram we have clicked on a line
+	 * of an Object.
 	 *
-	 * @returns	Returns the widget thats line was clicked on.  Returns 0 if no line was clicked on.
+	 * @return	The widget thats line was clicked on.
+	 *		Returns 0 if no line was clicked on.
 	 */
 	ObjectWidget * onWidgetLine( const QPoint &point );
+
+	/**
+	 * Return the line used to show a join between objects as an association
+	 * is being made.
+	 */
+	QCanvasLine * getAssocLine() {
+		return m_pAssocLine;
+	}
+
+	/**
+	 * Set the line used to show a join between objects as an association
+	 * is being made.
+	 */
+	void setAssocLine(QCanvasLine * line) {
+		m_pAssocLine = line;
+	}
+
+	/**
+	 * Return pointer to the first selected widget when creating an
+	 * association.
+	 */
+	UMLWidget* getFirstSelectedWidget() {
+		return m_pFirstSelectedWidget;
+	}
+
+	/**
+	 * Set pointer to the first selected widget when creating an
+	 * association.
+	 */
+	void setFirstSelectedWidget(UMLWidget* w) {
+		m_pFirstSelectedWidget = w;
+	}
+
+	/**
+	 * Return the current UMLWidget we are on.
+	 */
+	UMLWidget * getOnWidget() {
+		return m_pOnWidget;
+	}
+
+	/**
+	 * Set the current UMLWidget we are on.
+	 */
+	void setOnWidget(UMLWidget * w) {
+		m_pOnWidget = w;
+	}
+
+	/**
+	 * Initialize and announce a newly created widget.
+	 * Auxiliary to contentsMouseReleaseEvent().
+	 */
+	void setupNewWidget(UMLWidget *w);
+
+	/**
+	 * Return whether we are currently creating an object.
+	 */
+	bool getCreateObject() const {
+		return m_bCreateObject;
+	}
+
+	/**
+	 * Set whether we are currently creating an object.
+	 */
+	void setCreateObject(bool bCreate) {
+		m_bCreateObject = bCreate;
+	}
+
+	/**
+	 * Return the current AssociationWidget we are moving.
+	 */
+	AssociationWidget * getMoveAssoc() {
+		return m_pMoveAssoc;
+	}
+
+	/**
+	 * Set the current AssociationWidget we are moving.
+	 */
+	void setMoveAssoc(AssociationWidget *aw) {
+		m_pMoveAssoc = aw;
+	}
+
+	/**
+	 * Emit the sigRemovePopupMenu Qt signal.
+	 */
+	void emitRemovePopupMenu() {
+		emit sigRemovePopupMenu();
+	}
 
 protected:
 
@@ -975,12 +1074,6 @@ protected:
 	 * Initializes key variables.
 	 */
 	void init();
-
-	/**
-	 * Initialize and announce a newly created widget.
-	 * Auxiliary to contentsMouseReleaseEvent().
-	 */
-	void setupNewWidget(UMLWidget *w);
 
 	/**
 	 * Overrides the standard operation.

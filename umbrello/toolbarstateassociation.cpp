@@ -40,10 +40,11 @@ void ToolBarStateAssociation::mousePress(QMouseEvent* ome)
 {
 	ToolBarStatePool::mousePress(ome);
 
-	if( m_pUMLView->m_pAssocLine)
+	QCanvasLine *line = m_pUMLView->getAssocLine();
+	if (line)
 	{
-		delete m_pUMLView->m_pAssocLine;
-		m_pUMLView->m_pAssocLine = NULL;
+		delete line;
+		m_pUMLView->setAssocLine(NULL);
 	}
 }
 
@@ -62,26 +63,28 @@ void ToolBarStateAssociation::mouseMove(QMouseEvent* ome)
 {
 	ToolBarStatePool::mouseMove(ome);
 
-	// TODO: Should be encapsulated.
-	if( m_pUMLView->m_pFirstSelectedWidget )
+	if( m_pUMLView->getFirstSelectedWidget() )
 	{
-		if( m_pUMLView->m_pAssocLine )
+		QCanvasLine *line = m_pUMLView->getAssocLine();
+		if (line)
 		{
-			QPoint sp = m_pUMLView->m_pAssocLine -> startPoint();
-			m_pUMLView->m_pAssocLine -> setPoints( sp.x(), sp.y(), m_pMouseEvent->x(), m_pMouseEvent->y() );
+			QPoint sp = line->startPoint();
+			line->setPoints( sp.x(), sp.y(), m_pMouseEvent->x(), m_pMouseEvent->y() );
 		}
 	}
 }
 
 void ToolBarStateAssociation::init()
 {
-	m_pUMLView->m_pFirstSelectedWidget = NULL;
+	m_pUMLView->setFirstSelectedWidget( NULL );
 
-	if (m_pUMLView->m_pAssocLine)
+	QCanvasLine *line = m_pUMLView->getAssocLine();
+	if (line)
 	{
-		delete m_pUMLView->m_pAssocLine;
-		m_pUMLView->m_pAssocLine = NULL;
+		delete line;
+		m_pUMLView->setAssocLine( NULL );
 	}
 
 	ToolBarStatePool::init();
 }
+

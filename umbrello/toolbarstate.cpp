@@ -53,12 +53,12 @@ void ToolBarState::mousePress(QMouseEvent* ome)
 	m_pUMLView->viewport()->setMouseTracking(true);
 
 	// TODO: emit sucks
-	emit m_pUMLView->sigRemovePopupMenu();
+	m_pUMLView->emitRemovePopupMenu();
 
 	// TODO: Check who needs this.
-	m_pUMLView->m_Pos = m_pMouseEvent->pos();
+	m_pUMLView->setPos( m_pMouseEvent->pos() );
 
-	if(m_pUMLView->m_bPaste) m_pUMLView->m_bPaste = false;
+	m_pUMLView->setPaste(false);
 
 	setSelectedWidget(m_pMouseEvent);
 }
@@ -70,12 +70,16 @@ void ToolBarState::mouseRelease(QMouseEvent* ome)
 
 	// Set the position of the mouse
 	// TODO, should only be available in this state?
-	m_pUMLView->m_Pos.setX(m_pMouseEvent->x());
-	m_pUMLView->m_Pos.setY(m_pMouseEvent->y());
+	m_pUMLView->getPos().setX(m_pMouseEvent->x());
+	m_pUMLView->getPos().setY(m_pMouseEvent->y());
 
 	// TODO: Should not be called by an Sequence message Association.
-	if(m_pUMLView->m_pOnWidget) m_pUMLView->m_pOnWidget->mouseReleaseEvent(m_pMouseEvent);
-	if(m_pUMLView->m_pMoveAssoc) m_pUMLView->m_pMoveAssoc->mouseReleaseEvent(m_pMouseEvent);
+	UMLWidget *onW = m_pUMLView->getOnWidget();
+	if (onW)
+		onW->mouseReleaseEvent(m_pMouseEvent);
+	AssociationWidget *moveAssoc = m_pUMLView->getMoveAssoc(); 
+	if (moveAssoc)
+		moveAssoc->mouseReleaseEvent(m_pMouseEvent);
 
 	// Default, rightbutton changes the tool.
 	// The arrow tool overrides the changeTool() function.
@@ -107,18 +111,20 @@ void ToolBarState::mouseDoubleClick(QMouseEvent* ome)
 	setMouseEvent(ome, QEvent::MouseButtonDblClick);
 
 
-	if( m_pUMLView->m_pOnWidget && m_pUMLView->m_pOnWidget->onWidget( m_pMouseEvent->pos()))
+	UMLWidget *onW = m_pUMLView->getOnWidget();
+	AssociationWidget *moveAssoc = m_pUMLView->getMoveAssoc(); 
+	if (onW && onW->onWidget( m_pMouseEvent->pos()))
 	{
-		m_pUMLView->m_pOnWidget->mouseDoubleClickEvent( m_pMouseEvent );
+		onW->mouseDoubleClickEvent( m_pMouseEvent );
 	}
-	else if( m_pUMLView->m_pMoveAssoc && m_pUMLView->m_pMoveAssoc->onAssociation( m_pMouseEvent -> pos() ))
+	else if (moveAssoc && moveAssoc->onAssociation( m_pMouseEvent->pos() ))
 	{
-		m_pUMLView->m_pMoveAssoc->mouseDoubleClickEvent( m_pMouseEvent );
+		moveAssoc->mouseDoubleClickEvent( m_pMouseEvent );
 	}
 	else
 	{
-		m_pUMLView->m_pOnWidget = 0;
-		m_pUMLView->m_pMoveAssoc = 0;
+		m_pUMLView->setOnWidget(NULL);
+		m_pUMLView->setMoveAssoc(NULL);
 		m_pUMLView->clearSelected();
 	}
 }
@@ -127,10 +133,12 @@ void ToolBarState::mouseMove(QMouseEvent* ome)
 {
 	setMouseEvent(ome, QEvent::MouseMove);
 
-	if (m_pUMLView->m_pOnWidget)
-		m_pUMLView->m_pOnWidget->mouseMoveEvent( m_pMouseEvent );
-	else if (m_pUMLView->m_pMoveAssoc)
-		m_pUMLView->m_pMoveAssoc->mouseMoveEvent( m_pMouseEvent );
+	UMLWidget *onW = m_pUMLView->getOnWidget();
+	AssociationWidget *moveAssoc = m_pUMLView->getMoveAssoc(); 
+	if (onW)
+		onW->mouseMoveEvent( m_pMouseEvent );
+	else if (moveAssoc)
+		moveAssoc->mouseMoveEvent( m_pMouseEvent );
 
 	if (m_bIsButtonPressed)
 	{
@@ -155,14 +163,14 @@ void ToolBarState::mouseMove(QMouseEvent* ome)
 // TODO: Remove parameter?
 bool ToolBarState::setSelectedWidget(QMouseEvent * me)
 {
-	m_pUMLView->m_pMoveAssoc = 0;
-	m_pUMLView->m_pOnWidget = 0;
+	m_pUMLView->setMoveAssoc(NULL);
+	m_pUMLView->setOnWidget(NULL);
 
 	UMLWidget* backup = 0;
 	UMLWidget* boxBackup = 0;
 
 	// Check widgets.
-	UMLWidgetListIt it( m_pUMLView->m_WidgetList );
+	UMLWidgetListIt it( m_pUMLView->getWidgetList() );
 	UMLWidget* obj = 0;
 	while ( (obj = it.current()) != 0 ) {
 		++it;
@@ -175,7 +183,7 @@ bool ToolBarState::setSelectedWidget(QMouseEvent * me)
 		//are on top of them.
 		if (obj->getBaseType() == Uml::wt_Text)
 		{
-			m_pUMLView->m_pOnWidget = obj;
+			m_pUMLView->setOnWidget( obj );
 			obj ->  mousePressEvent( me );
 			m_bWidgetSelected = true;
 			return true;
@@ -188,18 +196,18 @@ bool ToolBarState::setSelectedWidget(QMouseEvent * me)
 	//if backup is set then let it have the event
 	if(backup) {
 		backup -> mousePressEvent( me );
-		m_pUMLView->m_pOnWidget = backup;
+		m_pUMLView->setOnWidget( backup );
 
 		m_bWidgetSelected = true;
 		return true;
 	}
 
 	// Check messages.
-	MessageWidgetListIt mit( m_pUMLView->m_MessageList );
+	MessageWidgetListIt mit( m_pUMLView->getMessageList() );
 	obj = 0;
 	while ((obj = (UMLWidget*)mit.current()) != 0) {
 		if (obj->isVisible() && obj->onWidget(me->pos())) {
-			m_pUMLView->m_pOnWidget = obj;
+			m_pUMLView->setOnWidget( obj );
 			obj ->  mousePressEvent( me );
 			m_bWidgetSelected = true;
 			return true;
@@ -210,29 +218,29 @@ bool ToolBarState::setSelectedWidget(QMouseEvent * me)
 	// Boxes have lower priority.
 	if (boxBackup) {
 		boxBackup -> mousePressEvent( me );
-		m_pUMLView->m_pOnWidget = boxBackup;
+		m_pUMLView->setOnWidget( boxBackup );
 
 		m_bWidgetSelected = true;
 		return true;
 	}
 
 	// Check associations.
-	AssociationWidgetListIt assoc_it(m_pUMLView->m_AssociationList);
+	AssociationWidgetListIt assoc_it(m_pUMLView->getAssociationList());
 	AssociationWidget* assocwidget = 0;
 	while((assocwidget=assoc_it.current())) {
 		if( assocwidget -> onAssociation( me -> pos() ))
 		{
 			// TODO: Fix this. It makes a callback to the association mousePressEvent function.
 			assocwidget->mousePressEvent(me);
-			m_pUMLView->m_pMoveAssoc = assocwidget;
+			m_pUMLView->setMoveAssoc(assocwidget);
 
 			m_bWidgetSelected = true;
 			return true;
 		}
 		++assoc_it;
 	}
-	m_pUMLView->m_pMoveAssoc = 0;
-	m_pUMLView->m_pOnWidget = 0;
+	m_pUMLView->setMoveAssoc(NULL);
+	m_pUMLView->setOnWidget(NULL);
 
 	m_bWidgetSelected = false;
 	return false;

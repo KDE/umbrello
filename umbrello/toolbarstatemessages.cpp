@@ -59,7 +59,7 @@ void ToolBarStateMessages::mousePress(QMouseEvent* ome)
 /* Class holds the Sequence messages. */
 void ToolBarStateMessages::mouseRelease(QMouseEvent* ome)
 {
-	m_pUMLView->m_pOnWidget = NULL;
+	m_pUMLView->setOnWidget(NULL);
 	ToolBarStatePool::mouseRelease(ome);
 
 	removeLine();
@@ -69,7 +69,7 @@ void ToolBarStateMessages::mouseRelease(QMouseEvent* ome)
 
 	if (clickedOnWidget == NULL && m_pSelectedWidget) {
 		// Check ObjectWidgets - for creation message.
-		UMLWidgetListIt it( m_pUMLView->m_WidgetList );
+		UMLWidgetListIt it( m_pUMLView->getWidgetList() );
 		UMLWidget* obj = 0;
 		while ( (obj = it.current()) != 0 ) {
 			++it;
@@ -121,7 +121,7 @@ void ToolBarStateMessages::mouseRelease(QMouseEvent* ome)
 			message->setActivated();
 
 			m_pSelectedWidget = 0;
-			m_pUMLView->m_MessageList.append(message);
+			m_pUMLView->getMessageList().append(message);
 		}
 	}
 	else

@@ -162,8 +162,7 @@ void ToolBarStateOther::mouseRelease(QMouseEvent* ome)
 		{
 			// Is UMLObject?
 
-			// TODO: is friend.
-			m_pUMLView->m_bCreateObject = true;
+			m_pUMLView->setCreateObject(true);
 			UMLApp::app()->getDocument()->createUMLObject(getObjectType(getButton()));
 		}
 	}
