@@ -7,7 +7,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
- 
+
 
 #include "associationwidget.h"
 #include "pathsegment.h"
@@ -38,15 +38,15 @@ AssociationWidget::AssociationWidget( Diagram *diagram, uint id, DiagramWidget *
 	a[0] = startPoint;
 	a[1] = endPoint;
 	setPathPoints(a);
-	
+
 	createHotSpots( );
-	
+
 	connect(m_startWidget,SIGNAL(moved()),this,SLOT(widgetMoved()));
 	connect(m_endWidget,SIGNAL(moved()),this,SLOT(widgetMoved()));
-	
+
 	connect(m_startWidget,SIGNAL(destroyed()),this,SLOT(deleteLater()));
 	connect(m_endWidget,SIGNAL(destroyed()),this,SLOT(deleteLater()));
-	
+
 }
 
 AssociationWidget::~AssociationWidget()
@@ -91,13 +91,13 @@ void AssociationWidget::setPathPoints( const QPointArray &a )
 	start = m_startWidget->hotSpotPosition(m_startSpot);
 	end = m_segments.first()->endPoint();
 	m_segments.first()->setPoints(start.x(),start.y(),end.x(),end.y());
-	                           
+
 	m_endSpot = m_endWidget->closestHotSpot(a[a.size()-1]);
 	//make sure we've got the right spot
 	end = m_endWidget->hotSpotPosition(m_endSpot);
 	start = m_segments.last()->startPoint();
 	m_segments.last()->setPoints(start.x(),start.y(),end.x(),end.y());
-	
+
 	createHotSpots( );
 }
 
@@ -132,7 +132,7 @@ void AssociationWidget::moveHotSpotBy( int h, int dx, int dy )
 	PathSegment *before,*after;
 	int spot;
 	QPoint point;
-	if( h != 0 && h != m_hotSpots.count() -1 )
+	if( h != 0 && h != (int)m_hotSpots.count() -1 )
 		return Path::moveHotSpotBy(h,dx,dy);
 	kdDebug()<<"AssociationWidget::moveHotSpotBy()"<<endl;
 	if( h == 0)
@@ -143,7 +143,7 @@ void AssociationWidget::moveHotSpotBy( int h, int dx, int dy )
 		kdDebug()<<"moving hs 0 to widget spot "<<spot<<endl;
 		m_startSpot = spot;
 		m_startWidget->showHotSpots(spot);
-		
+
 		//point = m_startWidget->hotSpotPosition(spot);
 		after = m_segments.first();
 		after->setPoints( point.x(),
@@ -151,7 +151,7 @@ void AssociationWidget::moveHotSpotBy( int h, int dx, int dy )
 		                  after->endPoint().x(),
 		                  after->endPoint().y());
 	}
-	else if ( h == m_hotSpots.count() -1 )
+	else if ( h == (int)(m_hotSpots.count() - 1) )
 	{
 		point.setX( m_segments.last()->endPoint().x() + dx );
 		point.setY( m_segments.last()->endPoint().y() + dy );
@@ -178,7 +178,7 @@ void AssociationWidget::moveHotSpotBy( int h, int dx, int dy )
 void AssociationWidget::widgetMoved( )
 {
 	//const DiagramWidget *moved = dynamic_cast<const DiagramWidget*>(sender());
-	
+
 	PathSegment *segment;
 	QPoint p;
 	//if( moved == m_startWidget || m_segments.count() == 1 )

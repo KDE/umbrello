@@ -36,7 +36,7 @@ namespace Umbrello
 {
 
 
-InterfaceTool::InterfaceTool( DiagramView  *view ): 
+InterfaceTool::InterfaceTool( DiagramView  *view ):
 	Tool( view, "interfacetool" )
 {
 	setIcon("interface");
@@ -70,7 +70,7 @@ bool InterfaceTool::mouseReleaseEvent( )
 	{
 		return false;
 	}
-	
+
 	DiagramElement *e = diagram()->firstDiagramElement( currentPos() );
 	if( e )
 	{
@@ -80,7 +80,7 @@ bool InterfaceTool::mouseReleaseEvent( )
 	if( !diagram()->acceptType( typeid(UMLInterface) ) )
 	{
 		kdWarning()<<"InterfaceTool: request to create object of type \"UMLInterface\" rejected by diagram"<<endl;
-		return;
+		return false;
 	}
 	UMLObject *obj = diagram()->document()->createUMLObject( typeid(UMLInterface) );
 	if(!obj)

@@ -44,7 +44,7 @@ PathTool::~PathTool()
 { }
 
 void PathTool::activate()
-{ 
+{
 	setCursor( );
 	view()->viewport()->setMouseTracking(true);
 	kdDebug()<<"PathTool tool is now active"<<endl;
@@ -54,7 +54,7 @@ void PathTool::deactivate()
 {
  	kdDebug()<<"Deactivating PathTool tool"<<endl;
 	view()->viewport()->setMouseTracking(false);
- 
+
 
 }
 
@@ -107,13 +107,13 @@ bool PathTool::createNextPathPoint( )
 	return true;
 }
 
-bool PathTool::mouseReleaseEvent( ) 
+bool PathTool::mouseReleaseEvent( )
 {
 	return false;
 }
 
-bool PathTool::mouseMoveEvent( ) 
-{ 
+bool PathTool::mouseMoveEvent( )
+{
 	QCanvasLine *line;
 	if( m_linePath.count() > 0 )
 	{
@@ -139,14 +139,14 @@ QPoint PathTool::findNextPathPoint( )
 	QPoint prev, next;
 	prev = line->startPoint( );
 	next = currentPos( );
-	
+
 	float dx = next.x() - prev.x();
 	float dy = next.y() - prev.y();
 	if( dx < 0 )
 		dx = dx * -1;
 	if( dy < 0 )
 		dy = dy * -1;
-	
+
 	if( dx > (dy*2.5) )
 	{	//adjust to horizontal
 		next.setY(prev.y());
@@ -175,7 +175,7 @@ bool PathTool::mouseDragReleaseEvent( )
 	return false;
 }
 
-bool PathTool::mouseDblClickEvent( ) 
+bool PathTool::mouseDblClickEvent( )
 {
 	if( m_linePath.count() > 0 )
 	{	createPath();
@@ -189,7 +189,7 @@ void PathTool::createPath( )
 	Path *path = new Path(diagram(),diagram()->document()->getUniqueID());
 	QPointArray points( m_linePath.count() + 1 );
 	points[0] = m_linePath.at(0)->startPoint();
-	for( int i = 0; i < m_linePath.count(); i++ )
+	for( uint i = 0; i < m_linePath.count(); i++ )
 	{
 		points[i+1] = m_linePath.at(i)->endPoint();
 	}
@@ -201,7 +201,7 @@ void PathTool::createPath( )
 }
 
 
-bool PathTool::keyPressed( int key ) 
+bool PathTool::keyPressed( int key )
 {
 	switch(key)
 	{
@@ -225,7 +225,7 @@ bool PathTool::keyReleased( int key )
 			mouseMoveEvent();
 			return true;
 	}
-	return false; 
+	return false;
 }
 
 }

@@ -285,6 +285,9 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 				ada << " (Self : access Object)";
 			ada << " return " << adatype(at->getTypeName()) << ";\n\n";
 		}
+	} else {
+		kdWarning() << "atl not initialised in writeClass()" << endl;
+		atl = 0;
 	}
 
 	// Generate public operations.

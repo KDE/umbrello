@@ -38,7 +38,7 @@ UMLAssociationTool::~UMLAssociationTool()
 { }
 
 void UMLAssociationTool::activate()
-{ 
+{
 	setCursor( );
 	AssociationTool::activate();
 	kdDebug()<<"UMLAssociationTool tool is now active"<<endl;
@@ -49,7 +49,7 @@ void UMLAssociationTool::deactivate()
  	kdDebug()<<"Deactivating UMLAssociationTool tool"<<endl;
 	AssociationTool::deactivate();
 	view()->viewport()->setMouseTracking(false);
- 
+
 
 }
 
@@ -93,8 +93,8 @@ void UMLAssociationTool::setType( ToolType t )
 			setIcon("uniassociation");
 			setToolTip(i18n("Creates unidirectional association relationships between UML Elements"));
 		break;
-		
-	} 
+
+	}
 }
 
 
@@ -118,7 +118,7 @@ void UMLAssociationTool::createPath( )
 	assoc->setObjectB( wB->umlObject() );
 	switch( m_type )
 	{
-		case Generalization:		
+		case Generalization:
 			assoc->setAssocType( Uml::at_Generalization );
 			break;
 		case Composition:
@@ -137,22 +137,24 @@ void UMLAssociationTool::createPath( )
 			assoc->setAssocType( Uml::at_UniAssociation );
 			break;
 	}
-	
+
 	UMLAssociationWidget *w;
-	if(assoc)
-	{
+	if (assoc) {
 		w = new UMLAssociationWidget(diagram(),diagram()->document()->getUniqueID(),
 	                                             wA, wB, assoc);
+	} else {
+		kdWarning() << "unitialised pointer `w'" << endl;
+		w = 0;
 	}
-	
+
 	QPointArray points( m_linePath.count() + 1 );
 	points[0] = m_linePath.at(0)->startPoint();
-	for( int i = 0; i < m_linePath.count(); i++ )
+	for( uint i = 0; i < m_linePath.count(); i++ )
 	{
 		points[i+1] = m_linePath.at(i)->endPoint();
 	}
 	w->setPathPoints(points);
-	
+
 	m_linePath.clear();
 	m_startWidget = 0L;
 	m_underMouse->hideHotSpots( );

@@ -1040,7 +1040,7 @@ void UMLDoc::showProperties(ObjectWidget *o) {
 
 	if(dlg->exec()) {
 		getDocWindow() -> showDocumentation( o, true );
-		UMLObject * object = o -> getUMLObject();
+		o->getUMLObject();
 		setModified(true);
 	}
 	dlg -> close(true);//wipe from memory

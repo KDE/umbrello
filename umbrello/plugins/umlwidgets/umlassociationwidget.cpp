@@ -7,7 +7,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
- 
+
 
 #include "umlassociationwidget.h"
 #include "../../diagram/diagram.h"
@@ -34,7 +34,7 @@ public:
 	enum Side { Start, End };
 	AssociationEnd( PathSegment *segment, Side side );
 	~AssociationEnd();
-	
+
 	void move( const QPoint &);
 	void update( );
 	void adjustPosition( );
@@ -51,15 +51,16 @@ private:
 
 
 
-UMLAssociationWidget::UMLAssociationWidget( Diagram *diagram, uint id, 
-                      DiagramWidget *start, DiagramWidget *end, 
-	              UMLAssociation *association ) : AssociationWidget(diagram,id,start,end),m_association(association),
-		      m_head(0), m_tail(0)
-{
+UMLAssociationWidget::UMLAssociationWidget( Diagram *diagram, uint id,
+                      DiagramWidget *start, DiagramWidget *end,
+					    UMLAssociation *association ) : AssociationWidget(diagram,id,start,end),m_association(association) {
+	m_head = 0;
+	m_tail = 0;
+
 	createHead();
 	createTail();
 }
-	
+
 
 UMLAssociationWidget::~UMLAssociationWidget()
 {
@@ -121,10 +122,10 @@ void UMLAssociationWidget::createHead( )
 	{
 		case Uml::at_Generalization:
 		break;
-		
+
 		default: break;
 	}
-	
+
 	m_head->setPoints(a);
 	m_head->adjustPosition( );
 }
@@ -153,7 +154,24 @@ void UMLAssociationWidget::createTail( )
 			a[2] = QPoint(0,14);
 			a[3] = QPoint(7,7);
 		break;
-		
+		case Uml::at_Aggregation:
+		case Uml::at_Dependency:
+		case Uml::at_Association:
+		case Uml::at_Association_Self:
+		case Uml::at_Coll_Message:
+		case Uml::at_Seq_Message:
+		case Uml::at_Coll_Message_Self:
+		case Uml::at_Seq_Message_Self:
+		case Uml::at_Implementation:
+		case Uml::at_Realization:
+		case Uml::at_UniAssociation:
+		case Uml::at_Anchor:
+		case Uml::at_State:
+		case Uml::at_Activity:
+		case Uml::at_Unknown:
+		default:
+			kdWarning() << "incorrect or unknown association type" << endl;
+			break;
 	}
 	m_tail->setPoints(a);
 	m_tail->adjustPosition( );
@@ -199,14 +217,14 @@ void AssociationEnd::adjustPosition( )
 	//m_shape->update();
 	m_shape->hide();
 	m_shape->move( p.x(), p.y() );
-	
+
 	double dx = m_segment->endPoint().x() - m_segment->startPoint().x();
 	double dy = m_segment->endPoint().y() - m_segment->startPoint().y();
 	if( dy == 0 )
 		dy = 0.0000000000000000001;
 	double degree =  -1 * ( atan( dx/dy ) * 180.0 / PI ) + 180;
 	//kdDebug()<<"dx = "<<dx<<" dy = "<<dy<<"degree(1) = "<<degree<<endl;
-	if( (m_side == Start && dy > 0) || (m_side == End && dy < 0) ) 
+	if( (m_side == Start && dy > 0) || (m_side == End && dy < 0) )
 		degree += 180;
 	//kdDebug()<<" degree(2) = "<<degree<<endl<<endl;
 	m.rotate( degree );

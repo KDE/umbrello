@@ -36,7 +36,7 @@ AssociationTool::~AssociationTool()
 { }
 
 void AssociationTool::activate()
-{ 
+{
 	setCursor( );
 	PathTool::activate();
 	kdDebug()<<"AssociationTool tool is now active"<<endl;
@@ -47,7 +47,7 @@ void AssociationTool::deactivate()
  	kdDebug()<<"Deactivating AssociationTool tool"<<endl;
 	PathTool::deactivate();
 	view()->viewport()->setMouseTracking(false);
- 
+
 
 }
 
@@ -67,18 +67,18 @@ bool AssociationTool::createNextPathPoint( )
 	}
 	else if ( m_linePath.count() != 0 && w == 0 )
 	{
-		return PathTool::createNextPathPoint( );	 
+		return PathTool::createNextPathPoint( );
 	}
 	else if (m_linePath.count() == 0 && w != 0 )
 	{
 		m_startWidget = w;
 		return PathTool::createNextPathPoint( );
 	}
-	else 	    
+	else
 	{
 		kdDebug()<<"cannot start an association without a widget"<<endl;
 		return false;
-	}	
+	}
 }
 
 
@@ -115,18 +115,18 @@ void AssociationTool::createPath( )
 		kdWarning()<<"AssociationTool::createPath( ) called with no widget under the mouse."
 		           <<" - ignoring request"<<endl;
 		return;
-	}	
+	}
 	AssociationWidget *w = new AssociationWidget(diagram(),diagram()->document()->getUniqueID(),
 	                                             m_startWidget,m_underMouse);
-	
+
 	QPointArray points( m_linePath.count() + 1 );
 	points[0] = m_linePath.at(0)->startPoint();
-	for( int i = 0; i < m_linePath.count(); i++ )
+	for( uint i = 0; i < m_linePath.count(); i++ )
 	{
 		points[i+1] = m_linePath.at(i)->endPoint();
 	}
 	w->setPathPoints(points);
-	
+
 	m_linePath.clear();
 	m_startWidget = 0L;
 	m_underMouse->hideHotSpots( );

@@ -101,7 +101,7 @@ QString UMLOperation::toString(Signature_Type sig) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLOperation::addParm(UMLAttribute *parameter, int position) {
-	if( position >= 0 && position <= m_List.count() )
+	if( position >= 0 && position <= (int)m_List.count() )
 		m_List.insert(position,parameter);
 	else
 		m_List.append( parameter );

@@ -41,7 +41,7 @@ bool UMLClassifier::addOperation(UMLOperation* op, int position )
 	QString name = (QString)op->getName();
 	op -> parent() -> removeChild( op );
 	this -> insertChild( op );
-	if( position >= 0 && position <= m_OpsList.count() )
+	if( position >= 0 && position <= (int)m_OpsList.count() )
 		m_OpsList.insert(position,op);
 	else
 		m_OpsList.append( op );

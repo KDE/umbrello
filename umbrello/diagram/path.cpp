@@ -11,7 +11,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
- 
+
 
 #include "path.h"
 
@@ -43,13 +43,13 @@ Path::~Path()
 void Path::setPathPoints( const QPointArray &a )
 {
 	int count = a.size();
-	if( count < 2 ) 
+	if( count < 2 )
 		return;
 	m_segments.clear();
-	int i;
+
 	PathSegment *segment;
 	QPoint start( a[0] ), end;
-	for( i = 1; i < a.size(); i++ )
+	for( uint i = 1; i < a.size(); i++ )
 	{
 		end = a[i];
 		segment = new PathSegment( this );
@@ -72,7 +72,7 @@ void Path::setVisible(bool v)
 void Path::moveAbs( int x, int y )
 {
 	PathSegment *segment = m_segments.first();
-	if(!segment) 
+	if(!segment)
 		return;
 	int dx = segment->startPoint().x() - x;
 	int dy = segment->startPoint().y() - y;
@@ -97,10 +97,10 @@ void Path::moveBy( int dx, int dy)
 
 void Path::moveHotSpotBy( int h, int dx, int dy )
 {
-	if( h < 0 || h >= m_hotSpots.count() )
+	if( h < 0 || h >= (int)m_hotSpots.count() )
 		return;
 	PathSegment *before,*after;
-	
+
 	if( h == 0)
 	{
 		after = m_segments.first();
@@ -109,7 +109,7 @@ void Path::moveHotSpotBy( int h, int dx, int dy )
 		                  after->endPoint().x(),
 		                  after->endPoint().y());
 	}
-	else if ( h == m_hotSpots.count() -1 )
+	else if ( h == (int)(m_hotSpots.count() - 1) )
 	{
 		before = m_segments.last();
 		before->setPoints( before->startPoint().x(),
@@ -153,9 +153,9 @@ void Path::execDefaultAction()
 {
 	//QPoint = QCursor::pos();
 	//map from global !!
-	
+
 	//insert / delete  a point inthe path
-	
+
 }
 
 void Path::toggleHotSpot( const QPoint &p )
@@ -163,7 +163,7 @@ void Path::toggleHotSpot( const QPoint &p )
 	int hs = isHotSpot( p );
 	if( hs > 0 ) //remove hotspot
 	{kdDebug()<<"remove hs "<<hs<<endl;
-		if( hs == 0 || hs == m_segments.count() )
+		if( hs == 0 || hs == (int)m_segments.count() )
 		{
 			kdDebug()<<"Request to move HS "<<hs<<" ignored - cannot move first/last hs"<<endl;
 			return;
@@ -219,7 +219,7 @@ void Path::toggleHotSpot( const QPoint &p )
 	setSelected(true);
 	update();
 	canvas()->update();
-	
+
 }
 
 void Path::setDirectStyle()
@@ -273,14 +273,14 @@ void Path::drawShape(QPainter &p)
 		segment->drawShape(p);
 	}
 	QPen  pen(p.pen());
-	QBrush brush(p.brush()); 
+	QBrush brush(p.brush());
  	if( isSelected() || isShowHotSpots( ) )
 	{
 		drawHotSpots( p );
 	}
 	p.setPen(pen);
 	p.setBrush(brush);
-	
+
 }
 
 

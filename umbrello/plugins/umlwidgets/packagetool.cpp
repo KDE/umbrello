@@ -36,7 +36,7 @@ namespace Umbrello
 {
 
 
-PackageTool::PackageTool( DiagramView  *view ): 
+PackageTool::PackageTool( DiagramView  *view ):
 	Tool( view, "packagetool" )
 {
 	setIcon("package");
@@ -70,7 +70,7 @@ bool PackageTool::mouseReleaseEvent( )
 	{
 		return false;
 	}
-	
+
 	DiagramElement *e = diagram()->firstDiagramElement( currentPos() );
 	if( e )
 	{
@@ -80,7 +80,7 @@ bool PackageTool::mouseReleaseEvent( )
 	if( !diagram()->acceptType( typeid(UMLPackage) ) )
 	{
 		kdWarning()<<"PackageTool: request to create object of type \"UMLPackage\" rejected by diagram"<<endl;
-		return;
+		return false;
 	}
 	UMLObject *obj = diagram()->document()->createUMLObject( typeid(UMLPackage) );
 	if(!obj)

@@ -63,7 +63,7 @@ bool UMLClass::addAttribute(UMLAttribute* Att, int position )
 	{
 		Att -> parent() -> removeChild( Att );
 		this -> insertChild( Att );
-		if( position >= 0 && position <= m_AttsList.count() )
+		if( position >= 0 && position <= (int)m_AttsList.count() )
 			m_AttsList.insert(position,Att);
 		else
 			m_AttsList.append( Att );
@@ -118,7 +118,7 @@ bool UMLClass::addTemplate(UMLTemplate* Template, int position)
 	if (findChildObject(Uml::ot_Template, name).count() == 0) {
 		Template->parent()->removeChild(Template);
 		this->insertChild(Template);
-		if( position >= 0 && position <= m_TemplateList.count() )
+		if( position >= 0 && position <= (int)m_TemplateList.count() )
 			m_TemplateList.insert(position,Template);
 		else
 			m_TemplateList.append(Template);

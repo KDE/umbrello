@@ -57,7 +57,7 @@ DiagramView::DiagramView( Diagram *diagram, QWidget *parent, const char *name, W
 
 	viewport()->setAcceptDrops(true);
 	connect(m_toolBar,SIGNAL(toolChanged(Tool*)),this,SLOT(setTool(Tool*)));
-	
+
 	m_toolBar->setCurrentTool( "selecttool" );
 	viewport()->setFocusPolicy(ClickFocus);
 }
@@ -100,7 +100,7 @@ void DiagramView::contentsMousePressEvent( QMouseEvent *e )
 }
 
 
-void DiagramView::contentsContextMenuEvent(QContextMenuEvent *e)
+void DiagramView::contentsContextMenuEvent(QContextMenuEvent */* e */)
 {
 }
 
@@ -110,7 +110,7 @@ void DiagramView::contentsMouseReleaseEvent(QMouseEvent *e )
 	QPoint diagramPos = e->pos(); //FIXME translate to diagram(canvas) coordinates
 	if( !m_tool )
 		return;
-	bool accepted = m_tool->mouseEvent(e,diagramPos);
+	/*FIXME-unused bool accepted =*/ m_tool->mouseEvent(e,diagramPos);
 }
 
 void DiagramView::contentsMouseMoveEvent( QMouseEvent *e )
@@ -118,7 +118,7 @@ void DiagramView::contentsMouseMoveEvent( QMouseEvent *e )
 	QPoint diagramPos = e->pos(); //FIXME translate to diagram(canvas) coordinates
 	if( !m_tool )
 		return;
-	bool accepted = m_tool->mouseEvent(e,diagramPos);
+	/*FIXME-unused bool accepted = */ m_tool->mouseEvent(e,diagramPos);
 }
 
 void DiagramView::contentsMouseDoubleClickEvent( QMouseEvent *e )

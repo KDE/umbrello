@@ -36,7 +36,7 @@ namespace Umbrello
 {
 
 
-ClassTool::ClassTool( DiagramView  *view ): 
+ClassTool::ClassTool( DiagramView  *view ):
 	Tool( view, "classtool" )
 {
 	setIcon("umlclass");
@@ -70,7 +70,7 @@ bool ClassTool::mouseReleaseEvent( )
 	{
 		return false;
 	}
-	
+
 	DiagramElement *e = diagram()->firstDiagramElement( currentPos() );
 	if( e )
 	{
@@ -80,7 +80,7 @@ bool ClassTool::mouseReleaseEvent( )
 	if( !diagram()->acceptType( typeid(UMLClass) ) )
 	{
 		kdWarning()<<"ClassTool: request to create object of type \"UMLClass\" rejected by diagram"<<endl;
-		return;
+		return false;
 	}
 	UMLObject *obj = diagram()->document()->createUMLObject( typeid(UMLClass) );
 	if(!obj)

@@ -818,38 +818,39 @@ void UMLApp::slotClassDiagram() {
 	getDocument() -> createDiagram( Uml::dt_Class ) ;
 }
 
-void UMLApp::UcreateDiagram()
-{
+void UMLApp::UcreateDiagram() {
 	Diagram::DiagramType t;
 	const QObject *o = sender();
-	     if(o == UclassDiagram )
+	if(o == UclassDiagram ) {
 		t = Diagram::ClassDiagram;
-	else if( o == UuseCaseDiagram)
+	} else if( o == UuseCaseDiagram) {
 		t = Diagram::UseCaseDiagram;
-	else if( o ==  UcollaborationDiagram)
+	} else if( o ==  UcollaborationDiagram) {
 		t = Diagram::CollaborationDiagram;
-	else if( o == UactivityDiagram )
+	} else if( o == UactivityDiagram ) {
 		t = Diagram::ActivityDiagram;
-	else if( o == UsequenceDiagram )
+	} else if( o == UsequenceDiagram ) {
 		t = Diagram::SequenceDiagram;
-Umbrello::Diagram *d =
-	getDocument()->UcreateDiagram( t );
-if(!d)
-	return;
-Umbrello::DiagramView *v = d->createView(viewStack);
-diagramViews[d->getID()] = v;
-kdDebug()<<"diagram created with id = "<<d->getID()<<endl;
-viewStack->raiseWidget(v);
-v->setFocus();
+	} else {
+		kdWarning() << "uninitialised variable t, using default" << endl;
+		t = Diagram::ClassDiagram;
+	}
+	Umbrello::Diagram *d = getDocument()->UcreateDiagram( t );
+	if(!d) {
+		return;
+	}
+	Umbrello::DiagramView *v = d->createView(viewStack);
+	diagramViews[d->getID()] = v;
+	kdDebug()<<"diagram created with id = "<<d->getID()<<endl;
+	viewStack->raiseWidget(v);
+	v->setFocus();
 }
 
-void UMLApp::UdiagramSelected(int id)
-{
-kdDebug()<<"diagram with id = "<<id<<" selected"<<endl;
-	if(diagramViews.find(id) != diagramViews.end())
-	{
-	viewStack->raiseWidget(diagramViews[id]);
-	diagramViews[id]->setFocus();
+void UMLApp::UdiagramSelected(int id) {
+	kdDebug()<<"diagram with id = "<<id<<" selected"<<endl;
+	if(diagramViews.find(id) != diagramViews.end()) {
+		viewStack->raiseWidget(diagramViews[id]);
+		diagramViews[id]->setFocus();
 	}
 }
 

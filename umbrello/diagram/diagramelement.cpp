@@ -114,7 +114,7 @@ int DiagramElement::closestHotSpot( const QPoint &point) const
 	int index;
 	double distance;
 	int best_index = -1 ;
-	double best_distance = 99999999999;
+	double best_distance = 999999999;
 	int dx, dy;
 	for( offset = m_hotSpots.first(), index = 0; offset ; offset = m_hotSpots.next(), index++ )
 	{
@@ -149,7 +149,7 @@ int DiagramElement::isHotSpot( const QPoint &p ) const
 
 QPoint DiagramElement::hotSpotPosition( int i ) const
 {
-	if( i < 0 || i > m_hotSpots.count() )
+	if( i < 0 || i > (int)m_hotSpots.count() )
 		return QPoint();
 	return QPoint( QPoint((int)x(),(int)y()) + *(m_hotSpots.at(i)) );
 }
@@ -163,8 +163,8 @@ void DiagramElement::drawHotSpots(QPainter& p)
 	QBrush nbrush(Qt::magenta);
 	QPen hpen(Qt::green);
 	QBrush hbrush(Qt::red);
-	
-	
+
+
 	p.setPen(npen);
 	p.setBrush(nbrush);
 	QRect hotspot(0,0,hotSpotSize(),hotSpotSize());
@@ -196,7 +196,7 @@ void DiagramElement::createHotSpots( )
 	m_hotSpots.clear();
 }
 
-void DiagramElement::moveHotSpotBy( int h, int dx, int dy )
+void DiagramElement::moveHotSpotBy( int /* h */, int dx, int dy )
 {//for a simple DiagramElement, move the complete element
 	moveBy(dx,dy);
 }
