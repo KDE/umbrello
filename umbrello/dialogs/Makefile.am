@@ -1,6 +1,6 @@
 noinst_LTLIBRARIES = libdialogs.la
 
-INCLUDES = $(all_includes) -I$(top_srcdir)
+INCLUDES = -I$(top_srcdir) $(all_includes)
 
 libdialogs_la_METASOURCES = AUTO
 
