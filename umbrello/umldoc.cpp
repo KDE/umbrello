@@ -1680,16 +1680,14 @@ void UMLDoc::saveToXMI(QIODevice& file) {
 
 	QDomElement objectsElement = doc.createElement( "UML:Model" );
 
+	QDomElement ownedNS = doc.createElement( "UML:Namespace.ownedElement" );
+
 	// Save stereotypes and toplevel datatypes first so that upon loading
 	// they are known first.
-	if (m_stereoList.count()) {
-		QDomElement stElem = doc.createElement("UML:ModelElement.stereotype");
-		for (UMLStereotype *s = m_stereoList.first(); s; s = m_stereoList.next() ) {
-			s->saveToXMI(doc, stElem);
-		}
-		objectsElement.appendChild( stElem );
+	for (UMLStereotype *s = m_stereoList.first(); s; s = m_stereoList.next() ) {
+		s->saveToXMI(doc, ownedNS);
 	}
-	QDomElement ownedNS = doc.createElement( "UML:Namespace.ownedElement" );
+
 	for (UMLObjectListIt oit(m_objectList); oit.current(); ++oit) {
 		UMLObject *o = oit.current();
 		Object_Type ot = o->getBaseType();
