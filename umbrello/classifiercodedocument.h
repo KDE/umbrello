@@ -250,8 +250,8 @@ public slots:
 	void addAssociationClassField (UMLAssociation * assoc=0, bool syncToParentIfAdded = true);
 	void removeAttributeClassField(UMLObject *at);
 	void removeAssociationClassField(UMLAssociation *assoc);
-	void addOperation (UMLObject * obj);
-	void removeOperation (UMLObject * obj);
+	void addOperation (UMLOperation * obj);
+	void removeOperation (UMLOperation * obj);
 	void syncToParent( );
 
 };

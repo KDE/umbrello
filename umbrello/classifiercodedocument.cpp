@@ -242,7 +242,7 @@ QPtrList<CodeOperation> ClassifierCodeDocument::getCodeOperations ( ) {
 /**
  * @param       op
  */
-void ClassifierCodeDocument::addOperation (UMLObject * op ) {
+void ClassifierCodeDocument::addOperation (UMLOperation * op ) {
 	QString tag = CodeOperation::findTag((UMLOperation*)op);
 	if(!findTextBlockByTag(tag, true))
 	{
@@ -255,7 +255,7 @@ void ClassifierCodeDocument::addOperation (UMLObject * op ) {
 /**
  * @param       op
  */
-void ClassifierCodeDocument::removeOperation (UMLObject * op ) {
+void ClassifierCodeDocument::removeOperation (UMLOperation * op ) {
 
         QString tag = CodeOperation::findTag((UMLOperation*)op);
         TextBlock *tb = findTextBlockByTag(tag, true);
@@ -329,8 +329,8 @@ void ClassifierCodeDocument::init (UMLClassifier * c )
 
 	connect(c,SIGNAL(sigAssociationAdded(UMLAssociation*)),this,SLOT(addAssociationClassField(UMLAssociation*)));
 	connect(c,SIGNAL(sigAssociationRemoved(UMLAssociation*)),this,SLOT(removeAssociationClassField(UMLAssociation*)));
-	connect(c,SIGNAL(operationAdded(UMLObject*)),this,SLOT(addOperation(UMLObject*)));
-	connect(c,SIGNAL(operationRemoved(UMLObject*)),this,SLOT(removeOperation(UMLObject*)));
+	connect(c,SIGNAL(operationAdded(UMLOperation*)),this,SLOT(addOperation(UMLOperation*)));
+	connect(c,SIGNAL(operationRemoved(UMLOperation*)),this,SLOT(removeOperation(UMLOperation*)));
 	connect(c,SIGNAL(modified()),this,SLOT(syncToParent()));
 
 }
