@@ -5,7 +5,7 @@
     <Action name="delete_selected"/>
   </Menu>
   <Menu name="views"><text>&amp;Diagram</text>
-    <Menu name="new_view"><text>New</text>
+    <Menu name="new_view"><text>&amp;New</text>
       <Action name="new_class_diagram"/>
       <Action name="new_sequence_diagram"/>
       <Action name="new_collaboration_diagram"/>
@@ -13,7 +13,7 @@
       <Action name="new_state_diagram"/>
       <Action name="new_activity_diagram"/>
     </Menu>
-    <Menu name="show_view"><text>Show</text>
+    <Menu name="show_view"><text>Sh&ow</text>
       <ActionList name="view_list">
       </ActionList>
     </Menu>

@@ -64,7 +64,7 @@ CodeGenerationWizard::CodeGenerationWizard(UMLDoc *doc,
 
 	setFinishEnabled(page(2),true);
 	finishButton()->disconnect();
-	finishButton()->setText(i18n("Generate"));
+	finishButton()->setText(i18n("&Generate"));
 	connect(finishButton(),SIGNAL(clicked()),this,SLOT(generateCode()));
 }
 

@@ -63,9 +63,9 @@ void UMLOperationDialog::setupDialog() {
 	m_pRtypeCB = new QComboBox(m_pGenGB );
 	genLayout -> addWidget(m_pRtypeCB, 0, 3);
 
-	m_pAbstractCB = new QCheckBox( i18n("Abstract operation"), m_pGenGB );
+	m_pAbstractCB = new QCheckBox( i18n("&Abstract operation"), m_pGenGB );
 	m_pAbstractCB -> setChecked( m_pOperation -> getAbstract() );
-	m_pStaticCB = new QCheckBox( i18n("Classifier scope (\"static\")"), m_pGenGB );
+	m_pStaticCB = new QCheckBox( i18n("Classifier &scope (\"static\")"), m_pGenGB );
 	m_pStaticCB -> setChecked( m_pOperation -> getStatic() );
 	genLayout -> addWidget( m_pAbstractCB, 1, 0 );
 	genLayout -> addWidget( m_pStaticCB, 1, 1 );
@@ -77,13 +77,13 @@ void UMLOperationDialog::setupDialog() {
 	QHBoxLayout * scopeLayout = new QHBoxLayout(m_pScopeBG);
 	scopeLayout -> setMargin(margin);
 
-	m_pPublicRB = new QRadioButton(i18n("Public"), m_pScopeBG);
+	m_pPublicRB = new QRadioButton(i18n("&Public"), m_pScopeBG);
 	scopeLayout -> addWidget(m_pPublicRB);
 
-	m_pPrivateRB = new QRadioButton(i18n("Private"), m_pScopeBG);
+	m_pPrivateRB = new QRadioButton(i18n("P&rivate"), m_pScopeBG);
 	scopeLayout -> addWidget(m_pPrivateRB);
 
-	m_pProtectedRB = new QRadioButton(i18n("Protected"), m_pScopeBG);
+	m_pProtectedRB = new QRadioButton(i18n("Pro&tected"), m_pScopeBG);
 	scopeLayout -> addWidget(m_pProtectedRB);
 	topLayout -> addWidget(m_pScopeBG);
 
@@ -96,9 +96,9 @@ void UMLOperationDialog::setupDialog() {
 	parmsLayout -> addWidget(m_pParmsLB);
 
 	KButtonBox* buttonBox = new KButtonBox(m_pParmsGB);
-	buttonBox->addButton( i18n("New Parameter..."), this, SLOT(slotNewParameter()) );
-	m_pDeleteButton = buttonBox->addButton( i18n("Delete"), this, SLOT(slotDeleteParameter()) );
-	m_pPropertiesButton = buttonBox->addButton( i18n("Properties"), this,
+	buttonBox->addButton( i18n("&New Parameter..."), this, SLOT(slotNewParameter()) );
+	m_pDeleteButton = buttonBox->addButton( i18n("&Delete"), this, SLOT(slotDeleteParameter()) );
+	m_pPropertiesButton = buttonBox->addButton( i18n("&Properties"), this,
 						    SLOT(slotParameterProperties()) );
 	parmsLayout->addWidget(buttonBox);
 

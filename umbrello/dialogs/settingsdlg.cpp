@@ -50,7 +50,7 @@ void SettingsDlg::setupUIPage() {
 	m_UiWidgets.lineColorB = new KColorButton( m_OptionState.uiState.lineColor, m_UiWidgets.colorGB );
 	colorLayout -> addWidget( m_UiWidgets.lineColorB, 0, 1 );
 
-	m_UiWidgets.lineDefaultB = new QPushButton( i18n("Default Color"), m_UiWidgets.colorGB );
+	m_UiWidgets.lineDefaultB = new QPushButton( i18n("D&efault Color"), m_UiWidgets.colorGB );
 	colorLayout -> addWidget( m_UiWidgets.lineDefaultB, 0, 2 );
 
 	m_UiWidgets.fillColorL = new QLabel( i18n("Fill color:"), m_UiWidgets.colorGB );
@@ -59,10 +59,10 @@ void SettingsDlg::setupUIPage() {
 	m_UiWidgets.fillColorB = new KColorButton( m_OptionState.uiState.fillColor, m_UiWidgets.colorGB );
 	colorLayout -> addWidget( m_UiWidgets.fillColorB, 1, 1 );
 
-	m_UiWidgets.fillDefaultB = new QPushButton( i18n("Default Color"), m_UiWidgets.colorGB );
+	m_UiWidgets.fillDefaultB = new QPushButton( i18n("De&fault Color"), m_UiWidgets.colorGB );
 	colorLayout -> addWidget( m_UiWidgets.fillDefaultB, 1, 2 );
 
-	m_UiWidgets.useFillColorCB = new QCheckBox( i18n("Use fill color"), m_UiWidgets.colorGB );
+	m_UiWidgets.useFillColorCB = new QCheckBox( i18n("&Use fill color"), m_UiWidgets.colorGB );
 	colorLayout -> setRowStretch( 2, 2 );
 	colorLayout -> addWidget( m_UiWidgets.useFillColorCB, 2, 0 );
 	m_UiWidgets.useFillColorCB -> setChecked( m_OptionState.uiState.useFillColor );
@@ -72,7 +72,7 @@ void SettingsDlg::setupUIPage() {
 	miscLayout -> setSpacing( spacingHint() );
 	miscLayout -> setMargin( fontMetrics().height() );
 
-	m_UiWidgets.showDocWindowCB = new QCheckBox( i18n( "Show documentation window" ), m_UiWidgets.miscGB );
+	m_UiWidgets.showDocWindowCB = new QCheckBox( i18n( "&Show documentation window" ), m_UiWidgets.miscGB );
 	m_UiWidgets.showDocWindowCB -> setChecked( m_OptionState.uiState.showDocWindow );
 	miscLayout -> addWidget( m_UiWidgets.showDocWindowCB );
 
@@ -94,7 +94,7 @@ void SettingsDlg::setupGeneralPage() {
 	autosaveLayout -> setSpacing( spacingHint() );
 	autosaveLayout -> setMargin( fontMetrics().height() );
 
-	m_GeneralWidgets.autosaveCB = new QCheckBox( i18n("Enable autosave"), m_GeneralWidgets.autosaveGB );
+	m_GeneralWidgets.autosaveCB = new QCheckBox( i18n("E&nable autosave"), m_GeneralWidgets.autosaveGB );
 	m_GeneralWidgets.autosaveCB -> setChecked( m_OptionState.generalState.autosave );
 	autosaveLayout -> addWidget( m_GeneralWidgets.autosaveCB, 0, 0 );
 
@@ -120,15 +120,15 @@ void SettingsDlg::setupGeneralPage() {
 	startupLayout -> setSpacing( spacingHint() );
 	startupLayout -> setMargin( fontMetrics().height() );
 
-	m_GeneralWidgets.logoCB = new QCheckBox( i18n("Startup logo"), m_GeneralWidgets.startupGB );
+	m_GeneralWidgets.logoCB = new QCheckBox( i18n("Sta&rtup logo"), m_GeneralWidgets.startupGB );
 	m_GeneralWidgets.logoCB -> setChecked( m_OptionState.generalState.logo );
 	startupLayout -> addWidget( m_GeneralWidgets.logoCB, 0, 0 );
 
-	m_GeneralWidgets.tipCB = new QCheckBox( i18n("Tip of the day"), m_GeneralWidgets.startupGB );
+	m_GeneralWidgets.tipCB = new QCheckBox( i18n("&Tip of the day"), m_GeneralWidgets.startupGB );
 	m_GeneralWidgets.tipCB -> setChecked( m_OptionState.generalState.tip );
 	startupLayout -> addWidget( m_GeneralWidgets.tipCB, 0, 1 );
 
-	m_GeneralWidgets.loadlastCB = new QCheckBox( i18n("Load last project"), m_GeneralWidgets.startupGB );
+	m_GeneralWidgets.loadlastCB = new QCheckBox( i18n("&Load last project"), m_GeneralWidgets.startupGB );
 	m_GeneralWidgets.loadlastCB -> setChecked( m_OptionState.generalState.loadlast );
 	startupLayout -> addWidget( m_GeneralWidgets.loadlastCB, 1, 0 );
 
@@ -158,7 +158,7 @@ void SettingsDlg::setupClassPage() {
 	visibilityLayout -> setSpacing( spacingHint() );
 	visibilityLayout -> setMargin(  fontMetrics().height()  );
 
-	m_ClassWidgets.showScopeCB = new QCheckBox(i18n("Show visibility"), m_ClassWidgets.visibilityGB);
+	m_ClassWidgets.showScopeCB = new QCheckBox(i18n("Show &visibility"), m_ClassWidgets.visibilityGB);
 	m_ClassWidgets.showScopeCB -> setChecked(  m_OptionState.classState.showScope );
 	visibilityLayout -> addWidget( m_ClassWidgets.showScopeCB, 0, 0 );
 
@@ -170,7 +170,7 @@ void SettingsDlg::setupClassPage() {
 	m_ClassWidgets.showOpsCB -> setChecked(  m_OptionState.classState.showOps );
 	visibilityLayout -> addWidget( m_ClassWidgets.showOpsCB, 1, 0 );
 
-	m_ClassWidgets.showStereotypeCB = new QCheckBox( i18n("Show stereotype"), m_ClassWidgets.visibilityGB );
+	m_ClassWidgets.showStereotypeCB = new QCheckBox( i18n("Show stereot&ype"), m_ClassWidgets.visibilityGB );
 	m_ClassWidgets.showStereotypeCB -> setChecked(  m_OptionState.classState.showStereoType );
 	visibilityLayout -> addWidget( m_ClassWidgets.showStereotypeCB, 1, 1 );
 
@@ -188,6 +188,7 @@ void SettingsDlg::setupClassPage() {
 	visibilityLayout -> addWidget( m_ClassWidgets.showOpSigCB, 3, 0 );
 	visibilityLayout -> setRowStretch( 3, 1 );
 }
+
 void SettingsDlg::setupCodeGenPage(QDict<GeneratorInfo> ldict, QString activeLanguage) {
 	//setup code generation settings page
 	QVBox * page = addVBoxPage( i18n("Code Generation"), i18n("Code Generation Settings"), DesktopIcon( "source") );

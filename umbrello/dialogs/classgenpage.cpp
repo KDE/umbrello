@@ -65,7 +65,7 @@ ClassGenPage::ClassGenPage(UMLDoc *d, QWidget *parent, UMLObject * o) : QWidget(
 
 		m_pPackageLE -> setText(o -> getPackage());
 
-		m_pAbstractCB = new QCheckBox( i18n("Abstract class"), this );
+		m_pAbstractCB = new QCheckBox( i18n("A&bstract class"), this );
 		m_pAbstractCB -> setChecked( o -> getAbstract() );
 		m_pNameLayout -> addWidget( m_pAbstractCB, 3, 0 );
 	}
@@ -76,13 +76,13 @@ ClassGenPage::ClassGenPage(UMLDoc *d, QWidget *parent, UMLObject * o) : QWidget(
 	scopeLayout -> setMargin(margin);
 	m_pButtonBG -> setExclusive(true);
 
-	m_pPublicRB = new QRadioButton(i18n("Public"), m_pButtonBG);
+	m_pPublicRB = new QRadioButton(i18n("P&ublic"), m_pButtonBG);
 	scopeLayout -> addWidget(m_pPublicRB);
 
-	m_pPrivateRB = new QRadioButton(i18n("Private"), m_pButtonBG);
+	m_pPrivateRB = new QRadioButton(i18n("P&rivate"), m_pButtonBG);
 	scopeLayout -> addWidget(m_pPrivateRB);
 
-	m_pProtectedRB = new QRadioButton(i18n("Protected"), m_pButtonBG);
+	m_pProtectedRB = new QRadioButton(i18n("Pro&tected"), m_pButtonBG);
 	scopeLayout -> addWidget(m_pProtectedRB);
 	topLayout -> addWidget(m_pButtonBG);
 	//setup documentation

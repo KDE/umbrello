@@ -24,7 +24,7 @@
 
 DiagramPrintPage::DiagramPrintPage(QWidget * parent, UMLDoc * m_pDoc) : KPrintDialogPage(parent), m_pDoc(m_pDoc) {
 	int margin = fontMetrics().height();
-	setTitle(i18n("Diagrams"));
+	setTitle(i18n("&Diagrams"));
 	QHBoxLayout * mainLayout = new QHBoxLayout(this);
 	mainLayout -> setSpacing(10);
 	mainLayout -> setMargin(margin);
@@ -37,20 +37,20 @@ DiagramPrintPage::DiagramPrintPage(QWidget * parent, UMLDoc * m_pDoc) : KPrintDi
 	filter -> setSpacing(10);
 	filter-> setMargin(margin);
 
-	m_pCurrentRB = new QRadioButton(i18n("Current diagram"), m_pFilterBG);
+	m_pCurrentRB = new QRadioButton(i18n("&Current diagram"), m_pFilterBG);
 	filter -> addWidget(m_pCurrentRB);
 	m_pCurrentRB -> setChecked(true);
 	m_pFilterBG -> insert(m_pCurrentRB, Current);
 
-	m_pAllRB = new QRadioButton(i18n("All diagrams"), m_pFilterBG);
+	m_pAllRB = new QRadioButton(i18n("&All diagrams"), m_pFilterBG);
 	filter -> addWidget(m_pAllRB);
 	m_pFilterBG -> insert(m_pAllRB, All);
 
-	m_pSelectRB = new QRadioButton(i18n("Select diagrams"), m_pFilterBG);
+	m_pSelectRB = new QRadioButton(i18n("&Select diagrams"), m_pFilterBG);
 	filter -> addWidget(m_pSelectRB);
 	m_pFilterBG -> insert(m_pSelectRB, Select);
 
-	m_pTypeRB = new QRadioButton(i18n("Type of diagram"), m_pFilterBG);
+	m_pTypeRB = new QRadioButton(i18n("&Type of diagram"), m_pFilterBG);
 	filter -> addWidget(m_pTypeRB);
 	m_pFilterBG -> insert(m_pTypeRB, Type);
 

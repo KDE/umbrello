@@ -54,7 +54,7 @@ void UMLAttributeDialog::setupDialog() {
 	m_pInitialLE = new QLineEdit(m_pValuesGB);
 	valuesLayout -> addWidget(m_pInitialLE, 2, 1);
 
-	m_pStaticCB = new QCheckBox( i18n("Classifier scope (\"static\")"), m_pValuesGB );
+	m_pStaticCB = new QCheckBox( i18n("Classifier &scope (\"static\")"), m_pValuesGB );
 	m_pStaticCB -> setChecked( m_pAttribute -> getStatic() );
 	valuesLayout -> addWidget(m_pStaticCB, 3, 0);
 
@@ -66,13 +66,13 @@ void UMLAttributeDialog::setupDialog() {
 	QHBoxLayout * scopeLayout = new QHBoxLayout(m_pScopeBG);
 	scopeLayout -> setMargin(margin);
 
-	m_pPublicRB = new QRadioButton(i18n("Public"), m_pScopeBG);
+	m_pPublicRB = new QRadioButton(i18n("&Public"), m_pScopeBG);
 	scopeLayout -> addWidget(m_pPublicRB);
 
-	m_pPrivateRB = new QRadioButton(i18n("Private"), m_pScopeBG);
+	m_pPrivateRB = new QRadioButton(i18n("P&rivate"), m_pScopeBG);
 	scopeLayout -> addWidget(m_pPrivateRB);
 
-	m_pProtectedRB = new QRadioButton(i18n("Protected"), m_pScopeBG);
+	m_pProtectedRB = new QRadioButton(i18n("Pro&tected"), m_pScopeBG);
 	scopeLayout -> addWidget(m_pProtectedRB);
 	mainLayout -> addWidget(m_pScopeBG);
 	Uml::Scope scope = m_pAttribute -> getScope();

@@ -38,7 +38,7 @@ UMLWidgetColorPage::UMLWidgetColorPage( QWidget * pParent, UMLWidget * pWidget )
 	m_pLineColorB = new KColorButton( pWidget -> getLineColor(), m_pColorGB );
 	colorLayout -> addWidget( m_pLineColorB, 0, 1 );
 
-	m_pLineDefaultB = new QPushButton( i18n( "Default" ), m_pColorGB) ;
+	m_pLineDefaultB = new QPushButton( i18n( "&Default" ), m_pColorGB) ;
 	colorLayout -> addWidget( m_pLineDefaultB, 0, 2 );
 
 	m_pFillColorL = new QLabel( i18n( "Fill:" ), m_pColorGB );
@@ -47,10 +47,10 @@ UMLWidgetColorPage::UMLWidgetColorPage( QWidget * pParent, UMLWidget * pWidget )
 	m_pFillColorB = new KColorButton( pWidget->getFillColour(), m_pColorGB );
 	colorLayout -> addWidget( m_pFillColorB, 1, 1 );
 
-	m_pFillDefaultB = new QPushButton( i18n( "Default" ), m_pColorGB );
+	m_pFillDefaultB = new QPushButton( i18n( "D&efault" ), m_pColorGB );
 	colorLayout -> addWidget( m_pFillDefaultB, 1, 2 );
 
-	m_pUseFillColorCB = new QCheckBox( i18n( "Use fill" ), m_pColorGB );
+	m_pUseFillColorCB = new QCheckBox( i18n( "&Use fill" ), m_pColorGB );
 	colorLayout -> setRowStretch( 2, 2 );
 	colorLayout -> addWidget( m_pUseFillColorCB, 2, 0 );
 	m_pUseFillColorCB -> setChecked( pWidget -> getUseFillColor() );

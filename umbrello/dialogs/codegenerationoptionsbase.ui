@@ -47,10 +47,10 @@
                         <cstring>m_forceDoc</cstring>
                     </property>
                     <property name="text">
-                        <string>Write documentation comments even if empty</string>
+                        <string>&amp;Write documentation comments even if empty</string>
                     </property>
                     <property name="whatsThis" stdset="0">
-                        <string>Write comments for class and method documentation even if empty</string>
+                        <string>Write comments &amp;for class and method documentation even if empty</string>
                     </property>
                 </widget>
                 <widget class="QCheckBox">
@@ -58,7 +58,7 @@
                         <cstring>m_forceSections</cstring>
                     </property>
                     <property name="text">
-                        <string>Write comments for sections even if section is empty</string>
+                        <string>Write comments &amp;for sections even if section is empty</string>
                     </property>
                     <property name="whatsThis" stdset="0">
                         <string>Writes comments to indicate the different sections (public, private etc) in a class, even if the sections are empty</string>
@@ -96,7 +96,7 @@
                         <cstring>m_browseOutput</cstring>
                     </property>
                     <property name="text">
-                        <string>Browse...</string>
+                        <string>&amp;Browse...</string>
                     </property>
                 </widget>
                 <widget class="QPushButton" row="3" column="2">
@@ -104,7 +104,7 @@
                         <cstring>m_browseHeadings</cstring>
                     </property>
                     <property name="text">
-                        <string>Browse...</string>
+                        <string>B&amp;rowse...</string>
                     </property>
                 </widget>
                 <widget class="QCheckBox" row="2" column="0" rowspan="1" colspan="2">
@@ -112,7 +112,7 @@
                         <cstring>m_includeHeadings</cstring>
                     </property>
                     <property name="text">
-                        <string>Include heading files from directory:</string>
+                        <string>&amp;Include heading files from directory:</string>
                     </property>
                     <property name="checked">
                         <bool>true</bool>
@@ -201,7 +201,7 @@ wants to use as output file already exists:</string>
                         <cstring>m_overwrite</cstring>
                     </property>
                     <property name="text">
-                        <string>Overwrite</string>
+                        <string>&amp;Overwrite</string>
                     </property>
                     <property name="whatsThis" stdset="0">
                         <string>Overwrite existing files if they exist in the destination directory</string>
@@ -212,7 +212,7 @@ wants to use as output file already exists:</string>
                         <cstring>m_ask</cstring>
                     </property>
                     <property name="text">
-                        <string>Ask</string>
+                        <string>As&amp;k</string>
                     </property>
                     <property name="checked">
                         <bool>true</bool>
@@ -226,7 +226,7 @@ wants to use as output file already exists:</string>
                         <cstring>m_changeName</cstring>
                     </property>
                     <property name="text">
-                        <string>Use a different name</string>
+                        <string>&amp;Use a different name</string>
                     </property>
                     <property name="whatsThis" stdset="0">
                         <string>If a file already exists in the destination directory, select a different name to use by adding a suffix to the file name</string>

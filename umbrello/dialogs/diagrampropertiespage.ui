@@ -61,7 +61,7 @@
                                 <cstring>showGrid</cstring>
                             </property>
                             <property name="text">
-                                <string>Show grid</string>
+                                <string>Show &amp;grid</string>
                             </property>
                         </widget>
                         <widget class="QCheckBox">
@@ -69,7 +69,7 @@
                                 <cstring>snapToGrid</cstring>
                             </property>
                             <property name="text">
-                                <string>Snap to grid</string>
+                                <string>Snap &amp;to grid</string>
                             </property>
                         </widget>
                     </hbox>

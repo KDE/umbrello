@@ -86,7 +86,7 @@ UMLApp::UMLApp(QWidget* , const char* name):KMainWindow(0, name) {
 	if(id!=-1) {
 		QPopupMenu *m = menuBar()->findItem(id)->popup();
 		if(m) {
-			m->insertItem(i18n("Active Language"),langSelect,-1,m->count()-2);
+			m->insertItem(i18n("Active &Language"),langSelect,-1,m->count()-2);
 		}
 	}
 
@@ -103,7 +103,7 @@ UMLApp::UMLApp(QWidget* , const char* name):KMainWindow(0, name) {
 	if(id!=-1) {
 		QPopupMenu *m = menuBar()->findItem(id)->popup();
 		if(m) {
-			m->insertItem(i18n("Zoom"),zoomSelect,-1,m->count()-1);
+			m->insertItem(i18n("&Zoom"),zoomSelect,-1,m->count()-1);
 		}
 	}
 	//setup zoomSelect menu
@@ -111,13 +111,13 @@ UMLApp::UMLApp(QWidget* , const char* name):KMainWindow(0, name) {
 	connect(zoomSelect,SIGNAL(aboutToShow()),this,SLOT(setupZoomMenu()));
 	connect(zoomSelect,SIGNAL(activated(int)),this,SLOT(setZoom(int)));
 	//IMPORTANT: The ID's must match the zoom value (text)
-	zoomSelect->insertItem(i18n(" 33 %"),33);
-	zoomSelect->insertItem(i18n(" 50 %"),50);
-	zoomSelect->insertItem(i18n(" 75 %"),75);
-	zoomSelect->insertItem(i18n("100 %"),100);
-	zoomSelect->insertItem(i18n("150 %"),150);
-	zoomSelect->insertItem(i18n("200 %"),200);
-	zoomSelect->insertItem(i18n("300 %"),300);
+	zoomSelect->insertItem(i18n(" &33 %"),33);
+	zoomSelect->insertItem(i18n(" &50 %"),50);
+	zoomSelect->insertItem(i18n(" &75 %"),75);
+	zoomSelect->insertItem(i18n("&100 %"),100);
+	zoomSelect->insertItem(i18n("1&50 %"),150);
+	zoomSelect->insertItem(i18n("&200 %"),200);
+	zoomSelect->insertItem(i18n("&300 %"),300);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLApp::~UMLApp() {
@@ -147,23 +147,23 @@ void UMLApp::initActions() {
 	zoomInAction = KStdAction::zoomIn(this,  SLOT( zoomIn() ), actionCollection(), "umbrello_zoom_in");
 	zoomOutAction = KStdAction::zoomOut(this,  SLOT( zoomOut() ), actionCollection(), "umbrello_zoom_out");
 
-	classWizard = new KAction(i18n("New Class Wizard..."),0,this,SLOT(slotClassWizard()),
+	classWizard = new KAction(i18n("&New Class Wizard..."),0,this,SLOT(slotClassWizard()),
 	                          actionCollection(),"class_wizard");
 
-	showDocumentation = new KToggleAction( i18n("Show Documentation") , 0 , this, SLOT( slotShowDocWindow() ),
+	showDocumentation = new KToggleAction( i18n("&Show Documentation") , 0 , this, SLOT( slotShowDocWindow() ),
 	                                       actionCollection(), "Show_Documentation" );
-	preferences = new KAction(i18n("Configure Umbrello..."), SmallIconSet("configure"), 0,
+	preferences = new KAction(i18n("&Configure Umbrello..."), SmallIconSet("configure"), 0,
 				  this, SLOT( slotPrefs() ), actionCollection(), "Configure_UML");
 
-	genWizard = new KAction(i18n("Code Generation Wizard..."),0,this,SLOT(generationWizard()),
+	genWizard = new KAction(i18n("&Code Generation Wizard..."),0,this,SLOT(generationWizard()),
 	                        actionCollection(),"generation_wizard");
-	genAll = new KAction(i18n("Generate All Code"),0,this,SLOT(generateAllCode()),
+	genAll = new KAction(i18n("&Generate All Code"),0,this,SLOT(generateAllCode()),
 	                     actionCollection(),"generate_all");
 
-	importClasses = new KAction(i18n("Import Classes..."), SmallIconSet("source_cpp"), 0,
+	importClasses = new KAction(i18n("&Import Classes..."), SmallIconSet("source_cpp"), 0,
 				    this,SLOT(slotImportClasses()), actionCollection(),"import_class");
 
-	confLanguages = new KAction(i18n("Add/Remove Generation Languages..."),0,this,
+	confLanguages = new KAction(i18n("&Add/Remove Generation Languages..."),0,this,
 	                            SLOT(configureLanguages()),actionCollection(),"configure_languages");
 
 	fileNew->setStatusText(i18n("Creates a new document"));
@@ -181,7 +181,7 @@ void UMLApp::initActions() {
 	viewStatusBar->setStatusText(i18n("Enables/disables the statusbar"));
 	preferences->setStatusText( i18n( "Set the default program preferences") );
 
-	deleteSelectedWidget = new KAction( i18n("Delete Selected"),
+	deleteSelectedWidget = new KAction( i18n("&Delete Selected"),
 					    SmallIconSet("editdelete"),
 					    KShortcut(Key_Delete), this,
 					    SLOT( slotDeleteSelectedWidget() ), actionCollection(),
@@ -195,7 +195,7 @@ void UMLApp::initActions() {
 	sequenceDiagram= new KAction( i18n( "&Sequence Diagram" ), SmallIconSet("folder_green"), 0,
 	                              this, SLOT( slotSequenceDiagram() ), actionCollection(), "new_sequence_diagram" );
 
-	collaborationDiagram = new KAction( i18n( "&Collaboration Diagram" ), SmallIconSet("folder_green"), 0,
+	collaborationDiagram = new KAction( i18n( "Collaboration &Diagram" ), SmallIconSet("folder_green"), 0,
 	                                    this, SLOT( slotCollaborationDiagram() ), actionCollection(), "new_collaboration_diagram" );
 
 	useCaseDiagram= new KAction( i18n( "&Use Case Diagram" ), SmallIconSet("folder_grey"), 0,

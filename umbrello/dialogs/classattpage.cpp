@@ -45,10 +45,10 @@ ClassAttPage::ClassAttPage(QWidget *parent, UMLConcept * c, UMLDoc * doc) : QWid
 	buttonLayout -> addWidget( m_pDownArrowB );
 
 	KButtonBox* buttonBox = new KButtonBox(m_pAttsGB);
-	buttonBox->addButton( i18n("New Attribute..."), this, SLOT(slotNewAttribute()) );
-	m_pDeleteAttributeButton = buttonBox->addButton( i18n("Delete"),
+	buttonBox->addButton( i18n("N&ew Attribute..."), this, SLOT(slotNewAttribute()) );
+	m_pDeleteAttributeButton = buttonBox->addButton( i18n("&Delete"),
 							  this, SLOT(slotDelete()) );
-	m_pPropertiesButton = buttonBox->addButton( i18n("Properties"), this, SLOT(slotProperties()) );
+	m_pPropertiesButton = buttonBox->addButton( i18n("&Properties"), this, SLOT(slotProperties()) );
 	attsLayout->addMultiCellWidget(buttonBox, 1, 1, 0, 1);
 
 	mainLayout -> addWidget(m_pAttsGB);
