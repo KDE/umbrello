@@ -546,11 +546,6 @@ public:
 	}
 
 	/**
-	 *   FIXME Gustavo ???
-	 */
-	void updateNoteWidgets();
-
-	/**
 	 * Returns a List of all the UMLObjects(Use Cases, Concepts and Actors) in the View
 	 */
 	UMLObjectList* getUMLObjects();

@@ -87,18 +87,20 @@ public:
 	void setDoc(const QString &newText);
 
 	/**
-	 * Read property of bool m_bLinkDocumentation.
+	 * Set the ID of the diagram hyperlinked to this note.
+	 * To switch off the hyperlink, set this to Uml::id_None.
+	 *
+	 * @param viewID	ID of an UMLView.
 	 */
-	bool getLinkState() const {
-		return m_bLinkDocumentation;
-	}
+	void setDiagramLink(Uml::IDType viewID);
 
 	/**
-	 * Write property of bool m_bLinkDocumentation.
+	 * Return the ID of the diagram hyperlinked to this note.
+	 *
+	 * @return	ID of an UMLView, or Uml::id_None if no
+	 *		hyperlink is set.
 	 */
-	void setLinkState( bool linkDocumentation ) {
-		m_bLinkDocumentation = linkDocumentation;
-	}
+	Uml::IDType getDiagramLink() const;
 
 	/**
 	 * Activate the NoteWidget after the saved data has been loaded.
@@ -141,7 +143,7 @@ public slots:
 
 protected:
 	// Data loaded/saved
-	bool m_bLinkDocumentation;
+	Uml::IDType m_DiagramLink;
 
 	/**
 	 * Draws the text.  Called by draw and not called by anyone else.

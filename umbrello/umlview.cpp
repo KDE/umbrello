@@ -574,18 +574,10 @@ void UMLView::contentsDragEnterEvent(QDragEnterEvent *e) {
 	Diagram_Type diagramType = getType();
 
 	UMLObject* temp = 0;
-	//if dragging diagram - set false
-	switch( lvtype ) {
-		case lvt_UseCase_Diagram:
-		case lvt_Sequence_Diagram:
-		case lvt_Class_Diagram:
-		case lvt_Collaboration_Diagram:
-		case lvt_State_Diagram:
-		case lvt_Activity_Diagram:
-			e->accept(false);
-			return;
-		default:
-			break;
+	//if dragging diagram - might be a drag-to-note
+	if (UMLListView::typeIsDiagram(lvtype)) {
+		e->accept(true);
+		return;
 	}
 	//can't drag anything onto state/activity diagrams
 	if( diagramType == dt_State || diagramType == dt_Activity) {
@@ -655,7 +647,16 @@ void UMLView::contentsDropEvent(QDropEvent *e) {
 	ListView_Type lvtype = tid->type;
 	Uml::IDType id = tid->id;
 
-	if(lvtype >= lvt_UseCase_Diagram && lvtype <= lvt_Sequence_Diagram) {
+	if (UMLListView::typeIsDiagram(lvtype)) {
+		UMLWidget *w = NULL;
+		for (w = m_WidgetList.first(); w; w = m_WidgetList.next()) {
+			if (w->getBaseType() == Uml::wt_Note && w->onWidget(e->pos()))
+				break;
+		}
+		if (w) {
+			NoteWidget *note = static_cast<NoteWidget*>(w);
+			note->setDiagramLink(id);
+		}
 		return;
 	}
 	UMLObject* o = m_pDoc->findObjectById(id);
@@ -1257,38 +1258,6 @@ void  UMLView::getDiagram(const QRect &area, QPainter & painter) {
 		m_pMoveAssoc -> setSelected( true );
 	}
 	return;
-}
-
-void UMLView::updateNoteWidgets() {
-	AssociationWidget * a = 0;
-
-	AssociationWidgetListIt assoc_it( m_AssociationList );
-	while((a = assoc_it.current())) {
-		++assoc_it;
-		if(a->getAssocType() != at_Anchor)
-			continue;
-		UMLWidget *wa = a->getWidget(A);
-		UMLWidget *wb = a->getWidget(B);
-		UMLWidget *destination= 0, *source = 0;
-		bool copyText = false;
-		if(wa->getBaseType() == wt_Note) {
-			kdDebug() << "A note" << endl;
-			source = wb;
-			destination = wa;
-			copyText = true;
-		} else if(wb->getBaseType() == wt_Note) {
-			kdDebug() << "B note" << endl;
-			source = wa;
-			destination = wb;
-			copyText = true;
-		}
-
-		if(copyText == true && ((NoteWidget*)destination)->getLinkState() == true
-		        && source->getUMLObject()->getDoc() != NULL) {
-			((NoteWidget*)destination)->setDoc(source->getUMLObject()->getDoc());
-
-		}
-	}
 }
 
 QString imageTypeToMimeType(QString imagetype) {

@@ -323,8 +323,6 @@ void ClassGenPage::updateObject() {
 		QString name = m_pClassNameLE -> text();
 
 		m_pObject -> setDoc(m_pDoc -> text());
-		if(m_pUmldoc->getCurrentView())
-			m_pUmldoc->getCurrentView()->updateNoteWidgets();
 
 		if(m_pStereoTypeLE)
 			m_pObject -> setStereotype(m_pStereoTypeLE -> text());

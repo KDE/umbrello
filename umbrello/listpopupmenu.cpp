@@ -309,8 +309,6 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
 			insertItem(i18n("Change Text..."), mt_Rename);
 			insertStdItem(mt_Delete);
 			insertStdItem(mt_Change_Font);
-			//insertItem(i18n("Link Documentation"), mt_Link_Docs);
-			//setItemChecked(mt_Link_Docs, ((NoteWidget*)object)->getLinkState());
 			break;
 
 		case Uml::wt_Box:

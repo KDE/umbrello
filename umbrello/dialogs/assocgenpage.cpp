@@ -168,10 +168,6 @@ void AssocGenPage::updateObject() {
 		m_pAssociationWidget->setName(m_pAssocNameLE->text());
 		m_pAssociationWidget->setDoc(m_pDoc->text());
 
-
-	//	if(m_pUmldoc->getCurrentView())
-	//		m_pUmldoc->getCurrentView()->updateNoteWidgets();
-
 	} //end if m_pAssociationWidget
 }
 

@@ -139,7 +139,7 @@ void UMLListView::contentsMousePressEvent(QMouseEvent *me) {
 		m_doc -> getCurrentView() -> clearSelected();
 	if( me -> state() != ShiftButton )
 		clearSelection();
-	QPoint pt = ((UMLListView*)this) -> contentsToViewport( me -> pos() );
+	QPoint pt = this->QScrollView::contentsToViewport( me->pos() );
 	UMLListViewItem * item = (UMLListViewItem*)itemAt(pt);
 
 	if(  me -> button() != RightButton && me -> button() != LeftButton  ) {
@@ -151,20 +151,6 @@ void UMLListView::contentsMousePressEvent(QMouseEvent *me) {
 	type = item ? item->getType() : Uml::lvt_Unknown;
 	if (me->button() == LeftButton) {
 		switch( type ) {
-			//If is necesary activate the view
-		case Uml::lvt_UseCase_Diagram:
-		case Uml::lvt_Class_Diagram:
-		case Uml::lvt_Collaboration_Diagram:
-		case Uml::lvt_Sequence_Diagram:
-		case Uml::lvt_State_Diagram:
-		case Uml::lvt_Activity_Diagram:
-		case Uml::lvt_Component_Diagram:
-		case Uml::lvt_Deployment_Diagram:
-		case Uml::lvt_EntityRelationship_Diagram:
-			m_doc -> changeCurrentView(item->getID());
-			emit diagramSelected( item->getID());
-			UMLApp::app() -> getDocWindow() -> showDocumentation( m_doc -> findView( item -> getID() ), false );
-			break;
 
 		case Uml::lvt_UseCase:
 		case Uml::lvt_Class:
@@ -201,15 +187,25 @@ void UMLListView::contentsMousePressEvent(QMouseEvent *me) {
 		connect(m_pMenu, SIGNAL(activated(int)), this, SLOT(popupMenuSel(int)));
 	}//end if right button
 
-	/*
-	  We don't need to do anything for Left button.
-	  But if we do in future, just put an else statement in here
-	*/
 	this->KListView::contentsMousePressEvent(me);
-
 }
 
 void UMLListView::contentsMouseReleaseEvent(QMouseEvent *me) {
+	if (me->button() != LeftButton) {
+		this->KListView::contentsMouseReleaseEvent(me);
+		return;
+	}
+	const QPoint pt = this->QScrollView::contentsToViewport( me->pos() );
+	UMLListViewItem *item = dynamic_cast<UMLListViewItem*>(itemAt(pt));
+	if (item == NULL || !typeIsDiagram(item->getType())) {
+		this->KListView::contentsMouseReleaseEvent(me);
+		return;
+	}
+	// Switch to diagram on mouse release - not on mouse press
+	// because the user might intend a drag-to-note.
+	m_doc->changeCurrentView( item->getID() );
+	emit diagramSelected( item->getID() );
+	UMLApp::app()->getDocWindow()->showDocumentation(m_doc->findView(item->getID()), false);
 	this->KListView::contentsMouseReleaseEvent(me);
 }
 

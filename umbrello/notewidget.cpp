@@ -25,8 +25,10 @@
 #include <kcolordialog.h>
 // app includes
 #include "dialogs/notedialog.h"
+#include "clipboard/umldrag.h"
 #include "umldoc.h"
 #include "umlview.h"
+#include "umllistview.h"
 #include "uml.h"
 #include "listpopupmenu.h"
 
@@ -47,12 +49,30 @@ NoteWidget::NoteWidget(UMLView * view, Uml::IDType id) : UMLWidget(view, id) {
 
 void NoteWidget::init() {
 	UMLWidget::setBaseType(Uml::wt_Note);
-	m_bLinkDocumentation = false;
+	m_DiagramLink = Uml::id_None;
 	m_pEditor = NULL;
 }
 
 NoteWidget::~NoteWidget() {
 	delete m_pEditor;
+}
+
+void NoteWidget::setDiagramLink(Uml::IDType viewID) {
+	UMLDoc *umldoc = UMLApp::app()->getDocument();
+	UMLView *view = umldoc->findView(viewID);
+	if (view == NULL) {
+		kdError() << "NoteWidget::setDiagramLink(" << ID2STR(viewID)
+			  << "): no view found for this ID." << endl;
+		return;
+	}
+	m_pEditor->setUnderline(true);
+	m_pEditor->insertAt("Diagram: " + view->getName(),
+			  0 /*para*/,  0 /*index*/);
+	m_DiagramLink = viewID;
+}
+
+Uml::IDType NoteWidget::getDiagramLink() const {
+	return m_DiagramLink;
 }
 
 void NoteWidget::slotViewScrolled(int x, int y) {
@@ -160,10 +180,11 @@ void NoteWidget::slotMenuSelection(int sel) {
 	NoteDialog * dlg = 0;
 	UMLDoc *doc = UMLApp::app()->getDocument();
 	switch(sel) {
-		case ListPopupMenu::mt_Link_Docs:
-			m_pView->updateNoteWidgets();
-			doc -> setModified(true);
-			break;
+		///OBSOLETE - remove ListPopupMenu::mt_Link_Docs
+		// case ListPopupMenu::mt_Link_Docs:
+		// 	m_pView->updateNoteWidgets();
+		// 	doc -> setModified(true);
+		// 	break;
 
 		case ListPopupMenu::mt_Rename:
 			m_pView -> updateDocumentation( false );
@@ -202,7 +223,12 @@ void NoteWidget::mouseReleaseEvent( QMouseEvent * me ) {
 void NoteWidget::mouseDoubleClickEvent( QMouseEvent * me ) {
 	if( me -> button() != LeftButton )
 		return;
-	slotMenuSelection( ListPopupMenu::mt_Rename );
+	if (m_DiagramLink == Uml::id_None) {
+		slotMenuSelection( ListPopupMenu::mt_Rename );
+	} else {
+		UMLDoc *umldoc = UMLApp::app()->getDocument();
+		umldoc->changeCurrentView(m_DiagramLink);
+	}
 }
 
 void NoteWidget::drawText() {
@@ -215,6 +241,8 @@ void NoteWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement noteElement = qDoc.createElement( "notewidget" );
 	UMLWidget::saveToXMI( qDoc, noteElement );
 	noteElement.setAttribute( "text", m_pEditor->text() );
+	if (m_DiagramLink != Uml::id_None)
+		noteElement.setAttribute( "diagramlink", ID2STR(m_DiagramLink) );
 	qElement.appendChild( noteElement );
 }
 
@@ -222,6 +250,9 @@ bool NoteWidget::loadFromXMI( QDomElement & qElement ) {
 	if( !UMLWidget::loadFromXMI( qElement ) )
 		return false;
 	m_pEditor->setText( qElement.attribute("text", ""));
+	QString diagramlink = qElement.attribute("diagramlink", "");
+	if (!diagramlink.isEmpty())
+		m_DiagramLink = STR2ID(diagramlink);
 	return true;
 }
 
