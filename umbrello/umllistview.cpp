@@ -114,10 +114,7 @@ void UMLListView::contentsMousePressEvent(QMouseEvent *me) {
 		case Uml::lvt_Activity_Diagram:
 		case Uml::lvt_Component_Diagram:
 		case Uml::lvt_Deployment_Diagram:
-			if( ! m_doc->activateView( item->getID()))
-				KMessageBox::error( kapp -> mainWidget(), i18n("Could not activate the diagram."), i18n("Diagram Load Error"));
-			else
-				m_doc -> changeCurrentView(item->getID());
+			m_doc -> changeCurrentView(item->getID());
 			emit diagramSelected( item->getID());
 			m_doc -> getDocWindow() -> showDocumentation( m_doc -> findView( item -> getID() ), false );
 			break;
@@ -369,6 +366,7 @@ void UMLListView::popupMenuSel(int sel) {
 
 	case ListPopupMenu::mt_Paste:
 		m_doc -> editPaste();
+		break;
 
 	default:
 		kdWarning() << "UMLListView::popupMenuSel called with unknown type" << endl;
@@ -1049,7 +1047,8 @@ bool UMLListView::getSelectedItems(UMLListViewItemList &ItemList) {
 	// iterate through all items of the list view
 	for ( ; it.current(); ++it ) {
 		if ( it.current()->isSelected() ) {
-			ItemList.append((UMLListViewItem*)it.current());
+			UMLListViewItem *item = (UMLListViewItem*)it.current();
+			ItemList.append(item);
 		}
 	}
 
@@ -1070,7 +1069,6 @@ UMLListViewItem* UMLListView::createItem(UMLListViewItem& Data, IDChangeLog& IDC
 		if (!parent)
 			return 0;
 	}
-	int newID;
 
 	switch(lvt) {
 	case Uml::lvt_Actor:
@@ -1083,13 +1081,16 @@ UMLListViewItem* UMLListView::createItem(UMLListViewItem& Data, IDChangeLog& IDC
 	case Uml::lvt_Interface:
 	case Uml::lvt_Datatype:
 	case Uml::lvt_Enum:
-		newID = IDChanges.findNewID(Data.getID());
+		/***
+		int newID = IDChanges.findNewID(Data.getID());
 		//if there is no ListViewItem associated with the new ID,
 		//it could exist an Item already asocciated if the user chose to reuse an uml object
 		if(!(item = findItem(newID))) {
 			pObject = m_doc->findUMLObject( IDChanges.findNewID(Data.getID()) );
 			item = new UMLListViewItem(parent, Data.getText(), lvt, pObject);
-		}
+		} ***/
+		pObject = m_doc->findUMLObject( Data.getID() );
+		item = new UMLListViewItem(parent, Data.getText(), lvt, pObject);
 		break;
 	case Uml::lvt_Logical_Folder:
 	case Uml::lvt_UseCase_Folder:
@@ -1102,7 +1103,7 @@ UMLListViewItem* UMLListView::createItem(UMLListViewItem& Data, IDChangeLog& IDC
 	case Uml::lvt_Template:
 	{
 		UMLClass * pClass =  (UMLClass *)parent -> getUMLObject();
-		newID = IDChanges.findNewID( Data.getID() );
+		int newID = IDChanges.findNewID( Data.getID() );
 		pObject = pClass -> findChildObject( newID );
 		if (pObject) {
 			item = new UMLListViewItem( parent, Data.getText(), lvt, pObject );
