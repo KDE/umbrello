@@ -135,7 +135,7 @@ void Diagram::createUMLWidget( uint umlObjectID, const QPoint &pos)
 
 void Diagram::createUMLWidget( UMLObject *obj, const QPoint &pos)
 {
-
+	WidgetFactory *factory = WidgetFactory::instance();
 	if(!( acceptType(typeid(*obj)) ))
 	{
 		kdDebug()<<"type "<<typeid(*obj).name()
@@ -143,7 +143,7 @@ void Diagram::createUMLWidget( UMLObject *obj, const QPoint &pos)
 		return;
 	}
 	DiagramElement *w;
-	if( (w = WidgetFactory::createUMLWidget(obj,this)) )
+	if( (w = factory->createUMLWidget(obj,this)) )
 	{
 		w->moveAbs(pos.x(),pos.y());
 		w->show();
@@ -154,7 +154,8 @@ void Diagram::createUMLWidget( UMLObject *obj, const QPoint &pos)
 
 void Diagram::createAssociationWidget( UMLAssociation *assoc,UMLWidget *wA, UMLWidget *wB, const QPointArray &path )
 {
-	DiagramElement *w = WidgetFactory::createAssociationWidget( assoc, wA, wB, path, this );
+	WidgetFactory *factory = WidgetFactory::instance();
+	DiagramElement *w = factory->createAssociationWidget( assoc, wA, wB, path, this );
 	if( w )
 	{kdDebug()<<"showing association"<<endl;
 		w->moveAbs(wA->x(), wA->y());
@@ -168,9 +169,10 @@ void Diagram::createAssociationWidget( UMLAssociation *assoc,UMLWidget *wA, UMLW
 
 void Diagram::createCustomWidget( int type, const QPoint &pos )
 {
+	WidgetFactory *factory = WidgetFactory::instance();
 	//since these widgets have no real meaning in the
 	//model, we dont need any checks: they are allways accepted
-	DiagramElement *w = WidgetFactory::createCustomWidget( type, this );
+	DiagramElement *w = factory->createCustomWidget( type, this );
 	if(!w)
 	{
 		return;

@@ -11,6 +11,7 @@
 #define WIDGET_FACTORY_H
 
 #include <qobject.h>
+#include <qvaluelist.h>
 
 
 class UMLObject;
@@ -23,16 +24,23 @@ namespace Umbrello{
 class Diagram;
 class DiagramElement;
 class UMLWidget;
+class WidgetSet;
 
-class WidgetFactory :  public QObject
+class WidgetFactory : public QObject
 {Q_OBJECT
-
-friend class Diagram;
+public:
+	typedef QValueList<WidgetSet*> WidgetSetList;
 	
-protected:
-	static DiagramElement* createUMLWidget( UMLObject* , Diagram *parent );
-	static DiagramElement* createCustomWidget( int type, Diagram *parent );
-	static DiagramElement* createAssociationWidget( UMLAssociation*, UMLWidget *wA, UMLWidget *wB,const QPointArray &path, Diagram *parent );
+	static WidgetFactory* instance();
+	virtual ~WidgetFactory();
+	
+	DiagramElement* createUMLWidget( UMLObject* , Diagram *parent );
+	DiagramElement* createCustomWidget( int type, Diagram *parent );
+	DiagramElement* createAssociationWidget( UMLAssociation*, UMLWidget *wA, UMLWidget *wB,const QPointArray &path, Diagram *parent );
+private:
+	WidgetFactory();
+	WidgetSetList widgetSets;
+	static WidgetFactory* _instance; 
 	
 };
 
