@@ -48,6 +48,7 @@
 #include <kapplication.h>
 #include <kdeversion.h>
 #include <kdebug.h>
+#include <kio/job.h>
 #include <kio/netaccess.h>
 #include <klocale.h>
 #include <kmessagebox.h>
@@ -96,6 +97,7 @@ UMLDoc::UMLDoc(QWidget *parent, const char *name) : QObject(parent, name) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLDoc::~UMLDoc() {
 	delete m_pChangeLog;
+	delete m_codeGenerationXMIParamMap;
 	m_pChangeLog = 0;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -531,20 +533,23 @@ bool UMLDoc::saveDocument(const KURL& url, const char * /* format */) {
 		delete archive;
 
 	} else
-#else
+// stop HERE with the special handling of the KDE_IS_VERSION(3,2,0)
+// as otherwise, the _DEFAULT!!!_ case of saving uncompressed XMI
+// isn't handled anymore!!
+#endif
 	{
 		// save as normal uncompressed XMI
 
 		KTempFile tmpfile; // we need this tmp file if we are writing to a remote file
 
-		// now check if we are writing to a local file
-		if ( url.isLocalFile() )
-		{
-			file.setName( d.path() );
-		} else {
-			file.setName( tmpfile.name() );
-		}
-	
+		// save in _any_ case to a temp file
+		// -> if something goes wrong during saveToXmi, the
+		//     original content is preserved
+		//     ( e.g. if umbrello dies in the middle of the document model parsing
+		//      for saveToXMI due to some problems )
+		/// @TODO insert some checks in saveToXMI to detect a failed save attempt
+		file.setName( tmpfile.name() );
+
 		// lets open the file for writing
 		if( !file.open( IO_WriteOnly ) ) {
 			KMessageBox::error(0, i18n("There was a problem saving file: %1").arg(d.path()), i18n("Save Error"));
@@ -552,6 +557,7 @@ bool UMLDoc::saveDocument(const KURL& url, const char * /* format */) {
 		}
 		saveToXMI( file ); // save the xmi stuff to it
 		file.close();
+		tmpfile.close();
 
 		// if it is a remote file, we have to upload the tmp file
 		if ( !url.isLocalFile() ) {
@@ -560,12 +566,13 @@ bool UMLDoc::saveDocument(const KURL& url, const char * /* format */) {
 									, UMLApp::app()
 # endif
 							 );
+		} else {
+			// now remove the original file
+			if ( KIO::file_move( tmpfile.name(), d.path(), -1, true ) == false ) {
+				KMessageBox::error(0, i18n("There was a problem saving file: %1").arg(d.path()), i18n("Save Error"));
+			}
 		}
-
-		tmpfile.close();
-		tmpfile.unlink();
 	}
-#endif
 	if( !uploaded )
 	{
 		KMessageBox::error(0, i18n("There was a problem uploading file: %1").arg(d.path()), i18n("Save Error"));
