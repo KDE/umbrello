@@ -87,7 +87,7 @@ should do but do not &mdash; and cannot &mdash; specify <emphasis>how</emphasis>
 <screeninfo>An example Use Case diagram.</screeninfo>
 	<mediaobject>
 	  <imageobject>
-	    <imagedata fileref="pics/use-case-diagram.png" format="PNG"/>
+	    <imagedata fileref="use-case-diagram.png" format="PNG"/>
 	  </imageobject>
 	  <textobject>
 	    <phrase>&umbrello; showing a Use Case Diagram</phrase>
@@ -170,7 +170,7 @@ between them.
 <screeninfo>An example of a Class Diagram</screeninfo>
 	<mediaobject>
 	  <imageobject>
-	    <imagedata fileref="pics/class-diagram.png" format="PNG"/>
+	    <imagedata fileref="class-diagram.png" format="PNG"/>
 	  </imageobject>
 	  <textobject>
 	    <phrase>&umbrello; showing a Class Diagram</phrase>
@@ -199,7 +199,7 @@ the attributes and operations of the class in two other <quote>compartments</quo
 <screeninfo>A Class in &UML;</screeninfo>
 	<mediaobject>
 	  <imageobject>
-	    <imagedata fileref="pics/class.png" format="PNG"/>
+	    <imagedata fileref="class.png" format="PNG"/>
 	  </imageobject>
 	  <textobject>
 	    <phrase>Visual representation of a Class in &UML;</phrase>
@@ -264,7 +264,7 @@ represented by a line connecting the two classes, with an arrow on the side of t
 <screeninfo>Generalization</screeninfo>
 	<mediaobject>
 	  <imageobject>
-	    <imagedata fileref="pics/generalization.png" format="PNG"/>
+	    <imagedata fileref="generalization.png" format="PNG"/>
 	  </imageobject>
 	  <textobject>
 	    <phrase>Visual representation of a generalization in &UML;</phrase>
@@ -300,7 +300,7 @@ range [min..max] of non-negative values, with a star (<literal>*</literal>) on t
 <screeninfo>&UML; Association</screeninfo>
 	<mediaobject>
 	  <imageobject>
-	    <imagedata fileref="pics/association.png" format="PNG"/>
+	    <imagedata fileref="association.png" format="PNG"/>
 	  </imageobject>
 	  <textobject>
 	    <phrase>Visual representation of an Association in &UML;</phrase>
@@ -327,7 +327,7 @@ In &UML;, Aggregations are represented by an association that shows a rhomb on t
 <screeninfo>Aggregation</screeninfo>
 	<mediaobject>
 	  <imageobject>
-	    <imagedata fileref="pics/aggregation.png" format="PNG"/>
+	    <imagedata fileref="aggregation.png" format="PNG"/>
 	  </imageobject>
 	  <textobject>
 	    <phrase>Visual representation of an Aggregation relationship in &UML;</phrase>
@@ -351,7 +351,7 @@ exist on its own. They exist only inside the whole, and if the whole is destroye
 <screeninfo>Composition</screeninfo>
 	<mediaobject>
 	  <imageobject>
-	    <imagedata fileref="pics/composition.png" format="PNG"/>
+	    <imagedata fileref="composition.png" format="PNG"/>
 	  </imageobject>
 	  <textobject>
 	    <phrase>Visual representation of a Composition relationship in &UML;</phrase>
@@ -411,7 +411,7 @@ to another in the form of arrows with the operation and parameters name.
 <screeninfo>Sequence Diagram</screeninfo>
 	<mediaobject>
 	  <imageobject>
-	    <imagedata fileref="pics/sequence-diagram.png" format="PNG"/>
+	    <imagedata fileref="sequence-diagram.png" format="PNG"/>
 	  </imageobject>
 	  <textobject>
 	    <phrase>&umbrello; showing a Sequence Diagram</phrase>
@@ -446,7 +446,7 @@ or explain one process in the program logic.
 <screeninfo>Collaboration</screeninfo>
 	<mediaobject>
 	  <imageobject>
-	    <imagedata fileref="pics/collaboration-diagram.png" format="PNG"/>
+	    <imagedata fileref="collaboration-diagram.png" format="PNG"/>
 	  </imageobject>
 	  <textobject>
 	    <phrase>&umbrello; showing a Collaboration Diagram</phrase>
@@ -490,7 +490,7 @@ an Object of type <emphasis>NetServer</emphasis> can be in one of following stat
 <screeninfo>State Diagram</screeninfo>
 	<mediaobject>
 	  <imageobject>
-	    <imagedata fileref="pics/state-diagram.png" format="PNG"/>
+	    <imagedata fileref="state-diagram.png" format="PNG"/>
 	  </imageobject>
 	  <textobject>
 	    <phrase>&umbrello; showing a State Diagram</phrase>
@@ -530,7 +530,7 @@ Activities.
 <screeninfo>An example Activity Diagram.</screeninfo>
 	<mediaobject>
 	  <imageobject>
-	    <imagedata fileref="pics/activity-diagram.png" format="PNG"/>
+	    <imagedata fileref="activity-diagram.png" format="PNG"/>
 	  </imageobject>
 	  <textobject>
 	    <phrase>&umbrello; showing an Activity Diagram</phrase>

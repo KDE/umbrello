@@ -42,7 +42,7 @@ while writing your code. The following options are available:
 <screeninfo>Code Generation Options</screeninfo>
 	<mediaobject>
 	  <imageobject>
-	    <imagedata fileref="pics/generation-options.png" format="PNG"/>
+	    <imagedata fileref="generation-options.png" format="PNG"/>
 	  </imageobject>
 	  <textobject>
 	    <phrase>Options for the Code Generation in &umbrello;</phrase>
@@ -154,7 +154,7 @@ diagram you want.
 <screeninfo>Code Import</screeninfo>
 	<mediaobject>
 	  <imageobject>
-	    <imagedata fileref="pics/code-import.png" format="PNG"/>
+	    <imagedata fileref="code-import.png" format="PNG"/>
 	  </imageobject>
 	  <textobject>
 	    <phrase>Menu for importing source code in &umbrello;</phrase>

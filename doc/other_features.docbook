@@ -44,7 +44,7 @@ move objects around by dragging them from one folder and dropping them into anot
 <screeninfo>Organizing your Model with Folders</screeninfo>
 	<mediaobject>
 	  <imageobject>
-	    <imagedata fileref="pics/folders.png" format="PNG"/>
+	    <imagedata fileref="folders.png" format="PNG"/>
 	  </imageobject>
 	  <textobject>
 	    <phrase>Organizing a Model with Logical Folders in &umbrello;</phrase>

@@ -32,7 +32,7 @@ and access the different diagrams quickly while working on your model.
 <screeninfo>&umbrello;'s User Interface</screeninfo>
 	<mediaobject>
 	  <imageobject>
-	    <imagedata fileref="pics/umbrello-ui.png" format="PNG"/>
+	    <imagedata fileref="umbrello-ui.png" format="PNG"/>
 	  </imageobject>
 	  <textobject>
 	    <phrase>&umbrello;'s User Interface</phrase>
