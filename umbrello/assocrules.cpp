@@ -6,7 +6,6 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-
 #include <kdebug.h>
 #include <typeinfo>
 
@@ -39,7 +38,6 @@ bool AssocRules::allowAssociation( Association_Type assocType, UMLWidget * widge
 			}
 		}
 	}
-
 	if( !bValid ) {
 		return false;
 	}
@@ -57,10 +55,10 @@ bool AssocRules::allowAssociation( Association_Type assocType, UMLWidget * widge
 			break;
 
 		case at_Generalization://can have many sub/super types
-		case at_Realization:
 			return true;
 			break;
 
+		case at_Realization:
 		case at_Implementation://one connected to widget only (a or b)
 			while( ( assoc = it.current() ) ) {
 				if( assoc -> getAssocType() == at_Implementation ||
@@ -89,7 +87,9 @@ bool AssocRules::allowAssociation( Association_Type assocType, UMLWidget * widge
 	return false;
 }
 
-bool AssocRules::allowAssociation( Association_Type assocType, UMLWidget * widgetA, UMLWidget * widgetB ) {
+// when we know what we are going to connect both ends of the association to, we can 
+// use this method.
+bool AssocRules::allowAssociation( Association_Type assocType, UMLWidget * widgetA, UMLWidget * widgetB , bool extendedCheck) {
 	UMLWidget_Type widgetTypeA = widgetA -> getBaseType();
 	UMLWidget_Type widgetTypeB = widgetB -> getBaseType();
 	bool bValid = false;
@@ -102,7 +102,11 @@ bool AssocRules::allowAssociation( Association_Type assocType, UMLWidget * widge
 				bValid = true;
 		}
 	}
-	return bValid;
+	// we can bail here for quick checks, as occur in loading files
+	// for paste or regular creation operations, we need to go further
+	if(!extendedCheck)
+		return bValid;
+
 	if (!bValid) {
 		return false;
 	}

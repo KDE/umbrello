@@ -48,7 +48,7 @@ public:
 	 * Returns whether an association is valid with the given variables.
 	 * This method is used to finish an association.
 	 */
-	static bool allowAssociation( Association_Type assocType, UMLWidget * widgetA, UMLWidget * widgetB );
+	static bool allowAssociation( Association_Type assocType, UMLWidget * widgetA, UMLWidget * widgetB, bool extendedCheck = true );
 
 	/**
 	 * Returns whether to allow a role text for the given association type.

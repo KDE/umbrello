@@ -1860,7 +1860,7 @@ bool UMLView::addAssociation( AssociationWidget* pAssoc , bool isPasteOperation)
 		return false;
 
 	//make sure valid
-	if( !AssocRules::allowAssociation( pAssoc->getAssocType(), m_pWidgetA, m_pWidgetB ) ) {
+	if( !AssocRules::allowAssociation( pAssoc->getAssocType(), m_pWidgetA, m_pWidgetB, isPasteOperation ) ) {
 		kdDebug() << "UMLView::addAssociation: allowAssociation returns false "
 			  << "for AssocType " << pAssoc->getAssocType() << endl;
 		return isPasteOperation; //in a paste we still need to be true
