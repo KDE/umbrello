@@ -783,7 +783,7 @@ QString JavaWriter::scopeToJavaDecl(Uml::Scope scope)
 // methods like this _shouldnt_ be needed IF we properly did things thruought the code.
 QString JavaWriter::getUMLObjectName(UMLObject *obj)
 {
-	return(obj!=0)?obj->getName():"NULL";
+	return(obj!=0)?obj->getName():QString("NULL");
 }
 
 QString JavaWriter::capitaliseFirstLetter(QString string)
