@@ -1388,7 +1388,6 @@ UMLAssociation* UMLDoc::createUMLAssociation(UMLObject *a, UMLObject *b, Uml::As
 	return assoc;
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLDoc::addAssociation(UMLAssociation *Assoc)
 {
 	if (Assoc == NULL)
@@ -1427,34 +1426,20 @@ void UMLDoc::addAssociation(UMLAssociation *Assoc)
 
 	setModified(true);
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
-void UMLDoc::addAssocToConcepts(UMLAssociation* a) {
 
+void UMLDoc::addAssocToConcepts(UMLAssociation* a) {
+	if (! UMLAssociation::assocTypeHasUMLRepresentation(a->getAssocType()) )
+		return;
 	Uml::IDType AId = a->getObjectId(Uml::A);
 	Uml::IDType BId = a->getObjectId(Uml::B);
 	UMLClassifierList concepts = getConcepts();
 	for (UMLClassifierListIt it(concepts); it.current(); ++it) {
 		UMLClassifier *c = it.current();
-		switch (a->getAssocType()) {
-			// for the next cases should add association to all classes involved
-			// in the interaction.
-			case Uml::at_Generalization:
-			case Uml::at_Realization:
-			case Uml::at_Association:
-			case Uml::at_Association_Self:
-			case Uml::at_UniAssociation:
-			case Uml::at_Aggregation:
-			case Uml::at_Relationship:
-			case Uml::at_Composition:
-				if (AId == c->getID() || (BId == c->getID()))
-					c->addAssociation(a);
-				break;
-			default:  // We don't support any other associations for the moment
-				break;
-		}
+		if (AId == c->getID() || (BId == c->getID()))
+			c->addAssociation(a);
 	}
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 QString UMLDoc::uniqViewName(const Diagram_Type type) {
 	QString dname;
 	if(type == dt_UseCase)
