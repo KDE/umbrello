@@ -4,7 +4,8 @@ umbrello_COMPILE_FIRST = version.h
 umbrello_SOURCES = activitywidget.cpp actor.cpp actorwidget.cpp \
 	artifact.cpp artifactwidget.cpp \
 	association.cpp associationwidget.cpp assocrules.cpp \
-	attribute.cpp boxwidget.cpp class.cpp classifier.cpp \
+	attribute.cpp boxwidget.cpp datatype.cpp datatypewidget.cpp \
+	class.cpp classifier.cpp \
 	classifiercodedocument.cpp classifierlistitem.cpp classimport.cpp \
 	classwidget.cpp codeaccessormethod.cpp codeblock.cpp \
 	codeblockwithcomments.cpp codeclassfield.cpp \
@@ -13,7 +14,7 @@ umbrello_SOURCES = activitywidget.cpp actor.cpp actorwidget.cpp \
 	codegenobjectwithtextblocks.cpp codemethodblock.cpp \
 	codeoperation.cpp codeparameter.cpp component.cpp \
 	componentwidget.cpp configurable.cpp \
-	docwindow.cpp floatingtext.cpp hierarchicalcodeblock.cpp \
+	docwindow.cpp floatingtext.cpp kplayerslideraction.cpp hierarchicalcodeblock.cpp \
 	infowidget.cpp interface.cpp interfacewidget.cpp \
 	kstartuplogo.cpp linepath.cpp listpopupmenu.cpp \
 	main.cpp messagewidget.cpp \
@@ -26,8 +27,7 @@ umbrello_SOURCES = activitywidget.cpp actor.cpp actorwidget.cpp \
 	uml.cpp umlcanvasobject.cpp umldoc.cpp umllistview.cpp \
 	umllistviewitem.cpp umlnamespace.cpp umlobject.cpp \
 	umlrole.cpp umlview.cpp umlviewcanvas.cpp umlwidget.cpp \
-	usecase.cpp usecasewidget.cpp worktoolbar.cpp \
-	kplayerslideraction.cpp
+	usecase.cpp usecasewidget.cpp worktoolbar.cpp
 
 umbrello_LDADD   = ./refactoring/librefactoring.la ./diagram/libdiagram.la ./classparser/libclassparser.la ./clipboard/libclipboard.la ./dialogs/libdialogs.la ./codegenerators/libcodegenerator.la -lfl $(LIB_KDEPRINT) $(LIB_KIO)
 

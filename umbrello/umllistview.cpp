@@ -16,6 +16,7 @@
 #include "node.h"
 #include "artifact.h"
 #include "interface.h"
+#include "datatype.h"
 #include "docwindow.h"
 #include "listpopupmenu.h"
 #include "operation.h"
@@ -68,6 +69,7 @@ UMLListView::UMLListView(QWidget *parent,const char *name) : KListView(parent,na
 	lv = new UMLListViewItem(rv, i18n("Logical View"), Uml::lvt_Logical_View);
 	componentView = new UMLListViewItem(rv, i18n("Component View"), Uml::lvt_Component_View);
 	deploymentView = new UMLListViewItem(rv, i18n("Deployment View"), Uml::lvt_Deployment_View);
+	datatypeFolder = new UMLListViewItem(lv, i18n("Datatypes"), Uml::lvt_Datatype_Folder);
 //Uncomment for using Luis diagram display code
 //	diagramFolder = new UMLListViewItem(rv,i18n("Diagrams"),Uml::lvt_Diagrams);
 
@@ -127,6 +129,7 @@ void UMLListView::contentsMousePressEvent(QMouseEvent *me) {
 		case Uml::lvt_Component:
 		case Uml::lvt_Node:
 		case Uml::lvt_Interface:
+		case Uml::lvt_Datatype:
 		case Uml::lvt_Actor:
 		case Uml::lvt_Attribute:
 		case Uml::lvt_Operation:
@@ -233,6 +236,10 @@ void UMLListView::popupMenuSel(int sel) {
 
 	case ListPopupMenu::mt_Interface:
 		addNewItem(temp, Uml::lvt_Interface);
+		break;
+
+	case ListPopupMenu::mt_Datatype:
+		addNewItem(temp, Uml::lvt_Datatype);
 		break;
 
 	case ListPopupMenu::mt_Actor:
@@ -424,6 +431,9 @@ void UMLListView::slotObjectCreated(UMLObject* object) {
 			parentItem = lv;
 		}
 		break;
+	case Uml::ot_Datatype:
+		parentItem = datatypeFolder;
+		break;
 	case Uml::ot_Package:
 		if ( current && current->getType() == Uml::lvt_Logical_Folder ) {
 			parentItem = current;
@@ -488,6 +498,7 @@ void UMLListView::connectNewObjectsSlots(UMLObject* object) {
 			this,SLOT(childObjectRemoved(UMLObject*)));
 		connect(object,SIGNAL(modified()),this,SLOT(slotObjectChanged()));
 		break;
+	case Uml::ot_Datatype:
 	case Uml::ot_Attribute:
 	case Uml::ot_Operation:
 	case Uml::ot_Template:
@@ -636,6 +647,7 @@ UMLListViewItem * UMLListView::findUMLObjectInFolder(UMLListViewItem* folder, UM
 		case Uml::lvt_Node :
 		case Uml::lvt_Artifact :
 		case Uml::lvt_Interface :
+		case Uml::lvt_Datatype :
 			if(item->getUMLObject() == obj)
 				return item;
 			break;
@@ -643,6 +655,7 @@ UMLListViewItem * UMLListView::findUMLObjectInFolder(UMLListViewItem* folder, UM
 		case Uml::lvt_UseCase_Folder :
 		case Uml::lvt_Component_Folder :
 		case Uml::lvt_Deployment_Folder :
+		case Uml::lvt_Datatype_Folder :
 		{
 			UMLListViewItem *temp = findUMLObjectInFolder(item, obj);
 			if (temp)
@@ -739,6 +752,7 @@ void UMLListView::init() {
 	rv->setOpen(true);
 	ucv->setOpen(true);
 	lv->setOpen(true);
+	datatypeFolder->setOpen(false);
 	componentView->setOpen(true);
 	deploymentView->setOpen(true);
 
@@ -956,6 +970,7 @@ UMLListViewItem* UMLListView::createItem(UMLListViewItem& Data, IDChangeLog& IDC
 	case Uml::lvt_Node:
 	case Uml::lvt_Artifact:
 	case Uml::lvt_Interface:
+	case Uml::lvt_Datatype:
 		newID = IDChanges.findNewID(Data.getID());
 		//if there is no ListViewItem associated with the new ID,
 		//it could exist an Item already asocciated if the user chose to reuse an uml object
@@ -968,6 +983,7 @@ UMLListViewItem* UMLListView::createItem(UMLListViewItem& Data, IDChangeLog& IDC
 	case Uml::lvt_UseCase_Folder:
 	case Uml::lvt_Component_Folder:
 	case Uml::lvt_Deployment_Folder:
+	case Uml::lvt_Datatype_Folder:
 		item = new UMLListViewItem(parent, Data.getLabel(), lvt);
 		break;
 	case Uml::lvt_Attribute:
@@ -1132,6 +1148,10 @@ Uml::ListView_Type UMLListView::convert_OT_LVT(Uml::UMLObject_Type ot) {
 		type = Uml::lvt_Interface;
 		break;
 
+	case Uml::ot_Datatype:
+		type = Uml::lvt_Datatype;
+		break;
+
 	case Uml::ot_Attribute:
 		type = Uml::lvt_Attribute;
 		break;
@@ -1169,6 +1189,14 @@ QPixmap & UMLListView::getPixmap( Icon_Type type ) {
 
 	case it_Folder_Grey_Open:
 		return m_Pixmaps.Folder_Grey_Open;
+		break;
+
+	case it_Folder_Orange:
+		return m_Pixmaps.Folder_Orange;
+		break;
+
+	case it_Folder_Orange_Open:
+		return m_Pixmaps.Folder_Orange_Open;
 		break;
 
 	case it_Folder_Red:
@@ -1219,6 +1247,10 @@ QPixmap & UMLListView::getPixmap( Icon_Type type ) {
 		return m_Pixmaps.Interface;
 		break;
 
+	case it_Datatype:
+		return m_Pixmaps.Datatype;
+		break;
+
 	case it_Actor:
 		return m_Pixmaps.Actor;
 		break;
@@ -1266,6 +1298,8 @@ void UMLListView::loadPixmaps() {
 	m_Pixmaps.Home = SmallIcon("folder_home");
 	m_Pixmaps.Folder_Green = SmallIcon("folder_green");
 	m_Pixmaps.Folder_Green_Open = SmallIcon("folder_green_open");
+	m_Pixmaps.Folder_Orange = SmallIcon("folder_orange");
+	m_Pixmaps.Folder_Orange_Open = SmallIcon("folder_orange_open");
 	m_Pixmaps.Folder_Grey = SmallIcon("folder_grey");
 	m_Pixmaps.Folder_Grey_Open = SmallIcon("folder_grey_open");
 	m_Pixmaps.Folder_Red = SmallIcon("folder_red");
@@ -1281,6 +1315,7 @@ void UMLListView::loadPixmaps() {
 	m_Pixmaps.Node.load( dataDir + "node.xpm" );
 	m_Pixmaps.Artifact.load( dataDir + "artifact.xpm" );
 	m_Pixmaps.Interface.load( dataDir + "interface.xpm" );
+	m_Pixmaps.Datatype.load( dataDir + "datatype.xpm" );
 	m_Pixmaps.Actor.load( dataDir + "actor.xpm" );
 	m_Pixmaps.UseCase.load( dataDir + "case.xpm" );
 	m_Pixmaps.Public_Method.load( dataDir + "CVpublic_meth.png" );
@@ -1302,6 +1337,7 @@ void UMLListView::slotExpanded( QListViewItem * item ) {
 	case Uml::lvt_UseCase_Folder:
 	case Uml::lvt_Component_Folder:
 	case Uml::lvt_Deployment_Folder:
+	case Uml::lvt_Datatype_Folder:
 		myItem->updateFolder();
 		break;
 	default:
@@ -1320,7 +1356,8 @@ void UMLListView::slotCollapsed( QListViewItem * item ) {
 	case Uml::lvt_UseCase_Folder:
 	case Uml::lvt_Component_Folder:
 	case Uml::lvt_Deployment_Folder:
-		myItem -> updateFolder();
+	case Uml::lvt_Datatype_Folder:
+		myItem->updateFolder();
 		break;
 	default:
 		break;
@@ -1337,6 +1374,9 @@ void UMLListView::slotCutSuccessful() {
 
 void UMLListView::addNewItem( QListViewItem * parent, Uml::ListView_Type type ) {
 	QString name = i18n("folder");
+	if (type == lvt_Datatype)  {
+		parent = datatypeFolder;
+	}
 	UMLListViewItem * newItem = static_cast<UMLListViewItem *>( parent );//used for att/ops - rest overwrite
 	parent -> setOpen( true );
 	switch( type ) {
@@ -1344,6 +1384,7 @@ void UMLListView::addNewItem( QListViewItem * parent, Uml::ListView_Type type ) 
 	case Uml::lvt_Logical_Folder:
 	case Uml::lvt_Component_Folder:
 	case Uml::lvt_Deployment_Folder:
+	case Uml::lvt_Datatype_Folder:
 		newItem = new UMLListViewItem( static_cast<UMLListViewItem *>( parent ),
 					       name, type, m_doc->getUniqueID() );
 		break;
@@ -1388,6 +1429,12 @@ void UMLListView::addNewItem( QListViewItem * parent, Uml::ListView_Type type ) 
 		name = getUniqueUMLObjectName( Uml::ot_Interface );
 		newItem = new UMLListViewItem( static_cast<UMLListViewItem*>(parent), name, type, (UMLObject*)0 );
 		newItem->setPixmap( 0, getPixmap( it_Interface ) );
+		break;
+
+	case Uml::lvt_Datatype:
+		name = getUniqueUMLObjectName( Uml::ot_Datatype );
+		newItem = new UMLListViewItem( static_cast<UMLListViewItem*>(parent), name, type, (UMLObject*)0 );
+		newItem->setPixmap( 0, getPixmap( it_Datatype ) );
 		break;
 
 	case Uml::lvt_Attribute:
@@ -1528,6 +1575,10 @@ bool UMLListView::slotItemRenamed( QListViewItem * item , int /*col*/ ) {
 		createUMLObject( renamedItem, Uml::ot_Interface );
 		break;
 
+	case Uml::lvt_Datatype:
+		createUMLObject( renamedItem, Uml::ot_Datatype );
+		break;
+
 	case Uml::lvt_UseCase:
 		createUMLObject( renamedItem, Uml::ot_UseCase );
 		break;
@@ -1618,6 +1669,11 @@ void UMLListView::createUMLObject( UMLListViewItem * item, Uml::UMLObject_Type t
 	case Uml::ot_Interface:
 		object = new UMLInterface( m_doc, name, m_doc->getUniqueID() );
 		break;
+
+	case Uml::ot_Datatype:
+		object = new UMLDatatype( m_doc, name, m_doc->getUniqueID() );
+		break;
+
 	default:
 		kdWarning() << "createing UML Object of unknown type" << endl;
 		break;
@@ -1676,6 +1732,7 @@ void UMLListView::createDiagram( UMLListViewItem * item, Uml::Diagram_Type type 
 }
 
 QString UMLListView::getUniqueUMLObjectName( Uml::UMLObject_Type type ) {
+	//FIXME try using UMLDoc::uniqObjectName()
 	QString temp = "";
 	QString name = "";
 	QString newClass = i18n("new_class");
@@ -1684,6 +1741,7 @@ QString UMLListView::getUniqueUMLObjectName( Uml::UMLObject_Type type ) {
 	QString newNode = i18n("new_node");
 	QString newArtifact = i18n("new_artifact");
 	QString newInterface = i18n("new_interface");
+	QString newDatatype = i18n("new_datatype");
 	QString newActor = i18n("new_actor");
 	QString newUseCase = i18n("new_usecase");
 
@@ -1706,6 +1764,8 @@ QString UMLListView::getUniqueUMLObjectName( Uml::UMLObject_Type type ) {
 		name = newArtifact;
 	} else if (type == Uml::ot_Interface) {
 		name = newInterface;
+	} else if (type == Uml::ot_Datatype) {
+		name = newDatatype;
 	} else {
 		kdWarning() << "getting unique uml object name for unknown type" << endl;
 	}
@@ -1817,6 +1877,10 @@ bool UMLListView::isUnique( UMLListViewItem * item, QString name ) {
 		return !m_doc->findUMLObject(Uml::ot_Interface, name);
 		break;
 
+	case Uml::lvt_Datatype:
+		return !m_doc->findUMLObject(Uml::ot_Datatype, name);
+		break;
+
 	case Uml::lvt_Attribute:
 	{
 		UMLClass * parent = static_cast<UMLClass *>( parentItem  -> getUMLObject() );
@@ -1907,11 +1971,8 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
 
 		switch( lvType ) {
 			case Uml::lvt_Class:
-				item = new UMLListViewItem(parent, label, lvType, pObject);
-				break;
 			case Uml::lvt_Interface:
-				item = new UMLListViewItem(parent, label, lvType, pObject);
-				break;
+			case Uml::lvt_Datatype:
 			case Uml::lvt_Actor:
 			case Uml::lvt_UseCase:
 			case Uml::lvt_Package:
@@ -1952,6 +2013,9 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
 			case Uml::lvt_Logical_View:
 				item = lv;
 				break;
+			case Uml::lvt_Datatype_Folder:
+				item = datatypeFolder;
+				break;
 			case Uml::lvt_UseCase_View:
 				item = ucv;
 				break;
@@ -1991,8 +2055,9 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
 /** Open all items in the list view*/
 void UMLListView::expandAll(QListViewItem *item) {
 	if(!item) item = firstChild();
-	for( item = item->firstChild(); item; item = item->nextSibling())
+	for (item = item->firstChild(); item; item = item->nextSibling())  {
 		item->setOpen(true);
+	}
 }
 /** Close all items in the list view*/
 void UMLListView::collapseAll(QListViewItem *item) {
@@ -2013,7 +2078,8 @@ bool UMLListView::typeIsCanvasWidget(ListView_Type type) {
 	    type == lvt_Component ||
 	    type == lvt_Node ||
 	    type == lvt_Artifact ||
-	    type == lvt_Interface) {
+	    type == lvt_Interface ||
+	    type == lvt_Datatype) {
 		return true;
 	} else {
 		return false;
@@ -2024,7 +2090,8 @@ bool UMLListView::typeIsFolder(ListView_Type type) {
 	if (type == Uml::lvt_Logical_Folder ||
 	    type == Uml::lvt_UseCase_Folder ||
 	    type == Uml::lvt_Component_Folder ||
-	    type == Uml::lvt_Deployment_Folder) {
+	    type == Uml::lvt_Deployment_Folder ||
+	    type == Uml::lvt_Datatype_Folder) {
 		return true;
 	} else {
 		return false;
@@ -2064,6 +2131,13 @@ void UMLListView::deleteChildrenOf(QListViewItem* parent) {
 	while ( parent->firstChild() ) {
 		delete parent->firstChild();
 	}
+	if (parent == lv)  {
+		datatypeFolder = new UMLListViewItem(lv, i18n("Datatypes"), Uml::lvt_Datatype_Folder);
+	}
+}
+
+void UMLListView::closeDatatypesFolder()  {
+	datatypeFolder->setOpen(false);
 }
 
 #include "umllistview.moc"

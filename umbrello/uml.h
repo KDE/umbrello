@@ -589,6 +589,11 @@ public slots:
 	void slotClassWizard();
 
 	/**
+	 * Calls the active code generator to add its default datatypes
+	 */
+	void slotAddDefaultDatatypes();
+
+	/**
 	 * The displayed diagram has changed.
 	 */
 	void slotCurrentViewChanged();

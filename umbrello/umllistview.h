@@ -57,6 +57,8 @@ class UMLListView : public KListView {
 		it_Folder_Red_Open,
 		it_Folder_Violet,
 		it_Folder_Violet_Open,
+		it_Folder_Orange,
+		it_Folder_Orange_Open,
 		it_Diagram, //change to have different one for each type of diagram
 		it_Class,
 		it_Template,
@@ -65,6 +67,7 @@ class UMLListView : public KListView {
 		it_Node,
 		it_Artifact,
 		it_Interface,
+		it_Datatype,
 		it_Actor,
 		it_UseCase,
 		it_Public_Method,
@@ -205,6 +208,8 @@ class UMLListView : public KListView {
 	 */
 	void setStartedCut(bool startedCut);
 
+	void closeDatatypesFolder();
+
 	bool saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 	bool loadFromXMI( QDomElement & element );
@@ -219,6 +224,7 @@ class UMLListView : public KListView {
 	UMLListViewItem* lv;//logical view item
 	UMLListViewItem* componentView;//component view item
 	UMLListViewItem* deploymentView;//deployment view item
+	UMLListViewItem* datatypeFolder;
 	UMLListViewItem* diagramFolder;
 	ListPopupMenu * m_pMenu;
 	QString oldText, message;
@@ -236,6 +242,8 @@ class UMLListView : public KListView {
 		QPixmap Folder_Green_Open;
 		QPixmap Folder_Grey;
 		QPixmap Folder_Grey_Open;
+		QPixmap Folder_Orange;
+		QPixmap Folder_Orange_Open;
 		QPixmap Folder_Red;
 		QPixmap Folder_Red_Open;
 		QPixmap Folder_Violet;
@@ -248,6 +256,7 @@ class UMLListView : public KListView {
 		QPixmap Node;
 		QPixmap Artifact;
 		QPixmap Interface;
+		QPixmap Datatype;
 		QPixmap Actor;
 		QPixmap UseCase;
 		QPixmap Public_Method;
@@ -313,7 +322,7 @@ class UMLListView : public KListView {
 	void loadPixmaps();
 
 	/**
-	 * returns true if the listview type is actor, usecase, class, package or interface
+	 * returns true if the listview type is also has widget representation in diagrams
 	 */
 	static bool typeIsCanvasWidget(ListView_Type type);
 
@@ -335,7 +344,7 @@ class UMLListView : public KListView {
 	/**
 	 * Deletes all child-items of @p parent.
 	 */
-	static void deleteChildrenOf( QListViewItem *parent );
+	void deleteChildrenOf( QListViewItem *parent );
 
 public slots:
 

@@ -86,7 +86,7 @@ void CPPSourceCodeOperation::updateContent() {
 void CPPSourceCodeOperation::updateMethodDeclaration()
 {
 
-        CodeDocument * doc = getParentDocument();
+//FIXME delete this?        CodeDocument * doc = getParentDocument();
 //FIXME delete this?        CodeGenerator * g = doc->getParentGenerator();
 //        CPPSourceCodeDocument * cppdoc = dynamic_cast<CPPSourceCodeDocument*>(doc);
 	UMLOperation * o = getParentOperation();

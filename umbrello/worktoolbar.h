@@ -102,6 +102,7 @@ public:
 	    tbb_UseCase,
 	    tbb_Class,
 	    tbb_Interface,
+	    tbb_Datatype,
 	    tbb_Package,
 	    tbb_Component,
 	    tbb_Node,
@@ -152,7 +153,8 @@ private:
 		Component,
 		Node,
 		Artifact,
-		Interface;
+		Interface,
+		Datatype;
 	}
 	m_Pixmaps;
 
@@ -177,6 +179,7 @@ private:
 		QPixmap Generalisation;
 		QPixmap InitialState;
 		QPixmap Interface;
+		QPixmap Datatype;
 		QPixmap MessageAsynchronous;
 		QPixmap MessageSynchronous;
 		QPixmap Node;

@@ -189,6 +189,9 @@ void ClassifierListPage::slotListItemCreated(UMLObject* object) {
 	if(!m_bSigWaiting) {
 		return;
 	}
+	if (object->getBaseType() == ot_Datatype)  {
+		return;
+	}
 	int index = m_pItemListLB->count();
 	m_pItemListLB ->insertItem((static_cast<UMLClassifierListItem*>(object))->getShortName(), index);
 	m_bSigWaiting = false;

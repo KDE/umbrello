@@ -16,8 +16,8 @@
 #include <kdebug.h>
 #include <klocale.h>
 
-UMLClassifier::UMLClassifier(UMLDoc * parent, const QString & name, int id) 
-   : UMLCanvasObject(parent,name, id) 
+UMLClassifier::UMLClassifier(UMLDoc * parent, const QString & name, int id)
+   : UMLCanvasObject(parent,name, id)
 {
 	init();
 }
@@ -150,7 +150,8 @@ UMLClassifierList UMLClassifier::findSubClassConcepts ( UMLDoc *doc, ClassifierT
                 {
                         UMLObject* obj = doc->findUMLObject(a->getRoleAId());
                         UMLClassifier *concept = dynamic_cast<UMLClassifier*>(obj);
-                        if (concept && (type == ALL || (!concept->isInterface() && type == CLASS) 
+			//FIXME does the addition of Datatypes break these if statements?
+			if (concept && (type == ALL || (!concept->isInterface() && type == CLASS)
 					|| (concept->isInterface() && type == INTERFACE)))
                                 inheritingConcepts.append(concept);
                 }
@@ -163,7 +164,7 @@ UMLClassifierList UMLClassifier::findSubClassConcepts ( UMLDoc *doc, ClassifierT
 		{
                         UMLObject* obj = doc->findUMLObject(a->getRoleAId());
                         UMLClassifier *concept = dynamic_cast<UMLClassifier*>(obj);
-                        if (concept && (type == ALL || (!concept->isInterface() && type == CLASS) 
+			if (concept && (type == ALL || (!concept->isInterface() && type == CLASS)
 					|| (concept->isInterface() && type == INTERFACE)))
                                 inheritingConcepts.append(concept);
 		}
@@ -191,7 +192,7 @@ UMLClassifierList UMLClassifier::findSuperClassConcepts ( UMLDoc *doc, Classifie
                         UMLClassifier *concept = dynamic_cast<UMLClassifier*>(obj);
 
                         if (concept && (type == ALL || (!concept->isInterface() && type == CLASS)
-                                        || (concept->isInterface() && type == INTERFACE)))
+					|| (concept->isInterface() && type == INTERFACE)))
                                 parentConcepts.append(concept);
                 }
         }

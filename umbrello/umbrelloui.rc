@@ -43,6 +43,7 @@
     <Menu name="active_lang_menu"><text>Active &amp;Language</text>
     </Menu>
     <Separator/>
+    <Action name="create_default_datatypes"/>
     <Action name="class_wizard"/>
   </Menu>
 </MenuBar>

@@ -16,6 +16,7 @@
 #include "node.h"
 #include "artifact.h"
 #include "interface.h"
+#include "datatype.h"
 #include "docwindow.h"
 #include "objectwidget.h"
 #include "operation.h"
@@ -55,7 +56,6 @@ static const uint undoMax = 30;
 //#include "diagram/diagram.h"
 using Umbrello::Diagram;
 using Umbrello::DiagramView;
-
 
 UMLDoc::UMLDoc(QWidget *parent, const char *name) : QObject(parent, name) {
 	listView = 0;
@@ -239,6 +239,8 @@ bool UMLDoc::newDocument() {
 		default:
 			break;
 	}//end switch
+
+	addDefaultDatatypes();
 
 	setModified(false);
 	initSaveTimer();
@@ -494,6 +496,7 @@ UMLObject* UMLDoc::findUMLObject(UMLObject_Type type, QString name) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLClassifier* UMLDoc::findUMLClassifier(QString name) {
 	// could be either UMLClass or UMLInterface..
+	//this is used only by code generator so we don't need to look at Datatypes
 	UMLObject * obj = findUMLObject(ot_Class, name);
 	if (!obj)
 		obj = findUMLObject(ot_Interface, name);
@@ -518,6 +521,8 @@ QString	UMLDoc::uniqObjectName(const UMLObject_Type type) {
 		currentName = i18n("new_artifact");
 	else if(type == ot_Interface)
 		currentName = i18n("new_interface");
+	else if(type == ot_Datatype)
+		currentName = i18n("new_datatype");
 	else if(type == ot_Association)
 		currentName = i18n("new_association");
 	else
@@ -550,40 +555,25 @@ UMLObject* UMLDoc::createUMLObject(const std::type_info &type)
 {
 //adapter.. just transform and forward request
 	UMLObject_Type t;
-	if( type == typeid(UMLClass) )
-	{
+	if ( type == typeid(UMLClass) ) {
 		t = ot_Class;
-	}
-	else if ( type == typeid(UMLUseCase) )
-	{
+	} else if ( type == typeid(UMLUseCase) ) {
 		t = ot_UseCase;
-	}
-	else if ( type == typeid(UMLActor) )
-	{
+	} else if ( type == typeid(UMLActor) ) {
 		t = ot_Actor;
-	}
-	else if ( type == typeid(UMLPackage) )
-	{
+	} else if ( type == typeid(UMLPackage) ) {
 		t = ot_Package;
-	}
-	else if ( type == typeid(UMLComponent) )
-	{
+	} else if ( type == typeid(UMLComponent) ) {
 		t = ot_Component;
-	}
-	else if ( type == typeid(UMLNode) )
-	{
+	} else if ( type == typeid(UMLNode) ) {
 		t = ot_Node;
-	}
-	else if ( type == typeid(UMLArtifact) )
-	{
+	} else if ( type == typeid(UMLArtifact) ) {
 		t = ot_Artifact;
-	}
-	else if ( type == typeid(UMLInterface) )
-	{
+	} else if ( type == typeid(UMLInterface) )  {
 		t = ot_Interface;
-	}
-	else
-	{
+	} else if ( type == typeid(UMLDatatype) )  {
+		t = ot_Datatype;
+	} else {
 		return static_cast<UMLObject*>(0L);
 	}
 	return createUMLObject(t);
@@ -615,7 +605,6 @@ UMLObject* UMLDoc::createUMLObject(UMLObject_Type type, const QString &n) {
 		}
 		}while( name.length() == 0 || o != 0L );
 	}
-
 	id = getUniqueID();
 	if(type == ot_Actor) {
 		o = new UMLActor(this, name, id);
@@ -633,6 +622,8 @@ UMLObject* UMLDoc::createUMLObject(UMLObject_Type type, const QString &n) {
 		o = new UMLArtifact(this, name, id);
 	} else if(type == ot_Interface) {
 		o = new UMLInterface(this, name, id);
+	} else if(type == ot_Datatype) {
+		o = new UMLDatatype(this, name, id);
 	} else {
 		kdWarning() << "CreateUMLObject(int) error" << endl;
 		return (UMLObject*)0L;
@@ -1250,7 +1241,7 @@ bool UMLDoc::saveToXMI(QIODevice& file) {
 	docElement.setAttribute( "uniqueid", uniqueID );
 	content.appendChild( docElement );
 
-	//  save each UMLObject.. No! ONLY classifiers (class/interfaces), packages,
+	//  save each UMLObject.. No! ONLY classifiers (class/interfaces/datatypes), packages,
 	// usecases, actors, and associations are saved.
 	// The operations, attributes are owned by these things and will show up
 	// as child nodes.
@@ -1259,7 +1250,7 @@ bool UMLDoc::saveToXMI(QIODevice& file) {
 	for(UMLObject *o = objectList.first(); o; o = objectList.next() ) {
 		UMLObject_Type t = o->getBaseType();
 		if (t != ot_Class && t != ot_Interface && t != ot_Actor &&
-		    t != ot_UseCase && t != ot_Package) {
+		    t != ot_UseCase && t != ot_Package && t != ot_Datatype) {
 			if (t != ot_Attribute && t != ot_Operation && t != ot_Association)
 		   	 	kdDebug() << "UMLDoc::saveToXMI(): skipping object of type "
 					  << t << endl;
@@ -1681,6 +1672,8 @@ UMLObject* UMLDoc::makeNewUMLObject(QString type) {
 		pObject = new UMLArtifact(this);
 	} else if (type == "UML:Interface") {
 		pObject = new UMLInterface(this);
+	} else if (type == "UML:Datatype") {
+		pObject = new UMLDatatype(this);
 	} else if (type == "UML:Association") {
 		pObject = new UMLAssociation(this, Uml::at_Unknown, (UMLObject*)NULL, (UMLObject*) NULL);
 	}
@@ -1755,8 +1748,19 @@ QStringList UMLDoc::getModelTypes()
 UMLClassifierList UMLDoc::getConcepts() {
 	UMLClassifierList conceptList;
 	for(UMLObject *obj = objectList.first(); obj ; obj = objectList.next())
-		if(obj -> getBaseType() == ot_Class || obj->getBaseType() == ot_Interface)
+		if(obj -> getBaseType() == ot_Class || obj->getBaseType() == ot_Interface
+		   || obj->getBaseType() == ot_Datatype)  {
 			conceptList.append((UMLClassifier *)obj);
+		}
+	return conceptList;
+}
+
+UMLClassifierList UMLDoc::getClassesAndInterfaces() {
+	UMLClassifierList conceptList;
+	for(UMLObject *obj = objectList.first(); obj ; obj = objectList.next())
+		if(obj -> getBaseType() == ot_Class || obj->getBaseType() == ot_Interface)  {
+			conceptList.append((UMLClassifier *)obj);
+		}
 	return conceptList;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1768,6 +1772,16 @@ QPtrList<UMLInterface> UMLDoc::getInterfaces() {
 		}
 	}
 	return interfaceList;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+QPtrList<UMLDatatype> UMLDoc::getDatatypes() {
+	QPtrList<UMLDatatype> datatypeList;
+	for(UMLObject* obj = objectList.first(); obj ; obj = objectList.next()) {
+		if(obj->getBaseType() == ot_Datatype) {
+			datatypeList.append((UMLDatatype*)obj);
+		}
+	}
+	return datatypeList;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLAssociationList UMLDoc::getAssociations() {
@@ -2182,6 +2196,16 @@ void UMLDoc::loadRedoData() {
 	}
 }
 
+void UMLDoc::addDefaultDatatypes() {
+	UMLApp::app()->getGenerator()->createDefaultDatatypes();
+}
 
+void UMLDoc::createDatatype(QString name)  {
+	UMLObject* umlobject = findUMLObject(ot_Datatype, name);
+	if (!umlobject) {
+		createUMLObject(ot_Datatype, name);
+	}
+	listView->closeDatatypesFolder();
+}
 
 #include "umldoc.moc"

@@ -75,10 +75,12 @@ UMLListViewItem::UMLListViewItem(UMLListViewItem * parent, QString name, Uml::Li
 		m_nId = o->getID();
 	}
 	if( t == Uml::lvt_Logical_View || t == Uml::lvt_UseCase_View ||
-	    t == Uml::lvt_Component_View || t == Uml::lvt_Deployment_View )
+	    t == Uml::lvt_Component_View || t == Uml::lvt_Deployment_View ||
+	    t == Uml::lvt_Datatype_Folder)  {
 		setRenameEnabled( 0, false );
-	else
+	} else {
 		setRenameEnabled( 0, true );
+	}
 	setText( name );
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -168,6 +170,10 @@ void UMLListViewItem::updateObject() {
 			setPixmap( 0, s_pListView -> getPixmap( UMLListView::it_Interface ) );
 			break;
 
+		case Uml::ot_Datatype:
+			setPixmap( 0, s_pListView -> getPixmap( UMLListView::it_Datatype ) );
+			break;
+
 		case Uml::ot_Operation:
 			if( scope == Uml::Public )
 				setPixmap( 0, s_pListView -> getPixmap( UMLListView::it_Public_Method ) );
@@ -206,6 +212,14 @@ void UMLListViewItem::updateFolder() {
 				setPixmap( 0, s_pListView -> getPixmap( UMLListView::it_Folder_Green_Open ) );
 			else
 				setPixmap( 0, s_pListView -> getPixmap( UMLListView::it_Folder_Green ) );
+			break;
+
+	        case Uml::lvt_Datatype_Folder:
+			if ( isOpen() )  {
+				setPixmap( 0, s_pListView->getPixmap(UMLListView::it_Folder_Orange_Open) );
+			} else {
+				setPixmap( 0, s_pListView->getPixmap(UMLListView::it_Folder_Orange) );
+			}
 			break;
 
 		case Uml::lvt_Component_View:
@@ -270,6 +284,7 @@ void UMLListViewItem::okRename( int col ) {
 		case Uml::lvt_Class:
 		case Uml::lvt_Package:
 		case Uml::lvt_Interface:
+		case Uml::lvt_Datatype:
 			object = m_pObject;
 			if( object ) {
 				object = doc -> findUMLObject( object -> getBaseType(), newText );

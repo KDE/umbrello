@@ -56,6 +56,7 @@
 #include "nodewidget.h"
 #include "artifactwidget.h"
 #include "interfacewidget.h"
+#include "datatypewidget.h"
 #include "actorwidget.h"
 #include "usecasewidget.h"
 #include "notewidget.h"
@@ -471,8 +472,9 @@ void UMLView::slotObjectCreated(UMLObject* o) {
 	int type  = o->getBaseType();
 	//check to see if we want the message
 	//may be wanted by someone else e.g. list view
-	if (!m_bCreateObject)
+	if (!m_bCreateObject)  {
 		return;
+	}
 
 	UMLWidget* newWidget = 0;
 	if(type == ot_Actor) {
@@ -490,6 +492,8 @@ void UMLView::slotObjectCreated(UMLObject* o) {
 		newWidget = new ArtifactWidget(this, o);
 	} else if(type == ot_Node) {
 		newWidget = new NodeWidget(this, o);
+	} else if(type == ot_Datatype) {
+		newWidget = new DatatypeWidget(this, o);
 	} else if(type == ot_Interface) {
 	        InterfaceWidget* interfaceWidget = new InterfaceWidget(this, o);
 		Diagram_Type diagramType = getType();
@@ -530,6 +534,7 @@ void UMLView::slotObjectCreated(UMLObject* o) {
 		case ot_Node:
 		case ot_Artifact:
 		case ot_Interface:
+		case ot_Datatype:
 			createAutoAssociations(newWidget);
 			break;
 	}
@@ -621,9 +626,13 @@ void UMLView::contentsDragEnterEvent(QDragEnterEvent *e) {
 		e->accept(false);
 		return;
 	}
-	if((diagramType == dt_Sequence || diagramType == dt_Class ||
-	    diagramType == dt_Collaboration) &&
-	   (ot != ot_Class && ot != ot_Package && ot != ot_Interface) ) {
+	if(diagramType == dt_Class &&
+	   (ot != ot_Class && ot != ot_Package && ot != ot_Interface && ot != ot_Datatype) ) {
+		e->accept(false);
+		return;
+	}
+	if((diagramType == dt_Sequence || diagramType == dt_Collaboration) &&
+	   ot != ot_Class ) {
 		e->accept(false);
 		return;
 	}
@@ -791,9 +800,9 @@ UMLWidget * UMLView::findWidget( int id ) {
 	UMLWidget * obj = NULL;
 	while ( (obj = it.current()) != 0 ) {
 		++it;
-		// object widgets are special..the widget id is held by 'localId' attribute (crappy!) 
+		// object widgets are special..the widget id is held by 'localId' attribute (crappy!)
 		if( obj -> getBaseType() == wt_Object ) {
-			if( static_cast<ObjectWidget *>( obj ) -> getLocalID() == id ) 
+			if( static_cast<ObjectWidget *>( obj ) -> getLocalID() == id )
 				return obj;
 		} else if( obj -> getID() == id ) {
 			return obj;
@@ -1657,6 +1666,7 @@ bool UMLView::addWidget( UMLWidget * pWidget , bool isPasteOperation ) {
 		case wt_Node:
 		case wt_Artifact:
 		case wt_Interface:
+		case wt_Datatype:
 		case wt_Actor:
 		case wt_UseCase:
 			{
@@ -1845,7 +1855,7 @@ bool UMLView::addAssociation( AssociationWidget* pAssoc , bool isPasteOperation)
 	FloatingText *pRoleBWidget = pAssoc->getRoleBWidget();
 	FloatingText *pMultiAWidget = pAssoc->getMultiAWidget();
 	FloatingText *pMultiBWidget = pAssoc->getMultiBWidget();
-	
+
 	if(pNameWidget)
 		addWidget(pNameWidget);
 	if(pRoleAWidget)
@@ -1867,7 +1877,7 @@ void UMLView::addAssocInViewAndDoc(AssociationWidget* a) {
 	{
 		// if view went ok, then append in document
 		getDocument() -> addAssociation (a->getAssociation());
-	} else 
+	} else
 		kdError()<<" ERROR: cannot addAssocInViewAndDoc()"<<endl;
 
 }
@@ -1927,7 +1937,7 @@ void UMLView::removeAssocInViewAndDoc(AssociationWidget* a, bool /* deleteLater 
 	if(!a)
 		return;
 
-	// Ah, its back. Apparently cut-n-paste ops crash if 
+	// Ah, its back. Apparently cut-n-paste ops crash if
 	// we delete associations from within the association widget
 	// cleanup method (below)
 	m_pDoc->removeAssociation(a->getAssociation()); // Remove the association from the UMLDoc.
@@ -2168,6 +2178,11 @@ Uml::UMLObject_Type UMLView::convert_TBB_OT(WorkToolBar::ToolBar_Buttons tbb) {
 		case WorkToolBar::tbb_Interface:
 			ot = ot_Interface;
 			break;
+
+		case WorkToolBar::tbb_Datatype:
+			ot = ot_Datatype;
+			break;
+
 		default:
 			break;
 	}
@@ -2580,6 +2595,11 @@ void UMLView::slotMenuSelection(int sel) {
 			m_pDoc->createUMLObject(ot_Interface);
 			break;
 
+		case ListPopupMenu::mt_Datatype:
+			m_bCreateObject = true;
+			m_pDoc->createUMLObject(ot_Datatype);
+			break;
+
 		case ListPopupMenu::mt_Paste:
 			m_PastePoint = m_Pos;
 			m_Pos.setX( 2000 );
@@ -2955,11 +2975,11 @@ bool UMLView::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement widgetElement = qDoc.createElement( "widgets" );
 	while( ( widget = w_it.current() ) ) {
 		++w_it;
-		// Having an exception is bad I know, but gotta work with 	
+		// Having an exception is bad I know, but gotta work with
 		// system we are given.
 		// We DONT want to record any text widgets which are belonging
 		// to associations as they are recorded later in the "associations"
-		// section when each owning association is dumped. -b.t. 
+		// section when each owning association is dumped. -b.t.
 		if(widget->getBaseType() != wt_Text || !((FloatingText*)widget)->getAssoc())
 			widget -> saveToXMI( qDoc, widgetElement );
 	}
@@ -3132,6 +3152,8 @@ UMLWidget* UMLView::loadWidgetFromXMI(QDomElement& widgetElement) {
 		widget = new ArtifactWidget(this);
 	} else if (tag == "interfacewidget") {
 		widget = new InterfaceWidget(this);
+	} else if (tag == "datatypewidget") {
+		widget = new DatatypeWidget(this);
 	} else if (tag == "UML:StateWidget") {
 		widget = new StateWidget(this);
 	} else if (tag == "UML:NoteWidget") {
@@ -3204,7 +3226,7 @@ countr++;
 					kdError()<<"COULDNT addAssociation("<<assoc<<") to umlview, deleting."<<endl;
 					assoc->cleanup();
 					delete assoc;
-					//return false; // soften error.. may not be that bad 
+					//return false; // soften error.. may not be that bad
 				}
 			}
 		}

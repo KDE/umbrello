@@ -51,7 +51,7 @@ CodeGenerationWizard::CodeGenerationWizard(UMLDoc *doc,
 
 	insertPage(m_CodeGenerationOptionsPage, i18n("Code Generation Options"), 1);
 
-	UMLClassifierList cList = m_doc->getConcepts();
+	UMLClassifierList cList = m_doc->getClassesAndInterfaces();
 
 	if(classList) {
 		for(UMLClassifier *c = classList->first(); c ; c = classList->next()) {
@@ -154,7 +154,7 @@ void CodeGenerationWizard::showPage(QWidget *page) {
 	{//before advancint to the final page, check that the output directory exists and is
 	 //writtable
 /*
-// FIX, needed? 
+// FIX, needed?
 		SettingsDlg::CodeGenState codegenState;
 		((CodeGenerationOptionsPage*)QWizard::page(1))->state(codegenState);
 		QFileInfo info(codegenState.outputDir);

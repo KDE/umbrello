@@ -13,8 +13,8 @@
 #include <kdebug.h>
 #include <klocale.h>
 
-UMLInterface::UMLInterface(UMLDoc * parent, const QString & name, int id) 
-   : UMLClassifier(parent, name, id) 
+UMLInterface::UMLInterface(UMLDoc * parent, const QString & name, int id)
+   : UMLClassifier(parent, name, id)
 {
 	init();
 }
@@ -49,7 +49,6 @@ QString UMLInterface::uniqChildName(UMLObject_Type type) {
 	}
 	return name;
 }
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool UMLInterface::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement classElement = qDoc.createElement("UML:Interface");

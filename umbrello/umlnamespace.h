@@ -10,6 +10,7 @@
 #ifndef UMLNAMESPACE_H
 #define UMLNAMESPACE_H
 
+
 //uncomment for use with Luis' diagram code
 //namespace Umbrello
 //{
@@ -29,6 +30,7 @@ namespace Uml {
 	    ot_UseCase,
 	    ot_Package,
 	    ot_Interface,
+	    ot_Datatype,
 	    ot_Class,
 	    ot_Association,
 	    ot_Attribute,
@@ -54,6 +56,7 @@ namespace Uml {
 	    wt_UseCase,			// has UMLObject representation
 	    wt_Class,			// has UMLObject representation
 	    wt_Interface,		// has UMLObject representation
+	    wt_Datatype,		// has UMLObject representation
 	    wt_Package,			// has UMLObject representation
 	    wt_Object,			// has UMLObject representation
 	    wt_Note,			// does not have UMLObject representation
@@ -161,6 +164,8 @@ namespace Uml {
 	    lvt_Deployment_Folder,
 	    lvt_Deployment_View,
 	    lvt_Node,
+	    lvt_Datatype,
+	    lvt_Datatype_Folder,
 	    lvt_Unknown = -1
 	};
 

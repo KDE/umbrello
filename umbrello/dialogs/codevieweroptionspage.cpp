@@ -15,13 +15,15 @@
  *                                                                         *
  ***************************************************************************/
 #include <kdebug.h>
+#include <kfontdialog.h>
+#include <kcolorbutton.h>
 #include "codevieweroptionspage.h"
 
 //kde include
 //qt include
 
 CodeViewerOptionsPage::CodeViewerOptionsPage( CodeViewerDialog::CodeViewerState options, QWidget *parent, const char *name )
-	:CodeViewerOptionsBase(parent,name) 
+	:CodeViewerOptionsBase(parent,name)
 {
 	init (options);
 }

@@ -21,6 +21,7 @@
 #include "umlviewlist.h"
 #include "umlobjectlist.h"
 #include "umlinterfacelist.h"
+#include "umldatatypelist.h"
 #include "umlnamespace.h"
 #include <qdatastream.h>
 #include <qmap.h>
@@ -571,11 +572,25 @@ public:
 	UMLClassifierList getConcepts();
 
 	/**
+	 * Returns a list of the classes and interfaces in this UMLDoc.
+	 *
+	 * @return	List of UML concepts.
+	 */
+	UMLClassifierList getClassesAndInterfaces();
+
+	/**
 	 * Returns a list of the interfaces in this UMLDoc.
 	 *
 	 * @return	List of UML interfaces.
 	 */
 	UMLInterfaceList getInterfaces();
+
+	/**
+	 * Returns a list of the datatypes in this UMLDoc.
+	 *
+	 * @return	List of UML datatypes.
+	 */
+	UMLDatatypeList getDatatypes();
 
 	/**
 	 * Returns a list of the associations in this UMLDoc.
@@ -831,6 +846,17 @@ public:
 	/** Get the current (active) code generator for this document.
 	 */
 	CodeGenerator* getCurrentCodeGenerator();
+
+	/**
+	 * Calls the active code generator to create its default datatypes
+	 */
+	void addDefaultDatatypes();
+
+	/**
+	 * Add a datatype if it doesn't already exist.
+	 * Used by code generators and attribute dialogue.
+	 */
+	void createDatatype(QString name);
 
 private:
 

@@ -65,6 +65,7 @@ public:
 	    mt_Node,
 	    mt_Artifact,
 	    mt_Interface,
+	    mt_Datatype,
 	    mt_Actor,                         //ACTOR
 	    mt_UseCase,                       //USECASE
 	    mt_Attribute,                     //ATTRIBUTE

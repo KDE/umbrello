@@ -44,7 +44,7 @@ public:
 	/**
 	 * Enumeration identifying the type of classifier.
 	 */
-	enum ClassifierType { ALL = 0, CLASS, INTERFACE };
+	enum ClassifierType { ALL = 0, CLASS, INTERFACE, DATATYPE };
 
 	/**
 	 * Sets up a Concept.

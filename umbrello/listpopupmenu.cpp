@@ -130,6 +130,10 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, Uml::ListView_Type type) : KPopupM
 			mt = mt_Interface;
 			break;
 
+		case Uml::lvt_Datatype:
+			mt = mt_Datatype;
+			break;
+
 		case Uml::lvt_Attribute:
 			mt = mt_Attribute;
 			break;
@@ -225,7 +229,6 @@ bool unique) : KPopupMenu(parent)
 					m_pShow->setItemChecked(mt_Show_Packages_Selection,
 											interfaceWidget->getShowPackage());
 					insertItem(SmallIcon("info"),i18n("Show"), m_pShow);
-					break;
 				default: break;
 			} // switch (type)
 		} // if (unique == true)
@@ -242,8 +245,7 @@ bool unique) : KPopupMenu(parent)
 		// user might expect it at this position of the context menu
 		if (unique == true && type == Uml::wt_Interface) {
 			insertItem(i18n("Draw as Circle"), mt_DrawAsCircle_Selection);
-			setItemChecked( mt_DrawAsCircle_Selection,
-											interfaceWidget->getDrawAsCircle() );
+			setItemChecked( mt_DrawAsCircle_Selection, interfaceWidget->getDrawAsCircle() );
 		}
 
 		if(m_pInsert)
@@ -352,6 +354,7 @@ bool unique) : KPopupMenu(parent)
 			insrtItm(mt_Properties);
 			break;
 
+		case Uml::wt_Datatype:
 		case Uml::wt_Package:
 		case Uml::wt_Component:
 		case Uml::wt_Node:
@@ -656,6 +659,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 	QPixmap classPixmap(dataDir+"umlclass.xpm");
 	QPixmap packagePixmap(dataDir+"package.xpm");
 	QPixmap interfacePixmap(dataDir+"interface.xpm");
+	QPixmap datatypePixmap(dataDir+"datatype.xpm");
 	QPixmap actorPixmap(dataDir+"actor.xpm");
 	QPixmap usecasePixmap(dataDir+"case.xpm");
 	QPixmap initialStatePixmap(dataDir+"initial_state.xpm");
@@ -672,6 +676,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 			m_pInsert -> insertItem(SmallIcon( "folder_new"), i18n("Folder"), mt_Logical_Folder);
 			m_pInsert -> insertItem(classPixmap, i18n("Class..."), mt_Class);
 			m_pInsert -> insertItem(interfacePixmap, i18n("Interface..."), mt_Interface);
+			m_pInsert -> insertItem(datatypePixmap, i18n("Datatype..."), mt_Datatype);
 			m_pInsert->insertItem(packagePixmap, i18n("Package..."), mt_Package);
 			m_pInsert -> insertItem(SmallIcon( "folder_green"),i18n("Class Diagram"), mt_Class_Diagram);
 			m_pInsert -> insertItem(SmallIcon( "folder_green"),i18n("State Diagram"), mt_State_Diagram);
@@ -854,6 +859,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 			m_pInsert = new KPopupMenu( this, "New" );
 			m_pInsert -> insertItem(classPixmap, i18n("Class..."), mt_Class);
 			m_pInsert->insertItem(interfacePixmap, i18n("Interface..."), mt_Interface);
+			m_pInsert->insertItem(interfacePixmap, i18n("Datatype..."), mt_Datatype);
 			m_pInsert -> insertItem(packagePixmap, i18n("Package..."), mt_Package);
 			m_pInsert -> insertItem(SmallIcon( "text"), i18n( "Text Line..." ), mt_FloatText );
 			insertItem(SmallIcon( "filenew"), i18n("New"), m_pInsert);
@@ -940,6 +946,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 			insrtItm(mt_Properties);
 			break;
 
+		case mt_Datatype:
 		case mt_Package:
 		case mt_Component:
 		case mt_Node:

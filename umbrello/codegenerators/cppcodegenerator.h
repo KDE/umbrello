@@ -88,6 +88,11 @@ public:
         virtual CodeViewerDialog * getCodeViewerDialog( QWidget* parent, CodeDocument * doc,
                                                         CodeViewerDialog::CodeViewerState state);
 
+	/**
+	 * Add C++ primitives as datatypes
+	 */
+	void createDefaultDatatypes();
+
 protected:
 
 

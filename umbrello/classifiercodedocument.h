@@ -76,9 +76,14 @@ public:
 	// some Utility methods
 
 	/**
-	 * Tell if the parent classifier is an interface or not (in which case it is a class)
+	 * Return if the parent classifier is an interface
 	 */
-	bool parentIsInterface ();
+	bool parentIsInterface();
+
+	/**
+	 * Return if the parent classifier is a class
+	 */
+	bool parentIsClass();
 
 	/**
 	 * Tell if one or more codeclassfields are derived from any kind of association.
@@ -207,8 +212,7 @@ protected:
 private:
 
 	QPtrList<CodeClassField> m_classfieldVector;
-	UMLClassifier * m_parentclassifier;
-	bool m_isInterface;
+	UMLClassifier* m_parentclassifier;
 
 	// using the passed list, update our inventory of CodeClassFields which are
 	// based on UMLRoles (e.g. dervied from associations with other classifiers).

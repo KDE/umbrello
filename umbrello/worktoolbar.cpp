@@ -78,6 +78,7 @@ void WorkToolBar::slotCheckToolBar(Uml::Diagram_Type dt) {
 		setToggle( tbb_Class,true );
 
 		BTN(Interface, "Interface");
+		BTN(Datatype, "Datatype");
 		BTN(Package, "Package");
 		BTN(Composition, "Composition");
 		BTN(Generalization, "Implements (Generalisation/Realisation)");
@@ -225,6 +226,8 @@ QCursor WorkToolBar::currentCursor() {
 		return QCursor(m_CursorPixmaps.InitialState, 9, 9);
 	} else if (m_CurrentButtonID == tbb_Interface)  {
 		return QCursor(m_CursorPixmaps.Interface, 9, 9);
+	} else if (m_CurrentButtonID == tbb_Datatype)  {
+		return QCursor(m_CursorPixmaps.Datatype, 9, 9);
 	} else if (m_CurrentButtonID == tbb_Seq_Message_Asynchronous ||
 		   m_CurrentButtonID == tbb_Coll_Message)  {
 		return QCursor(m_CursorPixmaps.MessageAsynchronous, 9, 9);
@@ -319,6 +322,7 @@ void WorkToolBar::loadPixmaps() {
 	m_Pixmaps.Node.load( dataDir + "node.xpm" );
 	m_Pixmaps.Artifact.load( dataDir + "artifact.xpm" );
 	m_Pixmaps.Interface.load( dataDir + "interface.xpm" );
+	m_Pixmaps.Datatype.load( dataDir + "datatype.xpm" );
 
 	m_CursorPixmaps.Actor.load( dataDir + "cursor-actor.xpm");
 	m_CursorPixmaps.Aggregation.load( dataDir + "cursor-aggregation.xpm");
@@ -335,6 +339,7 @@ void WorkToolBar::loadPixmaps() {
 	m_CursorPixmaps.Fork.load( dataDir + "cursor-fork.xpm");
 	m_CursorPixmaps.InitialState.load( dataDir + "cursor-initial-state.xpm");
 	m_CursorPixmaps.Interface.load( dataDir + "cursor-interface.xpm");
+	m_CursorPixmaps.Datatype.load( dataDir + "cursor-datatype.xpm");
 	m_CursorPixmaps.Generalisation.load( dataDir + "cursor-generalisation.xpm");
 	m_CursorPixmaps.MessageAsynchronous.load( dataDir + "cursor-message-asynchronous.xpm");
 	m_CursorPixmaps.MessageSynchronous.load( dataDir + "cursor-message-synchronous.xpm");

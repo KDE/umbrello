@@ -317,6 +317,11 @@ public:
 	// NOTE: this should be 'protected' or we could have problems with CPP code generator
 	CodeDocument * findCodeDocumentByClassifier (UMLClassifier * classifier );
 
+	/**
+	 * Create the default datatypes for your language (bool, int etc)
+	 */
+	virtual void createDefaultDatatypes();
+
         /** Get the editing dialog for this code document
          */
         virtual CodeViewerDialog * getCodeViewerDialog( QWidget* parent, CodeDocument * doc, 
@@ -378,6 +383,10 @@ protected:
          */
         bool m_applyToAllRemaining;
 
+	/**
+	 * The document object
+	 */
+        UMLDoc* m_document;
 private:
 
         /**
@@ -389,7 +398,6 @@ private:
 
         QPtrList<CodeDocument> m_codedocumentVector;
         CodeGenerationPolicy * m_codegeneratorpolicy;
-        UMLDoc * m_document;
 	int lastIDIndex;
 
 	void initFields ( UMLDoc * doc ) ;

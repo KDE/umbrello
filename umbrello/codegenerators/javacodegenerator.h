@@ -117,6 +117,11 @@ public:
 	// return "Java"
 	QString getLanguage();
 
+	/**
+	 * Adds Java's primitives as datatypes
+	 */
+	virtual void createDefaultDatatypes();
+
 
 protected:
 

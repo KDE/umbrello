@@ -448,7 +448,7 @@ void UMLWidget::slotMenuSelection(int sel) {
 
 		case ListPopupMenu::mt_Properties:
 			if (wt == wt_Actor || wt == wt_UseCase ||
-			    wt == wt_Package || wt == wt_Interface ||
+			    wt == wt_Package || wt == wt_Interface || wt == wt_Datatype ||
 			    wt == wt_Component || wt == wt_Artifact ||
 			    wt == wt_Node ||
 			    (wt == wt_Class && m_pView -> getType() == dt_Class)) {
@@ -706,19 +706,19 @@ void UMLWidget::startPopupMenu(QPoint At) {
 	// if multiple selected items have the same type
 	bool unique = false;
 
-	if( m_bSelected ) 
+	if( m_bSelected )
 		if( m_pView -> getType() == dt_Sequence ) {
 			if( getBaseType() == wt_Message && count == 2 ) {
-				multi = false; 
+				multi = false;
 			} else if( getBaseType() == wt_Text &&
 				   ((FloatingText*)this) -> getRole() == tr_Seq_Message && count == 2 ) {
-				multi = false; 
+				multi = false;
 			} else if( count > 1 ) {
 				multi = true;
 			}
 		} else if( count > 1 ) {
 			multi = true;
-		} 
+		}
 
 	// if multiple items are selected, we have to check if they all have the same
 	// base type
@@ -855,6 +855,7 @@ bool UMLWidget::widgetHasUMLObject(Uml::UMLWidget_Type type) {
 	    type == wt_UseCase ||
 	    type == wt_Class ||
 	    type == wt_Interface ||
+	    type == wt_Datatype ||
 	    type == wt_Package ||
 	    type == wt_Component ||
 	    type == wt_Node ||

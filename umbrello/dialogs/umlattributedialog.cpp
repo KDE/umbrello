@@ -12,6 +12,7 @@
 #include "../interface.h"
 #include "../classifier.h"
 #include "../umldoc.h"
+#include "../uml.h"
 #include <kcombobox.h>
 #include <kcompletion.h>
 #include <klineedit.h>
@@ -91,16 +92,6 @@ void UMLAttributeDialog::setupDialog() {
 	else
 		m_pProtectedRB -> setChecked( true );
 
-	//add some standard attribute types to combo box
-	const QString types[] = {
-	                      i18n("int"), i18n("long"), i18n("bool"), i18n("string"),
-			      i18n("double"), i18n("float"), i18n("date")
-	                  };
-
-	for (int i=0; i<7; i++) {
-		insertType(types[i]);
-	}
-
 	m_pTypeCB->setDuplicatesEnabled(false);//only allow one of each type in box
 
 	//now add the Concepts
@@ -166,6 +157,9 @@ bool UMLAttributeDialog::apply() {
 	}
 	m_pAttribute->setName(name);
 	m_pAttribute->setStatic( m_pStaticCB->isChecked() );
+
+	UMLApp::app()->getDocument()->createDatatype( m_pTypeCB->currentText() );
+
 	return true;
 }
 

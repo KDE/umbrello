@@ -87,7 +87,6 @@ UMLApp::UMLApp(QWidget* , const char* name):KDockMainWindow(0, name) {
 	m_clipTimer = 0;
 	m_copyTimer = 0;
 	m_defaultcodegenerationpolicy = 0;
-
 	///////////////////////////////////////////////////////////////////
 	// call inits to invoke all other construction parts
 	readOptionState();
@@ -196,6 +195,8 @@ void UMLApp::initActions() {
 
 	classWizard = new KAction(i18n("&New Class Wizard..."),0,this,SLOT(slotClassWizard()),
 	                          actionCollection(),"class_wizard");
+	new KAction(i18n("&Add Default Datatypes for Active Language"), 0, this,
+		    SLOT(slotAddDefaultDatatypes()), actionCollection(), "create_default_datatypes");
 
 	preferences = KStdAction::preferences(this,  SLOT( slotPrefs() ), actionCollection(), "umbrello_configure");
 
@@ -1388,6 +1389,10 @@ void UMLApp::slotClassWizard() {
 	dlg.exec();
 }
 
+void UMLApp::slotAddDefaultDatatypes() {
+	doc->addDefaultDatatypes();
+}
+
 void UMLApp::slotCurrentViewChanged() {
 	if ( doc->getCurrentView() ) {
 		connect(doc->getCurrentView(), SIGNAL( sigShowGridToggled(bool) ),
@@ -1601,9 +1606,8 @@ void UMLApp::keyReleaseEvent(QKeyEvent *e) {
 }
 
 void UMLApp::newDocument() {
-
-	doc->newDocument();
 	setGenerator(createGenerator());
+	doc->newDocument();
 	slotUpdateViews();
 }
 
