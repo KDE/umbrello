@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
 <class>CPPCodeGenerationFormBase</class>
 <widget class="QWidget">
     <property name="name">
@@ -11,6 +11,9 @@
             <width>648</width>
             <height>549</height>
         </rect>
+    </property>
+    <property name="caption">
+        <string>CPPCodeGenerationFormBase</string>
     </property>
     <widget class="QGroupBox">
         <property name="name">
@@ -107,7 +110,7 @@
                 <x>10</x>
                 <y>120</y>
                 <width>436</width>
-                <height>340</height>
+                <height>305</height>
             </rect>
         </property>
         <widget class="QWidget">
@@ -117,76 +120,16 @@
             <attribute name="title">
                 <string>General</string>
             </attribute>
-            <grid>
+            <vbox>
                 <property name="name">
                     <cstring>unnamed</cstring>
                 </property>
-                <widget class="QCheckBox" row="3" column="0">
+                <widget class="QListView">
                     <property name="name">
-                        <cstring>m_packageIsNamespace</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Package is a namespace</string>
+                        <cstring>GeneralOptionsListView</cstring>
                     </property>
                 </widget>
-                <widget class="QCheckBox" row="2" column="0">
-                    <property name="name">
-                        <cstring>m_destructorsAreVirtual</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Virtual destructors</string>
-                    </property>
-                    <property name="checked">
-                        <bool>true</bool>
-                    </property>
-                </widget>
-                <widget class="QCheckBox" row="1" column="0">
-                    <property name="name">
-                        <cstring>m_generateAccessors</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Generate accessor methods</string>
-                    </property>
-                    <property name="checked">
-                        <bool>true</bool>
-                    </property>
-                </widget>
-                <widget class="QCheckBox" row="0" column="0">
-                    <property name="name">
-                        <cstring>m_generateConstructors</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Generate empty constructors</string>
-                    </property>
-                    <property name="checked">
-                        <bool>false</bool>
-                    </property>
-                </widget>
-                <widget class="QCheckBox" row="5" column="0">
-                    <property name="name">
-                        <cstring>m_inlineOperations</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Operations are inline</string>
-                    </property>
-                </widget>
-                <widget class="QCheckBox" row="4" column="0">
-                    <property name="name">
-                        <cstring>m_inlineAccessors</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Accessors are inline</string>
-                    </property>
-                </widget>
-                <widget class="QCheckBox" row="6" column="0">
-                    <property name="name">
-                        <cstring>m_createMakefile</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Create Makefile document</string>
-                    </property>
-                </widget>
-            </grid>
+            </vbox>
         </widget>
         <widget class="QWidget">
             <property name="name">
@@ -514,6 +457,8 @@
         </widget>
     </widget>
 </widget>
+<customwidgets>
+</customwidgets>
 <connections>
     <connection>
         <sender>m_browseListButton</sender>
@@ -533,11 +478,7 @@
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
-    <includehint>kcombobox.h</includehint>
-    <includehint>kcombobox.h</includehint>
-    <includehint>kcombobox.h</includehint>
     <includehint>klineedit.h</includehint>
-    <includehint>kcombobox.h</includehint>
     <includehint>klineedit.h</includehint>
 </includehints>
 </UI>

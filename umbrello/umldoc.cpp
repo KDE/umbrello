@@ -776,20 +776,30 @@ UMLObject* UMLDoc::createUMLObject(UMLObject_Type type, const QString &n,
 	else
 	{
 		name = uniqObjectName(type);
+		bool bValidNameEntered = false;
 		do {
 			name = KInputDialog::getText(i18n("Name"), i18n("Enter name:"), name, &ok, (QWidget*)parent());
 			if (!ok) {
 				return 0;
 			}
 			if (name.length() == 0) {
-				KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
+				KMessageBox::error(0, i18n("That is an invalid name."),
+						   i18n("Invalid Name"));
 				continue;
 			}
+			if (getCurrentCodeGenerator() != NULL &&
+			    getCurrentCodeGenerator()->isReservedKeyword(name)) {
+				KMessageBox::error(0, i18n("This is a reserved keyword for the language of the configured code generator."),
+						   i18n("Reserved Keyword"));
+				continue;
+      }
 			if (! isUnique(name, parentPkg)) {
-				KMessageBox::error(0, i18n("That name is already being used."), i18n("Not a Unique Name"));
-				name = "";
+				KMessageBox::error(0, i18n("That name is already being used."),
+						   i18n("Not a Unique Name"));
+				continue;
 			}
-		} while (name.isEmpty());
+			bValidNameEntered = true;
+		} while (bValidNameEntered == false);
 	}
 	UMLObject *o = NULL;
 	id = getUniqueID();

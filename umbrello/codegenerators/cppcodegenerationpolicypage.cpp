@@ -25,15 +25,13 @@ CPPCodeGenerationPolicyPage::CPPCodeGenerationPolicyPage( QWidget *parent, const
 {
 	form = new CPPCodeGenerationForm(this);
 	form->m_SelectCommentStyle->setCurrentItem(commentTypeToInteger(policy->getCommentStyle()));
-	form->m_generateConstructors->setChecked(policy->getAutoGenerateConstructors());
-	form->m_generateAccessors->setChecked(policy->getAutoGenerateAccessors());
-
-	form->m_destructorsAreVirtual->setChecked(policy->getDestructorsAreVirtual());
-	form->m_packageIsNamespace->setChecked(policy->getPackageIsNamespace());
-	form->m_inlineAccessors->setChecked(policy->getAccessorsAreInline());
-	form->m_inlineOperations->setChecked(policy->getOperationsAreInline());
-
-    	form->m_createMakefile->setChecked(policy->getBuildMakefile());
+	form->setPackageIsANamespace(policy->getPackageIsNamespace());
+	form->setVirtualDestructors(policy->getDestructorsAreVirtual());
+	form->setGenerateAccessorMethods(policy->getAutoGenerateAccessors());
+	form->setGenerateEmptyConstructors(policy->getAutoGenerateConstructors());
+	form->setOperationsAreInline(policy->getOperationsAreInline());
+	form->setAccessorsAreInline(policy->getAccessorsAreInline());
+	form->setGenerateMakefileDocument(policy->getBuildMakefile());
 
 	form->m_stringClassHCombo->setCurrentItem(policy->getStringClassName(),true);
 	form->m_listClassHCombo->setCurrentItem(policy->getVectorClassName(),true);
@@ -50,13 +48,13 @@ CPPCodeGenerationPolicyPage::~CPPCodeGenerationPolicyPage()
 }
 
 int CPPCodeGenerationPolicyPage::commentTypeToInteger(CPPCodeGenerationPolicy::CPPCommentStyle type) {
-      switch (type) {
-                case CPPCodeGenerationPolicy::DoubleSlash:
-                        return 1;
-                default:
-                case CPPCodeGenerationPolicy::SlashStar:
-                        return 0;
-        }
+	switch (type) {
+		case CPPCodeGenerationPolicy::DoubleSlash:
+			return 1;
+		case CPPCodeGenerationPolicy::SlashStar:
+		default:
+			return 0;
+	}
 }
 
 void CPPCodeGenerationPolicyPage::apply()
@@ -70,15 +68,15 @@ void CPPCodeGenerationPolicyPage::apply()
 	parent->blockSignals(true);
 
 	parent->setCommentStyle((CPPCodeGenerationPolicy::CPPCommentStyle ) form->m_SelectCommentStyle->currentItem());
-	parent->setAutoGenerateConstructors(form->m_generateConstructors->isChecked());
-	parent->setAutoGenerateAccessors(form->m_generateAccessors->isChecked());
+	parent->setAutoGenerateConstructors(form->getGenerateEmptyConstructors());
+	parent->setAutoGenerateAccessors(form->getGenerateAccessorMethods());
 
-    	parent->setDestructorsAreVirtual(form->m_destructorsAreVirtual->isChecked());
-    	parent->setPackageIsNamespace(form->m_packageIsNamespace->isChecked());
-    	parent->setAccessorsAreInline(form->m_inlineAccessors->isChecked());
-    	parent->setOperationsAreInline(form->m_inlineOperations->isChecked());
+	parent->setDestructorsAreVirtual(form->getVirtualDestructors());
+	parent->setPackageIsNamespace(form->getPackageIsANamespace());
+	parent->setAccessorsAreInline(form->getAccessorsAreInline());
+	parent->setOperationsAreInline(form->getOperationsAreInline());
 
-    	parent->setBuildMakefile(form->m_createMakefile->isChecked());
+	parent->setBuildMakefile(form->getGenerateMakefileDocument());
 
 	parent->setStringClassName(form->m_stringClassHCombo->currentText());
 	parent->setStringClassNameInclude(form->m_stringIncludeFileHistoryCombo->currentText());

@@ -133,8 +133,15 @@ public:
 	 */
 	virtual void saveToXMI ( QDomDocument & doc, QDomElement & root );
 
-protected:
+	/**
+	 * Check whether the given string is a reserved word for the
+	 * language of this code generator
+	 *
+	 * @param rPossiblyReservedKeyword  The string to check.
+	 */
+	virtual bool isReservedKeyword(const QString & rPossiblyReservedWord);
 
+protected:
 
 	/**
 	 * @return	CPPMakeCodeDocument

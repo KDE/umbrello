@@ -318,6 +318,15 @@ public:
 	virtual CodeViewerDialog * getCodeViewerDialog( QWidget* parent, CodeDocument * doc, 
 							Settings::CodeViewerState state);
 
+  /**
+   * Check whether the given string is a reserved word for the
+   * language of this code generator
+   *
+   * @param rPossiblyReservedKeyword is the string to check
+   *
+   */
+  virtual bool isReservedKeyword(const QString & rPossiblyReservedKeyword);
+
 protected:
 
 	/**

@@ -405,4 +405,103 @@ void CPPCodeGenerator::createDefaultDatatypes() {
 	m_document->createDatatype("string");
 }
 
+/**
+ * List of reserved keywords for this code generator.
+ *
+ * Just add new keywords, then mark all lines and
+ * pipe it through the external 'sort' program.
+ */
+static const char *CppReservedWords[] = {
+	"and",
+	"and_eq",
+	"asm",
+	"auto",
+	"bitand",
+	"bitor",
+	"bool",
+	"break",
+	"case",
+	"catch",
+	"char",
+	"class",
+	"compl",
+	"const",
+	"continue",
+	"default",
+	"delete",
+	"do",
+	"double",
+	"dynamic_cast",
+	"else",
+	"enum",
+	"extern",
+	"extern",
+	"float",
+	"for",
+	"friend",
+	"goto",
+	"if",
+	"inline",
+	"int",
+	"long",
+	"namespace",
+	"new",
+	"not",
+	"operator",
+	"or",
+	"or_eq",
+	"private",
+	"protected",
+	"public",
+	"register",
+	"return",
+	"short",
+	"signed",
+	"sizeof",
+	"static",
+	"static",
+	"struct",
+	"switch",
+	"template",
+	"this",
+	"throw",
+	"try",
+	"typedef",
+	"typeid",
+	"union",
+	"unsigned",
+	"unsigned",
+	"using",
+	"virtual",
+	"void",
+	"volatile",
+	"while",
+	"xor",
+	"xor_eq"
+};
+
+/**
+ * Check whether the given string is a reserved word for the
+ * language of this code generator
+ *
+ * @param rPossiblyReservedKeyword  The string to check.
+ */
+bool CPPCodeGenerator::isReservedKeyword(const QString & rPossiblyReservedKeyword) {
+	unsigned int uiNumberOfReservedKeywords = sizeof(CppReservedWords) / sizeof(char *);
+
+	unsigned int uiKeywordIndex = 0;
+
+	for (uiKeywordIndex = 0;
+	     uiKeywordIndex < uiNumberOfReservedKeywords;
+	     uiKeywordIndex++) {
+		QString keyword(CppReservedWords[uiKeywordIndex]);
+
+		if (keyword == rPossiblyReservedKeyword) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
 #include "cppcodegenerator.moc"

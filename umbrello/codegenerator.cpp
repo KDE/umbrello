@@ -773,5 +773,15 @@ void CodeGenerator::createDefaultDatatypes()  {
 	//e.g.  m_document->createDatatype("int");
 }
 
+/**
+ * Check whether the given string is a reserved word for the
+ * language of this code generator
+ *
+ * @param rPossiblyReservedKeyword is the string to check
+ *
+ */
+bool CodeGenerator::isReservedKeyword(const QString & rPossiblyReservedKeyword) {
+	return false;
+}
 
 #include "codegenerator.moc"
