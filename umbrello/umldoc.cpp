@@ -1142,8 +1142,6 @@ UMLObject* UMLDoc::createAttribute(UMLClass* umlclass, const QString &name /*=nu
 
 	umlclass->addAttribute(newAttribute);
 
-	// addUMLObject(newAttribute);
-
 	emit sigObjectCreated(newAttribute);
 	return newAttribute;
 }
@@ -1245,7 +1243,7 @@ UMLOperation* UMLDoc::createOperation(UMLClassifier* classifier,
 		if (existingOp)
 			return existingOp;
 	}
-	UMLOperation *op = new UMLOperation(NULL, name, getUniqueID());
+	UMLOperation *op = new UMLOperation(classifier, name, getUniqueID());
 	if (params)
 	{
 		UMLAttributeListIt it(*params);
@@ -1276,7 +1274,6 @@ UMLOperation* UMLDoc::createOperation(UMLClassifier* classifier,
 	// operation name is ok, formally add it to the classifier
 	classifier->addOperation( op );
 
-	// addUMLObject(newOperation);
 	sigObjectCreated(op);
 	return op;
 }
