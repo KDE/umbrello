@@ -59,42 +59,56 @@ Uml::UMLObject_Type ToolBarStateOther::getObjectType(WorkToolBar::ToolBar_Button
 bool ToolBarStateOther::newWidget()
 {
 	UMLWidget* umlWidget = NULL;
+	bool needNewID = true;
 
 	switch (getButton())
 	{
 		case (WorkToolBar::tbb_Note):
-			umlWidget = new NoteWidget(m_pUMLView, m_pUMLView->getDocument()->getUniqueID()); break;
+			umlWidget = new NoteWidget(m_pUMLView, m_pUMLView->getDocument()->getUniqueID());
+			needNewID = false;
+			break;
 
 		case (WorkToolBar::tbb_Box):
-			umlWidget = new BoxWidget(m_pUMLView, m_pUMLView->getDocument()->getUniqueID()); break;
+			umlWidget = new BoxWidget(m_pUMLView, m_pUMLView->getDocument()->getUniqueID());
+			needNewID = false;
+			break;
 
 		case (WorkToolBar::tbb_Text):
-			umlWidget = new FloatingText(m_pUMLView, tr_Floating, ""); break;
+			umlWidget = new FloatingText(m_pUMLView, tr_Floating, "");
+			break;
 
 		// Activity buttons
 		case (WorkToolBar::tbb_Initial_Activity):
-			umlWidget = new ActivityWidget(m_pUMLView, ActivityWidget::Initial); break;
+			umlWidget = new ActivityWidget(m_pUMLView, ActivityWidget::Initial);
+			break;
 
 		case (WorkToolBar::tbb_Activity):
-			umlWidget = new ActivityWidget(m_pUMLView, ActivityWidget::Normal); break;
+			umlWidget = new ActivityWidget(m_pUMLView, ActivityWidget::Normal);
+			break;
 
 		case (WorkToolBar::tbb_End_Activity):
-			umlWidget = new ActivityWidget(m_pUMLView, ActivityWidget::End); break;
+			umlWidget = new ActivityWidget(m_pUMLView, ActivityWidget::End);
+			break;
 
 		case (WorkToolBar::tbb_Branch):
-			umlWidget = new ActivityWidget(m_pUMLView, ActivityWidget::Branch); break;
+			umlWidget = new ActivityWidget(m_pUMLView, ActivityWidget::Branch);
+			break;
 
 		case (WorkToolBar::tbb_Fork):
-			umlWidget = new ActivityWidget(m_pUMLView, ActivityWidget::Fork); break;
+			umlWidget = new ActivityWidget(m_pUMLView, ActivityWidget::Fork);
+			break;
 
 		case (WorkToolBar::tbb_Initial_State):
-			umlWidget = new StateWidget(m_pUMLView, StateWidget::Initial); break;
+			umlWidget = new StateWidget(m_pUMLView, StateWidget::Initial);
+			break;
 
 		case (WorkToolBar::tbb_State):
-			umlWidget = new StateWidget(m_pUMLView, StateWidget::Normal); break;
+			umlWidget = new StateWidget(m_pUMLView, StateWidget::Normal);
+			break;
 
 		case (WorkToolBar::tbb_End_State):
-			umlWidget = new StateWidget(m_pUMLView, StateWidget::End); break;
+			umlWidget = new StateWidget(m_pUMLView, StateWidget::End);
+			break;
 	        default: break;
 	}
 
@@ -111,7 +125,7 @@ bool ToolBarStateOther::newWidget()
 
 	// Create the widget. Some setup functions can remove the widget.
 	if (umlWidget != NULL)
-		m_pUMLView->setupNewWidget(umlWidget, false);
+		m_pUMLView->setupNewWidget(umlWidget, needNewID);
 
 	return true;
 }
