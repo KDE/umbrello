@@ -19,7 +19,7 @@
 #include <klocale.h>
 
 UMLClassifier::UMLClassifier(const QString & name, int id)
-  : UMLCanvasObject(name, id)
+  : UMLPackage(name, id)
 {
 	init();
 }
@@ -392,7 +392,24 @@ bool UMLClassifier::load(QDomElement& element) {
 				// our best effort.
 			}
 		} else if (!loadSpecialized(element)) {
-			return false;
+			UMLDoc *umldoc = UMLApp::app()->getDocument();
+			UMLObject *pObject = umldoc->makeNewUMLObject(tag);
+			if( !pObject ) {
+				kdWarning() << "UMLClassifier::load: "
+					    << "Unknown type of umlobject to create: "
+					    << tag << endl;
+				node = node.nextSibling();
+				element = node.toElement();
+				continue;
+			}
+			pObject->setUMLPackage(this);
+			if (pObject->loadFromXMI(element)) {
+				addObject(pObject);
+				if (tagEq(tag, "Generalization"))
+					umldoc->addAssocToConcepts((UMLAssociation *) pObject);
+			} else {
+				delete pObject;
+			}
 		}
 		node = node.nextSibling();
 		element = node.toElement();

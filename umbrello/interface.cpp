@@ -77,6 +77,9 @@ void UMLInterface::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	for ( pOp = m_OpsList.first(); pOp != 0; pOp = m_OpsList.next() ) {
 		pOp->saveToXMI(qDoc, interfaceElement);
 	}
+	//save contained objects
+	for (UMLObject *obj = m_objects.first(); obj; obj = m_objects.next())
+		obj->saveToXMI (qDoc, interfaceElement);
 	qElement.appendChild( interfaceElement );
 }
 

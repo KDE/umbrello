@@ -1013,6 +1013,7 @@ void UMLListView::slotDropped(QDropEvent* de, QListViewItem* /* parent */, QList
 				if (itemType == Uml::lvt_Logical_Folder ||
 				    itemType == Uml::lvt_Logical_View ||
 				    itemType == Uml::lvt_Class ||
+				    itemType == Uml::lvt_Interface ||
 				    itemType == Uml::lvt_Package) {
 					newItem = move->deepCopy(newParent);
 					delete move;
@@ -1020,7 +1021,9 @@ void UMLListView::slotDropped(QDropEvent* de, QListViewItem* /* parent */, QList
 					if (o == NULL) {
 						kdDebug() << "slotDropped: newItem's UMLObject is NULL"
 							  << endl;
-					} else if (itemType == Uml::lvt_Package) {
+					} else if (itemType == Uml::lvt_Package ||
+						   itemType == Uml::lvt_Interface ||
+						   itemType == Uml::lvt_Class) {
 						UMLPackage *pkg = static_cast<UMLPackage*>(
 								   newParent->getUMLObject() );
 						o->setUMLPackage( pkg );

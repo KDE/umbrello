@@ -341,6 +341,9 @@ void UMLClass::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	for (newTemplate = m_TemplateList.first(); newTemplate != 0; newTemplate = m_TemplateList.next() ) {
 		newTemplate->saveToXMI(qDoc, classElement);
 	}
+	//save contained objects
+	for (UMLObject *obj = m_objects.first(); obj; obj = m_objects.next())
+		obj->saveToXMI (qDoc, classElement);
 
 	qElement.appendChild( classElement );
 }
@@ -354,6 +357,7 @@ bool UMLClass::loadSpecialized(QDomElement & element) {
 		addAttribute(pAtt);
 		// connect( pAtt,SIGNAL(modified()),this,SIGNAL(modified()));
 		// m_AttsList.append( pAtt );
+		return true;
 	} else if (tag == "template") {
 		//FIXME: Make UML DTD compliant.
 		UMLTemplate* newTemplate = new UMLTemplate(this);
@@ -361,6 +365,7 @@ bool UMLClass::loadSpecialized(QDomElement & element) {
 			return false;
 		}
 		m_TemplateList.append(newTemplate);
+		return true;
 	} else if (tag == "stereotype") {
 		//FIXME: Make UML DTD compliant.
 		UMLStereotype* newStereotype = new UMLStereotype(this);
@@ -378,8 +383,9 @@ bool UMLClass::loadSpecialized(QDomElement & element) {
 		} else {
 			kdWarning() << "unknown listtype with stereotype:" << listType << endl;
 		}
+		return true;
 	}
-	return true;
+	return false;
 }
 
 int UMLClass::templates() {

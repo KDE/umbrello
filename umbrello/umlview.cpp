@@ -2141,8 +2141,8 @@ void UMLView::createAutoAssociations( UMLWidget * widget ) {
 	//       end if
 	//     end if
 	//   end loop
-	//   if the UMLCanvasObject is an ot_Package then
-	//     for each of the package's containedObjects
+	//   if this object is capable of containing nested objects then
+	//     for each of the object's containedObjects
 	//       if the containedObject has a widget representation on this view then
 	//         create the containment AssocWidget
 	//       end if
@@ -2244,9 +2244,10 @@ void UMLView::createAutoAssociations( UMLWidget * widget ) {
 		if (! addAssociation(assocwidget))
 			delete assocwidget;
 	}
-	// if the UMLCanvasObject is an ot_Package then
-	if (umlObj->getBaseType() == ot_Package) {
-		// for each of the package's containedObjects
+	// if this object is capable of containing nested objects then
+	Uml::UMLObject_Type t = umlObj->getBaseType();
+	if (t == ot_Package || t == ot_Class || t == ot_Interface) {
+		// for each of the object's containedObjects
 		UMLPackage *umlPkg = static_cast<UMLPackage*>(umlObj);
 		UMLObjectList& lst = umlPkg->containedObjects();
 		for (UMLObject *obj = lst.first(); obj; obj = lst.next()) {

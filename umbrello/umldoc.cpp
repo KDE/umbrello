@@ -510,7 +510,8 @@ UMLObject* UMLDoc::findUMLObject(int id) {
 		if(obj -> getID() == id)
 			return obj;
 		UMLObject *o;
-		switch (obj->getBaseType()) {
+		UMLObject_Type t = obj->getBaseType();
+		switch (t) {
 			case Uml::ot_Package:
 				o = ((UMLPackage*)obj)->findObject(id);
 				if (o)
@@ -522,6 +523,11 @@ UMLObject* UMLDoc::findUMLObject(int id) {
 				o = ((UMLClassifier*)obj)->findChildObject(id);
 				if (o)
 					return o;
+				if (t == ot_Interface || t == ot_Class) {
+					o = ((UMLPackage*)obj)->findObject(id);
+					if (o)
+						return o;
+				}
 				break;
 			default:
 				break;

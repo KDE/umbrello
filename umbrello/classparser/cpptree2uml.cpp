@@ -276,9 +276,11 @@ void CppTree2Uml::parseClassSpecifier( ClassSpecifierAST* ast )
 
     m_currentScope.push_back( className );
     m_currentClass[++m_clsCnt] = klass;
+    m_currentNamespace[++m_nsCnt] = (UMLPackage*)klass;
 
     TreeParser::parseClassSpecifier( ast );
 
+    --m_nsCnt;
     --m_clsCnt;
 
     m_currentScope.pop_back();

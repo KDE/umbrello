@@ -10,7 +10,7 @@
 #ifndef CONCEPT_H
 #define CONCEPT_H
 
-#include "umlcanvasobject.h"
+#include "package.h"
 #include "umlattributelist.h"
 #include "umloperationlist.h"
 #include "umlclassifierlistitemlist.h"
@@ -20,11 +20,11 @@ class UMLStereotype;
 
 /**
  * This is an abstract class which defines the non-graphical information/
- * interface required for a UML Concept (ie a class or interface).
- * This class inherits from @ref UMLCanvasObject which contains most of the
- * information.
+ * interface required for a UML Classifier (ie a class or interface).
+ * This class inherits from @ref UMLPackage which allows classifiers
+ * to also act as namespaces, i.e. it allows classifiers to nest.
  *
- * The @ref UMLDoc class creates instances of this type.  All Concepts will
+ * The @ref UMLDoc class creates instances of this type.  All Classifiers
  * need a unique id.  This will be given by the @ref UMLDoc class.  If you
  * don't leave it up to the @ref UMLDoc class then call the method @ref
  * UMLDoc::getUniqueID to get a unique id.
@@ -34,7 +34,7 @@ class UMLStereotype;
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
-class UMLClassifier : public UMLCanvasObject {
+class UMLClassifier : public UMLPackage {
 	Q_OBJECT
 public:
 

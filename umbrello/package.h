@@ -14,8 +14,6 @@
 #include "umlclassifierlist.h"
 #include "umlinterfacelist.h"
 
-class IDChangeLog;
-
 /**
  * This class contains the non-graphical information required for a UML
  * Package.
@@ -147,22 +145,20 @@ public:
 	/**
 	 * Creates the <UML:Package> XMI element.
 	 */
-	void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
+	virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
 protected:
 	/**
 	 * Loads the <UML:Package> XMI element.
 	 * Auxiliary to UMLObject::loadFromXMI.
 	 */
-	bool load(QDomElement& element);
+	virtual bool load(QDomElement& element);
 
-private:
 	/**
 	 * References to the objects contained in this package.
 	 * The UMLPackage is the owner of the objects.
 	 */
 	UMLObjectList m_objects;
-
 };
 
 #endif
