@@ -185,7 +185,8 @@ Uml::IDType UMLWidget::getID() const {
 
 QPoint UMLWidget::doMouseMove(QMouseEvent* me) {
 	int newX = 0, newY = 0, count;
-	int moveX, moveY;
+	int moveX = (int)me->x();
+	int moveY = (int)me->y();
 	int maxX = m_pView->canvas()->width();
 	int maxY = m_pView->canvas()->height();
 
@@ -195,16 +196,11 @@ QPoint UMLWidget::doMouseMove(QMouseEvent* me) {
 	m_bSelected = true;
 	count = m_pView->getSelectCount();
 
-	//If not m_bStartMove means moving as part of selection
-	//me->pos() will have the amount we need to move.
-	if(!m_bStartMove) {
-		moveX = (int)me->x();
-		moveY = (int)me->y();
-	} else {
+	if (m_bStartMove) {
 		//we started the move so..
-		//move any others we are selected
-		moveX = (int)me->x() - m_nOldX - m_nPressOffsetX;
-		moveY = (int)me->y() - m_nOldY - m_nPressOffsetY;
+		//move any others we have selected
+		moveX -= m_nOldX + m_nPressOffsetX;
+		moveY -= m_nOldY + m_nPressOffsetY;
 
 		//if mouse moves off the edge of the canvas this moves the widget to 0 or canvasSize
 		if( (getX() + moveX) < 0 ) {
@@ -214,6 +210,10 @@ QPoint UMLWidget::doMouseMove(QMouseEvent* me) {
 			moveY = moveY - getY();
 		}
 
+		if (!m_bIgnoreSnapToGrid) {
+			moveX = m_pView->snappedX( moveX + getX() ) - getX();
+			moveY = m_pView->snappedY( moveY + getY() ) - getY();
+		}
 		if( count > 1 ) {
 			if( m_pView -> getType() == dt_Sequence ) {
 				m_pView -> moveSelected( this, moveX, 0 );
@@ -223,12 +223,11 @@ QPoint UMLWidget::doMouseMove(QMouseEvent* me) {
 		}
 	}
 	newX = getX() + moveX;
-	if (! m_bIgnoreSnapToGrid)
-		newX = m_pView->snappedX( newX );
 	newY = getY() + moveY;
-	if (! m_bIgnoreSnapToGrid)
+	if (m_bStartMove && !m_bIgnoreSnapToGrid) {
+		newX = m_pView->snappedX( newX );
 		newY = m_pView->snappedY( newY );
-
+	}
 	newX = newX<0 ? 0 : newX;
 	newY = newY<0 ? 0 : newY;
 	newX = newX>maxX ? maxX : newX;
