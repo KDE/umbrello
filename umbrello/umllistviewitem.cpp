@@ -460,9 +460,14 @@ void UMLListViewItem::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	itemElement.setAttribute( "id", getID() );
 	itemElement.setAttribute( "type", m_Type );
 	if (m_pObject == NULL) {
-		//too verbose
-		//kdDebug() << "UMLListViewItem::saveToXMI: saving local label "
-		//	  << m_Label << " because m_pObject is NULL" << endl;
+		// The predefined listview items such as "Logical View" etc. do
+		// not have a model counterpart thus their label is saved here.
+		itemElement.setAttribute( "label", m_Label );
+	} else if (m_pObject->getBaseType() == ot_Stereotype
+		|| m_pObject->getBaseType() == ot_Template) {
+		kdDebug() << "FIXME: UMLListViewItem::saveToXMI(): saving local label "
+			  << m_Label << " because stereotype/template loading "
+			  << "does not yet generate the appropriate signals" << endl;
 		itemElement.setAttribute( "label", m_Label );
 	}
 	itemElement.setAttribute( "open", isOpen() );
