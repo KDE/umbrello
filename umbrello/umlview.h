@@ -23,7 +23,6 @@
 #include "worktoolbar.h"
 #include "floatingtext.h"
 #include "optionstate.h"
-#include "dialogs/settingsdlg.h"
 
 #include "toolbarstate.h"
 
