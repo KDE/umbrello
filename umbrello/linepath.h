@@ -149,6 +149,17 @@ public:
 	bool loadFromXMI( QDomElement & qElement );
 
 	/**
+	*   Activates the line list.
+	*   This is needed because the m_pAssociation does not yet
+	*   exist at the time of the LinePath::loadFromXMI call.
+	*   However, this means that the points in the m_LineList
+	*   do not have a parent when they are loaded.
+	*   They need to be reparented by calling LinePath::activate()
+	*   once the m_pAssociation exists.
+	*/
+	void activate();
+
+	/**
 	*   Removes and item created that are no longer needed.
 	*/
 	void cleanup();

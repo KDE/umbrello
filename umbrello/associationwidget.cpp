@@ -527,6 +527,7 @@ bool AssociationWidget::activate() {
 		return false;
 	}
 
+	m_LinePath.activate();
 	calculateEndingPoints();
 	FloatingText* ft = 0;
 	/*

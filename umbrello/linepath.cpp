@@ -44,10 +44,8 @@ LinePath::~LinePath() {}
 void LinePath::setAssociation(AssociationWidget * association ) {
 	if( !association )
 		return;
-	/* To be activated soon:
 	if (m_pAssociation)
 		m_LineList.clear();
-	 */
 	m_pAssociation = association;
 	cleanup();
 	createHeadLines();
@@ -744,7 +742,7 @@ QColor LinePath::getLineColor() {
 }
 
 void LinePath::cleanup() {
-	m_LineList.clear();   // To be removed soon - see setAssociation()
+	//m_LineList.clear();   // Don't do this here - see setAssociation()
 	m_HeadList.clear();
 	m_RectList.clear();
 	m_ParallelList.clear();
@@ -827,10 +825,22 @@ bool LinePath::loadFromXMI( QDomElement & qElement ) {
 }
 
 
+void LinePath::activate() {
+	int count = m_LineList.count();
+	if( count == 0 )
+		return;
 
+	LineList orphants = m_LineList;
+	m_LineList.clear();
+	//setup start end points
+	setStartEndPoints( orphants.at(0) -> startPoint(), orphants.last() -> endPoint() );
+	//now insert the rest
+	for( int i = 1; i < count ; i++ ) {
+		insertPoint( i, orphants.at( i ) -> startPoint() );
+	}
 
-
-
+	orphants.clear();
+}
 
 
 
