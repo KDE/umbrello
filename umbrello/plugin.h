@@ -47,7 +47,7 @@ class KConfig;
  *			as the parameter.
  */
 #define UMBRELLO_EXPORT_PLUGIN_FACTORY(libname, factory) \
-	extern "C" { void *init_##libname() { return new factory(#libname); } }
+	extern "C" { KDE_EXPORT void *init_##libname() { return new factory(#libname); } }
 
 namespace Umbrello
 {
