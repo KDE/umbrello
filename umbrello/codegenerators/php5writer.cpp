@@ -120,10 +120,13 @@ void Php5Writer::writeClass(UMLClassifier *c) {
 	  //check for realizations
 	  if( !realizations.isEmpty()) {
 	    int rc = realizations.count();
+	    int ri = rc;
 	    for (a = realizations.first(); a; a = realizations.next()) {
 	      UMLObject *o = m_doc->findObjectById(a->getRoleId(Uml::B));
 	      QString typeName = cleanName(o->getName());
-	      php << m_newLineEndingChars << m_indentation << m_indentation << m_indentation <<  "implements " << typeName << (--rc == 0 ? "" : ",");
+	      if(ri == rc)
+		php << m_newLineEndingChars << m_indentation << m_indentation << m_indentation <<  "implements ";
+	      php << typeName << (--rc == 0 ? "" : ", ");
 	    }
 	  }
 	}
@@ -284,7 +287,6 @@ void Php5Writer::writeOperations(QString /* classname */, UMLOperationList &opLi
 		
 		php <<  m_indentation;
 		if (op->getAbstract()) php << "abstract ";
-		if (op->getStatic()) php << "static ";
 		switch(op->getScope()) {
 		case Uml::Public:
 		  php << "public ";
@@ -296,6 +298,7 @@ void Php5Writer::writeOperations(QString /* classname */, UMLOperationList &opLi
 		  php << "private ";
 		  break;
 		}
+		if (op->getStatic()) php << "static ";
 		php << "function " << cleanName(op->getName()) << "(";
 
 		int i= atl->count();
@@ -379,7 +382,6 @@ void Php5Writer::writeAttributes(UMLAttributeList &atList, QTextStream &php) {
 			php << m_indentation << " */" << endl;
 		}
 		php << m_indentation;
-		if(isStatic) php << "static ";
 		switch(at->getScope()) {
 		case Uml::Public:
 		  php << "public ";
@@ -391,6 +393,7 @@ void Php5Writer::writeAttributes(UMLAttributeList &atList, QTextStream &php) {
 		  php << "private ";
 		  break;
 		}
+		if(isStatic) php << "static ";
 		php << "$" << cleanName(at->getName());
 		if(!at->getInitialValue().isEmpty())
 		  php << " = " << at->getInitialValue();
