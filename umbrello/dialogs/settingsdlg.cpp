@@ -20,7 +20,7 @@
 #include "codegenerationoptionspage.h"
 #include "codevieweroptionspage.h"
 
-SettingsDlg::SettingsDlg( QWidget * parent, OptionState state,
+SettingsDlg::SettingsDlg( QWidget * parent, Settings::OptionState state,
 			  QDict<GeneratorInfo> ldict, QString activeLanguage, CodeGenerator * gen)
 	: KDialogBase( IconList, i18n("Umbrello Setup"),
         Help | Default | Apply | Ok | Cancel, Ok, parent, 0, true, true ) {
@@ -231,7 +231,7 @@ void SettingsDlg::setupCodeGenPage(CodeGenerator *gen, QDict<GeneratorInfo> ldic
 	connect( m_pCodeGenPage, SIGNAL(languageChanged()), this, SLOT(slotApply()) );
 }
 
-void SettingsDlg::setupCodeViewerPage(CodeViewerState options) {
+void SettingsDlg::setupCodeViewerPage(Settings::CodeViewerState options) {
 	//setup code generation settings page
 	QVBox * page = addVBoxPage( i18n("Code Viewer"), i18n("Code Viewer Settings"), DesktopIcon( "source") );
 	m_pCodeViewerPage = new CodeViewerOptionsPage(options, page);
@@ -244,17 +244,17 @@ void SettingsDlg::setupFontPage() {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void SettingsDlg::slotApply() {
-	applyPage( (Page) activePageIndex() );
+	applyPage( (Settings::Page) activePageIndex() );
 	emit applyClicked();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void SettingsDlg::slotOk() {
-	applyPage( page_general );
-	applyPage( page_font );
-	applyPage( page_UI );
-	applyPage( page_class );
-	applyPage( page_codegen );
-	applyPage( page_codeview );
+	applyPage( Settings::page_general );
+	applyPage( Settings::page_font );
+	applyPage( Settings::page_UI );
+	applyPage( Settings::page_class );
+	applyPage( Settings::page_codegen );
+	applyPage( Settings::page_codeview );
 	accept();
 }
 
@@ -266,7 +266,7 @@ void SettingsDlg::slotDefault() {
 	   If defaults are set anywhere else, like in setting up config file, make sure the same.
 	*/
 	switch( activePageIndex() ) {
-		case page_general:
+		case Settings::page_general:
 			m_GeneralWidgets.autosaveCB -> setChecked( false );
 			m_GeneralWidgets.timeKB -> setCurrentItem( 0 );
                         m_GeneralWidgets.timeKB->setEnabled( false );
@@ -276,18 +276,18 @@ void SettingsDlg::slotDefault() {
 			m_GeneralWidgets.diagramKB -> setCurrentItem( 0 );
 			break;
 
-		case page_font:
+		case Settings::page_font:
 			m_FontWidgets.chooser -> setFont( parentWidget() -> font() );
 			break;
 
-		case page_UI:
+		case Settings::page_UI:
 			m_UiWidgets.useFillColorCB -> setChecked( true );
 			m_UiWidgets.fillColorB -> setColor( QColor( 255, 255, 192 ) );
 			m_UiWidgets.lineColorB -> setColor( red );
 			m_UiWidgets.lineWidthB -> setValue( 0 );
 			break;
 
-		case page_class:
+		case Settings::page_class:
 			m_ClassWidgets.showScopeCB -> setChecked( false );
 			m_ClassWidgets.showAttsCB -> setChecked( true );
 			m_ClassWidgets.showOpsCB -> setChecked( true );
@@ -299,37 +299,37 @@ void SettingsDlg::slotDefault() {
 			m_ClassWidgets.m_pOperationScopeCB->setCurrentItem(0); // Public
 			break;
 
-		case page_codegen:
-		case page_codeview:
+		case Settings::page_codegen:
+		case Settings::page_codeview:
 			// do nothing
 			break;
 	};
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void SettingsDlg::applyPage( Page page ) {
+void SettingsDlg::applyPage( Settings::Page page ) {
 	m_bChangesApplied = true;
 	switch( page ) {
-		case page_general:
+		case Settings::page_general:
 			m_OptionState.generalState.autosave = m_GeneralWidgets.autosaveCB -> isChecked();
 			m_OptionState.generalState.time = m_GeneralWidgets.timeKB -> currentItem();
 			m_OptionState.generalState.logo = m_GeneralWidgets.logoCB -> isChecked();
 			m_OptionState.generalState.tip = m_GeneralWidgets.tipCB -> isChecked();
 			m_OptionState.generalState.loadlast = m_GeneralWidgets.loadlastCB -> isChecked();
-			m_OptionState.generalState.diagram  = ( Diagram ) m_GeneralWidgets.diagramKB -> currentItem();
+			m_OptionState.generalState.diagram  = ( Settings::Diagram ) m_GeneralWidgets.diagramKB -> currentItem();
 			break;
 
-		case page_font:
+		case Settings::page_font:
 			m_OptionState.uiState.font = m_FontWidgets.chooser -> font();
 			break;
 
-		case page_UI:
+		case Settings::page_UI:
 			m_OptionState.uiState.useFillColor = m_UiWidgets.useFillColorCB -> isChecked();
 			m_OptionState.uiState.fillColor = m_UiWidgets.fillColorB -> color();
 			m_OptionState.uiState.lineColor = m_UiWidgets.lineColorB -> color();
 			m_OptionState.uiState.lineWidth = m_UiWidgets.lineWidthB -> value();
 			break;
 
-		case page_class:
+		case Settings::page_class:
 			m_OptionState.classState.showScope = m_ClassWidgets.showScopeCB -> isChecked();
 			m_OptionState.classState.showAtts = m_ClassWidgets.showAttsCB -> isChecked();
 			m_OptionState.classState.showOps = m_ClassWidgets.showOpsCB -> isChecked();
@@ -341,11 +341,11 @@ void SettingsDlg::applyPage( Page page ) {
 			m_OptionState.classState.defaultOperationScope = (Uml::Scope) (m_ClassWidgets.m_pOperationScopeCB->currentItem() + 200);
 			break;
 
-		case page_codegen:
+		case Settings::page_codegen:
 			m_pCodeGenPage->apply();
 			break;
 
-		case page_codeview:
+		case Settings::page_codeview:
 			m_pCodeViewerPage->apply();
 			m_OptionState.codeViewerState = m_pCodeViewerPage->getOptions();
 			break;

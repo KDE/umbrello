@@ -39,19 +39,17 @@ class CodeViewerOptionsPage;
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
-using namespace Settings;
-
 class SettingsDlg : public KDialogBase {
 
 	Q_OBJECT
 
 public:
-	SettingsDlg( QWidget * parent, OptionState state,
+	SettingsDlg( QWidget * parent, Settings::OptionState state,
 		     QDict<GeneratorInfo> ldict, QString activeLanguage, CodeGenerator * gen);
 	~SettingsDlg();
 
 	//public methods
-	OptionState getOptionState() {
+	Settings::OptionState getOptionState() {
 		return m_OptionState;
 	}
 	bool getChangesApplied() {
@@ -131,15 +129,15 @@ private:
 	void setupGeneralPage();
 	void setupClassPage();
   	void setupCodeGenPage( CodeGenerator *gen, QDict<GeneratorInfo> ldict, QString activeLanguage);
-	void setupCodeViewerPage(CodeViewerState options);
-	void applyPage( Page page );
+	void setupCodeViewerPage(Settings::CodeViewerState options);
+	void applyPage( Settings::Page page );
 
 	//private attributes
 	FontWidgets m_FontWidgets;
 	GeneralWidgets m_GeneralWidgets;
 	UIWidgets m_UiWidgets;
 	ClassWidgets m_ClassWidgets;
-	OptionState m_OptionState;
+	Settings::OptionState m_OptionState;
 	CodeGenerationOptionsPage * m_pCodeGenPage;
 	CodeViewerOptionsPage * m_pCodeViewerPage;
 
