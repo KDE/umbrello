@@ -474,19 +474,16 @@ bool UMLObject::loadFromXMI( QDomElement & element, bool loadID /* =true */) {
 		}
 	}
 
-	// Operations, attributes, enum literals, and association role objects
-	// get added and signaled elsewhere.
+	// Operations, attributes, enum literals, associations, and
+	// association role objects get added and signaled elsewhere.
 	if (m_BaseType != ot_Operation && m_BaseType != ot_Attribute &&
-	    m_BaseType != ot_EnumLiteral && m_BaseType != ot_UMLObject) {
+	    m_BaseType != ot_EnumLiteral && m_BaseType != ot_Association &&
+	    m_BaseType != ot_UMLObject) {
 		if (m_pUMLPackage)
 			m_pUMLPackage->addObject(this);
 		else
 			umldoc->addUMLObject(this);
-		// Associations and their role objects do not have a listview
-		// representation yet, therefore they do not prompt the
-		// sigObjectCreated.
-		if (m_BaseType != ot_Association)
-			umldoc->signalUMLObjectCreated(this);
+		umldoc->signalUMLObjectCreated(this);
 	}
 	return load(element);
 }
