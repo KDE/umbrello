@@ -130,7 +130,11 @@ void UMLRole::init(UMLAssociation * parent, UMLObject * parentObj, Uml::Role_Typ
 
 void UMLRole::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement roleElement = UMLObject::save("UML:AssociationEnd", qDoc);
-	roleElement.setAttribute( "type", ID2STR(getID()) );
+	if (m_pSecondary)
+		roleElement.setAttribute( "type", ID2STR(m_pSecondary->getID()) );
+	else
+		kdError() << "UMLRole::saveToXMI(id " << ID2STR(m_nId)
+			  << "): m_pSecondary is NULL" << endl;
 	if (!m_Multi.isEmpty())
 		roleElement.setAttribute("multiplicity", m_Multi);
 	if (m_role == Uml::A) {  // role aggregation based on parent type
@@ -307,8 +311,8 @@ bool UMLRole::load( QDomElement & element ) {
 			m_pAssoc->setAssocType(Uml::at_Composition);
 		else if (aggregation == "shared")
 			m_pAssoc->setAssocType(Uml::at_Aggregation);
-		else
-			m_pAssoc->setAssocType(Uml::at_Association);
+		/* else
+			m_pAssoc->setAssocType(Uml::at_Association);  */
 	}
 
 	if (element.hasAttribute("isNavigable")) {
