@@ -2,6 +2,12 @@ picsdir = $(kde_datadir)/umbrello/pics
 
 pics_DATA = actor.png \
 aggregation.png \
+align_left.png \
+align_right.png \
+align_top.png \
+align_bottom.png \
+align_vert_middle.png \
+align_hori_middle.png \
 anchor.png \
 arrow.png \
 association.png \
