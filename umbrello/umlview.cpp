@@ -542,6 +542,7 @@ void UMLView::slotObjectCreated(UMLObject* o) {
 	newWidget->setFont( getFont() );
 	newWidget->slotColorChanged( getID() );
 	m_bCreateObject = false;
+	m_WidgetList.append(newWidget);
 	switch( type ) {
 		case ot_Actor:
 		case ot_UseCase:
@@ -557,7 +558,6 @@ void UMLView::slotObjectCreated(UMLObject* o) {
 			break;
 	}
 	resizeCanvasToItems();
-	m_WidgetList.append(newWidget);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLView::slotObjectRemoved(UMLObject * o) {
@@ -2357,35 +2357,67 @@ void UMLView::updateDocumentation( bool clear ) {
 void UMLView::createAutoAssociations( UMLWidget * widget ) {
 	if( !widget )
 		return;
-	AssociationWidget * docData = 0;
-
-	UMLWidget * widgetA = 0;
-	UMLWidget * widgetB = 0;
-
-	AssociationWidgetList list;
-
-	m_pDoc -> getAssciationListAllViews( this, widget -> getUMLObject(), list );
-	AssociationWidgetListIt it( list );
-
-	while( ( docData = it.current() ) ) {
+	// Recipe:
+	// If this widget has an underlying UMLCanvasObject then
+	//   for each of the UMLCanvasObject's UMLAssociations
+	//     if umlassoc's "other" role has a widget representation on this view then
+	//       create the AssocWidget
+	//     end if
+	//   end loop
+	// end if
+	UMLObject *tmpUmlObj = widget->getUMLObject();
+	if (tmpUmlObj == NULL)
+		return;
+	UMLCanvasObject *umlObj = dynamic_cast<UMLCanvasObject*>(tmpUmlObj);
+	if (umlObj == NULL)
+		return;
+	const UMLAssociationList& umlAssocs = umlObj->getAssociations();
+	UMLAssociationListIt it(umlAssocs);
+	UMLAssociation *assoc = NULL;
+	int myID = umlObj->getID();
+	while ((assoc = it.current()) != NULL) {
 		++it;
-		if( docData -> getAssocType() == at_Anchor )
+		UMLCanvasObject *other = NULL;
+		UMLObject *roleAObj = assoc->getObjectA();
+		if (roleAObj == NULL) {
+			kdDebug() << "createAutoAssociations: roleA object is NULL at UMLAssoc "
+				  << assoc->getID() << endl;
 			continue;
-		//see if both widgets are on this diagram
-		//if yes - create an association
-		widgetA = widget;
-		widgetB = findWidget( docData -> getWidgetBID() );
-		if( docData -> getWidgetAID() != widget -> getID() ) {
-			widgetA = findWidget( docData -> getWidgetAID() );
-			widgetB = widget;
 		}
-
-		if( widgetA && widgetB ) {
-			AssociationWidget * temp = new AssociationWidget( this, widgetA ,
-			                            docData -> getAssocType(), widgetB );
-			addAssocInViewAndDoc( temp );
+		UMLObject *roleBObj = assoc->getObjectB();
+		if (roleBObj == NULL) {
+			kdDebug() << "createAutoAssociations: roleB object is NULL at UMLAssoc "
+				  << assoc->getID() << endl;
+			continue;
 		}
-	}//end while docAssoc
+		if (roleAObj->getID() == myID) {
+			other = static_cast<UMLCanvasObject*>(roleBObj);
+		} else if (roleBObj->getID() == myID) {
+			other = static_cast<UMLCanvasObject*>(roleAObj);
+		} else {
+			kdDebug() << "createAutoAssociations: Can't find own object "
+				  << myID << " in UMLAssoc " << assoc->getID() << endl;
+			continue;
+		}
+		// Now that we have determined the "other" UMLObject, seek it in
+		// this view's UMLWidgets.
+		int otherID = other->getID();
+		UMLWidget *pOtherWidget;
+		UMLWidgetListIt wit(m_WidgetList);
+		while ((pOtherWidget = wit.current()) != NULL) {
+			++wit;
+			if (pOtherWidget->getID() == otherID)
+				break;
+		}
+		if (pOtherWidget == NULL)
+			continue;
+		// Both objects are represented in this view:
+		// Create the AssociationWidget.
+		AssociationWidget * temp = new AssociationWidget( this, widget ,
+						assoc->getAssocType(), pOtherWidget );
+		if (! addAssociation(temp))
+			delete temp;
+	}
 }
 
 void UMLView::findMaxBoundingRectangle(const FloatingText* ft, int& px, int& py, int& qx, int& qy)
