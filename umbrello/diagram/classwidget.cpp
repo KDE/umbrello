@@ -1,28 +1,45 @@
-
+  /***************************************************************************
+                               classwidget.cpp
+                             -------------------
+    copyright            : (C) 2003 Luis De la Parra
+ ***************************************************************************/
+ /***************************************************************************
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
 
 #include "classwidget.h"
-#include <qapplication.h>
-#include <kdebug.h>
-#include <qpainter.h>
-#include <qvbox.h>
 
 #include "../class.h"
 #include "../dialogs/umbrellodialog.h"
 #include "../dialogs/classpropertiespage.h"
 #include "../dialogs/classattributespage.h"
 #include "../dialogs/classoperationspage.h"
+#include "../dialogs/classdisplayoptionspage.h"
+#include "../dialogs/widgetcolorspage.h"
 #include "../attribute.h"
 #include "../operation.h"
+
+//FIXME test only
+#include "../refactoring/refactoringassistant.h"
+
+#include <qapplication.h>
+#include <klocale.h>
+#include <qpainter.h>
+#include <qpopupmenu.h>
+#include <qvbox.h>
+#include <qlist.h>
 #include <qptrlist.h>
+
+
+#include <kdebug.h>
 
 // unnamed namespace : data for this file only
 namespace{
- enum {DisplayPackage = 0x1, DisplayStereotype = 0x2 };
- enum {ShowAtts = 0x1, ShowOps = 0x2, DisplayType = 0x4, DisplayVisibility = 0x8};
-
-
- int max(int a, int b) { return a>b?a:b; };
-
  //vertical and horizontal margins
  int vMargin = 10;
  int hMargin = 10;
@@ -36,9 +53,9 @@ namespace Umbrello{
 ClassWidget::ClassWidget(Diagram *diagram, uint id, UMLClass *object):
 	UMLWidget(diagram, id, object)
 {
-	m_nameDisplayOpts = DisplayPackage | DisplayStereotype;
-	m_attsDisplayOpts = ShowAtts | DisplayType;
-	m_opsDisplayOpts =ShowOps;
+	m_nameDisplayOpts = ShowPackage | ShowStereotype;
+	m_attsDisplayOpts = ShowAtts | ShowType;
+	m_opsDisplayOpts  = ShowOps | ShowParameterList;
 
 	calculateSize();
 }
@@ -46,14 +63,27 @@ ClassWidget::ClassWidget(Diagram *diagram, uint id, UMLClass *object):
 ClassWidget::~ClassWidget()
 {
 	hide();
-	canvas()->update();//FIXME do the sam for all other widgets (update)
+	canvas()->update();
+}
+
+void ClassWidget::refactor( )
+{kdDebug()<<"refactoring class "<<m_umlObject->getName()<<"..."<<endl;
+	RefactoringAssistant *r = new RefactoringAssistant(diagram()->document(), dynamic_cast<UMLClass*>(m_umlObject));
+	r->show( );
 }
 
 void ClassWidget::umlObjectModified()
 {
-calculateSize();
-update();
-canvas()->update();
+	invalidate(); //canvas()->setChanged( this->boundingRec() );
+	calculateSize();
+	update();
+	canvas()->update();
+}
+
+void ClassWidget::fillContextMenu(QPopupMenu &menu)
+{
+	UMLWidget::fillContextMenu(menu);
+	menu.insertItem(i18n("Refactor"),this, SLOT(refactor()));
 
 }
 
@@ -61,13 +91,19 @@ void ClassWidget::drawShape(QPainter &p)
 {
 	QPen textPen(Qt::black);
 	QFont font;
-	//if(!useOwnPen !useOwnBrush)
-	p.setPen(diagram()->pen());
-	p.setBrush(diagram()->brush());
-	int currentX,  currentY;
+	QPen drawPen = (m_useOwnPen ? pen() : diagram()->pen());
+	QBrush drawBrush = ( m_useOwnBrush ? brush() : diagram()->brush() );
+	
+	int currentX,  currentY, limitX, limitY;
+	int internalWidth;
 	currentX = x();
 	currentY = y();
+	limitX = currentX + width() - ( 1 * hMargin );
+	limitY = currentY + height() - ( 1 * vMargin ); 
+	internalWidth = width() - ( 2 * hMargin );
 
+	p.setPen(drawPen);
+	p.setBrush(drawBrush);
 	p.drawRect(currentX, currentY, width(), height());
 	currentX +=hMargin;
 	currentY +=vMargin;
@@ -75,41 +111,51 @@ void ClassWidget::drawShape(QPainter &p)
 	p.setPen(textPen);
 	font.setBold(true);
 	p.setFont(font);
-	p.drawText(currentX,currentY,width()-2*hMargin,lineHeight,Qt::AlignCenter,m_name);
-	p.setPen(diagram()->pen());
+	if( (m_nameDisplayOpts & ShowStereotype) && !(m_stereotype.isEmpty()))
+	{
+		p.drawText( currentX, currentY, internalWidth, lineHeight, Qt::AlignCenter,m_stereotype );
+		currentY += lineHeight;
+	}
+	//package information is already in m_name
+	p.drawText(currentX, currentY, internalWidth, lineHeight, Qt::AlignCenter,m_name);
+	currentY += lineHeight;
 	font.setBold(false);
 	p.setFont(font);
-	currentY +=lineHeight;
-	if(!m_atts.isEmpty())
+	if( m_attsDisplayOpts & ShowAtts )
 	{
+		p.setPen(drawPen);
 		currentY += vMargin;
-		p.drawLine(currentX - hMargin, currentY, currentX - hMargin + width(), currentY);
+		p.drawLine( x(),currentY, x() + width() -1, currentY );
+		if( !m_atts.isEmpty() )
+		{
+			currentY += vMargin;
+		}
+		p.setPen(textPen);
+		for(QValueList<AttString>::Iterator it = m_atts.begin(); it != m_atts.end(); ++it )
+		{
+			font.setUnderline( ((*it).flags & Underline) );
+			p.setFont(font);
+			p.drawText(currentX, currentY, internalWidth, lineHeight, Qt::AlignVCenter | Qt::AlignLeft, (*it).string );
+			currentY += lineHeight;
+		}
+		//currentY += vMargin;
+	}
+	if( m_opsDisplayOpts & ShowOps )
+	{
+		p.setPen(drawPen);
 		currentY += vMargin;
-		currentY += lineHeight;
-	}
-
-	for(QStringList::Iterator it = m_atts.begin(); it != m_atts.end(); ++it )
-	{
-		p.drawText(currentX,currentY,*it);
-		currentY += lineHeight;
-	}
-	if(!m_atts.isEmpty())
-	{
-		currentY -= lineHeight;
-	}
-
-	if(!m_ops.isEmpty())
-	{
+		p.drawLine(x(),currentY, x() + width() -1, currentY);
 		currentY += vMargin;
-		p.drawLine(currentX - hMargin, currentY, currentX - hMargin + width(), currentY);
-		currentY += vMargin;
-		currentY += lineHeight;
-	}
-
-	for(QStringList::Iterator it = m_ops.begin(); it != m_ops.end(); ++it )
-	{
-		p.drawText(currentX,currentY,*it);
-		currentY += lineHeight;
+		p.setPen(textPen);
+		for(QValueList<OpString>::Iterator it = m_ops.begin(); it != m_ops.end(); ++it )
+		{
+			font.setUnderline( ((*it).flags & Underline) );
+			font.setItalic( ((*it).flags & Italics) );
+			p.setFont(font);
+			p.drawText(currentX, currentY, internalWidth, lineHeight,Qt::AlignVCenter | Qt::AlignLeft, (*it).string );
+			currentY += lineHeight;
+		}
+		//currentY += vMargin;
 	}
 
 	if(isSelected())
@@ -132,15 +178,17 @@ void ClassWidget::drawShape(QPainter &p)
 
 void ClassWidget::calculateSize()
 {
-UMLClass *obj = dynamic_cast<UMLClass*>(m_umlObject);
+	UMLClass *obj = dynamic_cast<UMLClass*>(m_umlObject);
 
-//Cache texts
-//kdDebug()<<"calculating size.."<<endl;
+	m_stereotype = "";
 	m_name = "";
 	m_atts.clear();
 	m_ops.clear();
-
-	if( m_nameDisplayOpts & DisplayPackage )
+	if( (m_nameDisplayOpts & ShowStereotype) && !(obj->getStereotype().isEmpty()))
+	{
+		m_stereotype = "<<" + obj->getStereotype() + ">>";
+	}
+	if( m_nameDisplayOpts & ShowPackage )
 	{
 		m_name += obj->getPackage() + "::";
 	}
@@ -148,94 +196,150 @@ UMLClass *obj = dynamic_cast<UMLClass*>(m_umlObject);
 
 	if (m_attsDisplayOpts & ShowAtts )
 	{
-		QString str;
 		QPtrList<UMLAttribute> *atts = obj->getAttList();
 		UMLAttribute *att;
-		for(att=atts->first();att != 0;att=atts->next())
+		for( att=atts->first(); att != 0 ;att=atts->next() )
 		{
-			str = att->getName();
-			if( m_attsDisplayOpts & DisplayType )
+			AttString attString;
+			//why??
+			attString.string = "";
+			attString.flags = 0;
+			switch(att->getScope( )) //FIXME Visibility!
 			{
-				str+=" : " + att->getTypeName();
+				case Uml::Public:
+					attString.string = "+ ";
+					break;
+				case Uml::Protected:
+					attString.string = "# ";
+					break;
+				case Uml::Private:
+					attString.string = "- ";
+					break;
 			}
-			m_atts.append(str);
-			str = "";
-
+			attString.string += att->getName();
+			if( m_attsDisplayOpts & ShowType )
+			{
+				attString.string+= " : " + att->getTypeName();
+			}
+			if( m_attsDisplayOpts & ShowInitialValue )
+			{
+				attString.string+= " = " + att->getInitialValue();
+			}
+			if( att->getStatic() )
+			{
+				attString.flags = Underline;
+			}
+			m_atts.append(attString);
 		}
-
 	}
-
 	if (m_opsDisplayOpts & ShowOps )
 	{
-		QString str;
+
 		QPtrList<UMLOperation> *ops = obj->getOpList();
 		UMLOperation *op;
-		for(op=ops->first();op != 0;op=ops->next())
+		for( op=ops->first();op != 0;op=ops->next() )
 		{
-			str = op->getName();
-			str += "( )";
-			if( m_opsDisplayOpts & DisplayType )
+			OpString opString;
+			//why is this needed??
+			opString.string = "";
+			opString.flags = 0;
+			switch(op->getScope( )) //FIXME Visibility!
 			{
-				str+=" : " + op->getReturnType();
+				case Uml::Public:
+					opString.string = "+ ";
+					break;
+				case Uml::Protected:
+					opString.string = "# ";
+					break;
+				case Uml::Private:
+					opString.string = "- ";
+					break;
 			}
-			m_ops.append(str);
-			str = "";
-
+			opString.string += op->getName() + "( ";
+			QList<UMLAttribute> *params = op->getParmList();
+			for( UMLAttribute *last = params->last(), *param = params->first(); 
+				param &&  (m_opsDisplayOpts & ShowParameterList); 
+				param = params->next() )
+			{
+				opString.string += param->getName() + " : " + param->getTypeName();
+				if(!(param->getInitialValue().isEmpty()))
+				{
+					opString.string += " = " + param->getInitialValue();
+				}
+				if( param != last )
+				{
+					opString.string += ", ";
+				}
+			}
+			opString.string += " )";
+			opString.string+=" : " + op->getReturnType();
+			if( op->getAbstract() )
+			{
+				opString.flags |= Italics;
+			}
+			if( op->getStatic() )
+			{
+				opString.flags |= Underline;
+			}
+			m_ops.append(opString);
 		}
-
 	}
 
+	QFont font;  // for now use application font
 
-	QFontMetrics fm(qApp->font());
 	int maxWidth = 0;
 	int currentWidth = 0;
 
-	currentWidth = fm.width(m_name);
-	maxWidth = max(maxWidth,currentWidth);
-
-
-	for(QStringList::Iterator it = m_atts.begin(); it != m_atts.end(); ++it )
+	// we calculate the screen space needed using bold, underline and italics
+	// this may give a slightly larger area but it's easier than testing
+	// each element
+	font.setBold(true);
+	font.setUnderline(true);
+	font.setItalic(true);
+	QFontMetrics fm(font);
+	
+	maxWidth = max(maxWidth,fm.width(m_stereotype));
+	maxWidth = max(maxWidth, fm.width(m_name));
+	for(QValueList<AttString>::Iterator it = m_atts.begin(); it != m_atts.end(); ++it )
 	{
-		currentWidth = fm.width(*it);
-		maxWidth = max(maxWidth,currentWidth);
+		maxWidth = max(maxWidth,fm.width((*it).string));
+	}
+	for(QValueList<OpString>::Iterator it = m_ops.begin(); it != m_ops.end(); ++it )
+	{
+		maxWidth = max(maxWidth,fm.width((*it).string));
 	}
 
-	for(QStringList::Iterator it = m_ops.begin(); it != m_ops.end(); ++it )
-	{
-		currentWidth = fm.width(*it);
-		maxWidth = max(maxWidth,currentWidth);
-	}
-
-	m_width = maxWidth + (2*hMargin);
+	m_width = maxWidth + (2 * hMargin);
 
 	lineHeight = fm.lineSpacing();
-//	kdDebug()<<"lineHeight set to "<<lineHeight<<endl;
 
-	m_height = 1*lineHeight + (2*vMargin) +
-		   ((m_atts.isEmpty())? 0 : (2*vMargin) ) +
-		   (m_atts.count() * lineHeight) +
-		   ((m_ops.isEmpty())?0:(2*vMargin) ) +
-		   (m_ops.count() * lineHeight ) ;
-
-
-
-//	kdDebug()<<"width set to "<<width()<<" and height to "<<height()<<endl;
-
-
+	m_height = vMargin +
+		( ((m_nameDisplayOpts & ShowStereotype) && (!m_stereotype.isEmpty()))? lineHeight : 0 )  + //stereotype
+		lineHeight + //name
+		vMargin +
+		(( m_attsDisplayOpts & ShowAtts ) ? 1 * vMargin : 0 ) +
+		(m_atts.count() * lineHeight) +
+		(( (m_attsDisplayOpts & ShowAtts) && (!m_atts.isEmpty())) ? 1 * vMargin : 0 ) +
+		(( m_opsDisplayOpts & ShowOps ) ? 1 * vMargin : 0 ) +
+		(m_ops.count() * lineHeight ) +
+		(( (m_opsDisplayOpts & ShowOps) && (!m_ops.isEmpty())) ? 1 * vMargin : 0 );
 }
 
 void ClassWidget::editProperties()
 {
-kdDebug()<<"class widget properties"<<endl;
+
 	UmbrelloDialog *dialog = new UmbrelloDialog(0);
 
-//FIXMEnow	dialog->addPage(new ClassPropertiesPage( dynamic_cast<UMLClass*>(m_umlObject),0L),"class properties");
-	dialog->addPage(new ClassAttributesPage( dynamic_cast<UMLClass*>(m_umlObject), diagram()->document(),0L),"class attributes");
-	dialog->addPage(new ClassOperationsPage( dynamic_cast<UMLClass*>(m_umlObject), diagram()->document(),0L),"class operations");
+	dialog->addPage(new ClassPropertiesPage( dynamic_cast<UMLClass*>(m_umlObject),0L),i18n("General"));
+	dialog->addPage(new ClassAttributesPage( dynamic_cast<UMLClass*>(m_umlObject), diagram()->document(),0L),i18n("Attributes"));
+	dialog->addPage(new ClassOperationsPage( dynamic_cast<UMLClass*>(m_umlObject), diagram()->document(),0L),i18n("Operations"));
+	dialog->addPage(new ClassDisplayOptionsPage( this,0L), i18n("Display Options"));
+	dialog->addPage(new WidgetColorsPage( this,  0L), i18n("Colors"));
 
 	dialog->show();
 
 }
-} //end of namespace NewDiagram
+
+} //end of namespace Umbrello
 
 #include "classwidget.moc"
