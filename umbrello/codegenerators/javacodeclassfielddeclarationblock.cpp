@@ -61,9 +61,23 @@ void JavaCodeClassFieldDeclarationBlock::updateContent( )
         QString fieldName = jcf->getFieldName();
         QString initialV = jcf->getInitialValue();
 
+	if (!cf->parentIsAttribute() && !cf->fieldIsSingleValue())
+		typeName = "List";
+
         QString body = staticValue+scopeStr+" "+typeName+" "+fieldName;
         if (!initialV.isEmpty())
                 body.append(" = " + initialV);
+	else if (!cf->parentIsAttribute())
+	{
+		// FIX?: IF a constructor method exists in the classifiercodedoc
+		// of the parent Object, then we can use that instead (if its empty).
+ 		if(cf->fieldIsSingleValue())
+		{
+			if(!typeName.isEmpty())
+                		body.append(" = new " + typeName + " ( )");
+		} else
+                	body.append(" = new Vector ( )");
+	}
 
         setText(body+";");
 
