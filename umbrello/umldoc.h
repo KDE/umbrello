@@ -17,6 +17,7 @@
 #include "associationwidgetlist.h"
 #include "dialogs/settingsdlg.h"
 #include "umlviewlist.h"
+#include "umlobjectlist.h"
 #include "umlnamespace.h"
 #include <qdatastream.h>
 #include <qptrstack.h>
@@ -43,7 +44,6 @@ class DocWindow;
 class IDChangeLog;
 class ObjectWidget;
 class UMLListView;
-class UMLObject;
 class UMLViewData;
 class UMLWidget;
 class UMLClassifier;
@@ -229,7 +229,7 @@ public:
  	 *  For aggregations and compositions , the assoc is added to the concept
  	 *  that matches role B.
  	 *
- 	 *	@param	assoc	The assocation to add
+ 	 *	@param	assoc	The association to add
  	 */
  	void addAssocToConcepts(UMLAssociation* assoc);
  
@@ -396,7 +396,7 @@ public:
 	void showProperties(UMLObject *o, int page = 0, bool assoc = false);
 
 	/**
-	 * This method is called for saving the given modell as a XMI file. It is
+	 * This method is called for saving the given model as a XMI file. It is
 	 * virtual and calls the corresponding saveToXMI() functions of the derived
 	 * classes
 	 *
@@ -668,13 +668,13 @@ public:
 	int getFileVersion(void) {return version;}
 
 	/**
-	 * Preforms the undo function, loading the document back to the
+	 * Performs the undo function, loading the document back to the
 	 * state is was before the last addToUndoStack()
 	 */
 	void loadUndoData();
 
 	/**
-	 * Preforms the redo function, loading the document back to the 
+	 * Performs the redo function, loading the document back to the 
 	 * state is was before the last undo()
 	 */
 	void loadRedoData();
@@ -734,7 +734,7 @@ private:
 	 */
 	void initSaveTimer();
 
-	QPtrList<UMLObject> objectList;
+	UMLObjectList objectList;
 	QPtrList<Umbrello::Diagram> diagrams;
 	int uniqueID;
 	bool m_modified;
