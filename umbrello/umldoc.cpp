@@ -635,11 +635,6 @@ void UMLDoc::setupSignals() {
 	return;
 }
 
-QWidget* UMLDoc::getMainViewWidget() {
-	UMLApp* app = (UMLApp*)parent();
-	return app->getMainViewWidget();
-}
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool UMLDoc::addCodeGenerator ( CodeGenerator * gen)
 {
@@ -1897,103 +1892,6 @@ short UMLDoc::getEncoding(QIODevice & file)
 	return ENC_OLD_ENC; // never reached
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-/*
-bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
-{
-	// old Umbrello versions (version < 1.2) didn't save the XMI in Unicode
-	// this wasn't correct, because non Latin1 chars where lost
-	// to ensure backward compatibility we have to ensure to load the old files
-	// with non Unicode encoding
-	if (encode == ENC_UNKNOWN)
-	{
-		if ((encode = getEncoding(file)) == ENC_UNKNOWN)
-			return false;
-		file.reset();
-	}
-	QTextStream stream( &file );
-	if (encode == ENC_UNICODE)
-	{
-		stream.setEncoding(QTextStream::UnicodeUTF8);
-	}
-
-	QString data = stream.read();
-	QString error;
-	int line;
-	QDomDocument doc;
-	if( !doc.setContent( data, false, &error, &line ) )
-	{
-		kdWarning()<<"Can't set content: "<<error<<" Line: "<<line<<endl;
-		return ENC_UNKNOWN;
-	}
-
-	// we start at the beginning and go to the point in the header where we can
-	// find out if the file was saved using Unicode
-	QDomNode node = doc.firstChild();
-	if (node.isProcessingInstruction())
-	{
-		node = node.nextSibling();
-	}
-	QDomElement root = node.toElement();
-	if( root.isNull() )
-	{
-		return ENC_UNKNOWN;
-	}
-	//  make sure it is an XMI file
-	if( root.tagName() != "XMI" )
-	{
-		return ENC_UNKNOWN;
-	}
-	node = node.firstChild();
-
-	if ( !node.isNull() )
-	{
-		QDomElement element = node.toElement();
-
-		// check header
-		if( !element.isNull() && element.tagName() == "XMI.header" )
-		{
-			QDomNode headerNode = node.firstChild();
-			QDomElement headerElement = headerNode.toElement();
-			while ( !headerNode.isNull() )
-			{
-				// the information if Unicode was used is now stored in the
-				// XMI.documenation section of the header
-				if (! headerElement.isNull() && headerElement.tagName() ==
-							"XMI.documentation")
-				{
-					QDomNode docuNode = headerNode.firstChild();
-					QDomElement docuElement = docuNode.toElement();
-					while ( !docuNode.isNull() )
-					{
-						// a tag XMI.exporterEncoding was added since version 1.2 to
-						// mark a file as saved with Unicode
-						if (! docuElement.isNull() && docuElement.tagName() ==
-									"XMI.exporterEncoding")
-						{
-							// at the moment this if isn't really neccesary, but maybe
-							// later we will have other encoding standards
-							if (docuElement.text() == QString("UnicodeUTF8"))
-							{
-								return ENC_UNICODE; // stop here
-							}
-						}
-						docuNode = docuNode.nextSibling();
-						docuElement = docuNode.toElement();
-					}
-					return ENC_OLD_ENC;
-				}
-				headerNode = headerNode.nextSibling();
-				headerElement = headerNode.toElement();
-			}
-			return ENC_OLD_ENC;
-		}
-	} else {
-		return ENC_UNKNOWN;
-	}
-	return ENC_OLD_ENC; // never reached
-}
-*/
-////////////////////////////////////////////////////////////////////////////////////////////////////
 bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
 {
 
@@ -2548,10 +2446,10 @@ int UMLDoc::assignNewID(int OldID) {
 	return result;
 }
 
-/** Adds an already created UMLView to the document, it gets assigned a new ID,
-if its name is already in use then the function appends
-a number to it to differentiate it from the others; this number is incremental so if
-number 1 is in use then it tries 2 and then 3 and so on */
+/** Adds an already created UMLView to the document, it gets assigned a new ID.
+    If its name is already in use then the function appends a number to it to
+    differentiate it from the others; this number is incremental so if
+    number 1 is in use then it tries 2 and then 3 and so on */
 bool UMLDoc::addUMLView(UMLView * pView ) {
 	if(!pView || !m_pChangeLog)
 		return false;

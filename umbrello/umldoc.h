@@ -755,11 +755,6 @@ public:
 	bool activateAllViews();
 
 	/**
-	 * Returns the central dock widget used for diagrams
-	 */
-	QWidget* getMainViewWidget();
-
-	/**
 	 * Sets the default settings to the given settings.
 	 */
 	void settingsChanged(Settings::OptionState optionState);
