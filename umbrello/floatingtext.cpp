@@ -27,6 +27,7 @@
 #include "classifier.h"
 #include "listpopupmenu.h"
 #include "operation.h"
+#include "model_utils.h"
 #include "inputdialog.h"
 #include "dialogs/assocpropdlg.h"
 #include "dialogs/selectopdlg.h"
@@ -248,8 +249,8 @@ void FloatingText::showOpDlg() {
 		kdError() << "FloatingText::showOpDlg: m_pLink is NULL" << endl;
 		return;
 	}
-	QString seqNum, op;
-	UMLClassifier* c = m_pLink->getSeqNumAndOp(this, seqNum, op);
+	QString seqNum, opText;
+	UMLClassifier* c = m_pLink->getSeqNumAndOp(this, seqNum, opText);
 	if (c == NULL) {
 		kdError() << "FloatingText::showOpDlg: "
 			  << "m_pLink->getSeqNumAndOp() returns a NULL classifier"
@@ -259,14 +260,28 @@ void FloatingText::showOpDlg() {
 
 	SelectOpDlg selectDlg(m_pView, c);
 	selectDlg.setSeqNumber( seqNum );
-	selectDlg.setCustomOp( op );
+	if (m_pLink->getOperation() == NULL)
+		selectDlg.setCustomOp( opText );
 	int result = selectDlg.exec();
 	if(!result) {
 		return;
 	}
 	seqNum = selectDlg.getSeqNumber();
-	op = selectDlg.getOpText();
-	m_pLink->setSeqNumAndOp(seqNum, op);
+	opText = selectDlg.getOpText();
+	Umbrello::OpDescriptor od;
+	Umbrello::Parse_Status st = Umbrello::parseOperation(opText, od, c);
+	if (st == Umbrello::PS_OK) {
+		UMLDoc *umldoc = UMLApp::app()->getDocument();
+		bool isExistingOp = false;
+		UMLObject *o = umldoc->createOperation(c, od.m_name, &isExistingOp, &od.m_args);
+		UMLOperation *op = static_cast<UMLOperation*>(o);
+		if (od.m_pReturnType) {
+			op->setType(od.m_pReturnType);
+		}
+		m_pLink->setOperation(op);
+		opText = QString::null;
+	}
+	m_pLink->setSeqNumAndOp(seqNum, opText);
 	setMessageText();
 }
 
