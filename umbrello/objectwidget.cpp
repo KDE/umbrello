@@ -198,6 +198,11 @@ void ObjectWidget::cleanup() {
 
 void ObjectWidget::drawObject(QPainter & p, int offsetX, int offsetY) {
 
+	QFont font = p.font();
+	bool wasUnderlined = font.underline();
+	font.setUnderline( true );
+	p.setFont( font );
+
 	p.setPen(m_pData->getLineColour());
 	if(m_pData->getUseFillColor())
 		p.setBrush(m_pData->getFillColour());
@@ -219,6 +224,9 @@ void ObjectWidget::drawObject(QPainter & p, int offsetX, int offsetY) {
 		p.setPen(QPen(black));
 		p.drawText(offsetX + O_MARGIN, offsetY + O_MARGIN, w - O_MARGIN * 2, h - O_MARGIN * 2, AlignCenter, t);
 	}
+
+	font.setUnderline( wasUnderlined );
+	p.setFont( font );
 }
 
 void ObjectWidget::drawActor(QPainter & p, int offsetX, int offsetY) {
