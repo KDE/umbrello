@@ -61,16 +61,16 @@ void UMLAttributeDialog::setupDialog() {
 	m_pTypeL->setBuddy(m_pTypeCB);
 
 	Umbrello::makeLabeledEditField( m_pValuesGB, valuesLayout, 1,
-					    m_pNameL, i18n("&Name:"),
-					    m_pNameLE, m_pAttribute->getName() );
+					m_pNameL, i18n("&Name:"),
+					m_pNameLE, m_pAttribute->getName() );
 
 	Umbrello::makeLabeledEditField( m_pValuesGB, valuesLayout, 2,
-					    m_pInitialL, i18n("&Initial value:"),
-					    m_pInitialLE, m_pAttribute->getInitialValue() );
+					m_pInitialL, i18n("&Initial value:"),
+					m_pInitialLE, m_pAttribute->getInitialValue() );
 
 	Umbrello::makeLabeledEditField( m_pValuesGB, valuesLayout, 3,
-					    m_pStereoTypeL, i18n("Stereotype name:"),
-					    m_pStereoTypeLE, m_pAttribute->getStereotype() );
+					m_pStereoTypeL, i18n("Stereotype name:"),
+					m_pStereoTypeLE, m_pAttribute->getStereotype(false) );
 
 	m_pStaticCB = new QCheckBox( i18n("Classifier &scope (\"static\")"), m_pValuesGB );
 	m_pStaticCB -> setChecked( m_pAttribute -> getStatic() );

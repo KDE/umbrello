@@ -111,7 +111,7 @@ void InterfaceWidget::drawAsConcept(QPainter& p, int offsetX, int offsetY) {
 	p.setFont(font);
 	p.drawText(offsetX + INTERFACE_MARGIN, offsetY,
 		   w - INTERFACE_MARGIN * 2,fontHeight,
-		   AlignCenter, "«" + m_pObject -> getStereotype() + "»");
+		   AlignCenter, m_pObject->getStereotype());
 
 	font.setItalic( m_pObject -> getAbstract() );
 	//FIXME why is underline sometimes true
@@ -221,7 +221,7 @@ void InterfaceWidget::calculateAsConceptSize() {
 		width = getFontMetrics(FT_BOLD_ITALIC).boundingRect(m_pObject->getPackage() + "::" + getName()).width();
 	else
 		width = getFontMetrics(FT_BOLD_ITALIC).boundingRect(getName()).width();
-	int w = getFontMetrics(FT_BOLD).boundingRect("«" + m_pObject->getStereotype() + "»").width();
+	int w = getFontMetrics(FT_BOLD).boundingRect(m_pObject->getStereotype()).width();
 
 
 	width = w > width?w:width;

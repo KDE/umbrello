@@ -76,7 +76,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o) : QWidget(p
 		m_pStereoTypeLE = new QLineEdit(this);
 		m_pNameLayout -> addWidget(m_pStereoTypeLE, 1, 1);
 
-		m_pStereoTypeLE -> setText(o -> getStereotype());
+		m_pStereoTypeLE -> setText(o -> getStereotype(false));
 		m_pStereoTypeL->setBuddy(m_pStereoTypeLE);
 	}
 	if (t == Uml::ot_Interface || t == Uml::ot_Datatype || t == Uml::ot_Enum) {
@@ -284,7 +284,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLWidget* widget) : QWid
 	m_pStereoTypeLE = new QLineEdit(this);
 	m_pNameLayout->addWidget(m_pStereoTypeLE, 1, 1);
 
-	m_pStereoTypeLE->setText( widget->getUMLObject()->getStereotype() );
+	m_pStereoTypeLE->setText( widget->getUMLObject()->getStereotype(false) );
 
 	m_pInstanceL = new QLabel(this);
 	m_pInstanceL->setText(i18n("Instance name:"));

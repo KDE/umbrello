@@ -91,18 +91,14 @@ QString UMLCanvasObject::uniqChildName( const UMLObject_Type type,
 	return name;
 }
 
-UMLObjectList UMLCanvasObject::findChildObject(UMLObject_Type t, QString n,
-					       bool seekStereo /* = false */) {
+UMLObjectList UMLCanvasObject::findChildObject(UMLObject_Type t, QString n) {
 	UMLObjectList list;
 	if (t == ot_Association) {
 		UMLAssociation * obj=0;
 		for (obj = m_AssocsList.first(); obj != 0; obj = m_AssocsList.next()) {
 			if (obj->getBaseType() != t)
 				continue;
-			if (seekStereo) {
-				if (obj->getStereotype() == n)
-					list.append( obj );
-			} else if (obj->getName() == n)
+			if (obj->getName() == n)
 				list.append( obj );
 		}
 	} else {

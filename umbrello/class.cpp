@@ -162,12 +162,7 @@ UMLTemplate* UMLClass::takeTemplate(UMLTemplate* t) {
 
 bool UMLClass::isEnumeration() {
 	QString st = getStereotype();
-	if (st == "CORBAEnum")
-		return true;
-	if (st.isEmpty() || st.at(0).upper() != 'E')
-		return false;
-	QString tail = st.right(st.length() - 1);
-	return (tail == "num" || tail == "numeration");
+	return st.contains("enum", false);
 }
 
 void UMLClass::init() {

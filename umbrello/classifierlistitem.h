@@ -96,13 +96,6 @@ public:
 	virtual bool showPropertiesDialogue(QWidget* parent) = 0;
 
 	/**
-	 * Return a short name, usually just calls getName().
-	 *
-	 * @return	Short name of this UMLClassifierListItem.
-	 */
-	virtual QString getShortName();
-
-	/**
 	 * Copy the internal presentation of this object into the new
 	 * object.
 	 */

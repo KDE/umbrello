@@ -60,8 +60,8 @@ void UMLOperationDialog::setupDialog() {
 	genLayout -> setSpacing(10);
 
 	Umbrello::makeLabeledEditField( m_pGenGB, genLayout, 0,
-					    m_pNameL, i18n("&Name:"),
-					    m_pNameLE, m_pOperation->getName() );
+					m_pNameL, i18n("&Name:"),
+					m_pNameLE, m_pOperation->getName() );
 
 	m_pRtypeL = new QLabel(i18n("&Type:"), m_pGenGB );
 	genLayout -> addWidget(m_pRtypeL, 0, 2);
@@ -71,8 +71,8 @@ void UMLOperationDialog::setupDialog() {
 	m_pRtypeL->setBuddy(m_pRtypeCB);
 
 	Umbrello::makeLabeledEditField( m_pGenGB, genLayout, 1,
-					    m_pStereoTypeL, i18n("Stereotype name:"),
-					    m_pStereoTypeLE, m_pOperation->getStereotype() );
+					m_pStereoTypeL, i18n("Stereotype name:"),
+					m_pStereoTypeLE, m_pOperation->getStereotype(false) );
 
 	m_pAbstractCB = new QCheckBox( i18n("&Abstract operation"), m_pGenGB );
 	m_pAbstractCB -> setChecked( m_pOperation -> getAbstract() );

@@ -131,8 +131,7 @@ UMLOperation* UMLClassifier::takeOperation(UMLOperation* o) {
 	return 0;
 }
 
-UMLObjectList UMLClassifier::findChildObject(UMLObject_Type t , QString n,
-					     bool seekStereo /* = false */) {
+UMLObjectList UMLClassifier::findChildObject(UMLObject_Type t , QString n) {
 	if (t == ot_Association) {
 		return UMLCanvasObject::findChildObject(t, n);
 	}
@@ -141,10 +140,7 @@ UMLObjectList UMLClassifier::findChildObject(UMLObject_Type t , QString n,
 	for(obj=m_List.first();obj != 0;obj=m_List.next()) {
 		if (obj->getBaseType() != t)
 			continue;
-		if (seekStereo) {
-			if (obj->getStereotype() == n)
-				list.append( obj );
-		} else if (obj->getName() == n)
+		if (obj->getName() == n)
 			list.append( obj );
 	}
 	return list;

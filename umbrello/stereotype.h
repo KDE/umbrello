@@ -63,13 +63,6 @@ public:
 	virtual UMLObject* clone() const;
 
 	/**
-	 * Returns a string representation of the UMLStereotype.
-	 *
-	 * @return	Returns a string representation of the UMLStereotype.
-	 */
-	QString toString(Signature_Type sig = st_NoSig);
-
-	/**
 	 * Increments the reference count for this stereotype.
 	 */
 	void incrRefCount();
@@ -94,11 +87,6 @@ public:
 	 * (just a line edit).
 	 */
 	bool showPropertiesDialogue(QWidget* parent);
-
-	/**
-	 * Return the stereotype name surrounded by double angle brackets.
-	 */
-	virtual QString getShortName();
 
 protected:
 	/**

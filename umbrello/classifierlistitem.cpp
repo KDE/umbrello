@@ -28,10 +28,6 @@ UMLClassifierListItem::UMLClassifierListItem(const UMLObject *parent)
 UMLClassifierListItem::~UMLClassifierListItem() {
 }
 
-QString UMLClassifierListItem::getShortName() {
-	return getName();
-}
-
 void UMLClassifierListItem::copyInto(UMLClassifierListItem *rhs) const
 {
 	// Call the parent.

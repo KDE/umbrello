@@ -29,10 +29,6 @@ UMLStereotype::UMLStereotype() : UMLObject() {
 
 UMLStereotype::~UMLStereotype() {}
 
-QString UMLStereotype::toString(Signature_Type /*sig*/) {
-	return "«" + getName() + "»";
-}
-
 bool UMLStereotype::operator==( UMLStereotype &rhs) {
 	if (this == &rhs) {
 		return true;
@@ -76,10 +72,6 @@ bool UMLStereotype::showPropertiesDialogue(QWidget* parent) {
 		setName(name);
 	}
 	return ok;
-}
-
-QString UMLStereotype::getShortName() {
-	return "«" + getName() + "»";
 }
 
 void UMLStereotype::incrRefCount() {

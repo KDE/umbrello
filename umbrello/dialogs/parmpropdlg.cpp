@@ -60,16 +60,16 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a)
 	m_pTypeL->setBuddy(m_pTypeCB);
 
 	Umbrello::makeLabeledEditField( m_pParmGB, propLayout, 1,
-					    m_pNameL, i18n("&Name:"),
-					    m_pNameLE, name );
+					m_pNameL, i18n("&Name:"),
+					m_pNameLE, name );
 
 	Umbrello::makeLabeledEditField( m_pParmGB, propLayout, 2,
-					    m_pInitialL, i18n("&Initial value:"),
-					    m_pInitialLE, initialValue );
+					m_pInitialL, i18n("&Initial value:"),
+					m_pInitialLE, initialValue );
 
 	Umbrello::makeLabeledEditField( m_pParmGB, propLayout, 3,
-					    m_pStereoTypeL, i18n("&Stereotype name:"),
-					    m_pStereoTypeLE, m_pAtt->getStereotype() );
+					m_pStereoTypeL, i18n("&Stereotype name:"),
+					m_pStereoTypeLE, m_pAtt->getStereotype(false) );
 
 	m_pKind =  new QButtonGroup(i18n("Passing Direction"), plainPage());
 	m_pKind->setExclusive(true);

@@ -97,7 +97,7 @@ ClassifierListPage::ClassifierListPage(QWidget* parent, UMLClassifier* classifie
 	// add each item in the list to the ListBox and connect each item modified signal
 	// to the ListItemModified slot in this class
 	for (UMLClassifierListItem* listItem = itemList.first(); listItem != 0; listItem = itemList.next() ) {
-		m_pItemListLB->insertItem(listItem->getShortName());
+		m_pItemListLB->insertItem(listItem->getName());
 		connect( listItem, SIGNAL(modified()),this,SLOT(slotListItemModified()) );
 	}
 
@@ -210,7 +210,7 @@ void ClassifierListPage::slotListItemCreated(UMLObject* object) {
 		return;
 	}
 	int index = m_pItemListLB->count();
-	m_pItemListLB ->insertItem((static_cast<UMLClassifierListItem*>(object))->getShortName(), index);
+	m_pItemListLB ->insertItem((static_cast<UMLClassifierListItem*>(object))->getName(), index);
 	m_bSigWaiting = false;
 
 	// now select the new item, so that the user can go on adding doc or calling
@@ -226,7 +226,7 @@ void ClassifierListPage::slotListItemModified() {
 	//is this safe???
 	UMLClassifierListItem* object = const_cast<UMLClassifierListItem*>(dynamic_cast<const UMLClassifierListItem*>(sender()));
 	int index = m_pItemListLB->currentItem();
-	m_pItemListLB->changeItem(object->getShortName(), index);
+	m_pItemListLB->changeItem(object->getName(), index);
 	m_bSigWaiting = false;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -363,7 +363,7 @@ void ClassifierListPage::slotDoubleClick( QListBoxItem* item ) {
 	}
 
 	if( listItem->showPropertiesDialogue(this) ) {
-		m_pItemListLB->changeItem( listItem->getShortName(), m_pItemListLB->index(item) );
+		m_pItemListLB->changeItem( listItem->getName(), m_pItemListLB->index(item) );
 	}
 }
 

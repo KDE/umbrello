@@ -278,10 +278,13 @@ const UMLStereotype * UMLObject::getUMLStereotype() {
 	return m_pStereotype;
 }
 
-QString UMLObject::getStereotype() {
+QString UMLObject::getStereotype(bool includeAdornments /* = true */) {
 	if (m_pStereotype == NULL)
 		return "";
-	return m_pStereotype->getName();
+	QString name = m_pStereotype->getName();
+	if (includeAdornments)
+		name = "«" + name + "»";
+	return name;
 }
 
 QString UMLObject::getPackage(QString separator /* ="::" */) {

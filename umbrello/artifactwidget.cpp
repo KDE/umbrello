@@ -50,7 +50,7 @@ void ArtifactWidget::drawAsNormal(QPainter& p, int offsetX, int offsetY) {
 
 	if (stereotype != "") {
 		p.drawText(offsetX + ARTIFACT_MARGIN, offsetY + (h/2) - fontHeight,
-			   w, fontHeight, AlignCenter, "«" + stereotype + "»");
+			   w, fontHeight, AlignCenter, stereotype);
 	}
 
 	int lines;

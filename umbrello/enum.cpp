@@ -154,20 +154,16 @@ UMLEnumLiteral* UMLEnum::takeEnumLiteral(UMLEnumLiteral* el) {
 	return el;
 }
 
-UMLObjectList UMLEnum::findChildObject(UMLObject_Type t, QString n,
-				       bool seekStereo /* = false */) {
+UMLObjectList UMLEnum::findChildObject(UMLObject_Type t, QString n) {
 	UMLObjectList list;
 	if (t == ot_Association) {
-		return UMLClassifier::findChildObject(t, n, seekStereo);
+		return UMLClassifier::findChildObject(t, n);
 	} else if (t == ot_EnumLiteral) {
 		UMLClassifierListItem * obj=0;
 		for(obj=m_EnumLiteralList.first();obj != 0;obj=m_EnumLiteralList.next()) {
 			if (obj->getBaseType() != t)
 				continue;
-			if (seekStereo) {
-				if (obj->getStereotype() == n)
-					list.append( obj );
-			} else if (obj->getName() == n)
+			if (obj->getName() == n)
 				list.append( obj );
 		}
 	} else {

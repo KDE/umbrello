@@ -88,7 +88,7 @@ bool AdaWriter::isOOClass(UMLClassifier *c) {
 		kdDebug() << "AdaWriter::isOOClass: unknown object type " << ot << endl;
 		return false;
 	}
-	QString stype = c->getStereotype();
+	QString stype = c->getStereotype(false);
 	if (stype == "CORBAConstant" || stype == "CORBATypedef" ||
 	    stype == "CORBAStruct" || stype == "CORBAUnion")
 		return false;
@@ -217,7 +217,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 		return;
 	}
 	if (! isOOClass(c)) {
-		QString stype = c->getStereotype();
+		QString stype = c->getStereotype(false);
 		if (stype == "CORBAConstant") {
 			ada << spc() << "-- " << stype << " is Not Yet Implemented" << m_newLineEndingChars << m_newLineEndingChars;
 		} else if (myClass && myClass->isEnumeration()) {

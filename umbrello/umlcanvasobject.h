@@ -152,12 +152,9 @@ public:
 	 *
 	 * @param t		The type to find.
 	 * @param n		The name of the object to find.
-	 * @param seekStereo	Set this true if we should look at the object's
-	 *			stereotype instead of its name.
 	 * @return	List of objects found (empty if none found.)
 	 */
-	virtual UMLObjectList findChildObject(UMLObject_Type t, QString n,
-					      bool seekStereo = false);
+	virtual UMLObjectList findChildObject(UMLObject_Type t, QString n);
 
 	/**
 	 * Find an association.

@@ -168,9 +168,11 @@ public:
 	 * Returns the classes stereotype name.
 	 * Returns an empty string if no stereotype object is set.
 	 *
+	 * @param includeAdornments	Include surrounding angled brackets
+	 *				"«" and "»".
 	 * @return	Returns the classes stereotype name.
 	 */
-	QString getStereotype();
+	QString getStereotype(bool includeAdornments = true);
 
 	/**
 	 * Return the package(s) in which this UMLObject is contained

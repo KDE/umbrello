@@ -94,7 +94,7 @@ void ClassWidget::draw(QPainter & p, int offsetX, int offsetY) {
 			//FIXME why is underline sometimes true
 			f.setUnderline( false );
 			p.setFont( f );
-			p.drawText(offsetX + MARGIN, bodyOffsetY, w-MARGIN * 2,fontHeight,AlignCenter, "«" + m_pObject -> getStereotype() + "»");
+			p.drawText(offsetX + MARGIN, bodyOffsetY, w-MARGIN * 2,fontHeight,AlignCenter, m_pObject -> getStereotype());
 			f.setItalic( m_pObject -> getAbstract() );
 			p.setFont( f );
 			p.drawText(offsetX + MARGIN, bodyOffsetY + fontHeight,w-MARGIN * 2,fontHeight,AlignCenter, name);
@@ -294,7 +294,7 @@ void ClassWidget::calculateSize() {
 	/* if no stereotype is given, this line has a width of 0 */
 	int w = 0;
 	if (m_pObject->getStereotype().isEmpty() == false ) {
-		w = getFontMetrics(FT_BOLD).boundingRect("«" + m_pObject -> getStereotype() + "»").width();
+		w = getFontMetrics(FT_BOLD).boundingRect(m_pObject->getStereotype()).width();
 	}
 
 	width = w > width?w:width;
