@@ -126,6 +126,6 @@ namespace Umbrello
     PluginMap			_plugins;	///< The plugin mapping
     CategoryMap			_categories;	///< Categories of plugins
   };
-};
+}
 
 #endif

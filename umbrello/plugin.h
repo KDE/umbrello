@@ -87,7 +87,7 @@ namespace Umbrello
     public QObject,
     public Configurable
   {
-    Q_OBJECT;
+    Q_OBJECT
     friend class PluginLoader;
   public:
     /** Destroy a plugin.*/
@@ -157,6 +157,6 @@ namespace Umbrello
     QCString	_instanceName;	///< Instance name of the plugin
     KConfig    *_config;	///< Configuration record
   };
-};
+}
 
 #endif

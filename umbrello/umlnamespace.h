@@ -176,6 +176,6 @@ namespace Uml {
 		sequence_message_asynchronous
 	};
 
-  };
+  }
   
 #endif

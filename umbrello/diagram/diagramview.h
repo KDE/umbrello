@@ -63,7 +63,7 @@ private:
 };
 
 
-};
+}
 
 #endif // UMBRELLO_DIAGRAMVIEW_H
 

@@ -33,7 +33,7 @@
 
 
 
-UMBRELLO_EXPORT_PLUGIN_FACTORY(libumlwidgets, KGenericFactory<Umbrello::UMLWidgetSet>);
+UMBRELLO_EXPORT_PLUGIN_FACTORY(libumlwidgets, KGenericFactory<Umbrello::UMLWidgetSet>)
 
 
 namespace Umbrello{

@@ -178,7 +178,7 @@ void inComment(yyFlexLexer *lex)
 {
   const char *text=lex->YYText();
   comment+=text;
-};
+}
 
 bool endComment(yyFlexLexer *lex)
 {

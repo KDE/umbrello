@@ -111,6 +111,6 @@ namespace Umbrello
 
     PluginList	_plugins;	///< List of loaded plugins
   };
-};
+}
 
 #endif
