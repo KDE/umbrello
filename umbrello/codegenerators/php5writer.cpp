@@ -32,7 +32,9 @@
 #include "../umlnamespace.h"
 
 Php5Writer::Php5Writer( UMLDoc *parent, const char *name )
-	:SimpleCodeGenerator( parent, name) {}
+	:SimpleCodeGenerator( parent, name) {
+	pListOfReservedKeywords = NULL;
+}
 
 Php5Writer::~Php5Writer() {}
 
@@ -284,7 +286,7 @@ void Php5Writer::writeOperations(QString /* classname */, UMLOperationList &opLi
 			}
 			php <<m_indentation << " */" << endl;
 		}//end if : write method documentation
-		
+
 		php <<  m_indentation;
 		if (op->getAbstract()) php << "abstract ";
 		switch(op->getScope()) {
