@@ -10,10 +10,8 @@
 #ifndef CLASS_PROPERTIES_PAGE
 #define CLASS_PROPERTIES_PAGE
 
-#include "dialogpage.h"
 #include "classpropertiesbase.h"
 
-class QWidget;
 class UMLConcept;
 typedef UMLConcept UMLClass;
 
@@ -22,7 +20,7 @@ typedef UMLConcept UMLClass;
  *
 */
 
-class ClassPropertiesPage : public  DialogPage
+class ClassPropertiesPage : public  ClassPropertiesBase
 {
 Q_OBJECT
 public:
@@ -32,14 +30,15 @@ public slots:
 /** apply changes to the object*/
 	virtual void apply();
 /** reset changes and restore values from object*/	
-	virtual void cancel();	
-protected:
-	virtual void loadData();
-	virtual void saveData();
-	UMLClass *m_umlObject;	
+	virtual void cancel();
+	
+	virtual void pageContentsModified();
 
-private:
-	ClassPropertiesBase *m_base;
+	virtual void loadData();
+protected:
+	virtual void saveData();
+	
+	UMLClass *m_umlObject;	
 };
 
 #endif
