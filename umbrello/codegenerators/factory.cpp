@@ -24,6 +24,7 @@
 #include "phpwriter.h"
 #include "perlwriter.h"
 #include "pythonwriter.h"
+#include "sqlwriter.h"
 #include "qstringlist.h"
 
 #include <kdebug.h>
@@ -49,6 +50,7 @@ QStringList WriterFactory::languagesAvailable() {
  	l.append("Perl");
 	l.append("PHP");
 	l.append("Python");
+	l.append("SQL");
 	return l;
 }
 
@@ -68,6 +70,8 @@ QString WriterFactory::generatorName(const QString &l) {
  		return "PerlWriter";
  	if (l == "Python")
  		return "PythonWriter";
+ 	if (l == "SQL")
+ 		return "SQLWriter";
 	//else...
 	kdDebug()<<"WriterFactory::Error: no generator for language "<<l<<endl;
 	return "";
@@ -94,6 +98,8 @@ QObject* WriterFactory::createObject( QObject* parent, const char* name, const c
 		obj = new PerlWriter(parent, name);
  	} else if (n == "PythonWriter") {
 		obj = new PythonWriter(parent, name);
+ 	} else if (n == "SQLWriter") {
+		obj = new SQLWriter(parent, name);
 	} else {
 		kdDebug()<<"WriterFactory:: cannot create object of type "<<n<<". Type unknown"<<endl;
 	}
