@@ -201,8 +201,8 @@ void UMLView::print(KPrinter *pPrinter, QPainter & pPainter) {
 						 width, metrics.height() - marginY * 2);
 
 	//loop until all of the picture is printed
-	int numPagesX = (int)ceilf((float)rect.width()/(float)width);
-	int numPagesY = (int)ceilf((float)rect.height()/(float)height);
+	int numPagesX = (int)ceil((double)rect.width()/(double)width);
+	int numPagesY = (int)ceil((double)rect.height()/(double)height);
 	int page = 0;
 
 	// print the canvas to multiple pages

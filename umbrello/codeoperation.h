@@ -37,7 +37,7 @@ public:
 	 * Constructors 
 	 */
         CodeOperation ( ClassifierCodeDocument * doc , UMLOperation * parent, QString body, QString comment);
-        CodeOperation ( ClassifierCodeDocument * parent, UMLOperation * parent );
+        CodeOperation ( ClassifierCodeDocument * parent, UMLOperation * p);
 
 	/**
 	 * Empty Destructor

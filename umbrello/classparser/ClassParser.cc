@@ -2030,7 +2030,7 @@ void CClassParser::parseFile( ifstream &file )
 {
   reset();
 
-  lexer = new yyFlexLexer( &file );
+  lexer = new yyFlexLexer( dynamic_cast< ::istream* >(&file) );
   parseToplevel();
   delete lexer;
 }

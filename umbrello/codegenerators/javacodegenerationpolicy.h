@@ -31,10 +31,10 @@ public:
 	enum AccessorScope { Public=200, Private, Protected, FromParent };
 	enum JavaCommentStyle { SlashStar=0, DoubleSlash };
 
-	static const AccessorScope DEFAULT_ACCESSOR_SCOPE = FromParent;
-	static const JavaCommentStyle DEFAULT_COMMENT = SlashStar;
-        static const bool DEFAULT_AUTO_GEN_EMPTY_CONSTRUCTORS = false;
-        static const bool DEFAULT_AUTO_GEN_ACCESSORS = true;
+	static const AccessorScope DEFAULT_ACCESSOR_SCOPE;
+	static const JavaCommentStyle DEFAULT_COMMENT;
+        static const bool DEFAULT_AUTO_GEN_EMPTY_CONSTRUCTORS;
+        static const bool DEFAULT_AUTO_GEN_ACCESSORS;
 
 	// Constructors/Destructors
 	//  

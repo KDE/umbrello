@@ -21,6 +21,14 @@
 #include "cppcodegenerationpolicypage.h"
 #include "cppcodegenerator.h"
 
+const CPPCodeGenerationPolicy::CPPCommentStyle CPPCodeGenerationPolicy::DEFAULT_COMMENT = SlashStar;
+const bool CPPCodeGenerationPolicy::DEFAULT_AUTO_GEN_EMPTY_CONSTRUCTORS = false;
+const bool CPPCodeGenerationPolicy::DEFAULT_AUTO_GEN_ACCESSORS = true;
+const bool CPPCodeGenerationPolicy::DEFAULT_INLINE_ACCESSORS = false;
+const bool CPPCodeGenerationPolicy::DEFAULT_INLINE_OPERATIONS = false;
+const bool CPPCodeGenerationPolicy::DEFAULT_VIRTUAL_DESTRUCTORS = true;
+const bool CPPCodeGenerationPolicy::DEFAULT_PACKAGE_IS_NAMESPACE = false;
+
 // Constructors/Destructors
 //
 

@@ -24,6 +24,8 @@
 #include "javacodeclassfield.h"
 #include "javacodeclassfielddeclarationblock.h"
 
+const bool JavaCodeGenerator::DEFAULT_BUILD_ANT_DOC = false;
+
 // Constructors/Destructors
 //
 

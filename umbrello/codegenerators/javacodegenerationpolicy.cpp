@@ -18,6 +18,11 @@
 #include "javacodegenerationpolicypage.h"
 #include "javacodegenerator.h"
 
+const JavaCodeGenerationPolicy::AccessorScope JavaCodeGenerationPolicy::DEFAULT_ACCESSOR_SCOPE = FromParent;
+const JavaCodeGenerationPolicy::JavaCommentStyle JavaCodeGenerationPolicy::DEFAULT_COMMENT = SlashStar;
+const bool JavaCodeGenerationPolicy::DEFAULT_AUTO_GEN_EMPTY_CONSTRUCTORS = false;
+const bool JavaCodeGenerationPolicy::DEFAULT_AUTO_GEN_ACCESSORS = true;
+
 // Constructors/Destructors
 //
 

@@ -28,6 +28,15 @@
 
 #define MAXLINES 256
 
+const CodeGenerationPolicy::OverwritePolicy CodeGenerationPolicy::DEFAULT_OVERWRITE_POLICY = Ask;
+const bool CodeGenerationPolicy::DEFAULT_VERBOSE_SECTION_COMMENTS = true;
+const bool CodeGenerationPolicy::DEFAULT_VERBOSE_DOCUMENT_COMMENTS = true;
+const bool CodeGenerationPolicy::DEFAULT_INCLUDE_HEADINGS = true;
+const CodeGenerationPolicy::NewLineType CodeGenerationPolicy::DEFAULT_LINE_ENDING_TYPE = UNIX;
+const CodeGenerationPolicy::IndentationType CodeGenerationPolicy::DEFAULT_INDENT_TYPE = SPACE;
+const int CodeGenerationPolicy::DEFAULT_INDENT_AMOUNT = 2;
+const CodeGenerationPolicy::ModifyNamePolicy CodeGenerationPolicy::DEFAULT_MODIFY_NAME_POLICY = No;
+
 // Constructors/Destructors
 //
 

@@ -24,9 +24,11 @@
   #include "tokenizer.h"
 
   /* Patch: Fix skeleton flaw for flex 2.5.4 */
+  #ifndef __xlC__
   using std::cin;
   using std::cout;
   using std::cerr;
+  #endif
   /* Patch: Fix skeleton flaw for flex 2.5.4 */
 
   /* Line where a comment starts. */

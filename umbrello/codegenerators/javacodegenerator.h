@@ -37,7 +37,7 @@ public:
 	// Constructors/Destructors
 	//  
 
-	static const bool DEFAULT_BUILD_ANT_DOC = false;
+	static const bool DEFAULT_BUILD_ANT_DOC;
 
 	/**
 	 * Empty Constructor

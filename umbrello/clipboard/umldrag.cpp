@@ -19,9 +19,9 @@
 #include "../umllistviewitem.h"
 #include "../associationwidget.h"
 
+#define nfmt 4
 class UMLDragPrivate {
 public:
-	static const int nfmt = 4;
 	QCString fmt[nfmt];
 	QCString subtype;
 	QByteArray enc[nfmt];
@@ -51,7 +51,6 @@ public:
 		return 0;
 	}
 };
-
 
 UMLDrag::UMLDrag(UMLObjectList& objects, UMLListViewItemList& umlListViewItems,
 		 QWidget* dragSource /*= 0*/, const char* name /*= 0*/ ): QDragObject(dragSource, name) {

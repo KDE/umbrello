@@ -22,8 +22,10 @@
 
 /*** Patch - Fix FlexLexer.h flaw for flex 2.5.4 */
 #include <iostream>
+#ifndef __xlC__
 using std::istream;
 using std::ostream;
+#endif
 /*** Patch - Fix FlexLexer.h flaw for flex 2.5.4 */
 
 #include <FlexLexer.h>

@@ -55,14 +55,14 @@ public:
         enum IndentationType {NONE=0, TAB, SPACE};
 
        // set some reasonable defaults
-        static const OverwritePolicy DEFAULT_OVERWRITE_POLICY = Ask;
-        static const bool DEFAULT_VERBOSE_SECTION_COMMENTS = true;
-        static const bool DEFAULT_VERBOSE_DOCUMENT_COMMENTS = true;
-        static const bool DEFAULT_INCLUDE_HEADINGS = true;
-        static const NewLineType DEFAULT_LINE_ENDING_TYPE = UNIX;
-        static const IndentationType DEFAULT_INDENT_TYPE = SPACE;
-        static const int DEFAULT_INDENT_AMOUNT = 2;
-        static const ModifyNamePolicy DEFAULT_MODIFY_NAME_POLICY = No;
+        static const OverwritePolicy DEFAULT_OVERWRITE_POLICY;
+        static const bool DEFAULT_VERBOSE_SECTION_COMMENTS;
+        static const bool DEFAULT_VERBOSE_DOCUMENT_COMMENTS;
+        static const bool DEFAULT_INCLUDE_HEADINGS;
+        static const NewLineType DEFAULT_LINE_ENDING_TYPE;
+        static const IndentationType DEFAULT_INDENT_TYPE;
+        static const int DEFAULT_INDENT_AMOUNT;
+        static const ModifyNamePolicy DEFAULT_MODIFY_NAME_POLICY;
 
 
 	// Constructors/Destructors

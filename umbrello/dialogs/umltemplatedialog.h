@@ -14,6 +14,7 @@
 
 class QButtonGroup;
 class QCheckBox;
+class QComboBox;
 class QGroupBox;
 class QLineEdit;
 class QRadioButton;

@@ -23,6 +23,8 @@
 
 // #include "cppheadercodedocuent.h"
 
+const bool CPPCodeGenerator::DEFAULT_BUILD_MAKEFILE = false;
+
 // Constructors/Destructors
 //
 

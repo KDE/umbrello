@@ -30,13 +30,13 @@ public:
 
 	enum CPPCommentStyle { SlashStar=0, DoubleSlash };
 
-	static const CPPCommentStyle DEFAULT_COMMENT = SlashStar;
-        static const bool DEFAULT_AUTO_GEN_EMPTY_CONSTRUCTORS = false;
-        static const bool DEFAULT_AUTO_GEN_ACCESSORS = true;
-	static const bool DEFAULT_INLINE_ACCESSORS = false;
-        static const bool DEFAULT_INLINE_OPERATIONS = false;
- 	static const bool DEFAULT_VIRTUAL_DESTRUCTORS = true;
-	static const bool DEFAULT_PACKAGE_IS_NAMESPACE = false;
+	static const CPPCommentStyle DEFAULT_COMMENT;
+        static const bool DEFAULT_AUTO_GEN_EMPTY_CONSTRUCTORS;
+        static const bool DEFAULT_AUTO_GEN_ACCESSORS;
+	static const bool DEFAULT_INLINE_ACCESSORS;
+        static const bool DEFAULT_INLINE_OPERATIONS;
+ 	static const bool DEFAULT_VIRTUAL_DESTRUCTORS;
+	static const bool DEFAULT_PACKAGE_IS_NAMESPACE;
 
 	// Constructors/Destructors
 	//  
