@@ -421,9 +421,15 @@ QDomElement UMLObject::save( const QString &tag, QDomDocument & qDoc ) {
 	  This creates the QDomElement with which to work.
 	*/
 	QDomElement qElement = qDoc.createElement(tag);
-	qElement.setAttribute( "isLeaf", "false" );
-	qElement.setAttribute( "isRoot", "false" );
 	qElement.setAttribute( "isSpecification", "false" );
+	if (m_BaseType != Uml::ot_Association) {
+		qElement.setAttribute( "isLeaf", "false" );
+		qElement.setAttribute( "isRoot", "false" );
+		if (m_bAbstract)
+			qElement.setAttribute( "isAbstract", "true" );
+		else
+			qElement.setAttribute( "isAbstract", "false" );
+	}
 	qElement.setAttribute( "xmi.id", ID2STR(m_nId) );
 	qElement.setAttribute( "name", m_Name );
 	if (! m_Doc.isEmpty())
@@ -436,10 +442,6 @@ QDomElement UMLObject::save( const QString &tag, QDomDocument & qDoc ) {
 	qElement.setAttribute( "visibility", visibility);
 	if (m_pStereotype != NULL)
 		qElement.setAttribute( "stereotype", ID2STR(m_pStereotype->getID()) );
-	if (m_bAbstract)
-		qElement.setAttribute( "isAbstract", "true" );
-	else
-		qElement.setAttribute( "isAbstract", "false" );
 	if (m_bStatic)
 		qElement.setAttribute( "ownerScope", "classifier" );
 	/* else
