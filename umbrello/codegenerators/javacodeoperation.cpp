@@ -39,6 +39,7 @@ void JavaCodeOperation::updateMethodDeclaration()
         CodeDocument * doc = getParentDocument();
         JavaClassifierCodeDocument * javadoc = dynamic_cast<JavaClassifierCodeDocument*>(doc);
 	UMLOperation * o = getParentOperation();
+	bool isInterface = javadoc->getParentClassifier()->isInterface();
 
 	// first, the comment on the operation
 	QString comment = o->getDoc();
@@ -66,9 +67,28 @@ void JavaCodeOperation::updateMethodDeclaration()
 			paramStr  += ", ";
 	}
 
-	QString startText = strVis + " "+ returnType + methodName + " ( "+paramStr+") {";
+	QString startText = strVis + " "+ returnType + methodName + " ( "+paramStr+")";
+
+	// IF the parent is an interface, our operations look different
+	// e.g. they have no body
+	if(isInterface) {
+		startText += ";";
+		setEndMethodText("");
+	} else {
+		startText += " {";
+		setEndMethodText("}");
+	}
+
 	setStartMethodText(startText);
 
+}
+
+int JavaCodeOperation::lastEditableLine() {
+        ClassifierCodeDocument * doc = (ClassifierCodeDocument*)getParentDocument();
+        if(doc->parentIsInterface()) 
+                return -1; // very last line is NOT editable as its a one-line declaration w/ no body in 
+			// an interface.
+        return 0;
 }
 
 void JavaCodeOperation::init (JavaClassifierCodeDocument * doc ) 
@@ -80,7 +100,6 @@ void JavaCodeOperation::init (JavaClassifierCodeDocument * doc )
 
 	// these things never change..
         setOverallIndentationLevel(1);
-	setEndMethodText("}"); 
 
         updateMethodDeclaration();
         updateContent();

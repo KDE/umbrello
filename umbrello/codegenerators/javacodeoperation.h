@@ -40,6 +40,8 @@ public:
 	 */
 	virtual ~JavaCodeOperation ( );
 
+	virtual int lastEditableLine();
+
 protected:
 
         void updateMethodDeclaration();
