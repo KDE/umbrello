@@ -2211,19 +2211,11 @@ void UMLDoc::resolveTypes() {
 		UMLObject *obj = oit.current();
 #ifdef VERBOSE_DEBUGGING
 		kdDebug() << "UMLDoc: invoking resolveRef() for " << obj->getName()
-			  << " (id=" << obj->getID() << ")" << endl;
+			  << " (id=" << ID2STR(obj->getID()) << ")" << endl;
 #endif
 		obj->resolveRef();
 	}
 	kapp->processEvents();  // give UI events a chance
-#ifdef VERBOSE_DEBUGGING
-	kdDebug() << "UMLDoc object list after resolveRef():" << endl;
-	for (UMLObjectListIt it(m_objectList); it.current(); ++it) {
-		UMLObject *obj = it.current();
-		kdDebug() << obj->getName() << "  (id " << obj->getID()
-			  << ")" << endl;
-	}
-#endif
 }
 
 bool UMLDoc::validateXMIHeader(QDomNode& headerNode) {
