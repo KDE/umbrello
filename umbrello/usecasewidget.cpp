@@ -24,7 +24,7 @@ UseCaseWidget::UseCaseWidget(UMLView * view, UMLUseCase *o) : UMLWidget(view, o)
 UseCaseWidget::~UseCaseWidget() {}
 
 void UseCaseWidget::draw(QPainter & p, int offsetX, int offsetY) {
-	p.setPen( UMLWidget::getLineColour() );
+	p.setPen( QPen( UMLWidget::getLineColour(), UMLWidget::getLineWidth() ) );
 	if ( UMLWidget::getUseFillColour() )
 		p.setBrush( UMLWidget::getFillColour() );
 	p.setFont( UMLWidget::getFont() );
@@ -38,7 +38,7 @@ void UseCaseWidget::draw(QPainter & p, int offsetX, int offsetY) {
 	p.drawEllipse(offsetX, offsetY, w, h);
 	p.setPen(black);
 	p.drawText(offsetX + UC_MARGIN, offsetY + textStartY, w - UC_MARGIN * 2, fontHeight, AlignCenter, getName());
-	p.setPen( UMLWidget::getLineColour() );
+	p.setPen( QPen( UMLWidget::getLineColour(), UMLWidget::getLineWidth() ) );
 	if(m_bSelected)
 		drawSelected(&p, offsetX, offsetY);
 }

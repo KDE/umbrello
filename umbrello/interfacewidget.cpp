@@ -56,7 +56,7 @@ void InterfaceWidget::draw(QPainter& p, int offsetX, int offsetY) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void InterfaceWidget::drawAsCircle(QPainter& p, int offsetX, int offsetY) {
-	p.setPen( UMLWidget::getLineColour() );
+	p.setPen( QPen( UMLWidget::getLineColour(), UMLWidget::getLineWidth() ) );
 
 	if ( UMLWidget::getUseFillColour() ) {
 		p.setBrush( UMLWidget::getFillColour() );
@@ -89,7 +89,7 @@ void InterfaceWidget::drawAsCircle(QPainter& p, int offsetX, int offsetY) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void InterfaceWidget::drawAsConcept(QPainter& p, int offsetX, int offsetY) {
-	p.setPen(UMLWidget::getLineColour());
+	p.setPen( QPen( UMLWidget::getLineColour(), UMLWidget::getLineWidth() ) );
 	if(UMLWidget::getUseFillColour())
 		p.setBrush(UMLWidget::getFillColour());
 	else
@@ -141,7 +141,7 @@ void InterfaceWidget::drawAsConcept(QPainter& p, int offsetX, int offsetY) {
 		font.setBold(false);
 
 		y = operationsStart;
-		p.setPen( UMLWidget::getLineColour() );
+		p.setPen( QPen( UMLWidget::getLineColour(), UMLWidget::getLineWidth() ) );
 
 		p.drawLine(offsetX, offsetY + y, offsetX + w - 1, offsetY + y);
 

@@ -77,8 +77,8 @@ void LinePath::setAssociation(AssociationWidget * association ) {
 	if( getAssocType() == at_Coll_Message )
 		setupParallelLine();
 	UMLView * view =  (UMLView *)m_pAssociation -> parent();
-	connect( view, SIGNAL( sigLineColorChanged( QColor ) ), this, SLOT( setLineColor( QColor ) ) );
-	connect( view, SIGNAL( sigLineWidthChanged( uint ) ), this, SLOT( setLineWidth( uint ) ) );
+	connect( view, SIGNAL( sigLineColorChanged( int ) ), this, SLOT( slotLineColorChanged( int ) ) );
+	connect( view, SIGNAL( sigLineWidthChanged( int ) ), this, SLOT( slotLineWidthChanged( int ) ) );
 }
 
 QPoint LinePath::getPoint( int pointIndex ) {
@@ -334,6 +334,14 @@ void LinePath::update() {
 	}
 }
 
+void LinePath::slotLineColorChanged( int viewID ) {
+	if(m_pAssociation->getUMLView()->getID() != viewID) {
+		return;
+	}
+	setLineColor( m_pAssociation->getUMLView()->getLineColor() );
+}
+
+
 void LinePath::setLineColor( QColor color ) {
 	QCanvasLine * line = 0;
 	uint linewidth = 0;
@@ -365,6 +373,13 @@ void LinePath::setLineColor( QColor color ) {
 		linewidth = m_pCircle->pen().width();
 		m_pCircle->setPen( QPen(color, linewidth) );
 	}
+}
+
+void LinePath::slotLineWidthChanged( int viewID ) {
+	if(m_pAssociation->getUMLView()->getID() != viewID) {
+		return;
+	}
+	setLineWidth( m_pAssociation->getUMLView()->getLineWidth() );
 }
 
 void LinePath::setLineWidth( uint width ) {
@@ -835,8 +850,8 @@ void LinePath::cleanup() {
 	if( m_pAssociation ) {
 		UMLView * view =  (UMLView *)m_pAssociation -> parent();
 		if(view) {
-			disconnect( view, SIGNAL( sigLineColorChanged( QColor ) ), this, SLOT( setLineColor( QColor ) ) );
-			disconnect( view, SIGNAL( sigLineWidthChanged( uint ) ), this, SLOT( setLineWidth( uint ) ) );
+			disconnect( view, SIGNAL( sigLineColorChanged( int ) ), this, SLOT( slotLineColorChanged( int ) ) );
+			disconnect( view, SIGNAL( sigLineWidthChanged( int ) ), this, SLOT( slotLineWidthChanged( int ) ) );
 		}
 		m_pAssociation = NULL;
 	}

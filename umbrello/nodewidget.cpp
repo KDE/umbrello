@@ -22,10 +22,10 @@ NodeWidget::NodeWidget(UMLView * view, UMLNode *n ) : UMLWidget(view, n) {
 void NodeWidget::init() {
 	UMLWidget::setBaseType(wt_Node);
 	m_pMenu = 0;
-	
+
 	const Settings::OptionState& ops = m_pView->getOptionState();
 	m_bShowStereotype = ops.classState.showStereoType;
-	
+
 	calculateSize();
 	update();
 }
@@ -33,7 +33,7 @@ void NodeWidget::init() {
 NodeWidget::~NodeWidget() {}
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void NodeWidget::draw(QPainter & p, int offsetX, int offsetY) {
-	p.setPen( UMLWidget::getLineColour() );
+	p.setPen( QPen( UMLWidget::getLineColour(), UMLWidget::getLineWidth() ) );
 	if ( UMLWidget::getUseFillColour() ) {
 		p.setBrush( UMLWidget::getFillColour() );
 	} else {

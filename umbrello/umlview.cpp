@@ -771,13 +771,13 @@ void UMLView::setFillColor(QColor color) {
 void UMLView::setLineColor(QColor color) {
 	m_Options.uiState.lineColor = color;
 	emit sigColorChanged( getID() );
-	emit sigLineColorChanged( color );
+	emit sigLineColorChanged( getID() );
 	canvas() -> setAllChanged();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLView::setLineWidth(uint width) {
 	m_Options.uiState.lineWidth = width;
-	emit sigLineWidthChanged( width );
+	emit sigLineWidthChanged( getID() );
 	canvas() -> setAllChanged();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////

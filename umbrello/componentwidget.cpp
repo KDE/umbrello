@@ -42,7 +42,7 @@ void ComponentWidget::draw(QPainter & p, int offsetX, int offsetY) {
 	UMLComponent *umlcomp = static_cast<UMLComponent*>(m_pObject);
 	if (umlcomp == NULL)
 		return;
-	p.setPen( UMLWidget::getLineColour() );
+	p.setPen( QPen( UMLWidget::getLineColour(), UMLWidget::getLineWidth() ) );
 	if ( umlcomp->getExecutable() ) {
 		QPen thickerPen = p.pen();
 		thickerPen.setWidth(2);

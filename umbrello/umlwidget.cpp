@@ -61,6 +61,7 @@ UMLWidget::UMLWidget( UMLView * view, UMLObject * o, Settings::OptionState optio
 	m_FillColour = optionState.uiState.fillColor;
 	m_LineColour = optionState.uiState.lineColor;
 	m_LineWidth  = optionState.uiState.lineWidth;
+	m_Font       = optionState.uiState.font;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLWidget::UMLWidget(UMLView * view, int id /* = -1 */)
@@ -82,6 +83,7 @@ UMLWidget::UMLWidget( UMLView * view, Settings::OptionState optionState )
 	m_FillColour = optionState.uiState.fillColor;
 	m_LineColour = optionState.uiState.lineColor;
 	m_LineWidth  = optionState.uiState.lineWidth;
+	m_Font       = optionState.uiState.font;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -413,6 +415,7 @@ void UMLWidget::init() {
 		m_FillColour = optionState.uiState.fillColor;
 		m_LineColour = optionState.uiState.lineColor;
 		m_LineWidth  = optionState.uiState.lineWidth;
+		m_Font       = optionState.uiState.font;
 	} else {
 		m_bUseFillColour = false;
 		m_bUsesDiagramFillColour = false;
@@ -442,6 +445,11 @@ void UMLWidget::init() {
 	m_nOldH = m_nOldW = 0;
 	connect( m_pView, SIGNAL( sigRemovePopupMenu() ), this, SLOT( slotRemovePopupMenu() ) );
 	connect( m_pView, SIGNAL( sigClearAllSelected() ), this, SLOT( slotClearAllSelected() ) );
+
+	connect( m_pView, SIGNAL(sigColorChanged(int)), this, SLOT(slotColorChanged(int)));
+	connect( m_pView, SIGNAL(sigLineWidthChanged(int)), this, SLOT(slotLineWidthChanged(int)));
+
+
 //	connect( m_pView, SIGNAL(sigColorChanged(int)), this, SLOT(slotColorChanged(int)));
 	if( m_pObject )
 	{
@@ -875,10 +883,12 @@ void UMLWidget::setView(UMLView * v) {
 	disconnect( m_pView, SIGNAL( sigRemovePopupMenu() ), this, SLOT( slotRemovePopupMenu() ) );
 	disconnect( m_pView, SIGNAL( sigClearAllSelected() ), this, SLOT( slotClearAllSelected() ) );
 	disconnect( m_pView, SIGNAL(sigColorChanged(int)), this, SLOT(slotColorChanged(int)));
+	disconnect( m_pView, SIGNAL(sigLineWidthChanged(int)), this, SLOT(slotLineWidthChanged(int)));
 	m_pView = v;
 	connect( m_pView, SIGNAL( sigRemovePopupMenu() ), this, SLOT( slotRemovePopupMenu() ) );
 	connect( m_pView, SIGNAL( sigClearAllSelected() ), this, SLOT( slotClearAllSelected() ) );
 	connect( m_pView, SIGNAL(sigColorChanged(int)), this, SLOT(slotColorChanged(int)));
+	connect( m_pView, SIGNAL(sigLineWidthChanged(int)), this, SLOT(slotLineWidthChanged(int)));
 }
 
 void UMLWidget::setX( int x ) {
@@ -1117,6 +1127,10 @@ bool UMLWidget::loadFromXMI( QDomElement & qElement ) {
 		QFont newFont;
 		newFont.fromString(font);
 		setFont(newFont);
+	}
+	else {
+		kdWarning() << "Use Default Font: " << m_Font.toString() << endl;
+		setFont( m_Font );
 	}
 	m_bUseFillColour = (bool)usefillcolor.toInt();
 	m_bUsesDiagramFillColour = (bool)usesDiagramFillColour.toInt();

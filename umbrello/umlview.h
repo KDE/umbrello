@@ -1080,7 +1080,7 @@ private:
 
 	ToolBarStateFactory* m_pToolBarStateFactory;
 	ToolBarState* m_pToolBarState;
-	
+
 	WorkToolBar::ToolBar_Buttons m_CurrentCursor;
 
 	/**
@@ -1204,8 +1204,8 @@ signals:
 	void sigColorChanged( int );
 	void sigRemovePopupMenu();
 	void sigClearAllSelected();
-	void sigLineColorChanged( QColor );
-	void sigLineWidthChanged( uint );
+	void sigLineColorChanged( int );
+	void sigLineWidthChanged( int );
 	void sigSnapToGridToggled(bool);
 	void sigSnapComponentSizeToGridToggled(bool);
 	void sigShowGridToggled(bool);

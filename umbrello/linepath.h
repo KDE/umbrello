@@ -349,6 +349,19 @@ public slots:
 	*   Sets the line width used by the line.
 	*/
 	void setLineWidth( uint width );
+
+	/**
+	*   Sets the line color used by the line.
+	*
+	* @param viewID The id of the object behind the widget.
+	*/
+	void slotLineColorChanged( int viewID );
+	/**
+	*   Sets the line width used by the line.
+	*
+	* @param viewID The id of the object behind the widget.
+	*/
+	void slotLineWidthChanged( int viewID );
 };
 
 #endif

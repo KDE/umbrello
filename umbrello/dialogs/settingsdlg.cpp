@@ -250,6 +250,7 @@ void SettingsDlg::setupCodeViewerPage(Settings::CodeViewerState options) {
 void SettingsDlg::setupFontPage() {
 	QVBox * page = addVBoxPage( i18n("Font"), i18n("Font Settings"), DesktopIcon( "fonts")  );
 	m_FontWidgets.chooser = new KFontChooser( page, "font", false, QStringList(), false);
+	m_FontWidgets.chooser->setFont( m_pOptionState->uiState.font );
 
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////

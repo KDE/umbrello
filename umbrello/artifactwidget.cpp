@@ -34,7 +34,7 @@ void ArtifactWidget::init() {
 ArtifactWidget::~ArtifactWidget() {}
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void ArtifactWidget::drawAsNormal(QPainter& p, int offsetX, int offsetY) {
-	p.setPen( UMLWidget::getLineColour() );
+	p.setPen( QPen( UMLWidget::getLineColour(), UMLWidget::getLineWidth() ) );
 	if ( UMLWidget::getUseFillColour() ) {
 		p.setBrush( UMLWidget::getFillColour() );
 	} else {
@@ -81,7 +81,7 @@ void ArtifactWidget::drawAsNormal(QPainter& p, int offsetX, int offsetY) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void ArtifactWidget::drawAsFile(QPainter& p, int offsetX, int offsetY) {
-	p.setPen( UMLWidget::getLineColour() );
+	p.setPen( QPen( UMLWidget::getLineColour(), UMLWidget::getLineWidth() ) );
 	if ( UMLWidget::getUseFillColour() ) {
 		p.setBrush( UMLWidget::getFillColour() );
 	} else {
@@ -122,7 +122,7 @@ void ArtifactWidget::drawAsFile(QPainter& p, int offsetX, int offsetY) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void ArtifactWidget::drawAsLibrary(QPainter& p, int offsetX, int offsetY) {
 	//FIXME this should have gears on it
-	p.setPen( UMLWidget::getLineColour() );
+	p.setPen( QPen( UMLWidget::getLineColour(), UMLWidget::getLineWidth() ) );
 	if ( UMLWidget::getUseFillColour() ) {
 		p.setBrush( UMLWidget::getFillColour() );
 	} else {
@@ -162,7 +162,7 @@ void ArtifactWidget::drawAsLibrary(QPainter& p, int offsetX, int offsetY) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void ArtifactWidget::drawAsTable(QPainter& p, int offsetX, int offsetY) {
-	p.setPen( UMLWidget::getLineColour() );
+	p.setPen( QPen( UMLWidget::getLineColour(), UMLWidget::getLineWidth() ) );
 	if ( UMLWidget::getUseFillColour() ) {
 		p.setBrush( UMLWidget::getFillColour() );
 	} else {

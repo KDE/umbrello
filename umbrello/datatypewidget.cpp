@@ -36,7 +36,7 @@ void DatatypeWidget::init() {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 void DatatypeWidget::draw(QPainter& p, int offsetX, int offsetY) {
-	p.setPen(UMLWidget::getLineColour());
+	p.setPen( QPen( UMLWidget::getLineColour(), UMLWidget::getLineWidth() ) );
 	if (UMLWidget::getUseFillColour())  {
 		p.setBrush(UMLWidget::getFillColour());
 	} else {
