@@ -16,7 +16,6 @@
 #include "floatingtext.h"
 #include "floatingtextdata.h"
 #include "objectwidget.h"
-#include "umlwidget.h"
 #include "dialogs/assocpropdlg.h"
 #include "dialogs/selectopdlg.h"
 #include <kdebug.h>
@@ -47,9 +46,6 @@ AssociationWidget::AssociationWidget(QWidget *parent, UMLWidget* WidgetA,
  	setWidgetB(WidgetB);
 
   	setAssocType(Type);
-
- 	// sync UML meta-data to settings in associationwidgetdata
- 	mergeAssociationDataIntoUMLRepresentation();
 
   	calculateEndingPoints();
 
@@ -493,15 +489,14 @@ bool AssociationWidget::activate() {
 	bool status = true;
 	Association_Type type = m_pData->getAssocType();
 
-	m_pWidgetA = m_pView -> findWidget(m_pData->getWidgetAID());
-	m_pWidgetB = m_pView -> findWidget(m_pData->getWidgetBID());
+	setWidgetA(m_pView->findWidget(m_pData->getWidgetAID()));
+	setWidgetB(m_pView->findWidget(m_pData->getWidgetBID()));
 
 	if(!m_pWidgetA || !m_pWidgetB) {
 		kdDebug() << "Can't make association" << endl;
 		return false;
 	}
-	m_pWidgetA->addAssoc(this);
-	m_pWidgetB->addAssoc(this);
+
 	calculateEndingPoints();
 	FloatingText* ft = 0;
 	/*
@@ -684,13 +679,10 @@ bool AssociationWidget::setWidgets( UMLWidget* WidgetA,
 	if((m_pWidgetA && (m_pWidgetA != WidgetA)) || (m_pWidgetB && (m_pWidgetB != WidgetB))) {
 		return false;
 	}
-	m_pWidgetA = WidgetA;
-	m_pWidgetA->addAssoc(this);
-
+	setWidgetA(WidgetA);
 	setAssocType(AssocType);
+	setWidgetB(WidgetB);
 
-	m_pWidgetB = WidgetB;
-	m_pWidgetB->addAssoc(this);
 	calculateEndingPoints();
 	synchronizeData();
 	return true;
@@ -1273,6 +1265,29 @@ void AssociationWidget::mergeAssociationDataIntoUMLRepresentation()
 	uml->setAssocType(data->getAssocType());
 	uml->setChangeabilityA(data->getChangeabilityA());
 	uml->setChangeabilityB(data->getChangeabilityB());
+
+	// dont believe this is needed here.
+	if(getWidgetA() != 0) {
+		UMLObject *oA = getWidgetA()->getUMLObject();
+		if (oA)
+			uml->setObjectA(oA);
+		else {
+			UMLObject *obj = m_pView->getDocument()->findUMLObject(data->getWidgetAID());
+			if (obj)
+				uml->setObjectA(obj);
+		}
+	}
+
+	if(getWidgetB() != 0) {
+		UMLObject *oB = getWidgetB()->getUMLObject();
+		if (oB)
+			uml->setObjectB(oB);
+		else {
+			UMLObject *obj = m_pView->getDocument()->findUMLObject(data->getWidgetBID());
+			if (obj)
+				uml->setObjectA(obj);
+		}
+	}
 
 	// floating text widgets
 	FloatingTextData *textData = data->getNameData();
@@ -3218,24 +3233,6 @@ void AssociationWidget::init (QWidget *parent)
  	m_bSelected = false;
  	m_nMovingPoint = -1;
 
-}
-
-void AssociationWidget::setWidgetA(UMLWidget* WidgetA) {
-	if (!WidgetA) {
-		m_pWidgetA = 0;
-	} else {
-		m_pWidgetA = WidgetA;
-		m_pWidgetA->addAssoc(this);
-	}
-}
-
-void AssociationWidget::setWidgetB(UMLWidget* WidgetB) {
-	if (!WidgetB) {
-		m_pWidgetB = 0;
- 	} else {
-		m_pWidgetB = WidgetB;
-		m_pWidgetB->addAssoc(this);
-	}
 }
 
 void AssociationWidget::resetTextPositions() {

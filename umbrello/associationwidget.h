@@ -77,16 +77,34 @@ public:
 	*/
 	bool activate();
 
-  	/**
- 	 * Write property of m_pWidgetA
- 	 */
- 	void setWidgetA(UMLWidget* WidgetA);
- 
- 	/**
- 	 * Write property of m_pWidgetB
- 	 */ 
- 	void setWidgetB(UMLWidget* WidgetB);
- 
+	/**
+	 * Write property of m_pWidgetA
+	 */
+	void setWidgetA( UMLWidget* WidgetA) {
+		if (!WidgetA)
+			m_pWidgetA = 0;
+		else {
+			m_pWidgetA = WidgetA;
+			m_pWidgetA->addAssoc(this);
+			if(m_pAssociation)
+				m_pAssociation->setObjectA(m_pWidgetA->getUMLObject());
+		}
+	}
+
+	/**
+	 * Write property of m_pWidgetB
+	 */ 
+	void setWidgetB( UMLWidget* WidgetB) {
+		if (!WidgetB)
+			m_pWidgetB = 0;
+		else {
+			m_pWidgetB = WidgetB;
+			m_pWidgetB->addAssoc(this);
+			if(m_pAssociation)
+				m_pAssociation->setObjectB(m_pWidgetB->getUMLObject());
+		}
+	}
+
 	/**
 	* Read property of FloatingText* m_pMultiA.
 	*/

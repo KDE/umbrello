@@ -32,55 +32,11 @@ public:
 	/**
 	 *	Sets up an association.
 	 *
-	 *	@param	parent		The parent of this UMLAssociation.
-	 *	@param	name		The name of this UMLAssociation.
-	 *	@param	id		The unique id given to this UMLAssociation.
-	 *	@param	assocType	The association type.
-	 *	@param	roleA_id	ID of the UMLObject of role A.
-	 *	@param	roleB_id	ID of the UMLObject of role B.
-	 *	@param	roleNameA	The name of the role A (NYI.)
-	 *	@param	roleNameB	The name of the role B (NYI.)
-	 *	@param	multiA		The multiplicity of the role A.
-	 *	@param	multiB		The multiplicity of the role B.
-	 *	@param	visibilityA	The visibility of role A 
-	 *	@param	visibilityB	The visibility of role B 
-	 *	@param	changeA		The changeability of role A 
-	 *	@param	changeB		The changeability of role B 
-	 */
-	UMLAssociation(UMLDoc* parent, QString name, int id,
-		       Uml::Association_Type assocType,
-		       int roleA_id, int roleB_id,
-		       QString roleNameA = "", QString roleNameB = "", 
-		       QString multiA = "", QString multiB = "",
-		       Scope visibilityA = Public, Scope visibilityB = Public, 
-		       Changeability_Type changeA = chg_Changeable, 
-		       Changeability_Type changeB = chg_Changeable 
-		       )
-	: UMLObject((UMLObject*)parent, name, id) {
-
-		init();
-
-		m_AssocType = assocType;
-		m_Name = name;
-		m_RoleAId = roleA_id;
-		m_RoleBId = roleB_id;
-		m_MultiA = multiA;
-		m_MultiB = multiB;
-		m_RoleNameA = roleNameA;
-		m_RoleNameB = roleNameB;
-		m_VisibilityA = visibilityA;
-		m_VisibilityB = visibilityB;
-		m_ChangeabilityA = changeA;
-		m_ChangeabilityB = changeB;
-
-	}
-
-	/**
-	 *	Sets up an association.
-	 *
 	 *	@param	parent	The parent of this UMLAssociation.
 	 */
-	UMLAssociation(QObject * parent) : UMLObject(parent) {
+	UMLAssociation(UMLDoc* parent) 
+		: UMLObject((UMLObject *)parent) 
+	{
 		init();
 	}
 
@@ -128,6 +84,20 @@ public:
 	 *	@return		The assocType of the UMLAssociation.
 	 */
 	Uml::Association_Type getAssocType() const { return m_AssocType; }
+
+	/**
+	 *	Returns the UMLObject assigned to the role A.
+	 *	@return		pointer to the UMLObject in role A.
+	 */
+	UMLObject * getObjectA () { 
+		return m_pObjectA; 
+	}
+
+	/**
+	 *	Returns the UMLObject assigned to the role B.
+	 *	@return		pointer to the UMLObject in role B.
+	 */
+	UMLObject * getObjectB() { return m_pObjectB; }
 
 	/**
 	 *	Returns the ID of the UMLObject assigned to the role A.
@@ -216,8 +186,7 @@ public:
 
 	/**
 	 *	Sets the ID of the UMLObject playing role A in the association.
-	 *
-	 *	@param	multiA	Pointer to the UMLObject of role A.
+	 *	@param	id of the UMLObject of role A.
 	 */
 	void setRoleAId(int roleA) {
 		m_RoleAId = roleA;
@@ -225,11 +194,26 @@ public:
 
 	/**
 	 *	Sets the ID of the UMLObject playing role B in the association.
-	 *
-	 *	@param	multiB	Pointer to the UMLObject of role B.
+	 *	@param	id of the UMLObject of role B.
 	 */
 	void setRoleBId(int roleB) {
 		m_RoleBId = roleB;
+	}
+
+	/**
+	 *	Sets the UMLObject playing role A in the association.
+	 *	@param	pointer to the UMLObject of role A.
+	 */
+	void setObjectA (UMLObject *obj) { 
+		m_pObjectA = obj; 
+	}
+
+	/**
+	 *	Sets the UMLObject playing role B in the association.
+	 *	@param	pointer to the UMLObject of role B.
+	 */
+	void setObjectB (UMLObject *obj) { 
+		m_pObjectB = obj; 
 	}
 
 	/**
@@ -363,6 +347,8 @@ protected:
 	void init () {
 
 		m_AssocType = Uml::at_Unknown;
+		m_pObjectA = 0;
+		m_pObjectB = 0;
 		m_RoleAId = -1;
 		m_RoleBId = -1;
 		m_MultiA = "";
@@ -392,6 +378,8 @@ protected:
 	int m_RoleAId;
 	int m_RoleBId;
 	QString m_Name;
+	UMLObject * m_pObjectA;
+	UMLObject * m_pObjectB;
 	QString m_RoleNameA, m_RoleNameB;
 	QString m_MultiA, m_MultiB;
 	Scope m_VisibilityA, m_VisibilityB;
