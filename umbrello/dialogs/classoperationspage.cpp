@@ -21,6 +21,7 @@
 
 ClassOperationsPage::ClassOperationsPage(UMLClass *c,  UMLDoc *doc, QWidget *parent, const char *name)
 	: ClassOperationsBase( parent, name ),
+	  DialogPage(parent==0),
 	  m_umlObject(c), m_doc(doc)
 {
 	m_operationsList->setSorting( -1 ); //no sorting

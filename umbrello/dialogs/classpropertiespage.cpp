@@ -21,6 +21,7 @@
 
 ClassPropertiesPage::ClassPropertiesPage(UMLClass *c, QWidget *parent, const char *name)
 	: ClassPropertiesBase( parent, name ),
+	  DialogPage(parent==0),
 	  m_umlObject(c)
 {
 	loadData();

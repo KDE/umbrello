@@ -12,6 +12,7 @@
 
 #include "classattributesbase.h"
 #include <qptrlist.h>
+#include "dialogpage.h"
 
 class UMLClass;
 class UMLAttribute;
@@ -23,7 +24,7 @@ class QListViewItem;
  *
 */
 
-class ClassAttributesPage : public  ClassAttributesBase
+class ClassAttributesPage : public  ClassAttributesBase, public DialogPage
 {
 Q_OBJECT
 public:
@@ -45,6 +46,10 @@ public slots:
 	virtual void editSelected( );
 	virtual void deleteSelected( );
 	virtual void itemSelected(QListViewItem *item);
+
+signals:
+	void pageModified( );
+
 protected:	
 	virtual void saveData();
 	virtual void loadPixmaps();

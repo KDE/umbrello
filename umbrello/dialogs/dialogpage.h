@@ -14,26 +14,28 @@
 
 /** @short A basic interface for all Dialog Pages in Umbrello. */
 
-class DialogPage : public QWidget
+class DialogPage
 {
-Q_OBJECT
 public:
-	DialogPage( QWidget *parent = 0, const char *name = 0, WFlags fl = 0  ) : QWidget( parent, name, fl )
-	 { if(!parent) setAutoApply( true ); }
-public slots:
-/** apply changes to the object being handled*/
-	virtual void apply() = 0;
-/** reset changes and restore values from object being handled*/
-	virtual void cancel() = 0;
+	DialogPage( bool autoApply) 
+		: m_autoApply(autoApply) {}
+	//{ if(!parent) setAutoApply( true ); }
 	
-/** If auto apply is true, the observed object will be modified inmediatly
-  * when the user changes something in the dialog */	
+	/** 
+	 * If auto apply is true, the observed object will be modified
+	 * inmediatly when the user changes something in the dialog 
+	 */	
 	inline void setAutoApply( bool a ) {m_autoApply = a;}
 	
-//	standAlone
 
-signals:
-	void pageModified( );
+// the following signals and slots are expected to be implemented:
+//
+//public slots: 
+// 	void cancel();
+// 	void apply();
+// signals:
+// 	void pageModified( );
+
 protected:
 	bool m_autoApply;
 

@@ -18,7 +18,7 @@ public:
 	
 	virtual ~UmbrelloDialog();
 	
-	virtual void addPage( DialogPage *page, const QString &title, const QPixmap &pixmap = QPixmap() );
+	virtual void addPage( QWidget *page, const QString &title, const QPixmap &pixmap = QPixmap() );
 };
 
 #endif

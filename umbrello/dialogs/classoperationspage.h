@@ -11,6 +11,7 @@
 #define CLASS_OPERATIONS_PAGE
 
 #include "classoperationsbase.h"
+#include "dialogpage.h"
 
 class UMLClass;
 class UMLDoc;
@@ -21,7 +22,7 @@ class QListViewItem;
  *
 */
 
-class ClassOperationsPage : public  ClassOperationsBase
+class ClassOperationsPage : public  ClassOperationsBase, public DialogPage
 {
 Q_OBJECT
 public:
@@ -43,6 +44,10 @@ public slots:
 	virtual void editSelected( );
 	virtual void deleteSelected( );
 	virtual void itemSelected(QListViewItem *item);
+
+signals:
+	void pageModified( );
+
 protected:	
 	virtual void saveData();
 	

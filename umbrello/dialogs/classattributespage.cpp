@@ -22,6 +22,7 @@
 
 ClassAttributesPage::ClassAttributesPage(UMLClass *c, UMLDoc *doc, QWidget *parent, const char *name)
 	: ClassAttributesBase( parent, name ),
+	  DialogPage(parent==0),
 	  m_umlObject(c),m_doc(doc)
 {
 	m_attributesList->setSorting( -1 ); //no sorting

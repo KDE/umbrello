@@ -11,6 +11,7 @@
 #define CLASS_PROPERTIES_PAGE
 
 #include "classpropertiesbase.h"
+#include "dialogpage.h"
 
 class UMLClass;
 
@@ -19,7 +20,7 @@ class UMLClass;
  *
 */
 
-class ClassPropertiesPage : public  ClassPropertiesBase
+class ClassPropertiesPage : public  ClassPropertiesBase, public DialogPage
 {
 Q_OBJECT
 public:
@@ -34,6 +35,10 @@ public slots:
 	virtual void pageContentsModified();
 
 	virtual void loadData();
+
+signals:
+	void pageModified( );
+
 protected:
 	virtual void saveData();
 	
