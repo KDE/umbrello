@@ -32,7 +32,8 @@ UMLClass::~UMLClass() {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLObject* UMLClass::addAttribute(QString name, int id) {
-  	UMLAttribute *a = new UMLAttribute(this, name, id);
+	Uml::Scope scope = ((UMLDoc*) parent())->getOptionState().classState.defaultAttributeScope; 
+  	UMLAttribute *a = new UMLAttribute(this, name, id, "int", scope);
   	m_AttsList.append(a);
 	emit modified();
 	connect(a,SIGNAL(modified()),this,SIGNAL(modified()));

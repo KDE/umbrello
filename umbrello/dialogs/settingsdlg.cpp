@@ -182,6 +182,32 @@ void SettingsDlg::setupClassPage() {
 	m_ClassWidgets.showOpSigCB -> setChecked(  m_OptionState.classState.showOpSig );
 	visibilityLayout -> addWidget( m_ClassWidgets.showOpSigCB, 3, 0 );
 	visibilityLayout -> setRowStretch( 3, 1 );
+
+	m_ClassWidgets.scopeGB = new QGroupBox( i18n("Starting Scope"), page );
+	QGridLayout * scopeLayout = new QGridLayout( m_ClassWidgets.scopeGB );
+	scopeLayout -> setSpacing( spacingHint() );
+	scopeLayout -> setMargin(  fontMetrics().height()  );
+ 
+        m_ClassWidgets.attributeLabel = new QLabel( i18n("Default Attribute Scope:"), m_ClassWidgets.scopeGB);
+        scopeLayout -> addWidget( m_ClassWidgets.attributeLabel, 0, 0 );
+
+        m_ClassWidgets.operationLabel = new QLabel( i18n("Default Operation Scope:"), m_ClassWidgets.scopeGB);
+        scopeLayout -> addWidget( m_ClassWidgets.operationLabel, 1, 0 );
+
+        m_ClassWidgets.m_pAttribScopeCB = new QComboBox(m_ClassWidgets.scopeGB);
+	m_ClassWidgets.m_pAttribScopeCB->insertItem( tr2i18n( "Public" ) );
+	m_ClassWidgets.m_pAttribScopeCB->insertItem( tr2i18n( "Private" ) );
+	m_ClassWidgets.m_pAttribScopeCB->insertItem( tr2i18n( "Protected" ) );
+	m_ClassWidgets.m_pAttribScopeCB->setCurrentItem((m_OptionState.classState.defaultAttributeScope - 200));
+        scopeLayout -> addWidget( m_ClassWidgets.m_pAttribScopeCB, 0, 1 );
+
+        m_ClassWidgets.m_pOperationScopeCB = new QComboBox(m_ClassWidgets.scopeGB);
+	m_ClassWidgets.m_pOperationScopeCB->insertItem( tr2i18n( "Public" ) );
+	m_ClassWidgets.m_pOperationScopeCB->insertItem( tr2i18n( "Private" ) );
+	m_ClassWidgets.m_pOperationScopeCB->insertItem( tr2i18n( "Protected" ) );
+	m_ClassWidgets.m_pOperationScopeCB->setCurrentItem((m_OptionState.classState.defaultOperationScope - 200));
+        scopeLayout -> addWidget( m_ClassWidgets.m_pOperationScopeCB, 1, 1 );
+
 }
 
 void SettingsDlg::setupCodeGenPage(CodeGenerator *gen, QDict<GeneratorInfo> ldict, QString activeLanguage) {
@@ -253,6 +279,8 @@ void SettingsDlg::slotDefault() {
 			m_ClassWidgets.showAttSigCB -> setChecked( false );
 			m_ClassWidgets.showOpSigCB -> setChecked( false );
 			m_ClassWidgets.showPackageCB -> setChecked( false );
+			m_ClassWidgets.m_pAttribScopeCB->setCurrentItem(1); // Private
+			m_ClassWidgets.m_pOperationScopeCB->setCurrentItem(0); // Public 
 			break;
 
 		case page_codegen:
@@ -292,6 +320,8 @@ void SettingsDlg::applyPage( Page page ) {
 			m_OptionState.classState.showAttSig = m_ClassWidgets.showAttSigCB -> isChecked();
 			m_OptionState.classState.showOpSig = m_ClassWidgets.showOpSigCB -> isChecked();
 			m_OptionState.classState.showPackage = m_ClassWidgets.showPackageCB -> isChecked();
+			m_OptionState.classState.defaultAttributeScope = (Uml::Scope) (m_ClassWidgets.m_pAttribScopeCB->currentItem() + 200);
+			m_OptionState.classState.defaultOperationScope = (Uml::Scope) (m_ClassWidgets.m_pOperationScopeCB->currentItem() + 200);
 			break;
 
 		case page_codegen:
@@ -304,6 +334,7 @@ void SettingsDlg::applyPage( Page page ) {
 			break;
 	}
 }
+
 void SettingsDlg::slotLineBClicked() {
 	m_UiWidgets.lineColorB -> setColor( red );
 }

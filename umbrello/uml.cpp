@@ -500,6 +500,8 @@ void UMLApp::saveOptions() {
 	config->writeEntry( "showAttSig", optionState.classState.showAttSig );
 	config->writeEntry( "ShowOpSig", optionState.classState.showOpSig );
 	config->writeEntry( "showPackage", optionState.classState.showPackage );
+	config->writeEntry( "defaultAttributeScope", optionState.classState.defaultAttributeScope);
+	config->writeEntry( "defaultOperationScope", optionState.classState.defaultOperationScope);
 
 	config -> setGroup( "Code Viewer Options" );
 	config->writeEntry( "height", optionState.codeViewerState.height );
@@ -1096,6 +1098,8 @@ void UMLApp::readOptionState() {
 	optionState.classState.showAttSig = config -> readBoolEntry("showAttSig", true);
 	optionState.classState.showOpSig = config -> readBoolEntry("ShowOpSig", true);
 	optionState.classState.showPackage = config -> readBoolEntry("showPackage", false);
+	optionState.classState.defaultAttributeScope = (Uml::Scope) config -> readNumEntry("defaultAttributeScope", Uml::Private);
+	optionState.classState.defaultOperationScope = (Uml::Scope) config -> readNumEntry("defaultOperationScope", Uml::Public);
 
 	config -> setGroup( "Code Viewer Options" );
 

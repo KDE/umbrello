@@ -197,12 +197,16 @@ void UMLDoc::closeDocument() {
 	diagrams.clear();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+SettingsDlg::OptionState UMLDoc::getOptionState() {
+	return UMLApp::app()-> getOptionState();
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
 bool UMLDoc::newDocument() {
 	/*deleteContents();*/ closeDocument();
 	currentView = 0;
 	doc_url.setFileName(i18n("Untitled"));
 	//see if we need to start with a new diagram
-	SettingsDlg::OptionState optionState = UMLApp::app()-> getOptionState();
+	SettingsDlg::OptionState optionState = getOptionState();
 
 	switch( optionState.generalState.diagram ) {
 		case SettingsDlg::diagram_usecase:
@@ -656,7 +660,8 @@ UMLObject* UMLDoc::createUMLObject(UMLObject* umlobject, UMLObject_Type type) {
 UMLObject* UMLDoc::createAttribute(UMLClass* umlclass) {
 	int id = getUniqueID();
 	QString currentName = umlclass->uniqChildName(Uml::ot_Attribute);
-	UMLAttribute* newAttribute = new UMLAttribute(umlclass, currentName, id);
+	Uml::Scope scope = getOptionState().classState.defaultAttributeScope;
+	UMLAttribute* newAttribute = new UMLAttribute(umlclass, currentName, id, "int", scope);
 
 	int button = QDialog::Accepted;
 	bool goodName = false;
@@ -959,7 +964,7 @@ void UMLDoc::createDiagram(Diagram_Type type, bool askForName /*= true */) {
 			temp->setType( type );
 			temp->setID( getUniqueID() );
 			addView(temp);
-			temp -> setOptionState( ((UMLApp *) parent()) -> getOptionState() );
+			temp -> setOptionState( getOptionState() );
 			emit sigDiagramCreated(uniqueID);
 			setModified(true);
 			((UMLApp*)parent())->enablePrint(true);
@@ -1689,7 +1694,7 @@ bool UMLDoc::loadDiagramsFromXMI( QDomNode & node ) {
 	if( element.isNull() )
 		return true;//return ok as it means there is no umlobjects
 	UMLApp* app = (UMLApp*)parent();
-	SettingsDlg::OptionState state =  app -> getOptionState();
+	SettingsDlg::OptionState state =  getOptionState();
 	UMLView * pView = 0;
 	int count = 0;
 	while( !element.isNull() ) {
@@ -1948,7 +1953,7 @@ bool UMLDoc::addUMLView(UMLView * pView ) {
 		return false;
 	}
 	pView->endPartialWidgetPaste();
-	pView->setOptionState( ((UMLApp *) parent()) -> getOptionState() );
+	pView->setOptionState( getOptionState() );
 	addView(pView);
 	setModified(true);
 	return true;
@@ -2065,7 +2070,7 @@ void UMLDoc::initSaveTimer() {
 		m_pAutoSaveTimer = 0;
 	}
 	int time[] = { 5 , 10, 15 , 30 };
-	SettingsDlg::OptionState optionState = UMLApp::app()->getOptionState();
+	SettingsDlg::OptionState optionState = getOptionState();
 	if( optionState.generalState.autosave ) {
 		m_pAutoSaveTimer = new QTimer(this, "_AUTOSAVETIMER_" );
 		connect( m_pAutoSaveTimer, SIGNAL( timeout() ), this, SLOT( slotAutoSave() ) );

@@ -95,6 +95,8 @@ public:
 		bool showAttSig;
 		bool showOpSig;
 		bool showPackage;
+		Uml::Scope defaultAttributeScope;
+		Uml::Scope defaultOperationScope;
 	}
 	;//end struct ClassState
 
@@ -158,6 +160,7 @@ private:
 
 	struct ClassWidgets {
 		QGroupBox * visibilityGB;
+		QGroupBox * scopeGB;
 
 		QCheckBox * showScopeCB;
 		QCheckBox * showAttsCB;
@@ -167,6 +170,13 @@ private:
 		QCheckBox * showPackageCB;
 
 		QCheckBox * showOpSigCB;
+
+		QLabel * attributeLabel;
+		QLabel * operationLabel;
+
+		QComboBox* m_pAttribScopeCB;
+		QComboBox* m_pOperationScopeCB;
+
 	}
 	;//end struct ClassWidgets
 
