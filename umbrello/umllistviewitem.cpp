@@ -460,8 +460,9 @@ void UMLListViewItem::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	itemElement.setAttribute( "id", getID() );
 	itemElement.setAttribute( "type", m_Type );
 	if (m_pObject == NULL) {
-		kdDebug() << "UMLListViewItem::saveToXMI: saving local label "
-			  << m_Label << " because m_pObject is NULL" << endl;
+		//too verbose
+		//kdDebug() << "UMLListViewItem::saveToXMI: saving local label "
+		//	  << m_Label << " because m_pObject is NULL" << endl;
 		itemElement.setAttribute( "label", m_Label );
 	}
 	itemElement.setAttribute( "open", isOpen() );
