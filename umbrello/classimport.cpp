@@ -165,7 +165,7 @@ UMLObject *ClassImport::createUMLObject(Uml::Object_Type type,
 	return o;
 }
 
-UMLOperation* ClassImport::makeOperation(UMLClass *parent, const QString &name) {
+UMLOperation* ClassImport::makeOperation(UMLClassifier *parent, const QString &name) {
 	UMLOperation *op = new UMLOperation(parent, name);
 	return op;
 }
@@ -201,7 +201,7 @@ UMLObject* ClassImport::insertAttribute(UMLClass *owner, Uml::Scope scope, QStri
 	return attr;
 }
 
-void ClassImport::insertMethod(UMLClass *klass, UMLOperation *op,
+void ClassImport::insertMethod(UMLClassifier *klass, UMLOperation *op,
 					 Uml::Scope scope, QString type,
 					 bool isStatic, bool isAbstract,
 					 QString comment) {

@@ -18,6 +18,7 @@
 class UMLDoc;
 class UMLObject;
 class UMLClass;
+class UMLClassifier;
 class UMLPackage;
 class UMLOperation;
 class UMLEnum;
@@ -70,14 +71,14 @@ public:
 	 * a conflict with a pre-existing parameterless method of the same
 	 * name.)
 	 */
-	UMLOperation* makeOperation(UMLClass *parent, const QString &name);
+	UMLOperation* makeOperation(UMLClassifier *parent, const QString &name);
 
 	/**
 	 * Insert the UMLOperation into the document.
 	 * The parentPkg arg is only used for resolving possible scope
 	 * prefixes in the `type'.
 	 */
-	void insertMethod(UMLClass *klass, UMLOperation *op,
+	void insertMethod(UMLClassifier *klass, UMLOperation *op,
 			  Uml::Scope scope, QString type,
 			  bool isStatic, bool isAbstract,
 			  QString comment = QString::null);
