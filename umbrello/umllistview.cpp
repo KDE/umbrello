@@ -1095,7 +1095,7 @@ void UMLListView::slotDropped(QDropEvent* de, QListViewItem* /* parent */, QList
 		return;
 	}
 	UMLListViewItem *newParent = (UMLListViewItem*)item;
-	kdDebug() << "moveObj: newParent->getText() is " << newParent->getText()
+	kdDebug() << "slotDropped: newParent->getText() is " << newParent->getText()
 		  << endl;
 	UMLDrag::LvTypeAndID_It it(srcList);
 	UMLDrag::LvTypeAndID * src = 0;
@@ -2006,6 +2006,7 @@ void UMLListView::createChildUMLObject( UMLListViewItem * item, Uml::Object_Type
 		if (st) {
 			kdError() << "UMLListView::createChildUMLObject(" << text << "): "
 				  << "Umbrello::parseAttribute returns " << st << endl;
+			delete item;
 			m_bCreatingChildObject = false;
 			return;
 		}
@@ -2019,6 +2020,7 @@ void UMLListView::createChildUMLObject( UMLListViewItem * item, Uml::Object_Type
 		if (st) {
 			kdError() << "UMLListView::createChildUMLObject(" << text << "): "
 				  << "Umbrello::parseOperation returns " << st << endl;
+			delete item;
 			m_bCreatingChildObject = false;
 			return;
 		}
