@@ -37,7 +37,7 @@ CPPHeaderCodeOperation::~CPPHeaderCodeOperation ( ) { }
 // the body of the operation.
 // In C++ if the operations are inline, then we DO print out
 // the body text.
-void CPPHeaderCodeOperation::updateContent( ) 
+void CPPHeaderCodeOperation::updateContent( )
 {
         CPPCodeGenerationPolicy * policy = (CPPCodeGenerationPolicy*) getParentDocument()->getParentGenerator()->getPolicy();
         bool isInlineMethod = policy->getAccessorsAreInline( );
@@ -59,6 +59,11 @@ void CPPHeaderCodeOperation::updateMethodDeclaration()
 
 	// first, the comment on the operation
 	QString comment = o->getDoc();
+	UMLAttributeList* paramaters = o->getParmList();
+	for(UMLAttributeListIt iterator(*paramaters); iterator.current(); ++iterator) {
+		comment += "\n@param " + iterator.current()->getName() + " ";
+		comment += iterator.current()->getDoc();
+	}
 	getComment()->setText(comment);
 
 	// no return type for constructors
@@ -88,8 +93,8 @@ void CPPHeaderCodeOperation::updateMethodDeclaration()
         // set start/end method text
         QString startText = methodReturnType+" "+methodName+" ("+paramStr+")";
 
-	// write as an abstract operation if explicitly stated OR if child of interface 
-	if((isInterface || o->getAbstract()) && !isInlineMethod) 
+	// write as an abstract operation if explicitly stated OR if child of interface
+	if((isInterface || o->getAbstract()) && !isInlineMethod)
 		startText += " = 0";
  	startText += (isInlineMethod ? " {" : ";");
 
