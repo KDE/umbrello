@@ -830,9 +830,8 @@ void UMLDoc::addAssociation(UMLAssociation *Assoc)
 		return;
 
 	// First, check that this association has not already been added.
-	// This may happen as long as we are still in transition from the old
-	// widget based association fabrication. (See explanation at method
-	// addAssocInViewAndDoc() in file umlview.h.)
+	// This may happen when loading old XMI files where all the association
+	// information was taken from the <UML:AssocWidget> tag.
 	UMLAssociationList assocs = getAssociations();
 	UMLAssociation *a;
 	for (a = assocs.first(); a; a = assocs.next()) {
