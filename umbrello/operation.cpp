@@ -13,6 +13,7 @@
 #include "operation.h"
 #include "attribute.h"
 #include "classifier.h"
+#include "umldoc.h"
 #include "dialogs/umloperationdialog.h"
 
 UMLOperation::UMLOperation(UMLClassifier *parent, QString Name, int id, Scope s, QString rt) 
@@ -41,12 +42,11 @@ UMLOperation::~UMLOperation() {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLOperation::addParm(QString type, QString name, QString initialValue, QString doc) {
-	UMLAttribute * a = new UMLAttribute(this, name, ++m_nUniqueID,type);
+	// make the new parameter (attribute) public, just to be safe
+	UMLAttribute * a = new UMLAttribute(this, name, ++m_nUniqueID,type, Uml::Public);
 	a -> setDoc(doc);
 	a -> setInitialValue(initialValue);
-	m_List.append(a);
-	emit modified();
-	connect(a,SIGNAL(modified()),this,SIGNAL(modified()));
+	addParm(a);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLOperation::removeParm(UMLAttribute * a) {
