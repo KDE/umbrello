@@ -62,22 +62,7 @@ void ClassWidget::draw(QPainter & p, int offsetX, int offsetY) {
 		kdDebug() << "ClassWidget::draw(): m_pObject is NULL" << endl;
 		return;
 	}
-	UMLWidget::draw(p, offsetX, offsetY);
-	if ( UMLWidget::getUseFillColour() )
-		p.setBrush( UMLWidget::getFillColour() );
-	else
-		p.setBrush(m_pView -> viewport() -> backgroundColor());
-
-	QSize templatesBoxSize = calculateTemplatesBoxSize();
-	int bodyOffsetY = offsetY;
-	if (templatesBoxSize.height() > 0)
-		bodyOffsetY += templatesBoxSize.height() - MARGIN;
-	int w = width();
-	if (templatesBoxSize.width() > 0)
-		w -= templatesBoxSize.width() / 2;
-	int h = height();
-	if (templatesBoxSize.height() > 0)
-		h -= templatesBoxSize.height() - MARGIN;
+	ClassifierWidget::draw(p, offsetX, offsetY);
 	QFontMetrics &fm = getFontMetrics(UMLWidget::FT_NORMAL);
 	int fontHeight  = fm.lineSpacing();
 	QString name;
@@ -87,16 +72,15 @@ void ClassWidget::draw(QPainter & p, int offsetX, int offsetY) {
 		name = this -> getName();
 	}
 
-	p.drawRect(offsetX, bodyOffsetY, w, h);
 	p.setPen(QPen(black));
 	const int textX = offsetX + MARGIN;
-	const int textWidth = w - MARGIN * 2;
+	const int textWidth = m_w - MARGIN * 2;
 	if ( !m_bShowOperations && !m_bShowAttributes && !m_bShowStereotype ) {
 		QFont font = UMLWidget::getFont();
 		font.setBold( true );
 		font.setItalic( m_pObject-> getAbstract() );
 		p.setFont( font );
-		p.drawText(textX, bodyOffsetY, textWidth, h, AlignCenter, name);
+		p.drawText(textX, m_bodyOffsetY, textWidth, m_h, AlignCenter, name);
 		font.setBold( false );
 		font.setItalic( false );
 		p.setFont( font );
@@ -113,101 +97,44 @@ void ClassWidget::draw(QPainter & p, int offsetX, int offsetY) {
 			f.setItalic( m_pObject->getAbstract() );
 		}
 		p.setFont( f );
-		p.drawText(textX, bodyOffsetY, textWidth, fontHeight, AlignCenter, firstLine);
+		p.drawText(textX, m_bodyOffsetY, textWidth, fontHeight, AlignCenter, firstLine);
 		if (showStereotype) {
 			f.setItalic( m_pObject -> getAbstract() );
 			p.setFont( f );
-			bodyOffsetY += fontHeight;
-			p.drawText(textX, bodyOffsetY, textWidth, fontHeight, AlignCenter, name);
+			m_bodyOffsetY += fontHeight;
+			p.drawText(textX, m_bodyOffsetY, textWidth, fontHeight, AlignCenter, name);
 		}
-		bodyOffsetY += fontHeight;
+		m_bodyOffsetY += fontHeight;
 		f.setItalic( false );
 		f.setBold( false );
 		p.setFont( f );
 		UMLWidget::draw(p, offsetX, offsetY);
-		p.drawLine(offsetX, bodyOffsetY, offsetX + w - 1, bodyOffsetY);
+		p.drawLine(offsetX, m_bodyOffsetY, offsetX + m_w - 1, m_bodyOffsetY);
 	}
 
 	p.setPen(QPen(black));
-	UMLClass *umlclass = static_cast<UMLClass*>(m_pObject);
 
 	if (m_bShowAttributes) {
 		drawMembers(p, Uml::ot_Attribute, m_ShowAttSigs, textX,
-			    bodyOffsetY, fontHeight);
+			    m_bodyOffsetY, fontHeight);
 	}//end if att
 
 	int numAtts = displayedAttributes();
 	if (m_bShowOperations) {
 		QFont f = UMLWidget::getFont();
 		int oStart = numAtts * fontHeight;
-		bodyOffsetY += oStart;
+		m_bodyOffsetY += oStart;
 		if (m_bShowAttributes) {
 			UMLWidget::draw(p, offsetX, offsetY);
-			p.drawLine(offsetX, bodyOffsetY, offsetX + w - 1, bodyOffsetY);
+			p.drawLine(offsetX, m_bodyOffsetY, offsetX + m_w - 1, m_bodyOffsetY);
 			p.setPen(QPen(black));
 		}
 		drawMembers(p, Uml::ot_Operation, m_ShowOpSigs, textX,
-			    bodyOffsetY, fontHeight);
+			    m_bodyOffsetY, fontHeight);
 	}//end if op
 
-	//If there are any templates then draw them
-	UMLClassifierListItemList tlist = umlclass->getFilteredList(Uml::ot_Template);
-	if ( tlist.count() > 0 ) {
-
-		QFont font = UMLWidget::getFont();
-		UMLWidget::draw(p, offsetX, offsetY);
-		QPen pen = p.pen();
-		pen.setStyle(DotLine);
-		p.setPen(pen);
-		p.drawRect( offsetX + width() - templatesBoxSize.width(), offsetY,
-			    templatesBoxSize.width(), templatesBoxSize.height() );
-
-		p.setPen( QPen(black) );
-		font.setItalic(false);
-		font.setUnderline(false);
-		font.setBold(false);
-		p.setFont(font);
-		QFontMetrics fontMetrics(font);
-		UMLClassifierListItem* theTemplate = 0;
-		const int x = offsetX + width() - templatesBoxSize.width() + MARGIN;
-		int y = offsetY + MARGIN;
-		for ( theTemplate = tlist.first(); theTemplate; theTemplate = tlist.next() ) {
-			QString text = theTemplate->toString();
-			p.drawText(x, y, fontMetrics.width(text), fontHeight, AlignVCenter, text);
-			y += fontHeight;
-		}
-	}
 	if(m_bSelected)
 		drawSelected(&p, offsetX, offsetY);
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////
-QSize ClassWidget::calculateTemplatesBoxSize() {
-	UMLClass *umlclass = static_cast<UMLClass*>(m_pObject);
-	UMLClassifierListItemList list = umlclass->getFilteredList(Uml::ot_Template);
-	int count = list.count();
-	if (count == 0) {
-		return QSize(0, 0);
-	}
-
-	int width, height;
-	height = width = 0;
-
-	QFont font = UMLWidget::getFont();
-	font.setItalic(false);
-	font.setUnderline(false);
-	font.setBold(false);
-	QFontMetrics fm(font);
-
-	height = count * fm.lineSpacing() + (MARGIN*2);
-
-	UMLClassifierListItem* theTemplate = 0;
-	for ( theTemplate=list.first(); theTemplate != 0; theTemplate=list.next() ) {
-		int textWidth = fm.width( theTemplate->toString() );
-		width = textWidth>width ? textWidth : width;
-	}
-
-	width += (MARGIN*2);
-	return QSize(width, height);
 }
 
 void ClassWidget::calculateSize() {

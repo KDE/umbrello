@@ -1257,7 +1257,6 @@ UMLListViewItem* UMLListView::createItem(UMLListViewItem& Data, IDChangeLog& IDC
 		item = new UMLListViewItem(parent, Data.getText(), lvt);
 		break;
 	case Uml::lvt_Attribute:
-	case Uml::lvt_Template:
 	{
 		UMLClass * pClass =  (UMLClass *)parent -> getUMLObject();
 		Uml::IDType newID = IDChanges.findNewID( Data.getID() );
@@ -1270,9 +1269,11 @@ UMLListViewItem* UMLListView::createItem(UMLListViewItem& Data, IDChangeLog& IDC
 		break;
 	}
 	case Uml::lvt_Operation:
+	case Uml::lvt_Template:
 	{
 		UMLClassifier * pConcept =  (UMLClassifier *)parent -> getUMLObject();
-		pObject = pConcept  -> findChildObject( IDChanges.findNewID( Data.getID() ) );
+		Uml::IDType newID = IDChanges.findNewID( Data.getID() );
+		pObject = pConcept->findChildObject( newID );
 		if (pObject) {
 			item = new UMLListViewItem( parent, Data.getText(), lvt, pObject );
 		} else {
@@ -2134,10 +2135,6 @@ void UMLListView::createUMLObject( UMLListViewItem * item, Uml::Object_Type type
 		break;
 
 	case Uml::ot_Enum:
-		object = new UMLEnum( name );
-		break;
-
-	case Uml::ot_Template:
 		object = new UMLEnum( name );
 		break;
 

@@ -153,12 +153,26 @@ public:
 	 */
 	virtual bool activate(IDChangeLog* ChangeLog  = 0 );
 
+	/**
+	 * Overrides standard method.
+	 * Auxiliary to reimplementations in the derived classes.
+	 */
+	virtual void draw(QPainter & p, int offsetX, int offsetY);
+
 protected:
 
 	/**
 	 * Initializes key variables of the class.
 	 */
 	virtual void init(Uml::Widget_Type wt);
+
+	/**
+	 * Calculcates the size of the templates box in the top left
+	 * if it exists, returns QSize(0,0) if it doesn't.
+	 *
+	 * @return	QSize of the templates flap.
+	 */
+	QSize calculateTemplatesBoxSize();
 
 	/**
 	 * Abstract method for automatically computing the size of the object.
@@ -213,6 +227,8 @@ protected:
 	 */
 	static const int MARGIN;
 
+	// Auxiliary variables for size calculations and drawing
+	int m_bodyOffsetY, m_w, m_h;
 };
 
 #endif

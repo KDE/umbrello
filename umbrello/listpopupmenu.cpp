@@ -990,6 +990,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 		case mt_Interface:
 			m_pInsert = new KPopupMenu(this,"New");
 			m_pInsert->insertItem(SmallIcon("CVpublic_meth"), i18n("Operation"), mt_Operation);
+			m_pInsert -> insertItem(SmallIcon("source"), i18n("Template"), mt_Template);
 			insertFileNew();
 			insertStdItems();
 			insertStdItem(mt_Properties);

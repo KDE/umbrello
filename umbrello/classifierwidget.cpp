@@ -20,6 +20,7 @@
 // app includes
 #include "classifier.h"
 #include "operation.h"
+#include "template.h"
 #include "umlview.h"
 
 ClassifierWidget::ClassifierWidget(UMLView * view, UMLClassifier *c, Uml::Widget_Type wt)
@@ -199,6 +200,83 @@ int ClassifierWidget::displayedOperations() {
 	if (!m_bShowOperations)
 		return 0;
 	return displayedMembers(Uml::ot_Operation);
+}
+
+QSize ClassifierWidget::calculateTemplatesBoxSize() {
+	UMLClassifier *c = static_cast<UMLClassifier*>(m_pObject);
+	UMLTemplateList list = c->getTemplateList();
+	int count = list.count();
+	if (count == 0) {
+		return QSize(0, 0);
+	}
+
+	int width, height;
+	height = width = 0;
+
+	QFont font = UMLWidget::getFont();
+	font.setItalic(false);
+	font.setUnderline(false);
+	font.setBold(false);
+	QFontMetrics fm(font);
+
+	height = count * fm.lineSpacing() + (MARGIN*2);
+
+	for (UMLTemplate *t = list.first(); t; t = list.next()) {
+		int textWidth = fm.width( t->toString() );
+		if (textWidth > width)
+			width = textWidth;
+	}
+
+	width += (MARGIN*2);
+	return QSize(width, height);
+}
+
+void ClassifierWidget::draw(QPainter & p, int offsetX, int offsetY) {
+	UMLWidget::draw(p, offsetX, offsetY);
+	if ( UMLWidget::getUseFillColour() )
+		p.setBrush( UMLWidget::getFillColour() );
+	else
+		p.setBrush(m_pView -> viewport() -> backgroundColor());
+
+	QSize templatesBoxSize = calculateTemplatesBoxSize();
+	m_bodyOffsetY = offsetY;
+	if (templatesBoxSize.height() > 0)
+		m_bodyOffsetY += templatesBoxSize.height() - MARGIN;
+	m_w = width();
+	if (templatesBoxSize.width() > 0)
+		m_w -= templatesBoxSize.width() / 2;
+	m_h = height();
+	if (templatesBoxSize.height() > 0)
+		m_h -= templatesBoxSize.height() - MARGIN;
+	p.drawRect(offsetX, m_bodyOffsetY, m_w, m_h);
+
+	//If there are any templates then draw them
+	UMLClassifier *c = static_cast<UMLClassifier*>(m_pObject);
+	UMLTemplateList tlist = c->getTemplateList();
+	if ( tlist.count() > 0 ) {
+		QFont font = UMLWidget::getFont();
+		QFontMetrics fm(font);
+		int fontHeight = fm.lineSpacing();
+		UMLWidget::draw(p, offsetX, offsetY);
+		QPen pen = p.pen();
+		pen.setStyle(DotLine);
+		p.setPen(pen);
+		p.drawRect( offsetX + width() - templatesBoxSize.width(), offsetY,
+			    templatesBoxSize.width(), templatesBoxSize.height() );
+		p.setPen( QPen(black) );
+		font.setItalic(false);
+		font.setUnderline(false);
+		font.setBold(false);
+		p.setFont(font);
+		QFontMetrics fontMetrics(font);
+		const int x = offsetX + width() - templatesBoxSize.width() + MARGIN;
+		int y = offsetY + MARGIN;
+		for ( UMLTemplate *t = tlist.first(); t; t = tlist.next() ) {
+			QString text = t->toString();
+			p.drawText(x, y, fontMetrics.width(text), fontHeight, AlignVCenter, text);
+			y += fontHeight;
+		}
+	}
 }
 
 void ClassifierWidget::drawMembers(QPainter & p, Uml::Object_Type ot, Uml::Signature_Type sigType,

@@ -54,13 +54,12 @@ void InterfaceWidget::setUMLObject(UMLObject* object)
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 void InterfaceWidget::draw(QPainter& p, int offsetX, int offsetY) {
-	UMLWidget::draw(p, offsetX, offsetY);
-	if (UMLWidget::getUseFillColour())
-		p.setBrush(UMLWidget::getFillColour());
-	else
-		p.setBrush(m_pView -> viewport() -> backgroundColor());
-
 	if ( getDrawAsCircle() ) {
+		UMLWidget::draw(p, offsetX, offsetY);
+		if (UMLWidget::getUseFillColour())
+			p.setBrush(UMLWidget::getFillColour());
+		else
+			p.setBrush(m_pView -> viewport() -> backgroundColor());
 		drawAsCircle(p, offsetX, offsetY);
 	} else {
 		drawAsConcept(p, offsetX, offsetY);
@@ -93,8 +92,7 @@ void InterfaceWidget::drawAsCircle(QPainter& p, int offsetX, int offsetY) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void InterfaceWidget::drawAsConcept(QPainter& p, int offsetX, int offsetY) {
-	int w = width();
-	int h = height();
+	ClassifierWidget::draw(p, offsetX, offsetY);
 
 	QFont font = UMLWidget::getFont();
 	font.setItalic(false);
@@ -109,21 +107,20 @@ void InterfaceWidget::drawAsConcept(QPainter& p, int offsetX, int offsetY) {
 		name = this -> getName();
 	}
 
-	p.drawRect(offsetX, offsetY, w, h);
 	p.setPen(QPen(black));
 
 	font.setBold(true);
 	p.setFont(font);
-	p.drawText(offsetX + ClassifierWidget::MARGIN, offsetY,
-		   w - ClassifierWidget::MARGIN * 2,fontHeight,
+	p.drawText(offsetX + ClassifierWidget::MARGIN, m_bodyOffsetY,
+		   m_w - ClassifierWidget::MARGIN * 2,fontHeight,
 		   AlignCenter, m_pObject->getStereotype());
 
 	font.setItalic( m_pObject -> getAbstract() );
 	//FIXME why is underline sometimes true
 	font.setUnderline( false );
 	p.setFont(font);
-	p.drawText(offsetX + ClassifierWidget::MARGIN, offsetY + fontHeight,
-		   w - ClassifierWidget::MARGIN * 2, fontHeight, AlignCenter, name);
+	p.drawText(offsetX + ClassifierWidget::MARGIN, m_bodyOffsetY + fontHeight,
+		   m_w - ClassifierWidget::MARGIN * 2, fontHeight, AlignCenter, name);
 	font.setBold(false);
 	font.setItalic(false);
 	p.setFont(font);
@@ -134,18 +131,18 @@ void InterfaceWidget::drawAsConcept(QPainter& p, int offsetX, int offsetY) {
 		font.setUnderline(false);
 		font.setBold(false);
 
-		UMLWidget::draw(p, offsetX, offsetY);
+		UMLWidget::draw(p, offsetX, m_bodyOffsetY);
 
 		const int operationsStart = fontHeight * 2;
-		const int y = offsetY + operationsStart;
-		p.drawLine(offsetX, y, offsetX + w - 1, y);
+		const int y = m_bodyOffsetY + operationsStart;
+		p.drawLine(offsetX, y, offsetX + m_w - 1, y);
 		p.setPen( QPen(black) );
 		drawMembers(p, Uml::ot_Operation, m_ShowOpSigs,
 			    offsetX + ClassifierWidget::MARGIN, y, fontHeight);
 	}//end if op
 
 	if (m_bSelected) {
-		drawSelected(&p, offsetX, offsetY);
+		drawSelected(&p, offsetX, m_bodyOffsetY);
 	}
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -180,6 +177,13 @@ void InterfaceWidget::calculateAsConceptSize() {
 		return;
 	int width = 0, height = 0;
 	ClassifierWidget::computeBasicSize(width, height);
+	QSize templatesBoxSize = calculateTemplatesBoxSize();
+	if (templatesBoxSize.width() != 0) {
+		width += templatesBoxSize.width() / 2;
+	}
+	if (templatesBoxSize.height() != 0) {
+		height += templatesBoxSize.height() - ClassifierWidget::MARGIN;
+	}
 	setSize(width, height);
 	adjustAssocs( getX(), getY() );//adjust assoc lines
 }

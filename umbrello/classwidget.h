@@ -156,14 +156,6 @@ private:
 	void calculateSize();
 
 	/**
-	 * Calculcates the size of the templates box in the top left
-	 * if it exists, returns QSize(0,0) if it doesn't.
-	 *
-	 * @return	QSize of the templates flap.
-	 */
-	QSize calculateTemplatesBoxSize();
-
-	/**
 	 * Updates m_ShowOpSigs and m_ShowAttSigs to match m_bShowScope.
 	 */
 	void updateSigs();
