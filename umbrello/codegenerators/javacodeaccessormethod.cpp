@@ -134,24 +134,28 @@ void JavaCodeAccessorMethod::updateMethodDeclaration()
 
 	// gather defs
 	JavaCodeGenerationPolicy::ScopePolicy scopePolicy = javapolicy->getAttributeAccessorScope();
-        QString strVis = "";
+        QString strVis = javadoc->scopeToJavaDecl(javafield->getVisibility());
         QString fieldName = javafield->getFieldName();
         QString fieldType = javafield->getTypeName();
         QString objectType = javafield->getListObjectType();
 	if(objectType.isEmpty())
 		objectType = fieldName; 
         QString endLine = javadoc->getParentGenerator()->getNewLineEndingChars();
-	switch (scopePolicy) {
-		case JavaCodeGenerationPolicy::Public:
-		case JavaCodeGenerationPolicy::Private:
-		case JavaCodeGenerationPolicy::Protected:
-        		strVis = javadoc->scopeToJavaDecl((Uml::Scope) scopePolicy);
-			break;
-		default:
-		case JavaCodeGenerationPolicy::FromParent:
-        		strVis = javadoc->scopeToJavaDecl(javafield->getVisibility());
-			break;
-	}
+
+	// set scope of this accessor appropriately..if its an attribute,
+	// we need to be more sophisticated
+	if(javafield->parentIsAttribute())
+		switch (scopePolicy) {
+			case JavaCodeGenerationPolicy::Public:
+			case JavaCodeGenerationPolicy::Private:
+			case JavaCodeGenerationPolicy::Protected:
+	        		strVis = javadoc->scopeToJavaDecl((Uml::Scope) scopePolicy);
+				break;
+			default:
+			case JavaCodeGenerationPolicy::FromParent:
+	        		// do nothing..already have taken parent value
+				break;
+		}
 
 	// some variables we will need to populate
         QString headerText = ""; 
