@@ -13,6 +13,7 @@
 #include "class.h"
 #include "operation.h"
 #include "attribute.h"
+#include "association.h"
 #include "classparser/ClassParser.h"
 #include "classparser/ParsedArgument.h"
 #include "classparser/ParsedAttribute.h"
@@ -53,15 +54,15 @@ void ClassImport::insertAttribute(UMLObject *o, Uml::Scope scope, QString name, 
 
 /** No descriptions */
 void ClassImport::insertMethod(UMLObject *o, Uml::Scope scope, QString name, QString type, UMLAttributeList *parList /*= NULL*/) {
-	int attID = getUniqueID();
 	UMLClassifier *classifier = dynamic_cast<UMLClassifier*>(o);
 	if(!classifier)
 	{
 		kdWarning()<<"ClassImport::insertMethod(..) called for a non-classifier!"<<endl;
 		return;
 	}
-	UMLOperation *op = UMLApp::app()->getDocument()->createOperation( );
-	op->setName( name );
+	//UMLOperation *op = UMLApp::app()->getDocument()->createOperation( classifier, name );
+	UMLOperation *op = UMLDoc::createOperation( classifier, name );
+	//op->setName( name );
 	op->setReturnType(type);
 
 	if(parList != NULL) {
@@ -74,13 +75,7 @@ void ClassImport::insertMethod(UMLObject *o, Uml::Scope scope, QString name, QSt
 		}
 	}
 	op->setScope(scope);
-	if(!classifier->addOperation( op, -1 ))
-	{
-		kdWarning()<<"ClassImport::insertMethod(...) - Cannot add operaion because signature is not unique"<<endl;
-		delete op;
-		return;
-	}
-	setModified(true);
+	//setModified(true);
 }
 
 void ClassImport::importCPP(QStringList headerFileList) {
@@ -176,6 +171,31 @@ void ClassImport::importCPP(QStringList headerFileList) {
 			this->insertMethod(currentClass, attrScope, pMethod->name, methodType, &parList);
 		} // method for() loop
 	} // 	class for() loop
+
+	// Create generalizations.
+	for (QStrListIterator cit(*cList); cit.current(); ++cit) {
+		CParsedClass* currentParsedClass =  classParser.store.getClassByName(cit);
+		UMLObject *classObj = findUMLObject(Uml::ot_Class, currentParsedClass->name);
+		if (classObj == NULL) {
+			kdDebug() << "ClassImport::importCPP: Could not find UML object for "
+				  << currentParsedClass->name << endl;
+			continue;
+		}
+
+		QPtrListIterator<CParsedParent> pit(currentParsedClass->parents);
+		for (; pit.current() ; ++pit) {
+			CParsedParent *parsedParent = pit.current();
+			UMLObject *parentObj = findUMLObject(Uml::ot_Class, parsedParent->name);
+			if (parentObj == NULL) {
+				kdDebug() << "ClassImport::importCPP: Could not find UML object for parent "
+					  << parsedParent->name << endl;
+				continue;
+			}
+			UMLAssociation *assoc = new UMLAssociation( this, Uml::at_Generalization,
+								    classObj, parentObj );
+			addAssociation(assoc);
+		}
+	}
 } // method
 
 /** No descriptions */

@@ -37,31 +37,36 @@ AssociationWidget::AssociationWidget(UMLView *view)
 }
 
 // the preferred constructor
-AssociationWidget::AssociationWidget(UMLView *view, UMLWidget* WidgetA,
-				     Association_Type Type, UMLWidget* WidgetB )
+AssociationWidget::AssociationWidget(UMLView *view, UMLWidget* pWidgetA,
+				     Association_Type assocType, UMLWidget* pWidgetB )
 	: QObject(view)
 {
 
 	init(view);
 
-	setWidgetA(WidgetA);
-	setWidgetB(WidgetB);
-
 	UMLDoc *umldoc = m_pView->getDocument();
 
 	// set up UMLAssociation obj if both roles are UML objects
-	UMLObject* umlRoleA = WidgetA->getUMLObject();
-	UMLObject* umlRoleB = WidgetB->getUMLObject();
+	UMLObject* umlRoleA = pWidgetA->getUMLObject();
+	UMLObject* umlRoleB = pWidgetB->getUMLObject();
 	if (umlRoleA != NULL && umlRoleB != NULL) {
-		m_pAssociation = new UMLAssociation (umldoc, Type, umlRoleA, umlRoleB );
-		/* I think this should be:
-		m_pAssociation = umldoc->createUMLAssociation( umlRoleA, umlRoleB, Type);
-		   Brian, why did you change it?  --Oliver  */
+		bool swap;
+		m_pAssociation = umldoc->findAssociation( assocType, umlRoleA, umlRoleB, &swap );
+		if (m_pAssociation == NULL) {
+			m_pAssociation = new UMLAssociation( umldoc, assocType, umlRoleA, umlRoleB );
+		} else if (swap) {
+			UMLWidget *tmp = pWidgetA;
+			pWidgetA = pWidgetB;
+			pWidgetB = tmp;
+		}
 		connect(m_pAssociation, SIGNAL(modified()), this,
 			SLOT(mergeUMLRepresentationIntoAssociationData()));
 	}
 
-	setAssocType(Type);
+	setWidgetA(pWidgetA);
+	setWidgetB(pWidgetB);
+
+	setAssocType(assocType);
 
 	calculateEndingPoints();
 
