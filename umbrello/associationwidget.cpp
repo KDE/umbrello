@@ -201,6 +201,22 @@ bool AssociationWidget::operator==(AssociationWidget & Other) {
 	if (getWidgetBID() != Other.getWidgetBID())
 		return false;
 
+	if (getWidgetA()->getBaseType() == Uml::wt_Object &&
+	    Other.getWidgetA()->getBaseType() == Uml::wt_Object) {
+		ObjectWidget *ownA = static_cast<ObjectWidget*>(getWidgetA());
+		ObjectWidget *otherA = static_cast<ObjectWidget*>(Other.getWidgetA());
+		if (ownA->getLocalID() != otherA->getLocalID())
+			return false;
+	}
+
+	if (getWidgetB()->getBaseType() == Uml::wt_Object &&
+	    Other.getWidgetB()->getBaseType() == Uml::wt_Object) {
+		ObjectWidget *ownB = static_cast<ObjectWidget*>(getWidgetB());
+		ObjectWidget *otherB = static_cast<ObjectWidget*>(Other.getWidgetB());
+		if (ownB->getLocalID() != otherB->getLocalID())
+			return false;
+	}
+
 	return true;
 }
 
