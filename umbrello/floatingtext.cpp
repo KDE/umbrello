@@ -76,8 +76,8 @@ void FloatingText::setLinePos(int x, int y) {
 		setX(x);
 		setY(y);
 	} else { // something is broken
-		kdDebug() << "FloatingText::setLinePositionRelatively( " << x
-			<< " , " << y << " ) - was blocked because at least one value is out of bounds: ["
+		kdDebug() << "FloatingText::setLinePos( " << x << " , " << y << " ) "
+			<< "- was blocked because at least one value is out of bounds: ["
 			<< restrictPositionMin << "..." << restrictPositionMax << "]  "
 			<< "origX: " << getX() << ", origY: " << getY()
 			<< endl;
