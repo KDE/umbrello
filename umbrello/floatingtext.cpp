@@ -37,6 +37,11 @@ FloatingText::FloatingText(UMLView * view, Uml::Text_Role role, QString text, Um
 	init();
 	m_Text = text;
 	m_Role = role;
+	if ( ! UMLApp::app()->getDocument()->loading() ) {
+		calculateSize();
+		setZ( 10 );//make sure always on top.
+		update();
+	}
 }
 
 void FloatingText::init() {
@@ -44,17 +49,10 @@ void FloatingText::init() {
 	m_PreText = "";
 	m_Text = "";
 	m_PostText = "";
-	//m_SeqNum = "";
-	//m_Operation = "";
 	m_Role = Uml::tr_Floating;
 	m_Type = Uml::wt_Text;
 	// initialize non-saved (i.e. volatile) data
 	m_pLink = NULL;
-	if ( ! UMLApp::app()->getDocument()->loading() ) {
-		calculateSize();
-		setZ( 10 );//make sure always on top.
-		update();
-	}
 }
 
 FloatingText::~FloatingText() {
