@@ -23,7 +23,7 @@ industry standard for graphically describing software.
 </para>
 <para>
 &UML; is composed of many model elements that represent the different parts of a software system.
-The UML elements are used to create diagrams, which represent a certain part, or a point of view of
+The &UML; elements are used to create diagrams, which represent a certain part, or a point of view of
 the system.
 The following types of diagrams are supported by &umbrello;:
 </para>
@@ -214,7 +214,7 @@ the attributes and operations of the class in two other <quote>compartments</quo
 <sect4 id="attribute">
 <title>Attributes</title>
 <para>
-In UML;, Attributes are shown with at least their name, and can also show their type, initial value and
+In &UML;, Attributes are shown with at least their name, and can also show their type, initial value and
 other properties.
 Attributes can also be displayed with their visibility:
 </para>
