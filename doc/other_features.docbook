@@ -41,16 +41,16 @@ move objects around by dragging them from one folder and dropping them into anot
 </para>
 
 <screenshot>
-<screeninfo>Organising your Model with Folders</screeninfo>
+<screeninfo>Organizing your Model with Folders</screeninfo>
 	<mediaobject>
 	  <imageobject>
 	    <imagedata fileref="pics/folders.png" format="PNG"/>
 	  </imageobject>
 	  <textobject>
-	    <phrase>Organising a Model with Logical Folders in &umbrello;</phrase>
+	    <phrase>Organizing a Model with Logical Folders in &umbrello;</phrase>
 	  </textobject>
 	  <caption>
-	    <para>Organising a Model with Logical Folders in &umbrello;
+	    <para>Organizing a Model with Logical Folders in &umbrello;
 	    </para>
 	  </caption>
 	</mediaobject>

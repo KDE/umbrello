@@ -56,7 +56,7 @@ your model into the current diagram.
 </para>
 <para>
 If you are working on a model with more than just a few classes and diagrams, the Tree View may help
-you stay on top of things by organising your model elements in folders. You can create 
+you stay on top of things by organizing your model elements in folders. You can create 
 folders by selecting the appropriate option from the context menu (&RMB; click on one of the folders
 in the tree view) and you can organize your elements by moving them to the appropriate folder (drag and drop)
 <!-- (screen shot) FIXME-->
