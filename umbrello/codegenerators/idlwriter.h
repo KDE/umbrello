@@ -56,7 +56,8 @@ private:
 	 */
 	void writeOperation(UMLOperation* op, QTextStream& idl, bool is_comment = false);
 
-	void computeAssocTypeAndRole(UMLAssociation* a, QString& typeName, QString& roleName);
+	void computeAssocTypeAndRole(UMLAssociation* a, UMLClassifier *c,
+				     QString& typeName, QString& roleName);
 
 	bool isOOClass(UMLClassifier* c);
 

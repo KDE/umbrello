@@ -36,7 +36,7 @@
 #include "../umlnamespace.h"
 
 IDLWriter::IDLWriter(UMLDoc *parent, const char *name)
-		: SimpleCodeGenerator(parent, name) {
+		: SimpleCodeGenerator(parent, name, false) {
 	indentlevel = 0;
 	// FIXME: Eventually we should fabricate an Indenter class
 	// that can be used by all code generators.
@@ -89,20 +89,33 @@ bool IDLWriter::isType (QString & type)
 }
 
 void IDLWriter::computeAssocTypeAndRole
-       (UMLAssociation *a, QString& typeName, QString& roleName) {
-	UMLClassifier* c = (UMLClassifier*) m_doc->findUMLObject(a->getRoleAId());
-	typeName = cleanName(c->getName());
-	QString multiplicity = a->getMultiA();
+       (UMLAssociation *a, UMLClassifier *c, QString& typeName, QString& roleName)
+{
+	// Determine which is the "remote" end of the association:
+	bool IAmRoleA = true;
+	UMLObject *other = a->getObjectB();
+	if (c->getName() == other->getName()) {
+		IAmRoleA = false;
+		other = a->getObjectA();
+	}
+	// Construct the type name:
+	typeName = cleanName(other->getName());
+	QString multiplicity;
+	if (IAmRoleA)
+		multiplicity = a->getMultiB();
+	else
+		multiplicity = a->getMultiA();
 	if (!multiplicity.isEmpty() && multiplicity != "1")
 		typeName.append("Vector");
-	roleName = a->getRoleNameA();
+	// Construct the member name:
+	if (IAmRoleA)
+		roleName = a->getRoleNameB();
+	else
+		roleName = a->getRoleNameA();
 	if (roleName.isEmpty()) {
-		if (multiplicity.isEmpty() || multiplicity == "1") {
-			roleName = "m_";
-			roleName.append(typeName);
-		} else {
-			roleName = typeName;
-			roleName.append("Vector");
+		roleName = a->getName();
+		if (roleName.isEmpty()) {
+			roleName = "m_" + typeName;
 		}
 	}
 }
@@ -232,6 +245,24 @@ void IDLWriter::writeClass(UMLClassifier *c) {
 				idl << spc() << at->getTypeName() << " " << name << ";\n";
 				// Initial value not possible in IDL.
 			}
+			UMLAssociationList compositions = c->getCompositions();
+			if (!compositions.isEmpty()) {
+				idl << spc() << "// Compositions.\n";
+				for (UMLAssociation *a = compositions.first(); a; a = compositions.next()) {
+					QString memberType, memberName;
+					computeAssocTypeAndRole(a, c, memberType, memberName);
+					idl << spc() << memberType << " " << memberName << ";\n";
+				}
+			}
+			UMLAssociationList aggregations = c->getAggregations();
+			if (!aggregations.isEmpty()) {
+				idl << spc() << "// Aggregations.\n";
+				for (UMLAssociation *a = aggregations.first(); a; a = aggregations.next()) {
+					QString memberType, memberName;
+					computeAssocTypeAndRole(a, c, memberType, memberName);
+					idl << spc() << memberType << " " << memberName << ";\n";
+				}
+			}
 			indentlevel--;
 			idl << spc() << "};\n\n";
 		} else if (stype == "CORBAUnion") {
@@ -344,7 +375,7 @@ void IDLWriter::writeClass(UMLClassifier *c) {
 		idl << spc() << "// Aggregations:\n";
 		for (UMLAssociation *a = aggregations.first(); a; a = aggregations.next()) {
 			QString typeName, roleName;
-			computeAssocTypeAndRole(a, typeName, roleName);
+			computeAssocTypeAndRole(a, c, typeName, roleName);
 			idl << spc() << "// " << typeName << " " << roleName << ";\n";
 		}
 		idl << endl;
@@ -353,7 +384,7 @@ void IDLWriter::writeClass(UMLClassifier *c) {
 		idl << spc() << "// Compositions:\n";
 		for (UMLAssociation *a = compositions.first(); a; a = compositions.next()) {
 			QString typeName, roleName;
-			computeAssocTypeAndRole(a, typeName, roleName);
+			computeAssocTypeAndRole(a, c, typeName, roleName);
 			idl << spc() << "// " << typeName << " " << roleName << ";\n";
 		}
 		idl << endl;

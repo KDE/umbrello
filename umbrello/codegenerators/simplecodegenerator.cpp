@@ -39,10 +39,12 @@
 // Constructors/Destructors
 //
 
-SimpleCodeGenerator::SimpleCodeGenerator (UMLDoc * parentDoc , const char * name)
+SimpleCodeGenerator::SimpleCodeGenerator (UMLDoc * parentDoc , const char * name,
+					  bool createDirHierarchyForPackages /* =true */)
     : CodeGenerator( parentDoc, name )
 {
 	parentDoc->disconnect(this); // disconnect from UMLDoc.. we arent planning to be synced at all
+	m_createDirHierarchyForPackages = createDirHierarchyForPackages;
 	initFields(parentDoc);
 }
 
@@ -68,7 +70,7 @@ QString SimpleCodeGenerator::findFileName(UMLClassifier* concept, QString ext) {
         //else, determine the "natural" file name
         QString name;
         // Get the package name
-        QString package = concept->getPackage();
+        QString package = concept->getPackage(".");
 
         // Replace all white spaces with blanks
         package.simplifyWhiteSpace();
@@ -76,32 +78,47 @@ QString SimpleCodeGenerator::findFileName(UMLClassifier* concept, QString ext) {
         // Replace all blanks with underscore
         package.replace(QRegExp(" "), "_");
 
+	// Convert all "::" to "/" : Platform-specific path separator
+	// package.replace(QRegExp("::"), "/");
+
         // if package is given add this as a directory to the file name
-        if (!package.isEmpty()) {
+        if (!package.isEmpty() && m_createDirHierarchyForPackages) {
                 name = package + "." + concept->getName();
+        	name.replace(QRegExp("\\."),"/");
                 package.replace(QRegExp("\\."), "/");
                 package = "/" + package;
         } else {
-                name = concept->getName();
+                name = concept->getFullyQualifiedName("-");
         }
 
-        // Convert all "." to "/" : Platform-specific path separator
-        name.replace(QRegExp("\\."),"/"); // Simple hack!
-        if (ext != ".java" && ext != ".pm" && ext != ".py") {
+        if (ext != ".idl" && ext != ".java" && ext != ".pm" && ext != ".py") {
                 package = package.lower();
                 name = name.lower();
         }
 
         // if a package name exists check the existence of the package directory
-        if (!package.isEmpty()) {
-                QDir packageDir(m_outputDirectory.absPath() + package);
-                if (! (packageDir.exists() || packageDir.mkdir(packageDir.absPath()) ) ) {
-                        KMessageBox::error(0, i18n("Cannot create the package folder:\n") +
-                                           packageDir.absPath() + i18n("\nPlease check the access rights"),
-                                           i18n("Cannot Create Folder"));
-                        return NULL;
-                }
-        }
+        if (!package.isEmpty() && m_createDirHierarchyForPackages) {
+                QDir pathDir(m_outputDirectory.absPath() + package);
+		// does our complete output directory exist yet? if not, try to create it
+		if (!pathDir.exists())
+		{
+			QStringList dirs = QStringList::split("/",pathDir.absPath());
+			QString currentDir = "";
+			for (QStringList::iterator dir = dirs.begin(); dir != dirs.end(); ++dir)
+			{
+				currentDir += "/" + *dir;
+				if (! (pathDir.exists(currentDir) 
+					|| pathDir.mkdir(currentDir) ) ) 
+				{
+					KMessageBox::error(0, i18n("Cannot create the folder:\n") + 
+					pathDir.absPath() + i18n("\nPlease check the access rights"),
+					   i18n("Cannot Create Folder"));
+					return NULL;
+				}
+			}
+		}
+	}
+
 
         name.simplifyWhiteSpace();
         name.replace(QRegExp(" "),"_");

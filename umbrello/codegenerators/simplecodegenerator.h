@@ -43,7 +43,8 @@ public:
 	/**
 	 * Empty Constructor
 	 */
-	SimpleCodeGenerator (UMLDoc * doc, const char * name = 0);
+	SimpleCodeGenerator (UMLDoc * doc, const char * name = 0,
+			     bool createDirHierarchyForPackages = true);
 
 	/**
 	 * Empty Destructor
@@ -89,6 +90,14 @@ protected:
 
 	// the parent document
         UMLDoc *m_doc;
+
+	/**
+	 * For some code generators, it does not make much sense to create a
+	 * directory for each package because that would lead to a rather
+	 * sparsely populated directory tree (maximum of just one source file
+	 * per directory.)
+	 */
+	bool m_createDirHierarchyForPackages;
 
         /* Old Attributes writers will look for */
         QDir m_outputDirectory;
