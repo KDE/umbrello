@@ -344,8 +344,7 @@ void HierarchicalCodeBlock::setAttributesFromObject (TextBlock * obj) {
 	{
 		setStartText(hb->getStartText());
 		setEndText(hb->getEndText());
-
-		// FIX? copy all of the child text blocks? ugh, lets NOT do this for now.
+		CodeGenObjectWithTextBlocks::setAttributesFromObject((CodeGenObjectWithTextBlocks*)obj);
 	}
 
 }

@@ -164,6 +164,8 @@ protected:
          */
         virtual void setAttributesFromNode ( QDomElement & element);
 
+        virtual void setAttributesFromObject (CodeGenObjectWithTextBlocks * obj);
+
        /**
          * in this vanilla version, we only load comments and codeblocks
          * as they are the only instanciatable (vanilla) things

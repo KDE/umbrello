@@ -220,6 +220,17 @@ void CodeGenObjectWithTextBlocks::resetTextBlocks() {
         m_textblockVector.clear();
 }
 
+
+void CodeGenObjectWithTextBlocks::setAttributesFromObject (CodeGenObjectWithTextBlocks * obj) 
+{
+	QPtrList<TextBlock> * list = obj->getTextBlockList();
+	for (TextBlock * tb = list->first(); tb; tb=list->next())
+	{
+        	// FIX : we need some functionality like
+		// loadChildTextBlocksFromObject(obj) here
+	}
+}
+
 void CodeGenObjectWithTextBlocks::setAttributesOnNode (QDomDocument & doc, QDomElement & root) {
 
 	// set a section to hold document content
