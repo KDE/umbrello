@@ -213,6 +213,11 @@ class UMLListView : public KListView {
 	UMLDoc *m_doc;
 	bool loading, m_bStartedCut, m_bIgnoreCancelRename;
 
+	/**
+	 * Used when creating an attribute or an operation to stop it adding a second listViewItem
+	 */
+	bool m_bCreatingChildObject;
+
 	struct Pixmaps {
 		QPixmap Home;
 		QPixmap Folder_Green;

@@ -523,16 +523,17 @@ void UMLListView::slotObjectChanged() {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLListView::childObjectAdded(UMLObject* obj) {
-	UMLObject *parent = const_cast<UMLObject*>(dynamic_cast<const UMLObject*>(sender()));
+	if (!m_bCreatingChildObject) {
+		UMLObject *parent = const_cast<UMLObject*>(dynamic_cast<const UMLObject*>(sender()));
 
-	UMLListViewItem *parentItem = findUMLObject(parent);
-	UMLListViewItem *newItem = new UMLListViewItem(parentItem, obj->getName(), convert_OT_LVT(obj->getBaseType()), obj);
+		UMLListViewItem *parentItem = findUMLObject(parent);
+		UMLListViewItem *newItem = new UMLListViewItem(parentItem, obj->getName(), convert_OT_LVT(obj->getBaseType()), obj);
 
+		ensureItemVisible(newItem);
+		setSelected(newItem, true);
+		m_doc->getDocWindow()->showDocumentation(obj, false);
+	}
 	connect(obj,SIGNAL(modified()),this,SLOT(slotObjectChanged()));
-
-	ensureItemVisible(newItem);
-	setSelected(newItem, true);
-	m_doc->getDocWindow()->showDocumentation(obj, false);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLListView::childObjectRemoved(UMLObject* obj) {
@@ -732,6 +733,7 @@ void UMLListView::init() {
 	m_bStartedCut = false;
 	loading = false;
 	m_bIgnoreCancelRename = true;
+	m_bCreatingChildObject = false;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLListView::setView(UMLView * v) {
@@ -1607,6 +1609,7 @@ void UMLListView::createUMLObject( UMLListViewItem * item, Uml::UMLObject_Type t
 }
 
 void UMLListView::createChildUMLObject( UMLListViewItem * item, Uml::UMLObject_Type type ) {
+	m_bCreatingChildObject = true;
 	QString name = item -> text( 0 );
 	UMLObject * object = static_cast<UMLListViewItem *>( item -> parent() ) -> getUMLObject();
 	if( !object ) {
@@ -1629,6 +1632,7 @@ void UMLListView::createChildUMLObject( UMLListViewItem * item, Uml::UMLObject_T
 	pData -> setUMLObject( object );
 	pData -> setID( object -> getID() );
 	pData -> setLabel( name );
+	m_bCreatingChildObject = false;
 }
 
 void UMLListView::createDiagram( UMLListViewItem * item, Uml::Diagram_Type type ) {
