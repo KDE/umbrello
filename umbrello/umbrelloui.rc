@@ -22,6 +22,8 @@
     <Action name="view_show_grid"/>
     <Action name="view_delete"/>
     <Action name="view_export_image"/>
+    <Menu name="zoom_menu"><text>&amp;Zoom</text>
+    </Menu>
     <Action name="view_properties"/>
   </Menu>
 
@@ -34,6 +36,8 @@
     <Action name="generation_wizard"/>
     <Action name="generate_all"/>
     <Action name="configure_languages"/>
+    <Menu name="active_lang_menu"><text>Active &amp;Language</text>
+    </Menu>
     <Separator/>
     <Action name="class_wizard"/>
   </Menu>

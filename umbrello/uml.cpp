@@ -42,9 +42,8 @@ UMLApp::UMLApp(QWidget* , const char* name):KMainWindow(0, name) {
 	config=kapp->config();
 	listView = 0;
 	ldict.setAutoDelete(true);
-	langSelect = new QPopupMenu(this);
-	zoomSelect = new QPopupMenu(this);
-
+	langSelect = 0L;
+	zoomSelect = 0L;
 	loading = false;
 	m_clipTimer = 0;
 	m_copyTimer = 0;
@@ -70,42 +69,75 @@ UMLApp::UMLApp(QWidget* , const char* name):KMainWindow(0, name) {
 	editCopy->setEnabled(false);
 	editPaste->setEnabled(false);
 
-	//insert Language Selection menu in "Code Generation" in the Menubar
-	// --> the name "Code Generation" as seen in the Menu is taken from .ui file..
-	// and depends on the language we are using (english, spanish, etc) so we need to
-	// look for the object name instead.
-	int t = menuBar() -> count();
-	int id=-1;
-	for( int i =0; i<t;i++) {
-		id = menuBar()->idAt(i);
-		if(id == -1)
-			break;
-		if(menuBar()->findItem(id)->popup()->name() == QString("code"))
-			break;
-	}
-	if(id!=-1) {
-		QPopupMenu *m = menuBar()->findItem(id)->popup();
-		if(m) {
-			m->insertItem(i18n("Active &Language"),langSelect,-1,m->count()-2);
-		}
-	}
-
-	//insert zoom menu. see comment above (language selection menu)
- 	id=-1;
-	for( int i =0; i<t;i++)
+	//get a reference to the Code->Active Lanugage and to the Diagram->Zoom menu
+	//we need to search through the menuBar and the correspondig menus.
+	
+	QPopupMenu *menu = 0L;
+	int menu_count = menuBar() -> count();
+	
+	for( int i =0; i<menu_count; i++) 
 	{
-		id = menuBar()->idAt(i);
-		if(id == -1)
-			break;
-		if(menuBar()->findItem(id)->popup()->name() == QString("views"))
-			break;
+		if( menuBar()->findItem( menuBar()->idAt(i) )->popup()->name() == QString("code"))
+		{
+		//we've found the code menu
+			menu = menuBar()->findItem( menuBar()->idAt(i) )->popup();
+			menu_count = menu->count();
+			//look for the "active language" sub-menu
+			for( int i=0; i< menu_count; i++)
+			{
+				if(menu->findItem(menu->idAt(i))->popup() && 
+					menu->findItem( menu->idAt(i) )->popup()->name() == QString("active_lang_menu"))
+				{
+				//we found it. get a reference to it and get out.
+					langSelect = menu->findItem(menu->idAt(i))->popup();
+					break;
+				}
+			
+			}
+			
+		break;	
+		}
+	
 	}
-	if(id!=-1) {
-		QPopupMenu *m = menuBar()->findItem(id)->popup();
-		if(m) {
-			m->insertItem(i18n("&Zoom"),zoomSelect,-1,m->count()-1);
+	
+	if(langSelect == 0L)
+	{//in case langSelect hasnt been initialized we create the Popup menu.
+	 //it will be hidden, but at least we wont crash if someone takes the entry away from the ui.rc file
+		langSelect = new QPopupMenu(this);
+	}		
+
+ 	
+	menu = 0L;
+	menu_count = menuBar()->count();
+	for( int i =0; i<menu_count; i++ )
+	{
+		if(menuBar()->findItem( menuBar()->idAt(i) )->popup()->name() == QString("views"))
+		{
+		//we've found the "Diagram" menu
+			menu = menuBar()->findItem( menuBar()->idAt(i) )->popup();
+			menu_count = menu->count();
+			//look for the "zoom" sub-menu
+			for( int i=0; i< menu_count; i++)
+			{
+				if(menu->findItem(menu->idAt(i))->popup() && 
+					menu->findItem(menu->idAt(i))->popup()->name() == QString("zoom_menu"))
+				{
+					zoomSelect = menu->findItem(menu->idAt(i))->popup();
+					break;
+				}
+			}
+		break;
 		}
 	}
+	
+		
+	if(zoomSelect == 0L)
+	{//in case zoomSelect hasnt been initialized we create the Popup menu.
+	 //it will be hidden, but at least we wont crash if some one takes the entry away from the ui.rc file
+		zoomSelect = new QPopupMenu(this);
+	}
+					
+	
 	//connect zoomSelect menu
 	zoomSelect->setCheckable(true);
 	connect(zoomSelect,SIGNAL(aboutToShow()),this,SLOT(setupZoomMenu()));
