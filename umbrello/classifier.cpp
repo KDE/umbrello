@@ -395,12 +395,21 @@ UMLTemplate* UMLClassifier::takeTemplate(UMLTemplate* t) {
 	return t;
 }
 
+UMLTemplate *UMLClassifier::findTemplate(QString name) {
+	UMLTemplateList templParams = getTemplateList();
+	for (UMLTemplate *t = templParams.first(); t; t = templParams.next()) {
+		if (t->getName() == name)
+			return t;
+	}
+	return NULL;
+}
+
 int UMLClassifier::templates() {
 	UMLClassifierListItemList tempList = getFilteredList(Uml::ot_Template);
 	return tempList.count();
 }
 
-UMLTemplateList UMLClassifier::getFilteredTemplateList() {
+UMLTemplateList UMLClassifier::getTemplateList() {
 	UMLTemplateList templateList;
 	for (UMLClassifierListItemListIt lit(m_List); lit.current(); ++lit) {
 		UMLClassifierListItem *listItem = lit.current();

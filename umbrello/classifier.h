@@ -193,7 +193,7 @@ public:
 	int removeTemplate(UMLTemplate* umltemplate);
 
 	/**
-	 * Take and return a templatee from class.
+	 * Take and return a template parameter from class.
 	 * It is the callers responsibility to pass on ownership of
 	 * the returned template (or to delete the template)
 	 *
@@ -201,6 +201,11 @@ public:
 	 * @return	pointer to the template or null if not found.
 	 */
 	UMLTemplate* takeTemplate(UMLTemplate* t);
+
+	/**
+	 * Seeks the template parameter of the given name.
+	 */
+	UMLTemplate *findTemplate(QString name);
 
 	/**
 	 * Returns the number of templates for the class.
@@ -216,7 +221,7 @@ public:
 	 *
 	 * @return	Pointer to the list of true templates for the class.
 	 */
-	UMLTemplateList getFilteredTemplateList();
+	UMLTemplateList getTemplateList();
 
 
 	/**
