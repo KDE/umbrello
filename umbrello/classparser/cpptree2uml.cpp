@@ -242,11 +242,11 @@ void CppTree2Uml::parseFunctionDefinition( FunctionDefinitionAST* ast )
     }
     QString returnType = typeOfDeclaration( typeSpec, d );
     UMLOperation *m = m_importer->makeOperation(c, id);
+    parseFunctionArguments( d, m );
     m_importer->insertMethod( c, m, (Uml::Scope)m_currentAccess, returnType,
 			      isStatic, false /*isAbstract*/, m_comment,
 			      m_currentNamespace[m_nsCnt]);
     m_comment = "";
-    parseFunctionArguments( d, m );
 
 /* For reference, Kdevelop does some more:
     method->setFileName( m_fileName );
