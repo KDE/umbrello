@@ -188,4 +188,4 @@ bool endComment(yyFlexLexer *lex)
  comment+="*/";
  return true;
 }
-
+#undef yyFlexLexer
