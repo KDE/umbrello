@@ -173,14 +173,13 @@ void UMLRole::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	}
 	switch (m_Changeability) {
 		case Uml::chg_Frozen:
-			roleElement.setAttribute("changeable", "frozen");
+			roleElement.setAttribute("changeability", "frozen");
 			break;
 		case Uml::chg_AddOnly:
-			roleElement.setAttribute("changeable", "addOnly");
+			roleElement.setAttribute("changeability", "addOnly");
 			break;
 		case Uml::chg_Changeable:
-			// This is the default.
-			// roleElement.setAttribute("changeable", "none");
+			roleElement.setAttribute("changeability", "changeable");
 			break;
 	}
 	qElement.appendChild( roleElement );
@@ -342,10 +341,12 @@ bool UMLRole::load( QDomElement & element ) {
 
 	// Changeability defaults to Changeable if it cant set it here..
 	m_Changeability = Uml::chg_Changeable;
-	QString changeable = element.attribute("changeable", "none");
-	if (changeable == "frozen")
+	QString changeability = element.attribute("changeability", "");
+	if (changeability.isEmpty())
+		element.attribute("changeable", "");  // for backward compatibility
+	if (changeability == "frozen")
 		m_Changeability = Uml::chg_Frozen;
-	else if (changeable == "addOnly")
+	else if (changeability == "addOnly")
 		m_Changeability = Uml::chg_AddOnly;
 
 	// finished config, now unblock
