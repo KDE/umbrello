@@ -61,11 +61,21 @@ public:
 	bool getShowOps() const;
 
 	/**
+	 * toggles the status of showing operations
+	 */
+	void toggleShowOps();
+
+	/**
 	 *	Return the status of showing operation signatures.
 	 *
 	 *	@return Returns the status of showing operation signatures.
 	 */
 	Uml::Signature_Type getShowOpSigs() const;
+
+	/**
+	 * toggles the status of showing operation signatures
+	 */
+	void toggleShowOpSigs();
 
 	/**
 	 *	Set the status of whether to show scope
@@ -80,6 +90,11 @@ public:
 	 *	@return  Returns the status of whether to show scope.
 	 */
 	bool getShowScope() const;
+
+	/**
+	 * toggles the status of wether to show scope
+	 */
+	void toggleShowScope();
 
 	/**
 	 * 	Set the status of whether to show Operation signature
@@ -110,6 +125,11 @@ public:
 	bool getShowPackage() const;
 
 	/**
+	 * toggles the status of wether to show package.
+	 */
+	void toggleShowPackage();
+
+	/**
 	 * 	Set the status of whether to show Package
 	 *
 	 *	@param _show  The status of whether to show Package
@@ -117,16 +137,21 @@ public:
 	void setShowPackage(bool _status);
 
 	/**
-	 *	Returns the status of whether to show Package.
+	 *	Returns the status of whether to draw as circle.
 	 *
-	 *	@return  Returns the status of whether to show Package.
+	 *	@return  Returns the status of whether to draw as circle.
 	 */
 	bool getDrawAsCircle() const;
 
 	/**
-	 * 	Set the status of whether to show Package
+	 * toggles the status of wether to draw as circle
+	 */
+	void toggleDrawAsCircle();
+
+	/**
+	 * 	Set the status of whether to draw as circle.
 	 *
-	 *	@param _show  The status of whether to show Package
+	 *	@param _show  The status of whether to draw as circle.
 	 */
 	void setDrawAsCircle(bool drawAsCircle);
 

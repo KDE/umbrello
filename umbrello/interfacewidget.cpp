@@ -266,40 +266,23 @@ void InterfaceWidget::slotMenuSelection(int sel) {
 			break;
 
 		case ListPopupMenu::mt_Show_Operations:
-			m_bShowOperations = !m_bShowOperations;
-			updateSigs();
-			calculateSize();
-
-			update();
+			toggleShowOps();
 			break;
 
 		case ListPopupMenu::mt_Show_Operation_Signature:
-			if (m_ShowOpSigs == Uml::st_ShowSig || m_ShowOpSigs == Uml::st_SigNoScope) {
-				if (m_bShowScope)
-					m_ShowOpSigs = Uml::st_NoSig;
-				else
-					m_ShowOpSigs = Uml::st_NoSigNoScope;
-			} else if (m_bShowScope)
-				m_ShowOpSigs = Uml::st_ShowSig;
-
-			else
-				m_ShowOpSigs = Uml::st_SigNoScope;
-			calculateSize();
-			update();
+			toggleShowOpSigs();
 			break;
 
 		case ListPopupMenu::mt_Scope:
-			m_bShowScope = !m_bShowScope;
-			updateSigs();
-			calculateSize();
-			update();
+			toggleShowScope();
 			break;
 
 		case ListPopupMenu::mt_DrawAsCircle:
-			m_bDrawAsCircle = !m_bDrawAsCircle;
-			updateSigs();
-			calculateSize();
-			update();
+			toggleDrawAsCircle();
+			break;
+
+		case ListPopupMenu::mt_Show_Packages:
+			toggleShowPackage();
 			break;
 	}
 	UMLWidget::slotMenuSelection(sel);
@@ -433,3 +416,63 @@ bool InterfaceWidget::loadFromXMI( QDomElement & qElement ) {
 	return true;
 }
 
+void InterfaceWidget::toggleShowOps()
+{
+	m_bShowOperations = !m_bShowOperations;
+	updateSigs();
+	calculateSize();
+
+	update();
+
+	return;
+}
+
+void InterfaceWidget::toggleShowScope()
+{
+	m_bShowScope = !m_bShowScope;
+	updateSigs();
+	calculateSize();
+	update();
+
+	return;
+}
+
+void InterfaceWidget::toggleShowOpSigs()
+{
+	if (m_ShowOpSigs == Uml::st_ShowSig || m_ShowOpSigs == Uml::st_SigNoScope) {
+		if (m_bShowScope) {
+			m_ShowOpSigs = Uml::st_NoSig;
+		} else {
+			m_ShowOpSigs = Uml::st_NoSigNoScope;
+		}
+	} else if (m_bShowScope) {
+		m_ShowOpSigs = Uml::st_ShowSig;
+	} else {
+		m_ShowOpSigs = Uml::st_SigNoScope;
+	}
+
+	calculateSize();
+	update();
+
+	return;
+}
+
+void InterfaceWidget::toggleDrawAsCircle()
+{
+	m_bDrawAsCircle = !m_bDrawAsCircle;
+	updateSigs();
+	calculateSize();
+	update();
+
+	return;
+}
+
+void InterfaceWidget::toggleShowPackage()
+{
+	m_bShowPackage = !m_bShowPackage;
+	updateSigs();
+	calculateSize();
+	update();
+
+	return;
+}
