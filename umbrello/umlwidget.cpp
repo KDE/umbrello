@@ -232,9 +232,10 @@ void UMLWidget::mouseReleaseEvent(QMouseEvent *me) {
 		m_bShiftPressed = false; // reset the state
 	}
 	if( me->button() == RightButton ) {
-		if( m_pMenu )
+		if (m_pMenu) {
 			return;
-		startPopupMenu( m_pView -> mapToGlobal( m_pView -> contentsToViewport( me -> pos() ) ) );
+		}
+		startPopupMenu( me->globalPos() );
 		return;
 	}//end if right button
 	m_pView -> getDocument() -> setModified(true);

@@ -203,10 +203,9 @@ void UMLView::print(KPrinter *pPrinter, QPainter & pPainter) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome) {
 
-	QMouseEvent *me = new QMouseEvent(QEvent::MouseButtonRelease,
-																	 inverseWorldMatrix().map(ome->pos()),
-																		ome->button(),
-																		ome->state());
+	QMouseEvent *me = new QMouseEvent(QEvent::MouseButtonRelease, inverseWorldMatrix().map(ome->pos()),
+					  ome->button(),ome->state());
+
 	if(m_bDrawRect) {
 		viewport()->setMouseTracking( false );
 		m_bDrawRect = false;
@@ -2349,7 +2348,7 @@ void UMLView::setMenu() {
 	if( menu != ListPopupMenu::mt_Undefined ) {
 		m_pMenu = new ListPopupMenu(this, menu, this);
 		connect(m_pMenu, SIGNAL(activated(int)), this, SLOT(slotMenuSelection(int)));
-		m_pMenu->popup( mapToGlobal( contentsToViewport(m_Pos) ) );
+		m_pMenu->popup( mapToGlobal( contentsToViewport(worldMatrix().map(m_Pos)) ) );
 	}
 }
 
