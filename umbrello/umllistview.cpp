@@ -531,7 +531,6 @@ void UMLListView::childObjectAdded(UMLObject* obj) {
 		ensureItemVisible(newItem);
 		clearSelection();
 		setSelected(newItem, true);
-		m_doc->getDocWindow()->showDocumentation(obj, false);
 	}
 	connectNewObjectsSlots(obj);
 }
