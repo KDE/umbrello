@@ -55,10 +55,10 @@ public:
 
 	enum UMLCopyType
 	{
-	    clip1 = 1, //UMLObjects UMLListViewItems (not diagrams)
-	    clip2 = 2, //UMLObjects UMLListViewItems (not diagrams) and diagrams
+	    clip1 = 1, //UMLObjects and UMLListViewItems (not diagrams)
+	    clip2 = 2, //UMLObjects, UMLListViewItems (not diagrams) and diagrams
 	    clip3 = 3, //UMLListViewItems (not diagrams)
-	    clip4 = 4,  ////UMLObjects UMLListViewItems, Associations and UMLWidgets
+	    clip4 = 4, //UMLObjects, UMLListViewItems, Associations and UMLWidgets
 	    clip5 = 5  //Only Attributes and Operations
 	};
 private:
@@ -141,7 +141,7 @@ private:
 	/**
 	 *	Adds the children of a UMLListViewItem to m_pItemList
 	 */
-	bool insertItemChildren(UMLListViewItem * Item, UMLListViewItemList& SelectedItems);
+	bool insertItemChildren(UMLListViewItem* Item, UMLListViewItemList& SelectedItems);
 
 	/**
 	 * 	Inserts the data of the children of the given item
@@ -149,7 +149,7 @@ private:
 	 * 	to make * sure classes have all the attributes and
 	 * 	operations saved.
 	 */
-	bool insertItemDataChildren( UMLListViewItem * item );
+	bool insertItemDataChildren(UMLListViewItem* item);
 
 	/**
 	 *	 Pastes the children of a UMLListViewItem (The Parent)

@@ -6,7 +6,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
- 
+
 #include "diagram.h"
 #include "widgetfactory.h"
 #include "diagramelement.h"
@@ -51,7 +51,7 @@ using std::list;
 namespace {
  int defaultWidth = 800;
  int defaultHeight = 600;
- 
+
  QColor defaultPenColor(255,10,10);
  QColor defaultBrushColor(50,255,20);
 
@@ -155,7 +155,7 @@ void Diagram::createUMLWidget( UMLObject *obj, const QPoint &pos)
 void Diagram::createAssociationWidget( UMLAssociation *assoc,UMLWidget *wA, UMLWidget *wB, const QList<QPoint> &path )
 {
 	DiagramElement *w;
-	if( w = WidgetFactory::createAssociationWidget( assoc, wA, wB, path, this ) )
+	if( ( w = WidgetFactory::createAssociationWidget( assoc, wA, wB, path, this ) ) )
 	{
 		w->show();
 		update();
@@ -195,7 +195,7 @@ void Diagram::dragEnterEvent(QDragEnterEvent *e)
 void Diagram::dropEvent(QDropEvent *e)
 {
 	UMLListViewItemDataList list;
-	bool status = UMLDrag::decode(e,list);
+	bool status = UMLDrag::decodeClip3(e,list);
 	if(!status)
 	{
 		return;
@@ -215,7 +215,7 @@ void Diagram::dropEvent(QDropEvent *e)
 bool Diagram::canAcceptDrop(QDropEvent *e)
 {
 	UMLListViewItemDataList list;
-	bool status = UMLDrag::decode(e,list);
+	bool status = UMLDrag::decodeClip3(e,list);
 	if(!status)
 	{
 		return false;
@@ -234,7 +234,7 @@ bool Diagram::canAcceptDrop(QDropEvent *e)
 // check if we are droping elements from another model (ie, from another instance of
 // umbrello or another program which also "exports" XMI
 // if we the drag comes from another app, check if the document (model) accepts it.
-// and check if the diagram accepts it as well.	
+// and check if the diagram accepts it as well.
 }
 
 
@@ -258,14 +258,14 @@ void Diagram::initAllowedTypesMap()
 	list = &allowedTypes[UseCaseDiagram];
 		list->insert(list->end(),&typeid(UMLActor));
 		list->insert(list->end(),&typeid(UMLUseCase));
-		
+
 	list = &allowedTypes[CollaborationDiagram];
 		list->insert(list->end(),&typeid(UMLClass));
-		
+
 //	allowedTypes[ActivityDiagram].insert(&typeid(UMLActivity));
-	
+
 //	allowedTypes[SequenceDiagram].insert(&typeid(UMLState));
-	
+
 }
 
 

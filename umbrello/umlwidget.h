@@ -433,9 +433,14 @@ public:
 	virtual void cleanup();
 
 	/**
+	 * Returns whether the widget type has an associated UMLObject
+	 */
+	static bool widgetHasUMLObject(Uml::UMLWidget_Type type);
+
+	/**
 	 * Update the size of this widget.
 	 */
-	void updateComponentSize(){calculateSize();};
+	void updateComponentSize();
 
 protected:
 	/**
@@ -477,11 +482,6 @@ protected:
 	 * Initializes key attributes of the class.
 	 */
 	void init();
-
-	/**
-	 * Returns whether the widget type has an associated UMLObject
-	 */
-	bool widgetHasUMLObject(Uml::UMLWidget_Type type);
 
 	bool 		m_bMouseDown, 
 			m_bMouseOver, 

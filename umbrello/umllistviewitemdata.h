@@ -148,8 +148,15 @@ public:
 		label = _label;
 	}
 
-	bool saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+	/**
+	 * saves the listview item to a <listitem> tag
+	 */
+	bool saveToXMI(QDomDocument& qDoc, QDomElement& qElement );
 
+	/**
+	 * Loads a <listitem> tag, this is only used by the clipboard currently
+	 */
+	bool loadFromXMI(QDomElement& qElement);
 protected: // Private methods
 
 	UMLListViewItem * m_pItem;

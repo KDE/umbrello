@@ -189,7 +189,7 @@ void UMLView::print(KPrinter *pPrinter, QPainter & pPainter) {
 			widthX = (pageX + 1) * width > rect.width()
 				? rect.width() - pageX * width
 				: width;
-			
+
 			// make sure the part of the diagram is painted at the correct
 			// place in the printout
 			pPainter.translate(-offsetX,-offsetY);
@@ -586,7 +586,7 @@ void UMLView::slotObjectRemoved(UMLObject * o) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLView::contentsDragEnterEvent(QDragEnterEvent *e) {
 	UMLListViewItemDataList list;
-	bool status = UMLDrag::decode(e, list);
+	bool status = UMLDrag::decodeClip3(e, list);
 	if(!status) {
 		return;
 	}
@@ -651,7 +651,7 @@ void UMLView::contentsDragEnterEvent(QDragEnterEvent *e) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLView::contentsDropEvent(QDropEvent *e) {
 	UMLListViewItemDataList list;
-	bool status = UMLDrag::decode(e, list);
+	bool status = UMLDrag::decodeClip3(e, list);
 	if(!status) {
 		return;
 	}
@@ -1347,11 +1347,11 @@ void UMLView::fixEPS(QString filename, QRect rect) {
 	QFile epsfile(filename);
 	QString fileContent;
 	if (epsfile.open(IO_ReadOnly )) {
-		// read 
+		// read
 		QTextStream ts(&epsfile);
 		fileContent = ts.read();
 		epsfile.close();
-					
+
 		// write new content to file
 		if (epsfile.open(IO_WriteOnly | IO_Truncate)) {
 			// read information
@@ -1359,11 +1359,11 @@ void UMLView::fixEPS(QString filename, QRect rect) {
 			int pos = rx.search(fileContent);
 			float left = rx.cap(1).toFloat();
 			float top = rx.cap(4).toFloat();
-						
+
 			// modify content
 			fileContent.replace(pos,rx.cap(0).length(),
 					    QString("%%BoundingBox: %1 %2 %3 %4").arg(left).arg(top-rect.height()).arg(left+rect.width()).arg(top));
-						
+
 			ts << fileContent;
 			epsfile.close();
 		}
@@ -1381,8 +1381,8 @@ void UMLView::printToFile(QString filename, QRect rect) {
 	QPrinter printer(QPrinter::PrinterResolution);
 	printer.setOutputToFile(true);
 	printer.setOutputFileName(filename);
-	// do not call printer.setup(); because we want no user 
-	// interaction here 
+	// do not call printer.setup(); because we want no user
+	// interaction here
 	QPainter painter(&printer);
 	painter.translate(-rect.x(),-rect.y());
 	getDiagram(rect,painter);
@@ -1395,7 +1395,7 @@ void UMLView::exportImage() {
 	QStringList mimetypes;
 	// special image types that are handled separately
 	mimetypes.append("image/x-eps");
-	// "normal" image types that are present 
+	// "normal" image types that are present
 	QString m;
 	QStringList::Iterator it;
 	for( it = fmt.begin(); it != fmt.end(); ++it ) {
@@ -1404,7 +1404,7 @@ void UMLView::exportImage() {
 	}
 
 	// configure & show the file dialog
-	KFileDialog fileDialog(QString::null, QString::null, this, 
+	KFileDialog fileDialog(QString::null, QString::null, this,
 			       ":export-image",true);
 	fileDialog.setCaption(i18n("Save As"));
 	fileDialog.setOperationMode(KFileDialog::Saving);
@@ -1463,7 +1463,7 @@ void UMLView::exportImage() {
 					                   i18n("Save Error"));
 				}
 				tmpfile.unlink();
-			} //!isLocalFile		  
+			} //!isLocalFile
 		} //rect.isEmpty()
 
 	} //!url.isEmpty()

@@ -1,3 +1,4 @@
+
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -748,7 +749,7 @@ bool UMLListView::acceptDrag(QDropEvent* event) const {
 	((QListView*)this)->setCurrentItem( (QListViewItem*)item );
 	UMLListViewItemDataList list;
 
-	bool status = UMLDrag::decode(event, list);
+	bool status = UMLDrag::decodeClip3(event, list);
 	if(!status) {
 		return false;
 	}
@@ -797,7 +798,7 @@ void UMLListView::slotDropped(QDropEvent * de, QListViewItem * parent, QListView
 
 		return;
 	UMLListViewItemDataList list;
-	bool status = UMLDrag::decode(de, list);
+	bool status = UMLDrag::decodeClip3(de, list);
 
 	if(!status) {
 		return;
@@ -1229,20 +1230,22 @@ UMLListViewItem* UMLListView::createItem(UMLListViewItemData& Data, IDChangeLog&
 			UMLClass * pClass =  (UMLClass *)parent -> getUMLObject();
 			newID = IDChanges.findNewID( Data.getID() );
 			pObject = pClass -> findChildObject( newID );
-			if( pObject )
+			if (pObject) {
 				item = new UMLListViewItem( parent, Data.getLabel(), Data.getType(), pObject );
-			else
+			} else {
 				item = 0;
+			}
 			break;
 		}
 		case Uml::lvt_Operation:
 		{
 			UMLClassifier * pConcept =  (UMLClassifier *)parent -> getUMLObject();
 			pObject = pConcept  -> findChildObject( IDChanges.findNewID( Data.getID() ) );
-			if( pObject )
+			if (pObject) {
 				item = new UMLListViewItem( parent, Data.getLabel(), Data.getType(), pObject );
-			else
+			} else {
 				item = 0;
+			}
 			break;
 		}
 		case Uml::lvt_UseCase_Diagram:

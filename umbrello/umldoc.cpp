@@ -1488,51 +1488,77 @@ bool UMLDoc::loadUMLObjectsFromXMI( QDomNode & node ) {
 	UMLObject * pObject = 0;
 	int count = 0;
 
-	while( !element.isNull() ) {
+	while ( !element.isNull() ) {
 		pObject = 0;
 		QString type = element.tagName();
-		if (type == "UML:UseCase") {
-			pObject = new UMLUseCase(this);
-		} else if (type == "UML:Actor") {
-			pObject = new UMLActor(this);
-		} else if (type == "UML:Class") {
-			pObject = new UMLClass(this);
-		} else if (type == "UML:Package") {
-			pObject = new UMLPackage(this);
-		} else if (type == "UML:Component") {
-			pObject = new UMLComponent(this);
-		} else if (type == "UML:Node") {
-			pObject = new UMLNode(this);
-		} else if (type == "UML:Artifact") {
-			pObject = new UMLArtifact(this);
-		} else if (type == "UML:Interface") {
-			pObject = new UMLInterface(this);
-		} else if( type == "UML:Association" ) {
+		if (type != "UML:Association") {
  			//For the time being, we skip loading asociations from
  			// here. Instead, we will get them from the association widgets.
  			// meaning that UML:Association nodes are effectively ignored
  			// for the nonce.
- 		//	pObject = new UMLAssociation( this );
-
- 			// advance counters and continue on to next element in doc
- 			emit sigSetStatusbarProgress( ++count );
- 			node = node.nextSibling();
- 			element = node.toElement();
- 			continue;
- 		}
-		if( !pObject ) {
-			kdWarning()<<"Given wrong type of umlobject to create"<<endl;
-			return false;
+			pObject = makeNewUMLObject(type);
+			if( !pObject ) {
+				kdWarning() << "Given wrong type of umlobject to create:" << type << endl;
+				return false;
+			}
+			if( !pObject -> loadFromXMI( element ) ) {
+				return false;
+			}
+			objectList.append( pObject );
 		}
-		if( !pObject -> loadFromXMI( element ) ) {
-			return false;
-		}
-		objectList.append( pObject );
 		emit sigSetStatusbarProgress( ++count );
 		node = node.nextSibling();
 		element = node.toElement();
 	}//end while
 	return true;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+UMLObject* UMLDoc::makeNewClassifierObject(QString type, QDomElement& element) {
+	UMLObject* pObject = 0;
+	if (type == "UML:Operation") {
+		UMLOperation* newOperation = new UMLOperation(this);
+		if( !newOperation->loadFromXMI(element) ) {
+			return false;
+		}
+		pObject = newOperation;
+	} else if (type == "UML:Attribute") {
+		UMLAttribute* newAttribute = new UMLAttribute(this);
+		if( !newAttribute->loadFromXMI(element) ) {
+			return false;
+		}
+		pObject = newAttribute;
+	} else if (type == "template") {
+		UMLTemplate* newTemplate = new UMLTemplate(this);
+		if ( !newTemplate->loadFromXMI(element) ) {
+			return false;
+		}
+		pObject = newTemplate;
+	}
+	return pObject;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+UMLObject* UMLDoc::makeNewUMLObject(QString type) {
+	UMLObject* pObject = 0;
+	if (type == "UML:UseCase") {
+		pObject = new UMLUseCase(this);
+	} else if (type == "UML:Actor") {
+		pObject = new UMLActor(this);
+	} else if (type == "UML:Class") {
+		pObject = new UMLClass(this);
+	} else if (type == "UML:Package") {
+		pObject = new UMLPackage(this);
+	} else if (type == "UML:Component") {
+		pObject = new UMLComponent(this);
+	} else if (type == "UML:Node") {
+		pObject = new UMLNode(this);
+	} else if (type == "UML:Artifact") {
+		pObject = new UMLArtifact(this);
+	} else if (type == "UML:Interface") {
+		pObject = new UMLInterface(this);
+	} else if (type == "UML:Association") {
+		pObject = new UMLAssociation(this);
+	}
+	return pObject;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool UMLDoc::loadDiagramsFromXMI( QDomNode & node ) {

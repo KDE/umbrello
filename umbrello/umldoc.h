@@ -414,6 +414,17 @@ public:
 	bool loadDiagramsFromXMI( QDomNode & node );
 
 	/**
+	 * Creates a new Classifier UMLObjects (attribute, operation, template)
+	 * used by the clipboard when pasteing them
+	 */
+	UMLObject* makeNewClassifierObject(QString type, QDomElement& element);
+
+	/**
+	 * Make a new UMLObject, used by loadFromXMI and clipboard paste
+	 */
+	UMLObject* makeNewUMLObject(QString type);
+
+	/**
 	 * This method is called when a child @ref UMLObject has been updated.
 	 *	This will cause the document to emit the relevant signals.
 	 *

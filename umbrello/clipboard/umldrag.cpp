@@ -7,51 +7,40 @@
  *                                                                         *
  ***************************************************************************/
 
-#define FILEVERSION 5
+#include <kdebug.h>
+#include <qdom.h>
 
 #include "umldrag.h"
-#include "../activitywidgetdata.h"
-#include "../actor.h"
-#include "../actorwidgetdata.h"
-#include "../attribute.h"
-#include "../interface.h"
-#include "../class.h"
-#include "../classwidgetdata.h"
-#include "../floatingtextdata.h"
-#include "../messagewidgetdata.h"
-#include "../notewidgetdata.h"
-#include "../objectwidgetdata.h"
-#include "../operation.h"
-#include "../statewidgetdata.h"
 #include "../umldoc.h"
+#include "../umlview.h"
 #include "../umlwidgetdata.h"
-#include "../usecase.h"
-#include "../usecasewidgetdata.h"
 
 class UMLDragPrivate {
 public:
-	UMLDragPrivate() {
-		setSubType("clip1", 0);
-	}
-	enum { nfmt=4 };
+	static const int nfmt = 4;
 	QCString fmt[nfmt];
 	QCString subtype;
 	QByteArray enc[nfmt];
 
-	void setType(const QCString & st, int index) {
-		if(index < nfmt) {
+	UMLDragPrivate() {
+		setSubType("clip1", 0);
+	}
+
+	void setType(const QCString& st, int index) {
+		if (index < nfmt) {
 			fmt[index] = st.lower();
 		}
 	}
 
-	void setSubType(const QCString & st, int index) {
-		if(index < nfmt) {
+	void setSubType(const QCString& st, int index) {
+		if (index < nfmt) {
 			subtype = st.lower();
 			fmt[index] = "application/x-uml-";
 			fmt[index].append(subtype);
 		}
 	}
-	const char * format(int i) const {
+
+	const char* format(int i) const {
 		if(i < nfmt) {
 			return fmt[i];
 		}
@@ -60,752 +49,654 @@ public:
 };
 
 
-UMLDrag::UMLDrag( UMLObjectList& Objects, UMLListViewItemDataList& UMLListViewItems,
-                    QWidget * dragSource /*= 0*/, const char * name /*= 0*/ ): QDragObject( dragSource, name ) {
-	d = new UMLDragPrivate;
-	setUMLData( Objects, UMLListViewItems );
+UMLDrag::UMLDrag(UMLObjectList& objects, UMLListViewItemDataList& umlListViewItems,
+		 QWidget* dragSource /*= 0*/, const char* name /*= 0*/ ): QDragObject(dragSource, name) {
+	data = new UMLDragPrivate;
+	setUMLDataClip1(objects, umlListViewItems);
 }
 
-UMLDrag::UMLDrag( UMLObjectList& Objects, UMLListViewItemDataList& UMLListViewItems, UMLViewDataList& Diagrams,
-                    QWidget * dragSource /*= 0*/, const char * name /*= 0*/ ): QDragObject( dragSource, name ) {
-	d = new UMLDragPrivate;
-	setUMLData( Objects, UMLListViewItems, Diagrams);
+UMLDrag::UMLDrag(UMLObjectList& objects, UMLListViewItemDataList& umlListViewItems, UMLViewDataList& diagrams,
+		 QWidget* dragSource /*= 0*/, const char* name /*= 0*/ ): QDragObject(dragSource, name) {
+	data = new UMLDragPrivate;
+	setUMLDataClip2(objects, umlListViewItems, diagrams);
 }
 
-UMLDrag::UMLDrag( UMLListViewItemDataList& UMLListViewItems, QWidget * dragSource /*= 0*/, const char * name /*= 0*/ ):
-QDragObject( dragSource, name ) {
-
-	d = new UMLDragPrivate;
-	setUMLData( UMLListViewItems );
-}
-UMLDrag::UMLDrag( UMLObjectList& Objects, UMLListViewItemDataList& UMLListViewItems, UMLWidgetDataList& WidgetDatas,
-                    AssociationWidgetDataList& AssociationDatas, QPixmap& PngImage, Uml::Diagram_Type dType, QWidget * dragSource /*= 0*/, const char * name /*= 0*/ ):
-QDragObject( dragSource, name ) {
-	d = new UMLDragPrivate;
-	setUMLData( Objects, UMLListViewItems, WidgetDatas, AssociationDatas, PngImage, dType);
+UMLDrag::UMLDrag(UMLListViewItemDataList& umlListViewItems, QWidget* dragSource /*= 0*/,
+		 const char* name /*= 0*/ ): QDragObject(dragSource, name) {
+	data = new UMLDragPrivate;
+	setUMLDataClip3(umlListViewItems);
 }
 
-UMLDrag::UMLDrag( UMLObjectList& Objects, UMLListViewItemDataList& UMLListViewItems,  int I,
-                    QWidget * /*dragSource = 0*/, const char * /*name = 0*/ ) {
-	d = new UMLDragPrivate;
-	setUMLData( Objects, UMLListViewItems, I);
+UMLDrag::UMLDrag(UMLObjectList& objects, UMLListViewItemDataList& umlListViewItems,
+		 UMLWidgetDataList& widgetDatas, AssociationWidgetDataList& associationDatas,
+		 QPixmap& pngImage, Uml::Diagram_Type dType, QWidget * dragSource /*= 0*/,
+		 const char * name /*= 0*/ ): QDragObject(dragSource, name) {
+	data = new UMLDragPrivate;
+	setUMLDataClip4(objects, umlListViewItems, widgetDatas, associationDatas, pngImage, dType);
 }
 
-UMLDrag::UMLDrag( QWidget * dragSource /*= 0*/, const char * name /*= 0*/ )   : QDragObject( dragSource, name ) {
-	d = new UMLDragPrivate;
+UMLDrag::UMLDrag(UMLObjectList& objects, UMLListViewItemDataList& umlListViewItems, int,
+		 QWidget* /*dragSource = 0*/, const char* /*name = 0*/ ) {
+	data = new UMLDragPrivate;
+	setUMLDataClip5(objects, umlListViewItems);
+}
+
+UMLDrag::UMLDrag(QWidget* dragSource /*= 0*/, const char * name /*= 0*/ ): QDragObject(dragSource, name) {
+	data = new UMLDragPrivate;
 }
 
 UMLDrag::~UMLDrag() {
-	delete d;
+	delete data;
 }
 
-void UMLDrag::setSubType( const QCString & st, int index) {
-	d->setSubType(st, index);
+void UMLDrag::setSubType(const QCString& string, int index) {
+	data->setSubType(string, index);
 }
 
-void UMLDrag::setEncodedData( const QByteArray & encodedData, int index ) {
-	d->enc[index] = encodedData.copy();
+void UMLDrag::setEncodedData(const QByteArray& encodedData, int index) {
+	data->enc[index] = encodedData.copy();
 }
 
-QByteArray UMLDrag::encodedData(const char* m) const {
-	QString str(m);
-	for( int i = 0; i < 4; i++) {
-		if ( !qstricmp(m,d->fmt[i]) ) {
-			return d->enc[i];
+QByteArray UMLDrag::encodedData(const char* dataName) const {
+	QString str(dataName);
+	for (int i = 0; i < 4; i++) {
+		if ( !qstricmp(dataName,data->fmt[i]) ) {
+			return data->enc[i];
 		}
 	}
-
 	return QByteArray();
 }
 
-const char * UMLDrag::format(int i) const {
-
-	char* result = (char*)d->format(i);
-
+const char* UMLDrag::format(int index) const {
+	char* result = (char*)data->format(index);
 	return result;
 }
 
-void UMLDrag::setUMLData( UMLObjectList& Objects, UMLListViewItemDataList& UMLListViewItems ) {
-	long l_size = 0;
-
+void UMLDrag::setUMLDataClip1(UMLObjectList& objects, UMLListViewItemDataList& umlListViewItems) {
 	setSubType("clip1", 0);
-	UMLObjectListIt object_it( Objects );
-	UMLObject *obj;
+
+	QDomDocument domDoc;
+	QDomElement xmiclip = domDoc.createElement("xmiclip");
+	domDoc.appendChild(xmiclip);
+	QDomElement objectsTag = domDoc.createElement("umlobjects");
+	xmiclip.appendChild(objectsTag);
+
+	UMLObjectListIt object_it(objects);
+	UMLObject* obj = 0;
 	while ( (obj=object_it.current()) != 0 ) {
 		++object_it;
-		l_size += obj->getClipSizeOf();
+		obj->saveToXMI(domDoc, objectsTag);
 	}
 
-	l_size += sizeof(Objects.count());
-	l_size += sizeof(UMLListViewItems.count());
+	QDomElement itemsTag = domDoc.createElement("umllistviewitems");
+	xmiclip.appendChild(itemsTag);
 
-	UMLListViewItemDataListIt item_it( UMLListViewItems );
-	UMLListViewItemData * item;
-	while ( (item=item_it.current()) != 0 ) {
-		++item_it;
-		l_size += item->getClipSizeOf();
-	}
-	char *data = new char[l_size];
-	QByteArray clipdata;
-	clipdata.setRawData(data, l_size);
-	QDataStream clipstream( clipdata, IO_WriteOnly );
-	clipstream << Objects.count();
-
-	UMLObjectListIt object_it2( Objects );
-	while ( (obj=object_it2.current()) != 0 ) {
-		++object_it2;
-		obj->serialize(&clipstream, true, FILEVERSION);
-	}
-
-	clipstream << UMLListViewItems.count();
-	UMLListViewItemDataListIt item_it2( UMLListViewItems );
+	UMLListViewItemDataListIt item_it2(umlListViewItems);
+	UMLListViewItemData* item = 0;
 	while ( (item=item_it2.current()) != 0 ) {
 		++item_it2;
-		item->clipSerialize(&clipstream, true);
+		item->saveToXMI(domDoc, itemsTag);
 	}
-
-	setEncodedData(clipdata, 0);
+	setEncodedData(domDoc.toString().utf8(), 0);
 }
 
-void UMLDrag::setUMLData( UMLObjectList& Objects, UMLListViewItemDataList& UMLListViewItems, UMLViewDataList& Diagrams ) {
-	long l_size = 0;
-
+void UMLDrag::setUMLDataClip2(UMLObjectList& objects, UMLListViewItemDataList& umlListViewItems,
+			      UMLViewDataList& diagrams) {
 	setSubType("clip2", 0);
-	UMLObjectListIt object_it( Objects );
-	UMLObject *obj;
+
+	QDomDocument domDoc;
+	QDomElement xmiclip = domDoc.createElement("xmiclip");
+	domDoc.appendChild(xmiclip);
+	QDomElement objectsTag = domDoc.createElement("umlobjects");
+	xmiclip.appendChild(objectsTag);
+
+	UMLObjectListIt object_it(objects);
+	UMLObject* obj = 0;
 	while ( (obj=object_it.current()) != 0 ) {
 		++object_it;
-		l_size += obj->getClipSizeOf();
+		obj->saveToXMI(domDoc, objectsTag);
 	}
 
+	QDomElement viewsTag = domDoc.createElement("umlviews");
+	xmiclip.appendChild(viewsTag);
 
-
-	UMLViewDataListIt diagram_it( Diagrams );
-	UMLViewData * view;
-
-	while ( (view=diagram_it.current()) != 0 ) {
+	UMLViewDataListIt diagram_it(diagrams);
+	UMLViewData* viewData = 0;
+	while ( (viewData=diagram_it.current()) != 0 ) {
 		++diagram_it;
-		l_size += view->getClipSizeOf();
-	}
-	l_size += sizeof(Objects.count());
-	l_size += sizeof(Diagrams.count());
-	l_size += sizeof(UMLListViewItems.count());
-
-	UMLListViewItemDataListIt item_it( UMLListViewItems );
-	UMLListViewItemData * item;
-	while ( (item=item_it.current()) != 0 ) {
-		++item_it;
-		l_size += item->getClipSizeOf();
+		viewData->saveToXMI(domDoc, viewsTag);
 	}
 
-	char *data = new char[l_size];
-	QByteArray clipdata;
-	clipdata.setRawData(data, l_size);
-	QDataStream clipstream( clipdata, IO_WriteOnly );
-	clipstream << Objects.count();
+	QDomElement itemsTag = domDoc.createElement("umllistviewitems");
+	xmiclip.appendChild(itemsTag);
 
-	UMLObjectListIt object_it2( Objects );
-	while ( (obj=object_it2.current()) != 0 ) {
-		++object_it2;
-		obj->serialize(&clipstream, true, FILEVERSION);
-	}
-
-	clipstream << Diagrams.count();
-	UMLViewDataListIt diagram_it2( Diagrams );
-	while ( (view=diagram_it2.current()) != 0 ) {
-		++diagram_it2;
-		view->serialize(&clipstream, true, FILEVERSION);
-	}
-
-	clipstream << UMLListViewItems.count();
-	UMLListViewItemDataListIt item_it2( UMLListViewItems );
-
+	UMLListViewItemDataListIt item_it2(umlListViewItems);
+	UMLListViewItemData* item = 0;
 	while ( (item=item_it2.current()) != 0 ) {
 		++item_it2;
-		item->clipSerialize(&clipstream, true);
+		item->saveToXMI(domDoc, itemsTag);
 	}
-
-	setEncodedData(clipdata, 0);
+	setEncodedData(domDoc.toString().utf8(), 0);
 }
 
-void UMLDrag::setUMLData( UMLListViewItemDataList& UMLListViewItems ) {
-	long l_size = 0;
-
+void UMLDrag::setUMLDataClip3(UMLListViewItemDataList& umlListViewItems) {
 	setSubType("clip3", 0);
-	l_size += sizeof(UMLListViewItems.count());
 
-	UMLListViewItemDataListIt item_it( UMLListViewItems );
-	UMLListViewItemData * item;
-	while ( (item=item_it.current()) != 0 ) {
-		++item_it;
-		l_size += item->getClipSizeOf();
-	}
+	QDomDocument domDoc;
+	QDomElement xmiclip = domDoc.createElement("xmiclip");
+	domDoc.appendChild(xmiclip);
 
-	char *data = new char[l_size];
-	QByteArray clipdata;
-	clipdata.setRawData(data, l_size);
-	QDataStream clipstream( clipdata, IO_WriteOnly );
+	QDomElement itemsTag = domDoc.createElement("umllistviewitems");
+	xmiclip.appendChild(itemsTag);
 
-	clipstream << UMLListViewItems.count();
-
-	UMLListViewItemDataListIt item_it2( UMLListViewItems );
+	UMLListViewItemDataListIt item_it2(umlListViewItems);
+	UMLListViewItemData* item = 0;
 	while ( (item=item_it2.current()) != 0 ) {
 		++item_it2;
-		item->clipSerialize(&clipstream, true);
+		item->saveToXMI(domDoc, itemsTag);
 	}
-
-
-	setEncodedData(clipdata, 0);
-
+	setEncodedData(domDoc.toString().utf8(), 0);
 }
 
-void UMLDrag::setUMLData( UMLObjectList& Objects, UMLListViewItemDataList& UMLListViewItems,
-                           UMLWidgetDataList& WidgetDatas,	AssociationWidgetDataList& AssociationDatas, QPixmap& PngImage, Uml::Diagram_Type dType ) {
-	long l_size = 0;
-
+void UMLDrag::setUMLDataClip4(UMLObjectList& objects, UMLListViewItemDataList& umlListViewItems,
+			      UMLWidgetDataList& widgetDatas, AssociationWidgetDataList& associationDatas,
+			      QPixmap& pngImage, Uml::Diagram_Type dType ) {
 	setSubType("clip4", 0);
-	UMLObjectListIt object_it( Objects );
-	UMLObject *obj;
-	while ( (obj=object_it.current()) != 0 )
-	{
-		++object_it;
-		l_size += obj->getClipSizeOf();
-	}
 
-	UMLWidgetDataListIt widgetdata_it( WidgetDatas );
-	UMLWidgetData *widgetdata;
-	QString stype;
-	Q_UINT32 tmp; //tmp is used to calculate the size of each serialized null string
-	//bool save = true;
+	QDomDocument domDoc;
+	QDomElement xmiclip = domDoc.createElement("xmiclip");
+	xmiclip.setAttribute("diagramtype", dType);
+	domDoc.appendChild(xmiclip);
+	QDomElement objectsTag = domDoc.createElement("umlobjects");
+	xmiclip.appendChild(objectsTag);
 
-	while ( (widgetdata=widgetdata_it.current()) != 0 ) {
-		++widgetdata_it;
-		switch(widgetdata -> getType()) {
-			case Uml::wt_Actor:
-				stype = "ACTOR";
-				break;
-			case Uml::wt_UseCase:
-				stype = "USECASE";
-				break;
-			case Uml::wt_Class:
-				stype = "CLASS";
-				break;
-			case Uml::wt_Object:
-				stype = "OBJECT";
-				break;
-			case Uml::wt_Note:
-				stype = "NOTE";
-				break;
-
-			case Uml::wt_Text:
-				stype = "FLOATTEXT";
-				break;
-			case Uml::wt_Message:
-				stype = "MESSAGEW";
-				break;
-			case Uml::wt_State:
-				stype = "STATE";
-				break;
-			case Uml::wt_Activity:
-				stype = "ACTIVITY";
-				break;
-			default:
-				continue;
-				break;
-		}//end switch
-		if ( !stype.length() ) //We assume we are working with QT 2.1.x or superior, that means
-			//if unicode returns a null pointer then the serialization process of the QString object
-			//will write a null marker 0xffffff, see QString::operator<< implementation
-		{
-			l_size += sizeof(tmp);
-		} else {
-			l_size += (stype.length()*sizeof(QChar));
-		}
-	}
-	AssociationWidgetDataListIt assoc_it( AssociationDatas );
-	AssociationWidgetData *assoc;
-	while ( (assoc=assoc_it.current()) != 0 ) {
-		++assoc_it;
-		l_size += assoc->getClipSizeOf();
-	}
-
-	l_size += sizeof(Objects.count());
-	l_size += sizeof(WidgetDatas.count());
-	l_size += sizeof(AssociationDatas.count());
-	l_size += sizeof(UMLListViewItems.count());
-
-	UMLListViewItemDataListIt item_it( UMLListViewItems );
-	UMLListViewItemData * item;
-	while ( (item=item_it.current()) != 0 ) {
-		++item_it;
-		l_size += item->getClipSizeOf();
-	}
-	int diagramType = (int)dType;
-	l_size += sizeof(diagramType);
-	char *data = new char[l_size];
-	QByteArray clipdata;
-	clipdata.setRawData(data, l_size);
-	QDataStream clipstream( clipdata, IO_WriteOnly );
-	clipstream << diagramType;
-	clipstream << Objects.count();
-
-	UMLObjectListIt object_it2( Objects );
-	while ( (obj=object_it2.current()) != 0 ) {
-		++object_it2;
-
-		obj->serialize(&clipstream, true, FILEVERSION);
-	}
-
-	clipstream << UMLListViewItems.count();
-	UMLListViewItemDataListIt item_it2( UMLListViewItems );
-	while ( (item=item_it2.current()) != 0 ) {
-		++item_it2;
-		item->clipSerialize(&clipstream, true);
-	}
-
-	clipstream << WidgetDatas.count();
-	UMLWidgetDataListIt widgetdata_it2( WidgetDatas );
-	while ( (widgetdata=widgetdata_it2.current()) != 0 ) {
-		++widgetdata_it2;
-		switch(widgetdata -> getType()) {
-			case Uml::wt_Actor:
-				stype = "ACTOR";
-				break;
-			case Uml::wt_UseCase:
-				stype = "USECASE";
-				break;
-			case Uml::wt_Class:
-				stype = "CLASS";
-				break;
-			case Uml::wt_Object:
-				stype = "OBJECT";
-				break;
-			case Uml::wt_Note:
-				stype = "NOTE";
-				break;
-			case Uml::wt_Text:
-				stype = "FLOATTEXT";
-				break;
-			case Uml::wt_Message:
-				stype = "MESSAGEW";
-				break;
-			case Uml::wt_State:
-				stype = "STATE";
-				break;
-			case Uml::wt_Activity:
-				stype = "ACTIVITY";
-				break;
-			default:
-				return;
-				break;
-		}//end switch
-		clipstream << stype;
-
-		widgetdata->serialize(&clipstream, true, FILEVERSION);
-	}
-
-	clipstream << AssociationDatas.count();
-	AssociationWidgetDataListIt assoc_it2( AssociationDatas );
-	while ( (assoc=assoc_it2.current()) != 0 ) {
-		++assoc_it2;
-		assoc->serialize(&clipstream, true, FILEVERSION);
-
-	}
-
-	setEncodedData(clipdata, 0);
-
-	d->setType("image/PNG", 1);
-	l_size = (PngImage.convertToImage()).numBytes();
-	char *data2 = new char[l_size];
-	QByteArray clipdata2;
-	clipdata2.setRawData(data2, l_size);
-	QDataStream clipstream2( clipdata2, IO_WriteOnly );
-
-	clipstream2 << PngImage;
-	setEncodedData(clipdata2, 1);
-}
-
-void UMLDrag::setUMLData( UMLObjectList& Objects, UMLListViewItemDataList& UMLListViewItems, int ) {
-	long l_size = 0;
-
-	setSubType("clip5", 0);
-	UMLObjectListIt object_it( Objects );
-	UMLObject *obj;
-
-
-
+	UMLObjectListIt object_it(objects);
+	UMLObject* obj = 0;
 	while ( (obj=object_it.current()) != 0 ) {
 		++object_it;
-		l_size += obj->getClipSizeOf();
+		obj->saveToXMI(domDoc, objectsTag);
 	}
 
-	l_size += sizeof(Objects.count());
-	l_size += sizeof(UMLListViewItems.count());
+	QDomElement widgetsTag = domDoc.createElement("widgets");
+	xmiclip.appendChild(widgetsTag);
 
-	UMLListViewItemDataListIt item_it( UMLListViewItems );
-	UMLListViewItemData * item;
-	while ( (item=item_it.current()) != 0 ) {
-		++item_it;
-		l_size += item->getClipSizeOf();
+	UMLWidgetDataListIt widget_it(widgetDatas);
+	UMLWidgetData* widgetData = 0;
+	while ( (widgetData=widget_it.current()) != 0 ) {
+		++widget_it;
+		widgetData->saveToXMI(domDoc, widgetsTag);
 	}
 
-	char *data = new char[l_size];
-	QByteArray clipdata;
-	clipdata.setRawData(data, l_size);
-	QDataStream clipstream( clipdata, IO_WriteOnly );
-	clipstream << Objects.count();
+	QDomElement associationWidgetsTag = domDoc.createElement("associations");
+	xmiclip.appendChild(associationWidgetsTag);
 
-
-	UMLObjectListIt object_it2( Objects );
-	while ( (obj=object_it2.current()) != 0 ) {
-		++object_it2;
-		obj->serialize(&clipstream, true, FILEVERSION);
+	AssociationWidgetDataListIt associations_it(associationDatas);
+	AssociationWidgetData* association;
+	while ( (association=associations_it.current()) != 0 ) {
+		++associations_it;
+		association->saveToXMI(domDoc, associationWidgetsTag);
 	}
 
-	clipstream << UMLListViewItems.count();
-	UMLListViewItemDataListIt item_it2( UMLListViewItems );
+	QDomElement itemsTag = domDoc.createElement("umllistviewitems");
+	xmiclip.appendChild(itemsTag);
+
+	UMLListViewItemDataListIt item_it2(umlListViewItems);
+	UMLListViewItemData* item = 0;
 	while ( (item=item_it2.current()) != 0 ) {
 		++item_it2;
-		item->clipSerialize(&clipstream, true);
+		item->saveToXMI(domDoc, itemsTag);
 	}
+	setEncodedData(domDoc.toString().utf8(), 0);
 
-
-	setEncodedData(clipdata, 0);
+	data->setType("image/PNG", 1);
+	long l_size = (pngImage.convertToImage()).numBytes();
+	char* data = new char[l_size];
+	QByteArray clipdata;
+	clipdata.setRawData(data, l_size);
+	QDataStream clipstream(clipdata, IO_WriteOnly);
+	clipstream << pngImage;
+	setEncodedData(clipdata, 1);
 }
 
-bool UMLDrag::canDecode( const QMimeSource* e ) {
+void UMLDrag::setUMLDataClip5(UMLObjectList& objects, UMLListViewItemDataList& umlListViewItems) {
+	setSubType("clip5", 0);
+
+	QDomDocument domDoc;
+	QDomElement xmiclip = domDoc.createElement("xmiclip");
+	domDoc.appendChild(xmiclip);
+	QDomElement objectsTag = domDoc.createElement("umlobjects");
+	xmiclip.appendChild(objectsTag);
+
+	UMLObjectListIt object_it(objects);
+	UMLObject* obj = 0;
+	while ( (obj=object_it.current()) != 0 ) {
+		++object_it;
+		obj->saveToXMI(domDoc, objectsTag);
+	}
+
+	QDomElement itemsTag = domDoc.createElement("umllistviewitems");
+	xmiclip.appendChild(itemsTag);
+
+	UMLListViewItemDataListIt item_it2(umlListViewItems);
+	UMLListViewItemData* item = 0;
+	while ( (item=item_it2.current()) != 0 ) {
+		++item_it2;
+		item->saveToXMI(domDoc, itemsTag);
+	}
+	setEncodedData(domDoc.toString().utf8(), 0);
+}
+
+bool UMLDrag::canDecode(const QMimeSource* mimeSource) {
 	const char* f;
-	for (int i=0; (f=e->format(i)); i++) {
+	for (int i=0; (f=mimeSource->format(i)); i++) {
 		if ( 0==qstrnicmp(f,"application/x-uml-clip", 22) ) {
-
-			//Need to test for clip1, clip2, clip3, clip4 or clip5 (the only valid clip types)
-			return TRUE;
+			//FIXME need to test for clip1, clip2, clip3, clip4 or clip5
+			//(the only valid clip types)
+			return true;
 		}
 	}
-
-	return 0;
-}
-
-bool UMLDrag::decode( const QMimeSource* e, UMLObjectList& Objects,
-                       UMLListViewItemDataList& UMLListViewItems, UMLDoc* Doc) {
-	if ( ! e->provides( "application/x-uml-clip1" ) ) {
-		return FALSE;
-	}
-	QByteArray payload = e->encodedData( "application/x-uml-clip1" );
-	if ( payload.size() ) {
-		QDataStream clipdata(payload, IO_ReadOnly);
-		int count, type;
-		UMLObject* object;
-		bool status = true;
-
-		clipdata >> count;
-
-		for(int i=0;i<count;i++) {
-			clipdata >> type;
-			if(type == Uml::ot_Actor) {
-				UMLActor * a = new UMLActor(Doc);
-				object = (UMLObject *)a;
-			} else if(type == Uml::ot_UseCase)
-			{
-				UMLUseCase * uc = new UMLUseCase(Doc);
-				object = (UMLObject *)uc;
-			} else if(type == Uml::ot_Interface) {
-				UMLInterface * c = new UMLInterface(Doc);
-				object = (UMLObject *)c;
-			} else if(type == Uml::ot_Class) {
-				UMLClass * c = new UMLClass(Doc);
-				object = (UMLObject *)c;
-			} else {
-				return false;
-			}
-			status = object -> serialize(&clipdata, false, FILEVERSION);
-			if(!status) {
-				return status;
-			}
-			Objects.append(object);
-		}//end for i
-
-		clipdata >> count;
-		UMLListViewItemData* itemdata = 0;
-		for(int i = 0; i < count; i++)
-		{
-			itemdata = new UMLListViewItemData();
-			itemdata->clipSerialize(&clipdata, false);
-			UMLListViewItems.append(itemdata);
-		}
-		return true;
-	}
-
 	return false;
 }
 
-bool UMLDrag::decode( const QMimeSource* e, UMLObjectList& Objects, UMLListViewItemDataList& UMLListViewItems,
-                       UMLViewDataList& Diagrams, UMLDoc* Doc ) {
-	if ( ! e->provides( "application/x-uml-clip2" ) ) {
-		return FALSE;
-	}
-	QByteArray payload = e->encodedData( "application/x-uml-clip2" );
-	if ( payload.size() )
-	{
-
-		QDataStream clipdata(payload, IO_ReadOnly);
-		int count, type;
-		UMLObject* object;
-		bool status = true;
-
-		clipdata >> count;
-
-		for(int i=0;i<count;i++) {
-			clipdata >> type;
-			if(type == Uml::ot_Actor) {
-				UMLActor * a = new UMLActor(Doc);
-				object = (UMLObject *)a;
-			} else if(type == Uml::ot_UseCase) {
-				UMLUseCase * uc = new UMLUseCase(Doc);
-				object = (UMLObject *)uc;
-			} else if(type == Uml::ot_Class ) {
-				UMLClass * c = new UMLClass (Doc);
-				object = (UMLObject *)c;
-			} else if(type == Uml::ot_Interface) {
-				UMLInterface * c = new UMLInterface(Doc);
-				object = (UMLObject *)c;
-			} else {
-				return false;
-			}
-			status = object -> serialize(&clipdata, false, FILEVERSION);
-			if(!status) {
-				return status;
-			}
-			Objects.append(object);
-		}//end for i
-
-
-		clipdata >> count;
-		UMLViewData * view = 0;
-		for(int i = 0; i < count; i++) {
-			view = new UMLViewData();
-			view->serialize(&clipdata, false, FILEVERSION);
-			Diagrams.append(view);
-		}
-		clipdata >> count;
-
-		UMLListViewItemData* itemdata = 0;
-		for(int i = 0; i < count; i++) {
-			itemdata = new UMLListViewItemData();
-			itemdata->clipSerialize(&clipdata, false);
-			UMLListViewItems.append(itemdata);
-		}
-		return true;
-	}
-
-	return false;
-}
-
-bool UMLDrag::decode( const QMimeSource* e, UMLListViewItemDataList& UMLListViewItems) {
-	if ( ! e->provides( "application/x-uml-clip3" ) ) {
+bool UMLDrag::decodeClip1(const QMimeSource* mimeSource, UMLObjectList& objects,
+			  UMLListViewItemDataList& umlListViewItems, UMLDoc* doc) {
+	if ( !mimeSource->provides("application/x-uml-clip1") ) {
 		return false;
 	}
-	QByteArray payload = e->encodedData( "application/x-uml-clip3" );
-	if ( payload.size() ) {
-		QDataStream clipdata(payload, IO_ReadOnly);
-		int count;
-		clipdata >> count;
-		UMLListViewItemData* itemdata = 0;
-		for(int i = 0; i < count; i++) {
-			itemdata = new UMLListViewItemData();
-			if(!	itemdata->clipSerialize(&clipdata, false)) {
+	QByteArray payload = mimeSource->encodedData("application/x-uml-clip1");
+	if ( !payload.size() ) {
+		return false;
+	}
+	QString xmiClip(payload);
+
+	QString error;
+	int line;
+	QDomDocument domDoc;
+	if( !domDoc.setContent(xmiClip, false, &error, &line) ) {
+		kdWarning() << "Can't set content:" << error << " Line:" << line << endl;
+		return false;
+	}
+	QDomNode xmiClipNode = domDoc.firstChild();
+	QDomElement root = xmiClipNode.toElement();
+	if ( root.isNull() ) {
+		return false;
+	}
+	//  make sure it is an XMI clip
+	if ( root.tagName() != "xmiclip" ) {
+		return false;
+	}
+
+	//UMLObjects
+	QDomNode objectsNode = xmiClipNode.firstChild();
+	QDomNode objectElement = objectsNode.firstChild();
+	QDomElement element = objectElement.toElement();
+	if ( element.isNull() ) {
+		return false;//return ok as it means there is no umlobjects
+	}
+	UMLObject* pObject = 0;
+	while ( !element.isNull() ) {
+		pObject = 0;
+		QString type = element.tagName();
+		if (type != "UML:Association") {
+			pObject = doc->makeNewUMLObject(type);
+
+			if( !pObject ) {
+				kdWarning() << "Given wrong type of umlobject to create:" << type << endl;
 				return false;
 			}
-			UMLListViewItems.append(itemdata);
+			if( !pObject->loadFromXMI( element ) ) {
+				kdWarning() << "failed to load object from XMI" << endl;
+				return false;
+			}
+			objects.append(pObject);
 		}
-
-		return true;
+		objectElement = objectElement.nextSibling();
+		element = objectElement.toElement();
 	}
-	return false;
+
+	//listviewitems
+	QDomNode listItemNode = objectsNode.nextSibling();
+	QDomNode listItems = listItemNode.firstChild();
+	QDomElement listItemElement = listItems.toElement();
+	if ( listItemElement.isNull() ) {
+		kdWarning() << "no listitems in XMI clip" << endl;
+		return false;
+	}
+	while ( !listItemElement.isNull() ) {
+		UMLListViewItemData* itemData = new UMLListViewItemData();
+		itemData->loadFromXMI(listItemElement);
+		umlListViewItems.append(itemData);
+		listItems = listItems.nextSibling();
+		listItemElement = listItems.toElement();
+	}
+	return true;
 }
 
-bool UMLDrag::decode( const QMimeSource* e, UMLObjectList& Objects, UMLListViewItemDataList& UMLListViewItems,
-                       UMLWidgetDataList& WidgetDatas, AssociationWidgetDataList& AssociationDatas, Uml::Diagram_Type & dType, UMLDoc* Doc ) {
-	if ( ! e->provides( "application/x-uml-clip4" ) ) {
-		return FALSE;
+bool UMLDrag::decodeClip2(const QMimeSource* mimeSource, UMLObjectList& objects,
+			  UMLListViewItemDataList& umlListViewItems, UMLViewDataList& diagrams, UMLDoc* doc) {
+	if ( !mimeSource->provides("application/x-uml-clip2") ) {
+		return false;
 	}
-	QByteArray payload = e->encodedData( "application/x-uml-clip4" );
-	if ( payload.size() ) {
-		QDataStream clipdata(payload, IO_ReadOnly);
-		int count, type, diagramType;
-		UMLObject* object;
-		bool status = true;
+	QByteArray payload = mimeSource->encodedData("application/x-uml-clip2");
+	if ( !payload.size() ) {
+		return false;
+	}
+	QString xmiClip(payload);
 
-		clipdata >> diagramType >> count;
-
-		dType = (Uml::Diagram_Type)diagramType;
-
-		for(int i=0;i<count;i++) {
-			clipdata >> type;
-
-
-			if(type == Uml::ot_Actor) {
-				UMLActor * a = new UMLActor(Doc);
-				object = (UMLObject *)a;
-			} else if(type == Uml::ot_UseCase) {
-				UMLUseCase * uc = new UMLUseCase(Doc);
-				object = (UMLObject *)uc;
-			} else if(type == Uml::ot_Class ) {
-				UMLClass * c = new UMLClass(Doc);
-				object = (UMLObject *)c;
-			} else if(type == Uml::ot_Interface) {
-				UMLInterface * c = new UMLInterface(Doc);
-				object = (UMLObject *)c;
-			} else {
-				return false;
-			}
-			status = object -> serialize(&clipdata, false, FILEVERSION);
-			if(!status) {
-				return status;
-			}
-			Objects.append(object);
-		}//end for i
-
-		clipdata >> count;
-		UMLListViewItemData* itemdata = 0;
-		for(int i = 0; i < count; i++) {
-			itemdata = new UMLListViewItemData();
-			itemdata->clipSerialize(&clipdata, false);
-			UMLListViewItems.append(itemdata);
-		}
-
-		clipdata >> count;
-		UMLWidgetData* widgetdata = 0;
-		QString stype;
-		SettingsDlg::OptionState optionState;
-		optionState.uiState.lineColor = QColor("red");
-		optionState.uiState.fillColor = QColor(255, 255, 192);
-		for(int i = 0; i < count; i++) {
-			clipdata >> stype;
-			if(stype == "ACTOR") {
-				ActorWidgetData * a = new ActorWidgetData(optionState);
-				widgetdata = (UMLWidgetData *)a;
-			}//end actor
-			else if(stype == "USECASE") {
-				UseCaseWidgetData * uc = new UseCaseWidgetData(optionState);
-				widgetdata = (UMLWidgetData *)uc;
-			}//end if usecase
-			else if(stype == "CLASS" || stype == "CONCEPT") { // leave in "CONCEPT" for backwards compatability? 
-				ClassWidgetData * c = new ClassWidgetData(optionState);
-				widgetdata = (UMLWidgetData *)c;
-			}//end if concept
-			else if(stype == "FLOATTEXT") {
-				FloatingTextData * ft = new FloatingTextData();
-				widgetdata = (UMLWidgetData *)ft;
-			}//end floattext
-			else if(stype == "NOTE") {
-				NoteWidgetData * n = new NoteWidgetData(optionState);
-				widgetdata = (UMLWidgetData *)n;
-			}//end note
-			else if(stype == "OBJECT") {
-				ObjectWidgetData *ow = new ObjectWidgetData(optionState);
-				widgetdata = (UMLWidgetData *)ow;
-			}//end object
-			else if(stype == "MESSAGEW") {
-				MessageWidgetData *mw = new MessageWidgetData(optionState);
-				widgetdata = (UMLWidgetData*)mw;
-			} else if( stype == "STATE" ) {
-				StateWidgetData * sw = new StateWidgetData(optionState);
-				widgetdata = (UMLWidgetData *)sw;
-			} else if( stype == "ACTIVITY" ) {
-				ActivityWidgetData * aw = new ActivityWidgetData(optionState);
-				widgetdata = (UMLWidgetData *)aw;
-			} else {
-				return false;
-			}
-			widgetdata->serialize(&clipdata, false, FILEVERSION);
-			WidgetDatas.append(widgetdata);
-
-		}
-
-
-		clipdata >> count;
-		AssociationWidgetData* assoc = 0;
-		for(int i = 0; i < count; i++) {
-
-			assoc = new AssociationWidgetData();
-			assoc->serialize(&clipdata, false, FILEVERSION);
-			AssociationDatas.append(assoc);
-		}
-
-		return true;
+	QString error;
+	int line;
+	QDomDocument domDoc;
+	if( !domDoc.setContent(xmiClip, false, &error, &line) ) {
+		kdWarning() << "Can't set content:" << error << " Line:" << line << endl;
+		return false;
+	}
+	QDomNode xmiClipNode = domDoc.firstChild();
+	QDomElement root = xmiClipNode.toElement();
+	if ( root.isNull() ) {
+		return false;
+	}
+	//  make sure it is an XMI clip
+	if ( root.tagName() != "xmiclip" ) {
+		return false;
 	}
 
+	//UMLObjects
+	QDomNode objectsNode = xmiClipNode.firstChild();
+	QDomNode objectElement = objectsNode.firstChild();
+	QDomElement element = objectElement.toElement();
+	if ( element.isNull() ) {
+		return false;//return ok as it means there is no umlobjects
+	}
+	UMLObject* pObject = 0;
+	while ( !element.isNull() ) {
+		pObject = 0;
+		QString type = element.tagName();
+		if (type != "UML:Association") {
+			pObject = doc->makeNewUMLObject(type);
 
-	return false;
+			if( !pObject ) {
+				kdWarning() << "Given wrong type of umlobject to create:" << type << endl;
+				return false;
+			}
+			if( !pObject->loadFromXMI(element) ) {
+				kdWarning() << "failed to load object from XMI" << endl;
+				return false;
+			}
+			objects.append(pObject);
+		}
+		objectElement = objectElement.nextSibling();
+		element = objectElement.toElement();
+	}
+
+	//UMLViews (diagrams)
+	QDomNode umlviewsNode = objectsNode.nextSibling();
+	QDomNode diagramNode = umlviewsNode.firstChild();
+	QDomElement diagramElement = diagramNode.toElement();
+	if ( diagramElement.isNull() ) {
+		kdWarning() << "no diagrams in XMI clip" << endl;
+		return false;
+	}
+	while ( !diagramElement.isNull() ) {
+		UMLViewData* view = new UMLViewData();
+		view->loadFromXMI(diagramElement);
+		diagrams.append(view);
+		diagramNode = diagramNode.nextSibling();
+		diagramElement = diagramNode.toElement();
+	}
+
+	//listviewitems
+	QDomNode listItemNode = umlviewsNode.nextSibling();
+	QDomNode listItems = listItemNode.firstChild();
+	QDomElement listItemElement = listItems.toElement();
+	if ( listItemElement.isNull() ) {
+		kdWarning() << "no listitems in XMI clip" << endl;
+		return false;
+	}
+	while ( !listItemElement.isNull() ) {
+		UMLListViewItemData* itemData = new UMLListViewItemData();
+		itemData->loadFromXMI(listItemElement);
+		umlListViewItems.append(itemData);
+		listItems = listItems.nextSibling();
+		listItemElement = listItems.toElement();
+	}
+	return true;
 }
 
-bool UMLDrag::decode( const QMimeSource* e, UMLObjectList& Objects,
-                       UMLListViewItemDataList& UMLListViewItems, UMLDoc* Doc, int) {
-	if ( ! e->provides( "application/x-uml-clip5" ) ) {
-		return FALSE;
+bool UMLDrag::decodeClip3(const QMimeSource* mimeSource, UMLListViewItemDataList& umlListViewItems) {
+	if ( !mimeSource->provides("application/x-uml-clip3") ) {
+		return false;
+	}
+	QByteArray payload = mimeSource->encodedData("application/x-uml-clip3");
+	if ( !payload.size() ) {
+		return false;
+	}
+	QTextStream clipdata(payload, IO_ReadOnly);
+	QString xmiClip(payload);
+
+	QString error;
+	int line;
+	QDomDocument domDoc;
+	if( !domDoc.setContent(xmiClip, false, &error, &line) ) {
+		kdWarning() << "Can't set content:" << error << " Line:" << line << endl;
+		return false;
+	}
+	QDomNode xmiClipNode = domDoc.firstChild();
+	QDomElement root = xmiClipNode.toElement();
+	if ( root.isNull() ) {
+		return false;
+	}
+	//  make sure it is an XMI clip
+	if (root.tagName() != "xmiclip") {
+		return false;
 	}
 
-	QByteArray payload = e->encodedData( "application/x-uml-clip5" );
-	if ( payload.size() ) {
-		QDataStream clipdata(payload, IO_ReadOnly);
-		int count;
-
-		Uml::UMLObject_Type type = Uml::ot_UMLObject;
-		UMLObject* object;
-		bool status = true;
-
-		clipdata >> count;
-
-		for(int i=0;i<count;i++) {
-			int t;
-			clipdata >> t;
-			type = (Uml::UMLObject_Type)t;
-			if(type == Uml::ot_Attribute) {
-				UMLAttribute * a = new UMLAttribute(Doc);
-				object = (UMLObject *)a;
-			} else if(type == Uml::ot_Operation) {
-				UMLOperation * op = new UMLOperation(Doc);
-				object = (UMLObject *)op;
-			} else {
-				return false;
-			}
-			status = object -> serialize(&clipdata, false, FILEVERSION);
-			if(!status) {
-				return status;
-			}
-			Objects.append(object);
-		}//end for i
-
-		clipdata >> count;
-
-		UMLListViewItemData* itemdata = 0;
-		for(int i = 0; i < count; i++) {
-			itemdata = new UMLListViewItemData();
-			itemdata->clipSerialize(&clipdata, false);
-			UMLListViewItems.append(itemdata);
-		}
-		return true;
+	//listviewitems
+	QDomNode listItemNode = xmiClipNode.firstChild();
+	QDomNode listItems = listItemNode.firstChild();
+	QDomElement listItemElement = listItems.toElement();
+	if ( listItemElement.isNull() ) {
+		kdWarning() << "no listitems in XMI clip" << endl;
+		return false;
 	}
-
-	return false;
+	while ( !listItemElement.isNull() ) {
+		UMLListViewItemData* itemData = new UMLListViewItemData();
+		itemData->loadFromXMI(listItemElement);
+		umlListViewItems.append(itemData);
+		listItems = listItems.nextSibling();
+		listItemElement = listItems.toElement();
+	}
+	return true;
 }
 
-int UMLDrag::getCodingType(const QMimeSource* e) {
+bool UMLDrag::decodeClip4(const QMimeSource* mimeSource, UMLObjectList& objects,
+			  UMLListViewItemDataList& umlListViewItems, UMLWidgetDataList& widgetDatas,
+			  AssociationWidgetDataList& associationDatas, Uml::Diagram_Type & dType,
+			  UMLDoc* doc) {
+	if ( !mimeSource->provides("application/x-uml-clip4") ) {
+		return false;
+	}
+	QByteArray payload = mimeSource->encodedData("application/x-uml-clip4");
+	if ( !payload.size() ) {
+		return false;
+	}
+	QString xmiClip(payload);
+
+	QString error;
+	int line;
+	QDomDocument domDoc;
+	if( !domDoc.setContent(xmiClip, false, &error, &line) ) {
+		kdWarning() << "Can't set content:" << error << " Line:" << line << endl;
+		return false;
+	}
+	QDomNode xmiClipNode = domDoc.firstChild();
+	QDomElement root = xmiClipNode.toElement();
+	if ( root.isNull() ) {
+		return false;
+	}
+	//  make sure it is an XMI clip
+	if ( root.tagName() != "xmiclip" ) {
+		return false;
+	}
+
+	dType = (Uml::Diagram_Type)(root.attribute("diagramtype", "0").toInt());
+
+	//UMLObjects
+	QDomNode objectsNode = xmiClipNode.firstChild();
+	QDomNode objectElement = objectsNode.firstChild();
+	QDomElement element = objectElement.toElement();
+	if ( !element.isNull() ) {
+		UMLObject* pObject = 0;
+		while ( !element.isNull() ) {
+			pObject = 0;
+			QString type = element.tagName();
+			//FIXME associations don't load
+			pObject = doc->makeNewUMLObject(type);
+
+			if ( !pObject ) {
+				kdWarning() << "Given wrong type of umlobject to create:" << type << endl;
+				return false;
+			}
+			if ( !pObject->loadFromXMI( element ) ) {
+				kdWarning() << "failed to load object from XMI" << endl;
+				return false;
+			}
+			objects.append(pObject);
+			objectElement = objectElement.nextSibling();
+			element = objectElement.toElement();
+		}
+	}
+	//widgetDatas
+	QDomNode widgetDatasNode = objectsNode.nextSibling();
+	QDomNode widgetDataNode = widgetDatasNode.firstChild();
+	QDomElement widgetDataElement = widgetDataNode.toElement();
+	if ( widgetDataElement.isNull() ) {
+		kdWarning() << "no widget datas in XMI clip" << endl;
+		return false;
+	}
+	while ( !widgetDataElement.isNull() ) {
+		UMLWidgetData* widgetData = doc->getCurrentView()->getData()->loadWidgetFromXMI(widgetDataElement);
+		widgetDatas.append(widgetData);
+		widgetDataNode = widgetDataNode.nextSibling();
+		widgetDataElement = widgetDataNode.toElement();
+	}
+
+	//associationWidgetDatas
+	QDomNode associationWidgetsNode = widgetDatasNode.nextSibling();
+	QDomNode associationWidgetNode = associationWidgetsNode.firstChild();
+	QDomElement associationWidgetElement = associationWidgetNode.toElement();
+	if ( !associationWidgetElement.isNull() ) {
+		while ( !associationWidgetElement.isNull() ) {
+			AssociationWidgetData* associationWidgetData = new AssociationWidgetData();
+			associationWidgetData->loadFromXMI(associationWidgetElement);
+			associationDatas.append(associationWidgetData);
+			associationWidgetNode = associationWidgetNode.nextSibling();
+			associationWidgetElement = associationWidgetNode.toElement();
+		}
+	}
+
+	//listviewitems
+	QDomNode listItemNode = associationWidgetsNode.nextSibling();
+	QDomNode listItems = listItemNode.firstChild();
+	QDomElement listItemElement = listItems.toElement();
+	if ( !listItemElement.isNull() ) {
+		while ( !listItemElement.isNull() ) {
+			UMLListViewItemData* itemData = new UMLListViewItemData();
+			itemData->loadFromXMI(listItemElement);
+			umlListViewItems.append(itemData);
+			listItems = listItems.nextSibling();
+			listItemElement = listItems.toElement();
+		}
+	}
+	return true;
+}
+
+bool UMLDrag::decodeClip5(const QMimeSource* mimeSource, UMLObjectList& objects,
+			  UMLListViewItemDataList& umlListViewItems, UMLDoc* doc) {
+	if ( !mimeSource->provides("application/x-uml-clip5") ) {
+		return false;
+	}
+	QByteArray payload = mimeSource->encodedData("application/x-uml-clip5");
+	if ( !payload.size() ) {
+		return false;
+	}
+	QString xmiClip(payload);
+
+	QString error;
+	int line;
+	QDomDocument domDoc;
+	if( !domDoc.setContent(xmiClip, false, &error, &line) ) {
+		kdWarning() << "Can't set content:" << error << " Line:" << line << endl;
+		return false;
+	}
+	QDomNode xmiClipNode = domDoc.firstChild();
+	QDomElement root = xmiClipNode.toElement();
+	if ( root.isNull() ) {
+		return false;
+	}
+	//  make sure it is an XMI clip
+	if (root.tagName() != "xmiclip") {
+		return false;
+	}
+
+	//UMLObjects
+	QDomNode objectsNode = xmiClipNode.firstChild();
+	QDomNode objectElement = objectsNode.firstChild();
+	QDomElement element = objectElement.toElement();
+	if ( element.isNull() ) {
+		return false;//return ok as it means there is no umlobjects
+	}
+	UMLObject* pObject = 0;
+	while ( !element.isNull() ) {
+		pObject = 0;
+		QString type = element.tagName();
+		pObject = doc->makeNewClassifierObject(type, element);
+
+		if( !pObject ) {
+			kdWarning() << "Given wrong type of umlobject to create:" << type << endl;
+			return false;
+		}
+		if( !pObject->loadFromXMI( element ) ) {
+			kdWarning() << "failed to load object from XMI" << endl;
+			return false;
+		}
+		objects.append(pObject);
+		objectElement = objectElement.nextSibling();
+		element = objectElement.toElement();
+	}
+
+	//listviewitems
+	QDomNode listItemNode = objectsNode.nextSibling();
+	QDomNode listItems = listItemNode.firstChild();
+	QDomElement listItemElement = listItems.toElement();
+	if ( listItemElement.isNull() ) {
+		kdWarning() << "no listitems in XMI clip" << endl;
+		return false;
+	}
+	while ( !listItemElement.isNull() ) {
+		UMLListViewItemData* itemData = new UMLListViewItemData();
+		itemData->loadFromXMI(listItemElement);
+		umlListViewItems.append(itemData);
+		listItems = listItems.nextSibling();
+		listItemElement = listItems.toElement();
+	}
+	return true;
+}
+
+int UMLDrag::getCodingType(const QMimeSource* mimeSource) {
 	int result = 0;
-	if (e->provides( "application/x-uml-clip1" ) ) {
+	if (mimeSource->provides("application/x-uml-clip1") ) {
 		result = 1;
 	}
-	if (e->provides( "application/x-uml-clip2" ) ) {
+	if (mimeSource->provides("application/x-uml-clip2") ) {
 		result = 2;
 	}
-	if (e->provides( "application/x-uml-clip3" ) ) {
+	if (mimeSource->provides("application/x-uml-clip3") ) {
 		result = 3;
 	}
-	if (e->provides( "application/x-uml-clip4" ) ) {
+	if (mimeSource->provides("application/x-uml-clip4") ) {
 		result = 4;
 	}
-	if (e->provides( "application/x-uml-clip5" ) ) {
+	if (mimeSource->provides("application/x-uml-clip5") ) {
 		result = 5;
 	}
 

@@ -177,4 +177,20 @@ bool UMLListViewItemData::saveToXMI( QDomDocument & qDoc, QDomElement & qElement
 	return true;
 }
 
+bool UMLListViewItemData::loadFromXMI(QDomElement& qElement) {
+	QString id = qElement.attribute( "id", "-1" );
+	QString type = qElement.attribute( "type", "-1" );
+	label = qElement.attribute( "label", "" );
+	QString open = qElement.attribute( "open", "1" );
+
+	m_nChildren = qElement.childNodes().count();
+
+	m_nId = id.toInt();
+	m_Type = (Uml::ListView_Type)(type.toInt());
+	if( m_pItem ) {
+		m_pItem->setOpen( (bool)open.toInt() );
+	}
+	return true;
+}
+
 

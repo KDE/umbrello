@@ -288,9 +288,20 @@ public:
 		m_Options = options;
 	}
 
+	/**
+	 * creates the <diagram> tag, and fills it with the contents oft he diagram
+	 */
 	bool saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
+	/**
+	 * Loads the <diagram> tag
+	 */
 	bool loadFromXMI( QDomElement & qElement );
+
+	/**
+	 * Loads a <widget> element such as <UML:Class>, used by loadFromXMI() and the clipboard
+	 */
+	UMLWidgetData* loadWidgetFromXMI(QDomElement& widgetElement);
 
 protected:
 

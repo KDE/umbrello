@@ -662,51 +662,62 @@ bool UMLViewData::loadFromXMI( QDomElement & qElement ) {
 }
 
 bool UMLViewData::loadWidgetsFromXMI( QDomElement & qElement ) {
-	UMLWidgetData * widgetData = 0;
+	UMLWidgetData* widgetData = 0;
 	QDomNode node = qElement.firstChild();
 	QDomElement widgetElement = node.toElement();
 	while( !widgetElement.isNull() ) {
-		QString tag = widgetElement.tagName();
-		if( tag == "UML:ActorWidget" ) {
-			widgetData = new ActorWidgetData(getOptionState());
-		} else if( tag == "UML:UseCaseWidget" ) {
-			widgetData = new UseCaseWidgetData(getOptionState());
-		} else if( tag == "UML:ClassWidget" || tag == "UML:ConceptWidget" ) { // Have ConceptWidget for backwards compatability
-			widgetData = new ClassWidgetData(getOptionState());
-		} else if( tag == "packagewidget" ) {
-			widgetData = new PackageWidgetData(getOptionState());
-		} else if( tag == "componentwidget" ) {
-			widgetData = new ComponentWidgetData(getOptionState());
-		} else if( tag == "nodewidget" ) {
-			widgetData = new NodeWidgetData(getOptionState());
-		} else if( tag == "artifactwidget" ) {
-			widgetData = new ArtifactWidgetData(getOptionState());
-		} else if( tag == "interfacewidget" ) {
-			widgetData = new InterfaceWidgetData(getOptionState());
-		} else if( tag == "UML:StateWidget" ) {
-			widgetData = new StateWidgetData(getOptionState());
-		} else if( tag == "UML:NoteWidget" ) {
-			widgetData = new NoteWidgetData(getOptionState());
-		} else if( tag == "boxwidget" ) {
-			widgetData = new BoxWidgetData();
-		} else if( tag == "UML:FloatingTextWidget" ) {
-			widgetData = new FloatingTextData();
-		} else if( tag == "UML:ObjectWidget" ) {
-			widgetData = new ObjectWidgetData(getOptionState());
-		} else if( tag == "UML:ActivityWidget" ) {
-			widgetData = new ActivityWidgetData(getOptionState());
-		} else {
-			kdWarning() << "Trying to create an unknown widget:" << tag << endl;
+		widgetData = loadWidgetFromXMI(widgetElement);
+		if (!widgetData) {
 			return false;
 		}
-		if( !widgetData -> loadFromXMI( widgetElement ) )
-			return false;
 		m_WidgetList.append( widgetData );
 		node = widgetElement.nextSibling();
 		widgetElement = node.toElement();
 	}
 
 	return true;
+}
+
+UMLWidgetData* UMLViewData::loadWidgetFromXMI(QDomElement& widgetElement) {
+	UMLWidgetData* widgetData = 0;
+	QString tag = widgetElement.tagName();
+	if (tag == "UML:ActorWidget") {
+		widgetData = new ActorWidgetData(getOptionState());
+	} else if (tag == "UML:UseCaseWidget") {
+		widgetData = new UseCaseWidgetData(getOptionState());
+// Have ConceptWidget for backwards compatability
+	} else if (tag == "UML:ClassWidget" || tag == "UML:ConceptWidget") {
+		widgetData = new ClassWidgetData(getOptionState());
+	} else if (tag == "packagewidget") {
+		widgetData = new PackageWidgetData(getOptionState());
+	} else if (tag == "componentwidget") {
+		widgetData = new ComponentWidgetData(getOptionState());
+	} else if (tag == "nodewidget") {
+		widgetData = new NodeWidgetData(getOptionState());
+	} else if (tag == "artifactwidget") {
+		widgetData = new ArtifactWidgetData(getOptionState());
+	} else if (tag == "interfacewidget") {
+		widgetData = new InterfaceWidgetData(getOptionState());
+	} else if (tag == "UML:StateWidget") {
+		widgetData = new StateWidgetData(getOptionState());
+	} else if (tag == "UML:NoteWidget") {
+		widgetData = new NoteWidgetData(getOptionState());
+	} else if (tag == "boxwidget") {
+		widgetData = new BoxWidgetData();
+	} else if (tag == "UML:FloatingTextWidget") {
+		widgetData = new FloatingTextData();
+	} else if (tag == "UML:ObjectWidget") {
+		widgetData = new ObjectWidgetData(getOptionState());
+	} else if (tag == "UML:ActivityWidget") {
+		widgetData = new ActivityWidgetData(getOptionState());
+	} else {
+		kdWarning() << "Trying to create an unknown widget:" << tag << endl;
+		return 0;
+	}
+	if (!widgetData->loadFromXMI(widgetElement)) {
+		return 0;
+	}
+	return widgetData;
 }
 
 bool UMLViewData::loadMessagesFromXMI( QDomElement & qElement ) {

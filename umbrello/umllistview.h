@@ -302,22 +302,22 @@ protected:
 	/**
 	 * returns true if the listview type is actor, usecase, class, package or interface
 	 */
-	bool typeIsCanvasWidget(ListView_Type type);
+	static bool typeIsCanvasWidget(ListView_Type type);
 
 	/**
 	 * returns true if the listview type is logical, usecase or component folder
 	 */
-	bool typeIsFolder(ListView_Type type);
+	static bool typeIsFolder(ListView_Type type);
 
 	/**
 	 * returns true if the listview type is a diagram
 	 */
-	bool typeIsDiagram(ListView_Type type);
+	static bool typeIsDiagram(ListView_Type type);
 
 	/**
 	 * returns true if the listview type is an attribute, operation or template
 	 */
-	bool typeIsClassifierList(ListView_Type type);
+	static bool typeIsClassifierList(ListView_Type type);
 
 	/**
 	 * Deletes all child-items of @p parent.
