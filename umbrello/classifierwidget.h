@@ -200,7 +200,7 @@ protected:
 	 * @param fontHeight	The font height.
 	 */
 	void drawMembers(QPainter & p, Uml::Object_Type ot, Uml::Signature_Type sigType,
-			 int x, int bodyOffsetY, int y, int fontHeight);
+			 int x, int y, int fontHeight);
 
 	bool m_bShowOperations;            ///< Loaded/saved item.
 	bool m_bShowPublicOnly;            ///< Loaded/saved item.

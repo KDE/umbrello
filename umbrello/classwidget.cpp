@@ -128,34 +128,26 @@ void ClassWidget::draw(QPainter & p, int offsetX, int offsetY) {
 		p.drawLine(offsetX, bodyOffsetY, offsetX + w - 1, bodyOffsetY);
 	}
 
-	int aStart = 0;
-	if (m_bShowStereotype) {
-		aStart += fontHeight;
-	}
-
 	p.setPen(QPen(black));
 	UMLClass *umlclass = static_cast<UMLClass*>(m_pObject);
 
 	if (m_bShowAttributes) {
 		drawMembers(p, Uml::ot_Attribute, m_ShowAttSigs, textX,
-			    bodyOffsetY, aStart, fontHeight);
+			    bodyOffsetY, fontHeight);
 	}//end if att
 
 	int numAtts = displayedAttributes();
 	if (m_bShowOperations) {
 		QFont f = UMLWidget::getFont();
-		int oStart = numAtts * fontHeight + aStart;
-		if (numAtts == 0)
-			oStart += fontHeight / 2;
-		int y = oStart;
+		int oStart = numAtts * fontHeight;
+		bodyOffsetY += oStart;
 		if (m_bShowAttributes) {
 			UMLWidget::draw(p, offsetX, offsetY);
-			p.drawLine(offsetX, bodyOffsetY + y, offsetX + w - 1, bodyOffsetY + y);
+			p.drawLine(offsetX, bodyOffsetY, offsetX + w - 1, bodyOffsetY);
 			p.setPen(QPen(black));
-		} else
-			y = aStart;
+		}
 		drawMembers(p, Uml::ot_Operation, m_ShowOpSigs, textX,
-			    bodyOffsetY, y, fontHeight);
+			    bodyOffsetY, fontHeight);
 	}//end if op
 
 	//If there are any templates then draw them

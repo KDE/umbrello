@@ -128,23 +128,20 @@ void InterfaceWidget::drawAsConcept(QPainter& p, int offsetX, int offsetY) {
 	font.setItalic(false);
 	p.setFont(font);
 
-
-	int operationsStart = fontHeight * 2;
-	int y;
-
 	if ( m_bShowOperations ) {
 		QFont font = UMLWidget::getFont();
 		font.setItalic(false);
 		font.setUnderline(false);
 		font.setBold(false);
 
-		y = operationsStart;
 		UMLWidget::draw(p, offsetX, offsetY);
 
-		p.drawLine(offsetX, offsetY + y, offsetX + w - 1, offsetY + y);
+		const int operationsStart = fontHeight * 2;
+		const int y = offsetY + operationsStart;
+		p.drawLine(offsetX, y, offsetX + w - 1, y);
 		p.setPen( QPen(black) );
 		drawMembers(p, Uml::ot_Operation, m_ShowOpSigs,
-			    offsetX + ClassifierWidget::MARGIN, offsetY, y, fontHeight);
+			    offsetX + ClassifierWidget::MARGIN, y, fontHeight);
 	}//end if op
 
 	if (m_bSelected) {

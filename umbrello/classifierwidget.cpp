@@ -202,7 +202,7 @@ int ClassifierWidget::displayedOperations() {
 }
 
 void ClassifierWidget::drawMembers(QPainter & p, Uml::Object_Type ot, Uml::Signature_Type sigType,
-				   int x, int bodyOffsetY, int y, int fontHeight) {
+				   int x, int y, int fontHeight) {
 	QFont f = UMLWidget::getFont();
 	f.setBold(false);
 	UMLClassifier *c = static_cast<UMLClassifier*>(m_pObject);
@@ -215,7 +215,7 @@ void ClassifierWidget::drawMembers(QPainter & p, Uml::Object_Type ot, Uml::Signa
 		f.setUnderline( obj->getStatic() );
 		p.setFont( f );
 		QFontMetrics fontMetrics(f);
-		p.drawText(x, bodyOffsetY + y, fontMetrics.width(text), fontHeight, AlignVCenter, text);
+		p.drawText(x, y, fontMetrics.width(text), fontHeight, AlignVCenter, text);
 		f.setItalic(false);
 		f.setUnderline(false);
 		p.setFont(f);
