@@ -7,6 +7,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <qregexp.h>
 #include <kdebug.h>
 #include "umldoc.h"
 #include "umlobject.h"
@@ -219,7 +220,7 @@ bool UMLObject::saveToXMI( QDomDocument & /*qDoc*/, QDomElement & qElement ) {
 	if (! m_Doc.isEmpty())
 		qElement.setAttribute( "comment", m_Doc );  //CHECK: uml13.dtd compliance
 	if (m_pUMLPackage)             //FIXME: uml13.dtd compliance
-		qElement.setAttribute( "packageid", m_pUMLPackage->getID() );
+		qElement.setAttribute( "package", m_pUMLPackage->getID() );
 	switch (m_Scope) {
 		case Uml::Public:
 			qElement.setAttribute( "visibility", "public" );
@@ -289,30 +290,36 @@ bool UMLObject::loadFromXMI( QDomElement & element ) {
 	if( m_nId == -1 || m_Scope == -1 )
 		return false;
 
-	QString pkgId = element.attribute( "packageid", "-1" );
-	if (pkgId == "-1") {
-		// Old files used "package" instead so test for it.
-		QString pkgName = element.attribute( "package", "" );
-		if (pkgName != "") {
-			setPackage( pkgName );
-		}
+	QString pkg = element.attribute( "packageid", "-1" );
+	// Some interim versions used "packageid" so test for it.
+	int pkgId = -1;
+	if (pkg != "-1") {
+		pkgId = pkg.toInt();
 	} else {
+		pkg = element.attribute( "package", "" );
+		if (pkg.contains(QRegExp("\\D")))
+			// Old versions saved the package name instead of the xmi.id.
+			setPackage( pkg );
+		else
+			pkgId = pkg.toInt();
+	}
+	if (pkgId != -1) {
 		UMLDoc* umldoc = dynamic_cast<UMLDoc *>( parent() );
 		if (umldoc == NULL) {
 			kdDebug() << "UMLObject::loadFromXMI: cannot set package on "
 				  << m_Name << endl;
 			return true;  // soft error
 		}
-		UMLObject *pkgObj = umldoc->findUMLObject( pkgId.toInt() );
+		UMLObject *pkgObj = umldoc->findUMLObject( pkgId );
 		if (pkgObj == NULL) {
 			kdDebug() << "UMLObject::loadFromXMI: cannot resolve packageid "
-				  << pkgId.toInt() << endl;
+				  << pkgId << endl;
 			return true;  // soft error
 		}
 		m_pUMLPackage = dynamic_cast<UMLPackage *>(pkgObj);
 		if (m_pUMLPackage == NULL) {
 			kdDebug() << "UMLObject::loadFromXMI: object of packageid "
-				  << pkgId.toInt() << " is not a package" << endl;
+				  << pkgId << " is not a package" << endl;
 			return true;  // soft error
 		}
 	}
