@@ -292,10 +292,11 @@ void AssociationWidget::setName(QString strName) {
 
 bool AssociationWidget::setMulti(QString strMulti, Role_Type role) {
 	bool newLabel = false;
+	Text_Role tr = (role == A ? tr_MultiA : tr_MultiB);
 
 	if(!m_role[role].m_pMulti) {
 		newLabel = true;
-		m_role[role].m_pMulti = new FloatingText(m_pView, tr_MultiA, strMulti);
+		m_role[role].m_pMulti = new FloatingText(m_pView, tr, strMulti);
 		m_role[role].m_pMulti->setAssoc(this);
 	} else {
 		if (m_role[role].m_pMulti->getText() == "") {
@@ -307,7 +308,6 @@ bool AssociationWidget::setMulti(QString strMulti, Role_Type role) {
 	m_role[role].m_pMulti->setActivated();
 
 	if (newLabel) {
-		Text_Role tr = (role == A ? tr_MultiA : tr_MultiB);
 		setTextPosition( tr, calculateTextPosition(tr) );
 	}
 
@@ -480,12 +480,13 @@ void AssociationWidget::setChangeabilityA (Changeability_Type value)
 	setChangeWidget(changeString, A);
 }
 
-bool AssociationWidget::setChangeWidget(QString strChangeWidgetA, Role_Type role) {
+bool AssociationWidget::setChangeWidget(QString strChangeWidget, Role_Type role) {
 	bool newLabel = false;
+	Text_Role tr = (role == A ? tr_ChangeA : tr_ChangeB);
 
         if(!m_role[role].m_pChangeWidget) {
 		newLabel = true;
-                m_role[role].m_pChangeWidget = new FloatingText(m_pView, tr_ChangeA, strChangeWidgetA);
+                m_role[role].m_pChangeWidget = new FloatingText(m_pView, tr, strChangeWidget);
                 m_role[role].m_pChangeWidget->setAssoc(this);
 		m_role[role].m_pChangeWidget->setPreText("{"); // all types have this
 		m_role[role].m_pChangeWidget->setPostText("}"); // all types have this
@@ -493,12 +494,12 @@ bool AssociationWidget::setChangeWidget(QString strChangeWidgetA, Role_Type role
 		if (m_role[role].m_pChangeWidget->getText() == "") {
 			newLabel = true;
 		}
-                m_role[role].m_pChangeWidget->setText(strChangeWidgetA);
+                m_role[role].m_pChangeWidget->setText(strChangeWidget);
         }
         m_role[role].m_pChangeWidget->setActivated();
 
 	if (newLabel) {
-		setTextPosition( tr_ChangeA, calculateTextPosition( tr_ChangeA ) );
+		setTextPosition( tr, calculateTextPosition(tr) );
 	}
 
         if(FloatingText::isTextValid(m_role[role].m_pChangeWidget->getText()))
@@ -1020,18 +1021,18 @@ void AssociationWidget::moveEvent(QMoveEvent* me) {
     This method picks which sides to use for the association */
 void AssociationWidget::calculateEndingPoints() {
 	/*
-	 * For each UMLWidget the diagram is divided in four Regions by its diagonals
+	 * For each UMLWidget the diagram is divided in four regions by its diagonals
 	 * as indicated below
 	 *                                         Region 2
+	 *                                    \                /
 	 *                                      \            /
-	 *                                       \          /
 	 *                                        +--------+
 	 *                                        | \    / |
 	 *                           Region 1     |   ><   |    Region 3
 	 *                                        | /    \ |
 	 *                                        +--------+
-	 *                                       /          \
 	 *                                      /            \
+	 *                                    /                \
 	 *                                         Region 4
 	 *
 	 * Each diagonal is defined by two corners of the bounding rectangle
@@ -2768,11 +2769,6 @@ void AssociationWidget::updateRegionLineCount(int index, int totalCount, Associa
 }
 
 void AssociationWidget::setSelected(bool _select /* = true */) {
-	if( _select ) {
-		if( m_pView -> getSelectCount() == 0 )
-			m_pView -> showDocumentation( this, false );
-	} else
-		m_pView -> updateDocumentation( true );
 	m_bSelected = _select;
 	m_LinePath.setSelected( _select );
 	if( m_pName)
@@ -2789,6 +2785,15 @@ void AssociationWidget::setSelected(bool _select /* = true */) {
 		m_role[A].m_pChangeWidget-> setSelected( _select );
 	if( m_role[B].m_pChangeWidget)
 		m_role[B].m_pChangeWidget-> setSelected( _select );
+	// Update the docwindow for this association.
+	// This is done last because each of the above setSelected calls
+	// overwrites the docwindow, but we want the main association doc
+	// to win.
+	if( _select ) {
+		if( m_pView -> getSelectCount() == 0 )
+			m_pView -> showDocumentation( this, false );
+	} else
+		m_pView -> updateDocumentation( true );
 }
 
 bool AssociationWidget::onAssociation(const QPoint & point) {

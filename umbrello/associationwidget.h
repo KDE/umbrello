@@ -863,7 +863,7 @@ private:
 	 * For internal purposes only.
 	 * Other classes/users should use setChangeability[AB] instead.
 	 */
-	bool setChangeWidget(QString strChangeWidgetA, Role_Type role);
+	bool setChangeWidget(QString strChangeWidget, Role_Type role);
 
 	/**
 	 * Auxiliary to getWidget{A,B}ID.
