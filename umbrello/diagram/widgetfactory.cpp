@@ -26,6 +26,7 @@
 #include "../usecase.h"
 
 
+using namespace std;
 
 namespace Umbrello{
 
