@@ -143,6 +143,11 @@ public:
 	virtual void setOpSignature(Uml::Signature_Type sig);
 
 	/**
+	 * Return the number of displayed operations.
+	 */
+	int displayedOperations();
+
+	/**
 	 * Activate the object after serializing it from a QDataStream.
 	 */
 	virtual bool activate(IDChangeLog* ChangeLog  = 0 );

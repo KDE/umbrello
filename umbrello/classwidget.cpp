@@ -50,6 +50,42 @@ void ClassWidget::init() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ClassWidget::~ClassWidget() {}
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+int ClassWidget::displayedAttributes() {
+	if (!m_bShowAttributes)
+		return 0;
+	UMLClassifier *c = static_cast<UMLClassifier*>(m_pObject);
+	int count = 0;
+	UMLClassifierListItemList list = c->getFilteredList(Uml::ot_Attribute);
+	for (UMLClassifierListItem *m = list.first(); m; m = list.next()) {
+		if (!(m_bShowPublicOnly && m->getScope() != Uml::Public))
+			count++;
+	}
+	return count;
+}
+
+void ClassWidget::drawMembers(QPainter & p, Uml::Object_Type ot, Uml::Signature_Type sigType,
+			      int x, int bodyOffsetY, int y, int fontHeight) {
+	QFont f = UMLWidget::getFont();
+	UMLClassifier *c = static_cast<UMLClassifier*>(m_pObject);
+	UMLClassifierListItemList list = c->getFilteredList(ot);
+	for (UMLClassifierListItem *obj = list.first(); obj; obj = list.next()) {
+		if (m_bShowPublicOnly && obj->getScope() != Uml::Public)
+			continue;
+		QString text = obj->toString(sigType);
+		f.setItalic( obj->getAbstract() );
+		f.setBold(false);
+		f.setUnderline( obj->getStatic() );
+		p.setFont( f );
+		QFontMetrics fontMetrics(f);
+		p.drawText(x, bodyOffsetY + y, fontMetrics.width(text), fontHeight, AlignVCenter, text);
+		f.setItalic(false);
+		f.setUnderline(false);
+		p.setFont(f);
+		y += fontHeight;
+	}
+}
+
 void ClassWidget::draw(QPainter & p, int offsetX, int offsetY) {
 	if (!m_pObject) {
 		kdDebug() << "ClassWidget::draw(): m_pObject is NULL" << endl;
@@ -123,74 +159,42 @@ void ClassWidget::draw(QPainter & p, int offsetX, int offsetY) {
 			p.drawLine(offsetX, bodyOffsetY + fontHeight, offsetX + w - 1, bodyOffsetY + fontHeight);
 		}
 	}
+
 	int aStart = fontHeight;
-	int numAtts = 0;
-	if (m_bShowAttributes) {
-		UMLClassifierListItemList list = ((UMLClass*)m_pObject)->getFilteredList(Uml::ot_Attribute);
-		for(UMLClassifierListItem *obj = list.first(); obj; obj = list.next()) {
-			if (!(m_bShowPublicOnly && obj->getScope() != Uml::Public))
-				numAtts++;
-		}
-	}
-	int oStart = numAtts * fontHeight + aStart;
+	int numAtts = displayedAttributes();
 	if (m_bShowStereotype) {
 		aStart += fontHeight;
-		oStart += fontHeight;
 	}
 
-	if (numAtts == 0)
-		oStart = aStart + fontHeight / 2;
-	//change so only going through list once
 	p.setPen(QPen(black));
-	if (m_bShowAttributes) {
-		QFont f = UMLWidget::getFont();
-		int y = aStart;
-		UMLClassifierListItemList list = ((UMLClass*)m_pObject)->getFilteredList(Uml::ot_Attribute);
-		for(UMLClassifierListItem *obj = list.first(); obj; obj = list.next()) {
-			if (m_bShowPublicOnly && obj->getScope() != Uml::Public)
-				continue;
-			QString att = obj -> toString( m_ShowAttSigs);
-			f.setItalic(false);
-			f.setBold(false);
-			f.setUnderline( obj -> getStatic() );
-			p.setFont( f );
-			QFontMetrics fontMetrics(f);
-			p.drawText(offsetX + MARGIN, bodyOffsetY + y, fontMetrics.width(att), fontHeight, AlignVCenter, att);
-			f.setUnderline(false);
-			p.setFont(f);
-			y+=fontHeight;
-		}
+	UMLClass *umlclass = static_cast<UMLClass*>(m_pObject);
 
+	if (m_bShowAttributes) {
+		drawMembers(p, Uml::ot_Attribute, m_ShowAttSigs, offsetX + MARGIN,
+			    bodyOffsetY, aStart, fontHeight);
 	}//end if att
+
 	if (m_bShowOperations) {
 		QFont f = UMLWidget::getFont();
-		int y = oStart;
-		UMLWidget::draw(p, offsetX, offsetY);
-		if (m_bShowAttributes)
-			p.drawLine(offsetX, bodyOffsetY + y, offsetX + w - 1, bodyOffsetY + y);
-		else
-			y = aStart;
-		p.setPen(QPen(black));
-		UMLOperationList list((static_cast<UMLClass*>(m_pObject))->getOpList());
-		for (UMLOperation *obj = list.first(); obj; obj = list.next()) {
-			if (m_bShowPublicOnly && obj->getScope() != Uml::Public)
-				continue;
-			QString op = obj -> toString( m_ShowOpSigs );
-			f.setItalic( obj -> getAbstract() );
-			f.setUnderline( obj -> getStatic() );
-			f.setBold(false);
-			p.setFont( f );
-			QFontMetrics fontMetrics(f);
-			p.drawText(offsetX + MARGIN, bodyOffsetY + y, fontMetrics.width(op), fontHeight, AlignVCenter, op);
-			f.setItalic( false );
-			f.setUnderline(false);
-			p.setFont( f );
-			y+=fontHeight;
+		int oStart = numAtts * fontHeight + aStart;
+		if (m_bShowStereotype) {
+			oStart += fontHeight;
 		}
+		if (numAtts == 0)
+			oStart = aStart + fontHeight / 2;
+		int y = oStart;
+		if (m_bShowAttributes) {
+			UMLWidget::draw(p, offsetX, offsetY);
+			p.drawLine(offsetX, bodyOffsetY + y, offsetX + w - 1, bodyOffsetY + y);
+			p.setPen(QPen(black));
+		} else
+			y = aStart;
+		drawMembers(p, Uml::ot_Operation, m_ShowOpSigs, offsetX + MARGIN,
+			    bodyOffsetY, y, fontHeight);
 	}//end if op
 
 	//If there are any templates then draw them
-	UMLClassifierListItemList tlist = ((UMLClass*)m_pObject)->getFilteredList(Uml::ot_Template);
+	UMLClassifierListItemList tlist = umlclass->getFilteredList(Uml::ot_Template);
 	if ( tlist.count() > 0 ) {
 
 		QFont font = UMLWidget::getFont();
@@ -208,11 +212,11 @@ void ClassWidget::draw(QPainter & p, int offsetX, int offsetY) {
 		p.setFont(font);
 		QFontMetrics fontMetrics(font);
 		UMLClassifierListItem* theTemplate = 0;
+		const int x = offsetX + width() - templatesBoxSize.width() + MARGIN;
 		int y = offsetY + MARGIN;
 		for ( theTemplate = tlist.first(); theTemplate; theTemplate = tlist.next() ) {
 			QString text = theTemplate->toString();
-			p.drawText(offsetX + width() - templatesBoxSize.width() + MARGIN, y,
-				   fontMetrics.width(text), fontHeight, AlignVCenter, text);
+			p.drawText(x, y, fontMetrics.width(text), fontHeight, AlignVCenter, text);
 			y += fontHeight;
 		}
 	}
@@ -221,7 +225,9 @@ void ClassWidget::draw(QPainter & p, int offsetX, int offsetY) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 QSize ClassWidget::calculateTemplatesBoxSize() {
-	int count = ((UMLClass *)m_pObject)->templates();
+	UMLClass *umlclass = static_cast<UMLClass*>(m_pObject);
+	UMLClassifierListItemList list = umlclass->getFilteredList(Uml::ot_Template);
+	int count = list.count();
 	if (count == 0) {
 		return QSize(0, 0);
 	}
@@ -237,7 +243,6 @@ QSize ClassWidget::calculateTemplatesBoxSize() {
 
 	height = count * fm.lineSpacing() + (MARGIN*2);
 
-	UMLClassifierListItemList list = ((UMLClass *)m_pObject)->getFilteredList(Uml::ot_Template);
 	UMLClassifierListItem* theTemplate = 0;
 	for ( theTemplate=list.first(); theTemplate != 0; theTemplate=list.next() ) {
 		int textWidth = fm.width( theTemplate->toString() );
@@ -252,64 +257,53 @@ QSize ClassWidget::calculateTemplatesBoxSize() {
 void ClassWidget::calculateSize() {
 	if( !m_pObject )
 		return;
-	int width, height;
+	UMLClass *umlclass = static_cast<UMLClass*>(m_pObject);
+
 	QFontMetrics &fm = getFontMetrics(UMLWidget::FT_NORMAL);
 	int fontHeight  = fm.lineSpacing();
 
 	int lines = 1;//always have one line - for name
-	int numAtts = 0;
-	int numOps = 0;
 
 	if (m_bShowStereotype)
 		lines++;
 
-	height = width = 0;
+	int height = 0;
 	//set the height of the concept
 	if (m_bShowAttributes) {
-		UMLClassifierListItemList list = ((UMLClass*)m_pObject)->getFilteredList(Uml::ot_Attribute);
-		for (UMLClassifierListItem *obj = list.first(); obj; obj = list.next()) {
-			if (!(m_bShowPublicOnly && obj->getScope() != Uml::Public))
-				numAtts++;
-		}
+		int numAtts = displayedAttributes();
 		lines += numAtts;
 		if(numAtts == 0)
-			height += fontHeight / 2;//no atts, so just add a bit of space
+			height += fontHeight / 2;  // no atts, so just add a bit of space
 	}
 
 	if (m_bShowOperations) {
-		UMLOperationList list(((UMLClass*)m_pObject)->getOpList());
-		for (UMLOperation *obj = list.first(); obj; obj = list.next()) {
-			if (!(m_bShowPublicOnly && obj->getScope() != Uml::Public))
-				numOps++;
-		}
+		int numOps = displayedOperations();
 		lines += numOps;
 		if(numOps == 0)
-			height += fontHeight / 2;//no ops, so just add a but of space
+			height += fontHeight / 2;  // no ops, so just add a bit of space
 	}
-	//kdDebug() << "ClassWidget::calculateSize: numAtts=" << numAtts << ", numOps=" << numOps << endl;
 	height += lines * fontHeight;
+
 	//now set the width of the concept
 	//set width to name to start with
+	QString displayedName = getName();
 	if (m_bShowPackage)
-		width = getFontMetrics(m_pObject && m_pObject-> getAbstract()
-			? FT_BOLD_ITALIC
-			: FT_BOLD).boundingRect(m_pObject -> getPackage() + "::" + getName()).width();
-	else
-		width = getFontMetrics(m_pObject && m_pObject-> getAbstract()
-			? FT_BOLD_ITALIC
-			: FT_BOLD).boundingRect(getName()).width();
+		displayedName.prepend( m_pObject->getPackage() + "::" );
 
-	/* if no stereotype is given, this line has a width of 0 */
-	int w = 0;
-	if (m_pObject->getStereotype().isEmpty() == false ) {
-		w = getFontMetrics(FT_BOLD).boundingRect(m_pObject->getStereotype()).width();
+	UMLWidget::FontType nameFont = (m_pObject->getAbstract() ? FT_BOLD_ITALIC : FT_BOLD);
+	int width = getFontMetrics(nameFont).boundingRect(displayedName).width();
+
+	/* adjust width to stereotype if given */
+	QString displayedStereotype = m_pObject->getStereotype();
+	if (! displayedStereotype.isEmpty() ) {
+		int w = getFontMetrics(FT_BOLD).boundingRect(displayedStereotype).width();
+		if (w > width)
+			width = w;
 	}
-
-	width = w > width?w:width;
 
 	/* calculate width of the attributes */
 	if (m_bShowAttributes) {
-		UMLClassifierListItemList list = ((UMLClass *)m_pObject)->getFilteredList(Uml::ot_Attribute);
+		UMLClassifierListItemList list = umlclass->getFilteredList(Uml::ot_Attribute);
 		UMLClassifierListItem* a = 0;
 		for (a = list.first(); a; a = list.next()) {
 			if (m_bShowPublicOnly && a->getScope() != Uml::Public)
@@ -326,7 +320,7 @@ void ClassWidget::calculateSize() {
 
 	/* calculate width of the operations */
 	if (m_bShowOperations) {
-		UMLOperationList list((static_cast<UMLClass*>(m_pObject))->getOpList());
+		UMLOperationList list(umlclass->getOpList());
 		UMLOperation* listItem = 0;
 		for(listItem = list.first();listItem != 0; listItem = list.next()) {
 			if (m_bShowPublicOnly && listItem->getScope() != Uml::Public)
