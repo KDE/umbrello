@@ -84,7 +84,7 @@ QString CodeGenerator::findFileName(UMLConcept* concept, QString ext) {
 
 	// Convert all "." to "/" : Platform-specific path separator
 	name.replace(QRegExp("\\."),"/"); // Simple hack!
- 	if (ext != ".java" and ext != ".pm" and ext != ".py") {
+ 	if (ext != ".java" && ext != ".pm" && ext != ".py") {
 		package = package.lower();
 		name = name.lower();
 	}
