@@ -241,14 +241,14 @@ Parse_Status parseAttribute(QString a, NameAndType& nmTpPair, UMLClassifier *own
 		return PS_Empty;
 
 	QStringList nameAndType = QStringList::split( QRegExp("\\s*:\\s*"), a);
-	if (nameAndType.count() != 2)
-		return PS_Malformed_Arg;
-
-	UMLObject *pType = owningScope->findTemplate(nameAndType[1]);
-	if (pType == NULL) {
-		pType = pDoc->findUMLObject(nameAndType[1], Uml::ot_UMLObject, owningScope);
-		if (pType == NULL)
-			return PS_Unknown_ArgType;
+        UMLObject *pType = NULL;
+	if (nameAndType.count() == 2) {
+        	pType = owningScope->findTemplate(nameAndType[1]);
+        	if (pType == NULL) {
+        		pType = pDoc->findUMLObject(nameAndType[1], Uml::ot_UMLObject, owningScope);
+        		if (pType == NULL)
+        			return PS_Unknown_ArgType;
+	        }
 	}
 	nmTpPair = NameAndType(nameAndType[0], pType);
 	return PS_OK;

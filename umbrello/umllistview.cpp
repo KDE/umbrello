@@ -2192,7 +2192,8 @@ bool UMLListView::createChildUMLObject( UMLListViewItem * item, Uml::Object_Type
 		}
 		newObject = m_doc->createAttribute( owningClass, nt.first );
 		UMLAttribute *att = static_cast<UMLAttribute*>(newObject);
-		att->setType(nt.second);
+                if (nt.second)
+		        att->setType(nt.second);
 		text = att->toString(Uml::st_SigNoScope);
 	} else if ( type == Uml::ot_Operation ) {
 		UMLClassifier *owningClassifier = static_cast<UMLClassifier*>(parent);

@@ -423,7 +423,8 @@ void UMLListViewItem::okRename( int col ) {
 				}
 				m_pObject->setName(nt.first);
 				UMLAttribute *pAtt = static_cast<UMLAttribute*>(m_pObject);
-				pAtt->setType(nt.second);
+                                if (nt.second)
+				        pAtt->setType(nt.second);
 				m_Label = pAtt->toString(Uml::st_SigNoScope);
 			} else {
 				KMessageBox::error( kapp->mainWidget(),
