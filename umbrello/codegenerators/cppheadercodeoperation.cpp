@@ -57,11 +57,13 @@ void CPPHeaderCodeOperation::updateMethodDeclaration()
         CPPCodeGenerationPolicy * policy = (CPPCodeGenerationPolicy*) getParentDocument()->getParentGenerator()->getPolicy();
         bool isInlineMethod = policy->getOperationsAreInline( );
 
+	QString endLine = getNewLineEndingChars();
+
 	// first, the comment on the operation
 	QString comment = o->getDoc();
 	UMLAttributeList* paramaters = o->getParmList();
 	for(UMLAttributeListIt iterator(*paramaters); iterator.current(); ++iterator) {
-		comment += "\n@param " + iterator.current()->getName() + " ";
+		comment += endLine + "@param " + iterator.current()->getName() + " ";
 		comment += iterator.current()->getDoc();
 	}
 	getComment()->setText(comment);
