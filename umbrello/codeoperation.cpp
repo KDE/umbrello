@@ -141,8 +141,6 @@ void CodeOperation::setAttributesFromObject(TextBlock * obj)
 
 }
 
-
-
 void CodeOperation::init (UMLOperation * parentOp) 
 {
 
@@ -154,5 +152,11 @@ void CodeOperation::init (UMLOperation * parentOp)
 //	connect(m_parentOperation,SIGNAL(modified()),this,SLOT(syncToParent()));
 
 }
+
+void CodeOperation::updateContent() {
+        // Empty. Unlike codeaccessor methods for most (all?) languages
+	// we dont auto-generate content for operations
+}
+
 
 #include "codeoperation.moc"

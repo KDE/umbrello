@@ -76,11 +76,6 @@ void JavaCodeOperation::setAttributesFromNode( QDomElement & root)
 
 }
 
-// we set the body of the operation here
-void JavaCodeOperation::updateContent() {
-	// empty. Dont auto-generate content for operations
-}
-
 // we basically want to update the doc and start text of this method
 void JavaCodeOperation::updateMethodDeclaration()
 {

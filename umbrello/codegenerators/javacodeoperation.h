@@ -64,7 +64,6 @@ protected:
         virtual void setAttributesFromNode ( QDomElement & element);
 
         void updateMethodDeclaration();
-	void updateContent();
 
 private:
 	void init (JavaClassifierCodeDocument * doc );
