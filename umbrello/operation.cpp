@@ -230,9 +230,19 @@ bool UMLOperation::resolveRef() {
 void UMLOperation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement operationElement = UMLObject::save("UML:Operation", qDoc);
 	if (m_pSecondary) {
-		operationElement.setAttribute( "type", ID2STR(m_pSecondary->getID()) );
+		//operationElement.setAttribute( "type", ID2STR(m_pSecondary->getID()) );
+		if (m_pSecondary->getName() != "void") {
+			QDomElement retElement = qDoc.createElement("UML:Parameter");
+			UMLDoc *pDoc = UMLApp::app()->getDocument();
+			retElement.setAttribute( "xmi.id", ID2STR(pDoc->getUniqueID()) );
+			retElement.setAttribute( "type", ID2STR(m_pSecondary->getID()) );
+			retElement.setAttribute( "kind", "return" );
+			operationElement.appendChild( retElement );
+		}
 	} else {
-		operationElement.setAttribute( "type", m_SecondaryId );
+		//operationElement.setAttribute( "type", m_SecondaryId );
+		kdDebug() << "UMLOperation::saveToXMI: m_SecondaryId is "
+			  << m_SecondaryId << endl;
 	}
 	//save each attribute here, type different
 	UMLAttribute* pAtt = 0;
@@ -290,8 +300,6 @@ bool UMLOperation::load( QDomElement & element ) {
 			}
 			QString kind = attElement.attribute("kind", "in");
 			if (kind == "return") {
-				// TEMPORARY: For the time being we are sure
-				// this is a foreign XMI file.
 				// Use deferred xmi.id resolution.
 				m_pSecondary = NULL;
 				m_SecondaryId = pAtt->getSecondaryId();
