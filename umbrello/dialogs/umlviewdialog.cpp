@@ -101,9 +101,6 @@ void UMLViewDialog::setupFontPage() {
 
 void UMLViewDialog::applyPage( Page page ) {
 
-	Uml::Signature_Type sig;
-	bool showSig = false;
-
 	switch (page) {
 		case General:
 			{
