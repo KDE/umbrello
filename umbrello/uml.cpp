@@ -424,6 +424,8 @@ void UMLApp::saveOptions() {
 	config->writeEntry( "autosave", optionState.generalState.autosave );
 	config->writeEntry( "time", optionState.generalState.time );
 	config->writeEntry( "autosavetime", optionState.generalState.autosavetime );
+	config->writeEntry( "autosavesuffix", optionState.generalState.autosavesuffix );
+
 	config->writeEntry( "logo", optionState.generalState.logo );
 	config->writeEntry( "loadlast", optionState.generalState.loadlast );
 
@@ -994,6 +996,9 @@ void UMLApp::readOptionState() {
 			default: optionState.generalState.autosavetime = 5; break;
 		}
 	}
+	// 2004-05-17 Achim Spangler: read new config entry for autosave sufix
+	optionState.generalState.autosavesuffix = config -> readEntry( "autosavesuffix", ".xmi" );
+
 	optionState.generalState.logo = config -> readBoolEntry( "logo", true );
 	optionState.generalState.loadlast = config -> readBoolEntry( "loadlast", true );
 

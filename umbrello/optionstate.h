@@ -47,6 +47,7 @@ namespace Settings {
 		bool autosave;
 		int time;        //old autosave time, kept for compatibility
 		int autosavetime;
+		QString autosavesuffix;  ///< Text input field for suffix of autosave
 		bool logo;
 		bool tip;
 		bool loadlast;

@@ -92,6 +92,12 @@ private:
 		QCheckBox * tipCB;
 		QCheckBox * loadlastCB;
 
+		// 2004-05-17 Achim Spangler: Allow definition of Suffix for autosave
+		// ( Default: ".xmi" )
+		QLineEdit * autosaveSuffixT;
+		QLabel    * autosaveSuffixL;
+		// End AutoSave Suffix
+
 		QLabel * startL;
 		QLabel *  autosaveL;
 	}

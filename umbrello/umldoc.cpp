@@ -2378,9 +2378,29 @@ void UMLDoc::slotAutoSave() {
 		saveDocument( tempURL );
 		m_modified = true;
 	} else {
+		// 2004-05-17 Achim Spangler
+		KURL orgDocUrl = doc_url;
+		QString orgFileName = doc_url.fileName();
+		// don't overwrite manually saved file with autosave content
+		QString fileName = tempURL.fileName();
+		Settings::OptionState optionState = getOptionState();
+		fileName.replace( ".xmi", optionState.generalState.autosavesuffix );
+		tempURL.setFileName( fileName );
+		// End Achim Spangler
+
 		saveDocument( tempURL );
+		// 2004-05-17 Achim Spangler
+		// re-activate m_modified if autosave is writing to other file
+		// than the main project file -> autosave-suffix != ".xmi"
+		if ( ".xmi" != optionState.generalState.autosavesuffix )
+			setModified( true );
+		// restore original file name -
+		// UMLDoc::saveDocument() sets doc_url to filename which is given as autosave-filename
+		setURL( orgDocUrl );
+		UMLApp * pApp = UMLApp::app();
+		pApp->setCaption(orgFileName, isModified() );
+		// End Achim Spangler
 	}
-	return;
 }
 
 void UMLDoc::signalDiagramRenamed(UMLView * pView ) {

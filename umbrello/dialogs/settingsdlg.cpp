@@ -97,7 +97,7 @@ void SettingsDlg::setupGeneralPage() {
 
 	m_GeneralWidgets.autosaveGB = new QGroupBox( i18n("Autosave"), page );
 
-	QGridLayout * autosaveLayout = new QGridLayout( m_GeneralWidgets.autosaveGB, 2, 2 );
+	QGridLayout * autosaveLayout = new QGridLayout( m_GeneralWidgets.autosaveGB, 3, 2 );
 	autosaveLayout -> setSpacing( spacingHint() );
 	autosaveLayout -> setMargin( fontMetrics().height() );
 
@@ -106,13 +106,19 @@ void SettingsDlg::setupGeneralPage() {
 	autosaveLayout -> addWidget( m_GeneralWidgets.autosaveCB, 0, 0 );
 
 	m_GeneralWidgets.autosaveL = new QLabel( i18n("Select auto-save time interval (mins):"), m_GeneralWidgets.autosaveGB );
-
-
 	autosaveLayout -> addWidget( m_GeneralWidgets.autosaveL, 1, 0 );
 
 	m_GeneralWidgets.timeISB = new KIntSpinBox( 1, 600, 1, m_OptionState.generalState.autosavetime, 10, m_GeneralWidgets.autosaveGB );
 	m_GeneralWidgets.timeISB -> setEnabled( m_OptionState.generalState.autosave );
 	autosaveLayout -> addWidget( m_GeneralWidgets.timeISB, 1, 1 );
+
+	// 2004-05-17 Achim Spangler: Allow definition of Suffix for autosave
+	// ( default: ".xmi" )
+	m_GeneralWidgets.autosaveSuffixL = new QLabel( i18n("Set Autosave suffix:"), m_GeneralWidgets.autosaveGB );
+	autosaveLayout -> addWidget( m_GeneralWidgets.autosaveSuffixL, 2, 0 );
+	m_GeneralWidgets.autosaveSuffixT = new QLineEdit( ".xmi", m_GeneralWidgets.autosaveGB );
+	m_GeneralWidgets.autosaveSuffixT->setText( m_OptionState.generalState.autosavesuffix );
+	autosaveLayout -> addWidget( m_GeneralWidgets.autosaveSuffixT, 2, 1 );
 
 	//setup startup settings
 	m_GeneralWidgets.startupGB = new QGroupBox( i18n("Startup"), page );
@@ -306,6 +312,8 @@ void SettingsDlg::applyPage( Settings::Page page ) {
 		case Settings::page_general:
 			m_OptionState.generalState.autosave = m_GeneralWidgets.autosaveCB -> isChecked();
 			m_OptionState.generalState.autosavetime = m_GeneralWidgets.timeISB -> value();
+			// 2004-05-17 Achim Spangler: retrieve Suffix setting from dialog entry
+			m_OptionState.generalState.autosavesuffix = m_GeneralWidgets.autosaveSuffixT -> text();
 			m_OptionState.generalState.logo = m_GeneralWidgets.logoCB -> isChecked();
 			m_OptionState.generalState.tip = m_GeneralWidgets.tipCB -> isChecked();
 			m_OptionState.generalState.loadlast = m_GeneralWidgets.loadlastCB -> isChecked();
