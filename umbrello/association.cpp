@@ -51,8 +51,20 @@ UMLAssociation::UMLAssociation( Association_Type type /* = Uml::at_Unknown */)
 UMLAssociation::~UMLAssociation( ) {
 	// delete ourselves from the parent document
 	UMLApp::app()->getDocument()->removeAssociation(this);
-	delete m_pRole[A];
-	delete m_pRole[B];
+	if (m_pRole[A] == NULL) {
+		kdError() << "UMLAssociation destructor: m_pRole[A] is NULL already"
+			  << endl;
+	} else {
+		delete m_pRole[A];
+		m_pRole[A] = NULL;
+	}
+	if (m_pRole[B] == NULL) {
+		kdError() << "UMLAssociation destructor: m_pRole[B] is NULL already"
+			  << endl;
+	} else {
+		delete m_pRole[B];
+		m_pRole[B] = NULL;
+	}
 }
 
 bool UMLAssociation::operator==(UMLAssociation &rhs) {
@@ -420,7 +432,13 @@ UMLObject* UMLAssociation::getObject(Role_Type role) {
 }
 
 Uml::IDType UMLAssociation::getObjectId(Role_Type role) {
-	return getObject(role)->getID();
+	UMLObject *o = getObject(role);
+	if (o == NULL) {
+		kdError() << "UMLAssociation::getObjectId(" << role
+			  << "): getObject returns NULL" << endl;
+		return Uml::id_None;
+	}
+	return o->getID();
 }
 
 Uml::IDType UMLAssociation::getRoleId(Role_Type role) const {
