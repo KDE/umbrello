@@ -1344,7 +1344,8 @@ void UMLListView::addNewItem( QListViewItem * parent, Uml::ListView_Type type ) 
 	case Uml::lvt_Logical_Folder:
 	case Uml::lvt_Component_Folder:
 	case Uml::lvt_Deployment_Folder:
-		newItem = new UMLListViewItem( static_cast<UMLListViewItem *>( parent ), name, type, -1 );
+		newItem = new UMLListViewItem( static_cast<UMLListViewItem *>( parent ),
+					       name, type, m_doc->getUniqueID() );
 		break;
 
 	case Uml::lvt_Actor:
