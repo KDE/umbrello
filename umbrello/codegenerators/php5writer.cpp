@@ -121,7 +121,7 @@ void Php5Writer::writeClass(UMLClassifier *c) {
 	  if( !realizations.isEmpty()) {
 	    int rc = realizations.count();
 	    for (a = realizations.first(); a; a = realizations.next()) {
-	      UMLObject *o = m_doc->findUMLObject(a->getRoleId(Uml::B));
+	      UMLObject *o = m_doc->findObjectById(a->getRoleId(Uml::B));
 	      QString typeName = cleanName(o->getName());
 	      php << m_newLineEndingChars << m_indentation << m_indentation << m_indentation <<  "implements " << typeName << (--rc == 0 ? "" : ",");
 	    }
@@ -137,7 +137,7 @@ void Php5Writer::writeClass(UMLClassifier *c) {
 			//maybe we should parse the string here and take multiplicity into account to decide
 			//which container to use.
 			Uml::IDType id = a->getRoleId(Uml::A);
-			UMLObject *o = m_doc->findUMLObject(id);
+			UMLObject *o = m_doc->findObjectById(id);
 			if (o == NULL) {
 				kdError() << "Cannot find aggregation role A object with ID "
 					  << id << endl;
@@ -157,7 +157,7 @@ void Php5Writer::writeClass(UMLClassifier *c) {
 		for (a = compositions.first(); a ; a = compositions.next()) {
 			// see comment on Aggregation about multiplicity...
 			Uml::IDType id = a->getRoleId(Uml::A);
-			UMLObject *o = m_doc->findUMLObject(id);
+			UMLObject *o = m_doc->findObjectById(id);
 			if (o == NULL) {
 				kdError() << "Cannot find composition role A object with ID "
 					  << id << endl;
