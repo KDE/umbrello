@@ -413,6 +413,11 @@ protected:
 	bool m_bInPaste;
 
 	/**
+	 * Auxiliary to maybeSignalObjectCreated().
+	 */
+	bool m_bCreationWasSignalled;
+
+	/**
 	 * Pointer to an associated object.
 	 * Only a few of the classes inheriting from UMLObject use this.
 	 * However, it needs to be here because of inheritance graph
