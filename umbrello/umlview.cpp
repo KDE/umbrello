@@ -777,7 +777,7 @@ void UMLView::contentsMouseMoveEvent(QMouseEvent* ome) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLWidget * UMLView::findWidget( int id, bool allowClassForObject ) {
-	UMLWidget *obj;
+	UMLWidget *obj, *objWidget = NULL;
 
 	UMLWidgetListIt it( m_WidgetList );
 	while ( (obj = it.current()) != 0 ) {
@@ -789,11 +789,13 @@ UMLWidget * UMLView::findWidget( int id, bool allowClassForObject ) {
 				return obj;
 			}
 			if (allowClassForObject && obj->getID() == id)
-				return obj;
+				objWidget = (UMLWidget*) obj;
 		} else if( obj -> getID() == id ) {
 			return obj;
 		}
 	}
+	if (objWidget)
+		return objWidget;
 
 	MessageWidgetListIt mit( m_MessageList );
 	while ( (obj = (UMLWidget*)mit.current()) != 0 ) {
@@ -1812,13 +1814,18 @@ bool UMLView::addAssociation( AssociationWidget* pAssoc ) {
 
 
 void UMLView::addAssocInViewAndDoc(AssociationWidget* a) {
+	UMLAssociation *umla = a->getAssociation();
 
 	// append in view
 	m_AssociationList.append(a);
 
 	// append in document
-	getDocument() -> addAssociation (a->getAssociation());
+	getDocument() -> addAssociation (umla);
 
+	FloatingText *pNameWidget = a->getNameWidget();
+	if (pNameWidget != NULL && pNameWidget->getID() == -1) {
+		pNameWidget->setID( umla->getID() );
+	}
 }
 
 bool UMLView::activateAfterLoad(bool bUseLog) {
