@@ -164,17 +164,19 @@ bool UMLPackage::resolveRef() {
 
 void UMLPackage::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
 	QDomElement packageElement = UMLObject::save("UML:Package", qDoc);
+	QDomElement ownedElement = qDoc.createElement( "UML:Namespace.ownedElement" );
 
 #ifndef XMI_FLAT_PACKAGES
 	// Save datatypes first.
 	// This will cease to be necessary once deferred type resolution is up.
 	for (UMLObject *obj = m_objects.first(); obj; obj = m_objects.next())
 		if (obj->getBaseType() == Uml::ot_Datatype)
-			obj->saveToXMI (qDoc, packageElement);
+			obj->saveToXMI (qDoc, ownedElement);
 	for (UMLObject *obj = m_objects.first(); obj; obj = m_objects.next())
 		if (obj->getBaseType() != Uml::ot_Datatype)
-			obj->saveToXMI (qDoc, packageElement);
+			obj->saveToXMI (qDoc, ownedElement);
 #endif
+	packageElement.appendChild( ownedElement );
 	qElement.appendChild(packageElement);
 }
 
