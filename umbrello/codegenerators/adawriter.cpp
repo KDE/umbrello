@@ -27,6 +27,8 @@
 
 #include "../umldoc.h"
 #include "../class.h"
+#include "../enum.h"
+#include "../package.h"
 #include "../association.h"
 #include "../attribute.h"
 #include "../operation.h"
@@ -93,6 +95,8 @@ bool AdaWriter::isOOClass(UMLClassifier *c) {
 	        stype == "CORBAStruct" || stype == "CORBAUnion" ||
 	        stype == "CORBATypedef")
 		return false;
+	if (dynamic_cast<UMLEnum*>(c))
+		return false;
 	if (! dynamic_cast<UMLClass*>(c))
 		return true;
 	UMLClass *cl = dynamic_cast<UMLClass *>(c);
@@ -105,16 +109,16 @@ bool AdaWriter::isOOClass(UMLClassifier *c) {
 }
 
 QString AdaWriter::qualifiedName(UMLClassifier *c, bool withType, bool byValue) {
-	QString umlPkg = c->getPackage();
+	UMLPackage *umlPkg = c->getUMLPackage();
 	QString className = cleanName(c->getName());
 	QString retval;
 
-	if (umlPkg.isEmpty()) {
+	if (umlPkg == NULL) {
 		retval = className;
 		if (! isOOClass(c))
 			retval.append(defaultPackageSuffix);
 	} else {
-		retval = umlPkg;
+		retval = umlPkg->getFullyQualifiedName(".");
 		if (isOOClass(c)) {
 			retval.append(".");
 			retval.append(className);
