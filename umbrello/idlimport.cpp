@@ -38,6 +38,8 @@ int scopeIndex = 0;  // index 0 is reserved for global scope
 UMLClass *klass = NULL;
 bool isAbstract = false, isOneway = false, isReadonly = false, isAttribute = false;
 Uml::Scope currentAccess = Uml::Public;
+bool inComment = false;
+QString comment;
 
 void skipStmt(QString until = ";") {
 	const int srcLength = source.count();
@@ -57,9 +59,70 @@ QString joinTypename() {
 }
 
 /// The lexer. Tokenizes the given string and fills `source'.
+/// Stores possible comments in `comment'.
 void scan(QString line) {
+	// Ignore C preprocessor generated lines.
 	if (line.startsWith("#"))
 		return;
+	// Check for end of multi line comment.
+	if (inComment) {
+		int pos = line.find("*/");
+		if (pos == -1) {
+			comment += line + "\n";
+			return;
+		}
+		if (pos > 0) {
+			QString text = line.mid(0, pos - 1);
+			comment += text.stripWhiteSpace();
+		}
+		source.append("//" + comment);  // "//" denotes comments in `source'
+		comment = "";
+		inComment = false;
+		pos++;  // pos now points at the slash in the "*/"
+		if (pos == (int)line.length() - 1)
+			return;
+		line = line.mid(pos + 1);
+	}
+	// If we get here then inComment is false.
+	// Check for start of multi line comment.
+	int pos = line.find("/*");
+	if (pos != -1) {
+		int endpos = line.find("*/");
+		if (endpos == -1) {
+			inComment = true;
+			if (pos + 1 < (int)line.length() - 1) {
+				QString cmnt = line.mid(pos + 2);
+				comment += cmnt.stripWhiteSpace() + "\n";
+			}
+			if (pos == 0)
+				return;
+			line = line.left(pos);
+		} else {   // It's a multiline comment on a single line.
+			if (endpos > pos + 2)  {
+				QString cmnt = line.mid(pos + 2, endpos - pos - 2);
+				cmnt = cmnt.stripWhiteSpace();
+				if (!cmnt.isEmpty())
+					source.append("//" + cmnt);
+			}
+			endpos++;  // endpos now points at the slash of "*/"
+			QString pre;
+			if (pos > 0)
+				pre = line.left(pos);
+			QString post;
+			if (endpos < (int)line.length() - 1)
+				post = line.mid(endpos + 1);
+			line = pre + post;
+		}
+	}
+	// Check for single line comment.
+	pos = line.find("//");
+	if (pos != -1) {
+		QString cmnt = line.mid(pos);
+		source.append(cmnt);
+		if (pos == 0)
+			return;
+		line = line.left(pos);
+	}
 	line = line.simplifyWhiteSpace();
 	if (line.isEmpty())
 		return;
@@ -98,7 +161,7 @@ void parseFile(QString filename) {
 	ClassImport *importer = UMLApp::app()->classImport();
 	QStringList includePaths = importer->includePathList();
 	//QProcess command("cpp", UMLAp::app());
-	QString command("cpp");
+	QString command("cpp -C");   // -C means "preserve comments"
 	for (QStringList::Iterator pathIt = includePaths.begin();
 				   pathIt != includePaths.end(); ++pathIt) {
 		QString path = (*pathIt);
@@ -126,25 +189,32 @@ void parseFile(QString filename) {
 	for (srcIndex = 0; srcIndex < srcLength; srcIndex++) {
 		const QString& keyword = source[srcIndex];
 		kdDebug() << '"' << keyword << '"' << endl;
+		if (keyword.startsWith("//")) {
+			comment = keyword.mid(2);
+			continue;
+		}
 		if (keyword == "module") {
+			const QString& name = source[++srcIndex];
 			UMLObject *ns = importer->createUMLObject(Uml::ot_Package,
-						  source[++srcIndex], scope[scopeIndex]);
+								  name, scope[scopeIndex], comment);
 			scope[++scopeIndex] = static_cast<UMLPackage*>(ns);
 			scope[scopeIndex]->setStereotype("CORBAModule");
 			if (source[++srcIndex] != "{") {
 				kdError() << "importIDL: unexpected: " << source[srcIndex] << endl;
 				skipStmt("{");
 			}
+			comment = QString::null;
 			continue;
 		}
 		if (keyword == "interface") {
 			const QString& name = source[++srcIndex];
 			UMLObject *ns = importer->createUMLObject(Uml::ot_Class,
-								  name, scope[scopeIndex]);
+								  name, scope[scopeIndex], comment);
 			scope[++scopeIndex] = klass = static_cast<UMLClass*>(ns);
 			klass->setStereotype("CORBAInterface");
 			klass->setAbstract(isAbstract);
 			isAbstract = false;
+			comment = QString::null;
 			if (source[++srcIndex] == ";")   // forward declaration
 				continue;
 			if (source[srcIndex] == ":") {
@@ -165,7 +235,7 @@ void parseFile(QString filename) {
 		if (keyword == "struct" || keyword == "exception") {
 			const QString& name = source[++srcIndex];
 			UMLObject *ns = importer->createUMLObject(Uml::ot_Class,
-								  name, scope[scopeIndex]);
+								  name, scope[scopeIndex], comment);
 			scope[++scopeIndex] = klass = static_cast<UMLClass*>(ns);
 			if (keyword == "struct")
 				klass->setStereotype("CORBAStruct");
@@ -175,6 +245,7 @@ void parseFile(QString filename) {
 				kdError() << "importIDL: expecting '{' at " << name << endl;
 				skipStmt("{");
 			}
+			comment = QString::null;
 			continue;
 		}
 		if (keyword == "union") {
@@ -184,8 +255,9 @@ void parseFile(QString filename) {
 			continue;
 		}
 		if (keyword == "enum") {
+			const QString& name = source[++srcIndex];
 			UMLObject *ns = importer->createUMLObject(Uml::ot_Enum,
-						  source[++srcIndex], scope[scopeIndex]);
+								  name, scope[scopeIndex], comment);
 			UMLEnum *enumType = static_cast<UMLEnum*>(ns);
 			srcIndex++;  // skip name
 			while (++srcIndex < srcLength && source[srcIndex] != "}") {
@@ -194,6 +266,7 @@ void parseFile(QString filename) {
 					break;
 			}
 			skipStmt();
+			comment = QString::null;
 			continue;
 		}
 		if (keyword == "typedef") {
@@ -214,7 +287,7 @@ void parseFile(QString filename) {
 		if (keyword == "valuetype") {
 			const QString& name = source[++srcIndex];
 			UMLObject *ns = importer->createUMLObject(Uml::ot_Class,
-								  name, scope[scopeIndex]);
+								  name, scope[scopeIndex], comment);
 			scope[++scopeIndex] = klass = static_cast<UMLClass*>(ns);
 			klass->setAbstract(isAbstract);
 			isAbstract = false;
@@ -236,6 +309,7 @@ void parseFile(QString filename) {
 					  << name << endl;
 				skipStmt("{");
 			}
+			comment = QString::null;
 			continue;
 		}
 		if (keyword == "public") {
@@ -307,17 +381,19 @@ void parseFile(QString filename) {
 					break;
 				srcIndex++;
 			}
-    			importer->insertMethod( klass, op, Uml::Public, typeName, false, false);
+    			importer->insertMethod(klass, op, Uml::Public, typeName, false, false, comment);
 			skipStmt();  // skip possible "raises" clause
+			comment = QString::null;
 			continue;
 		}
 		// At this point we know it's some kind of attribute declaration.
-		importer->insertAttribute( klass, currentAccess, name, typeName);
+		importer->insertAttribute( klass, currentAccess, name, typeName, comment);
 		currentAccess = Uml::Public;
 		if (source[srcIndex] != ";") {
 			kdError() << "importIDL: ignoring trailing items at " << name << endl;
 			skipStmt();
 		}
+		comment = QString::null;
 	}
 	pclose(fp);
 }
