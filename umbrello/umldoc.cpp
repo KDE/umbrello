@@ -2677,8 +2677,8 @@ void UMLDoc::loadUndoData() {
 		bool m_bLoading_old = m_bLoading;
 		m_bLoading = true;
 		deleteContents();
-		QDataStream* undoData = undoStack.take( 0 );
-		redoStack.prepend( undoData );
+		redoStack.prepend( undoStack.take(0) );
+		QDataStream* undoData = undoStack.getFirst();
 		QBuffer* buffer = static_cast<QBuffer*>( undoData->device() );
 		buffer->open(IO_ReadOnly);
 		loadFromXMI(*buffer);

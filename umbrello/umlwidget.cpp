@@ -502,7 +502,10 @@ void UMLWidget::slotMenuSelection(int sel) {
 		case ListPopupMenu::mt_Change_Font:
 			font = getFont();
 			if( KFontDialog::getFont( font, false, m_pView ) )
+			{
 				setFont( font );
+				m_pDoc->setModified(true);
+			}
 			break;
 
 		case ListPopupMenu::mt_Change_Font_Selection:
