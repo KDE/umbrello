@@ -1840,22 +1840,18 @@ bool UMLView::addAssociation( AssociationWidget* pAssoc , bool isPasteOperation)
 
 	m_AssociationList.append(pAssoc);
 
-	FloatingText *pNameWidget = pAssoc->getNameWidget();
-	FloatingText *pRoleAWidget = pAssoc->getRoleWidget(A);
-	FloatingText *pRoleBWidget = pAssoc->getRoleWidget(B);
-	FloatingText *pMultiAWidget = pAssoc->getMultiWidget(A);
-	FloatingText *pMultiBWidget = pAssoc->getMultiWidget(B);
-
-	if(pNameWidget)
-		addWidget(pNameWidget);
-	if(pRoleAWidget)
-		addWidget(pRoleAWidget);
-	if(pRoleBWidget)
-		addWidget(pRoleBWidget);
-	if(pMultiAWidget)
-		addWidget(pMultiAWidget);
-	if(pMultiBWidget)
-		addWidget(pMultiBWidget);
+	FloatingText *ft[5] = { pAssoc->getNameWidget(),
+				pAssoc->getRoleWidget(A),
+				pAssoc->getRoleWidget(B),
+				pAssoc->getMultiWidget(A),
+				pAssoc->getMultiWidget(B) };
+	for (int i = 0; i < 5; i++) {
+		FloatingText *flotxt = ft[i];
+		if (flotxt) {
+			flotxt->calculateSize();
+			addWidget(flotxt);
+		}
+	}
 
 	return true;
 }
