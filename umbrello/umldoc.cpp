@@ -321,17 +321,18 @@ bool UMLDoc::saveDocument(const KURL& url, const char * /*format =0*/) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLDoc::deleteContents() {
 	m_Doc = "";
-	DocWindow *dw = getDocWindow();
-	if( dw)
-		dw -> newDocumentation( );
-
-	if(listView) {
-		listView -> init();
-		removeAllViews();
-		if(objectList.count() > 0)
-			objectList.clear();
+	DocWindow* dw = getDocWindow();
+	if (dw) {
+		dw->newDocumentation();
 	}
-	return;
+
+	if (listView) {
+		listView->init();
+		removeAllViews();
+		if(objectList.count() > 0) {
+			objectList.clear();
+		}
+	}
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLDoc::setupSignals() {
@@ -1685,13 +1686,10 @@ void UMLDoc::addToUndoStack() {
 
 void UMLDoc::clearUndoStack() {
 	undoStack.setAutoDelete(true);
-	redoStack.setAutoDelete(true);
 	undoStack.clear();
-	redoStack.clear();
 	((UMLApp*)parent())->enableRedo(false);
-	((UMLApp*)parent())->enableUndo(false);
 	undoStack.setAutoDelete(false);
-	redoStack.setAutoDelete(false);
+	clearRedoStack();
 }
 
 void UMLDoc::clearRedoStack() {
@@ -1740,8 +1738,8 @@ void UMLDoc::loadUndoData() {
 void UMLDoc::loadRedoData() {
 	if (redoStack.count() >= 1) {
 		int currentViewID = currentView->getID();
-		deleteContents();
 		loading = true;
+		deleteContents();
 		undoStack.prepend( redoStack.getFirst() );
 		QDataStream* redoData = redoStack.getFirst();
 		redoStack.removeFirst();
