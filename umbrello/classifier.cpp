@@ -44,6 +44,11 @@ UMLOperation * UMLClassifier::checkOperationSignature( QString name,
 		if (test == exemptOp)
 			continue;
 		UMLAttributeList *testParams = test->getParmList( );
+		if (!opParams) {
+			if (0 == testParams->count())
+				return test;
+			continue;
+		}
 		if( testParams->count() != opParams->count() )
 			continue;
 		int pCount = testParams->count();
