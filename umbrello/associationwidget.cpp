@@ -3289,22 +3289,24 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
 
                 QString type = qElement.attribute( "type", "-1" );
 		Uml::Association_Type aType = (Uml::Association_Type) type.toInt();
-
-		// lack of an association in our widget AND presence of
-		// both uml objects for each role clearly identifies this
-		// as reading in an old-school file. Note it as such, and
-		// create, and add, the UMLAssociation for this widget.
-        	// Remove this special code when backwards compatibility
-		// with older files isn't important anymore. -b.t.
-        	UMLObject* umlRoleA = pWidgetA->getUMLObject();
-        	UMLObject* umlRoleB = pWidgetB->getUMLObject();
-		if(!m_pAssociation && umlRoleA && umlRoleB)
-		{
-			oldStyleLoad = true; // will flag code for further special config below
-			m_pAssociation = m_pView->getDocument()->createUMLAssociation(umlRoleA, umlRoleB, aType);
-                	connect(m_pAssociation, SIGNAL(modified()), this,
-                        	SLOT(mergeUMLRepresentationIntoAssociationData()));
-        	}
+		if (UMLAssociation::assocTypeHasUMLRepresentation(aType)) {
+			// lack of an association in our widget AND presence of
+			// both uml objects for each role clearly identifies this
+			// as reading in an old-school file. Note it as such, and
+			// create, and add, the UMLAssociation for this widget.
+       		 	// Remove this special code when backwards compatibility
+			// with older files isn't important anymore. -b.t.
+			UMLObject* umlRoleA = pWidgetA->getUMLObject();
+			UMLObject* umlRoleB = pWidgetB->getUMLObject();
+			if (!m_pAssociation && umlRoleA && umlRoleB)
+			{
+				oldStyleLoad = true; // flag for further special config below
+				m_pAssociation = m_pView->getDocument()->createUMLAssociation(
+							umlRoleA, umlRoleB, aType);
+				connect(m_pAssociation, SIGNAL(modified()), this,
+					SLOT(mergeUMLRepresentationIntoAssociationData()));
+			}
+		}
 
 		setDoc( qElement.attribute("documentation", "") );
 		setRoleADoc( qElement.attribute("roleAdoc", "") );
