@@ -183,7 +183,6 @@ Uml::IDType UMLWidget::getID() const {
 	return m_nId;
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
 QPoint UMLWidget::doMouseMove(QMouseEvent* me) {
 	int newX = 0, newY = 0, count;
 	int moveX, moveY;
@@ -240,10 +239,6 @@ QPoint UMLWidget::doMouseMove(QMouseEvent* me) {
 	}
 	return QPoint(newX, newY);
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
-#ifdef DEBUG_ASSOCLINES
-int calls_to_calc_head;
-#endif
 
 void UMLWidget::mouseMoveEvent(QMouseEvent* me) {
 	if( m_bMouseDown || me->button() == LeftButton ) {
@@ -256,20 +251,14 @@ void UMLWidget::mouseMoveEvent(QMouseEvent* me) {
 		setX( newX );
 		setY( newY );
 		if (lastUpdate.elapsed() > 25) {
-#ifdef DEBUG_ASSOCLINES
-			calls_to_calc_head = 0;
-#endif
 			//adjustAssocs(newX, newY);
 			adjustUnselectedAssocs(newX, newY);
-#ifdef DEBUG_ASSOCLINES
-			kdDebug() << "calls_to_calc_head = " << calls_to_calc_head << endl;
-#endif
 			m_pView->resizeCanvasToItems();
 			lastUpdate.restart();
 		}
 	}
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void UMLWidget::mousePressEvent(QMouseEvent *me) {
 	m_nOldX = getX();
 	m_nOldY = getY();
@@ -335,7 +324,7 @@ void UMLWidget::mousePressEvent(QMouseEvent *me) {
 		setSelected( false );
 	}
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void UMLWidget::updateWidget()
 {
 	calculateSize();
@@ -378,7 +367,7 @@ void UMLWidget::mouseReleaseEvent(QMouseEvent *me) {
 		m_pView->setAssoc(this);
 	}
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void UMLWidget::init() {
 	m_nId = Uml::id_None;
 	m_bIsInstance = false;
