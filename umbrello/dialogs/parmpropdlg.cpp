@@ -36,26 +36,6 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a)
 	topLayout -> setSpacing(10);
 	topLayout -> setMargin(margin);
 
-	m_pKind =  new QButtonGroup(i18n("Kind"), plainPage());
-	m_pKind->setExclusive(true);
-	m_pKindLayout = new QHBoxLayout( m_pKind );
-	m_pKindLayout->setMargin(margin);
-	// m_pKind->setTitle("Kind");
-	//m_pKind->setColumnLayout(0, Qt::Vertical );
-	//m_pKind->layout()->setSpacing( 6 );
-	//m_pKindLayout->setAlignment( Qt::AlignTop );
-
-	m_pIn =  new QRadioButton( "in", m_pKind );
-	m_pKindLayout->addWidget( m_pIn );
-
-	m_pInOut =  new QRadioButton( "inout", m_pKind );
-	m_pKindLayout->addWidget( m_pInOut );
-
-	m_pOut =  new QRadioButton( "out", m_pKind );
-	m_pKindLayout->addWidget( m_pOut );
-
-	topLayout -> addWidget(m_pKind);
-
 	m_pParmGB = new QGroupBox(i18n("Properties"), plainPage());
 	topLayout -> addWidget(m_pParmGB);
 
@@ -85,6 +65,23 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a)
 	m_pInitialLE -> setText(initialValue);
 	propLayout -> addWidget(m_pInitialLE, 2, 1);
 	m_pInitialL->setBuddy(m_pInitialLE);
+
+	m_pKind =  new QButtonGroup(i18n("Kind"), plainPage());
+	m_pKind->setExclusive(true);
+
+	QHBoxLayout * kindLayout = new QHBoxLayout( m_pKind );
+	kindLayout->setMargin(margin);
+
+	m_pIn =  new QRadioButton( "in", m_pKind );
+	kindLayout->addWidget( m_pIn );
+
+	m_pInOut =  new QRadioButton( "inout", m_pKind );
+	kindLayout->addWidget( m_pInOut );
+
+	m_pOut =  new QRadioButton( "out", m_pKind );
+	kindLayout->addWidget( m_pOut );
+
+	topLayout -> addWidget(m_pKind);
 
 	m_pDocGB = new QGroupBox(i18n("Documentation"), plainPage());
 	QHBoxLayout * docLayout = new QHBoxLayout(m_pDocGB);

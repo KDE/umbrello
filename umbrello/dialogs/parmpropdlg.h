@@ -95,7 +95,6 @@ public slots:
 
 private:
 	QGroupBox * m_pParmGB, * m_pDocGB;
-	QHBoxLayout *m_pKindLayout;
 	QButtonGroup *m_pKind;
 	QRadioButton * m_pIn, * m_pOut, *m_pInOut;
 	QLabel * m_pTypeL, * m_pNameL, * m_pInitialL;
