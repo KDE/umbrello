@@ -1941,6 +1941,7 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
 					  << outerTag << ">" << endl;
 			continue;
 		}
+		bool seen_UMLObjects = false;
 		//process content
 		for (QDomNode child = node.firstChild(); !child.isNull();
 		     child = child.nextSibling()) {
@@ -1954,6 +1955,7 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
 					kdWarning() << "failed load on objects" << endl;
 					return false;
 				}
+				seen_UMLObjects = true;
 			} else if (tagEq(tag, "Package") ||
 				   tagEq(tag, "Class") ||
 				   tagEq(tag, "Interface")) {
@@ -1964,7 +1966,34 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
 					kdWarning() << "failed load on model objects" << endl;
 					return false;
 				}
-				break;
+				seen_UMLObjects = true;
+			} else if (tagEq(tag, "TaggedValue")) {
+				// This tag is produced here, i.e. outside of <UML:Model>,
+				// by the Unisys.JCR.1 Rose-to-XMI tool.
+				if (! seen_UMLObjects) {
+					kdDebug() << "skipping TaggedValue because not seen_UMLObjects"
+						  << endl;
+					continue;
+				}
+				tag = element.attribute("tag", "");
+				if (tag != "documentation") {
+					continue;
+				}
+				QString modelElement = element.attribute("modelElement", "");
+				if (modelElement.isEmpty()) {
+					kdDebug() << "skipping TaggedValue(documentation) because "
+						  << "modelElement.isEmpty()" << endl;
+					continue;
+				}
+				UMLObject *o = findObjectById(STR2ID(modelElement));
+				if (o == NULL) {
+					kdDebug() << "TaggedValue(documentation): cannot find object"
+						  << " for modelElement " << modelElement << endl;
+					continue;
+				}
+				QString value = element.attribute("value", "");
+				if (! value.isEmpty())
+					o->setDoc(value);
 			} else {
 				// for backward compatibility
 				loadExtensionsFromXMI(child);
