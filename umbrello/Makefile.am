@@ -4,7 +4,7 @@ bin_PROGRAMS = umbrello
 ## INCLUDES were found outside kdevelop specific part
 
 umbrello_SOURCES = classimport.cpp umllistviewitemdata.cpp umllistviewitem.cpp umllistview.cpp seqlinewidget.cpp codegenerator.cpp activitywidget.cpp activitywidgetdata.cpp worktoolbar.cpp usecasewidgetdata.cpp usecasewidget.cpp usecase.cpp umlwidgetdata.cpp umlwidget.cpp umlviewdata.cpp umlview.cpp umlviewcanvas.cpp umlobject.cpp umlnamespace.cpp umldoc.cpp uml.cpp statewidgetdata.cpp statewidget.cpp operation.cpp objectwidgetdata.cpp objectwidget.cpp notewidgetdata.cpp notewidget.cpp messagewidgetdata.cpp messagewidget.cpp main.cpp listpopupmenu.cpp linepath.cpp kstartuplogo.cpp infowidget.cpp floatingtextdata.cpp floatingtext.cpp docwindow.cpp conceptwidgetdata.cpp conceptwidget.cpp concept.cpp attribute.cpp assocrules.cpp associationwidgetdata.cpp associationwidget.cpp actorwidgetdata.cpp actorwidget.cpp actor.cpp 
-umbrello_LDADD   = ./classparser/libclassparser.a ./clipboard/libclipboard.a ./dialogs/libdialogs.a ./codegenerators/libcodegenerator.la -lfl $(LIB_KDEPRINT) $(LIB_KIO) $(LIB_KDECORE) $(LIB_QT) $(LIBSOCKET)
+umbrello_LDADD   = ./classparser/libclassparser.la ./clipboard/libclipboard.la ./dialogs/libdialogs.a ./codegenerators/libcodegenerator.la -lfl $(LIB_KDEPRINT) $(LIB_KIO) $(LIB_KDECORE) $(LIB_QT) $(LIBSOCKET)
 
 SUBDIRS = classparser clipboard dialogs pics codegenerators headings 
 
