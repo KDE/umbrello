@@ -177,9 +177,8 @@ void UMLAttribute::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement attributeElement = UMLObject::save("UML:Attribute", qDoc);
 	if (m_pSecondary == NULL) {
 		kdDebug() << "UMLAttribute::saveToXMI(" << m_Name
-			  << "): m_pSecondary is NULL, using local name "
-			  << m_SecondaryId << endl;
-		attributeElement.setAttribute( "type", m_SecondaryId );
+			  << "): m_pSecondary is NULL, m_SecondaryId is '"
+			  << m_SecondaryId << "'" << endl;
 	} else {
 		attributeElement.setAttribute( "type", ID2STR(m_pSecondary->getID()) );
 	}
@@ -222,9 +221,8 @@ bool UMLAttribute::load( QDomElement & element ) {
 			break;
 		}
 		if (m_SecondaryId.isEmpty()) {
-			kdError() << "UMLAttribute::load(" << m_Name << "): "
+			kdDebug() << "UMLAttribute::load(" << m_Name << "): "
 				  << "cannot find type." << endl;
-			return false;
 		}
 	}
 	m_InitialValue = element.attribute( "initialValue", "" );
