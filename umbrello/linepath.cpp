@@ -169,29 +169,62 @@ bool LinePath::insertPoint( int pointIndex, QPoint point ) {
 	return true;
 }
 
-bool LinePath::removePoint( int pointIndex ) {
+bool LinePath::removePoint( int pointIndex, QPoint point, unsigned short delta )
+{
+	/* get the number of line segments */
 	int count = m_LineList.count();
 
-	/* this may be thing what the user wants */
-	if (pointIndex == count)
+	/* we have to reduce the pointIndex, because it is always 1 too high returned
+	 * by LinePath::onLinePath */
+	if (pointIndex != 0)
 		pointIndex--;
 
-	/* check if the given index is valid, we do not allow to remove the points
-	 * connected directly to the widgets */
-	if ( (pointIndex < 1) || (pointIndex > count) )
-		return false;
+	/* we don't know if the user clicked on the start- or endpoint of a 
+	 * line segment */
+	QCanvasLine * current_line = m_LineList.at( pointIndex );
+	if (abs( current_line -> endPoint().x() - point.x() ) <= delta
+	    &&
+	    abs( current_line -> endPoint().y() - point.y() ) <= delta)
+	{
+		/* the user clicked on the end point of the line;
+		 * we have to make sure that this isn't the last line segment */
+		if (pointIndex >= count - 1)
+			return false;
 
-	/* the next segment will get the starting point from the current one,
-	 * which is going to be removed */
-	QCanvasLine * current = m_LineList.at( pointIndex );
-	QCanvasLine * before = m_LineList.at( pointIndex - 1 );
-	QPoint ep = current -> endPoint();
-	QPoint sp = before -> startPoint();
-	before -> setPoints( sp.x(), sp.y(), ep.x(), ep.y() );
+		/* the next segment will get the starting point from the current one,
+		 * which is going to be removed */
+		QCanvasLine * next_line = m_LineList.at( pointIndex + 1 );
+		QPoint startPoint = current_line -> startPoint();
+		QPoint endPoint = next_line -> endPoint();
+		next_line -> setPoints(startPoint.x(), startPoint.y(),
+									  endPoint.x(), endPoint.y());
+
+	} else
+	if (abs( current_line -> startPoint().x() - point.x() ) <= delta
+	    &&
+	    abs( current_line -> startPoint().y() - point.y() ) <= delta)
+	{
+		/* the user clicked on the start point of the line;
+		 * we have to make sure that this isn't the first line segment */
+		 if (pointIndex < 1)
+		 	return false;
+
+		/* the previous segment will get the end point from the current one,
+		 * which is going to be removed */
+		QCanvasLine * previous_line = m_LineList.at( pointIndex - 1 );
+		QPoint startPoint = previous_line -> startPoint();
+		QPoint endPoint = current_line -> endPoint();
+		previous_line -> setPoints(startPoint.x(), startPoint.y(),
+											endPoint.x(), endPoint.y());
+	} else {
+		/* the user clicked neither on the start- nor on the end point of
+		 * the line; this really shouldn't happen, but just make sure */
+		return false;
+	}
+
 
 	/* remove the segment from the list */
 	m_LineList.remove( pointIndex );
-	count--;
 
 	return true;
 }

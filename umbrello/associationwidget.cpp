@@ -1090,11 +1090,18 @@ void AssociationWidget::mouseDoubleClickEvent(QMouseEvent * me) {
 	}
 	if(me->button() == LeftButton) {
 		/* if there is no point around the mouse pointer, we insert a new one */
-		if (! m_LinePath.isPoint(i, me -> pos(), 5 ))
+		if (! m_LinePath.isPoint(i, me -> pos(), POINT_DELTA )) {
 			m_LinePath.insertPoint( i, me -> pos() );
-		else
+		} else {
+			/* deselect the line path */
+			m_LinePath.setSelected( false );
+		
 			/* there was a point so we remove the point */
-			m_LinePath.removePoint(i);
+			m_LinePath.removePoint(i, me -> pos(), POINT_DELTA );
+
+			/* select the line path */
+			m_LinePath.setSelected( true );
+		}
 
 		m_LinePath.update();
 

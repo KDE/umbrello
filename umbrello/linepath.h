@@ -15,6 +15,9 @@
 #include <qpointarray.h>
 #include "umlnamespace.h"
 
+/* how many pixels a user could click around a point */
+#define POINT_DELTA 5
+
 class AssociationWidget;
 class UMLView;
 
@@ -90,9 +93,10 @@ public:
 	bool insertPoint( int pointIndex, QPoint point );
 
 	/**
-	*   Removes the point given by the index.
+	*   Removes the point on the line given by the index, at the coordinates
+	*   given by point with a fuzzy of delta
 	*/
-	bool removePoint( int pointIndex );
+	bool removePoint( int pointIndex, QPoint point, unsigned short delta = 0 );
 
 	/**
 	*   Sets the start and end points.
