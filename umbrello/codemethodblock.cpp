@@ -13,25 +13,26 @@
  *      Date   : Fri Jun 20 2003
  */
 #include "codemethodblock.h"
+#include "codeclassfield.h"
 #include "classifiercodedocument.h"
 
 // Constructors/Destructors
 //  
 
-CodeMethodBlock::CodeMethodBlock ( ClassifierCodeDocument * doc, QString body, QString comment)
+CodeMethodBlock::CodeMethodBlock ( ClassifierCodeDocument * doc, const QString & body, const QString & comment)
         : CodeBlockWithComments ((CodeDocument*)doc, body, comment), OwnedCodeBlock ((UMLObject*) doc->getParentClassifier()) 
 {
         initFields();
 }
 
-CodeMethodBlock::CodeMethodBlock ( ClassifierCodeDocument * doc) 
-    : CodeBlockWithComments ((CodeDocument*)doc), OwnedCodeBlock ((UMLObject*) doc->getParentClassifier()) 
+CodeMethodBlock::CodeMethodBlock ( CodeClassField *cf) 
+        : CodeBlockWithComments ( cf->getParentDocument()), OwnedCodeBlock (cf->getParentObject()) 
 {
-	initFields();
+        initFields();
 }
 
 CodeMethodBlock::~CodeMethodBlock ( ) { 
-	((ClassifierCodeDocument *) getParentDocument())->getParentClassifier()->disconnect();
+//	((ClassifierCodeDocument *) getParentDocument())->getParentClassifier()->disconnect();
 }
 
 //  

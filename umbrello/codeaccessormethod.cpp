@@ -27,7 +27,7 @@
 //  
 
 CodeAccessorMethod::CodeAccessorMethod ( CodeClassField * parentCF ) 
-    : CodeMethodBlock ( (ClassifierCodeDocument*) parentCF->getParentDocument() ) 
+    : CodeMethodBlock ( parentCF ) 
 {
 	initFields(parentCF);
 }
@@ -60,9 +60,11 @@ bool CodeAccessorMethod::parentIsAttribute( ) {
  * Utility method to get the value of the parent object of the parent classifield.
  * @return the value of the parent of the parent classfield
  */
+/*
 UMLObject * CodeAccessorMethod::getParentObject ( ) {
         return getParentClassField()->getParentObject();
 }
+*/
 
 /** return the type of accessor method this is
  */

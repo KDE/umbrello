@@ -26,13 +26,14 @@
 #include "umlnamespace.h"
 
 class ClassifierCodeDocument;
+class CodeClassField;
 
 /**
   * class CodeMethodBlock
   * A  common type of "code block" that occurs in OO code.
   */
 
-class CodeMethodBlock : public CodeBlockWithComments, OwnedCodeBlock 
+class CodeMethodBlock : public CodeBlockWithComments, public OwnedCodeBlock 
 {
 	Q_OBJECT
 public:
@@ -42,10 +43,10 @@ public:
 
 
 	/**
-	 * Empty Constructor
+	 * Constructors
 	 */
-	CodeMethodBlock ( ClassifierCodeDocument * doc );
-	CodeMethodBlock ( ClassifierCodeDocument * doc , QString body, QString comment);
+	CodeMethodBlock ( ClassifierCodeDocument * doc , const QString & body = "", const QString & comment = "");
+	CodeMethodBlock ( CodeClassField *cf);
 
 	/**
 	 * Empty Destructor

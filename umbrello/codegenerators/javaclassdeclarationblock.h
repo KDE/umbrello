@@ -58,10 +58,6 @@ protected:
 	 */
 	void updateContent ( );
 
-	/** set the class attributes from a passed object
-         */
-        virtual void setAttributesFromObject (TextBlock * obj);
-
 private:
 
 	void init (JavaClassifierCodeDocument * parent, QString comment);

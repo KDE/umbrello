@@ -32,7 +32,7 @@ class CodeClassField;
   * special CodeBlockWithComments which is "sync'd" to the parent CodeClassField.
   */
 
-class CodeClassFieldDeclarationBlock : public CodeBlockWithComments, OwnedCodeBlock 
+class CodeClassFieldDeclarationBlock : public CodeBlockWithComments, public OwnedCodeBlock 
 {
 	Q_OBJECT
 public:

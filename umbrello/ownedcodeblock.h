@@ -53,7 +53,7 @@ public:
 	/**
 	 * @return	UMLObject
 	 */
-	virtual UMLObject * getParentObject ( ) = 0;
+	UMLObject * getParentObject ( );
 
 	// get the parent code document of this code block
 	virtual CodeDocument * getParentDocument ( ) = 0;
@@ -72,7 +72,7 @@ protected:
 
 	/** set the class attributes from a passed object
          */
-        virtual void setAttributesFromObject (TextBlock * obj) = 0;
+        virtual void setAttributesFromObject (TextBlock * obj);
 
 	/**
          * This is the method called from within syncToParent
@@ -81,7 +81,9 @@ protected:
 
 private:
 
-	void initFields( UMLObject * parent );
+	void initFields ( UMLObject * parent );
+
+	UMLObject * m_parentObject;
 
 public slots:
 

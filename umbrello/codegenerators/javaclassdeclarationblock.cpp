@@ -12,7 +12,6 @@
  *      Author : thomas
  *      Date   : Wed Jul 16 2003
  */
-
 #include "javaclassdeclarationblock.h"
 #include "javacodecomment.h"
 
@@ -30,13 +29,6 @@ JavaClassDeclarationBlock::~JavaClassDeclarationBlock ( ) { }
 //  
 // Methods
 //  
-
-/** set the class attributes from a passed object
- */
-void JavaClassDeclarationBlock::setAttributesFromObject (TextBlock * obj)
-{
-	HierarchicalCodeBlock::setAttributesFromObject(obj);
-}
 
 /**
  * Save the XMI representation of this object
@@ -57,10 +49,10 @@ bool JavaClassDeclarationBlock::saveToXMI ( QDomDocument & doc, QDomElement & ro
 /**
  * load params from the appropriate XMI element node.
  */
-void JavaClassDeclarationBlock::loadFromXMI ( QDomElement & root ) {
+void JavaClassDeclarationBlock::loadFromXMI ( QDomElement & root ) 
+{
         setAttributesFromNode(root);
 }
-
 
 // Accessor methods
 //  

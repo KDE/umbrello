@@ -28,7 +28,7 @@ class CodeDocument;
   * umlobject. This is an abstract class that should be inherited. 
   */
 
-class OwnedHierarchicalCodeBlock : public HierarchicalCodeBlock, OwnedCodeBlock
+class OwnedHierarchicalCodeBlock : public HierarchicalCodeBlock, public OwnedCodeBlock
 {
 	Q_OBJECT
 public:
@@ -48,12 +48,6 @@ public:
 
 	// Public attributes
 	//  
-
-	/**
-	 * Get the value of m_parentObject
-	 * @return the value of m_parentObject
-	 */
-	UMLObject * getParentObject( );
 
 	// Return the parent code document
 	CodeDocument * getParentDocument();
@@ -82,13 +76,13 @@ protected:
          */
         virtual void setAttributesFromNode ( QDomElement & element);
 
+       /** set the class attributes from a passed object
+         */
+        virtual void setAttributesFromObject (TextBlock * obj);
+
 	virtual void updateContent ( ) = 0;
 
 private:
-
-	UMLObject * m_parentObject;
-
-	void initFields ( UMLObject * parent);
 
 public slots:
 

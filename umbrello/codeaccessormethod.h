@@ -70,7 +70,7 @@ public:
 
  	/** Utility method to get the value of the parent object of the parent classifield.
 	 */
-	UMLObject * getParentObject();
+	// virtual UMLObject * getParentObject();
 
 	bool parentIsAttribute();
 
