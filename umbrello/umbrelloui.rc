@@ -15,17 +15,19 @@
       <Action name="new_component_diagram"/>
       <Action name="new_deployment_diagram"/>
     </Menu>
+    <Action name="view_clear_diagram"/>
+    <Action name="view_delete"/>
+    <Action name="view_export_image"/>
+    <Separator/>
     <Menu name="show_view"><text>Sh&amp;ow</text>
       <ActionList name="view_list">
       </ActionList>
     </Menu>
-    <Action name="view_clear_diagram"/>
-    <Action name="view_snap_to_grid"/>
-    <Action name="view_show_grid"/>
-    <Action name="view_delete"/>
-    <Action name="view_export_image"/>
     <Menu name="zoom_menu"><text>&amp;Zoom</text>
     </Menu>
+    <Separator/>
+    <Action name="view_snap_to_grid"/>
+    <Action name="view_show_grid"/>
     <Action name="view_properties"/>
   </Menu>
 
