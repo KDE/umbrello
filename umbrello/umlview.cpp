@@ -1376,10 +1376,9 @@ void UMLView::exportImage() {
 		info = QFileInfo(s);
 		if (info.exists())
 		{
-			int want_save = KMessageBox::questionYesNo(0, i18n("The selected file %1 exists.\nDo you want to overwrite it?").arg(m_ImageURL.fileName()),
-								i18n("File Already Exists"),
-								KStdGuiItem::yes(), KStdGuiItem::no());
-			if (want_save == KMessageBox::No)
+			int want_save = KMessageBox::warningContinueCancel(0, i18n("The selected file %1 exists.\nDo you want to overwrite it?").arg(m_ImageURL.fileName()),
+								i18n("File Already Exists"), i18n("&Overwrite"));
+			if (want_save == KMessageBox::Cancel)
 				// another possibility would be to show the save dlg again
 				return;
 		}
@@ -2780,9 +2779,9 @@ bool UMLView::checkUniqueSelection()
 }
 
 void UMLView::clearDiagram() {
-	if( KMessageBox::Yes == KMessageBox::warningYesNo( this, i18n("You are about to delete "
+	if( KMessageBox::Continue == KMessageBox::warningContinueCancel( this, i18n("You are about to delete "
 								       "the entire diagram.\nAre you sure?"),
-							    i18n("Delete Diagram?") ) ) {
+							    i18n("Delete Diagram?"),KGuiItem( i18n("&Delete"), "editdelete") ) ) {
 		removeAllWidgets();
 	}
 }
