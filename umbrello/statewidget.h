@@ -50,8 +50,9 @@ public:
 	 *
 	 * @param view		The parent of the widget.
 	 * @param stateType	The type of state.
+	 * @param id		The ID to assign (-1 will prompt a new ID.)
 	 */
-	StateWidget( UMLView * view, StateType stateType = Normal );
+	StateWidget( UMLView * view, StateType stateType = Normal, int id = -1 );
 
 	/**
 	 * destructor

@@ -59,6 +59,7 @@ public:
 	 *
 	 * @param view	The view to be displayed on.
 	 * @param id	The id of the widget.
+	 *		The default value (-1) will prompt generation of a new ID.
 	 */
 	UMLWidget( UMLView * view, int id = -1 );
 

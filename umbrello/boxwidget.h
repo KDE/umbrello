@@ -30,9 +30,9 @@ public:
 	 * Constructs a BoxWidget.
 	 *
 	 * @param view		The parent to this widget.
-	 * @param id		The unique id of the widget.
+	 * @param id		The ID to assign (-1 will prompt a new ID.)
 	 */
-	BoxWidget(UMLView * view, int id);
+	BoxWidget(UMLView * view, int id = -1);
 
 	/**
 	 * destructor

@@ -992,7 +992,7 @@ protected:
 	 * Initialize and announce a newly created widget.
 	 * Auxiliary to contentsMouseReleaseEvent().
 	 */
-	void setupNewWidget(UMLWidget *w, bool setNewID=true);
+	void setupNewWidget(UMLWidget *w);
 
 	/**
 	 * Overrides the standard operation.

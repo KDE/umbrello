@@ -16,7 +16,8 @@
 #include <klocale.h>
 #include <qpainter.h>
 
-ActivityWidget::ActivityWidget(UMLView * view, ActivityType activityType ) : UMLWidget(view, -1)
+ActivityWidget::ActivityWidget(UMLView * view, ActivityType activityType, int id )
+  : UMLWidget(view, id)
 {
 	m_ActivityType = activityType;
 	UMLWidget::setBaseType( wt_Activity );

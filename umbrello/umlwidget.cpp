@@ -65,14 +65,16 @@ UMLWidget::UMLWidget( UMLView * view, UMLObject * o, Settings::OptionState optio
 	m_LineWidth  = optionState.uiState.lineWidth;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLWidget::UMLWidget( UMLView * view, int id )
+UMLWidget::UMLWidget(UMLView * view, int id /* = -1 */)
 	: QObject(view), QCanvasRectangle( view->canvas() ),
 	  m_pObject(0),
 	  m_pView(view),
 	  m_pMenu(0)
 {
 	init();
-	if( id > 0 )
+	if (id == -1)
+		m_nId = m_pView->getDocument()->getUniqueID();
+	else
 		m_nId = id;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -402,7 +404,7 @@ void UMLWidget::mouseReleaseEvent(QMouseEvent *me) {
 		// adjustUnselectedAssocs( getX(), getY() );
 
 		// BUT DO do this..so that if we quit right now, we are asked to save
-		 m_pView->getDocument()->setModified(true);
+		m_pView->getDocument()->setModified(true);
 	}
 
 	if ( me->button() == LeftButton &&
@@ -1125,9 +1127,14 @@ bool UMLWidget::loadFromXMI( QDomElement & qElement ) {
 	QString usesDiagramLineWidth  = qElement.attribute( "usesdiagramlinewidth", "1" );
 	QString usesDiagramUseFillColour = qElement.attribute( "usesdiagramusefillcolour", "1" );
 
-	if( m_pObject && id.toInt() != m_pObject->getID() )
-	{
-		kdError()<<"Loading from XMI Error - id = "<<id.toInt()<<" but the UMLObject's id is "<<m_pObject->getID()<<endl;
+	if (m_pObject) {
+		kdDebug() << "UMLWidget::loadFromXMI(id=" << id << "): "
+			  << "m_pObject is already set (" << m_pObject->getName() << ")"
+			  << endl;
+		if (id.toInt() != m_pObject->getID())
+			kdError() << "Loading from XMI Error - id = " << id.toInt()
+				  << " but the UMLObject's id is " << m_pObject->getID()
+				  << endl;
 	}
 	m_nId = id.toInt();
 

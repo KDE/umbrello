@@ -49,7 +49,7 @@ Uml::UMLObject_Type ToolBarStateOther::getObjectType(WorkToolBar::ToolBar_Button
 		case WorkToolBar::tbb_Enum: 		ot = ot_Enum; 		break;
 		case WorkToolBar::tbb_Datatype: 	ot = ot_Datatype; 	break;
 
-		default: 							ot = ot_UMLObject; 	break;
+		default: 				ot = ot_UMLObject; 	break;
 	}
 
 	return ot;
@@ -59,18 +59,15 @@ Uml::UMLObject_Type ToolBarStateOther::getObjectType(WorkToolBar::ToolBar_Button
 bool ToolBarStateOther::newWidget()
 {
 	UMLWidget* umlWidget = NULL;
-	bool needNewID = true;
 
 	switch (getButton())
 	{
 		case (WorkToolBar::tbb_Note):
-			umlWidget = new NoteWidget(m_pUMLView, m_pUMLView->getDocument()->getUniqueID());
-			needNewID = false;
+			umlWidget = new NoteWidget(m_pUMLView);
 			break;
 
 		case (WorkToolBar::tbb_Box):
-			umlWidget = new BoxWidget(m_pUMLView, m_pUMLView->getDocument()->getUniqueID());
-			needNewID = false;
+			umlWidget = new BoxWidget(m_pUMLView);
 			break;
 
 		case (WorkToolBar::tbb_Text):
@@ -125,7 +122,7 @@ bool ToolBarStateOther::newWidget()
 
 	// Create the widget. Some setup functions can remove the widget.
 	if (umlWidget != NULL)
-		m_pUMLView->setupNewWidget(umlWidget, needNewID);
+		m_pUMLView->setupNewWidget(umlWidget);
 
 	return true;
 }

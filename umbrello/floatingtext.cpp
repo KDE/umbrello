@@ -6,12 +6,19 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+#include "floatingtext.h"
+
+// system includes
+#include <kdebug.h>
+#include <klocale.h>
+#include <qpainter.h>
+
+// local includes
 #include "associationwidget.h"
 #include "association.h"
 #include "umlview.h"
 #include "umldoc.h"
 #include "classifier.h"
-#include "floatingtext.h"
 #include "messagewidget.h"
 #include "listpopupmenu.h"
 #include "operation.h"
@@ -19,18 +26,14 @@
 #include "dialogs/assocpropdlg.h"
 #include "dialogs/selectopdlg.h"
 
-#include <kdebug.h>
-#include <klocale.h>
-#include <qpainter.h>
-
-FloatingText::FloatingText(UMLView * view, Text_Role role, QString text) : UMLWidget(view)
+FloatingText::FloatingText(UMLView * view, Text_Role role, QString text, int id)
+  : UMLWidget(view, id)
 {
 	init();
 	m_Text = text;
 	m_Role = role;
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
 void FloatingText::init() {
 	// initialize loaded/saved (i.e. persistent) data
 	m_PreText = "";
@@ -50,10 +53,9 @@ void FloatingText::init() {
 	}
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
 FloatingText::~FloatingText() {
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void FloatingText::draw(QPainter & p, int offsetX, int offsetY) {
 	int w = width();
 	int h = height();
@@ -64,13 +66,13 @@ void FloatingText::draw(QPainter & p, int offsetX, int offsetY) {
 	if(m_bSelected)
 		drawSelected(&p, offsetX, offsetY);
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void FloatingText::moveEvent(QMoveEvent * /*m*/) {
 	// adjustAssocs(getX(), getY()); // NO, I dont think so. This can create major problems.
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void FloatingText::resizeEvent(QResizeEvent * /*re*/) {}
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void FloatingText::setLinePos(int x, int y) {
 	bool xIsValid = (x >= restrictPositionMin && x <= restrictPositionMax);
 	bool yIsValid = (y >= restrictPositionMin && y <= restrictPositionMax);
@@ -86,7 +88,7 @@ void FloatingText::setLinePos(int x, int y) {
 		// Let's just leave them at their original values.
 	}
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void FloatingText::setLinePositionRelatively(int newX, int newY, int oldX, int oldY) {
 	int myNewX = getX() + (newX-oldX);
 	int myNewY = getY() + (newY-oldY);
@@ -109,7 +111,7 @@ void FloatingText::setLinePositionRelatively(int newX, int newY, int oldX, int o
 		// Let's just leave them at their original values.
 	}
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void FloatingText::setPositionFromMessage() {
 	if (!m_pMessage) {
 		return;
@@ -117,7 +119,7 @@ void FloatingText::setPositionFromMessage() {
 	calculateSize();
 	setLinePos(m_pMessage->getX() + 5, m_pMessage->getY() - height());
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void FloatingText::calculateSize() {
 	QFontMetrics &fm = getFontMetrics(FT_NORMAL);
 	int h = fm.lineSpacing();
@@ -125,7 +127,7 @@ void FloatingText::calculateSize() {
 	setSize( w + 8, h + 4 );//give a small margin
 	// adjustAssocs( getX(), getY() );//adjust assoc lines, why? Let em be. The user can do the adjustment.
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void FloatingText::slotMenuSelection(int sel) {
 	switch(sel) {
 	case ListPopupMenu::mt_Properties:
@@ -213,7 +215,7 @@ void FloatingText::slotMenuSelection(int sel) {
 		break;
 	}//end switch
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void FloatingText::handleRename() {
 	QString t;
 	UMLDoc *doc = m_pView->getDocument();
@@ -275,7 +277,7 @@ void FloatingText::handleRename() {
 	calculateSize();
 	update();
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void FloatingText::setText(QString t) {
 	if (m_pMessage != NULL) {
 		QString seqNum = m_pMessage->getSequenceNumber();
@@ -289,7 +291,7 @@ void FloatingText::setText(QString t) {
 	calculateSize();
 	update();
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void FloatingText::setPreText (QString t)
 {
 	m_PreText = t;
@@ -297,18 +299,17 @@ void FloatingText::setPreText (QString t)
 	update();
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
 void FloatingText::setPostText(QString t) {
 	m_PostText = t;
 	calculateSize();
 	update();
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void FloatingText::startMenu(AssociationWidget * a, QPoint p) {
 	m_pAssoc = a;
 	startPopupMenu(p);
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void FloatingText::changeTextDlg() {
 	bool ok = false;
 	QString newText = KInputDialog::getText(i18n("Change Text"), i18n("Enter new text:"), getText(), &ok, m_pView);
@@ -322,7 +323,7 @@ void FloatingText::changeTextDlg() {
 	if(!isTextValid(newText))
 		hide();
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void FloatingText::mouseDoubleClickEvent(QMouseEvent * /* me*/) {
 	if(m_pView -> getCurrentCursor() != WorkToolBar::tbb_Arrow)
 		return;
@@ -350,7 +351,7 @@ void FloatingText::mouseDoubleClickEvent(QMouseEvent * /* me*/) {
 		handleRename();
 	}
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void FloatingText::showOpDlg() {
 	QString seqNum, op;
 	if (m_pMessage) {
@@ -394,7 +395,7 @@ void FloatingText::showOpDlg() {
 	setPositionFromMessage(); //force it to display
 	*/
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void FloatingText::mouseMoveEvent(QMouseEvent* me) {
 	if( m_bMouseDown || me->button() == LeftButton ) {
 		QPoint newPosition = doMouseMove(me);
@@ -423,15 +424,15 @@ void FloatingText::mouseMoveEvent(QMouseEvent* me) {
 		moveEvent(0);
 	}
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 QString FloatingText::getPreText() const {
 	return m_PreText;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 QString FloatingText::getPostText() const {
 	return m_PostText;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 QString FloatingText::getText() const {
 	//test to make sure not just the ":" between the seq number
 	//and the actual m_pMessage
@@ -630,3 +631,4 @@ void FloatingText::setMessageText() {
 	calculateSize();
 	setPositionFromMessage(); //force it to display
 }
+

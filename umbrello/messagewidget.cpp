@@ -23,18 +23,22 @@
 #include "umldoc.h"
 #include "listpopupmenu.h"
 
-MessageWidget::MessageWidget(UMLView * view, ObjectWidget* a, ObjectWidget* b, FloatingText* ft, int id, int y,
-			     Sequence_Message_Type sequenceMessageType) : UMLWidget(view) {
+MessageWidget::MessageWidget(UMLView * view, ObjectWidget* a, ObjectWidget* b,
+			     FloatingText* ft, int y,
+			     Sequence_Message_Type sequenceMessageType, int id)
+  : UMLWidget(view, id) {
 	init();
 	m_pWA = a;
 	m_pWB = b;
 	m_pFText = ft;
-	UMLWidget::setID( id );
 	m_nY = y;
 	m_sequenceMessageType = sequenceMessageType;
+
+	//CHECK: This is contorted - it should be in the caller's responsibility:
 	ft->setUMLObject(b->getUMLObject());
 	ft -> setMessage(this);
-	ft -> setID( id );
+	ft -> setID( UMLWidget::getID() );
+
 	connect(m_pWA, SIGNAL(sigWidgetMoved(int)), this, SLOT(slotWidgetMoved(int)));
 	connect(m_pWB, SIGNAL(sigWidgetMoved(int)), this, SLOT(slotWidgetMoved(int)));
 	calculateWidget();
@@ -48,7 +52,8 @@ MessageWidget::MessageWidget(UMLView * view, ObjectWidget* a, ObjectWidget* b, F
 	m_pWB -> messageAdded(this);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-MessageWidget::MessageWidget(UMLView * view, Sequence_Message_Type sequenceMessageType) : UMLWidget(view, -1) {
+MessageWidget::MessageWidget(UMLView * view, Sequence_Message_Type sequenceMessageType, int id)
+  : UMLWidget(view, id) {
 	init();
 	m_sequenceMessageType = sequenceMessageType;
 }

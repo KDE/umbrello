@@ -50,8 +50,10 @@ public:
 	 * @param view	The parent of this FloatingText.
 	 * @param role	The role this FloatingText will take up.
 	 * @param text	The main text to display.
+	 * @param id	The ID to assign (-1 will prompt a new ID.)
 	 */
-	FloatingText(UMLView * view, Text_Role role = Uml::tr_Floating , QString text = "");
+	FloatingText(UMLView * view, Text_Role role = Uml::tr_Floating,
+		     QString text = "", int id = -1);
 
 	/**
 	 * destructor

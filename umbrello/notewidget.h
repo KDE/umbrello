@@ -36,6 +36,7 @@ public:
 	 *
 	 * @param view		The parent to this widget.
 	 * @param id		The unique id of the widget.
+	 *			The default (-1) will prompt a new ID.
 	 */
 	NoteWidget(UMLView * view, int id = -1 );
 

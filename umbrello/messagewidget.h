@@ -43,19 +43,21 @@ public:
 	 * @param a	The role A widget for this message.
 	 * @param b	The role B widget for this message.
 	 * @param ft	The FloatingText widget that is needed to display text.
-	 * @param id	A unique id used for deleting this object cleanly.
 	 * @param y	The vertical position to display this message.
 	 * @param sequenceMessageType Whether synchronous or asynchronous
+	 * @param id	A unique id used for deleting this object cleanly.
+	 *              The default (-1) will prompt generation of a new ID.
 	 */
 	MessageWidget(UMLView * view, ObjectWidget* a, ObjectWidget* b, FloatingText* ft, 
-		      int id, int y, Sequence_Message_Type sequenceMessageType);
+		      int y, Sequence_Message_Type sequenceMessageType, int id = -1);
 
 	/**
 	 * Constructs a MessageWidget.
 	 *
 	 * @param view		The parent to this class.
+	 * @param id		The ID to assign (-1 will prompt a new ID.)
 	 */
-	MessageWidget(UMLView * view, Sequence_Message_Type sequenceMessageType);
+	MessageWidget(UMLView * view, Sequence_Message_Type sequenceMessageType, int id = -1);
 
 	/**
 	 * Initializes key variables of the class.

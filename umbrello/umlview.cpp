@@ -320,9 +320,7 @@ void UMLView::print(KPrinter *pPrinter, QPainter & pPainter) {
 	forceUpdateWidgetFontMetrics(0);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void UMLView::setupNewWidget(UMLWidget *w, bool setNewID) {
-	if (setNewID)
-		w->setID( m_pDoc->getUniqueID() ); //needed for associations
+void UMLView::setupNewWidget(UMLWidget *w) {
 	w->setX( m_Pos.x() );
 	w->setY( m_Pos.y() );
 	w->setVisible( true );
@@ -2428,7 +2426,7 @@ void UMLView::slotMenuSelection(int sel) {
 			break;
 
 		case ListPopupMenu::mt_FloatText:
-			ft = new FloatingText(this, tr_Floating, "");
+			ft = new FloatingText(this);
 			ft -> changeTextDlg();
 			//if no text entered delete
 			if(!FloatingText::isTextValid(ft -> getText()))
@@ -2517,8 +2515,7 @@ void UMLView::slotMenuSelection(int sel) {
 			break;
 
 		case ListPopupMenu::mt_Initial_State:
-			state = new StateWidget( this , StateWidget::Initial );
-			state -> setID( m_pDoc -> getUniqueID() );//needed for associations
+			state = new StateWidget( this, StateWidget::Initial );
 			state -> setX( m_Pos.x() );
 			state -> setY ( m_Pos.y() );
 			state -> setVisible( true );
@@ -2527,8 +2524,7 @@ void UMLView::slotMenuSelection(int sel) {
 			break;
 
 		case ListPopupMenu::mt_End_State:
-			state = new StateWidget( this , StateWidget::End );
-			state -> setID( m_pDoc -> getUniqueID() );//needed for associations
+			state = new StateWidget( this, StateWidget::End );
 			state -> setX( m_Pos.x() );
 			state -> setY ( m_Pos.y() );
 			state -> setVisible( true );
@@ -2539,9 +2535,8 @@ void UMLView::slotMenuSelection(int sel) {
 		case ListPopupMenu::mt_State:
 			name = KInputDialog::getText( i18n("Enter State Name"), i18n("Enter the name of the new state:"), i18n("new state"), &ok, UMLApp::app() );
 			if( ok ) {
-				state = new StateWidget( this , StateWidget::Normal );
+				state = new StateWidget( this );
 				state -> setName( name );
-				state -> setID( m_pDoc -> getUniqueID() );//needed for associations
 				state -> setX( m_Pos.x() );
 				state -> setY ( m_Pos.y() );
 				state -> setVisible( true );
@@ -2551,8 +2546,7 @@ void UMLView::slotMenuSelection(int sel) {
 			break;
 
 		case ListPopupMenu::mt_Initial_Activity:
-			activity = new ActivityWidget( this , ActivityWidget::Initial );
-			activity -> setID( m_pDoc -> getUniqueID() );//needed for associations
+			activity = new ActivityWidget( this, ActivityWidget::Initial );
 			activity -> setX( m_Pos.x() );
 			activity -> setY ( m_Pos.y() );
 			activity -> setVisible( true );
@@ -2562,8 +2556,7 @@ void UMLView::slotMenuSelection(int sel) {
 
 
 		case ListPopupMenu::mt_End_Activity:
-			activity = new ActivityWidget( this , ActivityWidget::End );
-			activity -> setID( m_pDoc -> getUniqueID() );//needed for associations
+			activity = new ActivityWidget( this, ActivityWidget::End );
 			activity -> setX( m_Pos.x() );
 			activity -> setY ( m_Pos.y() );
 			activity -> setVisible( true );
@@ -2572,8 +2565,7 @@ void UMLView::slotMenuSelection(int sel) {
 			break;
 
 		case ListPopupMenu::mt_Branch:
-			activity = new ActivityWidget( this , ActivityWidget::Branch );
-			activity -> setID( m_pDoc -> getUniqueID() );//needed for associations
+			activity = new ActivityWidget( this, ActivityWidget::Branch );
 			activity -> setX( m_Pos.x() );
 			activity -> setY ( m_Pos.y() );
 			activity -> setVisible( true );
@@ -2585,9 +2577,8 @@ void UMLView::slotMenuSelection(int sel) {
 			name = KInputDialog::getText( i18n("Enter Activity Name"), i18n("Enter the name of the new activity:"),
 						      i18n("new activity"), &ok, UMLApp::app() );
 			if( ok ) {
-				activity = new ActivityWidget( this , ActivityWidget::Normal );
+				activity = new ActivityWidget( this, ActivityWidget::Normal );
 				activity -> setName( name );
-				activity -> setID( m_pDoc -> getUniqueID() );//needed for associations
 				activity -> setX( m_Pos.x() );
 				activity -> setY ( m_Pos.y() );
 				activity -> setVisible( true );
@@ -3079,8 +3070,6 @@ UMLWidget* UMLView::loadWidgetFromXMI(QDomElement& widgetElement) {
 
 	UMLWidget* widget = 0;
 	QString tag  = widgetElement.tagName();
-	QString str  = widgetElement.attribute( "xmi.id", "-1" );
-	int id = str.toInt();
 
 	if (tag == "statewidget" || tag == "notewidget" || tag == "boxwidget" ||
 	    tag == "floatingtext" || tag == "activitywidget" ||
@@ -3094,23 +3083,25 @@ UMLWidget* UMLView::loadWidgetFromXMI(QDomElement& widgetElement) {
 	// be UMLObjects
 		if (tag == "statewidget"
 		    || tag == "UML:StateWidget") {         // for bkwd compatibility
-			widget = new StateWidget(this);
+			widget = new StateWidget(this, StateWidget::Normal, 0);
 		} else if (tag == "notewidget"
 		    || tag == "UML:NoteWidget") {          // for bkwd compatibility
-			widget = new NoteWidget(this);
+			widget = new NoteWidget(this, 0);
 		} else if (tag == "boxwidget") {
-			widget = new BoxWidget(this, id);
+			widget = new BoxWidget(this, 0);
 		} else if (tag == "floatingtext"
 		    || tag == "UML:FloatingTextWidget") {  // for bkwd compatibility
-			widget = new FloatingText(this);
+			widget = new FloatingText(this, Uml::tr_Floating, "", 0);
 		} else if (tag == "activitywidget"
 		    || tag == "UML:ActivityWidget") {      // for bkwd compatibility
-			widget = new ActivityWidget(this);
+			widget = new ActivityWidget(this, ActivityWidget::Normal, 0);
 		}
 	}
 	else
 	{
 	// Find the UMLObject and create the Widget to represent it
+		QString idstr  = widgetElement.attribute( "xmi.id", "-1" );
+		int id = idstr.toInt();
 		UMLObject *o(0);
 		if( id < 0 || !( o = m_pDoc->findUMLObject(id)) )
 		{
@@ -3166,7 +3157,7 @@ bool UMLView::loadMessagesFromXMI( QDomElement & qElement ) {
 		QString tag = messageElement.tagName();
 		if (tag == "messagewidget" ||
 		    tag == "UML:MessageWidget" ) {  // for bkwd compatibility
-			message = new MessageWidget(this, sequence_message_asynchronous);
+			message = new MessageWidget(this, sequence_message_asynchronous, 0);
 			if( !message -> loadFromXMI( messageElement ) ) {
 				delete message;
 				return false;

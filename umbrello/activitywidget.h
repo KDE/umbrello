@@ -48,8 +48,9 @@ public:
 	 *
 	 * @param view		The parent of the widget.
 	 * @param activityType	The type of activity.
+	 * @param id		The ID to assign (-1 will prompt a new ID.)
 	 */
-	ActivityWidget( UMLView * view, ActivityType activityType = Normal );
+	ActivityWidget( UMLView * view, ActivityType activityType = Normal, int id = -1 );
 
 	
 	/**
