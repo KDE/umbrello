@@ -45,55 +45,6 @@ public:
 	 */
 	~AssocPropDlg();
 
-	/* accessor methods to underlying association */
-	QString getName() { 
-		return m_pAssoc->getName(); 
-	} 
-
-	QString getRoleAName() { 
-		return m_pAssoc->getRoleNameA(); 
-	}
-
-	QString getDoc() { 
-		return m_pAssoc->getDoc(); 
-	}
-
-	QString getRoleADoc() { 
-		return m_pAssoc->getRoleADoc(); 
-	}
-
-	QString getRoleBName() { 
-		return m_pAssoc->getRoleNameB(); 
-	} 
-
-	QString getRoleBDoc() { 
-		return m_pAssoc->getRoleBDoc(); 
-	}
-
-	QString getMultiA() { 
-		return m_pAssoc->getMultiA(); 
-	} 
-
-	QString getMultiB() { 
-		return m_pAssoc->getMultiB(); 
-	} 
-
-	Scope getVisibilityA() { 
-		return m_pAssoc->getVisibilityA(); 
-	}
-
-	Scope getVisibilityB() { 
-		return m_pAssoc->getVisibilityB(); 
-	}
-
-	Changeability_Type getChangeabilityA() { 
-		return m_pAssoc->getChangeabilityA(); 
-	}
-
-	Changeability_Type getChangeabilityB() { 
-		return m_pAssoc->getChangeabilityB(); 
-	}
-
 	enum Page { page_gen = 0, page_role, page_font };
 
 protected:
