@@ -170,7 +170,7 @@ cerr<<"Apply clicked for codegenoptionspage "<<endl;
 
 		m_parentPolicy->setCodeVerboseDocumentComments(m_forceDoc->isChecked());
 		m_parentPolicy->setCodeVerboseSectionComments(m_forceSections->isChecked());
-		m_parentPolicy->getOutputDirectory().setPath(m_outputDir->text());
+		m_parentPolicy->setOutputDirectory(QDir(m_outputDir->text()));
 		m_parentPolicy->setIncludeHeadings(m_includeHeadings->isChecked());
 		m_parentPolicy->setHeadingFileDir(m_headingsDir->text());
 		m_parentPolicy->setOverwritePolicy((CodeGenerationPolicy::OverwritePolicy)m_overwriteGroup->id(m_overwriteGroup->selected())); 
