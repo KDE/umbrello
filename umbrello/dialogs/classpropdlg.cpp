@@ -90,7 +90,7 @@ ClassPropDlg::ClassPropDlg(QWidget *parent, UMLWidget * w) : KDialogBase(IconLis
 		UMLWidgetData* widgetData = w->getData();
 		if ( widgetData->getIsInstance() ) {
 			ComponentWidget* componetWidget = static_cast<ComponentWidget*>(w);
-			setupComponentInstancePages(componetWidget);
+			setupInstancePages(componetWidget);
 		} else {
 			setupPages(m_pObject);
 		}
@@ -198,11 +198,11 @@ void ClassPropDlg::setupPages(UMLObject * c, bool assoc) {
 	}
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void ClassPropDlg::setupComponentInstancePages(ComponentWidget* component) {
+void ClassPropDlg::setupInstancePages(UMLWidget* widget) {
 	QFrame* page = addPage( i18n("General"), i18n("General Settings"), DesktopIcon("misc") );
 	QHBoxLayout* genLayout = new QHBoxLayout(page);
 	page->setMinimumSize(310, 330);
-	m_pGenPage = new ClassGenPage(m_pDoc, page, component);
+	m_pGenPage = new ClassGenPage(m_pDoc, page, widget);
 	genLayout->addWidget(m_pGenPage);
 	m_pAssocPage = 0;
 }

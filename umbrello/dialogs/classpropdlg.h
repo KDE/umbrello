@@ -89,7 +89,7 @@ protected:
 	/**
 	 * Sets up the general page for the component
 	 */
-	void setupComponentInstancePages(ComponentWidget* component);
+	void setupInstancePages(UMLWidget* widget);
 
 	/**
 	 * Sets up the font page

@@ -23,7 +23,6 @@
 //my class includes
 #include "../umlobject.h"
 #include "../objectwidget.h"
-#include "../componentwidget.h"
 #include "../umldoc.h"
 
 /**
@@ -57,14 +56,14 @@ public:
 	ClassGenPage(UMLDoc *d, QWidget *parent, ObjectWidget * o);
 
 	/**
-	 *	Sets up the ClassGenPage for a ComponentWidget (used
+	 *	Sets up the ClassGenPage for a UMLWidget instance (used
 	 *	for component instances on deployment diagrams)
 	 *
 	 *	@param	d	The UMLDoc which controls controls object creation.
 	 *	@param	parent	The parent to the ClassGenPage.
-	 *	@param	componentWidget	The ComponentWidget to display the properties of.
+	 *	@param	widget	The UMLWidget to display the properties of.
 	 */
-	ClassGenPage(UMLDoc* d, QWidget* parent, ComponentWidget* componentWidget);
+	ClassGenPage(UMLDoc* d, QWidget* parent, UMLWidget* widget);
 
 	/**
 	 *	Standard deconstructor.
@@ -87,7 +86,7 @@ private:
 	UMLObject * m_pObject;
 	UMLDoc * m_pUmldoc;
 	ObjectWidget * m_pWidget;
-	ComponentWidget * m_pComponentWidget;
+	UMLWidget* m_pInstanceWidget;
 	QButtonGroup* m_pDrawAsBG;
 	QRadioButton* m_pDefaultRB,* m_pFileRB,* m_pLibraryRB,* m_pTableRB;
 	QCheckBox* m_pExecutableCB;
