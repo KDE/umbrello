@@ -391,16 +391,6 @@ void UMLWidget::mouseReleaseEvent(QMouseEvent *me) {
 	}//end if right button
 
 	if (m_bMoved) {
-		// Adjust assoc lines again - when the widget is moved around
-		// quickly the lastUpdate timer may have not yet fired.
-		//
-		// COMMENT: I *dont* think the full adjustAssocs is needed. It certainly screws
-		// up the display when a role floating text box belonging to that assoc
-		// is moved.  Ithink  its best to do noting here. -b.t.
-
-		// adjustUnselectedAssocs( getX(), getY() );
-
-		// BUT DO do this..so that if we quit right now, we are asked to save
 		m_pView->getDocument()->setModified(true);
 	}
 
