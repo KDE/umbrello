@@ -502,7 +502,13 @@ void UMLApp::saveOptions() {
 	config->writeEntry( "font", optionState.codeViewerState.font);
 	config->writeEntry( "fontColor", optionState.codeViewerState.fontColor);
 	config->writeEntry( "paperColor", optionState.codeViewerState.paperColor);
-	config->writeEntry( "highlightColor", optionState.codeViewerState.highlightColor);
+	config->writeEntry( "selectedColor", optionState.codeViewerState.selectedColor);
+	config->writeEntry( "editBlockColor", optionState.codeViewerState.editBlockColor);
+	config->writeEntry( "nonEditBlockColor", optionState.codeViewerState.nonEditBlockColor);
+	config->writeEntry( "umlObjectBlockColor", optionState.codeViewerState.umlObjectColor);
+	config->writeEntry( "blocksAreHighlighted", optionState.codeViewerState.blocksAreHighlighted);
+	config->writeEntry( "showHiddenBlocks", optionState.codeViewerState.showHiddenBlocks);
+	config->writeEntry( "hiddenColor", optionState.codeViewerState.hiddenColor);
 
 	// merge current defaults into the default policy, just in case they
 	// are out of sync (yes, yes, we could have a callback do this).
@@ -1087,14 +1093,24 @@ void UMLApp::readOptionState() {
 	optionState.classState.showPackage = config -> readBoolEntry("showPackage", false);
 
 	config -> setGroup( "Code Viewer Options" );
+
+	QColor defaultWhite = QColor( "white" );
+	QColor defaultBlack = QColor( "black" );
+	QColor defaultPink = QColor( "pink" );
+	QColor defaultGrey = QColor( "grey" );
+
 	optionState.codeViewerState.height = config -> readNumEntry( "height", 40 );
 	optionState.codeViewerState.width = config -> readNumEntry( "width", 80 );
 	optionState.codeViewerState.font = config -> readFontEntry("font", &font );
-	QColor defaultWhite = QColor( "white" );
-	QColor defaultBlack = QColor( "black" );
-	optionState.codeViewerState.highlightColor = config -> readColorEntry( "highlightColor", &defaultYellow );
+	optionState.codeViewerState.showHiddenBlocks = config -> readBoolEntry( "showHiddenBlocks", false);
+	optionState.codeViewerState.blocksAreHighlighted = config -> readBoolEntry( "blocksAreHighlighted", false);
+	optionState.codeViewerState.selectedColor = config -> readColorEntry( "selectedColor", &defaultYellow );
 	optionState.codeViewerState.paperColor = config -> readColorEntry( "paperColor", &defaultWhite);
 	optionState.codeViewerState.fontColor = config -> readColorEntry( "fontColor", &defaultBlack);
+	optionState.codeViewerState.editBlockColor = config -> readColorEntry( "editBlockColor", &defaultPink);
+	optionState.codeViewerState.umlObjectColor = config -> readColorEntry( "umlObjectBlockColor", &defaultPink);
+	optionState.codeViewerState.nonEditBlockColor = config -> readColorEntry( "nonEditBlockColor", &defaultGrey);
+	optionState.codeViewerState.hiddenColor = config -> readColorEntry( "hiddenColor", &defaultGrey);
 
 }
 
