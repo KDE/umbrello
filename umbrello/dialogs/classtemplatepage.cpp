@@ -128,6 +128,12 @@ void ClassTemplatePage::enableWidgets(bool state) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void ClassTemplatePage::slotClicked(QListBoxItem* item) {
+	//if not first time an item is highlighted
+	//save old highlighted item first
+	if(m_pOldTemplate) {
+		m_pOldTemplate->setDoc( m_pDocTE->text() );
+	}//end if old template
+
 	//make sure clicked on an item
 	if (!item) {
 		enableWidgets(false);
@@ -135,14 +141,9 @@ void ClassTemplatePage::slotClicked(QListBoxItem* item) {
 		m_pTemplateLB->clearSelection();
 		return;
 	}
-
 	QString name = m_pTemplateLB->currentText();
 	UMLTemplate* pTemplate = m_pTemplateList->at( m_pTemplateLB->index(item) );
-	//if not first time an item is highlighted
-	//save old highlighted item first
-	if(m_pOldTemplate) {
-		m_pOldTemplate->setDoc( m_pDocTE->text() );
-	}
+
 	//now update screen
 	m_pDocTE->setText( pTemplate->getDoc() );
 	enableWidgets(true);

@@ -81,6 +81,13 @@ ClassOpsPage::ClassOpsPage(QWidget *parent, UMLClassifier * c, UMLDoc * doc) : Q
 ClassOpsPage::~ClassOpsPage() {}
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void ClassOpsPage::slotClicked(QListBoxItem *i) {
+	//if not first time an item is highlighted
+	//save old highlighted item first
+	if( m_pOldOp ) {
+		m_pOldOp -> setDoc( m_pDocTE -> text() );
+	}//end if
+
+	//make sure clicked on an item
 	if( !i ) {
 		enableWidgets(false);
 		m_pOldOp = 0;
@@ -90,11 +97,7 @@ void ClassOpsPage::slotClicked(QListBoxItem *i) {
 	QString name = m_pOpsLB -> currentText();
 	UMLOperation * o = m_pOpList -> at( m_pOpsLB -> index( i ) );
 
-	//if not first time an item is highlighted
-	//save old highlighted item first
-	if( m_pOldOp ) {
-		m_pOldOp -> setDoc( m_pDocTE -> text() );
-	}//end if
+	//now update screen
 	m_pDocTE -> setText( o -> getDoc() );
 	enableWidgets(true);
 	m_pOldOp = o;

@@ -126,6 +126,12 @@ void ClassAttPage::enableWidgets(bool state) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void ClassAttPage::slotClicked(QListBoxItem *item) {
+	//if not first time an item is highlighted
+	//save old highlighted item first
+	if(m_pOldAtt) {
+		m_pOldAtt -> setDoc( m_pDocTE -> text() );
+	}//end if old att
+
 	//make sure clicked on an item
 	if(!item) {
 		enableWidgets(false);
@@ -133,14 +139,9 @@ void ClassAttPage::slotClicked(QListBoxItem *item) {
 		m_pAttsLB -> clearSelection();
 		return;
 	}
-
 	QString name = m_pAttsLB ->currentText();
 	UMLAttribute * pAtt = m_pAttList -> at( m_pAttsLB -> index( item ) );
-	//if not first time an item is highlighted
-	//save old highlighted item first
-	if(m_pOldAtt) {
-		m_pOldAtt -> setDoc( m_pDocTE -> text() );
-	}//end if old att
+
 	//now update screen
 	m_pDocTE -> setText( pAtt -> getDoc() );
 	enableWidgets(true);
