@@ -92,3 +92,12 @@ cursor-branch.png \
 cursor-generalisation.png \
 cursor-object.png
 
+KDE_ICON = cr16-action-umbrello_diagram_activity.png \
+cr16-action-umbrello_diagram_class.png \
+cr16-action-umbrello_diagram_collaboration.png \
+cr16-action-umbrello_diagram_component.png \
+cr16-action-umbrello_diagram_deployment.png \
+cr16-action-umbrello_diagram_sequence.png \
+cr16-action-umbrello_diagram_state.png \
+cr16-action-umbrello_diagram_usecase.png
+

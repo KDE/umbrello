@@ -1389,6 +1389,38 @@ QPixmap & UMLListView::getPixmap( Icon_Type type ) {
 		return m_Pixmaps.Diagram;
 		break;
 
+	case it_Diagram_Activity:
+		return m_Pixmaps.Diagram_Activity;
+		break;
+
+	case it_Diagram_Class:
+		return m_Pixmaps.Diagram_Class;
+		break;
+
+	case it_Diagram_Collaboration:
+		return m_Pixmaps.Diagram_Collaboration;
+		break;
+
+	case it_Diagram_Component:
+		return m_Pixmaps.Diagram_Component;
+		break;
+
+	case it_Diagram_Deployment:
+		return m_Pixmaps.Diagram_Deployment;
+		break;
+
+	case it_Diagram_Sequence:
+		return m_Pixmaps.Diagram_Sequence;
+		break;
+
+	case it_Diagram_State:
+		return m_Pixmaps.Diagram_State;
+		break;
+
+	case it_Diagram_Usecase:
+		return m_Pixmaps.Diagram_Usecase;
+		break;
+
 	case it_Class:
 		return m_Pixmaps.Class;
 		break;
@@ -1480,7 +1512,16 @@ void UMLListView::loadPixmaps() {
 	m_Pixmaps.Folder_Violet = SmallIcon("folder_violet");
 	m_Pixmaps.Folder_Violet_Open = SmallIcon("folder_violet_open");
 
-	m_Pixmaps.Diagram.load( dataDir + "CVnamespace.png" ); //change to have different one for each type of diagram
+	m_Pixmaps.Diagram_Activity = SmallIcon("umbrello_diagram_activity");
+	m_Pixmaps.Diagram_Class = SmallIcon("umbrello_diagram_class");
+	m_Pixmaps.Diagram_Component = SmallIcon("umbrello_diagram_component");
+	m_Pixmaps.Diagram_State = SmallIcon("umbrello_diagram_state");
+	m_Pixmaps.Diagram_Sequence = SmallIcon("umbrello_diagram_sequence");
+	m_Pixmaps.Diagram_Deployment = SmallIcon("umbrello_diagram_deployment");
+	m_Pixmaps.Diagram_Usecase = SmallIcon("umbrello_diagram_usecase");
+	m_Pixmaps.Diagram_Collaboration = SmallIcon("umbrello_diagram_collaboration");
+
+	m_Pixmaps.Diagram.load( dataDir + "CVnamespace.png" );
 	m_Pixmaps.Class.load( dataDir + "umlclass.xpm" );
 	m_Pixmaps.Template.load( dataDir + "umlclass_template.xpm" );
 	m_Pixmaps.Package.load( dataDir + "package.xpm" );

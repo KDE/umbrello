@@ -89,7 +89,17 @@ UMLListViewItem::UMLListViewItem(UMLListViewItem * parent, QString name, Uml::Li
 	init();
 	m_Type = t;
 	m_nId = id;
-	setPixmap(0, s_pListView -> getPixmap( UMLListView::it_Diagram ) );
+	switch (m_Type) {
+		case lvt_Collaboration_Diagram: setPixmap(0, s_pListView->getPixmap( UMLListView::it_Diagram_Collaboration ) ); break;
+		case lvt_Class_Diagram: setPixmap(0, s_pListView->getPixmap( UMLListView::it_Diagram_Class ) ); break;
+		case lvt_State_Diagram: setPixmap(0, s_pListView->getPixmap( UMLListView::it_Diagram_State ) ); break;
+		case lvt_Activity_Diagram: setPixmap(0, s_pListView->getPixmap( UMLListView::it_Diagram_Activity ) ); break;
+		case lvt_Sequence_Diagram: setPixmap(0, s_pListView->getPixmap( UMLListView::it_Diagram_Sequence ) ); break;
+		case lvt_Component_Diagram: setPixmap(0, s_pListView->getPixmap( UMLListView::it_Diagram_Component ) ); break;
+		case lvt_Deployment_Diagram: setPixmap(0, s_pListView->getPixmap( UMLListView::it_Diagram_Deployment ) ); break;
+		case lvt_UseCase_Diagram: setPixmap(0, s_pListView->getPixmap( UMLListView::it_Diagram_Usecase ) ); break;
+		default: setPixmap(0, s_pListView->getPixmap( UMLListView::it_Diagram ) );
+	}
 	/*
 		Constructor also used by folder so just make sure we don't need to
 		to set pixmap to folder.  doesn't hurt diagrams.

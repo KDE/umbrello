@@ -75,7 +75,15 @@ class UMLListView : public KListView {
 		it_Protected_Method,
 		it_Public_Attribute,
 		it_Private_Attribute,
-		it_Protected_Attribute
+		it_Protected_Attribute,
+		it_Diagram_Activity,
+		it_Diagram_Class,
+		it_Diagram_Collaboration,
+		it_Diagram_Component,
+		it_Diagram_Deployment,
+		it_Diagram_Sequence,
+		it_Diagram_State,
+		it_Diagram_Usecase
 	};
 
 	/**
@@ -302,6 +310,14 @@ class UMLListView : public KListView {
 		QPixmap Public_Attribute;
 		QPixmap Private_Attribute;
 		QPixmap Protected_Attribute;
+		QPixmap Diagram_Activity;
+		QPixmap Diagram_Class;
+		QPixmap Diagram_Collaboration;
+		QPixmap Diagram_Component;
+		QPixmap Diagram_Deployment;
+		QPixmap Diagram_Sequence;
+		QPixmap Diagram_State;
+		QPixmap Diagram_Usecase;
 	}
 	m_Pixmaps;
 	void contentsMouseReleaseEvent(QMouseEvent * me);
