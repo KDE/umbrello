@@ -931,6 +931,10 @@ public:
 	void writeToStatusBar(const QString &text);
 
 private:
+	/**
+	 * Type resolution pass.
+	 */
+	void resolveTypes();
 
 	/**
 	 * Remove this association from concepts list. This might be

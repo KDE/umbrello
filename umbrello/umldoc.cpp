@@ -2073,6 +2073,7 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
 			}
 			recognized = true;
 		} else if (outerTag == "XMI.extensions") {
+			resolveTypes();
 			QDomNode extensionsNode = node.firstChild();
 			while (! extensionsNode.isNull()) {
 				loadExtensionsFromXMI(extensionsNode);
@@ -2146,6 +2147,10 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
 			}
 		}
 	}
+#ifdef VERBOSE_DEBUGGING
+	kdDebug() << "UMLDoc::m_objectList.count() is " << m_objectList.count() << endl;
+#endif
+	resolveTypes();
 
 	if (m_nViewID == Uml::id_None) {
 		m_uniqueID = m_highestIDforForeignFile;
@@ -2195,7 +2200,33 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
 	emit sigResetStatusbarProgress();
 	return true;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void UMLDoc::resolveTypes() {
+	// Resolve the types.
+	// This is done in a separate pass because of possible forward references.
+	if (m_bTypesAreResolved)
+		return;
+	m_bTypesAreResolved = true;
+	writeToStatusBar( i18n("Resolving object references...") );
+	for (UMLObjectListIt oit(m_objectList); oit.current(); ++oit) {
+		UMLObject *obj = oit.current();
+#ifdef VERBOSE_DEBUGGING
+		kdDebug() << "UMLDoc: invoking resolveRef() for " << obj->getName()
+			  << " (id=" << obj->getID() << ")" << endl;
+#endif
+		obj->resolveRef();
+	}
+	kapp->processEvents();  // give UI events a chance
+#ifdef VERBOSE_DEBUGGING
+	kdDebug() << "UMLDoc object list after resolveRef():" << endl;
+	for (UMLObjectListIt it(m_objectList); it.current(); ++it) {
+		UMLObject *obj = it.current();
+		kdDebug() << obj->getName() << "  (id " << obj->getID()
+			  << ")" << endl;
+	}
+#endif
+}
+
 bool UMLDoc::validateXMIHeader(QDomNode& headerNode) {
 	QDomElement headerElement = headerNode.toElement();
 	while ( !headerNode.isNull() ) {
@@ -2309,33 +2340,6 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element) {
 		emit sigSetStatusbarProgress( ++m_count );
 		 */
 	}
-
-	if (m_bTypesAreResolved)
-		return true;
-	m_bTypesAreResolved = true;
-#ifdef VERBOSE_DEBUGGING
-	kdDebug() << "UMLDoc::m_objectList.count() is " << m_objectList.count() << endl;
-#endif
-	// Resolve the types.
-	// This is done in a separate pass because of possible forward references.
-	writeToStatusBar( i18n("Resolving object references...") );
-	for (UMLObjectListIt oit(m_objectList); oit.current(); ++oit) {
-		UMLObject *obj = oit.current();
-#ifdef VERBOSE_DEBUGGING
-		kdDebug() << "UMLDoc: invoking resolveRef() for " << obj->getName()
-			  << " (id=" << obj->getID() << ")" << endl;
-#endif
-		obj->resolveRef();
-	}
-	kapp->processEvents();  // give UI events a chance
-#ifdef VERBOSE_DEBUGGING
-	kdDebug() << "UMLDoc object list after resolveRef():" << endl;
-	for (UMLObjectListIt it(m_objectList); it.current(); ++it) {
-		UMLObject *obj = it.current();
-		kdDebug() << obj->getName() << "  (id " << obj->getID()
-			  << ")" << endl;
-	}
-#endif
 	return true;
 }
 

@@ -306,18 +306,49 @@ bool UMLOperation::load( QDomElement & element ) {
 			if (! load(attElement))
 				return false;
 		} else if (Uml::tagEq(tag, "Parameter")) {
-			UMLAttribute * pAtt = new UMLAttribute( this );
-			if( !pAtt->loadFromXMI(attElement) ) {
-				delete pAtt;
-				return false;
-			}
 			QString kind = attElement.attribute("kind", "in");
 			if (kind == "return") {
+				m_SecondaryId = attElement.attribute( "type", "" );
+				if (m_SecondaryId.isEmpty()) {
+					// Perhaps the type is stored in a child node:
+					QDomNode node = attElement.firstChild();
+					while (!node.isNull()) {
+						if (node.isComment()) {
+							node = node.nextSibling();
+							continue;
+						}
+						QDomElement tempElement = node.toElement();
+						QString tag = tempElement.tagName();
+						if (!Uml::tagEq(tag, "type")) {
+							node = node.nextSibling();
+							continue;
+						}
+						m_SecondaryId = tempElement.attribute( "xmi.id", "" );
+						if (m_SecondaryId.isEmpty())
+							m_SecondaryId = tempElement.attribute( "xmi.idref", "" );
+						if (m_SecondaryId.isEmpty()) {
+							QDomNode inner = node.firstChild();
+							QDomElement tmpElem = inner.toElement();
+							m_SecondaryId = tmpElem.attribute( "xmi.id", "" );
+							if (m_SecondaryId.isEmpty())
+								m_SecondaryId = tmpElem.attribute( "xmi.idref", "" );
+						}
+						break;
+					}
+					if (m_SecondaryId.isEmpty()) {
+						kdError() << "UMLOperation::load(" << m_Name << "): "
+							  << "cannot find return type." << endl;
+						return false;
+					}
+				}
 				// Use deferred xmi.id resolution.
 				m_pSecondary = NULL;
-				m_SecondaryId = pAtt->getSecondaryId();
-				delete pAtt;
 			} else {
+				UMLAttribute * pAtt = new UMLAttribute( this );
+				if( !pAtt->loadFromXMI(attElement) ) {
+					delete pAtt;
+					return false;
+				}
 				if (kind == "out")
 					pAtt->setParmKind(Uml::pd_Out);
 				else if (kind == "inout")
