@@ -12,9 +12,6 @@
             <height>543</height>
         </rect>
     </property>
-    <property name="caption">
-        <string>Form1</string>
-    </property>
     <widget class="QLayoutWidget">
         <property name="name">
             <cstring>layout6</cstring>

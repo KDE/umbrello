@@ -12,9 +12,6 @@
             <height>515</height>
         </rect>
     </property>
-    <property name="caption">
-        <string>CodeGenerationPolicyBase</string>
-    </property>
     <widget class="QFrame">
         <property name="name">
             <cstring>policyFrame</cstring>
