@@ -126,9 +126,9 @@ public:
 	}
 
 	/**
-	*	Returns the ID of thios diagram.
+	*	Returns the ID of this diagram.
 	*
-	*	@return	Returns the ID of thios diagram.
+	*	@return	Returns the ID of this diagram.
 	*/
 	int getID() {
 		return m_pData -> m_nID;
@@ -469,7 +469,7 @@ public:
 	void setName(QString& strName);
 
 	/**
-	 * Returns the list contianing all the association widgets on this view.
+	 * Returns the list containing all the association widgets on this view.
 	 */
 	AssociationWidgetList * getAssociationWidgetList() {
 		return & m_Associations;
@@ -823,10 +823,11 @@ protected:
 	bool m_bStartedCut;
 
 public:
-	//TODO:  make these protected with relevant get/set methods.
-	WorkToolBar::ToolBar_Buttons m_CurrentCursor;
+	WorkToolBar::ToolBar_Buttons getCurrentCursor() const;
 
 private:
+	WorkToolBar::ToolBar_Buttons m_CurrentCursor;
+
 	/**
 	 * converts toolbar button enums to association type enums
 	 */
@@ -856,16 +857,6 @@ private:
 	 *  Sees if the MouseMoveEvent needs to be allocated to a UMLWidget
 	 */
 	bool allocateMouseMoveEvent(QMouseEvent * me);
-
-	/**
-	 *  Used to store the Widgets not activated yet
-	 */
-	QPtrList<UMLWidget> widgetsNotActivatedList;
-
-	/**
-	 *  Used to store the Messages not activated yet
-	 */
-	QPtrList<MessageWidget> messagesNotActivatedList;
 
 	/**
 	 * LocalID Changes Log for paste actions

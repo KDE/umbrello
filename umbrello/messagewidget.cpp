@@ -226,7 +226,7 @@ void MessageWidget::slotMenuSelection(int sel) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void MessageWidget::mouseDoubleClickEvent(QMouseEvent * /*me*/) {
-	if(m_pView -> m_CurrentCursor == WorkToolBar::tbb_Arrow)
+	if(m_pView -> getCurrentCursor() == WorkToolBar::tbb_Arrow)
 		m_pFText -> slotMenuSelection(ListPopupMenu::mt_Select_Operation);
 }
 
@@ -503,7 +503,7 @@ int MessageWidget::getMaxHeight() {
 
 void MessageWidget::mousePressEvent(QMouseEvent* me) {
 	UMLWidget::mousePressEvent(me);
-	if ( m_pView->m_CurrentCursor != WorkToolBar::tbb_Arrow ) {
+	if ( m_pView->getCurrentCursor() != WorkToolBar::tbb_Arrow ) {
 		return;
 	}
 	//resize only interests a message to self or an asynchronous message

@@ -2178,6 +2178,10 @@ QString UMLView::getName() {
 	return m_pData -> m_Name;
 }
 
+WorkToolBar::ToolBar_Buttons UMLView::getCurrentCursor() const {
+	return m_CurrentCursor;
+}
+
 Uml::Association_Type UMLView::convert_TBB_AT(WorkToolBar::ToolBar_Buttons tbb) {
 	Association_Type at = at_Unknown;
 	switch(tbb) {

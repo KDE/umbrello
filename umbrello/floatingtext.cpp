@@ -320,7 +320,7 @@ void FloatingText::changeTextDlg() {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void FloatingText::mouseDoubleClickEvent(QMouseEvent * /* me*/) {
-	if(m_pView -> m_CurrentCursor != WorkToolBar::tbb_Arrow)
+	if(m_pView -> getCurrentCursor() != WorkToolBar::tbb_Arrow)
 		return;
 	if(m_pAssoc) {
 		if(getRole()  == tr_Coll_Message || getRole()  == tr_Coll_Message_Self)

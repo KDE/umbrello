@@ -155,7 +155,7 @@ void UMLWidget::mousePressEvent(QMouseEvent *me) {
 
 	m_bStartMove = false;
 
-	if( m_pView -> m_CurrentCursor != WorkToolBar::tbb_Arrow ) {
+	if( m_pView -> getCurrentCursor() != WorkToolBar::tbb_Arrow ) {
 		//anything else needed??
 		return;
 	}
@@ -402,7 +402,7 @@ void UMLWidget::slotColorChanged(int m_pViewID) {
 void UMLWidget::mouseDoubleClickEvent( QMouseEvent * me ) {
 	if( me -> button() != LeftButton )
 		return;
-	if (m_pView->m_CurrentCursor == WorkToolBar::tbb_Arrow &&
+	if (m_pView->getCurrentCursor() == WorkToolBar::tbb_Arrow &&
 	    (m_pData->m_Type >= wt_Actor && m_pData->m_Type <= wt_Object) ||
 	    m_pData->m_Type == wt_Component ||
 	    m_pData->m_Type == wt_Node ||
