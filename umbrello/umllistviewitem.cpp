@@ -37,6 +37,10 @@ UMLListViewItem::UMLListViewItem( UMLListView * parent, QString name,
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLListViewItem::UMLListViewItem(UMLListViewItem * parent, QString name, Uml::ListView_Type t,UMLObject*o) : QListViewItem(parent, name) {
 	m_bCreating = false;
+	if (s_pListView == NULL) {
+		kdDebug() << "UMLListViewItem internal error 1: s_pListView is NULL" << endl;
+		exit(1);
+	}
 	m_Data.setType( t );
 	m_Data.setUMLObject( o );
 	if( !o ) {
@@ -57,6 +61,10 @@ UMLListViewItem::UMLListViewItem(UMLListViewItem * parent, QString name, Uml::Li
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLListViewItem::UMLListViewItem(UMLListViewItem * parent, QString name, Uml::ListView_Type t,int id) : QListViewItem(parent, name) {
 	m_bCreating = false;
+	if (s_pListView == NULL) {
+		kdDebug() << "UMLListViewItem internal error 2: s_pListView is NULL" << endl;
+		exit(1);
+	}
 	m_Data.setType( t );
 	m_Data.setUMLObject( 0 );
 	m_Data.setID( id );
