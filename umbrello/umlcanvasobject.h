@@ -130,7 +130,7 @@ public:
 	 *
 	 *	@return	The object found.  Will return 0 if none found.
 	 */
-	QPtrList<UMLObject> findChildObject(UMLObject_Type t, QString n);
+	virtual QPtrList<UMLObject> findChildObject(UMLObject_Type t, QString n);
 
 	/**
 	 *	Find an association.
@@ -139,7 +139,7 @@ public:
 	 *
 	 *	@return	The object found.  Will return 0 if none found.
 	 */
-	UMLObject* findChildObject(int id);
+	virtual UMLObject* findChildObject(int id);
 
 	/**
 	 * Returns a name for the new association, operation, template

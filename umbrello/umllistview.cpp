@@ -409,21 +409,48 @@ void UMLListView::slotObjectCreated(UMLObject* object) {
 		case Uml::ot_Attribute:
 		case Uml::ot_Operation:
 		case Uml::ot_Template:
-// 			parentItem = findUMLObject( dynamic_cast<UMLObject*>(object->parent()) );
-// 			connect(object,SIGNAL(modified()),this,SLOT(slotObjectChanged()));
-// 			break;
+		case Uml::ot_Association:
 		//this will be handled by childObjectAdded
+			return;
+			break;
 		case Uml::ot_Class:
-			connect(object,SIGNAL(attributeAdded(UMLObject*)),this,SLOT(childObjectAdded(UMLObject*)));
-			connect(object,SIGNAL(attributeRemoved(UMLObject*)),this,SLOT(childObjectRemoved(UMLObject*)));
-		case Uml::ot_Interface:
-			connect(object,SIGNAL(operationAdded(UMLObject*)),this,SLOT(childObjectAdded(UMLObject*)));
-			connect(object,SIGNAL(operationRemoved(UMLObject*)),this,SLOT(childObjectRemoved(UMLObject*)));
-		case Uml::ot_Package:
-			if( current && current->getType() == Uml::lvt_Logical_Folder )
+			connect(object,SIGNAL(attributeAdded(UMLObject*)),
+				this,SLOT(childObjectAdded(UMLObject*)));
+			connect(object,SIGNAL(attributeRemoved(UMLObject*)),
+				this,SLOT(childObjectRemoved(UMLObject*)));
+			connect(object,SIGNAL(operationAdded(UMLObject*)),
+				this,SLOT(childObjectAdded(UMLObject*)));
+			connect(object,SIGNAL(operationRemoved(UMLObject*)),
+				this,SLOT(childObjectRemoved(UMLObject*)));
+			connect(object,SIGNAL(templateAdded(UMLObject*)),
+				this,SLOT(childObjectAdded(UMLObject*)));
+			connect(object,SIGNAL(templateRemoved(UMLObject*)),
+				this,SLOT(childObjectRemoved(UMLObject*)));
+			if ( current && current->getType() == Uml::lvt_Logical_Folder ) {
 				parentItem = current;
-			else
+			} else {
 				parentItem = lv;
+			}
+			connect(object,SIGNAL(modified()),this,SLOT(slotObjectChanged()));
+			break;
+		case Uml::ot_Interface:
+			connect(object,SIGNAL(operationAdded(UMLObject*)),
+				this,SLOT(childObjectAdded(UMLObject*)));
+			connect(object,SIGNAL(operationRemoved(UMLObject*)),
+				this,SLOT(childObjectRemoved(UMLObject*)));
+			if ( current && current->getType() == Uml::lvt_Logical_Folder ) {
+				parentItem = current;
+			} else {
+				parentItem = lv;
+			}
+			connect(object,SIGNAL(modified()),this,SLOT(slotObjectChanged()));
+			break;
+		case Uml::ot_Package:
+			if ( current && current->getType() == Uml::lvt_Logical_Folder ) {
+				parentItem = current;
+			} else {
+				parentItem = lv;
+			}
 			connect(object,SIGNAL(modified()),this,SLOT(slotObjectChanged()));
 			break;
 		case Uml::ot_Actor:
@@ -446,11 +473,9 @@ void UMLListView::slotObjectCreated(UMLObject* object) {
 			parentItem = deploymentView;
 			connect(object,SIGNAL(modified()),this,SLOT(slotObjectChanged()));
 			break;
-		case Uml::ot_Association:
-			return;
 		default:
-			kdWarning()<<"UMLListView: no appropiate parent found for "<<object->getName()
-				<<", using default"<<endl;
+			kdWarning() << "UMLListView: no appropiate parent found for " << object->getName()
+				    << ", using default" << endl;
 			parentItem = ucv;
 	}
 	newItem = new UMLListViewItem(parentItem, object->getName(), convert_OT_LVT(type), object);
@@ -470,6 +495,7 @@ void UMLListView::slotObjectChanged( ) {
 	item = findUMLObject(obj);
 	if(item)
 		item->updateObject( );
+//FIXME old code
 // 	switch(type)
 // 	{
 // 		case Uml::ot_Class:
@@ -501,8 +527,7 @@ void UMLListView::slotObjectChanged( ) {
 // 	}
 }
 
-void UMLListView::childObjectAdded( UMLObject *obj)
-{
+void UMLListView::childObjectAdded( UMLObject *obj) {
 	UMLObject *parent = const_cast<UMLObject*>(dynamic_cast<const UMLObject*>(sender()));
 
 	UMLListViewItem *parentItem = findUMLObject(parent);
@@ -515,8 +540,7 @@ void UMLListView::childObjectAdded( UMLObject *obj)
 	m_doc->getDocWindow()->showDocumentation(obj, false);
 }
 
-void UMLListView::childObjectRemoved( UMLObject *obj)
-{
+void UMLListView::childObjectRemoved( UMLObject *obj) {
 	UMLObject *parent = const_cast<UMLObject*>(dynamic_cast<const UMLObject*>(sender()));
 	UMLListViewItem *item(0);
 	UMLListViewItem *parentItem = findUMLObject(parent);
@@ -2151,11 +2175,29 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
 			pObject = m_doc->findUMLObject(nID);
 			switch( lvType ) {
 				case Uml::lvt_Class:
-					connect(pObject,SIGNAL(attributeAdded(UMLObject*)),this,SLOT(childObjectAdded(UMLObject*)));
-					connect(pObject,SIGNAL(attributeRemoved(UMLObject*)),this,SLOT(childObjectRemoved(UMLObject*)));
+					connect(pObject,SIGNAL(attributeAdded(UMLObject*)),
+						this,SLOT(childObjectAdded(UMLObject*)));
+					connect(pObject,SIGNAL(attributeRemoved(UMLObject*)),
+						this,SLOT(childObjectRemoved(UMLObject*)));
+					connect(pObject,SIGNAL(operationAdded(UMLObject*)),
+						this,SLOT(childObjectAdded(UMLObject*)));
+					connect(pObject,SIGNAL(operationRemoved(UMLObject*)),
+						this,SLOT(childObjectRemoved(UMLObject*)));
+					connect(pObject,SIGNAL(templateAdded(UMLObject*)),
+						this,SLOT(childObjectAdded(UMLObject*)));
+					connect(pObject,SIGNAL(templateRemoved(UMLObject*)),
+						this,SLOT(childObjectRemoved(UMLObject*)));
+					connect(pObject,SIGNAL(modified()),this,SLOT(slotObjectChanged()));
+					item = new UMLListViewItem(parent, label, lvType, pObject);
+					break;
 				case Uml::lvt_Interface:
-					connect(pObject,SIGNAL(operationAdded(UMLObject*)),this,SLOT(childObjectAdded(UMLObject*)));
-					connect(pObject,SIGNAL(operationRemoved(UMLObject*)),this,SLOT(childObjectRemoved(UMLObject*)));
+					connect(pObject,SIGNAL(operationAdded(UMLObject*)),
+						this,SLOT(childObjectAdded(UMLObject*)));
+					connect(pObject,SIGNAL(operationRemoved(UMLObject*)),
+						this,SLOT(childObjectRemoved(UMLObject*)));
+					connect(pObject,SIGNAL(modified()),this,SLOT(slotObjectChanged()));
+					item = new UMLListViewItem(parent, label, lvType, pObject);
+					break;
 				case Uml::lvt_Actor:
 				case Uml::lvt_UseCase:
 				case Uml::lvt_Package:

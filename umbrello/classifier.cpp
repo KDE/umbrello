@@ -90,7 +90,7 @@ QPtrList<UMLObject> UMLClassifier::findChildObject(UMLObject_Type t , QString n)
 				list.append( obj );
 		}
 	} else {
-		kdWarning() << "finding child object of unknown type" << endl;
+		kdWarning() << "finding child object of unknown type: " << t << endl;
 	}
 
 	return list;

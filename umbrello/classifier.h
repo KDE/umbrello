@@ -117,7 +117,7 @@ public:
 	 *
 	 *	@return	The object found.  Will return 0 if none found.
 	 */
-	QPtrList<UMLObject> findChildObject(UMLObject_Type t, QString n);
+	virtual QPtrList<UMLObject> findChildObject(UMLObject_Type t, QString n);
 
 	/**
 	 *	Find an attribute, operation, association or template.
@@ -126,7 +126,7 @@ public:
 	 *
 	 *	@return	The object found.  Will return 0 if none found.
 	 */
-	UMLObject* findChildObject(int id);
+	virtual UMLObject* findChildObject(int id);
 
         /**
          * Returns a list of concepts which this concept inherits from.
