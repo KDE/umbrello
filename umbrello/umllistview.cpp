@@ -2153,7 +2153,7 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
 			case Uml::lvt_Component:
 			case Uml::lvt_Node:
 			case Uml::lvt_Artifact:
-				item = findItem(nID);
+				item = NULL;   // Should be: findItem(nID);
 				if (item == NULL) {
 					if (pObject && pObject->getUMLPackage() &&
 					    parent->getType() != Uml::lvt_Package) {
@@ -2179,7 +2179,7 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
 			case Uml::lvt_Attribute:
 			case Uml::lvt_Template:
 			case Uml::lvt_Operation:
-				item = findItem(nID);
+				item = NULL;   // Should be: findItem(nID);
 				if (item == NULL) {
 					kdDebug() << "UMLListView::loadChildrenFromXMI: "
 						<< "item " << id << " (of type "
