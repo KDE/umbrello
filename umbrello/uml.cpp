@@ -418,11 +418,7 @@ void UMLApp::saveOptions() {
 	if( doc->URL().fileName() == i18n( "Untitled" ) ) {
 		config -> writeEntry( "lastFile", "" );
 	} else {
-#if KDE_IS_VERSION(3,1,3)
-		config -> writePathEntry( "lastFile", doc -> URL().prettyURL() );
-#else
 		config -> writeEntry( "lastFile", doc -> URL().prettyURL() );
-#endif
 	}
 	config->writeEntry( "imageMimetype", getImageMimetype() );
 
@@ -759,37 +755,6 @@ void UMLApp::slotEditPaste() {
 	editPaste->setEnabled(false);
 	doc -> setModified( true );
 }
-
-#if KDE_VERSION < 0x030190
-////////////////////////////////////////////////////////////////////////////////////////////////////
-void UMLApp::slotViewToolBar() {
-	slotStatusMsg(i18n("Toggling toolbar..."));
-
-	///////////////////////////////////////////////////////////////////
-	// turn Toolbar on or off
-
-	if(!viewToolBar->isChecked()) {
-		toolBar("mainToolBar")->hide();
-	} else {
-		toolBar("mainToolBar")->show();
-	}
-
-	slotStatusMsg(i18n("Ready."));
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////
-void UMLApp::slotViewStatusBar() {
-	slotStatusMsg(i18n("Toggle the statusbar..."));
-	///////////////////////////////////////////////////////////////////
-	//turn Statusbar on or off
-	if(!viewStatusBar->isChecked()) {
-		statusBar()->hide();
-	} else {
-		statusBar()->show();
-	}
-
-	slotStatusMsg(i18n("Ready."));
-}
-#endif
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLApp::slotStatusMsg(const QString &text) {
