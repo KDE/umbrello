@@ -1040,6 +1040,11 @@ void UMLView::deleteSelection()
 		}
 	}
 
+	// sometimes we miss one widget, so call this function again to remove it as
+	// well
+	if (m_SelectedList.count() != 0)
+		deleteSelection();
+
 	//make sure list empty - it should be anyway, just a check.
 	m_SelectedList.clear();
 }
