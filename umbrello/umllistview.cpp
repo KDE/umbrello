@@ -578,7 +578,7 @@ void UMLListView::setDocument(UMLDoc *d) {
 
 
 	connect(m_doc, SIGNAL(sigDiagramCreated(int)), this, SLOT(slotDiagramCreated(int)));
-	connect(m_doc, SIGNAL(diagramCreated(Umbrello::Diagram*)), this, SLOT( diagramCreated(Umbrello::Diagram*)));
+//	connect(m_doc, SIGNAL(diagramCreated(Umbrello::Diagram*)), this, SLOT( diagramCreated(Umbrello::Diagram*)));
 	connect(m_doc, SIGNAL(sigDiagramRemoved(int)), this, SLOT(slotDiagramRemoved(int)));
 	connect(m_doc, SIGNAL(sigDiagramRenamed(int)), this, SLOT(slotDiagramRenamed(int)));
 
