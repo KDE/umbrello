@@ -650,7 +650,7 @@ int MessageWidget::getMaxHeight() {
 	if( heightA > heightB ) {
 		height = heightB;
 	}
-	return (height - height());
+	return (height - this->height());
 }
 
 void MessageWidget::mousePressEvent(QMouseEvent* me) {
