@@ -80,7 +80,7 @@ bool CodeClassFieldDeclarationBlock::saveToXMI ( QDomDocument & doc, QDomElement
 {
         bool status = true;
 
-        QDomElement docElement = doc.createElement( "declarationcodeblock" );
+        QDomElement docElement = doc.createElement( "ccfdeclarationcodeblock" );
 
         setAttributesOnNode(doc, docElement);
 

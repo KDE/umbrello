@@ -91,6 +91,30 @@ UMLObject * CodeOperation::getParentObject ( ) {
 // Other methods
 //  
 
+/** Save the XMI representation of this object
+ * @return      bool    status of save
+ */
+bool CodeOperation::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
+        bool status = true;
+
+        QDomElement blockElement = doc.createElement( "codeoperation" );
+
+        // set attributes
+        setAttributesOnNode(doc, blockElement);
+
+        root.appendChild( blockElement );
+
+        return status;
+}
+
+/**
+ * load params from the appropriate XMI element node.
+ */
+void CodeOperation::loadFromXMI ( QDomElement & root )
+{
+        setAttributesFromNode(root);
+}
+
 QString CodeOperation::findTag (UMLOperation * op) {
 	return QString("operation_" + QString::number(op->getID()));
 }

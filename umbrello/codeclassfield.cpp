@@ -290,7 +290,7 @@ void CodeClassField::setAttributesFromNode ( QDomElement & root) {
         QDomElement element = node.toElement();
         while( !element.isNull() ) {
                 QString tag = element.tagName();
-                if( tag == "declarationcodeblock" ) {
+                if( tag == "ccfdeclarationcodeblock" ) {
 			m_declCodeBlock->loadFromXMI(element);
                 } else 
                 if( tag == "codeaccessormethod" ) {

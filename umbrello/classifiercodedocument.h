@@ -207,10 +207,18 @@ protected:
 	// by its tag
 	TextBlock * findCodeClassFieldTextBlockByTag (QString tag);
 
+        // add the declaration text blocks for various classfields
+        void declareClassFields (QPtrList<CodeClassField> & list , CodeGenObjectWithTextBlocks * parent);
+
 	virtual void updateContent( ) = 0;
  
 	// force syncronization of child classfields to their parent objects
 	void syncClassFields( );
+
+	// IF the classifier object is modified, this will get called.
+	// Possible mods include changing the filename and package
+	// based on values the classifier has.
+        virtual void syncNamesToParent( );
 
 private:
 
@@ -235,11 +243,6 @@ private:
          * @param       classifier 
          */
         void init ( UMLClassifier * classifier );
-
-	// IF the classifier object is modified, this will get called.
-	// Possible mods include changing the filename and package
-	// based on values the classifier has.
-	void syncNamesToParent( );
 
 public slots:
 

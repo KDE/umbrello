@@ -370,7 +370,7 @@ protected:
 
         /** the actual internal routine which writes code documents
          */
-        void writeCodeToFile(QPtrList<CodeDocument> & docs);
+        void writeListedCodeDocsToFile(QPtrList<CodeDocument> * docs);
 
 	static const char * hierarchicalCodeBlockNodeName;
 

@@ -29,6 +29,7 @@ class CodeClassField;
 class HierarchicalCodeBlock : public CodeBlockWithComments, public CodeGenObjectWithTextBlocks
 {
 	Q_OBJECT
+	friend class CodeGenObjectWithTextBlocks; 
 public:
 
 	// Constructors/Destructors
@@ -65,7 +66,7 @@ public:
 	/**
 	 * Add a TextBlock object to the m_textblockVector List
 	 */
-	bool addTextBlock ( TextBlock * add_object , bool replaceExisting = false);
+	bool addTextBlock ( TextBlock * add_object );
 
         /**
          * Insert a new text block before/after the existing text block. Returns

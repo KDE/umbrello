@@ -228,54 +228,6 @@ QString CodeDocument::getUniqueTag ( QString prefix )
 }
 
 /**
- * Add a TextBlock object to the m_textblockVector List
- */
-bool CodeDocument::addTextBlock(TextBlock* add_object , bool /*replaceExistingBlock*/) {
-
-	QString tag = add_object->getTag();
-
-	// assign a tag if one doesnt already exist
-	if(tag.isEmpty())
-	{
-		tag = getUniqueTag();
-		add_object->setTag(tag);
-	}
-
-        if(m_textBlockTagMap->contains(tag))
-		return false; // return false, we already have some object with this tag in the list
-	else
-		m_textBlockTagMap->insert(tag, add_object);
-
-	m_textblockVector.append(add_object);
-	return true;
-}
-
-/**
- * Remove a TextBlock object from m_textblockVector List
- */
-bool CodeDocument::removeTextBlock ( TextBlock * remove_object ) {
-
-	// check if we can remove it from our local list
-	if(!m_textblockVector.removeRef(remove_object))
- 	{
-		// may be hiding in child hierarchical codeblock
-		for(TextBlock * tb = m_textblockVector.first(); tb ; tb = m_textblockVector.next())
-		{
-			HierarchicalCodeBlock * hb = dynamic_cast<HierarchicalCodeBlock*>(tb);
-			if(hb && hb->removeTextBlock(remove_object))
-				return true;
-		}
-	}
-
-	// if we get here.. it was in this object so remove from our map
-	QString tag = remove_object->getTag();
-        if(!tag.isEmpty())
-              m_textBlockTagMap->erase(tag);
-
-	return true;
-}
-
-/**
  * Insert a new text block before/after the existing text block. Returns
  * false if it cannot insert the textblock.
  */

@@ -354,7 +354,7 @@ CodeDocument * CodeGenerator::findCodeDocumentByClassifier ( UMLClassifier * cla
  */
 void CodeGenerator::writeCodeToFile ( )
 {
-	writeCodeToFile(m_codedocumentVector);
+	writeListedCodeDocsToFile(&m_codedocumentVector);
 }
 
 void CodeGenerator::writeCodeToFile ( UMLClassifierList & concepts) {
@@ -368,14 +368,14 @@ void CodeGenerator::writeCodeToFile ( UMLClassifierList & concepts) {
 			docs.append(doc);
 	}
 
-	writeCodeToFile(docs);
+	writeListedCodeDocsToFile(&docs);
 }
 
 // Main method. Will write out passed code documents to file as appropriate.
-void CodeGenerator::writeCodeToFile ( QPtrList<CodeDocument> & docs ) {
+void CodeGenerator::writeListedCodeDocsToFile ( QPtrList<CodeDocument> * docs ) {
 
 	// iterate thru all code documents
-        for (CodeDocument *doc = docs.first(); doc; doc = docs.next())
+        for (CodeDocument *doc = docs->first(); doc; doc = docs->next())
 	{
 
 		// we need this so we know when to emit a 'codeGenerated' signal
@@ -386,7 +386,6 @@ void CodeGenerator::writeCodeToFile ( QPtrList<CodeDocument> & docs ) {
 		if(doc->getWriteOutCode())
 		{
 			QString filename = findFileName(doc);
-kdWarning()<<"CODE GEN writes code for:"<<filename.latin1()<<endl;
 	   		// check that we may open that file for writing
 	        	QFile file;
 	        	if ( openFile(file,filename) ) {
@@ -397,42 +396,11 @@ kdWarning()<<"CODE GEN writes code for:"<<filename.latin1()<<endl;
 	        	} else {
 	                	kdWarning() << "Cannot open file :"<<filename<<" for writing " << endl;
 			}
-/*
-	//operations
-	UMLOperationList *opl = c->getFilteredOperationsList();
-	for(UMLOperation *op = opl->first(); op ; op = opl->next()) {
-		temp =0;
-		//check return value
-		// temp =(UMLClassifier*) m_doc->findUMLObject(Uml::ot_Concept,op->getReturnType());
-		temp =(UMLClassifier*) m_doc->findUMLClassifier(op->getReturnType());
-		if(temp && !cList.containsRef(temp))
-			cList.append(temp);
-		//check parameters
-		atl = op->getParmList();
-		for(at = atl->first(); at; at = atl->next()) {
-			// temp = (UMLClassifier*)m_doc->findUMLObject(Uml::ot_Concept,at->getTypeName());
-			temp = (UMLClassifier*)m_doc->findUMLClassifier(at->getTypeName());
-			if(temp && !cList.containsRef(temp))
-				cList.append(temp);
-*/
 		}
 
 		if(cdoc)
 			emit codeGenerated(cdoc->getParentClassifier(), codeGenSuccess);
 
-/*
-	//attributes
-	UMLClass * myClass = dynamic_cast<UMLClass*>(c);
-	if(myClass) {
-		atl = myClass->getFilteredAttributeList();
-		for(at = atl->first(); at; at = atl->next()) {
-			temp=0;
-			// temp =(UMLClassifier*) m_doc->findUMLObject(Uml::ot_Concept,at->getTypeName());
-			temp =(UMLClassifier*) m_doc->findUMLClassifier(at->getTypeName());
-			if(temp && !cList.containsRef(temp))
-				cList.append(temp);
-		}
-*/
 	}
 
 }

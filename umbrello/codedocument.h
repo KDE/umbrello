@@ -164,18 +164,6 @@ public:
 	 */
 	CodeComment * getHeader ( );
 
-	/**
-	 * Add a TextBlock object to the m_textblockVector List
-         * @return boolean value where false means not added because an TextBlock
-         *                 object with that tag already exists in this document. 
-	 */
-	bool addTextBlock ( TextBlock * add_object , bool replaceExisting = false);
-
-	/**
-	 * Remove a TextBlock object from m_textblockVector List
-	 */
-	bool removeTextBlock ( TextBlock * remove_object );
-
         /**
          * Insert a new text block after the existing text block. Returns
          * false if it cannot insert the textblock.
@@ -271,6 +259,7 @@ public:
 
 	// Cause this code document to synchronize to current generator policy
 	virtual void synchronize();
+
 
 protected:
 

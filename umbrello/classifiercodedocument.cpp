@@ -243,13 +243,25 @@ QPtrList<CodeOperation> ClassifierCodeDocument::getCodeOperations ( ) {
  * @param       op
  */
 void ClassifierCodeDocument::addOperation (UMLOperation * op ) {
+
 	QString tag = CodeOperation::findTag((UMLOperation*)op);
-	if(!findTextBlockByTag(tag, true))
+	CodeOperation * codeOp = dynamic_cast<CodeOperation*>(findTextBlockByTag(tag, true));
+	bool createdNew = false;
+
+	// create the block, if it doesnt already exist
+	if(!codeOp)
 	{
-		CodeOperation *opblock = newCodeOperation((UMLOperation*)op);
-		if(!addCodeOperation(opblock)) // wont add if already present
-			delete opblock; // delete unused operations
+		codeOp = newCodeOperation((UMLOperation*)op);
+		createdNew = true;
 	}
+
+	// now try to add it. This may fail because it (or a block with
+	// the same tag) is already in the document somewhere. IF we 	
+	// created this new, then we need to delete our object. 
+	if(!addCodeOperation(codeOp)) // wont add if already present
+		if(createdNew)
+			delete codeOp;
+
 }
 
 /**
@@ -282,19 +294,49 @@ void ClassifierCodeDocument::addCodeClassFieldMethods(QPtrList<CodeClassField> &
                 QPtrList <CodeAccessorMethod> * list = field->getMethodList();
                 for (CodeAccessorMethod * method = list->first(); method; method = list->next())
                 {
+/*
                         QString tag = method->getTag();
                         if(tag.isEmpty())
 			{
 				tag = getUniqueTag();
 				method->setTag(tag);
 			}
-
-                        addTextBlock(method); // wont add if already exists in document;
+*/
+                        addTextBlock(method); // wont add if already exists in document, will add a tag if missing;
 
                 }
 
         }
 
+}
+
+// add declaration blocks for the passed classfields
+void ClassifierCodeDocument::declareClassFields (QPtrList<CodeClassField> & list ,
+                                 CodeGenObjectWithTextBlocks * parent )
+{
+
+        for (CodeClassField * field = list.first(); field ; field = list.next())
+        {
+                CodeClassFieldDeclarationBlock * declBlock = field->getDeclarationCodeBlock();
+
+/*
+                // if it has a tag, check
+                if(!declBlock->getTag().isEmpty())
+                {
+                        // In C++, because we may shift the declaration to a different parent
+                        // block for a change in scope, we need to track down any pre-existing
+                        // location, and remove FIRST before adding to new parent
+                        CodeGenObjectWithTextBlocks * oldParent = findParentObjectForTaggedTextBlock (declBlock->getTag());
+                        if(oldParent) {
+                                if(oldParent != parent)
+                                        oldParent->removeTextBlock(declBlock);
+                        }
+                }
+*/
+
+                parent->addTextBlock(declBlock); // wont add it IF its already present. Will give it a tag if missing
+
+        }
 }
 
 bool ClassifierCodeDocument::parentIsClass() {
@@ -367,13 +409,23 @@ void ClassifierCodeDocument::updateOperations( ) {
 	for (UMLOperation *op = opList->first(); op; op = opList->next())
         {
 		QString tag = CodeOperation::findTag(op);
-        	if(!findTextBlockByTag(tag, true))
+		CodeOperation * codeOp = dynamic_cast<CodeOperation*>(findTextBlockByTag(tag, true));
+        	bool createdNew = false;
+
+        	if(!codeOp)
 		{
-			CodeOperation * codeOp = newCodeOperation(op);
-			if(!addCodeOperation(codeOp)) //wont add IF already present
-				delete codeOp; // delete unused operations
+                	codeOp = newCodeOperation((UMLOperation*)op);
+                	createdNew = true;
 		}
+
+		// now try to add it. This may fail because it (or a block with
+		// the same tag) is already in the document somewhere. IF we
+		// created this new, then we need to delete our object.
+		if(!addCodeOperation(codeOp)) // wont add if already present
+			if(createdNew)
+				delete codeOp;
         }
+
 }
 
 void ClassifierCodeDocument::syncToParent( ) {

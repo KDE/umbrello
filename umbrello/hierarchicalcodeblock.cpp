@@ -120,26 +120,15 @@ HierarchicalCodeBlock * HierarchicalCodeBlock::newHierarchicalCodeBlock() {
 /**
  * Add a CodeBlock object to the m_textblockVector List
  */
-bool HierarchicalCodeBlock::addTextBlock(TextBlock* add_object , bool /*replaceExisting*/) {
+bool HierarchicalCodeBlock::addTextBlock(TextBlock* add_object ) 
+{
 
-        QString tag = add_object->getTag();
-
-        // assign a tag if one doesnt already exist
-        if(tag.isEmpty())
+	if(CodeGenObjectWithTextBlocks::addTextBlock(add_object))
 	{
-		tag = getUniqueTag();
-		add_object->setTag(tag);
+		getParentDocument()->addChildTagToMap(add_object->getTag(), add_object);
+		return true;
 	}
-
-	if(m_textBlockTagMap->contains(tag))
-		return false; // return false, we already have some object with this tag in the list
-	else {
-		m_textBlockTagMap->insert(tag, add_object);
-		getParentDocument()->addChildTagToMap(tag, add_object);
-	}
-
-	m_textblockVector.append(add_object);
-	return true;
+	return false;
 }
 
 /**

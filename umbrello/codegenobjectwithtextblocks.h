@@ -59,15 +59,17 @@ public:
 	 */
 	virtual ~CodeGenObjectWithTextBlocks ( );
 
-	/**
-	 * Add a TextBlock object to the m_textblockVector List
-	 */
-	virtual bool addTextBlock ( TextBlock * add_object , bool replaceExisting = false) = 0;
+        /**
+         * Add a TextBlock object to the m_textblockVector List
+         * @return boolean value where false means not added because an TextBlock
+         *                 object with that tag already exists in this document.
+         */
+	virtual bool addTextBlock ( TextBlock * add_object );
 
 	/**
 	 * Remove a TextBlock object from m_textblockVector List
 	 */
-	virtual bool removeTextBlock ( TextBlock * remove_object ) = 0;
+	virtual bool removeTextBlock ( TextBlock * remove_object );
 
 	/**
 	 * Insert a new text block before/after the existing text block. Returns
@@ -90,7 +92,7 @@ public:
 	 * @param	comment 
 	 * @param	indentLevel 
 	 */
-	HierarchicalCodeBlock * getHierarchicalCodeBlock (QString tag, QString comment, int indentLevel );
+	virtual HierarchicalCodeBlock * getHierarchicalCodeBlock (QString tag, QString comment, int indentLevel );
 
 	/**
          * Will get a codeblockwithcomments from the document with given tag. IF the codeblock
@@ -101,7 +103,7 @@ public:
 	 * @param	comment 
 	 * @param	indentLevel 
 	 */
-	CodeBlockWithComments * getCodeBlockWithComments (QString tag, QString comment, int indentLevel );
+	virtual CodeBlockWithComments * getCodeBlockWithComments (QString tag, QString comment, int indentLevel );
 
         /** allows the user to add a code comment to the end of the list
          * of text blocks in this document OR, if a text block already exists
@@ -151,6 +153,13 @@ public:
 
 	// get the parent code generator for this object. 
 	virtual CodeGenerator * getParentGenerator() = 0;
+
+        /** Find the direct parent for a given textblock. This
+         * may be any object which holds text blocks, e.g. a CodeGenObjectWithTextBlocks.
+         * @return parent object. Could return null if the textblock is missing from the 
+	 * branch of the document tree being examined.
+         */
+        CodeGenObjectWithTextBlocks * findParentObjectForTaggedTextBlock (const QString & tag);
 
 protected:
 
