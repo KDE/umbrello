@@ -139,7 +139,7 @@ void JavaWriter::writeClass(UMLClassifier *c)
 	}
 
 	if(!c->getPackage().isEmpty())
-		java<<"package "<<c->getPackage()<<";"<<endl;
+		java<<"package "<<c->getPackage(".")<<";"<<endl;
 
 	// IMPORT statements
 	// Q: Why all utils? Isnt just List and Vector the only classes we are using?
@@ -156,7 +156,7 @@ void JavaWriter::writeClass(UMLClassifier *c)
 	findObjectsRelated(c,imports);
 	for(UMLClassifier *con = imports.first(); con ; con = imports.next())
 		if(con->getPackage() != c->getPackage())
-			java<<"import "<<con->getPackage()<<"."<<cleanName(con->getName())<<";"<<endl;
+			java<<"import "<<con->getPackage(".")<<"."<<cleanName(con->getName())<<";"<<endl;
 	writeBlankLine(java);
 
 	// write the opening declaration for the class incl any documentation,

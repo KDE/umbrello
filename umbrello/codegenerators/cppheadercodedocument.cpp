@@ -35,6 +35,8 @@
 #include "cppheadercodeoperation.h"
 #include "cppheaderclassdeclarationblock.h"
 #include "cppheadercodeclassfielddeclarationblock.h"
+#include "../umlpackagelist.h"
+#include "../package.h"
 
 // Constructors/Destructors
 //  
@@ -497,8 +499,18 @@ void CPPHeaderCodeDocument::updateContent( )
 	// set start/end text of namespace block
 	namespaceBlock = getHierarchicalCodeBlock("namespace", "Namespace", 0);
 	if(hasNamespace) {
-		namespaceBlock->setStartText("namespace "+gen->cleanName(c->getPackage())+" {");
-		namespaceBlock->setEndText("}");
+		UMLPackageList pkgList = c->getPackages();
+		QString pkgs;
+		UMLPackage *pkg;
+		for (pkg = pkgList.first(); pkg != NULL; pkg = pkgList.next()) {
+			pkgs += "namespace " + gen->cleanName(pkg->getName()) + " { ";
+		}
+		namespaceBlock->setStartText(pkgs);
+		QString closingBraces;
+		for (pkg = pkgList.first(); pkg != NULL; pkg = pkgList.next()) {
+			closingBraces += "} ";
+		}
+		namespaceBlock->setEndText(closingBraces);
 		namespaceBlock->getComment()->setWriteOutText(true);
 	} else {
 		namespaceBlock->setStartText("");

@@ -300,6 +300,7 @@ QString JavaANTCodeDocument::getPath ( )
 	path.replace(QRegExp(" "), "_");
 
 	path.replace(QRegExp("\\."),"/");
+	path.replace(QRegExp("::"), "/");
 
 	path.lower();
 

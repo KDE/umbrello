@@ -16,9 +16,9 @@
 #include <qdom.h>
 
 #include "umlnamespace.h"
+#include "umlpackagelist.h"
 using namespace Uml;
 
-class UMLPackage;
 class kdbgstream;
 
 /**
@@ -152,11 +152,22 @@ public:
 	QString getStereotype();
 
 	/**
-	 * Returns the classes package as a text.
+	 * Return the package(s) in which this UMLObject is contained
+	 * as a text.
 	 *
-	 * @return	Returns the classes package as a text.
+	 * @param separator	Separator string for joining together the
+	 *			individual package prefixes (optional.)
+	 * @return	The UMLObject's enclosing package(s) as a text.
 	 */
 	QString getPackage(QString separator = "::");
+
+	/**
+	 * Return a list of the packages in which this class is embedded.
+	 * The outermost package is first in the list.
+	 *
+	 * @return	UMLPackageList of the containing packages.
+	 */
+	UMLPackageList getPackages() const;
 
 	/**
 	 * Returns the UMLPackage that this class is located in.

@@ -267,6 +267,16 @@ QString UMLObject::getPackage(QString separator /* ="::" */) {
 	return pkgList.join(separator);
 }
 
+UMLPackageList UMLObject::getPackages() const {
+	UMLPackageList pkgList;
+	UMLPackage* pkg = m_pUMLPackage;
+	while (pkg != NULL) {
+		pkgList.prepend(pkg);
+		pkg = pkg->getUMLPackage();
+	}
+	return pkgList;
+}
+
 UMLPackage* UMLObject::getUMLPackage() {
 	return m_pUMLPackage;
 }

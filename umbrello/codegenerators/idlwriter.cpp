@@ -155,17 +155,10 @@ void IDLWriter::writeClass(UMLClassifier *c) {
 		idl << "\n";
 	}
 
-	// Construct a "forward" list of the packages in which we are
-	// embedded (using the UMLObject::getUMLPackage() back pointers.)
-	QPtrList<UMLPackage> pkgList;
-	UMLPackage* pkg = c->getUMLPackage();
-	while (pkg != NULL) {
-		pkgList.prepend(pkg);
-		pkg = pkg->getUMLPackage();
-	}
-
 	// Generate the module declaration(s) for the package(s) in which
 	// we are embedded.
+	UMLPackageList pkgList = c->getPackages();
+	UMLPackage *pkg;
 	for (pkg = pkgList.first(); pkg != NULL; pkg = pkgList.next()) {
 		idl << spc() << "module " << pkg->getName() << " {\n\n";
 		indentlevel++;

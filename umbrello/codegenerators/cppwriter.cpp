@@ -29,6 +29,8 @@
 #include "../interface.h"
 #include "../operation.h"
 #include "../classifierlistitem.h"
+#include "../umlpackagelist.h"
+#include "../package.h"
 #include "../umlnamespace.h"
 
 // 3-14-2003: this code developed from the javawriter with parts of the
@@ -196,8 +198,15 @@ void CppWriter::writeHeaderFile (UMLClassifier *c, QFile &fileh) {
 		}
 	}
 
-	if(!c->getPackage().isEmpty() && WRITE_PACKAGE_NAMESPACE)
-		h<<endl<<"namespace "<<cleanName(c->getPackage())<<" {"<<endl<<endl;
+	if (!c->getPackage().isEmpty() && WRITE_PACKAGE_NAMESPACE) {
+		UMLPackageList pkgList = c->getPackages();
+		UMLPackage *pkg;
+		h << endl;
+		for (pkg = pkgList.first(); pkg != NULL; pkg = pkgList.next()) {
+			h << "namespace " << cleanName(pkg->getName()) << " { ";
+		}
+		h << endl << endl;
+	}
 
 	//Write class Documentation if there is somthing or if force option
 	if(forceDoc() || !c->getDoc().isEmpty()) {
