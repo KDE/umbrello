@@ -121,16 +121,9 @@ UMLObject* findUMLObject(UMLObjectList inList, QString name,
 	if (currentObj) {
 		UMLPackage *pkg = NULL;
 		if (dynamic_cast<UMLClassifierListItem*>(currentObj)) {
-			// FIXME: This is ugly. It is non-obvious what the
-			// currentObj->parent() is. In particular, UMLObject
-			// has a constructor that makes UMLDoc the parent()
-			// - pray we're not dealing with an object that was
-			// constructed like that :(
 			pkg = dynamic_cast<UMLPackage*>(currentObj->parent());
 		} else {
-			//pkg = dynamic_cast<UMLPackage*>(currentObj);
-			//if (pkg == NULL)
-				pkg = currentObj->getUMLPackage();
+			pkg = currentObj->getUMLPackage();
 		}
 		// Remember packages that we've seen - for avoiding cycles.
 		UMLPackageList seenPkgs;
@@ -308,7 +301,7 @@ Parse_Status parseOperation(QString m, OpDescriptor& desc, UMLClassifier *owning
 		return PS_Illegal_MethodName;
 	desc.m_name = pat.cap(1);
 	desc.m_pReturnType = NULL;
-	pat = QRegExp( ":\\s*(\\w+)$" );
+	pat = QRegExp( ":\\s*(\\w[\\w\\. ]*)$" );
 	pos = pat.search(m);
 	if (pos != -1) {  // return type is optional
 		QString retType = pat.cap(1);
