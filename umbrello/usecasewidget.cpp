@@ -14,6 +14,8 @@
 
 #include <qpainter.h>
 
+#include <kdebug.h>
+
 UseCaseWidget::UseCaseWidget(UMLView * view, UMLUseCase *o) : UMLWidget(view, o) {
 	UMLWidget::setBaseType(wt_UseCase);
 	calculateSize();

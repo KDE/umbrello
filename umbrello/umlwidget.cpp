@@ -1042,7 +1042,9 @@ bool UMLWidget::loadFromXMI( QDomElement & qElement ) {
 	m_nId = id.toInt();
 
 	if( !font.isEmpty() ) {
-		m_Font.fromString( font );
+		QFont newFont;
+		newFont.fromString(font);
+		setFont(newFont);
 	}
 	m_bUseFillColour = (bool)usefillcolor.toInt();
 	m_bUsesDiagramFillColour = (bool)usesDiagramFillColour.toInt();
