@@ -18,18 +18,13 @@
 #include <kdebug.h>
 #include <qpainter.h>
 
-ClassWidget::ClassWidget(UMLView * view, UMLObject * o) : UMLWidget(view, o)
+ClassWidget::ClassWidget(UMLView * view, UMLClass *o) : UMLWidget(view, o)
 {
 	init();
 	setSize(100,30);
 	calculateSize();
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
-ClassWidget::ClassWidget(UMLView * view) : UMLWidget(view)
-{
-	init();
-	setSize(100,30);
-}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void ClassWidget::init() {
 	UMLWidget::setBaseType(wt_Class);

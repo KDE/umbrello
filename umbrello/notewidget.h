@@ -37,24 +37,12 @@ public:
 	 * @param view		The parent to this widget.
 	 * @param id		The unique id of the widget.
 	 */
-	NoteWidget(UMLView * view, int id);
+	NoteWidget(UMLView * view, int id = -1 );
 
 	/**
-	 * Constructs a NoteWidget.
-	 *
-	 * @param view 		The parent to this widget.
+	 * destructor
 	 */
-	NoteWidget(UMLView * view);
-
-	/**
-	 * Initializes key variables for the class.
-	 */
-	void init();
-
-	/**
-	 * Standard deconstructor.
-	 */
-	~NoteWidget();
+	virtual ~NoteWidget();
 
 	/**
 	 * Overrides the standard function.
@@ -127,6 +115,8 @@ public:
 	 * Loads a <UML:NoteWidget> XMI element.
 	 */
 	bool loadFromXMI( QDomElement & qElement );
+public slots:
+	void slotMenuSelection(int sel);	
 
 protected:
 	// Data loaded/saved
@@ -137,9 +127,12 @@ protected:
 	 * Draws the text.  Called by draw and not called by anyone else.
 	 */
 	void drawText(QPainter & p, int offsetX, int offsetY);
-
-public slots:
-	void slotMenuSelection(int sel);
+private:
+	/**
+	 * Initializes key variables for the class.
+	 */
+	void init();
+	
 };
 
 #endif

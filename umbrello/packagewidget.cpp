@@ -14,16 +14,12 @@
 #include <kdebug.h>
 #include <qpainter.h>
 
-PackageWidget::PackageWidget(UMLView * view, UMLObject * o) : UMLWidget(view, o) {
+PackageWidget::PackageWidget(UMLView * view, UMLPackage *o) : UMLWidget(view, o) {
 	init();
 	setSize(100, 30);
 	calculateSize();
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
-PackageWidget::PackageWidget(UMLView * view) : UMLWidget(view) {
-	init();
-	setSize(100,30);
-}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void PackageWidget::init() {
 	UMLWidget::setBaseType(wt_Package);

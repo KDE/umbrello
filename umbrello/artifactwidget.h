@@ -15,6 +15,7 @@
 #include "umlwidget.h"
 
 class UMLView;
+class UMLArtifact;
 
 #define ARTIFACT_MARGIN 5
 
@@ -34,26 +35,14 @@ public:
 	 * Constructs a ArtifactWidget.
 	 *
 	 * @param view		The parent of this ArtifactWidget.
-	 * @param o		The UMLObject this will be representing.
+	 * @param a		The Artifact this widget will be representing.
 	 */
-	ArtifactWidget(UMLView * view, UMLObject * o);
+	ArtifactWidget(UMLView *view, UMLArtifact *a);
 
 	/**
-	 * Constructs a ArtifactWidget.
-	 *
-	 * @param view		The parent of this ArtifactWidget.
+	 * destructor
 	 */
-	ArtifactWidget(UMLView * view);
-
-	/**
-	 * Standard deconstructor.
-	 */
-	~ArtifactWidget();
-
-	/**
-	 * Initializes key variables of the class.
-	 */
-	void init();
+	virtual ~ArtifactWidget();
 
 	/**
 	 * Activate the object after loading it
@@ -72,7 +61,11 @@ public:
 	bool saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
 private:
-
+	/**
+	 * Initializes key variables of the class.
+	 */
+	void init();
+	
 	/**
 	 * Automatically calculates the size of the object.
 	 */

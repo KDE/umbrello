@@ -13,18 +13,13 @@
 #include <kdebug.h>
 #include <qpainter.h>
 
-ComponentWidget::ComponentWidget(UMLView * view, UMLObject * o) : UMLWidget(view, o) {
+ComponentWidget::ComponentWidget(UMLView * view, UMLComponent *c) : UMLWidget(view, c) {
 	init();
 	setSize(100, 30);
 	calculateSize();
 	UMLWidget::setBaseType(wt_Component);
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
-ComponentWidget::ComponentWidget(UMLView * view) : UMLWidget(view) {
-	init();
-	setSize(100,30);
-	UMLWidget::setBaseType(wt_Component);
-}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void ComponentWidget::init() {
 	m_pMenu = 0;

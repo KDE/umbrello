@@ -20,23 +20,20 @@
 
 #define CIRCLE_SIZE 30
 
-DatatypeWidget::DatatypeWidget(UMLView* view, UMLObject* o) : UMLWidget(view, o) {
+DatatypeWidget::DatatypeWidget(UMLView* view, UMLDatatype *d) : UMLWidget(view, d) {
 	init();
 	setSize(100,30);
 	calculateSize();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-DatatypeWidget::DatatypeWidget(UMLView* view) : UMLWidget(view) {
-	init();
-	setSize(100,30);
-}
+DatatypeWidget::~DatatypeWidget() {}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void DatatypeWidget::init() {
 	UMLWidget::setBaseType(wt_Datatype);
 	m_pMenu = 0;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
-DatatypeWidget::~DatatypeWidget() {}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 void DatatypeWidget::draw(QPainter& p, int offsetX, int offsetY) {
 	p.setPen(UMLWidget::getLineColour());

@@ -15,8 +15,8 @@
 #define UC_WIDTH 60
 #define UC_HEIGHT 30
 
-// Qt forward declarations
-class QPainter;
+
+class UMLUseCase;
 
 /**
  * This class is the graphical version of a UML UseCase.  A UseCaseWidget is created
@@ -42,19 +42,13 @@ public:
 	 *	@param	view		The parent of the widget.
 	 *	@param	o		The UMLObject to represent.
 	 */
-	UseCaseWidget(UMLView * view, UMLObject *o);
+	UseCaseWidget(UMLView * view, UMLUseCase *o);
+
 
 	/**
-	 *	Creates a UseCase widget.
-	 *
-	 *	@param	view		The parent of the widget.
+	 *	destructor
 	 */
-	UseCaseWidget(UMLView * view);
-
-	/**
-	 *	Standard deconstructor
-	 */
-	~UseCaseWidget();
+	virtual ~UseCaseWidget();
 
 	/**
 	*	Overrides the standard paint event.

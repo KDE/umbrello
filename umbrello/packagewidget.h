@@ -12,7 +12,7 @@
 
 #include "umlwidget.h"
 
-class UMLView;
+class UMLPackage;
 
 #define PACKAGE_MARGIN 5
 
@@ -34,24 +34,12 @@ public:
 	 * @param view		The parent of this PackageWidget.
 	 * @param o		The UMLObject this will be representing.
 	 */
-	PackageWidget(UMLView * view, UMLObject * o);
+	PackageWidget(UMLView * view, UMLPackage * o);
 
 	/**
-	 * Constructs a PackageWidget.
-	 *
-	 * @param view		The parent of this PackageWidget.
+	 * destructor
 	 */
-	PackageWidget(UMLView * view);
-
-	/**
-	 * Standard deconstructor.
-	 */
-	~PackageWidget();
-
-	/**
-	 * Initializes key variables of the class.
-	 */
-	void init();
+	virtual ~PackageWidget();
 
 	/**
 	 * Returns the status of whether to show StereoType.
@@ -97,6 +85,11 @@ protected:
 	bool m_bShowStereotype;
 
 private:
+	/**
+	 * Initializes key variables of the class.
+	 */
+	void init();
+	
 	/**
 	 * Automatically calculates the size of the object.
 	 */

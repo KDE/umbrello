@@ -14,6 +14,7 @@
 #include <qsize.h>
 
 class UMLView;
+class UMLClass;
 
 #define MARGIN 5
 
@@ -35,24 +36,12 @@ public:
 	 * @param view	The parent of this ClassWidget.
 	 * @param o	The UMLObject to represent.
 	 */
-	ClassWidget(UMLView * view, UMLObject * o);
+	ClassWidget(UMLView * view, UMLClass * o);
 
 	/**
-	 * Constructs a ClassWidget.
-	 *
-	 * @param view	The parent of this ClassWidget.
+	 * destructor
 	 */
-	ClassWidget(UMLView * view);
-
-	/**
-	 * Standard deconstructor.
-	 */
-	~ClassWidget();
-
-	/**
-	 * Initializes key variables of the class.
-	 */
-	void init();
+	virtual ~ClassWidget();
 
 	/**
 	 * Returns the status of showing attributes.
@@ -236,9 +225,21 @@ public:
 	 * Loads the <UML:ClassWidget> XML element.
 	 */
 	bool loadFromXMI( QDomElement & qElement );
+	
+public slots:
+	/**
+	 * Called when a menu selection has been made from the popup menu.
+	 *
+	 * @param sel		The selection id that has been selected.
+	 */
+	void slotMenuSelection(int sel);	
 
 private:
-
+	/**
+	 * Initializes key variables of the class.
+	 */
+	void init();
+	
 	/**
 	 * Automatically calculates the size of the object.
 	 */
@@ -272,13 +273,6 @@ private:
 	Uml::Signature_Type m_ShowOpSigs;
 	Uml::Signature_Type m_ShowAttSigs;
 
-public slots:
-	/**
-	 * Called when a menu selection has been made from the popup menu.
-	 *
-	 * @param sel		The selection id that has been selected.
-	 */
-	void slotMenuSelection(int sel);
 };
 
 #endif

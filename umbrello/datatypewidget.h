@@ -12,7 +12,7 @@
 
 #include "umlwidget.h"
 
-class UMLView;
+class UMLDatatype;
 
 #define DATATYPE_MARGIN 5
 
@@ -32,26 +32,14 @@ public:
 	 * Constructs an DatatypeWidget.
 	 *
 	 * @param view		The parent of this DatatypeWidget.
-	 * @param o		The UMLObject this will be representing.
+	 * @param d		The UMLDatatype this will be representing.
 	 */
-	DatatypeWidget(UMLView* view, UMLObject* o);
-
-	/**
-	 * Constructs an DatatypeWidget.
-	 *
-	 * @param view		The parent of this DatatypeWidget.
-	 */
-	DatatypeWidget(UMLView* view);
+	DatatypeWidget(UMLView* view, UMLDatatype *d);
 
 	/**
 	 * Standard deconstructor.
 	 */
-	~DatatypeWidget();
-
-	/**
-	 * Initializes key variables of the class.
-	 */
-	void init();
+	virtual ~DatatypeWidget();
 
 	/**
 	 * Activate the object after serializing it from a QDataStream.
@@ -76,6 +64,10 @@ public:
 protected:
 
 private:
+	/**
+	 * Initializes key variables of the class.
+	 */
+	void init();
 	/**
 	 * Automatically calculates the size of the object.
 	 */

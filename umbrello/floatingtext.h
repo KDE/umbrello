@@ -42,19 +42,12 @@ public:
 	 * @param role	The role this FloatingText will take up.
 	 * @param text	The main text to display.
 	 */
-	FloatingText(UMLView * view, Text_Role role, QString text = "");
+	FloatingText(UMLView * view, Text_Role role = Uml::tr_Floating , QString text = "");
 
 	/**
-	 * Constructs a FloatingText instance.
-	 *
-	 * @param view	The parent of this FloatingText.
+	 * destructor
 	 */
-	FloatingText(UMLView * view);
-
-	/**
-	 * Standard deconstructor.
-	 */
-	~FloatingText();
+	virtual ~FloatingText();
 
 	/**
 	 * Called to set the position of the FloatingText.
@@ -164,11 +157,6 @@ public:
 	 * @param p	The point at which the right button was clicked.
 	 */
 	void startMenu(AssociationWidget * a, QPoint p);
-
-	/**
-	 * Initializes key variables of the class.
-	 */
-	void init();
 
 	/**
 	 * Displays a dialog box to change the text.
@@ -300,6 +288,15 @@ public:
 	 * Loads the <UML:FloatingTextWidget> XMI element.
 	 */
 	bool loadFromXMI( QDomElement & qElement );
+public slots:
+	/**
+	 * Called when a menu selection has been made.
+	 * This method is public due to called by @ref MessageWidget
+	 * when this is text for a @ref MessageWidget.
+	 *
+	 * @param sel		The selection that has been made.
+	 */
+	void slotMenuSelection(int sel);	
 
 protected:
 	// Data loaded/saved:
@@ -321,6 +318,11 @@ protected:
 	Uml::Text_Role m_Role;
 
 private:
+	/**
+	 * Initializes key variables of the class.
+	 */
+	void init();
+	
 	/**
 	 * The association it may be linked to.
 	 */
@@ -358,15 +360,6 @@ private:
 	 */
 	void handleRename();
 
-public slots:
-	/**
-	 * Called when a menu selection has been made.
-	 * This method is public due to called by @ref MessageWidget
-	 * when this is text for a @ref MessageWidget.
-	 *
-	 * @param sel		The selection that has been made.
-	 */
-	void slotMenuSelection(int sel);
 };
 
 #endif

@@ -12,7 +12,7 @@
 
 #include "umlwidget.h"
 
-class UMLView;
+class UMLComponent;
 
 #define COMPONENT_MARGIN 10
 
@@ -32,26 +32,14 @@ public:
 	 * Constructs a ComponentWidget.
 	 *
 	 * @param view	The parent of this ComponentWidget.
-	 * @param o	The UMLObject this will be representing.
+	 * @param c	The UMLComponent this will be representing.
 	 */
-	ComponentWidget(UMLView * view, UMLObject * o);
+	ComponentWidget(UMLView * view, UMLComponent *c);
 
 	/**
-	 * Constructs a ComponentWidget.
-	 *
-	 * @param view	The parent of this ComponentWidget.
+	 * destructor
 	 */
-	ComponentWidget(UMLView * view);
-
-	/**
-	 * Standard deconstructor.
-	 */
-	~ComponentWidget();
-
-	/**
-	 * Initializes key variables of the class.
-	 */
-	void init();
+	virtual ~ComponentWidget();
 
 	/**
 	 * Returns the status of whether to show StereoType.
@@ -95,6 +83,11 @@ protected:
 	bool m_bShowStereotype;
 
 private:
+	/**
+	 * Initializes key variables of the class.
+	 */
+	void init();
+	
 	/**
 	 * Automatically calculates the size of the object.
 	 */

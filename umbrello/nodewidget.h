@@ -12,7 +12,7 @@
 
 #include "umlwidget.h"
 
-class UMLView;
+class UMLNode;
 
 #define NODE_MARGIN 10
 
@@ -32,26 +32,14 @@ public:
 	 * Constructs a NodeWidget.
 	 *
 	 * @param view		The parent of this NodeWidget.
-	 * @param o		The UMLObject this will be representing.
+	 * @param o		The UMLNode this will be representing.
 	 */
-	NodeWidget(UMLView * view, UMLObject * o);
+	NodeWidget(UMLView * view, UMLNode *n );
 
 	/**
-	 * Constructs a NodeWidget.
-	 *
-	 * @param view		The parent of this NodeWidget.
+	 * destructor
 	 */
-	NodeWidget(UMLView * view);
-
-	/**
-	 * Standard deconstructor.
-	 */
-	~NodeWidget();
-
-	/**
-	 * Initializes key variables of the class.
-	 */
-	void init();
+	virtual ~NodeWidget();
 
 	/**
 	 * Returns the status of whether to show StereoType.
@@ -91,6 +79,10 @@ protected:
 	bool m_bShowStereotype;
 
 private:
+	/**
+	 * Initializes key variables of the class.
+	 */
+	void init();
 
 	/**
 	 * Automatically calculates the size of the object.

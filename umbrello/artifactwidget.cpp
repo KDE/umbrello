@@ -14,25 +14,21 @@
 #include <qpainter.h>
 #include <qpointarray.h>
 
-ArtifactWidget::ArtifactWidget(UMLView * view, UMLObject * o) : UMLWidget(view, o) {
+ArtifactWidget::ArtifactWidget(UMLView *view, UMLArtifact *a) : UMLWidget(view, a) {
 	init();
 	setSize(100, 30);
 	calculateSize();
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
-ArtifactWidget::ArtifactWidget(UMLView * view) : UMLWidget(view) {
-	init();
-	setSize(100,30);
-}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void ArtifactWidget::init() {
 	UMLWidget::setBaseType( wt_Artifact );
 	m_pMenu = 0;
-	//maybe loading and this may not be set.
-	if (m_pObject) {
+// 	//maybe loading and this may not be set.
+// 	if (m_pObject) {
 		calculateSize();
 		update();
-	}
+// 	}
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ArtifactWidget::~ArtifactWidget() {}

@@ -49,19 +49,13 @@ public:
 	 * @param view		The parent of the widget.
 	 * @param activityType	The type of activity.
 	 */
-	ActivityWidget( UMLView * view, ActivityType activityType );
+	ActivityWidget( UMLView * view, ActivityType activityType = Normal );
 
+	
 	/**
-	 * Creates a Activity widget.
-	 *
-	 * @param view		The parent of the widget.
+	 *  destructor
 	 */
-	ActivityWidget(UMLView * view);
-
-	/**
-	 * Standard deconstructor
-	 */
-	~ActivityWidget();
+	virtual ~ActivityWidget();
 
 	/**
 	 * Overrides the standard paint event.

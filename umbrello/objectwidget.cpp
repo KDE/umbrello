@@ -29,13 +29,11 @@ static const int sequenceLineMargin = 20;
 
 ObjectWidget::ObjectWidget(UMLView * view, UMLObject *o, int lid) : UMLWidget(view, o) {
 	init();
-	m_nLocalID = lid;
+	if( lid >= 0 )
+		m_nLocalID = lid;
 	calculateSize();
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
-ObjectWidget::ObjectWidget(UMLView *view) : UMLWidget(view) {
-	init();
-}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void ObjectWidget::init() {
 	UMLWidget::setBaseType(wt_Object);

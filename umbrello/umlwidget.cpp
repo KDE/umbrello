@@ -50,7 +50,7 @@ UMLWidget::UMLWidget( UMLView * view, UMLObject * o )
 	init();
 	if(m_pObject) {
 		setName( m_pObject->getName() );
-		setID( m_pObject->getID() );
+		m_nId = m_pObject->getID();
 	}
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -72,7 +72,8 @@ UMLWidget::UMLWidget( UMLView * view, int id )
 	  m_pMenu(0)
 {
 	init();
-	m_nId = id;
+	if( id > 0 )
+		m_nId = id;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLWidget::UMLWidget( UMLView * view, SettingsDlg::OptionState optionState )
@@ -86,15 +87,6 @@ UMLWidget::UMLWidget( UMLView * view, SettingsDlg::OptionState optionState )
 	m_LineColour = optionState.uiState.lineColor;
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLWidget::UMLWidget(UMLView * view )
-	: QObject(view), QCanvasRectangle( view->canvas() ),
-	  m_pObject(0),
-	  m_pView(view),
-	  m_pMenu(0)
-{
-	init();
-}
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLWidget::~UMLWidget() {
 	//slotRemovePopupMenu();
@@ -198,6 +190,7 @@ bool UMLWidget::operator==(const UMLWidget& other) {
 }
 
 void UMLWidget::setID(int id) {
+	kdWarning()<<"UMLWidget::setID(int id) called!"<<endl;
 	if (m_pObject)
 		m_pObject->setID( id );
 	m_nId = id;
@@ -1073,7 +1066,12 @@ bool UMLWidget::loadFromXMI( QDomElement & qElement ) {
 	QString usesDiagramLineColour = qElement.attribute( "usesdiagramlinecolour", "1" );
 	QString usesDiagramUseFillColour = qElement.attribute( "usesdiagramusefillcolour", "1" );
 
-	setID( id.toInt() );
+	if( m_pObject && id.toInt() != m_pObject->getID() )
+	{
+		kdError()<<"Loading from XMI Error - id = "<<id.toInt()<<" but the UMLObject's id is "<<m_pObject->getID()<<endl;
+	}
+	m_nId = id.toInt();
+	
 	if( !font.isEmpty() ) {
 		m_Font.fromString( font );
 	}

@@ -50,19 +50,12 @@ public:
 	 * @param view		The parent of the widget.
 	 * @param stateType	The type of state.
 	 */
-	StateWidget( UMLView * view, StateType stateType );
+	StateWidget( UMLView * view, StateType stateType = StateWidget::Normal );
 
 	/**
-	 * Creates a State widget.
-	 *
-	 * @param view		The parent of the widget.
+	 * destructor
 	 */
-	StateWidget(UMLView * view);
-
-	/**
-	 * Standard deconstructor
-	 */
-	~StateWidget();
+	virtual ~StateWidget();
 
 	/**
 	 * Overrides the standard paint event.

@@ -12,7 +12,7 @@
 
 #include "umlwidget.h"
 
-class UMLView;
+class UMLInterface;
 
 #define INTERFACE_MARGIN 5
 
@@ -32,26 +32,14 @@ public:
 	 * Constructs an InterfaceWidget.
 	 *
 	 * @param view		The parent of this InterfaceWidget.
-	 * @param o		The UMLObject this will be representing.
+	 * @param i		The UMLInterface this will be representing.
 	 */
-	InterfaceWidget(UMLView * view, UMLObject * o);
+	InterfaceWidget(UMLView * view, UMLInterface *i);
 
 	/**
-	 * Constructs an InterfaceWidget.
-	 *
-	 * @param view		The parent of this InterfaceWidget.
+	 * destructor
 	 */
-	InterfaceWidget(UMLView * view);
-
-	/**
-	 * Standard deconstructor.
-	 */
-	~InterfaceWidget();
-
-	/**
-	 * Initializes key variables of the class.
-	 */
-	void init();
+	virtual ~InterfaceWidget();
 
 	/**
 	 * Return the status of showing operations.
@@ -192,6 +180,10 @@ protected:
 	Uml::Signature_Type m_ShowOpSigs;
 
 private:
+	/**
+	 * Initializes key variables of the class.
+	 */
+	void init();
 	/**
 	 * Sets e.g. the abstract attribute.
 	 */

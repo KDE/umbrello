@@ -51,14 +51,23 @@
 #include "clipboard/umldrag.h"
 
 #include "classwidget.h"
+#include "class.h"
 #include "packagewidget.h"
+#include "package.h"
 #include "componentwidget.h"
+#include "component.h"
 #include "nodewidget.h"
+#include "node.h"
 #include "artifactwidget.h"
+#include "artifact.h"
 #include "interfacewidget.h"
+#include "interface.h"
 #include "datatypewidget.h"
+#include "datatype.h"
 #include "actorwidget.h"
+#include "actor.h"
 #include "usecasewidget.h"
+#include "usecase.h"
 #include "notewidget.h"
 #include "boxwidget.h"
 #include "associationwidget.h"
@@ -478,33 +487,33 @@ void UMLView::slotObjectCreated(UMLObject* o) {
 
 	UMLWidget* newWidget = 0;
 	if(type == ot_Actor) {
-		newWidget = new ActorWidget(this, o);
+		newWidget = new ActorWidget(this, static_cast<UMLActor*>(o));
 	} else if(type == ot_UseCase) {
-		newWidget = new UseCaseWidget(this, o);
+		newWidget = new UseCaseWidget(this, static_cast<UMLUseCase*>(o));
 	} else if(type == ot_Package) {
-		newWidget = new PackageWidget(this, o);
+		newWidget = new PackageWidget(this, static_cast<UMLPackage*>(o));
 	} else if(type == ot_Component) {
-		newWidget = new ComponentWidget(this, o);
+		newWidget = new ComponentWidget(this, static_cast<UMLComponent*>(o));
 		if (getType() == dt_Deployment) {
 			newWidget->setIsInstance(true);
 		}
-	} else if(type == ot_Artifact) {
-		newWidget = new ArtifactWidget(this, o);
 	} else if(type == ot_Node) {
-		newWidget = new NodeWidget(this, o);
-	} else if(type == ot_Datatype) {
-		newWidget = new DatatypeWidget(this, o);
+		newWidget = new NodeWidget(this,static_cast<UMLNode*>(o));
+	} else if(type == ot_Artifact) {
+		newWidget = new ArtifactWidget(this, static_cast<UMLArtifact*>(o));
 	} else if(type == ot_Interface) {
-	        InterfaceWidget* interfaceWidget = new InterfaceWidget(this, o);
+	        InterfaceWidget* interfaceWidget = new InterfaceWidget(this, static_cast<UMLInterface*>(o));
 		Diagram_Type diagramType = getType();
 		if (diagramType == dt_Component || diagramType == dt_Deployment) {
 			interfaceWidget->setDrawAsCircle(true);
 		}
-		newWidget = (UMLWidget*)interfaceWidget;
+		newWidget = interfaceWidget;
+	} else if(type == ot_Datatype) {
+		newWidget = new DatatypeWidget(this, static_cast<UMLDatatype*>(o));
 	} else if(type == ot_Class ) { // CORRECT?
 		//see if we really want an object widget or class widget
 		if(getType() == dt_Class) {
-			newWidget = new ClassWidget(this, o);
+			newWidget = new ClassWidget(this, static_cast<UMLClass*>(o));
 		} else {
 			newWidget = new ObjectWidget(this, o, getLocalID() );
 		}
@@ -3133,55 +3142,77 @@ bool UMLView::loadWidgetsFromXMI( QDomElement & qElement ) {
 }
 
 UMLWidget* UMLView::loadWidgetFromXMI(QDomElement& widgetElement) {
-	UMLWidget* widget = 0;
-	QString tag = widgetElement.tagName();
-	if (tag == "UML:ActorWidget") {
-		widget = new ActorWidget(this);
-	} else if (tag == "UML:UseCaseWidget") {
-		widget = new UseCaseWidget(this);
-// Have ConceptWidget for backwards compatability
-	} else if (tag == "UML:ClassWidget" || tag == "UML:ConceptWidget") {
-		widget = new ClassWidget(this);
-	} else if (tag == "packagewidget") {
-		widget = new PackageWidget(this);
-	} else if (tag == "componentwidget") {
-		widget = new ComponentWidget(this);
-	} else if (tag == "nodewidget") {
-		widget = new NodeWidget(this);
-	} else if (tag == "artifactwidget") {
-		widget = new ArtifactWidget(this);
-	} else if (tag == "interfacewidget") {
-		widget = new InterfaceWidget(this);
-	} else if (tag == "datatypewidget") {
-		widget = new DatatypeWidget(this);
-	} else if (tag == "UML:StateWidget") {
-		widget = new StateWidget(this);
-	} else if (tag == "UML:NoteWidget") {
-		widget = new NoteWidget(this);
-	} else if (tag == "boxwidget") {
-		widget = new BoxWidget(this);
-	} else if (tag == "UML:FloatingTextWidget") {
-		widget = new FloatingText(this);
-	} else if (tag == "UML:ObjectWidget") {
-		widget = new ObjectWidget(this);
-	} else if (tag == "UML:ActivityWidget") {
-		widget = new ActivityWidget(this);
-	} else {
-		kdWarning() << "Trying to create an unknown widget:" << tag << endl;
-		return 0;
+
+	if ( !m_pDoc ) {
+		kdWarning() << "UMLView::loadWidgetFromXMI(): m_pDoc is NULL" << endl;
+		return 0L;
 	}
+	
+	UMLWidget* widget = 0;
+	QString tag  = widgetElement.tagName();
+	QString str  = widgetElement.attribute( "xmi.id", "-1" );
+	int id = str.toInt();
+	
+	if( tag == "UML:StateWidget" || tag == "UML:NoteWidget" || tag == "boxwidget" || 
+	    tag == "UML:FloatingTextWidget" || tag == "UML:ActivityWidget")
+	{
+	// Loading of widgets wich do NOT reprsent any UMLObject, --> just graphic stuff with
+	// no real Modell-information
+	//--FIXME while boxes and texts are just diagram-objects, activitis and states should
+	// be UMLObjects 
+		if (tag == "UML:StateWidget") {
+			widget = new StateWidget(this);
+		} else if (tag == "UML:NoteWidget") {
+			widget = new NoteWidget(this);
+		} else if (tag == "boxwidget") {
+			widget = new BoxWidget(this, id);
+		} else if (tag == "UML:FloatingTextWidget") {
+			widget = new FloatingText(this);
+		} else if (tag == "UML:ActivityWidget") {
+			widget = new ActivityWidget(this);
+		}
+	}
+	else
+	{
+	// Find the UMLObject and create the Widget to represent it
+		UMLObject *o(0);	
+		if( id < 0 || !( o = m_pDoc->findUMLObject(id)) )
+		{
+			kdWarning()<<"UMLView::loadWidgetFromXMI( ) - ERROR - cannot find Object with id "<<id<<endl;
+			return 0L;
+		}
+	
+		if (tag == "UML:ActorWidget") {
+			widget = new ActorWidget(this, static_cast<UMLActor*>(o));
+		} else if (tag == "UML:UseCaseWidget") {
+			widget = new UseCaseWidget(this, static_cast<UMLUseCase*>(o));
+		// Have ConceptWidget for backwards compatability
+		} else if (tag == "UML:ClassWidget" || tag == "UML:ConceptWidget") {
+			widget = new ClassWidget(this, static_cast<UMLClass*>(o));
+		} else if (tag == "packagewidget") {
+			widget = new PackageWidget(this, static_cast<UMLPackage*>(o));
+		} else if (tag == "componentwidget") {
+			widget = new ComponentWidget(this, static_cast<UMLComponent*>(o));
+		} else if (tag == "nodewidget") {
+			widget = new NodeWidget(this, static_cast<UMLNode*>(o));
+		} else if (tag == "artifactwidget") {
+			widget = new ArtifactWidget(this, static_cast<UMLArtifact*>(o));
+		} else if (tag == "interfacewidget") {
+			widget = new InterfaceWidget(this, static_cast<UMLInterface*>(o));
+		} else if (tag == "datatypewidget") {
+			widget = new DatatypeWidget(this, static_cast<UMLDatatype*>(o));
+		} else if (tag == "UML:ObjectWidget") {
+			widget = new ObjectWidget(this, o );
+		} else {
+			kdWarning() << "Trying to create an unknown widget:" << tag << endl;
+			return 0L;
+		}
+	} 
 	if (!widget->loadFromXMI(widgetElement)) {
 		widget->cleanup();
 		delete widget;
 		return 0;
 	}
-	if (m_pDoc == NULL) {
-		kdDebug() << "UMLView::loadWidgetFromXMI(): m_pDoc is NULL" << endl;
-		return 0;
-	}
-	UMLObject *o = m_pDoc->findUMLObject(widget -> getID());
-	if (o)
-		widget->setUMLObject( o );
 	return widget;
 }
 

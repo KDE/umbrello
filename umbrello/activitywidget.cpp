@@ -16,18 +16,13 @@
 #include <klocale.h>
 #include <qpainter.h>
 
-ActivityWidget::ActivityWidget(UMLView * view, ActivityType activityType ) : UMLWidget(view) {
+ActivityWidget::ActivityWidget(UMLView * view, ActivityType activityType ) : UMLWidget(view, -1)
+{
 	m_ActivityType = activityType;
 	UMLWidget::setBaseType( wt_Activity );
 	calculateSize();
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
-ActivityWidget::ActivityWidget(UMLView * view) : UMLWidget(view) {
-	m_ActivityType = ActivityWidget::Normal;
-	UMLWidget::setBaseType( wt_Activity );
-	calculateSize();
-}
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ActivityWidget::~ActivityWidget() {}
 ////////////////////////////////////////////////////////////////////////////////////////////////////

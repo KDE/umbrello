@@ -7,16 +7,13 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "actorwidget.h"
 #include <qpainter.h>
+
+#include "actor.h" 
+#include "actorwidget.h"
 #include "umlview.h"
 
-ActorWidget::ActorWidget(UMLView * view, UMLObject *o) : UMLWidget(view, o) {
-	UMLWidget::setBaseType( wt_Actor );
-	calculateSize();
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////
-ActorWidget::ActorWidget(UMLView * view) : UMLWidget(view) {
+ActorWidget::ActorWidget(UMLView * view, UMLActor *a) : UMLWidget(view, a) {
 	UMLWidget::setBaseType( wt_Actor );
 	calculateSize();
 }

@@ -36,21 +36,9 @@ public:
 	BoxWidget(UMLView * view, int id);
 
 	/**
-	 * Constructs a BoxWidget.
-	 *
-	 * @param view 		The parent to this widget.
+	 * destructor
 	 */
-	BoxWidget(UMLView * view);
-
-	/**
-	 * Initializes key variables for the class.
-	 */
-	void init();
-
-	/**
-	 * Empty deconstructor.
-	 */
-	~BoxWidget();
+	virtual ~BoxWidget();
 
 	/**
 	 * Overrides the standard function.
@@ -80,6 +68,11 @@ public:
 	 * Note: For loading from XMI, the inherited parent method is used.
 	 */
 	bool saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
+private:
+	/**
+	 * Initializes key variables for the class.
+	 */
+	void init();
 
 };
 

@@ -62,14 +62,7 @@ public:
 	 * @param view	The view to be displayed on.
 	 * @param id	The id of the widget.
 	 */
-	UMLWidget( UMLView * view, int id );
-
-	/**
-	 * Creates a UMLWidget object.
-	 *
-	 * @param view	The view to be displayed on.
-	 */
-	UMLWidget( UMLView * view );
+	UMLWidget( UMLView * view, int id = -1 );
 
 	/**
 	 * Constructor

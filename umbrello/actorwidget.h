@@ -16,6 +16,9 @@
 #define A_WIDTH 20
 #define A_HEIGHT 40
 #define A_MARGIN 5
+
+class UMLActor;
+
 /**
  * This class is the graphical version of a UML Actor.
  * An ActorWidget is created by a @ref UMLView.  An ActorWidget belongs to only
@@ -45,19 +48,13 @@ public:
 	 * @param view 	The parent of this ActorWidget.
 	 * @param o 	The Actor class this ActorWidget will display.
 	 */
-	ActorWidget(UMLView * view, UMLObject *o);
+	ActorWidget(UMLView * view, UMLActor *o);
+
 
 	/**
-	 * Constructs an ActorWidget.
-	 *
-	 * @param parent The parent of this ActorWidget.
+	 * destructor
 	 */
-	ActorWidget(UMLView * view);
-
-	/**
-	 * Standard deconstructor.
-	 */
-	~ActorWidget();
+	virtual ~ActorWidget();
 
 	/**
 	 * Overrides the standard paint event.

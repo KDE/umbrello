@@ -13,31 +13,21 @@
 #include <kdebug.h>
 #include <qpainter.h>
 
-NodeWidget::NodeWidget(UMLView * view, UMLObject * o) : UMLWidget(view, o) {
+NodeWidget::NodeWidget(UMLView * view, UMLNode *n ) : UMLWidget(view, n) {
 	init();
 	setSize(100, 30);
 	calculateSize();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-NodeWidget::NodeWidget(UMLView * view) : UMLWidget(view) {
-	init();
-	setSize(100,30);
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////
 void NodeWidget::init() {
 	UMLWidget::setBaseType(wt_Node);
 	m_pMenu = 0;
-	//set defaults from m_pView
-	if (m_pView) {
-		//check to see if correct
-		const SettingsDlg::OptionState& ops = m_pView->getOptionState();
-		m_bShowStereotype = ops.classState.showStereoType;
-	}
-	//maybe loading and this may not be set.
-	if (m_pObject) {
-		calculateSize();
-		update();
-	}
+	
+	const SettingsDlg::OptionState& ops = m_pView->getOptionState();
+	m_bShowStereotype = ops.classState.showStereoType;
+	
+	calculateSize();
+	update();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 NodeWidget::~NodeWidget() {}

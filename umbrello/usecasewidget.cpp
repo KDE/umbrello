@@ -8,22 +8,19 @@
  ***************************************************************************/
 
 #include "usecasewidget.h"
-#include "umlwidget.h"
+#include "usecase.h"
+
 #include "umlview.h"
 
 #include <qpainter.h>
 
-UseCaseWidget::UseCaseWidget(UMLView * view, UMLObject *o) : UMLWidget(view, o) {
-	UMLWidget::setBaseType(wt_UseCase);
-	calculateSize();
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////
-UseCaseWidget::UseCaseWidget(UMLView * view) : UMLWidget(view) {
+UseCaseWidget::UseCaseWidget(UMLView * view, UMLUseCase *o) : UMLWidget(view, o) {
 	UMLWidget::setBaseType(wt_UseCase);
 	calculateSize();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UseCaseWidget::~UseCaseWidget() {}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UseCaseWidget::draw(QPainter & p, int offsetX, int offsetY) {
 	p.setPen( UMLWidget::getLineColour() );

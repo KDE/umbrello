@@ -43,24 +43,12 @@ public:
 	 * @param o		The object it will be representing.
 	 * @param lid		The local id for the object.
 	 */
-	ObjectWidget(UMLView * view, UMLObject *o, int lid);
+	ObjectWidget(UMLView * view, UMLObject *o, int lid = -1 );
 
 	/**
-	 * Creates an ObjectWidget.
-	 *
-	 * @param view		The parent to this object.
+	 * destructor 
 	 */
-	ObjectWidget(UMLView * view);
-
-	/**
-	 * Initializes the key attributes of the class.
-	 */
-	void init();
-
-	/**
-	 * Standard deconstructor.
-	 */
-	~ObjectWidget();
+	virtual ~ObjectWidget();
 
 	/**
 	 * Returns the local ID for this object.  This ID is used so that
@@ -238,6 +226,24 @@ public:
 	 * Loads from a <UML:ObjectWidget> XMI element.
 	 */
 	bool loadFromXMI( QDomElement & qElement );
+	
+public slots:
+	/**
+	 * Handles a popup menu selection.
+	 */
+	void slotMenuSelection(int sel);
+
+	/**
+	 * Handles a color change signal.
+	 */
+	virtual void slotColorChanged(int viewID);
+
+	/**
+	 * Called when a message widget with an end on this object has
+	 * moved up or down.
+	 * Sets the bottom of the line to a nice position.
+	 */
+	void slotMessageMoved();	
 
 protected:
 	QString m_Doc;
@@ -301,27 +307,14 @@ protected:
 
 private:
 	/**
+	 * Initializes the key attributes of the class.
+	 */
+	void init();
+	
+	/**
 	 * A list of the message widgets with an end on this widget.
 	 */
 	MessageWidgetList messageWidgetList;
-
-public slots:
-	/**
-	 * Handles a popup menu selection.
-	 */
-	void slotMenuSelection(int sel);
-
-	/**
-	 * Handles a color change signal.
-	 */
-	virtual void slotColorChanged(int viewID);
-
-	/**
-	 * Called when a message widget with an end on this object has
-	 * moved up or down.
-	 * Sets the bottom of the line to a nice position.
-	 */
-	void slotMessageMoved();
 };
 
 #endif
