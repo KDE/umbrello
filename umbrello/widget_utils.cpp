@@ -15,6 +15,10 @@
 // own header
 #include "widget_utils.h"
 
+// qt/kde includes
+#include <kiconloader.h>
+#include <kdebug.h>
+
 // app includes
 #include "umlwidget.h"
 #include "objectwidget.h"
@@ -47,6 +51,43 @@ UMLWidget* findWidget(Uml::IDType id,
 			return obj;
 	}
 	return NULL;
+}
+
+QIconSet iconSet(Uml::Diagram_Type dt) {
+	QIconSet diagramIconSet;
+	switch (dt) {
+		case Uml::dt_UseCase:
+			diagramIconSet = BarIconSet("umbrello_diagram_usecase");
+			break;
+		case Uml::dt_Collaboration:
+			diagramIconSet = BarIconSet("umbrello_diagram_collaboration");
+			break;
+		case Uml::dt_Class:
+			diagramIconSet = BarIconSet("umbrello_diagram_class");
+			break;
+		case Uml::dt_Sequence:
+			diagramIconSet = BarIconSet("umbrello_diagram_sequence");
+			break;
+		case Uml::dt_State:
+			diagramIconSet = BarIconSet("umbrello_diagram_state");
+			break;
+		case Uml::dt_Activity:
+			diagramIconSet = BarIconSet("umbrello_diagram_activity");
+			break;
+		case Uml::dt_Component:
+			diagramIconSet = BarIconSet("umbrello_diagram_component");
+			break;
+		case Uml::dt_Deployment:
+			diagramIconSet = BarIconSet("umbrello_diagram_deployment");
+			break;
+		case Uml::dt_EntityRelationship:
+			diagramIconSet = BarIconSet("umbrello_diagram_entityrelationship");
+			break;
+		default:
+			kdDebug() << "Umbrello::iconSet: unknown diagram type " << dt << endl;
+			diagramIconSet = BarIconSet("unknown");
+	}
+	return diagramIconSet;
 }
 
 

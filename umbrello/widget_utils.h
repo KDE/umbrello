@@ -15,13 +15,13 @@
 #ifndef WIDGET_UTILS_H
 #define WIDGET_UTILS_H
 
+#include <qiconset.h>
 #include "umlnamespace.h"
 #include "umlwidgetlist.h"
 #include "messagewidgetlist.h"
 
 /**
  * General purpose widget utilities.
- * @author Oliver Kellogg
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 namespace Umbrello {
@@ -38,6 +38,12 @@ namespace Umbrello {
 	UMLWidget* findWidget(Uml::IDType id,
 			      const UMLWidgetList& widgets,
 			      const MessageWidgetList* pMessages = NULL);
+
+
+	/**
+	 * Return the icon corresponding to the given Diagram_Type.
+	 */
+	QIconSet iconSet(Uml::Diagram_Type dt);
 
 }
 

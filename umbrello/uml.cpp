@@ -50,7 +50,7 @@
 #include "generatorinfo.h"
 #include "codegenerationpolicy.h"
 #include "codegenerators/codegenfactory.h"
-
+#include "widget_utils.h"
 #include "umldoc.h"
 #include "umllistview.h"
 #include "umlviewlist.h"
@@ -418,15 +418,15 @@ void UMLApp::initView() {
 		m_newSessionButton->setAutoRaise(true);
 		KPopupMenu* m_diagramMenu = new KPopupMenu(m_newSessionButton);
 
-		m_diagramMenu->insertItem( BarIconSet("umbrello_diagram_class"), i18n("Class Diagram..."), this, SLOT(slotClassDiagram()) );
-		m_diagramMenu->insertItem(BarIconSet("umbrello_diagram_sequence"), i18n("Sequence Diagram..."), this, SLOT(slotSequenceDiagram()) );
-		m_diagramMenu->insertItem(BarIconSet("umbrello_diagram_collaboration"), i18n("Collaboration Diagram..."), this, SLOT(slotCollaborationDiagram()) );
-		m_diagramMenu->insertItem(BarIconSet("umbrello_diagram_usecase"), i18n("Use Case Diagram..."), this, SLOT(slotUseCaseDiagram()) );
-		m_diagramMenu->insertItem(BarIconSet("umbrello_diagram_state"), i18n("State Diagram..."), this, SLOT(slotStateDiagram()) );
-		m_diagramMenu->insertItem(BarIconSet("umbrello_diagram_activity"), i18n("Activity Diagram..."), this, SLOT(slotActivityDiagram()) );
-		m_diagramMenu->insertItem(BarIconSet("umbrello_diagram_component"), i18n("Component Diagram..."), this, SLOT(slotComponentDiagram()) );
-		m_diagramMenu->insertItem(BarIconSet("umbrello_diagram_deployment"), i18n("Deployment Diagram..."), this, SLOT(slotDeploymentDiagram()) );
-		m_diagramMenu->insertItem(BarIconSet("umbrello_diagram_entityrelationship"), i18n("Entity Relationship Diagram..."), this, SLOT(slotEntityRelationshipDiagram()) );
+		m_diagramMenu->insertItem(Umbrello::iconSet(Uml::dt_Class), i18n("Class Diagram..."), this, SLOT(slotClassDiagram()) );
+		m_diagramMenu->insertItem(Umbrello::iconSet(Uml::dt_Sequence), i18n("Sequence Diagram..."), this, SLOT(slotSequenceDiagram()) );
+		m_diagramMenu->insertItem(Umbrello::iconSet(Uml::dt_Collaboration), i18n("Collaboration Diagram..."), this, SLOT(slotCollaborationDiagram()) );
+		m_diagramMenu->insertItem(Umbrello::iconSet(Uml::dt_UseCase), i18n("Use Case Diagram..."), this, SLOT(slotUseCaseDiagram()) );
+		m_diagramMenu->insertItem(Umbrello::iconSet(Uml::dt_State), i18n("State Diagram..."), this, SLOT(slotStateDiagram()) );
+		m_diagramMenu->insertItem(Umbrello::iconSet(Uml::dt_Activity), i18n("Activity Diagram..."), this, SLOT(slotActivityDiagram()) );
+		m_diagramMenu->insertItem(Umbrello::iconSet(Uml::dt_Component), i18n("Component Diagram..."), this, SLOT(slotComponentDiagram()) );
+		m_diagramMenu->insertItem(Umbrello::iconSet(Uml::dt_Deployment), i18n("Deployment Diagram..."), this, SLOT(slotDeploymentDiagram()) );
+		m_diagramMenu->insertItem(Umbrello::iconSet(Uml::dt_EntityRelationship), i18n("Entity Relationship Diagram..."), this, SLOT(slotEntityRelationshipDiagram()) );
 		m_newSessionButton->setPopup(m_diagramMenu);
 		//FIXME why doesn't this work?
 		//m_newSessionButton->setPopup(newDiagram->popupMenu());
@@ -466,7 +466,6 @@ void UMLApp::initView() {
 	m_documentationDock->manualDock(m_listDock, KDockWidget::DockBottom, 80);
 
 	m_listView->setDocument(m_doc);
-	//m_doc->setupListView(listView);//make sure has a link to list view and add info widget
 	m_doc->setupSignals();//make sure gets signal from list view
 
 	readDockConfig(); //reposition all the DockWindows to their saved positions

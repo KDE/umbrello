@@ -21,9 +21,8 @@
 #include "floatingtext.h"
 #include "uml.h"
 #include "model_utils.h"
+#include "widget_utils.h"
 #include "umlview.h"
-//#include "notewidget.h"
-//#include "boxwidget.h"
 #include "statewidget.h"
 #include "activitywidget.h"
 #include "objectwidget.h"
@@ -470,14 +469,14 @@ void ListPopupMenu::insertStdItem(Menu_Type m)
 		m_pInsert->insertItem(m_pixmap[pm_Node], i18n("Node"), mt_Node);
 		break;
 	case mt_Deployment_Diagram:
-		m_pInsert->insertItem(BarIconSet("umbrello_diagram_deployment"),i18n("Deployment Diagram..."),
+		m_pInsert->insertItem(Umbrello::iconSet(Uml::dt_Deployment), i18n("Deployment Diagram..."),
 				      mt_Deployment_Diagram);
 		break;
 	case mt_Entity:
 		m_pInsert->insertItem(m_pixmap[pm_Entity], i18n("Entity"), mt_Entity);
 		break;
 	case mt_EntityRelationship_Diagram:
-		m_pInsert->insertItem(BarIconSet("umbrello_diagram_entityrelationship"),i18n("Entity Relationship Diagram..."),
+		m_pInsert->insertItem(Umbrello::iconSet(Uml::dt_EntityRelationship), i18n("Entity Relationship Diagram..."),
 				      mt_EntityRelationship_Diagram);
 		break;
 	case mt_UseCase_Folder:
@@ -493,7 +492,7 @@ void ListPopupMenu::insertStdItem(Menu_Type m)
 		m_pInsert->insertItem(m_pixmap[pm_Usecase], i18n("Use Case"), mt_UseCase);
 		break;
 	case mt_UseCase_Diagram:
-		m_pInsert->insertItem(BarIconSet("umbrello_diagram_usecase"), i18n("Use Case Diagram..."),
+		m_pInsert->insertItem(Umbrello::iconSet(Uml::dt_UseCase), i18n("Use Case Diagram..."),
 				      mt_UseCase_Diagram);
 		break;
 	case mt_FloatText:
@@ -557,11 +556,11 @@ void ListPopupMenu::insertContainerItems(bool folderAndDiagrams) {
 	m_pInsert -> insertItem(m_pixmap[pm_Enum], i18n("Enum"), mt_Enum);
 	m_pInsert -> insertItem(m_pixmap[pm_Package], i18n("Package"), mt_Package);
 	if (folderAndDiagrams) {
-		m_pInsert->insertItem(BarIconSet("umbrello_diagram_class"), i18n("Class Diagram..."), mt_Class_Diagram);
-		m_pInsert->insertItem(BarIconSet("umbrello_diagram_state"), i18n("State Diagram..."), mt_State_Diagram);
-		m_pInsert->insertItem(BarIconSet("umbrello_diagram_activity"), i18n("Activity Diagram..."), mt_Activity_Diagram);
-		m_pInsert->insertItem(BarIconSet("umbrello_diagram_sequence"), i18n("Sequence Diagram..."), mt_Sequence_Diagram);
-		m_pInsert->insertItem(BarIconSet("umbrello_diagram_collaboration"), i18n("Collaboration Diagram..."), mt_Collaboration_Diagram);
+		m_pInsert->insertItem(Umbrello::iconSet(Uml::dt_Class), i18n("Class Diagram..."), mt_Class_Diagram);
+		m_pInsert->insertItem(Umbrello::iconSet(Uml::dt_State), i18n("State Diagram..."), mt_State_Diagram);
+		m_pInsert->insertItem(Umbrello::iconSet(Uml::dt_Activity), i18n("Activity Diagram..."), mt_Activity_Diagram);
+		m_pInsert->insertItem(Umbrello::iconSet(Uml::dt_Sequence), i18n("Sequence Diagram..."), mt_Sequence_Diagram);
+		m_pInsert->insertItem(Umbrello::iconSet(Uml::dt_Collaboration), i18n("Collaboration Diagram..."), mt_Collaboration_Diagram);
 	}
 	insertFileNew();
 }
