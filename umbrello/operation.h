@@ -85,6 +85,20 @@ public:
 		               Uml::Parameter_Direction kind = Uml::pd_In);
 
 	/**
+	 * Move a parameter one position to the left.
+	 *
+	 * @param a		The parameter to move.
+	 */
+	void moveParmLeft(UMLAttribute *a);
+	
+	/**
+	 *Move a parameter one position to the right.
+	 *
+	 * @param a		The parameter to move.
+	 */
+	void moveParmRight(UMLAttribute *a);
+	 
+	/**
 	 * Remove a parameter from the operation.
 	 *
 	 * @param a		The paramter to remove.

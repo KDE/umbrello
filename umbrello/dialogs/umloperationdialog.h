@@ -31,6 +31,7 @@ class QCheckBox;
 class KComboBox;
 class QLineEdit;
 class UMLDoc;
+class KArrowButton;
 
 class UMLOperationDialog : public KDialogBase {
 	Q_OBJECT
@@ -90,6 +91,8 @@ protected:
 	QCheckBox * m_pStaticCB;
 	QPushButton* m_pDeleteButton;
 	QPushButton* m_pPropertiesButton;
+	KArrowButton* m_pUpButton;
+	KArrowButton* m_pDownButton;
 
 public slots:
 	void slotParmRightButtonPressed(QListBoxItem *item, const QPoint &p);
@@ -99,6 +102,8 @@ public slots:
 	void slotNewParameter();
 	void slotDeleteParameter();
 	void slotParameterProperties();
+	void slotParameterUp();
+	void slotParameterDown();
 
 	/**
 	 * enables or disables buttons

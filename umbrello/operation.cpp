@@ -36,7 +36,7 @@ UMLOperation::UMLOperation(const UMLClassifier * parent)
     : UMLClassifierListItem (parent)
 {
 	m_BaseType = Uml::ot_Operation;
-	m_List.setAutoDelete(true);
+	m_List.setAutoDelete(false);
 }
 
 UMLOperation::~UMLOperation() {
@@ -52,6 +52,49 @@ UMLAttribute * UMLOperation::addParm(QString type, QString name, QString initial
 	a -> setParmKind(kind);
 	addParm(a);
 	return a;
+}
+
+void UMLOperation::moveParmLeft(UMLAttribute * a) {
+	if (a == NULL) {
+		kdDebug() << "UMLOperation::moveParmLeft called on NULL attribute"
+			  << endl;
+		return;
+	}
+	kdDebug() << "UMLOperation::moveParmLeft(" << a->getName() << ") called"
+		  << endl;
+	disconnect(a,SIGNAL(modified()),this,SIGNAL(modified()));
+	int idx;
+	if ( (idx=m_List.find( a )) == -1 ) {
+		kdDebug() << "Error move parm left " << a->getName() << endl;
+		return;
+	}
+	if ( idx == 0 )
+		return;
+	m_List.remove( a );
+	kdDebug() << k_funcinfo << endl;
+	m_List.insert( idx-1, a );
+	kdDebug() << k_funcinfo << endl;
+}
+
+void UMLOperation::moveParmRight(UMLAttribute * a) {
+	if (a == NULL) {
+		kdDebug() << "UMLOperation::moveParmRight called on NULL attribute"
+			  << endl;
+		return;
+	}
+	kdDebug() << "UMLOperation::moveParmRight(" << a->getName() << ") called"
+		  << endl;
+	disconnect(a,SIGNAL(modified()),this,SIGNAL(modified()));
+	int idx;
+	if ( (idx=m_List.find( a )) == -1 ) {
+		kdDebug() << "Error move parm right " << a->getName() << endl;
+		return;
+	}
+	int count = m_List.count();
+	if ( idx == count-1 )
+		return;
+	m_List.remove( a );
+	m_List.insert( idx+1, a );
 }
 
 void UMLOperation::removeParm(UMLAttribute * a) {

@@ -27,6 +27,7 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kbuttonbox.h>
+#include <karrowbutton.h>
 
 //app includes
 #include "../uml.h"
@@ -99,12 +100,24 @@ void UMLOperationDialog::setupDialog() {
 	topLayout -> addWidget(m_pScopeBG);
 
 	m_pParmsGB = new QGroupBox(i18n("Parameters"), plainPage() );
-	QVBoxLayout * parmsLayout = new QVBoxLayout(m_pParmsGB);
-	parmsLayout -> setMargin(margin);
+	QVBoxLayout* parmsLayout = new QVBoxLayout(m_pParmsGB);
+	parmsLayout->setMargin(margin);
 	parmsLayout->setSpacing(10);
 
+	//horizontal box contains the list box and the move up/down buttons
+	QHBoxLayout* parmsHBoxLayout = new QHBoxLayout(parmsLayout);
 	m_pParmsLB = new QListBox(m_pParmsGB);
-	parmsLayout -> addWidget(m_pParmsLB);
+	parmsHBoxLayout->addWidget(m_pParmsLB);
+
+	//the move up/down buttons (another vertical box)
+	QVBoxLayout* buttonLayout = new QVBoxLayout( parmsHBoxLayout );
+	m_pUpButton = new KArrowButton( m_pParmsGB );
+	m_pUpButton->setEnabled( false );
+	buttonLayout->addWidget( m_pUpButton );
+
+	m_pDownButton = new KArrowButton( m_pParmsGB, Qt::DownArrow );
+	m_pDownButton->setEnabled( false );
+	buttonLayout->addWidget( m_pDownButton );
 
 	KButtonBox* buttonBox = new KButtonBox(m_pParmsGB);
 	buttonBox->addButton( i18n("Ne&w Parameter..."), this, SLOT(slotNewParameter()) );
@@ -117,6 +130,8 @@ void UMLOperationDialog::setupDialog() {
 
 	m_pDeleteButton->setEnabled(false);
 	m_pPropertiesButton->setEnabled(false);
+	m_pUpButton->setEnabled(false);
+	m_pDownButton->setEnabled(false);
 
 	// Add "void". We use this for denoting "no return type" independent
 	// of the programming language.
@@ -168,6 +183,9 @@ void UMLOperationDialog::setupDialog() {
 		m_pProtectedRB -> setChecked( true );
 
 	//setup parm list box signals
+	connect( m_pUpButton, SIGNAL( clicked() ), this, SLOT( slotParameterUp() ) );
+	connect( m_pDownButton, SIGNAL( clicked() ), this, SLOT( slotParameterDown() ) );
+
 	connect(m_pParmsLB, SIGNAL(clicked(QListBoxItem*)),
 		this, SLOT(slotParamsBoxClicked(QListBoxItem*)));
 
@@ -264,8 +282,9 @@ void UMLOperationDialog::slotNewParameter() {
 					       dlg.getDoc(), dlg.getParmKind() );
 			 */
 			newAttribute->setID( m_doc->getUniqueID() );
+			newAttribute->setName( name );
 			m_pOperation->addParm( newAttribute );
-			m_pParmsLB -> insertItem( dlg.getName() );
+			m_pParmsLB -> insertItem( name );
 			m_doc -> setModified( true );
 		} else {
 			KMessageBox::sorry(this, i18n("The parameter name you have chosen\nis already being used in this operation."),
@@ -286,6 +305,8 @@ void UMLOperationDialog::slotDeleteParameter() {
 
 	m_pDeleteButton->setEnabled(false);
 	m_pPropertiesButton->setEnabled(false);
+	m_pUpButton->setEnabled(false);
+	m_pDownButton->setEnabled(false);
 }
 
 void UMLOperationDialog::slotParameterProperties() {
@@ -339,13 +360,43 @@ void UMLOperationDialog::slotParameterProperties() {
 	}
 }
 
+void UMLOperationDialog::slotParameterUp()
+{
+	kdDebug() << k_funcinfo << endl;
+	UMLAttribute* pOldAtt = m_pOperation->findParm( m_pParmsLB->currentText() );
+
+	m_pOperation->moveParmLeft( pOldAtt );
+	QString tmp = m_pParmsLB->currentText();
+	m_pParmsLB->changeItem( m_pParmsLB->item( m_pParmsLB->currentItem() - 1 )->text(), m_pParmsLB->currentItem() );
+	m_pParmsLB->changeItem( tmp, m_pParmsLB->currentItem() - 1 );
+	m_doc->setModified(true);
+	slotParamsBoxClicked( m_pParmsLB->selectedItem() );
+}
+
+void UMLOperationDialog::slotParameterDown()
+{
+	UMLAttribute* pOldAtt = m_pOperation->findParm( m_pParmsLB->currentText() );
+
+	m_pOperation->moveParmRight( pOldAtt );
+	QString tmp = m_pParmsLB->currentText();
+	m_pParmsLB->changeItem( m_pParmsLB->item( m_pParmsLB->currentItem() + 1 )->text(), m_pParmsLB->currentItem() );
+	m_pParmsLB->changeItem( tmp, m_pParmsLB->currentItem() + 1 );
+
+	m_doc->setModified(true);
+	slotParamsBoxClicked( m_pParmsLB->selectedItem() );
+}
+
 void UMLOperationDialog::slotParamsBoxClicked(QListBoxItem* parameterItem) {
 	if (parameterItem) {
 		m_pDeleteButton->setEnabled(true);
 		m_pPropertiesButton->setEnabled(true);
+		m_pUpButton->setEnabled( parameterItem->prev() );
+		m_pDownButton->setEnabled( parameterItem->next() );
 	} else {
 		m_pDeleteButton->setEnabled(false);
 		m_pPropertiesButton->setEnabled(false);
+		m_pUpButton->setEnabled(false);
+		m_pDownButton->setEnabled(false);
 	}
 }
 
