@@ -159,7 +159,7 @@ public:
 	*     Returns the document pointer.  Called by the UMLListViewItem class.
 	*/
 	UMLDoc * getDocument() {
-		return doc;
+		return m_doc;
 	}
 
 	/**
@@ -233,7 +233,7 @@ protected:
 	UMLListViewItem *diagramFolder;
 	ListPopupMenu * menu;
 	QString oldText, message;
-	UMLDoc * doc;
+	UMLDoc *m_doc;
 	bool loading, m_bStartedCut, m_bIgnoreCancelRename;
 
 	struct Pixmaps {
@@ -273,12 +273,11 @@ protected:
 	void startDrag();
 	void tidyChangeItem();
 	bool acceptDrag (QDropEvent* event) const;
-	UMLListViewItem * findChildUMLObject(UMLObject *c);
 	/**
 	 *
 	 * @param c The object to be find in the list view
 	 */
-	UMLListViewItem * findUMLObject(UMLObject *p);
+	UMLListViewItem * findUMLObject(UMLObject *p) const;
 
 	/**
 	 * This methods looks for a object in a folder an its subfolders recursive.
@@ -327,16 +326,19 @@ protected:
 public slots:
 	void slotDiagramCreated(int id);
 	void diagramCreated(Umbrello::Diagram*);
-	void slotChildObjectCreated(UMLObject * o);
 	void slotDiagramRenamed(int id);
-	void slotObjectChanged(UMLObject * o);
-	void slotChildObjectChanged(UMLObject * o);
+	
+	void slotObjectCreated(UMLObject * o);
+	void childObjectAdded( UMLObject *obj);
 	void slotObjectRemoved(UMLObject * o);
+	void childObjectRemoved( UMLObject *obj);
+	void slotObjectChanged( );
+	
 
 	void slotDiagramRemoved(int id);
 	void popupMenuSel(int sel);
 
-	void slotObjectCreated(UMLObject * o);
+	
 	void slotDropped(QDropEvent * de, QListViewItem * parent, QListViewItem * item);
 	void slotExpanded( QListViewItem * item );
 	void slotCollapsed( QListViewItem * item );

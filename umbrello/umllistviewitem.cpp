@@ -245,7 +245,6 @@ void UMLListViewItem::okRename( int col ) {
 				if( !object ) {
 					m_Data.getUMLObject() -> setName( newText );
 					m_Data.setLabel( newText );
-					s_pListView -> getDocument() -> signalUMLObjectChanged( m_Data.getUMLObject() );
 					return;
 				}
 			}
@@ -263,7 +262,6 @@ void UMLListViewItem::okRename( int col ) {
 				                      i18n( "Name Not Unique" ) ) == KMessageBox::Yes )) {
 					object -> setName( newText );
 					m_Data.setLabel( newText );
-					s_pListView -> getDocument() -> signalChildUMLObjectUpdate( m_Data.getUMLObject() );
 					return;
 				}
 				setText( m_Data.getLabel() );
@@ -279,7 +277,6 @@ void UMLListViewItem::okRename( int col ) {
 				if (list.isEmpty()) {
 					object -> setName( newText );
 					m_Data.setLabel( newText );
-					s_pListView -> getDocument() -> signalChildUMLObjectUpdate(object);
 					return;
 				}
 			}
