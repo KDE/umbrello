@@ -9,9 +9,10 @@
 #include "floatingtext.h"
 
 // system includes
-#include <kdebug.h>
-#include <klocale.h>
+#include <qregexp.h>
 #include <qpainter.h>
+#include <klocale.h>
+#include <kdebug.h>
 
 // local includes
 #include "associationwidget.h"
@@ -176,7 +177,10 @@ void FloatingText::slotMenuSelection(int sel) {
 			UMLObject* umlObj = m_pView->getDocument()->createChildObject(c, Uml::ot_Operation);
 			if (umlObj) {
 				UMLOperation* newOperation = static_cast<UMLOperation*>( umlObj );
-				QString opText = newOperation->toString(st_SigNoScope);
+				// It should perhaps be configurable whether the
+				// operation is displayed with or without its signature.
+				// For the time being, we don't display the signature.
+				QString opText = newOperation->toString(st_NoSigNoScope);
 				m_pLink->setOperationText(this, opText);
 			}
 		}
@@ -332,7 +336,11 @@ void FloatingText::showOpDlg() {
 		return;
 	}
 	seqNum = selectDlg.getSeqNumber();
+	// It should perhaps be configurable whether the operation
+	// is displayed with or without its signature.
+	// Here, we just discard the signature.
 	op = selectDlg.getOpText();
+	op.replace( QRegExp("\\(.*\\)"), "()" );
 	m_pLink->setSeqNumAndOp(seqNum, op);
 	setMessageText();
 }
