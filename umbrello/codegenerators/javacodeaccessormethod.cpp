@@ -33,8 +33,9 @@ JavaCodeAccessorMethod::JavaCodeAccessorMethod ( JavaCodeClassField * field, Cod
    : CodeAccessorMethod ( (CodeClassField*) field )
 {
 	setType(type);
-	updateMethodDeclaration();
-	updateContent();
+
+	init (field);
+
 }
 
 JavaCodeAccessorMethod::~JavaCodeAccessorMethod ( ) { }
@@ -192,15 +193,24 @@ void JavaCodeAccessorMethod::updateMethodDeclaration()
                         break;
         }
 
-        // set header
-        if(!getParentObject()->getDoc().isEmpty())
+        // set header once.
+        if(getComment()->getText().isEmpty())
                 getComment()->setText(headerText);
-	else 
-                getComment()->setText("");
 
         // set start/end method text
         setStartMethodText(strVis+" "+methodReturnType+" "+methodName+" ( "+methodParams+" ) {");
         setEndMethodText("}");
+
+}
+
+void JavaCodeAccessorMethod::init ( JavaCodeClassField * field) 
+{
+
+	// lets use full-blown comment
+	setComment(new JavaCodeDocumentation((JavaClassifierCodeDocument*)field->getParentDocument()));
+
+	updateMethodDeclaration();
+	updateContent();
 
 }
 

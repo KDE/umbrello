@@ -56,6 +56,8 @@ protected:
 
 private:
 
+	void init (JavaCodeClassField * field);
+
 };
 
 #endif // JAVACODEACCESSORMETHOD_H
