@@ -6,7 +6,6 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-
 #include "umlcanvasobject.h"
 #include "association.h"
 #include "attribute.h"

@@ -7,14 +7,15 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <kdebug.h>
 #include "umlrole.h"
 #include "association.h"
 
 // constructor
-UMLRole::UMLRole(UMLAssociation * parent)
+UMLRole::UMLRole(UMLAssociation * parent, UMLObject * parentObj)
     : UMLObject((UMLObject *)parent)
 {
-	init(parent);
+	init(parent, parentObj);
 }
 
 bool UMLRole::operator==(UMLRole &rhs) {
@@ -38,17 +39,15 @@ UMLObject* UMLRole::getObject() {
 	return m_pObject;
 }
 
-/*
- // This isnt good..there is already a getID for the parent
- // umlobject class.. should overload that method rather than
- // spawn a new Id attribute. Also, I cant find anything that
- // needs this method, so I've commented it out. -b.t.
-int UMLRole::getId() const {
+int UMLRole::getID() const {
         if(m_pObject)
 		return m_pObject->getID();
-	return m_Id;
+	return -1;
 }
-*/
+
+void UMLRole::setID( int id) {
+	kdError()<<"ERROR: not allowed to setID("<<id<<") for UMLRole (id is derived from parent UMLObject), ignoring set request"<<endl; 
+}
 
 Changeability_Type UMLRole::getChangeability() const {
 	return m_Changeability;
@@ -80,12 +79,17 @@ void UMLRole::setId(int id) {
 */
 
 void UMLRole::setObject (UMLObject *obj) {
-	// I dont believe we need the 'modified' signal on role -b.t.
-/*
-        if(m_pObject)
-		disconnect(m_pObject,SIGNAL(modified()),this,SIGNAL(modified()));
-//        connect(obj,SIGNAL(modified()),this,SIGNAL(modified()));
-*/
+	// because we will get the id of this role from the parent
+	// object, we CANT allow UMLRoles to take other UMLRoles as
+	// parent objects. In fact, there is probably good reason
+	// to only take UMLClassifiers here, but I'll leave it more open
+	// for the time being. -b.t. 
+        if(obj && dynamic_cast<UMLRole*>(obj))
+	{
+		kdError()<<"ERROR: UMLRole cant setObject() to another UMLRole!, ignoring"<<endl;
+		return;
+	}
+
 	m_pObject = obj;
 	emit modified();
 }
@@ -115,9 +119,9 @@ void UMLRole::setDoc(QString doc) {
 	emit modified();
 }
 
-void UMLRole::init(UMLAssociation * parent) {
+void UMLRole::init(UMLAssociation * parent, UMLObject * parentObj) {
 
-	m_pObject = 0;
+	m_pObject = parentObj;
 	m_Multi = "";
 	m_Name = "";
 	m_Visibility = Public;

@@ -31,7 +31,7 @@ public:
 	 *
 	 *	@param	parent	The parent of this UMLRole.
 	 */
-	UMLRole (UMLAssociation * parent);
+	UMLRole (UMLAssociation * parent, UMLObject * parentUMLObject);
 
 	/**
 	 * 	Overloaded '==' operator
@@ -124,6 +124,14 @@ public:
 
 	UMLAssociation * getParentAssociation ();
 
+	/** overload UMLObject methods..we want to slave the ID of the
+	 * UMLRole to that of the UMLObject which owns it. The wrinkle
+	 * here is that we CANT allow UMLRole to be the parent object
+	 * of a UMLRole, got it?
+	 */
+	virtual int getID() const;
+	virtual void setID ( int id);
+
 	// bool saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
 	// bool loadFromXMI(QDomElement& element);
@@ -131,7 +139,7 @@ public:
 protected:
 
 	/** do some initialization at construction time */
-	void init (UMLAssociation * parent);
+	void init (UMLAssociation * parent, UMLObject * parentObj);
 
 	/**
 	 * If the type Uml::Association_Type is changed then also the following

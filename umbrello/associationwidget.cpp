@@ -13,6 +13,7 @@
 #include "umlview.h"
 #include "umldoc.h"
 #include "umlwidget.h"
+#include "umlrole.h"
 #include "listpopupmenu.h"
 #include "association.h"
 #include "associationwidget.h"
@@ -26,18 +27,19 @@
 #include <klineeditdlg.h>
 #include <klocale.h>
 
-static int idCounterForSyntheticUMLAssocs = 7000;
-
+// this constructor really is bad..shouldnt be allowed. -b.t. 
 AssociationWidget::AssociationWidget(QWidget *parent)
 	: QObject(parent)
 {
 	init(parent);
 }
 
+// preferred constructor
 AssociationWidget::AssociationWidget(QWidget *parent, UMLWidget* WidgetA,
-				     Association_Type Type, UMLWidget* WidgetB)
+				     Association_Type Type, UMLWidget* WidgetB )
 	: QObject(parent)
 {
+
 	init(parent);
 
 	setWidgetA(WidgetA);
@@ -45,14 +47,11 @@ AssociationWidget::AssociationWidget(QWidget *parent, UMLWidget* WidgetA,
 
 	UMLDoc *umldoc = m_pView->getDocument();
 
-	bool isUMLAssoc = ( umldoc->findUMLObject( getWidgetAID() ) &&
-			    umldoc->findUMLObject( getWidgetBID() ) );
-	if (isUMLAssoc) {
-		m_pAssociation = new UMLAssociation( umldoc );
-		umldoc->addAssociation( m_pAssociation );
-		connect(m_pAssociation, SIGNAL(modified()), this,
+	// set up UMLAssociation obj
+	m_pAssociation = new UMLAssociation( umldoc, Type, WidgetA->getUMLObject(), WidgetB->getUMLObject() );
+	umldoc->addAssociation( m_pAssociation );
+	connect(m_pAssociation, SIGNAL(modified()), this,
 			SLOT(mergeUMLRepresentationIntoAssociationData()));
-	}
 
 	setAssocType(Type);
 
@@ -963,6 +962,7 @@ int AssociationWidget::getWidgetAID() const {
 	return m_pWidgetA->getID();
 }
 
+/*
 void AssociationWidget::setWidgetAID(int AID) {
 	if (m_pAssociation == NULL)
 		return;
@@ -979,6 +979,7 @@ void AssociationWidget::setWidgetAID(int AID) {
 	}
 	m_pAssociation->setRoleAId(AID);
 }
+*/
 
 int AssociationWidget::getWidgetBID() const {
 	if (m_pAssociation)
@@ -988,6 +989,7 @@ int AssociationWidget::getWidgetBID() const {
 	return m_pWidgetB->getID();
 }
 
+/*
 void AssociationWidget::setWidgetBID(int BID) {
 	if (m_pAssociation == NULL)
 		return;
@@ -1004,6 +1006,7 @@ void AssociationWidget::setWidgetBID(int BID) {
 	}
 	m_pAssociation->setRoleBId(BID);
 }
+*/
 
 /** Returns a QString Object representing this AssociationWidget */
 QString AssociationWidget::toString() {
@@ -3225,8 +3228,6 @@ bool AssociationWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 		assocElement.setAttribute( "xmi.id", m_pAssociation->getID() );
 	} else {
 		assocElement.setAttribute( "type", m_AssocType );
-		assocElement.setAttribute( "widgetaid", getWidgetAID() );
-		assocElement.setAttribute( "widgetbid", getWidgetBID() );
 		assocElement.setAttribute( "visibilityA", m_VisibilityA);
 		assocElement.setAttribute( "visibilityB", m_VisibilityB);
 		assocElement.setAttribute( "changeabilityA", m_ChangeabilityA);
@@ -3235,6 +3236,8 @@ bool AssociationWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 		assocElement.setAttribute( "roleBdoc", m_RoleBDoc);
 		// assocElement.setAttribute( "documentation", m_Doc );
 	}
+	assocElement.setAttribute( "widgetaid", getWidgetAID() );
+	assocElement.setAttribute( "widgetbid", getWidgetBID() );
 	assocElement.setAttribute( "indexa", m_nIndexA );
 	assocElement.setAttribute( "indexb", m_nIndexB );
 	assocElement.setAttribute( "totalcounta", m_nTotalCountA );
@@ -3266,57 +3269,49 @@ bool AssociationWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 	return status;
 }
 
-bool AssociationWidget::loadFromXMI( QDomElement & qElement ) {
-	UMLDoc* umldoc = m_pView->getDocument();
+bool AssociationWidget::loadFromXMI( QDomElement & qElement ) 
+{
+
+	// load child widgets first
+        QString widgetaid = qElement.attribute( "widgetaid", "-1" );
+        QString widgetbid = qElement.attribute( "widgetbid", "-1" );
+        int aId = widgetaid.toInt();
+        int bId = widgetbid.toInt();
+        UMLWidget *pWidgetA = m_pView->findWidget( aId );
+        if (!pWidgetA) {
+                        kdError() << "AssociationWidget::loadFromXMI(): "
+                                    << "cannot find widget for roleA id " << aId << endl;
+                        return false;
+        }
+        UMLWidget *pWidgetB = m_pView->findWidget( bId );
+        if (!pWidgetB) {
+                        kdError() << "AssociationWidget::loadFromXMI(): "
+                                    << "cannot find widget for roleB id " << bId << endl;
+                        return false;
+        }
+        setWidgetA(pWidgetA);
+        setWidgetB(pWidgetB);
+
 	QString id = qElement.attribute( "xmi.id", "-1" );
 	int nId = id.toInt();
 	if (nId == -1) {
+
 		// xmi.id not present, ergo either a pure widget association,
 		// or old (pre-1.2) style:
 		// Everything is loaded from the AssociationWidget.
 		// UMLAssociation may or may not be saved - if it is, it's a dummy.
 		// Create the UMLAssociation if both roles are UML objects;
 		// else load the info locally.
-		QString widgetaid = qElement.attribute( "widgetaid", "-1" );
-		QString widgetbid = qElement.attribute( "widgetbid", "-1" );
-		int aId = widgetaid.toInt();
-		int bId = widgetbid.toInt();
-		UMLWidget *pWidgetA = m_pView->findWidget( aId );
-		if (pWidgetA == NULL) {
-			kdWarning() << "AssociationWidget::loadFromXMI(): "
-				    << "cannot find widget for roleA id " << aId << endl;
-			return false;
-		}
-		UMLWidget *pWidgetB = m_pView->findWidget( bId );
-		if (pWidgetB == NULL) {
-			kdWarning() << "AssociationWidget::loadFromXMI(): "
-				    << "cannot find widget for roleB id " << bId << endl;
-			return false;
-		}
-		setWidgetA(pWidgetA);
-		setWidgetB(pWidgetB);
-		bool isUMLAssoc = ( pWidgetA->getUMLObject() != NULL &&
-				    pWidgetB->getUMLObject() != NULL );
-		if (isUMLAssoc) {
-			m_pAssociation = new UMLAssociation(umldoc);
-			m_pAssociation->setID( ++idCounterForSyntheticUMLAssocs );
-			umldoc->addAssociation( m_pAssociation );
-			connect(m_pAssociation, SIGNAL(modified()), this,
-				SLOT(mergeUMLRepresentationIntoAssociationData()));
-		} else {
-			m_pAssociation = NULL;
-		}
+
+                QString type = qElement.attribute( "type", "-1" );
 
 		setDoc( qElement.attribute("documentation", "") );
 		setRoleADoc( qElement.attribute("roleAdoc", "") );
 		setRoleBDoc( qElement.attribute("roleBdoc", "") );
 
-		QString type = qElement.attribute( "type", "" );
-		if( !type.isEmpty() )
-			setAssocType( (Uml::Association_Type)type.toInt() );
+                setAssocType( (Uml::Association_Type)type.toInt() );
 
 		// visibilty defaults to Public if it cant set it here..
-
 		QString visibilityA = qElement.attribute( "visibilityA", "0");
 		if (visibilityA.toInt() > 0)
 			setVisibilityA( (Scope) visibilityA.toInt());
@@ -3326,7 +3321,6 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement ) {
 			setVisibilityB( (Scope) visibilityB.toInt());
 
 		// Changeability defaults to "Changeable" if it cant set it here..
-
 		QString changeabilityA = qElement.attribute( "changeabilityA", "0");
 		if (changeabilityA.toInt() > 0)
 			setChangeabilityA ( (Changeability_Type) changeabilityA.toInt());
@@ -3336,30 +3330,18 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement ) {
 			setChangeabilityB ( (Changeability_Type) changeabilityB.toInt());
 
 	} else {
+
 		// New style: The xmi.id is a reference to the UMLAssociation.
+		UMLDoc* umldoc = m_pView->getDocument();
 		m_pAssociation = (UMLAssociation*)umldoc->findUMLObject(nId);
 		if (m_pAssociation == NULL) {
 			kdDebug() << " cannot find UML:Association " << nId << endl;
 			return false;
 		}
 		m_LinePath.setAssocType( m_pAssociation->getAssocType() );
-		int aId = m_pAssociation->getRoleAId();
-		int bId = m_pAssociation->getRoleBId();
-		m_pWidgetA = m_pView->findWidget( aId );
-		if (m_pWidgetA == NULL) {
-			kdWarning() << "AssociationWidget::loadFromXMI() assoc id " << nId
-				    << ": cannot find widget for roleA id " << aId << endl;
-			return false;
-		}
-		m_pWidgetA->addAssoc(this);
-		m_pWidgetB = m_pView->findWidget( bId );
-		if (m_pWidgetB == NULL) {
-			kdWarning() << "AssociationWidget::loadFromXMI() assoc id " << nId
-				    << ": cannot find widget for roleB id " << bId << endl;
-			return false;
-		}
-		m_pWidgetB->addAssoc(this);
+
 	}
+
 	QString indexa = qElement.attribute( "indexa", "0" );
 	QString indexb = qElement.attribute( "indexb", "0" );
 	QString totalcounta = qElement.attribute( "totalcounta", "0" );

@@ -20,10 +20,10 @@ const Uml::Association_Type UMLAssociation::atypeLast = Uml::at_Activity;
 const unsigned UMLAssociation::nAssocTypes = (unsigned)atypeLast - (unsigned)atypeFirst + 1;
 
 // constructor
-UMLAssociation::UMLAssociation(UMLDoc* parent) 
+UMLAssociation::UMLAssociation(UMLDoc* parent, Association_Type type, UMLObject * roleA, UMLObject * roleB) 
     : UMLObject((UMLObject *)parent) 
 {
-	init();
+	init(type, roleA, roleB);
 }
 
 bool UMLAssociation::operator==(UMLAssociation &rhs) {
@@ -125,8 +125,22 @@ bool UMLAssociation::loadFromXMI( QDomElement & element ) {
 	}
 	setAssocType( (Uml::Association_Type)atype );
 
-	setRoleAId(element.attribute( "rolea", "-1" ).toInt());
-	setRoleBId(element.attribute( "roleb", "-1" ).toInt());
+	int roleAObjID = element.attribute( "rolea", "-1" ).toInt();
+	int roleBObjID = element.attribute( "roleb", "-1" ).toInt();
+
+	UMLDoc * doc = ((UMLDoc*)parent());
+	UMLObject * objA = doc->findUMLObject(roleAObjID);
+	UMLObject * objB = doc->findUMLObject(roleBObjID);
+
+	if(objA)
+		getUMLRoleA()->setObject(objA);
+	else
+		return false;
+
+	if(objB)
+		getUMLRoleB()->setObject(objB);
+	else
+		return false;
 
 	setMultiA(element.attribute( "multia", "" ));
 	setMultiB(element.attribute( "multib", "" ));
@@ -226,6 +240,7 @@ void UMLAssociation::setAssocType(Uml::Association_Type assocType) {
 	emit modified();
 }
 
+/*
 void UMLAssociation::setRoleAId (int roleA) {
 	m_pRoleA->setID(roleA);
 }
@@ -233,6 +248,7 @@ void UMLAssociation::setRoleAId (int roleA) {
 void UMLAssociation::setRoleBId(int roleB) {
 	m_pRoleB->setID(roleB);
 }
+*/
 
 void UMLAssociation::setObjectA(UMLObject *obj) {
 	m_pRoleA->setObject(obj);
@@ -315,27 +331,15 @@ QString UMLAssociation::ScopeToString(Uml::Scope scope) {
 	}
 }
 
-void UMLAssociation::init() {
-	m_AssocType = Uml::at_Unknown;
+void UMLAssociation::init(Association_Type type, UMLObject *roleAObj, UMLObject *roleBObj) {
+
+	m_AssocType = type;
 	m_BaseType = ot_Association;
 	m_Name = "";
 
-	m_pRoleA = new UMLRole (this);
-	m_pRoleB = new UMLRole (this);
+	m_pRoleA = new UMLRole (this, roleAObj);
+	m_pRoleB = new UMLRole (this, roleBObj);
 
-/*
-	m_pObjectA = 0;
-	m_pObjectB = 0;
-	m_RoleAId = -1;
-	m_RoleBId = -1;
-	m_MultiA = "";
-	m_MultiB = "";
-	m_RoleNameA = "";
-	m_RoleNameB = "";
-	m_VisibilityA = Public;
-	m_VisibilityB = Public;
-	m_ChangeabilityA = chg_Changeable;
-	m_ChangeabilityB = chg_Changeable;
-*/
 }
+
 #include "association.moc"

@@ -49,5 +49,6 @@
 <ToolBar name="mainToolBar">
   <Action name="umbrello_zoom_in"/>
   <Action name="umbrello_zoom_out"/>
+  <Action name="Configure_UML" icon="configure.png"/>
 </ToolBar>
 </kpartgui>

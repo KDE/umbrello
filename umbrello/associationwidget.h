@@ -220,7 +220,7 @@ public:
 	* DEPRECATED - to be removed
 	* Sets the ID of the UMLAssociation of role A.
 	*/
-	void setWidgetAID(int AID);
+	// void setWidgetAID(int AID);
 
 	/**
 	 * Gets the ID of role A.
@@ -231,7 +231,7 @@ public:
 	* DEPRECATED - to be removed
 	* Sets the ID of the UMLAssociation of role B.
 	*/
-	void setWidgetBID(int BID);
+	// void setWidgetBID(int BID);
 
 	/**
 	 * Gets the ID of role B.

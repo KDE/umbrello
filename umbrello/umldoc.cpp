@@ -847,10 +847,7 @@ void UMLDoc::removeAssocFromConcepts(UMLAssociation *assoc)
 
 UMLAssociation* UMLDoc::createUMLAssociation(UMLObject *a, UMLObject *b, Uml::Association_Type type)
 {
-	UMLAssociation *assoc = new UMLAssociation( this );
-	assoc->setAssocType(type);
-	assoc->setObjectA(a);
-	assoc->setObjectB(b);
+	UMLAssociation *assoc = new UMLAssociation( this, type, a, b );
 	addAssociation(assoc);
 	return assoc;
 }
@@ -859,6 +856,7 @@ void UMLDoc::addAssociation(UMLAssociation *Assoc)
 {
 	if (Assoc == NULL)
 		return;
+
 	// First, check that this association has not already been added.
 	// This may happen as long as we are still in transition from the old
 	// widget based association fabrication. (See explanation at method
@@ -1707,7 +1705,7 @@ UMLObject* UMLDoc::makeNewUMLObject(QString type) {
 	} else if (type == "UML:Interface") {
 		pObject = new UMLInterface(this);
 	} else if (type == "UML:Association") {
-		pObject = new UMLAssociation(this);
+		pObject = new UMLAssociation(this, Uml::at_Unknown, (UMLObject*)NULL, (UMLObject*) NULL);
 	}
 	return pObject;
 }

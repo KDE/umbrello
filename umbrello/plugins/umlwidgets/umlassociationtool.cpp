@@ -106,37 +106,42 @@ void UMLAssociationTool::createPath( )
 		           <<" - ignoring request"<<endl;
 		return;
 	}
-	UMLAssociation *assoc(0);
+
 	UMLWidget *wA = dynamic_cast<UMLWidget*>(m_startWidget);
 	UMLWidget *wB = dynamic_cast<UMLWidget*>(m_underMouse);
 	if( !wA || !wB )
 	{
 		return;
 	}
-	assoc = new UMLAssociation(diagram()->document());
-	assoc->setObjectA( wA->umlObject() );
-	assoc->setObjectB( wB->umlObject() );
-	switch( m_type )
-	{
-		case Generalization:
-			assoc->setAssocType( Uml::at_Generalization );
-			break;
-		case Composition:
-			assoc->setAssocType( Uml::at_Composition );
-			break;
-		case Aggregation:
-			assoc->setAssocType( Uml::at_Aggregation );
-			break;
-		case Dependency:
-			assoc->setAssocType( Uml::at_Dependency );
-			break;
-		case Association:
-			assoc->setAssocType( Uml::at_Association );
-			break;
-		case UniDiAssociation:
-			assoc->setAssocType( Uml::at_UniAssociation );
-			break;
-	}
+
+      // This looks bad.. what about other types of associations? Why arent we
+        // using the UML namespace instead of making up our own, new switcH?? -b.t.
+        Uml::Association_Type aType = Uml::at_Unknown;
+        switch( m_type )
+        {
+                case Generalization:
+                        aType =  Uml::at_Generalization;
+                        break;
+                case Composition:
+                        aType =  Uml::at_Composition;
+                        break;
+                case Aggregation:
+                        aType =  Uml::at_Aggregation;
+                        break;
+                case Dependency:
+                        aType =  Uml::at_Dependency;
+                        break;
+                case Association:
+                        aType =  Uml::at_Association;
+                        break;
+                case UniDiAssociation:
+                        aType =  Uml::at_UniAssociation;
+                        break;
+                default:
+                        aType =  Uml::at_Association;
+                        break;
+        }
+	UMLAssociation * assoc = new UMLAssociation(diagram()->document(), aType, wA->umlObject(), wB->umlObject());
 
 	UMLAssociationWidget *w;
 	if (assoc) {

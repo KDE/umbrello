@@ -16,6 +16,7 @@
 class UMLDoc;
 class UMLRole;
 
+using namespace Uml;
 
 /**
  *	This class contains the non-graphic representation of an association.
@@ -35,7 +36,7 @@ public:
 	 *
 	 *	@param	parent	The parent of this UMLAssociation.
 	 */
-	UMLAssociation(UMLDoc* parent);
+	UMLAssociation(UMLDoc* parent, Association_Type type, UMLObject *roleA = 0, UMLObject *roleB = 0);
 
 	/**
 	 * 	Overloaded '==' operator
@@ -175,13 +176,13 @@ public:
 	 *	Sets the ID of the UMLObject playing role A in the association.
 	 *	@param	id of the UMLObject of role A.
 	 */
-	void setRoleAId(int roleA);
+//	void setRoleAId(int roleA);
 
 	/**
 	 *	Sets the ID of the UMLObject playing role B in the association.
 	 *	@param	id of the UMLObject of role B.
 	 */
-	void setRoleBId(int roleB);
+//	void setRoleBId(int roleB);
 
 	/**
 	 *	Sets the UMLObject playing role A in the association.
@@ -288,7 +289,7 @@ public:
 protected:
 
 	/** do some initialization at construction time */
-	void init ();
+	void init(Association_Type type, UMLObject *roleAObj, UMLObject *roleBObj);
 
 	/**
 	 * If the type Uml::Association_Type is changed then also the following
