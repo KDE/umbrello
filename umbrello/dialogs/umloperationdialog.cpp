@@ -286,7 +286,9 @@ void UMLOperationDialog::slotParameterProperties() {
 					   i18n("Parameter Name Invalid"), false);
 			return;
 		}
-		if( !pAtt || ( pOldAtt->getTypeName() != dlg.getTypeName() ) ) {
+		if ( !pAtt || pOldAtt->getTypeName() != dlg.getTypeName() ||
+		     pOldAtt->getDoc() != dlg.getDoc() ||
+		     pOldAtt->getInitialValue() != dlg.getInitialValue() ) {
 			pOldAtt->setName( name );
 			pOldAtt->setTypeName( dlg.getTypeName() );
 			m_pParmsLB->changeItem( dlg.getName(), m_pParmsLB -> currentItem() );
