@@ -106,6 +106,13 @@ public:
 	UMLDoc *getDocument() const;
 
 	/**
+	 * Returns a pointer to the list view.
+	 *
+	 * @return	The listview being used.
+	 */
+	UMLListView* getListView();
+
+	/**
 	 * Returns the toolbar being used.
 	 *
 	 * @return	The toolbar being used.
@@ -741,7 +748,7 @@ private:
 	/**
 	 * Listview shows the current open file.
 	 */
-	UMLListView* listView;
+	UMLListView* m_listView;
 
 	/**
 	 * The widget which shows the diagrams.

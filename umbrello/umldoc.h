@@ -49,7 +49,6 @@ class CodeGenerator;
 class DocWindow;
 class IDChangeLog;
 class ObjectWidget;
-class UMLListView;
 class UMLView;
 class UMLWidget;
 class UMLClass;
@@ -190,14 +189,6 @@ public:
 	 * Sets up the signals needed by the program for it to work.
 	 */
 	void setupSignals();
-
-	/**
-	 * Gains a link to the list view so that it can set the signals
-	 * up required by this class.
-	 *
-	 * @param lv		Pointer to the UMLListView.
-	 */
-	void setupListView(UMLListView *lv);
 
 	/**
 	 * Returns true if the given name is unique within its scope.
@@ -632,15 +623,6 @@ public:
 	}
 
 	/**
-	 * Returns the list view.
-	 *
-	 * @return	Pointer to the current UMLListView.
-	 */
-	UMLListView * getListView() {
-		return listView;
-	}
-
-	/**
 	 * Returns a list of the concepts in this UMLDoc.
 	 *
 	 * @param includeNested		Whether to include the concepts from
@@ -874,11 +856,6 @@ public:
 	 * All the UMLViews (i.e. diagrams)
 	 */
 	UMLViewList m_ViewList;
-
-	/**
-	 * The tree view of diagrams and objects.
-	 */
-	UMLListView* listView;
 
 	/**
 	 * Returns a name for the new object, appended with a number

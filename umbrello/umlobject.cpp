@@ -12,6 +12,8 @@
 #include "umlobject.h"
 #include "uml.h"
 #include "umldoc.h"
+#include "umllistview.h"
+#include "umllistviewitem.h"
 #include "package.h"
 
 UMLObject::UMLObject(UMLObject * parent, const QString &name, int id)
@@ -484,14 +486,26 @@ bool UMLObject::loadFromXMI( QDomElement & element, bool loadID /* =true */) {
 	if (m_BaseType != ot_Operation && m_BaseType != ot_Attribute &&
 	    m_BaseType != ot_EnumLiteral && m_BaseType != ot_Association &&
 	    m_BaseType != ot_UMLObject) {
+		if (m_bInPaste) {
+			m_pUMLPackage = NULL;  // forget any old parent
+			UMLListView *listView = UMLApp::app()->getListView();
+			UMLListViewItem *parentItem = (UMLListViewItem*)listView->currentItem();
+			if (parentItem) {
+				ListView_Type lvt = parentItem->getType();
+				if (lvt == lvt_Package ||
+				    lvt == lvt_Class ||
+				    lvt == lvt_Interface) {
+					UMLObject *o = parentItem->getUMLObject();
+					m_pUMLPackage = static_cast<UMLPackage*>( o );
+				}
+			}
+		}
+
 		if (m_pUMLPackage)
 			m_pUMLPackage->addObject(this);
 		else
 			umldoc->addUMLObject(this);
-		if (m_bInPaste)
-			m_bInPaste = false;
-		else
-			umldoc->signalUMLObjectCreated(this);
+		umldoc->signalUMLObjectCreated(this);
 	}
 	return load(element);
 }

@@ -7,15 +7,21 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "classifierlistpage.h"
+// own header
 #include "classwizard.h"
+
+// system includes
+#include <khelpmenu.h>
+#include <klocale.h>
+
+// local includes
+#include "classifierlistpage.h"
+#include "../uml.h"
 #include "../attribute.h"
 #include "../operation.h"
 #include "../umllistview.h"
 #include "../umlclassifierlistitemlist.h"
 #include "../classifierlistitem.h"
-#include <khelpmenu.h>
-#include <klocale.h>
 
 ClassWizard::ClassWizard( UMLDoc * pDoc ) : KWizard( (QWidget*)pDoc -> parent(), "_CLASSWIZARD_", true) {
 	m_pDoc = pDoc;
@@ -84,14 +90,15 @@ void ClassWizard::accept() {
 	m_pDoc -> addUMLObject( m_pClass );
 	m_pDoc->signalUMLObjectCreated(m_pClass);
 
+	UMLListView *listView = UMLApp::app()->getListView();
 	UMLClassifierListItemList* attributes = m_pClass->getAttList();
 	for ( UMLClassifierListItem* attribute = attributes->first(); attribute; attribute = attributes->next() )  {
-		m_pDoc->getListView()->childObjectAdded(attribute, m_pClass);
+		listView->childObjectAdded(attribute, m_pClass);
 	}
 
 	UMLClassifierListItemList operations = m_pClass->getOpList();
 	for ( UMLClassifierListItem* operation = operations.first(); operation; operation = operations.next() )  {
-		m_pDoc->getListView()->childObjectAdded(operation, m_pClass);
+		listView->childObjectAdded(operation, m_pClass);
 	}
 
 	QWizard::accept();

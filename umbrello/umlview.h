@@ -35,7 +35,6 @@ class FloatingText;
 class SeqLineWidget;
 class ObjectWidget;
 
-class UMLListView;
 class UMLApp;
 class UMLDoc;
 
@@ -381,13 +380,6 @@ public:
 	 * Overrides the standard operation.
 	 */
 	void showEvent(QShowEvent *se);
-
-	/**
-	 * Returns a reference to the @ref UMLView class.
-	 *
-	 * @return Returns a reference to the @ref UMLView class.
-	 */
-	UMLListView * getListView();
 
 	/**
 	 * Sets an association to include the given widget.  If this is the second

@@ -69,7 +69,6 @@ static const uint undoMax = 30;
 
 
 UMLDoc::UMLDoc(QWidget *parent, const char *name) : QObject(parent, name) {
-	listView = 0;
 	m_currentView = 0;
 	m_uniqueID = 0;
 	m_count = 0;
@@ -101,7 +100,7 @@ UMLDoc::~UMLDoc() {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLDoc::addView(UMLView *view) {
-	if(listView)
+	if ( UMLApp::app()->getListView() )
 		connect(this, SIGNAL(sigObjectRemoved(UMLObject *)), view, SLOT(slotObjectRemoved(UMLObject *)));
 	m_ViewList.append(view);
 
@@ -127,7 +126,7 @@ void UMLDoc::removeView(UMLView *view , bool enforceCurrentView ) {
 		kdError()<<"UMLDoc::removeView(UMLView *view) called with view = 0"<<endl;
 		return;
 	}
-	if(listView) {
+	if ( UMLApp::app()->getListView() ) {
 		disconnect(this,SIGNAL(sigObjectRemoved(UMLObject *)), view,SLOT(slotObjectRemoved(UMLObject *)));
 	}
 	view->hide();
@@ -606,6 +605,7 @@ void UMLDoc::deleteContents() {
 
 	m_currentcodegenerator = 0;
 
+	UMLListView *listView = UMLApp::app()->getListView();
 	if (listView) {
 		listView->init();
 		// store old setting - for restore of last setting
@@ -638,13 +638,7 @@ void UMLDoc::setupSignals() {
 
 	return;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void UMLDoc::setupListView(UMLListView *lv) {
-	listView = lv;
-	return;
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////
 QWidget* UMLDoc::getMainViewWidget() {
 	UMLApp* app = (UMLApp*)parent();
 	return app->getMainViewWidget();
@@ -910,6 +904,7 @@ void UMLDoc::slotRemoveUMLObject(UMLObject* object)  {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool UMLDoc::isUnique(QString name)
 {
+	UMLListView *listView = UMLApp::app()->getListView();
 	UMLListViewItem *currentItem = (UMLListViewItem*)listView->currentItem();
 	UMLListViewItem *parentItem = 0;
 
@@ -1808,7 +1803,7 @@ void UMLDoc::saveToXMI(QIODevice& file) {
 	extensions.appendChild( diagramsElement );
 
 	//  save listview
-	listView -> saveToXMI( doc, extensions );
+	UMLApp::app()->getListView() -> saveToXMI( doc, extensions );
 
 	// save code generators
 	QDomElement codeGenElement = doc.createElement( "codegeneration" );
@@ -2250,7 +2245,7 @@ void UMLDoc::loadExtensionsFromXMI(QDomNode& node) {
 		}
 
 	} else if (tag == "listview") {
-		if( !listView -> loadFromXMI( element ) ) {
+		if( !UMLApp::app()->getListView() -> loadFromXMI( element ) ) {
 			kdWarning() << "failed load on listview" << endl;
 		}
 
@@ -2494,7 +2489,6 @@ bool UMLDoc::addUMLObjectPaste(UMLObject* Obj) {
 		delete Obj;
 		return true;
 	}
-	 ****/
 	int result =  assignNewID(Obj->getID());
 	Obj->setID(result);
 
@@ -2521,6 +2515,7 @@ bool UMLDoc::addUMLObjectPaste(UMLObject* Obj) {
 			listItem->setID(result);
 		}
 	}
+	 ****/
 
 	m_objectList.append(Obj);
 	setModified(true);
@@ -2818,7 +2813,7 @@ void UMLDoc::createDatatype(QString name)  {
 	if (!umlobject) {
 		createUMLObject(ot_Datatype, name);
 	}
-	listView->closeDatatypesFolder();
+	UMLApp::app()->getListView()->closeDatatypesFolder();
 }
 
 bool UMLDoc::objectTypeIsClassifierListItem(UMLObject_Type type)  {

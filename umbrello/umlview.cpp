@@ -416,11 +416,7 @@ void UMLView::hideEvent(QHideEvent* /*he*/) {
 	canvas()->setDoubleBuffering( false );
 #	endif
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLListView * UMLView::getListView() {
-	return m_pDoc->getListView();
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void UMLView::slotObjectCreated(UMLObject* o) {
 	m_bPaste = false;
 	int type  = o->getBaseType();
@@ -1983,7 +1979,7 @@ bool UMLView::setAssoc(UMLWidget *pWidget) {
 		AssociationWidget *temp = new AssociationWidget(this, widgetA, type, widgetB);
 		addAssocInViewAndDoc(temp);
 		if (type == at_Containment) {
-			UMLListView *lv = getListView();
+			UMLListView *lv = UMLApp::app()->getListView();
 			UMLObject *newContainer = widgetA->getUMLObject();
 			UMLObject *objToBeMoved = widgetB->getUMLObject();
 			if (newContainer && objToBeMoved) {

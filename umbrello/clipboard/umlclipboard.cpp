@@ -26,6 +26,7 @@
 #include "../umlobjectlist.h"
 #include "../umlview.h"
 #include "../umlwidget.h"
+#include "../uml.h"
 
 UMLClipboard::UMLClipboard() {
 	m_type = clip1;
@@ -47,7 +48,7 @@ QMimeSource* UMLClipboard::copy(UMLDoc* Doc, bool fromView/*=false*/) {
 	UMLDrag *data = 0;
 	QPixmap* png = 0;
 
-	UMLListView * listView = Doc->listView;
+	UMLListView * listView = UMLApp::app()->getListView();
 	UMLListViewItemList selectedItems;
 	selectedItems.setAutoDelete(false);
 
@@ -301,6 +302,7 @@ bool UMLClipboard::pasteChildren(UMLListViewItem* Parent, UMLListViewItemListIt*
 	//of children to be added
 	UMLListViewItem* item = 0;
 	int children = itemdata -> childCount();
+	UMLListView *listView = UMLApp::app()->getListView();
 	for(int i = 0; i < children; i++) {
 		++(*It);
 		itemdata = It->current();
@@ -309,7 +311,7 @@ bool UMLClipboard::pasteChildren(UMLListViewItem* Parent, UMLListViewItemListIt*
 			return false; //Error this function gets called only if the parent Item
 			//has children and that means It->current() shouldn't be null
 		}
-		item = Doc->listView->createItem(*itemdata, ChangeLog, Parent);
+		item = listView->createItem(*itemdata, ChangeLog, Parent);
 		int count = itemdata -> childCount();
 		if( item && count ) {
 			kdDebug()<<count<<endl;
@@ -344,6 +346,7 @@ bool UMLClipboard::pasteClip1(UMLDoc* doc, QMimeSource* data) {
 	objects.setAutoDelete(false);
 	IDChangeLog* idchanges = 0;
 	bool result = UMLDrag::decodeClip1(data, objects, itemdatalist, doc);
+	return result;
 	if(!result) {
 		return false;
 	}
@@ -361,11 +364,11 @@ bool UMLClipboard::pasteClip1(UMLDoc* doc, QMimeSource* data) {
 		}
 	}
 	bool objectAlreadyExists = false;
+	UMLListView *lv = UMLApp::app()->getListView();
 	UMLListViewItem* item = 0;
 	UMLListViewItem* itemdata = 0;
 	UMLListViewItemListIt it(itemdatalist);
 	while ( (itemdata=it.current()) != 0 ) {
-		UMLListView *lv = doc->listView;
 		UMLListViewItem *parent = (UMLListViewItem *)lv->currentItem();
 		/*
 		if ( (item = lv->findItem(idchanges->findNewID(itemdata->getID()))) ) {
@@ -429,11 +432,12 @@ bool UMLClipboard::pasteClip2(UMLDoc* doc, QMimeSource* data) {
 		}
 	}
 
+	UMLListView *listView = UMLApp::app()->getListView();
 	UMLListViewItem* item = 0;
 	UMLListViewItem* itemdata = 0;
 	UMLListViewItemListIt it(itemdatalist);
 	while ( (itemdata=it.current()) != 0 ) {
-		item = doc->listView->createItem(*itemdata, *idchanges);
+		item = listView->createItem(*itemdata, *idchanges);
 		if(!item) {
 			return false;
 		}
@@ -461,13 +465,14 @@ bool UMLClipboard::pasteClip3(UMLDoc* doc, QMimeSource* data) {
 		return false;
 	}
 
-	bool result = UMLDrag::decodeClip3(data, itemdatalist, doc->listView);
+	UMLListView *listView = UMLApp::app()->getListView();
+	bool result = UMLDrag::decodeClip3(data, itemdatalist, listView);
 	if(!result) {
 		return false;
 	}
 	UMLListViewItemListIt it(itemdatalist);
 	while ( (itemdata=it.current()) != 0 ) {
-		item = doc->listView->createItem(*itemdata, *idchanges);
+		item = listView->createItem(*itemdata, *idchanges);
 		if(itemdata -> childCount()) {
 			if(!pasteChildren(item, &it, *idchanges, doc)) {
 				return false;
@@ -562,11 +567,12 @@ bool UMLClipboard::pasteClip4(UMLDoc* doc, QMimeSource* data) {
 	}
 	doc->getCurrentView()->endPartialWidgetPaste();
 
+	UMLListView *listView = UMLApp::app()->getListView();
 	UMLListViewItem* item = 0;
 	UMLListViewItem* itemdata = 0;
 	UMLListViewItemListIt it(itemdatalist);
 	while ( (itemdata=it.current()) != 0 ) {
-		item = doc->listView->createItem(*itemdata, *idchanges);
+		item = listView->createItem(*itemdata, *idchanges);
 		if(!item) {
 			return false;
 		}
@@ -587,7 +593,8 @@ bool UMLClipboard::pasteClip4(UMLDoc* doc, QMimeSource* data) {
 /** If clipboard has mime type application/x-uml-clip5,
 Pastes the data from the clipboard into the current Doc */
 bool UMLClipboard::pasteClip5(UMLDoc* doc, QMimeSource* data) {
-	UMLListViewItem* lvitem = dynamic_cast<UMLListViewItem *>( doc->listView->currentItem() );
+	UMLListView *listView = UMLApp::app()->getListView();
+	UMLListViewItem* lvitem = dynamic_cast<UMLListViewItem *>( listView->currentItem() );
 	if(!lvitem || (lvitem->getType() != Uml::lvt_Class)) {
 		return false;
 	}

@@ -65,7 +65,7 @@ UMLApp::UMLApp(QWidget* , const char* name):KDockMainWindow(0, name) {
 	s_instance = this;
 	m_pDocWindow = 0;
 	config=kapp->config();
-	listView = 0;
+	m_listView = 0;
 	generatorDict.setAutoDelete(true);
 	langSelect = 0L;
 	zoomSelect = 0L;
@@ -378,8 +378,8 @@ void UMLApp::initView() {
 	setMainDockWidget(m_mainDock);
 
 	m_listDock = createDockWidget( "Model", 0L, 0L, i18n("&Tree View") );
-	listView = new UMLListView(m_listDock ,"LISTVIEW");
-	m_listDock->setWidget(listView);
+	m_listView = new UMLListView(m_listDock ,"LISTVIEW");
+	m_listDock->setWidget(m_listView);
 	m_listDock->setDockSite(KDockWidget::DockCorner);
 	m_listDock->manualDock(m_mainDock, KDockWidget::DockLeft, 20);
 
@@ -389,8 +389,8 @@ void UMLApp::initView() {
 	m_documentationDock->setDockSite(KDockWidget::DockCorner);
 	m_documentationDock->manualDock(m_listDock, KDockWidget::DockBottom, 80);
 
-	listView->setDocument(doc);
-	doc->setupListView(listView);//make sure has a link to list view and add info widget
+	m_listView->setDocument(doc);
+	//doc->setupListView(listView);//make sure has a link to list view and add info widget
 	doc->setupSignals();//make sure gets signal from list view
 
 	readDockConfig(); //reposition all the DockWindows to their saved positions
@@ -415,6 +415,10 @@ void UMLApp::openDocumentFile(const KURL& url) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLDoc *UMLApp::getDocument() const {
 	return doc;
+}
+
+UMLListView* UMLApp::getListView() {
+	return m_listView;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -752,7 +756,7 @@ void UMLApp::slotEditCut() {
 	bool fromview = (doc->getCurrentView() && doc->getCurrentView()->getSelectCount());
 	if (!fromview) {
 		//so it knows to delete the selection
-		listView->setStartedCut(true);
+		m_listView->setStartedCut(true);
 	}
 	if ( editCutCopy(fromview) ) {
 		emit sigCutSuccessful();
@@ -922,7 +926,7 @@ void UMLApp::slotClipDataChanged() {
 }
 
 void UMLApp::slotCopyChanged() {
-	if(listView->getSelectedCount() || (doc->getCurrentView() && doc->getCurrentView()->getSelectCount())) {
+	if(m_listView->getSelectedCount() || (doc->getCurrentView() && doc->getCurrentView()->getSelectCount())) {
 		editCopy->setEnabled(true);
 		editCut->setEnabled(true);
 	} else {
