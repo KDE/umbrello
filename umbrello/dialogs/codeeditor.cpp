@@ -220,9 +220,6 @@ void CodeEditor::loadFromDocument ()
 void CodeEditor::insert (const QString & text, TextBlock * parent, bool editable, const QColor & fgcolor, const QColor & bgcolor, UMLObject * umlobj, const QString & displayName)
 {
 
-        if(StringIsBlank(text))
-                return;
-
         // we will need this later for background coloring
         int startLine = paragraphs()-1;
 
@@ -365,6 +362,9 @@ void CodeEditor::insertText (CodeMethodBlock * mb) {
         QString body = mb->formatMultiLineText (mb->getText(), bodyIndent, "\n");
         QString endText = mb->formatMultiLineText( mb->getEndMethodText(), indent, "\n");
 
+	if(body.isEmpty())
+		body = " \n";
+
         if(!mb->getWriteOutText() && m_showHiddenBlocks)
 	{
 
@@ -412,8 +412,8 @@ void CodeEditor::insertText (CodeMethodBlock * mb) {
 
         if(!StringIsBlank(startText))
                 insert(startText,mb,false,getState().fontColor,bgcolor,parentObj);
-        if(!StringIsBlank(body))
-                insert(body,mb,true,getState().fontColor,bgcolor,parentObj);
+	// always insert body of method block.
+	insert(body,mb,true,getState().fontColor,bgcolor,parentObj);
         if(!StringIsBlank(endText))
                 insert(endText,mb,false,getState().fontColor,bgcolor,parentObj);
 
