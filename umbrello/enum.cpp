@@ -58,6 +58,8 @@ void UMLEnum::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool UMLEnum::load(QDomElement& element) {
 	QDomNode node = element.firstChild();
+	if (node.isComment())
+		node = node.nextSibling();
 	QDomElement tempElement = node.toElement();
 	while( !tempElement.isNull() ) {
 		QString tag = tempElement.tagName();
@@ -75,6 +77,8 @@ bool UMLEnum::load(QDomElement& element) {
 			kdWarning() << "unknown child type in UMLEnum::load" << endl;
 		}
 		node = node.nextSibling();
+		if (node.isComment())
+			node = node.nextSibling();
 		tempElement = node.toElement();
 	}//end while
 	return true;

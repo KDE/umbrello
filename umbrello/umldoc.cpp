@@ -1868,7 +1868,7 @@ short UMLDoc::getEncoding(QIODevice & file)
 	// we start at the beginning and go to the point in the header where we can
 	// find out if the file was saved using Unicode
 	QDomNode node = doc.firstChild();
-	if (node.isProcessingInstruction())
+	while (node.isComment() || node.isProcessingInstruction())
 	{
 		node = node.nextSibling();
 	}
@@ -1934,7 +1934,6 @@ short UMLDoc::getEncoding(QIODevice & file)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
 {
-
 	// old Umbrello versions (version < 1.2) didn't save the XMI in Unicode
 	// this wasn't correct, because non Latin1 chars where lost
 	// to ensure backward compatibility we have to ensure to load the old files
@@ -1962,7 +1961,7 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
 	QDomNode node = doc.firstChild();
 	//Before Umbrello 1.1-rc1 we didn't add a <?xml heading
 	//so we allow the option of this being missing
-	if (node.isProcessingInstruction()) {
+	while (node.isComment() || node.isProcessingInstruction()) {
 		node = node.nextSibling();
 	}
 
@@ -1979,6 +1978,10 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
 	m_nViewID = -1;
 	m_highestIDforForeignFile = 0;
 	while( !node.isNull() ) {
+		if (node.isComment()) {
+			node = node.nextSibling();
+			continue;
+		}
 		QDomElement element = node.toElement();
 
 		if (element.isNull()) {
@@ -2012,6 +2015,8 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
 		}
 		//process content
 		QDomNode child = node.firstChild();
+		if (child.isComment())
+			child = child.nextSibling();
 		element = child.toElement();
 		while( !element.isNull() ) {
 			QString tag = element.tagName();
@@ -2037,6 +2042,8 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
 				loadExtensionsFromXMI(child);
 			}
 			child = child.nextSibling();
+			if (child.isComment())
+				child = child.nextSibling();
 			element = child.toElement();
 		}//end while
 		node = node.nextSibling();
@@ -2097,6 +2104,8 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element) {
 	emit sigWriteToStatusBar( i18n("Loading UML elements...") );
 
 	QDomNode node = element.firstChild();
+	if (node.isComment())
+		node = node.nextSibling();
 	QDomElement tempElement = node.toElement();
 
 	while ( !tempElement.isNull() ) {
@@ -2120,6 +2129,8 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element) {
 			kdDebug() << "UMLDoc::loadUMLObjectsFromXMI: skipping tag "
 				  << type << endl;
 			node = node.nextSibling();
+			if (node.isComment())
+				node = node.nextSibling();
 			tempElement = node.toElement();
 			continue;
 		}
@@ -2129,6 +2140,8 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element) {
 			// We want a best effort, therefore this is handled as a
 			// soft error.
 			node = node.nextSibling();
+			if (node.isComment())
+				node = node.nextSibling();
 			tempElement = node.toElement();
 			continue;
 		}
@@ -2157,6 +2170,8 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element) {
 		emit sigSetStatusbarProgress( ++m_count );
 		 */
 		node = node.nextSibling();
+		if (node.isComment())
+			node = node.nextSibling();
 		tempElement = node.toElement();
 	}//end while
 

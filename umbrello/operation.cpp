@@ -209,6 +209,8 @@ bool UMLOperation::load( QDomElement & element ) {
 	QString typeName = element.attribute( "type", "" );
 	UMLClassifierListItem::setTypeName( typeName );  // FIXME use model obj.
 	QDomNode node = element.firstChild();
+	if (node.isComment())
+		node = node.nextSibling();
 	QDomElement attElement = node.toElement();
 	while( !attElement.isNull() ) {
 		QString tag = attElement.tagName();
@@ -231,6 +233,8 @@ bool UMLOperation::load( QDomElement & element ) {
 			m_List.append( pAtt );
 		}
 		node = node.nextSibling();
+		if (node.isComment())
+			node = node.nextSibling();
 		attElement = node.toElement();
 	}//end while
 	return true;

@@ -339,6 +339,8 @@ void UMLClassifier::init() {
 
 bool UMLClassifier::load(QDomElement& element) {
 	QDomNode node = element.firstChild();
+	if (node.isComment())
+		node = node.nextSibling();
 	element = node.toElement();
 	while( !element.isNull() ) {
 		QString tag = element.tagName();
@@ -376,6 +378,8 @@ bool UMLClassifier::load(QDomElement& element) {
 					    << "Unknown type of umlobject to create: "
 					    << tag << endl;
 				node = node.nextSibling();
+				if (node.isComment())
+					node = node.nextSibling();
 				element = node.toElement();
 				continue;
 			}
@@ -389,6 +393,8 @@ bool UMLClassifier::load(QDomElement& element) {
 			}
 		}
 		node = node.nextSibling();
+		if (node.isComment())
+			node = node.nextSibling();
 		element = node.toElement();
 	}//end while
 	return true;

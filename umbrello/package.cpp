@@ -173,6 +173,8 @@ void UMLPackage::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
 bool UMLPackage::load(QDomElement& element) {
 	UMLDoc *umldoc = UMLApp::app()->getDocument();
 	QDomNode node = element.firstChild();
+	if (node.isComment())
+		node = node.nextSibling();
 	QDomElement tempElement = node.toElement();
 	while (!tempElement.isNull()) {
 		QString type = tempElement.tagName();
@@ -184,6 +186,8 @@ bool UMLPackage::load(QDomElement& element) {
 			if (! load(tempElement))
 				return false;
 			node = node.nextSibling();
+			if (node.isComment())
+				node = node.nextSibling();
 			tempElement = node.toElement();
 			continue;
 		}
@@ -193,6 +197,8 @@ bool UMLPackage::load(QDomElement& element) {
 				    << "Unknown type of umlobject to create: "
 				    << type << endl;
 			node = node.nextSibling();
+			if (node.isComment())
+				node = node.nextSibling();
 			tempElement = node.toElement();
 			continue;
 		}
@@ -205,6 +211,8 @@ bool UMLPackage::load(QDomElement& element) {
 			delete pObject;
 		}
 		node = node.nextSibling();
+		if (node.isComment())
+			node = node.nextSibling();
 		tempElement = node.toElement();
 	}
 	return true;

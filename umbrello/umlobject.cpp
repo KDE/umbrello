@@ -487,6 +487,8 @@ bool UMLObject::loadFromXMI( QDomElement & element, bool loadID /* =true */) {
 	// of the xmi.id is done.)
 	if (loadID && m_Name.isEmpty()) {
 		QDomNode node = element.firstChild();
+		if (node.isComment())
+			node = node.nextSibling();
 		QDomElement elem = node.toElement();
 		while( !elem.isNull() ) {
 			QString tag = elem.tagName();
@@ -514,6 +516,8 @@ bool UMLObject::loadFromXMI( QDomElement & element, bool loadID /* =true */) {
 				m_bStatic = (ownerScope == "classifier");
 			}
 			node = node.nextSibling();
+			if (node.isComment())
+				node = node.nextSibling();
 			elem = node.toElement();
 		}
 	}

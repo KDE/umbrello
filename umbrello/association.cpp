@@ -191,6 +191,8 @@ bool UMLAssociation::load( QDomElement & element ) {
 	}
 
 	QDomNode node = element.firstChild();
+	if (node.isComment())
+		node = node.nextSibling();
 	if (!node.isNull()) {
 		QDomElement tempElement = node.toElement();
 		// uml13.dtd compliant format (new style)
@@ -209,6 +211,8 @@ bool UMLAssociation::load( QDomElement & element ) {
 		}
 		// Load role A.
 		node = tempElement.firstChild();
+		if (node.isComment())
+			node = node.nextSibling();
 		tempElement = node.toElement();
 		if (tempElement.isNull()) {
 			kdWarning() << "UML:Association : element (A) is Null" << endl;
@@ -225,6 +229,8 @@ bool UMLAssociation::load( QDomElement & element ) {
 			return false;
 		// Load role B.
 		node = node.nextSibling();
+		if (node.isComment())
+			node = node.nextSibling();
 		tempElement = node.toElement();
 		if (tempElement.isNull()) {
 			kdWarning() << "UML:Association : element (B) is Null" << endl;
