@@ -24,12 +24,22 @@
  *	@author Paul Hensgen	<phensgen@techie.com>
  *	@version 1.0
  */
+ 
+namespace Umbrello
+{
+class Diagram;
+class DiagramView;
+} 
 class IDChangeLog;
 class ListPopupMenu;
 class UMLConcept;
 class UMLDoc;
 class UMLListViewItem;
 class UMLView;
+
+using Umbrello::Diagram;
+using Umbrello::DiagramView;
+
 
 class UMLListView : public KListView {
 	Q_OBJECT
@@ -215,6 +225,7 @@ protected:
 	UMLListViewItem* ucv;//use case view item
 	UMLListViewItem* lv;//logical view item
 	UMLListViewItem* componentView;//component view item
+	UMLListViewItem *diagramFolder;
 	ListPopupMenu * menu;
 	QString oldText, message;
 	UMLDoc * doc;
@@ -301,6 +312,7 @@ protected:
 
 public slots:
 	void slotDiagramCreated(int id);
+	void diagramCreated(Umbrello::Diagram*);
 	void slotChildObjectCreated(UMLObject * o);
 	void slotDiagramRenamed(int id);
 	void slotObjectChanged(UMLObject * o);
@@ -338,6 +350,8 @@ signals:
 	 *   Reset the status bar
 	 */
 	void sigResetStatusbarProgress();
+	
+	void diagramSelected( int );
 
 	/*
 	*

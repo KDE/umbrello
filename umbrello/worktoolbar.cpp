@@ -191,6 +191,7 @@ void WorkToolBar::buttonChanged(int b) {
 		toggleButton(tbb_Arrow);
 		m_CurrentButtonID = tbb_Arrow;
 		emit sigButtonChanged(m_CurrentButtonID);
+		emit toolSelected((EditTool)m_CurrentButtonID);
 		curs.setShape(Qt::ArrowCursor);
 		view -> setCursor(curs);
 		return;
@@ -199,6 +200,7 @@ void WorkToolBar::buttonChanged(int b) {
 	toggleButton(m_CurrentButtonID);
 	m_CurrentButtonID = tbb;
 	emit sigButtonChanged(m_CurrentButtonID);
+	emit toolSelected((EditTool)m_CurrentButtonID);
 	if(m_CurrentButtonID == tbb_Arrow)
 		curs.setShape(Qt::ArrowCursor);
 	else   //maybe switch and set a different cursor for each tool
@@ -214,6 +216,7 @@ void WorkToolBar::slotResetToolBar() {
 	m_CurrentButtonID = tbb_Arrow;
 	toggleButton(m_CurrentButtonID);
 	emit sigButtonChanged(m_CurrentButtonID);
+	emit toolSelected((EditTool)m_CurrentButtonID);
 
 	QCursor curs;
 	curs.setShape(Qt::ArrowCursor);
@@ -222,6 +225,12 @@ void WorkToolBar::slotResetToolBar() {
 	if (view != NULL) {
 		view -> setCursor(curs);
 	}
+}
+
+
+WorkToolBar::EditTool WorkToolBar::currentTool()
+{
+return (EditTool)m_CurrentButtonID;
 }
 ///////////////////////////////////////////////////////////////////////////////////////////
 void WorkToolBar::setOldTool() {

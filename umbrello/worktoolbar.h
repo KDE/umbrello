@@ -15,7 +15,6 @@
 
 #include <qmap.h>
 
-
 /**
  *	This is the toolbar that is displayed on the right-hand side of the program
  *	window.  For each type of diagram it will change to suit that document.
@@ -27,6 +26,12 @@
 class WorkToolBar : public KToolBar {
 	Q_OBJECT
 public:
+
+enum EditTool {Select = 0, Generalization, Aggregation, Dependency, Association,
+CollMessage, SeqMessage, Composition, UniAssociation, StateTransition, ActivityTransition,
+ Anchor, Note, Text, Actor, UseCase, Class, Interface, Package, Component, Object,
+InitialState, State, EndState, InitialActivity, Activity, EndActivity, Branch, Fork };	
+
 	/**
 	 *	Creates a work tool bar
 	 *
@@ -35,7 +40,7 @@ public:
 	 */
 	WorkToolBar(QMainWindow *parentWindow,const char*name);
 
-	/** //luis
+	/**
 	 * Sets the current tool to the previously used Tool, this is just
 	 * as if the user had pressed the button for the other tool
 	 */
@@ -47,12 +52,14 @@ public:
 	 * button on the toolbar
 	 */
 	void setDefaultTool();
+	
+	EditTool currentTool();
 
 	/**
 	 *	Standard deconstructor
 	 */
 	~WorkToolBar();
-
+	
 
 	enum ToolBar_Buttons
 	{
@@ -126,6 +133,7 @@ private:
 	void loadPixmaps();
 signals:
 	void sigButtonChanged(int);
+	void toolSelected(WorkToolBar::EditTool);
 public slots:
 	void slotCheckToolBar(Uml::Diagram_Type dt);
 	void buttonChanged(int b);

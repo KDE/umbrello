@@ -34,6 +34,9 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kstddirs.h>
+#include "diagram/diagram.h"
+
+//using Umbrello::Diagram;
 
 UMLListView::UMLListView(QWidget *parent,const char *name) : KListView(parent,name) {
 	loadPixmaps();
@@ -75,6 +78,7 @@ void UMLListView::contentsMousePressEvent(QMouseEvent *me) {
 				KMessageBox::error( kapp -> mainWidget(), i18n("Could not activate the diagram."), i18n("Diagram Load Error"));
 			else
 				doc -> changeCurrentView(item->getID());
+			emit diagramSelected( item->getID());	
 			doc -> getDocWindow() -> showDocumentation( doc -> findView( item -> getID() ), false );
 			break;
 
@@ -301,6 +305,12 @@ void UMLListView::popupMenuSel(int sel) {
 	}//end switch
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+void UMLListView::diagramCreated(Diagram *d)
+{
+new UMLListViewItem( diagramFolder, d->name(), convert_DT_LVT((Uml::Diagram_Type)d->diagramType()), d->getID());	
+	
+}
+/////
 void UMLListView::slotDiagramCreated( int id ) {
 	if( loading )
 		return;
@@ -604,6 +614,7 @@ void UMLListView::init() {
 	ucv = new UMLListViewItem(rv, i18n("Use Case View"), Uml::lvt_UseCase_View);
 	lv = new UMLListViewItem(rv, i18n("Logical View"), Uml::lvt_Logical_View);
 	componentView = new UMLListViewItem(rv, i18n("Component View"), Uml::lvt_Component_View);
+	diagramFolder = new UMLListViewItem(rv,i18n("Diagrams"),Uml::lvt_Logical_View);
 	rv->setOpen(true);
 	ucv->setOpen(true);
 	lv->setOpen(true);
