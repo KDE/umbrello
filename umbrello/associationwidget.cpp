@@ -11,9 +11,16 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+
+// own header
+#include "associationwidget.h"
+// system includes
 #include <cstdlib>
 #include <cmath>
-
+// qt/kde includes
+#include <kdebug.h>
+#include <klocale.h>
+// app includes
 #include "activitywidget.h"
 #include "uml.h"
 #include "umlview.h"
@@ -25,16 +32,14 @@
 #include "classifier.h"
 #include "attribute.h"
 #include "association.h"
-#include "associationwidget.h"
 #include "assocrules.h"
 #include "floatingtext.h"
 #include "objectwidget.h"
 #include "widget_utils.h"
 #include "dialogs/assocpropdlg.h"
 #include "inputdialog.h"
-
-#include <kdebug.h>
-#include <klocale.h>
+#include "umllistview.h"
+#include "umllistviewitem.h"
 
 using namespace Uml;
 
@@ -2100,6 +2105,27 @@ void AssociationWidget::slotMenuSelection(int sel) {
 		break;
 
 	case ListPopupMenu::mt_Delete:
+		if (getAssocType() == at_Containment) {
+			UMLListView *lv = UMLApp::app()->getListView();
+			UMLObject *oldContainer = getWidget(A)->getUMLObject();
+			UMLObject *objToBeMoved = getWidget(B)->getUMLObject();
+			if (objToBeMoved == NULL) {
+				m_pView->removeAssocInViewAndDoc(this);
+				return;
+			}
+			UMLListViewItem *newLVParent = NULL;
+			if (oldContainer) {
+				UMLListViewItem *oldLVParent = lv->findUMLObject(oldContainer);
+				if (oldLVParent)
+					newLVParent = dynamic_cast<UMLListViewItem*>(oldLVParent->parent());
+			}
+			if (newLVParent == NULL)
+				newLVParent = lv->theLogicalView();
+			Object_Type ot = objToBeMoved->getBaseType();
+			lv->moveObject( objToBeMoved->getID(),
+					UMLListView::convert_OT_LVT(ot),
+					newLVParent );
+		}
 		m_pView->removeAssocInViewAndDoc(this);
 		break;
 
