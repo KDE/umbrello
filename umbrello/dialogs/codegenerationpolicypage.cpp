@@ -40,5 +40,5 @@ void CodeGenerationPolicyPage::apply() {
 
 void CodeGenerationPolicyPage::setDefaults() { }
 
-#include "codegenerationpolicypage.moc.cpp"
+#include "codegenerationpolicypage.moc"
 
