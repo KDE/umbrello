@@ -17,12 +17,13 @@
 #include <qlabel.h>
 #include <qradiobutton.h>
 #include <qbuttongroup.h>
-#include <qdict.h> 
+#include <qdict.h>
 //kde includes
 #include <kcombobox.h>
 #include <kfontdialog.h>
 #include <kdialogbase.h>
 #include <kcolorbutton.h>
+#include <knuminput.h>
 //app includes
 
 #include "../codegenerator.h"
@@ -83,6 +84,7 @@ public:
 		bool useFillColor;
 		QColor fillColor;
 		QColor lineColor;
+		uint   lineWidth;
 		QFont font;
 	}
 	;//end struct UIState
@@ -109,7 +111,7 @@ public:
 	}
 	;//end struct OptionState
 
-	SettingsDlg( QWidget * parent, OptionState state, 
+	SettingsDlg( QWidget * parent, OptionState state,
 		     QDict<GeneratorInfo> ldict, QString activeLanguage, CodeGenerator * gen);
 	~SettingsDlg();
 
@@ -131,12 +133,15 @@ private:
 
 		QLabel * lineColorL;
 		QLabel * fillColorL;
+		QLabel * lineWidthL;
 
 		QPushButton * lineDefaultB;
 		QPushButton * fillDefaultB;
+		QPushButton * lineWidthDefaultB;
 
 		KColorButton * lineColorB;
 		KColorButton * fillColorB;
+		KIntSpinBox  * lineWidthB;
 
 		QCheckBox * useFillColorCB;
 	}

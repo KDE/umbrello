@@ -64,9 +64,23 @@ void SettingsDlg::setupUIPage() {
 	m_UiWidgets.fillDefaultB = new QPushButton( i18n("De&fault Color"), m_UiWidgets.colorGB );
 	colorLayout -> addWidget( m_UiWidgets.fillDefaultB, 1, 2 );
 
+
+	m_UiWidgets.lineWidthL = new QLabel( i18n("Line width:"), m_UiWidgets.colorGB );
+	colorLayout -> addWidget( m_UiWidgets.lineWidthL, 2, 0 );
+
+	// Low-Limit: 0, High-Limit: 10, Step: 1, Initial-Val: m_OptionState.uiState.lineWidth
+	// Number-Base: 10 ( decimal ), Parent: m_UiWidgets.colorGB
+	m_UiWidgets.lineWidthB = new KIntSpinBox( 0, 10, 1, m_OptionState.uiState.lineWidth, 10, m_UiWidgets.colorGB );
+	colorLayout -> addWidget( m_UiWidgets.lineWidthB, 2, 1 );
+
+	m_UiWidgets.lineWidthDefaultB = new QPushButton( i18n("D&efault Width"), m_UiWidgets.colorGB );
+	colorLayout -> addWidget( m_UiWidgets.lineWidthDefaultB, 2, 2 );
+
+
+
 	m_UiWidgets.useFillColorCB = new QCheckBox( i18n("&Use fill color"), m_UiWidgets.colorGB );
-	colorLayout -> setRowStretch( 2, 2 );
-	colorLayout -> addWidget( m_UiWidgets.useFillColorCB, 2, 0 );
+	colorLayout -> setRowStretch( 3, 2 );
+	colorLayout -> addWidget( m_UiWidgets.useFillColorCB, 3, 0 );
 	m_UiWidgets.useFillColorCB -> setChecked( m_OptionState.uiState.useFillColor );
 
 	//connect button signals up
@@ -270,6 +284,7 @@ void SettingsDlg::slotDefault() {
 			m_UiWidgets.useFillColorCB -> setChecked( true );
 			m_UiWidgets.fillColorB -> setColor( QColor( 255, 255, 192 ) );
 			m_UiWidgets.lineColorB -> setColor( red );
+			m_UiWidgets.lineWidthB -> setValue( 0 );
 			break;
 
 		case page_class:
@@ -311,6 +326,7 @@ void SettingsDlg::applyPage( Page page ) {
 			m_OptionState.uiState.useFillColor = m_UiWidgets.useFillColorCB -> isChecked();
 			m_OptionState.uiState.fillColor = m_UiWidgets.fillColorB -> color();
 			m_OptionState.uiState.lineColor = m_UiWidgets.lineColorB -> color();
+			m_OptionState.uiState.lineWidth = m_UiWidgets.lineWidthB -> value();
 			break;
 
 		case page_class:

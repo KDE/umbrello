@@ -77,6 +77,7 @@ void LinePath::setAssociation(AssociationWidget * association ) {
 		setupParallelLine();
 	UMLView * view =  (UMLView *)m_pAssociation -> parent();
 	connect( view, SIGNAL( sigLineColorChanged( QColor ) ), this, SLOT( setLineColor( QColor ) ) );
+	connect( view, SIGNAL( sigLineWidthChanged( uint ) ), this, SLOT( setLineWidth( uint ) ) );
 }
 
 QPoint LinePath::getPoint( int pointIndex ) {
@@ -334,19 +335,23 @@ void LinePath::update() {
 
 void LinePath::setLineColor( QColor color ) {
 	QCanvasLine * line = 0;
+	uint linewidth = 0;
 	LineListIt it( m_LineList );
 	while( ( line = it.current() ) ) {
-		line -> setPen( QPen( color ) );
+		linewidth = line->pen().width();
+		line -> setPen( QPen( color, linewidth ) );
 		++it;
 	}
 	LineListIt hit( m_HeadList );
 	while( ( line = hit.current() ) ) {
-		line -> setPen( QPen( color ) );
+		linewidth = line->pen().width();
+		line -> setPen( QPen( color, linewidth ) );
 		++hit;
 	}
 	LineListIt pit( m_ParallelList );
 	while( ( line = pit.current() ) ) {
-		line -> setPen( QPen( color ) );
+		linewidth = line->pen().width();
+		line -> setPen( QPen( color, linewidth ) );
 		++pit;
 	}
 
@@ -355,8 +360,38 @@ void LinePath::setLineColor( QColor color ) {
 	else if( getAssocType() == at_Composition )
 		if (m_pClearPoly) m_pClearPoly -> setBrush( QBrush( color ) );
 
-	if( m_pCircle )
-		m_pCircle->setPen( QPen(color) );
+	if( m_pCircle ) {
+		linewidth = m_pCircle->pen().width();
+		m_pCircle->setPen( QPen(color, linewidth) );
+	}
+}
+
+void LinePath::setLineWidth( uint width ) {
+	QCanvasLine * line = 0;
+	QColor linecolor;
+	LineListIt it( m_LineList );
+	while( ( line = it.current() ) ) {
+		linecolor = line->pen().color();
+		line -> setPen( QPen( linecolor, width ) );
+		++it;
+	}
+	LineListIt hit( m_HeadList );
+	while( ( line = hit.current() ) ) {
+		linecolor = line->pen().color();
+		line -> setPen( QPen( linecolor, width ) );
+		++hit;
+	}
+	LineListIt pit( m_ParallelList );
+	while( ( line = pit.current() ) ) {
+		linecolor = line->pen().color();
+		line -> setPen( QPen( linecolor, width ) );
+		++pit;
+	}
+
+	if( m_pCircle ) {
+		linecolor = m_pCircle->pen().color();
+		m_pCircle->setPen( QPen(linecolor, width) );
+	}
 }
 
 void LinePath::moveSelected( int pointIndex ) {
@@ -413,8 +448,8 @@ void LinePath::setupSelected() {
 QPen LinePath::getPen() {
 	Uml::Association_Type type = getAssocType();
 	if( type == at_Dependency || type == at_Realization || type == at_Anchor )
-		return QPen( getLineColor(), 0, DashLine );
-	return QPen( getLineColor() );
+		return QPen( getLineColor(), getLineWidth(), DashLine );
+	return QPen( getLineColor(), getLineWidth() );
 }
 
 #ifdef DEBUG_ASSOCLINES
@@ -570,7 +605,7 @@ void LinePath::updateHead() {
 }
 
 void LinePath::growHeadList(int by) {
-	QPen pen( getLineColor() );
+	QPen pen( getLineColor(), getLineWidth() );
 	for (int i = 0; i < by; i++) {
 		QCanvasLine * line = new QCanvasLine( getCanvas() );
 		line -> setZ( 0 );
@@ -617,7 +652,7 @@ void LinePath::createHeadLines() {
 			if (!m_pCircle) {
 				m_pCircle = new Circle( canvas, 6 );
 				m_pCircle->show();
-				m_pCircle->setPen( QPen( getLineColor() ) );
+				m_pCircle->setPen( QPen( getLineColor(), getLineWidth() ) );
 			}
 			break;
 		default:
@@ -677,7 +712,7 @@ void LinePath::calculateParallelLine() {
 void LinePath::setupParallelLine() {
 	m_ParallelList.clear();
 	QCanvas * canvas = getCanvas();
-	QPen pen( getLineColor() );
+	QPen pen( getLineColor(), getLineWidth() );
 	QCanvasLine * line = new QCanvasLine( canvas );
 	line -> setZ( 0 );
 	line -> setPen( pen );
@@ -768,6 +803,17 @@ QColor LinePath::getLineColor() {
 	return view -> getLineColor();
 }
 
+uint LinePath::getLineWidth() {
+	if( !m_pAssociation )
+		return 0;
+	UMLView * view =  (UMLView *)m_pAssociation -> parent();
+	if ( view -> getLineWidth() < 3 ) return view -> getLineWidth();
+	else {
+		kdWarning() << "Ignore wrong LineWidth of " << view -> getLineWidth() << " in LinePath::getLineWidth" << endl;
+		return 0;
+	}
+}
+
 void LinePath::cleanup() {
 	if (m_pAssociation)
 		m_LineList.clear();
@@ -784,8 +830,10 @@ void LinePath::cleanup() {
 	m_bHeadCreated = m_bParallelLineCreated = false;
 	if( m_pAssociation ) {
 		UMLView * view =  (UMLView *)m_pAssociation -> parent();
-		if(view)
+		if(view) {
 			disconnect( view, SIGNAL( sigLineColorChanged( QColor ) ), this, SLOT( setLineColor( QColor ) ) );
+			disconnect( view, SIGNAL( sigLineWidthChanged( uint ) ), this, SLOT( setLineWidth( uint ) ) );
+		}
 		m_pAssociation = NULL;
 	}
 }

@@ -443,6 +443,7 @@ void UMLApp::saveOptions() {
 	config->writeEntry( "useFillColor", optionState.uiState.useFillColor );
 	config->writeEntry( "fillColor", optionState.uiState.fillColor );
 	config->writeEntry( "lineColor", optionState.uiState.lineColor );
+	config->writeEntry( "lineWidth", optionState.uiState.lineWidth );
 	config->writeEntry( "showDocWindow", m_documentationDock->isVisible() );
 	config->writeEntry( "font", optionState.uiState.font );
 
@@ -992,6 +993,7 @@ void UMLApp::readOptionState() {
 
 	optionState.uiState.fillColor = config -> readColorEntry( "fillColor", &defaultYellow );
 	optionState.uiState.lineColor = config -> readColorEntry( "lineColor", &red );
+	optionState.uiState.lineWidth = config -> readNumEntry( "lineWidth", 0 );
 	QFont font = ((QWidget *) this)->font() ;
 	optionState.uiState.font = config -> readFontEntry("font", &font );
 

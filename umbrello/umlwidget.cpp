@@ -63,6 +63,7 @@ UMLWidget::UMLWidget( UMLView * view, UMLObject * o, SettingsDlg::OptionState op
 	init();
 	m_FillColour = optionState.uiState.fillColor;
 	m_LineColour = optionState.uiState.lineColor;
+	m_LineWidth  = optionState.uiState.lineWidth;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLWidget::UMLWidget( UMLView * view, int id )
@@ -85,6 +86,7 @@ UMLWidget::UMLWidget( UMLView * view, SettingsDlg::OptionState optionState )
 	init();
 	m_FillColour = optionState.uiState.fillColor;
 	m_LineColour = optionState.uiState.lineColor;
+	m_LineWidth  = optionState.uiState.lineWidth;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -108,8 +110,10 @@ UMLWidget& UMLWidget::operator=(const UMLWidget& other) {
 	QCanvasRectangle::setSize( other.width(), other.height() );
 	m_bUsesDiagramFillColour = other.m_bUsesDiagramFillColour;
 	m_bUsesDiagramLineColour = other.m_bUsesDiagramLineColour;
+	m_bUsesDiagramLineWidth  = other.m_bUsesDiagramLineWidth;
 	m_bUsesDiagramUseFillColour = other.m_bUsesDiagramUseFillColour;
 	m_LineColour = other.m_LineColour;
+	m_LineWidth  = other.m_LineWidth;
 	m_FillColour = other.m_FillColour;
 	m_bIsInstance = other.m_bIsInstance;
 	m_instanceName = other.m_instanceName;
@@ -416,15 +420,19 @@ void UMLWidget::init() {
 		m_bUseFillColour = true;
 		m_bUsesDiagramFillColour = true;
 		m_bUsesDiagramLineColour = true;
+		m_bUsesDiagramLineWidth  = true;
 		m_bUsesDiagramUseFillColour = true;
 		const SettingsDlg::OptionState& optionState = m_pView->getOptionState();
 		m_FillColour = optionState.uiState.fillColor;
 		m_LineColour = optionState.uiState.lineColor;
+		m_LineWidth  = optionState.uiState.lineWidth;
 	} else {
 		m_bUseFillColour = false;
 		m_bUsesDiagramFillColour = false;
 		m_bUsesDiagramLineColour = false;
+		m_bUsesDiagramLineWidth  = false;
 		m_bUsesDiagramUseFillColour = false;
+		m_LineWidth = 0; // initialize with 0 to have valid start condition
 	}
 
 	for (int i = 0; i < (int)FT_INVALID; ++i)
@@ -595,6 +603,17 @@ void UMLWidget::slotColorChanged(int viewID) {
 	update();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+void UMLWidget::slotLineWidthChanged(int viewID) {
+	//only change if on the diagram concerned
+	if(m_pView->getID() != viewID) {
+		return;
+	}
+	if ( m_bUsesDiagramLineWidth ) {
+		m_LineWidth = m_pView->getLineWidth();
+	}
+	update();
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLWidget::mouseDoubleClickEvent( QMouseEvent * me ) {
 	if( me -> button() != LeftButton ||
 	    m_pView->getCurrentCursor() != WorkToolBar::tbb_Arrow)
@@ -616,6 +635,12 @@ void UMLWidget::setUseFillColour(bool fc) {
 void UMLWidget::setLineColour(QColor colour) {
 	m_LineColour = colour;
 	m_bUsesDiagramLineColour = false;
+	update();
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+void UMLWidget::setLineWidth(uint width) {
+	m_LineWidth = width;
+	m_bUsesDiagramLineWidth = false;
 	update();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1042,6 +1067,7 @@ bool UMLWidget::saveToXMI( QDomDocument & /*qDoc*/, QDomElement & qElement ) {
 	qElement.setAttribute( "height", getHeight() );
 	qElement.setAttribute( "usesdiagramfillcolour", m_bUsesDiagramFillColour );
 	qElement.setAttribute( "usesdiagramlinecolour", m_bUsesDiagramLineColour );
+	qElement.setAttribute( "usesdiagramlinewidth", m_bUsesDiagramLineWidth );
 	qElement.setAttribute( "usesdiagramusefillcolour", m_bUsesDiagramUseFillColour );
 	if (m_bUsesDiagramFillColour) {
 		qElement.setAttribute( "fillcolour", "none" );
@@ -1052,6 +1078,11 @@ bool UMLWidget::saveToXMI( QDomDocument & /*qDoc*/, QDomElement & qElement ) {
 		qElement.setAttribute( "linecolour", "none" );
 	} else {
 		qElement.setAttribute( "linecolour", m_LineColour.name() );
+	}
+	if (m_bUsesDiagramLineWidth) {
+		qElement.setAttribute( "linewidth", "none" );
+	} else {
+		qElement.setAttribute( "linewidth", m_LineWidth );
 	}
 	qElement.setAttribute("isinstance", m_bIsInstance);
 	qElement.setAttribute("instancename", m_instanceName);
@@ -1068,8 +1099,10 @@ bool UMLWidget::loadFromXMI( QDomElement & qElement ) {
 	QString w = qElement.attribute( "width", "0" );
 	QString fillColour = qElement.attribute( "fillcolour", "none" );
 	QString lineColour = qElement.attribute( "linecolour", "none" );
+	QString lineWidth = qElement.attribute( "linewidth", "none" );
 	QString usesDiagramFillColour = qElement.attribute( "usesdiagramfillcolour", "1" );
 	QString usesDiagramLineColour = qElement.attribute( "usesdiagramlinecolour", "1" );
+	QString usesDiagramLineWidth  = qElement.attribute( "usesdiagramlinewidth", "1" );
 	QString usesDiagramUseFillColour = qElement.attribute( "usesdiagramusefillcolour", "1" );
 
 	if( m_pObject && id.toInt() != m_pObject->getID() )
@@ -1086,6 +1119,7 @@ bool UMLWidget::loadFromXMI( QDomElement & qElement ) {
 	m_bUseFillColour = (bool)usefillcolor.toInt();
 	m_bUsesDiagramFillColour = (bool)usesDiagramFillColour.toInt();
 	m_bUsesDiagramLineColour = (bool)usesDiagramLineColour.toInt();
+	m_bUsesDiagramLineWidth = (bool)usesDiagramLineWidth.toInt();
 	m_bUsesDiagramUseFillColour = (bool)usesDiagramUseFillColour.toInt();
 	setX( x.toInt() );
 	setY( y.toInt() );
@@ -1095,6 +1129,12 @@ bool UMLWidget::loadFromXMI( QDomElement & qElement ) {
 	}
 	if (lineColour != "none") {
 		m_LineColour = QColor(lineColour);
+	}
+	if (lineWidth != "none") {
+		m_LineWidth = lineWidth.toInt();
+	}
+	else if ( m_pView ) {
+		m_LineWidth = m_pView->getLineWidth();
 	}
 	QString isinstance = qElement.attribute("isinstance", "0");
 	m_bIsInstance = (bool)isinstance.toInt();

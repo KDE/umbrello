@@ -171,10 +171,24 @@ public:
 	void setLineColour(QColor colour);
 
 	/**
+	 * Sets the line width
+	 *
+	 * @param width the new line width
+	 */
+	void setLineWidth(uint width);
+
+	/**
 	 * Read property of QColor m_LineColour.
 	 */
 	QColor getLineColour() const {
 		return m_LineColour;
+	}
+
+	/**
+	 * Read property of QColor m_LineWidth.
+	 */
+	uint getLineWidth() const {
+		return m_LineWidth;
 	}
 
 	/**
@@ -411,6 +425,13 @@ public:
 	}
 
 	/**
+	 * Returns m_bUsesDiagramLineWidth
+	 */
+	bool getUsesDiagramLineWidth() const {
+		return m_bUsesDiagramLineWidth;
+	}
+
+	/**
 	 * Returns m_bUsesDiagramUseFillColour
 	 */
 	bool getUsesDiagramUseFillColour() const {
@@ -429,6 +450,13 @@ public:
 	 */
 	void setUsesDiagramLineColour(bool usesDiagramLineColour) {
 		m_bUsesDiagramLineColour = usesDiagramLineColour;
+	}
+
+	/**
+	 * Sets m_bUsesDiagramLineWidth
+	 */
+	void setUsesDiagramLineWidth(bool usesDiagramLineWidth) {
+		m_bUsesDiagramLineWidth = usesDiagramLineWidth;
 	}
 
 	/**
@@ -635,12 +663,17 @@ protected:
 	 *  true by default, false if the colours have
 	 *  been explicity set for this widget
 	 */
-	bool m_bUsesDiagramFillColour, m_bUsesDiagramLineColour, m_bUsesDiagramUseFillColour;
+	bool m_bUsesDiagramFillColour, m_bUsesDiagramLineColour, m_bUsesDiagramLineWidth, m_bUsesDiagramUseFillColour;
 
 	/**
 	 * Color of the lines of the widget
 	 */
 	QColor m_LineColour;
+
+	/**
+	 * Width of the lines of the widget
+	 */
+	uint m_LineWidth;
 
 	/**
 	 * Color of the background of the widget
@@ -753,6 +786,13 @@ public slots:
 	 * @param viewID The id of the object behind the widget.
 	 */
 	virtual void slotColorChanged(int viewID);
+
+	/**
+	 * Captures a linewidth change signal.
+	 *
+	 * @param viewID The id of the object behind the widget.
+	 */
+	virtual void slotLineWidthChanged(int viewID);
 
 	/**
 	 *   Captures a sigClearAllSelected signal sent by @ref UMLView

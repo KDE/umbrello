@@ -108,6 +108,7 @@ protected:
 	QCheckBox * m_pSnapToGridCB, * m_pShowSnapCB;
 	QTextEdit * m_pDocTE;
 	QSpinBox * m_pSnapXSB, * m_pSnapYSB;
+	QSpinBox * m_pLineWidthSB;
 public slots:
 	void slotOk();
 	void slotApply();

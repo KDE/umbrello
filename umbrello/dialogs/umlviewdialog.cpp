@@ -19,6 +19,7 @@
 #include <qgroupbox.h>
 #include <qtextedit.h>
 #include <qspinbox.h>
+#include <knuminput.h>
 #include <qvbox.h>
 
 #include "umlviewdialog.h"
@@ -71,6 +72,7 @@ void UMLViewDialog::setupDiagramPropertiesPage()
 
 	m_diagramProperties->gridSpaceX->setValue( m_pView -> getSnapX());
 	m_diagramProperties->gridSpaceY->setValue( m_pView -> getSnapY());
+	m_diagramProperties->lineWidth->setValue( m_pView -> getLineWidth());
 	m_diagramProperties->documentation->setText(m_pView -> getDoc());
 
 }
@@ -109,6 +111,7 @@ void UMLViewDialog::applyPage( Page page ) {
 			m_pView->setDoc( m_diagramProperties->documentation->text() );
 			m_pView->setSnapX( m_diagramProperties->gridSpaceX->value() );
 			m_pView->setSnapY( m_diagramProperties->gridSpaceY->value() );
+			m_pView->setLineWidth( m_diagramProperties->lineWidth->value() );
 			m_pView->setSnapToGrid( m_diagramProperties->snapToGrid->isChecked() );
 			m_pView->setSnapComponentSizeToGrid( m_diagramProperties->snapComponentSizeToGrid->isChecked() );
 			m_pView->setShowSnapGrid( m_diagramProperties->showGrid->isChecked() );

@@ -215,6 +215,14 @@ protected:
 	*   method to stop calls to undefined variable like m_pAssociation.
 	*/
 	QColor getLineColor();
+	/**
+	*   Returns the Line Width to use.
+	*   Returns 0 if association not set.
+	*
+	*   This class doesn't hold this information but is a wrapper
+	*   method to stop calls to undefined variable like m_pAssociation.
+	*/
+	uint getLineWidth();
 
 	/**
 	*   Moves the selected canvas widgets.
@@ -337,6 +345,10 @@ public slots:
 	*   Sets the line color used by the line.
 	*/
 	void setLineColor( QColor color );
+	/**
+	*   Sets the line width used by the line.
+	*/
+	void setLineWidth( uint width );
 };
 
 #endif

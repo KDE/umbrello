@@ -135,11 +135,25 @@ public:
 	}
 
 	/**
+	 * Returns the line width to use.
+	 */
+	uint getLineWidth() const {
+		return m_Options.uiState.lineWidth;
+	}
+
+	/**
 	 * Sets the line color.
 	 *
 	 * @param color		The color to use.
 	 */
 	void setLineColor( QColor color );
+
+	/**
+	 * Sets the line width.
+	 *
+	 * @param width		The width to use.
+	 */
+	void setLineWidth( uint width );
 
 	/**
 	 * Returns the ID of the diagram.
@@ -469,6 +483,11 @@ public:
 	 * Set the line color for all the currently selected items.
 	 */
 	void selectionSetLineColor( QColor color );
+
+	/**
+	 * Set the line width for all the currently selected items.
+	 */
+	void selectionSetLineWidth( uint width );
 
 	/**
 	 * Set the fill color for all the currently selected items.
@@ -1202,6 +1221,7 @@ signals:
 	void sigRemovePopupMenu();
 	void sigClearAllSelected();
 	void sigLineColorChanged( QColor );
+	void sigLineWidthChanged( uint );
 	void sigSnapToGridToggled(bool);
 	void sigSnapComponentSizeToGridToggled(bool);
 	void sigShowGridToggled(bool);

@@ -254,6 +254,7 @@ void UMLView::setupNewWidget(UMLWidget *w, bool setNewID) {
 	w->setActivated();
 	w->setFont( getFont() );
 	w->slotColorChanged( getID() );
+	w->slotLineWidthChanged( getID() );
 	resizeCanvasToItems();
 	m_WidgetList.append( w );
 	m_pDoc->setModified();
@@ -391,7 +392,7 @@ void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome) {
 			viewport()->setMouseTracking( true );
 			m_pAssocLine = new QCanvasLine( canvas() );
 			m_pAssocLine->setPoints( me->x(), me->y(), me->x(), me->y() );
-			m_pAssocLine->setPen( QPen( getLineColor(), 0, DashLine ) );
+			m_pAssocLine->setPen( QPen( getLineColor(), getLineWidth(), DashLine ) );
 			m_pAssocLine->setVisible( true );
 			return;
 		}
@@ -541,6 +542,7 @@ void UMLView::slotObjectCreated(UMLObject* o) {
 	newWidget->setActivated();
 	newWidget->setFont( getFont() );
 	newWidget->slotColorChanged( getID() );
+	newWidget->slotLineWidthChanged( getID() );
 	m_bCreateObject = false;
 	m_WidgetList.append(newWidget);
 	switch( type ) {
@@ -755,7 +757,7 @@ bool UMLView::widgetOnDiagram(int id) {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLView::contentsMouseMoveEvent(QMouseEvent* ome) {
-        //Autoscroll
+	//Autoscroll
 	if (m_bMouseButtonPressed) {
 		int vx = ome->x();
 		int vy = ome->y();
@@ -915,6 +917,12 @@ void UMLView::setLineColor(QColor color) {
 	canvas() -> setAllChanged();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+void UMLView::setLineWidth(uint width) {
+	m_Options.uiState.lineWidth = width;
+	emit sigLineWidthChanged( width );
+	canvas() -> setAllChanged();
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLView::contentsMouseDoubleClickEvent(QMouseEvent* ome) {
 
 	QMouseEvent *me = new QMouseEvent(QEvent::MouseButtonDblClick,inverseWorldMatrix().map(ome->pos()),
@@ -1045,6 +1053,17 @@ void UMLView::selectionSetLineColor( QColor color )
 					temp=(UMLWidget *)m_SelectedList.next()) {
 		temp -> setLineColour( color );
 		temp -> setUsesDiagramLineColour(false);
+	}
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+void UMLView::selectionSetLineWidth( uint width )
+{
+	UMLWidget * temp = 0;
+	for(temp=(UMLWidget *) m_SelectedList.first();
+				temp;
+					temp=(UMLWidget *)m_SelectedList.next()) {
+		temp -> setLineWidth( width );
+		temp -> setUsesDiagramLineWidth(false);
 	}
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2045,7 +2064,7 @@ bool UMLView::setAssoc(UMLWidget *pWidget) {
 			delete m_pAssocLine;
 		m_pAssocLine = new QCanvasLine( canvas() );
 		m_pAssocLine -> setPoints( pos.x(), pos.y(), pos.x(), pos.y() );
-		m_pAssocLine -> setPen( QPen( getLineColor(), 0, DashLine ) );
+		m_pAssocLine -> setPen( QPen( getLineColor(), getLineWidth(), DashLine ) );
 
 		m_pAssocLine -> setVisible( true );
 
@@ -3199,6 +3218,7 @@ bool UMLView::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	//optionstate uistate
 	viewElement.setAttribute( "fillcolor", m_Options.uiState.fillColor.name() );
 	viewElement.setAttribute( "linecolor", m_Options.uiState.lineColor.name() );
+	viewElement.setAttribute( "linewidth", m_Options.uiState.lineWidth );
 	viewElement.setAttribute( "usefillcolor", m_Options.uiState.useFillColor );
 	viewElement.setAttribute( "font", m_Options.uiState.font.toString() );
 	//optionstate classstate
@@ -3285,6 +3305,7 @@ bool UMLView::loadFromXMI( QDomElement & qElement ) {
 		m_Options.uiState.font.fromString( font );
 	QString fillcolor = qElement.attribute( "fillcolor", "" );
 	QString linecolor = qElement.attribute( "linecolor", "" );
+	QString linewidth = qElement.attribute( "linewidth", "" );
 	QString usefillcolor = qElement.attribute( "usefillcolor", "0" );
 	m_Options.uiState.useFillColor = (bool)usefillcolor.toInt();
 	//optionstate classstate
@@ -3332,6 +3353,8 @@ bool UMLView::loadFromXMI( QDomElement & qElement ) {
 		m_Options.uiState.fillColor = QColor( fillcolor );
 	if( !linecolor.isEmpty() )
 		m_Options.uiState.lineColor = QColor( linecolor );
+	if( !linewidth.isEmpty() )
+		m_Options.uiState.lineWidth = linewidth.toInt();
 	m_nLocalID = localid.toInt();
 	//load the widgets
 	QDomNode node = qElement.firstChild();
