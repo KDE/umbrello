@@ -8,6 +8,7 @@
  ***************************************************************************/
 
 #include <climits>
+#include <math.h>
 
 // include files for Qt
 #include <qpixmap.h>
@@ -158,56 +159,56 @@ void UMLView::print(KPrinter *pPrinter, QPainter & pPainter) {
 	}
 	//get the smallest rect holding the diagram
 	QRect rect = getDiagramRect();
-	QPixmap diagram(rect.width(), rect.height());
-	getDiagram(rect, diagram);
 	//now draw to printer
 
+	// respect the margin
+	pPainter.translate(marginX, marginY);
+
+	// clip away everything outside of the margin
+	pPainter.setClipRect(marginX, marginY,
+						 width, metrics.height() - marginY * 2);
+
 	//loop until all of the picture is printed
-	bool finishX = false, finishY = false;
-	int page = 0, pageY = 1;
-	do {
-		if(!finishX) {
-			offsetX = page * width;
-		} else if(!finishY) {
-			offsetY = pageY * height;
-			offsetX = 0;
-			pageY++;
+	int numPagesX = (int)ceilf((float)rect.width()/(float)width);
+	int numPagesY = (int)ceilf((float)rect.height()/(float)height);
+	int page = 0;
+
+	// print the canvas to multiple pages
+	for (int pageY = 0; pageY < numPagesY; ++pageY) {
+		// tile vertically
+		offsetY = pageY * height + rect.y();
+		heightY = (pageY + 1) * height > rect.height()
+				? rect.height() - pageY * height
+				: height;
+		for (int pageX = 0; pageX < numPagesX; ++pageX) {
+			// tile horizontally
+			offsetX = pageX * width + rect.x();
+			widthX = (pageX + 1) * width > rect.width()
+				? rect.width() - pageX * width
+				: width;
+			
+			// make sure the part of the diagram is painted at the correct
+			// place in the printout
+			pPainter.translate(-offsetX,-offsetY);
+			getDiagram(QRect(offsetX, offsetY,widthX, heightY),
+				   pPainter);
+			// undo the translation so the coordinates for the painter
+			// correspond to the page again
+			pPainter.translate(offsetX,offsetY);
+
+			//draw foot note
+			QString string = i18n("Diagram: ") + getName() +i18n(" Page %1").arg(page + 1);
+			QColor textColor(50, 50, 50);
+			pPainter.setPen(textColor);
+			pPainter.drawLine(0, height + 2, width, height + 2);
+			pPainter.drawText(0, height + 4, width, fontHeight, AlignLeft, string);
+
+			if(pageX+1 < numPagesX || pageY+1 < numPagesY) {
+				pPrinter -> newPage();
+				page++;
+			}
 		}
-		if((width + offsetX) > diagram.width()  ) {
-			finishX = true;
-			widthX = diagram.width() - offsetX;
-		} else {
-			widthX = width;
-		}
-		if(diagram.width() < width) {
-			widthX = diagram.width();
-			finishX = true;
-			offsetX = 0;
-		}
-		if((height + offsetY) > diagram.height() ) {
-			finishY = true;
-			heightY = diagram.height() - offsetY;
-		} else {
-			heightY = height;
-		}
-		if(diagram.height() < height) {
-			finishY = true;
-			heightY = diagram.height();
-			offsetY = 0;
-		}
-		pPainter.drawPixmap(marginX , marginY , diagram, offsetX, offsetY, widthX, heightY);
-		//draw foot note
-		QString string = i18n("Diagram: ") + getName() +i18n(" Page %1").arg(page + 1);
-		QColor textColor(50, 50, 50);
-		pPainter.setPen(textColor);
-		pPainter.drawLine(marginX,  marginY + height + 2, marginX + width, marginY + height + 2);
-		pPainter.drawText(marginX, marginY + height + 4, width, fontHeight, AlignLeft, string);
-		//painter.drawText(marginX, height + 4, string);
-		if(!finishX || !finishY) {
-			pPrinter -> newPage();
-			page++;
-		}
-	} while(!finishX || !finishY);
+	}
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome) {
@@ -1243,6 +1244,13 @@ void UMLView::selectWidgets() {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void  UMLView::getDiagram(const QRect &rect, QPixmap & diagram) {
+	QPixmap pixmap(rect.x() + rect.width(), rect.y() + rect.height());
+	QPainter painter(&pixmap);
+	getDiagram(canvas()->rect(),painter);
+	bitBlt(&diagram, QPoint(0, 0), &pixmap, rect);
+}
+
+void  UMLView::getDiagram(const QRect &area, QPainter & painter) {
 	//unselect all before grab
 	UMLWidget* temp = 0;
 	for (temp=(UMLWidget *)m_SelectedList.first();temp;temp=(UMLWidget *)m_SelectedList.next()) {
@@ -1255,14 +1263,9 @@ void  UMLView::getDiagram(const QRect &rect, QPixmap & diagram) {
 	// we don't want to get the grid
 	bool showSnapGrid = getShowSnapGrid();
 	setShowSnapGrid(false);
-	QPixmap pixmap(rect.x() + rect.width(), rect.y() + rect.height());
-	QPainter painter;
 
-	painter.begin(&pixmap);
-	canvas()->drawArea(canvas()->rect(), &painter);
-	painter.end();
+	canvas()->drawArea(area, &painter);
 
-	bitBlt(&diagram, QPoint(0, 0), &pixmap, rect);
 	setShowSnapGrid(showSnapGrid);
 
 	canvas()->setAllChanged();

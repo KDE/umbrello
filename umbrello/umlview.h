@@ -72,7 +72,7 @@ public:
 	* sets the zoom factor of the view
 	*/
 	void setZoom(int zoom);
-	
+
 	/**
 	* return the current zoom factor
 	*/
@@ -312,7 +312,7 @@ public:
 	};
 
 	/**
-	 *	Sets the popup menu to use when clicking on a diagram background 
+	 *	Sets the popup menu to use when clicking on a diagram background
 	 *	(rather than a widget or listView).
 	 */
 	void setMenu();
@@ -522,6 +522,11 @@ public:
 	void getDiagram(const QRect &rect, QPixmap & diagram);
 
 	/**
+	 *      Paint diagram to the paint device
+	 */
+	void  getDiagram(const QRect &area, QPainter & painter);
+
+	/**
 	 *	Returns the PNG picture of the paste operation.
 	 */
 	void copyAsImage(QPixmap*& pix);
@@ -703,9 +708,9 @@ public:
 	 */
 	void resizeCanvasToItems();
 
-	/**                                                                                
-	 *      the width and height of a diagram canvas in pixels                         
-	 */	
+	/**
+	 *      the width and height of a diagram canvas in pixels
+	 */
 	static const int defaultCanvasSize = 1300;
 
 protected:
@@ -919,7 +924,7 @@ public slots:
 
 	void zoomIn();
 	void zoomOut();
-	
+
 	void slotToolBarChanged(int c);
 	void slotObjectCreated(UMLObject * o);
 	void slotObjectRemoved(UMLObject * o);
