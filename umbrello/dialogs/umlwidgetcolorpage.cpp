@@ -36,7 +36,7 @@ UMLWidgetColorPage::UMLWidgetColorPage( QWidget * pParent, UMLWidget * pWidget )
 	m_pLineColorL = new QLabel( i18n( "&Line:" ), m_pColorGB );
 	colorLayout -> addWidget( m_pLineColorL, 0, 0 );
 
-	m_pLineColorB = new KColorButton( pWidget -> getLineColor(), m_pColorGB );
+	m_pLineColorB = new KColorButton( pWidget -> getLineColour(), m_pColorGB );
 	colorLayout -> addWidget( m_pLineColorB, 0, 1 );
 	m_pLineColorL->setBuddy(m_pLineColorB);
 
@@ -56,7 +56,7 @@ UMLWidgetColorPage::UMLWidgetColorPage( QWidget * pParent, UMLWidget * pWidget )
 	m_pUseFillColorCB = new QCheckBox( i18n( "&Use fill" ), m_pColorGB );
 	colorLayout -> setRowStretch( 2, 2 );
 	colorLayout -> addWidget( m_pUseFillColorCB, 2, 0 );
-	m_pUseFillColorCB -> setChecked( pWidget -> getUseFillColor() );
+	m_pUseFillColorCB -> setChecked( pWidget -> getUseFillColour() );
 
 	//connect button signals up
 	connect( m_pLineDefaultB, SIGNAL( clicked() ), this, SLOT( slotLineButtonClicked() )) ;
@@ -76,7 +76,7 @@ void UMLWidgetColorPage::slotFillButtonClicked() {
 }
 
 void UMLWidgetColorPage::updateUMLWidget() {
-	m_pUMLWidget->setUseFillColor( m_pUseFillColorCB -> isChecked() );
+	m_pUMLWidget->setUseFillColour( m_pUseFillColorCB -> isChecked() );
 	m_pUMLWidget->setLineColour( m_pLineColorB -> color() );
 	m_pUMLWidget->setFillColour( m_pFillColorB -> color() );
 }

@@ -643,12 +643,12 @@ protected:
 	bool m_bUsesDiagramFillColour, m_bUsesDiagramLineColour, m_bUsesDiagramUseFillColour;
 
 	/**
-	 * Colour of the lines of the widget
+	 * Color of the lines of the widget
 	 */
 	QColor m_LineColour;
 
 	/**
-	 * Colour of the background of the widget
+	 * Color of the background of the widget
 	 */
 	QColor m_FillColour;
 
