@@ -23,6 +23,12 @@
   #include <qstring.h>
   #include "tokenizer.h"
 
+  /* Patch: Fix skeleton flaw for flex 2.5.4 */
+  using std::cin;
+  using std::cout;
+  using std::cerr;
+  /* Patch: Fix skeleton flaw for flex 2.5.4 */
+
   /* Line where a comment starts. */
   int comment_start = -1;
 

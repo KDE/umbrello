@@ -19,6 +19,13 @@
 #define _CLASSPARSER_H_INCLUDED
 
 #include "ClassStore.h"
+
+/*** Patch - Fix FlexLexer.h flaw for flex 2.5.4 */
+#include <iostream>
+using std::istream;
+using std::ostream;
+/*** Patch - Fix FlexLexer.h flaw for flex 2.5.4 */
+
 #include <FlexLexer.h>
 #include <qptrstack.h>
 #include <qstring.h>
