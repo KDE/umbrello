@@ -579,7 +579,7 @@ void UMLApp::saveOptions() {
 	if(gen && gen->getPolicy())
 	      m_defaultcodegenerationpolicy->setDefaults(gen->getPolicy());
 
-	// write the m_config for each language-specific code gen policies
+	// write the config for each language-specific code gen policies
 	GeneratorDictIt it( m_generatorDict );
 	for(it.toFirst() ; it.current(); ++it )
 	{
@@ -599,7 +599,7 @@ void UMLApp::saveOptions() {
 void UMLApp::readOptions() {
 	// bar status settings
 	toolBar("mainToolBar")->applySettings(m_config, "toolbar");
-	//do m_config for work toolbar
+	// do config for work toolbar
 	toolsbar->applySettings(m_config, "workbar");
 	m_alignToolBar->applySettings(m_config, "aligntoolbar");
 	fileOpenRecent->loadEntries(m_config,"Recent Files");
@@ -1103,7 +1103,7 @@ void UMLApp::readOptionState() {
 			default: m_optionState.generalState.autosavetime = 5; break;
 		}
 	}
-	// 2004-05-17 Achim Spangler: read new m_config entry for autosave sufix
+	// 2004-05-17 Achim Spangler: read new config entry for autosave sufix
 	m_optionState.generalState.autosavesuffix = m_config -> readEntry( "autosavesuffix", ".xmi" );
 
 	m_optionState.generalState.logo = m_config -> readBoolEntry( "logo", true );
