@@ -195,6 +195,41 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 		ada << m_newLineEndingChars;
 	}
 
+	// Generate generic formals.
+	UMLClassifierListItemList template_params = c->getFilteredList(Uml::ot_Template);
+	if (template_params.count()) {
+		ada << spc() << "generic" << m_newLineEndingChars;
+		indentlevel++;
+		for (UMLClassifierListItemListIt lit(template_params); lit.current(); ++lit) {
+			UMLClassifierListItem *listItem = lit.current();
+			// UMLTemplate tmpl = static_cast<UMLTemplate*>(listItem);  // not needed
+			QString typeName = listItem->getTypeName();
+			QString formalName = listItem->getName();
+			if (typeName == "class") {
+				ada << spc() << "type " << formalName << " is tagged private;"
+				    << m_newLineEndingChars;
+			} else {
+				// Check whether it's a data type.
+				UMLClassifier *typeObj = listItem->getType();
+				if (typeObj == NULL) {
+					kdError() << "AdaWriter::writeClass(template_param "
+						  << typeName << "): typeObj is NULL" << endl;
+					ada << spc() << "type " << formalName << " is new " << typeName
+					    << " with private;  -- CHECK: codegen error"
+					    << m_newLineEndingChars;
+				} else if (typeObj->getBaseType() == Uml::ot_Datatype) {
+					ada << spc() << formalName << " : " << typeName << ";"
+					    << m_newLineEndingChars;
+				} else {
+					ada << spc() << "type " << typeName << " is new "
+					    << formalName << " with private;" << m_newLineEndingChars;
+				}
+			}
+		}
+		indentlevel--;
+	}
+
+	// Here comes the package proper.
 	QString pkg = qualifiedName(c);
 	ada << spc() << "package " << pkg << " is" << m_newLineEndingChars << m_newLineEndingChars;
 	indentlevel++;
