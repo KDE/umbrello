@@ -1073,35 +1073,16 @@ void UMLView::contentsMousePressEvent(QMouseEvent* ome) {
 	}
 	clearSelected();
 
-	if(m_CurrentCursor == WorkToolBar::tbb_Arrow)
+	if(m_CurrentCursor != WorkToolBar::tbb_Arrow)
 		return;
-	QCanvasLine* line = new QCanvasLine( canvas() );
-	line->setPoints(x, y, x, y);
-	line->setPen( QPen(QColor("grey"), 0, DotLine) );
-	line->setVisible(true);
-	line->setZ(100);
-	m_SelectionRect.append(line);//four lines needed for rect.
-
-	line = new QCanvasLine( canvas() );
-	line->setPoints(x, y, x, y);
-	line->setPen( QPen(QColor("grey"), 0, DotLine) );
-	line->setVisible(true);
-	line->setZ(100);
-	m_SelectionRect.append(line);
-
-	line = new QCanvasLine( canvas() );
-	line->setPoints(x, y, x, y);
-	line->setPen( QPen(QColor("grey"), 0, DotLine) );
-	line->setVisible(true);
-	line->setZ(100);
-	m_SelectionRect.append(line);
-
-	line = new QCanvasLine( canvas() );
-	line->setPoints(x, y, x, y);
-	line->setPen( QPen(QColor("grey"), 0, DotLine) );
-	line->setVisible(true);
-	line->setZ(100);
-	m_SelectionRect.append(line);
+	for (int i = 0; i < 4; i++) {	//four lines needed for rect.
+		QCanvasLine* line = new QCanvasLine( canvas() );
+		line->setPoints(x, y, x, y);
+		line->setPen( QPen(QColor("grey"), 0, DotLine) );
+		line->setVisible(true);
+		line->setZ(100);
+		m_SelectionRect.append(line);
+	}
 	m_bDrawRect = true;
 }
 
