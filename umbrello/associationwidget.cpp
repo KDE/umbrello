@@ -962,6 +962,10 @@ void AssociationWidget::setAssocType(Association_Type type) {
 int AssociationWidget::getWidgetAID() const {
 	if (m_pAssociation)
 		return m_pAssociation->getRoleAId();
+	if (m_pWidgetA == NULL) {
+		kdError() << "AssociationWidget::getWidgetAID(): m_pWidgetA is NULL" << endl;
+		return -1;
+	}
 	if (m_pWidgetA->getBaseType() == Uml::wt_Object)
 		return static_cast<ObjectWidget*>(m_pWidgetA)->getLocalID();
 	return m_pWidgetA->getID();
@@ -989,6 +993,10 @@ void AssociationWidget::setWidgetAID(int AID) {
 int AssociationWidget::getWidgetBID() const {
 	if (m_pAssociation)
 		return m_pAssociation->getRoleBId();
+	if (m_pWidgetB == NULL) {
+		kdError() << "AssociationWidget::getWidgetBID(): m_pWidgetB is NULL" << endl;
+		return -1;
+	}
 	if (m_pWidgetB->getBaseType() == Uml::wt_Object)
 		return static_cast<ObjectWidget*>(m_pWidgetB)->getLocalID();
 	return m_pWidgetB->getID();
