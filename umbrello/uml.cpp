@@ -50,8 +50,23 @@
 #include "configurable.h"
 
 
+////FIXME - remove when dialog linking problems are solved
+#include "interface.h"
+#include "package.h"
+#include "dialogs/umbrellodialog.h"
+#include "dialogs/classpropertiespage.h"
+#include "dialogs/classattributespage.h"
+#include "dialogs/classifieroperationspage.h"
+#include "dialogs/umlobjectassociationspage.h"
+#include "dialogs/classtemplatespage.h"
+#include "dialogs/interfacepropertiespage.h"
+#include "dialogs/packagepropertiespage.h"
+///////////////////////////////////
+
+
 using Umbrello::Diagram;
 using Umbrello::RefactoringAssistant;
+
 
 UMLApp::UMLApp(QWidget* , const char* name):KDockMainWindow(0, name) {
 	s_instance = this;
@@ -110,6 +125,27 @@ UMLApp::UMLApp(QWidget* , const char* name):KDockMainWindow(0, name) {
 	connect(zoomSelect,SIGNAL(activated(int)),this,SLOT(setZoom(int)));
 
 	m_refactoringAssist = 0L;
+	
+	
+////FIXME - remove when dialog linking problems are solved
+	UMLClass *dummyc = new UMLClass(this, "dummy", 9999);
+	UMLInterface *dummyi = new UMLInterface(this, "dummy", 9999);
+	UMLPackage *dummyp = new UMLPackage(this, "dummy", 9999);
+	
+		delete new UmbrelloDialog(this);
+		delete new Umbrello::ClassPropertiesPage(dummyc);
+		delete new Umbrello::ClassPropertiesPage(dummyc);
+		delete new Umbrello::ClassAttributesPage(dummyc,doc,(QWidget*)0L);
+		delete new Umbrello::ClassifierOperationsPage(dummyc,doc,(QWidget*)0L);
+		delete new Umbrello::UMLObjectAssociationsPage(dummyc,(QWidget*)0L);
+		delete new Umbrello::ClassTemplatesPage(dummyc,doc,(QWidget*)0L);
+		delete new Umbrello::InterfacePropertiesPage(dummyi);
+		delete new Umbrello::PackagePropertiesPage(dummyp);
+	delete dummyc;
+	delete dummyi;
+	delete dummyp;
+////////////////////////////////////////	
+	
 
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
