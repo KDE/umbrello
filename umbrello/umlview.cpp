@@ -121,7 +121,7 @@ void UMLView::init() {
 	m_CurrentCursor = WorkToolBar::tbb_Arrow;
 	//setup signals
 	connect( this, SIGNAL(sigRemovePopupMenu()), this, SLOT(slotRemovePopupMenu() ) );
-	connect( getUMLApp(), SIGNAL( sigCutSuccessful() ),
+	connect( UMLApp::app(), SIGNAL( sigCutSuccessful() ),
 	         this, SLOT( slotCutSuccessful() ) );
 }
 
@@ -137,10 +137,7 @@ UMLView::~UMLView() {
 		delete m_pAssocLine;
 	m_SelectionRect.clear();
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLApp* UMLView::getUMLApp() const {
-	return static_cast<UMLApp*>( m_pDoc->parent() );
-}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLDoc* UMLView::getDocument() const {
 	return m_pDoc;
@@ -478,7 +475,7 @@ void UMLView::slotToolBarChanged(int c) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLView::showEvent(QShowEvent */*se*/) {
-	UMLApp* theApp = getUMLApp();
+	UMLApp* theApp = UMLApp::app();
 	WorkToolBar* tb = theApp->getWorkToolBar();
 	connect(tb,SIGNAL(sigButtonChanged(int)), this, SLOT(slotToolBarChanged(int)));
 	connect(this,SIGNAL(sigResetToolBar()), tb, SLOT(slotResetToolBar()));
@@ -489,7 +486,7 @@ void UMLView::showEvent(QShowEvent */*se*/) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLView::hideEvent(QHideEvent */*he*/) {
-	UMLApp* theApp = getUMLApp();
+	UMLApp* theApp = UMLApp::app();
 	WorkToolBar* tb = theApp->getWorkToolBar();
 	disconnect(tb,SIGNAL(sigButtonChanged(int)), this, SLOT(slotToolBarChanged(int)));
 	disconnect(this,SIGNAL(sigResetToolBar()), tb, SLOT(slotResetToolBar()));
@@ -1397,7 +1394,7 @@ void UMLView::printToFile(QString filename, QRect rect) {
 }
 
 void UMLView::exportImage() {
-	UMLApp *app = getUMLApp();
+	UMLApp *app = UMLApp::app();
 	QStringList fmt = QImage::outputFormatList();
 	QString imageMimetype = "image/png";
 

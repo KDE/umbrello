@@ -94,10 +94,6 @@ public:
 	 */
 	UMLDoc* getDocument() const;
 
-	/**
-	 * Returns the UMLApp main window
-	 */
-	UMLApp* getUMLApp() const;
 
 	/**
 	 * contains the implementation for printing functionality

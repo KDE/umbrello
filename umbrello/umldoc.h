@@ -710,11 +710,6 @@ public:
 	UMLListView* listView;
 
 	/**
-	 * Returns the UMLApp main window
-	 */
-	UMLApp* getUMLApp();
-
-	/**
 	 * Returns a name for the new object, appended with a number
 	 * if the default name is taken e.g. class diagram, class
 	 * diagram_1 etc

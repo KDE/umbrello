@@ -939,8 +939,8 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 
 	if( view ) {
 		bool bCutState = view -> getDocument() -> getCutCopyState();
-		setItemEnabled( mt_Undo, view->getUMLApp()->getUndoEnabled() );
-		setItemEnabled( mt_Redo, view->getUMLApp()->getRedoEnabled() );
+		setItemEnabled( mt_Undo, UMLApp::app()->getUndoEnabled() );
+		setItemEnabled( mt_Redo, UMLApp::app()->getRedoEnabled() );
 		setItemEnabled( mt_Cut, bCutState );
 		setItemEnabled( mt_Copy, bCutState );
 		setItemEnabled( mt_Paste, view -> getDocument() -> getPasteState() );

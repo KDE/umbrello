@@ -75,7 +75,7 @@ UMLDoc::UMLDoc(QWidget *parent, const char *name) : QObject(parent, name) {
 	m_modified = false;
 	loading = false;
 	m_pAutoSaveTimer = 0;
-	UMLApp * pApp = dynamic_cast<UMLApp *>( this -> parent() );
+	UMLApp * pApp = UMLApp::app();
 	connect(this, SIGNAL(sigDiagramCreated(int)), pApp, SLOT(slotUpdateViews()));
 	connect(this, SIGNAL(diagramCreated(Umbrello::Diagram*)), pApp, SLOT(slotUpdateViews()));
 	connect(this, SIGNAL(sigDiagramRemoved(int)), pApp, SLOT(slotUpdateViews()));
@@ -103,7 +103,7 @@ void UMLDoc::addView(UMLView *view) {
 			view -> hide();
 		}
 	}
-	UMLApp * pApp = getUMLApp();
+	UMLApp * pApp = UMLApp::app();
 	pApp->setDiagramMenuItemsState(true);
 	pApp->slotUpdateViews();
 	pApp->setCurrentView(view);
@@ -123,9 +123,9 @@ void UMLDoc::removeView(UMLView *view) {
 		currentView = 0;
 		if (UMLView* firstView = pViewList->first()) {
 			changeCurrentView( firstView->getID() );
-			dynamic_cast<UMLApp*>( parent() )->setDiagramMenuItemsState(true);
+			UMLApp::app()->setDiagramMenuItemsState(true);
 		} else {
-			dynamic_cast<UMLApp*>( parent() )->setDiagramMenuItemsState(false);
+			UMLApp::app()->setDiagramMenuItemsState(false);
 		}
 	}
 }
@@ -200,8 +200,7 @@ bool UMLDoc::newDocument() {
 	currentView = 0;
 	doc_url.setFileName(i18n("Untitled"));
 	//see if we need to start with a new diagram
-	UMLApp *app = dynamic_cast<UMLApp *>( parent() );
-	SettingsDlg::OptionState optionState = app -> getOptionState();
+	SettingsDlg::OptionState optionState = UMLApp::app()-> getOptionState();
 
 	switch( optionState.generalState.diagram ) {
 		case SettingsDlg::diagram_usecase:
@@ -242,7 +241,7 @@ bool UMLDoc::newDocument() {
 	setModified(false);
 	initSaveTimer();
 
-	((UMLApp*)parent())->enableUndo(false);
+	UMLApp::app()->enableUndo(false);
 	clearUndoStack();
 	addToUndoStack();
 
@@ -874,7 +873,7 @@ void UMLDoc::createDiagram(Diagram_Type type, bool askForName /*= true */) {
 			pData -> setName( name );
 			pData -> setType( type );
 			pData -> setID( ++uniqueID );
-			UMLView* temp = new UMLView(getUMLApp()->getMainViewWidget(), pData, this);
+			UMLView* temp = new UMLView(UMLApp::app()->getMainViewWidget(), pData, this);
 			addView(temp);
 			temp -> setOptionState( ((UMLApp *) parent()) -> getOptionState() );
 			emit sigDiagramCreated(uniqueID);
@@ -972,7 +971,7 @@ void UMLDoc::renameChildUMLObject(UMLObject *o) {
 void UMLDoc::changeCurrentView(int id) {
 	UMLView* w = findView(id);
 	if (w != currentView && w) {
-		UMLApp* pApp = getUMLApp();
+		UMLApp* pApp = UMLApp::app();
 		pApp->setCurrentView(w);
 		currentView = w;
 		emit sigDiagramChanged(w->getType());
@@ -1226,7 +1225,7 @@ bool UMLDoc::serialize(QDataStream *s, bool archive, int fileversion) {
 		UMLApp* app = (UMLApp*)parent();
 		SettingsDlg::OptionState state =  app -> getOptionState();
 		for(int i=0;i<count;i++) {
-			UMLView * v = new UMLView(getUMLApp()->getMainViewWidget(), new UMLViewData(), this);
+			UMLView * v = new UMLView(UMLApp::app()->getMainViewWidget(), new UMLViewData(), this);
 			v -> hide();
 			v -> setOptionState( state );
 			status = v -> serialize(s, archive, fileversion);
@@ -1581,7 +1580,7 @@ bool UMLDoc::loadDiagramsFromXMI( QDomNode & node ) {
 	int count = 0;
 	while( !element.isNull() ) {
 		if( element.tagName() == "diagram" ) {
-			pView = new UMLView(getUMLApp()->getMainViewWidget(), new UMLViewData(), this);
+			pView = new UMLView(UMLApp::app()->getMainViewWidget(), new UMLViewData(), this);
 			pView -> hide();
 			pView -> setOptionState( state );
 			if( !pView -> getData() -> loadFromXMI( element ) ) {
@@ -1603,7 +1602,7 @@ void UMLDoc::removeAllViews() {
 	pViewList -> clear();
 	currentView = 0;
 	emit sigDiagramChanged(dt_Undefined);
-	dynamic_cast<UMLApp *>( parent() )->setDiagramMenuItemsState(false);
+	UMLApp::app()->setDiagramMenuItemsState(false);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 QStringList UMLDoc::getModelTypes()
@@ -1805,7 +1804,7 @@ bool UMLDoc::addUMLView(UMLViewData * pViewData ) {
 	}
 	int result = assignNewID(pViewData->getID());
 	pViewData->setID(result);
-	UMLView* pView = new UMLView(getUMLApp()->getMainViewWidget(), pViewData, this);
+	UMLView* pView = new UMLView(UMLApp::app()->getMainViewWidget(), pViewData, this);
 
 	if (!pView->activateAfterSerialize( true ) ) {
 		kdDebug()<<"Error activating diagram"<<endl;
@@ -1933,8 +1932,7 @@ void UMLDoc::initSaveTimer() {
 		m_pAutoSaveTimer = 0;
 	}
 	int time[] = { 5 , 10, 15 , 30 };
-	UMLApp * pApp = dynamic_cast<UMLApp *>( parent() );
-	SettingsDlg::OptionState optionState = pApp -> getOptionState();
+	SettingsDlg::OptionState optionState = UMLApp::app()->getOptionState();
 	if( optionState.generalState.autosave ) {
 		m_pAutoSaveTimer = new QTimer(this, "_AUTOSAVETIMER_" );
 		connect( m_pAutoSaveTimer, SIGNAL( timeout() ), this, SLOT( slotAutoSave() ) );
@@ -2065,9 +2063,6 @@ void UMLDoc::loadRedoData() {
 	}
 }
 
-UMLApp* UMLDoc::getUMLApp() {
-	return static_cast<UMLApp*>( this->parent() );
-}
 
 
 #include "umldoc.moc"
