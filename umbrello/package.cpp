@@ -25,7 +25,8 @@ void UMLPackage::init() {
 }
 
 void UMLPackage::addObject(const UMLObject *pObject) {
-	m_objects.append( pObject );
+	if (! m_objects.contains( pObject ))
+		m_objects.append( pObject );
 }
 
 void UMLPackage::removeObject(const UMLObject *pObject) {
