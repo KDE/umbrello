@@ -61,6 +61,11 @@ private:
 	 */
 	void enableWidgets(bool state);
 
+	/**
+	 * Saves the documentation for the currently selected item
+	 */
+	void saveCurrentItemDocumentation();
+
 	UMLClass * m_pClass;
 	QGroupBox* m_pDocGB;
 	QGroupBox* m_pTemplateGB;

@@ -92,6 +92,7 @@ ClassTemplatePage::~ClassTemplatePage() {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void ClassTemplatePage::enableWidgets(bool state) {
+
 	m_pDocTE->setEnabled(state);
 	//if disabled clear contents
 	if (!state) {
@@ -149,6 +150,7 @@ void ClassTemplatePage::slotClicked(QListBoxItem* item) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void ClassTemplatePage::updateObject() {
+	saveCurrentItemDocumentation();
 	QListBoxItem* item = m_pTemplateLB->item( m_pTemplateLB->currentItem() );
 	slotClicked(item);
 	QStringList stringList;
@@ -314,12 +316,21 @@ void ClassTemplatePage::slotDelete() {
 }
 
 void ClassTemplatePage::slotProperties() {
+	saveCurrentItemDocumentation();
 	slotDoubleClick( m_pTemplateLB->item( m_pTemplateLB->currentItem() ) );
 }
 
 void ClassTemplatePage::slotNewTemplate() {
+	saveCurrentItemDocumentation();
 	m_bSigWaiting = true;
 	m_pDoc->createUMLObject(m_pClass, Uml::ot_Template);
+}
+
+void ClassTemplatePage::saveCurrentItemDocumentation() {
+	UMLTemplate* selectedTemplate = m_pTemplateList->at( m_pTemplateLB->currentItem() );
+	if (selectedTemplate) {
+		selectedTemplate->setDoc( m_pDocTE->text() );
+	}
 }
 
 #include "classtemplatepage.moc"

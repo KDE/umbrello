@@ -130,6 +130,7 @@ void UMLListView::contentsMousePressEvent(QMouseEvent *me) {
 		case Uml::lvt_Actor:
 		case Uml::lvt_Attribute:
 		case Uml::lvt_Operation:
+		case Uml::lvt_Template:
 			m_doc -> getDocWindow() -> showDocumentation( item -> getUMLObject(), false );
 			break;
 

@@ -135,6 +135,7 @@ void ClassOpsPage::enableWidgets( bool state ) {
 }
 
 void ClassOpsPage::updateObject() {
+	saveCurrentItemDocumentation();
 	QListBoxItem *i = m_pOpsLB -> item(m_pOpsLB -> currentItem());
 	slotClicked(i);
 	QStringList stringList;
@@ -284,11 +285,7 @@ void ClassOpsPage::slotDoubleClick( QListBoxItem * item ) {
 }
 
 void ClassOpsPage::slotProperties() {
-	//save highlighted item first
-	UMLOperation* selectedOperation = m_pOpList->at( m_pOpsLB -> currentItem() );
-	if (selectedOperation)
-		selectedOperation -> setDoc( m_pDocTE -> text() );
-
+	saveCurrentItemDocumentation();
 	slotDoubleClick( m_pOpsLB -> item( m_pOpsLB -> currentItem() ) );
 }
 
@@ -302,13 +299,17 @@ void ClassOpsPage::slotDelete() {
 }
 
 void ClassOpsPage::slotNewOperation() {
-	//save highlighted item first
-	UMLOperation* selectedOperation = m_pOpList->at( m_pOpsLB -> currentItem() );
-	if (selectedOperation)
-		selectedOperation -> setDoc( m_pDocTE -> text() );
-
+	saveCurrentItemDocumentation();
 	m_bSigWaiting = true;
 	m_pDoc->createUMLObject(m_pConcept, Uml::ot_Operation);
 }
+
+void ClassOpsPage::saveCurrentItemDocumentation() {
+	UMLOperation* selectedOperation = m_pOpList->at( m_pOpsLB->currentItem() );
+        if (selectedOperation) {
+                selectedOperation->setDoc( m_pDocTE->text() );
+	}
+}
+
 
 #include "classopspage.moc"

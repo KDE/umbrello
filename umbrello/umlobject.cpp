@@ -144,4 +144,48 @@ void UMLObject::emitModified()
 {
 	emit modified();
 }
+
+void UMLObject::setDoc(QString d) {
+	m_Doc = d;
+}
+
+UMLObject_Type UMLObject::getBaseType() const {
+	return m_BaseType;
+}
+
+int UMLObject::getID() const {
+	return m_nId;
+}
+
+QString UMLObject::getDoc() const {
+	return m_Doc;
+}
+
+Scope UMLObject::getScope() const {
+	return m_Scope;
+}
+
+void UMLObject::setScope(Scope s) {
+	m_Scope = s;
+	emit modified();
+}
+
+void UMLObject::setStereotype(QString _name) {
+	m_Stereotype = _name;
+	emit modified();
+}
+
+void UMLObject::setPackage(QString _name) {
+	m_Package = _name;
+	emit modified();
+}
+
+QString UMLObject::getStereotype() {
+	return m_Stereotype;
+}
+
+QString UMLObject::getPackage() {
+	return m_Package;
+}
+
 #include "umlobject.moc"

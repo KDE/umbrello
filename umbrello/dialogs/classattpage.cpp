@@ -148,6 +148,7 @@ void ClassAttPage::slotClicked(QListBoxItem *item) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void ClassAttPage::updateObject() {
+	saveCurrentItemDocumentation();
 	QListBoxItem *i = m_pAttsLB -> item(m_pAttsLB -> currentItem());
 	slotClicked(i);
 	QStringList stringList;
@@ -312,22 +313,21 @@ void ClassAttPage::slotDelete() {
 }
 
 void ClassAttPage::slotProperties() {
-	//save highlighted item first
-	UMLAttribute* selectedAttribute = m_pAttList->at( m_pAttsLB->currentItem() );
-	if (selectedAttribute)
-		selectedAttribute -> setDoc( m_pDocTE -> text() );
-
+	saveCurrentItemDocumentation();
 	slotDoubleClick( m_pAttsLB->item( m_pAttsLB->currentItem() ) );
 }
 
 void ClassAttPage::slotNewAttribute() {
-	//save highlighted item first
-	UMLAttribute* selectedAttribute = m_pAttList->at( m_pAttsLB->currentItem() );
-	if (selectedAttribute)
-		selectedAttribute -> setDoc( m_pDocTE -> text() );
-
+	saveCurrentItemDocumentation();
 	m_bSigWaiting = true;
 	m_pDoc->createUMLObject(m_pClass, Uml::ot_Attribute);
+}
+
+void ClassAttPage::saveCurrentItemDocumentation() {
+	UMLAttribute* selectedAttribute = m_pAttList->at( m_pAttsLB->currentItem() );
+	if (selectedAttribute) {
+		selectedAttribute->setDoc( m_pDocTE->text() );
+	}
 }
 
 #include "classattpage.moc"

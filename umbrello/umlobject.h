@@ -65,93 +65,70 @@ public:
 	 *
 	 *	@return	Returns the type of the object.
 	 */
-	UMLObject_Type getBaseType() const {
-		return m_BaseType;
-	}
+	UMLObject_Type getBaseType() const;
 
 	/**
 	 *	Returns the ID of the object.
 	 *
 	 *	@return	Returns the ID of the object.
 	 */
-	int getID() const{
-		return m_nId;
-	}
+	int getID() const;
 
 	/**
 	 *	Sets the documentation for the object.
 	 *
 	 *	@param	d	The documentation for the object.
 	 */
-	void setDoc(QString d) {
-		m_Doc = d;
-	}
+	void setDoc(QString d);
 
 	/**
 	 *	Returns the documentation for the object.
 	 *
 	 *	@return	Returns the documentation for the object.
 	 */
-	QString getDoc() const{
-		return m_Doc;
-	}
+	QString getDoc() const;
 
 	/**
 	 *	Returns the scope of the object.
 	 *
 	 *	@return	Returns the scope of the object.
 	 */
-	Scope getScope() const{
-		return m_Scope;
-	}
+	Scope getScope() const;
 
 	/**
 	 *	Sets the scope of the object.
 	 *
 	 *	@param	s	The scope of the object.
 	 */
-	void setScope(Scope s) {
-		m_Scope = s;
-		emit modified();
-	}
+	void setScope(Scope s);
 
 	/**
 	 *	Sets the classes Stereotype.
 	 *
 	 *	@param _name	Sets the classes Stereotype name.
 	 */
-	void setStereotype(QString _name) {
-		m_Stereotype = _name;
-		emit modified();
-	}
+	void setStereotype(QString _name);
 
 	/**
 	 *	Sets the classes Package.
 	 *
 	 *	@param _name	The classes Package name.
 	 */
-	void setPackage(QString _name) {
-		m_Package = _name;
-		emit modified();
-	}
+	void setPackage(QString _name);
 
 	/**
 	 *	Returns the classes Stereotype.
 	 *
 	 *	@return	Returns the classes Stereotype.
 	 */
-	QString getStereotype() {
-		return m_Stereotype;
-	}
+	QString getStereotype();
 
 	/**
 	 *	Returns the classes Package.
 	 *
 	 *	@return	Returns the classes Package.
 	 */
-	QString getPackage() {
-		return m_Package;
-	}
+	QString getPackage();
 
 	/**
 	 *    Assigns a new Id to the object

@@ -83,6 +83,10 @@ private:
 	 */
 	void enableWidgets(bool state);
 
+	/**
+	 * Saves the documentation for the currently selected item
+	 */
+	void saveCurrentItemDocumentation();
 signals:
 	void sigUpdateChildObject(int id);
 public slots:
