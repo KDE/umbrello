@@ -28,6 +28,8 @@ UMLWidgetData::UMLWidgetData() {
 	m_bUsesDiagramFillColour = true;
 	m_bUsesDiagramLineColour = true;
 	m_bUsesDiagramUseFillColour = true;
+	m_bIsInstance = false;
+	m_instanceName = "";
 }
 
 UMLWidgetData::UMLWidgetData(SettingsDlg::OptionState optionState) {
@@ -44,6 +46,8 @@ UMLWidgetData::UMLWidgetData(SettingsDlg::OptionState optionState) {
 	m_bUsesDiagramFillColour = true;
 	m_bUsesDiagramLineColour = true;
 	m_bUsesDiagramUseFillColour = true;
+	m_bIsInstance = false;
+	m_instanceName = "";
 }
 
 UMLWidgetData::UMLWidgetData(UMLWidgetData &Other) {
@@ -68,6 +72,8 @@ UMLWidgetData & UMLWidgetData::operator=(const UMLWidgetData & Other) {
 	m_bUsesDiagramUseFillColour = Other.m_bUsesDiagramUseFillColour;
 	m_LineColour = Other.m_LineColour;
 	m_FillColour = Other.m_FillColour;
+	m_bIsInstance = Other.m_bIsInstance;
+	m_instanceName = Other.m_instanceName;
 	return *this;
 }
 
@@ -114,6 +120,7 @@ bool UMLWidgetData::operator==(const UMLWidgetData & Other) {
 		{
 			return false;
 		} */
+
 }
 
 Uml::UMLWidget_Type UMLWidgetData::getType() {
@@ -346,6 +353,8 @@ bool UMLWidgetData::saveToXMI( QDomDocument & /*qDoc*/, QDomElement & qElement )
 	} else {
 		qElement.setAttribute( "linecolour", m_LineColour.name() );
 	}
+	qElement.setAttribute("isinstance", m_bIsInstance);
+	qElement.setAttribute("instancename", m_instanceName);
 	return true;
 }
 
@@ -381,7 +390,27 @@ bool UMLWidgetData::loadFromXMI( QDomElement & qElement ) {
 	if (lineColour != "none") {
 		m_LineColour = QColor(lineColour);
 	}
+	QString isinstance = qElement.attribute("isinstance", "0");
+	m_bIsInstance = (bool)isinstance.toInt();
+	m_instanceName = qElement.attribute("instancename", "");
 	return true;
+}
+
+
+void UMLWidgetData::setIsInstance(bool isInstance) {
+	m_bIsInstance = isInstance;
+}
+
+bool UMLWidgetData::getIsInstance() {
+	return m_bIsInstance;
+}
+
+void UMLWidgetData::setInstanceName(QString instanceName) {
+	m_instanceName = instanceName;
+}
+
+QString UMLWidgetData::getInstanceName() {
+	return m_instanceName;
 }
 
 

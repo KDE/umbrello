@@ -88,7 +88,7 @@ ClassPropDlg::ClassPropDlg(QWidget *parent, UMLWidget * w) : KDialogBase(IconLis
 		setupPages(m_pObject, true);
 	} if (w->getBaseType() == Uml::wt_Component) {
 		UMLWidgetData* widgetData = w->getData();
-		if ( (static_cast<ComponentWidgetData*>(widgetData))->getIsInstance() ) {
+		if ( widgetData->getIsInstance() ) {
 			ComponentWidget* componetWidget = static_cast<ComponentWidget*>(w);
 			setupComponentInstancePages(componetWidget);
 		} else {

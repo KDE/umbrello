@@ -505,7 +505,7 @@ void UMLView::slotObjectCreated(UMLObject* o) {
 		} else if(type == ot_Component) {
 			newWidget = new ComponentWidget(this, o);
 			if (m_pData->m_Type == dt_Deployment) {
-				static_cast<ComponentWidgetData*>(newWidget->getData())->setIsInstance(true);
+				newWidget->getData()->setIsInstance(true);
 			}
 		} else if(type == ot_Artifact) {
 			newWidget = new ArtifactWidget(this, o);

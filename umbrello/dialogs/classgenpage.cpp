@@ -268,8 +268,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, ComponentWidget* componen
 	m_pNameLayout->addWidget(m_pInstanceL, 1, 0);
 
 	m_pInstanceLE = new QLineEdit(this);
-	ComponentWidgetData* widgetData = static_cast<ComponentWidgetData*>(componentWidget->getData());
-	m_pInstanceLE->setText(widgetData->getInstanceName());
+	m_pInstanceLE->setText(componentWidget->getData()->getInstanceName());
 	m_pNameLayout->addWidget(m_pInstanceLE, 1, 1);
 
 	//setup documentation
@@ -355,8 +354,7 @@ void ClassGenPage::updateObject() {
 		} else
 			o -> setName(name);
 	} else if (m_pComponentWidget) {
-		ComponentWidgetData* widgetData = static_cast<ComponentWidgetData*>(m_pComponentWidget->getData());
-		widgetData->setInstanceName(m_pInstanceLE->text());
+		m_pComponentWidget->getData()->setInstanceName(m_pInstanceLE->text());
 		QString name = m_pClassNameLE->text();
 		m_pComponentWidget->setDoc(m_pDoc->text());
 		UMLObject* o = m_pComponentWidget->getUMLObject();

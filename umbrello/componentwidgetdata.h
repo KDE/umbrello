@@ -84,26 +84,6 @@ public:
 	virtual bool getShowStereotype();
 
 	/**
-	 * Write property of bool m_bIsInstance
-	 */
-	virtual void setIsInstance(bool isInstance);
-
-	/**
-	 * Read property of bool m_bIsInstance
-	 */
-	virtual bool getIsInstance();
-
-	/**
-	 * Write property of bool m_bIsInstance
-	 */
-	virtual void setInstanceName(QString instanceName);
-
-	/**
-	 * Read property of bool m_bIsInstance
-	 */
-	virtual QString getInstanceName();
-
-	/**
 	 * Debugging method
 	 */
 	virtual void print2cerr();
@@ -124,16 +104,6 @@ protected:
 	 * (stereotype is shown if it isn't empty).
 	 */
 	bool m_bShowStereotype;
-
-	/**
-	 * Holds whether this widget is a component instance (i.e. on a deployment diagram)
-	 */
-	bool m_bIsInstance;
-
-	/**
-	 * The instance name (used if on a deployment diagram)
-	 */
-	QString m_instanceName;
 };
 
 #endif

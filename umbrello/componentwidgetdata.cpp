@@ -15,8 +15,6 @@
 ComponentWidgetData::ComponentWidgetData(SettingsDlg::OptionState optionState):UMLWidgetData(optionState) {
 	m_bShowStereotype = true;
 	m_Type = Uml::wt_Component;
-	m_bIsInstance = false;
-	m_instanceName = "";
 }
 
 ComponentWidgetData::~ComponentWidgetData() {}
@@ -28,17 +26,11 @@ ComponentWidgetData::ComponentWidgetData(ComponentWidgetData& Other) : UMLWidget
 ComponentWidgetData & ComponentWidgetData::operator=(ComponentWidgetData& Other) {
 	*((UMLWidgetData*)this) = (UMLWidgetData)Other;
 
-	m_bShowStereotype = Other.m_bShowStereotype;
-
 	return *this;
 }
 
 bool ComponentWidgetData::operator==(ComponentWidgetData & Other) {
 	if(!(*((UMLWidgetData*)this) == (UMLWidgetData)Other)) {
-		return false;
-	}
-
-	if(m_bShowStereotype != Other.m_bShowStereotype) {
 		return false;
 	}
 
@@ -94,8 +86,6 @@ bool ComponentWidgetData::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
 	QDomElement conceptElement = qDoc.createElement("componentwidget");
 	bool status = UMLWidgetData::saveToXMI(qDoc, conceptElement);
 	conceptElement.setAttribute("showstereotype", m_bShowStereotype);
-	conceptElement.setAttribute("isinstance", m_bIsInstance);
-	conceptElement.setAttribute("instancename", m_instanceName);
 	qElement.appendChild(conceptElement);
 	return status;
 }
@@ -106,25 +96,5 @@ bool ComponentWidgetData::loadFromXMI(QDomElement& qElement) {
 	}
 	QString showstereo = qElement.attribute("showstereotype", "0");
 	m_bShowStereotype = (bool)showstereo.toInt();
-	QString isinstance = qElement.attribute("isinstance", "0");
-	m_bIsInstance = (bool)isinstance.toInt();
-	m_instanceName = qElement.attribute("instancename", "");
 	return true;
 }
-
-void ComponentWidgetData::setIsInstance(bool isInstance) {
-	m_bIsInstance = isInstance;
-}
-
-bool ComponentWidgetData::getIsInstance() {
-	return m_bIsInstance;
-}
-
-void ComponentWidgetData::setInstanceName(QString instanceName) {
-	m_instanceName = instanceName;
-}
-
-QString ComponentWidgetData::getInstanceName() {
-	return m_instanceName;
-}
-

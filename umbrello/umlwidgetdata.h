@@ -249,6 +249,26 @@ public:
 	 */
 	void setUsesDiagramUseFillColour(bool usesDiagramUseFillColour);
 
+	/**
+	 * Write property of bool m_bIsInstance
+	 */
+	virtual void setIsInstance(bool isInstance);
+
+	/**
+	 * Read property of bool m_bIsInstance
+	 */
+	virtual bool getIsInstance();
+
+	/**
+	 * Write property of bool m_bIsInstance
+	 */
+	virtual void setInstanceName(QString instanceName);
+
+	/**
+	 * Read property of bool m_bIsInstance
+	 */
+	virtual QString getInstanceName();
+
 	virtual bool saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 	virtual bool loadFromXMI( QDomElement & qElement );
@@ -316,6 +336,16 @@ protected:
 	 * 	The font the widget will use.
 	 */
 	QFont m_Font;
+
+	/**
+	 * Holds whether this widget is a component instance (i.e. on a deployment diagram)
+	 */
+	bool m_bIsInstance;
+
+	/**
+	 * The instance name (used if on a deployment diagram)
+	 */
+	QString m_instanceName;
 };
 
 #endif

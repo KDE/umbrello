@@ -94,12 +94,10 @@ void ComponentWidget::draw(QPainter & p, int offsetX, int offsetY) {
 		lines = 1;
 	}
 
-	ComponentWidgetData* widgetData = static_cast<ComponentWidgetData*>( getData() );
-
-	if ( widgetData->getIsInstance() ) {
+	if ( getData()->getIsInstance() ) {
 		font.setUnderline(true);
 		p.setFont(font);
-		name = widgetData->getInstanceName() + " : " + name;
+		name = getData()->getInstanceName() + " : " + name;
 	}
 
 	if (lines == 1) {
@@ -128,9 +126,8 @@ void ComponentWidget::calculateSize() {
 	int fontHeight  = fm.lineSpacing();
 
 	QString name = m_pObject->getName();
-	ComponentWidgetData* widgetData = static_cast<ComponentWidgetData*>( getData() );
-	if ( widgetData->getIsInstance() ) {
-		name = widgetData->getInstanceName() + " : " + name;
+	if ( getData()->getIsInstance() ) {
+		name = getData()->getInstanceName() + " : " + name;
 	}
 
 	width = fm.width(name);
