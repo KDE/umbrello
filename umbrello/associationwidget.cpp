@@ -2042,22 +2042,16 @@ void AssociationWidget::mouseReleaseEvent(QMouseEvent * me) {
 }//end method mouseReleaseEvent
 
 bool AssociationWidget::showDialog() {
-	UMLAssociation *umla = m_pAssociation;
-	if (umla == NULL) {
-		kdError() << "AssociationWidget::showDialog: "
-			  << "Need an underlying UMLAssociation" << endl;
-		return false;
-	}
 	AssocPropDlg dlg(static_cast<QWidget*>(m_pView), this );
 	if (! dlg.exec())
 		return false;
-	QString name = umla->getName();
-	QString doc = umla->getDoc();
-	QString roleADoc = umla->getRoleDoc(A), roleBDoc = umla->getRoleDoc(B);
-	QString rnA = umla->getRoleName(A), rnB = umla->getRoleName(B);
-	QString ma = umla->getMulti(A), mb = umla->getMulti(B);
-	Scope vA = umla->getVisibility(A), vB = umla->getVisibility(B);
-	Changeability_Type cA = umla->getChangeability(A), cB = umla->getChangeability(B);
+	QString name = getName();
+	QString doc = getDoc();
+	QString roleADoc = getRoleDoc(A), roleBDoc = getRoleDoc(B);
+	QString rnA = getRoleName(A), rnB = getRoleName(B);
+	QString ma = getMulti(A), mb = getMulti(B);
+	Scope vA = getVisibility(A), vB = getVisibility(B);
+	Changeability_Type cA = getChangeability(A), cB = getChangeability(B);
 	//rules built into these functions to stop updating incorrect values
 	setName(name);
 	setRoleName(rnA, A);
