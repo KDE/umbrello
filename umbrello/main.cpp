@@ -53,7 +53,7 @@ int main(int argc, char *argv[]) {
 		cfg -> setGroup( "General Options" );
 		bool showLogo = cfg -> readBoolEntry( "logo", true );
 		if (showLogo) {
-			start_logo = new KStartupLogo();
+			start_logo = new KStartupLogo(uml);
 			start_logo->setHideEnabled(true);
 			start_logo->show();
 			start_logo->raise();
