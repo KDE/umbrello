@@ -96,8 +96,10 @@ void JavaANTCodeDocument::loadChildTextBlocksFromNode ( QDomElement & root)
 					{
 						kdError()<<"Unable to add codeComment to :"<<this<<endl;
 						block->deleteLater();
-					} else
+					} else {
 						loadCheckForChildrenOK= true;
+						delete block;
+					}
 				} else
 				if( name == "codeaccessormethod" ||
 				    name == "ccfdeclarationcodeblock"
@@ -109,8 +111,10 @@ void JavaANTCodeDocument::loadChildTextBlocksFromNode ( QDomElement & root)
 					{
 						kdError()<<"Unable to add codeclassfield child method to:"<<this<<endl;
 						// DONT delete
-					} else
+					} else {
 						loadCheckForChildrenOK= true;
+						delete tb;
+					}
 
 				} else
 				if( name == "codeblock" ) {
@@ -120,8 +124,10 @@ void JavaANTCodeDocument::loadChildTextBlocksFromNode ( QDomElement & root)
 					{
 						kdError()<<"Unable to add codeBlock to :"<<this<<endl;
 						block->deleteLater();
-					} else
+					} else {
 						loadCheckForChildrenOK= true;
+						delete block;
+					}
 				} else
 				if( name == "codeblockwithcomments" ) {
 					CodeBlockWithComments * block = newCodeBlockWithComments();
@@ -130,8 +136,10 @@ void JavaANTCodeDocument::loadChildTextBlocksFromNode ( QDomElement & root)
 					{
 						kdError()<<"Unable to add codeBlockwithcomments to:"<<this<<endl;
 						block->deleteLater();
-					} else
+					} else {
 						loadCheckForChildrenOK= true;
+						delete block;
+					}
 				} else
 				if( name == "header" ) {
 				       // do nothing.. this is treated elsewhere
@@ -143,8 +151,10 @@ void JavaANTCodeDocument::loadChildTextBlocksFromNode ( QDomElement & root)
 					{
 						kdError()<<"Unable to add hierarchicalcodeBlock to:"<<this<<endl;
 						block->deleteLater();
-					} else
+					} else {
 						loadCheckForChildrenOK= true;
+						delete block;
+					}
 				} else
 				if( name == "codeoperation" ) {
 				       // find the code operation by id
@@ -154,10 +164,10 @@ void JavaANTCodeDocument::loadChildTextBlocksFromNode ( QDomElement & root)
 					if(op) {
 						CodeOperation * block = newCodeOperation(op);
 						block->loadFromXMI(element);
-						if(addTextBlock(block))
+						if(addTextBlock(block)) {
 							loadCheckForChildrenOK= true;
-						else
-						{
+							delete block;
+						} else {
 							kdError()<<"Unable to add codeoperation to:"<<this<<endl;
 							block->deleteLater();
 						}
@@ -172,8 +182,10 @@ void JavaANTCodeDocument::loadChildTextBlocksFromNode ( QDomElement & root)
 					{
 						kdError()<<"Unable to add XMLelement to Java ANT document:"<<this<<endl;
 						block->deleteLater();
-					} else
+					} else {
 						loadCheckForChildrenOK= true;
+						delete block;
+					}
 				}
 /*
 				// only needed for extreme debuging conditions (E.g. making new codeclassdocument loader)

@@ -24,6 +24,7 @@
 CodeBlockWithComments::CodeBlockWithComments ( HierarchicalCodeBlock * hb, const QString & body, const QString & comment)
 	: CodeBlock (hb, body)
 {
+	m_comment = 0;
 	initFields();
 	CodeDocument * parent = hb->getParentDocument();
 	CodeComment * codecomment = parent->newCodeComment();
@@ -34,13 +35,18 @@ CodeBlockWithComments::CodeBlockWithComments ( HierarchicalCodeBlock * hb, const
 CodeBlockWithComments::CodeBlockWithComments ( CodeDocument * parent , const QString & body, const QString & comment) 
 	: CodeBlock (parent, body)
 {
+	m_comment = 0;
 	initFields();
 	CodeComment * codecomment = parent->newCodeComment();
 	codecomment->setText(comment);
 	setComment(codecomment);
 }
 
-CodeBlockWithComments::~CodeBlockWithComments ( ) { }
+CodeBlockWithComments::~CodeBlockWithComments ( )
+{
+	if (m_comment != 0)
+		delete m_comment;
+}
 
 //  
 // Methods
@@ -54,8 +60,15 @@ CodeBlockWithComments::~CodeBlockWithComments ( ) { }
 /**
  * Set the comment on this code block.
  */
-void CodeBlockWithComments::setComment ( CodeComment * object ) {
+void CodeBlockWithComments::setComment ( CodeComment * object )
+{
+	// first delete the old m_comment
+	if (m_comment != 0)
+		delete m_comment;
+
 	m_comment = object;
+
+	return;
 }
 
 /**
@@ -171,8 +184,15 @@ void CodeBlockWithComments::setOverallIndentationLevel ( int level )
 	m_comment->setIndentationLevel(level);
 }
 
-void CodeBlockWithComments::initFields ( ) {
+void CodeBlockWithComments::initFields ( )
+{
+	// delete the old comment
+	if (m_comment != 0)
+		delete m_comment;
+
 	m_comment = getParentDocument()->newCodeComment();
+
+	return;
 }
 
 #include "codeblockwithcomments.moc"

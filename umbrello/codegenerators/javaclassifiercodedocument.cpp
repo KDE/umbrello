@@ -207,8 +207,10 @@ void JavaClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & roo
                                         {
                                                 kdError()<<"loadFromXMI : unable to add codeComment to :"<<this<<endl;
                                                 block->deleteLater();
-                                        } else
+                                        } else {
                                                 loadCheckForChildrenOK= true;
+                                                delete block;
+                                       }
                                 } else
                                 if( name == "codeaccessormethod" ||
                                     name == "ccfdeclarationcodeblock"
@@ -220,8 +222,10 @@ void JavaClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & roo
                                         {
                                                 kdError()<<"loadFromXMI : unable to add codeclassfield child method to:"<<this<<endl;
                                                 // DONT delete
-                                        } else
+                                        } else {
                                                 loadCheckForChildrenOK= true;
+                                                delete tb;
+                                       }
 
                                 } else
                                 if( name == "codeblock" ) {
@@ -231,8 +235,10 @@ void JavaClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & roo
                                         {
                                                 kdError()<<"loadFromXMI : unable to add codeBlock to :"<<this<<endl;
                                                 block->deleteLater();
-                                        } else
+                                        } else {
                                                 loadCheckForChildrenOK= true;
+                                                delete block;
+                                       }
                                 } else
                                 if( name == "codeblockwithcomments" ) {
                                         CodeBlockWithComments * block = newCodeBlockWithComments();
@@ -241,8 +247,10 @@ void JavaClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & roo
                                         {
                                                 kdError()<<"loadFromXMI : unable to add codeBlockwithcomments to:"<<this<<endl;
                                                 block->deleteLater();
-                                        } else
+                                        } else {
                                                 loadCheckForChildrenOK= true;
+                                                delete block;
+                                       }
                                 } else
                                 if( name == "header" ) {
                                        // do nothing.. this is treated elsewhere
@@ -254,8 +262,10 @@ void JavaClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & roo
                                         {
                                                 kdError()<<"Unable to add hierarchicalcodeBlock to:"<<this<<endl;
                                                 block->deleteLater();
-                                        } else
+                                        } else {
                                                 loadCheckForChildrenOK= true;
+                                                delete block;
+                                       }
                                 } else
                                 if( name == "codeoperation" ) {
                                        // find the code operation by id
@@ -265,10 +275,10 @@ void JavaClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & roo
                                         if(op) {
                                                 CodeOperation * block = newCodeOperation(op);
                                                 block->loadFromXMI(element);
-                                                if(addTextBlock(block))
+                                                if(addTextBlock(block)) {
                                                         loadCheckForChildrenOK= true;
-                                                else
-                                                {
+                                                        delete block;
+                                                } else {
                                                         kdError()<<"Unable to add codeoperation to:"<<this<<endl;
                                                         block->deleteLater();
                                                 }
@@ -280,12 +290,14 @@ void JavaClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & roo
 						JavaClassDeclarationBlock * block = getClassDecl();
  						block->loadFromXMI(element);
 						if(!addTextBlock(block))
-                                        	{
+						{
 							kdError()<<"Unable to add java code declaration block to:"<<this<<endl;
 							// DONT delete.
 							// block->deleteLater();
-						} else
-                                                	loadCheckForChildrenOK= true;
+						} else {
+							loadCheckForChildrenOK= true;
+							delete block;
+						}
                                 } 
                                 // This last item is only needed for extreme debuging conditions 
 				// (E.g. making new codeclassdocument loader)
