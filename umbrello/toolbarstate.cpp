@@ -127,9 +127,10 @@ void ToolBarState::mouseMove(QMouseEvent* ome)
 
 	m_pUMLView->m_LineToPos = m_pMouseEvent->pos();
 
-	if(m_pUMLView->m_pOnWidget)  m_pUMLView->m_pOnWidget->mouseMoveEvent( m_pMouseEvent );
-	else if(m_pUMLView->m_pMoveAssoc) m_pUMLView->m_pMoveAssoc->mouseMoveEvent( m_pMouseEvent );
-
+	if (m_pUMLView->m_pOnWidget)
+		m_pUMLView->m_pOnWidget->mouseMoveEvent( m_pMouseEvent );
+	else if (m_pUMLView->m_pMoveAssoc)
+		m_pUMLView->m_pMoveAssoc->mouseMoveEvent( m_pMouseEvent );
 
 	if (m_bIsButtonPressed) 
 	{
