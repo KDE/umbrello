@@ -580,18 +580,18 @@ UMLObject* UMLDoc::createUMLObject(UMLObject_Type type, const QString &n) {
 	{
 		name = uniqObjectName(type);
 		do {
-                name = KInputDialog::getText(i18n("Name"), i18n("Enter name:"), name, &ok, (QWidget*)parent());
-		if (!ok) {
-			return 0;
-		}
-		if (name.length() == 0) {
-			KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
-			continue;
-		}
-		o = findUMLObject(type, name);
-		if (o) {
-			KMessageBox::error(0, i18n("That name is already being used."), i18n("Not a Unique Name"));
-		}
+			name = KInputDialog::getText(i18n("Name"), i18n("Enter name:"), name, &ok, (QWidget*)parent());
+			if (!ok) {
+				return 0;
+			}
+			if (name.length() == 0) {
+				KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
+				continue;
+			}
+			o = findUMLObject(type, name);
+			if (o) {
+				KMessageBox::error(0, i18n("That name is already being used."), i18n("Not a Unique Name"));
+			}
 		}while( name.length() == 0 || o != 0L );
 	}
 	id = getUniqueID();
