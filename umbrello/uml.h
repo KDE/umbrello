@@ -38,6 +38,7 @@ class UMLView;
 class WorkToolBar;
 class InfoWidget;
 class QWidgetStack;
+class QMenuData;
 
 /**
  * The base class for UML application windows. It sets up the main
@@ -413,10 +414,6 @@ public slots:
 	void slotUpdateViews();
 
 	/**
-	* 	Toggles whether to show the doc. window
-	*/
-	void slotShowDocWindow();
-	/**
 	*	generate code for all classes
 	*/
 	void generateAllCode();
@@ -537,9 +534,12 @@ public slots:
 	void slotEditRedo();
 
 	/**
-	 *  Unchecks the menu entry and box in the settings dialogue.
+	 * Searches for a menu with the given name
+	 *
+	 * @param menu the QPopupMenu or QMenuBar to search through
+	 * @param name the name of the menu to search for (name, not text)
 	 */
-	void slotDocumentationDockClosed();
+	QPopupMenu* findMenu(QMenuData* menu, QString name);
 private:
 	/**
 	 * to slect the active language
@@ -654,7 +654,6 @@ private:
 	KAction *zoomInAction;
 	KAction *zoomOutAction;
 
-	KToggleAction* showDocumentation;
 	KAction* genAll;
 	KAction* genWizard;
 	KAction* confLanguages;

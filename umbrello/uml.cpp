@@ -70,73 +70,23 @@ UMLApp::UMLApp(QWidget* , const char* name):KDockMainWindow(0, name) {
 	editRedo->setEnabled(false);
 
 	//get a reference to the Code->Active Lanugage and to the Diagram->Zoom menu
-	//we need to search through the menuBar and the correspondig menus.
+	QPopupMenu* menu = findMenu( menuBar(), QString("code") );
+	langSelect = findMenu( menu, QString("active_lang_menu") );
 
-	QPopupMenu *menu = 0L;
-	int menu_count = menuBar() -> count();
-
-	for( int i =0; i<menu_count; i++)
-	{
-		if( menuBar()->findItem( menuBar()->idAt(i) )->popup()->name() == QString("code"))
-		{
-		//we've found the code menu
-			menu = menuBar()->findItem( menuBar()->idAt(i) )->popup();
-			menu_count = menu->count();
-			//look for the "active language" sub-menu
-			for( int i=0; i< menu_count; i++)
-			{
-				if(menu->findItem(menu->idAt(i))->popup() &&
-					menu->findItem( menu->idAt(i) )->popup()->name() == QString("active_lang_menu"))
-				{
-				//we found it. get a reference to it and get out.
-					langSelect = menu->findItem(menu->idAt(i))->popup();
-					break;
-				}
-
-			}
-
-		break;
-		}
-
-	}
-
-	if(langSelect == 0L)
-	{//in case langSelect hasnt been initialized we create the Popup menu.
-	 //it will be hidden, but at least we wont crash if someone takes the entry away from the ui.rc file
+	//in case langSelect hasnt been initialized we create the Popup menu.
+	//it will be hidden, but at least we wont crash if someone takes the entry away from the ui.rc file
+	if (langSelect == 0L) {
 		langSelect = new QPopupMenu(this);
 	}
 
+	menu = findMenu( menuBar(), QString("views") );
+	zoomSelect = findMenu( menu, QString("zoom_menu") );
 
-	menu = 0L;
-	menu_count = menuBar()->count();
-	for( int i =0; i<menu_count; i++ )
-	{
-		if(menuBar()->findItem( menuBar()->idAt(i) )->popup()->name() == QString("views"))
-		{
-		//we've found the "Diagram" menu
-			menu = menuBar()->findItem( menuBar()->idAt(i) )->popup();
-			menu_count = menu->count();
-			//look for the "zoom" sub-menu
-			for( int i=0; i< menu_count; i++)
-			{
-				if(menu->findItem(menu->idAt(i))->popup() &&
-					menu->findItem(menu->idAt(i))->popup()->name() == QString("zoom_menu"))
-				{
-					zoomSelect = menu->findItem(menu->idAt(i))->popup();
-					break;
-				}
-			}
-		break;
-		}
-	}
-
-
-	if(zoomSelect == 0L)
-	{//in case zoomSelect hasnt been initialized we create the Popup menu.
-	 //it will be hidden, but at least we wont crash if some one takes the entry away from the ui.rc file
+	//in case zoomSelect hasnt been initialized we create the Popup menu.
+	//it will be hidden, but at least we wont crash if some one takes the entry away from the ui.rc file
+	if (zoomSelect == 0L) {
 		zoomSelect = new QPopupMenu(this);
 	}
-
 
 	//connect zoomSelect menu
 	zoomSelect->setCheckable(true);
@@ -176,8 +126,6 @@ void UMLApp::initActions() {
 	classWizard = new KAction(i18n("&New Class Wizard..."),0,this,SLOT(slotClassWizard()),
 	                          actionCollection(),"class_wizard");
 
-	showDocumentation = new KToggleAction( i18n("&Show Documentation") , 0 , this, SLOT( slotShowDocWindow() ),
-	                                       actionCollection(), "Show_Documentation" );
 	preferences = new KAction(i18n("&Configure Umbrello..."), SmallIconSet("configure"), 0,
 				  this, SLOT( slotPrefs() ), actionCollection(), "Configure_UML");
 
@@ -256,11 +204,11 @@ void UMLApp::initActions() {
 	viewExportImage->setEnabled(false);
 	viewProperties->setEnabled(false);
 
-	showDocumentation->setChecked( optionState.uiState.showDocWindow );
-	showDocumentation->setStatusText( i18n( "Enables/disables the documentation window" ) );
-
 	// use the absolute path to your umbrelloui.rc file for testing purpose in createGUI();
 	createGUI();
+
+	QPopupMenu* menu = findMenu( menuBar(), QString("settings") );
+	menu->insertItem(i18n("Windows"), dockHideShowMenu(), -1, 0);
 }
 //////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -299,7 +247,7 @@ void UMLApp::setupZoomMenu()
 			zoomSelect->insertSeparator();
 			zoomSelect->insertItem(QString::number(zoom)+" %",zoom);
 	}
-	zoomSelect->setItemChecked(zoom,true);
+	zoomSelect->setItemChecked(zoom, true);
 }
 
 void UMLApp::slotZoomIn()
@@ -367,19 +315,17 @@ void UMLApp::initView() {
 	setView(m_mainDock);
 	setMainDockWidget(m_mainDock);
 
-	m_listDock = createDockWidget("Model", 0L, 0L, "list window");
+	m_listDock = createDockWidget( "Model", 0L, 0L, i18n("Tree View") );
 	listView = new UMLListView(m_listDock ,"LISTVIEW");
 	m_listDock->setWidget(listView);
 	m_listDock->setDockSite(KDockWidget::DockCorner);
 	m_listDock->manualDock(m_mainDock, KDockWidget::DockLeft, 20);
 
-	m_documentationDock = createDockWidget("Documentation", 0L, 0L, "doc window");
+	m_documentationDock = createDockWidget( "Documentation", 0L, 0L, i18n("Documentation") );
 	m_pDocWindow = new DocWindow(doc, m_documentationDock, "DOCWINDOW");
 	m_documentationDock->setWidget(m_pDocWindow);
 	m_documentationDock->setDockSite(KDockWidget::DockCorner);
 	m_documentationDock->manualDock(m_listDock, KDockWidget::DockBottom, 80);
-	connect(m_documentationDock, SIGNAL(headerCloseButtonClicked()),
-		this, SLOT(slotDocumentationDockClosed()) );
 
 	listView->setDocument(doc);
 	doc->setupListView(listView);//make sure has a link to list view and add info widget
@@ -876,7 +822,6 @@ void UMLApp::slotPrefs() {
 		slotApplyPrefs();
 	}
 
-	disconnect(dlg, SIGNAL( applyClicked() ), this, SLOT( slotShowDocWindow() ) );
 	delete dlg;
 	dlg = NULL;
 }
@@ -890,9 +835,6 @@ void UMLApp::slotApplyPrefs() {
 		config -> setGroup( "TipOfDay");
 		config -> writeEntry( "RunOnStart", optionState.generalState.tip );
 
-		if( optionState.uiState.showDocWindow != showDocumentation->isChecked() ) {
-			slotShowDocWindow();
-		}
 		doc -> settingsChanged( optionState );
 		setActiveLanguage( dlg->getCodeGenerationLanguage() );
 	}
@@ -927,16 +869,6 @@ bool UMLApp::editCutCopy( bool bFromView ) {
 	return false;
 }
 
-void UMLApp::slotShowDocWindow() {
-	if ( m_pDocWindow->isVisible() ) {
-		makeDockInvisible(m_documentationDock);
-	} else {
-		makeDockVisible(m_documentationDock);
-	}
-	showDocumentation->setChecked( m_documentationDock->isVisible() );
-	optionState.uiState.showDocWindow = m_documentationDock->isVisible();
-}
-
 void UMLApp::readOptionState() {
 	config -> setGroup( "General Options" );
 	optionState.generalState.autosave = config -> readBoolEntry( "autosave", false );
@@ -955,7 +887,6 @@ void UMLApp::readOptionState() {
 
 	optionState.uiState.fillColor = config -> readColorEntry( "fillColor", &defaultYellow );
 	optionState.uiState.lineColor = config -> readColorEntry( "lineColor", &red );
-	optionState.uiState.showDocWindow = config -> readBoolEntry( "showDocWindow", true );
 	QFont font = ((QWidget *) this)->font() ;
 	optionState.uiState.font = config -> readFontEntry("font", &font );
 
@@ -1109,46 +1040,15 @@ void UMLApp::setDiagramMenuItemsState(bool bState) {
 }
 
 void UMLApp::slotUpdateViews() {
-	int count = menuBar() -> count();
-	int id = -1;
-	//Find the Diagram menu
-	for (int i=0; i<count;i++) {
-		id = menuBar()->idAt(i);
-		if (id == -1) {
-			kdWarning() << "menu not found" << endl;
-			return;
-		}
-		if (menuBar()->findItem(id)->popup()->name() == QString("views")) {
-			break;
-		}
-	}
-	if (id == -1) {
-		kdWarning() << "menu not found" << endl;
-		return;
-	}
-	QPopupMenu* menu = menuBar()->findItem(id)->popup();
+	QPopupMenu* menu = findMenu( menuBar(), QString("views") );
 	if (!menu) {
-		kdWarning() << "menu not found" << endl;
-		return;
-	}
-	count = menu->count();
-	id = -1;
-	//Find the Show menu
-	for (int i=0; i<count;i++) {
-		id = menu -> idAt( i );
-		if( menu->findItem(id)->popup()->name() == QString("show_view") ) {
-			break;
-		}
-	}
-	if (id == -1) {
-		kdWarning() << k_funcinfo << "show menu not found" << endl;
+		kdWarning() << "view menu not found" << endl;
 		return;
 	}
 
-	menu = menu->findItem(id)->popup();
-
+	menu = findMenu( menu, QString("show_view") );
 	if (!menu) {
-		kdWarning() << k_funcinfo << "menu now found" << endl;
+		kdWarning() << "show menu not found" << endl;
 		return;
 	}
 
@@ -1158,6 +1058,7 @@ void UMLApp::slotUpdateViews() {
 		menu->insertItem( views.current()->getName(), views.current(), SLOT( slotShowView() ) );
 		views.current()->fileLoaded();
 	}
+
 }
 
 void UMLApp::slotImportClasses() {
@@ -1396,10 +1297,20 @@ void UMLApp::setCurrentView(UMLView* view /*=0*/) {
 	}
 }
 
-void UMLApp::slotDocumentationDockClosed() {
-	showDocumentation->setChecked(false);
-	optionState.uiState.showDocWindow = false;
-}
+QPopupMenu* UMLApp::findMenu(QMenuData* menu, QString name) {
+	int menuCount = menu->count();
 
+	for (int i=0; i<menuCount; i++) {
+		int idAt = menu->idAt(i);
+		QPopupMenu* popupMenu = menu->findItem(idAt)->popup();
+		if (popupMenu) {
+			QString menuName = popupMenu->name();
+			if( menuName == name) {
+				return popupMenu;
+			}
+		}
+	}
+	return 0;
+}
 
 #include "uml.moc"

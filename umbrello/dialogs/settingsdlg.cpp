@@ -67,15 +67,6 @@ void SettingsDlg::setupUIPage() {
 	colorLayout -> addWidget( m_UiWidgets.useFillColorCB, 2, 0 );
 	m_UiWidgets.useFillColorCB -> setChecked( m_OptionState.uiState.useFillColor );
 
-	m_UiWidgets.miscGB = new QGroupBox( i18n( "Documentation Window" ), page );
-	QVBoxLayout * miscLayout = new QVBoxLayout( m_UiWidgets.miscGB );
-	miscLayout -> setSpacing( spacingHint() );
-	miscLayout -> setMargin( fontMetrics().height() );
-
-	m_UiWidgets.showDocWindowCB = new QCheckBox( i18n( "&Show documentation window" ), m_UiWidgets.miscGB );
-	m_UiWidgets.showDocWindowCB -> setChecked( m_OptionState.uiState.showDocWindow );
-	miscLayout -> addWidget( m_UiWidgets.showDocWindowCB );
-
 	//connect button signals up
 	connect( m_UiWidgets.lineDefaultB, SIGNAL(clicked()), this, SLOT(slotLineBClicked()) );
 	connect( m_UiWidgets.fillDefaultB, SIGNAL(clicked()), this, SLOT(slotFillBClicked()) );
@@ -242,7 +233,6 @@ void SettingsDlg::slotDefault() {
 			m_UiWidgets.useFillColorCB -> setChecked( true );
 			m_UiWidgets.fillColorB -> setColor( QColor( 255, 255, 192 ) );
 			m_UiWidgets.lineColorB -> setColor( red );
-			m_UiWidgets.showDocWindowCB -> setChecked( true );
 			break;
 
 		case page_class:
@@ -281,7 +271,6 @@ void SettingsDlg::applyPage( Page page ) {
 			m_OptionState.uiState.useFillColor = m_UiWidgets.useFillColorCB -> isChecked();
 			m_OptionState.uiState.fillColor = m_UiWidgets.fillColorB -> color();
 			m_OptionState.uiState.lineColor = m_UiWidgets.lineColorB -> color();
-			m_OptionState.uiState.showDocWindow = m_UiWidgets.showDocWindowCB -> isChecked();
 			break;
 
 		case page_class:

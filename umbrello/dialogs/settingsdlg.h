@@ -84,7 +84,6 @@ public:
 		bool useFillColor;
 		QColor fillColor;
 		QColor lineColor;
-		bool showDocWindow;
 		QFont font;
 	}
 	;//end struct UIState
@@ -126,7 +125,6 @@ private:
 	//private structs
 	struct UIWidgets {
 		QGroupBox * colorGB;
-		QGroupBox * miscGB;
 
 		QLabel * lineColorL;
 		QLabel * fillColorL;
@@ -138,7 +136,6 @@ private:
 		KColorButton * fillColorB;
 
 		QCheckBox * useFillColorCB;
-		QCheckBox * showDocWindowCB;
 	}
 	;//end struct UIWidgets
 
