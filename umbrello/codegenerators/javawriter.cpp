@@ -312,7 +312,7 @@ void JavaWriter::writeAttributeDecls(QPtrList<UMLAttribute> &atpub, QPtrList<UML
 	for(at=atpub.first(); at; at=atpub.next())
 	{
 		QString documentation = at->getDoc();
-		QString staticValue = at->getStatic() ? "final " : "";
+		QString staticValue = at->getStatic() ? "static " : "";
 		QString typeName = fixTypeName(at->getTypeName());
 		QString initialValue = fixInitialStringDeclValue(at->getInitialValue(), typeName);
 		if(!documentation.isEmpty())
@@ -325,7 +325,7 @@ void JavaWriter::writeAttributeDecls(QPtrList<UMLAttribute> &atpub, QPtrList<UML
 	{
 		QString documentation = at->getDoc();
 		QString typeName = fixTypeName(at->getTypeName());
-		QString staticValue = at->getStatic() ? "final " : "";
+		QString staticValue = at->getStatic() ? "static " : "";
 		QString initialValue = fixInitialStringDeclValue(at->getInitialValue(), typeName);
 		if(!documentation.isEmpty())
 			writeComment(documentation, indent, java, true);
@@ -337,7 +337,7 @@ void JavaWriter::writeAttributeDecls(QPtrList<UMLAttribute> &atpub, QPtrList<UML
 	{
 		QString documentation = at->getDoc();
 		QString typeName = fixTypeName(at->getTypeName());
-		QString staticValue = at->getStatic() ? "final " : "";
+		QString staticValue = at->getStatic() ? "static " : "";
 		QString initialValue = fixInitialStringDeclValue(at->getInitialValue(), typeName);
 		if(!documentation.isEmpty())
 			writeComment(documentation, indent, java, true);
@@ -718,7 +718,7 @@ void JavaWriter::writeOperations(QPtrList<UMLOperation> &oplist, QTextStream &ja
 
 		str = ""; // reset for next method
 		str += ((op->getAbstract() || isInterface) ? "abstract ":"");
-		str += (op->getStatic() ? "final":"");
+		str += (op->getStatic() ? "static":"");
 		str += scopeToJavaDecl(op->getScope()) + " ";
 		str += methodReturnType + " " +cleanName(op->getName()) + "( ";
 
