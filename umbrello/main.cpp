@@ -20,7 +20,7 @@
 #include <unistd.h>
 #include <kdebug.h>
 
-static const char *description =
+static const char description[] =
     I18N_NOOP("Umbrello UML Modeller");
 // INSERT A DESCRIPTION FOR YOUR APPLICATION HERE
 
