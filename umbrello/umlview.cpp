@@ -1124,7 +1124,7 @@ void UMLView::deleteSelection()
 	{
 		if (cur_msgWgt->getSelected() == true)
 		{
-			removeWidget(cur_msgWgt); // remove msg, because it is selected
+			removeWidget(cur_msgWgt, true);  // Remove message - it is selected.
 		}
 	}
 
