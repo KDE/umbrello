@@ -1,0 +1,198 @@
+<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
+<class>UMLRolePropertiesBase</class>
+<widget class="QWidget">
+    <property name="name">
+        <cstring>UMLRolePropertiesBase</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>422</width>
+            <height>543</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Form1</string>
+    </property>
+    <widget class="QLayoutWidget">
+        <property name="name">
+            <cstring>layout6</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>10</x>
+                <y>10</y>
+                <width>400</width>
+                <height>520</height>
+            </rect>
+        </property>
+        <grid>
+            <property name="name">
+                <cstring>unnamed</cstring>
+            </property>
+            <widget class="QGroupBox" row="0" column="0">
+                <property name="name">
+                    <cstring>propsGroupBox</cstring>
+                </property>
+                <property name="title">
+                    <string>Role Properties</string>
+                </property>
+                <widget class="QLayoutWidget">
+                    <property name="name">
+                        <cstring>layout5</cstring>
+                    </property>
+                    <property name="geometry">
+                        <rect>
+                            <x>10</x>
+                            <y>30</y>
+                            <width>360</width>
+                            <height>70</height>
+                        </rect>
+                    </property>
+                    <grid>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="QLabel" row="0" column="0">
+                            <property name="name">
+                                <cstring>roleNameLabel</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Rolename</string>
+                            </property>
+                        </widget>
+                        <widget class="QLineEdit" row="1" column="1">
+                            <property name="name">
+                                <cstring>m_pMultiLE</cstring>
+                            </property>
+                        </widget>
+                        <widget class="QLineEdit" row="0" column="1">
+                            <property name="name">
+                                <cstring>m_pRoleLE</cstring>
+                            </property>
+                        </widget>
+                        <widget class="QLabel" row="1" column="0">
+                            <property name="name">
+                                <cstring>textLabel2</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Multiplicity</string>
+                            </property>
+                        </widget>
+                    </grid>
+                </widget>
+            </widget>
+            <widget class="QGroupBox" row="3" column="0">
+                <property name="name">
+                    <cstring>docGroupBox</cstring>
+                </property>
+                <property name="title">
+                    <string>Documentation</string>
+                </property>
+                <grid>
+                    <property name="name">
+                        <cstring>unnamed</cstring>
+                    </property>
+                    <widget class="QTextEdit" row="0" column="0">
+                        <property name="name">
+                            <cstring>m_pDocTE</cstring>
+                        </property>
+                    </widget>
+                </grid>
+            </widget>
+            <widget class="QButtonGroup" row="2" column="0">
+                <property name="name">
+                    <cstring>changeabilityButtonGroup</cstring>
+                </property>
+                <property name="title">
+                    <string>Role Changeability</string>
+                </property>
+                <grid>
+                    <property name="name">
+                        <cstring>unnamed</cstring>
+                    </property>
+                    <widget class="QLayoutWidget" row="0" column="0">
+                        <property name="name">
+                            <cstring>layout2</cstring>
+                        </property>
+                        <grid>
+                            <property name="name">
+                                <cstring>unnamed</cstring>
+                            </property>
+                            <widget class="QRadioButton" row="0" column="2">
+                                <property name="name">
+                                    <cstring>m_pAddOnlyRB</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Add only</string>
+                                </property>
+                            </widget>
+                            <widget class="QRadioButton" row="0" column="1">
+                                <property name="name">
+                                    <cstring>m_pFrozenRB</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Frozen</string>
+                                </property>
+                            </widget>
+                            <widget class="QRadioButton" row="0" column="0">
+                                <property name="name">
+                                    <cstring>m_pChangeableRB</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Changeable</string>
+                                </property>
+                                <property name="checked">
+                                    <bool>true</bool>
+                                </property>
+                            </widget>
+                        </grid>
+                    </widget>
+                </grid>
+            </widget>
+            <widget class="QButtonGroup" row="1" column="0">
+                <property name="name">
+                    <cstring>visibilityButtonGroup</cstring>
+                </property>
+                <property name="title">
+                    <string>Role Visibility</string>
+                </property>
+                <grid>
+                    <property name="name">
+                        <cstring>unnamed</cstring>
+                    </property>
+                    <widget class="QRadioButton" row="0" column="0">
+                        <property name="name">
+                            <cstring>m_pPublicRB</cstring>
+                        </property>
+                        <property name="text">
+                            <string>Public</string>
+                        </property>
+                        <property name="checked">
+                            <bool>true</bool>
+                        </property>
+                    </widget>
+                    <widget class="QRadioButton" row="0" column="1">
+                        <property name="name">
+                            <cstring>m_pPrivateRB</cstring>
+                        </property>
+                        <property name="text">
+                            <string>Private</string>
+                        </property>
+                    </widget>
+                    <widget class="QRadioButton" row="0" column="2">
+                        <property name="name">
+                            <cstring>m_pProtectedRB</cstring>
+                        </property>
+                        <property name="text">
+                            <string>Protected</string>
+                        </property>
+                    </widget>
+                </grid>
+            </widget>
+        </grid>
+    </widget>
+</widget>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>
