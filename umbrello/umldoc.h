@@ -207,6 +207,14 @@ public:
 	 */
 	bool isUnique(QString name);
 
+       /**
+         * Returns true if the given name is unique within its scope of given package.
+         *
+         * @param name          The name to check.
+         * @return      True if name is unique.
+         */
+	bool isUnique(QString name, UMLPackage *package); 
+
 	/**
 	 * Creates a @ref UMLObject of the given type.
 	 *

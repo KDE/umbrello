@@ -299,14 +299,13 @@ void UMLListViewItem::okRename( int col ) {
 		case Uml::lvt_Enum:
 			object = m_pObject;
 			if( object ) {
-				object = doc -> findUMLObject( newText );
-				if( object && object == m_pObject )
-					object = 0;
-				if( !object ) {
+				if(doc->isUnique(newText))
+				{
 					m_pObject -> setName( newText );
 					m_Label = newText;
 					return;
-				}
+				} else
+					object = 0;
 			}
 			break;
 

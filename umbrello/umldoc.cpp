@@ -624,17 +624,49 @@ void UMLDoc::slotRemoveUMLObject(UMLObject* object)  {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool UMLDoc::isUnique(QString name)
 {
-	UMLListViewItem *parentItem = (UMLListViewItem*)listView->currentItem();
+	UMLListViewItem *currentItem = (UMLListViewItem*)listView->currentItem();
+	UMLListViewItem *parentItem = 0;
+
+	// check for current item, if its a package, then we do a check on that  
+	// otherwise, if current item exists, find its parent and check if thats
+	// a package..
+	if(currentItem)
+	{
+		// its possible that the current item *is* a package, then just 
+		// do check now
+		if(currentItem->getType() == lvt_Package)
+			return isUnique (name, (UMLPackage*) currentItem->getUMLObject());
+		parentItem = (UMLListViewItem*)currentItem->parent();
+	}
+
+	// item is in a package so do check only in that 
 	if (parentItem != NULL && parentItem->getType() == lvt_Package) {
 		UMLPackage *parentPkg = (UMLPackage*)parentItem->getUMLObject();
-		return (parentPkg->findObject(name) == NULL);
+		return isUnique(name, parentPkg);
 	}
+
 	// Not currently in a package:
 	// Check against all objects that _dont_ have a parent package.
 	for (UMLObject *obj = objectList.first(); obj; obj = objectList.next())
 		if (obj->getUMLPackage() == NULL && obj->getName() == name)
 			return false;
 	return true;
+}
+
+bool UMLDoc::isUnique(QString name, UMLPackage *package)
+{
+
+        // if a package, then only do check in that
+        if (package) 
+                return (package->findObject(name) == NULL);
+
+        // Not currently in a package:
+        // Check against all objects that _dont_ have a parent package.
+        for (UMLObject *obj = objectList.first(); obj; obj = objectList.next())
+                if (obj->getUMLPackage() == NULL && obj->getName() == name)
+                        return false;
+        return true;
+
 }
 
 UMLObject* UMLDoc::createUMLObject(const std::type_info &type)
@@ -672,7 +704,7 @@ UMLObject* UMLDoc::createUMLObject(UMLObject_Type type, const QString &n,
 	bool ok = false;
 	int id;
 	QString name;
-	if( !n.isEmpty() && isUnique(n) )
+	if( !n.isEmpty() && isUnique(n, parentPkg) )
 	{
 		name = n;
 	}
@@ -688,7 +720,7 @@ UMLObject* UMLDoc::createUMLObject(UMLObject_Type type, const QString &n,
 				KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
 				continue;
 			}
-			if (! isUnique(name)) {
+			if (! isUnique(name, parentPkg)) {
 				KMessageBox::error(0, i18n("That name is already being used."), i18n("Not a Unique Name"));
 				name = "";
 			}
