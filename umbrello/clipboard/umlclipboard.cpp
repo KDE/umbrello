@@ -232,12 +232,10 @@ void UMLClipboard::setCopyType(UMLListViewItemList& SelectedItems, UMLDoc* Doc) 
 		m_type = clip5;
 	} else if(withDiagrams) {
 		m_type = clip2;
+	} else if(withObjects) {
+		m_type = clip1;
 	} else {
-		if(withObjects) {
-			m_type = clip1;
-		} else {
-			m_type = clip3;
-		}
+		m_type = clip3;
 	}
 }
 
@@ -367,11 +365,13 @@ bool UMLClipboard::pasteClip1(UMLDoc* doc, QMimeSource* data) {
 	UMLListViewItem* itemdata = 0;
 	UMLListViewItemListIt it(itemdatalist);
 	while ( (itemdata=it.current()) != 0 ) {
-		if ( (item = doc->listView->findItem(idchanges->findNewID(itemdata->getID()))) ) {
+		UMLListView *lv = doc->listView;
+		UMLListViewItem *parent = (UMLListViewItem *)lv->currentItem();
+		/*
+		if ( (item = lv->findItem(idchanges->findNewID(itemdata->getID()))) ) {
 			objectAlreadyExists = true;
-		} else {
-			item = doc->listView->createItem(*itemdata, *idchanges);
-		}
+		} else  */
+			item = lv->createItem(*itemdata, *idchanges, parent);
 
 
 		if(!item) {

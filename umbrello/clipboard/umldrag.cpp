@@ -347,6 +347,7 @@ bool UMLDrag::decodeClip1(const QMimeSource* mimeSource, UMLObjectList& objects,
 				kdWarning() << "Given wrong type of umlobject to create:" << type << endl;
 				return false;
 			}
+			pObject->setInPaste();
 			if( !pObject->loadFromXMI( element ) ) {
 				kdWarning() << "failed to load object from XMI" << endl;
 				return false;
