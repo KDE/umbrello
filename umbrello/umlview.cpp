@@ -1553,7 +1553,7 @@ void UMLView::exportImage() {
 		{
 			int want_save = KMessageBox::questionYesNo(0, i18n("The selected file %1 exists.\nDo you want to overwrite it?").arg(m_ImageURL.fileName()),
 								i18n("File Already Exists"),
-								i18n("Yes"), i18n("No"));
+								KStdGuiItem::yes(), KStdGuiItem::no());
 			if (want_save == KMessageBox::No)
 				// another possibility would be to show the save dlg again
 				return;
@@ -1942,7 +1942,7 @@ void UMLView::addAssocInViewAndDoc(AssociationWidget* a) {
 	{
 		// if view went ok, then append in document
 		getDocument() -> addAssociation (a->getAssociation());
-	} else { 
+	} else {
 		kdError() << "cannot addAssocInViewAndDoc(), deleting" << endl;
 		delete a;
 	}
