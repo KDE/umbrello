@@ -25,7 +25,7 @@ NoteDialog::NoteDialog( QWidget * parent, NoteWidget * pNote ) : KDialogBase(Pla
 	m_pNoteWidget = pNote;
 	int margin = fontMetrics().height();
 
-	m_pDocGB = new QGroupBox(i18n("Documenation"), plainPage());
+	m_pDocGB = new QGroupBox(i18n("Documentation"), plainPage());
 	QVBoxLayout * mainLayout = new QVBoxLayout(plainPage());
 	mainLayout -> addWidget(m_pDocGB);
 	mainLayout -> setSpacing(10);
