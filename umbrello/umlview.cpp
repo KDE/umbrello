@@ -113,13 +113,12 @@ UMLView::UMLView() : QCanvasView(UMLApp::app()->getMainViewWidget(), "AnUMLView"
 	init();
 	m_pDoc = UMLApp::app()->getDocument();
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void UMLView::init() {
 	// Initialize loaded/saved data
 	m_nID = Uml::id_None;
 	m_pDoc = NULL;
 	m_Documentation = "";
-	m_Name = "umlview";
 	m_Type = dt_Undefined;
 	m_nLocalID = 900000;
 	m_bUseSnapToGrid = false;
@@ -184,7 +183,6 @@ void UMLView::init() {
 
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLView::~UMLView() {
 	if(m_pIDChangesLog) {
 		delete    m_pIDChangesLog;
@@ -215,7 +213,14 @@ UMLView::~UMLView() {
 	}
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
+QString UMLView::getName() const {
+	return QString( QObject::name() );
+}
+
+void UMLView::setName(const QString &name) {
+	QObject::setName( name.latin1() );
+}
+
 void UMLView::print(KPrinter *pPrinter, QPainter & pPainter) {
 	int height, width;
 	//get the size of the page
@@ -3143,7 +3148,7 @@ void UMLView::forceUpdateWidgetFontMetrics(QPainter * painter) {
 void UMLView::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement viewElement = qDoc.createElement( "diagram" );
 	viewElement.setAttribute( "xmi.id", ID2STR(m_nID) );
-	viewElement.setAttribute( "name", m_Name );
+	viewElement.setAttribute( "name", getName() );
 	viewElement.setAttribute( "type", m_Type );
 	viewElement.setAttribute( "documentation", m_Documentation );
 	//optionstate uistate
@@ -3226,7 +3231,7 @@ bool UMLView::loadFromXMI( QDomElement & qElement ) {
 	m_nID = STR2ID(id);
 	if( m_nID == Uml::id_None )
 		return false;
-	m_Name = qElement.attribute( "name", "" );
+	setName( qElement.attribute( "name", "" ) );
 	QString type = qElement.attribute( "type", "-1" );
 	m_Documentation = qElement.attribute( "documentation", "" );
 	QString localid = qElement.attribute( "localid", "0" );
@@ -3626,9 +3631,9 @@ bool UMLView::loadUISDiagram(QDomElement & qElement) {
 		QDomElement elem = node.toElement();
 		QString tag = elem.tagName();
 		if (tag == "uisDiagramName") {
-			m_Name = elem.text();
+			setName( elem.text() );
 			if (ulvi)
-				ulvi->setText( m_Name );
+				ulvi->setText( getName() );
 		} else if (tag == "uisDiagramStyle") {
 			QString diagramStyle = elem.text();
 			if (diagramStyle != "ClassDiagram") {
@@ -3639,7 +3644,7 @@ bool UMLView::loadUISDiagram(QDomElement & qElement) {
 			m_pDoc->setMainViewID(m_nID);
 			m_Type = Uml::dt_Class;
 			UMLListView *lv = UMLApp::app()->getListView();
-			ulvi = new UMLListViewItem( lv->theLogicalView(), m_Name,
+			ulvi = new UMLListViewItem( lv->theLogicalView(), getName(),
 						    Uml::lvt_Class_Diagram, m_nID );
 		} else if (tag == "uisDiagramPresentation") {
 			loadUisDiagramPresentation(elem);

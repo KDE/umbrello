@@ -89,16 +89,12 @@ public:
 	/**
 	 * Return the name of the diagram.
 	 */
-	QString getName() const {
-		return m_Name;
-	}
+	QString getName() const;
 
 	/**
 	 * Set the name of the diagram.
 	 */
-	void setName( const QString &name ) {
-		m_Name = name;
-	}
+	void setName(const QString &name);
 
 	/**
 	 * Returns the type of the diagram.
@@ -883,11 +879,6 @@ protected:
 	 * The type of diagram to represent.
 	 */
 	Uml::Diagram_Type m_Type;
-
-	/**
-	 * The name of the diagram.
-	 */
-	QString m_Name;
 
 	/**
 	 * The documentation of the diagram.
