@@ -274,6 +274,8 @@ AssocRules::Assoc_Rule AssocRules::m_AssocRules []= {
             { at_Generalization,wt_Actor,	wt_Actor,	false,	false,	false,	false },
             { at_Aggregation,	wt_Class,	wt_Class,	true,	true,	false,	true  },
             { at_Aggregation,	wt_Class,	wt_Interface,	true,	true,	false,	false },
+            { at_Aggregation,	wt_Class,	wt_Enum,	true,	true,	false,	false },
+            { at_Aggregation,	wt_Class,	wt_Datatype,	true,	true,	false,	false },
             { at_Dependency,	wt_Class,	wt_Class,	false,	false,	false,	true },
             { at_Dependency,	wt_UseCase,	wt_UseCase,	false,	false,	false,	false },
             { at_Dependency,	wt_Actor,	wt_Actor,	false,	false,	false,	false },
