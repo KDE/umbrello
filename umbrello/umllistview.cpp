@@ -1181,10 +1181,11 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type 
 }
 
 void UMLListView::slotDropped(QDropEvent* de, QListViewItem* /* parent */, QListViewItem* item) {
+	item = (UMLListViewItem *)currentItem();
 	if(!item) {
-		//kdDebug() << "UMLListView::slotDropped: item is NULL - setting to currentItem()"
-		//	  << endl;
-		item = currentItem();
+		kdDebug() << "UMLListView::slotDropped: item is NULL - doing nothing"
+			  << endl;
+		return;
 	}
 	UMLDrag::LvTypeAndID_List srcList;
 	if (! UMLDrag::getClip3TypeAndID(de, srcList)) {
