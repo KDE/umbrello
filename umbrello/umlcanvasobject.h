@@ -29,6 +29,7 @@ class UMLAssociation;
  */
 
 class UMLCanvasObject : public UMLObject {
+	Q_OBJECT
 public:
 	/**
 	 *	Sets up a UMLCanvasObject.
@@ -78,7 +79,7 @@ public:
  	 *
  	 *	@param	o	The association to remove.
  	 */
- 	int removeAssociation(UMLObject *o);
+ 	int removeAssociation(UMLAssociation *assoc);
  
 	/**
 	 *	Returns the number of associations for the CanvasObject.
@@ -165,6 +166,20 @@ protected:
 	 * 	This is always computed from m_AssocsList.
 	 */
 	QPtrList<UMLAssociation> m_TmpAssocs;
+
+
+signals:
+        /**
+         * Emit when new association is added.
+         * @param assoc Pointer to the association which has been added.
+         */
+        void sigAssociationAdded(UMLAssociation * assoc);
+
+        /**
+         * Emit when new association is removed.
+         * @param assoc Pointer to the association which has been removed.
+         */
+        void sigAssociationRemoved(UMLAssociation * assoc);
 
 };
 

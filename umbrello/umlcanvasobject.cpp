@@ -40,6 +40,7 @@ QPtrList<UMLAssociation> UMLCanvasObject::getSpecificAssocs(Uml::Association_Typ
 bool UMLCanvasObject::addAssociation(UMLAssociation* assoc) {
  	m_AssocsList.append( assoc );
 	emit modified();
+	emit sigAssociationAdded(assoc);
 	return true;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -49,12 +50,13 @@ bool UMLCanvasObject::hasAssociation(UMLAssociation* assoc) {
  	return false;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-int UMLCanvasObject::removeAssociation(UMLObject* a) {
- 	if(!m_AssocsList.remove((UMLAssociation *)a)) {
+int UMLCanvasObject::removeAssociation(UMLAssociation * assoc) {
+ 	if(!m_AssocsList.remove(assoc)) {
  		kdWarning() << "can't find assoc given in list" << endl;
  		return -1;
  	}
 	emit modified();
+	emit sigAssociationRemoved(assoc);
  	return m_AssocsList.count();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
