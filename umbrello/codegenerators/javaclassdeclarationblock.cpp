@@ -87,7 +87,8 @@ void JavaClassDeclarationBlock::updateContent ( )
 
 	// Now set START/ENDING Text
         QString startText = "";
-        if (c->getAbstract())
+	// In Java, we need declare abstract only on classes
+        if (c->getAbstract() && !isInterface)
                 startText.append("abstract ");
 
         if (c->getScope() != Uml::Public) {
@@ -129,7 +130,13 @@ void JavaClassDeclarationBlock::updateContent ( )
 	// write out what we 'implement'
 	i = 0;
         if(nrof_superinterfaces >0)
-                startText.append(" implements ");
+	{
+		// In Java interfaces "extend" other interfaces. Classes "implement" interfaces
+		if(isInterface)
+                	startText.append(" extends ");
+		else
+                	startText.append(" implements ");
+	}
         for (UMLClassifier * concept= superinterfaces.first(); concept; concept = superinterfaces.next())
 	{
                 startText.append(parentDoc->cleanName(concept->getName()));
