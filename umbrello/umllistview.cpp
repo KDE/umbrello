@@ -474,10 +474,13 @@ void UMLListView::slotObjectCreated(UMLObject* object) {
 	case Uml::ot_Operation:
 	case Uml::ot_Template:
 	case Uml::ot_EnumLiteral:
-	case Uml::ot_Association:
-	case Uml::ot_Stereotype:
 		//this will be handled by childObjectAdded
 		return;
+		break;
+	case Uml::ot_Association:
+	case Uml::ot_Role:
+	case Uml::ot_Stereotype:
+		return;  // currently no representation in list view
 		break;
 	case Uml::ot_Class:
 	case Uml::ot_Interface:
