@@ -2710,8 +2710,7 @@ void UMLView::setShowSnapGrid(bool bShow) {
 	emit sigShowGridToggled( m_pData->getShowSnapGrid() );
 }
 
-void UMLView::setZoom(int zoom)
-{
+void UMLView::setZoom(int zoom) {
 	if(zoom<10) zoom = 10;
 	else if (zoom > 500) zoom = 500;
 
@@ -2720,23 +2719,20 @@ void UMLView::setZoom(int zoom)
 	setWorldMatrix(wm);
 }
 
-int UMLView::currentZoom()
-{
+int UMLView::currentZoom() {
 	return (int)(worldMatrix().m11()*100.0);
 }
 
 
-void UMLView::zoomIn()
-{
+void UMLView::zoomIn() {
 	QWMatrix wm = worldMatrix();
-	wm.scale(2.0,2.0); // adjust zooming step here
+	wm.scale(1.5,1.5); // adjust zooming step here
 	setWorldMatrix(wm);
 }
 
-void UMLView::zoomOut()
-{
+void UMLView::zoomOut() {
 	QWMatrix wm = worldMatrix();
-	wm.scale(0.5,0.5); //adjust zooming step here
+	wm.scale(2.0/3.0, 2.0/3.0); //adjust zooming step here
 	setWorldMatrix(wm);
 }
 

@@ -144,10 +144,8 @@ void UMLApp::initActions() {
 	viewStatusBar = KStdAction::showStatusbar(this, SLOT(slotViewStatusBar()), actionCollection());
 	selectAll = KStdAction::selectAll(this,  SLOT( slotSelectAll() ), actionCollection());
 
-//FIXME - add UI if you want to have zoom in/out by clicking on the diagram
-// note that resultating zoom could not correspond to one of the predefined values if you dont watch the zooming step size
-	//zoomInAction = new KAction(i18n("Zoom In"),"file_new",0,this,SLOT(zoomIn()),actionCollection(),"zoom_in");
-	//zoomOutAction = new KAction(i18n("Zoom Out"),0,this,SLOT(zoomOut()),actionCollection(),"zoom_out");
+	zoomInAction = KStdAction::zoomIn(this,  SLOT( zoomIn() ), actionCollection(), "umbrello_zoom_in");
+	zoomOutAction = KStdAction::zoomOut(this,  SLOT( zoomOut() ), actionCollection(), "umbrello_zoom_out");
 
 	classWizard = new KAction(i18n("New Class Wizard..."),0,this,SLOT(slotClassWizard()),
 	                          actionCollection(),"class_wizard");
@@ -234,7 +232,7 @@ void UMLApp::initActions() {
 
 	showDocumentation->setChecked( optionState.uiState.showDocWindow );
 	showDocumentation->setStatusText( i18n( "Enables/disables the documentation window" ) );
-	// use the absolute path to your umlui.rc file for testing purpose in createGUI();
+	// use the absolute path to your umbrelloui.rc file for testing purpose in createGUI();
 	createGUI();
 
 }
@@ -248,7 +246,7 @@ void UMLApp::setZoom(int z)
 void UMLApp::setupZoomMenu()
 {
 	int zoom = doc->getCurrentView()->currentZoom();
-	
+
 	//first uncheck all
 	for(int index = 0; index < zoomSelect->count(); index++)
 		zoomSelect->setItemChecked(zoomSelect->idAt(index),false);

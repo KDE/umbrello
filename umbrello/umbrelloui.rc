@@ -38,4 +38,8 @@
     <Action name="class_wizard"/>
   </Menu>
 </MenuBar>
+<ToolBar name="mainToolBar">
+  <Action name="umbrello_zoom_in"/>
+  <Action name="umbrello_zoom_out"/>
+</ToolBar>
 </kpartgui>
