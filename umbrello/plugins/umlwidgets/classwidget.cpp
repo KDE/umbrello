@@ -31,7 +31,6 @@
 #include <qpainter.h>
 #include <qpopupmenu.h>
 #include <qvbox.h>
-#include <qlist.h>
 #include <qptrlist.h>
 
 
@@ -255,7 +254,7 @@ void ClassWidget::calculateSize()
 					break;
 			}
 			opString.string += op->getName() + "( ";
-			QList<UMLAttribute> *params = op->getParmList();
+			QPtrList<UMLAttribute> *params = op->getParmList();
 			for( UMLAttribute *last = params->last(), *param = params->first();
 				param &&  (m_opsDisplayOpts & ShowParameterList);
 				param = params->next() )
@@ -321,7 +320,7 @@ void ClassWidget::calculateSize()
 		(( m_opsDisplayOpts & ShowOps ) ? 1 * vMargin : 0 ) +
 		(m_ops.count() * lineHeight ) +
 		(( (m_opsDisplayOpts & ShowOps) && (!m_ops.isEmpty())) ? 1 * vMargin : 0 );
-	
+
 	setSize(width,height);
 }
 
@@ -337,7 +336,7 @@ void ClassWidget::editProperties()
 	dialog.addPage(new ClassTemplatesPage( static_cast<UMLClass*>(m_umlObject), diagram()->document(),0L),i18n("Templates"));
 	dialog.addPage(new ClassDisplayOptionsPage( this,0L), i18n("Display Options"));
 	dialog.addPage(new WidgetColorsPage( this,  0L), i18n("Colors"));
-	
+
 	dialog.exec();
 }
 

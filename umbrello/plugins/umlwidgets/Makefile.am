@@ -1,5 +1,5 @@
 
-SUBDIRS = pics dialogs
+SUBDIRS = dialogs
 
 INCLUDES = -I. $(all_includes)
 LDFLAGS = $(all_libraries)

@@ -29,7 +29,6 @@
 #include <qpainter.h>
 #include <qpopupmenu.h>
 #include <qvbox.h>
-#include <qlist.h>
 #include <qptrlist.h>
 
 
@@ -194,7 +193,7 @@ void InterfaceWidget::calculateSize()
 					break;
 			}
 			opString.string += op->getName() + "( ";
-			QList<UMLAttribute> *params = op->getParmList();
+			QPtrList<UMLAttribute> *params = op->getParmList();
 			for( UMLAttribute *last = params->last(), *param = params->first();
 				param &&  (m_opsDisplayOpts & ShowParameterList);
 				param = params->next() )
@@ -254,7 +253,7 @@ void InterfaceWidget::calculateSize()
 		(( m_opsDisplayOpts & ShowOps ) ? 1 * vMargin : 0 ) +
 		(m_ops.count() * lineHeight ) +
 		(( (m_opsDisplayOpts & ShowOps) && (!m_ops.isEmpty())) ? 1 * vMargin : 0 );
-	
+
 	setSize(width,height);
 }
 
@@ -268,7 +267,7 @@ void InterfaceWidget::editProperties()
 	dialog.addPage(new UMLObjectAssociationsPage( static_cast<UMLInterface*>(m_umlObject),0L),i18n("Associations"));
 	//dialog.addPage(new InterfaceDisplayOptionsPage( this,0L), i18n("Display Options"));
 	dialog.addPage(new WidgetColorsPage( this,  0L), i18n("Colors"));
-	
+
 	dialog.exec();
 
 }
