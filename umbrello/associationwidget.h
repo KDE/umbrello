@@ -692,5 +692,10 @@ public slots:
 	 * Handles any signals that tells everyone not to be selected.
 	 */
 	void slotClearAllSelected();
+
+	/**
+	 * Merge together the UMLAssociation representation and this widget
+	 */
+	void mergeUMLRepresentationIntoAssociationData(); 
 };
 #endif

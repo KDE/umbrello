@@ -14,6 +14,7 @@
 #include "umlobject.h"
 
 class UMLDoc;
+class UMLRole;
 
 
 /**
@@ -28,6 +29,7 @@ class UMLDoc;
 
 class UMLAssociation : public UMLObject {
 	friend class AssociationWidget;
+	Q_OBJECT
 public:
 	/**
 	 *	Sets up an association.
@@ -277,6 +279,13 @@ public:
          */
 	static QString ScopeToString(Uml::Scope scope);
 
+	/**
+	 * Get the respective, underlying UMLRole object for either role A or B.
+	 */
+	UMLRole * getUMLRoleA(); 
+
+	UMLRole * getUMLRoleB(); 
+
 protected:
 
 	/** do some initialization at construction time */
@@ -294,16 +303,23 @@ protected:
 	static const unsigned nAssocTypes;
 	static const QString assocTypeStr[];
 
+	UMLRole * m_pRoleA;
+	UMLRole * m_pRoleB;
+
 	Uml::Association_Type m_AssocType;
+	QString m_Name;
+
+/*
 	int m_RoleAId;
 	int m_RoleBId;
-	QString m_Name, m_RoleADoc, m_RoleBDoc;
+	QString m_RoleADoc, m_RoleBDoc;
 	UMLObject* m_pObjectA;
 	UMLObject* m_pObjectB;
 	QString m_RoleNameA, m_RoleNameB;
 	QString m_MultiA, m_MultiB;
 	Scope m_VisibilityA, m_VisibilityB;
 	Changeability_Type m_ChangeabilityA, m_ChangeabilityB;
+*/
 
 };
 

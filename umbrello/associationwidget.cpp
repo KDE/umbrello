@@ -38,6 +38,7 @@ AssociationWidget::AssociationWidget(QWidget *parent, AssociationWidgetData& aDa
     	// (e.g. that thing we just grew out of) alongside of our UMLAssociation
  	mergeAssociationDataIntoUMLRepresentation();
 
+	connect(m_pAssociation,SIGNAL(modified()),this,SLOT(mergeUMLRepresentationIntoAssociationData()));
   	connect(m_pView, SIGNAL(sigRemovePopupMenu()), this, SLOT(slotRemovePopupMenu()));
   	connect(m_pView, SIGNAL( sigClearAllSelected() ), this, SLOT( slotClearAllSelected() ) );
 
@@ -70,6 +71,7 @@ AssociationWidget::AssociationWidget(QWidget *parent, UMLWidget* WidgetA,
  	// (the widget id's for one, there might be others)
  	mergeAssociationDataIntoUMLRepresentation();
 
+	connect(m_pAssociation,SIGNAL(modified()),this,SLOT(mergeUMLRepresentationIntoAssociationData()));
  	connect( m_pView, SIGNAL(sigRemovePopupMenu()), this, SLOT(slotRemovePopupMenu()));
   	connect( m_pView, SIGNAL( sigClearAllSelected() ), this, SLOT( slotClearAllSelected() ) );
 
@@ -1217,10 +1219,68 @@ void AssociationWidget::setActivated(bool Active /*=true*/) {
 	m_bActivated = Active;
 }
 
+// ugly. but its what we are forced into by having the ugly association
+// widget data NOT be stored in the UMLAssociation. *sigh*. 
+void AssociationWidget::mergeUMLRepresentationIntoAssociationData()
+{
+	UMLAssociation *uml = getAssociation();
+
+	// block signals until finished
+	uml->blockSignals(true);
+
+        // all attributes should be synched based on data widget
+        setWidgetAID(uml->getRoleAId());
+        setWidgetBID(uml->getRoleBId());
+        AssociationWidgetData::setAssocType(uml->getAssocType());
+        setChangeabilityA(uml->getChangeabilityA());
+        setChangeabilityB(uml->getChangeabilityB());
+
+        setDoc(uml->getDoc());
+        setRoleADoc(uml->getRoleADoc());
+        setRoleBDoc(uml->getRoleBDoc());
+
+
+        // floating text widgets
+        FloatingTextData *textData = getNameData();
+        if (textData)
+                textData->setText(uml->getName());
+
+        textData = getRoleAData();
+        if (textData)
+        {
+                textData->setText(uml->getRoleNameA());
+                // it doesnt make sense to have visibility wi/o Rolename
+                // so we only set it when its in here. Probably should have
+                // error condition thrown when visb is set but rolename isnt.
+                setVisibilityA(uml->getVisibilityA());
+        }
+
+        textData = getRoleBData();
+        if (textData)
+        {
+                textData->setText(uml->getRoleNameB());
+                setVisibilityB(uml->getVisibilityB());
+        }
+
+        textData = getMultiDataA();
+        if (textData)
+                textData->setText(uml->getMultiA());
+
+        textData = getMultiDataB();
+        if (textData)
+                textData->setText(uml->getMultiB());
+
+	uml->blockSignals(false);
+
+}
+
 // this will synchronize UMLAssociation w/ this new WidgetData
 void AssociationWidget::mergeAssociationDataIntoUMLRepresentation()
 {
 	UMLAssociation *uml = getAssociation();
+
+	// block emit modified signal, or we get a horrible loop
+	uml->blockSignals(true);
 
 	// would be desirable to do the following
 	// so that we can be sure its back to initial state
@@ -1290,6 +1350,9 @@ void AssociationWidget::mergeAssociationDataIntoUMLRepresentation()
 	textData = getMultiDataB();
 	if (textData)
 		uml->setMultiB(textData->getText());
+
+	// unblock
+	uml->blockSignals(false);
 
 }
 
