@@ -84,7 +84,28 @@ QString UMLAttribute::toString(Uml::Signature_Type sig) {
 		s = "";
 
 	if(sig == Uml::st_ShowSig || sig == Uml::st_SigNoScope) {
-		QString string = s + getName() + " : " + getTypeName();
+		// Determine whether the type name needs to be scoped.
+		UMLObject *owningObject = static_cast<UMLObject*>(parent());
+		if (owningObject->getBaseType() == Uml::ot_Operation)
+			owningObject = static_cast<UMLObject*>(owningObject->parent());
+		UMLClassifier *ownParent = dynamic_cast<UMLClassifier*>(owningObject);
+		if (ownParent == NULL) {
+			kdError() << "UMLAttribute::toString: parent "
+				  << owningObject->getName()
+				  << " is not a UMLClassifier" << endl;
+			return "";
+		}
+		QString typeName;
+		UMLClassifier *type = UMLClassifierListItem::getType();
+		if (type) {
+			UMLPackage *typeScope = type->getUMLPackage();
+			if (typeScope != ownParent && typeScope != ownParent->getUMLPackage())
+				typeName = type->getFullyQualifiedName(".");
+			else
+				typeName = type->getName();
+		}
+		// Construct the attribute text.
+		QString string = s + getName() + " : " + typeName;
 		if(m_InitialValue.length() > 0)
 			string += " = " + m_InitialValue;
 		return string;
@@ -121,6 +142,7 @@ void UMLAttribute::copyInto(UMLAttribute *rhs) const
 
 UMLObject* UMLAttribute::clone() const
 {
+	//FIXME: The new attribute should be slaved to the NEW parent not the old.
 	UMLAttribute *clone = new UMLAttribute( (UMLAttribute *)parent() );
 	copyInto(clone);
 

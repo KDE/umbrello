@@ -153,7 +153,16 @@ QString UMLOperation::toString(Uml::Signature_Type sig) {
 			s.append(", ");
 	}
 	s.append(")");
-	QString returnType = UMLClassifierListItem::getTypeName();
+	UMLClassifier *ownParent = static_cast<UMLClassifier*>(parent());
+	QString returnType;
+	UMLClassifier *retType = UMLClassifierListItem::getType();
+	if (retType) {
+		UMLPackage *retScope = retType->getUMLPackage();
+		if (retScope != ownParent && retScope != ownParent->getUMLPackage())
+			returnType = retType->getFullyQualifiedName(".");
+		else
+			returnType = retType->getName();
+	}
 	if (returnType.length() > 0 && returnType != "void") {
 		s.append(" : ");
 
@@ -212,8 +221,7 @@ void UMLOperation::copyInto(UMLOperation *rhs) const
 
 UMLObject* UMLOperation::clone() const
 {
-	// TODO Why is this a UMLClassifier?
-	// -- Huh? I don't understand this TODO   --okellogg
+	//FIXME: The new operation should be slaved to the NEW parent not the old.
 	UMLOperation *clone = new UMLOperation( (UMLClassifier *) parent());
 	copyInto(clone);
 
