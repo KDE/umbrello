@@ -19,7 +19,7 @@ libdialogs_la_SOURCES = overwritedialogue.cpp codegenerationwizard.cpp codegener
                         packagepropertiesbase.ui packagepropertiespage.cpp \
                         classattributesbase.ui classattributespage.cpp classifieroperationsbase.ui classifieroperationspage.cpp \
                         operationpropertiesbase.ui operationpropertiespage.cpp attributepropertiesbase.ui attributepropertiespage.cpp \
-                        parameterpropertiesbase.ui parameterpropertiespage.cpp \
+                        parameterpropertiesbase.ui parameterpropertiespage.cpp classifierlistpage.cpp\
                         classtemplatesbase.ui classtemplatespage.cpp templatepropertiesbase.ui templatepropertiespage.cpp \
                         umlobjectassociationsbase.ui umlobjectassociationspage.cpp umlroledialog.cpp umlroleproperties.cpp \
                         widgetcolorsbase.ui widgetcolorspage.cpp codevieweroptionspage.cpp
