@@ -165,9 +165,11 @@ void FloatingText::slotMenuSelection(int sel) {
 			}
 			UMLClassifier* c = m_pLink->getOperationOwner(this);
 			UMLObject* umlObj = m_pView->getDocument()->createChildObject(c, Uml::ot_Operation);
-			UMLOperation* newOperation = static_cast<UMLOperation*>( umlObj );
-			QString opText = newOperation->toString(st_SigNoScope);
-			m_pLink->setOperationText(this, opText);
+			if (umlObj) {
+				UMLOperation* newOperation = static_cast<UMLOperation*>( umlObj );
+				QString opText = newOperation->toString(st_SigNoScope);
+				m_pLink->setOperationText(this, opText);
+			}
 		}
 		break;
 
@@ -327,19 +329,31 @@ void FloatingText::showOpDlg() {
 }
 
 void FloatingText::mouseMoveEvent(QMouseEvent* me) {
-	if (m_Role == tr_Seq_Message_Self ||
-	    (!m_bMouseDown && me->button() != LeftButton) )
+	if (!m_bMouseDown && me->button() != LeftButton)
+		return;
+	if (m_Role == tr_Seq_Message_Self)
 		return;
 	QPoint newPosition = doMouseMove(me);
 	int newX = newPosition.x();
 	int newY = newPosition.y();
 
-	m_nOldX = newX;
-	setX( newX );
-	if (m_Role != tr_Seq_Message) {
-		m_nOldY = newY;
-		setY( newY );
+	//implement specific rules for a sequence diagram
+	if (m_Role == tr_Seq_Message) {
+		MessageWidget *pMessage = static_cast<MessageWidget*>(m_pLink);
+		if (m_Role == tr_Seq_Message_Self) {
+			newX = pMessage->getX() + 5;
+			pMessage->setX( newX - 5 );
+		}
+		const int minHeight = pMessage->getMinHeight();
+		newY = newY < minHeight ? minHeight : newY;
+		const int maxHeight = pMessage->getMaxHeight() - height() - 5;
+		newY = newY < maxHeight ? newY : maxHeight;
+		pMessage->setY( newY + height() );
 	}
+	m_nOldX = newX;
+	m_nOldY = newY;
+	setX( newX );
+	setY( newY );
 	if (m_pLink)
 		m_pLink->calculateNameTextSegment();
 	m_pView->resizeCanvasToItems();
