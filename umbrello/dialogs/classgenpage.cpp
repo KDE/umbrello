@@ -87,6 +87,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o) : QWidget(p
 		m_pNameLayout -> addWidget(m_pPackageLE, 2, 1);
 
 		m_pPackageLE -> setText(o -> getPackage());
+		m_pPackageLE -> setEnabled(false);
 		m_pPackageL->setBuddy(m_pPackageLE);
 	}
 
