@@ -172,12 +172,6 @@ void UMLView::init() {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLView::~UMLView() {
-	if ( canvas() != NULL ) {
-		// Qt Doc for QCanvasView::~QCanvasView () states:
-		// "Destroys the canvas view. The associated canvas is not deleted."
-		// we should do it now
-		delete canvas();
-	}
 	if(m_pIDChangesLog) {
 		delete    m_pIDChangesLog;
 		m_pIDChangesLog = 0;
@@ -189,6 +183,22 @@ UMLView::~UMLView() {
 		m_pAssocLine = NULL;
 	}
 	//m_SelectionRect.clear();
+
+	// before we can delete the QCanvas, all widgets must be explicitly
+	// removed
+	// otherwise the implicit remove of the contained widgets will cause
+	// events which would demand a valid connected QCanvas
+	// ==> this causes umbrello to crash for some - larger?? - projects
+	// first avoid all events, which would cause some update actions
+	// on deletion of each removed widget
+	blockSignals( true );
+	removeAllWidgets();
+	if ( canvas() != NULL ) {
+		// Qt Doc for QCanvasView::~QCanvasView () states:
+		// "Destroys the canvas view. The associated canvas is not deleted."
+		// we should do it now
+		delete canvas();
+	}
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
