@@ -161,7 +161,7 @@
                                 <cstring>textLabel1_3</cstring>
                             </property>
                             <property name="text">
-                                <string>Default Accessor Scope:</string>
+                                <string>Default accessor scope:</string>
                             </property>
                         </widget>
                     </grid>
