@@ -51,6 +51,7 @@
 #include "conceptwidget.h"
 #include "packagewidget.h"
 #include "componentwidget.h"
+#include "nodewidget.h"
 #include "artifactwidget.h"
 #include "interfacewidget.h"
 #include "actorwidget.h"
@@ -509,6 +510,8 @@ void UMLView::slotObjectCreated(UMLObject* o) {
 			}
 		} else if(type == ot_Artifact) {
 			newWidget = new ArtifactWidget(this, o);
+		} else if(type == ot_Node) {
+			newWidget = new NodeWidget(this, o);
 		} else if(type == ot_Interface) {
 		        InterfaceWidget* interfaceWidget = new InterfaceWidget(this, o);
 			if (getType() == dt_Component || getType() == dt_Deployment) {
@@ -544,6 +547,7 @@ void UMLView::slotObjectCreated(UMLObject* o) {
 			case ot_Concept:
 			case ot_Package:
 			case ot_Component:
+			case ot_Node:
 			case ot_Artifact:
 			case ot_Interface:
 				createAutoAssociations(newWidget);
@@ -625,14 +629,15 @@ void UMLView::contentsDragEnterEvent(QDragEnterEvent *e) {
 			status = false;
 		}
 		if (m_pData->m_Type == dt_Deployment &&
-		    (ot != ot_Interface && ot != ot_Component && ot != ot_Concept)) {
+		    (ot != ot_Interface && ot != ot_Component && ot != ot_Concept && ot != ot_Node)) {
 			status = false;
 		}
 		if (m_pData->m_Type == dt_Component &&
 		    (ot != ot_Interface && ot != ot_Component && ot != ot_Artifact)) {
 			status = false;
 		}
-		if((m_pData->m_Type == dt_UseCase || m_pData->m_Type == dt_Class || m_pData->m_Type == dt_Component)
+		if((m_pData->m_Type == dt_UseCase || m_pData->m_Type == dt_Class ||
+		    m_pData->m_Type == dt_Component || m_pData->m_Type == dt_Deployment)
 		   && widgetOnDiagram(data->getID()) ) {
 			status = false;
 		}
@@ -1379,6 +1384,7 @@ UMLObjectList* UMLView::getUMLObjects() {
 			case wt_Class:
 			case wt_Package:
 			case wt_Component:
+			case wt_Node:
 			case wt_Artifact:
 			case wt_UseCase:
 			case wt_Object:
@@ -1523,6 +1529,10 @@ bool UMLView::createWidget(UMLWidgetData* WidgetData) {
 			widget = new ComponentWidget(this, object, WidgetData);
 			break;
 
+		case wt_Node:
+			widget = new NodeWidget(this, object, WidgetData);
+			break;
+
 		case wt_Artifact:
 			widget = new ArtifactWidget(this, object, WidgetData);
 			break;
@@ -1596,6 +1606,7 @@ bool UMLView::addWidget( UMLWidgetData * pWidgetData ) {
 		case wt_Class:
 		case wt_Package:
 		case wt_Component:
+		case wt_Node:
 		case wt_Artifact:
 		case wt_Interface:
 		case wt_Actor:
@@ -2101,6 +2112,10 @@ Uml::UMLObject_Type UMLView::convert_TBB_OT(WorkToolBar::ToolBar_Buttons tbb) {
 
 		case WorkToolBar::tbb_Component:
 			ot = ot_Component;
+			break;
+
+		case WorkToolBar::tbb_Node:
+			ot = ot_Node;
 			break;
 
 		case WorkToolBar::tbb_Artifact:
@@ -2651,6 +2666,11 @@ void UMLView::slotMenuSelection(int sel) {
 		case ListPopupMenu::mt_Component:
 			m_bCreateObject = true;
 			getDocument()->createUMLObject(ot_Component);
+			break;
+
+		case ListPopupMenu::mt_Node:
+			m_bCreateObject = true;
+			getDocument()->createUMLObject(ot_Node);
 			break;
 
 		case ListPopupMenu::mt_Artifact:

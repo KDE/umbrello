@@ -85,6 +85,7 @@ InitialState, State, EndState, InitialActivity, Activity, EndActivity, Branch, F
 	    tbb_Interface,
 	    tbb_Package,
 	    tbb_Component,
+	    tbb_Node,
 	    tbb_Artifact,
 	    tbb_Object,
 	    tbb_Initial_State,
@@ -129,6 +130,7 @@ private:
 		Fork,
 		Package,
 		Component,
+		Node,
 		Artifact,
 		Interface;
 	}

@@ -285,6 +285,7 @@ void UMLWidget::slotMenuSelection(int sel) {
 			if (m_pData->m_Type == wt_Actor || m_pData->m_Type == wt_UseCase ||
 			    m_pData->m_Type == wt_Package || m_pData->m_Type == wt_Interface ||
 			    m_pData->m_Type == wt_Component || m_pData->m_Type == wt_Artifact ||
+			    m_pData->m_Type == wt_Node ||
 			    (m_pData->m_Type == wt_Class && m_pView -> getType() == dt_Class)) {
 				m_pView->getDocument() -> showProperties(this);
 			} else if (m_pData->m_Type == wt_Object) {
@@ -398,6 +399,7 @@ void UMLWidget::mouseDoubleClickEvent( QMouseEvent * me ) {
 	if (m_pView->m_CurrentCursor == WorkToolBar::tbb_Arrow &&
 	    (m_pData->m_Type >= wt_Actor && m_pData->m_Type <= wt_Object) ||
 	    m_pData->m_Type == wt_Component ||
+	    m_pData->m_Type == wt_Node ||
 	    m_pData->m_Type == wt_Artifact) {
 		slotMenuSelection(ListPopupMenu::mt_Properties);
 	}
@@ -682,6 +684,7 @@ bool UMLWidget::widgetHasUMLObject(Uml::UMLWidget_Type type) {
 	    type == wt_Interface ||
 	    type == wt_Package ||
 	    type == wt_Component ||
+	    type == wt_Node ||
 	    type == wt_Artifact) {
 		return true;
 	} else {

@@ -115,6 +115,10 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, Uml::ListView_Type type) : KPopupM
 			mt = mt_Component;
 			break;
 
+		case Uml::lvt_Node:
+			mt = mt_Node;
+			break;
+
 		case Uml::lvt_Artifact:
 			mt = mt_Artifact;
 			break;
@@ -261,6 +265,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object, bool multi) :
 
 		case Uml::wt_Package:
 		case Uml::wt_Component:
+		case Uml::wt_Node:
 		case Uml::wt_Artifact:
 			setupColor(object->getUseFillColor());
 			insertItem(SmallIcon("editcut"), i18n("Cut"), mt_Cut);
@@ -520,6 +525,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 	QPixmap branchPixmap(dataDir+"branch.xpm");
 	QPixmap objectPixmap(dataDir+"object.xpm");
 	QPixmap componentPixmap(dataDir+"component.xpm");
+	QPixmap nodePixmap(dataDir+"node.xpm");
 	QPixmap artifactPixmap(dataDir+"artifact.xpm");
 
 	switch(type) {
@@ -566,7 +572,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 		case mt_Deployment_View:
 			m_pInsert = new KPopupMenu(this, "New");
 			m_pInsert->insertItem(SmallIcon("folder_new"), i18n("Folder"), mt_Component_Folder);
-//			m_pInsert->insertItem(componentPixmap, i18n("Component..."), mt_Component);
+			m_pInsert->insertItem(nodePixmap, i18n("Node..."), mt_Node);
 			m_pInsert->insertItem(SmallIcon("folder_violet"),i18n("Deployment Diagram"),
 					      mt_Deployment_Diagram);
 			insertItem(SmallIcon("filenew"), i18n("New"), m_pInsert);
@@ -643,7 +649,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 		case mt_Deployment_Folder:
 			m_pInsert = new KPopupMenu(this, "New");
 			m_pInsert->insertItem(SmallIcon("folder_new"),i18n("Folder"), mt_Component_Folder);
-//			m_pInsert->insertItem(componentPixmap, i18n("Component..."), mt_Component);
+			m_pInsert->insertItem(nodePixmap, i18n("Node..."), mt_Node);
 			m_pInsert->insertItem(SmallIcon("folder_violet"),i18n("Deployment Diagram"),
 					      mt_Deployment_Diagram);
 			insertItem(SmallIcon("filenew"), i18n("New"), m_pInsert);
@@ -751,7 +757,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 
 		case mt_On_Deployment_Diagram:
 			m_pInsert = new KPopupMenu(this, "New");
-//			m_pInsert->insertItem(componentPixmap, i18n("Component..."), mt_Component);
+			m_pInsert->insertItem(nodePixmap, i18n("Node..."), mt_Node);
 			insertItem(SmallIcon("filenew"), i18n("New"), m_pInsert);
 			insertSeparator();
 			setupDiagramMenu(view);
@@ -798,6 +804,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 
 		case mt_Package:
 		case mt_Component:
+		case mt_Node:
 		case mt_Artifact:
 		case mt_Actor:
 		case mt_UseCase:

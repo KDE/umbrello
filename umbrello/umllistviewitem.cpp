@@ -112,6 +112,10 @@ void UMLListViewItem::updateObject() {
 			setPixmap( 0, s_pListView -> getPixmap( UMLListView::it_Component ) );
 			break;
 
+		case Uml::ot_Node:
+			setPixmap( 0, s_pListView -> getPixmap( UMLListView::it_Node ) );
+			break;
+
 		case Uml::ot_Artifact:
 			setPixmap( 0, s_pListView -> getPixmap( UMLListView::it_Artifact ) );
 			break;

@@ -13,6 +13,7 @@
 #include "concept.h"
 #include "package.h"
 #include "component.h"
+#include "node.h"
 #include "artifact.h"
 #include "interface.h"
 #include "docwindow.h"
@@ -449,6 +450,8 @@ QString	UMLDoc::uniqObjectName(const UMLObject_Type type) {
 		currentName = i18n("new_package");
 	else if(type == ot_Component)
 		currentName = i18n("new_component");
+	else if(type == ot_Node)
+		currentName = i18n("new_node");
 	else if(type == ot_Artifact)
 		currentName = i18n("new_artifact");
 	else if(type == ot_Interface)
@@ -486,6 +489,10 @@ UMLObject* UMLDoc::createUMLObject(const std::type_info &type)
 	else if ( type == typeid(UMLComponent) )
 	{
 		t = ot_Component;
+	}
+	else if ( type == typeid(UMLNode) )
+	{
+		t = ot_Node;
 	}
 	else if ( type == typeid(UMLArtifact) )
 	{
@@ -533,6 +540,8 @@ UMLObject* UMLDoc::createUMLObject(UMLObject_Type type) {
 				o = new UMLPackage(this, name, id);
 			} else if(type == ot_Component) {
 				o = new UMLComponent(this, name, id);
+			} else if(type == ot_Node) {
+				o = new UMLNode(this, name, id);
 			} else if(type == ot_Artifact) {
 				o = new UMLArtifact(this, name, id);
 			} else if(type == ot_Interface) {
@@ -1470,6 +1479,8 @@ bool UMLDoc::loadUMLObjectsFromXMI( QDomNode & node ) {
 			pObject = new UMLPackage(this);
 		} else if (type == "UML:Component") {
 			pObject = new UMLComponent(this);
+		} else if (type == "UML:Node") {
+			pObject = new UMLNode(this);
 		} else if (type == "UML:Artifact") {
 			pObject = new UMLArtifact(this);
 		} else if (type == "UML:Interface") {

@@ -256,7 +256,13 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLWidget* widget) : QWid
 	QGridLayout* m_pNameLayout = new QGridLayout(topLayout, 3, 2);
 	m_pNameLayout->setSpacing(6);
 	m_pNameL = new QLabel(this);
-	m_pNameL->setText(i18n("Component name:"));
+	if (widget->getBaseType() == wt_Component) {
+		m_pNameL->setText(i18n("Component name:"));
+	} else if (widget->getBaseType() == wt_Node) {
+		m_pNameL->setText(i18n("Node name:"));
+	} else {
+		kdWarning() << "ClassGenPage called on unknown widget type" << endl;
+	}
 	m_pNameLayout->addWidget(m_pNameL, 0, 0);
 
 	m_pClassNameLE = new QLineEdit(this);

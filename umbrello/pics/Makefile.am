@@ -130,6 +130,8 @@ install-data-local:
 	$(INSTALL_DATA) $(srcdir)/artifact.xpm $(kde_datadir)/umbrello/pics/artifact.xpm
 	$(mkinstalldirs) $(kde_datadir)/umbrello/pics/
 	$(INSTALL_DATA) $(srcdir)/box.xpm $(kde_datadir)/umbrello/pics/box.xpm
+	$(mkinstalldirs) $(kde_datadir)/umbrello/pics/
+	$(INSTALL_DATA) $(srcdir)/node.xpm $(kde_datadir)/umbrello/pics/node.xpm
 
 uninstall-local:
 	-rm -f $(kde_datadir)/umbrello/pics/actor.xpm
@@ -195,5 +197,6 @@ uninstall-local:
 	-rm -f $(kde_datadir)/umbrello/pics/interface.xpm
 	-rm -f $(kde_datadir)/umbrello/pics/artifact.xpm
 	-rm -f $(kde_datadir)/umbrello/pics/box.xpm
+	-rm -f $(kde_datadir)/umbrello/pics/node.xpm
 
 ####### kdevelop will overwrite this part!!! (end)############

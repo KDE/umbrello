@@ -86,14 +86,15 @@ ClassPropDlg::ClassPropDlg(QWidget *parent, UMLWidget * w) : KDialogBase(IconLis
 	if (w->getBaseType() == Uml::wt_Class || w->getBaseType() == Uml::wt_Package ||
 	    w->getBaseType() == Uml::wt_Interface) {
 		setupPages(m_pObject, true);
-	} if (w->getBaseType() == Uml::wt_Component) {
+	} else if (w->getBaseType() == Uml::wt_Component) {
 		UMLWidgetData* widgetData = w->getData();
 		if ( widgetData->getIsInstance() ) {
-			ComponentWidget* componetWidget = static_cast<ComponentWidget*>(w);
-			setupInstancePages(componetWidget);
+			setupInstancePages(w);
 		} else {
 			setupPages(m_pObject);
 		}
+	} else if (w->getBaseType() == Uml::wt_Node) {
+		setupInstancePages(w);
 	} else {
 		setupPages(m_pObject);
 	}

@@ -61,6 +61,7 @@ public:
 	    mt_Concept,                       //CONCEPT
 	    mt_Package,
 	    mt_Component,
+	    mt_Node,
 	    mt_Artifact,
 	    mt_Interface,
 	    mt_Actor,                         //ACTOR
