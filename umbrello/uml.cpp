@@ -262,7 +262,7 @@ void UMLApp::initActions() {
 	createGUI();
 
 	QPopupMenu* menu = findMenu( menuBar(), QString("settings") );
-	menu->insertItem(i18n("Windows"), dockHideShowMenu(), -1, 0);
+	menu->insertItem(i18n("&Windows"), dockHideShowMenu(), -1, 0);
 
 
 }
@@ -369,13 +369,13 @@ void UMLApp::initView() {
 	setView(m_mainDock);
 	setMainDockWidget(m_mainDock);
 
-	m_listDock = createDockWidget( "Model", 0L, 0L, i18n("Tree View") );
+	m_listDock = createDockWidget( "Model", 0L, 0L, i18n("&Tree View") );
 	listView = new UMLListView(m_listDock ,"LISTVIEW");
 	m_listDock->setWidget(listView);
 	m_listDock->setDockSite(KDockWidget::DockCorner);
 	m_listDock->manualDock(m_mainDock, KDockWidget::DockLeft, 20);
 
-	m_documentationDock = createDockWidget( "Documentation", 0L, 0L, i18n("Documentation") );
+	m_documentationDock = createDockWidget( "Documentation", 0L, 0L, i18n("&Documentation") );
 	m_pDocWindow = new DocWindow(doc, m_documentationDock, "DOCWINDOW");
 	m_documentationDock->setWidget(m_pDocWindow);
 	m_documentationDock->setDockSite(KDockWidget::DockCorner);
