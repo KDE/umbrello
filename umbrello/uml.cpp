@@ -203,14 +203,14 @@ void UMLApp::initActions() {
 	// The different views
         newDiagram = new KActionMenu(0, SmallIconSet("filenew"), actionCollection(), "new_view");
 	classDiagram = new KAction( i18n( "&Class Diagram" ), SmallIconSet("folder_green"), 0,
-	                            this, SLOT( slotClassDiagram() ), actionCollection(), "new_class_diagram" );	
+	                            this, SLOT( slotClassDiagram() ), actionCollection(), "new_class_diagram" );
 
 	sequenceDiagram= new KAction( i18n( "&Sequence Diagram" ), SmallIconSet("folder_green"), 0,
-	                              this, SLOT( slotSequenceDiagram() ), actionCollection(), "new_sequence_diagram" );	
+	                              this, SLOT( slotSequenceDiagram() ), actionCollection(), "new_sequence_diagram" );
 
 	collaborationDiagram = new KAction( i18n( "C&ollaboration Diagram" ), SmallIconSet("folder_green"), 0,
 	                                    this, SLOT( slotCollaborationDiagram() ), actionCollection(), "new_collaboration_diagram" );
-	
+
 	useCaseDiagram= new KAction( i18n( "&Use Case Diagram" ), SmallIconSet("folder_grey"), 0,
 	                             this, SLOT( slotUseCaseDiagram() ), actionCollection(), "new_use_case_diagram" );
 
@@ -342,7 +342,7 @@ void UMLApp::initStatusBar() {
 
 	connect(listView,SIGNAL(sigSetStatusbarProgressSteps(int)),statProg,SLOT(setTotalSteps(int)));
 	connect(listView,SIGNAL(sigSetStatusbarProgress(int)),statProg,SLOT(setProgress(int)));
-	connect(listView,SIGNAL(sigResetStatusbarProgress()),statProg,SLOT(reset()));	
+	connect(listView,SIGNAL(sigResetStatusbarProgress()),statProg,SLOT(reset()));
 	//FIXME change name to raiseDiagram
 
 	connect(doc, SIGNAL( sigWriteToStatusBar(const QString &) ), this, SLOT( slotStatusMsg(const QString &) ));
@@ -356,8 +356,10 @@ void UMLApp::initDocument() {
 void UMLApp::initView() {
 	setCaption(doc->URL().fileName(),false);
 
-	toolsbar = new WorkToolBar(this,"WORKTOOLBAR");
-	addToolBar(toolsbar,Qt::DockRight,true);
+	//the name of the toolbar is used as a tool tip so should be i18n, unfortunatly it
+	//has to be a char* and not a QString
+	toolsbar = new WorkToolBar(this, I18N_NOOP("Diagram Toolbar"));
+	addToolBar(toolsbar, Qt::DockTop, false);
 
 	m_mainDock = createDockWidget("maindock", 0L, 0L, "main dock");
 	viewStack = new QWidgetStack(m_mainDock, "viewstack");
