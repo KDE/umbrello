@@ -1917,6 +1917,9 @@ bool UMLView::activateAfterLoad(bool bUseLog) {
 		if( bUseLog ) {
 			beginPartialWidgetPaste();
 		}
+		// set the UMLViewData::m_View
+		if ( m_pData -> getView() == NULL )
+			m_pData -> setView( this );
 		//create and activate regular widgets first
 		UMLWidgetDataListIt w_it( m_pData -> m_WidgetList );
 		while( ( widgetData = w_it.current() ) ) {
