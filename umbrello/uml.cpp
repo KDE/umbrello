@@ -441,7 +441,7 @@ void UMLApp::openDocumentFile(const KURL& url) {
 	// restore any saved code generators to memory.
 	// This is important because we need to insure that
 	// even if a code generator isnt worked with, it will
-	// remain in sync with the UML diagram(s) should they change. 
+	// remain in sync with the UML diagram(s) should they change.
 	initSavedCodeGenerators();
 
 }
@@ -1608,7 +1608,7 @@ void UMLApp::initSavedCodeGenerators() {
         for(it.toFirst() ; it.current(); ++it )
 	{
 		activeLanguage = it.current()->language;
-		if( doc->hasCodeGeneratorXMIParams(activeLanguage)) 
+		if( doc->hasCodeGeneratorXMIParams(activeLanguage))
 			createGenerator();
 	}
 

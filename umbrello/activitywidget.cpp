@@ -11,7 +11,9 @@
 #include "umlview.h"
 #include "listpopupmenu.h"
 #include "dialogs/activitydialog.h"
-#if QT_VERSION < 0x030200
+
+#include <kdeversion.h>
+#if !KDE_IS_VERSION(3,1,90)
 # include <klineeditdlg.h>  //deprecated
 # define KInputDialog       KLineEditDlg
 #else

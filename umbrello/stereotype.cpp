@@ -10,8 +10,9 @@
 
 #include "stereotype.h"
 
+#include <kdeversion.h>
 #include <klocale.h>
-#if QT_VERSION < 0x030200
+#if !KDE_IS_VERSION(3,1,90)
 # include <klineeditdlg.h>  //deprecated
 # define KInputDialog       KLineEditDlg
 #else
