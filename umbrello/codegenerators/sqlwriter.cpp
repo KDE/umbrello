@@ -89,12 +89,12 @@ void SQLWriter::writeClass(UMLClassifier *c) {
 	UMLAssociationList aggregations = c->getAggregations();
 	if( forceSections() || !aggregations.isEmpty() ) {
 		for(UMLAssociation* a = aggregations.first(); a; a = aggregations.next()) {
-			if( a->getObject(A)->getID()==c->getID() ) {
-				sql << m_newLineEndingChars << "-- CONSTRAINT " << a->getName() << " FOREIGN KEY (" << a->getMulti(B) <<
-					") REFERENCES " <<   a->getObject(A)->getName() << "(" << a->getMulti(A) << ")";
-			} else {
-				sql << "," << m_newLineEndingChars << m_indentation << "CONSTRAINT " << a->getName() << " FOREIGN KEY (" << a->getMulti(B) <<
-					") REFERENCES " <<   a->getObject(A)->getName() << "(" << a->getMulti(A) << ")";
+			if( a->getObject(A)->getID() != c->getID() ) {
+
+				sql << m_indentation << "," << m_newLineEndingChars << m_indentation
+					 << "CONSTRAINT " << a->getName() << " FOREIGN KEY ("
+					 << a->getRoleName(B) << ") REFERENCES "
+					 << a->getObject(A)->getName() << " (" << a->getRoleName(A) << ")";
 			}
 		}
 	}
@@ -129,13 +129,33 @@ void SQLWriter::writeAttributes(UMLClass *c, QTextStream &sql) {
 		}
 	}
 
-	printAttributes(sql, atpub);
-	printAttributes(sql, atprot);
-	printAttributes(sql, atpriv);
+	// now print the attributes; they are sorted by there scope
+	// in front of the first attribute shouldn't be a , -> so we need to find
+	// out, when the first attribute was added
+	bool first = true;
+
+	if (atpub.count() > 0)
+	{
+		printAttributes(sql, atpub, first);
+		first = false;
+	}
+
+	if (atprot.count() > 0)
+	{
+		printAttributes(sql, atprot, first);
+		first = false;
+	}
+
+	if (atpriv.count() > 0)
+	{
+		printAttributes(sql, atpriv, first);
+		first = false;
+	}
+
+	return;
 }
 
-void SQLWriter::printAttributes(QTextStream& sql, UMLAttributeList attributeList) {
-	bool first = true;
+void SQLWriter::printAttributes(QTextStream& sql, UMLAttributeList attributeList, bool first) {
 	QString attrDoc = "";
 	UMLAttribute* at;
 

@@ -72,8 +72,12 @@ private:
 
 	/**
 	 * Prints out attributes as columns in the table
+	 *
+	 * @param sql the stream we should print to
+	 * @param attributeList the attributes to be printed
+	 * @param first if the attributes are the first one
 	 */
-	void printAttributes(QTextStream& sql, UMLAttributeList attributeList);
+	void printAttributes(QTextStream& sql, UMLAttributeList attributeList, bool first);
 };
 
 
