@@ -684,7 +684,6 @@ void JavaWriter::writeOperations(QList<UMLOperation> &oplist, QTextStream &java)
 	}
 }
 
-// check that initial values of strings have quotes around them
 QString JavaWriter::fixInitialStringDeclValue(QString value, QString type)
 {
 	// check for strings only
@@ -697,7 +696,6 @@ QString JavaWriter::fixInitialStringDeclValue(QString value, QString type)
 	return value;
 }
 
-// a little method for converting scope to string value
 QString JavaWriter::scopeToJavaDecl(Uml::Scope scope)
 {
 	QString scopeString;
@@ -726,7 +724,7 @@ QString JavaWriter::getUMLObjectName(UMLObject *obj)
 QString JavaWriter::capitaliseFirstLetter(QString string)
 {
 	QChar firstChar = string.at(0);
-	string.replace ( 0, 1, firstChar.upper());
+	string.replace( 0, 1, firstChar.upper());
 	return string;
 }
 

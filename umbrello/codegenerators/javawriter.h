@@ -148,7 +148,7 @@ private:
 	void writeComment(QString text, QString indent, QTextStream &java); 
 
 	/**
-	 * Writes /** */ documentation
+	 * Writes a /** documentation comment
 	 */
 	void writeDocumentation(QString header, QString body, QString end, QString indent, QTextStream &java); 
 
