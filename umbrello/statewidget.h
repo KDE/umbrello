@@ -51,7 +51,7 @@ public:
 	 * @param view		The parent of the widget.
 	 * @param stateType	The type of state.
 	 */
-	StateWidget( UMLView * view, StateType stateType = StateWidget::Normal );
+	StateWidget( UMLView * view, StateType stateType = Normal );
 
 	/**
 	 * destructor
@@ -152,7 +152,7 @@ protected:
 	/**
 	 * Type of state.
 	 */
-	StateWidget::StateType m_StateType;
+	StateType m_StateType;
 
 	/**
 	 * Name of the state.
