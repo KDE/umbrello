@@ -230,7 +230,7 @@ void UMLOperationDialog::slotNewParameter() {
 	UMLDoc* pDoc = dynamic_cast<UMLDoc *>( m_pOperation->parent()->parent() );
 
 	QString currentName = m_pOperation->getUniqueParameterName();
-	UMLAttribute* newAttribute = new UMLAttribute(pDoc, currentName, 0);
+	UMLAttribute* newAttribute = new UMLAttribute(0, currentName, 0);
 
 	ParmPropDlg dlg(this, pDoc, newAttribute);
 	result = dlg.exec();

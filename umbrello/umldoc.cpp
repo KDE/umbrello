@@ -665,7 +665,7 @@ UMLObject* UMLDoc::createUMLObject(UMLObject* umlobject, UMLObject_Type type) {
 UMLObject* UMLDoc::createAttribute(UMLClass* umlclass) {
 	int id = getUniqueID();
 	QString currentName = umlclass->uniqChildName(Uml::ot_Attribute);
-	UMLAttribute* newAttribute = new UMLAttribute(this, currentName, id);
+	UMLAttribute* newAttribute = new UMLAttribute(umlclass, currentName, id);
 
 	int button = QDialog::Accepted;
 	bool goodName = false;

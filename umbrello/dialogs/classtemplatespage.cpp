@@ -68,7 +68,7 @@ void ClassTemplatesPage::loadData()
 	// create list view and working-copy of templates
 	for( UMLTemplate *temp = list->last(); temp; temp = list->prev() )
 	{
-		copy = new UMLTemplate(m_umlObject,temp->getName(),temp->getID(),temp->getTypeName());
+		copy = new UMLTemplate(this,temp->getName(),temp->getID(),temp->getTypeName());
 		m_tempsList.prepend(copy);
 		item = new QListViewItem( m_templatesList, copy->getName() );
 		m_tempMap[item] = copy;
@@ -188,7 +188,7 @@ void ClassTemplatesPage::moveDown( )
 
 void ClassTemplatesPage::createTemplate( )
 {
-	UMLTemplate *t = new UMLTemplate(m_umlObject,"new_template",-1);
+	UMLTemplate *t = new UMLTemplate(this,"new_template",-1);
 	UmbrelloDialog dialog(this, UmbrelloDialog::Swallow, "edit_template", true, i18n("Template properties"),
 	                       UmbrelloDialog::Ok | UmbrelloDialog::Cancel );
 	TemplatePropertiesPage *page = new TemplatePropertiesPage(t,&dialog,0);

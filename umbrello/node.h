@@ -13,10 +13,11 @@
 #include "umlcanvasobject.h"
 
 class IDChangeLog;
+class UMLDoc;
 
 /**
  * This class contains the non-graphical information required for a UML Node.
- * This class inherits from @ref UMLObject which contains most of the
+ * This class inherits from @ref UMLCanvasObject which contains most of the
  * information.
  *
  * The @ref UMLDoc class creates instances of this type.  All Nodes will
@@ -26,10 +27,10 @@ class IDChangeLog;
  *
  * @short Non-graphical information for a Node.
  * @author Jonathan Riddell
- * @see	UMLObject
+ * @see	UMLCanvasObject
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class UMLNode : public UMLObject {
+class UMLNode : public UMLCanvasObject {
 	Q_OBJECT
 public:
 	/**

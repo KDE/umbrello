@@ -11,9 +11,8 @@
 
 #include "umlobject.h"
 
-UMLObject::UMLObject(UMLDoc * parent, QString Name, int id)
+UMLObject::UMLObject(QObject * parent, QString Name, int id)
   : QObject(parent, "AnUMLObject") {
-	m_parentDoc = parent;
 	m_nId = id;
 	m_BaseType = ot_UMLObject;
 	m_Name = Name;
@@ -23,8 +22,7 @@ UMLObject::UMLObject(UMLDoc * parent, QString Name, int id)
 	m_bStatic = false;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLObject::UMLObject(UMLDoc * parent) : QObject(parent) {
-	m_parentDoc = parent;
+UMLObject::UMLObject(QObject * parent) : QObject(parent) {
 	m_BaseType = ot_UMLObject;
 	m_nId = -1;
 	m_Scope = Public;

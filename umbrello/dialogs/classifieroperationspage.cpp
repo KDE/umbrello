@@ -298,7 +298,7 @@ void ClassifierOperationsPage::syncParams( UMLOperation *src, UMLOperation *dest
 		if( !old )
 		{//add new attribute
 		kdDebug()<<"new attribute!"<<endl;
-			UMLAttribute *a = new UMLAttribute( m_doc, att->getName(),m_doc->getUniqueID(),
+			UMLAttribute *a = new UMLAttribute( m_umlObject, att->getName(),m_doc->getUniqueID(),
                                                             att->getTypeName(),att->getScope(),att->getInitialValue());
 			a->setDoc( att->getDoc() );
 			dest->addParm(a,index);

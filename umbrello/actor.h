@@ -14,7 +14,7 @@
 
 /**
  * This class contains the non-graphical information required for a UML Actor.
- * This class inherits from @ref UMLObject which contains most of the
+ * This class inherits from @ref UMLCanvasObject which contains most of the
  * information.
  * The @ref UMLDoc class creates instances of this type.
  * All Actors will need a unique id.  This will be given by the @ref UMLDoc
@@ -23,10 +23,10 @@
  *
  * @short Information for a non-graphical UML Actor.
  * @author Paul Hensgen <phensgen@techie.com>
- * @see	UMLObject
+ * @see	UMLCanvasObject
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class UMLActor : public UMLObject {
+class UMLActor : public UMLCanvasObject {
 	Q_OBJECT
 public:
 	/**

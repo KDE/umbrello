@@ -8,18 +8,17 @@
  ***************************************************************************/
 
 #include "template.h"
-#include "class.h"
 #include "dialogs/umltemplatedialog.h"
 #include <kdebug.h>
 
-UMLTemplate::UMLTemplate(UMLClass* parent, QString name, int id, QString type)
-  : UMLClassifierListItem( parent->getParentUMLDoc(), name, id ) {
+UMLTemplate::UMLTemplate(QObject* parent, QString name, int id, QString type)
+  : UMLClassifierListItem( parent, name, id ) {
 	m_TypeName = type;
 	m_BaseType = ot_Template;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLTemplate::UMLTemplate(UMLClass* parent)
-  : UMLClassifierListItem( parent->getParentUMLDoc() ) {
+UMLTemplate::UMLTemplate(QObject* parent)
+  : UMLClassifierListItem( parent ) {
 	m_BaseType = ot_Template;
 	m_TypeName = "";
 }

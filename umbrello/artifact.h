@@ -19,7 +19,7 @@ class UMLDoc;
 /**
  * This class contains the non-graphical information required for a UML
  * Artifact.
- * This class inherits from @ref UMLObject which contains most of the
+ * This class inherits from @ref UMLCanvasObject which contains most of the
  * information.
  * The @ref UMLDoc class creates instances of this type.  All Artifacts will
  * need a unique id.  This will be given by the @ref UMLDoc class.  If you
@@ -28,10 +28,10 @@ class UMLDoc;
  *
  * @short Non-graphical information for a Artifact.
  * @author Jonathan Riddell
- * @see	UMLObject
+ * @see	UMLCanvasObject
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class UMLArtifact : public UMLObject {
+class UMLArtifact : public UMLCanvasObject {
 	Q_OBJECT
 public:
 

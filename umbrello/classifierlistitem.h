@@ -34,14 +34,14 @@ public:
 	 * @param name		The name of the operation.
 	 * @param id		The id of the operation.
 	 */
-	UMLClassifierListItem(UMLDoc* parent, QString Name, int id);
+	UMLClassifierListItem(QObject* parent, QString Name, int id);
 
 	/**
 	 * Constructor.  Empty.
 	 *
 	 * @param parent	The parent to this operation.
 	 */
-	UMLClassifierListItem(UMLDoc* parent);
+	UMLClassifierListItem(QObject* parent);
 
 	/**
 	 * Returns a string representation of the operation.

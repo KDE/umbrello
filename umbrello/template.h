@@ -23,8 +23,6 @@
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
-class UMLClass;
-
 class UMLTemplate : public UMLClassifierListItem {
 public:
 	/**
@@ -35,14 +33,14 @@ public:
 	 * @param id		The unique id given to this UMLTemplate.
 	 * @param type		The type of this UMLTemplate.
 	 */
-	UMLTemplate(UMLClass* parent, QString name, int id, QString type = "class");
+	UMLTemplate(QObject* parent, QString name, int id, QString type = "class");
 
 	/**
 	 * Sets up a template.
 	 *
 	 * @param parent	The parent of this UMLTemplate (i.e. its concept).
 	 */
-	UMLTemplate(UMLClass* parent);
+	UMLTemplate(QObject* parent);
 
 	/**
 	 * Overloaded '==' operator

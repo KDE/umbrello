@@ -158,7 +158,7 @@ void ClassImport::importCPP(QStringList headerFileList) {
 
 			for( ; argsIt.current(); ++argsIt) {
 				CParsedArgument *parg = argsIt.current();
-				UMLAttribute *parameter = new UMLAttribute(this, parg->name, 0);
+				UMLAttribute *parameter = new UMLAttribute(currentClass, parg->name, 0);
 				parameter->setTypeName(parg->type);
 				parList.append(parameter);
 			} //for( ; argsIt.current(); ++argsIt)

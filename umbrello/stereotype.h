@@ -13,7 +13,7 @@
 #include "classifierlistitem.h"
 
 /**
- * This class is used to set up information for an stereotype.
+ * This class is used to set up information for a stereotype.
  * Stereotypes are used essentially as comments to class together
  * attributes and operations etc.
  *
@@ -21,8 +21,6 @@
  * @author Jonathan Riddell
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-
-class UMLClass;
 
 class UMLStereotype : public UMLClassifierListItem {
 public:
@@ -35,14 +33,14 @@ public:
 	 * @param listType	The list which this stereotype is part of
 	 *			(attribute, operation etc)
 	 */
-	UMLStereotype(UMLClass* parent, QString name, int id, UMLObject_Type listType);
+	UMLStereotype(QObject* parent, QString name, int id, UMLObject_Type listType);
 
 	/**
 	 * Sets up a stereotype.
 	 *
 	 * @param parent	The parent of this UMLStereotype.
 	 */
-	UMLStereotype(UMLClass* parent);
+	UMLStereotype(QObject* parent);
 
 	/**
 	 * Overloaded '==' operator

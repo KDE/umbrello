@@ -15,8 +15,7 @@
 #include <kdebug.h>
 #include <klocale.h>
 
-UMLArtifact::UMLArtifact(UMLDoc * parent, const QString & name, int id)
-  : UMLObject(parent, name, id) {
+UMLArtifact::UMLArtifact(UMLDoc * parent, const QString & name, int id) : UMLCanvasObject(parent, name, id) {
 	init();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////

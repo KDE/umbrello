@@ -18,7 +18,7 @@ class UMLDoc;
 /**
  * This class contains the non-graphical information required for a
  * UML Component.
- * This class inherits from @ref UMLObject which contains most
+ * This class inherits from @ref UMLCanvasObject which contains most
  * of the information.
  *
  * The @ref UMLDoc class creates instances of this type.
@@ -28,11 +28,11 @@ class UMLDoc;
  *
  * @short Non-graphical information for a Component.
  * @author Jonathan Riddell
- * @see	UMLObject
+ * @see	UMLCanvasObject
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
-class UMLComponent : public UMLObject {
+class UMLComponent : public UMLCanvasObject {
 	Q_OBJECT
 public:
 	/**

@@ -158,6 +158,13 @@ public:
 	 */
 	virtual QString uniqChildName(const UMLObject_Type type);
 
+	/**
+	 * Return the parent UMLDoc for this object.
+	 *
+	 * @return	Pointer to the parent UMLDoc.
+	 */
+	UMLDoc * getParentUMLDoc ( );
+
 protected:
 
 	/**
@@ -176,7 +183,9 @@ private:
         /**
          * Initialises key variables of the class.
          */
-        void init();
+        void init(UMLDoc * parentDoc);
+
+	UMLDoc * m_parentDoc;
 
 signals:
 

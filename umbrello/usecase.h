@@ -10,13 +10,13 @@
 #ifndef USECASE_H
 #define USECASE_H
 
-#include "umlobject.h"
+#include "umlcanvasobject.h"
 
 class UMLDoc;
 
 /**
  * This class contains the non-graphical information required for a UML UseCase.
- * This class inherits from @ref UMLObject which contains most of the information.
+ * This class inherits from @ref UMLCanvasObject which contains most of the information.
  * The @ref UMLDoc class creates instances of this type.  All UseCases will need a unique
  * id.  This will be given by the @ref UMLDoc class.  If you don't leave it up to the @ref UMLDoc
  * class then call the method @ref UMLDoc::getUniqueID to get a unique id.
@@ -26,7 +26,7 @@ class UMLDoc;
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
-class UMLUseCase : public UMLObject {
+class UMLUseCase : public UMLCanvasObject {
 public:
 	/**
 	 *	Creates a UseCase object

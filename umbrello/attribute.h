@@ -11,7 +11,6 @@
 #define ATTRIBUTE_H
 
 #include "classifierlistitem.h"
-#include "classifier.h"
 
 /**
  * This class is used to set up information for an attribute.  This is like
@@ -29,28 +28,20 @@ public:
 	 * Sets up an attribute.
 	 *
 	 * @param parent	The parent of this UMLAttribute.
-	 *			CHECK: In contrast to UMLOperation, this is
-	 *			currently a UMLDoc. Perhaps this should be
-	 *			changed. For example, the UMLAttribute could
-	 *			be used in two ways:
-	 *			1. Child of UMLClass
-	 *			2. Child of UMLOperation (for representing
-	 *			   method parameters)
 	 * @param name		The name of this UMLAttribute.
 	 * @param id		The unique id given to this UMLAttribute.
 	 * @param type		The type of this UMLAttribute.
 	 * @param s		The scope of the UMLAttribute.
 	 * @param iv		The initial value of the attribute.
 	 */
-	UMLAttribute(UMLDoc * parent, QString name, int id, QString type = "int",
-		     Scope s = Private, QString iv = 0);
+	UMLAttribute(QObject * parent, QString name, int id, QString type = "int", Scope s = Private, QString iv = 0);
 
 	/**
 	 * Sets up an attribute.
 	 *
 	 * @param parent	The parent of this UMLAttribute.
 	 */
-	UMLAttribute(UMLDoc * parent);
+	UMLAttribute(QObject * parent);
 
 	/**
 	 * Overloaded '==' operator

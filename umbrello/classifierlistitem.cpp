@@ -12,11 +12,11 @@
 
 #include "classifierlistitem.h"
 
-UMLClassifierListItem::UMLClassifierListItem(UMLDoc* parent, QString Name, int id)
+UMLClassifierListItem::UMLClassifierListItem(QObject* parent, QString Name, int id)
   : UMLObject(parent, Name, id) { 
 }
 
-UMLClassifierListItem::UMLClassifierListItem(UMLDoc* parent)
+UMLClassifierListItem::UMLClassifierListItem(QObject* parent)
   : UMLObject(parent) {
 }
 

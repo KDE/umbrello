@@ -17,9 +17,9 @@
 #include <klocale.h>
 
 UMLCanvasObject::UMLCanvasObject(UMLDoc * parent, const QString & name, int id) 
-   : UMLObject(parent, name, id) 
+   : UMLObject((QObject*) parent, name, id) 
 {
-	init();
+	init(parent);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLCanvasObject::~UMLCanvasObject() {
@@ -96,7 +96,14 @@ UMLObject* UMLCanvasObject::findChildObject(int id) {
 	return 0;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void UMLCanvasObject::init() {
+UMLDoc * UMLCanvasObject::getParentUMLDoc ( ) 
+{
+	return m_parentDoc;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+void UMLCanvasObject::init( UMLDoc * parentDoc ) {
+	
+	m_parentDoc = parentDoc;
 	m_AssocsList.clear();
 	m_AssocsList.setAutoDelete(false);
 	m_TmpAssocs.clear();

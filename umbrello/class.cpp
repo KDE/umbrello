@@ -32,7 +32,7 @@ UMLClass::~UMLClass() {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLObject* UMLClass::addAttribute(QString name, int id) {
-  	UMLAttribute *a = new UMLAttribute(getParentUMLDoc(), name, id);
+  	UMLAttribute *a = new UMLAttribute(this, name, id);
   	m_AttsList.append(a);
 	emit modified();
 	connect(a,SIGNAL(modified()),this,SIGNAL(modified()));
@@ -311,7 +311,7 @@ bool UMLClass::loadFromXMI( QDomElement & element ) {
 			// m_OpsList.append( pOp );
 			addOperation(pOp);
 		} else if( tag == "UML:Attribute" ) {
-			UMLAttribute * pAtt = new UMLAttribute( getParentUMLDoc() );
+			UMLAttribute * pAtt = new UMLAttribute( this );
 			if( !pAtt -> loadFromXMI( tempElement ) )
 				return false;
 			addAttribute(pAtt);

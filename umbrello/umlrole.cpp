@@ -13,7 +13,7 @@
 
 // constructor
 UMLRole::UMLRole(UMLAssociation * parent, UMLObject * parentObj)
-    : UMLObject( parent->getParentUMLDoc() )
+    : UMLObject((UMLObject *)parent)
 {
 	init(parent, parentObj);
 }

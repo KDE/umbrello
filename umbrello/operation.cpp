@@ -15,8 +15,8 @@
 #include "classifier.h"
 #include "dialogs/umloperationdialog.h"
 
-UMLOperation::UMLOperation(UMLClassifier *parent, QString Name, int id, Scope s, QString rt)
-    : UMLClassifierListItem( parent->getParentUMLDoc(), Name, id )
+UMLOperation::UMLOperation(UMLClassifier *parent, QString Name, int id, Scope s, QString rt) 
+    : UMLClassifierListItem((UMLObject*)parent,Name, id) 
 {
 	m_ReturnType = rt;
 	m_Scope = s;
@@ -26,8 +26,8 @@ UMLOperation::UMLOperation(UMLClassifier *parent, QString Name, int id, Scope s,
 	m_List.setAutoDelete(false);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLOperation::UMLOperation(UMLClassifier * parent)
-    : UMLClassifierListItem( parent->getParentUMLDoc() )
+UMLOperation::UMLOperation(UMLClassifier * parent) 
+    : UMLClassifierListItem ((UMLObject*) parent) 
 {
 	m_ReturnType = "";
 	m_BaseType = ot_Operation;
@@ -41,7 +41,7 @@ UMLOperation::~UMLOperation() {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLOperation::addParm(QString type, QString name, QString initialValue, QString doc) {
-	UMLAttribute * a = new UMLAttribute(getParentUMLDoc(), name, ++m_nUniqueID, type);
+	UMLAttribute * a = new UMLAttribute(this, name, ++m_nUniqueID,type);
 	a -> setDoc(doc);
 	a -> setInitialValue(initialValue);
 	m_List.append(a);
@@ -173,7 +173,7 @@ bool UMLOperation::loadFromXMI( QDomElement & element ) {
 	while( !attElement.isNull() ) {
 		//should be UML:Paramater tag name but check anyway
 		if( attElement.tagName() == "UML:Parameter" ) {
-			UMLAttribute * pAtt = new UMLAttribute( getParentUMLDoc() );
+			UMLAttribute * pAtt = new UMLAttribute( this );
 			if( !pAtt -> UMLObject::loadFromXMI( attElement ) )
 				return false;
 			pAtt -> setTypeName( attElement.attribute( "type", "" ) );
