@@ -1866,7 +1866,10 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element) {
 			// are ownedElements anyway.
 			// Therefore the <UML:Namespace.ownedElement> tag is of no
 			// significance.
-			loadUMLObjectsFromXMI(tempElement);
+			if( !loadUMLObjectsFromXMI( tempElement ) ) {
+				kdWarning() << "failed load on " << type << endl;
+				return false;
+			}
 			node = node.nextSibling();
 			tempElement = node.toElement();
 			continue;
