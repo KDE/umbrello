@@ -1797,10 +1797,33 @@ bool UMLView::addWidget( UMLWidget * pWidget , bool isPasteOperation ) {
 		return false;
 
 	}
-	if( pWidget -> getX() < m_Pos.x() )
-		m_Pos.setX( pWidget -> getX() );
-	if( pWidget -> getY() < m_Pos.y() )
-		m_Pos.setY( pWidget -> getY() );
+	int wX = pWidget -> getX();
+	int wY = pWidget -> getY();
+	bool xIsOutOfRange = (wX <= 0 || wX >= FloatingText::restrictPositionMax);
+	bool yIsOutOfRange = (wY <= 0 || wY >= FloatingText::restrictPositionMax);
+	if (xIsOutOfRange || yIsOutOfRange) {
+		QString name = pWidget->getName();
+		if (name.isEmpty()) {
+			FloatingText *ft = dynamic_cast<FloatingText*>(pWidget);
+			if (ft)
+				name = ft->getDisplayText();
+		}
+		kdDebug() << "UMLView::addWidget (" << name << " type="
+			  << pWidget->getBaseType() << "): position (" << wX << ","
+			  << wY << ") is out of range" << endl;
+		if (xIsOutOfRange) {
+			pWidget->setX(0);
+			wX = 0;
+		}
+		if (yIsOutOfRange) {
+			pWidget->setY(0);
+			wY = 0;
+		}
+	}
+	if( wX < m_Pos.x() )
+		m_Pos.setX( wX );
+	if( wY < m_Pos.y() )
+		m_Pos.setY( wY );
 
 	//see if we need a new id to match object
 	switch( type ) {
@@ -2233,9 +2256,12 @@ void UMLView::removeAllWidgets() {
 	UMLWidget * temp = 0;
 	while ( (temp = it.current()) != 0 ) {
 		++it;
-		// if( !( temp -> getBaseType() == wt_Text && ((FloatingText *)temp)-> getRole() != tr_Floating ) ) {
+		// I had to take this condition back in, else umbrello
+		// crashes on exit. Still to be analyzed.  --okellogg
+		if( !( temp -> getBaseType() == wt_Text &&
+		      ((FloatingText *)temp)-> getRole() != tr_Floating ) ) {
 			removeWidget( temp );
-		// }
+		}
 	}
 	m_WidgetList.clear();
 }
@@ -2580,9 +2606,9 @@ void UMLView::createAutoAssociations( UMLWidget * widget ) {
 		}
 		// Check that the assocwidget does not already exist.
 		Uml::Association_Type assocType = assoc->getAssocType();
-		AssociationWidget * temp = findAssocWidget(assocType, widgetA, widgetB);
-		if (temp) {
-			temp->calculateEndingPoints();  // recompute assoc lines
+		AssociationWidget * assocwidget = findAssocWidget(assocType, widgetA, widgetB);
+		if (assocwidget) {
+			assocwidget->calculateEndingPoints();  // recompute assoc lines
 			continue;
 		}
 		// Check that the assoc is allowed.
@@ -2592,22 +2618,25 @@ void UMLView::createAutoAssociations( UMLWidget * widget ) {
 			continue;
 		}
 		// Create the AssociationWidget.
-		temp = new AssociationWidget( this );
-		temp->setWidgetA(widgetA);
-		temp->setWidgetB(widgetB);
-		temp->setAssocType(assocType);
-		temp->setVisibilityA(assoc->getVisibilityA());
-		temp->setVisibilityB(assoc->getVisibilityB());
-		temp->setChangeabilityA(assoc->getChangeabilityA());
-		temp->setChangeabilityB(assoc->getChangeabilityB());
-		temp->setMultiA(assoc->getMultiA());
-		temp->setMultiB(assoc->getMultiB());
-		temp->setRoleNameA(assoc->getRoleNameA());
-		temp->setRoleNameB(assoc->getRoleNameB());
-		temp->calculateEndingPoints();
-		temp->setActivated(true);
-		if (! addAssociation(temp))
-			delete temp;
+		assocwidget = new AssociationWidget( this );
+		assocwidget->setWidgetA(widgetA);
+		assocwidget->setWidgetB(widgetB);
+		assocwidget->setAssocType(assocType);
+		// Call calculateEndingPoints() before setting the FloatingTexts
+		// because their positions are computed according to the
+		// assocwidget line positions.
+		assocwidget->calculateEndingPoints();
+		assocwidget->setVisibilityA(assoc->getVisibilityA());
+		assocwidget->setVisibilityB(assoc->getVisibilityB());
+		assocwidget->setChangeabilityA(assoc->getChangeabilityA());
+		assocwidget->setChangeabilityB(assoc->getChangeabilityB());
+		assocwidget->setMultiA(assoc->getMultiA());
+		assocwidget->setMultiB(assoc->getMultiB());
+		assocwidget->setRoleNameA(assoc->getRoleNameA());
+		assocwidget->setRoleNameB(assoc->getRoleNameB());
+		assocwidget->setActivated(true);
+		if (! addAssociation(assocwidget))
+			delete assocwidget;
 	}
 	// if the UMLCanvasObject is an ot_Package then
 	if (umlObj->getBaseType() == ot_Package) {
