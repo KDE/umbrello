@@ -25,8 +25,8 @@
 #include <qstring.h>
 #include <qtextedit.h>
 #include "codeviewerdialogbase.h"
-#include "settingsdlg.h"
 
+class CodeDocument;
 class QVBoxLayout;
 class QHBoxLayout;
 class QGridLayout;
@@ -43,27 +43,44 @@ class CodeViewerDialog : public CodeViewerDialogBase
     Q_OBJECT
 public:
 
-	CodeViewerDialog ( QWidget* parent, CodeDocument * doc, SettingsDlg::CodeViewerState state,
+        // configurable params for the code viewer tool
+        struct CodeViewerState {
+                int height;
+                int width;
+                bool showHiddenBlocks;
+                bool blocksAreHighlighted;
+                QFont font;
+                QColor paperColor;
+                QColor fontColor;
+                QColor selectedColor;
+                QColor editBlockColor;
+                QColor nonEditBlockColor;
+                QColor umlObjectColor;
+                QColor hiddenColor;
+        }
+        ;// end struct CodeViewerState
+
+	CodeViewerDialog ( QWidget* parent, CodeDocument * doc, CodeViewerState state,
                            const char* name = 0, bool modal = FALSE, WFlags fl = 0 );
 	~CodeViewerDialog ();
 
 	/** return the code viewer state */
-	SettingsDlg::CodeViewerState getState( );
+	CodeViewerState getState( );
 
 	QString parentDocName;
-
-protected:
-
-	bool close ( bool alsoDelete ); 
 
 	/*
 	 *  Adds a code document to the tabbed output
  	 */
 	void addCodeDocument( CodeDocument * doc); 
 
+protected:
+
+	bool close ( bool alsoDelete ); 
+
 private:
 
-	SettingsDlg::CodeViewerState m_state;
+	CodeViewerState m_state;
 
 	void initGUI ( const char * name );
 

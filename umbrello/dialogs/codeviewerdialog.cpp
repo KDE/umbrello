@@ -22,12 +22,12 @@
 #include <qtabwidget.h>
 
 #include "codeviewerdialog.h"
+
 #include "../codedocument.h"
 #include "../classifiercodedocument.h"
-
 #include "codeeditor.h"
 
-CodeViewerDialog::CodeViewerDialog ( QWidget* parent, CodeDocument * doc, SettingsDlg::CodeViewerState state, 
+CodeViewerDialog::CodeViewerDialog ( QWidget* parent, CodeDocument * doc, CodeViewerState state, 
                                      const char* name, bool modal, WFlags fl )
     : CodeViewerDialogBase ( parent, name, modal, fl )
 
@@ -84,7 +84,7 @@ void CodeViewerDialog::addCodeDocument( CodeDocument * doc)
 
 }
 
-SettingsDlg::CodeViewerState CodeViewerDialog::getState() {
+CodeViewerDialog::CodeViewerState CodeViewerDialog::getState() {
 	return m_state;
 }
 

@@ -24,7 +24,6 @@
 #include <qstring.h>
 #include <qstringlist.h>
 #include <qdict.h>
-// #include <qmap.h>
 #include <qdom.h>
 #include <qptrlist.h>
 #include <qfile.h>
@@ -50,8 +49,11 @@ class CodeClassFieldDeclarationBlock;
 class CodeComment;
 class CodeDocument;
 class CodeOperation;
+class CodeViewerDialog;
 
 class KConfig;
+
+#include "dialogs/codeviewerdialog.h"
 
 /**
   * class CodeGenerator
@@ -314,6 +316,11 @@ public:
 //FIX
 	// NOTE: this should be 'protected' or we could have problems with CPP code generator
 	CodeDocument * findCodeDocumentByClassifier (UMLClassifier * classifier );
+
+        /** Get the editing dialog for this code document
+         */
+        virtual CodeViewerDialog * getCodeViewerDialog( QWidget* parent, CodeDocument * doc, 
+                                                        CodeViewerDialog::CodeViewerState state);
 
 protected:
 

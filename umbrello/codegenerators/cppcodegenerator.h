@@ -83,6 +83,11 @@ public:
 	CodeDocument * newClassifierCodeDocument (UMLClassifier * classifier);
 	CPPHeaderCodeDocument * newHeaderClassifierCodeDocument (UMLClassifier * classifier);
 
+       /** Get the editing dialog for this code document
+         */
+        virtual CodeViewerDialog * getCodeViewerDialog( QWidget* parent, CodeDocument * doc,
+                                                        CodeViewerDialog::CodeViewerState state);
+
 protected:
 
 

@@ -26,8 +26,11 @@
 //app includes
 
 #include "../codegenerator.h"
+#include "codeviewerdialog.h"
+
 class CodeGenerationOptionsPage;
 class CodeViewerOptionsPage;
+
 
 /**
  * @author Paul Hensgen
@@ -95,28 +98,11 @@ public:
 	}
 	;//end struct ClassState
 
-	// configurable params for the code viewer tool
-	struct CodeViewerState {
-		int height;
-		int width;
-		bool showHiddenBlocks;
-		bool blocksAreHighlighted;
-		QFont font;
-		QColor paperColor;
-		QColor fontColor;
-		QColor selectedColor;
-		QColor editBlockColor;
-		QColor nonEditBlockColor;
-		QColor umlObjectColor;
-		QColor hiddenColor;
-	}
-	;// end struct CodeViewerState
-
 	struct OptionState {
 		GeneralState generalState;
 		UIState uiState;
 		ClassState classState;
-		CodeViewerState codeViewerState;
+		CodeViewerDialog::CodeViewerState codeViewerState;
 	//	CodeGenState codegenState;
 	}
 	;//end struct OptionState
@@ -194,7 +180,7 @@ private:
 	void setupGeneralPage();
 	void setupClassPage();
   	void setupCodeGenPage( CodeGenerator *gen, QDict<GeneratorInfo> ldict, QString activeLanguage);
-	void setupCodeViewerPage(CodeViewerState options);
+	void setupCodeViewerPage(CodeViewerDialog::CodeViewerState options);
 	void applyPage( Page page );
 
 	//private attributes

@@ -1131,16 +1131,17 @@ void UMLApp::viewCodeDocument ( UMLClassifier * c)
 		   CodeDocument *cdoc = currentGen->findCodeDocumentByClassifier(c);
 
 		   if (cdoc) {
-			CodeViewerDialog * dialog = new CodeViewerDialog(this,cdoc,optionState.codeViewerState);
+			CodeViewerDialog * dialog = currentGen->getCodeViewerDialog(this,cdoc,optionState.codeViewerState);
 			dialog->exec();
 			optionState.codeViewerState = dialog->getState();
 			delete dialog;
 			dialog = NULL;
 		   } else {
+			// shouldnt happen..
 			KMessageBox::sorry(0, i18n("Cannot view code until you generate some first!"),i18n("Cannot View Code"));
 		   }
 		} else {
-		    KMessageBox::sorry(0, i18n("Cannot view code from compatability code writer!"),i18n("Cannot View Code"));
+		    KMessageBox::sorry(0, i18n("Cannot view code from simple code writer!"),i18n("Cannot View Code"));
 		}
 	}
 

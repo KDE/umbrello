@@ -44,6 +44,8 @@
 #include "umlattributelist.h"
 #include "umloperationlist.h"
 
+#include "dialogs/codeviewerdialog.h"
+
 // Constructors/Destructors
 //  
 
@@ -192,6 +194,13 @@ CodeGenerationPolicy * CodeGenerator::getPolicy ( ) {
  */
 UMLDoc * CodeGenerator::getDocument ( ) {
 	return m_document;
+}
+
+// the vanilla version
+CodeViewerDialog * CodeGenerator::getCodeViewerDialog ( QWidget* parent, CodeDocument *doc, 
+                                                        CodeViewerDialog::CodeViewerState state) 
+{
+        return new CodeViewerDialog(parent, doc, state);
 }
 
 // Other methods

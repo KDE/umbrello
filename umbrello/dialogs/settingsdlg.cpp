@@ -191,7 +191,7 @@ void SettingsDlg::setupCodeGenPage(CodeGenerator *gen, QDict<GeneratorInfo> ldic
 	connect( m_pCodeGenPage, SIGNAL(languageChanged()), this, SLOT(slotOk()) );
 }
 
-void SettingsDlg::setupCodeViewerPage(CodeViewerState options) {
+void SettingsDlg::setupCodeViewerPage(CodeViewerDialog::CodeViewerState options) {
 	//setup code generation settings page
 	QVBox * page = addVBoxPage( i18n("Code Viewer"), i18n("Code Viewer Settings"), DesktopIcon( "source") );
 	m_pCodeViewerPage = new CodeViewerOptionsPage(options, page);

@@ -45,7 +45,7 @@ public:
 	~CodeEditor ();
 
 	// return code viewer state
-	SettingsDlg::CodeViewerState getState( );
+	CodeViewerDialog::CodeViewerState getState( );
 
 protected:
 

@@ -85,8 +85,12 @@ public:
 	 */
         bool getAutoGenerateAccessors( );
 
-
 	QString getListFieldClassName();
+
+        /** Get the editing dialog for this code document
+         */
+        virtual CodeViewerDialog * getCodeViewerDialog( QWidget* parent, CodeDocument * doc,
+                                                        CodeViewerDialog::CodeViewerState state);
 
 	// Other methods
 	//

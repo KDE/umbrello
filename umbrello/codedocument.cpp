@@ -18,7 +18,6 @@
 
 #include "codedocument.h"
 #include "codegenerator.h"
-#include "dialogs/codeviewerdialog.h"
 
 // Constructors/Destructors
 //
@@ -209,10 +208,6 @@ void CodeDocument::setHeader ( CodeComment * header ) {
  */
 CodeComment * CodeDocument::getHeader ( ) {
 	return m_header;
-}
-
-CodeViewerDialog * CodeDocument::getDialog (QWidget* parent, SettingsDlg::CodeViewerState state) {
-	return new CodeViewerDialog(parent, this, state);
 }
 
 //

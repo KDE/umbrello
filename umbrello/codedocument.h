@@ -24,10 +24,8 @@
 #include "codegenerationpolicy.h"
 #include "codegenobjectwithtextblocks.h"
 #include "hierarchicalcodeblock.h"
-#include "dialogs/settingsdlg.h"
 
 class QWidget;
-class CodeViewerDialog;
 class CodeAccessorMethod;
 class CodeBlockWithComments;
 class CodeComment;
@@ -270,10 +268,6 @@ public:
 	/** a little utility method to make life easier for the code document programmer
 	 */
 	QString cleanName (QString name);
-
-	/** Get the editing dialog for this code document
-	 */
-	virtual CodeViewerDialog * getDialog(QWidget* parent, SettingsDlg::CodeViewerState state);
 
 	// Cause this code document to syncronize to current generator policy
 	virtual void syncronize();

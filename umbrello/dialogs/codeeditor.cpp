@@ -81,7 +81,7 @@ void CodeEditor::clearText () {
 
 }
 
-SettingsDlg::CodeViewerState CodeEditor::getState()
+CodeViewerDialog::CodeViewerState CodeEditor::getState()
 {
 	return m_parentDlg->getState();
 }

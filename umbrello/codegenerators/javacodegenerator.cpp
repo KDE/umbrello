@@ -81,6 +81,17 @@ bool JavaCodeGenerator::getCreateANTBuildFile ( ) {
         return m_createANTBuildFile;
 }
 
+// In the Java version, we make the ANT build file also available.
+CodeViewerDialog * JavaCodeGenerator::getCodeViewerDialog ( QWidget* parent, CodeDocument *doc,
+                                                        CodeViewerDialog::CodeViewerState state)
+{
+	CodeViewerDialog *dialog = new CodeViewerDialog(parent, doc, state);
+	if(getCreateANTBuildFile())
+		dialog->addCodeDocument(findCodeDocumentByID("ANTDOC"));
+	return dialog;
+}
+
+
 // Other methods
 //  
 

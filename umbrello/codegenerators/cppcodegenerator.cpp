@@ -115,6 +115,35 @@ bool CPPCodeGenerator::removeHeaderCodeDocument ( CPPHeaderCodeDocument * remove
         return true;
 }
 
+// In the C++ version, we need to make both source and header files as well
+// as the makefile available.
+CodeViewerDialog * CPPCodeGenerator::getCodeViewerDialog ( QWidget* parent, CodeDocument *doc,
+                                                        CodeViewerDialog::CodeViewerState state)
+{
+
+	ClassifierCodeDocument * cdoc = dynamic_cast<ClassifierCodeDocument*>(doc);
+	if(!cdoc)
+		// bah..not a classcode document?? then just use vanilla version
+		return CodeGenerator::getCodeViewerDialog(parent,doc,state);
+	else {
+		// build with passed (source) code document
+        	CodeViewerDialog *dialog = new CodeViewerDialog(parent, doc, state);
+
+		// use classifier to find appropriate header document
+		UMLClassifier * c = cdoc->getParentClassifier();
+		CPPHeaderCodeDocument * hdoc = findHeaderCodeDocumentByClassifier(c);
+		if(hdoc)
+			dialog->addCodeDocument(hdoc);
+
+		// add in makefile if available and desired
+        	if(getCreateProjectMakefile())
+                	dialog->addCodeDocument(findCodeDocumentByID("MAKE_DOC"));
+
+        	return dialog;
+	}
+}
+
+
 // Other methods
 //  
 
