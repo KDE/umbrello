@@ -14,3 +14,4 @@ Some ideas for people wanting to contribute to Umbrello:
 People who have contributed to Umbrello 1.4
 
  * Tobias Koenig - fix crashes caused by lack of code generator
+ * Jean Vittor - fix not marked as modified when renaming diagram in listview

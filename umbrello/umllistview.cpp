@@ -392,22 +392,18 @@ void UMLListView::popupMenuSel(int sel) {
 
 	case ListPopupMenu::mt_Logical_Folder:
 		addNewItem( temp, Uml::lvt_Logical_Folder );
-		m_doc -> setModified( true );
 		break;
 
 	case ListPopupMenu::mt_UseCase_Folder:
 		addNewItem( temp, Uml::lvt_UseCase_Folder );
-		m_doc -> setModified( true );
 		break;
 
 	case ListPopupMenu::mt_Component_Folder:
 		addNewItem(temp, Uml::lvt_Component_Folder);
-		m_doc->setModified(true);
 		break;
 
 	case ListPopupMenu::mt_Deployment_Folder:
 		addNewItem(temp, Uml::lvt_Deployment_Folder);
-		m_doc->setModified(true);
 		break;
 
 	case ListPopupMenu::mt_Cut:

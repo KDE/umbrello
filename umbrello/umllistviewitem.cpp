@@ -316,17 +316,19 @@ QString UMLListViewItem::getText() const {
 
 void UMLListViewItem::okRename( int col ) {
 	QListViewItem::okRename( col );
+	UMLDoc* doc = s_pListView->getDocument();
 	if (m_bCreating) {
 		m_bCreating = false;
-		if ( s_pListView -> slotItemRenamed( this, col ) ) {
+		if ( s_pListView->slotItemRenamed( this, col ) ) {
 			m_Label = text(col);
+			doc->setModified(true);
 		}
 		return;
 	}
 	QString newText = text( col );
-        if ( newText == m_Label )
+        if ( newText == m_Label ) {
             return;
-	UMLDoc * doc = s_pListView -> getDocument();
+        }
 	if( newText.isEmpty() ) {
 		KMessageBox::error( kapp->mainWidget() ,
 				    i18n("The name you entered was invalid.\nRenaming process has been canceled."),
@@ -425,6 +427,7 @@ void UMLListViewItem::okRename( int col ) {
 			cancelRenameWithMsg();
 			break;
 	}
+	doc->setModified(true);
 }
 
 void UMLListViewItem::cancelRenameWithMsg() {
