@@ -1626,7 +1626,8 @@ bool UMLView::addWidget( UMLWidget * pWidget ) {
 	if( !pWidget ) {
 		return false;
 	}
-	kdDebug() << "UMLView::addWidget called." << endl;
+	UMLWidget_Type type = pWidget->getBaseType();
+	kdDebug() << "UMLView::addWidget called for basetype " << type << endl;
 	IDChangeLog * log = m_pDoc -> getChangeLog();
 	if( !log || !m_pIDChangesLog) {
 		kdDebug()<<"A log is not open"<<endl;
@@ -1639,13 +1640,7 @@ bool UMLView::addWidget( UMLWidget * pWidget ) {
 		m_Pos.setY( pWidget -> getY() );
 
 	//see if we need a new id to match object
-	int newID = -1;
-	ObjectWidget* pObjectWidget = 0;
-	MessageWidget * pMessage = 0;
-	UMLObject * pObject = 0;
-	FloatingText * ft = 0;
-	int waID = -1, wbID = -1, newWAID = -1, newWBID = -1, newTextID = - 1;
-	switch( pWidget -> getBaseType() ) {
+	switch( type ) {
 
 		case wt_Class:
 		case wt_Package:
@@ -1655,56 +1650,80 @@ bool UMLView::addWidget( UMLWidget * pWidget ) {
 		case wt_Interface:
 		case wt_Actor:
 		case wt_UseCase:
-			newID = log->findNewID( pWidget -> getID() );
-			if( newID == -1 )
-				return false;
-			pWidget -> setID( newID );
-			pObject = m_pDoc -> findUMLObject( newID );
-			if( !pObject ) {
-				kdDebug() << "addWidget: Can't find UMLObject for id "
-					  << newID << endl;
-				return false;
-			}
-			pWidget -> setUMLObject( pObject );
-			//make sure it doesn't already exist.
-			if( findWidget( newID ) ) {
-				return true;//don't stop paste just because widget found.
+			{
+				int newID = log->findNewID( pWidget -> getID() );
+				if( newID == -1 )
+					return false;
+				pWidget -> setID( newID );
+				UMLObject * pObject = m_pDoc -> findUMLObject( newID );
+				if( !pObject ) {
+					kdDebug() << "addWidget: Can't find UMLObject for id "
+						  << newID << endl;
+					return false;
+				}
+				pWidget -> setUMLObject( pObject );
+				//make sure it doesn't already exist.
+				if( findWidget( newID ) )
+					return true;//don't stop paste just because widget found.
+				m_WidgetList.append( pWidget );
 			}
 			break;
 
 		case wt_Message:
-			// What is this code doing?  --okellogg
-			newID = m_pDoc->assignNewID( pWidget -> getID() );
-			pWidget -> setID( newID );
-			pMessage = static_cast<MessageWidget *>( pWidget );
-			waID = pMessage -> getWidgetAID();
-			wbID = pMessage -> getWidgetBID();
-			newWAID = m_pIDChangesLog ->findNewID( waID );
-			newWBID = m_pIDChangesLog ->findNewID( wbID );
-			if( newWAID == -1 || newWBID == -1 ) {
-				kdDebug()<<"Error with ids : "<<newWAID<<" "<<newWBID<<endl;
-				return false;
+		case wt_Note:
+		case wt_Box:
+		case wt_Text:
+		case wt_State:
+		case wt_Activity:
+			{
+				int newID = m_pDoc->assignNewID( pWidget->getID() );
+				pWidget->setID(newID);
+				if (type != wt_Message) {
+					m_WidgetList.append( pWidget );
+					return true;
+				}
+				// CHECK
+				// Handling of wt_Message:
+				MessageWidget *pMessage = static_cast<MessageWidget *>( pWidget );
+				if (pMessage == NULL) {
+					kdDebug() << "UMLView::addWidget(): pMessage is NULL" << endl;
+					return false;
+				}
+				ObjectWidget *objWidgetA = pMessage -> getWidgetA();
+				ObjectWidget *objWidgetB = pMessage -> getWidgetB();
+				int waID = objWidgetA -> getLocalID();
+				int wbID = objWidgetB -> getLocalID();
+				int newWAID = m_pIDChangesLog ->findNewID( waID );
+				int newWBID = m_pIDChangesLog ->findNewID( wbID );
+				if( newWAID == -1 || newWBID == -1 ) {
+					kdDebug() << "Error with ids : " << newWAID << " " << newWBID << endl;
+					return false;
+				}
+				// Assumption here is that the A/B objectwidgets and the textwidget
+				// are pristine in the sense that we may freely change their local IDs.
+				objWidgetA -> setLocalID( newWAID );
+				objWidgetB -> setLocalID( newWBID );
+				FloatingText *ft = pMessage->getFloatingText();
+				if (ft == NULL)
+					kdDebug() << "UMLView::addWidget: FloatingText of Message is NULL" << endl;
+				else if (ft->getID() == -1)
+					ft->setID( m_pDoc->getUniqueID() );
+				else {
+					int newTextID = m_pDoc->assignNewID( ft->getID() );
+					ft->setID( newTextID );
+				}
+				m_MessageList.append( pMessage );
 			}
-			pMessage -> setWidgetAID( newWAID );
-			pMessage -> setWidgetBID( newWBID );
-			ft = pMessage->getFloatingText();
-			if (ft == NULL)
-				kdDebug() << "UMLView::addWidget: FloatingText of Message is NULL" << endl;
-			else if (ft->getID() == -1)
-				ft->setID( m_pDoc->getUniqueID() );
-			else {
-				newTextID = m_pDoc->assignNewID( ft->getID() );
-				ft->setID( newTextID );
-			}
-			// end of obscure code
-
-			m_MessageList.append( pMessage );
-			return true;
 			break;
 
 		case wt_Object:
-			if((pObjectWidget = static_cast<ObjectWidget*>(pWidget))) {
-				newID = log->findNewID( pWidget -> getID() );
+			{
+				ObjectWidget* pObjectWidget = static_cast<ObjectWidget*>(pWidget);
+				if (pObjectWidget == NULL) {
+					kdDebug() << "UMLView::addWidget(): pObjectWidget is NULL" << endl;
+					return false;
+				}
+				int newID = log->findNewID( pWidget -> getID() );
 				if (newID == -1) {
 					return false;
 				}
@@ -1713,22 +1732,14 @@ bool UMLView::addWidget( UMLWidget * pWidget ) {
 				int nOldLocalID = pObjectWidget -> getLocalID();
 				m_pIDChangesLog->addIDChange( nOldLocalID, nNewLocalID );
 				pObjectWidget -> setLocalID( nNewLocalID );
-				pObject = m_pDoc -> findUMLObject( newID );
+				UMLObject *pObject = m_pDoc -> findUMLObject( newID );
 				if( !pObject ) {
 					kdDebug() << "addWidget::Can't find UMLObject" << endl;
 					return false;
 				}
 				pWidget -> setUMLObject( pObject );
+				m_WidgetList.append( pWidget );
 			}
-			break;
-
-		case wt_Note:
-		case wt_Box:
-		case wt_Text:
-		case wt_State:
-		case wt_Activity:
-			newID = m_pDoc->assignNewID( pWidget->getID() );
-			pWidget->setID(newID);
 			break;
 
 		default:
@@ -1737,7 +1748,6 @@ bool UMLView::addWidget( UMLWidget * pWidget ) {
 			break;
 	}
 
-	m_WidgetList.append( pWidget );
 	return true;
 }
 
@@ -1757,7 +1767,6 @@ bool UMLView::addAssociation( AssociationWidget* pAssoc ) {
 	if( getType() == dt_Collaboration || getType() == dt_Sequence ) {
 		//check local log first
 		ida = localLog->findNewID( pAssoc->getWidgetAID() );
-
 		idb = localLog->findNewID( pAssoc->getWidgetBID() );
 		//if either is still not found and assoc type is anchor
 		//we are probably linking to a notewidet - else an error
