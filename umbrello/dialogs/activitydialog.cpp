@@ -105,7 +105,7 @@ void ActivityDialog::setupFontPage() {
 	QVBox * page = addVBoxPage( i18n("Font"), i18n("Font Settings"), DesktopIcon( "fonts")  );
 	m_pChooser = new KFontChooser( (QWidget*)page, "font", false, QStringList(), false);
 	m_pChooser -> setFont( m_pActivityWidget -> getFont() );
-	m_pChooser->setSampleText("Umbrello font");
+	m_pChooser->setSampleText(i18n("Umbrello font"));
 }
 
 void ActivityDialog::setupColorPage() {
