@@ -102,6 +102,7 @@ bool AssocRules::allowAssociation( Association_Type assocType, UMLWidget * widge
 				bValid = true;
 		}
 	}
+	return bValid;
 	if (!bValid) {
 		return false;
 	}
