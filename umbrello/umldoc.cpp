@@ -1895,6 +1895,7 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
 	}
 
 	QString data = stream.read();
+	kapp->processEvents();  // give UI events a chance
 	QString error;
 	int line;
 	QDomDocument doc;
@@ -1902,6 +1903,7 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
 		kdWarning()<<"Can't set content:"<<error<<" Line:"<<line<<endl;
 		return false;
 	}
+	kapp->processEvents();  // give UI events a chance
 	QDomNode node = doc.firstChild();
 	//Before Umbrello 1.1-rc1 we didn't add a <?xml heading
 	//so we allow the option of this being missing
@@ -2025,6 +2027,7 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
 	}
 
 	emit sigWriteToStatusBar( i18n("Setting up the document...") );
+	kapp->processEvents();  // give UI events a chance
 	m_currentView = NULL;
 	activateAllViews();
 
@@ -2136,6 +2139,7 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element) {
 		/* FIXME see comment at loadUMLObjectsFromXMI
 		emit sigSetStatusbarProgress( ++m_count );
 		 */
+		kapp->processEvents();  // give UI events a chance
 	}
 
 #ifdef VERBOSE_DEBUGGING
@@ -2151,6 +2155,7 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element) {
 #endif
 		obj->resolveRef();
 	}
+	kapp->processEvents();  // give UI events a chance
 #ifdef VERBOSE_DEBUGGING
 	kdDebug() << "UMLDoc object list after resolveRef():" << endl;
 	for (UMLObjectListIt it(m_objectList); it.current(); ++it) {
@@ -2285,6 +2290,7 @@ bool UMLDoc::loadDiagramsFromXMI( QDomNode & node ) {
 			pView -> hide();
 			addView( pView );
 			emit sigSetStatusbarProgress( ++count );
+			kapp->processEvents();  // give UI events a chance
 		}
 		node = node.nextSibling();
 		element = node.toElement();
