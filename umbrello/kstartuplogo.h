@@ -1,3 +1,8 @@
+ /*
+  *  copyright (C) 2000
+  *  Michael Edwardes <mte @users.sourceforge.net>
+  */
+
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *

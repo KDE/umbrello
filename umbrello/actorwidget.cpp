@@ -1,3 +1,8 @@
+ /*
+  *  copyright (C) 2002-2004
+  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+  */
+
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -11,7 +16,7 @@
 // system includes
 #include <qpainter.h>
 // local includes
-#include "actor.h" 
+#include "actor.h"
 #include "umlview.h"
 
 ActorWidget::ActorWidget(UMLView * view, UMLActor *a) : UMLWidget(view, a) {

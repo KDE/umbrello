@@ -1,3 +1,8 @@
+ /*
+  *  copyright (C) 2002-2004
+  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+  */
+
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -1440,7 +1445,7 @@ void UMLApp::handleCursorKeyReleaseEvent(QKeyEvent* e) {
 				return;
 		}
 		m_view->moveSelectedBy(dx, dy);
-		
+
 		// notify about modification only at the first key release of possible sequence of auto repeat key releases,
 		// this reduces the slow down caused by setModified() and makes the cursor moving of widgets smoother
 		if (!e->isAutoRepeat()) {

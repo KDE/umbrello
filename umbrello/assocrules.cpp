@@ -1,3 +1,8 @@
+ /*
+  *  copyright (C) 2002-2004
+  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+  */
+
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -89,7 +94,7 @@ bool AssocRules::allowAssociation( Association_Type assocType, UMLWidget * widge
 	return false;
 }
 
-// when we know what we are going to connect both ends of the association to, we can 
+// when we know what we are going to connect both ends of the association to, we can
 // use this method.
 bool AssocRules::allowAssociation( Association_Type assocType, UMLWidget * widgetA, UMLWidget * widgetB , bool extendedCheck) {
 	Widget_Type widgetTypeA = widgetA -> getBaseType();

@@ -1,3 +1,8 @@
+ /*
+  *  copyright (C) 2004
+  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+  */
+
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -162,7 +167,7 @@ void AlignToolBar::slotButtonChanged(int btn)
 			// align left
 			case alac_align_left:
 					smallest_x = getSmallestX(widgetList);
-			
+
 					it.toFirst();
 					while ((widget = it.current()) != 0)
 					{
@@ -174,7 +179,7 @@ void AlignToolBar::slotButtonChanged(int btn)
 			// align right
 			case alac_align_right:
 					biggest_x = getBiggestX(widgetList);
-			
+
 					it.toFirst();
 					while ((widget = it.current()) != 0)
 					{
@@ -186,7 +191,7 @@ void AlignToolBar::slotButtonChanged(int btn)
 			// align top
 			case alac_align_top:
 					smallest_y = getSmallestY(widgetList);
-			
+
 					it.toFirst();
 					while ((widget = it.current()) != 0)
 					{
@@ -198,7 +203,7 @@ void AlignToolBar::slotButtonChanged(int btn)
 			// align bottom
 			case alac_align_bottom:
 					biggest_y = getBiggestY(widgetList);
-			
+
 					it.toFirst();
 					while ((widget = it.current()) != 0)
 					{

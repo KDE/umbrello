@@ -1,3 +1,8 @@
+ /*
+  *  copyright (C) 2003-2004
+  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+  */
+
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -25,12 +30,12 @@
 
 namespace Umbrello{
 
-DefaultWidgetSet::DefaultWidgetSet(QObject *parent, const QStringList &args): 
-           WidgetSet(parent,"DefaultWidgetSet",args) 
+DefaultWidgetSet::DefaultWidgetSet(QObject *parent, const QStringList &args):
+           WidgetSet(parent,"DefaultWidgetSet",args)
 {
-	
+
 }
- 
+
 DefaultWidgetSet::~DefaultWidgetSet()
 {
 }
@@ -52,8 +57,8 @@ bool DefaultWidgetSet::onInit()
 
 bool DefaultWidgetSet::providesTool( const QString &tool )
 {
-	if( tool == "selecttool" || tool == "pathtool" 
-	    ||  tool == "associationtool" ) 
+	if( tool == "selecttool" || tool == "pathtool"
+	    ||  tool == "associationtool" )
 		return true;
 	else
 		return false;

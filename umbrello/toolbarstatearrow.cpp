@@ -1,3 +1,8 @@
+ /*
+  *  copyright (C) 2004
+  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+  */
+
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -45,8 +50,8 @@ void ToolBarStateArrow::mousePress(QMouseEvent* ome)
 		m_pUMLView->selectWidgets(0,0,0,0);
 
 		// TODO  createSelectionRectangle
-		for (int i = 0; i < 4; i++) 
-		{	
+		for (int i = 0; i < 4; i++)
+		{
 			QCanvasLine* line = new QCanvasLine( m_pUMLView->canvas() );
 			line->setPoints(m_pMouseEvent->x(), m_pMouseEvent->y(), m_pMouseEvent->x(), m_pMouseEvent->y());
 			line->setPen( QPen(QColor("grey"), 0, m_pUMLView->DotLine) );
@@ -57,7 +62,7 @@ void ToolBarStateArrow::mousePress(QMouseEvent* ome)
 	}
 }
 
-void ToolBarStateArrow::mouseRelease(QMouseEvent* ome) 
+void ToolBarStateArrow::mouseRelease(QMouseEvent* ome)
 {
 	// The changeTool is reimplemented. (No functionality added)
 	// Default behavior switches to tbb_arrow when the right button is pressed.
@@ -89,19 +94,19 @@ void ToolBarStateArrow::changeTool()
 	m_SelectionRect.clear();
 	m_bDrawRectangle = false;
 }
-	
-void ToolBarStateArrow::mouseDoubleClick(QMouseEvent* ome) 
+
+void ToolBarStateArrow::mouseDoubleClick(QMouseEvent* ome)
 {
 	ToolBarState::mouseDoubleClick(ome);
 }
 
-void ToolBarStateArrow::mouseMove(QMouseEvent* ome) 
+void ToolBarStateArrow::mouseMove(QMouseEvent* ome)
 {
 	ToolBarState::mouseMove(ome);
 
 	if (m_ButtonPressed == Qt::LeftButton && !m_pUMLView->onWidgetLine( m_pMouseEvent->pos()))
 	{
-		if( m_SelectionRect.count() == 4) 
+		if( m_SelectionRect.count() == 4)
 		{
 			// TODO  updateSelectionRectangle
 			QCanvasLine * line = m_SelectionRect.at( 0 );

@@ -1,3 +1,8 @@
+ /*
+  *  copyright (C) 2004
+  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+  */
+
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -39,8 +44,8 @@ ToolBarStateFactory::~ToolBarStateFactory()
 ToolBarState* ToolBarStateFactory::getState(const WorkToolBar::ToolBar_Buttons &toolbarButton)
 {
 	int key = getKey(toolbarButton);
-	
-	if (states[key] == NULL) 
+
+	if (states[key] == NULL)
 	{
 		switch (key)
 		{
@@ -84,7 +89,7 @@ int ToolBarStateFactory::getKey(const WorkToolBar::ToolBar_Buttons &toolbarButto
 		case WorkToolBar::tbb_Seq_Message_Asynchronous: return 2;
 
 		// Arrow pointer
-		case WorkToolBar::tbb_Arrow: return 3; 
+		case WorkToolBar::tbb_Arrow: return 3;
 
 		// Other.
 		default: return 0;

@@ -1,3 +1,8 @@
+ /*
+  *  copyright (C) 2003-2004
+  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+  */
+
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -62,8 +67,8 @@ namespace {
 
  QColor defaultPenColor(255,10,10);
  QColor defaultBrushColor(50,255,20);
- 
- 
+
+
 
 }
 
@@ -94,7 +99,7 @@ Diagram::Diagram( DiagramType type, UMLDoc *docparent, int id, const QString &na
 	m_brush.setStyle(Qt::SolidPattern);
 	m_elements.setAutoDelete(false);
 	m_selected.setAutoDelete(false);
-	
+
 }
 
 Diagram::~Diagram()
@@ -303,8 +308,8 @@ DiagramWidget* Diagram::firstDiagramWidget( const QPoint &pos )
 	QCanvasItemList list = collisions(pos);
 	DiagramWidget *widget(0);
 	//TEST
-	if(m_selected.count() == 1 && 
-	   list.find(m_selected.first()) != list.end() && 
+	if(m_selected.count() == 1 &&
+	   list.find(m_selected.first()) != list.end() &&
 	   dynamic_cast<DiagramWidget*>(m_selected.first()))
 	{
 		return dynamic_cast<DiagramWidget*>(m_selected.first());

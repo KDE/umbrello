@@ -1,3 +1,7 @@
+ /*
+  *  copyright (C) 2003-2004
+  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+  */
 
 /***************************************************************************
  *                                                                         *
@@ -34,13 +38,13 @@ void UMLRoleProperties::constructWidget() {
 	// Use Parent Role to set starting Properties
 	//
 
-	// Rolename 
+	// Rolename
 	m_pRoleLE -> setText(m_pRole->getName());
 
-	// Multiplicity 
+	// Multiplicity
 	m_pMultiLE -> setText(m_pRole->getMultiplicity());
 
-	// Visibility 
+	// Visibility
         Uml::Scope scope = m_pRole->getVisibility();
         if( scope == Uml::Public )
                 m_pPublicRB -> setChecked( true );
@@ -49,7 +53,7 @@ void UMLRoleProperties::constructWidget() {
         else
                 m_pProtectedRB -> setChecked( true );
 
-	// Changeability 
+	// Changeability
 	Uml::Changeability_Type changeability = m_pRole->getChangeability();
 	if( changeability == Uml::chg_Changeable )
 		m_pChangeableRB -> setChecked( true );

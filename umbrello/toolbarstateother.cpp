@@ -1,3 +1,8 @@
+ /*
+  *  copyright (C) 2004
+  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+  */
+
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -122,11 +127,11 @@ bool ToolBarStateOther::newWidget()
 	// Special treatment for some buttons
 	if (getButton() == WorkToolBar::tbb_Activity)
 		Umbrello::askNameForWidget(
-			umlWidget, i18n("Enter Activity Name"), 
+			umlWidget, i18n("Enter Activity Name"),
 			i18n("Enter the name of the new activity:"), i18n("new activity") );
 	else if (getButton() == WorkToolBar::tbb_State )
 		Umbrello::askNameForWidget(
-			umlWidget, i18n("Enter State Name"), 
+			umlWidget, i18n("Enter State Name"),
 			i18n("Enter the name of the new state:"), i18n("new state") );
 	else if (getButton() == WorkToolBar::tbb_Text) {
 		// It is pretty invisible otherwise.
@@ -152,7 +157,7 @@ void ToolBarStateOther::mouseRelease(QMouseEvent* ome)
 
 	if (ome->state() == QMouseEvent::LeftButton)
 	{
-		if (!newWidget()) 
+		if (!newWidget())
 		{
 			// Is UMLObject?
 

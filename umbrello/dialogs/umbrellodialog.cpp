@@ -1,3 +1,8 @@
+ /*
+  *  copyright (C) 2003-2004
+  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+  */
+//FIXME no licence
 
 
 #include "umbrellodialog.h"
@@ -25,12 +30,12 @@ void UmbrelloDialog::addPage( QWidget *page, const QString &title, const QPixmap
 	if (dpage)
 	{
 		dpage->setAutoApply(false);
-	
+
 		connect(this,SIGNAL(cancelClicked()),page,SLOT(cancel()));
 		connect(this,SIGNAL(applyClicked()),page,SLOT(apply()));
 		connect(this,SIGNAL(okClicked()),page,SLOT(apply()));
 	}
-	
+
 	QWidget *box = KDialogBase::addVBoxPage(title,title, pixmap.isNull()? DesktopIcon( "misc"): pixmap );
 	page->reparent(box,0,QPoint(0,0));
 }
@@ -41,7 +46,7 @@ void UmbrelloDialog::setMainWidget( QWidget *page )
 	if (dpage)
 	{
 		dpage->setAutoApply(false);
-	
+
 		connect(this,SIGNAL(cancelClicked()),page,SLOT(cancel()));
 		connect(this,SIGNAL(applyClicked()),page,SLOT(apply()));
 		connect(this,SIGNAL(okClicked()),page,SLOT(apply()));

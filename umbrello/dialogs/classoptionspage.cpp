@@ -1,3 +1,8 @@
+ /*
+  *  copyright (C) 2002-2004
+  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+  */
+
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -28,7 +33,7 @@ ClassOptionsPage::ClassOptionsPage(QWidget* pParent, UMLWidget* pWidget, Uml::Wi
 		setupInterfacePage();
 	}
 	m_options = 0;
-	
+
 }
 
 ClassOptionsPage::ClassOptionsPage(QWidget* pParent, Settings::OptionState *options) : QWidget( pParent )

@@ -1,3 +1,8 @@
+ /*
+  *  copyright (C) 2004
+  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+  */
+
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -74,8 +79,8 @@ void ToolBarState::mouseRelease(QMouseEvent* ome)
 	// TODO: Should not be called by an Sequence message Association.
 	if(m_pUMLView->m_pOnWidget) m_pUMLView->m_pOnWidget->mouseReleaseEvent(m_pMouseEvent);
 	if(m_pUMLView->m_pMoveAssoc) m_pUMLView->m_pMoveAssoc->mouseReleaseEvent(m_pMouseEvent);
-	
-	// Default, rightbutton changes the tool. 
+
+	// Default, rightbutton changes the tool.
 	// The arrow tool overrides the changeTool() function.
 	changeTool();
 }
@@ -88,7 +93,7 @@ void ToolBarState::changeTool()
 		 * selected from the toolbar; this only happens when the default tool
 		 * wasn't selected yet AND there is no other widget under the mouse
 		 * pointer
-		 * in any other case the right click menu will be shown 
+		 * in any other case the right click menu will be shown
 		 * */
 		UMLApp::app()->getWorkToolBar()->setDefaultTool();
 	}
@@ -105,11 +110,11 @@ void ToolBarState::mouseDoubleClick(QMouseEvent* ome)
 	setMouseEvent(ome, QEvent::MouseButtonDblClick);
 
 
-	if( m_pUMLView->m_pOnWidget && m_pUMLView->m_pOnWidget->onWidget( m_pMouseEvent->pos())) 
+	if( m_pUMLView->m_pOnWidget && m_pUMLView->m_pOnWidget->onWidget( m_pMouseEvent->pos()))
 	{
 		m_pUMLView->m_pOnWidget->mouseDoubleClickEvent( m_pMouseEvent );
 	}
-	else if( m_pUMLView->m_pMoveAssoc && m_pUMLView->m_pMoveAssoc->onAssociation( m_pMouseEvent -> pos() )) 
+	else if( m_pUMLView->m_pMoveAssoc && m_pUMLView->m_pMoveAssoc->onAssociation( m_pMouseEvent -> pos() ))
 	{
 		m_pUMLView->m_pMoveAssoc->mouseDoubleClickEvent( m_pMouseEvent );
 	}
@@ -132,7 +137,7 @@ void ToolBarState::mouseMove(QMouseEvent* ome)
 	else if (m_pUMLView->m_pMoveAssoc)
 		m_pUMLView->m_pMoveAssoc->mouseMoveEvent( m_pMouseEvent );
 
-	if (m_bIsButtonPressed) 
+	if (m_bIsButtonPressed)
 	{
 		int vx = m_pMouseEvent->x();
 		int vy = m_pMouseEvent->y();
@@ -153,7 +158,7 @@ void ToolBarState::mouseMove(QMouseEvent* ome)
 }
 
 // TODO: Remove parameter?
-bool ToolBarState::setSelectedWidget(QMouseEvent * me) 
+bool ToolBarState::setSelectedWidget(QMouseEvent * me)
 {
 	m_pUMLView->m_pMoveAssoc = 0;
 	m_pUMLView->m_pOnWidget = 0;
@@ -173,7 +178,7 @@ bool ToolBarState::setSelectedWidget(QMouseEvent * me)
 		//you can't touch them.
 		//Give Boxes lowest priority, we want to be able to move things that
 		//are on top of them.
-		if (obj->getBaseType() == Uml::wt_Text) 
+		if (obj->getBaseType() == Uml::wt_Text)
 		{
 			m_pUMLView->m_pOnWidget = obj;
 			obj ->  mousePressEvent( me );
@@ -220,9 +225,9 @@ bool ToolBarState::setSelectedWidget(QMouseEvent * me)
 	AssociationWidgetListIt assoc_it(m_pUMLView->m_AssociationList);
 	AssociationWidget* assocwidget = 0;
 	while((assocwidget=assoc_it.current())) {
-		if( assocwidget -> onAssociation( me -> pos() )) 
+		if( assocwidget -> onAssociation( me -> pos() ))
 		{
-			// TODO: Fix this. It makes a callback to the association mousePressEvent function. 
+			// TODO: Fix this. It makes a callback to the association mousePressEvent function.
 			assocwidget->mousePressEvent(me);
 			m_pUMLView->m_pMoveAssoc = assocwidget;
 

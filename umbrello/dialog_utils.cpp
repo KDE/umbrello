@@ -1,3 +1,8 @@
+ /*
+  *  copyright (C) 2004
+  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+  */
+
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -34,11 +39,11 @@ QLineEdit* makeLabeledEditField(QGroupBox *containingBox, QGridLayout *layout, i
 
 void askNameForWidget(
 	UMLWidget * &targetWidget, QString dialogTitle, QString dialogPrompt, QString defaultName) {
-		
+
 	bool pressedOK = false;
 
 	QString name = KInputDialog::getText(dialogTitle, dialogPrompt, defaultName, &pressedOK, UMLApp::app());
-	
+
 	if (pressedOK) {
 		targetWidget->setName(name);
 	} else {

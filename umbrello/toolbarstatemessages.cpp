@@ -1,3 +1,8 @@
+ /*
+  *  copyright (C) 2004
+  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+  */
+
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -24,7 +29,7 @@
 #include "messagewidget.h"
 
 
-ToolBarStateMessages::ToolBarStateMessages(UMLView *umlView) : ToolBarStatePool(umlView)	
+ToolBarStateMessages::ToolBarStateMessages(UMLView *umlView) : ToolBarStatePool(umlView)
 {
 	m_pSelectedWidget = NULL;
 	m_pLine = NULL;
@@ -37,7 +42,7 @@ ToolBarStateMessages::~ToolBarStateMessages()
 
 void ToolBarStateMessages::removeLine()
 {
-	if( m_pLine ) 
+	if( m_pLine )
 	{
 		delete m_pLine;
 		m_pLine = NULL;
@@ -61,7 +66,7 @@ void ToolBarStateMessages::mouseRelease(QMouseEvent* ome)
 
 	ObjectWidget* clickedOnWidget = m_pUMLView->onWidgetLine( m_pMouseEvent->pos() );
 
-	if (clickedOnWidget) 
+	if (clickedOnWidget)
 	{
 		if (!m_pSelectedWidget)
 		{
@@ -87,7 +92,7 @@ void ToolBarStateMessages::mouseRelease(QMouseEvent* ome)
 								   m_pMouseEvent->y(),
 								   getMessageType());
 
-			// TODO Do we really need a connect? It makes the code so hard to read. 
+			// TODO Do we really need a connect? It makes the code so hard to read.
 			m_pUMLView->connect(m_pUMLView, SIGNAL(sigColorChanged(Uml::IDType)), message, SLOT(slotColorChanged(Uml::IDType)));
 
 			message->setActivated();
@@ -105,13 +110,13 @@ void ToolBarStateMessages::mouseRelease(QMouseEvent* ome)
 }
 
 // Override the ToolBarState::setSelectedWidget method.
-bool ToolBarStateMessages::setSelectedWidget(QMouseEvent*) 
+bool ToolBarStateMessages::setSelectedWidget(QMouseEvent*)
 {
 	return false;
 }
 
 
-	
+
 void ToolBarStateMessages::mouseDoubleClick(QMouseEvent* ome)
 {
 	ToolBarStatePool::mouseDoubleClick(ome);
@@ -121,7 +126,7 @@ void ToolBarStateMessages::mouseMove(QMouseEvent* ome)
 {
 	ToolBarStatePool::mouseMove(ome);
 
-	if( m_pLine ) 
+	if( m_pLine )
 	{
 		QPoint sp = m_pLine -> startPoint();
 		m_pLine -> setPoints( sp.x(), sp.y(), m_pMouseEvent->x(), m_pMouseEvent->y() );
@@ -131,16 +136,16 @@ void ToolBarStateMessages::mouseMove(QMouseEvent* ome)
 Uml::Sequence_Message_Type ToolBarStateMessages::getMessageType ()
 {
 	if (getButton() == WorkToolBar::tbb_Seq_Message_Synchronous)
-		return Uml::sequence_message_synchronous; 
+		return Uml::sequence_message_synchronous;
 
 	return Uml::sequence_message_asynchronous;
-} 
+}
 
 
 void ToolBarStateMessages::init()
 {
 	removeLine();
 	m_pSelectedWidget = NULL;
-	
+
 	ToolBarStatePool::init();
 }

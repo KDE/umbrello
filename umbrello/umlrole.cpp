@@ -1,3 +1,8 @@
+ /*
+  *  copyright (C) 2003-2004
+  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+  */
+
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -51,7 +56,7 @@ Uml::IDType UMLRole::getID() const {
 void UMLRole::setID( Uml::IDType id) {
 	kdError() << "ERROR: not allowed to setID(" << ID2STR(id)
 		  << ") for UMLRole (id is derived from parent UMLObject), ignoring set request"
-		  << endl; 
+		  << endl;
 }
 
 Uml::Changeability_Type UMLRole::getChangeability() const {
@@ -79,7 +84,7 @@ void UMLRole::setObject (UMLObject *obj) {
 	// object, we CANT allow UMLRoles to take other UMLRoles as
 	// parent objects. In fact, there is probably good reason
 	// to only take UMLClassifiers here, but I'll leave it more open
-	// for the time being. -b.t. 
+	// for the time being. -b.t.
 	if(obj && dynamic_cast<UMLRole*>(obj))
 	{
 		kdError()<<"ERROR: UMLRole cant setObject() to another UMLRole!, ignoring"<<endl;
@@ -131,7 +136,7 @@ void UMLRole::init(UMLAssociation * parent, UMLObject * parentObj, Uml::Role_Typ
 	m_Name = "";
 	m_Changeability = Uml::chg_Changeable;
 
-	// connect this up to parent 
+	// connect this up to parent
 	connect(this,SIGNAL(modified()),parent,SIGNAL(modified()));
 }
 
@@ -234,13 +239,13 @@ bool UMLRole::load( QDomElement & element ) {
 	// Here comes the handling of the association type.
 	// This is open for discussion - I'm pretty sure there are better ways..
 
-	// Yeah, for one, setting the *parent* object parameters from here is sucky 
-	// as hell. Why are we using roleA to store what is essentially a parent (association) 
+	// Yeah, for one, setting the *parent* object parameters from here is sucky
+	// as hell. Why are we using roleA to store what is essentially a parent (association)
 	// parameter, eh? The UML13.dtd is pretty silly, but since that is what
 	// is driving us to that point, we have to go with it. Some analysis of
 	// the component roles/linked items needs to be done in order to get things
 	// right. *sigh* -b.t.
- 
+
 	if (m_roleID == Uml::A) {  // setting association type from the role (A)
 		QString aggregation = element.attribute("aggregation", "none");
 		if (aggregation == "composite")

@@ -1,3 +1,8 @@
+ /*
+  *  copyright (C) 2003-2004
+  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+  */
+
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -46,11 +51,11 @@ void AssocRolePage::constructWidget() {
 	QString nameA = m_pAssociationWidget->getRoleName(Uml::A);
 	QString nameB = m_pAssociationWidget->getRoleName(Uml::B);
 	QString titleA = i18n("Role A Properties");
-	QString titleB = i18n("Role B Properties"); 
+	QString titleB = i18n("Role B Properties");
 	if(!nameA.isEmpty())
-		titleA.append( "("+nameA+")"); 
+		titleA.append( "("+nameA+")");
 	if(!nameB.isEmpty())
-		titleB.append( "("+nameB+")"); 
+		titleB.append( "("+nameB+")");
 
 	// general configuration of the GUI
 	int margin = fontMetrics().height();

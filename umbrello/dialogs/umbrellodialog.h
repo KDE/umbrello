@@ -1,7 +1,13 @@
+ /*
+  *  copyright (C) 2003-2004
+  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+  */
+
 /*
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
+//FIXME no licence
 
 
 #ifndef UMBRELLO_DIALOG

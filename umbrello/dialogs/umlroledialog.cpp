@@ -1,3 +1,8 @@
+ /*
+  *  copyright (C) 2003-2004
+  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+  */
+
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,8 +24,8 @@
 #include "umlroledialog.h"
 #include "umlroleproperties.h"
 
-UMLRoleDialog::UMLRoleDialog( QWidget * parent, UMLRole * pRole ) 
-    : KDialogBase( Plain, i18n("Role Properties"), Help | Ok | Cancel , Ok, parent, "_UMLROLEDLG_", true, true) 
+UMLRoleDialog::UMLRoleDialog( QWidget * parent, UMLRole * pRole )
+    : KDialogBase( Plain, i18n("Role Properties"), Help | Ok | Cancel , Ok, parent, "_UMLROLEDLG_", true, true)
 {
 	m_pRole = pRole;
 	setupDialog();

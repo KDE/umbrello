@@ -2,7 +2,7 @@
                           pythonwriter.h  -  description
                              -------------------
     begin                : Sat Dec 21 2002
-    author               : Vincent Decorges
+    copyright            : Vincent Decorges
     email                : vincent.decorges@eivd.ch
  ***************************************************************************/
 
@@ -417,7 +417,7 @@ const QPtrList<const char *> * PythonWriter::getReservedKeywords() {
   {
     pListOfReservedKeywords = convertListOfReservedKeywords(ReservedKeywords);
   }
- 
+
   return pListOfReservedKeywords;
 }
 
