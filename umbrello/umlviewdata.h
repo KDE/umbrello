@@ -26,6 +26,7 @@ class UMLViewData {
 	friend class UMLView;
 
 public:
+
 	/**
 	 * 		Constructor
 	 */
@@ -137,6 +138,16 @@ public:
 	 * 		Sets the ID of the diagram.
 	 */
 	void setID( int id );
+
+	/**
+	 * 		Returns the zoom of the diagram.
+	 */
+	int getZoom();
+
+	/**
+	 * 		Sets the zoom of the diagram.
+	 */
+	void setZoom(int zoom);
 
 	/**
 	 * 		Returns an ID unique to this diagram.  ObjectWidgets will
@@ -320,6 +331,12 @@ protected:
 	 * 		Determines whether to show the snap grid.  The default will be on if the grid is on.
 	 */
 	bool m_bShowSnapGrid;
+
+	/**
+	 * The zoom level in percent, default 100
+	 */
+	int m_nZoom;
+
 };
 
 #endif

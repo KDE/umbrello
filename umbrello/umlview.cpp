@@ -107,6 +107,7 @@ void UMLView::init() {
 	connect( this, SIGNAL(sigRemovePopupMenu()), this, SLOT(slotRemovePopupMenu() ) );
 	connect( (UMLApp *)getDocument() -> parent() , SIGNAL( sigCutSuccessful() ),
 	         this, SLOT( slotCutSuccessful() ) );
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2711,29 +2712,39 @@ void UMLView::setShowSnapGrid(bool bShow) {
 }
 
 void UMLView::setZoom(int zoom) {
-	if(zoom<10) zoom = 10;
-	else if (zoom > 500) zoom = 500;
+	if (zoom < 10) {
+		zoom = 10;
+	} else if (zoom > 500) {
+		zoom = 500;
+	}
 
 	QWMatrix wm;
 	wm.scale(zoom/100.0,zoom/100.0);
 	setWorldMatrix(wm);
+
+	m_pData->setZoom( currentZoom() );
 }
 
 int UMLView::currentZoom() {
 	return (int)(worldMatrix().m11()*100.0);
 }
 
-
 void UMLView::zoomIn() {
 	QWMatrix wm = worldMatrix();
 	wm.scale(1.5,1.5); // adjust zooming step here
 	setWorldMatrix(wm);
+	m_pData->setZoom( currentZoom() );
 }
 
 void UMLView::zoomOut() {
 	QWMatrix wm = worldMatrix();
 	wm.scale(2.0/3.0, 2.0/3.0); //adjust zooming step here
 	setWorldMatrix(wm);
+	m_pData->setZoom( currentZoom() );
+}
+
+void UMLView::fileLoaded() {
+	setZoom( m_pData->getZoom() );
 }
 
 #include "umlview.moc"

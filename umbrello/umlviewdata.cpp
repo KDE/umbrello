@@ -37,13 +37,14 @@ UMLViewData::UMLViewData() {
 	m_bShowSnapGrid = false;
 	m_nSnapX = 10;
 	m_nSnapY = 10;
+	m_nZoom = 100;
 }
-
-UMLViewData::~UMLViewData() {}
 
 UMLViewData::UMLViewData( UMLViewData & other ) {
 	*this = other;
 }
+
+UMLViewData::~UMLViewData() {}
 
 UMLViewData & UMLViewData::operator=( UMLViewData & rhs ) {
 	if( this == &rhs )
@@ -121,7 +122,7 @@ bool UMLViewData::serialize( QDataStream * stream, bool bArchive, int fileversio
 			>> nUseFC
 			>> m_nSnapX
 			>> m_nSnapY
-			>> nShowsnap 
+			>> nShowsnap
 			>> nSnapgrid;
 		*stream >> nTemp;
 		if (fileversion < 5)
@@ -148,9 +149,11 @@ bool UMLViewData::serialize( QDataStream * stream, bool bArchive, int fileversio
 		m_Options.uiState.useFillColor = nUseFC;
 		m_bUseSnapToGrid = nSnapgrid;
 		m_bShowSnapGrid = nShowsnap;
+		//FIXME serialise zoom
+
 		if (fileversion > 4)
 			m_Type = (Uml::Diagram_Type)nType;
-		else 
+		else
 			switch (nType)
 			{
 				case /* UCDIAGRAM */ 300 :
@@ -275,6 +278,14 @@ void UMLViewData::setID( int id ) {
 	m_nID = id;
 }
 
+int UMLViewData::getZoom() {
+	return m_nZoom;
+}
+
+void UMLViewData::setZoom(int zoom) {
+	m_nZoom = zoom;
+}
+
 int UMLViewData::getUniqueID() {
 	return --m_nLocalID;
 }
@@ -366,7 +377,7 @@ bool UMLViewData::serializeWidgets( QDataStream * stream, bool bArchive, int fil
 					return false;
 				m_WidgetList.append( widgetData );
 				*stream >> stype;
-			}//end while 
+			}//end while
 		}
 	}//end else
 	return true;
@@ -479,6 +490,7 @@ bool UMLViewData::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	viewElement.setAttribute( "snapgrid", m_bUseSnapToGrid );
 	viewElement.setAttribute( "snapx", m_nSnapX );
 	viewElement.setAttribute( "snapy", m_nSnapY );
+	viewElement.setAttribute( "zoom", m_nZoom );
 	//now save all the widgets
 	UMLWidgetData * widgetData = 0;
 	UMLWidgetDataListIt w_it( m_WidgetList );
@@ -553,6 +565,10 @@ bool UMLViewData::loadFromXMI( QDomElement & qElement ) {
 
 	QString snapy = qElement.attribute( "snapy", "10" );
 	m_nSnapY = snapy.toInt();
+
+	QString zoom = qElement.attribute( "zoom", "100" );
+	m_nZoom = zoom.toInt();
+
 	m_Type = (Uml::Diagram_Type)type.toInt();
 	if( fillcolor != "" )
 		m_Options.uiState.fillColor = QColor( fillcolor );

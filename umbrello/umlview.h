@@ -670,6 +670,12 @@ public:
 	 */
 	void toggleShowGrid();
 
+	/**
+	 * Changes the zoom to the currently set level (now loaded from file)
+	 * Called from UMLApp::slotUpdateViews()
+	 */
+	void fileLoaded();
+
 protected:
 
 	/**

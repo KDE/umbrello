@@ -1071,11 +1071,10 @@ void UMLApp::slotUpdateViews() {
 
 	//		menu -> removeItemAt( i );
 	menu -> clear();
-	for(QListIterator<UMLView> views = getDocument()->
-	                                   getViewIterator();
-	        views.current();
-	        ++views)
-		menu -> insertItem( views.current()->getName(), views.current(), SLOT( slotShowView() ) );
+	for(QListIterator<UMLView> views = getDocument()->getViewIterator(); views.current(); ++views) {
+		menu->insertItem( views.current()->getName(), views.current(), SLOT( slotShowView() ) );
+		views.current()->fileLoaded();
+	}
 }
 
 void UMLApp::slotImportClasses() {
