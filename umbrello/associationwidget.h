@@ -232,7 +232,7 @@ public:
 	 */
 	Scope getVisibilityA () const;
 
-	/*
+	/**
 	 * Gets the visibility on the rolename B end of the Association.
 	 */
 	Scope getVisibilityB () const;
@@ -242,7 +242,7 @@ public:
 	 */
 	void setVisibilityA ( Scope visibility );
 
-	/*
+	/**
 	 * Sets the visibility on the rolename 'B' end of the Association.
 	 */
 	void setVisibilityB (Scope visibility);

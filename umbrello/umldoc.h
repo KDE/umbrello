@@ -1088,7 +1088,7 @@ signals:
 	 */
 	void sigResetStatusbarProgress();
 
-	/*
+	/**
 	 * Set the total range of the progressbar.
 	 *
 	 * @param totalSteps Total range of the progressbar (0..totalSteps)
@@ -1096,7 +1096,7 @@ signals:
 	void sigSetStatusbarProgressSteps(int totalSteps);
 
 
-	/*
+	/**
 	 * Set the progress position of the progressbar.
 	 *
 	 * @param stepPosition	The step position to set.

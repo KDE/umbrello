@@ -192,7 +192,7 @@ public:
 	 */
 	void setShowStereotype(bool _status);
 
-	/*
+	/**
 	 * Toggles the status of whether to show StereoType.
 	 */
 	void toggleShowStereotype();

@@ -314,7 +314,7 @@ protected:
 	*/
 	QPointArray m_PointArray;
 
-	/*
+	/**
 	*   Contains calculated points used to draw the line head.
 	*/
 	QPoint m_ArrowPointA, m_ArrowPointB, m_MidPoint, m_EgdePoint;
