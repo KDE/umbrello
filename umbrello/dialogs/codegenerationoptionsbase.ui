@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
 <class>CodeGenerationOptionsBase</class>
 <widget class="QWidget">
     <property name="name">
@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>517</width>
-            <height>519</height>
+            <width>581</width>
+            <height>525</height>
         </rect>
     </property>
     <property name="sizePolicy">
@@ -343,7 +343,7 @@ generator wants to use as output file already exists:</string>
                                             <cstring>textLabel3</cstring>
                                         </property>
                                         <property name="text">
-                                            <string>Line Ending Style:</string>
+                                            <string>Line ending style:</string>
                                         </property>
                                     </widget>
                                     <widget class="QLabel" row="0" column="1" rowspan="1" colspan="2">
@@ -351,7 +351,7 @@ generator wants to use as output file already exists:</string>
                                             <cstring>textLabel1</cstring>
                                         </property>
                                         <property name="text">
-                                            <string>Indentation Type:</string>
+                                            <string>Indentation type:</string>
                                         </property>
                                     </widget>
                                     <widget class="QLabel" row="1" column="1" rowspan="1" colspan="3">
@@ -359,7 +359,7 @@ generator wants to use as output file already exists:</string>
                                             <cstring>textLabel2</cstring>
                                         </property>
                                         <property name="text">
-                                            <string>Indentation Amount:</string>
+                                            <string>Indentation amount:</string>
                                         </property>
                                     </widget>
                                     <widget class="QComboBox" row="2" column="2" rowspan="1" colspan="3">
@@ -487,6 +487,8 @@ is empty</string>
         </widget>
     </grid>
 </widget>
+<customwidgets>
+</customwidgets>
 <connections>
     <connection>
         <sender>m_includeHeadings</sender>

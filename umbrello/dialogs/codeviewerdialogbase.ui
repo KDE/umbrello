@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
 <class>CodeViewerDialogBase</class>
 <widget class="QDialog">
     <property name="name">
@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>615</width>
-            <height>726</height>
+            <height>728</height>
         </rect>
     </property>
     <property name="font">
@@ -18,7 +18,7 @@
         </font>
     </property>
     <property name="caption">
-        <string>code viewer</string>
+        <string>Code Viewer</string>
     </property>
     <property name="sizeGripEnabled">
         <bool>true</bool>
@@ -40,7 +40,7 @@
                         <cstring>m_showHiddenCodeCB</cstring>
                     </property>
                     <property name="text">
-                        <string>Show Hidden Blocks</string>
+                        <string>Show hidden blocks</string>
                     </property>
                 </widget>
                 <widget class="QLabel" row="1" column="0" rowspan="1" colspan="3">
@@ -83,7 +83,7 @@
                         <cstring>m_highlightCheckBox</cstring>
                     </property>
                     <property name="text">
-                        <string>Show Block Type</string>
+                        <string>Show block type</string>
                     </property>
                     <property name="checked">
                         <bool>false</bool>

@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
 <class>CPPCodeGenerationFormBase</class>
 <widget class="QWidget">
     <property name="name">
@@ -9,8 +9,11 @@
             <x>0</x>
             <y>0</y>
             <width>523</width>
-            <height>678</height>
+            <height>680</height>
         </rect>
+    </property>
+    <property name="caption">
+        <string>CPPCodeGenerationFormBase</string>
     </property>
     <grid>
         <property name="name">
@@ -107,7 +110,7 @@
                         <cstring>m_generateAccessors</cstring>
                     </property>
                     <property name="text">
-                        <string>Generate Accessor Methods</string>
+                        <string>Generate accessor methods</string>
                     </property>
                     <property name="checked">
                         <bool>true</bool>
@@ -129,7 +132,7 @@
                         <cstring>m_generateConstructors</cstring>
                     </property>
                     <property name="text">
-                        <string>Generate Empty Constructors</string>
+                        <string>Generate empty constructors</string>
                     </property>
                     <property name="checked">
                         <bool>false</bool>
@@ -148,7 +151,7 @@
                         <cstring>groupBox4</cstring>
                     </property>
                     <property name="title">
-                        <string>Accessor generation</string>
+                        <string>Accessor Generation</string>
                     </property>
                     <grid>
                         <property name="name">
@@ -225,7 +228,7 @@
                                 <cstring>m_browseStringButton</cstring>
                             </property>
                             <property name="text">
-                                <string>Browse</string>
+                                <string>Browse...</string>
                             </property>
                         </widget>
                         <widget class="QPushButton" row="2" column="3">
@@ -233,7 +236,7 @@
                                 <cstring>m_browseListButton</cstring>
                             </property>
                             <property name="text">
-                                <string>Browse</string>
+                                <string>Browse...</string>
                             </property>
                         </widget>
                         <widget class="QLabel" row="0" column="2" rowspan="1" colspan="4">
@@ -414,6 +417,8 @@
         </widget>
     </grid>
 </widget>
+<customwidgets>
+</customwidgets>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>kcombobox.h</includehint>
