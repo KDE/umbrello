@@ -51,6 +51,7 @@ public: enum DisplayOptions { ShowPackage = 1, ShowStereotype = 2,
 	void setAttsDisplayOptions( int );
 	inline int  opsDisplayOptions( ) const;
 	void setOpsDisplayOptions( int );
+
 public slots:
 	/** Reimplemented from UMLWidget. re-calculate internal data and repaint the widget*/
 	virtual void umlObjectModified();
@@ -78,6 +79,10 @@ protected:
 	QString m_name;
 	QValueList<AttString> m_atts;
 	QValueList<OpString>  m_ops;
+
+	static const int vMargin = 10;
+	static const int hMargin = 10;
+	static int lineHeight;
 };
 
 int ClassWidget::nameDisplayOptions( ) const

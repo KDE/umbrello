@@ -33,20 +33,12 @@
 #include <qvbox.h>
 #include <qptrlist.h>
 
-
 #include <kdebug.h>
 
-// unnamed namespace : data for this file only
-namespace{
- //vertical and horizontal margins
- int vMargin = 10;
- int hMargin = 10;
- int lineHeight = 1;
-}
 
+namespace Umbrello {
 
-
-namespace Umbrello{
+int ClassWidget::lineHeight = 1;
 
 ClassWidget::ClassWidget(Diagram *diagram, uint id, UMLClass *object):
 	UMLWidget(diagram, id, object)

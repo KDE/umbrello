@@ -31,20 +31,12 @@
 #include <qvbox.h>
 #include <qptrlist.h>
 
-
 #include <kdebug.h>
 
-// unnamed namespace : data for this file only
-namespace{
- //vertical and horizontal margins
- int vMargin = 10;
- int hMargin = 10;
- int lineHeight = 1;
-}
 
+namespace Umbrello {
 
-
-namespace Umbrello{
+int InterfaceWidget::lineHeight = 1;
 
 InterfaceWidget::InterfaceWidget(Diagram *diagram, uint id, UMLInterface *object):
 	UMLWidget(diagram, id, object)

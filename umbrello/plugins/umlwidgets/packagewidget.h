@@ -63,6 +63,11 @@ protected:
 
 	QString m_stereotype;
 	QString m_name;
+
+	static const int vMargin = 10;
+	static const int hMargin = 10;
+	static const int tabHeight = 15;
+	static int lineHeight;
 };
 
 } //end of namespace Umbrello

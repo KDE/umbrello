@@ -70,6 +70,10 @@ protected:
 	QString m_stereotype;
 	QString m_name;
 	QValueList<OpString>  m_ops;
+
+	static const int vMargin = 10;
+	static const int hMargin = 10;
+	static int lineHeight;
 };
 
 } //end of namespace Umbrello
