@@ -27,6 +27,7 @@
 #include "codedocument.h"
 #include "codeoperation.h"
 #include "codeclassfield.h"
+#include "codeclassfieldlist.h"
 #include "operation.h"
 #include "umlrole.h"
 #include "umlassociationlist.h"
@@ -68,10 +69,10 @@ public:
 
 	/**
 	 * Get the list of CodeClassField objects held by m_classfieldVector
-	 * @return QPtrList<CodeClassField> list of CodeClassField objects held by
+	 * @return CodeClassFieldList list of CodeClassField objects held by
 	 * m_classfieldVector
 	 */
-	QPtrList<CodeClassField> * getCodeClassFieldList ( );
+	CodeClassFieldList * getCodeClassFieldList ( );
 
 	// some Utility methods
 
@@ -111,24 +112,24 @@ public:
 	QPtrList<CodeOperation> getCodeOperations ( );
 
 	/** Get a list of codeclassifier objects held by this classifiercodedocument that meet the passed criteria.
-	 * @return      QPtrList<CodeClassField>
+	 * @return      CodeClassFieldList
 	 */
-	QPtrList<CodeClassField> getSpecificClassFields (CodeClassField::ClassFieldType cfType);
+	CodeClassFieldList getSpecificClassFields (CodeClassField::ClassFieldType cfType);
 
 	/** Get a list of codeclassifier objects held by this classifiercodedocument that meet the passed criteria.
-	 * @return      QPtrList<CodeClassField>
+	 * @return      CodeClassFieldList
 	 */
-	QPtrList<CodeClassField> getSpecificClassFields (CodeClassField::ClassFieldType cfType, bool isStatic);
+	CodeClassFieldList getSpecificClassFields (CodeClassField::ClassFieldType cfType, bool isStatic);
 
 	/** Get a list of codeclassifier objects held by this classifiercodedocument that meet the passed criteria.
-	 * @return      QPtrList<CodeClassField>
+	 * @return      CodeClassFieldList
 	 */
-	QPtrList<CodeClassField> getSpecificClassFields (CodeClassField::ClassFieldType cfType, Uml::Scope visibility);
+	CodeClassFieldList getSpecificClassFields (CodeClassField::ClassFieldType cfType, Uml::Scope visibility);
 
 	/** Get a list of codeclassifier objects held by this classifiercodedocument that meet the passed criteria.
-	 * @return      QPtrList<CodeClassField>
+	 * @return      CodeClassFieldList
 	 */
-	QPtrList<CodeClassField> getSpecificClassFields (CodeClassField::ClassFieldType cfType, bool isStatic, Uml::Scope visibility);
+	CodeClassFieldList getSpecificClassFields (CodeClassField::ClassFieldType cfType, bool isStatic, Uml::Scope visibility);
 
 	/** Using the parent object's UML ID, find the corresponding
 	 * codeclassfield object in this classifiercodedocument. Returns
@@ -143,7 +144,7 @@ public:
 	UMLClassifier * getParentClassifier ( );
 
 	// a utility method that allows user to easily add classfield methods to this document
-	void addCodeClassFieldMethods(QPtrList<CodeClassField> &list );
+	void addCodeClassFieldMethods(CodeClassFieldList &list );
 
        /**
 	 * Utility method to appropriately populate the code classfields for this document.
@@ -207,7 +208,7 @@ protected:
 	TextBlock * findCodeClassFieldTextBlockByTag (const QString &tag);
 
 	// add the declaration text blocks for various classfields
-	void declareClassFields (QPtrList<CodeClassField> & list , CodeGenObjectWithTextBlocks * parent);
+	void declareClassFields (CodeClassFieldList & list , CodeGenObjectWithTextBlocks * parent);
 
 	virtual void updateContent( ) = 0;
  
@@ -221,7 +222,7 @@ protected:
 
 private:
 
-	QPtrList<CodeClassField> m_classfieldVector;
+	CodeClassFieldList m_classfieldVector;
 	UMLClassifier* m_parentclassifier;
 
 	// using the passed list, update our inventory of CodeClassFields which are

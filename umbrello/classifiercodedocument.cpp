@@ -37,11 +37,12 @@ ClassifierCodeDocument::ClassifierCodeDocument ( UMLClassifier * parent , CodeGe
 
 ClassifierCodeDocument::~ClassifierCodeDocument ( )
 {
-	/*FIXME this causes a crash sometimes
-	for (CodeClassField * cf = m_classfieldVector.first(); cf; cf = m_classfieldVector.next())  {
-	       delete cf;
+	/** CHECK does this still cause the occasional crash ? */
+	for (CodeClassFieldListIt ccflit(m_classfieldVector); ccflit.current(); ++ccflit)
+	{
+		CodeClassField * cf = ccflit.current();
+		delete cf;
 	}
-	 **** TEMPORARY workaround: */
 	m_classfieldVector.clear();
 }
 
@@ -55,55 +56,69 @@ ClassifierCodeDocument::~ClassifierCodeDocument ( )
 
 /** get a list of codeclassifier objects held by this classifiercodedocument that meet the passed criteria.
  */
-QPtrList<CodeClassField> ClassifierCodeDocument::getSpecificClassFields (CodeClassField::ClassFieldType cfType)
+CodeClassFieldList ClassifierCodeDocument::getSpecificClassFields (CodeClassField::ClassFieldType cfType)
 {
-	QPtrList<CodeClassField> list;
-	for (CodeClassField * cf = m_classfieldVector.first(); cf; cf = m_classfieldVector.next())
+	CodeClassFieldList list;
+	for (CodeClassFieldListIt ccflit(m_classfieldVector); ccflit.current(); ++ccflit)
+	{
+		CodeClassField * cf = ccflit.current();
 		if (cf->getClassFieldType() == cfType)
 			list.append(cf);
+	}
 	return list;
 }
 
 /** get a list of codeclassifier objects held by this classifiercodedocument that meet the passed criteria.
  */
-QPtrList<CodeClassField> ClassifierCodeDocument::getSpecificClassFields (CodeClassField::ClassFieldType cfType, bool isStatic)
+CodeClassFieldList ClassifierCodeDocument::getSpecificClassFields (CodeClassField::ClassFieldType cfType, bool isStatic)
 {
-	QPtrList<CodeClassField> list;
+	CodeClassFieldList list;
 	list.setAutoDelete(false);
-	for (CodeClassField * cf = m_classfieldVector.first(); cf; cf = m_classfieldVector.next())
+	for (CodeClassFieldListIt ccflit(m_classfieldVector); ccflit.current(); ++ccflit)
+	{
+		CodeClassField * cf = ccflit.current();
 		if (cf->getClassFieldType() == cfType && cf->getStatic() == isStatic)
 			list.append(cf);
+	}
 	return list;
 }
 
 /** get a list of codeclassifier objects held by this classifiercodedocument that meet the passed criteria.
  */
-QPtrList<CodeClassField> ClassifierCodeDocument::getSpecificClassFields (CodeClassField::ClassFieldType cfType, Uml::Scope visibility)
+CodeClassFieldList ClassifierCodeDocument::getSpecificClassFields (CodeClassField::ClassFieldType cfType, Uml::Scope visibility)
 {
-	QPtrList<CodeClassField> list;
+	CodeClassFieldList list;
 	list.setAutoDelete(false);
-	for (CodeClassField * cf = m_classfieldVector.first(); cf; cf = m_classfieldVector.next())
+	for (CodeClassFieldListIt ccflit(m_classfieldVector); ccflit.current(); ++ccflit)
+	{
+		CodeClassField * cf = ccflit.current();
 		if (cf->getClassFieldType() == cfType && cf->getVisibility() == visibility)
 			list.append(cf);
+	}
        	return list;
 }
 
 /** get a list of codeclassifier objects held by this classifiercodedocument that meet the passed criteria.
  */
-QPtrList<CodeClassField> ClassifierCodeDocument::getSpecificClassFields (CodeClassField::ClassFieldType cfType, bool isStatic, Uml::Scope visibility)
+CodeClassFieldList ClassifierCodeDocument::getSpecificClassFields (CodeClassField::ClassFieldType cfType, bool isStatic, Uml::Scope visibility)
 {
-	QPtrList<CodeClassField> list;
+	CodeClassFieldList list;
 	list.setAutoDelete(false);
-	for (CodeClassField * cf = m_classfieldVector.first(); cf; cf = m_classfieldVector.next())
+	for (CodeClassFieldListIt ccflit(m_classfieldVector); ccflit.current(); ++ccflit)
+	{
+		CodeClassField * cf = ccflit.current();
 		if (cf->getClassFieldType() == cfType && cf->getVisibility() == visibility && cf->getStatic() == isStatic )
 			list.append(cf);
+	}
        	return list;
 }
 
 // do we have accessor methods for lists of objects?
 // (as opposed to lists of primitive types like 'int' or 'float', etc)
 bool ClassifierCodeDocument::hasObjectVectorClassFields() {
-	for (CodeClassField * cf = m_classfieldVector.first(); cf; cf = m_classfieldVector.next())
+	for (CodeClassFieldListIt ccflit(m_classfieldVector); ccflit.current(); ++ccflit)
+	{
+		CodeClassField * cf = ccflit.current();
 		if(cf->getClassFieldType() != CodeClassField::Attribute)
 		{
 			UMLRole * role = dynamic_cast<UMLRole*>(cf->getParentObject());
@@ -114,6 +129,7 @@ bool ClassifierCodeDocument::hasObjectVectorClassFields() {
 			   )
 				return true;
 		}
+	}
 	return false;
 }
 
@@ -127,7 +143,7 @@ bool ClassifierCodeDocument::hasClassFields() {
  * Tell if one or more codeclassfields are derived from associations.
  */
 bool ClassifierCodeDocument::hasAssociationClassFields() {
-	QPtrList<CodeClassField> list = getSpecificClassFields(CodeClassField::Attribute);
+	CodeClassFieldList list = getSpecificClassFields(CodeClassField::Attribute);
 	return (m_classfieldVector.count() - list.count()) > 0 ? true : false;
 }
 
@@ -135,7 +151,7 @@ bool ClassifierCodeDocument::hasAssociationClassFields() {
  * Tell if one or more codeclassfields are derived from attributes.
  */
 bool ClassifierCodeDocument::hasAttributeClassFields() {
-	QPtrList<CodeClassField> list = getSpecificClassFields(CodeClassField::Attribute);
+	CodeClassFieldList list = getSpecificClassFields(CodeClassField::Attribute);
 	return list.count() > 0 ? true : false;
 }
 
@@ -209,10 +225,10 @@ void ClassifierCodeDocument::removeAssociationClassField (UMLAssociation *assoc 
 
 /**
  * Get the list of CodeClassField objects held by m_classfieldVector
- * @return QPtrList<CodeClassField> list of CodeClassField objects held by
+ * @return CodeClassFieldList list of CodeClassField objects held by
  * m_classfieldVector
  */
-QPtrList<CodeClassField> * ClassifierCodeDocument::getCodeClassFieldList ( ) {
+CodeClassFieldList * ClassifierCodeDocument::getCodeClassFieldList ( ) {
 	return &m_classfieldVector;
 }
 
@@ -289,11 +305,12 @@ void ClassifierCodeDocument::removeOperation (UMLOperation * op ) {
 // Other methods
 //
 
-void ClassifierCodeDocument::addCodeClassFieldMethods(QPtrList<CodeClassField> &list )
+void ClassifierCodeDocument::addCodeClassFieldMethods(CodeClassFieldList &list )
 {
 
-	for (CodeClassField * field = list.first(); field ; field = list.next())
+	for (CodeClassFieldListIt ccflit(list); ccflit.current(); ++ccflit)
 	{
+		CodeClassField * field = ccflit.current();
 		QPtrList <CodeAccessorMethod> * list = field->getMethodList();
 		for (CodeAccessorMethod * method = list->first(); method; method = list->next())
 		{
@@ -314,12 +331,13 @@ void ClassifierCodeDocument::addCodeClassFieldMethods(QPtrList<CodeClassField> &
 }
 
 // add declaration blocks for the passed classfields
-void ClassifierCodeDocument::declareClassFields (QPtrList<CodeClassField> & list ,
+void ClassifierCodeDocument::declareClassFields (CodeClassFieldList & list ,
 				 CodeGenObjectWithTextBlocks * parent )
 {
 
-	for (CodeClassField * field = list.first(); field ; field = list.next())
+	for (CodeClassFieldListIt ccflit(list); ccflit.current(); ++ccflit)
 	{
+		CodeClassField * field = ccflit.current();
 		CodeClassFieldDeclarationBlock * declBlock = field->getDeclarationCodeBlock();
 
 /*
@@ -401,9 +419,11 @@ void ClassifierCodeDocument::synchronize( ) {
 
 void ClassifierCodeDocument::syncClassFields( )
 {
-	QPtrList<CodeClassField> *list = getCodeClassFieldList();
-	for(CodeClassField * cf = list->first(); cf; cf=list->next())
+	for (CodeClassFieldListIt ccflit(m_classfieldVector); ccflit.current(); ++ccflit)
+	{
+		CodeClassField * cf = ccflit.current();
 		cf->synchronize();
+	}
 }
 
 void ClassifierCodeDocument::updateOperations( ) {
@@ -473,7 +493,7 @@ void ClassifierCodeDocument::initCodeClassFields ( ) {
 
 void ClassifierCodeDocument::updateAssociationClassFields ( UMLAssociationList &assocList )
 {
-	QPtrList<CodeClassField> list;
+	CodeClassFieldList list;
 	for(UMLAssociation * a=assocList.first(); a; a=assocList.next())
 		addAssociationClassField(a, false); // syncToParent later
 }
@@ -558,22 +578,17 @@ CodeClassField *
 ClassifierCodeDocument::findCodeClassFieldFromParentID (Uml::IDType id,
 							Uml::Role_Type role_id)
 {
-	QPtrList<CodeClassField> * list = getCodeClassFieldList();
-
-	if((int)role_id == -1) { // attribute-based
-		for(CodeClassField * cf = list->first(); cf; cf=list->next())
+	for (CodeClassFieldListIt ccflit(m_classfieldVector); ccflit.current(); ++ccflit)
+	{
+		CodeClassField * cf = ccflit.current();
+		if((int)role_id == -1) { // attribute-based
 			if (STR2ID(cf->getID()) == id)
 				return cf;
-
-	} else { // association(role)-based
-		// ugh. more underperforming code..if only umlroles where in doc uml obj. list..
-		for(CodeClassField * cf = list->first(); cf; cf=list->next())
-		{
+		} else { // association(role)-based
 			UMLRole * role = dynamic_cast<UMLRole *>(cf->getParentObject());
 			if(role && STR2ID(cf->getID()) == id && role->getRole() == role_id)
 				return cf;
 		}
-
 	}
 
 	// shouldnt happen..
@@ -655,20 +670,21 @@ void ClassifierCodeDocument::setAttributesOnNode ( QDomDocument & doc, QDomEleme
 	// (code) class fields
 	// which we will store in its own separate child node block
 	QDomElement fieldsElement = doc.createElement( "classfields" );
-	QPtrList<CodeClassField> * list = getCodeClassFieldList();
-	for (CodeClassField * field =list->first(); field; field=list->next())
+	for (CodeClassFieldListIt ccflit(m_classfieldVector); ccflit.current(); ++ccflit)
+	{
+		CodeClassField * field = ccflit.current();
 		field->saveToXMI(doc, fieldsElement);
+	}
 	docElement.appendChild( fieldsElement);
-
 
 }
 
 TextBlock * ClassifierCodeDocument::findCodeClassFieldTextBlockByTag (const QString &tag)
 {
 
-	QPtrList<CodeClassField> * list = getCodeClassFieldList();
-	for(CodeClassField * cf = list->first(); cf; cf=list->next())
+	for (CodeClassFieldListIt ccflit(m_classfieldVector); ccflit.current(); ++ccflit)
 	{
+		CodeClassField * cf = ccflit.current();
 		CodeClassFieldDeclarationBlock * decl = cf->getDeclarationCodeBlock();
 		if(decl && decl->getTag() == tag)
 			return decl;

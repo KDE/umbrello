@@ -19,12 +19,10 @@
 
 #include <qmap.h>
 #include <qstring.h>
-#include <qptrlist.h>
 
 #include "codegenobjectwithtextblocks.h"
 #include "codeblockwithcomments.h"
-
-class CodeClassField;
+#include "codeclassfieldlist.h"
 
 class HierarchicalCodeBlock : public CodeBlockWithComments, public CodeGenObjectWithTextBlocks
 {
@@ -112,7 +110,7 @@ public:
 	/** 
 	 * Utility method to add accessormethods in this object
 	 */
-	void addCodeClassFieldMethods ( QPtrList<CodeClassField> &list );
+	void addCodeClassFieldMethods ( CodeClassFieldList &list );
 
        /**
 	 * create a new CodeAccesorMethod object belonging to this Hierarchical code block.

@@ -239,11 +239,12 @@ QString HierarchicalCodeBlock::getStartText ( ) {
 // Other methods
 //
 
-void HierarchicalCodeBlock::addCodeClassFieldMethods(QPtrList<CodeClassField> &list )
+void HierarchicalCodeBlock::addCodeClassFieldMethods(CodeClassFieldList &list )
 {
 
-	for (CodeClassField * field = list.first(); field ; field = list.next())
+	for (CodeClassFieldListIt ccflit(list); ccflit.current(); ++ccflit)
 	{
+		CodeClassField * field = ccflit.current();
 		QPtrList <CodeAccessorMethod> * list = field->getMethodList();
 		for (CodeAccessorMethod * method = list->first(); method; method = list->next())
 		{
