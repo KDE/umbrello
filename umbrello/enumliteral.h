@@ -67,13 +67,6 @@ public:
 	virtual ~UMLEnumLiteral();
 
 	/**
-	 * Returns the type of the UMLEnumLiteral.
-	 *
-	 * @return	The type of the UMLEnumLiteral.
-	 */
-	QString getTypeName();
-
-	/**
 	 * Creates the <UML:EnumLiteral> XMI element.
 	 */
 	void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
