@@ -77,8 +77,6 @@ private:
 
 	static bool assocTypeIsMappableToAttribute(Uml::Association_Type at);
 
-	QString qualifiedName(UMLClassifier* c);
-
 };
 
 #endif // IDLWRITER_H

@@ -57,19 +57,6 @@ bool IDLWriter::assocTypeIsMappableToAttribute(Uml::Association_Type at) {
 		at == Uml::at_Composition || at == Uml::at_UniAssociation);
 }
 
-QString IDLWriter::qualifiedName(UMLClassifier *c) {
-	UMLPackage *umlPkg = c->getUMLPackage();
-	QString className = cleanName(c->getName());
-	QString retval;
-
-	if (umlPkg) {
-		retval = umlPkg->getFullyQualifiedName();
-		retval.append("::");
-	}
-	retval.append(className);
-	return retval;
-}
-
 /**
  * returns "IDL"
  */
@@ -309,7 +296,7 @@ void IDLWriter::writeClass(UMLClassifier *c) {
 		UMLClassifier *parent = superclasses.first();
 		int n_parents = superclasses.count();
 		while (n_parents--) {
-			idl << qualifiedName(parent);
+			idl << parent->getFullyQualifiedName("::");
 			if (n_parents)
 				idl << ", ";
 			parent = superclasses.next();
@@ -334,8 +321,8 @@ void IDLWriter::writeClass(UMLClassifier *c) {
 		}
 		UMLClassifier* other = (UMLClassifier*)m_doc->findObjectById(a->getRoleId(Uml::A));
 		QString bareName = cleanName(other->getName());
-		idl << getIndent() << "typedef sequence<" << qualifiedName(other) << "> "
-		    << bareName << "Vector;" << m_endl << m_endl;
+		idl << getIndent() << "typedef sequence<" << other->getFullyQualifiedName("::")
+		    << "> " << bareName << "Vector;" << m_endl << m_endl;
 	}
 
 	// Generate public attributes.
