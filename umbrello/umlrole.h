@@ -50,13 +50,6 @@ public:
 	UMLObject* getObject();
 
 	/**
-	 *	Returns the ID of the UMLObject assigned to the role.
-	 *
-	 *	@return		Pointer to the UMLObject of role.
-	 */
-	int getId() const;
-
-	/**
 	 *	Returns the Changeablity of the role.
 	 *
 	 *	@return		Changeability_Type of role.
@@ -88,12 +81,6 @@ public:
 	 *	Returns the documentation for the role.
 	 */
 	QString getDoc() const;
-
-	/**
-	 *	Sets the ID of the UMLObject playing in the role.
-	 *	@param	id of the UMLObject of role.
-	 */
-	void setId(int roleId);
 
 	/**
 	 *	Sets the UMLObject playing the role in the association.
@@ -144,7 +131,7 @@ public:
 protected:
 
 	/** do some initialization at construction time */
-	void init ();
+	void init (UMLAssociation * parent);
 
 	/**
 	 * If the type Uml::Association_Type is changed then also the following
@@ -154,7 +141,6 @@ protected:
 	 * order of Uml::Association_Type.
 	 */
 
-	int m_Id;
 	QString m_Doc;
 	UMLObject* m_pObject;
 	QString m_Name;
