@@ -32,7 +32,7 @@ class CPPCodeGenerator : public CodeGenerator
 	Q_OBJECT
 public:
 
-        static const bool DEFAULT_BUILD_MAKE_DOC = false;
+        static const bool DEFAULT_BUILD_MAKEFILE = false;
 
 	// Constructors/Destructors
 	//  

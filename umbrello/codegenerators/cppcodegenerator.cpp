@@ -17,6 +17,7 @@
 #include <kconfig.h>
 
 #include "cppcodegenerator.h"
+#include "cppcodegenerationpolicy.h"
 #include "cppsourcecodedocument.h"
 #include "cppheadercodedocument.h"
 
@@ -36,6 +37,10 @@ cerr<<"CPPCodeGenerator "<<this<<" created with parent document:"<<parentDoc<<en
 
 CPPCodeGenerator::~CPPCodeGenerator ( ) { 
     cerr<<"CPPCodeGenerator "<<this<<" destroyed"<<endl;
+	// destroy all separately owned codedocuments (e.g. header docs)
+        for (CPPHeaderCodeDocument *doc = m_headercodedocumentVector.first(); doc; doc=m_headercodedocumentVector.next())
+                delete doc;
+
 };
 
 //  
@@ -195,6 +200,8 @@ void CPPCodeGenerator::initAttributes ( )
 
 cerr<<"CPP CODE GENERTOR INIT"<<endl;
 
+	setPolicy ( new CPPCodeGenerationPolicy(this, getPolicy()) );
+
        // load Classifier documents from parent document
         initFromParentDocument();
 
@@ -203,7 +210,7 @@ cerr<<"CPP CODE GENERTOR INIT"<<endl;
         addCodeDocument(buildDoc);
 
         // set our 'writeout' policy for that code document
-        setCreateProjectMakefile(DEFAULT_BUILD_MAKE_DOC);
+        setCreateProjectMakefile(DEFAULT_BUILD_MAKEFILE);
 
 cerr<<"CPP CODE GENERTOR INIT - end"<<endl;
 
