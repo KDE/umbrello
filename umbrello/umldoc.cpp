@@ -54,7 +54,9 @@
 #include <kmimetype.h>
 #include <kprinter.h>
 #include <ktar.h>
-#include <ktempdir.h>
+#if KDE_IS_VERSION(3,2,0)
+# include <ktempdir.h>
+#endif
 #include <ktempfile.h>
 
 #define XMI_FILE_VERSION "1.2.90"
@@ -307,6 +309,7 @@ bool UMLDoc::openDocument(const KURL& url, const char* /*format =0*/) {
 
 	// check if the xmi file is a compressed archive like tar.bzip2 or tar.gz
 	QString mimetype = KMimeType::findByPath(m_doc_url.path(0), 0, true)->name();
+# if KDE_IS_VERSION(3,1,90)
 	if (mimetype == "application/x-tgz" || mimetype == "application/x-tbz" || mimetype == "application/x-bzip2")
 	{
 		KTar archive(tmpfile, mimetype);
@@ -400,7 +403,9 @@ bool UMLDoc::openDocument(const KURL& url, const char* /*format =0*/) {
 		}
 
 		archive.close();
-	} else {
+	} else
+# endif
+	{
 		// no, it seems to be an ordinary file
 		if( !file.open( IO_ReadOnly ) ) {
 			KMessageBox::error(0, i18n("There was a problem loading file: %1").arg(d.path()), i18n("Load Error"));
@@ -456,6 +461,7 @@ bool UMLDoc::saveDocument(const KURL& url, const char * /* format */) {
 
 	initSaveTimer();
 
+#if KDE_IS_VERSION(3,2,0)
 	if (fileFormat == "tgz" || fileFormat == "bz2")
 	{
 		KTar * archive;
@@ -514,11 +520,8 @@ bool UMLDoc::saveDocument(const KURL& url, const char * /* format */) {
 		
 		// now we have to check, if we have to upload the file
 		if ( !url.isLocalFile() ) {
-			uploaded = KIO::NetAccess::upload( tmp_tgz_file.name(), m_doc_url
-	#if KDE_IS_VERSION(3,1,90)
-									, UMLApp::app()
-	#endif
-							 );
+			uploaded = KIO::NetAccess::upload( tmp_tgz_file.name(), m_doc_url,
+							   UMLApp::app() );
 		}
 
 		// now the archive was written to disk (or remote) so we can delete the
@@ -527,12 +530,14 @@ bool UMLDoc::saveDocument(const KURL& url, const char * /* format */) {
 		tmp_tgz_file.unlink();
 		delete archive;
 
-	} else {
+	} else
+#else
+	{
 		// save as normal uncompressed XMI
 
 		KTempFile tmpfile; // we need this tmp file if we are writing to a remote file
 
-		// now check if we are writting to a local file
+		// now check if we are writing to a local file
 		if ( url.isLocalFile() )
 		{
 			file.setName( d.path() );
@@ -551,15 +556,16 @@ bool UMLDoc::saveDocument(const KURL& url, const char * /* format */) {
 		// if it is a remote file, we have to upload the tmp file
 		if ( !url.isLocalFile() ) {
 			uploaded = KIO::NetAccess::upload( tmpfile.name(), m_doc_url
-	#if KDE_IS_VERSION(3,1,90)
+# if KDE_IS_VERSION(3,1,90)
 									, UMLApp::app()
-	#endif
+# endif
 							 );
 		}
 
 		tmpfile.close();
 		tmpfile.unlink();
 	}
+#endif
 	if( !uploaded )
 	{
 		KMessageBox::error(0, i18n("There was a problem uploading file: %1").arg(d.path()), i18n("Save Error"));
