@@ -306,7 +306,25 @@ bool UMLOperation::load( QDomElement & element ) {
 			if (! load(attElement))
 				return false;
 		} else if (Uml::tagEq(tag, "Parameter")) {
-			QString kind = attElement.attribute("kind", "in");
+			QString kind = attElement.attribute("kind", "");
+			if (kind.isEmpty()) {
+				// Perhaps the kind is stored in a child node:
+				for (QDomNode n = attElement.firstChild(); !n.isNull(); n = n.nextSibling()) {
+					if (n.isComment())
+						continue;
+					QDomElement tempElement = n.toElement();
+					QString tag = tempElement.tagName();
+					if (!Uml::tagEq(tag, "kind"))
+						continue;
+					kind = tempElement.attribute( "xmi.value", "" );
+					break;
+				}
+				if (kind.isEmpty()) {
+					kdDebug() << "UMLOperation::load(" << m_Name << "): "
+						  << "cannot find kind, using default \"in\"." << endl;
+					kind = "in";
+				}
+			}
 			if (kind == "return") {
 				m_SecondaryId = attElement.attribute( "type", "" );
 				if (m_SecondaryId.isEmpty()) {
