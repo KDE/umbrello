@@ -83,9 +83,7 @@
 # define INTERNALIZE_ID(id)  ID2STR(id).toInt()
 
 #define XMI_FILE_VERSION "1.3.90"
-// Hmm, if the XMI_FILE_VERSION is meant to reflect the umbrello version
-// then the version number "1.3" is prone to create confusion with the UML
-// DTD version...
+// NB: The XMI_FILE_VERSION is the Umbrello version NOT the UML version.
 
 using namespace Uml;
 
@@ -798,7 +796,7 @@ UMLClassifier* UMLDoc::findUMLClassifier(const QString &name) {
 	return dynamic_cast<UMLClassifier*>(obj);
 }
 
-QString	UMLDoc::uniqObjectName(const Object_Type type, QString prefix) {
+QString UMLDoc::uniqObjectName(const Object_Type type, QString prefix) {
 	QString	currentName = prefix;
 	if (currentName.isEmpty()) {
 		if(type == ot_Class)
@@ -890,14 +888,6 @@ void UMLDoc::removeStereotype(const UMLStereotype *s) {
 
 void UMLDoc::writeToStatusBar(const QString &text) {
 	emit sigWriteToStatusBar(text);
-}
-
-void UMLDoc::getHighestIDforForeignFile(int value) {
-	m_highestIDforForeignFile = value;
-}
-
-int UMLDoc::setHighestIDforForeignFile() const {
-	return m_highestIDforForeignFile;
 }
 
 // simple removal of an object
@@ -1306,7 +1296,6 @@ UMLOperation* UMLDoc::createOperation(UMLClassifier* classifier,
 	UMLOperation *op = new UMLOperation(classifier, name);
 	if (params)
 	{
-
 		for (Umbrello::NameAndType_ListIt it = params->begin(); it != params->end(); ++it ) {
 			const Umbrello::NameAndType &nt = *it;
 			UMLAttribute *par = new UMLAttribute(op, nt.first);

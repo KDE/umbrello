@@ -928,16 +928,6 @@ public:
 	 */
 	void writeToStatusBar(const QString &text);
 
-	/**
-	 * Setter for m_highestIDforForeignFile.
-	 */
-	void getHighestIDforForeignFile(int value);
-
-	/**
-	 * Getter for m_highestIDforForeignFile.
-	 */
-	int setHighestIDforForeignFile() const;
-
 private:
 
 	/**
@@ -965,8 +955,6 @@ private:
 
 	/**
 	 * In principle, each model object gets assigned a unique ID.
-	 * ("In principle" because there are exceptions - such as UMLRole -
-	 * but the aim is to remove those exceptions.)
 	 * NOTE: Currently this is an int although Uml::IDType is a string
 	 *       (unless ID_USE_INT is defined.) Perhaps it should be changed
 	 *       to Uml::IDType but then we need a unique string generator.
