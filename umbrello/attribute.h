@@ -67,23 +67,19 @@ public:
 	 */
 	QString getInitialValue();
 
-	/**
-	 *	Sets the type of the UMLAttribute.
-	 *
-	 *	@param	type	The type of the UMLAttribute.
-	 */
-	void setTypeName(QString type) {
-		m_TypeName = type;
-	}
+       /**
+         *      Sets the type of the UMLAttribute.
+         *
+         *      @param  type    The type of the UMLAttribute.
+         */
+        void setTypeName(QString type);
 
-	/**
-	 *	Sets the initial value of the UMLAttribute.
-	 *
-	 *	@param	iv	The inital value of the UMLAttribute.
-	 */
-	void setInitialValue(QString iv) {
-		m_InitialValue = iv;
-	}
+        /**
+         *      Sets the initial value of the UMLAttribute.
+         *
+         *      @param  iv      The inital value of the UMLAttribute.
+         */
+        void setInitialValue(QString iv);
 
 	/**
 	 *	Returns a string representation of the UMLAttribute.
@@ -104,6 +100,7 @@ public:
 
 private:
 	QString m_TypeName, m_InitialValue;
+
 };
 
 #endif

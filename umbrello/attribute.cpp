@@ -7,7 +7,6 @@
  *                                                                         *
  ***************************************************************************/
 
-
 #include "attribute.h"
 #include "dialogs/umlattributedialog.h"
 
@@ -25,14 +24,30 @@ UMLAttribute::UMLAttribute(QObject * parent) : UMLClassifierListItem(parent) {
 	m_TypeName = m_InitialValue = "";
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLAttribute::~UMLAttribute() {}
+UMLAttribute::~UMLAttribute() { }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 QString UMLAttribute::getTypeName() {
 	return m_TypeName;
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+void UMLAttribute::setTypeName(QString type) {
+	if(m_TypeName != type) {
+		m_TypeName = type;
+		emit modified();
+	}
+}
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 QString UMLAttribute::getInitialValue() {
 	return m_InitialValue;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+void UMLAttribute::setInitialValue(QString iv) {
+	if(m_InitialValue != iv) {
+		m_InitialValue = iv;
+		emit modified();
+	}
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 QString UMLAttribute::toString(Signature_Type sig) {
