@@ -159,6 +159,34 @@ QString TextBlock::getIndentationString ( int level ) {
 // Other methods
 //  
 
+/** Ush. These are terrifically bad and must one day go away.
+ * Both methods indicate the range of lines in this textblock
+ * which may be edited by the codeeditor (assuming that any are
+ * actually editable). The default case is no lines are editable.
+ * The line numbering starts with '0' and a '-1' means no line
+ * qualifies.
+ */
+int TextBlock::firstEditableLine() { return 0; }
+int TextBlock::lastEditableLine() { return 0; }
+
+QString TextBlock::getNewEditorLine ( int amount ) {
+	return getIndentationString(amount);
+}
+
+// will remove indenation from this text block.
+QString TextBlock::unformatText ( const QString & text, const QString & indent )
+{
+	QString output = text;
+	QString myIndent = indent;
+	if(myIndent.isEmpty())
+		myIndent = getIndentationString();
+
+	if(!output.isEmpty())
+		output.remove(QRegExp("^"+myIndent)); 
+
+	return output;
+}
+
 void TextBlock::release () {
 	this->deleteLater();
 }

@@ -133,6 +133,12 @@ public:
 	QString formatMultiLineText ( const QString &text, const QString &linePrefix, QString breakStr, 
                                       bool alwaysAddBreak = true, bool lastLineHasBreak = true);
 
+	/** UnFormat a long text string. Typically, this means removing
+	 *  the indentaion (linePrefix) and/or newline chars from each line.
+	 *  If an indentation isnt specified, then the current indentation is used.
+	 */
+	virtual QString unformatText ( const QString & text, const QString & indent = "");
+
 	/**
 	 * @return	QString
 	 */
@@ -170,6 +176,24 @@ public:
         /** set the class attributes from a passed object
          */
         virtual void setAttributesFromObject (TextBlock * obj);
+
+	/** Used by the CodeEditor. It provides it with an appropriate
+	 * starting string for a new line of text within the given textblock
+	 * (for example a string with the proper indentation).
+	 * If the indentation amount is '0' the current indentationString will
+	 * be used.
+	 */
+	virtual QString getNewEditorLine( int indentAmount = 0 );
+
+	/** Ush. These are terrifically bad and must one day go away. 
+	 * Both methods indicate the range of lines in this textblock 
+	 * which may be edited by the codeeditor (assuming that any are
+	 * actually editable). The default case is no lines are editable. 
+	 * The line numbering starts with '0' and a '-1' means no line
+	 * qualifies.
+	 */
+	virtual int firstEditableLine();
+	virtual int lastEditableLine();
 
 protected:
 
