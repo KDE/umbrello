@@ -20,7 +20,7 @@
        from kde-genent.entities and $LANG/user.entities. -->
 ]>
 
-<book id="Umbrello" lang="en">
+<book id="Umbrello" lang="&language;">
 <bookinfo>
 <title>Umbrello UML Modeller Handbook</title>
 
