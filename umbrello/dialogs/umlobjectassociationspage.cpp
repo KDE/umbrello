@@ -72,7 +72,7 @@ void UMLObjectAssociationsPage::loadData()
 	for( UMLAssociation *a = list.first(); a ; a = list.next() )
 	{
 		item = new QListViewItem(m_associationList,a->getName(),
-		                   a->toString(a->getAssocType()));
+		                 UMLAssociation::typeAsString(a->getAssocType()));
 
 	}
 // 	connect(this,SIGNAL(pageModified()),this,SLOT(pageContentsModified()));
