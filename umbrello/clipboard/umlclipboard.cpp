@@ -42,21 +42,11 @@ UMLClipboard::UMLClipboard() {
 }
 
 UMLClipboard::~UMLClipboard() {
-	if(m_pObjectList) {
-		delete m_pObjectList;
-	}
-	if(m_pItemDataList) {
-		delete m_pItemDataList;
-	}
-	if(m_pWidgetList) {
-		delete m_pWidgetList;
-	}
-	if(m_pAssociationList) {
-		delete m_pAssociationList;
-	}
-	if(m_pViewList) {
-		delete m_pViewList;
-	}
+    delete m_pObjectList;
+    delete m_pItemDataList;
+    delete m_pWidgetList;
+    delete m_pAssociationList;
+    delete m_pViewList;
 
 }
 
@@ -743,4 +733,3 @@ void UMLClipboard::pasteItemAlreadyExists(UMLDoc* doc) {
 							"have been pasted."), i18n("Paste Error") );
 }
 
-//#include "umlclipboard.moc"
