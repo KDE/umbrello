@@ -19,6 +19,7 @@
 
 class UMLObject;
 class UMLView;
+class UMLDoc;
 class ListPopupMenu;
 class IDChangeLog;
 
@@ -674,6 +675,7 @@ protected:
 			m_nPosX,
 			m_nOldID;
 	ListPopupMenu 	*m_pMenu;
+	UMLDoc		*m_pDoc;  ///< shortcut for UMLApp::app()->getDocument()
 	bool 		m_bResizing;
 	int 		m_nPressOffsetX,
 			m_nPressOffsetY;
