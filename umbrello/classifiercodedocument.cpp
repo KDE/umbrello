@@ -170,14 +170,7 @@ bool ClassifierCodeDocument::removeCodeClassField ( CodeClassField * remove_obje
 		{
 			// remove from our classfield map
         		m_classFieldMap->remove(umlobj);
-
-			// Now remove all of the methods and declaration block it 'owns'
-			removeTextBlock(remove_object->getDeclarationCodeBlock());
-
-			QPtrList<CodeAccessorMethod> * methods = remove_object->getMethodList();
-			for (CodeAccessorMethod * m = methods->first(); m ; m = methods->next())
-				removeTextBlock(m);
-
+			delete remove_object;
 			return true;
 		} 
 	}
@@ -259,8 +252,19 @@ void ClassifierCodeDocument::addOperation (UMLObject * op ) {
  * @param       op
  */
 void ClassifierCodeDocument::removeOperation (UMLObject * op ) {
-// FIX
-kdError()<<"REMOVE OPERATION CALLED for op:"<<op<<endl;
+
+        QString tag = CodeOperation::findTag((UMLOperation*)op);
+        TextBlock *tb = findTextBlockByTag(tag, true);
+	if(tb)
+        {
+                if(removeTextBlock(tb)) // wont add if already present
+                        delete tb; // delete unused operations
+		else
+			kdError()<<"Cant remove CodeOperation from ClassCodeDocument!"<<endl;
+			
+        }
+	else
+		kdError()<<"Cant Find codeOperation for deleted operation!"<<endl;
 }
 
 // Other methods
@@ -303,7 +307,7 @@ void ClassifierCodeDocument::init (UMLClassifier * c )
 
   	m_parentclassifier = c;
 	m_isInterface = dynamic_cast<UMLInterface*>(c) ? true : false; 
-	m_classfieldVector.setAutoDelete(true);
+	m_classfieldVector.setAutoDelete(false);
         m_classFieldMap = new QMap<UMLObject *, CodeClassField*>;
 
 	updateHeader(); 
