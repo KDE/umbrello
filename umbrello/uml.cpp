@@ -314,9 +314,6 @@ void UMLApp::slotZoomOut()
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLApp::initStatusBar() {
-	///////////////////////////////////////////////////////////////////
-	// STATUSBAR
-	// TODO: add your own items you need for displaying current application status.
 	statProg = new QProgressBar(statusBar(),"Progressbar");
 	statProg->setFixedWidth( 100 );             // arbitrary width
 	statProg->setCenterIndicator(true);
@@ -348,6 +345,7 @@ void UMLApp::initStatusBar() {
 	connect(listView,SIGNAL(sigResetStatusbarProgress()),statProg,SLOT(reset()));
 
 	connect(doc, SIGNAL( sigWriteToStatusBar(const QString &) ), this, SLOT( slotStatusMsg(const QString &) ));
+	statusBar()->show(); //needs to be forced to show when on first ever startup for some reason
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLApp::initDocument() {
@@ -1300,7 +1298,6 @@ void UMLApp::initLibraries() {
 
 	///////// Finaly done... just update the language selection menu.
 	updateLangSelectMenu();
-
 }
 
 
