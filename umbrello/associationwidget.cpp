@@ -77,7 +77,7 @@ AssociationWidget::AssociationWidget(QWidget *parent, UMLWidget* WidgetA,
   	if (m_AssocType == at_Coll_Message) {
  		setName("");
  		setNameData( dynamic_cast<FloatingTextData*>(getNameWidget()->getData()) );
- 		m_pName->setUMLObject( m_pName->getUMLObject() );
+ 		m_pName->setUMLObject( m_pWidgetB->getUMLObject() );
   	}
 
 }
@@ -598,6 +598,9 @@ bool AssociationWidget::activate() {
 			m_pName-> hide();
 		}
 
+                if( m_pView->getType() == dt_Collaboration && m_pName) {
+                        m_pName->setUMLObject(m_pWidgetB->getUMLObject());
+                }
 		m_pName->activate();
 		calculateNameTextSegment();
 	}
@@ -2413,35 +2416,6 @@ void AssociationWidget::slotMenuSelection(int sel) {
 		done = true;
 		break;
 
-	case ListPopupMenu::mt_Operation:
-
-		m_pView->getDocument() -> createUMLObject( (UMLClassifier *)m_pWidgetB -> getUMLObject(), ListPopupMenu::convert_MT_OT((ListPopupMenu::Menu_Type)sel));
-		done = true;
-		break;
-
-	case ListPopupMenu::mt_Sequence_Number:
-		if(!m_pName) {
-			setName("");
-			// m_pName-> setUMLObject(m_pName -> getUMLObject()); // WHAT?? This CANT be right
-		}
-		newText = KLineEditDlg::getText(i18n("Enter sequence number"), m_pName -> getSeqNum(), &ok, m_pView);
-		if(ok) {
-			//Lets make sure the name text is there to set values
-			//if not, set it up with default values and then put the
-			//real values in.
-			m_pName-> setSeqNum( newText );
-			m_pName-> calculateSize();
-			m_pName-> setVisible( m_pName-> getText().length() > 0 );
-		}
-		done = true;
-
-		break;
-
-	case ListPopupMenu::mt_Select_Operation:
-		showOpDlg();
-		done = true;
-		break;
-
 	case ListPopupMenu::mt_Rename_MultiA:
 		if(m_pMultiA)
 			oldText = m_pMultiA -> getText();
@@ -2572,30 +2546,6 @@ QFont AssociationWidget::getFont() {
 		font = m_pWidgetA -> getFont();
 
 	return font;
-}
-
-void AssociationWidget::showOpDlg() {
-	if(!m_pName) {
-		setName("");
-		// m_pName-> setUMLObject(m_pName-> getUMLObject()); // bah, this cant be right
-	}
-
-	// CHECK THIS, WHY WigetB?? !!!
-	// (I suppose because we dont have a WidgetA when in seq diagram?!?)
-	UMLClassifier * c = (UMLClassifier *) m_pWidgetB -> getUMLObject();
-	SelectOpDlg selectDlg(m_pView, c);
-
-	selectDlg.setSeqNumber(m_pName-> getSeqNum());
-	selectDlg.setCustomOp(m_pName-> getOperation());
-
-	int result = selectDlg.exec();
-	if( result ) {
-		m_pName-> setSeqNum( selectDlg.getSeqNumber() );
-		m_pName-> setOperation( selectDlg.getOpText() );
-		m_pName-> calculateSize();
-
-	}
-	m_pName-> setVisible( m_pName-> getText().length() > 0 );
 }
 
 void AssociationWidget::checkPoints(QPoint p) {

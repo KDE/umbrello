@@ -507,11 +507,6 @@ private:
 	void setTextPositionRelatively(Text_Role role, QPoint pos, QPoint oldPosition);
 
 	/**
-	 * Shows the select operation dialog.
-	 */
-	void showOpDlg();
-
-	/**
 	 * Returns the Region the widget to line intersection is for the given widget
 	 * in this Association.  If the given widget is not in the Association then
 	 * Region::Error is returned.
