@@ -37,6 +37,9 @@ class UMLDoc;
 class UMLClassifier : public UMLCanvasObject {
 Q_OBJECT
 public:
+	
+	enum ClassifierType { ALL = 0, CLASS, INTERFACE };
+
 	/**
 	 *	Sets up a Concept.
 	 *
@@ -139,13 +142,13 @@ public:
          * Returns a list of concepts which this concept inherits from.
          * @return      list    a QPtrList of UMLClassifiers we inherit from.
         */
-        UMLClassifierList findSuperClassConcepts ( UMLDoc *doc);
+        UMLClassifierList findSuperClassConcepts ( UMLDoc *doc, ClassifierType type = ALL);
 
         /**
          * Returns a list of concepts which inherit from this concept.
          * @return      list    a QPtrList of UMLClassifiers we inherit from.
          */
-        UMLClassifierList findSubClassConcepts ( UMLDoc *doc);
+        UMLClassifierList findSubClassConcepts ( UMLDoc *doc, ClassifierType type = ALL);
 
 	/** reimplemented from UMLObject*/
 	virtual bool acceptAssociationType(Uml::Association_Type);
@@ -164,6 +167,8 @@ public:
 	 */
 	virtual bool loadFromXMI( QDomElement & element ) = 0;
 	
+	virtual bool isInterface () = 0;
+
 signals:
 	void operationAdded(UMLObject *);
 	void operationRemoved(UMLObject*);

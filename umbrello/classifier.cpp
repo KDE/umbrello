@@ -6,7 +6,6 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-
 #include "classifier.h"
 #include "association.h"
 #include "umlassociationlist.h"
@@ -130,7 +129,7 @@ UMLObject* UMLClassifier::findChildObject(int id) {
 // the sad thing here is that we have to pass along a UMLDocument pointer.
 // It would be better if each concept knew what document it belonged to.
 // This should be changed in the future.
-UMLClassifierList UMLClassifier::findSubClassConcepts ( UMLDoc *doc) {
+UMLClassifierList UMLClassifier::findSubClassConcepts ( UMLDoc *doc, ClassifierType type) {
         UMLAssociationList list = this->getGeneralizations();
         UMLClassifierList inheritingConcepts;
         int myID = this->getID();
@@ -146,7 +145,8 @@ UMLClassifierList UMLClassifier::findSubClassConcepts ( UMLDoc *doc) {
                 {
                         UMLObject* obj = doc->findUMLObject(a->getRoleAId());
                         UMLClassifier *concept = dynamic_cast<UMLClassifier*>(obj);
-                        if (concept)
+                        if (concept && (type == ALL || (!concept->isInterface() && type == CLASS) 
+					|| (concept->isInterface() && type == INTERFACE)))
                                 inheritingConcepts.append(concept);
                 }
 
@@ -156,7 +156,7 @@ UMLClassifierList UMLClassifier::findSubClassConcepts ( UMLDoc *doc) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Same note as for the above findSubClassConcepts method. Need to have
 // each Concept already know its UMLdocument.
-UMLClassifierList UMLClassifier::findSuperClassConcepts ( UMLDoc *doc) {
+UMLClassifierList UMLClassifier::findSuperClassConcepts ( UMLDoc *doc, ClassifierType type ) {
         UMLAssociationList list = this->getGeneralizations();
         UMLClassifierList parentConcepts;
         int myID = this->getID();
@@ -169,7 +169,9 @@ UMLClassifierList UMLClassifier::findSuperClassConcepts ( UMLDoc *doc) {
                 {
                         UMLObject* obj = doc->findUMLObject(a->getRoleBId());
                         UMLClassifier *concept = dynamic_cast<UMLClassifier*>(obj);
-                        if (concept)
+
+                        if (concept && (type == ALL || (!concept->isInterface() && type == CLASS)
+                                        || (concept->isInterface() && type == INTERFACE)))
                                 parentConcepts.append(concept);
                 }
         }
