@@ -2442,6 +2442,14 @@ void UMLView::createAutoAssociations( UMLWidget * widget ) {
 		// Create the AssociationWidget.
 		AssociationWidget * temp = new AssociationWidget( this, widget,
 		                                             assocType, pOtherWidget );
+		temp->setVisibilityA(assoc->getVisibilityA());
+		temp->setVisibilityB(assoc->getVisibilityB());
+		temp->setChangeabilityA(assoc->getChangeabilityA());
+		temp->setChangeabilityB(assoc->getChangeabilityB());
+		temp->setMultiA(assoc->getMultiA());
+		temp->setMultiB(assoc->getMultiB());
+		temp->setRoleNameA(assoc->getRoleNameA());
+		temp->setRoleNameB(assoc->getRoleNameB());
 		if (! addAssociation(temp))
 			delete temp;
 	}
