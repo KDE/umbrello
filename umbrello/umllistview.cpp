@@ -1845,27 +1845,26 @@ void UMLListView::createUMLObject( UMLListViewItem * item, Uml::UMLObject_Type t
 
 void UMLListView::createChildUMLObject( UMLListViewItem * item, Uml::UMLObject_Type type ) {
 	m_bCreatingChildObject = true;
-	QString name = item -> text( 0 );
-	UMLObject * object = static_cast<UMLListViewItem *>( item -> parent() ) -> getUMLObject();
-	if( !object ) {
+	QString name = item->text( 0 );
+	UMLObject* parent = static_cast<UMLListViewItem *>( item->parent() )->getUMLObject();
+	if( !parent ) {
 		delete item;
 		return;
 	}
 
-	if( type == Uml::ot_Attribute )
-	{
-		UMLClass * parent = static_cast<UMLClass *>( object );
-		object = parent -> addAttribute( name, m_doc -> getUniqueID() );
-	}
-	else
-	{kdDebug()<<"HERE HERE HERE HERE HERE HERE HERE HERE HERE"<<endl;
-		object = m_doc->createOperation( static_cast<UMLClassifier*>(object), name );
+	UMLObject* newObject;
+	if ( type == Uml::ot_Attribute )  {
+		newObject = m_doc->createAttribute( static_cast<UMLClass*>(parent), name );
+	} else {
+		newObject = m_doc->createOperation( static_cast<UMLClassifier*>(parent), name );
 	}
 
-	m_doc -> addUMLObject( object );
+	//FIXME actually this seems to be unnecessary, when creating by other ways
+	//attributes, ops etc and not added to UMLDoc:objectList
+	m_doc->addUMLObject( newObject );
 
-	item -> setUMLObject( object );
-	item -> setText( name );
+	item->setUMLObject( newObject );
+	item->setText( name );
 	m_bCreatingChildObject = false;
 }
 

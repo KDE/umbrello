@@ -567,7 +567,10 @@ QString	UMLDoc::uniqObjectName(const UMLObject_Type type) {
   *   AddUMLObjectPaste if pasting.
   */
 void UMLDoc::addUMLObject(UMLObject* object) {
-	objectList.append( object );
+	//stop it being added twice
+	if ( objectList.find(object) == -1)  {
+		objectList.append( object );
+	}
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // a simple removeal of an object
@@ -701,16 +704,23 @@ UMLObject* UMLDoc::createUMLObject(UMLObject* umlobject, UMLObject_Type type) {
 	return NULL;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLObject* UMLDoc::createAttribute(UMLClass* umlclass) {
+UMLObject* UMLDoc::createAttribute(UMLClass* umlclass, const QString &name /*=null*/) {
 	int id = getUniqueID();
-	QString currentName = umlclass->uniqChildName(Uml::ot_Attribute);
+	QString currentName;
+	if (name == QString::null)  {
+		currentName = umlclass->uniqChildName(Uml::ot_Attribute);
+	} else {
+		currentName = name;
+	}
 	Uml::Scope scope = getOptionState().classState.defaultAttributeScope;
 	UMLAttribute* newAttribute = new UMLAttribute(umlclass, currentName, id, "int", scope);
 
 	int button = QDialog::Accepted;
 	bool goodName = false;
 
-	while (button==QDialog::Accepted && !goodName) {
+	//check for name == QString::null stops dialogue being shown
+	//when creating attribute via list view
+	while (button==QDialog::Accepted && !goodName && name == QString::null) {
 		UMLAttributeDialog attributeDialogue(0, newAttribute);
 		button = attributeDialogue.exec();
 		QString name = newAttribute->getName();
@@ -836,8 +846,7 @@ UMLOperation* UMLDoc::createOperation( )
 	return op;
 }
 
-UMLOperation* UMLDoc::createOperation(UMLClassifier* classifier, const QString &name)
-{
+UMLOperation* UMLDoc::createOperation(UMLClassifier* classifier, const QString &name /*=null*/)  {
 	if(!classifier)
 	{
 		kdWarning()<<"UMLDoc::createOperation(UMLClassifier* classifier) called with classifier == NULL"<<endl
@@ -1405,6 +1414,7 @@ bool UMLDoc::saveToXMI(QIODevice& file) {
 	QTextStream stream( &file );
 	stream.setEncoding(QTextStream::UnicodeUTF8);
 	stream << doc.toString();
+
 	return status;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////

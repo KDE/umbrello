@@ -239,7 +239,7 @@ public:
 	 * @return The new operation, or NULL if the operation could not be created because
 	 *         for example, the User canceled the dialog or no appropiate name can be found
 	*/
-	UMLOperation* createOperation( UMLClassifier *parent, const QString &name = QString::null );
+	UMLOperation* createOperation( UMLClassifier *parent, const QString &name = QString::null);
 	/**
 	  * Creates a new Operation in the document.
 	  * The Operation is not-initialized, so it has no valid name, id, etc. so this
@@ -256,9 +256,10 @@ public:
 	 * Creates an attribute for the parent concept.
 	 *
 	 * @param o	The parent concept
+	 * @param name  An optional name, used by when creating through UMLListView
 	 * @return	The UMLAttribute created
 	 */
-	UMLObject* createAttribute(UMLClass* umlclass);
+	UMLObject* createAttribute(UMLClass* umlclass, const QString &name = QString::null);
 
 	/**
 	 * Creates a template for the parent concept.
