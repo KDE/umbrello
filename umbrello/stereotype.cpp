@@ -11,7 +11,7 @@
 #include "stereotype.h"
 
 #include <klocale.h>
-#include <klineeditdlg.h>
+#include <kinputdialog.h>
 #include <kdebug.h>
 
 UMLStereotype::UMLStereotype(QObject* parent, QString name, int id, UMLObject_Type listType) : UMLClassifierListItem(parent, name, id) {
@@ -64,7 +64,7 @@ bool UMLStereotype::loadFromXMI(QDomElement& element) {
 
 bool UMLStereotype::showPropertiesDialogue(QWidget* parent) {
 	bool ok;
-	QString name = KLineEditDlg::getText( i18n("Enter name:"), getName(), &ok, parent);
+	QString name = KInputDialog::getText( i18n("Enter name:"), getName(), QString::null,&ok, parent);
 	if (ok) {
 		setName(name);
 	}

@@ -12,7 +12,7 @@
 #include "listpopupmenu.h"
 #include "dialogs/activitydialog.h"
 
-#include <klineeditdlg.h>
+#include <kinputdialog.h>
 #include <klocale.h>
 #include <qpainter.h>
 
@@ -142,7 +142,7 @@ void ActivityWidget::slotMenuSelection(int sel) {
 
 	switch( sel ) {
 		case ListPopupMenu::mt_Rename:
-			name = KLineEditDlg::getText( i18n("Enter Activity Name"), i18n("Enter the name of the new activity:"), m_Name, &ok );
+			name = KInputDialog::getText( i18n("Enter Activity Name"), i18n("Enter the name of the new activity:"), m_Name, &ok );
 			if( ok && name.length() > 0 )
 				m_Name = name;
 			done = true;
