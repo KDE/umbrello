@@ -228,6 +228,14 @@ bool UMLDoc::openDocument(const KURL& url, const char */*format =0*/) {
 	QString tmpfile;
 	KIO::NetAccess::download( url, tmpfile );
 	QFile file( tmpfile );
+	if ( !file.exists() ) {
+		KMessageBox::error(0, i18n("The file %1 does not exist.").arg(d.path()), i18n("Load Error"));
+		doc_url.setFileName(i18n("Untitled"));
+		loading = false;
+		newDocument();
+		return false;
+	}
+
 	if( !file.open( IO_ReadOnly ) ) {
 		KMessageBox::error(0, i18n("There was a problem loading file: %1").arg(d.path()), i18n("Load Error"));
 		doc_url.setFileName(i18n("Untitled"));
