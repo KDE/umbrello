@@ -1,5 +1,7 @@
 Version 1.3-alpha (cvs-head, change this to 1.3 when released)
 
+* new tools for aligning several objects
+
 * support added for compressed XMI files (*.xmi.tgz, *.xmi.tar.bz2)
 
 * New diagram command 'Duplicate' permits the copying of diagram
