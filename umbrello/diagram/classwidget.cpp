@@ -27,6 +27,8 @@
 //FIXME test only
 #include "../refactoring/refactoringassistant.h"
 
+#include "diagramelement.h"
+
 #include <qapplication.h>
 #include <klocale.h>
 #include <qpainter.h>
@@ -93,13 +95,13 @@ void ClassWidget::drawShape(QPainter &p)
 	QFont font;
 	QPen drawPen = (m_useOwnPen ? pen() : diagram()->pen());
 	QBrush drawBrush = ( m_useOwnBrush ? brush() : diagram()->brush() );
-	
+
 	int currentX,  currentY, limitX, limitY;
 	int internalWidth;
 	currentX = x();
 	currentY = y();
 	limitX = currentX + width() - ( 1 * hMargin );
-	limitY = currentY + height() - ( 1 * vMargin ); 
+	limitY = currentY + height() - ( 1 * vMargin );
 	internalWidth = width() - ( 2 * hMargin );
 
 	p.setPen(drawPen);
@@ -257,8 +259,8 @@ void ClassWidget::calculateSize()
 			}
 			opString.string += op->getName() + "( ";
 			QList<UMLAttribute> *params = op->getParmList();
-			for( UMLAttribute *last = params->last(), *param = params->first(); 
-				param &&  (m_opsDisplayOpts & ShowParameterList); 
+			for( UMLAttribute *last = params->last(), *param = params->first();
+				param &&  (m_opsDisplayOpts & ShowParameterList);
 				param = params->next() )
 			{
 				opString.string += param->getName() + " : " + param->getTypeName();
@@ -297,7 +299,7 @@ void ClassWidget::calculateSize()
 	font.setUnderline(true);
 	font.setItalic(true);
 	QFontMetrics fm(font);
-	
+
 	maxWidth = max(maxWidth,fm.width(m_stereotype));
 	maxWidth = max(maxWidth, fm.width(m_name));
 	for(QValueList<AttString>::Iterator it = m_atts.begin(); it != m_atts.end(); ++it )

@@ -20,33 +20,31 @@
 #include <qpopupmenu.h>
 
 //anonymous namespace for file-only data
-namespace {
 float min( float a, float b ) { return a < b ? a: b;}
 float max( float a, float b ) { return a > b ? a: b;}
-}
 
 
 namespace Umbrello{
 
-DiagramElement::DiagramElement( Diagram *diagram, int id): 
+DiagramElement::DiagramElement( Diagram *diagram, int id):
 	QCanvasPolygonalItem(diagram),m_id(id), m_useOwnPen(false), m_useOwnBrush(false)
 {
 	setZ(100);  // default depth
 	setPen(this->diagram()->pen());
 	setBrush(this->diagram()->brush());
 }
-	
+
 DiagramElement::~DiagramElement()
 {
 	hide();
 	canvas()->update();
 }
-	
+
 int DiagramElement::getID() const
 {
 	return m_id;
-}	
-	
+}
+
 void DiagramElement::moveAbs( int x, int y )
 {
 	QCanvasItem::move(x,y);
@@ -54,12 +52,12 @@ void DiagramElement::moveAbs( int x, int y )
 	canvas()->update();
 	emit moved();
 }
-	
+
 void DiagramElement::moveAbs( const QPoint &point )
 {
 	moveAbs(point.x(), point.y());
 }
-	
+
 void DiagramElement::moveBy( int dx, int dy)
 {
 	QCanvasPolygonalItem::moveBy(dx,dy);
@@ -76,7 +74,7 @@ void DiagramElement::fillContextMenu(QPopupMenu &menu)
 	submenu->insertItem(SmallIcon("lower"),i18n("Lower"),this,SLOT(lower()));
 	submenu->insertItem(SmallIcon("backround"),i18n("To background"),this,SLOT(moveToBackground()));
 	menu.insertItem(i18n("Depth..."),submenu);
-	
+
 	menu.insertItem(SmallIcon("info"),i18n("Properties"),this,SLOT(editProperties()));
 	menu.insertSeparator( );
 	menu.insertItem(SmallIcon("editdelete"),i18n("Delete"),this,SLOT(deleteLater()));
@@ -87,7 +85,7 @@ void DiagramElement::moveToForeground()
 {
 	QCanvasItemList l = collisions(false);
 	if(l.empty()) return; // nothing to do
-	
+
 	double maxZ = z();
 	QCanvasItemList::iterator it;
 	for( it = l.begin() ; it != l.end() ; ++it )
@@ -113,7 +111,7 @@ void DiagramElement::moveToBackground()
 {
 	QCanvasItemList l = collisions(false);
 	if(l.empty()) return; // nothing to do
-	
+
 	double minZ = z();
 	QCanvasItemList::iterator it;
 	for( it = l.begin() ; it != l.end() ; ++it )
@@ -139,7 +137,7 @@ void DiagramElement::raise()
 {
 	QCanvasItemList l = collisions(false);
 	if(l.empty()) return; // nothing to do
-	
+
 	double next = z();
 	QCanvasItemList::iterator it;
 	for( it = l.begin() ; it != l.end() ; ++it )
@@ -168,7 +166,7 @@ void DiagramElement::lower()
 {
 	QCanvasItemList l = collisions(false);
 	if(l.empty()) return; // nothing to do
-	
+
 	double prev = z();
 	QCanvasItemList::iterator it;
 	for( it = l.begin() ; it != l.end() ; ++it )
