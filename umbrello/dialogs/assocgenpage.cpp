@@ -33,13 +33,6 @@ AssocGenPage::~AssocGenPage() {}
 
 void AssocGenPage::constructWidget() {
 
-	// bah. should be in association class, not here -b.t.
-	QString types[] = { i18n("Generalization"), i18n("Dependancy"),
-			i18n("Aggregation"), i18n("Association"), i18n("Implementation"),
-			i18n("Composition"), i18n("Unidirectional Association"), i18n("Realization"),
-			i18n("State Transition")
-			};
-
 	// general configuration of the GUI
 	int margin = fontMetrics().height();
 	setMinimumSize(310,330);
@@ -80,46 +73,7 @@ void AssocGenPage::constructWidget() {
 	nameLayout -> addWidget(m_pTypeLE, 1, 1);
 
 	// set value in association type
-        switch ( m_pAssociationWidget-> getAssocType()) {
-                case Uml::at_Generalization:
-                        m_pTypeLE -> setText(types[0]);
-                        break;
-
-                case Uml::at_Association:
-                        m_pTypeLE -> setText(types[3]);
-                        break;
-
-                case Uml::at_Aggregation:
-                        m_pTypeLE -> setText(types[2]);
-                        break;
-
-                case Uml::at_Dependency:
-                        m_pTypeLE -> setText(types[1]);
-                        break;
-
-                case Uml::at_Implementation:
-                        m_pTypeLE -> setText(types[4]);
-                        break;
-
-                case Uml::at_Composition:
-                        m_pTypeLE -> setText(types[5]);
-                        break;
-
-                case Uml::at_UniAssociation:
-                        m_pTypeLE -> setText(types[6]);
-                        break;
-
-                case Uml::at_Realization:
-                        m_pTypeLE -> setText(types[7]);
-                        break;
-
-                case Uml::at_State:
-                        m_pTypeLE -> setText(types[8]);
-                        break;
-
-                default:
-                        break;
-        } //end switch
+	m_pTypeLE->setText(UMLAssociation::typeAsString(m_assoc->getAssocType()));
 
 	m_pDoc->setWordWrap(QMultiLineEdit::WidgetWidth);
 
