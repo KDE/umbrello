@@ -111,8 +111,9 @@ void ToolBarStateMessages::mouseRelease(QMouseEvent* ome)
 }
 
 // Override the ToolBarState::setSelectedWidget method.
-bool ToolBarStateMessages::setSelectedWidget(QMouseEvent* me) 
+bool ToolBarStateMessages::setSelectedWidget(QMouseEvent*) 
 {
+	return false;
 }
 
 
