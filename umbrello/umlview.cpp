@@ -3164,7 +3164,9 @@ bool UMLView::loadMessagesFromXMI( QDomElement & qElement ) {
 	QDomNode node = qElement.firstChild();
 	QDomElement messageElement = node.toElement();
 	while( !messageElement.isNull() ) {
-		if( messageElement.tagName() == "UML:MessageWidget" ) {
+		QString tag = messageElement.tagName();
+		if (tag == "messagewidget" ||
+		    tag == "UML:MessageWidget" ) {  // for bkwd compatibility
 			message = new MessageWidget(this, sequence_message_asynchronous);
 			if( !message -> loadFromXMI( messageElement ) ) {
 				delete message;
@@ -3183,7 +3185,9 @@ bool UMLView::loadAssociationsFromXMI( QDomElement & qElement ) {
 	QDomElement assocElement = node.toElement();
 	int countr = 0;
 	while( !assocElement.isNull() ) {
-		if ( assocElement.tagName() == "UML:AssocWidget" ) {
+		QString tag = assocElement.tagName();
+		if (tag == "assocwidget" ||
+		    tag == "UML:AssocWidget") {  // for bkwd compatibility
 			countr++;
 			AssociationWidget *assoc = new AssociationWidget(this);
 			if( !assoc->loadFromXMI( assocElement ) ) {
