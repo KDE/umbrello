@@ -424,3 +424,5 @@ void CPPSourceCodeDocument::updateContent( )
 */
 }
 
+
+#include "cppsourcecodedocument.moc"

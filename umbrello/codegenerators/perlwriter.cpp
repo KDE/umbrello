@@ -345,3 +345,5 @@ void PerlWriter::writeAttributes(UMLAttributeList &atList, QTextStream &perl) {
 }
 
 
+
+#include "perlwriter.moc"

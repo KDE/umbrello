@@ -296,3 +296,5 @@ bool ASWriter::isType (QString & type)
    return false;
 }
 
+
+#include "aswriter.moc"

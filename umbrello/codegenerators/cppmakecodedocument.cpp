@@ -120,3 +120,5 @@ QString CPPMakefileCodeDocument::getPath ( )
 
 }
 
+
+#include "cppmakecodedocument.moc"

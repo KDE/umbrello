@@ -149,3 +149,5 @@ void CPPSourceClassDeclarationBlock::init (CPPSourceCodeDocument *parentDoc, QSt
 
 }
 
+
+#include "cppsourceclassdeclarationblock.moc"

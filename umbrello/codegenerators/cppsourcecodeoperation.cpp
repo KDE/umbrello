@@ -138,3 +138,5 @@ void CPPSourceCodeOperation::init (CPPSourceCodeDocument * doc )
         updateContent();
 
 }
+
+#include "cppsourcecodeoperation.moc"

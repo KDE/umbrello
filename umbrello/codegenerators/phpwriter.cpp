@@ -343,3 +343,5 @@ bool PhpWriter::isType (QString & type)
 }
 
 
+
+#include "phpwriter.moc"

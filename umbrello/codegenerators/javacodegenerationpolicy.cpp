@@ -214,3 +214,5 @@ void JavaCodeGenerationPolicy::initFields ( JavaCodeGenerator * parent ) {
 
 }
 
+
+#include "javacodegenerationpolicy.moc"

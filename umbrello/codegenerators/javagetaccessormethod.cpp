@@ -124,3 +124,5 @@ void JavaGetAccessorMethod::updateMethodDeclaration()
 }
 
 
+
+#include "javagetaccessormethod.moc"

@@ -157,3 +157,5 @@ void JavaClassDeclarationBlock::init (JavaClassifierCodeDocument *parentDoc, QSt
 
 }
 
+
+#include "javaclassdeclarationblock.moc"

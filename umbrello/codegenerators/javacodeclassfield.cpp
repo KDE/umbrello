@@ -104,3 +104,5 @@ QString JavaCodeClassField::getInitialValue() {
 
 }
 
+
+#include "javacodeclassfield.moc"

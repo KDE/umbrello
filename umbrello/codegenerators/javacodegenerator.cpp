@@ -173,3 +173,5 @@ kdDebug()<<"JAVA CODE GENERTOR INIT"<<endl;
 kdDebug()<<"JAVA CODE GENERTOR INIT - END"<<endl;
 }
 
+
+#include "javacodegenerator.moc"

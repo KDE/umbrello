@@ -150,3 +150,5 @@ void CPPHeaderClassDeclarationBlock::init (CPPHeaderCodeDocument *parentDoc, QSt
 
 }
 
+
+#include "cppheaderclassdeclarationblock.moc"

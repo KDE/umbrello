@@ -155,3 +155,5 @@ bool SQLWriter::isType (QString & type)
    return false;
 }
 
+
+#include "sqlwriter.moc"

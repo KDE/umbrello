@@ -70,3 +70,5 @@ void CPPHeaderCodeClassFieldDeclarationBlock::updateContent( )
 }
 
 
+
+#include "cppheadercodeclassfielddeclarationblock.moc"

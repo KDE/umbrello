@@ -140,3 +140,5 @@ void CPPHeaderCodeOperation::init (CPPHeaderCodeDocument * doc )
         updateContent();
 
 }
+
+#include "cppheadercodeoperation.moc"

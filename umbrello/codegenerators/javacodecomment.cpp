@@ -88,3 +88,5 @@ QString JavaCodeComment::toString ( )
         return output; 
 }
 
+
+#include "javacodecomment.moc"

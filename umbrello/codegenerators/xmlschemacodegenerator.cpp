@@ -97,3 +97,5 @@ void XMLSchemaCodeGenerator::initFromParentDocument( ) {
         }
 }
 
+
+#include "xmlschemacodegenerator.moc"

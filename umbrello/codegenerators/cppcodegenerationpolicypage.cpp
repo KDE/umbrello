@@ -60,3 +60,5 @@ kdDebug()<<"Apply in CPPCodeGenerationPage called (parent:"<<parent<<")"<<endl;
 
 }
 
+
+#include "cppcodegenerationpolicypage.moc"

@@ -80,3 +80,5 @@ QString XMLSchemaCodeClassField::getElementName() {
 */
 
 
+
+#include "xmlschemacodeclassfield.moc"

@@ -506,3 +506,5 @@ void AdaWriter::writeOperation(UMLOperation *op, QTextStream &ada, bool is_comme
 }
 
 
+
+#include "adawriter.moc"

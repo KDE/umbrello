@@ -125,3 +125,5 @@ void JavaRemoveAccessorMethod::updateMethodDeclaration()
 }
 
 
+
+#include "javaremoveaccessormethod.moc"

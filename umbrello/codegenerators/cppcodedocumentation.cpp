@@ -107,3 +107,5 @@ QString CPPCodeDocumentation::toString ( )
         return output; 
 }
 
+
+#include "cppcodedocumentation.moc"

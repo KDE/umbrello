@@ -60,3 +60,5 @@ kdDebug()<<"Apply in JavaCodeGenerationPage called (parent:"<<parent<<")"<<endl;
 
 }
 
+
+#include "javacodegenerationpolicypage.moc"

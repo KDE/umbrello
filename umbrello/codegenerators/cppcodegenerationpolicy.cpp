@@ -310,3 +310,5 @@ void CPPCodeGenerationPolicy::initFields ( CPPCodeGenerator * parent ) {
 
 }
 
+
+#include "cppcodegenerationpolicy.moc"

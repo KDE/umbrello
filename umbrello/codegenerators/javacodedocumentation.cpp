@@ -104,3 +104,5 @@ QString JavaCodeDocumentation::toString ( )
         return output; 
 }
 
+
+#include "javacodedocumentation.moc"

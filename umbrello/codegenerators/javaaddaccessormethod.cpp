@@ -123,3 +123,4 @@ void JavaAddAccessorMethod::updateMethodDeclaration()
 	setOverallIndentationLevel(1);
 }
 
+#include "javaaddaccessormethod.moc"

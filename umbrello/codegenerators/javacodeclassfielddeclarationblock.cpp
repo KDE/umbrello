@@ -70,3 +70,5 @@ void JavaCodeClassFieldDeclarationBlock::updateContent( )
 }
 
 
+
+#include "javacodeclassfielddeclarationblock.moc"

@@ -267,3 +267,4 @@ kdDebug()<<"XMLschema ClassifierCodeDoc SyncToParent END "<<endl;
 
 }
 
+#include "xmlschemaclassifiercodedocument.moc"

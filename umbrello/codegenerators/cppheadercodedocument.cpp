@@ -426,3 +426,5 @@ void CPPHeaderCodeDocument::updateContent( )
 */
 }
 
+
+#include "cppheadercodedocument.moc"

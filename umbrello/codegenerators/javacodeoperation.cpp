@@ -135,3 +135,5 @@ void JavaCodeOperation::init (JavaClassifierCodeDocument * doc )
         updateContent();
 
 }
+
+#include "javacodeoperation.moc"

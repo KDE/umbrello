@@ -229,3 +229,5 @@ QString CPPCodeGenerator::scopeToCPPDecl(Uml::Scope scope)
         return scopeString;
 }
 
+
+#include "cppcodegenerator.moc"

@@ -70,3 +70,5 @@ void CPPSourceCodeClassFieldDeclarationBlock::updateContent( )
 }
 
 
+
+#include "cppsourcecodeclassfielddeclarationblock.moc"

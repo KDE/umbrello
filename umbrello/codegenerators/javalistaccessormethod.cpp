@@ -124,3 +124,5 @@ void JavaListAccessorMethod::updateMethodDeclaration()
 }
 
 
+
+#include "javalistaccessormethod.moc"

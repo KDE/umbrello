@@ -273,3 +273,5 @@ bool PythonWriter::isType (QString & type)
 
 
 
+
+#include "pythonwriter.moc"

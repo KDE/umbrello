@@ -255,3 +255,5 @@ bool JSWriter::isType (QString & type)
    return false;
 }
 
+
+#include "jswriter.moc"

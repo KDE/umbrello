@@ -251,3 +251,5 @@ void SimpleCodeGenerator::initFromParentDocument( )
 	// Do nothing
 }
 
+
+#include "simplecodegenerator.moc"

@@ -167,3 +167,5 @@ void CPPHeaderCodeAccessorMethod::updateMethodDeclaration()
 }
 
 
+
+#include "cppheadercodeaccessormethod.moc"

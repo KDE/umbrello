@@ -88,3 +88,5 @@ QString CPPCodeComment::toString ( )
         return output; 
 }
 
+
+#include "cppcodecomment.moc"
