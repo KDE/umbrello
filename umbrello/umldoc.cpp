@@ -57,6 +57,7 @@
 #include "model_utils.h"
 #include "uml.h"
 #include "umllistview.h"
+#include "umllistviewitem.h"
 #include "umlview.h"
 #include "usecase.h"
 #include "clipboard/idchangelog.h"

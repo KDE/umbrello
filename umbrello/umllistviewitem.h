@@ -14,7 +14,9 @@
 #include <qdom.h>
 #include "umlnamespace.h"
 
+// forward declarations
 class UMLListView;
+class UMLObject;
 
 /**
  * Items used by the class @ref UMLListView.  This is needed as the type

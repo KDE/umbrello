@@ -10,9 +10,11 @@
 #ifndef UMLLISTVIEW_H
 #define UMLLISTVIEW_H
 
-#include "umllistviewitemlist.h"
-#include "umllistviewitem.h"
+#include <qdom.h>
+#include <qpixmap.h>
 #include <klistview.h>
+#include "umlnamespace.h"
+#include "umllistviewitemlist.h"
 
 /**
  *	This is one of the main classes used in this program.
@@ -25,13 +27,15 @@
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
  
+class QPoint;
+class QMouseEvent;
 class IDChangeLog;
 class ListPopupMenu;
 class UMLClassifier;
 class UMLDoc;
 class UMLListViewItem;
 class UMLView;
-
+class UMLObject;
 
 class UMLListView : public KListView {
 	Q_OBJECT
@@ -179,22 +183,22 @@ class UMLListView : public KListView {
 	/**
 	 * Returns true if the listview type also has a widget representation in diagrams.
 	 */
-	static bool typeIsCanvasWidget(ListView_Type type);
+	static bool typeIsCanvasWidget(Uml::ListView_Type type);
 
 	/**
 	 * Returns true if the listview type is a logical, usecase or component folder.
 	 */
-	static bool typeIsFolder(ListView_Type type);
+	static bool typeIsFolder(Uml::ListView_Type type);
 
 	/**
 	 * Returns true if the listview type is a diagram.
 	 */
-	static bool typeIsDiagram(ListView_Type type);
+	static bool typeIsDiagram(Uml::ListView_Type type);
 
 	/**
 	 * Returns true if the listview type is an attribute, operation, or template.
 	 */
-	static bool typeIsClassifierList(ListView_Type type);
+	static bool typeIsClassifierList(Uml::ListView_Type type);
 
 	/**
 	 * Creates a UMLObject out of the given list view item.
@@ -502,7 +506,8 @@ public slots:
 	 * Searches the tree for a diagram (view).
 	 * Used by findView().
 	 */
-	UMLListViewItem* recursiveSearchForView(UMLListViewItem* folder, ListView_Type type, int id);
+	UMLListViewItem* recursiveSearchForView(UMLListViewItem* folder,
+						Uml::ListView_Type type, int id);
 
 };
 
