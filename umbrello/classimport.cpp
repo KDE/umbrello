@@ -28,9 +28,7 @@ class CppDriver : public Driver {
 public:
 	void setupLexer(Lexer* lexer) {
 		Driver::setupLexer(lexer);
-	/**** Activate this code when ast.h has a NodeType_Comment:
 		lexer->setRecordComments(true);
-         ****/
 	}
 };
 
@@ -207,8 +205,8 @@ void ClassImport::importCPP(QStringList headerFileList) {
 		if (ast == NULL)
 			continue;
 		CppTree2Uml modelFeeder( fileName, this );
-		kdDebug() << "Now calling modelFeeder.parseTranslationUnit for file "
-			  << fileName << endl;
+		// kdDebug() << "Now calling modelFeeder.parseTranslationUnit for file "
+		//           << fileName << endl;
 		modelFeeder.parseTranslationUnit( ast );
 	}
 	m_umldoc->writeToStatusBar("Ready.");

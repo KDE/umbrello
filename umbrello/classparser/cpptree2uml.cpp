@@ -69,7 +69,8 @@ void CppTree2Uml::parseNamespace( NamespaceAST* ast )
 #ifdef DEBUG_CPPTREE2UML
     kdDebug() << "CppTree2Uml::parseNamespace: " << nsName << endl;
 #endif
-    UMLObject * o = m_importer->createUMLObject( Uml::ot_Package, nsName, "", "",
+    UMLObject * o = m_importer->createUMLObject( Uml::ot_Package, nsName, "" /*stereotype*/,
+						 ast->comment(),
 						 m_currentNamespace[m_nsCnt] );
     UMLPackage *ns = (UMLPackage *)o;
     m_currentScope.push_back( nsName );
@@ -152,6 +153,8 @@ void CppTree2Uml::parseSimpleDeclaration( SimpleDeclarationAST* ast )
     TypeSpecifierAST* typeSpec = ast->typeSpec();
     InitDeclaratorListAST* declarators = ast->initDeclaratorList();
 
+    m_comment = ast->comment();
+
     if( typeSpec )
 	parseTypeSpecifier( typeSpec );
 
@@ -219,7 +222,8 @@ void CppTree2Uml::parseFunctionDefinition( FunctionDefinitionAST* ast )
     UMLOperation *m = m_importer->insertMethod( c, (Uml::Scope)m_currentAccess, id,
 						returnType, isStatic,
 						false,    // isAbstract
-						"" /* doc */ );
+						m_comment );
+    m_comment = "";
     parseFunctionArguments( d, m );
 
 /* For reference, Kdevelop does some more:
@@ -263,7 +267,8 @@ void CppTree2Uml::parseClassSpecifier( ClassSpecifierAST* ast )
 	return;
     }
 
-    UMLObject * o = m_importer->createUMLObject( Uml::ot_Class, className, "", "",
+    UMLObject * o = m_importer->createUMLObject( Uml::ot_Class, className, "" /*stereotype*/,
+						 ast->comment(),
 						 m_currentNamespace[m_nsCnt] );
     UMLClass *klass = (UMLClass *)o;
 
@@ -289,7 +294,7 @@ void CppTree2Uml::parseEnumSpecifier( EnumSpecifierAST* ast )
     QString typeName = ast->name()->unqualifiedName()->text().stripWhiteSpace();
     UMLObject *o = m_importer->createUMLObject( Uml::ot_Enum, typeName,
 						"" /* stereotype */,
-						"" /* comment */,
+						ast->comment(),
 						m_currentNamespace[m_nsCnt] );
 
     QPtrList<EnumeratorAST> l = ast->enumeratorList();
@@ -353,7 +358,8 @@ void CppTree2Uml::parseDeclaration( GroupAST* funSpec, GroupAST* storageSpec,
     }
 
     m_importer->insertAttribute( c, (Uml::Scope)m_currentAccess, id, typeName,
-				 "" /* comment */, isStatic);
+				 m_comment, isStatic);
+    m_comment = "";
 }
 
 void CppTree2Uml::parseAccessDeclaration( AccessDeclarationAST * access )
@@ -419,7 +425,8 @@ void CppTree2Uml::parseFunctionDeclaration(  GroupAST* funSpec, GroupAST* storag
 
     QString returnType = typeOfDeclaration( typeSpec, d );
     UMLOperation *m = m_importer->insertMethod( c, (Uml::Scope)m_currentAccess, id,
-						returnType, isStatic, isPure, "" );
+						returnType, isStatic, isPure, m_comment );
+    m_comment = "";
     parseFunctionArguments( d, m );
 }
 

@@ -239,7 +239,10 @@ public:
 
     virtual inline QString text() const 
     { return m_slice.source.mid(m_slice.position, m_slice.length); }
-    
+
+    QString comment() const
+    { return m_comment; }
+
     inline void setSlice( const Slice& slice ) 
     { m_slice = slice; }
 
@@ -253,6 +256,9 @@ public:
     inline void setText(const QString &text)
     { setSlice(text, 0, text.length()); }
 
+    void setComment( QString comment )
+    { m_comment = comment; }
+
 private:
     int m_nodeType;
     AST* m_parent;
@@ -262,6 +268,7 @@ private:
 #ifndef CPPPARSER_NO_CHILDREN
     QPtrList<AST> m_children;
 #endif
+    QString m_comment;
 
 private:
     AST( const AST& source );

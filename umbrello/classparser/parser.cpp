@@ -463,7 +463,16 @@ bool Parser::parseDeclaration( DeclarationAST::Node& node )
 {
     //kdDebug(9007)<< "--- tok = " << lex->lookAhead(0).text() << " -- "  << "Parser::parseDeclaration()" << endl;
 
+    QString comment;
+    while( lex->lookAhead(0) == Token_comment ) {
+	comment += lex->lookAhead(0).text();
+	lex->nextToken();
+    }
+    if( lex->lookAhead(0).isNull() )
+	return false;
+
     int start = lex->index();
+    bool success = false;
 
     switch( lex->lookAhead(0) ){
 
@@ -472,23 +481,29 @@ bool Parser::parseDeclaration( DeclarationAST::Node& node )
 	return true;
 
     case Token_extern:
-	return parseLinkageSpecification( node );
+	success = parseLinkageSpecification( node );
+	break;
 
     case Token_namespace:
-	return parseNamespace( node );
+	success = parseNamespace( node );
+	break;
 
     case Token_using:
-	return parseUsing( node );
+	success = parseUsing( node );
+	break;
 
     case Token_typedef:
-	return parseTypedef( node );
+	success = parseTypedef( node );
+	break;
 
     case Token_asm:
-	return parseAsmDefinition( node );
+	success = parseAsmDefinition( node );
+	break;
 
     case Token_template:
     case Token_export:
-	return parseTemplateDeclaration( node );
+	success = parseTemplateDeclaration( node );
+	break;
 
     default:
         {
@@ -518,6 +533,11 @@ bool Parser::parseDeclaration( DeclarationAST::Node& node )
 		parseInitDeclaratorList(declarators);
 	        ADVANCE( ';', ";" );
 
+		if( !comment.isEmpty() ) {
+		    //kdDebug(9007) << "Parser::parseDeclaration(spec): comment is " << comment << endl;
+		    spec->setComment( comment );
+		}
+
 		SimpleDeclarationAST::Node ast = CreateNode<SimpleDeclarationAST>();
 		ast->setStorageSpecifier( storageSpec );
 		ast->setTypeSpec( spec );
@@ -529,10 +549,16 @@ bool Parser::parseDeclaration( DeclarationAST::Node& node )
 	    }
 
 	    lex->setIndex( start );
-	    return parseDeclarationInternal( node );
+	    success = parseDeclarationInternal( node );
 	}
 
     } // end switch
+
+    if( success && !comment.isEmpty() ) {
+        //kdDebug(9007) << "Parser::parseDeclaration(): comment is " << comment << endl;
+	node->setComment( comment );
+    }
+    return success;
 }
 
 bool Parser::parseLinkageSpecification( DeclarationAST::Node& node )
@@ -564,7 +590,7 @@ bool Parser::parseLinkageSpecification( DeclarationAST::Node& node )
     } else {
         DeclarationAST::Node decl;
 	if( !parseDeclaration(decl) ){
-	    reportError( i18n("Declaration-syntax error") );
+	    reportError( i18n("Declaration syntax error") );
 	}
 	ast->setDeclaration( decl );
     }
@@ -1598,7 +1624,7 @@ bool Parser::parseFunctionSpecifier( GroupAST::Node& node )
 	    ast->addNode( n );
 	} else {
 	    break;
-    }
+	}
     }
 
     if( ast->nodeList().count() == 0 )
@@ -1876,6 +1902,14 @@ bool Parser::parseMemberSpecification( DeclarationAST::Node& node )
 {
     //kdDebug(9007)<< "--- tok = " << lex->lookAhead(0).text() << " -- "  << "Parser::parseMemberSpecification()" << endl;
 
+    QString comment;
+    while( lex->lookAhead(0) == Token_comment ) {
+	comment += lex->lookAhead(0).text();
+	lex->nextToken();
+    }
+    if( lex->lookAhead(0).isNull() )
+	return false;
+
     int start = lex->index();
 
     AST::Node access;
@@ -1939,6 +1973,11 @@ bool Parser::parseMemberSpecification( DeclarationAST::Node& node )
 	parseInitDeclaratorList( declarators );
 	ADVANCE( ';', ";" );
 
+	if( !comment.isEmpty() ) {
+            //kdDebug(9007) << "Parser::parseMemberSpecification(spec): comment is " << comment << endl;
+	    spec->setComment( comment );
+	}
+
 	SimpleDeclarationAST::Node ast = CreateNode<SimpleDeclarationAST>();
 	ast->setTypeSpec( spec );
 	ast->setInitDeclaratorList( declarators );
@@ -1949,7 +1988,13 @@ bool Parser::parseMemberSpecification( DeclarationAST::Node& node )
     }
 
     lex->setIndex( start );
-    return parseDeclarationInternal( node );
+
+    bool success = parseDeclarationInternal(node);
+    if( success && !comment.isEmpty() ) {
+	node->setComment( comment );
+        //kdDebug(9007) << "Parser::parseMemberSpecification(): comment is " << comment << endl;
+    }
+    return success;
 }
 
 bool Parser::parseCtorInitializer( AST::Node& /*node*/ )

@@ -78,6 +78,7 @@ private:
     int m_anon;
     bool m_inStorageSpec;
     bool m_inTypedef;
+    QString m_comment;
 
     DeclaratorAST* m_currentDeclarator;
     UMLPackage* m_currentNamespace[32];  ///< stack
