@@ -2027,8 +2027,8 @@ bool UMLDoc::addUMLObjectPaste(UMLObject* Obj) {
 	//If it is a CONCEPT then change the ids of all its operations and attributes
 	if(Obj->getBaseType() == ot_Class ) {
 
-		UMLClassifierListItemList* attibutes = ((UMLClass *)Obj)->getAttList();
-		for(UMLObject* listItem = attibutes->first(); listItem; listItem = attibutes->next()) {
+		UMLClassifierListItemList* attributes = ((UMLClass *)Obj)->getAttList();
+		for(UMLObject* listItem = attributes->first(); listItem; listItem = attributes->next()) {
 			result = assignNewID(listItem->getID());
 			listItem->setID(result);
 		}
