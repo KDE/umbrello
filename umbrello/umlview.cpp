@@ -108,6 +108,7 @@ void UMLView::init() {
 	connect( (UMLApp *)getDocument() -> parent() , SIGNAL( sigCutSuccessful() ),
 	         this, SLOT( slotCutSuccessful() ) );
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLView::~UMLView() {
 	if( m_pData )
@@ -201,8 +202,12 @@ void UMLView::print(KPrinter *pPrinter, QPainter & pPainter) {
 	} while(!finishX || !finishY);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void UMLView::contentsMouseReleaseEvent(QMouseEvent* mouseEvent) {
-	QPoint p = mouseEvent->pos();
+void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome) {
+
+	QMouseEvent *me = new QMouseEvent(QEvent::MouseButtonRelease,
+																	 inverseWorldMatrix().map(ome->pos()),
+																		ome->button(),
+																		ome->state());
 	if(m_bDrawRect) {
 		viewport()->setMouseTracking( false );
 		m_bDrawRect = false;
@@ -212,16 +217,16 @@ void UMLView::contentsMouseReleaseEvent(QMouseEvent* mouseEvent) {
 		delete m_pAssocLine;
 		m_pAssocLine = 0;
 	}
-	m_Pos.setX(p.x());
-	m_Pos.setY(p.y());
+	m_Pos.setX(me->x());
+	m_Pos.setY(me->y());
 
-	if( allocateMouseReleaseEvent(mouseEvent) ) {
+	if( allocateMouseReleaseEvent(me) ) {
 		return;
 	}
 
-	if( m_CurrentCursor == WorkToolBar::tbb_Arrow || mouseEvent -> state() != LeftButton ) {
+	if( m_CurrentCursor == WorkToolBar::tbb_Arrow || me -> state() != LeftButton ) {
 		viewport()->setMouseTracking( false );
-		if (mouseEvent->state() == RightButton) {
+		if (me->state() == RightButton) {
 			setMenu();
 		}
 		return;
@@ -367,13 +372,13 @@ void UMLView::contentsMouseReleaseEvent(QMouseEvent* mouseEvent) {
 	}
 	//Create a Message on a Sequence diagram
 	if(m_CurrentCursor == WorkToolBar::tbb_Seq_Message) {
-		UMLWidget* clickedOnWidget = onWidgetLine( mouseEvent->pos() );
+		UMLWidget* clickedOnWidget = onWidgetLine( me->pos() );
 		if(clickedOnWidget) {
 			if(!m_pFirstSelectedWidget) { //we are starting a new message
 				m_pFirstSelectedWidget = clickedOnWidget;
 				viewport()->setMouseTracking( true );
 				m_pAssocLine = new QCanvasLine( canvas() );
-				m_pAssocLine->setPoints( p.x(), p.y(), p.x(), p.y() );
+				m_pAssocLine->setPoints( me->x(), me->y(), me->x(), me->y() );
 				m_pAssocLine->setPen( QPen( m_pData -> getLineColor(), 0, DashLine ) );
 				m_pAssocLine->setVisible( true );
 				return;
@@ -384,7 +389,7 @@ void UMLView::contentsMouseReleaseEvent(QMouseEvent* mouseEvent) {
 
 				MessageWidget* message = new MessageWidget(this, m_pFirstSelectedWidget, clickedOnWidget,
 									messageText, getDocument() -> getUniqueID(),
-									mouseEvent -> y());
+									me->y());
 				connect(this, SIGNAL(sigColorChanged(int)), message, SLOT(slotColorChanged(int)));
 				messageText->setActivated();
 				message->setActivated();
@@ -649,13 +654,17 @@ bool UMLView::widgetOnDiagram(int id) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void UMLView::contentsMouseMoveEvent(QMouseEvent *mouseEvent) {
-	QPoint p = mouseEvent->pos();
-	m_LineToPos = p;
+void UMLView::contentsMouseMoveEvent(QMouseEvent *ome)
+{
+	QMouseEvent *me = new QMouseEvent(QEvent::MouseMove,
+																		inverseWorldMatrix().map(ome->pos()),
+																		ome->button(),
+																		ome->state());
+	m_LineToPos = me->pos();
 	if( m_pFirstSelectedWidget ) {
 		if( m_pAssocLine ) {
 			QPoint sp = m_pAssocLine -> startPoint();
-			m_pAssocLine -> setPoints( sp.x(), sp.y(), p.x(), p.y() );
+			m_pAssocLine -> setPoints( sp.x(), sp.y(), me->x(), me->y() );
 		}
 		return;
 	}
@@ -664,22 +673,22 @@ void UMLView::contentsMouseMoveEvent(QMouseEvent *mouseEvent) {
 		if( m_SelectionRect.count() == 4) {
 
 			QCanvasLine * line = m_SelectionRect.at( 0 );
-			line -> setPoints( m_Pos.x(), m_Pos.y(), p.x(), m_Pos.y() );
+			line -> setPoints( m_Pos.x(), m_Pos.y(), me->x(), m_Pos.y() );
 
 			line = m_SelectionRect.at( 1 );
-			line -> setPoints( p.x(), m_Pos.y(), p.x(), p.y() );
+			line -> setPoints( me->x(), m_Pos.y(), me->x(), me->y() );
 
 			line = m_SelectionRect.at( 2 );
-			line -> setPoints( p.x(), p.y(), m_Pos.x(), p.y() );
+			line -> setPoints( me->x(), me->y(), m_Pos.x(), me->y() );
 
 			line = m_SelectionRect.at( 3 );
-			line -> setPoints( m_Pos.x(), p.y(), m_Pos.x(), m_Pos.y() );
+			line -> setPoints( m_Pos.x(), me->y(), m_Pos.x(), m_Pos.y() );
 
 			selectWidgets();
 		}
 	}
 
-	allocateMouseMoveEvent(mouseEvent);
+	allocateMouseMoveEvent(me);
 }
 
 bool UMLView::serialize(QDataStream *s, bool archive, int fileversion) {
@@ -749,8 +758,14 @@ void UMLView::setLineColor(QColor color) {
 	canvas() -> setAllChanged();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void UMLView::contentsMouseDoubleClickEvent(QMouseEvent * mouseEvent) {
-	if ( allocateMouseDoubleClickEvent(mouseEvent) ) {
+void UMLView::contentsMouseDoubleClickEvent(QMouseEvent * ome)
+{
+
+	QMouseEvent *me = new QMouseEvent(QEvent::MouseButtonDblClick,
+																		inverseWorldMatrix().map(ome->pos()),
+																		ome->button(),
+																		ome->state());
+	if ( allocateMouseDoubleClickEvent(me) ) {
 		return;
 	}
 	clearSelected();
@@ -917,7 +932,12 @@ void UMLView::selectAll() {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void UMLView::contentsMousePressEvent(QMouseEvent* mouseEvent) {
+void UMLView::contentsMousePressEvent(QMouseEvent* ome)
+{
+	QMouseEvent *me = new QMouseEvent(QEvent::MouseButtonPress,
+																		inverseWorldMatrix().map(ome->pos()),
+																		ome->button(),
+																		ome->state());
 	getDocument()->setModified(true);
 	int x, y;
 	if( m_pAssocLine ) {
@@ -927,12 +947,12 @@ void UMLView::contentsMousePressEvent(QMouseEvent* mouseEvent) {
 	viewport()->setMouseTracking(true);
 	emit sigRemovePopupMenu();
 
-	if( allocateMousePressEvent(mouseEvent) ) {
+	if( allocateMousePressEvent(me) ) {
 		return;
 	}
 
-	x = mouseEvent->x();
-	y = mouseEvent->y();
+	x = me->x();
+	y = me->y();
 	m_Pos.setX( x );
 	m_Pos.setY( y );
 	m_LineToPos.setX( x );
@@ -2688,6 +2708,36 @@ void UMLView::setShowSnapGrid(bool bShow) {
 	m_pData->setShowSnapGrid( bShow );
 	canvas()->setAllChanged();
 	emit sigShowGridToggled( m_pData->getShowSnapGrid() );
+}
+
+void UMLView::setZoom(int zoom)
+{
+	if(zoom<10) zoom = 10;
+	else if (zoom > 500) zoom = 500;
+
+	QWMatrix wm;
+	wm.scale(zoom/100.0,zoom/100.0);
+	setWorldMatrix(wm);
+}
+
+int UMLView::currentZoom()
+{
+	return (int)(worldMatrix().m11()*100.0);
+}
+
+
+void UMLView::zoomIn()
+{
+	QWMatrix wm = worldMatrix();
+	wm.scale(2.0,2.0); // adjust zooming step here
+	setWorldMatrix(wm);
+}
+
+void UMLView::zoomOut()
+{
+	QWMatrix wm = worldMatrix();
+	wm.scale(0.5,0.5); //adjust zooming step here
+	setWorldMatrix(wm);
 }
 
 #include "umlview.moc"

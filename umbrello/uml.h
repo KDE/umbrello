@@ -465,11 +465,35 @@ public slots:
 	 */
 	void slotDeleteDiagram();
 
+	/**
+	* zooms in the current diagram
+	*/
+	void zoomIn();
+	/**
+	* zooms out of the current diagram
+	*/
+	void zoomOut();
+	
+	/**
+	* set the zoom factor of the current diagram
+	* the parameter is in percentage
+	*/
+	void setZoom(int z);
+	
+	/**
+	* prepares the zoom menu for display
+	*/
+	void setupZoomMenu();
 private:
 	/**
 	 * to slect the active language
 	 */
 	QPopupMenu *langSelect;
+	
+	/**
+	* Popup menu for zoom selection
+	*/
+	QPopupMenu *zoomSelect;
 
 	/**
 	 *	active language
@@ -557,6 +581,9 @@ private:
 	KToggleAction* viewShowGrid;
 	KAction* viewExportImage;
 	KAction* viewProperties;
+	
+	KAction *zoomInAction;
+	KAction *zoomOutAction;
 
 	KToggleAction* showDocumentation;
 	KAction* genAll;

@@ -57,6 +57,16 @@ public:
 	~UMLView();
 
 	/**
+	* sets the zoom factor of the view
+	*/
+	void setZoom(int zoom);
+	
+	/**
+	* return the current zoom factor
+	*/
+	int currentZoom();
+
+	/**
 	*	Synchronize the views data. Call before saving or a full cip of the view.
 	*/
 	void synchronizeData();
@@ -858,6 +868,10 @@ private:
 	QPtrList<SeqLineWidget> m_SeqLineList;
 
 public slots:
+
+	void zoomIn();
+	void zoomOut();
+	
 	void slotToolBarChanged(int c);
 	void slotObjectCreated(UMLObject * o);
 	void slotObjectRemoved(UMLObject * o);

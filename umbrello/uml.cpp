@@ -43,6 +43,8 @@ UMLApp::UMLApp(QWidget* , const char* name):KMainWindow(0, name) {
 	listView = 0;
 	ldict.setAutoDelete(true);
 	langSelect = new QPopupMenu(this);
+	zoomSelect = new QPopupMenu(this);
+
 	loading = false;
 	m_clipTimer = 0;
 	m_copyTimer = 0;
@@ -87,6 +89,35 @@ UMLApp::UMLApp(QWidget* , const char* name):KMainWindow(0, name) {
 			m->insertItem(i18n("Active Language"),langSelect,-1,m->count()-2);
 		}
 	}
+
+	//insert zoom menu. see comment above (language selection menu)
+ 	id=-1;
+	for( int i =0; i<t;i++)
+	{
+		id = menuBar()->idAt(i);
+		if(id == -1)
+			break;
+		if(menuBar()->findItem(id)->popup()->name() == QString("views"))
+			break;
+	}
+	if(id!=-1) {
+		QPopupMenu *m = menuBar()->findItem(id)->popup();
+		if(m) {
+			m->insertItem(i18n("Zoom"),zoomSelect,-1,m->count()-1);
+		}
+	}
+	//setup zoomSelect menu
+	zoomSelect->setCheckable(true);
+	connect(zoomSelect,SIGNAL(aboutToShow()),this,SLOT(setupZoomMenu()));
+	connect(zoomSelect,SIGNAL(activated(int)),this,SLOT(setZoom(int)));
+	//IMPORTANT: The ID's must match the zoom value (text)
+	zoomSelect->insertItem(i18n(" 33 %"),33);
+	zoomSelect->insertItem(i18n(" 50 %"),50);
+	zoomSelect->insertItem(i18n(" 75 %"),75);
+	zoomSelect->insertItem(i18n("100 %"),100);
+	zoomSelect->insertItem(i18n("150 %"),150);
+	zoomSelect->insertItem(i18n("200 %"),200);
+	zoomSelect->insertItem(i18n("300 %"),300);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLApp::~UMLApp() {
@@ -112,6 +143,11 @@ void UMLApp::initActions() {
 	viewToolBar = KStdAction::showToolbar(this, SLOT(slotViewToolBar()), actionCollection());
 	viewStatusBar = KStdAction::showStatusbar(this, SLOT(slotViewStatusBar()), actionCollection());
 	selectAll = KStdAction::selectAll(this,  SLOT( slotSelectAll() ), actionCollection());
+
+//FIXME - add UI if you want to have zoom in/out by clicking on the diagram
+// note that resultating zoom could not correspond to one of the predefined values if you dont watch the zooming step size
+	//zoomInAction = new KAction(i18n("Zoom In"),"file_new",0,this,SLOT(zoomIn()),actionCollection(),"zoom_in");
+	//zoomOutAction = new KAction(i18n("Zoom Out"),0,this,SLOT(zoomOut()),actionCollection(),"zoom_out");
 
 	classWizard = new KAction(i18n("New Class Wizard..."),0,this,SLOT(slotClassWizard()),
 	                          actionCollection(),"class_wizard");
@@ -202,6 +238,34 @@ void UMLApp::initActions() {
 	createGUI();
 
 }
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+void UMLApp::setZoom(int z)
+{
+	doc->getCurrentView()->setZoom(z);
+}
+
+void UMLApp::setupZoomMenu()
+{
+	int zoom = doc->getCurrentView()->currentZoom();
+	
+	//first uncheck all
+	for(int index = 0; index < zoomSelect->count(); index++)
+		zoomSelect->setItemChecked(zoomSelect->idAt(index),false);
+	zoomSelect->setItemChecked(zoom,true);
+}
+
+
+void UMLApp::zoomIn()
+{
+	doc->getCurrentView()->zoomIn();
+}
+
+void UMLApp::zoomOut()
+{
+	doc->getCurrentView()->zoomOut();
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLApp::initStatusBar() {
 	///////////////////////////////////////////////////////////////////
