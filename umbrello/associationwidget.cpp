@@ -2032,13 +2032,12 @@ void AssociationWidget::mouseReleaseEvent(QMouseEvent * me) {
 	if( menuType == ListPopupMenu::mt_Undefined ) {
 		if( type == at_Anchor )
 			menuType = ListPopupMenu::mt_Anchor;
+		else if( type == at_Coll_Message )
+			menuType = ListPopupMenu::mt_Collaboration_Message;
 		else if( AssocRules::allowRole( type ) )
-			menuType = ListPopupMenu::mt_RoleName;
+			menuType = ListPopupMenu::mt_FullAssociation;
 		else
 			menuType = ListPopupMenu::mt_Association_Selected;
-		if(type == at_Coll_Message) {
-			menuType = ListPopupMenu::mt_Collaboration_Message;
-		}
 	}
 	m_pMenu = new ListPopupMenu(m_pView, menuType);
 	m_pMenu->popup(me -> globalPos());
@@ -2101,8 +2100,7 @@ void AssociationWidget::slotMenuSelection(int sel) {
 		}
 		break;
 
-	case ListPopupMenu::mt_Delete://for anchor
-	case ListPopupMenu::mt_Delete_Association:
+	case ListPopupMenu::mt_Delete:
 	case ListPopupMenu::mt_Delete_Message:
 		m_pView->removeAssocInViewAndDoc(this);
 		break;

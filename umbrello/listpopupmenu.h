@@ -90,7 +90,7 @@ public:
 	    mt_Attribute_Selected,            //ATTSEL
 	    mt_Template_Selected,		// 1952
 	    mt_EnumLiteral_Selected,		// 1953
-	    mt_Association_Selected,          //ASSOCSEL
+	    mt_Association_Selected,          // Association without role names
 	    mt_Show_Attributes,               //SHOWATTS
 	    mt_Show_Attributes_Selection,     //SHOWATTS, multiple items
 	    mt_Show_Operations,               //SHOWOPS
@@ -130,12 +130,11 @@ public:
 	    mt_MultiA,                        //MULTIA
 	    mt_MultiB,                        //MULTIB
 	    mt_Name,                          //Association name
-	    mt_RoleName,                      //ROLENAME
-	    mt_Delete_Association,            //DELETEASSOC
+	    mt_FullAssociation,                 // Association with role names
+	    mt_RoleNameA,                       // 1995
+	    mt_RoleNameB,                       // 1996
 	    mt_Delete_Selection,              //DELETESELECTION
-	    mt_Reset_Label_Positions,		// 1997
-
-	    mt_Multi_Selection,               //MULTISELECTION
+	    mt_Reset_Label_Positions,		// 1998
 	    mt_Line_Color,                    //LINECOLOR
 	    mt_Line_Color_Selection,          //LINECOLOR, multiple items
 	    mt_Fill_Color,                    //FILLCOLOR
@@ -249,6 +248,15 @@ private:
 	 *				types shall be included as choices.
 	 */
 	void insertContainerItems(bool folderAndDiagrams);
+
+	/**
+	 * Inserts a menu item for an association related text
+	 * (such as name, role, multiplicity etc.)
+	 *
+	 * @param label		The menu text.
+	 * @param mt		The menu type.
+	 */
+	void insertAssocItem(QString label, Menu_Type mt);
 
 	/**
 	 * Creates a popup menu for a multiple selection of class and

@@ -83,14 +83,6 @@ void FloatingText::slotMenuSelection(int sel) {
 		mouseDoubleClickEvent((QMouseEvent *)0);
 		break;
 
-	case ListPopupMenu::mt_Delete_Association:
-		// UNEXPECTED - should not be here
-		// Remove this branch when confident that it does not happen
-		kdError() << "UNEXPECTED: "
-			  << "FloatingText::slotMenuSelection(mt_Delete_Association)"
-			  << " is called." << endl;
-		break;
-
 	case ListPopupMenu::mt_Delete:
 		m_pView -> removeWidget(this);
 		break;

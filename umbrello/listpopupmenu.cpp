@@ -321,13 +321,22 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
 		case Uml::wt_Text:
 			switch( (static_cast<FloatingText*>(object))->getRole() ) {
 				case Uml::tr_MultiB:
+					insertAssocItem(i18n("Change Multiplicity..."), mt_Rename_MultiB);
+					break;
 				case Uml::tr_MultiA:
+					insertAssocItem(i18n("Change Multiplicity..."), mt_Rename_MultiA);
+					break;
 				case Uml::tr_Name:
+					insertAssocItem(i18n("Change Name"), mt_Rename_Name);
+					break;
 				case Uml::tr_RoleAName:
+					insertAssocItem(i18n("Change Role A Name..."), mt_Rename_RoleAName);
+					break;
 				case Uml::tr_RoleBName:
+					insertAssocItem(i18n("Change Role B Name..."), mt_Rename_RoleBName);
+					break;
 				case Uml::tr_ChangeA:
 				case Uml::tr_ChangeB:
-					insertStdItem(mt_Delete_Association);
 					insertStdItem(mt_Change_Font);
 					insertStdItem(mt_Reset_Label_Positions);
 					insertStdItem(mt_Properties);
@@ -337,11 +346,6 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
 				case Uml::tr_Coll_Message:
 				case Uml::tr_Seq_Message_Self:
 				case Uml::tr_Seq_Message:
-					// insertStdItem(mt_Cut);
-					// insertStdItem(mt_Copy);
-					// insertStdItem(mt_Paste);
-					// insertSeparator();
-					insertItem(SmallIcon( "editdelete"), i18n("Delete"), mt_Delete_Message);
 					insertStdItem(mt_Change_Font);
 					insertItem(SmallIcon( "filenew"), i18n("New Operation..."), mt_Operation);
 					insertItem(i18n("Select Operation..."), mt_Select_Operation);
@@ -457,9 +461,6 @@ void ListPopupMenu::insertStdItem(Menu_Type m)
 	case mt_FloatText:
 		m_pInsert->insertItem(m_pixmap[pm_Text], i18n("Text Line..." ), mt_FloatText);
 		break;
-	case mt_Delete_Association:
-		insertItem(SmallIcon("editdelete"), i18n("Delete Association"), mt_Delete_Association);
-		break;
 	case mt_Reset_Label_Positions:
 		insertItem(i18n("Reset Label Positions"), mt_Reset_Label_Positions);
 		break;
@@ -522,6 +523,13 @@ void ListPopupMenu::insertContainerItems(bool folderAndDiagrams) {
 		m_pInsert->insertItem(BarIconSet("umbrello_diagram_collaboration"), i18n("Collaboration Diagram..."), mt_Collaboration_Diagram);
 	}
 	insertFileNew();
+}
+
+void ListPopupMenu::insertAssocItem(QString label, Menu_Type mt) {
+	insertItem(label, mt);
+	insertStdItem(mt_Change_Font);
+	insertStdItem(mt_Reset_Label_Positions);
+	insertStdItem(mt_Properties);
 }
 
 void ListPopupMenu::makeMultiClassifierPopup(ClassifierWidget *c)
@@ -997,32 +1005,28 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 			insertItem(SmallIcon( "editdelete"),i18n("Delete Anchor"), mt_Delete);
 			break;
 
+		case mt_RoleNameA:
+			insertAssocItem(i18n("Change Role A Name..."), mt_Rename_RoleAName);
+			break;
+
+		case mt_RoleNameB:
+			insertAssocItem(i18n("Change Role B Name..."), mt_Rename_RoleBName);
+			break;
+
 		case mt_MultiB:
-			insertStdItem(mt_Delete_Association);
-			insertItem(i18n("Change Multiplicity..."), mt_Rename_MultiB);
-			insertStdItem(mt_Change_Font);
-			insertStdItem(mt_Reset_Label_Positions);
-			insertStdItem(mt_Properties);
+			insertAssocItem(i18n("Change Multiplicity..."), mt_Rename_MultiB);
 			break;
 
 		case mt_MultiA:
-			insertStdItem(mt_Delete_Association);
-			insertItem(i18n("Change Multiplicity..."), mt_Rename_MultiA);
-			insertStdItem(mt_Change_Font);
-			insertStdItem(mt_Reset_Label_Positions);
-			insertStdItem(mt_Properties);
+			insertAssocItem(i18n("Change Multiplicity..."), mt_Rename_MultiA);
 			break;
 
 		case mt_Name:
-			insertStdItem(mt_Delete_Association);
-			insertItem(i18n("Change Name"), mt_Rename_Name);
-			insertItem(SmallIcon( "fonts"), i18n( "Change Font" ), mt_Change_Font );
-			insertStdItem(mt_Reset_Label_Positions);
-			insertStdItem(mt_Properties);
+			insertAssocItem(i18n("Change Name"), mt_Rename_Name);
 			break;
 
-		case mt_RoleName:
-			insertStdItem(mt_Delete_Association);
+		case mt_FullAssociation:
+			insertStdItem(mt_Delete);
 			insertItem(i18n("Change Association Name..."), mt_Rename_Name);
 			insertItem(i18n("Change Role A Name..."), mt_Rename_RoleAName);
 			insertItem(i18n("Change Role B Name..."), mt_Rename_RoleBName);

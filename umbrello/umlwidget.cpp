@@ -548,10 +548,20 @@ void UMLWidget::slotMenuSelection(int sel) {
 			break;
 
 		case ListPopupMenu::mt_Clone:
-
 			// In principle we clone all the uml objects.
 			m_pView->addObject(m_pObject->clone());
 			break;
+
+		case ListPopupMenu::mt_Rename_MultiA:
+		case ListPopupMenu::mt_Rename_MultiB:
+		case ListPopupMenu::mt_Rename_Name:
+		case ListPopupMenu::mt_Rename_RoleAName:
+		case ListPopupMenu::mt_Rename_RoleBName:
+		{
+			FloatingText *ft = static_cast<FloatingText*>(this);
+			ft->handleRename();
+			break;
+		}
 	}
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
