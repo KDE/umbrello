@@ -263,6 +263,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object, bool multi) :
 			insrtItm(mt_Delete);
 			insrtItm(mt_Rename);
 			insrtItm(mt_Change_Font);
+			insertItem( SmallIcon( "unknown"), i18n("View Code"),mt_ViewCode);
 			insertItem(i18n("Draw as Circle"), mt_DrawAsCircle);
 			setItemChecked( mt_DrawAsCircle, interfaceWidget->getDrawAsCircle() );
 			insrtItm(mt_Properties);
