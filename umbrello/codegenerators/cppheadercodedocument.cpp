@@ -131,7 +131,7 @@ void CPPHeaderCodeDocument::init ( ) {
 	initCodeClassFields(); // we have to call here as .newCodeClassField is pure virtual in parent class 
 
 	// this will call updateContent() as well as other things that sync our document.
-        syncronize();
+        synchronize();
 }
 
 /**

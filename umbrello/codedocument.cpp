@@ -396,7 +396,7 @@ QString CodeDocument::toString ( ) {
         return content;
 }
 
-void CodeDocument::syncronize() {
+void CodeDocument::synchronize() {
 	updateContent();
 }
 

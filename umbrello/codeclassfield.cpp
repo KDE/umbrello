@@ -381,7 +381,7 @@ QString CodeClassField::fixInitialStringDeclValue(QString value, QString type)
         return value;
 }
 
-void CodeClassField::syncronize () 
+void CodeClassField::synchronize () 
 {
 	updateContent();
 	QPtrList<CodeAccessorMethod> * list = getMethodList();

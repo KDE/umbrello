@@ -158,7 +158,7 @@ public:
 	/** Force the syncronization of the content (methods and declarations) 
    	 *  of this class field.
 	 */
-	virtual void syncronize ();
+	virtual void synchronize ();
 
 protected:
 

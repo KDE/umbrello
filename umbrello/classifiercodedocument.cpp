@@ -344,7 +344,7 @@ void ClassifierCodeDocument::syncNamesToParent( ) {
 	setPackage(m_parentclassifier->getPackage());
 }
 
-void ClassifierCodeDocument::syncronize( ) {
+void ClassifierCodeDocument::synchronize( ) {
 
 	updateHeader(); // doing this insures time/date stamp is at the time of this call
 	syncNamesToParent();
@@ -358,7 +358,7 @@ void ClassifierCodeDocument::syncClassFields( )
 {
         QPtrList<CodeClassField> *list = getCodeClassFieldList();
 	for(CodeClassField * cf = list->first(); cf; cf=list->next())
-		cf->syncronize();
+		cf->synchronize();
 }
 
 void ClassifierCodeDocument::updateOperations( ) {
@@ -377,7 +377,7 @@ void ClassifierCodeDocument::updateOperations( ) {
 }
 
 void ClassifierCodeDocument::syncToParent( ) {
-	syncronize();
+	synchronize();
 }
 
 /**
@@ -549,7 +549,7 @@ void ClassifierCodeDocument::loadFromXMI ( QDomElement & root ) {
         setAttributesFromNode(root);
 
         // now sync our doc, needed?
-        // syncronize();
+        // synchronize();
 }
 
 /** set attributes of the node that represents this class

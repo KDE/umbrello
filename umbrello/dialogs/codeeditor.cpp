@@ -757,7 +757,7 @@ void CodeEditor::slotPasteTextBlock ( ) {
 void CodeEditor::init ( CodeViewerDialog * parentDlg, CodeDocument * parentDoc ) {
 
 	// safety to insure that we are up to date
-	parentDoc->syncronize();
+	parentDoc->synchronize();
 
 	m_parentDlg = parentDlg;
 	m_parentDoc = parentDoc;

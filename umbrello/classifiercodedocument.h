@@ -150,8 +150,8 @@ public:
          */
         virtual void initCodeClassFields ( );
 
-	// cause this classifier code document to syncronize to current policy
-	virtual void syncronize();
+	// cause this classifier code document to synchronize to current policy
+	virtual void synchronize();
 
 	/** Will add the code operation in the correct place in the document.
 	 *  @return bool which is true IF the code operation was added successfully

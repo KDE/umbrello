@@ -269,8 +269,8 @@ public:
 	 */
 	QString cleanName (QString name);
 
-	// Cause this code document to syncronize to current generator policy
-	virtual void syncronize();
+	// Cause this code document to synchronize to current generator policy
+	virtual void synchronize();
 
 protected:
 

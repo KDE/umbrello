@@ -144,7 +144,7 @@ void JavaClassifierCodeDocument::init ( ) {
 	classDeclCodeBlock->setTag("ClassDeclBlock");
 
 	// this will call updateContent() as well as other things that sync our document.
-        syncronize();
+        synchronize();
 }
 
 /**
