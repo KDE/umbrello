@@ -110,15 +110,9 @@ void SettingsDlg::setupGeneralPage() {
 
 	autosaveLayout -> addWidget( m_GeneralWidgets.autosaveL, 1, 0 );
 
-	m_GeneralWidgets.timeKB = new KComboBox( m_GeneralWidgets.autosaveGB );
-	m_GeneralWidgets.timeKB -> setEnabled( m_OptionState.generalState.autosave );
-	autosaveLayout -> addWidget( m_GeneralWidgets.timeKB, 1, 1 );
-
-	QString time[4] = { "5", "10", "15", "30" };
-	for( int i=0; i < 4; i++ )
-		m_GeneralWidgets.timeKB -> insertItem( time[i] );
-	m_GeneralWidgets.timeKB -> setDuplicatesEnabled( false );
-	m_GeneralWidgets.timeKB -> setCurrentItem( m_OptionState.generalState.time );
+	m_GeneralWidgets.timeISB = new KIntSpinBox( 1, 600, 1, m_OptionState.generalState.autosavetime, 10, m_GeneralWidgets.autosaveGB );
+	m_GeneralWidgets.timeISB -> setEnabled( m_OptionState.generalState.autosave );
+	autosaveLayout -> addWidget( m_GeneralWidgets.timeISB, 1, 1 );
 
 	//setup startup settings
 	m_GeneralWidgets.startupGB = new QGroupBox( i18n("Startup"), page );
@@ -268,8 +262,8 @@ void SettingsDlg::slotDefault() {
 	switch( activePageIndex() ) {
 		case Settings::page_general:
 			m_GeneralWidgets.autosaveCB -> setChecked( false );
-			m_GeneralWidgets.timeKB -> setCurrentItem( 0 );
-                        m_GeneralWidgets.timeKB->setEnabled( false );
+			m_GeneralWidgets.timeISB -> setValue( 5 );
+			m_GeneralWidgets.timeISB->setEnabled( true );
 			m_GeneralWidgets.logoCB -> setChecked( true );
 			m_GeneralWidgets.tipCB -> setChecked( true );
 			m_GeneralWidgets.loadlastCB -> setChecked( true );
@@ -311,7 +305,7 @@ void SettingsDlg::applyPage( Settings::Page page ) {
 	switch( page ) {
 		case Settings::page_general:
 			m_OptionState.generalState.autosave = m_GeneralWidgets.autosaveCB -> isChecked();
-			m_OptionState.generalState.time = m_GeneralWidgets.timeKB -> currentItem();
+			m_OptionState.generalState.autosavetime = m_GeneralWidgets.timeISB -> value();
 			m_OptionState.generalState.logo = m_GeneralWidgets.logoCB -> isChecked();
 			m_OptionState.generalState.tip = m_GeneralWidgets.tipCB -> isChecked();
 			m_OptionState.generalState.loadlast = m_GeneralWidgets.loadlastCB -> isChecked();
@@ -361,7 +355,7 @@ void SettingsDlg::slotFillBClicked() {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void SettingsDlg::slotAutosaveCBClicked() {
-	m_GeneralWidgets.timeKB -> setEnabled( m_GeneralWidgets.autosaveCB -> isChecked() );
+	m_GeneralWidgets.timeISB -> setEnabled( m_GeneralWidgets.autosaveCB -> isChecked() );
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 QString SettingsDlg::getCodeGenerationLanguage() {

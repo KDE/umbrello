@@ -632,19 +632,19 @@ bool UMLDoc::isUnique(QString name)
 	UMLListViewItem *currentItem = (UMLListViewItem*)listView->currentItem();
 	UMLListViewItem *parentItem = 0;
 
-	// check for current item, if its a package, then we do a check on that  
+	// check for current item, if its a package, then we do a check on that
 	// otherwise, if current item exists, find its parent and check if thats
 	// a package..
 	if(currentItem)
 	{
-		// its possible that the current item *is* a package, then just 
+		// its possible that the current item *is* a package, then just
 		// do check now
 		if(currentItem->getType() == lvt_Package)
 			return isUnique (name, (UMLPackage*) currentItem->getUMLObject());
 		parentItem = (UMLListViewItem*)currentItem->parent();
 	}
 
-	// item is in a package so do check only in that 
+	// item is in a package so do check only in that
 	if (parentItem != NULL && parentItem->getType() == lvt_Package) {
 		UMLPackage *parentPkg = (UMLPackage*)parentItem->getUMLObject();
 		return isUnique(name, parentPkg);
@@ -662,7 +662,7 @@ bool UMLDoc::isUnique(QString name, UMLPackage *package)
 {
 
 	// if a package, then only do check in that
-	if (package) 
+	if (package)
 		return (package->findObject(name) == NULL);
 
 	// Not currently in a package:
@@ -2318,12 +2318,11 @@ void UMLDoc::initSaveTimer() {
 		delete m_pAutoSaveTimer;
 		m_pAutoSaveTimer = 0;
 	}
-	int time[] = { 5 , 10, 15 , 30 };
 	Settings::OptionState optionState = getOptionState();
 	if( optionState.generalState.autosave ) {
 		m_pAutoSaveTimer = new QTimer(this, "_AUTOSAVETIMER_" );
 		connect( m_pAutoSaveTimer, SIGNAL( timeout() ), this, SLOT( slotAutoSave() ) );
-		m_pAutoSaveTimer -> start( time[ optionState.generalState.time ] * 60000, false );
+		m_pAutoSaveTimer->start( optionState.generalState.autosavetime * 60000, false );
 	}
 	return;
 }

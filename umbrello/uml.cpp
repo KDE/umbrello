@@ -420,6 +420,7 @@ void UMLApp::saveOptions() {
 
 	config->writeEntry( "autosave", optionState.generalState.autosave );
 	config->writeEntry( "time", optionState.generalState.time );
+	config->writeEntry( "autosavetime", optionState.generalState.autosavetime );
 	config->writeEntry( "logo", optionState.generalState.logo );
 	config->writeEntry( "loadlast", optionState.generalState.loadlast );
 
@@ -976,8 +977,20 @@ bool UMLApp::editCutCopy( bool bFromView ) {
 
 void UMLApp::readOptionState() {
 	config -> setGroup( "General Options" );
-	optionState.generalState.autosave = config -> readBoolEntry( "autosave", false );
-	optionState.generalState.time = config -> readNumEntry( "time", 0 );
+	optionState.generalState.autosave = config -> readBoolEntry( "autosave", true );
+	optionState.generalState.time = config -> readNumEntry( "time", 0 ); //old autosavetime value kept for compatibility
+	optionState.generalState.autosavetime = config -> readNumEntry( "autosavetime", 0 );
+	//if we don't have a "new" autosavetime value, convert the old one
+	if (optionState.generalState.autosavetime == 0) {
+		switch (optionState.generalState.time) {
+			case 0: optionState.generalState.autosavetime = 5; break;
+			case 1: optionState.generalState.autosavetime = 10; break;
+			case 2: optionState.generalState.autosavetime = 15; break;
+			case 3: optionState.generalState.autosavetime = 20; break;
+			case 4: optionState.generalState.autosavetime = 25; break;
+			default: optionState.generalState.autosavetime = 5; break;
+		}
+	}
 	optionState.generalState.logo = config -> readBoolEntry( "logo", true );
 	optionState.generalState.loadlast = config -> readBoolEntry( "loadlast", true );
 

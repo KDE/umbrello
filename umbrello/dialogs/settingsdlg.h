@@ -84,7 +84,7 @@ private:
 		QGroupBox * autosaveGB;
 		QGroupBox * startupGB;
 
-		KComboBox * timeKB;
+		KIntSpinBox * timeISB;
 		KComboBox * diagramKB;
 
 		QCheckBox * autosaveCB;
