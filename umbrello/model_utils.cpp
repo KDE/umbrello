@@ -25,6 +25,8 @@
 #include "umlobject.h"
 #include "package.h"
 #include "classifier.h"
+#include "association.h"
+#include "umlrole.h"
 #include "umldoc.h"
 #include "uml.h"
 
@@ -70,6 +72,17 @@ UMLObject * findObjectInList(Uml::IDType id, UMLObjectList inList) {
 					o = ((UMLPackage*)obj)->findObjectById(id);
 				if (o)
 					return o;
+				break;
+			case Uml::ot_Association:
+				{
+					UMLAssociation *assoc = (UMLAssociation*)obj;
+					UMLRole *rA = assoc->getUMLRole(Uml::A);
+					if (rA->getID() == id)
+						return rA;
+					UMLRole *rB = assoc->getUMLRole(Uml::B);
+					if (rB->getID() == id)
+						return rB;
+				}
 				break;
 			default:
 				break;
