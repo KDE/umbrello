@@ -2073,7 +2073,6 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
 			}
 			recognized = true;
 		} else if (outerTag == "XMI.extensions") {
-			resolveTypes();
 			QDomNode extensionsNode = node.firstChild();
 			while (! extensionsNode.isNull()) {
 				loadExtensionsFromXMI(extensionsNode);
@@ -2376,6 +2375,9 @@ void UMLDoc::loadExtensionsFromXMI(QDomNode& node) {
 		}
 
 	} else if (tag == "listview") {
+		//FIXME: Need to resolveTypes() before loading listview,
+		//       else listview items are duplicated.
+		resolveTypes();
 		if( !UMLApp::app()->getListView() -> loadFromXMI( element ) ) {
 			kdWarning() << "failed load on listview" << endl;
 		}
