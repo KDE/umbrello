@@ -82,7 +82,7 @@ public:
 	/**
 	 * Appends an operation to the classifier.
 	 * @see bool addOperation(UMLOperation* Op, int position = -1)
-	 * This function is normaly only used by the clipboard functionality
+	 * This function is mainly intended for the clipboard.
 	 *
 	 * @param Op		Pointer to the UMLOperation to add.
 	 * @param Log		Pointer to the IDChangeLog.
@@ -101,8 +101,8 @@ public:
 
 	/**
 	 * Remove an operation from the Classifier.
-	 * The Operation is not deleted, so the called is responsible for what happens
-	 * to it after this
+	 * The operation is not deleted so the caller is responsible for what
+	 * happens to it after this.
 	 *
 	 * @param op	The operation to remove.
 	 * @return	Count of the remaining operations after removal, or
@@ -220,11 +220,11 @@ public:
 
 signals:
 	/** Signals that a new UMLOperation has been added to the classifer.
-	  * The signal is emmited in adition to the generic childObjectAdded( )
+	  * The signal is emitted in adition to the generic childObjectAdded()
 	  */
 	void operationAdded(UMLOperation *);
 	/** Signals that a UMLOperation has been removed from the classifer.
-	  * The signal is emmited in adition to the generic childObjectRemoved( )
+	  * The signal is emitted in adition to the generic childObjectRemoved()
 	  */
 	void operationRemoved(UMLOperation*);
 
