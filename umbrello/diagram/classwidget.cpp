@@ -27,8 +27,6 @@
 //FIXME test only
 #include "../refactoring/refactoringassistant.h"
 
-#include "diagramelement.h"
-
 #include <qapplication.h>
 #include <klocale.h>
 #include <qpainter.h>
