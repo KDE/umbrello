@@ -393,6 +393,7 @@ UMLView * UMLDoc::findView(int id) {
 			}
 		}
 	}
+	kdDebug() << "Unable to find a view identified by " << id << endl;
 	return 0;
 }
 
