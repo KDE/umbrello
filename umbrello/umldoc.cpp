@@ -2133,33 +2133,43 @@ QStringList UMLDoc::getModelTypes()
 	return types;
 }
 
-UMLClassifierList UMLDoc::getConcepts() {
+UMLClassifierList UMLDoc::getConcepts(bool includeNested /* =true */) {
 	UMLClassifierList conceptList;
 	for(UMLObject *obj = objectList.first(); obj ; obj = objectList.next()) {
 		Uml::UMLObject_Type ot = obj->getBaseType();
 		if(ot == ot_Class || ot == ot_Interface || ot == ot_Datatype || ot == ot_Enum)  {
 			conceptList.append((UMLClassifier *)obj);
+		} else if (includeNested && ot == ot_Package) {
+			UMLPackage *pkg = static_cast<UMLPackage *>(obj);
+			pkg->appendClassifiers(conceptList);
 		}
 	}
 	return conceptList;
 }
 
-UMLClassifierList UMLDoc::getClassesAndInterfaces() {
+UMLClassifierList UMLDoc::getClassesAndInterfaces(bool includeNested /* =true */) {
 	UMLClassifierList conceptList;
 	for(UMLObject* obj = objectList.first(); obj ; obj = objectList.next()) {
 		Uml::UMLObject_Type ot = obj->getBaseType();
 		if(ot == ot_Class || ot == ot_Interface || ot == ot_Enum)  {
 			conceptList.append((UMLClassifier *)obj);
+		} else if (includeNested && ot == ot_Package) {
+			UMLPackage *pkg = static_cast<UMLPackage *>(obj);
+			pkg->appendClassesAndInterfaces(conceptList);
 		}
 	}
 	return conceptList;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-QPtrList<UMLInterface> UMLDoc::getInterfaces() {
-	QPtrList<UMLInterface> interfaceList;
+UMLInterfaceList UMLDoc::getInterfaces(bool includeNested /* =true */) {
+	UMLInterfaceList interfaceList;
 	for(UMLObject* obj = objectList.first(); obj ; obj = objectList.next()) {
-		if(obj->getBaseType() == ot_Interface) {
+		Uml::UMLObject_Type ot = obj->getBaseType();
+		if (ot == ot_Interface) {
 			interfaceList.append((UMLInterface*)obj);
+		} else if (includeNested && ot == ot_Package) {
+			UMLPackage *pkg = static_cast<UMLPackage *>(obj);
+			pkg->appendInterfaces(interfaceList);
 		}
 	}
 	return interfaceList;

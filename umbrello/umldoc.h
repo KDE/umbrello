@@ -643,23 +643,29 @@ public:
 	/**
 	 * Returns a list of the concepts in this UMLDoc.
 	 *
+	 * @param includeNested		Whether to include the concepts from
+	 *				nested packages (default: true.)
 	 * @return	List of UML concepts.
 	 */
-	UMLClassifierList getConcepts();
+	UMLClassifierList getConcepts(bool includeNested = true);
 
 	/**
 	 * Returns a list of the classes and interfaces in this UMLDoc.
 	 *
+	 * @param includeNested		Whether to include the concepts from
+	 *				nested packages (default: true.)
 	 * @return	List of UML concepts.
 	 */
-	UMLClassifierList getClassesAndInterfaces();
+	UMLClassifierList getClassesAndInterfaces(bool includeNested = true);
 
 	/**
 	 * Returns a list of the interfaces in this UMLDoc.
 	 *
+	 * @param includeNested		Whether to include the concepts from
+	 *				nested packages (default: true.)
 	 * @return	List of UML interfaces.
 	 */
-	UMLInterfaceList getInterfaces();
+	UMLInterfaceList getInterfaces(bool includeNested = true);
 
 	/**
 	 * Returns a list of the datatypes in this UMLDoc.
