@@ -90,10 +90,11 @@ UMLObject *ClassImport::createUMLObject(Uml::Object_Type type,
 				while ( components.count() ) {
 					QString scopeName = components.front();
 					components.pop_front();
-					int wantClass = KMessageBox::questionYesNo(NULL,
-						i18n("Treat the scope %1 as a class? (Select No for package)").arg(scopeName),
-						i18n("C++ import requests your help"));
-					Uml::Object_Type ot = (wantClass == KMessageBox::Yes ? Uml::ot_Class : Uml::ot_Package);
+					int wantNamespace = KMessageBox::questionYesNo(NULL,
+						i18n("Is the scope %1 a namespace or a class?").arg(scopeName),
+						i18n("C++ import requests your help"),
+						i18n("namespace"), i18n("class"));
+					Uml::Object_Type ot = (wantNamespace == KMessageBox::Yes ? Uml::ot_Package : Uml::ot_Class);
 					o = m_umldoc->createUMLObject(ot, scopeName, parentPkg);
 					parentPkg = dynamic_cast<UMLPackage*>(o);  //static_cast?
 				}
@@ -191,8 +192,10 @@ void ClassImport::insertMethod(UMLClass *klass, UMLOperation *op,
 					 bool isStatic, bool isAbstract,
 					 QString comment /* = "" */) {
 	op->setScope(scope);
-	UMLObject *typeObj = createUMLObject(Uml::ot_UMLObject, type);
-	op->setType(dynamic_cast<UMLClassifier*>(typeObj));
+	if (!type.isEmpty()) {
+		UMLObject *typeObj = createUMLObject(Uml::ot_UMLObject, type);
+		op->setType(dynamic_cast<UMLClassifier*>(typeObj));
+	}
 	op->setStatic(isStatic);
 	op->setAbstract(isAbstract);
 	klass->addOperation(op);
