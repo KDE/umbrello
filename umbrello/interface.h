@@ -30,6 +30,7 @@ class UMLDoc;
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class UMLInterface : public UMLClassifier {
+	Q_OBJECT
 public:
 	/**
 	 * Sets up an interface.

@@ -94,3 +94,5 @@ void UMLInterface::init() {
 	m_BaseType = ot_Interface;
 	setStereotype( i18n("interface") );
 }
+
+#include "interface.moc"
