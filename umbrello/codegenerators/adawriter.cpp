@@ -76,9 +76,14 @@ QString AdaWriter::adatype(QString umbtype) {
 
 bool AdaWriter::isOOClass(UMLClassifier *c) {
 	QString stype = c->getStereotype();
-	if (stype == "CORBAConstant" || stype == "CORBAEnum" ||
+	if (stype == "CORBAConstant" ||
 	        stype == "CORBAStruct" || stype == "CORBAUnion" ||
 	        stype == "CORBATypedef")
+		return false;
+	if (! dynamic_cast<UMLClass*>(c))
+		return true;
+	UMLClass *cl = dynamic_cast<UMLClass *>(c);
+	if (cl->isEnumeration())
 		return false;
 
 	// CORBAValue, CORBAInterface, and all empty/unknown stereotypes are
@@ -189,7 +194,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 			if(myClass) {
 				QPtrList<UMLAttribute> *atl = myClass->getAttList();
 				UMLAttribute *at;
-				ada << spc() << "type " << classname << " is(\n";
+				ada << spc() << "type " << classname << " is (\n";
 				indentlevel++;
 				uint i = 0;
 				for (at = atl->first(); at; at = atl->next()) {

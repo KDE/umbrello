@@ -148,6 +148,13 @@ public:
 	UMLObject* findChildObject(int id);
 
 	/**
+	 * Return true if this class has an enumeration stereotype.
+	 * Currently the following stereotypes are supported:
+	 * <<Enumeration>>  <<enumeration>>  <<CORBAEnum>>
+	 */
+	bool isEnumeration();
+
+	/**
 	 * Use to save or load this classes information
 	 *
 	 *	@param	s	Pointer to the datastream (file) to save/load from.

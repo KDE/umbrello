@@ -90,7 +90,7 @@ void CppWriter::writeClass(UMLClassifier *c)
 		return;
 	}
 	
-	if( !openFile(fileh,fileName+".h") || !openFile(filecpp,fileName+".cpp")) {
+	if( !openFile(fileh,fileName+".h")) {
 		emit codeGenerated(c, false);
 		return;
 	}
@@ -104,9 +104,23 @@ void CppWriter::writeClass(UMLClassifier *c)
 	writeHeaderFile(c, fileh);
 	fileh.close(); 
 	
-	// write Source file 
-	writeSourceFile(c, filecpp);
-	filecpp.close(); 
+	// Determine whether the implementation file is required.
+	// (It is not required if the class is an enumeration.)
+	bool need_impl = true;
+	if (! classifierInfo->isInterface) {
+		UMLClass* k = dynamic_cast<UMLClass*>(c);
+		if (k->isEnumeration())
+			need_impl = false;
+	}
+	if (need_impl) {
+		if( !openFile(filecpp,fileName+".cpp")) {
+			emit codeGenerated(c, false);
+			return;
+		}
+		// write Source file 
+		writeSourceFile(c, filecpp);
+		filecpp.close(); 
+	}
 	
 	// Wrap up: free classifierInfo, emit done code 
 	classifierInfo = 0;
@@ -192,6 +206,27 @@ void CppWriter::writeHeaderFile (UMLClassifier *c, QFile &fileh) {
 		<<"  Inherit from it instead and create only objects from the derived classes"<<endl 
 		<<"*****************************************************************************/"<<endl<<endl;
 
+	if (!classifierInfo->isInterface) {
+		UMLClass* k = dynamic_cast<UMLClass*>(c);
+		if (k->isEnumeration()) {
+			h << "enum " << classifierInfo->className << " {" << endl;
+			QPtrList <UMLAttribute> *atl = k->getAttList();
+			for (UMLAttribute *at=atl->first(); at ; ) {
+				QString attrName = cleanName(at->getName());
+				h << getIndent() << attrName;
+				if ((at=atl->next()) != 0)
+					h << ",";
+				else
+					break;
+				h << endl;
+			}
+			h << endl << "};" << endl;	// end of class header 
+			if(!c->getPackage().isEmpty())
+				h << "};  // end of class namespace" << endl;
+			h << endl << "#endif // " << hashDefine + "_H" << endl;
+			return;
+		}
+	}
 	h<<"class "<<classifierInfo->className<<(classifierInfo->superclasses.count() > 0 ? " : ":"");
 	uint numOfSuperClasses = classifierInfo->superclasses.count();
 	uint i = 0;

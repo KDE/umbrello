@@ -171,6 +171,12 @@ UMLObject* UMLClass::findChildObject(int id) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+bool UMLClass::isEnumeration() {
+	QString st = getStereotype();
+	return st == "Enumeration" || st == "enumeration" || st == "CORBAEnum";
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
 bool UMLClass::serialize(QDataStream *s, bool archive, int fileversion) {
 	bool status = UMLObject::serialize(s, archive, fileversion);
 	if(!status)
