@@ -827,7 +827,7 @@ public:
 	virtual bool loadFromXMI( QDomElement & qElement );
  
 	/**
-	 * Loads the <UISDiagram> tag of Unisys.JCR.1 generated files.
+	 * Loads the <UISDiagram> tag of Unisys.IntegratePlus.2 generated files.
 	 */
  	bool loadUISDiagram(QDomElement & qElement);
 
