@@ -13,7 +13,7 @@
  *      Date   : Wed Jul 16 2003
  */
 #include "javaclassdeclarationblock.h"
-#include "javacodecomment.h"
+#include "javacodedocumentation.h"
 #include "../codegenerator.h"
 
 // Constructors/Destructors
@@ -156,7 +156,7 @@ void JavaClassDeclarationBlock::updateContent ( )
 void JavaClassDeclarationBlock::init (JavaClassifierCodeDocument *parentDoc, QString comment) 
 {
 
-	setComment(new JavaCodeComment(parentDoc));
+	setComment(new JavaCodeDocumentation(parentDoc));
 	getComment()->setText(comment);
 
 	setEndText("}");

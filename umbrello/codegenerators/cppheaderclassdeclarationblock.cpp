@@ -16,7 +16,7 @@
 #include "cppheaderclassdeclarationblock.h"
 #include "cppcodegenerator.h"
 #include "cppcodegenerationpolicy.h"
-#include "cppcodecomment.h"
+#include "cppcodedocumentation.h"
 
 // Constructors/Destructors
 //  
@@ -148,7 +148,7 @@ void CPPHeaderClassDeclarationBlock::updateContent ( )
 void CPPHeaderClassDeclarationBlock::init (CPPHeaderCodeDocument *parentDoc, QString comment) 
 {
 
-	setComment(new CPPCodeComment(parentDoc));
+	setComment(new CPPCodeDocumentation(parentDoc));
 	getComment()->setText(comment);
 
 	setEndText("};");
