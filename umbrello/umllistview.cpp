@@ -1654,6 +1654,7 @@ void UMLListView::createUMLObject( UMLListViewItem * item, Uml::UMLObject_Type t
 	if (parentItem->getType() == lvt_Package) {
 		UMLPackage *pkg = static_cast<UMLPackage*>(parentItem->getUMLObject());
 		object->setUMLPackage(pkg);
+		pkg->addObject(object);
 	}
 	connectNewObjectsSlots(object);
 	m_doc -> addUMLObject( object );
@@ -2007,7 +2008,7 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
 			when Uml::lvt_Diagrams:
 //Uncomment for using Luis diagram display code
 //				item = diagramFolder;
-
+				break;
 			default:
 				if (nID != -1) {
 					item = new UMLListViewItem( parent, label, lvType, nID );
