@@ -1457,7 +1457,7 @@ QWidget* UMLApp::getMainViewWidget() {
 void UMLApp::setCurrentView(UMLView* view /*=0*/) {
 	if (view) {
 		viewStack->raiseWidget(view);
-		slotStatusMsg(view->getData()->getName());
+		slotStatusMsg(view->getName());
 	} else {
 		viewStack->raiseWidget(blankWidget);
 	}
