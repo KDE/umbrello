@@ -21,14 +21,14 @@ UMLListViewItem::UMLListViewItem( UMLListView * parent, QString name,
                                   Uml::ListView_Type t, UMLObject* o)
   : QListViewItem(parent, name) {
 	m_bCreating = false;
-	m_pListView = parent;
+	s_pListView = parent;
 	m_Data.setType( t );
 	m_Data.setUMLObject( o );
 	if( !o )
 		m_Data.setID( -1 );
 	else
 		m_Data.setID( o -> getID() );
-	setPixmap( 0, m_pListView -> getPixmap( UMLListView::it_Home ) );
+	setPixmap( 0, s_pListView -> getPixmap( UMLListView::it_Home ) );
 	m_Data.setListViewItem( this );
 	setText( name );
 	setRenameEnabled( 0, false );
@@ -58,7 +58,7 @@ UMLListViewItem::UMLListViewItem(UMLListViewItem * parent, QString name, Uml::Li
 	m_Data.setType( t );
 	m_Data.setUMLObject( 0 );
 	m_Data.setID( id );
-	setPixmap(0, m_pListView -> getPixmap( UMLListView::it_Diagram ) );
+	setPixmap(0, s_pListView -> getPixmap( UMLListView::it_Diagram ) );
 	m_Data.setListViewItem( this );
 	/*
 		Constructor also used by folder so just make sure we don't need to
@@ -88,49 +88,49 @@ void UMLListViewItem::updateObject() {
 
 	switch(m_Data.getUMLObject() -> getBaseType()) {
 		case Uml::ot_Actor:
-			setPixmap( 0, m_pListView -> getPixmap( UMLListView::it_Actor ) );
+			setPixmap( 0, s_pListView -> getPixmap( UMLListView::it_Actor ) );
 			break;
 
 		case Uml::ot_UseCase:
-			setPixmap( 0, m_pListView -> getPixmap( UMLListView::it_UseCase ) );
+			setPixmap( 0, s_pListView -> getPixmap( UMLListView::it_UseCase ) );
 			break;
 
 		case Uml::ot_Concept:
-			setPixmap( 0, m_pListView -> getPixmap( UMLListView::it_Class ) );
+			setPixmap( 0, s_pListView -> getPixmap( UMLListView::it_Class ) );
 			break;
 
 		case Uml::ot_Template:
-			setPixmap( 0, m_pListView->getPixmap(UMLListView::it_Template) );
+			setPixmap( 0, s_pListView->getPixmap(UMLListView::it_Template) );
 			break;
 
 		case Uml::ot_Package:
-			setPixmap( 0, m_pListView -> getPixmap( UMLListView::it_Package ) );
+			setPixmap( 0, s_pListView -> getPixmap( UMLListView::it_Package ) );
 			break;
 
 		case Uml::ot_Component:
-			setPixmap( 0, m_pListView -> getPixmap( UMLListView::it_Component ) );
+			setPixmap( 0, s_pListView -> getPixmap( UMLListView::it_Component ) );
 			break;
 
 		case Uml::ot_Interface:
-			setPixmap( 0, m_pListView -> getPixmap( UMLListView::it_Interface ) );
+			setPixmap( 0, s_pListView -> getPixmap( UMLListView::it_Interface ) );
 			break;
 
 		case Uml::ot_Operation:
 			if( scope == Uml::Public )
-				setPixmap( 0, m_pListView -> getPixmap( UMLListView::it_Public_Method ) );
+				setPixmap( 0, s_pListView -> getPixmap( UMLListView::it_Public_Method ) );
 			else if( scope == Uml::Private )
-				setPixmap( 0, m_pListView -> getPixmap( UMLListView::it_Private_Method ) );
+				setPixmap( 0, s_pListView -> getPixmap( UMLListView::it_Private_Method ) );
 			else
-				setPixmap( 0, m_pListView -> getPixmap( UMLListView::it_Protected_Method ) );
+				setPixmap( 0, s_pListView -> getPixmap( UMLListView::it_Protected_Method ) );
 			break;
 
 		case Uml::ot_Attribute:
 			if( scope == Uml::Public )
-				setPixmap( 0, m_pListView -> getPixmap( UMLListView::it_Public_Attribute ) );
+				setPixmap( 0, s_pListView -> getPixmap( UMLListView::it_Public_Attribute ) );
 			else if( scope == Uml::Private )
-				setPixmap( 0, m_pListView -> getPixmap( UMLListView::it_Private_Attribute ) );
+				setPixmap( 0, s_pListView -> getPixmap( UMLListView::it_Private_Attribute ) );
 			else
-				setPixmap( 0, m_pListView -> getPixmap( UMLListView::it_Protected_Attribute ) );
+				setPixmap( 0, s_pListView -> getPixmap( UMLListView::it_Protected_Attribute ) );
 			break;
 		default:
 			break;
@@ -151,25 +151,25 @@ void UMLListViewItem::updateFolder() {
 		case Uml::lvt_UseCase_View:
 		case Uml::lvt_UseCase_Folder:
 			if( isOpen() )
-				setPixmap( 0, m_pListView -> getPixmap( UMLListView::it_Folder_Grey_Open ) );
+				setPixmap( 0, s_pListView -> getPixmap( UMLListView::it_Folder_Grey_Open ) );
 			else
-				setPixmap( 0, m_pListView -> getPixmap( UMLListView::it_Folder_Grey ) );
+				setPixmap( 0, s_pListView -> getPixmap( UMLListView::it_Folder_Grey ) );
 			break;
 
 		case Uml::lvt_Logical_View:
 		case Uml::lvt_Logical_Folder:
 			if( isOpen() )
-				setPixmap( 0, m_pListView -> getPixmap( UMLListView::it_Folder_Green_Open ) );
+				setPixmap( 0, s_pListView -> getPixmap( UMLListView::it_Folder_Green_Open ) );
 			else
-				setPixmap( 0, m_pListView -> getPixmap( UMLListView::it_Folder_Green ) );
+				setPixmap( 0, s_pListView -> getPixmap( UMLListView::it_Folder_Green ) );
 			break;
 
 		case Uml::lvt_Component_View:
 		case Uml::lvt_Component_Folder:
 			if ( isOpen() ) {
-				setPixmap(0, m_pListView->getPixmap(UMLListView::it_Folder_Red_Open) );
+				setPixmap(0, s_pListView->getPixmap(UMLListView::it_Folder_Red_Open) );
 			} else {
-				setPixmap(0, m_pListView->getPixmap(UMLListView::it_Folder_Red) );
+				setPixmap(0, s_pListView->getPixmap(UMLListView::it_Folder_Red) );
 			}
 			break;
 
@@ -194,7 +194,7 @@ void UMLListViewItem::okRename( int col ) {
 	if (m_bCreating) {
 		m_bCreating = false;
 		QListViewItem::okRename( col );
-		if ( m_pListView -> slotItemRenamed( this, 0 ) ) {
+		if ( s_pListView -> slotItemRenamed( this, 0 ) ) {
 			m_Data.setLabel( text(col) );
 		} else {
 			startRename(0);
@@ -221,13 +221,13 @@ void UMLListViewItem::okRename( int col ) {
 		case Uml::lvt_Interface:
 			object = m_Data.getUMLObject();
 			if( object ) {
-				object = m_pListView -> getDocument() -> findUMLObject( object -> getBaseType(), newText );
+				object = s_pListView -> getDocument() -> findUMLObject( object -> getBaseType(), newText );
 				if( object && object == m_Data.getUMLObject() )
 					object = 0;
 				if( !object ) {
 					m_Data.getUMLObject() -> setName( newText );
 					m_Data.setLabel( newText );
-					m_pListView -> getDocument() -> signalUMLObjectChanged( m_Data.getUMLObject() );
+					s_pListView -> getDocument() -> signalUMLObjectChanged( m_Data.getUMLObject() );
 					return;
 				}
 			}
@@ -245,7 +245,7 @@ void UMLListViewItem::okRename( int col ) {
 				                      i18n( "Name Not Unique" ) ) == KMessageBox::Yes )) {
 					object -> setName( newText );
 					m_Data.setLabel( newText );
-					m_pListView -> getDocument() -> signalChildUMLObjectUpdate( m_Data.getUMLObject() );
+					s_pListView -> getDocument() -> signalChildUMLObjectUpdate( m_Data.getUMLObject() );
 					return;
 				}
 				setText( m_Data.getLabel() );
@@ -261,7 +261,7 @@ void UMLListViewItem::okRename( int col ) {
 				if (list.isEmpty()) {
 					object -> setName( newText );
 					m_Data.setLabel( newText );
-					m_pListView -> getDocument() -> signalChildUMLObjectUpdate(object);
+					s_pListView -> getDocument() -> signalChildUMLObjectUpdate(object);
 					return;
 				}
 			}
@@ -274,15 +274,15 @@ void UMLListViewItem::okRename( int col ) {
 		case Uml::lvt_State_Diagram:
 		case Uml::lvt_Activity_Diagram:
 		case Uml::lvt_Component_Diagram:
-			view = m_pListView -> getDocument() -> findView( m_Data.getID() );
+			view = s_pListView -> getDocument() -> findView( m_Data.getID() );
 			if( view ) {
-				anotherView = m_pListView -> getDocument() -> findView( view -> getType(), newText );
+				anotherView = s_pListView -> getDocument() -> findView( view -> getType(), newText );
 				if( anotherView && anotherView -> getID() == m_Data.getID() )
 					anotherView = 0;
 				if( !anotherView ) {
 					view->setName( newText );
 					m_Data.setLabel( newText );
-					m_pListView->getDocument()->signalDiagramRenamed(view);
+					s_pListView->getDocument()->signalDiagramRenamed(view);
 					return;
 				}
 			}
@@ -305,8 +305,8 @@ void UMLListViewItem::okRename( int col ) {
 void UMLListViewItem::cancelRename(int col) {
 	QListViewItem::cancelRename(col);
 	if (m_bCreating) {
-		m_pListView->cancelRename(this);
+		s_pListView->cancelRename(this);
 	}
 }
 
-UMLListView* UMLListViewItem::m_pListView = 0;
+UMLListView* UMLListViewItem::s_pListView = 0;

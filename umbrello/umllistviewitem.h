@@ -146,7 +146,7 @@ protected:
 	/**
 	 *   This list view all the instance of this class are displayed on.
 	 */
-	static UMLListView * m_pListView;
+	static UMLListView * s_pListView;
 
 	/**
 	 *   Flag used to set the state of creating.
