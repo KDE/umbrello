@@ -145,7 +145,7 @@ void UMLListViewItem::updateObject() {
 		return;
 
 	Uml::Scope scope = m_pObject->getScope();
-	//setText( m_pObject->getName() );
+	setText( m_pObject->getName() );
 
 	switch( m_pObject->getBaseType() ) {
 		case Uml::ot_Actor:
