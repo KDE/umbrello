@@ -1866,7 +1866,7 @@ bool Parser::parseClassSpecifier( TypeSpecifierAST::Node& node )
 	if( lex->lookAhead(0) == '}' )
 	    break;
 
-	DeclarationAST::Node memSpec;
+	DeclarationAST::Node memSpec = CreateNode<DeclarationAST>();
 	int startDecl = lex->index();
 	if( !parseMemberSpecification(memSpec) ){
 	    if( startDecl == lex->index() )
@@ -2826,7 +2826,7 @@ bool Parser::parseLabeledStatement( StatementAST::Node& node )
 	    reportError( i18n("expression expected") );
 	} else if( lex->lookAhead(0) == Token_ellipsis ){
 	    lex->nextToken();
-	    
+
 	    AST::Node expr2;
 	    if( !parseConstantExpression(expr2) ){
 	        reportError( i18n("expression expected") );
