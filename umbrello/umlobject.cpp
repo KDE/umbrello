@@ -209,6 +209,10 @@ UMLPackage* UMLObject::getUMLPackage() {
 	return m_pUMLPackage;
 }
 
+QString UMLObject::getAuxId() const {
+	return m_AuxId;
+}
+
 bool UMLObject::saveToXMI( QDomDocument & /*qDoc*/, QDomElement & qElement ) {
 	/*
 	  Call after required actions in child class.
@@ -261,6 +265,8 @@ bool UMLObject::loadFromXMI( QDomElement & element ) {
 		return false;
 	}
 	if (id.contains(QRegExp("\\D"))) {
+		m_AuxId = id;
+		m_nId = umldoc->getUniqueID();
 	} else {
 		m_nId = id.toInt();
 	}

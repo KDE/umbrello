@@ -215,9 +215,16 @@ public:
 	 */
 	virtual bool acceptAssociationType(Uml::Association_Type);
 
+	/**
+	 * Gets the value of m_AuxId.
+	 * Only used for resolving non-numeric xmi.id's during loading.
+	 * All other code should use getID() instead.
+	 */
+	QString getAuxId() const;
+
 public slots:
 	/**
-	 * Forces the emition of the modified signal.  Useful when
+	 * Forces the emission of the modified signal.  Useful when
 	 * updating several attributes at a time: you can block the
 	 * signals, update all atts, and then force the signal.
 	 */
@@ -250,9 +257,18 @@ protected:
 	virtual void init();
 
 	/**
-	 *   The object's id.
+	 * The object's id.
 	 */
 	int m_nId;
+
+	/**
+	 * The object's xmi.id string when non-numeric.
+	 * Used for intermediate processing during loading of files
+	 * containing non-numeric xmi.id's.
+	 * In the end all objects are uniquely identified only by their
+	 * numeric id (m_nId).
+	 */
+	QString m_AuxId;
 
 	/**
 	 * The object's documentation.

@@ -530,10 +530,17 @@ UMLObject* UMLDoc::findUMLObject(UMLObjectList inList, QString name,
 		return findUMLObject( pkg->containedObjects(),
 				      nameWithoutFirstPrefix, type );
 	}
-	return 0;
+	return NULL;
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
+UMLObject* UMLDoc::findObjectByIdStr(QString idStr) {
+	for (UMLObject * o = objectList.first(); o; o = objectList.next()) {
+		if (o->getAuxId() == idStr)
+			return o;
+	}
+	return NULL;
+}
+
 UMLClassifier* UMLDoc::findUMLClassifier(QString name) {
 	// could be either UMLClass or UMLInterface..
 	//this is used only by code generator so we don't need to look at Datatypes

@@ -465,6 +465,17 @@ public:
 				 UMLObject_Type type = Uml::ot_UMLObject);
 
 	/**
+	 * Used to find a reference to a @ref UMLObject given its non-numeric
+	 * ID string.
+	 * Only used for intermediate processing while loading files
+	 * containing objects with non-numeric xmi.id's.
+	 *
+	 * @param idStr		The AuxId for the @ref UMLObject to find.
+	 * @return	Pointer to the UMLObject found, or NULL if not found.
+	 */
+	UMLObject* findObjectByIdStr(QString idStr);
+
+	/**
 	 * Used to find a @ref UMLClassifier by its name.
 	 *
 	 * @param name		The name of the @ref UMLObject to find.

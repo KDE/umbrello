@@ -8,6 +8,7 @@
  ***************************************************************************/
 #include <kdebug.h>
 #include <klocale.h>
+#include <qregexp.h>
 
 #include "association.h"
 #include "classifier.h"
@@ -183,17 +184,41 @@ bool UMLAssociation::loadFromXMI( QDomElement & element ) {
 	if (getID() == -1)
 		return false; // old style XMI file. No real info in this association.
 
+	UMLDoc * doc = UMLApp::app()->getDocument();
 	if (m_AssocType == Uml::at_Generalization) {
-		int roleAObjID = element.attribute( "child", "-1" ).toInt();
-		int roleBObjID = element.attribute( "parent", "-1" ).toInt();
-		UMLDoc * doc = UMLApp::app()->getDocument();
-		UMLObject * objA = doc->findUMLObject(roleAObjID);
-		UMLObject * objB = doc->findUMLObject(roleBObjID);
-		if (objA == NULL)
+		QString roleAIdStr = element.attribute( "child", "-1" );
+		if (roleAIdStr == "-1") {
+			kdError() << "UMLAssociation::loadFromXMI: "
+				  << "child not given or illegal" << endl;
 			return false;
+		}
+		QString roleBIdStr = element.attribute( "parent", "-1" );
+		if (roleBIdStr == "-1") {
+			kdError() << "UMLAssociation::loadFromXMI: "
+				  << "parent not given or illegal" << endl;
+			return false;
+		}
+		UMLObject *objA, *objB;
+		int roleAObjID = roleAIdStr.toInt();
+		if (roleAIdStr.contains(QRegExp("\\D")))
+			objA = doc->findObjectByIdStr(roleAIdStr);
+		else
+			objA = doc->findUMLObject(roleAIdStr.toInt());
+		if (objA == NULL) {
+			kdError() << "UMLAssociation::loadFromXMI: "
+				  << "cannot find child object " << roleAIdStr << endl;
+			return false;
+		}
 		getUMLRoleA()->setObject(objA);
-		if (objB == NULL)
+		if (roleBIdStr.contains(QRegExp("\\D")))
+			objB = doc->findObjectByIdStr(roleBIdStr);
+		else
+			objB = doc->findUMLObject(roleBIdStr.toInt());
+		if (objB == NULL) {
+			kdError() << "UMLAssociation::loadFromXMI: "
+				  << "cannot find parent object " << roleBIdStr << endl;
 			return false;
+		}
 		getUMLRoleB()->setObject(objB);
 		if (objA->getBaseType() == Uml::ot_Class &&
 		    objB->getBaseType() == Uml::ot_Interface)
@@ -280,7 +305,6 @@ bool UMLAssociation::loadFromXMI( QDomElement & element ) {
 		roleBObjID = tmp;
 	}
 
-	UMLDoc * doc = UMLApp::app()->getDocument();
 	UMLObject * objA = doc->findUMLObject(roleAObjID);
 	UMLObject * objB = doc->findUMLObject(roleBObjID);
 

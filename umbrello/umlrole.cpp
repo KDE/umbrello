@@ -8,6 +8,7 @@
  ***************************************************************************/
 
 #include <kdebug.h>
+#include <qregexp.h>
 #include "umlrole.h"
 #include "association.h"
 #include "umldoc.h"
@@ -198,7 +199,15 @@ bool UMLRole::loadFromXMI( QDomElement & element ) {
 		return false;
 	}
 	QString idStr = element.attribute("type", "-1");
-	UMLObject * obj = doc->findUMLObject(idStr.toInt());
+	if (idStr == "-1") {
+		kdError() << "UMLRole::loadFromXMI: type not given or illegal" << endl;
+		return false;
+	}
+	UMLObject * obj;
+	if (idStr.contains(QRegExp("\\D")))
+		obj = doc->findObjectByIdStr(idStr);
+	else
+		obj = doc->findUMLObject(idStr.toInt());
 	if (obj == NULL) {
 		kdError() << "UMLRole::loadFromXMI: cannot find object of ID "
 			  << idStr << endl;
