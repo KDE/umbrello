@@ -206,16 +206,22 @@ Uml::UMLWidget_Type UMLWidget::getBaseType()
 	return m_pData->m_Type;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-
-void UMLWidget::slotChangeWidget(UMLObject * o) {
-	if(m_pObject != o)
-		return;
+void UMLWidget::updateWidget()
+{
 	if(m_pObject)
 		setName(m_pObject->getName());//sync names
 	calculateSize();
 	adjustAssocs( (int)x(), (int)y() );//adjust assoc lines
 	if(isVisible())
 		update();
+}
+
+void UMLWidget::slotChangeWidget(UMLObject * o) 
+{
+	if(m_pObject != o)
+		return;
+	updateWidget();
+	
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -280,6 +286,10 @@ void UMLWidget::init() {
 	connect( m_pView, SIGNAL( sigClearAllSelected() ), this, SLOT( slotClearAllSelected() ) );
 	connect( m_pView, SIGNAL(sigColorChanged(int)), this, SLOT(slotColorChanged(int)));
 	connect( m_pView -> getDocument(), SIGNAL(sigWidgetUpdated(UMLObject *)), this, SLOT(slotChangeWidget(UMLObject *)));
+	if( m_pObject )
+	{
+		connect( m_pObject,SIGNAL(modified()),this,SLOT(updateWidget()));
+	}
 	setZ( 1 );
 }
 

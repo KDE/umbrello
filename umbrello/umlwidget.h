@@ -546,6 +546,8 @@ public slots:
 	 *
 	 * @param o The changed UMLobject
 	 */
+	virtual void updateWidget();
+	
 	virtual void slotChangeWidget(UMLObject * o);
 
 	/**
