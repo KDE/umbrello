@@ -339,4 +339,18 @@ void ObjectWidget::slotMessageMoved() {
 	m_pLine->setEndOfLine(lowestMessage + sequenceLineMargin);
 }
 
+bool ObjectWidget::messageOverlap(int y, MessageWidget* messageWidget) {
+	QPtrListIterator<MessageWidget> iterator(messageWidgetList);
+	MessageWidget* message;
+	int lowestMessage = 0;
+	while ( (message = iterator.current()) != 0 ) {
+		++iterator;
+		int messageHeight = (int)message->y() + message->height();
+		if (y >= (int)message->y() && y <= messageHeight && message != messageWidget) {
+			return true;
+		}
+	}
+	return false;
+}
+
 #include "objectwidget.moc"

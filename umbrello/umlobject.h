@@ -189,7 +189,7 @@ public:
 	 * signals, update all atts, and then force the signal.
 	 */
 	void emitModified();
-  
+
 signals:
 	void modified();  
 

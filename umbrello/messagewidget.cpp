@@ -22,6 +22,7 @@
 #include "umlview.h"
 #include "umldoc.h"
 #include "listpopupmenu.h"
+#include "objectwidget.h"
 
 MessageWidget::MessageWidget(UMLView* view, UMLWidgetData* pData) : UMLWidget(view, pData) {
 	init();
@@ -94,6 +95,8 @@ void MessageWidget::drawSynchronous(QPainter& p, int offsetX, int offsetY) {
 	int w = width() - 1;
 	int h = height();
 
+	bool messageOverlaps = (static_cast<ObjectWidget*>(m_pWA))->messageOverlap( (int)y(), this );
+
 	if(m_pWA == m_pWB) {
 		p.fillRect( offsetX, offsetY, 17, h,  QBrush(white) );			//box
 		p.drawRect(offsetX, offsetY, 17, h);					//box
@@ -103,6 +106,10 @@ void MessageWidget::drawSynchronous(QPainter& p, int offsetX, int offsetY) {
 		p.drawLine(offsetX + 17, offsetY + h - 3, offsetX + 17 + 4, offsetY + h);	//arrow head
 		p.drawLine(offsetX + 17, offsetY + h - 3, offsetX + 17 + 4, offsetY + h - 6);
 	} else if(x1 < x2) {
+		if (messageOverlaps)  {
+			offsetX += 8;
+			w -= 8;
+		}
 		QPen pen = p.pen();
 		p.fillRect( offsetX + w - 16, offsetY, 17, h,  QBrush(white) );		//box
 		p.drawRect(offsetX + w - 16, offsetY, 17, h);				//box
@@ -120,7 +127,13 @@ void MessageWidget::drawSynchronous(QPainter& p, int offsetX, int offsetY) {
 		p.setPen(pen);
 
 		p.drawLine(offsetX, offsetY + h - 3, offsetX + w - 16, offsetY + h - 3);  //return line
+		if (messageOverlaps)  {
+			offsetX -= 8; //reset for drawSelected()
+		}
 	} else	{
+		if (messageOverlaps)  {
+			w -=8;
+		}
 		QPen pen = p.pen();
 		p.fillRect( offsetX, offsetY, 17, h,  QBrush(white) );			//box
 		p.drawRect(offsetX, offsetY, 17, h);					//box
@@ -151,17 +164,37 @@ void MessageWidget::drawAsynchronous(QPainter& p, int offsetX, int offsetY) {
 	int x2 = (int)m_pWB->x();
 	int w = width() - 1;
 	int h = height() - 1;
+	bool messageOverlapsA = ((ObjectWidget*)m_pWA)->messageOverlap( (int)y(), this );
+	bool messageOverlapsB = ((ObjectWidget*)m_pWB)->messageOverlap( (int)y(), this );
+
 	if(m_pWA == m_pWB) {
+		if (messageOverlapsA)  {
+			offsetX += 7;
+			w -= 7;
+		}
 		p.drawLine(offsetX, offsetY, offsetX + w, offsetY);
 		p.drawLine(offsetX + w, offsetY, offsetX + w, offsetY + h - 3);
 		p.drawLine(offsetX + w, offsetY + h - 3, offsetX, offsetY + h - 3);
 		p.drawLine(offsetX, offsetY + h - 3, offsetX + 4, offsetY + h);
 		p.drawLine(offsetX, offsetY + h - 3, offsetX + 4, offsetY + h - 6);
+		if (messageOverlapsA)  {
+			offsetX -= 7; //reset for drawSelected()
+		}
 	} else if(x1 < x2) {
+		if (messageOverlapsA)  {
+			offsetX += 7;
+			w -= 7;
+		}
 		p.drawLine(offsetX, offsetY + 4, offsetX + w, offsetY + 4);
 		p.drawLine(offsetX + w, offsetY + 4, offsetX + w - 4, offsetY + 1);
 		p.drawLine(offsetX + w, offsetY + 4, offsetX + w - 4, offsetY + 7);
+		if (messageOverlapsA)  {
+			offsetX -= 7;
+		}
 	} else	{
+		if (messageOverlapsA)  {
+			w -= 7;
+		}
 		p.drawLine(offsetX, offsetY + 4, offsetX + w, offsetY + 4);
 		p.drawLine(offsetX, offsetY + 4, offsetX + 4, offsetY + 1);
 		p.drawLine(offsetX, offsetY + 4, offsetX + 4, offsetY + 7);
@@ -199,7 +232,6 @@ void MessageWidget::calculateWidget() {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void MessageWidget::slotWidgetMoved(int id) {
-	kdDebug() << k_funcinfo << endl;
 	if(m_pWA -> getID() == id || m_pWB -> getID() == id) {
 		m_nY = (int)y();
 		m_nY = m_nY < getMinHeight()?getMinHeight():m_nY;
@@ -541,6 +573,14 @@ void MessageWidget::setWidgetA(UMLWidget * wa) {
 void MessageWidget::setWidgetB(UMLWidget * wb) {
 	m_pWB = wb;
 	((MessageWidgetData*)m_pData)->setWidgetBID( ((ObjectWidget *)wb) -> getLocalID() );
+}
+
+UMLWidget* MessageWidget::getWidgetA() {
+	return m_pWA;
+}
+
+UMLWidget* MessageWidget::getWidgetB() {
+	return m_pWB;
 }
 
 #include "messagewidget.moc"

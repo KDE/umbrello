@@ -228,6 +228,15 @@ public:
 	 */
 	bool canTabUp();
 
+	/**
+	 * Returns whether a message is overlapping with another message, 
+	 * used by MessageWidget::draw() methods
+	 * 
+	 * @param y the top of your message
+	 * @param messageWidget a pointer to your message so it doesn't check against itself
+	 */
+	bool messageOverlap(int y, MessageWidget* messageWidget);
+
 protected:
 	QString m_Doc;
 	int m_nOldID;

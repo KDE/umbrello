@@ -15,7 +15,7 @@
 
 // forward declarations
 class FloatingText;
-
+class ObjectWidget;
 /**
  *	Used to display a message on a sequence diagram.  The message
  *	could be between two objects or a message that calls itself on
@@ -87,18 +87,14 @@ public:
 	 *
 	 *	@return Returns the A widget it is related to.
 	 */
-	UMLWidget * getWidgetA() {
-		return m_pWA;
-	}
+	UMLWidget* getWidgetA();
 
 	/**
 	 *	Returns the B widget it is related to.
 	 *
 	 *	@return Returns the B widget it is related to.
 	 */
-	UMLWidget * getWidgetB() {
-		return m_pWB;
-	}
+        UMLWidget* getWidgetB();
 
 	/**
 	 *	Returns the id of the A widget it is related to.
