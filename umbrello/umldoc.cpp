@@ -864,7 +864,7 @@ UMLObject* UMLDoc::createStereotype(UMLClassifier* classifier, UMLObject_Type li
 
 UMLOperation* UMLDoc::createOperation(UMLClassifier* classifier,
 				      const QString &name /*=null*/,
-				      UMLAttributeList *params )
+				      UMLAttributeList *params  /*=NULL*/)
 {
 	if(!classifier)
 	{
@@ -872,13 +872,13 @@ UMLOperation* UMLDoc::createOperation(UMLClassifier* classifier,
 			    << endl;
 		return NULL;
 	}
-	if (name != QString::null && !name.isEmpty()) {
+	bool nameNotSet = (name == QString::null || name.isEmpty());
+	if (! nameNotSet) {
 		UMLOperation *existingOp = classifier->checkOperationSignature(name, params);
 		if (existingOp)
 			return existingOp;
 	}
 	UMLOperation *op = new UMLOperation(NULL, name, getUniqueID());
-	op->setName( classifier->uniqChildName(Uml::ot_Operation) );
 	if (params)
 	{
 		UMLAttributeListIt it(*params);
@@ -889,6 +889,7 @@ UMLOperation* UMLDoc::createOperation(UMLClassifier* classifier,
 			op->addParm(par);
 		}
 	}
+	/*
 	do {
 		UMLOperationDialog operationDialogue(0, op);
 		if( operationDialogue.exec() != QDialog::Accepted ) {
@@ -896,6 +897,26 @@ UMLOperation* UMLDoc::createOperation(UMLClassifier* classifier,
 			return NULL;
 		}
 	} while (classifier->checkOperationSignature(op->getName(), op->getParmList()));
+	*/
+	if (nameNotSet || params == NULL) {
+		if (nameNotSet)
+			op->setName( classifier->uniqChildName(Uml::ot_Operation) );
+		do {
+			UMLOperationDialog operationDialogue(0, op);
+			if( operationDialogue.exec() != QDialog::Accepted ) {
+				delete op;
+				return NULL;
+			} else if (classifier->checkOperationSignature(op->getName(), op->getParmList())) {
+				KMessageBox::information(0,
+//no new i18n							 i18n("An operation with the same name and signature already exists. "
+//							      "You can not add it again.")
+							 "");
+			} else {
+				break;
+			}
+		} while(1);
+	}
+//FIXMEnow
 
 	// operation name is ok, formally add it to the classifier
 	classifier->addOperation( op );
@@ -1827,10 +1848,10 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element) {
 		}
 
 		// Now, we need to add all the UMLObjects held by the package
-		// should it have any. 
+		// should it have any.
 		if (type == "UML:Package") {
 			UMLObjectList oList = ((UMLPackage*) pObject)->containedObjects();
-			for (UMLObject * obj = oList.first(); obj != 0; obj = oList.next()) 
+			for (UMLObject * obj = oList.first(); obj != 0; obj = oList.next())
 				objectList.append(obj);
 		}
 

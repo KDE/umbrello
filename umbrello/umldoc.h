@@ -236,14 +236,17 @@ public:
 
 	/**
 	 * Creates an operation in the current document.
-	 * The new Operation is already initialized with name, id, etc.
-	 * If no name is provided, or if the name given as parameter conflicts with
-	 * other operations in the classifier, an Operation Dialog is shown to ask the user
-	 * for a name and gives the chance to set other Op. properties
-	 * The Operation's signature is checked for validity within the parent classifier.
+	 * The new operation is initialized with name, id, etc.
+	 * If a method with the given profile already exists in the classifier,
+	 * no new method is created and the existing operation is returned.
+	 * If no name is provided, or if the params are NULL, an Operation
+	 * Dialog is shown to ask the user for a name and parameters.
+	 * The operation's signature is checked for validity within the parent
+	 * classifier.
 	 *
-	 * @return The new operation, or NULL if the operation could not be created because
-	 *         for example, the user canceled the dialog or no appropriate name can be found.
+	 * @return The new operation, or NULL if the operation could not be
+	 *         created because for example, the user canceled the dialog
+	 *         or no appropriate name can be found.
 	*/
 	UMLOperation* createOperation( UMLClassifier *parent,
 				       const QString &name = QString::null,
