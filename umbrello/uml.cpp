@@ -26,6 +26,7 @@
 #include "dialogs/diagramprintpage.h"
 #include "dialogs/selectlanguagesdlg.h"
 #include "diagram/diagramview.h"
+#include "refactoring/refactoringassistant.h"
 
 #include <kaction.h>
 #include <kapplication.h>
@@ -46,10 +47,11 @@
 #include <qtimer.h>
 #include <qwidgetstack.h>
 
-#include "refactoring/refactoringassistant.h"
+
 
 
 using Umbrello::Diagram;
+using Umbrello::RefactoringAssistant;
 
 UMLApp::UMLApp(QWidget* , const char* name):KDockMainWindow(0, name) {
 	m_pDocWindow = 0;
@@ -105,13 +107,10 @@ UMLApp::UMLApp(QWidget* , const char* name):KDockMainWindow(0, name) {
 	zoomSelect->setCheckable(true);
 	connect(zoomSelect,SIGNAL(aboutToShow()),this,SLOT(setupZoomMenu()));
 	connect(zoomSelect,SIGNAL(activated(int)),this,SLOT(setZoom(int)));
-
-	//FIXME
-	// for some reason the build system will not link the refactoring into the app unless it
-	// detects its needed. Adding this for now
-	Umbrello::RefactoringAssistant *r = new Umbrello::RefactoringAssistant( doc );
-	delete r;
-	//FIXME
+	
+	m_refactoringAssist = 0L;
+	
+	_instance = this;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLApp::~UMLApp() {
@@ -120,6 +119,12 @@ UMLApp::~UMLApp() {
 
 	delete statProg;
 	delete m_statusLabel;
+	delete m_refactoringAssist;
+}
+
+UMLApp* UMLApp::app()
+{
+	return _instance;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLApp::initActions() {
@@ -1017,6 +1022,15 @@ void UMLApp::readOptionState() {
 	optionState.codegenState.modname = (CodeGenerator::ModifyNamePolicy)config -> readNumEntry("modnamePolicy",CodeGenerator::Capitalise);
 }
 
+void UMLApp::refactor( UMLClassifier *c ){
+ if(! m_refactoringAssist )
+ {
+ 	m_refactoringAssist = new RefactoringAssistant( doc, 0, 0, "refactoring_assistant" );
+ }
+ m_refactoringAssist->setObject( c );
+ m_refactoringAssist->show();
+}
+
 CodeGenerator* UMLApp::generator() {
 	GeneratorInfo *info;
 	if(activeLanguage.isEmpty()) {
@@ -1411,5 +1425,8 @@ QPopupMenu* UMLApp::findMenu(QMenuData* menu, QString name) {
 	}
 	return 0;
 }
+
+//static pointer, holding the unique instance
+UMLApp* UMLApp::_instance;
 
 #include "uml.moc"

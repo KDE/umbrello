@@ -13,7 +13,7 @@
  ***************************************************************************/
 
 #include "classwidget.h"
-
+#include "../uml.h"
 #include "../class.h"
 #include "../dialogs/umbrellodialog.h"
 #include "../dialogs/classpropertiespage.h"
@@ -23,9 +23,6 @@
 #include "../dialogs/widgetcolorspage.h"
 #include "../attribute.h"
 #include "../operation.h"
-
-//FIXME test only
-#include "../refactoring/refactoringassistant.h"
 
 #include <qapplication.h>
 #include <klocale.h>
@@ -40,6 +37,7 @@
 
 // unnamed namespace : data for this file only
 namespace{
+ int max(int a, int b) { return a>b?a:b; }
  //vertical and horizontal margins
  int vMargin = 10;
  int hMargin = 10;
@@ -67,9 +65,8 @@ ClassWidget::~ClassWidget()
 }
 
 void ClassWidget::refactor( )
-{kdDebug()<<"refactoring class "<<m_umlObject->getName()<<"..."<<endl;
-	RefactoringAssistant *r = new RefactoringAssistant(diagram()->document(), dynamic_cast<UMLClass*>(m_umlObject));
-	r->show( );
+{
+	UMLApp::app()->refactor(static_cast<UMLClass*>(m_umlObject));
 }
 
 void ClassWidget::umlObjectModified()
@@ -96,8 +93,8 @@ void ClassWidget::drawShape(QPainter &p)
 
 	int currentX,  currentY, limitX, limitY;
 	int internalWidth;
-	currentX = x();
-	currentY = y();
+	currentX = (int) x();
+	currentY = (int) y();
 	limitX = currentX + width() - ( 1 * hMargin );
 	limitY = currentY + height() - ( 1 * vMargin );
 	internalWidth = width() - ( 2 * hMargin );
@@ -125,7 +122,7 @@ void ClassWidget::drawShape(QPainter &p)
 	{
 		p.setPen(drawPen);
 		currentY += vMargin;
-		p.drawLine( x(),currentY, x() + width() -1, currentY );
+		p.drawLine( (int)x(),currentY, (int)x() + width() -1, currentY );
 		if( !m_atts.isEmpty() )
 		{
 			currentY += vMargin;
@@ -144,7 +141,7 @@ void ClassWidget::drawShape(QPainter &p)
 	{
 		p.setPen(drawPen);
 		currentY += vMargin;
-		p.drawLine(x(),currentY, x() + width() -1, currentY);
+		p.drawLine((int)x(),currentY,(int) x() + width() -1, currentY);
 		currentY += vMargin;
 		p.setPen(textPen);
 		for(QValueList<OpString>::Iterator it = m_ops.begin(); it != m_ops.end(); ++it )
@@ -163,13 +160,13 @@ void ClassWidget::drawShape(QPainter &p)
 	p.setPen(Qt::blue);
 	p.setBrush(Qt::blue);
 	QRect selectionRect(0,0,4,4);
-	selectionRect.moveTopLeft(QPoint(x(),y()));
+	selectionRect.moveTopLeft(QPoint((int)x(),(int) y()));
 			p.drawRect(selectionRect);
-	selectionRect.moveTopRight(QPoint(x()+width(),y()));
+	selectionRect.moveTopRight(QPoint((int) x()+width(),(int) y()));
 			p.drawRect(selectionRect);
-	selectionRect.moveBottomRight(QPoint(x()+width(),y()+height()));
+	selectionRect.moveBottomRight(QPoint((int) x()+width(),(int) y()+height()));
 			p.drawRect(selectionRect);
-	selectionRect.moveBottomLeft(QPoint(x(),y()+height()));
+	selectionRect.moveBottomLeft(QPoint((int) x(),(int) y()+height()));
 			p.drawRect(selectionRect);
 
 	}

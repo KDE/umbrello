@@ -50,6 +50,7 @@ class QSplitter;
 namespace Umbrello
 {
 class DiagramView;
+class RefactoringAssistant;
 }
 
 /**
@@ -82,6 +83,8 @@ public:
 	 *	Standard deconstructor.
 	 */
 	~UMLApp();
+	
+	static UMLApp* app();
 
 	/**
 	 *	opens a file specified by commandline option
@@ -166,6 +169,9 @@ public:
 	 *	gets the appropiate CodeGenerator
 	 */
 	CodeGenerator* generator();
+	
+	/** Call the refactoring assistant on a classifier */
+	void refactor( UMLClassifier* );
 
 	/**
 	 *	Sets the state of the view properties menu item.
@@ -575,6 +581,8 @@ public slots:
 	 */
 	QPopupMenu* findMenu(QMenuData* menu, QString name);
 private:
+
+	static UMLApp* _instance;
 	/**
 	 * to slect the active language
 	 */
@@ -652,6 +660,9 @@ private:
 	 * 	Documentation window.
 	 */
 	DocWindow* m_pDocWindow;
+	
+	/** Refactoring assistant */
+	Umbrello::RefactoringAssistant *m_refactoringAssist;
 
 	//KAction pointers to enable/disable actions
 	KAction* fileNew;

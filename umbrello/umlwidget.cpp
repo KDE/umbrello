@@ -32,8 +32,7 @@
 
 #include "clipboard/idchangelog.h"
 
-#include "refactoring/refactoringassistant.h"
-using Umbrello::RefactoringAssistant;
+
 
 UMLWidget::UMLWidget( UMLView * view, UMLObject * o, UMLWidgetData * pData ) 
 	: QObject( view), QCanvasRectangle( view -> canvas() ), 
@@ -379,11 +378,9 @@ void UMLWidget::slotMenuSelection(int sel) {
 			break;
 		case ListPopupMenu::mt_Refactoring:
 			//check if we are operating on a classifier, or some other kind of UMLObject
-			if(dynamic_cast<UMLClass*>(m_pObject))
+			if(dynamic_cast<UMLClassifier*>(m_pObject))
 			{
-				RefactoringAssistant *r = new RefactoringAssistant(m_pView -> getDocument(),
-								 dynamic_cast<UMLClass*>(m_pObject));
-				r->show( );
+				UMLApp::app()->refactor(static_cast<UMLClassifier*>(m_pObject));
 			}
 	}
 }
