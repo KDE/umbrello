@@ -32,3 +32,12 @@ messages: rc.cpp
 	 $(XGETTEXT) $$LIST -o $(podir)/umbrello.pot; \
 	fi
 	rm -f tips.cpp
+
+version.h: $(top_srcdir)/umbrello/VERSION
+	printf "#undef VERSION\n#define VERSION \"`cat $(top_srcdir)/umbrello/VERSION`\"\n" > version.h
+
+noinst_HEADERS = version.h
+
+main.o: version.h
+
+

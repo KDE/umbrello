@@ -8,6 +8,8 @@
  ***************************************************************************/
 
 #include "uml.h"
+#include "version.h"
+
 #include <kaboutdata.h>
 #include <kapplication.h>
 #include <kcmdlineargs.h>
