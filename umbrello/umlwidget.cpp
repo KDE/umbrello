@@ -320,9 +320,15 @@ void UMLWidget::mousePressEvent(QMouseEvent *me) {
 		setSelected( m_bSelected );
 		m_pView -> setSelected( this, me );
 	} else if( me -> button() == RightButton ) {
-		if( !m_bSelected)
-			m_pView -> setSelected( this, me );
-		setSelected( true );
+
+		/* Right click on one element without holding any shift or ctrl key
+		 * deselects all items and selects the current one. It will show the
+		 * context menu for the selected item. This is common behaviour. */
+		bool _select = m_bSelected?false:true;
+		m_pView -> clearSelected();
+		m_bSelected = _select;
+		setSelected( m_bSelected );
+		m_pView -> setSelected( this, me );
 		return;
 	} else {
 
