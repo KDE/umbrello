@@ -389,6 +389,7 @@ void UMLDoc::deleteContents() {
 		//     UMLDoc::setModified(true, true)  =>
 		//      addToUndoStack().
 		removeAllViews();
+		m_bLoading = false;
 		if(objectList.count() > 0) {
 			// clear our object list. We do this explicitly since setAutoDelete is false for the objectList now.
 			for(UMLObject * obj = objectList.first(); obj != 0; obj = objectList.next())
