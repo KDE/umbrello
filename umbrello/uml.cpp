@@ -21,6 +21,7 @@
 #include "dialogs/configcodegenerators.h"
 #include "dialogs/diagramprintpage.h"
 #include "dialogs/selectlanguagesdlg.h"
+#include "diagram/diagramview.h"
 #include <kaction.h>
 #include <kapplication.h>
 #include <kconfig.h>
@@ -750,15 +751,15 @@ void UMLApp::UcreateDiagram()
 	Diagram::DiagramType t;
 	const QObject *o = sender();
 	     if(o == UclassDiagram )
-		t = Diagram::Class;
+		t = Diagram::ClassDiagram;
 	else if( o == UuseCaseDiagram)
-		t = Diagram::UseCase;
+		t = Diagram::UseCaseDiagram;
 	else if( o ==  UcollaborationDiagram)
-		t = Diagram::Collaboration;
+		t = Diagram::CollaborationDiagram;
 	else if( o == UactivityDiagram )
-		t = Diagram::Activity;
+		t = Diagram::ActivityDiagram;
 	else if( o == UsequenceDiagram )
-		t = Diagram::Sequence;
+		t = Diagram::SequenceDiagram;
 Umbrello::Diagram *d = 	
 	getDocument()->UcreateDiagram( t, "FIXME ask for name here" );
 Umbrello::DiagramView *v = new Umbrello::DiagramView(d,getWorkToolBar(),viewStack);
