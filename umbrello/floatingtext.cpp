@@ -280,6 +280,8 @@ void FloatingText::showOpDlg() {
 		}
 		m_pLink->setOperation(op);
 		opText = QString::null;
+	} else {
+		m_pLink->setOperation(NULL);
 	}
 	m_pLink->setSeqNumAndOp(seqNum, opText);
 	setMessageText();
