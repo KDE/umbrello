@@ -3282,17 +3282,13 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement )
         if (!pWidgetA) {
 		kdError() << "AssociationWidget::loadFromXMI(): "
 			  << "cannot find widget for roleA id " << aId << endl;
-		/* Just returning false here is a little harsh when the rest of the diagram
-		   might load okay.  As a compromise, let's be tolerant if the ID is -1.  */
-		return (aId == -1);
+		return false;
         }
         UMLWidget *pWidgetB = m_pView->findWidget( bId );
         if (!pWidgetB) {
 		kdError() << "AssociationWidget::loadFromXMI(): "
 			  << "cannot find widget for roleB id " << bId << endl;
-		/* Just returning false here is a little harsh when the rest of the diagram
-		   might load okay.  As a compromise, let's be tolerant if the ID is -1.  */
-		return (bId == -1);
+		return false;
         }
         setWidgetA(pWidgetA);
         setWidgetB(pWidgetB);
