@@ -376,6 +376,18 @@ void UMLListView::popupMenuSel(int sel) {
 				}
 			}
 			m_doc->removeUMLObject(object);
+			UMLCanvasObject *canvasObj = dynamic_cast<UMLCanvasObject*>(object);
+			if (canvasObj) {
+				/**
+				 * We cannot just delete canvasObj here: What if the object
+				 * is still being used by others (for example, as a parameter
+				 * or return type of an operation) ?
+				 * Deletion should not have been permitted in the first place
+				 * if the object still has users - but Umbrello is lacking
+				 * that logic.
+			         */
+				canvasObj->removeAllAssociations();
+			}
 		} else {
 			kdWarning() << "umllistview::listpopupmenu::mt_Delete called with unknown type"
 				    << endl;

@@ -6,6 +6,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+#include "uml.h"
 #include "umldoc.h"
 #include "umlcanvasobject.h"
 #include "classifier.h"
@@ -26,6 +27,7 @@ UMLCanvasObject::UMLCanvasObject(const QString & name, Uml::IDType id)
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLCanvasObject::~UMLCanvasObject() {
+	removeAllAssociations();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLAssociationList UMLCanvasObject::getSpecificAssocs(Uml::Association_Type assocType) {
@@ -64,6 +66,25 @@ int UMLCanvasObject::removeAssociation(UMLAssociation * assoc) {
 	emit modified();
 	emit sigAssociationRemoved(assoc);
 	return m_AssocsList.count();
+}
+
+void UMLCanvasObject::removeAllAssociations() {
+	UMLDoc *umldoc = UMLApp::app()->getDocument();
+	for (UMLAssociationListIt ait(m_AssocsList); ait.current(); ++ait) {
+		UMLAssociation *assoc = ait.current();
+		umldoc->slotRemoveUMLObject(assoc);
+		UMLCanvasObject *other = NULL;
+		UMLObject* objA = assoc->getObject(Uml::A);
+		UMLObject* objB = assoc->getObject(Uml::B);
+		if (objA == this)
+			other = dynamic_cast<UMLCanvasObject*>(objA);
+		else
+			other = dynamic_cast<UMLCanvasObject*>(objB);
+		if (other)
+			other->removeAssociation(assoc);
+		delete assoc;
+	}
+	m_AssocsList.clear();
 }
 
 QString UMLCanvasObject::uniqChildName( const Uml::Object_Type type,
