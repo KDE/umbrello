@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form implementation generated from reading ui file 'classattributesbase.ui'
 **
-** Created: Mon Mar 10 23:43:50 2003
+** Created: Fri Mar 14 13:34:18 2003
 **      by: The User Interface Compiler ($Id$)
 **
 ** WARNING! All changes made in this file will be lost!

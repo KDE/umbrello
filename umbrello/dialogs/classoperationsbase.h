@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form interface generated from reading ui file 'classoperationsbase.ui'
 **
-** Created: Mon Mar 10 23:43:51 2003
+** Created: Fri Mar 14 13:34:18 2003
 **      by: The User Interface Compiler ($Id$)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -13,7 +13,6 @@
 #include <qvariant.h>
 #include <qpixmap.h>
 #include "dialogpage.h"
-
 class QVBoxLayout;
 class QHBoxLayout;
 class QGridLayout;

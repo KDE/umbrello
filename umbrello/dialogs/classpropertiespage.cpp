@@ -52,12 +52,10 @@ void ClassPropertiesPage::cancel()
 
 void ClassPropertiesPage::pageContentsModified()
 {
-	/*FIXMEnow m_autoApply doesn't seem to exist -- jr 13/3/2003
 	if(m_autoApply)
 	{
 		saveData();
 	}
-	*/
 }
 
 
