@@ -208,7 +208,7 @@ UMLClassifierList UMLClassifier::findSuperClassConcepts (ClassifierType type) {
 
 	for (UMLAssociation *a = rlist.first(); a; a = rlist.next())
 	{
-		if (a->getObjectId(B) != myID)
+		if (a->getObjectId(A) == myID)
 		{
 			UMLObject* obj = a->getObject(B);
 			UMLClassifier *concept = dynamic_cast<UMLClassifier*>(obj);
