@@ -92,14 +92,14 @@ bool CodeViewerDialog::close ( bool alsoDelete )
 {
 
 	// remember widget size for next time
-	getState().height = height() / fontMetrics().lineSpacing();
-	getState().width = width() / fontMetrics().maxWidth();
+	m_state.height = height() / fontMetrics().lineSpacing();
+	m_state.width = width() / fontMetrics().maxWidth();
 
 	// remember block highlighting
-	getState().blocksAreHighlighted = m_highlightCheckBox->isChecked();
+	m_state.blocksAreHighlighted = m_highlightCheckBox->isChecked();
 
 	// remember block show status
-	getState().showHiddenBlocks = m_showHiddenCodeCB->isChecked();
+	m_state.showHiddenBlocks = m_showHiddenCodeCB->isChecked();
 
 	// run superclass close now
 	return CodeViewerDialogBase::close(alsoDelete);
