@@ -45,14 +45,14 @@ void AssocRolePage::constructWidget() {
 	// group boxes for role, documentation properties
 	QGroupBox *propsAGB = new QGroupBox(this);
 	QGroupBox *propsBGB = new QGroupBox(this);
-        QButtonGroup * scopeABG = new QButtonGroup(i18n("Rolename A Visibility"), this );
-        QButtonGroup * scopeBBG = new QButtonGroup(i18n("Rolename B Visibility"), this );
-        QButtonGroup * changeABG = new QButtonGroup(i18n("Rolename A Changeability"), this );
-        QButtonGroup * changeBBG = new QButtonGroup(i18n("Rolename B Changeability"), this );
+        QButtonGroup * scopeABG = new QButtonGroup(i18n("Role A Visibility"), this );
+        QButtonGroup * scopeBBG = new QButtonGroup(i18n("Role B Visibility"), this );
+        QButtonGroup * changeABG = new QButtonGroup(i18n("Role A Changeability"), this );
+        QButtonGroup * changeBBG = new QButtonGroup(i18n("Role B Changeability"), this );
 	QGroupBox *docAGB = new QGroupBox(this);
 	QGroupBox *docBGB = new QGroupBox(this);
-	propsAGB -> setTitle(i18n("Class A Properties"));
-	propsBGB -> setTitle(i18n("Class B Properties"));
+	propsAGB -> setTitle(i18n("Role A Properties"));
+	propsBGB -> setTitle(i18n("Role B Properties"));
 	docAGB -> setTitle(i18n("Documentation"));
 	docBGB -> setTitle(i18n("Documentation"));
 	mainLayout -> addWidget( propsAGB, 0, 0);
