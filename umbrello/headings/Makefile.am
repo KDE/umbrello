@@ -1,2 +1,15 @@
 mydir = $(kde_datadir)/umbrello/headings
-my_DATA = heading.java heading.h heading.php heading.cpp heading.pm heading.py heading.idl heading.sql heading.js heading.as heading.xsd heading.cs
+my_DATA = heading.adb \
+heading.ads \
+heading.as \
+heading.cpp \
+heading.cs \
+heading.h \
+heading.idl \
+heading.java \
+heading.js \
+heading.php \
+heading.pm \
+heading.py \
+heading.sql \
+heading.xsd
