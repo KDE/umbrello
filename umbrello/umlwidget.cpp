@@ -690,7 +690,7 @@ void UMLWidget::setActivated(bool Active /*=true*/) {
 }
 
 void UMLWidget::addAssoc(AssociationWidget* pAssoc) {
-	if(pAssoc) {
+	if (pAssoc && !m_Assocs.contains(pAssoc)) {
 		m_Assocs.append(pAssoc);
 	}
 }
