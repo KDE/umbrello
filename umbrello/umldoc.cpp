@@ -28,6 +28,7 @@
 #include <qpainter.h>
 #include <qtimer.h>
 #include <qbuffer.h>
+#include <qdir.h>
 
 #include <kapplication.h>
 #include <kdebug.h>
@@ -300,11 +301,11 @@ bool UMLDoc::saveDocument(const KURL& url, const char * /*format =0*/) {
 		file.setName( tmpfile.name() );
 
 	if( !file.open( IO_WriteOnly ) ) {
-		KMessageBox::error(0, i18n("There was a problem saving file: %1").arg(d.path()), i18n("Save Error"));
+		KMessageBox::error(0, i18n("There was a problem saving file: %1").arg(d.path()),
+				   i18n("Save Error"));
 		return false;
 	}
-	bool status = true;
-	saveToXMI( file );
+	bool status = saveToXMI( file );
 	file.close();
 	if ( !url.isLocalFile() ) {
 		uploaded = KIO::NetAccess::upload( tmpfile.name(), doc_url );
@@ -1617,15 +1618,17 @@ void UMLDoc::initSaveTimer() {
 
 void UMLDoc::slotAutoSave() {
 	//Only save if modified.
-	if( !m_modified )
+	if( !m_modified ) {
 		return;
+	}
 	KURL tempURL = doc_url;
 	if( tempURL.fileName() == i18n("Untitled") ) {
-		tempURL.setFileName( i18n("autosave%1").arg(".xmi") );
+		tempURL.setPath( QDir::homeDirPath() + i18n("/autosave%1").arg(".xmi") );
 		saveDocument( tempURL );
 		m_modified = true;
-	} else
+	} else {
 		saveDocument( tempURL );
+	}
 	return;
 }
 
