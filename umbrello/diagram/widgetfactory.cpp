@@ -42,23 +42,21 @@ DiagramElement* WidgetFactory:: createUMLWidget( UMLObject *obj , Diagram *paren
 	DiagramElement *w(0L);
 	int id = parent->document()->getUniqueID();
 	
-	type_info &type = typeid(*obj);
-	if( type == typeid(UMLClass) )
-	{
-		w = new ClassWidget(parent,id,dynamic_cast<UMLClass*>(obj));
-	}
-	else if ( type == typeid(UMLInterface) )
+        if ( dynamic_cast<UMLClass*>( obj ) )
+		w = new ClassWidget(parent,id,static_cast<UMLClass*>(obj));
+        else if ( dynamic_cast<UMLInterface*>( obj ) ) 
 	{
 	//	w = new InterfaceWidget(parent,id,dynamic_cast<UMLInterface*>(obj));
 	}
-	else if ( type == typeid(UMLActor) )
+        else if ( dynamic_cast<UMLActor*> ( obj ) )
 	{
-		w = new ActorWidget(parent,id,dynamic_cast<UMLActor*>(obj));
+		w = new ActorWidget(parent,id,static_cast<UMLActor*>(obj));
 	}
 	//else if ( type == typeid(...) )
 	else
 	{
-		kdDebug()<<"Widget fot type "<<type.name()<<" not yet implemented"<<endl;
+		kdDebug()<<"Widget fot type "
+                    << typeid( *obj ).name() << " not yet implemented"<<endl;
 	}
 	return w;
 
