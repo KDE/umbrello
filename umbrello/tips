@@ -1,21 +1,5 @@
 <tip category="Umbrello">
 <html>
-<p>Welcome to Umbrello UML Modeller 1.2.  UML lets you create models of
-software systems in a standard diagramming language.  Please read the
-Umbrello Handbook, available from the Help menu, to learn more about UML.</p>
-</html>
-</tip>
-
-<tip category="Umbrello">
-<html>
-<p>New features in Umbrello 1.2 include undo/redo, zoom, resizeable canvas, 
-new widget and diagram types, a refactoring agent, class templates/generics
-and improved Java and C++ code generation.</p>
-</html>
-</tip>
-
-<tip category="Umbrello">
-<html>
 <p>Most diagram items can not be resized, they will resize themselves to fit to their contents.
 Boxes, notes and sequence diagram messages can be resized just click and drag on the red square.</p>
 </html>
