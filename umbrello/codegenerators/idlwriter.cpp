@@ -87,7 +87,7 @@ QString IDLWriter::qualifiedName(UMLClassifier *c) {
  * returns "IDL"
  */
 QString IDLWriter::getLanguage() {
-        return "IDL";
+	return "IDL";
 }
 
 /**
@@ -97,9 +97,9 @@ QString IDLWriter::getLanguage() {
  */
 bool IDLWriter::isType (QString & type)
 {
-   if(type == "IDLWriter")
-        return true;
-   return false;
+	if(type == "IDLWriter")
+		return true;
+	return false;
 }
 
 void IDLWriter::computeAssocTypeAndRole
@@ -316,7 +316,7 @@ void IDLWriter::writeClass(UMLClassifier *c) {
 		idl << "valuetype ";
 	else
 		idl << "interface ";
-        idl << c->getName();
+	idl << c->getName();
 	UMLClassifierList superclasses = c->getSuperClasses();
 	if (! superclasses.isEmpty()) {
 		idl << " : ";
@@ -326,7 +326,7 @@ void IDLWriter::writeClass(UMLClassifier *c) {
 			idl << qualifiedName(parent);
 			if (n_parents)
 				idl << ", ";
-	        	parent = superclasses.next();
+			parent = superclasses.next();
 		}
 	}
 	idl << " {" << m_newLineEndingChars << m_newLineEndingChars;

@@ -51,17 +51,17 @@ public:
 	 */
 	virtual void writeClass (UMLClassifier *c);
 
-  /**
-   * checks whether type is "AdaWriter"
-   *
-   * @param type
-   */
+	/**
+	 * checks whether type is "AdaWriter"
+	 *
+	 * @param type
+	 */
 	virtual bool isType (QString & type);
 
-  /**
-   * returns "Ada"
-   */
-  virtual QString getLanguage();
+	/**
+	 * returns "Ada"
+	 */
+	virtual QString getLanguage();
 
 	void createDefaultDatatypes();
 
@@ -73,9 +73,9 @@ public:
 	 */
 	virtual bool isReservedKeyword(const QString & rPossiblyReservedWord);
 
-  /**
-   * get list of reserved keywords
-   */
+	/**
+	 * get list of reserved keywords
+	 */
 	virtual const QStringList reservedKeywords() const;
 
 private:
