@@ -4,8 +4,6 @@ Version 1.2
 
 * Improved code export
 
-* Improved printing code (cleanup, SVG, EPS)
-
 * New datatype widget and internal representation 
 
 * Can change properties of multiple items at one time
