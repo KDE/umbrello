@@ -7,47 +7,47 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef PACKAGEWIDGETDATA_H
-#define PACKAGEWIDGETDATA_H
+#ifndef COMPONENTWIDGETDATA_H
+#define COMPONENTWIDGETDATA_H
 
 #include "umlwidgetdata.h"
 
 /**
- * This class holds all the PackageWidget's Information. All this
+ * This class holds all the ComponentWidget's Information. All this
  * information goes to a file or clipboard when an ConceptWidget
  * object is serialized. With this class we are trying to achieve
  * isolation between data and display layers.
  *
  * @author Jonathan Riddell
  */
-class PackageWidgetData : public UMLWidgetData {
-	friend class PackageWidget;
+class ComponentWidgetData : public UMLWidgetData {
+	friend class ComponentWidget;
 public:
 
 	/**
-	 * creates a PackageWidgetData object
+	 * creates a ComponentWidgetData object
 	 */
-	PackageWidgetData(SettingsDlg::OptionState optionState);
+	ComponentWidgetData(SettingsDlg::OptionState optionState);
 
 	/**
-	 * creates a copy of a PackageWidgetData object
+	 * creates a copy of a ComponentWidgetData object
 	 */
-	PackageWidgetData(PackageWidgetData& Other);
+	ComponentWidgetData(ComponentWidgetData& Other);
 
 	/**
 	 * destructor, empty
 	 */
-	virtual ~PackageWidgetData();
+	virtual ~ComponentWidgetData();
 
 	/**
-	 * Make the same as another PackageWidgetData
+	 * Make the same as another ComponentWidgetData
 	 */
-	virtual PackageWidgetData& operator=(PackageWidgetData& Other);
+	virtual ComponentWidgetData& operator=(ComponentWidgetData& Other);
 
 	/**
-	 * Compare two PackageWidgetData.
+	 * Compare two ComponentWidgetData.
 	 */
-	virtual bool operator==(PackageWidgetData& Other);
+	virtual bool operator==(ComponentWidgetData& Other);
 
 	/**
 	 * Save/Restore the object for the clipboard.
@@ -89,18 +89,18 @@ public:
 	virtual void print2cerr();
 
 	/**
-	 * Saves to the <packagewidget> element
+	 * Saves to the <componentwidget> element
 	 */
 	bool saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
 	/**
-	 * Loads from a <packagewidget> element
+	 * Loads from a <componentwidget> element
 	 */
 	bool loadFromXMI(QDomElement& qElement);
 protected:
 
 	/**
-	 * Should it show the <<stereotype>> of the package, currently ignored
+	 * Should it show the <<stereotype>> of the component, currently ignored
 	 * (stereotype is shown if it isn't empty).
 	 */
 	bool m_bShowStereotype;

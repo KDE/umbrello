@@ -76,6 +76,7 @@ public:
 	    tbb_Concept,
 	    tbb_Interface,
 	    tbb_Package,
+	    tbb_Component,
 	    tbb_Object,
 	    tbb_Initial_State,
 	    tbb_State,
@@ -117,6 +118,7 @@ private:
 		Branch,
 		Fork,
 		Package,
+		Component,
 		Interface;
 	}
 	m_Pixmaps;

@@ -56,6 +56,7 @@ public:
 
 	    mt_Concept,                       //CONCEPT
 	    mt_Package,
+	    mt_Component,
 	    mt_Interface,
 	    mt_Actor,                         //ACTOR
 	    mt_UseCase,                       //USECASE

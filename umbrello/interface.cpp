@@ -273,14 +273,6 @@ QPtrList<UMLAssociation> UMLInterface::getGeneralizations() {
 	return getSpecificAssocs(Uml::at_Generalization);
 }
 
-QPtrList<UMLAssociation> UMLInterface::getAggregations() {
-	return getSpecificAssocs(Uml::at_Aggregation);
-}
-
-QPtrList<UMLAssociation> UMLInterface::getCompositions() {
-	return getSpecificAssocs(Uml::at_Composition);
-}
-
 QPtrList<UMLOperation>* UMLInterface::getOpList() {
 	return &m_OpsList;
 }

@@ -49,6 +49,7 @@ public:
 	    it_Class,
 	    it_Template,
 	    it_Package,
+	    it_Component,
 	    it_Interface,
 	    it_Actor,
 	    it_UseCase,
@@ -110,8 +111,6 @@ public:
 	void setLoading(bool _state) {
 		loading = _state;
 	}
-
-	void setWidgetDefaults();
 
 	bool getSelectedItems(UMLListViewItemList &ItemList);
 	/**
@@ -233,6 +232,7 @@ protected:
 		QPixmap Class;
 		QPixmap Template;
 		QPixmap Package;
+		QPixmap Component;
 		QPixmap Interface;
 		QPixmap Actor;
 		QPixmap UseCase;
@@ -293,6 +293,11 @@ protected:
 	 * returns true if the listview type is a diagram
 	 */
 	bool typeIsDiagram(ListView_Type type);
+
+	/**
+	 * returns true if the listview type is an attribute, operation or template
+	 */
+	bool typeIsClassifierList(ListView_Type type);
 
 public slots:
 	void slotDiagramCreated(int id);

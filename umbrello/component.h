@@ -7,55 +7,54 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef INTERFACE_H
-#define INTERFACE_H
+#ifndef COMPONENT_H
+#define COMPONENT_H
 
 #include "umlobject.h"
 #include <qptrlist.h>
 
 class IDChangeLog;
 class UMLAssociation;
-class UMLOperation;
 
 /**
- *	This class contains the non-graphical information required for a UML Interface.
+ *	This class contains the non-graphical information required for a UML Component.
  *	This class inherits from @ref UMLObject which contains most of the information.
- *	The @ref UMLDoc class creates instances of this type.  All Interfaces will need a unique
+ *	The @ref UMLDoc class creates instances of this type.  All Components will need a unique
  *	id.  This will be given by the @ref UMLDoc class.  If you don't leave it up to the @ref UMLDoc
  *	class then call the method @ref UMLDoc::getUniqueID to get a unique id.
  *
- *	@short	Information for a non-graphical Interface.
+ *	@short	Non-graphical information for a Component.
  *	@author Jonathan Riddell
  *	@see	UMLObject
  */
 
-class UMLInterface : public UMLObject {
+class UMLComponent : public UMLObject {
 public:
 	/**
-	 *	Sets up an interface.
+	 *	Sets up a Component.
 	 *
 	 *	@param	parent	The parent to this Concept.
 	 *	@param	name	The name of the Concept.
 	 *	@param	id	The unique id of the Concept.
 	 */
-	UMLInterface(QObject* parent, QString Name, int id);
+	UMLComponent(QObject* parent, QString Name, int id);
 
 	/**
-	 *	Sets up an interface.
+	 *	Sets up a Component.
 	 *
 	 *	@param	parent		The parent to this Concept.
 	 */
-	UMLInterface(QObject * parent);
+	UMLComponent(QObject* parent);
 
 	/**
 	 *	Standard deconstructor.
 	 */
-	virtual ~UMLInterface();
+	virtual ~UMLComponent();
 
 	/**
 	 * 		Overloaded '==' operator
 	 */
-  	bool operator==(UMLInterface& rhs);
+  	bool operator==(UMLComponent& rhs);
   
   	/**
  	 *	Adds an association.
@@ -69,66 +68,30 @@ public:
  	bool addAssociation(UMLAssociation* assoc);
  
  	/**
- 	 *	Determine if this interface has this association.
+ 	 *	Determine if this component has this association.
  	 *	@param	assoc	The association to check.
  	 */
  	bool hasAssociation(UMLAssociation* assoc);
  
  	/**
- 	 *	Remove an association from the Interface.
+ 	 *	Remove an association from the Component.
  	 *
  	 *	@param	o	The association to remove.
  	 */
  	int removeAssociation(UMLObject *o);
  
 	/**
-	 *	Adds an operation to the Interface.
-	 *
-	 *	@param	name	The name of the operation.
-	 *	@param	id	The id of the operation.
-	 */
-	UMLObject* addOperation(QString name, int id);
-
-	/**
-	 *	Adds an already created Operation. The Operation must not belong to any other
-	 *	interface
-	 */
-	bool addOperation(UMLOperation* Op);
-
-	/**
-	 *	Adds an already created Operation and checks for
-	 *	operations with the same name. The Operation must not
-	 *	belong to any other interface.  Used by the clipboard
-	 *	when pasteing.
-	 */
-	bool addOperation(UMLOperation* Op, IDChangeLog* Log);
-
-	/**
-	 *	Remove an operation from the interface.
-	 *
-	 *	@param	o	The operation to remove.
-	 */
-	int removeOperation(UMLObject *o);
-
-	/**
-	 *	Returns the number of associations for the interface.
+	 *	Returns the number of associations for the Component.
 	 *	This is the sum of the aggregations and compositions.
 	 *
-	 *	@return	The number of associations for the interface.
+	 *	@return	The number of associations for the Concept.
 	 */
 	int associations();
 
-	/**
-	 *	Returns the number of operations for the interface.
-	 *
-	 *	@return	The number of operations for the interface.
-	 */
-	int operations() ;
-
  	/**
-	 *	Return the list of associations for the interface.
+	 *	Return the list of associations for the Component.
 	 *
-	 *	@return The list of associations for the Interface.
+	 *	@return The list of associations for the Component.
 	 */
 	const QPtrList<UMLAssociation>& getAssociations();
 
@@ -142,20 +105,26 @@ public:
 	/**
 	 *	Shorthand for getSpecificAssocs(Uml::at_Generalization)
 	 *
-	 *	@return The list of generalizations for the Interface.
+	 *	@return The list of generalizations for the Concept.
 	 */
 	QPtrList<UMLAssociation> getGeneralizations();
 
 	/**
-	 *	Return the list of operations for the Interface.
+	 *	Shorthand for getSpecificAssocs(Uml::at_Aggregation)
 	 *
-	 *	@return The list of operation for the Interface.
+	 *	@return The list of aggregations for the Concept.
 	 */
-	QPtrList<UMLOperation>* getOpList();
+	QPtrList<UMLAssociation> getAggregations();
 
 	/**
-	 *	Find a list of operations or associations 
-	 *	with the given name.
+	 *	Shorthand for getSpecificAssocs(Uml::at_Composition)
+	 *
+	 *	@return The list of compositions for the Concept.
+	 */
+	QPtrList<UMLAssociation> getCompositions();
+
+	/**
+	 *	Find a list of associations with the given name.
 	 *
 	 *	@param	t	The type to find.
 	 *	@param	n	The name of the object to find.
@@ -165,7 +134,7 @@ public:
 	QPtrList<UMLObject> findChildObject(UMLObject_Type t, QString n);
 
 	/**
-	 *	Find an attribute, operation, association or template.
+	 *	Find an association.
 	 *
 	 *	@param	id	The id of the object to find.
 	 *
@@ -174,7 +143,7 @@ public:
 	UMLObject* findChildObject(int id);
 
 	/**
-	 * Used to save or load this classes information for the clipboard
+	 * Use to save or load this class's information for the clipboard.
 	 *
 	 *	@param	s	Pointer to the datastream (file) to save/load from.
 	 *	@param	archive	If true will save the classes information, else will
@@ -196,28 +165,27 @@ public:
 	void init();
 
 	/**
-	 * Creates the UML:Interface element including it's operations,
+	 * Creates the UML:Component element including it's operations,
 	 * attributes and templates
 	 */
-	bool saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
+	bool saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 	/**
-	 * Loads the UML:Interface element including it's operations,
+	 * Loads the UML:Component element including it's operations,
 	 * attributes and templates
 	 */
-	bool loadFromXMI(QDomElement& element);
+	bool loadFromXMI( QDomElement & element );
 
 	/**
-	 * Returns a name for the new operation or
-	 * association appended with a number if the
-	 * default name is taken e.g. new attribute, new attribute_1
-	 * etc
+	 * Returns a name for the new association appended with a
+	 * number if the default name is taken e.g. new_association,
+	 * new_association_1 etc
 	 */
 	QString uniqChildName(const UMLObject_Type type);
 
 private:
 	/**
-	 * 	List of all the associations in this interface.
+	 * 	List of all the associations in this class.
 	 */
 	QPtrList<UMLAssociation> m_AssocsList;
 
@@ -226,11 +194,6 @@ private:
 	 * 	This is always computed from m_AssocsList.
 	 */
 	QPtrList<UMLAssociation> m_TmpAssocs;
-
-	/**
-	 * 	List of all the operations in this interface.
-	 */
-	QPtrList<UMLOperation> m_OpsList;
 
 };
 

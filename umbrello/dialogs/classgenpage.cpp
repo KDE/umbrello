@@ -33,6 +33,8 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o) : QWidget(p
 		name = i18n("Use case name:");
 	} else if (t == Uml::ot_Interface) {
 		name = i18n("Interface name:");
+	} else if (t == Uml::ot_Component) {
+		name = i18n("Component name:");
 	} else {
 		kdWarning() << "creating class gen page for unknown widget type" << endl;
 	}
@@ -56,7 +58,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o) : QWidget(p
 	m_pAbstractCB = 0;
 	m_pDeconCB = 0;
 
-	if (t == Uml::ot_Concept || t == Uml::ot_Package || t == Uml::ot_Interface) {
+	if (t == Uml::ot_Concept || t == Uml::ot_Package || t == Uml::ot_Interface || t == Uml::ot_Component) {
 		m_pStereoTypeL = new QLabel(i18n("Stereotype name:"), this);
 		m_pNameLayout -> addWidget(m_pStereoTypeL, 1, 0);
 

@@ -157,15 +157,18 @@ void WorkToolBar::slotCheckToolBar(Uml::Diagram_Type dt) {
 		insertButton( m_Pixmaps.Interface, tbb_Interface, true, i18n("Interface"));
 		setToggle( tbb_Interface,true );
 
-		insertButton( m_Pixmaps.Generalization, tbb_Generalization, true,
+		insertButton(m_Pixmaps.Component, tbb_Component, true, i18n("Component"));
+		setToggle(tbb_Component, true);
+
+		insertButton(m_Pixmaps.Generalization, tbb_Generalization, true,
 			      i18n("Implements (Generalisation/Realisation)"));
-		setToggle( tbb_Generalization, true );
+		setToggle(tbb_Generalization, true);
 
-		insertButton( m_Pixmaps.Dependency, tbb_Dependency, true, i18n("Dependency"));
-		setToggle( tbb_Dependency, true );
+		insertButton(m_Pixmaps.Dependency, tbb_Dependency, true, i18n("Dependency"));
+		setToggle(tbb_Dependency, true);
 
-		insertButton( m_Pixmaps.Association, tbb_Association, true, i18n("Association"));
-		setToggle( tbb_Association,true );
+		insertButton(m_Pixmaps.Association, tbb_Association, true, i18n("Association"));
+		setToggle(tbb_Association, true);
 	}
 }
 
@@ -259,6 +262,7 @@ void WorkToolBar::loadPixmaps() {
 	m_Pixmaps.Branch.load( dataDir + "branch.xpm" );
 	m_Pixmaps.Fork.load( dataDir + "fork.xpm" );
 	m_Pixmaps.Package.load( dataDir + "package.xpm" );
+	m_Pixmaps.Component.load( dataDir + "component.xpm" );
 	m_Pixmaps.Interface.load( dataDir + "interface.xpm" );
 }
 

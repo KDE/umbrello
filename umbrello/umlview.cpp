@@ -50,6 +50,7 @@
 
 #include "conceptwidget.h"
 #include "packagewidget.h"
+#include "componentwidget.h"
 #include "interfacewidget.h"
 #include "actorwidget.h"
 #include "usecasewidget.h"
@@ -477,56 +478,52 @@ void UMLView::slotObjectCreated(UMLObject* o) {
 	//check to see if we want the message
 	//may be wanted by someone else e.g. list view
 	if(m_bCreateObject) {
-		UMLWidget* temp = 0;
+		UMLWidget* newWidget = 0;
 		if(type == ot_Actor) {
-			ActorWidget * a = new ActorWidget(this, o);
-			temp = (UMLWidget*)a;
+			newWidget = new ActorWidget(this, o);
 		} else if(type == ot_UseCase) {
-			UseCaseWidget * u = new UseCaseWidget(this, o);
-			temp = (UMLWidget*)u;
+			newWidget = new UseCaseWidget(this, o);
 		} else if(type == ot_Package) {
-		        PackageWidget* packageWidget = new PackageWidget(this, o);
-			temp = (UMLWidget*)packageWidget;
+			newWidget = new PackageWidget(this, o);
+		} else if(type == ot_Component) {
+			newWidget = new ComponentWidget(this, o);
 		} else if(type == ot_Interface) {
 		        InterfaceWidget* interfaceWidget = new InterfaceWidget(this, o);
 			if (getType() == dt_Component) {
 				interfaceWidget->setDrawAsCircle(true);
 			}
-			temp = (UMLWidget*)interfaceWidget;
+			newWidget = (UMLWidget*)interfaceWidget;
 		} else if(type == ot_Concept) {
 			//see if we really want an object widget or concept widget
-			if(m_pData -> m_Type == dt_Class) {
-				ConceptWidget * c = new ConceptWidget(this, o);
-				temp = (UMLWidget*)c;
+			if(m_pData->m_Type == dt_Class) {
+				newWidget = new ConceptWidget(this, o);
 			} else {
-				ObjectWidget * ow = new ObjectWidget(this, o, m_pData -> getUniqueID() );
-				temp = (UMLWidget *)ow;
+				newWidget = new ObjectWidget(this, o, m_pData -> getUniqueID() );
 			}
 		} else {
 			kdWarning() << "ERROR: trying to create an invalid widget" << endl;
 		}
 		int y=m_Pos.y();
 
-		if (temp->getBaseType() == wt_Object
-				&& this->m_pData->m_Type == dt_Sequence
-		   ) {
-			y = 80 - temp -> height();
+		if (newWidget->getBaseType() == wt_Object && this->m_pData->m_Type == dt_Sequence) {
+			y = 80 - newWidget->height();
 		}
-		temp -> setX( m_Pos.x() );
-		temp -> setY( y );
-		temp -> moveEvent( 0 );//needed for ObjectWidget to set seq. line properly
-		temp -> setVisible( true );
-		temp -> setActivated();
-		temp -> setFont( m_pData -> getFont() );
-		temp->slotColorChanged( m_pData->getID() );
+		newWidget->setX( m_Pos.x() );
+		newWidget->setY( y );
+		newWidget->moveEvent( 0 );//needed for ObjectWidget to set seq. line properly
+		newWidget->setVisible( true );
+		newWidget->setActivated();
+		newWidget->setFont( m_pData -> getFont() );
+		newWidget->slotColorChanged( m_pData->getID() );
 		m_bCreateObject = false;
 		switch( type ) {
 			case ot_Actor:
 			case ot_UseCase:
 			case ot_Concept:
 			case ot_Package:
+			case ot_Component:
 			case ot_Interface:
-				createAutoAssociations( temp );
+				createAutoAssociations(newWidget);
 				break;
 		}
 	}
@@ -595,22 +592,20 @@ void UMLView::contentsDragEnterEvent(QDragEnterEvent *e) {
 	// actor,usecase - usecase diagram
 	if(status) {
 		UMLObject_Type ot = temp->getBaseType();
-		if(m_pData->m_Type == dt_UseCase && (ot < ot_Actor || ot > ot_UseCase) ) {
+		if(m_pData->m_Type == dt_UseCase && (ot != ot_Actor && ot != ot_UseCase) ) {
 			status = false;
 		}
-		if((m_pData->m_Type == dt_Sequence || m_pData->m_Type == dt_Class || m_pData->m_Type == dt_Collaboration)
-		   && (ot != ot_Concept) ) {
-				status = false;
+		if((m_pData->m_Type == dt_Sequence || m_pData->m_Type == dt_Class ||
+		    m_pData->m_Type == dt_Collaboration) &&
+		   (ot != ot_Concept && ot != ot_Package && ot != ot_Interface) ) {
+			status = false;
 		}
-		if (m_pData->m_Type == dt_Class && (ot == ot_Package || ot == ot_Interface)) {
-			status = true;
+		if (m_pData->m_Type == dt_Component && (ot != ot_Interface && ot != ot_Component)) {
+			status = false;
 		}
-		if (m_pData->m_Type == dt_Component && ot == ot_Interface) {
-			status = true;
-		}
-		if((m_pData->m_Type == dt_UseCase || m_pData->m_Type == dt_Class)
+		if((m_pData->m_Type == dt_UseCase || m_pData->m_Type == dt_Class || m_pData->m_Type == dt_Component)
 		   && widgetOnDiagram(data->getID()) ) {
-				status = false;
+			status = false;
 		}
 	}
 	e->accept(status);
@@ -1354,6 +1349,7 @@ UMLObjectList* UMLView::getUMLObjects() {
 			case wt_Actor:
 			case wt_Class:
 			case wt_Package:
+			case wt_Component:
 			case wt_UseCase:
 			case wt_Object:
 				list->append( obj->getUMLObject() );
@@ -1431,6 +1427,7 @@ bool UMLView::getSelectedWidgets(UMLWidgetList&WidgetList)
 			case wt_UseCase:
 			case wt_Class:
 			case wt_Package:
+			case wt_Component:
 			case wt_Object:
 			case wt_Note:
 			case wt_Message:
@@ -1448,7 +1445,7 @@ bool UMLView::getSelectedWidgets(UMLWidgetList&WidgetList)
 	return true;
 }
 
-bool UMLView::getSelectedWidgetDatas(UMLWidgetDataList&WidgetDataList) {
+bool UMLView::getSelectedWidgetDatas(UMLWidgetDataList& WidgetDataList) {
 	UMLWidget * temp = 0;
 	UMLWidget_Type type;
 	for(temp=(UMLWidget *)m_SelectedList.first();temp;temp=(UMLWidget *)m_SelectedList.next()) {
@@ -1459,6 +1456,7 @@ bool UMLView::getSelectedWidgetDatas(UMLWidgetDataList&WidgetDataList) {
 			case wt_UseCase:
 			case wt_Class:
 			case wt_Package:
+			case wt_Component:
 			case wt_Object:
 			case wt_Note:
 			case wt_State:
@@ -1515,6 +1513,10 @@ bool UMLView::createWidget(UMLWidgetData* WidgetData) {
 
 		case wt_Package:
 			widget = new PackageWidget(this, object, WidgetData);
+			break;
+
+		case wt_Component:
+			widget = new ComponentWidget(this, object, WidgetData);
 			break;
 
 		case wt_Interface:
@@ -1581,6 +1583,8 @@ bool UMLView::addWidget( UMLWidgetData * pWidgetData ) {
 
 		case wt_Class:
 		case wt_Package:
+		case wt_Component:
+		case wt_Interface:
 		case wt_Actor:
 		case wt_UseCase:
 			newID = log->findNewID( pWidgetData -> getId() );
@@ -2087,6 +2091,10 @@ Uml::UMLObject_Type UMLView::convert_TBB_OT(WorkToolBar::ToolBar_Buttons tbb) {
 
 		case WorkToolBar::tbb_Package:
 			ot = ot_Package;
+			break;
+
+		case WorkToolBar::tbb_Component:
+			ot = ot_Component;
 			break;
 
 		case WorkToolBar::tbb_Interface:
@@ -2617,6 +2625,11 @@ void UMLView::slotMenuSelection(int sel) {
 			getDocument()->createUMLObject(ot_Package);
 			break;
 
+		case ListPopupMenu::mt_Component:
+			m_bCreateObject = true;
+			getDocument()->createUMLObject(ot_Component);
+			break;
+
 		case ListPopupMenu::mt_Interface:
 			m_bCreateObject = true;
 			getDocument()->createUMLObject(ot_Interface);
@@ -2759,6 +2772,7 @@ void UMLView::synchronizeData() {
 			case wt_UseCase:
 			case wt_Class:
 			case wt_Package:
+			case wt_Component:
 			case wt_Interface:
 			case wt_Object:
 			case wt_Note:

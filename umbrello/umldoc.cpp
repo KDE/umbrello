@@ -12,6 +12,7 @@
 #include "association.h"
 #include "concept.h"
 #include "package.h"
+#include "component.h"
 #include "interface.h"
 #include "docwindow.h"
 #include "objectwidget.h"
@@ -419,6 +420,8 @@ QString	UMLDoc::uniqObjectName(const UMLObject_Type type) {
 		currentName = i18n("new_usecase");
 	else if(type == ot_Package)
 		currentName = i18n("new_package");
+	else if(type == ot_Component)
+		currentName = i18n("new_component");
 	else if(type == ot_Interface)
 		currentName = i18n("new_interface");
 	else
@@ -449,7 +452,7 @@ void UMLDoc::createUMLObject(UMLObject_Type type) {
 		if (o) {
 			KMessageBox::error(0, i18n("That name is already being used."), i18n("Not a Unique Name"));
 		} else {  //create an object
-			if(type == ot_Actor) {
+/*FIXME check			if(type == ot_Actor) {
 				UMLActor *a = new UMLActor(this, name, ++uniqueID);
 				o = (UMLObject*)a;
 			} else if(type == ot_UseCase) {
@@ -461,9 +464,29 @@ void UMLDoc::createUMLObject(UMLObject_Type type) {
 			} else if(type == ot_Package) {
 				UMLPackage* package = new UMLPackage(this, name, ++uniqueID);
 				o = (UMLObject*)package;
+			} else if(type == ot_Component) {
+				UMLComponent* component = new UMLComponent(this, name, ++uniqueID);
+				o = (UMLObject*)package;
 			} else if(type == ot_Interface) {
 				UMLInterface* interface = new UMLInterface(this, name, ++uniqueID);
 				o = (UMLObject*)interface;
+			} else {
+				kdWarning() << "CreateUMLObject(int) error" << endl;
+				return;
+			}
+*/
+			if(type == ot_Actor) {
+				o = new UMLActor(this, name, ++uniqueID);
+			} else if(type == ot_UseCase) {
+				o = new UMLUseCase(this,name, ++uniqueID);
+			} else if(type == ot_Concept) {
+				o = new UMLConcept(this, name, ++uniqueID);
+			} else if(type == ot_Package) {
+				o = new UMLPackage(this, name, ++uniqueID);
+			} else if(type == ot_Component) {
+				o = new UMLComponent(this, name, ++uniqueID);
+			} else if(type == ot_Interface) {
+				o = new UMLInterface(this, name, ++uniqueID);
 			} else {
 				kdWarning() << "CreateUMLObject(int) error" << endl;
 				return;
@@ -1370,6 +1393,8 @@ bool UMLDoc::loadUMLObjectsFromXMI( QDomNode & node ) {
 			pObject = new UMLConcept(this);
 		} else if (type == "UML:Package") {
 			pObject = new UMLPackage(this);
+		} else if (type == "UML:Component") {
+			pObject = new UMLComponent(this);
 		} else if (type == "UML:Interface") {
 			pObject = new UMLInterface(this);
 		} else if( type == "UML:Association" ) {
@@ -1386,7 +1411,7 @@ bool UMLDoc::loadUMLObjectsFromXMI( QDomNode & node ) {
  			continue;
  		}
 		if( !pObject ) {
-			kdDebug()<<"Given wrong type of umlobject to create"<<endl;
+			kdWarning()<<"Given wrong type of umlobject to create"<<endl;
 			return false;
 		}
 		if( !pObject -> loadFromXMI( element ) ) {
