@@ -14,6 +14,7 @@
 #include <kdebug.h>
 
 #include "assocgenpage.h"
+#include "../association.h"
 
 AssocGenPage::AssocGenPage (UMLDoc *d, QWidget *parent, AssociationWidget *assoc)
 	: QWidget(parent)
@@ -73,7 +74,7 @@ void AssocGenPage::constructWidget() {
 	nameLayout -> addWidget(m_pTypeLE, 1, 1);
 
 	// set value in association type
-	m_pTypeLE->setText(UMLAssociation::typeAsString(m_assoc->getAssocType()));
+	m_pTypeLE->setText(UMLAssociation::typeAsString(m_pAssociationWidget->getAssocType()));
 
 	m_pDoc->setWordWrap(QMultiLineEdit::WidgetWidth);
 
