@@ -82,7 +82,7 @@ void UMLOperationDialog::setupDialog() {
 	QHBoxLayout * scopeLayout = new QHBoxLayout(m_pScopeBG);
 	scopeLayout -> setMargin(margin);
 
-	m_pPublicRB = new QRadioButton(i18n("&Public"), m_pScopeBG);
+	m_pPublicRB = new QRadioButton(i18n("P&ublic"), m_pScopeBG);
 	scopeLayout -> addWidget(m_pPublicRB);
 
 	m_pPrivateRB = new QRadioButton(i18n("P&rivate"), m_pScopeBG);
@@ -101,7 +101,7 @@ void UMLOperationDialog::setupDialog() {
 	parmsLayout -> addWidget(m_pParmsLB);
 
 	KButtonBox* buttonBox = new KButtonBox(m_pParmsGB);
-	buttonBox->addButton( i18n("&New Parameter..."), this, SLOT(slotNewParameter()) );
+	buttonBox->addButton( i18n("Ne&w Parameter..."), this, SLOT(slotNewParameter()) );
 	m_pDeleteButton = buttonBox->addButton( i18n("&Delete"), this, SLOT(slotDeleteParameter()) );
 	m_pPropertiesButton = buttonBox->addButton( i18n("&Properties"), this,
 						    SLOT(slotParameterProperties()) );
