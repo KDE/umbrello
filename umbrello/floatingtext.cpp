@@ -444,8 +444,6 @@ void FloatingText::setSelected(bool _select) {
 		return;
 	}
 	UMLWidget::setSelected( _select );
-	if (m_pLink)
-		m_pLink->setFTselected(this);
 }
 
 void FloatingText::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {

@@ -165,11 +165,6 @@ public:
 	 */
 	virtual void setupAfterFTsetLink(FloatingText *ft);
 
-	/**
-	 * Bad. Motivated by FloatingText::setSelected().
-	 */
-	virtual void setFTselected(FloatingText *ft);
-
 protected:
 	/**
 	 * Type of widget.

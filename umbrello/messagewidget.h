@@ -192,12 +192,6 @@ public:
 	void setupAfterFTsetLink(FloatingText *ft);
 
 	/**
-	 * Overrides operation from LinkWidget.
-	 * Required by FloatingText.
-	 */
-	void setFTselected(FloatingText *ft);
-
-	/**
 	 * Calculate the geometry of the widget.
 	 */
 	void calculateWidget();

@@ -241,9 +241,6 @@ void MessageWidget::setupAfterFTsetLink(FloatingText* /*ft*/) {
 	setTextPosition();
 }
 
-void MessageWidget::setFTselected(FloatingText* /*ft*/) {
-}
-
 void MessageWidget::moveEvent(QMoveEvent* /*m*/) {
 	if (!m_pFText) {
 		return;

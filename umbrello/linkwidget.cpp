@@ -94,9 +94,5 @@ void LinkWidget::setupAfterFTsetLink(FloatingText *) {
 	// Only applicable to MessageWidget and AssociationWidget.
 }
 
-void LinkWidget::setFTselected(FloatingText *) {
-	// Only applicable to MessageWidget and AssociationWidget.
-}
-
 
 #include "linkwidget.moc"
