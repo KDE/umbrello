@@ -26,6 +26,7 @@
 // kde includes
 #include <kurl.h>
 #include <kdockwidget.h>
+#include <kpopupmenu.h>
 
 // app includes
 #include "umlnamespace.h"
@@ -1029,6 +1030,12 @@ private:
 	 * True when type resolution pass has been executed.
 	 */
 	bool m_bTypesAreResolved;
+	
+	/**
+	 * the context menu on the tabs, 
+	 * plugs into umlview::slotMenuSelection()
+	 */
+	KPopupMenu* m_pTabPopupMenu;
 
 public slots:
 
@@ -1055,6 +1062,12 @@ public slots:
 	 */
 	void slotAutoSave();
 
+	/**
+	 * Make a popup menu for the tabs
+	 * signalled from tabWidget's contextMenu()
+	 */
+	void slotDiagramPopupMenu(QWidget* umlview, const QPoint& point);
+	
 signals:
 	void sigDiagramCreated(Uml::IDType id);
 	void sigDiagramRemoved(Uml::IDType id);

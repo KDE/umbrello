@@ -37,6 +37,9 @@
 #include <kstandarddirs.h>
 #include <kstatusbar.h>
 #include <ktip.h>
+#include <ktabwidget.h>
+#include <ktoolbarbutton.h>
+#include <kpopupmenu.h>
 
 // app includes
 #include "aligntoolbar.h"
@@ -84,7 +87,7 @@ UMLApp::UMLApp(QWidget* , const char* name):KDockMainWindow(0, name) {
 	// call inits to invoke all other construction parts
 	readOptionState();
 	initDocument();
-	initActions(); //now calls initStatusBar() because it is effected by setupGUI();
+	initActions(); //now calls initStatusBar() because it is affected by setupGUI()
 	initView();
 	initClip();
 	readOptions();
@@ -245,7 +248,7 @@ void UMLApp::initActions() {
 				    this, SLOT( slotDeleteDiagram() ), actionCollection(), "view_delete");
 	viewExportImage = new KAction(i18n("&Export as Picture..."), SmallIconSet("image"), 0,
 	                        this, SLOT( slotCurrentViewExportImage() ), actionCollection(), "view_export_image");
-	viewProperties = new KAction(i18n("&Properties"), SmallIconSet("info"), 0,
+	viewProperties = new KAction(i18n("&Properties..."), SmallIconSet("info"), 0,
 				     this, SLOT( slotCurrentViewProperties() ), actionCollection(), "view_properties");
 
 	viewSnapToGrid->setChecked(false);
@@ -267,15 +270,36 @@ void UMLApp::initActions() {
 
 	KStdAction::tipOfDay( this, SLOT( tipOfTheDay() ), actionCollection() );
 
-	initStatusBar(); //call this here because status bar is shown/hidden by setupGUI()
+	QString moveTabLeftString = i18n("&Move Tab Left");
+	QString moveTabRightString = i18n("&Move Tab Right");
+	moveTabLeft = new KAction(QApplication::reverseLayout() ? moveTabRightString : moveTabLeftString,
+				  QApplication::reverseLayout() ? "forward" : "back",
+				  QApplication::reverseLayout() ? Qt::CTRL+Qt::SHIFT+Qt::Key_Right : Qt::CTRL+Qt::SHIFT+Qt::Key_Left,
+				  this, SLOT(slotMoveTabLeft()), actionCollection(),
+				  "move_tab_left");
+	moveTabRight = new KAction(QApplication::reverseLayout() ? moveTabLeftString : moveTabRightString,
+				   QApplication::reverseLayout() ? "back" : "forward",
+                                   QApplication::reverseLayout() ? Qt::CTRL+Qt::SHIFT+Qt::Key_Left : Qt::CTRL+Qt::SHIFT+Qt::Key_Right,
+				   this, SLOT(slotMoveTabRight()), actionCollection(),
+				   "move_tab_right");
+
+	QString selectTabLeftString = i18n("Select Diagram on Left");
+	QString selectTabRightString = i18n("Select Diagram on Right");
+	changeTabLeft = new KAction(QApplication::reverseLayout() ? selectTabRightString : selectTabLeftString,
+				    QApplication::reverseLayout() ? Qt::SHIFT+Qt::Key_Right : Qt::SHIFT+Qt::Key_Left,
+				    this, SLOT(slotChangeTabLeft()), actionCollection(), "previous_tab");
+	changeTabRight = new KAction(QApplication::reverseLayout() ? selectTabLeftString : selectTabRightString,
+				     QApplication::reverseLayout() ? Qt::SHIFT+Qt::Key_Left : Qt::SHIFT+Qt::Key_Right,
+				     this, SLOT(slotChangeTabRight()), actionCollection(), "next_tab");
+
+
+	initStatusBar(); //call this here because the statusBar is shown/hidden by setupGUI()
 
 	// use the absolute path to your umbrelloui.rc file for testing purpose in setupGUI();
 	setupGUI();
 
 	QPopupMenu* menu = findMenu( menuBar(), QString("settings") );
 	menu->insertItem(i18n("&Windows"), dockHideShowMenu(), -1, 0);
-
-
 }
 //////////////////////////////////////////////////////////////////////////////////////////////
 void UMLApp::slotZoomSliderMoved(int value) {
@@ -376,9 +400,38 @@ void UMLApp::initView() {
 	addToolBar(m_alignToolBar, Qt::DockTop, false);
 
 	m_mainDock = createDockWidget("maindock", 0L, 0L, "main dock");
-	viewStack = new QWidgetStack(m_mainDock, "viewstack");
+	tabWidget = new KTabWidget(m_mainDock, "tab_widget");
 
-	m_mainDock->setWidget(viewStack);
+	KToolBarButton* m_newSessionButton = new KToolBarButton("tab_new", 0, tabWidget);
+	m_newSessionButton->setIconSet( SmallIcon( "tab_new" ) );
+	m_newSessionButton->adjustSize();
+	m_newSessionButton->setAutoRaise(true);
+	KPopupMenu* m_diagramMenu = new KPopupMenu(m_newSessionButton);
+
+	m_diagramMenu->insertItem( BarIconSet("umbrello_diagram_class"), i18n("Class Diagram..."), this, SLOT(slotClassDiagram()) );
+	m_diagramMenu->insertItem(BarIconSet("umbrello_diagram_sequence"), i18n("Sequence Diagram..."), this, SLOT(slotSequenceDiagram()) );
+	m_diagramMenu->insertItem(BarIconSet("umbrello_diagram_collaboration"), i18n("Collaboration Diagram..."), this, SLOT(slotCollaborationDiagram()) );
+	m_diagramMenu->insertItem(BarIconSet("umbrello_diagram_usecase"), i18n("Use Case Diagram..."), this, SLOT(slotUseCaseDiagram()) );
+	m_diagramMenu->insertItem(BarIconSet("umbrello_diagram_state"), i18n("State Diagram..."), this, SLOT(slotStateDiagram()) );
+	m_diagramMenu->insertItem(BarIconSet("umbrello_diagram_activity"), i18n("Activity Diagram..."), this, SLOT(slotActivityDiagram()) );
+	m_diagramMenu->insertItem(BarIconSet("umbrello_diagram_component"), i18n("Component Diagram..."), this, SLOT(slotComponentDiagram()) );
+	m_diagramMenu->insertItem(BarIconSet("umbrello_diagram_deployment"), i18n("Deployment Diagram..."), this, SLOT(slotDeploymentDiagram()) );
+	m_newSessionButton->setPopup(m_diagramMenu);
+	//FIXME why doesn't this work?
+	//m_newSessionButton->setPopup(newDiagram->popupMenu());
+
+	KToolBarButton* m_closeDiagramButton = new KToolBarButton("tab_remove", 0, tabWidget);
+	m_closeDiagramButton->setIconSet( SmallIcon("tab_remove") );
+	m_closeDiagramButton->adjustSize();
+
+	connect(m_closeDiagramButton, SIGNAL(clicked()), SLOT(slotDeleteDiagram()));
+	connect(tabWidget, SIGNAL(currentChanged(QWidget*)), SLOT(slotTabChanged(QWidget*)));
+	connect(tabWidget, SIGNAL(contextMenu(QWidget*,const QPoint&)), m_doc, SLOT(slotDiagramPopupMenu(QWidget*,const QPoint&)));
+	tabWidget->setCornerWidget( m_newSessionButton, TopLeft );
+	tabWidget->setCornerWidget( m_closeDiagramButton, TopRight );
+	m_newSessionButton->installEventFilter(this);
+
+	m_mainDock->setWidget(tabWidget);
 	m_mainDock->setDockSite(KDockWidget::DockCorner);
 	m_mainDock->setEnableDocking(KDockWidget::DockNone);
 	setView(m_mainDock);
@@ -1504,17 +1557,11 @@ void UMLApp::initSavedCodeGenerators() {
 }
 
 QWidget* UMLApp::getMainViewWidget() {
-	return viewStack;
+	return tabWidget;
 }
 
 void UMLApp::setCurrentView(UMLView* view /*=0*/) {
 	m_view = view;
-	if (view) {
-		viewStack->raiseWidget(view);
-		slotStatusMsg(view->getName());
-	} else {
-		viewStack->raiseWidget(blankWidget);
-	}
 }
 
 UMLView* UMLApp::getCurrentView() {
@@ -1538,6 +1585,31 @@ QPopupMenu* UMLApp::findMenu(QMenuData* menu, const QString &name) {
 		}
 	}
 	return 0;
+}
+
+void UMLApp::slotTabChanged(QWidget* view) {
+    UMLView* umlview = ( UMLView* )view;
+    m_doc->changeCurrentView( umlview->getID() );
+}
+
+void UMLApp::slotChangeTabLeft() {
+	tabWidget->setCurrentPage( tabWidget->currentPageIndex() - 1 );
+}
+
+void UMLApp::slotChangeTabRight() {
+	tabWidget->setCurrentPage( tabWidget->currentPageIndex() + 1 );
+}
+
+void UMLApp::slotMoveTabLeft() {
+	//causes problems
+	//does strange things when moving right most diagram to the right
+	//doesn't save order in file
+	//tabWidget->moveTab( tabWidget->currentPageIndex(), tabWidget->currentPageIndex() - 1 );
+}
+
+void UMLApp::slotMoveTabRight() {
+	//causes problems
+	//tabWidget->moveTab( tabWidget->currentPageIndex(), tabWidget->currentPageIndex() + 1 );
 }
 
 //static pointer, holding the unique instance

@@ -102,7 +102,7 @@ UMLListView::UMLListView(QWidget *parent, const char *name)
 	setDefaultRenameAction( Accept );
 	setResizeMode( LastColumn );
 	//add columns and initial items
-	addColumn(i18n("UML Diagrams"));
+	addColumn(i18n("UML Model"));
 
 	rv =  new UMLListViewItem(this, i18n("Views"), Uml::lvt_View);
 	ucv = new UMLListViewItem(rv, i18n("Use Case View"), Uml::lvt_UseCase_View);
@@ -661,10 +661,10 @@ void UMLListView::setDocument(UMLDoc *d) {
 	}
 	m_doc = d;
 
-
-	connect(m_doc, SIGNAL(sigDiagramCreated(Uml::IDType)), this, SLOT(slotDiagramCreated(Uml::IDType)));
-	connect(m_doc, SIGNAL(sigDiagramRemoved(Uml::IDType)), this, SLOT(slotDiagramRemoved(Uml::IDType)));
-	connect(m_doc, SIGNAL(sigDiagramRenamed(Uml::IDType)), this, SLOT(slotDiagramRenamed(Uml::IDType)));
+//commented out jr, don't need diagrams in list view with tabbed diagrams  FIXMEnow
+//	connect(m_doc, SIGNAL(sigDiagramCreated(Uml::IDType)), this, SLOT(slotDiagramCreated(Uml::IDType)));
+//	connect(m_doc, SIGNAL(sigDiagramRemoved(Uml::IDType)), this, SLOT(slotDiagramRemoved(Uml::IDType)));
+//	connect(m_doc, SIGNAL(sigDiagramRenamed(Uml::IDType)), this, SLOT(slotDiagramRenamed(Uml::IDType)));
 
 	connect(m_doc, SIGNAL(sigObjectCreated(UMLObject *)), this, SLOT(slotObjectCreated(UMLObject *)));
 	connect(m_doc, SIGNAL(sigObjectRemoved(UMLObject *)), this, SLOT(slotObjectRemoved(UMLObject *)));
@@ -2408,7 +2408,10 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
 //				item = diagramFolder;
 				break;
 			default:
-				item = new UMLListViewItem( parent, label, lvType, nID );
+				//don't load diagrams any more, tabbed diagrams
+				if ( !typeIsDiagram(lvType) ) {
+					item = new UMLListViewItem( parent, label, lvType, nID );
+				}
 				break;
 		}//end switch
 

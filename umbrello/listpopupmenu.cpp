@@ -813,7 +813,11 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 		case mt_Activity_Diagram:
 		case mt_Component_Diagram:
 		case mt_Deployment_Diagram:
-			insertStdItems(false);
+			//don't insert standard items because cut/copy not currently
+			// possible with tabbed diagrams (it didn't work anyway)
+			//insertStdItems(false);
+			insertStdItem(mt_Rename);
+			insertStdItem(mt_Delete);
 			insertStdItem(mt_Export_Image);
 			insertStdItem(mt_Properties);
 			break;

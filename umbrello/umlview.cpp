@@ -2714,6 +2714,7 @@ void UMLView::slotMenuSelection(int sel) {
 			break;
 
 		case ListPopupMenu::mt_Cut:
+			//FIXME make this work for diagram's right click menu
 			if ( m_SelectedList.count() &&
 			     UMLApp::app()->editCutCopy(true) ) {
 				deleteSelection();
@@ -2722,6 +2723,8 @@ void UMLView::slotMenuSelection(int sel) {
 			break;
 
 		case ListPopupMenu::mt_Copy:
+			//FIXME make this work for diagram's right click menu
+			m_SelectedList.count() && UMLApp::app()->editCutCopy(true);
 			break;
 
 		case ListPopupMenu::mt_Paste:
@@ -2820,6 +2823,19 @@ void UMLView::slotMenuSelection(int sel) {
 		case ListPopupMenu::mt_Properties:
 			if (showPropDialog() == true)
 				m_pDoc->setModified();
+			break;
+
+		case ListPopupMenu::mt_Delete:
+			m_pDoc->removeDiagram( getID() );
+			break;
+
+		case ListPopupMenu::mt_Rename:
+			ok = false;
+			name = KInputDialog::getText( i18n("Enter Diagram Name"), i18n("Enter the new name of the diagram:"), getName(), &ok, UMLApp::app() );
+			if (ok) {
+				setName(name);
+				m_pDoc->signalDiagramRenamed(this);
+			}
 			break;
 
 		default:

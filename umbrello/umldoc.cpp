@@ -20,6 +20,7 @@
 #include <qbuffer.h>
 #include <qdir.h>
 #include <qregexp.h>
+#include <qlabel.h>
 
 // kde includes
 #include <kapplication.h>
@@ -36,6 +37,8 @@
 # include <ktempdir.h>
 #endif
 #include <ktempfile.h>
+#include <kiconloader.h>
+#include <ktabwidget.h>
 
 // app includes
 #include "actor.h"
@@ -71,6 +74,7 @@
 #include "dialogs/umltemplatedialog.h"
 #include "dialogs/umloperationdialog.h"
 #include "inputdialog.h"
+#include "listpopupmenu.h"
 
 # define EXTERNALIZE_ID(id)  QString::number(id).ascii()
 # define INTERNALIZE_ID(id)  ID2STR(id).toInt()
@@ -105,6 +109,7 @@ UMLDoc::UMLDoc() {
 	m_pAutoSaveTimer = 0;
 	m_nViewID = Uml::id_None;
 	m_highestIDforForeignFile = 0;
+	m_pTabPopupMenu = 0;
 	UMLApp * pApp = UMLApp::app();
 	connect(this, SIGNAL(sigDiagramCreated(Uml::IDType)), pApp, SLOT(slotUpdateViews()));
 	connect(this, SIGNAL(sigDiagramRemoved(Uml::IDType)), pApp, SLOT(slotUpdateViews()));
@@ -132,10 +137,29 @@ void UMLDoc::addView(UMLView *view) {
 			view -> hide();
 		}
 	}
+
+	KTabWidget* tabWidget = ( KTabWidget* )UMLApp::app()->getMainViewWidget();
+	tabWidget->addTab(view, view->getName());
+	QIconSet diagramIconSet;
+	switch ( view->getType() ) {
+		case dt_UseCase: diagramIconSet = BarIconSet("umbrello_diagram_usecase"); break;
+		case dt_Collaboration: diagramIconSet = BarIconSet("umbrello_diagram_collaboration"); break;
+		case dt_Class: diagramIconSet = BarIconSet("umbrello_diagram_class"); break;
+		case dt_Sequence: diagramIconSet = BarIconSet("umbrello_diagram_sequence"); break;
+		case dt_State: diagramIconSet = BarIconSet("umbrello_diagram_state"); break;
+		case dt_Activity: diagramIconSet = BarIconSet("umbrello_diagram_activity"); break;
+		case dt_Component: diagramIconSet = BarIconSet("umbrello_diagram_component"); break;
+		case dt_Deployment: diagramIconSet = BarIconSet("umbrello_diagram_deployment"); break;
+		default:
+			kdDebug() << "unknown diagram type in addView()" << endl;
+			diagramIconSet = BarIconSet("unknown");
+	}
+	tabWidget->setTabIconSet(view, diagramIconSet);
 	pApp->setDiagramMenuItemsState(true);
 	pApp->slotUpdateViews();
 	pApp->setCurrentView(view);
-
+	tabWidget->showPage(view);
+	tabWidget->setCurrentPage(tabWidget->currentPageIndex());
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLDoc::removeView(UMLView *view , bool enforceCurrentView ) {
@@ -1652,7 +1676,7 @@ void UMLDoc::saveToXMI(QIODevice& file) {
 
 // If we consider it useful we might add user and contact details
 //	QDomElement owner = doc.createElement( "XMI.owner" );
-//	owner.appendChild( doc.createTextNode( "Jens Krüger" ) ); // Add a User
+//	owner.appendChild( doc.createTextNode( "Jens Kruger" ) ); // Add a User
 //	documentation.appendChild( owner );
 
 //	QDomElement contact = doc.createElement( "XMI.contact" );
@@ -2647,7 +2671,9 @@ void UMLDoc::slotAutoSave() {
 	}
 }
 
-void UMLDoc::signalDiagramRenamed(UMLView * pView ) {
+void UMLDoc::signalDiagramRenamed(UMLView* pView ) {
+        KTabWidget* tabWidget = ( KTabWidget* )UMLApp::app()->getMainViewWidget();
+	tabWidget->changeTab( pView, pView->getName() );
 	emit sigDiagramRenamed( pView -> getID() );
 	return;
 }
@@ -2768,11 +2794,62 @@ void UMLDoc::createDatatype(const QString &name)  {
 	UMLApp::app()->getListView()->closeDatatypesFolder();
 }
 
-void UMLDoc::addObject(UMLObject* o)
-{
+void UMLDoc::addObject(UMLObject* o) {
 	m_objectList.append(o);
 	emit sigObjectCreated(o);
 	setModified(true);
+}
+
+void UMLDoc::slotDiagramPopupMenu(QWidget* umlview, const QPoint& point) {
+	UMLView* view = (UMLView*) umlview;
+	if(m_pTabPopupMenu != 0) {
+		m_pTabPopupMenu->hide();
+		delete m_pTabPopupMenu;
+		m_pTabPopupMenu = 0;
+	}
+
+	Uml::ListView_Type type = lvt_Unknown;
+	switch( view->getType() ) {
+		case dt_Class:
+			type = lvt_Class_Diagram;
+			break;
+
+		case dt_UseCase:
+			type = lvt_UseCase_Diagram;
+			break;
+
+		case dt_Sequence:
+			type = lvt_Sequence_Diagram;
+			break;
+
+		case dt_Collaboration:
+			type = lvt_Collaboration_Diagram;
+			break;
+
+		case dt_State:
+			type = lvt_State_Diagram;
+			break;
+
+		case dt_Activity:
+			type = lvt_Activity_Diagram;
+			break;
+
+		case dt_Component:
+			type = lvt_Component_Diagram;
+			break;
+
+		case dt_Deployment:
+			type = lvt_Deployment_Diagram;
+			break;
+
+		default:
+			kdWarning() << "unknown diagram type in slotDiagramPopupMenu()" << endl;
+			break;
+	}//end switch
+
+	m_pTabPopupMenu = new ListPopupMenu(UMLApp::app()->getMainViewWidget(), type);
+	m_pTabPopupMenu->popup(point);
+	connect(m_pTabPopupMenu, SIGNAL(activated(int)), view, SLOT(slotMenuSelection(int)));
 }
 
 #include "umldoc.moc"

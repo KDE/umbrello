@@ -52,6 +52,7 @@ class KRecentFilesAction;
 class KStatusBarLabel;
 class KToggleAction;
 class KDockWidget;
+class KTabWidget;
 
 // Qt forward declarations
 class QWidgetStack;
@@ -700,6 +701,31 @@ public slots:
 	 */
 	QPopupMenu* findMenu(QMenuData* menu, const QString &name);
 
+	/**
+	 * called when the tab has changed
+	 */
+	void slotTabChanged(QWidget* view);
+
+	/**
+	 * make the tab on the left of the current one the active one
+	 */
+	void slotChangeTabLeft();
+
+	/**
+	 * make the tab on the right of the current one the active one
+	 */
+	void slotChangeTabRight();
+
+	/**
+	 * Move the current tab left, not implemented
+	 */
+	void slotMoveTabLeft();
+
+	/**
+	 * Move the current tab right, not implemented
+	 */
+	void slotMoveTabRight();
+
 private:
 	static UMLApp* s_instance;
 
@@ -837,6 +863,11 @@ private:
 	KAction* classWizard;
 	KAction* deleteSelectedWidget;
 	KAction* deleteDiagram;
+
+	KAction* changeTabLeft;
+	KAction* changeTabRight;
+	KAction* moveTabLeft;
+	KAction* moveTabRight;
 //Remove these once we stop supporting KDE 3.1
 // #if !KDE_IS_VERSION(3,1,90)
 	KToggleAction* viewToolBar;
@@ -864,7 +895,7 @@ private:
 	/**
 	 * Shows, and is parent of, all the UMLViews (diagrams).
 	 */
-	QWidgetStack* viewStack;
+	KTabWidget* tabWidget;
 		
 
 	/**
