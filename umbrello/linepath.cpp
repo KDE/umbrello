@@ -397,22 +397,36 @@ void LinePath::calculateHead() {
 #ifdef DEBUG_ASSOCLINES
 	calls_to_calc_head++;
 #endif
-	uint size = count();
-	int xa = getPoint(size - 2).x();
-	int ya = getPoint(size - 2).y();
-	int xb = getPoint(size -1).x();
-	int yb = getPoint(size -1).y();
+	uint size = m_LineList.count();
+	bool diamond;
+	int xa, ya, xb, yb;
+	uint edgePointIndex;
+	if (getAssocType() == at_Aggregation || getAssocType() == at_Composition) {
+		diamond = true;
+		xa = getPoint(1).x();
+		ya = getPoint(1).y();
+		xb = getPoint(0).x();
+		yb = getPoint(0).y();
+		edgePointIndex = 0;
+	} else {
+		diamond = false;
+		xa = getPoint(size - 1).x();
+		ya = getPoint(size - 1).y();
+		xb = getPoint(size).x();
+		yb = getPoint(size).y();
+		edgePointIndex = size;
+	}
 	double deltaX = xb - xa;
 	double deltaY = yb - ya;
 	double hypotenuse = sqrt(deltaX*deltaX + deltaY*deltaY); // the length
 	int halfLength = 10;
 	double arrowAngle = 0.5 * atan(sqrt(3.0) / 3.0);
-	if (getAssocType() != at_Aggregation && getAssocType() != at_Composition) {
-		arrowAngle *= 2;	// wider
-		halfLength += 3;	// longer
-	} else {
+	if (diamond) {
 		arrowAngle *= 1.5;	// wider
 		halfLength += 1;	// longer
+	} else {
+		arrowAngle *= 2;	// wider
+		halfLength += 3;	// longer
 	}
 	double slope = atan2(deltaY, deltaX);	//slope of line
 	double cosx = hypotenuse==0?1:halfLength * deltaX/hypotenuse;
@@ -420,7 +434,7 @@ void LinePath::calculateHead() {
 	double siny = hypotenuse==0?0:halfLength * deltaY/hypotenuse;
 	double arrowSlope = slope + arrowAngle;
 
-	m_LastPoint = getPoint(size - 1);
+	m_LastPoint = getPoint(edgePointIndex);
 	m_ArrowPointA.setX( (int)rint(m_LastPoint.x() - halfLength * cos(arrowSlope)) );
 	m_ArrowPointA.setY( (int)rint(m_LastPoint.y() - halfLength * sin(arrowSlope)) );
 	arrowSlope = slope - arrowAngle;
@@ -522,62 +536,34 @@ void LinePath::updateHead() {
 	}
 }
 
+void LinePath::growHeadList(int by) {
+	QPen pen( getLineColor() );
+	for (int i = 0; i < by; i++) {
+		QCanvasLine * line = new QCanvasLine( getCanvas() );
+		line -> setZ( 0 );
+		line -> setPen( pen );
+		line -> setVisible( true );
+		m_HeadList.append( line );
+	}
+}
+
 void LinePath::createHeadLines() {
 	m_HeadList.clear();
-	QPen pen( getLineColor() );
-	QCanvasLine * line = 0;
 	QCanvas * canvas = getCanvas();
 	switch( getAssocType() ) {
 		case at_Activity:
-			line = new QCanvasLine( canvas );
-			line -> setZ( 0 );
-			line -> setPen( pen );
-			line -> setVisible( true );
-			m_HeadList.append( line );
-
-			line = new QCanvasLine( canvas );
-			line -> setZ( 0 );
-			line -> setPen( pen );
-			line -> setVisible( true );
-			m_HeadList.append( line );
+			growHeadList( 2 );
 			break;
 
 		case at_State:
 		case at_Dependency:
 		case at_UniAssociation:
-			line = new QCanvasLine( canvas );
-			line -> setZ( 0 );
-			line -> setPen( pen );
-			line -> setVisible( true );
-			m_HeadList.append( line );
-
-			line = new QCanvasLine( canvas );
-			line -> setZ( 0 );
-			line -> setPen( pen );
-			line -> setVisible( true );
-			m_HeadList.append( line );
+			growHeadList( 2 );
 			break;
 
 		case at_Generalization:
 		case at_Realization:
-			line = new QCanvasLine( canvas );
-			line -> setZ( 0 );
-			line -> setPen( pen );
-			line -> setVisible( true );
-			m_HeadList.append( line );
-
-			line = new QCanvasLine( canvas );
-			line -> setZ( 0 );
-			line -> setPen( pen );
-			line -> setVisible( true );
-			m_HeadList.append( line );
-
-			line = new QCanvasLine( canvas );
-			line -> setZ( 0 );
-			line -> setPen( pen );
-			line -> setVisible( true );
-			m_HeadList.append( line );
-
+			growHeadList( 3 );
 			m_pClearPoly = new QCanvasPolygon( canvas );
 			m_pClearPoly -> setVisible( true );
 			m_pClearPoly -> setBrush( QBrush( white ) );
@@ -586,30 +572,7 @@ void LinePath::createHeadLines() {
 
 		case at_Composition:
 		case at_Aggregation:
-			line = new QCanvasLine( canvas );
-			line -> setZ( 0 );
-			line -> setPen( pen );
-			line -> setVisible( true );
-			m_HeadList.append( line );
-
-			line = new QCanvasLine( canvas );
-			line -> setZ( 0 );
-			line -> setPen( pen );
-			line -> setVisible( true );
-			m_HeadList.append( line );
-
-			line = new QCanvasLine( canvas );
-			line -> setZ( 0 );
-			line -> setPen( pen );
-			line -> setVisible( true );
-			m_HeadList.append( line );
-
-			line = new QCanvasLine( canvas );
-			line -> setZ( 0 );
-			line -> setPen( pen );
-			line -> setVisible( true );
-			m_HeadList.append( line );
-
+			growHeadList( 4 );
 			m_pClearPoly = new QCanvasPolygon( canvas );
 			m_pClearPoly -> setVisible( true );
 			if( getAssocType() == at_Aggregation )
@@ -809,7 +772,6 @@ void LinePath::dumpPoints () {
 		QPoint point = getPoint( i );
 		kdDebug()<<" * point x:"<<point.x()<<" y:"<<point.y()<<endl;
 	}
-
 }
 
 bool LinePath::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {

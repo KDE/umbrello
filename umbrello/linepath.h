@@ -227,6 +227,13 @@ protected:
 	void createHeadLines();
 
 	/**
+	 * Create a number of new lines and append them to m_HeadList.
+	 *
+	 * @param by		The number of lines to insert into m_HeadList.
+	 */
+	void growHeadList(int by);
+
+	/**
 	*   Updates the head lines.  Call after calculating the new points.
 	*/
 	void updateHead();
