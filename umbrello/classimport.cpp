@@ -282,9 +282,6 @@ void ClassImport::importCPP(QStringList headerFileList) {
 	// Reset the driver
 	m_driver->reset();
 	// The driver shall attempt to parse included files.
-	// TODO: Although the include files do get parsed, they do not get
-	//       generated into UML.
-	//       We need to look into the Driver's mechanism for handling that.
 	m_driver->setResolveDependencesEnabled( true );
 	// Add some standard include paths
 	m_driver->addIncludePath( "/usr/include" );
