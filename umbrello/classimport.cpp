@@ -49,29 +49,55 @@ UMLObject *ClassImport::createUMLObject(Uml::UMLObject_Type type,
 					QString comment,
 					UMLPackage *parentPkg) {
 	UMLObject * o = findUMLObject(name);
-	if (o == NULL) {
-		o = UMLDoc::createUMLObject( type, name, parentPkg );
-		QString strippedComment = doxyComment(comment);
-		if (! strippedComment.isEmpty()) {
-			o->setDoc(strippedComment);
-			UMLDoc::getDocWindow()->showDocumentation(o, true);
-		}
+	if (o == NULL)
+		o = UMLDoc::createUMLObject(type, name);
+	QString strippedComment = doxyComment(comment);
+	if (! strippedComment.isEmpty()) {
+		o->setDoc(strippedComment);
+		UMLDoc::getDocWindow()->showDocumentation(o, true);
 	}
+	if (parentPkg)
+		o->setUMLPackage(parentPkg);
 	return o;
 }
 
-void ClassImport::insertAttribute(UMLObject *o, Uml::Scope scope, QString name,
+void ClassImport::insertAttribute(CClassStore& store,
+				  UMLObject *o, Uml::Scope scope, QString name,
 				  QString type, QString comment /* = "" */) {
-	int attID = getUniqueID();
-
-	UMLAttribute *temp = ((UMLClass*)o)->addAttribute(name , attID);
-
-	temp->setTypeName(type);
-	temp->setScope(scope);
 	QString strippedComment = doxyComment(comment);
+	QString typeName(type);
+	int isPointer = typeName.contains('*');
+	typeName.replace(QRegExp("^const\\s+"), "");
+	typeName.replace(QRegExp("[^:\\w].*$"), "");
+	UMLObject *newObj = NULL;
+	UMLObject *other = findUMLObject(typeName, Uml::ot_Class);
+	if (other == NULL && store.hasClass(typeName.latin1())) {
+		// "Forward declare" the class.
+		other = createUMLObject(Uml::ot_Class, typeName);
+	}
+	if (other != NULL) {
+		kdDebug() << "ClassImport::insertAttribute: creating assoc for "
+			  << name << endl;
+		Uml::Association_Type assocType;
+		if (isPointer)
+			assocType = Uml::at_Aggregation;
+		else
+			assocType = Uml::at_Composition;
+		UMLAssociation *assoc = new UMLAssociation(this, assocType, o, other);
+		assoc->setRoleNameB(name);
+		assoc->setVisibilityB(scope);
+		UMLDoc::addAssociation(assoc);
+		newObj = assoc;
+	} else {
+		int attID = getUniqueID();
+		UMLAttribute *attr = ((UMLClass*)o)->addAttribute(name , attID);
+		attr->setTypeName(type);
+		attr->setScope(scope);
+		newObj = attr;
+	}
 	if (! strippedComment.isEmpty()) {
-		temp->setDoc(strippedComment);
-		UMLDoc::getDocWindow()->showDocumentation(temp, true);
+		newObj->setDoc(strippedComment);
+		UMLDoc::getDocWindow()->showDocumentation(newObj, true);
 	}
 
 	setModified(true);
@@ -154,7 +180,9 @@ void ClassImport::importCPP(QStringList headerFileList) {
 				case PIE_GLOBAL:
 					break;
 			} //switch
-			this->insertAttribute(currentClass, attrScope, attr->name, attr->type, attr->comment);
+			this->insertAttribute(classParser.store,
+			                      currentClass, attrScope,
+					      attr->name, attr->type, attr->comment);
 		} // attribute for() loop
 
 		//CParsedMethod *aMethod;

@@ -15,6 +15,7 @@
 #include "umlattributelist.h"
 
 class UMLPackage;
+class CClassStore;
 
 /**
  * Interfaces classparser library to uml models
@@ -43,7 +44,8 @@ public:
 	/**
 	 * Create a UMLAttribute and insert it into the document.
 	 */
-	void insertAttribute(UMLObject *o, Uml::Scope scope, QString name,
+	void insertAttribute(CClassStore& store,
+			     UMLObject *o, Uml::Scope scope, QString name,
 			     QString type, QString comment = "");
 
 	/**
