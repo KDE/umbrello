@@ -17,12 +17,13 @@
 
 
 #include "../codegenerator.h"
+#include "adawriter.h"
 #include "cppwriter.h"
+#include "idlwriter.h"
 #include "javawriter.h"
 #include "phpwriter.h"
 #include "perlwriter.h"
 #include "pythonwriter.h"
-#include "adawriter.h"
 #include "qstringlist.h"
 
 #include <kdebug.h>
@@ -43,6 +44,7 @@ QStringList WriterFactory::languagesAvailable() {
 	QStringList l;
 	l.append("Ada");
 	l.append("Cpp");
+	l.append("IDL");
 	l.append("Java");
  	l.append("Perl");
 	l.append("PHP");
@@ -54,6 +56,8 @@ QString WriterFactory::generatorName(const QString &l) {
 	kdDebug()<<"Looking up generator for language "<<l<<endl;
 	if(l=="Cpp")
 		return "CppWriter";
+	if(l=="IDL")
+		return "IDLWriter";
 	if(l=="Java")
 		return "JavaWriter";
 	if (l == "PHP")
@@ -78,6 +82,8 @@ QObject* WriterFactory::createObject( QObject* parent, const char* name, const c
 	QObject *obj = 0;
 	if(n == "CppWriter") {
 		obj = new CppWriter( parent, name );
+	} else if(n == "IDLWriter") {
+		obj = new IDLWriter( parent, name );
 	} else if(n =="JavaWriter") {
 		obj = new JavaWriter(parent, name);
 	} else if (n == "PHPWriter") {
