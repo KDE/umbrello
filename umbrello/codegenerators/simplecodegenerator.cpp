@@ -30,6 +30,7 @@
 #include "simplecodegenerator.h"
 
 #include "../attribute.h"
+#include "../umloperationlist.h"
 #include "../umlattributelist.h"
 #include "../class.h"
 #include "../classifier.h"
@@ -200,7 +201,7 @@ bool SimpleCodeGenerator::hasDefaultValueAttr(UMLClass *c) {
 }
 
 bool SimpleCodeGenerator::hasAbstractOps(UMLClassifier *c) {
-        QPtrList<UMLOperation> opl(c->getFilteredOperationsList());
+        UMLOperationList opl(c->getOpList());
         for(UMLOperation *op = opl.first(); op ; op = opl.next())
                 if(op->getAbstract())
                         return true;

@@ -168,10 +168,11 @@ UMLObject* UMLOperation::clone() const
 	return clone;
 }
 
-bool UMLOperation::resolveParmTypes() {
-	UMLAttribute *pAtt;
+bool UMLOperation::resolveTypes() {
 	bool overallSuccess = true;
-	for (pAtt = m_List.first(); pAtt; pAtt = m_List.next()) {
+	// See remark on iteration style in UMLClassifier::resolveTypes()
+	for (UMLAttributeListIt ait(m_List); ait.current(); ++ait) {
+		UMLAttribute *pAtt = ait.current();
 		if (! pAtt->resolveType())
 			overallSuccess = false;
 	}

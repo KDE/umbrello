@@ -628,12 +628,12 @@ void UMLDoc::deleteContents() {
 		if (m_objectList.count() > 0) {
 			// clear our object list. We do this explicitly since setAutoDelete is false for the objectList now.
 			for(UMLObject * obj = m_objectList.first(); obj != 0; obj = m_objectList.next())
-				obj->deleteLater();
+				; //obj->deleteLater();
 			m_objectList.clear();
 		}
 		if (m_stereoList.count() > 0) {
 			for (UMLStereotype *s = m_stereoList.first(); s; s = m_stereoList.next())
-				s->deleteLater();
+				; //s->deleteLater();
 			m_stereoList.clear();
 		}
 	}
@@ -725,8 +725,9 @@ UMLView * UMLDoc::findView(Diagram_Type type, QString name) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLObject* UMLDoc::findUMLObject(int id) {
-	for(UMLObject * obj = m_objectList.first(); obj != 0; obj = m_objectList.next())
+	for (UMLObjectListIt oit(m_objectList); oit.current(); ++oit)
 	{
+		UMLObject *obj = oit.current();
 		if(obj -> getID() == id)
 			return obj;
 		UMLObject *o;
@@ -777,7 +778,8 @@ UMLObject* UMLDoc::findUMLObject(UMLObjectList inList, QString name,
 		components.pop_front();
 		nameWithoutFirstPrefix = components.join("::");
 	}
-	for (UMLObject * obj = inList.first(); obj != 0; obj = inList.next()) {
+	for (UMLObjectListIt oit(inList); oit.current(); ++oit) {
+		UMLObject *obj = oit.current();
 		if (obj->getName() != name)
 			continue;
 		UMLObject_Type foundType = obj->getBaseType();
@@ -804,7 +806,8 @@ UMLObject* UMLDoc::findUMLObject(UMLObjectList inList, QString name,
 }
 
 UMLObject* UMLDoc::findObjectByIdStr(QString idStr) {
-	for (UMLObject * o = m_objectList.first(); o; o = m_objectList.next()) {
+	for (UMLObjectListIt oit(m_objectList); oit.current(); ++oit) {
+		UMLObject *o = oit.current();
 		if (o->getAuxId() == idStr)
 			return o;
 		UMLObject *inner = NULL;
@@ -902,8 +905,10 @@ void UMLDoc::addUMLObject(UMLObject* object) {
 		if (object->getID() > m_highestIDforForeignFile)
 			m_highestIDforForeignFile = object->getID();
 	} else {
+#ifdef VERBOSE_DEBUGGING
 		kdDebug() << "UMLDoc::addUMLObject: not adding " << object->getName()
 			  << " because already there." << endl;
+#endif
 	}
 }
 
@@ -2146,7 +2151,9 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element) {
 			continue;
 		}
 		bool status = pObject -> loadFromXMI( tempElement );
-		if (tagEq(type, "Association") || tagEq(type, "Generalization")) {
+		if (tagEq(type, "Association") ||
+		    tagEq(type, "Generalization") ||
+		    tagEq(type, "Dependency")) {
 			if ( !status ) {
 				// Some interim umbrello versions saved empty UML:Associations,
 				// thus we tolerate problems loading them.
@@ -2175,10 +2182,19 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element) {
 		tempElement = node.toElement();
 	}//end while
 
-	// Resolve the attribute types of all classes.
-	UMLClassList classes = getClasses();
-	for (UMLClass* c = classes.first(); c ; c = classes.next())
-		c->resolveTypes();
+#ifdef VERBOSE_DEBUGGING
+	kdDebug() << "UMLDoc::m_objectList.count() is " << m_objectList.count() << endl;
+#endif
+	// Resolve the types.
+	// This is done in a separate pass because of possible forward references.
+	for (UMLObjectListIt oit(m_objectList); oit.current(); ++oit) {
+		UMLObject *obj = oit.current();
+#ifdef VERBOSE_DEBUGGING
+		kdDebug() << "UMLDoc: invoking resolveTypes() for " << obj->getName()
+			  << " (id=" << obj->getID() << ")" << endl;
+#endif
+		obj->resolveTypes();
+	}
 
 	return true;
 }
@@ -2252,6 +2268,8 @@ UMLObject* UMLDoc::makeNewUMLObject(QString type) {
 		pObject = new UMLAssociation(Uml::at_Unknown, (UMLObject*)NULL, (UMLObject*) NULL);
 	} else if (tagEq(type, "Generalization")) {
 		pObject = new UMLAssociation(Uml::at_Generalization, NULL, NULL);
+	} else if (tagEq(type, "Dependency")) {
+		pObject = new UMLAssociation(Uml::at_Dependency, NULL, NULL);
 	}
 	return pObject;
 }
@@ -2461,21 +2479,21 @@ bool UMLDoc::assignNewIDs(UMLObject* Obj) {
 	//If it is a CONCEPT then change the ids of all its operations and attributes
 	if(Obj->getBaseType() == ot_Class ) {
 
-		UMLClassifierListItemList* attributes = ((UMLClass *)Obj)->getAttList();
-		for(UMLObject* listItem = attributes->first(); listItem; listItem = attributes->next()) {
+		UMLClassifierListItemList attributes = ((UMLClass *)Obj)->getFilteredList(ot_Attribute);
+		for(UMLObject* listItem = attributes.first(); listItem; listItem = attributes.next()) {
 			result = assignNewID(listItem->getID());
 			listItem->setID(result);
 		}
 
-		UMLClassifierListItemList* templates = ((UMLClass *)Obj)->getTemplateList();
-		for(UMLObject* listItem = templates->first(); listItem; listItem = templates->next()) {
+		UMLClassifierListItemList templates = ((UMLClass *)Obj)->getFilteredList(ot_Template);
+		for(UMLObject* listItem = templates.first(); listItem; listItem = templates.next()) {
 			result = assignNewID(listItem->getID());
 			listItem->setID(result);
 		}
 	}
 
 	if(Obj->getBaseType() == ot_Interface || Obj->getBaseType() == ot_Class ) {
-		UMLClassifierListItemList operations(((UMLClassifier*)Obj)->getOpList());
+		UMLOperationList operations(((UMLClassifier*)Obj)->getOpList());
 		for(UMLObject* listItem = operations.first(); listItem; listItem = operations.next()) {
 			result = assignNewID(listItem->getID());
 			listItem->setID(result);

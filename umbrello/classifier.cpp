@@ -72,7 +72,7 @@ UMLOperation * UMLClassifier::checkOperationSignature( QString name,
 
 bool UMLClassifier::addOperation(UMLOperation* op, int position )
 {
-	if (m_OpsList.findRef(op) != -1) {
+	if (m_List.findRef(op) != -1) {
 		kdDebug() << "UMLClassifier::addOperation: findRef("
 			  << op->getName() << ") finds op (bad)"
 			  << endl;
@@ -84,10 +84,10 @@ bool UMLClassifier::addOperation(UMLOperation* op, int position )
 		return false;
 	}
 
-	if( position >= 0 && position <= (int)m_OpsList.count() )
-		m_OpsList.insert(position,op);
+	if( position >= 0 && position <= (int)m_List.count() )
+		m_List.insert(position,op);
 	else
-		m_OpsList.append( op );
+		m_List.append( op );
 	emit childObjectAdded(op);
 	emit operationAdded(op);
 	emit modified();
@@ -110,7 +110,7 @@ int UMLClassifier::removeOperation(UMLOperation *op) {
 			 << endl;
 		return -1;
 	}
-	if(!m_OpsList.remove(op)) {
+	if(!m_List.remove(op)) {
 		kdDebug() << "UMLClassifier::removeOperation: can't find op "
 			  << op->getName() << " in list" << endl;
 		return -1;
@@ -121,7 +121,7 @@ int UMLClassifier::removeOperation(UMLOperation *op) {
 	emit childObjectRemoved(op);
 	emit operationRemoved(op);
 	emit modified();
-	return m_OpsList.count();
+	return m_List.count();
 }
 
 UMLOperation* UMLClassifier::takeOperation(UMLOperation* o) {
@@ -133,30 +133,25 @@ UMLOperation* UMLClassifier::takeOperation(UMLOperation* o) {
 
 UMLObjectList UMLClassifier::findChildObject(UMLObject_Type t , QString n,
 					     bool seekStereo /* = false */) {
-	UMLObjectList list;
 	if (t == ot_Association) {
 		return UMLCanvasObject::findChildObject(t, n);
-	} else if (t == ot_Operation) {
-		UMLClassifierListItem* obj=0;
-		for(obj=m_OpsList.first();obj != 0;obj=m_OpsList.next()) {
-			if (obj->getBaseType() != t)
-				continue;
-			if (seekStereo) {
-				if (obj->getStereotype() == n)
-					list.append( obj );
-			} else if (obj->getName() == n)
-				list.append( obj );
-		}
-	} else {
-		kdWarning() << "finding child object of unknown type: " << t << endl;
 	}
-
+	UMLObjectList list;
+	UMLClassifierListItem* obj=0;
+	for(obj=m_List.first();obj != 0;obj=m_List.next()) {
+		if (obj->getBaseType() != t)
+			continue;
+		if (seekStereo) {
+			if (obj->getStereotype() == n)
+				list.append( obj );
+		} else if (obj->getName() == n)
+			list.append( obj );
+	}
 	return list;
 }
 
 UMLObject* UMLClassifier::findChildObject(int id) {
-	UMLClassifierListItem * o=0;
-	for(o=m_OpsList.first();o != 0;o=m_OpsList.next()) {
+	for (UMLClassifierListItem *o = m_List.first(); o; o = m_List.next()) {
 		if(o->getID() == id)
 			return o;
 	}
@@ -165,7 +160,7 @@ UMLObject* UMLClassifier::findChildObject(int id) {
 
 UMLObject* UMLClassifier::findChildObjectByIdStr(QString idStr) {
 	UMLClassifierListItem *o = NULL;
-	for (o = m_OpsList.first(); o; o = m_OpsList.next()) {
+	for (o = m_List.first(); o; o = m_List.next()) {
 		if (o->getAuxId() == idStr)
 			return o;
 	}
@@ -229,10 +224,10 @@ UMLClassifierList UMLClassifier::findSuperClassConcepts (ClassifierType type) {
 }
 
 bool UMLClassifier::operator==( UMLClassifier & rhs ) {
-	if ( m_OpsList.count() != rhs.m_OpsList.count() ) {
+	if ( m_List.count() != rhs.m_List.count() ) {
 		return false;
 	}
-	if ( &m_OpsList != &(rhs.m_OpsList) ) {
+	if ( &m_List != &(rhs.m_List) ) {
 		return false;
 	}
 	return UMLCanvasObject::operator==(rhs);
@@ -243,24 +238,24 @@ void UMLClassifier::copyInto(UMLClassifier *rhs) const
 {
 	UMLCanvasObject::copyInto(rhs);
 
-	m_OpsList.copyInto(&(rhs->m_OpsList));
+	m_List.copyInto(&(rhs->m_List));
 }
 
 
-bool UMLClassifier::resolveOpParmTypes() {
+bool UMLClassifier::resolveTypes() {
 	bool success = true;
 	/**** Mysterious. The following loop does not work:
-	for (UMLClassifierListItem *obj = m_OpsList.first(); obj; obj = m_OpsList.next())
+	for (UMLClassifierListItem *obj = m_List.first(); obj; obj = m_List.next())
 	 {  ....  }
 	 It will only iterate exactly once, and then the obj pointer becomes NULL.
 	 Here's the replacement: ****/
-	for (UMLClassifierListItemListIt oit(m_OpsList); oit.current(); ++oit) {
+	for (UMLClassifierListItemListIt oit(m_List); oit.current(); ++oit) {
 		UMLClassifierListItem* obj = oit.current();
 	/**** End of replacement ****/
 		if (obj->getBaseType() != ot_Operation)
 			continue;
 		UMLOperation *op = static_cast<UMLOperation*>(obj);
-		if (! op->resolveParmTypes())
+		if (! op->resolveTypes())
 			success = false;
 	}
 	return success;
@@ -288,7 +283,7 @@ bool UMLClassifier::acceptAssociationType(Uml::Association_Type type)
 }
 
 bool UMLClassifier::hasAbstractOps () {
-	UMLOperationList opl(getFilteredOperationsList());
+	UMLOperationList opl( getOpList() );
 	for(UMLOperation *op = opl.first(); op ; op = opl.next())
 		if(op->getAbstract())
 			return true;
@@ -296,22 +291,28 @@ bool UMLClassifier::hasAbstractOps () {
 }
 
 int UMLClassifier::operations() {
-	return m_OpsList.count();
+	return getOpList().count();
 }
 
-UMLClassifierListItemList UMLClassifier::getOpList(bool includeInherited) {
-	UMLClassifierListItemList ops(m_OpsList);
+UMLOperationList UMLClassifier::getOpList(bool includeInherited) {
+	UMLOperationList ops;
+	for (UMLClassifierListItemListIt lit(m_List); lit.current(); ++lit) {
+		UMLClassifierListItem *li = lit.current();
+		if (li->getBaseType() == ot_Operation)
+			ops.append(static_cast<UMLOperation*>(li));
+	}
 	if (includeInherited) {
 		UMLClassifierList parents(findSuperClassConcepts());
 		for (UMLClassifierListIt pit(parents); pit.current(); ++pit) {
 			// get operations for each parent by recursive call
-			UMLClassifierListItemList pops = pit.current()->getOpList(includeInherited);
+			UMLOperationList pops = pit.current()->getOpList(true);
 			// add these operations to operation list, but only if unique.
-			for (UMLClassifierListItem *po = pops.first(); po; po = pops.next()) {
-				UMLClassifierListItem* o = ops.first();
+			for (UMLOperation *po = pops.first(); po; po = pops.next()) {
 				QString po_as_string(po->toString(Uml::st_SigNoScope));
-				for (;o && o->toString(Uml::st_SigNoScope) != po_as_string ;o = ops.next())
-					;
+				UMLOperation *o = NULL;
+				for (o = ops.first(); o; o = ops.next())
+					if (o->toString(Uml::st_SigNoScope) == po_as_string)
+						break;
 				if (!o)
 					ops.append(po);
 			}
@@ -320,21 +321,19 @@ UMLClassifierListItemList UMLClassifier::getOpList(bool includeInherited) {
 	return ops;
 }
 
-UMLOperationList UMLClassifier::getFilteredOperationsList(bool includeInherited)  {
-	UMLClassifierListItemList classifierList(getOpList(includeInherited));
-	UMLOperationList operationList;
-	for(UMLClassifierListItem* listItem = classifierList.first(); listItem;
-	    listItem = classifierList.next())  {
-		if (listItem->getBaseType() == ot_Operation) {
-			operationList.append(static_cast<UMLOperation*>(listItem));
-		}
+UMLClassifierListItemList UMLClassifier::getFilteredList(UMLObject_Type ot) {
+	UMLClassifierListItemList resultList;
+	for (UMLClassifierListItemListIt lit(m_List); lit.current(); ++lit) {
+		UMLClassifierListItem *listItem = lit.current();
+		if (listItem->getBaseType() == ot)
+			resultList.append(listItem);
 	}
-	return operationList;
+	return resultList;
 }
 
 void UMLClassifier::init() {
 	m_BaseType = ot_UMLObject;
-	m_OpsList.setAutoDelete(false);
+	m_List.setAutoDelete(false);
 }
 
 bool UMLClassifier::load(QDomElement& element) {

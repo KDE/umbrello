@@ -367,7 +367,7 @@ void IDLWriter::writeClass(UMLClassifier *c) {
 	}
 
 	// Generate public operations.
-	UMLOperationList opl(c->getFilteredOperationsList());
+	UMLOperationList opl(c->getOpList());
 	UMLOperationList oppub;
 	UMLOperation *op;
 	for (op = opl.first(); op; op = opl.next()) {

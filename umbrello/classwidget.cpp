@@ -121,8 +121,8 @@ void ClassWidget::draw(QPainter & p, int offsetX, int offsetY) {
 	int aStart = fontHeight;
 	int numAtts = 0;
 	if (m_bShowAttributes) {
-		UMLClassifierListItemList* list = ((UMLClass*)m_pObject)->getAttList();
-		for(UMLClassifierListItem *obj = list->first(); obj; obj = list->next()) {
+		UMLClassifierListItemList list = ((UMLClass*)m_pObject)->getFilteredList(ot_Attribute);
+		for(UMLClassifierListItem *obj = list.first(); obj; obj = list.next()) {
 			if (!(m_bShowPublicOnly && obj->getScope() != Uml::Public))
 				numAtts++;
 		}
@@ -140,8 +140,8 @@ void ClassWidget::draw(QPainter & p, int offsetX, int offsetY) {
 	if (m_bShowAttributes) {
 		QFont f = UMLWidget::getFont();
 		int y = aStart;
-		UMLClassifierListItemList* list = ((UMLClass*)m_pObject)->getAttList();
-		for(UMLClassifierListItem *obj = list->first(); obj; obj = list->next()) {
+		UMLClassifierListItemList list = ((UMLClass*)m_pObject)->getFilteredList(ot_Attribute);
+		for(UMLClassifierListItem *obj = list.first(); obj; obj = list.next()) {
 			if (m_bShowPublicOnly && obj->getScope() != Uml::Public)
 				continue;
 			QString att = obj -> toString( m_ShowAttSigs);
@@ -166,8 +166,8 @@ void ClassWidget::draw(QPainter & p, int offsetX, int offsetY) {
 		else
 			y = aStart;
 		p.setPen(QPen(black));
-		UMLClassifierListItemList list((static_cast<UMLClass*>(m_pObject))->getOpList());
-		for (UMLClassifierListItem *obj = list.first(); obj; obj = list.next()) {
+		UMLOperationList list((static_cast<UMLClass*>(m_pObject))->getOpList());
+		for (UMLOperation *obj = list.first(); obj; obj = list.next()) {
 			if (m_bShowPublicOnly && obj->getScope() != Uml::Public)
 				continue;
 			QString op = obj -> toString( m_ShowOpSigs );
@@ -185,7 +185,8 @@ void ClassWidget::draw(QPainter & p, int offsetX, int offsetY) {
 	}//end if op
 
 	//If there are any templates then draw them
-	if ( ((UMLClass*)m_pObject)->getTemplateList()->count() > 0 ) {
+	UMLClassifierListItemList tlist = ((UMLClass*)m_pObject)->getFilteredList(ot_Template);
+	if ( tlist.count() > 0 ) {
 
 		QFont font = UMLWidget::getFont();
 		UMLWidget::draw(p, offsetX, offsetY);
@@ -198,10 +199,9 @@ void ClassWidget::draw(QPainter & p, int offsetX, int offsetY) {
 		font.setBold(false);
 		p.setFont(font);
 		QFontMetrics fontMetrics(font);
-		UMLClassifierListItemList* list = ((UMLClass*)m_pObject)->getTemplateList();
 		UMLClassifierListItem* theTemplate = 0;
 		int y = offsetY + MARGIN;
-		for ( theTemplate=list->first(); theTemplate != 0; theTemplate=list->next() ) {
+		for ( theTemplate = tlist.first(); theTemplate; theTemplate = tlist.next() ) {
 			QString text = theTemplate->toString();
 			p.drawText(offsetX + width() - templatesBoxSize.width() + MARGIN, y,
 				   fontMetrics.width(text), fontHeight, AlignVCenter, text);
@@ -229,9 +229,9 @@ QSize ClassWidget::calculateTemplatesBoxSize() {
 
 	height = count * fm.lineSpacing() + (MARGIN*2);
 
-	UMLClassifierListItemList* list = ((UMLClass *)m_pObject)->getTemplateList();
+	UMLClassifierListItemList list = ((UMLClass *)m_pObject)->getFilteredList(ot_Template);
 	UMLClassifierListItem* theTemplate = 0;
-	for ( theTemplate=list->first(); theTemplate != 0; theTemplate=list->next() ) {
+	for ( theTemplate=list.first(); theTemplate != 0; theTemplate=list.next() ) {
 		int textWidth = fm.width( theTemplate->toString() );
 		width = textWidth>width ? textWidth : width;
 	}
@@ -258,8 +258,8 @@ void ClassWidget::calculateSize() {
 	height = width = 0;
 	//set the height of the concept
 	if (m_bShowAttributes) {
-		UMLClassifierListItemList* list = ((UMLClass*)m_pObject)->getAttList();
-		for (UMLClassifierListItem *obj = list->first(); obj; obj = list->next()) {
+		UMLClassifierListItemList list = ((UMLClass*)m_pObject)->getFilteredList(ot_Attribute);
+		for (UMLClassifierListItem *obj = list.first(); obj; obj = list.next()) {
 			if (!(m_bShowPublicOnly && obj->getScope() != Uml::Public))
 				numAtts++;
 		}
@@ -269,8 +269,8 @@ void ClassWidget::calculateSize() {
 	}
 
 	if (m_bShowOperations) {
-		UMLClassifierListItemList list(((UMLClass*)m_pObject)->getOpList());
-		for (UMLClassifierListItem *obj = list.first(); obj; obj = list.next()) {
+		UMLOperationList list(((UMLClass*)m_pObject)->getOpList());
+		for (UMLOperation *obj = list.first(); obj; obj = list.next()) {
 			if (!(m_bShowPublicOnly && obj->getScope() != Uml::Public))
 				numOps++;
 		}
@@ -301,9 +301,9 @@ void ClassWidget::calculateSize() {
 
 	/* calculate width of the attributes */
 	if (m_bShowAttributes) {
-		UMLClassifierListItemList* list = ((UMLClass *)m_pObject)->getAttList();
+		UMLClassifierListItemList list = ((UMLClass *)m_pObject)->getFilteredList(ot_Attribute);
 		UMLClassifierListItem* a = 0;
-		for(a = list->first();a != 0; a = list->next()) {
+		for (a = list.first(); a; a = list.next()) {
 			if (m_bShowPublicOnly && a->getScope() != Uml::Public)
 				continue;
 			bool isStatic = a->getStatic();
@@ -318,8 +318,8 @@ void ClassWidget::calculateSize() {
 
 	/* calculate width of the operations */
 	if (m_bShowOperations) {
-		UMLClassifierListItemList list((static_cast<UMLClass*>(m_pObject))->getOpList());
-		UMLClassifierListItem* listItem = 0;
+		UMLOperationList list((static_cast<UMLClass*>(m_pObject))->getOpList());
+		UMLOperation* listItem = 0;
 		for(listItem = list.first();listItem != 0; listItem = list.next()) {
 			if (m_bShowPublicOnly && listItem->getScope() != Uml::Public)
 				continue;

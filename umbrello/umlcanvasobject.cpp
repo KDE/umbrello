@@ -168,9 +168,10 @@ UMLClassifierList UMLCanvasObject::getSuperClasses() {
 		if (c)
 			list.append(c);
 		else
-			kdDebug() << "UMLCanvasObject::getSuperClasses: generalization's"
-				  << " other end is not a UMLClassifier"
-				  << " (id= " << a->getRoleId(B) << ")" << endl;
+			kdDebug() << "UMLCanvasObject::getSuperClasses(" << m_Name
+				  << "): generalization's other end is not a "
+				  << "UMLClassifier (id= " << a->getRoleId(B) << ")"
+				  << endl;
 	}
 	return list;
 }

@@ -148,22 +148,23 @@ public:
 	 *
 	 * @return	The list of operations for the Classifier.
 	 */
-	UMLClassifierListItemList getOpList(bool includeInherited = false);
+	UMLOperationList getOpList(bool includeInherited = false);
 
 	/**
-	 * Returns the entries in m_pOpsList that are actually operations.
+	 * Returns the entries in m_List that are of the requested type.
 	 *
 	 * @return	The list of true operations for the Concept.
 	 */
-	UMLOperationList getFilteredOperationsList(bool includeInherited = false);
+	UMLClassifierListItemList getFilteredList(Uml::UMLObject_Type ot);
 
 	/**
 	 * Required for resolving the xmi.id's of operation parameters.
-	 * Calls UMLOperation::resolveParmTypes() on all operations.
+	 * Calls UMLOperation::resolveTypes() on all operations.
+	 * Overrides the method from UMLObject.
 	 *
 	 * @return 	true for success.
 	 */
-	bool resolveOpParmTypes();
+	virtual bool resolveTypes();
 
 	/**
 	 * Find a list of attributes, operations, associations or
@@ -189,7 +190,7 @@ public:
 
 	/**
 	 * Find the object of the given (non-numeric) auxiliary ID
-	 * in m_OpsList.  The auxiliary ID is the ID returned by
+	 * in m_List.  The auxiliary ID is the ID returned by
 	 * UMLObject::getAuxId() and is currently only used for
 	 * loading foreign XMI files.
 	 *
@@ -246,9 +247,9 @@ signals:
 protected:
 
 	/**
-	 * List of all the operations in this classifier.
+	 * List of items (operations/attributes/templates) in this classifier.
 	 */
-	UMLClassifierListItemList m_OpsList;
+	UMLClassifierListItemList m_List;
 
 private:
 

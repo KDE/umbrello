@@ -236,6 +236,15 @@ public:
 	void setInPaste(bool bInPaste = true);
 
 	/**
+	 * Resolve types (if any.)
+	 * Needs to be called after all UML objects are loaded from file.
+	 * The default implementation of this method is empty.
+	 *
+	 * @return	True for success.
+	 */
+	virtual bool resolveTypes();
+
+	/**
 	 * This method saves the XMI attributes of each specific model class.
 	 * It needs to be implemented by each child class.
 	 * For creating the QDomElement and saving the common XMI parts,

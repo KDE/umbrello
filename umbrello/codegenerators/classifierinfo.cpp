@@ -113,7 +113,7 @@ void ClassifierInfo::init(UMLClassifier *c) {
 
 	hasAccessorMethods = hasAttributes || hasAssociations;
 
-	hasOperationMethods = c->getFilteredOperationsList().last() ? true : false;
+	hasOperationMethods = c->getOpList().last() ? true : false;
 
 	hasMethods = hasOperationMethods || hasAccessorMethods;
 

@@ -314,6 +314,11 @@ QString UMLObject::getAuxId() const {
 	return m_AuxId;
 }
 
+bool UMLObject::resolveTypes() {
+	// This method is overridden by some of the inheriting classes.
+	return true;
+}
+
 QDomElement UMLObject::save( QString tag, QDomDocument & qDoc ) {
 	/*
 	  Call as the first action of saveToXMI() in child class:

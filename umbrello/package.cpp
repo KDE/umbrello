@@ -49,20 +49,18 @@ UMLObject* UMLPackage::clone() const
 }
 
 void UMLPackage::addObject(const UMLObject *pObject) {
-	bool alreadyThere = false;
 	int id = pObject->getID();
 	for (UMLObject *o = m_objects.first(); o; o = m_objects.next()) {
 		if (o->getID() == id) {
-			alreadyThere = true;
-			break;
+#ifdef VERBOSE_DEBUGGING
+			kdDebug() << "UMLPackage::addObject: "
+				  << pObject->getName()
+				  << " is already there" << endl;
+#endif
+			return;
 		}
 	}
-	if (alreadyThere) {
-		kdDebug() << "UMLPackage::addObject: " << pObject->getName()
-			  << " is already there" << endl;
-	} else {
-		m_objects.append( pObject );
-	}
+	m_objects.append( pObject );
 }
 
 void UMLPackage::removeObject(const UMLObject *pObject) {
@@ -158,6 +156,16 @@ void UMLPackage::appendInterfaces( UMLInterfaceList& interfaces,
 			inner->appendInterfaces(interfaces);
 		}
 	}
+}
+
+bool UMLPackage::resolveTypes() {
+	bool overallSuccess = true;
+	for (UMLObjectListIt oit(m_objects); oit.current(); ++oit) {
+		UMLObject *obj = oit.current();
+		if (! obj->resolveTypes())
+			overallSuccess = false;
+	}
+	return overallSuccess;
 }
 
 void UMLPackage::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {

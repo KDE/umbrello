@@ -621,7 +621,7 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLClassifierList &cLis
 	}
 
 	//operations
-	UMLOperationList opl(c->getFilteredOperationsList());
+	UMLOperationList opl(c->getOpList());
 	for(UMLOperation *op = opl.first(); op ; op = opl.next()) {
 		temp =0;
 		//check return value

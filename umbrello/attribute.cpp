@@ -123,6 +123,13 @@ UMLObject* UMLAttribute::clone() const
 
 
 bool UMLAttribute::resolveType() {
+	if (m_pType) {
+#ifdef VERBOSE_DEBUGGING
+		kdDebug() << "UMLAttribute::resolveType(" << m_Name
+			  << "): type is already resolved." << endl;
+#endif
+		return true;
+	}
 	UMLDoc *pDoc = UMLApp::app()->getDocument();
 	if (m_TypeName.contains(QRegExp("\\D"))) {
 		// Check whether this is a foreign XMI file.

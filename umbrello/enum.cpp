@@ -23,9 +23,6 @@ UMLEnum::~UMLEnum() {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool UMLEnum::operator==( UMLEnum & rhs ) {
-	if ( m_OpsList.count() != rhs.m_OpsList.count() ) {
-		return false;
-	}
 	return UMLClassifier::operator==(rhs);
 }
 

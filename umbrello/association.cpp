@@ -108,6 +108,20 @@ bool UMLAssociation::assocTypeHasUMLRepresentation(Uml::Association_Type atype)
 		atype == Uml::at_Composition);
 }
 
+bool UMLAssociation::resolveTypes() {
+	bool successA = getUMLRole(A)->resolveType();
+	bool successB = getUMLRole(B)->resolveType();
+	if (successA && successB) {
+		UMLObject *objA = getUMLRole(A)->getObject();
+		UMLObject *objB = getUMLRole(B)->getObject();
+		if (objA && objA->getBaseType() == Uml::ot_Interface ||
+		    objB && objB->getBaseType() == Uml::ot_Interface)
+			m_AssocType = Uml::at_Realization;
+		return true;
+	}
+	return false;
+}
+
 void UMLAssociation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	if (m_AssocType == Uml::at_Generalization ||
 	    m_AssocType == Uml::at_Realization) {
@@ -130,18 +144,28 @@ bool UMLAssociation::load( QDomElement & element ) {
 		return false; // old style XMI file. No real info in this association.
 
 	UMLDoc * doc = UMLApp::app()->getDocument();
-	if (m_AssocType == Uml::at_Generalization) {
-
-		QString roleAIdStr = element.attribute( "child", "-1" );
+	if (m_AssocType == Uml::at_Generalization ||
+	    m_AssocType == Uml::at_Dependency) {
+		QString roleAIdStr;
+		if (m_AssocType == Uml::at_Generalization)
+			roleAIdStr = element.attribute( "child", "-1" );
+		else
+			roleAIdStr = element.attribute( "client", "-1" );
 		if (roleAIdStr == "-1") {
-			kdError() << "UMLAssociation::load: "
-				  << "child not given or illegal" << endl;
+			kdError() << "UMLAssociation::load (type " << m_AssocType
+				  << ", id " << getID() << "): "
+				  << "client not given or illegal" << endl;
 			return false;
 		}
-		QString roleBIdStr = element.attribute( "parent", "-1" );
+		QString roleBIdStr;
+		if (m_AssocType == Uml::at_Generalization)
+			roleBIdStr = element.attribute( "parent", "-1" );
+		else
+			roleBIdStr = element.attribute( "supplier", "-1" );
 		if (roleBIdStr == "-1") {
-			kdError() << "UMLAssociation::load: "
-				  << "parent not given or illegal" << endl;
+			kdError() << "UMLAssociation::load (type " << m_AssocType
+				  << ", id " << getID() << "): "
+				  << "supplier not given or illegal" << endl;
 			return false;
 		}
 
@@ -152,22 +176,20 @@ bool UMLAssociation::load( QDomElement & element ) {
 		else
 			objA = doc->findUMLObject(roleAIdStr.toInt());
 		if (objA == NULL) {
-			kdError() << "UMLAssociation::load: "
-				  << "cannot find child object " << roleAIdStr << endl;
-			return false;
+			getUMLRole(A)->setIdStr(roleAIdStr);  // defer to resolveTypes()
+		} else {
+			getUMLRole(A)->setObject(objA);
 		}
-		getUMLRole(A)->setObject(objA);
 
 		if (roleBIdStr.contains(QRegExp("\\D")))
 			objB = doc->findObjectByIdStr(roleBIdStr);
 		else
 			objB = doc->findUMLObject(roleBIdStr.toInt());
 		if (objB == NULL) {
-			kdError() << "UMLAssociation::load: "
-				  << "cannot find parent object " << roleBIdStr << endl;
-			return false;
+			getUMLRole(B)->setIdStr(roleBIdStr);  // defer to resolveTypes()
+		} else {
+			getUMLRole(B)->setObject(objB);
 		}
-		getUMLRole(B)->setObject(objB);
 
 		// setting the association type:
                 //
@@ -178,13 +200,9 @@ bool UMLAssociation::load( QDomElement & element ) {
                 // be set. However, the information that the roles are allowed to have
                 // is not complete, so we need to finish the analysis here.
 
-/*
-		if (objA->getBaseType() == Uml::ot_Class &&
-		    objB->getBaseType() == Uml::ot_Interface)
-*/
 		// its a realization if either endpoint is an interface
-		if (objA->getBaseType() == Uml::ot_Interface ||
-		    objB->getBaseType() == Uml::ot_Interface)
+		if (objA && objA->getBaseType() == Uml::ot_Interface ||
+		    objB && objB->getBaseType() == Uml::ot_Interface)
 			m_AssocType = Uml::at_Realization;
 
 		return true;
@@ -274,12 +292,42 @@ bool UMLAssociation::load( QDomElement & element ) {
 	// From here on it's old-style stuff.
 	QString assocTypeStr = element.attribute( "assoctype", "-1" );
 	Uml::Association_Type assocType = Uml::at_Unknown;
-	int assocTypeNum = assocTypeStr.toInt();
-	if (assocTypeNum < (int)atypeFirst || assocTypeNum > (int)atypeLast) {
-		kdWarning() << "bad assoctype of UML:Association " << getID() << endl;
-		return false;
+	if (assocTypeStr[0] >= 'a' && assocTypeStr[0] <= 'z') {
+		// In an earlier version, the natural assoctype names were saved.
+		const unsigned nAssocTypes = 16;
+		const QString assocTypeString[nAssocTypes] = {
+			"generalization",	// at_Generalization
+			"aggregation",		// at_Aggregation
+			"dependency",		// at_Dependency
+			"association",		// at_Association
+			"associationself",	// at_Association_Self
+			"collmessage",		// at_Coll_Message
+			"seqmessage",		// at_Seq_Message
+			"collmessageself",	// at_Coll_Message_Self
+			"seqmessageself",	// at_Seq_Message_Self
+			"implementation",	// at_Implementation
+			"composition",		// at_Composition
+			"realization",		// at_Realization
+			"uniassociation",	// at_UniAssociation
+			"anchor",		// at_Anchor
+			"state",		// at_State
+			"activity" 		// at_Activity
+		};
+
+		unsigned index;
+		for (index = 0; index < nAssocTypes; index++)
+			if (assocTypeStr == assocTypeString[index])
+				break;
+		if (index < nAssocTypes)
+			assocType = (Uml::Association_Type)index;
+	} else {
+		int assocTypeNum = assocTypeStr.toInt();
+		if (assocTypeNum < (int)atypeFirst || assocTypeNum > (int)atypeLast) {
+			kdWarning() << "bad assoctype of UML:Association " << getID() << endl;
+			return false;
+		}
+		assocType = (Uml::Association_Type)assocTypeNum;
 	}
-	assocType = (Uml::Association_Type)assocTypeNum;
 	setAssocType( assocType );
 
 	int roleAObjID = element.attribute( "rolea", "-1" ).toInt();
@@ -371,7 +419,9 @@ void UMLAssociation::setAssocType(Uml::Association_Type assocType) {
 	{
 		// In this case we need to auto-set the multiplicity/rolenames
 		// of the roles
+#ifdef VERBOSE_DEBUGGING
 		kdDebug() << " A new uni-association has been created." << endl;
+#endif
 	}
 	emit modified();
 }

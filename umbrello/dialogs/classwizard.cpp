@@ -91,13 +91,13 @@ void ClassWizard::accept() {
 	m_pDoc->signalUMLObjectCreated(m_pClass);
 
 	UMLListView *listView = UMLApp::app()->getListView();
-	UMLClassifierListItemList* attributes = m_pClass->getAttList();
-	for ( UMLClassifierListItem* attribute = attributes->first(); attribute; attribute = attributes->next() )  {
+	UMLClassifierListItemList attributes = m_pClass->getFilteredList(ot_Attribute);
+	for ( UMLClassifierListItem* attribute = attributes.first(); attribute; attribute = attributes.next() )  {
 		listView->childObjectAdded(attribute, m_pClass);
 	}
 
-	UMLClassifierListItemList operations = m_pClass->getOpList();
-	for ( UMLClassifierListItem* operation = operations.first(); operation; operation = operations.next() )  {
+	UMLOperationList operations = m_pClass->getOpList();
+	for ( UMLOperation* operation = operations.first(); operation; operation = operations.next() )  {
 		listView->childObjectAdded(operation, m_pClass);
 	}
 

@@ -400,24 +400,24 @@ UMLClassifierListItemList ClassifierListPage::getItemList() {
 		case ot_Attribute: {
 			UMLClass* classifier = dynamic_cast<UMLClass*>(m_pClassifier);
 			if (classifier) {
-				return UMLClassifierListItemList(*classifier->getAttList());
+				return classifier->getFilteredList(ot_Attribute);
 			}
 			break;
 		}
 		case ot_Operation: {
-			return m_pClassifier->getOpList();
+			return m_pClassifier->getFilteredList(ot_Operation);
 		}
 		case ot_Template: {
 			UMLClass* classifier = dynamic_cast<UMLClass*>(m_pClassifier);
 			if (classifier) {
-				return UMLClassifierListItemList(*classifier->getTemplateList());
+				return classifier->getFilteredList(ot_Template);
 			}
 			break;
 		}
 		case ot_EnumLiteral: {
 			UMLEnum* classifier = dynamic_cast<UMLEnum*>(m_pClassifier);
 			if (classifier) {
-				return UMLClassifierListItemList(*classifier->getEnumLiteralList());
+				return classifier->getFilteredList(ot_EnumLiteral);
 			}
 			break;
 		}

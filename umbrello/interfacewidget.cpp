@@ -138,8 +138,8 @@ void InterfaceWidget::drawAsConcept(QPainter& p, int offsetX, int offsetY) {
 
 		p.drawLine(offsetX, offsetY + y, offsetX + w - 1, offsetY + y);
 
-		UMLClassifierListItem* obj = 0;
-		UMLClassifierListItemList list(((UMLInterface*)m_pObject)->getOpList());
+		UMLOperation* obj = 0;
+		UMLOperationList list(((UMLInterface*)m_pObject)->getOpList());
 		for(obj=list.first();obj != 0;obj=list.next()) {
 			if (m_bShowPublicOnly && obj->getScope() != Uml::Public)
 				continue;
@@ -204,8 +204,8 @@ void InterfaceWidget::calculateAsConceptSize() {
 	height = width = 0;
 	//set the height of the concept
 	if (m_bShowOperations) {
-		UMLClassifierListItemList list((static_cast<UMLClassifier*>(m_pObject))->getOpList());
-		for (UMLClassifierListItem *obj = list.first(); obj; obj = list.next()) {
+		UMLOperationList list((static_cast<UMLClassifier*>(m_pObject))->getOpList());
+		for (UMLOperation *obj = list.first(); obj; obj = list.next()) {
 			if (!(m_bShowPublicOnly && obj->getScope() != Uml::Public))
 				numOps++;
 		}
@@ -228,8 +228,8 @@ void InterfaceWidget::calculateAsConceptSize() {
 	width++;
 
 	if (m_bShowOperations) {
-		UMLClassifierListItemList list(((UMLInterface*)m_pObject)->getOpList());
-		UMLClassifierListItem* listItem = 0;
+		UMLOperationList list(((UMLInterface*)m_pObject)->getOpList());
+		UMLOperation* listItem = 0;
 		for(listItem = list.first();listItem != 0; listItem = list.next()) {
 			if (m_bShowPublicOnly && listItem->getScope() != Uml::Public)
 				continue;

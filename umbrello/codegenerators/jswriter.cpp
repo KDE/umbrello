@@ -184,7 +184,7 @@ void JSWriter::writeClass(UMLClassifier *c)
 	js << endl;
 
 	//operations
-	UMLOperationList ops(c->getFilteredOperationsList());
+	UMLOperationList ops(c->getOpList());
 	writeOperations(classname, &ops, js);
 
 	js << endl;

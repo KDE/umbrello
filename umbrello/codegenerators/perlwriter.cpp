@@ -191,7 +191,7 @@ void PerlWriter::writeOperations(UMLClassifier *c, QTextStream &perl) {
 
 	//sort operations by scope first and see if there are abstract methods
 	//keep this for documentation only!
-	UMLOperationList opl(c->getFilteredOperationsList());
+	UMLOperationList opl(c->getOpList());
 	for(UMLOperation *op = opl.first(); op ; op = opl.next()) {
 		switch(op->getScope()) {
 			case Uml::Public:

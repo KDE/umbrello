@@ -316,7 +316,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 	}
 
 	// Generate public operations.
-	UMLOperationList opl(c->getFilteredOperationsList());
+	UMLOperationList opl(c->getOpList());
 	UMLOperationList oppub;
 	oppub.setAutoDelete(false);
 	UMLOperation *op;

@@ -57,8 +57,8 @@ SelectOpDlg::SelectOpDlg(QWidget * parent, UMLClassifier * c)
 	m_pOpBG -> setExclusive(true);
 	m_pOpBG -> setButton(OP);
 
-	UMLClassifierListItemList list = c -> getOpList(true);
-	UMLClassifierListItem* obj=0;
+	UMLOperationList list = c -> getOpList(true);
+	UMLOperation* obj=0;
 	for(obj=list.first();obj != 0;obj=list.next()) {
 		m_pOpCB -> insertItem(obj -> toString(Uml::st_SigNoScope));
 	}

@@ -23,9 +23,6 @@ UMLInterface::~UMLInterface() {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool UMLInterface::operator==( UMLInterface & rhs ) {
-	if ( m_OpsList.count() != rhs.m_OpsList.count() ) {
-		return false;
-	}
 	return UMLClassifier::operator==(rhs);
 }
 
@@ -50,8 +47,9 @@ void UMLInterface::init() {
 void UMLInterface::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement interfaceElement = UMLObject::save("UML:Interface", qDoc);
 	//save operations
-	UMLClassifierListItem* pOp = 0;
-	for ( pOp = m_OpsList.first(); pOp != 0; pOp = m_OpsList.next() ) {
+	UMLOperationList opsList = getOpList();
+	UMLOperation* pOp = 0;
+	for ( pOp = opsList.first(); pOp != 0; pOp = opsList.next() ) {
 		pOp->saveToXMI(qDoc, interfaceElement);
 	}
 	//save contained objects

@@ -189,7 +189,7 @@ QString TextBlock::unformatText ( const QString & text, const QString & indent )
 
 void TextBlock::release () {
 	this->disconnect();
-	this->deleteLater();
+	//this->deleteLater();
 }
 
 QString TextBlock::formatMultiLineText ( const QString &work, const QString &linePrefix, 

@@ -136,6 +136,9 @@ public:
 	virtual void setID ( int id);
 	virtual QString getAuxId() const;
 
+	QString getIdStr() const;
+	void setIdStr(QString idStr);
+
 	/** get the 'id' of the role (NOT the parent object). This could be
 	 * either a '1' (roleA) or '0' (roleB). Yes, it would be better if we
 	 * could get along without this, but we need it to distinguish saved
@@ -149,6 +152,15 @@ public:
 	 * Not yet implemented.
 	 */
 	UMLObject* clone() const { return NULL; }
+
+	/**
+	 * Resolve the m_idStr to the m_pObject. Required when importing
+	 * foreign XMI files.
+	 * This is called by UMLAssociation::resolveTypes().
+	 *
+	 * @return	True for success.
+	 */
+	bool resolveType();
 
 	/**
 	 * Creates the <UML:AssociationEnd> XMI element.
@@ -174,7 +186,7 @@ private:
 	QString m_Name;
 	QString m_Multi;
 	Changeability_Type m_Changeability;
-
+	QString m_idStr;
 
 };
 

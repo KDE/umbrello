@@ -154,6 +154,16 @@ public:
 				bool includeNested = true );
 
 	/**
+	 * Resolve types. Required when dealing with foreign XMI files.
+	 * Needs to be called after all UML objects are loaded from file.
+	 * Overrides the method from UMLObject.
+	 * Calls resolveTypes() on each contained object.
+	 *
+	 * @return	True for overall success.
+	 */
+	virtual bool resolveTypes();
+
+	/**
 	 * Creates the <UML:Package> XMI element.
 	 */
 	virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);

@@ -173,64 +173,22 @@ public:
 	int templates();
 
 	/**
-	 * Return the list of attributes for the class.
-	 *
-	 * @return	Pointer to the list of attributes for the class.
-	 */
-	UMLClassifierListItemList* getAttList();
-
-	/**
-	 * Returns the entries in m_pAttList that are actually attributes.
+	 * Returns the attributes.
+	 * Same as UMLClassifier::getFilteredList(ot_Attribute) but
+	 * return type is a true UMLAttributeList.
 	 *
 	 * @return	List of true attributes for the class.
 	 */
 	UMLAttributeList getFilteredAttributeList();
 
 	/**
-	 * Return the list of templates for the class.
-	 *
-	 * @return	Pointer to the list of templates for the class.
-	 */
-	UMLClassifierListItemList* getTemplateList();
-
-	/**
-	 * Returns the entries in m_pTemplatesList that are actually templates
+	 * Returns the templates.
+	 * Same as UMLClassifier::getFilteredList(ot_Template) but
+	 * return type is a true UMLTemplateList.
 	 *
 	 * @return	Pointer to the list of true templates for the class.
 	 */
-	UMLTemplateList* getFilteredTemplateList();
-
-	/**
-	 * Find a list of attributes, operations, associations or
-	 * templates with the given name.
-	 *
-	 * @param t		The type to find.
-	 * @param n		The name of the object to find.
-	 * @param seekStereo	Set this true if we should look at the object's
-	 *			stereotype instead of its name.
-	 * @return	List of objects found.  Will be empty if none found.
-	 */
-	 virtual UMLObjectList findChildObject(UMLObject_Type t, QString n,
-					       bool seekStereo = false);
-
-	/**
-	 * Find an attribute, operation, association or template.
-	 *
-	 * @param id		The id of the object to find.
-	 * @return	Pointer to the object found; NULL if not found.
-	 */
-	virtual UMLObject* findChildObject(int id);
-
-	/**
-	 * Find the object of the given (non-numeric) auxiliary ID in
-	 * the lists of contained objects.  The auxiliary ID is the ID
-	 * returned by UMLObject::getAuxId() and is currently only used
-	 * for loading foreign XMI files.
-	 *
-	 * @param idStr		The ID to seek.
-	 * @return	Pointer to the UMLObject found or NULL if not found.
-	 */
-	UMLObject* findChildObjectByIdStr(QString idStr);
+	UMLTemplateList getFilteredTemplateList();
 
 	/**
 	 * Return true if this class has an enumeration stereotype.
@@ -245,10 +203,11 @@ public:
 	bool isEnumeration();
 
 	/**
-	 * Calls resolveType() on all attributes and operations.
+	 * Calls the parent (i.e. UMLClassifier) resolveTypes(), and calls
+	 * resolveType() on all attributes.
 	 * Needs to be called after all UML objects are loaded from file.
 	 *
-	 * @return	True for success.
+	 * @return	True for overall success.
 	 */
 	bool resolveTypes();
 
@@ -285,15 +244,6 @@ private:
 	 */
 	void init();
 
-	/**
-	 * List of all the attributes in this class.
-	 */
-	UMLClassifierListItemList m_AttsList;
-
-	/**
-	 * List of all the templates in this class.
-	 */
-	UMLClassifierListItemList m_TemplateList;
 };
 
 #endif // UMLCLASS_H

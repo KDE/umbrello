@@ -55,7 +55,7 @@ void UMLRole::setID( int id) {
 QString UMLRole::getAuxId() const {
 	if (m_pObject)
 		return m_pObject->getAuxId();
-	return "";
+	return m_idStr;
 }
 
 Changeability_Type UMLRole::getChangeability() const {
@@ -77,15 +77,6 @@ QString UMLRole::getName() const {
 QString UMLRole::getDoc() const {
 	return m_Doc;
 }
-
-/*
-void UMLRole::setId(int id) {
-	m_Id = id;
-	if(m_pObject)
-		m_pObject->setID(id);
-	emit modified();
-}
-*/
 
 void UMLRole::setObject (UMLObject *obj) {
 	// because we will get the id of this role from the parent
@@ -131,6 +122,14 @@ int UMLRole::getRoleID() {
 	return m_roleID;
 }
 
+QString UMLRole::getIdStr() const {
+	return m_idStr;
+}
+
+void UMLRole::setIdStr(QString idStr) {
+	m_idStr = idStr;
+}
+
 void UMLRole::init(UMLAssociation * parent, UMLObject * parentObj, int id) {
 
 	m_roleID = id;
@@ -142,6 +141,26 @@ void UMLRole::init(UMLAssociation * parent, UMLObject * parentObj, int id) {
 
 	// connect this up to parent 
 	connect(this,SIGNAL(modified()),parent,SIGNAL(modified()));
+}
+
+bool UMLRole::resolveType() {
+	if (m_pObject != NULL) {
+		return true;
+	}
+	if (m_idStr.isEmpty()) {
+		kdError() << "UMLRole::resolveTypes: m_idStr is empty - "
+			  << "cannot resolve type." << endl;
+		return false;
+	}
+	UMLDoc *doc = UMLApp::app()->getDocument();
+	m_pObject = doc->findObjectByIdStr(m_idStr);
+	if (m_pObject == NULL) {
+		kdError() << "UMLRole::resolveTypes: Could not resolve type "
+			  << m_idStr << endl;
+		return false;
+	}
+	m_idStr = "";
+	return true;
 }
 
 void UMLRole::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
@@ -201,27 +220,20 @@ void UMLRole::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 
 bool UMLRole::load( QDomElement & element ) {
 	UMLDoc * doc = UMLApp::app()->getDocument();
-	if (doc == NULL) {
-		kdError() << "UMLRole::load failed to retrieve the UMLDoc"
-			  << endl;
-		return false;
-	}
-	QString idStr = element.attribute("type", "-1");
-	if (idStr == "-1") {
+	m_idStr = element.attribute("type", "-1");
+	if (m_idStr == "-1") {
 		kdError() << "UMLRole::load: type not given or illegal" << endl;
 		return false;
 	}
 	UMLObject * obj;
-	if (idStr.contains(QRegExp("\\D")))
-		obj = doc->findObjectByIdStr(idStr);
+	if (m_idStr.contains(QRegExp("\\D")))
+		obj = doc->findObjectByIdStr(m_idStr);
 	else
-		obj = doc->findUMLObject(idStr.toInt());
-	if (obj ==NULL) {
-		kdError() << "UMLRole::load: cannot find object of ID "
-			  << idStr << endl;
-		return false;
+		obj = doc->findUMLObject(m_idStr.toInt());
+	if (obj) {
+		m_pObject = obj;
+		m_idStr = "";
 	}
-	m_pObject = obj;
 
 	// block signals to prevent needless updating
 	blockSignals(true);

@@ -145,12 +145,12 @@ public:
 	void addParm(UMLAttribute *parameter, int position = -1);
 
 	/**
-	 * Calls resolveType() on all attributes.
+	 * Calls resolveType() on all parameters.
 	 * Needs to be called after all UML objects are loaded from file.
 	 *
 	 * @return	True for success.
 	 */
-	bool resolveParmTypes();
+	bool resolveTypes();
 
 	/**
 	 * Returns an unused parameter name for a new parameter.

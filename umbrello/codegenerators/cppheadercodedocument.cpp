@@ -415,7 +415,7 @@ void CPPHeaderCodeDocument::updateContent( )
 	QPtrList<CodeClassField> privAggregationClassFields = getSpecificClassFields ( CodeClassField::Aggregation, Uml::Private);
 	QPtrList<CodeClassField> privCompositionClassFields = getSpecificClassFields ( CodeClassField::Composition, Uml::Private);
 
-	bool hasOperationMethods = c->getFilteredOperationsList().last() ? true : false;
+	bool hasOperationMethods = c->getOpList().last() ? true : false;
 	bool hasNamespace = false;
 	bool isEnumeration = false;
 	bool isInterface = parentIsInterface();

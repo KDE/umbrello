@@ -204,6 +204,16 @@ public:
 	virtual UMLObject* clone() const { return NULL; }
 
 	/**
+	 * Resolve types. Required when dealing with foreign XMI files.
+	 * Needs to be called after all UML objects are loaded from file.
+	 * Overrides the method from UMLObject.
+	 * Calls UMLRole:resolveType() for each role.
+	 *
+	 * @return	True for success.
+	 */
+	virtual bool resolveTypes();
+
+	/**
 	 * Creates the <UML:Generalization> or <UML:Association> XMI element
 	 * including its role objects.
 	 */

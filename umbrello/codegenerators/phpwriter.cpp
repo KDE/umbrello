@@ -197,7 +197,7 @@ void PhpWriter::writeOperations(UMLClassifier *c, QTextStream &php) {
 	oppriv.setAutoDelete(false);
 
 	//sort operations by scope first and see if there are abstract methods
-	UMLOperationList opl(c->getFilteredOperationsList());
+	UMLOperationList opl(c->getOpList());
 	for(UMLOperation *op = opl.first(); op ; op = opl.next()) {
 		switch(op->getScope()) {
 			case Uml::Public:
