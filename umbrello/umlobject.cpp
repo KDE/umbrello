@@ -297,11 +297,13 @@ bool UMLObject::loadFromXMI( QDomElement & element ) {
 		pkgId = pkg.toInt();
 	} else {
 		pkg = element.attribute( "package", "" );
-		if (pkg.contains(QRegExp("\\D")))
-			// Old versions saved the package name instead of the xmi.id.
-			setPackage( pkg );
-		else
-			pkgId = pkg.toInt();
+		if (! pkg.isEmpty()) {
+			if (pkg.contains(QRegExp("\\D")))
+				// Old versions saved the package name instead of the xmi.id.
+				setPackage( pkg );
+			else
+				pkgId = pkg.toInt();
+		}
 	}
 	if (pkgId != -1) {
 		UMLDoc* umldoc = dynamic_cast<UMLDoc *>( parent() );
