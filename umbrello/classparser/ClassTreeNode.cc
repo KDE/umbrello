@@ -115,7 +115,7 @@ void CClassTreeNode::out()
 {
   CClassTreeNode *aChild;
 
-  kdDebug() << "(" << (theClass ? theClass->name.data() : "??");
+  kdDebug() << "(" << (theClass ? theClass->name.ascii() : "??");
 
   for( aChild = children.first();
        aChild != NULL;

@@ -104,7 +104,7 @@ private: // Private attributes
   PIExport declaredScope;
 
   /** Stack of lexems currently parsed. */
-  QStack<CParsedLexem> lexemStack;
+  QPtrStack<CParsedLexem> lexemStack;
  
   /** Type of method. 0 = NORMAL else QTSIGNAL/QTSLOT. */
   int methodType;

@@ -78,7 +78,7 @@ CParsedMethod::~CParsedMethod()
  *-----------------------------------------------------------------*/
 void CParsedMethod::addArgument( CParsedArgument *anArg )
 {
-  ASSERT( anArg != NULL );
+  Q_ASSERT( anArg != NULL );
   
   if( anArg->type != "void" )
     arguments.append( anArg );
@@ -170,7 +170,7 @@ void CParsedMethod::out()
   if( isSignal )
     kdDebug() << "signal ";
 
-  kdDebug() << ( type.isEmpty() ? "" : type.data() )  << " " << name << "( ";
+  kdDebug() << type  << " " << name << "( ";
 
   for( arg = arguments.first(); arg != NULL; arg = arguments.next() )
   {
@@ -206,7 +206,7 @@ void CParsedMethod::out()
  *-----------------------------------------------------------------*/
 void CParsedMethod::copy( CParsedMethod *aMethod )
 {
-  ASSERT( aMethod != NULL );
+  Q_ASSERT( aMethod != NULL );
 
   CParsedArgument *newArg;
   CParsedArgument *anArg;

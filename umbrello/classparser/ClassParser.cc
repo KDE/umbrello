@@ -420,7 +420,7 @@ void CClassParser::parseNamespace( CParsedScopeContainer * scope )
     getNextLexem();
   }
 
-  ASSERT( lexem == '}' );
+  Q_ASSERT( lexem == '}' );
 
   // If the parsing went ok, we add the scope.
   if( lexem != 0 )

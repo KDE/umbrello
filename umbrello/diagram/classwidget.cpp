@@ -252,7 +252,7 @@ void ClassWidget::calculateSize()
 					break;
 			}
 			opString.string += op->getName() + "( ";
-			QList<UMLAttribute> *params = op->getParmList();
+			QPtrList<UMLAttribute> *params = op->getParmList();
 			for( UMLAttribute *last = params->last(), *param = params->first();
 				param &&  (m_opsDisplayOpts & ShowParameterList);
 				param = params->next() )

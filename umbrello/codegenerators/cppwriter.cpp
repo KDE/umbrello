@@ -137,7 +137,7 @@ void CppWriter::writeHeaderFile (UMLClassifier *c, QFile &fileh) {
 	h << "#ifndef "<< hashDefine + "_H" << endl;
 	h << "#define "<< hashDefine + "_H" << endl;
 
-	QList<UMLClassifier> superclasses = classifierInfo->superclasses;
+	QPtrList<UMLClassifier> superclasses = classifierInfo->superclasses;
 	for(UMLClassifier *classifier = superclasses.first(); classifier ;classifier = superclasses.next()) {
 		QString headerName = findFileName(classifier, ".h");
 		if (headerName.isEmpty()) {
