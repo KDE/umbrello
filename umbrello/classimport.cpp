@@ -52,10 +52,23 @@ ClassImport::~ClassImport() {}
 
 QString ClassImport::formatComment(const QString &comment) {
 	QStringList lines = QStringList::split("\n", comment);
-	if (!lines.first().contains("/*"))
-		return "";
-	lines.pop_front();  // remove comment start
-	lines.pop_back();   // remove comment end
+	QString& first = lines.first();
+	QRegExp wordex("\\w");
+	if (first.startsWith("/*")) {
+		int wordpos = wordex.search(first);
+		if (wordpos != -1)
+			first = first.mid(wordpos);  // remove comment start
+		else
+			lines.pop_front();  // nothing interesting on this line
+	}
+	QString& last = lines.last();
+	int endpos = last.find("*/");
+	if (endpos != -1) {
+		if (last.contains(wordex))
+			last = last.mid(0, endpos - 1);  // remove comment end
+		else
+			lines.pop_back();  // nothing interesting on this line
+	}
 	if (! lines.count())
 		return "";
 
