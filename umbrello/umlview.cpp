@@ -1145,6 +1145,7 @@ void UMLView::selectWidgets() {
 					m_SelectedList.append(ow);
 				} else {
 					AssociationWidget * a = static_cast<AssociationWidget *>( (static_cast<FloatingText *>(temp)) -> getAssoc() );
+					if (a) {
 
 					a -> setSelected(true);
 					//select the two widgets
@@ -1196,6 +1197,7 @@ void UMLView::selectWidgets() {
 						m_SelectedList.remove( text );
 						m_SelectedList.append( text );
 					}
+					} // if (a)
 				}//end else
 			}//end if text
 			else if(temp -> getBaseType() == wt_Message) {
