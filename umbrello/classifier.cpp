@@ -6,7 +6,6 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include <iostream.h>
 #include "classifier.h"
 #include "association.h"
 #include "umlassociationlist.h"
@@ -38,8 +37,8 @@ UMLOperation * UMLClassifier::checkOperationSignature( QString name,
 		return NULL;
 
 	// there is at least one operation with the same name... compare the parameter list
-	for( UMLOperation *test = dynamic_cast<UMLOperation*>(list.first()); 
-	     test != 0; 
+	for( UMLOperation *test = dynamic_cast<UMLOperation*>(list.first());
+	     test != 0;
 	     test = dynamic_cast<UMLOperation*>(list.next()) )
 	{
 		if (test == exemptOp)
@@ -68,7 +67,7 @@ UMLOperation * UMLClassifier::checkOperationSignature( QString name,
 bool UMLClassifier::addOperation(UMLOperation* op, int position )
 {
 	if( m_OpsList.findRef( op ) != -1  ||
-	    checkOperationSignature(op->getName(), op->getParmList()) ) 
+	    checkOperationSignature(op->getName(), op->getParmList()) )
 		return false;
 
 	if( op -> parent() )
