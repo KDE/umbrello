@@ -89,6 +89,12 @@
 
 #include "toolbarstatefactory.h"
 
+
+// control the manual DoubleBuffering of QCanvas
+// with a define, so that this memory X11 effect can
+// be tested more easily
+#define MANUAL_CONTROL_DOUBLE_BUFFERING
+
 // static members
 const int UMLView::defaultCanvasSize = 1300;
 
@@ -365,6 +371,12 @@ void UMLView::slotToolBarChanged(int c)
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLView::showEvent(QShowEvent* /*se*/) {
+
+	#ifdef MANUAL_CONTROL_DOUBLE_BUFFERING
+	kdWarning() << "Show Event for " << getName() << endl;
+	canvas()->setDoubleBuffering( true );
+	#endif
+
 	UMLApp* theApp = UMLApp::app();
 	WorkToolBar* tb = theApp->getWorkToolBar();
 	connect(tb,SIGNAL(sigButtonChanged(int)), this, SLOT(slotToolBarChanged(int)));
@@ -381,6 +393,11 @@ void UMLView::hideEvent(QHideEvent* /*he*/) {
 	disconnect(tb,SIGNAL(sigButtonChanged(int)), this, SLOT(slotToolBarChanged(int)));
 	disconnect(this,SIGNAL(sigResetToolBar()), tb, SLOT(slotResetToolBar()));
 	disconnect(m_pDoc, SIGNAL(sigObjectCreated(UMLObject *)), this, SLOT(slotObjectCreated(UMLObject *)));
+
+	#ifdef MANUAL_CONTROL_DOUBLE_BUFFERING
+	kdWarning() << "Hide Event for " << getName() << endl;
+	canvas()->setDoubleBuffering( false );
+	#endif
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLListView * UMLView::getListView() {
