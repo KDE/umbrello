@@ -38,9 +38,9 @@ XMLSchemaWriter::XMLSchemaWriter( UMLDoc *doc, const char *name )
 	packageNamespaceURI = "http://foo.example.com/";
 	schemaNamespaceTag = "xs";
 	schemaNamespaceURI = "http://www.w3.org/2001/XMLSchema";
-	indent = "\t";
+	indent = m_indentation;
 	indentLevel = 0;
-	startline = "\n" + indent; // using UNIX newLine standard.. bad
+	startline = m_newLineEndingChars;
 }
 
 // form of..."the Destructor"!!

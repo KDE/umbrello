@@ -624,6 +624,7 @@ void UMLApp::slotFileOpen() {
 		}
 
 	}
+	setGenerator(createGenerator());
 	slotUpdateViews();
 	loading = false;
 	slotStatusMsg(i18n("Ready."));
@@ -647,6 +648,7 @@ void UMLApp::slotFileOpenRecent(const KURL& url) {
 	}
 
 	loading = false;
+	setGenerator(createGenerator());
 	slotUpdateViews();
 	slotStatusMsg(i18n("Ready."));
 }

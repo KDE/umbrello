@@ -72,7 +72,8 @@ DiagramPrintPage::DiagramPrintPage(QWidget * parent, UMLDoc * m_pDoc) : KPrintDi
 	m_pSelectLB -> setSelectionMode(QListBox::Multi);
 	m_pSelectLB -> insertItem(m_pDoc->getCurrentView()->getName());
 	m_pSelectLB -> setSelected(0, true);
-	m_nIdList[0] = ((UMLView*)m_pDoc->getCurrentView())->getID();
+	m_nIdList.clear();
+	m_nIdList.append(((UMLView*)m_pDoc->getCurrentView())->getID());
 
 
 
@@ -126,8 +127,10 @@ bool DiagramPrintPage::isValid( QString& msg ) {
 void DiagramPrintPage::slotClicked(int id) {
 	UMLViewList list = m_pDoc -> getViewIterator();
 	UMLView * view = 0;
-	int count = 0;
 	QString type;
+
+	// clear list with diagrams to print
+	m_nIdList.clear();
 
 	switch(id) {
 		case Current:
@@ -136,7 +139,7 @@ void DiagramPrintPage::slotClicked(int id) {
 			m_pSelectLB -> clear();
 			m_pSelectLB -> insertItem(m_pDoc -> getCurrentView() -> getName());
 			m_pSelectLB -> setSelected(0, true);
-			m_nIdList[count] = ((UMLView*)m_pDoc -> getCurrentView()) -> getID();
+			m_nIdList.append(((UMLView*)m_pDoc -> getCurrentView()) -> getID());
 			break;
 
 		case All:
@@ -146,7 +149,7 @@ void DiagramPrintPage::slotClicked(int id) {
 			m_pSelectLB -> clear();
 			for(view = list.first(); view; view = list.next()) {
 				m_pSelectLB -> insertItem(view -> getName());
-				m_nIdList[count++] = view -> getID();
+				m_nIdList.append(view -> getID());
 			}
 			m_pSelectLB -> selectAll(true);
 			break;
@@ -157,7 +160,7 @@ void DiagramPrintPage::slotClicked(int id) {
 			m_pSelectLB -> clear();
 			for(view = list.first(); view; view = list.next()) {
 				m_pSelectLB -> insertItem(view -> getName());
-				m_nIdList[count++] = view -> getID();
+				m_nIdList.append(view -> getID());
 			}
 			break;
 
@@ -168,9 +171,10 @@ void DiagramPrintPage::slotClicked(int id) {
 			for(view = list.first(); view; view = list.next()) {
 				if(view -> getType() == m_ViewType) {
 					m_pSelectLB -> insertItem(view -> getName());
-					m_nIdList[count++] = view -> getID();
+					m_nIdList.append(view -> getID());
 				}
 			}
+			m_pSelectLB -> selectAll(true);
 			break;
 	}
 }
@@ -178,7 +182,6 @@ void DiagramPrintPage::slotClicked(int id) {
 void DiagramPrintPage::slotActivated(const QString & text) {
 	UMLViewList list = m_pDoc -> getViewIterator();
 	UMLView * view = 0;
-	int count = 0;
 
 	if(text == i18n("Class"))
 		m_ViewType = Uml::dt_Class;
@@ -189,12 +192,14 @@ void DiagramPrintPage::slotActivated(const QString & text) {
 	else if(text == i18n("Collaboration"))
 		m_ViewType = Uml::dt_Collaboration;
 	m_pSelectLB -> clear();
+	m_nIdList.clear();
 	for(view = list.first(); view; view = list.next()) {
 		if(view -> getType() == m_ViewType) {
 			m_pSelectLB -> insertItem(view -> getName());
-			m_nIdList[count++] = view -> getID();
+			m_nIdList.append(view -> getID());
 		}
 	}
+	m_pSelectLB -> selectAll(true);
 }
 
 #include "diagramprintpage.moc"

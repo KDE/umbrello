@@ -307,8 +307,6 @@ bool UMLClass::loadSpecialized(QDomElement & element) {
 		if( !pAtt -> loadFromXMI( element ) )
 			return false;
 		addAttribute(pAtt);
-		// connect( pAtt,SIGNAL(modified()),this,SIGNAL(modified()));
-		// m_AttsList.append( pAtt );
 		return true;
 	} else if (tag == "template") {
 		//FIXME: Make UML DTD compliant.
@@ -316,7 +314,7 @@ bool UMLClass::loadSpecialized(QDomElement & element) {
 		if ( !newTemplate->loadFromXMI(element) ) {
 			return false;
 		}
-		m_TemplateList.append(newTemplate);
+		addTemplate(newTemplate);
 		return true;
 	} else if (tag == "stereotype") {
 		kdDebug() << "UMLClass::loadSpecialized(" << m_Name
