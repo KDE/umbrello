@@ -23,6 +23,7 @@
 
 // app includes
 #include "umlobject.h"
+#include "umlpackagelist.h"
 #include "package.h"
 #include "classifier.h"
 #include "template.h"
@@ -113,11 +114,20 @@ UMLObject* findUMLObject(UMLObjectList inList, QString name,
 			// constructed like that :(
 			pkg = dynamic_cast<UMLPackage*>(currentObj->parent());
 		} else {
-			pkg = dynamic_cast<UMLPackage*>(currentObj);
-			if (pkg == NULL)
+			//pkg = dynamic_cast<UMLPackage*>(currentObj);
+			//if (pkg == NULL)
 				pkg = currentObj->getUMLPackage();
 		}
+		// Remember packages that we've seen - for avoiding cycles.
+		UMLPackageList seenPkgs;
 		for (; pkg; pkg = currentObj->getUMLPackage()) {
+			if (seenPkgs.findRef(pkg) != -1) {
+				kdError() << "findUMLObject(" << name << "): "
+					  << "breaking out of cycle involving "
+					  << pkg->getName() << endl;
+				break;
+			}
+			seenPkgs.append(pkg);
 			UMLObjectList objectsInCurrentScope = pkg->containedObjects();
 			for (UMLObjectListIt oit(objectsInCurrentScope); oit.current(); ++oit) {
 				UMLObject *obj = oit.current();
