@@ -102,6 +102,7 @@ void FloatingText::calculateSize() {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void FloatingText::slotMenuSelection(int sel) {
+	kdDebug() << k_funcinfo << endl;
 	QString t, newText;
 	bool ok;
 	int result;
@@ -253,6 +254,12 @@ void FloatingText::slotMenuSelection(int sel) {
 			}
 		}
 		done = true;
+		break;
+
+	case ListPopupMenu::mt_Reset_Label_Positions:
+		if (m_pAssoc) {
+			m_pAssoc->resetTextPositions();
+		}
 		break;
 	default:
 		break;

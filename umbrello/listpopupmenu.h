@@ -101,6 +101,7 @@ public:
 	    mt_RoleName,                      //ROLENAME
 	    mt_Delete_Association,            //DELETEASSOC
 	    mt_Delete_Selection,              //DELETESELECTION
+	    mt_Reset_Label_Positions,
 
 	    mt_Multi_Selection,               //MULTISELECTION
 	    mt_Line_Color,                    //LINECOLOR

@@ -2553,6 +2553,9 @@ void AssociationWidget::slotMenuSelection(int sel) {
 		m_pView->getDocument()->editPaste();
 		break;
 
+	case ListPopupMenu::mt_Reset_Label_Positions:
+		resetTextPositions();
+		break;
 	}//end switch
 }
 
@@ -3117,24 +3120,8 @@ void AssociationWidget::moveEntireAssoc( int x, int y ) {
 	//TODO: ADD SUPPORT FOR ASSOC. ON SEQ. DIAGRAMS WHEN NOTES BACK IN.
 	moveMidPointsBy( x, y );
 	calculateEndingPoints();
-	if( m_pMultiA )
-		setTextPosition( tr_MultiA, calculateTextPosition( tr_MultiA ) );
-	if( m_pMultiB )
-		setTextPosition( tr_MultiB, calculateTextPosition( tr_MultiB ) );
-	if( m_pChangeWidgetA)
-		setTextPosition( tr_ChangeA, calculateTextPosition( tr_ChangeA) );
-	if( m_pChangeWidgetB)
-		setTextPosition( tr_ChangeB, calculateTextPosition( tr_ChangeB) );
-
-	if( m_pName ) {
-		setTextPosition( tr_Name, calculateTextPosition( tr_Name ) );
-		calculateNameTextSegment();
-	}
-
-	if( m_pRoleA )
-		setTextPosition( tr_RoleAName, calculateTextPosition( tr_RoleAName ) );
-	if( m_pRoleB )
-		setTextPosition( tr_RoleBName, calculateTextPosition( tr_RoleBName ) );
+	calculateNameTextSegment();
+	resetTextPositions();
 }
 
 void AssociationWidget::changeFont(QFont font) {
@@ -3248,6 +3235,30 @@ void AssociationWidget::setWidgetB(UMLWidget* WidgetB) {
  	} else {
 		m_pWidgetB = WidgetB;
 		m_pWidgetB->addAssoc(this);
+	}
+}
+
+void AssociationWidget::resetTextPositions() {
+	if (m_pMultiA) {
+		setTextPosition( tr_MultiA, calculateTextPosition(tr_MultiA) );
+	}
+	if (m_pMultiB) {
+		setTextPosition( tr_MultiB, calculateTextPosition(tr_MultiB) );
+	}
+	if (m_pChangeWidgetA) {
+		setTextPosition( tr_ChangeA, calculateTextPosition(tr_ChangeA) );
+	}
+	if (m_pChangeWidgetB) {
+		setTextPosition( tr_ChangeB, calculateTextPosition(tr_ChangeB) );
+	}
+	if (m_pName) {
+		setTextPosition( tr_Name, calculateTextPosition(tr_Name) );
+	}
+	if (m_pRoleA) {
+		setTextPosition( tr_RoleAName, calculateTextPosition(tr_RoleAName) );
+	}
+	if (m_pRoleB) {
+		setTextPosition( tr_RoleBName, calculateTextPosition(tr_RoleBName) );
 	}
 }
 

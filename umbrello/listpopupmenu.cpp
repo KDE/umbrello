@@ -269,39 +269,16 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object, bool multi) :
 			switch( (static_cast<FloatingText*>(object))->getRole() ) {
 				case Uml::tr_MultiB:
 				case Uml::tr_MultiA:
-					insertItem(SmallIcon( "editcut"), i18n("Cut"), mt_Cut);
-
-					insertItem(SmallIcon( "editcopy"), i18n("Copy"), mt_Copy);
-					insertItem(SmallIcon( "editpaste"), i18n("Paste"), mt_Paste);
-					insertSeparator();
-					insertItem(SmallIcon( "editdelete"), i18n("Delete Association"), mt_Delete_Association);
-					insertItem(SmallIcon( "charset"), i18n("Change Multiplicity..."), mt_Rename);
-					insertItem(SmallIcon( "editfonts"),  i18n( "Change Font..." ), mt_Change_Font );
-  					insertItem(SmallIcon( "info"), i18n("Properties..."), mt_Properties);
-  					break;
-
  				case Uml::tr_Name:
-  					insertItem(SmallIcon( "editcut"), i18n("Cut"), mt_Cut);
-  					insertItem(SmallIcon( "editcopy"), i18n("Copy"), mt_Copy);
-  					insertItem(SmallIcon( "editpaste"), i18n("Paste"), mt_Paste);
-  					insertSeparator();
-  					insertItem(SmallIcon( "editdelete"), i18n("Delete Association"), mt_Delete_Association);
- 					insertItem(SmallIcon( "charset"), i18n("Change name"), mt_Rename);
-  					insertItem(SmallIcon( "fonts"),  i18n( "Change Font" ), mt_Change_Font );
-  					insertItem(SmallIcon( "info"), i18n("Properties..."), mt_Properties);
-  					break;
-
  				case Uml::tr_RoleAName:
  				case Uml::tr_RoleBName:
- 					insertItem(SmallIcon( "editcut"), i18n("Cut"), mt_Cut);
- 					insertItem(SmallIcon( "editcopy"), i18n("Copy"), mt_Copy);
- 					insertItem(SmallIcon( "editpaste"), i18n("Paste"), mt_Paste);
- 					insertSeparator();
- 					insertItem(SmallIcon( "editdelete"), i18n("Delete Association"), mt_Delete_Association);
- 					insertItem(SmallIcon( "charset"), i18n("Change role name"), mt_Rename);
- 					insertItem(SmallIcon( "fonts"),  i18n( "Change Font" ), mt_Change_Font );
- 					insertItem(SmallIcon( "info"), i18n("Properties..."), mt_Properties);
-
+				case Uml::tr_ChangeA:
+				case Uml::tr_ChangeB:
+					insertItem(SmallIcon("editdelete"), i18n("Delete Association"), mt_Delete_Association);
+					insertItem(SmallIcon("fonts"),  i18n("Change Font..."), mt_Change_Font );
+  					insertItem(i18n("Reset Label Positions"), mt_Reset_Label_Positions);
+  					insertItem(SmallIcon( "info"), i18n("Properties..."), mt_Properties);
+  					break;
 
   				case Uml::tr_Coll_Message_Self:
   				case Uml::tr_Coll_Message:
@@ -319,15 +296,6 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object, bool multi) :
 					break;
 
 				case Uml::tr_Floating:
-					insertItem(SmallIcon( "editcut"), i18n("Cut"), mt_Cut);
-					insertItem(SmallIcon( "editcopy"), i18n("Copy"), mt_Copy);
-					insertItem(SmallIcon( "editpaste"), i18n("Paste"), mt_Paste);
-					insertSeparator();
-					insertItem(SmallIcon( "editdelete"), i18n("Delete"), mt_Delete);
-					insertItem(SmallIcon( "charset"), i18n("Change Text..."), mt_Rename);
-					insertItem(SmallIcon( "fonts"),  i18n( "Change Font..." ), mt_Change_Font );
-					break;
-
 				default:
 					insertItem(SmallIcon( "editcut"), i18n("Cut"), mt_Cut);
 					insertItem(SmallIcon( "editcopy"), i18n("Copy"), mt_Copy);
@@ -723,7 +691,7 @@ void ListPopupMenu::setupMenu( Menu_Type type, UMLView * view) {
 			break;
 
 		case mt_New_Operation:
-			insertItem(SmallIcon( "source"),i18n("New Operation..."), mt_New_Operation);
+		insertItem(SmallIcon( "source"),i18n("New Operation..."), mt_New_Operation);
 			break;
 
 		case mt_New_Attribute:
@@ -777,14 +745,16 @@ void ListPopupMenu::setupMenu( Menu_Type type, UMLView * view) {
 		case mt_MultiB:
 			insertItem(SmallIcon( "editdelete"),i18n("Delete Association"), mt_Delete_Association);
 			insertItem(SmallIcon( "charset"),i18n("Change Multiplicity..."), mt_Rename_MultiB);
-			insertItem( SmallIcon( "fonts"),i18n( "Change Font..." ), mt_Change_Font );
+			insertItem(SmallIcon( "fonts"),i18n( "Change Font..." ), mt_Change_Font );
+			insertItem(i18n("Reset Label Positions"), mt_Reset_Label_Positions);
 			insertItem(SmallIcon( "info"),i18n("Properties"), mt_Properties);
 			break;
 
 		case mt_MultiA:
 			insertItem(SmallIcon( "editdelete"),i18n("Delete Association"), mt_Delete_Association);
 			insertItem(SmallIcon( "charset"),i18n("Change Multiplicity..."), mt_Rename_MultiA);
-			insertItem( SmallIcon( "fonts"),i18n( "Change Font..." ), mt_Change_Font );
+			insertItem(SmallIcon( "fonts"),i18n( "Change Font..." ), mt_Change_Font );
+			insertItem(i18n("Reset Label Positions"), mt_Reset_Label_Positions);
   			insertItem(SmallIcon( "info"),i18n("Properties..."), mt_Properties);
   			break;
 
@@ -792,6 +762,7 @@ void ListPopupMenu::setupMenu( Menu_Type type, UMLView * view) {
  			insertItem(SmallIcon( "editdelete"),i18n("Delete Association"), mt_Delete_Association);
  			insertItem(SmallIcon( "charset"), i18n("Change Name"), mt_Rename_Name);
  			insertItem(SmallIcon( "fonts"), i18n( "Change Font" ), mt_Change_Font );
+			insertItem(i18n("Reset Label Positions"), mt_Reset_Label_Positions);
  			insertItem(SmallIcon( "info"),i18n("Properties..."), mt_Properties);
  			break;
 
@@ -801,9 +772,9 @@ void ListPopupMenu::setupMenu( Menu_Type type, UMLView * view) {
  			insertItem(SmallIcon( "charset"), i18n("Change role A name"), mt_Rename_RoleAName);
  			insertItem(SmallIcon( "charset"), i18n("Change role B name"), mt_Rename_RoleBName);
   			insertItem(SmallIcon( "fonts"), i18n( "Change Font" ), mt_Change_Font );
+			insertItem(i18n("Reset Label Positions"), mt_Reset_Label_Positions);
   			insertItem(SmallIcon( "info"),i18n("Properties..."), mt_Properties);
   			break;
-
 
 		case mt_Collaboration_Message:
 //			insertItem(SmallIcon( "editcut"), i18n("Cut"), mt_Cut);

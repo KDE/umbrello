@@ -415,6 +415,11 @@ public:
 		return m_pAssociation;
 	}
 
+	/**
+	 * Calls @ref setTextPosition() on all the labels
+	 */
+	void resetTextPositions();
+
 private:
 
 	/**
