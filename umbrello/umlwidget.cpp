@@ -161,8 +161,8 @@ bool UMLWidget::operator==(const UMLWidget& other) {
 		return false;
 	}
 
-	if(getBaseType() != wt_Text) // DONT do this for floatingtext widgets, an infinite loop will result
-	{
+//	if(getBaseType() != wt_Text) // DONT do this for floatingtext widgets, an infinite loop will result
+//	{
 		AssociationWidgetListIt assoc_it( m_Assocs );
 		AssociationWidgetListIt assoc_it2( other.m_Assocs );
 		AssociationWidget * assoc = 0, *assoc2 = 0;
@@ -173,7 +173,7 @@ bool UMLWidget::operator==(const UMLWidget& other) {
 				return false;
 			}
 		}
-	}
+//	}
 	return true;
 	// NOTE:  In the comparison tests we are going to do, we don't need these values.
 	// They will actually stop things functioning correctly so if you change these, be aware of that.

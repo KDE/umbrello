@@ -169,6 +169,8 @@ bool AssociationWidget::operator==(AssociationWidget & Other) {
 	} else if( m_pAssociation != Other.m_pAssociation )
 		return false;
 
+/*
+	// can cause infinite loop
 	if( !m_pName || !Other.m_pName ) {
 		if( !Other.m_pName && m_pName )
 			return false;
@@ -224,10 +226,14 @@ bool AssociationWidget::operator==(AssociationWidget & Other) {
 			return false;
 	} else if ( !(*m_pChangeWidgetB == *(Other.m_pChangeWidgetB)) )
 		return false;
+*/
 
 	if (getAssocType() != Other.getAssocType())
 		return false;
 
+/*
+	// these arent needed..contained in UMLAssociation
+	// and dont occur if a 'plain' association
 	if (getVisibilityA() != Other.getVisibilityA())
 		return false;
 
@@ -239,6 +245,7 @@ bool AssociationWidget::operator==(AssociationWidget & Other) {
 
 	if (getChangeabilityB() != Other.getChangeabilityB())
 		return false;
+*/
 
 	if (getWidgetAID() != Other.getWidgetAID())
 		return false;
