@@ -551,6 +551,21 @@ void UMLListView::childObjectAdded(UMLObject* obj) {
 	connectNewObjectsSlots(obj);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+void UMLListView::childObjectAdded(UMLObject* obj, UMLObject* parent) {
+	if (obj->getBaseType() == ot_Stereotype) {
+		return;
+	}
+	if (!m_bCreatingChildObject) {
+		UMLListViewItem *parentItem = findUMLObject(parent);
+		UMLListViewItem *newItem = new UMLListViewItem(parentItem, obj->getName(), convert_OT_LVT(obj->getBaseType()), obj);
+
+		ensureItemVisible(newItem);
+		clearSelection();
+		setSelected(newItem, true);
+	}
+	connectNewObjectsSlots(obj);
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLListView::childObjectRemoved(UMLObject* obj) {
 	UMLObject *parent = const_cast<UMLObject*>(dynamic_cast<const UMLObject*>(sender()));
 	UMLListViewItem *item(0);

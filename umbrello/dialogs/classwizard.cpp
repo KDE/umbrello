@@ -12,12 +12,12 @@
 #include "../attribute.h"
 #include "../operation.h"
 #include "../umllistview.h"
+#include "../classifierlistitem.h"
 #include <khelpmenu.h>
 #include <klocale.h>
 
 ClassWizard::ClassWizard( UMLDoc * pDoc ) : KWizard( (QWidget*)pDoc -> parent(), "_CLASSWIZARD_", true) {
 	m_pDoc = pDoc;
-	m_pDoc -> getListView() -> setLoading( true );
 	//create a unique class to start with
 	UMLObject * pTemp = 0;
 	QString name = i18n("new_class");
@@ -82,13 +82,22 @@ void ClassWizard::back() {
 void ClassWizard::accept() {
 	m_pDoc -> addUMLObject( m_pClass );
 	m_pDoc->signalUMLObjectCreated(m_pClass);
-	m_pDoc -> getListView() -> setLoading( false );
+
+	QPtrList<UMLClassifierListItem>* attributes = m_pClass->getAttList();
+	for ( UMLClassifierListItem* attribute = attributes->first(); attribute; attribute = attributes->next() )  {
+		m_pDoc->getListView()->childObjectAdded(attribute, m_pClass);
+	}
+
+	QPtrList<UMLClassifierListItem>* operations = m_pClass->getOpList();
+	for ( UMLClassifierListItem* operation = operations->first(); operation; operation = operations->next() )  {
+		m_pDoc->getListView()->childObjectAdded(operation, m_pClass);
+	}
+
 	QWizard::accept();
 }
 
 void ClassWizard::reject() {
 	delete m_pClass;
-	m_pDoc -> getListView() -> setLoading( false );
 	QWizard::reject();
 }
 

@@ -383,9 +383,17 @@ public slots:
 
 	/**
 	 * Adds a new operation, attribute or template item to a classifier
-	 * @param obj the parent object 
+	 * @param obj the child object
 	 */
 	void childObjectAdded(UMLObject* obj);
+
+	/**
+	 * Adds a new operation, attribute or template item to a classifier, identical to
+	 * childObjectAdded(UMLObject* obj) but with an explicit parent.  Used by ClassWizard.
+	 * @param obj the child object
+	 * @param parent the parent object 
+	 */
+	void childObjectAdded(UMLObject* obj, UMLObject* parent);
 
 	/**
 	 * disconnects signals and removes the list view item
