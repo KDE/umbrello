@@ -6,6 +6,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+#include <cstdlib>
 #include <cmath>
 
 // qt includes
@@ -22,7 +23,7 @@
 #include "umlview.h"
 #include "linepath.h"
 
-using namespace std;
+// using namespace std;  CHECK: strange... it compiles without this for me.
 
 LinePath::Circle::Circle(QCanvas * canvas, int radius /* = 0 */)
   : QCanvasEllipse(radius * 2, radius * 2, canvas) {

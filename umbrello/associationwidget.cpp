@@ -6,6 +6,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+#include <cstdlib>
 #include <cmath>
 
 #include "activitywidget.h"
@@ -27,7 +28,7 @@
 #include <kdebug.h>
 #include <klocale.h>
 
-using namespace std;
+// using namespace std;  CHECK: strange... it compiles without this for me.
 
 // this constructor really only for loading from XMI, otherwise it
 // is bad..and shouldnt be allowed as it creates an incomplete
@@ -2758,10 +2759,14 @@ QRect AssociationWidget::getAssocLineRectangle()
 			rectangle.setX(p.x());
 		if (p.y() < rectangle.y())
 			rectangle.setY(p.y());
-		if (p.x() > rectangle.x() + rectangle.width())
-			rectangle.setWidth(abs((int)(p.x() - rectangle.x() + pen_width)));
-		if (p.y() > rectangle.y() + rectangle.height())
-			rectangle.setHeight(abs((int)(p.y() - rectangle.y() + pen_width)));
+		if (p.x() > rectangle.x() + rectangle.width()) {
+			int newX = p.x() - rectangle.x() + pen_width;
+			rectangle.setWidth(abs(newX));
+		}
+		if (p.y() > rectangle.y() + rectangle.height()) {
+			int newY = p.y() - rectangle.y() + pen_width;
+			rectangle.setHeight(abs(newY));
+		}
 	}
 	return rectangle;
 }
