@@ -8,33 +8,28 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>442</width>
-            <height>379</height>
+            <width>338</width>
+            <height>351</height>
         </rect>
     </property>
     <property name="caption">
         <string>Class properties</string>
     </property>
-    <grid>
+    <vbox>
         <property name="name">
             <cstring>unnamed</cstring>
         </property>
-        <widget class="QLayoutWidget" row="0" column="0" rowspan="1" colspan="2">
+        <widget class="QLayoutWidget">
             <property name="name">
-                <cstring>layout3</cstring>
+                <cstring>layout4</cstring>
             </property>
             <grid>
                 <property name="name">
                     <cstring>unnamed</cstring>
                 </property>
-                <widget class="QLineEdit" row="0" column="1">
+                <widget class="QLineEdit" row="2" column="1">
                     <property name="name">
-                        <cstring>m_className</cstring>
-                    </property>
-                </widget>
-                <widget class="QLineEdit" row="1" column="1">
-                    <property name="name">
-                        <cstring>m_stereotype</cstring>
+                        <cstring>m_packageName</cstring>
                     </property>
                 </widget>
                 <widget class="QLabel" row="2" column="0">
@@ -45,17 +40,9 @@
                         <string>Package name:</string>
                     </property>
                 </widget>
-                <widget class="QLineEdit" row="2" column="1">
+                <widget class="QLineEdit" row="1" column="1">
                     <property name="name">
-                        <cstring>m_packageName</cstring>
-                    </property>
-                </widget>
-                <widget class="QLabel" row="0" column="0">
-                    <property name="name">
-                        <cstring>textLabel1</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Class name:</string>
+                        <cstring>m_stereotype</cstring>
                     </property>
                 </widget>
                 <widget class="QLabel" row="1" column="0">
@@ -66,99 +53,112 @@
                         <string>Stereotype:</string>
                     </property>
                 </widget>
+                <widget class="QLabel" row="0" column="0">
+                    <property name="name">
+                        <cstring>textLabel1</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Class name:</string>
+                    </property>
+                </widget>
+                <widget class="QLineEdit" row="0" column="1">
+                    <property name="name">
+                        <cstring>m_className</cstring>
+                    </property>
+                </widget>
             </grid>
         </widget>
-        <spacer row="1" column="1">
+        <widget class="QLayoutWidget">
             <property name="name">
-                <cstring>spacer2</cstring>
+                <cstring>layout6</cstring>
             </property>
-            <property name="orientation">
-                <enum>Horizontal</enum>
-            </property>
-            <property name="sizeType">
-                <enum>Expanding</enum>
-            </property>
-            <property name="sizeHint">
-                <size>
-                    <width>251</width>
-                    <height>21</height>
-                </size>
-            </property>
-        </spacer>
-        <widget class="QCheckBox" row="1" column="0">
-            <property name="name">
-                <cstring>m_abstract</cstring>
-            </property>
-            <property name="text">
-                <string>Abstract class</string>
-            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QCheckBox">
+                    <property name="name">
+                        <cstring>m_abstract</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Abstract class</string>
+                    </property>
+                </widget>
+                <spacer>
+                    <property name="name">
+                        <cstring>spacer2</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>231</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+            </hbox>
         </widget>
-        <widget class="QButtonGroup" row="2" column="0" rowspan="1" colspan="2">
+        <widget class="QGroupBox">
             <property name="name">
-                <cstring>m_visibility</cstring>
+                <cstring>groupBox3</cstring>
             </property>
             <property name="title">
                 <string>Visibility</string>
             </property>
-            <grid>
+            <hbox>
                 <property name="name">
                     <cstring>unnamed</cstring>
                 </property>
-                <widget class="QLayoutWidget" row="0" column="0">
+                <widget class="QRadioButton">
                     <property name="name">
-                        <cstring>layout2</cstring>
+                        <cstring>m_public</cstring>
                     </property>
-                    <hbox>
-                        <property name="name">
-                            <cstring>unnamed</cstring>
-                        </property>
-                        <widget class="QRadioButton">
-                            <property name="name">
-                                <cstring>m_public</cstring>
-                            </property>
-                            <property name="text">
-                                <string>Public</string>
-                            </property>
-                        </widget>
-                        <widget class="QRadioButton">
-                            <property name="name">
-                                <cstring>m_protected</cstring>
-                            </property>
-                            <property name="text">
-                                <string>Protected</string>
-                            </property>
-                        </widget>
-                        <widget class="QRadioButton">
-                            <property name="name">
-                                <cstring>m_private</cstring>
-                            </property>
-                            <property name="text">
-                                <string>Private</string>
-                            </property>
-                        </widget>
-                    </hbox>
+                    <property name="text">
+                        <string>Public</string>
+                    </property>
                 </widget>
-            </grid>
+                <widget class="QRadioButton">
+                    <property name="name">
+                        <cstring>m_protected</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Protected</string>
+                    </property>
+                </widget>
+                <widget class="QRadioButton">
+                    <property name="name">
+                        <cstring>m_private</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Private</string>
+                    </property>
+                </widget>
+            </hbox>
         </widget>
-        <widget class="QGroupBox" row="3" column="0" rowspan="1" colspan="2">
+        <widget class="QGroupBox">
             <property name="name">
-                <cstring>groupBox1</cstring>
+                <cstring>groupBox2</cstring>
             </property>
             <property name="title">
                 <string>Documentation</string>
             </property>
-            <grid>
+            <vbox>
                 <property name="name">
                     <cstring>unnamed</cstring>
                 </property>
-                <widget class="QTextEdit" row="0" column="0">
+                <widget class="QTextEdit">
                     <property name="name">
                         <cstring>m_documentation</cstring>
                     </property>
                 </widget>
-            </grid>
+            </vbox>
         </widget>
-    </grid>
+    </vbox>
 </widget>
 <layoutdefaults spacing="6" margin="11"/>
 </UI>
