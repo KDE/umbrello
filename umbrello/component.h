@@ -68,8 +68,21 @@ public:
 	 */
 	bool loadFromXMI( QDomElement & element );
 
-private:
+	/**
+	 * sets m_executable
+	 */
+	void setExecutable(bool executable);
 
+	/**
+	 * returns the value of m_executable
+	 */
+	bool getExecutable();
+private:
+	
+	/**
+	 * holds whether this is an executable component or not
+	 */
+	bool m_executable;
 };
 
 #endif

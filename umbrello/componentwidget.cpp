@@ -54,6 +54,11 @@ ComponentWidget::~ComponentWidget() {}
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void ComponentWidget::draw(QPainter & p, int offsetX, int offsetY) {
 	p.setPen( m_pData->getLineColour() );
+	if ( (static_cast<UMLComponent*>(m_pObject))->getExecutable() ) {
+		QPen thickerPen = p.pen();
+		thickerPen.setWidth(2);
+		p.setPen(thickerPen);
+	}
 	if ( m_pData->getUseFillColor() ) {
 		p.setBrush( m_pData->getFillColour() );
 	} else {

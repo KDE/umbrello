@@ -26,11 +26,13 @@ UMLComponent::~UMLComponent() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLComponent::init() {
 	m_BaseType = ot_Component;
+	m_executable = false;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool UMLComponent::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
 	QDomElement componentElement = qDoc.createElement("UML:Component");
 	bool status = UMLObject::saveToXMI(qDoc, componentElement);
+	componentElement.setAttribute("executable", m_executable);
 	qElement.appendChild(componentElement);
 	return status;
 }
@@ -39,5 +41,15 @@ bool UMLComponent::loadFromXMI(QDomElement& element) {
 	if ( !UMLObject::loadFromXMI(element) ) {
 		return false;
 	}
+	QString executable = element.attribute("executable", "0");
+	m_executable = (bool)executable.toInt();
 	return true;
+}
+
+void UMLComponent::setExecutable(bool executable) {
+	m_executable = executable;
+}
+
+bool UMLComponent::getExecutable() {
+	return m_executable;
 }

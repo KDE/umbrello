@@ -14,6 +14,7 @@
 #include <kdebug.h>
 
 #include "../artifact.h"
+#include "../component.h"
 #include "classgenpage.h"
 
 ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o) : QWidget(parent) {
@@ -87,6 +88,12 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o) : QWidget(p
 		m_pAbstractCB = new QCheckBox( i18n("A&bstract class"), this );
 		m_pAbstractCB -> setChecked( o -> getAbstract() );
 		m_pNameLayout -> addWidget( m_pAbstractCB, 3, 0 );
+	}
+
+	if (t == Uml::ot_Component) {
+		m_pExecutableCB = new QCheckBox(i18n("&Executable"), this);
+		m_pExecutableCB->setChecked( (static_cast<UMLComponent*>(o))->getExecutable() );
+		m_pNameLayout->addWidget( m_pExecutableCB, 3, 0 );
 	}
 
 	if (t == Uml::ot_Artifact) {
@@ -260,6 +267,11 @@ void ClassGenPage::updateObject() {
 		else
 			s = Uml::Protected;
 		m_pObject -> setScope(s);
+
+		if (m_pObject->getBaseType() == Uml::ot_Component) {
+			(static_cast<UMLComponent*>(m_pObject))->setExecutable( m_pExecutableCB->isChecked() );
+		}
+
 		if (m_pObject->getBaseType() == Uml::ot_Artifact) {
 			Artifact_draw_type drawAsType;
 			if ( m_pFileRB->isChecked() ) {
@@ -273,6 +285,7 @@ void ClassGenPage::updateObject() {
 			}
 			(static_cast<UMLArtifact*>(m_pObject))->setDrawAsType(drawAsType);
 		}
+
 	}//end if m_pObject
 	else if(m_pWidget) {
 		m_pWidget -> setInstanceName(m_pInstanceLE -> text());

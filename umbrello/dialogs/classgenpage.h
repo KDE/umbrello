@@ -78,6 +78,7 @@ private:
 	ObjectWidget * m_pWidget;
 	QButtonGroup* m_pDrawAsBG;
 	QRadioButton* m_pDefaultRB,* m_pFileRB,* m_pLibraryRB,* m_pTableRB;
+	QCheckBox* m_pExecutableCB;
 
 public slots:
 	/**
