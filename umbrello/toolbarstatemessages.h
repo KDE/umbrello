@@ -15,6 +15,7 @@
 #ifndef TOOLBARSTATEMESSAGES_H
 #define TOOLBARSTATEMESSAGES_H
 
+#include <qpoint.h>
 #include "toolbarstatepool.h"
 
 
@@ -45,6 +46,7 @@ protected:
 protected:
 	UMLWidget* m_pSelectedWidget;
 	QCanvasLine* m_pLine;
+	QPoint m_FirstMousePos;
 };
 
 #endif //TOOLBARSTATEMESSAGES_H

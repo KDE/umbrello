@@ -55,7 +55,8 @@ public:
 	 *              The default (-1) will prompt generation of a new ID.
 	 */
 	MessageWidget(UMLView * view, ObjectWidget* a, ObjectWidget* b, FloatingText* ft, 
-		      int y, Uml::Sequence_Message_Type sequenceMessageType, Uml::IDType id = Uml::id_None);
+		      int y, Uml::Sequence_Message_Type sequenceMessageType,
+		      Uml::IDType id = Uml::id_None);
 
 	/**
 	 * Constructs a MessageWidget.
@@ -210,8 +211,9 @@ public:
 
 	/**
 	 * Calculates the size of the widget by calling
-	 * calculateDimenstionsSynchronous() or
-	 * calculateDimenstionsAsynchronous()
+	 * calculateDimenstionsSynchronous(),
+	 * calculateDimenstionsAsynchronous(), or
+	 * calculateDimensionsCreation()
 	 */
 	void calculateDimensions();
 
@@ -224,6 +226,11 @@ public:
 	 * Calculates and sets the size of the widget for an asynchronous message
 	 */
 	void calculateDimensionsAsynchronous();
+
+	/**
+	 * Calculates and sets the size of the widget for a creation message
+	 */
+	void calculateDimensionsCreation();
 
 	/** 
 	 * Calls drawSynchronous() or drawAsynchronous()
@@ -241,6 +248,13 @@ public:
 	 * Draws a solid arrow line and a stick arrow head.
 	 */
 	void drawAsynchronous(QPainter& p, int offsetX, int offsetY);
+
+	/**
+	 * Draws a solid arrow line and a stick arrow head to the
+	 * edge of the target object widget instead of to the
+	 * sequence line.
+	 */
+	void drawCreation(QPainter& p, int offsetX, int offsetY);
 
 	/**
 	 * Sets the text position relative to the sequence message.

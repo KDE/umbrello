@@ -65,13 +65,30 @@ void ToolBarStateMessages::mouseRelease(QMouseEvent* ome)
 	removeLine();
 
 	ObjectWidget* clickedOnWidget = m_pUMLView->onWidgetLine( m_pMouseEvent->pos() );
+	bool isCreationMessage = false;
 
+	if (clickedOnWidget == NULL && m_pSelectedWidget) {
+		// Check ObjectWidgets - for creation message.
+		UMLWidgetListIt it( m_pUMLView->m_WidgetList );
+		UMLWidget* obj = 0;
+		while ( (obj = it.current()) != 0 ) {
+			++it;
+			if ( obj->isVisible() &&
+			     obj->getBaseType() == Uml::wt_Object &&
+			     obj->onWidget(ome->pos()) ) {
+				clickedOnWidget = static_cast<ObjectWidget*>(obj);
+				isCreationMessage = true;
+				break;
+			}
+		}
+	}
 	if (clickedOnWidget)
 	{
 		if (!m_pSelectedWidget)
 		{
-			// First message
+			// First object
 			m_pSelectedWidget = clickedOnWidget;
+			m_FirstMousePos = m_pMouseEvent->pos();
 
 			m_pUMLView->viewport()->setMouseTracking( true );
 
@@ -82,15 +99,21 @@ void ToolBarStateMessages::mouseRelease(QMouseEvent* ome)
 		}
 		else
 		{
+			// Second object
 			ObjectWidget* pFirstSelectedObj = dynamic_cast<ObjectWidget*>(m_pSelectedWidget);
 			if (pFirstSelectedObj == NULL) {
 				kdDebug() << "first selected widget is not an object" << endl;
 				return;
 			}
+			Uml::Sequence_Message_Type msgType = getMessageType();
+			int y = m_pMouseEvent->y();
+			if (isCreationMessage) {
+				msgType = Uml::sequence_message_creation;
+				y = m_FirstMousePos.y();
+			}
 			MessageWidget* message = new MessageWidget(m_pUMLView, pFirstSelectedObj,
 								   clickedOnWidget, NULL,
-								   m_pMouseEvent->y(),
-								   getMessageType());
+								   y, msgType);
 
 			// TODO Do we really need a connect? It makes the code so hard to read.
 			m_pUMLView->connect(m_pUMLView, SIGNAL(sigColorChanged(Uml::IDType)), message, SLOT(slotColorChanged(Uml::IDType)));

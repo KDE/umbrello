@@ -59,7 +59,6 @@ void ToolBarState::mousePress(QMouseEvent* ome)
 
 	// TODO: Check who needs this.
 	m_pUMLView->m_Pos = m_pMouseEvent->pos();
-	m_pUMLView->m_LineToPos = m_pMouseEvent->pos();
 
 	if(m_pUMLView->m_bPaste) m_pUMLView->m_bPaste = false;
 
@@ -129,8 +128,6 @@ void ToolBarState::mouseDoubleClick(QMouseEvent* ome)
 void ToolBarState::mouseMove(QMouseEvent* ome)
 {
 	setMouseEvent(ome, QEvent::MouseMove);
-
-	m_pUMLView->m_LineToPos = m_pMouseEvent->pos();
 
 	if (m_pUMLView->m_pOnWidget)
 		m_pUMLView->m_pOnWidget->mouseMoveEvent( m_pMouseEvent );

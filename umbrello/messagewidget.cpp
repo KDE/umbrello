@@ -30,7 +30,8 @@
 
 MessageWidget::MessageWidget(UMLView * view, ObjectWidget* a, ObjectWidget* b,
 			     FloatingText* ft, int y,
-			     Uml::Sequence_Message_Type sequenceMessageType, Uml::IDType id)
+			     Uml::Sequence_Message_Type sequenceMessageType,
+			     Uml::IDType id /* = Uml::id_None */)
   : UMLWidget(view, id) {
 	init();
 	m_pOw[Uml::A] = a;
@@ -38,6 +39,10 @@ MessageWidget::MessageWidget(UMLView * view, ObjectWidget* a, ObjectWidget* b,
 	m_pFText = ft;
 	m_nY = y;
 	m_sequenceMessageType = sequenceMessageType;
+	if (m_sequenceMessageType == Uml::sequence_message_creation) {
+		y -= m_pOw[Uml::B]->getHeight() / 2;
+		m_pOw[Uml::B]->setY(y);
+	}
 
 	//CHECK: This is contorted - it should be in the caller's responsibility:
 	if (ft) {
@@ -87,6 +92,8 @@ void MessageWidget::draw(QPainter& p, int offsetX, int offsetY) {
 		drawSynchronous(p, offsetX, offsetY);
 	} else if (m_sequenceMessageType == Uml::sequence_message_asynchronous) {
 		drawAsynchronous(p, offsetX, offsetY);
+	} else if (m_sequenceMessageType == Uml::sequence_message_creation) {
+		drawCreation(p, offsetX, offsetY);
 	} else {
 		kdWarning() << "Unknown message type" << endl;
 	}
@@ -162,6 +169,54 @@ void MessageWidget::drawSynchronous(QPainter& p, int offsetX, int offsetY) {
 }
 
 void MessageWidget::drawAsynchronous(QPainter& p, int offsetX, int offsetY) {
+	int x1 = m_pOw[Uml::A]->getX();
+	int x2 = m_pOw[Uml::B]->getX();
+	int w = getWidth() - 1;
+	int h = getHeight() - 1;
+	bool messageOverlapsA = m_pOw[Uml::A] -> messageOverlap( getY(), this );
+	//bool messageOverlapsB = m_pOw[Uml::B] -> messageOverlap( getY(), this );
+
+	if(m_pOw[Uml::A] == m_pOw[Uml::B]) {
+		if (messageOverlapsA)  {
+			offsetX += 7;
+			w -= 7;
+		}
+		p.drawLine(offsetX, offsetY, offsetX + w, offsetY);
+		p.drawLine(offsetX + w, offsetY, offsetX + w, offsetY + h - 3);
+		p.drawLine(offsetX + w, offsetY + h - 3, offsetX, offsetY + h - 3);
+		p.drawLine(offsetX, offsetY + h - 3, offsetX + 4, offsetY + h);
+		p.drawLine(offsetX, offsetY + h - 3, offsetX + 4, offsetY + h - 6);
+		if (messageOverlapsA)  {
+			offsetX -= 7; //reset for drawSelected()
+		}
+	} else if(x1 < x2) {
+		if (messageOverlapsA)  {
+			offsetX += 7;
+			w -= 7;
+		}
+		p.drawLine(offsetX, offsetY + 4, offsetX + w, offsetY + 4);
+		p.drawLine(offsetX + w, offsetY + 4, offsetX + w - 4, offsetY + 1);
+		p.drawLine(offsetX + w, offsetY + 4, offsetX + w - 4, offsetY + 7);
+		if (messageOverlapsA)  {
+			offsetX -= 7;
+		}
+	} else	{
+		if (messageOverlapsA)  {
+			w -= 7;
+		}
+		p.drawLine(offsetX, offsetY + 4, offsetX + w, offsetY + 4);
+		p.drawLine(offsetX, offsetY + 4, offsetX + 4, offsetY + 1);
+		p.drawLine(offsetX, offsetY + 4, offsetX + 4, offsetY + 7);
+	}
+
+	if (m_bSelected && m_pOw[Uml::A] == m_pOw[Uml::B]) {
+		drawSelected(&p, offsetX, offsetY, true);
+	} else if (m_bSelected) {
+		drawSelected(&p, offsetX, offsetY);
+	}
+}
+
+void MessageWidget::drawCreation(QPainter& p, int offsetX, int offsetY) {
 	int x1 = m_pOw[Uml::A]->getX();
 	int x2 = m_pOw[Uml::B]->getX();
 	int w = getWidth() - 1;
@@ -457,6 +512,8 @@ void MessageWidget::calculateDimensions() {
 		calculateDimensionsSynchronous();
 	} else if (m_sequenceMessageType == Uml::sequence_message_asynchronous) {
 		calculateDimensionsAsynchronous();
+	} else if (m_sequenceMessageType == Uml::sequence_message_creation) {
+		calculateDimensionsCreation();
 	} else {
 		kdWarning() << "Unknown message type" << endl;
 	}
@@ -505,6 +562,41 @@ void MessageWidget::calculateDimensionsAsynchronous() {
 	int w2 =  m_pOw[Uml::B] -> getWidth() / 2;
 	x1 += w1;
 	x2 += w2;
+
+	int widgetWidth = 0;
+	int widgetHeight = 8;
+	if( m_pOw[Uml::A] == m_pOw[Uml::B] ) {
+		widgetWidth = 50;
+		x = x1;
+		if( height() < 20 ) {
+			widgetHeight = 20;
+		} else {
+			widgetHeight = height();
+		}
+	} else if( x1 < x2 ) {
+		x = x1;
+		widgetWidth = x2 - x1;
+	} else {
+		x = x2;
+		widgetWidth = x1 - x2;
+	}
+	x += 1;
+	widgetWidth -= 2;
+	m_nPosX = x;
+	setSize(widgetWidth, widgetHeight);
+	adjustAssocs( getX(), getY() );//adjust assoc lines
+}
+
+void MessageWidget::calculateDimensionsCreation() {
+	int x = 0;
+
+	int x1 = m_pOw[Uml::A]->getX();
+	int x2 = m_pOw[Uml::B]->getX();
+	int w1 = m_pOw[Uml::A] -> getWidth() / 2;
+	int w2 =  m_pOw[Uml::B] -> getWidth();
+	x1 += w1;
+	if (x1 > x2)
+		x2 += w2;
 
 	int widgetWidth = 0;
 	int widgetHeight = 8;
