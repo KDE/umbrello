@@ -39,9 +39,9 @@ public:
 	bool operator==(UMLRole & rhs);
 
 	/**
-	 * destructor.
+	 * Standard deconstructor.
 	 */
-	virtual ~UMLRole() { }
+	~UMLRole() { }
 
 	/**
 	 * Returns the UMLObject assigned to the role.

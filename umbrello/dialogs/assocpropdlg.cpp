@@ -24,28 +24,34 @@
 #include "classgenpage.h"
 #include "umlwidgetcolorpage.h"
 
-// #include "../umlobject.h"
-// #include "../umldoc.h"
-// #include "../objectwidget.h"
-// #include "../uml.h"
-// #include "../umlview.h"
-#include "../association.h"
+#include "../umlobject.h"
+#include "../umldoc.h"
+#include "../objectwidget.h"
+#include "../uml.h"
+#include "../umlview.h"
 
-AssocPropDlg::AssocPropDlg (QWidget *parent, UMLAssociation *assoc, int pageNum)
+AssocPropDlg::AssocPropDlg (QWidget *parent, AssociationWidget * assocWidget, int pageNum)
  	: KDialogBase(IconList, i18n("Association Properties"), Ok | Apply | Cancel | Help,
 		      Ok, parent, "_ASSOCPROPDLG_", true, true)
 {
- 	m_assoc = assoc;
-	m_pGenPage  = 0;
- 	m_pRolePage = 0;
+ 	init();
+ 	m_pAssoc = assocWidget;
 
- 	setupPages( );
+ 	m_pDoc = ((UMLApp *)parent) -> getDocument(); // needed?
+
+ 	setupPages(assocWidget);
  	showPage(pageNum);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 AssocPropDlg::~AssocPropDlg() { }
 
+void AssocPropDlg::init ( )
+{
+ 	m_pAssoc = 0;
+ 	m_pGenPage = 0;
+ 	m_pRolePage = 0;
+}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void AssocPropDlg::slotOk() {
@@ -64,93 +70,45 @@ void AssocPropDlg::slotApply() {
  		m_pRolePage->updateObject();
   	}
 
-//  	if (m_pAssoc) {
-//  		m_pAssoc->setFont( m_pChooser->font() );
-//   	}
+ 	if (m_pAssoc) {
+ 		m_pAssoc->setFont( m_pChooser->font() );
+  	}
 
 
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void AssocPropDlg::setupPages ( )
+// void AssocPropDlg::setupPages (UMLObject * c)
+void AssocPropDlg::setupPages (AssociationWidget *assocWidget)
 {
+
  	// general page
  	QFrame *page = addPage( i18n("General"), i18n("General Settings"), DesktopIcon( "misc") );
  	QHBoxLayout *genLayout = new QHBoxLayout(page);
  	page -> setMinimumSize(310, 330);
- 	m_pGenPage = new AssocGenPage ( page, m_assoc);
+ 	m_pGenPage = new AssocGenPage (m_pDoc, page, assocWidget);
  	genLayout -> addWidget(m_pGenPage);
 
  	// role page
  	QFrame * newPage = addPage( i18n("Roles"), i18n("Role Settings"), DesktopIcon( "misc") );
  	QHBoxLayout * roleLayout = new QHBoxLayout(newPage);
  	// newPage -> setMinimumSize(310, 330);
- 	m_pRolePage = new AssocRolePage( newPage, m_assoc );
+ 	m_pRolePage = new AssocRolePage(m_pDoc, newPage, assocWidget);
  	roleLayout -> addWidget(m_pRolePage);
 
  	setupFontPage();
+
 }
 
 void AssocPropDlg::setupFontPage()
 {
-//  	if( !m_assoc )
-//  		return;
-// 
-//  	QVBox *page = addVBoxPage( i18n("Font"), i18n("Font Settings"), DesktopIcon( "fonts"));
-//  	m_pChooser = new KFontChooser( (QWidget*)page, "font", false, QStringList(), false);
-//  	m_pChooser->setFont( m_pAssoc->getFont());
-//  	m_pChooser->setSampleText(i18n("Association font"));
+ 	if( !m_pAssoc)
+ 		return;
+
+ 	QVBox *page = addVBoxPage( i18n("Font"), i18n("Font Settings"), DesktopIcon( "fonts"));
+ 	m_pChooser = new KFontChooser( (QWidget*)page, "font", false, QStringList(), false);
+ 	m_pChooser->setFont( m_pAssoc->getFont());
+ 	m_pChooser->setSampleText(i18n("Association font"));
 }
-
-/////
-QString AssocPropDlg::getName() const { 
-	return m_assoc->getName(); 
-} 
-
-QString AssocPropDlg::getRoleAName() const { 
-	return m_assoc->getRoleNameA(); 
-}
-
-QString AssocPropDlg::getDoc() const { 
-	return m_assoc->getDoc(); 
-}
-
-QString AssocPropDlg::getRoleADoc() const { 
-	return m_assoc->getRoleADoc(); 
-}
-
-QString AssocPropDlg::getRoleBName() const { 
-	return m_assoc->getRoleNameB(); 
-} 
-
-QString AssocPropDlg::getRoleBDoc() const { 
-	return m_assoc->getRoleBDoc(); 
-}
-
-QString AssocPropDlg::getMultiA() const { 
-	return m_assoc->getMultiA(); 
-} 
-
-QString AssocPropDlg::getMultiB() const { 
-	return m_assoc->getMultiB(); 
-} 
-
-Uml::Scope AssocPropDlg::getVisibilityA() const { 
-	return m_assoc->getVisibilityA(); 
-}
-
-Uml::Scope AssocPropDlg::getVisibilityB() const { 
-	return m_assoc->getVisibilityB(); 
-}
-
-Uml::Changeability_Type AssocPropDlg::getChangeabilityA() const { 
-	return m_assoc->getChangeabilityA(); 
-}
-
-Uml::Changeability_Type AssocPropDlg::getChangeabilityB() const { 
-	return m_assoc->getChangeabilityB(); 
-}
-
-
 
 #include "assocpropdlg.moc"

@@ -296,7 +296,7 @@ void FloatingText::mouseDoubleClickEvent(QMouseEvent * /* me*/) {
 		if(m_Role == tr_Coll_Message || m_Role == tr_Coll_Message_Self) {
 			showOpDlg();
 		} else {
-			AssocPropDlg dlg(static_cast<QWidget*>(m_pView), m_pAssoc->getAssociation( ) );
+			AssocPropDlg dlg(static_cast<QWidget*>(m_pView), m_pAssoc );
 			if (! dlg.exec())
 				return;
 			QString rnA = dlg.getRoleAName(), rnB = dlg.getRoleBName(),

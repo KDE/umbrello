@@ -337,6 +337,13 @@ public:
 	void setAssocType(Association_Type type);
 
 	/**
+	 * Returns a QString object representing this AssociationWidget.
+	 *
+	 * @return	Textual representation of the AssociationWidget.
+	 */
+	QString toString();
+
+	/**
 	 * Read property of bool m_bActivated.
 	 *
 	 * @return	True if this AssociationWidget has been activated.

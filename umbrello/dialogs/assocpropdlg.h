@@ -10,67 +10,107 @@
 #ifndef ASSOCPROPDLG_H
 #define ASSOCPROPDLG_H
 
-
+//kde class includes
 #include <kdialogbase.h>
 #include <kfontdialog.h>
+#include "../associationwidget.h"
 
-#include "../umlnamespace.h"
-
-class UMLAssociation;
 class AssocRolePage;
 class AssocGenPage;
+class UMLDoc;
+// class ObjectWidget;
+// class UMLObject;
+// class UMLWidget;
 
 /**
- * Dialog to display and change the properties of a UMLAssociation
- * @author Brian Thomas <Brian.A.Thomas@gsfc.nasa.gov>
+ * 	Based off of AssocPropDlg class
+ *	@author Brian Thomas <Brian.A.Thomas@gsfc.nasa.gov>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class AssocPropDlg : public KDialogBase {
 	Q_OBJECT
 public:
-	enum Page { page_gen = 0, page_role, page_font };
-	
+
 	/**
 	 *	Sets up a Association Properties Dialog.
-	 *	@param	parent	The parent Widget of the AssocPropDlg
-	 *	@param	a	The Association to display properties of.
+	 *	@param	parent	The parent of the AssocPropDlg
+	 *	@param	a	The Association Widget to display properties of.
 	 *	@param	pageNum	The page to show first.
 	 */
-	AssocPropDlg(QWidget *parent, UMLAssociation *a, int pageNum = 0);
+
+	AssocPropDlg(QWidget *parent, AssociationWidget *a, int pageNum = 0);
 
 	/**
-	 *	destructor
+	 *	Standard deconstructor
 	 */
-	virtual ~AssocPropDlg();
+	~AssocPropDlg();
 
 	/* accessor methods to underlying association */
-	QString getName() const ;
-	QString getRoleAName() const ;
-	QString getDoc() const ;
-	QString getRoleADoc() const ;
-	QString getRoleBName() const ;
-	QString getRoleBDoc() const ;
-	QString getMultiA() const ;
-	QString getMultiB() const ;
-	Uml::Scope getVisibilityA() const ;
-	Uml::Scope getVisibilityB() const ;
-	Uml::Changeability_Type getChangeabilityA() const ;
-	Uml::Changeability_Type getChangeabilityB() const ;
+	QString getName() { 
+		return m_pAssoc->getName(); 
+	} 
+
+	QString getRoleAName() { 
+		return m_pAssoc->getRoleNameA(); 
+	}
+
+	QString getDoc() { 
+		return m_pAssoc->getDoc(); 
+	}
+
+	QString getRoleADoc() { 
+		return m_pAssoc->getRoleADoc(); 
+	}
+
+	QString getRoleBName() { 
+		return m_pAssoc->getRoleNameB(); 
+	} 
+
+	QString getRoleBDoc() { 
+		return m_pAssoc->getRoleBDoc(); 
+	}
+
+	QString getMultiA() { 
+		return m_pAssoc->getMultiA(); 
+	} 
+
+	QString getMultiB() { 
+		return m_pAssoc->getMultiB(); 
+	} 
+
+	Scope getVisibilityA() { 
+		return m_pAssoc->getVisibilityA(); 
+	}
+
+	Scope getVisibilityB() { 
+		return m_pAssoc->getVisibilityB(); 
+	}
+
+	Changeability_Type getChangeabilityA() { 
+		return m_pAssoc->getChangeabilityA(); 
+	}
+
+	Changeability_Type getChangeabilityB() { 
+		return m_pAssoc->getChangeabilityB(); 
+	}
+
+	enum Page { page_gen = 0, page_role, page_font };
 
 protected:
 	void slotOk();
 	void slotApply();
-	void setupPages( );
+	void setupPages(AssociationWidget * assocWidget);
 	void setupFontPage();
-
+	void init();
 private:
 
-	UMLAssociation *m_assoc;
-	
-	AssocGenPage  *m_pGenPage;
+	AssocGenPage *m_pGenPage;
 	AssocRolePage *m_pRolePage;
-	KFontChooser  *m_pChooser;
-	
+	KFontChooser * m_pChooser;
+	AssociationWidget *m_pAssoc;
+
+	UMLDoc *m_pDoc; // is this needed?? 
+
 };
 
 #endif /* ASSOCPROPDLG_H */ 
