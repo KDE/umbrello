@@ -275,7 +275,7 @@ void ClassifierCodeDocument::removeOperation (UMLOperation * op ) {
 	if(tb)
         {
                 if(removeTextBlock(tb)) // wont add if already present
-                        delete tb; // delete unused operations
+                        tb->release(); // delete unused operations
 		else
 			kdError()<<"Cant remove CodeOperation from ClassCodeDocument!"<<endl;
 
@@ -561,7 +561,7 @@ CodeClassField * ClassifierCodeDocument::findCodeClassFieldFromParentID (int id)
 			return cf;
 
 	// shouldnt happen..
-	kdError()<<" DANGER DANGER! DIDNT find code classfield for id:"<<id<<" corrupt code generator?"<<endl;
+	kdError()<<"Failed to find codeclassfield for parent uml id:"<<id<<" Do you have a corrupt classifier code document?"<<endl;
 
 	return (CodeClassField*) NULL; // not found
 }
@@ -577,9 +577,19 @@ void ClassifierCodeDocument::loadClassFieldsFromXMI( QDomElement & elem) {
 			QString id = childElem.attribute("parent_id","-1");
 			CodeClassField * cf = findCodeClassFieldFromParentID(id.toInt());
 			if(cf)
+			{
+				// Because we just may change the parent object here, 
+				// we need to yank it from the map of umlobjects
+        			m_classFieldMap->remove(cf->getParentObject());
+
+				// configure from XMI
 				cf->loadFromXMI(childElem);
-			else
-				kdError()<<"ERROR: cant find code classfield for ID:"<<id<<" do you have a corrupt savefile?"<<endl;
+
+				// now add back in
+        			m_classFieldMap->insert(cf->getParentObject(),cf);
+
+			} else
+				kdError()<<" LoadFromXMI: can't load classfield parent_id:"<<id<<" do you have a corrupt savefile?"<<endl;
 		}
 		node = childElem.nextSibling();
 		childElem= node.toElement();

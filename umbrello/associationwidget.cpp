@@ -52,19 +52,27 @@ AssociationWidget::AssociationWidget(UMLView *view, UMLWidget* pWidgetA,
 		UMLObject* umlRoleB = pWidgetB->getUMLObject();
 		if (umlRoleA != NULL && umlRoleB != NULL) {
 			bool swap;
-			m_pAssociation = umldoc->findAssociation( assocType, umlRoleA, umlRoleB, &swap );
-			if (m_pAssociation == NULL) {
-				m_pAssociation = new UMLAssociation( umldoc, assocType, umlRoleA, umlRoleB );
+			// m_pAssociation = umldoc->findAssociation( assocType, umlRoleA, umlRoleB, &swap );
+			UMLAssociation * myAssoc = umldoc->findAssociation( assocType, umlRoleA, umlRoleB, &swap );
+			if (myAssoc == NULL) {
+				myAssoc = new UMLAssociation( umldoc, assocType, umlRoleA, umlRoleB );
+				setUMLAssociation(myAssoc);
 			} else if (swap) {
 				kdDebug() << "AssociationWidget(): umldoc->findAssoc returns swap true "
 					  << "for assoctype " << assocType << endl;
 				UMLWidget *tmp = pWidgetA;
 				pWidgetA = pWidgetB;
 				pWidgetB = tmp;
+				umlRoleA = pWidgetA->getUMLObject();
+				umlRoleB = pWidgetB->getUMLObject();
+				myAssoc = new UMLAssociation( umldoc, assocType, umlRoleA, umlRoleB );
 			}
+			setUMLAssociation(myAssoc);
+/*
 			connect(m_pAssociation, SIGNAL(modified()), this,
 				SLOT(mergeUMLRepresentationIntoAssociationData()));
 			m_pAssociation->nrof_parent_widgets++;
+*/
 		}
 	}
 
@@ -145,7 +153,8 @@ AssociationWidget& AssociationWidget::operator=(AssociationWidget & Other) {
 	m_unNameLineSegment = Other.m_unNameLineSegment;
 	m_bFocus = Other.m_bFocus;
 	m_pMenu = Other.m_pMenu;
-	m_pAssociation = Other.m_pAssociation;
+	//m_pAssociation = Other.m_pAssociation;
+	setUMLAssociation(Other.m_pAssociation);
 	m_bSelected = Other.m_bSelected;
 	m_nMovingPoint = Other.m_nMovingPoint;
 
@@ -752,12 +761,19 @@ void AssociationWidget::cleanup() {
 	}
 
 	m_LinePath.cleanup();
+
 }
 
 void AssociationWidget::setUMLAssociation (UMLAssociation * assoc) 
 {
 
 	if(m_pAssociation) {
+
+		// safety check. Did some num-nuts try to set the existing
+		// association again? If so, just bail here
+		if(assoc && m_pAssociation == assoc)
+			return;
+
 		m_pAssociation->disconnect(this);
 		m_pAssociation->nrof_parent_widgets--;
 
@@ -786,18 +802,26 @@ void AssociationWidget::setUMLAssociation (UMLAssociation * assoc)
 		//    come and go at a whim. If at all, the widgets could be considered
 		//    children of the corresponding UML object.
 		//   
-		/*
+		// ANSWER: This is the wrong treatment of cut and paste. Associations that
+		// are being cut/n pasted should be serialized to XMI, then reconstituted
+		// (IF a paste operation) rather than passing around object pointers. Its
+		// just too hard otherwise to prevent problems in the code. Bottom line: we need to
+		// delete orphaned associations or we well get code crashes and memory leaks.
 		if(m_pAssociation->nrof_parent_widgets == 0)
 		{
 			m_pAssociation->deleteLater();
 		}
-		 */
 	
 		m_pAssociation = 0;
 	}
 
 	if(assoc) {
 		m_pAssociation = assoc;
+	
+		// move counter to "0" from "-1" (which means, no assocwidgets) 
+		if(m_pAssociation->nrof_parent_widgets < 0)
+			m_pAssociation->nrof_parent_widgets = 0;
+
 		m_pAssociation->nrof_parent_widgets++;
 		connect(m_pAssociation, SIGNAL(modified()), this,
                                         SLOT(mergeUMLRepresentationIntoAssociationData()));
@@ -3172,11 +3196,15 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
 					umlRoleA = pWidgetA->getUMLObject();
 					umlRoleB = pWidgetB->getUMLObject();
 				}
+
+				setUMLAssociation(m_pView->getDocument()->createUMLAssociation(umlRoleA, umlRoleB, aType));
+/*
 				m_pAssociation = m_pView->getDocument()->createUMLAssociation(
 							umlRoleA, umlRoleB, aType);
 				connect(m_pAssociation, SIGNAL(modified()), this,
 					SLOT(mergeUMLRepresentationIntoAssociationData()));
 				m_pAssociation->nrof_parent_widgets++;
+*/
 			}
 		}
 
@@ -3215,15 +3243,19 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
 
 		// New style: The xmi.id is a reference to the UMLAssociation.
 		UMLDoc* umldoc = m_pView->getDocument();
-		m_pAssociation = (UMLAssociation*)umldoc->findUMLObject(nId);
-		if (m_pAssociation == NULL) {
+		// m_pAssociation = (UMLAssociation*)umldoc->findUMLObject(nId);
+		UMLAssociation * myAssoc = (UMLAssociation*)umldoc->findUMLObject(nId);
+		if (myAssoc == NULL) {
 			kdError() << " AssociationWidget cannot find UML:Association " << nId << " for loadFromXMI"<< endl;
 			return false;
 		} else
 		{
+			setUMLAssociation(myAssoc);
+/*
 			connect(m_pAssociation, SIGNAL(modified()), this,
 				SLOT(mergeUMLRepresentationIntoAssociationData()));
 			m_pAssociation->nrof_parent_widgets++;
+*/
 		}
 
 		m_LinePath.setAssocType( m_pAssociation->getAssocType() );

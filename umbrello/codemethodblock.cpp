@@ -79,6 +79,12 @@ void CodeMethodBlock::setEndMethodText (QString value) {
 // Other methods
 //  
 
+void CodeMethodBlock::release () {
+	// just call super-class versions
+	OwnedCodeBlock::release();
+	TextBlock::release();
+}
+
  /** set attributes of the node that represents this class
   * in the XMI document.
   */

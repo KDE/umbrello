@@ -325,6 +325,7 @@ CodeBlockWithComments * CodeGenObjectWithTextBlocks::addOrUpdateTaggedCodeBlockW
 				codeBlock->getComment()->setWriteOutText(true);
 			else 
 				codeBlock->getComment()->setWriteOutText(false);
+
                 	if(!text.isEmpty())
 				codeBlock->setWriteOutText(true);
 			else
@@ -413,8 +414,8 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( QDomElement & ro
                                         block->loadFromXMI(element);
                                         if(!addTextBlock(block))
                                         {
-                                                kdError()<<"Unable to add codeComment to :"<<this<<endl;
-                                                block->deleteLater();
+                                                kdError()<<"loadFromXMI: unable to add codeComment to :"<<this<<endl;
+                                                block->release();
                                         } else
                                                 gotChildren= true;
                                 } else
@@ -426,7 +427,7 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( QDomElement & ro
                                         TextBlock * tb = findCodeClassFieldTextBlockByTag(acctag);
                                         if(!tb || !addTextBlock(tb))
                                         {
-                                                kdError()<<"Unable to add codeclassfield child method to:"<<this<<endl;
+                                                kdError()<<"loadFromXMI : unable to add codeclassfield (tag:"<<acctag<<") to:"<<this<<endl;
                                                 // DONT delete
                                         } else
                                                 gotChildren= true;
@@ -437,8 +438,8 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( QDomElement & ro
                                         block->loadFromXMI(element);
                                         if(!addTextBlock(block))
                                         {
-                                                kdError()<<"Unable to add codeBlock to :"<<this<<endl;
-                                                block->deleteLater();
+                                                kdError()<<"loadFromXMI : unable to add codeBlock to :"<<this<<endl;
+                                                block->release();
                                         } else
                                                 gotChildren= true;
                                 } else
@@ -447,8 +448,8 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( QDomElement & ro
                                         block->loadFromXMI(element);
                                         if(!addTextBlock(block))
                                         {
-                                                kdError()<<"Unable to add codeBlockwithcomments to:"<<this<<endl;
-                                                block->deleteLater();
+                                                kdError()<<"loadFromXMI : unable to add codeBlockwithcomments to:"<<this<<endl;
+                                                block->release();
                                         } else
                                                 gotChildren= true;
                                 } else
@@ -460,8 +461,8 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( QDomElement & ro
                                         block->loadFromXMI(element);
                                         if(!addTextBlock(block))
                                         {
-                                                kdError()<<"Unable to add hierarchicalcodeBlock to:"<<this<<endl;
-                                                block->deleteLater();
+                                                kdError()<<"loadFromXMI : unable to add hierarchicalcodeBlock to:"<<this<<endl;
+                                                block->release();
                                         } else
                                                 gotChildren= true;
                                 } else
@@ -477,16 +478,16 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( QDomElement & ro
                                                         gotChildren= true;
                                                 else
                                                 {
-                                                        kdError()<<"Unable to add codeoperation to:"<<this<<endl;
-                                                        block->deleteLater();
+                                                        kdError()<<"loadFromXMI : unable to add codeoperation to:"<<this<<endl;
+                                                        block->release();
                                                 }
                                         } else
-                                              kdError()<<"Unable to find operation create codeoperation for:"<<this<<endl;
+                                              kdError()<<"loadFromXMI : unable to find operation create codeoperation for:"<<this<<endl;
 		                } 
 /* 
 				// only needed for extreme debuging conditions (E.g. making new codeclassdocument loader)
 				else
-                                        cerr<<" LoadFromXMI: Got strange tag in text block stack:"<<name.latin1()<<", ignorning"<<endl;
+                                        kdWarning()<<" LoadFromXMI: Got strange tag in text block stack:"<<name.latin1()<<", ignorning"<<endl;
 */
 
                 		node = element.nextSibling();

@@ -20,6 +20,8 @@ UMLRole::UMLRole(UMLAssociation * parent, UMLObject * parentObj, int roleID)
 	init(parent, parentObj, roleID);
 }
 
+UMLRole::~UMLRole() { }
+
 bool UMLRole::operator==(UMLRole &rhs) {
 	if (this == &rhs) {
 			return true;
@@ -139,7 +141,7 @@ void UMLRole::init(UMLAssociation * parent, UMLObject * parentObj, int id) {
 }
 
 bool UMLRole::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
-	QDomElement roleElement = qDoc.createElement( "UML:AssociationEnd" );
+	QDomElement roleElement = qDoc.createElement( "UML:AssociationEndRole" );
 	roleElement.setAttribute( "type", getID() );
 	if (m_Multi != "")
 		roleElement.setAttribute("multiplicity", m_Multi);
@@ -147,7 +149,8 @@ bool UMLRole::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 		roleElement.setAttribute("name", m_Name);
 	if (m_Doc != "")
 		roleElement.setAttribute("comment", m_Doc);
-	if (m_roleID) {  // role A
+	if (m_roleID) {  // role aggregation based on parent type
+		// role A
 		switch (m_pAssoc->getAssocType()) {
 			case Uml::at_Composition:
 				roleElement.setAttribute("aggregation", "composite");
@@ -217,7 +220,15 @@ bool UMLRole::loadFromXMI( QDomElement & element ) {
 
 	// Here comes the handling of the association type.
 	// This is open for discussion - I'm pretty sure there are better ways..
-	if (m_roleID) {  // role A
+
+	// Yeah, for one, setting the *parent* object parameters from here is sucky 
+	// as hell. Why are we using roleA to store what is essentially a parent (association) 
+	// parameter, eh? The UML13.dtd is pretty silly, but since that is what
+	// is driving us to that point, we have to go with it. Some analysis of
+	// the component roles/linked items needs to be done in order to get things
+	// right. *sigh* -b.t.
+ 
+	if (m_roleID) {  // setting association type from the role (A)
 		QString aggregation = element.attribute("aggregation", "none");
 		if (aggregation == "composite")
 			m_pAssoc->setAssocType(Uml::at_Composition);
@@ -225,7 +236,9 @@ bool UMLRole::loadFromXMI( QDomElement & element ) {
 			m_pAssoc->setAssocType(Uml::at_Aggregation);
 		else
 			m_pAssoc->setAssocType(Uml::at_Association);
-	} else if (element.hasAttribute("isNavigable")) {
+	}
+
+	if (element.hasAttribute("isNavigable")) {
 		/* Role B:
 		   If isNavigable is not given, we make no change to the
 		   association type.

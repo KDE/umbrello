@@ -913,6 +913,7 @@ UMLOperation* UMLDoc::createOperation(UMLClassifier* classifier,
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLDoc::removeAssociation (UMLAssociation * assoc) {
+
 	if(!assoc)
 		return;
 
@@ -925,7 +926,8 @@ void UMLDoc::removeAssociation (UMLAssociation * assoc) {
 	// I dont believe this appropriate, UMLAssociations ARENT UMLWidgets -b.t.
 	// emit sigObjectRemoved(object);
 
-	//setModified(true, false);
+	// so we will save our document
+	setModified(true, false);
 
 }
 
@@ -958,7 +960,7 @@ UMLAssociation * UMLDoc::findAssociation(Uml::Association_Type assocType,
 	return ret;
 }
 
-// create AND add an association. Not currently used by anything.. remove? -b.t.
+// create AND add an association. Used by refactoring assistant.
 UMLAssociation* UMLDoc::createUMLAssociation(UMLObject *a, UMLObject *b, Uml::Association_Type type)
 {
 	bool swap;
@@ -969,6 +971,7 @@ UMLAssociation* UMLDoc::createUMLAssociation(UMLObject *a, UMLObject *b, Uml::As
 	}
 	return assoc;
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLDoc::addAssociation(UMLAssociation *Assoc)
 {
@@ -1010,6 +1013,7 @@ void UMLDoc::addAssociation(UMLAssociation *Assoc)
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLDoc::addAssocToConcepts(UMLAssociation* a) {
+
 	int AId = a->getRoleAId();
 	int BId = a->getRoleBId();
 	UMLClassifierList concepts = getConcepts();
@@ -1810,7 +1814,7 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element) {
 			continue;
 		}
 		bool status = pObject -> loadFromXMI( tempElement );
-		if (type == "UML:Association") {
+		if (type == "UML:Association" || type == "UML:Generalization") {
 			if ( !status ) {
 				// Some interim umbrello versions saved empty UML:Associations,
 				// thus we tolerate problems loading them.
@@ -1826,9 +1830,6 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element) {
 			delete pObject;
 			return false;
 		} else {
-			if (type == "UML:Generalization")
-				addAssocToConcepts((UMLAssociation *) pObject);
-
 			objectList.append( pObject );
 		}
 

@@ -32,8 +32,8 @@ CodeClassFieldDeclarationBlock::CodeClassFieldDeclarationBlock ( CodeClassField 
 }
 
 CodeClassFieldDeclarationBlock::~CodeClassFieldDeclarationBlock ( ) { 
-        m_parentclassfield->getParentObject()->disconnect();
-        m_parentclassfield->disconnect();
+// Q: is this needed??
+//      m_parentclassfield->getParentObject()->disconnect(this);
 }
 
 //  
@@ -70,6 +70,17 @@ CodeDocument * CodeClassFieldDeclarationBlock::getParentDocument ( ) {
 // until the codeclassfield is released.
 void CodeClassFieldDeclarationBlock::release () {
         // do nothing
+}
+
+void CodeClassFieldDeclarationBlock::forceRelease () {
+	if(m_parentclassfield)
+	{
+//		m_parentclassfield->getParentObject()->disconnect(this);
+        	m_parentclassfield->disconnect(this);
+	}
+	m_parentclassfield = 0;
+	OwnedCodeBlock::release();
+	TextBlock::release();
 }
 
 /**
