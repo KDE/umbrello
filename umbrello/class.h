@@ -29,6 +29,7 @@ class UMLTemplate;
  *	@author Brian Thomas <brian.thomas@gsfc.nasa.gov>
  */
 class UMLClass : public UMLClassifier {
+Q_OBJECT
 public:
 	/**
 	 *	Sets up a Class.
@@ -179,6 +180,11 @@ public:
 	 * Loads the UML:Class element including it's operations, attributes and templates
 	 */
 	virtual bool loadFromXMI( QDomElement & element );
+signals:
+	void attributeAdded(UMLObject*);
+	void attributeRemoved(UMLObject*);
+	void templateAdded(UMLObject*);
+	void templateRemoved(UMLObject*);
 
 protected:
 

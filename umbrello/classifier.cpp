@@ -31,6 +31,8 @@ UMLObject* UMLClassifier::addOperation(QString name, int id) {
 	UMLOperation *o = new UMLOperation(this, name, id);
 	m_OpsList.append(o);
 	emit modified();
+	emit operationAdded(o);
+	connect(o,SIGNAL(modified()),this,SIGNAL(modified()));
 	return o;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -39,7 +41,8 @@ bool UMLClassifier::addOperation(UMLOperation* Op) {
 	m_OpsList.append( Op );
 	kdDebug()<<"operation added to"<<getName()<<endl;
 	emit modified();
-	
+	emit operationAdded(Op);
+	connect(Op,SIGNAL(modified()),this,SIGNAL(modified()));
 	return true;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -49,7 +52,9 @@ bool UMLClassifier::addOperation(UMLOperation* Op, IDChangeLog* Log) {
 		Op -> parent() -> removeChild( Op );
 		this -> insertChild( Op );
 		m_OpsList.append( Op );
+		emit operationAdded(Op);
 		emit modified();
+		connect(Op,SIGNAL(modified()),this,SIGNAL(modified()));
 		return true;
 	} else if( Log ) {
 		Log->removeChangeByNewID( Op -> getID() );
@@ -63,8 +68,9 @@ int UMLClassifier::removeOperation(UMLObject *o) {
 		kdDebug() << "can't find opp given in list" << endl;
 		return -1;
 	}
-	kdDebug()<<"operation removed from"<<getName()<<endl;
+	emit operationRemoved(o);
 	emit modified();
+	disconnect(o,SIGNAL(modified()),this,SIGNAL(modified()));
 	return m_OpsList.count();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -190,3 +196,5 @@ void UMLClassifier::init() {
 	m_OpsList.clear();
 	m_OpsList.setAutoDelete(false);
 }
+
+#include "classifier.moc"

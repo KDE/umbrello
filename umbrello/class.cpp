@@ -35,6 +35,8 @@ UMLObject* UMLClass::addAttribute(QString name, int id) {
   	UMLAttribute *a = new UMLAttribute(this, name, id);
   	m_AttsList.append(a);
 	emit modified();
+	connect(a,SIGNAL(modified()),this,SIGNAL(modified()));
+	emit attributeAdded(a);
 	return a;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -45,6 +47,8 @@ bool UMLClass::addAttribute(UMLAttribute* Att, IDChangeLog* Log /* = 0*/) {
 		this -> insertChild( Att );
 		m_AttsList.append( Att );
 		emit modified();
+		connect(Att,SIGNAL(modified()),this,SIGNAL(modified()));
+		emit attributeAdded(Att);
 		return true;
 	} else if( Log ) {
 		Log->removeChangeByNewID( Att -> getID() );
@@ -58,13 +62,18 @@ int UMLClass::removeAttribute(UMLObject* a) {
 		kdDebug() << "can't find att given in list" << endl;
 		return -1;
 	}
+	emit attributeRemoved(a);
 	emit modified();
+	disconnect(a,SIGNAL(modified()),this,SIGNAL(modified()));
 	return m_AttsList.count();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLObject* UMLClass::addTemplate(QString name, int id) {
   	UMLTemplate* newTemplate = new UMLTemplate(this, name, id);
   	m_TemplateList.append(newTemplate);
+	emit modified();
+	connect(newTemplate,SIGNAL(modified()),this,SIGNAL(modified()));
+	emit templateAdded(newTemplate);
 	return newTemplate;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -74,6 +83,9 @@ bool UMLClass::addTemplate(UMLTemplate* newTemplate, IDChangeLog* log /* = 0*/) 
 		newTemplate->parent()->removeChild(newTemplate);
 		this->insertChild(newTemplate);
 		m_TemplateList.append(newTemplate);
+		emit modified();
+		connect(newTemplate,SIGNAL(modified()),this,SIGNAL(modified()));
+		emit templateAdded(newTemplate);
 		return true;
 	} else if (log) {
 		log->removeChangeByNewID( newTemplate->getID() );
@@ -82,11 +94,14 @@ bool UMLClass::addTemplate(UMLTemplate* newTemplate, IDChangeLog* log /* = 0*/) 
 	return false;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-int UMLClass::removeTemplate(UMLTemplate* newTemplate) {
-	if ( !m_TemplateList.remove(newTemplate) ) {
+int UMLClass::removeTemplate(UMLTemplate *temp) {
+	if ( !m_TemplateList.remove(temp) ) {
 		kdWarning() << "can't find att given in list" << endl;
 		return -1;
 	}
+	emit templateRemoved(temp);
+	emit modified();
+	disconnect(temp,SIGNAL(modified()),this,SIGNAL(modified()));
 	return m_TemplateList.count();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -134,7 +149,7 @@ QPtrList<UMLObject> UMLClass::findChildObject(UMLObject_Type t , QString n) {
 				list.append( obj );
 		}
 	} else {
-		kdWarning() << "finding child object of unknown type" << endl;
+		kdWarning() << "finding child object of unknown type" <<t<<" (requested name = "<<n<<")"<<endl;
 	}
 
 	return list;
@@ -302,6 +317,7 @@ bool UMLClass::loadFromXMI( QDomElement & element ) {
 			if( !pAtt -> loadFromXMI( tempElement ) )
 				return false;
 			m_AttsList.append( pAtt );
+			connect( pAtt,SIGNAL(modified()),this,SIGNAL(modified()));
 		} else if (tag == "template") {
 			UMLTemplate* newTemplate = new UMLTemplate(this);
 			if ( !newTemplate->loadFromXMI(tempElement) ) {
@@ -331,3 +347,4 @@ QPtrList<UMLTemplate>* UMLClass::getTemplateList() {
 	return &m_TemplateList;
 }
 
+#include "class.moc"

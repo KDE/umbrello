@@ -31,6 +31,7 @@ class UMLDoc;
  */
 
 class UMLClassifier : public UMLCanvasObject {
+Q_OBJECT
 public:
 	/**
 	 *	Sets up a Concept.
@@ -174,7 +175,9 @@ public:
 	 */
 	virtual bool loadFromXMI( QDomElement & element ) = 0;
 	
-
+signals:
+	void operationAdded(UMLObject *);
+	void operationRemoved(UMLObject*);
 protected:
 
 	/**

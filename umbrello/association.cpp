@@ -263,62 +263,77 @@ QString UMLAssociation::getRoleBDoc() const {
 
 void UMLAssociation::setAssocType(Uml::Association_Type assocType) {
 	m_AssocType = assocType;
+	emit modified();
 }
 
 void UMLAssociation::setRoleAId(int roleA) {
 	m_RoleAId = roleA;
+	emit modified();
 }
 
 void UMLAssociation::setRoleBId(int roleB) {
 	m_RoleBId = roleB;
+	emit modified();
 }
 
 void UMLAssociation::setObjectA(UMLObject *obj) {
 	m_pObjectA = obj;
+	emit modified();
 }
 
 void UMLAssociation::setObjectB(UMLObject *obj) {
 	m_pObjectB = obj;
+	emit modified();
 }
 
 void UMLAssociation::setVisibilityA(Scope value) {
 	m_VisibilityA = value;
+	emit modified();
 }
 
 void UMLAssociation::setVisibilityB(Scope value) {
 	m_VisibilityB = value;
+	emit modified();
 }
 
 void UMLAssociation::setChangeabilityA(Changeability_Type value) {
 	m_ChangeabilityA = value;
+	emit modified();
 }
 
 void UMLAssociation::setChangeabilityB(Changeability_Type value) {
 	m_ChangeabilityB = value;
+	emit modified();
 }
 
 void UMLAssociation::setMultiA(QString multiA) {
 	m_MultiA = multiA;
+	emit modified();
 }
 
 void UMLAssociation::setMultiB(QString multiB) {
 	m_MultiB = multiB;
+	emit modified();
 }
 
 void UMLAssociation::setRoleNameA(QString roleNameA) {
 	m_RoleNameA = roleNameA;
+	emit modified();
 }
 
 void UMLAssociation::setRoleADoc(QString doc) {
 	m_RoleADoc = doc;
+	emit modified();
 }
 
 void UMLAssociation::setRoleNameB(QString roleNameB) {
 	m_RoleNameB = roleNameB;
+	emit modified();
 }
 
 void UMLAssociation::setRoleBDoc(QString doc) {
 	m_RoleBDoc = doc;
+	emit modified();
 }
 
 QString UMLAssociation::ChangeabilityToString(Uml::Changeability_Type type) {
