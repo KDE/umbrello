@@ -138,7 +138,7 @@ void PerlWriter::writeClass(UMLClassifier *c) {
 	if(forceDoc() || !c->getDoc().isEmpty()) {
 		perl << m_newLineEndingChars << "=head1";
 		perl << " " << classname.upper() << m_newLineEndingChars << m_newLineEndingChars;
-		perl << formatDoc(c->getDoc(),"");
+		perl << c->getDoc();
 		perl << m_newLineEndingChars << m_newLineEndingChars << "=cut" << m_newLineEndingChars << m_newLineEndingChars;
 	}
 
@@ -284,22 +284,22 @@ void PerlWriter::writeOperations(QString /* classname */, UMLOperationList &opLi
 			{
 				if(forceDoc() || !at->getDoc().isEmpty()) 
 				{
-					perl << "      " << cleanName(at->getName()) << "  " << at->getDoc();
+					perl << "      " << at->getTypeName() <<cleanName(at->getName()) << "  " << at->getDoc();
 					perl << m_newLineEndingChars;
 				}
 			}//end for : write parameter documentation
+
 			perl << m_newLineEndingChars;
-            		perl << "   Return : " << m_newLineEndingChars ;
-	        	perl << "      " << op->getTypeName() ;
-			perl << m_newLineEndingChars 
-			<< m_newLineEndingChars ;            		
-            		perl << "   Description : " << m_newLineEndingChars ;
-	        	perl << "      " << formatDoc(op->getDoc(),"");
+			perl << "   Return : " << m_newLineEndingChars;
+			perl << "      " << op->getTypeName();
+			perl << m_newLineEndingChars << m_newLineEndingChars;
+			perl << "   Description : " << m_newLineEndingChars;
+			perl << "      " << op->getDoc();
 			perl << m_newLineEndingChars << m_newLineEndingChars << "=cut" << m_newLineEndingChars << m_newLineEndingChars;
 		}//end if : write method documentation
-		perl <<  "sub " << cleanName(op->getName()) <<	m_newLineEndingChars << "{" <<	m_newLineEndingChars ;
+		perl <<  "sub " << cleanName(op->getName()) << m_newLineEndingChars << "{" << m_newLineEndingChars;
 		perl << "#UML_MODELER_BEGIN_PERSONAL_CODE_" << cleanName(op->getName());
-		perl << m_newLineEndingChars << "#UML_MODELER_END_PERSONAL_CODE_" << cleanName(op->getName()) << m_newLineEndingChars ;
+		perl << m_newLineEndingChars << "#UML_MODELER_END_PERSONAL_CODE_" << cleanName(op->getName()) << m_newLineEndingChars;
 		perl << "}" << m_newLineEndingChars;
 		perl << m_newLineEndingChars << m_newLineEndingChars;
 	}//end for
