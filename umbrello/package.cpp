@@ -26,7 +26,15 @@ void UMLPackage::init() {
 }
 
 void UMLPackage::addObject(const UMLObject *pObject) {
-	if (! m_objects.contains( pObject ))
+	bool alreadyThere = false;
+	int id = pObject->getID();
+	for (UMLObject *o = m_objects.first(); o; o = m_objects.next()) {
+		if (o->getID() == id) {
+			alreadyThere = true;
+			break;
+		}
+	}
+	if (! alreadyThere)
 		m_objects.append( pObject );
 }
 
@@ -82,9 +90,10 @@ bool UMLPackage::loadFromXMI(QDomElement& element) {
 bool UMLPackage::load(QDomElement& element) {
 	UMLDoc *umldoc = UMLApp::app()->getDocument();
 	QDomNode node = element.firstChild();
-	QDomElement tempElement = node.toElement();
-	while (!tempElement.isNull()) {
-		QString type = tempElement.tagName();
+	element = node.toElement();
+	while (!element.isNull()) {
+		QString type = element.tagName();
+		QDomElement tempElement = element;
 		if (type == "UML:Namespace.ownedElement") {
 			//CHECK: Umbrello currently assumes that nested elements
 			// are ownedElements anyway.
@@ -93,7 +102,7 @@ bool UMLPackage::load(QDomElement& element) {
 			if (! load(tempElement))
 				return false;
 			node = node.nextSibling();
-			tempElement = node.toElement();
+			element = node.toElement();
 			continue;
 		}
 		UMLObject *pObject = umldoc->makeNewUMLObject(type);
@@ -104,16 +113,15 @@ bool UMLPackage::load(QDomElement& element) {
 			return false;
 		}
 		pObject->setUMLPackage(this);
-		if (! pObject->loadFromXMI(tempElement)) {
+		if (pObject->loadFromXMI(tempElement)) {
+			addObject(pObject);
+			if (type == "UML:Generalization")
+				umldoc->addAssocToConcepts((UMLAssociation *) pObject);
+		} else {
 			delete pObject;
-			return false;
 		}
-		if (type == "UML:Generalization")
-			umldoc->addAssocToConcepts((UMLAssociation *) pObject);
-		m_objects.append(pObject);
-
 		node = node.nextSibling();
-		tempElement = node.toElement();
+		element = node.toElement();
 	}
 	return true;
 }
