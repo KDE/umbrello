@@ -42,6 +42,7 @@
 SimpleCodeGenerator::SimpleCodeGenerator (UMLDoc * parentDoc , const char * name) 
     : CodeGenerator( parentDoc, name ) 
 {
+	parentDoc->disconnect(this); // disconnect from UMLDoc.. we arent planning to be synced at all
 	initFields(parentDoc);
 };
 
