@@ -1,0 +1,133 @@
+/***************************************************************************
+                          classifierinfo.h  -  description
+                             -------------------
+    copyright            : (C) 2003 Brian Thomas
+ ***************************************************************************/
+
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
+
+#ifndef CLASSIFIERINFO_H
+#define CLASSIFIERINFO_H
+
+#include "../class.h"
+#include "../umldoc.h"
+#include "../attribute.h"
+#include "../association.h"
+
+#include <qptrlist.h>
+#include <qstring.h>
+
+/**
+  * class ClassInfo is an object to hold summary information about a classifier
+  * in a convient form for easy access by a code generator.
+  */
+class ClassifierInfo {
+public:
+
+	/**
+	 * Constructor, initialises a couple of variables
+	 */
+	ClassifierInfo (UMLClassifier * classifier, UMLDoc * doc);
+
+	/**
+	 * Destructor, empty
+	 */
+	virtual ~ClassifierInfo();
+
+	// Fields
+	//
+	
+	/**
+	 * Lists of attributes of this classifier (if a class)
+	 * Sorted by scope.
+	 */
+	QPtrList <UMLAttribute> atpub;
+	QPtrList <UMLAttribute> atprot;
+	QPtrList <UMLAttribute> atpriv;
+
+	/**
+	 * Lists of static attributes of this classifier (if a class)
+	 */
+	QPtrList <UMLAttribute> static_atpub; 
+	QPtrList <UMLAttribute> static_atprot; 
+	QPtrList <UMLAttribute> static_atpriv; 
+
+	/**
+	 * Lists of types of associations this classifier has
+	 */
+	QPtrList<UMLAssociation> plainAssociations;
+	QPtrList<UMLAssociation> aggregations;
+	QPtrList<UMLAssociation> compositions;
+	QPtrList<UMLAssociation> generalizations;
+
+	/**
+	 * what sub and super classifiers are related to this class
+	 */
+	QPtrList<UMLClassifier> superclasses;
+	QPtrList<UMLClassifier> subclasses;
+
+	/**
+	 * Various conditional information about our classifier.
+	 */
+	bool isInterface; // Whether or not this classifier is an interface.
+	bool hasAssociations;
+	bool hasAttributes;
+	bool hasStaticAttributes;
+	bool hasMethods;
+	bool hasAccessorMethods;
+	bool hasOperationMethods;
+	bool hasVectorFields;
+
+	/**
+	 * Class and File names
+	 */
+	QString className;
+	QString fileName;
+
+	/**
+	 * utility functions to allow easy determination of what classifiers
+	 * are "owned" by the current one via named association type (e.g. 
+	 * plain, aggregate or compositions).
+	 */
+	QPtrList<UMLClassifier> getPlainAssocChildClassifierList();
+	QPtrList<UMLClassifier> getAggregateChildClassifierList();
+	QPtrList<UMLClassifier> getCompositionChildClassifierList();
+
+	/**
+	 * Utility method to obtain list of attributes, if they exist, for
+	 * the current classfier.
+	 */
+	QPtrList<UMLAttribute>* getAttList();
+
+
+protected:
+	void init (UMLClassifier *c, UMLDoc *doc);
+
+private:
+
+	int m_nID; // id of the classifier
+
+	/**
+	 * Utility method called by "get*ChildClassfierList()" methods. It basically 
+	 * finds all the classifiers named in each association in the given association list 
+	 * which arent the current one. Usefull for finding which classifiers are "owned" by the 
+	 * current one via declared associations such as in aggregations/compositions.
+	 */
+	QPtrList<UMLClassifier> findAssocClassifierObjsInRoles (QPtrList<UMLAssociation> * list); 
+
+	/**
+	 *      List of all the attributes in this class.
+	 */
+	QPtrList<UMLAttribute> m_AttsList;
+
+};
+
+#endif // CLASSIFIERINFO_H
+
