@@ -224,6 +224,7 @@ bool UMLRole::load( QDomElement & element ) {
 				m_Multi = tempElement.text().stripWhiteSpace();
 				continue;
 			}
+			tempElement = n.toElement();
 			tag = tempElement.tagName();
 			if (!Uml::tagEq(tag, "Multiplicity")) {
 				m_Multi = tempElement.text().stripWhiteSpace();
