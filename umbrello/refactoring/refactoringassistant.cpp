@@ -353,7 +353,7 @@ void RefactoringAssistant::addBaseClassifier()
 		kdWarning()<<"Cannot find Base Folder"<<endl;
 		return;
 	}
-	item = new KListViewItem( baseFolder, derived->getName() );
+	item = new KListViewItem( baseFolder, super->getName() );
 	item->setPixmap(0,m_pixmaps.Generalization);
 	item->setExpandable( true );
 	m_umlObjectMap[item] = super;
