@@ -1543,8 +1543,9 @@ void UMLDoc::endPaste() {
 ChangeLog */
 int UMLDoc::assignNewID(int OldID) {
 	int result = ++uniqueID;
-	if(m_pChangeLog)
+	if (m_pChangeLog) {
 		m_pChangeLog->addIDChange(OldID, result);
+	}
 	return result;
 }
 

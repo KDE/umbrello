@@ -676,7 +676,7 @@ bool UMLClipboard::pasteClip5(UMLDoc* doc, QMimeSource* data) {
 			{
 				UMLClass * parent = dynamic_cast<UMLClass *>(lvitem -> getUMLObject());
 				if (parent -> addAttribute(dynamic_cast<UMLAttribute*>(obj), idchanges)) {
-//IXME					doc -> signalChildUMLObjectCreated(obj);
+//FIXME					doc -> signalChildUMLObjectCreated(obj);
 				} else {
 					objectAlreadyExists = true;
 				}

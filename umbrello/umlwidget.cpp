@@ -688,7 +688,8 @@ bool UMLWidget::widgetHasUMLObject(Uml::UMLWidget_Type type) {
 	    type == wt_Package ||
 	    type == wt_Component ||
 	    type == wt_Node ||
-	    type == wt_Artifact) {
+	    type == wt_Artifact ||
+	    type == wt_Object) {
 		return true;
 	} else {
 		return false;

@@ -1725,8 +1725,9 @@ bool UMLView::createWidget(UMLWidgetData* WidgetData) {
 
 
 bool UMLView::addWidget( UMLWidgetData * pWidgetData ) {
-	if( !pWidgetData )
+	if( !pWidgetData ) {
 		return false;
+	}
 
 	IDChangeLog * log = getDocument() -> getChangeLog();
 	if( !log || !m_pIDChangesLog) {
@@ -1797,8 +1798,9 @@ bool UMLView::addWidget( UMLWidgetData * pWidgetData ) {
 		case wt_Object:
 			if((pObjectData = static_cast<ObjectWidgetData*>(pWidgetData))) {
 				newID = log->findNewID( pWidgetData -> getId() );
-				if( newID == -1 )
+				if (newID == -1) {
 					return false;
+				}
 				pObjectData -> setId( newID );
 				int nNewLocalID = m_pData -> getUniqueID();
 				int nOldLocalID = pObjectData -> getLocalID();
