@@ -364,7 +364,7 @@ bool UMLWidgetData::loadFromXMI( QDomElement & qElement ) {
 	QString usesDiagramUseFillColour = qElement.attribute( "usesdiagramusefillcolour", "1" );
 
 	m_nId = id.toInt();
-	if( font != "" ) {
+	if( !font.isEmpty() ) {
 		m_Font.fromString( font );
 	}
 	m_bUseFillColor = (bool)usefillcolor.toInt();

@@ -224,7 +224,7 @@ bool FloatingTextData::loadFromXMI( QDomElement & qElement ) {
 	m_SeqNum = qElement.attribute( "seqnum", "" );
 	QString role = qElement.attribute( "role", "" );
 
-	if( role != "" )
+	if( !role.isEmpty() )
 		m_Role = (Uml::Text_Role)role.toInt();
 
 	return true;

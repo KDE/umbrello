@@ -846,7 +846,7 @@ bool AssociationWidgetData::loadFromXMI( QDomElement & qElement ) {
 	m_nTotalCountB = totalcountb.toInt();
 	m_nWidgetAID = widgetaid.toInt();
 	m_nWidgetBID = widgetbid.toInt();
-	if( type != "" )
+	if( !type.isEmpty() )
 		m_AssocType = (Uml::Association_Type)type.toInt();
 
 	//now load child elements

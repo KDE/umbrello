@@ -121,7 +121,7 @@ bool StateWidgetData::loadFromXMI( QDomElement & qElement ) {
 		while( !activityElement.isNull() ) {
 			if( activityElement.tagName() == "Activity" ) {
 				QString name = activityElement.attribute( "name", "" );
-				if( name != "" )
+				if( !name.isEmpty() )
 					m_Activities.append( name );
 			}//end if
 			node = node.nextSibling();

@@ -561,7 +561,7 @@ bool UMLViewData::loadFromXMI( QDomElement & qElement ) {
 	QString localid = qElement.attribute( "localid", "0" );
 	//optionstate uistate
 	QString font = qElement.attribute( "font", "" );
-	if( font != "" )
+	if( !font.isEmpty() )
 		m_Options.uiState.font.fromString( font );
 	QString fillcolor = qElement.attribute( "fillcolor", "" );
 	QString linecolor = qElement.attribute( "linecolor", "" );
@@ -605,9 +605,9 @@ bool UMLViewData::loadFromXMI( QDomElement & qElement ) {
 	m_nCanvasWidth = width.toInt();
 
 	m_Type = (Uml::Diagram_Type)type.toInt();
-	if( fillcolor != "" )
+	if( !fillcolor.isEmpty() )
 		m_Options.uiState.fillColor = QColor( fillcolor );
-	if( linecolor != "" )
+	if( !linecolor.isEmpty() )
 		m_Options.uiState.lineColor = QColor( linecolor );
 	m_nLocalID = localid.toInt();
 	//load the widgets
