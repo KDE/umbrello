@@ -36,7 +36,6 @@
 IDLWriter::IDLWriter(UMLDoc *parent, const char *name)
 		: SimpleCodeGenerator(parent, name, false) {
 	indentlevel = 0;
-	pListOfReservedKeywords = NULL;
 	// FIXME: Eventually we should fabricate an Indenter class
 	// that can be used by all code generators.
 	// NOTE: this has now been done in new code gen class. -b.t.
@@ -458,59 +457,47 @@ void IDLWriter::createDefaultDatatypes() {
 	m_doc->createDatatype("string");
 }
 
-/**
- * List of reserved keywords for this code generator.
- *
- * Just add new keywords, then mark all lines and
- * pipe it through the external 'sort' program.
- */
-static const char *ReservedKeywords[] = {
-  "any",
-  "attribute",
-  "boolean",
-  "case",
-  "char",
-  "const",
-  "context",
-  "default",
-  "double",
-  "enum",
-  "exception",
-  "FALSE",
-  "float",
-  "in",
-  "inout",
-  "interface",
-  "long",
-  "module",
-  "octet",
-  "oneway",
-  "out",
-  "raises",
-  "readonly",
-  "sequence",
-  "short",
-  "string",
-  "struct",
-  "switch",
-  "TRUE",
-  "typedef",
-  "union",
-  "unsigned",
-  "void",
-  NULL
-};
+const QStringList IDLWriter::reservedKeywords() const {
 
-/**
- * get list of reserved keywords
- */
-const QPtrList<const char *> * IDLWriter::getReservedKeywords() {
-  if (pListOfReservedKeywords == NULL)
-  {
-    pListOfReservedKeywords = convertListOfReservedKeywords(ReservedKeywords);
+  static QStringList keywords;
+
+  if (keywords.isEmpty()) {
+    keywords << "any"
+             << "attribute"
+             << "boolean"
+             << "case"
+             << "char"
+             << "const"
+             << "context"
+             << "default"
+             << "double"
+             << "enum"
+             << "exception"
+             << "FALSE"
+             << "float"
+             << "in"
+             << "inout"
+             << "interface"
+             << "long"
+             << "module"
+             << "octet"
+             << "oneway"
+             << "out"
+             << "raises"
+             << "readonly"
+             << "sequence"
+             << "short"
+             << "string"
+             << "struct"
+             << "switch"
+             << "TRUE"
+             << "typedef"
+             << "union"
+             << "unsigned"
+             << "void";
   }
 
-  return pListOfReservedKeywords;
+  return keywords;
 }
 
 

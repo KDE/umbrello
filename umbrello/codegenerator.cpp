@@ -770,54 +770,17 @@ void CodeGenerator::createDefaultDatatypes()  {
 	//e.g.  m_document->createDatatype("int");
 }
 
-/**
- * Check whether the given string is a reserved word for the
- * language of this code generator
- *
- * @param rPossiblyReservedKeyword is the string to check
- *
- */
-bool CodeGenerator::isReservedKeyword(const QString & rPossiblyReservedKeyword) {
-  const QPtrList<const char *> *listOfReservedKeywords = getReservedKeywords();
+bool CodeGenerator::isReservedKeyword(const QString & keyword) {
 
-  if (listOfReservedKeywords == NULL)
-  {
-    return false;
-  }
+  const QStringList keywords = reservedKeywords();
 
-  QPtrListIterator<const char *> iteratorReservedKeywords (*listOfReservedKeywords);
-  const char **ppszReservedKeyword = NULL;
+	return keywords.contains(keyword);
+}
 
-  while ( (ppszReservedKeyword = iteratorReservedKeywords.current()) != 0 )
-  {
-		QString keyword(*ppszReservedKeyword);
+const QStringList CodeGenerator::reservedKeywords() const {
+  static QStringList emptyList;
 
-		if (keyword == rPossiblyReservedKeyword) {
-			return true;
-		}
-
-		++iteratorReservedKeywords;
-	}
-
-	return false;
+  return emptyList;
 }
  
-/**
- * convert a NULL terminated char * list of reserved keywords to a new
- * QPtrList<const char *>
- */
-QPtrList<const char *> * CodeGenerator::convertListOfReservedKeywords(const char ** ppszReservedKeywords) {
-  QPtrList<const char *> * pListOfReservedKeywords = new QPtrList<const char *>;
-
-  const char **reservedKeywords = ppszReservedKeywords;
-
-  while (reservedKeywords[0] != NULL)
-  {
-    pListOfReservedKeywords->append(&reservedKeywords[0]);
-    reservedKeywords++;
-  }
-
-  return pListOfReservedKeywords;
-}
-
 #include "codegenerator.moc"

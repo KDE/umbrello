@@ -41,7 +41,6 @@ const QString AdaWriter::defaultPackageSuffix = "_Holder";
 AdaWriter::AdaWriter(UMLDoc *parent, const char *name)
 		: SimpleCodeGenerator(parent, name) {
 	indentlevel = 0;
-	pListOfReservedKeywords = NULL;
 	// FIXME: Eventually we should fabricate an Indenter class
 	// that can be used by all code generators.
 	// NOTE: this now exists under new code gen system. Dont do here! -b.t.
@@ -573,160 +572,19 @@ void AdaWriter::createDefaultDatatypes() {
 }
 
 /**
- * List of reserved keywords for this code generator.
- *
- * Just add new keywords, then mark all lines and
- * pipe it through the external 'sort' program.
- */
-static const char *ReservedKeywords[] = {
-  "abort",
-  "abs",
-  "abstract",
-  "accept",
-  "access",
-  "aliased",
-  "all",
-  "and",
-  "Argument_Error",
-  "array",
-  "Assert_Failure",
-  "at",
-  "begin",
-  "body",
-  "Boolean",
-  "case",
-  "Character",
-  "constant",
-  "Constraint_Error",
-  "Conversion_Error",
-  "Data_Error",
-  "declare",
-  "delay",
-  "delta",
-  "Dereference_Error",
-  "Device_Error",
-  "digits",
-  "do",
-  "Duration",
-  "else",
-  "elsif",
-  "end",
-  "End_Error",
-  "entry",
-  "exception",
-  "exit",
-  "false",
-  "Float",
-  "for",
-  "function",
-  "generic",
-  "goto",
-  "if",
-  "in",
-  "Index_Error",
-  "Integer",
-  "is",
-  "Layout_Error",
-  "Length_Error",
-  "limited",
-  "Long_Float",
-  "Long_Integer",
-  "Long_Long_Float",
-  "Long_Long_Integer",
-  "loop",
-  "mod",
-  "Mode_Error",
-  "Name_Error",
-  "Natural",
-  "new",
-  "not",
-  "null",
-  "of",
-  "or",
-  "others",
-  "out",
-  "package",
-  "Pattern_Error",
-  "Picture_Error",
-  "Pointer_Error",
-  "Positive",
-  "pragma",
-  "private",
-  "procedure",
-  "Program_Error",
-  "protected",
-  "raise",
-  "range",
-  "record",
-  "rem",
-  "renames",
-  "requeue",
-  "return",
-  "reverse",
-  "select",
-  "separate",
-  "Short_Float",
-  "Short_Integer",
-  "Short_Short_Float",
-  "Short_Short_Integer",
-  "Status_Error",
-  "Storage_Error",
-  "String",
-  "subtype",
-  "Tag_Error",
-  "tagged",
-  "task",
-  "Tasking_Error",
-  "terminate",
-  "Terminator_Error",
-  "then",
-  "Time_Error",
-  "Translation_Error",
-  "true",
-  "type",
-  "until",
-  "Update_Error",
-  "use",
-  "Use_Error",
-  "when",
-  "while",
-  "Wide_Character",
-  "Wide_String",
-  "with",
-  "xor",
-  NULL
-};
-
-/**
  * Check whether the given string is a reserved word for the
  * language of this code generator
  *
  * @param rPossiblyReservedKeyword  The string to check.
  */
 bool AdaWriter::isReservedKeyword(const QString & rPossiblyReservedKeyword) {
-  const QPtrList<const char *> *listOfReservedKeywords = getReservedKeywords();
 
-  if (listOfReservedKeywords == NULL)
-  {
-    return false;
-  }
+  const QStringList keywords = reservedKeywords();
 
-  QPtrListIterator<const char *> iteratorReservedKeywords (*listOfReservedKeywords);
-  const char **ppszReservedKeyword = NULL;
- 
-  while ( (ppszReservedKeyword = iteratorReservedKeywords.current()) != 0 )
-  {
-		QString keyword(*ppszReservedKeyword);
-
-    /*
-     * ADA is completely case insensitive
-     */
-		if (keyword.lower() == rPossiblyReservedKeyword.lower()) {
-			return true;
-		}
-
-    ++iteratorReservedKeywords;
-	}
+  QStringList::ConstIterator it;
+  for (it = keywords.begin(); it != keywords.end(); ++it)
+    if ((*it).lower() == rPossiblyReservedKeyword.lower())
+      return true;
 
 	return false;
 }
@@ -734,13 +592,129 @@ bool AdaWriter::isReservedKeyword(const QString & rPossiblyReservedKeyword) {
 /**
  * get list of reserved keywords
  */
-const QPtrList<const char *> * AdaWriter::getReservedKeywords() {
-  if (pListOfReservedKeywords == NULL)
-  {
-    pListOfReservedKeywords = convertListOfReservedKeywords(ReservedKeywords);
+const QStringList AdaWriter::reservedKeywords() const {
+
+  static QStringList keywords;
+
+  if ( keywords.isEmpty() ) {
+    keywords.append( "abort" );
+    keywords.append( "abs" );
+    keywords.append( "abstract" );
+    keywords.append( "accept" );
+    keywords.append( "access" );
+    keywords.append( "aliased" );
+    keywords.append( "all" );
+    keywords.append( "and" );
+    keywords.append( "Argument_Error" );
+    keywords.append( "array" );
+    keywords.append( "Assert_Failure" );
+    keywords.append( "at" );
+    keywords.append( "begin" );
+    keywords.append( "body" );
+    keywords.append( "Boolean" );
+    keywords.append( "case" );
+    keywords.append( "Character" );
+    keywords.append( "constant" );
+    keywords.append( "Constraint_Error" );
+    keywords.append( "Conversion_Error" );
+    keywords.append( "Data_Error" );
+    keywords.append( "declare" );
+    keywords.append( "delay" );
+    keywords.append( "delta" );
+    keywords.append( "Dereference_Error" );
+    keywords.append( "Device_Error" );
+    keywords.append( "digits" );
+    keywords.append( "do" );
+    keywords.append( "Duration" );
+    keywords.append( "else" );
+    keywords.append( "elsif" );
+    keywords.append( "end" );
+    keywords.append( "End_Error" );
+    keywords.append( "entry" );
+    keywords.append( "exception" );
+    keywords.append( "exit" );
+    keywords.append( "false" );
+    keywords.append( "Float" );
+    keywords.append( "for" );
+    keywords.append( "function" );
+    keywords.append( "generic" );
+    keywords.append( "goto" );
+    keywords.append( "if" );
+    keywords.append( "in" );
+    keywords.append( "Index_Error" );
+    keywords.append( "Integer" );
+    keywords.append( "is" );
+    keywords.append( "Layout_Error" );
+    keywords.append( "Length_Error" );
+    keywords.append( "limited" );
+    keywords.append( "Long_Float" );
+    keywords.append( "Long_Integer" );
+    keywords.append( "Long_Long_Float" );
+    keywords.append( "Long_Long_Integer" );
+    keywords.append( "loop" );
+    keywords.append( "mod" );
+    keywords.append( "Mode_Error" );
+    keywords.append( "Name_Error" );
+    keywords.append( "Natural" );
+    keywords.append( "new" );
+    keywords.append( "not" );
+    keywords.append( "null" );
+    keywords.append( "of" );
+    keywords.append( "or" );
+    keywords.append( "others" );
+    keywords.append( "out" );
+    keywords.append( "package" );
+    keywords.append( "Pattern_Error" );
+    keywords.append( "Picture_Error" );
+    keywords.append( "Pointer_Error" );
+    keywords.append( "Positive" );
+    keywords.append( "pragma" );
+    keywords.append( "private" );
+    keywords.append( "procedure" );
+    keywords.append( "Program_Error" );
+    keywords.append( "protected" );
+    keywords.append( "raise" );
+    keywords.append( "range" );
+    keywords.append( "record" );
+    keywords.append( "rem" );
+    keywords.append( "renames" );
+    keywords.append( "requeue" );
+    keywords.append( "return" );
+    keywords.append( "reverse" );
+    keywords.append( "select" );
+    keywords.append( "separate" );
+    keywords.append( "Short_Float" );
+    keywords.append( "Short_Integer" );
+    keywords.append( "Short_Short_Float" );
+    keywords.append( "Short_Short_Integer" );
+    keywords.append( "Status_Error" );
+    keywords.append( "Storage_Error" );
+    keywords.append( "String" );
+    keywords.append( "subtype" );
+    keywords.append( "Tag_Error" );
+    keywords.append( "tagged" );
+    keywords.append( "task" );
+    keywords.append( "Tasking_Error" );
+    keywords.append( "terminate" );
+    keywords.append( "Terminator_Error" );
+    keywords.append( "then" );
+    keywords.append( "Time_Error" );
+    keywords.append( "Translation_Error" );
+    keywords.append( "true" );
+    keywords.append( "type" );
+    keywords.append( "until" );
+    keywords.append( "Update_Error" );
+    keywords.append( "use" );
+    keywords.append( "Use_Error" );
+    keywords.append( "when" );
+    keywords.append( "while" );
+    keywords.append( "Wide_Character" );
+    keywords.append( "Wide_String" );
+    keywords.append( "with" );
+    keywords.append( "xor" );
   }
 
-  return pListOfReservedKeywords;
+  return keywords;
 }
 
 #include "adawriter.moc"

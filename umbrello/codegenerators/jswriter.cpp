@@ -27,7 +27,6 @@
 
 JSWriter::JSWriter( UMLDoc *parent, const char *name )
 	:SimpleCodeGenerator( parent, name) {
-	pListOfReservedKeywords = NULL;
 }
 
 JSWriter::~JSWriter() {}
@@ -263,45 +262,33 @@ bool JSWriter::isType (QString & type)
    return false;
 }
 
-/**
- * List of reserved keywords for this code generator.
- *
- * Just add new keywords, then mark all lines and
- * pipe it through the external 'sort' program.
- */
-static const char *ReservedKeywords[] = {
-  "break",
-  "case",
-  "const",
-  "continue",
-  "default",
-  "else",
-  "false",
-  "for",
-  "function",
-  "if",
-  "in",
-  "new",
-  "return",
-  "switch",
-  "this",
-  "true",
-  "var",
-  "while",
-  "with",
-  NULL
-};
+const QStringList JSWriter::reservedKeywords() const {
 
-/**
- * get list of reserved keywords
- */
-const QPtrList<const char *> * JSWriter::getReservedKeywords() {
-  if (pListOfReservedKeywords == NULL)
-  {
-    pListOfReservedKeywords = convertListOfReservedKeywords(ReservedKeywords);
+  static QStringList keywords;
+
+  if (keywords.isEmpty()) {
+    keywords << "break"
+             << "case"
+             << "const"
+             << "continue"
+             << "default"
+             << "else"
+             << "false"
+             << "for"
+             << "function"
+             << "if"
+             << "in"
+             << "new"
+             << "return"
+             << "switch"
+             << "this"
+             << "true"
+             << "var"
+             << "while"
+             << "with";
   }
 
-  return pListOfReservedKeywords;
+  return keywords;
 }
 
 #include "jswriter.moc"

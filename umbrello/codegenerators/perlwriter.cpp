@@ -28,7 +28,6 @@
 PerlWriter::PerlWriter( UMLDoc * doc, const char *name )
 	: SimpleCodeGenerator ( doc, name )
 {
-	pListOfReservedKeywords = NULL;
 }
 
 PerlWriter::~PerlWriter() {}
@@ -368,266 +367,254 @@ void PerlWriter::createDefaultDatatypes() {
 	m_doc->createDatatype("%");
 }
 
-/**
- * List of reserved keywords for this code generator.
- *
- * Just add new keywords, then mark all lines and
- * pipe it through the external 'sort' program.
- */
-static const char *ReservedKeywords[] = {
-  "abs",
-  "accept",
-  "alarm",
-  "and",
-  "atan2",
-  "BEGIN",
-  "bind",
-  "binmode",
-  "bless",
-  "byte",
-  "caller",
-  "carp",
-  "chdir",
-  "chmod",
-  "chomp",
-  "chop",
-  "chown",
-  "chr",
-  "chroot",
-  "close",
-  "closedir",
-  "cmp",
-  "confess",
-  "connect",
-  "continue",
-  "cos",
-  "croak",
-  "crypt",
-  "dbmclose",
-  "dbmopen",
-  "defined",
-  "delete",
-  "die",
-  "do",
-  "dump",
-  "each",
-  "else",
-  "elsif",
-  "END",
-  "endgrent",
-  "endhostent",
-  "endnetent",
-  "endprotoent",
-  "endpwent",
-  "endservent",
-  "eof",
-  "eq",
-  "eval",
-  "exec",
-  "exists",
-  "exit",
-  "exp",
-  "fcntl",
-  "fileno",
-  "flock",
-  "for",
-  "foreach",
-  "fork",
-  "format"
-  "formline",
-  "ge",
-  "getc",
-  "getgrent",
-  "getgrgid",
-  "getgrnam",
-  "gethostbyaddr",
-  "gethostbyname",
-  "gethostent",
-  "getlogin",
-  "getnetbyaddr",
-  "getnetbyname",
-  "getnetent",
-  "getpeername",
-  "getpgrp",
-  "getppid",
-  "getpriority",
-  "getprotobyname",
-  "getprotobynumber",
-  "getprotoent",
-  "getpwent",
-  "getpwnam",
-  "getpwuid",
-  "getservbyname",
-  "getservbyport",
-  "getservent",
-  "getsockname",
-  "getsockopt",
-  "glob",
-  "gmtime",
-  "goto",
-  "grep",
-  "gt",
-  "hex",
-  "if",
-  "import",
-  "index",
-  "int",
-  "integer",
-  "ioctl",
-  "join",
-  "keys",
-  "kill",
-  "last",
-  "lc",
-  "lcfirst",
-  "le",
-  "length",
-  "lib",
-  "link",
-  "listen",
-  "local",
-  "localtime",
-  "lock",
-  "log",
-  "lstat",
-  "lt",
-  "map",
-  "mkdir",
-  "msgctl",
-  "msgget",
-  "msgrcv",
-  "msgsnd",
-  "my",
-  "ne",
-  "new",
-  "next",
-  "no",
-  "not",
-  "oct",
-  "open",
-  "opendir",
-  "or",
-  "ord",
-  "our",
-  "pack",
-  "package",
-  "pipe",
-  "pop",
-  "pos",
-  "print",
-  "printf",
-  "prototype",
-  "push",
-  "quotemeta",
-  "rand",
-  "read",
-  "readdir",
-  "readline",
-  "readlink",
-  "readpipe",
-  "recv",
-  "redo",
-  "ref",
-  "rename",
-  "require",
-  "reset",
-  "return",
-  "reverse",
-  "rewinddir",
-  "rindex",
-  "rmdir",
-  "scalar",
-  "seek",
-  "seekdir",
-  "select",
-  "semctl",
-  "semget",
-  "semop",
-  "send",
-  "setgrent",
-  "sethostent",
-  "setnetent",
-  "setpgrp",
-  "setpriority",
-  "setprotoent",
-  "setpwent",
-  "setservent",
-  "setsockopt",
-  "shift",
-  "shmctl",
-  "shmget",
-  "shmread",
-  "shmwrite",
-  "shutdown",
-  "sigtrap",
-  "sin",
-  "sleep",
-  "socket",
-  "socketpair",
-  "sort",
-  "splice",
-  "split",
-  "sprintf",
-  "sqrt",
-  "srand",
-  "stat",
-  "strict",
-  "study",
-  "sub",
-  "subs",
-  "substr",
-  "switch",
-  "symlink",
-  "syscall",
-  "sysopen",
-  "sysread",
-  "sysseek",
-  "system",
-  "syswrite",
-  "tell",
-  "telldir",
-  "tie",
-  "tied",
-  "time",
-  "times",
-  "truncate",
-  "uc",
-  "ucfirst",
-  "umask",
-  "undef",
-  "unless",
-  "unlink",
-  "unpack",
-  "unshift",
-  "untie",
-  "until",
-  "use",
-  "utf8",
-  "utime",
-  "values",
-  "vars",
-  "vec",
-  "wait",
-  "waitpid",
-  "wantarray",
-  "warn",
-  "warnings",
-  "while",
-  "write",
-  "xor",
-  NULL
-};
+const QStringList PerlWriter::reservedKeywords() const {
 
-/**
- * get list of reserved keywords
- */
-const QPtrList<const char *> * PerlWriter::getReservedKeywords() {
-  if (pListOfReservedKeywords == NULL)
-  {
-    pListOfReservedKeywords = convertListOfReservedKeywords(ReservedKeywords);
+  static QStringList keywords;
+
+  if (keywords.isEmpty()) {
+    keywords << "abs"
+             << "accept"
+             << "alarm"
+             << "and"
+             << "atan2"
+             << "BEGIN"
+             << "bind"
+             << "binmode"
+             << "bless"
+             << "byte"
+             << "caller"
+             << "carp"
+             << "chdir"
+             << "chmod"
+             << "chomp"
+             << "chop"
+             << "chown"
+             << "chr"
+             << "chroot"
+             << "close"
+             << "closedir"
+             << "cmp"
+             << "confess"
+             << "connect"
+             << "continue"
+             << "cos"
+             << "croak"
+             << "crypt"
+             << "dbmclose"
+             << "dbmopen"
+             << "defined"
+             << "delete"
+             << "die"
+             << "do"
+             << "dump"
+             << "each"
+             << "else"
+             << "elsif"
+             << "END"
+             << "endgrent"
+             << "endhostent"
+             << "endnetent"
+             << "endprotoent"
+             << "endpwent"
+             << "endservent"
+             << "eof"
+             << "eq"
+             << "eval"
+             << "exec"
+             << "exists"
+             << "exit"
+             << "exp"
+             << "fcntl"
+             << "fileno"
+             << "flock"
+             << "for"
+             << "foreach"
+             << "fork"
+             << "format"
+             << "formline"
+             << "ge"
+             << "getc"
+             << "getgrent"
+             << "getgrgid"
+             << "getgrnam"
+             << "gethostbyaddr"
+             << "gethostbyname"
+             << "gethostent"
+             << "getlogin"
+             << "getnetbyaddr"
+             << "getnetbyname"
+             << "getnetent"
+             << "getpeername"
+             << "getpgrp"
+             << "getppid"
+             << "getpriority"
+             << "getprotobyname"
+             << "getprotobynumber"
+             << "getprotoent"
+             << "getpwent"
+             << "getpwnam"
+             << "getpwuid"
+             << "getservbyname"
+             << "getservbyport"
+             << "getservent"
+             << "getsockname"
+             << "getsockopt"
+             << "glob"
+             << "gmtime"
+             << "goto"
+             << "grep"
+             << "gt"
+             << "hex"
+             << "if"
+             << "import"
+             << "index"
+             << "int"
+             << "integer"
+             << "ioctl"
+             << "join"
+             << "keys"
+             << "kill"
+             << "last"
+             << "lc"
+             << "lcfirst"
+             << "le"
+             << "length"
+             << "lib"
+             << "link"
+             << "listen"
+             << "local"
+             << "localtime"
+             << "lock"
+             << "log"
+             << "lstat"
+             << "lt"
+             << "map"
+             << "mkdir"
+             << "msgctl"
+             << "msgget"
+             << "msgrcv"
+             << "msgsnd"
+             << "my"
+             << "ne"
+             << "new"
+             << "next"
+             << "no"
+             << "not"
+             << "oct"
+             << "open"
+             << "opendir"
+             << "or"
+             << "ord"
+             << "our"
+             << "pack"
+             << "package"
+             << "pipe"
+             << "pop"
+             << "pos"
+             << "print"
+             << "printf"
+             << "prototype"
+             << "push"
+             << "quotemeta"
+             << "rand"
+             << "read"
+             << "readdir"
+             << "readline"
+             << "readlink"
+             << "readpipe"
+             << "recv"
+             << "redo"
+             << "ref"
+             << "rename"
+             << "require"
+             << "reset"
+             << "return"
+             << "reverse"
+             << "rewinddir"
+             << "rindex"
+             << "rmdir"
+             << "scalar"
+             << "seek"
+             << "seekdir"
+             << "select"
+             << "semctl"
+             << "semget"
+             << "semop"
+             << "send"
+             << "setgrent"
+             << "sethostent"
+             << "setnetent"
+             << "setpgrp"
+             << "setpriority"
+             << "setprotoent"
+             << "setpwent"
+             << "setservent"
+             << "setsockopt"
+             << "shift"
+             << "shmctl"
+             << "shmget"
+             << "shmread"
+             << "shmwrite"
+             << "shutdown"
+             << "sigtrap"
+             << "sin"
+             << "sleep"
+             << "socket"
+             << "socketpair"
+             << "sort"
+             << "splice"
+             << "split"
+             << "sprintf"
+             << "sqrt"
+             << "srand"
+             << "stat"
+             << "strict"
+             << "study"
+             << "sub"
+             << "subs"
+             << "substr"
+             << "switch"
+             << "symlink"
+             << "syscall"
+             << "sysopen"
+             << "sysread"
+             << "sysseek"
+             << "system"
+             << "syswrite"
+             << "tell"
+             << "telldir"
+             << "tie"
+             << "tied"
+             << "time"
+             << "times"
+             << "truncate"
+             << "uc"
+             << "ucfirst"
+             << "umask"
+             << "undef"
+             << "unless"
+             << "unlink"
+             << "unpack"
+             << "unshift"
+             << "untie"
+             << "until"
+             << "use"
+             << "utf8"
+             << "utime"
+             << "values"
+             << "vars"
+             << "vec"
+             << "wait"
+             << "waitpid"
+             << "wantarray"
+             << "warn"
+             << "warnings"
+             << "while"
+             << "write"
+             << "xor";
   }
 
-  return pListOfReservedKeywords;
+  return keywords;
 }
 
 #include "perlwriter.moc"

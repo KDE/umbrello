@@ -59,7 +59,7 @@ public:
 	/**
 	 * get list of reserved keywords
 	 */
-	virtual const QPtrList<const char *> *getReservedKeywords();
+	virtual const QStringList reservedKeywords() const;
 
 private:
 
@@ -98,11 +98,6 @@ private:
 	  * @param php output stream for the PHP file
 	  */
 	void writeAttributes(UMLAttributeList &atList, QTextStream &php);
-
-	/**
-	 * list of reserved keywords
-	 */
-	QPtrList<const char *> *pListOfReservedKeywords;
 };
 
 #endif //PHP5WRITER

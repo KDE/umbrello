@@ -36,7 +36,6 @@
 
 PythonWriter::PythonWriter( UMLDoc *parent, const char *name ) :
 	SimpleCodeGenerator( parent, name) {
-	pListOfReservedKeywords = NULL;
 }
 
 PythonWriter::~PythonWriter() {}
@@ -265,160 +264,148 @@ bool PythonWriter::isType (QString & type)
    return false;
 }
 
-/**
- * List of reserved keywords for this code generator.
- *
- * Just add new keywords, then mark all lines and
- * pipe it through the external 'sort' program.
- */
-static const char *ReservedKeywords[] = {
-  "abs",
-  "and",
-  "apply",
-  "ArithmeticError",
-  "assert",
-  "AssertionError",
-  "AttributeError",
-  "break",
-  "buffer",
-  "callable",
-  "chr",
-  "class",
-  "classmethod",
-  "cmp",
-  "coerce",
-  "compile",
-  "complex",
-  "continue",
-  "def",
-  "del",
-  "delattr",
-  "DeprecationWarning",
-  "dict",
-  "dir",
-  "divmod",
-  "elif",
-  "Ellipsis",
-  "else",
-  "EnvironmentError",
-  "EOFError",
-  "eval",
-  "except",
-  "Exception",
-  "exec",
-  "execfile",
-  "file",
-  "filter",
-  "finally",
-  "float",
-  "FloatingPointError",
-  "for",
-  "from",
-  "getattr",
-  "global",
-  "globals",
-  "hasattr",
-  "hash",
-  "hex",
-  "id",
-  "if",
-  "import",
-  "__import__",
-  "ImportError",
-  "in",
-  "IndentationError",
-  "IndexError",
-  "input",
-  "int",
-  "intern",
-  "IOError",
-  "is",
-  "isinstance",
-  "issubclass",
-  "iter",
-  "KeyboardInterrupt",
-  "KeyError",
-  "lambda",
-  "len",
-  "list",
-  "locals",
-  "long",
-  "LookupError",
-  "map",
-  "max",
-  "MemoryError",
-  "min",
-  "NameError",
-  "None",
-  "not",
-  "NotImplemented",
-  "NotImplementedError",
-  "object",
-  "oct",
-  "open",
-  "or",
-  "ord",
-  "OSError",
-  "OverflowError",
-  "OverflowWarning",
-  "pass",
-  "pow",
-  "print",
-  "property",
-  "raise",
-  "range",
-  "raw_input",
-  "reduce",
-  "ReferenceError",
-  "reload",
-  "repr",
-  "return",
-  "round",
-  "RuntimeError",
-  "RuntimeWarning",
-  "setattr",
-  "slice",
-  "StandardError",
-  "staticmethod",
-  "StopIteration",
-  "str",
-  "super",
-  "SyntaxError",
-  "SyntaxWarning",
-  "SystemError",
-  "SystemExit",
-  "TabError",
-  "try",
-  "tuple",
-  "type",
-  "TypeError",
-  "UnboundLocalError",
-  "unichr",
-  "unicode",
-  "UnicodeError",
-  "UserWarning",
-  "ValueError",
-  "vars",
-  "Warning",
-  "while",
-  "WindowsError",
-  "xrange",
-  "yield",
-  "ZeroDivisionError",
-  "zip",
-  NULL
-};
+const QStringList PythonWriter::reservedKeywords() const {
 
-/**
- * get list of reserved keywords
- */
-const QPtrList<const char *> * PythonWriter::getReservedKeywords() {
-  if (pListOfReservedKeywords == NULL)
-  {
-    pListOfReservedKeywords = convertListOfReservedKeywords(ReservedKeywords);
+  static QStringList keywords;
+
+  if (keywords.isEmpty()) {
+    keywords << "abs"
+             << "and"
+             << "apply"
+             << "ArithmeticError"
+             << "assert"
+             << "AssertionError"
+             << "AttributeError"
+             << "break"
+             << "buffer"
+             << "callable"
+             << "chr"
+             << "class"
+             << "classmethod"
+             << "cmp"
+             << "coerce"
+             << "compile"
+             << "complex"
+             << "continue"
+             << "def"
+             << "del"
+             << "delattr"
+             << "DeprecationWarning"
+             << "dict"
+             << "dir"
+             << "divmod"
+             << "elif"
+             << "Ellipsis"
+             << "else"
+             << "EnvironmentError"
+             << "EOFError"
+             << "eval"
+             << "except"
+             << "Exception"
+             << "exec"
+             << "execfile"
+             << "file"
+             << "filter"
+             << "finally"
+             << "float"
+             << "FloatingPointError"
+             << "for"
+             << "from"
+             << "getattr"
+             << "global"
+             << "globals"
+             << "hasattr"
+             << "hash"
+             << "hex"
+             << "id"
+             << "if"
+             << "import"
+             << "__import__"
+             << "ImportError"
+             << "in"
+             << "IndentationError"
+             << "IndexError"
+             << "input"
+             << "int"
+             << "intern"
+             << "IOError"
+             << "is"
+             << "isinstance"
+             << "issubclass"
+             << "iter"
+             << "KeyboardInterrupt"
+             << "KeyError"
+             << "lambda"
+             << "len"
+             << "list"
+             << "locals"
+             << "long"
+             << "LookupError"
+             << "map"
+             << "max"
+             << "MemoryError"
+             << "min"
+             << "NameError"
+             << "None"
+             << "not"
+             << "NotImplemented"
+             << "NotImplementedError"
+             << "object"
+             << "oct"
+             << "open"
+             << "or"
+             << "ord"
+             << "OSError"
+             << "OverflowError"
+             << "OverflowWarning"
+             << "pass"
+             << "pow"
+             << "print"
+             << "property"
+             << "raise"
+             << "range"
+             << "raw_input"
+             << "reduce"
+             << "ReferenceError"
+             << "reload"
+             << "repr"
+             << "return"
+             << "round"
+             << "RuntimeError"
+             << "RuntimeWarning"
+             << "setattr"
+             << "slice"
+             << "StandardError"
+             << "staticmethod"
+             << "StopIteration"
+             << "str"
+             << "super"
+             << "SyntaxError"
+             << "SyntaxWarning"
+             << "SystemError"
+             << "SystemExit"
+             << "TabError"
+             << "try"
+             << "tuple"
+             << "type"
+             << "TypeError"
+             << "UnboundLocalError"
+             << "unichr"
+             << "unicode"
+             << "UnicodeError"
+             << "UserWarning"
+             << "ValueError"
+             << "vars"
+             << "Warning"
+             << "while"
+             << "WindowsError"
+             << "xrange"
+             << "yield"
+             << "ZeroDivisionError"
+             << "zip";
   }
 
-  return pListOfReservedKeywords;
+  return keywords;
 }
 
 #include "pythonwriter.moc"

@@ -26,7 +26,6 @@
 
 ASWriter::ASWriter( UMLDoc *parent, const char *name )
 	:SimpleCodeGenerator( parent, name) {
-	pListOfReservedKeywords = NULL;
 }
 
 ASWriter::~ASWriter() {}
@@ -305,459 +304,446 @@ bool ASWriter::isType (QString & type)
    return false;
 }
 
-/**
- * List of reserved keywords for this code generator.
- *
- * Just add new keywords, then mark all lines and
- * pipe it through the external 'sort' program.
- */
-static const char *ReservedKeywords[] = {
-  "abs",
-  "acos",
-  "add",
-  "addListener",
-  "addProperty",
-  "align",
-  "_alpha",
-  "and",
-  "appendChild",
-  "apply",
-  "Array",
-  "asin",
-  "atan",
-  "atan2",
-  "attachMovie",
-  "attachSound",
-  "attributes",
-  "autoSize",
-  "background",
-  "backgroundColor",
-  "BACKSPACE",
-  "beginFill",
-  "beginGradientFill",
-  "blockIndent",
-  "bold",
-  "Boolean",
-  "border",
-  "borderColor",
-  "bottomScroll",
-  "break",
-  "bullet",
-  "call",
-  "callee",
-  "caller",
-  "capabilities",
-  "CAPSLOCK",
-  "case",
-  "ceil",
-  "charAt",
-  "charCodeAt",
-  "childNodes",
-  "chr",
-  "clear",
-  "clearInterval",
-  "cloneNode",
-  "close",
-  "color",
-  "Color",
-  "comment",
-  "concat",
-  "connect",
-  "contentType",
-  "continue",
-  "CONTROL",
-  "cos",
-  "createElement",
-  "createEmptyMovieClip",
-  "createTextField",
-  "createTextNode",
-  "_currentframe",
-  "curveTo",
-  "Date",
-  "default",
-  "delete",
-  "DELETEKEY",
-  "do",
-  "docTypeDecl",
-  "DOWN",
-  "_droptarget",
-  "duplicateMovieClip",
-  "duration",
-  "E",
-  "else",
-  "embedFonts",
-  "enabled",
-  "END",
-  "endFill",
-  "endinitclip",
-  "ENTER",
-  "eq",
-  "escape",
-  "ESCAPE",
-  "eval",
-  "evaluate",
-  "exp",
-  "false",
-  "firstChild",
-  "floor",
-  "focusEnabled",
-  "_focusrect",
-  "font",
-  "for",
-  "_framesloaded",
-  "fromCharCode",
-  "fscommand",
-  "function",
-  "ge",
-  "get",
-  "getAscii",
-  "getBeginIndex",
-  "getBounds",
-  "getBytesLoaded",
-  "getBytesTotal",
-  "getCaretIndex",
-  "getCode",
-  "getDate",
-  "getDay",
-  "getDepth",
-  "getEndIndex",
-  "getFocus",
-  "getFontList",
-  "getFullYear",
-  "getHours",
-  "getMilliseconds",
-  "getMinutes",
-  "getMonth",
-  "getNewTextFormat",
-  "getPan",
-  "getProperty",
-  "getRGB",
-  "getSeconds",
-  "getTextExtent",
-  "getTextFormat",
-  "getTime",
-  "getTimer",
-  "getTimezoneOffset",
-  "getTransform",
-  "getURL",
-  "getUTCDate",
-  "getUTCDay",
-  "getUTCFullYear",
-  "getUTCHours",
-  "getUTCMilliseconds",
-  "getUTCMinutes",
-  "getUTCMonth",
-  "getUTCSeconds",
-  "getVersion",
-  "getVolume",
-  "getYear",
-  "_global",
-  "globalToLocal",
-  "goto",
-  "gotoAndPlay",
-  "gotoAndStop",
-  "gt",
-  "hasAccessibility",
-  "hasAudio",
-  "hasAudioEncoder",
-  "hasChildNodes",
-  "hasMP3",
-  "hasVideoEncoder",
-  "height",
-  "_height",
-  "hide",
-  "_highquality",
-  "hitArea",
-  "hitTest",
-  "HOME",
-  "hscroll",
-  "html",
-  "htmlText",
-  "if",
-  "ifFrameLoaded",
-  "ignoreWhite",
-  "in",
-  "include",
-  "indent",
-  "indexOf",
-  "initclip",
-  "INSERT",
-  "insertBefore",
-  "install",
-  "instanceof",
-  "int",
-  "isActive",
-  "isDown",
-  "isFinite",
-  "isNaN",
-  "isToggled",
-  "italic",
-  "join",
-  "lastChild",
-  "lastIndexOf",
-  "le",
-  "leading",
-  "LEFT",
-  "leftMargin",
-  "length",
-  "_level",
-  "lineStyle",
-  "lineTo",
-  "list",
-  "LN10",
-  "LN2",
-  "load",
-  "loaded",
-  "loadMovie",
-  "loadMovieNum",
-  "loadSound",
-  "loadVariables",
-  "loadVariablesNum",
-  "LoadVars",
-  "localToGlobal",
-  "log",
-  "LOG10E",
-  "LOG2E",
-  "max",
-  "maxChars",
-  "maxhscroll",
-  "maxscroll",
-  "MAX_VALUE",
-  "mbchr",
-  "mblength",
-  "mbord",
-  "mbsubstring",
-  "method",
-  "min",
-  "MIN_VALUE",
-  "moveTo",
-  "multiline",
-  "_name",
-  "NaN",
-  "ne",
-  "NEGATIVE_INFINITY",
-  "new",
-  "newline",
-  "nextFrame",
-  "nextScene",
-  "nextSibling",
-  "nodeName",
-  "nodeType",
-  "nodeValue",
-  "not",
-  "null",
-  "Number",
-  "Object",
-  "on",
-  "onChanged",
-  "onClipEvent",
-  "onClose",
-  "onConnect",
-  "onData",
-  "onDragOut",
-  "onDragOver",
-  "onEnterFrame",
-  "onKeyDown",
-  "onKeyUp",
-  "onKillFocus",
-  "onLoad",
-  "onMouseDown",
-  "onMouseMove",
-  "onMouseUp",
-  "onPress",
-  "onRelease",
-  "onReleaseOutside",
-  "onResize",
-  "onRollOut",
-  "onRollOver",
-  "onScroller",
-  "onSetFocus",
-  "onSoundComplete",
-  "onUnload",
-  "onUpdate",
-  "onXML",
-  "or",
-  "ord",
-  "_parent",
-  "parentNode",
-  "parseFloat",
-  "parseInt",
-  "parseXML",
-  "password",
-  "PGDN",
-  "PGUP",
-  "PI",
-  "pixelAspectRatio",
-  "play",
-  "pop",
-  "position",
-  "POSITIVE_INFINITY",
-  "pow",
-  "prevFrame",
-  "previousSibling",
-  "prevScene",
-  "print",
-  "printAsBitmap",
-  "printAsBitmapNum",
-  "printNum",
-  "__proto__",
-  "prototype",
-  "push",
-  "_quality",
-  "random",
-  "registerClass",
-  "removeListener",
-  "removeMovieClip",
-  "removeNode",
-  "removeTextField",
-  "replaceSel",
-  "restrict",
-  "return",
-  "reverse",
-  "RIGHT",
-  "rightMargin",
-  "_root",
-  "_rotation",
-  "round",
-  "scaleMode",
-  "screenColor",
-  "screenDPI",
-  "screenResolutionX",
-  "screenResolutionY",
-  "scroll",
-  "selectable",
-  "send",
-  "sendAndLoad",
-  "set",
-  "setDate",
-  "setFocus",
-  "setFullYear",
-  "setHours",
-  "setInterval",
-  "setMask",
-  "setMilliseconds",
-  "setMinutes",
-  "setMonth",
-  "setNewTextFormat",
-  "setPan",
-  "setProperty",
-  "setRGB",
-  "setSeconds",
-  "setSelection",
-  "setTextFormat",
-  "setTime",
-  "setTransform",
-  "setUTCDate",
-  "setUTCFullYear",
-  "setUTCHours",
-  "setUTCMilliseconds",
-  "setUTCMinutes",
-  "setUTCMonth",
-  "setUTCSeconds",
-  "setVolume",
-  "setYear",
-  "shift",
-  "SHIFT",
-  "show",
-  "showMenu",
-  "sin",
-  "size",
-  "slice",
-  "sort",
-  "sortOn",
-  "Sound",
-  "_soundbuftime",
-  "SPACE",
-  "splice",
-  "split",
-  "sqrt",
-  "SQRT1_2",
-  "SQRT2",
-  "start",
-  "startDrag",
-  "status",
-  "stop",
-  "stopAllSounds",
-  "stopDrag",
-  "String",
-  "substr",
-  "substring",
-  "super",
-  "swapDepths",
-  "switch",
-  "TAB",
-  "tabChildren",
-  "tabEnabled",
-  "tabIndex",
-  "tabStops",
-  "tan",
-  "target",
-  "_target",
-  "targetPath",
-  "tellTarget",
-  "text",
-  "textColor",
-  "TextFormat",
-  "textHeight",
-  "textWidth",
-  "this",
-  "toggleHighQuality",
-  "toLowerCase",
-  "toString",
-  "_totalframes",
-  "toUpperCase",
-  "trace",
-  "trackAsMenu",
-  "true",
-  "type",
-  "typeof",
-  "undefined",
-  "underline",
-  "unescape",
-  "uninstall",
-  "unloadMovie",
-  "unloadMovieNum",
-  "unshift",
-  "unwatch",
-  "UP",
-  "updateAfterEvent",
-  "url",
-  "_url",
-  "useHandCursor",
-  "UTC",
-  "valueOf",
-  "var",
-  "variable",
-  "_visible",
-  "void",
-  "watch",
-  "while",
-  "width",
-  "_width",
-  "with",
-  "wordWrap",
-  "_x",
-  "XML",
-  "xmlDecl",
-  "XMLSocket",
-  "_xmouse",
-  "_xscale",
-  "_y",
-  "_ymouse",
-  "_yscale",
-  NULL
-};
+const QStringList ASWriter::reservedKeywords() const {
 
-/**
- * get list of reserved keywords
- */
-const QPtrList<const char *> * ASWriter::getReservedKeywords() {
-  if (pListOfReservedKeywords == NULL)
-  {
-    pListOfReservedKeywords = convertListOfReservedKeywords(ReservedKeywords);
+  static QStringList keywords;
+
+  if ( keywords.isEmpty() ) {
+    keywords << "abs"
+             << "acos"
+             << "add"
+             << "addListener"
+             << "addProperty"
+             << "align"
+             << "_alpha"
+             << "and"
+             << "appendChild"
+             << "apply"
+             << "Array"
+             << "asin"
+             << "atan"
+             << "atan2"
+             << "attachMovie"
+             << "attachSound"
+             << "attributes"
+             << "autoSize"
+             << "background"
+             << "backgroundColor"
+             << "BACKSPACE"
+             << "beginFill"
+             << "beginGradientFill"
+             << "blockIndent"
+             << "bold"
+             << "Boolean"
+             << "border"
+             << "borderColor"
+             << "bottomScroll"
+             << "break"
+             << "bullet"
+             << "call"
+             << "callee"
+             << "caller"
+             << "capabilities"
+             << "CAPSLOCK"
+             << "case"
+             << "ceil"
+             << "charAt"
+             << "charCodeAt"
+             << "childNodes"
+             << "chr"
+             << "clear"
+             << "clearInterval"
+             << "cloneNode"
+             << "close"
+             << "color"
+             << "Color"
+             << "comment"
+             << "concat"
+             << "connect"
+             << "contentType"
+             << "continue"
+             << "CONTROL"
+             << "cos"
+             << "createElement"
+             << "createEmptyMovieClip"
+             << "createTextField"
+             << "createTextNode"
+             << "_currentframe"
+             << "curveTo"
+             << "Date"
+             << "default"
+             << "delete"
+             << "DELETEKEY"
+             << "do"
+             << "docTypeDecl"
+             << "DOWN"
+             << "_droptarget"
+             << "duplicateMovieClip"
+             << "duration"
+             << "E"
+             << "else"
+             << "embedFonts"
+             << "enabled"
+             << "END"
+             << "endFill"
+             << "endinitclip"
+             << "ENTER"
+             << "eq"
+             << "escape"
+             << "ESCAPE"
+             << "eval"
+             << "evaluate"
+             << "exp"
+             << "false"
+             << "firstChild"
+             << "floor"
+             << "focusEnabled"
+             << "_focusrect"
+             << "font"
+             << "for"
+             << "_framesloaded"
+             << "fromCharCode"
+             << "fscommand"
+             << "function"
+             << "ge"
+             << "get"
+             << "getAscii"
+             << "getBeginIndex"
+             << "getBounds"
+             << "getBytesLoaded"
+             << "getBytesTotal"
+             << "getCaretIndex"
+             << "getCode"
+             << "getDate"
+             << "getDay"
+             << "getDepth"
+             << "getEndIndex"
+             << "getFocus"
+             << "getFontList"
+             << "getFullYear"
+             << "getHours"
+             << "getMilliseconds"
+             << "getMinutes"
+             << "getMonth"
+             << "getNewTextFormat"
+             << "getPan"
+             << "getProperty"
+             << "getRGB"
+             << "getSeconds"
+             << "getTextExtent"
+             << "getTextFormat"
+             << "getTime"
+             << "getTimer"
+             << "getTimezoneOffset"
+             << "getTransform"
+             << "getURL"
+             << "getUTCDate"
+             << "getUTCDay"
+             << "getUTCFullYear"
+             << "getUTCHours"
+             << "getUTCMilliseconds"
+             << "getUTCMinutes"
+             << "getUTCMonth"
+             << "getUTCSeconds"
+             << "getVersion"
+             << "getVolume"
+             << "getYear"
+             << "_global"
+             << "globalToLocal"
+             << "goto"
+             << "gotoAndPlay"
+             << "gotoAndStop"
+             << "gt"
+             << "hasAccessibility"
+             << "hasAudio"
+             << "hasAudioEncoder"
+             << "hasChildNodes"
+             << "hasMP3"
+             << "hasVideoEncoder"
+             << "height"
+             << "_height"
+             << "hide"
+             << "_highquality"
+             << "hitArea"
+             << "hitTest"
+             << "HOME"
+             << "hscroll"
+             << "html"
+             << "htmlText"
+             << "if"
+             << "ifFrameLoaded"
+             << "ignoreWhite"
+             << "in"
+             << "include"
+             << "indent"
+             << "indexOf"
+             << "initclip"
+             << "INSERT"
+             << "insertBefore"
+             << "install"
+             << "instanceof"
+             << "int"
+             << "isActive"
+             << "isDown"
+             << "isFinite"
+             << "isNaN"
+             << "isToggled"
+             << "italic"
+             << "join"
+             << "lastChild"
+             << "lastIndexOf"
+             << "le"
+             << "leading"
+             << "LEFT"
+             << "leftMargin"
+             << "length"
+             << "_level"
+             << "lineStyle"
+             << "lineTo"
+             << "list"
+             << "LN10"
+             << "LN2"
+             << "load"
+             << "loaded"
+             << "loadMovie"
+             << "loadMovieNum"
+             << "loadSound"
+             << "loadVariables"
+             << "loadVariablesNum"
+             << "LoadVars"
+             << "localToGlobal"
+             << "log"
+             << "LOG10E"
+             << "LOG2E"
+             << "max"
+             << "maxChars"
+             << "maxhscroll"
+             << "maxscroll"
+             << "MAX_VALUE"
+             << "mbchr"
+             << "mblength"
+             << "mbord"
+             << "mbsubstring"
+             << "method"
+             << "min"
+             << "MIN_VALUE"
+             << "moveTo"
+             << "multiline"
+             << "_name"
+             << "NaN"
+             << "ne"
+             << "NEGATIVE_INFINITY"
+             << "new"
+             << "newline"
+             << "nextFrame"
+             << "nextScene"
+             << "nextSibling"
+             << "nodeName"
+             << "nodeType"
+             << "nodeValue"
+             << "not"
+             << "null"
+             << "Number"
+             << "Object"
+             << "on"
+             << "onChanged"
+             << "onClipEvent"
+             << "onClose"
+             << "onConnect"
+             << "onData"
+             << "onDragOut"
+             << "onDragOver"
+             << "onEnterFrame"
+             << "onKeyDown"
+             << "onKeyUp"
+             << "onKillFocus"
+             << "onLoad"
+             << "onMouseDown"
+             << "onMouseMove"
+             << "onMouseUp"
+             << "onPress"
+             << "onRelease"
+             << "onReleaseOutside"
+             << "onResize"
+             << "onRollOut"
+             << "onRollOver"
+             << "onScroller"
+             << "onSetFocus"
+             << "onSoundComplete"
+             << "onUnload"
+             << "onUpdate"
+             << "onXML"
+             << "or"
+             << "ord"
+             << "_parent"
+             << "parentNode"
+             << "parseFloat"
+             << "parseInt"
+             << "parseXML"
+             << "password"
+             << "PGDN"
+             << "PGUP"
+             << "PI"
+             << "pixelAspectRatio"
+             << "play"
+             << "pop"
+             << "position"
+             << "POSITIVE_INFINITY"
+             << "pow"
+             << "prevFrame"
+             << "previousSibling"
+             << "prevScene"
+             << "print"
+             << "printAsBitmap"
+             << "printAsBitmapNum"
+             << "printNum"
+             << "__proto__"
+             << "prototype"
+             << "push"
+             << "_quality"
+             << "random"
+             << "registerClass"
+             << "removeListener"
+             << "removeMovieClip"
+             << "removeNode"
+             << "removeTextField"
+             << "replaceSel"
+             << "restrict"
+             << "return"
+             << "reverse"
+             << "RIGHT"
+             << "rightMargin"
+             << "_root"
+             << "_rotation"
+             << "round"
+             << "scaleMode"
+             << "screenColor"
+             << "screenDPI"
+             << "screenResolutionX"
+             << "screenResolutionY"
+             << "scroll"
+             << "selectable"
+             << "send"
+             << "sendAndLoad"
+             << "set"
+             << "setDate"
+             << "setFocus"
+             << "setFullYear"
+             << "setHours"
+             << "setInterval"
+             << "setMask"
+             << "setMilliseconds"
+             << "setMinutes"
+             << "setMonth"
+             << "setNewTextFormat"
+             << "setPan"
+             << "setProperty"
+             << "setRGB"
+             << "setSeconds"
+             << "setSelection"
+             << "setTextFormat"
+             << "setTime"
+             << "setTransform"
+             << "setUTCDate"
+             << "setUTCFullYear"
+             << "setUTCHours"
+             << "setUTCMilliseconds"
+             << "setUTCMinutes"
+             << "setUTCMonth"
+             << "setUTCSeconds"
+             << "setVolume"
+             << "setYear"
+             << "shift"
+             << "SHIFT"
+             << "show"
+             << "showMenu"
+             << "sin"
+             << "size"
+             << "slice"
+             << "sort"
+             << "sortOn"
+             << "Sound"
+             << "_soundbuftime"
+             << "SPACE"
+             << "splice"
+             << "split"
+             << "sqrt"
+             << "SQRT1_2"
+             << "SQRT2"
+             << "start"
+             << "startDrag"
+             << "status"
+             << "stop"
+             << "stopAllSounds"
+             << "stopDrag"
+             << "String"
+             << "substr"
+             << "substring"
+             << "super"
+             << "swapDepths"
+             << "switch"
+             << "TAB"
+             << "tabChildren"
+             << "tabEnabled"
+             << "tabIndex"
+             << "tabStops"
+             << "tan"
+             << "target"
+             << "_target"
+             << "targetPath"
+             << "tellTarget"
+             << "text"
+             << "textColor"
+             << "TextFormat"
+             << "textHeight"
+             << "textWidth"
+             << "this"
+             << "toggleHighQuality"
+             << "toLowerCase"
+             << "toString"
+             << "_totalframes"
+             << "toUpperCase"
+             << "trace"
+             << "trackAsMenu"
+             << "true"
+             << "type"
+             << "typeof"
+             << "undefined"
+             << "underline"
+             << "unescape"
+             << "uninstall"
+             << "unloadMovie"
+             << "unloadMovieNum"
+             << "unshift"
+             << "unwatch"
+             << "UP"
+             << "updateAfterEvent"
+             << "url"
+             << "_url"
+             << "useHandCursor"
+             << "UTC"
+             << "valueOf"
+             << "var"
+             << "variable"
+             << "_visible"
+             << "void"
+             << "watch"
+             << "while"
+             << "width"
+             << "_width"
+             << "with"
+             << "wordWrap"
+             << "_x"
+             << "XML"
+             << "xmlDecl"
+             << "XMLSocket"
+             << "_xmouse"
+             << "_xscale"
+             << "_y"
+             << "_ymouse";
   }
 
-  return pListOfReservedKeywords;
+  return keywords;
 }
 
 #include "aswriter.moc"

@@ -36,8 +36,6 @@ CPPCodeGenerator::CPPCodeGenerator ( UMLDoc * parentDoc , const char * name)
 
 	//m_parentDoc = parentDoc; // this should be done by the call to the parent constructor?
 	initAttributes();
-
-	pListOfReservedKeywords = NULL;
 }
 
 CPPCodeGenerator::~CPPCodeGenerator ( ) {
@@ -415,378 +413,366 @@ void CPPCodeGenerator::createDefaultDatatypes() {
 	m_document->createDatatype("string");
 }
 
-/**
- * List of reserved keywords for this code generator.
- *
- * Just add new keywords, then mark all lines and
- * pipe it through the external 'sort' program.
- */
-static const char *ReservedKeywords[] = {
-	"and",
-	"and_eq",
-	"__asm__",
-	"asm",
-	"__attribute__",
-	"auto",
-	"bitand",
-	"bitor",
-	"bool",
-	"break",
-	"BUFSIZ",
-	"case",
-	"catch",
-	"char",
-	"CHAR_BIT",
-	"CHAR_MAX",
-	"CHAR_MIN",
-	"class",
-	"CLOCKS_PER_SEC",
-	"clock_t",
-	"compl",
-	"__complex__",
-	"complex",
-	"const",
-	"const_cast",
-	"continue",
-	"__DATE__",
-	"DBL_DIG",
-	"DBL_EPSILON",
-	"DBL_MANT_DIG",
-	"DBL_MAX",
-	"DBL_MAX_10_EXP",
-	"DBL_MAX_EXP",
-	"DBL_MIN",
-	"DBL_MIN_10_EXP",
-	"DBL_MIN_EXP",
-	"default",
-	"delete",
-	"DIR",
-	"div_t",
-	"do",
-	"double",
-	"dynamic_cast",
-	"E2BIG",
-	"EACCES",
-	"EAGAIN",
-	"EBADF",
-	"EBADMSG",
-	"EBUSY",
-	"ECANCELED",
-	"ECHILD",
-	"EDEADLK",
-	"EDOM",
-	"EEXIST",
-	"EFAULT",
-	"EFBIG",
-	"EILSEQ",
-	"EINPROGRESS",
-	"EINTR",
-	"EINVAL",
-	"EIO",
-	"EISDIR",
-	"else",
-	"EMFILE",
-	"EMLINK",
-	"EMSGSIZE",
-	"ENAMETOOLONG",
-	"ENFILE",
-	"ENODEV",
-	"ENOENT",
-	"ENOEXEC",
-	"ENOLCK",
-	"ENOMEM",
-	"ENOSPC",
-	"ENOSYS",
-	"ENOTDIR",
-	"ENOTEMPTY",
-	"ENOTSUP",
-	"ENOTTY",
-	"enum",
-	"ENXIO",
-	"EOF",
-	"EPERM",
-	"EPIPE",
-	"ERANGE",
-	"EROFS",
-	"ESPIPE",
-	"ESRCH",
-	"ETIMEDOUT",
-	"EXDEV",
-	"EXIT_FAILURE",
-	"EXIT_SUCCESS",
-	"explicit",
-	"export",
-	"extern",
-	"false",
-	"__FILE__",
-	"FILE",
-	"FILENAME_MAX",
-	"float",
-	"FLT_DIG",
-	"FLT_EPSILON",
-	"FLT_MANT_DIG",
-	"FLT_MAX",
-	"FLT_MAX_10_EXP",
-	"FLT_MAX_EXP",
-	"FLT_MIN",
-	"FLT_MIN_10_EXP",
-	"FLT_MIN_EXP",
-	"FLT_RADIX",
-	"FLT_ROUNDS",
-	"FOPEN_MAX",
-	"for",
-	"fpos_t",
-	"friend",
-	"__FUNCTION__",
-	"__GNUC__",
-	"goto",
-	"HUGE_VAL",
-	"if",
-	"__imag__",
-	"inline",
-	"int",
-	"INT16_MAX",
-	"INT16_MIN",
-	"int16_t",
-	"INT32_MAX",
-	"INT32_MIN",
-	"int32_t",
-	"INT64_MAX",
-	"INT64_MIN",
-	"int64_t",
-	"INT8_MAX",
-	"INT8_MIN",
-	"int8_t",
-	"INT_FAST16_MAX",
-	"INT_FAST16_MIN",
-	"int_fast16_t",
-	"INT_FAST32_MAX",
-	"INT_FAST32_MIN",
-	"int_fast32_t",
-	"INT_FAST64_MAX",
-	"INT_FAST64_MIN",
-	"int_fast64_t",
-	"INT_FAST8_MAX",
-	"INT_FAST8_MIN",
-	"int_fast8_t",
-	"INT_LEAST16_MAX",
-	"INT_LEAST16_MIN",
-	"int_least16_t",
-	"INT_LEAST32_MAX",
-	"INT_LEAST32_MIN",
-	"int_least32_t",
-	"INT_LEAST64_MAX",
-	"INT_LEAST64_MIN",
-	"int_least64_t",
-	"INT_LEAST8_MAX",
-	"INT_LEAST8_MIN",
-	"int_least8_t",
-	"INT_MAX",
-	"INTMAX_MAX",
-	"INTMAX_MIN",
-	"intmax_t",
-	"INT_MIN",
-	"INTPTR_MAX",
-	"INTPTR_MIN",
-	"intptr_t",
-	"_IOFBF",
-	"_IOLBF",
-	"_IONBF",
-	"jmp_buf",
-	"__label__",
-	"LC_ALL",
-	"LC_COLLATE",
-	"LC_CTYPE",
-	"LC_MONETARY",
-	"LC_NUMERIC",
-	"LC_TIME",
-	"LDBL_DIG",
-	"LDBL_EPSILON",
-	"LDBL_MANT_DIG",
-	"LDBL_MAX",
-	"LDBL_MAX_10_EXP",
-	"LDBL_MAX_EXP",
-	"LDBL_MIN",
-	"LDBL_MIN_10_EXP",
-	"LDBL_MIN_EXP",
-	"ldiv_t",
-	"__LINE__",
-	"LLONG_MAX",
-	"long",
-	"LONG_MAX",
-	"LONG_MIN",
-	"L_tmpnam",
-	"M_1_PI",
-	"M_2_PI",
-	"M_2_SQRTPI",
-	"MB_CUR_MAX",
-	"MB_LEN_MAX",
-	"mbstate_t",
-	"M_E",
-	"M_LN10",
-	"M_LN2",
-	"M_LOG10E",
-	"M_LOG2E",
-	"M_PI",
-	"M_PI_2",
-	"M_PI_4",
-	"M_SQRT1_2",
-	"M_SQRT2",
-	"mutable",
-	"namespace",
-	"new",
-	"not",
-	"not_eq",
-	"NPOS",
-	"NULL",
-	"operator",
-	"or",
-	"or_eq",
-	"__PRETTY_FUNCTION__",
-	"private",
-	"protected",
-	"PTRDIFF_MAX",
-	"PTRDIFF_MIN",
-	"ptrdiff_t",
-	"public",
-	"RAND_MAX",
-	"__real__",
-	"register",
-	"reinterpret_cast",
-	"restrict",
-	"return",
-	"SCHAR_MAX",
-	"SCHAR_MIN",
-	"SEEK_CUR",
-	"SEEK_END",
-	"SEEK_SET",
-	"short",
-	"SHRT_MAX",
-	"SHRT_MIN",
-	"SIGABRT",
-	"SIGALRM",
-	"SIG_ATOMIC_MAX",
-	"SIG_ATOMIC_MIN",
-	"sig_atomic_t",
-	"SIGCHLD",
-	"SIGCONT",
-	"SIG_DFL",
-	"SIG_ERR",
-	"SIGFPE",
-	"SIGHUP",
-	"SIG_IGN",
-	"SIGILL",
-	"SIGINT",
-	"SIGKILL",
-	"signed",
-	"SIGPIPE",
-	"SIGQUIT",
-	"SIGSEGV",
-	"SIGSTOP",
-	"SIGTERM",
-	"SIGTRAP",
-	"SIGTSTP",
-	"SIGTTIN",
-	"SIGTTOU",
-	"SIGUSR1",
-	"SIGUSR2",
-	"SINT_MAX",
-	"SINT_MIN",
-	"SIZE_MAX",
-	"sizeof",
-	"size_t",
-	"SLONG_MAX",
-	"SLONG_MIN",
-	"SSHRT_MAX",
-	"SSHRT_MIN",
-	"ssize_t",
-	"static",
-	"static_cast",
-	"__STDC__",
-	"__STDC_VERSION__",
-	"stderr",
-	"stdin",
-	"stdout",
-	"struct",
-	"switch",
-	"template",
-	"this",
-	"throw",
-	"__TIME__",
-	"time_t",
-	"TMP_MAX",
-	"true",
-	"try",
-	"typedef",
-	"typeid",
-	"typename",
-	"typeof",
-	"UCHAR_MAX",
-	"UINT16_MAX",
-	"uint16_t",
-	"UINT32_MAX",
-	"uint32_t",
-	"UINT64_MAX",
-	"uint64_t",
-	"UINT8_MAX",
-	"uint8_t",
-	"UINT_FAST16_MAX",
-	"uint_fast16_t",
-	"UINT_FAST32_MAX",
-	"uint_fast32_t",
-	"UINT_FAST64_MAX",
-	"uint_fast64_t",
-	"UINT_FAST8_MAX",
-	"uint_fast8_t",
-	"UINT_LEAST16_MAX",
-	"uint_least16_t",
-	"UINT_LEAST32_MAX",
-	"uint_least32_t",
-	"UINT_LEAST64_MAX",
-	"uint_least64_t",
-	"UINT_LEAST8_MAX",
-	"uint_least8_t",
-	"UINT_MAX",
-	"UINTMAX_MAX",
-	"uintmax_t",
-	"UINTPTR_MAX",
-	"uintptr_t",
-	"ULLONG_MAX",
-	"ULONG_MAX",
-	"union",
-	"unsigned",
-	"USHRT_MAX",
-	"using",
-	"va_list",
-	"virtual",
-	"void",
-	"__volatile__",
-	"volatile",
-	"WCHAR_MAX",
-	"WCHAR_MIN",
-	"wchar_t",
-	"wctrans_t",
-	"wctype_t",
-	"WEOF",
-	"while",
-	"WINT_MAX",
-	"WINT_MIN",
-	"wint_t",
-	"xor",
-	"xor_eq",
-  NULL
-};
+const QStringList CPPCodeGenerator::reservedKeywords() const {
 
-/**
- * get list of reserved keywords
- */
-const QPtrList<const char *> * CPPCodeGenerator::getReservedKeywords() {
-  if (pListOfReservedKeywords == NULL)
-  {
-    pListOfReservedKeywords = convertListOfReservedKeywords(ReservedKeywords);
+  static QStringList keywords;
+
+  if (keywords.isEmpty()) {
+    keywords.append( "and" );
+    keywords.append( "and_eq" );
+    keywords.append( "__asm__" );
+    keywords.append( "asm" );
+    keywords.append( "__attribute__" );
+    keywords.append( "auto" );
+    keywords.append( "bitand" );
+    keywords.append( "bitor" );
+    keywords.append( "bool" );
+    keywords.append( "break" );
+    keywords.append( "BUFSIZ" );
+    keywords.append( "case" );
+    keywords.append( "catch" );
+    keywords.append( "char" );
+    keywords.append( "CHAR_BIT" );
+    keywords.append( "CHAR_MAX" );
+    keywords.append( "CHAR_MIN" );
+    keywords.append( "class" );
+    keywords.append( "CLOCKS_PER_SEC" );
+    keywords.append( "clock_t" );
+    keywords.append( "compl" );
+    keywords.append( "__complex__" );
+    keywords.append( "complex" );
+    keywords.append( "const" );
+    keywords.append( "const_cast" );
+    keywords.append( "continue" );
+    keywords.append( "__DATE__" );
+    keywords.append( "DBL_DIG" );
+    keywords.append( "DBL_EPSILON" );
+    keywords.append( "DBL_MANT_DIG" );
+    keywords.append( "DBL_MAX" );
+    keywords.append( "DBL_MAX_10_EXP" );
+    keywords.append( "DBL_MAX_EXP" );
+    keywords.append( "DBL_MIN" );
+    keywords.append( "DBL_MIN_10_EXP" );
+    keywords.append( "DBL_MIN_EXP" );
+    keywords.append( "default" );
+    keywords.append( "delete" );
+    keywords.append( "DIR" );
+    keywords.append( "div_t" );
+    keywords.append( "do" );
+    keywords.append( "double" );
+    keywords.append( "dynamic_cast" );
+    keywords.append( "E2BIG" );
+    keywords.append( "EACCES" );
+    keywords.append( "EAGAIN" );
+    keywords.append( "EBADF" );
+    keywords.append( "EBADMSG" );
+    keywords.append( "EBUSY" );
+    keywords.append( "ECANCELED" );
+    keywords.append( "ECHILD" );
+    keywords.append( "EDEADLK" );
+    keywords.append( "EDOM" );
+    keywords.append( "EEXIST" );
+    keywords.append( "EFAULT" );
+    keywords.append( "EFBIG" );
+    keywords.append( "EILSEQ" );
+    keywords.append( "EINPROGRESS" );
+    keywords.append( "EINTR" );
+    keywords.append( "EINVAL" );
+    keywords.append( "EIO" );
+    keywords.append( "EISDIR" );
+    keywords.append( "else" );
+    keywords.append( "EMFILE" );
+    keywords.append( "EMLINK" );
+    keywords.append( "EMSGSIZE" );
+    keywords.append( "ENAMETOOLONG" );
+    keywords.append( "ENFILE" );
+    keywords.append( "ENODEV" );
+    keywords.append( "ENOENT" );
+    keywords.append( "ENOEXEC" );
+    keywords.append( "ENOLCK" );
+    keywords.append( "ENOMEM" );
+    keywords.append( "ENOSPC" );
+    keywords.append( "ENOSYS" );
+    keywords.append( "ENOTDIR" );
+    keywords.append( "ENOTEMPTY" );
+    keywords.append( "ENOTSUP" );
+    keywords.append( "ENOTTY" );
+    keywords.append( "enum" );
+    keywords.append( "ENXIO" );
+    keywords.append( "EOF" );
+    keywords.append( "EPERM" );
+    keywords.append( "EPIPE" );
+    keywords.append( "ERANGE" );
+    keywords.append( "EROFS" );
+    keywords.append( "ESPIPE" );
+    keywords.append( "ESRCH" );
+    keywords.append( "ETIMEDOUT" );
+    keywords.append( "EXDEV" );
+    keywords.append( "EXIT_FAILURE" );
+    keywords.append( "EXIT_SUCCESS" );
+    keywords.append( "explicit" );
+    keywords.append( "export" );
+    keywords.append( "extern" );
+    keywords.append( "false" );
+    keywords.append( "__FILE__" );
+    keywords.append( "FILE" );
+    keywords.append( "FILENAME_MAX" );
+    keywords.append( "float" );
+    keywords.append( "FLT_DIG" );
+    keywords.append( "FLT_EPSILON" );
+    keywords.append( "FLT_MANT_DIG" );
+    keywords.append( "FLT_MAX" );
+    keywords.append( "FLT_MAX_10_EXP" );
+    keywords.append( "FLT_MAX_EXP" );
+    keywords.append( "FLT_MIN" );
+    keywords.append( "FLT_MIN_10_EXP" );
+    keywords.append( "FLT_MIN_EXP" );
+    keywords.append( "FLT_RADIX" );
+    keywords.append( "FLT_ROUNDS" );
+    keywords.append( "FOPEN_MAX" );
+    keywords.append( "for" );
+    keywords.append( "fpos_t" );
+    keywords.append( "friend" );
+    keywords.append( "__FUNCTION__" );
+    keywords.append( "__GNUC__" );
+    keywords.append( "goto" );
+    keywords.append( "HUGE_VAL" );
+    keywords.append( "if" );
+    keywords.append( "__imag__" );
+    keywords.append( "inline" );
+    keywords.append( "int" );
+    keywords.append( "INT16_MAX" );
+    keywords.append( "INT16_MIN" );
+    keywords.append( "int16_t" );
+    keywords.append( "INT32_MAX" );
+    keywords.append( "INT32_MIN" );
+    keywords.append( "int32_t" );
+    keywords.append( "INT64_MAX" );
+    keywords.append( "INT64_MIN" );
+    keywords.append( "int64_t" );
+    keywords.append( "INT8_MAX" );
+    keywords.append( "INT8_MIN" );
+    keywords.append( "int8_t" );
+    keywords.append( "INT_FAST16_MAX" );
+    keywords.append( "INT_FAST16_MIN" );
+    keywords.append( "int_fast16_t" );
+    keywords.append( "INT_FAST32_MAX" );
+    keywords.append( "INT_FAST32_MIN" );
+    keywords.append( "int_fast32_t" );
+    keywords.append( "INT_FAST64_MAX" );
+    keywords.append( "INT_FAST64_MIN" );
+    keywords.append( "int_fast64_t" );
+    keywords.append( "INT_FAST8_MAX" );
+    keywords.append( "INT_FAST8_MIN" );
+    keywords.append( "int_fast8_t" );
+    keywords.append( "INT_LEAST16_MAX" );
+    keywords.append( "INT_LEAST16_MIN" );
+    keywords.append( "int_least16_t" );
+    keywords.append( "INT_LEAST32_MAX" );
+    keywords.append( "INT_LEAST32_MIN" );
+    keywords.append( "int_least32_t" );
+    keywords.append( "INT_LEAST64_MAX" );
+    keywords.append( "INT_LEAST64_MIN" );
+    keywords.append( "int_least64_t" );
+    keywords.append( "INT_LEAST8_MAX" );
+    keywords.append( "INT_LEAST8_MIN" );
+    keywords.append( "int_least8_t" );
+    keywords.append( "INT_MAX" );
+    keywords.append( "INTMAX_MAX" );
+    keywords.append( "INTMAX_MIN" );
+    keywords.append( "intmax_t" );
+    keywords.append( "INT_MIN" );
+    keywords.append( "INTPTR_MAX" );
+    keywords.append( "INTPTR_MIN" );
+    keywords.append( "intptr_t" );
+    keywords.append( "_IOFBF" );
+    keywords.append( "_IOLBF" );
+    keywords.append( "_IONBF" );
+    keywords.append( "jmp_buf" );
+    keywords.append( "__label__" );
+    keywords.append( "LC_ALL" );
+    keywords.append( "LC_COLLATE" );
+    keywords.append( "LC_CTYPE" );
+    keywords.append( "LC_MONETARY" );
+    keywords.append( "LC_NUMERIC" );
+    keywords.append( "LC_TIME" );
+    keywords.append( "LDBL_DIG" );
+    keywords.append( "LDBL_EPSILON" );
+    keywords.append( "LDBL_MANT_DIG" );
+    keywords.append( "LDBL_MAX" );
+    keywords.append( "LDBL_MAX_10_EXP" );
+    keywords.append( "LDBL_MAX_EXP" );
+    keywords.append( "LDBL_MIN" );
+    keywords.append( "LDBL_MIN_10_EXP" );
+    keywords.append( "LDBL_MIN_EXP" );
+    keywords.append( "ldiv_t" );
+    keywords.append( "__LINE__" );
+    keywords.append( "LLONG_MAX" );
+    keywords.append( "long" );
+    keywords.append( "LONG_MAX" );
+    keywords.append( "LONG_MIN" );
+    keywords.append( "L_tmpnam" );
+    keywords.append( "M_1_PI" );
+    keywords.append( "M_2_PI" );
+    keywords.append( "M_2_SQRTPI" );
+    keywords.append( "MB_CUR_MAX" );
+    keywords.append( "MB_LEN_MAX" );
+    keywords.append( "mbstate_t" );
+    keywords.append( "M_E" );
+    keywords.append( "M_LN10" );
+    keywords.append( "M_LN2" );
+    keywords.append( "M_LOG10E" );
+    keywords.append( "M_LOG2E" );
+    keywords.append( "M_PI" );
+    keywords.append( "M_PI_2" );
+    keywords.append( "M_PI_4" );
+    keywords.append( "M_SQRT1_2" );
+    keywords.append( "M_SQRT2" );
+    keywords.append( "mutable" );
+    keywords.append( "namespace" );
+    keywords.append( "new" );
+    keywords.append( "not" );
+    keywords.append( "not_eq" );
+    keywords.append( "NPOS" );
+    keywords.append( "NULL" );
+    keywords.append( "operator" );
+    keywords.append( "or" );
+    keywords.append( "or_eq" );
+    keywords.append( "__PRETTY_FUNCTION__" );
+    keywords.append( "private" );
+    keywords.append( "protected" );
+    keywords.append( "PTRDIFF_MAX" );
+    keywords.append( "PTRDIFF_MIN" );
+    keywords.append( "ptrdiff_t" );
+    keywords.append( "public" );
+    keywords.append( "RAND_MAX" );
+    keywords.append( "__real__" );
+    keywords.append( "register" );
+    keywords.append( "reinterpret_cast" );
+    keywords.append( "restrict" );
+    keywords.append( "return" );
+    keywords.append( "SCHAR_MAX" );
+    keywords.append( "SCHAR_MIN" );
+    keywords.append( "SEEK_CUR" );
+    keywords.append( "SEEK_END" );
+    keywords.append( "SEEK_SET" );
+    keywords.append( "short" );
+    keywords.append( "SHRT_MAX" );
+    keywords.append( "SHRT_MIN" );
+    keywords.append( "SIGABRT" );
+    keywords.append( "SIGALRM" );
+    keywords.append( "SIG_ATOMIC_MAX" );
+    keywords.append( "SIG_ATOMIC_MIN" );
+    keywords.append( "sig_atomic_t" );
+    keywords.append( "SIGCHLD" );
+    keywords.append( "SIGCONT" );
+    keywords.append( "SIG_DFL" );
+    keywords.append( "SIG_ERR" );
+    keywords.append( "SIGFPE" );
+    keywords.append( "SIGHUP" );
+    keywords.append( "SIG_IGN" );
+    keywords.append( "SIGILL" );
+    keywords.append( "SIGINT" );
+    keywords.append( "SIGKILL" );
+    keywords.append( "signed" );
+    keywords.append( "SIGPIPE" );
+    keywords.append( "SIGQUIT" );
+    keywords.append( "SIGSEGV" );
+    keywords.append( "SIGSTOP" );
+    keywords.append( "SIGTERM" );
+    keywords.append( "SIGTRAP" );
+    keywords.append( "SIGTSTP" );
+    keywords.append( "SIGTTIN" );
+    keywords.append( "SIGTTOU" );
+    keywords.append( "SIGUSR1" );
+    keywords.append( "SIGUSR2" );
+    keywords.append( "SINT_MAX" );
+    keywords.append( "SINT_MIN" );
+    keywords.append( "SIZE_MAX" );
+    keywords.append( "sizeof" );
+    keywords.append( "size_t" );
+    keywords.append( "SLONG_MAX" );
+    keywords.append( "SLONG_MIN" );
+    keywords.append( "SSHRT_MAX" );
+    keywords.append( "SSHRT_MIN" );
+    keywords.append( "ssize_t" );
+    keywords.append( "static" );
+    keywords.append( "static_cast" );
+    keywords.append( "__STDC__" );
+    keywords.append( "__STDC_VERSION__" );
+    keywords.append( "stderr" );
+    keywords.append( "stdin" );
+    keywords.append( "stdout" );
+    keywords.append( "struct" );
+    keywords.append( "switch" );
+    keywords.append( "template" );
+    keywords.append( "this" );
+    keywords.append( "throw" );
+    keywords.append( "__TIME__" );
+    keywords.append( "time_t" );
+    keywords.append( "TMP_MAX" );
+    keywords.append( "true" );
+    keywords.append( "try" );
+    keywords.append( "typedef" );
+    keywords.append( "typeid" );
+    keywords.append( "typename" );
+    keywords.append( "typeof" );
+    keywords.append( "UCHAR_MAX" );
+    keywords.append( "UINT16_MAX" );
+    keywords.append( "uint16_t" );
+    keywords.append( "UINT32_MAX" );
+    keywords.append( "uint32_t" );
+    keywords.append( "UINT64_MAX" );
+    keywords.append( "uint64_t" );
+    keywords.append( "UINT8_MAX" );
+    keywords.append( "uint8_t" );
+    keywords.append( "UINT_FAST16_MAX" );
+    keywords.append( "uint_fast16_t" );
+    keywords.append( "UINT_FAST32_MAX" );
+    keywords.append( "uint_fast32_t" );
+    keywords.append( "UINT_FAST64_MAX" );
+    keywords.append( "uint_fast64_t" );
+    keywords.append( "UINT_FAST8_MAX" );
+    keywords.append( "uint_fast8_t" );
+    keywords.append( "UINT_LEAST16_MAX" );
+    keywords.append( "uint_least16_t" );
+    keywords.append( "UINT_LEAST32_MAX" );
+    keywords.append( "uint_least32_t" );
+    keywords.append( "UINT_LEAST64_MAX" );
+    keywords.append( "uint_least64_t" );
+    keywords.append( "UINT_LEAST8_MAX" );
+    keywords.append( "uint_least8_t" );
+    keywords.append( "UINT_MAX" );
+    keywords.append( "UINTMAX_MAX" );
+    keywords.append( "uintmax_t" );
+    keywords.append( "UINTPTR_MAX" );
+    keywords.append( "uintptr_t" );
+    keywords.append( "ULLONG_MAX" );
+    keywords.append( "ULONG_MAX" );
+    keywords.append( "union" );
+    keywords.append( "unsigned" );
+    keywords.append( "USHRT_MAX" );
+    keywords.append( "using" );
+    keywords.append( "va_list" );
+    keywords.append( "virtual" );
+    keywords.append( "void" );
+    keywords.append( "__volatile__" );
+    keywords.append( "volatile" );
+    keywords.append( "WCHAR_MAX" );
+    keywords.append( "WCHAR_MIN" );
+    keywords.append( "wchar_t" );
+    keywords.append( "wctrans_t" );
+    keywords.append( "wctype_t" );
+    keywords.append( "WEOF" );
+    keywords.append( "while" );
+    keywords.append( "WINT_MAX" );
+    keywords.append( "WINT_MIN" );
+    keywords.append( "wint_t" );
+    keywords.append( "xor" );
+    keywords.append( "xor_eq" );
   }
 
-  return pListOfReservedKeywords;
+  return keywords;
 }
 
 #include "cppcodegenerator.moc"

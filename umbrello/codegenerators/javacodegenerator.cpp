@@ -36,7 +36,6 @@ JavaCodeGenerator::JavaCodeGenerator ( UMLDoc * parentDoc , const char * name, Q
 {
 	initFields();
 	loadFromXMI(elem);
-	pListOfReservedKeywords = NULL;
 }
 
 JavaCodeGenerator::JavaCodeGenerator ( UMLDoc * parentDoc, const char * name )
@@ -204,183 +203,171 @@ void JavaCodeGenerator::createDefaultDatatypes() {
 	m_document->createDatatype("string");
 }
 
-/**
- * List of reserved keywords for this code generator.
- *
- * Just add new keywords, then mark all lines and
- * pipe it through the external 'sort' program.
- */
-static const char *ReservedKeywords[] = {
-  "abstract",
-  "AbstractMethodError",
-  "ArithmeticException",
-  "ArrayIndexOutOfBoundsException",
-  "ArrayStoreException",
-  "assert",
-  "AssertionError",
-  "auto",
-  "boolean",
-  "Boolean",
-  "break",
-  "byte",
-  "Byte",
-  "catch",
-  "char",
-  "Character",
-  "CharSequence",
-  "Class",
-  "ClassCastException",
-  "ClassCircularityError",
-  "ClassFormatError",
-  "ClassLoader",
-  "ClassNotFoundException",
-  "clone",
-  "Cloneable",
-  "CloneNotSupportedException",
-  "Comparable",
-  "Compiler",
-  "const",
-  "continue",
-  "default",
-  "delete",
-  "do",
-  "double",
-  "Double",
-  "else",
-  "enum",
-  "equals",
-  "Error",
-  "Exception",
-  "ExceptionInInitializerError",
-  "extends",
-  "extern",
-  "false",
-  "final",
-  "finalize",
-  "finally",
-  "float",
-  "Float",
-  "for",
-  "friend",
-  "getClass",
-  "goto",
-  "hashCode",
-  "if",
-  "IllegalAccessError",
-  "IllegalAccessException",
-  "IllegalArgumentException",
-  "IllegalMonitorStateException",
-  "IllegalStateException",
-  "IllegalThreadStateException",
-  "implements",
-  "import",
-  "IncompatibleClassChangeError",
-  "IndexOutOfBoundsException",
-  "InheritableThreadLocal",
-  "inline",
-  "instanceof",
-  "InstantiationError",
-  "InstantiationException",
-  "int",
-  "Integer",
-  "interface",
-  "InternalError",
-  "InterruptedException",
-  "LinkageError",
-  "long",
-  "Long",
-  "Math",
-  "native",
-  "NegativeArraySizeException",
-  "new",
-  "nextgroup=javaUserLabelRef",
-  "NoClassDefFoundError",
-  "NoSuchFieldError",
-  "NoSuchFieldException",
-  "NoSuchMethodError",
-  "NoSuchMethodException",
-  "notify",
-  "notifyAll",
-  "null",
-  "NullPointerException",
-  "Number",
-  "NumberFormatException",
-  "Object",
-  "operator",
-  "OutOfMemoryError",
-  "package",
-  "Package",
-  "private",
-  "Process",
-  "protected",
-  "public",
-  "redeclared",
-  "register",
-  "return",
-  "Runnable",
-  "Runtime",
-  "RuntimeException",
-  "RuntimePermission",
-  "SecurityException",
-  "SecurityManager",
-  "serializable",
-  "short",
-  "Short",
-  "signed",
-  "sizeof",
-  "skipwhite",
-  "StackOverflowError",
-  "StackTraceElement",
-  "static",
-  "strictfp",
-  "StrictMath",
-  "String",
-  "StringBuffer",
-  "StringIndexOutOfBoundsException",
-  "struct",
-  "super",
-  "switch",
-  "synchronized",
-  "template",
-  "this",
-  "Thread",
-  "ThreadDeath",
-  "ThreadGroup",
-  "ThreadLocal",
-  "throw",
-  "Throwable",
-  "throws",
-  "toString",
-  "transient",
-  "true",
-  "try",
-  "typedef",
-  "union",
-  "UnknownError",
-  "UnsatisfiedLinkError",
-  "unsigned",
-  "UnsupportedClassVersionError",
-  "UnsupportedOperationException",
-  "VerifyError",
-  "VirtualMachineError",
-  "void",
-  "Void",
-  "volatile",
-  "wait",
-  "while",
-  NULL
-};
+const QStringList JavaCodeGenerator::reservedKeywords() const {
 
-/**
- * get list of reserved keywords
- */
-const QPtrList<const char *> * JavaCodeGenerator::getReservedKeywords() {
-  if (pListOfReservedKeywords == NULL)
-  {
-    pListOfReservedKeywords = convertListOfReservedKeywords(ReservedKeywords);
+  static QStringList keywords;
+
+  if (keywords.isEmpty()) {
+    keywords << "abstract"
+             << "AbstractMethodError"
+             << "ArithmeticException"
+             << "ArrayIndexOutOfBoundsException"
+             << "ArrayStoreException"
+             << "assert"
+             << "AssertionError"
+             << "auto"
+             << "boolean"
+             << "Boolean"
+             << "break"
+             << "byte"
+             << "Byte"
+             << "catch"
+             << "char"
+             << "Character"
+             << "CharSequence"
+             << "Class"
+             << "ClassCastException"
+             << "ClassCircularityError"
+             << "ClassFormatError"
+             << "ClassLoader"
+             << "ClassNotFoundException"
+             << "clone"
+             << "Cloneable"
+             << "CloneNotSupportedException"
+             << "Comparable"
+             << "Compiler"
+             << "const"
+             << "continue"
+             << "default"
+             << "delete"
+             << "do"
+             << "double"
+             << "Double"
+             << "else"
+             << "enum"
+             << "equals"
+             << "Error"
+             << "Exception"
+             << "ExceptionInInitializerError"
+             << "extends"
+             << "extern"
+             << "false"
+             << "final"
+             << "finalize"
+             << "finally"
+             << "float"
+             << "Float"
+             << "for"
+             << "friend"
+             << "getClass"
+             << "goto"
+             << "hashCode"
+             << "if"
+             << "IllegalAccessError"
+             << "IllegalAccessException"
+             << "IllegalArgumentException"
+             << "IllegalMonitorStateException"
+             << "IllegalStateException"
+             << "IllegalThreadStateException"
+             << "implements"
+             << "import"
+             << "IncompatibleClassChangeError"
+             << "IndexOutOfBoundsException"
+             << "InheritableThreadLocal"
+             << "inline"
+             << "instanceof"
+             << "InstantiationError"
+             << "InstantiationException"
+             << "int"
+             << "Integer"
+             << "interface"
+             << "InternalError"
+             << "InterruptedException"
+             << "LinkageError"
+             << "long"
+             << "Long"
+             << "Math"
+             << "native"
+             << "NegativeArraySizeException"
+             << "new"
+             << "nextgroup=javaUserLabelRef"
+             << "NoClassDefFoundError"
+             << "NoSuchFieldError"
+             << "NoSuchFieldException"
+             << "NoSuchMethodError"
+             << "NoSuchMethodException"
+             << "notify"
+             << "notifyAll"
+             << "null"
+             << "NullPointerException"
+             << "Number"
+             << "NumberFormatException"
+             << "Object"
+             << "operator"
+             << "OutOfMemoryError"
+             << "package"
+             << "Package"
+             << "private"
+             << "Process"
+             << "protected"
+             << "public"
+             << "redeclared"
+             << "register"
+             << "return"
+             << "Runnable"
+             << "Runtime"
+             << "RuntimeException"
+             << "RuntimePermission"
+             << "SecurityException"
+             << "SecurityManager"
+             << "serializable"
+             << "short"
+             << "Short"
+             << "signed"
+             << "sizeof"
+             << "skipwhite"
+             << "StackOverflowError"
+             << "StackTraceElement"
+             << "static"
+             << "strictfp"
+             << "StrictMath"
+             << "String"
+             << "StringBuffer"
+             << "StringIndexOutOfBoundsException"
+             << "struct"
+             << "super"
+             << "switch"
+             << "synchronized"
+             << "template"
+             << "this"
+             << "Thread"
+             << "ThreadDeath"
+             << "ThreadGroup"
+             << "ThreadLocal"
+             << "throw"
+             << "Throwable"
+             << "throws"
+             << "toString"
+             << "transient"
+             << "true"
+             << "try"
+             << "typedef"
+             << "union"
+             << "UnknownError"
+             << "UnsatisfiedLinkError"
+             << "unsigned"
+             << "UnsupportedClassVersionError"
+             << "UnsupportedOperationException"
+             << "VerifyError"
+             << "VirtualMachineError"
+             << "void"
+             << "Void"
+             << "volatile"
+             << "wait"
+             << "while";
   }
 
-  return pListOfReservedKeywords;
+  return keywords;
 }
 
 #include "javacodegenerator.moc"

@@ -61,7 +61,7 @@ public:
 	/**
 	 * get list of reserved keywords
 	 */
-	virtual const QPtrList<const char *> * getReservedKeywords();
+	virtual const QStringList reservedKeywords() const;
 
 	void createDefaultDatatypes();	 
 
@@ -102,11 +102,6 @@ private:
 	  * @param perl output stream for the Perl file
 	  */
 	void writeAttributes(UMLAttributeList &atList, QTextStream &perl);
-
-	/**
-	 * list of reserved keywords
-	 */
-	QPtrList<const char *> *pListOfReservedKeywords;
 };
 
 #endif //PERLWRITER

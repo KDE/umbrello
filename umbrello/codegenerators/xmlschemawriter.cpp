@@ -39,7 +39,6 @@ XMLSchemaWriter::XMLSchemaWriter( UMLDoc *doc, const char *name )
 	indent = m_indentation;
 	indentLevel = 0;
 	startline = m_newLineEndingChars;
-	pListOfReservedKeywords = NULL;
 }
 
 // form of..."the Destructor"!!
@@ -814,42 +813,30 @@ QString XMLSchemaWriter::makeSchemaTag (QString tagName) {
 	return tagName;
 }
 
-/**
- * List of reserved keywords for this code generator.
- *
- * Just add new keywords, then mark all lines and
- * pipe it through the external 'sort' program.
- */
-static const char *ReservedKeywords[] = {
-  "ATTLIST",
-  "CDATA",
-  "DOCTYPE",
-  "ELEMENT",
-  "ENTITIES",
-  "ENTITY",
-  "ID",
-  "IDREF",
-  "IDREFS",
-  "NMTOKEN",
-  "NMTOKENS",
-  "NOTATION",
-  "PUBLIC",
-  "SHORTREF",
-  "SYSTEM",
-  "USEMAP",
-  NULL
-};
+const QStringList XMLSchemaWriter::reservedKeywords() const {
 
-/**
- * get list of reserved keywords
- */
-const QPtrList<const char *> * XMLSchemaWriter::getReservedKeywords() {
-  if (pListOfReservedKeywords == NULL)
-  {
-    pListOfReservedKeywords = convertListOfReservedKeywords(ReservedKeywords);
+  static QStringList keywords;
+
+  if (keywords.isEmpty()) {
+    keywords << "ATTLIST"
+             << "CDATA"
+             << "DOCTYPE"
+             << "ELEMENT"
+             << "ENTITIES"
+             << "ENTITY"
+             << "ID"
+             << "IDREF"
+             << "IDREFS"
+             << "NMTOKEN"
+             << "NMTOKENS"
+             << "NOTATION"
+             << "PUBLIC"
+             << "SHORTREF"
+             << "SYSTEM"
+             << "USEMAP";
   }
 
-  return pListOfReservedKeywords;
+  return keywords;
 }
 
 #include "xmlschemawriter.moc"

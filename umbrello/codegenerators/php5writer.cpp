@@ -31,7 +31,6 @@
 
 Php5Writer::Php5Writer( UMLDoc *parent, const char *name )
 	:SimpleCodeGenerator( parent, name) {
-	pListOfReservedKeywords = NULL;
 }
 
 Php5Writer::~Php5Writer() {}
@@ -421,2982 +420,2969 @@ bool Php5Writer::isType (QString & type)
    return false;
 }
 
-/**
- * List of reserved keywords for this code generator.
- *
- * Just add new keywords, then mark all lines and
- * pipe it through the external 'sort' program.
- */
-static const char *ReservedWords[] = {
-  "abs",
-  "abstract",
-  "acos",
-  "acosh",
-  "add",
-  "addAction",
-  "addColor",
-  "addEntry",
-  "addFill",
-  "addShape",
-  "addString",
-  "add_namespace",
-  "addcslashes",
-  "addslashes",
-  "addstring",
-  "aggregate",
-  "aggregate_info",
-  "aggregate_methods",
-  "aggregate_methods_by_list",
-  "aggregate_methods_by_regexp",
-  "aggregate_properties",
-  "aggregate_properties_by_list",
-  "aggregate_properties_by_regexp",
-  "aggregation_info",
-  "align",
-  "apache_child_terminate",
-  "apache_lookup_uri",
-  "apache_note",
-  "apache_request_headers",
-  "apache_response_headers",
-  "apache_setenv",
-  "append_child",
-  "append_sibling",
-  "array",
-  "array_change_key_case",
-  "array_chunk",
-  "array_count_values",
-  "array_diff",
-  "array_diff_assoc",
-  "array_fill",
-  "array_filter",
-  "array_flip",
-  "array_intersect",
-  "array_intersect_assoc",
-  "array_key_exists",
-  "array_keys",
-  "array_map",
-  "array_merge",
-  "array_merge_recursive",
-  "array_multisort",
-  "array_pad",
-  "array_pop",
-  "array_push",
-  "array_rand",
-  "array_reduce",
-  "array_reverse",
-  "array_search",
-  "array_shift",
-  "array_slice",
-  "array_splice",
-  "array_sum",
-  "array_unique",
-  "array_unshift",
-  "array_values",
-  "array_walk",
-  "arsort",
-  "ascii2ebcdic",
-  "asin",
-  "asinh",
-  "asort",
-  "aspell_check",
-  "aspell_new",
-  "aspell_suggest",
-  "assert",
-  "assert_options",
-  "assign",
-  "atan",
-  "atan2",
-  "atanh",
-  "attreditable",
-  "attributes",
-  "base64_decode",
-  "base64_encode",
-  "base_convert",
-  "basename",
-  "bcadd",
-  "bccomp",
-  "bcdiv",
-  "bcmod",
-  "bcmul",
-  "bcpow",
-  "bcpowmod",
-  "bcscale",
-  "bcsqrt",
-  "bcsub",
-  "bin2hex",
-  "bindec",
-  "bindtextdomain",
-  "bind_textdomain_codeset",
-  "bool",
-  "break",
-  "bzclose",
-  "bzcompress",
-  "bzdecompress",
-  "bzerrno",
-  "bzerror",
-  "bzerrstr",
-  "bzflush",
-  "bzopen",
-  "bzread",
-  "bzwrite",
-  "cal_days_in_month",
-  "cal_from_jd",
-  "cal_info",
-  "call_user_func",
-  "call_user_func_array",
-  "call_user_method",
-  "call_user_method_array",
-  "cal_to_jd",
-  "ccvs_add",
-  "ccvs_auth",
-  "ccvs_command",
-  "ccvs_count",
-  "ccvs_delete",
-  "ccvs_done",
-  "ccvs_init",
-  "ccvs_lookup",
-  "ccvs_new",
-  "ccvs_report",
-  "ccvs_return",
-  "ccvs_reverse",
-  "ccvs_sale",
-  "ccvs_status",
-  "ccvs_textvalue",
-  "ccvs_void",
-  "ceil",
-  "chdir",
-  "checkdate",
-  "checkdnsrr",
-  "checkin",
-  "checkout",
-  "chgrp",
-  "child_nodes",
-  "children",
-  "chmod",
-  "chop",
-  "chown",
-  "chr",
-  "chroot",
-  "chunk_split",
-  "class",
-  "class_exists",
-  "clearstatcache",
-  "clone_node",
-  "closedir",
-  "closelog",
-  "com_addref",
-  "com_get",
-  "com_invoke",
-  "com_isenum",
-  "com_load",
-  "com_load_typelib",
-  "compact",
-  "com_propget",
-  "com_propput",
-  "com_propset",
-  "com_release",
-  "com_set",
-  "connection_aborted",
-  "connection_status",
-  "connection_timeout",
-  "constant",
-  "content",
-  "continue",
-  "convert_cyr_string",
-  "_COOKIE",
-  "copy",
-  "cos",
-  "cosh",
-  "count",
-  "count_chars",
-  "cpdf_add_annotation",
-  "cpdf_add_outline",
-  "cpdf_arc",
-  "cpdf_begin_text",
-  "cpdf_circle",
-  "cpdf_clip",
-  "cpdf_close",
-  "cpdf_closepath",
-  "cpdf_closepath_fill_stroke",
-  "cpdf_closepath_stroke",
-  "cpdf_continue_text",
-  "cpdf_curveto",
-  "cpdf_end_text",
-  "cpdf_fill",
-  "cpdf_fill_stroke",
-  "cpdf_finalize",
-  "cpdf_finalize_page",
-  "cpdf_global_set_document_limits",
-  "cpdf_import_jpeg",
-  "cpdf_lineto",
-  "cpdf_moveto",
-  "cpdf_newpath",
-  "cpdf_open",
-  "cpdf_output_buffer",
-  "cpdf_page_init",
-  "cpdf_place_inline_image",
-  "cpdf_rect",
-  "cpdf_restore",
-  "cpdf_rlineto",
-  "cpdf_rmoveto",
-  "cpdf_rotate",
-  "cpdf_rotate_text",
-  "cpdf_save",
-  "cpdf_save_to_file",
-  "cpdf_scale",
-  "cpdf_set_action_url",
-  "cpdf_set_char_spacing",
-  "cpdf_set_creator",
-  "cpdf_set_current_page",
-  "cpdf_setdash",
-  "cpdf_setflat",
-  "cpdf_set_font",
-  "cpdf_set_font_directories",
-  "cpdf_set_font_map_file",
-  "cpdf_setgray",
-  "cpdf_setgray_fill",
-  "cpdf_setgray_stroke",
-  "cpdf_set_horiz_scaling",
-  "cpdf_set_keywords",
-  "cpdf_set_leading",
-  "cpdf_setlinecap",
-  "cpdf_setlinejoin",
-  "cpdf_setlinewidth",
-  "cpdf_setmiterlimit",
-  "cpdf_set_page_animation",
-  "cpdf_setrgbcolor",
-  "cpdf_setrgbcolor_fill",
-  "cpdf_setrgbcolor_stroke",
-  "cpdf_set_subject",
-  "cpdf_set_text_matrix",
-  "cpdf_set_text_pos",
-  "cpdf_set_text_rendering",
-  "cpdf_set_text_rise",
-  "cpdf_set_title",
-  "cpdf_set_viewer_preferences",
-  "cpdf_set_word_spacing",
-  "cpdf_show",
-  "cpdf_show_xy",
-  "cpdf_stringwidth",
-  "cpdf_stroke",
-  "cpdf_text",
-  "cpdf_translate",
-  "crack_check",
-  "crack_closedict",
-  "crack_getlastmessage",
-  "crack_opendict",
-  "crc32",
-  "create_attribute",
-  "create_cdata_section",
-  "create_comment",
-  "create_element",
-  "create_element_ns",
-  "create_entity_reference",
-  "create_function",
-  "create_processing_instruction",
-  "create_text_node",
-  "crypt",
-  "ctype_alnum",
-  "ctype_alpha",
-  "ctype_cntrl",
-  "ctype_digit",
-  "ctype_graph",
-  "ctype_lower",
-  "ctype_print",
-  "ctype_punct",
-  "ctype_space",
-  "ctype_upper",
-  "ctype_xdigit",
-  "curl_close",
-  "curl_errno",
-  "curl_error",
-  "curl_exec",
-  "curl_getinfo",
-  "curl_init",
-  "curl_setopt",
-  "curl_version",
-  "current",
-  "cybercash_base64_decode",
-  "cybercash_base64_encode",
-  "cybercash_decr",
-  "cybercash_encr",
-  "cybermut_creerformulairecm",
-  "cybermut_creerreponsecm",
-  "cybermut_testmac",
-  "cyrus_authenticate",
-  "cyrus_bind",
-  "cyrus_close",
-  "cyrus_connect",
-  "cyrus_query",
-  "cyrus_unbind",
-  "data",
-  "date",
-  "dba_close",
-  "dba_delete",
-  "dba_exists",
-  "dba_fetch",
-  "dba_firstkey",
-  "dba_handlers",
-  "dba_insert",
-  "dba_list",
-  "dba_nextkey",
-  "dba_open",
-  "dba_optimize",
-  "dba_popen",
-  "dba_replace",
-  "dbase_add_record",
-  "dbase_close",
-  "dbase_create",
-  "dbase_delete_record",
-  "dbase_get_record",
-  "dbase_get_record_with_names",
-  "dbase_numfields",
-  "dbase_numrecords",
-  "dbase_open",
-  "dbase_pack",
-  "dbase_replace_record",
-  "dba_sync",
-  "dblist",
-  "dbmclose",
-  "dbmdelete",
-  "dbmexists",
-  "dbmfetch",
-  "dbmfirstkey",
-  "dbminsert",
-  "dbmnextkey",
-  "dbmopen",
-  "dbmreplace",
-  "dbplus_add",
-  "dbplus_aql",
-  "dbplus_chdir",
-  "dbplus_close",
-  "dbplus_curr",
-  "dbplus_errcode",
-  "dbplus_errno",
-  "dbplus_find",
-  "dbplus_first",
-  "dbplus_flush",
-  "dbplus_freealllocks",
-  "dbplus_freelock",
-  "dbplus_freerlocks",
-  "dbplus_getlock",
-  "dbplus_getunique",
-  "dbplus_info",
-  "dbplus_last",
-  "dbplus_lockrel",
-  "dbplus_next",
-  "dbplus_open",
-  "dbplus_prev",
-  "dbplus_rchperm",
-  "dbplus_rcreate",
-  "dbplus_rcrtexact",
-  "dbplus_rcrtlike",
-  "dbplus_resolve",
-  "dbplus_restorepos",
-  "dbplus_rkeys",
-  "dbplus_ropen",
-  "dbplus_rquery",
-  "dbplus_rrename",
-  "dbplus_rsecindex",
-  "dbplus_runlink",
-  "dbplus_rzap",
-  "dbplus_savepos",
-  "dbplus_setindex",
-  "dbplus_setindexbynumber",
-  "dbplus_sql",
-  "dbplus_tcl",
-  "dbplus_tremove",
-  "dbplus_undo",
-  "dbplus_undoprepare",
-  "dbplus_unlockrel",
-  "dbplus_unselect",
-  "dbplus_update",
-  "dbplus_xlockrel",
-  "dbplus_xunlockrel",
-  "dbstat",
-  "dbx_close",
-  "dbx_compare",
-  "dbx_connect",
-  "dbx_error",
-  "dbx_escape_string",
-  "dbx_query",
-  "dbx_sort",
-  "dcgettext",
-  "dcngettext",
-  "dcstat",
-  "deaggregate",
-  "debug_backtrace",
-  "debugger_off",
-  "debugger_on",
-  "decbin",
-  "dechex",
-  "declare",
-  "decoct",
-  "DEFAULT_INCLUDE_PATH",
-  "define",
-  "defined",
-  "define_syslog_variables",
-  "deg2rad",
-  "delete",
-  "description",
-  "dgettext",
-  "die",
-  "dio_close",
-  "dio_fcntl",
-  "dio_open",
-  "dio_read",
-  "dio_seek",
-  "dio_stat",
-  "dio_tcsetattr",
-  "dio_truncate",
-  "dio_write",
-  "dir",
-  "dirname",
-  "disk_free_space",
-  "diskfreespace",
-  "disk_total_space",
-  "dl",
-  "dngettext",
-  "dns_check_record",
-  "dns_get_mx",
-  "dns_get_record",
-  "do",
-  "doctype",
-  "document_element",
-  "DOCUMENT_ROOT",
-  "domxml_new_doc",
-  "domxml_open_file",
-  "domxml_open_mem",
-  "domxml_version",
-  "domxml_xmltree",
-  "domxml_xslt_stylesheet",
-  "domxml_xslt_stylesheet_doc",
-  "domxml_xslt_stylesheet_file",
-  "dotnet_load",
-  "doubleval",
-  "drawCurve",
-  "drawCurveTo",
-  "drawLine",
-  "drawLineTo",
-  "dstanchors",
-  "dstofsrcanchors",
-  "dump_file",
-  "dump_mem",
-  "dump_node",
-  "each",
-  "E_ALL",
-  "easter_date",
-  "easter_days",
-  "ebcdic2ascii",
-  "echo",
-  "E_COMPILE_ERROR",
-  "E_COMPILE_WARNING",
-  "E_CORE_ERROR",
-  "E_CORE_WARNING",
-  "E_ERROR",
-  "else",
-  "elseif",
-  "empty",
-  "end",
-  "endfor",
-  "endforeach",
-  "endif",
-  "endswitch",
-  "endwhile",
-  "E_NOTICE",
-  "entities",
-  "_ENV",
-  "E_PARSE",
-  "ereg",
-  "eregi",
-  "eregi_replace",
-  "ereg_replace",
-  "error_log",
-  "error_reporting",
-  "escapeshellarg",
-  "escapeshellcmd",
-  "E_USER_ERROR",
-  "E_USER_NOTICE",
-  "E_USER_WARNING",
-  "eval",
-  "E_WARNING",
-  "exec",
-  "exif_imagetype",
-  "exif_read_data",
-  "exif_thumbnail",
-  "exit",
-  "exp",
-  "explode",
-  "expm1",
-  "extension_loaded",
-  "extract",
-  "ezmlm_hash",
-  "FALSE",
-  "fbsql_affected_rows",
-  "fbsql_autocommit",
-  "fbsql_change_user",
-  "fbsql_close",
-  "fbsql_commit",
-  "fbsql_connect",
-  "fbsql_create_blob",
-  "fbsql_create_clob",
-  "fbsql_create_db",
-  "fbsql_database",
-  "fbsql_database_password",
-  "fbsql_data_seek",
-  "fbsql_db_query",
-  "fbsql_db_status",
-  "fbsql_drop_db",
-  "fbsql_errno",
-  "fbsql_error",
-  "fbsql_fetch_array",
-  "fbsql_fetch_assoc",
-  "fbsql_fetch_field",
-  "fbsql_fetch_lengths",
-  "fbsql_fetch_object",
-  "fbsql_fetch_row",
-  "fbsql_field_flags",
-  "fbsql_field_len",
-  "fbsql_field_name",
-  "fbsql_field_seek",
-  "fbsql_field_table",
-  "fbsql_field_type",
-  "fbsql_free_result",
-  "fbsql_get_autostart_info",
-  "fbsql_hostname",
-  "fbsql_insert_id",
-  "fbsql_list_dbs",
-  "fbsql_list_fields",
-  "fbsql_list_tables",
-  "fbsql_next_result",
-  "fbsql_num_fields",
-  "fbsql_num_rows",
-  "fbsql_password",
-  "fbsql_pconnect",
-  "fbsql_query",
-  "fbsql_read_blob",
-  "fbsql_read_clob",
-  "fbsql_result",
-  "fbsql_rollback",
-  "fbsql_select_db",
-  "fbsql_set_lob_mode",
-  "fbsql_set_transaction",
-  "fbsql_start_db",
-  "fbsql_stop_db",
-  "fbsql_tablename",
-  "fbsql_username",
-  "fbsql_warnings",
-  "fclose",
-  "fdf_add_doc_javascript",
-  "fdf_add_template",
-  "fdf_close",
-  "fdf_create",
-  "fdf_errno",
-  "fdf_error",
-  "fdf_get_ap",
-  "fdf_get_attachment",
-  "fdf_get_encoding",
-  "fdf_get_file",
-  "fdf_get_status",
-  "fdf_get_value",
-  "fdf_get_version",
-  "fdf_header",
-  "fdf_next_field_name",
-  "fdf_open",
-  "fdf_open_string",
-  "fdf_save",
-  "fdf_save_string",
-  "fdf_set_ap",
-  "fdf_set_encoding",
-  "fdf_set_file",
-  "fdf_set_flags",
-  "fdf_set_javascript_action",
-  "fdf_set_opt",
-  "fdf_set_status",
-  "fdf_set_submit_form_action",
-  "fdf_set_target_frame",
-  "fdf_set_value",
-  "fdf_set_version",
-  "feof",
-  "fflush",
-  "fgetc",
-  "fgetcsv",
-  "fgets",
-  "fgetss",
-  "file",
-  "__FILE__",
-  "fileatime",
-  "filectime",
-  "file_exists",
-  "file_get_contents",
-  "filegroup",
-  "fileinode",
-  "filemtime",
-  "fileowner",
-  "fileperms",
-  "filepro",
-  "filepro_fieldcount",
-  "filepro_fieldname",
-  "filepro_fieldtype",
-  "filepro_fieldwidth",
-  "filepro_retrieve",
-  "filepro_rowcount",
-  "_FILES",
-  "filesize",
-  "filetype",
-  "find",
-  "first_child",
-  "floatval",
-  "flock",
-  "floor",
-  "flush",
-  "fmod",
-  "fnmatch",
-  "fopen",
-  "for",
-  "foreach",
-  "fpassthru",
-  "fprintf",
-  "fputs",
-  "fread",
-  "frenchtojd",
-  "fribidi_log2vis",
-  "fscanf",
-  "fseek",
-  "fsockopen",
-  "fstat",
-  "ftell",
-  "ftok",
-  "ftp_cdup",
-  "ftp_chdir",
-  "ftp_close",
-  "ftp_connect",
-  "ftp_delete",
-  "ftp_exec",
-  "ftp_fget",
-  "ftp_fput",
-  "ftp_get",
-  "ftp_get_option",
-  "ftp_login",
-  "ftp_mdtm",
-  "ftp_mkdir",
-  "ftp_nb_continue",
-  "ftp_nb_fget",
-  "ftp_nb_fput",
-  "ftp_nb_get",
-  "ftp_nb_put",
-  "ftp_nlist",
-  "ftp_pasv",
-  "ftp_put",
-  "ftp_pwd",
-  "ftp_quit",
-  "ftp_rawlist",
-  "ftp_rename",
-  "ftp_rmdir",
-  "ftp_set_option",
-  "ftp_site",
-  "ftp_size",
-  "ftp_ssl_connect",
-  "ftp_systype",
-  "ftruncate",
-  "ftstat",
-  "func_get_arg",
-  "func_get_args",
-  "func_num_args",
-  "function",
-  "function_exists",
-  "fwrite",
-  "GATEWAY_INTERFACE",
-  "gd_info",
-  "_GET",
-  "getallheaders",
-  "get_attribute",
-  "get_attribute_node",
-  "get_browser",
-  "get_cfg_var",
-  "get_class",
-  "get_class_methods",
-  "get_class_vars",
-  "get_content",
-  "get_current_user",
-  "getcwd",
-  "getdate",
-  "get_declared_classes",
-  "get_defined_constants",
-  "get_defined_functions",
-  "get_defined_vars",
-  "get_element_by_id",
-  "get_elements_by_tagname",
-  "getenv",
-  "get_extension_funcs",
-  "getHeight",
-  "gethostbyaddr",
-  "gethostbyname",
-  "gethostbynamel",
-  "get_html_translation_table",
-  "getimagesize",
-  "get_included_files",
-  "get_include_path",
-  "getlastmod",
-  "get_loaded_extensions",
-  "get_magic_quotes_gpc",
-  "get_magic_quotes_runtime",
-  "get_meta_tags",
-  "getmxrr",
-  "getmygid",
-  "getmyinode",
-  "getmypid",
-  "getmyuid",
-  "get_object_vars",
-  "getopt",
-  "get_parent_class",
-  "getprotobyname",
-  "getprotobynumber",
-  "getrandmax",
-  "get_required_files",
-  "get_resource_type",
-  "getrusage",
-  "getservbyname",
-  "getservbyport",
-  "getshape1",
-  "getshape2",
-  "gettext",
-  "gettimeofday",
-  "gettype",
-  "getwidth",
-  "getWidth",
-  "glob",
-  "global",
-  "GLOBALS",
-  "gmdate",
-  "gmmktime",
-  "gmp_abs",
-  "gmp_add",
-  "gmp_and",
-  "gmp_clrbit",
-  "gmp_cmp",
-  "gmp_com",
-  "gmp_div",
-  "gmp_divexact",
-  "gmp_div_q",
-  "gmp_div_qr",
-  "gmp_div_r",
-  "gmp_fact",
-  "gmp_gcd",
-  "gmp_gcdext",
-  "gmp_hamdist",
-  "gmp_init",
-  "gmp_intval",
-  "gmp_invert",
-  "gmp_jacobi",
-  "gmp_legendre",
-  "gmp_mod",
-  "gmp_mul",
-  "gmp_neg",
-  "gmp_or",
-  "gmp_perfect_square",
-  "gmp_popcount",
-  "gmp_pow",
-  "gmp_powm",
-  "gmp_prob_prime",
-  "gmp_random",
-  "gmp_scan0",
-  "gmp_scan1",
-  "gmp_setbit",
-  "gmp_sign",
-  "gmp_sqrt",
-  "gmp_sqrtrm",
-  "gmp_strval",
-  "gmp_sub",
-  "gmp_xor",
-  "gmstrftime",
-  "gregoriantojd",
-  "gzclose",
-  "gzcompress",
-  "gzdeflate",
-  "gzencode",
-  "gzeof",
-  "gzfile",
-  "gzgetc",
-  "gzgets",
-  "gzgetss",
-  "gzinflate",
-  "gzopen",
-  "gzpassthru",
-  "gzputs",
-  "gzread",
-  "gzrewind",
-  "gzseek",
-  "gztell",
-  "gzuncompress",
-  "gzwrite",
-  "has_attribute",
-  "has_attributess",
-  "has_child_nodes",
-  "header",
-  "headers_sent",
-  "hebrev",
-  "hebrevc",
-  "hexdec",
-  "highlight_file",
-  "highlight_string",
-  "html_dump_mem",
-  "htmlentities",
-  "html_entity_decode",
-  "htmlspecialchars",
-  "HTTP_ACCEPT",
-  "HTTP_ACCEPT_CHARSET",
-  "HTTP_ACCEPT_LANGUAGE",
-  "HTTP_CONNECTION",
-  "HTTP_COOKIE_VARS",
-  "HTTP_ENCODING",
-  "HTTP_ENV_VARS",
-  "HTTP_GET_VARS",
-  "HTTP_HOST",
-  "HTTP_POST_FILES",
-  "HTTP_POST_VARS",
-  "HTTP_RAW_POST_DATA",
-  "HTTP_REFERER",
-  "HTTP_SERVER_VARS",
-  "HTTP_SESSION_VARS",
-  "HTTP_STATE_VARS",
-  "HTTP_USER_AGENT",
-  "hw_api_attribute",
-  "hw_api_content",
-  "hwapi_hgcsp",
-  "hw_api_object",
-  "hw_Array2Objrec",
-  "hw_changeobject",
-  "hw_Children",
-  "hw_ChildrenObj",
-  "hw_Close",
-  "hw_Connect",
-  "hw_connection_info",
-  "hw_Cp",
-  "hw_Deleteobject",
-  "hw_DocByAnchor",
-  "hw_DocByAnchorObj",
-  "hw_Document_Attributes",
-  "hw_Document_BodyTag",
-  "hw_Document_Content",
-  "hw_Document_SetContent",
-  "hw_Document_Size",
-  "hw_dummy",
-  "hw_EditText",
-  "hw_Error",
-  "hw_ErrorMsg",
-  "hw_Free_Document",
-  "hw_GetAnchors",
-  "hw_GetAnchorsObj",
-  "hw_GetAndLock",
-  "hw_GetChildColl",
-  "hw_GetChildCollObj",
-  "hw_GetChildDocColl",
-  "hw_GetChildDocCollObj",
-  "hw_GetObject",
-  "hw_GetObjectByQuery",
-  "hw_GetObjectByQueryColl",
-  "hw_GetObjectByQueryCollObj",
-  "hw_GetObjectByQueryObj",
-  "hw_GetParents",
-  "hw_GetParentsObj",
-  "hw_getrellink",
-  "hw_GetRemote",
-  "hw_GetRemoteChildren",
-  "hw_GetSrcByDestObj",
-  "hw_GetText",
-  "hw_getusername",
-  "hw_Identify",
-  "hw_InCollections",
-  "hw_Info",
-  "hw_InsColl",
-  "hw_InsDoc",
-  "hw_insertanchors",
-  "hw_InsertDocument",
-  "hw_InsertObject",
-  "hw_mapid",
-  "hw_Modifyobject",
-  "hw_Mv",
-  "hw_New_Document",
-  "hw_Objrec2Array",
-  "hw_Output_Document",
-  "hw_pConnect",
-  "hw_PipeDocument",
-  "hw_Root",
-  "hw_setlinkroot",
-  "hw_stat",
-  "hwstat",
-  "hw_Unlock",
-  "hw_Who",
-  "hypot",
-  "ibase_blob_add",
-  "ibase_blob_cancel",
-  "ibase_blob_close",
-  "ibase_blob_create",
-  "ibase_blob_echo",
-  "ibase_blob_get",
-  "ibase_blob_import",
-  "ibase_blob_info",
-  "ibase_blob_open",
-  "ibase_close",
-  "ibase_commit",
-  "ibase_connect",
-  "ibase_errmsg",
-  "ibase_execute",
-  "ibase_fetch_object",
-  "ibase_fetch_row",
-  "ibase_field_info",
-  "ibase_free_query",
-  "ibase_free_result",
-  "ibase_num_fields",
-  "ibase_pconnect",
-  "ibase_prepare",
-  "ibase_query",
-  "ibase_rollback",
-  "ibase_timefmt",
-  "ibase_trans",
-  "iconv",
-  "iconv_get_encoding",
-  "iconv_set_encoding",
-  "identify",
-  "if",
-  "ifx_affected_rows",
-  "ifx_blobinfile_mode",
-  "ifx_byteasvarchar",
-  "ifx_close",
-  "ifx_connect",
-  "ifx_copy_blob",
-  "ifx_create_blob",
-  "ifx_create_char",
-  "ifx_do",
-  "ifx_error",
-  "ifx_errormsg",
-  "ifx_fetch_row",
-  "ifx_fieldproperties",
-  "ifx_fieldtypes",
-  "ifx_free_blob",
-  "ifx_free_char",
-  "ifx_free_result",
-  "ifx_get_blob",
-  "ifx_get_char",
-  "ifx_getsqlca",
-  "ifx_htmltbl_result",
-  "ifx_nullformat",
-  "ifx_num_fields",
-  "ifx_num_rows",
-  "ifx_pconnect",
-  "ifx_prepare",
-  "ifx_query",
-  "ifx_textasvarchar",
-  "ifx_update_blob",
-  "ifx_update_char",
-  "ifxus_close_slob",
-  "ifxus_create_slob",
-  "ifxus_free_slob",
-  "ifxus_open_slob",
-  "ifxus_read_slob",
-  "ifxus_seek_slob",
-  "ifxus_tell_slob",
-  "ifxus_write_slob",
-  "ignore_user_abort",
-  "image2wbmp",
-  "imagealphablending",
-  "imagearc",
-  "imagechar",
-  "imagecharup",
-  "imagecolorallocate",
-  "imagecolorallocatealpha",
-  "imagecolorat",
-  "imagecolorclosest",
-  "imagecolorclosestalpha",
-  "imagecolorclosesthwb",
-  "imagecolordeallocate",
-  "imagecolorexact",
-  "imagecolorexactalpha",
-  "imagecolorresolve",
-  "imagecolorresolvealpha",
-  "imagecolorset",
-  "imagecolorsforindex",
-  "imagecolorstotal",
-  "imagecolortransparent",
-  "imagecopy",
-  "imagecopymerge",
-  "imagecopymergegray",
-  "imagecopyresampled",
-  "imagecopyresized",
-  "imagecreate",
-  "imagecreatefromgd",
-  "imagecreatefromgd2",
-  "imagecreatefromgd2part",
-  "imagecreatefromgif",
-  "imagecreatefromjpeg",
-  "imagecreatefrompng",
-  "imagecreatefromstring",
-  "imagecreatefromwbmp",
-  "imagecreatefromxbm",
-  "imagecreatefromxpm",
-  "imagecreatetruecolor",
-  "imagedashedline",
-  "imagedestroy",
-  "imageellipse",
-  "imagefill",
-  "imagefilledarc",
-  "imagefilledellipse",
-  "imagefilledpolygon",
-  "imagefilledrectangle",
-  "imagefilltoborder",
-  "imagefontheight",
-  "imagefontwidth",
-  "imageftbbox",
-  "imagefttext",
-  "imagegammacorrect",
-  "imagegd",
-  "imagegd2",
-  "imagegif",
-  "imageinterlace",
-  "imagejpeg",
-  "imageline",
-  "imageloadfont",
-  "imagepalettecopy",
-  "imagepng",
-  "imagepolygon",
-  "imagepsbbox",
-  "imagepscopyfont",
-  "imagepsencodefont",
-  "imagepsextendfont",
-  "imagepsfreefont",
-  "imagepsloadfont",
-  "imagepsslantfont",
-  "imagepstext",
-  "imagerectangle",
-  "imagerotate",
-  "imagesetbrush",
-  "imagesetpixel",
-  "imagesetstyle",
-  "imagesetthickness",
-  "imagesettile",
-  "imagestring",
-  "imagestringup",
-  "imagesx",
-  "imagesy",
-  "imagetruecolortopalette",
-  "imagettfbbox",
-  "imagettftext",
-  "imagetypes",
-  "image_type_to_mime_type",
-  "imagewbmp",
-  "imap_8bit",
-  "imap_alerts",
-  "imap_append",
-  "imap_base64",
-  "imap_binary",
-  "imap_body",
-  "imap_bodystruct",
-  "imap_check",
-  "imap_clearflag_full",
-  "imap_close",
-  "imap_createmailbox",
-  "imap_delete",
-  "imap_deletemailbox",
-  "imap_errors",
-  "imap_expunge",
-  "imap_fetchbody",
-  "imap_fetchheader",
-  "imap_fetch_overview",
-  "imap_fetchstructure",
-  "imap_getmailboxes",
-  "imap_get_quota",
-  "imap_get_quotaroot",
-  "imap_getsubscribed",
-  "imap_header",
-  "imap_headerinfo",
-  "imap_headers",
-  "imap_last_error",
-  "imap_list",
-  "imap_listmailbox",
-  "imap_listscan",
-  "imap_listsubscribed",
-  "imap_lsub",
-  "imap_mail",
-  "imap_mailboxmsginfo",
-  "imap_mail_compose",
-  "imap_mail_copy",
-  "imap_mail_move",
-  "imap_mime_header_decode",
-  "imap_msgno",
-  "imap_num_msg",
-  "imap_num_recent",
-  "imap_open",
-  "imap_ping",
-  "imap_qprint",
-  "imap_renamemailbox",
-  "imap_reopen",
-  "imap_rfc822_parse_adrlist",
-  "imap_rfc822_parse_headers",
-  "imap_rfc822_write_address",
-  "imap_scanmailbox",
-  "imap_search",
-  "imap_setacl",
-  "imap_setflag_full",
-  "imap_set_quota",
-  "imap_sort",
-  "imap_status",
-  "imap_subscribe",
-  "imap_thread",
-  "imap_uid",
-  "imap_undelete",
-  "imap_unsubscribe",
-  "imap_utf7_decode",
-  "imap_utf7_encode",
-  "imap_utf8",
-  "implements",
-  "implode",
-  "import_request_variables",
-  "in_array",
-  "include",
-  "include_once",
-  "info",
-  "ingres_autocommit",
-  "ingres_close",
-  "ingres_commit",
-  "ingres_connect",
-  "ingres_fetch_array",
-  "ingres_fetch_object",
-  "ingres_fetch_row",
-  "ingres_field_length",
-  "ingres_field_name",
-  "ingres_field_nullable",
-  "ingres_field_precision",
-  "ingres_field_scale",
-  "ingres_field_type",
-  "ingres_num_fields",
-  "ingres_num_rows",
-  "ingres_pconnect",
-  "ingres_query",
-  "ingres_rollback",
-  "ini_alter",
-  "ini_get",
-  "ini_get_all",
-  "ini_restore",
-  "ini_set",
-  "insert",
-  "insertanchor",
-  "insert_before",
-  "insertcollection",
-  "insertdocument",
-  "int",
-  "interface",
-  "internal_subset",
-  "intval",
-  "ip2long",
-  "iptcembed",
-  "iptcparse",
-  "ircg_channel_mode",
-  "ircg_disconnect",
-  "ircg_fetch_error_msg",
-  "ircg_get_username",
-  "ircg_html_encode",
-  "ircg_ignore_add",
-  "ircg_ignore_del",
-  "ircg_is_conn_alive",
-  "ircg_join",
-  "ircg_kick",
-  "ircg_lookup_format_messages",
-  "ircg_msg",
-  "ircg_nick",
-  "ircg_nickname_escape",
-  "ircg_nickname_unescape",
-  "ircg_notice",
-  "ircg_part",
-  "ircg_pconnect",
-  "ircg_register_format_messages",
-  "ircg_set_current",
-  "ircg_set_file",
-  "ircg_set_on_die",
-  "ircg_topic",
-  "ircg_whois",
-  "is_a",
-  "is_array",
-  "is_blank_node",
-  "is_bool",
-  "is_callable",
-  "is_dir",
-  "is_double",
-  "is_executable",
-  "is_file",
-  "is_finite",
-  "is_float",
-  "is_infinite",
-  "is_int",
-  "is_integer",
-  "is_link",
-  "is_long",
-  "is_nan",
-  "is_null",
-  "is_numeric",
-  "is_object",
-  "is_readable",
-  "is_real",
-  "is_resource",
-  "is_scalar",
-  "isset",
-  "is_string",
-  "is_subclass_of",
-  "is_uploaded_file",
-  "is_writable",
-  "is_writeable",
-  "java_last_exception_clear",
-  "java_last_exception_get",
-  "jddayofweek",
-  "jdmonthname",
-  "jdtofrench",
-  "jdtogregorian",
-  "jdtojewish",
-  "jdtojulian",
-  "jdtounix",
-  "jewishtojd",
-  "join",
-  "jpeg2wbmp",
-  "juliantojd",
-  "key",
-  "krsort",
-  "ksort",
-  "langdepvalue",
-  "last_child",
-  "lcg_value",
-  "ldap_8859_to_t61",
-  "ldap_add",
-  "ldap_bind",
-  "ldap_close",
-  "ldap_compare",
-  "ldap_connect",
-  "ldap_count_entries",
-  "ldap_delete",
-  "ldap_dn2ufn",
-  "ldap_err2str",
-  "ldap_errno",
-  "ldap_error",
-  "ldap_explode_dn",
-  "ldap_first_attribute",
-  "ldap_first_entry",
-  "ldap_first_reference",
-  "ldap_free_result",
-  "ldap_get_attributes",
-  "ldap_get_dn",
-  "ldap_get_entries",
-  "ldap_get_option",
-  "ldap_get_values",
-  "ldap_get_values_len",
-  "ldap_list",
-  "ldap_mod_add",
-  "ldap_mod_del",
-  "ldap_modify",
-  "ldap_mod_replace",
-  "ldap_next_attribute",
-  "ldap_next_entry",
-  "ldap_next_reference",
-  "ldap_parse_reference",
-  "ldap_parse_result",
-  "ldap_read",
-  "ldap_rename",
-  "ldap_search",
-  "ldap_set_option",
-  "ldap_set_rebind_proc",
-  "ldap_sort",
-  "ldap_start_tls",
-  "ldap_t61_to_8859",
-  "ldap_unbind",
-  "levenshtein",
-  "__LINE__",
-  "link",
-  "linkinfo",
-  "list",
-  "localeconv",
-  "localtime",
-  "lock",
-  "log",
-  "log10",
-  "log1p",
-  "long2ip",
-  "lstat",
-  "ltrim",
-  "mail",
-  "mailparse_determine_best_xfer_encoding",
-  "mailparse_msg_create",
-  "mailparse_msg_extract_part",
-  "mailparse_msg_extract_part_file",
-  "mailparse_msg_free",
-  "mailparse_msg_get_part",
-  "mailparse_msg_get_part_data",
-  "mailparse_msg_get_structure",
-  "mailparse_msg_parse",
-  "mailparse_msg_parse_file",
-  "mailparse_rfc822_parse_addresses",
-  "mailparse_stream_encode",
-  "mailparse_uudecode_all",
-  "main",
-  "max",
-  "mb_convert_case",
-  "mb_convert_encoding",
-  "mb_convert_kana",
-  "mb_convert_variables",
-  "mb_decode_mimeheader",
-  "mb_decode_numericentity",
-  "mb_detect_encoding",
-  "mb_detect_order",
-  "mb_encode_mimeheader",
-  "mb_encode_numericentity",
-  "mb_ereg",
-  "mb_eregi",
-  "mb_eregi_replace",
-  "mb_ereg_match",
-  "mb_ereg_replace",
-  "mb_ereg_search",
-  "mb_ereg_search_getpos",
-  "mb_ereg_search_getregs",
-  "mb_ereg_search_init",
-  "mb_ereg_search_pos",
-  "mb_ereg_search_regs",
-  "mb_ereg_search_setpos",
-  "mb_get_info",
-  "mb_http_input",
-  "mb_http_output",
-  "mb_internal_encoding",
-  "mb_language",
-  "mb_output_handler",
-  "mb_parse_str",
-  "mb_preferred_mime_name",
-  "mb_regex_encoding",
-  "mb_regex_set_options",
-  "mb_send_mail",
-  "mb_split",
-  "mb_strcut",
-  "mb_strimwidth",
-  "mb_strlen",
-  "mb_strpos",
-  "mb_strrpos",
-  "mb_strtolower",
-  "mb_strtoupper",
-  "mb_strwidth",
-  "mb_substitute_character",
-  "mb_substr",
-  "mb_substr_count",
-  "mcal_append_event",
-  "mcal_close",
-  "mcal_create_calendar",
-  "mcal_date_compare",
-  "mcal_date_valid",
-  "mcal_day_of_week",
-  "mcal_day_of_year",
-  "mcal_days_in_month",
-  "mcal_delete_calendar",
-  "mcal_delete_event",
-  "mcal_event_add_attribute",
-  "mcal_event_init",
-  "mcal_event_set_alarm",
-  "mcal_event_set_category",
-  "mcal_event_set_class",
-  "mcal_event_set_description",
-  "mcal_event_set_end",
-  "mcal_event_set_recur_daily",
-  "mcal_event_set_recur_monthly_mday",
-  "mcal_event_set_recur_monthly_wday",
-  "mcal_event_set_recur_none",
-  "mcal_event_set_recur_weekly",
-  "mcal_event_set_recur_yearly",
-  "mcal_event_set_start",
-  "mcal_event_set_title",
-  "mcal_expunge",
-  "mcal_fetch_current_stream_event",
-  "mcal_fetch_event",
-  "mcal_is_leap_year",
-  "mcal_list_alarms",
-  "mcal_list_events",
-  "mcal_next_recurrence",
-  "mcal_open",
-  "mcal_popen",
-  "mcal_rename_calendar",
-  "mcal_reopen",
-  "mcal_snooze",
-  "mcal_store_event",
-  "mcal_time_valid",
-  "mcal_week_of_year",
-  "mcrypt_cbc",
-  "mcrypt_cfb",
-  "mcrypt_create_iv",
-  "mcrypt_decrypt",
-  "mcrypt_ecb",
-  "mcrypt_enc_get_algorithms_name",
-  "mcrypt_enc_get_block_size",
-  "mcrypt_enc_get_iv_size",
-  "mcrypt_enc_get_key_size",
-  "mcrypt_enc_get_modes_name",
-  "mcrypt_enc_get_supported_key_sizes",
-  "mcrypt_enc_is_block_algorithm",
-  "mcrypt_enc_is_block_algorithm_mode",
-  "mcrypt_enc_is_block_mode",
-  "mcrypt_encrypt",
-  "mcrypt_enc_self_test",
-  "mcrypt_generic",
-  "mcrypt_generic_deinit",
-  "mcrypt_generic_end",
-  "mcrypt_generic_init",
-  "mcrypt_get_block_size",
-  "mcrypt_get_cipher_name",
-  "mcrypt_get_iv_size",
-  "mcrypt_get_key_size",
-  "mcrypt_list_algorithms",
-  "mcrypt_list_modes",
-  "mcrypt_module_close",
-  "mcrypt_module_get_algo_block_size",
-  "mcrypt_module_get_algo_key_size",
-  "mcrypt_module_get_supported_key_sizes",
-  "mcrypt_module_is_block_algorithm",
-  "mcrypt_module_is_block_algorithm_mode",
-  "mcrypt_module_is_block_mode",
-  "mcrypt_module_open",
-  "mcrypt_module_self_test",
-  "mcrypt_ofb",
-  "mcve_adduser",
-  "mcve_adduserarg",
-  "mcve_bt",
-  "mcve_checkstatus",
-  "mcve_chkpwd",
-  "mcve_chngpwd",
-  "mcve_completeauthorizations",
-  "mcve_connect",
-  "mcve_connectionerror",
-  "mcve_deleteresponse",
-  "mcve_deletetrans",
-  "mcve_deleteusersetup",
-  "mcve_deluser",
-  "mcve_destroyconn",
-  "mcve_destroyengine",
-  "mcve_disableuser",
-  "mcve_edituser",
-  "mcve_enableuser",
-  "mcve_force",
-  "mcve_getcell",
-  "mcve_getcellbynum",
-  "mcve_getcommadelimited",
-  "mcve_getheader",
-  "mcve_getuserarg",
-  "mcve_getuserparam",
-  "mcve_gft",
-  "mcve_gl",
-  "mcve_gut",
-  "mcve_initconn",
-  "mcve_initengine",
-  "mcve_initusersetup",
-  "mcve_iscommadelimited",
-  "mcve_liststats",
-  "mcve_listusers",
-  "mcve_maxconntimeout",
-  "mcve_monitor",
-  "mcve_numcolumns",
-  "mcve_numrows",
-  "mcve_override",
-  "mcve_parsecommadelimited",
-  "mcve_ping",
-  "mcve_preauth",
-  "mcve_preauthcompletion",
-  "mcve_qc",
-  "mcve_responseparam",
-  "mcve_return",
-  "mcve_returncode",
-  "mcve_returnstatus",
-  "mcve_sale",
-  "mcve_setblocking",
-  "mcve_setdropfile",
-  "mcve_setip",
-  "mcve_setssl",
-  "mcve_settimeout",
-  "mcve_settle",
-  "mcve_text_avs",
-  "mcve_text_code",
-  "mcve_text_cv",
-  "mcve_transactionauth",
-  "mcve_transactionavs",
-  "mcve_transactionbatch",
-  "mcve_transactioncv",
-  "mcve_transactionid",
-  "mcve_transactionitem",
-  "mcve_transactionssent",
-  "mcve_transactiontext",
-  "mcve_transinqueue",
-  "mcve_transnew",
-  "mcve_transparam",
-  "mcve_transsend",
-  "mcve_ub",
-  "mcve_uwait",
-  "mcve_verifyconnection",
-  "mcve_verifysslcert",
-  "mcve_void",
-  "md5",
-  "md5_file",
-  "mdecrypt_generic",
-  "memory_get_usage",
-  "metaphone",
-  "method_exists",
-  "mhash",
-  "mhash_count",
-  "mhash_get_block_size",
-  "mhash_get_hash_name",
-  "mhash_keygen_s2k",
-  "microtime",
-  "mime_content_type",
-  "mimetype",
-  "min",
-  "ming_setcubicthreshold",
-  "ming_setscale",
-  "ming_useswfversion",
-  "mkdir",
-  "mktime",
-  "money_format",
-  "move",
-  "movePen",
-  "movePenTo",
-  "moveTo",
-  "move_uploaded_file",
-  "msession_connect",
-  "msession_count",
-  "msession_create",
-  "msession_destroy",
-  "msession_disconnect",
-  "msession_find",
-  "msession_get",
-  "msession_get_array",
-  "msession_getdata",
-  "msession_inc",
-  "msession_list",
-  "msession_listvar",
-  "msession_lock",
-  "msession_plugin",
-  "msession_randstr",
-  "msession_set",
-  "msession_set_array",
-  "msession_setdata",
-  "msession_timeout",
-  "msession_uniq",
-  "msession_unlock",
-  "msg_get_queue",
-  "msg_receive",
-  "msg_remove_queue",
-  "msg_send",
-  "msg_set_queue",
-  "msg_stat_queue",
-  "msql",
-  "msql_affected_rows",
-  "msql_close",
-  "msql_connect",
-  "msql_create_db",
-  "msql_createdb",
-  "msql_data_seek",
-  "msql_dbname",
-  "msql_drop_db",
-  "msql_dropdb",
-  "msql_error",
-  "msql_fetch_array",
-  "msql_fetch_field",
-  "msql_fetch_object",
-  "msql_fetch_row",
-  "msql_fieldflags",
-  "msql_fieldlen",
-  "msql_fieldname",
-  "msql_field_seek",
-  "msql_fieldtable",
-  "msql_fieldtype",
-  "msql_free_result",
-  "msql_freeresult",
-  "msql_list_dbs",
-  "msql_listdbs",
-  "msql_list_fields",
-  "msql_listfields",
-  "msql_list_tables",
-  "msql_listtables",
-  "msql_num_fields",
-  "msql_numfields",
-  "msql_num_rows",
-  "msql_numrows",
-  "msql_pconnect",
-  "msql_query",
-  "msql_regcase",
-  "msql_result",
-  "msql_select_db",
-  "msql_selectdb",
-  "msql_tablename",
-  "mssql_bind",
-  "mssql_close",
-  "mssql_connect",
-  "mssql_data_seek",
-  "mssql_execute",
-  "mssql_fetch_array",
-  "mssql_fetch_assoc",
-  "mssql_fetch_batch",
-  "mssql_fetch_field",
-  "mssql_fetch_object",
-  "mssql_fetch_row",
-  "mssql_field_length",
-  "mssql_field_name",
-  "mssql_field_seek",
-  "mssql_field_type",
-  "mssql_free_result",
-  "mssql_free_statement",
-  "mssql_get_last_message",
-  "mssql_guid_string",
-  "mssql_init",
-  "mssql_min_error_severity",
-  "mssql_min_message_severity",
-  "mssql_next_result",
-  "mssql_num_fields",
-  "mssql_num_rows",
-  "mssql_pconnect",
-  "mssql_query",
-  "mssql_result",
-  "mssql_rows_affected",
-  "mssql_select_db",
-  "mt_getrandmax",
-  "mt_rand",
-  "mt_srand",
-  "multColor",
-  "muscat_close",
-  "muscat_get",
-  "muscat_give",
-  "muscat_setup",
-  "muscat_setup_net",
-  "mysql_affected_rows",
-  "mysql_change_user",
-  "mysql_client_encoding",
-  "mysql_close",
-  "mysql_connect",
-  "mysql_create_db",
-  "mysql_data_seek",
-  "mysql_db_name",
-  "mysql_db_query",
-  "mysql_drop_db",
-  "mysql_errno",
-  "mysql_error",
-  "mysql_escape_string",
-  "mysql_fetch_array",
-  "mysql_fetch_assoc",
-  "mysql_fetch_field",
-  "mysql_fetch_lengths",
-  "mysql_fetch_object",
-  "mysql_fetch_row",
-  "mysql_field_flags",
-  "mysql_field_len",
-  "mysql_field_name",
-  "mysql_field_seek",
-  "mysql_field_table",
-  "mysql_field_type",
-  "mysql_free_result",
-  "mysql_get_client_info",
-  "mysql_get_host_info",
-  "mysql_get_proto_info",
-  "mysql_get_server_info",
-  "mysql_info",
-  "mysql_insert_id",
-  "mysql_list_dbs",
-  "mysql_list_fields",
-  "mysql_list_processes",
-  "mysql_list_tables",
-  "mysql_num_fields",
-  "mysql_num_rows",
-  "mysql_pconnect",
-  "mysql_ping",
-  "mysql_query",
-  "mysql_real_escape_string",
-  "mysql_result",
-  "mysql_select_db",
-  "mysql_stat",
-  "mysql_tablename",
-  "mysql_thread_id",
-  "mysql_unbuffered_query",
-  "name",
-  "natcasesort",
-  "natsort",
-  "ncurses_addch",
-  "ncurses_addchnstr",
-  "ncurses_addchstr",
-  "ncurses_addnstr",
-  "ncurses_addstr",
-  "ncurses_assume_default_colors",
-  "ncurses_attroff",
-  "ncurses_attron",
-  "ncurses_attrset",
-  "ncurses_baudrate",
-  "ncurses_beep",
-  "ncurses_bkgd",
-  "ncurses_bkgdset",
-  "ncurses_border",
-  "ncurses_can_change_color",
-  "ncurses_cbreak",
-  "ncurses_clear",
-  "ncurses_clrtobot",
-  "ncurses_clrtoeol",
-  "ncurses_color_set",
-  "ncurses_curs_set",
-  "ncurses_define_key",
-  "ncurses_def_prog_mode",
-  "ncurses_def_shell_mode",
-  "ncurses_delay_output",
-  "ncurses_delch",
-  "ncurses_deleteln",
-  "ncurses_delwin",
-  "ncurses_doupdate",
-  "ncurses_echo",
-  "ncurses_echochar",
-  "ncurses_end",
-  "ncurses_erase",
-  "ncurses_erasechar",
-  "ncurses_filter",
-  "ncurses_flash",
-  "ncurses_flushinp",
-  "ncurses_getch",
-  "ncurses_getmouse",
-  "ncurses_halfdelay",
-  "ncurses_has_colors",
-  "ncurses_has_ic",
-  "ncurses_has_il",
-  "ncurses_has_key",
-  "ncurses_hline",
-  "ncurses_inch",
-  "ncurses_init",
-  "ncurses_init_color",
-  "ncurses_init_pair",
-  "ncurses_insch",
-  "ncurses_insdelln",
-  "ncurses_insertln",
-  "ncurses_insstr",
-  "ncurses_instr",
-  "ncurses_isendwin",
-  "ncurses_keyok",
-  "ncurses_killchar",
-  "ncurses_longname",
-  "ncurses_mouseinterval",
-  "ncurses_mousemask",
-  "ncurses_move",
-  "ncurses_mvaddch",
-  "ncurses_mvaddchnstr",
-  "ncurses_mvaddchstr",
-  "ncurses_mvaddnstr",
-  "ncurses_mvaddstr",
-  "ncurses_mvcur",
-  "ncurses_mvdelch",
-  "ncurses_mvgetch",
-  "ncurses_mvhline",
-  "ncurses_mvinch",
-  "ncurses_mvvline",
-  "ncurses_mvwaddstr",
-  "ncurses_napms",
-  "ncurses_newwin",
-  "ncurses_nl",
-  "ncurses_nocbreak",
-  "ncurses_noecho",
-  "ncurses_nonl",
-  "ncurses_noqiflush",
-  "ncurses_noraw",
-  "ncurses_putp",
-  "ncurses_qiflush",
-  "ncurses_raw",
-  "ncurses_refresh",
-  "ncurses_resetty",
-  "ncurses_savetty",
-  "ncurses_scr_dump",
-  "ncurses_scr_init",
-  "ncurses_scrl",
-  "ncurses_scr_restore",
-  "ncurses_scr_set",
-  "ncurses_slk_attr",
-  "ncurses_slk_attroff",
-  "ncurses_slk_attron",
-  "ncurses_slk_attrset",
-  "ncurses_slk_clear",
-  "ncurses_slk_color",
-  "ncurses_slk_init",
-  "ncurses_slk_noutrefresh",
-  "ncurses_slk_refresh",
-  "ncurses_slk_restore",
-  "ncurses_slk_touch",
-  "ncurses_standend",
-  "ncurses_standout",
-  "ncurses_start_color",
-  "ncurses_termattrs",
-  "ncurses_termname",
-  "ncurses_timeout",
-  "ncurses_typeahead",
-  "ncurses_ungetch",
-  "ncurses_ungetmouse",
-  "ncurses_use_default_colors",
-  "ncurses_use_env",
-  "ncurses_use_extended_names",
-  "ncurses_vidattr",
-  "ncurses_vline",
-  "ncurses_wrefresh",
-  "new",
-  "next",
-  "nextframe",
-  "next_sibling",
-  "ngettext",
-  "nl2br",
-  "nl_langinfo",
-  "node_name",
-  "node_type",
-  "node_value",
-  "notations",
-  "notes_body",
-  "notes_copy_db",
-  "notes_create_db",
-  "notes_create_note",
-  "notes_drop_db",
-  "notes_find_note",
-  "notes_header_info",
-  "notes_list_msgs",
-  "notes_mark_read",
-  "notes_mark_unread",
-  "notes_nav_create",
-  "notes_search",
-  "notes_unread",
-  "notes_version",
-  "NULL",
-  "number_format",
-  "ob_clean",
-  "ob_end_clean",
-  "ob_end_flush",
-  "ob_flush",
-  "ob_get_contents",
-  "ob_get_length",
-  "ob_get_level",
-  "ob_get_status",
-  "ob_gzhandler",
-  "ob_iconv_handler",
-  "ob_implicit_flush",
-  "object",
-  "objectbyanchor",
-  "ob_start",
-  "ocibindbyname",
-  "ocicancel",
-  "OCICollAppend",
-  "ocicollassign",
-  "ocicollassignelem",
-  "ocicollgetelem",
-  "ocicollmax",
-  "ocicollsize",
-  "ocicolltrim",
-  "ocicolumnisnull",
-  "ocicolumnname",
-  "ocicolumnprecision",
-  "ocicolumnscale",
-  "ocicolumnsize",
-  "ocicolumntype",
-  "ocicolumntyperaw",
-  "ocicommit",
-  "ocidefinebyname",
-  "ocierror",
-  "ociexecute",
-  "ocifetch",
-  "ocifetchinto",
-  "ocifetchstatement",
-  "ocifreecollection",
-  "ocifreecursor",
-  "OCIFreeDesc",
-  "ocifreestatement",
-  "ociinternaldebug",
-  "ociloadlob",
-  "ocilogoff",
-  "ocilogon",
-  "ocinewcollection",
-  "ocinewcursor",
-  "ocinewdescriptor",
-  "ocinlogon",
-  "ocinumcols",
-  "ociparse",
-  "ociplogon",
-  "ociresult",
-  "ocirollback",
-  "ocirowcount",
-  "ocisavelob",
-  "ocisavelobfile",
-  "ociserverversion",
-  "ocisetprefetch",
-  "ocistatementtype",
-  "ociwritelobtofile",
-  "octdec",
-  "odbc_autocommit",
-  "odbc_binmode",
-  "odbc_close",
-  "odbc_close_all",
-  "odbc_columnprivileges",
-  "odbc_columns",
-  "odbc_commit",
-  "odbc_connect",
-  "odbc_cursor",
-  "odbc_data_source",
-  "odbc_do",
-  "odbc_error",
-  "odbc_errormsg",
-  "odbc_exec",
-  "odbc_execute",
-  "odbc_fetch_array",
-  "odbc_fetch_into",
-  "odbc_fetch_object",
-  "odbc_fetch_row",
-  "odbc_field_len",
-  "odbc_field_name",
-  "odbc_field_num",
-  "odbc_field_precision",
-  "odbc_field_scale",
-  "odbc_field_type",
-  "odbc_foreignkeys",
-  "odbc_free_result",
-  "odbc_gettypeinfo",
-  "odbc_longreadlen",
-  "odbc_next_result",
-  "odbc_num_fields",
-  "odbc_num_rows",
-  "odbc_pconnect",
-  "odbc_prepare",
-  "odbc_primarykeys",
-  "odbc_procedurecolumns",
-  "odbc_procedures",
-  "odbc_result",
-  "odbc_result_all",
-  "odbc_rollback",
-  "odbc_setoption",
-  "odbc_specialcolumns",
-  "odbc_statistics",
-  "odbc_tableprivileges",
-  "odbc_tables",
-  "opendir",
-  "openlog",
-  "openssl_csr_export",
-  "openssl_csr_export_to_file",
-  "openssl_csr_new",
-  "openssl_csr_sign",
-  "openssl_error_string",
-  "openssl_free_key",
-  "openssl_get_privatekey",
-  "openssl_get_publickey",
-  "openssl_open",
-  "openssl_pkcs7_decrypt",
-  "openssl_pkcs7_encrypt",
-  "openssl_pkcs7_sign",
-  "openssl_pkcs7_verify",
-  "openssl_pkey_export",
-  "openssl_pkey_export_to_file",
-  "openssl_pkey_get_private",
-  "openssl_pkey_get_public",
-  "openssl_pkey_new",
-  "openssl_private_decrypt",
-  "openssl_private_encrypt",
-  "openssl_public_decrypt",
-  "openssl_public_encrypt",
-  "openssl_seal",
-  "openssl_sign",
-  "openssl_verify",
-  "openssl_x509_check_private_key",
-  "openssl_x509_checkpurpose",
-  "openssl_x509_export",
-  "openssl_x509_export_to_file",
-  "openssl_x509_free",
-  "openssl_x509_parse",
-  "openssl_x509_read",
-  "ora_bind",
-  "ora_close",
-  "ora_columnname",
-  "ora_columnsize",
-  "ora_columntype",
-  "ora_commit",
-  "ora_commitoff",
-  "ora_commiton",
-  "ora_do",
-  "ora_error",
-  "ora_errorcode",
-  "ora_exec",
-  "ora_fetch",
-  "ora_fetch_into",
-  "ora_getcolumn",
-  "ora_logoff",
-  "ora_logon",
-  "ora_numcols",
-  "ora_numrows",
-  "ora_open",
-  "ora_parse",
-  "ora_plogon",
-  "ora_rollback",
-  "ord",
-  "output",
-  "overload",
-  "ovrimos_close",
-  "ovrimos_commit",
-  "ovrimos_connect",
-  "ovrimos_cursor",
-  "ovrimos_exec",
-  "ovrimos_execute",
-  "ovrimos_fetch_into",
-  "ovrimos_fetch_row",
-  "ovrimos_field_len",
-  "ovrimos_field_name",
-  "ovrimos_field_num",
-  "ovrimos_field_type",
-  "ovrimos_free_result",
-  "ovrimos_longreadlen",
-  "ovrimos_num_fields",
-  "ovrimos_num_rows",
-  "ovrimos_prepare",
-  "ovrimos_result",
-  "ovrimos_result_all",
-  "ovrimos_rollback",
-  "owner_document",
-  "pack",
-  "parent_node",
-  "parents",
-  "parse_ini_file",
-  "parse_str",
-  "parse_url",
-  "passthru",
-  "pathinfo",
-  "PATH_TRANSLATED",
-  "pclose",
-  "pcntl_exec",
-  "pcntl_fork",
-  "pcntl_signal",
-  "pcntl_waitpid",
-  "pcntl_wexitstatus",
-  "pcntl_wifexited",
-  "pcntl_wifsignaled",
-  "pcntl_wifstopped",
-  "pcntl_wstopsig",
-  "pcntl_wtermsig",
-  "pdf_add_annotation",
-  "pdf_add_bookmark",
-  "pdf_add_launchlink",
-  "pdf_add_locallink",
-  "pdf_add_note",
-  "pdf_add_outline",
-  "pdf_add_pdflink",
-  "pdf_add_thumbnail",
-  "pdf_add_weblink",
-  "pdf_arc",
-  "pdf_arcn",
-  "pdf_attach_file",
-  "pdf_begin_page",
-  "pdf_begin_pattern",
-  "pdf_begin_template",
-  "pdf_circle",
-  "pdf_clip",
-  "pdf_close",
-  "pdf_close_image",
-  "pdf_closepath",
-  "pdf_closepath_fill_stroke",
-  "pdf_closepath_stroke",
-  "pdf_close_pdi",
-  "pdf_close_pdi_page",
-  "pdf_concat",
-  "pdf_continue_text",
-  "pdf_curveto",
-  "pdf_delete",
-  "pdf_end_page",
-  "pdf_endpath",
-  "pdf_end_pattern",
-  "pdf_end_template",
-  "pdf_fill",
-  "pdf_fill_stroke",
-  "pdf_findfont",
-  "pdf_get_buffer",
-  "pdf_get_font",
-  "pdf_get_fontname",
-  "pdf_get_fontsize",
-  "pdf_get_image_height",
-  "pdf_get_image_width",
-  "pdf_get_majorversion",
-  "pdf_get_minorversion",
-  "pdf_get_parameter",
-  "pdf_get_pdi_parameter",
-  "pdf_get_pdi_value",
-  "pdf_get_value",
-  "pdf_initgraphics",
-  "pdf_lineto",
-  "pdf_makespotcolor",
-  "pdf_moveto",
-  "pdf_new",
-  "pdf_open",
-  "pdf_open_CCITT",
-  "pdf_open_file",
-  "pdf_open_gif",
-  "pdf_open_image",
-  "pdf_open_image_file",
-  "pdf_open_jpeg",
-  "pdf_open_memory_image",
-  "pdf_open_pdi",
-  "pdf_open_pdi_page",
-  "pdf_open_png",
-  "pdf_open_tiff",
-  "pdf_place_image",
-  "pdf_place_pdi_page",
-  "pdf_rect",
-  "pdf_restore",
-  "pdf_rotate",
-  "pdf_save",
-  "pdf_scale",
-  "pdf_set_border_color",
-  "pdf_set_border_dash",
-  "pdf_set_border_style",
-  "pdf_set_char_spacing",
-  "pdf_setcolor",
-  "pdf_setdash",
-  "pdf_set_duration",
-  "pdf_setflat",
-  "pdf_set_font",
-  "pdf_setfont",
-  "pdf_setgray",
-  "pdf_setgray_fill",
-  "pdf_setgray_stroke",
-  "pdf_set_horiz_scaling",
-  "pdf_set_info",
-  "pdf_set_info_author",
-  "pdf_set_info_creator",
-  "pdf_set_info_keywords",
-  "pdf_set_info_subject",
-  "pdf_set_info_title",
-  "pdf_set_leading",
-  "pdf_setlinecap",
-  "pdf_setlinejoin",
-  "pdf_setlinewidth",
-  "pdf_setmatrix",
-  "pdf_setmiterlimit",
-  "pdf_set_parameter",
-  "pdf_setpolydash",
-  "pdf_setrgbcolor",
-  "pdf_setrgbcolor_fill",
-  "pdf_setrgbcolor_stroke",
-  "pdf_set_text_matrix",
-  "pdf_set_text_pos",
-  "pdf_set_text_rendering",
-  "pdf_set_text_rise",
-  "pdf_set_value",
-  "pdf_set_word_spacing",
-  "pdf_show",
-  "pdf_show_boxed",
-  "pdf_show_xy",
-  "pdf_skew",
-  "pdf_stringwidth",
-  "pdf_stroke",
-  "pdf_translate",
-  "PEAR_EXTENSION_DIR",
-  "PEAR_INSTALL_DIR",
-  "pfpro_cleanup",
-  "pfpro_init",
-  "pfpro_process",
-  "pfpro_process_raw",
-  "pfpro_version",
-  "pfsockopen",
-  "pg_affected_rows",
-  "pg_cancel_query",
-  "pg_client_encoding",
-  "pg_close",
-  "pg_connect",
-  "pg_connection_busy",
-  "pg_connection_reset",
-  "pg_connection_status",
-  "pg_convert",
-  "pg_copy_from",
-  "pg_copy_to",
-  "pg_dbname",
-  "pg_delete",
-  "pg_end_copy",
-  "pg_escape_bytea",
-  "pg_escape_string",
-  "pg_fetch_all",
-  "pg_fetch_array",
-  "pg_fetch_assoc",
-  "pg_fetch_object",
-  "pg_fetch_result",
-  "pg_fetch_row",
-  "pg_field_is_null",
-  "pg_field_name",
-  "pg_field_num",
-  "pg_field_prtlen",
-  "pg_field_size",
-  "pg_field_type",
-  "pg_free_result",
-  "pg_get_notify",
-  "pg_get_pid",
-  "pg_get_result",
-  "pg_host",
-  "pg_insert",
-  "pg_last_error",
-  "pg_last_notice",
-  "pg_last_oid",
-  "pg_lo_close",
-  "pg_lo_create",
-  "pg_lo_export",
-  "pg_lo_import",
-  "pg_lo_open",
-  "pg_lo_read",
-  "pg_lo_read_all",
-  "pg_lo_seek",
-  "pg_lo_tell",
-  "pg_lo_unlink",
-  "pg_lo_write",
-  "pg_meta_data",
-  "pg_num_fields",
-  "pg_num_rows",
-  "pg_options",
-  "pg_pconnect",
-  "pg_ping",
-  "pg_port",
-  "pg_put_line",
-  "pg_query",
-  "pg_result_error",
-  "pg_result_seek",
-  "pg_result_status",
-  "pg_select",
-  "pg_send_query",
-  "pg_set_client_encoding",
-  "pg_trace",
-  "pg_tty",
-  "pg_unescape_bytea",
-  "pg_untrace",
-  "pg_update",
-  "PHP_BINDIR",
-  "PHP_CONFIG_FILE_PATH",
-  "phpcredits",
-  "PHP_DATADIR",
-  "PHP_ERRMSG",
-  "PHP_EXTENSION_DIR",
-  "phpinfo",
-  "php_ini_scanned_files",
-  "PHP_LIBDIR",
-  "PHP_LOCALSTATEDIR",
-  "php_logo_guid",
-  "PHP_OS",
-  "PHP_OUTPUT_HANDLER_CONT",
-  "PHP_OUTPUT_HANDLER_END",
-  "PHP_OUTPUT_HANDLER_START",
-  "php_sapi_name",
-  "PHP_SELF",
-  "PHP_SYSCONFDIR",
-  "php_uname",
-  "phpversion",
-  "PHP_VERSION",
-  "pi",
-  "png2wbmp",
-  "popen",
-  "pos",
-  "posix_ctermid",
-  "posix_getcwd",
-  "posix_getegid",
-  "posix_geteuid",
-  "posix_getgid",
-  "posix_getgrgid",
-  "posix_getgrnam",
-  "posix_getgroups",
-  "posix_getlogin",
-  "posix_getpgid",
-  "posix_getpgrp",
-  "posix_getpid",
-  "posix_getppid",
-  "posix_getpwnam",
-  "posix_getpwuid",
-  "posix_getrlimit",
-  "posix_getsid",
-  "posix_getuid",
-  "posix_isatty",
-  "posix_kill",
-  "posix_mkfifo",
-  "posix_setegid",
-  "posix_seteuid",
-  "posix_setgid",
-  "posix_setpgid",
-  "posix_setsid",
-  "posix_setuid",
-  "posix_times",
-  "posix_ttyname",
-  "posix_uname",
-  "_POST",
-  "pow",
-  "prefix",
-  "preg_grep",
-  "preg_match",
-  "preg_match_all",
-  "preg_quote",
-  "preg_replace",
-  "preg_replace_callback",
-  "preg_split",
-  "prev",
-  "previous_sibling",
-  "print",
-  "printer_abort",
-  "printer_close",
-  "printer_create_brush",
-  "printer_create_dc",
-  "printer_create_font",
-  "printer_create_pen",
-  "printer_delete_brush",
-  "printer_delete_dc",
-  "printer_delete_font",
-  "printer_delete_pen",
-  "printer_draw_bmp",
-  "printer_draw_chord",
-  "printer_draw_elipse",
-  "printer_draw_line",
-  "printer_draw_pie",
-  "printer_draw_rectangle",
-  "printer_draw_roundrect",
-  "printer_draw_text",
-  "printer_end_doc",
-  "printer_end_page",
-  "printer_get_option",
-  "printer_list",
-  "printer_logical_fontheight",
-  "printer_open",
-  "printer_select_brush",
-  "printer_select_font",
-  "printer_select_pen",
-  "printer_set_option",
-  "printer_start_doc",
-  "printer_start_page",
-  "printer_write",
-  "printf",
-  "print_r",
-  "private",
-  "proc_close",
-  "process",
-  "proc_open",
-  "protected",
-  "pspell_add_to_personal",
-  "pspell_add_to_session",
-  "pspell_check",
-  "pspell_clear_session",
-  "pspell_config_create",
-  "pspell_config_ignore",
-  "pspell_config_mode",
-  "pspell_config_personal",
-  "pspell_config_repl",
-  "pspell_config_runtogether",
-  "pspell_config_save_repl",
-  "pspell_new",
-  "pspell_new_config",
-  "pspell_new_personal",
-  "pspell_save_wordlist",
-  "pspell_store_replacement",
-  "pspell_suggest",
-  "public",
-  "public_id",
-  "putenv",
-  "qdom_error",
-  "qdom_tree",
-  "QUERY_STRING",
-  "quoted_printable_decode",
-  "quotemeta",
-  "rad2deg",
-  "rand",
-  "range",
-  "rawurldecode",
-  "rawurlencode",
-  "read",
-  "readdir",
-  "read_exif_data",
-  "readfile",
-  "readgzfile"
-  "readline",
-  "readline_add_history",
-  "readline_clear_history",
-  "readline_completion_function",
-  "readline_info",
-  "readline_list_history",
-  "readline_read_history",
-  "readline_write_history",
-  "readlink",
-  "realpath",
-  "reason",
-  "recode",
-  "recode_file",
-  "recode_string",
-  "register_shutdown_function",
-  "register_tick_function",
-  "REMOTE_ADDR",
-  "REMOTE_PORT",
-  "remove",
-  "remove_attribute",
-  "remove_child",
-  "rename",
-  "replace",
-  "replace_child",
-  "replace_node",
-  "_REQUEST",
-  "REQUEST_METHOD",
-  "REQUEST_URI",
-  "require",
-  "require_once",
-  "reset",
-  "restore_error_handler",
-  "restore_include_path",
-  "result_dump_file",
-  "result_dump_mem",
-  "return",
-  "rewind",
-  "rewinddir",
-  "rmdir",
-  "Rotate",
-  "rotateTo",
-  "round",
-  "rsort",
-  "rtrim",
-  "save",
-  "scale",
-  "scaleTo",
-  "SCRIPT_FILENAME",
-  "SCRIPT_NAME",
-  "sem_acquire",
-  "sem_get",
-  "sem_release",
-  "sem_remove",
-  "serialize",
-  "_SERVER",
-  "SERVER_ADMIN",
-  "SERVER_NAME",
-  "SERVER_PORT",
-  "SERVER_PROTOCOL",
-  "SERVER_SIGNATURE",
-  "SERVER_SOFTWARE",
-  "sesam_affected_rows",
-  "sesam_commit",
-  "sesam_connect",
-  "sesam_diagnostic",
-  "sesam_disconnect",
-  "sesam_errormsg",
-  "sesam_execimm",
-  "sesam_fetch_array",
-  "sesam_fetch_result",
-  "sesam_fetch_row",
-  "sesam_field_array",
-  "sesam_field_name",
-  "sesam_free_result",
-  "sesam_num_fields",
-  "sesam_query",
-  "sesam_rollback",
-  "sesam_seek_row",
-  "sesam_settransaction",
-  "_SESSION",
-  "session_cache_expire",
-  "session_cache_limiter",
-  "session_decode",
-  "session_destroy",
-  "session_encode",
-  "session_get_cookie_params",
-  "session_id",
-  "session_is_registered",
-  "session_module_name",
-  "session_name",
-  "session_readonly",
-  "session_register",
-  "session_save_path",
-  "session_set_cookie_params",
-  "session_set_save_handler",
-  "session_start",
-  "session_unregister",
-  "session_unset",
-  "session_write_close",
-  "setAction",
-  "set_attribute",
-  "setbackground",
-  "setbounds",
-  "setcolor",
-  "setColor",
-  "setcommitedversion",
-  "set_content",
-  "setcookie",
-  "setDepth",
-  "setdimension",
-  "setdown",
-  "set_error_handler",
-  "set_file_buffer",
-  "setFont",
-  "setframes",
-  "setHeight",
-  "setHit",
-  "set_include_path",
-  "setindentation",
-  "setLeftFill",
-  "setLeftMargin",
-  "setLine",
-  "setLineSpacing",
-  "setlocale",
-  "set_magic_quotes_runtime",
-  "setMargins",
-  "set_name",
-  "setname",
-  "setName",
-  "set_namespace",
-  "setOver",
-  "setrate",
-  "setRatio",
-  "setRightFill",
-  "setrightMargin",
-  "setSpacing",
-  "set_time_limit",
-  "settype",
-  "setUp",
-  "sha1",
-  "sha1_file",
-  "shell_exec",
-  "shm_attach",
-  "shm_detach",
-  "shm_get_var",
-  "shmop_close",
-  "shmop_delete",
-  "shmop_open",
-  "shmop_read",
-  "shmop_size",
-  "shmop_write",
-  "shm_put_var",
-  "shm_remove",
-  "shm_remove_var",
-  "show_source",
-  "shuffle",
-  "similar_text",
-  "sin",
-  "sinh",
-  "sizeof",
-  "skewX",
-  "skewXTo",
-  "skewY",
-  "skewYTo",
-  "sleep",
-  "snmpget",
-  "snmp_get_quick_print",
-  "snmprealwalk",
-  "snmpset",
-  "snmp_set_quick_print",
-  "snmpwalk",
-  "snmpwalkoid",
-  "socket_accept",
-  "socket_bind",
-  "socket_clear_error",
-  "socket_close",
-  "socket_connect",
-  "socket_create",
-  "socket_create_listen",
-  "socket_create_pair",
-  "socket_get_option",
-  "socket_getpeername",
-  "socket_getsockname",
-  "socket_get_status",
-  "socket_iovec_add",
-  "socket_iovec_alloc",
-  "socket_iovec_delete",
-  "socket_iovec_fetch",
-  "socket_iovec_free",
-  "socket_iovec_set",
-  "socket_last_error",
-  "socket_listen",
-  "socket_read",
-  "socket_readv",
-  "socket_recv",
-  "socket_recvfrom",
-  "socket_recvmsg",
-  "socket_select",
-  "socket_send",
-  "socket_sendmsg",
-  "socket_sendto",
-  "socket_set_blocking",
-  "socket_set_nonblock",
-  "socket_set_option",
-  "socket_set_timeout",
-  "socket_shutdown",
-  "socket_strerror",
-  "socket_write",
-  "socket_writev",
-  "sort",
-  "soundex",
-  "specified",
-  "split",
-  "spliti",
-  "sprintf",
-  "sql_regcase",
-  "sqrt",
-  "srand",
-  "srcanchors",
-  "srcsofdst",
-  "sscanf",
-  "stat",
-  "static",
-  "stdClass",
-  "strcasecmp",
-  "strchr",
-  "strcmp",
-  "strcoll",
-  "strcspn",
-  "stream_context_create",
-  "stream_context_get_options",
-  "stream_context_set_option",
-  "stream_context_set_params",
-  "stream_filter_append",
-  "stream_filter_prepend",
-  "stream_get_filters",
-  "stream_get_meta_data",
-  "stream_get_wrappers",
-  "streammp3",
-  "stream_register_filter",
-  "stream_register_wrapper",
-  "stream_select",
-  "stream_set_blocking",
-  "stream_set_timeout",
-  "stream_set_write_buffer",
-  "strftime",
-  "stripcslashes",
-  "stripslashes",
-  "strip_tags",
-  "stristr",
-  "strlen",
-  "strnatcasecmp",
-  "strnatcmp",
-  "strncasecmp",
-  "strncmp",
-  "str_pad",
-  "strpos",
-  "strrchr",
-  "str_repeat",
-  "str_replace",
-  "strrev",
-  "str_rot13",
-  "strrpos",
-  "str_shuffle",
-  "strspn",
-  "strstr",
-  "strtok",
-  "strtolower",
-  "strtotime",
-  "strtoupper",
-  "strtr",
-  "strval",
-  "str_word_count",
-  "substr",
-  "substr_count",
-  "substr_replace",
-  "SWFAction",
-  "swf_actiongeturl",
-  "swf_actiongotoframe",
-  "swf_actiongotolabel",
-  "swf_actionnextframe",
-  "swf_actionplay",
-  "swf_actionprevframe",
-  "swf_actionsettarget",
-  "swf_actionstop",
-  "swf_actiontogglequality",
-  "swf_actionwaitforframe",
-  "swf_addbuttonrecord",
-  "swf_addcolor",
-  "SWFBitmap",
-  "SWFbutton",
-  "swfbutton_keypress",
-  "swf_closefile",
-  "swf_definebitmap",
-  "swf_definefont",
-  "swf_defineline",
-  "swf_definepoly",
-  "swf_definerect",
-  "swf_definetext",
-  "SWFDisplayItem",
-  "swf_endbutton",
-  "swf_enddoaction",
-  "swf_endshape",
-  "swf_endsymbol",
-  "SWFFill",
-  "SWFFont",
-  "swf_fontsize",
-  "swf_fontslant",
-  "swf_fonttracking",
-  "swf_getbitmapinfo",
-  "swf_getfontinfo",
-  "swf_getframe",
-  "SWFGradient",
-  "swf_labelframe",
-  "swf_lookat",
-  "swf_modifyobject",
-  "SWFMorph",
-  "SWFMovie",
-  "swf_mulcolor",
-  "swf_nextid",
-  "swf_oncondition",
-  "swf_openfile",
-  "swf_ortho",
-  "swf_ortho2",
-  "swf_perspective",
-  "swf_placeobject",
-  "swf_polarview",
-  "swf_popmatrix",
-  "swf_posround",
-  "swf_pushmatrix",
-  "swf_removeobject",
-  "swf_rotate",
-  "swf_scale",
-  "swf_setfont",
-  "swf_setframe",
-  "SWFShape",
-  "swf_shapearc",
-  "swf_shapecurveto",
-  "swf_shapecurveto3",
-  "swf_shapefillbitmapclip",
-  "swf_shapefillbitmaptile",
-  "swf_shapefilloff",
-  "swf_shapefillsolid",
-  "swf_shapelinesolid",
-  "swf_shapelineto",
-  "swf_shapemoveto",
-  "swf_showframe",
-  "SWFSprite",
-  "swf_startbutton",
-  "swf_startdoaction",
-  "swf_startshape",
-  "swf_startsymbol",
-  "SWFText",
-  "SWFTextField",
-  "swf_textwidth",
-  "swf_translate",
-  "swf_viewport",
-  "switch",
-  "sybase_affected_rows",
-  "sybase_close",
-  "sybase_connect",
-  "sybase_data_seek",
-  "sybase_fetch_array",
-  "sybase_fetch_field",
-  "sybase_fetch_object",
-  "sybase_fetch_row",
-  "sybase_field_seek",
-  "sybase_free_result",
-  "sybase_get_last_message",
-  "sybase_min_client_severity",
-  "sybase_min_error_severity",
-  "sybase_min_message_severity",
-  "sybase_min_server_severity",
-  "sybase_num_fields",
-  "sybase_num_rows",
-  "sybase_pconnect",
-  "sybase_query",
-  "sybase_result",
-  "sybase_select_db",
-  "symlink",
-  "syslog",
-  "system",
-  "system_id",
-  "tagname",
-  "tan",
-  "tanh",
-  "target",
-  "tempnam",
-  "textdomain",
-  "time",
-  "title",
-  "tmpfile",
-  "token_get_all",
-  "token_name",
-  "touch",
-  "trigger_error",
-  "trim",
-  "TRUE",
-  "type",
-  "uasort",
-  "ucfirst",
-  "ucwords",
-  "udm_add_search_limit",
-  "udm_alloc_agent",
-  "udm_api_version",
-  "udm_cat_list",
-  "udm_cat_path",
-  "udm_check_charset",
-  "udm_check_stored",
-  "udm_clear_search_limits",
-  "udm_close_stored",
-  "udm_crc32",
-  "udm_errno",
-  "udm_error",
-  "udm_find",
-  "udm_free_agent",
-  "udm_free_ispell_data",
-  "udm_free_res",
-  "udm_get_doc_count",
-  "udm_get_res_field",
-  "udm_get_res_param",
-  "udm_load_ispell_data",
-  "udm_open_stored",
-  "udm_set_agent_param",
-  "uksort",
-  "umask",
-  "uniqid",
-  "unixtojd",
-  "unlink",
-  "unlink_node",
-  "unlock",
-  "unpack",
-  "unregister_tick_function",
-  "unserialize",
-  "unset",
-  "urldecode",
-  "urlencode",
-  "user",
-  "user_error",
-  "userlist",
-  "usleep",
-  "usort",
-  "utf8_decode",
-  "utf8_encode",
-  "value",
-  "values",
-  "var",
-  "var_dump",
-  "var_export",
-  "version_compare",
-  "virtual",
-  "vpopmail_add_alias_domain",
-  "vpopmail_add_alias_domain_ex",
-  "vpopmail_add_domain",
-  "vpopmail_add_domain_ex",
-  "vpopmail_add_user",
-  "vpopmail_alias_add",
-  "vpopmail_alias_del",
-  "vpopmail_alias_del_domain",
-  "vpopmail_alias_get",
-  "vpopmail_alias_get_all",
-  "vpopmail_auth_user",
-  "vpopmail_del_domain",
-  "vpopmail_del_domain_ex",
-  "vpopmail_del_user",
-  "vpopmail_error",
-  "vpopmail_passwd",
-  "vpopmail_set_user_quota",
-  "vprintf",
-  "vsprintf",
-  "w32api_deftype",
-  "w32api_init_dtype",
-  "w32api_invoke_function",
-  "w32api_register_function",
-  "w32api_set_call_method",
-  "wddx_add_vars",
-  "wddx_deserialize",
-  "wddx_packet_end",
-  "wddx_packet_start",
-  "wddx_serialize_value",
-  "wddx_serialize_vars",
-  "while",
-  "wordwrap",
-  "xinclude",
-  "xml_error_string",
-  "xml_get_current_byte_index",
-  "xml_get_current_column_number",
-  "xml_get_current_line_number",
-  "xml_get_error_code",
-  "xml_parse",
-  "xml_parse_into_struct",
-  "xml_parser_create",
-  "xml_parser_create_ns",
-  "xml_parser_free",
-  "xml_parser_get_option",
-  "xml_parser_set_option",
-  "xmlrpc_decode",
-  "xmlrpc_decode_request",
-  "xmlrpc_encode",
-  "xmlrpc_encode_request",
-  "xmlrpc_get_type",
-  "xmlrpc_parse_method_descriptions",
-  "xmlrpc_server_add_introspection_data",
-  "xmlrpc_server_call_method",
-  "xmlrpc_server_create",
-  "xmlrpc_server_destroy",
-  "xmlrpc_server_register_introspection_callback",
-  "xmlrpc_server_register_method",
-  "xmlrpc_set_type",
-  "xml_set_character_data_handler",
-  "xml_set_default_handler",
-  "xml_set_element_handler",
-  "xml_set_end_namespace_decl_handler",
-  "xml_set_external_entity_ref_handler",
-  "xml_set_notation_decl_handler",
-  "xml_set_object",
-  "xml_set_processing_instruction_handler",
-  "xml_set_start_namespace_decl_handler",
-  "xml_set_unparsed_entity_decl_handler",
-  "xpath_eval",
-  "xpath_eval_expression",
-  "xpath_new_context",
-  "xptr_eval",
-  "xptr_new_context",
-  "xslt_create",
-  "xslt_errno",
-  "xslt_error",
-  "xslt_free",
-  "xslt_output_process",
-  "xslt_set_base",
-  "xslt_set_encoding",
-  "xslt_set_error_handler",
-  "xslt_set_log",
-  "xslt_set_sax_handler",
-  "xslt_set_sax_handlers",
-  "xslt_set_scheme_handler",
-  "xslt_set_scheme_handlers",
-  "yaz_addinfo",
-  "yaz_ccl_conf",
-  "yaz_ccl_parse",
-  "yaz_close",
-  "yaz_connect",
-  "yaz_database",
-  "yaz_element",
-  "yaz_errno",
-  "yaz_error",
-  "yaz_get_option",
-  "yaz_hits",
-  "yaz_itemorder",
-  "yaz_present",
-  "yaz_range",
-  "yaz_record",
-  "yaz_scan",
-  "yaz_scan_result",
-  "yaz_schema",
-  "yaz_search",
-  "yaz_set_option",
-  "yaz_sort",
-  "yaz_syntax",
-  "yaz_wait",
-  "yp_all",
-  "yp_cat",
-  "yp_errno",
-  "yp_err_string",
-  "yp_first",
-  "yp_get_default_domain",
-  "yp_master",
-  "yp_match",
-  "yp_next",
-  "yp_order",
-  "zend_logo_guid",
-  "zend_version"
-  "zend_version",
-  "zip_close",
-  "zip_entry_close",
-  "zip_entry_compressedsize",
-  "zip_entry_compressionmethod",
-  "zip_entry_filesize",
-  "zip_entry_name",
-  "zip_entry_open",
-  "zip_entry_read",
-  "zip_open",
-  "zip_read",
-  NULL
-};
+const QStringList Php5Writer::reservedKeywords() const {
 
-/**
- * get list of reserved keywords
- */
-const QPtrList<const char *> *
-Php5Writer::getReservedKeywords() {
-  if (pListOfReservedKeywords == NULL)
-  {
-    pListOfReservedKeywords = convertListOfReservedKeywords(ReservedWords);
+  static QStringList keywords;
+
+  if (keywords.isEmpty()) {
+    keywords.append( "abs" );
+    keywords.append( "abstract" );
+    keywords.append( "acos" );
+    keywords.append( "acosh" );
+    keywords.append( "add" );
+    keywords.append( "addAction" );
+    keywords.append( "addColor" );
+    keywords.append( "addEntry" );
+    keywords.append( "addFill" );
+    keywords.append( "addShape" );
+    keywords.append( "addString" );
+    keywords.append( "add_namespace" );
+    keywords.append( "addcslashes" );
+    keywords.append( "addslashes" );
+    keywords.append( "addstring" );
+    keywords.append( "aggregate" );
+    keywords.append( "aggregate_info" );
+    keywords.append( "aggregate_methods" );
+    keywords.append( "aggregate_methods_by_list" );
+    keywords.append( "aggregate_methods_by_regexp" );
+    keywords.append( "aggregate_properties" );
+    keywords.append( "aggregate_properties_by_list" );
+    keywords.append( "aggregate_properties_by_regexp" );
+    keywords.append( "aggregation_info" );
+    keywords.append( "align" );
+    keywords.append( "apache_child_terminate" );
+    keywords.append( "apache_lookup_uri" );
+    keywords.append( "apache_note" );
+    keywords.append( "apache_request_headers" );
+    keywords.append( "apache_response_headers" );
+    keywords.append( "apache_setenv" );
+    keywords.append( "append_child" );
+    keywords.append( "append_sibling" );
+    keywords.append( "array" );
+    keywords.append( "array_change_key_case" );
+    keywords.append( "array_chunk" );
+    keywords.append( "array_count_values" );
+    keywords.append( "array_diff" );
+    keywords.append( "array_diff_assoc" );
+    keywords.append( "array_fill" );
+    keywords.append( "array_filter" );
+    keywords.append( "array_flip" );
+    keywords.append( "array_intersect" );
+    keywords.append( "array_intersect_assoc" );
+    keywords.append( "array_key_exists" );
+    keywords.append( "array_keys" );
+    keywords.append( "array_map" );
+    keywords.append( "array_merge" );
+    keywords.append( "array_merge_recursive" );
+    keywords.append( "array_multisort" );
+    keywords.append( "array_pad" );
+    keywords.append( "array_pop" );
+    keywords.append( "array_push" );
+    keywords.append( "array_rand" );
+    keywords.append( "array_reduce" );
+    keywords.append( "array_reverse" );
+    keywords.append( "array_search" );
+    keywords.append( "array_shift" );
+    keywords.append( "array_slice" );
+    keywords.append( "array_splice" );
+    keywords.append( "array_sum" );
+    keywords.append( "array_unique" );
+    keywords.append( "array_unshift" );
+    keywords.append( "array_values" );
+    keywords.append( "array_walk" );
+    keywords.append( "arsort" );
+    keywords.append( "ascii2ebcdic" );
+    keywords.append( "asin" );
+    keywords.append( "asinh" );
+    keywords.append( "asort" );
+    keywords.append( "aspell_check" );
+    keywords.append( "aspell_new" );
+    keywords.append( "aspell_suggest" );
+    keywords.append( "assert" );
+    keywords.append( "assert_options" );
+    keywords.append( "assign" );
+    keywords.append( "atan" );
+    keywords.append( "atan2" );
+    keywords.append( "atanh" );
+    keywords.append( "attreditable" );
+    keywords.append( "attributes" );
+    keywords.append( "base64_decode" );
+    keywords.append( "base64_encode" );
+    keywords.append( "base_convert" );
+    keywords.append( "basename" );
+    keywords.append( "bcadd" );
+    keywords.append( "bccomp" );
+    keywords.append( "bcdiv" );
+    keywords.append( "bcmod" );
+    keywords.append( "bcmul" );
+    keywords.append( "bcpow" );
+    keywords.append( "bcpowmod" );
+    keywords.append( "bcscale" );
+    keywords.append( "bcsqrt" );
+    keywords.append( "bcsub" );
+    keywords.append( "bin2hex" );
+    keywords.append( "bindec" );
+    keywords.append( "bindtextdomain" );
+    keywords.append( "bind_textdomain_codeset" );
+    keywords.append( "bool" );
+    keywords.append( "break" );
+    keywords.append( "bzclose" );
+    keywords.append( "bzcompress" );
+    keywords.append( "bzdecompress" );
+    keywords.append( "bzerrno" );
+    keywords.append( "bzerror" );
+    keywords.append( "bzerrstr" );
+    keywords.append( "bzflush" );
+    keywords.append( "bzopen" );
+    keywords.append( "bzread" );
+    keywords.append( "bzwrite" );
+    keywords.append( "cal_days_in_month" );
+    keywords.append( "cal_from_jd" );
+    keywords.append( "cal_info" );
+    keywords.append( "call_user_func" );
+    keywords.append( "call_user_func_array" );
+    keywords.append( "call_user_method" );
+    keywords.append( "call_user_method_array" );
+    keywords.append( "cal_to_jd" );
+    keywords.append( "ccvs_add" );
+    keywords.append( "ccvs_auth" );
+    keywords.append( "ccvs_command" );
+    keywords.append( "ccvs_count" );
+    keywords.append( "ccvs_delete" );
+    keywords.append( "ccvs_done" );
+    keywords.append( "ccvs_init" );
+    keywords.append( "ccvs_lookup" );
+    keywords.append( "ccvs_new" );
+    keywords.append( "ccvs_report" );
+    keywords.append( "ccvs_return" );
+    keywords.append( "ccvs_reverse" );
+    keywords.append( "ccvs_sale" );
+    keywords.append( "ccvs_status" );
+    keywords.append( "ccvs_textvalue" );
+    keywords.append( "ccvs_void" );
+    keywords.append( "ceil" );
+    keywords.append( "chdir" );
+    keywords.append( "checkdate" );
+    keywords.append( "checkdnsrr" );
+    keywords.append( "checkin" );
+    keywords.append( "checkout" );
+    keywords.append( "chgrp" );
+    keywords.append( "child_nodes" );
+    keywords.append( "children" );
+    keywords.append( "chmod" );
+    keywords.append( "chop" );
+    keywords.append( "chown" );
+    keywords.append( "chr" );
+    keywords.append( "chroot" );
+    keywords.append( "chunk_split" );
+    keywords.append( "class" );
+    keywords.append( "class_exists" );
+    keywords.append( "clearstatcache" );
+    keywords.append( "clone_node" );
+    keywords.append( "closedir" );
+    keywords.append( "closelog" );
+    keywords.append( "com_addref" );
+    keywords.append( "com_get" );
+    keywords.append( "com_invoke" );
+    keywords.append( "com_isenum" );
+    keywords.append( "com_load" );
+    keywords.append( "com_load_typelib" );
+    keywords.append( "compact" );
+    keywords.append( "com_propget" );
+    keywords.append( "com_propput" );
+    keywords.append( "com_propset" );
+    keywords.append( "com_release" );
+    keywords.append( "com_set" );
+    keywords.append( "connection_aborted" );
+    keywords.append( "connection_status" );
+    keywords.append( "connection_timeout" );
+    keywords.append( "constant" );
+    keywords.append( "content" );
+    keywords.append( "continue" );
+    keywords.append( "convert_cyr_string" );
+    keywords.append( "_COOKIE" );
+    keywords.append( "copy" );
+    keywords.append( "cos" );
+    keywords.append( "cosh" );
+    keywords.append( "count" );
+    keywords.append( "count_chars" );
+    keywords.append( "cpdf_add_annotation" );
+    keywords.append( "cpdf_add_outline" );
+    keywords.append( "cpdf_arc" );
+    keywords.append( "cpdf_begin_text" );
+    keywords.append( "cpdf_circle" );
+    keywords.append( "cpdf_clip" );
+    keywords.append( "cpdf_close" );
+    keywords.append( "cpdf_closepath" );
+    keywords.append( "cpdf_closepath_fill_stroke" );
+    keywords.append( "cpdf_closepath_stroke" );
+    keywords.append( "cpdf_continue_text" );
+    keywords.append( "cpdf_curveto" );
+    keywords.append( "cpdf_end_text" );
+    keywords.append( "cpdf_fill" );
+    keywords.append( "cpdf_fill_stroke" );
+    keywords.append( "cpdf_finalize" );
+    keywords.append( "cpdf_finalize_page" );
+    keywords.append( "cpdf_global_set_document_limits" );
+    keywords.append( "cpdf_import_jpeg" );
+    keywords.append( "cpdf_lineto" );
+    keywords.append( "cpdf_moveto" );
+    keywords.append( "cpdf_newpath" );
+    keywords.append( "cpdf_open" );
+    keywords.append( "cpdf_output_buffer" );
+    keywords.append( "cpdf_page_init" );
+    keywords.append( "cpdf_place_inline_image" );
+    keywords.append( "cpdf_rect" );
+    keywords.append( "cpdf_restore" );
+    keywords.append( "cpdf_rlineto" );
+    keywords.append( "cpdf_rmoveto" );
+    keywords.append( "cpdf_rotate" );
+    keywords.append( "cpdf_rotate_text" );
+    keywords.append( "cpdf_save" );
+    keywords.append( "cpdf_save_to_file" );
+    keywords.append( "cpdf_scale" );
+    keywords.append( "cpdf_set_action_url" );
+    keywords.append( "cpdf_set_char_spacing" );
+    keywords.append( "cpdf_set_creator" );
+    keywords.append( "cpdf_set_current_page" );
+    keywords.append( "cpdf_setdash" );
+    keywords.append( "cpdf_setflat" );
+    keywords.append( "cpdf_set_font" );
+    keywords.append( "cpdf_set_font_directories" );
+    keywords.append( "cpdf_set_font_map_file" );
+    keywords.append( "cpdf_setgray" );
+    keywords.append( "cpdf_setgray_fill" );
+    keywords.append( "cpdf_setgray_stroke" );
+    keywords.append( "cpdf_set_horiz_scaling" );
+    keywords.append( "cpdf_set_keywords" );
+    keywords.append( "cpdf_set_leading" );
+    keywords.append( "cpdf_setlinecap" );
+    keywords.append( "cpdf_setlinejoin" );
+    keywords.append( "cpdf_setlinewidth" );
+    keywords.append( "cpdf_setmiterlimit" );
+    keywords.append( "cpdf_set_page_animation" );
+    keywords.append( "cpdf_setrgbcolor" );
+    keywords.append( "cpdf_setrgbcolor_fill" );
+    keywords.append( "cpdf_setrgbcolor_stroke" );
+    keywords.append( "cpdf_set_subject" );
+    keywords.append( "cpdf_set_text_matrix" );
+    keywords.append( "cpdf_set_text_pos" );
+    keywords.append( "cpdf_set_text_rendering" );
+    keywords.append( "cpdf_set_text_rise" );
+    keywords.append( "cpdf_set_title" );
+    keywords.append( "cpdf_set_viewer_preferences" );
+    keywords.append( "cpdf_set_word_spacing" );
+    keywords.append( "cpdf_show" );
+    keywords.append( "cpdf_show_xy" );
+    keywords.append( "cpdf_stringwidth" );
+    keywords.append( "cpdf_stroke" );
+    keywords.append( "cpdf_text" );
+    keywords.append( "cpdf_translate" );
+    keywords.append( "crack_check" );
+    keywords.append( "crack_closedict" );
+    keywords.append( "crack_getlastmessage" );
+    keywords.append( "crack_opendict" );
+    keywords.append( "crc32" );
+    keywords.append( "create_attribute" );
+    keywords.append( "create_cdata_section" );
+    keywords.append( "create_comment" );
+    keywords.append( "create_element" );
+    keywords.append( "create_element_ns" );
+    keywords.append( "create_entity_reference" );
+    keywords.append( "create_function" );
+    keywords.append( "create_processing_instruction" );
+    keywords.append( "create_text_node" );
+    keywords.append( "crypt" );
+    keywords.append( "ctype_alnum" );
+    keywords.append( "ctype_alpha" );
+    keywords.append( "ctype_cntrl" );
+    keywords.append( "ctype_digit" );
+    keywords.append( "ctype_graph" );
+    keywords.append( "ctype_lower" );
+    keywords.append( "ctype_print" );
+    keywords.append( "ctype_punct" );
+    keywords.append( "ctype_space" );
+    keywords.append( "ctype_upper" );
+    keywords.append( "ctype_xdigit" );
+    keywords.append( "curl_close" );
+    keywords.append( "curl_errno" );
+    keywords.append( "curl_error" );
+    keywords.append( "curl_exec" );
+    keywords.append( "curl_getinfo" );
+    keywords.append( "curl_init" );
+    keywords.append( "curl_setopt" );
+    keywords.append( "curl_version" );
+    keywords.append( "current" );
+    keywords.append( "cybercash_base64_decode" );
+    keywords.append( "cybercash_base64_encode" );
+    keywords.append( "cybercash_decr" );
+    keywords.append( "cybercash_encr" );
+    keywords.append( "cybermut_creerformulairecm" );
+    keywords.append( "cybermut_creerreponsecm" );
+    keywords.append( "cybermut_testmac" );
+    keywords.append( "cyrus_authenticate" );
+    keywords.append( "cyrus_bind" );
+    keywords.append( "cyrus_close" );
+    keywords.append( "cyrus_connect" );
+    keywords.append( "cyrus_query" );
+    keywords.append( "cyrus_unbind" );
+    keywords.append( "data" );
+    keywords.append( "date" );
+    keywords.append( "dba_close" );
+    keywords.append( "dba_delete" );
+    keywords.append( "dba_exists" );
+    keywords.append( "dba_fetch" );
+    keywords.append( "dba_firstkey" );
+    keywords.append( "dba_handlers" );
+    keywords.append( "dba_insert" );
+    keywords.append( "dba_list" );
+    keywords.append( "dba_nextkey" );
+    keywords.append( "dba_open" );
+    keywords.append( "dba_optimize" );
+    keywords.append( "dba_popen" );
+    keywords.append( "dba_replace" );
+    keywords.append( "dbase_add_record" );
+    keywords.append( "dbase_close" );
+    keywords.append( "dbase_create" );
+    keywords.append( "dbase_delete_record" );
+    keywords.append( "dbase_get_record" );
+    keywords.append( "dbase_get_record_with_names" );
+    keywords.append( "dbase_numfields" );
+    keywords.append( "dbase_numrecords" );
+    keywords.append( "dbase_open" );
+    keywords.append( "dbase_pack" );
+    keywords.append( "dbase_replace_record" );
+    keywords.append( "dba_sync" );
+    keywords.append( "dblist" );
+    keywords.append( "dbmclose" );
+    keywords.append( "dbmdelete" );
+    keywords.append( "dbmexists" );
+    keywords.append( "dbmfetch" );
+    keywords.append( "dbmfirstkey" );
+    keywords.append( "dbminsert" );
+    keywords.append( "dbmnextkey" );
+    keywords.append( "dbmopen" );
+    keywords.append( "dbmreplace" );
+    keywords.append( "dbplus_add" );
+    keywords.append( "dbplus_aql" );
+    keywords.append( "dbplus_chdir" );
+    keywords.append( "dbplus_close" );
+    keywords.append( "dbplus_curr" );
+    keywords.append( "dbplus_errcode" );
+    keywords.append( "dbplus_errno" );
+    keywords.append( "dbplus_find" );
+    keywords.append( "dbplus_first" );
+    keywords.append( "dbplus_flush" );
+    keywords.append( "dbplus_freealllocks" );
+    keywords.append( "dbplus_freelock" );
+    keywords.append( "dbplus_freerlocks" );
+    keywords.append( "dbplus_getlock" );
+    keywords.append( "dbplus_getunique" );
+    keywords.append( "dbplus_info" );
+    keywords.append( "dbplus_last" );
+    keywords.append( "dbplus_lockrel" );
+    keywords.append( "dbplus_next" );
+    keywords.append( "dbplus_open" );
+    keywords.append( "dbplus_prev" );
+    keywords.append( "dbplus_rchperm" );
+    keywords.append( "dbplus_rcreate" );
+    keywords.append( "dbplus_rcrtexact" );
+    keywords.append( "dbplus_rcrtlike" );
+    keywords.append( "dbplus_resolve" );
+    keywords.append( "dbplus_restorepos" );
+    keywords.append( "dbplus_rkeys" );
+    keywords.append( "dbplus_ropen" );
+    keywords.append( "dbplus_rquery" );
+    keywords.append( "dbplus_rrename" );
+    keywords.append( "dbplus_rsecindex" );
+    keywords.append( "dbplus_runlink" );
+    keywords.append( "dbplus_rzap" );
+    keywords.append( "dbplus_savepos" );
+    keywords.append( "dbplus_setindex" );
+    keywords.append( "dbplus_setindexbynumber" );
+    keywords.append( "dbplus_sql" );
+    keywords.append( "dbplus_tcl" );
+    keywords.append( "dbplus_tremove" );
+    keywords.append( "dbplus_undo" );
+    keywords.append( "dbplus_undoprepare" );
+    keywords.append( "dbplus_unlockrel" );
+    keywords.append( "dbplus_unselect" );
+    keywords.append( "dbplus_update" );
+    keywords.append( "dbplus_xlockrel" );
+    keywords.append( "dbplus_xunlockrel" );
+    keywords.append( "dbstat" );
+    keywords.append( "dbx_close" );
+    keywords.append( "dbx_compare" );
+    keywords.append( "dbx_connect" );
+    keywords.append( "dbx_error" );
+    keywords.append( "dbx_escape_string" );
+    keywords.append( "dbx_query" );
+    keywords.append( "dbx_sort" );
+    keywords.append( "dcgettext" );
+    keywords.append( "dcngettext" );
+    keywords.append( "dcstat" );
+    keywords.append( "deaggregate" );
+    keywords.append( "debug_backtrace" );
+    keywords.append( "debugger_off" );
+    keywords.append( "debugger_on" );
+    keywords.append( "decbin" );
+    keywords.append( "dechex" );
+    keywords.append( "declare" );
+    keywords.append( "decoct" );
+    keywords.append( "DEFAULT_INCLUDE_PATH" );
+    keywords.append( "define" );
+    keywords.append( "defined" );
+    keywords.append( "define_syslog_variables" );
+    keywords.append( "deg2rad" );
+    keywords.append( "delete" );
+    keywords.append( "description" );
+    keywords.append( "dgettext" );
+    keywords.append( "die" );
+    keywords.append( "dio_close" );
+    keywords.append( "dio_fcntl" );
+    keywords.append( "dio_open" );
+    keywords.append( "dio_read" );
+    keywords.append( "dio_seek" );
+    keywords.append( "dio_stat" );
+    keywords.append( "dio_tcsetattr" );
+    keywords.append( "dio_truncate" );
+    keywords.append( "dio_write" );
+    keywords.append( "dir" );
+    keywords.append( "dirname" );
+    keywords.append( "disk_free_space" );
+    keywords.append( "diskfreespace" );
+    keywords.append( "disk_total_space" );
+    keywords.append( "dl" );
+    keywords.append( "dngettext" );
+    keywords.append( "dns_check_record" );
+    keywords.append( "dns_get_mx" );
+    keywords.append( "dns_get_record" );
+    keywords.append( "do" );
+    keywords.append( "doctype" );
+    keywords.append( "document_element" );
+    keywords.append( "DOCUMENT_ROOT" );
+    keywords.append( "domxml_new_doc" );
+    keywords.append( "domxml_open_file" );
+    keywords.append( "domxml_open_mem" );
+    keywords.append( "domxml_version" );
+    keywords.append( "domxml_xmltree" );
+    keywords.append( "domxml_xslt_stylesheet" );
+    keywords.append( "domxml_xslt_stylesheet_doc" );
+    keywords.append( "domxml_xslt_stylesheet_file" );
+    keywords.append( "dotnet_load" );
+    keywords.append( "doubleval" );
+    keywords.append( "drawCurve" );
+    keywords.append( "drawCurveTo" );
+    keywords.append( "drawLine" );
+    keywords.append( "drawLineTo" );
+    keywords.append( "dstanchors" );
+    keywords.append( "dstofsrcanchors" );
+    keywords.append( "dump_file" );
+    keywords.append( "dump_mem" );
+    keywords.append( "dump_node" );
+    keywords.append( "each" );
+    keywords.append( "E_ALL" );
+    keywords.append( "easter_date" );
+    keywords.append( "easter_days" );
+    keywords.append( "ebcdic2ascii" );
+    keywords.append( "echo" );
+    keywords.append( "E_COMPILE_ERROR" );
+    keywords.append( "E_COMPILE_WARNING" );
+    keywords.append( "E_CORE_ERROR" );
+    keywords.append( "E_CORE_WARNING" );
+    keywords.append( "E_ERROR" );
+    keywords.append( "else" );
+    keywords.append( "elseif" );
+    keywords.append( "empty" );
+    keywords.append( "end" );
+    keywords.append( "endfor" );
+    keywords.append( "endforeach" );
+    keywords.append( "endif" );
+    keywords.append( "endswitch" );
+    keywords.append( "endwhile" );
+    keywords.append( "E_NOTICE" );
+    keywords.append( "entities" );
+    keywords.append( "_ENV" );
+    keywords.append( "E_PARSE" );
+    keywords.append( "ereg" );
+    keywords.append( "eregi" );
+    keywords.append( "eregi_replace" );
+    keywords.append( "ereg_replace" );
+    keywords.append( "error_log" );
+    keywords.append( "error_reporting" );
+    keywords.append( "escapeshellarg" );
+    keywords.append( "escapeshellcmd" );
+    keywords.append( "E_USER_ERROR" );
+    keywords.append( "E_USER_NOTICE" );
+    keywords.append( "E_USER_WARNING" );
+    keywords.append( "eval" );
+    keywords.append( "E_WARNING" );
+    keywords.append( "exec" );
+    keywords.append( "exif_imagetype" );
+    keywords.append( "exif_read_data" );
+    keywords.append( "exif_thumbnail" );
+    keywords.append( "exit" );
+    keywords.append( "exp" );
+    keywords.append( "explode" );
+    keywords.append( "expm1" );
+    keywords.append( "extension_loaded" );
+    keywords.append( "extract" );
+    keywords.append( "ezmlm_hash" );
+    keywords.append( "FALSE" );
+    keywords.append( "fbsql_affected_rows" );
+    keywords.append( "fbsql_autocommit" );
+    keywords.append( "fbsql_change_user" );
+    keywords.append( "fbsql_close" );
+    keywords.append( "fbsql_commit" );
+    keywords.append( "fbsql_connect" );
+    keywords.append( "fbsql_create_blob" );
+    keywords.append( "fbsql_create_clob" );
+    keywords.append( "fbsql_create_db" );
+    keywords.append( "fbsql_database" );
+    keywords.append( "fbsql_database_password" );
+    keywords.append( "fbsql_data_seek" );
+    keywords.append( "fbsql_db_query" );
+    keywords.append( "fbsql_db_status" );
+    keywords.append( "fbsql_drop_db" );
+    keywords.append( "fbsql_errno" );
+    keywords.append( "fbsql_error" );
+    keywords.append( "fbsql_fetch_array" );
+    keywords.append( "fbsql_fetch_assoc" );
+    keywords.append( "fbsql_fetch_field" );
+    keywords.append( "fbsql_fetch_lengths" );
+    keywords.append( "fbsql_fetch_object" );
+    keywords.append( "fbsql_fetch_row" );
+    keywords.append( "fbsql_field_flags" );
+    keywords.append( "fbsql_field_len" );
+    keywords.append( "fbsql_field_name" );
+    keywords.append( "fbsql_field_seek" );
+    keywords.append( "fbsql_field_table" );
+    keywords.append( "fbsql_field_type" );
+    keywords.append( "fbsql_free_result" );
+    keywords.append( "fbsql_get_autostart_info" );
+    keywords.append( "fbsql_hostname" );
+    keywords.append( "fbsql_insert_id" );
+    keywords.append( "fbsql_list_dbs" );
+    keywords.append( "fbsql_list_fields" );
+    keywords.append( "fbsql_list_tables" );
+    keywords.append( "fbsql_next_result" );
+    keywords.append( "fbsql_num_fields" );
+    keywords.append( "fbsql_num_rows" );
+    keywords.append( "fbsql_password" );
+    keywords.append( "fbsql_pconnect" );
+    keywords.append( "fbsql_query" );
+    keywords.append( "fbsql_read_blob" );
+    keywords.append( "fbsql_read_clob" );
+    keywords.append( "fbsql_result" );
+    keywords.append( "fbsql_rollback" );
+    keywords.append( "fbsql_select_db" );
+    keywords.append( "fbsql_set_lob_mode" );
+    keywords.append( "fbsql_set_transaction" );
+    keywords.append( "fbsql_start_db" );
+    keywords.append( "fbsql_stop_db" );
+    keywords.append( "fbsql_tablename" );
+    keywords.append( "fbsql_username" );
+    keywords.append( "fbsql_warnings" );
+    keywords.append( "fclose" );
+    keywords.append( "fdf_add_doc_javascript" );
+    keywords.append( "fdf_add_template" );
+    keywords.append( "fdf_close" );
+    keywords.append( "fdf_create" );
+    keywords.append( "fdf_errno" );
+    keywords.append( "fdf_error" );
+    keywords.append( "fdf_get_ap" );
+    keywords.append( "fdf_get_attachment" );
+    keywords.append( "fdf_get_encoding" );
+    keywords.append( "fdf_get_file" );
+    keywords.append( "fdf_get_status" );
+    keywords.append( "fdf_get_value" );
+    keywords.append( "fdf_get_version" );
+    keywords.append( "fdf_header" );
+    keywords.append( "fdf_next_field_name" );
+    keywords.append( "fdf_open" );
+    keywords.append( "fdf_open_string" );
+    keywords.append( "fdf_save" );
+    keywords.append( "fdf_save_string" );
+    keywords.append( "fdf_set_ap" );
+    keywords.append( "fdf_set_encoding" );
+    keywords.append( "fdf_set_file" );
+    keywords.append( "fdf_set_flags" );
+    keywords.append( "fdf_set_javascript_action" );
+    keywords.append( "fdf_set_opt" );
+    keywords.append( "fdf_set_status" );
+    keywords.append( "fdf_set_submit_form_action" );
+    keywords.append( "fdf_set_target_frame" );
+    keywords.append( "fdf_set_value" );
+    keywords.append( "fdf_set_version" );
+    keywords.append( "feof" );
+    keywords.append( "fflush" );
+    keywords.append( "fgetc" );
+    keywords.append( "fgetcsv" );
+    keywords.append( "fgets" );
+    keywords.append( "fgetss" );
+    keywords.append( "file" );
+    keywords.append( "__FILE__" );
+    keywords.append( "fileatime" );
+    keywords.append( "filectime" );
+    keywords.append( "file_exists" );
+    keywords.append( "file_get_contents" );
+    keywords.append( "filegroup" );
+    keywords.append( "fileinode" );
+    keywords.append( "filemtime" );
+    keywords.append( "fileowner" );
+    keywords.append( "fileperms" );
+    keywords.append( "filepro" );
+    keywords.append( "filepro_fieldcount" );
+    keywords.append( "filepro_fieldname" );
+    keywords.append( "filepro_fieldtype" );
+    keywords.append( "filepro_fieldwidth" );
+    keywords.append( "filepro_retrieve" );
+    keywords.append( "filepro_rowcount" );
+    keywords.append( "_FILES" );
+    keywords.append( "filesize" );
+    keywords.append( "filetype" );
+    keywords.append( "find" );
+    keywords.append( "first_child" );
+    keywords.append( "floatval" );
+    keywords.append( "flock" );
+    keywords.append( "floor" );
+    keywords.append( "flush" );
+    keywords.append( "fmod" );
+    keywords.append( "fnmatch" );
+    keywords.append( "fopen" );
+    keywords.append( "for" );
+    keywords.append( "foreach" );
+    keywords.append( "fpassthru" );
+    keywords.append( "fprintf" );
+    keywords.append( "fputs" );
+    keywords.append( "fread" );
+    keywords.append( "frenchtojd" );
+    keywords.append( "fribidi_log2vis" );
+    keywords.append( "fscanf" );
+    keywords.append( "fseek" );
+    keywords.append( "fsockopen" );
+    keywords.append( "fstat" );
+    keywords.append( "ftell" );
+    keywords.append( "ftok" );
+    keywords.append( "ftp_cdup" );
+    keywords.append( "ftp_chdir" );
+    keywords.append( "ftp_close" );
+    keywords.append( "ftp_connect" );
+    keywords.append( "ftp_delete" );
+    keywords.append( "ftp_exec" );
+    keywords.append( "ftp_fget" );
+    keywords.append( "ftp_fput" );
+    keywords.append( "ftp_get" );
+    keywords.append( "ftp_get_option" );
+    keywords.append( "ftp_login" );
+    keywords.append( "ftp_mdtm" );
+    keywords.append( "ftp_mkdir" );
+    keywords.append( "ftp_nb_continue" );
+    keywords.append( "ftp_nb_fget" );
+    keywords.append( "ftp_nb_fput" );
+    keywords.append( "ftp_nb_get" );
+    keywords.append( "ftp_nb_put" );
+    keywords.append( "ftp_nlist" );
+    keywords.append( "ftp_pasv" );
+    keywords.append( "ftp_put" );
+    keywords.append( "ftp_pwd" );
+    keywords.append( "ftp_quit" );
+    keywords.append( "ftp_rawlist" );
+    keywords.append( "ftp_rename" );
+    keywords.append( "ftp_rmdir" );
+    keywords.append( "ftp_set_option" );
+    keywords.append( "ftp_site" );
+    keywords.append( "ftp_size" );
+    keywords.append( "ftp_ssl_connect" );
+    keywords.append( "ftp_systype" );
+    keywords.append( "ftruncate" );
+    keywords.append( "ftstat" );
+    keywords.append( "func_get_arg" );
+    keywords.append( "func_get_args" );
+    keywords.append( "func_num_args" );
+    keywords.append( "function" );
+    keywords.append( "function_exists" );
+    keywords.append( "fwrite" );
+    keywords.append( "GATEWAY_INTERFACE" );
+    keywords.append( "gd_info" );
+    keywords.append( "_GET" );
+    keywords.append( "getallheaders" );
+    keywords.append( "get_attribute" );
+    keywords.append( "get_attribute_node" );
+    keywords.append( "get_browser" );
+    keywords.append( "get_cfg_var" );
+    keywords.append( "get_class" );
+    keywords.append( "get_class_methods" );
+    keywords.append( "get_class_vars" );
+    keywords.append( "get_content" );
+    keywords.append( "get_current_user" );
+    keywords.append( "getcwd" );
+    keywords.append( "getdate" );
+    keywords.append( "get_declared_classes" );
+    keywords.append( "get_defined_constants" );
+    keywords.append( "get_defined_functions" );
+    keywords.append( "get_defined_vars" );
+    keywords.append( "get_element_by_id" );
+    keywords.append( "get_elements_by_tagname" );
+    keywords.append( "getenv" );
+    keywords.append( "get_extension_funcs" );
+    keywords.append( "getHeight" );
+    keywords.append( "gethostbyaddr" );
+    keywords.append( "gethostbyname" );
+    keywords.append( "gethostbynamel" );
+    keywords.append( "get_html_translation_table" );
+    keywords.append( "getimagesize" );
+    keywords.append( "get_included_files" );
+    keywords.append( "get_include_path" );
+    keywords.append( "getlastmod" );
+    keywords.append( "get_loaded_extensions" );
+    keywords.append( "get_magic_quotes_gpc" );
+    keywords.append( "get_magic_quotes_runtime" );
+    keywords.append( "get_meta_tags" );
+    keywords.append( "getmxrr" );
+    keywords.append( "getmygid" );
+    keywords.append( "getmyinode" );
+    keywords.append( "getmypid" );
+    keywords.append( "getmyuid" );
+    keywords.append( "get_object_vars" );
+    keywords.append( "getopt" );
+    keywords.append( "get_parent_class" );
+    keywords.append( "getprotobyname" );
+    keywords.append( "getprotobynumber" );
+    keywords.append( "getrandmax" );
+    keywords.append( "get_required_files" );
+    keywords.append( "get_resource_type" );
+    keywords.append( "getrusage" );
+    keywords.append( "getservbyname" );
+    keywords.append( "getservbyport" );
+    keywords.append( "getshape1" );
+    keywords.append( "getshape2" );
+    keywords.append( "gettext" );
+    keywords.append( "gettimeofday" );
+    keywords.append( "gettype" );
+    keywords.append( "getwidth" );
+    keywords.append( "getWidth" );
+    keywords.append( "glob" );
+    keywords.append( "global" );
+    keywords.append( "GLOBALS" );
+    keywords.append( "gmdate" );
+    keywords.append( "gmmktime" );
+    keywords.append( "gmp_abs" );
+    keywords.append( "gmp_add" );
+    keywords.append( "gmp_and" );
+    keywords.append( "gmp_clrbit" );
+    keywords.append( "gmp_cmp" );
+    keywords.append( "gmp_com" );
+    keywords.append( "gmp_div" );
+    keywords.append( "gmp_divexact" );
+    keywords.append( "gmp_div_q" );
+    keywords.append( "gmp_div_qr" );
+    keywords.append( "gmp_div_r" );
+    keywords.append( "gmp_fact" );
+    keywords.append( "gmp_gcd" );
+    keywords.append( "gmp_gcdext" );
+    keywords.append( "gmp_hamdist" );
+    keywords.append( "gmp_init" );
+    keywords.append( "gmp_intval" );
+    keywords.append( "gmp_invert" );
+    keywords.append( "gmp_jacobi" );
+    keywords.append( "gmp_legendre" );
+    keywords.append( "gmp_mod" );
+    keywords.append( "gmp_mul" );
+    keywords.append( "gmp_neg" );
+    keywords.append( "gmp_or" );
+    keywords.append( "gmp_perfect_square" );
+    keywords.append( "gmp_popcount" );
+    keywords.append( "gmp_pow" );
+    keywords.append( "gmp_powm" );
+    keywords.append( "gmp_prob_prime" );
+    keywords.append( "gmp_random" );
+    keywords.append( "gmp_scan0" );
+    keywords.append( "gmp_scan1" );
+    keywords.append( "gmp_setbit" );
+    keywords.append( "gmp_sign" );
+    keywords.append( "gmp_sqrt" );
+    keywords.append( "gmp_sqrtrm" );
+    keywords.append( "gmp_strval" );
+    keywords.append( "gmp_sub" );
+    keywords.append( "gmp_xor" );
+    keywords.append( "gmstrftime" );
+    keywords.append( "gregoriantojd" );
+    keywords.append( "gzclose" );
+    keywords.append( "gzcompress" );
+    keywords.append( "gzdeflate" );
+    keywords.append( "gzencode" );
+    keywords.append( "gzeof" );
+    keywords.append( "gzfile" );
+    keywords.append( "gzgetc" );
+    keywords.append( "gzgets" );
+    keywords.append( "gzgetss" );
+    keywords.append( "gzinflate" );
+    keywords.append( "gzopen" );
+    keywords.append( "gzpassthru" );
+    keywords.append( "gzputs" );
+    keywords.append( "gzread" );
+    keywords.append( "gzrewind" );
+    keywords.append( "gzseek" );
+    keywords.append( "gztell" );
+    keywords.append( "gzuncompress" );
+    keywords.append( "gzwrite" );
+    keywords.append( "has_attribute" );
+    keywords.append( "has_attributess" );
+    keywords.append( "has_child_nodes" );
+    keywords.append( "header" );
+    keywords.append( "headers_sent" );
+    keywords.append( "hebrev" );
+    keywords.append( "hebrevc" );
+    keywords.append( "hexdec" );
+    keywords.append( "highlight_file" );
+    keywords.append( "highlight_string" );
+    keywords.append( "html_dump_mem" );
+    keywords.append( "htmlentities" );
+    keywords.append( "html_entity_decode" );
+    keywords.append( "htmlspecialchars" );
+    keywords.append( "HTTP_ACCEPT" );
+    keywords.append( "HTTP_ACCEPT_CHARSET" );
+    keywords.append( "HTTP_ACCEPT_LANGUAGE" );
+    keywords.append( "HTTP_CONNECTION" );
+    keywords.append( "HTTP_COOKIE_VARS" );
+    keywords.append( "HTTP_ENCODING" );
+    keywords.append( "HTTP_ENV_VARS" );
+    keywords.append( "HTTP_GET_VARS" );
+    keywords.append( "HTTP_HOST" );
+    keywords.append( "HTTP_POST_FILES" );
+    keywords.append( "HTTP_POST_VARS" );
+    keywords.append( "HTTP_RAW_POST_DATA" );
+    keywords.append( "HTTP_REFERER" );
+    keywords.append( "HTTP_SERVER_VARS" );
+    keywords.append( "HTTP_SESSION_VARS" );
+    keywords.append( "HTTP_STATE_VARS" );
+    keywords.append( "HTTP_USER_AGENT" );
+    keywords.append( "hw_api_attribute" );
+    keywords.append( "hw_api_content" );
+    keywords.append( "hwapi_hgcsp" );
+    keywords.append( "hw_api_object" );
+    keywords.append( "hw_Array2Objrec" );
+    keywords.append( "hw_changeobject" );
+    keywords.append( "hw_Children" );
+    keywords.append( "hw_ChildrenObj" );
+    keywords.append( "hw_Close" );
+    keywords.append( "hw_Connect" );
+    keywords.append( "hw_connection_info" );
+    keywords.append( "hw_Cp" );
+    keywords.append( "hw_Deleteobject" );
+    keywords.append( "hw_DocByAnchor" );
+    keywords.append( "hw_DocByAnchorObj" );
+    keywords.append( "hw_Document_Attributes" );
+    keywords.append( "hw_Document_BodyTag" );
+    keywords.append( "hw_Document_Content" );
+    keywords.append( "hw_Document_SetContent" );
+    keywords.append( "hw_Document_Size" );
+    keywords.append( "hw_dummy" );
+    keywords.append( "hw_EditText" );
+    keywords.append( "hw_Error" );
+    keywords.append( "hw_ErrorMsg" );
+    keywords.append( "hw_Free_Document" );
+    keywords.append( "hw_GetAnchors" );
+    keywords.append( "hw_GetAnchorsObj" );
+    keywords.append( "hw_GetAndLock" );
+    keywords.append( "hw_GetChildColl" );
+    keywords.append( "hw_GetChildCollObj" );
+    keywords.append( "hw_GetChildDocColl" );
+    keywords.append( "hw_GetChildDocCollObj" );
+    keywords.append( "hw_GetObject" );
+    keywords.append( "hw_GetObjectByQuery" );
+    keywords.append( "hw_GetObjectByQueryColl" );
+    keywords.append( "hw_GetObjectByQueryCollObj" );
+    keywords.append( "hw_GetObjectByQueryObj" );
+    keywords.append( "hw_GetParents" );
+    keywords.append( "hw_GetParentsObj" );
+    keywords.append( "hw_getrellink" );
+    keywords.append( "hw_GetRemote" );
+    keywords.append( "hw_GetRemoteChildren" );
+    keywords.append( "hw_GetSrcByDestObj" );
+    keywords.append( "hw_GetText" );
+    keywords.append( "hw_getusername" );
+    keywords.append( "hw_Identify" );
+    keywords.append( "hw_InCollections" );
+    keywords.append( "hw_Info" );
+    keywords.append( "hw_InsColl" );
+    keywords.append( "hw_InsDoc" );
+    keywords.append( "hw_insertanchors" );
+    keywords.append( "hw_InsertDocument" );
+    keywords.append( "hw_InsertObject" );
+    keywords.append( "hw_mapid" );
+    keywords.append( "hw_Modifyobject" );
+    keywords.append( "hw_Mv" );
+    keywords.append( "hw_New_Document" );
+    keywords.append( "hw_Objrec2Array" );
+    keywords.append( "hw_Output_Document" );
+    keywords.append( "hw_pConnect" );
+    keywords.append( "hw_PipeDocument" );
+    keywords.append( "hw_Root" );
+    keywords.append( "hw_setlinkroot" );
+    keywords.append( "hw_stat" );
+    keywords.append( "hwstat" );
+    keywords.append( "hw_Unlock" );
+    keywords.append( "hw_Who" );
+    keywords.append( "hypot" );
+    keywords.append( "ibase_blob_add" );
+    keywords.append( "ibase_blob_cancel" );
+    keywords.append( "ibase_blob_close" );
+    keywords.append( "ibase_blob_create" );
+    keywords.append( "ibase_blob_echo" );
+    keywords.append( "ibase_blob_get" );
+    keywords.append( "ibase_blob_import" );
+    keywords.append( "ibase_blob_info" );
+    keywords.append( "ibase_blob_open" );
+    keywords.append( "ibase_close" );
+    keywords.append( "ibase_commit" );
+    keywords.append( "ibase_connect" );
+    keywords.append( "ibase_errmsg" );
+    keywords.append( "ibase_execute" );
+    keywords.append( "ibase_fetch_object" );
+    keywords.append( "ibase_fetch_row" );
+    keywords.append( "ibase_field_info" );
+    keywords.append( "ibase_free_query" );
+    keywords.append( "ibase_free_result" );
+    keywords.append( "ibase_num_fields" );
+    keywords.append( "ibase_pconnect" );
+    keywords.append( "ibase_prepare" );
+    keywords.append( "ibase_query" );
+    keywords.append( "ibase_rollback" );
+    keywords.append( "ibase_timefmt" );
+    keywords.append( "ibase_trans" );
+    keywords.append( "iconv" );
+    keywords.append( "iconv_get_encoding" );
+    keywords.append( "iconv_set_encoding" );
+    keywords.append( "identify" );
+    keywords.append( "if" );
+    keywords.append( "ifx_affected_rows" );
+    keywords.append( "ifx_blobinfile_mode" );
+    keywords.append( "ifx_byteasvarchar" );
+    keywords.append( "ifx_close" );
+    keywords.append( "ifx_connect" );
+    keywords.append( "ifx_copy_blob" );
+    keywords.append( "ifx_create_blob" );
+    keywords.append( "ifx_create_char" );
+    keywords.append( "ifx_do" );
+    keywords.append( "ifx_error" );
+    keywords.append( "ifx_errormsg" );
+    keywords.append( "ifx_fetch_row" );
+    keywords.append( "ifx_fieldproperties" );
+    keywords.append( "ifx_fieldtypes" );
+    keywords.append( "ifx_free_blob" );
+    keywords.append( "ifx_free_char" );
+    keywords.append( "ifx_free_result" );
+    keywords.append( "ifx_get_blob" );
+    keywords.append( "ifx_get_char" );
+    keywords.append( "ifx_getsqlca" );
+    keywords.append( "ifx_htmltbl_result" );
+    keywords.append( "ifx_nullformat" );
+    keywords.append( "ifx_num_fields" );
+    keywords.append( "ifx_num_rows" );
+    keywords.append( "ifx_pconnect" );
+    keywords.append( "ifx_prepare" );
+    keywords.append( "ifx_query" );
+    keywords.append( "ifx_textasvarchar" );
+    keywords.append( "ifx_update_blob" );
+    keywords.append( "ifx_update_char" );
+    keywords.append( "ifxus_close_slob" );
+    keywords.append( "ifxus_create_slob" );
+    keywords.append( "ifxus_free_slob" );
+    keywords.append( "ifxus_open_slob" );
+    keywords.append( "ifxus_read_slob" );
+    keywords.append( "ifxus_seek_slob" );
+    keywords.append( "ifxus_tell_slob" );
+    keywords.append( "ifxus_write_slob" );
+    keywords.append( "ignore_user_abort" );
+    keywords.append( "image2wbmp" );
+    keywords.append( "imagealphablending" );
+    keywords.append( "imagearc" );
+    keywords.append( "imagechar" );
+    keywords.append( "imagecharup" );
+    keywords.append( "imagecolorallocate" );
+    keywords.append( "imagecolorallocatealpha" );
+    keywords.append( "imagecolorat" );
+    keywords.append( "imagecolorclosest" );
+    keywords.append( "imagecolorclosestalpha" );
+    keywords.append( "imagecolorclosesthwb" );
+    keywords.append( "imagecolordeallocate" );
+    keywords.append( "imagecolorexact" );
+    keywords.append( "imagecolorexactalpha" );
+    keywords.append( "imagecolorresolve" );
+    keywords.append( "imagecolorresolvealpha" );
+    keywords.append( "imagecolorset" );
+    keywords.append( "imagecolorsforindex" );
+    keywords.append( "imagecolorstotal" );
+    keywords.append( "imagecolortransparent" );
+    keywords.append( "imagecopy" );
+    keywords.append( "imagecopymerge" );
+    keywords.append( "imagecopymergegray" );
+    keywords.append( "imagecopyresampled" );
+    keywords.append( "imagecopyresized" );
+    keywords.append( "imagecreate" );
+    keywords.append( "imagecreatefromgd" );
+    keywords.append( "imagecreatefromgd2" );
+    keywords.append( "imagecreatefromgd2part" );
+    keywords.append( "imagecreatefromgif" );
+    keywords.append( "imagecreatefromjpeg" );
+    keywords.append( "imagecreatefrompng" );
+    keywords.append( "imagecreatefromstring" );
+    keywords.append( "imagecreatefromwbmp" );
+    keywords.append( "imagecreatefromxbm" );
+    keywords.append( "imagecreatefromxpm" );
+    keywords.append( "imagecreatetruecolor" );
+    keywords.append( "imagedashedline" );
+    keywords.append( "imagedestroy" );
+    keywords.append( "imageellipse" );
+    keywords.append( "imagefill" );
+    keywords.append( "imagefilledarc" );
+    keywords.append( "imagefilledellipse" );
+    keywords.append( "imagefilledpolygon" );
+    keywords.append( "imagefilledrectangle" );
+    keywords.append( "imagefilltoborder" );
+    keywords.append( "imagefontheight" );
+    keywords.append( "imagefontwidth" );
+    keywords.append( "imageftbbox" );
+    keywords.append( "imagefttext" );
+    keywords.append( "imagegammacorrect" );
+    keywords.append( "imagegd" );
+    keywords.append( "imagegd2" );
+    keywords.append( "imagegif" );
+    keywords.append( "imageinterlace" );
+    keywords.append( "imagejpeg" );
+    keywords.append( "imageline" );
+    keywords.append( "imageloadfont" );
+    keywords.append( "imagepalettecopy" );
+    keywords.append( "imagepng" );
+    keywords.append( "imagepolygon" );
+    keywords.append( "imagepsbbox" );
+    keywords.append( "imagepscopyfont" );
+    keywords.append( "imagepsencodefont" );
+    keywords.append( "imagepsextendfont" );
+    keywords.append( "imagepsfreefont" );
+    keywords.append( "imagepsloadfont" );
+    keywords.append( "imagepsslantfont" );
+    keywords.append( "imagepstext" );
+    keywords.append( "imagerectangle" );
+    keywords.append( "imagerotate" );
+    keywords.append( "imagesetbrush" );
+    keywords.append( "imagesetpixel" );
+    keywords.append( "imagesetstyle" );
+    keywords.append( "imagesetthickness" );
+    keywords.append( "imagesettile" );
+    keywords.append( "imagestring" );
+    keywords.append( "imagestringup" );
+    keywords.append( "imagesx" );
+    keywords.append( "imagesy" );
+    keywords.append( "imagetruecolortopalette" );
+    keywords.append( "imagettfbbox" );
+    keywords.append( "imagettftext" );
+    keywords.append( "imagetypes" );
+    keywords.append( "image_type_to_mime_type" );
+    keywords.append( "imagewbmp" );
+    keywords.append( "imap_8bit" );
+    keywords.append( "imap_alerts" );
+    keywords.append( "imap_append" );
+    keywords.append( "imap_base64" );
+    keywords.append( "imap_binary" );
+    keywords.append( "imap_body" );
+    keywords.append( "imap_bodystruct" );
+    keywords.append( "imap_check" );
+    keywords.append( "imap_clearflag_full" );
+    keywords.append( "imap_close" );
+    keywords.append( "imap_createmailbox" );
+    keywords.append( "imap_delete" );
+    keywords.append( "imap_deletemailbox" );
+    keywords.append( "imap_errors" );
+    keywords.append( "imap_expunge" );
+    keywords.append( "imap_fetchbody" );
+    keywords.append( "imap_fetchheader" );
+    keywords.append( "imap_fetch_overview" );
+    keywords.append( "imap_fetchstructure" );
+    keywords.append( "imap_getmailboxes" );
+    keywords.append( "imap_get_quota" );
+    keywords.append( "imap_get_quotaroot" );
+    keywords.append( "imap_getsubscribed" );
+    keywords.append( "imap_header" );
+    keywords.append( "imap_headerinfo" );
+    keywords.append( "imap_headers" );
+    keywords.append( "imap_last_error" );
+    keywords.append( "imap_list" );
+    keywords.append( "imap_listmailbox" );
+    keywords.append( "imap_listscan" );
+    keywords.append( "imap_listsubscribed" );
+    keywords.append( "imap_lsub" );
+    keywords.append( "imap_mail" );
+    keywords.append( "imap_mailboxmsginfo" );
+    keywords.append( "imap_mail_compose" );
+    keywords.append( "imap_mail_copy" );
+    keywords.append( "imap_mail_move" );
+    keywords.append( "imap_mime_header_decode" );
+    keywords.append( "imap_msgno" );
+    keywords.append( "imap_num_msg" );
+    keywords.append( "imap_num_recent" );
+    keywords.append( "imap_open" );
+    keywords.append( "imap_ping" );
+    keywords.append( "imap_qprint" );
+    keywords.append( "imap_renamemailbox" );
+    keywords.append( "imap_reopen" );
+    keywords.append( "imap_rfc822_parse_adrlist" );
+    keywords.append( "imap_rfc822_parse_headers" );
+    keywords.append( "imap_rfc822_write_address" );
+    keywords.append( "imap_scanmailbox" );
+    keywords.append( "imap_search" );
+    keywords.append( "imap_setacl" );
+    keywords.append( "imap_setflag_full" );
+    keywords.append( "imap_set_quota" );
+    keywords.append( "imap_sort" );
+    keywords.append( "imap_status" );
+    keywords.append( "imap_subscribe" );
+    keywords.append( "imap_thread" );
+    keywords.append( "imap_uid" );
+    keywords.append( "imap_undelete" );
+    keywords.append( "imap_unsubscribe" );
+    keywords.append( "imap_utf7_decode" );
+    keywords.append( "imap_utf7_encode" );
+    keywords.append( "imap_utf8" );
+    keywords.append( "implements" );
+    keywords.append( "implode" );
+    keywords.append( "import_request_variables" );
+    keywords.append( "in_array" );
+    keywords.append( "include" );
+    keywords.append( "include_once" );
+    keywords.append( "info" );
+    keywords.append( "ingres_autocommit" );
+    keywords.append( "ingres_close" );
+    keywords.append( "ingres_commit" );
+    keywords.append( "ingres_connect" );
+    keywords.append( "ingres_fetch_array" );
+    keywords.append( "ingres_fetch_object" );
+    keywords.append( "ingres_fetch_row" );
+    keywords.append( "ingres_field_length" );
+    keywords.append( "ingres_field_name" );
+    keywords.append( "ingres_field_nullable" );
+    keywords.append( "ingres_field_precision" );
+    keywords.append( "ingres_field_scale" );
+    keywords.append( "ingres_field_type" );
+    keywords.append( "ingres_num_fields" );
+    keywords.append( "ingres_num_rows" );
+    keywords.append( "ingres_pconnect" );
+    keywords.append( "ingres_query" );
+    keywords.append( "ingres_rollback" );
+    keywords.append( "ini_alter" );
+    keywords.append( "ini_get" );
+    keywords.append( "ini_get_all" );
+    keywords.append( "ini_restore" );
+    keywords.append( "ini_set" );
+    keywords.append( "insert" );
+    keywords.append( "insertanchor" );
+    keywords.append( "insert_before" );
+    keywords.append( "insertcollection" );
+    keywords.append( "insertdocument" );
+    keywords.append( "int" );
+    keywords.append( "interface" );
+    keywords.append( "internal_subset" );
+    keywords.append( "intval" );
+    keywords.append( "ip2long" );
+    keywords.append( "iptcembed" );
+    keywords.append( "iptcparse" );
+    keywords.append( "ircg_channel_mode" );
+    keywords.append( "ircg_disconnect" );
+    keywords.append( "ircg_fetch_error_msg" );
+    keywords.append( "ircg_get_username" );
+    keywords.append( "ircg_html_encode" );
+    keywords.append( "ircg_ignore_add" );
+    keywords.append( "ircg_ignore_del" );
+    keywords.append( "ircg_is_conn_alive" );
+    keywords.append( "ircg_join" );
+    keywords.append( "ircg_kick" );
+    keywords.append( "ircg_lookup_format_messages" );
+    keywords.append( "ircg_msg" );
+    keywords.append( "ircg_nick" );
+    keywords.append( "ircg_nickname_escape" );
+    keywords.append( "ircg_nickname_unescape" );
+    keywords.append( "ircg_notice" );
+    keywords.append( "ircg_part" );
+    keywords.append( "ircg_pconnect" );
+    keywords.append( "ircg_register_format_messages" );
+    keywords.append( "ircg_set_current" );
+    keywords.append( "ircg_set_file" );
+    keywords.append( "ircg_set_on_die" );
+    keywords.append( "ircg_topic" );
+    keywords.append( "ircg_whois" );
+    keywords.append( "is_a" );
+    keywords.append( "is_array" );
+    keywords.append( "is_blank_node" );
+    keywords.append( "is_bool" );
+    keywords.append( "is_callable" );
+    keywords.append( "is_dir" );
+    keywords.append( "is_double" );
+    keywords.append( "is_executable" );
+    keywords.append( "is_file" );
+    keywords.append( "is_finite" );
+    keywords.append( "is_float" );
+    keywords.append( "is_infinite" );
+    keywords.append( "is_int" );
+    keywords.append( "is_integer" );
+    keywords.append( "is_link" );
+    keywords.append( "is_long" );
+    keywords.append( "is_nan" );
+    keywords.append( "is_null" );
+    keywords.append( "is_numeric" );
+    keywords.append( "is_object" );
+    keywords.append( "is_readable" );
+    keywords.append( "is_real" );
+    keywords.append( "is_resource" );
+    keywords.append( "is_scalar" );
+    keywords.append( "isset" );
+    keywords.append( "is_string" );
+    keywords.append( "is_subclass_of" );
+    keywords.append( "is_uploaded_file" );
+    keywords.append( "is_writable" );
+    keywords.append( "is_writeable" );
+    keywords.append( "java_last_exception_clear" );
+    keywords.append( "java_last_exception_get" );
+    keywords.append( "jddayofweek" );
+    keywords.append( "jdmonthname" );
+    keywords.append( "jdtofrench" );
+    keywords.append( "jdtogregorian" );
+    keywords.append( "jdtojewish" );
+    keywords.append( "jdtojulian" );
+    keywords.append( "jdtounix" );
+    keywords.append( "jewishtojd" );
+    keywords.append( "join" );
+    keywords.append( "jpeg2wbmp" );
+    keywords.append( "juliantojd" );
+    keywords.append( "key" );
+    keywords.append( "krsort" );
+    keywords.append( "ksort" );
+    keywords.append( "langdepvalue" );
+    keywords.append( "last_child" );
+    keywords.append( "lcg_value" );
+    keywords.append( "ldap_8859_to_t61" );
+    keywords.append( "ldap_add" );
+    keywords.append( "ldap_bind" );
+    keywords.append( "ldap_close" );
+    keywords.append( "ldap_compare" );
+    keywords.append( "ldap_connect" );
+    keywords.append( "ldap_count_entries" );
+    keywords.append( "ldap_delete" );
+    keywords.append( "ldap_dn2ufn" );
+    keywords.append( "ldap_err2str" );
+    keywords.append( "ldap_errno" );
+    keywords.append( "ldap_error" );
+    keywords.append( "ldap_explode_dn" );
+    keywords.append( "ldap_first_attribute" );
+    keywords.append( "ldap_first_entry" );
+    keywords.append( "ldap_first_reference" );
+    keywords.append( "ldap_free_result" );
+    keywords.append( "ldap_get_attributes" );
+    keywords.append( "ldap_get_dn" );
+    keywords.append( "ldap_get_entries" );
+    keywords.append( "ldap_get_option" );
+    keywords.append( "ldap_get_values" );
+    keywords.append( "ldap_get_values_len" );
+    keywords.append( "ldap_list" );
+    keywords.append( "ldap_mod_add" );
+    keywords.append( "ldap_mod_del" );
+    keywords.append( "ldap_modify" );
+    keywords.append( "ldap_mod_replace" );
+    keywords.append( "ldap_next_attribute" );
+    keywords.append( "ldap_next_entry" );
+    keywords.append( "ldap_next_reference" );
+    keywords.append( "ldap_parse_reference" );
+    keywords.append( "ldap_parse_result" );
+    keywords.append( "ldap_read" );
+    keywords.append( "ldap_rename" );
+    keywords.append( "ldap_search" );
+    keywords.append( "ldap_set_option" );
+    keywords.append( "ldap_set_rebind_proc" );
+    keywords.append( "ldap_sort" );
+    keywords.append( "ldap_start_tls" );
+    keywords.append( "ldap_t61_to_8859" );
+    keywords.append( "ldap_unbind" );
+    keywords.append( "levenshtein" );
+    keywords.append( "__LINE__" );
+    keywords.append( "link" );
+    keywords.append( "linkinfo" );
+    keywords.append( "list" );
+    keywords.append( "localeconv" );
+    keywords.append( "localtime" );
+    keywords.append( "lock" );
+    keywords.append( "log" );
+    keywords.append( "log10" );
+    keywords.append( "log1p" );
+    keywords.append( "long2ip" );
+    keywords.append( "lstat" );
+    keywords.append( "ltrim" );
+    keywords.append( "mail" );
+    keywords.append( "mailparse_determine_best_xfer_encoding" );
+    keywords.append( "mailparse_msg_create" );
+    keywords.append( "mailparse_msg_extract_part" );
+    keywords.append( "mailparse_msg_extract_part_file" );
+    keywords.append( "mailparse_msg_free" );
+    keywords.append( "mailparse_msg_get_part" );
+    keywords.append( "mailparse_msg_get_part_data" );
+    keywords.append( "mailparse_msg_get_structure" );
+    keywords.append( "mailparse_msg_parse" );
+    keywords.append( "mailparse_msg_parse_file" );
+    keywords.append( "mailparse_rfc822_parse_addresses" );
+    keywords.append( "mailparse_stream_encode" );
+    keywords.append( "mailparse_uudecode_all" );
+    keywords.append( "main" );
+    keywords.append( "max" );
+    keywords.append( "mb_convert_case" );
+    keywords.append( "mb_convert_encoding" );
+    keywords.append( "mb_convert_kana" );
+    keywords.append( "mb_convert_variables" );
+    keywords.append( "mb_decode_mimeheader" );
+    keywords.append( "mb_decode_numericentity" );
+    keywords.append( "mb_detect_encoding" );
+    keywords.append( "mb_detect_order" );
+    keywords.append( "mb_encode_mimeheader" );
+    keywords.append( "mb_encode_numericentity" );
+    keywords.append( "mb_ereg" );
+    keywords.append( "mb_eregi" );
+    keywords.append( "mb_eregi_replace" );
+    keywords.append( "mb_ereg_match" );
+    keywords.append( "mb_ereg_replace" );
+    keywords.append( "mb_ereg_search" );
+    keywords.append( "mb_ereg_search_getpos" );
+    keywords.append( "mb_ereg_search_getregs" );
+    keywords.append( "mb_ereg_search_init" );
+    keywords.append( "mb_ereg_search_pos" );
+    keywords.append( "mb_ereg_search_regs" );
+    keywords.append( "mb_ereg_search_setpos" );
+    keywords.append( "mb_get_info" );
+    keywords.append( "mb_http_input" );
+    keywords.append( "mb_http_output" );
+    keywords.append( "mb_internal_encoding" );
+    keywords.append( "mb_language" );
+    keywords.append( "mb_output_handler" );
+    keywords.append( "mb_parse_str" );
+    keywords.append( "mb_preferred_mime_name" );
+    keywords.append( "mb_regex_encoding" );
+    keywords.append( "mb_regex_set_options" );
+    keywords.append( "mb_send_mail" );
+    keywords.append( "mb_split" );
+    keywords.append( "mb_strcut" );
+    keywords.append( "mb_strimwidth" );
+    keywords.append( "mb_strlen" );
+    keywords.append( "mb_strpos" );
+    keywords.append( "mb_strrpos" );
+    keywords.append( "mb_strtolower" );
+    keywords.append( "mb_strtoupper" );
+    keywords.append( "mb_strwidth" );
+    keywords.append( "mb_substitute_character" );
+    keywords.append( "mb_substr" );
+    keywords.append( "mb_substr_count" );
+    keywords.append( "mcal_append_event" );
+    keywords.append( "mcal_close" );
+    keywords.append( "mcal_create_calendar" );
+    keywords.append( "mcal_date_compare" );
+    keywords.append( "mcal_date_valid" );
+    keywords.append( "mcal_day_of_week" );
+    keywords.append( "mcal_day_of_year" );
+    keywords.append( "mcal_days_in_month" );
+    keywords.append( "mcal_delete_calendar" );
+    keywords.append( "mcal_delete_event" );
+    keywords.append( "mcal_event_add_attribute" );
+    keywords.append( "mcal_event_init" );
+    keywords.append( "mcal_event_set_alarm" );
+    keywords.append( "mcal_event_set_category" );
+    keywords.append( "mcal_event_set_class" );
+    keywords.append( "mcal_event_set_description" );
+    keywords.append( "mcal_event_set_end" );
+    keywords.append( "mcal_event_set_recur_daily" );
+    keywords.append( "mcal_event_set_recur_monthly_mday" );
+    keywords.append( "mcal_event_set_recur_monthly_wday" );
+    keywords.append( "mcal_event_set_recur_none" );
+    keywords.append( "mcal_event_set_recur_weekly" );
+    keywords.append( "mcal_event_set_recur_yearly" );
+    keywords.append( "mcal_event_set_start" );
+    keywords.append( "mcal_event_set_title" );
+    keywords.append( "mcal_expunge" );
+    keywords.append( "mcal_fetch_current_stream_event" );
+    keywords.append( "mcal_fetch_event" );
+    keywords.append( "mcal_is_leap_year" );
+    keywords.append( "mcal_list_alarms" );
+    keywords.append( "mcal_list_events" );
+    keywords.append( "mcal_next_recurrence" );
+    keywords.append( "mcal_open" );
+    keywords.append( "mcal_popen" );
+    keywords.append( "mcal_rename_calendar" );
+    keywords.append( "mcal_reopen" );
+    keywords.append( "mcal_snooze" );
+    keywords.append( "mcal_store_event" );
+    keywords.append( "mcal_time_valid" );
+    keywords.append( "mcal_week_of_year" );
+    keywords.append( "mcrypt_cbc" );
+    keywords.append( "mcrypt_cfb" );
+    keywords.append( "mcrypt_create_iv" );
+    keywords.append( "mcrypt_decrypt" );
+    keywords.append( "mcrypt_ecb" );
+    keywords.append( "mcrypt_enc_get_algorithms_name" );
+    keywords.append( "mcrypt_enc_get_block_size" );
+    keywords.append( "mcrypt_enc_get_iv_size" );
+    keywords.append( "mcrypt_enc_get_key_size" );
+    keywords.append( "mcrypt_enc_get_modes_name" );
+    keywords.append( "mcrypt_enc_get_supported_key_sizes" );
+    keywords.append( "mcrypt_enc_is_block_algorithm" );
+    keywords.append( "mcrypt_enc_is_block_algorithm_mode" );
+    keywords.append( "mcrypt_enc_is_block_mode" );
+    keywords.append( "mcrypt_encrypt" );
+    keywords.append( "mcrypt_enc_self_test" );
+    keywords.append( "mcrypt_generic" );
+    keywords.append( "mcrypt_generic_deinit" );
+    keywords.append( "mcrypt_generic_end" );
+    keywords.append( "mcrypt_generic_init" );
+    keywords.append( "mcrypt_get_block_size" );
+    keywords.append( "mcrypt_get_cipher_name" );
+    keywords.append( "mcrypt_get_iv_size" );
+    keywords.append( "mcrypt_get_key_size" );
+    keywords.append( "mcrypt_list_algorithms" );
+    keywords.append( "mcrypt_list_modes" );
+    keywords.append( "mcrypt_module_close" );
+    keywords.append( "mcrypt_module_get_algo_block_size" );
+    keywords.append( "mcrypt_module_get_algo_key_size" );
+    keywords.append( "mcrypt_module_get_supported_key_sizes" );
+    keywords.append( "mcrypt_module_is_block_algorithm" );
+    keywords.append( "mcrypt_module_is_block_algorithm_mode" );
+    keywords.append( "mcrypt_module_is_block_mode" );
+    keywords.append( "mcrypt_module_open" );
+    keywords.append( "mcrypt_module_self_test" );
+    keywords.append( "mcrypt_ofb" );
+    keywords.append( "mcve_adduser" );
+    keywords.append( "mcve_adduserarg" );
+    keywords.append( "mcve_bt" );
+    keywords.append( "mcve_checkstatus" );
+    keywords.append( "mcve_chkpwd" );
+    keywords.append( "mcve_chngpwd" );
+    keywords.append( "mcve_completeauthorizations" );
+    keywords.append( "mcve_connect" );
+    keywords.append( "mcve_connectionerror" );
+    keywords.append( "mcve_deleteresponse" );
+    keywords.append( "mcve_deletetrans" );
+    keywords.append( "mcve_deleteusersetup" );
+    keywords.append( "mcve_deluser" );
+    keywords.append( "mcve_destroyconn" );
+    keywords.append( "mcve_destroyengine" );
+    keywords.append( "mcve_disableuser" );
+    keywords.append( "mcve_edituser" );
+    keywords.append( "mcve_enableuser" );
+    keywords.append( "mcve_force" );
+    keywords.append( "mcve_getcell" );
+    keywords.append( "mcve_getcellbynum" );
+    keywords.append( "mcve_getcommadelimited" );
+    keywords.append( "mcve_getheader" );
+    keywords.append( "mcve_getuserarg" );
+    keywords.append( "mcve_getuserparam" );
+    keywords.append( "mcve_gft" );
+    keywords.append( "mcve_gl" );
+    keywords.append( "mcve_gut" );
+    keywords.append( "mcve_initconn" );
+    keywords.append( "mcve_initengine" );
+    keywords.append( "mcve_initusersetup" );
+    keywords.append( "mcve_iscommadelimited" );
+    keywords.append( "mcve_liststats" );
+    keywords.append( "mcve_listusers" );
+    keywords.append( "mcve_maxconntimeout" );
+    keywords.append( "mcve_monitor" );
+    keywords.append( "mcve_numcolumns" );
+    keywords.append( "mcve_numrows" );
+    keywords.append( "mcve_override" );
+    keywords.append( "mcve_parsecommadelimited" );
+    keywords.append( "mcve_ping" );
+    keywords.append( "mcve_preauth" );
+    keywords.append( "mcve_preauthcompletion" );
+    keywords.append( "mcve_qc" );
+    keywords.append( "mcve_responseparam" );
+    keywords.append( "mcve_return" );
+    keywords.append( "mcve_returncode" );
+    keywords.append( "mcve_returnstatus" );
+    keywords.append( "mcve_sale" );
+    keywords.append( "mcve_setblocking" );
+    keywords.append( "mcve_setdropfile" );
+    keywords.append( "mcve_setip" );
+    keywords.append( "mcve_setssl" );
+    keywords.append( "mcve_settimeout" );
+    keywords.append( "mcve_settle" );
+    keywords.append( "mcve_text_avs" );
+    keywords.append( "mcve_text_code" );
+    keywords.append( "mcve_text_cv" );
+    keywords.append( "mcve_transactionauth" );
+    keywords.append( "mcve_transactionavs" );
+    keywords.append( "mcve_transactionbatch" );
+    keywords.append( "mcve_transactioncv" );
+    keywords.append( "mcve_transactionid" );
+    keywords.append( "mcve_transactionitem" );
+    keywords.append( "mcve_transactionssent" );
+    keywords.append( "mcve_transactiontext" );
+    keywords.append( "mcve_transinqueue" );
+    keywords.append( "mcve_transnew" );
+    keywords.append( "mcve_transparam" );
+    keywords.append( "mcve_transsend" );
+    keywords.append( "mcve_ub" );
+    keywords.append( "mcve_uwait" );
+    keywords.append( "mcve_verifyconnection" );
+    keywords.append( "mcve_verifysslcert" );
+    keywords.append( "mcve_void" );
+    keywords.append( "md5" );
+    keywords.append( "md5_file" );
+    keywords.append( "mdecrypt_generic" );
+    keywords.append( "memory_get_usage" );
+    keywords.append( "metaphone" );
+    keywords.append( "method_exists" );
+    keywords.append( "mhash" );
+    keywords.append( "mhash_count" );
+    keywords.append( "mhash_get_block_size" );
+    keywords.append( "mhash_get_hash_name" );
+    keywords.append( "mhash_keygen_s2k" );
+    keywords.append( "microtime" );
+    keywords.append( "mime_content_type" );
+    keywords.append( "mimetype" );
+    keywords.append( "min" );
+    keywords.append( "ming_setcubicthreshold" );
+    keywords.append( "ming_setscale" );
+    keywords.append( "ming_useswfversion" );
+    keywords.append( "mkdir" );
+    keywords.append( "mktime" );
+    keywords.append( "money_format" );
+    keywords.append( "move" );
+    keywords.append( "movePen" );
+    keywords.append( "movePenTo" );
+    keywords.append( "moveTo" );
+    keywords.append( "move_uploaded_file" );
+    keywords.append( "msession_connect" );
+    keywords.append( "msession_count" );
+    keywords.append( "msession_create" );
+    keywords.append( "msession_destroy" );
+    keywords.append( "msession_disconnect" );
+    keywords.append( "msession_find" );
+    keywords.append( "msession_get" );
+    keywords.append( "msession_get_array" );
+    keywords.append( "msession_getdata" );
+    keywords.append( "msession_inc" );
+    keywords.append( "msession_list" );
+    keywords.append( "msession_listvar" );
+    keywords.append( "msession_lock" );
+    keywords.append( "msession_plugin" );
+    keywords.append( "msession_randstr" );
+    keywords.append( "msession_set" );
+    keywords.append( "msession_set_array" );
+    keywords.append( "msession_setdata" );
+    keywords.append( "msession_timeout" );
+    keywords.append( "msession_uniq" );
+    keywords.append( "msession_unlock" );
+    keywords.append( "msg_get_queue" );
+    keywords.append( "msg_receive" );
+    keywords.append( "msg_remove_queue" );
+    keywords.append( "msg_send" );
+    keywords.append( "msg_set_queue" );
+    keywords.append( "msg_stat_queue" );
+    keywords.append( "msql" );
+    keywords.append( "msql_affected_rows" );
+    keywords.append( "msql_close" );
+    keywords.append( "msql_connect" );
+    keywords.append( "msql_create_db" );
+    keywords.append( "msql_createdb" );
+    keywords.append( "msql_data_seek" );
+    keywords.append( "msql_dbname" );
+    keywords.append( "msql_drop_db" );
+    keywords.append( "msql_dropdb" );
+    keywords.append( "msql_error" );
+    keywords.append( "msql_fetch_array" );
+    keywords.append( "msql_fetch_field" );
+    keywords.append( "msql_fetch_object" );
+    keywords.append( "msql_fetch_row" );
+    keywords.append( "msql_fieldflags" );
+    keywords.append( "msql_fieldlen" );
+    keywords.append( "msql_fieldname" );
+    keywords.append( "msql_field_seek" );
+    keywords.append( "msql_fieldtable" );
+    keywords.append( "msql_fieldtype" );
+    keywords.append( "msql_free_result" );
+    keywords.append( "msql_freeresult" );
+    keywords.append( "msql_list_dbs" );
+    keywords.append( "msql_listdbs" );
+    keywords.append( "msql_list_fields" );
+    keywords.append( "msql_listfields" );
+    keywords.append( "msql_list_tables" );
+    keywords.append( "msql_listtables" );
+    keywords.append( "msql_num_fields" );
+    keywords.append( "msql_numfields" );
+    keywords.append( "msql_num_rows" );
+    keywords.append( "msql_numrows" );
+    keywords.append( "msql_pconnect" );
+    keywords.append( "msql_query" );
+    keywords.append( "msql_regcase" );
+    keywords.append( "msql_result" );
+    keywords.append( "msql_select_db" );
+    keywords.append( "msql_selectdb" );
+    keywords.append( "msql_tablename" );
+    keywords.append( "mssql_bind" );
+    keywords.append( "mssql_close" );
+    keywords.append( "mssql_connect" );
+    keywords.append( "mssql_data_seek" );
+    keywords.append( "mssql_execute" );
+    keywords.append( "mssql_fetch_array" );
+    keywords.append( "mssql_fetch_assoc" );
+    keywords.append( "mssql_fetch_batch" );
+    keywords.append( "mssql_fetch_field" );
+    keywords.append( "mssql_fetch_object" );
+    keywords.append( "mssql_fetch_row" );
+    keywords.append( "mssql_field_length" );
+    keywords.append( "mssql_field_name" );
+    keywords.append( "mssql_field_seek" );
+    keywords.append( "mssql_field_type" );
+    keywords.append( "mssql_free_result" );
+    keywords.append( "mssql_free_statement" );
+    keywords.append( "mssql_get_last_message" );
+    keywords.append( "mssql_guid_string" );
+    keywords.append( "mssql_init" );
+    keywords.append( "mssql_min_error_severity" );
+    keywords.append( "mssql_min_message_severity" );
+    keywords.append( "mssql_next_result" );
+    keywords.append( "mssql_num_fields" );
+    keywords.append( "mssql_num_rows" );
+    keywords.append( "mssql_pconnect" );
+    keywords.append( "mssql_query" );
+    keywords.append( "mssql_result" );
+    keywords.append( "mssql_rows_affected" );
+    keywords.append( "mssql_select_db" );
+    keywords.append( "mt_getrandmax" );
+    keywords.append( "mt_rand" );
+    keywords.append( "mt_srand" );
+    keywords.append( "multColor" );
+    keywords.append( "muscat_close" );
+    keywords.append( "muscat_get" );
+    keywords.append( "muscat_give" );
+    keywords.append( "muscat_setup" );
+    keywords.append( "muscat_setup_net" );
+    keywords.append( "mysql_affected_rows" );
+    keywords.append( "mysql_change_user" );
+    keywords.append( "mysql_client_encoding" );
+    keywords.append( "mysql_close" );
+    keywords.append( "mysql_connect" );
+    keywords.append( "mysql_create_db" );
+    keywords.append( "mysql_data_seek" );
+    keywords.append( "mysql_db_name" );
+    keywords.append( "mysql_db_query" );
+    keywords.append( "mysql_drop_db" );
+    keywords.append( "mysql_errno" );
+    keywords.append( "mysql_error" );
+    keywords.append( "mysql_escape_string" );
+    keywords.append( "mysql_fetch_array" );
+    keywords.append( "mysql_fetch_assoc" );
+    keywords.append( "mysql_fetch_field" );
+    keywords.append( "mysql_fetch_lengths" );
+    keywords.append( "mysql_fetch_object" );
+    keywords.append( "mysql_fetch_row" );
+    keywords.append( "mysql_field_flags" );
+    keywords.append( "mysql_field_len" );
+    keywords.append( "mysql_field_name" );
+    keywords.append( "mysql_field_seek" );
+    keywords.append( "mysql_field_table" );
+    keywords.append( "mysql_field_type" );
+    keywords.append( "mysql_free_result" );
+    keywords.append( "mysql_get_client_info" );
+    keywords.append( "mysql_get_host_info" );
+    keywords.append( "mysql_get_proto_info" );
+    keywords.append( "mysql_get_server_info" );
+    keywords.append( "mysql_info" );
+    keywords.append( "mysql_insert_id" );
+    keywords.append( "mysql_list_dbs" );
+    keywords.append( "mysql_list_fields" );
+    keywords.append( "mysql_list_processes" );
+    keywords.append( "mysql_list_tables" );
+    keywords.append( "mysql_num_fields" );
+    keywords.append( "mysql_num_rows" );
+    keywords.append( "mysql_pconnect" );
+    keywords.append( "mysql_ping" );
+    keywords.append( "mysql_query" );
+    keywords.append( "mysql_real_escape_string" );
+    keywords.append( "mysql_result" );
+    keywords.append( "mysql_select_db" );
+    keywords.append( "mysql_stat" );
+    keywords.append( "mysql_tablename" );
+    keywords.append( "mysql_thread_id" );
+    keywords.append( "mysql_unbuffered_query" );
+    keywords.append( "name" );
+    keywords.append( "natcasesort" );
+    keywords.append( "natsort" );
+    keywords.append( "ncurses_addch" );
+    keywords.append( "ncurses_addchnstr" );
+    keywords.append( "ncurses_addchstr" );
+    keywords.append( "ncurses_addnstr" );
+    keywords.append( "ncurses_addstr" );
+    keywords.append( "ncurses_assume_default_colors" );
+    keywords.append( "ncurses_attroff" );
+    keywords.append( "ncurses_attron" );
+    keywords.append( "ncurses_attrset" );
+    keywords.append( "ncurses_baudrate" );
+    keywords.append( "ncurses_beep" );
+    keywords.append( "ncurses_bkgd" );
+    keywords.append( "ncurses_bkgdset" );
+    keywords.append( "ncurses_border" );
+    keywords.append( "ncurses_can_change_color" );
+    keywords.append( "ncurses_cbreak" );
+    keywords.append( "ncurses_clear" );
+    keywords.append( "ncurses_clrtobot" );
+    keywords.append( "ncurses_clrtoeol" );
+    keywords.append( "ncurses_color_set" );
+    keywords.append( "ncurses_curs_set" );
+    keywords.append( "ncurses_define_key" );
+    keywords.append( "ncurses_def_prog_mode" );
+    keywords.append( "ncurses_def_shell_mode" );
+    keywords.append( "ncurses_delay_output" );
+    keywords.append( "ncurses_delch" );
+    keywords.append( "ncurses_deleteln" );
+    keywords.append( "ncurses_delwin" );
+    keywords.append( "ncurses_doupdate" );
+    keywords.append( "ncurses_echo" );
+    keywords.append( "ncurses_echochar" );
+    keywords.append( "ncurses_end" );
+    keywords.append( "ncurses_erase" );
+    keywords.append( "ncurses_erasechar" );
+    keywords.append( "ncurses_filter" );
+    keywords.append( "ncurses_flash" );
+    keywords.append( "ncurses_flushinp" );
+    keywords.append( "ncurses_getch" );
+    keywords.append( "ncurses_getmouse" );
+    keywords.append( "ncurses_halfdelay" );
+    keywords.append( "ncurses_has_colors" );
+    keywords.append( "ncurses_has_ic" );
+    keywords.append( "ncurses_has_il" );
+    keywords.append( "ncurses_has_key" );
+    keywords.append( "ncurses_hline" );
+    keywords.append( "ncurses_inch" );
+    keywords.append( "ncurses_init" );
+    keywords.append( "ncurses_init_color" );
+    keywords.append( "ncurses_init_pair" );
+    keywords.append( "ncurses_insch" );
+    keywords.append( "ncurses_insdelln" );
+    keywords.append( "ncurses_insertln" );
+    keywords.append( "ncurses_insstr" );
+    keywords.append( "ncurses_instr" );
+    keywords.append( "ncurses_isendwin" );
+    keywords.append( "ncurses_keyok" );
+    keywords.append( "ncurses_killchar" );
+    keywords.append( "ncurses_longname" );
+    keywords.append( "ncurses_mouseinterval" );
+    keywords.append( "ncurses_mousemask" );
+    keywords.append( "ncurses_move" );
+    keywords.append( "ncurses_mvaddch" );
+    keywords.append( "ncurses_mvaddchnstr" );
+    keywords.append( "ncurses_mvaddchstr" );
+    keywords.append( "ncurses_mvaddnstr" );
+    keywords.append( "ncurses_mvaddstr" );
+    keywords.append( "ncurses_mvcur" );
+    keywords.append( "ncurses_mvdelch" );
+    keywords.append( "ncurses_mvgetch" );
+    keywords.append( "ncurses_mvhline" );
+    keywords.append( "ncurses_mvinch" );
+    keywords.append( "ncurses_mvvline" );
+    keywords.append( "ncurses_mvwaddstr" );
+    keywords.append( "ncurses_napms" );
+    keywords.append( "ncurses_newwin" );
+    keywords.append( "ncurses_nl" );
+    keywords.append( "ncurses_nocbreak" );
+    keywords.append( "ncurses_noecho" );
+    keywords.append( "ncurses_nonl" );
+    keywords.append( "ncurses_noqiflush" );
+    keywords.append( "ncurses_noraw" );
+    keywords.append( "ncurses_putp" );
+    keywords.append( "ncurses_qiflush" );
+    keywords.append( "ncurses_raw" );
+    keywords.append( "ncurses_refresh" );
+    keywords.append( "ncurses_resetty" );
+    keywords.append( "ncurses_savetty" );
+    keywords.append( "ncurses_scr_dump" );
+    keywords.append( "ncurses_scr_init" );
+    keywords.append( "ncurses_scrl" );
+    keywords.append( "ncurses_scr_restore" );
+    keywords.append( "ncurses_scr_set" );
+    keywords.append( "ncurses_slk_attr" );
+    keywords.append( "ncurses_slk_attroff" );
+    keywords.append( "ncurses_slk_attron" );
+    keywords.append( "ncurses_slk_attrset" );
+    keywords.append( "ncurses_slk_clear" );
+    keywords.append( "ncurses_slk_color" );
+    keywords.append( "ncurses_slk_init" );
+    keywords.append( "ncurses_slk_noutrefresh" );
+    keywords.append( "ncurses_slk_refresh" );
+    keywords.append( "ncurses_slk_restore" );
+    keywords.append( "ncurses_slk_touch" );
+    keywords.append( "ncurses_standend" );
+    keywords.append( "ncurses_standout" );
+    keywords.append( "ncurses_start_color" );
+    keywords.append( "ncurses_termattrs" );
+    keywords.append( "ncurses_termname" );
+    keywords.append( "ncurses_timeout" );
+    keywords.append( "ncurses_typeahead" );
+    keywords.append( "ncurses_ungetch" );
+    keywords.append( "ncurses_ungetmouse" );
+    keywords.append( "ncurses_use_default_colors" );
+    keywords.append( "ncurses_use_env" );
+    keywords.append( "ncurses_use_extended_names" );
+    keywords.append( "ncurses_vidattr" );
+    keywords.append( "ncurses_vline" );
+    keywords.append( "ncurses_wrefresh" );
+    keywords.append( "new" );
+    keywords.append( "next" );
+    keywords.append( "nextframe" );
+    keywords.append( "next_sibling" );
+    keywords.append( "ngettext" );
+    keywords.append( "nl2br" );
+    keywords.append( "nl_langinfo" );
+    keywords.append( "node_name" );
+    keywords.append( "node_type" );
+    keywords.append( "node_value" );
+    keywords.append( "notations" );
+    keywords.append( "notes_body" );
+    keywords.append( "notes_copy_db" );
+    keywords.append( "notes_create_db" );
+    keywords.append( "notes_create_note" );
+    keywords.append( "notes_drop_db" );
+    keywords.append( "notes_find_note" );
+    keywords.append( "notes_header_info" );
+    keywords.append( "notes_list_msgs" );
+    keywords.append( "notes_mark_read" );
+    keywords.append( "notes_mark_unread" );
+    keywords.append( "notes_nav_create" );
+    keywords.append( "notes_search" );
+    keywords.append( "notes_unread" );
+    keywords.append( "notes_version" );
+    keywords.append( "NULL" );
+    keywords.append( "number_format" );
+    keywords.append( "ob_clean" );
+    keywords.append( "ob_end_clean" );
+    keywords.append( "ob_end_flush" );
+    keywords.append( "ob_flush" );
+    keywords.append( "ob_get_contents" );
+    keywords.append( "ob_get_length" );
+    keywords.append( "ob_get_level" );
+    keywords.append( "ob_get_status" );
+    keywords.append( "ob_gzhandler" );
+    keywords.append( "ob_iconv_handler" );
+    keywords.append( "ob_implicit_flush" );
+    keywords.append( "object" );
+    keywords.append( "objectbyanchor" );
+    keywords.append( "ob_start" );
+    keywords.append( "ocibindbyname" );
+    keywords.append( "ocicancel" );
+    keywords.append( "OCICollAppend" );
+    keywords.append( "ocicollassign" );
+    keywords.append( "ocicollassignelem" );
+    keywords.append( "ocicollgetelem" );
+    keywords.append( "ocicollmax" );
+    keywords.append( "ocicollsize" );
+    keywords.append( "ocicolltrim" );
+    keywords.append( "ocicolumnisnull" );
+    keywords.append( "ocicolumnname" );
+    keywords.append( "ocicolumnprecision" );
+    keywords.append( "ocicolumnscale" );
+    keywords.append( "ocicolumnsize" );
+    keywords.append( "ocicolumntype" );
+    keywords.append( "ocicolumntyperaw" );
+    keywords.append( "ocicommit" );
+    keywords.append( "ocidefinebyname" );
+    keywords.append( "ocierror" );
+    keywords.append( "ociexecute" );
+    keywords.append( "ocifetch" );
+    keywords.append( "ocifetchinto" );
+    keywords.append( "ocifetchstatement" );
+    keywords.append( "ocifreecollection" );
+    keywords.append( "ocifreecursor" );
+    keywords.append( "OCIFreeDesc" );
+    keywords.append( "ocifreestatement" );
+    keywords.append( "ociinternaldebug" );
+    keywords.append( "ociloadlob" );
+    keywords.append( "ocilogoff" );
+    keywords.append( "ocilogon" );
+    keywords.append( "ocinewcollection" );
+    keywords.append( "ocinewcursor" );
+    keywords.append( "ocinewdescriptor" );
+    keywords.append( "ocinlogon" );
+    keywords.append( "ocinumcols" );
+    keywords.append( "ociparse" );
+    keywords.append( "ociplogon" );
+    keywords.append( "ociresult" );
+    keywords.append( "ocirollback" );
+    keywords.append( "ocirowcount" );
+    keywords.append( "ocisavelob" );
+    keywords.append( "ocisavelobfile" );
+    keywords.append( "ociserverversion" );
+    keywords.append( "ocisetprefetch" );
+    keywords.append( "ocistatementtype" );
+    keywords.append( "ociwritelobtofile" );
+    keywords.append( "octdec" );
+    keywords.append( "odbc_autocommit" );
+    keywords.append( "odbc_binmode" );
+    keywords.append( "odbc_close" );
+    keywords.append( "odbc_close_all" );
+    keywords.append( "odbc_columnprivileges" );
+    keywords.append( "odbc_columns" );
+    keywords.append( "odbc_commit" );
+    keywords.append( "odbc_connect" );
+    keywords.append( "odbc_cursor" );
+    keywords.append( "odbc_data_source" );
+    keywords.append( "odbc_do" );
+    keywords.append( "odbc_error" );
+    keywords.append( "odbc_errormsg" );
+    keywords.append( "odbc_exec" );
+    keywords.append( "odbc_execute" );
+    keywords.append( "odbc_fetch_array" );
+    keywords.append( "odbc_fetch_into" );
+    keywords.append( "odbc_fetch_object" );
+    keywords.append( "odbc_fetch_row" );
+    keywords.append( "odbc_field_len" );
+    keywords.append( "odbc_field_name" );
+    keywords.append( "odbc_field_num" );
+    keywords.append( "odbc_field_precision" );
+    keywords.append( "odbc_field_scale" );
+    keywords.append( "odbc_field_type" );
+    keywords.append( "odbc_foreignkeys" );
+    keywords.append( "odbc_free_result" );
+    keywords.append( "odbc_gettypeinfo" );
+    keywords.append( "odbc_longreadlen" );
+    keywords.append( "odbc_next_result" );
+    keywords.append( "odbc_num_fields" );
+    keywords.append( "odbc_num_rows" );
+    keywords.append( "odbc_pconnect" );
+    keywords.append( "odbc_prepare" );
+    keywords.append( "odbc_primarykeys" );
+    keywords.append( "odbc_procedurecolumns" );
+    keywords.append( "odbc_procedures" );
+    keywords.append( "odbc_result" );
+    keywords.append( "odbc_result_all" );
+    keywords.append( "odbc_rollback" );
+    keywords.append( "odbc_setoption" );
+    keywords.append( "odbc_specialcolumns" );
+    keywords.append( "odbc_statistics" );
+    keywords.append( "odbc_tableprivileges" );
+    keywords.append( "odbc_tables" );
+    keywords.append( "opendir" );
+    keywords.append( "openlog" );
+    keywords.append( "openssl_csr_export" );
+    keywords.append( "openssl_csr_export_to_file" );
+    keywords.append( "openssl_csr_new" );
+    keywords.append( "openssl_csr_sign" );
+    keywords.append( "openssl_error_string" );
+    keywords.append( "openssl_free_key" );
+    keywords.append( "openssl_get_privatekey" );
+    keywords.append( "openssl_get_publickey" );
+    keywords.append( "openssl_open" );
+    keywords.append( "openssl_pkcs7_decrypt" );
+    keywords.append( "openssl_pkcs7_encrypt" );
+    keywords.append( "openssl_pkcs7_sign" );
+    keywords.append( "openssl_pkcs7_verify" );
+    keywords.append( "openssl_pkey_export" );
+    keywords.append( "openssl_pkey_export_to_file" );
+    keywords.append( "openssl_pkey_get_private" );
+    keywords.append( "openssl_pkey_get_public" );
+    keywords.append( "openssl_pkey_new" );
+    keywords.append( "openssl_private_decrypt" );
+    keywords.append( "openssl_private_encrypt" );
+    keywords.append( "openssl_public_decrypt" );
+    keywords.append( "openssl_public_encrypt" );
+    keywords.append( "openssl_seal" );
+    keywords.append( "openssl_sign" );
+    keywords.append( "openssl_verify" );
+    keywords.append( "openssl_x509_check_private_key" );
+    keywords.append( "openssl_x509_checkpurpose" );
+    keywords.append( "openssl_x509_export" );
+    keywords.append( "openssl_x509_export_to_file" );
+    keywords.append( "openssl_x509_free" );
+    keywords.append( "openssl_x509_parse" );
+    keywords.append( "openssl_x509_read" );
+    keywords.append( "ora_bind" );
+    keywords.append( "ora_close" );
+    keywords.append( "ora_columnname" );
+    keywords.append( "ora_columnsize" );
+    keywords.append( "ora_columntype" );
+    keywords.append( "ora_commit" );
+    keywords.append( "ora_commitoff" );
+    keywords.append( "ora_commiton" );
+    keywords.append( "ora_do" );
+    keywords.append( "ora_error" );
+    keywords.append( "ora_errorcode" );
+    keywords.append( "ora_exec" );
+    keywords.append( "ora_fetch" );
+    keywords.append( "ora_fetch_into" );
+    keywords.append( "ora_getcolumn" );
+    keywords.append( "ora_logoff" );
+    keywords.append( "ora_logon" );
+    keywords.append( "ora_numcols" );
+    keywords.append( "ora_numrows" );
+    keywords.append( "ora_open" );
+    keywords.append( "ora_parse" );
+    keywords.append( "ora_plogon" );
+    keywords.append( "ora_rollback" );
+    keywords.append( "ord" );
+    keywords.append( "output" );
+    keywords.append( "overload" );
+    keywords.append( "ovrimos_close" );
+    keywords.append( "ovrimos_commit" );
+    keywords.append( "ovrimos_connect" );
+    keywords.append( "ovrimos_cursor" );
+    keywords.append( "ovrimos_exec" );
+    keywords.append( "ovrimos_execute" );
+    keywords.append( "ovrimos_fetch_into" );
+    keywords.append( "ovrimos_fetch_row" );
+    keywords.append( "ovrimos_field_len" );
+    keywords.append( "ovrimos_field_name" );
+    keywords.append( "ovrimos_field_num" );
+    keywords.append( "ovrimos_field_type" );
+    keywords.append( "ovrimos_free_result" );
+    keywords.append( "ovrimos_longreadlen" );
+    keywords.append( "ovrimos_num_fields" );
+    keywords.append( "ovrimos_num_rows" );
+    keywords.append( "ovrimos_prepare" );
+    keywords.append( "ovrimos_result" );
+    keywords.append( "ovrimos_result_all" );
+    keywords.append( "ovrimos_rollback" );
+    keywords.append( "owner_document" );
+    keywords.append( "pack" );
+    keywords.append( "parent_node" );
+    keywords.append( "parents" );
+    keywords.append( "parse_ini_file" );
+    keywords.append( "parse_str" );
+    keywords.append( "parse_url" );
+    keywords.append( "passthru" );
+    keywords.append( "pathinfo" );
+    keywords.append( "PATH_TRANSLATED" );
+    keywords.append( "pclose" );
+    keywords.append( "pcntl_exec" );
+    keywords.append( "pcntl_fork" );
+    keywords.append( "pcntl_signal" );
+    keywords.append( "pcntl_waitpid" );
+    keywords.append( "pcntl_wexitstatus" );
+    keywords.append( "pcntl_wifexited" );
+    keywords.append( "pcntl_wifsignaled" );
+    keywords.append( "pcntl_wifstopped" );
+    keywords.append( "pcntl_wstopsig" );
+    keywords.append( "pcntl_wtermsig" );
+    keywords.append( "pdf_add_annotation" );
+    keywords.append( "pdf_add_bookmark" );
+    keywords.append( "pdf_add_launchlink" );
+    keywords.append( "pdf_add_locallink" );
+    keywords.append( "pdf_add_note" );
+    keywords.append( "pdf_add_outline" );
+    keywords.append( "pdf_add_pdflink" );
+    keywords.append( "pdf_add_thumbnail" );
+    keywords.append( "pdf_add_weblink" );
+    keywords.append( "pdf_arc" );
+    keywords.append( "pdf_arcn" );
+    keywords.append( "pdf_attach_file" );
+    keywords.append( "pdf_begin_page" );
+    keywords.append( "pdf_begin_pattern" );
+    keywords.append( "pdf_begin_template" );
+    keywords.append( "pdf_circle" );
+    keywords.append( "pdf_clip" );
+    keywords.append( "pdf_close" );
+    keywords.append( "pdf_close_image" );
+    keywords.append( "pdf_closepath" );
+    keywords.append( "pdf_closepath_fill_stroke" );
+    keywords.append( "pdf_closepath_stroke" );
+    keywords.append( "pdf_close_pdi" );
+    keywords.append( "pdf_close_pdi_page" );
+    keywords.append( "pdf_concat" );
+    keywords.append( "pdf_continue_text" );
+    keywords.append( "pdf_curveto" );
+    keywords.append( "pdf_delete" );
+    keywords.append( "pdf_end_page" );
+    keywords.append( "pdf_endpath" );
+    keywords.append( "pdf_end_pattern" );
+    keywords.append( "pdf_end_template" );
+    keywords.append( "pdf_fill" );
+    keywords.append( "pdf_fill_stroke" );
+    keywords.append( "pdf_findfont" );
+    keywords.append( "pdf_get_buffer" );
+    keywords.append( "pdf_get_font" );
+    keywords.append( "pdf_get_fontname" );
+    keywords.append( "pdf_get_fontsize" );
+    keywords.append( "pdf_get_image_height" );
+    keywords.append( "pdf_get_image_width" );
+    keywords.append( "pdf_get_majorversion" );
+    keywords.append( "pdf_get_minorversion" );
+    keywords.append( "pdf_get_parameter" );
+    keywords.append( "pdf_get_pdi_parameter" );
+    keywords.append( "pdf_get_pdi_value" );
+    keywords.append( "pdf_get_value" );
+    keywords.append( "pdf_initgraphics" );
+    keywords.append( "pdf_lineto" );
+    keywords.append( "pdf_makespotcolor" );
+    keywords.append( "pdf_moveto" );
+    keywords.append( "pdf_new" );
+    keywords.append( "pdf_open" );
+    keywords.append( "pdf_open_CCITT" );
+    keywords.append( "pdf_open_file" );
+    keywords.append( "pdf_open_gif" );
+    keywords.append( "pdf_open_image" );
+    keywords.append( "pdf_open_image_file" );
+    keywords.append( "pdf_open_jpeg" );
+    keywords.append( "pdf_open_memory_image" );
+    keywords.append( "pdf_open_pdi" );
+    keywords.append( "pdf_open_pdi_page" );
+    keywords.append( "pdf_open_png" );
+    keywords.append( "pdf_open_tiff" );
+    keywords.append( "pdf_place_image" );
+    keywords.append( "pdf_place_pdi_page" );
+    keywords.append( "pdf_rect" );
+    keywords.append( "pdf_restore" );
+    keywords.append( "pdf_rotate" );
+    keywords.append( "pdf_save" );
+    keywords.append( "pdf_scale" );
+    keywords.append( "pdf_set_border_color" );
+    keywords.append( "pdf_set_border_dash" );
+    keywords.append( "pdf_set_border_style" );
+    keywords.append( "pdf_set_char_spacing" );
+    keywords.append( "pdf_setcolor" );
+    keywords.append( "pdf_setdash" );
+    keywords.append( "pdf_set_duration" );
+    keywords.append( "pdf_setflat" );
+    keywords.append( "pdf_set_font" );
+    keywords.append( "pdf_setfont" );
+    keywords.append( "pdf_setgray" );
+    keywords.append( "pdf_setgray_fill" );
+    keywords.append( "pdf_setgray_stroke" );
+    keywords.append( "pdf_set_horiz_scaling" );
+    keywords.append( "pdf_set_info" );
+    keywords.append( "pdf_set_info_author" );
+    keywords.append( "pdf_set_info_creator" );
+    keywords.append( "pdf_set_info_keywords" );
+    keywords.append( "pdf_set_info_subject" );
+    keywords.append( "pdf_set_info_title" );
+    keywords.append( "pdf_set_leading" );
+    keywords.append( "pdf_setlinecap" );
+    keywords.append( "pdf_setlinejoin" );
+    keywords.append( "pdf_setlinewidth" );
+    keywords.append( "pdf_setmatrix" );
+    keywords.append( "pdf_setmiterlimit" );
+    keywords.append( "pdf_set_parameter" );
+    keywords.append( "pdf_setpolydash" );
+    keywords.append( "pdf_setrgbcolor" );
+    keywords.append( "pdf_setrgbcolor_fill" );
+    keywords.append( "pdf_setrgbcolor_stroke" );
+    keywords.append( "pdf_set_text_matrix" );
+    keywords.append( "pdf_set_text_pos" );
+    keywords.append( "pdf_set_text_rendering" );
+    keywords.append( "pdf_set_text_rise" );
+    keywords.append( "pdf_set_value" );
+    keywords.append( "pdf_set_word_spacing" );
+    keywords.append( "pdf_show" );
+    keywords.append( "pdf_show_boxed" );
+    keywords.append( "pdf_show_xy" );
+    keywords.append( "pdf_skew" );
+    keywords.append( "pdf_stringwidth" );
+    keywords.append( "pdf_stroke" );
+    keywords.append( "pdf_translate" );
+    keywords.append( "PEAR_EXTENSION_DIR" );
+    keywords.append( "PEAR_INSTALL_DIR" );
+    keywords.append( "pfpro_cleanup" );
+    keywords.append( "pfpro_init" );
+    keywords.append( "pfpro_process" );
+    keywords.append( "pfpro_process_raw" );
+    keywords.append( "pfpro_version" );
+    keywords.append( "pfsockopen" );
+    keywords.append( "pg_affected_rows" );
+    keywords.append( "pg_cancel_query" );
+    keywords.append( "pg_client_encoding" );
+    keywords.append( "pg_close" );
+    keywords.append( "pg_connect" );
+    keywords.append( "pg_connection_busy" );
+    keywords.append( "pg_connection_reset" );
+    keywords.append( "pg_connection_status" );
+    keywords.append( "pg_convert" );
+    keywords.append( "pg_copy_from" );
+    keywords.append( "pg_copy_to" );
+    keywords.append( "pg_dbname" );
+    keywords.append( "pg_delete" );
+    keywords.append( "pg_end_copy" );
+    keywords.append( "pg_escape_bytea" );
+    keywords.append( "pg_escape_string" );
+    keywords.append( "pg_fetch_all" );
+    keywords.append( "pg_fetch_array" );
+    keywords.append( "pg_fetch_assoc" );
+    keywords.append( "pg_fetch_object" );
+    keywords.append( "pg_fetch_result" );
+    keywords.append( "pg_fetch_row" );
+    keywords.append( "pg_field_is_null" );
+    keywords.append( "pg_field_name" );
+    keywords.append( "pg_field_num" );
+    keywords.append( "pg_field_prtlen" );
+    keywords.append( "pg_field_size" );
+    keywords.append( "pg_field_type" );
+    keywords.append( "pg_free_result" );
+    keywords.append( "pg_get_notify" );
+    keywords.append( "pg_get_pid" );
+    keywords.append( "pg_get_result" );
+    keywords.append( "pg_host" );
+    keywords.append( "pg_insert" );
+    keywords.append( "pg_last_error" );
+    keywords.append( "pg_last_notice" );
+    keywords.append( "pg_last_oid" );
+    keywords.append( "pg_lo_close" );
+    keywords.append( "pg_lo_create" );
+    keywords.append( "pg_lo_export" );
+    keywords.append( "pg_lo_import" );
+    keywords.append( "pg_lo_open" );
+    keywords.append( "pg_lo_read" );
+    keywords.append( "pg_lo_read_all" );
+    keywords.append( "pg_lo_seek" );
+    keywords.append( "pg_lo_tell" );
+    keywords.append( "pg_lo_unlink" );
+    keywords.append( "pg_lo_write" );
+    keywords.append( "pg_meta_data" );
+    keywords.append( "pg_num_fields" );
+    keywords.append( "pg_num_rows" );
+    keywords.append( "pg_options" );
+    keywords.append( "pg_pconnect" );
+    keywords.append( "pg_ping" );
+    keywords.append( "pg_port" );
+    keywords.append( "pg_put_line" );
+    keywords.append( "pg_query" );
+    keywords.append( "pg_result_error" );
+    keywords.append( "pg_result_seek" );
+    keywords.append( "pg_result_status" );
+    keywords.append( "pg_select" );
+    keywords.append( "pg_send_query" );
+    keywords.append( "pg_set_client_encoding" );
+    keywords.append( "pg_trace" );
+    keywords.append( "pg_tty" );
+    keywords.append( "pg_unescape_bytea" );
+    keywords.append( "pg_untrace" );
+    keywords.append( "pg_update" );
+    keywords.append( "PHP_BINDIR" );
+    keywords.append( "PHP_CONFIG_FILE_PATH" );
+    keywords.append( "phpcredits" );
+    keywords.append( "PHP_DATADIR" );
+    keywords.append( "PHP_ERRMSG" );
+    keywords.append( "PHP_EXTENSION_DIR" );
+    keywords.append( "phpinfo" );
+    keywords.append( "php_ini_scanned_files" );
+    keywords.append( "PHP_LIBDIR" );
+    keywords.append( "PHP_LOCALSTATEDIR" );
+    keywords.append( "php_logo_guid" );
+    keywords.append( "PHP_OS" );
+    keywords.append( "PHP_OUTPUT_HANDLER_CONT" );
+    keywords.append( "PHP_OUTPUT_HANDLER_END" );
+    keywords.append( "PHP_OUTPUT_HANDLER_START" );
+    keywords.append( "php_sapi_name" );
+    keywords.append( "PHP_SELF" );
+    keywords.append( "PHP_SYSCONFDIR" );
+    keywords.append( "php_uname" );
+    keywords.append( "phpversion" );
+    keywords.append( "PHP_VERSION" );
+    keywords.append( "pi" );
+    keywords.append( "png2wbmp" );
+    keywords.append( "popen" );
+    keywords.append( "pos" );
+    keywords.append( "posix_ctermid" );
+    keywords.append( "posix_getcwd" );
+    keywords.append( "posix_getegid" );
+    keywords.append( "posix_geteuid" );
+    keywords.append( "posix_getgid" );
+    keywords.append( "posix_getgrgid" );
+    keywords.append( "posix_getgrnam" );
+    keywords.append( "posix_getgroups" );
+    keywords.append( "posix_getlogin" );
+    keywords.append( "posix_getpgid" );
+    keywords.append( "posix_getpgrp" );
+    keywords.append( "posix_getpid" );
+    keywords.append( "posix_getppid" );
+    keywords.append( "posix_getpwnam" );
+    keywords.append( "posix_getpwuid" );
+    keywords.append( "posix_getrlimit" );
+    keywords.append( "posix_getsid" );
+    keywords.append( "posix_getuid" );
+    keywords.append( "posix_isatty" );
+    keywords.append( "posix_kill" );
+    keywords.append( "posix_mkfifo" );
+    keywords.append( "posix_setegid" );
+    keywords.append( "posix_seteuid" );
+    keywords.append( "posix_setgid" );
+    keywords.append( "posix_setpgid" );
+    keywords.append( "posix_setsid" );
+    keywords.append( "posix_setuid" );
+    keywords.append( "posix_times" );
+    keywords.append( "posix_ttyname" );
+    keywords.append( "posix_uname" );
+    keywords.append( "_POST" );
+    keywords.append( "pow" );
+    keywords.append( "prefix" );
+    keywords.append( "preg_grep" );
+    keywords.append( "preg_match" );
+    keywords.append( "preg_match_all" );
+    keywords.append( "preg_quote" );
+    keywords.append( "preg_replace" );
+    keywords.append( "preg_replace_callback" );
+    keywords.append( "preg_split" );
+    keywords.append( "prev" );
+    keywords.append( "previous_sibling" );
+    keywords.append( "print" );
+    keywords.append( "printer_abort" );
+    keywords.append( "printer_close" );
+    keywords.append( "printer_create_brush" );
+    keywords.append( "printer_create_dc" );
+    keywords.append( "printer_create_font" );
+    keywords.append( "printer_create_pen" );
+    keywords.append( "printer_delete_brush" );
+    keywords.append( "printer_delete_dc" );
+    keywords.append( "printer_delete_font" );
+    keywords.append( "printer_delete_pen" );
+    keywords.append( "printer_draw_bmp" );
+    keywords.append( "printer_draw_chord" );
+    keywords.append( "printer_draw_elipse" );
+    keywords.append( "printer_draw_line" );
+    keywords.append( "printer_draw_pie" );
+    keywords.append( "printer_draw_rectangle" );
+    keywords.append( "printer_draw_roundrect" );
+    keywords.append( "printer_draw_text" );
+    keywords.append( "printer_end_doc" );
+    keywords.append( "printer_end_page" );
+    keywords.append( "printer_get_option" );
+    keywords.append( "printer_list" );
+    keywords.append( "printer_logical_fontheight" );
+    keywords.append( "printer_open" );
+    keywords.append( "printer_select_brush" );
+    keywords.append( "printer_select_font" );
+    keywords.append( "printer_select_pen" );
+    keywords.append( "printer_set_option" );
+    keywords.append( "printer_start_doc" );
+    keywords.append( "printer_start_page" );
+    keywords.append( "printer_write" );
+    keywords.append( "printf" );
+    keywords.append( "print_r" );
+    keywords.append( "private" );
+    keywords.append( "proc_close" );
+    keywords.append( "process" );
+    keywords.append( "proc_open" );
+    keywords.append( "protected" );
+    keywords.append( "pspell_add_to_personal" );
+    keywords.append( "pspell_add_to_session" );
+    keywords.append( "pspell_check" );
+    keywords.append( "pspell_clear_session" );
+    keywords.append( "pspell_config_create" );
+    keywords.append( "pspell_config_ignore" );
+    keywords.append( "pspell_config_mode" );
+    keywords.append( "pspell_config_personal" );
+    keywords.append( "pspell_config_repl" );
+    keywords.append( "pspell_config_runtogether" );
+    keywords.append( "pspell_config_save_repl" );
+    keywords.append( "pspell_new" );
+    keywords.append( "pspell_new_config" );
+    keywords.append( "pspell_new_personal" );
+    keywords.append( "pspell_save_wordlist" );
+    keywords.append( "pspell_store_replacement" );
+    keywords.append( "pspell_suggest" );
+    keywords.append( "public" );
+    keywords.append( "public_id" );
+    keywords.append( "putenv" );
+    keywords.append( "qdom_error" );
+    keywords.append( "qdom_tree" );
+    keywords.append( "QUERY_STRING" );
+    keywords.append( "quoted_printable_decode" );
+    keywords.append( "quotemeta" );
+    keywords.append( "rad2deg" );
+    keywords.append( "rand" );
+    keywords.append( "range" );
+    keywords.append( "rawurldecode" );
+    keywords.append( "rawurlencode" );
+    keywords.append( "read" );
+    keywords.append( "readdir" );
+    keywords.append( "read_exif_data" );
+    keywords.append( "readfile" );
+    keywords.append( "readgzfile" );
+    keywords.append( "readline" );
+    keywords.append( "readline_add_history" );
+    keywords.append( "readline_clear_history" );
+    keywords.append( "readline_completion_function" );
+    keywords.append( "readline_info" );
+    keywords.append( "readline_list_history" );
+    keywords.append( "readline_read_history" );
+    keywords.append( "readline_write_history" );
+    keywords.append( "readlink" );
+    keywords.append( "realpath" );
+    keywords.append( "reason" );
+    keywords.append( "recode" );
+    keywords.append( "recode_file" );
+    keywords.append( "recode_string" );
+    keywords.append( "register_shutdown_function" );
+    keywords.append( "register_tick_function" );
+    keywords.append( "REMOTE_ADDR" );
+    keywords.append( "REMOTE_PORT" );
+    keywords.append( "remove" );
+    keywords.append( "remove_attribute" );
+    keywords.append( "remove_child" );
+    keywords.append( "rename" );
+    keywords.append( "replace" );
+    keywords.append( "replace_child" );
+    keywords.append( "replace_node" );
+    keywords.append( "_REQUEST" );
+    keywords.append( "REQUEST_METHOD" );
+    keywords.append( "REQUEST_URI" );
+    keywords.append( "require" );
+    keywords.append( "require_once" );
+    keywords.append( "reset" );
+    keywords.append( "restore_error_handler" );
+    keywords.append( "restore_include_path" );
+    keywords.append( "result_dump_file" );
+    keywords.append( "result_dump_mem" );
+    keywords.append( "return" );
+    keywords.append( "rewind" );
+    keywords.append( "rewinddir" );
+    keywords.append( "rmdir" );
+    keywords.append( "Rotate" );
+    keywords.append( "rotateTo" );
+    keywords.append( "round" );
+    keywords.append( "rsort" );
+    keywords.append( "rtrim" );
+    keywords.append( "save" );
+    keywords.append( "scale" );
+    keywords.append( "scaleTo" );
+    keywords.append( "SCRIPT_FILENAME" );
+    keywords.append( "SCRIPT_NAME" );
+    keywords.append( "sem_acquire" );
+    keywords.append( "sem_get" );
+    keywords.append( "sem_release" );
+    keywords.append( "sem_remove" );
+    keywords.append( "serialize" );
+    keywords.append( "_SERVER" );
+    keywords.append( "SERVER_ADMIN" );
+    keywords.append( "SERVER_NAME" );
+    keywords.append( "SERVER_PORT" );
+    keywords.append( "SERVER_PROTOCOL" );
+    keywords.append( "SERVER_SIGNATURE" );
+    keywords.append( "SERVER_SOFTWARE" );
+    keywords.append( "sesam_affected_rows" );
+    keywords.append( "sesam_commit" );
+    keywords.append( "sesam_connect" );
+    keywords.append( "sesam_diagnostic" );
+    keywords.append( "sesam_disconnect" );
+    keywords.append( "sesam_errormsg" );
+    keywords.append( "sesam_execimm" );
+    keywords.append( "sesam_fetch_array" );
+    keywords.append( "sesam_fetch_result" );
+    keywords.append( "sesam_fetch_row" );
+    keywords.append( "sesam_field_array" );
+    keywords.append( "sesam_field_name" );
+    keywords.append( "sesam_free_result" );
+    keywords.append( "sesam_num_fields" );
+    keywords.append( "sesam_query" );
+    keywords.append( "sesam_rollback" );
+    keywords.append( "sesam_seek_row" );
+    keywords.append( "sesam_settransaction" );
+    keywords.append( "_SESSION" );
+    keywords.append( "session_cache_expire" );
+    keywords.append( "session_cache_limiter" );
+    keywords.append( "session_decode" );
+    keywords.append( "session_destroy" );
+    keywords.append( "session_encode" );
+    keywords.append( "session_get_cookie_params" );
+    keywords.append( "session_id" );
+    keywords.append( "session_is_registered" );
+    keywords.append( "session_module_name" );
+    keywords.append( "session_name" );
+    keywords.append( "session_readonly" );
+    keywords.append( "session_register" );
+    keywords.append( "session_save_path" );
+    keywords.append( "session_set_cookie_params" );
+    keywords.append( "session_set_save_handler" );
+    keywords.append( "session_start" );
+    keywords.append( "session_unregister" );
+    keywords.append( "session_unset" );
+    keywords.append( "session_write_close" );
+    keywords.append( "setAction" );
+    keywords.append( "set_attribute" );
+    keywords.append( "setbackground" );
+    keywords.append( "setbounds" );
+    keywords.append( "setcolor" );
+    keywords.append( "setColor" );
+    keywords.append( "setcommitedversion" );
+    keywords.append( "set_content" );
+    keywords.append( "setcookie" );
+    keywords.append( "setDepth" );
+    keywords.append( "setdimension" );
+    keywords.append( "setdown" );
+    keywords.append( "set_error_handler" );
+    keywords.append( "set_file_buffer" );
+    keywords.append( "setFont" );
+    keywords.append( "setframes" );
+    keywords.append( "setHeight" );
+    keywords.append( "setHit" );
+    keywords.append( "set_include_path" );
+    keywords.append( "setindentation" );
+    keywords.append( "setLeftFill" );
+    keywords.append( "setLeftMargin" );
+    keywords.append( "setLine" );
+    keywords.append( "setLineSpacing" );
+    keywords.append( "setlocale" );
+    keywords.append( "set_magic_quotes_runtime" );
+    keywords.append( "setMargins" );
+    keywords.append( "set_name" );
+    keywords.append( "setname" );
+    keywords.append( "setName" );
+    keywords.append( "set_namespace" );
+    keywords.append( "setOver" );
+    keywords.append( "setrate" );
+    keywords.append( "setRatio" );
+    keywords.append( "setRightFill" );
+    keywords.append( "setrightMargin" );
+    keywords.append( "setSpacing" );
+    keywords.append( "set_time_limit" );
+    keywords.append( "settype" );
+    keywords.append( "setUp" );
+    keywords.append( "sha1" );
+    keywords.append( "sha1_file" );
+    keywords.append( "shell_exec" );
+    keywords.append( "shm_attach" );
+    keywords.append( "shm_detach" );
+    keywords.append( "shm_get_var" );
+    keywords.append( "shmop_close" );
+    keywords.append( "shmop_delete" );
+    keywords.append( "shmop_open" );
+    keywords.append( "shmop_read" );
+    keywords.append( "shmop_size" );
+    keywords.append( "shmop_write" );
+    keywords.append( "shm_put_var" );
+    keywords.append( "shm_remove" );
+    keywords.append( "shm_remove_var" );
+    keywords.append( "show_source" );
+    keywords.append( "shuffle" );
+    keywords.append( "similar_text" );
+    keywords.append( "sin" );
+    keywords.append( "sinh" );
+    keywords.append( "sizeof" );
+    keywords.append( "skewX" );
+    keywords.append( "skewXTo" );
+    keywords.append( "skewY" );
+    keywords.append( "skewYTo" );
+    keywords.append( "sleep" );
+    keywords.append( "snmpget" );
+    keywords.append( "snmp_get_quick_print" );
+    keywords.append( "snmprealwalk" );
+    keywords.append( "snmpset" );
+    keywords.append( "snmp_set_quick_print" );
+    keywords.append( "snmpwalk" );
+    keywords.append( "snmpwalkoid" );
+    keywords.append( "socket_accept" );
+    keywords.append( "socket_bind" );
+    keywords.append( "socket_clear_error" );
+    keywords.append( "socket_close" );
+    keywords.append( "socket_connect" );
+    keywords.append( "socket_create" );
+    keywords.append( "socket_create_listen" );
+    keywords.append( "socket_create_pair" );
+    keywords.append( "socket_get_option" );
+    keywords.append( "socket_getpeername" );
+    keywords.append( "socket_getsockname" );
+    keywords.append( "socket_get_status" );
+    keywords.append( "socket_iovec_add" );
+    keywords.append( "socket_iovec_alloc" );
+    keywords.append( "socket_iovec_delete" );
+    keywords.append( "socket_iovec_fetch" );
+    keywords.append( "socket_iovec_free" );
+    keywords.append( "socket_iovec_set" );
+    keywords.append( "socket_last_error" );
+    keywords.append( "socket_listen" );
+    keywords.append( "socket_read" );
+    keywords.append( "socket_readv" );
+    keywords.append( "socket_recv" );
+    keywords.append( "socket_recvfrom" );
+    keywords.append( "socket_recvmsg" );
+    keywords.append( "socket_select" );
+    keywords.append( "socket_send" );
+    keywords.append( "socket_sendmsg" );
+    keywords.append( "socket_sendto" );
+    keywords.append( "socket_set_blocking" );
+    keywords.append( "socket_set_nonblock" );
+    keywords.append( "socket_set_option" );
+    keywords.append( "socket_set_timeout" );
+    keywords.append( "socket_shutdown" );
+    keywords.append( "socket_strerror" );
+    keywords.append( "socket_write" );
+    keywords.append( "socket_writev" );
+    keywords.append( "sort" );
+    keywords.append( "soundex" );
+    keywords.append( "specified" );
+    keywords.append( "split" );
+    keywords.append( "spliti" );
+    keywords.append( "sprintf" );
+    keywords.append( "sql_regcase" );
+    keywords.append( "sqrt" );
+    keywords.append( "srand" );
+    keywords.append( "srcanchors" );
+    keywords.append( "srcsofdst" );
+    keywords.append( "sscanf" );
+    keywords.append( "stat" );
+    keywords.append( "static" );
+    keywords.append( "stdClass" );
+    keywords.append( "strcasecmp" );
+    keywords.append( "strchr" );
+    keywords.append( "strcmp" );
+    keywords.append( "strcoll" );
+    keywords.append( "strcspn" );
+    keywords.append( "stream_context_create" );
+    keywords.append( "stream_context_get_options" );
+    keywords.append( "stream_context_set_option" );
+    keywords.append( "stream_context_set_params" );
+    keywords.append( "stream_filter_append" );
+    keywords.append( "stream_filter_prepend" );
+    keywords.append( "stream_get_filters" );
+    keywords.append( "stream_get_meta_data" );
+    keywords.append( "stream_get_wrappers" );
+    keywords.append( "streammp3" );
+    keywords.append( "stream_register_filter" );
+    keywords.append( "stream_register_wrapper" );
+    keywords.append( "stream_select" );
+    keywords.append( "stream_set_blocking" );
+    keywords.append( "stream_set_timeout" );
+    keywords.append( "stream_set_write_buffer" );
+    keywords.append( "strftime" );
+    keywords.append( "stripcslashes" );
+    keywords.append( "stripslashes" );
+    keywords.append( "strip_tags" );
+    keywords.append( "stristr" );
+    keywords.append( "strlen" );
+    keywords.append( "strnatcasecmp" );
+    keywords.append( "strnatcmp" );
+    keywords.append( "strncasecmp" );
+    keywords.append( "strncmp" );
+    keywords.append( "str_pad" );
+    keywords.append( "strpos" );
+    keywords.append( "strrchr" );
+    keywords.append( "str_repeat" );
+    keywords.append( "str_replace" );
+    keywords.append( "strrev" );
+    keywords.append( "str_rot13" );
+    keywords.append( "strrpos" );
+    keywords.append( "str_shuffle" );
+    keywords.append( "strspn" );
+    keywords.append( "strstr" );
+    keywords.append( "strtok" );
+    keywords.append( "strtolower" );
+    keywords.append( "strtotime" );
+    keywords.append( "strtoupper" );
+    keywords.append( "strtr" );
+    keywords.append( "strval" );
+    keywords.append( "str_word_count" );
+    keywords.append( "substr" );
+    keywords.append( "substr_count" );
+    keywords.append( "substr_replace" );
+    keywords.append( "SWFAction" );
+    keywords.append( "swf_actiongeturl" );
+    keywords.append( "swf_actiongotoframe" );
+    keywords.append( "swf_actiongotolabel" );
+    keywords.append( "swf_actionnextframe" );
+    keywords.append( "swf_actionplay" );
+    keywords.append( "swf_actionprevframe" );
+    keywords.append( "swf_actionsettarget" );
+    keywords.append( "swf_actionstop" );
+    keywords.append( "swf_actiontogglequality" );
+    keywords.append( "swf_actionwaitforframe" );
+    keywords.append( "swf_addbuttonrecord" );
+    keywords.append( "swf_addcolor" );
+    keywords.append( "SWFBitmap" );
+    keywords.append( "SWFbutton" );
+    keywords.append( "swfbutton_keypress" );
+    keywords.append( "swf_closefile" );
+    keywords.append( "swf_definebitmap" );
+    keywords.append( "swf_definefont" );
+    keywords.append( "swf_defineline" );
+    keywords.append( "swf_definepoly" );
+    keywords.append( "swf_definerect" );
+    keywords.append( "swf_definetext" );
+    keywords.append( "SWFDisplayItem" );
+    keywords.append( "swf_endbutton" );
+    keywords.append( "swf_enddoaction" );
+    keywords.append( "swf_endshape" );
+    keywords.append( "swf_endsymbol" );
+    keywords.append( "SWFFill" );
+    keywords.append( "SWFFont" );
+    keywords.append( "swf_fontsize" );
+    keywords.append( "swf_fontslant" );
+    keywords.append( "swf_fonttracking" );
+    keywords.append( "swf_getbitmapinfo" );
+    keywords.append( "swf_getfontinfo" );
+    keywords.append( "swf_getframe" );
+    keywords.append( "SWFGradient" );
+    keywords.append( "swf_labelframe" );
+    keywords.append( "swf_lookat" );
+    keywords.append( "swf_modifyobject" );
+    keywords.append( "SWFMorph" );
+    keywords.append( "SWFMovie" );
+    keywords.append( "swf_mulcolor" );
+    keywords.append( "swf_nextid" );
+    keywords.append( "swf_oncondition" );
+    keywords.append( "swf_openfile" );
+    keywords.append( "swf_ortho" );
+    keywords.append( "swf_ortho2" );
+    keywords.append( "swf_perspective" );
+    keywords.append( "swf_placeobject" );
+    keywords.append( "swf_polarview" );
+    keywords.append( "swf_popmatrix" );
+    keywords.append( "swf_posround" );
+    keywords.append( "swf_pushmatrix" );
+    keywords.append( "swf_removeobject" );
+    keywords.append( "swf_rotate" );
+    keywords.append( "swf_scale" );
+    keywords.append( "swf_setfont" );
+    keywords.append( "swf_setframe" );
+    keywords.append( "SWFShape" );
+    keywords.append( "swf_shapearc" );
+    keywords.append( "swf_shapecurveto" );
+    keywords.append( "swf_shapecurveto3" );
+    keywords.append( "swf_shapefillbitmapclip" );
+    keywords.append( "swf_shapefillbitmaptile" );
+    keywords.append( "swf_shapefilloff" );
+    keywords.append( "swf_shapefillsolid" );
+    keywords.append( "swf_shapelinesolid" );
+    keywords.append( "swf_shapelineto" );
+    keywords.append( "swf_shapemoveto" );
+    keywords.append( "swf_showframe" );
+    keywords.append( "SWFSprite" );
+    keywords.append( "swf_startbutton" );
+    keywords.append( "swf_startdoaction" );
+    keywords.append( "swf_startshape" );
+    keywords.append( "swf_startsymbol" );
+    keywords.append( "SWFText" );
+    keywords.append( "SWFTextField" );
+    keywords.append( "swf_textwidth" );
+    keywords.append( "swf_translate" );
+    keywords.append( "swf_viewport" );
+    keywords.append( "switch" );
+    keywords.append( "sybase_affected_rows" );
+    keywords.append( "sybase_close" );
+    keywords.append( "sybase_connect" );
+    keywords.append( "sybase_data_seek" );
+    keywords.append( "sybase_fetch_array" );
+    keywords.append( "sybase_fetch_field" );
+    keywords.append( "sybase_fetch_object" );
+    keywords.append( "sybase_fetch_row" );
+    keywords.append( "sybase_field_seek" );
+    keywords.append( "sybase_free_result" );
+    keywords.append( "sybase_get_last_message" );
+    keywords.append( "sybase_min_client_severity" );
+    keywords.append( "sybase_min_error_severity" );
+    keywords.append( "sybase_min_message_severity" );
+    keywords.append( "sybase_min_server_severity" );
+    keywords.append( "sybase_num_fields" );
+    keywords.append( "sybase_num_rows" );
+    keywords.append( "sybase_pconnect" );
+    keywords.append( "sybase_query" );
+    keywords.append( "sybase_result" );
+    keywords.append( "sybase_select_db" );
+    keywords.append( "symlink" );
+    keywords.append( "syslog" );
+    keywords.append( "system" );
+    keywords.append( "system_id" );
+    keywords.append( "tagname" );
+    keywords.append( "tan" );
+    keywords.append( "tanh" );
+    keywords.append( "target" );
+    keywords.append( "tempnam" );
+    keywords.append( "textdomain" );
+    keywords.append( "time" );
+    keywords.append( "title" );
+    keywords.append( "tmpfile" );
+    keywords.append( "token_get_all" );
+    keywords.append( "token_name" );
+    keywords.append( "touch" );
+    keywords.append( "trigger_error" );
+    keywords.append( "trim" );
+    keywords.append( "TRUE" );
+    keywords.append( "type" );
+    keywords.append( "uasort" );
+    keywords.append( "ucfirst" );
+    keywords.append( "ucwords" );
+    keywords.append( "udm_add_search_limit" );
+    keywords.append( "udm_alloc_agent" );
+    keywords.append( "udm_api_version" );
+    keywords.append( "udm_cat_list" );
+    keywords.append( "udm_cat_path" );
+    keywords.append( "udm_check_charset" );
+    keywords.append( "udm_check_stored" );
+    keywords.append( "udm_clear_search_limits" );
+    keywords.append( "udm_close_stored" );
+    keywords.append( "udm_crc32" );
+    keywords.append( "udm_errno" );
+    keywords.append( "udm_error" );
+    keywords.append( "udm_find" );
+    keywords.append( "udm_free_agent" );
+    keywords.append( "udm_free_ispell_data" );
+    keywords.append( "udm_free_res" );
+    keywords.append( "udm_get_doc_count" );
+    keywords.append( "udm_get_res_field" );
+    keywords.append( "udm_get_res_param" );
+    keywords.append( "udm_load_ispell_data" );
+    keywords.append( "udm_open_stored" );
+    keywords.append( "udm_set_agent_param" );
+    keywords.append( "uksort" );
+    keywords.append( "umask" );
+    keywords.append( "uniqid" );
+    keywords.append( "unixtojd" );
+    keywords.append( "unlink" );
+    keywords.append( "unlink_node" );
+    keywords.append( "unlock" );
+    keywords.append( "unpack" );
+    keywords.append( "unregister_tick_function" );
+    keywords.append( "unserialize" );
+    keywords.append( "unset" );
+    keywords.append( "urldecode" );
+    keywords.append( "urlencode" );
+    keywords.append( "user" );
+    keywords.append( "user_error" );
+    keywords.append( "userlist" );
+    keywords.append( "usleep" );
+    keywords.append( "usort" );
+    keywords.append( "utf8_decode" );
+    keywords.append( "utf8_encode" );
+    keywords.append( "value" );
+    keywords.append( "values" );
+    keywords.append( "var" );
+    keywords.append( "var_dump" );
+    keywords.append( "var_export" );
+    keywords.append( "version_compare" );
+    keywords.append( "virtual" );
+    keywords.append( "vpopmail_add_alias_domain" );
+    keywords.append( "vpopmail_add_alias_domain_ex" );
+    keywords.append( "vpopmail_add_domain" );
+    keywords.append( "vpopmail_add_domain_ex" );
+    keywords.append( "vpopmail_add_user" );
+    keywords.append( "vpopmail_alias_add" );
+    keywords.append( "vpopmail_alias_del" );
+    keywords.append( "vpopmail_alias_del_domain" );
+    keywords.append( "vpopmail_alias_get" );
+    keywords.append( "vpopmail_alias_get_all" );
+    keywords.append( "vpopmail_auth_user" );
+    keywords.append( "vpopmail_del_domain" );
+    keywords.append( "vpopmail_del_domain_ex" );
+    keywords.append( "vpopmail_del_user" );
+    keywords.append( "vpopmail_error" );
+    keywords.append( "vpopmail_passwd" );
+    keywords.append( "vpopmail_set_user_quota" );
+    keywords.append( "vprintf" );
+    keywords.append( "vsprintf" );
+    keywords.append( "w32api_deftype" );
+    keywords.append( "w32api_init_dtype" );
+    keywords.append( "w32api_invoke_function" );
+    keywords.append( "w32api_register_function" );
+    keywords.append( "w32api_set_call_method" );
+    keywords.append( "wddx_add_vars" );
+    keywords.append( "wddx_deserialize" );
+    keywords.append( "wddx_packet_end" );
+    keywords.append( "wddx_packet_start" );
+    keywords.append( "wddx_serialize_value" );
+    keywords.append( "wddx_serialize_vars" );
+    keywords.append( "while" );
+    keywords.append( "wordwrap" );
+    keywords.append( "xinclude" );
+    keywords.append( "xml_error_string" );
+    keywords.append( "xml_get_current_byte_index" );
+    keywords.append( "xml_get_current_column_number" );
+    keywords.append( "xml_get_current_line_number" );
+    keywords.append( "xml_get_error_code" );
+    keywords.append( "xml_parse" );
+    keywords.append( "xml_parse_into_struct" );
+    keywords.append( "xml_parser_create" );
+    keywords.append( "xml_parser_create_ns" );
+    keywords.append( "xml_parser_free" );
+    keywords.append( "xml_parser_get_option" );
+    keywords.append( "xml_parser_set_option" );
+    keywords.append( "xmlrpc_decode" );
+    keywords.append( "xmlrpc_decode_request" );
+    keywords.append( "xmlrpc_encode" );
+    keywords.append( "xmlrpc_encode_request" );
+    keywords.append( "xmlrpc_get_type" );
+    keywords.append( "xmlrpc_parse_method_descriptions" );
+    keywords.append( "xmlrpc_server_add_introspection_data" );
+    keywords.append( "xmlrpc_server_call_method" );
+    keywords.append( "xmlrpc_server_create" );
+    keywords.append( "xmlrpc_server_destroy" );
+    keywords.append( "xmlrpc_server_register_introspection_callback" );
+    keywords.append( "xmlrpc_server_register_method" );
+    keywords.append( "xmlrpc_set_type" );
+    keywords.append( "xml_set_character_data_handler" );
+    keywords.append( "xml_set_default_handler" );
+    keywords.append( "xml_set_element_handler" );
+    keywords.append( "xml_set_end_namespace_decl_handler" );
+    keywords.append( "xml_set_external_entity_ref_handler" );
+    keywords.append( "xml_set_notation_decl_handler" );
+    keywords.append( "xml_set_object" );
+    keywords.append( "xml_set_processing_instruction_handler" );
+    keywords.append( "xml_set_start_namespace_decl_handler" );
+    keywords.append( "xml_set_unparsed_entity_decl_handler" );
+    keywords.append( "xpath_eval" );
+    keywords.append( "xpath_eval_expression" );
+    keywords.append( "xpath_new_context" );
+    keywords.append( "xptr_eval" );
+    keywords.append( "xptr_new_context" );
+    keywords.append( "xslt_create" );
+    keywords.append( "xslt_errno" );
+    keywords.append( "xslt_error" );
+    keywords.append( "xslt_free" );
+    keywords.append( "xslt_output_process" );
+    keywords.append( "xslt_set_base" );
+    keywords.append( "xslt_set_encoding" );
+    keywords.append( "xslt_set_error_handler" );
+    keywords.append( "xslt_set_log" );
+    keywords.append( "xslt_set_sax_handler" );
+    keywords.append( "xslt_set_sax_handlers" );
+    keywords.append( "xslt_set_scheme_handler" );
+    keywords.append( "xslt_set_scheme_handlers" );
+    keywords.append( "yaz_addinfo" );
+    keywords.append( "yaz_ccl_conf" );
+    keywords.append( "yaz_ccl_parse" );
+    keywords.append( "yaz_close" );
+    keywords.append( "yaz_connect" );
+    keywords.append( "yaz_database" );
+    keywords.append( "yaz_element" );
+    keywords.append( "yaz_errno" );
+    keywords.append( "yaz_error" );
+    keywords.append( "yaz_get_option" );
+    keywords.append( "yaz_hits" );
+    keywords.append( "yaz_itemorder" );
+    keywords.append( "yaz_present" );
+    keywords.append( "yaz_range" );
+    keywords.append( "yaz_record" );
+    keywords.append( "yaz_scan" );
+    keywords.append( "yaz_scan_result" );
+    keywords.append( "yaz_schema" );
+    keywords.append( "yaz_search" );
+    keywords.append( "yaz_set_option" );
+    keywords.append( "yaz_sort" );
+    keywords.append( "yaz_syntax" );
+    keywords.append( "yaz_wait" );
+    keywords.append( "yp_all" );
+    keywords.append( "yp_cat" );
+    keywords.append( "yp_errno" );
+    keywords.append( "yp_err_string" );
+    keywords.append( "yp_first" );
+    keywords.append( "yp_get_default_domain" );
+    keywords.append( "yp_master" );
+    keywords.append( "yp_match" );
+    keywords.append( "yp_next" );
+    keywords.append( "yp_order" );
+    keywords.append( "zend_logo_guid" );
+    keywords.append( "zend_version" );
+    keywords.append( "zend_version" );
+    keywords.append( "zip_close" );
+    keywords.append( "zip_entry_close" );
+    keywords.append( "zip_entry_compressedsize" );
+    keywords.append( "zip_entry_compressionmethod" );
+    keywords.append( "zip_entry_filesize" );
+    keywords.append( "zip_entry_name" );
+    keywords.append( "zip_entry_open" );
+    keywords.append( "zip_entry_read" );
+    keywords.append( "zip_open" );
+    keywords.append( "zip_read" );
   }
 
-  return pListOfReservedKeywords;
+  return keywords;
 }
 
 #include "php5writer.moc"

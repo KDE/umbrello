@@ -330,7 +330,7 @@ public:
 	/**
 	 * get list of reserved keywords
 	 */
-	virtual const QPtrList<const char *> * getReservedKeywords() { return NULL; }
+	virtual const QStringList reservedKeywords() const;
 
 protected:
 

@@ -56,7 +56,7 @@ public:
 	/**
 	 * get list of reserved keywords
 	 */
-	virtual const QPtrList<const char *> * getReservedKeywords();
+	virtual const QStringList reservedKeywords() const;
 
 
 private:
@@ -75,12 +75,6 @@ private:
 	  */
 	void writeOperations(QString classname, UMLOperationList *opList,
 	                     QTextStream &as);
-
-	/**
-	 * list of reserved keywords
-	 */
-	QPtrList<const char *> *pListOfReservedKeywords;
-
 };
 
 #endif //ASWRITER
