@@ -50,7 +50,7 @@ AdaWriter::~AdaWriter() {}
 
 QString AdaWriter::spc() {
 	QString s;
-	if (m_indentation == " ")
+	if (m_indentation.contains(' '))
 		s.fill(' ', indentlevel * m_indentationAmount);
 	else
 		s.fill('\t', indentlevel * m_indentationAmount);
