@@ -87,28 +87,6 @@ void FloatingText::slotMenuSelection(int sel) {
 		m_pView -> removeWidget(this);
 		break;
 
-	case ListPopupMenu::mt_Delete_Message:
-		// UNEXPECTED - should not be here
-		// Remove this branch when confident that it does not happen
-		kdDebug() << "FloatingText::slotMenuSelection(mt_Delete_Message)"
-			  << " is called" << endl;
-		if (m_pLink == NULL)
-			return;
-		if (m_Role == Uml::tr_Seq_Message || m_Role == Uml::tr_Seq_Message_Self) {
-			//here to delete this from a seq. diagram.
-			kdDebug() << "  --- for Seq_Message." << endl;
-			MessageWidget *m = static_cast<MessageWidget*>(m_pLink);
-			m_pView->removeWidget( m );
-		} else {
-			if (m_pView->getType() != Uml::dt_Collaboration)
-				return;
-			kdDebug() << "  --- for association." << endl;
-			//here to delete assoc. on collab diagram.
-			AssociationWidget *a = static_cast<AssociationWidget*>(m_pLink);
-			m_pView->removeAssoc( a );
-		}
-		break;
-
 	case ListPopupMenu::mt_Operation:
 		{
 			kdDebug() << "FloatingText::slotMenuSelection(mt_Operation) is called."

@@ -2101,7 +2101,6 @@ void AssociationWidget::slotMenuSelection(int sel) {
 		break;
 
 	case ListPopupMenu::mt_Delete:
-	case ListPopupMenu::mt_Delete_Message:
 		m_pView->removeAssocInViewAndDoc(this);
 		break;
 

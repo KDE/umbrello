@@ -119,7 +119,6 @@ public:
 	    mt_Redo,				// 1980
 	    mt_Undo,				// 1981
 	    mt_Link_Docs,                     //LINKDOCS
-	    mt_Delete_Message,                //DELETEMESSAGE
 	    mt_Show_Operation_Signature,      //SHOWOPSIG
 	    mt_Show_Operation_Signature_Selection, //SHOWOPSIG, multiple items
 	    mt_Show_Attribute_Signature,      //SHOWATTSIG
@@ -131,22 +130,22 @@ public:
 	    mt_MultiB,                        //MULTIB
 	    mt_Name,                          //Association name
 	    mt_FullAssociation,                 // Association with role names
-	    mt_RoleNameA,                       // 1995
-	    mt_RoleNameB,                       // 1996
+	    mt_RoleNameA,                       // 1994
+	    mt_RoleNameB,                       // 1995
 	    mt_Delete_Selection,              //DELETESELECTION
-	    mt_Reset_Label_Positions,		// 1998
+	    mt_Reset_Label_Positions,		// 1997
 	    mt_Line_Color,                    //LINECOLOR
 	    mt_Line_Color_Selection,          //LINECOLOR, multiple items
 	    mt_Fill_Color,                    //FILLCOLOR
 	    mt_Fill_Color_Selection,          //FILLCOLOR, multiple items
 	    mt_Use_Fill_Color,                //USEFCOLOR
 	    mt_Default_Properties,            //DEFAULTPROPERTIES
-	    mt_Rename_MultiA,			// 2005
+	    mt_Rename_MultiA,			// 2004
 	    mt_Rename_MultiB,
 	    mt_Rename_Name,
 	    mt_Rename_RoleAName,
 	    mt_Rename_RoleBName,
-	    mt_Change_Font,			// 2010
+	    mt_Change_Font,			// 2009
 	    mt_Change_Font_Selection,
 	    mt_SnapToGrid,
 	    mt_ShowSnapGrid,
@@ -154,12 +153,12 @@ public:
 	    mt_New_Activity,
 	    mt_Up,
 	    mt_Down,
-	    mt_Branch,				// 2018
+	    mt_Branch,				// 2017
 
 		mt_Expand_All,                     //Expand all items in the list
 		mt_Collapse_All,                   //Collapse all items in the list
 
-		mt_Refactoring,			// 2021
+		mt_Refactoring,			// 2020
 		mt_ViewCode, // view code document contents
 		mt_Clone, // Create a deep copy of the object.
 		mt_Show_Public_Only, // (not currently used)
