@@ -10,71 +10,47 @@
 #ifndef ASSOCGENPAGE_H
 #define ASSOCGENPAGE_H
 
-//quicktime class includes
 #include <qwidget.h>
-#include <qgroupbox.h>
-#include <qlabel.h>
-#include <qlineedit.h>
-#include <qbuttongroup.h>
-#include <qmultilineedit.h>
-#include <qradiobutton.h>
-#include <qcheckbox.h>
+class QLineEdit;
+class QMultiLineEdit;
 
-//my class includes
-#include "../umlobject.h"
-#include "../objectwidget.h"
-#include "../umldoc.h"
-#include "../associationwidget.h"
+
+class UMLAssociation;
 
 /**
- *	Displays properties of a UMLObject in a dialog box.  This is not usually directly
- *	called.  The class @ref AssocPropDlg	will set this up for you.
+ * Dialog to displays / set the general properites of a UMLAssociation
  *
- *	@short	Display properties on a UMLObject.
- *	@author Paul Hensgen	<phensgen@techie.com>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class AssocGenPage : public QWidget {
 	Q_OBJECT
 public:
-
 	/**
-	 *	Sets up the AssocGenPage.
+	 *	Constructor
 	 *
-	 *	@param	d	The UMLDoc which controls controls object creation.
-	 *	@param	parent	The parent to the AssocGenPage.
-	 *	@param	o	The ObjectWidget to display the properties of.
+	 *	@param	parent	The parent Widget of this page.
+	 *	@param	a       The UMLAssociation to observe.
 	 */
-	AssocGenPage(UMLDoc *d, QWidget *parent, AssociationWidget *a);
+	AssocGenPage( QWidget *parent, UMLAssociation *a);
 
 	/**
-	 *	Standard deconstructor.
+	 *	destructor
 	 */
-	~AssocGenPage();
+	virtual ~AssocGenPage();
 
 	/**
 	 *	Will move information from the dialog into the object.
-	 *	Call when the ok or apply button is pressed.
+	 *	Called when the ok or apply button is pressed.
 	 */
 	void updateObject();
-
+	
 private:
-	QLineEdit * m_pAssocNameLE, *m_pTypeLE;
-	QMultiLineEdit * m_pDoc;
-
-	AssociationWidget *m_pAssociationWidget;
-	UMLDoc * m_pUmldoc;
-	ObjectWidget * m_pWidget;
-
 	void constructWidget();
-
-public slots:
-	/**
-	 * 	When the draw as actor check box is toggled, the draw
-	 * 	as multi instance need to be enabled/disabled.  They
-	 * 	both can't be available at the same time.
-	 */
-	// void slotActorToggled( bool state );
+	
+	UMLAssociation *m_assoc;
+	
+	QLineEdit  *m_pAssocNameLE, *m_pTypeLE;
+	QMultiLineEdit *m_pDoc;
 };
 
 #endif

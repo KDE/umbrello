@@ -48,13 +48,19 @@ public:
 	 */
 	virtual ~UMLAssociation();
 
+	/** Returns a String representation of this UMLAssociation.
+	  * Note that UMLAssociation::toString(Uml::Association_Type atype)
+	  * returns a String of the Association Type only.
+	  */ //FIXME  rename toString(Uml::Association_Type atype)
+	QString toString( ) const;
+	
 	/**
 	 * Converts a Uml::Association_Type to its string representation.
 	 *
 	 * @param atype		The Association_Type enum value to convert.
 	 * @return	The string representation of the Association_Type.
-	 */
-	QString toString(Uml::Association_Type atype);
+	 */  //FIXME rename this to something like "typeAsString"
+	QString toString(Uml::Association_Type atype) const;
 
 	/**
 	 * Converts an association type string to the corresponding

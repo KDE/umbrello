@@ -8,8 +8,15 @@
  ***************************************************************************/
 
 #include "assocpage.h"
+
+#include <qgroupbox.h>
+#include <qlistbox.h>
 #include <qlayout.h>
 #include <klocale.h>
+#include <kdebug.h>
+
+#include "../umlcanvasobject.h"
+#include "../association.h"
 #include "assocpropdlg.h"
 
 AssocPage::AssocPage(QWidget *parent, UMLView * v, UMLObject * o) : QWidget(parent) {
@@ -55,10 +62,12 @@ AssocPage::~AssocPage() {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void AssocPage::slotDoubleClick(QListBoxItem * i) {
-	if(!i)
-		return;
+	
 	int item = m_pAssocLB -> currentItem();
-	AssociationWidget * a = m_List.at(item);
+	UMLAssociation *a = m_associations.at(item);
+	if(!i || !a)
+		return;
+	
 	AssocPropDlg dlg(this, a);
 	int result = dlg.exec();
 	if(result) {
@@ -72,17 +81,48 @@ void AssocPage::slotDoubleClick(QListBoxItem * i) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void AssocPage::fillListBox() {
-	m_List.clear();
+
 	m_pAssocLB->clear();
-	m_pView->getWidgetAssocs(m_pObject, m_List);
-	AssociationWidgetListIt assoc_it(m_List);
-	AssociationWidget* assocwidget = 0;
-	int i = 0;
-	while((assocwidget = assoc_it.current())) {
-		if( assocwidget->getAssocType() != Uml::at_Anchor) {
-			m_pAssocLB -> insertItem(assocwidget->toString(), i++);
-		}
-		++assoc_it;
+	m_associations.clear();
+	
+	UMLAssociation *a;
+	UMLAssociationList list;
+	UMLCanvasObject *c = dynamic_cast<UMLCanvasObject*>(m_pObject);
+	if(!c)
+	{//what is a CanvasObject!?!?!?!
+		kdWarning()<<"AssocPage created for an object which is not a UMLCanvasObject!"<<endl;
+		return;
+	}
+	int i = 0; 
+	list = c->getGeneralizations();
+	for( a = list.first(); a; a = list.next() )
+	{
+		m_pAssocLB -> insertItem(a->toString(), i++);
+		m_associations.append(a);
+	}
+	list = c->getRealizations();
+	for( a = list.first(); a; a = list.next() )
+	{
+		m_pAssocLB -> insertItem(a->toString(), i++);
+		m_associations.append(a);
+	}
+	list = c->getAggregations();
+	for( a = list.first(); a; a = list.next() )
+	{
+		m_pAssocLB -> insertItem(a->toString(), i++);
+		m_associations.append(a);
+	}
+	list = c->getCompositions();
+	for( a = list.first(); a; a = list.next() )
+	{
+		m_pAssocLB -> insertItem(a->toString(), i++);
+		m_associations.append(a);
+	}
+	list = c->getSpecificAssocs(Uml::at_Association);
+	for( a = list.first(); a; a = list.next() )
+	{
+		m_pAssocLB -> insertItem(a->toString(), i++);
+		m_associations.append(a);
 	}
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -110,10 +150,11 @@ void AssocPage::slotRightButtonPressed(QListBoxItem * item, const QPoint & p) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void AssocPage::slotPopupMenuSel(int id) {
-	AssociationWidget * a = m_List.at(m_pAssocLB -> currentItem());
+	UMLAssociation *a = m_associations.at(m_pAssocLB -> currentItem());
 	switch(id) {
 		case ListPopupMenu::mt_Delete:
-			m_pView->removeAssocInViewAndDoc(a);
+			kdWarning()<<"FIXME - change m_pView->removeAssocInViewAndDoc(a) to use a UMLAssociation"<<endl;
+			//m_pView->removeAssocInViewAndDoc(a);
 			fillListBox();
 			break;
 

@@ -12,28 +12,17 @@
 #define ASSOCPAGE_H
 
 #include <qwidget.h>
-#include <qgroupbox.h>
-#include <qlistbox.h>
-#include <qptrlist.h>
 
 #include "../umlobject.h"
+#include "../association.h"
+#include "../umlassociationlist.h"
+
 #include "../umlview.h"
-#include "../associationwidgetlist.h"
-#include "../associationwidget.h"
 #include "../listpopupmenu.h"
 
 
 /**
- *	Displays a page on the tabbed dialog window of @ref ClassPropDlg.
- *	The page shows all the Associations that belong to a @ref ConceptWidget.
- *
- *
- * @see ClassPropDlg
-
- * @see ConceptWidget
- *
- * @short	The page shows all the Associations that belong to a @ref ConceptWidget.
- * @author Paul Hensgen	<phensgen@techie.com>
+ * Displays a page with all the Associations in which a Classifier is involved
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class AssocPage : public QWidget {
@@ -49,26 +38,32 @@ public:
 	AssocPage(QWidget *parent, UMLView * v, UMLObject * o);
 
 	/**
-	 *	Standard deconstructor.
+	 *	destructor
 	 */
-	~AssocPage();
-private:
-	UMLObject * m_pObject;
-	UMLView * m_pView;
-	QListBox * m_pAssocLB;
-	QGroupBox * m_pAssocGB;
-	AssociationWidgetList m_List;
-	ListPopupMenu * m_pMenu;
-
-	/**
-	 *	Fills the list box with the objects associations.
-	 */
-	void fillListBox();
+	virtual ~AssocPage();
+	
 public slots:
 	void slotDoubleClick(QListBoxItem * i);
 	void slotRightButtonClicked(QListBoxItem */* item*/, const QPoint &/* p*/);
 	void slotRightButtonPressed(QListBoxItem * item, const QPoint & p);
 	void slotPopupMenuSel(int id);
+	
+	
+private:
+	/**
+	 *	Fills the list box with the objects associations.
+	 */
+	void fillListBox();
+	
+	UMLObject *m_pObject;
+	UMLAssociationList m_associations;
+	
+	
+	UMLView * m_pView;
+	QListBox * m_pAssocLB;
+	QGroupBox * m_pAssocGB;
+	
+	ListPopupMenu * m_pMenu;
 };
 
 #endif

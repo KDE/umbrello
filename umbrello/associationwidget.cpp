@@ -1017,75 +1017,6 @@ int AssociationWidget::getWidgetBID() const {
 	return id;
 }
 
-/** Returns a QString Object representing this AssociationWidget */
-QString AssociationWidget::toString() {
-	QString string = "";
-
-	if(m_pWidgetA) {
-		string = m_pWidgetA -> getName();
-	}
-	string.append(":");
-
-	if(m_pRoleA) {
-		string += m_pRoleA -> getText();
-	}
-	string.append(":");
-	switch(getAssocType()) {
-	case at_Generalization:
-		string.append(i18n("Generalization"));
-		break;
-
-	case at_Aggregation:
-		string.append(i18n("Aggregation"));
-		break;
-
-	case at_Dependency:
-		string.append(i18n("Dependency"));
-		break;
-
-	case at_Association:
-		string.append(i18n("Association"));
-		break;
-
-	case at_Anchor:
-		string.append(i18n("Anchor"));
-		break;
-
-	case at_Realization:
-		string.append( i18n("Realization") );
-		break;
-
-	case at_Composition:
-		string.append( i18n("Composition") );
-		break;
-
-	case at_UniAssociation:
-		string.append( i18n("Uni Association") );
-		break;
-
-	case at_Implementation:
-		string.append( i18n("Implementation") );
-		break;
-
-	case at_State:
-		string.append( i18n("State Transition") );
-		break;
-
-	default:
-		string.append(i18n("Other Type"));
-		break;
-	}; //end switch
-	string.append(":");
-	if(m_pWidgetB) {
-		string += m_pWidgetB -> getName();
-	}
-
-	if(m_pRoleB) {
-		string += m_pRoleB -> getText();
-	}
-
-	return string;
-}
 
 void AssociationWidget::mouseDoubleClickEvent(QMouseEvent * me) {
 	if(me -> button() != RightButton && me->button() != LeftButton)
@@ -2451,7 +2382,7 @@ void AssociationWidget::slotMenuSelection(int sel) {
 
 		} else {  //standard assoc dialog
 			m_pView -> updateDocumentation( false );
-			AssocPropDlg dlg(static_cast<QWidget*>(m_pView), this );
+			AssocPropDlg dlg(static_cast<QWidget*>(m_pView), m_pAssociation );
 			int result = dlg.exec();
 			QString name = dlg.getName();
 			QString doc = dlg.getDoc(), roleADoc = dlg.getRoleADoc(), roleBDoc = dlg.getRoleBDoc();
@@ -2461,6 +2392,9 @@ void AssociationWidget::slotMenuSelection(int sel) {
 			Changeability_Type cA = dlg.getChangeabilityA(), cB = dlg.getChangeabilityB();
 			if(result) {
 				//rules built into these functions to stop updating incorrect values
+#warning "FIX this ( associationwidget.cpp ) see NOTE"
+//FIXME NOTE - move the checks to the UMLAssociation widget. the dialog will update the Association
+// and this widget has to read the values from it again
 				setName(name);
 				setRoleNameA(rnA);
 				setRoleNameB(rnB);
