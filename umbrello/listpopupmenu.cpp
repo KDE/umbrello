@@ -289,8 +289,8 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
 		case Uml::wt_Class:
 			c = static_cast<ClassWidget *>(object);
 			m_pInsert = new KPopupMenu(this,"New");
-			m_pInsert -> insertItem(SmallIcon( "source" ), i18n("Attribute..."), mt_Attribute);
-			m_pInsert -> insertItem( SmallIcon( "source"), i18n("Operation..."), mt_Operation);
+			m_pInsert -> insertItem(SmallIcon( "CVpublic_var" ), i18n("Attribute..."), mt_Attribute);
+			m_pInsert -> insertItem( SmallIcon( "CVpublic_meth"), i18n("Operation..."), mt_Operation);
 			insertItem(SmallIcon( "filenew"),i18n("New"), m_pInsert);
 
 			m_pShow = new KPopupMenu(this, "Show");
@@ -338,7 +338,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
 			if (! interfaceWidget)
 				break;
 			m_pInsert = new KPopupMenu(this,"New");
-			m_pInsert->insertItem(SmallIcon("source"), i18n("Operation..."), mt_Operation);
+			m_pInsert->insertItem(SmallIcon("CVpublic_meth"), i18n("Operation..."), mt_Operation);
 			insertItem(SmallIcon("filenew"),i18n("New"), m_pInsert);
 
 			m_pShow = new KPopupMenu(this, "Show");
@@ -957,8 +957,8 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 
 		case mt_Class:
 			m_pInsert = new KPopupMenu(this,"New");
-			m_pInsert -> insertItem(SmallIcon( "source"), i18n("Attribute"), mt_Attribute);
-			m_pInsert -> insertItem(SmallIcon( "source"), i18n("Operation"), mt_Operation);
+			m_pInsert -> insertItem(SmallIcon( "CVpublic_var"), i18n("Attribute"), mt_Attribute);
+			m_pInsert -> insertItem(SmallIcon( "CVpublic_meth"), i18n("Operation"), mt_Operation);
 			insertItem(SmallIcon( "filenew"), i18n("New"), m_pInsert);
 			insertSeparator();
 			insertStdItem(mt_Cut);
@@ -972,7 +972,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 
 		case mt_Interface:
 			m_pInsert = new KPopupMenu(this,"New");
-			m_pInsert->insertItem(SmallIcon("source"), i18n("Operation"), mt_Operation);
+			m_pInsert->insertItem(SmallIcon("CVpublic_meth"), i18n("Operation"), mt_Operation);
 			insertItem(SmallIcon("filenew"), i18n("New"), m_pInsert);
 			insertSeparator();
 			insertStdItem(mt_Cut);
@@ -1028,11 +1028,11 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 			break;
 
 		case mt_New_Operation:
-			insertItem(SmallIcon("source"),i18n("New Operation..."), mt_New_Operation);
+			insertItem(SmallIcon("CVpublic_meth"),i18n("New Operation..."), mt_New_Operation);
 			break;
 
 		case mt_New_Attribute:
-			insertItem(SmallIcon("source"), i18n("New Attribute..."), mt_New_Attribute);
+			insertItem(SmallIcon("CVpublic_var"), i18n("New Attribute..."), mt_New_Attribute);
 			break;
 
 		case mt_New_Template:
@@ -1065,13 +1065,13 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 			break;
 
 		case mt_Operation_Selected:
-			insertItem(SmallIcon("source"),i18n("New Operation..."), mt_New_Operation);
+			insertItem(SmallIcon("CVpublic_meth"),i18n("New Operation..."), mt_New_Operation);
 			insertStdItem(mt_Delete);
 			insertStdItem(mt_Properties);
 			break;
 
 		case mt_Attribute_Selected:
-			insertItem(SmallIcon("source"),i18n("New Attribute..."), mt_New_Attribute);
+			insertItem(SmallIcon("CVpublic_var"),i18n("New Attribute..."), mt_New_Attribute);
 			insertStdItem(mt_Delete);
 			insertStdItem(mt_Properties);
 			break;
