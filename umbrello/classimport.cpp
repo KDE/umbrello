@@ -12,11 +12,13 @@
 #include "umldoc.h"
 #include "docwindow.h"
 #include "package.h"
+#include "enum.h"
 #include "class.h"
 #include "operation.h"
 #include "attribute.h"
 #include "association.h"
 #include "classparser/ClassParser.h"
+#include "classparser/ParsedContainer.h"
 #include "classparser/ParsedArgument.h"
 #include "classparser/ParsedAttribute.h"
 #include "classparser/ParsedClass.h"
@@ -50,14 +52,14 @@ UMLObject *ClassImport::createUMLObject(Uml::UMLObject_Type type,
 					UMLPackage *parentPkg) {
 	UMLObject * o = findUMLObject(name);
 	if (o == NULL)
-		o = UMLDoc::createUMLObject(type, name);
+		o = UMLDoc::createUMLObject(type, name, parentPkg);
+	else
+		o->setUMLPackage(parentPkg);
 	QString strippedComment = doxyComment(comment);
 	if (! strippedComment.isEmpty()) {
 		o->setDoc(strippedComment);
 		UMLDoc::getDocWindow()->showDocumentation(o, true);
 	}
-	if (parentPkg)
-		o->setUMLPackage(parentPkg);
 	return o;
 }
 
@@ -71,12 +73,12 @@ void ClassImport::insertAttribute(CClassStore& store,
 	typeName.replace(QRegExp("^const\\s+"), "");
 	typeName.replace(QRegExp("[^:\\w].*$"), "");
 	UMLObject *newObj = NULL;
-	UMLObject *other = findUMLObject(typeName, Uml::ot_Class);
+	UMLObject *other = findUMLObject(typeName);
 	if (other == NULL && store.hasClass(typeName.latin1())) {
 		// "Forward declare" the class.
 		other = createUMLObject(Uml::ot_Class, typeName);
 	}
-	if (other != NULL) {
+	if (other != NULL && other->getBaseType() != Uml::ot_Datatype) {
 		kdDebug() << "ClassImport::insertAttribute: creating assoc for "
 			  << name << endl;
 		Uml::Association_Type assocType;
@@ -109,13 +111,19 @@ void ClassImport::insertMethod(UMLObject *o, Uml::Scope scope, QString name,
 			       QString type, bool isStatic, bool isAbstract,
 			       QString comment /* = "" */,
 			       UMLAttributeList *parList /*= NULL*/) {
-	UMLClassifier *classifier = dynamic_cast<UMLClassifier*>(o);
-	if(!classifier)
+	if (o->getBaseType() != Uml::ot_Class)
 	{
-		kdWarning()<<"ClassImport::insertMethod(..) called for a non-classifier!"<<endl;
+		kdWarning() << "ClassImport::insertMethod called for a non-class: "
+			<< o->getName() << "(type " << o->getBaseType() << ")" << endl;
 		return;
 	}
-	UMLOperation *op = UMLDoc::createOperation( classifier, name, parList );
+	UMLClass *klass = static_cast<UMLClass*>(o);
+	if(!klass)
+	{
+		kdWarning()<<"ClassImport::insertMethod() cannot cast object to UMLClass"<<endl;
+		return;
+	}
+	UMLOperation *op = UMLDoc::createOperation( klass, name, parList );
 	if(!op)
 	{
 		kdError()<<"Could not create operation with name "<<name<<endl;
@@ -123,9 +131,6 @@ void ClassImport::insertMethod(UMLObject *o, Uml::Scope scope, QString name,
 	}
 	op->setScope(scope);
 	op->setReturnType(type);
-	if (isStatic)
-		kdDebug() << "ClassImport::insertMethod: method " << o->getName()
-		  << "::" << name << " is static." << endl;
 	op->setStatic(isStatic);
 	op->setAbstract(isAbstract);
 	QString strippedComment = doxyComment(comment);
@@ -144,12 +149,12 @@ void ClassImport::importCPP(QStringList headerFileList) {
 		classParser.parse( (*fileIT).latin1() );
 	} // for
 
+	// Do the classes.
 	QStrList *cList;
 	cList = classParser.store.getSortedClassNameList();
 	QStrListIterator it(*cList);
 
 	for(; it.current();++it ) {
-		UMLObject *currentClass;
 		CParsedClass* currentParsedClass =  classParser.store.getClassByName(it);
 		QPtrList<CParsedAttribute> *attributes = currentParsedClass->getSortedAttributeList();
 		QPtrListIterator<CParsedAttribute> aIt(*attributes);
@@ -158,10 +163,10 @@ void ClassImport::importCPP(QStringList headerFileList) {
 		UMLPackage *pkg = NULL;
 		if( ! pkgName.isEmpty() )
 			pkg = (UMLPackage *)createUMLObject(Uml::ot_Package, pkgName);
-		currentClass = createUMLObject(Uml::ot_Class,
-					       currentParsedClass->name,
-					       currentParsedClass->comment,
-					       pkg);
+		UMLObject *currentClass = createUMLObject(Uml::ot_Class,
+							  currentParsedClass->name,
+							  currentParsedClass->comment,
+							  pkg);
 		if (pkg)
 			pkg->addObject( currentClass );
 
@@ -268,5 +273,62 @@ void ClassImport::importCPP(QStringList headerFileList) {
 			addAssociation(assoc);
 		}
 	}
+
+	// Do the enums.
+	CParsedEnum *parsedEnum;
+	QPtrList<CParsedEnum> *eList = classParser.store.getSortedEnumList();
+	for (QPtrListIterator<CParsedEnum> eit(*eList);
+	     (parsedEnum = eit.current()) != 0; ++eit)
+	{
+		QString scopeName( parsedEnum->declaredInScope );
+		UMLPackage *pkg = NULL;
+		if (! scopeName.isEmpty()) {
+			UMLObject *scopeObj = findUMLObject(scopeName);
+			if (scopeObj == NULL)
+				pkg = (UMLPackage*)UMLDoc::createUMLObject(Uml::ot_Package, scopeName);
+			else if (scopeObj->getBaseType() == Uml::ot_Package)
+				pkg = (UMLPackage *)scopeObj;
+			// We don't support class scope.
+		}
+		UMLObject *c = createUMLObject(Uml::ot_Enum,
+					       parsedEnum->name,
+					       parsedEnum->comment,
+					       pkg);
+		if (pkg) {
+			pkg->addObject( c );
+			UMLDoc::setModified(true, false);
+		}
+		UMLEnum *e = static_cast<UMLEnum*>( c );
+		for (QStringList::Iterator lit = parsedEnum->literals.begin();
+		     lit != parsedEnum->literals.end(); ++lit)
+			e->addEnumLiteral(*lit, UMLDoc::getUniqueID());
+	}
+
+	// Do the typedefs.
+	CParsedTypedef *parsedTypedef;
+	QPtrList<CParsedTypedef> *tList = classParser.store.getSortedTypedefList();
+	for (QPtrListIterator<CParsedTypedef> tit(*tList);
+	     (parsedTypedef = tit.current()) != 0; ++tit)
+	{
+		QString scopeName( parsedTypedef->declaredInScope );
+		UMLPackage *pkg = NULL;
+		if (! scopeName.isEmpty()) {
+			UMLObject *scopeObj = findUMLObject(scopeName);
+			if (scopeObj == NULL)
+				pkg = (UMLPackage*)UMLDoc::createUMLObject(Uml::ot_Package, scopeName);
+			else if (scopeObj->getBaseType() == Uml::ot_Package)
+				pkg = (UMLPackage *)scopeObj;
+			// We don't support class scope.
+		}
+		UMLObject *c = createUMLObject(Uml::ot_Datatype,
+					       parsedTypedef->name,
+					       parsedTypedef->comment,
+					       pkg);
+		if (pkg) {
+			pkg->addObject( c );
+			UMLDoc::setModified(true, false);
+		}
+	}
+
 } // method
 
