@@ -1058,8 +1058,6 @@ public slots:
 	void slotAutoSave();
 
 signals:
-	void sigUpdateItem(int id);
-
 	void sigDiagramCreated(int id);
 	void sigDiagramRemoved(int id);
 	void sigDiagramRenamed(int t);
