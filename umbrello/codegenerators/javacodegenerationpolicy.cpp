@@ -13,8 +13,6 @@
  *      Date   : Mon Jun 23 2003
  */
 
-#include <iostream.h>
-
 #include <kconfig.h>
 
 #include "javacodegenerationpolicy.h"
