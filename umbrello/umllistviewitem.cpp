@@ -348,6 +348,7 @@ void UMLListViewItem::okRename( int col ) {
 		case Uml::lvt_Interface:
 		case Uml::lvt_Datatype:
 		case Uml::lvt_Enum:
+		case Uml::lvt_Template:
 			if (m_pObject == NULL || !doc->isUnique(newText)) {
 				cancelRenameWithMsg();
 				return;
@@ -466,7 +467,10 @@ void UMLListViewItem::okRename( int col ) {
 			m_Label = newText;
 			break;
 		default:
-			cancelRenameWithMsg();
+			KMessageBox::error( kapp->mainWidget() ,
+			    i18n("Renaming an item of listview type %1 is not yet implemented.").arg(m_Type),
+			    i18n("Function Not Implemented") );
+			QListViewItem::setText(0, m_Label);
 			break;
 	}
 	doc->setModified(true);
