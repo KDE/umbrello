@@ -25,6 +25,7 @@
 #include "../usecase.h"
 //#include "../activity.h"
 //#include "../state.h"
+#include "../association.h"
 
 #include "../clipboard/umldrag.h"
 #include "../umllistviewitemdatalist.h"
@@ -36,6 +37,7 @@
 
 #include <qpopupmenu.h>
 #include <qcolor.h>
+
 
 #include <kdebug.h>
 
@@ -149,6 +151,18 @@ void Diagram::createUMLWidget( UMLObject *obj, const QPoint &pos)
 		update();
 		emit modified();
 	}
+}
+
+void Diagram::createAssociationWidget( UMLAssociation *assoc,UMLWidget *wA, UMLWidget *wB, const QList<QPoint> &path )
+{
+	DiagramElement *w;
+	if( w = WidgetFactory::createAssociationWidget( assoc, wA, wB, path, this ) )
+	{
+		w->show();
+		update();
+		emit modified( );
+	}
+
 }
 
 void Diagram::createCustomWidget( int type, const QPoint &pos )

@@ -11,11 +11,15 @@
 
 #include <typeinfo>
 
+#include <qlist.h>
+#include <qpoint.h>
+
 #include "diagram.h"
 #include "diagramelement.h"
 #include "umlwidget.h"
 #include "classwidget.h"
 #include "actorwidget.h"
+#include "associationwidget.h"
 
 #include "../umldoc.h"
 #include "../concept.h"
@@ -24,6 +28,7 @@
 #include "../template.h"
 #include "../actor.h"
 #include "../usecase.h"
+#include "../association.h"
 
 
 using namespace std;
@@ -58,7 +63,13 @@ DiagramElement* WidgetFactory:: createUMLWidget( UMLObject *obj , Diagram *paren
 	return w;
 
 }
-	
+
+DiagramElement* WidgetFactory::createAssociationWidget( UMLAssociation *assoc, UMLWidget *wA, UMLWidget *wB, const QPtrList<QPoint> &path, Diagram *parent )
+{
+	int id = parent->document()->getUniqueID();
+	DiagramElement *e = new AssociationWidget(parent, id, assoc, wA, wB);
+	return e;
+}
 
 DiagramElement* WidgetFactory::createCustomWidget(int t, Diagram *parent)
 {

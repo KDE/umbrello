@@ -18,6 +18,7 @@
 #include "../template.h"
 #include "../actor.h"
 #include "../usecase.h"
+#include "../association.h"
 
 #include "../worktoolbar.h"
 #include "../umldoc.h"
@@ -56,6 +57,8 @@ DiagramView::DiagramView( Diagram *diagram, WorkToolBar *toolbar,
 	m_contextMenu = new QPopupMenu(this);
 	m_linePath = new QPtrList<QCanvasLine>();
 	m_linePath->setAutoDelete(true);
+	m_widgetStack = new QPtrList<DiagramElement>();
+	m_widgetStack->setAutoDelete(false);
 	
 	viewport()->setAcceptDrops(true);
 	connect(toolbar,SIGNAL(toolSelected(WorkToolBar::EditTool)),this,SLOT(setTool(WorkToolBar::EditTool)));
@@ -217,13 +220,27 @@ void DiagramView::contentsMousePressEvent( QMouseEvent *e )
 			}
 			else
 			{//check if assoc ok, create association and widget
-			kdDebug()<<"create association here, then create assocWidget, and then set widget's path to linePath."<<endl;
-			// FIXME:
-			//UMLAssociation *a = diagram()->document()->createAssociation(from,to,type);
-			//AssociationWidget *w = diagram()->createAssociationWidget(a);
-			// w->setPath( m_linePath )
+				kdDebug()<<"create association here, then create assocWidget, and then set widget's path to linePath."<<endl;
+				UMLWidget *wB = dynamic_cast<UMLWidget*>(list.first());
+				if(!wB)
+				{
+				kdDebug()<<"we hit something that is not an UMLWidget!!"<<endl;
+				return;
+				}
+				QPtrList<QPoint> path;
+				path.setAutoDelete(true);
+				
+				for(QCanvasLine *line = m_linePath->first(); line ; line = m_linePath->next() )
+				{
+					path.append(new QPoint(line->endPoint()));
+				}
+				UMLWidget *wA = dynamic_cast<UMLWidget*>(m_widgetStack->first());
+				UMLAssociation *assoc = diagram()->document()->createUMLAssociation( wA->umlObject( ), wB->umlObject( ), associationTypeMap[m_tool]);
+				diagram()->createAssociationWidget( assoc,wA, wB, path );
+				
 				viewport()->setMouseTracking(false);
 				m_linePath->clear();
+				m_widgetStack->clear();
 				canvas()->update();
 				m_currentAction = None;
 				return;
@@ -250,6 +267,7 @@ void DiagramView::contentsMousePressEvent( QMouseEvent *e )
 				kdDebug()<<"Uml Object type does not accept association type (int)"<<(int)associationTypeMap[m_tool]<<endl;
 				return;
 			}
+			m_widgetStack->append(w);
 			// ok, association in progress.. create the path
 			QCanvasLine *line = new QCanvasLine(canvas());
 			line->setPoints(diagramPos.x(),diagramPos.y(),diagramPos.x(),diagramPos.y());

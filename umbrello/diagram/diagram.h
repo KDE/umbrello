@@ -15,16 +15,20 @@
 #include <map>
 #include <list>
 #include <typeinfo>
+#include <qlist.h>
 #include "../umlnamespace.h"
 
 class UMLDoc;
 class UMLObject;
+class UMLAssociation;
 class QDropEvent;
 class QDragEnterEvent;
 class QPopupMenu;
 
-
 namespace Umbrello{
+
+class UMLWidget;
+
 
 /** Diagram. Use a DiagramView to view/modify the contents of this diagram */
 class Diagram : public QCanvas
@@ -60,6 +64,19 @@ public:
 	* FIXME temp only: type = note, text, box, ellipse, etc
 	**/
 	void createCustomWidget( int type, const QPoint &pos);
+	
+	/**
+	 * Create an association widget in the diagram. Even though the UMLAssociation knows
+	 * its UMLObjects, we still need the Widgets the association is connected to, because
+	 * there could be several Widgets representing the same UMLObject in the same diagram.
+	 *
+	 * @param assoc The Association we want to create a widget for
+	 * @param wA    The widget attached to the starting point of the association
+	 * @param wB    The widget attached to the ending point of the association
+	 * @param path  List of points making the path between wA and wB
+	 * 
+	 */
+	void createAssociationWidget( UMLAssociation *assoc, UMLWidget *wA, UMLWidget *wB, const QList<QPoint> &path );
 	
 	void fillContextMenu(QPopupMenu &menu) const;
 	

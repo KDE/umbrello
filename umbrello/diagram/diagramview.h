@@ -23,6 +23,7 @@ class QPopupMenu;
 namespace Umbrello {
 
 class Diagram;
+class DiagramElement;
 
 class DiagramView : public QCanvasView
 {
@@ -60,6 +61,7 @@ protected:
 	QPoint m_selectFrom, m_selectTo;
 	QCanvasRectangle *m_selectionRect;
 	QPtrList<QCanvasLine> *m_linePath;
+	QPtrList<DiagramElement> *m_widgetStack;
 	
 	long m_currentAction;
 	

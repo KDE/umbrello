@@ -4,9 +4,12 @@
 #include <qapplication.h>
 #include <kdebug.h>
 #include <qpainter.h>
-#include "../dialogs/classpropdlg.h"
-//#include "../dialogs/classpropertiespage.h"
-//FIXME#include "classpropertiesbase.h"
+#include <qvbox.h>
+
+#include "../dialogs/umbrellodialog.h"
+#include "../dialogs/classpropertiespage.h"
+#include "../dialogs/classattributespage.h"
+#include "../dialogs/classoperationspage.h"
 #include "../concept.h"
 #include "../attribute.h"
 #include "../operation.h"
@@ -33,10 +36,9 @@ namespace Umbrello{
 ClassWidget::ClassWidget(Diagram *diagram, uint id, UMLClass *object):
 	UMLWidget(diagram, id, object)
 {
-kdDebug()<<"creating class..."<<endl;
-	m_nameDisplayOpts = 0;
-	m_attsDisplayOpts |= ShowAtts | DisplayType;
-	m_opsDisplayOpts |=ShowOps;
+	m_nameDisplayOpts = DisplayPackage | DisplayStereotype;
+	m_attsDisplayOpts = ShowAtts | DisplayType;
+	m_opsDisplayOpts =ShowOps;
 	
 	calculateSize();
 }	
@@ -225,16 +227,14 @@ UMLClass *obj = dynamic_cast<UMLClass*>(m_umlObject);
 void ClassWidget::editProperties()
 {
 kdDebug()<<"class widget properties"<<endl;
-	/*ClassPropDlg *dlg = new ClassPropDlg(0L, m_umlObject, ClassPropDlg::page_gen, true);
+	UmbrelloDialog *dialog = new UmbrelloDialog(0);
 
-	if(dlg->exec()) {
-	}
-	dlg -> close(true);//wipe from memory
-	return;*/
-	UMLClass *c = dynamic_cast<UMLClass*>(m_umlObject);
-	QWidget *w = 0L;
-	//ClassPropertiesBase *p = new ClassPropertiesBase( );
-	//p->show();	
+	dialog->addPage(new ClassPropertiesPage( dynamic_cast<UMLClass*>(m_umlObject),0L),"class properties");
+	dialog->addPage(new ClassAttributesPage( dynamic_cast<UMLClass*>(m_umlObject), diagram()->document(),0L),"class attributes");
+	dialog->addPage(new ClassOperationsPage( dynamic_cast<UMLClass*>(m_umlObject), diagram()->document(),0L),"class operations");
+	
+	dialog->show();
+	
 
 }
 } //end of namespace NewDiagram
