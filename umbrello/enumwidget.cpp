@@ -88,13 +88,14 @@ void EnumWidget::draw(QPainter& p, int offsetX, int offsetY) {
 
 	p.drawLine(offsetX, offsetY + y, offsetX + w - 1, offsetY + y);
 
+	QFontMetrics fontMetrics(font);
 	UMLClassifierListItem* enumLiteral = 0;
 	UMLClassifierListItemList* list = ((UMLEnum*)m_pObject)->getEnumLiteralList();
 	for(enumLiteral=list->first(); enumLiteral != 0; enumLiteral=list->next()) {
 		QString text = enumLiteral->toString( st_NoSig );
 		p.setPen( QPen(black) );
 		p.drawText(offsetX + ENUM_MARGIN, offsetY + y,
-			   w - ENUM_MARGIN * 2, fontHeight, AlignVCenter, text);
+			   fontMetrics.width(text), fontHeight, AlignVCenter, text);
 		y+=fontHeight;
 	}
 
@@ -109,7 +110,12 @@ void EnumWidget::calculateSize() {
 	}
 
 	int width, height;
-	QFontMetrics &fm = getFontMetrics(FT_NORMAL);
+	QFont font = UMLWidget::getFont();
+	font.setItalic(false);
+	font.setUnderline(false);
+	font.setBold(false);
+	QFontMetrics fm(font);
+
 	int fontHeight = fm.lineSpacing();
 
 	int lines = 1;//always have one line - for name
@@ -142,10 +148,7 @@ void EnumWidget::calculateSize() {
 	UMLClassifierListItemList* list = ((UMLEnum*)m_pObject)->getEnumLiteralList();
 	UMLClassifierListItem* listItem = 0;
 	for (listItem = list->first();listItem != 0; listItem = list->next()) {
-		/* FT_NORMAL doesn't return the correct width */
-//		fm = getFontMetrics(FT_NORMAL);
-		fm = getFontMetrics(FT_ITALIC_UNDERLINE);
-		int w = fm.boundingRect( listItem->toString(st_NoSig) ).width();
+		int w = fm.width( listItem->toString(st_NoSig) );
 		width = w > width?w:width;
 	}
 

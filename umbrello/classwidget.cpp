@@ -155,15 +155,18 @@ void ClassWidget::draw(QPainter & p, int offsetX, int offsetY) {
 	//change so only going through list once
 	p.setPen(QPen(black));
 	if (m_bShowAttributes) {
-		QFont f( p.font());
+		QFont f = UMLWidget::getFont();
 		y = aStart;
 		UMLClassifierListItem* obj=0;
 		UMLClassifierListItemList* list = ((UMLClass*)m_pObject)->getAttList();
 		for(obj=list->first();obj != 0;obj=list->next()) {
 			QString att = obj -> toString( m_ShowAttSigs);
+			f.setItalic(false);
+			f.setBold(false);
 			f.setUnderline( obj -> getStatic() );
 			p.setFont( f );
-			p.drawText(offsetX + MARGIN, bodyOffsetY + y, w-MARGIN * 2, fontHeight, AlignVCenter, att);
+			QFontMetrics fontMetrics(f);
+			p.drawText(offsetX + MARGIN, bodyOffsetY + y, fontMetrics.width(att), fontHeight, AlignVCenter, att);
 			f.setUnderline(false);
 			p.setFont(f);
 			y+=fontHeight;
@@ -171,7 +174,7 @@ void ClassWidget::draw(QPainter & p, int offsetX, int offsetY) {
 
 	}//end if att
 	if (m_bShowOperations) {
-		QFont f( p.font() );
+		QFont f = UMLWidget::getFont();
 		y = oStart;
 		p.setPen( UMLWidget::getLineColour() );
 		if (m_bShowAttributes)
@@ -185,8 +188,10 @@ void ClassWidget::draw(QPainter & p, int offsetX, int offsetY) {
 			QString op = obj -> toString( m_ShowOpSigs );
 			f.setItalic( obj -> getAbstract() );
 			f.setUnderline( obj -> getStatic() );
+			f.setBold(false);
 			p.setFont( f );
-			p.drawText(offsetX + MARGIN, bodyOffsetY + y, w-MARGIN * 2, fontHeight, AlignVCenter,op);
+			QFontMetrics fontMetrics(f);
+			p.drawText(offsetX + MARGIN, bodyOffsetY + y, fontMetrics.width(op), fontHeight, AlignVCenter, op);
 			f.setItalic( false );
 			f.setUnderline(false);
 			p.setFont( f );
@@ -206,13 +211,15 @@ void ClassWidget::draw(QPainter & p, int offsetX, int offsetY) {
 		font.setItalic(false);
 		font.setUnderline(false);
 		font.setBold(false);
+		p.setFont(font);
+		QFontMetrics fontMetrics(font);
 		UMLClassifierListItemList* list = ((UMLClass*)m_pObject)->getTemplateList();
 		UMLClassifierListItem* theTemplate = 0;
 		int y = offsetY + MARGIN;
 		for ( theTemplate=list->first(); theTemplate != 0; theTemplate=list->next() ) {
 			QString text = theTemplate->toString();
 			p.drawText(offsetX + width() - templatesBoxSize.width() + MARGIN, y,
-				   width()-MARGIN, fontHeight, AlignVCenter, text);
+				   fontMetrics.width(text), fontHeight, AlignVCenter, text);
 			y += fontHeight;
 		}
 	}
@@ -229,14 +236,18 @@ QSize ClassWidget::calculateTemplatesBoxSize() {
 	int width, height;
 	height = width = 0;
 
-	QFontMetrics &fm = getFontMetrics(UMLWidget::FT_NORMAL);
+	QFont font = UMLWidget::getFont();
+	font.setItalic(false);
+	font.setUnderline(false);
+	font.setBold(false);
+	QFontMetrics fm(font);
 
 	height = count * fm.lineSpacing() + (MARGIN*2);
 
 	UMLClassifierListItemList* list = ((UMLClass *)m_pObject)->getTemplateList();
 	UMLClassifierListItem* theTemplate = 0;
 	for ( theTemplate=list->first(); theTemplate != 0; theTemplate=list->next() ) {
-		int textWidth = fm.boundingRect( theTemplate->toString() ).width();
+		int textWidth = fm.width( theTemplate->toString() );
 		width = textWidth>width ? textWidth : width;
 	}
 
@@ -299,13 +310,11 @@ void ClassWidget::calculateSize() {
 		UMLClassifierListItem* a = 0;
 		for(a = list->first();a != 0; a = list->next()) {
 			bool isStatic = a->getStatic();
-			if (isStatic)
-			{
-				fm = getFontMetrics(FT_UNDERLINE);
-			} else {
-				fm = getFontMetrics(FT_NORMAL);
-			}
-			int w = fm.boundingRect(a -> toString( m_ShowAttSigs )).width();
+			QFont font = UMLWidget::getFont();
+			font.setUnderline(isStatic);
+			font.setItalic(false);
+			QFontMetrics fontMetrics(font);
+			int w = fm.width(a->toString(m_ShowAttSigs));
 			width = w > width?w:width;
 		}
 	}
@@ -315,27 +324,12 @@ void ClassWidget::calculateSize() {
 		UMLClassifierListItemList * list = ((UMLClass *)m_pObject)->getOpList();
 		UMLClassifierListItem* listItem = 0;
 		for(listItem = list->first();listItem != 0; listItem = list->next()) {
-			/* we don't make a difference if the text is underlined or not, because
-			 * if we do so, we will get the wrong width;
-			 */
-			fm = getFontMetrics(FT_ITALIC_UNDERLINE);
+			QFont font = UMLWidget::getFont();
+			font.setUnderline( listItem->getStatic() );
+			font.setItalic( listItem->getAbstract() );
+			QFontMetrics fontMetrics(font);
 
-			/* it should be the following thing, but then the width will be too
-			 * small for FT_NORMAL text (only some pixels) */
-//			bool isAbstract = listItem->getAbstract();
-//			bool isStatic = listItem->getStatic();
-//			if (isAbstract && isStatic)
-//			{
-//				fm = getFontMetrics(FT_ITALIC_UNDERLINE);
-//			} else if (isAbstract) {
-//				fm = getFontMetrics(FT_ITALIC);
-//			} else if (isStatic) {
-//				fm = getFontMetrics(FT_UNDERLINE);
-//			} else {
-//				fm = getFontMetrics(FT_NORMAL);
-//			}
-
-			int w = fm.boundingRect( listItem->toString(m_ShowOpSigs) ).width();
+			int w = fontMetrics.width(listItem->toString(m_ShowOpSigs));
 			width = w > width?w:width;
 		}
 	}
