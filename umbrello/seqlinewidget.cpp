@@ -16,6 +16,10 @@
 #include "messagewidget.h"
 #include "seqlinewidget.h"
 
+// class members
+int const SeqLineWidget::m_nMouseDownEpsilonX = 20;
+
+// 
 SeqLineWidget::SeqLineWidget( UMLView * pView, ObjectWidget * pObject ) : QCanvasLine( pView -> canvas() ) {
 	m_pView = pView;
 	m_pObject = pObject;
@@ -38,8 +42,10 @@ bool SeqLineWidget::onWidget( const QPoint & p ) {
 	QPoint sp = startPoint();
 	QPoint ep = endPoint();
 	//see if on widget ( for message creation )
-	if( sp.x() - 2 < p.x() && ep.x() + 2 > p.x() &&
-	    sp.y() < p.y() && ep.y() + 3 > p.y() ) {
+	if( sp.x() - m_nMouseDownEpsilonX < p.x() 
+	    && ep.x() + m_nMouseDownEpsilonX > p.x() 
+	    && sp.y() < p.y() && ep.y() + 3 > p.y() ) 
+	{
 		bOnWidget = true;
 	}
 	if( m_pDeconBox.rect ) {

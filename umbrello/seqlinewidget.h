@@ -125,6 +125,7 @@ protected:
 	bool m_bMouseDown;
 
 	int m_nOffsetY, m_nOldY, m_nMinY;
+	static int const m_nMouseDownEpsilonX;
 };
 
 #endif
