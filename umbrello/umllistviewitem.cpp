@@ -72,7 +72,7 @@ UMLListViewItem::UMLListViewItem(UMLListViewItem * parent, QString name, Uml::Li
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLListViewItem::~UMLListViewItem() {}
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-Uml::ListView_Type UMLListViewItem::getType() {
+Uml::ListView_Type UMLListViewItem::getType() const {
 	return m_Data.getType();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -326,4 +326,20 @@ void UMLListViewItem::cancelRename(int col) {
 	}
 }
 
+// sort the listview items by type and alphabetically
+int UMLListViewItem::compare(QListViewItem *other, int col, bool ascending) const
+{
+	Uml::ListView_Type ourType = getType();
+	Uml::ListView_Type otherType = static_cast<UMLListViewItem*>( other )->getType();
+
+	if ( ourType == otherType )
+		return key( col, ascending ).compare( other->key( col, ascending) );
+
+	if ( ourType < otherType )
+		return -1;
+	if ( ourType > otherType )
+		return 1;
+
+	return 0;	
+}
 UMLListView* UMLListViewItem::s_pListView = 0;

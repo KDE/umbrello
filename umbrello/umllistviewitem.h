@@ -69,7 +69,7 @@ public:
 	 *
 	 *	@return	The type this instance represents.
 	 */
-	Uml::ListView_Type getType();
+	Uml::ListView_Type getType() const;
 
 	/**
 	 *	Returns the id this class represents.
@@ -129,6 +129,11 @@ public:
 	 *     Overrides default method to make public.
 	 */
 	void cancelRename( int col );
+
+	/**
+	 *	Overrides the default sorting to sort by item type.
+	 */
+	virtual int compare(QListViewItem *other, int col, bool ascending) const;
 
 protected:
 
