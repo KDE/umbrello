@@ -47,6 +47,7 @@ void UMLObject::init() {
 	m_Doc = "";
 	m_bAbstract = false;
 	m_bStatic = false;
+	m_bInPaste = false;
 
 /*
 // not sure this is correct... umllistview is making slot/signal connections
@@ -176,6 +177,10 @@ bool UMLObject::getAbstract() const{
 void UMLObject::setAbstract(bool bAbstract) {
 	m_bAbstract = bAbstract;
 	emit modified();
+}
+
+void UMLObject::setInPaste(bool bInPaste /* =true */) {
+	m_bInPaste = bInPaste;
 }
 
 /** Returns true if this UMLObject has classifier scope, otherwise false (the default). */
@@ -483,7 +488,10 @@ bool UMLObject::loadFromXMI( QDomElement & element, bool loadID /* =true */) {
 			m_pUMLPackage->addObject(this);
 		else
 			umldoc->addUMLObject(this);
-		umldoc->signalUMLObjectCreated(this);
+		if (m_bInPaste)
+			m_bInPaste = false;
+		else
+			umldoc->signalUMLObjectCreated(this);
 	}
 	return load(element);
 }

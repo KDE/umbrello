@@ -210,6 +210,11 @@ public:
 	void setAbstract(bool bAbstract);
 
 	/**
+	 * Sets the abstract state of the object.
+	 */
+	void setInPaste(bool bInPaste = true);
+
+	/**
 	 * This method saves the XMI attributes of each specific model class.
 	 * It needs to be implemented by each child class.
 	 * For creating the QDomElement and saving the common XMI parts,
@@ -366,6 +371,11 @@ protected:
 	 * (false - the default) or classifier scope (true).
 	 */
 	bool m_bStatic;
+
+	/**
+	 * Caller sets this true when in paste operation.
+	 */
+	bool m_bInPaste;
 };
 
 /**
