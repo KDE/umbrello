@@ -194,8 +194,7 @@ private:
 	/**
 	 * Pastes the children of a UMLListViewItem (The Parent)
 	 */
-	bool pasteChildren(UMLListViewItem* Parent, UMLListViewItemListIt* It,
-			   IDChangeLog& ChangeLog, UMLDoc * Doc);
+	bool pasteChildren(UMLListViewItem* parent, IDChangeLog *chgLog, UMLDoc *doc);
 
 	/**
 	 * Gives a `sorry' message box if you're pasting an item which

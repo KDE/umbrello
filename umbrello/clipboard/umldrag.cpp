@@ -15,6 +15,7 @@
 #include <qdom.h>
 
 #include "umldrag.h"
+#include "idchangelog.h"
 #include "../uml.h"
 #include "../umldoc.h"
 #include "../umlview.h"
@@ -334,6 +335,8 @@ bool UMLDrag::decodeClip1(const QMimeSource* mimeSource, UMLObjectList& objects,
 		return false;
 	}
 
+	UMLListView *listView = UMLApp::app()->getListView();
+
 	//UMLObjects
 	QDomNode objectsNode = xmiClipNode.firstChild();
 	QDomNode objectElement = objectsNode.firstChild();
@@ -345,24 +348,45 @@ bool UMLDrag::decodeClip1(const QMimeSource* mimeSource, UMLObjectList& objects,
 	while ( !element.isNull() ) {
 		pObject = 0;
 		QString type = element.tagName();
-		if (type != "UML:Association") {
-			pObject = doc->makeNewUMLObject(type);
-
-			if( !pObject ) {
-				kdWarning() << "UMLDrag::decodeClip1: Given wrong type of umlobject to create: "
-					    << type << endl;
-				return false;
-			}
-			pObject->setInPaste( true );
-			if( !pObject->loadFromXMI( element ) ) {
-				kdWarning() << "UMLDrag::decodeClip1: failed to load object of type "
-					    << type << " from XMI" << endl;
-				delete pObject;
-				return false;
-			}
-			pObject->setInPaste( false );
-			objects.append(pObject);
+		if (type == "UML:Association") {
+			objectElement = objectElement.nextSibling();
+			element = objectElement.toElement();
+			continue;
 		}
+		pObject = doc->makeNewUMLObject(type);
+
+		if( !pObject ) {
+			kdWarning() << "UMLDrag::decodeClip1: Given wrong type of umlobject to create: "
+				    << type << endl;
+			return false;
+		}
+		pObject->setInPaste( true );
+		if( !pObject->loadFromXMI( element ) ) {
+			kdWarning() << "UMLDrag::decodeClip1: failed to load object of type "
+				    << type << " from XMI" << endl;
+			delete pObject;
+			return false;
+		}
+		pObject->setInPaste( false );
+		if (listView->startedCopy()) {
+                        /****************************************************************
+			 * If the clone() methods called IDChangeLog::addIDChange(),
+			 * we could do the following:
+                        UMLObject *newObj = pObject->clone();
+                        delete pObject;
+                        pObject = newObj;
+			 * but since that's not currently the case we do: */
+			if(!doc->assignNewIDs(pObject)) {
+				return false;
+			}
+                        Uml::Object_Type type = pObject->getBaseType();
+                        QString newName = doc->uniqObjectName(type, pObject->getName());
+                        pObject->setName(newName);
+			/****************************************************************/
+
+			pObject->resolveRef();
+		}
+		objects.append(pObject);
 		objectElement = objectElement.nextSibling();
 		element = objectElement.toElement();
 	}
@@ -375,7 +399,6 @@ bool UMLDrag::decodeClip1(const QMimeSource* mimeSource, UMLObjectList& objects,
 		kdWarning() << "no listitems in XMI clip" << endl;
 		return false;
 	}
-	UMLListView *listView = UMLApp::app()->getListView();
 	UMLListViewItem *currentItem = (UMLListViewItem*)listView->currentItem();
 	while ( !listItemElement.isNull() ) {
 		UMLListViewItem* itemData;
@@ -383,10 +406,38 @@ bool UMLDrag::decodeClip1(const QMimeSource* mimeSource, UMLObjectList& objects,
 			itemData = new UMLListViewItem( currentItem );
 		else
 			itemData = new UMLListViewItem( listView );
-		if ( itemData->loadFromXMI(listItemElement) )
-			umlListViewItems.append(itemData);
-		else
+		if (!itemData->loadFromXMI(listItemElement)) {
 			delete itemData;
+			return false;
+		}
+		if (listView->startedCopy()) {
+			IDChangeLog *idchanges = doc->getChangeLog();
+			Uml::IDType oldID = itemData->getID();
+			Uml::IDType newID = idchanges->findNewID(oldID);
+			UMLListViewItem *shouldNotExist = listView->findItem(newID);
+			if (shouldNotExist) {
+				kdDebug() << "UMLDrag::decodeClip1: new list view item "
+					  << ID2STR(newID) << " already exists" << endl;
+				listItems = listItems.nextSibling();
+				listItemElement = listItems.toElement();
+				continue;
+			}
+			UMLObject *newObj = doc->findObjectById(newID);
+			if (newObj) {
+				kdDebug() << "UMLDrag::decodeClip1: adjusting lvitem(" << ID2STR(oldID)
+					  << ") to new UMLObject(" << ID2STR(newID) << ")" << endl;
+				itemData->setUMLObject(newObj);
+				itemData->setText(newObj->getName());
+				if (! listView->loadChildrenFromXMI(itemData, listItemElement)) {
+					kdError() << "UMLDrag::decodeClip1: listView->loadChildrenFromXMI() failed"
+						  << endl;
+				}
+			} else {
+				kdDebug() << "UMLDrag::decodeClip1: no UMLObject found for lvitem "
+					  << ID2STR(newID) << endl;
+			}
+		}
+		umlListViewItems.append(itemData);
 		listItems = listItems.nextSibling();
 		listItemElement = listItems.toElement();
 	}

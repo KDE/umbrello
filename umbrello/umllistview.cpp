@@ -2425,10 +2425,26 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
 		UMLObject * pObject = 0;
 		UMLListViewItem * item = 0;
 		if (nID != Uml::id_None) {
+			// The following is an ad hoc hack for the copy/paste code.
+			// The clip still contains the old children although new
+			// UMLCLassifierListItems have already been created.
+			// If the IDChangeLog finds new IDs this means we are in
+			// copy/paste and need to adjust the child listitems to the
+			// new UMLCLassifierListItems.
+			IDChangeLog *idchanges = m_doc->getChangeLog();
+			if (idchanges != NULL) {
+				Uml::IDType newID = idchanges->findNewID(nID);
+				if (newID != Uml::id_None) {
+					kdDebug() << "UMLListView::loadChildrenFromXMI:"
+						  << " using id " << ID2STR(newID)
+						  << " instead of " << ID2STR(nID) << endl;
+					nID = newID;
+				}
+			}
+			/************ End of hack for copy/paste code ************/
+
 			pObject = m_doc->findObjectById(nID);
-			//if (pObject) {
-			//	connectNewObjectsSlots(pObject);
-			//}
+
 		} else if (typeIsFolder(lvType) ||
 			   lvType == Uml::lvt_Diagrams) {
 			// Pre-1.2 format: Folders did not have their ID set.
@@ -2502,7 +2518,7 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
 				item = findItem(nID);
 				if (item == NULL) {
 					kdDebug() << "UMLListView::loadChildrenFromXMI: "
-						<< "item " << id << " (of type "
+						<< "item " << ID2STR(nID) << " (of type "
 						<< lvType << ") does not yet exist..."
 						<< endl;
 					UMLObject* umlObject = parent->getUMLObject();
@@ -2512,11 +2528,12 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
 						kdWarning() << "UMLListView::loadChildrenFromXMI: lvtype " << lvType
 							    << " has id -1" << endl;
 					} else {
-						UMLClass *classObj = dynamic_cast<UMLClass *>(umlObject);
-						if (classObj) {
-							umlObject = classObj->findChildObject(nID);
+						UMLClassifier *classifier = dynamic_cast<UMLClassifier*>(umlObject);
+						if (classifier) {
+							umlObject = classifier->findChildObject(nID);
 							if (umlObject) {
 								connectNewObjectsSlots(umlObject);
+								label = umlObject->getName();
 								item = new UMLListViewItem( parent, label, lvType, umlObject);
 							} else {
 								kdDebug() << "UMLListView::loadChildrenFromXMI: "
@@ -2525,7 +2542,7 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
 							}
 						} else {
 							kdDebug() << "UMLListView::loadChildrenFromXMI: "
-								  << "cast to class object failed" << endl;
+								  << "cast to classifier object failed" << endl;
 						}
 					}
 				}

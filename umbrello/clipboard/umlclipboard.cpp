@@ -297,36 +297,35 @@ bool UMLClipboard::insertItemChildren(UMLListViewItem * Item, UMLListViewItemLis
 	return true;
 }
 
-bool UMLClipboard::pasteChildren(UMLListViewItem* Parent, UMLListViewItemListIt* It,
-                                  IDChangeLog& ChangeLog, UMLDoc * Doc) {
-	if(!It || !Parent || !Doc) {
-		kdWarning()<<"Paste Children Error, maybe: no It, Parent or Doc"<<endl;
+bool UMLClipboard::pasteChildren(UMLListViewItem *parent, IDChangeLog *chgLog, UMLDoc *doc) {
+	if (!parent || !doc) {
+		kdWarning() << "Paste Children Error, parent or doc missing" << endl;
 		return false;
 	}
-	UMLListViewItem* itemdata = It->current();//itemdata gets the parent's info
-	//of children to be added
-	UMLListViewItem* item = 0;
-	int children = itemdata -> childCount();
 	UMLListView *listView = UMLApp::app()->getListView();
-	for(int i = 0; i < children; i++) {
-		++(*It);
-		itemdata = It->current();
-		if(!itemdata) {
-			kdWarning()<<"PasteChildren called with no itemData"<<endl;
-			return false; //Error this function gets called only if the parent Item
-			//has children and that means It->current() shouldn't be null
+	UMLListViewItem *childItem = static_cast<UMLListViewItem*>(parent->firstChild());
+	while (childItem) {
+		Uml::IDType oldID = childItem->getID();
+		Uml::IDType newID = chgLog->findNewID(oldID);
+		UMLListViewItem *shouldNotExist = listView->findItem(newID);
+		if (shouldNotExist) {
+			kdError() << "UMLClipboard::pasteChildren: new list view item " << ID2STR(newID)
+				  << " already exists (internal error)" << endl;
+			childItem = static_cast<UMLListViewItem*>(childItem->nextSibling());
+			continue;
 		}
-		item = listView->createItem(*itemdata, ChangeLog, Parent);
-		int count = itemdata -> childCount();
-		if( item && count ) {
-			kdDebug()<<count<<endl;
-			if(!pasteChildren(item, It, ChangeLog, Doc)) {
-				return false;
-			}
+		UMLObject *newObj = doc->findObjectById(newID);
+		if (newObj) {
+			kdDebug() << "UMLClipboard::pasteChildren: adjusting lvitem(" << ID2STR(oldID)
+				  << ") to new UMLObject(" << ID2STR(newID) << ")" << endl;
+			childItem->setUMLObject(newObj);
+			childItem->setText(newObj->getName());
+		} else {
+			kdDebug() << "UMLClipboard::pasteChildren: no UMLObject found for lvitem "
+				  << ID2STR(newID) << endl;
 		}
+		childItem = static_cast<UMLListViewItem*>(childItem->nextSibling());
 	}
-
-
 	return true;
 }
 
@@ -347,57 +346,28 @@ Pastes the data from the clipboard into the current Doc */
 bool UMLClipboard::pasteClip1(UMLDoc* doc, QMimeSource* data) {
 	UMLListViewItemList itemdatalist;
 	UMLObjectList objects;
-
-	objects.setAutoDelete(false);
-	IDChangeLog* idchanges = 0;
-	bool result = UMLDrag::decodeClip1(data, objects, itemdatalist, doc);
-	if(!result) {
+	IDChangeLog* idchanges = doc->getChangeLog();
+	if (! UMLDrag::decodeClip1(data, objects, itemdatalist, doc)) {
 		return false;
 	}
 	UMLListView *lv = UMLApp::app()->getListView();
 	if ( !lv->startedCopy() )
 		return true;
 	lv->setStartedCopy(false);
-	// If we get here we are pasting after a Copy and need to
-	// assign new IDs to the copied items/objects.
-	UMLObject *obj = 0;
-	UMLObjectListIt object_it(objects);
-	while ( (obj=object_it.current()) != 0 ) {
-		++object_it;
-		if(!doc->assignNewIDs(obj)) {
-			return false;
-		}
-		idchanges = doc->getChangeLog();
-		if(!idchanges) {
-			return false;
-		}
-	}
-	bool objectAlreadyExists = false;
-	UMLListViewItem* item = 0;
+	/* If we get here we are pasting after a Copy and need to
+	// paste possible children.
 	UMLListViewItem* itemdata = 0;
 	UMLListViewItemListIt it(itemdatalist);
 	while ( (itemdata=it.current()) != 0 ) {
-		UMLListViewItem *parent = (UMLListViewItem *)lv->currentItem();
-		if ( (item = lv->findItem(idchanges->findNewID(itemdata->getID()))) ) {
-			objectAlreadyExists = true;
-		} else
-			item = lv->createItem(*itemdata, *idchanges, parent);
-
-		if(!item) {
-			return false;
-		}
 		if(itemdata -> childCount()) {
-			if(!pasteChildren(item, &it, *idchanges, doc)) {
+			if(!pasteChildren(itemdata, idchanges, doc)) {
 				return false;
 			}
 		}
 		++it;
 	}
-
-	if (objectAlreadyExists) {
-		pasteItemAlreadyExists(doc);
-	}
-	return result;
+	 */
+	return true;
 }
 
 /** If clipboard has mime type application/x-uml-clip2,
@@ -447,7 +417,7 @@ bool UMLClipboard::pasteClip2(UMLDoc* doc, QMimeSource* data) {
 			return false;
 		}
 		if(itemdata -> childCount()) {
-			if(!pasteChildren(item, &it, *idchanges, doc)) {
+			if(!pasteChildren(item, idchanges, doc)) {
 				return false;
 			}
 		}
@@ -479,7 +449,7 @@ bool UMLClipboard::pasteClip3(UMLDoc* doc, QMimeSource* data) {
 	while ( (itemdata=it.current()) != 0 ) {
 		item = listView->createItem(*itemdata, *idchanges);
 		if(itemdata -> childCount()) {
-			if(!pasteChildren(item, &it, *idchanges, doc)) {
+			if(!pasteChildren(item, idchanges, doc)) {
 				return false;
 			}
 		}
@@ -582,7 +552,7 @@ bool UMLClipboard::pasteClip4(UMLDoc* doc, QMimeSource* data) {
 			return false;
 		}
 		if(itemdata -> childCount()) {
-			if(!pasteChildren(item, &it, *idchanges, doc)) {
+			if(!pasteChildren(item, idchanges, doc)) {
 				return false;
 			}
 		}
