@@ -85,6 +85,10 @@ public:
         	return QString("operation_" + QString::number(op->getID()));
 	}
 
+        /** set the class attributes from a passed object
+         */
+        virtual void setAttributesFromObject (TextBlock * obj);
+
 protected:
 
 	// list of parameters used by this code operation.

@@ -74,6 +74,9 @@ public:
          */
         virtual void loadFromXMI ( QDomElement & root );
 
+        /** set the class attributes from a passed object
+         */
+        virtual void setAttributesFromObject (TextBlock * obj);
 
 protected:
 
@@ -94,6 +97,7 @@ protected:
 private:
 
 	CodeClassField * m_parentclassfield;
+	void init(CodeClassField * parent);
 
 public slots:
 

@@ -99,6 +99,17 @@ void CodeBlockWithComments::setAttributesOnNode ( QDomDocument & doc, QDomElemen
 
 }
 
+void CodeBlockWithComments::setAttributesFromObject(TextBlock * obj)
+{
+
+        CodeBlock::setAttributesFromObject(obj);
+
+        CodeBlockWithComments * cb = dynamic_cast<CodeBlockWithComments*>(obj);
+        if(cb)
+		getComment()->setAttributesFromObject((TextBlock*)cb->getComment());
+
+}
+
 /**
  * load params from the appropriate XMI element node.
  */

@@ -140,10 +140,28 @@ void CodeAccessorMethod::setAttributesFromNode ( QDomElement & root) {
  
 }
 
+void CodeAccessorMethod::setAttributesFromObject(TextBlock * obj)
+{
+
+        CodeMethodBlock::setAttributesFromObject(obj);
+
+        CodeAccessorMethod * mb = dynamic_cast<CodeAccessorMethod*>(obj);
+        if(mb)
+        {
+        	m_parentclassfield->disconnect(this); // always disconnect 
+
+		initFields(mb->getParentClassField());
+
+                setType(mb->getType());
+        }
+
+}
+
 void CodeAccessorMethod::initFields(CodeClassField * parentClassField ) {
 
 	m_parentclassfield = parentClassField;
 	m_accessorType = GET;
+	m_canDelete = false; // we cant delete these with the codeeditor, delete the UML operation instead.
 
         connect(m_parentclassfield,SIGNAL(modified()),this,SLOT(syncToParent()));
 }

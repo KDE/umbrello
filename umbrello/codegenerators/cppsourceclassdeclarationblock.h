@@ -53,6 +53,10 @@ public:
 
 protected:
 
+	/** set the class attributes from a passed object
+         */
+        virtual void setAttributesFromObject (TextBlock * obj);
+
 	/**
 	 * Update the start/end text of this codeblock.
 	 */

@@ -48,6 +48,10 @@ void TextBlock::setParentDocument ( CodeDocument * new_var ) {
         m_parentDocument = new_var;
 }
 
+bool TextBlock::canDelete ( ) {
+	return m_canDelete;
+}
+
 /**
  * Get the value of m_parentDocument
  * @return the value of m_parentDocument
@@ -190,11 +194,31 @@ void TextBlock::setAttributesOnNode ( QDomDocument & doc, QDomElement & blockEle
 	QString endLine = m_parentDocument->getNewLineEndingChars();
 
 	if (&doc != 0 ) {
-		blockElement.setAttribute("indentLevel",QString::number(getIndentationLevel()));
+
 		blockElement.setAttribute("tag",getTag());
-		blockElement.setAttribute("text",encodeText(m_text,endLine));
-        	blockElement.setAttribute("writeOutText",getWriteOutText()?"true":"false");
+
+		// only write these if different from defaults
+		if(getIndentationLevel())
+			blockElement.setAttribute("indentLevel",QString::number(getIndentationLevel()));
+		if(!m_text.isEmpty())
+			blockElement.setAttribute("text",encodeText(m_text,endLine));
+		if(!getWriteOutText())
+        		blockElement.setAttribute("writeOutText",getWriteOutText()?"true":"false");
+		if(!canDelete())
+        		blockElement.setAttribute("canDelete",canDelete()?"true":"false");
+
 	}
+
+}
+
+void TextBlock::setAttributesFromObject(TextBlock * obj) 
+{
+
+	// DONT set tag here.
+        setIndentationLevel(obj->getIndentationLevel());
+        setText(obj->getText());
+        setWriteOutText(obj->getWriteOutText());
+        m_canDelete = obj->canDelete();
 
 }
 
@@ -206,6 +230,7 @@ void TextBlock::setAttributesFromNode (QDomElement & root ) {
         setTag(root.attribute("tag",""));
         setText(decodeText(root.attribute("text",""),endLine));
         setWriteOutText(root.attribute("writeOutText","true") == "true" ? true : false);
+        m_canDelete = root.attribute("canDelete","true") == "true" ? true : false;
 
 }
 
@@ -241,6 +266,7 @@ QString TextBlock::toString ( )
 }
 
 void TextBlock::initFields ( CodeDocument * parent ) {
+	m_canDelete = true;
 	m_writeOutText = true;
 	m_parentDocument = parent;
 	m_text = "";

@@ -160,6 +160,16 @@ public:
          */
         virtual void loadFromXMI ( QDomElement & root ) = 0;
 
+	/** Determine if its OK to delete this textblock from the document.
+	 * Used by the text editor to know if deletion could cause a crash of
+	 * the program.
+	 */
+	bool canDelete ();
+
+        /** set the class attributes from a passed object
+         */
+        virtual void setAttributesFromObject (TextBlock * obj);
+
 protected:
 
         /**
@@ -177,6 +187,8 @@ protected:
 	 * the passed element node.
 	 */ 
 	virtual void setAttributesFromNode ( QDomElement & element);
+
+	bool m_canDelete;
 
 private:
 

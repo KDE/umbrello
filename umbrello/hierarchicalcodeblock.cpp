@@ -325,6 +325,24 @@ void HierarchicalCodeBlock::setAttributesFromNode ( QDomElement & root)
 
 }
 
+/** set the class attributes from a passed object
+ */
+void HierarchicalCodeBlock::setAttributesFromObject (TextBlock * obj) {
+
+	CodeBlockWithComments::setAttributesFromObject(obj);
+
+	HierarchicalCodeBlock * hb = dynamic_cast<HierarchicalCodeBlock*>(obj);
+	if(hb) 
+	{
+		setStartText(hb->getStartText());
+		setEndText(hb->getEndText());
+
+		// FIX? copy all of the child text blocks? ugh, lets NOT do this for now.
+	}
+
+}
+
+
 /**
  * @return	QString
  */
@@ -388,6 +406,7 @@ TextBlock * HierarchicalCodeBlock::findCodeClassFieldTextBlockByTag (QString tag
 
 
 void HierarchicalCodeBlock::initAttributes ( ) {
+	m_canDelete = false;
 	m_startText = "";
 	m_endText = "";
 }

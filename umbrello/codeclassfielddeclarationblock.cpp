@@ -28,8 +28,7 @@ CodeClassFieldDeclarationBlock::CodeClassFieldDeclarationBlock ( CodeClassField 
     : CodeBlockWithComments ( (CodeDocument*) parentCF->getParentDocument() ),
 	OwnedCodeBlock ((UMLObject*) parentCF->getParentObject()) 
 {
-	m_parentclassfield = parentCF;
-	connect(m_parentclassfield,SIGNAL(modified()),this,SLOT(syncToParent()));
+	init(parentCF);
 }
 
 CodeClassFieldDeclarationBlock::~CodeClassFieldDeclarationBlock ( ) { }
@@ -104,6 +103,23 @@ void CodeClassFieldDeclarationBlock::setAttributesFromNode( QDomElement & root )
 	syncToParent();
 }
 
+/** set the class attributes from a passed object
+ */
+void CodeClassFieldDeclarationBlock::setAttributesFromObject (TextBlock * obj) {
+
+        CodeBlockWithComments::setAttributesFromObject(obj);
+
+        CodeClassFieldDeclarationBlock * ccb = dynamic_cast<CodeClassFieldDeclarationBlock*>(obj);
+        if(ccb)
+        {
+		m_parentclassfield->disconnect(this);
+		init(ccb->getParentClassField());
+
+		syncToParent();
+        }
+
+}
+
 void CodeClassFieldDeclarationBlock::syncToParent () {
 
         // for role-based accessors, we DONT write ourselves out when
@@ -128,4 +144,12 @@ void CodeClassFieldDeclarationBlock::syncToParent () {
 	updateContent();
 
 }
+
+void CodeClassFieldDeclarationBlock::init (CodeClassField * parentCF) 
+{
+        m_parentclassfield = parentCF;
+	m_canDelete = false;
+        connect(m_parentclassfield,SIGNAL(modified()),this,SLOT(syncToParent()));
+}
+
 #include "codeclassfielddeclarationblock.moc"

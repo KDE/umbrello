@@ -115,6 +115,20 @@ void CodeMethodBlock::setAttributesFromNode ( QDomElement & elem) {
 
 }
 
+void CodeMethodBlock::setAttributesFromObject(TextBlock * obj)
+{
+
+        CodeBlockWithComments::setAttributesFromObject(obj);
+
+        CodeMethodBlock * mb = dynamic_cast<CodeMethodBlock*>(obj);
+        if(mb)
+	{
+                setStartMethodText(mb->getStartMethodText());
+                setEndMethodText(mb->getEndMethodText());
+	}
+
+}
+
 /**
  * @return	QString
  */

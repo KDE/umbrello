@@ -31,6 +31,13 @@ JavaClassDeclarationBlock::~JavaClassDeclarationBlock ( ) { }
 // Methods
 //  
 
+/** set the class attributes from a passed object
+ */
+void JavaClassDeclarationBlock::setAttributesFromObject (TextBlock * obj)
+{
+	HierarchicalCodeBlock::setAttributesFromObject(obj);
+}
+
 /**
  * Save the XMI representation of this object
  * @return      bool    status of save

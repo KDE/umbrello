@@ -93,6 +93,9 @@ public:
          */
         virtual void loadFromXMI ( QDomElement & root );
 
+        /** set the class attributes from a passed object
+         */
+        virtual void setAttributesFromObject (TextBlock * obj);
 
 protected:
 
@@ -105,7 +108,6 @@ protected:
          * the passed element node.
          */
         virtual void setAttributesFromNode ( QDomElement & element);
-
 
 private:
 

@@ -21,6 +21,7 @@
 #include <qstring.h>
 #include <qobject.h>
 
+class TextBlock;
 class CodeDocument;
 class UMLObject;
 
@@ -67,6 +68,10 @@ protected:
          * the passed element node.
          */
         virtual void setAttributesFromNode ( QDomElement & element);
+
+	/** set the class attributes from a passed object
+         */
+        virtual void setAttributesFromObject (TextBlock * obj) = 0;
 
 	/**
          * This is the method called from within syncToParent

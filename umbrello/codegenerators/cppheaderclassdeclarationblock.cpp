@@ -31,6 +31,13 @@ CPPHeaderClassDeclarationBlock::~CPPHeaderClassDeclarationBlock ( ) { }
 // Methods
 //  
 
+/** set the class attributes from a passed object
+ */
+void CPPHeaderClassDeclarationBlock::setAttributesFromObject (TextBlock * obj) 
+{
+        HierarchicalCodeBlock::setAttributesFromObject(obj);
+}
+
 /**
  * Save the XMI representation of this object
  * @return      bool    status of save

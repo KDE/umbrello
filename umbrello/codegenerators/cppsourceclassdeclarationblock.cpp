@@ -31,6 +31,12 @@ CPPSourceClassDeclarationBlock::~CPPSourceClassDeclarationBlock ( ) { }
 // Methods
 //  
 
+/** set the class attributes from a passed object
+ */
+void CPPSourceClassDeclarationBlock::setAttributesFromObject (TextBlock * obj) {
+	HierarchicalCodeBlock::setAttributesFromObject(obj);
+}
+
 /**
  * Save the XMI representation of this object
  * @return      bool    status of save

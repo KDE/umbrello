@@ -148,6 +148,10 @@ protected:
          */
         virtual void setAttributesFromNode ( QDomElement & element);
 
+	/** set the class attributes from a passed object
+         */
+        virtual void setAttributesFromObject (TextBlock * obj);
+
         // this is needed by the parent codegenobjectwithtextblocks class
         // in order to search for text blocks by tag when loading from XMI
         CodeDocument * getCodeDocument();

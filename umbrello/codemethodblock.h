@@ -108,6 +108,9 @@ protected:
          */
         virtual void setAttributesFromNode ( QDomElement & element);
 
+	/** set the class attributes from a passed object
+         */
+        virtual void setAttributesFromObject (TextBlock * obj);
 
 private:
 

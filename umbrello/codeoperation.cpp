@@ -119,17 +119,34 @@ void CodeOperation::setAttributesFromNode ( QDomElement & element)
 	UMLObject * obj = getParentDocument()->getParentGenerator()->getDocument()->findUMLObject(id); 
 	UMLOperation * op = dynamic_cast<UMLOperation*>(obj);
 
+	m_parentOperation->disconnect(this); // always disconnect
 	if(op)
-		m_parentOperation = op; 
+		init(op); 
 	else
 		kdError()<<"ERROR: could'nt load code operation because of missing UMLoperation, corrupt savefile?"<<endl;
 
 }
 
+void CodeOperation::setAttributesFromObject(TextBlock * obj)
+{
+
+        CodeMethodBlock::setAttributesFromObject(obj);
+
+        CodeOperation * op = dynamic_cast<CodeOperation*>(obj);
+        if(op)
+        {
+		m_parentOperation->disconnect(this); // always disconnect
+		init((UMLOperation*) op->getParentObject());
+        }
+
+}
+
+
 
 void CodeOperation::init (UMLOperation * parentOp) 
 {
 
+	m_canDelete = false; // we cant delete these with the codeeditor, delete the UML operation instead.
 	m_parentOperation = parentOp;
 	setTag(CodeOperation::findTag(parentOp));
 
