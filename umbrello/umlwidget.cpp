@@ -814,8 +814,11 @@ bool UMLWidget::onWidget(const QPoint & p) {
 }
 
 void UMLWidget::moveBy(int dx, int dy) {
-	setX(getX() + dx);
-	setY(getY() + dy);
+	int newX = getX() + dx;
+	int newY = getY() + dy;
+	setX(newX);
+	setY(newY);
+	adjustAssocs(newX, newY);
 }
 
 void UMLWidget::draw( QPainter & p, int /*offsetX*/, int /*offsetY*/ ) {
