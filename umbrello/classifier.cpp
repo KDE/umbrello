@@ -311,7 +311,7 @@ UMLOperationList UMLClassifier::getFilteredOperationsList(bool includeInherited)
 	UMLClassifierListItemList classifierList(getOpList(includeInherited));
 	UMLOperationList operationList;
 	for(UMLClassifierListItem* listItem = classifierList.first(); listItem;
-	    listItem = m_OpsList.next())  {
+	    listItem = classifierList.next())  {
 		if (listItem->getBaseType() == ot_Operation) {
 			operationList.append(static_cast<UMLOperation*>(listItem));
 		}
