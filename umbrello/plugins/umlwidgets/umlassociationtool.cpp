@@ -31,7 +31,7 @@ UMLAssociationTool::UMLAssociationTool( DiagramView  *view): AssociationTool(vie
 {
 	setName("umlassociationtool");
 	setIcon("umlassociation");
-	setToolTip(i18n("Creates associations between UML Elements"));
+	setToolTip(i18n("Creates associations between UML elements"));
 }
 
 UMLAssociationTool::~UMLAssociationTool()
@@ -66,32 +66,32 @@ void UMLAssociationTool::setType( ToolType t )
 		case Generalization:
 			setName("generalizationtool");
 			setIcon("generalization");
-			setToolTip(i18n("Creates generalization relationships between UML Elements"));
+			setToolTip(i18n("Creates generalization relationships between UML elements"));
 		break;
 		case Composition:
 			setName("compositiontool");
 			setIcon("composition");
-			setToolTip(i18n("Creates composition relationships between UML Elements"));
+			setToolTip(i18n("Creates composition relationships between UML elements"));
 		break;
 		case Aggregation:
 			setName("aggregationtool");
 			setIcon("aggregation");
-			setToolTip(i18n("Creates aggregation relationships between UML Elements"));
+			setToolTip(i18n("Creates aggregation relationships between UML elements"));
 		break;
 		case Dependency:
 			setName("dependencytool");
 			setIcon("dependency");
-			setToolTip(i18n("Creates dependencies relationships between UML Elements"));
+			setToolTip(i18n("Creates dependencies relationships between UML elements"));
 		break;
 		case Association:
 			setName("umlassociation");
 			setIcon("association");
-			setToolTip(i18n("Creates association relationships between UML Elements"));
+			setToolTip(i18n("Creates association relationships between UML elements"));
 		break;
 		case UniDiAssociation:
 			setName("uniassociation");
 			setIcon("uniassociation");
-			setToolTip(i18n("Creates unidirectional association relationships between UML Elements"));
+			setToolTip(i18n("Creates unidirectional association relationships between UML elements"));
 		break;
 
 	}
