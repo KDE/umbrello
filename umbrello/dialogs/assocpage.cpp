@@ -113,7 +113,7 @@ void AssocPage::slotPopupMenuSel(int id) {
 	AssociationWidget * a = m_List.at(m_pAssocLB -> currentItem());
 	switch(id) {
 		case ListPopupMenu::mt_Delete:
-			m_pView->removeAssoc(a);
+			m_pView->removeAssocInViewAndDoc(a);
 			fillListBox();
 			break;
 
