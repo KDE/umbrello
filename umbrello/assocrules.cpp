@@ -20,7 +20,7 @@ AssocRules::AssocRules() {}
 
 AssocRules::~AssocRules() {}
 
-bool allowAssociation( Association_Type assocType, const std::type_info &type )
+bool allowAssociation( Association_Type/* assocType*/, const std::type_info/* &type*/ )
 {
 	return false;
 
@@ -127,7 +127,7 @@ bool AssocRules::allowAssociation( Association_Type assocType, UMLWidget * widge
 			break;
 
 		case at_Realization: // can only connect to abstract (interface) classes
-			while( assoc = it.current() ) {
+			while( ( assoc = it.current() ) ) {
 				if( ( widgetA == assoc->getWidgetA() || widgetA == assoc->getWidgetB() )
 				    && assoc->getAssocType() == at_Realization ) {
 					return false;

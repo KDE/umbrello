@@ -142,8 +142,8 @@ void NodeWidget::calculateSize() {
 
 	height = (2*fontHeight) + (NODE_MARGIN * 2);
 
-	width = width * 1.5;
-	height = height * 1.5;
+	width = static_cast<int>(width * 1.5);
+	height = static_cast<int>(height * 1.5);
 
 	setSize(width, height);
 	adjustAssocs( (int)x(), (int)y() );//adjust assoc lines
