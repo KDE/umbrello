@@ -357,6 +357,9 @@ void LinePath::calculateHead() {
 	int ya = getPoint(size - 2).y();
 	int xb = getPoint(size -1).x();
 	int yb = getPoint(size -1).y();
+	double deltaX = xb - xa;
+	double deltaY = yb - ya;
+	double hypotenuse = sqrt(deltaX*deltaX + deltaY*deltaY); // the length
 	int halfLength = 10;
 	double arrowAngle = 0.5 * atan(sqrt(3.0) / 3.0);
 	if (getAssocType() == at_Generalization)
@@ -364,18 +367,18 @@ void LinePath::calculateHead() {
 		arrowAngle *= 2;	// wider
 		halfLength += 3;	// longer
 	}
-	double slope = atan2(double(yb - ya), double(xb - xa));	//slope of line
-	double cosx = halfLength * cos(slope);
+	double slope = atan2(deltaY, deltaX);	//slope of line
+	double cosx = halfLength * deltaX/hypotenuse;
 
-	double siny = halfLength * sin(slope);
+	double siny = halfLength * deltaY/hypotenuse;
 	double arrowSlope = slope + arrowAngle;
 
 	m_LastPoint = getPoint(size - 1);
-	m_ArrowPointA.setX( (int)(m_LastPoint.x() - halfLength * cos(arrowSlope) ) );
-	m_ArrowPointA.setY( (int)(m_LastPoint.y() - halfLength * sin(arrowSlope)) );
+	m_ArrowPointA.setX( (int)round(m_LastPoint.x() - halfLength * cos(arrowSlope) ) );
+	m_ArrowPointA.setY( (int)round(m_LastPoint.y() - halfLength * sin(arrowSlope)) );
 	arrowSlope = slope - arrowAngle;
-	m_ArrowPointB.setX( (int)(m_LastPoint.x() - halfLength * cos(arrowSlope)) );
-	m_ArrowPointB.setY( (int)(m_LastPoint.y() - halfLength * sin(arrowSlope)) );
+	m_ArrowPointB.setX( (int)round(m_LastPoint.x() - halfLength * cos(arrowSlope)) );
+	m_ArrowPointB.setY( (int)round(m_LastPoint.y() - halfLength * sin(arrowSlope)) );
 
 	if(xa > xb)
 		cosx = cosx > 0 ? cosx : cosx * -1;
@@ -387,10 +390,10 @@ void LinePath::calculateHead() {
 	else
 		siny = siny > 0 ? siny * -1 : siny;
 
-	m_MidPoint.setX( (int)(m_LastPoint.x() + cosx) );
-	m_MidPoint.setY( (int)(m_LastPoint.y() + siny) );
-	m_FullPoint.setX( (int)(m_LastPoint.x() + cosx * 2) );
-	m_FullPoint.setY( (int)(m_LastPoint.y() + siny * 2) );
+	m_MidPoint.setX( (int)round(m_LastPoint.x() + cosx) );
+	m_MidPoint.setY( (int)round(m_LastPoint.y() + siny) );
+	m_FullPoint.setX( (int)round(m_LastPoint.x() + cosx * 2) );
+	m_FullPoint.setY( (int)round(m_LastPoint.y() + siny * 2) );
 
 	m_PointArray.setPoint(0, m_LastPoint);
 	m_PointArray.setPoint(1, m_ArrowPointA);
