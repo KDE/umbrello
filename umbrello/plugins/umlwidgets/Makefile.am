@@ -1,3 +1,5 @@
+#interfacewidget.cpp:41: error: redefinition of `int <unnamed>::hMargin'
+#classwidget.cpp:43: error: `int <unnamed>::hMargin' previously defined here
 # TODO: fix the problem
 KDE_OPTIONS = nofinal
 
