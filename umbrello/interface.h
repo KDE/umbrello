@@ -12,8 +12,6 @@
 
 #include "classifier.h"
 
-class UMLDoc;
-
 /**
  * This class contains the non-graphical information required for a UML
  * Interface.
@@ -35,11 +33,10 @@ public:
 	/**
 	 * Sets up an interface.
 	 *
-	 * @param parent	The parent to this Interface.
 	 * @param name		The name of the Interface.
 	 * @param id		The unique id of the Interface.
 	 */
-	UMLInterface(UMLDoc * parent, const QString & name = "", int id = -1);
+	UMLInterface(const QString & name = "", int id = -1);
 
 	/**
 	 * Standard deconstructor.

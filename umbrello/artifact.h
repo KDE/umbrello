@@ -13,8 +13,6 @@
 #include "umlcanvasobject.h"
 
 class IDChangeLog;
-class UMLDoc;
-
 
 /**
  * This class contains the non-graphical information required for a UML
@@ -48,11 +46,10 @@ public:
 	/**
 	 * Sets up a Artifact.
 	 *
-	 * @param parent	The parent to this Concept.
 	 * @param name		The name of the Concept.
 	 * @param id		The unique id of the Concept.
 	 */
-	UMLArtifact(UMLDoc * parent, const QString & Name = "", int id = -1);
+	UMLArtifact(const QString & Name = "", int id = -1);
 
 	/**
 	 * Standard deconstructor.

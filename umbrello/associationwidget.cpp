@@ -54,7 +54,7 @@ AssociationWidget::AssociationWidget(UMLView *view, UMLWidget* pWidgetA,
 			bool swap;
 			m_pAssociation = umldoc->findAssociation( assocType, umlRoleA, umlRoleB, &swap );
 			if (m_pAssociation == NULL) {
-				m_pAssociation = new UMLAssociation( umldoc, assocType, umlRoleA, umlRoleB );
+				m_pAssociation = new UMLAssociation( assocType, umlRoleA, umlRoleB );
 			} else if (swap) {
 				kdDebug() << "AssociationWidget(): umldoc->findAssoc returns swap true "
 					  << "for assoctype " << assocType << endl;

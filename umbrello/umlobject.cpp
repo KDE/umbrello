@@ -9,8 +9,8 @@
 
 #include <qregexp.h>
 #include <kdebug.h>
-#include "umldoc.h"
 #include "umlobject.h"
+#include "uml.h"
 #include "umldoc.h"
 #include "package.h"
 
@@ -21,8 +21,8 @@ UMLObject::UMLObject(UMLObject * parent, const QString &name, int id)
 	m_Name = name;
 }
 
-UMLObject::UMLObject(UMLDoc* parent, const QString &name, int id)
-  :  QObject(parent,"UMLObject") {
+UMLObject::UMLObject(const QString &name, int id)
+  :  QObject(UMLApp::app()->getDocument(), "UMLObject") {
 	init();
 	m_nId = id;
 	m_Name = name;
@@ -174,7 +174,7 @@ void UMLObject::setPackage(QString _name) {
 	// TBD: Resolve nested packages given in _name (e.g. A::B::C)
 	UMLObject *pkgObj = NULL;
 	if (_name != "") {
-		UMLDoc* umldoc = dynamic_cast<UMLDoc *>( parent() );
+		UMLDoc* umldoc = UMLApp::app()->getDocument();
 		if (umldoc == NULL) {
 			kdError() << "UMLObject::setPackage: cannot set package name on "
 				  << m_Name << endl;
@@ -250,24 +250,43 @@ bool UMLObject::saveToXMI( QDomDocument & /*qDoc*/, QDomElement & qElement ) {
 }
 
 bool UMLObject::loadFromXMI( QDomElement & element ) {
-	QString id = element.attribute( "xmi.id", "-1" );
+	UMLDoc* umldoc = UMLApp::app()->getDocument();
+	if (umldoc == NULL) {
+		kdError() << "UMLObject::loadFromXMI: umldoc is NULL" << endl;
+		return false;
+	}
+	QString id = element.attribute( "xmi.id", "" );
+	if (id.isEmpty() || id == "-1") {
+		kdError() << "nonexistent or illegal xmi.id" << endl;
+		return false;
+	}
+	if (id.contains(QRegExp("\\D"))) {
+	} else {
+		m_nId = id.toInt();
+	}
+
 	m_Name = element.attribute( "name", "" );
 	if (element.hasAttribute("documentation"))  // for bkwd compat.
 		m_Doc = element.attribute( "documentation", "" );
 	else
 		m_Doc = element.attribute( "comment", "" );  //CHECK: need a UML:Comment?
 
+	m_Scope = Uml::Public;
 	if (element.hasAttribute("scope")) {        // for bkwd compat.
 		QString scope = element.attribute( "scope", "200" );
-		m_Scope = (Scope)scope.toInt();
+		int nScope = scope.toInt();
+		if (nScope >= Uml::Public && nScope <= Uml::Protected)
+			m_Scope = (Scope)nScope;
+		else
+			kdError() << "illegal scope" << endl;  // soft error
 	} else {
 		QString visibility = element.attribute( "visibility", "public" );
 		if (visibility == "private")
 			m_Scope = Uml::Private;
 		else if (visibility == "protected")
 			m_Scope = Uml::Protected;
-		else
-			m_Scope = Uml::Public;
+		else if (visibility != "public")
+			kdError() << "illegal scope" << endl;  // soft error
 	}
 
 	m_Stereotype = element.attribute( "stereotype", "" );
@@ -288,10 +307,6 @@ bool UMLObject::loadFromXMI( QDomElement & element ) {
 		m_bStatic = (ownerScope == "classifier");
 	}
 
-	m_nId = id.toInt();
-	if( m_nId == -1 || m_Scope == -1 )
-		return false;
-
 	/**** Handle XMI_FLAT_PACKAGES and old files *************************/
 	QString pkg = element.attribute( "packageid", "-1" );
 	// Some interim versions used "packageid" so test for it.
@@ -309,12 +324,6 @@ bool UMLObject::loadFromXMI( QDomElement & element ) {
 		}
 	}
 	if (pkgId != -1) {
-		UMLDoc* umldoc = dynamic_cast<UMLDoc *>( parent() );
-		if (umldoc == NULL) {
-			kdDebug() << "UMLObject::loadFromXMI: cannot set package on "
-				  << m_Name << endl;
-			return true;  // soft error
-		}
 		UMLObject *pkgObj = umldoc->findUMLObject( pkgId );
 		if (pkgObj == NULL) {
 			kdDebug() << "UMLObject::loadFromXMI: cannot resolve packageid "
@@ -332,9 +341,7 @@ bool UMLObject::loadFromXMI( QDomElement & element ) {
 
 	if (m_pUMLPackage)
 		m_pUMLPackage->addObject(this);
-	UMLDoc* umldoc = dynamic_cast<UMLDoc *>( parent() );
-	if (umldoc)
-		umldoc->signalUMLObjectCreated(this);
+	//umldoc->signalUMLObjectCreated(this);
 	return true;
 }
 

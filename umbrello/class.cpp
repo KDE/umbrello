@@ -7,7 +7,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "uml.h" 
 #include "class.h"
 #include "association.h"
 #include "attribute.h"
@@ -16,11 +15,12 @@
 #include "classifierlistitem.h"
 #include "template.h"
 #include "clipboard/idchangelog.h"
+#include "umldoc.h"
+#include "uml.h"
 #include <kdebug.h>
 #include <klocale.h>
 
-UMLClass::UMLClass(UMLDoc * parent, const QString & name, int id)
-   : UMLClassifier (parent,name, id)
+UMLClass::UMLClass(const QString & name, int id) : UMLClassifier (name, id)
 {
 	init();
 }
@@ -33,7 +33,8 @@ UMLClass::~UMLClass() {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLAttribute* UMLClass::addAttribute(QString name, int id) {
-	Uml::Scope scope = ((UMLDoc*) parent())->getOptionState().classState.defaultAttributeScope;
+	UMLDoc *umldoc = UMLApp::app()->getDocument();
+	Uml::Scope scope = umldoc->getOptionState().classState.defaultAttributeScope;
   	UMLAttribute *a = new UMLAttribute(this, name, id, "int", scope);
   	m_AttsList.append(a);
 	emit modified();
@@ -249,7 +250,7 @@ void UMLClass::init() {
 	m_AttsList.setAutoDelete(false);
 	m_TemplateList.setAutoDelete(false);
 
-	UMLDoc * parent = getParentUMLDoc();
+	UMLDoc * parent = UMLApp::app()->getDocument();
 	connect(this,SIGNAL(attributeAdded(UMLObject*)),parent,SLOT(addUMLObject(UMLObject*)));
 	connect(this,SIGNAL(attributeRemoved(UMLObject*)),parent,SLOT(slotRemoveUMLObject(UMLObject*)));
 }

@@ -1800,47 +1800,47 @@ void UMLListView::createUMLObject( UMLListViewItem * item, Uml::UMLObject_Type t
 	UMLObject * object = NULL;
 	switch( type ) {
 	case Uml::ot_UseCase:
-		object = new UMLUseCase( m_doc, name, m_doc -> getUniqueID() );
+		object = new UMLUseCase( name, m_doc -> getUniqueID() );
 		break;
 
 	case Uml::ot_Actor:
-		object = new UMLActor( m_doc, name, m_doc -> getUniqueID() );
+		object = new UMLActor( name, m_doc -> getUniqueID() );
 		break;
 
 	case Uml::ot_Class:
-		object = new UMLClass( m_doc, name, m_doc -> getUniqueID() );
+		object = new UMLClass( name, m_doc -> getUniqueID() );
 		break;
 
 	case Uml::ot_Package:
-		object = new UMLPackage( m_doc, name, m_doc->getUniqueID() );
+		object = new UMLPackage( name, m_doc->getUniqueID() );
 		break;
 
 	case Uml::ot_Component:
-		object = new UMLComponent( m_doc, name, m_doc->getUniqueID() );
+		object = new UMLComponent( name, m_doc->getUniqueID() );
 		break;
 
 	case Uml::ot_Node:
-		object = new UMLNode( m_doc, name, m_doc->getUniqueID() );
+		object = new UMLNode( name, m_doc->getUniqueID() );
 		break;
 
 	case Uml::ot_Artifact:
-		object = new UMLArtifact( m_doc, name, m_doc->getUniqueID() );
+		object = new UMLArtifact( name, m_doc->getUniqueID() );
 		break;
 
 	case Uml::ot_Interface:
-		object = new UMLInterface( m_doc, name, m_doc->getUniqueID() );
+		object = new UMLInterface( name, m_doc->getUniqueID() );
 		break;
 
 	case Uml::ot_Datatype:
-		object = new UMLDatatype( m_doc, name, m_doc->getUniqueID() );
+		object = new UMLDatatype( name, m_doc->getUniqueID() );
 		break;
 
 	case Uml::ot_Enum:
-		object = new UMLEnum( m_doc, name, m_doc->getUniqueID() );
+		object = new UMLEnum( name, m_doc->getUniqueID() );
 		break;
 
 	default:
-		kdWarning() << "createing UML Object of unknown type" << endl;
+		kdWarning() << "creating UML Object of unknown type" << endl;
 		return;
 	}
 
@@ -2154,6 +2154,27 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
 			case Uml::lvt_Node:
 			case Uml::lvt_Artifact:
 				item = findItem(nID);
+				if (item == NULL) {
+					if (pObject && pObject->getUMLPackage() &&
+					    parent->getType() != Uml::lvt_Package) {
+						// Pre-1.2 file format:
+						// Objects were not nested in their packages.
+						// Synthesize the nesting here.
+						UMLPackage *umlpkg = pObject->getUMLPackage();
+						UMLListViewItem *pkgItem = findUMLObject(umlpkg);
+						if (pkgItem == NULL) {
+							kdDebug() << "UMLListView::loadChildrenFromXMI: "
+								  << "synthesizing ListViewItem for package "
+								  << umlpkg->getID() << endl;
+							pkgItem = new UMLListViewItem(parent, umlpkg->getName(),
+										      Uml::lvt_Package, umlpkg);
+							pkgItem->setOpen(true);
+						}
+						item = new UMLListViewItem(pkgItem, label, lvType, pObject);
+					} else {
+						item = new UMLListViewItem(parent, label, lvType, pObject);
+					}
+				}
 				break;
 			case Uml::lvt_Attribute:
 			case Uml::lvt_Template:

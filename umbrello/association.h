@@ -14,7 +14,6 @@
 #include "umlnamespace.h"
 #include "umlobject.h"
 
-class UMLDoc;
 class UMLRole;
 
 using namespace Uml;
@@ -36,9 +35,11 @@ public:
 	/**
 	 * Sets up an association.
 	 *
-	 * @param parent	The parent of this UMLAssociation.
+	 * @param type		The Uml::Association_Type to construct.
+	 * @param roleA		Pointer to the UMLObject in role A.
+	 * @param roleB		Pointer to the UMLObject in role B.
 	 */
-	UMLAssociation(UMLDoc* parent, Association_Type type, UMLObject *roleA = 0, UMLObject *roleB = 0);
+	UMLAssociation(Association_Type type, UMLObject *roleA = 0, UMLObject *roleB = 0);
 
 	/**
 	 * Overloaded '==' operator

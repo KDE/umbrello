@@ -13,7 +13,6 @@
 #include "umlcanvasobject.h"
 
 class IDChangeLog;
-class UMLDoc;
 
 /**
  * This class contains the non-graphical information required for a UML Node.
@@ -36,11 +35,10 @@ public:
 	/**
 	 * Sets up a Node.
 	 *
-	 * @param parent	The parent to this Concept.
 	 * @param name		The name of the Concept.
 	 * @param id		The unique id of the Concept.
 	 */
-	UMLNode(UMLDoc * parent, const QString & name = "", int id = -1);
+	UMLNode(const QString & name = "", int id = -1);
 
 	/**
 	 * Empty deconstructor.

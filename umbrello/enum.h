@@ -14,8 +14,6 @@
 #include "umlenumliterallist.h"
 #include "umlclassifierlistitemlist.h"
 
-class UMLDoc;
-
 /**
  * This class contains the non-graphical information required for a UML
  * Enum.
@@ -37,11 +35,10 @@ public:
 	/**
 	 * Sets up an enum.
 	 *
-	 * @param parent	The parent to this Enum.
 	 * @param name		The name of the Enum.
 	 * @param id		The unique id of the Enum.
 	 */
-	UMLEnum(UMLDoc* parent, const QString& name = "", int id = -1);
+	UMLEnum(const QString& name = "", int id = -1);
 
 	/**
 	 * Standard deconstructor.

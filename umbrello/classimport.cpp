@@ -86,7 +86,7 @@ void ClassImport::insertAttribute(CClassStore& store,
 			assocType = Uml::at_Aggregation;
 		else
 			assocType = Uml::at_Composition;
-		UMLAssociation *assoc = new UMLAssociation(this, assocType, o, other);
+		UMLAssociation *assoc = new UMLAssociation(assocType, o, other);
 		assoc->setRoleNameB(name);
 		assoc->setVisibilityB(scope);
 		UMLDoc::addAssociation(assoc);
@@ -268,7 +268,7 @@ void ClassImport::importCPP(QStringList headerFileList) {
 					  << parsedParent->name << endl;
 				continue;
 			}
-			UMLAssociation *assoc = new UMLAssociation( this, Uml::at_Generalization,
+			UMLAssociation *assoc = new UMLAssociation( Uml::at_Generalization,
 								    classObj, parentObj );
 			addAssociation(assoc);
 		}

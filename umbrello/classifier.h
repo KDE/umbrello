@@ -19,7 +19,6 @@
 
 class IDChangeLog;
 class UMLStereotype;
-class UMLDoc;
 
 /**
  * This is an abstract class which defines the non-graphical information/
@@ -49,11 +48,10 @@ public:
 	/**
 	 * Sets up a Concept.
 	 *
-	 * @param parent	The parent to this Concept.
 	 * @param name		The name of the Concept.
 	 * @param id		The unique id of the Concept.
 	 */
-	UMLClassifier(UMLDoc * doc, const QString & name = "", int id = -1);
+	UMLClassifier(const QString & name = "", int id = -1);
 
 	/**
 	 * Standard deconstructor.

@@ -32,11 +32,10 @@ public:
 	/**
 	 * Constructs an Actor.
 	 *
-	 * @param parent	The parent of this Actor.
 	 * @param name		The name of the Actor.
 	 * @param id		The unique id to assign to this Actor.
 	 */
-	UMLActor(UMLDoc * parent, const QString & name = "", int id = -1);
+	UMLActor(const QString & name = "", int id = -1);
 
 	/**
 	 * Standard deconstructor.

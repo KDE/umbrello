@@ -7,15 +7,14 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "umldoc.h" 
 #include "interface.h"
 #include "operation.h"
 #include "clipboard/idchangelog.h"
 #include <kdebug.h>
 #include <klocale.h>
 
-UMLInterface::UMLInterface(UMLDoc * parent, const QString & name, int id)
-   : UMLClassifier(parent, name, id)
+UMLInterface::UMLInterface(const QString & name, int id)
+   : UMLClassifier(name, id)
 {
 	init();
 }

@@ -13,7 +13,6 @@
 #include "umlcanvasobject.h"
 
 class IDChangeLog;
-class UMLDoc;
 
 /**
  * This class contains the non-graphical information required for a
@@ -38,11 +37,10 @@ public:
 	/**
 	 * Sets up a Component.
 	 *
-	 * @param parent	The parent to this Concept.
 	 * @param name		The name of the Concept.
 	 * @param id		The unique id of the Concept.
 	 */
-	UMLComponent(UMLDoc *parent, const QString & name = "", int id = -1);
+	UMLComponent(const QString & name = "", int id = -1);
 
 	/**
 	 * Empty deconstructor.

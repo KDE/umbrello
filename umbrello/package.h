@@ -15,7 +15,6 @@
 #include "umlobjectlist.h"
 
 class IDChangeLog;
-class UMLDoc;
 
 /**
  * This class contains the non-graphical information required for a UML
@@ -40,11 +39,10 @@ public:
 	/**
 	 * Sets up a Package.
 	 *
-	 * @param parent	The parent to this Concept.
 	 * @param name		The name of the Concept.
 	 * @param id		The unique id of the Concept.
 	 */
-	UMLPackage(UMLDoc * parent, const QString & Name = "", int id = -1);
+	UMLPackage(const QString & Name = "", int id = -1);
 
 	/**
 	 * Empty deconstructor.
@@ -110,10 +108,7 @@ private:
 
 	/**
 	 * References to the objects contained in this package.
-	 * For now, these are references only - the UMLDoc owns the objects,
-	 * not the package.
-	 * FIXME: The UMLPackage should be made the owner of the objects.
-	 *        (sounds like a heavy weight change --okellogg)
+	 * The UMLPackage is the owner of the objects.
 	 */
 	UMLObjectList m_objects;
 

@@ -12,8 +12,6 @@
 
 #include "classifier.h"
 
-class UMLDoc;
-
 /**
  * This class contains the non-graphical information required for a UML
  * Datatype.
@@ -34,11 +32,10 @@ public:
 	/**
 	 * Sets up an datatype.
 	 *
-	 * @param parent	The parent to this Concept.
 	 * @param name		The name of the Concept.
 	 * @param id		The unique id of the Concept.
 	 */
-	UMLDatatype(UMLDoc * parent, const QString & name = "", int id = -1);
+	UMLDatatype(const QString & name = "", int id = -1);
 
 	/**
 	 * Standard deconstructor.

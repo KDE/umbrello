@@ -14,7 +14,7 @@
 #include <kdebug.h>
 #include <klocale.h>
 
-UMLEnum::UMLEnum(UMLDoc* parent, const QString& name, int id): UMLClassifier(parent, name, id) {
+UMLEnum::UMLEnum(const QString& name, int id) : UMLClassifier(name, id) {
 	init();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////

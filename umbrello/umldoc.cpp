@@ -667,25 +667,25 @@ UMLObject* UMLDoc::createUMLObject(UMLObject_Type type, const QString &n,
 	UMLObject *o = NULL;
 	id = getUniqueID();
 	if(type == ot_Actor) {
-		o = new UMLActor(this, name, id);
+		o = new UMLActor(name, id);
 	} else if(type == ot_UseCase) {
-		o = new UMLUseCase(this,name, id);
+		o = new UMLUseCase(name, id);
 	} else if(type == ot_Class ) {
-		o = new UMLClass (this, name, id);
+		o = new UMLClass (name, id);
 	} else if(type == ot_Package) {
-		o = new UMLPackage(this, name, id);
+		o = new UMLPackage(name, id);
 	} else if(type == ot_Component) {
-		o = new UMLComponent(this, name, id);
+		o = new UMLComponent(name, id);
 	} else if(type == ot_Node) {
-		o = new UMLNode(this, name, id);
+		o = new UMLNode(name, id);
 	} else if(type == ot_Artifact) {
-		o = new UMLArtifact(this, name, id);
+		o = new UMLArtifact(name, id);
 	} else if(type == ot_Interface) {
-		o = new UMLInterface(this, name, id);
+		o = new UMLInterface(name, id);
 	} else if(type == ot_Datatype) {
-		o = new UMLDatatype(this, name, id);
+		o = new UMLDatatype(name, id);
 	} else if(type == ot_Enum) {
-		o = new UMLEnum(this, name, id);
+		o = new UMLEnum(name, id);
 	} else {
 		kdWarning() << "CreateUMLObject(int) error" << endl;
 		return (UMLObject*)0L;
@@ -960,7 +960,7 @@ UMLAssociation* UMLDoc::createUMLAssociation(UMLObject *a, UMLObject *b, Uml::As
 	bool swap;
 	UMLAssociation *assoc = findAssociation(type, a, b, &swap);
 	if (assoc == NULL) {
-		assoc = new UMLAssociation( this, type, a, b );
+		assoc = new UMLAssociation( type, a, b );
 		addAssociation(assoc);
 	}
 	return assoc;
@@ -1837,30 +1837,30 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element) {
 UMLObject* UMLDoc::makeNewUMLObject(QString type) {
 	UMLObject* pObject = 0;
 	if (type == "UML:UseCase") {
-		pObject = new UMLUseCase(this);
+		pObject = new UMLUseCase();
 	} else if (type == "UML:Actor") {
-		pObject = new UMLActor(this);
+		pObject = new UMLActor();
 	} else if (type == "UML:Class") {
-		pObject = new UMLClass(this);
+		pObject = new UMLClass();
 	} else if (type == "UML:Package") {
-		pObject = new UMLPackage(this);
+		pObject = new UMLPackage();
 	} else if (type == "UML:Component") {
-		pObject = new UMLComponent(this);
+		pObject = new UMLComponent();
 	} else if (type == "UML:Node") {
-		pObject = new UMLNode(this);
+		pObject = new UMLNode();
 	} else if (type == "UML:Artifact") {
-		pObject = new UMLArtifact(this);
+		pObject = new UMLArtifact();
 	} else if (type == "UML:Interface") {
-		pObject = new UMLInterface(this);
+		pObject = new UMLInterface();
 	} else if (type == "UML:Datatype"         // for bkwd compat.
 		|| type == "UML:DataType") {
-		pObject = new UMLDatatype(this);
+		pObject = new UMLDatatype();
 	} else if (type == "UML:Enum") {
-		pObject = new UMLEnum(this);
+		pObject = new UMLEnum();
 	} else if (type == "UML:Association") {
-		pObject = new UMLAssociation(this, Uml::at_Unknown, (UMLObject*)NULL, (UMLObject*) NULL);
+		pObject = new UMLAssociation(Uml::at_Unknown, (UMLObject*)NULL, (UMLObject*) NULL);
 	} else if (type == "UML:Generalization") {
-		pObject = new UMLAssociation(this, Uml::at_Generalization, NULL, NULL);
+		pObject = new UMLAssociation(Uml::at_Generalization, NULL, NULL);
 	}
 	return pObject;
 }

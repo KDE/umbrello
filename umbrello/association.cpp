@@ -11,6 +11,7 @@
 
 #include "association.h"
 #include "classifier.h"
+#include "uml.h"
 #include "umldoc.h"
 #include "umlrole.h"
 
@@ -21,10 +22,9 @@ const unsigned UMLAssociation::nAssocTypes = (unsigned)atypeLast -
 					     (unsigned)atypeFirst + 1;
 
 // constructor
-UMLAssociation::UMLAssociation( UMLDoc* parent,
-				Association_Type type,
+UMLAssociation::UMLAssociation( Association_Type type,
 				UMLObject * roleA, UMLObject * roleB )
-    : UMLObject(parent, "", -1)
+    : UMLObject("", -1)
 {
 	init(type, roleA, roleB);
 }
@@ -32,7 +32,7 @@ UMLAssociation::UMLAssociation( UMLDoc* parent,
 // destructor
 UMLAssociation::~UMLAssociation( ) {
 	// delete ourselves from the parent document
-	//((UMLDoc *)parent())->removeAssociation(this);
+	//UMLApp::app()->getDocument()->removeAssociation(this);
 }
 
 bool UMLAssociation::operator==(UMLAssociation &rhs) {
@@ -186,7 +186,7 @@ bool UMLAssociation::loadFromXMI( QDomElement & element ) {
 	if (m_AssocType == Uml::at_Generalization) {
 		int roleAObjID = element.attribute( "child", "-1" ).toInt();
 		int roleBObjID = element.attribute( "parent", "-1" ).toInt();
-		UMLDoc * doc = ((UMLDoc*)parent());
+		UMLDoc * doc = UMLApp::app()->getDocument();
 		UMLObject * objA = doc->findUMLObject(roleAObjID);
 		UMLObject * objB = doc->findUMLObject(roleBObjID);
 		if (objA == NULL)
@@ -280,7 +280,7 @@ bool UMLAssociation::loadFromXMI( QDomElement & element ) {
 		roleBObjID = tmp;
 	}
 
-	UMLDoc * doc = ((UMLDoc*)parent());
+	UMLDoc * doc = UMLApp::app()->getDocument();
 	UMLObject * objA = doc->findUMLObject(roleAObjID);
 	UMLObject * objB = doc->findUMLObject(roleBObjID);
 

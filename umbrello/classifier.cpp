@@ -18,8 +18,8 @@
 #include <kdebug.h>
 #include <klocale.h>
 
-UMLClassifier::UMLClassifier(UMLDoc * parent, const QString & name, int id)
-   : UMLCanvasObject(parent,name, id)
+UMLClassifier::UMLClassifier(const QString & name, int id)
+  : UMLCanvasObject(name, id)
 {
 	init();
 }

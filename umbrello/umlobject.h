@@ -16,7 +16,6 @@
 #include <qdom.h>
 
 #include "umlnamespace.h"
-class UMLDoc;
 using namespace Uml;
 
 class UMLPackage;
@@ -49,8 +48,14 @@ public:
 	 * @param	parent		The parent of the object.
 	 */
 	UMLObject(UMLObject * parent);
-	
-	UMLObject(UMLDoc* parent, const QString &name = "" , int id = -1);
+
+	/**
+	 * Creates a UMLObject with a given name and unique ID.
+	 *
+	 * @param	name		The name of the object.
+	 * @param	id		The unique ID of the object.
+	 */
+	UMLObject(const QString &name = "" , int id = -1);
 
 	/**
 	 * Overloaded '==' operator

@@ -11,6 +11,7 @@
 #include <qlayout.h>
 #include <klocale.h>
 #include "../umlobjectlist.h"
+#include "../uml.h"
 #include "../umldoc.h"
 #include "classpropdlg.h"
 
@@ -106,7 +107,7 @@ void PkgContentsPage::slotPopupMenuSel(int id) {
 		{
  			UMLObject *o = m_pPackage->containedObjects().at(
 						    m_pContentLB->currentItem() );
-			m_pPackage->getParentUMLDoc()->removeUMLObject(o);
+			UMLApp::app()->getDocument()->removeUMLObject(o);
 			fillListBox();
 		}
 			break;

@@ -12,7 +12,6 @@
 #define UMLCLASS_H
 
 #include "classifier.h"
-#include "umldoc.h"
 #include "umlobjectlist.h"
 #include "umlattributelist.h"
 #include "umltemplatelist.h"
@@ -38,11 +37,10 @@ public:
 	/**
 	 * Sets up a Class.
 	 *
-	 * @param parent	The parent to this class.
 	 * @param name		The name of the class.
 	 * @param id		The unique id of the class.
 	 */
-	UMLClass(UMLDoc * parent, const QString & Name = "", int id = -1);
+	UMLClass(const QString & Name = "", int id = -1);
 
 	/**
 	 * Standard deconstructor.

@@ -13,7 +13,8 @@
 #include <kdebug.h>
 #include <klocale.h>
 
-UMLDatatype::UMLDatatype(UMLDoc* parent, const QString& name, int id) : UMLClassifier(parent, name, id) {
+UMLDatatype::UMLDatatype(const QString& name, int id)
+  : UMLClassifier(name, id) {
 	init();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////

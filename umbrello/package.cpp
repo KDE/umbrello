@@ -8,12 +8,13 @@
  ***************************************************************************/
 
 #include "package.h"
+#include "uml.h"
 #include "umldoc.h"
 #include <kdebug.h>
 #include <klocale.h>
 
-UMLPackage::UMLPackage(UMLDoc * parent, const QString & name, int id)
-  : UMLCanvasObject(parent, name, id) {
+UMLPackage::UMLPackage(const QString & name, int id)
+  : UMLCanvasObject(name, id) {
 	init();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -79,7 +80,7 @@ bool UMLPackage::loadFromXMI(QDomElement& element) {
 }
 
 bool UMLPackage::load(QDomElement& element) {
-	UMLDoc *parentDoc = (UMLDoc*)parent();
+	UMLDoc *umldoc = UMLApp::app()->getDocument();
 	QDomNode node = element.firstChild();
 	QDomElement tempElement = node.toElement();
 	while (!tempElement.isNull()) {
@@ -95,7 +96,7 @@ bool UMLPackage::load(QDomElement& element) {
 			tempElement = node.toElement();
 			continue;
 		}
-		UMLObject *pObject = parentDoc->makeNewUMLObject(type);
+		UMLObject *pObject = umldoc->makeNewUMLObject(type);
 		if( !pObject ) {
 			kdWarning() << "UMLPackage::loadFromXMI: "
 				    << "Given wrong type of umlobject to create: "
@@ -108,7 +109,7 @@ bool UMLPackage::load(QDomElement& element) {
 			return false;
 		}
 		if (type == "UML:Generalization")
-			parentDoc->addAssocToConcepts((UMLAssociation *) pObject);
+			umldoc->addAssocToConcepts((UMLAssociation *) pObject);
 		m_objects.append(pObject);
 
 		node = node.nextSibling();
