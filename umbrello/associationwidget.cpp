@@ -3431,7 +3431,10 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement )
 						else { 
 							m_pView->removeWidget(m_pRoleA);
 							m_pRoleA = 0; 
-							delete ft;
+							/* delete ft;
+							   Strangely, we get a crash here.
+							   To be investigated further.
+							  */
 						}
 					break;
 				case Uml::tr_RoleBName:
@@ -3442,7 +3445,10 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement )
 						else { 
 							m_pView->removeWidget(m_pRoleB);
 							m_pRoleB = 0; 
-							delete ft;
+							/* delete ft;
+							   Strangely, we get a crash here.
+							   To be investigated further.
+							  */
 						}
 					break;
 				default:
