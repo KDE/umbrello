@@ -2168,8 +2168,11 @@ void AssociationWidget::slotMenuSelection(int sel) {
 
 	case ListPopupMenu::mt_Change_Font_Selection:
 		font = getFont();
-		if( KFontDialog::getFont( font, false, m_pView ) )
+		if( KFontDialog::getFont( font, false, m_pView ) ) {
 			m_pView -> selectionSetFont( font );
+			UMLDoc* pDoc = UMLApp::app()->getDocument();
+			pDoc->setModified(true);
+		}
 		break;
 
 	case ListPopupMenu::mt_Cut:
