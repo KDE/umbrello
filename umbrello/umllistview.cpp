@@ -1811,61 +1811,61 @@ void UMLListView::addNewItem( QListViewItem * parent, Uml::ListView_Type type ) 
 		break;
 
 	case Uml::lvt_Actor:
-		name = getUniqueUMLObjectName( Uml::ot_Actor );
+		name = m_doc->uniqObjectName( Uml::ot_Actor );
 		newItem = new UMLListViewItem( parentItem, name, type, (UMLObject *)0 );
 		newItem -> setPixmap( 0, getPixmap( it_Actor ) );
 		break;
 
 	case Uml::lvt_Class:
-		name = getUniqueUMLObjectName( Uml::ot_Class);
+		name = m_doc->uniqObjectName( Uml::ot_Class);
 		newItem = new UMLListViewItem( parentItem, name, type, (UMLObject *)0 );
 		newItem -> setPixmap( 0, getPixmap( it_Class ) );
 		break;
 
 	case Uml::lvt_Package:
-		name = getUniqueUMLObjectName( Uml::ot_Package );
+		name = m_doc->uniqObjectName( Uml::ot_Package );
 		newItem = new UMLListViewItem( parentItem, name, type, (UMLObject *)0 );
 		newItem->setPixmap( 0, getPixmap( it_Package ) );
 		break;
 
 	case Uml::lvt_Component:
-		name = getUniqueUMLObjectName( Uml::ot_Component );
+		name = m_doc->uniqObjectName( Uml::ot_Component );
 		newItem = new UMLListViewItem( parentItem, name, type, (UMLObject *)0 );
 		newItem->setPixmap( 0, getPixmap( it_Component ) );
 		break;
 
 	case Uml::lvt_Node:
-		name = getUniqueUMLObjectName( Uml::ot_Node );
+		name = m_doc->uniqObjectName( Uml::ot_Node );
 		newItem = new UMLListViewItem( parentItem, name, type, (UMLObject *)0 );
 		newItem->setPixmap( 0, getPixmap( it_Node ) );
 		break;
 
 	case Uml::lvt_Artifact:
-		name = getUniqueUMLObjectName( Uml::ot_Artifact );
+		name = m_doc->uniqObjectName( Uml::ot_Artifact );
 		newItem = new UMLListViewItem( parentItem, name, type, (UMLObject *)0 );
 		newItem->setPixmap( 0, getPixmap( it_Artifact ) );
 		break;
 
 	case Uml::lvt_Interface:
-		name = getUniqueUMLObjectName( Uml::ot_Interface );
+		name = m_doc->uniqObjectName( Uml::ot_Interface );
 		newItem = new UMLListViewItem( parentItem, name, type, (UMLObject*)0 );
 		newItem->setPixmap( 0, getPixmap( it_Interface ) );
 		break;
 
 	case Uml::lvt_Datatype:
-		name = getUniqueUMLObjectName( Uml::ot_Datatype );
+		name = m_doc->uniqObjectName( Uml::ot_Datatype );
 		newItem = new UMLListViewItem( parentItem, name, type, (UMLObject*)0 );
 		newItem->setPixmap( 0, getPixmap( it_Datatype ) );
 		break;
 
 	case Uml::lvt_Enum:
-		name = getUniqueUMLObjectName( Uml::ot_Enum );
+		name = m_doc->uniqObjectName( Uml::ot_Enum );
 		newItem = new UMLListViewItem( parentItem, name, type, (UMLObject*)0 );
 		newItem->setPixmap( 0, getPixmap( it_Enum ) );
 		break;
 
 	case Uml::lvt_Entity:
-		name = getUniqueUMLObjectName( Uml::ot_Entity );
+		name = m_doc->uniqObjectName( Uml::ot_Entity );
 		newItem = new UMLListViewItem( parentItem, name, type, (UMLObject*)0 );
 		newItem->setPixmap( 0, getPixmap( it_Entity ) );
 		break;
@@ -1873,7 +1873,7 @@ void UMLListView::addNewItem( QListViewItem * parent, Uml::ListView_Type type ) 
 	case Uml::lvt_Template:
 	{
 		UMLClassifier *parent = static_cast<UMLClassifier*>(parentItem->getUMLObject());
-		name = getUniqueChildUMLObjectName(parent, Uml::ot_Template);
+		name = parent->uniqChildName(Uml::ot_Template);
 		newItem = new UMLListViewItem( parentItem, name, type, (UMLObject*)0 );
 		newItem->setPixmap( 0, getPixmap( it_Template ) );
 		break;
@@ -1881,7 +1881,7 @@ void UMLListView::addNewItem( QListViewItem * parent, Uml::ListView_Type type ) 
 	case Uml::lvt_Attribute:
 	{
 		UMLClass * childParent = static_cast<UMLClass*>( parentItem->getUMLObject() );
-		name = getUniqueChildUMLObjectName( childParent, Uml::ot_Attribute );
+		name = childParent->uniqChildName( Uml::ot_Attribute );
 		newItem = new UMLListViewItem( parentItem, name, type, (UMLObject *)0 );
 		newItem -> setPixmap( 0, getPixmap( it_Private_Attribute ) );
 		break;
@@ -1889,13 +1889,13 @@ void UMLListView::addNewItem( QListViewItem * parent, Uml::ListView_Type type ) 
 	case Uml::lvt_Operation:
 	{
 		UMLClassifier * childParent = static_cast<UMLClassifier *>( parentItem->getUMLObject() );
-		name = getUniqueChildUMLObjectName( childParent, Uml::ot_Operation );
+		name = childParent->uniqChildName( Uml::ot_Operation );
 		newItem = new UMLListViewItem( parentItem, name, type, (UMLObject *)0 );
 		newItem -> setPixmap( 0, getPixmap( it_Public_Method ) );
 		break;
 	}
 	case Uml::lvt_UseCase:
-		name = getUniqueUMLObjectName( Uml::ot_UseCase );
+		name = m_doc->uniqObjectName( Uml::ot_UseCase );
 		newItem = new UMLListViewItem( parentItem, name, type, (UMLObject *)0 );
 		newItem -> setPixmap( 0, getPixmap( it_UseCase ) );
 		break;
@@ -2255,84 +2255,6 @@ void UMLListView::createDiagram( UMLListViewItem * item, Uml::Diagram_Type type 
 	item -> setText( name );
 	view->activate();
 	m_doc -> changeCurrentView( view -> getID() );
-}
-
-QString UMLListView::getUniqueUMLObjectName( Uml::Object_Type type ) {
-	//FIXME try using UMLDoc::uniqObjectName()
-	QString temp = "";
-	QString name = "";
-	QString newClass = i18n("new_class");
-	QString newPackage = i18n("new_package");
-	QString newComponent = i18n("new_component");
-	QString newNode = i18n("new_node");
-	QString newArtifact = i18n("new_artifact");
-	QString newInterface = i18n("new_interface");
-	QString newDatatype = i18n("new_datatype");
-	QString newEnum = i18n("new_enum");
-	QString newEntity = i18n("new_entity");
-	QString newActor = i18n("new_actor");
-	QString newUseCase = i18n("new_usecase");
-
-	UMLObject * object = 0;
-	int count = 0;
-
-	if (type == Uml::ot_Actor) {
-		name = newActor;
-	} else if (type == Uml::ot_UseCase) {
-		name = newUseCase;
-	} else if (type == Uml::ot_Class) {
-		name = newClass;
-	} else if (type == Uml::ot_Package) {
-		name = newPackage;
-	} else if (type == Uml::ot_Component) {
-		name = newComponent;
-	} else if (type == Uml::ot_Node) {
-		name = newNode;
-	} else if (type == Uml::ot_Artifact) {
-		name = newArtifact;
-	} else if (type == Uml::ot_Interface) {
-		name = newInterface;
-	} else if (type == Uml::ot_Datatype) {
-		name = newDatatype;
-	} else if (type == Uml::ot_Enum) {
-		name = newEnum;
-	} else if (type == Uml::ot_Entity) {
-		name = newEntity;
-	} else {
-		kdWarning() << "getting unique uml object name for unknown type" << endl;
-	}
-
-	do {
-		temp = name;
-		if( count > 0 )
-			temp.append("_").append( QString::number( count ) );
-		object = m_doc -> findUMLObject( temp );
-		count++;
-	} while( object );
-
-	return temp;
-}
-
-QString UMLListView::getUniqueChildUMLObjectName( UMLClassifier * parent, Uml::Object_Type type ) {
-	QString name;
-	if (type == Uml::ot_Template)
-		name = i18n("new_template");
-	else if (type == Uml::ot_Attribute)
-		name = i18n("new_attribute");
-	else
-		name = i18n("new_operation");
-	QString temp = "";
-	bool cont = true;
-	int count = 0;
-
-	do {
-		temp = name;
-		if( count > 0 )
-			temp.append("_").append( QString::number( count ) );
-		cont = parent -> findChildObject( type, temp ).count() != 0;
-		count++;
-	} while( cont );
-	return temp;
 }
 
 QString UMLListView::getUniqueDiagramName(Uml::Diagram_Type type) {

@@ -232,16 +232,6 @@ class UMLListView : public KListView {
 	QString getUniqueDiagramName( Uml::Diagram_Type type );
 
 	/**
-	 * Returns a unique name for a child umlobject.
-	 */
-	QString getUniqueChildUMLObjectName( UMLClassifier * parent, Uml::Object_Type type );
-
-	/**
-	 * Returns a unique name for an object.
-	 */
-	QString getUniqueUMLObjectName( Uml::Object_Type type );
-
-	/**
 	 * Returns if the given name is unique for the given items type.
 	 */
 	bool isUnique( UMLListViewItem * item, const QString &name );
