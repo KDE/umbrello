@@ -354,13 +354,15 @@ void ClassWidget::calculateSize() {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void ClassWidget::slotMenuSelection(int sel) {
-	switch(sel) {
+	ListPopupMenu::Menu_Type mt = (ListPopupMenu::Menu_Type)sel;
+	switch (mt) {
 		case ListPopupMenu::mt_Attribute:
 		case ListPopupMenu::mt_Operation:
 		{
-			if ( m_pView->getDocument()->createUMLObject(m_pObject, ListPopupMenu::convert_MT_OT( (ListPopupMenu::Menu_Type)sel) ) )  {
-				m_pView->getDocument()->setModified();
-			}
+			UMLDoc *doc = m_pView->getDocument();
+			Uml::UMLObject_Type ot = ListPopupMenu::convert_MT_OT(mt);
+			if (doc->createChildObject(m_pObject, ot))
+				doc->setModified();
 			calculateSize();
 			update();
 			break;
@@ -391,6 +393,8 @@ void ClassWidget::slotMenuSelection(int sel) {
 
 		case ListPopupMenu::mt_Show_Stereotypes:
 			toggleShowStereotype();
+			break;
+		default:
 			break;
 	}
 	UMLWidget::slotMenuSelection(sel);

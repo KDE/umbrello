@@ -698,7 +698,7 @@ UMLObject* UMLDoc::createUMLObject(UMLObject_Type type, const QString &n,
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLObject* UMLDoc::createUMLObject(UMLObject* umlobject, UMLObject_Type type) {
+UMLObject* UMLDoc::createChildObject(UMLObject* umlobject, UMLObject_Type type) {
 	UMLObject* returnObject = NULL;
 	if(type == ot_Attribute) {
 		UMLClass *umlclass = dynamic_cast<UMLClass *>(umlobject);
@@ -718,7 +718,7 @@ UMLObject* UMLDoc::createUMLObject(UMLObject* umlobject, UMLObject_Type type) {
 			returnObject = createEnumLiteral(umlenum);
 		}
 	} else {
-		kdDebug() << "ERROR _CREATEUMLOBJECT type:" << type << endl;
+		kdDebug() << "ERROR UMLDoc::createChildObject type:" << type << endl;
 	}
 	return returnObject;
 }

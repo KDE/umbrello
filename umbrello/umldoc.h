@@ -233,7 +233,7 @@ public:
 	 * @param type	The type to create, either an operation or attribute.
 	 * @return	The UMLObject created
 	 */
-	UMLObject* createUMLObject(UMLObject* o, UMLObject_Type type);
+	UMLObject* createChildObject(UMLObject* o, UMLObject_Type type);
 
 	/**
 	 * Creates an operation in the current document.

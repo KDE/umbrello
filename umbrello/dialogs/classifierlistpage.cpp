@@ -377,7 +377,7 @@ void ClassifierListPage::slotProperties() {
 void ClassifierListPage::slotNewListItem() {
 	saveCurrentItemDocumentation();
 	m_bSigWaiting = true;
-	m_pDoc->createUMLObject(m_pClassifier, itemType);
+	m_pDoc->createChildObject(m_pClassifier, itemType);
 }
 
 void ClassifierListPage::slotNewStereotype() {

@@ -138,7 +138,7 @@ void FloatingText::slotMenuSelection(int sel) {
 				c = (UMLClassifier*)getUMLObject();
 			}
 			Uml::UMLObject_Type ot = ListPopupMenu::convert_MT_OT((ListPopupMenu::Menu_Type)sel);
-			UMLObject* umlObj = m_pView->getDocument()->createUMLObject(c, ot);
+			UMLObject* umlObj = m_pView->getDocument()->createChildObject(c, ot);
 			UMLOperation* newOperation = dynamic_cast<UMLOperation*>( umlObj );
 			if (newOperation && m_pMessage) {
 				m_pMessage->setOperation( newOperation->toString(st_SigNoScope) );
