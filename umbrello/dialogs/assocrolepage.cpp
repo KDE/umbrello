@@ -14,8 +14,6 @@
 #include <kdebug.h>
 
 #include "assocrolepage.h"
-#include "../association.h"
-#include "../umlrole.h"
 
 AssocRolePage::AssocRolePage (UMLDoc *d, QWidget *parent, AssociationWidget *assoc)
 	: QWidget(parent)
@@ -39,12 +37,8 @@ AssocRolePage::~AssocRolePage() {}
 void AssocRolePage::constructWidget() {
 
 	// underlying roles and objects
-	UMLRole * roleA = m_pAssociationWidget->getAssociation()->getUMLRoleA();
-	UMLRole * roleB = m_pAssociationWidget->getAssociation()->getUMLRoleB();
-	UMLObject * objA = roleA->getObject();
-	UMLObject * objB = roleB->getObject();
-	QString nameA = objA->getName();
-	QString nameB = objB->getName();
+	QString nameA = m_pAssociationWidget->getRoleNameA();
+	QString nameB = m_pAssociationWidget->getRoleNameB();
 	QString titleA = i18n("Role A Properties");
 	QString titleB = i18n("Role B Properties"); 
 	if(!nameA.isEmpty())
@@ -95,7 +89,7 @@ void AssocRolePage::constructWidget() {
 	propsALayout -> addWidget(new QLabel(i18n("Rolename:"),propsAGB), 0, 0);
 	m_pRoleALE = new QLineEdit(propsAGB);
 	propsALayout -> addWidget(m_pRoleALE, 0, 1);
-	m_pRoleALE -> setText(m_pAssociationWidget->getRoleNameA());
+	m_pRoleALE -> setText(nameA);
 
 	// Multi A
 	propsALayout -> addWidget(new QLabel(i18n("Multiplicity:"),propsAGB), 1, 0);
@@ -149,7 +143,7 @@ void AssocRolePage::constructWidget() {
         propsBLayout -> addWidget(new QLabel(i18n("Rolename:"),propsBGB), 0, 0);
 	m_pRoleBLE = new QLineEdit(propsBGB);
 	propsBLayout -> addWidget(m_pRoleBLE, 0, 1);
-	m_pRoleBLE -> setText( m_pAssociationWidget->getRoleNameB() );
+	m_pRoleBLE -> setText(nameB);
 
 	// Multi B
         propsBLayout -> addWidget(new QLabel(i18n("Multiplicity:"),propsBGB), 1, 0);
