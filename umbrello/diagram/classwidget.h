@@ -1,4 +1,5 @@
-
+#ifndef CLASSWIDGET_H
+#define CLASSWIDGET_H
 
 #include "umlwidget.h"
 #include <qstringlist.h>
@@ -40,3 +41,5 @@ protected:
 };
 
 } //end of namespace Umbrello
+
+#endif // CLASSWIDGET_H
