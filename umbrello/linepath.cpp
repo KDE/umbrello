@@ -6,7 +6,6 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-
 #include <cmath>
 
 // qt includes
@@ -783,7 +782,8 @@ void LinePath::cleanup() {
 	m_bHeadCreated = m_bParallelLineCreated = false;
 	if( m_pAssociation ) {
 		UMLView * view =  (UMLView *)m_pAssociation -> parent();
-		disconnect( view, SIGNAL( sigLineColorChanged( QColor ) ), this, SLOT( setLineColor( QColor ) ) );
+		if(view)
+			disconnect( view, SIGNAL( sigLineColorChanged( QColor ) ), this, SLOT( setLineColor( QColor ) ) );
 		m_pAssociation = NULL;
 	}
 }
