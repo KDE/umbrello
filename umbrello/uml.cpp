@@ -1479,37 +1479,37 @@ void UMLApp::keyPressEvent(QKeyEvent *e) {
 void UMLApp::handleCursorKeyReleaseEvent(QKeyEvent* e) {
 	// in case we have selected something in the diagram, move it by one pixel
 	// to the direction pointed by the cursor key
-	if (m_view && m_view->getSelectCount()) {
-		int dx = 0;
-		int dy = 0;
-		switch (e->key()) {
-			case Qt::Key_Left:
-				dx = -1;
-				break;
-			case Qt::Key_Right:
-				dx = 1;
-				break;
-			case Qt::Key_Up:
-				dy = -1;
-				break;
-			case Qt::Key_Down:
-				dy = 1;
-				break;
-			default:
-				e->ignore();
-				return;
-		}
-		m_view->moveSelectedBy(dx, dy);
-
-		// notify about modification only at the first key release of possible sequence of auto repeat key releases,
-		// this reduces the slow down caused by setModified() and makes the cursor moving of widgets smoother
-		if (!e->isAutoRepeat()) {
-			m_doc->setModified();
-		}
-		e->accept();
-	} else {
+	if (m_view == NULL || !m_view->getSelectCount() || e->state() != Qt::AltButton) {
 		e->ignore();
+		return;
 	}
+	int dx = 0;
+	int dy = 0;
+	switch (e->key()) {
+		case Qt::Key_Left:
+			dx = -1;
+			break;
+		case Qt::Key_Right:
+			dx = 1;
+			break;
+		case Qt::Key_Up:
+			dy = -1;
+			break;
+		case Qt::Key_Down:
+			dy = 1;
+			break;
+		default:
+			e->ignore();
+			return;
+	}
+	m_view->moveSelectedBy(dx, dy);
+
+	// notify about modification only at the first key release of possible sequence of auto repeat key releases,
+	// this reduces the slow down caused by setModified() and makes the cursor moving of widgets smoother
+	if (!e->isAutoRepeat()) {
+		m_doc->setModified();
+	}
+	e->accept();
 }
 
 void UMLApp::keyReleaseEvent(QKeyEvent *e) {
