@@ -480,3 +480,4 @@ void RefactoringAssistant::loadPixmaps()
 
 
  
+#include "refactoringassistant.moc"
