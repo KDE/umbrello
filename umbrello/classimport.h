@@ -108,9 +108,16 @@ public:
 	 */
 	QString doxyComment(const QString &comment);
 
+private:
+	/**
+	 * Auxiliary method for recursively traversing the #include dependencies
+	 * in order to feed innermost includes to the model before dependent
+	 * includes.  It is important that includefiles are fed to the model
+	 * in proper order so that references between UML objects are created
+	 * properly.
+	 */
 	void feedTheModel(QString fileName);
 
-private:
 	UMLDoc * m_umldoc;  // just a shorthand for UMLApp::app()->getDocument()
 	CppDriver * m_driver;
 	QStringList m_seenFiles;
