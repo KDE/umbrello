@@ -705,6 +705,16 @@ public:
 	void createAutoAssociations( UMLWidget * widget );
 
 	/**
+	 * Refreshes containment association, i.e. removes possible old
+	 * containment and adds new containment association if applicable.
+	 *
+	 * @param self		Pointer to the contained object for which
+	 *			the association to the containing object is
+	 *			recomputed.
+	 */
+	void updateContainment(UMLCanvasObject *self);
+
+	/**
 	 * Sets the x grid size.
 	 */
 	void setSnapX( int x) {

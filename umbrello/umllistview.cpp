@@ -1145,9 +1145,9 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type 
 			    newParentType == Uml::lvt_Package) {
 				newItem = move->deepCopy(newParent);
 				delete move;
-				UMLObject *o = newItem->getUMLObject();
+				UMLCanvasObject *o = static_cast<UMLCanvasObject*>(newItem->getUMLObject());
 				if (o == NULL) {
-					kdDebug() << "slotDropped: newItem's UMLObject is NULL"
+					kdDebug() << "moveObject: newItem's UMLObject is NULL"
 						  << endl;
 				} else if (newParentType == Uml::lvt_Package ||
 					   newParentType == Uml::lvt_Interface ||
@@ -1159,6 +1159,7 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type 
 					o->setUMLPackage( NULL );
 					m_doc->addUMLObject( o );
 				}
+				m_doc->getCurrentView()->updateContainment(o);
 			}
 			break;
 		default:

@@ -660,7 +660,8 @@ void UMLView::contentsDropEvent(QDropEvent *e) {
 	}
 	UMLObject* o = m_pDoc->findObjectById(id);
 	if( !o ) {
-		kdDebug() << " object not found" << endl;
+		kdDebug() << "UMLView::contentsDropEvent: object id=" << ID2STR(id)
+			  << " not found" << endl;
 		return;
 	}
 	m_bCreateObject = true;
@@ -2205,8 +2206,57 @@ void UMLView::updateDocumentation( bool clear ) {
 	UMLApp::app() -> getDocWindow() -> updateDocumentation( clear );
 }
 
+void UMLView::updateContainment(UMLCanvasObject *self) {
+	if (self == NULL || m_Type != Uml::dt_Class)
+		return;
+	// See if the object has a widget representation in this view.
+	// While we're at it, also see if the new parent has a widget here.
+	UMLWidget *selfWidget = NULL, *newParentWidget = NULL;
+	UMLPackage *newParent = self->getUMLPackage();
+	for (UMLWidgetListIt wit(m_WidgetList); wit.current(); ++wit) {
+		UMLWidget *w = wit.current();
+		UMLObject *o = w->getUMLObject();
+		if (o == self)
+			selfWidget = w;
+		else if (newParent != NULL && o == newParent)
+			newParentWidget = w;
+	}
+	if (selfWidget == NULL)
+		return;
+	// Remove possibly obsoleted containment association.
+	for (AssociationWidgetListIt it(m_AssociationList); it.current(); ++it) {
+		AssociationWidget *a = it.current();
+		if (a->getAssocType() != Uml::at_Containment)
+			continue;
+		// Container is at role A, containee at B.
+		// We only look at association for which we are B.
+		UMLWidget *wB = a->getWidget(B);
+		UMLObject *roleBObj = wB->getUMLObject();
+		if (roleBObj != self)
+			continue;
+		UMLWidget *wA = a->getWidget(A);
+		UMLObject *roleAObj = wA->getUMLObject();
+		if (roleAObj == newParent) {
+			// Wow, all done. Great!
+			return;
+		}
+		m_AssociationList.remove(a);  // AutoDelete is true
+		// It's okay to break out because there can only be a single
+		// containing object.
+		break;
+	}
+	if (newParentWidget == NULL)
+		return;
+	// Create the new containment association.
+	AssociationWidget *a = new AssociationWidget(this, newParentWidget,
+						     Uml::at_Containment, selfWidget);
+	a->calculateEndingPoints();
+	a->setActivated(true);
+	m_AssociationList.append(a);
+}
+
 void UMLView::createAutoAssociations( UMLWidget * widget ) {
-	if( !widget )
+	if (widget == NULL || m_Type != Uml::dt_Class)
 		return;
 	// Recipe:
 	// If this widget has an underlying UMLCanvasObject then
@@ -2365,6 +2415,9 @@ void UMLView::createAutoAssociations( UMLWidget * widget ) {
 }
 
 void UMLView::createAutoAttributeAssociations(UMLWidget *widget) {
+	if (widget == NULL || m_Type != Uml::dt_Class)
+		return;
+
 	// Pseudocode:
 	//   if the underlying model object is really a UMLClass then
 	//     for each of the UMLClass's UMLAttributes
