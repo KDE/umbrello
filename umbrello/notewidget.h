@@ -35,6 +35,7 @@ class QTextEdit;
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class NoteWidget : public UMLWidget {
+	Q_OBJECT
 public:
 
 	/**
@@ -128,8 +129,10 @@ public:
 	 * Loads a <notewidget> XMI element.
 	 */
 	bool loadFromXMI( QDomElement & qElement );
+
 public slots:
 	void slotMenuSelection(int sel);	
+	void slotViewScrolled(int x, int y);
 
 protected:
 	// Data loaded/saved
@@ -145,7 +148,7 @@ private:
 	 */
 	void init();
 
-	void setEditorGeometry();
+	void setEditorGeometry(int dx = 0, int dy = 0);
 	QTextEdit *m_pEditor;
 };
 

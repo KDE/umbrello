@@ -19,23 +19,30 @@
 #include <qpainter.h>
 #include <qtextedit.h>
 #include <qframe.h>
-//kde includes
+// kde includes
+#include <kdebug.h>
 #include <kcursor.h>
 #include <kcolordialog.h>
-//app includes
+// app includes
 #include "dialogs/notedialog.h"
 #include "umldoc.h"
 #include "umlview.h"
 #include "uml.h"
 #include "listpopupmenu.h"
 
+#define NOTEMARGIN 10
+
 NoteWidget::NoteWidget(UMLView * view, Uml::IDType id) : UMLWidget(view, id) {
 	init();
 	setSize(100,80);
 	m_pEditor = new QTextEdit(view);
 	m_pEditor->setFrameStyle(QFrame::NoFrame | QFrame::Plain);
+	m_pEditor->setHScrollBarMode(QScrollView::AlwaysOff);
+	m_pEditor->setVScrollBarMode(QScrollView::AlwaysOff);
 	m_pEditor->setShown(true);
 	setEditorGeometry();
+	connect(m_pView, SIGNAL(contentsMoving(int, int)),
+		this, SLOT(slotViewScrolled(int, int)));
 }
 
 void NoteWidget::init() {
@@ -48,12 +55,17 @@ NoteWidget::~NoteWidget() {
 	delete m_pEditor;
 }
 
-void NoteWidget::setEditorGeometry() {
-	const QRect editorGeometry( UMLWidget::getX() + 10,
-				    UMLWidget::getY() + 10,
-				    UMLWidget::getWidth() - 20,
-				    UMLWidget::getHeight() - 20 );
+void NoteWidget::slotViewScrolled(int x, int y) {
+	setEditorGeometry(x, y);
+}
+
+void NoteWidget::setEditorGeometry(int dx /*=0*/, int dy /*=0*/) {
+	const QRect editorGeometry( UMLWidget::getX() - dx + 6,
+				    UMLWidget::getY() - dy + 10,
+				    UMLWidget::getWidth() - 16,
+				    UMLWidget::getHeight() - 16);
 	m_pEditor->setGeometry( editorGeometry );
+	m_pEditor->setShown(true);
 }
 
 void NoteWidget::setX( int x ) {
@@ -187,6 +199,7 @@ void NoteWidget::mouseDoubleClickEvent( QMouseEvent * me ) {
 
 void NoteWidget::drawText(QPainter &, int, int) {
 	m_pEditor->setText( getDoc() );
+	m_pEditor->setShown(true);
 }
 
 void NoteWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
@@ -203,4 +216,6 @@ bool NoteWidget::loadFromXMI( QDomElement & qElement ) {
 	return true;
 }
 
+
+#include "notewidget.moc"
 
