@@ -194,9 +194,10 @@ void UMLWidget::mousePressEvent(QMouseEvent *me) {
 		setSelected( m_bSelected );
 		m_pView -> setSelected( this, me );
 	} else if( me -> button() == RightButton ) {
-		m_pView -> clearSelected();
+		if( !m_bSelected)
+			m_pView -> setSelected( this, me );
 		setSelected( true );
-		m_pView -> setSelected( this, me );
+		return;
 	} else {
 
 		m_pView -> clearSelected();
