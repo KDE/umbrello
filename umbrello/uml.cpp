@@ -508,6 +508,7 @@ void UMLApp::saveOptions() {
 
 	config->writeEntry( "undo", optionState.generalState.undo );
 	config->writeEntry( "tabdiagrams", optionState.generalState.tabdiagrams );
+	config->writeEntry( "newcodegen", optionState.generalState.newcodegen );
 	config->writeEntry( "autosave", optionState.generalState.autosave );
 	config->writeEntry( "time", optionState.generalState.time );
 	config->writeEntry( "autosavetime", optionState.generalState.autosavetime );
@@ -1074,6 +1075,7 @@ void UMLApp::readOptionState() {
 	config -> setGroup( "General Options" );
 	optionState.generalState.undo = config -> readBoolEntry( "undo", true );
 	optionState.generalState.tabdiagrams = config -> readBoolEntry( "tabdiagrams", true );
+	optionState.generalState.newcodegen = config -> readBoolEntry( "newcodegen", true );
 	optionState.generalState.autosave = config -> readBoolEntry( "autosave", true );
 	optionState.generalState.time = config -> readNumEntry( "time", 0 ); //old autosavetime value kept for compatibility
 	optionState.generalState.autosavetime = config -> readNumEntry( "autosavetime", 0 );

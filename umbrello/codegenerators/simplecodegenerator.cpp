@@ -13,22 +13,22 @@
  *      Date   : Sep Mon 1 2003
  */
 
+// own header
+#include "simplecodegenerator.h"
+// system includes
 #include <cstdlib> //to get the user name
-
+// qt includes
 #include <qdatetime.h>
 #include <qregexp.h>
 #include <qdir.h>
-
+// kde includes
 #include <klocale.h>
 #include <kdebug.h>
 #include <kmessagebox.h>
 #include <kdialogbase.h>
 #include <kapplication.h>
-
+// app includes
 #include "../dialogs/overwritedialogue.h"
-
-#include "simplecodegenerator.h"
-
 #include "../attribute.h"
 #include "../umloperationlist.h"
 #include "../umlattributelist.h"
@@ -36,6 +36,7 @@
 #include "../classifier.h"
 #include "../codedocument.h"
 #include "../operation.h"
+#include "../umldoc.h"
 
 // Constructors/Destructors
 //

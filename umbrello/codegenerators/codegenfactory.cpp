@@ -17,6 +17,8 @@
 #include "codegenfactory.h"
 #include "../codegenerator.h"
 #include "../umldoc.h"
+#include "../uml.h"
+#include "../optionstate.h"
 
 // the new
 #include "cppcodegenerator.h"
@@ -25,8 +27,10 @@
 
 // the old
 #include "adawriter.h"
+#include "cppwriter.h"
 // #include "cswriter.h" // missing in action?!?
 #include "idlwriter.h"
+#include "javawriter.h"
 #include "phpwriter.h"
 #include "php5writer.h"
 #include "perlwriter.h"
@@ -105,19 +109,25 @@ CodeGenerator* CodeGeneratorFactory::createObject(UMLDoc* doc, const char* name)
 	QString cname(name);
 
 	if (doc) {
-
+		Settings::OptionState optionState = UMLApp::app()->getOptionState();
 		if (cname == "AdaWriter") {
 			obj = new AdaWriter(doc, name);
 		} else if(cname == "ASWriter") {
 			obj = new ASWriter( doc, name );
 		} else if(cname == "CppCodeGenerator") {
-			obj = new CPPCodeGenerator(doc, name);
+			if (optionState.generalState.newcodegen)
+				obj = new CPPCodeGenerator(doc, name);
+			else
+				obj = new CppWriter(doc, name);
 //		} else if(cname == "C#Writer") {
 //			obj = new CsWriter( doc, name );
 		} else if(cname == "IDLWriter") {
 			obj = new IDLWriter( doc, name );
 		} else if(cname =="JavaCodeGenerator") {
-			obj = new JavaCodeGenerator(doc, name);
+			if (optionState.generalState.newcodegen)
+				obj = new JavaCodeGenerator(doc, name);
+			else
+				obj = new JavaWriter(doc, name);
 		} else if(cname == "JSWriter") {
 			obj = new JSWriter( doc, name );
 		} else if (cname == "PHPWriter") {

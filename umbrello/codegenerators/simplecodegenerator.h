@@ -22,8 +22,9 @@
 #include <qmap.h>
 
 #include "../codegenerator.h"
-#include "../umldoc.h"
+#include "../umlnamespace.h"
 
+class UMLDoc;
 class UMLAttribute;
 class UMLClass;
 class CodeBlockWithComments;

@@ -44,6 +44,7 @@ namespace Settings {
 	struct GeneralState {
 		bool undo;
 		bool tabdiagrams;
+		bool newcodegen;
 		bool autosave;
 		int time;        //old autosave time, kept for compatibility
 		int autosavetime;
@@ -80,7 +81,6 @@ namespace Settings {
 		UIState uiState;
 		ClassState classState;
 		CodeViewerState codeViewerState;
-	//	CodeGenState codegenState;
 	};
 
 }

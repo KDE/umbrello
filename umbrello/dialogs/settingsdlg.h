@@ -92,6 +92,7 @@ private:
 
 		QCheckBox * undoCB;
 		QCheckBox * tabdiagramsCB;
+		QCheckBox * newcodegenCB;
 		QCheckBox * autosaveCB;
 		QCheckBox * logoCB;
 		QCheckBox * tipCB;

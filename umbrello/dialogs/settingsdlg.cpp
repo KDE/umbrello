@@ -104,7 +104,7 @@ void SettingsDlg::setupGeneralPage() {
 	// Set up undo setting
 	m_GeneralWidgets.miscGB = new QGroupBox( i18n("Miscellaneous"), page );
 
-	QGridLayout * miscLayout = new QGridLayout( m_GeneralWidgets.miscGB, 1, 2 );
+	QGridLayout * miscLayout = new QGridLayout( m_GeneralWidgets.miscGB, 2, 2 );
 	miscLayout -> setSpacing( spacingHint() );
 	miscLayout -> setMargin( fontMetrics().height() );
 
@@ -115,6 +115,10 @@ void SettingsDlg::setupGeneralPage() {
 	m_GeneralWidgets.tabdiagramsCB = new QCheckBox( i18n("Use tabbed diagrams"), m_GeneralWidgets.miscGB );
 	m_GeneralWidgets.tabdiagramsCB -> setChecked( m_pOptionState->generalState.tabdiagrams );
 	miscLayout -> addWidget( m_GeneralWidgets.tabdiagramsCB, 0, 1 );
+
+	m_GeneralWidgets.newcodegenCB = new QCheckBox( i18n("Use new C++/Java generators"), m_GeneralWidgets.miscGB );
+	m_GeneralWidgets.newcodegenCB -> setChecked( m_pOptionState->generalState.newcodegen );
+	miscLayout -> addWidget( m_GeneralWidgets.newcodegenCB, 1, 0 );
 
 	//setup autosave settings
 
@@ -337,6 +341,7 @@ void SettingsDlg::applyPage( Settings::Page page ) {
 		case Settings::page_general:
 			m_pOptionState->generalState.undo = m_GeneralWidgets.undoCB -> isChecked();
 			m_pOptionState->generalState.tabdiagrams = m_GeneralWidgets.tabdiagramsCB->isChecked();
+			m_pOptionState->generalState.newcodegen = m_GeneralWidgets.newcodegenCB->isChecked();
 			m_pOptionState->generalState.autosave = m_GeneralWidgets.autosaveCB -> isChecked();
 			m_pOptionState->generalState.autosavetime = m_GeneralWidgets.timeISB -> value();
 			// 2004-05-17 Achim Spangler: retrieve Suffix setting from dialog entry
