@@ -92,6 +92,11 @@ public:
 	 *  Re-initializes the class for a new document.
 	 */
 	void newDocumentation( );
+	
+	/**
+	 * Checks if the user is typing in the documentation edit window
+	 */
+	bool isTyping();
 
 private:
 	/**

@@ -1380,7 +1380,8 @@ void UMLApp::keyPressEvent(QKeyEvent *e) {
 void UMLApp::keyReleaseEvent(QKeyEvent *e) {
 	switch(e->key()) {
 		case Qt::Key_Backspace:
-			toolsbar->setOldTool();
+			if (!m_pDocWindow->isTyping())
+				toolsbar->setOldTool();
 			e->accept();
 			break;
 		case Qt::Key_Escape:
