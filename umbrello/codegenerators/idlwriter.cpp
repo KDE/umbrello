@@ -26,6 +26,10 @@
 
 #include "../umldoc.h"
 #include "../class.h"
+#include "../enum.h"
+#include "../enumliteral.h"
+#include "../umlenumliterallist.h"
+#include "../package.h"
 #include "../association.h"
 #include "../attribute.h"
 #include "../operation.h"
@@ -60,12 +64,12 @@ bool IDLWriter::isOOClass(UMLClassifier *c) {
 }
 
 QString IDLWriter::qualifiedName(UMLClassifier *c) {
-	QString umlPkg = c->getPackage();
+	UMLPackage *umlPkg = c->getUMLPackage();
 	QString className = cleanName(c->getName());
 	QString retval;
 
-	if (! umlPkg.isEmpty()) {
-		retval = umlPkg;
+	if (umlPkg) {
+		retval = umlPkg->getFullyQualifiedName();
 		retval.append("::");
 	}
 	retval.append(className);
@@ -164,6 +168,27 @@ void IDLWriter::writeClass(UMLClassifier *c) {
 		idl << "\n";
 	}
 
+	if (c->getBaseType() == Uml::ot_Enum) {
+		UMLEnum *ue = static_cast<UMLEnum*>(c);
+		UMLEnumLiteralList litList = ue->getFilteredEnumLiteralList();
+		uint i = 0;
+		idl << spc() << "enum " << classname << " {\n";
+		indentlevel++;
+		for (UMLEnumLiteral *lit = litList.first(); lit; lit = litList.next()) {
+			QString enumLiteral = cleanName(lit->getName());
+			idl << spc() << enumLiteral;
+			if (++i < litList.count())
+				idl << ",";
+			idl << endl;
+		}
+		indentlevel--;
+		idl << spc() << "};\n\n";
+		if (! pkg.isEmpty()) {
+			indentlevel--;
+			idl << spc() << "};\n\n";
+		}
+		return;
+	}
 	if (! isOOClass(c)) {
 		QString stype = c->getStereotype();
 		if (stype == "CORBAConstant") {
