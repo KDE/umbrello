@@ -62,18 +62,14 @@ public:
 	 *
 	 *	@return Returns the sequence number for the operation.
 	 */
-	QString getSeqNumber() {
-		return m_pSeqLE -> text();
-	}
+	QString getSeqNumber();
 
 	/**
 	 * Set the sequence number text.
 	 *
 	 *	@param	num	The number to set the sequence to.
 	 */
-	void setSeqNumber(QString num) {
-		m_pSeqLE -> setText(num);
-	}
+	void setSeqNumber(QString num);
 
 	/**
 	 * Set the custom operation text.

@@ -72,10 +72,7 @@ void WorkToolBar::slotCheckToolBar(Uml::Diagram_Type dt) {
 	case Uml::dt_UseCase:
 		insertHotBtn(tbb_Actor, "Actor");
 		insertHotBtn(tbb_UseCase, "Use case");
-		insertHotBtn(tbb_Generalization, "Implements (Generalisation/Realisation)");
-		insertHotBtn(tbb_Dependency, "Dependency");
-		insertHotBtn(tbb_Association, "Association");
-		insertHotBtn(tbb_UniAssociation, "Unidirectional association");
+		insertBasicAssociations();
 		break;
 
 	case Uml::dt_Class:
@@ -84,13 +81,9 @@ void WorkToolBar::slotCheckToolBar(Uml::Diagram_Type dt) {
 		insertHotBtn(tbb_Datatype, "Datatype");
 		insertHotBtn(tbb_Enum, "Enum");
 		insertHotBtn(tbb_Package, "Package");
+		insertBasicAssociations();
 		insertHotBtn(tbb_Composition, "Composition");
-		insertHotBtn(tbb_Generalization,
-			     "Implements (Generalisation/Realisation)");
 		insertHotBtn(tbb_Aggregation, "Aggregation");
-		insertHotBtn(tbb_Dependency, "Dependency");
-		insertHotBtn(tbb_Association, "Association");
-		insertHotBtn(tbb_UniAssociation, "Unidirectional association");
 		break;
 
 	case Uml::dt_Sequence:
@@ -142,9 +135,7 @@ void WorkToolBar::slotCheckToolBar(Uml::Diagram_Type dt) {
 		insertHotBtn(tbb_Interface, "Interface");
 		insertHotBtn(tbb_Component, "Component");
 		insertHotBtn(tbb_Artifact, "Artifact");
-		insertHotBtn(tbb_Generalization, "Implements (Generalisation/Realisation)");
-		insertHotBtn(tbb_Dependency, "Dependency");
-		insertHotBtn(tbb_Association, "Association");
+		insertBasicAssociations();
 		break;
 
 	case Uml::dt_Deployment:
@@ -152,10 +143,7 @@ void WorkToolBar::slotCheckToolBar(Uml::Diagram_Type dt) {
 		insertHotBtn(tbb_Interface, "Interface");
 		insertHotBtn(tbb_Component, "Component");
 		insertHotBtn(tbb_Node, "Node");
-		insertHotBtn(tbb_Generalization, "Implements (Generalisation/Realisation)");
-		insertHotBtn(tbb_Dependency, "Dependency");
-		insertHotBtn(tbb_Association, "Association");
-
+		insertBasicAssociations();
 		break;
 
 	default:
@@ -310,7 +298,7 @@ void WorkToolBar::loadPixmaps() {
 	m_Pixmaps[tbb_Seq_Message_Synchronous].load( dataDir + "message-synchronous.xpm" );
 	m_Pixmaps[tbb_Seq_Message_Asynchronous].load( dataDir + "message-asynchronous.xpm" );
 	m_Pixmaps[tbb_Arrow].load( dataDir + "arrow.png" );
-	m_Pixmaps[tbb_Association].load( dataDir + "line.xpm" );
+	m_Pixmaps[tbb_Association].load( dataDir + "association.xpm" );
 	m_Pixmaps[tbb_Anchor].load( dataDir + "anchor.xpm" );
 	m_Pixmaps[tbb_Text].load( dataDir + "text.xpm" );
 	m_Pixmaps[tbb_Note].load( dataDir + "note.xpm" );
@@ -363,6 +351,15 @@ void WorkToolBar::loadPixmaps() {
 	m_CursorPixmaps.Text.load( dataDir + "cursor-text.xpm");
 	m_CursorPixmaps.Class.load( dataDir + "cursor-umlclass.xpm");
 	m_CursorPixmaps.UniAssoc.load( dataDir + "cursor-uniassoc.xpm");
+}
+
+void WorkToolBar::insertBasicAssociations()  {
+		insertHotBtn(tbb_Association, "Association");
+		if (m_Type == dt_Class || m_Type == dt_UseCase)  {
+			insertHotBtn(tbb_UniAssociation, "Unidirectional association");
+		}
+		insertHotBtn(tbb_Dependency, "Dependency");
+		insertHotBtn(tbb_Generalization, "Implements (Generalisation/Realisation)");
 }
 
 #include "worktoolbar.moc"

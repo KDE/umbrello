@@ -181,6 +181,12 @@ private:
 	 */
 	void insertHotBtn(ToolBar_Buttons tbb, const char *label);
 
+	/**
+	 * Inserts most associations, just reduces some string
+	 * duplication (nice to translators)
+	 */
+	void insertBasicAssociations();
+
 signals:
 	void sigButtonChanged(int);
 	void toolSelected(WorkToolBar::EditTool);

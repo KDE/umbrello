@@ -11,6 +11,7 @@
 #include "../attribute.h"
 #include "../operation.h"
 #include <klocale.h>
+#include <kdebug.h>
 #include <qlayout.h>
 
 SelectOpDlg::SelectOpDlg(QWidget * parent, UMLClassifier * c) : KDialogBase(Plain, i18n("Select Operation"), Ok | Cancel , Ok, parent, "_SELOPDLG_", true, true) {
@@ -87,8 +88,15 @@ void SelectOpDlg::setCustomOp(QString op) {
 		m_pCustomRB -> setChecked(true);
 	}
 }
-
-
+////////////////////////////////////////////////////////////////////////////////////////////////////
+QString SelectOpDlg::getSeqNumber() {
+	kdDebug() << k_funcinfo << "returning:" << m_pSeqLE->text() << endl;
+	return m_pSeqLE->text();
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+void SelectOpDlg::setSeqNumber(QString num) {
+	m_pSeqLE->setText(num);
+}
 
 
 
