@@ -52,7 +52,7 @@ public:
     //virtual void parseTypeSpecifier( TypeSpecifierAST* );  // use parent method
     virtual void parseClassSpecifier( ClassSpecifierAST* );
     virtual void parseEnumSpecifier( EnumSpecifierAST* );
-    //virtual void parseElaboratedTypeSpecifier( ElaboratedTypeSpecifierAST* );  // use parent method
+    virtual void parseElaboratedTypeSpecifier( ElaboratedTypeSpecifierAST* );
 
     // non-overriding (locally added) methods
 
@@ -67,6 +67,10 @@ private:
     QString typeOfDeclaration( TypeSpecifierAST* typeSpec, DeclaratorAST* declarator );
     QStringList scopeOfName( NameAST* id, const QStringList& scope );
     QStringList scopeOfDeclarator( DeclaratorAST* d, const QStringList& scope );
+    /**
+     * Flush template parameters pending in m_templateParams to the klass.
+     */
+    void flushTemplateParams(UMLClass *klass);
 
 private:
     //FileDom m_file;

@@ -10,7 +10,14 @@
  *                                                                         *
  ***************************************************************************/
 
+// own header
 #include "cpptree2uml.h"
+// qt/kde includes
+#include <qfileinfo.h>
+#include <qdir.h>
+#include <qregexp.h>
+#include <kdebug.h>
+// app includes
 #include "ast_utils.h"
 #include "urlutil.h"
 #include "../classimport.h"
@@ -21,10 +28,6 @@
 // FIXME The next 2 includes are motivated by template params
 #include "../template.h"
 #include "../class.h"
-
-#include <kdebug.h>
-#include <qfileinfo.h>
-#include <qdir.h>
 
 CppTree2Uml::CppTree2Uml( const QString& fileName, ClassImport* store )
     : m_importer( store ), m_anon( 0 ), m_nsCnt( 0 ), m_clsCnt( 0 )
@@ -331,19 +334,7 @@ void CppTree2Uml::parseClassSpecifier( ClassSpecifierAST* ast )
 						 m_currentNamespace[m_nsCnt],
 						 ast->comment() );
     UMLClass *klass = (UMLClass *)o;
-
-    if (m_templateParams.count()) {
-	Umbrello::NameAndType_ListIt it;
-	for (it = m_templateParams.begin(); it != m_templateParams.end(); ++it) {
-	    const Umbrello::NameAndType &nt = *it;
-	    kdDebug() << "CppTree2Uml::parseClassSpecifier: adding template param: "
-	    	      << nt.first << endl;
-	    UMLTemplate *tmpl = klass->addTemplate(nt.first);
-	    tmpl->setType(nt.second);
-	}
-	m_templateParams.clear();
-    }
-
+    flushTemplateParams(klass);
     if ( ast->baseClause() )
 	parseBaseClause( ast->baseClause(), klass );
 
@@ -390,6 +381,19 @@ void CppTree2Uml::parseEnumSpecifier( EnumSpecifierAST* ast )
 	m_importer->addEnumLiteral( (UMLEnum*)o, enumLiteral );
 	++it;
     }
+}
+
+void CppTree2Uml::parseElaboratedTypeSpecifier( ElaboratedTypeSpecifierAST* typeSpec )
+{
+    // This is invoked for forward declarations.
+    /// @todo Refine - Currently only handles class foward declarations.
+    ///              - Using typeSpec->text() is probably not good, decode
+    ///                the kind() instead.
+    QString text = typeSpec->text();
+    kdDebug() << "CppTree2Uml::parseElaboratedTypeSpecifier: text is " << text << endl;
+    text.remove(QRegExp("^class\\s+"));
+    UMLObject *o = m_importer->createUMLObject( Uml::ot_Class, text, m_currentNamespace[m_nsCnt] );
+    flushTemplateParams( static_cast<UMLClass*>(o) );
 }
 
 void CppTree2Uml::parseDeclaration( GroupAST* funSpec, GroupAST* storageSpec,
@@ -602,3 +606,18 @@ QStringList CppTree2Uml::scopeOfDeclarator( DeclaratorAST* d, const QStringList&
 {
     return scopeOfName( d->declaratorId(), startScope );
 }
+
+void CppTree2Uml::flushTemplateParams(UMLClass *klass) {
+    if (m_templateParams.count()) {
+	Umbrello::NameAndType_ListIt it;
+	for (it = m_templateParams.begin(); it != m_templateParams.end(); ++it) {
+	    const Umbrello::NameAndType &nt = *it;
+	    kdDebug() << "CppTree2Uml::parseClassSpecifier: adding template param: "
+	    	      << nt.first << endl;
+	    UMLTemplate *tmpl = klass->addTemplate(nt.first);
+	    tmpl->setType(nt.second);
+	}
+	m_templateParams.clear();
+    }
+}
+
