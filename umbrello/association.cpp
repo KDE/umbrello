@@ -403,7 +403,7 @@ void UMLAssociation::setAssocType(Uml::Association_Type assocType) {
 	{
 		// In this case we need to auto-set the multiplicity/rolenames
 		// of the roles
-		kdWarning()<<" A new uni-association has been created."<<endl;
+		kdDebug() << " A new uni-association has been created." << endl;
 	}
 	emit modified();
 }
