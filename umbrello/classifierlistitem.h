@@ -38,6 +38,11 @@ public:
 	 * Constructor.  Empty.
 	 *
 	 * @param parent	The parent to this operation.
+	 *		At first sight it would appear that the type of the
+	 *		parent should be UMLClassifier. However, the class
+	 *		UMLAttribute is also used for the parameters of
+	 *		operations, and in this case the UMLOperation is the
+	 *		parent.
 	 * @param name		The name of the operation.
 	 * @param id		The id of the operation.
 	 */
@@ -47,6 +52,11 @@ public:
 	 * Constructor.  Empty.
 	 *
 	 * @param parent	The parent to this operation.
+	 *		At first sight it would appear that the type of the
+	 *		parent should be UMLClassifier. However, the class
+	 *		UMLAttribute is also used for the parameters of
+	 *		operations, and in this case the UMLOperation is the
+	 *		parent.
 	 */
 	UMLClassifierListItem(const UMLObject *parent);
 
