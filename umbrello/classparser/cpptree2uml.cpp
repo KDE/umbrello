@@ -179,24 +179,34 @@ void CppTree2Uml::parseTemplateDeclaration( TemplateDeclarationAST* ast )
 	TypeParameterAST* typeParmNode = tmplParmNode->typeParameter();
 	if (typeParmNode) {
 	    NameAST* nameNode = typeParmNode->name();
-	    QString typeName = nameNode->unqualifiedName()->text();
-	    Umbrello::NameAndType nt(typeName, NULL);
-	    m_templateParams.append(nt);
+	    if (nameNode) {
+		QString typeName = nameNode->unqualifiedName()->text();
+		Umbrello::NameAndType nt(typeName, NULL);
+		m_templateParams.append(nt);
+	    } else {
+		kdError() << "CppTree2Uml::parseTemplateDeclaration(type):"
+			  << " nameNode is NULL" << endl;
+	    }
 	}
 
 	ParameterDeclarationAST* valueNode = tmplParmNode->typeValueParameter();
 	if (valueNode) {
 	    TypeSpecifierAST* typeSpec = valueNode->typeSpec();
 	    if (typeSpec == NULL) {
-		kdError() << "CppTree2Uml::parseTemplateDeclaration: typeSpec is NULL"
-			  << endl;
-		break;
+		kdError() << "CppTree2Uml::parseTemplateDeclaration(value):"
+			  << " typeSpec is NULL" << endl;
+		continue;
 	    }
 	    QString typeName = typeSpec->name()->text();
 	    UMLObject *t = m_importer->createUMLObject( Uml::ot_UMLObject, typeName,
 							m_currentNamespace[m_nsCnt] );
 	    DeclaratorAST* declNode = valueNode->declarator();
 	    NameAST* nameNode = declNode->declaratorId();
+	    if (nameNode == NULL) {
+		kdError() << "CppTree2Uml::parseTemplateDeclaration(value):"
+			  << " nameNode is NULL" << endl;
+		continue;
+	    }
 	    QString paramName = nameNode->unqualifiedName()->text();
 	    Umbrello::NameAndType nt(paramName, t);
 	    m_templateParams.append(nt);
@@ -273,7 +283,7 @@ void CppTree2Uml::parseFunctionDefinition( FunctionDefinitionAST* ast )
 
     UMLClass *c = m_currentClass[m_clsCnt];
     if (c == NULL) {
-        kdDebug() << "CppTree2Uml::parseFunctionDefinition (" << id
+	kdDebug() << "CppTree2Uml::parseFunctionDefinition (" << id
 		  << "): need a surrounding class." << endl;
 	return;
     }
@@ -426,7 +436,7 @@ void CppTree2Uml::parseDeclaration( GroupAST* funSpec, GroupAST* storageSpec,
 
     UMLClass *c = m_currentClass[m_clsCnt];
     if (c == NULL) {
-        kdDebug() << "CppTree2Uml::parseDeclaration (" << id
+	kdDebug() << "CppTree2Uml::parseDeclaration (" << id
 		  << "): need a surrounding class." << endl;
 	return;
     }
@@ -509,7 +519,7 @@ void CppTree2Uml::parseFunctionDeclaration(  GroupAST* funSpec, GroupAST* storag
 
     UMLClass *c = m_currentClass[m_clsCnt];
     if (c == NULL) {
-        kdDebug() << "CppTree2Uml::parseFunctionDeclaration (" << id
+	kdDebug() << "CppTree2Uml::parseFunctionDeclaration (" << id
 		  << "): need a surrounding class." << endl;
 	return;
     }
