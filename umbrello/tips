@@ -1,6 +1,6 @@
 <tip category="Umbrello">
 <html>
-<p>Welcome to Umbrello UML Modeller.  UML lets you create models of
+<p>Welcome to Umbrello UML Modeller 1.2.  UML lets you create models of
 software systems in a standard diagramming language.  Please read the
 Umbrello Handbook, available from the Help menu, to learn more about UML.</p>
 </html>
@@ -8,34 +8,23 @@ Umbrello Handbook, available from the Help menu, to learn more about UML.</p>
 
 <tip category="Umbrello">
 <html>
-<p>Umbrello 1.1 can now import binary files from 1.0 versions.</p>
+<p>New features in Umbrello 1.2 include undo/redo, zoom, resizeable canvas, 
+new widget and diagram types, a refactoring agent, class templates/generics
+and improved Java and C++ code generation.</p>
 </html>
 </tip>
 
 <tip category="Umbrello">
 <html>
-<p>PHP Code Generation has been added in the 1.1rc1 release.  If you had an earlier version
+<p>Many new code generators have been added in this release.  If you had an earlier version
 installed you may need to initialize it from Code menu->Add/Remove Languages.</p>
 </html>
 </tip>
 
 <tip category="Umbrello">
 <html>
-<p>The vertical lines in sequence diagrams can be resized.  Just click at the bottom of
-one and drag up or down.</p>
-</html>
-</tip>
-
-<tip category="Umbrello">
-<html>
 <p>Sequence diagram objects can have a destructor box and be drawn as actors.  Double click one for
-the Properties dialog.</p>
-</html>
-</tip>
-
-<tip category="Umbrello">
-<html>
-<p>Sequence diagram objects can have their height changed using the Tab option in the right click menu.</p>
+the Properties dialogue.</p>
 </html>
 </tip>
 
@@ -62,8 +51,11 @@ point.</p>
 <tip category="Umbrello">
 <html>
 <p>Is a feature missing that you need in Umbrello? Please let us know. 
-Contact addresses are on the website.</p>
-<p><a href="http://uml.sf.net/contact.php">http://uml.sf.net/contact.php</a>.</p>
+Either add it to the bugs database with Report Bug from the Help menu
+or send it to the uml-devel mailing list.</p>
+<ul>
+<li><a href="http://uml.sf.net/contact.php">http://uml.sf.net/contact.php</a>.</li>
+</ul>
 </html>
 </tip>
 
@@ -76,20 +68,13 @@ Contact addresses are on the website.</p>
 <tip category="Umbrello">
 <html>
 <p>If you've found a bug in Umbrello, please let us know. 
-You can submit bugs with the Bug Report tool in the Help menu.</p>
+You can submit bugs with the Report Bug tool in the Help menu.</p>
 </html>
 </tip>
 
 <tip category="Umbrello">
 <html>
 <p>When using a design tool from the Work Tool Bar, pressing the Escape key sets you back to the Select Tool.</p>
-</html>
-</tip>
-
-<tip category="Umbrello">
-<html>
-<p>When using a design tool from the Work Tool Bar, 
-pressing the Shift key sets you back to the previously used Tool.</p>
 </html>
 </tip>
 
@@ -104,5 +89,3 @@ pressing the Shift key sets you back to the previously used Tool.</p>
 <p>You can create and setup a new class using the New Class Wizard in the Code menu.</p>
 </html>
 </tip>
-
-
