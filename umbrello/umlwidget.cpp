@@ -301,136 +301,136 @@ void UMLWidget::init() {
 void UMLWidget::slotMenuSelection(int sel) {
 	QFont font;
 	QColor newColour;
-		const Uml::UMLWidget_Type wt = m_pData->getType();
-		switch(sel) {
-			case ListPopupMenu::mt_Rename:
-				m_pView -> getDocument() -> renameUMLObject(m_pObject);
-				adjustAssocs( (int)x(), (int)y() );//adjust assoc lines
-				break;
+	const Uml::UMLWidget_Type wt = m_pData->getType();
+	switch(sel) {
+		case ListPopupMenu::mt_Rename:
+			m_pView -> getDocument() -> renameUMLObject(m_pObject);
+			adjustAssocs( (int)x(), (int)y() );//adjust assoc lines
+			break;
 
-			case ListPopupMenu::mt_Delete:
-				//remove self from diagram
-				m_pView -> removeWidget(this);
-				break;
+		case ListPopupMenu::mt_Delete:
+			//remove self from diagram
+			m_pView -> removeWidget(this);
+			break;
 
+		case ListPopupMenu::mt_Properties:
+			if (wt == wt_Actor || wt == wt_UseCase ||
+			    wt == wt_Package || wt == wt_Interface ||
+			    wt == wt_Component || wt == wt_Artifact ||
+			    wt == wt_Node ||
+			    (wt == wt_Class && m_pView -> getType() == dt_Class)) {
+				m_pView->getDocument() -> showProperties(this);
+			} else if (wt == wt_Object) {
+				m_pView->getDocument() -> showProperties(m_pObject);
+			} else {
+				kdWarning() << "making properties dialogue for unknown widget type" << endl;
+			}
+			adjustAssocs( (int)x(), (int)y() );//adjust assoc lines
+			break;
 
-			case ListPopupMenu::mt_Properties:
-				if (wt == wt_Actor || wt == wt_UseCase ||
-				    wt == wt_Package || wt == wt_Interface ||
-				    wt == wt_Component || wt == wt_Artifact ||
-				    wt == wt_Node ||
-				    (wt == wt_Class && m_pView -> getType() == dt_Class)) {
-					m_pView->getDocument() -> showProperties(this);
-				} else if (wt == wt_Object) {
-					m_pView->getDocument() -> showProperties(m_pObject);
-				} else {
-					kdWarning() << "making properties dialogue for unknown widget type" << endl;
-				}
-				adjustAssocs( (int)x(), (int)y() );//adjust assoc lines
-				break;
+		case ListPopupMenu::mt_Line_Color:
+			if( KColorDialog::getColor(newColour) ) {
+				m_pData->setLineColour(newColour);
+				m_pData->setUsesDiagramLineColour(false);
 
-			case ListPopupMenu::mt_Line_Color:
-				if( KColorDialog::getColor(newColour) ) {
-					m_pData->setLineColour(newColour);
-					m_pData->setUsesDiagramLineColour(false);
+			}
+			break;
 
-				}
-				break;
+		case ListPopupMenu::mt_Line_Color_Selection:
+			if( KColorDialog::getColor(newColour) ) {
+				m_pView -> selectionSetLineColor( newColour );
+				m_pView->getDocument()->setModified(true);
+			}
+			break;
 
-			case ListPopupMenu::mt_Line_Color_Selection:
-				if( KColorDialog::getColor(newColour) ) {
-					m_pView -> selectionSetLineColor( newColour );
-					m_pView->getDocument()->setModified(true);
-				}
-				break;
+		case ListPopupMenu::mt_Fill_Color:
+			if ( KColorDialog::getColor(newColour) ) {
+				m_pData->setFillColour(newColour);
+				m_pData->setUsesDiagramFillColour(false);
+			}
+			break;
 
-			case ListPopupMenu::mt_Fill_Color:
-				if ( KColorDialog::getColor(newColour) ) {
-					m_pData->setFillColour(newColour);
-					m_pData->setUsesDiagramFillColour(false);
-				}
-				break;
+		case ListPopupMenu::mt_Fill_Color_Selection:
+			if ( KColorDialog::getColor(newColour) ) {
+				m_pView -> selectionSetFillColor( newColour );
+				m_pView->getDocument()->setModified(true);
+			}
+			break;
 
-			case ListPopupMenu::mt_Fill_Color_Selection:
-				if ( KColorDialog::getColor(newColour) ) {
-					m_pView -> selectionSetFillColor( newColour );
-					m_pView->getDocument()->setModified(true);
-				}
-				break;
+		case ListPopupMenu::mt_Use_Fill_Color:
+			m_pData->setUseFillColor( !m_pData->getUseFillColor() );
+			m_pData->setUsesDiagramUseFillColour(false);
+			m_pView->selectionUseFillColor( m_pData->getUseFillColor() );
+			break;
 
-			case ListPopupMenu::mt_Use_Fill_Color:
-				m_pData->setUseFillColor( !m_pData->getUseFillColor() );
-				m_pData->setUsesDiagramUseFillColour(false);
-				m_pView->selectionUseFillColor( m_pData->getUseFillColor() );
-				break;
+		case ListPopupMenu::mt_ViewCode: {
+                       	UMLClassifier *c = dynamic_cast<UMLClassifier*>(m_pObject);
+                       	if(c)
+                       	{
+				UMLApp::app()->viewCodeDocument(c);
+                       	}
+                       	break;
+               	}
 
-			case ListPopupMenu::mt_ViewCode: {
-                        	UMLClassifier *c = dynamic_cast<UMLClassifier*>(m_pObject);
-                        	if(c)
-                        	{
-					UMLApp::app()->viewCodeDocument(c);
-                        	}
-                        	break;
-                	}
+		case ListPopupMenu::mt_Delete_Selection:
+			m_pView -> deleteSelection();
+			break;
 
-			case ListPopupMenu::mt_Delete_Selection:
-				m_pView -> deleteSelection();
-				break;
+		case ListPopupMenu::mt_Change_Font:
+			font = getFont();
+			if( KFontDialog::getFont( font, false, m_pView ) )
+				setFont( font );
+			break;
 
-			case ListPopupMenu::mt_Change_Font:
-				font = getFont();
-				if( KFontDialog::getFont( font, false, m_pView ) )
-					setFont( font );
-				break;
+		case ListPopupMenu::mt_Change_Font_Selection:
+			font = getFont();
+			if( KFontDialog::getFont( font, false, m_pView ) )
+			{
+				m_pView -> selectionSetFont( font );
+				m_pView->getDocument()->setModified(true);
+			}
+			break;
 
-			case ListPopupMenu::mt_Change_Font_Selection:
-				font = getFont();
-				if( KFontDialog::getFont( font, false, m_pView ) )
-				{
-					m_pView -> selectionSetFont( font );
-					m_pView->getDocument()->setModified(true);
-				}
-				break;
+		case ListPopupMenu::mt_Cut:
+			m_pView -> setStartedCut();
+			m_pView -> getDocument() -> editCut();
+			break;
 
-			case ListPopupMenu::mt_Cut:
-				m_pView -> setStartedCut();
-				m_pView -> getDocument() -> editCut();
-				break;
+		case ListPopupMenu::mt_Copy:
+			m_pView -> getDocument() -> editCopy();
+			break;
 
-			case ListPopupMenu::mt_Copy:
-				m_pView -> getDocument() -> editCopy();
-				break;
+		case ListPopupMenu::mt_Paste:
+			m_pView -> getDocument() -> editPaste();
+			break;
 
-			case ListPopupMenu::mt_Paste:
-				m_pView -> getDocument() -> editPaste();
-				break;
-			case ListPopupMenu::mt_Refactoring:
-				//check if we are operating on a classifier, or some other kind of UMLObject
-				if(dynamic_cast<UMLClassifier*>(m_pObject))
-				{
-					UMLApp::app()->refactor(static_cast<UMLClassifier*>(m_pObject));
-				}
-		}
+		case ListPopupMenu::mt_Refactoring:
+			//check if we are operating on a classifier, or some other kind of UMLObject
+			if(dynamic_cast<UMLClassifier*>(m_pObject))
+			{
+				UMLApp::app()->refactor(static_cast<UMLClassifier*>(m_pObject));
+			}
 	}
-	////////////////////////////////////////////////////////////////////////////////////////////////////
-	void UMLWidget::slotWidgetMoved(int /*id*/) {}
-	////////////////////////////////////////////////////////////////////////////////////////////////////
-	void UMLWidget::slotColorChanged(int m_pViewID) {
-		//only change if on the diagram concerned
-		if(m_pView->getID() != m_pViewID) {
-			return;
-		}
-		if ( m_pData->getUsesDiagramFillColour() ) {
-			m_pData->setFillColour( m_pView->getFillColor() );
-		}
-		if ( m_pData->getUsesDiagramLineColour() ) {
-			m_pData->setLineColour( m_pView->getLineColor() );
-		}
-		if ( m_pData->getUsesDiagramUseFillColour() ) {
-			m_pData->setUseFillColor( m_pView->getUseFillColor() );
-		}
-		update();
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+void UMLWidget::slotWidgetMoved(int /*id*/) {}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+void UMLWidget::slotColorChanged(int m_pViewID) {
+	//only change if on the diagram concerned
+	if(m_pView->getID() != m_pViewID) {
+		return;
 	}
+	if ( m_pData->getUsesDiagramFillColour() ) {
+		m_pData->setFillColour( m_pView->getFillColor() );
+	}
+	if ( m_pData->getUsesDiagramLineColour() ) {
+		m_pData->setLineColour( m_pView->getLineColor() );
+	}
+	if ( m_pData->getUsesDiagramUseFillColour() ) {
+		m_pData->setUseFillColor( m_pView->getUseFillColor() );
+	}
+	update();
+}
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLWidget::mouseDoubleClickEvent( QMouseEvent * me ) {
 	if( me -> button() != LeftButton ||
