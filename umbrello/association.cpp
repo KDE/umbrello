@@ -167,10 +167,7 @@ bool UMLAssociation::load( QDomElement & element ) {
 			}
 
 			// set umlobject of role if possible (else defer resolution)
-			if (roleIdStr.contains(QRegExp("\\D")))
-				obj[r] = doc->findObjectByAuxId(roleIdStr);
-			else
-				obj[r] = doc->findObjectById(STR2ID(roleIdStr));
+			obj[r] = doc->findObjectById(STR2ID(roleIdStr));
 			Uml::Role_Type role = (Uml::Role_Type)r;
 			if (obj[r] == NULL) {
 				getUMLRole(role)->setIdStr(roleIdStr);  // defer to resolveRef()

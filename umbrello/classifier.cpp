@@ -157,15 +157,6 @@ UMLObject* UMLClassifier::findChildObject(Uml::IDType id) {
 	return UMLCanvasObject::findChildObject(id);
 }
 
-UMLObject* UMLClassifier::findChildObjectByIdStr(QString idStr) {
-	UMLClassifierListItem *o = NULL;
-	for (o = m_List.first(); o; o = m_List.next()) {
-		if (o->getAuxId() == idStr)
-			return o;
-	}
-	return NULL;
-}
-
 UMLClassifierList UMLClassifier::findSubClassConcepts (ClassifierType type) {
 	UMLClassifierList list = this->getSubClasses();
 	UMLAssociationList rlist = this->getRealizations();

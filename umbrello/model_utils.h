@@ -41,12 +41,6 @@ namespace Umbrello {
 	UMLObject * findObjectInList(Uml::IDType id, UMLObjectList inList);
 
 	/**
-	 * Seek the given auxiliary id in the given list of objects.
-	 * See findObjectInList().
-	 */
-	UMLObject* findObjectByAuxId(QString idStr, UMLObjectList inList);
-
-	/**
 	 * Find the UML object of the given type and name in the passed-in list.
 	 *
 	 * @param inList	List in which to seek the object.

@@ -69,34 +69,6 @@ UMLObject * findObjectInList(Uml::IDType id, UMLObjectList inList) {
 	return NULL;
 }
 
-UMLObject* findObjectByAuxId(QString idStr, UMLObjectList inList) {
-	for (UMLObjectListIt oit(inList); oit.current(); ++oit) {
-		UMLObject *o = oit.current();
-		if (o->getAuxId() == idStr)
-			return o;
-		UMLObject *inner = NULL;
-		switch (o->getBaseType()) {
-			case Uml::ot_Package:
-				inner = ((UMLPackage*)o)->findObjectByAuxId(idStr);
-				if (inner)
-					return inner;
-				break;
-			case Uml::ot_Interface:
-			case Uml::ot_Class:
-			case Uml::ot_Enum:
-				inner = ((UMLClassifier*)o)->findChildObjectByIdStr(idStr);
-				if (inner == NULL)
-					inner = ((UMLPackage*)o)->findObjectByAuxId(idStr);
-				if (inner)
-					return inner;
-				break;
-			default:
-				break;
-		}
-	}
-	return NULL;
-}
-
 UMLObject* findUMLObject(UMLObjectList inList, QString name,
 			 Uml::Object_Type type /* = ot_UMLObject */,
 			 UMLObject *currentObj /* = NULL */) {

@@ -187,17 +187,6 @@ public:
 	virtual UMLObject* findChildObject(Uml::IDType id);
 
 	/**
-	 * Find the object of the given (non-numeric) auxiliary ID
-	 * in m_List.  The auxiliary ID is the ID returned by
-	 * UMLObject::getAuxId() and is currently only used for
-	 * loading foreign XMI files.
-	 *
-	 * @param idStr		The ID to seek.
-	 * @return	Pointer to the UMLObject found or NULL if not found.
-	 */
-	UMLObject* findChildObjectByIdStr(QString idStr);
-
-	/**
 	 * Returns a list of concepts which this concept inherits from.
 	 *
 	 * @param type		The ClassifierType to seek.

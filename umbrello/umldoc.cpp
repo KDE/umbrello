@@ -756,17 +756,13 @@ UMLObject* UMLDoc::findUMLObject(QString name,
 	return Umbrello::findUMLObject(m_objectList, name, type, currentObj);
 }
 
-UMLObject* UMLDoc::findObjectByAuxId(QString idStr) {
-	return Umbrello::findObjectByAuxId(idStr, m_objectList);
-}
-
 UMLClassifier* UMLDoc::findUMLClassifier(QString name) {
 	// could be either UMLClass or UMLInterface..
 	//this is used only by code generator so we don't need to look at Datatypes
 	UMLObject * obj = findUMLObject(name);
 	return dynamic_cast<UMLClassifier*>(obj);
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 QString	UMLDoc::uniqObjectName(const Object_Type type, QString prefix) {
 	QString	currentName = prefix;
 	if (currentName.isEmpty()) {
@@ -801,7 +797,7 @@ QString	UMLDoc::uniqObjectName(const Object_Type type, QString prefix) {
 	}
 	return name;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 /**
   *   Adds a UMLObject thats already created but doesn't change
   *   any ids or signal.  Used by the list view.  Use
@@ -2012,7 +2008,18 @@ bool UMLDoc::validateXMIHeader(QDomNode& headerNode) {
 	}
 	return true;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
+bool UMLDoc::determineNativity(QString xmiId) {
+	if (xmiId.isEmpty())
+		return false;
+	m_bNativeXMIFile = xmiId.contains( QRegExp("^\\d+$") );
+	return true;
+}
+
+bool UMLDoc::isNativeXMIFile() const {
+	return m_bNativeXMIFile;
+}
+
 bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element) {
 	/* FIXME need a way to make status bar actually reflect
 	   how much of the file has been loaded rather than just
@@ -2024,6 +2031,7 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element) {
 	 */
 	emit sigWriteToStatusBar( i18n("Loading UML elements...") );
 
+	bool bNativityIsDetermined = false;
 	for (QDomNode node = element.firstChild(); !node.isNull();
 	     node = node.nextSibling()) {
 		if (node.isComment())
@@ -2050,6 +2058,10 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element) {
 			// We want a best effort, therefore this is handled as a
 			// soft error.
 			continue;
+		}
+		if (! bNativityIsDetermined) {
+			QString xmiId = tempElement.attribute("xmi.id", "");
+			bNativityIsDetermined = determineNativity(xmiId);
 		}
 		bool status = pObject -> loadFromXMI( tempElement );
 		if (tagEq(type, "Association") ||

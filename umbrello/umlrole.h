@@ -134,7 +134,6 @@ public:
 	 */
 	virtual Uml::IDType getID() const;
 	virtual void setID ( Uml::IDType id);
-	virtual QString getAuxId() const;
 
 	void setIdStr(QString idStr);
 

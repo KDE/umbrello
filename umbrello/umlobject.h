@@ -298,13 +298,6 @@ public:
 	virtual bool acceptAssociationType(Uml::Association_Type);
 
 	/**
-	 * Gets the value of m_AuxId.
-	 * Only used for resolving non-numeric xmi.id's during loading.
-	 * All other code should use getID() instead.
-	 */
-	virtual QString getAuxId() const;
-
-	/**
 	 * Return secondary ID. Required by resolveRef().
 	 */
 	QString getSecondaryId() const;
@@ -363,15 +356,6 @@ protected:
 	 * The object's id.
 	 */
 	Uml::IDType m_nId;
-
-	/**
-	 * The object's xmi.id string when non-numeric.
-	 * Used for intermediate processing during loading of files
-	 * containing non-numeric xmi.id's.
-	 * In the end all objects are uniquely identified only by their
-	 * numeric id (m_nId).
-	 */
-	QString m_AuxId;
 
 	/**
 	 * The object's documentation.

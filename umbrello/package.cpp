@@ -85,10 +85,6 @@ UMLObject * UMLPackage::findObjectById(Uml::IDType id) {
 	return Umbrello::findObjectInList(id, m_objects);
 }
 
-UMLObject* UMLPackage::findObjectByAuxId(QString idStr) {
-	return Umbrello::findObjectByAuxId(idStr, m_objects);
-}
-
 void UMLPackage::appendClassifiers(UMLClassifierList& classifiers,
 				   bool includeNested /* = true */) {
 	for (UMLObject *o = m_objects.first(); o; o = m_objects.next()) {

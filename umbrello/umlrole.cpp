@@ -52,13 +52,6 @@ void UMLRole::setID( Uml::IDType id) {
 	kdError()<<"ERROR: not allowed to setID("<<id<<") for UMLRole (id is derived from parent UMLObject), ignoring set request"<<endl; 
 }
 
-QString UMLRole::getAuxId() const {
-	// CHECK: Not sure this logic is correct
-	if (m_pSecondary)
-		return m_pSecondary->getAuxId();
-	return m_SecondaryId;
-}
-
 Uml::Changeability_Type UMLRole::getChangeability() const {
 	return m_Changeability;
 }
@@ -228,10 +221,7 @@ bool UMLRole::load( QDomElement & element ) {
 		return false;
 	}
 	UMLObject * obj;
-	if (m_SecondaryId.contains(QRegExp("\\D")))
-		obj = doc->findObjectByAuxId(m_SecondaryId);
-	else
-		obj = doc->findObjectById(STR2ID(m_SecondaryId));
+	obj = doc->findObjectById(STR2ID(m_SecondaryId));
 	if (obj) {
 		m_pSecondary = obj;
 		m_SecondaryId = "";
