@@ -102,9 +102,10 @@ void UMLDoc::addView(UMLView *view) {
 	pApp->setDiagramMenuItemsState(true);
 	pApp->slotUpdateViews();
 	pApp->setCurrentView(view);
+
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void UMLDoc::removeView(UMLView *view) {
+void UMLDoc::removeView(UMLView *view , bool enforceCurrentView ) {
 	if(!view)
 	{
 		kdError()<<"UMLDoc::removeView(UMLView *view) called with view = 0"<<endl;
@@ -122,15 +123,17 @@ void UMLDoc::removeView(UMLView *view) {
 	{
 		currentView = 0L;
 		UMLView* firstView = m_ViewList.first();
-		if (firstView ) 
+		if (!firstView && enforceCurrentView) //create a diagram
+		{
+			createDiagram( dt_Class, false );
+			firstView = m_ViewList.first();
+			//UMLApp::app()->setDiagramMenuItemsState(false);
+		}
+
+		if ( firstView ) 
 		{
 			changeCurrentView( firstView->getID() );
 			UMLApp::app()->setDiagramMenuItemsState(true);
-		} 
-		else //create a diagram
-		{
-			createDiagram( dt_Class, false );
-			//UMLApp::app()->setDiagramMenuItemsState(false);
 		}
 	} 
 }
@@ -464,7 +467,6 @@ UMLView * UMLDoc::findView(int id) {
 			return w;
 		}
 	}
-	kdDebug() << "Unable to find a view identified by " << id << endl;
 	return 0;
 }
 
@@ -1049,7 +1051,7 @@ QString UMLDoc::uniqViewName(const Diagram_Type type) {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLDoc::createDiagram(Diagram_Type type, bool askForName /*= true */) {
-	bool 	ok = true;
+	bool ok = true;
 	QString	name,
 	dname = uniqViewName(type);
 
@@ -1876,10 +1878,10 @@ void UMLDoc::removeAllViews() {
 						// from a view, it also causes any UMLAssociations that lack parent
 						// associaiton widgets (but once had them) to remove themselves from
 						// this document.
-		removeView(v);
+		removeView(v, false);
 	}
 	m_ViewList.clear();
-	currentView = 0;
+	currentView = 0L;
 	emit sigDiagramChanged(dt_Undefined);
 	UMLApp::app()->setDiagramMenuItemsState(false);
 }

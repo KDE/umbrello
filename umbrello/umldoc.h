@@ -101,8 +101,10 @@ public:
 	 * Removes a view from the list of currently connected views.
 	 *
 	 * @param view		Pointer to the UMLView to remove.
+	 * @param enforceOneView	switch to determine if we have a current view or not.
+         *                          most of the time, we DO want this, except when exiting the program.
 	 */
-	void removeView(UMLView *view);
+	void removeView(UMLView *view , bool enforceOneView = true );
 
 	/**
 	 * Sets the modified flag for the document after a modifying
