@@ -77,9 +77,11 @@ public:
 	 * @param WidgetA	Pointer the role A widget for the association.
 	 * @param Type		The Association_Type for this association.
 	 * @param WidgetB	Pointer the role B widget for the association.
+	 * @param umlassoc	Pointer the underlying UMLAssociation (if applicable.)
 	 */
 	AssociationWidget(UMLView *view, UMLWidget* WidgetA,
-			  Uml::Association_Type Type, UMLWidget* WidgetB);
+			  Uml::Association_Type Type, UMLWidget* WidgetB,
+			  UMLAssociation *umlassoc = NULL);
 
 	/**
 	 * Deconstructor.

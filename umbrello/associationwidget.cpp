@@ -52,14 +52,18 @@ AssociationWidget::AssociationWidget(UMLView *view)
 
 // the preferred constructor
 AssociationWidget::AssociationWidget(UMLView *view, UMLWidget* pWidgetA,
-				     Association_Type assocType, UMLWidget* pWidgetB )
+				     Association_Type assocType, UMLWidget* pWidgetB,
+				     UMLAssociation *umlassoc /* = NULL */)
 	: WidgetBase(view)
 {
 	init(view);
 	UMLDoc *umldoc = UMLApp::app()->getDocument();
 
+	if (umlassoc)
+		setUMLAssociation(umlassoc);
+	else
 	// set up UMLAssociation obj if assoc is represented and both roles are UML objects
-	if (UMLAssociation::assocTypeHasUMLRepresentation(assocType)) {
+	     if (UMLAssociation::assocTypeHasUMLRepresentation(assocType)) {
 		UMLObject* umlRoleA = pWidgetA->getUMLObject();
 		UMLObject* umlRoleB = pWidgetB->getUMLObject();
 		if (umlRoleA != NULL && umlRoleB != NULL) {
@@ -71,13 +75,20 @@ AssociationWidget::AssociationWidget(UMLView *view, UMLWidget* pWidgetA,
 			// done BEFORE creation of the widget, if it mattered to the code.
 			// But lets leave check in here for the time being so that debugging
 			// output is shown, in case there is a collision with code elsewhere.
-			UMLAssociation * testAssoc = umldoc->findAssociation( assocType, umlRoleA, umlRoleB, &swap );
-			if (testAssoc != NULL)
-				kdDebug() << " constructing a similar or exact same assoc " <<
+			UMLAssociation * myAssoc = umldoc->findAssociation( assocType, umlRoleA, umlRoleB, &swap );
+			if (myAssoc != NULL) {
+				if (assocType == at_Generalization) {
+					kdDebug() << " Ignoring second construction of same generalization"
+						  << endl;
+				} else {
+					kdDebug() << " constructing a similar or exact same assoc " <<
 					"as an already existing assoc (swap=" << swap << ")" << endl;
-
-			// now, just create a new association anyways
-			UMLAssociation * myAssoc = new UMLAssociation( assocType, umlRoleA, umlRoleB );
+					// now, just create a new association anyways
+					myAssoc = NULL;
+				}
+			}
+			if (myAssoc == NULL)
+				myAssoc = new UMLAssociation( assocType, umlRoleA, umlRoleB );
 			setUMLAssociation(myAssoc);
 		}
 	}
@@ -857,6 +868,7 @@ QString AssociationWidget::toString() {
 		string += m_role[B].m_pWidget -> getName();
 	}
 
+	string.append(":");
 	if(m_role[B].m_pRole) {
 		string += m_role[B].m_pRole -> getText();
 	}
