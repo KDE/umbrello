@@ -63,6 +63,8 @@ public:
 	 */
 	virtual const QPtrList<const char *> * getReservedKeywords();
 
+	void createDefaultDatatypes();	 
+
 private:
 
 	/**

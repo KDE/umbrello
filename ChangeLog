@@ -1,5 +1,7 @@
 Version 1.4
 
+* fixed many issues in Perl code generator 
+
 * Bugs fixed / wishes implemented (see http://bugs.kde.org)
 86083 87111
 
