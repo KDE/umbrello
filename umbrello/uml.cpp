@@ -746,12 +746,14 @@ void UMLApp::slotEditRedo() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLApp::slotEditCut() {
 	slotStatusMsg(i18n("Cutting selection..."));
-	bool  fromview = (doc->getCurrentView() && doc->getCurrentView()->getSelectCount());
+	//FIXME bug 59774 this fromview isn't very reliable.
+	//when cutting diagrams it is set to true even though it shouldn't be
+	bool fromview = (doc->getCurrentView() && doc->getCurrentView()->getSelectCount());
 	if (!fromview) {
 		//so it knows to delete the selection
 		listView->setStartedCut(true);
 	}
-	if( editCutCopy(fromview) ) {
+	if ( editCutCopy(fromview) ) {
 		emit sigCutSuccessful();
 		slotDeleteSelectedWidget();
 		doc->setModified(true);
@@ -1252,7 +1254,11 @@ void UMLApp::slotSelectAll() {
 }
 
 void UMLApp::slotDeleteSelectedWidget() {
-	doc->getCurrentView()->deleteSelection();
+	if ( doc->getCurrentView() ) {
+		doc->getCurrentView()->deleteSelection();
+	} else {
+		kdWarning() << k_funcinfo << " trying to delete widgets when there is no current view (see bug 59774)" << endl;
+	}
 }
 
 void UMLApp::slotDeleteDiagram() {
@@ -1461,7 +1467,7 @@ QPopupMenu* UMLApp::findMenu(QMenuData* menu, QString name) {
 
         if (menu) {
 		int menuCount = menu->count();
-	
+
 		for (int i=0; i<menuCount; i++) {
 			int idAt = menu->idAt(i);
 			QPopupMenu* popupMenu = menu->findItem(idAt)->popup();

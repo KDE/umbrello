@@ -2137,6 +2137,9 @@ void UMLView::removeAllAssociations() {
 
 
 void UMLView::removeAllWidgets() {
+	//FIXME bug 59774
+	//this queryList returns a too high count and list items which cause the program to crash
+	//when you touch them on diagrams that contain associations /and/ have been saved and loaded
 	QObjectList * l = queryList( "UMLWidget");
 	QObjectListIt it( *l );
 	UMLWidget * temp = 0;
