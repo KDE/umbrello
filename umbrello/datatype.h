@@ -71,6 +71,12 @@ public:
 	virtual bool isInterface();
 
 	/**
+	 * Overrides parent method for resolving the origin type
+	 * in case of a pointer.
+	 */
+	bool resolveTypes();
+
+	/**
 	 * Set the origin type (in case of e.g. typedef)
 	 */
 	void setOriginType(UMLClassifier *origType);
@@ -103,6 +109,7 @@ protected:
 
 	UMLClassifier *m_pOrigType;
 	bool m_isRef;
+	QString m_idStr;
 };
 
 #endif // DATATYPE_H
