@@ -14,6 +14,7 @@
 
 #include <qregexp.h>
 #include <kdebug.h>
+#include <kapplication.h>
 #include "umlobject.h"
 #include "uml.h"
 #include "umldoc.h"
@@ -333,6 +334,7 @@ bool UMLObject::resolveRef() {
 		if (m_BaseType != Uml::ot_Stereotype &&
 		    m_BaseType != Uml::ot_Association && m_BaseType != Uml::ot_UMLObject)
 			umldoc->signalUMLObjectCreated(this);
+		kapp->processEvents();  // give UI events a chance
 		return true;
 	}
 	UMLDoc *pDoc = UMLApp::app()->getDocument();
@@ -346,6 +348,7 @@ bool UMLObject::resolveRef() {
 			if (m_BaseType != Uml::ot_Stereotype &&
 			    m_BaseType != Uml::ot_Association && m_BaseType != Uml::ot_UMLObject)
 				umldoc->signalUMLObjectCreated(this);
+			kapp->processEvents();  // give UI events a chance
 			return true;
 		}
 		// Work around UMLDoc::createUMLObject()'s incapability
@@ -357,6 +360,7 @@ bool UMLObject::resolveRef() {
 			if (m_BaseType != Uml::ot_Stereotype &&
 			    m_BaseType != Uml::ot_Association && m_BaseType != Uml::ot_UMLObject)
 				umldoc->signalUMLObjectCreated(this);
+			kapp->processEvents();  // give UI events a chance
 			return true;
 		}
 		kdDebug() << "UMLObject::resolveRef: Creating new type for "
@@ -389,6 +393,7 @@ bool UMLObject::resolveRef() {
 				ot = Uml::ot_Datatype;
 		}
 		m_pSecondary = pDoc->createUMLObject(ot, m_SecondaryId, NULL, true);
+		kapp->processEvents();  // give UI events a chance
 		// The `prepend' flag is set true because we need to move the
 		// newly created item to before the current item in UMLDoc's
 		// object list.  This can be dropped when the deferred type
@@ -415,6 +420,7 @@ bool UMLObject::resolveRef() {
 	if (m_BaseType != Uml::ot_Stereotype &&
 	    m_BaseType != Uml::ot_Association && m_BaseType != Uml::ot_UMLObject)
 		umldoc->signalUMLObjectCreated(this);
+	kapp->processEvents();  // give UI events a chance
 	return true;
 }
 
