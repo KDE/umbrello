@@ -2095,6 +2095,7 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
 			element = child.toElement();
 			QString tag = element.tagName();
 			if (tag == "umlobjects"  // for bkwd compat.
+				 || tagEq(tag, "Subsystem")
 				 || tagEq(tag, "Model") ) {
 				if( !loadUMLObjectsFromXMI( element ) ) {
 					kdWarning() << "failed load on objects" << endl;
