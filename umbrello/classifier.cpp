@@ -431,6 +431,21 @@ void UMLClassifier::saveToXMI(QDomDocument & qDoc, QDomElement & qElement) {
 		}
 		qElement.appendChild( tmplElement );
 	}
+	//save generalizations (we are the subclass, the other end is the superclass)
+	UMLAssociationList generalizations = getSpecificAssocs(Uml::at_Generalization);
+	if (generalizations.count()) {
+		QDomElement genElement = qDoc.createElement("UML:GeneralizableElement.generalization");
+		for (UMLAssociation *a = generalizations.first(); a; a = generalizations.next()) {
+			// We are the subclass if we are at the role A end.
+			if (m_nId != a->getObjectId(Uml::A))
+				continue;
+			QDomElement gElem = qDoc.createElement("UML:Generalization");
+			gElem.setAttribute( "xmi.idref", ID2STR(a->getID()) );
+			genElement.appendChild(gElem);
+		}
+		if (genElement.hasChildNodes())
+			qElement.appendChild( genElement );
+	}
 }
 
 bool UMLClassifier::load(QDomElement& element) {
