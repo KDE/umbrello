@@ -438,7 +438,6 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
 			insertStdItem(mt_Change_Font);
 			insertItem(SmallIcon( "filenew"), i18n("New Operation..."), mt_Operation);
 			insertItem(SmallIcon( "charset"), i18n("Select Operation..."), mt_Select_Operation);
-			insertItem(SmallIcon( "charset"), i18n("Set Sequence Number..."), mt_Sequence_Number);
 			break;
 
 		case Uml::wt_Note:
@@ -527,7 +526,6 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
 					insertStdItem(mt_Change_Font);
 					insertItem(SmallIcon( "filenew"), i18n("New Operation..."), mt_Operation);
 					insertItem(SmallIcon( "charset"), i18n("Select Operation..."), mt_Select_Operation);
-					insertItem(SmallIcon( "charset"), i18n("Set Sequence Number..."), mt_Sequence_Number);
 					break;
 
 				case Uml::tr_Floating:
@@ -1142,7 +1140,6 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 			insertStdItem(mt_Change_Font);
 			insertItem(SmallIcon( "filenew"), i18n("New Operation..."), mt_Operation);
 			insertItem(SmallIcon( "charset"), i18n("Select Operation..."), mt_Select_Operation);
-			insertItem(SmallIcon( "charset"), i18n("Set Sequence Number..."), mt_Sequence_Number);
 			break;
 		default:
 			insertStdItem(mt_Expand_All);

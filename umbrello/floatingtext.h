@@ -280,6 +280,12 @@ public:
 	void setSelected(bool _select);
 
 	/**
+	 * Sets the text for this label if it is acting as a sequence
+	 * diagram message or a collaboration diagram message.
+	 */
+	void setMessageText();
+
+	/**
 	 * Creates the <UML:FloatingTextWidget> XMI element.
 	 */
 	bool saveToXMI( QDomDocument & qDoc, QDomElement & qElement );

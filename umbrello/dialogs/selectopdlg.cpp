@@ -50,8 +50,10 @@ SelectOpDlg::SelectOpDlg(QWidget * parent, UMLClassifier * c) : KDialogBase(Plai
 
 	QPtrList<UMLClassifierListItem>* list = c -> getOpList();
 	UMLClassifierListItem* obj=0;
-	for(obj=list -> first();obj != 0;obj=list -> next())
+	for(obj=list -> first();obj != 0;obj=list -> next()) {
+		obj -> toString(Uml::st_SigNoScope);
 		m_pOpCB -> insertItem(obj -> toString(Uml::st_SigNoScope));
+	}
 	//disableResize();
 	connect(m_pOpBG, SIGNAL(clicked(int)), this, SLOT(slotSelected(int)));
 	m_nOpCount = c -> operations();

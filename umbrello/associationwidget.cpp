@@ -376,6 +376,7 @@ void AssociationWidget::setName(QString strName) {
 		newLabel = true;
                 m_pName = new FloatingText(m_pView, CalculateNameType(tr_Name), strName);
                 m_pName->setAssoc(this);
+		m_pName->setUMLObject(m_pWidgetB->getUMLObject());
         } else {
 		if (m_pName->getText() == "") {
 			newLabel = true;
@@ -404,8 +405,10 @@ bool AssociationWidget::setMultiA(QString strMultiA) {
 
 	Association_Type type = getAssocType();
 	//if the association is not supposed to have a Multiplicity FloatingText
-	if( !AssocRules::allowMultiplicity( type, getWidgetA() -> getBaseType() ) )
+	if ( !AssocRules::allowMultiplicity(type, getWidgetA() -> getBaseType()) &&
+		type != at_Coll_Message && type != at_Coll_Message_Self) {
 		return false;
+	}
 	if(!m_pMultiA) {
 		newLabel = true;
 		m_pMultiA = new FloatingText(m_pView, tr_MultiA, strMultiA);
@@ -474,8 +477,9 @@ bool AssociationWidget::setRoleNameA (QString strRole) {
 	bool newLabel = false;
 	Association_Type type = getAssocType();
 	//if the association is not supposed to have a Role FloatingText
-	if( !AssocRules::allowRole( type ) )
+	if( !AssocRules::allowRole( type ) )  {
 		return false;
+	}
 
 	if(!m_pRoleA) {
 		newLabel = true;
@@ -1373,10 +1377,10 @@ void AssociationWidget::widgetMoved(UMLWidget* widget, int x, int y ) {
 			int newX = p.x() - dx;
 			int newY = p.y() - dy;
 			// safety. We DONT want to go off the screen
-			if(newX < 0) 
+			if(newX < 0)
 				newX = 0;
 			// safety. We DONT want to go off the screen
-			if(newY < 0) 
+			if(newY < 0)
 				newY = 0;
 			if( m_pView -> getSnapToGrid() ) {
 				int gridX = m_pView -> getSnapX();
@@ -3111,7 +3115,7 @@ UMLWidget* AssociationWidget::findWidget( int id, const UMLWidgetList& widgets,
 	while ( (obj = it.current()) != NULL ) {
 		++it;
 		if (obj->getBaseType() == wt_Object) {
-			if (static_cast<ObjectWidget *>(obj)->getLocalID() == id) 
+			if (static_cast<ObjectWidget *>(obj)->getLocalID() == id)
 				return obj;
 		} else if (obj->getID() == id) {
 			return obj;
@@ -3263,7 +3267,7 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
 
 		// we should disconnect any prior association (can this happen??)
 		if(m_pAssociation)
-			m_pAssociation->disconnect(this); 
+			m_pAssociation->disconnect(this);
 
 		// New style: The xmi.id is a reference to the UMLAssociation.
 		UMLDoc* umldoc = m_pView->getDocument();
@@ -3299,10 +3303,10 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
 			else {
 				// set up 'old' corner from first point in line
 				// as IF this ISNT done, then the subsequent call to
-				// widgetMoved will inadvertantly think we have made a 
+				// widgetMoved will inadvertantly think we have made a
 				// big move in the position of the association when we haven't.
 				QPoint p = m_LinePath.getPoint(0);
-				m_OldCornerA.setX(p.x()); 
+				m_OldCornerA.setX(p.x());
 				m_OldCornerA.setY(p.y());
 			}
 		} else if( tag == "UML:FloatingTextWidget" ) {
@@ -3360,9 +3364,9 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
 					if(oldStyleLoad)
 						if( AssocRules::allowRole( getAssocType()) )
 							setRoleNameA(m_pRoleA->getText());
-						else { 
+						else {
 							m_pView->removeWidget(m_pRoleA);
-							m_pRoleA = 0; 
+							m_pRoleA = 0;
 						}
 					break;
 				case Uml::tr_RoleBName:
@@ -3370,9 +3374,9 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
 					if(oldStyleLoad)
 						if( AssocRules::allowRole( getAssocType()) )
 							setRoleNameB(m_pRoleB->getText());
-						else { 
+						else {
 							m_pView->removeWidget(m_pRoleB);
-							m_pRoleB = 0; 
+							m_pRoleB = 0;
 						}
 					break;
 				default:

@@ -3292,10 +3292,10 @@ bool UMLView::loadMessagesFromXMI( QDomElement & qElement ) {
 bool UMLView::loadAssociationsFromXMI( QDomElement & qElement ) {
 	QDomNode node = qElement.firstChild();
 	QDomElement assocElement = node.toElement();
-int countr = 0;
+	int countr = 0;
 	while( !assocElement.isNull() ) {
-		if( assocElement.tagName() == "UML:AssocWidget" ) {
-countr++;
+		if ( assocElement.tagName() == "UML:AssocWidget" ) {
+			countr++;
 			AssociationWidget *assoc = new AssociationWidget(this);
 			if( !assoc->loadFromXMI( assocElement ) ) {
 				kdError() << "couldn't loadFromXMI association widget:"

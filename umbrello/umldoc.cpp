@@ -784,13 +784,13 @@ UMLObject* UMLDoc::createStereotype(UMLClassifier* classifier, UMLObject_Type li
 	return newStereotype;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLOperation* UMLDoc::createOperation( ) 
+UMLOperation* UMLDoc::createOperation( )
 {
 	UMLOperation* op = new UMLOperation( 0L );
 	return op;
 }
 
-UMLOperation* UMLDoc::createOperation(UMLClassifier* classifier, const QString &name) 
+UMLOperation* UMLDoc::createOperation(UMLClassifier* classifier, const QString &name)
 {
 	if(!classifier)
 	{
@@ -798,7 +798,7 @@ UMLOperation* UMLDoc::createOperation(UMLClassifier* classifier, const QString &
 			   <<"Use UMLDoc::createOperation( ) instead!"<<endl;
 		return 0L;
 	}
-	
+
 	int id = getUniqueID();
 	UMLOperation *op = new UMLOperation( 0L, name, id);
 
@@ -817,10 +817,10 @@ UMLOperation* UMLDoc::createOperation(UMLClassifier* classifier, const QString &
 			}
 		}while( classifier->checkOperationSignature( op ) != true );
 	}
-	
+
 	// operation name is ok, formally add it to the classifier
 	classifier->addOperation( op );
-	
+
 	// addUMLObject(newOperation);
 	setModified(true);
 	sigObjectCreated(op);

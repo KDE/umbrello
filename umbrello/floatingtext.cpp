@@ -131,39 +131,20 @@ void FloatingText::slotMenuSelection(int sel) {
 
 	case ListPopupMenu::mt_Operation:
 		{
-			UMLClassifier * c = (UMLClassifier *)getUMLObject();
+			UMLClassifier* c;
+			if (m_pAssoc)  {
+				c = (UMLClassifier*)( m_pAssoc->getWidgetA()->getUMLObject() );
+			} else {
+				c = (UMLClassifier*)getUMLObject();
+			}
 			Uml::UMLObject_Type ot = ListPopupMenu::convert_MT_OT((ListPopupMenu::Menu_Type)sel);
 			UMLObject* umlObj = m_pView->getDocument()->createUMLObject(c, ot);
 			UMLOperation* newOperation = dynamic_cast<UMLOperation*>( umlObj );
-			if (newOperation) {
-				m_pMessage->setOperation( newOperation->toString(st_NoSigNoScope) );
-				setVisible(getText().length() > 0);
-				calculateSize();
-				setPositionFromMessage(); //force it to display
-			}
-		}
-		break;
-
-	case ListPopupMenu::mt_Sequence_Number:
-		{
-			QString seqNum;
-			if (m_pMessage)
-				seqNum = m_pMessage->getSequenceNumber();
-			bool ok;
-			QString msg = i18n("Enter sequence number:");
-			QString t = KInputDialog::getText(i18n("Sequence Number"), msg, seqNum, &ok, (QWidget*)m_pView);
-			if(ok) {
-				if (m_pMessage) {
-					m_pMessage->setSequenceNumber( t );
-				} else if (m_pAssoc) {
-					m_pAssoc->setName( t );
-				} else {
-					kdDebug() << "FloatingText::slotMenuSelection: no associated widget"
-						  << endl;
-				}
-				setText( t );
-				calculateSize();
-				setVisible( true );
+			if (newOperation && m_pMessage) {
+				m_pMessage->setOperation( newOperation->toString(st_SigNoScope) );
+				setMessageText();
+			} else if (newOperation && m_pAssoc)  {
+				m_pAssoc->setName( newOperation->toString(st_SigNoScope) );
 			}
 		}
 		break;
@@ -341,8 +322,17 @@ void FloatingText::showOpDlg() {
 	if (m_pMessage) {
 		seqNum = m_pMessage->getSequenceNumber();
 		op = m_pMessage->getOperation();
+	} else if (m_pAssoc)  {
+		seqNum = m_pAssoc->getMultiA();
+		op = m_pAssoc->getName();
 	}
-	UMLClassifier* c = (UMLClassifier*)getUMLObject();
+
+	UMLClassifier* c;
+	if (m_pAssoc)  {
+		c = (UMLClassifier*)( m_pAssoc->getWidgetA()->getUMLObject() );
+	} else {
+		c = (UMLClassifier*)getUMLObject();
+	}
 	SelectOpDlg selectDlg((QWidget*)m_pView, c);
 	selectDlg.setSeqNumber( seqNum );
 	selectDlg.setCustomOp( op );
@@ -357,14 +347,18 @@ void FloatingText::showOpDlg() {
 		m_pMessage->setSequenceNumber( seqNum );
 		m_pMessage->setOperation( op );
 	} else if (m_pAssoc) {
-		m_pAssoc->setName( displayText );
+		m_pAssoc->setName(op);
+		m_pAssoc->setMultiA(seqNum);
 	}
+	setMessageText();
+	/*
 	if( m_Role == tr_Coll_Message || m_Role == tr_Seq_Message ) {
 		setText( displayText );
 	}
 	setVisible(getText().length() > 0);
 	calculateSize();
 	setPositionFromMessage(); //force it to display
+	*/
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void FloatingText::mouseMoveEvent(QMouseEvent* me) {
@@ -634,3 +628,19 @@ bool FloatingText::loadFromXMI( QDomElement & qElement ) {
 	return true;
 }
 
+void FloatingText::setMessageText() {
+	QString displayText;
+	if (m_pMessage) {
+		QString seqNum = m_pMessage->getSequenceNumber();
+		QString op = m_pMessage->getOperation();
+		displayText = seqNum + ": " + op;
+		setText( displayText );
+	} else if (m_pAssoc) {
+		displayText = m_pAssoc->getName();
+		setText( displayText );
+	}
+
+	setVisible(getText().length() > 0);
+	calculateSize();
+	setPositionFromMessage(); //force it to display
+}
