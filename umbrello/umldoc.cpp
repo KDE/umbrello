@@ -79,12 +79,14 @@
 #include "dialogs/umloperationdialog.h"
 #include "inputdialog.h"
 #include "listpopupmenu.h"
+#include "version.h"
 
 # define EXTERNALIZE_ID(id)  QString::number(id).ascii()
 # define INTERNALIZE_ID(id)  ID2STR(id).toInt()
 
-#define XMI_FILE_VERSION "1.3.90"
-// NB: The XMI_FILE_VERSION is the Umbrello version NOT the UML version.
+#define XMI_FILE_VERSION UMBRELLO_VERSION
+// For the moment, the XMI_FILE_VERSION changes with each UMBRELLO_VERSION.
+// But someday that may stabilize ;)
 
 using namespace Uml;
 
