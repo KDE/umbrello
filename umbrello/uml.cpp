@@ -177,14 +177,14 @@ void UMLApp::initActions() {
 	fileNew->setStatusText(i18n("Creates a new document"));
 	fileOpen->setStatusText(i18n("Opens an existing document"));
 	fileOpenRecent->setStatusText(i18n("Opens a recently used file"));
-	fileSave->setStatusText(i18n("Saves the actual document"));
-	fileSaveAs->setStatusText(i18n("Saves the actual document as..."));
-	fileClose->setStatusText(i18n("Closes the actual document"));
-	filePrint ->setStatusText(i18n("Prints out the actual document"));
+	fileSave->setStatusText(i18n("Saves the document"));
+	fileSaveAs->setStatusText(i18n("Saves the document as..."));
+	fileClose->setStatusText(i18n("Closes the document"));
+	filePrint ->setStatusText(i18n("Prints out the document"));
 	fileQuit->setStatusText(i18n("Quits the application"));
 	editCut->setStatusText(i18n("Cuts the selected section and puts it to the clipboard"));
 	editCopy->setStatusText(i18n("Copies the selected section to the clipboard"));
-	editPaste->setStatusText(i18n("Pastes the clipboard contents to actual position"));
+	editPaste->setStatusText(i18n("Pastes the contents of the clipboard"));
 #if !KDE_IS_VERSION(3,1,90)
 	viewToolBar->setStatusText(i18n("Enables/disables the toolbar"));
 	viewStatusBar->setStatusText(i18n("Enables/disables the statusbar"));
@@ -761,7 +761,7 @@ void UMLApp::slotEditPaste() {
 	if(!clipboard.paste(doc, data)) {
 		KMessageBox::sorry( this, i18n("Umbrello could not paste the clipboard contents.  "
 					       "The objects in the clipboard may be of the wrong "
-					       " type to be pasted here."), i18n("Paste Error") );
+					       "type to be pasted here."), i18n("Paste Error") );
 	}
 	slotStatusMsg(i18n("Ready."));
 	setCursor(KCursor::arrowCursor());
@@ -1109,14 +1109,16 @@ CodeGenerator* UMLApp::createGenerator() {
 	CodeGenerator* g = 0;
 
 	if(activeLanguage.isEmpty()) {
-		KMessageBox::sorry(this,i18n("There is no active language defined.\nPlease select\
-		                             one of the installed languages to generate the code with."),i18n("No Language Selected"));
+		KMessageBox::sorry(this,i18n("There is no active language defined.\nPlease select "
+		                             "one of the installed languages to generate the code with."),
+				   i18n("No Language Selected"));
 		return 0;
 	}
 	info = generatorDict.find(activeLanguage);
 	if(!info) {
-		KMessageBox::sorry(this,i18n("Could not find active language.\nPlease select\
-		                             one of the installed languages to generate the code with."),i18n("No Language Selected"));
+		KMessageBox::sorry(this,i18n("Could not find active language.\nPlease select "
+		                             "one of the installed languages to generate the code with."),
+				   i18n("No Language Selected"));
 		return 0;
 	}
 

@@ -246,7 +246,15 @@ If 'Snap to Grid' is enabled a component will always be aligned with the grid on
                                         <cstring>TextLabel2</cstring>
                                     </property>
                                     <property name="text">
-                                        <string>Grid spacing:  X</string>
+                                        <string>Grid spacing:  </string>
+                                    </property>
+                                </widget>
+                                <widget class="QLabel">
+                                    <property name="name">
+                                        <cstring>TextLabelX</cstring>
+                                    </property>
+                                    <property name="text">
+                                        <string>X</string>
                                     </property>
                                 </widget>
                                 <widget class="QSpinBox">

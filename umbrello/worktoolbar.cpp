@@ -57,14 +57,14 @@ void WorkToolBar::slotCheckToolBar(Uml::Diagram_Type dt) {
 		return;
 
 	//insert note, anchor and lines of text on all diagrams
-	insertButton( m_Pixmaps[tbb_Arrow], tbb_Arrow );
+	insertButton( m_Pixmaps[tbb_Arrow], tbb_Arrow, true, i18n("Select") );
 	setToggle( tbb_Arrow, true );
 	toggleButton( tbb_Arrow );
 	m_CurrentButtonID = tbb_Arrow;
 
 	insertHotBtn(tbb_Note, i18n("Note"));
 	insertHotBtn(tbb_Anchor, i18n("Anchor"));
-	insertHotBtn(tbb_Text, i18n("Line of text"));
+	insertHotBtn(tbb_Text, i18n("Label"));
 	insertHotBtn(tbb_Box, i18n("Box"));
 
 	//insert diagram specific tools
@@ -356,7 +356,7 @@ void WorkToolBar::loadPixmaps() {
 void WorkToolBar::insertBasicAssociations()  {
 		insertHotBtn(tbb_Association, i18n("Association"));
 		if (m_Type == dt_Class || m_Type == dt_UseCase)  {
-			insertHotBtn(tbb_UniAssociation, i18n("Unidirectional association"));
+			insertHotBtn(tbb_UniAssociation, i18n("Directional Association"));
 		}
 		insertHotBtn(tbb_Dependency, i18n("Dependency"));
 		insertHotBtn(tbb_Generalization, i18n("Implements (Generalisation/Realisation)"));

@@ -100,7 +100,7 @@ void SettingsDlg::setupGeneralPage() {
 	m_GeneralWidgets.timeKB -> setEnabled( m_OptionState.generalState.autosave );
 	autosaveLayout -> addWidget( m_GeneralWidgets.timeKB, 1, 1 );
 
-	QString time[4] = { i18n("5"), i18n("10"), i18n("15"), i18n("30") };
+	QString time[4] = { "5", "10", "15", "30" };
 	for( int i=0; i < 4; i++ )
 		m_GeneralWidgets.timeKB -> insertItem( time[i] );
 	m_GeneralWidgets.timeKB -> setDuplicatesEnabled( false );
