@@ -6,7 +6,6 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-
 #include <climits>
 #include <math.h>
 
@@ -1886,10 +1885,8 @@ void UMLView::removeAssociations(UMLWidget* Widget) {
 		++assoc_it;
 		if(assocwidget->contains(Widget)) {
 			removeAssoc(assocwidget);
-
 		}
 	}
-	m_AssociationList.clear();
 }
 
 void UMLView::selectAssociations(bool bSelect) {
