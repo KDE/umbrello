@@ -1,11 +1,27 @@
 Version 1.2
 
+* Canvas zoom
+
+* Undo and redo
+	
+* Clipboard now uses XMI, old binary .uml file format no longer supported
+	
+* Resizeable canvas
+	
 * Refactoring agent
 
-* Improved code export
+* Improved code export and many new code export languages
 
-* New datatype widget and internal representation 
+* Datatype and enum widgets and internal representation 
 
+* Component and deployment diagrams
+
+* Parameterised classes (templates in C++, generics in Java)
+
+* Stereotypes on operations, attributes, etc
+
+* Asymetric and symetric sequence diagram messages
+	
 * Can change properties of multiple items at one time
 
 * Code base is tightened up (no more WidgetData classes)
