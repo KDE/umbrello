@@ -108,8 +108,8 @@ void UMLOperationDialog::setupDialog() {
 	m_pPropertiesButton->setEnabled(false);
 
 	//add some standard return types to combo box
-	QString types[] = {i18n("void"), i18n("int"), i18n("long"), i18n("bool"), i18n("string"), i18n("double"),
-	                   i18n("float"), i18n("date")};
+	QString types[] = {"void", "int", "long", "bool", "string", "double",
+	                   "float", "date"};
 
 	for (int i=0; i<6; i++) {
 		m_pRtypeCB->insertItem(types[i]);
