@@ -34,7 +34,7 @@
 #include <klineeditdlg.h>
 #include <kdebug.h>
 
-using std::typeinfo;
+using std::type_info;
  
  
  namespace Umbrello{

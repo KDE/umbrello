@@ -300,15 +300,15 @@ void ClassWidget::calculateSize()
 	font.setItalic(true);
 	QFontMetrics fm(font);
 
-	maxWidth = max(maxWidth,fm.width(m_stereotype));
-	maxWidth = max(maxWidth, fm.width(m_name));
+	maxWidth = kMax(maxWidth,fm.width(m_stereotype));
+	maxWidth = kMax(maxWidth, fm.width(m_name));
 	for(QValueList<AttString>::Iterator it = m_atts.begin(); it != m_atts.end(); ++it )
 	{
-		maxWidth = max(maxWidth,fm.width((*it).string));
+		maxWidth = kMax(maxWidth,fm.width((*it).string));
 	}
 	for(QValueList<OpString>::Iterator it = m_ops.begin(); it != m_ops.end(); ++it )
 	{
-		maxWidth = max(maxWidth,fm.width((*it).string));
+		maxWidth = kMax(maxWidth,fm.width((*it).string));
 	}
 
 	m_width = maxWidth + (2 * hMargin);

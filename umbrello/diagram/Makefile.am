@@ -1,6 +1,6 @@
 noinst_LTLIBRARIES = libdiagram.la
 
-INCLUDES = -I$(top_srcdir) $(all_includes)
+INCLUDES = -I$(top_srcdir) -I$(top_builddir)/umbrello/umbrello/dialogs $(all_includes)
 
 libdiagram_la_METASOURCES = AUTO
 
