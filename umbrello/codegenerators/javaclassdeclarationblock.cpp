@@ -140,7 +140,7 @@ void JavaClassDeclarationBlock::updateContent ( )
 	}
 
         // Set the header and end text for the hier.codeblock
-        setText(startText+" {");
+        setStartText(startText+" {");
 
 	// setEndText("}"); // not needed 
 

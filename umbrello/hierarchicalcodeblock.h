@@ -151,6 +151,7 @@ protected:
 
 private:
 
+	QString m_startText; 
 	QString m_endText; 
 
 	QString childTextBlocksToString();
