@@ -606,60 +606,13 @@ bool FloatingText::loadFromXMI( QDomElement & qElement ) {
 	m_PreText = qElement.attribute( "pretext", "" );
 	m_PostText = qElement.attribute( "posttext", "" );
 	m_Text = qElement.attribute( "text", "" );
-
-/*
-	int id = UMLWidget::getID();
-	if (id == -1)
-		return true;
-
-	if ( playsAssocRole() ) {
-		m_pAssoc = m_pView->findAssocWidget( id );
-		if (m_pAssoc == NULL) {
-			kdDebug() << "FloatingText::loadFromXMI: "
-				  << "cannot find master assoc widget " << id << endl;
-			return false;
-		}
-		Uml::Changeability_Type changeType;
-		// CHECK: Can we get rid of the following synchronization.
-		switch (m_Role) {
-			case tr_MultiA:
-				m_Text = m_pAssoc->getMultiA();
-				break;
-			case tr_MultiB:
-				m_Text = m_pAssoc->getMultiB();
-				break;
-			case tr_Name:
-				m_Text = m_pAssoc->getName();
-				break;
-			case tr_RoleAName:
-				m_Text = m_pAssoc->getRoleNameA();
-				break;
-			case tr_RoleBName:
-				m_Text = m_pAssoc->getRoleNameB();
-				break;
-			case tr_ChangeA:
-				changeType = m_pAssoc->getChangeabilityA();
-				m_Text = UMLAssociation::ChangeabilityToString( changeType );
-
-				break;
-			case tr_ChangeB:
-				changeType = m_pAssoc->getChangeabilityB();
-				m_Text = UMLAssociation::ChangeabilityToString( changeType );
-				break;
-			default:
-				break;
-		}
-	} else if (playsMessageRole()) {
-		m_pMessage = dynamic_cast<MessageWidget*>( m_pView->findWidget(id) );
-		if (m_pMessage == NULL) {
-			kdDebug() << "FloatingText::loadFromXMI: "
-				  << "cannot find master message widget " << id << endl;
-			return false;
-		}
-	}
-*/
-
-	return true;
+	// If all texts are empty then this is a useless widget.
+	// In that case we return false.
+	// CAVEAT: The caller should not interpret the false return value
+	//  as an indication of failure since previous umbrello versions
+	//  saved lots of these empty FloatingTexts.
+	bool isDummy = (m_Text == "" && m_PreText == "" && m_PostText == "");
+	return !isDummy;
 }
 
 void FloatingText::setMessageText() {
