@@ -831,7 +831,7 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement) {
 	UMLClassifier *c = dynamic_cast<UMLClassifier*>( pWB->getUMLObject() );
 	if (c) {
 		Uml::IDType opId = STR2ID(m_CustomOp);
-		m_pOperation = dynamic_cast<UMLOperation*>( c->findChildObject(opId) );
+		m_pOperation = dynamic_cast<UMLOperation*>( c->findChildObject(opId, true) );
 		if (m_pOperation) {
 			// If m_pOperation is set, m_CustomOp isn't used anyway.
 			// Just setting it empty for the sake of sanity.

@@ -275,13 +275,21 @@ UMLObjectList UMLClassifier::findChildObject(Object_Type t , const QString &n) {
 	return list;
 }
 
-UMLObject* UMLClassifier::findChildObject(Uml::IDType id) {
+UMLObject* UMLClassifier::findChildObject(Uml::IDType id, bool considerAncestors /* =false */) {
 	for (UMLClassifierListItemListIt lit(m_List); lit.current(); ++lit) {
 		UMLClassifierListItem* o = lit.current();
 		if (o->getID() == id)
 			return o;
 	}
-	return UMLCanvasObject::findChildObject(id);
+	if (considerAncestors) {
+		UMLClassifierList ancestors = findSuperClassConcepts();
+		for (UMLClassifier *anc = ancestors.first(); anc; anc = ancestors.next()) {
+			UMLObject *o = anc->findChildObject(id);
+			if (o)
+				return o;
+		}
+	}
+	return UMLCanvasObject::findAssoc(id);
 }
 
 UMLClassifierList UMLClassifier::findSubClassConcepts (ClassifierType type) {

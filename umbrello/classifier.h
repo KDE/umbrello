@@ -291,7 +291,7 @@ public:
 	 *
 	 * @return	The object found.  Will return 0 if none found.
 	 */
-	virtual UMLObject* findChildObject(Uml::IDType id);
+	virtual UMLObject* findChildObject(Uml::IDType id, bool considerAncestors = false);
 
 	/**
 	 * Find an operation of the given name and parameter signature.

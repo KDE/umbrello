@@ -132,7 +132,7 @@ UMLObjectList UMLCanvasObject::findChildObject(Uml::Object_Type t, const QString
 	return list;
 }
 
-UMLObject* UMLCanvasObject::findChildObject(Uml::IDType id) {
+UMLObject* UMLCanvasObject::findAssoc(Uml::IDType id) {
 	for (UMLAssociationListIt ait(m_AssocsList); ait.current(); ++ait) {
 		UMLAssociation *asso = ait.current();
 		if (asso->getID() == id)
