@@ -2440,7 +2440,6 @@ void AssociationWidget::mouseReleaseEvent(QMouseEvent * me) {
 
 void AssociationWidget::slotMenuSelection(int sel) {
 	QString oldText, newText;
-	int result = 0;
 	bool done = false;
 	QFont font;
 	Uml::Association_Type atype = getAssocType();
@@ -2503,7 +2502,7 @@ void AssociationWidget::slotMenuSelection(int sel) {
 		else
 			oldText = "";
 		newText = KInputDialog::getText(i18n("Multiplicity"), i18n("Enter multiplicity:") , oldText, 0, m_pView);
-		if( result && newText != oldText && FloatingText::isTextValid(newText) ) {
+		if ( newText != oldText && FloatingText::isTextValid(newText) ) {
 			setMultiA(newText);
 		}
 		break;
@@ -2515,7 +2514,7 @@ void AssociationWidget::slotMenuSelection(int sel) {
 		else
 			oldText = "";
 		newText = KInputDialog::getText(i18n("Multiplicity"), i18n("Enter multiplicity:"), oldText, 0, m_pView);
-		if( result && newText != oldText && FloatingText::isTextValid(newText) ) {
+		if ( newText != oldText && FloatingText::isTextValid(newText) ) {
 			setMultiB(newText);
 		}
 		break;
@@ -2527,7 +2526,7 @@ void AssociationWidget::slotMenuSelection(int sel) {
 			oldText = "";
 
 		newText = KInputDialog::getText(i18n("Association Name"), i18n("Enter association name:"), oldText, 0, m_pView);
-		if( result && newText != oldText && FloatingText::isTextValid(newText) )
+		if ( newText != oldText && FloatingText::isTextValid(newText) )
 			setName(newText);
 
 		break;
@@ -2538,7 +2537,7 @@ void AssociationWidget::slotMenuSelection(int sel) {
 		else
 			oldText = "";
 		newText = KInputDialog::getText(i18n("Role Name"), i18n("Enter role name:"), oldText, 0, m_pView);
-		if( result && newText != oldText && FloatingText::isTextValid(newText) ) {
+		if ( newText != oldText && FloatingText::isTextValid(newText) ) {
 			setRoleNameA(newText);
 		}
 		break;
@@ -2549,7 +2548,7 @@ void AssociationWidget::slotMenuSelection(int sel) {
 		else
 			oldText = "";
 		newText = KInputDialog::getText(i18n("Role Name"), i18n("Enter role name:"), oldText, 0, m_pView);
-		if( result && newText != oldText && FloatingText::isTextValid(newText) ) {
+		if ( newText != oldText && FloatingText::isTextValid(newText) ) {
 			setRoleNameB(newText);
 		}
 		break;
