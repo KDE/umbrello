@@ -239,8 +239,15 @@ void CodeClassField::loadFromXMI ( QDomElement & root ) {
 void CodeClassField::setAttributesOnNode ( QDomDocument & doc, QDomElement & cfElem)
 {
 
-        // superclass call
+	// always disconnect
+	getParentObject()->disconnect(this);
+
+        // superclass call.. may reset the parent object
         CodeParameter::setAttributesOnNode(doc,cfElem);
+
+	// make AFTER super-class call. This will reconnect to the parent 
+	// and re-check we have all needed child accessor methods and decl blocks
+ 	initFields( );
 
         // now set local attributes/fields
         cfElem.setAttribute("field_type",m_classFieldType);
@@ -279,28 +286,25 @@ void CodeClassField::setAttributesFromNode ( QDomElement & root) {
         while( !element.isNull() ) {
                 QString tag = element.tagName();
                 if( tag == "declarationcodeblock" ) {
-			// m_declCodeBlock = newDeclarationCodeBlock();
 			m_declCodeBlock->loadFromXMI(element);
                 } else 
                 if( tag == "codeaccessormethod" ) {
 			int type = element.attribute("accessType","0").toInt();
-//			CodeAccessorMethod * method = newCodeAccessorMethod(CodeAccessorMethod::GET);
 			CodeAccessorMethod * method = findMethodByType((CodeAccessorMethod::AccessorType) type);
 			if(method)
-			{
 				method->loadFromXMI(element);
-				addMethod(method);
-			} else
-				kdError()<<" ERROR: cant load code accessor method for type:"<<type<<endl;
+			else
+				kdError()<<" ERROR: cant load code accessor method for type:"<<type<<" which doesnt exist in this codeclassfield. Outdated codegen library that doesnt have this type of accessor method?"<<endl;
 		} else
                 if( tag == "header" ) {
 			// this is treated in parent.. skip over here
 		} else
-			kdError()<<"ERROR: bad savefile? code classfield loadFromXMI got child element with unknown tag:"<<tag.latin1()<<endl;  
+			kdWarning()<<"ERROR: bad savefile? code classfield loadFromXMI got child element with unknown tag:"<<tag<<" ignoring node."<<endl;  
 
                 node = element.nextSibling();
                 element = node.toElement();
         }
+
 }
 
 /**

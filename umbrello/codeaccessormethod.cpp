@@ -132,6 +132,14 @@ void CodeAccessorMethod::setAttributesFromNode ( QDomElement & root) {
         // set attributes from the XMI
         CodeMethodBlock::setAttributesFromNode(root); // superclass load
 
+/*
+	// I dont believe this is needed for a load from XMI. We never delete
+	// accessor methods from the parent classfield.. they are essentially
+	// in composition with the parent class and are arent meant to be out
+	// on their own. Well, this is fine for now, but IF we start allowing
+	// clipping and pasting of these methods between classes/ classfields
+	// then we may have problems (ugh.. I cant imagine allowing this, but
+	// perhaps someone will see a need to allow it. -b.t.)
         QString id = root.attribute("classfield_id","-1");
         CodeClassField * newCF = 0;
 	ClassifierCodeDocument * cdoc = dynamic_cast<ClassifierCodeDocument*>(getParentDocument());
@@ -144,6 +152,7 @@ void CodeAccessorMethod::setAttributesFromNode ( QDomElement & root) {
 	else
 		kdError()<<"ERROR: code accessor method cant load parent codeclassfield, corrupt file?"<<endl;
 
+*/
         // now load/set other local attributes
         setType((AccessorType) root.attribute("accessType","0").toInt());
  
