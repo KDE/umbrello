@@ -446,8 +446,11 @@ void UMLListViewItem::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement itemElement = qDoc.createElement( "listitem" );
 	itemElement.setAttribute( "id", getID() );
 	itemElement.setAttribute( "type", m_Type );
-	//if (m_pObject == NULL)  //activate when UMLObject constructor emits sigObjectCreated
-	  itemElement.setAttribute( "label", m_Label );
+	if (m_pObject == NULL) {
+		kdDebug() << "UMLListViewItem::saveToXMI: saving local label "
+			  << m_Label << " because m_pObject is NULL" << endl;
+		itemElement.setAttribute( "label", m_Label );
+	}
 	itemElement.setAttribute( "open", isOpen() );
 	UMLListViewItem * childItem = static_cast<UMLListViewItem *> ( firstChild() );
 	while( childItem ) {
