@@ -68,7 +68,9 @@ UMLListView::UMLListView(QWidget *parent,const char *name) : KListView(parent,na
 	lv = new UMLListViewItem(rv, i18n("Logical View"), Uml::lvt_Logical_View);
 	componentView = new UMLListViewItem(rv, i18n("Component View"), Uml::lvt_Component_View);
 	deploymentView = new UMLListViewItem(rv, i18n("Deployment View"), Uml::lvt_Deployment_View);
-	diagramFolder = new UMLListViewItem(rv,i18n("Diagrams"),Uml::lvt_Diagrams);
+//Uncomment for using Luis diagram display code
+//	diagramFolder = new UMLListViewItem(rv,i18n("Diagrams"),Uml::lvt_Diagrams);
+
 
 	init();
 
@@ -364,8 +366,9 @@ void UMLListView::popupMenuSel(int sel) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLListView::diagramCreated(Diagram* d) {
-	new UMLListViewItem( diagramFolder, d->name(),
-			     convert_DT_LVT((Uml::Diagram_Type)d->diagramType()), d->getID() );
+//Uncomment for using Luis diagram display code
+//	new UMLListViewItem( diagramFolder, d->name(),
+//			     convert_DT_LVT((Uml::Diagram_Type)d->diagramType()), d->getID() );
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLListView::slotDiagramCreated( int id ) {
@@ -730,7 +733,8 @@ void UMLListView::init() {
 	deleteChildrenOf( lv );
 	deleteChildrenOf( componentView );
 	deleteChildrenOf( deploymentView );
-	deleteChildrenOf( diagramFolder );
+//Uncomment for using Luis diagram display code
+//	deleteChildrenOf( diagramFolder );
 
 	rv->setOpen(true);
 	ucv->setOpen(true);
@@ -1846,7 +1850,8 @@ bool UMLListView::loadFromXMI( QDomElement & element ) {
 	deleteChildrenOf( lv );
 	deleteChildrenOf( componentView );
 	deleteChildrenOf( deploymentView );
-	deleteChildrenOf( diagramFolder );
+//Uncomment for using Luis diagram display code
+//	deleteChildrenOf( diagramFolder );
 
 	QDomNode node = element.firstChild();
 	QDomElement domElement = node.toElement();
@@ -1931,7 +1936,8 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
 				break;
 
 			case Uml::lvt_Diagrams:
-				item = diagramFolder;
+//Uncomment for using Luis diagram display code
+//				item = diagramFolder;
 				break;
 
 			default:
