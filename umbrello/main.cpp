@@ -79,7 +79,7 @@ int main(int argc, char *argv[]) {
 				uml->newDocument();
 			}
 		}
-		if (showLogo) {
+		if ( showLogo && !start_logo->isHidden() ) {
 			start_logo->raise();
 		}
 	}

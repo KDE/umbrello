@@ -41,7 +41,7 @@ void KStartupLogo::mousePressEvent( QMouseEvent*) {
 }
 
 void KStartupLogo::timerDone() {
-	this->close();
+	this->hide();
 }
 
 void KStartupLogo::setHideEnabled(bool bEnabled) {
