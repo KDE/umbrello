@@ -27,6 +27,7 @@
 #include "class.h"
 #include "operation.h"
 #include "attribute.h"
+#include "template.h"
 #include "association.h"
 #include "classparser/lexer.h"
 #include "classparser/driver.h"
@@ -163,25 +164,26 @@ UMLOperation* ClassImport::makeOperation(UMLClass *parent, const QString &name) 
 	return op;
 }
 
-UMLObject* ClassImport::insertAttribute(UMLClass *o, Uml::Scope scope, QString name,
+UMLObject* ClassImport::insertAttribute(UMLClass *owner, Uml::Scope scope, QString name,
 					QString type, QString comment /* ="" */,
 					bool isStatic /* =false */,
 					UMLPackage *parentPkg /* = NULL */) {
-	Uml::Object_Type ot = o->getBaseType();
+	Uml::Object_Type ot = owner->getBaseType();
 	if (ot != Uml::ot_Class) {
 		kdDebug() << "ClassImport::insertAttribute: Don't know what to do with "
-			  << o->getName() << " (object type " << ot << ")" << endl;
+			  << owner->getName() << " (object type " << ot << ")" << endl;
 		return NULL;
 	}
-	UMLClass *owner = static_cast<UMLClass*>(o);
 	UMLObjectList atts = owner->findChildObject(Uml::ot_Attribute, name);
 	if (atts.count()) {
 		return atts.first();
 	}
-	m_putAtGlobalScope = true;
-	UMLObject *obj = createUMLObject(Uml::ot_UMLObject, type, parentPkg);
-	m_putAtGlobalScope = false;
-	UMLClassifier *attrType = dynamic_cast<UMLClassifier*>(obj);
+	UMLObject *attrType = owner->findTemplate(type);
+	if (attrType == NULL) {
+		m_putAtGlobalScope = true;
+		attrType = createUMLObject(Uml::ot_UMLObject, type, parentPkg);
+		m_putAtGlobalScope = false;
+	}
 	UMLAttribute *attr = owner->addAttribute(name, attrType, scope);
 	attr->setStatic(isStatic);
 	QString strippedComment = doxyComment(comment);
@@ -201,10 +203,13 @@ void ClassImport::insertMethod(UMLClass *klass, UMLOperation *op,
 					 UMLPackage *parentPkg) {
 	op->setScope(scope);
 	if (!type.isEmpty()) {  // return type may be missing (constructor/destructor)
-		m_putAtGlobalScope = true;
-		UMLObject *typeObj = createUMLObject(Uml::ot_UMLObject, type, parentPkg);
-		m_putAtGlobalScope = false;
-		op->setType(dynamic_cast<UMLClassifier*>(typeObj));
+		UMLObject *typeObj = klass->findTemplate(type);
+		if (typeObj == NULL) {
+			m_putAtGlobalScope = true;
+			createUMLObject(Uml::ot_UMLObject, type, parentPkg);
+			m_putAtGlobalScope = false;
+			op->setType(typeObj);
+		}
 	}
 	op->setStatic(isStatic);
 	op->setAbstract(isAbstract);
@@ -221,11 +226,15 @@ void ClassImport::insertMethod(UMLClass *klass, UMLOperation *op,
 UMLAttribute* ClassImport::addMethodParameter(UMLOperation *method,
 					      QString type, QString name,
 					      UMLPackage *parentPkg) {
-	m_putAtGlobalScope = true;
-	UMLObject *typeObj = createUMLObject(Uml::ot_UMLObject, type, parentPkg);
-	m_putAtGlobalScope = false;
+	UMLClassifier *owner = static_cast<UMLClassifier*>(method->parent());
+	UMLObject *typeObj = owner->findTemplate(type);
+	if (typeObj == NULL) {
+		m_putAtGlobalScope = true;
+		typeObj = createUMLObject(Uml::ot_UMLObject, type, parentPkg);
+		m_putAtGlobalScope = false;
+	}
 	UMLAttribute *attr = new UMLAttribute(method, name);
-	attr->setType(dynamic_cast<UMLClassifier*>(typeObj));
+	attr->setType(typeObj);
 	method->addParm(attr);
 	return attr;
 }

@@ -15,6 +15,7 @@
 
 #include "tree_parser.h"
 #include <qstringlist.h>
+#include "../model_utils.h"
 
 // fwd decls
 class ClassImport;
@@ -79,6 +80,7 @@ private:
     bool m_inStorageSpec;
     bool m_inTypedef;
     QString m_comment;
+    Umbrello::NameAndType_List m_templateParams;
 
     DeclaratorAST* m_currentDeclarator;
 #   define STACKSIZE 30

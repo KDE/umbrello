@@ -18,6 +18,9 @@
 // Make capsule methods in ClassImport, and remove these includes.
 #include "../classifier.h"
 #include "../datatype.h"
+// FIXME The next 2 includes are motivated by template params
+#include "../template.h"
+#include "../class.h"
 
 #include <kdebug.h>
 #include <qfileinfo.h>
@@ -164,10 +167,41 @@ void CppTree2Uml::parseTypedef( TypedefAST* ast )
 
 void CppTree2Uml::parseTemplateDeclaration( TemplateDeclarationAST* ast )
 {
+    TemplateParameterListAST* parmListAST = ast->templateParameterList();
+    QPtrList<TemplateParameterAST> parmList = parmListAST->templateParameterList();
+    for (QPtrListIterator<TemplateParameterAST> it(parmList); it.current(); ++it) {
+	// The template is either a typeParameter or a typeValueParameter.
+
+    	TemplateParameterAST* tmplParmNode = it.current();
+	TypeParameterAST* typeParmNode = tmplParmNode->typeParameter();
+	if (typeParmNode) {
+	    NameAST* nameNode = typeParmNode->name();
+	    QString typeName = nameNode->unqualifiedName()->text();
+	    Umbrello::NameAndType nt(typeName, NULL);
+	    m_templateParams.append(nt);
+	}
+
+	ParameterDeclarationAST* valueNode = tmplParmNode->typeValueParameter();
+	if (valueNode) {
+	    TypeSpecifierAST* typeSpec = valueNode->typeSpec();
+	    if (typeSpec == NULL) {
+		kdError() << "CppTree2Uml::parseTemplateDeclaration: typeSpec is NULL"
+			  << endl;
+		break;
+	    }
+	    QString typeName = typeSpec->name()->text();
+	    UMLObject *t = m_importer->createUMLObject( Uml::ot_UMLObject, typeName,
+							m_currentNamespace[m_nsCnt] );
+	    DeclaratorAST* declNode = valueNode->declarator();
+	    NameAST* nameNode = declNode->declaratorId();
+	    QString paramName = nameNode->unqualifiedName()->text();
+	    Umbrello::NameAndType nt(paramName, t);
+	    m_templateParams.append(nt);
+	}
+    }
+
     if( ast->declaration() )
 	TreeParser::parseDeclaration( ast->declaration() );
-
-    TreeParser::parseTemplateDeclaration( ast );
 }
 
 void CppTree2Uml::parseSimpleDeclaration( SimpleDeclarationAST* ast )
@@ -281,9 +315,9 @@ void CppTree2Uml::parseClassSpecifier( ClassSpecifierAST* ast )
     } else {
 	className = ast->name()->unqualifiedName()->text().stripWhiteSpace();
     }
-#ifdef DEBUG_CPPTREE2UML
+//#ifdef DEBUG_CPPTREE2UML
     kdDebug() << "CppTree2Uml::parseClassSpecifier: name=" << className << endl;
-#endif
+//#endif
     if( !scopeOfName( ast->name(), QStringList() ).isEmpty() ){
 	kdDebug() << "skip private class declarations" << endl;
 	return;
@@ -297,6 +331,18 @@ void CppTree2Uml::parseClassSpecifier( ClassSpecifierAST* ast )
 						 m_currentNamespace[m_nsCnt],
 						 ast->comment() );
     UMLClass *klass = (UMLClass *)o;
+
+    if (m_templateParams.count()) {
+	Umbrello::NameAndType_ListIt it;
+	for (it = m_templateParams.begin(); it != m_templateParams.end(); ++it) {
+	    const Umbrello::NameAndType &nt = *it;
+	    kdDebug() << "CppTree2Uml::parseClassSpecifier: adding template param: "
+	    	      << nt.first << endl;
+	    UMLTemplate *tmpl = klass->addTemplate(nt.first);
+	    tmpl->setType(nt.second);
+	}
+	m_templateParams.clear();
+    }
 
     if ( ast->baseClause() )
 	parseBaseClause( ast->baseClause(), klass );
