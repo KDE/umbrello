@@ -25,12 +25,12 @@
 #include <qtextstream.h>
 #include <qregexp.h>
 
+#include "../umldoc.h"
 #include "../concept.h"
+#include "../association.h"
+#include "../attribute.h"
 #include "../operation.h"
 #include "../umlnamespace.h"
-#include "../umlview.h"    //hmm...I dont think this 3 includes should
-#include "../umlwidget.h"  //be needed here, but the way I have understood the code
-#include "../associationwidget.h" //so far, there is no other way of getting the associations
 
 
 
@@ -46,49 +46,6 @@ void JavaWriter::writeClass(UMLConcept *c) {
 		kdDebug()<<"Cannot write class of NULL concept!\n";
 		return;
 	}
-
-
-
-	/*I dont really understand how the associations are implemented, so this is probably
-	  a very ugly way of doing things... to me it´d be more natural to have the associations
-	  direct in the document, or even better, in the concept object itself and only the association
-	  widget in the view, the same as with umlobject and umlwidget.
-	*/
-	UMLView *view;
-	view = m_doc->getCurrentView();
-
-	AssociationWidgetList associations;
-	associations.setAutoDelete(false);
-	AssociationWidgetList aggregations;
-	aggregations.setAutoDelete(false);
-	AssociationWidgetList compositions;
-	compositions.setAutoDelete(false);
-	QList<UMLObject> generalizations;
-	generalizations.setAutoDelete(false);
-
-	view->getWidgetAssocs(c,associations);
-
-	//find out associations for this class
-	//only base class needs to know about generalization, and
-	//only the "whole" needs to know about the "parts" in aggregation / composition
-	for(AssociationWidget *a = associations.first(); a ; a=associations.next())
-		switch(a->getAssocType()) {
-			case Uml::at_Generalization:
-				if(a->getData()->getWidgetAID()==c->getID())
-					generalizations.append(m_doc->findUMLObject(a->getData()->getWidgetBID()));
-				break;
-			case Uml::at_Aggregation:
-				if(a->getData()->getWidgetBID()==c->getID())
-					aggregations.append(a);
-				break;
-			case Uml::at_Composition:
-				if(a->getData()->getWidgetBID()==c->getID())
-					compositions.append(a);
-				break;
-			default: //we dont support any other associations for the moment, =(
-				break;
-		}
-
 
 
 	QString classname = cleanName(c->getName());
@@ -143,14 +100,20 @@ void JavaWriter::writeClass(UMLConcept *c) {
 		java<<"  */\n\n";
 	}
 
+	QPtrList<UMLAssociation> generalizations = c->getGeneralizations();
+	QPtrList<UMLAssociation> aggregations = c->getAggregations();
+	QPtrList<UMLAssociation> compositions = c->getCompositions();
+	UMLAssociation *a;
+
 	java<<(c->getAbstract()?QString("abstract "):QString(""))
 	<<"public class "<<classname<<(generalizations.count()>0?" extends ":"");
 	int i;
-	UMLObject *obj;
-	for(obj = generalizations.first(), i = generalizations.count();
-	        obj && i;
-	        obj = generalizations.next(), i--)
+	for (a = generalizations.first(), i = generalizations.count();
+	        a && i;
+	        a = generalizations.next(), i--) {
+		UMLObject* obj = m_doc->findUMLObject(a->getRoleB());
 		java<<cleanName(obj->getName())<<(i>1?", ":"");
+	}
 
 	java<<"\n{\n";
 
@@ -162,24 +125,26 @@ void JavaWriter::writeClass(UMLConcept *c) {
 
 	if( forceSections() || !aggregations.isEmpty() ) {
 		java<<"\n/**Aggregations: */\n";
-		for(AssociationWidget *a = aggregations.first(); a; a = aggregations.next()) {
+		for (a = aggregations.first(); a; a = aggregations.next()) {
+			UMLObject *o = m_doc->findUMLObject(a->getRoleA());
+			QString typeName = cleanName(o->getName());
 			if(a->getMultiA().isEmpty())
-				java<<"private "<<cleanName(a->getWidgetA()->getName())<<" m_"<<cleanName(a->getWidgetA()->getName())<<";\n";
+				java << "private " << typeName << " m_" << typeName << ";\n";
 			else
-				java<<"private Vector "<<
-				cleanName(a->getWidgetA()->getName()).lower()<<"Vector;\n";
+				java << "private Vector " << typeName.lower() << "Vector;\n";
 		}
 	}
 
 
 	if( forceSections() || !compositions.isEmpty()) {
 		java<<"\n/**Compositions: */\n";
-		for(AssociationWidget *a = compositions.first(); a; a = compositions.next()) {
+		for (a = compositions.first(); a; a = compositions.next()) {
+			UMLObject *o = m_doc->findUMLObject(a->getRoleA());
+			QString typeName = cleanName(o->getName());
 			if(a->getMultiA().isEmpty())
-				java<<"private "<<cleanName(a->getWidgetA()->getName())<<" m_"<<cleanName(a->getWidgetA()->getName())<<";\n";
+				java << "private " << typeName << " m_" << typeName << ";\n";
 			else
-				java<<"private Vector "<<
-				cleanName(a->getWidgetA()->getName()).lower()<<"Vector;\n";
+				java << "private Vector " << typeName.lower() << "Vector;\n";
 		}
 	}
 

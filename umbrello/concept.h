@@ -10,11 +10,11 @@
 #ifndef CONCEPT_H
 #define CONCEPT_H
 
-#include "attribute.h"
 #include "umlobject.h"
 #include <qptrlist.h>
 
 class IDChangeLog;
+class UMLAssociation;
 class UMLAttribute;
 class UMLOperation;
 
@@ -60,6 +60,24 @@ public:
 	bool operator==( UMLConcept & rhs );
 
 	/**
+	 *	Adds an association.
+	 *	Which role is "this" side (i.e. identifies the current concept)
+	 *	depends on the association type:
+	 *	For generalizations, role A is "this" side.
+	 *	For aggregations and compositions, role B is "this" side.
+	 *
+	 *	@param	assoc	The association to add.
+	 */
+	bool addAssociation(UMLAssociation* assoc);
+
+	/**
+	 *	Remove an association from the Concept.
+	 *
+	 *	@param	o	The association to remove.
+	 */
+	int removeAssociation(UMLObject *o);
+
+	/**
 	 *	Adds an attribute to the Concept.
 	 *
 	 *	@param	name	The name of the Attribute.
@@ -102,6 +120,16 @@ public:
 	int removeOperation(UMLObject *o);
 
 	/**
+	 *	Returns the number of associations for the Concept.
+	 *	This is the sum of the aggregations and compositions.
+	 *
+	 *	@return	The number of associations for the Concept.
+	 */
+	int associations() {
+		return m_AssocsList.count();
+	}
+
+	/**
 	 *	Returns the number of attributes for the Concept.
 	 *
 	 *	@return	The number of attributes for the Concept.
@@ -117,6 +145,49 @@ public:
 	 */
 	int operations() {
 		return m_OpsList.count();
+	}
+
+	/**
+	 *	Return the list of associations for the Concept.
+	 *
+	 *	@return The list of associations for the Concept.
+	 */
+	const QPtrList<UMLAssociation>& getAssociations() {
+		return m_AssocsList;
+	}
+
+	/**
+	 *	Return the subset of m_AssocsList that matches `assocType'.
+	 *
+	 *	@return The list of associations that match `assocType'.
+	 */
+	const QPtrList<UMLAssociation>& getSpecificAssocs(Uml::Association_Type assocType);
+
+	/**
+	 *	Shorthand for getSpecificAssocs(Uml::at_Generalization)
+	 *
+	 *	@return The list of generalizations for the Concept.
+	 */
+	const QPtrList<UMLAssociation>& getGeneralizations() {
+		return getSpecificAssocs(Uml::at_Generalization);
+	}
+
+	/**
+	 *	Shorthand for getSpecificAssocs(Uml::at_Aggregation)
+	 *
+	 *	@return The list of aggregations for the Concept.
+	 */
+	const QPtrList<UMLAssociation>& getAggregations() {
+		return getSpecificAssocs(Uml::at_Aggregation);
+	}
+
+	/**
+	 *	Shorthand for getSpecificAssocs(Uml::at_Composition)
+	 *
+	 *	@return The list of compositions for the Concept.
+	 */
+	const QPtrList<UMLAssociation>& getCompositions() {
+		return getSpecificAssocs(Uml::at_Composition);
 	}
 
 	/**
@@ -187,7 +258,19 @@ public:
 	 * e.g. new attribute, new attribute_1 etc
 	 */
 	QString uniqChildName(const UMLObject_Type type);
+
 private:
+	/**
+	 * 	List of all the associations in this class.
+	 */
+	QPtrList<UMLAssociation> m_AssocsList;
+
+	/**
+	 * 	List for computation of subsets of m_AssocsList.
+	 * 	This is always computed from m_AssocsList.
+	 */
+	QPtrList<UMLAssociation> m_TmpAssocs;
+
 	/**
 	 * 	List of all the operations in this class.
 	 */

@@ -35,6 +35,8 @@ class UMLObject;
 class UMLView;
 class UMLViewData;
 class UMLWidget;
+class UMLConcept;
+class UMLAssociation;
 
 using namespace Uml;
 
@@ -162,24 +164,64 @@ public:
 	/**
 	 *  Creates either an operation or attribute for the parent concept.
 	 *
-	 *	@param	o			The parent object
+	 *	@param	o	The parent concept
 	 *	@param	type	The type to create, either an operation or attribute.
+	 *	@return		The UMLObject created
 	 */
 	UMLObject* createUMLObject(UMLObject* o, UMLObject_Type type);
 
 	/**
-	 *  Creates either an attribute for the parent concept.
+	 *  Creates an attribute for the parent concept.
 	 *
-	 *	@param	type	The type to create, either an operation or attribute.
+	 *	@param	o	The parent concept
+	 *	@return		The UMLAttribute created
 	 */
 	UMLObject* createAttribute(UMLObject* o);
 
 	/**
-	 *  Creates either an operation for the parent concept.
+	 *  Creates an operation for the parent concept.
 	 *
-	 *	@param	type	The type to create, either an operation or attribute.
+	 *	@param	o	The parent concept
+	 *	@return		The UMLOperation created
 	 */
 	UMLObject* createOperation(UMLObject* o);
+
+	/**
+	 *  Adds an existing association to the matching concept in the list of concepts.
+	 *  The selection of the matching concept depends on the association type:
+	 *  For generalizations, the assoc is added to the concept that matches role A.
+	 *  For aggregations and compositions , the assoc is added to the concept
+	 *  that matches role B.
+	 *
+	 *	@param	assoc	The assocation to add
+	 */
+	void addAssocToConcepts(UMLAssociation* assoc);
+
+	/**
+	 *  Creates an association.
+	 *
+	 *	@param	name		The name of the association
+	 *	@param	assocType	The type of the association
+	 *	@param	AId		The ID of the role A concept
+	 *	@param	BID		The ID of the role B concept
+	 *	@param	multiA		The multiplicity at role A (optional)
+	 *	@param	multiB		The multiplicity at role B (optional)
+	 *	@param	nameA		The name given to role A (optional)
+	 *	@param	nameB		The name given to role B (optional)
+	 */
+        void addAssociation(QString name, Association_Type assocType,
+			int AId, int BId,
+			QString multiA = "", QString multiB = "",
+			QString nameA = "", QString nameB = "");
+
+	/**
+	 *  Removes an association.
+	 *
+	 *	@param	assocType	The type of the association
+	 *	@param	AId		The ID of the role A concept
+	 *	@param	BID		The ID of the role B concept
+	 */
+	void removeAssociation(Association_Type assocType, int AId, int BId);
 
 	/**
 	 *	Creates a diagram of the given type.
@@ -247,7 +289,7 @@ public:
 	UMLObject* findUMLObject(int id);
 
 	/**
-	 *	Used to find a @ref UMLObject by its' type and name.
+	 *	Used to find a @ref UMLObject by its type and name.
 	 *
 	 *	@param	type	The type of @ref UMLObject to find.
 	 *	@param	name	The name of the @ref UMLObject to find.
@@ -399,6 +441,13 @@ public:
 	 *	@return	Returns a list of concepts
 	 */
 	QList<UMLConcept> getConcepts();
+
+	/**
+	 *	Returns a list of associations
+	 *
+	 *	@return	Returns a list of associations
+	 */
+	QList<UMLAssociation> getAssociations();
 
 	/**
 	 * Controls the printing of the program.

@@ -21,6 +21,7 @@ namespace Uml {
 	    ot_Actor,
 	    ot_UseCase,
 	    ot_Concept,
+            ot_Association,
 	    ot_Attribute,
 	    ot_Operation
 	};

@@ -8,6 +8,8 @@
  ***************************************************************************/
 
 #include "concept.h"
+#include "association.h"
+#include "attribute.h"
 #include "operation.h"
 #include "clipboard/idchangelog.h"
 #include <kdebug.h>
@@ -22,8 +24,30 @@ UMLConcept::UMLConcept(QObject * parent) : UMLObject(parent) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLConcept::~UMLConcept() {
+	m_AssocsList.clear();
+	m_TmpAssocs.clear();
 	m_AttsList.clear();
 	m_OpsList.clear();
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+const QPtrList<UMLAssociation>& UMLConcept::getSpecificAssocs(Uml::Association_Type assocType) {
+	m_TmpAssocs.clear();
+	for (UMLAssociation *a = m_AssocsList.first(); a; a = m_AssocsList.next())
+		if (a->getAssocType() == assocType)
+			m_TmpAssocs.append(a);
+	return m_TmpAssocs;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+bool UMLConcept::addAssociation(UMLAssociation* assoc) {
+	m_AssocsList.append( assoc );
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+int UMLConcept::removeAssociation(UMLObject *a) {
+	if(!m_AssocsList.remove((UMLAssociation *)a)) {
+		kdDebug() << "can't find assoc given in list" << endl;
+		return -1;
+	}
+	return m_AssocsList.count();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLObject* UMLConcept::addAttribute(QString name, int id) {
@@ -85,7 +109,9 @@ int UMLConcept::removeOperation(UMLObject *o) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 QString UMLConcept::uniqChildName(UMLObject_Type type) {
 	QString currentName;
-	if(type == ot_Attribute)
+	if (type == ot_Association)
+		currentName = i18n("new_association");
+	else if (type == ot_Attribute)
 		currentName = i18n("new_attribute");
 	else
 		currentName = i18n("new_operation");
@@ -98,7 +124,13 @@ QString UMLConcept::uniqChildName(UMLObject_Type type) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 QPtrList<UMLObject> UMLConcept::findChildObject(UMLObject_Type t , QString n) {
 	QPtrList<UMLObject> list;
-	if(t == ot_Attribute) {
+	if (t == ot_Association) {
+		UMLAssociation * obj=0;
+		for (obj = m_AssocsList.first(); obj != 0; obj = m_AssocsList.next()) {
+			if (obj->getBaseType() == t && obj -> getName() == n)
+				list.append( obj );
+		}
+	} else if (t == ot_Attribute) {
 		UMLAttribute * obj=0;
 		for(obj=m_AttsList.first();obj != 0;obj=m_AttsList.next()) {
 			if(obj->getBaseType() == t && obj -> getName() == n)
@@ -125,6 +157,11 @@ UMLObject * UMLConcept::findChildObject(int id) {
 		if(a->getID() == id)
 			return a;
 	}
+	UMLAssociation * asso = 0;
+	for (asso = m_AssocsList.first(); asso != 0; asso = m_AssocsList.next()) {
+		if (asso->getID() == id)
+			return asso;
+	}
 	return 0;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -132,6 +169,9 @@ bool UMLConcept::serialize(QDataStream *s, bool archive, int fileversion) {
 	bool status = UMLObject::serialize(s, archive, fileversion);
 	if(!status)
 		return status;
+	// Note: The m_AssocsList is filled by UMLDoc::serialize().
+	// UMLDoc::serialize() serializes the UMLConcepts before the
+	// UMLAssociations.
 	if(archive) {
 		*s << m_OpsList.count()
 		<< m_AttsList.count();
@@ -172,6 +212,10 @@ void UMLConcept::init() {
 	m_OpsList.setAutoDelete(true);
 	m_AttsList.clear();
 	m_AttsList.setAutoDelete(true);
+	m_AssocsList.clear();
+	m_AssocsList.setAutoDelete(false);
+	m_TmpAssocs.clear();
+	m_TmpAssocs.setAutoDelete(false);
 }
 
 /** Returns the amount of bytes needed to serialize this object */
@@ -210,11 +254,16 @@ bool UMLConcept::operator==( UMLConcept & rhs ) {
 	if( ! UMLObject::operator==( rhs) )
 		return false;
 
+	if( m_AssocsList.count() != rhs.m_AssocsList.count() )
+		return false;
+
 	if( m_AttsList.count() != rhs.m_AttsList.count() )
 		return false;
 
-
 	if( m_OpsList.count() != rhs.m_OpsList.count() )
+		return false;
+
+	if( &m_AssocsList != &(rhs.m_AssocsList) )
 		return false;
 
 	if( &m_AttsList != &(rhs.m_AttsList) )
@@ -245,22 +294,19 @@ bool UMLConcept::loadFromXMI( QDomElement & element ) {
 	if( !UMLObject::loadFromXMI( element ) )
 		return false;
 
-	UMLOperation * pOp = 0;
-	UMLAttribute * pAtt = 0;
 	QDomNode node = element.firstChild();
 	QDomElement tempElement = node.toElement();
 	while( !tempElement.isNull() ) {
 		QString tag = tempElement.tagName();
 		if( tag == "UML:Operation" ) {
-			pOp = new UMLOperation( this );
+			UMLOperation * pOp = new UMLOperation( this );
 			if( !pOp -> loadFromXMI( tempElement ) )
 				return false;
 			m_OpsList.append( pOp );
 		} else if( tag == "UML:Attribute" ) {
-			pAtt = new UMLAttribute( this );
+			UMLAttribute * pAtt = new UMLAttribute( this );
 			if( !pAtt -> loadFromXMI( tempElement ) )
 				return false;
-
 			m_AttsList.append( pAtt );
 		}
 		node = node.nextSibling();

@@ -21,6 +21,8 @@
 #include <klibloader.h>
 #include <qdir.h>
 #include <qmap.h>
+#include <qstringlist.h>
+#include <qobject.h>
 
 class UMLDoc;
 class UMLConcept;

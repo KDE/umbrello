@@ -495,7 +495,6 @@ bool AssociationWidgetData::saveToXMI( QDomDocument & qDoc, QDomElement & qEleme
 }
 
 bool AssociationWidgetData::loadFromXMI( QDomElement & qElement ) {
-
 	m_Doc = qElement.attribute( "documentation", "" );
 	QString indexa = qElement.attribute( "indexa", "0" );
 	QString indexb = qElement.attribute( "indexb", "0" );

@@ -1614,8 +1614,17 @@ bool UMLView::createAssoc(AssociationWidgetData* AssocData) {
 
 	}
 	AssociationWidget* assoc = new AssociationWidget(this, AssocData);
-	m_Associations.append(assoc);
+	addAssocInViewAndDoc(assoc);
 	return true;
+}
+
+void UMLView::addAssocInViewAndDoc(AssociationWidget* a) {
+	m_Associations.append(a);
+	int AId = a->getData()->getWidgetAID();
+	int BId = a->getData()->getWidgetBID();
+	getDocument() -> addAssociation (a->getRole(), a->getAssocType(),
+		AId, BId,
+		a->getMultiA(), a->getMultiB() );  /* NameA/NameB NYI */
 }
 
 bool UMLView::activateAfterSerialize( bool bUseLog ) {
@@ -1702,10 +1711,22 @@ void UMLView::removeAssoc(AssociationWidget* pAssoc) {
 		getDocument() -> getDocWindow() -> updateDocumentation( true );
 		m_pMoveAssoc = 0;
 	}
-	pAssoc->cleanup();
-	m_Associations.remove(pAssoc);
-	pAssoc -> deleteLater();
-	delete pAssoc;
+	removeAssocInViewAndDoc(pAssoc, true);
+}
+
+void UMLView::removeAssocInViewAndDoc(AssociationWidget* a, bool deleteLater) {
+	if(!a)
+		return;
+	// Remove the association from the UMLDoc.
+	int AId = a->getData()->getWidgetAID();
+	int BId = a->getData()->getWidgetBID();
+	getDocument()->removeAssociation(a->getAssocType(), AId, BId);
+	// Remove the association in this view.
+	a->cleanup();
+	m_Associations.remove(a);
+	if (deleteLater)
+		a -> deleteLater();
+	delete a;
 }
 
 bool UMLView::getAssocWidgets(AssociationWidgetList & Associations)
@@ -1761,7 +1782,7 @@ bool UMLView::setAssoc(UMLWidget *pWidget) {
 			valid =  AssocRules::allowAssociation( type, widgetA, widgetB );
 		if( valid ) {
 			AssociationWidget *temp = new AssociationWidget(this, widgetA, type, widgetB);
-			m_Associations.append(temp);
+			addAssocInViewAndDoc(temp);
 		} else {
 			KMessageBox::error(0, i18n("Incorrect use of associations."), i18n("Association Error"));
 		}
@@ -1840,9 +1861,7 @@ void UMLView::removeAllAssociations() {
 	while((assocwidget=assoc_it.current()))
 	{
 		++assoc_it;
-		m_Associations.remove(assocwidget);
-		assocwidget->cleanup();
-		delete assocwidget;
+		removeAssocInViewAndDoc(assocwidget);
 	}
 }
 
@@ -2135,7 +2154,7 @@ void UMLView::createAutoAssociations( UMLWidget * widget ) {
 
 				if( data )
 					temp -> setRole( data -> getText() );
-				m_Associations.append( temp );
+				addAssocInViewAndDoc( temp );
 			}
 		}//end if !at_Anchor
 		++it;

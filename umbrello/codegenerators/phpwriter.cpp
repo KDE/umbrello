@@ -16,16 +16,18 @@
  ***************************************************************************/
 
 #include "phpwriter.h"
-#include "../associationwidget.h" //hmm...I dont think this 3 includes should
-#include "../concept.h"
-#include "../operation.h"
-#include "../umldoc.h"
-#include "../umlview.h"           //be needed here, but the way I have understood the code
-#include "../umlwidget.h"         //so far, there is no other way of getting the associations
+
 #include <kdebug.h>
 #include <qregexp.h>
 #include <qstring.h>
 #include <cassert>
+
+#include "../umldoc.h"
+#include "../concept.h"
+#include "../association.h"
+#include "../attribute.h"
+#include "../operation.h"
+#include "../umlnamespace.h"
 
 PhpWriter::PhpWriter( QObject *parent, const char *name )
 	:CodeGenerator( parent, name) {}
@@ -38,49 +40,6 @@ void PhpWriter::writeClass(UMLConcept *c) {
 		kdDebug()<<"Cannot write class of NULL concept!\n";
 		return;
 	}
-
-
-	/*to me it´d be more natural to have the associations direct in the document,
-	  or even better, in the concept object itself and only the association
-	  widget in the view, the same as with umlobject and umlwidget... but I didnt write
-	  the association code, so lets try to use it here
-	*/
-	UMLView *view;
-	view = m_doc->getCurrentView();
-
-	AssociationWidgetList associations;
-	associations.setAutoDelete(false);
-	AssociationWidgetList aggregations;
-	aggregations.setAutoDelete(false);
-	AssociationWidgetList compositions;
-	compositions.setAutoDelete(false);
-	QList<UMLConcept> generalizations;
-	generalizations.setAutoDelete(false);
-
-	view->getWidgetAssocs(c,associations);
-
-
-	//find out associations for this class
-	//only base class needs to know about generalization, and
-	//only the "whole" needs to know about the "parts" in aggregation / composition
-	for(AssociationWidget *a = associations.first(); a ; a = associations.next())
-		switch(a->getAssocType()) {
-			case Uml::at_Generalization:
-				if(a->getData()->getWidgetAID()==c->getID())
-					generalizations.append((UMLConcept*)m_doc->findUMLObject(a->getData()->getWidgetBID()));
-				break;
-			case Uml::at_Aggregation:
-				if(a->getData()->getWidgetBID()==c->getID())
-					aggregations.append(a);
-				break;
-			case Uml::at_Composition:
-				if(a->getData()->getWidgetBID()==c->getID())
-					compositions.append(a);
-				break;
-			default: //we dont support any other associations for the moment, =(
-				break;
-		}
-
 
 	QString classname = cleanName(c->getName());
 	QString fileName = c->getName().lower();
@@ -134,6 +93,10 @@ void PhpWriter::writeClass(UMLConcept *c) {
 		php << "  */" << endl << endl;
 	}
 
+	QPtrList<UMLAssociation> generalizations = c->getGeneralizations();
+	QPtrList<UMLAssociation> aggregations = c->getAggregations();
+	QPtrList<UMLAssociation> compositions = c->getCompositions();
+	UMLAssociation *a;
 
 	//check if class is abstract and / or has abstract methods
 	if(c->getAbstract() && !hasAbstractOps(c))
@@ -145,41 +108,46 @@ void PhpWriter::writeClass(UMLConcept *c) {
 
 	php << "class " << classname << (generalizations.count() > 0 ? " extends ":"");
 	int i;
-	UMLObject *obj;
 
         /*
          * php does not support multiple inheritance
          */
         assert(generalizations.count() <= 1);
 
-	for(obj = generalizations.first(), i = generalizations.count();
-	        obj && i;
-	        obj = generalizations.next(), i--)
+	for (a = generalizations.first(), i = generalizations.count();
+	        a && i;
+	        a = generalizations.next(), i--) {
+		UMLObject* obj = m_doc->findUMLObject(a->getRoleB());
 		php<<cleanName(obj->getName());
+	}
 	php<<"\n{\n";
 
 	//associations
 	if( forceSections() || !aggregations.isEmpty()) {
 		php<<"\n  /**Aggregations: */\n";
-		for(AssociationWidget *a = aggregations.first(); a; a = aggregations.next()) {
+		for (a = aggregations.first(); a; a = aggregations.next()) {
 			php<<"\n";
 			//maybe we should parse the string here and take multiplicity into account to decide
 			//which container to use.
+			UMLObject *o = m_doc->findUMLObject(a->getRoleA());
+			QString typeName = cleanName(o->getName());
 			if (a->getMultiA().isEmpty())
-				php << "  var $m_" << cleanName(a->getWidgetA()->getName()) << ";" << endl;
+				php << "  var $m_" << typeName << ";" << endl;
 			else
-				php << "  var $m_" << cleanName(a->getWidgetA()->getName()) << "Vector = array();" << endl;
+				php << "  var $m_" << typeName << "Vector = array();" << endl;
 		}//end for
 	}
 
 	if( forceSections() || !compositions.isEmpty()) {
 		php<<"\n  /**Compositions: */\n";
-		for(AssociationWidget *a = compositions.first(); a ; a = compositions.next()) {
+		for (a = compositions.first(); a ; a = compositions.next()) {
 			// see comment on Aggregation about multiplicity...
+			UMLObject *o = m_doc->findUMLObject(a->getRoleA());
+			QString typeName = cleanName(o->getName());
 			if(a->getMultiA().isEmpty())
-				php << "  var $m_" << cleanName(a->getWidgetA()->getName()) << ";" << endl;
+				php << "  var $m_" << typeName << ";" << endl;
 			else
-				php << "  var $m_" << cleanName(a->getWidgetA()->getName()) << "Vector = array();" << endl;
+				php << "  var $m_" << typeName << "Vector = array();" << endl;
 		}
 	}
 

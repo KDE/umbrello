@@ -9,6 +9,7 @@
 
 #include "actor.h"
 #include "associationwidget.h"
+#include "association.h"
 #include "concept.h"
 #include "docwindow.h"
 #include "infowidget.h"
@@ -35,7 +36,7 @@
 #include <qtimer.h>
 
 #define FILE_VERSION 5
-#define XMI_FILE_VERSION "1.1"
+#define XMI_FILE_VERSION "1.1.5"
 
 UMLDoc::UMLDoc(QWidget *parent, const char *name) : QObject(parent, name) {
 	pViewList = new QList<UMLView>();
@@ -522,6 +523,90 @@ UMLObject* UMLDoc::createOperation(UMLObject* umlobject) {
 	return newOperation;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+void UMLDoc::removeAssociation(Association_Type assocType, int AId, int BId) {
+	UMLObject *object = NULL;
+	for (UMLObject *o = objectList.first(); o; o = objectList.next()) {
+		if (o -> getBaseType() != ot_Association)
+			continue;
+		UMLAssociation *a = (UMLAssociation *)o;
+		if (a->getAssocType() != assocType ||
+		    a->getRoleA() != AId || a->getRoleB() != BId) {
+			continue;
+		}
+		// Remove the UMLAssociation at the concept that plays role B.
+		QList<UMLConcept> concepts = getConcepts();
+		for (UMLConcept *c = concepts.first(); c; c = concepts.next())
+			if (BId == c->getID())
+				c->removeAssociation(a);
+		object = o;
+	}
+	if (object == NULL)
+		return;
+	// Remove the UMLAssociation in this UMLDoc.
+	emit sigObjectRemoved(object);
+	objectList.remove(object);
+	setModified(true);
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+void UMLDoc::addAssociation(QString name, Association_Type assocType,
+ int AId, int BId, QString multiA, QString multiB, QString nameA, QString nameB) {
+	// First, check that this association has not already been added.
+	// This may happen as long as we are still in transition from the old
+	// widget based association fabrication. (See explanation at method
+	// addAssocInViewAndDoc() in file umlview.h.)
+	QList<UMLAssociation> assocs = getAssociations();
+	UMLAssociation *a;
+	for (a = assocs.first(); a; a = assocs.next()) {
+		if (a->getAssocType() == assocType &&
+		    a->getRoleA() == AId && a->getRoleB() == BId) {
+			// We assume the two associations are identical
+			if (a->getName().isEmpty()) {
+				if (!name.isEmpty())
+					a->setName(name);
+		    	} else if (!name.isEmpty() && a->getName() != name) {
+				kdDebug() << "Changing name of existing association from "
+					  << a->getName() << " to " << name << endl;
+				a->setName(name);
+			}
+			return;
+		}
+	}
+	// If we get here it's really a new association.
+	// Create the UMLAssocation object.
+	a = new UMLAssociation(this, name, ++uniqueID,
+			     assocType, AId, BId, multiA, multiB, nameA, nameB);
+
+	// Add the UMLAssociation at the appropriate concept.
+	addAssocToConcepts(a);
+
+	// Add the UMLAssociation in this UMLDoc.
+	UMLObject* o = (UMLObject*)a;
+	objectList.append(o);
+	emit sigObjectCreated(o);
+	setModified(true);
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+void UMLDoc::addAssocToConcepts(UMLAssociation* a) {
+	int AId = a->getRoleA();
+	int BId = a->getRoleB();
+	QList<UMLConcept> concepts = getConcepts();
+	for (UMLConcept *c = concepts.first(); c; c = concepts.next()) {
+		switch (a->getAssocType()) {
+			case Uml::at_Generalization:
+				if (AId == c->getID())
+					c->addAssociation(a);
+				break;
+			case Uml::at_Aggregation:
+			case Uml::at_Composition:
+				if (BId == c->getID())
+					c->addAssociation(a);
+				break;
+			default:  // We don't support any other associations for the moment
+				break;
+		}
+	}
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
 QString UMLDoc::uniqViewName(const Diagram_Type type) {
 	QString dname;
 	if(type == dt_UseCase)
@@ -691,7 +776,30 @@ void UMLDoc::removeDiagram(int id) {
 void UMLDoc::removeUMLObject(UMLObject *o) {
 	getDocWindow() -> updateDocumentation( true );
 	UMLObject_Type type = o->getBaseType();
-	if(type >=ot_Actor && type <= ot_Concept) {
+	if (type >= ot_Actor && type <= ot_Association) {
+		if (type == ot_Association) {
+			// Remove the UMLAssociation at the concept that plays role B.
+			UMLAssociation *a = (UMLAssociation *)o;
+			Uml::Association_Type assocType = a->getAssocType();
+			int AId = a->getRoleA();
+			int BId = a->getRoleB();
+			QList<UMLConcept> concepts = getConcepts();
+			for (UMLConcept *c = concepts.first(); c; c = concepts.next()) {
+				switch (assocType) {
+					case Uml::at_Generalization:
+						if (AId == c->getID())
+							c->removeAssociation(a);
+						break;
+					case Uml::at_Aggregation:
+					case Uml::at_Composition:
+						if (BId == c->getID())
+							c->removeAssociation(a);
+						break;
+					default:
+						break;
+				}
+			}
+		}
 		emit sigObjectRemoved(o);
 		objectList.remove(o);
 		setModified(true);
@@ -1129,6 +1237,8 @@ bool UMLDoc::loadUMLObjectsFromXMI( QDomNode & node ) {
 			pObject = new UMLActor( this );
 		else if( type == "UML:Class" )
 			pObject = new UMLConcept( this );
+		else if( type == "UML:Association" )
+			pObject = new UMLAssociation( this );
 
 		if( !pObject ) {
 			kdDebug()<<"Given wrong type of umlobject to create"<<endl;
@@ -1188,6 +1298,14 @@ QList<UMLConcept> UMLDoc::getConcepts() {
 		if(obj -> getBaseType() == ot_Concept)
 			conceptList.append((UMLConcept *)obj);
 	return conceptList;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+QList<UMLAssociation> UMLDoc::getAssociations() {
+	QList<UMLAssociation> associationList;
+	for(UMLObject *obj = objectList.first(); obj ; obj = objectList.next())
+		if(obj -> getBaseType() == ot_Association)
+			associationList.append((UMLAssociation *)obj);
+	return associationList;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLDoc::print(KPrinter * pPrinter) {

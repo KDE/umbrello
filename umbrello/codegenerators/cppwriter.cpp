@@ -26,13 +26,12 @@
 #include <qtextstream.h>
 #include <qregexp.h>
 
+#include "../umldoc.h"
 #include "../concept.h"
+#include "../association.h"
+#include "../attribute.h"
 #include "../operation.h"
 #include "../umlnamespace.h"
-#include "../umlview.h"           //hmm...I dont think this 3 includes should
-#include "../umlwidget.h"         //be needed here, but the way I have understood the code
-#include "../associationwidget.h" //so far, there is no other way of getting the associations
-
 
 
 CppWriter::CppWriter( QObject *parent, const char *name )
@@ -46,49 +45,6 @@ void CppWriter::writeClass(UMLConcept *c) {
 		kdDebug()<<"Cannot write class of NULL concept!\n";
 		return;
 	}
-
-
-	/*to me it´d be more natural to have the associations direct in the document,
-	  or even better, in the concept object itself and only the association
-	  widget in the view, the same as with umlobject and umlwidget... but I didnt write
-	  the association code, so lets try to use it here
-	*/
-	UMLView *view;
-	view = m_doc->getCurrentView();
-
-	AssociationWidgetList associations;
-	associations.setAutoDelete(false);
-	AssociationWidgetList aggregations;
-	aggregations.setAutoDelete(false);
-	AssociationWidgetList compositions;
-	compositions.setAutoDelete(false);
-	QList<UMLConcept> generalizations;
-	generalizations.setAutoDelete(false);
-
-	view->getWidgetAssocs(c,associations);
-
-
-	//find out associations for this class
-	//only base class needs to know about generalization, and
-	//only the "whole" needs to know about the "parts" in aggregation / composition
-	for(AssociationWidget *a = associations.first(); a ; a = associations.next())
-		switch(a->getAssocType()) {
-			case Uml::at_Generalization:
-				if(a->getData()->getWidgetAID()==c->getID())
-					generalizations.append((UMLConcept*)m_doc->findUMLObject(a->getData()->getWidgetBID()));
-				break;
-			case Uml::at_Aggregation:
-				if(a->getData()->getWidgetBID()==c->getID())
-					aggregations.append(a);
-				break;
-			case Uml::at_Composition:
-				if(a->getData()->getWidgetBID()==c->getID())
-					compositions.append(a);
-				break;
-			default: //we dont support any other associations for the moment, =(
-				break;
-		}
-
 
 	QString classname = cleanName(c->getName());
 	QString fileName = c->getName().lower();
@@ -167,6 +123,11 @@ void CppWriter::writeClass(UMLConcept *c) {
 	}
 
 
+	QPtrList<UMLAssociation> generalizations = c->getGeneralizations();
+	QPtrList<UMLAssociation> aggregations = c->getAggregations();
+	QPtrList<UMLAssociation> compositions = c->getCompositions();
+	UMLAssociation *a;
+
 	//check if class is abstract and / or has abstract methods
 	if(c->getAbstract() && !hasAbstractOps(c))
 		h<<"/******************************* Abstract Class ****************************\n  "
@@ -177,11 +138,12 @@ void CppWriter::writeClass(UMLConcept *c) {
 
 	h<<"class "<<classname<<(generalizations.count() > 0 ? " : ":"");
 	int i;
-	UMLObject *obj;
-	for(obj = generalizations.first(), i = generalizations.count();
-	        obj && i;
-	        obj = generalizations.next(), i--)
+	for (a = generalizations.first(), i = generalizations.count();
+	        a && i;
+	        a = generalizations.next(), i--) {
+		UMLObject* obj = m_doc->findUMLObject(a->getRoleB());
 		h<<"public "<<cleanName(obj->getName())<<(i>1?", ":"");
+	}
 	h<<"\n{\n";
 
 
@@ -191,27 +153,31 @@ void CppWriter::writeClass(UMLConcept *c) {
 	//associations
 	if( forceSections() || !aggregations.isEmpty()) {
 		h<<"\n/**Aggregations: */\n";
-		for(AssociationWidget *a = aggregations.first(); a; a = aggregations.next()) {
+		for (a = aggregations.first(); a; a = aggregations.next()) {
 			h<<"private:\n";
 			//maybe we should parse the string here and take multiplicty into account to decide
 			//which container to use.
+			UMLObject *o = m_doc->findUMLObject(a->getRoleA());
+			QString typeName = cleanName(o->getName());
 			if (a->getMultiA().isEmpty())
-				h << cleanName(a->getWidgetA()->getName()) << " *m_" << cleanName(a->getWidgetA()->getName()) << ";\n";
+				h << typeName << " *m_" << typeName << ";\n";
 			else
-				h << "vector<" << cleanName(a->getWidgetA()->getName()) << "*> "
-				<< cleanName(a->getWidgetA()->getName()).lower() << "Vector;" << endl;
+				h << "vector<" << typeName << "*> "
+				<< typeName.lower() << "Vector;" << endl;
 		}//end for
 	}
 
 	if( forceSections() || !compositions.isEmpty()) {
 		h<<"\n/**Compositions: */\n";
-		for(AssociationWidget *a = compositions.first(); a ; a = compositions.next()) {
+		for (a = compositions.first(); a; a = compositions.next()) {
 			// see comment on Aggregation about multiplicity...
+			UMLObject *o = m_doc->findUMLObject(a->getRoleA());
+			QString typeName = cleanName(o->getName());
 			if(a->getMultiA().isEmpty())
-				h<<cleanName(a->getWidgetA()->getName())<<" m_"<<cleanName(a->getWidgetA()->getName())<<";\n";
+				h << typeName << " m_" << typeName << ";\n";
 			else
-				h<<"vector<"<<cleanName(a->getWidgetA()->getName())<<"> "
-				<<cleanName(a->getWidgetA()->getName()).lower()<<"Vector;\n";
+				h << "vector<" << typeName << "> "
+				<< typeName.lower() << "Vector;\n";
 		}
 	}
 

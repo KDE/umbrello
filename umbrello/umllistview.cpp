@@ -305,6 +305,8 @@ void UMLListView::slotObjectCreated(UMLObject* newObject) {
 		parentItem = current;
 	} else if( type == Uml::ot_Concept ) {
 		parentItem = lv;
+	} else if( type == Uml::ot_Association ) {
+		return;
 	} else {
 		parentItem = ucv;
 	}
