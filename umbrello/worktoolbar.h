@@ -67,7 +67,6 @@ public:
 	    tbb_Implementation,
 	    tbb_Composition,
 	    tbb_UniAssociation,
-	    tbb_Realization,
 	    tbb_State_Transition,
 	    tbb_Activity_Transition,
 	    tbb_Anchor,//keep anchor as last association until code uses better algorithm for testing

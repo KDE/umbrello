@@ -659,6 +659,7 @@ void UMLDoc::removeAssocFromConcepts(UMLAssociation *assoc)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLDoc::addAssociation(UMLAssociation *Assoc)
 {
+	kdDebug() << k_funcinfo << endl;
 	// First, check that this association has not already been added.
 	// This may happen as long as we are still in transition from the old
 	// widget based association fabrication. (See explanation at method

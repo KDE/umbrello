@@ -1891,11 +1891,14 @@ bool UMLView::setAssoc(UMLWidget *pWidget) {
 		UMLWidget* widgetB = pWidget;
 		UMLWidget_Type at = widgetA -> getBaseType();
 		bool valid = true;
-		if( widgetA == widgetB )
+		if (type == at_Generalization) {
+			type = AssocRules::isGeneralisationOrRealisation(widgetA, widgetB);
+		}
+		if (widgetA == widgetB) {
 			valid = AssocRules::allowSelf( type, at );
-
-		else
+		} else {
 			valid =  AssocRules::allowAssociation( type, widgetA, widgetB );
+		}
 		if( valid ) {
 			AssociationWidget *temp = new AssociationWidget(this, widgetA, type, widgetB);
 			addAssocInViewAndDoc(temp);
@@ -2024,11 +2027,6 @@ Uml::Association_Type UMLView::convert_TBB_AT(WorkToolBar::ToolBar_Buttons tbb) 
 
 		case WorkToolBar::tbb_Generalization:
 			at = at_Generalization;
-			break;
-
-
-		case WorkToolBar::tbb_Realization:
-			at = at_Realization;
 			break;
 
 		case WorkToolBar::tbb_Composition:

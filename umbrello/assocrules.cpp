@@ -23,7 +23,7 @@ bool AssocRules::allowAssociation( Association_Type assocType, UMLWidget * widge
 	UMLWidget_Type widgetType = widget -> getBaseType();
 	bool bValid = false;
 	for (int i = 0; i < m_nNumRules; i++) {
-		if (assocType == m_AssocRules[i].assoc_type ) {
+		if (assocType == m_AssocRules[i].assoc_type) {
 			if (widgetType == m_AssocRules[i].widgetA_type
 			    || widgetType == m_AssocRules[i].widgetB_type ) {
 				bValid =  true;
@@ -74,6 +74,7 @@ bool AssocRules::allowAssociation( Association_Type assocType, UMLWidget * widge
 			return true;
 			break;
 		default:
+			kdWarning() << "allowAssociation() on unknown type" << endl;
 			break;
 	}
 	return false;
@@ -83,13 +84,18 @@ bool AssocRules::allowAssociation( Association_Type assocType, UMLWidget * widge
 	UMLWidget_Type widgetTypeA = widgetA -> getBaseType();
 	UMLWidget_Type widgetTypeB = widgetB -> getBaseType();
 	bool bValid = false;
-	for( int i = 0; i < m_nNumRules; i++ )
-		if( assocType == m_AssocRules[ i ].assoc_type )
-			if( ( widgetTypeA == m_AssocRules[ i ].widgetA_type && widgetTypeB == m_AssocRules[ i ].widgetB_type ) ||
-			        ( widgetTypeB == m_AssocRules[ i ].widgetA_type && widgetTypeA == m_AssocRules[ i ].widgetB_type ) )
+	for (int i = 0; i < m_nNumRules; i++) {
+		if (assocType == m_AssocRules[i].assoc_type) {
+			if( (widgetTypeA == m_AssocRules[i].widgetA_type &&
+			     widgetTypeB == m_AssocRules[i].widgetB_type) ||
+			    (widgetTypeB == m_AssocRules[i].widgetA_type &&
+			     widgetTypeA == m_AssocRules[i].widgetB_type ) )
 				bValid = true;
-	if( !bValid )
+		}
+	}
+	if (!bValid) {
 		return false;
+	}
 	AssociationWidgetList list = widgetB -> getData() -> getAssocList();
 	AssociationWidgetListIt it( list );
 	AssociationWidget * assoc = 0;
@@ -121,9 +127,10 @@ bool AssocRules::allowAssociation( Association_Type assocType, UMLWidget * widge
 				}
 				++it;
 			}
-			if (widgetA->getBaseType() == wt_Class) {
+			if (widgetB->getBaseType() == wt_Class) {
 				return widgetB->getUMLObject()->getAbstract();
-			} else if (widgetA->getBaseType() == wt_Interface) {
+			} else if (widgetB->getBaseType() == wt_Interface ||
+				   widgetB->getBaseType() == wt_Package) {
 				return true;
 			}
 			break;
@@ -183,6 +190,7 @@ bool AssocRules::allowAssociation( Association_Type assocType, UMLWidget * widge
 			break;
 
 		default:
+			kdWarning() << "allowAssociation() on unknown type" << endl;
 			break;
 	}
 	return false;
@@ -212,6 +220,19 @@ bool AssocRules::allowSelf( Association_Type assocType, UMLWidget_Type widgetTyp
 	return false;
 }
 
+Association_Type AssocRules::isGeneralisationOrRealisation(UMLWidget* widgetA, UMLWidget* widgetB) {
+	UMLWidget_Type widgetTypeA = widgetA->getBaseType();
+	UMLWidget_Type widgetTypeB = widgetB->getBaseType();
+	for (int i = 0; i < m_nNumRules; i++) {
+		if (m_AssocRules[i].assoc_type == at_Realization &&
+		    widgetTypeA == m_AssocRules[i].widgetA_type &&
+		    widgetTypeB == m_AssocRules[i].widgetB_type) {
+			return at_Realization;
+		}
+	}
+	return at_Generalization;
+}
+
 AssocRules::Assoc_Rule AssocRules::m_AssocRules []= {
             //	Association	widgetA		widgetB		role	multiplicity	directional	self
             { at_Association,	wt_Class,	wt_Class,	true,	true,	true,	true  },
@@ -230,9 +251,7 @@ AssocRules::Assoc_Rule AssocRules::m_AssocRules []= {
             { at_UniAssociation,wt_UseCase,	wt_UseCase,	true,	false,	false,	false },
             { at_UniAssociation,wt_UseCase,	wt_Actor,	true,	false,	false,	false },
             { at_Generalization,wt_Class,	wt_Class,	false,	false,	false,	false },
-            { at_Generalization,wt_Package,	wt_Package,	false,	false,	false,	false },
             { at_Generalization,wt_Interface,	wt_Interface,	false,	false,	false,	false },
-            { at_Generalization,wt_Class,	wt_Interface,	false,	false,	false,	false },
             { at_Generalization,wt_UseCase,	wt_UseCase,	false,	false,	false,	false },
             { at_Generalization,wt_Actor,	wt_Actor,	false,	false,	false,	false },
             { at_Aggregation,	wt_Class,	wt_Class,	true,	true,	false,	false },
@@ -249,7 +268,6 @@ AssocRules::Assoc_Rule AssocRules::m_AssocRules []= {
             { at_Dependency,	wt_Interface,	wt_Interface,	true,	true,	true,	true  },
             { at_Dependency,	wt_Interface,	wt_Class,	true,	true,	true,	true  },
             { at_Dependency,	wt_Class,	wt_Interface,	true,	true,	true,	true  },
-            { at_Realization,	wt_Class,	wt_Class,	false,	false,	false,	false },
             { at_Realization,	wt_Class,	wt_Interface,	false,	false,	false,	false },
             { at_Realization,	wt_Interface,	wt_Package,	false,	false,	false,	false },
             { at_Realization,	wt_Interface,	wt_Interface,	false,	false,	false,	false },

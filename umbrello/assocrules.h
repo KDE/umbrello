@@ -59,6 +59,12 @@ public:
 	*	Returns whether to allow an association to self for given variables.
 	*/
 	static bool allowSelf( Association_Type assocType, UMLWidget_Type widgetType );
+
+	/**
+	 *	Returns whether an implements association should be a Realisation or a Generalisation
+	 *	as defined in m_AssocRules.
+	 */
+	static Association_Type isGeneralisationOrRealisation(UMLWidget* widgetA, UMLWidget* widgetB);
 private:
 
 	/**

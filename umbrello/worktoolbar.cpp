@@ -71,7 +71,8 @@ void WorkToolBar::slotCheckToolBar(Uml::Diagram_Type dt) {
 		insertButton( m_Pixmaps.UseCase, tbb_UseCase, true, i18n("Use case"));
 		setToggle( tbb_UseCase, true );
 
-		insertButton( m_Pixmaps.Generalization, tbb_Generalization, true, i18n("Generalization"));
+		insertButton( m_Pixmaps.Generalization, tbb_Generalization, true,
+			      i18n("Implements (Generalisation/Realisation)"));
 		setToggle( tbb_Generalization, true );
 
 		insertButton( m_Pixmaps.Dependency, tbb_Dependency, true, i18n("Dependency"));
@@ -98,10 +99,8 @@ void WorkToolBar::slotCheckToolBar(Uml::Diagram_Type dt) {
 		insertButton( m_Pixmaps.Implementation, tbb_Implementation, true, i18n("Implementation"));
 		setToggle( tbb_Implementation, true );
 
-		insertButton( m_Pixmaps.Realization, tbb_Realization, true, i18n("Realization"));
-		setToggle( tbb_Realization, true );
-
-		insertButton( m_Pixmaps.Generalization, tbb_Generalization, true, i18n("Generalization"));
+		insertButton( m_Pixmaps.Generalization, tbb_Generalization, true,
+			      i18n("Implements (Generalisation/Realisation)"));
 		setToggle( tbb_Generalization, true );
 
 		insertButton( m_Pixmaps.Aggregation, tbb_Aggregation, true, i18n("Aggregation"));
@@ -241,7 +240,6 @@ void WorkToolBar::loadPixmaps() {
 	m_Pixmaps.Aggregation.load( dataDir + "aggregation.xpm" );
 	m_Pixmaps.UniAssociation.load( dataDir + "uniassoc.xpm" );
 	m_Pixmaps.Generalization.load( dataDir + "generalization.xpm" );
-	m_Pixmaps.Realization.load( dataDir + "realizes.xpm" );
 	m_Pixmaps.Composition.load( dataDir + "composition.xpm" );
 	m_Pixmaps.Implementation.load( dataDir + "implements.xpm" );
 	m_Pixmaps.UseCase.load( dataDir + "case.xpm" );
