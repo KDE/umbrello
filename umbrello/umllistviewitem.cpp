@@ -431,7 +431,8 @@ bool UMLListViewItem::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement itemElement = qDoc.createElement( "listitem" );
 	itemElement.setAttribute( "id", getID() );
 	itemElement.setAttribute( "type", m_Type );
-	itemElement.setAttribute( "label", m_Label );
+	if (m_pObject == NULL)
+		itemElement.setAttribute( "label", m_Label );
 	itemElement.setAttribute( "open", isOpen() );
 	UMLListViewItem * childItem = static_cast<UMLListViewItem *> ( firstChild() );
 	while( childItem ) {

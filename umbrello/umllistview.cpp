@@ -409,9 +409,9 @@ void UMLListView::slotDiagramCreated( int id ) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLListView::slotObjectCreated(UMLObject* object) {
-	if (loading) {
-		return;
-	}
+	/* kdDebug() << "UMLListView::slotObjectCreated: ID is "
+ 		  << object->getID() << endl;
+	 */
 	UMLListViewItem* newItem = 0;
 	UMLListViewItem* parentItem = 0;
 	UMLListViewItem* current = (UMLListViewItem*) currentItem();
@@ -555,6 +555,9 @@ void UMLListView::childObjectAdded(UMLObject* obj) {
 	if (obj->getBaseType() == ot_Stereotype) {
 		return;
 	}
+	/* kdDebug() << "UMLListView::childObjectCreated: ID is "
+ 		  << obj->getID() << endl;
+	 */
 	if (!m_bCreatingChildObject) {
 		UMLObject *parent = const_cast<UMLObject*>(dynamic_cast<const UMLObject*>(sender()));
 
@@ -2150,55 +2153,42 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
 			case Uml::lvt_Component:
 			case Uml::lvt_Node:
 			case Uml::lvt_Artifact:
-				if (pObject && pObject->getUMLPackage() &&
-				    parent->getType() != Uml::lvt_Package) {
-					// Pre-1.2 file format:
-					// Objects were not nested in their packages.
-					// Synthesize the nesting here.
-					UMLPackage *umlpkg = pObject->getUMLPackage();
-					UMLListViewItem *pkgItem = findUMLObject(umlpkg);
-					if (pkgItem == NULL) {
-						kdDebug() << "UMLListView::loadChildrenFromXMI: "
-							  << "synthesizing ListViewItem for package "
-							  << umlpkg->getID() << endl;
-						pkgItem = new UMLListViewItem(parent, umlpkg->getName(),
-									      Uml::lvt_Package, umlpkg);
-						pkgItem->setOpen(true);
-					}
-					item = new UMLListViewItem(pkgItem, label, lvType, pObject);
-				} else {
-					item = new UMLListViewItem(parent, label, lvType, pObject);
-				}
+				item = findItem(nID);
 				break;
 			case Uml::lvt_Attribute:
 			case Uml::lvt_Template:
 			case Uml::lvt_Operation:
-			{
-				UMLObject* umlObject = parent->getUMLObject();
-				if (!umlObject)
-					return false;
-				if (nID == -1) {
-					kdWarning() << "UMLListView::loadChildrenFromXMI: lvtype " << lvType
-						    << " has id -1" << endl;
-				} else {
-					UMLClass *classObj = dynamic_cast<UMLClass *>(umlObject);
-					if (classObj) {
-						umlObject = classObj->findChildObject(nID);
-						if (umlObject) {
-							connectNewObjectsSlots(umlObject);
-							item = new UMLListViewItem( parent, label, lvType, umlObject);
+				item = findItem(nID);
+				if (item == NULL) {
+					kdDebug() << "UMLListView::loadChildrenFromXMI: "
+						<< "item " << id << " (of type "
+						<< lvType << ") does not yet exist..."
+						<< endl;
+					UMLObject* umlObject = parent->getUMLObject();
+					if (!umlObject)
+						return false;
+					if (nID == -1) {
+						kdWarning() << "UMLListView::loadChildrenFromXMI: lvtype " << lvType
+							    << " has id -1" << endl;
+					} else {
+						UMLClass *classObj = dynamic_cast<UMLClass *>(umlObject);
+						if (classObj) {
+							umlObject = classObj->findChildObject(nID);
+							if (umlObject) {
+								connectNewObjectsSlots(umlObject);
+								item = new UMLListViewItem( parent, label, lvType, umlObject);
+							} else {
+								kdDebug() << "UMLListView::loadChildrenFromXMI: "
+									  << " lvtype " << lvType << " child object " << nID
+									  << " not found" << endl;
+							}
 						} else {
 							kdDebug() << "UMLListView::loadChildrenFromXMI: "
-								  << " lvtype " << lvType << " child object " << nID
-								  << " not found" << endl;
+								  << "cast to class object failed" << endl;
 						}
-					} else {
-						kdDebug() << "UMLListView::loadChildrenFromXMI: "
-							  << "cast to class object failed" << endl;
 					}
 				}
 				break;
-			}
 			case Uml::lvt_Logical_View:
 				item = lv;
 				break;

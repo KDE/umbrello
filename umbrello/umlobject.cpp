@@ -219,8 +219,10 @@ bool UMLObject::saveToXMI( QDomDocument & /*qDoc*/, QDomElement & qElement ) {
 		qElement.setAttribute( "name", m_Name );
 	if (! m_Doc.isEmpty())
 		qElement.setAttribute( "comment", m_Doc );  //CHECK: uml13.dtd compliance
+#ifdef XMI_FLAT_PACKAGES
 	if (m_pUMLPackage)             //FIXME: uml13.dtd compliance
 		qElement.setAttribute( "package", m_pUMLPackage->getID() );
+#endif
 	switch (m_Scope) {
 		case Uml::Public:
 			qElement.setAttribute( "visibility", "public" );
@@ -290,6 +292,7 @@ bool UMLObject::loadFromXMI( QDomElement & element ) {
 	if( m_nId == -1 || m_Scope == -1 )
 		return false;
 
+	/**** Handle XMI_FLAT_PACKAGES and old files *************************/
 	QString pkg = element.attribute( "packageid", "-1" );
 	// Some interim versions used "packageid" so test for it.
 	int pkgId = -1;
@@ -325,8 +328,13 @@ bool UMLObject::loadFromXMI( QDomElement & element ) {
 			return true;  // soft error
 		}
 	}
+	/**** End of XMI_FLAT_PACKAGES and old files handling ****************/
+
 	if (m_pUMLPackage)
 		m_pUMLPackage->addObject(this);
+	UMLDoc* umldoc = dynamic_cast<UMLDoc *>( parent() );
+	if (umldoc)
+		umldoc->signalUMLObjectCreated(this);
 	return true;
 }
 

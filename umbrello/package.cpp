@@ -46,8 +46,15 @@ UMLObject * UMLPackage::findObject(QString name) {
 
 UMLObject * UMLPackage::findObject(int id) {
 	for (UMLObject *obj = m_objects.first(); obj; obj = m_objects.next())
+	{
 		if (obj->getID() == id)
 			return obj;
+		if (obj->getBaseType() == Uml::ot_Package) {
+			UMLObject *o = ((UMLPackage*)obj)->findObject(id);
+			if (o)
+				return o;
+		}
+	}
 	return NULL;
 }
 
@@ -55,8 +62,7 @@ bool UMLPackage::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
 	QDomElement packageElement = qDoc.createElement("UML:Package");
 	bool status = UMLObject::saveToXMI(qDoc, packageElement);
 
-#ifdef XMI_NEST_PACKAGES
-	// Under construction
+#ifndef XMI_FLAT_PACKAGES
 	for (UMLObject *obj = m_objects.first(); obj; obj = m_objects.next())
 		obj->saveToXMI (qDoc, packageElement);
 #endif
@@ -96,11 +102,11 @@ bool UMLPackage::load(QDomElement& element) {
 				    << type << endl;
 			return false;
 		}
+		pObject->setUMLPackage(this);
 		if (! pObject->loadFromXMI(tempElement)) {
 			delete pObject;
 			return false;
 		}
-		pObject->setUMLPackage(this);
 		if (type == "UML:Generalization")
 			parentDoc->addAssocToConcepts((UMLAssociation *) pObject);
 		m_objects.append(pObject);
