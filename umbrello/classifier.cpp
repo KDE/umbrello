@@ -6,7 +6,6 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include <iostream.h>
 #include "classifier.h"
 #include "association.h"
 #include "umlassociationlist.h"
