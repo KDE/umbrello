@@ -403,6 +403,8 @@ void UMLListView::slotObjectCreated(UMLObject* object) {
 			parentItem = current;
 			UMLPackage *pkg = (UMLPackage*)parentItem->getUMLObject();
 			object->setUMLPackage(pkg);
+			if (pkg)
+				pkg->addObject(object);
 		} else if (lvt == Uml::lvt_Logical_Folder)
 			parentItem = current;
 		else
@@ -890,6 +892,15 @@ void UMLListView::slotDropped(QDropEvent* de, QListViewItem* /* parent */, QList
 		UMLListViewItem * move = findItem( src->id );
 		if(!move)
 			continue;
+
+		// Remove the source object at the old parent package.
+		UMLObject *srcObj = m_doc->findUMLObject(src->id);
+		if (srcObj) {
+			UMLPackage *srcPkg = srcObj->getUMLPackage();
+			if (srcPkg)
+				srcPkg->removeObject(srcObj);
+		}
+
 		UMLListViewItem *newItem = NULL;
 		Uml::ListView_Type srcType = src->type;
 
@@ -946,15 +957,17 @@ void UMLListView::slotDropped(QDropEvent* de, QListViewItem* /* parent */, QList
 					newItem = move->deepCopy(newParent);
 					delete move;
 					UMLObject *o = newItem->getUMLObject();
-					if (o == NULL)
+					if (o == NULL) {
 						kdDebug() << "slotDropped: newItem's UMLObject is NULL"
 							  << endl;
-					else if (itemType == Uml::lvt_Package)
-						o->setUMLPackage(
-							static_cast<UMLPackage*>(
-								newParent->getUMLObject() ) );
-					else
+					} else if (itemType == Uml::lvt_Package) {
+						UMLPackage *pkg = static_cast<UMLPackage*>(
+								   newParent->getUMLObject() );
+						o->setUMLPackage( pkg );
+						pkg->addObject( o );
+					} else {
 						o->setUMLPackage( NULL );
+					}
 				}
 				break;
 			default:
