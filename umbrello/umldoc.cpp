@@ -964,7 +964,7 @@ UMLAssociation* UMLDoc::createUMLAssociation(UMLObject *a, UMLObject *b, Uml::As
 	bool swap;
 	UMLAssociation *assoc = findAssociation(type, a, b, &swap);
 	if (assoc == NULL) {
-		assoc = new UMLAssociation( type, a, b );
+		assoc = new UMLAssociation(this, type, a, b );
 		addAssociation(assoc);
 	}
 	return assoc;
@@ -1828,8 +1828,18 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element) {
 		} else {
 			if (type == "UML:Generalization")
 				addAssocToConcepts((UMLAssociation *) pObject);
+
 			objectList.append( pObject );
 		}
+
+		// Now, we need to add all the UMLObjects held by the package
+		// should it have any. 
+		if (type == "UML:Package") {
+			UMLObjectList oList = ((UMLPackage*) pObject)->containedObjects();
+			for (UMLObject * obj = oList.first(); obj != 0; obj = oList.next()) 
+				objectList.append(obj);
+		}
+
 		emit sigSetStatusbarProgress( ++m_count );
 		node = node.nextSibling();
 		tempElement = node.toElement();
@@ -1861,9 +1871,9 @@ UMLObject* UMLDoc::makeNewUMLObject(QString type) {
 	} else if (type == "UML:Enum") {
 		pObject = new UMLEnum();
 	} else if (type == "UML:Association") {
-		pObject = new UMLAssociation(Uml::at_Unknown, (UMLObject*)NULL, (UMLObject*) NULL);
+		pObject = new UMLAssociation(this, Uml::at_Unknown, (UMLObject*)NULL, (UMLObject*) NULL);
 	} else if (type == "UML:Generalization") {
-		pObject = new UMLAssociation(Uml::at_Generalization, NULL, NULL);
+		pObject = new UMLAssociation(this, Uml::at_Generalization, NULL, NULL);
 	}
 	return pObject;
 }
