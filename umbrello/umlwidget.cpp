@@ -56,9 +56,8 @@ UMLWidget::~UMLWidget() {
 	//slotRemovePopupMenu();
 	cleanup();
 }
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void UMLWidget::mouseMoveEvent(QMouseEvent *me) {
+QPoint UMLWidget::doMouseMove(QMouseEvent* me) {
 	int newX = 0, newY = 0, count;
 	int moveX, moveY;
 	int maxX = m_pView->canvas()->width();
@@ -70,9 +69,6 @@ void UMLWidget::mouseMoveEvent(QMouseEvent *me) {
 	m_bSelected = true;
 	count = m_pView->getSelectCount();
 
-	if( !(m_bMouseDown || me->button() == LeftButton) ) {
-		return;
-	}
 	//If not m_bStartMove means moving as part of selection
 	//me->pos() will have the amount we need to move.
 	if(!m_bStartMove) {
@@ -114,24 +110,24 @@ void UMLWidget::mouseMoveEvent(QMouseEvent *me) {
 	newX = newX>maxX ? maxX : newX;
 	newY = newY>maxY ? maxY : newY;
 
-	//implement rule for sequence diagram
-	if (m_pView->getType() == dt_Sequence) {
-		if (count > 1) {
-			newY = (int)this -> y();
-		}
-		//when a seq. diagram, you can't move an object down
-		//so fix vertial attribute
-		if (m_pData->m_Type == wt_Object) {
-			newY = 80 - height();
-		}
-	}//end if seq. diagram
-	if (m_nOldX != newX || m_nOldY != newY)
+	if (m_nOldX != newX || m_nOldY != newY) {
 		m_bMoved = true;
-	m_nOldX = newX;
-	m_nOldY = newY;
-	setX( newX );
-	setY( newY );
-	adjustAssocs(newX, newY);
+	}
+	return QPoint(newX, newY);
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+void UMLWidget::mouseMoveEvent(QMouseEvent* me) {
+	if( m_bMouseDown ) {
+		QPoint newPosition = doMouseMove(me);
+		int newX = newPosition.x();
+		int newY = newPosition.y();
+
+		m_nOldX = newX;
+		m_nOldY = newY;
+		setX( newX );
+		setY( newY );
+		adjustAssocs(newX, newY);
+	}
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLWidget::mousePressEvent(QMouseEvent *me) {

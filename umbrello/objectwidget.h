@@ -188,9 +188,9 @@ public:
 	}
 
 	/**
-	 *		Overrides the standard operation.
+	 *  Overrides the standard operation keeping it at the correct height
 	 */
-	virtual void mouseMoveEvent(QMouseEvent *me);
+	virtual void mouseMoveEvent(QMouseEvent* me);
 
 	/**
 	 *		Sets whether to show deconstruction on sequence line

@@ -302,63 +302,33 @@ void FloatingText::showOpDlg() {
 	setPositionFromMessage(); //force it to display
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void FloatingText::mouseMoveEvent(QMouseEvent *me) {
-	int newX = 0, newY = 0, count;
-	int moveX, moveY;
-	if( !m_bSelected )
-		m_pView -> setSelected( this, me );
-	m_bSelected = true;
-	count = m_pView -> getSelectCount();
+void FloatingText::mouseMoveEvent(QMouseEvent* me) {
+	if( m_bMouseDown ) {
+		QPoint newPosition = doMouseMove(me);
+		int newX = newPosition.x();
+		int newY = newPosition.y();
 
-	if( !m_bMouseDown )
-		if( me -> button() != LeftButton )
-			return;
-	//If not m_bStartMove means moving as part of selection
-	//me->pos() will have the amount we need to move.
-	if(!m_bStartMove) {
-		moveX = (int)me -> x();
-		moveY = (int)me -> y();
-	} else {
-		//we started the move so..
-		//move any others we are selected
-		moveX = (int)me -> x() - m_nOldX - m_nPressOffsetX;
-		moveY = (int)me -> y() - m_nOldY - m_nPressOffsetY;
-		if( ((int)x() + moveX) < 0 )
-			moveX = 0;
-		if( ( (int)y() + moveY) < 0 )
-			moveY = 0;
-		if( count > 1 )
-			if( m_pView -> getType() == dt_Sequence )
-				m_pView -> moveSelected( this, moveX, 0 );
-			else
-				m_pView -> moveSelected( this, moveX, moveY );
+		//implement specific rules for a sequence diagram
+		if( getRole()  == tr_Seq_Message || getRole()  == tr_Seq_Message_Self) {
+			newX = (int)m_pMessage->x() + 5;
+			int minHeight = m_pMessage->getMinHeight();
+			newY = newY < minHeight ? minHeight : newY;
+
+			int maxHeight = m_pMessage->getMaxHeight() - height() - 5;
+			newY = newY < maxHeight ? newY : maxHeight;
+			m_pMessage->setX( newX - 5 );
+
+			m_pMessage->setY( newY + height() );
+		}
+		m_nOldX = newX;
+		m_nOldY = newY;
+		setX( newX );
+		setY( newY );
+		if(m_pAssoc) {
+			m_pAssoc->calculateRoleTextSegment();
+		}
+		moveEvent(0);
 	}
-	newX = (int)x() + moveX;
-	newY = (int)y() + moveY;
-
-	newX = newX < 0?0:newX;
-	newY = newY < 0?0:newY;
-
-	//implement specific rules for a sequence diagram
-	if( getRole()  == tr_Seq_Message || getRole()  == tr_Seq_Message_Self) {
-		newX = (int)m_pMessage -> x() + 5;
-		int minHeight = m_pMessage -> getMinHeight();
-		newY = newY < minHeight ? minHeight : newY;
-		//int lineY = (int)m_pMessage -> getWidgetA() -> y() +
-		//	m_pView -> getLineLength() + m_pMessage -> getWidgetA() -> height() - height() - 5;
-		int maxHeight = m_pMessage -> getMaxHeight() - height() - 5;
-		newY = newY < maxHeight ? newY : maxHeight;
-		m_pMessage -> setX( newX - 5 );
-
-		m_pMessage -> setY( newY + height() );
-	}
-	m_nOldX = newX;
-	m_nOldY = newY;
-	setX( newX );
-	setY( newY );
-	if(m_pAssoc)
-		m_pAssoc->calculateRoleTextSegment();
-	moveEvent(0);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 QString FloatingText::getText() {

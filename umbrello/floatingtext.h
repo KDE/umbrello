@@ -252,9 +252,10 @@ private:
 	void showOpDlg();
 
 	/**
-	 *   	Override default method
+	 *   	Override default method and keeps position in sync with
+	 *       a sequence diagram message if appropriate
 	 */
-	void mouseMoveEvent(QMouseEvent * me);
+	void mouseMoveEvent(QMouseEvent* me);
 
 public slots:
 	/**

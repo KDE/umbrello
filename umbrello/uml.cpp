@@ -254,7 +254,6 @@ void UMLApp::setupZoomMenu()
 	zoomSelect->setItemChecked(zoom,true);
 }
 
-
 void UMLApp::zoomIn()
 {
 	doc->getCurrentView()->zoomIn();

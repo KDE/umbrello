@@ -206,10 +206,19 @@ public:
 
 	/**
 	 * Overrides the standard operation.
+	 * Any code specific to this type of widget is here after it
+	 * has called doMouseMove()
 	 *
 	 * @param me
 	 */
-	virtual void mouseMoveEvent(QMouseEvent *me);
+	virtual void mouseMoveEvent(QMouseEvent* me);
+
+	/**
+	 * Moves the item to it's new position (called from mouseMoveEvent)
+	 *
+	 * @param me
+	 */
+	QPoint doMouseMove(QMouseEvent* me);
 
 	/**
 	 * Returns wether this is a line of text.

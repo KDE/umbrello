@@ -249,72 +249,23 @@ void ObjectWidget::drawActor(QPainter & p, int offsetX, int offsetY) {
 	p.drawText(offsetX + A_MARGIN, offsetY + textStartY, w - A_MARGIN * 2, fontHeight, AlignCenter, t);
 }
 
-void ObjectWidget::mouseMoveEvent(QMouseEvent *me) {
-	int newX = 0, newY = 0, count;
-	int moveX, moveY;
-	int maxX = m_pView->canvas()->width();
-	int maxY = m_pView->canvas()->height();
+void ObjectWidget::mouseMoveEvent(QMouseEvent* me) {
+	if( m_bMouseDown ) {
+		QPoint newPosition = doMouseMove(me);
+		int newX = newPosition.x();
+		int newY = newPosition.y();
 
-	if( !m_bSelected ) {
-		m_pView->setSelected( this, me );
+		//implement rule for sequence diagram
+		if( m_pView -> getType() == dt_Sequence ) {
+			newY = (int)this -> y();
+		}
+		m_nOldX = newX;
+		m_nOldY = newY;
+		setX( newX );
+		setY( newY );
+		adjustAssocs(newX, newY);
+		moveEvent(0);
 	}
-	m_bSelected = true;
-	count = m_pView->getSelectCount();
-
-	if( !(m_bMouseDown || me->button() == LeftButton) ) {
-		return;
-	}
-	//If not m_bStartMove means moving as part of selection
-	//me->pos() will have the amount we need to move.
-	if(!m_bStartMove) {
-		moveX = (int)me -> x();
-		moveY = (int)me -> y();
-	} else {
-		//we started the move so..
-		//move any others we are selected
-		moveX = (int)me -> x() - m_nOldX - m_nPressOffsetX;
-		moveY = (int)me -> y() - m_nOldY - m_nPressOffsetY;
-
-		//if mouse moves off the edge of the canvas this moves the widget to 0 or canvasSize
-		if( ((int)x() + moveX) < 0 ) {
-			moveX = moveX - (int)x();
-		}
-		if( ((int)y() + moveY) < 0 ) {
-			moveY = moveY - (int)y();
-		}
-		if( ((int)x() + moveX) > (maxX - width()) ) {
-			moveX = maxX - (int)x() - width();
-		}
-		if( ((int)y() + moveY) > (maxY - height()) ) {
-			moveY = maxY - (int)y() - height();
-		}
-
-		if( count > 1 ) {
-			if( m_pView -> getType() == dt_Sequence ) {
-				m_pView -> moveSelected( this, moveX, 0 );
-			} else {
-				m_pView -> moveSelected( this, moveX, moveY );
-			}
-		}
-	}
-	newX = (int)x() + moveX;
-	newY = (int)y() + moveY;
-
-	newX = newX<0 ? 0 : newX;
-	newY = newY<0 ? 0 : newY;
-	newX = newX>maxX ? maxX : newX;
-	newY = newY>maxY ? maxY : newY;
-
-	//implement rule for sequence diagram
-	if( m_pView -> getType() == dt_Sequence ) {
-		newY = (int)this -> y();
-	}
-	m_nOldX = newX;
-	m_nOldY = newY;
-	setX( newX );
-	setY( newY );
-	adjustAssocs(newX, newY);
-	moveEvent(0);
 }
 
 void ObjectWidget::tabUp() {
