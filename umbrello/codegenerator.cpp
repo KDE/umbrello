@@ -434,6 +434,7 @@ QString CodeGenerator::overwritableName(QString name, QString extention) {
                                              m_applyToAllRemaining, kapp -> mainWidget() );
         switch(overwritePolicy()) {  //if it exists, check the OverwritePolicy we should use
                 case CodeGenerationPolicy::Ok:                //ok to overwrite file
+                        name = name + extention;
                         break;
                 case CodeGenerationPolicy::Ask:               //ask if we can overwrite
                         switch(overwriteDialogue.exec()) {
@@ -479,7 +480,8 @@ QString CodeGenerator::overwritableName(QString name, QString extention) {
                         break;
         }
 
-        return name;
+	return name;
+
 }
 
 
