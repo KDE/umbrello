@@ -145,7 +145,17 @@ public:
 	 *	Overrides standards method
 	 */
 	void draw(QPainter& p, int offsetX, int offsetY);
+
+	/**
+	 * Overrides default impl. to set e.g. the abstract attribute.
+	 */
+	virtual void setUMLObject(UMLObject* object);
+
 private:
+	/**
+	 * Sets e.g. the abstract attribute.
+	 */
+	void initUMLObject(UMLObject* object);
 
 	/**
 	 * draws the interface as a circle with name underneith

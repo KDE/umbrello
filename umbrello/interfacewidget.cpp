@@ -22,6 +22,7 @@
 InterfaceWidget::InterfaceWidget(UMLView* view, UMLObject* o, UMLWidgetData* pData) : UMLWidget(view, o, pData) {
 	m_pMenu = 0;
 	if( m_pObject ) {
+		initUMLObject(m_pObject);
 		calculateSize();
 		update();
 	}
@@ -56,6 +57,7 @@ void InterfaceWidget::init() {
 	}
 	//maybe loading and this may not be set.
 	if( m_pObject ) {
+		initUMLObject( m_pObject );
 		calculateSize();
 		update();
 	}
@@ -63,7 +65,18 @@ void InterfaceWidget::init() {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 InterfaceWidget::~InterfaceWidget() {}
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+void InterfaceWidget::initUMLObject(UMLObject* object)
+{
+	object -> setAbstract( true ); // interfaces are by definition abstract
+}
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+void InterfaceWidget::setUMLObject(UMLObject* object)
+{
+	initUMLObject(object);
+	UMLWidget::setUMLObject(object);
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////
 void InterfaceWidget::draw(QPainter& p, int offsetX, int offsetY) {
 	if ( getDrawAsCircle() ) {
 		drawAsCircle(p, offsetX, offsetY);
@@ -133,9 +146,13 @@ void InterfaceWidget::drawAsConcept(QPainter& p, int offsetX, int offsetY) {
 	p.drawText(offsetX + INTERFACE_MARGIN, offsetY,
 		   w - INTERFACE_MARGIN * 2,fontHeight,
 		   AlignCenter, "<< " + m_pObject -> getStereotype() + " >>");
+
+	font.setItalic( m_pObject -> getAbstract() );
+	p.setFont(font);
 	p.drawText(offsetX + INTERFACE_MARGIN, offsetY + fontHeight,
 		   w - INTERFACE_MARGIN * 2, fontHeight, AlignCenter, name);
 	font.setBold(false);
+	font.setItalic(false);
 	p.setFont(font);
 
 
@@ -155,10 +172,12 @@ void InterfaceWidget::drawAsConcept(QPainter& p, int offsetX, int offsetY) {
 			QString op = obj->toString(((InterfaceWidgetData*)m_pData)->m_ShowOpSigs);
 			p.setPen( QPen(black) );
 			font.setUnderline( obj->getStatic() );
+			font.setItalic( obj->getAbstract() );
 			p.setFont(font);
 			p.drawText(offsetX + INTERFACE_MARGIN, offsetY + y,
 				   w - INTERFACE_MARGIN * 2, fontHeight, AlignVCenter, op);
 			font.setUnderline(false);
+			font.setItalic(false);
 			p.setFont(font);
 			y+=fontHeight;
 		}

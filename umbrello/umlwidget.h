@@ -126,7 +126,7 @@ public:
 	 *
 	 * @param o	The object to represent.
 	 */
-	void setUMLObject(UMLObject * o) {
+	virtual void setUMLObject(UMLObject * o) {
 		m_pObject = o;
 	}
 
