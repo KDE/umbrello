@@ -63,7 +63,8 @@ UMLObject *ClassImport::createUMLObject(Uml::UMLObject_Type type,
 
 void ClassImport::insertAttribute(CClassStore& store,
 				  UMLObject *o, Uml::Scope scope, QString name,
-				  QString type, QString comment /* = "" */) {
+				  QString type, QString comment /* ="" */,
+				  bool isStatic /* =false */) {
 	QString strippedComment = doxyComment(comment);
 	QString typeName(type);
 	int isPointer = typeName.contains('*');
@@ -93,6 +94,7 @@ void ClassImport::insertAttribute(CClassStore& store,
 		UMLAttribute *attr = ((UMLClass*)o)->addAttribute(name , attID);
 		attr->setTypeName(type);
 		attr->setScope(scope);
+		attr->setStatic(isStatic);
 		newObj = attr;
 	}
 	if (! strippedComment.isEmpty()) {
@@ -104,7 +106,8 @@ void ClassImport::insertAttribute(CClassStore& store,
 }
 
 void ClassImport::insertMethod(UMLObject *o, Uml::Scope scope, QString name,
-			       QString type, QString comment /* = "" */,
+			       QString type, bool isStatic, bool isAbstract,
+			       QString comment /* = "" */,
 			       UMLAttributeList *parList /*= NULL*/) {
 	UMLClassifier *classifier = dynamic_cast<UMLClassifier*>(o);
 	if(!classifier)
@@ -118,8 +121,13 @@ void ClassImport::insertMethod(UMLObject *o, Uml::Scope scope, QString name,
 		kdError()<<"Could not create operation with name "<<name<<endl;
 		return;
 	}
-	op->setReturnType(type);
 	op->setScope(scope);
+	op->setReturnType(type);
+	if (isStatic)
+		kdDebug() << "ClassImport::insertMethod: method " << o->getName()
+		  << "::" << name << " is static." << endl;
+	op->setStatic(isStatic);
+	op->setAbstract(isAbstract);
 	QString strippedComment = doxyComment(comment);
 	if (! strippedComment.isEmpty()) {
 		op->setDoc(strippedComment);
@@ -181,8 +189,8 @@ void ClassImport::importCPP(QStringList headerFileList) {
 					break;
 			} //switch
 			this->insertAttribute(classParser.store,
-			                      currentClass, attrScope,
-					      attr->name, attr->type, attr->comment);
+			                      currentClass, attrScope, attr->name,
+					      attr->type, attr->comment, attr->isStatic);
 		} // attribute for() loop
 
 		//CParsedMethod *aMethod;
@@ -226,10 +234,13 @@ void ClassImport::importCPP(QStringList headerFileList) {
 			if(!pMethod->isVirtual) {
 				methodType = pMethod->type;
 			} else {
+				//CHECK: This is a C++ specific hack.
+				// How do we express virtuality in UML?
 				methodType = "virtual "+pMethod->type;
 			}
 			this->insertMethod(currentClass, attrScope, pMethod->name,
-					   methodType, pMethod->comment, &parList);
+					   methodType, pMethod->isStatic, pMethod->isPure,
+					   pMethod->comment, &parList);
 		} // method for() loop
 	} // 	class for() loop
 

@@ -46,14 +46,21 @@ public:
 	 */
 	void insertAttribute(CClassStore& store,
 			     UMLObject *o, Uml::Scope scope, QString name,
-			     QString type, QString comment = "");
+			     QString type, QString comment = "",
+			     bool isStatic = false);
 
 	/**
 	 * Create a UMLOperation and insert it into the document.
 	 */
-	void insertMethod(UMLObject *o, Uml::Scope scope, QString name, QString type,
-			  QString comment = "", UMLAttributeList *parList = NULL);
+	void insertMethod(UMLObject *o, Uml::Scope scope, QString name,
+			  QString type, bool isStatic, bool isAbstract,
+			  QString comment="", UMLAttributeList *parList=NULL);
 
+	/**
+	 * Check that a given comment conforms to the Doxygen convention, i.e.
+	 * check that it begins with slash-star-star.
+	 * Strip the comment lines of leading whitespace and stars.
+	 */
 	QString doxyComment(QString comment);
 };
 
