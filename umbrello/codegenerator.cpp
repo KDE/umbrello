@@ -608,6 +608,7 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLClassifierList &cLis
                 temp = 0;
                 switch(a->getAssocType()) {
                         case Uml::at_Generalization:
+                        case Uml::at_Realization:
                                 if(a->getWidgetAID()==c->getID())
                                         temp =(UMLClassifier*) m_document->findUMLObject(a->getWidgetBID());
                                 if(temp  && !cList.containsRef(temp))
@@ -620,6 +621,13 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLClassifierList &cLis
                                 if(temp  && !cList.containsRef(temp))
                                         cList.append(temp);
                                 break;
+                        case Uml::at_Association:
+                                if(a->getWidgetBID()==c->getID())
+                                        temp = (UMLClassifier*)m_document->findUMLObject(a->getWidgetAID());
+				else if(a->getWidgetAID()==c->getID())
+                                        temp =(UMLClassifier*) m_document->findUMLObject(a->getWidgetBID());
+                                if(temp  && !cList.containsRef(temp))
+                                        cList.append(temp);
                         default:
                                 break;
                 }

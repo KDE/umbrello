@@ -310,11 +310,6 @@ public:
 	bool checkAssoc(UMLWidget * widgetA, UMLWidget *widgetB);
 
 	/**
-	 * Cleans up all the association's data in the related widgets.
-	 */
-	void cleanup();
-
-	/**
 	 * Returns true if the Widget is either at the starting or ending side
 	 * of the association.
 	 *
@@ -586,6 +581,15 @@ public:
 					     const MessageWidgetList* pMessages = NULL);
 
 private:
+
+	/** set our internal umlAssociation */
+	void setUMLAssociation (UMLAssociation * assoc);
+
+        /**
+         * Cleans up all the association's data in the related widgets.
+         */
+        void cleanup();
+
 	/**
 	 * Merges/syncs the association widget data into UML object
 	 * representation.

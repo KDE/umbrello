@@ -1117,6 +1117,7 @@ void UMLView::deleteSelection()
 		++assoc_it;
 		if( assocwidget-> getSelected() )
 			removeAssoc(assocwidget);
+// MARK
 	}
 
 	/* we also have to remove selected messages from sequence diagrams */
@@ -1959,8 +1960,8 @@ void UMLView::removeAssoc(AssociationWidget* pAssoc) {
 		m_pMoveAssoc = 0;
 	}
 	// Remove the association in this view.
-	pAssoc->cleanup();
-	m_AssociationList.remove(pAssoc);
+//	pAssoc->cleanup();
+	m_AssociationList.remove(pAssoc); // will delete our association
 }
 
 void UMLView::removeAssocInViewAndDoc(AssociationWidget* a) {
@@ -3317,7 +3318,7 @@ bool UMLView::loadAssociationsFromXMI( QDomElement & qElement ) {
 				kdError() << "couldn't loadFromXMI association widget:"
 				          << assoc << ", bad XMI file? Deleting from umlview."
 					  << endl;
-				assoc->cleanup();
+//				assoc->cleanup();
 				delete assoc;
 				/* return false;
 				   Returning false here is a little harsh when the
@@ -3327,7 +3328,7 @@ bool UMLView::loadAssociationsFromXMI( QDomElement & qElement ) {
 				if(!addAssociation(assoc, false))
 				{
 					kdError()<<"COULDNT addAssociation("<<assoc<<") to umlview, deleting."<<endl;
-					assoc->cleanup();
+//					assoc->cleanup();
 					delete assoc;
 					//return false; // soften error.. may not be that bad
 				}

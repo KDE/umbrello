@@ -30,7 +30,10 @@ UMLAssociation::UMLAssociation( UMLDoc* parent,
 }
 
 // destructor
-UMLAssociation::~UMLAssociation( ) { }
+UMLAssociation::~UMLAssociation( ) { 
+	// delete ourselves from the parent document
+	((UMLDoc *)parent())->removeAssociation(this);
+}
 
 bool UMLAssociation::operator==(UMLAssociation &rhs) {
 	if (this == &rhs) {
@@ -142,6 +145,7 @@ QString UMLAssociation::typeAsString (Uml::Association_Type atype)
 bool UMLAssociation::assocTypeHasUMLRepresentation(Uml::Association_Type atype)
 {
 	return (atype == Uml::at_Generalization ||
+		atype == Uml::at_Realization ||
 		atype == Uml::at_Aggregation ||
 		atype == Uml::at_Composition);
 }
@@ -396,6 +400,7 @@ void UMLAssociation::init(Association_Type type, UMLObject *roleAObj, UMLObject 
 	m_AssocType = type;
 	m_BaseType = ot_Association;
 	m_Name = "";
+	nrof_parent_widgets = 0;
 
 	m_pRoleA = new UMLRole (this, roleAObj);
 	m_pRoleB = new UMLRole (this, roleBObj);

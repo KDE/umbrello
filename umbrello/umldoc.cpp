@@ -373,6 +373,9 @@ void UMLDoc::deleteContents() {
 		listView->init();
 		removeAllViews();
 		if(objectList.count() > 0) {
+			// clear our object list. We do this explicitly since setAutoDelete is false for the objectList now. 
+			for(UMLObject * obj = objectList.first(); obj != 0; obj = objectList.next())
+				delete obj;
 			objectList.clear();
 		}
 	}
@@ -1203,6 +1206,7 @@ void UMLDoc::removeUMLObject(UMLObject* umlobject) {
 			for (UMLClassifier *c = concepts.first(); c; c = concepts.next()) {
 				switch (assocType) {
 					case Uml::at_Generalization:
+					case Uml::at_Realization:
 						if (AId == c->getID())
 							c->removeAssociation(a);
 						break;
@@ -1211,12 +1215,11 @@ void UMLDoc::removeUMLObject(UMLObject* umlobject) {
 						if (BId == c->getID())
 							c->removeAssociation(a);
 						break;
-						/*
 					case Uml::at_Association:
 						// CHECK: doesnt seem correct
+						// But we DO need to remove uni-associations, etc. from the concept, -b.t. 
 						if (AId == c->getID() || BId == c->getID())
 							c->removeAssociation(a);
-							*/
 					default:
 						break;
 				}
@@ -1848,7 +1851,10 @@ bool UMLDoc::loadDiagramsFromXMI( QDomNode & node ) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLDoc::removeAllViews() {
 	for(UMLView *v = m_ViewList.first(); v; v = m_ViewList.next()) {
-		v->removeAllAssociations();
+		v->removeAllAssociations(); // note : It may not be apparent, but when we remove all associations
+						// from a view, it also causes any UMLAssociations that lack parent
+						// associaiton widgets (but once had them) to remove themselves from
+						// this document.
 		removeView(v);
 	}
 	m_ViewList.clear();

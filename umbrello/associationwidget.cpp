@@ -62,6 +62,7 @@ AssociationWidget::AssociationWidget(UMLView *view, UMLWidget* pWidgetA,
 			}
 			connect(m_pAssociation, SIGNAL(modified()), this,
 				SLOT(mergeUMLRepresentationIntoAssociationData()));
+			m_pAssociation->nrof_parent_widgets++;
 		}
 	}
 
@@ -89,7 +90,9 @@ AssociationWidget::AssociationWidget(UMLView *view, UMLWidget* pWidgetA,
 	}
 }
 
-AssociationWidget::~AssociationWidget() { }
+AssociationWidget::~AssociationWidget() { 
+	cleanup();
+}
 
 AssociationWidget& AssociationWidget::operator=(AssociationWidget & Other) {
 	m_LinePath = Other.m_LinePath;
@@ -950,7 +953,6 @@ void AssociationWidget::cleanup() {
 
 	if (m_pAssociation) {
 		/*
-		m_pView->getDocument()->removeAssociation(m_pAssociation);
 		   We do not remove the UMLAssociation from the document.
 		   Why? - Well, for example we might be in the middle of
 		   a cut/paste. If the UMLAssociation is removed by the cut
@@ -958,11 +960,47 @@ void AssociationWidget::cleanup() {
 		   This is not quite clean yet - there should be a way to
 		   explicitly delete a UMLAssociation.  The Right Thing would
 		   be to have a ListView representation for UMLAssociation.
+`
+			IF we are cut n pasting, why are we handling this association as a pointer?
+			We should be using the XMI representation for a cut and paste. This
+			allows us to be clean here, AND a choice of recreating the object 
+			w/ same id IF its a "cut", or a new object if its a "copy" operation
+			(in which case we wouldnt be here, in cleanup()).
+			At any rate, currently you cant cut n paste associations anyways. 
+			 -b.t.
+
 		 */
-		m_pAssociation = 0;
+		setUMLAssociation(0);
+
 	}
 
 	m_LinePath.cleanup();
+}
+
+void AssociationWidget::setUMLAssociation (UMLAssociation * assoc) 
+{
+
+	if(m_pAssociation) {
+		m_pAssociation->disconnect(this);
+		m_pAssociation->nrof_parent_widgets--;
+
+		// we are the last "owner" of this association, so delete it
+		// from the parent UMLDoc, and as a stand-alone
+		if(m_pAssociation->nrof_parent_widgets == 0)
+		{
+			delete m_pAssociation;
+		}
+	
+		m_pAssociation = 0;
+	}
+
+	if(assoc) {
+		m_pAssociation = assoc;
+		m_pAssociation->nrof_parent_widgets++;
+		connect(m_pAssociation, SIGNAL(modified()), this,
+                                        SLOT(mergeUMLRepresentationIntoAssociationData()));
+	}
+
 }
 
 
@@ -3317,6 +3355,7 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
 							umlRoleA, umlRoleB, aType);
 				connect(m_pAssociation, SIGNAL(modified()), this,
 					SLOT(mergeUMLRepresentationIntoAssociationData()));
+				m_pAssociation->nrof_parent_widgets++;
 			}
 		}
 
@@ -3348,7 +3387,10 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
 
 		// we should disconnect any prior association (can this happen??)
 		if(m_pAssociation)
+		{
 			m_pAssociation->disconnect(this);
+			m_pAssociation->nrof_parent_widgets--;
+		}
 
 		// New style: The xmi.id is a reference to the UMLAssociation.
 		UMLDoc* umldoc = m_pView->getDocument();
@@ -3357,8 +3399,11 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
 			kdError() << " AssociationWidget cannot find UML:Association " << nId << " for loadFromXMI"<< endl;
 			return false;
 		} else
+		{
 			connect(m_pAssociation, SIGNAL(modified()), this,
 				SLOT(mergeUMLRepresentationIntoAssociationData()));
+			m_pAssociation->nrof_parent_widgets++;
+		}
 
 		m_LinePath.setAssocType( m_pAssociation->getAssocType() );
 

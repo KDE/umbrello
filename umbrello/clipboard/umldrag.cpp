@@ -660,7 +660,7 @@ bool UMLDrag::decodeClip4(const QMimeSource* mimeSource, UMLObjectList& objects,
 		if (associationWidget->loadFromXMI(associationWidgetElement, widgets))
 			associations.append(associationWidget);
 		else {
-			associationWidget->cleanup();
+			//associationWidget->cleanup();
 			delete associationWidget;
 		}
 		associationWidgetNode = associationWidgetNode.nextSibling();
@@ -681,10 +681,9 @@ bool UMLDrag::decodeClip4(const QMimeSource* mimeSource, UMLObjectList& objects,
 	return true;
 }
 
-//FIXME this needs fixing
-bool UMLDrag::decodeClip5(const QMimeSource* mimeSource, UMLObjectList& objects,
+#warning "decodeClip5 needs fixing" 
+bool UMLDrag::decodeClip5(const QMimeSource* mimeSource, UMLObjectList& /* objects */,
 			  UMLListViewItemList& umlListViewItems, UMLDoc* doc) {
-kdDebug()<<"DECODE CLIP 5 CALLED"<<endl;
 	if ( !mimeSource->provides("application/x-uml-clip5") ) {
 		return false;
 	}
@@ -718,8 +717,8 @@ kdDebug()<<"DECODE CLIP 5 CALLED"<<endl;
 	if ( element.isNull() ) {
 		return false;//return ok as it means there is no umlobjects
 	}
-	UMLObject* pObject = 0;
 /*
+	UMLObject* pObject = 0;
 	while ( !element.isNull() ) {
 		pObject = 0;
 		QString type = element.tagName();

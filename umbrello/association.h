@@ -30,6 +30,7 @@ using namespace Uml;
 
 class UMLAssociation : public UMLObject {
 	Q_OBJECT
+	friend class AssociationWidget;
 public:
 	/**
 	 * Sets up an association.
@@ -314,6 +315,9 @@ public:
 	bool loadFromXMI(QDomElement& element);
 
 protected:
+
+	// keep track of number of parent widgets
+	int nrof_parent_widgets;
 
 	/**
 	 * Common initializations at construction time.
