@@ -249,6 +249,15 @@ public:
 	void updateMessagePos(int textHeight, int& newX, int& newY);
 
 	/**
+	 * Constrains the Y value supplied.
+	 * Overrides operation from LinkWidget.
+	 *
+	 * @param y		Y value (may be modified by the constraint.)
+	 * @param height	Height of the associated FloatingText.
+	 */
+	void constrainY(int &y, int height);
+
+	/**
 	 * Used to cleanup any other widget it may need to delete.
 	 */
 	void cleanup();

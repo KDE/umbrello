@@ -15,13 +15,11 @@
 #include <kdebug.h>
 
 // local includes
-#include "associationwidget.h"
 #include "association.h"
 #include "umlview.h"
 #include "umldoc.h"
 #include "uml.h"
 #include "classifier.h"
-#include "messagewidget.h"
 #include "listpopupmenu.h"
 #include "operation.h"
 #include "inputdialog.h"
@@ -288,12 +286,7 @@ void FloatingText::mouseMoveEvent(QMouseEvent* me) {
 
 	//implement specific rules for a sequence diagram
 	if (m_Role == Uml::tr_Seq_Message) {
-		MessageWidget *pMessage = static_cast<MessageWidget*>(m_pLink);
-		const int minHeight = pMessage->getMinHeight();
-		newY = newY < minHeight ? minHeight : newY;
-		const int maxHeight = pMessage->getMaxHeight() - height() - 5;
-		newY = newY < maxHeight ? newY : maxHeight;
-		pMessage->setY( newY + height() );
+		m_pLink->constrainY(newY, height());
 	}
 	m_nOldX = newX;
 	m_nOldY = newY;

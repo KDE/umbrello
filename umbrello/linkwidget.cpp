@@ -82,6 +82,10 @@ void LinkWidget::updateMessagePos(int /*textHeight*/, int& /*X*/, int& /*Y*/) {
 	// Only applicable to MessageWidget and AssociationWidget.
 }
 
+void LinkWidget::constrainY(int & /*y*/, int /*height*/) {
+	// Only applicable to MessageWidget.
+}
+ 
 void LinkWidget::calculateNameTextSegment() {
 	// Only applicable to MessageWidget and AssociationWidget.
 }

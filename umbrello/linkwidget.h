@@ -155,6 +155,11 @@ public:
 	virtual void updateMessagePos(int textHeight, int& newX, int& newY);
 
 	/**
+	 * Motivated by FloatingText::mouseMoveEvent()
+	 */
+	void constrainY(int &y, int height);
+ 
+	/**
 	 * Motivated by FloatingText::setLink(). Bad.
 	 */
 	virtual void calculateNameTextSegment();

@@ -272,6 +272,16 @@ void MessageWidget::updateMessagePos(int textHeight, int& newX, int& newY) {
 	setY( newY + textHeight );
 }
 
+void MessageWidget::constrainY(int &y, int height) {
+	const int minHeight = getMinHeight();
+	const int maxHeight = getMaxHeight() - height - 5;
+	if (y < minHeight)
+		y = minHeight;
+	else if (y > maxHeight)
+		y = maxHeight;
+	setY( y + height );
+}
+ 
 void MessageWidget::setupAfterFTsetLink(FloatingText* /*ft*/) {
 	setTextPosition();
 }
