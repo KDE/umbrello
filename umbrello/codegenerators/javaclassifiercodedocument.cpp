@@ -422,7 +422,7 @@ void JavaClassifierCodeDocument::updateContent( )
 	//
         // PACKAGE CODE BLOCK
         //
-	QString packageText = getPackage().isEmpty() ? "" : "package "+getPackage()+";";
+	QString packageText = getPackage().isEmpty() ? "" : "package "+getPackage()+";"+endLine;
 	addOrUpdateTaggedCodeBlockWithComments("packages", packageText, "", 0, false);
 
        	// IMPORT CODEBLOCK 
@@ -432,7 +432,7 @@ void JavaClassifierCodeDocument::updateContent( )
        	//    don't slow down or anything. (TZ)
        	QString importStatement = "";
        	if ( hasObjectVectorClassFields() )
-       		importStatement.append("import java.util.*;"+endLine);
+       		importStatement.append("import java.util.*;");
 
    	//only import classes in a different package from this class
        	UMLClassifierList imports;
@@ -444,7 +444,7 @@ void JavaClassifierCodeDocument::updateContent( )
        	        && !(packageMap->contains(con)))
 	{
        		packageMap->insert(con,con->getPackage());
-               	importStatement.append("import "+con->getPackage()+"."+gen->cleanName(con->getName())+";"+endLine);
+               	importStatement.append(endLine+"import "+con->getPackage()+"."+gen->cleanName(con->getName())+";");
 	}
         // now, add/update the imports codeblock
 	addOrUpdateTaggedCodeBlockWithComments("imports", importStatement, "", 0, false);
