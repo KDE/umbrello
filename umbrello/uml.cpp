@@ -164,7 +164,7 @@ void UMLApp::initActions() {
 	new KAction(i18n("&Add Default Datatypes for Active Language"), 0, this,
 		    SLOT(slotAddDefaultDatatypes()), actionCollection(), "create_default_datatypes");
 
-	preferences = KStdAction::preferences(this,  SLOT( slotPrefs() ), actionCollection(), "umbrello_configure");
+	preferences = KStdAction::preferences(this,  SLOT( slotPrefs() ), actionCollection());
 
 	genWizard = new KAction(i18n("&Code Generation Wizard..."),0,this,SLOT(generationWizard()),
 	                        actionCollection(),"generation_wizard");
