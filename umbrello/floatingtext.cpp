@@ -30,7 +30,7 @@ FloatingText::FloatingText(UMLView * view, UMLWidgetData* pData) : UMLWidget(vie
 	       	m_pData = new FloatingTextData();
 		((FloatingTextData*)m_pData)->setText("");
 	}
-	setRole( tr_Name );
+	setRole( tr_Floating );
 	init();
 }
 
