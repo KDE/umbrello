@@ -21,6 +21,8 @@
 
 // adapted to kdevelop by Roberto Raggi <roberto@kdevelop.org>
 
+#include <kdebug.h>
+
 #include <stdio.h>
 #include <string.h>
 
@@ -30,7 +32,7 @@ const HashEntry* Lookup::findEntry( const struct HashTable *table,
                               const QChar *c, unsigned int len )
 {
   if (table->type != 2) {
-    fprintf(stderr, "KJS: Unknown hash table version.\n");
+    kdDebug() << "KJS: Unknown hash table version" << endl;
     return 0;
   }
   char *ascii = new char[len+1];
