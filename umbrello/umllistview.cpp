@@ -1864,18 +1864,20 @@ void UMLListView::addNewItem( QListViewItem * parent, Uml::ListView_Type type ) 
 		newItem->setPixmap( 0, getPixmap( it_Enum ) );
 		break;
 
-	case Uml::lvt_Template:
-		name = getUniqueUMLObjectName( Uml::ot_Template );
-		newItem = new UMLListViewItem( parentItem, name, type, (UMLObject*)0 );
-		newItem->setPixmap( 0, getPixmap( it_Template ) );
-		break;
-
 	case Uml::lvt_Entity:
 		name = getUniqueUMLObjectName( Uml::ot_Entity );
 		newItem = new UMLListViewItem( parentItem, name, type, (UMLObject*)0 );
 		newItem->setPixmap( 0, getPixmap( it_Entity ) );
 		break;
 
+	case Uml::lvt_Template:
+	{
+		UMLClassifier *parent = static_cast<UMLClassifier*>(parentItem->getUMLObject());
+		name = getUniqueChildUMLObjectName(parent, Uml::ot_Template);
+		newItem = new UMLListViewItem( parentItem, name, type, (UMLObject*)0 );
+		newItem->setPixmap( 0, getPixmap( it_Template ) );
+		break;
+	}
 	case Uml::lvt_Attribute:
 	{
 		UMLClass * childParent = static_cast<UMLClass*>( parentItem->getUMLObject() );
