@@ -79,7 +79,7 @@ void ToolBarStateMessages::mouseRelease(QMouseEvent* ome)
 		{
 			//clicked on second sequence line to create message
 			Uml::Text_Role tr = tr_Seq_Message;
-			if (getMessageType() == sequence_message_synchronous)
+			if (m_pSelectedWidget == clickedOnWidget)
 				tr = tr_Seq_Message_Self;
 			FloatingText* messageText = new FloatingText(m_pUMLView, tr, "");
 			messageText->setFont( m_pUMLView->getFont() );
