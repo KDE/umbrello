@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:xml="http://www.w3.org/XML/1998/namespace"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   sodipodi:docbase="F:\pics"
+   sodipodi:docname="shallow-history.svg"
+   inkscape:version="0.40+cvs"
+   sodipodi:version="0.32"
+   version="1.0"
+   x="0.00000000"
+   y="0.00000000"
+   width="22.000000px"
+   height="22.000000px"
+   id="svg1">
+  <metadata
+     id="metadata17">
+    <rdf:RDF
+       id="RDF18">
+      <cc:Work
+         id="Work19"
+         rdf:about="">
+        <dc:format
+           id="format20">image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage"
+           id="type21" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     inkscape:current-layer="svg1"
+     inkscape:window-y="317"
+     inkscape:window-x="1889"
+     inkscape:cy="11.000000"
+     inkscape:cx="11.000000"
+     inkscape:zoom="18.409091"
+     inkscape:window-height="579"
+     inkscape:window-width="692"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base" />
+  <defs
+     id="defs3" />
+  <g
+     transform="translate(-383.9018,-518.6851)"
+     id="g240">
+    <path
+       d="M 403.40652,529.87519 C 403.40652,534.58139 399.61097,538.39651 394.92893,538.39651 C 390.24688,538.39651 386.45133,534.58139 386.45133,529.87519 C 386.45133,525.16900 390.24688,521.35388 394.92893,521.35388 C 399.61097,521.35388 403.40652,525.16900 403.40652,529.87519 z "
+       style="fill:none;stroke:#d30000;stroke-width:1.2500000;stroke-miterlimit:4.0000000;stroke-opacity:1.0000000"
+       id="path21" />
+    <text
+       sodipodi:linespacing="100%"
+       x="390.11942"
+       y="534.23749"
+       style="font-size:12.000000;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1.0000000;stroke:none;stroke-width:1.0000000px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1.0000000;font-family:Bitstream Vera Sans;text-anchor:start;writing-mode:lr-tb"
+       id="text111"
+       xml:space="preserve"><tspan
+         id="tspan22"
+         sodipodi:role="line"
+         y="534.23749"
+         x="390.11942">H</tspan></text>
+  </g>
+</svg>

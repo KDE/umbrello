@@ -15,6 +15,7 @@
 #ifndef WORKTOOLBAR_H
 #define WORKTOOLBAR_H
 
+#include <qcursor.h>
 #include <ktoolbar.h>
 #include "umlnamespace.h"
 
@@ -23,10 +24,19 @@
  * This is the toolbar that is displayed on the right-hand side of the program
  * window.  For each type of diagram it will change to suit that document.
  *
+ * To add a new tool button do the following:
+ * - create a button pixmap (symbol)
+ * - create a cursor pixmap
+ * - add an element to the ToolBar_Buttons enum
+ * - adjust function loadPixmaps
+ * - adjust function slotCheckToolBar
+ *
  * @short The toolbar that is different for each type of diagram.
  * @author Paul Hensgen <phensgen@techie.com>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
+
+ 
 class WorkToolBar : public KToolBar {
 	Q_OBJECT
 public:
@@ -37,7 +47,12 @@ public:
 	 * @param parentWindow	The parent of the toolbar.
 	 * @param name		The name of the toolbar.
 	 */
-	WorkToolBar(QMainWindow *parentWindow,const char*name);
+	WorkToolBar(QMainWindow *parentWindow, const char *name);
+
+	/**
+	 * Standard deconstructor.
+	 */
+	~WorkToolBar();
 
 	/**
 	 * Sets the current tool to the previously used Tool. This is just
@@ -51,11 +66,6 @@ public:
 	 * button on the toolbar.
 	 */
 	void setDefaultTool();
-
-	/**
-	 * Standard deconstructor.
-	 */
-	~WorkToolBar();
 
 	/**
 	 * Enumeration of all available toolbar buttons.
@@ -100,57 +110,44 @@ public:
 	    tbb_Activity,
 	    tbb_End_Activity,
 	    tbb_Branch,
-	    tbb_Fork
+	    tbb_Fork,
+	    tbb_DeepHistory,
+	    tbb_ShallowHistory,
+	    tbb_Join,
+	    tbb_StateFork,
+	    tbb_Junction,
+	    tbb_Choice,
+	    tbb_Andline
 	};
 
-	typedef QMap<Uml::Diagram_Type,ToolBar_Buttons> OldToolMap;
-
 private:
-	ToolBar_Buttons m_CurrentButtonID;
-	OldToolMap m_map;
-	Uml::Diagram_Type m_Type;
+	
+	typedef QMap<Uml::Diagram_Type,ToolBar_Buttons> OldToolMap;
+		
+	/**
+	 * This inner class holds label, symbol, and cursor of a tool button.
+	 */
+	class ToolButton {
+	public:
+		QString Label;
+		QPixmap Symbol;
+		QCursor Cursor;
+		ToolButton() { Label = QString("?"); Symbol = QPixmap(); Cursor = QCursor(); };
+		ToolButton(const QString& lbl, const QPixmap& smb, const QCursor& cur) :
+			Label(lbl), Symbol(smb), Cursor(cur) { };
+	};
 
-	static const unsigned nToolbarButtons = (unsigned)tbb_Fork -
-						(unsigned)tbb_Arrow + 1;
-	QPixmap m_Pixmaps[nToolbarButtons];
+	typedef QMap<ToolBar_Buttons, ToolButton> ToolButtonMap;
+	
+	ToolBar_Buttons 	m_CurrentButtonID;
+	OldToolMap		m_map;
+	Uml::Diagram_Type	m_Type;	
+	ToolButtonMap		m_ToolButtons;
 
 	/**
-	 * These are loaded by loadPixmaps() and contain the images used
-	 * for the mouse cursors.
+	 * Loads a pixmap from file
 	 */
-	struct CursorPixmaps {
-		QPixmap Actor;
-		QPixmap Aggregation;
-		QPixmap Anchor;
-		QPixmap Artifact;
-		QPixmap Association;
-		QPixmap Box;
-		QPixmap Branch;
-		QPixmap Case;
-		QPixmap Component;
-		QPixmap Composition;
-		QPixmap Containment;
-		QPixmap Dependency;
-		QPixmap EndState;
-		QPixmap Fork;
-		QPixmap Generalisation;
-		QPixmap InitialState;
-		QPixmap Interface;
-		QPixmap Datatype;
-		QPixmap Enum;
-		QPixmap Entity;
-		QPixmap MessageAsynchronous;
-		QPixmap MessageSynchronous;
-		QPixmap Node;
-		QPixmap Note;
-		QPixmap Object;
-		QPixmap Package;
-		QPixmap Text;
-		QPixmap Class;
-		QPixmap UniAssoc;
-		QPixmap Relationship;
-	}
-	m_CursorPixmaps;
+	QPixmap load(const QString &fileName);
 
 	/**
 	 * Loads toolbar icon and mouse cursor images from disk
@@ -166,7 +163,7 @@ private:
 	 * Inserts the button corresponding to the tbb value given
 	 * and activates the toggle.
 	 */
-	void insertHotBtn(ToolBar_Buttons tbb, const QString label);
+	void insertHotBtn(ToolBar_Buttons tbb);
 
 	/**
 	 * Inserts most associations, just reduces some string

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   inkscape:export-ydpi="89.999504"
+   inkscape:export-xdpi="89.999504"
+   inkscape:export-filename="F:\pics\andline.png"
+   id="svg1"
+   height="22.000000px"
+   width="22.000000px"
+   y="0.00000000"
+   x="0.00000000"
+   version="1.0"
+   sodipodi:version="0.32"
+   inkscape:version="0.40+cvs"
+   sodipodi:docname="andline.svg"
+   sodipodi:docbase="F:\pics">
+  <metadata
+     id="metadata39">
+    <rdf:RDF
+       id="RDF40">
+      <cc:Work
+         rdf:about=""
+         id="Work41">
+        <dc:format
+           id="format42">image/svg+xml</dc:format>
+        <dc:type
+           id="type43"
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title
+           id="title1">And Line</dc:title>
+        <cc:license
+           id="license2"
+           rdf:resource="http://creativecommons.org/licenses/GPL/2.0/" />
+        <dc:date
+           id="date12">2005-02-28</dc:date>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/GPL/2.0/"
+         id="License3">
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Reproduction"
+           id="permits4" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Distribution"
+           id="permits5" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/Notice"
+           id="requires6" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/DerivativeWorks"
+           id="permits7" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/ShareAlike"
+           id="requires8" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/SourceCode"
+           id="requires9" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.00000000"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1035"
+     inkscape:window-height="691"
+     inkscape:zoom="23.500000"
+     inkscape:cx="11.000000"
+     inkscape:cy="11.000000"
+     inkscape:window-x="1918"
+     inkscape:window-y="129"
+     inkscape:current-layer="svg1" />
+  <defs
+     id="defs3" />
+  <g
+     transform="translate(-0.173293,-6.209109e-2)"
+     id="g11">
+    <rect
+       rx="5.0000000"
+       ry="5.0000000"
+       y="3.9911418"
+       x="1.7973769"
+       height="14.384930"
+       width="18.709280"
+       id="rect182"
+       style="fill:#e6ca25;fill-opacity:1.0000000;stroke:#908787;stroke-width:1.8478020;stroke-linecap:butt;stroke-miterlimit:4.0000000;stroke-opacity:1.0000000" />
+    <path
+       id="path183"
+       d="M 11.189410,18.008550 C 11.181540,1.5742100 11.181540,1.5742100 11.181540,1.5742100 L 11.181540,1.5742100"
+       style="fill:none;fill-opacity:0.75000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.5000000;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4.0000000;stroke-dasharray:1.5000000 4.5000000 ;stroke-dashoffset:0.00000000;stroke-opacity:1.0000000" />
+  </g>
+</svg>

@@ -1,5 +1,5 @@
  /*
-  *  copyright (C) 2002-2004
+  *  copyright (C) 2002-2005
   *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
   */
 
@@ -12,15 +12,20 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "uml.h"
-#include "umldoc.h"
-#include "umlview.h"
-#include "worktoolbar.h"
+//qt include files
+
+//kde include files
 #include <kdebug.h>
 #include <klocale.h>
 #include <kstandarddirs.h>
 #include <ktoolbarbutton.h>
-#include <qcursor.h>
+
+// application specific includes
+#include "uml.h"
+#include "umldoc.h"
+#include "umlview.h"
+#include "worktoolbar.h"
+
 
 WorkToolBar::WorkToolBar(QMainWindow *parentWindow, const char*name)
   : KToolBar(parentWindow,Qt::DockRight,false,name) {
@@ -47,114 +52,116 @@ WorkToolBar::~WorkToolBar() {
 	disconnect(this, SIGNAL(released(int)),this,SLOT(buttonChanged(int)));
 }
 
-void WorkToolBar::insertHotBtn(ToolBar_Buttons tbb, const QString label) {
-	insertButton(m_Pixmaps[tbb], tbb, true, label);
-	setToggle( tbb, true );
+void WorkToolBar::insertHotBtn(ToolBar_Buttons tbb) {
+    try {
+       insertButton(m_ToolButtons[tbb].Symbol, tbb, true, m_ToolButtons[tbb].Label);
+       setToggle(tbb, true);
+    }
+    catch (...) {
+       kdError() << "Undefined button id " << tbb << "!" << endl;
+    }
+}
+
+void WorkToolBar::insertBasicAssociations()  {
+	insertHotBtn(tbb_Association);
+	if (m_Type == Uml::dt_Class || m_Type == Uml::dt_UseCase) {
+		insertHotBtn(tbb_UniAssociation);
+	}
+	insertHotBtn(tbb_Dependency);
+	insertHotBtn(tbb_Generalization);
 }
 
 void WorkToolBar::slotCheckToolBar(Uml::Diagram_Type dt) {
-	if( dt == m_Type )
+	if ( dt == m_Type )
 		return;
 	clear();
 	m_Type = dt;
 
-	if( m_Type == Uml::dt_Undefined )
+	if ( m_Type == Uml::dt_Undefined )
 		return;
 
 	//insert note, anchor and lines of text on all diagrams
-	insertButton( m_Pixmaps[tbb_Arrow], tbb_Arrow, true, i18n("Select") );
-	setToggle( tbb_Arrow, true );
-	toggleButton( tbb_Arrow );
+	insertHotBtn(tbb_Arrow);
+	toggleButton(tbb_Arrow);
 	m_CurrentButtonID = tbb_Arrow;
 
-	insertHotBtn(tbb_Note, i18n("Note"));
-	insertHotBtn(tbb_Anchor, i18n("Anchor"));
-	insertHotBtn(tbb_Text, i18n("Label"));
-	insertHotBtn(tbb_Box, i18n("Box"));
+	insertHotBtn(tbb_Note);
+	insertHotBtn(tbb_Anchor);
+	insertHotBtn(tbb_Text);
+	insertHotBtn(tbb_Box);
 
 	//insert diagram specific tools
 	switch (m_Type) {
 	case Uml::dt_UseCase:
-		insertHotBtn(tbb_Actor, i18n("Actor"));
-		insertHotBtn(tbb_UseCase, i18n("Use case"));
+		insertHotBtn(tbb_Actor);
+		insertHotBtn(tbb_UseCase);
 		insertBasicAssociations();
 		break;
 
 	case Uml::dt_Class:
-		insertHotBtn(tbb_Class, i18n("Class"));
-		insertHotBtn(tbb_Interface, i18n("Interface"));
-		insertHotBtn(tbb_Datatype, i18n("Datatype"));
-		insertHotBtn(tbb_Enum, i18n("Enum"));
-		insertHotBtn(tbb_Package, i18n("Package"));
+		insertHotBtn(tbb_Class);
+		insertHotBtn(tbb_Interface);
+		insertHotBtn(tbb_Datatype);
+		insertHotBtn(tbb_Enum);
+		insertHotBtn(tbb_Package);
 		insertBasicAssociations();
-		insertHotBtn(tbb_Composition, i18n("Composition"));
-		insertHotBtn(tbb_Aggregation, i18n("Aggregation"));
-		insertHotBtn(tbb_Containment, i18n("Containment"));
+		insertHotBtn(tbb_Composition);
+		insertHotBtn(tbb_Aggregation);
+		insertHotBtn(tbb_Containment);
 		break;
 
 	case Uml::dt_Sequence:
-		insertHotBtn(tbb_Object, i18n("Object"));
-
-		insertHotBtn(tbb_Seq_Message_Synchronous, i18n("Synchronous Message"));
-		insertHotBtn(tbb_Seq_Message_Asynchronous, i18n("Asynchronous Message"));
+		insertHotBtn(tbb_Object);
+		insertHotBtn(tbb_Seq_Message_Synchronous);
+		insertHotBtn(tbb_Seq_Message_Asynchronous);
 		break;
 
 	case Uml::dt_Collaboration:
-		insertHotBtn(tbb_Object, i18n("Object"));
-		insertButton( m_Pixmaps[tbb_Seq_Message_Asynchronous], tbb_Coll_Message,
-			      true, i18n("Message"));
-		setToggle( tbb_Coll_Message, true );
+		insertHotBtn(tbb_Object);
+		insertHotBtn(tbb_Coll_Message);
 		break;
 
 	case Uml::dt_State:
-		insertHotBtn(tbb_Initial_State, i18n("Initial state"));
-		insertButton( m_Pixmaps[tbb_UseCase], tbb_State,
-			      true, i18n("State"));
-		setToggle( tbb_State, true );
-		insertHotBtn(tbb_End_State, i18n("End state"));
-		insertButton( m_Pixmaps[tbb_UniAssociation], tbb_State_Transition,
-			      true, i18n("State transition"));
-		setToggle( tbb_State_Transition, true );
+		insertHotBtn(tbb_Initial_State);
+		insertHotBtn(tbb_State);
+		insertHotBtn(tbb_End_State);
+		insertHotBtn(tbb_State_Transition);
+		insertHotBtn(tbb_DeepHistory);
+		insertHotBtn(tbb_ShallowHistory);
+		insertHotBtn(tbb_Join);
+		insertHotBtn(tbb_StateFork);
+		insertHotBtn(tbb_Junction);
+		insertHotBtn(tbb_Choice);
+		insertHotBtn(tbb_Andline);
 		break;
 
 	case Uml::dt_Activity:
-		insertButton( m_Pixmaps[tbb_Initial_State], tbb_Initial_Activity,
-			      true, i18n("Initial activity"));
-		setToggle( tbb_Initial_Activity, true );
-		insertButton( m_Pixmaps[tbb_UseCase], tbb_Activity,
-			      true, i18n("Activity"));
-		setToggle( tbb_Activity, true );
-		insertButton( m_Pixmaps[tbb_End_State], tbb_End_Activity,
-			      true, i18n("End activity"));
-		setToggle( tbb_End_Activity, true );
-
-		insertHotBtn(tbb_Branch, i18n("Branch/merge"));
-
-		insertHotBtn(tbb_Fork, i18n("Fork/join"));
-
-		insertButton( m_Pixmaps[tbb_UniAssociation], tbb_Activity_Transition,
-			      true, i18n("Activity transition"));
-		setToggle( tbb_Activity_Transition, true );
+		insertHotBtn(tbb_Initial_Activity);
+		insertHotBtn(tbb_Activity);
+		insertHotBtn(tbb_End_Activity);
+		insertHotBtn(tbb_Branch);
+		insertHotBtn(tbb_Fork);
+		insertHotBtn(tbb_Activity_Transition);
 		break;
 
 	case Uml::dt_Component:
-		insertHotBtn(tbb_Interface, i18n("Interface"));
-		insertHotBtn(tbb_Component, i18n("Component"));
-		insertHotBtn(tbb_Artifact, i18n("Artifact"));
+		insertHotBtn(tbb_Interface);
+		insertHotBtn(tbb_Component);
+		insertHotBtn(tbb_Artifact);
 		insertBasicAssociations();
 		break;
 
 	case Uml::dt_Deployment:
-		insertHotBtn(tbb_Object, i18n("Object"));
-		insertHotBtn(tbb_Interface, i18n("Interface"));
-		insertHotBtn(tbb_Component, i18n("Component"));
-		insertHotBtn(tbb_Node, i18n("Node"));
+		insertHotBtn(tbb_Object);
+		insertHotBtn(tbb_Interface);
+		insertHotBtn(tbb_Component);
+		insertHotBtn(tbb_Node);
 		insertBasicAssociations();
 		break;
 
 	case Uml::dt_EntityRelationship:
-		insertHotBtn(tbb_Entity, i18n("Entity"));
-		insertHotBtn(tbb_Relationship, i18n("Relationship"));
+		insertHotBtn(tbb_Entity);
+		insertHotBtn(tbb_Relationship);
 		break;
 
 	default:
@@ -169,14 +176,14 @@ void WorkToolBar::buttonChanged(int b) {
 
 	//if trying to turn off arrow - stop it
 	ToolBar_Buttons tbb = (ToolBar_Buttons)b;
-	if(tbb == tbb_Arrow && m_CurrentButtonID == tbb_Arrow) {
+	if (tbb == tbb_Arrow && m_CurrentButtonID == tbb_Arrow) {
 		toggleButton(tbb_Arrow);
                 view->setCursor( currentCursor() );
 		return;
 	}
 
 	//if toggling off a button set to arrow
-	if(tbb == m_CurrentButtonID) {
+	if (tbb == m_CurrentButtonID) {
 		m_map[m_Type] = m_CurrentButtonID;  // store old tool for this diagram type
 		toggleButton(tbb_Arrow);
 		m_CurrentButtonID = tbb_Arrow;
@@ -192,84 +199,17 @@ void WorkToolBar::buttonChanged(int b) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 QCursor WorkToolBar::currentCursor() {
-	KStandardDirs* dirs = KGlobal::dirs();
-	QString dataDir = dirs->findResourceDir("data", "umbrello/pics/object.png");
-	dataDir += "/umbrello/pics/";
-
-	if (m_CurrentButtonID == tbb_Actor)  {
-		return QCursor(m_CursorPixmaps.Actor, 9, 9);
-	} else if (m_CurrentButtonID == tbb_Aggregation)  {
-		return QCursor(m_CursorPixmaps.Aggregation, 9, 9);
-	} else if (m_CurrentButtonID == tbb_Anchor)  {
-		return QCursor(m_CursorPixmaps.Anchor, 9, 9);
-	} else if (m_CurrentButtonID == tbb_Artifact)  {
-		return QCursor(m_CursorPixmaps.Artifact, 9, 9);
-	} else if (m_CurrentButtonID == tbb_Association) {
-		return QCursor(m_CursorPixmaps.Association, 9, 9);
-	} else if (m_CurrentButtonID == tbb_Containment)  {
-		return QCursor(m_CursorPixmaps.Containment, 9, 9);
-	} else if (m_CurrentButtonID == tbb_Box)  {
-		return QCursor(m_CursorPixmaps.Box, 9, 9);
-	} else if (m_CurrentButtonID == tbb_Branch)  {
-		return QCursor(m_CursorPixmaps.Branch, 9, 9);
-	} else if (m_CurrentButtonID == tbb_UseCase ||
-		   m_CurrentButtonID == tbb_State ||
-		   m_CurrentButtonID == tbb_Activity)  {
-		return QCursor(m_CursorPixmaps.Case, 9, 9);
-	} else if (m_CurrentButtonID == tbb_Component)  {
-		return QCursor(m_CursorPixmaps.Component, 9, 9);
-	} else if (m_CurrentButtonID == tbb_Composition)  {
-		return QCursor(m_CursorPixmaps.Composition, 9, 9);
-	} else if (m_CurrentButtonID == tbb_Dependency)  {
-		return QCursor(m_CursorPixmaps.Dependency, 9, 9);
-	} else if (m_CurrentButtonID == tbb_End_State ||
-		   m_CurrentButtonID == tbb_End_Activity)  {
-		return QCursor(m_CursorPixmaps.EndState, 9, 9);
-	} else if (m_CurrentButtonID == tbb_Fork)  {
-		return QCursor(m_CursorPixmaps.Fork, 9, 9);
-	} else if (m_CurrentButtonID == tbb_Generalization)  {
-		return QCursor(m_CursorPixmaps.Generalisation, 9, 9);
-	} else if (m_CurrentButtonID == tbb_Initial_State ||
-		   m_CurrentButtonID == tbb_Initial_Activity)  {
-		return QCursor(m_CursorPixmaps.InitialState, 9, 9);
-	} else if (m_CurrentButtonID == tbb_Interface)  {
-		return QCursor(m_CursorPixmaps.Interface, 9, 9);
-	} else if (m_CurrentButtonID == tbb_Datatype)  {
-		return QCursor(m_CursorPixmaps.Datatype, 9, 9);
-	} else if (m_CurrentButtonID == tbb_Enum)  {
-		return QCursor(m_CursorPixmaps.Enum, 9, 9);
-	} else if (m_CurrentButtonID == tbb_Entity)  {
-		return QCursor(m_CursorPixmaps.Entity, 9, 9);
-	} else if (m_CurrentButtonID == tbb_Seq_Message_Asynchronous ||
-		   m_CurrentButtonID == tbb_Coll_Message)  {
-		return QCursor(m_CursorPixmaps.MessageAsynchronous, 9, 9);
-	} else if (m_CurrentButtonID == tbb_Seq_Message_Synchronous)  {
-		return QCursor(m_CursorPixmaps.MessageSynchronous, 9, 9);
-	} else if (m_CurrentButtonID == tbb_Node)  {
-		return QCursor(m_CursorPixmaps.Node, 9, 9);
-	} else if (m_CurrentButtonID == tbb_Note)  {
-		return QCursor(m_CursorPixmaps.Note, 9, 9);
-	} else if (m_CurrentButtonID == tbb_Object)  {
-		return QCursor(m_CursorPixmaps.Object, 9, 9);
-	} else if (m_CurrentButtonID == tbb_Package)  {
-		return QCursor(m_CursorPixmaps.Package, 9, 9);
-	} else if (m_CurrentButtonID == tbb_Relationship) {
-		return QCursor(m_CursorPixmaps.Relationship, 9, 9);
-	} else if (m_CurrentButtonID == tbb_Text)  {
-		return QCursor(m_CursorPixmaps.Text, 9, 9);
-	} else if (m_CurrentButtonID == tbb_Class)  {
-		return QCursor(m_CursorPixmaps.Class, 9, 9);
-	} else if (m_CurrentButtonID == tbb_UniAssociation ||
-		   m_CurrentButtonID == tbb_State_Transition ||
-		   m_CurrentButtonID == tbb_Activity_Transition)  {
-		return QCursor(m_CursorPixmaps.UniAssoc, 9, 9);
-	} else {
-		return QCursor(Qt::ArrowCursor);
+	try {
+		return m_ToolButtons[m_CurrentButtonID].Cursor;
+	}
+	catch (...) {
+		kdError() << "Cursor not found for id " << m_CurrentButtonID << "!" << endl;
+		return QCursor();
 	}
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void WorkToolBar::slotResetToolBar() {
-	if(m_CurrentButtonID == tbb_Arrow)
+	if (m_CurrentButtonID == tbb_Arrow)
 		return;//really shouldn't occur
 	toggleButton(m_CurrentButtonID);
 	m_CurrentButtonID = tbb_Arrow;
@@ -287,92 +227,222 @@ void WorkToolBar::slotResetToolBar() {
 
 void WorkToolBar::setOldTool() {
 	KToolBarButton *b = (KToolBarButton*) getWidget(m_map[m_Type]);
-	if(b)
+	if (b)
 		b -> animateClick();
 }
-///////////////////////////////////////////////////////////////////////////////////////////
+
 void WorkToolBar::setDefaultTool() {
 	KToolBarButton *b = (KToolBarButton*) getWidget(tbb_Arrow);
-	if(b)
+	if (b)
 		b -> animateClick();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void WorkToolBar::loadPixmaps() {
-	KStandardDirs * dirs = KGlobal::dirs();
-	QString dataDir = dirs -> findResourceDir( "data", "umbrello/pics/object.png" );
-	dataDir += "/umbrello/pics/";
-
-        m_Pixmaps[tbb_Object].load( dataDir + "object.png" );
-	m_Pixmaps[tbb_Seq_Message_Synchronous].load( dataDir + "message-synchronous.png" );
-	m_Pixmaps[tbb_Seq_Message_Asynchronous].load( dataDir + "message-asynchronous.png" );
-	m_Pixmaps[tbb_Arrow].load( dataDir + "arrow.png" );
-	m_Pixmaps[tbb_Association].load( dataDir + "association.png" );
-	m_Pixmaps[tbb_Containment].load( dataDir + "containment.png" );
-	m_Pixmaps[tbb_Anchor].load( dataDir + "anchor.png" );
-	m_Pixmaps[tbb_Text].load( dataDir + "text.png" );
-	m_Pixmaps[tbb_Note].load( dataDir + "note.png" );
-	m_Pixmaps[tbb_Box].load( dataDir + "box.png" );
-	m_Pixmaps[tbb_Actor].load( dataDir + "actor.png" );
-	m_Pixmaps[tbb_Dependency].load( dataDir + "dependency.png" );
-	m_Pixmaps[tbb_Aggregation].load( dataDir + "aggregation.png" );
-	m_Pixmaps[tbb_Relationship].load( dataDir + "relationship.png" );
-	m_Pixmaps[tbb_UniAssociation].load( dataDir + "uniassociation.png" );
-	m_Pixmaps[tbb_Generalization].load( dataDir + "generalisation.png" );
-	m_Pixmaps[tbb_Composition].load( dataDir + "composition.png" );
-	m_Pixmaps[tbb_UseCase].load( dataDir + "usecase.png" );
-	m_Pixmaps[tbb_Class].load( dataDir + "class.png" );
-	m_Pixmaps[tbb_Initial_State].load( dataDir + "initial_state.png" );
-	m_Pixmaps[tbb_End_State].load( dataDir + "end_state.png" );
-	m_Pixmaps[tbb_Branch].load( dataDir + "branch.png" );
-	m_Pixmaps[tbb_Fork].load( dataDir + "fork.png" );
-	m_Pixmaps[tbb_Package].load( dataDir + "package.png" );
-	m_Pixmaps[tbb_Component].load( dataDir + "component.png" );
-	m_Pixmaps[tbb_Node].load( dataDir + "node.png" );
-	m_Pixmaps[tbb_Artifact].load( dataDir + "artifact.png" );
-	m_Pixmaps[tbb_Interface].load( dataDir + "interface.png" );
-	m_Pixmaps[tbb_Datatype].load( dataDir + "datatype.png" );
-	m_Pixmaps[tbb_Enum].load( dataDir + "enum.png" );
-	m_Pixmaps[tbb_Entity].load( dataDir + "entity.png" );
-
-	m_CursorPixmaps.Actor.load( dataDir + "cursor-actor.png");
-	m_CursorPixmaps.Aggregation.load( dataDir + "cursor-aggregation.png");
-	m_CursorPixmaps.Anchor.load( dataDir + "cursor-anchor.png");
-	m_CursorPixmaps.Artifact.load( dataDir + "cursor-artifact.png");
-	m_CursorPixmaps.Association.load( dataDir + "cursor-association.png");
-	m_CursorPixmaps.Box.load( dataDir + "cursor-box.png");
-	m_CursorPixmaps.Branch.load( dataDir + "cursor-branch.png");
-	m_CursorPixmaps.Case.load( dataDir + "cursor-usecase.png");
-	m_CursorPixmaps.Component.load( dataDir + "cursor-component.png");
-	m_CursorPixmaps.Composition.load( dataDir + "cursor-composition.png");
-	m_CursorPixmaps.Containment.load( dataDir + "cursor-containment.png");
-	m_CursorPixmaps.Dependency.load( dataDir + "cursor-dependency.png");
-	m_CursorPixmaps.EndState.load( dataDir + "cursor-end-state.png");
-	m_CursorPixmaps.Fork.load( dataDir + "cursor-fork.png");
-	m_CursorPixmaps.InitialState.load( dataDir + "cursor-initial-state.png");
-	m_CursorPixmaps.Interface.load( dataDir + "cursor-interface.png");
-	m_CursorPixmaps.Datatype.load( dataDir + "cursor-datatype.png");
-	m_CursorPixmaps.Enum.load( dataDir + "cursor-enum.png");
-	m_CursorPixmaps.Entity.load( dataDir + "cursor-entity.png");
-	m_CursorPixmaps.Generalisation.load( dataDir + "cursor-generalisation.png");
-	m_CursorPixmaps.MessageAsynchronous.load( dataDir + "cursor-message-asynchronous.png");
-	m_CursorPixmaps.MessageSynchronous.load( dataDir + "cursor-message-synchronous.png");
-	m_CursorPixmaps.Node.load( dataDir + "cursor-node.png");
-	m_CursorPixmaps.Note.load( dataDir + "cursor-note.png");
-	m_CursorPixmaps.Object.load( dataDir + "cursor-object.png");
-	m_CursorPixmaps.Package.load( dataDir + "cursor-package.png");
-	m_CursorPixmaps.Text.load( dataDir + "cursor-text.png");
-	m_CursorPixmaps.Class.load( dataDir + "cursor-class.png");
-	m_CursorPixmaps.UniAssoc.load( dataDir + "cursor-uniassociation.png");
-	m_CursorPixmaps.Relationship.load( dataDir + "cursor-relationship.png");
+QPixmap WorkToolBar::load(const QString & fileName) {
+	try {
+		QPixmap pxm;
+		pxm.load(fileName);
+		return pxm;
+	}
+	catch (...) {
+		kdError() << "Could not load pixmap from " << fileName << "!" << endl;
+		return 0;
+	}
 }
 
-void WorkToolBar::insertBasicAssociations()  {
-	insertHotBtn(tbb_Association, i18n("Association"));
-	if (m_Type == Uml::dt_Class || m_Type == Uml::dt_UseCase)  {
-		insertHotBtn(tbb_UniAssociation, i18n("Directional Association"));
-	}
-	insertHotBtn(tbb_Dependency, i18n("Dependency"));
-	insertHotBtn(tbb_Generalization, i18n("Implements (Generalisation/Realisation)"));
+void WorkToolBar::loadPixmaps() {
+	KStandardDirs * dirs = KGlobal::dirs();
+	QString dataDir = dirs->findResourceDir( "data", "umbrello/pics/object.png" );
+	dataDir += "/umbrello/pics/";
+
+	m_ToolButtons.insert(tbb_Undefined,
+		ToolButton(i18n("UNDEFINED"),
+			0,
+			QCursor()) );
+	m_ToolButtons.insert(tbb_Arrow,
+		ToolButton(i18n("Select"),
+			load(dataDir + "arrow.png"),
+			QCursor()) );
+	m_ToolButtons.insert(tbb_Object,
+		ToolButton(i18n("Object"),
+			load(dataDir + "object.png"),
+			QCursor(load(dataDir + "cursor-object.png"), 9, 9)) );
+	m_ToolButtons.insert(tbb_Seq_Message_Synchronous,
+		ToolButton(i18n("Synchronous Message"),
+			load(dataDir + "message-synchronous.png"),
+			QCursor(load(dataDir + "cursor-message-synchronous.png"), 9, 9)) );
+	m_ToolButtons.insert(tbb_Seq_Message_Asynchronous,
+		ToolButton(i18n("Asynchronous Message"),
+			load(dataDir + "message-asynchronous.png"),
+			QCursor(load(dataDir + "cursor-message-asynchronous.png"), 9, 9)) );
+	m_ToolButtons.insert(tbb_Association,
+		ToolButton(i18n("Association"),
+			load(dataDir + "association.png"),
+			QCursor(load(dataDir + "cursor-association.png"), 9, 9)) );
+	m_ToolButtons.insert(tbb_Containment,
+		ToolButton(i18n("Containment"),
+			load(dataDir + "containment.png"),
+			QCursor(load(dataDir + "cursor-containment.png"), 9, 9)) );
+	m_ToolButtons.insert(tbb_Anchor,
+		ToolButton(i18n("Anchor"),
+			load(dataDir + "anchor.png"),
+			QCursor(load(dataDir + "cursor-anchor.png"), 9, 9)) );
+	m_ToolButtons.insert(tbb_Text,
+		ToolButton(i18n("Label"),
+			load(dataDir + "text.png"),
+			QCursor(load(dataDir + "cursor-text.png"), 9, 9)) );
+	m_ToolButtons.insert(tbb_Note,
+		ToolButton(i18n("Note"),
+			load(dataDir + "note.png"),
+			QCursor(load(dataDir + "cursor-note.png"), 9, 9)) );
+	m_ToolButtons.insert(tbb_Box,
+		ToolButton(i18n("Box"),
+			load(dataDir + "box.png"),
+			QCursor(load(dataDir + "cursor-box.png"), 9, 9)) );
+	m_ToolButtons.insert(tbb_Actor,
+		ToolButton(i18n("Actor"),
+			load(dataDir + "actor.png"),
+			QCursor(load(dataDir + "cursor-actor.png"), 9, 9)));
+	m_ToolButtons.insert(tbb_Dependency,
+		ToolButton(i18n("Dependency"),
+			load(dataDir + "dependency.png"),
+			QCursor(load(dataDir + "cursor-dependency.png"), 9, 9)) );
+	m_ToolButtons.insert(tbb_Aggregation,
+		ToolButton(i18n("Aggregation"),
+			load(dataDir + "aggregation.png"),
+			QCursor(load(dataDir + "cursor-aggregation.png"), 9, 9)) );
+	m_ToolButtons.insert(tbb_Relationship,
+		ToolButton(i18n("Relationship"),
+			load(dataDir + "relationship.png"),
+			QCursor(load(dataDir + "cursor-relationship.png"), 9, 9)) );
+	m_ToolButtons.insert(tbb_UniAssociation,
+		ToolButton(i18n("Directional Association"),
+			load(dataDir + "uniassociation.png"),
+			QCursor(load(dataDir + "cursor-uniassociation.png"), 9, 9)) );
+	m_ToolButtons.insert(tbb_Generalization,
+		ToolButton(i18n("Implements (Generalisation/Realisation)"),
+			load(dataDir + "generalisation.png"),
+			QCursor(load(dataDir + "cursor-generalisation.png"), 9, 9)) );
+	m_ToolButtons.insert(tbb_Composition,
+		ToolButton(i18n("Composition"),
+			load(dataDir + "composition.png"),
+			QCursor(load(dataDir + "cursor-composition.png"), 9, 9)) );
+	m_ToolButtons.insert(tbb_UseCase,
+		ToolButton(i18n("Use Case"),
+			load(dataDir + "usecase.png"),
+			QCursor(load(dataDir + "cursor-usecase.png"), 9, 9)) );
+	m_ToolButtons.insert(tbb_Class,
+		ToolButton(i18n("Class"),
+			load(dataDir + "class.png"),
+			QCursor(load(dataDir + "cursor-class.png"), 9, 9)) );
+	m_ToolButtons.insert(tbb_Initial_State,
+		ToolButton(i18n("Initial State"),
+			load(dataDir + "initial_state.png"),
+			QCursor(load(dataDir + "cursor-initial-state.png"), 9, 9)) );
+	m_ToolButtons.insert(tbb_End_State,
+		ToolButton(i18n("End State"),
+			load(dataDir + "end_state.png"),
+			QCursor(load(dataDir + "cursor-end-state.png"), 9, 9)) );
+	m_ToolButtons.insert(tbb_Branch,
+		ToolButton(i18n("Branch/Merge"),
+			load(dataDir + "branch.png"),
+			QCursor(load(dataDir + "cursor-branch.png"), 9, 9)) );
+	m_ToolButtons.insert(tbb_Fork,
+		ToolButton(i18n("Fork/Join"),
+			load(dataDir + "fork.png"),
+			QCursor(load(dataDir + "cursor-fork.png"), 9, 9)) );
+	m_ToolButtons.insert(tbb_Package,
+		ToolButton(i18n("Package"),
+			load(dataDir + "package.png"),
+			QCursor(load(dataDir + "cursor-package.png"), 9, 9)) );
+	m_ToolButtons.insert(tbb_Component,
+		ToolButton(i18n("Component"),
+			load(dataDir + "component.png"),
+			QCursor(load(dataDir + "cursor-component.png"), 9, 9)) );
+	m_ToolButtons.insert(tbb_Node,
+		ToolButton(i18n("Node"),
+			load(dataDir + "node.png"),
+			QCursor(load(dataDir + "cursor-node.png"), 9, 9)) );
+	m_ToolButtons.insert(tbb_Artifact,
+		ToolButton(i18n("Artifact"),
+			load(dataDir + "artifact.png"),
+			QCursor(load(dataDir + "cursor-artifact.png"), 9, 9)) );
+	m_ToolButtons.insert(tbb_Interface,
+		ToolButton(i18n("Interface"),
+			load(dataDir + "interface.png"),
+			QCursor(load(dataDir + "cursor-interface.png"), 9, 9)) );
+	m_ToolButtons.insert(tbb_Datatype,
+		ToolButton(i18n("Datatype"),
+			load(dataDir + "datatype.png"),
+			QCursor(load(dataDir + "cursor-datatype.png"), 9, 9)) );
+	m_ToolButtons.insert(tbb_Enum,
+		ToolButton(i18n("Enum"),
+			load(dataDir + "enum.png"),
+			QCursor(load(dataDir + "cursor-enum.png"), 9, 9)) );
+	m_ToolButtons.insert(tbb_Entity,
+		ToolButton(i18n("Entity"),
+			load(dataDir + "entity.png"),
+			QCursor(load(dataDir + "cursor-entity.png"), 9, 9)) );
+	m_ToolButtons.insert(tbb_DeepHistory,
+		ToolButton(i18n("Deep History"),
+			load(dataDir + "deep-history.png"),
+			QCursor(load(dataDir + "cursor-deep-history.png"), 9, 9)) );
+	m_ToolButtons.insert(tbb_ShallowHistory,
+		ToolButton(i18n("Shallow History"),
+			load(dataDir + "shallow-history.png"),
+			QCursor(load(dataDir + "cursor-shallow-history.png"), 9, 9)) );
+	m_ToolButtons.insert(tbb_Join,
+		ToolButton(i18n("Join"),
+			load(dataDir + "join.png"),
+			QCursor(load(dataDir + "cursor-join.png"), 9, 9)) );
+	m_ToolButtons.insert(tbb_StateFork,
+		ToolButton(i18n("Fork"),
+			load(dataDir + "state-fork.png"),
+			QCursor(load(dataDir + "cursor-state-fork.png"), 9, 9)) );
+	m_ToolButtons.insert(tbb_Junction,
+		ToolButton(i18n("Junction"),
+			load(dataDir + "junction.png"),
+			QCursor(load(dataDir + "cursor-junction.png"), 9, 9)) );	
+	m_ToolButtons.insert(tbb_Choice,
+		ToolButton(i18n("Choice"),
+			load(dataDir + "choice-round.png"),
+			QCursor(load(dataDir + "cursor-choice-round.png"), 9, 9)) );
+	//:TODO: let the user decide which symbol he wants (setting an option)
+	//m_ToolButtons.insert(tbb_Choice,
+	//	ToolButton(i18n("Choice"),
+	//		load(dataDir + "choice-rhomb.png"),
+	//		QCursor(load(dataDir + "cursor-choice-rhomb.png"), 9, 9)) );
+	m_ToolButtons.insert(tbb_Andline,
+		ToolButton(i18n("And Line"),
+			load(dataDir + "andline.png"),
+			QCursor(load(dataDir + "cursor-andline.png"), 9, 9)) );
+	m_ToolButtons.insert(tbb_State_Transition,
+		ToolButton(i18n("State Transition"),
+			load(dataDir + "uniassociation.png"),
+			QCursor(load(dataDir + "cursor-uniassociation.png"), 9, 9)) );
+	m_ToolButtons.insert(tbb_Activity_Transition,
+		ToolButton(i18n("Activity Transition"),
+			load(dataDir + "uniassociation.png"),
+			QCursor(load(dataDir + "cursor-uniassociation.png"), 9, 9)) );
+	m_ToolButtons.insert(tbb_Activity,
+		ToolButton(i18n("Activity"),
+			load(dataDir + "usecase.png"),
+			QCursor(load(dataDir + "cursor-usecase.png"), 9, 9)) );
+	m_ToolButtons.insert(tbb_State,
+		ToolButton(i18n("State"),
+			load(dataDir + "usecase.png"),
+			QCursor(load(dataDir + "cursor-usecase.png"), 9, 9)) );
+	m_ToolButtons.insert(tbb_End_Activity,
+		ToolButton(i18n("End Activity"),
+			load(dataDir + "end_state.png"),
+			QCursor(load(dataDir + "cursor-end-state.png"), 9, 9)) );
+	m_ToolButtons.insert(tbb_Initial_Activity,
+		ToolButton(i18n("Initial Activity"),
+			load(dataDir + "initial_state.png"),
+			QCursor(load(dataDir + "cursor-initial-state.png"), 9, 9)) );
+	m_ToolButtons.insert(tbb_Coll_Message,
+		ToolButton(i18n("Message"),
+			load(dataDir + "message-asynchronous.png"),
+			QCursor(load(dataDir + "cursor-message-asynchronous.png"), 9, 9)) );
 }
 
 #include "worktoolbar.moc"
