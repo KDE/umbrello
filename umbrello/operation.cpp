@@ -153,7 +153,7 @@ QString UMLOperation::toString(Uml::Signature_Type sig) {
 	}
 	s.append(")");
 	QString returnType = UMLClassifierListItem::getTypeName();
-	if (returnType.length() > 0 ) {
+	if (returnType.length() > 0 && returnType != "void") {
 		s.append(" : ");
 
 		if (returnType.startsWith("virtual ")) {
@@ -234,15 +234,14 @@ void UMLOperation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement operationElement = UMLObject::save("UML:Operation", qDoc);
 	QDomElement featureElement = qDoc.createElement( "UML:BehavioralFeature.parameter" );
 	if (m_pSecondary) {
-		//@todo Check: is "void" a programming language specific keyword?
-		//if (m_pSecondary->getName() != "void") {
+		if (m_pSecondary->getName() != "void") {
 			QDomElement retElement = qDoc.createElement("UML:Parameter");
 			UMLDoc *pDoc = UMLApp::app()->getDocument();
 			retElement.setAttribute( "xmi.id", ID2STR(pDoc->getUniqueID()) );
 			retElement.setAttribute( "type", ID2STR(m_pSecondary->getID()) );
 			retElement.setAttribute( "kind", "return" );
 			featureElement.appendChild( retElement );
-		//}
+		}
 	} else {
 		//operationElement.setAttribute( "type", m_SecondaryId );
 		kdDebug() << "UMLOperation::saveToXMI: m_SecondaryId is "
@@ -284,8 +283,7 @@ bool UMLOperation::load( QDomElement & element ) {
 			m_pSecondary = pDoc->findObjectById( STR2ID(type) );
 			if (m_pSecondary == NULL) {
 				kdError() << "UMLOperation::load: Cannot find UML object"
-					  << " for type " << type << endl;
-				UMLClassifierListItem::setTypeName( "void" );
+					  << " for return type " << type << endl;
 			}
 		}
 	}

@@ -521,9 +521,6 @@ bool UMLDoc::openDocument(const KURL& url, const char* /*format =0*/) {
 	clearUndoStack();
 	addToUndoStack();
 
-	// Add default stuff.
-	//createUMLObject(ot_Datatype, "void");  // "void" is used to indicate "no return type"
-
 	return true;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
