@@ -1324,7 +1324,14 @@ void UMLView::printToFile(QString filename,bool isEPS) {
 	// because we want to work with postscript
 	// user-coordinates, set to the resolution
 	// of the printer (which should be 72dpi here)
-	QPrinter *printer = new QPrinter(QPrinter::PrinterResolution);
+	QPrinter *printer;
+
+	if (isEPS == true)
+	{
+		printer = new QPrinter(QPrinter::PrinterResolution);
+	} else {
+		printer = new QPrinter(QPrinter::ScreenResolution);
+	}
 	printer->setOutputToFile(true);
 	printer->setOutputFileName(filename);
 
