@@ -117,15 +117,15 @@ QString JavaClassifierCodeDocument::getJavaClassName (QString name) {
 JavaClassDeclarationBlock * JavaClassifierCodeDocument::getClassDecl ( )
 {
 
+/*
         // So we see if it already exists, IF it *does* then we wont create a 
 	// new one.
-        JavaClassDeclarationBlock * codeBlock = (JavaClassDeclarationBlock *) findTextBlockByTag("classBlock");
-	if(!codeBlock) {
-		codeBlock = new JavaClassDeclarationBlock (this);
-		codeBlock->setTag("classBlock");
+	if(!classDeclCodeBlock) {
+		classDeclCodeBlock = new JavaClassDeclarationBlock (this);
+		classDeclCodeBlock->setTag("classBlock");
 	} 
-
-        return codeBlock;
+*/
+        return classDeclCodeBlock;
 
 }
 
@@ -146,6 +146,9 @@ void JavaClassifierCodeDocument::init ( ) {
 	setFileExtension(".java");
 
 	initCodeClassFields(); // we have to call here as .newCodeClassField is pure virtual in parent class 
+
+	// a short-cut object we created to handle the body of the class
+	classDeclCodeBlock = new JavaClassDeclarationBlock (this);
 
 	// this will call updateContent() as well as other things that sync our document.
         syncronize();
@@ -276,12 +279,13 @@ void JavaClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & roo
                                 QString name = element.tagName();
 
                                 if( name == "javaclassdeclarationblock" ) {
-					JavaClassDeclarationBlock * classDeclBlock = new JavaClassDeclarationBlock (this);
- 					classDeclBlock->loadFromXMI(element);
-					if(!addTextBlock(classDeclBlock))
+					JavaClassDeclarationBlock * classDeclBlock = getClassDecl(); 
+					if(!classDeclBlock || !addTextBlock(classDeclBlock))
                                                 kdError()<<"Unable to add javaclassdeclaration block to :"<<this<<endl;
-					else
+					else { 
+ 						classDeclBlock->loadFromXMI(element);
                                                 gotChildren= true;
+					}
                                 } else
                                 if( name == "codecomment" ) {
                                         CodeComment * block = newCodeComment();
@@ -450,8 +454,8 @@ void JavaClassifierCodeDocument::updateContent( )
 	//
 
 	// get the declaration block. If its not already present, add it too
-        JavaClassDeclarationBlock * classDeclBlock = getClassDecl ( );
-	addTextBlock(classDeclBlock); // note: wont add if already present
+        //JavaClassDeclarationBlock * classDeclBlock = getClassDecl ( );
+	addTextBlock(classDeclCodeBlock); // note: wont add if already present
 
 	// NOW create document in sections..
 	// now we want to populate the body of our class
@@ -505,7 +509,7 @@ void JavaClassifierCodeDocument::updateContent( )
 	//
 
 	// get/create the field declaration code block
-        HierarchicalCodeBlock * fieldDeclBlock = classDeclBlock->getHierarchicalCodeBlock("fieldsDecl", "Fields", 1);
+        HierarchicalCodeBlock * fieldDeclBlock = getClassDecl()->getHierarchicalCodeBlock("fieldsDecl", "Fields", 1);
 
         // Update the comment: we only set comment to appear under the following conditions
         CodeComment * fcomment = fieldDeclBlock->getComment();
@@ -526,7 +530,7 @@ void JavaClassifierCodeDocument::updateContent( )
         //
 
         // get/create the method codeblock
-        HierarchicalCodeBlock * methodsBlock = classDeclBlock->getHierarchicalCodeBlock("methodsBlock", "Methods", 1);
+        HierarchicalCodeBlock * methodsBlock = getClassDecl()->getHierarchicalCodeBlock("methodsBlock", "Methods", 1);
 
         // Update the section comment
         CodeComment * methodsComment = methodsBlock->getComment();

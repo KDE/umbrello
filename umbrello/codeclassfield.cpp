@@ -12,7 +12,6 @@
  *      Author : thomas
  *      Date   : Fri Jun 20 2003
  */
-
 #include <qregexp.h>
 #include <kdebug.h>
 
@@ -47,7 +46,23 @@ CodeClassField::CodeClassField ( ClassifierCodeDocument * doc , UMLAttribute * a
 }
 
 CodeClassField::~CodeClassField ( ) { 
-	this->disconnect();
+
+       // remove methods from parent document
+	QPtrList<CodeAccessorMethod> list = m_methodVector;
+	for(CodeAccessorMethod * m = list.first(); m ; m=list.next())
+	{
+		removeMethod(m);
+		delete m;
+	}
+	list.clear();
+
+	// clear the decl block from parent text block list too
+	if(m_declCodeBlock)
+	{
+		getParentDocument()->removeTextBlock(m_declCodeBlock);
+		delete m_declCodeBlock;
+	}
+
 }
 
 //  
@@ -163,6 +178,7 @@ bool CodeClassField::addMethod ( CodeAccessorMethod * add_object ) {
 bool CodeClassField::removeMethod ( CodeAccessorMethod * remove_object ) {
         m_methodMap->erase(remove_object->getType());
 	m_methodVector.removeRef(remove_object);
+	getParentDocument()->removeTextBlock(remove_object);
 	return true;
 }
 
@@ -249,10 +265,6 @@ void CodeClassField::setAttributesOnNode ( QDomDocument & doc, QDomElement & cfE
  */
 void CodeClassField::setAttributesFromNode ( QDomElement & root) {
 
-	// clear methods
-	m_methodVector.clear();
-	m_methodMap->clear();
-	
 	// super class
         CodeParameter::setAttributesFromNode(root);
 
@@ -267,16 +279,19 @@ void CodeClassField::setAttributesFromNode ( QDomElement & root) {
         while( !element.isNull() ) {
                 QString tag = element.tagName();
                 if( tag == "declarationcodeblock" ) {
-			m_declCodeBlock = newDeclarationCodeBlock();
+			// m_declCodeBlock = newDeclarationCodeBlock();
 			m_declCodeBlock->loadFromXMI(element);
                 } else 
                 if( tag == "codeaccessormethod" ) {
-			CodeAccessorMethod * method = newCodeAccessorMethod (CodeAccessorMethod::GET);
+			int type = element.attribute("accessType","0").toInt();
+//			CodeAccessorMethod * method = newCodeAccessorMethod(CodeAccessorMethod::GET);
+			CodeAccessorMethod * method = findMethodByType((CodeAccessorMethod::AccessorType) type);
 			if(method)
 			{
 				method->loadFromXMI(element);
 				addMethod(method);
-			}
+			} else
+				kdError()<<" ERROR: cant load code accessor method for type:"<<type<<endl;
 		} else
                 if( tag == "header" ) {
 			// this is treated in parent.. skip over here

@@ -132,6 +132,7 @@ protected:
 
 private:
 
+        JavaClassDeclarationBlock * classDeclCodeBlock;
 	HierarchicalCodeBlock * constructorBlock;
 	HierarchicalCodeBlock * operationsBlock;
 
