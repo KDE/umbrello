@@ -144,7 +144,7 @@ void UMLListViewItem::updateObject() {
 		return;
 
 	Uml::Scope scope = m_pObject->getScope();
-	setText( m_pObject->getName() );
+	//setText( m_pObject->getName() );
 
 	switch( m_pObject->getBaseType() ) {
 		case Uml::ot_Actor:
@@ -442,19 +442,28 @@ UMLListViewItem* UMLListViewItem::findUMLObject(UMLObject *o) {
 	return NULL;
 }
 
+UMLListViewItem * UMLListViewItem::findItem(int id) {
+	if (getID() == id)
+		return this;
+	UMLListViewItem *childItem = static_cast<UMLListViewItem*>(firstChild());
+	while (childItem) {
+		UMLListViewItem *inner = childItem->findItem(id);
+		if (inner)
+			return inner;
+		childItem = static_cast<UMLListViewItem*>(childItem->nextSibling());
+	}
+	return NULL;
+}
+
 void UMLListViewItem::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement itemElement = qDoc.createElement( "listitem" );
 	itemElement.setAttribute( "id", getID() );
 	itemElement.setAttribute( "type", m_Type );
-	/* UNDER CONSTRUCTION: Activate when the restoring of attribute/
-	   operation names in the listview is possible using just the
-	   model object loading mechanism.
 	if (m_pObject == NULL) {
 		kdDebug() << "UMLListViewItem::saveToXMI: saving local label "
 			  << m_Label << " because m_pObject is NULL" << endl;
-         *********************/
 		itemElement.setAttribute( "label", m_Label );
-	//******************** }
+	}
 	itemElement.setAttribute( "open", isOpen() );
 	UMLListViewItem * childItem = static_cast<UMLListViewItem *> ( firstChild() );
 	while( childItem ) {

@@ -184,6 +184,16 @@ public:
 	UMLListViewItem* findUMLObject(UMLObject *o);
 
 	/**
+	 * Find the UMLListViewItem of the given ID in the tree rooted at
+	 * the current UMLListViewItem.
+	 * Return a pointer to the item or NULL if not found.
+	 *
+	 * @param id		The ID to search for.
+	 * @return	The item with the given ID or NULL if not found.
+	 */
+	UMLListViewItem * findItem(int id);
+
+	/**
 	 * saves the listview item to a <listitem> tag
 	 */
 	void saveToXMI(QDomDocument& qDoc, QDomElement& qElement );
