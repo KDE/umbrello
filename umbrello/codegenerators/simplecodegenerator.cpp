@@ -136,10 +136,10 @@ QString SimpleCodeGenerator::overwritableName(UMLClassifier* concept, QString na
                                         break;
                                 case KDialogBase::No: //generate similar name
                                         suffix = 1;
-                                        while( m_outputDirectory.exists(name + QString::number(suffix) + ext) ) {
+                                        while( m_outputDirectory.exists(name + "__" + QString::number(suffix) + ext) ) {
                                                 suffix++;
                                         }
-                                        name += QString::number(suffix);
+                                        name = name + "__" + QString::number(suffix);
                                         if ( overwriteDialogue.applyToAllRemaining() ) {
                                                 m_overwrite = CodeGenerationPolicy::Never;
                                         } else {
@@ -159,10 +159,10 @@ QString SimpleCodeGenerator::overwritableName(UMLClassifier* concept, QString na
                         break;
                 case CodeGenerationPolicy::Never: //generate similar name
                         suffix = 1;
-                        while( m_outputDirectory.exists(name + QString::number(suffix) + ext) ) {
+                        while( m_outputDirectory.exists(name + "__" + QString::number(suffix) + ext) ) {
                                 suffix++;
                         }
-                        name += QString::number(suffix);
+			name = name + "__" + QString::number(suffix);
                         break;
                 case CodeGenerationPolicy::Cancel: //don't output anything
                         return NULL;

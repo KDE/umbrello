@@ -349,7 +349,7 @@ protected:
          * @return the real file name that should be used. (with extension?) or 
          *      NULL if none to be used
          */
-	QString overwritableName ( QString name );
+	QString overwritableName (QString name, QString extention);
 
         /** Opens a file named "name" for writing in the outputDirectory.
          * If something goes wrong, it informs the user
@@ -358,7 +358,7 @@ protected:
          * @param       file 
          * @param       name 
          */
-        bool openFile (QFile & file, QString name );
+        bool openFile (QFile& file, QString name);
 
        /**
          * Initialize this code generator from its parent UMLDoc. When this is called, it will

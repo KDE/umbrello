@@ -133,7 +133,7 @@ QString JavaCodeGenerator::capitalizeFirstLetter(QString string)
         return string;
 }
 
-// override the parent method because we can have package names that create 
+// override the parent method because we can have package names that create
 // nested directory structure from their names, e.g. "dude.org" package has
 // classes which go into "org/dude" directory.
 QString JavaCodeGenerator::findFileName ( CodeDocument * codeDocument ) {
@@ -149,10 +149,10 @@ QString JavaCodeGenerator::findFileName ( CodeDocument * codeDocument ) {
 
         // if path is given add this as a directory to the file name
         if (!path.isEmpty()) {
-                name = path + "/" + codeDocument->getFileName() + codeDocument->getFileExtension();
+                name = path + "/" + codeDocument->getFileName();
                 path = "/" + path;
         } else {
-                name = codeDocument->getFileName() + codeDocument->getFileExtension();
+                name = codeDocument->getFileName();
         }
 
         // if a path name exists check the existence of the path directory
@@ -161,7 +161,7 @@ QString JavaCodeGenerator::findFileName ( CodeDocument * codeDocument ) {
                 QDir pathDir(outputDirectory.absPath() + path);
 
                 // does our general output directory exist yet? if not, try to create it
-                if (!outputDirectory.exists() && outputDirectory.exists()) 
+                if (!outputDirectory.exists() && outputDirectory.exists())
 		{
                         QStringList dirs = QStringList::split("/",outputDirectory.absPath());
                         QString existingDir = "";
@@ -171,9 +171,9 @@ QString JavaCodeGenerator::findFileName ( CodeDocument * codeDocument ) {
 
 		// does our special path directory exist yet? if not, try to create it
 		if (!pathDir.exists() && outputDirectory.exists()) {
-			QStringList dirs = QStringList::split("/",path); 
+			QStringList dirs = QStringList::split("/",path);
 			QString existingDir = outputDirectory.absPath();
-			for (QStringList::iterator dir = dirs.begin(); dir != dirs.end(); ++dir) 
+			for (QStringList::iterator dir = dirs.begin(); dir != dirs.end(); ++dir)
 				existingDir += "/" + *dir;
 		}
 
@@ -189,7 +189,7 @@ QString JavaCodeGenerator::findFileName ( CodeDocument * codeDocument ) {
         name.simplifyWhiteSpace();
         name.replace(QRegExp(" "),"_");
 
-        return overwritableName( name);
+        return overwritableName( name, codeDocument->getFileExtension() );
 }
 
 /**

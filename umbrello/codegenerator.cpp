@@ -425,9 +425,13 @@ QString CodeGenerator::getHeadingFile(QString file) {
  * @param	codeDoc
  * @param	name
  */
-QString CodeGenerator::overwritableName ( QString name ) {
+QString CodeGenerator::overwritableName(QString name, QString extention) {
 
 	QDir outputDirectory = m_codegeneratorpolicy->getOutputDirectory();
+
+        if (!outputDirectory.exists(name+extention)) {
+                return name + extention;
+        }
 
         int suffix;
         OverwriteDialogue overwriteDialogue( name, outputDirectory.absPath(),
@@ -446,10 +450,10 @@ QString CodeGenerator::overwritableName ( QString name ) {
                                         break;
                                 case KDialogBase::No: //generate similar name
                                         suffix = 1;
-                                        while( outputDirectory.exists(name + QString::number(suffix)) ) {
+                                        while( outputDirectory.exists(name + "__" + QString::number(suffix) + extention) ) {
                                                 suffix++;
                                         }
-                                        name += QString::number(suffix);
+					name = name + "__" + QString::number(suffix) + extention;
                                         if ( overwriteDialogue.applyToAllRemaining() ) {
                                                 setOverwritePolicy(CodeGenerationPolicy::Never);
                                         } else {
@@ -469,10 +473,10 @@ QString CodeGenerator::overwritableName ( QString name ) {
                         break;
                 case CodeGenerationPolicy::Never: //generate similar name
                         suffix = 1;
-                        while( outputDirectory.exists(name + QString::number(suffix) ) ) {
+                        while( outputDirectory.exists(name + "__" + QString::number(suffix) + extention) ) {
                                 suffix++;
                         }
-                        name += QString::number(suffix);
+                        name = name + "__" + QString::number(suffix) + extention;
                         break;
                 case CodeGenerationPolicy::Cancel: //don't output anything
                         return NULL;
@@ -524,10 +528,10 @@ QString CodeGenerator::findFileName ( CodeDocument * codeDocument ) {
 
         // if path is given add this as a directory to the file name
         if (!path.isEmpty()) {
-                name = path + "/" + codeDocument->getFileName() + codeDocument->getFileExtension();
+                name = path + "/" + codeDocument->getFileName();
                 path = "/" + path;
         } else {
-                name = codeDocument->getFileName() + codeDocument->getFileExtension();
+                name = codeDocument->getFileName();
         }
 
         // Convert all "." to "/" : Platform-specific path separator
@@ -561,7 +565,7 @@ QString CodeGenerator::findFileName ( CodeDocument * codeDocument ) {
         name.simplifyWhiteSpace();
         name.replace(QRegExp(" "),"_");
 
-        return overwritableName( name);
+        return overwritableName( name, codeDocument->getFileExtension() );
 }
 
 void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLClassifierList &cList) {
