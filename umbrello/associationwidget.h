@@ -869,8 +869,8 @@ public slots:
 	void slotClearAllSelected();
 
 	/**
-	 * Merge together the UMLAssociation representation and this widget
+	 * Synchronize this widget from the UMLAssociation.
 	 */
-	void mergeUMLRepresentationIntoAssociationData();
+	void syncToModel();
 };
 #endif

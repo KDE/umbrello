@@ -294,7 +294,8 @@ void AssociationWidget::setName(const QString &strName) {
 		newLabel = true;
 		m_pName = new FloatingText(m_pView, CalculateNameType(tr_Name), strName);
 		m_pName->setLink(this);
-		m_pName->setUMLObject(m_role[B].m_pWidget->getUMLObject());
+		if (m_role[B].m_pWidget)
+			m_pName->setUMLObject(m_role[B].m_pWidget->getUMLObject());
 	} else {
 		m_pName->setText(strName);
 	}
@@ -782,8 +783,7 @@ void AssociationWidget::setUMLAssociation (UMLAssociation * assoc)
 			assoc->nrof_parent_widgets = 0;
 
 		assoc->nrof_parent_widgets++;
-		connect(assoc, SIGNAL(modified()), this,
-					SLOT(mergeUMLRepresentationIntoAssociationData()));
+		connect(assoc, SIGNAL(modified()), this, SLOT(syncToModel()));
 	}
 
 }
@@ -1118,50 +1118,27 @@ void AssociationWidget::setActivated(bool active /*=true*/) {
 	m_bActivated = active;
 }
 
-// CHECK: Can we get rid of this
-void AssociationWidget::mergeUMLRepresentationIntoAssociationData()
+void AssociationWidget::syncToModel()
 {
 	UMLAssociation *uml = getAssociation();
 
 	if (uml == NULL) {
-		kdDebug() << "The UMLAssociation* uml is null -- returning from the function to avoid crashing."  << endl;
 		return;
 	}
 	// block signals until finished
 	uml->blockSignals(true);
 
-	// floating text widgets
-	FloatingText *text = getNameWidget();
-	if (text)
-		text->setText(uml->getName());
-
-	text = getRoleWidget(A);
-	if (text)
-	{
-		text->setText(uml->getRoleName(A));
-		// it doesnt make sense to have visibility wi/o Rolename
-		// so we only set it when its in here. Probably should have
-		// error condition thrown when visb is set but rolename isnt.
-		setVisibility(uml->getVisibility(A), A);
-	}
-
-	text = getRoleWidget(B);
-	if (text)
-	{
-		text->setText(uml->getRoleName(B));
-		setVisibility(uml->getVisibility(B), B);
-	}
-
-	text = getMultiWidget(A);
-	if (text)
-		text->setText(uml->getMulti(A));
-
-	text = getMultiWidget(B);
-	if (text)
-		text->setText(uml->getMulti(B));
+	setName(uml->getName());
+	setRoleName(uml->getRoleName(A), A);
+	setRoleName(uml->getRoleName(B), B);
+	setVisibility(uml->getVisibility(A), A);
+	setVisibility(uml->getVisibility(B), B);
+	setChangeability(uml->getChangeability(A), A);
+	setChangeability(uml->getChangeability(B), B);
+	setMulti(uml->getMulti(A), A);
+	setMulti(uml->getMulti(B), B);
 
 	uml->blockSignals(false);
-
 }
 
 // this will synchronize UMLAssociation w/ this new Widget
