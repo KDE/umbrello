@@ -24,7 +24,7 @@
 #include <qdir.h>
 
 CppTree2Uml::CppTree2Uml( const QString& fileName, ClassImport* store )
-    : m_importer( store ), m_anon( 0 ), m_nsCnt( 0 ), m_clsCnt( 0 )
+    : m_importer( store ), m_anon( 0 ), m_nsCnt( 0 ), m_clsCnt( 0 ), m_anonTypeCnt( 0 )
 {
     m_fileName = URLUtil::canonicalPath(fileName);
 }
@@ -288,6 +288,9 @@ void CppTree2Uml::parseClassSpecifier( ClassSpecifierAST* ast )
 	return;
     }
 
+    if (className.isEmpty()) {
+	className = "anon_" + QString::number(++m_anonTypeCnt);
+    }
     UMLObject * o = m_importer->createUMLObject( Uml::ot_Class, className, "" /*stereotype*/,
 						 ast->comment(),
 						 m_currentNamespace[m_nsCnt] );
@@ -316,8 +319,10 @@ void CppTree2Uml::parseEnumSpecifier( EnumSpecifierAST* ast )
 {
     NameAST *nameNode = ast->name();
     if (nameNode == NULL)
-    	return;
+	return;  // skip constants
     QString typeName = nameNode->unqualifiedName()->text().stripWhiteSpace();
+    if (typeName.isEmpty())
+	return;  // skip constants
     UMLObject *o = m_importer->createUMLObject( Uml::ot_Enum, typeName,
 						"" /* stereotype */,
 						ast->comment(),
