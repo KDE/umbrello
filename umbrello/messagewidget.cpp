@@ -24,7 +24,7 @@
 #include "listpopupmenu.h"
 #include "objectwidget.h"
 
-MessageWidget::MessageWidget(UMLView * view, UMLWidget* a, UMLWidget* b, FloatingText* ft, int id, int y,
+MessageWidget::MessageWidget(UMLView * view, ObjectWidget* a, ObjectWidget* b, FloatingText* ft, int id, int y,
 			     Sequence_Message_Type sequenceMessageType) : UMLWidget(view) {
 	init();
 	m_pWA = a;
@@ -33,9 +33,6 @@ MessageWidget::MessageWidget(UMLView * view, UMLWidget* a, UMLWidget* b, Floatin
 	UMLWidget::setID( id );
 	m_nY = y;
 	m_sequenceMessageType = sequenceMessageType;
-	UMLWidget::setBaseType(wt_Message);
-	m_nWidgetAID = ((ObjectWidget *)m_pWA)-> getLocalID();
-	m_nWidgetBID = ((ObjectWidget *)m_pWB)-> getLocalID();
 	ft->setUMLObject(b->getUMLObject());
 	ft -> setMessage(this);
 	ft -> setID( id );
@@ -48,25 +45,56 @@ MessageWidget::MessageWidget(UMLView * view, UMLWidget* a, UMLWidget* b, Floatin
 
 	connect(this, SIGNAL(sigMessageMoved()), m_pWA, SLOT(slotMessageMoved()) );
 	connect(this, SIGNAL(sigMessageMoved()), m_pWB, SLOT(slotMessageMoved()) );
-	static_cast<ObjectWidget*>(m_pWA)->messageAdded(this);
-	static_cast<ObjectWidget*>(m_pWB)->messageAdded(this);
+	m_pWA -> messageAdded(this);
+	m_pWB -> messageAdded(this);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 MessageWidget::MessageWidget(UMLView * view, Sequence_Message_Type sequenceMessageType) : UMLWidget(view) {
-	UMLWidget::setBaseType(wt_Message);
 	init();
 	m_sequenceMessageType = sequenceMessageType;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void MessageWidget::init() {
+	UMLWidget::setBaseType(wt_Message);
 	m_bIgnoreSnapToGrid = true;
 	m_bIgnoreSnapComponentSizeToGrid = true;
-	m_pWA = m_pWB = m_pFText = 0;
+	m_pWA = m_pWB = NULL;
+	m_pFText = NULL;
 	m_nY = 0;
 	setVisible(true);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 MessageWidget::~MessageWidget() {
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+void MessageWidget::setWidgetAID( int widgetAID ) {
+	if (m_pWA == NULL)
+		kdDebug() << "MessageWidget::setWidgetAID called while m_pWA is NULL" << endl;
+	else
+		m_pWA->setID( widgetAID );
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+int MessageWidget::getWidgetAID() const {
+	if (m_pWA == NULL) {
+		kdDebug() << "MessageWidget::getWidgetAID called while m_pWA is NULL" << endl;
+		return -1;
+	}
+	return m_pWA->getLocalID();
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+void MessageWidget::setWidgetBID( int widgetBID ) {
+	if (m_pWB == NULL)
+		kdDebug() << "MessageWidget::setWidgetBID called while m_pWB is NULL" << endl;
+	else
+		m_pWB->setID( widgetBID );
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+int MessageWidget::getWidgetBID() const {
+	if (m_pWB == NULL) {
+		kdDebug() << "MessageWidget::getWidgetBID called while m_pWB is NULL" << endl;
+		return -1;
+	}
+	return m_pWB->getLocalID();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void MessageWidget::draw(QPainter& p, int offsetX, int offsetY) {
@@ -91,7 +119,7 @@ void MessageWidget::drawSynchronous(QPainter& p, int offsetX, int offsetY) {
 	int w = getWidth() - 1;
 	int h = getHeight();
 
-	bool messageOverlaps = (static_cast<ObjectWidget*>(m_pWA))->messageOverlap( getY(), this );
+	bool messageOverlaps = m_pWA -> messageOverlap( getY(), this );
 
 	if(m_pWA == m_pWB) {
 		p.fillRect( offsetX, offsetY, 17, h,  QBrush(white) );			//box
@@ -160,8 +188,8 @@ void MessageWidget::drawAsynchronous(QPainter& p, int offsetX, int offsetY) {
 	int x2 = m_pWB->getX();
 	int w = getWidth() - 1;
 	int h = getHeight() - 1;
-	bool messageOverlapsA = ((ObjectWidget*)m_pWA)->messageOverlap( getY(), this );
-	bool messageOverlapsB = ((ObjectWidget*)m_pWB)->messageOverlap( getY(), this );
+	bool messageOverlapsA = m_pWA -> messageOverlap( getY(), this );
+	//bool messageOverlapsB = m_pWB -> messageOverlap( getY(), this );
 
 	if(m_pWA == m_pWB) {
 		if (messageOverlapsA)  {
@@ -228,7 +256,7 @@ void MessageWidget::calculateWidget() {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void MessageWidget::slotWidgetMoved(int id) {
-	if(m_pWA -> getID() == id || m_pWB -> getID() == id) {
+	if(m_pWA -> getLocalID() == id || m_pWB -> getLocalID() == id) {
 		m_nY = getY();
 		m_nY = m_nY < getMinHeight()?getMinHeight():m_nY;
 		m_nY = m_nY > getMaxHeight()?getMaxHeight():m_nY;
@@ -241,7 +269,7 @@ void MessageWidget::slotWidgetMoved(int id) {
 	m_pFText->setPositionFromMessage();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-bool MessageWidget::contains(UMLWidget * w) {
+bool MessageWidget::contains(ObjectWidget * w) {
 	if(m_pWA == w || m_pWB == w)
 		return true;
 	else
@@ -260,78 +288,38 @@ void MessageWidget::mouseDoubleClickEvent(QMouseEvent * /*me*/) {
 		m_pFText -> slotMenuSelection(ListPopupMenu::mt_Select_Operation);
 }
 
-void MessageWidget::setTextID( int textID ) {
-	if (m_pFText == NULL) {
-		kdWarning() << "MessageWidget::setTextID called on (m_pFText == NULL)" << endl;
-		return;
-	}
-	m_pFText -> setID( textID );
-}
-
-int MessageWidget::getTextID() const {
-	if (m_pFText == NULL) {
-		kdWarning() << "MessageWidget::getTextID called on (m_pFText == NULL)" << endl;
-		return -1;
-	}
-	return m_pFText -> getID();
-}
-
 bool MessageWidget::activate(IDChangeLog * Log /*= 0*/) {
 	bool status = UMLWidget::activate(Log);
 	if(!status)
 		return false;
+	if (m_pWA == NULL || m_pWB == NULL) {
+		kdDebug() << "MessageWidget::activate: can't make message" << endl;
+		return false;
+	}
 	if( !m_pFText ) {
 		m_pFText = new FloatingText( m_pView, tr_Seq_Message, "" );
 		m_pFText->setFont(UMLWidget::getFont());
 	}
-	/*
-	if (m_nTextID != -1)
-	{
-		m_pFText -> setID( m_nTextID );   //this is wrong//change when anchors back
-	}                                                                     //need to assign new id
-	else {
-	 */
-	if (getID() == -1) {
+	if (m_pFText->getID() == -1) {
 		int newid = m_pView->getDocument()->getUniqueID();
 		m_pFText -> setID(newid);
-		//m_nTextID = newid;
 	}
-	QString messageText = m_pFText->getText();
-	m_pFText->setActivated();
-	m_pFText->setVisible( messageText.length() > 1 );
-
-	m_pWA = m_pView -> findWidget( m_nWidgetAID );
-	m_pWB = m_pView -> findWidget( m_nWidgetBID );
-
-	if(!m_pWA || !m_pWB) {
-		kdDebug() << "Can't make message" << endl;
-		return false;
-	}
-	m_pFText -> setUMLObject( m_pWB -> getUMLObject() );
 	m_pFText -> setMessage(this);
+	m_pFText -> setText("");
+	m_pFText->setActivated();
+	QString messageText = m_pFText->getText();
+	m_pFText->setVisible( messageText.length() > 1 );
+	m_pFText -> setUMLObject( m_pWB -> getUMLObject() );
 	connect(m_pWA, SIGNAL(sigWidgetMoved(int)), this, SLOT(slotWidgetMoved(int)));
 	connect(m_pWB, SIGNAL(sigWidgetMoved(int)), this, SLOT(slotWidgetMoved(int)));
 	calculateDimensions();
 
 	connect(this, SIGNAL(sigMessageMoved()), m_pWA, SLOT(slotMessageMoved()) );
 	connect(this, SIGNAL(sigMessageMoved()), m_pWB, SLOT(slotMessageMoved()) );
-	static_cast<ObjectWidget*>(m_pWA)->messageAdded(this);
-	static_cast<ObjectWidget*>(m_pWB)->messageAdded(this);
+	m_pWA -> messageAdded(this);
+	m_pWB -> messageAdded(this);
 
 	return status;
-}
-
-/** Synchronizes the Widget's m_pData member with its display properties, for exmaple:
-the X and Y position of the widget, etc */
-void MessageWidget::synchronizeData() {
-	if(isActivated()) {
-		if(dynamic_cast<ObjectWidget *>(m_pWA)) {
-			m_nWidgetAID = static_cast<ObjectWidget*>(m_pWA)->getLocalID();
-		}
-		if(dynamic_cast<ObjectWidget *>(m_pWB)) {
-			m_nWidgetBID = static_cast<ObjectWidget*>(m_pWB)->getLocalID();
-		}
-	}
 }
 
 void MessageWidget::setSequenceNumber( QString sequenceNumber ) {
@@ -583,22 +571,20 @@ void MessageWidget::mouseReleaseEvent( QMouseEvent * me ) {
 	m_pView->setCursor( KCursor::arrowCursor() );
 }
 
-void MessageWidget::setWidgetA(UMLWidget * wa) {
+void MessageWidget::setWidgetA(ObjectWidget * wa) {
 	m_pWA = wa;
-	m_nWidgetAID = ((ObjectWidget *)wa) -> getLocalID();
 }
 
-void MessageWidget::setWidgetB(UMLWidget * wb) {
+void MessageWidget::setWidgetB(ObjectWidget * wb) {
 	m_pWB = wb;
-	m_nWidgetBID = ((ObjectWidget *)wb) -> getLocalID();
 }
 
 bool MessageWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement messageElement = qDoc.createElement( "UML:MessageWidget" );
 	bool status = UMLWidget::saveToXMI( qDoc, messageElement );
 	//messageElement.setAttribute( "textid", m_nTextID );
-	messageElement.setAttribute( "widgetaid", m_nWidgetAID );
-	messageElement.setAttribute( "widgetbid", m_nWidgetBID );
+	messageElement.setAttribute( "widgetaid", getWidgetAID() );
+	messageElement.setAttribute( "widgetbid", getWidgetBID() );
 	messageElement.setAttribute( "operation", m_Operation );
 	messageElement.setAttribute( "seqnum", m_SequenceNumber );
 	messageElement.setAttribute( "sequencemessagetype", m_sequenceMessageType );
@@ -616,19 +602,43 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement) {
 	m_Operation = qElement.attribute( "operation", "" );
 	m_SequenceNumber = qElement.attribute( "seqnum", "" );
 	QString sequenceMessageType = qElement.attribute( "sequencemessagetype", "1001" );
-
 	m_sequenceMessageType = (Sequence_Message_Type)sequenceMessageType.toInt();
-	//m_nTextID = textid.toInt();
-	m_nWidgetAID = widgetaid.toInt();
-	m_nWidgetBID = widgetbid.toInt();
+
+	int aId = widgetaid.toInt();
+	int bId = widgetbid.toInt();
+
+	UMLWidget *pWA = m_pView -> findWidget( aId );
+	if (pWA == NULL) {
+		kdDebug() << "MessageWidget::loadFromXMI: role A object " << aId
+			  << " not found" << endl;
+		return false;
+	}
+	UMLWidget *pWB = m_pView -> findWidget( bId );
+	if (pWB == NULL) {
+		kdDebug() << "MessageWidget::loadFromXMI: role B object " << bId
+			  << " not found" << endl;
+		return false;
+	}
+	m_pWA = dynamic_cast<ObjectWidget*>(pWA);
+	if (m_pWA == NULL) {
+		kdDebug() << "MessageWidget::loadFromXMI: role A widget " << aId
+			  << " is not an ObjectWidget" << endl;
+		return false;
+	}
+	m_pWB = dynamic_cast<ObjectWidget*>(pWB);
+	if (m_pWB == NULL) {
+		kdDebug() << "MessageWidget::loadFromXMI: role B widget " << bId
+			  << " is not an ObjectWidget" << endl;
+		return false;
+	}
 	return true;
 }
 
-UMLWidget* MessageWidget::getWidgetA() {
+ObjectWidget* MessageWidget::getWidgetA() {
 	return m_pWA;
 }
 
-UMLWidget* MessageWidget::getWidgetB() {
+ObjectWidget* MessageWidget::getWidgetB() {
 	return m_pWB;
 }
 

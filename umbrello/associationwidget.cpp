@@ -61,11 +61,7 @@ AssociationWidget::AssociationWidget(QWidget *parent, UMLWidget* WidgetA,
 	//The AssociationWidget is set to Activated because it already has its side widgets
 	setActivated(true);
 
-	synchronizeData(); // for sync of child text widgets
-
 	// sync UML meta-data to settings here
-	// this _should_ be done _after_ synchronizeData or some info will be lost
-	// (the widget id's for one, there might be others)
 	mergeAssociationDataIntoUMLRepresentation();
 
 	//collaboration messages need a name label because it's that
@@ -352,7 +348,6 @@ void AssociationWidget::setName(QString strName) {
                 m_pName -> show();
         else
                 m_pName -> hide();
-        synchronizeData();
 }
 
 bool AssociationWidget::setMultiA(QString strMultiA) {
@@ -387,7 +382,6 @@ bool AssociationWidget::setMultiA(QString strMultiA) {
 		m_pMultiA -> show();
 	else
 		m_pMultiA -> hide();
-	synchronizeData();
 	return true;
 }
 
@@ -423,7 +417,6 @@ bool AssociationWidget::setMultiB(QString strMultiB) {
 		m_pMultiB -> show();
 	else
 		m_pMultiB -> hide();
-	synchronizeData();
 	return true;
 }
 
@@ -461,7 +454,6 @@ bool AssociationWidget::setRoleNameA (QString strRole) {
 		m_pRoleA -> show();
 	else
 		m_pRoleA -> hide();
-	synchronizeData();
 	return true;
 }
 
@@ -509,7 +501,6 @@ bool AssociationWidget::setRoleNameB(QString strRole) {
                 m_pRoleB -> show();
         else
                 m_pRoleB -> hide();
-        synchronizeData();
         return true;
 }
 
@@ -538,8 +529,6 @@ void AssociationWidget::setVisibilityA (Scope value)
 		// update RoleA pre-text attribute as appropriate
 		if (m_pRoleA) {
 			m_pRoleA->setPreText(scopeString);
-			synchronizeData(); // because FloatingText of RoleA is updated
-			// this is a terrible method, btw
 		}
 	}
 }
@@ -563,8 +552,6 @@ void AssociationWidget::setVisibilityB (Scope value)
 		// update RoleB pre-text attribute as appropriate
 		if (m_pRoleB) {
 			m_pRoleB->setPreText(scopeString);
-			synchronizeData(); // because FloatingText of RoleB is updated
-			// this is a terrible method, btw
 		}
 	}
 }
@@ -617,8 +604,6 @@ bool AssociationWidget::setChangeWidgetA(QString strChangeWidgetA) {
         else
                 m_pChangeWidgetA -> hide();
 
-        synchronizeData();
-
         return true;
 }
 
@@ -669,7 +654,6 @@ bool AssociationWidget::setChangeWidgetB(QString strChangeWidgetB) {
         else
                 m_pChangeWidgetB -> hide();
 
-        synchronizeData();
         return true;
 }
 
@@ -850,29 +834,7 @@ bool AssociationWidget::setWidgets( UMLWidget* WidgetA,
 	setWidgetB(WidgetB);
 
 	calculateEndingPoints();
-	synchronizeData();
 	return true;
-}
-
-// TO BE CHECKED
-void AssociationWidget::synchronizeData() {
-	if(m_pWidgetA) {
-		if( m_pWidgetA -> getBaseType() == wt_Object )
-			setWidgetAID( ( (ObjectWidget *) m_pWidgetA ) -> getLocalID() );
-		else
-			setWidgetAID( m_pWidgetA->getID() );
-	} else {
-		setWidgetAID(-1);
-	}
-
-	if(m_pWidgetB) {
-		if( m_pWidgetB -> getBaseType() == wt_Object )
-			setWidgetBID( ( (ObjectWidget *) m_pWidgetB ) -> getLocalID() );
-		else
-			setWidgetBID( m_pWidgetB->getID() );
-	} else {
-		setWidgetBID(-1);
-	}
 }
 
 /** Returns true if this association associates WidgetA to WidgetB, otherwise it returns
@@ -974,11 +936,12 @@ void AssociationWidget::setAssocType(Association_Type type) {
 int AssociationWidget::getWidgetAID() const {
 	if (m_pAssociation)
 		return m_pAssociation->getRoleAId();
-	return m_nWidgetAID;
+	if (m_pWidgetA->getBaseType() == Uml::wt_Object)
+		return static_cast<ObjectWidget*>(m_pWidgetA)->getLocalID();
+	return m_pWidgetA->getID();
 }
 
 void AssociationWidget::setWidgetAID(int AID) {
-	m_nWidgetAID = AID;
 	if (m_pAssociation == NULL)
 		return;
 	int uml_AID = m_pAssociation->getRoleAId();
@@ -998,11 +961,12 @@ void AssociationWidget::setWidgetAID(int AID) {
 int AssociationWidget::getWidgetBID() const {
 	if (m_pAssociation)
 		return m_pAssociation->getRoleBId();
-	return m_nWidgetBID;
+	if (m_pWidgetB->getBaseType() == Uml::wt_Object)
+		return static_cast<ObjectWidget*>(m_pWidgetB)->getLocalID();
+	return m_pWidgetB->getID();
 }
 
 void AssociationWidget::setWidgetBID(int BID) {
-	m_nWidgetBID = BID;
 	if (m_pAssociation == NULL)
 		return;
 	int uml_BID = m_pAssociation->getRoleBId();
@@ -1408,30 +1372,6 @@ void AssociationWidget::mergeAssociationDataIntoUMLRepresentation()
 	// so that we can be sure its back to initial state
 	// in case we missed something here.
 	//uml->init();
-
-	/* dont believe this is needed here.
-	if(getWidgetA() != 0) {
-		UMLObject *oA = getWidgetA()->getUMLObject();
-		if (oA)
-			uml->setObjectA(oA);
-		else {
-			UMLObject *obj = m_pView->getDocument()->findUMLObject(getWidgetAID());
-			if (obj)
-				uml->setObjectA(obj);
-		}
-	}
-
-	if(getWidgetB() != 0) {
-		UMLObject *oB = getWidgetB()->getUMLObject();
-		if (oB)
-			uml->setObjectB(oB);
-		else {
-			UMLObject *obj = m_pView->getDocument()->findUMLObject(getWidgetBID());
-			if (obj)
-				uml->setObjectA(obj);
-		}
-	}
-	 */
 
 	// floating text widgets
 	FloatingText *text = getNameWidget();
@@ -3198,8 +3138,6 @@ void AssociationWidget::init (QWidget *parent)
 	m_VisibilityB = Public;
 	m_ChangeabilityA = chg_Changeable;
 	m_ChangeabilityB = chg_Changeable;
-	m_nWidgetAID = -1;
-	m_nWidgetBID = -1;
 	m_AssocType = Uml::at_Association;
 
 	m_LinePath.setAssociation( this );
@@ -3258,8 +3196,8 @@ bool AssociationWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 		assocElement.setAttribute( "xmi.id", m_pAssociation->getID() );
 	} else {
 		assocElement.setAttribute( "type", m_AssocType );
-		assocElement.setAttribute( "widgetaid", m_nWidgetAID );
-		assocElement.setAttribute( "widgetbid", m_nWidgetBID );
+		assocElement.setAttribute( "widgetaid", getWidgetAID() );
+		assocElement.setAttribute( "widgetbid", getWidgetBID() );
 		assocElement.setAttribute( "visibilityA", m_VisibilityA);
 		assocElement.setAttribute( "visibilityB", m_VisibilityB);
 		assocElement.setAttribute( "changeabilityA", m_ChangeabilityA);
@@ -3314,8 +3252,22 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement ) {
 		QString widgetbid = qElement.attribute( "widgetbid", "-1" );
 		int aId = widgetaid.toInt();
 		int bId = widgetbid.toInt();
-		bool isUMLAssoc = ( umldoc->findUMLObject(aId) &&
-				    umldoc->findUMLObject(bId) );
+		UMLWidget *pWidgetA = m_pView->findWidget( aId );
+		if (pWidgetA == NULL) {
+			kdWarning() << "AssociationWidget::loadFromXMI(): "
+				    << "cannot find widget for roleA id " << aId << endl;
+			return false;
+		}
+		UMLWidget *pWidgetB = m_pView->findWidget( bId );
+		if (pWidgetB == NULL) {
+			kdWarning() << "AssociationWidget::loadFromXMI(): "
+				    << "cannot find widget for roleB id " << bId << endl;
+			return false;
+		}
+		setWidgetA(pWidgetA);
+		setWidgetB(pWidgetB);
+		bool isUMLAssoc = ( pWidgetA->getUMLObject() != NULL &&
+				    pWidgetB->getUMLObject() != NULL );
 		if (isUMLAssoc) {
 			m_pAssociation = new UMLAssociation(umldoc);
 			m_pAssociation->setID( ++idCounterForSyntheticUMLAssocs );
@@ -3339,22 +3291,6 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement ) {
 		QString visibilityB = qElement.attribute( "visibilityB", "0");
 		QString changeabilityA = qElement.attribute( "changeabilityA", "0");
 		QString changeabilityB = qElement.attribute( "changeabilityB", "0");
-		setWidgetAID( aId );
-		setWidgetBID( bId );
-		UMLWidget *pWidgetA = m_pView->findWidget( aId );
-		if (pWidgetA == NULL) {
-			kdWarning() << "AssociationWidget::loadFromXMI(): "
-				    << "cannot find widget for id " << aId << endl;
-			return false;
-		}
-		UMLWidget *pWidgetB = m_pView->findWidget( bId );
-		if (pWidgetB == NULL) {
-			kdWarning() << "AssociationWidget::loadFromXMI(): "
-				    << "cannot find widget for id " << bId << endl;
-			return false;
-		}
-		setWidgetA(pWidgetA);
-		setWidgetB(pWidgetB);
 		if( !type.isEmpty() )
 			setAssocType( (Uml::Association_Type)type.toInt() );
 

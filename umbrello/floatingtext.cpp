@@ -260,7 +260,15 @@ void FloatingText::handleRename() {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void FloatingText::setText(QString t) {
-	m_Text = t;
+	if (m_pMessage != NULL) {
+		QString seqNum = m_pMessage->getSequenceNumber();
+		QString op = m_pMessage->getOperation();
+		if (seqNum.length() > 0 || op.length() > 0)
+			m_Text = seqNum.append(": ").append( op );
+		else
+			m_Text = t;
+	} else
+		m_Text = t;
 	calculateSize();
 	update();
 }

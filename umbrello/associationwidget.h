@@ -217,23 +217,25 @@ public:
 	void setChangeabilityB (Changeability_Type value);
 
 	/**
-	* Write property of int m_nWidgetAID.
+	* DEPRECATED - to be removed
+	* Sets the ID of the UMLAssociation of role A.
 	*/
 	void setWidgetAID(int AID);
 
 	/**
-	* Read property of int m_nWidgetAID.
-	*/
+	 * Gets the ID of role A.
+	 */
 	int getWidgetAID() const;
 
 	/**
-	* Write property of int m_nWidgetBID.
+	* DEPRECATED - to be removed
+	* Sets the ID of the UMLAssociation of role B.
 	*/
 	void setWidgetBID(int BID);
 
 	/**
-	* Read property of int m_nWidgetBID.
-	*/
+	 * Gets the ID of role B.
+	 */
 	int getWidgetBID() const;
 
 	/**
@@ -785,8 +787,6 @@ private:
 	 * The following items are only used if m_pAssociation is not set.
 	 */
 	Uml::Association_Type m_AssocType;
-	int m_nWidgetAID;
-	int m_nWidgetBID;
 	Scope m_VisibilityA, m_VisibilityB;
 	Changeability_Type m_ChangeabilityA, m_ChangeabilityB;
 	QString m_RoleADoc, m_RoleBDoc;

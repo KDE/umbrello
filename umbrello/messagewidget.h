@@ -28,6 +28,7 @@ class ObjectWidget;
  *	@short	Displays a message.
  *	@author Paul Hensgen
  *	@see	UMLWidget
+ *	@see	ObjectWidget
  *	@see	FloatingText
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
@@ -40,13 +41,13 @@ public:
 	 *
 	 *	@param	view	The parent to this class.
 	 *	@param	a	The role A widget for this message.
-	 *	@param	b	The role B	widget for this message.
+	 *	@param	b	The role B widget for this message.
 	 *	@param	ft	The FloatingText widget that is needed to display text.
 	 *	@param	id	A unique id used for deleting this object cleanly.
 	 *	@param	y	The vertical position to display this message.
 	 *	@param sequenceMessageType Whether synchronous or asynchronous
 	 */
-	MessageWidget(UMLView * view, UMLWidget* a, UMLWidget* b, FloatingText* ft, 
+	MessageWidget(UMLView * view, ObjectWidget* a, ObjectWidget* b, FloatingText* ft, 
 		      int id, int y, Sequence_Message_Type sequenceMessageType);
 
 	/**
@@ -67,32 +68,28 @@ public:
 	virtual ~MessageWidget();
 
 	/**
-	 * Write property of int m_nWidgetAID.
+	 * DEPRECATED - candidate for removal
+	 * Sets the ID in the role A widget.
 	 */
-	void setWidgetAID( int widgetAID ) {
-		m_nWidgetAID = widgetAID;
-	}
+	void setWidgetAID( int widgetAID );
 
 	/**
-	 * Read property of int m_nWidgetAID.
+	 * Returns the ID of the role A widget.
+	 * Just for convenience. We can always get the ID directly from the widget.
 	 */
-	int getWidgetAID() const {
-		return m_nWidgetAID;
-	}
+	int getWidgetAID() const;
 
 	/**
-	 * Write property of int m_nWidgetBID.
+	 * DEPRECATED - candidate for removal
+	 * Sets the ID in the role B widget.
 	 */
-	void setWidgetBID( int widgetBID ) {
-		m_nWidgetBID = widgetBID;
-	}
+	void setWidgetBID( int widgetBID );
 
 	/**
-	 * Read property of int m_nWidgetBID.
+	 * Returns the ID of the role B widget.
+	 * Just for convenience. We can always get the ID directly from the widget.
 	 */
-	int getWidgetBID() const {
-		return m_nWidgetBID;
-	}
+	int getWidgetBID() const;
 
 	/**
 	 * Write property of QString m_SequenceNumber.
@@ -115,16 +112,6 @@ public:
 	QString getOperation() const;
 
 	/**
-	 * Write property of the floating text widget ID.
-	 */
-	void setTextID( int textID );
-
-	/**
-	 * Read property of the floating text widget ID.
-	 */
-	int getTextID() const;
-
-	/**
 	 * Returns whether the message is synchronous or asynchronous
 	 */
 	Sequence_Message_Type getSequenceMessageType() const {
@@ -132,58 +119,40 @@ public:
 	}
 
 	/**
-	 *	Check to see if the given UMLWidget is involved in the message.
+	 *	Check to see if the given ObjectWidget is involved in the message.
 	 *
-	 *	@param	w	The UMLWidget to check for.
-	 *	@return	The status of the check.	true - if is contained, false - not contained.
+	 *	@param	w	The ObjectWidget to check for.
+	 *	@return		true - if is contained, false - not contained.
 	 */
-	bool contains(UMLWidget * w);
+	bool contains(ObjectWidget * w);
 
 	/**
 	 *	Returns the A widget it is related to.
 	 *
 	 *	@return Returns the A widget it is related to.
 	 */
-	UMLWidget* getWidgetA();
+	ObjectWidget* getWidgetA();
 
 	/**
 	 *	Returns the B widget it is related to.
 	 *
 	 *	@return Returns the B widget it is related to.
 	 */
-        UMLWidget* getWidgetB();
-
-	/**
-	 *	Returns the id of the A widget it is related to.
-	 *
-	 *	@return Returns the id of the A widget it is related to..
-	 */
-	int getCopyIDA() const {
-		return m_nWidgetAID;
-	}
-
-	/**
-	 *	Returns the id of the B widget it is related to.
-	 *
-	 *	@return Returns the id of the B widget it is related to..
-	 */
-	int getCopyIDB() const {
-		return m_nWidgetBID;
-	}
+        ObjectWidget* getWidgetB();
 
 	/**
 	 *	Sets the A widget it is related to.
 	 *
 	 *	@param wa the A widget it is related to.
 	 */
-	void setWidgetA(UMLWidget * wa) ;
+	void setWidgetA(ObjectWidget * wa) ;
 
 	/**
 	 *	Sets the B widget it is related to.
 	 *
 	 *	@param wa the B widget it is related to.
 	 */
-	void setWidgetB(UMLWidget * wb);
+	void setWidgetB(ObjectWidget * wb);
 
 	/**
 	 *	Returns the text widget it is related to.
@@ -213,13 +182,6 @@ public:
 	 * and also send signals about its floatingText
 	 */
 	bool activate(IDChangeLog * Log = 0);
-
-	/**
-	 * Synchronizes the WidgetData members with the properties of the corresponding
-	 * UMLObject, for example:
-	 * the X and Y position of the widget, etc
-	 */
-	void synchronizeData();
 
 	/**
 	 * Calculates the size of the widget by calling
@@ -309,8 +271,6 @@ public:
 
 protected:
 	// Data loaded/saved
-	int m_nWidgetAID;
-	int m_nWidgetBID;
 	QString m_SequenceNumber;
 	QString m_Operation;
 	//int m_nTextID;
@@ -324,7 +284,7 @@ private:
 	void resizeEvent(QResizeEvent */*re*/);
 	void mouseDoubleClickEvent(QMouseEvent */* me*/);
 
-	UMLWidget * m_pWA, * m_pWB;
+	ObjectWidget * m_pWA, * m_pWB;
 	FloatingText * m_pFText;
 	int m_nY;
 public slots:

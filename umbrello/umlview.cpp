@@ -361,7 +361,7 @@ void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome) {
 	bool isSyncMsg = (m_CurrentCursor == WorkToolBar::tbb_Seq_Message_Synchronous);
 	bool isAsyncMsg = (m_CurrentCursor == WorkToolBar::tbb_Seq_Message_Asynchronous);
 	if (isSyncMsg || isAsyncMsg) {
-		UMLWidget* clickedOnWidget = onWidgetLine( me->pos() );
+		ObjectWidget* clickedOnWidget = onWidgetLine( me->pos() );
 		if( !clickedOnWidget ) {
 			//did not click on widget line, clear the half made message
 			m_pFirstSelectedWidget = 0;
@@ -382,7 +382,12 @@ void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome) {
 
 		Sequence_Message_Type msgType = (isSyncMsg ? sequence_message_synchronous :
 							     sequence_message_asynchronous);
-		MessageWidget* message = new MessageWidget(this, m_pFirstSelectedWidget,
+		ObjectWidget* pFirstSelectedObj = dynamic_cast<ObjectWidget*>(m_pFirstSelectedWidget);
+		if (pFirstSelectedObj == NULL) {
+			kdDebug() << "first selected widget is not an object" << endl;
+			return;
+		}
+		MessageWidget* message = new MessageWidget(this, pFirstSelectedObj,
 							   clickedOnWidget, messageText,
 							   m_pDoc->getUniqueID(),
 							   me->y(),
@@ -655,7 +660,7 @@ void UMLView::contentsDropEvent(QDropEvent *e) {
 	m_pDoc -> setModified(true);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLWidget * UMLView::onWidgetLine( QPoint point ) {
+ObjectWidget * UMLView::onWidgetLine( QPoint point ) {
 	SeqLineWidget * pLine = 0;
 	for( pLine = m_SeqLineList.first(); pLine; pLine = m_SeqLineList.next() ) {
 		if( pLine -> onWidget( point ) ) {
@@ -665,7 +670,7 @@ UMLWidget * UMLView::onWidgetLine( QPoint point ) {
 	return 0;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void UMLView::checkMessages(UMLWidget * w) {
+void UMLView::checkMessages(ObjectWidget * w) {
 	if(getType() != dt_Sequence)
 		return;
 
@@ -809,7 +814,7 @@ void UMLView::removeWidget(UMLWidget * o) {
 
 	UMLWidget_Type t = o->getBaseType();
 	if(getType() == dt_Sequence && t == wt_Object)
-		checkMessages(o);
+		checkMessages( static_cast<ObjectWidget*>(o) );
 
 	if( m_pOnWidget == o ) {
 		m_pDoc -> getDocWindow() -> updateDocumentation( true );
@@ -1581,6 +1586,7 @@ bool UMLView::addWidget( UMLWidget * pWidget ) {
 	ObjectWidget* pObjectWidget = 0;
 	MessageWidget * pMessage = 0;
 	UMLObject * pObject = 0;
+	FloatingText * ft = 0;
 	int waID = -1, wbID = -1, newWAID = -1, newWBID = -1, newTextID = - 1;
 	switch( pWidget -> getBaseType() ) {
 
@@ -1598,9 +1604,11 @@ bool UMLView::addWidget( UMLWidget * pWidget ) {
 			pWidget -> setID( newID );
 			pObject = m_pDoc -> findUMLObject( newID );
 			if( !pObject ) {
-				kdDebug() << "addWidget::Can't find UMLObject" << endl;
+				kdDebug() << "addWidget: Can't find UMLObject for id "
+					  << newID << endl;
 				return false;
 			}
+			pWidget -> setUMLObject( pObject );
 			//make sure it doesn't already exist.
 			if( findWidget( newID ) ) {
 				return true;//don't stop paste just because widget found.
@@ -1608,26 +1616,31 @@ bool UMLView::addWidget( UMLWidget * pWidget ) {
 			break;
 
 		case wt_Message:
+			// What is this code doing?  --okellogg
 			newID = m_pDoc->assignNewID( pWidget -> getID() );
-
 			pWidget -> setID( newID );
 			pMessage = static_cast<MessageWidget *>( pWidget );
 			waID = pMessage -> getWidgetAID();
 			wbID = pMessage -> getWidgetBID();
 			newWAID = m_pIDChangesLog ->findNewID( waID );
 			newWBID = m_pIDChangesLog ->findNewID( wbID );
-
 			if( newWAID == -1 || newWBID == -1 ) {
 				kdDebug()<<"Error with ids : "<<newWAID<<" "<<newWBID<<endl;
 				return false;
 			}
 			pMessage -> setWidgetAID( newWAID );
 			pMessage -> setWidgetBID( newWBID );
-			if( pMessage -> getTextID() != - 1 ) {
-				newTextID = m_pDoc->assignNewID( pMessage->getTextID() );
-				pMessage -> setTextID( newTextID );
-			} else
-				pMessage -> setTextID( m_pDoc -> getUniqueID() );
+			ft = pMessage->getFloatingText();
+			if (ft == NULL)
+				kdDebug() << "UMLView::addWidget: FloatingText of Message is NULL" << endl;
+			else if (ft->getID() == -1)
+				ft->setID( m_pDoc->getUniqueID() );
+			else {
+				newTextID = m_pDoc->assignNewID( ft->getID() );
+				ft->setID( newTextID );
+			}
+			// end of obscure code
+
 			m_MessageList.append( pMessage );
 			return true;
 			break;
@@ -1648,6 +1661,7 @@ bool UMLView::addWidget( UMLWidget * pWidget ) {
 					kdDebug() << "addWidget::Can't find UMLObject" << endl;
 					return false;
 				}
+				pWidget -> setUMLObject( pObject );
 			}
 			break;
 
@@ -1678,7 +1692,8 @@ bool UMLView::addAssociation( AssociationWidget* pAssoc ) {
 
 	if( !log )
 		return false;
-/*
+
+/* What is this code doing? Somebody please enlighten me  --okellogg
 	int ida = -1, idb = -1;
 	Association_Type type = pAssoc -> getAssocType();
 	IDChangeLog* localLog = getLocalIDChangeLog();
@@ -1703,6 +1718,7 @@ bool UMLView::addAssociation( AssociationWidget* pAssoc ) {
 	pAssoc->setWidgetAID(ida);
 	pAssoc->setWidgetBID(idb);
  */
+
 	UMLWidget * m_pWidgetA = findWidget(pAssoc->getWidgetAID());
 	UMLWidget * m_pWidgetB = findWidget(pAssoc->getWidgetBID());
 	//make sure valid widget ids

@@ -35,6 +35,7 @@ class ClassOptionsPage;
 class IDChangeLog;
 class ListPopupMenu;
 class SeqLineWidget;
+class ObjectWidget;
 
 class UMLListView;
 class UMLApp;
@@ -372,7 +373,7 @@ public:
 	 * Sees if a message is relevant to the given widget.  If it does delete it.
 	 * @param	w	The widget to check messages against.
 	 */
-	void checkMessages(UMLWidget * w);
+	void checkMessages(ObjectWidget * w);
 
 	/**
 	 * Finds a widget with the given ID.
@@ -896,7 +897,7 @@ protected:
 	 *
 	 * @returns	Returns the widget thats line was clicked on.  Returns 0 if no line was clicked on.
 	 */
-	UMLWidget * onWidgetLine( QPoint point );
+	ObjectWidget * onWidgetLine( QPoint point );
 
 	/**
 	 * Adds an AssociationWidget to the association list
