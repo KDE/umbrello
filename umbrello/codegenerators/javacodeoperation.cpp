@@ -87,6 +87,15 @@ void JavaCodeOperation::updateMethodDeclaration()
 
 	setStartMethodText(startText);
 
+        // In Java, for interfaces..we DONT write out non-public 
+	// method declarations.
+        if(isInterface)
+        {
+                UMLOperation * o = getParentOperation();
+                if(o->getScope() != Uml::Public)
+                        setWriteOutText(false);
+        }
+
 }
 
 int JavaCodeOperation::lastEditableLine() {
