@@ -11,12 +11,12 @@
 #define WIDGET_FACTORY_H
 
 #include <qobject.h>
-#include <qptrlist.h>
 
 
 class UMLObject;
 class UMLAssociation;
 class QPoint;
+class QPointArray;
 
 namespace Umbrello{
 
@@ -32,7 +32,7 @@ friend class Diagram;
 protected:
 	static DiagramElement* createUMLWidget( UMLObject* , Diagram *parent );
 	static DiagramElement* createCustomWidget( int type, Diagram *parent );
-	static DiagramElement* createAssociationWidget( UMLAssociation*, UMLWidget *wA, UMLWidget *wB,const QPtrList<QPoint> &path, Diagram *parent );
+	static DiagramElement* createAssociationWidget( UMLAssociation*, UMLWidget *wA, UMLWidget *wB,const QPointArray &path, Diagram *parent );
 	
 };
 

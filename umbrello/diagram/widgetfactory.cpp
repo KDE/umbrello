@@ -11,6 +11,8 @@
 
 #include <typeinfo>
 
+
+#include <qpointarray.h>
 #include <qptrlist.h>
 #include <qpoint.h>
 
@@ -64,11 +66,12 @@ DiagramElement* WidgetFactory:: createUMLWidget( UMLObject *obj , Diagram *paren
 
 }
 
-DiagramElement* WidgetFactory::createAssociationWidget( UMLAssociation *assoc, UMLWidget *wA, UMLWidget *wB, const QPtrList<QPoint> &path, Diagram *parent )
+DiagramElement* WidgetFactory::createAssociationWidget( UMLAssociation *assoc, UMLWidget *wA, UMLWidget *wB, const QPointArray &path, Diagram *parent )
 {
 	int id = parent->document()->getUniqueID();
-	DiagramElement *e = new AssociationWidget(parent, id, assoc, wA, wB);
-	return e;
+	AssociationWidget *assocW = new AssociationWidget(parent, id, assoc, wA, wB);
+	assocW->setPath( path );
+	return assocW;
 }
 
 DiagramElement* WidgetFactory::createCustomWidget(int t, Diagram *parent)
