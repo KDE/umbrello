@@ -42,6 +42,8 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o) : QWidget(p
 		name = i18n("Artifact &name:");
 	} else if (t == Uml::ot_Enum) {
 		name = i18n("Enum &name:");
+	} else if (t == Uml::ot_Datatype) {
+		name = i18n("Datatype &name:");
 	} else {
 		kdWarning() << "creating class gen page for unknown widget type" << endl;
 	}
