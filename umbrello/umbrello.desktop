@@ -10,3 +10,4 @@ Terminal=false
 Name=Umbrello UML Modeller
 Name[sv]=Umbrello UML-modellering
 MimeType=application/x-uml
+Categories=Qt;KDE;Development
