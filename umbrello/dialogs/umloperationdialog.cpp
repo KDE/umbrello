@@ -253,8 +253,8 @@ void UMLOperationDialog::slotNewParameter() {
 			return;
 		}
 		if( !pAtt ) {
-			m_pOperation->addParm( dlg.getTypeName(), name,
-					       dlg.getInitialValue(), dlg.getDoc() );
+			m_pOperation->addParm( dlg.getTypeName(), name, dlg.getInitialValue(),
+					       dlg.getDoc(), dlg.getParmKind() );
 			m_pParmsLB -> insertItem( dlg.getName() );
 			m_doc -> setModified( true );
 		} else {

@@ -83,8 +83,12 @@ public:
 	 * @param type		The type of the parameter.
 	 * @param name		The name of the parameter.
 	 * @param initialValue	The initial value of the parameter.
+	 * @param kind		Optional: The parameter kind (in|inout|out).
+	 *                      Default is "in".
+	 * @return	Pointer to the UMLAttribute created.
 	 */
-	void addParm(QString type, QString name, QString initialValue, QString doc);
+	UMLAttribute * addParm(QString type, QString name, QString initialValue, QString doc,
+		               Uml::Parameter_Kind kind = Uml::pk_In);
 
 	/**
 	 * Remove a parameter from the operation.

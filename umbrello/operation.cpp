@@ -40,13 +40,16 @@ UMLOperation::~UMLOperation() {
 	m_List.clear();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void UMLOperation::addParm(QString type, QString name, QString initialValue, QString doc) {
+UMLAttribute * UMLOperation::addParm(QString type, QString name, QString initialValue,
+				     QString doc, Uml::Parameter_Kind kind) {
 	// make the new parameter (attribute) public, just to be safe
 	UMLDoc *umldoc = UMLApp::app()->getDocument();
 	UMLAttribute * a = new UMLAttribute(this, name, umldoc->getUniqueID(), type, Uml::Public);
 	a -> setDoc(doc);
 	a -> setInitialValue(initialValue);
+	a -> setParmKind(kind);
 	addParm(a);
+	return a;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLOperation::removeParm(UMLAttribute * a) {
