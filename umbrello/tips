@@ -8,7 +8,7 @@
 
 <tip category="Umbrello">
 <html>
-<p>Welcome to Umbrello 1.4.  New in this version is tabbed diagrams, canvas items can be moved with the keyboard, a PHP 5 code generator and many fixes.</p>
+<p>Welcome to Umbrello 1.4.  New in this version is tabbed diagrams, canvas items can be moved with Alt+arrowkeys, a PHP 5 code generator and many fixes.</p>
 </html>
 </tip>
 
