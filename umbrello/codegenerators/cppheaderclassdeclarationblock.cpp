@@ -152,7 +152,7 @@ void CPPHeaderClassDeclarationBlock::init (CPPHeaderCodeDocument *parentDoc, QSt
 	setComment(new CPPCodeComment(parentDoc));
 	getComment()->setText(comment);
 
-	setEndText("}");
+	setEndText("};");
 
 	updateContent(); 
 
