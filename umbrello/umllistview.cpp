@@ -928,10 +928,13 @@ bool UMLListView::acceptDrag(QDropEvent* event) const {
 			case Uml::lvt_Package:
 			case Uml::lvt_Interface:
 			case Uml::lvt_Enum:
-				accept = (dstType == Uml::lvt_Logical_Folder ||
-					  dstType == Uml::lvt_Logical_View ||
-					  dstType == Uml::lvt_Class ||
-					  dstType == Uml::lvt_Package);
+				if (dstType == Uml::lvt_Logical_View ||
+				    dstType == Uml::lvt_Class ||
+				    dstType == Uml::lvt_Package) {
+					accept = !item->isOwnParent(data->id);
+				} else {
+					accept = (dstType == Uml::lvt_Logical_Folder);
+				}
 				break;
 			case Uml::lvt_Datatype:
 				accept = (dstType == Uml::lvt_Logical_Folder ||
@@ -945,9 +948,15 @@ bool UMLListView::acceptDrag(QDropEvent* event) const {
 			case Uml::lvt_State_Diagram:
 			case Uml::lvt_Activity_Diagram:
 			case Uml::lvt_Sequence_Diagram:
-			case Uml::lvt_Logical_Folder:
 				accept = (dstType == Uml::lvt_Logical_Folder ||
 					  dstType == Uml::lvt_Logical_View);
+				break;
+			case Uml::lvt_Logical_Folder:
+				if (dstType == Uml::lvt_Logical_Folder) {
+					accept = !item->isOwnParent(data->id);
+				} else {
+					accept = (dstType == Uml::lvt_Logical_View);
+				}
 				break;
 			case Uml::lvt_Actor:
 			case Uml::lvt_UseCase:

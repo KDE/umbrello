@@ -157,7 +157,21 @@ void UMLListViewItem::setID(Uml::IDType id) {
 	}
 	m_nId = id;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
+bool UMLListViewItem::isOwnParent(Uml::IDType listViewItemID) {
+	QListViewItem *lvi = (QListViewItem*)s_pListView->findItem(listViewItemID);
+	if (lvi == NULL) {
+		kdError() << "UMLListViewItem::isOwnParent: ListView->findItem("
+			  << ID2STR(listViewItemID) << ") returns NULL" << endl;
+		return true;
+	}
+	for (QListViewItem *self = (QListViewItem*)this; self; self = self->parent()) {
+		if (lvi == self)
+			return true;
+	}
+	return false;
+}
+
 void UMLListViewItem::updateObject() {
 	if( m_pObject == NULL )
 		return;

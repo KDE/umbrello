@@ -121,6 +121,12 @@ public:
 	}
 
 	/**
+	 * Returns true if the UMLListViewItem of the given ID is a parent of
+	 * this UMLListViewItem.
+	 */
+	bool isOwnParent(Uml::IDType listViewItemID);
+
+	/**
 	 * Updates the representation of the object.
 	 */
 	void updateObject();
