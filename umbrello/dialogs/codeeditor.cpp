@@ -15,10 +15,10 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include <iostream.h>
 #include <kdebug.h>
 #include <klocale.h>
 
+#include <qkeysequence.h>
 #include <qcursor.h>
 #include <qcolor.h>
 #include <qlabel.h>
@@ -550,8 +550,9 @@ void CodeEditor::slotInsertCodeBlockAfterSelected()
 QPopupMenu * CodeEditor::createPopupMenu ( const QPoint & pos ) 
 {
 
+	kdDebug()<<"got menu at x:"<<pos.x()<<" y:"<<pos.y()<<endl;
+
 	TextBlock * tb = m_selectedTextBlock;
-cerr<<" Create popup menu for tb:"<<tb<<endl;
 
 //  	return QTextEdit::createPopupMenu ( pos );
 	QPopupMenu * menu = new QPopupMenu(this);
@@ -559,31 +560,94 @@ cerr<<" Create popup menu for tb:"<<tb<<endl;
 	if (m_selectedTextBlock) 
 	{
 		if(tb->getWriteOutText())
-			menu->insertItem("Hide",this,SLOT(slotChangeSelectedBlockView()));
+			menu->insertItem("Hide",this,SLOT(slotChangeSelectedBlockView()), Key_H , 0);
 		else
-			menu->insertItem("Show",this,SLOT(slotChangeSelectedBlockView()));
+			menu->insertItem("Show",this,SLOT(slotChangeSelectedBlockView()), Key_H , 0);
 
 		CodeBlockWithComments * cb = dynamic_cast<CodeBlockWithComments*>(tb);
 		if(cb)
 			if(cb->getComment()->getWriteOutText())
-				menu->insertItem("Hide Comment",this,SLOT(slotChangeSelectedBlockCommentView()));
+				menu->insertItem("Hide Comment",this,SLOT(slotChangeSelectedBlockCommentView()), CTRL+Key_H, 1);
 			else
-				menu->insertItem("Show Comment",this,SLOT(slotChangeSelectedBlockCommentView()));
+				menu->insertItem("Show Comment",this,SLOT(slotChangeSelectedBlockCommentView()), CTRL+Key_H, 1);
+		menu->insertSeparator();
 
-		menu->insertItem("Insert Code Block Before",this,SLOT(slotInsertCodeBlockBeforeSelected()));
-		menu->insertItem("Insert Code Block After",this,SLOT(slotInsertCodeBlockAfterSelected()));
+		menu->insertItem("Insert Code Block Before",this,SLOT(slotInsertCodeBlockBeforeSelected()), CTRL+Key_B, 2);
+		menu->insertItem("Insert Code Block After",this,SLOT(slotInsertCodeBlockAfterSelected()), CTRL+Key_A, 3);
 
-		menu->insertItem("Copy",this,SLOT(slotNull()));
-		menu->insertItem("Paste",this,SLOT(slotNull()));
-		menu->insertItem("Cut",this,SLOT(slotNull()));
+		menu->insertSeparator();
+
+		menu->insertItem("Copy",this,SLOT(slotCopyTextBlock()), CTRL+Key_C, 4);
+		menu->insertItem("Paste",this,SLOT(slotPasteTextBlock()), CTRL+Key_V, 5);
+		menu->insertItem("Cut",this,SLOT(slotCopyTextBlock()), CTRL+Key_X, 6);
+
+		// enable/disable based on conditions
+		if(m_selectedTextBlock == m_parentDoc->getHeader())
+ 			menu->setItemEnabled (2, false);
+
+		if(!m_textBlockToPaste)
+ 			menu->setItemEnabled (5, false);
+
+		if(!tb->canDelete())
+ 			menu->setItemEnabled (6, false);
+
+		// manythings cant be copied. RIght now, lets just limit ourselves to 
+		// owned things and hierarchicalcodeblocks
+		if(dynamic_cast<OwnedCodeBlock*>(m_selectedTextBlock) ||
+			dynamic_cast<HierarchicalCodeBlock*>(m_selectedTextBlock))
+			menu->setItemEnabled (4, false);
 
 	}
 	
 	return menu;
 }
 
-void CodeEditor::slotNull ( ) {
-	cerr<<" called slotNull"<<endl;
+void CodeEditor::slotCopyTextBlock ( ) 
+{
+	// make a copy
+	if(dynamic_cast<HierarchicalCodeBlock*>(m_selectedTextBlock)) 
+		m_textBlockToPaste = m_parentDoc->newHierarchicalCodeBlock();
+	else if(dynamic_cast<CodeBlockWithComments*>(m_selectedTextBlock)) 
+		m_textBlockToPaste = m_parentDoc->newCodeBlockWithComments();
+	else if(dynamic_cast<CodeBlock*>(m_selectedTextBlock)) 
+		m_textBlockToPaste = m_parentDoc->newCodeBlock();
+	else if(dynamic_cast<CodeComment*>(m_selectedTextBlock)) 
+		m_textBlockToPaste = m_parentDoc->newCodeComment();
+	else
+	{
+		kdError()<<" ERROR: CodeEditor can't copy selected block:"<<m_selectedTextBlock<<" of unknown type"<<endl;
+		m_textBlockToPaste = 0;
+		return; // error!
+	}
+
+	m_textBlockToPaste->setAttributesFromObject(m_selectedTextBlock);
+
+}
+
+void CodeEditor::slotCutTextBlock ( ) {
+
+	// make a copy first
+	slotCopyTextBlock();
+
+	// This could cause problems, but we are OK as 
+	// long as we only try to delete 'canDelete' textblocks
+	if(m_selectedTextBlock->canDelete())
+	{
+		m_parentDoc->removeTextBlock(m_selectedTextBlock);
+		rebuildView(m_lastPara);
+	}
+
+}
+
+void CodeEditor::slotPasteTextBlock ( ) {
+
+	if(m_textBlockToPaste) 
+	{
+		m_parentDoc->insertTextBlock(m_textBlockToPaste, m_selectedTextBlock);
+		m_textBlockToPaste = 0;
+		rebuildView(m_lastPara);
+	}
+
 }
 
 void CodeEditor::init ( CodeViewerDialog * parentDlg, CodeDocument * parentDoc ) {
@@ -600,6 +664,7 @@ void CodeEditor::init ( CodeViewerDialog * parentDlg, CodeDocument * parentDoc )
 
         m_newLinePressed = false;
         m_backspacePressed = false;
+	m_textBlockToPaste = 0;
         m_selectedTextBlock = 0;
         m_lastTextBlockToBeEdited = 0;
         m_paraInfoMap = new QMap<int, TextBlock *>;
@@ -858,7 +923,6 @@ void CodeEditor::changeTextBlockHighlighting(TextBlock * tBlock, bool selected) 
 
 void CodeEditor::changeShowHidden (int signal) {
 
-cerr<<"changeShowHidden called"<<endl;
 	if(signal)
 		m_showHiddenBlocks = true;
 	else

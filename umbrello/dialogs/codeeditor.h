@@ -92,6 +92,7 @@ private:
 	CodeViewerDialog * m_parentDlg;
 
 	void clearText();
+	TextBlock * m_textBlockToPaste;
 	QLabel * getComponentLabel();
 	bool paraIsNotSingleLine (int para);
         void expandSelectedParagraph( int where );
@@ -131,10 +132,12 @@ public slots:
 
 protected slots:
 
-	void slotNull();
         void clicked(int para, int pos );
         void doubleClicked(int para, int pos );
         void cursorPositionChanged(int para, int pos );
+	void slotCopyTextBlock ( );
+	void slotCutTextBlock ( );
+	void slotPasteTextBlock ( );
 	void slotChangeSelectedBlockView();
 	void slotChangeSelectedBlockCommentView();
 	void slotInsertCodeBlockAfterSelected();
