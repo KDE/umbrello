@@ -27,6 +27,7 @@ class UMLDoc;
  */
 
 class UMLAssociation : public UMLObject {
+	friend class AssociationWidget;
 public:
 	/**
 	 *	Sets up an association.
@@ -37,25 +38,41 @@ public:
 	 *	@param	assocType	The association type.
 	 *	@param	roleA_id	ID of the UMLObject of role A.
 	 *	@param	roleB_id	ID of the UMLObject of role B.
+	 *	@param	roleNameA	The name of the role A (NYI.)
+	 *	@param	roleNameB	The name of the role B (NYI.)
 	 *	@param	multiA		The multiplicity of the role A.
 	 *	@param	multiB		The multiplicity of the role B.
-	 *	@param	nameA		The name of the role A (NYI.)
-	 *	@param	nameB		The name of the role B (NYI.)
+	 *	@param	visibilityA	The visibility of role A 
+	 *	@param	visibilityB	The visibility of role B 
+	 *	@param	changeA		The changeability of role A 
+	 *	@param	changeB		The changeability of role B 
 	 */
 	UMLAssociation(UMLDoc* parent, QString name, int id,
 		       Uml::Association_Type assocType,
 		       int roleA_id, int roleB_id,
+		       QString roleNameA = "", QString roleNameB = "", 
 		       QString multiA = "", QString multiB = "",
-		       QString nameA = "", QString nameB = "")
+		       Scope visibilityA = Public, Scope visibilityB = Public, 
+		       Changeability_Type changeA = chg_Changeable, 
+		       Changeability_Type changeB = chg_Changeable 
+		       )
 	: UMLObject((UMLObject*)parent, name, id) {
+
+		init();
+
 		m_AssocType = assocType;
-		m_RoleA = roleA_id;
-		m_RoleB = roleB_id;
+		m_Name = name;
+		m_RoleAId = roleA_id;
+		m_RoleBId = roleB_id;
 		m_MultiA = multiA;
 		m_MultiB = multiB;
-		m_NameA = nameA;
-		m_NameB = nameB;
-		m_BaseType = ot_Association;
+		m_RoleNameA = roleNameA;
+		m_RoleNameB = roleNameB;
+		m_VisibilityA = visibilityA;
+		m_VisibilityB = visibilityB;
+		m_ChangeabilityA = changeA;
+		m_ChangeabilityB = changeB;
+
 	}
 
 	/**
@@ -64,14 +81,7 @@ public:
 	 *	@param	parent	The parent of this UMLAssociation.
 	 */
 	UMLAssociation(QObject * parent) : UMLObject(parent) {
-		m_AssocType = Uml::at_Unknown;
-		m_RoleA = -1;
-		m_RoleB = -1;
-		m_MultiA = "";
-		m_MultiB = "";
-		m_NameA = "";
-		m_NameB = "";
-		m_BaseType = ot_Association;
+		init();
 	}
 
 	/**
@@ -82,12 +92,12 @@ public:
 			return true;
 		return( UMLObject::operator==( rhs ) &&
 			m_AssocType == rhs.m_AssocType &&
-			m_RoleA == rhs.m_RoleA &&
-			m_RoleB == rhs.m_RoleB &&
+			m_RoleAId == rhs.m_RoleAId &&
+			m_RoleBId == rhs.m_RoleBId &&
 			m_MultiA == rhs.m_MultiA &&
 			m_MultiB == rhs.m_MultiB &&
-			m_NameA == rhs.m_NameA &&
-			m_NameB == rhs.m_NameB );
+			m_RoleNameA == rhs.m_RoleNameA &&
+			m_RoleNameB == rhs.m_RoleNameB );
 	}
 
 	/**
@@ -124,14 +134,48 @@ public:
 	 *
 	 *	@return		Pointer to the UMLObject of role A.
 	 */
-	int getRoleA() const { return m_RoleA; }
+	int getRoleAId() const { return m_RoleAId; }
 
 	/**
 	 *	Returns the ID of the UMLObject assigned to the role B.
 	 *
 	 *	@return		Pointer to the UMLObject of role B.
 	 */
-	int getRoleB() const { return m_RoleB; }
+	int getRoleBId() const { return m_RoleBId; }
+
+	/**
+	 *	Returns the Changeablity of role A.
+	 *
+	 *	@return		Changeability_Type of roleA.
+	 */
+	Changeability_Type getChangeabilityA() const { return m_ChangeabilityA; }
+
+	/**
+	 *	Returns the Changeablity of role B.
+	 *
+	 *	@return		Changeability_Type of roleB.
+	 */
+
+	Changeability_Type getChangeabilityB() const { return m_ChangeabilityB; }
+	/**
+	 *	Returns the Changeablity of role B.
+	 *
+	 *	@return		Changeability_Type of roleB.
+	 */
+
+	/**
+	 *	Returns the Visibility of role A.
+	 *
+	 *	@return		Scope of roleA.
+	 */
+	Scope getVisibilityA() const { return m_VisibilityA; }
+
+	/**
+	 *	Returns the Visibility of role B.
+	 *	
+	 *	@return		Scope of roleB.
+	 */
+	Scope getVisibilityB() const { return m_VisibilityB; }
 
 	/**
 	 *	Returns the multiplicity assigned to the role A.
@@ -152,14 +196,14 @@ public:
 	 *
 	 *	@return		The name assigned to the role A.
 	 */
-	QString getNameA() const { return m_NameA; }
+	QString getRoleNameA() const { return m_RoleNameA; }
 
 	/**
 	 *	Returns the name assigned to the role B.
 	 *
 	 *	@return		The name assigned to the role B.
 	 */
-	QString getNameB() const { return m_NameB; }
+	QString getRoleNameB() const { return m_RoleNameB; }
 
 	/**
 	 *	Sets the assocType of the UMLAssociation.
@@ -175,8 +219,8 @@ public:
 	 *
 	 *	@param	multiA	Pointer to the UMLObject of role A.
 	 */
-	void setRoleA(int roleA) {
-		m_RoleA = roleA;
+	void setRoleAId(int roleA) {
+		m_RoleAId = roleA;
 	}
 
 	/**
@@ -184,10 +228,39 @@ public:
 	 *
 	 *	@param	multiB	Pointer to the UMLObject of role B.
 	 */
-	void setRoleB(int roleB) {
-		m_RoleB = roleB;
+	void setRoleBId(int roleB) {
+		m_RoleBId = roleB;
 	}
 
+	/**
+	 *	Sets the visibility of role A of the UMLAssociation.
+	 *
+	 *	@param	value 	Scope of role A visibility.
+	 */
+	void setVisibilityA (Scope value) { m_VisibilityA = value; }
+
+	/**
+	 *	Sets the visibility of role B of the UMLAssociation.
+	 *
+	 *	@param	value 	Scope of role A visibility.
+	 */
+	void setVisibilityB (Scope value) { m_VisibilityB = value; }
+
+	/**
+	 *	Sets the changeability of role A of the UMLAssociation.
+	 *
+	 *	@param	value 	Changeability_Type of role A changeability.
+	 */
+	void setChangeabilityA (Changeability_Type value) { m_ChangeabilityA = value; }
+
+	/**
+	 *	Sets the changeability of role B of the UMLAssociation.
+	 *
+	 *	@param	value 	Changeability_Type of role B changeability.
+	 */
+
+	void setChangeabilityB (Changeability_Type value) { m_ChangeabilityB = value; }
+		 
 	/**
 	 *	Sets the multiplicity of role A of the UMLAssociation.
 	 *
@@ -209,19 +282,19 @@ public:
 	/**
 	 *	Sets the name of role A of the UMLAssociation.
 	 *
-	 *	@param	nameA	The name of role A of the UMLAssociation.
+	 *	@param	roleNameA	The name of role A of the UMLAssociation.
 	 */
-	void setNameA(QString nameA) {
-		m_NameA = nameA;
+	void setRoleNameA(QString roleNameA) {
+		m_RoleNameA = roleNameA;
 	}
 
 	/**
 	 *	Sets the name of role B of the UMLAssociation.
 	 *
-	 *	@param	nameB	The name of role B of the UMLAssociation.
+	 *	@param	roleNameB	The name of role B of the UMLAssociation.
 	 */
-	void setNameB(QString nameB) {
-		m_NameB = nameB;
+	void setRoleNameB(QString roleNameB) {
+		m_RoleNameB = roleNameB;
 	}
 
 	/**
@@ -245,7 +318,63 @@ public:
 
 	bool loadFromXMI( QDomElement & element );
 
-private:
+	/**
+         * Convert Changeability_Type value into QString representation. 
+	 */
+	static QString ChangeabilityToString (Uml::Changeability_Type type)
+	{
+        	switch (type) {
+               		case Uml::chg_Frozen:
+                        	return "frozen";
+                        	break;
+                	case Uml::chg_AddOnly:
+                        	return "addOnly";
+                        	break;
+                	case Uml::chg_Changeable:
+                	default:
+                        	return "changeable";
+                        	break;
+	        }
+	}
+
+        /**
+         * Convert Scope value into QString representation. 
+         */
+	static QString ScopeToString (Uml::Scope scope)
+	{
+        	switch (scope) {
+                	case Uml::Protected:
+                        	return "#";
+                        	break;
+                	case Uml::Private:
+                        	return "-";
+                        	break;
+                	case Uml::Public:
+                	default:
+                        	return "+";
+                        	break;
+        	}
+	}
+
+
+protected:
+
+	/** do some initialization at construction time */
+	void init () {
+
+		m_AssocType = Uml::at_Unknown;
+		m_RoleAId = -1;
+		m_RoleBId = -1;
+		m_MultiA = "";
+		m_MultiB = "";
+		m_RoleNameA = "";
+		m_RoleNameB = "";
+		m_VisibilityA = Public;
+		m_VisibilityB = Public;
+		m_ChangeabilityA = chg_Changeable; 
+		m_ChangeabilityB = chg_Changeable; 
+		m_BaseType = ot_Association;
+	}
 
 	/**
 	 * If the type Uml::Association_Type is changed then also the following
@@ -260,10 +389,14 @@ private:
 	static const QString assocTypeStr[nAssocTypes];
 
 	Uml::Association_Type m_AssocType;
-	int m_RoleA;
-	int m_RoleB;
+	int m_RoleAId;
+	int m_RoleBId;
+	QString m_Name;
+	QString m_RoleNameA, m_RoleNameB;
 	QString m_MultiA, m_MultiB;
-	QString m_NameA, m_NameB;
+	Scope m_VisibilityA, m_VisibilityB;
+	Changeability_Type m_ChangeabilityA, m_ChangeabilityB;
+
 };
 
 #endif

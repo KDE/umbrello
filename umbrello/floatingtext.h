@@ -69,11 +69,22 @@ public:
 	void setLinePos(int x, int y);
 
 	/**
-	 *	Set the text to display.
-	 *
+	 *	Set the main body of text to display.
 	 *	@param	t	The text to display.
 	 */
 	void setText(QString t);
+
+	/** 
+	 * Set some text to be prepended to the main body of text.
+	 *	@param	t	The text to prepend to main body which is displayed.
+	 */
+	void setPreText(QString t);
+
+	/**
+	 * Set some text to be appended to the main body of text.
+	 *	@param	t	The text to append to main body which is displayed.
+	 */
+	void setPostText(QString t);
 
 	/**
 	 *	Set the sequence number to display.
@@ -104,10 +115,29 @@ public:
 	QString getOperation();
 
 	/**
-	 *	Use to get the text currently displayed by the widget.
-	 *	@return	Returns the text currently being displayed by the widget.
+	 *	Use to get the _main body_ of text (e.g. prepended text is omitted) as
+	 *	currently displayed by the widget.
+	 *	@return	Returns the main text currently being displayed by the widget.
 	 */
 	QString getText();
+
+	/**
+	 *	Use to get the pre-text which is prepended to the main body of text
+	 *	to be displayed
+	 */
+	QString getPreText();
+
+	/**
+	 *	Use to get the post-text which is appended to the main body of text
+	 *	to be displayed
+	 */
+	QString getPostText();
+
+	/**
+	 *	Use to get the total text (prepended + main body) currently displayed by the widget.
+	 *	@return	Returns the text currently being displayed by the widget.
+	 */
+	QString getDisplayText();
 
 	/**
 	 * If this object is associated with a @ref Association object then

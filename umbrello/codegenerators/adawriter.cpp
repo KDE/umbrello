@@ -117,11 +117,11 @@ QString AdaWriter::qualifiedName(UMLConcept *c, bool withType, bool byValue) {
 
 void AdaWriter::computeAssocTypeAndRole
        (UMLAssociation *a, QString& typeName, QString& roleName) {
-	UMLConcept* c = (UMLConcept*) m_doc->findUMLObject(a->getRoleA());
+	UMLConcept* c = (UMLConcept*) m_doc->findUMLObject(a->getRoleAId());
 	typeName = cleanName(c->getName());
 	if (! a->getMultiA().isEmpty())
 		typeName.append("_Array_Access");
-	roleName = a->getNameA();
+	roleName = a->getRoleNameA();
 	if (roleName.isEmpty()) {
 		if (a->getMultiA().isEmpty()) {
 			roleName = "M_";
@@ -245,7 +245,7 @@ void AdaWriter::writeClass(UMLConcept *c) {
 	} else {
 		// FIXME: Multiple inheritance is not yet supported
 		UMLAssociation *a = generalizations.first();
-		UMLConcept* parent = (UMLConcept*) m_doc->findUMLObject(a->getRoleB());
+		UMLConcept* parent = (UMLConcept*) m_doc->findUMLObject(a->getRoleBId());
 		ada << "new " << qualifiedName(parent) << ".Object with ";
 	}
 	ada << "private;\n\n";
@@ -298,7 +298,7 @@ void AdaWriter::writeClass(UMLConcept *c) {
 		for (UMLAssociation *a = aggregations.first(); a; a = aggregations.next()) {
 			if (a->getMultiA().isEmpty())
 				continue;
-			UMLConcept* other = (UMLConcept*) m_doc->findUMLObject(a->getRoleA());
+			UMLConcept* other = (UMLConcept*) m_doc->findUMLObject(a->getRoleAId());
 			QString member = cleanName(other->getName());
 			// Handling of packages is missing here
 			// A test and error action is missing here for !isOOClass()
@@ -313,7 +313,7 @@ void AdaWriter::writeClass(UMLConcept *c) {
 		for (UMLAssociation *a = compositions.first(); a; a = compositions.next()) {
 			if (a->getMultiA().isEmpty())
 				continue;
-			UMLObject *other = m_doc->findUMLObject(a->getRoleA());
+			UMLObject *other = m_doc->findUMLObject(a->getRoleAId());
 			QString member = cleanName(other->getName());
 			// Handling of packages is missing here
 			// Treatment of !isOOClass() is missing here
@@ -332,7 +332,7 @@ void AdaWriter::writeClass(UMLConcept *c) {
 	} else {
 		// FIXME: Multiple inheritance is not yet supported
 		UMLAssociation *a = generalizations.first();
-		UMLConcept* parent = (UMLConcept*) m_doc->findUMLObject(a->getRoleB());
+		UMLConcept* parent = (UMLConcept*) m_doc->findUMLObject(a->getRoleBId());
 		ada << "new " << qualifiedName(parent) << ".Object with ";
 	}
 	ada << "record\n";

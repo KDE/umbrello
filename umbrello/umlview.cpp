@@ -497,7 +497,10 @@ void UMLView::slotObjectCreated(UMLObject * o) {
 		} else
 			kdDebug() << "ERROR: trying to create an invalid widget" << endl;
 		int y=m_Pos.y();
-		if (temp->getBaseType() == wt_Object && this->m_pData->m_Type == dt_Sequence) {
+
+		if (temp->getBaseType() == wt_Object
+				&& this->m_pData->m_Type == dt_Sequence
+		   ) {
 			y = 80 - temp -> height();
 		}
 		temp -> setX( m_Pos.x() );
@@ -536,7 +539,8 @@ void UMLView::slotObjectRemoved(UMLObject * o) {
 			removeWidget(obj);
 			delete l;
 
-			//keep calling self while a widget representing o exits as there may be others
+			// keep calling self while a widget representing o exits
+			// as there may be others
 			slotObjectRemoved(o);
 			return;
 		}
@@ -798,10 +802,12 @@ void UMLView::removeWidget(UMLWidget * o) {
 	UMLWidget_Type t = o->getBaseType();
 	if(m_pData -> m_Type == dt_Sequence && t == wt_Object)
 		checkMessages(o);
+
 	if( m_pOnWidget == o ) {
 		getDocument() -> getDocWindow() -> updateDocumentation( true );
 		m_pOnWidget = 0;
 	}
+
 	o -> cleanup();
 	m_SelectedList.remove(o);
 	disconnect( this, SIGNAL( sigRemovePopupMenu() ), o, SLOT( slotRemovePopupMenu() ) );
@@ -952,7 +958,7 @@ void UMLView::deleteSelection()
 					temp=(UMLWidget *)m_SelectedList.next())
 	{
 		if( temp -> getBaseType() == wt_Text &&
-							((FloatingText *)temp) -> getRole() != tr_Floating )
+			((FloatingText *)temp) -> getRole() != tr_Floating )
 		{
 			temp -> hide();
 		} else {
@@ -1151,10 +1157,28 @@ void UMLView::selectWidgets() {
 						m_SelectedList.remove( text );
 						m_SelectedList.append( text );
 					}
-					text = a -> getRoleWidget();
+					text = a -> getRoleAWidget();
 					if( text ) {
 						text  -> setSelected( true )
 						;
+						m_SelectedList.remove( text );
+						m_SelectedList.append( text );
+					}
+					text = a -> getRoleBWidget();
+					if( text ) {
+						text  -> setSelected( true );
+						m_SelectedList.remove( text );
+						m_SelectedList.append( text );
+					}
+					text = a -> getChangeWidgetA();
+					if( text ) {
+						text  -> setSelected( true );
+						m_SelectedList.remove( text );
+						m_SelectedList.append( text );
+					}
+					text = a -> getChangeWidgetB();
+					if( text ) {
+						text  -> setSelected( true );
 						m_SelectedList.remove( text );
 						m_SelectedList.append( text );
 					}
@@ -1243,8 +1267,8 @@ void UMLView::updateNoteWidgets() {
 			UMLWidget *wa = 0,*wb = 0, *destination= 0, *source = 0;
 
 			wa = a->getWidgetA();
-
 			wb = a-> getWidgetB();
+
 			bool copyText = false;
 			if(wa->getBaseType() == wt_Note) {
 				kdDebug() << "A note" << endl;
@@ -1692,6 +1716,7 @@ bool UMLView::addAssociation( AssociationWidgetData* AssocData ) {
 			return true;
 
 	}
+
 	return createAssoc( AssocData );
 }
 
@@ -1709,12 +1734,13 @@ bool UMLView::createAssoc(AssociationWidgetData* AssocData) {
 }
 
 void UMLView::addAssocInViewAndDoc(AssociationWidget* a) {
-	m_Associations.append(a);
-	int AId = a->getData()->getWidgetAID();
-	int BId = a->getData()->getWidgetBID();
-	getDocument() -> addAssociation (a->getRole(), a->getAssocType(),
-		AId, BId,
-		a->getMultiA(), a->getMultiB() );  /* NameA/NameB NYI */
+
+ 	// append in view
+ 	m_Associations.append(a);
+
+ 	// append in document
+ 	getDocument() -> addAssociation (a->getAssociation());
+
 }
 
 bool UMLView::activateAfterSerialize( bool bUseLog ) {
@@ -1800,34 +1826,35 @@ void UMLView::removeAssoc(AssociationWidget* pAssoc) {
 	if(!pAssoc)
 		return;
 	if( pAssoc == m_pMoveAssoc ) {
-		getDocument() -> getDocWindow() -> updateDocumentation( true );
-		m_pMoveAssoc = 0;
-	}
-	removeAssocInViewAndDoc(pAssoc, true);
+  		getDocument() -> getDocWindow() -> updateDocumentation( true );
+  		m_pMoveAssoc = 0;
+  	}
+ 	removeAssocInViewAndDoc(pAssoc, true);
 }
 
 void UMLView::removeAssocInViewAndDoc(AssociationWidget* a, bool deleteLater) {
-	if(!a)
-		return;
-	// Remove the association from the UMLDoc.
-	int AId = a->getData()->getWidgetAID();
-	int BId = a->getData()->getWidgetBID();
-	getDocument()->removeAssociation(a->getAssocType(), AId, BId);
-	// Remove the association in this view.
-	a->cleanup();
-	m_Associations.remove(a);
-	if (deleteLater)
-		a -> deleteLater();
-	delete a;
+ 	if(!a)
+ 		return;
+ 	// Remove the association from the UMLDoc.
+ 	// NO! now done by the association->cleanup.
+ 	// getDocument()->removeAssociation(a->getAssociation());
+
+ 	// Remove the association in this view.
+ 	a->cleanup();
+ 	m_Associations.remove(a);
+ 	if (deleteLater) {
+ 		a->deleteLater();
+	}
+ 	delete a;
 }
 
-bool UMLView::getAssocWidgets(AssociationWidgetList & Associations)
-{
+bool UMLView::getAssocWidgets(AssociationWidgetList & Associations) {
 	Associations = m_Associations;
 	return true;
 }
 
 bool UMLView::setAssoc(UMLWidget *pWidget) {
+
 	Association_Type type = convert_TBB_AT(m_CurrentCursor);
 	m_bDrawRect = false;
 	m_SelectionRect.clear();
@@ -2235,21 +2262,43 @@ void UMLView::createAutoAssociations( UMLWidget * widget ) {
 			if( widgetA && widgetB ) {
 				AssociationWidget * temp = new AssociationWidget( this, widgetA ,
 				                            docData -> getAssocType(), widgetB );
+
+				// CHECK: why is this needed at all? I mean, the association
+				// is "new" so there shouldnt be any preset roles, etc.
+				/*
 				FloatingTextData * data = docData -> getMultiDataA();
 				if( data )
 					temp -> setMultiA( data -> getText() );
 				data =  docData -> getMultiDataB();
 
-				if( data )
-					temp -> setMultiB( data -> getText() );
-				data = docData -> getRoleData();
+  				if( data )
+  					temp -> setMultiB( data -> getText() );
 
-				if( data )
-					temp -> setRole( data -> getText() );
-				addAssocInViewAndDoc( temp );
-			}
-		}//end if !at_Anchor
-		++it;
+ 				data = docData -> getRoleAData();
+  				if( data )
+ 					temp -> setRoleNameA( data -> getText() );
+
+ 				data = docData -> getRoleBData();
+ 				if( data )
+ 					temp -> setRoleNameB( data -> getText() );
+ 					*/
+
+ 				/*
+ 				data = docData -> getChangeDataA();
+ 				if( data )
+ 					temp -> setChangeWidgetA( data -> getText() );
+
+ 				data = docData -> getChangeDataB();
+ 				if( data )
+ 					temp -> setChangeWidgetB( data -> getText() );
+ 				*/
+
+ 				// CHECK
+ 				// m_Associations.append( temp );
+ 				addAssocInViewAndDoc( temp );
+  			}
+  		}//end if !at_Anchor
+  		++it;
 	}//end while docAssoc
 }
 
@@ -2344,7 +2393,8 @@ void UMLView::copyAsImage(QPixmap*& pix) {
 					qy = y1;
 				}
 			}//end if temp
-			temp = const_cast<FloatingText*>(assocwidget->getRoleWidget());
+
+			temp = const_cast<FloatingText*>(assocwidget->getRoleAWidget());
 			if(temp && temp -> isVisible()) {
 				x = (int)temp->x();
 				y = (int)temp->y();
@@ -2364,6 +2414,73 @@ void UMLView::copyAsImage(QPixmap*& pix) {
 					qy = y1;
 				}
 			}//end if temp
+
+			temp = const_cast<FloatingText*>(assocwidget->getRoleBWidget());
+			if(temp && temp -> isVisible()) {
+				x = (int)temp->x();
+				y = (int)temp->y();
+				x1 = x + temp->width() - 1;
+				y1 = y + temp->height() - 1;
+															                                       		if (px == -1 || x < px) {
+					px = x;
+				}
+				if (py == -1 || y < py) {
+					py = y;
+				}
+				if (qx == -1 || x1 > qx) {
+					qx = x1;
+				}
+				if (qy == -1 || y1 > qy) {
+					qy = y1;
+				}
+
+			}//end if temp
+
+                        temp = const_cast<FloatingText*>(assocwidget->getChangeWidgetA());
+                        if(temp && temp->isVisible()) {
+                                x = (int)temp->x();
+                                y = (int)temp->y();
+                                x1 = x + temp->width() - 1;
+                                y1 = y + temp->height() - 1;
+
+                                if (px == -1 || x < px) {
+                                        px = x;
+                                }
+                                if (py == -1 || y < py) {
+                                        py = y;
+                                }
+                                if (qx == -1 || x1 > qx) {
+                                        qx = x1;
+                                }
+                                if (qy == -1 || y1 > qy) {
+                                        qy = y1;
+                                }
+                        }//end if temp
+
+                        temp = const_cast<FloatingText*>(assocwidget->getChangeWidgetB());
+                        if(temp && temp->isVisible()) {
+                                x = (int)temp->x();
+                                y = (int)temp->y();
+                                x1 = x + temp->width() - 1;
+                                y1 = y + temp->height() - 1;
+
+                                if (px == -1 || x < px) {
+                                        px = x;
+                                }
+                                if (py == -1 || y < py) {
+                                        py = y;
+                                }
+                                if (qx == -1 || x1 > qx) {
+                                        qx = x1;
+                                }
+                                if (qy == -1 || y1 > qy) {
+                                        qy = y1;
+                                }
+                        }//end if temp
+
+
+
+
 		}//end if selected
 	}//end while
 

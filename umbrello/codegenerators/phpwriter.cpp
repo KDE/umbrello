@@ -117,7 +117,7 @@ void PhpWriter::writeClass(UMLConcept *c) {
 	for (a = generalizations.first(), i = generalizations.count();
 	        a && i;
 	        a = generalizations.next(), i--) {
-		UMLObject* obj = m_doc->findUMLObject(a->getRoleB());
+		UMLObject* obj = m_doc->findUMLObject(a->getRoleBId());
 		php<<cleanName(obj->getName());
 	}
 	php<<"\n{\n";
@@ -129,7 +129,7 @@ void PhpWriter::writeClass(UMLConcept *c) {
 			php<<"\n";
 			//maybe we should parse the string here and take multiplicity into account to decide
 			//which container to use.
-			UMLObject *o = m_doc->findUMLObject(a->getRoleA());
+			UMLObject *o = m_doc->findUMLObject(a->getRoleAId());
 			QString typeName = cleanName(o->getName());
 			if (a->getMultiA().isEmpty())
 				php << "  var $m_" << typeName << ";" << endl;
@@ -142,7 +142,7 @@ void PhpWriter::writeClass(UMLConcept *c) {
 		php<<"\n  /**Compositions: */\n";
 		for (a = compositions.first(); a ; a = compositions.next()) {
 			// see comment on Aggregation about multiplicity...
-			UMLObject *o = m_doc->findUMLObject(a->getRoleA());
+			UMLObject *o = m_doc->findUMLObject(a->getRoleAId());
 			QString typeName = cleanName(o->getName());
 			if(a->getMultiA().isEmpty())
 				php << "  var $m_" << typeName << ";" << endl;

@@ -62,7 +62,9 @@ void AssocPage::slotDoubleClick(QListBoxItem * i) {
 	AssocPropDlg dlg(this, a);
 	int result = dlg.exec();
 	if(result) {
-		a -> setRole(dlg.getRoleName());
+		a -> setName(dlg.getName());
+		a -> setRoleNameA(dlg.getRoleAName());
+		a -> setRoleNameB(dlg.getRoleBName());
 		a -> setMultiA(dlg.getMultiA());
 		a -> setMultiB(dlg.getMultiB());
 		fillListBox();

@@ -97,6 +97,7 @@ public:
 	    mt_FloatText,                     //FLOATTEXT
 	    mt_MultiA,                        //MULTIA
 	    mt_MultiB,                        //MULTIB
+	    mt_Name,                          //Association name
 	    mt_RoleName,                      //ROLENAME
 	    mt_Delete_Association,            //DELETEASSOC
 	    mt_Delete_Selection,              //DELETESELECTION
@@ -108,7 +109,9 @@ public:
 	    mt_Default_Properties,            //DEFAULTPROPERTIES
 	    mt_Rename_MultiA,
 	    mt_Rename_MultiB,
-	    mt_Rename_RoleName,
+	    mt_Rename_Name,
+	    mt_Rename_RoleAName,
+	    mt_Rename_RoleBName,
 	    mt_Change_Font,
 	    mt_Change_Font_Selection,
 	    mt_SnapToGrid,

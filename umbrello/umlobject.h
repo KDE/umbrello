@@ -200,7 +200,6 @@ public:
   /** Sets the value for m_bStatic. */
   void setStatic(const bool bStatic);
 
-
 protected:
 	/**
 	 *   The objects id.

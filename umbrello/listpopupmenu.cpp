@@ -277,25 +277,35 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object, bool multi) :
 					insertItem(SmallIcon( "editdelete"), i18n("Delete Association"), mt_Delete_Association);
 					insertItem(SmallIcon( "charset"), i18n("Change Multiplicity..."), mt_Rename);
 					insertItem(SmallIcon( "editfonts"),  i18n( "Change Font..." ), mt_Change_Font );
-					insertItem(SmallIcon( "info"), i18n("Properties"), mt_Properties);
-					break;
+  					insertItem(SmallIcon( "info"), i18n("Properties..."), mt_Properties);
+  					break;
 
-				case Uml::tr_RoleName:
-					insertItem(SmallIcon( "editcut"), i18n("Cut"), mt_Cut);
-					insertItem(SmallIcon( "editcopy"), i18n("Copy"), mt_Copy);
-					insertItem(SmallIcon( "editpaste"), i18n("Paste"), mt_Paste);
-					insertSeparator();
-					insertItem(SmallIcon( "editdelete"), i18n("Delete Association"), mt_Delete_Association);
+ 				case Uml::tr_Name:
+  					insertItem(SmallIcon( "editcut"), i18n("Cut"), mt_Cut);
+  					insertItem(SmallIcon( "editcopy"), i18n("Copy"), mt_Copy);
+  					insertItem(SmallIcon( "editpaste"), i18n("Paste"), mt_Paste);
+  					insertSeparator();
+  					insertItem(SmallIcon( "editdelete"), i18n("Delete Association"), mt_Delete_Association);
+ 					insertItem(SmallIcon( "charset"), i18n("Change name"), mt_Rename);
+  					insertItem(SmallIcon( "fonts"),  i18n( "Change Font" ), mt_Change_Font );
+  					insertItem(SmallIcon( "info"), i18n("Properties..."), mt_Properties);
+  					break;
+
+ 				case Uml::tr_RoleAName:
+ 				case Uml::tr_RoleBName:
+ 					insertItem(SmallIcon( "editcut"), i18n("Cut"), mt_Cut);
+ 					insertItem(SmallIcon( "editcopy"), i18n("Copy"), mt_Copy);
+ 					insertItem(SmallIcon( "editpaste"), i18n("Paste"), mt_Paste);
+ 					insertSeparator();
+ 					insertItem(SmallIcon( "editdelete"), i18n("Delete Association"), mt_Delete_Association);
+ 					insertItem(SmallIcon( "charset"), i18n("Change role name"), mt_Rename);
+ 					insertItem(SmallIcon( "fonts"),  i18n( "Change Font" ), mt_Change_Font );
+ 					insertItem(SmallIcon( "info"), i18n("Properties..."), mt_Properties);
 
 
-					insertItem(SmallIcon( "charset"), i18n("Change Role Name..."), mt_Rename);
-					insertItem(SmallIcon( "fonts"),  i18n( "Change Font..." ), mt_Change_Font );
-					insertItem(SmallIcon( "info"), i18n("Properties"), mt_Properties);
-					break;
-
-				case Uml::tr_Coll_Message_Self:
-				case Uml::tr_Coll_Message:
-				case Uml::tr_Seq_Message_Self:
+  				case Uml::tr_Coll_Message_Self:
+  				case Uml::tr_Coll_Message:
+  				case Uml::tr_Seq_Message_Self:
 				case Uml::tr_Seq_Message:
 //					insertItem(SmallIcon( "editcut"), i18n("Cut"), mt_Cut);
 //					insertItem(SmallIcon( "editcopy"), i18n("Copy"), mt_Copy);
@@ -775,15 +785,24 @@ void ListPopupMenu::setupMenu( Menu_Type type, UMLView * view) {
 			insertItem(SmallIcon( "editdelete"),i18n("Delete Association"), mt_Delete_Association);
 			insertItem(SmallIcon( "charset"),i18n("Change Multiplicity..."), mt_Rename_MultiA);
 			insertItem( SmallIcon( "fonts"),i18n( "Change Font..." ), mt_Change_Font );
-			insertItem(SmallIcon( "info"),i18n("Properties"), mt_Properties);
-			break;
+  			insertItem(SmallIcon( "info"),i18n("Properties..."), mt_Properties);
+  			break;
 
-		case mt_RoleName:
-			insertItem(SmallIcon( "editdelete"),i18n("Delete Association"), mt_Delete_Association);
-			insertItem(SmallIcon( "charset"), i18n("Change Role Name..."), mt_Rename_RoleName);
-			insertItem(SmallIcon( "fonts"), i18n( "Change Font..." ), mt_Change_Font );
-			insertItem(SmallIcon( "info"),i18n("Properties"), mt_Properties);
-			break;
+ 		case mt_Name:
+ 			insertItem(SmallIcon( "editdelete"),i18n("Delete Association"), mt_Delete_Association);
+ 			insertItem(SmallIcon( "charset"), i18n("Change Name"), mt_Rename_Name);
+ 			insertItem(SmallIcon( "fonts"), i18n( "Change Font" ), mt_Change_Font );
+ 			insertItem(SmallIcon( "info"),i18n("Properties..."), mt_Properties);
+ 			break;
+
+ 		case mt_RoleName:
+  			insertItem(SmallIcon( "editdelete"),i18n("Delete Association"), mt_Delete_Association);
+ 			insertItem(SmallIcon( "charset"), i18n("Change association name"), mt_Rename_Name);
+ 			insertItem(SmallIcon( "charset"), i18n("Change role A name"), mt_Rename_RoleAName);
+ 			insertItem(SmallIcon( "charset"), i18n("Change role B name"), mt_Rename_RoleBName);
+  			insertItem(SmallIcon( "fonts"), i18n( "Change Font" ), mt_Change_Font );
+  			insertItem(SmallIcon( "info"),i18n("Properties..."), mt_Properties);
+  			break;
 
 
 		case mt_Collaboration_Message:

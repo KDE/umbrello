@@ -13,14 +13,11 @@
 #include "floatingtextdata.h"
 
 FloatingTextData::FloatingTextData(): UMLWidgetData() {
-	m_Text = "";
-	m_SeqNum = "";
-	m_Operation = "";
-	m_Role = Uml::tr_Floating;
-	m_Type = Uml::wt_Text;
+	init();
 }
 
 FloatingTextData::~FloatingTextData() {
+	init();
 }
 
 FloatingTextData::FloatingTextData(FloatingTextData & Other) : UMLWidgetData(Other) {
@@ -30,11 +27,22 @@ FloatingTextData::FloatingTextData(FloatingTextData & Other) : UMLWidgetData(Oth
 FloatingTextData & FloatingTextData::operator=(FloatingTextData & Other) {
 	*((UMLWidgetData*)this) = (UMLWidgetData)Other;
 
+	init();
 	m_Text = Other.m_Text;
 	m_Operation = Other.m_Operation;
 	m_SeqNum = Other.m_SeqNum;
 	m_Role = Other.m_Role;
 	return *this;
+}
+
+void FloatingTextData::init( ) {
+	m_PreText = "";
+	m_Text = "";
+	m_PostText = "";
+	m_SeqNum = "";
+	m_Operation = "";
+	m_Role = Uml::tr_Floating;
+	m_Type = Uml::wt_Text;
 }
 
 bool FloatingTextData::operator==(FloatingTextData & Other) {
@@ -63,8 +71,32 @@ QString FloatingTextData::getText() {
 	return m_Text;
 }
 
+QString FloatingTextData::getPreText() {
+	return m_PreText;
+}
+
+QString FloatingTextData::getPostText() {
+	return m_PostText;
+}
+
+QString FloatingTextData::getDisplayText() 
+{
+	QString displayText = m_Text;
+	displayText.prepend(m_PreText);
+	displayText.append(m_PostText);
+	return displayText;
+}
+
 void FloatingTextData::setText( QString Text) {
 	m_Text = Text;
+}
+
+void FloatingTextData::setPreText( QString Text) {
+	m_PreText = Text;
+}
+
+void FloatingTextData::setPostText ( QString Text) {
+	m_PostText = Text;
 }
 
 long FloatingTextData::getClipSizeOf() {
@@ -173,6 +205,8 @@ bool FloatingTextData::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) 
 	QDomElement textElement = qDoc.createElement( "UML:FloatingTextWidget" );
 	bool status = UMLWidgetData::saveToXMI( qDoc, textElement );
 	textElement.setAttribute( "text", m_Text );
+	textElement.setAttribute( "pretext", m_PreText );
+	textElement.setAttribute( "posttext", m_PostText );
 	textElement.setAttribute( "operation", m_Operation );
 	textElement.setAttribute( "seqnum", m_SeqNum );
 	textElement.setAttribute( "role", m_Role );
@@ -184,6 +218,8 @@ bool FloatingTextData::loadFromXMI( QDomElement & qElement ) {
 	if( !UMLWidgetData::loadFromXMI( qElement ) )
 		return false;
 	m_Text = qElement.attribute( "text", "" );
+	m_PreText = qElement.attribute( "pretext", "" );
+	m_PostText = qElement.attribute( "posttext", "" );
 	m_Operation  = qElement.attribute( "operation", "" );
 	m_SeqNum = qElement.attribute( "seqnum", "" );
 	QString role = qElement.attribute( "role", "" );

@@ -24,35 +24,41 @@ UMLConcept::UMLConcept(QObject * parent) : UMLObject(parent) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLConcept::~UMLConcept() {
-	m_AssocsList.clear();
-	m_TmpAssocs.clear();
-	m_AttsList.clear();
-	m_OpsList.clear();
+ 	m_AssocsList.clear();
+ 	m_TmpAssocs.clear();
+  	m_AttsList.clear();
+  	m_OpsList.clear();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-const QPtrList<UMLAssociation>& UMLConcept::getSpecificAssocs(Uml::Association_Type assocType) {
-	m_TmpAssocs.clear();
-	for (UMLAssociation *a = m_AssocsList.first(); a; a = m_AssocsList.next())
-		if (a->getAssocType() == assocType)
-			m_TmpAssocs.append(a);
-	return m_TmpAssocs;
+QPtrList<UMLAssociation> UMLConcept::getSpecificAssocs(Uml::Association_Type assocType) {
+ 	QPtrList<UMLAssociation> list;
+ 	for (UMLAssociation *a = m_AssocsList.first(); a; a = m_AssocsList.next())
+ 		if (a->getAssocType() == assocType)
+ 			list.append(a);
+ 	return list;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool UMLConcept::addAssociation(UMLAssociation* assoc) {
-	m_AssocsList.append( assoc );
+ 	m_AssocsList.append( assoc );
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+bool UMLConcept::hasAssociation(UMLAssociation *a) {
+ 	if(m_AssocsList.containsRef(a) > 0)
+ 		return true;
+ 	return false;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 int UMLConcept::removeAssociation(UMLObject *a) {
-	if(!m_AssocsList.remove((UMLAssociation *)a)) {
-		kdDebug() << "can't find assoc given in list" << endl;
-		return -1;
-	}
-	return m_AssocsList.count();
+ 	if(!m_AssocsList.remove((UMLAssociation *)a)) {
+ 		kdDebug() << "can't find assoc given in list" << endl;
+ 		return -1;
+ 	}
+ 	return m_AssocsList.count();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLObject* UMLConcept::addAttribute(QString name, int id) {
-	UMLAttribute *a = new UMLAttribute(this, name, id);
-	m_AttsList.append(a);
+  	UMLAttribute *a = new UMLAttribute(this, name, id);
+  	m_AttsList.append(a);
 	return a;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -127,18 +133,19 @@ QString UMLConcept::uniqChildName(UMLObject_Type type) {
 	return name;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-QPtrList<UMLObject> UMLConcept::findChildObject(UMLObject_Type t , QString n) {
-	QPtrList<UMLObject> list;
-	if (t == ot_Association) {
-		UMLAssociation * obj=0;
-		for (obj = m_AssocsList.first(); obj != 0; obj = m_AssocsList.next()) {
-			if (obj->getBaseType() == t && obj -> getName() == n)
-				list.append( obj );
-		}
-	} else if (t == ot_Attribute) {
-		UMLAttribute * obj=0;
-		for(obj=m_AttsList.first();obj != 0;obj=m_AttsList.next()) {
-			if(obj->getBaseType() == t && obj -> getName() == n)
+  ////////////////////////////////////////////////////////////////////////////////////////////////////
+  QPtrList<UMLObject> UMLConcept::findChildObject(UMLObject_Type t , QString n) {
+  	QPtrList<UMLObject> list;
+ 	if (t == ot_Association) {
+ 		UMLAssociation * obj=0;
+ 		for (obj = m_AssocsList.first(); obj != 0; obj = m_AssocsList.next()) {
+ 			if (obj->getBaseType() == t && obj -> getName() == n)
+ 				list.append( obj );
+ 		}
+ 	} else if (t == ot_Attribute) {
+  		UMLAttribute * obj=0;
+  		for(obj=m_AttsList.first();obj != 0;obj=m_AttsList.next()) {
+  			if(obj->getBaseType() == t && obj -> getName() == n)
 				list.append( obj );
 		}
 	} else {

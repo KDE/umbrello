@@ -7,78 +7,99 @@
  *                                                                         *
  ***************************************************************************/
 
-
 #ifndef ASSOCPROPDLG_H
 #define ASSOCPROPDLG_H
 
-#include <qlineedit.h>
-#include <qgroupbox.h>
-#include <qmultilineedit.h>
-
+//kde class includes
 #include <kdialogbase.h>
-
+#include <kfontdialog.h>
 #include "../associationwidget.h"
 
+class AssocRolePage;
+class AssocGenPage;
+class UMLDoc;
+// class ObjectWidget;
+// class UMLObject;
+// class UMLWidget;
+
 /**
- * This dialog box will display the properties of an @ref Association.
- * Most fields are read-only and change depending on what type of
- * association it is displaying.
- *
- * @see ClassPropDlg
- * @see ConceptWidget
- *
- * @short	This dialog box will display the properties of an @ref Association.
- * @author Paul Hensgen	<phensgen@techie.com>
- * @version 1.0
+ * 	Based off of AssocPropDlg class
+ *	@author Brian Thomas <Brian.A.Thomas@gsfc.nasa.gov>
+ *	@version	1.0
  */
 class AssocPropDlg : public KDialogBase {
+	Q_OBJECT
 public:
-	/**
-	 *	Constructs an AssocPageDlg.
-	 *
-	 *	@param	parent	The parent of this class.
-	 *	@param	a	The @ref Association to show properties for.
-	 */
-	AssocPropDlg(QWidget * parent, AssociationWidget * a);
 
 	/**
-	 *	Standard deconstructor.
+	 *	Sets up a Association Properties Dialog.
+	 *	@param	parent	The parent of the AssocPropDlg
+	 *	@param	a	The Association Widget to display properties of.
+	 *	@param	pageNum	The page to show first.
+	 */
+
+	AssocPropDlg(QWidget *parent, AssociationWidget *a, int pageNum = 0);
+
+	/**
+	 *	Standard deconstructor
 	 */
 	~AssocPropDlg();
 
-	/**
-	 *	Return the text representing the role name.
-	 *
-	 *	@return	Return the text representing the role name.
-	 */
-	QString getRoleName() {
-		return m_pRoleNameLE -> text();
+	/* accessor methods to underlying association */
+	QString getName() { 
+		return m_pAssoc->getName(); 
+	} 
+
+	QString getRoleAName() { 
+		return m_pAssoc->getRoleNameA(); 
 	}
 
-	/**
-	 *	Return the text that represents the multiplicity for Widget A.
-	 *
-	 *	@return	Return the text that represents the multiplicity for Widget A
-	 */
-	QString getMultiA() {
-		return m_pMultiALE -> text();
+	QString getRoleBName() { 
+		return m_pAssoc->getRoleNameB(); 
+	} 
+
+	QString getMultiA() { 
+		return m_pAssoc->getMultiA(); 
+	} 
+
+	QString getMultiB() { 
+		return m_pAssoc->getMultiB(); 
+	} 
+
+	Scope getVisibilityA() { 
+		return m_pAssoc->getVisibilityA(); 
 	}
 
-	/**
-	 *	Return the text that represents the multiplicity for Widget B.
-	 *
-	 *	@return	Return the text that represents the multiplicity for Widget A
-	 */
-	QString getMultiB() {
-		return m_pMultiBLE -> text();
+	Scope getVisibilityB() { 
+		return m_pAssoc->getVisibilityB(); 
 	}
-public slots:
+
+	Changeability_Type getChangeabilityA() { 
+		return m_pAssoc->getChangeabilityA(); 
+	}
+
+	Changeability_Type getChangeabilityB() { 
+		return m_pAssoc->getChangeabilityB(); 
+	}
+
+	enum Page { page_gen = 0, page_role, page_font };
+
+protected:
 	void slotOk();
+	void slotApply();
+	void setupPages(AssociationWidget * assocWidget);
+	void setupFontPage();
+	void init();
 private:
-	QLineEdit * m_pNameALE, * m_pNameBLE, * m_pMultiALE, * m_pMultiBLE, *m_pRoleNameLE, * m_pTypeLE;
-	QGroupBox * m_pAssocGB, * m_pDocGB;
-	QMultiLineEdit * m_pDocMLE;
-	AssociationWidget * assocWidget;
+
+	AssocGenPage *m_pGenPage;
+	AssocRolePage *m_pRolePage;
+	KFontChooser * m_pChooser;
+	AssociationWidget *m_pAssoc;
+
+	UMLDoc *m_pDoc; // is this needed?? 
+
 };
 
-#endif
+#endif /* ASSOCPROPDLG_H */ 
+

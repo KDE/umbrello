@@ -56,10 +56,36 @@ public:
 	*/
 	virtual void setText( QString _newVal);
 
+
 	/**
-	* Read property of QString m_Text.
-	*/
+	 * Write property of QString m_PreText
+	 */
+	virtual void setPreText( QString _newVal);
+
+	/**
+	 * Write property of QString m_PostText
+	 */
+	virtual void setPostText( QString _newVal);
+
+	/**
+	 * Read property of QString m_Text.
+	 */
 	virtual QString getText();
+
+	/**
+	* Read property of QString m_PreText.
+	*/
+	virtual QString getPreText();
+
+	/**
+	 * Read property of QString m_PostText.
+	 */
+	virtual QString getPostText();
+
+	/**
+	 * Get the text that should be displayed
+	 */
+	virtual QString getDisplayText();
 
 	/**
 	*	Save load the classes information
@@ -130,10 +156,18 @@ public:
 	bool loadFromXMI( QDomElement & qElement );
 
 protected:
-	/**
-	 * 		Text that the widget will display.
+
+	/** 
+	 * initialize some string attributes 
 	 */
-	QString m_Text;
+	void init ();
+
+	/**
+	 *  These Strings describe the text that the widget will display.
+	 */
+	QString m_PreText; // prepended text (such as for scope of association Role or method)
+	QString m_Text; // main body 
+	QString m_PostText; // ending text (such as bracket on changability notation for association Role )
 
 	/**
 	 * 		The sequence number of an operation or message.

@@ -166,71 +166,81 @@ public:
 	 */
 	void createUMLObject(UMLObject_Type type);
 
-	/**
-	 *  Creates either an operation or attribute for the parent concept.
-	 *
-	 *	@param	o	The parent concept
-	 *	@param	type	The type to create, either an operation or attribute.
-	 *	@return		The UMLObject created
-	 */
-	UMLObject* createUMLObject(UMLObject* o, UMLObject_Type type);
-
-	/**
-	 *  Creates an attribute for the parent concept.
-	 *
-	 *	@param	o	The parent concept
-	 *	@return		The UMLAttribute created
-	 */
-	UMLObject* createAttribute(UMLObject* o);
-
-	/**
-	 *  Creates an operation for the parent concept.
-	 *
-	 *	@param	o	The parent concept
-	 *	@return		The UMLOperation created
-	 */
-	UMLObject* createOperation(UMLObject* o);
-
-	/**
-	 *  Adds an existing association to the matching concept in the list of concepts.
-	 *  The selection of the matching concept depends on the association type:
-	 *  For generalizations, the assoc is added to the concept that matches role A.
-	 *  For aggregations and compositions , the assoc is added to the concept
-	 *  that matches role B.
-	 *
-	 *	@param	assoc	The assocation to add
-	 */
-	void addAssocToConcepts(UMLAssociation* assoc);
-
-	/**
-	 *  Creates an association.
-	 *
-	 *	@param	name		The name of the association
-	 *	@param	assocType	The type of the association
-	 *	@param	AId		The ID of the role A concept
-	 *	@param	BID		The ID of the role B concept
-	 *	@param	multiA		The multiplicity at role A (optional)
-	 *	@param	multiB		The multiplicity at role B (optional)
-	 *	@param	nameA		The name given to role A (optional)
-	 *	@param	nameB		The name given to role B (optional)
-	 */
-        void addAssociation(QString name, Association_Type assocType,
-			int AId, int BId,
-			QString multiA = "", QString multiB = "",
-			QString nameA = "", QString nameB = "");
-
-	/**
-	 *  Removes an association.
-	 *
-	 *	@param	assocType	The type of the association
-	 *	@param	AId		The ID of the role A concept
-	 *	@param	BID		The ID of the role B concept
-	 */
-	void removeAssociation(Association_Type assocType, int AId, int BId);
-
-	/**
-	 *	Creates a diagram of the given type.
-	 *
+  	/**
+  	 *  Creates either an operation or attribute for the parent concept.
+  	 *
+ 	 *	@param	o	The parent concept
+  	 *	@param	type	The type to create, either an operation or attribute.
+ 	 *	@return		The UMLObject created
+  	 */
+  	UMLObject* createUMLObject(UMLObject* o, UMLObject_Type type);
+  
+  	/**
+ 	 *  Creates an attribute for the parent concept.
+  	 *
+ 	 *	@param	o	The parent concept
+ 	 *	@return		The UMLAttribute created
+  	 */
+  	UMLObject* createAttribute(UMLObject* o);
+  
+  	/**
+ 	 *  Creates an operation for the parent concept.
+  	 *
+ 	 *	@param	o	The parent concept
+ 	 *	@return		The UMLOperation created
+  	 */
+  	UMLObject* createOperation(UMLObject* o);
+  
+  	/**
+ 	 *  Adds an existing association to the matching concept in the list of concepts.
+ 	 *  The selection of the matching concept depends on the association type:
+ 	 *  For generalizations, the assoc is added to the concept that matches role A.
+ 	 *  For aggregations and compositions , the assoc is added to the concept
+ 	 *  that matches role B.
+ 	 *
+ 	 *	@param	assoc	The assocation to add
+ 	 */
+ 	void addAssocToConcepts(UMLAssociation* assoc);
+ 
+ 	/**
+ 	 *  Creates an association.
+ 	 *
+ 	 *	@param	name		The name of the association
+ 	 *	@param	assocType	The type of the association
+ 	 *	@param	AId		The ID of the role A concept
+ 	 *	@param	BID		The ID of the role B concept
+ 	 *	@param	nameA		The name given to role A (optional)
+ 	 *	@param	nameB		The name given to role B (optional)
+ 	 *	@param	multiA		The multiplicity at role A (optional)
+ 	 *	@param	multiB		The multiplicity at role B (optional)
+ 	 *	@param	visibilityA	The visibility of role A (optional)
+ 	 *	@param	visibilityB	The visibility of role B (optional)
+ 	 */
+ 	/* 
+         void addAssociation(QString name, Association_Type assocType,
+ 			int AId, int BId,
+ 			QString nameA = "", QString nameB = "",
+ 			QString multiA = "", QString multiB = "",
+ 			Scope visibilityA = Public, Scope visibilityB = Public, 
+ 			Changeability_Type changeA = chg_Changeable, 
+ 			Changeability_Type changeb = chg_Changeable 
+ 			);
+ 			*/
+ 	/**
+ 	 *  Adds an association.
+ 	 */
+         void addAssociation(UMLAssociation *pAssoc);
+ 
+ 	/**
+ 	 *  Removes an association.
+ 	 *	@param	assoc	Pointer to the association
+ 	 */
+ 	void removeAssociation(UMLAssociation *pAssoc);
+ 
+ 	/**
+  	 *	Creates a diagram of the given type.
+  	 *
+  	 *	@param	type	The type of diagram to create.
 	 *	@param	type	The type of diagram to create.
 	 *      @param  askForName  If true shows a dialog box asking for name, else uses a default name.
 	 */
@@ -648,6 +658,13 @@ public:
 	 */
 	UMLApp* getUMLApp();
 private:
+
+	/**
+	 * remove this association from concepts list. This might be 
+	 * a public method if removeAssociation is removed.
+	 */
+	void removeAssocFromConcepts(UMLAssociation *assoc);
+
 	/**
 	 * Returns a name for the new object, appended with a number
 	 * if the default name is taken e.g. new actor, new actor_1

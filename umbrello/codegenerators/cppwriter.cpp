@@ -141,7 +141,7 @@ void CppWriter::writeClass(UMLConcept *c) {
 	for (a = generalizations.first(), i = generalizations.count();
 	        a && i;
 	        a = generalizations.next(), i--) {
-		UMLObject* obj = m_doc->findUMLObject(a->getRoleB());
+		UMLObject* obj = m_doc->findUMLObject(a->getRoleBId());
 		h<<"public "<<cleanName(obj->getName())<<(i>1?", ":"");
 	}
 	h<<"\n{\n";
@@ -157,7 +157,7 @@ void CppWriter::writeClass(UMLConcept *c) {
 			h<<"private:\n";
 			//maybe we should parse the string here and take multiplicty into account to decide
 			//which container to use.
-			UMLObject *o = m_doc->findUMLObject(a->getRoleA());
+			UMLObject *o = m_doc->findUMLObject(a->getRoleAId());
 			QString typeName = cleanName(o->getName());
 			if (a->getMultiA().isEmpty())
 				h << typeName << " *m_" << typeName << ";\n";
@@ -171,7 +171,7 @@ void CppWriter::writeClass(UMLConcept *c) {
 		h<<"\n/**Compositions: */\n";
 		for (a = compositions.first(); a; a = compositions.next()) {
 			// see comment on Aggregation about multiplicity...
-			UMLObject *o = m_doc->findUMLObject(a->getRoleA());
+			UMLObject *o = m_doc->findUMLObject(a->getRoleAId());
 			QString typeName = cleanName(o->getName());
 			if(a->getMultiA().isEmpty())
 				h << typeName << " m_" << typeName << ";\n";

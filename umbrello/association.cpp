@@ -8,8 +8,6 @@
  ***************************************************************************/
 
 
-#include <kdebug.h>
-
 #include "association.h"
 #include "concept.h"
 #include "umldoc.h"
@@ -33,6 +31,7 @@ const QString UMLAssociation::assocTypeStr[UMLAssociation::nAssocTypes] = {
 	"activity", 		// at_Activity
 };
 
+// needed??
 Uml::Association_Type UMLAssociation::toAssocType (QString atype) {
 	for (unsigned i = 0; i < nAssocTypes; i++)
 		if (atype == assocTypeStr[i])
@@ -53,15 +52,15 @@ bool UMLAssociation::serialize(QDataStream *s, bool archive, int fileversion) {
 		return status;
 	if(archive) {
 		*s << Q_INT32(m_AssocType)
-		   << m_RoleA << m_RoleB
+		   << m_RoleAId << m_RoleBId
 		   << m_MultiA << m_MultiB
-		   << m_NameA << m_NameB;
+		   << m_RoleNameA << m_RoleNameB;
 	} else {
 		// QString atype;
 		*s >> Q_INT32(m_AssocType)
-		   >> m_RoleA >> m_RoleB
+		   >> m_RoleAId >> m_RoleBId 
 		   >> m_MultiA >> m_MultiB
-		   >> m_NameA >> m_NameB;
+		   >> m_RoleNameA >> m_RoleNameB;
 		// m_AssocType = toAssocType(atype);
 	}
 	return status;
@@ -100,15 +99,15 @@ long UMLAssociation::getClipSizeOf() {
 	else
 		l_size += (m_MultiB.length()*sizeof(QChar));
 
-	if ( !m_NameA.length() )
+	if ( !m_RoleNameA.length() )
 		l_size += sizeof(tmp);
 	else
-		l_size += (m_NameA.length()*sizeof(QChar));
+		l_size += (m_RoleNameA.length()*sizeof(QChar));
 
-	if ( !m_NameB.length() )
+	if ( !m_RoleNameB.length() )
 		l_size += sizeof(tmp);
 	else
-		l_size += (m_NameB.length()*sizeof(QChar));
+		l_size += (m_RoleNameB.length()*sizeof(QChar));
 
 	return l_size;
 }
@@ -116,34 +115,59 @@ long UMLAssociation::getClipSizeOf() {
 bool UMLAssociation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement associationElement = qDoc.createElement( "UML:Association" );
 	bool status = UMLObject::saveToXMI( qDoc, associationElement );
-	associationElement.setAttribute( "assoctype", toString(m_AssocType) );
-	associationElement.setAttribute( "rolea", m_RoleA );
-	associationElement.setAttribute( "roleb", m_RoleB );
-	associationElement.setAttribute( "multia", m_MultiA );
-	associationElement.setAttribute( "multib", m_MultiB );
-	associationElement.setAttribute( "namea", m_NameA );
-	associationElement.setAttribute( "nameb", m_NameB );
+
+	associationElement.setAttribute( "name", getName() );
+	// associationElement.setAttribute( "assoctype", toString( getAssocType() ) );
+	associationElement.setAttribute( "assoctype", getAssocType() );
+	associationElement.setAttribute( "rolea", getRoleAId() );
+	associationElement.setAttribute( "roleb", getRoleBId() );
+	associationElement.setAttribute( "multia", getMultiA() );
+	associationElement.setAttribute( "multib", getMultiB() );
+	associationElement.setAttribute( "namea", getRoleNameA() );
+	associationElement.setAttribute( "nameb", getRoleNameB() );
+	associationElement.setAttribute( "visibilitya", getVisibilityA() );
+	associationElement.setAttribute( "visibilityb", getVisibilityB() );
+	associationElement.setAttribute( "changeabilitya", getChangeabilityA() );
+	associationElement.setAttribute( "changeabilityb", getChangeabilityB() );
 	qElement.appendChild( associationElement );
 	return status;
 }
 
 bool UMLAssociation::loadFromXMI( QDomElement & element ) {
+
 	if( !UMLObject::loadFromXMI( element ) )
 		return false;
-        QString atype = element.attribute( "assoctype", "" );
-	m_AssocType = toAssocType(atype);
-	QString AId_str = element.attribute( "rolea", "-1" );
-	QString BId_str = element.attribute( "roleb", "-1" );
-	m_RoleA = AId_str.toInt();
-	m_RoleB = BId_str.toInt();
-	m_MultiA = element.attribute( "multia", "" );
-	m_MultiB = element.attribute( "multib", "" );
-	m_NameA = element.attribute( "namea", "" );
-	m_NameB = element.attribute( "nameb", "" );
+
+	setName(element.attribute( "name", "" ));
+
+	setAssocType( toAssocType( element.attribute( "assoctype", "" )));
+
+	setRoleAId(element.attribute( "rolea", "-1" ).toInt());
+	setRoleBId(element.attribute( "roleb", "-1" ).toInt());
+
+	setMultiA(element.attribute( "multia", "" ));
+	setMultiB(element.attribute( "multib", "" ));
+
+	setRoleNameA(element.attribute( "namea", "" ));
+	setRoleNameB(element.attribute( "nameb", "" ));
+
+        // visibilty defaults to Public if it cant set it here..
+        QString visibilityA = element.attribute( "visibilitya", "0");
+        QString visibilityB = element.attribute( "visibilityb", "0");
+        if (visibilityA.toInt() > 0)
+                setVisibilityA( (Scope) visibilityA.toInt());
+        if (visibilityB.toInt() > 0) 
+                setVisibilityB( (Scope) visibilityB.toInt());
+
+        // Changeability defaults to "Changeable" if it cant set it here..
+        QString changeabilityA = element.attribute( "changeabilitya", "0");
+        QString changeabilityB = element.attribute( "changeabilityb", "0");
+        if (changeabilityA.toInt() > 0)
+                setChangeabilityA ( (Changeability_Type) changeabilityA.toInt());
+        if (changeabilityB.toInt() > 0) 
+                setChangeabilityB ( (Changeability_Type) changeabilityB.toInt());
 
 	((UMLDoc*)parent())->addAssocToConcepts(this);
 	return true;
 }
-
-
 

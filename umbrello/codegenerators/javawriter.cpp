@@ -111,7 +111,7 @@ void JavaWriter::writeClass(UMLConcept *c) {
 	for (a = generalizations.first(), i = generalizations.count();
 	        a && i;
 	        a = generalizations.next(), i--) {
-		UMLObject* obj = m_doc->findUMLObject(a->getRoleB());
+		UMLObject* obj = m_doc->findUMLObject(a->getRoleBId());
 		java<<cleanName(obj->getName())<<(i>1?", ":"");
 	}
 
@@ -126,7 +126,7 @@ void JavaWriter::writeClass(UMLConcept *c) {
 	if( forceSections() || !aggregations.isEmpty() ) {
 		java<<"\n/**Aggregations: */\n";
 		for (a = aggregations.first(); a; a = aggregations.next()) {
-			UMLObject *o = m_doc->findUMLObject(a->getRoleA());
+			UMLObject *o = m_doc->findUMLObject(a->getRoleAId());
 			QString typeName = cleanName(o->getName());
 			if(a->getMultiA().isEmpty())
 				java << "private " << typeName << " m_" << typeName << ";\n";
@@ -139,7 +139,7 @@ void JavaWriter::writeClass(UMLConcept *c) {
 	if( forceSections() || !compositions.isEmpty()) {
 		java<<"\n/**Compositions: */\n";
 		for (a = compositions.first(); a; a = compositions.next()) {
-			UMLObject *o = m_doc->findUMLObject(a->getRoleA());
+			UMLObject *o = m_doc->findUMLObject(a->getRoleAId());
 			QString typeName = cleanName(o->getName());
 			if(a->getMultiA().isEmpty())
 				java << "private " << typeName << " m_" << typeName << ";\n";

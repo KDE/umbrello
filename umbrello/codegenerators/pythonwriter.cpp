@@ -122,7 +122,7 @@ void PythonWriter::writeClass(UMLConcept *c) {
 	for (a = generalizations.first(), i = generalizations.count();
 	     a && i; a = generalizations.next(), i--) {
 
-		UMLObject* obj = m_doc->findUMLObject(a->getRoleB());
+		UMLObject* obj = m_doc->findUMLObject(a->getRoleBId());
 		h<<cleanName(obj->getName())<<(i>1?", ":"");
 	}
 

@@ -57,30 +57,36 @@ public:
 	/**
 	 * 		Overloaded '==' operator
 	 */
-	bool operator==( UMLConcept & rhs );
-
-	/**
-	 *	Adds an association.
-	 *	Which role is "this" side (i.e. identifies the current concept)
-	 *	depends on the association type:
-	 *	For generalizations, role A is "this" side.
-	 *	For aggregations and compositions, role B is "this" side.
-	 *
-	 *	@param	assoc	The association to add.
-	 */
-	bool addAssociation(UMLAssociation* assoc);
-
-	/**
-	 *	Remove an association from the Concept.
-	 *
-	 *	@param	o	The association to remove.
-	 */
-	int removeAssociation(UMLObject *o);
-
-	/**
-	 *	Adds an attribute to the Concept.
-	 *
-	 *	@param	name	The name of the Attribute.
+  	bool operator==( UMLConcept & rhs );
+  
+  	/**
+ 	 *	Adds an association.
+ 	 *	Which role is "this" side (i.e. identifies the current concept)
+ 	 *	depends on the association type:
+ 	 *	For generalizations, role A is "this" side.
+ 	 *	For aggregations and compositions, role B is "this" side.
+ 	 *
+ 	 *	@param	assoc	The association to add.
+ 	 */
+ 	bool addAssociation(UMLAssociation* assoc);
+ 
+ 	/**
+ 	 *	Determine if this concept has this association.
+ 	 *	@param	assoc	The association to check.
+ 	 */
+ 	bool hasAssociation(UMLAssociation* assoc);
+ 
+ 	/**
+ 	 *	Remove an association from the Concept.
+ 	 *
+ 	 *	@param	o	The association to remove.
+ 	 */
+ 	int removeAssociation(UMLObject *o);
+ 
+ 	/**
+  	 *	Adds an attribute to the Concept.
+  	 *
+  	 *	@param	name	The name of the Attribute.
 	 *	@param	id			The id of the Attribute.
 	 */
 	UMLObject* addAttribute(QString name, int id);
@@ -155,7 +161,7 @@ public:
 		return m_OpsList.count();
 	}
 
-	/**
+ 	/**
 	 *	Return the list of associations for the Concept.
 	 *
 	 *	@return The list of associations for the Concept.
@@ -169,14 +175,14 @@ public:
 	 *
 	 *	@return The list of associations that match `assocType'.
 	 */
-	const QPtrList<UMLAssociation>& getSpecificAssocs(Uml::Association_Type assocType);
+	QPtrList<UMLAssociation> getSpecificAssocs(Uml::Association_Type assocType);
 
 	/**
 	 *	Shorthand for getSpecificAssocs(Uml::at_Generalization)
 	 *
 	 *	@return The list of generalizations for the Concept.
 	 */
-	const QPtrList<UMLAssociation>& getGeneralizations() {
+	QPtrList<UMLAssociation> getGeneralizations() {
 		return getSpecificAssocs(Uml::at_Generalization);
 	}
 
@@ -185,7 +191,7 @@ public:
 	 *
 	 *	@return The list of aggregations for the Concept.
 	 */
-	const QPtrList<UMLAssociation>& getAggregations() {
+	QPtrList<UMLAssociation> getAggregations() {
 		return getSpecificAssocs(Uml::at_Aggregation);
 	}
 
@@ -194,7 +200,7 @@ public:
 	 *
 	 *	@return The list of compositions for the Concept.
 	 */
-	const QPtrList<UMLAssociation>& getCompositions() {
+	QPtrList<UMLAssociation> getCompositions() {
 		return getSpecificAssocs(Uml::at_Composition);
 	}
 

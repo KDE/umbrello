@@ -96,14 +96,72 @@ public:
 	virtual FloatingTextData* getMultiDataB();
 
 	/**
+	 * Read the FloatingTextData * which represents the changeability 
+	 * of role A in this association
+	 */
+	virtual FloatingTextData* getChangeDataA();
+
+	/**
+	 * Read the FloatingTextData * which represents the changeability 
+	 * of role B in this association
+	 */
+	virtual FloatingTextData* getChangeDataB();
+
+	/**
+	 * Write property of FloatingTextData* m_pChangeDataA
+	 */ 
+	virtual void setChangeDataA (FloatingTextData *pData);
+
+	/**
+	 * Write property of FloatingTextData* m_pChangeDataB
+	 */
+	virtual void setChangeDataB (FloatingTextData *pData);
+
+	/**
 	* Write property of FloatingTextData* m_pRoleData.
 	*/
-	virtual void setRoleData( FloatingTextData* pData);
+	virtual void setNameData( FloatingTextData* pData);
 
 	/**
 	* Read property of FloatingTextData* m_pRoleData.
 	*/
-	virtual FloatingTextData* getRoleData();
+	virtual FloatingTextData* getNameData();
+
+	/**
+	* Write property of FloatingTextData* m_pRoleData.
+	*/
+	virtual void setRoleAData( FloatingTextData* pData);
+	virtual void setRoleBData( FloatingTextData* pData);
+
+	/**
+	* Read property of FloatingTextData* m_pRoleData.
+	*/
+	virtual FloatingTextData* getRoleAData();
+	virtual FloatingTextData* getRoleBData();
+
+	/**
+	 * Write property of m_Visibitity[AB]
+	 */
+	virtual void setVisibilityA ( Scope scope);
+	virtual void setVisibilityB ( Scope scope);
+
+	/**
+	 * Read property of m_Visibitity[AB]
+	 */
+	virtual Scope getVisibilityA();
+	virtual Scope getVisibilityB();
+	
+	/**
+	 * Write property of m_Changeability[AB]
+	 */
+	virtual void setChangeabilityA ( Changeability_Type value);
+	virtual void setChangeabilityB ( Changeability_Type value);
+		  
+	/**
+	 * Read property of m_Changeability[AB]
+	 */
+	virtual Changeability_Type getChangeabilityA();
+	virtual Changeability_Type getChangeabilityB();
 
 	/**
 	* Write property of AssociationType AssocType.
@@ -219,6 +277,11 @@ public:
 protected:
 
 	/**
+	* The Data from the Name Text widget 
+	*/
+	FloatingTextData* m_pNameData;
+
+	/**
 	* The Data from the Multiplicity Text widget at the starting side of the association
 	*/
 	FloatingTextData* m_pMultiDataA;
@@ -229,9 +292,24 @@ protected:
 	FloatingTextData* m_pMultiDataB;
 
 	/**
-	* The Data from the Association's Role FloatingText widget
+	* The Data from the Association's RoleA FloatingText widget
 	*/
-	FloatingTextData* m_pRoleData;
+	FloatingTextData* m_pRoleAData;
+
+	/**
+	 * The Data from the Association's RoleB FloatingText widget
+	 */
+	FloatingTextData* m_pRoleBData;
+
+	/**
+	 * The widget which displays Changeability for role A
+	 */
+	FloatingTextData* m_pChangeDataA;
+
+	/**
+	 * The widget which displays Changeability for role B
+	 */
+	FloatingTextData* m_pChangeDataB;
 
 	/**
 	* This is the type of the association
@@ -242,6 +320,26 @@ protected:
 	* The definition points for the association line
 	*/
 	LinePath m_LinePath;
+
+	/**
+	 * the definition of Rolename A visibility
+	 */
+	Scope m_VisibilityA;
+
+	/**
+	 * the definition of Rolename B visibility
+	 */
+	Scope m_VisibilityB;
+
+	/**
+	 * the definition of Rolename A changeability
+	 */
+	Changeability_Type m_ChangeabilityA;
+
+	/**
+	 * the definition of Rolename B changeability
+	 */
+	Changeability_Type m_ChangeabilityB;
 
 	/**
 	* This member holds the identification number the the UMLWidget at the starting side
@@ -279,6 +377,7 @@ protected:
 	* 	The documentation for the association.
 	*/
 	QString	m_Doc;
+
 };
 
 #endif

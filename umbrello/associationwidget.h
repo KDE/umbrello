@@ -11,7 +11,9 @@
 #define ASSOCIATIONWIDGET_H
 
 #include "associationwidgetdata.h"
+#include "association.h"
 #include "umlnamespace.h"
+#include "umlwidget.h"
 
 class FloatingText;
 class IDChangeLog;
@@ -81,6 +83,30 @@ public:
 	*/
 	bool activate();
 
+  	/**
+ 	 * Write property of m_pWidgetA
+ 	 */
+ 	void setWidgetA( UMLWidget* WidgetA) {
+ 		if (!WidgetA)
+ 			m_pWidgetA = 0;
+ 		else {
+ 			m_pWidgetA = WidgetA;
+ 			m_pWidgetA->addAssoc(this);
+ 		}
+ 	}
+ 
+ 	/**
+ 	 * Write property of m_pWidgetB
+ 	 */ 
+ 	void setWidgetB( UMLWidget* WidgetB) {
+ 		if (!WidgetB)
+ 			m_pWidgetB = 0;
+ 		else {
+ 			m_pWidgetB = WidgetB;
+ 			m_pWidgetB->addAssoc(this);
+ 		}
+ 	}
+ 
 	/**
 	* Read property of FloatingText* m_pMultiA.
 	*/
@@ -107,19 +133,44 @@ public:
 	virtual  QString getMultiB();
 
 	/**
-	*  Write property of CFloatingText* m_pRole.
-	*/
-	virtual bool setRole( FloatingText* pRole);
+	 * Write property of CFloatingText* m_pName
+	 */
+	virtual void setName ( FloatingText* pName);
 
 	/**
-	* Read property of CFloatingText* m_pRole.
-	*/
-	virtual  FloatingText* getRoleWidget();
+	 * Read property of CFloatingText* m_pRoleA.
+	 */
+	virtual  FloatingText* getNameWidget();
 
 	/**
-	* Returns the m_pRole's text.
+	 * Returns the m_pName's text.
+	 */
+	virtual QString getName();
+
+	/**
+	* Read property of CFloatingText* m_pRoleA.
 	*/
-	virtual  QString getRole();
+	virtual  FloatingText* getRoleAWidget();
+
+	/**
+	* Read property of CFloatingText* m_pRoleB.
+	*/
+	virtual  FloatingText* getRoleBWidget();
+
+	/**
+	* Returns the m_pRoleA's text.
+	*/
+	virtual  QString getRoleNameA();
+
+	/**
+	* Returns the m_pRoleB's text.
+	*/
+	virtual  QString getRoleNameB();
+
+	/**
+	 * Sets the text to the FloatingText representing the Name of this association
+	 */
+	void setName (QString strRole);
 
 	/**
 	* Sets the text to the FloatingText representing the Multiplicity at the ending side
@@ -135,11 +186,45 @@ public:
 	bool setMultiA(QString strMultiA);
 
 	/**
-	 * Sets the text to the FloatingText that display the Role text of this association
-	 * For this funtion to work properly, the associated widgets (m_pWidgetA and m_pWidgetB)
-	 * should be already set
+	 * Gets the visibility on the rolename A end of the Association
 	 */
-	bool setRole(QString strRole);
+	virtual Scope getVisibilityA ();
+
+	/*
+	 * Gets the visibility on the rolename B end of the Association
+	 */
+	virtual Scope getVisibilityB ();
+
+	/**
+	 * Sets the visibility on the rolename 'A' end of the Association
+	 */
+	virtual void setVisibilityA ( Scope visibility );
+
+	/*
+	 * Sets the visibility on the rolename 'B' end of the Association
+	 */
+	virtual void setVisibilityB (Scope visibility);
+
+
+	/**
+	 * Gets the changeability on the rolename A end of the Association
+	 */
+	virtual Changeability_Type getChangeabilityA();
+
+	/**
+	 * Gets the changeability on the rolename B end of the Association
+	 */
+	virtual Changeability_Type getChangeabilityB();
+
+	/**
+	 * Sets the changeability on the rolename 'B' end of the Association
+	 */
+	virtual void setChangeabilityA (Changeability_Type value);
+
+	/**
+	 * Sets the changeability on the rolename 'B' end of the Association
+	 */
+	virtual void setChangeabilityB (Changeability_Type value);
 
 	/**
 	 * Read property of UMLWidget* m_pWidgetA.
@@ -239,20 +324,25 @@ public:
 	AssociationWidgetData* getData();
 
 	/**
+	 * Set the widget data instance. 
+	 */
+	void setData( AssociationWidgetData* pData);
+
+	/**
 	 * Adjusts the endding point of the association that connects to Widget
 	 */
 	void widgetMoved(UMLWidget* Widget, int x, int y);
 
 	/**
-	 * calculates the m_unRoleLineSegment value according to the new RoleText topleft
+	 * calculates the m_unNameLineSegment value according to the new NameText topleft
 	 *  corner PT.
 	 * It iterates through all LinePath's segments for each one it calculates the sum of
 	 * PT's distance to the start point + PT's distance to the end point. The segment with
 	 * the smallest sum will be the RoleTextSegment (if this segment moves then the
-	 * RoleText will move with it). It sets m_unRoleLineSegment to the start point of the
+	 * RoleText will move with it). It sets m_unNameLineSegment to the start point of the
 	 * chosen segment
 	 */
-	void calculateRoleTextSegment();
+	void calculateNameTextSegment();
 
 	/**
 	 * Overrides standard event method
@@ -316,7 +406,55 @@ public:
 	QRect getAssocLineRectangle();
 
 
+	/** 
+	 * Return the first font found being  used 
+	 * by any child widget (they could be different fonts,
+	 * so this is slightly mis-leading method)
+         */
+	QFont getFont ();
+
+	/** 
+	 * set all 'owned' child widgets to this font
+	 */
+	void setFont (QFont font);
+
+
+	/**
+	 * Read property of FloatingText * m_pChangeWidgetA.
+	 */
+	virtual  FloatingText* getChangeWidgetA();
+
+	/**
+	 * Read property of FloatingText * m_pChangeWidgetB.
+	 */
+	virtual  FloatingText* getChangeWidgetB();
+
+
+	/**
+	 * Sets the text to the FloatingText that display the Role text of this association
+	 * For this funtion to work properly, the associated widgets (m_pWidgetA and m_pWidgetB)
+	 * should be already set
+	 */
+	bool setRoleNameA(QString strRole); 
+	bool setRoleNameB(QString strRole);
+
+	/**
+	 * Returns the UMLAssociaiton representation of this object.
+	 */
+	UMLAssociation * getAssociation () { 
+		return m_pAssociation;
+	}
+
 private:
+
+	/**
+	 * Merges/syncs the association widget data into UML object  
+	 * representation. Should eventually remove this method when the
+	 * day finally comes that we get rid of associationwidgetdata
+	 * child object.
+	 */
+	void mergeAssociationDataIntoUMLRepresentation(); 
+
 	/**
 	 * Finds out in which region contains the Point (PosX, PosY) and returns the region
 	 * number
@@ -329,9 +467,9 @@ private:
 	void moveEvent(QMoveEvent *me);
 
 	/**
-	 * This function calculates which role should be set for the m_pRole FloatingText
+	 * This function calculates which role should be set for the m_pName* FloatingText
 	 */
-	Text_Role CalculateRoleType();
+	Text_Role CalculateNameType(Text_Role defaultRoleType);
 
 	/**
 	 * Calculates and sets the first and last point in the Association's LinePath
@@ -413,6 +551,11 @@ private:
 	 */
 	Region getWidgetRegion(AssociationWidget * widget);
 
+	/** This is a pointer to the Floating Text widget which displays the name of this 
+	 * association.
+	 */
+	FloatingText* m_pName;
+
 	/**
 	 * This is a pointer to the Floating Text widget at the starting side of the association.
 	 * This FloatingText displays the information regarding multiplicity
@@ -426,10 +569,28 @@ private:
 	FloatingText* m_pMultiB;
 
 	/**
-	 * This member holds a pointer to the floating text that displays the role of this
+	 * This is a pointer to the Floating Text widget at the "A" side of the association.
+	 * This FloatingText displays the information regarding changeability
+	 */
+	FloatingText* m_pChangeWidgetA;
+
+	/**
+	 * This is a pointer to the Floating Text widget at the "A" side of the association.
+	 * This FloatingText displays the information regarding changeability
+	 */
+	FloatingText* m_pChangeWidgetB;
+
+	/**
+	 * This member holds a pointer to the floating text that displays role A of this
 	 * association
 	 */
-	FloatingText* m_pRole;
+	FloatingText* m_pRoleA;
+
+	/**
+	 * This member holds a pointer to the floating text that displays role B of this
+	 * association
+	 */
+	FloatingText* m_pRoleB;
 
 	/**
 	 * This member holds a pointer to the UMLWidget at the starting side of the association
@@ -488,6 +649,12 @@ private:
 protected:
 
 	/**
+	 *  Write property of CFloatingText* m_pRoleA and m_pRoleB.
+	 */
+	virtual bool setRoleAWidget( FloatingText* pRole);
+	virtual bool setRoleBWidget( FloatingText* pRole);
+
+	/**
 	 * Tells all the other view associations the new count for the
 	 * given widget on a certain region. And also what index they should be.
 	 */
@@ -501,6 +668,19 @@ protected:
 	int getRegionCount(Region region, bool widgetA);
 
 private:
+
+	/** 
+	 * initialize attributes of this class at construction time
+	 */
+	void init (QWidget *parent); 
+
+	// yes, this is correct, we dont want other classes/users seeing this
+	// they should use setChangeability[AB] instead
+	bool setChangeWidgetA (QString strChangeWidgetA); 
+
+	// yes, this is correct, we dont want other classes/users seeing this
+	bool setChangeWidgetB (QString strChangeWidgetB); 
+
 	/**
 	 *  Checks to see if the given point is one of the points of the line.
 	 *  If so will try and get the view to flag the point for moving.
@@ -513,7 +693,6 @@ private:
 	QBitmap 	*m_pMask;*/
 
 	UMLView 	* m_pView;
-	AssociationWidgetData *m_pData;
 	Region 		m_WidgetARegion, 
 			m_WidgetBRegion;
 
@@ -526,11 +705,13 @@ private:
 	/**
 	 * When the association has a Role Floating Text this text should move when the
 	 * LinePath moves but only if the closest segment to the role text moves.
-	 * this segment is m_LinePath[m_unRoleLineSegment] -- m_LinePath[m_unRoleLineSegment + 1]
+	 * this segment is m_LinePath[m_unNameLineSegment] -- m_LinePath[m_unNameLineSegment + 1]
 	 */
-	uint 		m_unRoleLineSegment;
+	uint 		m_unNameLineSegment;
 	bool 		m_bFocus;
 	ListPopupMenu 	*m_pMenu;
+	AssociationWidgetData *m_pData;
+	UMLAssociation * m_pAssociation;
 	bool 		m_bSelected;
 	int 		m_nMovingPoint;
 

@@ -20,9 +20,17 @@
 AssociationWidgetData::AssociationWidgetData() {
 	m_nIndexA = m_nIndexB = 1;
 	m_nTotalCountA = m_nTotalCountB = 2;
-	m_pMultiDataB = 0;
 	m_pMultiDataA = 0;
-	m_pRoleData = 0;
+	m_pMultiDataB = 0;
+	m_pChangeDataA = 0;
+	m_pChangeDataB = 0;
+	m_pNameData = 0;
+	m_VisibilityA = Public;
+	m_VisibilityB = Public;
+	m_ChangeabilityA = chg_Changeable;
+	m_ChangeabilityB = chg_Changeable;
+	m_pRoleAData = 0;
+	m_pRoleBData = 0;
 	m_nWidgetAID = -1;
 	m_nWidgetBID = -1;
 	m_AssocType = Uml::at_Association;
@@ -41,8 +49,16 @@ AssociationWidgetData & AssociationWidgetData::operator=(AssociationWidgetData &
 	m_nWidgetBID = Other.m_nWidgetBID;
 	m_nIndexA = Other.m_nIndexA;
 	m_nIndexB = Other.m_nIndexB;
+	m_VisibilityA = Other.m_VisibilityA;
+	m_VisibilityB = Other.m_VisibilityB;
+	m_ChangeabilityA = Other.m_ChangeabilityA;
+	m_ChangeabilityB = Other.m_ChangeabilityB;
 	m_nTotalCountA = Other.m_nTotalCountA;
 	m_nTotalCountB = Other.m_nTotalCountB;
+
+	m_pNameData = new FloatingTextData();
+	if( Other.m_pNameData )
+		*(m_pNameData) = *(Other.m_pNameData);
 
 	m_pMultiDataA = new FloatingTextData();
 	if( Other.m_pMultiDataA )
@@ -52,16 +68,37 @@ AssociationWidgetData & AssociationWidgetData::operator=(AssociationWidgetData &
 	if( Other.m_pMultiDataB )
 		*(m_pMultiDataB) = *(Other.m_pMultiDataB);
 
-	m_pRoleData = new FloatingTextData();
-	if( Other.m_pRoleData )
-		*(m_pRoleData) = *(Other.m_pRoleData);
+	m_pRoleAData = new FloatingTextData();
+	if( Other.m_pRoleAData )
+		*(m_pRoleAData) = *(Other.m_pRoleAData);
+
+	m_pRoleBData = new FloatingTextData();
+	if( Other.m_pRoleBData )
+		*(m_pRoleBData) = *(Other.m_pRoleBData);
+
+	m_pChangeDataA = new FloatingTextData();
+	if( Other.m_pChangeDataA )
+		*(m_pChangeDataA) = *(Other.m_pChangeDataA);
+
+	m_pChangeDataB = new FloatingTextData();
+	if( Other.m_pChangeDataB )
+		*(m_pChangeDataB) = *(Other.m_pChangeDataB);
+
 	return *this;
 }
 
 bool  AssociationWidgetData::operator==(AssociationWidgetData & Other) {
 	if( this == &Other )
-
 		return true;
+
+	if( !m_pNameData || !Other.m_pNameData ) {
+		if( !Other.m_pNameData && m_pNameData )
+			return false;
+		if( !m_pNameData && Other.m_pNameData )
+			return false;
+	} else if ( !(*m_pNameData == *(Other.m_pNameData)) )
+		return false;
+
 	if( !m_pMultiDataA || !Other.m_pMultiDataA ) {
 		if( !Other.m_pMultiDataA && m_pMultiDataA )
 			return false;
@@ -78,15 +115,51 @@ bool  AssociationWidgetData::operator==(AssociationWidgetData & Other) {
 	} else if ( !(*m_pMultiDataB == *(Other.m_pMultiDataB)) )
 		return false;
 
-	if( !m_pRoleData || !Other.m_pRoleData ) {
-		if( !Other.m_pRoleData && m_pRoleData )
+	if( !m_pRoleAData || !Other.m_pRoleAData ) {
+		if( !Other.m_pRoleAData && m_pRoleAData )
 			return false;
-		if( !m_pRoleData && Other.m_pRoleData )
+		if( !m_pRoleAData && Other.m_pRoleAData )
 			return false;
-	} else if ( !(*m_pRoleData == *(Other.m_pRoleData)) )
+	} else if ( !(*m_pRoleAData == *(Other.m_pRoleAData)) )
+		return false;
+
+        if( !m_pRoleBData || !Other.m_pRoleBData ) {
+		if( !Other.m_pRoleBData && m_pRoleBData )
+			return false;
+		if( !m_pRoleBData && Other.m_pRoleBData )
+			return false;
+	} else if ( !(*m_pRoleBData == *(Other.m_pRoleBData)) )
+		return false;
+
+        if( !m_pChangeDataA || !Other.m_pChangeDataA ) {
+		if( !Other.m_pChangeDataA && m_pChangeDataA )
+			return false;
+		if( !m_pChangeDataA && Other.m_pChangeDataA )
+			return false;
+	} else if ( !(*m_pChangeDataA == *(Other.m_pChangeDataA)) )
+		return false;
+
+	if( !m_pChangeDataB || !Other.m_pChangeDataB ) {
+		if( !Other.m_pChangeDataB && m_pChangeDataB )
+			return false;          
+		if( !m_pChangeDataB && Other.m_pChangeDataB )
+			return false;
+	} else if ( !(*m_pChangeDataB == *(Other.m_pChangeDataB)) )
 		return false;
 
 	if ( m_AssocType != Other.m_AssocType )
+		return false;
+
+	if(m_VisibilityA != Other.m_VisibilityA)
+		return false;
+
+	if(m_VisibilityB != Other.m_VisibilityB)
+		return false;
+
+	if(m_ChangeabilityA != Other.m_ChangeabilityA)
+		return false;
+
+	if(m_ChangeabilityB != Other.m_ChangeabilityB)
 		return false;
 
 	if(m_nWidgetAID != Other.m_nWidgetAID)
@@ -126,16 +199,85 @@ FloatingTextData* AssociationWidgetData::getMultiDataB() {
 	return m_pMultiDataB;
 }
 
+FloatingTextData* AssociationWidgetData::getChangeDataA() {
+	return m_pChangeDataA;
+}
+
+FloatingTextData* AssociationWidgetData::getChangeDataB() {
+	return m_pChangeDataB;
+}
+
 void AssociationWidgetData::setMultiDataB( FloatingTextData* pData) {
 	m_pMultiDataB = pData;
 }
 
-FloatingTextData* AssociationWidgetData::getRoleData() {
-	return m_pRoleData;
+FloatingTextData* AssociationWidgetData::getNameData() 
+{
+	return m_pNameData;
 }
 
-void AssociationWidgetData::setRoleData( FloatingTextData* pData) {
-	m_pRoleData = pData;
+FloatingTextData* AssociationWidgetData::getRoleAData() {
+	return m_pRoleAData;
+}
+
+FloatingTextData* AssociationWidgetData::getRoleBData() {
+	return m_pRoleBData;
+}
+
+Scope AssociationWidgetData::getVisibilityA() {
+	return m_VisibilityA;
+}
+
+Scope AssociationWidgetData::getVisibilityB() {
+	return m_VisibilityB;
+}
+
+Changeability_Type AssociationWidgetData::getChangeabilityA() 
+{
+	return m_ChangeabilityA;
+}
+
+Changeability_Type AssociationWidgetData::getChangeabilityB() 
+{
+	return m_ChangeabilityB;
+}
+
+// should be private?
+void AssociationWidgetData::setChangeDataA( FloatingTextData* pData) {
+	m_pChangeDataA = pData;
+}
+
+// should be private?
+void AssociationWidgetData::setChangeDataB( FloatingTextData* pData) {
+	m_pChangeDataB = pData;
+}
+
+void AssociationWidgetData::setNameData( FloatingTextData* pData) {
+	m_pNameData = pData;
+}
+
+void AssociationWidgetData::setRoleAData( FloatingTextData* pData) {
+	m_pRoleAData = pData;
+}
+
+void AssociationWidgetData::setRoleBData( FloatingTextData* pData) {
+	m_pRoleBData = pData;
+}
+
+void AssociationWidgetData::setVisibilityA ( Scope scope) {
+	m_VisibilityA = scope;
+}
+
+void AssociationWidgetData::setVisibilityB ( Scope scope) {
+	m_VisibilityB = scope;
+}
+
+void AssociationWidgetData::setChangeabilityA ( Changeability_Type value ) {
+	m_ChangeabilityA = value;
+}
+
+void AssociationWidgetData::setChangeabilityB ( Changeability_Type value ) {
+	m_ChangeabilityB = value;
 }
 
 Uml::Association_Type AssociationWidgetData::getAssocType() {
@@ -151,6 +293,16 @@ bool AssociationWidgetData::serialize(QDataStream *s, bool archive, int filevers
 	if(archive)
 	{
 		QString str;
+		if(m_pNameData) {
+			str =  "NAME";
+			*s << str;
+			if(!m_pNameData->serialize(s, archive, fileversion)) {
+				return false;
+			}
+		} else {
+			str =  "NO_NAME";
+			*s << str;
+		}
 		if(m_pMultiDataA) {
 			str =  "MULTI_A";
 			*s << str;
@@ -173,18 +325,54 @@ bool AssociationWidgetData::serialize(QDataStream *s, bool archive, int filevers
 			str =  "NO_MULTI_B";
 			*s << str;
 		}
-		if(m_pRoleData) {
-			str =  "ROLE";
+		if(m_pRoleAData) {
+			str =  "ROLE_A";
 			*s << str;
-			if(!m_pRoleData->serialize(s, archive, fileversion)) {
+			if(!m_pRoleAData->serialize(s, archive, fileversion)) {
 				return false;
 			}
 		} else {
-			str =  "NO_ROLE";
+			str =  "NO_ROLE_A";
 			*s << str;
 		}
+
+		if(m_pRoleBData) {
+			str =  "ROLE_B";
+			*s << str;
+			if(!m_pRoleBData->serialize(s, archive, fileversion)) {
+				return false;
+			}
+		} else {
+			str =  "NO_ROLE_B";
+			*s << str;
+		}
+
+		if(m_pChangeDataA) {
+			str =  "CHANGE_A";
+			*s << str;
+			if(!m_pChangeDataA->serialize(s, archive, fileversion)) {
+				return false;
+			}
+		} else {
+			str =  "NO_CHANGE_A";
+			*s << str;
+		}
+
+		if(m_pChangeDataB) {
+			str =  "CHANGE_B";
+			*s << str;
+			if(!m_pChangeDataB->serialize(s, archive, fileversion)) {
+				return false;
+			}
+		} else {
+			str =  "NO_CHANGE_B";
+			*s << str;
+		}
+
 		int i = static_cast<int>(m_AssocType);
 		*s << (Q_INT32) i;
+		*s << (int) m_VisibilityA; *s << (int) m_VisibilityB;
+		*s << (int) m_ChangeabilityA; *s << (int) m_ChangeabilityB;
 		*s << m_nWidgetAID;
 		*s << m_nWidgetBID;
 		*s << m_nIndexA << m_nIndexB;
@@ -197,6 +385,14 @@ bool AssociationWidgetData::serialize(QDataStream *s, bool archive, int filevers
 			QString str;
 
 			*s >> str;
+			if(str == "NAME") {
+				m_pNameData = new FloatingTextData();
+				if(!m_pNameData->serialize(s, archive, fileversion)) {
+					return false;
+				}
+			}
+
+			*s >> str;
 			if(str == "MULTI_A") {
 				m_pMultiDataA = new FloatingTextData();
 
@@ -204,6 +400,7 @@ bool AssociationWidgetData::serialize(QDataStream *s, bool archive, int filevers
 					return false;
 				}
 			}
+
 			*s >> str;
 			if(str == "MULTI_B") {
 				m_pMultiDataB = new FloatingTextData();
@@ -212,27 +409,60 @@ bool AssociationWidgetData::serialize(QDataStream *s, bool archive, int filevers
 				}
 
 			}
+
 			*s >> str;
-			if(str == "ROLE") {
-				m_pRoleData = new FloatingTextData();
-				if(!m_pRoleData->serialize(s, archive, fileversion)) {
+			if(str == "ROLE_A") {
+				m_pRoleAData = new FloatingTextData();
+				if(!m_pRoleAData->serialize(s, archive, fileversion)) {
 					return false;
 				}
+			}
+
+			*s >> str;
+			if(str == "ROLE_B") {
+				m_pRoleBData = new FloatingTextData();
+				if(!m_pRoleBData->serialize(s, archive, fileversion)) {
+					return false;
+				}
+			}
+
+			*s >> str;
+			if(str == "CHANGE_A") {
+				m_pChangeDataA = new FloatingTextData();
+				if(!m_pChangeDataA->serialize(s, archive, fileversion)) 
+					return false;
+			}
+
+			*s >> str;
+			if(str == "CHANGE_B") {
+				m_pChangeDataB = new FloatingTextData();
+				if(!m_pChangeDataB->serialize(s, archive, fileversion)) 
+					return false;
 			}
 
 			int i;
 			*s >> i;
 
 			m_AssocType = static_cast<Uml::Association_Type>(i);
+			*s >> ((int) m_VisibilityA);
+			*s >> ((int) m_VisibilityB);
+			*s >> ((int) m_ChangeabilityA);
+			*s >> ((int) m_ChangeabilityB);
 			*s >> m_nWidgetAID;
 			*s >> m_nWidgetBID;
 			*s >> m_nIndexA >> m_nIndexB;
 			*s >> m_nTotalCountA >> m_nTotalCountB >> m_Doc;
 			m_LinePath.serialize( s, archive, fileversion);
 		} else {
+
 			int assoc, count, totalCount;
-			int fID , fx, fy, fox, foy, ax, ay, aox, aoy, bx, by, box, boy;
+			int ax, ay, aox, aoy, bx, by, box, boy;
+			int fID , fx, fy, fox, foy;
+			// int fIDA , fxA, fyA, foxA, foyA;
+			// int fIDB , fxB, fyB, foxB, foyB;
 			QString ft, at, bt;
+			// QString ftA, ftB; 
+			
 			*s >> assoc >> count >> totalCount;
 			*s >> m_nWidgetAID >> m_nWidgetBID;
 
@@ -280,11 +510,27 @@ bool AssociationWidgetData::serialize(QDataStream *s, bool archive, int filevers
 // the values of fox, foy, aox, aoy, box, boy are ignored
 //
 			*s >> ft >> fID >> fx >> fy >> fox >> foy;
-			m_pRoleData = new FloatingTextData();
-			m_pRoleData->setText(ft);
-			m_pRoleData->setRole(Uml::tr_RoleName);
-			m_pRoleData->setX(fx);
-			m_pRoleData->setY(fy);
+			m_pNameData = new FloatingTextData();
+			m_pNameData->setText(ft);
+			m_pNameData->setRole(Uml::tr_Name);
+			m_pNameData->setX(fx);
+			m_pNameData->setY(fy);
+
+			/*
+			*s >> ftB >> fIDB >> fxB >> fyB >> foxB >> foyB;
+			m_pRoleBData = new FloatingTextData();
+			m_pRoleBData->setText(ftB);
+			m_pRoleBData->setRole(Uml::tr_RoleBName);
+			m_pRoleBData->setX(fxB);
+			m_pRoleBData->setY(fyB);
+
+			*s >> ftA >> fIDA >> fxA >> fyA >> foxA >> foyA;
+			m_pRoleAData = new FloatingTextData();
+			m_pRoleAData->setText(ftA);
+			m_pRoleAData->setRole(Uml::tr_RoleAName);
+			m_pRoleAData->setX(fxA);
+			m_pRoleAData->setY(fyA);
+			*/
 
 			*s >> at >> ax >> ay >> aox >> aoy;
 			m_pMultiDataA = new FloatingTextData();
@@ -301,6 +547,7 @@ bool AssociationWidgetData::serialize(QDataStream *s, bool archive, int filevers
 			m_pMultiDataB->setY(by);
 //
 // warning : the values of m_nIndexA, m_nIndexB, m_nTotalCountA, m_nTotalCountB, m_Doc
+// and m_VisibilityA, m_VisibilityB, m_ChangeabilityA, m_ChangeabilityB 
 // are not initialized
 //
 		}
@@ -342,13 +589,37 @@ long AssociationWidgetData::getClipSizeOf() {
 	} else {
 		l_size += (str.length()*sizeof(QChar));
 	}
-	if(m_pRoleData) {
-		str = "ROLE";
-
-		l_size += m_pRoleData->getClipSizeOf();
+	if(m_pNameData) {
+		str = "NAME";
+		l_size += m_pNameData->getClipSizeOf();
 	} else {
-		str = "NO_ROLE";
+		str = "NO_NAME";
 	}
+	if(m_pRoleAData) {
+		str = "ROLE_A";
+		l_size += m_pRoleAData->getClipSizeOf();
+	} else {
+		str = "NO_ROLE_A";
+	}
+	if(m_pRoleBData) {
+		str = "ROLE_B";
+		l_size += m_pRoleBData->getClipSizeOf();
+	} else {
+		str = "NO_ROLE_B";
+	}
+	if(m_pChangeDataA ) {
+		str = "CHANGE_A";
+		l_size += m_pChangeDataA->getClipSizeOf();
+	} else {
+		str = "NO_CHANGE_A";
+	}
+	if(m_pChangeDataB ) {
+		str = "CHANGE_B";
+		l_size += m_pChangeDataB->getClipSizeOf();
+	} else {
+		str = "NO_CHANGE_B";
+	}
+
 	if ( !str.length() ) //We assume we are working with QT 2.1.x or superior, that means
 		//if unicode returns a null pointer then the serialization process of the QString object
 		//will write a null marker 0xffffff, see QString::operator<< implementation
@@ -375,6 +646,10 @@ long AssociationWidgetData::getClipSizeOf() {
 	l_size += ((count * 2 )* sizeof(j)); //Q_INT32 is the size of the X and Y members of each QPoint
 	//This assuming we are working with a QDataStream version
 	// greater than 1
+	l_size += sizeof(m_VisibilityA);
+	l_size += sizeof(m_VisibilityB);
+	l_size += sizeof(m_ChangeabilityA);
+	l_size += sizeof(m_ChangeabilityB);
 	l_size += sizeof(m_nWidgetAID);
 	l_size += sizeof(m_nWidgetBID);
 	l_size += sizeof(m_nIndexA);
@@ -444,6 +719,13 @@ void AssociationWidgetData::print2cerr() {
 	kdDebug() << "m_nWidgetAID = " << m_nWidgetAID << endl;
 	kdDebug() << "m_nWidgetBID = " << m_nWidgetBID << endl;
 
+	if(m_pNameData) {
+		kdDebug() << "m_pNameData = {" << endl << endl;
+		m_pNameData->print2cerr();
+		kdDebug() << "}" << endl;
+	} else {
+		kdDebug() << "m_pNameData = NULL" << endl;
+	}
 	if(m_pMultiDataA) {
 		kdDebug() << "m_pMultiDataA = {" << endl << endl;
 		m_pMultiDataA->print2cerr();
@@ -451,20 +733,40 @@ void AssociationWidgetData::print2cerr() {
 	} else {
 		kdDebug() << "m_pMultiDataA = NULL" << endl;
 	}
-	if(m_pRoleData) {
-		kdDebug() << "m_pRoleData = {" << endl << endl;
-		m_pRoleData->print2cerr();
+	if(m_pRoleAData) {
+		kdDebug() << "m_pRoleAData = {" << endl << endl;
+		m_pRoleAData->print2cerr();
 		kdDebug() << "}" << endl;
 	} else {
-		kdDebug() << "m_pRoleData = NULL" << endl;
+		kdDebug() << "m_pRoleAData = NULL" << endl;
+	}
+	if(m_pRoleBData) {
+		kdDebug() << "m_pRoleBData = {" << endl << endl;
+		m_pRoleBData->print2cerr();
+		kdDebug() << "}" << endl;
+	} else {
+		kdDebug() << "m_pRoleBData = NULL" << endl;
 	}
 	if(m_pMultiDataB) {
 		kdDebug() << "m_pMultiDataB = {" << endl << endl;
 		m_pMultiDataB->print2cerr();
 		kdDebug() << "}" << endl;
 	} else {
-
 		kdDebug() << "m_pMultiDataB = NULL" << endl;
+	}
+	if(m_pChangeDataA) {
+		kdDebug() << "m_pChangeDataA = {" << endl << endl;
+		m_pChangeDataA->print2cerr();
+		kdDebug() << "}" << endl;
+	} else {
+		kdDebug() << "m_pChangeDataA = NULL" << endl;
+	}
+	if(m_pChangeDataB) {
+		kdDebug() << "m_pChangeDataB = {" << endl << endl;
+		m_pChangeDataB->print2cerr();
+		kdDebug() << "}" << endl;
+	} else {
+		kdDebug() << "m_pChangeDataB = NULL" << endl;
 	}
 }
 
@@ -472,15 +774,31 @@ bool AssociationWidgetData::saveToXMI( QDomDocument & qDoc, QDomElement & qEleme
 	QDomElement assocElement = qDoc.createElement( "UML:AssocWidget" );
 	bool status = true;
 
+	if( m_pNameData )
+		status =  m_pNameData -> saveToXMI( qDoc, assocElement );
+
 	if( m_pMultiDataA )
 		status =  m_pMultiDataA -> saveToXMI( qDoc, assocElement );
 
 	if( m_pMultiDataB )
 		status = m_pMultiDataB -> saveToXMI( qDoc, assocElement );
 
-	if( m_pRoleData )
-		status = m_pRoleData -> saveToXMI( qDoc, assocElement );
+	if( m_pRoleAData )
+		status = m_pRoleAData -> saveToXMI( qDoc, assocElement );
 
+	if( m_pRoleBData )
+		status = m_pRoleBData -> saveToXMI( qDoc, assocElement );
+
+	if( m_pChangeDataA )
+		status =  m_pChangeDataA -> saveToXMI( qDoc, assocElement );
+
+	if( m_pChangeDataB )
+		status =  m_pChangeDataB -> saveToXMI( qDoc, assocElement );
+
+	assocElement.setAttribute( "visibilityA", m_VisibilityA);
+	assocElement.setAttribute( "visibilityB", m_VisibilityB);
+	assocElement.setAttribute( "changeabilityA", m_ChangeabilityA);
+	assocElement.setAttribute( "changeabilityB", m_ChangeabilityB);
 	assocElement.setAttribute( "type", m_AssocType );
 	assocElement.setAttribute( "indexa", m_nIndexA );
 	assocElement.setAttribute( "indexb", m_nIndexB );
@@ -504,6 +822,24 @@ bool AssociationWidgetData::loadFromXMI( QDomElement & qElement ) {
 	QString widgetbid = qElement.attribute( "widgetbid", "-1" );
 	QString type = qElement.attribute( "type", "" );
 
+	QString visibilityA = qElement.attribute( "visibilityA", "0");
+	QString visibilityB = qElement.attribute( "visibilityB", "0");
+	QString changeabilityA = qElement.attribute( "changeabilityA", "0");
+	QString changeabilityB = qElement.attribute( "changeabilityB", "0");
+
+	// visibilty defaults to Public if it cant set it here..
+	if (visibilityA.toInt() > 0) 
+		setVisibilityA( (Scope) visibilityA.toInt());
+
+	if (visibilityB.toInt() > 0) 
+		setVisibilityB( (Scope) visibilityB.toInt());
+
+	// Changeability defaults to "Changeable" if it cant set it here..
+	if (changeabilityA.toInt() > 0) 
+		setChangeabilityA ( (Changeability_Type) changeabilityA.toInt());
+	if (changeabilityB.toInt() > 0) 
+		setChangeabilityB ( (Changeability_Type) changeabilityB.toInt());
+	
 	m_nIndexA = indexa.toInt();
 	m_nIndexB = indexb.toInt();
 	m_nTotalCountA = totalcounta.toInt();
@@ -539,10 +875,32 @@ bool AssociationWidgetData::loadFromXMI( QDomElement & qElement ) {
 						return false;
 					break;
 
-				case Uml::tr_RoleName:
+				case Uml::tr_ChangeA:
+					m_pChangeDataA = new FloatingTextData();
+					if( !m_pChangeDataA -> loadFromXMI( element ) )
+						return false;
+					break;
+
+				case Uml::tr_ChangeB:
+					m_pChangeDataB = new FloatingTextData();
+					if( !m_pChangeDataB -> loadFromXMI( element ) )
+						return false;
+					break;
+
+				case Uml::tr_Name:
 				case Uml::tr_Coll_Message:
-					m_pRoleData = new FloatingTextData();
-					if( !m_pRoleData -> loadFromXMI( element ) )
+					m_pNameData = new FloatingTextData();
+					if( !m_pNameData -> loadFromXMI( element ) )
+						return false;
+					break;
+				case Uml::tr_RoleAName:
+					m_pRoleAData = new FloatingTextData();
+					if( !m_pRoleAData -> loadFromXMI( element ) )
+						return false;
+					break;
+				case Uml::tr_RoleBName:
+					m_pRoleBData = new FloatingTextData();
+					if( !m_pRoleBData -> loadFromXMI( element ) )
 						return false;
 					break;
 				default:
