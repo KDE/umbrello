@@ -93,7 +93,7 @@ void ToolBar::buttonClicked(int t)
 	emit toolChanged(m_toolMap[t]);
 }
 
-void ToolBar::showTools( const QString &category, bool exclusive = false )
+void ToolBar::showTools( const QString &category, bool exclusive )
 {
 //FIXME - make this category based and not tool-based
 	if( exclusive )
