@@ -47,7 +47,7 @@
 #include <qtimer.h>
 #include <qwidgetstack.h>
 
-
+#include "configurable.h"
 
 
 using Umbrello::Diagram;
@@ -111,7 +111,6 @@ UMLApp::UMLApp(QWidget* , const char* name):KDockMainWindow(0, name) {
 	
 	m_refactoringAssist = 0L;
 	
-	_instance = this;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLApp::~UMLApp() {
