@@ -39,6 +39,8 @@ QString UMLInterface::uniqChildName(UMLObject_Type type) {
 		return UMLCanvasObject::uniqChildName(type);
 	} else if (type == ot_Operation) {
 		currentName = i18n("new_operation");
+	} else if (type == ot_Stereotype) {
+		currentName = i18n("new_stereotype");
 	} else {
 		kdWarning() << "uniqChildName() called for unknown child type" << endl;
 	}
@@ -79,6 +81,8 @@ bool UMLInterface::loadFromXMI( QDomElement & element ) {
 				return false;
 			}
 			m_OpsList.append(pOp);
+		} else {
+			kdWarning() << "loading unknown child type in UMLClass::loadFromXMI" << endl;
 		}
 		node = node.nextSibling();
 		tempElement = node.toElement();

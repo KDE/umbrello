@@ -17,6 +17,7 @@ class IDChangeLog;
 class UMLAssociation;
 class UMLClassifierListItem;
 class UMLOperation;
+class UMLStereotype;
 class UMLDoc;
 
 /**
@@ -90,11 +91,16 @@ public:
 	int removeOperation(UMLObject *o);
 
 	/**
+	 * Add an already created stereotype to the list given by UMLObject_type list.
+	 */
+	virtual bool addStereotype(UMLStereotype* newStereotype, UMLObject_Type list, IDChangeLog* log = 0);
+	
+	/**
 	 *	Returns the number of operations for the Concept.
 	 *
 	 *	@return	The number of operations for the Concept.
 	 */
-	int operations() ;
+	int operations();
 
 	/**
 	 *	Return the list of operations for the Concept.

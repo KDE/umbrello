@@ -411,6 +411,7 @@ void UMLListView::slotObjectCreated(UMLObject* object) {
 	case Uml::ot_Operation:
 	case Uml::ot_Template:
 	case Uml::ot_Association:
+	case Uml::ot_Stereotype:
 		//this will be handled by childObjectAdded
 		return;
 		break;
@@ -505,6 +506,7 @@ void UMLListView::connectNewObjectsSlots(UMLObject* object) {
 		break;
 	case Uml::ot_UMLObject:
 	case Uml::ot_Association:
+	case Uml::ot_Stereotype:
 		break;
 	default:
 		kdWarning() << "unknown type in connectNewObjectsSlots" << endl;
@@ -525,6 +527,9 @@ void UMLListView::slotObjectChanged() {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLListView::childObjectAdded(UMLObject* obj) {
+	if (obj->getBaseType() == ot_Stereotype) {
+		return;
+	}
 	if (!m_bCreatingChildObject) {
 		UMLObject *parent = const_cast<UMLObject*>(dynamic_cast<const UMLObject*>(sender()));
 

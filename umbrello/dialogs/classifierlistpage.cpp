@@ -65,6 +65,7 @@ ClassifierListPage::ClassifierListPage(QWidget* parent, UMLClassifier* classifie
 	m_pDeleteListItemButton = buttonBox->addButton( i18n("&Delete"),
 							  this, SLOT(slotDelete()) );
 	m_pPropertiesButton = buttonBox->addButton( i18n("&Properties"), this, SLOT(slotProperties()) );
+	buttonBox->addButton( i18n("Ne&w Stereotype"), this, SLOT(slotNewStereotype()) );
 	attsLayout->addMultiCellWidget(buttonBox, 1, 1, 0, 1);
 
 	mainLayout->addWidget(m_pItemListGB);
@@ -79,18 +80,18 @@ ClassifierListPage::ClassifierListPage(QWidget* parent, UMLClassifier* classifie
 
 	//add attributes to list
 	if (type == ot_Attribute)  {
-		m_pItemList = (static_cast<UMLClass*>(m_pClassifier))->getAttList(); //FIXMEnow new cast type
+		m_pItemList = (static_cast<UMLClass*>(m_pClassifier))->getAttList();
 	} else if (type == ot_Operation)  {
 		m_pItemList = m_pClassifier->getOpList();
 	} else if (type == ot_Template) {
-		m_pItemList = (static_cast<UMLClass*>(m_pClassifier))->getTemplateList(); //FIXMEnow new cast type
+		m_pItemList = (static_cast<UMLClass*>(m_pClassifier))->getTemplateList();
 	} else {
 		kdWarning() << "unknown type in ClassifierListPage" << endl;
 	}
 
 	UMLClassifierListItem* listItem;
 	for ( listItem = m_pItemList->first(); listItem != 0; listItem = m_pItemList->next() ) {
-		m_pItemListLB->insertItem(listItem->getName());
+		m_pItemListLB->insertItem(listItem->getShortName());
 		connect( listItem, SIGNAL(modified()),this,SLOT(slotListItemModified()) );
 	}
 
@@ -188,7 +189,7 @@ void ClassifierListPage::slotListItemCreated(UMLObject* object) {
 		return;
 	}
 	int index = m_pItemListLB->count();
-	m_pItemListLB ->insertItem(object->getName(), index);
+	m_pItemListLB ->insertItem((static_cast<UMLClassifierListItem*>(object))->getShortName(), index);
 	m_bSigWaiting = false;
 	slotClicked(0);
 }
@@ -198,9 +199,9 @@ void ClassifierListPage::slotListItemModified() {
 		return;
 	}
 	//is this safe???
-	UMLObject*object = const_cast<UMLObject*>(dynamic_cast<const UMLObject*>(sender()));
+	UMLClassifierListItem* object = const_cast<UMLClassifierListItem*>(dynamic_cast<const UMLClassifierListItem*>(sender()));
 	int index = m_pItemListLB->currentItem();
-	m_pItemListLB->changeItem(object->getName(), index);
+	m_pItemListLB->changeItem(object->getShortName(), index);
 	m_bSigWaiting = false;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -324,14 +325,14 @@ void ClassifierListPage::slotDoubleClick( QListBoxItem* item ) {
 	if( !item )
 		return;
 	QString name = item->text();
-	UMLClassifierListItem* pAtt  = m_pItemList->at( m_pItemListLB->index( item ) );
-	if( !pAtt ) {
+	UMLClassifierListItem* listItem  = m_pItemList->at( m_pItemListLB->index( item ) );
+	if( !listItem ) {
 		kdDebug() << "can't find att from selection" << endl;
 		return;
 	}
 
-	if( pAtt->showPropertiesDialogue(this) ) {
-		m_pItemListLB->changeItem( pAtt->getName(), m_pItemListLB->index(item) );
+	if( listItem->showPropertiesDialogue(this) ) {
+		m_pItemListLB->changeItem( listItem->getShortName(), m_pItemListLB->index(item) );
 	}
 }
 
@@ -353,6 +354,12 @@ void ClassifierListPage::slotNewListItem() {
 	saveCurrentItemDocumentation();
 	m_bSigWaiting = true;
 	m_pDoc->createUMLObject(m_pClassifier, itemType);
+}
+
+void ClassifierListPage::slotNewStereotype() {
+	saveCurrentItemDocumentation();
+	m_bSigWaiting = true;
+	m_pDoc->createStereotype(m_pClassifier, itemType);
 }
 
 void ClassifierListPage::saveCurrentItemDocumentation() {

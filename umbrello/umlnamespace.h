@@ -36,7 +36,8 @@ namespace Uml {
 	    ot_Template,
 	    ot_Component,
 	    ot_Artifact,
-	    ot_Node
+	    ot_Node,
+	    ot_Stereotype
 	};
 
 	enum Scope

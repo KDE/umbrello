@@ -11,6 +11,7 @@
 #include "association.h"
 #include "attribute.h"
 #include "operation.h"
+#include "stereotype.h"
 #include "classifierlistitem.h"
 #include "template.h"
 #include "clipboard/idchangelog.h"
@@ -143,6 +144,34 @@ int UMLClass::removeTemplate(UMLTemplate *temp) {
 	return m_TemplateList.count();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+bool UMLClass::addStereotype(UMLStereotype* newStereotype, UMLObject_Type list, IDChangeLog* log /* = 0*/) {
+	QString name = newStereotype->getName();
+	if (findChildObject(Uml::ot_Template, name).count() == 0) {
+		newStereotype->parent()->removeChild(newStereotype);
+		this->insertChild(newStereotype);
+		if (list == ot_Attribute) {
+			m_AttsList.append(newStereotype);
+			emit modified();
+			connect(newStereotype, SIGNAL(modified()), this, SIGNAL(modified()));
+		} else if (list == ot_Operation) {
+			m_OpsList.append(newStereotype);
+			emit modified();
+			connect(newStereotype, SIGNAL(modified()), this, SIGNAL(modified()));
+		} else if (list == ot_Template) {
+			m_TemplateList.append(newStereotype);
+			emit modified();
+			connect(newStereotype, SIGNAL(modified()), this, SIGNAL(modified()));
+		} else {
+			kdWarning() << "unknown list type in addStereotype()" << endl;
+		}
+		return true;
+	} else if (log) {
+		log->removeChangeByNewID( newStereotype->getID() );
+		delete newStereotype;
+	}
+	return false;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
 QString UMLClass::uniqChildName(UMLObject_Type type) {
 	QString currentName;
 	if (type == ot_Association) {
@@ -153,6 +182,8 @@ QString UMLClass::uniqChildName(UMLObject_Type type) {
 		currentName = i18n("new_template");
 	} else if (type == ot_Operation) {
 		currentName = i18n("new_operation");
+	} else if (type == ot_Stereotype) {
+		currentName = i18n("new_stereotype");
 	} else {
 		kdWarning() << "uniqChildName() called for unknown child type" << endl;
 	}
@@ -168,19 +199,19 @@ QPtrList<UMLObject> UMLClass::findChildObject(UMLObject_Type t , QString n) {
   	QPtrList<UMLObject> list;
  	if (t == ot_Association) {
 		return UMLClassifier::findChildObject(t, n);
- 	} else if (t == ot_Attribute) {
+ 	} else if (t == ot_Attribute || t == ot_Stereotype) {
   		UMLClassifierListItem * obj=0;
   		for(obj=m_AttsList.first();obj != 0;obj=m_AttsList.next()) {
   			if(obj->getBaseType() == t && obj -> getName() == n)
 				list.append( obj );
 		}
- 	} else if (t == ot_Template) {
+ 	} else if (t == ot_Template || t == ot_Stereotype) {
   		UMLClassifierListItem* obj=0;
   		for(obj=m_TemplateList.first(); obj != 0; obj=m_TemplateList.next()) {
   			if (obj->getBaseType() == t && obj->getName() == n)
 				list.append(obj);
 		}
-	} else if (t == ot_Operation) {
+	} else if (t == ot_Operation || t == ot_Stereotype) {
 		UMLClassifierListItem* obj=0;
 		for(obj=m_OpsList.first();obj != 0;obj=m_OpsList.next()) {
 			if(obj->getBaseType() == t && obj -> getName() == n)
@@ -289,6 +320,24 @@ bool UMLClass::loadFromXMI( QDomElement & element ) {
 				return false;
 			}
 			m_TemplateList.append(newTemplate);
+		} else if (tag == "stereotype") {
+			UMLStereotype* newStereotype = new UMLStereotype(this);
+			if ( !newStereotype->loadFromXMI(tempElement) ) {
+				return false;
+			}
+			QString listTypeString = tempElement.attribute("listtype", "-1");
+			UMLObject_Type listType = (UMLObject_Type)listTypeString.toInt();
+			if (listType == ot_Attribute) {
+				m_AttsList.append(newStereotype);
+			} else if (listType == ot_Operation) {
+				m_OpsList.append(newStereotype);
+			} else if (listType == ot_Template) {
+				m_TemplateList.append(newStereotype);
+			} else {
+				kdWarning() << "unknown listtype with stereotype:" << listType << endl;
+			}
+		} else {
+			kdWarning() << "loading unknown child type in UMLClass::loadFromXMI" << endl;
 		}
 		node = node.nextSibling();
 		tempElement = node.toElement();

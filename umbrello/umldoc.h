@@ -205,6 +205,14 @@ public:
   	UMLObject* createTemplate(UMLObject* o);
   
   	/**
+ 	 *  Creates a stereotype for the parent classifier.
+  	 *
+ 	 *	@param	o	The parent concept
+ 	 *	@return		The UMLTemplate created
+  	 */
+  	UMLObject* createStereotype(UMLObject* umlobject, UMLObject_Type list);
+  
+  	/**
  	 *  Creates an operation for the parent concept.
   	 *
  	 *	@param	o	The parent concept

@@ -10,6 +10,7 @@
 #include "classifier.h"
 #include "association.h"
 #include "operation.h"
+#include "stereotype.h"
 #include "clipboard/idchangelog.h"
 #include "umldoc.h"
 #include <kdebug.h>
@@ -77,6 +78,27 @@ int UMLClassifier::removeOperation(UMLObject *o) {
 	emit modified();
 	disconnect(o,SIGNAL(modified()),this,SIGNAL(modified()));
 	return m_OpsList.count();
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+bool UMLClassifier::addStereotype(UMLStereotype* newStereotype, UMLObject_Type list, IDChangeLog* log /* = 0*/) {
+	QString name = newStereotype->getName();
+	if (findChildObject(Uml::ot_Template, name).count() == 0) {
+		newStereotype->parent()->removeChild(newStereotype);
+		this->insertChild(newStereotype);
+		if (list == ot_Operation) {
+			m_OpsList.append(newStereotype);
+			emit modified();
+			connect(newStereotype, SIGNAL(modified()), this, SIGNAL(modified()));
+			emit operationAdded(newStereotype);
+		} else {
+			kdWarning() << "unknown list type in addStereotype()" << endl;
+		}
+		return true;
+	} else if (log) {
+		log->removeChangeByNewID( newStereotype->getID() );
+		delete newStereotype;
+	}
+	return false;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 QPtrList<UMLObject> UMLClassifier::findChildObject(UMLObject_Type t , QString n) {

@@ -22,6 +22,7 @@
 #include "operation.h"
 #include "attribute.h"
 #include "template.h"
+#include "stereotype.h"
 #include "classifierlistitem.h"
 #include "uml.h"
 #include "umldoc.h"
@@ -589,7 +590,7 @@ UMLObject* UMLDoc::createAttribute(UMLObject* umlobject) {
 		return NULL;
 	}
 
-	((UMLClass*)umlobject)->addAttribute((UMLAttribute*)newAttribute);
+	((UMLClass*)umlobject)->addAttribute(newAttribute);
 
 	setModified(true);
 	emit sigObjectCreated(newAttribute);
@@ -622,11 +623,41 @@ UMLObject* UMLDoc::createTemplate(UMLObject* umlobject) {
 		return NULL;
 	}
 
-	((UMLClass*)umlobject)->addTemplate((UMLTemplate*)newTemplate);
+	((UMLClass*)umlobject)->addTemplate(newTemplate);
 
 	setModified(true);
 	emit sigObjectCreated(newTemplate);
 	return newTemplate;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+UMLObject* UMLDoc::createStereotype(UMLObject* umlobject, UMLObject_Type list) {
+	int id = getUniqueID();
+	QString currentName = dynamic_cast<UMLClass*>(umlobject)->uniqChildName(Uml::ot_Stereotype);
+	UMLStereotype* newStereotype = new UMLStereotype(umlobject, currentName, id, list);
+
+	bool ok = true;
+	bool goodName = false;
+
+	while (ok && !goodName) {
+		ok = newStereotype->showPropertiesDialogue( UMLApp::app() );
+		QString name = newStereotype->getName();
+
+		if(name.length() == 0) {
+			KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
+		} else {
+			goodName = true;
+		}
+	}
+
+	if (!ok) {
+		return NULL;
+	}
+
+	((UMLClassifier*)umlobject)->addStereotype(newStereotype, list);
+
+	setModified(true);
+	emit sigObjectCreated(newStereotype);
+	return newStereotype;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLObject* UMLDoc::createOperation(UMLObject* umlobject) {
@@ -660,7 +691,7 @@ UMLObject* UMLDoc::createOperation(UMLObject* umlobject) {
 	}
 
 	if (umlobject->getBaseType() == ot_Class || umlobject->getBaseType() == ot_Interface ) {
-		((UMLClassifier*)umlobject)->addOperation((UMLOperation*)newOperation);
+		((UMLClassifier*)umlobject)->addOperation(newOperation);
 	} else {
 		kdWarning() << "creating operation for something which isn't a class or an interface" << endl;
 	}

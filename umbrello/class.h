@@ -98,7 +98,7 @@ public:
 	 *	concept
 	 */
 	bool addTemplate(UMLTemplate* newTemplate, IDChangeLog* log = 0);
-	
+
 	/**
 	 * Adds an template to the class, the template object must not belong to any other
 	 * class
@@ -116,6 +116,11 @@ public:
 	 *	@param	a	The template to remove.
 	 */
 	int removeTemplate(UMLTemplate* a);
+
+	/**
+	 * Add an already created stereotype to the list given by UMLObject_type list.
+	 */
+	virtual bool addStereotype(UMLStereotype* newStereotype, UMLObject_Type list, IDChangeLog* log = 0);
 
 	/**
 	 *	Returns the number of attributes for the Concept.
