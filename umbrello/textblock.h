@@ -126,7 +126,11 @@ public:
 
 	QString getNewLineEndingChars ( );
 
-	QString formatMultiLineText (const QString &text, const QString &linePrefix, QString breakStr, bool alwaysAddBreak = true);
+	/** Format a long text string to be more readable.
+	 */
+	// should be static 
+	QString formatMultiLineText ( const QString &text, const QString &linePrefix, QString breakStr, 
+                                      bool alwaysAddBreak = true, bool lastLineHasBreak = true);
 
 	/**
 	 * @return	QString

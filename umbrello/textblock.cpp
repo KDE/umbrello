@@ -155,7 +155,8 @@ QString TextBlock::getIndentationString ( int level ) {
 // Other methods
 //  
 
-QString TextBlock::formatMultiLineText (const QString &work, const QString &linePrefix, QString breakStr, bool alwaysAddBreak ) {
+QString TextBlock::formatMultiLineText ( const QString &work, const QString &linePrefix, 
+                                         QString breakStr, bool addBreak, bool lastLineHasBreak ) {
         QString output = "";
         QString text = work;
         QString endLine = getNewLineEndingChars();
@@ -170,11 +171,13 @@ QString TextBlock::formatMultiLineText (const QString &work, const QString &line
 		for(int i=0; i < matches; i++)
 		{
 			QString line = text.section(QRegExp(breakStr),i,i);
-                	output += linePrefix + line + endLine; // add line
+                	output += linePrefix + line;
+			if((i != matches-1) || lastLineHasBreak)
+				output += endLine; // add break to line
 		}
 	} else { 
         	output = linePrefix + text; 
-		if(alwaysAddBreak)
+		if(addBreak)
         		output += breakStr;
 	}
 
@@ -232,7 +235,7 @@ QString TextBlock::toString ( )
 	if(m_writeOutText && !m_text.isEmpty())
 	{
 		QString endLine = m_parentDocument->getNewLineEndingChars();
-		return getIndentationString ( ) + m_text + endLine;
+		return formatMultiLineText(m_text, getIndentationString(), endLine);
 	} else 
 		return "";
 }

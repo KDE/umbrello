@@ -144,12 +144,12 @@ QString CodeBlockWithComments::toString ( ) {
 	QString string = QString();
 
 	if(getWriteOutText()) {
-		QString indent = getIndentationString(getIndentationLevel());
+		QString indent = getIndentationString();
 		QString endLine = getNewLineEndingChars();
 		QString body = formatMultiLineText (getText(), indent, endLine);
+		QString comment = getComment()->toString();
 
-		QString comment = m_comment->toString();
-		if(!comment.isEmpty() && m_comment->getWriteOutText())
+		if(!comment.isEmpty() && getComment()->getWriteOutText())
 			string.append(comment);
 		if(!body.isEmpty())
 			string.append(body);

@@ -124,7 +124,7 @@ QString CodeMethodBlock::toString ( ) {
 
         if(getWriteOutText()) {
 
-                QString indent = getIndentationString(getIndentationLevel());
+                QString indent = getIndentationString();
                 QString bodyIndent = getIndentationString(getIndentationLevel()+1);
                 QString endLine = getNewLineEndingChars();
 
@@ -133,7 +133,7 @@ QString CodeMethodBlock::toString ( ) {
                 QString endMethod = formatMultiLineText( getEndMethodText(), indent, endLine);
 
                 QString comment = getComment()->toString();
-                if(!comment.isEmpty())
+		if(!comment.isEmpty() && getComment()->getWriteOutText())
                         string.append(comment);
 
                 if(!startMethod.isEmpty())
