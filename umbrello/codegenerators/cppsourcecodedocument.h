@@ -79,6 +79,9 @@ public:
 
 protected:
 
+        // reset/clear our inventory of textblocks in this document
+        void resetTextBlocks();
+
         /** create new code classfield for this document.
          */
         virtual CodeClassField * newCodeClassField( UMLAttribute *at);

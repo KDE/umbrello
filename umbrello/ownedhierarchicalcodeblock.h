@@ -66,6 +66,12 @@ public:
 
 protected:
 
+       /** causes the text block to release all of its connections
+         * and any other text blocks that it 'owns'.
+         * needed to be called prior to deletion of the textblock.
+         */
+        virtual void release ();
+
        /** set attributes of the node that represents this class
          * in the XMI document.
          */

@@ -45,8 +45,9 @@ public:
 	/**
 	 * Constructors
 	 */
-	CodeMethodBlock ( ClassifierCodeDocument * doc , const QString & body = "", const QString & comment = "");
-	CodeMethodBlock ( CodeClassField *cf);
+	CodeMethodBlock ( ClassifierCodeDocument * doc, UMLObject * parentObj, 
+			    const QString & body = "", const QString & comment = "");
+	// CodeMethodBlock ( CodeClassField *cf);
 
 	/**
 	 * Empty Destructor

@@ -30,12 +30,15 @@ CodeGenObjectWithTextBlocks::CodeGenObjectWithTextBlocks ( )
 }
 
 CodeGenObjectWithTextBlocks::~CodeGenObjectWithTextBlocks ( ) {
-
+	resetTextBlocks();
+/*
         // delete all the text blocks we have
         for (TextBlock *tb = m_textblockVector.first(); tb; tb=m_textblockVector.next())
-		delete tb;
+		tb->release();
 
+        m_textBlockTagMap->clear();
 	m_textblockVector.clear();
+*/
 }
 
 //

@@ -26,14 +26,8 @@
 // Constructors/Destructors
 //  
 
-CodeOperation::CodeOperation ( ClassifierCodeDocument * doc , UMLOperation * parentOp, QString body, QString comment)
-    : CodeMethodBlock ( doc, body, comment)
-{
-	init(parentOp);
-}
-
-CodeOperation::CodeOperation ( ClassifierCodeDocument * doc, UMLOperation * parentOp )
-    : CodeMethodBlock ( doc )
+CodeOperation::CodeOperation ( ClassifierCodeDocument * doc , UMLOperation * parentOp, const QString & body, const QString & comment)
+    : CodeMethodBlock ( doc, parentOp, body, comment)
 {
 	init(parentOp);
 }
@@ -80,13 +74,8 @@ QPtrList<CodeParameter> CodeOperation::getParameterList ( ) {
  * Get the parent UMLOperation of this codeoperation.
  */
 UMLOperation * CodeOperation::getParentOperation( ) {
-	return m_parentOperation;
+	return (UMLOperation*) getParentObject();
 }
-
-UMLObject * CodeOperation::getParentObject ( ) {
-	return (UMLObject*)m_parentOperation;
-}
-
 
 // Other methods
 //  
@@ -147,7 +136,6 @@ void CodeOperation::setAttributesFromNode ( QDomElement & element)
 	UMLObject * obj = getParentDocument()->getParentGenerator()->getDocument()->findUMLObject(id); 
 	UMLOperation * op = dynamic_cast<UMLOperation*>(obj);
 
-	m_parentOperation->disconnect(this); // always disconnect
 	if(op)
 		init(op); 
 	else
@@ -162,10 +150,7 @@ void CodeOperation::setAttributesFromObject(TextBlock * obj)
 
         CodeOperation * op = dynamic_cast<CodeOperation*>(obj);
         if(op)
-        {
-		m_parentOperation->disconnect(this); // always disconnect
 		init((UMLOperation*) op->getParentObject());
-        }
 
 }
 
@@ -173,11 +158,10 @@ void CodeOperation::init (UMLOperation * parentOp)
 {
 
 	m_canDelete = false; // we cant delete these with the codeeditor, delete the UML operation instead.
-	m_parentOperation = parentOp;
 	setTag(CodeOperation::findTag(parentOp));
 
 	// not needed.. done by parent "ownedcodeblock" class
-//	connect(m_parentOperation,SIGNAL(modified()),this,SLOT(syncToParent()));
+//	connect(parentOp,SIGNAL(modified()),this,SLOT(syncToParent()));
 
 }
 

@@ -44,6 +44,11 @@ OwnedHierarchicalCodeBlock::~OwnedHierarchicalCodeBlock ( ) { }
 // Other methods
 //  
 
+void OwnedHierarchicalCodeBlock::release () {
+	OwnedCodeBlock::release();
+        HierarchicalCodeBlock::release();
+}
+
 void OwnedHierarchicalCodeBlock::setAttributesFromObject (TextBlock * obj) {
 
         HierarchicalCodeBlock::setAttributesFromObject(obj);

@@ -27,7 +27,7 @@
 //  
 
 CodeAccessorMethod::CodeAccessorMethod ( CodeClassField * parentCF ) 
-    : CodeMethodBlock ( parentCF ) 
+    : CodeMethodBlock ( parentCF->getParentDocument(), parentCF->getParentObject() ) 
 {
 	initFields(parentCF);
 }

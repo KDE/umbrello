@@ -58,6 +58,16 @@ QString CPPHeaderCodeDocument::getCPPClassName (QString name) {
 	return g->getCPPClassName(name);
 }
 
+CPPHeaderClassDeclarationBlock * CPPHeaderCodeDocument::getClassDecl() 
+{
+
+	if(!classDeclCodeBlock) {
+		classDeclCodeBlock = new CPPHeaderClassDeclarationBlock (this); // was deleted before our load
+        	classDeclCodeBlock->setTag("classDeclarationBlock");
+	}
+	return classDeclCodeBlock;
+}
+
 // Other methods
 //
 
@@ -85,9 +95,20 @@ void CPPHeaderCodeDocument::loadChildTextBlocksFromNode ( QDomElement & root)
 
                                 if( name == "cppheaderclassdeclarationblock" )
                                 {
-                                                classDeclCodeBlock = new CPPHeaderClassDeclarationBlock (this); // was deleted before our load
-                                                classDeclCodeBlock->loadFromXMI(element);
-                                                gotChildren= true;
+                                                CPPHeaderClassDeclarationBlock * block = getClassDecl();
+                                                block->loadFromXMI(element);
+						// normally this would be populated by the following syncToparent
+						// call, but we cant wait for it, so lets just do it now.
+						namespaceBlock = getHierarchicalCodeBlock("namespace", "Namespace", 1);
+
+						if(!namespaceBlock || !namespaceBlock->addTextBlock(block))
+						{
+							kdError()<<"Error:cant add class declaration codeblock"<<endl;
+							// DONT delete/release block
+							// block->release();
+						} else
+                                                	gotChildren= true;
+
                                                 break; // its the only node we are looking for
                                 }
 
@@ -109,6 +130,27 @@ void CPPHeaderCodeDocument::loadChildTextBlocksFromNode ( QDomElement & root)
 
 }
 
+void CPPHeaderCodeDocument::resetTextBlocks()
+{
+
+	// all special pointers need to be zero'd out.
+        classDeclCodeBlock = 0;
+	publicBlock = 0;
+	protectedBlock = 0;
+	privateBlock = 0;
+	namespaceBlock = 0;
+        pubConstructorBlock = 0;
+        protConstructorBlock = 0;
+        privConstructorBlock = 0;
+        pubOperationsBlock = 0;
+       	privOperationsBlock = 0;
+        protOperationsBlock = 0;
+
+	// now do the traditional release of child text blocks
+        ClassifierCodeDocument::resetTextBlocks();
+
+}
+
 // Initialize this cpp classifier code document
 void CPPHeaderCodeDocument::init ( ) {
 
@@ -116,12 +158,18 @@ void CPPHeaderCodeDocument::init ( ) {
 
 	initCodeClassFields(); // we have to call here as .newCodeClassField is pure virtual in parent class 
 
-	classDeclCodeBlock = new CPPHeaderClassDeclarationBlock (this);
-	classDeclCodeBlock->setTag("classDeclarationBlock");
-
+	// needed? I doubt it, but it feels good to do it.
+	classDeclCodeBlock = 0;
 	publicBlock = 0;
 	protectedBlock = 0;
 	privateBlock = 0;
+        namespaceBlock = 0;
+        pubConstructorBlock = 0;
+        protConstructorBlock = 0;
+        privConstructorBlock = 0;
+        pubOperationsBlock = 0;
+        privOperationsBlock = 0;
+        protOperationsBlock = 0;
 
 	// this will call updateContent() as well as other things that sync our document.
         synchronize();
@@ -354,8 +402,8 @@ void CPPHeaderCodeDocument::updateContent( )
 
 		QString enumStatement;
                 QString indent = policy->getIndentation();
-                UMLClass* k = dynamic_cast<UMLClass*>(c);
 /*
+                UMLClass* k = dynamic_cast<UMLClass*>(c);
                 if (k->isEnumeration()) {
                         enumStatement.append(indent + "enum "+cppClassName+" {"+endLine);
 
@@ -381,13 +429,14 @@ void CPPHeaderCodeDocument::updateContent( )
 	//
 
 	// add the class declaration block to the namespace block. 
-	namespaceBlock->addTextBlock(classDeclCodeBlock); // note: wont add if already present
+	CPPHeaderClassDeclarationBlock * myClassDeclCodeBlock = getClassDecl();
+	namespaceBlock->addTextBlock(myClassDeclCodeBlock); // note: wont add if already present
 
 	// Is this really true?? hmm..
 	if(isEnumeration)
-		classDeclCodeBlock->setWriteOutText(false); // not written out IF its an enumeration class
+		myClassDeclCodeBlock->setWriteOutText(false); // not written out IF its an enumeration class
 	else	
-		classDeclCodeBlock->setWriteOutText(true);
+		myClassDeclCodeBlock->setWriteOutText(true);
 
 	//
 	// Main Sub-Blocks
@@ -396,17 +445,17 @@ void CPPHeaderCodeDocument::updateContent( )
 	// declare public, protected and private methods, attributes (fields).
 	// set the start text ONLY if this is the first time we created the objects.
 	bool createdPublicBlock = publicBlock == 0 ? true : false;
-	publicBlock = classDeclCodeBlock->getHierarchicalCodeBlock("publicBlock","Public stuff",0);
+	publicBlock = myClassDeclCodeBlock->getHierarchicalCodeBlock("publicBlock","Public stuff",0);
 	if (createdPublicBlock)
 		publicBlock->setStartText("public:");
 
 	bool createdProtBlock = protectedBlock == 0 ? true : false;
-	protectedBlock = classDeclCodeBlock->getHierarchicalCodeBlock("protectedBlock","Protected stuff",0);
+	protectedBlock = myClassDeclCodeBlock->getHierarchicalCodeBlock("protectedBlock","Protected stuff",0);
 	if(createdProtBlock)
 		protectedBlock->setStartText("protected:");
 
 	bool createdPrivBlock = privateBlock == 0 ? true : false;
-	privateBlock = classDeclCodeBlock->getHierarchicalCodeBlock("privateBlock","Private stuff",0);
+	privateBlock = myClassDeclCodeBlock->getHierarchicalCodeBlock("privateBlock","Private stuff",0);
 	if(createdPrivBlock)
 		privateBlock->setStartText("private:");
 

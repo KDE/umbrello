@@ -33,13 +33,16 @@ OwnedCodeBlock::OwnedCodeBlock ( UMLObject * parent )
 	initFields(parent);
 }
 
-OwnedCodeBlock::~OwnedCodeBlock ( ) { 
-	m_parentObject->disconnect(this);
-}
+OwnedCodeBlock::~OwnedCodeBlock ( ) { }
 
 //
 // Methods
 //
+
+void OwnedCodeBlock::release () {
+	m_parentObject->disconnect(this);
+	m_parentObject = 0;
+}
 
 /**
  * Get the value of m_parentObject
@@ -57,7 +60,7 @@ void OwnedCodeBlock::setAttributesFromObject (TextBlock * obj) {
         OwnedCodeBlock * oc = dynamic_cast<OwnedCodeBlock*>(obj);
         if(oc)
         {
-                m_parentObject->disconnect();
+                m_parentObject->disconnect(this);
                 initFields(oc->getParentObject());
         }
 }

@@ -579,6 +579,7 @@ void UMLApp::slotFileNew() {
 		setModified(false);
 		enablePrint(false);
 	}
+	setGenerator(createGenerator());
 	slotUpdateViews();
 	slotStatusMsg(i18n("Ready."));
 }
@@ -1384,8 +1385,8 @@ void UMLApp::keyReleaseEvent(QKeyEvent *e) {
 }
 
 void UMLApp::newDocument() {
-	setGenerator(createGenerator());
 	doc->newDocument();
+	setGenerator(createGenerator());
 	slotUpdateViews();
 }
 

@@ -19,21 +19,21 @@
 // Constructors/Destructors
 //  
 
-CodeMethodBlock::CodeMethodBlock ( ClassifierCodeDocument * doc, const QString & body, const QString & comment)
-        : CodeBlockWithComments ((CodeDocument*)doc, body, comment), OwnedCodeBlock ((UMLObject*) doc->getParentClassifier()) 
+CodeMethodBlock::CodeMethodBlock ( ClassifierCodeDocument * doc, UMLObject * parentObj, const QString & body, const QString & comment)
+        : CodeBlockWithComments ((CodeDocument*)doc, body, comment), OwnedCodeBlock (parentObj) 
 {
         initFields();
 }
 
+/*
 CodeMethodBlock::CodeMethodBlock ( CodeClassField *cf) 
         : CodeBlockWithComments ( cf->getParentDocument()), OwnedCodeBlock (cf->getParentObject()) 
 {
         initFields();
 }
+*/
 
-CodeMethodBlock::~CodeMethodBlock ( ) { 
-//	((ClassifierCodeDocument *) getParentDocument())->getParentClassifier()->disconnect();
-}
+CodeMethodBlock::~CodeMethodBlock ( ) { }
 
 //  
 // Methods

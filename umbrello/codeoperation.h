@@ -36,8 +36,8 @@ public:
 	/**
 	 * Constructors 
 	 */
-        CodeOperation ( ClassifierCodeDocument * doc , UMLOperation * parent, QString body, QString comment);
-        CodeOperation ( ClassifierCodeDocument * parent, UMLOperation * p);
+        CodeOperation ( ClassifierCodeDocument * doc , UMLOperation * parent, 
+			const QString & body = "", const QString & comment = "");
 
 	/**
 	 * Empty Destructor
@@ -45,28 +45,9 @@ public:
 	virtual ~CodeOperation ( );
 
 	/**
-	 * Add a Parameter object to the m_parameterVector List
-	 */
-	//void addParameter ( CodeParameter * add_object );
-
-	/**
-	 * Remove a Parameter object from m_parameterVector List
-	 */
-	//void removeParameter ( CodeParameter * remove_object );
-
-	/**
-	 * Get the list of Parameter objects held by m_parameterVector
-	 * @return QPtrList<CodeParameter> list of Parameter objects held by
-	 * m_parameterVector
-	 */
-	//QPtrList<CodeParameter> getParameterList ( );
-
-	/**
 	 * Get the parent UMLOperation of this codeoperation.
 	 */
 	UMLOperation * getParentOperation( );
-
-	UMLObject * getParentObject( );
 
         /**
          * Save the XMI representation of this object

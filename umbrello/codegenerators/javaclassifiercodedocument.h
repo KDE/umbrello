@@ -131,6 +131,7 @@ private:
 	QString JavaClassName;
 
 	void init ( );
+	JavaClassDeclarationBlock * getClassDecl();
 
 
 };

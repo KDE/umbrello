@@ -188,6 +188,7 @@ QString TextBlock::unformatText ( const QString & text, const QString & indent )
 }
 
 void TextBlock::release () {
+	this->disconnect();
 	this->deleteLater();
 }
 
