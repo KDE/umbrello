@@ -138,7 +138,7 @@ void UMLListView::contentsMousePressEvent(QMouseEvent *me) {
 			UMLApp::app() -> getDocWindow() -> updateDocumentation( true );
 			break;
 		}
-	}//end switch
+	}
 	if(me->button() == RightButton) {
 		//setSelected( item, true);
 		if(m_pMenu != 0) {
@@ -658,10 +658,9 @@ QDragObject* UMLListView::dragObject() {
 	UMLListViewItem * item = 0;
 	UMLListViewItemList  list;
 	list.setAutoDelete( FALSE );
-	Uml::ListView_Type type;
 	while((item=it.current()) != 0) {
 		++it;
-		type = item->getType();
+		Uml::ListView_Type type = item->getType();
 		if ( !typeIsCanvasWidget(type) && !typeIsDiagram(type) && !typeIsFolder(type) ) {
 			return 0;
 		}
@@ -871,19 +870,22 @@ bool UMLListView::acceptDrag(QDropEvent* event) const {
 
 	UMLListViewItem* item = (UMLListViewItem*)itemAt(mousePoint);
 	if(!item) {
+		kdDebug() << "UMLListView::acceptDrag: itemAt(mousePoint) returns NULL"
+			  << endl;
 		return false;
 	}
 	((QListView*)this)->setCurrentItem( (QListViewItem*)item );
-	UMLDrag::LvTypeAndID_List list;
 
+	UMLDrag::LvTypeAndID_List list;
 	if (! UMLDrag::getClip3TypeAndID(event, list)) {
+		kdDebug() << "UMLListView::acceptDrag: UMLDrag::getClip3TypeAndID returns false"
+			  << endl;
 		return false;
 	}
 
 	UMLDrag::LvTypeAndID_It it(list);
 	UMLDrag::LvTypeAndID * data = 0;
 	Uml::ListView_Type dstType = item->getType();
-	//kdDebug() << "UMLListView::acceptDrag: dstType = " << dstType << endl;
 	bool accept = true;
 	while(accept && ((data = it.current()) != 0)) {
 		++it;
@@ -928,6 +930,8 @@ bool UMLListView::acceptDrag(QDropEvent* event) const {
 		}
 	}
 
+	//kdDebug() << "UMLListView::acceptDrag: dstType = " << dstType
+	//	  << ", accept=" << accept << endl;
 	return accept;
 }
 
@@ -1029,7 +1033,9 @@ UMLListViewItem * UMLListView::moveObject(int srcId, Uml::ListView_Type srcType,
 
 void UMLListView::slotDropped(QDropEvent* de, QListViewItem* /* parent */, QListViewItem* item) {
 	if(!item) {
-		return;
+		//kdDebug() << "UMLListView::slotDropped: item is NULL - setting to currentItem()"
+		//	  << endl;
+		item = (UMLListViewItem *)currentItem();
 	}
 	UMLDrag::LvTypeAndID_List srcList;
 	if (! UMLDrag::getClip3TypeAndID(de, srcList)) {
