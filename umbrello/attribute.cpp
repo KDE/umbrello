@@ -12,7 +12,7 @@
 
 #include <kdebug.h>
 
-UMLAttribute::UMLAttribute( QObject *parent, QString Name, int id, QString type,
+UMLAttribute::UMLAttribute( UMLObject *parent, QString Name, int id, QString type,
 			    Scope s, QString iv )
   : UMLClassifierListItem(parent, Name, id) {
 	m_TypeName = type;
@@ -21,7 +21,7 @@ UMLAttribute::UMLAttribute( QObject *parent, QString Name, int id, QString type,
 	m_Scope = s;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLAttribute::UMLAttribute(QObject * parent) : UMLClassifierListItem(parent) {
+UMLAttribute::UMLAttribute(UMLObject *parent) : UMLClassifierListItem(parent) {
 	m_BaseType = ot_Attribute;
 	m_TypeName = m_InitialValue = "";
 }

@@ -17,10 +17,11 @@
 #include <klocale.h>
 
 UMLCanvasObject::UMLCanvasObject(UMLDoc * parent, const QString & name, int id) 
-   : UMLObject((QObject*) parent, name, id) 
+   : UMLObject( parent, name, id) 
 {
 	init(parent);
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLCanvasObject::~UMLCanvasObject() {
 	m_AssocsList.clear();

@@ -34,14 +34,14 @@ public:
 	 * @param s		The scope of the UMLEnumLiteral.
 	 * @param iv		The initial value of the attribute.
 	 */
-	UMLEnumLiteral(QObject* parent, QString name, int id);
+	UMLEnumLiteral(UMLObject* parent, QString name, int id);
 
 	/**
 	 * Sets up an attribute.
 	 *
 	 * @param parent	The parent of this UMLEnumLiteral.
 	 */
-	UMLEnumLiteral(QObject* parent);
+	UMLEnumLiteral(UMLObject* parent);
 
 	/**
 	 * Overloaded '==' operator
@@ -49,9 +49,9 @@ public:
 	bool operator==(UMLEnumLiteral &rhs);
 
 	/**
-	 * Standard deconstructor.
+	 * destructor
 	 */
-	~UMLEnumLiteral();
+	virtual ~UMLEnumLiteral();
 
 	/**
 	 * Returns the type of the UMLEnumLiteral.

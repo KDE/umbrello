@@ -42,7 +42,7 @@ public:
 	 * @param name		The name of the Concept.
 	 * @param id		The unique id of the Concept.
 	 */
-	UMLComponent(UMLDoc* parent, const QString & name = "", int id = -1);
+	UMLComponent(UMLDoc *parent, const QString & name = "", int id = -1);
 
 	/**
 	 * Empty deconstructor.

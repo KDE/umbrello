@@ -14,14 +14,14 @@
 #include <klocale.h>
 #include <kdebug.h>
 
-UMLStereotype::UMLStereotype( QObject* parent, QString name, int id,
+UMLStereotype::UMLStereotype( UMLObject *parent, QString name, int id,
 			      UMLObject_Type listType)
   : UMLClassifierListItem( parent, name, id ) {
 	m_BaseType = ot_Stereotype;
 	m_listType = listType;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLStereotype::UMLStereotype(QObject* parent)
+UMLStereotype::UMLStereotype(UMLObject *parent)
   : UMLClassifierListItem( parent ) {
 	m_BaseType = ot_Stereotype;
 }

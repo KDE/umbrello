@@ -33,14 +33,14 @@ public:
 	 * @param listType	The list which this stereotype is part of
 	 *			(attribute, operation etc)
 	 */
-	UMLStereotype(QObject* parent, QString name, int id, UMLObject_Type listType);
+	UMLStereotype(UMLObject* parent, QString name, int id, UMLObject_Type listType);
 
 	/**
 	 * Sets up a stereotype.
 	 *
 	 * @param parent	The parent of this UMLStereotype.
 	 */
-	UMLStereotype(QObject* parent);
+	UMLStereotype(UMLObject* parent);
 
 	/**
 	 * Overloaded '==' operator
@@ -48,9 +48,9 @@ public:
 	bool operator==(UMLStereotype &rhs);
 
 	/**
-	 * Standard deconstructor.
+	 * destructor
 	 */
-	~UMLStereotype();
+	virtual ~UMLStereotype();
 
 	/**
 	 * Returns a string representation of the UMLStereotype.

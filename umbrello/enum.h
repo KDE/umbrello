@@ -166,16 +166,15 @@ signals:
 	void enumLiteralRemoved(UMLObject*);
 
 protected:
-
-	/**
-	 * Initializes key variables of the class.
-	 */
-	virtual void init();
-
 	/**
 	 * List of all the enumliterals in this class.
 	 */
 	QPtrList<UMLClassifierListItem> m_EnumLiteralList;
+private:
+	/**
+	 * Initializes key variables of the class.
+	 */
+	void init();
 
 };
 

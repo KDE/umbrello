@@ -44,7 +44,7 @@ public:
 	 * @param id		The unique id of the Concept.
 	 */
 	UMLCanvasObject(UMLDoc * doc, const QString & name = "", int id = -1);
-
+	
 	/**
 	 * Standard deconstructor.
 	 */

@@ -33,14 +33,14 @@ public:
 	 * @param id		The unique id given to this UMLTemplate.
 	 * @param type		The type of this UMLTemplate.
 	 */
-	UMLTemplate(QObject* parent, QString name, int id, QString type = "class");
+	UMLTemplate(UMLObject *parent, QString name, int id, QString type = "class");
 
 	/**
 	 * Sets up a template.
 	 *
 	 * @param parent	The parent of this UMLTemplate (i.e. its concept).
 	 */
-	UMLTemplate(QObject* parent);
+	UMLTemplate(UMLObject *parent);
 
 	/**
 	 * Overloaded '==' operator
@@ -48,9 +48,9 @@ public:
 	bool operator==(UMLTemplate &rhs);
 
 	/**
-	 * Standard deconstructor.
+	 * destructor
 	 */
-	~UMLTemplate();
+	virtual ~UMLTemplate();
 
 	/**
 	 * Returns the type of the UMLTemplate.
