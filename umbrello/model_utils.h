@@ -90,6 +90,16 @@ namespace Umbrello {
 	 */
 	QString scopeToString(Uml::Scope scope, bool mnemonic = true);
 
+        /**
+         * Parse a direction string into the Uml::Parameter_Direction.
+	 *
+	 * @param input		The string to parse: "in", "out", or "inout"
+	 *			optionally followed by whitespace.
+	 * @param result	The corresponding Uml::Parameter_Direction.
+	 * @return	Length of the string matched, excluding the optional
+	 *		whitespace.
+	 */
+	int stringToDirection(QString input, Uml::Parameter_Direction & result);
 
 	/**
 	 * Return type of parseOperation()

@@ -234,6 +234,24 @@ QString scopeToString(Uml::Scope scope, bool mnemonic) {
 	}
 }
 
+int stringToDirection(QString input, Uml::Parameter_Direction & result) {
+	QRegExp dirx("^(in|out|inout)");
+	int pos = dirx.search(input);
+	if (pos == -1)
+		return 0;
+	const QString& dirStr = dirx.capturedTexts().first();
+	uint dirLen = dirStr.length();
+	if (input.length() > dirLen && !input[dirLen].isSpace())
+		return 0;	// no match after all.
+	if (dirStr == "out")
+		result = Uml::pd_Out;
+	else if (dirStr == "inout")
+		result = Uml::pd_InOut;
+	else
+		result = Uml::pd_In;
+	return dirLen;
+}
+
 Parse_Status parseTemplate(QString t, NameAndType& nmTpPair, UMLClassifier *owningScope) {
 
 	UMLDoc *pDoc = UMLApp::app()->getDocument();
