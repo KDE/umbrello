@@ -19,6 +19,7 @@
 #ifndef CODEEDITOR_H
 #define CODEEDITOR_H
 
+#include <qpopupmenu.h>
 #include <qstring.h>
 #include <qtextedit.h>
 #include "settingsdlg.h"
@@ -78,7 +79,11 @@ protected:
 	// and 'return' events.
 	void keyPressEvent ( QKeyEvent * e );
 
+	// (re) load the parent code document into the editor
         void loadFromDocument();
+
+	// specialized popup menu for our tool
+	QPopupMenu * createPopupMenu ( const QPoint & pos );
 
 private:
 
@@ -86,21 +91,26 @@ private:
 	CodeDocument * m_parentDoc;
 	CodeViewerDialog * m_parentDlg;
 
+	void clearText();
+	QLabel * getComponentLabel();
 	bool paraIsNotSingleLine (int para);
         void expandSelectedParagraph( int where );
         void contractSelectedParagraph( int where );
         void updateMethodBlockBody (TextBlock * block);
+
         void initText ( CodeDocument * doc );
 	void init ( CodeViewerDialog * parentDlg, CodeDocument * parentDoc );
+
         void changeTextBlockHighlighting(TextBlock * tb, bool selected);
         bool isParaEditable (int para);
         bool textBlockIsClickable(UMLObject * obj);
+
         int m_lastPara;
         int m_lastPos;
         bool m_newLinePressed;
         bool m_backspacePressed;
-
         bool m_isHighlighted;
+	bool m_showHiddenBlocks;
         TextBlock * m_selectedTextBlock;
         TextBlock * m_lastTextBlockToBeEdited;
 
@@ -108,22 +118,27 @@ private:
         QMap<TextBlock*, TextBlockInfo*> *m_tbInfoMap;
         QPtrList<TextBlock> m_textBlockList;
 
-	QLabel * getComponentLabel();
-
-	void clearText();
+	// return whether or not the passed string is empty or 
+	// contains nothing but whitespace
+	static bool StringIsBlank(QString str); 
 
 public slots:
 
 	void insertParagraph ( const QString & text, int para );
 	void removeParagraph ( int para );
         void changeHighlighting(int signal);
-
+	void changeShowHidden (int signal);
 
 protected slots:
 
+	void slotNull();
         void clicked(int para, int pos );
         void doubleClicked(int para, int pos );
         void cursorPositionChanged(int para, int pos );
+	void slotChangeSelectedBlockView();
+	void slotChangeSelectedBlockCommentView();
+	void slotInsertCodeBlockAfterSelected();
+	void slotInsertCodeBlockBeforeSelected();
 
 signals:
 

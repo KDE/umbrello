@@ -29,24 +29,21 @@
         </property>
         <widget class="QLayoutWidget" row="0" column="0">
             <property name="name">
-                <cstring>layout3</cstring>
+                <cstring>layout2</cstring>
             </property>
             <grid>
                 <property name="name">
                     <cstring>unnamed</cstring>
                 </property>
-                <widget class="QCheckBox" row="0" column="0">
+                <widget class="QCheckBox" row="0" column="1">
                     <property name="name">
-                        <cstring>m_highlightCheckBox</cstring>
+                        <cstring>m_showHiddenCodeCB</cstring>
                     </property>
                     <property name="text">
-                        <string>Show Code Block Type</string>
-                    </property>
-                    <property name="checked">
-                        <bool>false</bool>
+                        <string>Show Hidden Blocks</string>
                     </property>
                 </widget>
-                <widget class="QLabel" row="2" column="0" rowspan="1" colspan="2">
+                <widget class="QLabel" row="1" column="0" rowspan="1" colspan="3">
                     <property name="name">
                         <cstring>componentLabel</cstring>
                     </property>
@@ -65,7 +62,7 @@
                         <bool>true</bool>
                     </property>
                 </widget>
-                <widget class="QPushButton" row="0" column="1">
+                <widget class="QPushButton" row="0" column="2">
                     <property name="name">
                         <cstring>m_exitButton</cstring>
                     </property>
@@ -79,6 +76,17 @@
                     </property>
                     <property name="text">
                         <string>Close</string>
+                    </property>
+                </widget>
+                <widget class="QCheckBox" row="0" column="0">
+                    <property name="name">
+                        <cstring>m_highlightCheckBox</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Show Block Type</string>
+                    </property>
+                    <property name="checked">
+                        <bool>false</bool>
                     </property>
                 </widget>
             </grid>

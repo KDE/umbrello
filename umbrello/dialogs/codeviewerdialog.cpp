@@ -60,20 +60,13 @@ void CodeViewerDialog::initGUI ( const char * name) {
 	int width = fontMetrics().maxWidth() * getState().width;
 	int height = fontMetrics().lineSpacing() * getState().height;
 
+	m_highlightCheckBox->setChecked( getState().blocksAreHighlighted );
+	m_showHiddenCodeCB->setChecked ( getState().showHiddenBlocks );
+
 	CodeViewerDialogBaseLayout->setMargin(margin);
 
 	resize( QSize(width, height).expandedTo(minimumSizeHint()) );
 
-	// make connections to codetextedit
-
-/*
-	connect(codeTextEdit,SIGNAL(clicked(int,int)),this,SLOT(clicked(int,int)));
-	connect(codeTextEdit,SIGNAL(mouseMoved(QMouseEvent*)),this,SLOT(mouseMoved(QMouseEvent*)));
-	connect(codeTextEdit,SIGNAL(doubleClicked(int,int)),this,SLOT(doubleClicked(int,int)));
-	connect(codeTextEdit,SIGNAL(newLinePressed()),this,SLOT(newLinePressed()));
-	connect(codeTextEdit,SIGNAL(backspacePressed()),this,SLOT(backspacePressed()));
-	connect(codeTextEdit,SIGNAL(cursorPositionChanged(int,int)),this,SLOT(cursorPositionChanged(int,int)));
-*/
 }
 
 /*
@@ -87,6 +80,8 @@ void CodeViewerDialog::addCodeDocument( CodeDocument * doc)
 	m_tabWidget->insertTab(page, (fname + (ext.isEmpty()? "" : ext)));
 
     	connect( m_highlightCheckBox, SIGNAL( stateChanged(int) ), page, SLOT( changeHighlighting(int) ) );
+    	connect( m_showHiddenCodeCB, SIGNAL( stateChanged(int) ), page, SLOT( changeShowHidden(int) ) );
+
 }
 
 SettingsDlg::CodeViewerState CodeViewerDialog::getState() {
@@ -97,16 +92,16 @@ bool CodeViewerDialog::close ( bool alsoDelete )
 {
 
 	// remember widget size for next time
-
 	getState().height = height() / fontMetrics().lineSpacing();
 	getState().width = width() / fontMetrics().maxWidth();
 
-	// capture last code block, if it exists 
-/*
-	if(m_lastTextBlockToBeEdited)
-		updateMethodBlockBody (m_lastTextBlockToBeEdited);
-*/
+	// remember block highlighting
+	getState().blocksAreHighlighted = m_highlightCheckBox->isChecked();
 
+	// remember block show status
+	getState().showHiddenBlocks = m_showHiddenCodeCB->isChecked();
+
+	// run superclass close now
 	return CodeViewerDialogBase::close(alsoDelete);
 
 }

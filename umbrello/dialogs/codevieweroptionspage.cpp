@@ -34,18 +34,22 @@ void CodeViewerOptionsPage::init( SettingsDlg::CodeViewerState options )
 
 	// set widget stuff
 	fontChooser->setFont( options.font );
-	selectColorButton -> setColor (options.highlightColor);
+	selectColorButton -> setColor (options.selectedColor);
 	fontColorButton -> setColor (options.fontColor);
 	paperColorButton -> setColor (options.paperColor);
+	editBlockColorButton -> setColor (options.editBlockColor);
+	nonEditBlockColorButton -> setColor (options.nonEditBlockColor);
+	umlObjectColorButton -> setColor (options.umlObjectColor);
 
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void CodeViewerOptionsPage::apply() {
 
-kdDebug()<<"Apply clicked for codeviewoptionspage "<<endl;
-
-	m_options.highlightColor = selectColorButton->color();
+	m_options.umlObjectColor = umlObjectColorButton->color();
+	m_options.editBlockColor = editBlockColorButton->color();
+	m_options.nonEditBlockColor = nonEditBlockColorButton->color();
+	m_options.selectedColor = selectColorButton->color();
 	m_options.paperColor = paperColorButton->color();
 	m_options.fontColor = fontColorButton->color();
 	m_options.font = fontChooser->font();

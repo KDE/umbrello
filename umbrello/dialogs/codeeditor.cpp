@@ -15,6 +15,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+#include <iostream.h>
 #include <kdebug.h>
 #include <klocale.h>
 
@@ -100,11 +101,6 @@ void CodeEditor::clicked(int para, int pos)
 bool CodeEditor::close ( bool alsoDelete )
 {
 
-        // remember widget size for next time
-
-        getState().height = height() / fontMetrics().lineSpacing();
-        getState().width = width() / fontMetrics().maxWidth();
-
         // capture last code block, if it exists
         if(m_lastTextBlockToBeEdited)
                 updateMethodBlockBody (m_lastTextBlockToBeEdited);
@@ -174,6 +170,14 @@ void CodeEditor::editTextBlock(TextBlock * tBlock, int para) {
         }
 }
 
+// return whether is empty or just whitespace
+bool CodeEditor::StringIsBlank(QString str)
+{
+	if(str.isEmpty() || str.stripWhiteSpace().isEmpty())
+		return true;
+	return false;
+}
+
 void CodeEditor::keyPressEvent ( QKeyEvent * e ) {
 
 // cerr<<"KEY PRESS EVENT:["<<e->text().latin1()<<"] ascii CODE:"<<e->ascii()<<endl;
@@ -201,9 +205,9 @@ void CodeEditor::loadFromDocument ()
         // header for document
         QString header = m_parentDoc->getHeader()->toString();
         QString componentName = QString("header for file ") +caption;
-        if(!header.isEmpty())
+        if(!StringIsBlank(header))
                 insert(header,m_parentDoc->getHeader(),false,getState().fontColor,
-			getState().paperColor,0,componentName);
+			getState().nonEditBlockColor,0,componentName);
 
         // now all the text blocks in the document
         QPtrList<TextBlock> * items = m_parentDoc->getTextBlockList();
@@ -216,7 +220,7 @@ void CodeEditor::loadFromDocument ()
 void CodeEditor::insert (const QString & text, TextBlock * parent, bool editable, const QColor & fgcolor, const QColor & bgcolor, UMLObject * umlobj, const QString & displayName)
 {
 
-        if(text.isEmpty())
+        if(StringIsBlank(text))
                 return;
 
         // we will need this later for background coloring
@@ -301,21 +305,25 @@ void CodeEditor::insertText(QPtrList<TextBlock> * items)
 void CodeEditor::insertText (CodeComment * comment, TextBlock * parent, UMLObject * umlObj , const QString & componentName)
 {
 
-        if(!comment->getWriteOutText())
+        if(!comment->getWriteOutText() && !m_showHiddenBlocks)
                 return;
+ 
+	QColor bgcolor = getState().nonEditBlockColor;
+        if(!comment->getWriteOutText() && m_showHiddenBlocks)
+		bgcolor = getState().hiddenColor;
 
-        QString indent = comment->getIndentation();
-        QString text = parent->formatMultiLineText(comment->toString(), indent, "\n");
-        if(!text.isEmpty())
-                insert(text,parent,false,getState().fontColor,getState().paperColor, umlObj, componentName);
+        QString indent = comment->getIndentationString();
+        QString text = comment->toString(); // formatMultiLineText(comment->toString(), indent, "\n");
+        if(!StringIsBlank(text))
+                insert(text,parent,false,getState().fontColor, bgcolor, umlObj, componentName);
 }
 
 void CodeEditor::insertText (CodeClassFieldDeclarationBlock * db ) {
 
-        if(!db->getWriteOutText())
+        if(!db->getWriteOutText() && !m_showHiddenBlocks)
                 return;
 
-        QString indent = db->getIndentation();
+        QString indent = db->getIndentationString();
         QString body = db->formatMultiLineText (db->getText(), indent, "\n");
 
         UMLObject * parentObj = db->getParentClassField()->getParentObject();
@@ -333,29 +341,37 @@ void CodeEditor::insertText (CodeClassFieldDeclarationBlock * db ) {
 
         insertText(db->getComment(), db, parentObj,componentName);
 
-        if(!body.isEmpty())
-                insert(body,db,false,getState().fontColor,QColor("pink"),parentObj);
+	QColor bgcolor = getState().editBlockColor;
+        if(!db->getWriteOutText() && m_showHiddenBlocks)
+		bgcolor = getState().hiddenColor;
+
+        if(!StringIsBlank(body))
+                insert(body,db,false,getState().fontColor,bgcolor,parentObj);
 
 
 }
 
 void CodeEditor::insertText (CodeMethodBlock * mb) {
 
-        if(!mb->getWriteOutText())
+        if(!mb->getWriteOutText() && !m_showHiddenBlocks)
                 return;
 
         QColor bgcolor;
-        QString indent = mb->getIndentation();
+        QString indent = mb->getIndentationString();
         QString bodyIndent = mb->getIndentationString(mb->getIndentationLevel()+1);
+
         QString startText = mb->formatMultiLineText ( mb->getStartMethodText(), indent, "\n");
         QString body = mb->formatMultiLineText (mb->getText(), bodyIndent, "\n");
         QString endText = mb->formatMultiLineText( mb->getEndMethodText(), indent, "\n");
 
         if(dynamic_cast<CodeAccessorMethod*>(mb)) {
-                bgcolor = QColor("pink");
+                bgcolor = getState().editBlockColor;
         } else {
-                bgcolor = getState().paperColor;
+                bgcolor = getState().nonEditBlockColor;
         }
+
+        if(!mb->getWriteOutText() && m_showHiddenBlocks)
+                bgcolor = getState().hiddenColor;
 
         QString componentName = QString("<b>parentless method\?</b>");
 
@@ -385,35 +401,39 @@ void CodeEditor::insertText (CodeMethodBlock * mb) {
 
         insertText(mb->getComment(), mb, parentObj, componentName);
 
-        if(!startText.isEmpty())
+        if(!StringIsBlank(startText))
                 insert(startText,mb,false,getState().fontColor,bgcolor,parentObj);
-        if(!body.isEmpty())
+        if(!StringIsBlank(body))
                 insert(body,mb,true,getState().fontColor,bgcolor,parentObj);
-        if(!endText.isEmpty())
+        if(!StringIsBlank(endText))
                 insert(endText,mb,false,getState().fontColor,bgcolor,parentObj);
 
 }
 
 void CodeEditor::insertText (TextBlock * tb) {
 
-        if(!tb->getWriteOutText())
+        if(!tb->getWriteOutText() && !m_showHiddenBlocks)
                 return;
 
+	QColor bgcolor = getState().nonEditBlockColor;
+        if(!tb->getWriteOutText() && m_showHiddenBlocks)
+		bgcolor = getState().hiddenColor;
+			
         QString str = tb->toString();
-        insert(str,tb,false,getState().fontColor,getState().paperColor);
+        insert(str,tb,false,getState().fontColor,bgcolor);
 
 }
 
 void CodeEditor::insertText(HierarchicalCodeBlock * hblock)
 {
 
-        if(!hblock->getWriteOutText())
+        if(!hblock->getWriteOutText() && !m_showHiddenBlocks)
                 return;
 
         OwnedHierarchicalCodeBlock * test = dynamic_cast<OwnedHierarchicalCodeBlock *>(hblock);
         UMLObject * parentObj = 0;
         QString componentName = QString("");
-	QColor highlight = getState().paperColor;
+	QColor paperColor = getState().nonEditBlockColor;
         if(test)
         {
                 parentObj = test->getParentObject();
@@ -424,21 +444,24 @@ void CodeEditor::insertText(HierarchicalCodeBlock * hblock)
                 else
                         componentName = parentDocName + "::UNKNOWN(" + parentObj->getName() + ")";
 
-		highlight = QColor("pink");
+		paperColor = getState().editBlockColor;
         }
 
+        if(!hblock->getWriteOutText() && m_showHiddenBlocks)
+		paperColor = getState().hiddenColor;
+
         QPtrList<TextBlock> * items = hblock->getTextBlockList();
-        QString indent = hblock->getIndentation();
+        QString indent = hblock->getIndentationString();
         QString startText = hblock->formatMultiLineText ( hblock->getStartText(), indent, "\n");
         QString endText = hblock->formatMultiLineText( hblock->getEndText(), indent, "\n");
 
-        insertText(hblock->getComment(), hblock, parentObj,componentName);
+        insertText(hblock->getComment(), hblock, parentObj, componentName);
 
-        if(!startText.isEmpty())
-                insert(startText,hblock,false,getState().fontColor,highlight);
+        if(!StringIsBlank(startText))
+                insert(startText,hblock,false,getState().fontColor,paperColor, parentObj);
         insertText(items);
-        if(!endText.isEmpty())
-                insert(endText,hblock,false,getState().fontColor,highlight);
+        if(!StringIsBlank(endText))
+                insert(endText,hblock,false,getState().fontColor,paperColor);
 
 }
 
@@ -473,16 +496,108 @@ bool CodeEditor::textBlockIsClickable(UMLObject * obj)
         return false;
 }
 
+void CodeEditor::slotChangeSelectedBlockView() 
+{
+	TextBlock * tb = m_selectedTextBlock;
+	if(tb) {
+		tb->setWriteOutText(tb->getWriteOutText() ? false : true );
+		rebuildView(m_lastPara);
+	}
+
+}
+
+// change the status of the comment writeOutText value to 
+// opposite of current value
+void CodeEditor::slotChangeSelectedBlockCommentView() 
+{
+
+	TextBlock * tb = m_selectedTextBlock;
+	CodeBlockWithComments * cb = 0;
+	if(tb && (cb = dynamic_cast<CodeBlockWithComments*>(tb)))
+	{
+		cb->getComment()->setWriteOutText(cb->getComment()->getWriteOutText() ? false : true );
+		rebuildView( m_lastPara );
+	}
+
+}
+
+void CodeEditor::slotInsertCodeBlockBeforeSelected() 
+{
+
+	TextBlock * tb = m_selectedTextBlock;
+	CodeBlockWithComments * newBlock = m_parentDoc->newCodeBlockWithComments();
+	newBlock->setText(" ");
+	newBlock->getComment()->setWriteOutText(false);
+
+	m_parentDoc->insertTextBlock(newBlock, tb, false);
+	rebuildView(m_lastPara);
+
+}
+
+void CodeEditor::slotInsertCodeBlockAfterSelected() 
+{
+
+	TextBlock * tb = m_selectedTextBlock;
+	CodeBlockWithComments * newBlock = m_parentDoc->newCodeBlockWithComments();
+	newBlock->setText(" ");
+	newBlock->getComment()->setWriteOutText(false);
+
+	m_parentDoc->insertTextBlock(newBlock, tb, true);
+	rebuildView(m_lastPara);
+
+}
+
+QPopupMenu * CodeEditor::createPopupMenu ( const QPoint & pos ) 
+{
+
+	TextBlock * tb = m_selectedTextBlock;
+cerr<<" Create popup menu for tb:"<<tb<<endl;
+
+//  	return QTextEdit::createPopupMenu ( pos );
+	QPopupMenu * menu = new QPopupMenu(this);
+
+	if (m_selectedTextBlock) 
+	{
+		if(tb->getWriteOutText())
+			menu->insertItem("Hide",this,SLOT(slotChangeSelectedBlockView()));
+		else
+			menu->insertItem("Show",this,SLOT(slotChangeSelectedBlockView()));
+
+		CodeBlockWithComments * cb = dynamic_cast<CodeBlockWithComments*>(tb);
+		if(cb)
+			if(cb->getComment()->getWriteOutText())
+				menu->insertItem("Hide Comment",this,SLOT(slotChangeSelectedBlockCommentView()));
+			else
+				menu->insertItem("Show Comment",this,SLOT(slotChangeSelectedBlockCommentView()));
+
+		menu->insertItem("Insert Code Block Before",this,SLOT(slotInsertCodeBlockBeforeSelected()));
+		menu->insertItem("Insert Code Block After",this,SLOT(slotInsertCodeBlockAfterSelected()));
+
+		menu->insertItem("Copy",this,SLOT(slotNull()));
+		menu->insertItem("Paste",this,SLOT(slotNull()));
+		menu->insertItem("Cut",this,SLOT(slotNull()));
+
+	}
+	
+	return menu;
+}
+
+void CodeEditor::slotNull ( ) {
+	cerr<<" called slotNull"<<endl;
+}
+
 void CodeEditor::init ( CodeViewerDialog * parentDlg, CodeDocument * parentDoc ) {
 
 	m_parentDlg = parentDlg;
 	m_parentDoc = parentDoc;
 
+	setUndoRedoEnabled( FALSE );
         setCursor( QCursor( 0 ) );
         setMouseTracking( TRUE );
 	setReadOnly (true);
+        m_isHighlighted = getState().blocksAreHighlighted;
+	m_showHiddenBlocks = getState().showHiddenBlocks;
 
-        m_isHighlighted = false;
         m_newLinePressed = false;
         m_backspacePressed = false;
         m_selectedTextBlock = 0;
@@ -514,6 +629,7 @@ void CodeEditor::init ( CodeViewerDialog * parentDlg, CodeDocument * parentDoc )
 
 	// do this last
 	loadFromDocument(); 
+
 }
 
 void CodeEditor::updateMethodBlockBody (TextBlock * block) {
@@ -729,14 +845,26 @@ void CodeEditor::changeTextBlockHighlighting(TextBlock * tBlock, bool selected) 
                 for(int p=(item->start+pstart);p<=(item->start+pstart+item->size);p++)
                         if(selected)
                                 if(info->isClickable)
-                                        setParagraphBackgroundColor(p,getState().highlightColor);
+                                        setParagraphBackgroundColor(p,getState().selectedColor);
                                 else
-                                        setParagraphBackgroundColor(p,QColor(200,200,200));
+                                        setParagraphBackgroundColor(p,getState().nonEditBlockColor);
                         else if(m_isHighlighted)
                                 setParagraphBackgroundColor(p,item->bgcolor);
                         else
                                 setParagraphBackgroundColor(p,getState().paperColor);
     }
+
+}
+
+void CodeEditor::changeShowHidden (int signal) {
+
+cerr<<"changeShowHidden called"<<endl;
+	if(signal)
+		m_showHiddenBlocks = true;
+	else
+		m_showHiddenBlocks = false;
+
+	rebuildView(m_lastPara);
 
 }
 
