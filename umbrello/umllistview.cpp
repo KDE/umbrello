@@ -973,7 +973,7 @@ UMLListViewItem* UMLListView::createItem(UMLListViewItem& Data, IDChangeLog& IDC
 		//it could exist an Item already asocciated if the user chose to reuse an uml object
 		if(!(item = findItem(newID))) {
 			pObject = m_doc->findUMLObject( IDChanges.findNewID(Data.getID()) );
-			item = new UMLListViewItem(parent, Data.getLabel(), lvt, pObject);
+			item = new UMLListViewItem(parent, Data.getText(), lvt, pObject);
 		}
 		break;
 	case Uml::lvt_Logical_Folder:
@@ -981,7 +981,7 @@ UMLListViewItem* UMLListView::createItem(UMLListViewItem& Data, IDChangeLog& IDC
 	case Uml::lvt_Component_Folder:
 	case Uml::lvt_Deployment_Folder:
 	case Uml::lvt_Datatype_Folder:
-		item = new UMLListViewItem(parent, Data.getLabel(), lvt);
+		item = new UMLListViewItem(parent, Data.getText(), lvt);
 		break;
 	case Uml::lvt_Attribute:
 	case Uml::lvt_Template:
@@ -990,7 +990,7 @@ UMLListViewItem* UMLListView::createItem(UMLListViewItem& Data, IDChangeLog& IDC
 		newID = IDChanges.findNewID( Data.getID() );
 		pObject = pClass -> findChildObject( newID );
 		if (pObject) {
-			item = new UMLListViewItem( parent, Data.getLabel(), lvt, pObject );
+			item = new UMLListViewItem( parent, Data.getText(), lvt, pObject );
 		} else {
 			item = 0;
 		}
@@ -1001,7 +1001,7 @@ UMLListViewItem* UMLListView::createItem(UMLListViewItem& Data, IDChangeLog& IDC
 		UMLClassifier * pConcept =  (UMLClassifier *)parent -> getUMLObject();
 		pObject = pConcept  -> findChildObject( IDChanges.findNewID( Data.getID() ) );
 		if (pObject) {
-			item = new UMLListViewItem( parent, Data.getLabel(), lvt, pObject );
+			item = new UMLListViewItem( parent, Data.getText(), lvt, pObject );
 		} else {
 			item = 0;
 		}
@@ -1679,7 +1679,7 @@ void UMLListView::createUMLObject( UMLListViewItem * item, Uml::UMLObject_Type t
 	connectNewObjectsSlots(object);
 	m_doc -> addUMLObject( object );
 	item -> setUMLObject( object );
-	item -> setLabel( name );
+	item -> setText( name );
 }
 
 void UMLListView::createChildUMLObject( UMLListViewItem * item, Uml::UMLObject_Type type ) {
@@ -1705,7 +1705,7 @@ void UMLListView::createChildUMLObject( UMLListViewItem * item, Uml::UMLObject_T
 	m_doc -> addUMLObject( object );
 
 	item -> setUMLObject( object );
-	item -> setLabel( name );
+	item -> setText( name );
 	m_bCreatingChildObject = false;
 }
 
@@ -1723,7 +1723,7 @@ void UMLListView::createDiagram( UMLListViewItem * item, Uml::Diagram_Type type 
 	m_doc -> addView( view );
 	view  -> setOptionState( ((UMLApp *) m_doc -> parent()) -> getOptionState() );
 	item -> setID( view -> getID() );
-	item -> setLabel( name );
+	item -> setText( name );
 	view->activate();
 	m_doc -> changeCurrentView( view -> getID() );
 }

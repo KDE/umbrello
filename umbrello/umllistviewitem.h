@@ -140,6 +140,11 @@ public:
 	void setText( QString text );
 
 	/**
+	 * Returns the current text.
+	 */
+	QString getText() const;
+
+	/**
 	 * Sets if the item is in the middle of being created.
 	 */
 	void setCreating( bool creating ) {
@@ -162,20 +167,6 @@ public:
 	 */
 	int childCount() const {
 		return m_nChildren;
-	}
-
-	/**
-	 * Sets the label text.
-	 */
-	void setLabel(QString newLabel) {
-		m_Label = newLabel;
-	}
-
-	/**
-	 * Returns the label text.
-	 */
-	QString getLabel() const {
-		return m_Label;
 	}
 
 	/**
