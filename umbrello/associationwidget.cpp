@@ -2960,7 +2960,7 @@ UMLWidget* AssociationWidget::findWidget( int id, const UMLWidgetList& widgets,
 }
 
 void AssociationWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
-	QDomElement assocElement = qDoc.createElement( "UML:AssocWidget" );
+	QDomElement assocElement = qDoc.createElement( "assocwidget" );
 
 	if (m_pAssociation) {
 		assocElement.setAttribute( "xmi.id", m_pAssociation->getID() );
@@ -3169,7 +3169,8 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
 				m_role[A].m_OldCorner.setX(p.x());
 				m_role[A].m_OldCorner.setY(p.y());
 			}
-		} else if( tag == "UML:FloatingTextWidget" ) {
+		} else if (tag == "floatingtext" ||
+			   tag == "UML:FloatingTextWidget") {  // for bkwd compatibility
 			QString r = element.attribute( "role", "-1");
 			if( r == "-1" )
 				return false;

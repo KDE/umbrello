@@ -61,7 +61,7 @@ void UseCaseWidget::calculateSize()
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UseCaseWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
-	QDomElement usecaseElement = qDoc.createElement( "UML:UseCaseWidget" );
+	QDomElement usecaseElement = qDoc.createElement( "usecasewidget" );
 	UMLWidget::saveToXMI( qDoc, usecaseElement );
 	qElement.appendChild( usecaseElement );
 }

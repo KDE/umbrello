@@ -192,7 +192,7 @@ bool ActivityWidget::isActivity(WorkToolBar::ToolBar_Buttons tbb,
 }
 
 void ActivityWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
-	QDomElement activityElement = qDoc.createElement( "UML:ActivityWidget" );
+	QDomElement activityElement = qDoc.createElement( "activitywidget" );
 	UMLWidget::saveToXMI( qDoc, activityElement );
 	activityElement.setAttribute( "activityname", m_Name );
 	activityElement.setAttribute( "documentation", m_Doc );

@@ -3083,22 +3083,29 @@ UMLWidget* UMLView::loadWidgetFromXMI(QDomElement& widgetElement) {
 	QString str  = widgetElement.attribute( "xmi.id", "-1" );
 	int id = str.toInt();
 
-	if( tag == "UML:StateWidget" || tag == "UML:NoteWidget" || tag == "boxwidget" ||
+	if (tag == "statewidget" || tag == "notewidget" || tag == "boxwidget" ||
+	    tag == "floatingtext" || tag == "activitywidget" ||
+	    // tests for backward compatibility:
+	    tag == "UML:StateWidget" || tag == "UML:NoteWidget" ||
 	    tag == "UML:FloatingTextWidget" || tag == "UML:ActivityWidget")
 	{
 	// Loading of widgets wich do NOT reprsent any UMLObject, --> just graphic stuff with
-	// no real Modell-information
-	//--FIXME while boxes and texts are just diagram-objects, activitis and states should
+	// no real model information
+	//FIXME while boxes and texts are just diagram objects, activities and states should
 	// be UMLObjects
-		if (tag == "UML:StateWidget") {
+		if (tag == "statewidget"
+		    || tag == "UML:StateWidget") {         // for bkwd compatibility
 			widget = new StateWidget(this);
-		} else if (tag == "UML:NoteWidget") {
+		} else if (tag == "notewidget"
+		    || tag == "UML:NoteWidget") {          // for bkwd compatibility
 			widget = new NoteWidget(this);
 		} else if (tag == "boxwidget") {
 			widget = new BoxWidget(this, id);
-		} else if (tag == "UML:FloatingTextWidget") {
+		} else if (tag == "floatingtext"
+		    || tag == "UML:FloatingTextWidget") {  // for bkwd compatibility
 			widget = new FloatingText(this);
-		} else if (tag == "UML:ActivityWidget") {
+		} else if (tag == "activitywidget"
+		    || tag == "UML:ActivityWidget") {      // for bkwd compatibility
 			widget = new ActivityWidget(this);
 		}
 	}
@@ -3112,13 +3119,14 @@ UMLWidget* UMLView::loadWidgetFromXMI(QDomElement& widgetElement) {
 			return 0L;
 		}
 
-		if (tag == "UML:ActorWidget") {
+		if (tag == "actorwidget"
+		    || tag == "UML:ActorWidget") {           // for bkwd compatibility
 			widget = new ActorWidget(this, static_cast<UMLActor*>(o));
-		} else if (tag == "UML:UseCaseWidget") {
+		} else if (tag == "usecasewidget"
+			   || tag == "UML:UseCaseWidget") {  // for bkwd compatibility
 			widget = new UseCaseWidget(this, static_cast<UMLUseCase*>(o));
-		// Have ConceptWidget for backwards compatability
 		} else if (tag == "classwidget"
-		           || tag == "UML:ClassWidget"   // for bkwd compatibility
+		           || tag == "UML:ClassWidget"       // for bkwd compatibility
 			   || tag == "UML:ConceptWidget") {  // for bkwd compatibility
 			widget = new ClassWidget(this, static_cast<UMLClass*>(o));
 		} else if (tag == "packagewidget") {
@@ -3135,7 +3143,8 @@ UMLWidget* UMLView::loadWidgetFromXMI(QDomElement& widgetElement) {
 			widget = new DatatypeWidget(this, static_cast<UMLDatatype*>(o));
 		} else if (tag == "enumwidget") {
 			widget = new EnumWidget(this, static_cast<UMLEnum*>(o));
-		} else if (tag == "UML:ObjectWidget") {
+		} else if (tag == "objectwidget"
+			   || tag == "UML:ObjectWidget") {  // for bkwd compatibility
 			widget = new ObjectWidget(this, o );
 		} else {
 			kdWarning() << "Trying to create an unknown widget:" << tag << endl;

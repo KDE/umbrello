@@ -233,7 +233,7 @@ void NoteWidget::drawText(QPainter & p, int offsetX, int offsetY) {
 }
 
 void NoteWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
-	QDomElement noteElement = qDoc.createElement( "UML:NoteWidget" );
+	QDomElement noteElement = qDoc.createElement( "notewidget" );
 	UMLWidget::saveToXMI( qDoc, noteElement );
 	noteElement.setAttribute( "text", m_Text );
 	qElement.appendChild( noteElement );

@@ -59,7 +59,7 @@ void ActorWidget::calculateSize() {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void ActorWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
-	QDomElement actorElement = qDoc.createElement( "UML:ActorWidget" );
+	QDomElement actorElement = qDoc.createElement( "actorwidget" );
 	UMLWidget::saveToXMI( qDoc, actorElement );
 	qElement.appendChild( actorElement );
 }

@@ -338,7 +338,7 @@ bool ObjectWidget::messageOverlap(int y, MessageWidget* messageWidget) {
 }
 
 void ObjectWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
-	QDomElement objectElement = qDoc.createElement( "UML:ObjectWidget" );
+	QDomElement objectElement = qDoc.createElement( "objectwidget" );
 	UMLWidget::saveToXMI( qDoc, objectElement );
 	objectElement.setAttribute( "instancename", m_InstanceName );
 	objectElement.setAttribute( "drawasactor", m_bDrawAsActor );

@@ -548,7 +548,7 @@ void FloatingText::setSelected(bool _select) {
 }
 
 void FloatingText::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
-	QDomElement textElement = qDoc.createElement( "UML:FloatingTextWidget" );
+	QDomElement textElement = qDoc.createElement( "floatingtext" );
 	UMLWidget::saveToXMI( qDoc, textElement );
 	textElement.setAttribute( "text", m_Text );
 	textElement.setAttribute( "pretext", m_PreText );

@@ -234,7 +234,7 @@ bool StateWidget::isState(WorkToolBar::ToolBar_Buttons tbb, StateType& resultTyp
 }
 
 void StateWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
-	QDomElement stateElement = qDoc.createElement( "UML:StateWidget" );
+	QDomElement stateElement = qDoc.createElement( "statewidget" );
 	UMLWidget::saveToXMI( qDoc, stateElement );
 	stateElement.setAttribute( "statename", m_Name );
 	stateElement.setAttribute( "documentation", m_Doc );

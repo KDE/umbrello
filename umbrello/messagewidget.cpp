@@ -553,7 +553,7 @@ void MessageWidget::setWidgetB(ObjectWidget * wb) {
 }
 
 void MessageWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
-	QDomElement messageElement = qDoc.createElement( "UML:MessageWidget" );
+	QDomElement messageElement = qDoc.createElement( "messagewidget" );
 	UMLWidget::saveToXMI( qDoc, messageElement );
 	//messageElement.setAttribute( "textid", m_nTextID );
 	messageElement.setAttribute( "widgetaid", m_pWA->getLocalID() );
