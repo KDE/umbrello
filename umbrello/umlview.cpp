@@ -1406,7 +1406,7 @@ void UMLView::exportImage() {
 	if (app)
 		imageMimetype = app->getImageMimetype();
 	fileDialog.setMimeFilter(mimetypes, imageMimetype);
-	
+
 	// set a sensible default filename
 	if (m_ImageURL.isEmpty()) {
 	  fileDialog.setSelection(getName()+"."+mimeTypeToImageType(imageMimetype).lower());

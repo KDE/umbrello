@@ -358,7 +358,7 @@ bool UMLClipboard::insertItemChildren(UMLListViewItem * Item, UMLListViewItemLis
 bool UMLClipboard::pasteChildren(UMLListViewItem* Parent, UMLListViewItemDataListIt* It,
                                   IDChangeLog& ChangeLog, UMLDoc * Doc) {
 	if(!It || !Parent || !Doc) {
-		kdDebug()<<"Paste Children Error, maybe: no It, Parent or Doc"<<endl;
+		kdWarning()<<"Paste Children Error, maybe: no It, Parent or Doc"<<endl;
 		return false;
 	}
 	UMLListViewItemData* itemdata = It->current();//itemdata gets the parent's info
@@ -369,7 +369,7 @@ bool UMLClipboard::pasteChildren(UMLListViewItem* Parent, UMLListViewItemDataLis
 		++(*It);
 		itemdata = It->current();
 		if(!itemdata) {
-			kdDebug()<<"PasteChildren called with no itemData"<<endl;
+			kdWarning()<<"PasteChildren called with no itemData"<<endl;
 			return false; //Error this function gets called only if the parent Item
 			//has children and that means It->current() shouldn't be null
 		}
@@ -693,6 +693,7 @@ bool UMLClipboard::pasteClip5(UMLDoc* doc, QMimeSource* data) {
 				break;
 			}
 			default :
+				kdWarning() << "pasteing unknown children type in clip type 5" << endl;
 				return false;
 		}
 		++object_it;

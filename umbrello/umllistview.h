@@ -374,6 +374,11 @@ class UMLListView : public KListView {
 	void slotObjectCreated(UMLObject* object);
 
 	/**
+	 * connect some signals into slots in the list view for newly created UMLObjects
+	 */
+	void connectNewObjectsSlots(UMLObject* object);
+
+	/**
 	 * Adds a new operation, attribute or template item to a classifier
 	 * @param obj the parent object 
 	 */
