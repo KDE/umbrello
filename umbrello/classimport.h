@@ -60,6 +60,17 @@ public:
 				   QString comment="", UMLAttributeList *parList=NULL);
 
 	/**
+	 * Add an enum literal to an UMLEnum.
+	 */
+	void addEnumLiteral(UMLObject *enumType, QString literal);
+
+	/**
+	 * Create a generalization from the existing child UMLObject to the given
+	 * parent class name.
+	 */
+	void createGeneralization(UMLObject *child, QString parentName);
+
+	/**
 	 * Check that a given comment conforms to the Doxygen convention, i.e.
 	 * check that it begins with slash-star-star.
 	 * Strip the comment lines of leading whitespace and stars.

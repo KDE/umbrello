@@ -167,6 +167,28 @@ UMLOperation * ClassImport::insertMethod(UMLObject *o, Uml::Scope scope, QString
 	return op;
 }
 
+void ClassImport::addEnumLiteral(UMLObject *enumType, QString literal) {
+	if (enumType->getBaseType() != Uml::ot_Enum) {
+		kdDebug() << "ClassImport::addEnumLiteral: given object is not an ot_Enum"
+			  << endl;
+		return;
+	}
+	UMLEnum *e = static_cast<UMLEnum*>( enumType );
+	e->addEnumLiteral( literal, m_umldoc->getUniqueID() );
+}
+
+void ClassImport::createGeneralization(UMLObject *child, QString parentName) {
+	UMLObject *parent = m_umldoc->findUMLObject( parentName, Uml::ot_Class );
+	if (parent == NULL) {
+	    kdDebug() << "ClassImport::createGeneralization: Could not find UML object for "
+		      << parentName << endl;
+	    return;
+	}
+	UMLAssociation *assoc = new UMLAssociation( m_umldoc, Uml::at_Generalization,
+						    child, parent );
+	m_umldoc->addAssociation(assoc);
+}
+
 void ClassImport::importCPP(QStringList headerFileList) {
 	for (QStringList::Iterator fileIT = headerFileList.begin();
 				   fileIT != headerFileList.end(); ++fileIT) {
