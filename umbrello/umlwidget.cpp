@@ -809,11 +809,13 @@ void UMLWidget::slotRemovePopupMenu() {
 }
 
 bool UMLWidget::onWidget(const QPoint & p) {
-
-
 	return ( x() <= p.x() && x() + width() >= p.x() &&
 		 y() <= p.y() && y() + height() >= p.y() );
+}
 
+void UMLWidget::moveBy(int dx, int dy) {
+	setX(getX() + dx);
+	setY(getY() + dy);
 }
 
 void UMLWidget::draw( QPainter & p, int /*offsetX*/, int /*offsetY*/ ) {

@@ -331,6 +331,12 @@ public:
 	void setSize(int width,int height);
 
 	/**
+	 * Move the widget by an X and Y offseti relative to
+	 * the current position.
+	 */
+	void moveBy(int dx, int dy);
+
+	/**
 	 * Removes an already created association from the list of
 	 * associations that include this UMLWidget
 	 */
@@ -574,6 +580,7 @@ protected:
 	/** set the font metric to use */
 	void setFontMetrics(UMLWidget::FontType fontType, QFontMetrics fm);
 	void setupFontType(QFont &font, UMLWidget::FontType fontType);
+
 	/**
 	 * Initializes key attributes of the class.
 	 */
