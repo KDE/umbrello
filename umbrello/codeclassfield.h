@@ -203,6 +203,7 @@ private:
 	ClassFieldType m_classFieldType;
 	CodeClassFieldDeclarationBlock * m_declCodeBlock;
 	QPtrList<CodeAccessorMethod> m_methodVector; // the list of methods related to this codeclassfield
+	bool m_parentIsAttribute;
 
 	// these are just some utility functions 
 	CodeAccessorMethod * newCodeAccessorMethod (CodeAccessorMethod::AccessorType type);

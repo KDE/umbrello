@@ -79,6 +79,7 @@ void CodeClassField::setParentUMLObject (UMLObject * obj) {
 	if(role) {
 		UMLAssociation * parentAssoc = role->getParentAssociation();
         	Uml::Association_Type atype = parentAssoc->getAssocType();
+		m_parentIsAttribute = false;
 
         	if (atype == Uml::at_Association)
                 	m_classFieldType = PlainAssociation;
@@ -86,8 +87,10 @@ void CodeClassField::setParentUMLObject (UMLObject * obj) {
                 	m_classFieldType = Aggregation;
         	else if (atype == Uml::at_Composition)
                 	m_classFieldType = Composition;
-	} else
+	} else {
 		m_classFieldType = Attribute;
+		m_parentIsAttribute = true;
+	}
 }
 
 QString CodeClassField::getListFieldClassName () {
@@ -130,7 +133,8 @@ QString CodeClassField::getListObjectType() {
  * @return the value of m_isAbstract
  */
 bool CodeClassField::parentIsAttribute ( ) {
-	return (m_classFieldType == Attribute) ? true : false;
+	return m_parentIsAttribute;
+//	return (m_classFieldType == Attribute) ? true : false;
 }
 
 /**

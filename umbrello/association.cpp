@@ -24,7 +24,7 @@ const unsigned UMLAssociation::nAssocTypes = (unsigned)atypeLast -
 UMLAssociation::UMLAssociation( UMLDoc* parent,
 				Association_Type type,
 				UMLObject * roleA, UMLObject * roleB )
-    : UMLObject(parent) 
+    : UMLObject(parent, "", -1) 
 {
 	init(type, roleA, roleB);
 }
