@@ -27,7 +27,7 @@ class UMLClassifier;
 class UMLOperation : public UMLClassifierListItem {
 	Q_OBJECT
 friend UMLOperation* UMLDoc::createOperation( );
-friend UMLOperation* UMLDoc::createOperation( UMLClassifier *, const QString & );
+friend UMLOperation* UMLDoc::createOperation( UMLClassifier *, const QString &, UMLAttributeList * );
 
 private:
 	/**

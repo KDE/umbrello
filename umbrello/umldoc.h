@@ -23,6 +23,7 @@
 #include "umlinterfacelist.h"
 #include "umldatatypelist.h"
 #include "umlnamespace.h"
+#include "umlattributelist.h"
 #include <qdatastream.h>
 #include <qmap.h>
 #include <qdict.h>
@@ -243,7 +244,7 @@ public:
 	 * @return The new operation, or NULL if the operation could not be created because
 	 *         for example, the User canceled the dialog or no appropiate name can be found
 	*/
-	UMLOperation* createOperation( UMLClassifier *parent, const QString &name = QString::null);
+	UMLOperation* createOperation( UMLClassifier *parent, const QString &name = QString::null, UMLAttributeList *params = 0);
 	/**
 	  * Creates a new Operation in the document.
 	  * The Operation is not-initialized, so it has no valid name, id, etc. so this

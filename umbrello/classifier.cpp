@@ -45,11 +45,11 @@ bool UMLClassifier::checkOperationSignature( UMLOperation *op )
 	UMLObjectList list = findChildObject( Uml::ot_Operation, op->getName() );
 	if( list.count() == 0 )
 		return true;
-	
+
 	// there is at least one operation with the same name... compare the parameter list
 	list.setAutoDelete(false);
 	list.removeRef( op ); // dont compare against itself
-
+	
 	QPtrList<UMLAttribute> *testParams;
 	QPtrList<UMLAttribute> *opParams;
 	for( UMLOperation *test = dynamic_cast<UMLOperation*>(list.first()); 
@@ -58,6 +58,7 @@ bool UMLClassifier::checkOperationSignature( UMLOperation *op )
 	{// Should we test for defautl values? ( ambiguous signatures, or is that language/compiler dependent?
 		testParams = test->getParmList( );
 		opParams   = op->getParmList( );
+		
 		if( testParams->count() != opParams->count() )
 			continue;
 		int pCount = testParams->count();

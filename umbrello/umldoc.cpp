@@ -105,29 +105,34 @@ void UMLDoc::addView(UMLView *view) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLDoc::removeView(UMLView *view) {
+	if(!view)
+	{
+		kdError()<<"UMLDoc::removeView(UMLView *view) called with view = 0"<<endl;
+		return;
+	}
 	if(listView) {
 		disconnect(this,SIGNAL(sigObjectRemoved(UMLObject *)), view,SLOT(slotObjectRemoved(UMLObject *)));
 	}
 	view->hide();
 	//remove all widgets before deleting view
-	//need to do to stop crashes.  These can occur depending on order of
-	//children being deleted.
 	view->removeAllWidgets();
+	// m_ViewLiset is set to autodelete!!
 	m_ViewList.remove(view);
-/*
-	if(view == currentView) {
-		currentView = 0;
+	if(currentView == view)
+	{
+		currentView = 0L;
 		UMLView* firstView = m_ViewList.first();
-		if (firstView != NULL) {
+		if (firstView ) 
+		{
 			changeCurrentView( firstView->getID() );
 			UMLApp::app()->setDiagramMenuItemsState(true);
-		} else {
-			UMLApp::app()->setDiagramMenuItemsState(false);
-			delete view;
+		} 
+		else //create a diagram
+		{
+			createDiagram( dt_Class, false );
+			//UMLApp::app()->setDiagramMenuItemsState(false);
 		}
-	} else
-		delete view;
- */
+	} 
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -850,7 +855,8 @@ UMLOperation* UMLDoc::createOperation( )
 	return op;
 }
 
-UMLOperation* UMLDoc::createOperation(UMLClassifier* classifier, const QString &name /*=null*/)  {
+UMLOperation* UMLDoc::createOperation(UMLClassifier* classifier, const QString &name /*=null*/, UMLAttributeList *params )
+{
 	if(!classifier)
 	{
 		kdWarning()<<"UMLDoc::createOperation(UMLClassifier* classifier) called with classifier == NULL"<<endl
@@ -860,6 +866,17 @@ UMLOperation* UMLDoc::createOperation(UMLClassifier* classifier, const QString &
 
 	int id = getUniqueID();
 	UMLOperation *op = new UMLOperation( 0L, name, id);
+	
+	if(params) 
+	{
+		UMLAttributeListIt it(*params);
+		for( ; it.current(); ++it ) {
+			UMLAttribute *par = it.current();
+			int parID = getUniqueID();
+			par->setID(parID);
+			op->addParm(par);
+		}
+	}
 
 	if( !classifier->checkOperationSignature( op ) )
 	{
@@ -1163,6 +1180,11 @@ void UMLDoc::changeCurrentView(int id) {
 void UMLDoc::removeDiagram(int id) {
 	getDocWindow()->updateDocumentation(true);
 	UMLView* umlview = findView(id);
+	if(!umlview)
+	{
+		kdError()<<"Request to remove diagram "<<id<<": Diagram not found!"<<endl;
+		return;
+	}
 	if (KMessageBox::warningYesNo(0, i18n("Are you sure you want to delete diagram %1?").arg(umlview->getName()), i18n("Delete Diagram")) == KMessageBox::Yes) {
 		removeView(umlview);
 		emit sigDiagramRemoved(id);

@@ -58,19 +58,15 @@ void ClassImport::insertMethod(UMLObject *o, Uml::Scope scope, QString name, QSt
 		return;
 	}
 	//UMLOperation *op = UMLApp::app()->getDocument()->createOperation( classifier, name );
-	UMLOperation *op = UMLDoc::createOperation( classifier, name );
+	UMLOperation *op = UMLDoc::createOperation( classifier, name, parList );
+	if(!op)
+	{
+		kdError()<<"Could not create operation with name "<<name<<endl;
+		return;
+	}
 	//op->setName( name );
 	op->setReturnType(type);
 
-	if(parList != NULL) {
-		UMLAttributeListIt it(*parList);
-		for( ; it.current(); ++it ) {
-			UMLAttribute *par = it.current();
-			int parID = getUniqueID();
-			par->setID(parID);
-			op->addParm(par);
-		}
-	}
 	op->setScope(scope);
 	//setModified(true);
 }
