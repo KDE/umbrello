@@ -435,7 +435,7 @@ bool MessageWidget::activate(IDChangeLog * Log /*= 0*/) {
 }
 
 void MessageWidget::setMessageText(FloatingText *ft) {
-	QString displayText = m_SequenceNumber + ": " + getOperationText();
+	QString displayText = m_SequenceNumber + ": " + getOperationText(m_pView);
 	ft->setText(displayText);
 	setTextPosition();
 }
@@ -882,7 +882,7 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement) {
 	if ( !element.isNull() ) {
 		QString tag = element.tagName();
 		if (tag == "floatingtext") {
-			m_pFText = new FloatingText( m_pView, tr, getOperationText(), textId );
+			m_pFText = new FloatingText( m_pView, tr, getOperationText(m_pView), textId );
 			if( ! m_pFText->loadFromXMI(element) ) {
 				// Most likely cause: The FloatingText is empty.
 				delete m_pFText;
