@@ -145,7 +145,7 @@ private:
 	/**
 	 * Writes a // style comment
 	 */
-	void writeComment(QString text, QString indent, QTextStream &java); 
+	void writeComment(QString text, QString indent, QTextStream &java, bool javaDocStyle=false);
 
 	/**
 	 * Writes a documentation comment

@@ -143,13 +143,12 @@ void JavaWriter::writeClass(UMLClassifier *c)
 
 	// IMPORT statements
 	// Q: Why all utils? Isnt just List and Vector the only classes we are using?
-	// Our import *should* also look at operations, and check that objects being
-	// used arent in another package (and thus need to be explicitly imported here).
+    // A: doesn't matter at all; its more readable to just include '*' and java compilers
+    //    don't slow down or anything. (TZ)
 	if (hasVectorFields )
 	{
 		writeBlankLine(java);
-		java<<"import java.util.List;"<<endl;
-		java<<"import java.util.Vector;"<<endl;
+		java<<"import java.util.*;"<<endl;
 	}
 
 	//only import classes in a different package as this class
@@ -165,8 +164,7 @@ void JavaWriter::writeClass(UMLClassifier *c)
 	writeClassDecl(c, java);
 
 	// start body of class
-	writeBlankLine(java);
-	java<<"{"<<endl;
+	java<<" {"<<endl;
 
 	// ATTRIBUTES
 	//
@@ -174,9 +172,9 @@ void JavaWriter::writeClass(UMLClassifier *c)
 	// write comment for section IF needed
 	if (forceDoc() || hasAccessorMethods)
 	{
-		writeComment(" ", indent, java);
+		writeComment("", indent, java);
 		writeComment("Fields", indent, java);
-		writeComment(" ", indent, java);
+		writeComment("", indent, java);
 		writeBlankLine(java);
 	}
 
@@ -200,9 +198,9 @@ void JavaWriter::writeClass(UMLClassifier *c)
 	{
 
 		java<<startline;
-		writeComment(" ", indent, java);
+		writeComment("", indent, java);
 		writeComment("Methods", indent, java);
-		writeComment(" ", indent, java);
+		writeComment("", indent, java);
 		writeBlankLine(java);
 		writeBlankLine(java);
 	}
@@ -210,8 +208,9 @@ void JavaWriter::writeClass(UMLClassifier *c)
 	// write comment for sub-section IF needed
 	if (forceDoc() || hasAccessorMethods )
 	{
+		writeComment("", indent, java);
 		writeComment("Accessor methods", indent, java);
-		writeComment(" ", indent, java);
+		writeComment("", indent, java);
 		writeBlankLine(java);
 	}
 
@@ -236,8 +235,9 @@ void JavaWriter::writeClass(UMLClassifier *c)
 	// write comment for sub-section IF needed
 	if (forceDoc() || hasOperationMethods)
 	{
+		writeComment("", indent, java);
 		writeComment("Other methods", indent, java);
-		writeComment(" ", indent, java);
+		writeComment("", indent, java);
 		writeBlankLine(java);
 	}
 	writeOperations(c,java);
@@ -293,6 +293,8 @@ void JavaWriter::writeClassDecl(UMLClassifier *c, QTextStream &java)
 	if(superclasses.count()>0)
 		java<<" extends ";
 
+    // Q: Where is 'implements' ??
+
 	int i = 0;
 	for (concept= superclasses.first(); concept; concept = superclasses.next())
 	{
@@ -314,7 +316,7 @@ void JavaWriter::writeAttributeDecls(QPtrList<UMLAttribute> &atpub, QPtrList<UML
 		QString typeName = fixTypeName(at->getTypeName());
 		QString initialValue = fixInitialStringDeclValue(at->getInitialValue(), typeName);
 		if(!documentation.isEmpty())
-			writeComment(documentation, indent, java);
+			writeComment(documentation, indent, java, true);
 		java<<startline<<staticValue<<"public "<<typeName<<" "<<cleanName(at->getName())
 		    <<(initialValue.isEmpty()?QString(""):QString(" = ") + initialValue)<<";";
 	}
@@ -326,7 +328,7 @@ void JavaWriter::writeAttributeDecls(QPtrList<UMLAttribute> &atpub, QPtrList<UML
 		QString staticValue = at->getStatic() ? "final " : "";
 		QString initialValue = fixInitialStringDeclValue(at->getInitialValue(), typeName);
 		if(!documentation.isEmpty())
-			writeComment(documentation, indent, java);
+			writeComment(documentation, indent, java, true);
 		java<<startline<<staticValue<<"protected "<<typeName<<" "<<cleanName(at->getName())
 		    <<(initialValue.isEmpty()?QString(""):QString(" = ") + initialValue)<<";";
 	}
@@ -338,7 +340,7 @@ void JavaWriter::writeAttributeDecls(QPtrList<UMLAttribute> &atpub, QPtrList<UML
 		QString staticValue = at->getStatic() ? "final " : "";
 		QString initialValue = fixInitialStringDeclValue(at->getInitialValue(), typeName);
 		if(!documentation.isEmpty())
-			writeComment(documentation, indent, java);
+			writeComment(documentation, indent, java, true);
 		java<<startline<<staticValue<<"private "<<typeName<<" "<<cleanName(at->getName())
 		    <<(initialValue.isEmpty()?QString(""):QString(" = ") + initialValue)<<";";
 	}
@@ -367,24 +369,39 @@ void JavaWriter::writeAttributeMethods(QPtrList <UMLAttribute> &atpub, Scope vis
 
 }
 
-void JavaWriter::writeComment(QString comment, QString myIndent, QTextStream &java)
+void JavaWriter::writeComment(QString comment, QString myIndent, QTextStream &java, bool javaDocStyle)
 {
 	// in the case we have several line comment..
 	// NOTE: this part of the method has the problem of adopting UNIX newline,
 	// need to resolve for using with MAC/WinDoze eventually I assume
 	if (comment.contains(QRegExp("\n"))) {
 
+		if(javaDocStyle)
+			java << myIndent << "/**" << endl;
 		QStringList lines = QStringList::split( "\n", comment);
 		for(uint i= 0; i < lines.count(); i++)
 		{
 			writeBlankLine(java);
-			java<<myIndent<<"// "<<lines[i];
+			if(javaDocStyle)
+				java<<myIndent<<" * ";
+			else
+				java<<myIndent<<"// ";
+			java << lines[i];
 		}
+		if(javaDocStyle)
+			java << myIndent << " */" << endl;
 	} else {
 		// this should be more fancy in the future, breaking it up into 80 char
 		// lines so that it doesnt look too bad
 		writeBlankLine(java);
-		java<<myIndent<<"// "<<comment;
+		if(javaDocStyle)
+			java << myIndent << "/**" << endl << myIndent << " *";
+		else
+		    java<<myIndent<<"//";
+		if(comment.length() > 0)
+			java << " " << comment;
+		if(javaDocStyle)
+			java << endl << myIndent << " */";
 	}
 }
 
@@ -464,7 +481,7 @@ void JavaWriter::writeAssociationRoleDecl(QString fieldClassName,
 	// multiplicity object that we dont have to figure out what it means via regex.
 	if(multi.isEmpty() || multi.contains(QRegExp("^[01]$")))
 	{
-		QString fieldVarName = "m_" + roleName.lower();
+		QString fieldVarName = roleName.replace(0, 1, roleName.left(1).lower());
 		java<<startline<<scope<<" "<<fieldClassName<<" "<<fieldVarName<<";";
 	}
 	else
@@ -549,8 +566,7 @@ void JavaWriter::writeVectorAttributeAccessorMethods (QString fieldClassName, QS
 	if (changeType != chg_Frozen)
 	{
 		writeDocumentation("Add a "+fieldName+" object to the "+fieldVarName+" List",description,"",indent,java);
-		java<<startline<<strVis<<" void add"<<fieldName<<" ( "<<fieldClassName<<" new_object )";
-		java<<startline<<"{";
+		java<<startline<<strVis<<" void add"<<fieldName<<" ( "<<fieldClassName<<" new_object ) {";
 		java<<startline<<indent<<fieldVarName<<".add(new_object);";
 		java<<startline<<"}"<<endl;
 	}
@@ -567,8 +583,7 @@ void JavaWriter::writeVectorAttributeAccessorMethods (QString fieldClassName, QS
 
 	// always allow getting the list of stuff
 	writeDocumentation("Get the List of "+fieldName+" objects held by "+fieldVarName,description,"@return List of "+fieldName+" objects held by "+fieldVarName,indent,java);
-	java<<startline<<strVis<<" List get"<<fieldName<<"List ( )";
-	java<<startline<<"{";
+	java<<startline<<strVis<<" List get"<<fieldName<<"List ( ) {";
 	java<<startline<<indent<<"return (List) "<<fieldVarName<<";";
 	java<<startline<<"}"<<endl;
 	writeBlankLine(java);
@@ -587,17 +602,15 @@ void JavaWriter::writeSingleAttributeAccessorMethods(QString fieldClassName, QSt
 
 	// set method
 	if (change == chg_Changeable && !isFinal) {
-		writeDocumentation("Set the value of "+fieldVarName,description,"@param new_var the new value of "+fieldVarName,indent,java);
-		java<<startline<<strVis<<" void set"<<fieldName<<" ( "<<fieldClassName<<" new_var )";
-		java<<startline<<"{";
-		java<<startline<<indent<<fieldVarName<<" = new_var;";
+		writeDocumentation("Set the value of "+fieldVarName,description,"@param newVar the new value of "+fieldVarName,indent,java);
+		java<<startline<<strVis<<" void set"<<fieldName<<" ( "<<fieldClassName<<" newVar ) {";
+		java<<startline<<indent<<fieldVarName<<" = newVar;";
 		java<<startline<<"}"<<endl;
 	}
 
 	// get method
 	writeDocumentation("Get the value of "+fieldVarName,description,"@return the value of "+fieldVarName,indent,java);
-	java<<startline<<strVis<<" "<<fieldClassName<<" get"<<fieldName<<" ( )";
-	java<<startline<<"{";
+	java<<startline<<strVis<<" "<<fieldClassName<<" get"<<fieldName<<" ( ) {";
 	java<<startline<<indent<<"return "<<fieldVarName<<";";
 	java<<startline<<"}";
 	writeBlankLine(java);
@@ -609,15 +622,15 @@ void JavaWriter::writeConstructor(UMLClassifier *c, QTextStream &java)
 	if (forceDoc())
 	{
 		java<<startline;
-		writeComment(" ", indent, java);
+		writeComment("", indent, java);
 		writeComment("Constructors", indent, java);
-		writeComment(" ", indent, java);
+		writeComment("", indent, java);
 		writeBlankLine(java);
 	}
 
 	// write the first constructor
 	QString className = cleanName(c->getName());
-	java<<indent<<className<<" () { };";
+	java<<indent<<"public "<<className<<" () { };";
 
 }
 
