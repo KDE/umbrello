@@ -39,24 +39,11 @@ PythonWriter::PythonWriter( UMLDoc *parent, const char *name ) :
 
 PythonWriter::~PythonWriter() {}
 
-void PythonWriter::setSpaceIndent(int number) {
-	spaceIndent = "";
-	for (int i = 0; i < number; i++) {
-		spaceIndent.append(' ');
-	}
-}
-
-int PythonWriter::getSpaceIndent(void) {
-	return spaceIndent.length();
-}
-
 void PythonWriter::writeClass(UMLClassifier *c) {
 	if(!c) {
-		kdDebug()<<"Cannot write class of NULL concept!\n";
+		kdDebug()<<"Cannot write class of NULL concept!" << endl;
 		return;
 	}
-
-	spaceIndent = "    ";
 
 	QString classname = cleanName(c->getName());
 	QString fileName = c->getName();
@@ -97,7 +84,7 @@ void PythonWriter::writeClass(UMLClassifier *c) {
 	if(!str.isEmpty()) {
 		str.replace(QRegExp("%filename%"), fileName+".py");
 		str.replace(QRegExp("%filepath%"), fileh.name());
-		h<<str<<endl;
+		h<<str<<m_newLineEndingChars;
 	}
 
 
@@ -111,10 +98,10 @@ void PythonWriter::writeClass(UMLClassifier *c) {
 			first = headerName.at(0);
 			first = first.upper();
 			headerName = headerName.replace(0, 1, first);
-			h<<"from "<<headerName<<" import *"<<endl;
+			h<<"from "<<headerName<<" import *"<<m_newLineEndingChars;
 		}
 	}
-	h<<endl;
+	h<<m_newLineEndingChars;
 
 	h<<"class "<<classname<<(superclasses.count() > 0 ? " (":"");
 	int i = superclasses.count();
@@ -126,21 +113,21 @@ void PythonWriter::writeClass(UMLClassifier *c) {
 	}
 
 
-	h<<(superclasses.count() > 0 ? ")":"")<<":"<<endl<<endl;
+	h<<(superclasses.count() > 0 ? ")":"")<<":"<<m_newLineEndingChars<<m_newLineEndingChars;
 
 	if(forceDoc() || !c->getDoc().isEmpty()) {
-		h<<spaceIndent<<"\"\"\""<<endl;
-		h<<spaceIndent<<c->getDoc()<<endl;
-		h<<spaceIndent<<":version:"<<endl;
-		h<<spaceIndent<<":author:"<<endl;
-		h<<spaceIndent<<"\"\"\""<<endl<<endl;
+		h<<m_indentation<<"\"\"\""<<m_newLineEndingChars;
+		h<<m_indentation<<c->getDoc()<<m_newLineEndingChars;
+		h<<m_indentation<<":version:"<<m_newLineEndingChars;
+		h<<m_indentation<<":author:"<<m_newLineEndingChars;
+		h<<m_indentation<<"\"\"\""<<m_newLineEndingChars<<m_newLineEndingChars;
 	}
 
 	//operations
 	writeOperations(c,h);
 
 	//finish files
-	h<<endl<<endl;
+	h<<m_newLineEndingChars<<m_newLineEndingChars;
 
 	//close files and notfiy we are done
 	fileh.close();
@@ -222,7 +209,7 @@ void PythonWriter::writeOperations(QString /*classname*/, UMLOperationList &opLi
 		for(at = atl->first(); at ; at = atl -> next())
 			writeDoc |= !at->getDoc().isEmpty();
 
-		h<< spaceIndent << "def "<< sAccess + cleanName(op->getName()) << "(self";
+		h<< m_indentation << "def "<< sAccess + cleanName(op->getName()) << "(self";
 
 		int j=0;
 		for( at = atl->first(); at ;at = atl->next(),j++) {
@@ -232,27 +219,27 @@ void PythonWriter::writeOperations(QString /*classname*/, UMLOperationList &opLi
 			    QString(""));
 		}
 
-		h<<"):"<<endl;
+		h<<"):"<<m_newLineEndingChars;
 
 		if( writeDoc )  //write method documentation
 		{
-			h<<spaceIndent<<spaceIndent<<"\"\"\""<<endl;
-			h<<spaceIndent<<spaceIndent<<op->getDoc()<<endl<<endl;
+			h<<m_indentation<<m_indentation<<"\"\"\""<<m_newLineEndingChars;
+			h<<m_indentation<<m_indentation<<op->getDoc()<<m_newLineEndingChars<<m_newLineEndingChars;
 
 			for(at = atl->first(); at ; at = atl -> next())  //write parameter documentation
 			{
 				if(forceDoc() || !at->getDoc().isEmpty()) {
-					h<<spaceIndent<<spaceIndent<<"@param "<<at->getTypeName()<<
+					h<<m_indentation<<m_indentation<<"@param "<<at->getTypeName()<<
 						" " << cleanName(at->getName());
-					h<<" : "<<at->getDoc()<<endl;
+					h<<" : "<<at->getDoc()<<m_newLineEndingChars;
 				}
 			}//end for : write parameter documentation
-			h<<spaceIndent<<spaceIndent<<"@return " + op->getReturnType()<<" :"<<endl;
-			h<<spaceIndent<<spaceIndent<<"@since"<<endl;
-			h<<spaceIndent<<spaceIndent<<"@author"<<endl;
-			h<<spaceIndent<<spaceIndent<<"\"\"\""<<endl;
+			h<<m_indentation<<m_indentation<<"@return " + op->getReturnType()<<" :"<<m_newLineEndingChars;
+			h<<m_indentation<<m_indentation<<"@since"<<m_newLineEndingChars;
+			h<<m_indentation<<m_indentation<<"@author"<<m_newLineEndingChars;
+			h<<m_indentation<<m_indentation<<"\"\"\""<<m_newLineEndingChars;
 		}
-		h<<spaceIndent<<spaceIndent<<"pass"<<endl<<endl;
+		h<<m_indentation<<m_indentation<<"pass"<<m_newLineEndingChars<<m_newLineEndingChars;
 
 	}//end for
 }

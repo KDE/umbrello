@@ -45,12 +45,7 @@ public:
 	virtual bool isType (QString & type);
 	virtual QString getLanguage();
 
-	void setSpaceIndent(int number);
-	int getSpaceIndent(void);
-
 private:
-
-  QString spaceIndent;
 
 	/**
 	  * write all operations for a given class
