@@ -1833,19 +1833,18 @@ void AssociationWidget::calculateNameTextSegment() {
 	xt += m_pName -> getWidth() / 2;
 	yt += m_pName -> getHeight() / 2;
 	uint size = m_LinePath.count();
-	int xi = 0, xj = 0, yi = 0, yj = 0;
 	//sum of length(PTP1) and length(PTP2)
 	float total_length = 0;
 	float smallest_length = 0;
 	for(uint i = 0; i < size - 1; i++) {
 		QPoint pi = m_LinePath.getPoint( i );
 		QPoint pj = m_LinePath.getPoint( i+1 );
-		xi = pi.x();
-		xj = pj.x();
-		yi = pi.y();
-		yj = pj.y();
-		total_length =  sqrt( pow(double(xt - xi), 2.0) + pow(double(yt - yi), 2.0) )
-			      + sqrt( pow(double(xt - xj), 2.0) + pow(double(yt - yj), 2.0) );
+		int xtiDiff = xt - pi.x();
+		int xtjDiff = xt - pj.x();
+		int ytiDiff = yt - pi.y();
+		int ytjDiff = yt - pj.y();
+		total_length =  sqrt( double(xtiDiff * xtiDiff + ytiDiff * ytiDiff) )
+			      + sqrt( double(xtjDiff * xtjDiff + ytjDiff * ytjDiff) );
 		//this gives the closest point
 		if( total_length < smallest_length || i == 0) {
 			smallest_length = total_length;
@@ -1969,10 +1968,14 @@ void AssociationWidget::mouseReleaseEvent(QMouseEvent * me) {
 	ListPopupMenu::Menu_Type menuType = ListPopupMenu::mt_Undefined;
 	int pos = m_LinePath.count() - 1;
 	int DISTANCE = 40;//must be within this many pixels for it to be a multi menu
-	float lengthMAP = sqrt( pow( double(m_LinePath.getPoint(0).x() - p.x()), 2.0) +
-				pow( double(m_LinePath.getPoint(0).y() - p.y()), 2.0) );
-	float lengthMBP = sqrt( pow( double(m_LinePath.getPoint(pos).x() - p.x()), 2.0) +
-				pow( double(m_LinePath.getPoint(pos).y() - p.y()), 2.0) );
+	QPoint lpStart = m_LinePath.getPoint(0);
+	QPoint lpEnd = m_LinePath.getPoint(pos);
+	int startXDiff = lpStart.x() - p.x();
+	int startYDiff = lpStart.y() - p.y();
+	int endXDiff = lpEnd.x() - p.x();
+	int endYDiff = lpEnd.y() - p.y();
+	float lengthMAP = sqrt( double(startXDiff * startXDiff + startYDiff * startYDiff) );
+	float lengthMBP = sqrt( double(endXDiff * endXDiff + endYDiff * endYDiff) );
 	Association_Type type = getAssocType();
 	//allow multiplicity
 	if( AssocRules::allowMultiplicity( type, getWidget(A) -> getBaseType() ) ) {
@@ -2776,9 +2779,6 @@ void AssociationWidget::cleanupBeforeFTsetLink(FloatingText *ft) {
 }
 
 void AssociationWidget::setupAfterFTsetLink(FloatingText *ft) {
-	UMLAssociation *umla = getAssociation();
-	if (umla != NULL)  // sync id to association id.
-		ft->setID( umla->getID() );
 	ft->addAssoc(this);    // FIXME: This is horrible.
 }
 

@@ -189,14 +189,17 @@ bool UMLWidget::operator==(const UMLWidget& other) {
 }
 
 void UMLWidget::setID(int id) {
-	// kdWarning()<<"UMLWidget::setID(int id) called!"<<endl;
-	if (m_pObject)
+	if (m_Type != wt_Text && m_pObject && m_pObject->getBaseType() == ot_Association) {
+		if (m_pObject->getID() != -1)
+			kdWarning() << "UMLWidget::setID(): changing old UMLObject "
+				    << m_pObject->getID() << " to " << id << endl;
 		m_pObject->setID( id );
+	}
 	m_nId = id;
 }
 
 int UMLWidget::getID() const {
-	if (m_pObject)
+	if (m_Type != wt_Text && m_pObject && m_pObject->getBaseType() == ot_Association)
 		return m_pObject->getID();
 	return m_nId;
 }
