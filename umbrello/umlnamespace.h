@@ -54,6 +54,7 @@ namespace Uml {
 	    wt_Package,
 	    wt_Object,
 	    wt_Note,
+	    wt_Box,
 	    wt_Message,
 	    wt_Text,
 	    wt_State,

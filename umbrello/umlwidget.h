@@ -466,6 +466,11 @@ protected:
 	 */
 	void init();
 
+	/**
+	 * Returns whether the widget type has an associated UMLObject
+	 */
+	bool widgetHasUMLObject(Uml::UMLWidget_Type type);
+
 	bool 		m_bMouseDown, 
 			m_bMouseOver, 
 			m_bSelected, 

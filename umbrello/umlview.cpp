@@ -56,6 +56,7 @@
 #include "actorwidget.h"
 #include "usecasewidget.h"
 #include "notewidget.h"
+#include "boxwidget.h"
 #include "associationwidget.h"
 #include "objectwidget.h"
 #include "floatingtext.h"
@@ -369,6 +370,21 @@ void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome) {
 		temp->setActivated();
 		temp -> setFont( m_pData -> getFont() );
 		temp->slotColorChanged( m_pData->getID() );
+		resizeCanvasToItems();
+		getDocument()->setModified();
+		return;
+	}
+	//Create a Box widget
+	if(m_CurrentCursor == WorkToolBar::tbb_Box) {
+		//no need to register with document but get a id from it
+		//id used when checking to delete object and assocs
+		BoxWidget* newBox = new BoxWidget(this, getDocument()->getUniqueID());
+		newBox->setX( m_Pos.x() );
+		newBox->setY( m_Pos.y() );
+		newBox->setVisible( true );
+		newBox->setActivated();
+		newBox->setFont( m_pData->getFont() );
+		newBox->slotColorChanged( m_pData->getID() );
 		resizeCanvasToItems();
 		getDocument()->setModified();
 		return;
@@ -1429,26 +1445,13 @@ bool UMLView::getSelectedWidgets(UMLWidgetList&WidgetList)
 	int type;
 	for(temp=(UMLWidget *)m_SelectedList.first();temp;temp=(UMLWidget *)m_SelectedList.next()) {
 		type = temp->getBaseType();
-		switch( type ) {
-			case wt_Actor:
-			case wt_UseCase:
-			case wt_Class:
-			case wt_Package:
-			case wt_Component:
-			case wt_Artifact:
-			case wt_Object:
-			case wt_Note:
-			case wt_Message:
-			case wt_State:
-			case wt_Activity:
+		if (type == wt_Text) {
+			if( ((FloatingText*)temp)->getRole() == tr_Floating ) {
 				WidgetList.append(temp);
-				break;
-
-			case wt_Text:
-				if( ((FloatingText *) temp ) -> getRole() == tr_Floating )
-					WidgetList.append(temp);
-				break;
-		}//end switch
+			}
+		} else {
+			WidgetList.append(temp);
+		}
 	}//end for
 	return true;
 }
@@ -1458,28 +1461,13 @@ bool UMLView::getSelectedWidgetDatas(UMLWidgetDataList& WidgetDataList) {
 	UMLWidget_Type type;
 	for(temp=(UMLWidget *)m_SelectedList.first();temp;temp=(UMLWidget *)m_SelectedList.next()) {
 		type = temp->getBaseType();
-
-		switch( type ) {
-			case wt_Actor:
-			case wt_UseCase:
-			case wt_Class:
-			case wt_Package:
-			case wt_Component:
-			case wt_Artifact:
-			case wt_Object:
-			case wt_Note:
-			case wt_State:
-			case wt_Activity:
+		if (type == wt_Text) {
+			if( ((FloatingText*)temp)->getRole() == tr_Floating ) {
 				WidgetDataList.append(temp->getData());
-				break;
-
-			case wt_Text:
-				if( ((FloatingText *) temp ) -> getRole() == tr_Floating )
-					WidgetDataList.append(temp->getData());
-				break;
-			default:
-				break;
-		}//end switch
+			}
+		} else {
+			WidgetDataList.append(temp->getData());
+		}
 	}
 	//Insert WidgetData after regular widgets because when they are created
 	//in a m_bPaste operation they requiere the widgets it associates to be created first
@@ -1542,6 +1530,10 @@ bool UMLView::createWidget(UMLWidgetData* WidgetData) {
 
 		case wt_Note:
 			widget = new NoteWidget(this, WidgetData);
+			break;
+
+		case wt_Box:
+			widget = new BoxWidget(this, WidgetData);
 			break;
 
 		case wt_Object:
@@ -1659,15 +1651,8 @@ bool UMLView::addWidget( UMLWidgetData * pWidgetData ) {
 			break;
 
 		case wt_Note:
-			newID = getDocument()->assignNewID( pWidgetData->getId() );
-			pWidgetData->setId(newID);
-			break;
-
+		case wt_Box:
 		case wt_Text:
-			newID = getDocument()->assignNewID( pWidgetData->getId() );
-			pWidgetData->setId(newID);
-			break;
-
 		case wt_State:
 		case wt_Activity:
 			newID = getDocument()->assignNewID( pWidgetData->getId() );
@@ -2131,17 +2116,23 @@ bool UMLView::allocateMousePressEvent(QMouseEvent * me) {
 
 	QObjectList* l = queryList("UMLWidget");
 	QObjectListIt it( *l );
-	UMLWidget * obj, * backup = 0;
+	UMLWidget* obj = 0;
+	UMLWidget* backup = 0;
+	UMLWidget* boxBackup = 0;
 	while ( (obj=(UMLWidget*)it.current()) != 0 ) {
 		if( obj -> isVisible() && obj -> onWidget( me -> pos() ) ) {
-			//give text object priority
+			//Give text object priority,
 			//they can easily get into a position where
 			//you can't touch them.
+			//Give Boxes lowest priority, we want to be able to move things that
+			//are on top of them.
 			if( obj -> getBaseType() == wt_Text ) {
 				m_pOnWidget = obj;
 				obj ->  mousePressEvent( me );
 				delete l;
 				return true;
+			} else if (obj->getBaseType() == wt_Box) {
+				boxBackup = obj;
 			} else {
 				backup = obj;
 			}
@@ -2150,6 +2141,9 @@ bool UMLView::allocateMousePressEvent(QMouseEvent * me) {
 	}//end while
 	//if backup is set, then let it have the event
 	delete l;
+	if (!backup) {
+		backup = boxBackup;
+	}
 	if(backup) {
 		backup -> mousePressEvent( me );
 		m_pOnWidget = backup;
@@ -2790,32 +2784,15 @@ void UMLView::synchronizeData() {
 	while ( (obj=(UMLWidget*)wit.current()) != 0 ) {
 		++wit;
 		Uml::UMLWidget_Type type = obj -> getBaseType();
-		switch( type ) {
-			case wt_Actor:
-			case wt_UseCase:
-			case wt_Class:
-			case wt_Package:
-			case wt_Component:
-			case wt_Artifact:
-			case wt_Interface:
-			case wt_Object:
-			case wt_Note:
-			case wt_State:
-			case wt_Activity:
+		if (type == wt_Text) {
+			if( ((FloatingText*)obj)->getRole() == tr_Floating ) {
 				obj->synchronizeData();
-				m_pData->m_WidgetList.append(obj -> getData() );
-				break;
-
-
-			case wt_Text:
-				if( ((FloatingText *) obj ) -> getRole() == tr_Floating ) {
-					obj->synchronizeData();
-					m_pData->m_WidgetList.append( obj -> getData() );
-				}
-				break;
-			default:
-				break;
-		}//end switch
+				m_pData->m_WidgetList.append( obj->getData() );
+			}
+		} else {
+			obj->synchronizeData();
+			m_pData->m_WidgetList.append(obj->getData() );
+		}
 	}//end while
 	delete wl;
 }

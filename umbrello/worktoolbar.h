@@ -30,7 +30,7 @@ public:
 enum EditTool {Select = 0, Generalization, Aggregation, Dependency, Association,
 CollMessage, SeqMessage, Composition, UniAssociation, StateTransition, ActivityTransition,
  Anchor, Note, Text, Actor, UseCase, Class, Interface, Package, Component, Artifact, Object,
-InitialState, State, EndState, InitialActivity, Activity, EndActivity, Branch, Fork };	
+InitialState, State, EndState, InitialActivity, Activity, EndActivity, Branch, Fork, Box };	
 
 	/**
 	 *	Creates a work tool bar
@@ -77,6 +77,7 @@ InitialState, State, EndState, InitialActivity, Activity, EndActivity, Branch, F
 	    tbb_Activity_Transition,
 	    tbb_Anchor,//keep anchor as last association until code uses better algorithm for testing
 	    tbb_Note,
+	    tbb_Box,
 	    tbb_Text,
 	    tbb_Actor,
 	    tbb_UseCase,
@@ -116,6 +117,7 @@ private:
 		Realization,
 		Anchor,//keep anchor as last association until code uses better algorithm for testing
 		Note,
+		Box,
 		Text,
 		Actor,
 		UseCase,

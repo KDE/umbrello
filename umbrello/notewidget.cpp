@@ -10,7 +10,7 @@
 //qt includes
 #include <qpointarray.h>
 //kde includes
-#include "kcursor.h"
+#include <kcursor.h>
 #include <kcolordialog.h>
 //app includes
 #include "dialogs/notedialog.h"

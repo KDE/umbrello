@@ -592,30 +592,20 @@ void UMLWidget::drawShape(QPainter &p ) {
 void UMLWidget::setSelected(bool _select) {
 	if( _select ) {
 		if( m_pView -> getSelectCount() == 0 ) {
-			switch( m_pData -> m_Type ) {
-				case wt_Actor:
-				case wt_UseCase:
-				case wt_Class:
-					m_pView -> showDocumentation( m_pObject, false );
-					break;
-
-				case wt_Object:
-				case wt_State:
-				case wt_Activity:
-				case wt_Note:
-					m_pView -> showDocumentation( this, false );
-					break;
-
-				default:
-					break;
-			}//end switch
+			if ( widgetHasUMLObject(m_pData->m_Type) ) {
+				m_pView->showDocumentation(m_pObject, false);
+			} else {
+				m_pView->showDocumentation(this, false);
+			}
 		}//end if
-		if( m_pData -> m_Type != wt_Text )
-			setZ( 2 );//keep text on top so don't touch it's Z value
+		if (m_pData->m_Type != wt_Text && m_pData->m_Type != wt_Box) {
+			setZ(2);//keep text on top and boxes behind so don't touch Z value
+		}
 	}//end if
 	else {
-		if( m_pData -> m_Type != wt_Text )
-			setZ( 1 );
+		if (m_pData->m_Type != wt_Text && m_pData->m_Type != wt_Box) {
+			setZ(1);
+		}
 		if( m_bSelected )
 			m_pView -> updateDocumentation( true );
 	}
@@ -683,8 +673,18 @@ void UMLWidget::slotSnapToGrid( ) {
 	setY( m_pData -> getY() );
 }
 
-
-
-
+bool UMLWidget::widgetHasUMLObject(Uml::UMLWidget_Type type) {
+	if (type == wt_Actor ||
+	    type == wt_UseCase ||
+	    type == wt_Class ||
+	    type == wt_Interface ||
+	    type == wt_Package ||
+	    type == wt_Component ||
+	    type == wt_Artifact) {
+		return true;
+	} else {
+		return false;
+	}
+}
 
 #include "umlwidget.moc"

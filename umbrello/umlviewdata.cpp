@@ -23,6 +23,7 @@
 #include "interfacewidgetdata.h"
 #include "floatingtextdata.h"
 #include "notewidgetdata.h"
+#include "boxwidgetdata.h"
 #include "messagewidgetdata.h"
 #include "objectwidgetdata.h"
 #include "statewidgetdata.h"
@@ -358,6 +359,9 @@ bool UMLViewData::serializeWidgets( QDataStream * stream, bool bArchive, int fil
 				} else if( type == wt_Note ) {
 					NoteWidgetData * n = new NoteWidgetData(getOptionState() );
 					widgetData = static_cast<UMLWidgetData *>( n );
+				} else if( type == wt_Box ) {
+					BoxWidgetData * n = new BoxWidgetData();
+					widgetData = static_cast<UMLWidgetData *>( n );
 				} else if( type == wt_Text ) {
 					FloatingTextData * ft = new FloatingTextData();
 					widgetData = static_cast<UMLWidgetData *>( ft );
@@ -394,6 +398,9 @@ bool UMLViewData::serializeWidgets( QDataStream * stream, bool bArchive, int fil
 					widgetData = static_cast<UMLWidgetData *>( o );
 				} else if( stype == "NOTE" ) {
 					NoteWidgetData * n = new NoteWidgetData(m_Options);
+					widgetData = static_cast<UMLWidgetData *>( n );
+				} else if( stype == "BOX" ) {
+					BoxWidgetData * n = new BoxWidgetData();
 					widgetData = static_cast<UMLWidgetData *>( n );
 				} else if( stype == "FLOATTEXT" ) {
 					FloatingTextData * ft = new FloatingTextData();
@@ -618,8 +625,10 @@ bool UMLViewData::loadFromXMI( QDomElement & qElement ) {
 	QDomElement element = node.toElement();
 	if( !element.isNull() && element.tagName() != "widgets" )
 		return false;
-	if( !loadWidgetsFromXMI( element ) )
+	if( !loadWidgetsFromXMI( element ) ) {
+		kdDebug() << k_funcinfo << "failed on widgets" << endl;
 		return false;
+	}
 
 	//load the message widgets
 	node = element.nextSibling();
@@ -636,6 +645,7 @@ bool UMLViewData::loadFromXMI( QDomElement & qElement ) {
 		return false;
 	if( !loadAssociationsFromXMI( element ) )
 		return false;
+	kdDebug() << k_funcinfo << "view loaded succesfully" << endl;
 	return true;
 }
 
@@ -663,6 +673,8 @@ bool UMLViewData::loadWidgetsFromXMI( QDomElement & qElement ) {
 			widgetData = new StateWidgetData(getOptionState());
 		} else if( tag == "UML:NoteWidget" ) {
 			widgetData = new NoteWidgetData(getOptionState());
+		} else if( tag == "boxwidget" ) {
+			widgetData = new BoxWidgetData();
 		} else if( tag == "UML:FloatingTextWidget" ) {
 			widgetData = new FloatingTextData();
 		} else if( tag == "UML:ObjectWidget" ) {

@@ -31,7 +31,7 @@ public:
 	 *	Constructs a NoteWidget.
 	 *
 	 *	@param	view		The parent to this widget.
-	 *	@param	pData		The CNoteWidget to represent.
+	 *	@param	pData		The NoteWidget to represent.
 	 */
 	NoteWidget(UMLView * view, UMLWidgetData* pData);
 

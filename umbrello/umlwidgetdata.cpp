@@ -266,9 +266,9 @@ void UMLWidgetData::print2cerr() {
 			break;
 		case wt_Note:
 			stype = "NOTE";
-
-
-
+			break;
+		case wt_Box:
+			stype = "BOX";
 			break;
 		case wt_Object:
 			stype = "OBJECT";

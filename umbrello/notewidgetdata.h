@@ -28,18 +28,18 @@ class NoteWidgetData : public UMLWidgetData {
 	friend class NoteWidget;
 public:
 	/**
-	*
-	*/
+	 *  Standard constructor sets the base type
+	 */
 	NoteWidgetData(SettingsDlg::OptionState optionState);
 
 	/**
-	*
-	*/
+	 * Copy constructor
+	 */
 	NoteWidgetData(NoteWidgetData & Other);
 
 	/**
-	*
-	*/
+	 *  Empty destructor
+	 */
 	~NoteWidgetData();
 
 	/**
@@ -83,13 +83,13 @@ public:
 	virtual bool serialize(QDataStream *s, bool archive, int fileversion);
 
 	/**
-	*
-	*/
+	 *	Saves the box to XMI using <UML:NoteWidget>
+	 */
 	bool saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 	/**
-	*
-	*/
+	 *	Loads the <UML:NoteWidget> element
+	 */
 	bool loadFromXMI( QDomElement & qElement );
 protected:
 	/**

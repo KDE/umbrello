@@ -61,6 +61,9 @@ void WorkToolBar::slotCheckToolBar(Uml::Diagram_Type dt) {
 
 		insertButton( m_Pixmaps.Text, tbb_Text, true, i18n("Line of text"));
 		setToggle( tbb_Text, true );
+
+		insertButton( m_Pixmaps.Box, tbb_Box, true, i18n("Box") );
+		setToggle(tbb_Box, true);
 	}
 
 	//insert diagram specific tools
@@ -260,6 +263,7 @@ void WorkToolBar::loadPixmaps() {
 	m_Pixmaps.Anchor.load( dataDir + "anchor.xpm" );
 	m_Pixmaps.Text.load( dataDir + "text.xpm" );
 	m_Pixmaps.Note.load( dataDir + "note.xpm" );
+	m_Pixmaps.Box.load( dataDir + "box.xpm" );
 	m_Pixmaps.Actor.load( dataDir + "actor.xpm" );
 	m_Pixmaps.Dependency.load( dataDir + "dependency.xpm" );
 	m_Pixmaps.Aggregation.load( dataDir + "aggregation.xpm" );

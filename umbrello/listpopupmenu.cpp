@@ -19,6 +19,7 @@
 #include "floatingtext.h"
 #include "umlview.h"
 #include "notewidget.h"
+#include "boxwidget.h"
 #include "statewidget.h"
 #include "activitywidget.h"
 
@@ -305,6 +306,14 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object, bool multi) :
 			insertItem(SmallIcon( "fonts"),  i18n( "Change Font..." ), mt_Change_Font );
 			//insertItem(i18n("link documentation"), mt_Link_Docs);
 			//setItemChecked(mt_Link_Docs, ((NoteWidget*)object)->getLinkState());
+			break;
+
+		case Uml::wt_Box:
+			insertItem(SmallIcon("editcut"), i18n("Cut"), mt_Cut);
+			insertItem(SmallIcon("editcopy"), i18n("Copy"), mt_Copy);
+			insertItem(SmallIcon("editpaste"), i18n("Paste"), mt_Paste);
+			insertSeparator();
+			insertItem(SmallIcon("editDelete"), i18n("Delete"), mt_Delete);
 			break;
 
 		case Uml::wt_State:
