@@ -44,6 +44,11 @@ public:
 	UMLClassifierListItem(UMLObject *parent);
 
 	/**
+	 * Destructor.  Empty.
+	 */
+	virtual ~UMLClassifierListItem();
+
+	/**
 	 * Returns a string representation of the operation.
 	 *
 	 * @param sig		What type of operation string to show.

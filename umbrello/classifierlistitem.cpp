@@ -20,6 +20,9 @@ UMLClassifierListItem::UMLClassifierListItem(UMLObject *parent)
   : UMLObject(parent) {
 }
 
+UMLClassifierListItem::~UMLClassifierListItem() {
+}
+
 QString UMLClassifierListItem::getShortName() {
 	return getName();
 }
