@@ -6,7 +6,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-
+#include <iostream.h>
 #include <kdebug.h>
 #include <qdom.h>
 
@@ -615,6 +615,7 @@ bool UMLDrag::decodeClip4(const QMimeSource* mimeSource, UMLObjectList& objects,
 
 bool UMLDrag::decodeClip5(const QMimeSource* mimeSource, UMLObjectList& objects,
 			  UMLListViewItemDataList& umlListViewItems, UMLDoc* doc) {
+cerr<<"DECODE CLIP 5 CALLED"<<endl;
 	if ( !mimeSource->provides("application/x-uml-clip5") ) {
 		return false;
 	}
@@ -649,6 +650,7 @@ bool UMLDrag::decodeClip5(const QMimeSource* mimeSource, UMLObjectList& objects,
 		return false;//return ok as it means there is no umlobjects
 	}
 	UMLObject* pObject = 0;
+/*
 	while ( !element.isNull() ) {
 		pObject = 0;
 		QString type = element.tagName();
@@ -666,6 +668,7 @@ bool UMLDrag::decodeClip5(const QMimeSource* mimeSource, UMLObjectList& objects,
 		objectElement = objectElement.nextSibling();
 		element = objectElement.toElement();
 	}
+*/
 
 	//listviewitems
 	QDomNode listItemNode = objectsNode.nextSibling();
