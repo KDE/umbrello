@@ -706,7 +706,7 @@ void UMLApp::slotFilePrint()
 	QString msg;
 	if (printer.setup(this)) {
 
-		doc -> print(&printer);
+		doc -> print(&printer, i18n("Print %1").arg(doc->URL()->prettyURL()));
 	}
 	slotStatusMsg(i18n("Ready."));
 }
