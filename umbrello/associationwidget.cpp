@@ -2359,7 +2359,7 @@ void AssociationWidget::mouseReleaseEvent(QMouseEvent * me) {
 void AssociationWidget::slotMenuSelection(int sel) {
 	QString oldText, newText;
 	int result;
-	bool done = false, ok;
+	bool done = false;
 	KLineEditDlg* dlg = 0;
 	QFont font;
 
