@@ -169,7 +169,7 @@ QString CodeGenerator::findFileName(UMLConcept* concept, QString ext) {
 bool CodeGenerator::openFile(QFile &file, QString fileName) {
 	//open files for writing.
 	if(fileName.isEmpty()) {
-		kdDebug()<<"cannot find a file name"<<endl;
+		kdWarning() << "cannot find a file name" << endl;
 		return false;
 	} else {
 		file.setName(m_outputDirectory.absFilePath(fileName));
@@ -211,7 +211,7 @@ QString CodeGenerator::getHeadingFile(QString str) {
 	if(!includeHeadings() || str.isEmpty())
 		return QString();
 	if(str.contains(" ") ||str.contains(";")) {
-		kdDebug()<<"File filder must not have spaces or semi colons!\n";
+		kdWarning() << "File folder must not have spaces or semi colons!" << endl;
 		return QString();
 	}
 	//if we only get the extension, then we look for the default
@@ -226,7 +226,7 @@ QString CodeGenerator::getHeadingFile(QString str) {
 			m_headingFiles.setNameFilter(str);
 			//if there is more than one match we just take the first one
 			filename = m_headingFiles.absFilePath(m_headingFiles.entryList().first());
-			kdDebug()<<"file name set to "<<filename<<" because it was *"<<endl;
+			kdWarning() << "header file name set to " << filename << " because it was *" << endl;
 		}
 	} else {   //we got a file name (not only extension)
 		filename = m_headingFiles.absFilePath(str);
@@ -234,8 +234,8 @@ QString CodeGenerator::getHeadingFile(QString str) {
 
 	QFile f(filename);
 	if(!f.open(IO_ReadOnly)) {
-		kdDebug()<<"Error opening heading file\n"<<f.name()<<endl;
-		kdDebug()<<"Headings directory was "<<m_headingFiles.absPath()<<endl;
+		kdWarning() << "Error opening heading file: " << f.name() << endl;
+		kdWarning() << "Headings directory was " << m_headingFiles.absPath() << endl;
 		return QString();
 	}
 	QTextStream ts(&f);
@@ -355,7 +355,7 @@ bool CodeGenerator::hasAbstractOps(UMLConcept *c) {
 
 void CodeGenerator::generateAllClasses() {
 	if(!m_doc) {
-		kdDebug()<<"generateAllClasses::Error: doc is NULL!\n";
+		kdWarning() << "generateAllClasses::Error: doc is NULL!" << endl;
 		return;
 	}
 	m_fileMap->clear();
@@ -366,7 +366,7 @@ void CodeGenerator::generateAllClasses() {
 
 void CodeGenerator::generateCode( QPtrList<UMLConcept> &list ) {
 	if(!m_doc) {
-		kdDebug()<<"generateCode::Error: doc is NULL!\n";
+		kdWarning() << "generateCode::Error: doc is NULL!" << endl;
 		return;
 	}
 
@@ -378,7 +378,7 @@ void CodeGenerator::generateCode( QPtrList<UMLConcept> &list ) {
 
 void CodeGenerator::generateCode( UMLConcept * c ) {
 	if(!m_doc) {
-		kdDebug()<<"generateCode::Error: doc is NULL!\n";
+		kdWarning() << "generateCode::Error: doc is NULL!" << endl;
 		return;
 	}
 	//  m_fileMap->clear(); ???
