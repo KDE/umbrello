@@ -15,6 +15,7 @@
 #include <qprinter.h>
 #include <qpainter.h>
 #include <qstring.h>
+#include <qstringlist.h>
 #include <qobjcoll.h>
 #include <qdragobject.h>
 #include <qpaintdevicemetrics.h>
@@ -110,6 +111,7 @@ void UMLView::init() {
 	viewport() -> setMouseTracking(false);
 	m_SelectionRect.setAutoDelete( true );
 	m_CurrentCursor = WorkToolBar::tbb_Arrow;
+	m_imageMimetype = "image/png";
 	//setup signals
 	connect( this, SIGNAL(sigRemovePopupMenu()), this, SLOT(slotRemovePopupMenu() ) );
 	connect( getUMLApp(), SIGNAL( sigCutSuccessful() ),
@@ -1313,9 +1315,55 @@ void UMLView::updateNoteWidgets() {
 	}
 }
 
+QString imageTypeToMimeType(QString imagetype) {
+	if (QString("EPS") == imagetype) return "image/x-eps";
+	if (QString("BMP") == imagetype) return "image/x-bmp";
+	if (QString("JPEG") == imagetype) return "image/jpeg";
+	if (QString("PBM") == imagetype) return "image/x-portable-bitmap";
+	if (QString("PGM") == imagetype) return "image/x-portable-greymap";
+	if (QString("PNG") == imagetype) return "image/png";
+	if (QString("PPM") == imagetype) return "image/x-portable-pixmap";
+	if (QString("XBM") == imagetype) return "image/x-xbm";
+	if (QString("XPM") == imagetype) return "image/x-xpm";
+	return QString::null;
+}
+
+QString mimeTypeToImageType(QString mimetype) {
+	if (QString("image/x-eps") == mimetype) return "EPS";
+	if (QString("image/x-bmp") == mimetype) return "BMP";
+	if (QString("image/jpeg") == mimetype) return "JPEG";
+	if (QString("image/x-portable-bitmap") == mimetype) return "PBM";
+	if (QString("image/x-portable-greymap") == mimetype) return "PGM";
+	if (QString("image/png") == mimetype) return "PNG";
+	if (QString("image/x-portable-pixmap") == mimetype) return "PPM";
+	if (QString("image/x-xbm") == mimetype) return "XBM";
+	if (QString("image/x-xpm") == mimetype) return "XPM";
+	return QString::null;
+}
+
 void UMLView::exportImage() {
-	KURL url = KFileDialog::getSaveURL(":export-image", i18n("*.png|PNG Image\n*.*|All Files"),
-					   this, i18n("Save As") );
+	QStringList fmt = QImage::outputFormatList();
+
+	// get all supported mimetypes
+	QStringList mimetypes;
+	QString m;
+	QStringList::Iterator it;
+	for( it = fmt.begin(); it != fmt.end(); ++it ) {
+		m = imageTypeToMimeType(*it);
+		if (!m.isNull()) mimetypes.append(m);
+	}
+
+	// configure & show the file dialog
+	KFileDialog fileDialog(QString::null, QString::null, this, 
+			       ":export-image",true);
+	fileDialog.setCaption(i18n("Save As"));
+	fileDialog.setOperationMode(KFileDialog::Saving);
+	fileDialog.setMimeFilter(mimetypes, m_imageMimetype);
+	fileDialog.exec();
+	KURL url = fileDialog.selectedURL();
+	m_imageMimetype = fileDialog.currentMimeFilter();
+
+	// save
 	if(!url.isEmpty())
 	{
 		QString s;
@@ -1325,8 +1373,9 @@ void UMLView::exportImage() {
 			QString file = url.path(-1);
 			QFileInfo info(file);
 			QString ext = info.extension(false);
-			if(ext != "png") {
-				url.setFileName(url.fileName() + ".png");
+			QString extDef = mimeTypeToImageType(m_imageMimetype).lower();
+			if(ext != extDef) {
+				url.setFileName(url.fileName() + "."+extDef);
 			}
 			s = url.path();
 			info = QFileInfo(s);
@@ -1350,7 +1399,7 @@ void UMLView::exportImage() {
 		} else {
 			QPixmap diagram(rect.width(), rect.height());
 			getDiagram(rect, diagram);
-			diagram.save(s, "PNG");
+			diagram.save(s, mimeTypeToImageType(m_imageMimetype).ascii());
 
 			if (!url.isLocalFile()) {
 				if(!KIO::NetAccess::upload(tmpfile.name(), url)) {

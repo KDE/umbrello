@@ -920,6 +920,10 @@ private:
 	 */
 	bool m_bMouseButtonPressed;
 
+	/**
+	 * Default Mimetype to use for image export.
+	 */
+	QString m_imageMimetype;
 public slots:
 
 	void zoomIn();
