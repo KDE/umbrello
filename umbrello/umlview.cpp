@@ -514,15 +514,13 @@ void UMLView::slotObjectCreated(UMLObject* o) {
 		case ot_Enum:
 		case ot_Datatype:
 			createAutoAssociations(newWidget);
-			if (type == ot_Class) {
-				// We need to invoke createAutoAttributeAssociations()
-				// on all other widgets again because the newly created
-				// widget might saturate some latent attribute assocs.
-				for (UMLWidgetListIt it(m_WidgetList); it.current(); ++it) {
-					UMLWidget *w = it.current();
-					if (w != newWidget)
-						createAutoAttributeAssociations(w);
-				}
+			// We need to invoke createAutoAttributeAssociations()
+			// on all other widgets again because the newly created
+			// widget might saturate some latent attribute assocs.
+			for (UMLWidgetListIt it(m_WidgetList); it.current(); ++it) {
+				UMLWidget *w = it.current();
+				if (w != newWidget)
+					createAutoAttributeAssociations(w);
 			}
 			break;
 	}
@@ -2386,10 +2384,10 @@ void UMLView::createAutoAttributeAssociations(UMLWidget *widget) {
 			// if the AssocWidget does not already exist then
 			AssociationWidget * aw = findAssocWidget(at_Composition, widget, w);
 			if (aw)
-				return;
+				continue;
 			// if the current diagram type permits compositions
 			if (! AssocRules::allowAssociation(at_Composition, widget, w, false))
-				return;
+				continue;
 			// create a composition AssocWidget
 			AssociationWidget *a = new AssociationWidget (this, widget, at_Composition, w);
 			a->setUMLObject(attr);
@@ -2410,15 +2408,15 @@ void UMLView::createAutoAttributeAssociations(UMLWidget *widget) {
 				UMLClassifier *c = dt->originType();
 				UMLWidget *w = findWidget( c->getID() );
 				if (w == NULL)
-					return;
+					continue;
 				// if the AssocWidget does not already exist then
 				AssociationWidget * aw = findAssocWidget(at_Aggregation, widget, w);
 				if (aw)
-					return;
+					continue;
 				// if the current diagram type permits aggregations
 				if (! AssocRules::allowAssociation(at_Aggregation,
 								   widget, w, false))
-					return;
+					continue;
 				// create an aggregation AssocWidget from the ClassWidget
 				// to the widget of the referenced type
 				AssociationWidget *a = new AssociationWidget

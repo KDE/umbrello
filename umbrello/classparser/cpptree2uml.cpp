@@ -12,8 +12,12 @@
 
 #include "cpptree2uml.h"
 #include "ast_utils.h"
-#include "../classimport.h"
 #include "urlutil.h"
+#include "../classimport.h"
+// FIXME: The sole reason for the next 2 includes is parseTypedef().
+// Make capsule methods in ClassImport, and remove these includes.
+#include "../classifier.h"
+#include "../datatype.h"
 
 #include <kdebug.h>
 #include <qfileinfo.h>
@@ -126,13 +130,29 @@ void CppTree2Uml::parseTypedef( TypedefAST* ast )
 	       if( d->declaratorId() )
 		  id = d->declaratorId()->text();
 	    }
-#ifdef DEBUG_CPPTREE2UML
+//#ifdef DEBUG_CPPTREE2UML
 	    kdDebug() << "CppTree2Uml::parseTypedef: name=" << id << ", type=" << type << endl;
-#endif
-	    m_importer->createUMLObject( Uml::ot_Class, id,
-					 "typedef" /* stereotype */,
-	 				 "" /* doc */,
-					 m_currentNamespace[m_nsCnt] );
+//#endif
+	    if (type.contains('*')) {
+		UMLObject *inner =
+	        m_importer->createUMLObject( Uml::ot_Class, typeId,
+					     "" /* stereotype */,
+	 				     "" /* doc */,
+					     m_currentNamespace[m_nsCnt] );
+	        UMLObject *typedefObj =
+		m_importer->createUMLObject( Uml::ot_Datatype, id,
+					     "" /* stereotype */,
+	 				     "" /* doc */,
+					     m_currentNamespace[m_nsCnt] );
+	        UMLDatatype *dt = static_cast<UMLDatatype*>(typedefObj);
+		dt->setIsReference();
+		dt->setOriginType(static_cast<UMLClassifier*>(inner));
+	    } else {
+	        m_importer->createUMLObject( Uml::ot_Class, id,
+					     "typedef" /* stereotype */,
+	 				     "" /* doc */,
+					     m_currentNamespace[m_nsCnt] );
+	    }
 	    ++it;
 	}
 

@@ -56,6 +56,15 @@ QString ClassImport::doxyComment(QString comment) {
 	return lines.join("\n");
 }
 
+/*
+UMLObject* ClassImport::findUMLObject(QString name,
+				      Uml::UMLObject_Type type) {
+	// Why an extra wrapper? See comment at addMethodParameter()
+	UMLObject * o = m_umldoc->findUMLObject(name, type);
+	return o;
+}
+ */
+
 UMLObject *ClassImport::createUMLObject(Uml::UMLObject_Type type,
 					QString name,
 					QString stereotype,
