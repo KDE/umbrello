@@ -96,14 +96,7 @@ UMLDoc::UMLDoc(QWidget *parent, const char *name) : QObject(parent, name) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLDoc::~UMLDoc() {
-	undoStack.setAutoDelete(true);
-	undoStack.clear();
-
-	redoStack.setAutoDelete(true);
-	redoStack.clear();
-
 	delete m_pChangeLog;
-	delete m_codeGenerationXMIParamMap;
 	m_pChangeLog = 0;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2725,8 +2718,6 @@ void UMLDoc::addToUndoStack() {
 		saveToXMI(*buffer);
 		buffer->close();
 		undoStack.prepend(undoData);
-
-		delete buffer;
 
 		if (undoStack.count() > 1) {
 			((UMLApp*)parent())->enableUndo(true);

@@ -29,7 +29,7 @@
 CodeDocument::CodeDocument (CodeGenerator * gen , QDomElement & elem)
     : QObject (gen, "ACodeDocument")
 {
-	m_header = 0;
+
 	initDoc( gen );
 	loadFromXMI(elem);
 }
@@ -37,16 +37,12 @@ CodeDocument::CodeDocument (CodeGenerator * gen , QDomElement & elem)
 CodeDocument::CodeDocument (CodeGenerator * gen )
     : QObject (gen, "ACodeDocument")
 {
-	m_header = 0;
 	initDoc( gen );
 }
 
 
 CodeDocument::~CodeDocument ( ) {
-	if (m_header != 0)
-		delete m_header;
 
-	delete m_childTextBlockTagMap;
 	// delete all the text blocks we have
 //	for (TextBlock *tb = m_textblockVector.first(); tb; tb=m_textblockVector.next())
 //		delete tb;
@@ -202,12 +198,7 @@ CodeGenerationPolicy * CodeDocument::getPolicy ( ) {
  * Set the Header comment
  */
 void CodeDocument::setHeader ( CodeComment * header ) {
-	if (m_header != 0)
-		delete m_header;
-
 	m_header = header;
-
-	return;
 }
 
 /**
@@ -555,8 +546,7 @@ void CodeDocument::initDoc ( CodeGenerator * gen ) {
 	m_childTextBlockTagMap = new QMap<QString, TextBlock *>;
 	m_codegeneratorpolicy = gen->getPolicy(); // default to parent code gen policy
 
-	CodeComment * newHeader = new CodeComment(this);
-	setHeader(newHeader);
+	setHeader(new CodeComment(this));
 
 	lastTagIndex = 0;
 

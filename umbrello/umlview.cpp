@@ -188,8 +188,6 @@ UMLView::~UMLView() {
 		delete m_pAssocLine;
 		m_pAssocLine = NULL;
 	}
-
-	delete m_pToolBarStateFactory;
 	//m_SelectionRect.clear();
 }
 

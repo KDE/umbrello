@@ -31,7 +31,6 @@ CodeGenObjectWithTextBlocks::CodeGenObjectWithTextBlocks ( )
 
 CodeGenObjectWithTextBlocks::~CodeGenObjectWithTextBlocks ( ) {
 	resetTextBlocks();
-	delete m_textBlockTagMap;
 /*
         // delete all the text blocks we have
         for (TextBlock *tb = m_textblockVector.first(); tb; tb=m_textblockVector.next())
@@ -420,10 +419,8 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( QDomElement & ro
                                         {
                                                 kdError()<<"loadFromXMI: unable to add codeComment to :"<<this<<endl;
                                                 block->release();
-                                        } else {
+                                        } else
                                                 loadCheckForChildrenOK= true;
-                                                delete block;
-                                        }
                                 } else
                                 if( name == "codeaccessormethod" ||
                                     name == "ccfdeclarationcodeblock"
@@ -436,10 +433,8 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( QDomElement & ro
                                                 kdError()<<"loadFromXMI : unable to add code accesor/decl method block (tag:"<<acctag<<") to:"<<this<<endl;
                                                 // DONT delete
 
-                                        } else {
+                                        } else
                                                 loadCheckForChildrenOK= true;
-                                                delete tb;
-                                        }
 
                                 } else
                                 if( name == "codeblock" ) {
@@ -459,10 +454,8 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( QDomElement & ro
                                         {
                                                 kdError()<<"loadFromXMI : unable to add codeBlockwithcomments to:"<<this<<endl;
                                                 block->release();
-                                        } else {
+                                        } else
                                                 loadCheckForChildrenOK= true;
-                                                delete block;
-                                        }
                                 } else
                                 if( name == "header" ) {
                                        // do nothing.. this is treated elsewhere
@@ -474,10 +467,8 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( QDomElement & ro
                                         {
                                                 kdError()<<"loadFromXMI : unable to add hierarchicalcodeBlock to:"<<this<<endl;
                                                 block->release();
-                                        } else {
+                                        } else
                                                 loadCheckForChildrenOK= true;
-                                                delete block;
-                                        }
                                 } else
                                 if( name == "codeoperation" ) {
                                        // find the code operation by id
@@ -487,10 +478,10 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( QDomElement & ro
                                         if(op) {
                                                 CodeOperation * block = newCodeOperation(op);
                                                 block->loadFromXMI(element);
-                                                if(addTextBlock(block)) {
+                                                if(addTextBlock(block))
                                                         loadCheckForChildrenOK= true;
-                                                        delete block;
-                                                } else {
+                                                else
+                                                {
                                                         kdError()<<"loadFromXMI : unable to add codeoperation to:"<<this<<endl;
                                                         block->release();
                                                 }
