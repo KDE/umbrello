@@ -40,9 +40,7 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kstandarddirs.h>
-#include "diagram/diagram.h"
 
-//using Umbrello::Diagram;
 
 UMLListView::UMLListView(QWidget *parent,const char *name) : KListView(parent,name), m_pMenu(0) {
 	loadPixmaps();
@@ -70,8 +68,7 @@ UMLListView::UMLListView(QWidget *parent,const char *name) : KListView(parent,na
 	componentView = new UMLListViewItem(rv, i18n("Component View"), Uml::lvt_Component_View);
 	deploymentView = new UMLListViewItem(rv, i18n("Deployment View"), Uml::lvt_Deployment_View);
 	datatypeFolder = new UMLListViewItem(lv, i18n("Datatypes"), Uml::lvt_Datatype_Folder);
-//Uncomment for using Luis diagram display code
-//	diagramFolder = new UMLListViewItem(rv,i18n("Diagrams"),Uml::lvt_Diagrams);
+
 
 
 	init();

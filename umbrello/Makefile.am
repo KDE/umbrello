@@ -29,7 +29,7 @@ umbrello_SOURCES = activitywidget.cpp actor.cpp actorwidget.cpp \
 	umlrole.cpp umlview.cpp umlviewcanvas.cpp umlwidget.cpp \
 	usecase.cpp usecasewidget.cpp worktoolbar.cpp
 
-umbrello_LDADD   = ./refactoring/librefactoring.la ./diagram/libdiagram.la ./classparser/libclassparser.la ./clipboard/libclipboard.la ./dialogs/libdialogs.la ./codegenerators/libcodegenerator.la -lfl $(LIB_KDEPRINT) $(LIB_KIO)
+umbrello_LDADD   = ./refactoring/librefactoring.la ./classparser/libclassparser.la ./clipboard/libclipboard.la ./dialogs/libdialogs.la ./codegenerators/libcodegenerator.la -lfl $(LIB_KDEPRINT) $(LIB_KIO)
 
 SUBDIRS = classparser dialogs clipboard pics codegenerators headings diagram refactoring plugins
 

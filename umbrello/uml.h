@@ -50,7 +50,6 @@ class QClipboard;
 
 namespace Umbrello
 {
-class DiagramView;
 class RefactoringAssistant;
 }
 
@@ -365,9 +364,7 @@ protected slots:
 	void updateLangSelectMenu();
 
 public slots:
-
-	void UdiagramSelected( int );
-	void UcreateDiagram();
+	
 
 	/**
 	 * Sets up information for dinamically loaded libraries. It
@@ -790,13 +787,7 @@ private:
 	KAction* componentDiagram;
 	KAction* deploymentDiagram;
 	KAction* viewClearDiagram;
-	KAction* UclassDiagram;
-	KAction* UsequenceDiagram;
-	KAction* UcollaborationDiagram;
-	KAction* UuseCaseDiagram;
-	KAction* UstateDiagram;
-	KAction* UactivityDiagram;
-
+		
 	KToggleAction* viewSnapToGrid;
 	KToggleAction* viewShowGrid;
 	KAction* viewExportImage;
@@ -838,8 +829,7 @@ private:
 	 * Shows, and is parent of, all the UMLViews (diagrams).
 	 */
 	QWidgetStack* viewStack;
-	
-	QMap<int,Umbrello::DiagramView*> diagramViews;
+		
 
 	/**
 	 * Default Mimetype to use for image export.

@@ -28,7 +28,7 @@
 #include "dialogs/configcodegenerators.h"
 #include "dialogs/diagramprintpage.h"
 #include "dialogs/selectlanguagesdlg.h"
-#include "diagram/diagramview.h"
+
 #include "refactoring/refactoringassistant.h"
 #include "codegenerators/simplecodegenerator.h"
 
@@ -56,22 +56,7 @@
 
 #include "configurable.h"
 
-////FIXME - remove when dialog linking problems are solved
-#include "interface.h"
-#include "package.h"
-#include "class.h"
-#include "dialogs/umbrellodialog.h"
-#include "dialogs/classpropertiespage.h"
-#include "dialogs/classattributespage.h"
-#include "dialogs/classifieroperationspage.h"
-#include "dialogs/umlobjectassociationspage.h"
-#include "dialogs/classtemplatespage.h"
-#include "dialogs/interfacepropertiespage.h"
-#include "dialogs/packagepropertiespage.h"
-///////////////////////////////////
 
-
-using Umbrello::Diagram;
 using Umbrello::RefactoringAssistant;
 
 
@@ -134,25 +119,6 @@ UMLApp::UMLApp(QWidget* , const char* name):KDockMainWindow(0, name) {
 	m_refactoringAssist = 0L;
 
 	m_defaultcodegenerationpolicy = new CodeGenerationPolicy(this,config);
-
-////FIXME - remove when dialog linking problems are solved
-	UMLClass *dummyc = new UMLClass(doc, "dummy", 9999);
-	UMLInterface *dummyi = new UMLInterface(doc, "dummy", 9999);
-	UMLPackage *dummyp = new UMLPackage(doc, "dummy", 9999);
-
-		delete new UmbrelloDialog(this);
-		delete new Umbrello::ClassPropertiesPage(dummyc);
-		delete new Umbrello::ClassPropertiesPage(dummyc);
-		delete new Umbrello::ClassAttributesPage(dummyc,doc,(QWidget*)0L);
-		delete new Umbrello::ClassifierOperationsPage(dummyc,doc,(QWidget*)0L);
-		delete new Umbrello::UMLObjectAssociationsPage(dummyc,(QWidget*)0L);
-		delete new Umbrello::ClassTemplatesPage(dummyc,doc,(QWidget*)0L);
-		delete new Umbrello::InterfacePropertiesPage(dummyi);
-		delete new Umbrello::PackagePropertiesPage(dummyp);
-	delete dummyc;
-	delete dummyi;
-	delete dummyp;
-////////////////////////////////////////
 
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -237,32 +203,20 @@ void UMLApp::initActions() {
 	// The different views
         newDiagram = new KActionMenu(0, SmallIconSet("filenew"), actionCollection(), "new_view");
 	classDiagram = new KAction( i18n( "&Class Diagram" ), SmallIconSet("folder_green"), 0,
-	                            this, SLOT( slotClassDiagram() ), actionCollection(), "new_class_diagram" );
-	UclassDiagram = new KAction (i18n("Class Diagram (NewDiagram)"),SmallIconSet("folder_green"), 0,
-					this,SLOT(UcreateDiagram()),actionCollection(), "umbrello::new_class_diagram");
+	                            this, SLOT( slotClassDiagram() ), actionCollection(), "new_class_diagram" );	
 
 	sequenceDiagram= new KAction( i18n( "&Sequence Diagram" ), SmallIconSet("folder_green"), 0,
-	                              this, SLOT( slotSequenceDiagram() ), actionCollection(), "new_sequence_diagram" );
-	UsequenceDiagram= new KAction( i18n( "&Sequence Diagram(NEW)" ), SmallIconSet("folder_green"), 0,
-	                              this, SLOT( UcreateDiagram() ), actionCollection(), "umbrello::new_sequence_diagram" );
+	                              this, SLOT( slotSequenceDiagram() ), actionCollection(), "new_sequence_diagram" );	
 
 	collaborationDiagram = new KAction( i18n( "C&ollaboration Diagram" ), SmallIconSet("folder_green"), 0,
 	                                    this, SLOT( slotCollaborationDiagram() ), actionCollection(), "new_collaboration_diagram" );
-
-	UcollaborationDiagram = new KAction( i18n( "Collaboration &Diagram(NEW)" ), SmallIconSet("folder_green"), 0,
-	                                    this, SLOT( UcreateDiagram() ), actionCollection(), "umbrello::new_collaboration_diagram" );
-
+	
 	useCaseDiagram= new KAction( i18n( "&Use Case Diagram" ), SmallIconSet("folder_grey"), 0,
 	                             this, SLOT( slotUseCaseDiagram() ), actionCollection(), "new_use_case_diagram" );
-
-	UuseCaseDiagram= new KAction( i18n( "&Use Case Diagram(NEW)" ), SmallIconSet("folder_grey"), 0,
-	                             this, SLOT( UcreateDiagram() ), actionCollection(), "umbrello::new_use_case_diagram" );
 
 	stateDiagram= new KAction( i18n( "S&tate Diagram" ), SmallIconSet("folder_green"), 0,
 	                           this, SLOT( slotStateDiagram() ), actionCollection(), "new_state_diagram" );
 
-	UstateDiagram= new KAction( i18n( "S&tate Diagram(NEW)" ), SmallIconSet("folder_green"), 0,
-	                           this, SLOT( UcreateDiagram() ), actionCollection(), "umbrello::new_state_diagram" );
 	activityDiagram= new KAction( i18n( "&Activity Diagram" ), SmallIconSet("folder_green"), 0,
 	                              this, SLOT( slotActivityDiagram() ), actionCollection(), "new_activity_diagram" );
 
@@ -388,8 +342,7 @@ void UMLApp::initStatusBar() {
 
 	connect(listView,SIGNAL(sigSetStatusbarProgressSteps(int)),statProg,SLOT(setTotalSteps(int)));
 	connect(listView,SIGNAL(sigSetStatusbarProgress(int)),statProg,SLOT(setProgress(int)));
-	connect(listView,SIGNAL(sigResetStatusbarProgress()),statProg,SLOT(reset()));
-	connect(listView,SIGNAL(diagramSelected(int)),this,SLOT(UdiagramSelected(int)));
+	connect(listView,SIGNAL(sigResetStatusbarProgress()),statProg,SLOT(reset()));	
 	//FIXME change name to raiseDiagram
 
 	connect(doc, SIGNAL( sigWriteToStatusBar(const QString &) ), this, SLOT( slotStatusMsg(const QString &) ));
@@ -882,40 +835,6 @@ void UMLApp::slotClassDiagram() {
 	getDocument() -> createDiagram( Uml::dt_Class ) ;
 }
 
-void UMLApp::UcreateDiagram() {
-	Diagram::DiagramType t;
-	const QObject *o = sender();
-	if(o == UclassDiagram ) {
-		t = Diagram::ClassDiagram;
-	} else if( o == UuseCaseDiagram) {
-		t = Diagram::UseCaseDiagram;
-	} else if( o ==  UcollaborationDiagram) {
-		t = Diagram::CollaborationDiagram;
-	} else if( o == UactivityDiagram ) {
-		t = Diagram::ActivityDiagram;
-	} else if( o == UsequenceDiagram ) {
-		t = Diagram::SequenceDiagram;
-	} else {
-		kdWarning() << "uninitialised variable t, using default" << endl;
-		t = Diagram::ClassDiagram;
-	}
-	Umbrello::Diagram *d = getDocument()->UcreateDiagram( t );
-	if(!d) {
-		return;
-	}
-	Umbrello::DiagramView *v = d->createView(viewStack);
-	diagramViews[d->getID()] = v;
-	kdDebug()<<"diagram created with id = "<<d->getID()<<endl;
-	viewStack->raiseWidget(v);
-	v->setFocus();
-}
-
-void UMLApp::UdiagramSelected(int id) {
-	if(diagramViews.find(id) != diagramViews.end()) {
-		viewStack->raiseWidget(diagramViews[id]);
-		diagramViews[id]->setFocus();
-	}
-}
 
 void UMLApp::slotSequenceDiagram() {
 	getDocument() -> createDiagram( Uml::dt_Sequence );

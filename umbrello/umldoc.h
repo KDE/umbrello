@@ -32,8 +32,6 @@
 
 #include <typeinfo>
 
-#include "diagram/diagram.h"
-
 #define ENC_UNKNOWN 0
 #define ENC_UNICODE 1
 #define ENC_OLD_ENC 2
@@ -197,8 +195,7 @@ public:
 	 * @param lv		Pointer to the UMLListView.
 	 */
 	void setupListView(UMLListView *lv);
-
-	//int createObject(type, Umbrello::DiagramView  *widget, bool useWizard = false);
+	
 
 	/**
 	 * Creates a @ref UMLObject of the given type.
@@ -334,8 +331,7 @@ public:
          * @param o		Pointer to the UMLObject to delete.
          */
         void removeUMLObject(UMLObject*o);
-
-	Umbrello::Diagram* UcreateDiagram(Umbrello::Diagram::DiagramType);
+	
 
 	/**
 	 * Used to rename a document.  This method takes care of everything.
@@ -425,14 +421,7 @@ public:
 	 * @return	Pointer to the view found, or NULL if not found.
 	 */
 	UMLView * findView(Diagram_Type type, QString name);
-
-	/**
-	 * Finds a diagram by the id given.
-	 *
-	 * @param id		The id of the Umbrello::Diagram to find.
-	 * @return	Pointer to the diagram found, or NULL if not found.
-	 */
-	Umbrello::Diagram* findDiagram(int id);
+	
 
 	/**
 	 * Used to give a unique ID to any sort of object.
@@ -884,8 +873,7 @@ private:
 	void initSaveTimer();
 
 	CodeGenerator * m_currentcodegenerator;
-	UMLObjectList objectList;
-	QPtrList<Umbrello::Diagram> diagrams;
+	UMLObjectList objectList;	
 	int uniqueID;
 	bool m_modified;
 	KURL doc_url;
@@ -976,8 +964,7 @@ public slots:
 signals:
 	void sigUpdateItem(int id);
 
-	void sigDiagramCreated(int id);
-	void diagramCreated(Umbrello::Diagram*);
+	void sigDiagramCreated(int id);	
 	void sigDiagramRemoved(int id);
 	void sigDiagramRenamed(int t);
 	void sigDiagramChanged(Uml::Diagram_Type);

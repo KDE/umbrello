@@ -53,9 +53,6 @@
 #define XMI_FILE_VERSION "1.1.5"
 static const uint undoMax = 30;
 
-//#include "diagram/diagram.h"
-using Umbrello::Diagram;
-using Umbrello::DiagramView;
 
 UMLDoc::UMLDoc(QWidget *parent, const char *name) : QObject(parent, name) {
 	listView = 0;
@@ -64,7 +61,6 @@ UMLDoc::UMLDoc(QWidget *parent, const char *name) : QObject(parent, name) {
 	m_currentcodegenerator = 0;
 	objectList.clear();
 	objectList.setAutoDelete(false); // DONT autodelete
-	diagrams.setAutoDelete(true);
 	m_ViewList.setAutoDelete(true);
 
 	m_codeGenerationXMIParamMap = new QMap<QString, QDomElement>;
@@ -75,8 +71,7 @@ UMLDoc::UMLDoc(QWidget *parent, const char *name) : QObject(parent, name) {
 	m_bLoading = false;
 	m_pAutoSaveTimer = 0;
 	UMLApp * pApp = UMLApp::app();
-	connect(this, SIGNAL(sigDiagramCreated(int)), pApp, SLOT(slotUpdateViews()));
-	connect(this, SIGNAL(diagramCreated(Umbrello::Diagram*)), pApp, SLOT(slotUpdateViews()));
+	connect(this, SIGNAL(sigDiagramCreated(int)), pApp, SLOT(slotUpdateViews()));	
 	connect(this, SIGNAL(sigDiagramRemoved(int)), pApp, SLOT(slotUpdateViews()));
 	connect(this, SIGNAL(sigDiagramRenamed(int)), pApp, SLOT(slotUpdateViews()));
 	connect(this, SIGNAL( sigCurrentViewChanged() ), pApp, SLOT( slotCurrentViewChanged() ) );
@@ -193,8 +188,7 @@ bool UMLDoc::saveModified() {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLDoc::closeDocument() {
-	deleteContents();
-	diagrams.clear();
+	deleteContents();	
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 SettingsDlg::OptionState UMLDoc::getOptionState() {
@@ -464,15 +458,6 @@ UMLView * UMLDoc::findView(int id) {
 	return 0;
 }
 
-Diagram* UMLDoc::findDiagram(int id)
-{
-	for(Diagram *d = diagrams.first(); d; diagrams.next())
-	{
-	if(d->getID() == id)
-			return d;
-	}
-	return 0L;
-}
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLView * UMLDoc::findView(Diagram_Type type, QString name) {
 	for(UMLView *w = m_ViewList.first(); w; w = m_ViewList.next()) {
@@ -928,19 +913,6 @@ QString UMLDoc::uniqViewName(const Diagram_Type type) {
 }
 
 
-Umbrello::Diagram* UMLDoc::UcreateDiagram(Diagram::DiagramType dType)
-{
-	bool ok = true;
-	QString name = KInputDialog::getText(i18n("Name"), i18n("Enter name:"), i18n("new_diagram"), &ok, UMLApp::app() );
-	if(!ok)
-		return (Umbrello::Diagram*)0L;
-	int id = getUniqueID();
-	Diagram *diagram = new Diagram(dType, this, id, name);
-	diagrams.append(diagram);
-	emit diagramCreated(diagram);
-	return diagram;
-
-}
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLDoc::createDiagram(Diagram_Type type, bool askForName /*= true */) {
 	bool 	ok = true;

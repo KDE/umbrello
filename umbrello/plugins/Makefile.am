@@ -1,4 +1,4 @@
 # Makefile for plugins directory
 
-SUBDIRS = umlwidgets
+#SUBDIRS = umlwidgets
 
