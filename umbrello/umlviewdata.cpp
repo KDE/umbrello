@@ -626,7 +626,6 @@ bool UMLViewData::loadFromXMI( QDomElement & qElement ) {
 	if( !element.isNull() && element.tagName() != "widgets" )
 		return false;
 	if( !loadWidgetsFromXMI( element ) ) {
-		kdDebug() << k_funcinfo << "failed on widgets" << endl;
 		return false;
 	}
 
@@ -645,7 +644,6 @@ bool UMLViewData::loadFromXMI( QDomElement & qElement ) {
 		return false;
 	if( !loadAssociationsFromXMI( element ) )
 		return false;
-	kdDebug() << k_funcinfo << "view loaded succesfully" << endl;
 	return true;
 }
 

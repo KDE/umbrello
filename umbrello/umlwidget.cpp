@@ -437,11 +437,13 @@ void UMLWidget::drawSelected(QPainter * p, int offsetX, int offsetY) {
 	p -> fillRect(offsetX, offsetY, s,  s, brush);
 	p -> fillRect(offsetX, offsetY + h - s, s, s, brush);
 	p -> fillRect(offsetX + w - s, offsetY, s, s, brush);
-	p -> fillRect(offsetX + w - s, offsetY + h - s, s, s, brush);
+	p->fillRect(offsetX + w - s, offsetY + h - s, s, s, brush);
 
+	if (getBaseType() == wt_Text || getBaseType() == wt_Box) {
+		QBrush brush(red);
+		p->fillRect(offsetX + w - s, offsetY + h - s, s, s, brush);
+	}
 }
-
-
 
 bool UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */) {
 	setSize( m_pData -> getWidth(), m_pData -> getHeight() );
