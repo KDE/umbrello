@@ -958,6 +958,16 @@ void UMLListView::slotDropped(QDropEvent* de, QListViewItem* /* parent */, QList
 				    itemType == Uml::lvt_Package) {
 					newItem = move->deepCopy(newParent);
 					delete move;
+					UMLObject *o = newItem->getUMLObject();
+					if (o == NULL)
+						kdDebug() << "slotDropped: newItem's UMLObject is NULL" 
+							  << endl;
+					else if (itemType == Uml::lvt_Package)
+						o->setUMLPackage(
+							static_cast<UMLPackage*>(
+								newParent->getUMLObject() ) );
+					else
+						o->setUMLPackage( NULL );
 				}
 				break;
 			default:
