@@ -1114,8 +1114,8 @@ void AssociationWidget::doUpdates(int otherX, int otherY, Role_Type role) {
 	UMLWidget *pWidget = m_role[role].m_pWidget;
 	QRect rc(pWidget->getX(), pWidget->getY(),
 		 pWidget->getWidth(), pWidget->getHeight());
-	Region region = findPointRegion( rc, otherX, otherY);
-	m_role[role].m_WidgetRegion = region;
+	Region& region = m_role[role].m_WidgetRegion;  // alias for brevity
+	region = findPointRegion( rc, otherX, otherY);
 	// Move some regions to the standard ones.
 	switch( region ) {
 	case NorthWest:
@@ -1137,9 +1137,8 @@ void AssociationWidget::doUpdates(int otherX, int otherY, Role_Type role) {
 	int regionCount = getRegionCount(region, role) + 2;//+2 = (1 for this one and one to halve it)
 	int totalCount = m_role[role].m_nTotalCount;
 	if( oldRegion != region ) {
-		int oldCount = totalCount;
 		updateRegionLineCount( regionCount - 1, regionCount, region, role );
-		updateAssociations( oldCount - 1, oldRegion, role );
+		updateAssociations( totalCount - 1, oldRegion, role );
 		updateAssociations( regionCount, region, role );
 	} else if( totalCount != regionCount ) {
 		updateRegionLineCount( regionCount - 1, regionCount, region, role );
