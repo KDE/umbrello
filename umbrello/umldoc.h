@@ -14,7 +14,7 @@
 #include <config.h>
 #endif
 
-#include "associationwidgetdatalist.h"
+#include "associationwidgetlist.h"
 #include "dialogs/settingsdlg.h"
 #include "umlnamespace.h"
 #include <qdatastream.h>
@@ -581,10 +581,10 @@ public:
 	/**
 	 * Puts into the list variable a list of associations on all
 	 * diagrams that contain the given object.  The view is
-	 * given so it doesn't check it's association list to save
+	 * given so it doesn't check its association list to save
 	 * time.
 	 */
-	void getAssciationListAllViews( UMLView * view, UMLObject * object, AssociationWidgetDataList & list );
+	void getAssciationListAllViews( UMLView * view, UMLObject * object, AssociationWidgetList & list );
 
 	/**
 	 *  	Passes onto @ref UMLApp that an event equivalent to

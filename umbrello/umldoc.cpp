@@ -1621,49 +1621,46 @@ DocWindow * UMLDoc::getDocWindow() {
 	return app -> getDocWindow();
 }
 
-void UMLDoc::getAssciationListAllViews( UMLView * view, UMLObject * object, AssociationWidgetDataList & list ) {
+void UMLDoc::getAssciationListAllViews( UMLView * view, UMLObject * object, AssociationWidgetList & list ) {
 	UMLView * tempView = 0;
 	AssociationWidget * assocWidget = 0;
-	AssociationWidgetData * assocData = 0,* tempData = 0;
-	AssociationWidgetDataList tempList;
+	AssociationWidget * tempWidget = 0;
+	AssociationWidgetList tempList;
 
 	for( tempView = pViewList->first(); tempView != 0; tempView = pViewList->next() ) {
-		if( view != tempView && view->getType() == tempView->getType() ) {
-			AssociationWidgetList viewList;
-			tempView->getWidgetAssocs( object, viewList );
+		if( view == tempView || view->getType() != tempView->getType() )
+			continue;
 
-			AssociationWidgetListIt view_it( viewList );
+		AssociationWidgetList viewList;
+		tempView->getWidgetAssocs( object, viewList );
 
-			assocWidget = 0;
-			tempList.clear();
-			while( ( assocWidget = view_it.current() ) ) {
-				AssociationWidgetDataListIt it( list );
-				tempData = 0;
-				bool bAdd = true;
-				assocData = assocWidget -> getData();
+		AssociationWidgetListIt view_it( viewList );
 
+		assocWidget = 0;
+		tempList.clear();
+		while( ( assocWidget = view_it.current() ) ) {
+			AssociationWidgetListIt it( list );
+			tempWidget = 0;
+			bool bAdd = true;
 
-				while( bAdd && ( tempData = it.current()  ) ) {
-					if( tempData -> getAssocType() == assocData -> getAssocType() ) {
-						if( tempData -> getWidgetAID() == assocData -> getWidgetAID() &&
-						        tempData -> getWidgetBID() == assocData -> getWidgetBID() )
-							bAdd = false;
-					}
-					if( bAdd )
-						tempList.append( assocData );
-					++it;
+			while( bAdd && ( tempWidget = it.current()  ) ) {
+				if( tempWidget -> getAssocType() == assocWidget -> getAssocType() ) {
+					if( tempWidget -> getWidgetAID() == assocWidget -> getWidgetAID() &&
+					        tempWidget -> getWidgetBID() == assocWidget -> getWidgetBID() )
+						bAdd = false;
 				}
-				++view_it;
-			}//end while
-			AssociationWidgetDataListIt temp_it( tempList );
-			tempData = 0;
-			while( ( tempData = temp_it.current() ) ) {
-				list.append( tempData );
-				++temp_it;
+				if( bAdd )
+					tempList.append( assocWidget );
+				++it;
 			}
-		}//end if
+			++view_it;
+		}//end while
+		AssociationWidgetListIt temp_it( tempList );
+		while( ( tempWidget = temp_it.current() ) ) {
+			list.append( tempWidget );
+			++temp_it;
+		}
 	}//end for
-	return;
 }
 
 void UMLDoc::editCopy() {

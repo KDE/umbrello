@@ -35,7 +35,6 @@
 #include "attribute.h"
 #include "umlview.h"  //for getting associations!! I'll fix this someday!!
 #include "associationwidget.h" //and I'll fix this someday too
-#include "associationwidgetdata.h"
 #include "dialogs/overwritedialogue.h"
 
 #define MAXLINES 100
@@ -294,15 +293,15 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, QPtrList<UMLClassifier>
 		temp = 0;
 		switch(a->getAssocType()) {
 			case Uml::at_Generalization:
-				if(a->getData()->getWidgetAID()==c->getID())
-					temp =(UMLClassifier*) m_doc->findUMLObject(a->getData()->getWidgetBID());
+				if(a->getWidgetAID()==c->getID())
+					temp =(UMLClassifier*) m_doc->findUMLObject(a->getWidgetBID());
 				if(temp  && !cList.containsRef(temp))
 					cList.append(temp);
 				break;
 			case Uml::at_Aggregation:
 			case Uml::at_Composition:
-				if(a->getData()->getWidgetBID()==c->getID())
-					temp = (UMLClassifier*)m_doc->findUMLObject(a->getData()->getWidgetAID());
+				if(a->getWidgetBID()==c->getID())
+					temp = (UMLClassifier*)m_doc->findUMLObject(a->getWidgetAID());
 				if(temp  && !cList.containsRef(temp))
 					cList.append(temp);
 				break;

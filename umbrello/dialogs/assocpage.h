@@ -18,7 +18,7 @@
 
 #include "../umlobject.h"
 #include "../umlview.h"
-#include "../associationwidgetdatalist.h"
+#include "../associationwidgetlist.h"
 #include "../associationwidget.h"
 #include "../listpopupmenu.h"
 

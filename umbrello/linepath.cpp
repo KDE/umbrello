@@ -44,6 +44,10 @@ LinePath::~LinePath() {}
 void LinePath::setAssociation(AssociationWidget * association ) {
 	if( !association )
 		return;
+	/* To be activated soon:
+	if (m_pAssociation)
+		m_LineList.clear();
+	 */
 	m_pAssociation = association;
 	cleanup();
 	createHeadLines();
@@ -740,7 +744,7 @@ QColor LinePath::getLineColor() {
 }
 
 void LinePath::cleanup() {
-	m_LineList.clear();
+	m_LineList.clear();   // To be removed soon - see setAssociation()
 	m_HeadList.clear();
 	m_RectList.clear();
 	m_ParallelList.clear();

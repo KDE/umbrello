@@ -10,7 +10,7 @@
 #ifndef UMLWIDGETDATA_H
 #define UMLWIDGETDATA_H
 
-#include "associationwidgetdatalist.h"
+#include "associationwidgetlist.h"
 #include "dialogs/settingsdlg.h"
 #include "umlnamespace.h"
 

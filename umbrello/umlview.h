@@ -16,6 +16,7 @@
 
 #include "umlobjectlist.h"
 #include "umlwidgetlist.h"
+#include "associationwidgetlist.h"
 #include "associationwidgetdatalist.h"
 
 #include "umlnamespace.h"
@@ -353,7 +354,7 @@ public:
 	/**
 	 * Fills the List with all the selected associations from the diagram
 	 */
-	bool getSelectedAssocDatas(AssociationWidgetDataList & AssociationWidgetDataList);
+	bool getSelectedAssocDatas(AssociationWidgetDataList & assocWidgetDataList);
 
 	/**
 	 * Fills the List with all the selected widgets from the diagram

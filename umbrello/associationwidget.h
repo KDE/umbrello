@@ -11,6 +11,7 @@
 #define ASSOCIATIONWIDGET_H
 
 #include "umlnamespace.h"
+#include "associationwidgetdata.h"
 
 // qt includes
 #include <qobject.h>
@@ -24,7 +25,6 @@ class QDataStream;
 class UMLView;
 class UMLWidget;
 class UMLAssociation;
-class AssociationWidgetData;
 
 using namespace Uml;
 
@@ -36,7 +36,7 @@ using namespace Uml;
  * @author Gustavo Madrigal
  * @short This class represents an association inside a diagram.
  */
-class AssociationWidget : public QObject {
+class AssociationWidget : public QObject, public AssociationWidgetData {
 	Q_OBJECT
 public:
 	/**
@@ -47,12 +47,17 @@ public:
 	/**
 	* Constructor
 	*/
-	AssociationWidget(QWidget *parent, AssociationWidgetData * pData = 0);
+	AssociationWidget(QWidget *parent);
 
 	/**
 	* Constructor
 	*/
 	AssociationWidget(QWidget *parent, UMLWidget* WidgetA, Association_Type Type, UMLWidget* WidgetB);
+
+	/**
+	* Constructor
+	*/
+	AssociationWidget(QWidget *parent, AssociationWidgetData& aData);
 
 	/**
 	* Deconstructor
@@ -229,7 +234,7 @@ public:
 	virtual UMLWidget* getWidgetB();
 
 	/**
-	 * Synchronizes the Widget's m_pData member with its display properties, for example:
+	 * Synchronizes the Widget's data members with its display properties, for example:
 	 * the X and Y positions of the widget, etc
 	 */
 	void synchronizeData();
@@ -249,11 +254,6 @@ public:
 	 * Returns true if the Widget is either at the starting or ending side of the association
 	 */
 	bool contains(UMLWidget* Widget);
-
-	/**
-	 * Returns the Association's Type
-	 */
-	Association_Type getAssocType();
 
 	/**
 	 * Sets the association's type
@@ -290,16 +290,6 @@ public:
 	bool getSelected() {
 		return m_bSelected;
 	}
-
-	/**
-	 * Return the widget data instance.
-	 */
-	AssociationWidgetData* getData();
-
-	/**
-	 * Set the widget data instance. 
-	 */
-	void setData( AssociationWidgetData* pData);
 
 	/**
 	 * Adjusts the endding point of the association that connects to Widget
@@ -684,7 +674,6 @@ private:
 	uint 		m_unNameLineSegment;
 	bool 		m_bFocus;
 	ListPopupMenu 	*m_pMenu;
-	AssociationWidgetData *m_pData;
 	UMLAssociation * m_pAssociation;
 	bool 		m_bSelected;
 	int 		m_nMovingPoint;

@@ -71,7 +71,6 @@
 #include "seqlinewidget.h"
 
 #include "umllistviewitemdatalist.h"
-#include "associationwidgetdatalist.h"
 #include "umlwidgetlist.h"
 #include "umlobjectlist.h"
 
@@ -1599,13 +1598,13 @@ bool UMLView::getSelectedWidgetDatas(UMLWidgetDataList& WidgetDataList) {
 	return true;
 }
 
-bool UMLView::getSelectedAssocDatas(AssociationWidgetDataList & AssociationWidgetDataList) {
+bool UMLView::getSelectedAssocDatas(AssociationWidgetDataList & assocWidgetDataList) {
 	AssociationWidgetListIt assoc_it(m_Associations);
 	AssociationWidget* assocwidget = 0;
 	while((assocwidget=assoc_it.current())) {
 		++assoc_it;
 		if( assocwidget -> getSelected() )
-			AssociationWidgetDataList.append(assocwidget->getData());
+			assocWidgetDataList.append((AssociationWidgetData*)assocwidget);
 	}
 	return true;
 }
@@ -1841,11 +1840,8 @@ bool UMLView::addAssociation( AssociationWidgetData* AssocData ) {
 	AssociationWidget* assocwidget = 0;
 	while((assocwidget=assoc_it.current())) {
 		++assoc_it;
-
-		AssociationWidgetData * pData = assocwidget -> getData();
-		if( *AssocData == *pData )
+		if( *AssocData == (AssociationWidgetData&)*assocwidget )
 			return true;
-
 	}
 
 	return createAssoc( AssocData );
@@ -1857,9 +1853,8 @@ Activate must be called to make this assoc visible */
 bool UMLView::createAssoc(AssociationWidgetData* AssocData) {
 	if(!AssocData) {
 		return false;
-
 	}
-	AssociationWidget* assoc = new AssociationWidget(this, AssocData);
+	AssociationWidget* assoc = new AssociationWidget(this, *AssocData);
 	addAssocInViewAndDoc(assoc);
 	return true;
 }
@@ -2363,15 +2358,15 @@ void UMLView::updateDocumentation( bool clear ) {
 void UMLView::createAutoAssociations( UMLWidget * widget ) {
 	if( !widget )
 		return;
-	AssociationWidgetData * docData = 0;
+	AssociationWidget * docData = 0;
 
 	UMLWidget * widgetA = 0;
 	UMLWidget * widgetB = 0;
 
-	AssociationWidgetDataList list;
+	AssociationWidgetList list;
 
 	getDocument() -> getAssciationListAllViews( this, widget -> getUMLObject(), list );
-	AssociationWidgetDataListIt it( list );
+	AssociationWidgetListIt it( list );
 
 	while( ( docData = it.current() ) ) {
 		if( docData -> getAssocType() != at_Anchor ) {
@@ -2864,13 +2859,17 @@ void UMLView::slotMenuSelection(int sel) {
 
 void UMLView::synchronizeData() {
 	//get all the data for associations
+	/* Should no longer be needed (sez okellogg):
 	m_pData -> m_AssociationList.clear();
+	 */
 	AssociationWidgetListIt assoc_it(m_Associations);
 	AssociationWidget* assocwidget = 0;
 	while((assocwidget=assoc_it.current())) {
 		++assoc_it;
 		assocwidget->synchronizeData();
+		/* Should no longer be needed (sez okellogg):
 		m_pData->m_AssociationList.append( assocwidget -> getData() );
+		 */
 	}
 	//get all the data for messagewidgets
 	m_pData->m_MessageList.clear();

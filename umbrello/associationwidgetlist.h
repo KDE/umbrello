@@ -1,9 +1,8 @@
 /***************************************************************************
-                          associationwidgetdatalist.h  -  description
+                          associationwidgetlist.h  -  description
                              -------------------
-    begin                : Thu Mar 28
-    copyright            : (C) 2002 by Gustavo Madrigal
-    email                : gmadrigal@nextphere.com
+    copyright            : (C) 2003 by Oliver Kellogg
+    email                : okellogg@users.sourceforge.net
  ***************************************************************************/
 
 /***************************************************************************
@@ -15,15 +14,15 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _ASSOCIATIONWIDGETDATALIST_H
-#define _ASSOCIATIONWIDGETDATALIST_H
+#ifndef _ASSOCIATIONWIDGETLIST_H
+#define _ASSOCIATIONWIDGETLIST_H
 
 #include <qptrlist.h>
 
 // forward declarations
-class AssociationWidgetData;
+class AssociationWidget;
 
-typedef QPtrList<AssociationWidgetData> AssociationWidgetDataList;
-typedef QPtrListIterator<AssociationWidgetData> AssociationWidgetDataListIt;
+typedef QPtrList<AssociationWidget> AssociationWidgetList;
+typedef QPtrListIterator<AssociationWidget> AssociationWidgetListIt;
 
 #endif

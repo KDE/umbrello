@@ -21,7 +21,6 @@ class FloatingTextData;
  *	@author Gustavo Madrigal
  */
 class AssociationWidgetData {
-	friend class AssociationWidget;
 	friend class LinePath;
 public:
 	/**
