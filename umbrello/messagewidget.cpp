@@ -217,7 +217,9 @@ void MessageWidget::setTextPosition() {
 	else {
 		const int objB_seqLineX = m_pOw[B]->getX() + m_pOw[B]->getWidth() / 2;
 		const int xUpperBound = objB_seqLineX - m_pFText->getWidth() - 5;
-		if (ftX > xUpperBound)
+		if (xUpperBound <= xLowerBound)
+			ftX = xLowerBound;
+		else if (ftX > xUpperBound)
 			ftX = xUpperBound;
 	}
 	m_pFText->setLinePos(ftX, getY() - m_pFText->getHeight());
@@ -636,6 +638,11 @@ void MessageWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	messageElement.setAttribute( "operation", m_Operation );
 	messageElement.setAttribute( "seqnum", m_SequenceNumber );
 	messageElement.setAttribute( "sequencemessagetype", m_sequenceMessageType );
+
+	// save the corresponding message text
+	if( m_pFText )
+		m_pFText -> saveToXMI( qDoc, messageElement );
+
 	qElement.appendChild( messageElement );
 }
 
@@ -650,11 +657,6 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement) {
 	m_SequenceNumber = qElement.attribute( "seqnum", "" );
 	QString sequenceMessageType = qElement.attribute( "sequencemessagetype", "1001" );
 	m_sequenceMessageType = (Sequence_Message_Type)sequenceMessageType.toInt();
-
-	int textId = textid.toInt();
-	UMLWidget *flotext = m_pView -> findWidget( textId );
-	if (flotext != NULL)
-		m_pFText = static_cast<FloatingText*>(flotext);
 
 	int aId = widgetaid.toInt();
 	int bId = widgetbid.toInt();
@@ -683,6 +685,59 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement) {
 			  << " is not an ObjectWidget" << endl;
 		return false;
 	}
+
+	int textId = textid.toInt();
+	if (textId > 0) {
+		UMLWidget *flotext = m_pView -> findWidget( textId );
+		if (flotext != NULL) {
+			// This only happens when loading files produced by
+			// umbrello-1.3-beta2.
+			m_pFText = static_cast<FloatingText*>(flotext);
+			m_pFText->setLink(this);
+			return true;
+		}
+	} else {
+		// no textid stored -> get unique new one
+		textId = m_pView->getDocument()->getUniqueID();
+	}
+
+	Text_Role tr = tr_Seq_Message;
+	if (m_pOw[A] == m_pOw[B])
+		tr = tr_Seq_Message_Self;
+	m_pFText = new FloatingText( m_pView, tr, m_Operation, textId );
+	bool textLoadSuccess = false;
+
+	//now load child elements
+	QDomNode node = qElement.firstChild();
+	QDomElement element = node.toElement();
+	while( !element.isNull() ) {
+		QString tag = element.tagName();
+		if (tag == "floatingtext"  ) {
+			if( ! m_pFText->loadFromXMI(element) ) {
+				// Most likely cause: The FloatingText is empty.
+				node = element.nextSibling();
+				element = node.toElement();
+				continue;
+			}
+			else {
+				textLoadSuccess = true;
+				break; // no more to load
+			}
+		}
+	}
+
+	if ( ! textLoadSuccess ) {
+		// set FloatingText from tag m_Operation
+		// m_pFText->setText(m_Operation);
+		m_pFText->setFont(UMLWidget::getFont());
+		m_pFText->setActivated();
+		m_pFText->setVisible( m_Operation.length() > 1 );
+		m_pFText -> setUMLObject( m_pOw[B] -> getUMLObject() );
+	}
+
+	// always need this
+	m_pFText->setLink(this);
+
 	return true;
 }
 

@@ -60,13 +60,6 @@ public:
 	void setStartPoint( int startX, int startY );
 
 	/**
-	 * Sets the length of the line.
-	 *
-	 * @param nLength	New length of the line.
-	 */
-	void setLineLength( int nLength );
-
-	/**
 	 * Gets the length of the line.
 	 *
 	 * @return	Length of the line.
@@ -123,8 +116,6 @@ protected:
 	 * The length of the line.
 	 */
 	int m_nLengthY;
-
-	int m_nOffsetY, m_nOldY, m_nMinY;
 
 	/**
 	 * Margin used for mouse clicks.

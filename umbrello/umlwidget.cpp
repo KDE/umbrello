@@ -662,6 +662,7 @@ void UMLWidget::drawSelected(QPainter * p, int offsetX, int offsetY, bool resize
 }
 
 bool UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */) {
+	setFont( m_Font );
 	setSize( getWidth(), getHeight() );
 	m_bActivated = true;
 	calculateSize();
@@ -704,7 +705,6 @@ bool UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */) {
 			setX( x );
 			setY( y );
 		}
-		moveEvent( 0 );//for object widget to move lines
 	}//end if pastepoint
 	else {
 		setX( getX() );
@@ -749,7 +749,9 @@ void UMLWidget::adjustAssocs(int x, int y)
 	if ( m_pView->getDocument()->loading() ) {
 		// don't recalculate the assocs during load of XMI
 		// -> return immediately without action
-		kdDebug() << "UMLWidget::adjustAssocs() called during load of XMI" << endl;
+		kdDebug() << "UMLWidget::adjustAssocs() called during load of XMI for ViewType: " << m_pView -> getType()
+			<< ", and BaseType: " << getBaseType()
+			<< endl;
 		return;
 	}
 	AssociationWidgetListIt assoc_it(m_Assocs);
@@ -1124,13 +1126,13 @@ bool UMLWidget::loadFromXMI( QDomElement & qElement ) {
 	m_nId = id.toInt();
 
 	if( !font.isEmpty() ) {
-		QFont newFont;
-		newFont.fromString(font);
-		setFont(newFont);
-	}
-	else {
-		kdWarning() << "Use Default Font: " << m_Font.toString() << endl;
-		setFont( m_Font );
+		//QFont newFont;
+		m_Font.fromString(font);
+		//setFont(newFont);
+	} else {
+		kdWarning() << "Using default font " << m_Font.toString()
+			    << " for widget with xmi.id " << m_nId << endl;
+		//setFont( m_Font );
 	}
 	m_bUseFillColour = (bool)usefillcolor.toInt();
 	m_bUsesDiagramFillColour = (bool)usesDiagramFillColour.toInt();

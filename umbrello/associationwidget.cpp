@@ -888,7 +888,9 @@ void AssociationWidget::moveEvent(QMoveEvent* me) {
 		// -> there is something wrong
 		// -> avoid movement during opening
 		// -> print warn and stay at old position
-		kdWarning() << "AssociationWidget::moveEvent() called during load of XMI" << endl;
+		kdWarning() << "AssociationWidget::moveEvent() called during load of XMI for ViewType: " << m_pView -> getType()
+			<< ", and BaseType: " << getBaseType()
+			<< endl;
 		return;
 	}
 	/*to be here a line segment has moved.
@@ -1195,7 +1197,9 @@ void AssociationWidget::widgetMoved(UMLWidget* widget, int x, int y ) {
 		// -> there is something wrong
 		// -> avoid movement during opening
 		// -> print warn and stay at old position
-		kdDebug() << "AssociationWidget::widgetMoved() called during load of XMI" << endl;
+		kdDebug() << "AssociationWidget::widgetMoved() called during load of XMI for ViewType: " << m_pView -> getType()
+			<< ", and BaseType: " << getBaseType()
+			<< endl;
 		return;
 	}
 	QPoint oldNamePoint = calculateTextPosition(tr_Name);

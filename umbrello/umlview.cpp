@@ -489,7 +489,6 @@ void UMLView::slotObjectCreated(UMLObject* o) {
 
 	newWidget->setX( m_Pos.x() );
 	newWidget->setY( y );
-	newWidget->moveEvent( 0 );//needed for ObjectWidget to set seq. line properly
 	newWidget->setVisible( true );
 	newWidget->setActivated();
 	newWidget->setFont( getFont() );
@@ -1506,7 +1505,7 @@ bool UMLView::activate() {
 		//If this UMLWidget is already activated or is a MessageWidget then skip it
 		if(obj->isActivated() || obj->getBaseType() == wt_Message)
 			continue;
-		if(!obj->activate())
+		if (!m_pDoc->loading() && !obj->activate())
 			continue;
 		obj -> setVisible( true );
 	}//end while
@@ -1519,7 +1518,7 @@ bool UMLView::activate() {
 		if(obj->isActivated())
 			continue;
 
-		if(!obj->activate(m_pDoc->getChangeLog())) {
+		if(!m_pDoc->loading() && !obj->activate(m_pDoc->getChangeLog())) {
 			kdDebug() << "Couldn't activate message widget" << endl;
 			continue;
 		}
@@ -2983,13 +2982,9 @@ void UMLView::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 		// We DONT want to record any text widgets which are belonging
 		// to associations as they are recorded later in the "associations"
 		// section when each owning association is dumped. -b.t.
-		if (widget->getBaseType() != wt_Text) {
+		if (widget->getBaseType() != wt_Text ||
+		    static_cast<FloatingText*>(widget)->getLink() == NULL)
 			widget -> saveToXMI( qDoc, widgetElement );
-		} else {
-			FloatingText *ft = static_cast<FloatingText*>(widget);
-			if (dynamic_cast<AssociationWidget*>(ft->getLink()) == NULL)
-				widget -> saveToXMI( qDoc, widgetElement );
-		}
 	}
 	viewElement.appendChild( widgetElement );
 	//now save the message widgets
@@ -3248,6 +3243,12 @@ bool UMLView::loadMessagesFromXMI( QDomElement & qElement ) {
 				return false;
 			}
 			m_MessageList.append( message );
+			FloatingText *ft = message->getFloatingText();
+			if (ft)
+				m_WidgetList.append( ft );
+			else
+				kdError() << "UMLView::loadMessagesFromXMI: ft is NULL"
+					  << " for message " << message->getID() << endl;
 		}
 		node = messageElement.nextSibling();
 		messageElement = node.toElement();

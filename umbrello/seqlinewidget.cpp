@@ -28,9 +28,7 @@ SeqLineWidget::SeqLineWidget( UMLView * pView, ObjectWidget * pObject ) : QCanva
 	m_pDestructionBox.line1 = 0;
 	m_nLengthY = 250;
 	setupDestructionBox();
-	m_nOffsetY = m_nOldY = 0;
 	m_pView -> addSeqLine( this );
-	m_nMinY = m_nLengthY + m_pObject->getHeight() + m_pObject->getY();
 }
 
 SeqLineWidget::~SeqLineWidget() {}
@@ -110,27 +108,18 @@ void SeqLineWidget::moveDestructionBox() {
 					    rect.x() + rect.width(), rect.y() );
 }
 
-void SeqLineWidget::setLineLength( int nLength ) {
-	m_nLengthY = nLength;
+void SeqLineWidget::setEndOfLine(int yPosition) {
 	QPoint sp = startPoint();
-	setPoints( sp.x(), sp.y(), sp.x(),
-		   m_nLengthY + m_pObject->getY() + m_pObject->getHeight() + m_nLengthY );
-	moveDestructionBox();
-}
-
-void SeqLineWidget::setEndOfLine(int height) {
-	int dy = height - m_nOffsetY - m_nOldY;
-	QPoint endpoint = endPoint();
-	int newY = (int)endpoint.y() + dy;
-	m_nOldY = newY;
-	QPoint sp = startPoint();
-
-	if (newY < m_nMinY) {
-		newY = m_nMinY;
+	int newY = yPosition;
+	m_nLengthY = yPosition - m_pObject->getY() - m_pObject->getHeight();
+	// normally the managing Objectwidget is responsible for the call of this function
+	// but to be sure - make a double check _against current position_
+	if ( m_nLengthY < 0 ) {
+		m_nLengthY = 0;
+		newY = m_pObject->getY() + m_pObject->getHeight();
 	}
-
 	setPoints( sp.x(), sp.y(), sp.x(), newY );
-	m_nLengthY = newY - m_pObject->getY() - m_pObject->getHeight();
 	moveDestructionBox();
 	m_pView->resizeCanvasToItems();
 }
+
