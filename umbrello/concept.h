@@ -11,6 +11,7 @@
 #define CONCEPT_H
 
 #include "umlcanvasobject.h"
+#include "umldoc.h"
 #include <qptrlist.h>
 
 class IDChangeLog;
@@ -197,6 +198,18 @@ public:
 	 *	@return	The object found.  Will return 0 if none found.
 	 */
 	UMLObject* findChildObject(int id);
+
+        /**
+         * Returns a list of concepts which this concept inherits from.
+         * @return      list    a QPtrList of UMLConcepts we inherit from.
+        */
+        QPtrList<UMLConcept> findSuperClassConcepts ( UMLDoc *doc);
+
+        /**
+         * Returns a list of concepts which inherit from this concept.
+         * @return      list    a QPtrList of UMLConcepts we inherit from.
+         */
+        QPtrList<UMLConcept> findSubClassConcepts ( UMLDoc *doc);
 
 	/**
 	 * Use to save or load this classes information

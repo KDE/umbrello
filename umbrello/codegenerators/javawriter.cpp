@@ -263,16 +263,21 @@ void JavaWriter::writeClassDecl(UMLConcept *c, QTextStream &java)
 		scope = "public ";
 
 	java<<(c->getAbstract()?QString("abstract "):QString(""))
-	    <<scope<<"class "<<classname<<(generalizations.count()>0?" extends ":"");
+	    <<scope<<"class "<<classname;
 
 
-	UMLAssociation *a;
-	int i;
-	for (a = generalizations.first(), i = generalizations.count();
-	     a && i; a = generalizations.next(), i--)
+	// write inheritances out
+	UMLConcept *concept;
+	QPtrList<UMLConcept> superclasses = c->findSuperClassConcepts(m_doc);
+
+	if(superclasses.count()>0)
+		java<<" extends ";
+
+	int i = 0;
+	for (concept= superclasses.first(); concept; concept = superclasses.next())
 	{
-		UMLObject* obj = m_doc->findUMLObject(a->getRoleBId());
-		java<<cleanName(obj->getName())<<(i>1?", ":"");
+		java<<cleanName(concept->getName())<<(i>0?", ":"");
+		i++;
 	}
 
 }

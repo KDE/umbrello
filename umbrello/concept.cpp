@@ -195,6 +195,57 @@ UMLObject* UMLConcept::findChildObject(int id) {
 	}
 	return UMLCanvasObject::findChildObject(id);
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// the sad thing here is that we have to pass along a UMLDocument pointer. 
+// It would be better if each concept knew what document it belonged to.
+// This should be changed in the future. 
+QPtrList<UMLConcept> UMLConcept::findSubClassConcepts ( UMLDoc *doc) {
+        QPtrList<UMLAssociation> list = this->getGeneralizations();
+        QPtrList<UMLConcept> inheritingConcepts;
+        int myID = this->getID();
+        for (UMLAssociation *a = list.first(); a; a = list.next())
+        {
+                // Concepts on the "A" side inherit FROM this class
+                // as long as the ID of the role A class isnt US (in 
+                // that case, the generalization describes how we inherit
+                // from another class). 
+                // SO check for roleA id, it DOESNT match this concepts ID, 
+                // then its a concept which inherits from us
+                if (a->getRoleAId() != myID)
+                {
+                        UMLObject* obj = doc->findUMLObject(a->getRoleAId());
+                        UMLConcept *concept = dynamic_cast<UMLConcept*>(obj);
+                        if (concept)
+                                inheritingConcepts.append(concept);
+                }
+
+        }
+        return inheritingConcepts;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Same note as for the above findSubClassConcepts method. Need to have
+// each Concept already know its UMLdocument.
+QPtrList<UMLConcept> UMLConcept::findSuperClassConcepts ( UMLDoc *doc) {
+        QPtrList<UMLAssociation> list = this->getGeneralizations();
+        QPtrList<UMLConcept> parentConcepts;
+        int myID = this->getID();
+        for (UMLAssociation *a = list.first(); a; a = list.next())
+        {
+                // Concepts on the "B" side are parent (super) classes of this one
+                // So check for roleB id, it DOESNT match this concepts ID, 
+                // then its a concept which we inherit from
+                if (a->getRoleBId() != myID)
+                {
+                        UMLObject* obj = doc->findUMLObject(a->getRoleBId());
+                        UMLConcept *concept = dynamic_cast<UMLConcept*>(obj);
+                        if (concept)
+                                parentConcepts.append(concept);
+                }
+        }
+        return parentConcepts;
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool UMLConcept::serialize(QDataStream *s, bool archive, int fileversion) {
 	bool status = UMLObject::serialize(s, archive, fileversion);

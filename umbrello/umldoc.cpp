@@ -781,12 +781,9 @@ void UMLDoc::addAssocToConcepts(UMLAssociation* a) {
 	QList<UMLConcept> concepts = getConcepts();
 	for (UMLConcept *c = concepts.first(); c; c = concepts.next()) {
 		switch (a->getAssocType()) {
-			case Uml::at_Generalization:
-				if (AId == c->getID())
-					c->addAssociation(a);
-				break;
 			// for the next cases should add association to all classes involved
 			// in the interaction.
+			case Uml::at_Generalization:
 			case Uml::at_Association:
 			case Uml::at_Aggregation:
 			case Uml::at_Composition:

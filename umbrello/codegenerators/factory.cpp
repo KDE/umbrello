@@ -27,6 +27,7 @@
 #include "sqlwriter.h"
 #include "aswriter.h"
 #include "jswriter.h"
+#include "xmlschemawriter.h"
 #include "qstringlist.h"
 
 #include <kdebug.h>
@@ -55,6 +56,7 @@ QStringList WriterFactory::languagesAvailable() {
 	l.append("PHP");
 	l.append("Python");
 	l.append("SQL");
+	l.append("XMLSchema");
 	return l;
 }
 
@@ -80,6 +82,8 @@ QString WriterFactory::generatorName(const QString &l) {
  		return "PythonWriter";
  	if (l == "SQL")
  		return "SQLWriter";
+ 	if (l == "XMLSchema")
+ 		return "XMLSchemaWriter";
 	//else...
 	kdDebug()<<"WriterFactory::Error: no generator for language "<<l<<endl;
 	return "";
@@ -112,6 +116,8 @@ QObject* WriterFactory::createObject( QObject* parent, const char* name, const c
 		obj = new PythonWriter(parent, name);
  	} else if (n == "SQLWriter") {
 		obj = new SQLWriter(parent, name);
+ 	} else if (n == "XMLSchemaWriter") {
+		obj = new XMLSchemaWriter(parent, name);
 	} else {
 		kdDebug()<<"WriterFactory:: cannot create object of type "<<n<<". Type unknown"<<endl;
 	}
