@@ -14,6 +14,8 @@
 #include "dialogs/settingsdlg.h"
 #include "umlwidgetlist.h"
 
+class UMLWidgetData;
+
 class QColor;
 class QDataStream;
 

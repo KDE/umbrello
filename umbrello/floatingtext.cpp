@@ -7,13 +7,17 @@
  *                                                                         *
  ***************************************************************************/
 #include "associationwidget.h"
+#include "umlview.h"
 #include "classifier.h"
 #include "floatingtext.h"
 #include "floatingtextdata.h"
 #include "messagewidget.h"
+#include "listpopupmenu.h"
 #include "operation.h"
+
 #include "dialogs/assocpropdlg.h"
 #include "dialogs/selectopdlg.h"
+
 #include <kdebug.h>
 #include <klineeditdlg.h>
 #include <klocale.h>

@@ -10,6 +10,7 @@
 #include <qdatastream.h>
 
 #include "activitywidgetdata.h"
+#include "activitywidget.h"
 
 ActivityWidgetData::ActivityWidgetData(SettingsDlg::OptionState optionState):UMLWidgetData(optionState) {
 	m_ActivityType = ActivityWidget::Normal;

@@ -60,9 +60,9 @@ QStrList *getSortedIteratorNameList( QDictIterator<T> &itr )
  * @return List of sorted elements.
  */
 template<class T>
-QList<T> *getSortedDictList( QDict<T> &dict, bool usePath )
+QPtrList<T> *getSortedDictList( QDict<T> &dict, bool usePath )
 {
-  QList<T> *retVal = new QList<T>();
+  QPtrList<T> *retVal = new QPtrList<T>();
   char *str;
   QStrList srted;
   //  QString m;
@@ -111,7 +111,7 @@ protected: // Private attributes
   QDict<CParsedAttribute> attributes;
 
   /** List of methods. */
-  QList<CParsedMethod> methods;
+  QPtrList<CParsedMethod> methods;
 
   /** All methods ordered by name and argument. */
   QDict<CParsedMethod> methodsByNameAndArg;
@@ -126,7 +126,7 @@ protected: // Private attributes
 public: // Public attributes
 
   /** Iterator for the methods. */
-  QListIterator<CParsedMethod> methodIterator;
+  QPtrListIterator<CParsedMethod> methodIterator;
 
   /** Iterator for the attributes. */
   QDictIterator<CParsedAttribute> attributeIterator;
@@ -169,7 +169,7 @@ public: // Public queries
    * @param aName Name of the method.
    * @return List of methods matching the name.
    */
-  QList<CParsedMethod> *getMethodByName( const char *aName );
+  QPtrList<CParsedMethod> *getMethodByName( const char *aName );
 
   /** Get a method by using its' name and arguments. 
    * @param aName Output from a CParsedMethod->asString() call.
@@ -190,7 +190,7 @@ public: // Public queries
   CParsedAttribute *getAttributeByName( const char *aName );
 
   /** Get all methods in sorted order. */
-  QList<CParsedMethod> *getSortedMethodList();
+  QPtrList<CParsedMethod> *getSortedMethodList();
 
   /** Get all attributes in their string reprentation in sorted order. 
    * @return List of attributes in sorted order.
@@ -198,7 +198,7 @@ public: // Public queries
   QStrList *getSortedAttributeAsStringList();
 
   /** Get all attributes in sorted order. */
-  QList<CParsedAttribute> *getSortedAttributeList();
+  QPtrList<CParsedAttribute> *getSortedAttributeList();
 
   /** Get the names of all structures in a sorted list.
    * @return List of all structs in alpabetical order.
@@ -206,7 +206,7 @@ public: // Public queries
   QStrList *getSortedStructNameList();
 
   /** Get all structs in sorted order. */
-  QList<CParsedStruct> *getSortedStructList();
+  QPtrList<CParsedStruct> *getSortedStructList();
 
   /** Does a attribute exist in the store? 
    * @param aName Name of the attribute to check if it exists.

@@ -11,9 +11,10 @@
 #define MESSAGEWIDGET_H
 
 #include "umlwidget.h"
-#include "floatingtext.h"
-#include "objectwidget.h"
 #include "messagewidgetdata.h"
+
+// forward declarations
+class FloatingText;
 
 /**
  *	Used to display a message on a sequence diagram.  The message could be between
@@ -116,20 +117,14 @@ public:
 	 *
 	 *	@param wa the A widget it is related to.
 	 */
-	void setWidgetA(UMLWidget * wa) {
-		m_pWA = wa;
-		((MessageWidgetData*)m_pData)->m_nWidgetAID = ((ObjectWidget *)wa) -> getLocalID();
-	}
+	void setWidgetA(UMLWidget * wa) ;
 
 	/**
 	 *	Sets the B widget it is related to.
 	 *
 	 *	@param wa the B widget it is related to.
 	 */
-	void setWidgetB(UMLWidget * wb) {
-		m_pWB = wb;
-		((MessageWidgetData*)m_pData)->m_nWidgetBID = ((ObjectWidget *)wb) -> getLocalID();
-	}
+	void setWidgetB(UMLWidget * wb);
 
 	/**
 	 *	Returns the text widget it is related to.

@@ -24,7 +24,6 @@
 #include <kfiledialog.h>
 #include <kdebug.h>
 #include <qstringlist.h>
-#include <qstringlist.h>
 #include "selectlanguagesdlg.h"
 
 

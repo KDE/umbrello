@@ -11,7 +11,7 @@
 
 #include <typeinfo>
 
-#include <qlist.h>
+#include <qptrlist.h>
 #include <qpoint.h>
 
 #include "diagram.h"

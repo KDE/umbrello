@@ -75,7 +75,7 @@ public: // Public queries
    *
    * @return A list of all scopes in alphabetical order.
    */
-  QList<CParsedScopeContainer> *getSortedScopeList();
+  QPtrList<CParsedScopeContainer> *getSortedScopeList();
 
   /**
    * Get all scopenames in sorted order.

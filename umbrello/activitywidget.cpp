@@ -9,7 +9,10 @@
 
 #include "activitywidget.h"
 #include "activitywidgetdata.h"
+#include "umlview.h"
+#include "listpopupmenu.h"
 #include "dialogs/activitydialog.h"
+
 #include <klineeditdlg.h>
 #include <klocale.h>
 #include <qpainter.h>

@@ -16,12 +16,12 @@
 #include <qpainter.h>
 #include <qstring.h>
 #include <qstringlist.h>
-#include <qobjcoll.h>
+#include <qobjectlist.h>
+#include <qobjectdict.h>
 #include <qdragobject.h>
 #include <qpaintdevicemetrics.h>
 #include <qfileinfo.h>
-#include <qlist.h>
-#include <qpixmap.h>
+#include <qptrlist.h>
 #include <qcolor.h>
 #include <qwmatrix.h>
 #include <qregexp.h>
@@ -39,9 +39,9 @@
 
 // application specific includes
 #include "umlview.h"
-#include "umldoc.h"
+#include "listpopupmenu.h"
 #include "uml.h"
-#include "worktoolbar.h"
+#include "umlobject.h"
 #include "docwindow.h"
 #include "assocrules.h"
 #include "umlviewcanvas.h"
@@ -62,6 +62,7 @@
 #include "notewidget.h"
 #include "boxwidget.h"
 #include "associationwidget.h"
+#include "associationwidgetdata.h"
 #include "objectwidget.h"
 #include "floatingtext.h"
 #include "messagewidget.h"
@@ -72,6 +73,7 @@
 #include "umllistviewitemdatalist.h"
 #include "associationwidgetdatalist.h"
 #include "umlwidgetlist.h"
+#include "umlobjectlist.h"
 
 #include "umlwidgetdata.h"
 #include "floatingtextdata.h"

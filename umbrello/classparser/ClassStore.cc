@@ -283,16 +283,16 @@ void CClassStore::removeClass( const char *aName )
  * Parameters:
  *   -
  * Returns:
- *   QList<CClassTreeNode> List of trees.
+ *   QPtrList<CClassTreeNode> List of trees.
  *-----------------------------------------------------------------*/
-QList<CClassTreeNode> *CClassStore::asForest()
+QPtrList<CClassTreeNode> *CClassStore::asForest()
 {
   CParsedClass *aClass;
   CParsedParent *aParent;
   CClassTreeNode *childNode;
   CClassTreeNode *parentNode;
   QDict<CClassTreeNode> ctDict;
-  QList<CClassTreeNode> *retVal = new QList<CClassTreeNode>;
+  QPtrList<CClassTreeNode> *retVal = new QPtrList<CClassTreeNode>;
 
   // Iterate over all parsed classes.
   for( globalContainer.classIterator.toFirst();
@@ -441,14 +441,14 @@ CParsedClass *CClassStore::getClassByName( const char *aName )
  *   aName             Name of the parent.
  *
  * Returns:
- *   QList<CParsedClass> * The classes with the desired parent.
+ *   QPtrList<CParsedClass> * The classes with the desired parent.
  *-----------------------------------------------------------------*/
-QList<CParsedClass> *CClassStore::getClassesByParent( const char *aName )
+QPtrList<CParsedClass> *CClassStore::getClassesByParent( const char *aName )
 {
-  REQUIRE1( "Valid classname", aName != NULL, new QList<CParsedClass>() );
-  REQUIRE1( "Valid classname length", strlen( aName ) > 0, new QList<CParsedClass>() );
+  REQUIRE1( "Valid classname", aName != NULL, new QPtrList<CParsedClass>() );
+  REQUIRE1( "Valid classname length", strlen( aName ) > 0, new QPtrList<CParsedClass>() );
 
-  QList<CParsedClass> *retVal = new QList<CParsedClass>();
+  QPtrList<CParsedClass> *retVal = new QPtrList<CParsedClass>();
   CParsedClass *aClass;
 
   retVal->setAutoDelete( false );
@@ -472,17 +472,17 @@ QList<CParsedClass> *CClassStore::getClassesByParent( const char *aName )
  *   aName             Name of the class.
  *
  * Returns:
- *   QList<CParsedClass> * The clients of the class.
+ *   QPtrList<CParsedClass> * The clients of the class.
  *-----------------------------------------------------------------*/
-QList<CParsedClass> *CClassStore::getClassClients( const char *aName )
+QPtrList<CParsedClass> *CClassStore::getClassClients( const char *aName )
 {
-  REQUIRE1( "Valid classname", aName != NULL, new QList<CParsedClass>() );
-  REQUIRE1( "Valid classname length", strlen( aName ) > 0, new QList<CParsedClass>() );
+  REQUIRE1( "Valid classname", aName != NULL, new QPtrList<CParsedClass>() );
+  REQUIRE1( "Valid classname length", strlen( aName ) > 0, new QPtrList<CParsedClass>() );
 
   bool exit;
   CParsedClass *aClass;
   CParsedAttribute *aAttr;
-  QList<CParsedClass> *retVal = new QList<CParsedClass>();
+  QPtrList<CParsedClass> *retVal = new QPtrList<CParsedClass>();
 
   retVal->setAutoDelete( false );
   for( globalContainer.classIterator.toFirst();
@@ -517,18 +517,18 @@ QList<CParsedClass> *CClassStore::getClassClients( const char *aName )
  *   aName             Name of the class.
  *
  * Returns:
- *   QList<CParsedClass> * The suppliers to the class.
+ *   QPtrList<CParsedClass> * The suppliers to the class.
  *-----------------------------------------------------------------*/
-QList<CParsedClass> *CClassStore::getClassSuppliers( const char *aName )
+QPtrList<CParsedClass> *CClassStore::getClassSuppliers( const char *aName )
 {
-  REQUIRE1( "Valid classname", aName != NULL, new QList<CParsedClass>() );
-  REQUIRE1( "Valid classname length", strlen( aName ) > 0, new QList<CParsedClass>() );
-  REQUIRE1( "Class exists", hasClass( aName ), new QList<CParsedClass>() );
+  REQUIRE1( "Valid classname", aName != NULL, new QPtrList<CParsedClass>() );
+  REQUIRE1( "Valid classname length", strlen( aName ) > 0, new QPtrList<CParsedClass>() );
+  REQUIRE1( "Class exists", hasClass( aName ), new QPtrList<CParsedClass>() );
 
   CParsedClass *aClass;
   CParsedClass *toAdd;
   QString str;
-  QList<CParsedClass> *retVal = new QList<CParsedClass>();
+  QPtrList<CParsedClass> *retVal = new QPtrList<CParsedClass>();
 
   retVal->setAutoDelete( false );
 
@@ -569,11 +569,11 @@ QList<CParsedClass> *CClassStore::getClassSuppliers( const char *aName )
  * Parameters:
  *   -
  * Returns:
- *   QList<CParsedClass> * The classes.
+ *   QPtrList<CParsedClass> * The classes.
  *-----------------------------------------------------------------*/
-QList<CParsedClass> *CClassStore::getSortedClassList()
+QPtrList<CParsedClass> *CClassStore::getSortedClassList()
 {
-  QList<CParsedClass> *list = globalContainer.getSortedClassList();
+  QPtrList<CParsedClass> *list = globalContainer.getSortedClassList();
   CParsedClass *aClass;
 
   // Remove all non-global classes.
@@ -621,8 +621,8 @@ QStrList *CClassStore::getSortedClassNameList()
  *   -
  *-----------------------------------------------------------------*/
 void CClassStore::getVirtualMethodsForClass( const char *aName,
-                                             QList<CParsedMethod> *implList,
-                                             QList<CParsedMethod> *availList )
+                                             QPtrList<CParsedMethod> *implList,
+                                             QPtrList<CParsedMethod> *availList )
 {
   REQUIRE( "Valid classname", aName != NULL );
   REQUIRE( "Valid classname length", strlen( aName ) > 0 );
@@ -631,7 +631,7 @@ void CClassStore::getVirtualMethodsForClass( const char *aName,
   CParsedClass *aClass;
   CParsedParent *aParent;
   CParsedClass *parentClass;
-  QList<CParsedMethod> *list;
+  QPtrList<CParsedMethod> *list;
   CParsedMethod *aMethod;
   QDict<char> added;
   QString str;
@@ -687,9 +687,9 @@ void CClassStore::getVirtualMethodsForClass( const char *aName,
  * Returns:
  *   A sorted list of global structures.
  *-----------------------------------------------------------------*/
-QList<CParsedStruct> *CClassStore::getSortedStructList()
+QPtrList<CParsedStruct> *CClassStore::getSortedStructList()
 {
-  QList<CParsedStruct> *retVal = new QList<CParsedStruct>();
+  QPtrList<CParsedStruct> *retVal = new QPtrList<CParsedStruct>();
 
   // Iterate over all structs in the scope.
   for( globalContainer.structIterator.toFirst();
@@ -715,11 +715,11 @@ QList<CParsedStruct> *CClassStore::getSortedStructList()
  *-----------------------------------------------------------------*/
 void CClassStore::out()
 {
-  QList<CParsedScopeContainer> *globalScopes;
-  QList<CParsedMethod> *globalMethods;
-  QList<CParsedAttribute> *globalAttributes;
-  QList<CParsedStruct> *globalStructs;
-  QList<CParsedClass> *classes;
+  QPtrList<CParsedScopeContainer> *globalScopes;
+  QPtrList<CParsedMethod> *globalMethods;
+  QPtrList<CParsedAttribute> *globalAttributes;
+  QPtrList<CParsedStruct> *globalStructs;
+  QPtrList<CParsedClass> *classes;
   CParsedScopeContainer *aScope;
   CParsedClass *aClass;
   CParsedMethod *aMethod;

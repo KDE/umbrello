@@ -22,7 +22,7 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <qfile.h>
-#include <qlist.h>
+#include <qptrlist.h>
 #include <qregexp.h>
 
 #include "../umldoc.h"
@@ -170,7 +170,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 	}
 
 	// Import referenced classes.
-	QList<UMLClassifier> imports;
+	QPtrList<UMLClassifier> imports;
 	findObjectsRelated(c, imports);
 	if (imports.count()) {
 		for (UMLClassifier *con = imports.first(); con; con = imports.next())
@@ -187,7 +187,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 			ada << spc() << "-- " << stype << " is Not Yet Implemented\n\n";
 		} else if(stype == "CORBAEnum") {
 			if(myClass) {
-				QList<UMLAttribute> *atl = myClass->getAttList();
+				QPtrList<UMLAttribute> *atl = myClass->getAttList();
 				UMLAttribute *at;
 				ada << spc() << "type " << classname << " is(\n";
 				indentlevel++;
@@ -203,7 +203,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 			}
 		} else if(stype == "CORBAStruct") {
 			if(myClass) {
-				QList<UMLAttribute> *atl = myClass->getAttList();
+				QPtrList<UMLAttribute> *atl = myClass->getAttList();
 				UMLAttribute *at;
 				ada << spc() << "type " << classname << " is record\n";
 				indentlevel++;
@@ -259,7 +259,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 	// Generate accessors for public attributes.
 	QPtrList<UMLAttribute> *atl;
         if(myClass) {
-		QList<UMLAttribute> atpub;
+		QPtrList<UMLAttribute> atpub;
 		atpub.setAutoDelete(false);
 
 		atl = myClass->getAttList();
@@ -285,8 +285,8 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 	}
 
 	// Generate public operations.
-	QList<UMLOperation> *opl = c->getOpList();
-	QList<UMLOperation> oppub;
+	QPtrList<UMLOperation> *opl = c->getOpList();
+	QPtrList<UMLOperation> oppub;
 	oppub.setAutoDelete(false);
 	UMLOperation *op;
 	for (op = opl->first(); op; op = opl->next()) {
@@ -406,7 +406,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 		ada << "\n";
 
 	// Generate protected operations.
-	QList<UMLOperation> opprot;
+	QPtrList<UMLOperation> opprot;
 	opprot.setAutoDelete(false);
 	for (op = opl->first(); op; op = opl->next()) {
 		if (op->getScope() == Uml::Protected)
@@ -423,7 +423,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 	// Once umbrello supports the merging of automatically generated and
 	// hand written code sections, private operations should be generated
 	// into the package body.
-	QList<UMLOperation> oppriv;
+	QPtrList<UMLOperation> oppriv;
 	oppriv.setAutoDelete(false);
 	for (op = opl->first(); op; op = opl->next()) {
 		if (op->getScope() == Uml::Private)
@@ -442,7 +442,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 
 
 void AdaWriter::writeOperation(UMLOperation *op, QTextStream &ada, bool is_comment) {
-	QList<UMLAttribute> *atl = op->getParmList();
+	QPtrList<UMLAttribute> *atl = op->getParmList();
 	QString rettype = op->getReturnType();
 	bool use_procedure = (rettype.isEmpty() || rettype == "void");
 

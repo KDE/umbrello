@@ -17,7 +17,7 @@
 
 #include <cstdlib> //to get the user name
 
-#include <qlist.h>
+#include <qptrlist.h>
 #include <qfile.h>
 #include <qdatetime.h>
 #include <qregexp.h>
@@ -32,8 +32,10 @@
 #include "umldoc.h"
 #include "class.h"
 #include "operation.h"
+#include "attribute.h"
 #include "umlview.h"  //for getting associations!! I'll fix this someday!!
 #include "associationwidget.h" //and I'll fix this someday too
+#include "associationwidgetdata.h"
 #include "dialogs/overwritedialogue.h"
 
 #define MAXLINES 100
@@ -270,7 +272,7 @@ QString CodeGenerator::formatDoc(const QString &text, const QString &linePrefix,
 	return output;
 }
 
-void CodeGenerator::findObjectsRelated(UMLClassifier *c, QList<UMLClassifier> &cList) {
+void CodeGenerator::findObjectsRelated(UMLClassifier *c, QPtrList<UMLClassifier> &cList) {
 	UMLClassifier *temp;
 	UMLView *view;
 
@@ -279,7 +281,7 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, QList<UMLClassifier> &c
 	associations.setAutoDelete(false);
 	view->getWidgetAssocs(c,associations);
 
-	QList<UMLAttribute> *atl;
+	QPtrList<UMLAttribute> *atl;
 	UMLAttribute *at;
 
 
@@ -306,7 +308,7 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, QList<UMLClassifier> &c
 	}
 
 	//operations
-	QList<UMLOperation> *opl = c->getOpList();
+	QPtrList<UMLOperation> *opl = c->getOpList();
 	for(UMLOperation *op = opl->first(); op ; op = opl->next()) {
 		temp =0;
 		//check return value
@@ -343,7 +345,7 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, QList<UMLClassifier> &c
 
 
 bool CodeGenerator::hasDefaultValueAttr(UMLClass *c) {
-	QList<UMLAttribute> *atl = c->getAttList();
+	QPtrList<UMLAttribute> *atl = c->getAttList();
 	for(UMLAttribute *at = atl->first(); at; at = atl->next())
 		if(!at->getInitialValue().isEmpty())
 			return true;
@@ -351,7 +353,7 @@ bool CodeGenerator::hasDefaultValueAttr(UMLClass *c) {
 }
 
 bool CodeGenerator::hasAbstractOps(UMLClassifier *c) {
-	QList<UMLOperation> *opl = c->getOpList();
+	QPtrList<UMLOperation> *opl = c->getOpList();
 	for(UMLOperation *op = opl->first(); op ; op = opl->next())
 		if(op->getAbstract())
 			return true;
@@ -364,7 +366,7 @@ void CodeGenerator::generateAllClasses() {
 		return;
 	}
 	m_fileMap->clear();
-	QList<UMLClassifier> cList = m_doc->getConcepts();
+	QPtrList<UMLClassifier> cList = m_doc->getConcepts();
 	generateCode(cList);
 }
 

@@ -10,7 +10,7 @@
 #include <klocale.h>
 
 #include <qlayout.h>
-#include <qlist.h>
+#include <qptrlist.h>
 #include <qlistbox.h>
 #include <qradiobutton.h>
 #include <qcombobox.h>
@@ -123,7 +123,7 @@ bool DiagramPrintPage::isValid( QString& msg ) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void DiagramPrintPage::slotClicked(int id) {
-	QList<UMLView> *list = m_pDoc ->  pViewList;
+	QPtrList<UMLView> *list = m_pDoc ->  pViewList;
 	UMLView * view = 0;
 	int count = 0;
 	QString type;
@@ -175,7 +175,7 @@ void DiagramPrintPage::slotClicked(int id) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void DiagramPrintPage::slotActivated(const QString & text) {
-	QList<UMLView> *list = m_pDoc ->  pViewList;
+	QPtrList<UMLView> *list = m_pDoc ->  pViewList;
 	UMLView * view = 0;
 	int count = 0;
 

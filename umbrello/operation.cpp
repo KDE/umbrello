@@ -11,6 +11,7 @@
 #include <klocale.h>
 
 #include "operation.h"
+#include "attribute.h"
 
 UMLOperation::UMLOperation(QObject *parent, QString Name, int id, Scope s, QString rt) : UMLObject(parent,Name, id) {
 	m_ReturnType = rt;

@@ -9,8 +9,15 @@
 
 #include <cmath>
 
+// qt includes
+#include <qcanvas.h>
+#include <qdatastream.h>
+#include <qdom.h>
+
+// kde includes
 #include <kdebug.h>
 
+// application includes
 #include "associationwidgetdata.h"
 #include "associationwidget.h"
 #include "activitywidget.h"

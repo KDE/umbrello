@@ -19,7 +19,7 @@
 #define CODEGENERATIONWIZARD_H
 
 #include <qwidget.h>
-#include <qlist.h>
+#include <qptrlist.h>
 #include "codegenerationwizardbase.h"
 #include "settingsdlg.h"
 

@@ -36,13 +36,13 @@ public: // Constructor & Destructor
 private: // Private attributes
 
   /** List of all slots. */
-  QList<CParsedMethod> slotList;
+  QPtrList<CParsedMethod> slotList;
 
   /** All slots ordered by name and argument. */
   QDict<CParsedMethod> slotsByNameAndArg;
 
   /** List of all signals. */
-  QList<CParsedMethod> signalList;
+  QPtrList<CParsedMethod> signalList;
 
   /** All signals ordered by name and argument. */
   QDict<CParsedMethod> signalsByNameAndArg;
@@ -50,19 +50,19 @@ private: // Private attributes
 public: // Public attributes
 
   /** List with names of parentclasses(if any). */
-  QList<CParsedParent> parents;
+  QPtrList<CParsedParent> parents;
 
   /** List with names of frientclasses(if any). */
   QStrList friends;
 
   /** List of slots. */
-  QListIterator<CParsedMethod> slotIterator;
+  QPtrListIterator<CParsedMethod> slotIterator;
 
   /** List of signals. */
-  QListIterator<CParsedMethod> signalIterator;
+  QPtrListIterator<CParsedMethod> signalIterator;
 
   /** List of signal<->slot mappings. */
-  QList<CParsedSignalSlot> signalMaps;
+  QPtrList<CParsedSignalSlot> signalMaps;
 
   /** Tells if this class is declared inside another class. */
   bool isSubClass;
@@ -132,13 +132,13 @@ public: // Public queries
   CParsedMethod *getSlotByNameAndArg( const char *aName );
 
   /** Get all signals in sorted order. */
-  QList<CParsedMethod> *getSortedSignalList();
+  QPtrList<CParsedMethod> *getSortedSignalList();
 
   /** Get all slots in sorted order. */
-  QList<CParsedMethod> *getSortedSlotList();
+  QPtrList<CParsedMethod> *getSortedSlotList();
 
   /** Get all virtual methods. */
-  QList<CParsedMethod> *getVirtualMethodList();
+  QPtrList<CParsedMethod> *getVirtualMethodList();
 
   /** Check if this class has the named parent. 
    * @param aName Name of the parent to check.

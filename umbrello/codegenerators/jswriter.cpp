@@ -20,7 +20,10 @@
 #include "../class.h"
 #include "../operation.h"
 #include "../umldoc.h"
+#include "../attribute.h"
+
 #include <kdebug.h>
+
 #include <qregexp.h>
 #include <qstring.h>
 
@@ -74,7 +77,7 @@ void JSWriter::writeClass(UMLClassifier *c)
 
 
 	//write includes
-	QList<UMLClassifier> includes;
+	QPtrList<UMLClassifier> includes;
 	findObjectsRelated(c,includes);
 	UMLClassifier *conc;
 	for(conc = includes.first(); conc ;conc = includes.next())
@@ -127,7 +130,7 @@ void JSWriter::writeClass(UMLClassifier *c)
 
 	UMLClass *myClass = dynamic_cast<UMLClass*>(c);
 	if(myClass) {
-		QList<UMLAttribute> *atl = myClass->getAttList();
+		QPtrList<UMLAttribute> *atl = myClass->getAttList();
 
 	 	js << "/**" << endl;
 		QString temp = "_init sets all " + classname + " attributes to its default\
@@ -197,10 +200,10 @@ void JSWriter::writeClass(UMLClassifier *c)
 ////////////////////////////////////////////////////////////////////////////////////
 //  Helper Methods
 
-void JSWriter::writeOperations(QString classname, QList<UMLOperation> *opList, QTextStream &js)
+void JSWriter::writeOperations(QString classname, QPtrList<UMLOperation> *opList, QTextStream &js)
 {
 	UMLOperation *op;
-	QList<UMLAttribute> *atl;
+	QPtrList<UMLAttribute> *atl;
 	UMLAttribute *at;
 
 	for(op = opList->first(); op; op = opList->next())

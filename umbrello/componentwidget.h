@@ -10,7 +10,6 @@
 #ifndef COMPONENTWIDGET_H
 #define COMPONENTWIDGET_H
 
-#include "componentwidgetdata.h"
 #include "umlwidget.h"
 
 class UMLView;

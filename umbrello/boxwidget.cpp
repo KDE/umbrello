@@ -16,6 +16,7 @@
 //app includes
 #include "umlview.h"
 #include "boxwidget.h"
+#include "boxwidgetdata.h"
 
 BoxWidget::BoxWidget(UMLView* view, UMLWidgetData* pData) : UMLWidget(view, pData) {
 	init();

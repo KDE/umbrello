@@ -10,6 +10,8 @@
 #include "classwidget.h"
 #include "class.h"
 #include "operation.h"
+#include "attribute.h"
+#include "listpopupmenu.h"
 #include "template.h"
 #include "umlview.h"
 #include <kdebug.h>
@@ -156,7 +158,7 @@ void ClassWidget::draw(QPainter & p, int offsetX, int offsetY) {
 		QFont f( p.font());
 		y = aStart;
 		UMLAttribute * obj=0;
-		QList<UMLAttribute> *list = ((UMLClass*)m_pObject)->getAttList();
+		QPtrList<UMLAttribute> *list = ((UMLClass*)m_pObject)->getAttList();
 		for(obj=list->first();obj != 0;obj=list->next()) {
 			f.setUnderline( obj -> getStatic() );
 			p.setFont( f );
@@ -177,7 +179,7 @@ void ClassWidget::draw(QPainter & p, int offsetX, int offsetY) {
 		else
 			y = aStart;
 		UMLOperation * obj = 0;
-		QList<UMLOperation> *list = ((UMLClass*)m_pObject)->getOpList();
+		QPtrList<UMLOperation> *list = ((UMLClass*)m_pObject)->getOpList();
 		for(obj=list->first();obj != 0;obj=list->next()) {
 			QString op = obj -> toString(((ClassWidgetData*)m_pData)->m_ShowOpSigs);
 			p.setPen(QPen(black));
@@ -205,7 +207,7 @@ void ClassWidget::draw(QPainter & p, int offsetX, int offsetY) {
 		font.setItalic(false);
 		font.setUnderline(false);
 		font.setBold(false);
-		QList<UMLTemplate>* list = ((UMLClass*)m_pObject)->getTemplateList();
+		QPtrList<UMLTemplate>* list = ((UMLClass*)m_pObject)->getTemplateList();
 		UMLTemplate* theTemplate = 0;
 		int y = offsetY + MARGIN;
 		for ( theTemplate=list->first(); theTemplate != 0; theTemplate=list->next() ) {
@@ -235,7 +237,7 @@ QSize ClassWidget::calculateTemplatesBoxSize() {
 
 	height = count * fm.lineSpacing() + (MARGIN*2);
 
-	QList<UMLTemplate>* list = ((UMLClass *)m_pObject)->getTemplateList();
+	QPtrList<UMLTemplate>* list = ((UMLClass *)m_pObject)->getTemplateList();
 	UMLTemplate* theTemplate = 0;
 	for ( theTemplate=list->first(); theTemplate != 0; theTemplate=list->next() ) {
 		int textWidth = fm.width( theTemplate->toString() );
@@ -290,7 +292,7 @@ void ClassWidget::calculateSize() {
 	width = w > width?w:width;
 
 	if(((ClassWidgetData*)m_pData)->m_bShowAttributes) {
-		QList<UMLAttribute> * list = ((UMLClass *)m_pObject)->getAttList();
+		QPtrList<UMLAttribute> * list = ((UMLClass *)m_pObject)->getAttList();
 		UMLAttribute * a = 0;
 		for(a = list->first();a != 0; a = list->next()) {
 			int w = fm.width(a -> toString(((ClassWidgetData*)m_pData)->m_ShowAttSigs));
@@ -298,7 +300,7 @@ void ClassWidget::calculateSize() {
 		}
 	}
 	if(((ClassWidgetData*)m_pData)->m_bShowOperations) {
-		QList<UMLOperation> * list = ((UMLClass *)m_pObject)->getOpList();
+		QPtrList<UMLOperation> * list = ((UMLClass *)m_pObject)->getOpList();
 		UMLOperation * o = 0;
 		for(o = list->first();o != 0; o = list->next()) {
 			int w = fm.width(o -> toString(((ClassWidgetData*)m_pData)->m_ShowOpSigs));

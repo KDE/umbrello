@@ -20,7 +20,10 @@
 #include <qtextedit.h>
 #include <qspinbox.h>
 #include <qvbox.h>
+
 #include "umlviewdialog.h"
+#include "../umlview.h"
+#include "../classwidget.h"
 #include "diagrampropertiespage.h"
 
 UMLViewDialog::UMLViewDialog( QWidget * pParent, UMLView * pView ) : KDialogBase(IconList, i18n("Properties"), Ok | Apply | Cancel | Help,

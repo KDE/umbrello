@@ -20,7 +20,7 @@
 
 #include "../codegenerator.h"
 
-#include <qlist.h>
+#include <qptrlist.h>
 #include <qstringlist.h>
 class UMLOperation;
 class UMLAttribute;
@@ -55,7 +55,7 @@ private:
 	  * @param opList the list of operations
 	  * @param as output stream for the AS file
 	  */
-	void writeOperations(QString classname, QList<UMLOperation> *opList,
+	void writeOperations(QString classname, QPtrList<UMLOperation> *opList,
 	                     QTextStream &as);
 
 };

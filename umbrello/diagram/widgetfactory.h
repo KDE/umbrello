@@ -11,7 +11,7 @@
 #define WIDGET_FACTORY_H
 
 #include <qobject.h>
-#include <qlist.h>
+#include <qptrlist.h>
 
 
 class UMLObject;

@@ -8,6 +8,7 @@
  ***************************************************************************/
 
 #include "componentwidget.h"
+#include "componentwidgetdata.h"
 #include "component.h"
 #include "umlview.h"
 #include <kdebug.h>

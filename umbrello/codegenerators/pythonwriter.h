@@ -19,7 +19,7 @@
 
 #include "../codegenerator.h"
 
-#include <qlist.h>
+#include <qptrlist.h>
 #include <qstringlist.h>
 class UMLOperation;
 class UMLAttribute;
@@ -64,7 +64,7 @@ private:
 	  * @param opList the list of operations
 	  * @param h output stream for the header file
 	  */
-	void writeOperations(QString classname, QList<UMLOperation> &opList,
+	void writeOperations(QString classname, QPtrList<UMLOperation> &opList,
 	                     QTextStream &h, Access access);
 
 

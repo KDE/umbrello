@@ -9,6 +9,8 @@
 
 //qt includes
 #include <qpointarray.h>
+#include <qpainter.h>
+
 //kde includes
 #include <kcursor.h>
 #include <kcolordialog.h>
@@ -16,6 +18,7 @@
 #include "dialogs/notedialog.h"
 #include "umlview.h"
 #include "notewidget.h"
+#include "listpopupmenu.h"
 
 NoteWidget::NoteWidget(UMLView * view, UMLWidgetData* pData)  : UMLWidget(view, pData) {
 	init();

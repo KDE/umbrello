@@ -10,7 +10,6 @@
 #ifndef PACKAGEWIDGET_H
 #define PACKAGEWIDGET_H
 
-#include "packagewidgetdata.h"
 #include "umlwidget.h"
 
 class UMLView;

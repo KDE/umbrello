@@ -9,12 +9,14 @@
 
 #ifndef USECASEWIDGET_H
 #define USECASEWIDGET_H
-#include <qpainter.h>
 #include "umlwidget.h"
 
 #define UC_MARGIN 5
 #define UC_WIDTH 60
 #define UC_HEIGHT 30
+
+// Qt forward declarations
+class QPainter;
 
 /**
  *	This class is the graphical version of a UML UseCase.  A UseCaseWidget is created

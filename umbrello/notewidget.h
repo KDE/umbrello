@@ -9,11 +9,15 @@
 
 #ifndef NOTEWIDGET_H
 #define NOTEWIDGET_H
-//qt includes
-#include <qpainter.h>
+
 //app includes
 #include "umlwidget.h"
 #include "notewidgetdata.h"
+
+// forward declarations
+
+// Qt forward declarations
+class QPainter;
 
 /**
  *	Displays a note box to allow multiple lines of text to be displayed.

@@ -11,6 +11,7 @@
 #include "association.h"
 #include "operation.h"
 #include "clipboard/idchangelog.h"
+#include "umldoc.h"
 #include <kdebug.h>
 #include <klocale.h>
 

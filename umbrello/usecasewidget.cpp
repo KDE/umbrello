@@ -12,6 +12,8 @@
 #include "umlwidget.h"
 #include "umlview.h"
 
+#include <qpainter.h>
+
 UseCaseWidget::UseCaseWidget(UMLView * view, UMLObject *o, UMLWidgetData* pData) : UMLWidget(view, o, pData) {}
 
 UseCaseWidget::UseCaseWidget(UMLView * view, UMLObject *o) : UMLWidget(view, o, new UseCaseWidgetData(view->getOptionState() )) {

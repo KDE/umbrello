@@ -9,6 +9,8 @@
 
 #include "activitypage.h"
 #include "../statewidget.h"
+#include "../listpopupmenu.h"
+
 #include <klineeditdlg.h>
 #include <klocale.h>
 #include <kbuttonbox.h>

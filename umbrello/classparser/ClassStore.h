@@ -83,27 +83,27 @@ public: // Public queries
   /** Return the store as a forest(collection of trees). 
    * @return List of trees with the top parents as root-nodes.
    */
-  QList<CClassTreeNode> *asForest();
+  QPtrList<CClassTreeNode> *asForest();
 
   /** Fetches all classes with the named parent. 
    * @return List of all classes with the named parent.
    */
-  QList<CParsedClass> *getClassesByParent( const char *aName );
+  QPtrList<CParsedClass> *getClassesByParent( const char *aName );
 
   /** Fetches all clients of a named class. 
    * @return List of all classes that are clients of the named class.
    */
-  QList<CParsedClass> *getClassClients( const char *aName );
+  QPtrList<CParsedClass> *getClassClients( const char *aName );
 
   /** Fetches all suppliers of a named class. 
    * @return List of all classes that are suppliers of the named class.
    */
-  QList<CParsedClass> *getClassSuppliers( const char *aName );
+  QPtrList<CParsedClass> *getClassSuppliers( const char *aName );
 
   /** Get all classes in sorted order. 
    * @return A list of all classes in alpabetical order. 
    */
-  QList<CParsedClass> *getSortedClassList();
+  QPtrList<CParsedClass> *getSortedClassList();
 
   /** Get all classnames in sorted order.
    * @return A list of all classnames in sorted order.
@@ -117,15 +117,15 @@ public: // Public queries
    * @param availList The list hat will contain the available virtual
    *  methods. */
   void getVirtualMethodsForClass( const char *aName, 
-                                  QList<CParsedMethod> *implList,
-                                  QList<CParsedMethod> *availList );
+                                  QPtrList<CParsedMethod> *implList,
+                                  QPtrList<CParsedMethod> *availList );
 
   /**
    * Get all global structures not declared in a scope.
    * 
    * @return A sorted list of global structures.
    */
-  QList<CParsedStruct> *getSortedStructList();
+  QPtrList<CParsedStruct> *getSortedStructList();
 
 public: // Public Methods
 

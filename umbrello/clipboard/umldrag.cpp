@@ -13,7 +13,9 @@
 #include "umldrag.h"
 #include "../umldoc.h"
 #include "../umlview.h"
+#include "../umlobject.h"
 #include "../umlwidgetdata.h"
+#include "../associationwidgetdata.h"
 
 class UMLDragPrivate {
 public:

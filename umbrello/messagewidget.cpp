@@ -15,10 +15,12 @@
 #include <kcursor.h>
 //app includes
 #include "messagewidget.h"
+#include "floatingtext.h"
 #include "objectwidget.h"
 #include "classifier.h"
 #include "dialogs/selectopdlg.h"
 #include "umlview.h"
+#include "listpopupmenu.h"
 
 MessageWidget::MessageWidget(UMLView * view, UMLWidgetData * pData) : UMLWidget(view, pData) {
 	init();
@@ -378,8 +380,15 @@ void MessageWidget::mouseReleaseEvent( QMouseEvent * me ) {
 	m_pView -> setCursor( KCursor::arrowCursor() );
 }
 
+void MessageWidget::setWidgetA(UMLWidget * wa) {
+	m_pWA = wa;
+	((MessageWidgetData*)m_pData)->m_nWidgetAID = ((ObjectWidget *)wa) -> getLocalID();
+}
 
-
+void MessageWidget::setWidgetB(UMLWidget * wb) {
+	m_pWB = wb;
+	((MessageWidgetData*)m_pData)->m_nWidgetBID = ((ObjectWidget *)wb) -> getLocalID();
+}
 
 
 

@@ -10,9 +10,7 @@
 #ifndef INTERFACEWIDGET_H
 #define INTERFACEWIDGET_H
 
-#include "interfacewidgetdata.h"
 #include "umlwidget.h"
-#include <qsize.h>
 
 class UMLView;
 

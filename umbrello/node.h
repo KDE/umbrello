@@ -10,7 +10,6 @@
 #ifndef NODE_H
 #define NODE_H
 
-#include <qptrlist.h>
 #include "umlcanvasobject.h"
 
 class IDChangeLog;

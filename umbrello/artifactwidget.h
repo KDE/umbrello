@@ -12,7 +12,6 @@
 
 #include <qsize.h>
 
-#include "artifactwidgetdata.h"
 #include "umlwidget.h"
 
 class UMLView;

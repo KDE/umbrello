@@ -18,10 +18,12 @@
 #ifndef UMLOBJECTLIST_H
 #define UMLOBJECTLIST_H
 
-#include "umlobject.h"
-#include <qlist.h>
+#include <qptrlist.h>
 
-typedef QList<UMLObject> UMLObjectList;
-typedef QListIterator<UMLObject> UMLObjectListIt;
+// forward declarations
+class UMLObject;
+
+typedef QPtrList<UMLObject> UMLObjectList;
+typedef QPtrListIterator<UMLObject> UMLObjectListIt;
 
 #endif

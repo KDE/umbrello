@@ -10,14 +10,19 @@
 #include <cmath>
 
 #include "activitywidget.h"
+#include "umlview.h"
+#include "umlwidget.h"
+#include "listpopupmenu.h"
 #include "association.h"
 #include "associationwidget.h"
+#include "associationwidgetdata.h"
 #include "assocrules.h"
 #include "floatingtext.h"
 #include "floatingtextdata.h"
 #include "objectwidget.h"
 #include "dialogs/assocpropdlg.h"
 #include "dialogs/selectopdlg.h"
+
 #include <kdebug.h>
 #include <klineeditdlg.h>
 #include <klocale.h>
@@ -3292,6 +3297,28 @@ void AssociationWidget::resetTextPositions() {
 	}
 	if (m_pRoleB) {
 		setTextPosition( tr_RoleBName, calculateTextPosition(tr_RoleBName) );
+	}
+}
+
+void AssociationWidget::setWidgetA( UMLWidget* WidgetA) {
+	if (!WidgetA)
+		m_pWidgetA = 0;
+	else {
+		m_pWidgetA = WidgetA;
+		m_pWidgetA->addAssoc(this);
+		if(m_pAssociation)
+			m_pAssociation->setObjectA(m_pWidgetA->getUMLObject());
+	}
+}
+
+void AssociationWidget::setWidgetB( UMLWidget* WidgetB) {
+	if (!WidgetB)
+		m_pWidgetB = 0;
+	else {
+		m_pWidgetB = WidgetB;
+		m_pWidgetB->addAssoc(this);
+		if(m_pAssociation)
+			m_pAssociation->setObjectB(m_pWidgetB->getUMLObject());
 	}
 }
 

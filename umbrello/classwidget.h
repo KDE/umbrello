@@ -10,8 +10,8 @@
 #ifndef CLASSWIDGET_H
 #define CLASSWIDGET_H
 
-#include "classwidgetdata.h"
 #include "umlwidget.h"
+#include "classwidgetdata.h"
 #include <qsize.h>
 
 class UMLView;

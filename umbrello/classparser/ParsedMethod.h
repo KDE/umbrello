@@ -20,7 +20,7 @@
 
 #include "ParsedArgument.h"
 #include "ParsedAttribute.h"
-#include <qlist.h>
+#include <qptrlist.h>
 
 /** This object is the general abstraction for a method that
  * has been parsed by the classparser.
@@ -36,7 +36,7 @@ public: // Constructor & Destructor
 public: // Public attributes
 
   /** The methods arguments(if any) */
-  QList<CParsedArgument> arguments;
+  QPtrList<CParsedArgument> arguments;
 
   /** Is this methods declared virtual? */
   bool isVirtual;

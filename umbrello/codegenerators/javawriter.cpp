@@ -70,9 +70,9 @@ void JavaWriter::writeClass(UMLClassifier *c)
 
 	// sort attributes by Scope
         UMLAttribute *at;
-        QList <UMLAttribute> *atl;
-        QList <UMLAttribute>  atpub, atprot, atpriv;
-        QList <UMLAttribute>  final_atpub, final_atprot, final_atpriv;
+        QPtrList <UMLAttribute> *atl;
+        QPtrList <UMLAttribute>  atpub, atprot, atpriv;
+        QPtrList <UMLAttribute>  final_atpub, final_atprot, final_atpriv;
         atpub.setAutoDelete(false);
         final_atpub.setAutoDelete(false);
         atprot.setAutoDelete(false);
@@ -153,7 +153,7 @@ void JavaWriter::writeClass(UMLClassifier *c)
 	}
 
 	//only import classes in a different package as this class
-	QList<UMLClassifier> imports;
+	QPtrList<UMLClassifier> imports;
 	findObjectsRelated(c,imports);
 	for(UMLClassifier *con = imports.first(); con ; con = imports.next())
 		if(con->getPackage() != c->getPackage())
@@ -302,8 +302,8 @@ void JavaWriter::writeClassDecl(UMLClassifier *c, QTextStream &java)
 
 }
 
-void JavaWriter::writeAttributeDecls(QList<UMLAttribute> &atpub, QList<UMLAttribute> &atprot,
-				     QList<UMLAttribute> &atpriv, QTextStream &java )
+void JavaWriter::writeAttributeDecls(QPtrList<UMLAttribute> &atpub, QPtrList<UMLAttribute> &atprot,
+				     QPtrList<UMLAttribute> &atpriv, QTextStream &java )
 {
 	UMLAttribute *at;
 
@@ -345,7 +345,7 @@ void JavaWriter::writeAttributeDecls(QList<UMLAttribute> &atpub, QList<UMLAttrib
 
 }
 
-void JavaWriter::writeAttributeMethods(QList <UMLAttribute> &atpub, Scope visibility, QTextStream &java)
+void JavaWriter::writeAttributeMethods(QPtrList <UMLAttribute> &atpub, Scope visibility, QTextStream &java)
 {
 
 	UMLAttribute *at;
@@ -632,8 +632,8 @@ QString JavaWriter::fixTypeName(QString string)
 }
 
 void JavaWriter::writeOperations(UMLClassifier *c, QTextStream &java) {
-	QList<UMLOperation> *opl;
-	QList <UMLOperation> oppub,opprot,oppriv;
+	QPtrList<UMLOperation> *opl;
+	QPtrList <UMLOperation> oppub,opprot,oppriv;
 	oppub.setAutoDelete(false);
 	opprot.setAutoDelete(false);
 	oppriv.setAutoDelete(false);
@@ -685,9 +685,9 @@ void JavaWriter::writeOperations(UMLClassifier *c, QTextStream &java) {
 
 }
 
-void JavaWriter::writeOperations(QList<UMLOperation> &oplist, QTextStream &java) {
+void JavaWriter::writeOperations(QPtrList<UMLOperation> &oplist, QTextStream &java) {
 	UMLOperation *op;
-	QList<UMLAttribute> *atl;
+	QPtrList<UMLAttribute> *atl;
 	UMLAttribute *at;
 	int i,j;
 	QString str;

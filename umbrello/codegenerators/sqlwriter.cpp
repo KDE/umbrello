@@ -29,6 +29,7 @@
 #include "../operation.h"
 #include "../umlnamespace.h"
 #include "../association.h"
+#include "../attribute.h"
 
 SQLWriter::SQLWriter( QObject *parent, const char *name )
 		:CodeGenerator( parent, name) {}
@@ -101,8 +102,8 @@ void SQLWriter::writeClass(UMLClassifier *c) {
 
 
 void SQLWriter::writeAttributes(UMLClass *c, QTextStream &sql) {
-	QList<UMLAttribute>* atl;
-	QList<UMLAttribute> atpub, atprot, atpriv;
+	QPtrList<UMLAttribute>* atl;
+	QPtrList<UMLAttribute> atpub, atprot, atpriv;
 	atpub.setAutoDelete(false);
 	atprot.setAutoDelete(false);
 	atpriv.setAutoDelete(false);
@@ -129,7 +130,7 @@ void SQLWriter::writeAttributes(UMLClass *c, QTextStream &sql) {
 	printAttributes(sql, atpriv, first);
 }
 
-void SQLWriter::printAttributes(QTextStream& sql, QList<UMLAttribute> attributeList, bool first) {
+void SQLWriter::printAttributes(QTextStream& sql, QPtrList<UMLAttribute> attributeList, bool first) {
 	UMLAttribute* at;
 	for (at=attributeList.first();at;at=attributeList.next()) {
 		if (!first) {

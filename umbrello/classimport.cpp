@@ -10,6 +10,7 @@
 #include "classimport.h"
 #include "class.h"
 #include "operation.h"
+#include "attribute.h"
 #include "classparser/ClassParser.h"
 #include "classparser/ParsedArgument.h"
 #include "classparser/ParsedAttribute.h"
@@ -60,14 +61,14 @@ void ClassImport::insertAttribute(UMLObject *o, Uml::Scope scope, QString name, 
 }
 
 /** No descriptions */
-void ClassImport::insertMethod(UMLObject *o, Uml::Scope scope, QString name, QString type, QList<UMLAttribute> *parList /*= NULL*/) {
+void ClassImport::insertMethod(UMLObject *o, Uml::Scope scope, QString name, QString type, QPtrList<UMLAttribute> *parList /*= NULL*/) {
 	int attID = ++uniqueID;
 
 	UMLOperation *temp = reinterpret_cast<UMLOperation *>(((UMLClass*)o)->addOperation(name , attID));
 	temp->setReturnType(type);
 
 	if(parList != NULL) {
-		QListIterator<UMLAttribute> it(*parList);
+		QPtrListIterator<UMLAttribute> it(*parList);
 		for( ; it.current(); ++it ) {
 			UMLAttribute *par = it.current();
 			int parID = ++uniqueID;
@@ -97,8 +98,8 @@ void ClassImport::importCPP(QStringList headerFileList) {
 	for(; it.current();++it ) {
 		UMLObject *currentClass;
 		CParsedClass* currentParsedClass =  classParser.store.getClassByName(it);
-		QList<CParsedAttribute> *attributes = currentParsedClass->getSortedAttributeList();
-		QListIterator<CParsedAttribute> aIt(*attributes);
+		QPtrList<CParsedAttribute> *attributes = currentParsedClass->getSortedAttributeList();
+		QPtrListIterator<CParsedAttribute> aIt(*attributes);
 
 		currentClass = createUMLObject(currentParsedClass->name, Uml::ot_Class);
 
@@ -130,12 +131,12 @@ void ClassImport::importCPP(QStringList headerFileList) {
 		} // attribute for() loop
 
 		//CParsedMethod *aMethod;
-		QList<CParsedMethod> *methods = currentParsedClass->getSortedMethodList();
-		QListIterator<CParsedMethod> mIt(*methods);
+		QPtrList<CParsedMethod> *methods = currentParsedClass->getSortedMethodList();
+		QPtrListIterator<CParsedMethod> mIt(*methods);
 
 		for(;mIt.current(); ++mIt) {
 			CParsedMethod *pMethod = mIt.current();
-			QListIterator<CParsedArgument> argsIt(pMethod->arguments);
+			QPtrListIterator<CParsedArgument> argsIt(pMethod->arguments);
 			QString scope = "";
 			Uml::Scope attrScope = Uml::Public;
 			switch(pMethod->exportScope) {
@@ -157,7 +158,7 @@ void ClassImport::importCPP(QStringList headerFileList) {
 					break;
 			} //switch
 
-			QList<UMLAttribute> parList;
+			QPtrList<UMLAttribute> parList;
 
 			for( ; argsIt.current(); ++argsIt) {
 				CParsedArgument *parg = argsIt.current();

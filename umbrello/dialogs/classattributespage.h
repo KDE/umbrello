@@ -11,7 +11,7 @@
 #define CLASS_ATTRIBUTES_PAGE
 
 #include "classattributesbase.h"
-#include <qlist.h>
+#include <qptrlist.h>
 
 class UMLClass;
 class UMLAttribute;

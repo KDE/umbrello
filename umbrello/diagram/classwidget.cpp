@@ -13,7 +13,7 @@
 #include "../dialogs/classoperationspage.h"
 #include "../attribute.h"
 #include "../operation.h"
-#include <qlist.h>
+#include <qptrlist.h>
 
 // unnamed namespace : data for this file only
 namespace{
@@ -149,7 +149,7 @@ UMLClass *obj = dynamic_cast<UMLClass*>(m_umlObject);
 	if (m_attsDisplayOpts & ShowAtts )
 	{
 		QString str;
-		QList<UMLAttribute> *atts = obj->getAttList();
+		QPtrList<UMLAttribute> *atts = obj->getAttList();
 		UMLAttribute *att;
 		for(att=atts->first();att != 0;att=atts->next())
 		{
@@ -168,7 +168,7 @@ UMLClass *obj = dynamic_cast<UMLClass*>(m_umlObject);
 	if (m_opsDisplayOpts & ShowOps )
 	{
 		QString str;
-		QList<UMLOperation> *ops = obj->getOpList();
+		QPtrList<UMLOperation> *ops = obj->getOpList();
 		UMLOperation *op;
 		for(op=ops->first();op != 0;op=ops->next())
 		{

@@ -19,9 +19,9 @@
 #define UMLLISTVIEWITEMDATALIST_H
 
 #include "umllistviewitemdata.h"
-#include <qlist.h>
+#include <qptrlist.h>
 
-typedef QList<UMLListViewItemData> UMLListViewItemDataList;
-typedef QListIterator<UMLListViewItemData> UMLListViewItemDataListIt;
+typedef QPtrList<UMLListViewItemData> UMLListViewItemDataList;
+typedef QPtrListIterator<UMLListViewItemData> UMLListViewItemDataListIt;
 
 #endif

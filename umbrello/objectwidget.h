@@ -16,8 +16,8 @@
 #define A_HEIGHT 40
 #define A_MARGIN 5
 
-#include "objectwidgetdata.h"
 #include "umlwidget.h"
+#include "objectwidgetdata.h"
 
 class SeqLineWidget;
 

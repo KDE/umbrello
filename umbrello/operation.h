@@ -10,10 +10,11 @@
 #ifndef OPERATION_H
 #define OPERATION_H
 
-#include <qobject.h>
-#include <qlist.h>
+#include <qptrlist.h>
 #include "umlobject.h"
-#include "attribute.h"
+
+// forward declarations
+class UMLAttribute;
 
 /**
  *	This class is used to set up information for an operation.  This is like
@@ -95,7 +96,7 @@ public:
 	 *
 	 *	@return A list of the paramters in the operation.
 	 */
-	QList<UMLAttribute>* getParmList() {
+	QPtrList<UMLAttribute>* getParmList() {
 		return &m_List;
 	}
 
@@ -154,7 +155,7 @@ public:
 
 private:
 	QString m_ReturnType;
-	QList<UMLAttribute> m_List;
+	QPtrList<UMLAttribute> m_List;
 	int m_nUniqueID;
 };
 

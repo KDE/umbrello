@@ -103,7 +103,7 @@ void XMLSchemaWriter::writeClass(UMLClassifier *c)
 	// the correct import statements. Leave that for later at this time.
         /*
         //only import classes in a different package as this class
-        QList<UMLClassifier> imports;
+        QPtrList<UMLClassifier> imports;
         findObjectsRelated(c,imports);
         for(UMLClassifier *con = imports.first(); con ; con = imports.next())
                 if(con->getPackage() != c->getPackage())

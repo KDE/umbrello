@@ -16,31 +16,37 @@
 #include <config.h>
 #endif
 
-#include "codegenerator.h"
 #include "dialogs/settingsdlg.h"
+
 #include <qmap.h>
+#include <qprogressbar.h>
 
 #include <kdockwidget.h>
-#include <kurl.h>
 #include <kdeversion.h>
-#include <qprogressbar.h>
+#include <kurl.h>
 
 // forward declaration of the UML classes
 class CodeGenerator;
 class DocWindow;
-class KActionMenu;
-class KRecentFilesAction;
-class KStatusBarLabel;
-class KToggleAction;
-class QClipboard;
-class QSplitter;
 class UMLDoc;
 class UMLListView;
 class UMLView;
 class WorkToolBar;
 class InfoWidget;
+
+// KDE forward declarations
+class KActionMenu;
+class KRecentFilesAction;
+class KStatusBarLabel;
+class KToggleAction;
+class KDockWidget;
+
+// Qt forward declarations
 class QWidgetStack;
 class QMenuData;
+class QClipboard;
+class QSplitter;
+
 namespace Umbrello
 {
 class DiagramView;

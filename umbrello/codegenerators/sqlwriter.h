@@ -20,7 +20,7 @@
 
 #include "../codegenerator.h"
 
-#include <qlist.h>
+#include <qptrlist.h>
 #include <qstringlist.h>
 
 
@@ -56,7 +56,7 @@ private:
 	/**
 	 * Prints out attributes as columns in the table
 	 */
-	void printAttributes(QTextStream& sql, QList<UMLAttribute> attributeList, bool first);
+	void printAttributes(QTextStream& sql, QPtrList<UMLAttribute> attributeList, bool first);
 };
 
 

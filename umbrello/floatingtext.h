@@ -9,7 +9,9 @@
 
 #ifndef FLOATINGTEXT_H
 #define FLOATINGTEXT_H
+
 #include "umlwidget.h"
+
 class AssociationWidget;
 class MessageWidget;
 class UMLView;

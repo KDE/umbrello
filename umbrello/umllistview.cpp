@@ -19,6 +19,7 @@
 #include "docwindow.h"
 #include "listpopupmenu.h"
 #include "operation.h"
+#include "attribute.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "umllistview.h"
@@ -36,7 +37,7 @@
 #include <kfiledialog.h>
 #include <klocale.h>
 #include <kmessagebox.h>
-#include <kstddirs.h>
+#include <kstandarddirs.h>
 #include "diagram/diagram.h"
 
 //using Umbrello::Diagram;

@@ -152,7 +152,7 @@ void Diagram::createUMLWidget( UMLObject *obj, const QPoint &pos)
 	}
 }
 
-void Diagram::createAssociationWidget( UMLAssociation *assoc,UMLWidget *wA, UMLWidget *wB, const QList<QPoint> &path )
+void Diagram::createAssociationWidget( UMLAssociation *assoc,UMLWidget *wA, UMLWidget *wB, const QPtrList<QPoint> &path )
 {
 	DiagramElement *w;
 	if( ( w = WidgetFactory::createAssociationWidget( assoc, wA, wB, path, this ) ) )

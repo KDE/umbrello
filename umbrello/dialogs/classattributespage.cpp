@@ -16,7 +16,7 @@
 #include <qlistview.h>
 #include <qpushbutton.h>
 
-#include <kstddirs.h>
+#include <kstandarddirs.h>
 #include <kdebug.h>
 
 

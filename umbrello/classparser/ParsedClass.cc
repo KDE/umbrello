@@ -399,11 +399,11 @@ bool CParsedClass::hasVirtual()
  * Parameters:
  *   -
  * Returns:
- *   QList<CParsedMethod> *  The sorted list.
+ *   QPtrList<CParsedMethod> *  The sorted list.
  *-----------------------------------------------------------------*/
-QList<CParsedMethod> *CParsedClass::getSortedSignalList()
+QPtrList<CParsedMethod> *CParsedClass::getSortedSignalList()
 {
-  QList<CParsedMethod> *retVal = new QList<CParsedMethod>();
+  QPtrList<CParsedMethod> *retVal = new QPtrList<CParsedMethod>();
   char *str;
   QStrList srted;
   QString m;
@@ -436,11 +436,11 @@ QList<CParsedMethod> *CParsedClass::getSortedSignalList()
  * Parameters:
  *   -
  * Returns:
- *   QList<CParsedMethod> *  The sorted list.
+ *   QPtrList<CParsedMethod> *  The sorted list.
  *-----------------------------------------------------------------*/
-QList<CParsedMethod> *CParsedClass::getSortedSlotList()
+QPtrList<CParsedMethod> *CParsedClass::getSortedSlotList()
 {
-  QList<CParsedMethod> *retVal = new QList<CParsedMethod>();
+  QPtrList<CParsedMethod> *retVal = new QPtrList<CParsedMethod>();
   char *str;
   QStrList srted;
   QString m;
@@ -473,11 +473,11 @@ QList<CParsedMethod> *CParsedClass::getSortedSlotList()
  * Parameters:
  *   -
  * Returns:
- *   QList<CParsedMethod> *  The list.
+ *   QPtrList<CParsedMethod> *  The list.
  *-----------------------------------------------------------------*/
-QList<CParsedMethod> *CParsedClass::getVirtualMethodList()
+QPtrList<CParsedMethod> *CParsedClass::getVirtualMethodList()
 {
-  QList<CParsedMethod> *retVal = new QList<CParsedMethod>();
+  QPtrList<CParsedMethod> *retVal = new QPtrList<CParsedMethod>();
 
   for( methodIterator.toFirst();
        methodIterator.current();

@@ -14,12 +14,14 @@
 #include <qcanvas.h>
 
 #include "umlnamespace.h"
-#include "umlobject.h"
-#include "listpopupmenu.h"
 #include "umlwidgetdata.h"
-#include "umlview.h"
 
 class AssociationWidget;
+class UMLObject;
+class UMLView;
+class ListPopupMenu;
+class IDChangeLog;
+
 class QPainter;
 
 using namespace Uml;

@@ -6,8 +6,7 @@
 #include <qpainter.h>
 
 #include "../actor.h"
-#include <qlist.h>
-#include <kdebug.h>
+#include <qptrlist.h>
 
 // unnamed namespace : data for this file only
 namespace{

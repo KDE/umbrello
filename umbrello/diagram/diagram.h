@@ -15,7 +15,7 @@
 #include <map>
 #include <list>
 #include <typeinfo>
-#include <qlist.h>
+#include <qptrlist.h>
 #include "../umlnamespace.h"
 
 class UMLDoc;
@@ -76,7 +76,7 @@ public:
 	 * @param path  List of points making the path between wA and wB
 	 * 
 	 */
-	void createAssociationWidget( UMLAssociation *assoc, UMLWidget *wA, UMLWidget *wB, const QList<QPoint> &path );
+	void createAssociationWidget( UMLAssociation *assoc, UMLWidget *wA, UMLWidget *wB, const QPtrList<QPoint> &path );
 	
 	void fillContextMenu(QPopupMenu &menu) const;
 	

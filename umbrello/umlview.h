@@ -14,34 +14,35 @@
 #include <config.h>
 #endif
 
-#include "uml.h"
-#include "umldoc.h"
 #include "umlobjectlist.h"
-#include "umlviewdata.h"
 #include "umlwidgetlist.h"
-#include "worktoolbar.h"
+#include "associationwidgetdatalist.h"
 
+#include "umlnamespace.h"
+#include "worktoolbar.h"
+#include "dialogs/settingsdlg.h"
+
+#include "umldoc.h"
+#include "umlviewdata.h"
+
+// QT includes
 #include <qcanvas.h>
+
+// KDE includes
+#include <kurl.h>
 
 // #define OFFSET		50
 
 class ClassOptionsPage;
 class IDChangeLog;
-class KPrinter;
 class ListPopupMenu;
 class MessageWidget;
 class SeqLineWidget;
+
 class UMLListView;
-/*
 class UMLApp;
-class UMLDoc;
-class UMLObjectList;
-class UMLObjectListIt;
-class UMLViewData;
-class UMLWidgetList;
-class UMLWidgetListIt;
-class WorkToolBar;
-*/
+
+class KPrinter;
 
 using namespace Uml;
 
@@ -829,7 +830,7 @@ protected:
 	QPoint m_Pos, m_LineToPos;
 	bool m_bCreateObject, m_bDrawRect, m_bDrawSelectedOnly, m_bPaste;
 	ListPopupMenu * m_pMenu;
-	QList<UMLWidget> m_SelectedList;
+	QPtrList<UMLWidget> m_SelectedList;
 	AssociationWidget * m_pMoveAssoc;
 
 	/**
@@ -880,12 +881,12 @@ private:
 	/**
 	 *  Used to store the Widgets not activated yet
 	 */
-	QList<UMLWidget> widgetsNotActivatedList;
+	QPtrList<UMLWidget> widgetsNotActivatedList;
 
 	/**
 	 *  Used to store the Messages not activated yet
 	 */
-	QList<MessageWidget> messagesNotActivatedList;
+	QPtrList<MessageWidget> messagesNotActivatedList;
 
 	/**
 	 * LocalID Changes Log for paste actions

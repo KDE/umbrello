@@ -11,8 +11,9 @@
 #define UMLWIDGETDATA_H
 
 #include "associationwidgetdatalist.h"
-#include "umlnamespace.h"
 #include "dialogs/settingsdlg.h"
+#include "umlnamespace.h"
+
 #include <qdom.h>
 #include <qfont.h>
 

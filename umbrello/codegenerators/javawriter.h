@@ -20,7 +20,7 @@
 #include "../attribute.h"
 #include "../association.h"
 
-#include <qlist.h>
+#include <qptrlist.h>
 #include <qstringlist.h>
 
 
@@ -76,7 +76,7 @@ private:
 	 * @param list the list of operations you want to write
 	 * @param j the stream associated with the output file
 	 */
-	void writeOperations(QList<UMLOperation> &list, QTextStream &j);
+	void writeOperations(QPtrList<UMLOperation> &list, QTextStream &j);
 
 	/**
 	 * write all attributes for a given class
@@ -92,8 +92,8 @@ private:
 	 * @param atpriv list of private attributes
 	 * @param java text stream
 	 */
-	void writeAttributeDecls(QList<UMLAttribute> &atpub, QList<UMLAttribute> &atprot,
-				 QList<UMLAttribute> &atpriv, QTextStream &java ); 
+	void writeAttributeDecls(QPtrList<UMLAttribute> &atpub, QPtrList<UMLAttribute> &atprot,
+				 QPtrList<UMLAttribute> &atpriv, QTextStream &java ); 
 
 	/**
 	 * Searches a list of associations for appropriate ones to write out as attributes
@@ -109,7 +109,7 @@ private:
 	/**
 	 * calls @ref writeSingleAttributeAccessorMethods() on each of the attributes in atpub
 	 */
-	void writeAttributeMethods(QList<UMLAttribute> &atpub, Scope visibility, QTextStream &java);
+	void writeAttributeMethods(QPtrList<UMLAttribute> &atpub, Scope visibility, QTextStream &java);
 
 	/**
 	 * calls @ref writeAssociationRoleMethod() on each of the associations in the given list

@@ -10,8 +10,11 @@
 #ifndef CLASSIMPORT_H
 #define CLASSIMPORT_H
 
-#include "attribute.h"
+#include <qptrlist.h>
 #include "umldoc.h"
+
+// forward declarations
+class UMLAttribute;
 
 /**
  * Interfaces classparser library to uml models
@@ -41,7 +44,7 @@ public:
 	/**
 	 *
 	 */
-	void insertMethod(UMLObject *o, Uml::Scope scope, QString name, QString type, QList<UMLAttribute> *parList = NULL);
+	void insertMethod(UMLObject *o, Uml::Scope scope, QString name, QString type, QPtrList<UMLAttribute> *parList = NULL);
 
 	/**
 	 *

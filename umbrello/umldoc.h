@@ -502,21 +502,21 @@ public:
 	 *
 	 *	@return	Returns a list of concepts
 	 */
-	QList<UMLClassifier> getConcepts();
+	QPtrList<UMLClassifier> getConcepts();
 
 	/**
 	 *	Returns a list of interfaces
 	 *
 	 *	@return	Returns a list of interfaces
 	 */
-	QList<UMLInterface> getInterfaces();
+	QPtrList<UMLInterface> getInterfaces();
 
 	/**
 	 *	Returns a list of associations
 	 *
 	 *	@return	Returns a list of associations
 	 */
-	QList<UMLAssociation> getAssociations();
+	QPtrList<UMLAssociation> getAssociations();
 
 	/**
 	 * Controls the printing of the program.
@@ -528,7 +528,7 @@ public:
 	/**
 	 *  Return the list of views for this document
 	 */
-	const QList<UMLView> &getViewIterator() const {
+	const QPtrList<UMLView> &getViewIterator() const {
 		return *pViewList;
 	}
 
@@ -700,7 +700,7 @@ public:
 	/**
 	 * All the UMLViews (i.e. diagrams)
 	 */
-	QList<UMLView> *pViewList;
+	QPtrList<UMLView> *pViewList;
 
 	/**
 	 * The tree view of diagrams and objects.
@@ -739,7 +739,7 @@ private:
 	 */
 	void initSaveTimer();
 
-	QList<UMLObject> objectList;
+	QPtrList<UMLObject> objectList;
 	QPtrList<Umbrello::Diagram> diagrams;
 	int uniqueID;
 	bool m_modified;
@@ -754,7 +754,7 @@ private:
 	/**
 	 * List of Not yet Activated views
 	 */
-	QList<UMLView> viewsNotActivated;
+	QPtrList<UMLView> viewsNotActivated;
 
 	/**
 	 * true if the we're loading a new document

@@ -10,10 +10,10 @@
 #ifndef ASSOCIATIONWIDGET_H
 #define ASSOCIATIONWIDGET_H
 
-#include "associationwidgetdata.h"
-#include "association.h"
 #include "umlnamespace.h"
-#include "umlwidget.h"
+
+// qt includes
+#include <qobject.h>
 
 class FloatingText;
 class IDChangeLog;
@@ -23,6 +23,8 @@ class QPixmap;
 class QDataStream;
 class UMLView;
 class UMLWidget;
+class UMLAssociation;
+class AssociationWidgetData;
 
 using namespace Uml;
 
@@ -80,30 +82,12 @@ public:
 	/**
 	 * Write property of m_pWidgetA
 	 */
-	void setWidgetA( UMLWidget* WidgetA) {
-		if (!WidgetA)
-			m_pWidgetA = 0;
-		else {
-			m_pWidgetA = WidgetA;
-			m_pWidgetA->addAssoc(this);
-			if(m_pAssociation)
-				m_pAssociation->setObjectA(m_pWidgetA->getUMLObject());
-		}
-	}
+	void setWidgetA( UMLWidget* WidgetA);
 
 	/**
 	 * Write property of m_pWidgetB
 	 */ 
-	void setWidgetB( UMLWidget* WidgetB) {
-		if (!WidgetB)
-			m_pWidgetB = 0;
-		else {
-			m_pWidgetB = WidgetB;
-			m_pWidgetB->addAssoc(this);
-			if(m_pAssociation)
-				m_pAssociation->setObjectB(m_pWidgetB->getUMLObject());
-		}
-	}
+	void setWidgetB( UMLWidget* WidgetB);
 
 	/**
 	* Read property of FloatingText* m_pMultiA.

@@ -10,7 +10,6 @@
 #ifndef ARTIFACT_H
 #define ARTIFACT_H
 
-#include <qptrlist.h>
 #include "umlcanvasobject.h"
 
 class IDChangeLog;

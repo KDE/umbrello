@@ -10,7 +10,6 @@
 #ifndef COMPONENT_H
 #define COMPONENT_H
 
-#include <qptrlist.h>
 #include "umlcanvasobject.h"
 
 class IDChangeLog;

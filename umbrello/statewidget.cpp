@@ -15,6 +15,7 @@
 #include "umlview.h"
 #include "dialogs/statedialog.h"
 #include "statewidget.h"
+#include "listpopupmenu.h"
 
 StateWidget::StateWidget(UMLView * view, UMLWidgetData* pData) : UMLWidget(view, pData) {}
 

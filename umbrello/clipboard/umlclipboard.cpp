@@ -15,6 +15,7 @@
 #include "umldrag.h"
 #include "idchangelog.h"
 #include "../associationwidgetdatalist.h"
+#include "../associationwidgetdata.h"
 #include "../attribute.h"
 #include "../class.h"
 #include "../classifier.h"

@@ -13,7 +13,7 @@
 #include "worktoolbar.h"
 #include <kdebug.h>
 #include <klocale.h>
-#include <kstddirs.h>
+#include <kstandarddirs.h>
 #include <ktoolbarbutton.h>
 #include <qcursor.h>
 

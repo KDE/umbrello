@@ -10,7 +10,6 @@
 #ifndef NODEWIDGET_H
 #define NODEWIDGET_H
 
-#include "nodewidgetdata.h"
 #include "umlwidget.h"
 
 class UMLView;

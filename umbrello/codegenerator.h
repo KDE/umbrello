@@ -178,7 +178,7 @@ protected:
 	 * @param c the class for which relations are to be found
 	 * @param cList a reference to the list into which return the result
 	 */
-	void findObjectsRelated(UMLClassifier *c, QList<UMLClassifier> &cList);
+	void findObjectsRelated(UMLClassifier *c, QPtrList<UMLClassifier> &cList);
 
 	bool hasDefaultValueAttr(UMLClass *c);
 

@@ -14,7 +14,6 @@
 //app includes
 #include "classoptionspage.h"
 #include "umlwidgetcolorpage.h"
-#include "classoptionspage.h"
 
 /**
  * @author Paul Hensgen

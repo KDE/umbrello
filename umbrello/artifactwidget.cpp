@@ -8,6 +8,7 @@
  ***************************************************************************/
 
 #include "artifactwidget.h"
+#include "artifactwidgetdata.h"
 #include "artifact.h"
 #include "umlview.h"
 #include <kdebug.h>

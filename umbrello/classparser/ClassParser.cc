@@ -765,7 +765,7 @@ void CClassParser::fillInParsedVariable( CParsedAttribute *anAttr )
  * Parameters:
  *   -
  * Returns:
- *   QList<CParsedAttribute>  List of variables
+ *   QPtrList<CParsedAttribute>  List of variables
  *-----------------------------------------------------------------*/
 void CClassParser::fillInMultipleVariable( CParsedContainer *aContainer )
 {
@@ -775,7 +775,7 @@ void CClassParser::fillInMultipleVariable( CParsedContainer *aContainer )
   CParsedAttribute *anAttr;
   CParsedLexem *aLexem;
   QString type;
-  QList<CParsedAttribute> list;
+  QPtrList<CParsedAttribute> list;
 
   // Make sure no attributes gets deleted.
   list.setAutoDelete( false );
@@ -1728,7 +1728,7 @@ void CClassParser::parseMethodAttributes( CParsedContainer *aContainer )
 {
   REQUIRE( "Valid container", aContainer != NULL );
 
-  QList<CParsedAttribute> list;
+  QPtrList<CParsedAttribute> list;
   CParsedAttribute *anAttr;
   CParsedMethod *aMethod;
   CParsedMethod *oldMethod;

@@ -14,7 +14,6 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kiconloader.h>
-#include <klocale.h>
 #include <kdebug.h>
 
 #include "assocpropdlg.h"

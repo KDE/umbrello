@@ -92,7 +92,7 @@ void CppWriter::writeClass(UMLClassifier *c) {
 	cpp << "\n#include \"" << fileName << ".h\"\n\n";
 
 	//write includes and take namespaces into account
-	QList<UMLClassifier> includes;
+	QPtrList<UMLClassifier> includes;
 	findObjectsRelated(c,includes);
 	UMLClassifier* conc;
 	for(conc = includes.first(); conc ;conc = includes.next()) {
@@ -195,7 +195,7 @@ void CppWriter::writeClass(UMLClassifier *c) {
 	h<<"#endif // " << hashDefine + "_H\n";
 
 	if(myClass && hasDefaultValueAttr(myClass)) {
-		QList<UMLAttribute> *atl = myClass->getAttList();
+		QPtrList<UMLAttribute> *atl = myClass->getAttList();
 		cpp<<"void "<<classname<<"::initAttributes( )\n{\n";
 		for(UMLAttribute *at = atl->first(); at ; at = atl->next())
 			if(!at->getInitialValue().isEmpty())
@@ -217,8 +217,8 @@ void CppWriter::writeClass(UMLClassifier *c) {
 void CppWriter::writeOperations(UMLClassifier *c,QTextStream &h, QTextStream &cpp) {
 
 	//Lists to store operations  sorted by scope
-	QList<UMLOperation> *opl;
-	QList<UMLOperation> oppub,opprot,oppriv;
+	QPtrList<UMLOperation> *opl;
+	QPtrList<UMLOperation> oppub,opprot,oppriv;
 
 	oppub.setAutoDelete(false);
 	opprot.setAutoDelete(false);
@@ -269,9 +269,9 @@ void CppWriter::writeOperations(UMLClassifier *c,QTextStream &h, QTextStream &cp
 	}
 }
 
-void CppWriter::writeOperations(QString classname, QList<UMLOperation> &opList, QTextStream &h, QTextStream &cpp) {
+void CppWriter::writeOperations(QString classname, QPtrList<UMLOperation> &opList, QTextStream &h, QTextStream &cpp) {
 	UMLOperation *op;
-	QList<UMLAttribute> *atl;
+	QPtrList<UMLAttribute> *atl;
 	UMLAttribute *at;
 
 	for(op=opList.first(); op ; op=opList.next()) {
@@ -325,9 +325,9 @@ void CppWriter::writeOperations(QString classname, QList<UMLOperation> &opList, 
 }
 
 void CppWriter::writeAttributes(UMLClass *c, QTextStream &h) {
-	QList<UMLAttribute> *atl;
+	QPtrList<UMLAttribute> *atl;
 
-	QList <UMLAttribute>  atpub, atprot, atpriv, atdefval;
+	QPtrList <UMLAttribute>  atpub, atprot, atpriv, atdefval;
 	atpub.setAutoDelete(false);
 	atprot.setAutoDelete(false);
 	atpriv.setAutoDelete(false);
@@ -372,7 +372,7 @@ void CppWriter::writeAttributes(UMLClass *c, QTextStream &h) {
 }
 
 
-void CppWriter::writeAttributes(QList<UMLAttribute> &atList, QTextStream &h) {
+void CppWriter::writeAttributes(QPtrList<UMLAttribute> &atList, QTextStream &h) {
 	for (UMLAttribute *at = atList.first(); at ; at = atList.next()) {
 		if (forceDoc() || !at->getDoc().isEmpty()) {
 			h << "    /**" << endl

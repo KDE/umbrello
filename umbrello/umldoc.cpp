@@ -9,6 +9,7 @@
 
 #include "actor.h"
 #include "associationwidget.h"
+#include "associationwidgetdata.h"
 #include "association.h"
 #include "class.h"
 #include "package.h"
@@ -59,7 +60,7 @@ using Umbrello::DiagramView;
 
 
 UMLDoc::UMLDoc(QWidget *parent, const char *name) : QObject(parent, name) {
-	pViewList = new QList<UMLView>();
+	pViewList = new QPtrList<UMLView>();
 
 	listView = 0;
 	currentView = 0;
@@ -708,7 +709,7 @@ void UMLDoc::removeAssociation(Association_Type assocType, int AId, int BId) {
 			continue;
 		}
 		// Remove the UMLAssociation at the concept that plays role B.
-		QList<UMLClassifier> concepts = getConcepts();
+		QPtrList<UMLClassifier> concepts = getConcepts();
 		for (UMLClassifier *c = concepts.first(); c; c = concepts.next())
 			if (BId == c->getID())
 				c->removeAssociation(a);
@@ -742,7 +743,7 @@ void UMLDoc::removeAssociation (UMLAssociation * assoc) {
 
 void UMLDoc::removeAssocFromConcepts(UMLAssociation *assoc)
 {
-	QList<UMLClassifier> concepts = getConcepts();
+	QPtrList<UMLClassifier> concepts = getConcepts();
 	for (UMLClassifier *c = concepts.first(); c; c = concepts.next())
 		if (c->hasAssociation(assoc))
 			c->removeAssociation(assoc);
@@ -764,7 +765,7 @@ void UMLDoc::addAssociation(UMLAssociation *Assoc)
 	// This may happen as long as we are still in transition from the old
 	// widget based association fabrication. (See explanation at method
 	// addAssocInViewAndDoc() in file umlview.h.)
-	QList<UMLAssociation> assocs = getAssociations();
+	QPtrList<UMLAssociation> assocs = getAssociations();
 	UMLAssociation *a;
 	for (a = assocs.first(); a; a = assocs.next()) {
 		// check if its already been added (shouldnt be the case right now
@@ -793,7 +794,7 @@ void UMLDoc::addAssociation(UMLAssociation *Assoc)
 void UMLDoc::addAssocToConcepts(UMLAssociation* a) {
 	int AId = a->getRoleAId();
 	int BId = a->getRoleBId();
-	QList<UMLClassifier> concepts = getConcepts();
+	QPtrList<UMLClassifier> concepts = getConcepts();
 	for (UMLClassifier *c = concepts.first(); c; c = concepts.next()) {
 		switch (a->getAssocType()) {
 			// for the next cases should add association to all classes involved
@@ -1002,7 +1003,7 @@ void UMLDoc::removeUMLObject(UMLObject *o) {
  			Uml::Association_Type assocType = a->getAssocType();
  			int AId = a->getRoleAId();
  			int BId = a->getRoleBId();
- 			QList<UMLClassifier> concepts = getConcepts();
+ 			QPtrList<UMLClassifier> concepts = getConcepts();
  			for (UMLClassifier *c = concepts.first(); c; c = concepts.next()) {
  				switch (assocType) {
  					case Uml::at_Generalization:
@@ -1600,16 +1601,16 @@ void UMLDoc::removeAllViews() {
 	dynamic_cast<UMLApp *>( parent() )->setDiagramMenuItemsState(false);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-QList<UMLClassifier> UMLDoc::getConcepts() {
-	QList<UMLClassifier> conceptList;
+QPtrList<UMLClassifier> UMLDoc::getConcepts() {
+	QPtrList<UMLClassifier> conceptList;
 	for(UMLObject *obj = objectList.first(); obj ; obj = objectList.next())
 		if(obj -> getBaseType() == ot_Class || obj->getBaseType() == ot_Interface)
 			conceptList.append((UMLClassifier *)obj);
 	return conceptList;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-QList<UMLInterface> UMLDoc::getInterfaces() {
-	QList<UMLInterface> interfaceList;
+QPtrList<UMLInterface> UMLDoc::getInterfaces() {
+	QPtrList<UMLInterface> interfaceList;
 	for(UMLObject* obj = objectList.first(); obj ; obj = objectList.next()) {
 		if(obj->getBaseType() == ot_Interface) {
 			interfaceList.append((UMLInterface*)obj);
@@ -1618,8 +1619,8 @@ QList<UMLInterface> UMLDoc::getInterfaces() {
 	return interfaceList;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-QList<UMLAssociation> UMLDoc::getAssociations() {
-	QList<UMLAssociation> associationList;
+QPtrList<UMLAssociation> UMLDoc::getAssociations() {
+	QPtrList<UMLAssociation> associationList;
 	for(UMLObject *obj = objectList.first(); obj ; obj = objectList.next())
 		if(obj -> getBaseType() == ot_Association)
 			associationList.append((UMLAssociation *)obj);
@@ -1691,13 +1692,13 @@ bool UMLDoc::addUMLObjectPaste(UMLObject* Obj) {
 	//If it is a CONCEPT then change the ids of all its operations and attributes
 	if(Obj->getBaseType() == ot_Class ) {
 
-		QList<UMLAttribute>* attibutes = ((UMLClass *)Obj)->getAttList();
+		QPtrList<UMLAttribute>* attibutes = ((UMLClass *)Obj)->getAttList();
 		for(UMLObject *o = attibutes->first(); o; o = attibutes->next()) {
 			result = assignNewID(o->getID());
 			o->setID(result);
 		}
 
-		QList<UMLTemplate>* templates = ((UMLClass *)Obj)->getTemplateList();
+		QPtrList<UMLTemplate>* templates = ((UMLClass *)Obj)->getTemplateList();
 		for(UMLObject* o = templates->first(); o; o = templates->next()) {
 			result = assignNewID(o->getID());
 			o->setID(result);
@@ -1705,7 +1706,7 @@ bool UMLDoc::addUMLObjectPaste(UMLObject* Obj) {
 	}
 
 	if(Obj->getBaseType() == ot_Interface || Obj->getBaseType() == ot_Class ) {
-		QList<UMLOperation>* operations = ((UMLClassifier*)Obj)->getOpList();
+		QPtrList<UMLOperation>* operations = ((UMLClassifier*)Obj)->getOpList();
 		for(UMLObject *o = operations->first(); o; o = operations->next()) {
 			result =  assignNewID(o->getID());
 			o->setID(result);

@@ -48,7 +48,7 @@ CodeGenerationWizard::CodeGenerationWizard(UMLDoc *doc,
 
 	insertPage(m_CodeGenerationOptionsPage, i18n("Code Generation Options"), 1);
 
-	QList<UMLClassifier> cList = m_doc->getConcepts();
+	QPtrList<UMLClassifier> cList = m_doc->getConcepts();
 
 	if(classList) {
 		for(UMLClassifier *c = classList->first(); c ; c = classList->next()) {
@@ -120,7 +120,7 @@ void CodeGenerationWizard::generateCode() {
 		connect( codeGenerator, SIGNAL(codeGenerated(UMLClassifier*, bool)),
 			 this, SLOT(classGenerated(UMLClassifier*, bool)) );
 
-		QList<UMLClassifier> cList;
+		QPtrList<UMLClassifier> cList;
 		cList.setAutoDelete(false);
 
 		for(QListViewItem *item = m_statusList->firstChild(); item;

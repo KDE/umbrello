@@ -20,6 +20,8 @@
 #include "../class.h"
 #include "../operation.h"
 #include "../umldoc.h"
+#include "../attribute.h"
+
 #include <kdebug.h>
 #include <qregexp.h>
 #include <qstring.h>
@@ -74,7 +76,7 @@ void ASWriter::writeClass(UMLClassifier *c)
 
 
 	//write includes
-	QList<UMLClassifier> includes;
+	QPtrList<UMLClassifier> includes;
 	findObjectsRelated(c,includes);
 	UMLClassifier *conc;
 	for(conc = includes.first(); conc ;conc = includes.next())
@@ -127,7 +129,7 @@ void ASWriter::writeClass(UMLClassifier *c)
 	UMLClass *myClass = dynamic_cast<UMLClass*>(c);
 	if(myClass) {
 
-		QList<UMLAttribute> *atl = myClass->getAttList();
+		QPtrList<UMLAttribute> *atl = myClass->getAttList();
 
 	 	as << "/**" << endl;
 		QString temp = "_init sets all " + classname + " attributes to its default\
@@ -192,7 +194,7 @@ void ASWriter::writeClass(UMLClassifier *c)
 		}
 	}
 
- 	QList<UMLOperation> *opList = c->getOpList();
+ 	QPtrList<UMLOperation> *opList = c->getOpList();
 	for (UMLOperation *op = opList->first(); op; op = opList->next())
 	{
 		if (op->getScope() == Uml::Protected)
@@ -239,10 +241,10 @@ void ASWriter::writeClass(UMLClassifier *c)
 ////////////////////////////////////////////////////////////////////////////////////
 //  Helper Methods
 
-void ASWriter::writeOperations(QString classname, QList<UMLOperation> *opList, QTextStream &as)
+void ASWriter::writeOperations(QString classname, QPtrList<UMLOperation> *opList, QTextStream &as)
 {
 	UMLOperation *op;
-	QList<UMLAttribute> *atl;
+	QPtrList<UMLAttribute> *atl;
 	UMLAttribute *at;
 
 	for(op = opList->first(); op; op = opList->next())

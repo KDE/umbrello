@@ -18,15 +18,15 @@
 #ifndef UMLWIDGETLIST_H
 #define UMLWIDGETLIST_H
 
-#include <qlist.h>
+#include <qptrlist.h>
 
 class UMLWidget;
 class UMLWidgetData;
 
-typedef QList<UMLWidget> UMLWidgetList;
-typedef QListIterator<UMLWidget> UMLWidgetListIt;
+typedef QPtrList<UMLWidget> UMLWidgetList;
+typedef QPtrListIterator<UMLWidget> UMLWidgetListIt;
 
-typedef QList<UMLWidgetData> UMLWidgetDataList;
-typedef QListIterator<UMLWidgetData> UMLWidgetDataListIt;
+typedef QPtrList<UMLWidgetData> UMLWidgetDataList;
+typedef QPtrListIterator<UMLWidgetData> UMLWidgetDataListIt;
 
 #endif

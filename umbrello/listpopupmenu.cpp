@@ -7,7 +7,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <kstddirs.h>
+#include <kstandarddirs.h>
 #include <kiconloader.h>
 #include <klocale.h>
 #include <kdebug.h>
@@ -17,6 +17,7 @@
 #include "classwidget.h"
 #include "interfacewidget.h"
 #include "floatingtext.h"
+#include "uml.h"
 #include "umlview.h"
 #include "notewidget.h"
 #include "boxwidget.h"

@@ -9,6 +9,7 @@
 
 #include "umlwidgetcolorpage.h"
 #include "../uml.h"
+#include "../umlview.h"
 #include "../umlwidget.h"
 #include <klocale.h>
 #include <qlayout.h>

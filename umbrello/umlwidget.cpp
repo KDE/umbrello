@@ -12,19 +12,24 @@
 
 #include <kdebug.h>
 #include <kcursor.h>
-#include <kcolordlg.h>
+#include <kcolordialog.h>
 #include <kfontdialog.h>
 
+#include "umlobject.h"
 #include "umlwidget.h"
 #include "uml.h"
 #include "umllistview.h"
 #include "umlview.h"
+
+#include "listpopupmenu.h"
 #include "classifier.h"
 #include "associationwidget.h"
 #include "dialogs/settingsdlg.h"
 #include "floatingtext.h"
 #include "objectwidget.h"
 #include "messagewidget.h"
+
+#include "clipboard/idchangelog.h"
 
 UMLWidget::UMLWidget( UMLView * view, UMLObject * o, UMLWidgetData * pData ) : QObject( view), QCanvasRectangle( view -> canvas() ) {
 	m_pObject = o;

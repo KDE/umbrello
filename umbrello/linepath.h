@@ -11,20 +11,30 @@
 #define LINEPATH_H
 #include <qobject.h>
 #include <qptrlist.h>
-#include <qcanvas.h>
-#include <qdom.h>
-#include <qdatastream.h>
+#include <qpoint.h>
+#include <qpointarray.h>
 #include "umlnamespace.h"
 
+class AssociationWidget;
+class UMLView;
 
+// Qt forward declarations
+class QCanvasEllipse;
+class QCanvasLine;
+class QCanvasPolygon;
+class QCanvasRectangle;
+class QCanvas;
+class QDataStream;
+class QDomDocument;
+class QDomElement;
+
+// typedefs
 typedef QPtrList<QCanvasLine> LineList;
 typedef QPtrListIterator<QCanvasLine> LineListIt;
 
 typedef QPtrList<QCanvasRectangle> RectList;
 typedef QPtrListIterator<QCanvasRectangle> RectListIt;
 
-class AssociationWidget;
-class UMLView;
 
 using namespace Uml;
 

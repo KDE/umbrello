@@ -47,7 +47,7 @@ SelectOpDlg::SelectOpDlg(QWidget * parent, UMLClassifier * c) : KDialogBase(Plai
 	m_pOpBG -> setExclusive(true);
 	m_pOpBG -> setButton(OP);
 
-	QList<UMLOperation> *list = c -> getOpList();
+	QPtrList<UMLOperation> *list = c -> getOpList();
 	UMLOperation * obj=0;
 	for(obj=list -> first();obj != 0;obj=list -> next())
 		m_pOpCB -> insertItem(obj -> toString(Uml::st_SigNoScope));

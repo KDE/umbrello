@@ -15,6 +15,7 @@
 
 #include "../artifact.h"
 #include "../component.h"
+#include "../umlview.h"
 #include "classgenpage.h"
 
 ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o) : QWidget(parent) {

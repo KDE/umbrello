@@ -10,10 +10,16 @@
 #include "umltemplatedialog.h"
 #include "../template.h"
 #include "../class.h"
+
+#include <qlayout.h>
+#include <qgroupbox.h>
+#include <qcombobox.h>
+#include <qlabel.h>
+#include <qlineedit.h>
+
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kdebug.h>
-#include <qlayout.h>
 
 UMLTemplateDialog::UMLTemplateDialog(QWidget* pParent, UMLTemplate* pTemplate) : KDialogBase( Plain, i18n("Template Properties"), Help | Ok | Cancel , Ok, pParent, "_UMLTemplateDLG_", true, true) {
 	m_pTemplate = pTemplate;

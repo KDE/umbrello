@@ -18,12 +18,15 @@
 #ifndef _ASSOCIATIONWIDGETDATALIST_H
 #define _ASSOCIATIONWIDGETDATALIST_H
 
-#include "associationwidgetdata.h"
-#include <qlist.h>
+#include <qptrlist.h>
 
-typedef QList<AssociationWidgetData> AssociationWidgetDataList;
-typedef QListIterator<AssociationWidgetData> AssociationWidgetDataListIt;
-typedef QList<AssociationWidget> AssociationWidgetList;
-typedef QListIterator<AssociationWidget> AssociationWidgetListIt;
+// forward declarations
+class AssociationWidgetData;
+class AssociationWidget;
+
+typedef QPtrList<AssociationWidgetData> AssociationWidgetDataList;
+typedef QPtrListIterator<AssociationWidgetData> AssociationWidgetDataListIt;
+typedef QPtrList<AssociationWidget> AssociationWidgetList;
+typedef QPtrListIterator<AssociationWidget> AssociationWidgetListIt;
 
 #endif

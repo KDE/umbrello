@@ -13,7 +13,6 @@
 #include <qpainter.h>
 //app includes
 #include "umlwidget.h"
-#include "boxwidgetdata.h"
 
 /**
  *	Displays a rectangular box.

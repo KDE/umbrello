@@ -20,7 +20,7 @@
 
 #include "../codegenerator.h"
 
-#include <qlist.h>
+#include <qptrlist.h>
 #include <qstringlist.h>
 class UMLOperation;
 class UMLAttribute;
@@ -60,7 +60,7 @@ private:
 	  * @param h output stream for the header file
 	  * @param cpp output stream for the C++ file
 	  */
-	void writeOperations(QString classname, QList<UMLOperation> &opList,
+	void writeOperations(QString classname, QPtrList<UMLOperation> &opList,
 	                     QTextStream &h, QTextStream &cpp);
 
 	/** write all the attributes of a class
@@ -73,7 +73,7 @@ private:
 	  * @param atList the list of attributes
 	  * @param h output stream for the header file
 	  */
-	void writeAttributes(QList<UMLAttribute> &atList, QTextStream &h);
+	void writeAttributes(QPtrList<UMLAttribute> &atList, QTextStream &h);
 
 
 };

@@ -8,9 +8,12 @@
  ***************************************************************************/
 
 #include "interfacewidget.h"
+#include "interfacewidgetdata.h"
 #include "interface.h"
 #include "operation.h"
 #include "umlview.h"
+#include "listpopupmenu.h"
+
 #include <kdebug.h>
 #include <qpainter.h>
 
@@ -147,7 +150,7 @@ void InterfaceWidget::drawAsConcept(QPainter& p, int offsetX, int offsetY) {
 		p.drawLine(offsetX, offsetY + y, offsetX + w - 1, offsetY + y);
 
 		UMLOperation* obj = 0;
-		QList<UMLOperation>* list = ((UMLInterface*)m_pObject)->getOpList();
+		QPtrList<UMLOperation>* list = ((UMLInterface*)m_pObject)->getOpList();
 		for(obj=list->first();obj != 0;obj=list->next()) {
 			QString op = obj->toString(((InterfaceWidgetData*)m_pData)->m_ShowOpSigs);
 			p.setPen( QPen(black) );
@@ -231,7 +234,7 @@ void InterfaceWidget::calculateAsConceptSize() {
 	width = w > width?w:width;
 
 	if(((InterfaceWidgetData*)m_pData)->m_bShowOperations) {
-		QList<UMLOperation>* list = ((UMLInterface*)m_pObject)->getOpList();
+		QPtrList<UMLOperation>* list = ((UMLInterface*)m_pObject)->getOpList();
 		UMLOperation * o = 0;
 		for(o = list->first();o != 0; o = list->next()) {
 			int w = fm.width(o -> toString(((InterfaceWidgetData*)m_pData)->m_ShowOpSigs));

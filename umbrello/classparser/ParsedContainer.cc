@@ -175,15 +175,15 @@ CParsedMethod *CParsedContainer::getMethod( CParsedMethod &aMethod )
  *   aName                   Name of the method to fetch.
  *
  * Returns:
- *   QList<CParsedMethod> *  The methods.
+ *   QPtrList<CParsedMethod> *  The methods.
  *   NULL                    If not found.
  *-----------------------------------------------------------------*/
-QList<CParsedMethod> *CParsedContainer::getMethodByName( const char *aName )
+QPtrList<CParsedMethod> *CParsedContainer::getMethodByName( const char *aName )
 {
-  REQUIRE1( "Valid methodname", aName != NULL, new QList<CParsedMethod>() );
-  REQUIRE1( "Valid methodname length", strlen( aName ) > 0, new QList<CParsedMethod>() );
+  REQUIRE1( "Valid methodname", aName != NULL, new QPtrList<CParsedMethod>() );
+  REQUIRE1( "Valid methodname length", strlen( aName ) > 0, new QPtrList<CParsedMethod>() );
 
-  QList<CParsedMethod> *retVal = new QList<CParsedMethod>();
+  QPtrList<CParsedMethod> *retVal = new QPtrList<CParsedMethod>();
   CParsedMethod *aMethod;
 
   retVal->setAutoDelete( false );
@@ -228,11 +228,11 @@ CParsedMethod *CParsedContainer::getMethodByNameAndArg( const char *aName )
  * Parameters:
  *   -
  * Returns:
- *   QList<CParsedMethod> *  The sorted list.
+ *   QPtrList<CParsedMethod> *  The sorted list.
  *-----------------------------------------------------------------*/
-QList<CParsedMethod> *CParsedContainer::getSortedMethodList()
+QPtrList<CParsedMethod> *CParsedContainer::getSortedMethodList()
 {
-  QList<CParsedMethod> *retVal = new QList<CParsedMethod>();
+  QPtrList<CParsedMethod> *retVal = new QPtrList<CParsedMethod>();
   CParsedMethod *aMethod;
   char *str;
   QStrList srted;
@@ -299,9 +299,9 @@ QStrList *CParsedContainer::getSortedAttributeAsStringList()
  * Parameters:
  *   -
  * Returns:
- *   QList<CParsedMethod> *  The sorted list.
+ *   QPtrList<CParsedMethod> *  The sorted list.
  *-----------------------------------------------------------------*/
-QList<CParsedAttribute> *CParsedContainer::getSortedAttributeList()
+QPtrList<CParsedAttribute> *CParsedContainer::getSortedAttributeList()
 {
   return getSortedDictList<CParsedAttribute>( attributes, false );
 }
@@ -346,9 +346,9 @@ QStrList *CParsedContainer::getSortedStructNameList()
  * Parameters:
  *   -
  * Returns:
- *   QList<CParsedMethod> *  The sorted list.
+ *   QPtrList<CParsedMethod> *  The sorted list.
  *-----------------------------------------------------------------*/
-QList<CParsedStruct> *CParsedContainer::getSortedStructList()
+QPtrList<CParsedStruct> *CParsedContainer::getSortedStructList()
 {
   return getSortedDictList<CParsedStruct>( structs, useFullPath );
 }

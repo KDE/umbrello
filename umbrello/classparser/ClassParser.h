@@ -20,7 +20,7 @@
 
 #include "ClassStore.h"
 #include <FlexLexer.h>
-#include <qstack.h>
+#include <qptrstack.h>
 #include <qstring.h>
 #include <fstream>
 

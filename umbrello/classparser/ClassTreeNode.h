@@ -18,7 +18,7 @@
 #ifndef _CLASSTREENODE_H_INCLUDED
 #define _CLASSTREENODE_H_INCLUDED
 
-#include <qlist.h>
+#include <qptrlist.h>
 #include <qstring.h>
 
 class CParsedClass;
@@ -40,7 +40,7 @@ public: // Public attributes
   CParsedClass *theClass;
 
   /** All children of this class(if any). */
-  QList<CClassTreeNode> children;
+  QPtrList<CClassTreeNode> children;
 
   /** Is this class present in the system? */
   bool isInSystem;

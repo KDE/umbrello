@@ -15,7 +15,7 @@
 #include <kcmdlineargs.h>
 #include <kconfig.h>
 #include <klocale.h>
-#include <kstartuplogo.h>
+#include "kstartuplogo.h"
 #include <ktip.h>
 #include <unistd.h>
 

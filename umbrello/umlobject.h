@@ -14,6 +14,7 @@
 #include <qobject.h>
 #include <qstring.h>
 #include <qdom.h>
+
 #include "umlnamespace.h"
 
 using namespace Uml;

@@ -63,7 +63,7 @@ public: // Public queries
   /** Get all classes in sorted order. 
    * @return A list of all classes in alpabetical order. 
    */
-  QList<CParsedClass> *getSortedClassList();
+  QPtrList<CParsedClass> *getSortedClassList();
 
   /** Get all classnames in sorted order.
    * @return A list of all classnames in sorted order.

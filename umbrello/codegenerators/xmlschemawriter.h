@@ -20,7 +20,7 @@
 #include "../attribute.h"
 #include "../association.h"
 
-#include <qlist.h>
+#include <qptrlist.h>
 #include <qstringlist.h>
 
 

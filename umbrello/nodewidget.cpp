@@ -8,6 +8,7 @@
  ***************************************************************************/
 
 #include "nodewidget.h"
+#include "nodewidgetdata.h"
 #include "node.h"
 #include "umlview.h"
 #include <kdebug.h>

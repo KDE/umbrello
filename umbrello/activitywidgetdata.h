@@ -10,6 +10,7 @@
 #ifndef ACTIVITYWIDGETDATA_H
 #define ACTIVITYWIDGETDATA_H
 
+#include "umlwidgetdata.h"
 #include "activitywidget.h"
 
 /**

@@ -99,7 +99,7 @@ void UMLAttributeDialog::setupDialog() {
 	m_pTypeCB->setAutoCompletion(true);
 
 	//now add the Concepts
-	QList<UMLClassifier> namesList( pDoc->getConcepts() );
+	QPtrList<UMLClassifier> namesList( pDoc->getConcepts() );
 	UMLClassifier* obj;
 	for (obj=namesList.first(); obj!=0; obj=namesList.next()) {
 		m_pTypeCB->insertItem( obj->getName() );

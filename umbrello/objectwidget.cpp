@@ -15,7 +15,9 @@
 
 #include "seqlinewidget.h"
 #include "umlview.h"
+#include "umlobject.h"
 #include "objectwidget.h"
+#include "listpopupmenu.h"
 
 ObjectWidget::ObjectWidget(UMLView * view,  UMLObject *o, UMLWidgetData *pData) : UMLWidget(view, o, pData) {
 	m_pLine = 0;

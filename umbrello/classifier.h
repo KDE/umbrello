@@ -10,14 +10,13 @@
 #ifndef CONCEPT_H
 #define CONCEPT_H
 
-#include "umldoc.h"
 #include "umlcanvasobject.h"
-#include "umldoc.h"
 #include <qptrlist.h>
 
 class IDChangeLog;
 class UMLAssociation;
 class UMLOperation;
+class UMLDoc;
 
 /**
  *	This is an abstract class which defines the non-graphical information/interface 

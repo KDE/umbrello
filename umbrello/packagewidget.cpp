@@ -8,8 +8,11 @@
  ***************************************************************************/
 
 #include "packagewidget.h"
+#include "packagewidgetdata.h"
 #include "package.h"
 #include "umlview.h"
+#include "umlobject.h"
+#include "umlwidgetdata.h"
 #include <kdebug.h>
 #include <qpainter.h>
 

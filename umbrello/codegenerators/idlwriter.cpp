@@ -21,7 +21,7 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <qfile.h>
-#include <qlist.h>
+#include <qptrlist.h>
 #include <qregexp.h>
 
 #include "../umldoc.h"
@@ -127,7 +127,7 @@ void IDLWriter::writeClass(UMLClassifier *c) {
 	}
 
 	// Write includes.
-	QList<UMLClassifier> includes;
+	QPtrList<UMLClassifier> includes;
 	findObjectsRelated(c, includes);
 	if (includes.count()) {
 		for (UMLClassifier *conc = includes.first(); conc; conc = includes.next()) {
@@ -257,7 +257,7 @@ void IDLWriter::writeClass(UMLClassifier *c) {
 	// Generate public attributes.
 	if(myClass) {
 		QPtrList<UMLAttribute> *atl = myClass->getAttList();
-		QList<UMLAttribute> atpub;
+		QPtrList<UMLAttribute> atpub;
 		UMLAttribute *at;
 		for (at = atl->first(); at; at = atl->next()) {
 			if (at->getScope() == Uml::Public)
@@ -274,8 +274,8 @@ void IDLWriter::writeClass(UMLClassifier *c) {
 	}
 
 	// Generate public operations.
-	QList<UMLOperation> *opl = c->getOpList();
-	QList<UMLOperation> oppub;
+	QPtrList<UMLOperation> *opl = c->getOpList();
+	QPtrList<UMLOperation> oppub;
 	UMLOperation *op;
 	for (op = opl->first(); op; op = opl->next()) {
 		if (op->getScope() == Uml::Public)
@@ -321,7 +321,7 @@ void IDLWriter::writeClass(UMLClassifier *c) {
 
 
 void IDLWriter::writeOperation(UMLOperation *op, QTextStream &idl, bool is_comment) {
-	QList<UMLAttribute> *atl = op->getParmList();
+	QPtrList<UMLAttribute> *atl = op->getParmList();
 	QString rettype = op->getReturnType();
 
 	idl << spc();

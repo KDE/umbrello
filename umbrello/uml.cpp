@@ -7,13 +7,17 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "uml.h"
+
 #include "infowidget.h"
 #include "classimport.h"
 #include "docwindow.h"
-#include "uml.h"
+#include "codegenerator.h"
+
 #include "umldoc.h"
 #include "umllistview.h"
 #include "worktoolbar.h"
+
 #include "clipboard/umlclipboard.h"
 #include "clipboard/umldrag.h"
 #include "dialogs/classwizard.h"
@@ -22,6 +26,7 @@
 #include "dialogs/diagramprintpage.h"
 #include "dialogs/selectlanguagesdlg.h"
 #include "diagram/diagramview.h"
+
 #include <kaction.h>
 #include <kapplication.h>
 #include <kconfig.h>
@@ -35,8 +40,9 @@
 #include <kmessagebox.h>
 #include <kstandarddirs.h>
 #include <kstatusbar.h>
+
 #include <qclipboard.h>
-#include <qpopmenu.h>
+#include <qpopupmenu.h>
 #include <qtimer.h>
 #include <qwidgetstack.h>
 
@@ -1136,7 +1142,7 @@ void UMLApp::slotUpdateViews() {
 
 	menu->clear();
 
-	for (QListIterator<UMLView> views = getDocument()->getViewIterator(); views.current(); ++views) {
+	for (QPtrListIterator<UMLView> views = getDocument()->getViewIterator(); views.current(); ++views) {
 		menu->insertItem( views.current()->getName(), views.current(), SLOT( slotShowView() ) );
 		views.current()->fileLoaded();
 	}
