@@ -43,7 +43,6 @@ public:
 	 */
 	virtual ~CPPCodeClassField ( );
 
-	QString fixTypeName(QString string); 
 	QString getFieldType();
 	QString getFieldName();
 	QString getInitialValue();

@@ -15,7 +15,6 @@
 
 
 #include <kdebug.h>
-#include <qregexp.h>
 
 #include "cppcodeclassfield.h"
 #include "cppcodegenerationpolicy.h"
@@ -51,18 +50,6 @@ CPPCodeClassField::~CPPCodeClassField ( ) { }
 
 // Other methods
 //  
-
-// IF the type is "string" we need to declare it as
-// the CPP Object "String" (there is no string primative in CPP).
-// Same thing again for "bool" to "boolean"
-QString CPPCodeClassField::fixTypeName(QString string)
-{
-// FIX!!
-        string.replace(QRegExp("^[Ll]ist$"),"QPtrList");
-        string.replace(QRegExp("^string$"),"QString");
-        string.replace(QRegExp("^bool$"),"bool");
-        return cleanName(string);
-}
 
 QString CPPCodeClassField::getFieldName() {
         if (parentIsAttribute()) 

@@ -16,6 +16,8 @@
 #include <kdebug.h>
 #include <kconfig.h>
 
+#include <qregexp.h>
+
 #include "cppcodegenerator.h"
 #include "cppcodedocumentation.h"
 #include "cppcodegenerationpolicy.h"
@@ -170,6 +172,16 @@ bool CPPCodeGenerator::getAutoGenerateAccessors ( )
 
 // Other methods
 //
+
+// CHange the following dataTypes to the ones the user really
+// wants in their code. Not yet complete.
+QString CPPCodeGenerator::fixTypeName(QString string)
+{
+// FIX!!
+        string.replace(QRegExp("^[Ll]ist$"),"QPtrList");
+        string.replace(QRegExp("^string$"),"QString");
+        return cleanName(string);
+}
 
 // special method needed so that we write out the header code documents
 bool CPPCodeGenerator::saveToXMI ( QDomDocument & doc, QDomElement & root ) {

@@ -78,6 +78,8 @@ public:
          */
         bool getAutoGenerateAccessors( );
 
+        QString fixTypeName(QString string);
+
 	/**
 	 * Add a header CodeDocument object from m_headercodedocumentVector List
 	 */
