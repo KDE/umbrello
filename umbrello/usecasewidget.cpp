@@ -6,24 +6,23 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-
+// own header file
 #include "usecasewidget.h"
-#include "usecase.h"
-
-#include "umlview.h"
-
+// system includes
 #include <qpainter.h>
-
 #include <kdebug.h>
+// local includes
+#include "usecase.h"
+#include "umlview.h"
 
 UseCaseWidget::UseCaseWidget(UMLView * view, UMLUseCase *o) : UMLWidget(view, o) {
 	UMLWidget::setBaseType(wt_UseCase);
-	calculateSize();
+	//calculateSize();  Doing this during loadFromXMI() gives futile updates.
+	//                  Instead, it is done afterwards by UMLWidget::activate()
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 UseCaseWidget::~UseCaseWidget() {}
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
 void UseCaseWidget::draw(QPainter & p, int offsetX, int offsetY) {
 	p.setPen( UMLWidget::getLineColour() );
 	if ( UMLWidget::getUseFillColour() )
@@ -42,12 +41,8 @@ void UseCaseWidget::draw(QPainter & p, int offsetX, int offsetY) {
 	p.setPen( UMLWidget::getLineColour() );
 	if(m_bSelected)
 		drawSelected(&p, offsetX, offsetY);
-
-
-
-
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void UseCaseWidget::calculateSize()
 {
 	QFontMetrics &fm = getFontMetrics(FT_NORMAL);
@@ -59,7 +54,7 @@ void UseCaseWidget::calculateSize()
 	width += UC_MARGIN * 2;
 	setSize(width, height);
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void UseCaseWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement usecaseElement = qDoc.createElement( "usecasewidget" );
 	UMLWidget::saveToXMI( qDoc, usecaseElement );

@@ -6,16 +6,18 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-
-#include <qpainter.h>
-
-#include "actor.h" 
+// own header file
 #include "actorwidget.h"
+// system includes
+#include <qpainter.h>
+// local includes
+#include "actor.h" 
 #include "umlview.h"
 
 ActorWidget::ActorWidget(UMLView * view, UMLActor *a) : UMLWidget(view, a) {
 	UMLWidget::setBaseType( wt_Actor );
-	calculateSize();
+	//calculateSize();  Doing this during loadFromXMI() gives futile updates.
+	//                  Instead, it is done afterwards by UMLWidget::activate()
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ActorWidget::~ActorWidget() {}

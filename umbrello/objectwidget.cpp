@@ -6,19 +6,19 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-
+// own header file
+#include "objectwidget.h"
+// system includes
 #include <qpainter.h>
 #include <qvalidator.h>
-
 #include <klocale.h>
 #include <kdebug.h>
-
+// local includes
 #include "inputdialog.h"
 #include "seqlinewidget.h"
 #include "umlview.h"
 #include "umldoc.h"
 #include "umlobject.h"
-#include "objectwidget.h"
 #include "listpopupmenu.h"
 
 /**
@@ -31,7 +31,8 @@ ObjectWidget::ObjectWidget(UMLView * view, UMLObject *o, int lid) : UMLWidget(vi
 	init();
 	if( lid >= 0 )
 		m_nLocalID = lid;
-	calculateSize();
+	//calculateSize();  Doing this during loadFromXMI() gives futile updates.
+	//                  Instead, it is done afterwards by UMLWidget::activate()
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -6,19 +6,20 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+// own header file
+#include "umlwidget.h"
+// system includes
 #include <qpainter.h>
 #include <qcolor.h>
-
 #include <kdebug.h>
 #include <kcursor.h>
 #include <kcolordialog.h>
 #include <kfontdialog.h>
 #include <kmessagebox.h>
 #include <klocale.h>
-
+// local includes
 #include "umlobject.h"
 #include "class.h"
-#include "umlwidget.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "umllistview.h"
@@ -49,7 +50,6 @@ UMLWidget::UMLWidget( UMLView * view, UMLObject * o )
 {
 	init();
 	if(m_pObject) {
-		setName( m_pObject->getName() );
 		m_nId = m_pObject->getID();
 	}
 }
@@ -1053,6 +1053,8 @@ void UMLWidget::setFontMetrics(UMLWidget::FontType fontType, QFontMetrics fm) {
 void UMLWidget::setFont( QFont font ) {
 	m_Font = font;
 	forceUpdateFontMetrics(0);
+	if (m_pView->getDocument()->loading())
+		return;
 	update();
 }
 
