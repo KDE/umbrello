@@ -573,7 +573,6 @@ void UMLView::slotObjectRemoved(UMLObject * o) {
 		removeWidget(obj);
 
 		// Following lines temporarily commented out due to crashes.
-		// I will look into this  -- okellogg  2003-09-02
 		/* Update list; removing a widget will also delete the associations
 		 * connected to it; so we have to update the list, because other
 		 * widgets might be already deleted
@@ -2362,7 +2361,9 @@ void UMLView::createAutoAssociations( UMLWidget * widget ) {
 	// If this widget has an underlying UMLCanvasObject then
 	//   for each of the UMLCanvasObject's UMLAssociations
 	//     if umlassoc's "other" role has a widget representation on this view then
-	//       create the AssocWidget
+	//       if the assoc type is permitted in the current diagram type then
+	//         create the AssocWidget
+	//       end if
 	//     end if
 	//   end loop
 	// end if
@@ -2413,9 +2414,16 @@ void UMLView::createAutoAssociations( UMLWidget * widget ) {
 		if (pOtherWidget == NULL)
 			continue;
 		// Both objects are represented in this view:
+		// Check that the assoc is allowed.
+		Uml::Association_Type assocType = assoc->getAssocType();
+		if (!AssocRules::allowAssociation(assocType, widget, pOtherWidget)) {
+			kdDebug() << "createAutoAssociations: not transferring assoc "
+				  << "of type " << assocType << endl;
+			continue;
+		}
 		// Create the AssociationWidget.
-		AssociationWidget * temp = new AssociationWidget( this, widget ,
-						assoc->getAssocType(), pOtherWidget );
+		AssociationWidget * temp = new AssociationWidget( this, widget,
+		                                             assocType, pOtherWidget );
 		if (! addAssociation(temp))
 			delete temp;
 	}
