@@ -544,10 +544,14 @@ bool FloatingText::loadFromXMI( QDomElement & qElement ) {
 	if( !role.isEmpty() )
 		m_Role = (Uml::Text_Role)role.toInt();
 
+	m_PreText = qElement.attribute( "pretext", "" );
+	m_PostText = qElement.attribute( "posttext", "" );
+	m_Text = qElement.attribute( "text", "" );
+
 	int id = UMLWidget::getID();
-	if( id == -1 ) {
-		m_Text = qElement.attribute( "text", "" );
-	} else if (playsAssocRole()) {
+	if (id == -1)
+		return true;
+	if (playsAssocRole()) {
 		m_pAssoc = m_pView->findAssocWidget( id );
 		if (m_pAssoc == NULL) {
 			kdDebug() << "FloatingText::loadFromXMI: "
@@ -582,10 +586,7 @@ bool FloatingText::loadFromXMI( QDomElement & qElement ) {
 				m_Text = UMLAssociation::ChangeabilityToString( changeType );
 				break;
 			default:
-				kdDebug() << "FloatingText::loadFromXMI: id " << id
-					  << ": don't know how to handle role "
-					  << m_Role << endl;
-				return false;
+				break;
 		}
 	} else if (playsMessageRole()) {
 		m_pMessage = dynamic_cast<MessageWidget*>( m_pView->findWidget(id) );
@@ -594,13 +595,7 @@ bool FloatingText::loadFromXMI( QDomElement & qElement ) {
 				  << "cannot find master message widget " << id << endl;
 			return false;
 		}
-	} else {
-		kdDebug() << "FloatingText::loadFromXMI: id " << id
-			  << ": don't know how to treat role " << m_Role << endl;
-		return false;
 	}
-	m_PreText = qElement.attribute( "pretext", "" );
-	m_PostText = qElement.attribute( "posttext", "" );
 
 	return true;
 }
