@@ -25,7 +25,7 @@ namespace Umbrello {
 	 */
 	const QStringList reservedCppKeywords();
 
-};
+}
 
 #endif  // CODEGEN_UTILS_H
 

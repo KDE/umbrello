@@ -328,7 +328,7 @@ protected:
 	 * Auxiliary to saveToXMI of inheriting classes:
 	 * Saves template parameters to the given QDomElement.
 	 */
-	void UMLClassifier::saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
+	void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
 	/**
 	 * Auxiliary to loadFromXMI:
