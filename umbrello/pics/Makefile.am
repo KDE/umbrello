@@ -1,7 +1,7 @@
 ####### kdevelop will overwrite this part!!! (begin)##########
 
 
-EXTRA_DIST = actor.xpm aggregation.xpm anchor.xpm arrow.xpm association.xpm broom.xpm case.xpm classicon.xpm component.xpm composition.xpm constraint.xpm CVglobal_meth.png CVglobal_var.png CVnamespace.png CVprivate_meth.png CVprivate_signal.png CVprivate_slot.png CVprivate_var.png CVprotected_meth.png CVprotected_signal.png CVprotected_slot.png CVprotected_var.png CVpublic_meth.png CVpublic_signal.png CVpublic_slot.png CVpublic_var.png CVstruct.png dependency.xpm end_state.xpm folder_green_open.png folder_green.png folder_grey_open.png folder_grey.png folder_home.png generalization.xpm hline.xpm implements.xpm initial_state.xpm interface.xpm largepackage.xpm lifeline.xpm line.xpm message.xpm note.xpm object.xpm output_win.xpm realizes.xpm rectangle.xpm smallpackage.xpm snapshot.xpm startlogo.png text.xpm umlclass_template.xpm umlclass.xpm uniassoc.xpm usecaserelation.xpm vline.xpm branch.xpm fork.xpm package.xpm interface.xpm artifact.xpm box.xpm
+EXTRA_DIST = actor.xpm aggregation.xpm anchor.xpm arrow.xpm association.xpm broom.xpm case.xpm classicon.xpm component.xpm composition.xpm constraint.xpm CVglobal_meth.png CVglobal_var.png CVnamespace.png CVprivate_meth.png CVprivate_signal.png CVprivate_slot.png CVprivate_var.png CVprotected_meth.png CVprotected_signal.png CVprotected_slot.png CVprotected_var.png CVpublic_meth.png CVpublic_signal.png CVpublic_slot.png CVpublic_var.png CVstruct.png dependency.xpm end_state.xpm folder_green_open.png folder_green.png folder_grey_open.png folder_grey.png folder_home.png generalization.xpm hline.xpm implements.xpm initial_state.xpm interface.xpm largepackage.xpm lifeline.xpm line.xpm message.xpm note.xpm object.xpm output_win.xpm realizes.xpm rectangle.xpm smallpackage.xpm snapshot.xpm startlogo.png text.xpm umlclass_template.xpm umlclass.xpm uniassoc.xpm usecaserelation.xpm vline.xpm branch.xpm fork.xpm package.xpm interface.xpm artifact.xpm box.xpm public.png protected.png private.png
 
 install-data-local:
 	$(mkinstalldirs) $(kde_datadir)/umbrello/pics/
@@ -132,6 +132,12 @@ install-data-local:
 	$(INSTALL_DATA) $(srcdir)/box.xpm $(kde_datadir)/umbrello/pics/box.xpm
 	$(mkinstalldirs) $(kde_datadir)/umbrello/pics/
 	$(INSTALL_DATA) $(srcdir)/node.xpm $(kde_datadir)/umbrello/pics/node.xpm
+	$(mkinstalldirs) $(kde_datadir)/umbrello/pics/
+	$(INSTALL_DATA) $(srcdir)/public.png $(kde_datadir)/umbrello/pics/public.png
+	$(mkinstalldirs) $(kde_datadir)/umbrello/pics/
+	$(INSTALL_DATA) $(srcdir)/protected.png $(kde_datadir)/umbrello/pics/protected.png
+	$(mkinstalldirs) $(kde_datadir)/umbrello/pics/
+	$(INSTALL_DATA) $(srcdir)/private.png $(kde_datadir)/umbrello/pics/private.png
 
 uninstall-local:
 	-rm -f $(kde_datadir)/umbrello/pics/actor.xpm
@@ -198,5 +204,8 @@ uninstall-local:
 	-rm -f $(kde_datadir)/umbrello/pics/artifact.xpm
 	-rm -f $(kde_datadir)/umbrello/pics/box.xpm
 	-rm -f $(kde_datadir)/umbrello/pics/node.xpm
+	-rm -f $(kde_datadir)/umbrello/pics/public.png
+	-rm -f $(kde_datadir)/umbrello/pics/protected.png
+	-rm -f $(kde_datadir)/umbrello/pics/private.png
 
 ####### kdevelop will overwrite this part!!! (end)############
