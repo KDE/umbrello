@@ -297,17 +297,21 @@ public:
 
 	/**
 	 * Sets the x-coordinate.
+	 * Currently, the only class that reimplements this method is
+	 * ObjectWidget.
 	 *
 	 * @param x The x-coordinate to be set.
 	 */
-	void setX( int x );
+	virtual void setX( int x );
 
 	/**
 	 * Sets the y-coordinate.
+	 * Currently, the only class that reimplements this method is
+	 * ObjectWidget.
 	 *
 	 * @param y The y-coordinate to be set.
 	 */
-	void setY( int y );
+	virtual void setY( int y );
 
 	/**
 	 * Gets the x-coordinate.
