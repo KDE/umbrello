@@ -523,16 +523,15 @@ QString CodeGenerator::findFileName ( CodeDocument * codeDocument ) {
 
 	// if path is given add this as a directory to the file name
 	if (!path.isEmpty()) {
+		path.replace(QRegExp("::"), "/"); // Simple hack!
 		name = path + "/" + codeDocument->getFileName();
 		path = "/" + path;
 	} else {
 		name = codeDocument->getFileName();
 	}
 
-	// Convert all "." to "/" : Platform-specific path separator
-	// What UNIX platform has '.' for path separator?? Its usefull for
-	// Java, but we can treat that within the javacodegenerator. -b.t.
-	// name.replace(QRegExp("\\."),"/"); // Simple hack!
+	// Convert all "::" to "/" : Platform-specific path separator
+	name.replace(QRegExp("::"), "/"); // Simple hack!
 
 	// if a path name exists check the existence of the path directory
 	if (!path.isEmpty()) {

@@ -156,7 +156,7 @@ public:
 	 *
 	 * @return	Returns the classes package as a text.
 	 */
-	QString getPackage();
+	QString getPackage(QString separator = "::");
 
 	/**
 	 * Returns the UMLPackage that this class is located in.

@@ -255,10 +255,16 @@ QString UMLObject::getStereotype() {
 	return m_Stereotype;
 }
 
-QString UMLObject::getPackage() {
+QString UMLObject::getPackage(QString separator /* ="::" */) {
 	if (m_pUMLPackage == NULL)
 		return "";
-	return m_pUMLPackage->getName();
+	QStringList pkgList;
+	UMLPackage* pkg = m_pUMLPackage;
+	while (pkg != NULL) {
+		pkgList.prepend(pkg->getName());
+		pkg = pkg->getUMLPackage();
+	}
+	return pkgList.join(separator);
 }
 
 UMLPackage* UMLObject::getUMLPackage() {
