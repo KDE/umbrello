@@ -22,6 +22,8 @@
 #include <kurl.h>
 #include <kdockwidget.h>
 
+#include "diagram/diagram.h"
+
 // forward declaration of the UML classes
 class QDomNode;
 class QFile;
@@ -41,6 +43,7 @@ class UMLConcept;
 class UMLInterface;
 class UMLAssociation;
 class UMLApp;
+class type_info;
 
 using namespace Uml;
 
@@ -159,13 +162,16 @@ public:
 	 */
 	void setupListView(UMLListView *lv);
 
+	//int createObject(type, Umbrello::DiagramView  *widget, bool useWizard = false);
+	
 	/**
 	 *	Creates a @ref UMLObject of the given type.
 	 *
 	 *	@param	type	The type of @ref UMLObject to create.  Used to
 	 * create Actors, Use Cases and concepts.
 	 */
-	void createUMLObject(UMLObject_Type type);
+	UMLObject* createUMLObject(UMLObject_Type type);
+	UMLObject* createUMLObject(const type_info &type);
 
   	/**
   	 *  Creates either an operation or attribute for the parent concept.
@@ -254,6 +260,8 @@ public:
 	 *      @param  askForName  If true shows a dialog box asking for name, else uses a default name.
 	 */
 	void createDiagram(Diagram_Type type, bool askForName = true);
+	
+	Umbrello::Diagram* UcreateDiagram(Umbrello::Diagram::DiagramType, const QString& = QString::null );
 
 	/**
 	 *	Used to rename a document.  This method takes care of everything.
@@ -340,6 +348,8 @@ public:
 	 *	@return	Returns a reference to the view found.  If not found returns 0.
 	 */
 	UMLView * findView(Diagram_Type type, QString name);
+	
+	Umbrello::Diagram* UMLDoc::findDiagram(int id);
 
 	/**
 	 *	Used to give a unique ID to any sort of object.
@@ -702,6 +712,7 @@ private:
 	void initSaveTimer();
 
 	QList<UMLObject> objectList;
+	QPtrList<Umbrello::Diagram> diagrams;
 	int uniqueID;
 	bool m_modified;
 	KURL doc_url;
@@ -778,6 +789,7 @@ signals:
 
 	void sigObjectRemoved(UMLObject *);
 	void sigDiagramCreated(int id);
+	void diagramCreated(Umbrello::Diagram*);
 
 	void sigObjectCreated(UMLObject *);
 	void sigWidgetUpdated(UMLObject *);

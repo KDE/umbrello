@@ -29,6 +29,7 @@
 #include "dialogs/umlattributedialog.h"
 #include "dialogs/umltemplatedialog.h"
 #include "dialogs/umloperationdialog.h"
+#include "dialogs/classpropertiespage.h"
 
 #include <qpainter.h>
 #include <qtimer.h>
@@ -44,9 +45,17 @@
 #include <kprinter.h>
 #include <ktempfile.h>
 
+#include <typeinfo>
+
 #define FILE_VERSION 5
 #define XMI_FILE_VERSION "1.1.5"
 static const uint undoMax = 30;
+
+//#include "diagram/diagram.h"
+using namespace Umbrello;
+
+
+
 
 UMLDoc::UMLDoc(QWidget *parent, const char *name) : QObject(parent, name) {
 	pViewList = new QList<UMLView>();
@@ -56,6 +65,8 @@ UMLDoc::UMLDoc(QWidget *parent, const char *name) : QObject(parent, name) {
 	uniqueID = 0;
 	objectList.clear();
 	objectList.setAutoDelete(true);
+	diagrams.setAutoDelete(true);
+	
 	pViewList->setAutoDelete(true);
 	m_pChangeLog = 0;
 	m_Doc = "";
@@ -64,6 +75,7 @@ UMLDoc::UMLDoc(QWidget *parent, const char *name) : QObject(parent, name) {
 	m_pAutoSaveTimer = 0;
 	UMLApp * pApp = dynamic_cast<UMLApp *>( this -> parent() );
 	connect(this, SIGNAL(sigDiagramCreated(int)), pApp, SLOT(slotUpdateViews()));
+	connect(this, SIGNAL(diagramCreated(Umbrello::Diagram*)), pApp, SLOT(slotUpdateViews()));
 	connect(this, SIGNAL(sigDiagramRemoved(int)), pApp, SLOT(slotUpdateViews()));
 	connect(this, SIGNAL(sigDiagramRenamed(int)), pApp, SLOT(slotUpdateViews()));
 	connect(this, SIGNAL( sigCurrentViewChanged() ), pApp, SLOT( slotCurrentViewChanged() ) );
@@ -348,6 +360,7 @@ void UMLDoc::deleteContents() {
 void UMLDoc::setupSignals() {
 	WorkToolBar *tb = ((UMLApp*)parent()) -> getWorkToolBar();
 	connect(this, SIGNAL(sigDiagramCreated(int)), listView, SLOT(slotDiagramCreated(int)));
+	connect(this, SIGNAL(diagramCreated(Umbrello::Diagram*)), listView, SLOT( diagramCreated(Umbrello::Diagram*)));
 	connect(this, SIGNAL(sigDiagramRemoved(int)), listView, SLOT(slotDiagramRemoved(int)));
 	connect(this, SIGNAL(sigChildObjectCreated(UMLObject *)), listView, SLOT(slotChildObjectCreated(UMLObject *)));
 
@@ -383,6 +396,16 @@ UMLView * UMLDoc::findView(int id) {
 		}
 	}
 	return 0;
+}
+
+Diagram* UMLDoc::findDiagram(int id)
+{
+	for(Diagram *d = diagrams.first(); d; diagrams.next())
+	{
+  	if(d->getID() == id)
+			return d;
+	}
+	return 0L;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLView * UMLDoc::findView(Diagram_Type type, QString name) {
@@ -433,63 +456,79 @@ QString	UMLDoc::uniqObjectName(const UMLObject_Type type) {
 		;
 	return name;
 }
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void UMLDoc::createUMLObject(UMLObject_Type type) {
+UMLObject* UMLDoc::createUMLObject(const type_info &type)
+{
+//adapter.. just transform and forward request
+	UMLObject_Type t;
+	if( type == typeid(UMLConcept) )
+	{
+		t = ot_Concept;
+	}
+	else if ( type == typeid(UMLUseCase) )
+	{
+		t = ot_UseCase;
+	}
+	else if ( type == typeid(UMLActor) )
+	{
+		t = ot_Actor;
+	
+	}
+	else if ( type == typeid(UMLPackage) )
+	{
+		t = ot_Package;
+	}
+	else if ( type == typeid(UMLComponent) )
+	{
+		t = ot_Component;
+	}
+	else if ( type == typeid(UMLInterface) )
+	{
+		t = ot_Interface;
+	}
+	else
+	{
+		return static_cast<UMLObject*>(0L);
+	}
+	return createUMLObject(t);
+}
+UMLObject* UMLDoc::createUMLObject(UMLObject_Type type) {
 	bool ok = false;
+	int id;
 	QString name,
 	currentName = uniqObjectName(type);
+	UMLObject *o = 0L;
 	while (true) {
 		name = KLineEditDlg::getText(i18n("Enter name:"), currentName, &ok, (QWidget*)parent());
 		currentName = name;
 		if (!ok) {
 			break;
 		}
-		UMLObject* o = findUMLObject(type, name);
+		o = findUMLObject(type, name);
 		if (name.length() == 0) {
 			KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
 		}
 		if (o) {
 			KMessageBox::error(0, i18n("That name is already being used."), i18n("Not a Unique Name"));
 		} else {  //create an object
-/*FIXME check			if(type == ot_Actor) {
-				UMLActor *a = new UMLActor(this, name, ++uniqueID);
-				o = (UMLObject*)a;
-			} else if(type == ot_UseCase) {
-				UMLUseCase *uc = new UMLUseCase(this,name, ++uniqueID);
-				o = (UMLObject*)uc;
-			} else if(type == ot_Concept) {
-				UMLConcept *c = new UMLConcept(this, name, ++uniqueID);
-				o = (UMLObject*)c;
-			} else if(type == ot_Package) {
-				UMLPackage* package = new UMLPackage(this, name, ++uniqueID);
-				o = (UMLObject*)package;
-			} else if(type == ot_Component) {
-				UMLComponent* component = new UMLComponent(this, name, ++uniqueID);
-				o = (UMLObject*)package;
-			} else if(type == ot_Interface) {
-				UMLInterface* interface = new UMLInterface(this, name, ++uniqueID);
-				o = (UMLObject*)interface;
-			} else {
-				kdWarning() << "CreateUMLObject(int) error" << endl;
-				return;
-			}
-*/
+
+			id = getUniqueID();
+
 			if(type == ot_Actor) {
-				o = new UMLActor(this, name, ++uniqueID);
+				o = new UMLActor(this, name, id);
 			} else if(type == ot_UseCase) {
-				o = new UMLUseCase(this,name, ++uniqueID);
+				o = new UMLUseCase(this,name, id);
 			} else if(type == ot_Concept) {
-				o = new UMLConcept(this, name, ++uniqueID);
+				o = new UMLConcept(this, name, id);
 			} else if(type == ot_Package) {
-				o = new UMLPackage(this, name, ++uniqueID);
+				o = new UMLPackage(this, name, id);
 			} else if(type == ot_Component) {
-				o = new UMLComponent(this, name, ++uniqueID);
+				o = new UMLComponent(this, name, id);
 			} else if(type == ot_Interface) {
-				o = new UMLInterface(this, name, ++uniqueID);
+				o = new UMLInterface(this, name, id);
 			} else {
 				kdWarning() << "CreateUMLObject(int) error" << endl;
-				return;
+				return o;
 			}
 
 			objectList.append(o);
@@ -499,7 +538,7 @@ void UMLDoc::createUMLObject(UMLObject_Type type) {
 			break;
 		}
 	}//end while
-	return;
+	return o;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -765,6 +804,17 @@ QString UMLDoc::uniqViewName(const Diagram_Type type) {
 		;
 	return name;
 }
+
+
+Umbrello::Diagram* UMLDoc::UcreateDiagram(Diagram::DiagramType dType, const QString& name)
+{	
+	int id = getUniqueID();
+	Diagram *diagram = new Diagram(dType, this, id, name);
+	diagrams.append(diagram);
+	emit diagramCreated(diagram);
+	return diagram;
+
+}
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLDoc::createDiagram(Diagram_Type type, bool askForName /*= true */) {
 	bool 	ok = true;
@@ -973,6 +1023,18 @@ void UMLDoc::showProperties(UMLObject* object, int page, bool assoc) {
 		setModified(true);
 	}
 	dialogue->close(true);//wipe from memory
+//FIXME
+//FIXME
+	if(typeid(*object) == typeid(UMLConcept))
+	{
+	kdDebug()<<"showing props for class"<<endl;
+	ClassPropertiesPage *p = new ClassPropertiesPage(dynamic_cast<UMLConcept*>(object),0L,"class page" );
+	p->show();	
+	}
+	else
+	{
+	kdDebug()<<"object is of type "<<typeid(*object).name()<<" and not of type "<<typeid(UMLConcept).name()<<endl;
+	}
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
