@@ -488,7 +488,7 @@ void JavaWriter::writeVectorAttributeAccessorMethods (QString fieldClassName, QS
 {
 
 	fieldClassName = fixTypeName(fieldClassName);
-	fieldName = capitalizeFirstLetter(fieldName);
+	fieldName = capitaliseFirstLetter(fieldName);
 	QString strVis = scopeToJavaDecl(visibility);
 
 	// ONLY IF changeability is NOT Frozen
@@ -530,7 +530,7 @@ void JavaWriter::writeSingleAttributeAccessorMethods(QString fieldClassName, QSt
 
 	QString strVis = scopeToJavaDecl(visibility);
 	fieldClassName = fixTypeName(fieldClassName);
-	fieldName = capitalizeFirstLetter(fieldName);
+	fieldName = capitaliseFirstLetter(fieldName);
 
 	// set method
 	if (change == chg_Changeable && !isFinal) {

@@ -402,8 +402,9 @@ QDragObject* UMLListView::dragObject() {
 	while((item=it.current()) != 0) {
 		++it;
 		type = item->getType();
-		if(typeIsCanvasWidget(type) && (type < Uml::lvt_UseCase_Diagram || type > Uml::lvt_Sequence_Diagram) &&
-		        (type != Uml::lvt_UseCase_Folder) && (type != Uml::lvt_Logical_Folder)) {
+		if (!typeIsCanvasWidget(type) &&
+		    (type < Uml::lvt_UseCase_Diagram || type > Uml::lvt_Sequence_Diagram) &&
+		    (type != Uml::lvt_UseCase_Folder) && (type != Uml::lvt_Logical_Folder)) {
 			return 0;
 		}
 		list.append(item->getdata());
