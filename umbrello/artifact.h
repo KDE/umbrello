@@ -16,7 +16,9 @@
 class IDChangeLog;
 class UMLAssociation;
 
-//FIXMEnow doc
+/**
+ * Artifacts can be drawn using one of several icons
+ */
 enum Artifact_draw_type {
 	defaultDraw,
 	file,
@@ -76,13 +78,22 @@ public:
 	 */
 	bool loadFromXMI( QDomElement & element );
 
-	//FIXMEnow doc
+	/**
+	 * sets m_drawAsType for which method to draw the artifact as
+	 */
 	void setDrawAsType(Artifact_draw_type type);
 
+	/**
+	 * returns the value of m_drawAsType
+	 */
 	Artifact_draw_type getDrawAsType();
 
 private:
 
+	/**
+	 * Artifacts can be drawn as one of several different icons.
+	 * This value choosing how to draw them.
+	 */
 	Artifact_draw_type m_drawAsType;
 };
 

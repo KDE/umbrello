@@ -77,14 +77,35 @@ private:
 	 *	Automatically calculates the size of the object.
 	 */
 	void calculateSize();
-	//FIXMEnow doc
+
+	/**
+	 * calculates and sets the size when drawing as an icon (it's the same size for all icons)
+	 */
 	QSize calculateIconSize();
+
+	/**
+	 * calculates and sets the size for drawing as a box
+	 */
 	QSize calculateNormalSize();
 
-	//FIXMEnow
+	/**
+	 * draw as a file icon
+	 */
 	void drawAsFile(QPainter& p, int offsetX, int offsetY);
+
+	/**
+	 * draw as a library file icon
+	 */
 	void drawAsLibrary(QPainter& p, int offsetX, int offsetY);
+
+	/**
+	 * draw as a database table icon
+	 */
 	void drawAsTable(QPainter& p, int offsetX, int offsetY);
+
+	/**
+	 * draw as a box
+	 */
 	void drawAsNormal(QPainter& p, int offsetX, int offsetY);
 
 	/**
