@@ -28,19 +28,19 @@
 #include <klocale.h>
 
 // this constructor really is bad..shouldnt be allowed. -b.t. 
-AssociationWidget::AssociationWidget(QWidget *parent)
-	: QObject(parent)
+AssociationWidget::AssociationWidget(UMLView *view)
+	: QObject(view)
 {
-	init(parent);
+	init(view);
 }
 
 // preferred constructor
-AssociationWidget::AssociationWidget(QWidget *parent, UMLWidget* WidgetA,
+AssociationWidget::AssociationWidget(UMLView *view, UMLWidget* WidgetA,
 				     Association_Type Type, UMLWidget* WidgetB )
-	: QObject(parent)
+	: QObject(view)
 {
 
-	init(parent);
+	init(view);
 
 	setWidgetA(WidgetA);
 	setWidgetB(WidgetB);
@@ -960,66 +960,34 @@ void AssociationWidget::setAssocType(Association_Type type) {
 }
 
 int AssociationWidget::getWidgetAID() const {
-	if (m_pAssociation)
-		return m_pAssociation->getRoleAId();
 	if (m_pWidgetA == NULL) {
+		if (m_pAssociation)
+			return m_pAssociation->getRoleAId();
 		kdError() << "AssociationWidget::getWidgetAID(): m_pWidgetA is NULL" << endl;
 		return -1;
 	}
 	if (m_pWidgetA->getBaseType() == Uml::wt_Object)
 		return static_cast<ObjectWidget*>(m_pWidgetA)->getLocalID();
-	return m_pWidgetA->getID();
+	int id = m_pWidgetA->getID();
+	if (id == -1 && m_pAssociation != NULL)      // just defense,
+		id = m_pAssociation->getRoleAId();   // not expected to happen
+	return id;
 }
-
-/*
-void AssociationWidget::setWidgetAID(int AID) {
-	if (m_pAssociation == NULL)
-		return;
-	int uml_AID = m_pAssociation->getRoleAId();
-	if (uml_AID != AID) {
-		if (uml_AID == -1)
-			kdDebug() << "AssocWidget::setWidgetAID(): "
-				  << "initializing UMLAssociation::RoleAId to id "
-				  << AID << endl;
-		else
-			kdDebug() << "AssocWidget::setWidgetAID(): "
-				  << "widget id " << AID << " does not match UML object's id "
-				  << uml_AID << endl;
-	}
-	m_pAssociation->setRoleAId(AID);
-}
-*/
 
 int AssociationWidget::getWidgetBID() const {
-	if (m_pAssociation)
-		return m_pAssociation->getRoleBId();
 	if (m_pWidgetB == NULL) {
+		if (m_pAssociation)
+			return m_pAssociation->getRoleBId();
 		kdError() << "AssociationWidget::getWidgetBID(): m_pWidgetB is NULL" << endl;
 		return -1;
 	}
 	if (m_pWidgetB->getBaseType() == Uml::wt_Object)
 		return static_cast<ObjectWidget*>(m_pWidgetB)->getLocalID();
-	return m_pWidgetB->getID();
+	int id = m_pWidgetB->getID();
+	if (id == -1 && m_pAssociation != NULL)      // just defense,
+		id = m_pAssociation->getRoleBId();   // not expected to happen
+	return id;
 }
-
-/*
-void AssociationWidget::setWidgetBID(int BID) {
-	if (m_pAssociation == NULL)
-		return;
-	int uml_BID = m_pAssociation->getRoleBId();
-	if (uml_BID != BID) {
-		if (uml_BID == -1)
-			kdDebug() << "AssocWidget::setWidgetBID(): "
-				  << "initializing UMLAssociation::RoleBId to id "
-				  << BID << endl;
-		else
-			kdDebug() << "AssocWidget::setWidgetBID(): "
-				  << "widget id " << BID << " does not match UML object's id "
-				  << uml_BID << endl;
-	}
-	m_pAssociation->setRoleBId(BID);
-}
-*/
 
 /** Returns a QString Object representing this AssociationWidget */
 QString AssociationWidget::toString() {
@@ -1229,7 +1197,7 @@ void AssociationWidget::calculateEndingPoints() {
 	//see if it needs to be set up before we continue
 	//if self association/message and doesn't have the minimum
 	//4 points then create it.  Make sure no points are out of bounds of viewing area
-	//this only happends on first time through that we are worried about.
+	//this only happens on first time through that we are worried about.
 	if( m_pWidgetA == m_pWidgetB  && size < 4 ) {
 		const int DISTANCE = 50;
 		int x = m_pWidgetA -> getX();
@@ -1254,7 +1222,6 @@ void AssociationWidget::calculateEndingPoints() {
 	//from widget to point 1
 	size = m_LinePath.count();
 	if( size > 2 ) {
-
 		QPoint p = m_LinePath.getPoint( 1 );
 		xB = p.x();
 		yB = p.y();
@@ -1322,7 +1289,6 @@ void AssociationWidget::calculateEndingPoints() {
 		break;
 	case NorthEast:
 		m_WidgetBRegion = East;
-
 		break;
 	case SouthEast:
 		m_WidgetBRegion = South;
@@ -1532,7 +1498,6 @@ void AssociationWidget::widgetMoved(UMLWidget* widget, int x, int y ) {
     9 = On diagonal 1 and On diagonal 2 (the center)
 */
 AssociationWidget::Region AssociationWidget::findPointRegion(QRect Rect, int PosX, int PosY) {
-
 	float w = (float)Rect.width();
 	float h = (float)Rect.height();
 	float x =  (float)Rect.x();
@@ -2313,30 +2278,30 @@ void AssociationWidget::setTextPosition(Text_Role role, QPoint pos) {
 	}
 
 	switch(role) {
-	case tr_MultiA:
+		case tr_MultiA:
 			m_pMultiA->setLinePos( pos.x(), pos.y() );
-		break;
-	case tr_MultiB:
+			break;
+		case tr_MultiB:
 			m_pMultiB->setLinePos( pos.x(), pos.y() );
-		break;
-	case tr_Name:
-	case tr_Coll_Message:
+			break;
+		case tr_Name:
+		case tr_Coll_Message:
 			m_pName->setLinePos( pos.x(), pos.y() );
-		break;
-	case tr_RoleAName:
+			break;
+		case tr_RoleAName:
 			m_pRoleA->setLinePos( pos.x(), pos.y() );
-		break;
-	case tr_RoleBName:
+			break;
+		case tr_RoleBName:
 			m_pRoleB->setLinePos( pos.x(), pos.y() );
-		break;
-	case tr_ChangeA:
+			break;
+		case tr_ChangeA:
 			m_pChangeWidgetA->setLinePos( pos.x(), pos.y() );
-		break;
-	case tr_ChangeB:
+			break;
+		case tr_ChangeB:
 			m_pChangeWidgetB->setLinePos( pos.x(), pos.y() );
-		break;
-	default:
-		break;
+			break;
+		default:
+			break;
 	}
 }
 
@@ -2362,39 +2327,39 @@ void AssociationWidget::setTextPositionRelatively(Text_Role role, QPoint pos, QP
 	}
 
 	switch(role) {
-	case tr_MultiA:
+		case tr_MultiA:
 			m_pMultiA->setLinePositionRelatively( pos.x(), pos.y(),
 							      oldPosition.x(), oldPosition.y() );
-		break;
+			break;
 
-	case tr_MultiB:
+		case tr_MultiB:
 			m_pMultiB->setLinePositionRelatively( pos.x(), pos.y(),
 							      oldPosition.x(), oldPosition.y() );
-		break;
+			break;
 
-	case tr_Name:
-	case tr_Coll_Message:
+		case tr_Name:
+		case tr_Coll_Message:
 			m_pName->setLinePositionRelatively( pos.x(), pos.y(),
 							    oldPosition.x(), oldPosition.y() );
-		break;
-	case tr_RoleAName:
+			break;
+		case tr_RoleAName:
 			m_pRoleA->setLinePositionRelatively( pos.x(), pos.y(),
 							     oldPosition.x(), oldPosition.y() );
-		break;
-	case tr_RoleBName:
+			break;
+		case tr_RoleBName:
 			m_pRoleB->setLinePositionRelatively( pos.x(), pos.y(),
 							     oldPosition.x(), oldPosition.y() );
-		break;
-	case tr_ChangeA:
+			break;
+		case tr_ChangeA:
 			m_pChangeWidgetA->setLinePositionRelatively( pos.x(), pos.y(),
 								     oldPosition.x(), oldPosition.y() );
-		break;
-	case tr_ChangeB:
+			break;
+		case tr_ChangeB:
 			m_pChangeWidgetB->setLinePositionRelatively( pos.x(), pos.y(),
 								     oldPosition.x(), oldPosition.y() );
-		break;
-	default:
-		break;
+			break;
+		default:
+			break;
 	}
 }
 
@@ -3144,10 +3109,10 @@ QRect AssociationWidget::getAssocLineRectangle()
 }
 
 
-void AssociationWidget::init (QWidget *parent)
+void AssociationWidget::init (UMLView *view)
 {
 	// pointer to parent viewwidget object
-	m_pView = (UMLView *)parent;
+	m_pView = view;
 
 	m_pAssociation = NULL;   // Must be set to something useful later.
 

@@ -57,12 +57,12 @@ public:
 	/**
 	* Constructor
 	*/
-	AssociationWidget(QWidget *parent);
+	AssociationWidget(UMLView *view);
 
 	/**
 	* Constructor
 	*/
-	AssociationWidget(QWidget *parent, UMLWidget* WidgetA, Association_Type Type, UMLWidget* WidgetB);
+	AssociationWidget(UMLView *view, UMLWidget* WidgetA, Association_Type Type, UMLWidget* WidgetB);
 
 	/**
 	* Deconstructor
@@ -223,21 +223,9 @@ public:
 	void setChangeabilityB (Changeability_Type value);
 
 	/**
-	* DEPRECATED - to be removed
-	* Sets the ID of the UMLAssociation of role A.
-	*/
-	// void setWidgetAID(int AID);
-
-	/**
 	 * Gets the ID of role A.
 	 */
 	int getWidgetAID() const;
-
-	/**
-	* DEPRECATED - to be removed
-	* Sets the ID of the UMLAssociation of role B.
-	*/
-	// void setWidgetBID(int BID);
 
 	/**
 	 * Gets the ID of role B.
@@ -258,12 +246,6 @@ public:
 	 * Read property of UMLWidget* m_pWidgetB.
 	 */
 	UMLWidget* getWidgetB();
-
-	/**
-	 * Synchronizes the Widget's data members with its display properties, for example:
-	 * the X and Y positions of the widget, etc
-	 */
-	void synchronizeData();
 
 	/**
 	 * Returns true if this association associates WidgetA to WidgetB, otherwise it returns
@@ -720,7 +702,7 @@ private:
 	/**
 	 * initialize attributes of this class at construction time
 	 */
-	void init (QWidget *parent);
+	void init (UMLView *view);
 
 	// yes, this is correct, we dont want other classes/users seeing this
 	// they should use setChangeability[AB] instead
