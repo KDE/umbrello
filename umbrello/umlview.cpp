@@ -526,6 +526,7 @@ void UMLView::slotObjectCreated(UMLObject* o) {
 				createAutoAssociations(newWidget);
 				break;
 		}
+		resizeCanvasToItems();
 	}
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
