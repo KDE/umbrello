@@ -59,7 +59,7 @@ public:
 	inline QPen pen() const;
 	inline QBrush brush() const;
 	
-	bool acceptType( const type_info& );
+	bool acceptType( const std::type_info& );
 
 public slots:
 
@@ -81,7 +81,7 @@ protected:
 	QPen m_pen;
 	QBrush m_brush;
 	
-	static std::map<DiagramType,std::list<const type_info*> > allowedTypes;
+	static std::map<DiagramType,std::list<const std::type_info*> > allowedTypes;
 
 private:
 	void initAllowedTypesMap();

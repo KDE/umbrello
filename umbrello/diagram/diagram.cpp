@@ -37,6 +37,7 @@
 typedef UMLConcept UMLClass;
 using std::map;
 using std::find;
+using std::type_info;
 
 
 //anonymous namespace for file-only data
