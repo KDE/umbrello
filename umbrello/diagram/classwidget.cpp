@@ -239,3 +239,5 @@ kdDebug()<<"class widget properties"<<endl;
 
 }
 } //end of namespace NewDiagram
+
+#include "classwidget.moc"

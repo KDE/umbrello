@@ -100,3 +100,5 @@ Diagram* DiagramElement::diagram() const
 
 }
 
+
+#include "diagramelement.moc"

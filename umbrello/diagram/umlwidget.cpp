@@ -127,3 +127,5 @@ void UMLWidget::getConnectingPoint(QPoint &conn1, QPoint &conn2, const QPoint &f
 }
 
 }
+
+#include "umlwidget.moc"

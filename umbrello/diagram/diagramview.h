@@ -54,7 +54,7 @@ protected:
 	QPtrList<QCanvasLine> *m_linePath;
 	
 	long m_currentAction;
-	static std::map<WorkToolBar::EditTool, const type_info*> toolMap;
+	static std::map<WorkToolBar::EditTool, const std::type_info*> toolMap;
 private:
 	void initToolMap();
 };

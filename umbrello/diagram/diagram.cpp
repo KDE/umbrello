@@ -28,6 +28,7 @@
 
 #include <typeinfo>
 #include <algorithm>
+#include <list>
 #include <qpopupmenu.h>
 #include <qcolor.h>
 
@@ -37,7 +38,7 @@
 typedef UMLConcept UMLClass;
 using std::map;
 using std::find;
-using std::type_info;
+using std::list;
 
 
 //anonymous namespace for file-only data
@@ -130,7 +131,7 @@ void Diagram::createWidget( UMLObject *obj, const QPoint &pos)
 {
 
 	UMLWidget *w = 0L;
-	const type_info &type = typeid(*obj);
+	const std::type_info &type = typeid(*obj);
 	if(!acceptType(type))
 	{kdDebug()<<"type "<<type.name()<<"not accepted by diagram.(diagram type ="<<m_type<<")"<<endl;
 		return;
@@ -160,7 +161,7 @@ void Diagram::createWidget( UMLObject *obj, const QPoint &pos)
 }
 
 
-bool Diagram::acceptType(const type_info &type)
+bool Diagram::acceptType(const std::type_info &type)
 {kdDebug()<<"accept? "<<type.name()<<endl;
 return (find((allowedTypes[m_type]).begin(),
 		     (allowedTypes[m_type]).end(),
@@ -269,11 +270,11 @@ UMLDoc* Diagram::document() const
 
 
 /////////////////////////////////////////////////////////////////
-map<Diagram::DiagramType,list<const type_info*> > Diagram::allowedTypes;
+map<Diagram::DiagramType,list<const std::type_info*> > Diagram::allowedTypes;
 
 void Diagram::initAllowedTypesMap()
 {
-	list<const type_info*> *list = &allowedTypes[ClassDiagram];
+	list<const std::type_info*> *list = &allowedTypes[ClassDiagram];
 		list->insert(list->end(),&typeid(UMLClass));
 		list->insert(list->end(),&typeid(UMLInterface));
 		list->insert(list->end(),&typeid(UMLPackage));
@@ -295,3 +296,5 @@ void Diagram::initAllowedTypesMap()
 
 }
 
+
+#include "diagram.moc"

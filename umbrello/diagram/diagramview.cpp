@@ -343,7 +343,7 @@ kdDebug()<<"telling toolbar to change icons"<<endl;
 }
 
 //////////////////////////////////////////////////////////
-map<WorkToolBar::EditTool, const type_info*> DiagramView::toolMap;
+map<WorkToolBar::EditTool, const std::type_info*> DiagramView::toolMap;
 void DiagramView::initToolMap()
 {
 
@@ -376,3 +376,5 @@ void DiagramView::initToolMap()
 }
 
 }
+
+#include "diagramview.moc"

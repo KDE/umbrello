@@ -121,3 +121,5 @@ m_height = 1*lineHeight + (2*vMargin) + actorHeight;
 	
 
 } //end of namespace NewDiagram
+
+#include "actorwidget.moc"
