@@ -44,6 +44,23 @@ bool UMLStereotype::operator==( UMLStereotype &rhs) {
 	return true;
 }
 
+void UMLStereotype::copyInto(UMLStereotype *rhs) const
+{
+	UMLClassifierListItem::copyInto(rhs);
+
+	// is an enum
+	rhs->m_listType = m_listType;
+}
+
+UMLStereotype* UMLStereotype::clone() const
+{
+	UMLStereotype *clone = new UMLStereotype( (UMLStereotype *) parent());
+	copyInto(clone);
+
+	return clone;
+}
+
+
 bool UMLStereotype::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
 	QDomElement stereotypeElement = qDoc.createElement("stereotype");
 	bool status = UMLObject::saveToXMI(qDoc, stereotypeElement);

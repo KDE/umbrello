@@ -34,6 +34,20 @@ bool UMLEnumLiteral::operator==(UMLEnumLiteral& rhs) {
 	return true;
 }
 
+void UMLEnumLiteral::copyInto(UMLEnumLiteral *rhs) const
+{
+	UMLClassifierListItem::copyInto(rhs);
+}
+
+UMLEnumLiteral* UMLEnumLiteral::clone() const
+{
+	UMLEnumLiteral *clone = new UMLEnumLiteral((UMLObject *) parent());
+	copyInto(clone);
+
+	return clone;
+}
+
+
 QString UMLEnumLiteral::toString(Signature_Type /*sig = st_NoSig*/) {
 	return getName();
 }
@@ -62,3 +76,5 @@ bool UMLEnumLiteral::showPropertiesDialogue(QWidget* parent) {
 		return false;
 	}
 }
+
+

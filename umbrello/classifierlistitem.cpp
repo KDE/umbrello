@@ -13,7 +13,7 @@
 #include "classifierlistitem.h"
 
 UMLClassifierListItem::UMLClassifierListItem(UMLObject *parent, QString Name, int id)
-  : UMLObject(parent, Name, id) { 
+  : UMLObject(parent, Name, id) {
 }
 
 UMLClassifierListItem::UMLClassifierListItem(UMLObject *parent)
@@ -26,5 +26,12 @@ UMLClassifierListItem::~UMLClassifierListItem() {
 QString UMLClassifierListItem::getShortName() {
 	return getName();
 }
+
+void UMLClassifierListItem::copyInto(UMLClassifierListItem *rhs) const
+{
+	// Call the parent.
+	UMLObject::copyInto(rhs);
+}
+
 
 #include "classifierlistitem.moc"

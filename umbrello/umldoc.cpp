@@ -362,7 +362,7 @@ void UMLDoc::setCurrentCodeGenerator ( CodeGenerator * gen ) {
 }
 
 CodeGenerator* UMLDoc::getCurrentCodeGenerator() {
-        return m_currentcodegenerator;
+	return m_currentcodegenerator;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -374,12 +374,12 @@ void UMLDoc::deleteContents() {
 		dw->newDocumentation();
 	}
 
-        // remove all code generators
-        QDictIterator<CodeGenerator> it( m_codeGeneratorDictionary );
-        for( ; it.current(); ++it )
-                removeCodeGenerator(it.current());
+	// remove all code generators
+	QDictIterator<CodeGenerator> it( m_codeGeneratorDictionary );
+	for( ; it.current(); ++it )
+		removeCodeGenerator(it.current());
 
-        m_currentcodegenerator = 0;
+	m_currentcodegenerator = 0;
 
 	if (listView) {
 		listView->init();
@@ -431,14 +431,14 @@ bool UMLDoc::addCodeGenerator ( CodeGenerator * gen)
 	if(!gen)
 		return false;
 
-        QString tag = gen->getLanguage(); // this should be unique
+	QString tag = gen->getLanguage(); // this should be unique
 
-        if(m_codeGeneratorDictionary.find(tag))
-                return false; // return false, we already have some object with this tag in the list
-        else
-                m_codeGeneratorDictionary.insert(tag, gen);
+	if(m_codeGeneratorDictionary.find(tag))
+		return false; // return false, we already have some object with this tag in the list
+	else
+		m_codeGeneratorDictionary.insert(tag, gen);
 
-        return true;
+	return true;
 }
 
 bool UMLDoc::hasCodeGeneratorXMIParams ( QString lang )
@@ -458,16 +458,16 @@ QDomElement UMLDoc::getCodeGeneratorXMIParams ( QString lang )
  * Remove a CodeGenerator object
  */
 bool UMLDoc::removeCodeGenerator ( CodeGenerator * remove_object ) {
-        QString lang = remove_object->getLanguage();
-        if(!(lang.isEmpty()) && m_codeGeneratorDictionary.find(lang))
+	QString lang = remove_object->getLanguage();
+	if(!(lang.isEmpty()) && m_codeGeneratorDictionary.find(lang))
 	{
-                m_codeGenerationXMIParamMap->erase(lang);
-                m_codeGeneratorDictionary.remove(lang);
+		m_codeGenerationXMIParamMap->erase(lang);
+		m_codeGeneratorDictionary.remove(lang);
 		delete remove_object;
-        } else
-                return false;
+	} else
+		return false;
 
-        return true;
+	return true;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1345,9 +1345,9 @@ bool UMLDoc::saveToXMI(QIODevice& file) {
 
 	QDomElement header = doc.createElement( "XMI.header" );
 	QDomElement meta = doc.createElement( "XMI.metamodel" );
-        meta.setAttribute( "xmi.name", "UML" );
-        meta.setAttribute( "xmi.version", "1.3" );
-        meta.setAttribute( "href", "UML.xml" );
+	meta.setAttribute( "xmi.name", "UML" );
+	meta.setAttribute( "xmi.version", "1.3" );
+	meta.setAttribute( "href", "UML.xml" );
 	header.appendChild( meta );
 
 	QDomElement model = doc.createElement( "XMI.model" );
@@ -1388,7 +1388,7 @@ bool UMLDoc::saveToXMI(QIODevice& file) {
 	header.appendChild( documentation );
 
 	header.appendChild( model );
-        header.appendChild( meta );
+	header.appendChild( meta );
 	root.appendChild( header );
 
 	QDomElement content = doc.createElement( "XMI.content" );
@@ -1444,7 +1444,7 @@ bool UMLDoc::saveToXMI(QIODevice& file) {
 	// These are saved last so that upon loading, an association's role
 	// objects are known beforehand. This simplifies the establishing of
 	// cross reference links from the association to its role objects.
-        UMLAssociationList alist = getAssociations();
+	UMLAssociationList alist = getAssociations();
 	for (UMLAssociation * a = alist.first(); a; a = alist.next())
 		a->saveToXMI(doc, objectsElement);
 	content.appendChild( objectsElement );
@@ -1464,9 +1464,9 @@ bool UMLDoc::saveToXMI(QIODevice& file) {
 
 	// save code generators
 	QDomElement codeGenElement = doc.createElement( "codegeneration" );
-        QDictIterator<CodeGenerator> it( m_codeGeneratorDictionary );
-        for( ; it.current(); ++it )
-                status = it.current()->saveToXMI ( doc, codeGenElement );
+	QDictIterator<CodeGenerator> it( m_codeGeneratorDictionary );
+	for( ; it.current(); ++it )
+		status = it.current()->saveToXMI ( doc, codeGenElement );
 	content.appendChild( codeGenElement );
 
 	root.appendChild( content );
@@ -1766,7 +1766,7 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
 				while( !cgelement.isNull() ) {
 					QString nodeName = cgelement.tagName();
 					QString lang = cgelement.attribute("language","UNKNOWN");
-                			m_codeGenerationXMIParamMap->insert(lang, cgelement);
+					m_codeGenerationXMIParamMap->insert(lang, cgelement);
 					cgnode = cgnode.nextSibling();
 					cgelement = cgnode.toElement();
 				}
@@ -2398,6 +2398,13 @@ bool UMLDoc::objectTypeIsClassifierListItem(UMLObject_Type type)  {
 	} else {
 		return false;
 	}
+}
+
+void UMLDoc::addObject(UMLObject* o)
+{
+	objectList.append(o);
+	emit sigObjectCreated(o);
+	setModified(true);
 }
 
 #include "umldoc.moc"

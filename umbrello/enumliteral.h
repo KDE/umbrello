@@ -46,6 +46,17 @@ public:
 	bool operator==(UMLEnumLiteral &rhs);
 
 	/**
+	 * Copy the internal presentation of this object into the new
+	 * object.
+	 */
+	virtual void copyInto(UMLEnumLiteral *rhs) const;
+
+	/**
+	 * Make a clone of this object.
+	 */
+	virtual UMLEnumLiteral* clone() const;
+
+	/**
 	 * destructor
 	 */
 	virtual ~UMLEnumLiteral();

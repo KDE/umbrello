@@ -24,7 +24,30 @@
 // forward declarations
 class UMLObject;
 
-typedef QPtrList<UMLObject> UMLObjectList;
+//typedef QPtrList<UMLObject> UMLObjectList;
 typedef QPtrListIterator<UMLObject> UMLObjectListIt;
+
+
+/**
+ * This sub-class adds copyInto and clone to the QPtrList<UMLObject>
+ * base class.
+ */
+class UMLObjectList : public QPtrList<UMLObject>
+{
+
+public:
+
+	/**
+	 * Copy the internal presentation of this object into the new
+	 * object.
+	 */
+	virtual void copyInto (UMLObjectList *rhs) const;
+
+	/**
+	 * Make a clone of this object.
+	 */
+	virtual UMLObjectList* clone() const;
+};
+
 
 #endif

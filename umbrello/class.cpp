@@ -24,6 +24,7 @@ UMLClass::UMLClass(const QString & name, int id) : UMLClassifier (name, id)
 {
 	init();
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLClass::~UMLClass() {
 	// The parent (UMLClassifier) destructor is called automatically (C++)
@@ -35,8 +36,8 @@ UMLClass::~UMLClass() {
 UMLAttribute* UMLClass::addAttribute(QString name, int id) {
 	UMLDoc *umldoc = UMLApp::app()->getDocument();
 	Uml::Scope scope = umldoc->getOptionState().classState.defaultAttributeScope;
-  	UMLAttribute *a = new UMLAttribute(this, name, id, "int", scope);
-  	m_AttsList.append(a);
+	UMLAttribute *a = new UMLAttribute(this, name, id, "int", scope);
+	m_AttsList.append(a);
 	emit modified();
 	connect(a,SIGNAL(modified()),this,SIGNAL(modified()));
 	emit attributeAdded(a);
@@ -89,8 +90,8 @@ UMLAttribute* UMLClass::takeAttribute(UMLAttribute* a) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLObject* UMLClass::addTemplate(QString name, int id) {
-  	UMLTemplate* newTemplate = new UMLTemplate(this, name, id);
-  	m_TemplateList.append(newTemplate);
+	UMLTemplate* newTemplate = new UMLTemplate(this, name, id);
+	m_TemplateList.append(newTemplate);
 	emit modified();
 	connect(newTemplate,SIGNAL(modified()),this,SIGNAL(modified()));
 	emit templateAdded(newTemplate);
@@ -206,20 +207,20 @@ QString UMLClass::uniqChildName(UMLObject_Type type) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLObjectList UMLClass::findChildObject(UMLObject_Type t , QString n) {
-  	UMLObjectList list;
- 	if (t == ot_Association) {
+	UMLObjectList list;
+	if (t == ot_Association) {
 		return UMLClassifier::findChildObject(t, n);
- 	} else if (t == ot_Attribute || t == ot_Stereotype) {
-  		UMLClassifierListItem * obj=0;
-  		for(obj=m_AttsList.first();obj != 0;obj=m_AttsList.next()) {
-  			if(obj->getBaseType() == t && obj -> getName() == n)
+	} else if (t == ot_Attribute || t == ot_Stereotype) {
+		UMLClassifierListItem * obj=0;
+		for(obj=m_AttsList.first();obj != 0;obj=m_AttsList.next()) {
+			if(obj->getBaseType() == t && obj -> getName() == n)
 				list.append( obj );
 		}
- 	}
+	}
 	if (t == ot_Template || t == ot_Stereotype) {
-  		UMLClassifierListItem* obj=0;
-  		for(obj=m_TemplateList.first(); obj != 0; obj=m_TemplateList.next()) {
-  			if (obj->getBaseType() == t && obj->getName() == n)
+		UMLClassifierListItem* obj=0;
+		for(obj=m_TemplateList.first(); obj != 0; obj=m_TemplateList.next()) {
+			if (obj->getBaseType() == t && obj->getName() == n)
 				list.append(obj);
 		}
 	}
@@ -289,6 +290,22 @@ bool UMLClass::operator==( UMLClass & rhs ) {
 		return false;
 	}
 	return UMLClassifier::operator==(rhs);
+}
+
+void UMLClass::copyInto(UMLClass *rhs) const
+{
+	UMLClassifier::copyInto(rhs);
+
+	m_AttsList.copyInto(&(rhs->m_AttsList));
+	m_TemplateList.copyInto(&(rhs->m_TemplateList));
+}
+
+UMLClass* UMLClass::clone() const
+{
+	UMLClass *clone = new UMLClass();
+	copyInto(clone);
+
+	return clone;
 }
 
 bool UMLClass::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {

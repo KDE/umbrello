@@ -58,7 +58,6 @@ void UMLObject::init() {
 
 }
 
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 bool UMLObject::acceptAssociationType(Uml::Association_Type)
@@ -97,29 +96,81 @@ bool UMLObject::operator==(UMLObject & rhs ) {
 
 	//don't compare IDs, these are program specific and
 	//don't mean the objects are the same
+
 	if( m_Name != rhs.m_Name )
 		return false;
 
-	if( m_BaseType != rhs.m_BaseType )
-		return false;
-
-	if( m_Doc != rhs.m_Doc )
-		return false;
-
+	// Packages create different namespaces, therefore they should be
+	// part of the equality test.
 	if( m_pUMLPackage != rhs.m_pUMLPackage )
 		return false;
 
-	if( m_Scope != rhs.m_Scope )
+	// Making the type part of an object's identity has its problems:
+	// Not all programming languages support declarations of the same
+	// name but different type.
+	// In such cases, the code generator is responsible for generating
+	// the appropriate error message.
+	if( m_BaseType != rhs.m_BaseType )
 		return false;
 
-	if( m_Stereotype != rhs.m_Stereotype )
-		return false;
+	// The documentation should not be part of the equality test.
+	// If two objects are the same but differ only in their documentation,
+	// what does that mean?
+	//if( m_Doc != rhs.m_Doc )
+	//	return false;
 
-	if( m_bAbstract != rhs.m_bAbstract )
-		return false;
+	// The scope should not be part of the equality test.
+	// What does it mean if two objects are the same but differ in their
+	// scope? - I'm not aware of any programming language that would
+	// support that.
+	//if( m_Scope != rhs.m_Scope )
+	//	return false;
+
+	// See comments above
+	//if( m_Stereotype != rhs.m_Stereotype )
+	//	return false;
+
+	// See comments above
+	//if( m_bAbstract != rhs.m_bAbstract )
+	//	return false;
+
+	// See comments above
+	//if( m_bStatic != rhs.m_bStatic )
+	//	return false;
 
 	return true;
+}
 
+void UMLObject::copyInto(UMLObject *rhs) const
+{
+	// Data members with copy constructor
+	rhs->m_Name = m_Name;
+	rhs->m_Doc = m_Doc;
+	rhs->m_Stereotype = m_Stereotype;
+	rhs->m_bAbstract = m_bAbstract;
+	rhs->m_bStatic = m_bStatic;
+	rhs->m_BaseType = m_BaseType;
+	rhs->m_Scope = m_Scope;
+
+	// Copy only if not NULL.
+	if (m_pUMLPackage != NULL)
+		rhs->m_pUMLPackage = m_pUMLPackage->clone();
+
+	// Create a new ID.
+	UMLDoc* umldoc = UMLApp::app()->getDocument();
+	rhs->m_nId = umldoc->getUniqueID();
+
+	// Hope that the parent from QObject is okay.
+	if (rhs->parent() != parent())
+		kdDebug() << "copyInto has a wrong parent" << endl;
+}
+
+UMLObject* UMLObject::clone() const
+{
+	UMLObject *clone = new UMLObject( (UMLObject *) parent());
+	copyInto(clone);
+
+	return clone;
 }
 
 bool UMLObject::getAbstract() const{
@@ -255,9 +306,9 @@ bool UMLObject::saveToXMI( QDomDocument & /*qDoc*/, QDomElement & qElement ) {
 		qElement.setAttribute( "isAbstract", "false" );
 	 *** isAbstract defaults to false if not set **********/
 	if (m_bStatic)
- 		qElement.setAttribute( "ownerScope", "classifier" );
+		qElement.setAttribute( "ownerScope", "classifier" );
 	/* else
- 		qElement.setAttribute( "ownerScope", "instance" );
+		qElement.setAttribute( "ownerScope", "instance" );
 	 *** ownerScope defaults to instance if not set **********/
 	return true;
 }

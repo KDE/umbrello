@@ -53,6 +53,17 @@ public:
 	virtual ~UMLStereotype();
 
 	/**
+	 * Copy the internal presentation of this object into the new
+	 * object.
+	 */
+	virtual void copyInto(UMLStereotype *rhs) const;
+
+	/**
+	 * Make a clone of this object.
+	 */
+	virtual UMLStereotype* clone() const;
+
+	/**
 	 * Returns a string representation of the UMLStereotype.
 	 * @param sig	If true will show the stereotype type and inital value.
 	 *

@@ -53,11 +53,22 @@ public:
 	 * destructor
 	 */
 	virtual ~UMLOperation();
-	
+
 	/**
 	 * Overloaded '==' operator.
 	 */
 	bool operator==( UMLOperation & rhs );
+
+	/**
+	 * Copy the internal presentation of this object into the new
+	 * object.
+	 */
+	virtual void copyInto(UMLOperation *rhs) const;
+
+	/**
+	 * Make a clone of this object.
+	 */
+	virtual UMLOperation* clone() const;
 
 	/**
 	 * Sets the return type of the operation.

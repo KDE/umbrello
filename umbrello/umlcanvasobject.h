@@ -43,7 +43,8 @@ public:
 	 * @param id		The unique id of the Concept.
 	 */
 	UMLCanvasObject(const QString & name = "", int id = -1);
-	
+
+
 	/**
 	 * Standard deconstructor.
 	 */
@@ -52,33 +53,41 @@ public:
 	/**
 	 *  Overloaded '==' operator
 	 */
-  	virtual bool operator==(UMLCanvasObject& rhs);
-  
-  	/**
- 	 * Adds an association.
- 	 * Which role is "this" side (i.e. identifies the current concept)
- 	 * depends on the association type:
- 	 * For generalizations, role A is "this" side.
- 	 * For aggregations and compositions, role B is "this" side.
- 	 *
- 	 * @param assoc		The association to add.
- 	 */
- 	bool addAssociation(UMLAssociation* assoc);
- 
- 	/**
- 	 * Determine if this canvasobject has the given association.
+	virtual bool operator==(UMLCanvasObject& rhs);
+
+	/**
+	 * Copy the internal presentation of this object into the new
+	 * object.
+	 */
+	virtual void copyInto(UMLCanvasObject *rhs) const;
+
+	/**
+	 * Make a clone of this object.
+	 */
+	virtual UMLCanvasObject* clone() const;
+
+
+	/**
+	 * Adds an association.
 	 *
- 	 * @param assoc		The association to check.
- 	 */
- 	bool hasAssociation(UMLAssociation* assoc);
- 
- 	/**
- 	 * Remove an association from the CanvasObject.
- 	 *
- 	 * @param o		The association to remove.
- 	 */
- 	int removeAssociation(UMLAssociation *assoc);
- 
+	 * @param assoc		The association to add.
+	 */
+	bool addAssociation(UMLAssociation* assoc);
+
+	/**
+	 * Determine if this canvasobject has the given association.
+	 *
+	 * @param assoc		The association to check.
+	 */
+	bool hasAssociation(UMLAssociation* assoc);
+
+	/**
+	 * Remove an association from the CanvasObject.
+	 *
+	 * @param o		The association to remove.
+	 */
+	int removeAssociation(UMLAssociation *assoc);
+
 	/**
 	 * Returns the number of associations for the CanvasObject.
 	 * This is the sum of the aggregations and compositions.
@@ -122,7 +131,7 @@ public:
 
 	/**
 	 * Shorthand for getSpecificAssocs(Uml::at_Realization)
-	 * 
+	 *
 	 * @return	The list of realizations for the Concept.
 	 */
 	virtual UMLAssociationList getRealizations();
@@ -177,24 +186,24 @@ protected:
 
 private:
 
-        /**
-         * Initialises key variables of the class.
-         */
-        void init();
+	/**
+	 * Initialises key variables of the class.
+	 */
+	void init();
 
 signals:
 
-        /**
-         * Emit when new association is added.
-         * @param assoc Pointer to the association which has been added.
-         */
-        void sigAssociationAdded(UMLAssociation * assoc);
+	/**
+	 * Emit when new association is added.
+	 * @param assoc Pointer to the association which has been added.
+	 */
+	void sigAssociationAdded(UMLAssociation * assoc);
 
-        /**
-         * Emit when new association is removed.
-         * @param assoc Pointer to the association which has been removed.
-         */
-        void sigAssociationRemoved(UMLAssociation * assoc);
+	/**
+	 * Emit when new association is removed.
+	 * @param assoc Pointer to the association which has been removed.
+	 */
+	void sigAssociationRemoved(UMLAssociation * assoc);
 
 };
 

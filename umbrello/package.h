@@ -50,6 +50,17 @@ public:
 	virtual ~UMLPackage();
 
 	/**
+	 * Copy the internal presentation of this object into the new
+	 * object.
+	 */
+	virtual void copyInto(UMLPackage *rhs) const;
+
+	/**
+	 * Make a clone of this object.
+	 */
+	virtual UMLPackage* clone() const;
+
+	/**
 	 * Initializes key variables of the class.
 	 */
 	void init();

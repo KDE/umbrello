@@ -101,7 +101,7 @@ public:
 	 *
 	 * @param view		Pointer to the UMLView to remove.
 	 * @param enforceOneView	switch to determine if we have a current view or not.
-         *                          most of the time, we DO want this, except when exiting the program.
+	 *                          most of the time, we DO want this, except when exiting the program.
 	 */
 	void removeView(UMLView *view , bool enforceOneView = true );
 
@@ -329,7 +329,7 @@ public:
 	 * @param visibilityB	The visibility of role B (optional)
 	 */
 	/*
-         void addAssociation(QString name, Association_Type assocType,
+	void addAssociation(QString name, Association_Type assocType,
 			int AId, int BId,
 			QString nameA = "", QString nameB = "",
 			QString multiA = "", QString multiB = "",
@@ -343,7 +343,7 @@ public:
 	 *
 	 * @param pAssoc	Pointer to the UMLAssociation to add.
 	 */
-         void addAssociation(UMLAssociation *pAssoc);
+	void addAssociation(UMLAssociation *pAssoc);
 
 	/**
 	 * Removes an association.
@@ -378,14 +378,14 @@ public:
 	 */
 	void createDiagram(Diagram_Type type, bool askForName = true);
 
-        /**
-         * Removes an @ref UMLObject from the current file.  If this object
-         * is being represented on a diagram it will also delete all those
-         * representations.
-         *
-         * @param o		Pointer to the UMLObject to delete.
-         */
-        void removeUMLObject(UMLObject*o);
+	/**
+	 * Removes an @ref UMLObject from the current file.  If this object
+	 * is being represented on a diagram it will also delete all those
+	 * representations.
+	 *
+	 * @param o		Pointer to the UMLObject to delete.
+	 */
+	void removeUMLObject(UMLObject*o);
 
 
 	/**
@@ -879,21 +879,21 @@ public:
 		return m_bLoading;
 	}
 
-        /**
-         * Find a code generator by the given language.
-         */
-        CodeGenerator * findCodeGeneratorByLanguage (QString lang);
+	/**
+	 * Find a code generator by the given language.
+	 */
+	CodeGenerator * findCodeGeneratorByLanguage (QString lang);
 
 	/**
-         * Add a CodeGenerator object to this UMLDoc
+	 * Add a CodeGenerator object to this UMLDoc
 	 */
 	bool addCodeGenerator ( CodeGenerator * add_gen );
 
-        /**
-         * Remove and delete a CodeGenerator object from this UMLDoc.
-         * @return boolean - will return false if it couldnt remove a generator.
-         */
-        bool removeCodeGenerator ( CodeGenerator * remove_object );
+	/**
+	 * Remove and delete a CodeGenerator object from this UMLDoc.
+	 * @return boolean - will return false if it couldnt remove a generator.
+	 */
+	bool removeCodeGenerator ( CodeGenerator * remove_object );
 
 	/** Set the current (active) code generator for this document.
 	 */
@@ -913,6 +913,11 @@ public:
 	 * Used by code generators and attribute dialogue.
 	 */
 	void createDatatype(QString name);
+
+	/**
+	 * Add a UMLObject to the application.
+	 */
+	void addObject(UMLObject *o);
 
 private:
 
@@ -969,13 +974,13 @@ private:
 	 * A dictionary of the parameters in the save XMI file
 	 * sorted by language.
 	 */
-        QMap<QString, QDomElement> * m_codeGenerationXMIParamMap;
+	QMap<QString, QDomElement> * m_codeGenerationXMIParamMap;
 
-        /**
+	/**
 	 * A dictionary of various code generators we currently have
 	 * configured for this UML document.
 	 */
-        QDict<CodeGenerator> m_codeGeneratorDictionary;
+	QDict<CodeGenerator> m_codeGeneratorDictionary;
 
 	/**
 	 * Contains all the UMLObject id changes of paste session.
@@ -1024,14 +1029,14 @@ private:
 
 public slots:
 
-       /**
-         * Adds a UMLObject thats already created but doesn't change
-         * any ids or signal.  Used by the list view.  Use
-         * AddUMLObjectPaste if pasting.
-         */
-        void addUMLObject( UMLObject * object );
+	/**
+	 * Adds a UMLObject thats already created but doesn't change
+	 * any ids or signal.  Used by the list view.  Use
+	 * AddUMLObjectPaste if pasting.
+	 */
+	void addUMLObject( UMLObject * object );
 
-        void slotRemoveUMLObject(UMLObject*o);
+	void slotRemoveUMLObject(UMLObject*o);
 
 
 	/**

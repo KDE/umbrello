@@ -6,6 +6,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+#include "umldoc.h"
 #include "umlcanvasobject.h"
 #include "classifier.h"
 #include "association.h"
@@ -16,8 +17,8 @@
 #include <kdebug.h>
 #include <klocale.h>
 
-UMLCanvasObject::UMLCanvasObject(const QString & name, int id) 
-   : UMLObject(name, id) 
+UMLCanvasObject::UMLCanvasObject(const QString & name, int id)
+   : UMLObject(name, id)
 {
 	init();
 }
@@ -118,6 +119,24 @@ bool UMLCanvasObject::operator==(UMLCanvasObject& rhs) {
 		return false;
 	}
 	return true;
+}
+
+void UMLCanvasObject::copyInto(UMLCanvasObject *rhs) const
+{
+	UMLObject::copyInto(rhs);
+
+	// TODO Associations are not copied at the moment. This because
+	// the duplicate function (on umlwidgets) do not copy the associations.
+	//
+	//rhs->m_AssocsList = m_AssocsList;
+}
+
+UMLCanvasObject* UMLCanvasObject::clone() const
+{
+	UMLCanvasObject *clone = new UMLCanvasObject();
+	copyInto(clone);
+
+	return clone;
 }
 
 int UMLCanvasObject::associations() {

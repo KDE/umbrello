@@ -279,6 +279,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
 			insertStdItem(mt_Cut);
 			insertStdItem(mt_Copy);
 			insertStdItem(mt_Paste);
+			insertStdItem(mt_Clone);
 			insertSeparator();
 			insertStdItem(mt_Delete);
 			insertStdItem(mt_Rename);
@@ -324,6 +325,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
 			insertStdItem(mt_Cut);
 			insertStdItem(mt_Copy);
 			insertStdItem(mt_Paste);
+			insertStdItem(mt_Clone);
 			insertSeparator();
 			insertStdItem(mt_Delete);
 			insertStdItem(mt_Rename);
@@ -362,6 +364,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
 			insertStdItem(mt_Cut);
 			insertStdItem(mt_Copy);
 			insertStdItem(mt_Paste);
+			insertStdItem(mt_Clone);
 			insertSeparator();
 			insertStdItem(mt_Delete);
 			insertStdItem(mt_Rename);
@@ -382,6 +385,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
 			insertStdItem(mt_Cut);
 			insertStdItem(mt_Copy);
 			insertStdItem(mt_Paste);
+			insertStdItem(mt_Clone);
 			insertSeparator();
 			insertStdItem(mt_Delete);
 			insertStdItem(mt_Rename);
@@ -398,6 +402,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
 			insertStdItem(mt_Cut);
 			insertStdItem(mt_Copy);
 			insertStdItem(mt_Paste);
+			insertStdItem(mt_Clone);
 			insertSeparator();
 			insertStdItem(mt_Delete);
 			insertStdItem(mt_Rename);
@@ -421,6 +426,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
 			insertStdItem(mt_Cut);
 			insertStdItem(mt_Copy);
 			insertStdItem(mt_Paste);
+			insertStdItem(mt_Clone);
 			insertSeparator();
 			insertStdItem(mt_Delete);
 			insertItem( i18n("Rename Class..."), mt_Rename);
@@ -474,6 +480,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
 			insertStdItem(mt_Cut);
 			insertStdItem(mt_Copy);
 			insertStdItem(mt_Paste);
+			insertStdItem(mt_Clone);
 			insertSeparator();
 			insertStdItem(mt_Delete);
 			if( pState -> getStateType() == StateWidget::Normal ) {
@@ -588,6 +595,9 @@ void ListPopupMenu::insertStdItem(Menu_Type m)
 		break;
 	case mt_Collapse_All:
 		insertItem(i18n("Collapse All"), mt_Collapse_All);
+		break;
+	case mt_Clone:
+		insertItem(i18n("Duplicate"), mt_Clone);
 		break;
 	default:
 		kdWarning() << "ListPopupMenu::insertStdItem called on unimplemented Menu_Type " << m << endl;

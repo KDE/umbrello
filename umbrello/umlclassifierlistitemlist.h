@@ -15,7 +15,29 @@
 // forward declaration
 class UMLClassifierListItem;
 
-typedef QPtrList<UMLClassifierListItem> UMLClassifierListItemList;
+//typedef QPtrList<UMLClassifierListItem> UMLClassifierListItemList;
 typedef QPtrListIterator<UMLClassifierListItem> UMLClassifierListItemListIt;
+
+/**
+ * This sub-class adds copyInto and clone to the QPtrList<UMLClassifierListItem>
+ * base class.
+ */
+class UMLClassifierListItemList : public QPtrList<UMLClassifierListItem>
+{
+
+public:
+
+	/**
+	 * Copy the internal presentation of this object into the new
+	 * object.
+	 */
+	virtual void copyInto (UMLClassifierListItemList *rhs) const;
+
+	/**
+	 * Make a clone of this object.
+	 */
+	virtual UMLClassifierListItemList* clone() const;
+
+};
 
 #endif

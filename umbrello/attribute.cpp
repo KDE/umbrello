@@ -90,14 +90,33 @@ bool UMLAttribute::operator==( UMLAttribute &rhs) {
 	if( !UMLObject::operator==( rhs ) )
 		return false;
 
-	if( m_InitialValue != rhs.m_InitialValue )
-		return false;
-
+	// The type name is the only distinguishing criterion.
+	// (Some programming languages might support more, but others don't.)
 	if( m_TypeName != rhs.m_TypeName )
 		return false;
 
 	return true;
 }
+
+void UMLAttribute::copyInto(UMLAttribute *rhs) const
+{
+	// call the parent first.
+	UMLClassifierListItem::copyInto(rhs);
+
+	// Copy all datamembers
+	rhs->m_TypeName = m_TypeName;
+	rhs->m_InitialValue = m_InitialValue;
+	rhs->m_ParmKind = m_ParmKind;
+}
+
+UMLAttribute* UMLAttribute::clone() const
+{
+	UMLAttribute *clone = new UMLAttribute( (UMLAttribute *)parent() );
+	copyInto(clone);
+
+	return clone;
+}
+
 
 bool UMLAttribute::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement attributeElement = qDoc.createElement( "UML:Attribute" );
@@ -120,3 +139,6 @@ bool UMLAttribute::showPropertiesDialogue(QWidget* parent) {
 	UMLAttributeDialog dialogue(parent, this);
 	return dialogue.exec();
 }
+
+
+

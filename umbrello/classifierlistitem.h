@@ -71,6 +71,19 @@ public:
 	 */
 	virtual QString getShortName();
 
+	/**
+	 * Copy the internal presentation of this object into the new
+	 * object.
+	 */
+	virtual void copyInto(UMLClassifierListItem *rhs) const;
+
+	/**
+	 * Make a clone of this object. This function is abstract
+	 * since it is not possible to realise a clone. It has other abstract
+	 * functions. Underlying classes must implement the clone functionality.
+	 */
+	virtual UMLClassifierListItem* clone() const = 0;
+
 };
 
 #endif

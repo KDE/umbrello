@@ -67,12 +67,15 @@ stereotype.cpp \
 template.cpp \
 textblock.cpp \
 uml.cpp \
+umlattributelist.cpp \
 umlcanvasobject.cpp \
+umlclassifierlistitemlist.cpp \
 umldoc.cpp \
 umllistview.cpp \
 umllistviewitem.cpp \
 umlnamespace.cpp \
 umlobject.cpp \
+umlobjectlist.cpp \
 umlrole.cpp \
 umlview.cpp \
 umlviewcanvas.cpp \

@@ -1,4 +1,3 @@
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -43,6 +42,17 @@ public:
 	UMLClass(const QString & Name = "", int id = -1);
 
 	/**
+	 * Copy the internal presentation of this object into the new
+	 * object.
+	 */
+	virtual void copyInto(UMLClass *rhs) const;
+
+	/**
+	 * Make a clone of this object.
+	 */
+	virtual UMLClass* clone() const;
+
+	/**
 	 * Standard deconstructor.
 	 */
 	virtual ~UMLClass();
@@ -50,12 +60,12 @@ public:
 	/**
 	 * Overloaded '==' operator.
 	 */
-  	bool operator==( UMLClass & rhs );
+	bool operator==( UMLClass & rhs );
 
- 	/**
-  	 * Adds an attribute to the class.
-  	 *
-  	 * @param name		The name of the attribute.
+	/**
+	 * Adds an attribute to the class.
+	 *
+	 * @param name		The name of the attribute.
 	 * @param id		The id of the attribute.
 	 * @return	Pointer to the UMLAttribute created.
 	 */
@@ -64,8 +74,8 @@ public:
 	/**
 	 * Adds an already created attribute.
 	 * The attribute object must not belong to any other concept.
-  	 *
-  	 * @param Att		Pointer to the UMLAttribute.
+	 *
+	 * @param Att		Pointer to the UMLAttribute.
 	 * @param Log		Pointer to the IDChangeLog (optional.)
 	 * @param position	Position index for the insertion (optional.)
 	 *			If the position is omitted, or if it is
@@ -95,10 +105,10 @@ public:
 	 */
 	UMLAttribute* takeAttribute(UMLAttribute* a);
 
- 	/**
-  	 * Adds a template to the class.
-  	 *
-  	 * @param name		The name of the template.
+	/**
+	 * Adds a template to the class.
+	 *
+	 * @param name		The name of the template.
 	 * @param id		The id of the template.
 	 * @return	Pointer to the UMLTemplate object created.
 	 */
@@ -107,8 +117,8 @@ public:
 	/**
 	 * Adds an already created template.
 	 * The template object must not belong to any other concept.
-  	 *
-  	 * @param newTemplate	Pointer to the UMLTemplate object to add.
+	 *
+	 * @param newTemplate	Pointer to the UMLTemplate object to add.
 	 * @param log		Pointer to the IDChangeLog.
 	 * @return	True if the template was sucessfully added.
 	 */

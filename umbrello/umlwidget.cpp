@@ -566,6 +566,13 @@ void UMLWidget::slotMenuSelection(int sel) {
 			{
 				UMLApp::app()->refactor(static_cast<UMLClassifier*>(m_pObject));
 			}
+			break;
+
+		case ListPopupMenu::mt_Clone:
+
+			// In principle we clone all the uml objects.
+			m_pView->addObject(m_pObject->clone());
+			break;
 	}
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////

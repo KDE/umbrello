@@ -24,6 +24,7 @@ UMLClassifier::UMLClassifier(const QString & name, int id)
 	init();
 }
 
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLClassifier::~UMLClassifier() {
 }
@@ -158,8 +159,8 @@ int UMLClassifier::removeStereotype(UMLStereotype * /* stype*/) {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLObjectList UMLClassifier::findChildObject(UMLObject_Type t , QString n) {
-  	UMLObjectList list;
- 	if (t == ot_Association) {
+	UMLObjectList list;
+	if (t == ot_Association) {
 		return UMLCanvasObject::findChildObject(t, n);
 	} else if (t == ot_Operation) {
 		UMLClassifierListItem* obj=0;
@@ -175,7 +176,7 @@ UMLObjectList UMLClassifier::findChildObject(UMLObject_Type t , QString n) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLObject* UMLClassifier::findChildObject(int id) {
-        UMLClassifierListItem * o=0;
+	UMLClassifierListItem * o=0;
 	for(o=m_OpsList.first();o != 0;o=m_OpsList.next()) {
 		if(o->getID() == id)
 			return o;
@@ -249,6 +250,15 @@ bool UMLClassifier::operator==( UMLClassifier & rhs ) {
 	return UMLCanvasObject::operator==(rhs);
 }
 
+
+void UMLClassifier::copyInto(UMLClassifier *rhs) const
+{
+	UMLCanvasObject::copyInto(rhs);
+
+	m_OpsList.copyInto(&(rhs->m_OpsList));
+}
+
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // this perhaps should be in UMLClass/UMLInterface classes instead.
 bool UMLClassifier::acceptAssociationType(Uml::Association_Type type)
@@ -272,11 +282,11 @@ bool UMLClassifier::acceptAssociationType(Uml::Association_Type type)
 }
 
 bool UMLClassifier::hasAbstractOps () {
-        UMLOperationList opl(getFilteredOperationsList());
-        for(UMLOperation *op = opl.first(); op ; op = opl.next())
-                if(op->getAbstract())
-                        return true;
-        return false;
+	UMLOperationList opl(getFilteredOperationsList());
+	for(UMLOperation *op = opl.first(); op ; op = opl.next())
+		if(op->getAbstract())
+			return true;
+	return false;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -327,9 +337,9 @@ void UMLClassifier::init() {
 #ifdef __GNUC__
 #warning "Cheap add/removeOperation fix for slot add/RemoveUMLObject calls. Need long-term solution"
 #endif
-        UMLDoc * parent = UMLApp::app()->getDocument();
-        connect(this,SIGNAL(childObjectAdded(UMLObject *)),parent,SLOT(addUMLObject(UMLObject*)));
-        connect(this,SIGNAL(childObjectRemoved(UMLObject *)),parent,SLOT(slotRemoveUMLObject(UMLObject*)));
+	UMLDoc * parent = UMLApp::app()->getDocument();
+	connect(this,SIGNAL(childObjectAdded(UMLObject *)),parent,SLOT(addUMLObject(UMLObject*)));
+	connect(this,SIGNAL(childObjectRemoved(UMLObject *)),parent,SLOT(slotRemoveUMLObject(UMLObject*)));
 
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -25,6 +25,21 @@ void UMLPackage::init() {
 	m_BaseType = ot_Package;
 }
 
+void UMLPackage::copyInto(UMLPackage *rhs) const
+{
+	UMLCanvasObject::copyInto(rhs);
+
+	m_objects.copyInto(&(rhs->m_objects));
+}
+
+UMLPackage* UMLPackage::clone() const
+{
+	UMLPackage *clone = new UMLPackage();
+	copyInto(clone);
+
+	return clone;
+}
+
 void UMLPackage::addObject(const UMLObject *pObject) {
 	bool alreadyThere = false;
 	int id = pObject->getID();

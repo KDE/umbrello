@@ -48,6 +48,17 @@ public:
 	bool operator==(UMLTemplate &rhs);
 
 	/**
+	 * Copy the internal presentation of this object into the new
+	 * object.
+	 */
+	virtual void copyInto(UMLTemplate *rhs) const;
+
+	/**
+	 * Make a clone of this object.
+	 */
+	virtual UMLTemplate* clone() const;
+
+	/**
 	 * destructor
 	 */
 	virtual ~UMLTemplate();
@@ -80,13 +91,13 @@ public:
 	 * @return	Success status.
 	 */
 	bool showPropertiesDialogue(QWidget* parent);
-	
+
 	/**
 	 * Write the <UML:Template> XMI element.
 	 */
 	bool saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
 
-	/** 
+	/**
 	 * Loads the <UML:Template> XMI element.
 	 */
 	bool loadFromXMI(QDomElement & element);

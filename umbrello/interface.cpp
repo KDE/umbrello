@@ -20,7 +20,7 @@ UMLInterface::UMLInterface(const QString & name, int id)
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLInterface::~UMLInterface() {
-  	m_OpsList.clear();
+	m_OpsList.clear();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool UMLInterface::operator==( UMLInterface & rhs ) {
@@ -29,6 +29,20 @@ bool UMLInterface::operator==( UMLInterface & rhs ) {
 	}
 	return UMLClassifier::operator==(rhs);
 }
+
+void UMLInterface::copyInto(UMLInterface *rhs) const
+{
+	UMLClassifier::copyInto(rhs);
+}
+
+UMLInterface* UMLInterface::clone() const
+{
+	UMLInterface *clone = new UMLInterface();
+	copyInto(clone);
+
+	return clone;
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 QString UMLInterface::uniqChildName(const UMLObject_Type type) {

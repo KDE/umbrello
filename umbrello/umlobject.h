@@ -69,6 +69,17 @@ public:
 	virtual ~UMLObject();
 
 	/**
+	 * Copy the internal presentation of this object into the new
+	 * object.
+	 */
+	virtual void copyInto(UMLObject *rhs) const;
+
+	/**
+	 * Make a clone of this object.
+	 */
+	virtual UMLObject* clone() const;
+
+	/**
 	 * Returns the type of the object.
 	 *
 	 * @return	Returns the type of the object.

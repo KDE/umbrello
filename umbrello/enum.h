@@ -51,6 +51,17 @@ public:
   	bool operator==(UMLEnum& rhs);
 
 	/**
+	 * Copy the internal presentation of this object into the new
+	 * object.
+	 */
+	virtual void copyInto(UMLEnum *rhs) const;
+
+	/**
+	 * Make a clone of this object.
+	 */
+	virtual UMLEnum* clone() const;
+
+	/**
 	 * Returns a name for the new enumliteral
 	 * appended with a number if the default name is
 	 * taken e.g. new_literal, new_literal_1 etc

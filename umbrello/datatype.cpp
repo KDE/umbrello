@@ -24,6 +24,22 @@ UMLDatatype::~UMLDatatype() {
 bool UMLDatatype::operator==(UMLDatatype& rhs) {
 	return UMLClassifier::operator==(rhs);
 }
+
+void UMLDatatype::copyInto(UMLDatatype *rhs) const
+{
+	UMLClassifier::copyInto(rhs);
+}
+
+UMLDatatype* UMLDatatype::clone() const
+{
+	UMLDatatype *clone = new UMLDatatype();
+	copyInto(clone);
+
+	return clone;
+}
+
+
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 QString UMLDatatype::uniqChildName(UMLObject_Type type) {
 	return UMLCanvasObject::uniqChildName(type);

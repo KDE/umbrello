@@ -47,7 +47,19 @@ public:
 	 * Overloaded '==' operator.
 	 */
   	bool operator==(UMLInterface& rhs);
-  
+
+	/**
+	 * Copy the internal presentation of this object into the new
+	 * object.
+	 */
+	virtual void copyInto(UMLInterface *rhs) const;
+
+	/**
+	 * Make a clone of this object.
+	 */
+	virtual UMLInterface* clone() const;
+
+
 	/**
 	 * Returns a name for the new association, operation, template
 	 * or attribute appended with a number if the default name is
@@ -69,4 +81,4 @@ protected:
 	virtual void init();
 };
 
-#endif // INTERFACE_H 
+#endif // INTERFACE_H

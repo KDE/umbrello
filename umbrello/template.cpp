@@ -54,6 +54,23 @@ bool UMLTemplate::operator==(UMLTemplate &rhs) {
 	return true;
 }
 
+void UMLTemplate::copyInto(UMLTemplate *rhs) const
+{
+	UMLClassifierListItem::copyInto(rhs);
+
+	rhs->m_TypeName = m_TypeName;
+}
+
+UMLTemplate* UMLTemplate::clone() const
+{
+	UMLTemplate *clone = new UMLTemplate( (UMLTemplate*) parent());
+	copyInto(clone);
+
+	return clone;
+}
+
+
+
 bool UMLTemplate::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
 	QDomElement attributeElement = qDoc.createElement("template");
 	bool status = UMLObject::saveToXMI(qDoc, attributeElement);

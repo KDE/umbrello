@@ -45,8 +45,19 @@ public:
 	/**
 	 * Overloaded '==' operator.
 	 */
-  	bool operator==(UMLDatatype& rhs);
-  
+	bool operator==(UMLDatatype& rhs);
+
+	/**
+	 * Copy the internal presentation of this object into the new
+	 * object.
+	 */
+	virtual void copyInto(UMLDatatype *rhs) const;
+
+	/**
+	 * Make a clone of this object.
+	 */
+	virtual UMLDatatype* clone() const;
+
 	/**
 	 * Empty, just calls parent method
 	 */
@@ -74,7 +85,7 @@ protected:
 	/**
 	 * Initializes key variables of the class.
 	 */
-	virtual void init(); // doesnt seem to be any reason for this to be public 
+	virtual void init(); // doesnt seem to be any reason for this to be public
 };
 
-#endif // DATATYPE_H 
+#endif // DATATYPE_H

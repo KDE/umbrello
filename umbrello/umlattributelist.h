@@ -15,7 +15,28 @@
 // forward declaration
 class UMLAttribute;
 
-typedef QPtrList<UMLAttribute> UMLAttributeList;
+//typedef QPtrList<UMLAttribute> UMLAttributeList;
 typedef QPtrListIterator<UMLAttribute> UMLAttributeListIt;
+
+/**
+ * This sub-class adds copyInto and clone to the QPtrList<UMLAttribute>
+ * base class.
+ */
+class UMLAttributeList : public QPtrList<UMLAttribute>
+{
+	public:
+
+	/**
+	 * Copy the internal presentation of this object into the new
+	 * object.
+	 */
+	virtual void copyInto (UMLAttributeList *rhs) const;
+
+	/**
+	 * Make a clone of this object.
+	 */
+	virtual UMLAttributeList* clone() const;
+};
+
 
 #endif

@@ -69,7 +69,7 @@ public:
 	 */
 	~UMLView();
 
-        // Accessors and other methods dealing with loaded/saved data
+	// Accessors and other methods dealing with loaded/saved data
 
 	/**
 	 * Return the documentation of the diagram.
@@ -317,7 +317,7 @@ public:
 		return m_MessageList;
 	}
 
-        // End of accessors and methods that only deal with loaded/saved data
+	// End of accessors and methods that only deal with loaded/saved data
 	////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -822,6 +822,11 @@ public:
 	 */
 	UMLWidget* loadWidgetFromXMI(QDomElement& widgetElement);
 
+	/**
+	 * Add an object to the application, and update the view.
+	 */
+	void addObject(UMLObject *object);
+
 protected:
 
 	// Methods and members related to loading/saving
@@ -948,7 +953,7 @@ protected:
 	 * Adds an AssociationWidget to the association list
 	 * and creates the corresponding UMLAssociation in the current UMLDoc.
 	 */
-        void addAssocInViewAndDoc(AssociationWidget* assoc);
+	void addAssocInViewAndDoc(AssociationWidget* assoc);
 
 	/**
 	 * Initializes key variables.
@@ -1000,10 +1005,10 @@ protected:
 
 	/**
 	 * Calls setSelected on the given UMLWidget and enters
-         * it into the m_SelectedList while making sure it is
-         * there only once.
+	 * it into the m_SelectedList while making sure it is
+	 * there only once.
 	 */
-        void makeSelected (UMLWidget * uw);
+	void makeSelected (UMLWidget * uw);
 
 	/**
 	 * Updates the size of all components in this view.

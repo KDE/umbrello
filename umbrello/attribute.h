@@ -55,6 +55,17 @@ public:
 	virtual ~UMLAttribute();
 
 	/**
+	 * Copy the internal presentation of this object into the UMLAttribute
+	 * object.
+	 */
+	virtual void copyInto(UMLAttribute *rhs) const;
+
+	/**
+	 * Make a clone of the UMLAttribute.
+	 */
+	virtual UMLAttribute* clone() const;
+
+	/**
 	 * Returns the type of the UMLAttribute.
 	 *
 	 * @return	The type of the UMLAttribute.
@@ -68,19 +79,19 @@ public:
 	 */
 	QString getInitialValue();
 
-       /**
-         * Sets the type of the UMLAttribute.
-         *
-         * @param type		The type of the UMLAttribute.
-         */
-        void setTypeName(QString type);
+	/**
+	 * Sets the type of the UMLAttribute.
+	 *
+	 * @param type		The type of the UMLAttribute.
+	 */
+	void setTypeName(QString type);
 
-        /**
-         * Sets the initial value of the UMLAttribute.
-         *
-         * @param iv		The inital value of the UMLAttribute.
-         */
-        void setInitialValue(QString iv);
+	/**
+	 * Sets the initial value of the UMLAttribute.
+	 *
+	 * @param iv		The inital value of the UMLAttribute.
+	 */
+	void setInitialValue(QString iv);
 
 	/**
 	 * Returns a string representation of the UMLAttribute.

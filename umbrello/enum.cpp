@@ -19,7 +19,7 @@ UMLEnum::UMLEnum(const QString& name, int id) : UMLClassifier(name, id) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLEnum::~UMLEnum() {
-  	m_EnumLiteralList.clear();
+	m_EnumLiteralList.clear();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool UMLEnum::operator==( UMLEnum & rhs ) {
@@ -28,6 +28,23 @@ bool UMLEnum::operator==( UMLEnum & rhs ) {
 	}
 	return UMLClassifier::operator==(rhs);
 }
+
+void UMLEnum::copyInto(UMLEnum *rhs) const
+{
+	UMLClassifier::copyInto(rhs);
+
+	m_EnumLiteralList.copyInto(&(rhs->m_EnumLiteralList));
+}
+
+UMLEnum* UMLEnum::clone() const
+{
+	UMLEnum *clone = new UMLEnum();
+	copyInto(clone);
+
+	return clone;
+}
+
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 QString UMLEnum::uniqChildName(UMLObject_Type type) {
 	QString currentName;
@@ -103,8 +120,8 @@ void UMLEnum::init() {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLObject* UMLEnum::addEnumLiteral(QString name, int id) {
-  	UMLEnumLiteral* literal = new UMLEnumLiteral(this, name, id);
-  	m_EnumLiteralList.append(literal);
+	UMLEnumLiteral* literal = new UMLEnumLiteral(this, name, id);
+	m_EnumLiteralList.append(literal);
 	emit modified();
 	connect(literal,SIGNAL(modified()),this,SIGNAL(modified()));
 	emit enumLiteralAdded(literal);
@@ -191,16 +208,16 @@ bool UMLEnum::addStereotype(UMLStereotype* newStereotype, UMLObject_Type list, I
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLObjectList UMLEnum::findChildObject(UMLObject_Type t, QString n) {
-  	UMLObjectList list;
- 	if (t == ot_Association) {
+	UMLObjectList list;
+	if (t == ot_Association) {
 		return UMLClassifier::findChildObject(t, n);
- 	} else if (t == ot_EnumLiteral || t == ot_Stereotype) {
-  		UMLClassifierListItem * obj=0;
-  		for(obj=m_EnumLiteralList.first();obj != 0;obj=m_EnumLiteralList.next()) {
-  			if(obj->getBaseType() == t && obj -> getName() == n)
+	} else if (t == ot_EnumLiteral || t == ot_Stereotype) {
+		UMLClassifierListItem * obj=0;
+		for(obj=m_EnumLiteralList.first();obj != 0;obj=m_EnumLiteralList.next()) {
+			if(obj->getBaseType() == t && obj -> getName() == n)
 				list.append( obj );
 		}
- 	} else {
+	} else {
 		kdWarning() << "finding child object of unknown type" <<t<<" (requested name = "<<n<<")"<<endl;
 	}
 

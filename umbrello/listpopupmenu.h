@@ -156,11 +156,12 @@ public:
 	    mt_Down,
 	    mt_Branch,
 
-			mt_Expand_All,                     //Expand all items in the list
-			mt_Collapse_All,                   //Collapse all items in the list
-			
+		mt_Expand_All,                     //Expand all items in the list
+		mt_Collapse_All,                   //Collapse all items in the list
+
 		mt_Refactoring,
-		mt_ViewCode, // view code document contents 
+		mt_ViewCode, // view code document contents
+		mt_Clone, // Create a deep copy of the object.
 
 	    mt_Undefined  =  - 1
 	};

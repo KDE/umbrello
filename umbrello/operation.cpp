@@ -17,8 +17,8 @@
 #include "umldoc.h"
 #include "dialogs/umloperationdialog.h"
 
-UMLOperation::UMLOperation(UMLClassifier *parent, QString Name, int id, Scope s, QString rt) 
-    : UMLClassifierListItem((UMLObject*)parent,Name, id) 
+UMLOperation::UMLOperation(UMLClassifier *parent, QString Name, int id, Scope s, QString rt)
+    : UMLClassifierListItem((UMLObject*)parent,Name, id)
 {
 	m_ReturnType = rt;
 	m_Scope = s;
@@ -27,8 +27,8 @@ UMLOperation::UMLOperation(UMLClassifier *parent, QString Name, int id, Scope s,
 	m_List.setAutoDelete(false);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLOperation::UMLOperation(UMLClassifier * parent) 
-    : UMLClassifierListItem ((UMLObject*) parent) 
+UMLOperation::UMLOperation(UMLClassifier * parent)
+    : UMLClassifierListItem ((UMLObject*) parent)
 {
 	m_ReturnType = "";
 	m_BaseType = ot_Operation;
@@ -146,6 +146,24 @@ bool UMLOperation::operator==( UMLOperation & rhs ) {
 	return true;
 }
 
+void UMLOperation::copyInto(UMLOperation *rhs) const
+{
+	UMLClassifierListItem::copyInto(rhs);
+
+	rhs->m_ReturnType = m_ReturnType;
+	m_List.copyInto(&(rhs->m_List));
+}
+
+UMLOperation* UMLOperation::clone() const
+{
+	// TODO Why is this a UMLClassifier?
+	UMLOperation *clone = new UMLOperation( (UMLClassifier *) parent());
+	copyInto(clone);
+
+	return clone;
+}
+
+
 bool UMLOperation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement operationElement = qDoc.createElement( "UML:Operation" );
 	bool status = UMLObject::saveToXMI( qDoc, operationElement );
@@ -206,20 +224,21 @@ bool UMLOperation::loadFromXMI( QDomElement & element ) {
 }
 
 bool UMLOperation::isConstructorOperation ( ) const {
-        UMLClassifier * c = dynamic_cast<UMLClassifier*>(this->parent());
+	UMLClassifier * c = dynamic_cast<UMLClassifier*>(this->parent());
 
-        QString cName = c->getName();
-        QString opName = getName();
-        QString opReturn = getReturnType();
+	QString cName = c->getName();
+	QString opName = getName();
+	QString opReturn = getReturnType();
 
-        // its a constructor operation if the operation name and return type
-        // match that of the parent classifier
-        return (cName == opName && cName == opReturn) ? true : false;
+	// its a constructor operation if the operation name and return type
+	// match that of the parent classifier
+	return (cName == opName && cName == opReturn) ? true : false;
 }
 
 bool UMLOperation::showPropertiesDialogue(QWidget* parent) {
 	UMLOperationDialog dialogue(parent, this);
 	return dialogue.exec();
 }
+
 
 #include "operation.moc"

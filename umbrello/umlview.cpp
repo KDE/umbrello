@@ -1942,7 +1942,7 @@ void UMLView::addAssocInViewAndDoc(AssociationWidget* a) {
 	{
 		// if view went ok, then append in document
 		getDocument() -> addAssociation (a->getAssociation());
-	} else { 
+	} else {
 		kdError() << "cannot addAssocInViewAndDoc(), deleting" << endl;
 		delete a;
 	}
@@ -3509,6 +3509,12 @@ bool UMLView::loadAssociationsFromXMI( QDomElement & qElement ) {
 		assocElement = node.toElement();
 	}
 	return true;
+}
+
+void UMLView::addObject(UMLObject *object)
+{
+	m_bCreateObject = true;
+	m_pDoc->addObject(object);
 }
 
 
