@@ -801,8 +801,8 @@ void UMLView::removeWidget(UMLWidget * o) {
 		m_MessageList.remove(static_cast<MessageWidget*>(o));
 	else
 		m_WidgetList.remove(o);
-	delete o;
 	m_pDoc->setModified();
+	delete o;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLView::setFillColor(QColor color) {
