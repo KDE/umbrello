@@ -215,6 +215,18 @@ void MessageWidget::setTextPosition() {
 	m_pFText->setLinePos(getX() + 5, getY() - m_pFText->getHeight());
 }
 
+void MessageWidget::updateMessagePos(int textHeight, int& newX, int& newY) {
+	newX = getX() + 5;
+	int minHeight = getMinHeight();
+	if (newY < minHeight)
+		newY = minHeight;
+	int maxHeight = getMaxHeight() - textHeight - 5;
+	if (newY > maxHeight)
+		newY = maxHeight;
+	setX( newX - 5 );  // what good is this? coordinate remains the same
+	setY( newY + textHeight );
+}
+
 void MessageWidget::moveEvent(QMoveEvent* /*m*/) {
 	if (!m_pFText) {
 		return;

@@ -187,6 +187,12 @@ public:
 	void setTextPosition();
 
 	/**
+	 * Updates the message widget X and Y corrdinates based on
+	 * the given height of a floating text.
+	 */
+	void updateMessagePos(int textHeight, int& newX, int& newY);
+
+	/**
 	 * Used to cleanup any other widget it may need to delete.
 	 */
 	void cleanup();

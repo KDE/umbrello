@@ -139,13 +139,14 @@ void FloatingText::slotMenuSelection(int sel) {
 		break;
 
 	case ListPopupMenu::mt_Delete_Message:
+	{
 		if (m_pLink == NULL)
 			return;
-		if (dynamic_cast<AssociationWidget*>(m_pLink)) {
+		AssociationWidget *a = dynamic_cast<AssociationWidget*>(m_pLink);
+		if (a) {
 			if(m_pView -> getType() != dt_Collaboration)
 				return;
 			//here to delete assoc. on collab diagram.
-			AssociationWidget *a = static_cast<AssociationWidget*>(m_pLink);
 			m_pView->removeAssoc( a );
 		} else {
 			//here to delete this from a seq. diagram.
@@ -153,6 +154,7 @@ void FloatingText::slotMenuSelection(int sel) {
 			m_pView->removeWidget( m );
 		}
 		break;
+	}
 
 	case ListPopupMenu::mt_Operation:
 		{
@@ -268,8 +270,8 @@ void FloatingText::handleRename() {
 }
 
 void FloatingText::setText(QString t) {
-	MessageWidget *m = dynamic_cast<MessageWidget*>(m_pLink);
-	if (m) {
+	if (m_Role == tr_Seq_Message || m_Role == tr_Seq_Message_Self) {
+		MessageWidget *m = static_cast<MessageWidget*>(m_pLink);
 		QString seqNum = m->getSequenceNumber();
 		QString op = m->getOperation();
 		if (seqNum.length() > 0 || op.length() > 0)
@@ -312,20 +314,16 @@ void FloatingText::changeTextDlg() {
 void FloatingText::mouseDoubleClickEvent(QMouseEvent * /* me*/) {
 	if(m_pView -> getCurrentCursor() != WorkToolBar::tbb_Arrow)
 		return;
-	AssociationWidget *a = dynamic_cast<AssociationWidget*>(m_pLink);
-	if (a) {
-		if(m_Role == tr_Coll_Message || m_Role == tr_Coll_Message_Self) {
-			showOpDlg();
-		} else {
-			a->showDialog();
-		} //end if m_Role
-	} else if (m_Role == tr_Seq_Message || m_Role == tr_Seq_Message_Self) {
-		//if on a seq. diagram the assoc widget won't be set
-		//but we still need to show the op. dialog
+	if (m_Role == tr_Coll_Message || m_Role == tr_Coll_Message_Self ||
+	    m_Role == tr_Seq_Message || m_Role == tr_Seq_Message_Self) {
 		showOpDlg();
 	} else if (m_Role == tr_Floating) {
 		// double clicking on a text line opens the dialog to change the text
 		handleRename();
+	} else {
+		AssociationWidget *a = dynamic_cast<AssociationWidget*>(m_pLink);
+		if (a)
+			a->showDialog();
 	}
 }
 
@@ -372,15 +370,7 @@ void FloatingText::mouseMoveEvent(QMouseEvent* me) {
 		//implement specific rules for a sequence diagram
 		if( m_Role == tr_Seq_Message || m_Role == tr_Seq_Message_Self) {
 			MessageWidget *m = static_cast<MessageWidget*>(m_pLink);
-			newX = m->getX() + 5;
-			int minHeight = m->getMinHeight();
-			if (newY < minHeight)
-				newY = minHeight;
-			int maxHeight = m->getMaxHeight() - height() - 5;
-			if (newY > maxHeight)
-				newY = maxHeight;
-			m->setX( newX - 5 );
-			m->setY( newY + height() );
+			m->updateMessagePos(getHeight(), newX, newY);
 		}
 		m_nOldX = newX;
 		m_nOldY = newY;
@@ -512,9 +502,9 @@ void FloatingText::setSelected(bool _select) {
 		return;
 	}
 	UMLWidget::setSelected( _select );
-	MessageWidget *m = dynamic_cast<MessageWidget*>(m_pLink);
-	if (m == NULL)
+	if (m_Role != tr_Seq_Message && m_Role != tr_Seq_Message_Self)
 		return;
+	MessageWidget *m = static_cast<MessageWidget*>(m_pLink);
 	if (m_bSelected && m->getSelected())
 		return;
 	if (!m_bSelected && !m->getSelected())
