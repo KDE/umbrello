@@ -2467,7 +2467,6 @@ void UMLView::createAutoAttributeAssociations(UMLWidget *widget) {
 	UMLObject *tmpUmlObj = widget->getUMLObject();
 	if (tmpUmlObj == NULL)
 		return;
-	Uml::Association_Type assocType = Uml::at_Composition;
 	// if the underlying model object is really a UMLClass then
 	if (tmpUmlObj->getBaseType() == Uml::ot_Datatype) {
 		UMLDatatype *dt = static_cast<UMLDatatype*>(tmpUmlObj);
@@ -2492,6 +2491,7 @@ void UMLView::createAutoAttributeAssociations(UMLWidget *widget) {
 				  << "attribute " << attr->getName() << endl;
 			continue;
 		}
+		Uml::Association_Type assocType = Uml::at_Composition;
 		UMLWidget *w = findWidget( attrType->getID() );
 		// if the attribute type has a widget representation on this view
 		if (w &&
@@ -2499,14 +2499,18 @@ void UMLView::createAutoAttributeAssociations(UMLWidget *widget) {
 		    findAssocWidget(assocType, widget, w) == NULL &&
 		    // if the current diagram type permits compositions
 		    AssocRules::allowAssociation(assocType, widget, w, false)) {
-			// create a composition AssocWidget
+			// Create a composition AssocWidget, or, if the attribute type is
+			// stereotyped <<CORBAInterface>>, create a UniAssociation widget.
+			if (attrType->getStereotype(false) == "CORBAInterface")
+				assocType = at_UniAssociation;
 			AssociationWidget *a = new AssociationWidget (this, widget, assocType, w);
 			a->setUMLObject(attr);
 			a->calculateEndingPoints();
 			a->setVisibility(attr->getScope(), B);
-			//a->setChangeability(true, B);
-			if (assocType == at_Aggregation)
+			/*
+			if (assocType == at_Aggregation || assocType == at_UniAssociation)
 				a->setMulti("0..1", B);
+			 */
 			a->setRoleName(attr->getName(), B);
 			a->setActivated(true);
 			if (! addAssociation(a))
