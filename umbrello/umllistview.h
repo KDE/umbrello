@@ -209,7 +209,7 @@ class UMLListView : public KListView {
 	UMLListViewItem* componentView;//component view item
 	UMLListViewItem* deploymentView;//deployment view item
 	UMLListViewItem* diagramFolder;
-	ListPopupMenu * menu;
+	ListPopupMenu * m_pMenu;
 	QString oldText, message;
 	UMLDoc *m_doc;
 	bool loading, m_bStartedCut, m_bIgnoreCancelRename;

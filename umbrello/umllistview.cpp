@@ -43,7 +43,7 @@
 
 //using Umbrello::Diagram;
 
-UMLListView::UMLListView(QWidget *parent,const char *name) : KListView(parent,name), menu(0) {
+UMLListView::UMLListView(QWidget *parent,const char *name) : KListView(parent,name), m_pMenu(0) {
 	loadPixmaps();
 
 	//setup list view
@@ -143,16 +143,16 @@ void UMLListView::contentsMousePressEvent(QMouseEvent *me) {
 	}//end switch
 	if(me->button() == RightButton) {
 		//setSelected( item, true);
-		if(menu != 0) {
-			menu->hide();
-			disconnect(menu, SIGNAL(activated(int)), this, SLOT(popupMenuSel(int)));
-			delete menu;
-			menu = 0;
+		if(m_pMenu != 0) {
+			m_pMenu->hide();
+			disconnect(m_pMenu, SIGNAL(activated(int)), this, SLOT(popupMenuSel(int)));
+			delete m_pMenu;
+			m_pMenu = 0;
 		}
 
-		menu = new ListPopupMenu(this, type);
-		menu->popup(me->globalPos());
-		connect(menu, SIGNAL(activated(int)), this, SLOT(popupMenuSel(int)));
+		m_pMenu = new ListPopupMenu(this, type);
+		m_pMenu->popup(me->globalPos());
+		connect(m_pMenu, SIGNAL(activated(int)), this, SLOT(popupMenuSel(int)));
 	}//end if right button
 
 	/*
@@ -365,7 +365,7 @@ void UMLListView::popupMenuSel(int sel) {
 	}//end switch
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void UMLListView::diagramCreated(Diagram* d) {
+void UMLListView::diagramCreated(Diagram* /* d */) {
 //Uncomment for using Luis diagram display code
 //	new UMLListViewItem( diagramFolder, d->name(),
 //			     convert_DT_LVT((Uml::Diagram_Type)d->diagramType()), d->getID() );
@@ -743,8 +743,8 @@ void UMLListView::init() {
 	deploymentView->setOpen(true);
 
 	//setup misc.
-	delete menu;
-	menu = 0;
+	delete m_pMenu;
+	m_pMenu = 0;
 	m_bStartedCut = false;
 	loading = false;
 	m_bIgnoreCancelRename = true;
