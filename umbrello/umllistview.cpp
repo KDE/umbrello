@@ -130,27 +130,27 @@ void UMLListView::popupMenuSel(int sel) {
 
 	switch(sel) {
 		case ListPopupMenu::mt_Activity_Diagram:
-			addNewItem( temp, Uml::lvt_Activity_Diagram );
+			doc->createDiagram(dt_Activity);
 			break;
 
 		case ListPopupMenu::mt_UseCase_Diagram:
-			addNewItem( temp, Uml::lvt_UseCase_Diagram );
+			doc->createDiagram(dt_UseCase);
 			break;
 
 		case ListPopupMenu::mt_Sequence_Diagram:
-			addNewItem( temp, Uml::lvt_Sequence_Diagram );
+			doc->createDiagram(dt_Sequence);
 			break;
 
 		case ListPopupMenu::mt_Collaboration_Diagram:
-			addNewItem( temp, Uml::lvt_Collaboration_Diagram );
+			doc->createDiagram(dt_Collaboration);
 			break;
 
 		case ListPopupMenu::mt_Class_Diagram:
-			addNewItem( temp, Uml::lvt_Class_Diagram );
+			doc->createDiagram(dt_Class);
 			break;
 
 		case ListPopupMenu::mt_State_Diagram:
-			addNewItem( temp, Uml::lvt_State_Diagram );
+			doc->createDiagram(dt_State);
 			break;
 
 		case ListPopupMenu::mt_Concept:
