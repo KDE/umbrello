@@ -1,6 +1,6 @@
 noinst_LTLIBRARIES = libcodegenerator.la
 
-INCLUDES = -I../dialogs $(all_includes)
+INCLUDES = -I../dialogs -I$(top_srcdir)/umbrello/umbrello/dialogs $(all_includes)
 
 libcodegenerator_la_LDFLAGS = $(all_libraries)
 libcodegenerator_la_METASOURCES = AUTO
