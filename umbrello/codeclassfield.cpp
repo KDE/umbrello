@@ -53,7 +53,7 @@ CodeClassField::~CodeClassField ( ) {
 	for(CodeAccessorMethod * m = list.first(); m ; m=list.next())
 	{
 		removeMethod(m);
-		//delete m; // no..will be deleted by the owning hcodeblock/codedoc 
+		m->release(); 
 	}
 	list.clear();
 
@@ -61,7 +61,7 @@ CodeClassField::~CodeClassField ( ) {
 	if(m_declCodeBlock)
 	{
 		getParentDocument()->removeTextBlock(m_declCodeBlock);
-		//delete m_declCodeBlock; // no..will be deleted by the owning hcodeblock/codedoc 
+		m_declCodeBlock->release(); 
 	}
 
 }

@@ -34,6 +34,7 @@ class CodeClassField;
 
 class CodeClassFieldDeclarationBlock : public CodeBlockWithComments, public OwnedCodeBlock 
 {
+        friend class CodeClassField;
 	Q_OBJECT
 public:
 

@@ -29,6 +29,7 @@ class UMLRole;
 
 class CodeAccessorMethod : public CodeMethodBlock
 {
+        friend class CodeClassField;
 	Q_OBJECT
 public:
 
