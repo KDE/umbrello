@@ -12,9 +12,6 @@
             <height>680</height>
         </rect>
     </property>
-    <property name="caption">
-        <string>CPPCodeGenerationFormBase</string>
-    </property>
     <grid>
         <property name="name">
             <cstring>unnamed</cstring>

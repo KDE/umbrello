@@ -12,9 +12,6 @@
             <height>545</height>
         </rect>
     </property>
-    <property name="caption">
-        <string>CodeViewerOptionsBase</string>
-    </property>
     <grid>
         <property name="name">
             <cstring>unnamed</cstring>
