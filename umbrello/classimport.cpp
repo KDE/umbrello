@@ -26,11 +26,11 @@
 
 class CppDriver : public Driver {
 public:
-	// The class Driver is just fine, except that we want to
-	// switch on comments:
 	void setupLexer(Lexer* lexer) {
 		Driver::setupLexer(lexer);
+	/**** Activate this code when ast.h has a NodeType_Comment:
 		lexer->setRecordComments(true);
+         ****/
 	}
 };
 
