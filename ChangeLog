@@ -13,8 +13,8 @@ Version 1.3
 
 * New association type: Containment (circle-plus.)
 
-* Operation parameters have a 'kind' which documents whether they are
-  input or return values (in, out, inout.)
+* Operation parameters have a 'direction' which documents whether
+  they are input or return values (in, out, inout.)
   The IDL and Ada generators use this in their generated code.
 
 * Ability to show only public methods/members in diagram.
