@@ -1930,7 +1930,11 @@ void UMLView::removeAssoc(AssociationWidget* pAssoc) {
 	if(!pAssoc)
 		return;
 	if( pAssoc == m_pMoveAssoc ) {
-		UMLApp::app() -> getDocWindow() -> updateDocumentation( true );
+		//UMLApp::app() -> getDocWindow() -> updateDocumentation( true );
+		// The above line crashes (bugs.kde.org/89860)
+		// The following line is the hotfix. Detailed analysis is To Be Done:
+		UMLApp::app() -> getDocWindow() -> newDocumentation();
+
 		m_pMoveAssoc = 0;
 	}
 	// Remove the association in this view.
