@@ -20,7 +20,7 @@
 
 // local includes
 #include "../association.h"
-#include "dialog_utils.h"
+#include "../dialog_utils.h"
 
 AssocGenPage::AssocGenPage (UMLDoc *d, QWidget *parent, AssociationWidget *assoc)
 	: QWidget(parent)

@@ -25,7 +25,7 @@
 //local includes
 #include "../umlview.h"
 #include "../statewidget.h"
-#include "dialog_utils.h"
+#include "../dialog_utils.h"
 
 StateDialog::StateDialog( UMLView * pView, StateWidget * pWidget )
   : KDialogBase(IconList, i18n("Properties"), Ok | Apply | Cancel | Help, Ok, pView, "_STATEDIALOG_", true, true) {

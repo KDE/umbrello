@@ -21,7 +21,7 @@
 // app includes
 #include "codegenerationoptionspage.h"
 #include "codevieweroptionspage.h"
-#include "dialog_utils.h"
+#include "../dialog_utils.h"
 
 SettingsDlg::SettingsDlg( QWidget * parent, Settings::OptionState *state,
 			  QString activeLanguage, CodeGenerator * gen)

@@ -32,7 +32,7 @@
 #include "../classifier.h"
 #include "../umldoc.h"
 #include "../uml.h"
-#include "dialog_utils.h"
+#include "../dialog_utils.h"
 
 UMLAttributeDialog::UMLAttributeDialog( QWidget * pParent, UMLAttribute * pAttribute )
   : KDialogBase( Plain, i18n("Attribute Properties"), Help | Ok | Cancel , Ok, pParent, "_UMLATTRIBUTEDLG_", true, true) {

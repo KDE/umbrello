@@ -6,22 +6,27 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include <qevent.h>
 
+// own header
 #include "toolbarstateother.h"
+
+// qt/kde includes
+#include <qstring.h>
+#include <qevent.h>
+#include <klocale.h>
+#include <kdebug.h>
+
+// app includes
+#include "inputdialog.h"
+#include "dialog_utils.h"
+#include "uml.h"
 #include "umlview.h"
 #include "umldoc.h"
-#include <qstring.h>
-
 #include "notewidget.h"
 #include "boxwidget.h"
 #include "floatingtext.h"
 #include "activitywidget.h"
 #include "statewidget.h"
-
-#include <klocale.h>
-#include "inputdialog.h"
-#include "uml.h"
 
 using namespace Uml;
 
@@ -116,11 +121,18 @@ bool ToolBarStateOther::newWidget()
 
 	// Special treatment for some buttons
 	if (getButton() == WorkToolBar::tbb_Activity)
-		activityWidgetSetup(umlWidget);
+		Umbrello::askNameForWidget(
+			umlWidget, i18n("Enter Activity Name"), 
+			i18n("Enter the name of the new activity:"), i18n("new activity") );
 	else if (getButton() == WorkToolBar::tbb_State )
-		stateWidgetSetup(umlWidget);
-	else if (getButton() == WorkToolBar::tbb_Text)
-		floatingTextSetup(umlWidget);
+		Umbrello::askNameForWidget(
+			umlWidget, i18n("Enter State Name"), 
+			i18n("Enter the name of the new state:"), i18n("new state") );
+	else if (getButton() == WorkToolBar::tbb_Text) {
+		// It is pretty invisible otherwise.
+		FloatingText* ft = (FloatingText*) umlWidget;
+		ft->changeTextDlg();
+	}
 
 	// Create the widget. Some setup functions can remove the widget.
 	if (umlWidget != NULL)
@@ -129,63 +141,9 @@ bool ToolBarStateOther::newWidget()
 	return true;
 }
 
-void ToolBarStateOther::floatingTextSetup(UMLWidget* umlWidget)
-{
-	// It is pretty invisible otherwise.
-	FloatingText* ft = (FloatingText*) umlWidget;
-	ft->changeTextDlg();
-}
-
-void ToolBarStateOther::activityWidgetSetup(UMLWidget* umlWidget)
-{
-	// TODO: Need a factory or something. Now, everytime we need to define
-	// explicitly the input dialogs.
-
-	ActivityWidget* activityWidget = (ActivityWidget*) umlWidget;
-
-	bool ok = false;
-	QString name = KInputDialog::getText( i18n("Enter Activity Name"),
-						  i18n("Enter the name of the new activity:"),
-						  i18n("new activity"), &ok, UMLApp::app() );
-
-	if( !ok )
-	{
-		activityWidget->cleanup();
-		delete activityWidget;
-		umlWidget = NULL;
-	}
-	else
-	{
-		activityWidget->setName( name );
-	}
-}
-
-void ToolBarStateOther::stateWidgetSetup(UMLWidget* umlWidget)
-{
-	// TODO: Looks pretty much like the activityWidget function.
-
-	StateWidget* stateWidget = (StateWidget*) umlWidget;
-
-	bool ok = false;
-	QString name = KInputDialog::getText( i18n("Enter State Name"),
-						  i18n("Enter the name of the new state:"),
-						  i18n("new state"), &ok, UMLApp::app() );
-
-	if( !ok )
-	{
-		stateWidget->cleanup();
-		delete stateWidget;
-		umlWidget = NULL;
-	}
-	else
-	{
-		stateWidget->setName( name );
-	}
-}
 void ToolBarStateOther::mousePress(QMouseEvent* ome)
 {
 	ToolBarStatePool::mousePress(ome);
-
 }
 
 void ToolBarStateOther::mouseRelease(QMouseEvent* ome)
@@ -194,7 +152,7 @@ void ToolBarStateOther::mouseRelease(QMouseEvent* ome)
 
 	if (ome->state() == QMouseEvent::LeftButton)
 	{
-		if (!newWidget()) // Try, Note, Box, Floating text.
+		if (!newWidget()) 
 		{
 			// Is UMLObject?
 

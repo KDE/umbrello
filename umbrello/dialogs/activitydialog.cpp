@@ -20,7 +20,7 @@
 //local includes
 #include "../umlview.h"
 #include "../activitywidget.h"
-#include "dialog_utils.h"
+#include "../dialog_utils.h"
 
 ActivityDialog::ActivityDialog( UMLView * pView, ActivityWidget * pWidget )
   : KDialogBase(IconList, i18n("Properties"), Ok | Apply | Cancel | Help, Ok, pView, "_STATEDIALOG_", true, true) {

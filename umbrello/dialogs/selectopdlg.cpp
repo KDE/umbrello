@@ -21,7 +21,7 @@
 #include "../attribute.h"
 #include "../operation.h"
 #include "../umlclassifierlistitemlist.h"
-#include "dialog_utils.h"
+#include "../dialog_utils.h"
 
 SelectOpDlg::SelectOpDlg(QWidget * parent, UMLClassifier * c)
   : KDialogBase(Plain, i18n("Select Operation"), Ok | Cancel , Ok, parent, "_SELOPDLG_", true, true)

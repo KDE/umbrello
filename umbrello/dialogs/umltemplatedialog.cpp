@@ -27,7 +27,7 @@
 #include "../class.h"
 #include "../umldoc.h"
 #include "../uml.h"
-#include "dialog_utils.h"
+#include "../dialog_utils.h"
 
 UMLTemplateDialog::UMLTemplateDialog(QWidget* pParent, UMLTemplate* pTemplate)
   : KDialogBase( Plain, i18n("Template Properties"), Help | Ok | Cancel , Ok, pParent, "_UMLTemplateDLG_", true, true) {

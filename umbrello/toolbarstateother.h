@@ -38,9 +38,6 @@ private:
 	Uml::Object_Type getObjectType(WorkToolBar::ToolBar_Buttons tbb);
 	bool newWidget();
 
-	void floatingTextSetup(UMLWidget* umlWidget);
-	void activityWidgetSetup(UMLWidget* umlWidget);
-	void stateWidgetSetup(UMLWidget* umlWidget);
 };
 
 #endif //TOOLBARSTATEOTHER_H

@@ -22,7 +22,7 @@
 #include "../classifier.h"
 #include "../interface.h"
 #include "../umldoc.h"
-#include "dialog_utils.h"
+#include "../dialog_utils.h"
 
 ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a)
   : KDialogBase(Plain, i18n("Parameter Properties"), Help | Ok | Cancel , Ok, parent, "_PARMPROPDLG_", true, true)

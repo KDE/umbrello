@@ -13,11 +13,15 @@
 #include <qlabel.h>
 #include <qlineedit.h>
 
+#include "inputdialog.h"
+#include "uml.h"
+#include "umlwidget.h"
+
 namespace Umbrello {
 
 QLineEdit* makeLabeledEditField(QGroupBox *containingBox, QGridLayout *layout, int row,
-			  QLabel * &label, QString labelText,
-			  QLineEdit * &editField, QString editFieldText /* = QString::null */)
+				QLabel * &label, QString labelText,
+				QLineEdit * &editField, QString editFieldText /* = QString::null */)
 {
 	label = new QLabel(labelText, containingBox);
 	layout->addWidget(label, row, 0);
@@ -28,5 +32,22 @@ QLineEdit* makeLabeledEditField(QGroupBox *containingBox, QGridLayout *layout, i
 }
 
 
+void askNameForWidget(
+	UMLWidget * &targetWidget, QString dialogTitle, QString dialogPrompt, QString defaultName) {
+		
+	bool pressedOK = false;
+
+	QString name = KInputDialog::getText(dialogTitle, dialogPrompt, defaultName, &pressedOK, UMLApp::app());
+	
+	if (pressedOK) {
+		targetWidget->setName(name);
+	} else {
+		targetWidget->cleanup();
+		delete targetWidget;
+		targetWidget = NULL;
+	}
 }
+
+
+}  // end namespace Umbrello
 

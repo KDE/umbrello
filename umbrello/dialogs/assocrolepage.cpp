@@ -19,7 +19,7 @@
 #include <kdebug.h>
 
 // local includes
-#include "dialog_utils.h"
+#include "../dialog_utils.h"
 
 AssocRolePage::AssocRolePage (UMLDoc *d, QWidget *parent, AssociationWidget *assoc)
 	: QWidget(parent)

@@ -36,8 +36,8 @@
 #include "../umldoc.h"
 #include "../listpopupmenu.h"
 #include "../umlattributelist.h"
+#include "../dialog_utils.h"
 #include "parmpropdlg.h"
-#include "dialog_utils.h"
 
 UMLOperationDialog::UMLOperationDialog( QWidget * parent, UMLOperation * pOperation )
   : KDialogBase( Plain, i18n("Operation Properties"), Help | Ok | Cancel , Ok, parent, "_UMLOPERATIONDLG_", true, true) {
