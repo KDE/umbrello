@@ -37,6 +37,19 @@ public:
 ClassImport::ClassImport(UMLDoc * parentDoc) {
 	m_umldoc = parentDoc;
 	m_driver = new CppDriver();
+	// Add some standard include paths
+	m_driver->addIncludePath( "/usr/include" );
+	m_driver->addIncludePath( "/usr/include/c++" );
+	m_driver->addIncludePath( "/usr/include/g++" );
+	m_driver->addIncludePath( "/usr/local/include" );
+	// FIXME: The following hack is to be replaced by a config menu in umbrello
+	char *umbrello_incpath = getenv( "UMBRELLO_INCPATH" );
+	if (umbrello_incpath) {
+		QStringList includes = QStringList::split( ':', umbrello_incpath );
+		for (QStringList::Iterator i = includes.begin();
+					   i != includes.end(); i++)
+			m_driver->addIncludePath( *i );
+	}
 }
 
 ClassImport::~ClassImport() {}
