@@ -915,9 +915,11 @@ void AssociationWidget::cleanup() {
 		m_pChangeWidgetB = 0;
 	}
 
-	// We should to remove the UMLAssociation from the document
+	// For now, we simply remove the UMLAssociation from the document.
+	// (It would be better to decouple the existence of the UMLAssociation
+	// from the existence of the widgets. Someday...)
 	if (m_pAssociation) {
-		//m_pView->getDocument()->removeAssociation(m_pAssociation);
+		m_pView->getDocument()->removeAssociation(m_pAssociation);
 	        m_pAssociation = 0;
 	}
 

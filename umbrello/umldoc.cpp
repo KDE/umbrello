@@ -834,7 +834,7 @@ void UMLDoc::removeAssociation (UMLAssociation * assoc) {
 	// I dont believe this appropriate, UMLAssociations ARENT UMLWidgets -b.t.
 	// emit sigObjectRemoved(object);
 
-	setModified(true);
+	setModified(true, false);
 }
 
 void UMLDoc::removeAssocFromConcepts(UMLAssociation *assoc)
