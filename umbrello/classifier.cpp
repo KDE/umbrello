@@ -36,6 +36,7 @@ UMLOperation * UMLClassifier::checkOperationSignature( QString name,
 	UMLObjectList list = findChildObject( Uml::ot_Operation, name );
 	if( list.count() == 0 )
 		return NULL;
+	int inputParmCount = (opParams ? opParams->count() : 0);
 
 	// there is at least one operation with the same name... compare the parameter list
 	for( UMLOperation *test = dynamic_cast<UMLOperation*>(list.first());
@@ -50,9 +51,9 @@ UMLOperation * UMLClassifier::checkOperationSignature( QString name,
 				return test;
 			continue;
 		}
-		if( testParams->count() != opParams->count() )
-			continue;
 		int pCount = testParams->count();
+		if( pCount != inputParmCount )
+			continue;
 		int i = 0;
 		for( ; i < pCount; ++i )
 		{
