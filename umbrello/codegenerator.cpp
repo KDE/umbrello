@@ -540,22 +540,26 @@ QString CodeGenerator::findFileName ( CodeDocument * codeDocument ) {
 		QDir outputDirectory = getPolicy()->getOutputDirectory();
                 QDir pathDir(outputDirectory.absPath() + path);
 
-		// does our general output directory exist yet? if not, try to create it
-		if (!outputDirectory.exists() && outputDirectory.exists())
+		// does our complete output directory exist yet? if not, try to create it
+		if (!pathDir.exists())
 		{
-			QStringList dirs = QStringList::split("/",outputDirectory.absPath());
-			QString existingDir = "";
+                        // ugh. dir separator here is UNIX specific..
+			QStringList dirs = QStringList::split("/",pathDir.absPath());
+			QString currentDir = "";
 			for (QStringList::iterator dir = dirs.begin(); dir != dirs.end(); ++dir)
-				existingDir += "/" + *dir;
-		}
-
-		// now, the final check, are we ready to write yet?
-                if (! (pathDir.exists() || pathDir.mkdir(pathDir.absPath()) ) ) {
-                        KMessageBox::error(0, i18n("Cannot create the folder:\n") +
-                                           pathDir.absPath() + i18n("\nPlease check the access rights"),
+			{
+				currentDir += "/" + *dir;
+                                if (! (pathDir.exists(currentDir) 
+                                        || pathDir.mkdir(currentDir) ) ) 
+				{
+					KMessageBox::error(0, i18n("Cannot create the folder:\n") + 
+					pathDir.absPath() + i18n("\nPlease check the access rights"),
                                            i18n("Cannot Create Folder"));
-                        return NULL;
-                }
+					return NULL;
+
+				}
+			}
+		}
         }
 
         name.simplifyWhiteSpace();

@@ -133,65 +133,6 @@ QString JavaCodeGenerator::capitalizeFirstLetter(QString string)
         return string;
 }
 
-// override the parent method because we can have package names that create
-// nested directory structure from their names, e.g. "dude.org" package has
-// classes which go into "org/dude" directory.
-QString JavaCodeGenerator::findFileName ( CodeDocument * codeDocument ) {
-
-        //else, determine the "natural" file name
-        QString name;
-
-        // Get the path name
-        QString path = codeDocument->getPath();
-
-        // Convert all "." to "/" : Platform-specific path separator
-        path.replace(QRegExp("\\."),"/"); // Simple hack!
-
-        // if path is given add this as a directory to the file name
-        if (!path.isEmpty()) {
-                name = path + "/" + codeDocument->getFileName();
-                path = "/" + path;
-        } else {
-                name = codeDocument->getFileName();
-        }
-
-        // if a path name exists check the existence of the path directory
-        if (!path.isEmpty()) {
-                QDir outputDirectory = getPolicy()->getOutputDirectory();
-                QDir pathDir(outputDirectory.absPath() + path);
-
-                // does our general output directory exist yet? if not, try to create it
-                if (!outputDirectory.exists() && outputDirectory.exists())
-		{
-                        QStringList dirs = QStringList::split("/",outputDirectory.absPath());
-                        QString existingDir = "";
-                        for (QStringList::iterator dir = dirs.begin(); dir != dirs.end(); ++dir)
-                                existingDir += "/" + *dir;
-                }
-
-		// does our special path directory exist yet? if not, try to create it
-		if (!pathDir.exists() && outputDirectory.exists()) {
-			QStringList dirs = QStringList::split("/",path);
-			QString existingDir = outputDirectory.absPath();
-			for (QStringList::iterator dir = dirs.begin(); dir != dirs.end(); ++dir)
-				existingDir += "/" + *dir;
-		}
-
-		// now, the final test, does the whole shebang exist?
-                if (! (pathDir.exists() || pathDir.mkdir(pathDir.absPath(), true) ) ) {
-                        KMessageBox::error(0, i18n("Cannot create the folder:\n") +
-                                           pathDir.absPath() + i18n("\nPlease check the access rights"),
-                                           i18n("Cannot Create Folder"));
-                        return NULL;
-                }
-        }
-
-        name.simplifyWhiteSpace();
-        name.replace(QRegExp(" "),"_");
-
-        return overwritableName( name, codeDocument->getFileExtension() );
-}
-
 /**
  * @return      JavaANTCodeDocument
  */
