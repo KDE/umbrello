@@ -445,18 +445,6 @@ public slots:
 	 */
 	void slotEditPaste();
 
-#if KDE_VERSION < 0x030190
-	/**
-	 * Toggles the toolbar.
-	 */
-	void slotViewToolBar();
-
-	/**
-	 * Toggles the statusbar.
-	 */
-	void slotViewStatusBar();
-#endif
-
 	/**
 	 * Changes the statusbar contents for the standard label
 	 * permanently, used to indicate current actions.
@@ -802,10 +790,6 @@ private:
 	KAction* classWizard;
 	KAction* deleteSelectedWidget;
 	KAction* deleteDiagram;
-#if KDE_VERSION < 0x030190
-	KToggleAction* viewToolBar;
-	KToggleAction* viewStatusBar;
-#endif
 	WorkToolBar* toolsbar;
 	QTimer* m_clipTimer;
 	QTimer* m_copyTimer;
