@@ -31,7 +31,8 @@ UMLOperation::UMLOperation(const UMLClassifier *parent, QString Name, Uml::IDTyp
 			   Uml::Scope s, QString rt)
     : UMLClassifierListItem(parent, Name, id)
 {
-	setTypeName( rt );
+	if (!rt.isEmpty())
+		setTypeName( rt );
 	m_Scope = s;
 	m_BaseType = Uml::ot_Operation;
 	m_List.setAutoDelete(false);
