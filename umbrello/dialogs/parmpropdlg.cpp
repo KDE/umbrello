@@ -26,6 +26,8 @@
 // local includes
 #include "../classifier.h"
 #include "../interface.h"
+#include "../umltemplatelist.h"
+#include "../template.h"
 #include "../umldoc.h"
 #include "../dialog_utils.h"
 
@@ -122,6 +124,11 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a)
 	m_pTypeCB->setEditable(true);
 	m_pTypeCB->setAutoCompletion(false);
 
+	//add template parameters
+	UMLClassifier *pConcept = static_cast<UMLClassifier*>( m_pAtt->parent() );
+	UMLTemplateList tmplParams( pConcept->getTemplateList() );
+	for (UMLTemplate *t = tmplParams.first(); t; t = tmplParams.next())
+		m_pTypeCB->insertItem( t->getName() );
 	//now add the Concepts
 	UMLClassifierList namesList( m_pUmldoc->getConcepts() );
 	UMLClassifier * obj;
@@ -172,6 +179,13 @@ void ParmPropDlg::slotOk() {
 		m_pAtt->setParmKind( getParmKind() );
 		m_pAtt->setStereotype( m_pStereoTypeLE->text() );
 		QString typeName = m_pTypeCB->currentText();
+		UMLClassifier * pConcept = static_cast<UMLClassifier*>( m_pAtt->parent() );
+		UMLTemplate *tmplParam = pConcept->findTemplate(typeName);
+		if (tmplParam) {
+			m_pAtt->setType(tmplParam);
+			accept();
+			return;
+		}
 		UMLClassifierList namesList( m_pUmldoc->getConcepts() );
 		UMLClassifier * obj;
 		for (obj = namesList.first(); obj; obj = namesList.next()) {

@@ -39,9 +39,12 @@
 #include "../operation.h"
 #include "../classifier.h"
 #include "../interface.h"
+#include "../template.h"
 #include "../umldoc.h"
 #include "../listpopupmenu.h"
 #include "../umlattributelist.h"
+#include "../classifierlistitem.h"
+#include "../umlclassifierlistitemlist.h"
 #include "../dialog_utils.h"
 #include "parmpropdlg.h"
 
@@ -147,6 +150,13 @@ void UMLOperationDialog::setupDialog() {
 
 	m_pRtypeCB->setDuplicatesEnabled(false);//only allow one of each type in box
 
+	// add template parameters
+	UMLClassifier *classifier = dynamic_cast<UMLClassifier*>(m_pOperation->parent());
+	if (classifier) {
+		UMLClassifierListItemList tmplParams( classifier->getFilteredList(Uml::ot_Template) );
+		for (UMLClassifierListItem *li = tmplParams.first(); li; li = tmplParams.next())
+			insertType( li->getName() );
+	}
 	//now add the Classes and Interfaces (both are Concepts)
 	UMLClassifierList namesList( m_doc->getConcepts() );
 	UMLClassifier* pConcept = 0;
@@ -162,9 +172,9 @@ void UMLOperationDialog::setupDialog() {
 		if ( returnBoxString == m_pOperation->getTypeName() ) {
 			foundReturnType = true;
 			m_pRtypeCB->setCurrentItem(returnBoxCount);
-		} else {
-			returnBoxCount++;
+			break;
 		}
+		returnBoxCount++;
 	}
 
 	if (!foundReturnType) {
@@ -433,7 +443,14 @@ bool UMLOperationDialog::apply()
 		m_pOperation -> setScope( Uml::Private );
 	else
 		m_pOperation -> setScope( Uml::Protected );
-	m_pOperation -> setTypeName( m_pRtypeCB -> currentText() );
+
+	QString typeName = m_pRtypeCB->currentText();
+	UMLTemplate *tmplParam = classifier->findTemplate(typeName);
+	if (tmplParam)
+		m_pOperation->setType(tmplParam);
+	else
+		m_pOperation->setTypeName(typeName);
+
 	bool isAbstract = m_pAbstractCB->isChecked();
 	m_pOperation -> setAbstract( isAbstract );
 	if (isAbstract) {

@@ -35,6 +35,7 @@
 #include "../attribute.h"
 #include "../interface.h"
 #include "../classifier.h"
+#include "../template.h"
 #include "../umldoc.h"
 #include "../uml.h"
 #include "../dialog_utils.h"
@@ -172,6 +173,11 @@ bool UMLAttributeDialog::apply() {
 	m_pAttribute->setStatic( m_pStaticCB->isChecked() );
 
 	QString typeName = m_pTypeCB->currentText();
+	UMLTemplate *tmplParam = pConcept->findTemplate(typeName);
+	if (tmplParam) {
+		m_pAttribute->setType(tmplParam);
+		return true;
+	}
 	UMLDoc * pDoc = UMLApp::app()->getDocument();
 	UMLObject *obj = pDoc->findUMLObject(typeName);
 	UMLClassifier *classifier = dynamic_cast<UMLClassifier*>(obj);
