@@ -49,11 +49,12 @@ void UMLPackage::addObject(const UMLObject *pObject) {
 			break;
 		}
 	}
-	// kdDebug() << "UMLPackage::addObject(" << pObject->getName() <<
-	//   "): id=" << id << ", auxid=" << pObject->getAuxId() <<
-	//   ", alreadyThere=" << alreadyThere << endl;
-	if (! alreadyThere)
+	if (alreadyThere) {
+		kdDebug() << "UMLPackage::addObject: " << pObject->getName()
+			  << " is already there" << endl;
+	} else {
 		m_objects.append( pObject );
+	}
 }
 
 void UMLPackage::removeObject(const UMLObject *pObject) {
