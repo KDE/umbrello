@@ -22,6 +22,7 @@
 #include "classparser/driver.h"
 #include "classparser/cpptree2uml.h"
 #include <kdebug.h>
+#include <klocale.h>
 #include <qregexp.h>
 
 class CppDriver : public Driver {
@@ -189,7 +190,7 @@ void ClassImport::importCPP(QStringList headerFileList) {
 	for (QStringList::Iterator fileIT = headerFileList.begin();
 				   fileIT != headerFileList.end(); ++fileIT) {
 		QString fileName = (*fileIT);
-		m_umldoc->writeToStatusBar("Importing file: " + fileName);
+		m_umldoc->writeToStatusBar(i18n("Importing file: %1").arg(fileName));
 		m_driver->parseFile( fileName );
 		TranslationUnitAST *ast = m_driver->translationUnit( fileName );
 		if (ast == NULL)
