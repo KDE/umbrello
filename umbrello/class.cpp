@@ -7,6 +7,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "uml.h" 
 #include "class.h"
 #include "association.h"
 #include "attribute.h"
@@ -309,11 +310,10 @@ bool UMLClass::loadFromXMI( QDomElement & element ) {
 	while( !tempElement.isNull() ) {
 		QString tag = tempElement.tagName();
 		if( tag == "UML:Operation" ) {
-			UMLOperation * pOp = new UMLOperation( this );
-			if( !pOp -> loadFromXMI( tempElement ) )
+			UMLOperation *op = UMLApp::app()->getDocument()->createOperation( );
+			if( !op -> loadFromXMI( tempElement ) ||
+			    !addOperation( op, -1 ) )
 				return false;
-			// m_OpsList.append( pOp );
-			addOperation(pOp);
 		} else if( tag == "UML:Attribute" ) {
 			UMLAttribute * pAtt = new UMLAttribute( this );
 			if( !pAtt -> loadFromXMI( tempElement ) )

@@ -16,7 +16,7 @@
 #include <qdom.h>
 
 #include "umlnamespace.h"
-
+class UMLDoc;
 using namespace Uml;
 
 class UMLPackage;
@@ -41,14 +41,16 @@ public:
 	 * @param name		The name of the object.
 	 * @param id		The ID of the object.
 	 */
-	UMLObject(QObject * parent, QString Name, int id);
+	UMLObject(UMLObject * parent, const QString &name, int id);
 
 	/**
 	 * Creates a UMLObject.
 	 *
 	 * @param	parent		The parent of the object.
 	 */
-	UMLObject(QObject * parent);
+	UMLObject(UMLObject * parent);
+	
+	UMLObject(UMLDoc* parent, const QString &name = "" , int id = -1);
 
 	/**
 	 * Overloaded '==' operator
@@ -209,7 +211,24 @@ public slots:
 	void emitModified();
 
 signals:
+	/** emited when the UMLObject has changed. Note that some objects emit 
+	  * this signal when one of its children changes, for example, a UMLClass
+	  * emits a modified() signal when one of its operation changes while the Operation
+	  * itself emits the corresponding signal as well.
+	  */
 	void modified();
+	/** Signals that a new UMLObject has been added to this object.
+	  * More specialized classes like UMLPackages or UMLClass emit 
+	  * more specialized signals, like "classAdded" or "operationAdded" in
+	  * addition to this one.
+	  */
+	void childObjectAdded( UMLObject *obj );
+	/** Signals that a UMLObject has been removed from this object.
+	  * More specialized classes like UMLPackages or UMLClass emit 
+	  * more specialized signals, like "classRemoved" or "operationRemoved" in
+	  * addition to this one.
+	  */
+	void childObjectRemoved( UMLObject *obj );
 
 protected:
 	/**

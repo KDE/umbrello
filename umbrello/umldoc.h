@@ -223,6 +223,30 @@ public:
 	 * @return	The UMLObject created
 	 */
 	UMLObject* createUMLObject(UMLObject* o, UMLObject_Type type);
+	
+	/**
+	 * Creates an operation in the current document.
+	 * The new Operation is already initialized with name, id, etc.
+	 * If no name is provided, or if the name given as parameter conflicts with
+	 * other operations in the classifier, an Operation Dialog is shown to ask the user 
+	 * for a name and gives the chance to set other Op. properties
+	 * The Operation's signature is checked for validity within the parent classifier.
+	 *
+	 * @return The new operation, or NULL if the operation could not be created because
+	 *         for example, the User canceled the dialog or no appropiate name can be found
+	*/
+	UMLOperation* createOperation( UMLClassifier *parent, const QString &name = QString::null );
+	/**
+	  * Creates a new Operation in the document.
+	  * The Operation is not-initialized, so it has no valid name, id, etc. so this
+	  * function is normally only used when you already have all this information, for
+	  * example from a file or clipboard. You are responsible for the consistency of the data
+	  * ie, the ID must be valid and not conflict with other ID's, etc.
+	  * The Operation does not belong to any Classifiers, so you should added to the one yourself
+	  *
+	  * @return The new operatioin
+	  */
+	UMLOperation* createOperation(  );
 
 	/**
 	 * Creates an attribute for the parent concept.
@@ -262,7 +286,7 @@ public:
 	 * @param o	The parent concept
 	 * @return	The UMLOperation created
 	 */
-	UMLObject* createOperation(UMLClassifier* classifier);
+	//UMLObject* createOperation(UMLClassifier* classifier);
 
 	/**
 	 * Creates an association between two UMLObjects.

@@ -66,44 +66,49 @@ public:
   	bool operator==( UMLClassifier & rhs );
   
 	/**
-	 * Adds an operation to the Concept.
-	 *
-	 * @param name		The name of the operation.
-	 * @param id		The id of the operation.
-	 * @return	Pointer to the UMLOperation created.
-	 */
-	UMLObject* addOperation(QString name, int id);
-
-	/**
 	 * Adds an operation to the classifier, at the given position.
 	 * If position is negative or too large, the attribute is added
 	 * to the end of the list.
+	 * The Classifier first checks and only adds the Operation if the
+	 * signature does not conflict with exising operations
 	 *
 	 * @param Op		Pointer to the UMLOperation to add.
 	 * @param position	Index at which to insert into the list.
+	 * @return true if the Operation could be added to the Classifier.
 	 */
 	bool addOperation(UMLOperation* Op, int position = -1);
 	
 
 	/**
-	 * Adds an already created Operation and checks for operations with
-	 * the same name. The Operation must not belong to any other concept.
-	 * Used by the clipboard when pasteing.
+	 * Appends an operation to the classifier.
+	 * @see bool addOperation(UMLOperation* Op, int position = -1)
+	 * This function is normaly only used by the clipboard functionality
 	 *
 	 * @param Op		Pointer to the UMLOperation to add.
 	 * @param Log		Pointer to the IDChangeLog.
 	 * @return	True if the operation was added successfully.
 	 */
 	bool addOperation(UMLOperation* Op, IDChangeLog* Log);
+	
+	/** Checks whether an operation is valid based on its signature -
+	  * An operation is "valid" if the Operation's name and paramter list
+	  * are unique in the Classifier
+	  *
+	  * @param  op  the operation to check
+	  * @return true if the signature is valid (ok)
+	  */
+	bool checkOperationSignature( UMLOperation *op );
 
 	/**
-	 * Remove an operation from the Concept.
+	 * Remove an operation from the Classifier.
+	 * The Operation is not deleted, so the called is responsible for what happens
+	 * to it after this
 	 *
-	 * @param o		The operation to remove.
-	 * @return	Count of the remaining objects after removal.
-	 *		Returns -1 if the given operation was not found.
+	 * @param op	The operation to remove.
+	 * @return	Count of the remaining operations after removal, or
+	 *		-1 if the given operation was not found.
 	 */
-	int removeOperation(UMLObject *o);
+	int removeOperation(UMLOperation *op);
 
 	/**
 	 * Add an already created stereotype to the list identified by the
@@ -117,16 +122,16 @@ public:
 	virtual bool addStereotype(UMLStereotype* newStereotype, UMLObject_Type list, IDChangeLog* log = 0);
 	
 	/**
-	 * Returns the number of operations for the Concept.
+	 * counts the number of operations in the Classifier.
 	 *
-	 * @return	The number of operations for the Concept.
+	 * @return	The number of operations for the Classifier.
 	 */
 	int operations();
 
 	/**
-	 * Return the list of operations for the Concept.
+	 * Return the list of operations for the Classifier.
 	 *
-	 * @return	The list of operations for the Concept.
+	 * @return	The list of operations for the Classifier.
 	 */
 	QPtrList<UMLClassifierListItem>* getOpList();
 
@@ -213,8 +218,14 @@ public:
 	virtual bool isInterface () = 0;
 
 signals:
-	void operationAdded(UMLObject *);
-	void operationRemoved(UMLObject*);
+	/** Signals that a new UMLOperation has been added to the classifer.
+	  * The signal is emmited in adition to the generic childObjectAdded( )
+	  */
+	void operationAdded(UMLOperation *);
+	/** Signals that a UMLOperation has been removed from the classifer.
+	  * The signal is emmited in adition to the generic childObjectRemoved( )
+	  */
+	void operationRemoved(UMLOperation*);
 
 protected:
 
@@ -228,7 +239,7 @@ private:
 	/**
 	 * Initializes key variables of the class.
 	 */ 
-	void init(); // doesnt seem to be any reason for this to be public 
+	void init();
 
 };
 

@@ -188,7 +188,7 @@ bool UMLOperation::loadFromXMI( QDomElement & element ) {
 	return true;
 }
 
-bool UMLOperation::isConstructorOperation ( ) {
+bool UMLOperation::isConstructorOperation ( ) const {
         UMLClassifier * c = dynamic_cast<UMLClassifier*>(this->parent());
 
         QString cName = c->getName();

@@ -784,54 +784,47 @@ UMLObject* UMLDoc::createStereotype(UMLClassifier* classifier, UMLObject_Type li
 	return newStereotype;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLObject* UMLDoc::createOperation(UMLClassifier* classifier) {
-	UMLOperation* newOperation = 0;
+UMLOperation* UMLDoc::createOperation( ) 
+{
+	UMLOperation* op = new UMLOperation( 0L );
+	return op;
+}
 
-	// can only create operations for classifiers..
-	if (classifier == NULL ||
-	    classifier->getBaseType() == ot_Datatype || classifier->getBaseType() == ot_Enum) {
-		kdWarning() << "creating operation for something which isn't a class or an interface" << endl;
-		return NULL;
+UMLOperation* UMLDoc::createOperation(UMLClassifier* classifier, const QString &name) 
+{
+	if(!classifier)
+	{
+		kdWarning()<<"UMLDoc::createOperation(UMLClassifier* classifier) called with classifier == NULL"<<endl
+			   <<"Use UMLDoc::createOperation( ) instead!"<<endl;
+		return 0L;
 	}
-
+	
 	int id = getUniqueID();
-	QString currentName = classifier->uniqChildName(Uml::ot_Operation);
-/*
-	newOperation = new UMLOperation(classifier, currentName, id);
-*/
-	newOperation = (UMLOperation*) classifier->addOperation(currentName, id);
+	UMLOperation *op = new UMLOperation( 0L, name, id);
 
-	int button = QDialog::Accepted;
-	bool goodName = false;
-
-	while (button==QDialog::Accepted && !goodName) {
-		UMLOperationDialog operationDialogue(0, newOperation);
-		button = operationDialogue.exec();
-		QString name = newOperation->getName();
-
-		if(name.length() == 0) {
-			KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
-		} else {
-			goodName = true;
-		}
+	if( !classifier->checkOperationSignature( op ) )
+	{
+		op->setName( classifier->uniqChildName(Uml::ot_Operation) );
+		//hack, make op a child of classifier without really adding it as operation
+		//this makes the Op.Dialog smoother in case of name conflicts
+		classifier->insertChild( op );
+		do{
+			UMLOperationDialog operationDialogue(0, op);
+			if( operationDialogue.exec() != QDialog::Accepted )
+			{
+				delete op;
+				return 0L;
+			}
+		}while( classifier->checkOperationSignature( op ) != true );
 	}
-
-	if (button != QDialog::Accepted) {
-		if (newOperation)
-			classifier->removeOperation(newOperation);
-		return NULL;
-	}
-
-	//classifier->addOperation(newOperation);
-
+	
+	// operation name is ok, formally add it to the classifier
+	classifier->addOperation( op );
+	
 	// addUMLObject(newOperation);
-
-	if(newOperation) {
-		setModified(true);
-		emit sigObjectCreated(newOperation);
-	}
-
-	return newOperation;
+	setModified(true);
+	sigObjectCreated(op);
+	return op;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLDoc::removeAssociation (UMLAssociation * assoc) {
@@ -1140,7 +1133,7 @@ void UMLDoc::removeUMLObject(UMLObject *o) {
 	UMLClassifier *p = (UMLClassifier*)o->parent();
 	emit sigObjectRemoved(o);
 	if (type == ot_Operation) {
-		p->removeOperation(o);
+		p->removeOperation(dynamic_cast<UMLOperation*>(o));
 	} else if (type == ot_Attribute) {
 		UMLClass *pClass = dynamic_cast<UMLClass *>(p);
 		if(pClass)

@@ -1791,9 +1791,8 @@ void UMLListView::createChildUMLObject( UMLListViewItem * item, Uml::UMLObject_T
 		object = parent -> addAttribute( name, m_doc -> getUniqueID() );
 	}
 	else
-	{
-		UMLClassifier * parent = static_cast<UMLClassifier *>( object );
-		object = parent -> addOperation( name, m_doc -> getUniqueID() );
+	{kdDebug()<<"HERE HERE HERE HERE HERE HERE HERE HERE HERE"<<endl;
+		object = m_doc->createOperation( static_cast<UMLClassifier*>(object), name );
 	}
 
 	m_doc -> addUMLObject( object );

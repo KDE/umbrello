@@ -44,20 +44,28 @@ public:
 	RefactoringAssistant( UMLDoc *doc, UMLClassifier *obj = 0, QWidget *parent = 0, const char *name = 0 );
 	virtual ~RefactoringAssistant();
 	
-	void setObject( UMLClassifier *obj );
+	void refactor( UMLClassifier *obj );
+	
 public slots:
-	void itemExecuted( QListViewItem *item );
-	void showContextMenu( KListView*, QListViewItem*, const QPoint&);
-	void addSuperClassifier();
+
+	void addBaseClassifier();
 	void addDerivedClassifier();
 	void addInterfaceImplementation();
-	void addOperation();
-	void addAttribute();
+	void createOperation( );
+	void createAttribute( );
 	void editProperties( );
-	void operationAdded( UMLObject *op );
-	void attributeAdded( UMLObject *att );
+	
 	void umlObjectModified( const UMLObject *obj = 0 );
 	
+	void operationAdded( UMLOperation *op );
+	void operationRemoved( UMLOperation *op );
+	
+	void attributeAdded( UMLAttribute *att );
+	void attributeRemoved( UMLAttribute *att );
+	
+	void itemExecuted( QListViewItem *item );
+	void showContextMenu( KListView*, QListViewItem*, const QPoint&);
+		
 protected:
 	struct { QPixmap Public,
 			 Protected,

@@ -24,6 +24,7 @@
 #include <kmessagebox.h>
 #include <kbuttonbox.h>
 //app includes
+#include "../uml.h"
 #include "../operation.h"
 #include "../classifier.h"
 #include "../interface.h"
@@ -35,6 +36,7 @@
 
 UMLOperationDialog::UMLOperationDialog( QWidget * parent, UMLOperation * pOperation ) : KDialogBase( Plain, i18n("Operation Properties"), Help | Ok | Cancel , Ok, parent, "_UMLOPERATIONDLG_", true, true) {
 	m_pOperation = pOperation;
+	m_doc = UMLApp::app()->getDocument();
 	m_pMenu = 0;
 	setupDialog();
 }
@@ -42,7 +44,7 @@ UMLOperationDialog::UMLOperationDialog( QWidget * parent, UMLOperation * pOperat
 UMLOperationDialog::~UMLOperationDialog() {}
 
 void UMLOperationDialog::setupDialog() {
-	UMLDoc* pDoc = dynamic_cast<UMLDoc*>( m_pOperation->parent()->parent() );
+
 	int margin = fontMetrics().height();
 	QVBoxLayout * topLayout = new QVBoxLayout( plainPage() );
 
@@ -121,7 +123,7 @@ void UMLOperationDialog::setupDialog() {
 	m_pRtypeCB->setDuplicatesEnabled(false);//only allow one of each type in box
 
 	//now add the Classes and Interfaces (both are Concepts)
-	UMLClassifierList namesList( pDoc->getConcepts() );
+	UMLClassifierList namesList( m_doc->getConcepts() );
 	UMLClassifier* pConcept = 0;
 	for(pConcept=namesList.first(); pConcept!=0 ;pConcept=namesList.next()) {
 		insertType( pConcept->getName() );
@@ -227,12 +229,11 @@ void UMLOperationDialog::slotParmPopupMenuSel(int id) {
 void UMLOperationDialog::slotNewParameter() {
 	int result = 0;
 	UMLAttribute* pAtt = 0;
-	UMLDoc* pDoc = dynamic_cast<UMLDoc *>( m_pOperation->parent()->parent() );
 
 	QString currentName = m_pOperation->getUniqueParameterName();
 	UMLAttribute* newAttribute = new UMLAttribute(0, currentName, 0);
 
-	ParmPropDlg dlg(this, pDoc, newAttribute);
+	ParmPropDlg dlg(this, m_doc, newAttribute);
 	result = dlg.exec();
 	QString name = dlg.getName();
 	pAtt = m_pOperation -> findParm( name );
@@ -246,7 +247,7 @@ void UMLOperationDialog::slotNewParameter() {
 			m_pOperation->addParm( dlg.getTypeName(), name,
 					       dlg.getInitialValue(), dlg.getDoc() );
 			m_pParmsLB -> insertItem( dlg.getName() );
-			pDoc -> setModified( true );
+			m_doc -> setModified( true );
 		} else {
 			KMessageBox::sorry(this, i18n("The parameter name you have chosen\nis already being used in this operation."),
 					   i18n("Parameter Name Not Unique"), false);
@@ -257,11 +258,10 @@ void UMLOperationDialog::slotNewParameter() {
 
 void UMLOperationDialog::slotDeleteParameter() {
 	UMLAttribute* pOldAtt = m_pOperation->findParm( m_pParmsLB->currentText() );
-	UMLDoc* pDoc = dynamic_cast<UMLDoc*>( m_pOperation->parent()->parent() );
 
 	m_pOperation->removeParm( pOldAtt );
 	m_pParmsLB->removeItem( m_pParmsLB->currentItem() );
-	pDoc->setModified(true);
+	m_doc->setModified(true);
 
 	m_pDeleteButton->setEnabled(false);
 	m_pPropertiesButton->setEnabled(false);
@@ -271,13 +271,12 @@ void UMLOperationDialog::slotParameterProperties() {
 	int result = 0;
 	UMLAttribute* pAtt = 0, * pOldAtt = 0;
 	pOldAtt = m_pOperation->findParm( m_pParmsLB->currentText() );
-	UMLDoc* pDoc = dynamic_cast<UMLDoc*>( m_pOperation->parent()->parent() );
 
 	if( !pOldAtt ) {
 		kdDebug() << "THE impossible has occurred for:" << m_pParmsLB->currentText() << endl;
 		return;
 	}//should never occur
-	ParmPropDlg dlg(this, pDoc, pOldAtt);
+	ParmPropDlg dlg(this, m_doc, pOldAtt);
 	result = dlg.exec();
 	QString name = dlg.getName();
 	pAtt = m_pOperation->findParm( name );
@@ -295,7 +294,7 @@ void UMLOperationDialog::slotParameterProperties() {
 			m_pParmsLB->changeItem( dlg.getName(), m_pParmsLB -> currentItem() );
 			pOldAtt->setDoc( dlg.getDoc() );
 			pOldAtt->setInitialValue( dlg.getInitialValue() );
-			pDoc->setModified( true );
+			m_doc->setModified( true );
 		} else if( pAtt != pOldAtt ) {
 			KMessageBox::error(this, i18n("The parameter name you have chosen is already being used in this operation."),
 					   i18n("Parameter Name Not Unique"), false);
@@ -313,8 +312,30 @@ void UMLOperationDialog::slotParamsBoxClicked(QListBoxItem* parameterItem) {
 	}
 }
 
-bool UMLOperationDialog::apply() {
+bool UMLOperationDialog::apply() 
+{
 	QString name = m_pNameLE -> text();
+	if( name.length() == 0 ) {
+		KMessageBox::error(this, i18n("You have entered an invalid operation name."),
+		                   i18n("Operation Name Invalid"), false);
+		m_pNameLE -> setText( m_pOperation -> getName() );
+		return false;
+	}
+	
+	UMLClassifier *classifier = dynamic_cast<UMLClassifier*>( m_pOperation->parent() );
+	QString oldName = m_pOperation->getName();
+	m_pOperation -> setName( name );
+	if( classifier != 0L &&
+	    classifier->checkOperationSignature( m_pOperation ) != true )
+	{
+		QString msg = QString(i18n("An operation with that signature already exists in %1\n")).arg(classifier->getName())
+				+
+			      QString(i18n("Choose a different name or parameter list" ));
+		KMessageBox::error(this, msg, i18n("Operation Name Invalid"), false);
+		m_pOperation->setName( oldName );
+		m_pNameLE->setText( oldName );
+	    	return false;
+	}
 
 	if( m_pPublicRB -> isChecked() )
 		m_pOperation -> setScope( Uml::Public );
@@ -325,36 +346,6 @@ bool UMLOperationDialog::apply() {
 	m_pOperation -> setReturnType( m_pRtypeCB -> currentText() );
 	m_pOperation -> setAbstract( m_pAbstractCB -> isChecked() );
 	m_pOperation -> setStatic( m_pStaticCB -> isChecked() );
-
-	UMLObjectList list;
-	if (static_cast<UMLObject*>(m_pOperation->parent())->getBaseType() == Uml::ot_Class
-	    || static_cast<UMLObject*>(m_pOperation->parent())->getBaseType() == Uml::ot_Interface
-	) {
-		UMLClassifier* pConcept = static_cast<UMLClassifier*>( m_pOperation->parent() );
-		list = pConcept->findChildObject(Uml::ot_Operation, name);
-		/*
-	} else if (static_cast<UMLObject*>(m_pOperation->parent())->getBaseType() == Uml::ot_Interface) {
-		UMLInterface* pInterface = static_cast<UMLInterface*>( m_pOperation->parent() );
-		list = pInterface->findChildObject(Uml::ot_Operation, name);
-		*/
-	} else {
-		kdWarning() << "not a class or interface" << endl;
-	}
-
-	if( name.length() == 0 ) {
-		KMessageBox::error(this, i18n("You have entered an invalid operation name."),
-		                   i18n("Operation Name Invalid"), false);
-		m_pNameLE -> setText( m_pOperation -> getName() );
-		return false;
-	}
-	if( list.count() != 0 && list.findRef( m_pOperation ) ) {
-		if( KMessageBox::warningYesNo( this , i18n( "The name you entered was not unique!\nIs this what you wanted?" ),
-		                               i18n( "Name Not Unique" ) ) == KMessageBox::No ) {
-			m_pNameLE -> setText( m_pOperation -> getName() );
-			return false;
-		}
-	}
-	m_pOperation -> setName( name );
 	return true;
 }
 

@@ -8,21 +8,30 @@
  ***************************************************************************/
 
 #include <kdebug.h>
-
+#include "umldoc.h"
 #include "umlobject.h"
 #include "umldoc.h"
 #include "package.h"
 
-UMLObject::UMLObject(QObject * parent, QString Name, int id)
-  : QObject(parent, "AnUMLObject") {
+UMLObject::UMLObject(UMLObject * parent, const QString &name, int id)
+  : QObject(parent, "UMLObject" ) {
 	init();
 	m_nId = id;
-	m_Name = Name;
+	m_Name = name;
 }
+
+UMLObject::UMLObject(UMLDoc* parent, const QString &name, int id)
+  :  QObject(parent,"UMLObject") {
+	init();
+	m_nId = id;
+	m_Name = name;
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLObject::UMLObject(QObject * parent) : QObject(parent) {
+UMLObject::UMLObject(UMLObject * parent) : QObject(parent) {
 	init();
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLObject::~UMLObject() {
 }
@@ -37,6 +46,9 @@ void UMLObject::init() {
 	m_bAbstract = false;
 	m_bStatic = false;
 }
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
 bool UMLObject::acceptAssociationType(Uml::Association_Type)
 {// A UMLObject accepts nothing. This should be reimplemented by the subclasses

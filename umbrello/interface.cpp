@@ -7,6 +7,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "uml.h"
+#include "umldoc.h" 
 #include "interface.h"
 #include "operation.h"
 #include "clipboard/idchangelog.h"
@@ -73,13 +75,14 @@ bool UMLInterface::loadFromXMI( QDomElement & element ) {
 	while( !tempElement.isNull() ) {
 		QString tag = tempElement.tagName();
 		if (tag == "UML:Operation") {
-			UMLOperation* pOp = new UMLOperation(this);
-			if( !pOp->loadFromXMI(tempElement) ) {
+			UMLOperation* op = UMLApp::app()->getDocument()->createOperation( );
+			if( !op->loadFromXMI(tempElement) ||
+			    !this->addOperation(op) ) {
+				delete op;
 				return false;
 			}
-			m_OpsList.append(pOp);
 		} else {
-			kdWarning() << "loading unknown child type in UMLClass::loadFromXMI" << endl;
+			kdWarning() << "loading unknown child type in UMLInterface::loadFromXMI" << endl;
 		}
 		node = node.nextSibling();
 		tempElement = node.toElement();

@@ -10,6 +10,7 @@
 #include "association.h"
 #include "umlassociationlist.h"
 #include "operation.h"
+#include "attribute.h"
 #include "stereotype.h"
 #include "clipboard/idchangelog.h"
 #include "umldoc.h"
@@ -26,72 +27,113 @@ UMLClassifier::UMLClassifier(UMLDoc * parent, const QString & name, int id)
 UMLClassifier::~UMLClassifier() {
   	m_OpsList.clear();
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLObject* UMLClassifier::addOperation(QString name, int id) {
-	UMLOperation *o = new UMLOperation(this, name, id);
-	m_OpsList.append(o);
-	emit modified();
-	emit operationAdded(o);
-	connect(o,SIGNAL(modified()),this,SIGNAL(modified()));
-	return o;
+// UMLObject* UMLClassifier::addOperation(QString name, int id) {
+// 	UMLOperation *o = new UMLOperation(this, name, id);
+// 	m_OpsList.append(o);
+// 	emit modified();
+// 	emit operationAdded(o);
+// 	connect(o,SIGNAL(modified()),this,SIGNAL(modified()));
+// 	return o;
+// }
+
+bool UMLClassifier::checkOperationSignature( UMLOperation *op )
+{
+	if( op->getName().length() == 0)
+		return false;
+	UMLObjectList list = findChildObject( Uml::ot_Operation, op->getName() );
+	if( list.count() == 0 )
+		return true;
+	
+	// there is at least one operation with the same name... compare the parameter list
+	list.setAutoDelete(false);
+	list.removeRef( op ); // dont compare against itself
+
+	QPtrList<UMLAttribute> *testParams;
+	QPtrList<UMLAttribute> *opParams;
+	for( UMLOperation *test = dynamic_cast<UMLOperation*>(list.first()); 
+	     test != 0; 
+	     test = dynamic_cast<UMLOperation*>(list.next()) )
+	{// Should we test for defautl values? ( ambiguous signatures, or is that language/compiler dependent?
+		testParams = test->getParmList( );
+		opParams   = op->getParmList( );
+		if( testParams->count() != opParams->count() )
+			continue;
+		int pCount = testParams->count();
+		int i = 0;
+		for( ; i < pCount; ++i )
+		{
+			if( testParams->at(i)->getTypeName() != opParams->at(i)->getTypeName() )
+				break;
+		}
+		if( i == pCount )
+		{//all parameters matched -> the signature is not unique
+			return false;
+		}
+	}
+	// we did not find an exact match, so the signature is unique ( acceptable )
+	return true;
 }
 
 bool UMLClassifier::addOperation(UMLOperation* op, int position )
 {
-	QString name = (QString)op->getName();
-	op -> parent() -> removeChild( op );
-	this -> insertChild( op );
-	if( position >= 0 && position <= (int)m_OpsList.count() )
-		m_OpsList.insert(position,op);
-	else
-		m_OpsList.append( op );
-	emit modified();
-	connect(op,SIGNAL(modified()),this,SIGNAL(modified()));
-	emit operationAdded(op);
-	return true;
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////
-bool UMLClassifier::addOperation(UMLOperation* Op, IDChangeLog* Log) {
-	QString name = (QString)Op -> getName();
-	if( findChildObject( Uml::ot_Operation, name).count() == 0 ) {
-		Op -> parent() -> removeChild( Op );
-		this -> insertChild( Op );
-		m_OpsList.append( Op );
-		emit operationAdded(Op);
+	if( m_OpsList.findRef( op ) == -1  &&
+	    checkOperationSignature( op ) == true ) 
+	{
+		if( op -> parent() )
+			op -> parent() -> removeChild( op );
+		this -> insertChild( op );
+		if( position >= 0 && position <= (int)m_OpsList.count() )
+			m_OpsList.insert(position,op);
+		else
+			m_OpsList.append( op );
+		emit childObjectAdded(op);
+		emit operationAdded(op);
 		emit modified();
-		connect(Op,SIGNAL(modified()),this,SIGNAL(modified()));
+		connect(op,SIGNAL(modified()),this,SIGNAL(modified()));
 		return true;
-	} else if( Log ) {
-		Log->removeChangeByNewID( Op -> getID() );
-		delete Op;
 	}
 	return false;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-int UMLClassifier::removeOperation(UMLObject *o) {
-	if(!m_OpsList.remove((UMLOperation *)o)) {
+bool UMLClassifier::addOperation(UMLOperation* Op, IDChangeLog* Log) {
+	if( addOperation( Op, -1 ) )
+		return true;
+	else if( Log ) {
+		Log->removeChangeByNewID( Op -> getID() );
+	}
+	return false;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+int UMLClassifier::removeOperation(UMLOperation *op) {
+	if(!m_OpsList.remove(op)) {
 		kdDebug() << "can't find opp given in list" << endl;
 		return -1;
 	}
-	// disconnection needed? operationRemoved signal will triggler UMLDoc to delete it
-	// which will also (naturally) disconnect the operation from this object) -b.t.
-	// disconnect(o,SIGNAL(modified()),this,SIGNAL(modified()));
-	emit operationRemoved(o);
+	// disconnection needed.
+	// note that we dont delete the operation, just remove it from the Classifier
+	disconnect(op,SIGNAL(modified()),this,SIGNAL(modified()));
+	emit childObjectRemoved(op);
+	emit operationRemoved(op);
 	emit modified();
-	delete o;
 	return m_OpsList.count();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool UMLClassifier::addStereotype(UMLStereotype* newStereotype, UMLObject_Type list, IDChangeLog* log /* = 0*/) {
 	QString name = newStereotype->getName();
 	if (findChildObject(Uml::ot_Template, name).count() == 0) {
-		newStereotype->parent()->removeChild(newStereotype);
+		if(newStereotype->parent())
+			newStereotype->parent()->removeChild(newStereotype);
 		this->insertChild(newStereotype);
 		if (list == ot_Operation) {
 			m_OpsList.append(newStereotype);
 			emit modified();
+			emit childObjectAdded(newStereotype);
 			connect(newStereotype, SIGNAL(modified()), this, SIGNAL(modified()));
-			emit operationAdded(newStereotype);
+//			emit operationAdded(newStereotype);
+#warning "FIXME change operationAdded listeners to childObject, or create stereotypeAdded signal"
 		} else {
 			kdWarning() << "unknown list type in addStereotype()" << endl;
 		}
@@ -268,10 +310,6 @@ void UMLClassifier::init() {
 	m_BaseType = ot_UMLObject;
 	m_OpsList.clear();
 	m_OpsList.setAutoDelete(false);
-
-        connect (this, SIGNAL(operationAdded(UMLObject*)), getParentUMLDoc(), SLOT (addUMLObject(UMLObject*)));
-        connect (this, SIGNAL(operationRemoved(UMLObject*)), getParentUMLDoc(), SLOT (slotRemoveUMLObject(UMLObject*)));
-
 }
 
 #include "classifier.moc"

@@ -1078,7 +1078,7 @@ void UMLApp::refactor( UMLClassifier *c ){
  {
 	m_refactoringAssist = new RefactoringAssistant( doc, 0, 0, "refactoring_assistant" );
  }
- m_refactoringAssist->setObject( c );
+ m_refactoringAssist->refactor( c );
  m_refactoringAssist->show();
 }
 

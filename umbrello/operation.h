@@ -11,6 +11,7 @@
 #define OPERATION_H
 
 #include <qptrlist.h>
+#include "umldoc.h"
 #include "classifierlistitem.h"
 
 // forward declarations
@@ -18,20 +19,21 @@ class UMLAttribute;
 class UMLClassifier;
 
 /**
- * This class is used to set up information for an operation.  This is like
- * a programming operation.  It has a return type, scope, name and paramters.
+ * This class represents an Operation in the UML Modell.
  *
- * @short Holds the information to represent an operation.
- * @author Paul Hensgen	<phensgen@techie.com>
- * @see	UMLObject
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
 class UMLOperation : public UMLClassifierListItem {
 	Q_OBJECT
-public:
+friend UMLOperation* UMLDoc::createOperation( );
+friend UMLOperation* UMLDoc::createOperation( UMLClassifier *, const QString & );
+
+private:
 	/**
 	 * Constructs an UMLOperation.
+	 * Note that the constructor is private - if you want to create an Operation use
+	 * the methods in UMLDoc to get one.
 	 *
 	 * @param parent	The parent to this operation.
 	 * @param name		The name of the operation.
@@ -43,20 +45,23 @@ public:
 
 	/**
 	 * Constructs an UMLOperation.
+	 * Note that the constructor is private - if you want to create an Operation use
+	 * the methods in UMLDoc to get one.
 	 *
 	 * @param parent	The parent to this operation.
 	 */
 	UMLOperation(UMLClassifier * parent);
+public:
 
+	/**
+	 * destructor
+	 */
+	virtual ~UMLOperation();
+	
 	/**
 	 * Overloaded '==' operator.
 	 */
 	bool operator==( UMLOperation & rhs );
-
-	/**
-	 * Standard deconstructor.
-	 */
-	~UMLOperation();
 
 	/**
 	 * Sets the return type of the operation.
@@ -72,7 +77,7 @@ public:
 	 *
 	 * @return	The return type.
 	 */
-	QString getReturnType() {
+	QString getReturnType() const {
 		return m_ReturnType;
 	}
 
@@ -117,7 +122,7 @@ public:
 	 */
 	QString toString(Signature_Type sig = st_NoSig);
 
-	int getUniqueID() {
+	int getUniqueID() const {
 		return m_nUniqueID;
 	}
 	/**
@@ -155,7 +160,7 @@ public:
 	 *
 	 * @return	True if this operation is a constructor.
 	 */
-	bool isConstructorOperation ( );
+	bool isConstructorOperation ( ) const;
 
 private:
 	QString m_ReturnType;

@@ -49,7 +49,7 @@ MessageWidget::MessageWidget(UMLView * view, ObjectWidget* a, ObjectWidget* b, F
 	m_pWB -> messageAdded(this);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-MessageWidget::MessageWidget(UMLView * view, Sequence_Message_Type sequenceMessageType) : UMLWidget(view) {
+MessageWidget::MessageWidget(UMLView * view, Sequence_Message_Type sequenceMessageType) : UMLWidget(view, -1) {
 	init();
 	m_sequenceMessageType = sequenceMessageType;
 }

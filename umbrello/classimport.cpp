@@ -8,6 +8,8 @@
  ***************************************************************************/
 
 #include "classimport.h"
+#include "uml.h"
+#include "umldoc.h"
 #include "class.h"
 #include "operation.h"
 #include "attribute.h"
@@ -61,9 +63,15 @@ void ClassImport::insertAttribute(UMLObject *o, Uml::Scope scope, QString name, 
 /** No descriptions */
 void ClassImport::insertMethod(UMLObject *o, Uml::Scope scope, QString name, QString type, UMLAttributeList *parList /*= NULL*/) {
 	int attID = ++uniqueID;
-
-	UMLOperation *temp = reinterpret_cast<UMLOperation *>(((UMLClass*)o)->addOperation(name , attID));
-	temp->setReturnType(type);
+	UMLClassifier *classifier = dynamic_cast<UMLClassifier*>(o);
+	if(!classifier)
+	{
+		kdWarning()<<"ClassImport::insertMethod(..) called for a non-classifier!"<<endl;
+		return;
+	}
+	UMLOperation *op = UMLApp::app()->getDocument()->createOperation( );
+	op->setName( name );
+	op->setReturnType(type);
 
 	if(parList != NULL) {
 		UMLAttributeListIt it(*parList);
@@ -71,11 +79,16 @@ void ClassImport::insertMethod(UMLObject *o, Uml::Scope scope, QString name, QSt
 			UMLAttribute *par = it.current();
 			int parID = ++uniqueID;
 			par->setID(parID);
-			temp->addParm(par);
+			op->addParm(par);
 		}
 	}
-
-	temp->setScope(scope);
+	op->setScope(scope);
+	if(!classifier->addOperation( op, -1 ))
+	{
+		kdWarning()<<"ClassImport::insertMethod(...) - Cannot add operaion because signature is not unique"<<endl;
+		delete op;
+		return;
+	}
 	setModified(true);
 }
 

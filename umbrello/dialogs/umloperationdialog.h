@@ -29,6 +29,7 @@ class QLabel;
 class QCheckBox;
 class KComboBox;
 class KLineEdit;
+class UMLDoc;
 
 class UMLOperationDialog : public KDialogBase {
 	Q_OBJECT
@@ -65,6 +66,11 @@ protected:
 	*	The operation to represent.
 	*/
 	UMLOperation * m_pOperation;
+	
+	/**
+	  * The UMLDocument where all objects live
+	 */ 
+	 UMLDoc *m_doc;
 
 	/**
 	* 	Menu used in paramater list box.
