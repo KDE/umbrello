@@ -65,6 +65,16 @@ public:
 	void setDoc( QString doc );
 
 	/**
+	 *		Return the UMLView to which we are linked.
+	 */
+	UMLView* getView();
+
+	/**
+	 * 		Set the UMLView to which we are linked.
+	 */
+	void setView( UMLView* v );
+
+	/**
 	 * 		Return the name of the diagram.
 	 */
 	QString getName();
@@ -372,6 +382,11 @@ protected:
 	 * Height of canvas in pixels
 	 */
 	int m_nCanvasHeight;
+
+	/**
+	 * The UMLView to which we are linked
+	 */
+	UMLView* m_View;
 
 };
 

@@ -2859,17 +2859,20 @@ void UMLView::slotMenuSelection(int sel) {
 
 void UMLView::synchronizeData() {
 	//get all the data for associations
-	/* Should no longer be needed (sez okellogg):
+        /* FIXME: Get rid of this, and instead do it like so:
+           The AssociationWidgetData list in m_pData is only filled
+           initially, and then there's no need to keep it in synch
+           because the AssociationWidgetData::saveToXMI() directly
+           saves the AssociationWidgets.
+         */
 	m_pData -> m_AssociationList.clear();
-	 */
 	AssociationWidgetListIt assoc_it(m_Associations);
 	AssociationWidget* assocwidget = 0;
 	while((assocwidget=assoc_it.current())) {
 		++assoc_it;
 		assocwidget->synchronizeData();
-		/* Should no longer be needed (sez okellogg):
-		m_pData->m_AssociationList.append( assocwidget -> getData() );
-		 */
+                AssociationWidgetData* assocData = (AssociationWidgetData*)assocwidget;
+		m_pData->m_AssociationList.append( assocData );
 	}
 	//get all the data for messagewidgets
 	m_pData->m_MessageList.clear();
