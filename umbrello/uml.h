@@ -178,6 +178,13 @@ public:
 	 */
 	void setCurrentView(UMLView* view = 0);
 
+	/**
+	 * Sets the default mimetype for all diagrams that are exported as 
+	 * images
+	 */
+	void setImageMimetype(QString const & mimetype){m_imageMimetype=mimetype;};
+
+	QString const & getImageMimetype()const{return m_imageMimetype;};
 protected:
 	virtual void keyPressEvent(QKeyEvent* e);
 	virtual void keyReleaseEvent(QKeyEvent* e);
@@ -719,6 +726,11 @@ private:
 	QWidgetStack* viewStack;
 	
 	QMap<int,Umbrello::DiagramView*> diagramViews;
+
+	/**
+	 * Default Mimetype to use for image export.
+	 */
+	QString m_imageMimetype;
 
 public:
 	/**

@@ -52,6 +52,7 @@ UMLApp::UMLApp(QWidget* , const char* name):KDockMainWindow(0, name) {
 	loading = false;
 	m_clipTimer = 0;
 	m_copyTimer = 0;
+
 	///////////////////////////////////////////////////////////////////
 	// call inits to invoke all other construction parts
 	readOptionState();
@@ -399,6 +400,8 @@ void UMLApp::saveOptions() {
 	} else {
 		config -> writeEntry( "lastFile", doc -> URL().prettyURL() );
 	}
+	config->writeEntry( "imageMimetype", getImageMimetype() );
+
 	config->setGroup( "TipOfDay");
 	optionState.generalState.tip = config -> readBoolEntry( "RunOnStart", true );
 	config->writeEntry( "RunOnStart", optionState.generalState.tip );
@@ -458,6 +461,7 @@ void UMLApp::readOptions() {
 	toolsbar->applySettings(config, "workbar");
 	fileOpenRecent->loadEntries(config,"Recent Files");
 	config->setGroup("General Options");
+	setImageMimetype(config->readEntry("imageMimetype","image/png"));
 	resize( config->readSizeEntry("Geometry", new QSize(630,460)) );
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -112,7 +112,6 @@ void UMLView::init() {
 	viewport() -> setMouseTracking(false);
 	m_SelectionRect.setAutoDelete( true );
 	m_CurrentCursor = WorkToolBar::tbb_Arrow;
-	m_imageMimetype = "image/png";
 	//setup signals
 	connect( this, SIGNAL(sigRemovePopupMenu()), this, SLOT(slotRemovePopupMenu() ) );
 	connect( getUMLApp(), SIGNAL( sigCutSuccessful() ),
@@ -1389,6 +1388,7 @@ void UMLView::printToFile(QString filename, QRect rect) {
 }
 
 void UMLView::exportImage() {
+	UMLApp *app = getUMLApp();
 	QStringList fmt = QImage::outputFormatList();
 
 	// get all supported mimetypes
@@ -1408,10 +1408,12 @@ void UMLView::exportImage() {
 			       ":export-image",true);
 	fileDialog.setCaption(i18n("Save As"));
 	fileDialog.setOperationMode(KFileDialog::Saving);
-	fileDialog.setMimeFilter(mimetypes, m_imageMimetype);
+	if (app)
+	  fileDialog.setMimeFilter(mimetypes, app->getImageMimetype());
 	fileDialog.exec();
 	KURL url = fileDialog.selectedURL();
-	m_imageMimetype = fileDialog.currentMimeFilter();
+	QString imageMimetype = fileDialog.currentMimeFilter();
+	if (app) app->setImageMimetype(imageMimetype);
 
 	// save
 	if(!url.isEmpty())
@@ -1423,7 +1425,7 @@ void UMLView::exportImage() {
 			QString file = url.path(-1);
 			QFileInfo info(file);
 			QString ext = info.extension(false);
-			QString extDef = mimeTypeToImageType(m_imageMimetype).lower();
+			QString extDef = mimeTypeToImageType(imageMimetype).lower();
 			if(ext != extDef) {
 				url.setFileName(url.fileName() + "."+extDef);
 			}
@@ -1448,13 +1450,13 @@ void UMLView::exportImage() {
 			                   i18n("Diagram Save Error!"));
 		} else {
 			//  eps requested
-			if (m_imageMimetype == "image/x-eps") {
+			if (imageMimetype == "image/x-eps") {
 				printToFile(s,rect);
 				fixEPS(s,rect);
 			}else{
 				QPixmap diagram(rect.width(), rect.height());
 				getDiagram(rect, diagram);
-				diagram.save(s, mimeTypeToImageType(m_imageMimetype).ascii());
+				diagram.save(s, mimeTypeToImageType(imageMimetype).ascii());
 			}
 			if (!url.isLocalFile()) {
 				if(!KIO::NetAccess::upload(tmpfile.name(), url)) {
