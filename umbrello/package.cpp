@@ -47,6 +47,13 @@ UMLObject * UMLPackage::findObject(QString name) {
 bool UMLPackage::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
 	QDomElement packageElement = qDoc.createElement("UML:Package");
 	bool status = UMLObject::saveToXMI(qDoc, packageElement);
+
+#ifdef XMI_NEST_PACKAGES
+	// Under construction
+	for (UMLObject *obj = m_objects.first(); obj; obj = m_objects.next())
+		obj->saveToXMI (qDoc, packageElement);
+#endif
+
 	qElement.appendChild(packageElement);
 	return status;
 }
@@ -54,6 +61,31 @@ bool UMLPackage::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
 bool UMLPackage::loadFromXMI(QDomElement& element) {
 	if ( !UMLObject::loadFromXMI(element) ) {
 		return false;
+	}
+	UMLDoc *parentDoc = (UMLDoc*)parent();
+
+	QDomNode node = element.firstChild();
+	QDomElement tempElement = node.toElement();
+	while (!tempElement.isNull()) {
+		QString type = tempElement.tagName();
+		UMLObject *pObject = parentDoc->makeNewUMLObject(type);
+		if( !pObject ) {
+			kdWarning() << "UMLPackage::loadFromXMI: "
+				    << "Given wrong type of umlobject to create: "
+				    << type << endl;
+			return false;
+		}
+		if (! pObject->loadFromXMI(element)) {
+			delete pObject;
+			return false;
+		}
+		pObject->setUMLPackage(this);
+		if (type == "UML:Generalization")
+			parentDoc->addAssocToConcepts((UMLAssociation *) pObject);
+		m_objects.append(pObject);
+
+		node = node.nextSibling();
+		tempElement = node.toElement();
 	}
 	return true;
 }
