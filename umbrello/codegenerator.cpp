@@ -445,3 +445,4 @@ void CodeGenerator::setIncludeHeadings(bool i) {
 bool CodeGenerator::includeHeadings() const {
 	return m_includeHeadings;
 }
+#include "codegenerator.moc"

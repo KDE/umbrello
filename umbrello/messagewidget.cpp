@@ -380,3 +380,5 @@ void MessageWidget::mouseReleaseEvent( QMouseEvent * me ) {
 
 
 
+
+#include "messagewidget.moc"

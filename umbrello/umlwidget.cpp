@@ -685,3 +685,4 @@ void UMLWidget::slotSnapToGrid( ) {
 
 
 
+#include "umlwidget.moc"

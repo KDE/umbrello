@@ -358,3 +358,4 @@ int ObjectWidget::getEndLineY() {
 
 
 
+#include "objectwidget.moc"

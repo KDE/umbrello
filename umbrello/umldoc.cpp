@@ -1490,3 +1490,4 @@ void UMLDoc::signalDiagramRenamed(UMLView * pView ) {
 	emit sigDiagramRenamed( pView -> getID() );
 	return;
 }
+#include "umldoc.moc"

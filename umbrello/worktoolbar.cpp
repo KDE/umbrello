@@ -246,3 +246,5 @@ void WorkToolBar::loadPixmaps() {
 }
 
 
+
+#include "worktoolbar.moc"

@@ -177,3 +177,5 @@ void ActivityWidget::mouseDoubleClickEvent(QMouseEvent * /*me*/) {
 	}
 	m_pView -> showDocumentation( this, true );
 }
+
+#include "activitywidget.moc"

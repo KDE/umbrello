@@ -136,3 +136,5 @@ void DocWindow::newDocumentation( ) {
 	m_pDocMLE -> setText( m_pUMLDoc -> getDoc() );
 }
 
+
+#include "docwindow.moc"

@@ -228,3 +228,5 @@ bool StateWidget::renameActivity( QString activity, QString newName ) {
 
 
 
+
+#include "statewidget.moc"

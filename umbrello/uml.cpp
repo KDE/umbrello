@@ -1239,3 +1239,5 @@ void UMLApp::newDocument() {
 	doc->newDocument();
 	slotUpdateViews();
 }
+
+#include "uml.moc"

@@ -2666,3 +2666,5 @@ void UMLView::setShowSnapGrid(bool bShow) {
 	canvas()->setAllChanged();
 	emit sigShowGridToggled( m_pData->getShowSnapGrid() );
 }
+
+#include "umlview.moc"

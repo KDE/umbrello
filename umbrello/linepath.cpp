@@ -855,3 +855,5 @@ bool LinePath::loadFromXMI( QDomElement & qElement ) {
 
 
 
+
+#include "linepath.moc"

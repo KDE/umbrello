@@ -247,3 +247,4 @@ bool UMLOperation::loadFromXMI( QDomElement & element ) {
 
 
 
+#include "operation.moc"

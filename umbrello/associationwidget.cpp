@@ -2412,3 +2412,5 @@ QRect AssociationWidget::getAssocLineRectangle()
 	}
 	return rectangle;
 }
+
+#include "associationwidget.moc"

@@ -1798,3 +1798,4 @@ void UMLListView::collapseAll(QListViewItem *item)
 void UMLListView::setStartedCut(bool startedCut) {
 	m_bStartedCut = startedCut;
 }
+#include "umllistview.moc"

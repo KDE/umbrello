@@ -34,3 +34,5 @@ void KStartupLogo::mousePressEvent( QMouseEvent*) {
 }
 
 
+
+#include "kstartuplogo.moc"

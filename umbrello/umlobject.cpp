@@ -222,3 +222,4 @@ void UMLObject::setStatic(const bool bStatic)
 {
 	m_bStatic = bStatic;
 }
+#include "umlobject.moc"
