@@ -11,6 +11,8 @@
 #define PACKAGE_H
 
 #include "umlcanvasobject.h"
+#include "umlclassifierlist.h"
+#include "umlinterfacelist.h"
 
 class IDChangeLog;
 
@@ -108,6 +110,39 @@ public:
 	 * @return	Pointer to the UMLObject found or NULL if not found.
 	 */
 	UMLObject* findObjectByIdStr(QString idStr);
+
+	/**
+	 * Append all classifiers from this package (and those from
+	 * nested packages) to the given UMLClassifierList.
+	 *
+	 * @param classifiers		The list to append to.
+	 * @param includeNested		Whether to include the classifiers from
+	 *				nested packages (default: true.)
+	 */
+	void appendClassifiers( UMLClassifierList& classifiers,
+				bool includeNested = true );
+
+	/**
+	 * Append all classes and interfaces from this package (and those
+	 * from nested packages) to the given UMLClassifierList.
+	 *
+	 * @param classifiers		The list to append to.
+	 * @param includeNested		Whether to include the classifiers from
+	 *				nested packages (default: true.)
+	 */
+	void appendClassesAndInterfaces(UMLClassifierList& classifiers,
+					bool includeNested = true);
+
+	/**
+	 * Append all interfaces from this package (and those from
+	 * nested packages) to the given UMLInterfaceList.
+	 *
+	 * @param interfaces		The list to append to.
+	 * @param includeNested		Whether to include the interfaces from
+	 *				nested packages (default: true.)
+	 */
+	void appendInterfaces(UMLInterfaceList& interfaces,
+				bool includeNested = true );
 
 	/**
 	 * Creates the <UML:Package> XMI element.

@@ -7,11 +7,18 @@
  *                                                                         *
  ***************************************************************************/
 
+// own header file
 #include "package.h"
-#include "uml.h"
-#include "umldoc.h"
+
+// system includes
 #include <kdebug.h>
 #include <klocale.h>
+
+// local includes
+#include "uml.h"
+#include "umldoc.h"
+#include "classifier.h"
+#include "interface.h"
 
 UMLPackage::UMLPackage(const QString & name, int id)
   : UMLCanvasObject(name, id) {
@@ -97,6 +104,46 @@ UMLObject* UMLPackage::findObjectByIdStr(QString idStr) {
 		}
 	}
 	return NULL;
+}
+
+void UMLPackage::appendClassifiers(UMLClassifierList& classifiers,
+				   bool includeNested /* = true */) {
+	for (UMLObject *o = m_objects.first(); o; o = m_objects.next()) {
+		UMLObject_Type ot = o->getBaseType();
+		if (ot == ot_Class || ot == ot_Interface ||
+		    ot == ot_Datatype || ot == ot_Enum) {
+			classifiers.append((UMLClassifier *)o);
+		} else if (includeNested && ot == ot_Package) {
+			UMLPackage *inner = static_cast<UMLPackage *>(o);
+			inner->appendClassifiers(classifiers);
+		}
+	}
+}
+
+void UMLPackage::appendClassesAndInterfaces(UMLClassifierList& classifiers,
+				 	    bool includeNested /* = true */) {
+	for (UMLObject *o = m_objects.first(); o; o = m_objects.next()) {
+		UMLObject_Type ot = o->getBaseType();
+		if (ot == ot_Class || ot == ot_Interface) {
+			classifiers.append((UMLClassifier *)o);
+		} else if (includeNested && ot == ot_Package) {
+			UMLPackage *inner = static_cast<UMLPackage *>(o);
+			inner->appendClassesAndInterfaces(classifiers);
+		}
+	}
+}
+
+void UMLPackage::appendInterfaces( UMLInterfaceList& interfaces,
+				   bool includeNested /* = true */) {
+	for (UMLObject *o = m_objects.first(); o; o = m_objects.next()) {
+		UMLObject_Type ot = o->getBaseType();
+		if (ot == ot_Interface) {
+			interfaces.append((UMLInterface *)o);
+		} else if (includeNested && ot == ot_Package) {
+			UMLPackage *inner = static_cast<UMLPackage *>(o);
+			inner->appendInterfaces(interfaces);
+		}
+	}
 }
 
 void UMLPackage::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
