@@ -16,6 +16,19 @@ and improved Java and C++ code generation.</p>
 
 <tip category="Umbrello">
 <html>
+<p>Most diagram items can not be resized, they will resize themselves to fit to their contents.
+Boxes, notes and sequence diagram messages can be resized just click and drag on the red square.</p>
+</html>
+</tip>
+
+<tip category="Umbrello">
+<html>
+<p>If you want to add an already existing class to a diagram just drag its entry from the tree view.</p>
+</html>
+</tip>
+
+<tip category="Umbrello">
+<html>
 <p>Many new code generators have been added in this release.  If you had an earlier version
 installed you may need to initialize it from Code menu->Add/Remove Languages.</p>
 </html>
