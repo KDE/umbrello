@@ -14,7 +14,9 @@
 #include <kdebug.h>
 #include <qlayout.h>
 
-SelectOpDlg::SelectOpDlg(QWidget * parent, UMLClassifier * c) : KDialogBase(Plain, i18n("Select Operation"), Ok | Cancel , Ok, parent, "_SELOPDLG_", true, true) {
+SelectOpDlg::SelectOpDlg(QWidget * parent, UMLClassifier * c)
+  : KDialogBase(Plain, i18n("Select Operation"), Ok | Cancel , Ok, parent, "_SELOPDLG_", true, true)
+{
 	QVBoxLayout * topLayout = new QVBoxLayout(plainPage());
 
 	m_pOpGB = new QGroupBox(i18n("Select Operation"), plainPage());
@@ -30,11 +32,11 @@ SelectOpDlg::SelectOpDlg(QWidget * parent, UMLClassifier * c) : KDialogBase(Plai
 	m_pSeqLE = new QLineEdit(m_pOpGB);
 	mainLayout -> addWidget(m_pSeqLE, 0, 1);
 
-	m_pOpCB = new QComboBox(m_pOpGB);
-	mainLayout -> addWidget(m_pOpCB, 1, 1);
-
 	m_pOpRB = new QRadioButton(i18n("Class operation:"), m_pOpGB);
 	mainLayout -> addWidget(m_pOpRB, 1, 0);
+
+	m_pOpCB = new QComboBox(m_pOpGB);
+	mainLayout -> addWidget(m_pOpCB, 1, 1);
 
 	m_pCustomRB = new QRadioButton(i18n("Custom operation:"), m_pOpGB);
 	mainLayout -> addWidget(m_pCustomRB, 2, 0);
@@ -51,7 +53,6 @@ SelectOpDlg::SelectOpDlg(QWidget * parent, UMLClassifier * c) : KDialogBase(Plai
 	QPtrList<UMLClassifierListItem>* list = c -> getOpList();
 	UMLClassifierListItem* obj=0;
 	for(obj=list -> first();obj != 0;obj=list -> next()) {
-		obj -> toString(Uml::st_SigNoScope);
 		m_pOpCB -> insertItem(obj -> toString(Uml::st_SigNoScope));
 	}
 	//disableResize();
