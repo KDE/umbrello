@@ -273,7 +273,7 @@ bool UMLDoc::openDocument(const KURL& url, const char */*format =0*/) {
 		newDocument();
 		return false;
 	}
-	bool status = loadFromXMI( file );
+	bool status = loadFromXMI( file, ENC_UNKNOWN );
 	file.close();
 	KIO::NetAccess::removeTempFile( tmpfile );
 	if( !status ) {
@@ -1102,6 +1102,13 @@ bool UMLDoc::saveToXMI(QIODevice& file) {
 	QDomElement exporterVersion = doc.createElement( "XMI.exporterVersion" );
 	exporterVersion.appendChild( doc.createTextNode( XMI_FILE_VERSION ) );
 	documentation.appendChild( exporterVersion );
+
+	// all files are now saved with correct Unicode encoding, we add this
+	// information to the header, so that the file will be loaded correctly
+	QDomElement exporterEncoding = doc.createElement( "XMI.exporterEncoding" );
+	exporterEncoding.appendChild( doc.createTextNode( "UnicodeUTF8" ) );
+	documentation.appendChild( exporterEncoding );
+
 	header.appendChild( documentation );
 
 	header.appendChild( model );
@@ -1142,9 +1149,104 @@ bool UMLDoc::saveToXMI(QIODevice& file) {
 	return status;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-bool UMLDoc::loadFromXMI( QIODevice & file ) {
+short UMLDoc::getEncoding(QIODevice & file)
+{
 	QTextStream stream( &file );
-	stream.setEncoding(QTextStream::UnicodeUTF8);
+	QString data = stream.read();
+	QString error;
+	int line;
+	QDomDocument doc;
+	if( !doc.setContent( data, false, &error, &line ) )
+	{
+		kdWarning()<<"Can't set content: "<<error<<" Line: "<<line<<endl;
+		return ENC_UNKNOWN;
+	}
+
+	// we start at the beginning and go to the point in the header where we can
+	// find out if the file was saved using Unicode
+	QDomNode node = doc.firstChild();
+	if (node.isProcessingInstruction())
+	{
+		node = node.nextSibling();
+	}
+	QDomElement root = node.toElement();
+	if( root.isNull() )
+	{
+		return ENC_UNKNOWN;
+	}
+	//  make sure it is an XMI file
+	if( root.tagName() != "XMI" )
+	{
+		return ENC_UNKNOWN;
+	}
+	node = node.firstChild();
+
+	if ( !node.isNull() )
+	{
+		QDomElement element = node.toElement();
+
+		// check header
+		if( !element.isNull() && element.tagName() == "XMI.header" )
+		{
+			QDomNode headerNode = node.firstChild();
+			QDomElement headerElement = headerNode.toElement();
+			while ( !headerNode.isNull() )
+			{
+				// the information if Unicode was used is now stored in the
+				// XMI.documenation section of the header
+				if (! headerElement.isNull() && headerElement.tagName() ==
+							"XMI.documentation")
+				{
+					QDomNode docuNode = headerNode.firstChild();
+					QDomElement docuElement = docuNode.toElement();
+					while ( !docuNode.isNull() )
+					{
+						// a tag XMI.exporterEncoding was added since version 1.2 to
+						// mark a file as saved with Unicode
+						if (! docuElement.isNull() && docuElement.tagName() ==
+									"XMI.exporterEncoding")
+						{
+							// at the moment this if isn't really neccesary, but maybe
+							// later we will have other encoding standards
+							if (docuElement.text() == QString("UnicodeUTF8"))
+							{
+								return ENC_UNICODE; // stop here
+							}
+						}
+						docuNode = docuNode.nextSibling();
+						docuElement = docuNode.toElement();
+					}
+					return ENC_OLD_ENC;
+				}
+				headerNode = headerNode.nextSibling();
+				headerElement = headerNode.toElement();
+			}
+			return ENC_OLD_ENC;
+		}
+	} else {
+		return ENC_UNKNOWN;
+	}
+	return ENC_OLD_ENC; // never reached
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
+{
+	// old Umbrello versions (version < 1.2) didn't save the XMI in Unicode
+	// this wasn't correct, because non Latin1 chars where lost
+	// to ensure backward compatibility we have to ensure to load the old files
+	// with non Unicode encoding
+	if (encode == ENC_UNKNOWN)
+	{
+		if ((encode = getEncoding(file)) == ENC_UNKNOWN)
+			return false;
+		file.reset();
+	}
+	QTextStream stream( &file );
+	if (encode == ENC_UNICODE)
+	{
+		stream.setEncoding(QTextStream::UnicodeUTF8);
+	}
+		
 	QString data = stream.read();
 	QString error;
 	int line;

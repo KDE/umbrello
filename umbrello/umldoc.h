@@ -26,6 +26,11 @@
 
 #include "diagram/diagram.h"
 
+#define ENC_UNKNOWN 0
+#define ENC_UNICODE 1
+#define ENC_OLD_ENC 2
+
+
 // forward declaration of the UML classes
 class QDomNode;
 class QFile;
@@ -392,7 +397,9 @@ public:
 
 	virtual bool saveToXMI(QIODevice& file);
 
-	virtual bool loadFromXMI(QIODevice& file);
+	short getEncoding(QIODevice & file);
+
+	virtual bool loadFromXMI(QIODevice& file, short encode = ENC_UNKNOWN);
 
 	/**
 	 * Ensures the XMI file is a valid UML file
