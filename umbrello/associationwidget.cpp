@@ -40,19 +40,19 @@ AssociationWidget::AssociationWidget(QWidget *parent, UMLWidget* WidgetA,
 {
 	init(parent);
 
+	setWidgetA(WidgetA);
+	setWidgetB(WidgetB);
+
 	UMLDoc *umldoc = m_pView->getDocument();
 
-	bool isUMLAssoc = ( umldoc->findUMLObject( WidgetA->getID() ) &&
-			    umldoc->findUMLObject( WidgetB->getID() ) );
+	bool isUMLAssoc = ( umldoc->findUMLObject( getWidgetAID() ) &&
+			    umldoc->findUMLObject( getWidgetBID() ) );
 	if (isUMLAssoc) {
 		m_pAssociation = new UMLAssociation( umldoc );
 		umldoc->addAssociation( m_pAssociation );
 		connect(m_pAssociation, SIGNAL(modified()), this,
 			SLOT(mergeUMLRepresentationIntoAssociationData()));
 	}
-
-	setWidgetA(WidgetA);
-	setWidgetB(WidgetB);
 
 	setAssocType(Type);
 
@@ -66,16 +66,12 @@ AssociationWidget::AssociationWidget(QWidget *parent, UMLWidget* WidgetA,
 
 	//collaboration messages need a name label because it's that
 	//which handles the right click menu options
-	if (getAssocType() == at_Coll_Message && m_pName != NULL) {
-		FloatingText *pSrcName = dynamic_cast<FloatingText*>(getNameWidget());
-		if (pSrcName) {
-			setName( pSrcName->getText() );
-			m_pName->setUMLObject( m_pWidgetB->getUMLObject() );
-		} else {
-			kdDebug("AssociationWidget constructor: source name widget is not a FloatingText");
-		}
+	if (getAssocType() == at_Coll_Message) {
+		setName("");
+		/* TBC: Should a collaboration message create an implicit UMLAssociation?
+		   Currently it doesn't.  --okellogg  */
+		// m_pName->setUMLObject( m_pWidgetB->getUMLObject() );
 	}
-
 }
 
 AssociationWidget::~AssociationWidget() {
@@ -2415,7 +2411,7 @@ void AssociationWidget::mouseReleaseEvent(QMouseEvent * me) {
 	// right button action:
 	//work out the type of menu we want
 	//work out if the association allows rolenames, multiplicity, etc
-	//also must be within a certain ditance to be a multiplicity menu
+	//also must be within a certain distance to be a multiplicity menu
 	QPoint p = me -> pos();
 	ListPopupMenu::Menu_Type menuType = ListPopupMenu::mt_Undefined;
 	int pos = m_LinePath.count() - 1;
@@ -3314,36 +3310,31 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement ) {
 		setDoc( qElement.attribute("documentation", "") );
 		setRoleADoc( qElement.attribute("roleAdoc", "") );
 		setRoleBDoc( qElement.attribute("roleBdoc", "") );
-		QString indexa = qElement.attribute( "indexa", "0" );
-		QString indexb = qElement.attribute( "indexb", "0" );
-		QString totalcounta = qElement.attribute( "totalcounta", "0" );
-		QString totalcountb = qElement.attribute( "totalcountb", "0" );
-		QString type = qElement.attribute( "type", "" );
 
-		QString visibilityA = qElement.attribute( "visibilityA", "0");
-		QString visibilityB = qElement.attribute( "visibilityB", "0");
-		QString changeabilityA = qElement.attribute( "changeabilityA", "0");
-		QString changeabilityB = qElement.attribute( "changeabilityB", "0");
+		QString type = qElement.attribute( "type", "" );
 		if( !type.isEmpty() )
 			setAssocType( (Uml::Association_Type)type.toInt() );
 
 		// visibilty defaults to Public if it cant set it here..
+
+		QString visibilityA = qElement.attribute( "visibilityA", "0");
 		if (visibilityA.toInt() > 0)
 			setVisibilityA( (Scope) visibilityA.toInt());
 
+		QString visibilityB = qElement.attribute( "visibilityB", "0");
 		if (visibilityB.toInt() > 0)
 			setVisibilityB( (Scope) visibilityB.toInt());
 
 		// Changeability defaults to "Changeable" if it cant set it here..
+
+		QString changeabilityA = qElement.attribute( "changeabilityA", "0");
 		if (changeabilityA.toInt() > 0)
 			setChangeabilityA ( (Changeability_Type) changeabilityA.toInt());
+
+		QString changeabilityB = qElement.attribute( "changeabilityB", "0");
 		if (changeabilityB.toInt() > 0)
 			setChangeabilityB ( (Changeability_Type) changeabilityB.toInt());
 
-		m_nIndexA = indexa.toInt();
-		m_nIndexB = indexb.toInt();
-		m_nTotalCountA = totalcounta.toInt();
-		m_nTotalCountB = totalcountb.toInt();
 	} else {
 		// New style: The xmi.id is a reference to the UMLAssociation.
 		m_pAssociation = (UMLAssociation*)umldoc->findUMLObject(nId);
@@ -3351,16 +3342,33 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement ) {
 			kdDebug() << " cannot find UML:Association " << nId << endl;
 			return false;
 		}
-		QString indexa = qElement.attribute( "indexa", "0" );
-		QString indexb = qElement.attribute( "indexb", "0" );
-		QString totalcounta = qElement.attribute( "totalcounta", "0" );
-		QString totalcountb = qElement.attribute( "totalcountb", "0" );
-		m_nIndexA = indexa.toInt();
-		m_nIndexB = indexb.toInt();
-		m_nTotalCountA = totalcounta.toInt();
-		m_nTotalCountB = totalcountb.toInt();
 		m_LinePath.setAssocType( m_pAssociation->getAssocType() );
+		int aId = m_pAssociation->getRoleAId();
+		int bId = m_pAssociation->getRoleBId();
+		m_pWidgetA = m_pView->findWidget( aId );
+		if (m_pWidgetA == NULL) {
+			kdWarning() << "AssociationWidget::loadFromXMI() assoc id " << nId
+				    << ": cannot find widget for roleA id " << aId << endl;
+			return false;
+		}
+		m_pWidgetA->addAssoc(this);
+		m_pWidgetB = m_pView->findWidget( bId );
+		if (m_pWidgetB == NULL) {
+			kdWarning() << "AssociationWidget::loadFromXMI() assoc id " << nId
+				    << ": cannot find widget for roleB id " << bId << endl;
+			return false;
+		}
+		m_pWidgetB->addAssoc(this);
 	}
+	QString indexa = qElement.attribute( "indexa", "0" );
+	QString indexb = qElement.attribute( "indexb", "0" );
+	QString totalcounta = qElement.attribute( "totalcounta", "0" );
+	QString totalcountb = qElement.attribute( "totalcountb", "0" );
+	m_nIndexA = indexa.toInt();
+	m_nIndexB = indexb.toInt();
+	m_nTotalCountA = totalcounta.toInt();
+	m_nTotalCountB = totalcountb.toInt();
+
 	//now load child elements
 	QDomNode node = qElement.firstChild();
 	QDomElement element = node.toElement();
