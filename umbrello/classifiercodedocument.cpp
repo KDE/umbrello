@@ -631,8 +631,6 @@ bool ClassifierCodeDocument::saveToXMI ( QDomDocument & doc, QDomElement & root 
  */
 void ClassifierCodeDocument::loadFromXMI ( QDomElement & root ) {
 
-	kdDebug()<<"ClassifierCodeDocument: "<<getFileName()<<":"<<this<<" classifier:"<<getParentClassifier()->getName()<<" loadFromXMI"<<endl;
-
         // set attributes/fields
         setAttributesFromNode(root);
 
