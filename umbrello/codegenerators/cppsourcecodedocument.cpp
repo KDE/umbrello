@@ -182,6 +182,18 @@ CodeClassFieldDeclarationBlock * CPPSourceCodeDocument::newDeclarationCodeBlock 
         return new CPPSourceCodeClassFieldDeclarationBlock((CPPCodeClassField*)cf);
 }
 
+void CPPSourceCodeDocument::resetTextBlocks()
+{
+
+        // all special pointers need to be zero'd out.
+	methodsBlock = 0;
+	constructorBlock = 0;
+
+        // now do the traditional release of child text blocks
+        ClassifierCodeDocument::resetTextBlocks();
+
+}
+
 // This method will cause the class to rebuild its text representation.
 // based on the parent classifier object.
 // For any situation in which this is called, we are either building the code

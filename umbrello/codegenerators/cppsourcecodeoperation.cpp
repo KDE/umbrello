@@ -41,6 +41,7 @@ void CPPSourceCodeOperation::updateMethodDeclaration()
 	CPPCodeGenerator * gen = (CPPCodeGenerator*) getParentDocument()->getParentGenerator();
 	UMLClassifier * c = doc->getParentClassifier();
 	UMLOperation * o = getParentOperation();
+	bool isInterface = doc->parentIsInterface();
 
 	// first, the comment on the operation
 	QString comment = o->getDoc();
@@ -69,6 +70,14 @@ void CPPSourceCodeOperation::updateMethodDeclaration()
 
 	QString startText = returnType + " " + className + "::" + methodName + " ("+paramStr+") {";
 	setStartMethodText(startText);
+
+	// Only write this out if its a child of an interface OR is abstract.
+	if(isInterface || o->getAbstract())
+	{
+		setWriteOutText(false);
+	} else {
+		setWriteOutText(true);
+	}
 
 }
 
