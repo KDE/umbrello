@@ -18,7 +18,7 @@ ObjectWidgetData::ObjectWidgetData(SettingsDlg::OptionState optionState):UMLWidg
 	m_bMultipleInstance= false;
 	m_nLocalID = -1;
 	m_bDrawAsActor = false;
-	m_bShowDeconstruction = false;
+	m_bShowDestruction = false;
 	m_nLineLength = 0;
 }
 
@@ -35,7 +35,7 @@ ObjectWidgetData & ObjectWidgetData::operator=(ObjectWidgetData & Other) {
 	m_bMultipleInstance= Other.m_bMultipleInstance;
 	m_nLocalID = Other.m_nLocalID;
 	m_bDrawAsActor = Other.m_bDrawAsActor;
-	m_bShowDeconstruction = Other.m_bShowDeconstruction;
+	m_bShowDestruction = Other.m_bShowDestruction;
 	return *this;
 }
 
@@ -54,7 +54,7 @@ bool ObjectWidgetData::operator==(ObjectWidgetData & Other) {
 	}
 	if( m_bDrawAsActor != Other.m_bDrawAsActor )
 		return false;
-	if( m_bShowDeconstruction != Other.m_bShowDeconstruction )
+	if( m_bShowDestruction != Other.m_bShowDestruction )
 		return false;
 
 	return true;
@@ -102,7 +102,7 @@ bool ObjectWidgetData::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) 
 	objectElement.setAttribute( "drawasactor", m_bDrawAsActor );
 	objectElement.setAttribute( "multipleinstance", m_bMultipleInstance );
 	objectElement.setAttribute( "localid", m_nLocalID );
-	objectElement.setAttribute( "decon", m_bShowDeconstruction );
+	objectElement.setAttribute( "decon", m_bShowDestruction );
 	objectElement.setAttribute( "length", m_nLineLength );
 	qElement.appendChild( objectElement );
 	return status;
@@ -121,7 +121,7 @@ bool ObjectWidgetData::loadFromXMI( QDomElement & qElement ) {
 	m_bDrawAsActor = (bool)draw.toInt();
 	m_bMultipleInstance = (bool)multi.toInt();
 	m_nLocalID = localid.toInt();
-	m_bShowDeconstruction = (bool)decon.toInt();
+	m_bShowDestruction = (bool)decon.toInt();
 	m_nLineLength = length.toInt();
 	return true;
 

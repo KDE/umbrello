@@ -293,17 +293,17 @@ bool ObjectWidget::canTabUp() {
 	return (int)y() >= 80;
 }
 
-void ObjectWidget::setShowDeconstruction( bool bShow ) {
-	( ( ObjectWidgetData *)m_pData ) -> setShowDeconstruction( bShow );
+void ObjectWidget::setShowDestruction( bool bShow ) {
+	( ( ObjectWidgetData *)m_pData ) -> setShowDestruction( bShow );
 	if( m_pLine )
-		m_pLine -> setupDeconBox();
+		m_pLine -> setupDestructionBox();
 }
 
 int ObjectWidget::getEndLineY() {
 	int y = (int)this -> y() + height();
 	if( m_pLine)
 		y += m_pLine -> getLineLength();
-	if( ( ( ObjectWidgetData *)m_pData ) -> getShowDeconstruction() )
+	if( ( ( ObjectWidgetData *)m_pData ) -> getShowDestruction() )
 		y += 10;
 	return y;
 }

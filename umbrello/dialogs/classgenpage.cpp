@@ -223,8 +223,8 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, ObjectWidget* o) : QWidge
 			m_pMultiCB -> setEnabled( false );
 	} else//sequence diagram
 	{
-		m_pDeconCB = new QCheckBox(i18n("Show deconstruction"), this);
-		m_pDeconCB -> setChecked(o -> getShowDeconstruction());
+		m_pDeconCB = new QCheckBox(i18n("Show destruction"), this);
+		m_pDeconCB->setChecked(o->getShowDestruction());
 		m_pNameLayout -> addWidget(m_pDeconCB, 2,1);
 	}
 	//setup documentation
@@ -361,7 +361,7 @@ void ClassGenPage::updateObject() {
 			m_pWidget -> setMultipleInstance(m_pMultiCB -> isChecked());
 		m_pWidget -> setDrawAsActor( m_pDrawActorCB -> isChecked() );
 		if( m_pDeconCB )
-			m_pWidget -> setShowDeconstruction( m_pDeconCB -> isChecked() );
+			m_pWidget -> setShowDestruction( m_pDeconCB -> isChecked() );
 		QString name = m_pClassNameLE -> text();
 		m_pWidget -> setDoc(m_pDoc -> text());
 		UMLObject * o = m_pWidget -> getUMLObject();

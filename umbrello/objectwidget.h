@@ -198,13 +198,13 @@ public:
 	/**
 	 *		Sets whether to show deconstruction on sequence line
 	 */
-	void setShowDeconstruction( bool bShow );
+	void setShowDestruction( bool bShow );
 
 	/**
 	 *		Returns whether to show deconstruction on sequence line
 	 */
-	bool getShowDeconstruction() {
-		return ( ( ObjectWidgetData *)m_pData ) -> getShowDeconstruction();
+	bool getShowDestruction() {
+		return ( ( ObjectWidgetData *)m_pData ) -> getShowDestruction();
 	}
 
 	/**

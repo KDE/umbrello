@@ -103,15 +103,15 @@ public:
 	/**
 	 *		Sets whether to show deconstruction on sequence line
 	 */
-	void setShowDeconstruction( bool bShow ) {
-		m_bShowDeconstruction = bShow;
+	void setShowDestruction( bool bShow ) {
+		m_bShowDestruction = bShow;
 	}
 
 	/**
 	 *		Returns whether to show deconstruction on sequence line
 	 */
-	bool getShowDeconstruction() {
-		return m_bShowDeconstruction;
+	bool getShowDestruction() {
+		return m_bShowDestruction;
 	}
 
 	/**
@@ -162,7 +162,7 @@ protected:
 	 *		Determines whether to show object destruction
 	 *		on sequence diagram line.
 	 */
-	bool m_bShowDeconstruction;
+	bool m_bShowDestruction;
 
 	/**
 	 *		Length of seq line.

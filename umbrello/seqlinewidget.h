@@ -28,7 +28,7 @@ public:
 	SeqLineWidget( UMLView * pView, ObjectWidget * pObject );
 
 	/**
-	*		Deconstructor
+	*		Destructor
 	*/
 	~SeqLineWidget();
 
@@ -44,9 +44,9 @@ public:
 	void cleanup();
 
 	/**
-	*		Setup decon box.
+	*		Setup destruction box.
 	*/
-	void setupDeconBox();
+	void setupDestructionBox();
 
 	/**
 	*		Set the start point of the line
@@ -81,14 +81,14 @@ public:
 
 protected:
 	/**
-	*		Cleanup decon. box.
+	*		Cleanup destruction. box.
 	*/
-	void cleanupDeconBox();
+	void cleanupDestructionBox();
 
 	/**
-	*		Move decon box.
+	*		Move destruction box.
 	*/
-	void moveDeconBox();
+	void moveDestructionBox();
 
 	/**
 	*		ObjectWidget associated with.
@@ -104,7 +104,7 @@ protected:
 		QCanvasRectangle * rect;
 		QCanvasLine * line1;
 		QCanvasLine * line2;
-	}    m_pDeconBox;
+	} m_pDestructionBox;
 
 	/**
 	 * The length of the line
@@ -112,6 +112,10 @@ protected:
 	int m_nLengthY;
 
 	int m_nOffsetY, m_nOldY, m_nMinY;
+
+	/**
+	 * Margin used for mouse clicks
+	 */
 	static int const m_nMouseDownEpsilonX;
 };
 
