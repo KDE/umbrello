@@ -2593,7 +2593,6 @@ void AssociationWidget::updateRegionLineCount(int index, int totalCount,
 
 void AssociationWidget::setSelected(bool _select /* = true */) {
 	m_bSelected = _select;
-	m_LinePath.setSelected( _select );
 	if( m_pName)
 		m_pName-> setSelected( _select );
 	if( m_role[A].m_pRole )
@@ -2608,7 +2607,12 @@ void AssociationWidget::setSelected(bool _select /* = true */) {
 		m_role[A].m_pChangeWidget-> setSelected( _select );
 	if( m_role[B].m_pChangeWidget)
 		m_role[B].m_pChangeWidget-> setSelected( _select );
-	// Update the docwindow for this association.
+	/**
+	 * @fixme MYSTERY:
+	 *        If the following code is activated and the m_LinePath.setSelected()
+	 *        precedes it then the blue selection markers sometimes disappear
+	 *        (notably on messages in collaboration diagrams.)
+	//Update the docwindow for this association.
 	// This is done last because each of the above setSelected calls
 	// overwrites the docwindow, but we want the main association doc
 	// to win.
@@ -2617,6 +2621,12 @@ void AssociationWidget::setSelected(bool _select /* = true */) {
 			m_pView -> showDocumentation( this, false );
 	} else
 		m_pView -> updateDocumentation( true );
+	 */
+	/** @fixme Had to pull the m_LinePath.setSelected() call down here
+	 *         because otherwise the blue selection markers would not show
+	 *         when selecting collaboration messages.
+	 */
+	m_LinePath.setSelected( _select );
 }
 
 bool AssociationWidget::onAssociation(const QPoint & point) {
