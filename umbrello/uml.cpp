@@ -301,8 +301,11 @@ void UMLApp::initActions() {
 	initStatusBar(); //call this here because the statusBar is shown/hidden by setupGUI()
 
 	// use the absolute path to your umbrelloui.rc file for testing purpose in setupGUI();
+#if KDE_IS_VERSION(3,2,90)
 	setupGUI();
-
+#else
+	createGUI();
+#endif
 	QPopupMenu* menu = findMenu( menuBar(), QString("settings") );
 	menu->insertItem(i18n("&Windows"), dockHideShowMenu(), -1, 0);
 }
