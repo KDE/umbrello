@@ -350,16 +350,6 @@ public slots:
 	void slotEditPaste();
 
 	/**
-	 * toggles the toolbar
-	 */
-	void slotViewToolBar();
-
-	/**
-	 * toggles the statusbar
-	 */
-	void slotViewStatusBar();
-
-	/**
 	 * changes the statusbar contents for the standard label
 	 * permanently, used to indicate current actions.
 	 * @param text the text that is displayed in the statusbar
@@ -687,8 +677,6 @@ private:
 	KAction* classWizard;
 	KAction* deleteSelectedWidget;
 	KAction* deleteDiagram;
-	KToggleAction* viewToolBar;
-	KToggleAction* viewStatusBar;
 	WorkToolBar* toolsbar;
 	QTimer* m_clipTimer;
 	QTimer* m_copyTimer;
