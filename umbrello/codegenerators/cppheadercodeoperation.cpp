@@ -33,6 +33,20 @@ CPPHeaderCodeOperation::~CPPHeaderCodeOperation ( ) { }
 // Other methods
 //
 
+// we basically just want to know whether or not to print out
+// the body of the operation.
+// In C++ if the operations are inline, then we DO print out
+// the body text.
+void CPPHeaderCodeOperation::updateContent( ) 
+{
+        CPPCodeGenerationPolicy * policy = (CPPCodeGenerationPolicy*) getParentDocument()->getParentGenerator()->getPolicy();
+        bool isInlineMethod = policy->getAccessorsAreInline( );
+
+	if(isInlineMethod)
+		setText(""); // change whatever it is to "";
+
+}
+
 // we basically want to update the doc and start text of this method
 void CPPHeaderCodeOperation::updateMethodDeclaration()
 {
@@ -40,12 +54,15 @@ void CPPHeaderCodeOperation::updateMethodDeclaration()
 	bool isInterface = ((ClassifierCodeDocument*)getParentDocument())->parentIsInterface();
 	UMLOperation * o = getParentOperation();
 
+        CPPCodeGenerationPolicy * policy = (CPPCodeGenerationPolicy*) getParentDocument()->getParentGenerator()->getPolicy();
+        bool isInlineMethod = policy->getOperationsAreInline( );
+
 	// first, the comment on the operation
 	QString comment = o->getDoc();
 	getComment()->setText(comment);
 
 	// no return type for constructors
-	QString returnType = o->isConstructorOperation() ? QString("") : (o->getReturnType() + QString(" "));
+	QString methodReturnType = o->isConstructorOperation() ? QString("") : (o->getReturnType() + QString(" "));
 	QString methodName = o->getName();
 	QString paramStr = QString("");
 
@@ -68,11 +85,18 @@ void CPPHeaderCodeOperation::updateMethodDeclaration()
 			paramStr  += ", ";
 	}
 
-	QString startText = returnType + methodName + " ("+paramStr+")";
-	if(isInterface || o->getAbstract()) // write as an abstract operation if explicitly stated OR if child of interface 
+        // set start/end method text
+        QString startText = methodReturnType+" "+methodName+" ("+paramStr+")";
+
+	// write as an abstract operation if explicitly stated OR if child of interface 
+	if((isInterface || o->getAbstract()) && !isInlineMethod) 
 		startText += " = 0";
-	startText+=";";
+ 	startText += (isInlineMethod ? " {" : ";");
+
+        QString endText = (isInlineMethod ? "}" : "");
+
 	setStartMethodText(startText);
+	setEndMethodText(endText);
 
 }
 

@@ -45,7 +45,8 @@ public:
 
 protected:
 
-        void updateMethodDeclaration();
+        virtual void updateMethodDeclaration();
+	virtual void updateContent( );
 
 private:
 	void init (CPPHeaderCodeDocument * doc );

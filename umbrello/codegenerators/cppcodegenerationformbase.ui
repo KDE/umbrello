@@ -126,7 +126,7 @@
                 </property>
                 <widget class="QCheckBox" row="3" column="0">
                     <property name="name">
-                        <cstring>m_packageIsNamespaceCheckBox</cstring>
+                        <cstring>m_packageIsNamespace</cstring>
                     </property>
                     <property name="text">
                         <string>Package is a namespace</string>
@@ -134,7 +134,7 @@
                 </widget>
                 <widget class="QCheckBox" row="2" column="0">
                     <property name="name">
-                        <cstring>m_vritualDestructorsCheckBox</cstring>
+                        <cstring>m_destructorsAreVirtual</cstring>
                     </property>
                     <property name="text">
                         <string>Virtual destructors</string>
@@ -167,7 +167,7 @@
                 </widget>
                 <widget class="QCheckBox" row="5" column="0">
                     <property name="name">
-                        <cstring>m_inlineOperationsCheckBox</cstring>
+                        <cstring>m_inlineOperations</cstring>
                     </property>
                     <property name="text">
                         <string>Operations are inline</string>
@@ -175,7 +175,7 @@
                 </widget>
                 <widget class="QCheckBox" row="4" column="0">
                     <property name="name">
-                        <cstring>m_inlineAccessorsCheckBox</cstring>
+                        <cstring>m_inlineAccessors</cstring>
                     </property>
                     <property name="text">
                         <string>Accessors are inline</string>
@@ -183,7 +183,7 @@
                 </widget>
                 <widget class="QCheckBox" row="6" column="0">
                     <property name="name">
-                        <cstring>m_createMakefileCheckBox</cstring>
+                        <cstring>m_createMakefile</cstring>
                     </property>
                     <property name="text">
                         <string>Create Makefile document</string>
@@ -251,7 +251,7 @@
                                 <bool>false</bool>
                             </property>
                             <property name="currentItem">
-                                <number>1</number>
+                                <number>0</number>
                             </property>
                             <property name="insertionPolicy">
                                 <enum>NoInsertion</enum>
@@ -323,7 +323,7 @@
                                 <bool>false</bool>
                             </property>
                             <property name="currentItem">
-                                <number>1</number>
+                                <number>0</number>
                             </property>
                             <property name="insertionPolicy">
                                 <enum>NoInsertion</enum>
@@ -417,7 +417,7 @@
                                 </sizepolicy>
                             </property>
                             <property name="currentItem">
-                                <number>1</number>
+                                <number>0</number>
                             </property>
                             <property name="insertionPolicy">
                                 <enum>AtTop</enum>
@@ -450,7 +450,7 @@
                                 </sizepolicy>
                             </property>
                             <property name="currentItem">
-                                <number>1</number>
+                                <number>0</number>
                             </property>
                             <property name="insertionPolicy">
                                 <enum>AtTop</enum>

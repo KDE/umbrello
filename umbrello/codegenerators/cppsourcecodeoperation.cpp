@@ -33,15 +33,31 @@ CPPSourceCodeOperation::~CPPSourceCodeOperation ( ) { }
 // Other methods
 //
 
+// we basically just want to know whether or not to print out
+// the body of the operation.
+// In C++ if the operations are inline, then we DONT print out
+// the body text.
+void CPPSourceCodeOperation::updateContent( )
+{
+        CPPCodeGenerationPolicy * policy = (CPPCodeGenerationPolicy*) getParentDocument()->getParentGenerator()->getPolicy();
+        bool isInlineMethod = policy->getAccessorsAreInline( );
+
+        if(!isInlineMethod)
+                setText(""); // change whatever it is to "";
+
+}
+
 // we basically want to update the doc and start text of this method
 void CPPSourceCodeOperation::updateMethodDeclaration()
 {
 
 	CPPSourceCodeDocument * doc = (CPPSourceCodeDocument*) getParentDocument();
 	CPPCodeGenerator * gen = (CPPCodeGenerator*) getParentDocument()->getParentGenerator();
+        CPPCodeGenerationPolicy * policy = (CPPCodeGenerationPolicy*) gen->getPolicy();
 	UMLClassifier * c = doc->getParentClassifier();
 	UMLOperation * o = getParentOperation();
 	bool isInterface = doc->parentIsInterface();
+        bool isInlineMethod = policy->getAccessorsAreInline( );
 
 	// first, the comment on the operation
 	QString comment = o->getDoc();
@@ -72,7 +88,8 @@ void CPPSourceCodeOperation::updateMethodDeclaration()
 	setStartMethodText(startText);
 
 	// Only write this out if its a child of an interface OR is abstract.
-	if(isInterface || o->getAbstract())
+	// and its not inline
+	if(isInterface || o->getAbstract() || isInlineMethod)
 	{
 		setWriteOutText(false);
 	} else {

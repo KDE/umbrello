@@ -27,7 +27,13 @@ CPPCodeGenerationPolicyPage::CPPCodeGenerationPolicyPage( QWidget *parent, const
 	form->m_SelectCommentStyle->setCurrentItem(commentTypeToInteger(policy->getCommentStyle()));
 	form->m_generateConstructors->setChecked(policy->getAutoGenerateConstructors());
 	form->m_generateAccessors->setChecked(policy->getAutoGenerateAccessors());
-    	//form->m_makeANTDocumentCheckBox->setChecked(policy->getBuildANTCodeDocument());
+
+	form->m_destructorsAreVirtual->setChecked(policy->getDestructorsAreVirtual());
+	form->m_packageIsNamespace->setChecked(policy->getPackageIsNamespace());
+	form->m_inlineAccessors->setChecked(policy->getAccessorsAreInline());
+	form->m_inlineOperations->setChecked(policy->getOperationsAreInline());
+
+    	form->m_createMakefile->setChecked(policy->getBuildMakefile());
 
 }
 
@@ -56,7 +62,13 @@ kdDebug()<<"Apply in CPPCodeGenerationPage called (parent:"<<parent<<")"<<endl;
 	parent->setCommentStyle((CPPCodeGenerationPolicy::CPPCommentStyle ) form->m_SelectCommentStyle->currentItem());
 	parent->setAutoGenerateConstructors(form->m_generateConstructors->isChecked());
 	parent->setAutoGenerateAccessors(form->m_generateAccessors->isChecked());
-   // 	parent->setBuildANTCodeDocument(form->m_makeANTDocumentCheckBox->isChecked());
+
+    	parent->setDestructorsAreVirtual(form->m_destructorsAreVirtual->isChecked());
+    	parent->setPackageIsNamespace(form->m_packageIsNamespace->isChecked());
+    	parent->setAccessorsAreInline(form->m_inlineAccessors->isChecked());
+    	parent->setOperationsAreInline(form->m_inlineOperations->isChecked());
+
+    	parent->setBuildMakefile(form->m_createMakefile->isChecked());
 
 }
 
