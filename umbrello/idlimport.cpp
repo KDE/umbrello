@@ -382,12 +382,21 @@ void parseFile(QString filename) {
 				srcIndex++;
 			}
     			importer->insertMethod(klass, op, Uml::Public, typeName, false, false, comment);
+			if (isOneway) {
+				op->setStereotype("oneway");
+				isOneway = false;
+			}
 			skipStmt();  // skip possible "raises" clause
 			comment = QString::null;
 			continue;
 		}
 		// At this point we know it's some kind of attribute declaration.
-		importer->insertAttribute( klass, currentAccess, name, typeName, comment);
+		UMLObject *o = importer->insertAttribute(klass, currentAccess, name, typeName, comment);
+		UMLAttribute *attr = static_cast<UMLAttribute*>(o);
+		if (isReadonly) {
+			attr->setStereotype("readonly");
+			isReadonly = false;
+		}
 		currentAccess = Uml::Public;
 		if (source[srcIndex] != ";") {
 			kdError() << "importIDL: ignoring trailing items at " << name << endl;
