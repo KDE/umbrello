@@ -14,15 +14,13 @@
 #define CPPTREE2UML_H
 
 #include "tree_parser.h"
-#include "../package.h"
-#include "../class.h"
-#include "../umlattributelist.h"
 #include <qstringlist.h>
-#include <qptrstack.h>
 
 // fwd decls
 class ClassImport;
 class UMLClass;
+class UMLOperation;
+class UMLPackage;
 
 class CppTree2Uml: public TreeParser
 {
@@ -82,9 +80,10 @@ private:
     bool m_inTypedef;
 
     DeclaratorAST* m_currentDeclarator;
-    QPtrStack<UMLPackage> m_currentNamespace;
-    QPtrStack<UMLClass> m_currentClass;
-
+    UMLPackage* m_currentNamespace[32];  ///< stack
+    UMLClass* m_currentClass[32];  ///< stack
+    int m_nsCnt;  ///< stack top for m_currentNamespace
+    int m_clsCnt;  ///< stack top for m_clsCnt
 private:
     CppTree2Uml( const CppTree2Uml& source );
     void operator = ( const CppTree2Uml& source );

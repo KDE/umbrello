@@ -17,13 +17,16 @@
 
 class UMLDoc;
 class UMLObject;
+class UMLClass;
 class UMLPackage;
 class UMLOperation;
+class UMLEnum;
 class CppDriver;
 
 /**
  * Interfaces classparser library to uml models
  * @author Mikko Pasanen
+ * @author Oliver Kellogg
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
@@ -42,33 +45,42 @@ public:
 	 */
 	UMLObject* createUMLObject(Uml::UMLObject_Type type,
 				   QString name,
+				   QString stereotype = "",
 				   QString comment = "",
 				   UMLPackage *parentPkg = NULL);
 
 	/**
 	 * Create a UMLAttribute and insert it into the document.
 	 */
-	UMLObject* insertAttribute(UMLObject *o, Uml::Scope scope, QString name,
+	UMLObject* insertAttribute(UMLClass *klass, Uml::Scope scope, QString name,
 				   QString type, QString comment = "",
 				   bool isStatic = false);
 
 	/**
 	 * Create a UMLOperation and insert it into the document.
 	 */
-	UMLOperation* insertMethod(UMLObject *o, Uml::Scope scope, QString name,
+	UMLOperation* insertMethod(UMLClass *klass, Uml::Scope scope, QString name,
 				   QString type, bool isStatic, bool isAbstract,
 				   QString comment="", UMLAttributeList *parList=NULL);
 
 	/**
+	 * Add an argument to a UMLOperation.
+	 */
+	UMLAttribute* addMethodParameter(UMLOperation *method,
+					 QString type, QString name,
+					 QString initialValue, QString doc,
+					 Uml::Parameter_Kind kind = Uml::pk_In);
+
+	/**
 	 * Add an enum literal to an UMLEnum.
 	 */
-	void addEnumLiteral(UMLObject *enumType, QString literal);
+	void addEnumLiteral(UMLEnum *enumType, QString literal);
 
 	/**
 	 * Create a generalization from the existing child UMLObject to the given
 	 * parent class name.
 	 */
-	void createGeneralization(UMLObject *child, QString parentName);
+	void createGeneralization(UMLClass *child, QString parentName);
 
 	/**
 	 * Check that a given comment conforms to the Doxygen convention, i.e.

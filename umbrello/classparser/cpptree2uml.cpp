@@ -13,8 +13,6 @@
 #include "cpptree2uml.h"
 #include "ast_utils.h"
 #include "../classimport.h"
-#include "../attribute.h"  // to be removed (make factory method in ClassImport)
-#include "../operation.h"  // to be removed (make factory method in ClassImport)
 #include "urlutil.h"
 
 #include <kdebug.h>
@@ -22,7 +20,7 @@
 #include <qdir.h>
 
 CppTree2Uml::CppTree2Uml( const QString& fileName, ClassImport* store )
-    : m_importer( store ), m_anon( 0 )
+    : m_importer( store ), m_anon( 0 ), m_nsCnt( 0 ), m_clsCnt( 0 )
 {
     m_fileName = URLUtil::canonicalPath(fileName);
 }
@@ -34,8 +32,10 @@ CppTree2Uml::~CppTree2Uml()
 void CppTree2Uml::parseTranslationUnit( TranslationUnitAST* ast )
 {
     m_currentScope.clear();
-    m_currentNamespace.clear();
-    m_currentClass.clear();
+    m_currentNamespace[0] = NULL;  // index 0 is reserved (always NULL)
+    m_currentClass[0] = NULL;  // index 0 is reserved (always NULL)
+    m_nsCnt = 0;
+    m_clsCnt = 0;
 
     m_currentAccess = Uml::Public;
     m_inSlots = false;
@@ -50,7 +50,7 @@ void CppTree2Uml::parseTranslationUnit( TranslationUnitAST* ast )
 
 void CppTree2Uml::parseNamespace( NamespaceAST* ast )
 {
-    if( !m_currentClass.isEmpty() ){
+    if( m_clsCnt >= 0 ){
 	kdDebug() << "CppTree2Uml::parseNamespace: **error** !!" << endl;
 	return;
     }
@@ -68,15 +68,15 @@ void CppTree2Uml::parseNamespace( NamespaceAST* ast )
 #ifdef DEBUG_CPPTREE2UML
     kdDebug() << "CppTree2Uml::parseNamespace: " << nsName << endl;
 #endif
-    UMLObject * o = m_importer->createUMLObject( Uml::ot_Package, nsName, "",
-						 m_currentNamespace.top() );
+    UMLObject * o = m_importer->createUMLObject( Uml::ot_Package, nsName, "", "",
+						 m_currentNamespace[m_nsCnt] );
     UMLPackage *ns = (UMLPackage *)o;
     m_currentScope.push_back( nsName );
-    m_currentNamespace.push( ns );
+    m_currentNamespace[++m_nsCnt] = ns;
 
     TreeParser::parseNamespace( ast );
 
-    m_currentNamespace.pop();
+    --m_nsCnt;
     m_currentScope.pop_back();
 }
 
@@ -127,10 +127,10 @@ void CppTree2Uml::parseTypedef( TypedefAST* ast )
 #ifdef DEBUG_CPPTREE2UML
 	    kdDebug() << "CppTree2Uml::parseTypedef: name=" << id << ", type=" << type << endl;
 #endif
-	    UMLObject * o = m_importer->createUMLObject( Uml::ot_Class, id, "",
-							 m_currentNamespace.top() );
-	    o->setStereotype( "typedef" );
-
+	    m_importer->createUMLObject( Uml::ot_Class, id,
+					 "typedef" /* stereotype */,
+	 				 "" /* doc */,
+					 m_currentNamespace[m_nsCnt] );
 	    ++it;
 	}
 
@@ -208,19 +208,17 @@ void CppTree2Uml::parseFunctionDefinition( FunctionDefinitionAST* ast )
 
     QString id = d->declaratorId()->unqualifiedName()->text().stripWhiteSpace();
 
-    UMLClass *c = m_currentClass.top();
+    UMLClass *c = m_currentClass[m_clsCnt];
     if (c == NULL) {
         kdDebug() << "CppTree2Uml::parseFunctionDefinition (" << id
 		  << "): need a surrounding class." << endl;
 	return;
     }
     QString returnType = typeOfDeclaration( typeSpec, d );
-    UMLAttributeList parList;
     UMLOperation *m = m_importer->insertMethod( c, (Uml::Scope)m_currentAccess, id,
 						returnType, isStatic,
 						false,    // isAbstract
-						"",       // doc
-						&parList);
+						"" /* doc */ );
     parseFunctionArguments( d, m );
 
 /* For reference, Kdevelop does some more:
@@ -264,19 +262,19 @@ void CppTree2Uml::parseClassSpecifier( ClassSpecifierAST* ast )
 	return;
     }
 
-    UMLObject * o = m_importer->createUMLObject( Uml::ot_Class, className, "",
-						 m_currentNamespace.top() );
+    UMLObject * o = m_importer->createUMLObject( Uml::ot_Class, className, "", "",
+						 m_currentNamespace[m_nsCnt] );
     UMLClass *klass = (UMLClass *)o;
 
     if ( ast->baseClause() )
 	parseBaseClause( ast->baseClause(), klass );
 
     m_currentScope.push_back( className );
-    m_currentClass.push( klass );
+    m_currentClass[++m_clsCnt] = klass;
 
     TreeParser::parseClassSpecifier( ast );
 
-    m_currentClass.pop();
+    --m_clsCnt;
 
     m_currentScope.pop_back();
 
@@ -288,14 +286,16 @@ void CppTree2Uml::parseClassSpecifier( ClassSpecifierAST* ast )
 void CppTree2Uml::parseEnumSpecifier( EnumSpecifierAST* ast )
 {
     QString typeName = ast->name()->unqualifiedName()->text().stripWhiteSpace();
-    UMLObject *o = m_importer->createUMLObject( Uml::ot_Enum, typeName, "", /* comment */
-						m_currentNamespace.top() );
+    UMLObject *o = m_importer->createUMLObject( Uml::ot_Enum, typeName,
+						"" /* stereotype */,
+						"" /* comment */,
+						m_currentNamespace[m_nsCnt] );
 
     QPtrList<EnumeratorAST> l = ast->enumeratorList();
     QPtrListIterator<EnumeratorAST> it( l );
     while ( it.current() ) {
 	QString enumLiteral = it.current()->id()->text();
-	m_importer->addEnumLiteral( o, enumLiteral );
+	m_importer->addEnumLiteral( (UMLEnum*)o, enumLiteral );
 	++it;
     }
 }
@@ -328,7 +328,7 @@ void CppTree2Uml::parseDeclaration( GroupAST* funSpec, GroupAST* storageSpec,
 	return;
     }
 
-    UMLClass *c = m_currentClass.top();
+    UMLClass *c = m_currentClass[m_clsCnt];
     if (c == NULL) {
         kdDebug() << "CppTree2Uml::parseDeclaration (" << id
 		  << "): need a surrounding class." << endl;
@@ -409,7 +409,7 @@ void CppTree2Uml::parseFunctionDeclaration(  GroupAST* funSpec, GroupAST* storag
     DeclaratorAST* d = decl->declarator();
     QString id = d->declaratorId()->unqualifiedName()->text();
 
-    UMLClass *c = m_currentClass.top();
+    UMLClass *c = m_currentClass[m_clsCnt];
     if (c == NULL) {
         kdDebug() << "CppTree2Uml::parseFunctionDeclaration (" << id
 		  << "): need a surrounding class." << endl;
@@ -417,10 +417,8 @@ void CppTree2Uml::parseFunctionDeclaration(  GroupAST* funSpec, GroupAST* storag
     }
 
     QString returnType = typeOfDeclaration( typeSpec, d );
-    UMLAttributeList parList;
     UMLOperation *m = m_importer->insertMethod( c, (Uml::Scope)m_currentAccess, id,
-		 				returnType, isStatic, isPure, "",
-						&parList );
+						returnType, isStatic, isPure, "" );
     parseFunctionArguments( d, m );
 }
 
@@ -443,7 +441,7 @@ void CppTree2Uml::parseFunctionArguments(DeclaratorAST* declarator,
 
 	    QString tp = typeOfDeclaration( param->typeSpec(), param->declarator() );
 
-	    method->addParm( tp, name, "" /*initialValue*/, "" /*doc*/);
+	    m_importer->addMethodParameter( method, tp, name, "" /*initialValue*/, "" /*doc*/);
 	}
     }
 }

@@ -71,6 +71,7 @@ QString ClassImport::doxyComment(QString comment) {
 
 UMLObject *ClassImport::createUMLObject(Uml::UMLObject_Type type,
 					QString name,
+					QString stereotype,
 					QString comment,
 					UMLPackage *parentPkg) {
 	UMLObject * o = m_umldoc->findUMLObject(name);
@@ -83,12 +84,13 @@ UMLObject *ClassImport::createUMLObject(Uml::UMLObject_Type type,
 		o->setDoc(strippedComment);
 		m_umldoc->getDocWindow()->showDocumentation(o, true);
 	}
+	o->setStereotype(stereotype);
 	return o;
 }
 
-UMLObject* ClassImport::insertAttribute(UMLObject *o, Uml::Scope scope, QString name,
-					   QString type, QString comment /* ="" */,
-					   bool isStatic /* =false */) {
+UMLObject* ClassImport::insertAttribute(UMLClass *o, Uml::Scope scope, QString name,
+					QString type, QString comment /* ="" */,
+					bool isStatic /* =false */) {
 	QString strippedComment = doxyComment(comment);
 	QString typeName(type);
 	int isPointer = typeName.contains('*');
@@ -132,21 +134,19 @@ UMLObject* ClassImport::insertAttribute(UMLObject *o, Uml::Scope scope, QString 
 	return newObj;
 }
 
-UMLOperation * ClassImport::insertMethod(UMLObject *o, Uml::Scope scope, QString name,
+UMLOperation * ClassImport::insertMethod(UMLClass *klass, Uml::Scope scope, QString name,
 					 QString type, bool isStatic, bool isAbstract,
 					 QString comment /* = "" */,
 					 UMLAttributeList *parList /*= NULL*/) {
-	if (o->getBaseType() != Uml::ot_Class)
-	{
-		kdWarning() << "ClassImport::insertMethod called for a non-class: "
-			<< o->getName() << "(type " << o->getBaseType() << ")" << endl;
+	if (klass == NULL) {
+		kdWarning() << "ClassImport::insertMethod: NULL class pointer for "
+			    << name << endl;
 		return NULL;
 	}
-	UMLClass *klass = static_cast<UMLClass*>(o);
-	if(!klass)
-	{
-		kdWarning()<<"ClassImport::insertMethod() cannot cast object to UMLClass"<<endl;
-		return NULL;
+	if (parList == NULL) {
+		parList = new UMLAttributeList();
+		// This prevents UMLDoc::createOperation() from entering into
+		// interactive mode.
 	}
 	UMLOperation *op = m_umldoc->createOperation( klass, name, parList );
 	if(!op)
@@ -167,17 +167,24 @@ UMLOperation * ClassImport::insertMethod(UMLObject *o, Uml::Scope scope, QString
 	return op;
 }
 
-void ClassImport::addEnumLiteral(UMLObject *enumType, QString literal) {
-	if (enumType->getBaseType() != Uml::ot_Enum) {
-		kdDebug() << "ClassImport::addEnumLiteral: given object is not an ot_Enum"
-			  << endl;
-		return;
-	}
-	UMLEnum *e = static_cast<UMLEnum*>( enumType );
-	e->addEnumLiteral( literal, m_umldoc->getUniqueID() );
+UMLAttribute* ClassImport::addMethodParameter(UMLOperation *method,
+					      QString type, QString name,
+					      QString initialValue, QString doc,
+					      Uml::Parameter_Kind kind) {
+	// We don't necessarily expose the full declaration of UMLOperation
+	// to clients of ClassImport.  I.e. if clients only see a pointer
+	// to the forward declaration of UMLOperation, they can't call any
+	// methods on that pointer.
+	// That's the raison d'etre for these thin wrappers.
+	return method->addParm(type, name, initialValue, doc, kind);
 }
 
-void ClassImport::createGeneralization(UMLObject *child, QString parentName) {
+void ClassImport::addEnumLiteral(UMLEnum *enumType, QString literal) {
+	// Why an extra wrapper? See comment at addMethodParameter()
+	enumType->addEnumLiteral( literal, m_umldoc->getUniqueID() );
+}
+
+void ClassImport::createGeneralization(UMLClass *child, QString parentName) {
 	UMLObject *parent = m_umldoc->findUMLObject( parentName, Uml::ot_Class );
 	if (parent == NULL) {
 	    kdDebug() << "ClassImport::createGeneralization: Could not find UML object for "
