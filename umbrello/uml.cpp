@@ -358,7 +358,7 @@ void UMLApp::initView() {
 	setCaption(doc->URL().fileName(),false);
 
 	toolsbar = new WorkToolBar(this,"WORKTOOLBAR");
-	addToolBar(toolsbar,Right,true);
+	addToolBar(toolsbar,Qt::DockRight,true);
 
 	m_mainDock = createDockWidget("maindock", 0L, 0L, "main dock");
 	viewStack = new QWidgetStack(m_mainDock, "viewstack");

@@ -17,7 +17,7 @@
 #include <ktoolbarbutton.h>
 #include <qcursor.h>
 
-WorkToolBar::WorkToolBar(QMainWindow *parentWindow, const char*name) : KToolBar(parentWindow,QMainWindow::Right,true,name) {
+WorkToolBar::WorkToolBar(QMainWindow *parentWindow, const char*name) : KToolBar(parentWindow,Qt::DockRight,true,name) {
 	m_CurrentButtonID = tbb_Undefined;
 	loadPixmaps();
 	m_Type = Uml::dt_Class;//first time in just want it to load arrow, needs anything but dt_Undefined
