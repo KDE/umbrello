@@ -38,7 +38,7 @@ public:
 	 *
 	 * @param	view	The parent of this FloatingText.
 	 * @param	role	The role this FloatingText will take up.
-	 * @param	text	The text to display.
+	 * @param	text	The main text to display.
 	 */
 	FloatingText(UMLView * view, Text_Role role, QString text = "");
 
@@ -57,7 +57,7 @@ public:
 	/**
 	 * Called to set the position of the FloatingText.
 	 *
-	 * @param x		Vertical co-ordinate of the point.
+	 * @param	x	Vertical co-ordinate of the point.
 	 * @param	y	Horizontal co-ordinate of the point.
 	 */
 	void setLinePos(int x, int y);
@@ -69,6 +69,7 @@ public:
 
 	/**
 	 * Set the main body of text to display.
+	 *
 	 * @param	t	The text to display.
 	 */
 	void setText(QString t);
@@ -89,34 +90,35 @@ public:
 	 * Set the sequence number to display.
 	 *
 	 * @param	sn	The sequence number to display.
-	 */
+	 *
 	void setSeqNum(QString sn);
 
-	/**
+	 **
 	 * Return the sequence number.
 	 *
 	 * @return	The sequence number.
-	 */
+	 *
 	QString getSeqNum() const;
 
-	/**
+	 **
 	 * Set the operation to display.
 	 *
 	 * @param	op	The operation to display.
-	 */
+	 *
 	void setOperation(QString op);
 
-	/**
+	 **
 	 * Return the operation that is displayed.
 	 *
 	 * @return	The operation that is displayed.
-	 */
+	 *
 	QString getOperation() const;
+	 */
 
 	/**
-	 * Use to get the _main body_ of text (e.g. prepended text is omitted) as
-	 * currently displayed by the widget.
-	 * @return	Returns the main text currently being displayed by the widget.
+	 * Use to get the _main body_ of text (e.g. prepended and appended text is omitted)
+	 * as currently displayed by the widget.
+	 * @return	The main text currently being displayed by the widget.
 	 */
 	QString getText() const;
 
@@ -133,8 +135,8 @@ public:
 	QString getPostText() const;
 
 	/**
-	 * Use to get the total text (prepended + main body) currently displayed by the widget.
-	 * @return	Returns the text currently being displayed by the widget.
+	 * Use to get the total text (prepended + main body + appended) currently displayed by the widget.
+	 * @return	The text currently being displayed by the widget.
 	 */
 	QString getDisplayText() const;
 
@@ -160,7 +162,7 @@ public:
 	/**
 	 * Sets the message to the @ref MessageWidget that this class may represent.
 	 *
-	 * @param	m		The MessageWidget that may be represented.
+	 * @param	m	The MessageWidget that may be represented.
 	 */
 	void setMessage(MessageWidget * m);
 
@@ -172,7 +174,7 @@ public:
 	/**
 	 * Returns the @ref MessageWidget this floating text is related to.
 	 *
-	 * @return	Returns the @ref MessageWidget this floating text is related to.
+	 * @return	The @ref MessageWidget this floating text is related to.
 	 */
 	MessageWidget * getMessage() const {
 		return m_pMessage;
@@ -186,7 +188,7 @@ public:
 	/**
 	 * Sets the assoc to the @ref Association to represent.
 	 *
-	 * @param	a		The Association to represent.
+	 * @param	a	The Association to represent.
 	 */
 	void setAssoc(AssociationWidget * a) {
 		m_pAssoc = a;
@@ -196,7 +198,7 @@ public:
 	 * Returns whether this is a line of text.
 	 * Used for transparency in printing.
 	 *
-	 * @return Returns whether this is a line of text.
+	 * @return	Returns whether this is a line of text.
 	 */
 	bool isText() {
 		return true;
@@ -205,7 +207,7 @@ public:
 	/**
 	 * Returns the Association this object is related to.
 	 *
-	 * @return Returns the Association this object is related to.
+	 * @return	Returns the Association this object is related to.
 	 */
 	AssociationWidget * getAssoc() const {
 		return m_pAssoc;
@@ -215,12 +217,6 @@ public:
 	 * Activate the FloatingText after the saved data has been loaded
 	 */
 	virtual bool activate( IDChangeLog* ChangeLog = 0 );
-
-	/**
-	 * Synchronizes the Widget's m_pData member with its display properties, for example:
-	 * the X and Y positions of the widget, etc
-	 */
-	virtual void synchronizeData();
 
 	/**
 	 * Sets the role type of this FloatingText
@@ -233,9 +229,20 @@ public:
 	Uml::Text_Role getRole() const;
 
 	/**
-	 *
+	 * For a text to be valid it must be non-empty, i.e. have a length
+	 * larger that zero, and have at least one non whitespace character.
 	 */
 	static bool isTextValid(QString text);
+
+	/**
+	 * Returns true if we are dealing with an association related role.
+	 */
+	bool playsAssocRole() const;
+
+	/**
+	 * Returns true if we are dealing with a message related role.
+	 */
+	bool playsMessageRole() const;
 
 	/**
 	 * Calculates the size of the widget.
@@ -243,14 +250,14 @@ public:
 	void calculateSize();
 
 	/**
-	 * Overrides defalt method
+	 * Overrides default method
 	 */
 	void draw(QPainter & p, int offsetX, int offsetY);
 
 	/**
 	 * Sets the state of whether the widget is selected.
 	 *
-	 * @param _select The state of whether the widget is selected.
+	 * @param _select	The state of whether the widget is selected.
 	 */
 	void setSelected(bool _select);
 
@@ -267,22 +274,6 @@ protected:
 	QString m_PreText; // prepended text (such as for scope of association Role or method)
 	QString m_Text; // main body
 	QString m_PostText; // ending text (such as bracket on changability notation for association Role )
-
-	/**
-	 *  The sequence number of an operation or message.
-	 *  Used when representing a @ref MessageWidget or an operation/message
-	 *  on a collaboration diagram.
-	 *
-	 *  We keep this value so we can let the user set it seperatly from the other text.
-	 *  When set the @ref setSeqNumber() method will add it to the main text.
-	 */
-	QString m_SeqNum;
-
-	/**
-	 *  Like the sequence number above, but is used to represent the
-	 *  message/operation being displayed.
-	 */
-	QString m_Operation;
 
 	/**
 	 *  The role the text widget will enact.
@@ -320,6 +311,12 @@ private:
 	 *  a sequence diagram message if appropriate
 	 */
 	void mouseMoveEvent(QMouseEvent* me);
+
+	/**
+	 *  Handle the ListPopupMenu::mt_Rename case of the slotMenuSelection.
+	 *  Given an own method because it requires rather lengthy code.
+	 */
+	void handleRename();
 
 public slots:
 	/**

@@ -97,44 +97,32 @@ public:
 	/**
 	 * Write property of QString m_SequenceNumber.
 	 */
-	void setSequenceNumber( QString sequenceNumber ) {
-		m_SequenceNumber = sequenceNumber;
-	}
+	void setSequenceNumber( QString sequenceNumber );
 
 	/**
 	 * Read property of QString m_SequenceNumber.
 	 */
-	QString getSequenceNumber() const {
-		return m_SequenceNumber;
-	}
+	QString getSequenceNumber() const;
 
 	/**
 	 * Write property of QString m_Operation.
 	 */
-	void setOperation( QString operation ) {
-		m_Operation = operation;
-	}
+	void setOperation( QString operation );
 
 	/**
 	 * Read property of QString m_Operation.
 	 */
-	QString getOperation() const {
-		return m_Operation;
-	}
+	QString getOperation() const;
 
 	/**
-	 * Write property of int m_nTextID.
+	 * Write property of the floating text widget ID.
 	 */
-	void setTextID( int textID ) {
-		m_nTextID = textID;
-	}
+	void setTextID( int textID );
 
 	/**
-	 * Read property of int m_nTextID.
+	 * Read property of the floating text widget ID.
 	 */
-	int getTextID() const {
-		return m_nTextID;
-	}
+	int getTextID() const;
 
 	/**
 	 * Returns whether the message is synchronous or asynchronous
@@ -325,7 +313,7 @@ protected:
 	int m_nWidgetBID;
 	QString m_SequenceNumber;
 	QString m_Operation;
-	int m_nTextID;
+	//int m_nTextID;
 	/**
 	 *	Whether the message is synchronous or asynchronous
 	 */

@@ -38,6 +38,7 @@ MessageWidget::MessageWidget(UMLView * view, UMLWidget* a, UMLWidget* b, Floatin
 	m_nWidgetBID = ((ObjectWidget *)m_pWB)-> getLocalID();
 	ft->setUMLObject(b->getUMLObject());
 	ft -> setMessage(this);
+	ft -> setID( id );
 	connect(m_pWA, SIGNAL(sigWidgetMoved(int)), this, SLOT(slotWidgetMoved(int)));
 	connect(m_pWB, SIGNAL(sigWidgetMoved(int)), this, SLOT(slotWidgetMoved(int)));
 	calculateWidget();
@@ -259,6 +260,22 @@ void MessageWidget::mouseDoubleClickEvent(QMouseEvent * /*me*/) {
 		m_pFText -> slotMenuSelection(ListPopupMenu::mt_Select_Operation);
 }
 
+void MessageWidget::setTextID( int textID ) {
+	if (m_pFText == NULL) {
+		kdWarning() << "MessageWidget::setTextID called on (m_pFText == NULL)" << endl;
+		return;
+	}
+	m_pFText -> setID( textID );
+}
+
+int MessageWidget::getTextID() const {
+	if (m_pFText == NULL) {
+		kdWarning() << "MessageWidget::getTextID called on (m_pFText == NULL)" << endl;
+		return -1;
+	}
+	return m_pFText -> getID();
+}
+
 bool MessageWidget::activate(IDChangeLog * Log /*= 0*/) {
 	bool status = UMLWidget::activate(Log);
 	if(!status)
@@ -267,18 +284,18 @@ bool MessageWidget::activate(IDChangeLog * Log /*= 0*/) {
 		m_pFText = new FloatingText( m_pView, tr_Seq_Message, "" );
 		m_pFText->setFont(UMLWidget::getFont());
 	}
+	/*
 	if (m_nTextID != -1)
 	{
 		m_pFText -> setID( m_nTextID );   //this is wrong//change when anchors back
 	}                                                                     //need to assign new id
 	else {
+	 */
+	if (getID() == -1) {
 		int newid = m_pView->getDocument()->getUniqueID();
 		m_pFText -> setID(newid);
-		m_nTextID = newid;
+		//m_nTextID = newid;
 	}
-	QString seq = m_SequenceNumber;
-	m_pFText -> setSeqNum(seq);
-	m_pFText -> setOperation( m_Operation );
 	QString messageText = m_pFText->getText();
 	m_pFText->setActivated();
 	m_pFText->setVisible( messageText.length() > 1 );
@@ -307,7 +324,6 @@ bool MessageWidget::activate(IDChangeLog * Log /*= 0*/) {
 /** Synchronizes the Widget's m_pData member with its display properties, for exmaple:
 the X and Y position of the widget, etc */
 void MessageWidget::synchronizeData() {
-	UMLWidget::synchronizeData();
 	if(isActivated()) {
 		if(dynamic_cast<ObjectWidget *>(m_pWA)) {
 			m_nWidgetAID = static_cast<ObjectWidget*>(m_pWA)->getLocalID();
@@ -315,10 +331,23 @@ void MessageWidget::synchronizeData() {
 		if(dynamic_cast<ObjectWidget *>(m_pWB)) {
 			m_nWidgetBID = static_cast<ObjectWidget*>(m_pWB)->getLocalID();
 		}
-		m_SequenceNumber = m_pFText -> getSeqNum();
-		m_Operation = m_pFText -> getOperation();
-		m_nTextID = m_pFText -> getID();
 	}
+}
+
+void MessageWidget::setSequenceNumber( QString sequenceNumber ) {
+	m_SequenceNumber = sequenceNumber;
+}
+
+QString MessageWidget::getSequenceNumber() const {
+	return m_SequenceNumber;
+}
+
+void MessageWidget::setOperation( QString operation ) {
+	m_Operation = operation;
+}
+
+QString MessageWidget::getOperation() const {
+	return m_Operation;
 }
 
 void MessageWidget::calculateDimensions() {
@@ -567,7 +596,7 @@ void MessageWidget::setWidgetB(UMLWidget * wb) {
 bool MessageWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement messageElement = qDoc.createElement( "UML:MessageWidget" );
 	bool status = UMLWidget::saveToXMI( qDoc, messageElement );
-	messageElement.setAttribute( "textid", m_nTextID );
+	//messageElement.setAttribute( "textid", m_nTextID );
 	messageElement.setAttribute( "widgetaid", m_nWidgetAID );
 	messageElement.setAttribute( "widgetbid", m_nWidgetBID );
 	messageElement.setAttribute( "operation", m_Operation );
@@ -581,7 +610,7 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement) {
 	if ( !UMLWidget::loadFromXMI(qElement) ) {
 		return false;
 	}
-	QString textid = qElement.attribute( "textid", "-1" );
+	//QString textid = qElement.attribute( "textid", "-1" );
 	QString widgetaid = qElement.attribute( "widgetaid", "-1" );
 	QString widgetbid = qElement.attribute( "widgetbid", "-1" );
 	m_Operation = qElement.attribute( "operation", "" );
@@ -589,7 +618,7 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement) {
 	QString sequenceMessageType = qElement.attribute( "sequencemessagetype", "1001" );
 
 	m_sequenceMessageType = (Sequence_Message_Type)sequenceMessageType.toInt();
-	m_nTextID = textid.toInt();
+	//m_nTextID = textid.toInt();
 	m_nWidgetAID = widgetaid.toInt();
 	m_nWidgetBID = widgetbid.toInt();
 	return true;
