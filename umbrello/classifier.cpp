@@ -29,7 +29,8 @@ UMLClassifier::~UMLClassifier() {
 }
 
 UMLOperation * UMLClassifier::checkOperationSignature( QString name,
-						       UMLAttributeList *opParams )
+																UMLAttributeList *opParams,
+																UMLOperation *exemptOp)
 {
 	UMLObjectList list = findChildObject( Uml::ot_Operation, name );
 	if( list.count() == 0 )
@@ -40,6 +41,8 @@ UMLOperation * UMLClassifier::checkOperationSignature( QString name,
 	     test != 0; 
 	     test = dynamic_cast<UMLOperation*>(list.next()) )
 	{
+		if (test == exemptOp)
+			continue;
 		UMLAttributeList *testParams = test->getParmList( );
 		if( testParams->count() != opParams->count() )
 			continue;
