@@ -628,7 +628,7 @@ public:
 	 * @return	Pointer to the current UMLView.
 	 */
 	UMLView * getCurrentView() {
-		return currentView;
+		return m_currentView;
 	}
 
 	/**
@@ -1001,12 +1001,14 @@ private:
 
 	ClassImport * m_classImporter;
 	CodeGenerator * m_currentcodegenerator;
-	UMLObjectList objectList;
-	int uniqueID;
+	UMLObjectList m_objectList;
+	int m_uniqueID;
 	int m_count;   ///< auxiliary counter for the progress bar
 	bool m_modified;
-	KURL doc_url;
-	UMLView* currentView;
+	KURL m_doc_url;
+	UMLView* m_currentView;
+	/// Auxiliary variable for loading foreign XMI files
+	int m_highestIDforForeignFile;
 
 	/**
 	 * A dictionary of the parameters in the save XMI file
@@ -1024,11 +1026,6 @@ private:
 	 * Contains all the UMLObject id changes of paste session.
 	 */
 	IDChangeLog* m_pChangeLog;
-
-	/**
-	 * List of Not yet Activated views.
-	 */
-	UMLViewList viewsNotActivated;
 
 	/**
 	 * true if the we're loading a new document
