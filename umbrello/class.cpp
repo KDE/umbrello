@@ -186,27 +186,29 @@ UMLObject* UMLClass::clone() const
 
 void UMLClass::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement classElement = UMLObject::save("UML:Class", qDoc);
+	QDomElement featureElement = qDoc.createElement( "UML:Classifier.feature" );
 	//save operations
 	UMLOperationList opList = getOpList();
 	UMLOperation * pOp = 0;
 	for( pOp = opList.first(); pOp != 0; pOp = opList.next() )
-		pOp -> saveToXMI( qDoc, classElement );
+		pOp -> saveToXMI( qDoc, featureElement );
 	UMLClassifierListItemList list;
 	//save attributes
 	list = getFilteredList(Uml::ot_Attribute);
 	UMLClassifierListItem * pAtt = 0;
 	for( pAtt = list.first(); pAtt != 0; pAtt = list.next() )
-		pAtt -> saveToXMI( qDoc, classElement );
+		pAtt -> saveToXMI( qDoc, featureElement );
 	//save templates
 	list = getFilteredList(Uml::ot_Template);
 	UMLClassifierListItem* newTemplate = 0;
 	for (newTemplate = list.first(); newTemplate != 0; newTemplate = list.next() ) {
-		newTemplate->saveToXMI(qDoc, classElement);
+		newTemplate->saveToXMI(qDoc, featureElement);
 	}
 	//save contained objects
 	for (UMLObject *obj = m_objects.first(); obj; obj = m_objects.next())
-		obj->saveToXMI (qDoc, classElement);
-
+		obj->saveToXMI (qDoc, featureElement);
+	if (featureElement.hasChildNodes())
+		classElement.appendChild( featureElement );
 	qElement.appendChild( classElement );
 }
 

@@ -46,15 +46,18 @@ void UMLInterface::init() {
 
 void UMLInterface::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement interfaceElement = UMLObject::save("UML:Interface", qDoc);
+	QDomElement featureElement = qDoc.createElement( "UML:Classifier.feature" );
 	//save operations
 	UMLOperationList opsList = getOpList();
 	UMLOperation* pOp = 0;
 	for ( pOp = opsList.first(); pOp != 0; pOp = opsList.next() ) {
-		pOp->saveToXMI(qDoc, interfaceElement);
+		pOp->saveToXMI(qDoc, featureElement);
 	}
 	//save contained objects
 	for (UMLObject *obj = m_objects.first(); obj; obj = m_objects.next())
-		obj->saveToXMI (qDoc, interfaceElement);
+		obj->saveToXMI (qDoc, featureElement);
+	if (featureElement.hasChildNodes())
+		interfaceElement.appendChild( featureElement );
 	qElement.appendChild( interfaceElement );
 }
 
