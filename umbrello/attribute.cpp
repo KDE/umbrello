@@ -19,6 +19,8 @@
 #include <kdebug.h>
 // app includes
 #include "classifier.h"
+#include "operation.h"
+#include "umlobject.h"
 #include "umldoc.h"
 #include "uml.h"
 #include "dialogs/umlattributedialog.h"
@@ -111,6 +113,27 @@ QString UMLAttribute::toString(Uml::Signature_Type sig) {
 		return string;
 	} else
 		return s + getName();
+}
+
+QString UMLAttribute::getFullyQualifiedName(const QString &separator) const {
+	UMLOperation *op = NULL;
+	UMLObject *owningObject = static_cast<UMLObject*>(parent());
+	if (owningObject->getBaseType() == Uml::ot_Operation) {
+		op = static_cast<UMLOperation*>(owningObject);
+		owningObject = static_cast<UMLObject*>(owningObject->parent());
+	}
+	UMLClassifier *ownParent = dynamic_cast<UMLClassifier*>(owningObject);
+	if (ownParent == NULL) {
+		kdError() << "UMLAttribute::getFullyQualifiedName(" << m_Name
+			  << "): parent " << owningObject->getName()
+			  << " is not a UMLClassifier" << endl;
+		return "";
+	}
+	QString fqn = ownParent->getFullyQualifiedName(separator);
+	if (op)
+		fqn.append(separator + op->getName());
+	fqn.append(separator + m_Name);
+	return fqn;
 }
 
 bool UMLAttribute::operator==( UMLAttribute &rhs) {

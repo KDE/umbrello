@@ -94,6 +94,11 @@ public:
 	QString toString(Uml::Signature_Type sig = Uml::st_NoSig);
 
 	/**
+	 * Reimplement method from UMLObject.
+	 */
+	QString getFullyQualifiedName(const QString &separator = "::") const;
+
+	/**
 	 * Creates the <UML:Attribute> XMI element.
 	 */
 	void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
