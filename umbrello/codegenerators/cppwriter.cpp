@@ -265,6 +265,30 @@ void CppWriter::writeHeaderFile (UMLClassifier *c, QFile &fileh) {
 			return;
 		}
 	}
+
+	// Generate template parameters.
+	UMLClassifierListItemList template_params = c->getFilteredList(Uml::ot_Template);
+	if (template_params.count()) {
+		h << "template<";
+		for (UMLClassifierListItem *li = template_params.first(); li; ) {
+			QString formalName = li->getName();
+			QString typeName = li->getTypeName();
+			UMLClassifier *typeObj = li->getType();
+			if (typeName == "class") {
+				h << "class";
+			} else if (typeObj == NULL) {
+				kdError() << "CppWriter::writeClass(" << classifierInfo->className
+					  << "): typeObj is NULL" << endl;
+			} else {
+				h << li->getTypeName();
+			}
+			h << " " << formalName;
+			if ((li = template_params.next()) != NULL)
+				h << ", ";
+		}
+		h << ">" << m_endl;
+	}
+
 	h << "class " << classifierInfo->className;
 	if (classifierInfo->superclasses.count() > 0)
 		h << " : ";
