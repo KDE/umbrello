@@ -11,25 +11,26 @@
 #define CONCEPT_H
 
 #include "umlcanvasobject.h"
+#include "umlobjectlist.h"
+#include "umlclassifierlist.h"
 #include <qptrlist.h>
 
 class IDChangeLog;
-class UMLAssociation;
 class UMLClassifierListItem;
 class UMLOperation;
 class UMLStereotype;
 class UMLDoc;
 
 /**
- *	This is an abstract class which defines the non-graphical information/interface 
- *	required for a UML Concept (ie a class or interface).
- *	This class inherits from @ref UMLCanvasObject which contains most of the information.
- *	The @ref UMLDoc class creates instances of this type.  All Concepts will need a unique
- *	id.  This will be given by the @ref UMLDoc class.  If you don't leave it up to the @ref UMLDoc
- *	class then call the method @ref UMLDoc::getUniqueID to get a unique id.
+ * This is an abstract class which defines the non-graphical information/interface 
+ * required for a UML Concept (ie a class or interface).
+ * This class inherits from @ref UMLCanvasObject which contains most of the information.
+ * The @ref UMLDoc class creates instances of this type.  All Concepts will need a unique
+ * id.  This will be given by the @ref UMLDoc class.  If you don't leave it up to the @ref UMLDoc
+ * class then call the method @ref UMLDoc::getUniqueID to get a unique id.
  *
- *	@short	Information for a non-graphical Concept/Class.
- *	@author Paul Hensgen	<phensgen@techie.com>
+ * @short	Information for a non-graphical Concept/Class.
+ * @author Paul Hensgen	<phensgen@techie.com>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
@@ -130,7 +131,7 @@ public:
 	 *
 	 *	@return	The object found.  Will return 0 if none found.
 	 */
-	virtual QPtrList<UMLObject> findChildObject(UMLObject_Type t, QString n);
+	virtual UMLObjectList findChildObject(UMLObject_Type t, QString n);
 
 	/**
 	 *	Find an attribute, operation, association or template.
@@ -145,13 +146,13 @@ public:
          * Returns a list of concepts which this concept inherits from.
          * @return      list    a QPtrList of UMLClassifiers we inherit from.
         */
-        QPtrList<UMLClassifier> findSuperClassConcepts ( UMLDoc *doc);
+        UMLClassifierList findSuperClassConcepts ( UMLDoc *doc);
 
         /**
          * Returns a list of concepts which inherit from this concept.
          * @return      list    a QPtrList of UMLClassifiers we inherit from.
          */
-        QPtrList<UMLClassifier> findSubClassConcepts ( UMLDoc *doc);
+        UMLClassifierList findSubClassConcepts ( UMLDoc *doc);
 
 	/** reimplemented from UMLObject*/
 	virtual bool acceptAssociationType(Uml::Association_Type);

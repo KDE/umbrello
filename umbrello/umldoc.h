@@ -15,6 +15,8 @@
 #endif
 
 #include "associationwidgetlist.h"
+#include "umlclassifierlist.h"
+#include "umlassociationlist.h"
 #include "dialogs/settingsdlg.h"
 #include "umlviewlist.h"
 #include "umlobjectlist.h"
@@ -50,7 +52,6 @@ class UMLView;
 class UMLWidget;
 class UMLClassifier;
 class UMLInterface;
-class UMLAssociation;
 class UMLApp;
 
 using namespace Uml;
@@ -515,7 +516,7 @@ public:
 	 *
 	 *	@return	Returns a list of concepts
 	 */
-	QPtrList<UMLClassifier> getConcepts();
+	UMLClassifierList getConcepts();
 
 	/**
 	 *	Returns a list of interfaces
@@ -529,7 +530,7 @@ public:
 	 *
 	 *	@return	Returns a list of associations
 	 */
-	QPtrList<UMLAssociation> getAssociations();
+	UMLAssociationList getAssociations();
 
 	/**
 	 * Controls the printing of the program.

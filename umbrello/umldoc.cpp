@@ -767,7 +767,7 @@ void UMLDoc::removeAssociation(Association_Type assocType, int AId, int BId) {
 			continue;
 		}
 		// Remove the UMLAssociation at the concept that plays role B.
-		QPtrList<UMLClassifier> concepts = getConcepts();
+		UMLClassifierList concepts = getConcepts();
 		for (UMLClassifier *c = concepts.first(); c; c = concepts.next())
 			if (BId == c->getID())
 				c->removeAssociation(a);
@@ -801,7 +801,7 @@ void UMLDoc::removeAssociation (UMLAssociation * assoc) {
 
 void UMLDoc::removeAssocFromConcepts(UMLAssociation *assoc)
 {
-	QPtrList<UMLClassifier> concepts = getConcepts();
+	UMLClassifierList concepts = getConcepts();
 	for (UMLClassifier *c = concepts.first(); c; c = concepts.next())
 		if (c->hasAssociation(assoc))
 			c->removeAssociation(assoc);
@@ -825,7 +825,7 @@ void UMLDoc::addAssociation(UMLAssociation *Assoc)
 	// This may happen as long as we are still in transition from the old
 	// widget based association fabrication. (See explanation at method
 	// addAssocInViewAndDoc() in file umlview.h.)
-	QPtrList<UMLAssociation> assocs = getAssociations();
+	UMLAssociationList assocs = getAssociations();
 	UMLAssociation *a;
 	for (a = assocs.first(); a; a = assocs.next()) {
 		// check if its already been added (shouldnt be the case right now
@@ -859,7 +859,7 @@ void UMLDoc::addAssociation(UMLAssociation *Assoc)
 void UMLDoc::addAssocToConcepts(UMLAssociation* a) {
 	int AId = a->getRoleAId();
 	int BId = a->getRoleBId();
-	QPtrList<UMLClassifier> concepts = getConcepts();
+	UMLClassifierList concepts = getConcepts();
 	for (UMLClassifier *c = concepts.first(); c; c = concepts.next()) {
 		switch (a->getAssocType()) {
 			// for the next cases should add association to all classes involved
@@ -1066,7 +1066,7 @@ void UMLDoc::removeUMLObject(UMLObject *o) {
 			Uml::Association_Type assocType = a->getAssocType();
 			int AId = a->getRoleAId();
 			int BId = a->getRoleBId();
-			QPtrList<UMLClassifier> concepts = getConcepts();
+			UMLClassifierList concepts = getConcepts();
 			for (UMLClassifier *c = concepts.first(); c; c = concepts.next()) {
 				switch (assocType) {
 					case Uml::at_Generalization:
@@ -1712,7 +1712,7 @@ QStringList UMLDoc::getModelTypes()
 	types.append("date");
 
 	//now add the Classes and Interfaces (both are Concepts)
-	QPtrList<UMLClassifier> namesList( getConcepts() );
+	UMLClassifierList namesList( getConcepts() );
 	UMLClassifier* pConcept = 0;
 	for(pConcept=namesList.first(); pConcept!=0 ;pConcept=namesList.next())
 	{
@@ -1721,8 +1721,8 @@ QStringList UMLDoc::getModelTypes()
 	return types;
 }
 
-QPtrList<UMLClassifier> UMLDoc::getConcepts() {
-	QPtrList<UMLClassifier> conceptList;
+UMLClassifierList UMLDoc::getConcepts() {
+	UMLClassifierList conceptList;
 	for(UMLObject *obj = objectList.first(); obj ; obj = objectList.next())
 		if(obj -> getBaseType() == ot_Class || obj->getBaseType() == ot_Interface)
 			conceptList.append((UMLClassifier *)obj);
@@ -1739,8 +1739,8 @@ QPtrList<UMLInterface> UMLDoc::getInterfaces() {
 	return interfaceList;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-QPtrList<UMLAssociation> UMLDoc::getAssociations() {
-	QPtrList<UMLAssociation> associationList;
+UMLAssociationList UMLDoc::getAssociations() {
+	UMLAssociationList associationList;
 	for(UMLObject *obj = objectList.first(); obj ; obj = objectList.next())
 		if(obj -> getBaseType() == ot_Association)
 			associationList.append((UMLAssociation *)obj);

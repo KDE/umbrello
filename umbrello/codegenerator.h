@@ -33,9 +33,9 @@
 
 #include "codegenerationpolicy.h"
 #include "codeaccessormethod.h"
+#include "umlclassifierlist.h"
 
 class UMLAttribute;
-class UMLClassifier;
 class UMLDoc;
 class UMLObject;
 class UMLRole;
@@ -196,7 +196,7 @@ public:
         // this method is here to provide class wizard the
         // ability to write out only those classes which
         // are selected by the user.
-        void writeCodeToFile(QPtrList<UMLClassifier> &list);
+        void writeCodeToFile(UMLClassifierList &list);
 
 	// these are utility methods for accessing the default 
         // code gen policy object and *perhaps* should go away when we 
@@ -280,7 +280,7 @@ public:
          * @param c the class for which relations are to be found
          * @param cList a reference to the list into which return the result
          */
-        void findObjectsRelated(UMLClassifier *c, QPtrList<UMLClassifier> &cList);
+        void findObjectsRelated(UMLClassifier *c, UMLClassifierList &cList);
 
         // a series of accessor method constructors that we need to define
         // for any particular language.

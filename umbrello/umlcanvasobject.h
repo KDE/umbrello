@@ -11,10 +11,11 @@
 #define CANVASOBJECT_H
 
 #include "umlobject.h"
+#include "umlobjectlist.h"
+#include "umlassociationlist.h"
 #include <qptrlist.h>
 
 class IDChangeLog;
-class UMLAssociation;
 
 /**
  *	This class contains the non-graphical information required for UMLObjects which appear as
@@ -94,35 +95,35 @@ public:
 	 *
 	 *	@return The list of associations for the CanvasObject.
 	 */
-	const QPtrList<UMLAssociation>& getAssociations();
+	const UMLAssociationList& getAssociations();
 
 	/**
 	 *	Return the subset of m_AssocsList that matches `assocType'.
 	 *
 	 *	@return The list of associations that match `assocType'.
 	 */
-	QPtrList<UMLAssociation> getSpecificAssocs(Uml::Association_Type assocType);
+	UMLAssociationList getSpecificAssocs(Uml::Association_Type assocType);
 
 	/**
 	 *	Shorthand for getSpecificAssocs(Uml::at_Generalization)
 	 *
 	 *	@return The list of generalizations for the Concept.
 	 */
-	virtual QPtrList<UMLAssociation> getGeneralizations();
+	virtual UMLAssociationList getGeneralizations();
 
 	/**
 	 *	Shorthand for getSpecificAssocs(Uml::at_Aggregation)
 	 *
 	 *	@return The list of aggregations for the Concept.
 	 */
-	QPtrList<UMLAssociation> getAggregations();
+	UMLAssociationList getAggregations();
 
 	/**
 	 *	Shorthand for getSpecificAssocs(Uml::at_Composition)
 	 *
 	 *	@return The list of compositions for the Concept.
 	 */
-	QPtrList<UMLAssociation> getCompositions();
+	UMLAssociationList getCompositions();
 
 	/**
 	 *	Find a list of associations with the given name.
@@ -132,7 +133,7 @@ public:
 	 *
 	 *	@return	The object found.  Will return 0 if none found.
 	 */
-	virtual QPtrList<UMLObject> findChildObject(UMLObject_Type t, QString n);
+	virtual UMLObjectList findChildObject(UMLObject_Type t, QString n);
 
 	/**
 	 *	Find an association.
@@ -159,13 +160,13 @@ protected:
 	/**
 	 * 	List of all the associations in this class.
 	 */
-	QPtrList<UMLAssociation> m_AssocsList;
+	UMLAssociationList m_AssocsList;
 
 	/**
 	 * 	List for computation of subsets of m_AssocsList.
 	 * 	This is always computed from m_AssocsList.
 	 */
-	QPtrList<UMLAssociation> m_TmpAssocs;
+	UMLAssociationList m_TmpAssocs;
 
 
 signals:

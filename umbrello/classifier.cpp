@@ -9,6 +9,7 @@
 
 #include "classifier.h"
 #include "association.h"
+#include "umlassociationlist.h"
 #include "operation.h"
 #include "stereotype.h"
 #include "clipboard/idchangelog.h"
@@ -101,8 +102,8 @@ bool UMLClassifier::addStereotype(UMLStereotype* newStereotype, UMLObject_Type l
 	return false;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-QPtrList<UMLObject> UMLClassifier::findChildObject(UMLObject_Type t , QString n) {
-  	QPtrList<UMLObject> list;
+UMLObjectList UMLClassifier::findChildObject(UMLObject_Type t , QString n) {
+  	UMLObjectList list;
  	if (t == ot_Association) {
 		return UMLCanvasObject::findChildObject(t, n);
 	} else if (t == ot_Operation) {
@@ -130,9 +131,9 @@ UMLObject* UMLClassifier::findChildObject(int id) {
 // the sad thing here is that we have to pass along a UMLDocument pointer.
 // It would be better if each concept knew what document it belonged to.
 // This should be changed in the future.
-QPtrList<UMLClassifier> UMLClassifier::findSubClassConcepts ( UMLDoc *doc) {
-        QPtrList<UMLAssociation> list = this->getGeneralizations();
-        QPtrList<UMLClassifier> inheritingConcepts;
+UMLClassifierList UMLClassifier::findSubClassConcepts ( UMLDoc *doc) {
+        UMLAssociationList list = this->getGeneralizations();
+        UMLClassifierList inheritingConcepts;
         int myID = this->getID();
         for (UMLAssociation *a = list.first(); a; a = list.next())
         {
@@ -156,9 +157,9 @@ QPtrList<UMLClassifier> UMLClassifier::findSubClassConcepts ( UMLDoc *doc) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Same note as for the above findSubClassConcepts method. Need to have
 // each Concept already know its UMLdocument.
-QPtrList<UMLClassifier> UMLClassifier::findSuperClassConcepts ( UMLDoc *doc) {
-        QPtrList<UMLAssociation> list = this->getGeneralizations();
-        QPtrList<UMLClassifier> parentConcepts;
+UMLClassifierList UMLClassifier::findSuperClassConcepts ( UMLDoc *doc) {
+        UMLAssociationList list = this->getGeneralizations();
+        UMLClassifierList parentConcepts;
         int myID = this->getID();
         for (UMLAssociation *a = list.first(); a; a = list.next())
         {

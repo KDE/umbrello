@@ -13,6 +13,7 @@
 #include "assocrules.h"
 #include "umlwidget.h"
 #include "umlobject.h"
+#include "associationwidgetlist.h"
 #include "associationwidget.h"
 #include "statewidget.h"
 #include "activitywidget.h"
@@ -183,7 +184,7 @@ bool AssocRules::allowAssociation( Association_Type assocType, UMLWidget * widge
 			    ActivityWidget::Fork &&
 			    static_cast<ActivityWidget*>(widgetA)->getActivityType() !=
 			    ActivityWidget::Branch ) {
-				QPtrList<AssociationWidget> list = widgetA->getAssocList();
+				AssociationWidgetList list = widgetA->getAssocList();
 				for (AssociationWidget* assoc = list.first(); assoc; assoc = list.next()) {
 					if (assoc->getWidgetA() == widgetA) {
 						return false;

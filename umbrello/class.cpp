@@ -195,8 +195,8 @@ QString UMLClass::uniqChildName(UMLObject_Type type) {
 	return name;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-QPtrList<UMLObject> UMLClass::findChildObject(UMLObject_Type t , QString n) {
-  	QPtrList<UMLObject> list;
+UMLObjectList UMLClass::findChildObject(UMLObject_Type t , QString n) {
+  	UMLObjectList list;
  	if (t == ot_Association) {
 		return UMLClassifier::findChildObject(t, n);
  	} else if (t == ot_Attribute || t == ot_Stereotype) {

@@ -12,6 +12,7 @@
 #define UMLCLASS_H
 
 #include "classifier.h"
+#include "umlobjectlist.h"
 
 class UMLAttribute;
 class UMLTemplate;
@@ -169,7 +170,7 @@ public:
 	 *
 	 *      @return The object found.  Will return 0 if none found.
 	 */
-	 virtual QPtrList<UMLObject> findChildObject(UMLObject_Type t, QString n);
+	 virtual UMLObjectList findChildObject(UMLObject_Type t, QString n);
 
 	/**
 	 *      Find an attribute, operation, association or template.

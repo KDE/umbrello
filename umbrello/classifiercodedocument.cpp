@@ -402,9 +402,9 @@ kdWarning()<<" INIT CODE CLASSFIELDS IN CLASSIFIER DOC"<<endl;
         }
 
 	// now, do the code classifields that arise from associations
-	QPtrList<UMLAssociation> ap = c->getSpecificAssocs(Uml::at_Association);
-	QPtrList<UMLAssociation> ag = c->getAggregations();
-	QPtrList<UMLAssociation> ac = c->getCompositions();
+	UMLAssociationList ap = c->getSpecificAssocs(Uml::at_Association);
+	UMLAssociationList ag = c->getAggregations();
+	UMLAssociationList ac = c->getCompositions();
 
 	updateAssociationClassFields(ap);
 	updateAssociationClassFields(ag);
@@ -414,7 +414,7 @@ kdWarning()<<" FINISH - INIT CODE CLASSFIELDS IN CLASSIFIER DOC"<<endl;
 
 }
 
-void ClassifierCodeDocument::updateAssociationClassFields ( QPtrList<UMLAssociation> &assocList )
+void ClassifierCodeDocument::updateAssociationClassFields ( UMLAssociationList &assocList )
 {
         QPtrList<CodeClassField> list;
         for(UMLAssociation * a=assocList.first(); a; a=assocList.next())

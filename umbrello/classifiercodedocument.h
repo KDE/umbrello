@@ -30,7 +30,7 @@
 #include "codeclassfield.h"
 #include "operation.h"
 #include "umlrole.h"
-
+#include "umlassociationlist.h"
 
 /**
   * class ClassifierCodeDocument
@@ -196,7 +196,7 @@ private:
 
 	// using the passed list, update our inventory of CodeClassFields which are
 	// based on UMLRoles (e.g. dervied from associations with other classifiers).
- 	void updateAssociationClassFields ( QPtrList<UMLAssociation> &assocList ); 
+ 	void updateAssociationClassFields ( UMLAssociationList &assocList ); 
 
 	// update code operations in this document using the parent classifier
 	void updateOperations( );

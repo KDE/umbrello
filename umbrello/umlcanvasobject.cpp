@@ -29,8 +29,8 @@ UMLCanvasObject::~UMLCanvasObject() {
 	m_TmpAssocs.clear();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-QPtrList<UMLAssociation> UMLCanvasObject::getSpecificAssocs(Uml::Association_Type assocType) {
-	QPtrList<UMLAssociation> list;
+UMLAssociationList UMLCanvasObject::getSpecificAssocs(Uml::Association_Type assocType) {
+	UMLAssociationList list;
 	for (UMLAssociation* a = m_AssocsList.first(); a; a = m_AssocsList.next())
 		if (a->getAssocType() == assocType)
 			list.append(a);
@@ -75,8 +75,8 @@ QString UMLCanvasObject::uniqChildName(UMLObject_Type type) {
 	return name;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-QPtrList<UMLObject> UMLCanvasObject::findChildObject(UMLObject_Type t, QString n) {
-	QPtrList<UMLObject> list;
+UMLObjectList UMLCanvasObject::findChildObject(UMLObject_Type t, QString n) {
+	UMLObjectList list;
 	if (t == ot_Association) {
 		UMLAssociation * obj=0;
 		for (obj = m_AssocsList.first(); obj != 0; obj = m_AssocsList.next()) {
@@ -125,19 +125,19 @@ int UMLCanvasObject::associations() {
 	return m_AssocsList.count();
 }
 
-const QPtrList<UMLAssociation>& UMLCanvasObject::getAssociations() {
+const UMLAssociationList& UMLCanvasObject::getAssociations() {
 	return m_AssocsList;
 }
 
-QPtrList<UMLAssociation> UMLCanvasObject::getGeneralizations() {
+UMLAssociationList UMLCanvasObject::getGeneralizations() {
 	return getSpecificAssocs(Uml::at_Generalization);
 }
 
-QPtrList<UMLAssociation> UMLCanvasObject::getAggregations() {
+UMLAssociationList UMLCanvasObject::getAggregations() {
 	return getSpecificAssocs(Uml::at_Aggregation);
 }
 
-QPtrList<UMLAssociation> UMLCanvasObject::getCompositions() {
+UMLAssociationList UMLCanvasObject::getCompositions() {
 	return getSpecificAssocs(Uml::at_Composition);
 }
 #include "umlcanvasobject.moc"
