@@ -850,7 +850,7 @@ AssociationWidget * UMLView::findAssocWidget( int id ) {
 	return 0;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void UMLView::removeWidget(UMLWidget * o) {
+void UMLView::removeWidget(UMLWidget * o, bool isMessage /*=false*/) {
 	if(!o)
 		return;
 	removeAssociations(o);
@@ -869,7 +869,10 @@ void UMLView::removeWidget(UMLWidget * o) {
 	disconnect( this, SIGNAL( sigRemovePopupMenu() ), o, SLOT( slotRemovePopupMenu() ) );
 	disconnect( this, SIGNAL( sigClearAllSelected() ), o, SLOT( slotClearAllSelected() ) );
 	disconnect( this, SIGNAL(sigColorChanged(int)), o, SLOT(slotColorChanged(int)));
-	m_WidgetList.remove(o);
+	if (isMessage)
+		m_MessageList.remove(static_cast<MessageWidget*>(o));
+	else
+		m_WidgetList.remove(o);
 	delete o;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////

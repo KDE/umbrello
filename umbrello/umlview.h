@@ -398,8 +398,9 @@ public:
 	 * Remove a widget from view.
 	 *
 	 * @param o		The widget to remove.
+	 * @param isMessage	Set to true when invoking on a MessageWidget.
 	 */
-	void removeWidget(UMLWidget * o);
+	void removeWidget(UMLWidget * o, bool isMessage = false);
 
 	/**
 	 * Sets a widget to a selected state and adds it to a list of selected widgets.
