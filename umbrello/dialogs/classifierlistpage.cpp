@@ -418,16 +418,10 @@ UMLClassifierListItemList ClassifierListPage::getItemList() {
 			}
 			break;
 		}
-		case ot_Operation: {
-			return m_pClassifier->getFilteredList(ot_Operation);
-		}
-		case ot_Template: {
-			UMLClass* classifier = dynamic_cast<UMLClass*>(m_pClassifier);
-			if (classifier) {
-				return classifier->getFilteredList(ot_Template);
-			}
+		case ot_Operation:
+		case ot_Template:
+			return m_pClassifier->getFilteredList(itemType);
 			break;
-		}
 		case ot_EnumLiteral: {
 			UMLEnum* classifier = dynamic_cast<UMLEnum*>(m_pClassifier);
 			if (classifier) {

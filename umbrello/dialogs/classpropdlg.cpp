@@ -7,13 +7,16 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qlayout.h>
+// own header
+#include "classpropdlg.h"
 
+// qt/kde includes
+#include <qlayout.h>
 #include <kiconloader.h>
 #include <klocale.h>
 #include <kdebug.h>
 
-#include "classpropdlg.h"
+// app includes
 #include "classgenpage.h"
 #include "classifierlistpage.h"
 #include "pkgcontentspage.h"
@@ -167,8 +170,9 @@ void ClassPropDlg::setupPages(UMLObject * c, bool assoc) {
 	page -> setMinimumSize(310, 330);
 	m_pGenPage = new ClassGenPage(m_pDoc, page, c);
 	genLayout -> addWidget(m_pGenPage);
+	Uml::Object_Type ot = c->getBaseType();
 	//add extra pages for class
-	if (c->getBaseType() == Uml::ot_Class ) {
+	if (ot == Uml::ot_Class ) {
 		//setup attributes page
 		QFrame* newPage = addPage( i18n("Attributes"), i18n("Attribute Settings"), DesktopIcon("misc") );
 		m_pAttPage = new ClassifierListPage(newPage, (UMLClassifier *)c, m_pDoc, Uml::ot_Attribute);
@@ -176,8 +180,7 @@ void ClassPropDlg::setupPages(UMLObject * c, bool assoc) {
 		attLayout -> addWidget(m_pAttPage);
 	}
 
-	if (c->getBaseType() == Uml::ot_Class || c->getBaseType() == Uml::ot_Interface) {
-
+	if (ot == Uml::ot_Class || ot == Uml::ot_Interface) {
 		//setup operations page
 		QFrame* newPage = addPage( i18n("Operations"), i18n("Operation Settings"), DesktopIcon("misc") );
 		m_pOpsPage = new ClassifierListPage(newPage, (UMLClassifier*)c, m_pDoc, Uml::ot_Operation);
@@ -185,28 +188,28 @@ void ClassPropDlg::setupPages(UMLObject * c, bool assoc) {
 		pOpsLayout -> addWidget(m_pOpsPage);
 	}
 
-	if (c->getBaseType() == Uml::ot_Class ) {
+	if (ot == Uml::ot_Class || ot == Uml::ot_Interface) {
 		//setup templates page
 		QFrame* newPage = addPage( i18n("Templates"), i18n("Templates Settings"), DesktopIcon("misc") );
 		m_pTemplatePage = new ClassifierListPage(newPage, (UMLClassifier *)c, m_pDoc, Uml::ot_Template);
 		QHBoxLayout* templatesLayout = new QHBoxLayout(newPage);
 		templatesLayout->addWidget(m_pTemplatePage);
 	}
-	if (c->getBaseType() == Uml::ot_Enum) {
+	if (ot == Uml::ot_Enum) {
 		//setup enum literals page
 		QFrame* newPage = addPage( i18n("Enum Literals"), i18n("Enum Literals Settings"), DesktopIcon("misc") );
 		m_pEnumLiteralPage = new ClassifierListPage(newPage, (UMLClassifier*)c, m_pDoc, Uml::ot_EnumLiteral);
 		QHBoxLayout* enumLiteralsLayout = new QHBoxLayout(newPage);
 		enumLiteralsLayout->addWidget(m_pEnumLiteralPage);
 	}
-	if (c->getBaseType() == Uml::ot_Entity) {
+	if (ot == Uml::ot_Entity) {
 		//setup enum literals page
 		QFrame* newPage = addPage( i18n("Entity Attributes"), i18n("Entity Attributes Settings"), DesktopIcon("misc") );
 		m_pEntityAttributePage = new ClassifierListPage(newPage, (UMLClassifier*)c, m_pDoc, Uml::ot_EntityAttribute);
 		QHBoxLayout* entityAttributesLayout = new QHBoxLayout(newPage);
 		entityAttributesLayout->addWidget(m_pEntityAttributePage);
 	}
-	if (c->getBaseType() == Uml::ot_Package ) {
+	if (ot == Uml::ot_Package ) {
 		// Set up containment page.
 		QFrame* newPage = addPage( i18n("Contents"), i18n("Contents Settings"), DesktopIcon("misc") );
 		m_pPkgContentsPage = new PkgContentsPage(newPage, (UMLPackage*)(c));

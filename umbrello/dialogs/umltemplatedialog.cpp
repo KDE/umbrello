@@ -105,8 +105,6 @@ void UMLTemplateDialog::setupDialog() {
 }
 
 bool UMLTemplateDialog::apply() {
-	UMLClass * pClass = dynamic_cast<UMLClass *>( m_pTemplate->parent() );
-
 	QString typeName = m_pTypeCB->currentText();
 	UMLDoc *pDoc = UMLApp::app()->getDocument();
 	UMLClassifierList namesList( pDoc->getConcepts() );
@@ -128,12 +126,15 @@ bool UMLTemplateDialog::apply() {
 		return false;
 	}
 
-	UMLObjectList list= pClass->findChildObject(Uml::ot_Attribute, name);
-	if( list.count() != 0 && list.findRef( m_pTemplate ) ) {
-		KMessageBox::error(this, i18n("The attribute name you have chosen is already being used in this operation."),
-		                   i18n("Attribute Name Not Unique"), false);
-		m_pNameLE->setText( m_pTemplate->getName() );
-		return false;
+	UMLClass * pClass = dynamic_cast<UMLClass *>( m_pTemplate->parent() );
+	if (pClass) {
+		UMLObjectList list= pClass->findChildObject(Uml::ot_Attribute, name);
+		if( list.count() != 0 && list.findRef( m_pTemplate ) ) {
+			KMessageBox::error(this, i18n("The template parameter name you have chosen is already being used in this operation."),
+			                   i18n("Template Name Not Unique"), false);
+			m_pNameLE->setText( m_pTemplate->getName() );
+			return false;
+		}
 	}
 	m_pTemplate->setName(name);
 
