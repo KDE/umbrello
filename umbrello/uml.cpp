@@ -83,11 +83,10 @@ UMLApp::UMLApp(QWidget* , const char* name):KDockMainWindow(0, name) {
 	///////////////////////////////////////////////////////////////////
 	// call inits to invoke all other construction parts
 	readOptionState();
-	initActions();
 	initDocument();
+	initActions(); //now calls initStatusBar() because it is effected by setupGUI();
 	initView();
 	initClip();
-	initStatusBar();
 	readOptions();
 	///////////////////////////////////////////////////////////////////
 	// disable actions at startup
@@ -268,8 +267,10 @@ void UMLApp::initActions() {
 
 	KStdAction::tipOfDay( this, SLOT( tipOfTheDay() ), actionCollection() );
 
-	// use the absolute path to your umbrelloui.rc file for testing purpose in createGUI();
-	createGUI();
+	initStatusBar(); //call this here because status bar is shown/hidden by setupGUI()
+
+	// use the absolute path to your umbrelloui.rc file for testing purpose in setupGUI();
+	setupGUI();
 
 	QPopupMenu* menu = findMenu( menuBar(), QString("settings") );
 	menu->insertItem(i18n("&Windows"), dockHideShowMenu(), -1, 0);
@@ -357,7 +358,6 @@ void UMLApp::initStatusBar() {
 	*/
 
 	connect(m_doc, SIGNAL( sigWriteToStatusBar(const QString &) ), this, SLOT( slotStatusMsg(const QString &) ));
-	statusBar()->show(); //needs to be forced to show when on first ever startup for some reason
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLApp::initDocument() {
