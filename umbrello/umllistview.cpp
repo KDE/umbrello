@@ -328,10 +328,7 @@ void UMLListView::popupMenuSel(int sel) {
 		break;
 
 	case ListPopupMenu::mt_Import_Classes:
-		UMLApp::app()->classImport()->importCPP(
-			KFileDialog::getOpenFileNames(":import-classes",
-						      i18n("*.h|Header Files (*.h)\n*|All Files"),
-						      this, i18n("Select Classes to Import") ));
+		UMLApp::app()->slotImportClasses();
 		break;
 
 	case ListPopupMenu::mt_Expand_All:
@@ -2202,7 +2199,7 @@ bool UMLListView::createChildUMLObject( UMLListViewItem * item, Uml::Object_Type
 			m_bCreatingChildObject = false;
 			return false;
 		}
-		newObject = m_doc->createTemplate( owningClassifier, nt.first );
+		newObject = owningClassifier->createTemplate(nt.first);
 		UMLTemplate *tmplParm = static_cast<UMLTemplate*>(newObject);
 		tmplParm->setType(nt.second);
 		text = tmplParm->toString(Uml::st_SigNoScope);
@@ -2218,7 +2215,7 @@ bool UMLListView::createChildUMLObject( UMLListViewItem * item, Uml::Object_Type
 			m_bCreatingChildObject = false;
 			return false;
 		}
-		newObject = m_doc->createAttribute( owningClass, nt.first );
+		newObject = owningClass->createAttribute(nt.first);
 		UMLAttribute *att = static_cast<UMLAttribute*>(newObject);
                 if (nt.second)
 		        att->setType(nt.second);
@@ -2236,8 +2233,7 @@ bool UMLListView::createChildUMLObject( UMLListViewItem * item, Uml::Object_Type
 			return false;
 		}
 		bool isExistingOp = false;
-		newObject = m_doc->createOperation(owningClassifier, od.m_name,
-						   &isExistingOp, &od.m_args);
+		newObject = owningClassifier->createOperation(od.m_name, &isExistingOp, &od.m_args);
 		if (isExistingOp) {
 			KMessageBox::error(
 			    kapp -> mainWidget(),

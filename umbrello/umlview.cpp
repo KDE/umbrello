@@ -175,7 +175,7 @@ void UMLView::init() {
 	//setup signals
 	connect( this, SIGNAL(sigRemovePopupMenu()), this, SLOT(slotRemovePopupMenu() ) );
 	connect( UMLApp::app(), SIGNAL( sigCutSuccessful() ),
-	         this, SLOT( slotCutSuccessful() ) );
+		 this, SLOT( slotCutSuccessful() ) );
 
 	// Create the ToolBarState factory. This class is not a singleton, because it
 	// needs a pointer to this object.
@@ -456,7 +456,9 @@ void UMLView::slotObjectCreated(UMLObject* o) {
 	int y = m_Pos.y();
 
 	UMLWidget* newWidget = 0;
-	if(type == ot_Actor) {
+	switch (type)
+	{
+	case ot_Actor:
 		if (getType() == dt_Sequence) {
 			ObjectWidget *ow = new ObjectWidget(this, o, getLocalID() );
 			ow->setDrawAsActor(true);
@@ -466,43 +468,53 @@ void UMLView::slotObjectCreated(UMLObject* o) {
 			newWidget = ow;
 		} else
 			newWidget = new ActorWidget(this, static_cast<UMLActor*>(o));
-	} else if(type == ot_UseCase) {
+		break;
+	case ot_UseCase:
 		newWidget = new UseCaseWidget(this, static_cast<UMLUseCase*>(o));
-	} else if(type == ot_Package) {
+		break;
+	case ot_Package:
 		newWidget = new PackageWidget(this, static_cast<UMLPackage*>(o));
-	} else if(type == ot_Component) {
+		break;
+	case ot_Component:
 		newWidget = new ComponentWidget(this, static_cast<UMLComponent*>(o));
 		if (getType() == dt_Deployment) {
 			newWidget->setIsInstance(true);
 		}
-	} else if(type == ot_Node) {
+		break;
+	case ot_Node:
 		newWidget = new NodeWidget(this,static_cast<UMLNode*>(o));
-	} else if(type == ot_Artifact) {
+		break;
+	case ot_Artifact:
 		newWidget = new ArtifactWidget(this, static_cast<UMLArtifact*>(o));
-	} else if(type == ot_Node) {
-		newWidget = new NodeWidget(this, static_cast<UMLNode*>(o));
-	} else if(type == ot_Datatype) {
+		break;
+	case ot_Datatype:
 		newWidget = new DatatypeWidget(this, static_cast<UMLDatatype*>(o));
-	} else if(type == ot_Enum) {
+		break;
+	case ot_Enum:
 		newWidget = new EnumWidget(this, static_cast<UMLEnum*>(o));
-	} else if(type == ot_Entity) {
+		break;
+	case ot_Entity:
 		newWidget = new EntityWidget(this, static_cast<UMLEntity*>(o));
-	} else if(type == ot_Interface) {
-		Diagram_Type diagramType = getType();
-		if (diagramType == dt_Sequence || diagramType == dt_Collaboration) {
-			ObjectWidget *ow = new ObjectWidget(this, o, getLocalID() );
-			if (m_Type == dt_Sequence) {
-				y = ow->topMargin();
+		break;
+	case ot_Interface:
+		{
+			Diagram_Type diagramType = getType();
+			if (diagramType == dt_Sequence || diagramType == dt_Collaboration) {
+				ObjectWidget *ow = new ObjectWidget(this, o, getLocalID() );
+				if (m_Type == dt_Sequence) {
+					y = ow->topMargin();
+				}
+				newWidget = ow;
+			} else {
+				InterfaceWidget* interfaceWidget = new InterfaceWidget(this, static_cast<UMLInterface*>(o));
+				if (diagramType == dt_Component || diagramType == dt_Deployment) {
+					interfaceWidget->setDrawAsCircle(true);
+				}
+				newWidget = interfaceWidget;
 			}
-			newWidget = ow;
-		} else {
-			InterfaceWidget* interfaceWidget = new InterfaceWidget(this, static_cast<UMLInterface*>(o));
-			if (diagramType == dt_Component || diagramType == dt_Deployment) {
-				interfaceWidget->setDrawAsCircle(true);
-			}
-			newWidget = interfaceWidget;
 		}
-	} else if(type == ot_Class ) { // CORRECT?
+		break;
+	case ot_Class: // CORRECT?
 		//see if we really want an object widget or class widget
 		if(getType() == dt_Class) {
 			newWidget = new ClassWidget(this, static_cast<UMLClass*>(o));
@@ -513,7 +525,8 @@ void UMLView::slotObjectCreated(UMLObject* o) {
 			}
 			newWidget = ow;
 		}
-	} else {
+		break;
+	default:
 		kdWarning() << "trying to create an invalid widget" << endl;
 		return;
 	}
@@ -1245,8 +1258,8 @@ void UMLView::selectWidgets(int px, int py, int qx, int qy) {
 	MessageWidget *w = 0;
 	while ( (w = itw.current()) != 0 ) {
 		++itw;
-		if( w -> getWidget(A) -> getSelected() &&
-		        w -> getWidget(B) -> getSelected() ) {
+		if ( w -> getWidget(A) -> getSelected() &&
+		     w -> getWidget(B) -> getSelected() ) {
 			makeSelected( w );
 		}//end if
 	}//end while
@@ -1459,7 +1472,7 @@ void UMLView::exportImage() {
 	QRect rect = getDiagramRect();
 	if (rect.isEmpty()) {
 		KMessageBox::sorry(0, i18n("Can not save an empty diagram"),
-		                   i18n("Diagram Save Error."));
+				   i18n("Diagram Save Error."));
 	} else {
 		//  eps requested
 		if (imageMimetype == "image/x-eps") {
@@ -1500,8 +1513,8 @@ void UMLView::exportImage() {
 #endif
 						    )) {
 				KMessageBox::error(0,
-				                   i18n("There was a problem saving file: %1").arg(m_ImageURL.path()),
-				                   i18n("Save Error"));
+						   i18n("There was a problem saving file: %1").arg(m_ImageURL.path()),
+						   i18n("Save Error"));
 			}
 			tmpfile.unlink();
 		} //!isLocalFile
@@ -2106,8 +2119,8 @@ void UMLView::getWidgetAssocs(UMLObject* Obj, AssociationWidgetList & Associatio
 	AssociationWidgetListIt assoc_it(m_AssociationList);
 	AssociationWidget * assocwidget;
 	while((assocwidget = assoc_it.current())) {
-		if(assocwidget->getWidget(A)->getUMLObject() == Obj
-		        || assocwidget->getWidget(B)->getUMLObject() == Obj)
+		if (assocwidget->getWidget(A)->getUMLObject() == Obj ||
+		    assocwidget->getWidget(B)->getUMLObject() == Obj)
 			Associations.append(assocwidget);
 		++assoc_it;
 	}//end while
@@ -2209,7 +2222,7 @@ Uml::Association_Type UMLView::convert_TBB_AT(WorkToolBar::ToolBar_Buttons tbb) 
 			at = at_Activity;
 			break;
 
-	        default:
+		default:
 			break;
 	}
 	return at;
@@ -2634,8 +2647,8 @@ void UMLView::copyAsImage(QPixmap*& pix) {
 	}//end while
 
 	QRect imageRect;  //area with respect to getDiagramRect()
-	                  //i.e. all widgets on the canvas.  Was previously with
-	                  //repect to whole canvas
+			  //i.e. all widgets on the canvas.  Was previously with
+			  //respect to whole canvas
 
 	imageRect.setLeft( px - rect.left() );
 	imageRect.setTop( py - rect.top() );
@@ -2709,12 +2722,6 @@ void UMLView::slotRemovePopupMenu() {
 }
 
 void UMLView::slotMenuSelection(int sel) {
-	FloatingText * ft = 0;
-	StateWidget * state = 0;
-	ActivityWidget * activity = 0;
-	bool ok = false;
-	QString name = "";
-
 	switch( (ListPopupMenu::Menu_Type)sel ) {
 		case ListPopupMenu::mt_Undo:
 			m_pDoc->loadUndoData();
@@ -2733,19 +2740,16 @@ void UMLView::slotMenuSelection(int sel) {
 			break;
 
 		case ListPopupMenu::mt_FloatText:
-			ft = new FloatingText(this);
-			ft -> changeTextDlg();
-			//if no text entered delete
-			if(!FloatingText::isTextValid(ft -> getText()))
-
-				delete ft;
-			else {
-				ft->setX( m_Pos.x() );
-				ft->setY( m_Pos.y() );
-				ft->setVisible( true );
-				ft->setID(m_pDoc -> getUniqueID());
-				ft->setActivated();
+			{
+			    FloatingText* ft = new FloatingText(this);
+			    ft->changeTextDlg();
+			    //if no text entered delete
+			    if(!FloatingText::isTextValid(ft->getText())) {
+			 	delete ft;
+			    } else {
+				ft->setID(m_pDoc->getUniqueID());
 				setupNewWidget(ft);
+			    }
 			}
 			break;
 
@@ -2823,82 +2827,73 @@ void UMLView::slotMenuSelection(int sel) {
 			m_PastePoint = m_Pos;
 			m_Pos.setX( 2000 );
 			m_Pos.setY( 2000 );
-			UMLApp::app() -> slotEditPaste();
+			UMLApp::app()->slotEditPaste();
 
 			m_PastePoint.setX( 0 );
 			m_PastePoint.setY( 0 );
 			break;
 
 		case ListPopupMenu::mt_Initial_State:
-			state = new StateWidget( this, StateWidget::Initial );
-			state -> setX( m_Pos.x() );
-			state -> setY ( m_Pos.y() );
-			state -> setVisible( true );
-			state -> setActivated();
-			setupNewWidget( state );
+			{
+			    StateWidget* state = new StateWidget( this, StateWidget::Initial );
+			    setupNewWidget( state );
+			}
 			break;
 
 		case ListPopupMenu::mt_End_State:
-			state = new StateWidget( this, StateWidget::End );
-			state -> setX( m_Pos.x() );
-			state -> setY ( m_Pos.y() );
-			state -> setVisible( true );
-			state -> setActivated();
-			setupNewWidget( state );
+			{
+			    StateWidget* state = new StateWidget( this, StateWidget::End );
+			    setupNewWidget( state );
+			}
 			break;
 
 		case ListPopupMenu::mt_State:
-			name = KInputDialog::getText( i18n("Enter State Name"), i18n("Enter the name of the new state:"), i18n("new state"), &ok, UMLApp::app() );
-			if( ok ) {
-				state = new StateWidget( this );
-				state -> setName( name );
-				state -> setX( m_Pos.x() );
-				state -> setY ( m_Pos.y() );
-				state -> setVisible( true );
-				state -> setActivated();
+			{
+			    bool ok = false;
+			    QString name = KInputDialog::getText( i18n("Enter State Name"),
+								  i18n("Enter the name of the new state:"),
+								  i18n("new state"), &ok, UMLApp::app() );
+			    if ( ok ) {
+				StateWidget* state = new StateWidget( this );
+				state->setName( name );
 				setupNewWidget( state );
+			    }
 			}
 			break;
 
 		case ListPopupMenu::mt_Initial_Activity:
-			activity = new ActivityWidget( this, ActivityWidget::Initial );
-			activity -> setX( m_Pos.x() );
-			activity -> setY ( m_Pos.y() );
-			activity -> setVisible( true );
-			activity -> setActivated();
-			setupNewWidget(activity);
+			{
+			    ActivityWidget* activity = new ActivityWidget( this, ActivityWidget::Initial );
+			    setupNewWidget(activity);
+			}
 			break;
 
 
 		case ListPopupMenu::mt_End_Activity:
-			activity = new ActivityWidget( this, ActivityWidget::End );
-			activity -> setX( m_Pos.x() );
-			activity -> setY ( m_Pos.y() );
-			activity -> setVisible( true );
-			activity -> setActivated();
-			setupNewWidget(activity);
+			{
+			    ActivityWidget* activity = new ActivityWidget( this, ActivityWidget::End );
+			    setupNewWidget(activity);
+			}
 			break;
 
 		case ListPopupMenu::mt_Branch:
-			activity = new ActivityWidget( this, ActivityWidget::Branch );
-			activity -> setX( m_Pos.x() );
-			activity -> setY ( m_Pos.y() );
-			activity -> setVisible( true );
-			activity -> setActivated();
-			setupNewWidget(activity);
+			{
+			    ActivityWidget* activity = new ActivityWidget( this, ActivityWidget::Branch );
+			    setupNewWidget(activity);
+			}
 			break;
 
 		case ListPopupMenu::mt_Activity:
-			name = KInputDialog::getText( i18n("Enter Activity Name"), i18n("Enter the name of the new activity:"),
-						      i18n("new activity"), &ok, UMLApp::app() );
-			if( ok ) {
-				activity = new ActivityWidget( this, ActivityWidget::Normal );
-				activity -> setName( name );
-				activity -> setX( m_Pos.x() );
-				activity -> setY ( m_Pos.y() );
-				activity -> setVisible( true );
-				activity -> setActivated();
+			{
+			    bool ok = false;
+			    QString name = KInputDialog::getText( i18n("Enter Activity Name"),
+								  i18n("Enter the name of the new activity:"),
+								  i18n("new activity"), &ok, UMLApp::app() );
+			    if ( ok ) {
+				ActivityWidget* activity = new ActivityWidget( this, ActivityWidget::Normal );
+				activity->setName( name );
 				setupNewWidget(activity);
+			    }
 			}
 			break;
 
@@ -2922,11 +2917,15 @@ void UMLView::slotMenuSelection(int sel) {
 			break;
 
 		case ListPopupMenu::mt_Rename:
-			ok = false;
-			name = KInputDialog::getText( i18n("Enter Diagram Name"), i18n("Enter the new name of the diagram:"), getName(), &ok, UMLApp::app() );
-			if (ok) {
+			{
+			    bool ok = false;
+			    QString name = KInputDialog::getText( i18n("Enter Diagram Name"),
+								  i18n("Enter the new name of the diagram:"),
+								  getName(), &ok, UMLApp::app() );
+			    if (ok) {
 				setName(name);
 				m_pDoc->signalDiagramRenamed(this);
+			    }
 			}
 			break;
 
@@ -3533,8 +3532,8 @@ bool UMLView::loadMessagesFromXMI( QDomElement & qElement ) {
 			FloatingText *ft = message->getFloatingText();
 			if (ft)
 				m_WidgetList.append( ft );
-			else
-				kdError() << "UMLView::loadMessagesFromXMI: ft is NULL"
+			else if (message->getSequenceMessageType() != sequence_message_creation)
+				kdDebug() << "UMLView::loadMessagesFromXMI: ft is NULL"
 					  << " for message " << ID2STR(message->getID())
 					  << endl;
 		}
@@ -3556,7 +3555,7 @@ bool UMLView::loadAssociationsFromXMI( QDomElement & qElement ) {
 			AssociationWidget *assoc = new AssociationWidget(this);
 			if( !assoc->loadFromXMI( assocElement ) ) {
 				kdError() << "couldn't loadFromXMI association widget:"
-				          << assoc << ", bad XMI file? Deleting from umlview."
+					  << assoc << ", bad XMI file? Deleting from umlview."
 					  << endl;
 				delete assoc;
 				/* return false;

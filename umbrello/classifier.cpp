@@ -11,6 +11,7 @@
 // qt/kde includes
 #include <kdebug.h>
 #include <klocale.h>
+#include <kmessagebox.h>
 // app includes
 #include "association.h"
 #include "umlassociationlist.h"
@@ -18,10 +19,12 @@
 #include "attribute.h"
 #include "template.h"
 #include "stereotype.h"
-#include "clipboard/idchangelog.h"
 #include "umldoc.h"
 #include "uml.h"
 #include "model_utils.h"
+#include "clipboard/idchangelog.h"
+#include "dialogs/umloperationdialog.h"
+#include "dialogs/umltemplatedialog.h"
 
 using namespace Uml;
 
@@ -78,6 +81,89 @@ UMLOperation * UMLClassifier::checkOperationSignature( QString name,
 	}
 	// we did not find an exact match, so the signature is unique ( acceptable )
 	return NULL;
+}
+
+UMLOperation* UMLClassifier::findOperation(QString name, Umbrello::NameAndType_List params) {
+	UMLObjectList list = findChildObject(Uml::ot_Operation, name);
+	if (list.count() == 0)
+		return NULL;
+	// If there are operation(s) with the same name then compare the parameter list
+	const int inputParmCount = params.count();
+	UMLOperation* test = NULL;
+	for (UMLObjectListIt oit(list);
+	     (test = static_cast<UMLOperation*>(oit.current())) != NULL; ++oit) {
+		UMLAttributeList *testParams = test->getParmList();
+		const int pCount = testParams->count();
+		if (inputParmCount == 0 && pCount == 0)
+			break;
+		if (inputParmCount != pCount)
+			continue;
+		int i = 0;
+		for (; i < pCount; ++i) {
+			Umbrello::NameAndType_ListIt nt(params.at(i));
+			UMLObject *c = (*nt).second;
+			QString typeName = testParams->at(i)->getTypeName();
+			if (c == NULL) {       //template parameter
+				if (typeName != "class")
+					break;
+			} else if (typeName != c->getName())
+				break;
+		}
+		if (i == pCount)
+			break;  // all parameters matched
+	}
+	return test;
+}
+
+UMLOperation* UMLClassifier::createOperation(const QString &name /*=null*/,
+					     bool *isExistingOp  /*=NULL*/,
+					     Umbrello::NameAndType_List *params  /*=NULL*/)
+{
+	bool nameNotSet = (name.isNull() || name.isEmpty());
+	if (! nameNotSet) {
+		Umbrello::NameAndType_List parList;
+		if (params)
+			parList = *params;
+		UMLOperation* existingOp = findOperation(name, parList);
+		if (existingOp != NULL) {
+			if (isExistingOp != NULL)
+				*isExistingOp = true;
+			return existingOp;
+		}
+	}
+	// we did not find an exact match, so the signature is unique
+	UMLOperation *op = new UMLOperation(this, name);
+	if (params) {
+		for (Umbrello::NameAndType_ListIt it = params->begin(); it != params->end(); ++it ) {
+			const Umbrello::NameAndType &nt = *it;
+			UMLAttribute *par = new UMLAttribute(op, nt.first);
+			par->setType(nt.second);
+			op->addParm(par);
+		}
+	}
+	if (nameNotSet || params == NULL) {
+		if (nameNotSet)
+			op->setName( uniqChildName(Uml::ot_Operation) );
+		do {
+			UMLOperationDialog operationDialogue(0, op);
+			if( operationDialogue.exec() != QDialog::Accepted ) {
+				delete op;
+				return NULL;
+			} else if (checkOperationSignature(op->getName(), op->getParmList())) {
+				KMessageBox::information(0,
+				 i18n("An operation with the same name and signature already exists. You can not add it again."));
+			} else {
+				break;
+			}
+		} while(1);
+	}
+
+	// operation name is ok, formally add it to the classifier
+	addOperation( op );
+
+	UMLDoc *umldoc = UMLApp::app()->getDocument();
+	umldoc->signalUMLObjectCreated(op);
+	return op;
 }
 
 bool UMLClassifier::addOperation(UMLOperation* op, int position )
@@ -141,6 +227,39 @@ UMLOperation* UMLClassifier::takeOperation(UMLOperation* o) {
 	return 0;
 }
 
+UMLObject* UMLClassifier::createTemplate(QString currentName /*= QString::null*/) {
+	bool goodName = !currentName.isEmpty();
+	if (!goodName)
+		currentName = uniqChildName(Uml::ot_Template);
+	UMLTemplate* newTemplate = new UMLTemplate(this, currentName);
+
+	int button = QDialog::Accepted;
+
+	while (button==QDialog::Accepted && !goodName) {
+		UMLTemplateDialog templateDialogue(0, newTemplate);
+		button = templateDialogue.exec();
+		QString name = newTemplate->getName();
+
+		if(name.length() == 0) {
+			KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
+		} else if ( findChildObject(Uml::ot_Template, name).count() > 0 ) {
+			KMessageBox::error(0, i18n("That name is already being used."), i18n("Not a Unique Name"));
+		} else {
+			goodName = true;
+		}
+	}
+
+	if (button != QDialog::Accepted) {
+		return NULL;
+	}
+
+	addTemplate(newTemplate);
+
+	UMLDoc *umldoc = UMLApp::app()->getDocument();
+	umldoc->signalUMLObjectCreated(newTemplate);
+	return newTemplate;
+}
+
 UMLObjectList UMLClassifier::findChildObject(Object_Type t , const QString &n) {
 	if (t == ot_Association) {
 		return UMLCanvasObject::findChildObject(t, n);
@@ -156,13 +275,21 @@ UMLObjectList UMLClassifier::findChildObject(Object_Type t , const QString &n) {
 	return list;
 }
 
-UMLObject* UMLClassifier::findChildObject(Uml::IDType id) {
+UMLObject* UMLClassifier::findChildObject(Uml::IDType id, bool considerAncestors /* =false */) {
 	for (UMLClassifierListItemListIt lit(m_List); lit.current(); ++lit) {
 		UMLClassifierListItem* o = lit.current();
 		if (o->getID() == id)
 			return o;
 	}
-	return UMLCanvasObject::findChildObject(id);
+	if (considerAncestors) {
+		UMLClassifierList ancestors = findSuperClassConcepts();
+		for (UMLClassifier *anc = ancestors.first(); anc; anc = ancestors.next()) {
+			UMLObject *o = anc->findChildObject(id);
+			if (o)
+				return o;
+		}
+	}
+	return UMLCanvasObject::findAssoc(id);
 }
 
 UMLClassifierList UMLClassifier::findSubClassConcepts (ClassifierType type) {

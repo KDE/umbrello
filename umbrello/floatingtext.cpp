@@ -271,13 +271,21 @@ void FloatingText::showOpDlg() {
 	Umbrello::OpDescriptor od;
 	Umbrello::Parse_Status st = Umbrello::parseOperation(opText, od, c);
 	if (st == Umbrello::PS_OK) {
-		UMLDoc *umldoc = UMLApp::app()->getDocument();
-		bool isExistingOp = false;
-		UMLObject *o = umldoc->createOperation(c, od.m_name, &isExistingOp, &od.m_args);
-		UMLOperation *op = static_cast<UMLOperation*>(o);
-		if (od.m_pReturnType) {
-			op->setType(od.m_pReturnType);
+		UMLClassifierList selfAndAncestors = c->findSuperClassConcepts();
+		selfAndAncestors.prepend(c);
+		UMLOperation *op = NULL;
+		for (UMLClassifier *cl = selfAndAncestors.first(); cl; cl = selfAndAncestors.next()) {
+			op = cl->findOperation(od.m_name, od.m_args);
+			if (op != NULL)
+				break;
 		}
+		if (op == NULL) {
+			// The op does not yet exist. Create a new one.
+			UMLObject *o = c->createOperation(od.m_name, NULL, &od.m_args);
+			op = static_cast<UMLOperation*>(o);
+		}
+		if (od.m_pReturnType)
+			op->setType(od.m_pReturnType);
 		m_pLink->setOperation(op);
 		opText = QString::null;
 	} else {
@@ -417,4 +425,7 @@ void FloatingText::setMessageText() {
 	setVisible(getText().length() > 0);
 	calculateSize();
 }
+
+
+#include "floatingtext.moc"
 

@@ -174,7 +174,7 @@ public:
 	 * @param id		The id of the object to find.
 	 * @return	Pointer to the object found (NULL if not found.)
 	 */
-	virtual UMLObject* findChildObject(Uml::IDType id);
+	UMLObject* findAssoc(Uml::IDType id);
 
 	/**
 	 * Returns a name for the new association, operation, template

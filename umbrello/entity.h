@@ -66,12 +66,16 @@ public:
 	 */
 	virtual UMLObject* clone() const;
 
-	/**
-	 * Creates the <UML:Entity> element including its entityliterals.
-	 */
-	virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
-
 	virtual bool isInterface() { return false; }
+
+	/**
+	 * Creates an entity attribute for the parent concept.
+	 *
+	 * @param o	The parent concept
+	 * @param name  An optional name, used by when creating through UMLListView
+	 * @return	The UMLEntityAttribute created
+	 */
+	UMLObject* createEntityAttribute(const QString &name = QString::null);
 
  	/**
   	 * Adds an entityAttribute to the entity.
@@ -139,6 +143,11 @@ public:
 	 * @return	List of objects found.  Will be empty if none found.
 	 */
 	 virtual UMLObjectList findChildObject(Uml::Object_Type t, const QString &n);
+
+	/**
+	 * Creates the <UML:Entity> element including its entityliterals.
+	 */
+	virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
 signals:
 	void entityAttributeAdded(UMLObject*);

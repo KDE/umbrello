@@ -31,6 +31,7 @@
 #include "listpopupmenu.h"
 #include "classifier.h"
 #include "attribute.h"
+#include "operation.h"
 #include "association.h"
 #include "assocrules.h"
 #include "floatingtext.h"
@@ -417,7 +418,17 @@ void AssociationWidget::setRoleDoc (const QString &doc, Role_Type role) {
 }
 
 void AssociationWidget::setMessageText(FloatingText *ft) {
-	ft->setText( getName() );
+	QString message;
+	if (getAssocType() == at_Coll_Message) {
+		if (m_pObject != NULL) {
+			message = getMulti(A) + ": " + getOperationText(m_pView);
+		} else {
+			message = getMulti(A) + ": " + getName();
+		}
+	} else {
+		message = getName();
+	}
+	ft->setText(message);
 }
 
 Scope AssociationWidget::getVisibility(Role_Type role) const {
@@ -2797,6 +2808,18 @@ int AssociationWidget::getTotalCount(Role_Type role) const {
 	return  m_role[role].m_nTotalCount;
 }
 
+UMLOperation *AssociationWidget::getOperation() {
+	return dynamic_cast<UMLOperation*>(m_pObject);
+}
+
+void AssociationWidget::setOperation(UMLOperation *op) {
+	if (m_pObject)
+		disconnect(m_pObject, SIGNAL(modified()), m_pName, SLOT(setMessageText()));
+	m_pObject = op;
+	if (m_pObject)
+		connect(m_pObject, SIGNAL(modified()), m_pName, SLOT(setMessageText()));
+}
+
 UMLClassifier *AssociationWidget::getOperationOwner() {
 	Association_Type atype = getAssocType();
 	Role_Type role = (atype == at_Coll_Message ? B : A);
@@ -2812,7 +2835,8 @@ UMLClassifier *AssociationWidget::getOperationOwner() {
 }
 
 void AssociationWidget::setSeqNumAndOp(const QString &seqNum, const QString &op) {
-	setName(op);
+	if (! op.isEmpty())
+		setName(op);
 	setMulti(seqNum, A);
 }
 
@@ -3007,15 +3031,18 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
 			kdError() << "AssociationWidget::loadFromXMI: cannot find UMLObject "
 				  << ID2STR(nId) << endl;
 			return false;
-		} else if (myObj->getBaseType() == ot_Attribute) {
-			m_pObject = myObj;
-			QString type = qElement.attribute( "type", "-1" );
-			Uml::Association_Type aType = (Uml::Association_Type) type.toInt();
-			setAssocType(aType);
 		} else {
-			UMLAssociation * myAssoc = (UMLAssociation*)myObj;
-			setUMLAssociation(myAssoc);
-			m_LinePath.setAssocType( myAssoc->getAssocType() );
+			const Uml::Object_Type ot = myObj->getBaseType();
+			if (ot == ot_Attribute || ot == ot_Operation) {
+				m_pObject = myObj;
+				QString type = qElement.attribute( "type", "-1" );
+				Uml::Association_Type aType = (Uml::Association_Type) type.toInt();
+				setAssocType(aType);
+			} else {
+				UMLAssociation * myAssoc = (UMLAssociation*)myObj;
+				setUMLAssociation(myAssoc);
+				m_LinePath.setAssocType( myAssoc->getAssocType() );
+			}
 		}
 	}
 

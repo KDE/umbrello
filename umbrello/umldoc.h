@@ -38,9 +38,7 @@
 #include "umlinterfacelist.h"
 #include "umldatatypelist.h"
 #include "umlviewlist.h"
-#include "umlattributelist.h"
 #include "umlstereotypelist.h"
-#include "model_utils.h"
 
 #define ENC_UNKNOWN 0
 #define ENC_UNICODE 1
@@ -59,11 +57,7 @@ class DocWindow;
 class IDChangeLog;
 class ObjectWidget;
 class UMLWidget;
-class UMLOperation;
 class UMLPackage;
-class UMLEnum;
-class UMLEntity;
-class UMLApp;
 
 /**
   * UMLDoc provides a document object for a document-view model.
@@ -243,67 +237,6 @@ public:
 	 * @return	The UMLObject created
 	 */
 	UMLObject* createChildObject(UMLObject* o, Uml::Object_Type type);
-
-	/**
-	 * Creates an operation in the current document.
-	 * The new operation is initialized with name, id, etc.
-	 * If a method with the given profile already exists in the classifier,
-	 * no new method is created and the existing operation is returned.
-	 * If no name is provided, or if the params are NULL, an Operation
-	 * Dialog is shown to ask the user for a name and parameters.
-	 * The operation's signature is checked for validity within the parent
-	 * classifier.
-	 *
-	 * @param parent	The parent classifier.
-	 * @param name		The operation name (will be chosen internally if
-	 *			none given.)
-	 * @param isExistingOp	Optional pointer to bool. If supplied, the bool is
-	 *			set to true if an existing operation is returned.
-	 * @param params	Optional list of parameter names and types.
-	 *			If supplied, new operation parameters are
-	 *			constructed using this list.
-	 * @return The new operation, or NULL if the operation could not be
-	 *         created because for example, the user canceled the dialog
-	 *         or no appropriate name can be found.
-	*/
-	UMLOperation* createOperation( UMLClassifier *parent,
-				       const QString &name = QString::null,
-				       bool *isExistingOp = NULL,
-				       Umbrello::NameAndType_List *params = NULL);
-
-	/**
-	 * Creates an attribute for the parent concept.
-	 *
-	 * @param o	The parent concept
-	 * @param name  An optional name, used by when creating through UMLListView
-	 * @return	The UMLAttribute created
-	 */
-	UMLObject* createAttribute(UMLClass* umlclass, const QString &name = QString::null);
-
-	/**
-	 * Creates a template for the parent concept.
-	 *
-	 * @param o	The parent concept
-	 * @return	The UMLTemplate created
-	 */
-	UMLObject* createTemplate(UMLClassifier* o, QString name = QString::null);
-
-	/**
-	 * Creates an enum literal for the parent enum.
-	 *
-	 * @param o	The parent enum
-	 * @return	The UMLEnum created
-	 */
-	UMLObject* createEnumLiteral(UMLEnum* umlenum);
-
-	/**
-	 * Creates an entity attribute for the parent concept.
-	 *
-	 * @param o	The parent concept
-	 * @param name  An optional name, used by when creating through UMLListView
-	 * @return	The UMLEntityAttribute created
-	 */
-	UMLObject* createEntityAttribute(UMLEntity* umlentity, const QString &name = QString::null);
 
 	/**
 	 * Finds or creates a stereotype for the parent object.

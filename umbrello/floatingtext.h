@@ -37,6 +37,7 @@ class UMLView;
  */
 
 class FloatingText : public UMLWidget {
+	Q_OBJECT
 public:
 	/** sometimes the x/y values get numbers of <0 and >10000 - which is
 	    probably due to a bug somewhere in calculating the position.
@@ -103,12 +104,6 @@ public:
 	 * @param op	The operation to display.
 	 */
 	void setOperation(const QString &op);
-
-	/**
-	 * Sets the text for this label if it is acting as a sequence
-	 * diagram message or a collaboration diagram message.
-	 */
-	void setMessageText();
 
 	/**
 	 * Return the operation that is displayed.
@@ -257,6 +252,12 @@ public slots:
 	 * @param sel		The selection that has been made.
 	 */
 	void slotMenuSelection(int sel);	
+
+	/**
+	 * Sets the text for this label if it is acting as a sequence
+	 * diagram message or a collaboration diagram message.
+	 */
+	void setMessageText();
 
 private:
 	/**

@@ -333,6 +333,7 @@ void MessageWidget::resizeEvent(QResizeEvent */*re*/) {
 }
 
 void MessageWidget::calculateWidget() {
+	setMessageText(m_pFText);
 	calculateDimensions();
 
 	setVisible(true);
@@ -435,6 +436,8 @@ bool MessageWidget::activate(IDChangeLog * Log /*= 0*/) {
 }
 
 void MessageWidget::setMessageText(FloatingText *ft) {
+	if (ft == NULL)
+		return;
 	QString displayText = m_SequenceNumber + ": " + getOperationText(m_pView);
 	ft->setText(displayText);
 	setTextPosition();
@@ -470,6 +473,14 @@ UMLClassifier *MessageWidget::getOperationOwner() {
 	return c;
 }
 
+UMLOperation *MessageWidget::getOperation() {
+	return static_cast<UMLOperation*>(m_pObject);
+}
+
+void MessageWidget::setOperation(UMLOperation *op) {
+	m_pObject = op;
+}
+
 QString MessageWidget::getCustomOpText() {
 	return m_CustomOp;
 }
@@ -482,13 +493,14 @@ void MessageWidget::setCustomOpText(const QString &opText) {
 UMLClassifier * MessageWidget::getSeqNumAndOp(FloatingText *ft, QString& seqNum,
 							        QString& op) {
 	seqNum = m_SequenceNumber;
-	if (m_pOperation) {
+	UMLOperation *pOperation = getOperation();
+	if (pOperation != NULL) {
 		Uml::Signature_Type sigType;
 		if (m_pView->getShowOpSig())
 			sigType = Uml::st_SigNoScope;
 		else
 			sigType = Uml::st_NoSigNoScope;
-		op = m_pOperation->toString(sigType);
+		op = pOperation->toString(sigType);
 	} else {
 		op = m_CustomOp;
 	}
@@ -772,8 +784,9 @@ void MessageWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	UMLWidget::saveToXMI( qDoc, messageElement );
 	messageElement.setAttribute( "widgetaid", ID2STR(m_pOw[Uml::A]->getLocalID()) );
 	messageElement.setAttribute( "widgetbid", ID2STR(m_pOw[Uml::B]->getLocalID()) );
-	if (m_pOperation)
-		messageElement.setAttribute( "operation", ID2STR(m_pOperation->getID()) );
+	UMLOperation *pOperation = getOperation();
+	if (pOperation)
+		messageElement.setAttribute( "operation", ID2STR(pOperation->getID()) );
 	else
 		messageElement.setAttribute( "operation", m_CustomOp );
 	messageElement.setAttribute( "seqnum", m_SequenceNumber );
@@ -831,9 +844,9 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement) {
 	UMLClassifier *c = dynamic_cast<UMLClassifier*>( pWB->getUMLObject() );
 	if (c) {
 		Uml::IDType opId = STR2ID(m_CustomOp);
-		m_pOperation = dynamic_cast<UMLOperation*>( c->findChildObject(opId) );
-		if (m_pOperation) {
-			// If m_pOperation is set, m_CustomOp isn't used anyway.
+		UMLOperation *op = dynamic_cast<UMLOperation*>( c->findChildObject(opId, true) );
+		if (op) {
+			// If the UMLOperation is set, m_CustomOp isn't used anyway.
 			// Just setting it empty for the sake of sanity.
 			m_CustomOp = QString::null;
 		} else {
@@ -844,17 +857,16 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement) {
 			Umbrello::OpDescriptor od;
 			Umbrello::Parse_Status st = Umbrello::parseOperation(m_CustomOp, od, c);
 			if (st == Umbrello::PS_OK) {
-				UMLDoc *umldoc = UMLApp::app()->getDocument();
 				bool isExistingOp = false;
-				UMLObject *o = umldoc->createOperation(c, od.m_name, &isExistingOp, &od.m_args);
-				UMLOperation *op = static_cast<UMLOperation*>(o);
+				UMLObject *o = c->createOperation(od.m_name, &isExistingOp, &od.m_args);
+				op = static_cast<UMLOperation*>(o);
 				if (od.m_pReturnType) {
 					op->setType(od.m_pReturnType);
 				}
-				setOperation(op);
 				m_CustomOp = QString::null;
 			}
 		}
+		setOperation(op);
 	}
 
 	Uml::IDType textId = STR2ID(textid);

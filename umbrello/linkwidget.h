@@ -58,12 +58,12 @@ public:
 	/**
 	 * Motivated by FloatingText::slotMenuSelection(mt_Operation)
 	 */
-	UMLOperation *getOperation();
+	virtual UMLOperation *getOperation() = 0;
 
 	/**
 	 * Motivated by FloatingText::slotMenuSelection(mt_Operation)
 	 */
-	void setOperation(UMLOperation *op);
+	virtual void setOperation(UMLOperation *op) = 0;
 
 	/**
 	 * Motivated by getOperationText()
@@ -76,7 +76,7 @@ public:
 	virtual void setCustomOpText(const QString &opText) = 0;
 
 	/**
-	 * Uses m_pOperation if set, else calls getCustomOpText().
+	 * Uses getOperation() if set, else calls getCustomOpText().
 	 */
 	QString getOperationText(UMLView *view = NULL);
 
@@ -124,10 +124,6 @@ public:
 	 * Only applies to AssociationWidget.
 	 */
 	virtual void calculateNameTextSegment();
-
-protected:
-
-	UMLOperation *m_pOperation;
 
 };
 

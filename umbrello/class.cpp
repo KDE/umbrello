@@ -12,17 +12,24 @@
  *                                                                         *
  ***************************************************************************/
 
+// own header
 #include "class.h"
+// qt/kde includes
+#include <kdebug.h>
+#include <klocale.h>
+#include <kmessagebox.h>
+// application specific includes
 #include "association.h"
 #include "attribute.h"
 #include "operation.h"
 #include "stereotype.h"
 #include "classifierlistitem.h"
 #include "template.h"
-#include "clipboard/idchangelog.h"
 #include "uml.h"
-#include <kdebug.h>
-#include <klocale.h>
+#include "umldoc.h"
+#include "optionstate.h"
+#include "clipboard/idchangelog.h"
+#include "dialogs/umlattributedialog.h"
 
 UMLClass::UMLClass(const QString & name, Uml::IDType id) : UMLClassifier (name, id)
 {
@@ -35,6 +42,48 @@ UMLClass::~UMLClass() {
 	// Also, no need for explicitly clear()ing any lists - the QList
 	// destructor does this for us. (Similarly, the QList constructor
 	// already gives us clear()ed lists.)
+}
+
+UMLObject* UMLClass::createAttribute(const QString &name /*=null*/) {
+	UMLDoc *umldoc = UMLApp::app()->getDocument();
+	Uml::IDType id = umldoc->getUniqueID();
+	QString currentName;
+	if (name.isNull())  {
+		currentName = uniqChildName(Uml::ot_Attribute);
+	} else {
+		currentName = name;
+	}
+	const Settings::OptionState optionState = UMLApp::app()->getOptionState();
+	Uml::Scope scope = optionState.classState.defaultAttributeScope;
+	UMLAttribute* newAttribute = new UMLAttribute(this, currentName, id, scope);
+
+	int button = QDialog::Accepted;
+	bool goodName = false;
+
+	//check for name.isNull() stops dialogue being shown
+	//when creating attribute via list view
+	while (button == QDialog::Accepted && !goodName && name.isNull()) {
+		UMLAttributeDialog attributeDialogue(0, newAttribute);
+		button = attributeDialogue.exec();
+		QString name = newAttribute->getName();
+
+		if(name.length() == 0) {
+			KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
+		} else if ( findChildObject(Uml::ot_Attribute, name).count() > 0 ) {
+			KMessageBox::error(0, i18n("That name is already being used."), i18n("Not a Unique Name"));
+		} else {
+			goodName = true;
+		}
+	}
+
+	if (button != QDialog::Accepted) {
+		return NULL;
+	}
+
+	addAttribute(newAttribute);
+
+	umldoc->signalUMLObjectCreated(newAttribute);
+	return newAttribute;
 }
 
 UMLAttribute* UMLClass::addAttribute(const QString &name, Uml::IDType id /* = Uml::id_None */) {

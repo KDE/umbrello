@@ -20,28 +20,22 @@
 #include "operation.h"
 #include "uml.h"
 
-LinkWidget::LinkWidget() : m_pOperation(NULL) {
+LinkWidget::LinkWidget() {
 }
 
 LinkWidget::~LinkWidget() {
 }
 
 UMLClassifier *LinkWidget::getOperationOwner() {
-	if (m_pOperation == NULL)
+	UMLOperation *op = getOperation();
+	if (op == NULL)
 		return NULL;
-	return static_cast<UMLClassifier*>(m_pOperation->parent());
-}
-
-UMLOperation *LinkWidget::getOperation() {
-	return m_pOperation;
-}
-
-void LinkWidget::setOperation(UMLOperation *op) {
-	m_pOperation = op;
+	return static_cast<UMLClassifier*>(op->parent());
 }
 
 QString LinkWidget::getOperationText(UMLView *view /* = NULL */) {
-	if (m_pOperation == NULL)
+	UMLOperation *op = getOperation();
+	if (op == NULL)
 		return getCustomOpText();
 	if (view == NULL)
 		view = UMLApp::app()->getCurrentView();
@@ -50,7 +44,7 @@ QString LinkWidget::getOperationText(UMLView *view /* = NULL */) {
 		sigType = Uml::st_SigNoScope;
 	else
 		sigType = Uml::st_NoSigNoScope;
-	QString opText = m_pOperation->toString(sigType);
+	QString opText = op->toString(sigType);
 	return opText;
 }
 

@@ -31,6 +31,7 @@ class UMLDoc;
 class UMLView;
 class UMLAssociation;
 class UMLAttribute;
+class UMLOperation;
 
 /**
  * This class represents an association inside a diagram.
@@ -406,6 +407,18 @@ public:
 	 * @todo Move to LinkWidget.
 	 */
 	UMLClassifier *getOperationOwner();
+
+	/**
+	 * Implements operation from LinkWidget.
+	 * Motivated by FloatingText.
+	 */
+	UMLOperation *getOperation();
+
+	/**
+	 * Implements operation from LinkWidget.
+	 * Motivated by FloatingText.
+	 */
+	void setOperation(UMLOperation *op);
 
 	/**
 	 * Overrides operation from LinkWidget.
