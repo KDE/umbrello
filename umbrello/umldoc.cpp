@@ -1233,20 +1233,17 @@ bool UMLDoc::saveToXMI(QIODevice& file) {
 			status = false;
 	}
 
-	// Save classifiers (class/interfaces/datatypes), usecases, and actors.
-	// The operations, attributes are owned by these things and will show up
-	// as child nodes.
+	// Save everything else, but excluding operations, attributes, and
+	// associations.
+	// Operations and attributes are owned by classifiers and will show up
+	// as their child nodes.
+	// Associations are saved in an extra step (see below.)
 	for (UMLObject *o = objectList.first(); o; o = objectList.next() ) {
 		UMLObject_Type t = o->getBaseType();
 		if (t == ot_Package)
 			continue;
-		if (t != ot_Class && t != ot_Interface && t != ot_Actor &&
-		    t != ot_UseCase && t != ot_Node && t != ot_Datatype) {
-			if (t != ot_Attribute && t != ot_Operation && t != ot_Association)
-		   	 	kdDebug() << "UMLDoc::saveToXMI(): skipping object of type "
-					  << t << endl;
+		if (t == ot_Attribute || t == ot_Operation || t == ot_Association)
 			continue;
-		}
 		if (! o->saveToXMI(doc, objectsElement))
 			status = false;
 	}
