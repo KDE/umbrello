@@ -31,6 +31,7 @@ class CodeDocument;
 
 class TextBlock : virtual public QObject {
 	friend class CodeGenObjectWithTextBlocks;
+	friend class ClassifierCodeDocument;
 	Q_OBJECT
 public:
 

@@ -43,7 +43,9 @@ void StateWidget::draw(QPainter & p, int offsetX, int offsetY) {
 				if( count == 0 ) {
 					p.drawRoundRect(offsetX, offsetY, w, h, (h*40)/w, (w*40)/h);
 					p.setPen(black);
-					p.setFont(UMLWidget::getFont());
+					QFont font = UMLWidget::getFont();
+					font.setBold( false );
+					p.setFont( font );
 					p.drawText(offsetX + STATE_MARGIN, offsetY + textStartY, w - STATE_MARGIN * 2, fontHeight, AlignCenter, getName());
 					p.setPen(UMLWidget::getLineColour());
 				} else {

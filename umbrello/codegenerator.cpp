@@ -113,12 +113,8 @@ CodeDocument * CodeGenerator::findCodeDocumentByID(QString tag) {
         //if we already know to which file this class was written/should be written, just return it.
 	CodeDocument * doc = (CodeDocument*)NULL;
         if((doc = m_codeDocumentDictionary.find(tag)))
-{
-	kdWarning()<<" * findCodeDocumentByID finds a match to ["<<tag.latin1()<<"]"<<":"<<doc<<endl;
                 return doc;
-}
 
-	kdWarning()<<" * findCodeDocumentByID finds NO match to ["<<tag.latin1()<<"]"<<endl;
         return doc;
 }
 
@@ -234,10 +230,10 @@ void CodeGenerator::loadFromXMI (QDomElement & qElement ) {
 				if(codeDoc)
 					codeDoc->loadFromXMI(codeDocElement);
 				else {
-					kdWarning()<<" LOAD FROM XMI: MISSING CODE DOCUMENT, plowing ahead with pre-generated one."<<endl;
+					kdWarning()<<" loadFromXMI: missing code document w/ id:"<<id<<", plowing ahead with pre-generated one."<<endl;
 				}
 			} else
-				kdWarning()<<" XMI WARNING: got strange codegenerator child node:"<<docTag<<", ignoring."<<endl;
+				kdWarning()<<" loadFromXMI : got strange codegenerator child node:"<<docTag<<", ignoring."<<endl;
 
 			codeDocNode = codeDocElement.nextSibling();
 			codeDocElement = codeDocNode.toElement();
@@ -591,29 +587,40 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLClassifierList &cLis
                 switch(a->getAssocType()) {
                         case Uml::at_Generalization:
                         case Uml::at_Realization:
-                                if(a->getWidgetAID()==c->getID())
+				// only the "b" end is seen by the "a" end, not other way around
+				if(a->getWidgetBID()!=c->getID())
                                         temp =(UMLClassifier*) m_document->findUMLObject(a->getWidgetBID());
-                                if(temp  && !cList.containsRef(temp))
-                                        cList.append(temp);
+                                break;
+                        case Uml::at_UniAssociation:
+				// What the hell are these things? My assumption is that they are
+				// a sloppy way to specify aggregations, adding an "arrow" for 
+				// "navagability", whatever that is.
+				// These typically DONT have a rolename specified. Oh well, we
+				// shall include it. The individual code generators will need to know
+				// what to do with a "role-less" uni-associated classifier. -b.t.
+				if(a->getWidgetAID()!=c->getID())
+                                        temp = (UMLClassifier*)m_document->findUMLObject(a->getWidgetAID());
+				else if(a->getWidgetBID()!=c->getID())
+					temp = (UMLClassifier*)m_document->findUMLObject(a->getWidgetBID());
                                 break;
                         case Uml::at_Aggregation:
                         case Uml::at_Composition:
-                                if(a->getWidgetBID()==c->getID())
-                                        temp = (UMLClassifier*)m_document->findUMLObject(a->getWidgetAID());
-                                if(temp  && !cList.containsRef(temp))
-                                        cList.append(temp);
-                                break;
-                        case Uml::at_Association:
                         case Uml::at_Association_Self:
-                                if(a->getWidgetBID()==c->getID())
+                        case Uml::at_Association:
+				// add related objects ONLY if the rolename is NOT empty
+				if(a->getWidgetAID()!=c->getID() && !a->getRoleNameA().isEmpty())
                                         temp = (UMLClassifier*)m_document->findUMLObject(a->getWidgetAID());
-				else if(a->getWidgetAID()==c->getID())
+				else if(a->getWidgetBID()!=c->getID() && !a->getRoleNameB().isEmpty())
                                         temp =(UMLClassifier*) m_document->findUMLObject(a->getWidgetBID());
-                                if(temp  && !cList.containsRef(temp))
-                                        cList.append(temp);
-                        default:
+                                break;
+                        default: /* all others.. like for state diagrams..we currently dont use */
                                 break;
                 }
+
+		// now add in list ONLY if its not already there
+                if(temp  && !cList.containsRef(temp))
+			cList.append(temp);
+
         }
 
         //operations

@@ -96,11 +96,13 @@ public:
 	 *
 	 * @param name		Name of the operation to check.
 	 * @param opParams	Pointer to the method argument list.
+	 * @param exemptOp	Pointer to the exempt method (optional)
 	 * @return	NULL if the signature is valid (ok), else return a pointer
 	 *		to the existing UMLOperation that causes the conflict.
 	 */
 	UMLOperation * checkOperationSignature( QString name,
-						UMLAttributeList *opParams );
+						UMLAttributeList *opParams,
+						UMLOperation *exemptOp = NULL);
 
 	/**
 	 * Remove an operation from the Classifier.
@@ -124,12 +126,31 @@ public:
 	 */
 	virtual bool addStereotype(UMLStereotype* newStereotype, UMLObject_Type list, IDChangeLog* log = 0);
 	
+
+        /**
+         * Remove a stereotype from the Classifier.
+         * The stereotype is not deleted so the caller is responsible for what
+         * happens to it after this.
+         *
+         * @param stype    The stereotype to remove.
+         * @return      Count of the remaining stereotypes after removal, or
+         *              -1 if the given operation was not found.
+         */
+        int removeStereotype (UMLStereotype *stype);
+
 	/**
 	 * counts the number of operations in the Classifier.
 	 *
 	 * @return	The number of operations for the Classifier.
 	 */
 	int operations();
+
+	/**
+	 * counts the number of stereotypes in the Classifier.
+	 *
+	 * @return	The number of stereotypes for the Classifier.
+	 */
+	int stereotypes();
 
 	/**
 	 * Return the list of operations for the Classifier.
@@ -223,13 +244,24 @@ public:
 
 signals:
 	/** Signals that a new UMLOperation has been added to the classifer.
-	  * The signal is emitted in adition to the generic childObjectAdded()
+	  * The signal is emitted in addition to the generic childObjectAdded()
 	  */
 	void operationAdded(UMLOperation *);
+
 	/** Signals that a UMLOperation has been removed from the classifer.
-	  * The signal is emitted in adition to the generic childObjectRemoved()
+	  * The signal is emitted in addition to the generic childObjectRemoved()
 	  */
-	void operationRemoved(UMLOperation*);
+	void operationRemoved(UMLOperation *);
+
+ 	/** Signals that a new UMLStereotype has been added to the classifer.
+	  * The signal is emitted in addition to the generic childObjectAdded()
+	  */
+	void stereotypeAdded (UMLStereotype *);
+
+	/** Signals that a UMLStereotype has been removed from the classifer.
+	  * The signal is emitted in addition to the generic childObjectRemoved()
+	  */
+	void stereotypeRemoved(UMLStereotype *);
 
 protected:
 

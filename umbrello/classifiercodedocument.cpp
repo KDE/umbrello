@@ -275,7 +275,7 @@ void ClassifierCodeDocument::removeOperation (UMLOperation * op ) {
 	if(tb)
         {
                 if(removeTextBlock(tb)) // wont add if already present
-                        delete tb; // delete unused operations
+                        tb->release(); // delete unused operations
 		else
 			kdError()<<"Cant remove CodeOperation from ClassCodeDocument!"<<endl;
 
@@ -551,17 +551,30 @@ void ClassifierCodeDocument::setAttributesFromNode ( QDomElement & elem )
 }
 
 // look at all classfields currently in document.. match up
-// by parent object ID
-CodeClassField * ClassifierCodeDocument::findCodeClassFieldFromParentID (int id)
+// by parent object ID and Role ID (needed for self-association CF's)
+CodeClassField * ClassifierCodeDocument::findCodeClassFieldFromParentID (int id, int role_id)
 {
 
 	QPtrList<CodeClassField> * list = getCodeClassFieldList();
+
+	if(role_id == -1) { // attribute-based
 	for(CodeClassField * cf = list->first(); cf; cf=list->next())
 		if(cf->getID().toInt() == id)
 			return cf;
 
+	} else { // association(role)-based
+		// ugh. more underperforming code..if only umlroles where in doc uml obj. list..
+		for(CodeClassField * cf = list->first(); cf; cf=list->next())
+		{
+			UMLRole * role = dynamic_cast<UMLRole *>(cf->getParentObject());
+			if(role && cf->getID().toInt() == id && role->getRoleID() == role_id)
+				return cf;
+		}
+
+	}
+
 	// shouldnt happen..
-	kdError()<<" DANGER DANGER! DIDNT find code classfield for id:"<<id<<" corrupt code generator?"<<endl;
+	kdError()<<"Failed to find codeclassfield for parent uml id:"<<id<<" (role id:"<<role_id<<") Do you have a corrupt classifier code document?"<<endl;
 
 	return (CodeClassField*) NULL; // not found
 }
@@ -575,11 +588,22 @@ void ClassifierCodeDocument::loadClassFieldsFromXMI( QDomElement & elem) {
 		if( nodeName == "codeclassfield")
 		{
 			QString id = childElem.attribute("parent_id","-1");
-			CodeClassField * cf = findCodeClassFieldFromParentID(id.toInt());
+			QString role_id = childElem.attribute("role_id","-1");
+			CodeClassField * cf = findCodeClassFieldFromParentID(id.toInt(), role_id.toInt());
 			if(cf)
+			{
+				// Because we just may change the parent object here, 
+				// we need to yank it from the map of umlobjects
+        			m_classFieldMap->remove(cf->getParentObject());
+
+				// configure from XMI
 				cf->loadFromXMI(childElem);
-			else
-				kdError()<<"ERROR: cant find code classfield for ID:"<<id<<" do you have a corrupt savefile?"<<endl;
+
+				// now add back in
+        			m_classFieldMap->insert(cf->getParentObject(),cf);
+
+			} else
+				kdError()<<" LoadFromXMI: can't load classfield parent_id:"<<id<<" do you have a corrupt savefile?"<<endl;
 		}
 		node = childElem.nextSibling();
 		childElem= node.toElement();

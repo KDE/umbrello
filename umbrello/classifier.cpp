@@ -29,7 +29,8 @@ UMLClassifier::~UMLClassifier() {
 }
 
 UMLOperation * UMLClassifier::checkOperationSignature( QString name,
-						       UMLAttributeList *opParams )
+																UMLAttributeList *opParams,
+																UMLOperation *exemptOp)
 {
 	UMLObjectList list = findChildObject( Uml::ot_Operation, name );
 	if( list.count() == 0 )
@@ -40,6 +41,8 @@ UMLOperation * UMLClassifier::checkOperationSignature( QString name,
 	     test != 0; 
 	     test = dynamic_cast<UMLOperation*>(list.next()) )
 	{
+		if (test == exemptOp)
+			continue;
 		UMLAttributeList *testParams = test->getParmList( );
 		if( testParams->count() != opParams->count() )
 			continue;
@@ -111,13 +114,14 @@ bool UMLClassifier::addStereotype(UMLStereotype* newStereotype, UMLObject_Type l
 		if(newStereotype->parent())
 			newStereotype->parent()->removeChild(newStereotype);
 		this->insertChild(newStereotype);
+		// What is this?? do we really want to store stereotypes in opsList?!?? -b.t.
+#warning "addStereotype method needs review..conflicts with set/getStereoType in umlobject aswell as opList storage issues"
 		if (list == ot_Operation) {
 			m_OpsList.append(newStereotype);
 			emit modified();
 			emit childObjectAdded(newStereotype);
+			emit stereotypeAdded(newStereotype);
 			connect(newStereotype, SIGNAL(modified()), this, SIGNAL(modified()));
-//			emit operationAdded(newStereotype);
-#warning "FIXME change operationAdded listeners to childObject, or create stereotypeAdded signal"
 		} else {
 			kdWarning() << "unknown list type in addStereotype()" << endl;
 		}
@@ -128,6 +132,14 @@ bool UMLClassifier::addStereotype(UMLStereotype* newStereotype, UMLObject_Type l
 	}
 	return false;
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+int UMLClassifier::removeStereotype(UMLStereotype * /* stype*/) {
+#warning "removeStereotype method not implemented yet"
+	kdError() << "can't find stereotype given in list" << endl;
+	return -1;
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLObjectList UMLClassifier::findChildObject(UMLObject_Type t , QString n) {
   	UMLObjectList list;
@@ -275,6 +287,13 @@ UMLOperationList* UMLClassifier::getFilteredOperationsList()  {
 void UMLClassifier::init() {
 	m_BaseType = ot_UMLObject;
 	m_OpsList.setAutoDelete(false);
+
+	// make connections so that parent document is updated of list of uml objects
+#warning "Cheap add/removeOperation fix for slot add/RemoveUMLObject calls. Need long-term solution"
+        UMLDoc * parent = UMLApp::app()->getDocument();
+        connect(this,SIGNAL(childObjectAdded(UMLObject *)),parent,SLOT(addUMLObject(UMLObject*)));
+        connect(this,SIGNAL(childObjectRemoved(UMLObject *)),parent,SLOT(slotRemoveUMLObject(UMLObject*)));
+
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool UMLClassifier::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {

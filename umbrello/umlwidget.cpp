@@ -190,7 +190,7 @@ bool UMLWidget::operator==(const UMLWidget& other) {
 }
 
 void UMLWidget::setID(int id) {
-	kdWarning()<<"UMLWidget::setID(int id) called!"<<endl;
+	// kdWarning()<<"UMLWidget::setID(int id) called!"<<endl;
 	if (m_pObject)
 		m_pObject->setID( id );
 	m_nId = id;
@@ -278,7 +278,8 @@ void UMLWidget::mouseMoveEvent(QMouseEvent* me) {
 #ifdef DEBUG_ASSOCLINES
 			calls_to_calc_head = 0;
 #endif
-			adjustAssocs(newX, newY);
+			//adjustAssocs(newX, newY);
+			adjustUnselectedAssocs(newX, newY);
 #ifdef DEBUG_ASSOCLINES
 			kdDebug() << "calls_to_calc_head = " << calls_to_calc_head << endl;
 #endif
@@ -390,8 +391,14 @@ void UMLWidget::mouseReleaseEvent(QMouseEvent *me) {
 	if (m_bMoved) {
 		// Adjust assoc lines again - when the widget is moved around
 		// quickly the lastUpdate timer may have not yet fired.
-		adjustAssocs( getX(), getY() );
+		//
+		// COMMENT: I *dont* think the full adjustAssocs is needed. It certainly screws
+		// up the display when a role floating text box belonging to that assoc
+		// is moved.  Ithink  its best to do noting here. -b.t.
 
+		// adjustUnselectedAssocs( getX(), getY() );
+
+		// BUT DO do this..so that if we quit right now, we are asked to save
 		m_pView->getDocument()->setModified(true);
 	}
 
@@ -708,6 +715,17 @@ void UMLWidget::adjustAssocs(int x, int y)
 	while((assocwidget=assoc_it.current())) {
 		++assoc_it;
 		assocwidget->widgetMoved(this, x, y);
+	}
+}
+
+void UMLWidget::adjustUnselectedAssocs(int x, int y)
+{
+	AssociationWidgetListIt assoc_it(m_Assocs);
+	AssociationWidget* assocwidget = 0;
+	while((assocwidget=assoc_it.current())) {
+		++assoc_it;
+		if(!assocwidget->getSelected())
+			assocwidget->widgetMoved(this, x, y);
 	}
 }
 

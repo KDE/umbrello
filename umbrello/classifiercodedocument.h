@@ -134,7 +134,7 @@ public:
 	 * codeclassfield object in this classifiercodedocument. Returns
 	 * NULL if no such codeclassfield object exists in this document.
 	 */
-	CodeClassField * findCodeClassFieldFromParentID (int id);
+	CodeClassField * findCodeClassFieldFromParentID (int id, int role_id = -1);
 
 	/**
 	 * Get the value of m_parentclassifier

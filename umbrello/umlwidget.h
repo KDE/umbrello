@@ -509,6 +509,14 @@ public:
 	void adjustAssocs(int x, int y);
 
 	/**
+	 * Adjusts all unselected associations with the given co-ordinates
+	 *
+	 * @param x The x-coordinate.
+	 * @param y The y-coordinate.
+	 */
+	void adjustUnselectedAssocs(int x, int y); 
+
+	/**
 	 * Set the m_bActivated flag of a widget but does not perform the Activate method
 	 *
 	 * @param Active Status of activation is to be set.
