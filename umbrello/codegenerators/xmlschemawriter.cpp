@@ -383,6 +383,7 @@ void XMLSchemaWriter::writeConcreteClassifier (UMLClassifier *c, QTextStream &XM
 	// preparations.. gather information about this classifier
 	//
 	UMLClassifierList superclasses = c->findSuperClassConcepts(m_doc); // list of what inherits from us
+	UMLClassifierList subclasses = c->findSubClassConcepts(m_doc); // list of what inherits from us
 	UMLAssociationList aggregations = c->getAggregations();
 	UMLAssociationList compositions = c->getCompositions();
 	// BAD! only way to get "general" associations.
@@ -400,6 +401,10 @@ void XMLSchemaWriter::writeConcreteClassifier (UMLClassifier *c, QTextStream &XM
 
 	// write out any superclasses as needed
 	for(UMLClassifier *classifier = superclasses.first(); classifier; classifier = superclasses.next())
+		writeClassifier(classifier, XMLschema);
+
+	// write out any subclasses as needed
+	for(UMLClassifier *classifier = subclasses.first(); classifier; classifier = subclasses.next())
 		writeClassifier(classifier, XMLschema);
 }
 
@@ -783,13 +788,13 @@ QString XMLSchemaWriter::getElementName(UMLClassifier *c)
 QString XMLSchemaWriter::getElementTypeName(UMLClassifier *c)
 {
 	QString elementName = getElementName(c);
-	return elementName + "SchemaType";
+	return elementName + "ComplexType";
 }
 
 QString XMLSchemaWriter::getElementGroupTypeName(UMLClassifier *c)
 {
 	QString elementName = getElementName(c);
-	return elementName + "SchemaInterfaceType";
+	return elementName + "GroupType";
 }
 
 QString XMLSchemaWriter::makePackageTag (QString tagName) {
