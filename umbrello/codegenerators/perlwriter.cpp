@@ -14,7 +14,6 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include <iostream.h>
 
 #include "perlwriter.h"
 #include "../class.h"
@@ -53,7 +52,6 @@ void PerlWriter::writeClass(UMLClassifier *c) {
 						// actual solution: shameful ".pm" hack in codegenerator
 
 	QString curDir = outputDirectory();
-cerr<<"CURRENT DIR:"<<curDir.latin1()<<endl;
 	if (fileName.contains("::")) {
 		// create new directories for each level
 		QString newDir;
