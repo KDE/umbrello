@@ -7,8 +7,8 @@
  *                                                                         *
  ***************************************************************************/
  
-#ifndef DIA_DIAGRAM_H
-#define DIA_DIAGRAM_H
+#ifndef UMBRELLO_DIAGRAM_H
+#define UMBRELLO_DIAGRAM_H
 
 
 #include <qcanvas.h>
@@ -25,10 +25,13 @@ class QDropEvent;
 class QDragEnterEvent;
 class QPopupMenu;
 class QPointArray;
+class QRect;
 
 namespace Umbrello{
 
-class UMLWidget;
+class DiagramElement;
+class DiagramWidget;
+class DiagramView;
 
 
 /** Diagram. Use a DiagramView to view/modify the contents of this diagram */
@@ -51,37 +54,13 @@ public:
 	virtual void dragEnterEvent(QDragEnterEvent *e);
 	virtual void dropEvent(QDropEvent *e);
 	
-	/** Create a Widget which represents the UMLObject with id umlObjectID
-	*   The widget will only be created if the diagram allows that kind of object
-	*/
-	void createUMLWidget( uint umlObjectID, const QPoint &pos);
-	/** Create a Widget which represents the UMLObject obj
-	*   The widget will only be created if the diagram allows that kind of object
-	*/
-	void createUMLWidget( UMLObject *obj, const QPoint &pos);
-	
-	/** Creates a Non-UML Widget in the Diagram. These widgets exist only
-	* in the diagram (they do not exist in the UML Model (UMLDoc)
-	* FIXME temp only: type = note, text, box, ellipse, etc
-	**/
-	void createCustomWidget( int type, const QPoint &pos);
-	
-	/**
-	 * Create an association widget in the diagram. Even though the UMLAssociation knows
-	 * its UMLObjects, we still need the Widgets the association is connected to, because
-	 * there could be several Widgets representing the same UMLObject in the same diagram.
-	 *
-	 * @param assoc The Association we want to create a widget for
-	 * @param wA    The widget attached to the starting point of the association
-	 * @param wB    The widget attached to the ending point of the association
-	 * @param path  List of points making the path between wA and wB
-	 * 
-	 */
-	void createAssociationWidget( UMLAssociation *assoc, UMLWidget *wA, UMLWidget *wB, const QPointArray &path );
+	void registerElement( DiagramElement* );
 	
 	void fillContextMenu(QPopupMenu &menu) const;
 	
 	UMLDoc* document() const;
+	
+	void setItemsSelected(const QRect &rect, bool selected);
 	
 	void moveSelectedBy(int x, int y);
 	
@@ -90,12 +69,19 @@ public:
 	inline QBrush brush() const;
 	
 	bool acceptType( const std::type_info& );
-
+	
+	DiagramView* createView( QWidget *parent );
+	
+	DiagramElement* firstDiagramElement( const QPoint& );
+	DiagramWidget* firstDiagramWidget( const QPoint& );
 public slots:
 
+	DiagramView* createView();
 	void selectAll();
 	void deselectAll();
 	void properties();
+	void elementSelected(bool s);
+	void elementDestroyed();
 	
 signals:
 	void modified();
@@ -115,6 +101,8 @@ protected:
 
 private:
 	void initAllowedTypesMap();
+	QPtrList<DiagramElement> m_elements;
+	QPtrList<DiagramElement> m_selected;
 
 };
 

@@ -8,9 +8,9 @@
  ***************************************************************************/
 
 #include "diagram.h"
-#include "widgetfactory.h"
 #include "diagramelement.h"
-#include "umlwidget.h"
+#include "diagramview.h"
+#include "path.h"
 
 #include "../umldoc.h"
 
@@ -37,9 +37,17 @@
 #include <qpointarray.h>
 #include <qpopupmenu.h>
 #include <qcolor.h>
+#include <klocale.h>
 
 
 #include <kdebug.h>
+#include "../pluginloader.h"
+#include "../plugin.h"
+
+
+#include "widgetfactory.h"
+#include "defaultwidgetset.h"
+#include "diagramwidget.h"
 
 
 using std::map;
@@ -54,8 +62,11 @@ namespace {
 
  QColor defaultPenColor(255,10,10);
  QColor defaultBrushColor(50,255,20);
+ 
+ 
 
 }
+
 
 namespace Umbrello{
 
@@ -64,23 +75,54 @@ Diagram::Diagram( DiagramType type, UMLDoc *docparent, int id, const QString &na
 {
 	if(allowedTypes.empty())
 	{
+		//create default widget set and load uml widgets... this should not be done here,
+		// but somewhere else.. maybe Umbrello's init would be the right place - test only.
 		initAllowedTypesMap();
+		DefaultWidgetSet *plugin = new DefaultWidgetSet(this,0L);
+		if(!plugin)
+		{
+			kdWarning()<<"cannot create default widget set"<<endl;
+			return;
+		}
+		plugin->init();
+		PluginLoader::instance()->loadPlugin("libumlwidgets");
 	}
+	setUpdatePeriod( 10 );
 	resize(defaultWidth,defaultHeight);
 	m_pen.setColor(defaultPenColor);
 	m_brush.setColor(defaultBrushColor);
 	m_brush.setStyle(Qt::SolidPattern);
-
+	m_elements.setAutoDelete(false);
+	m_selected.setAutoDelete(false);
+	
 }
 
 Diagram::~Diagram()
 {
+	m_selected.clear();
+	m_elements.setAutoDelete(true);
+	m_elements.clear();
 }
 
 
 void Diagram::fillContextMenu(QPopupMenu &menu) const
 {
-	menu.insertItem("diagram properties",this,SLOT(properties()));
+	menu.insertItem(i18n("Create view"),this,SLOT(createView()));
+	menu.insertItem(i18n("Diagram properties"),this,SLOT(properties()));
+}
+
+
+DiagramView* Diagram::createView( QWidget *parent )
+{
+	DiagramView *view = new DiagramView(this,parent,"diagram_view");
+	if(!parent)
+		view->show();
+	return view;
+}
+
+DiagramView* Diagram::createView()
+{
+	return createView((QWidget*)0L);
 }
 
 void Diagram::properties()
@@ -96,97 +138,40 @@ void Diagram::selectAll()
 	{
   		(*it)->setSelected(true);
 	}
-
 }
+
 void Diagram::deselectAll()
 {
-	QCanvasItemList list = allItems();
+	DiagramElement *e(0);
+	for( e = m_selected.first(); e; e = m_selected.next())
+	{
+		e->setSelected(false);
+	}
+}
+
+void Diagram::setItemsSelected(const QRect &rect, bool selected)
+{
+	QCanvasItemList list = collisions(rect);
 	QCanvasItemList::iterator it;
 	for(it = list.begin(); it != list.end(); ++it)
 	{
-  		(*it)->setSelected(false);
+		(*it)->setSelected(selected);
 	}
 }
 
 void Diagram::moveSelectedBy(int x, int y)
 {
-	QCanvasItemList list = allItems();
-	QCanvasItemList::iterator it;
-	for(it = list.begin(); it != list.end(); ++it)
+	DiagramElement *e(0);
+	for( e = m_selected.first(); e; e = m_selected.next())
 	{
-		if((*it)->isSelected())
-			dynamic_cast<DiagramElement*>(*it)->moveBy(x,y);
+		e->moveBy(x,y);
 	}
-}
-
-
-void Diagram::createUMLWidget( uint umlObjectID, const QPoint &pos)
-{
-	UMLObject* o = 0;
-	o = m_doc->findUMLObject(umlObjectID);
-	if(!o)
-	{
-		kdWarning()<<"Diagram::createUMLWidget(uint,QPoint): object with id = "
-			<<umlObjectID<<" not found in document"<<endl;
- 		return;
-	}
-	createUMLWidget(o,pos);
-}
-
-void Diagram::createUMLWidget( UMLObject *obj, const QPoint &pos)
-{
-	WidgetFactory *factory = WidgetFactory::instance();
-	if(!( acceptType(typeid(*obj)) ))
-	{
-		kdDebug()<<"type "<<typeid(*obj).name()
-			<<"not accepted by diagram.(diagram type ="<<m_type<<")"<<endl;
-		return;
-	}
-	DiagramElement *w;
-	if( (w = factory->createUMLWidget(obj,this)) )
-	{
-		w->moveAbs(pos.x(),pos.y());
-		w->show();
-		update();
-		emit modified();
-	}
-}
-
-void Diagram::createAssociationWidget( UMLAssociation *assoc,UMLWidget *wA, UMLWidget *wB, const QPointArray &path )
-{
-	WidgetFactory *factory = WidgetFactory::instance();
-	DiagramElement *w = factory->createAssociationWidget( assoc, wA, wB, path, this );
-	if( w )
-	{kdDebug()<<"showing association"<<endl;
-		w->moveAbs(wA->x(), wA->y());
-		w->show();
-		update();
-		emit modified( );
-	}
-	else kdDebug()<<"widget factory regturned null assoc widget"<<endl;
-
-}
-
-void Diagram::createCustomWidget( int type, const QPoint &pos )
-{
-	WidgetFactory *factory = WidgetFactory::instance();
-	//since these widgets have no real meaning in the
-	//model, we dont need any checks: they are allways accepted
-	DiagramElement *w = factory->createCustomWidget( type, this );
-	if(!w)
-	{
-		return;
-	}
-	w->moveAbs(pos.x(),pos.y());
-	w->show();
-	update();
-	emit modified();
 }
 
 
 bool Diagram::acceptType(const std::type_info &type)
-{//kdDebug()<<"accept? "<<type.name()<<endl;
-return (find((allowedTypes[m_type]).begin(),
+{
+	return (find((allowedTypes[m_type]).begin(),
 		     (allowedTypes[m_type]).end(),
 		     &type) != allowedTypes[m_type].end());
 }
@@ -213,7 +198,13 @@ void Diagram::dropEvent(QDropEvent *e)
 		kdWarning()<<"object with id = "<<data->getID()<<" not found in document"<<endl;
  		return;
 	}
-	createUMLWidget(o,e->pos());
+	DiagramWidget* w = WidgetFactory::instance()->createWidget(o,this);
+	if(w)
+	{
+		w->moveAbs(e->pos().x(),e->pos().y());
+		w->show();
+		update();
+	}
 }
 
 bool Diagram::canAcceptDrop(QDropEvent *e)
@@ -234,19 +225,98 @@ bool Diagram::canAcceptDrop(QDropEvent *e)
  		return false;
 	}
 	return acceptType(typeid(*o));
-//FIXME - change UMLDrag - make it XMI based
-// check if we are droping elements from another model (ie, from another instance of
-// umbrello or another program which also "exports" XMI
-// if we the drag comes from another app, check if the document (model) accepts it.
-// and check if the diagram accepts it as well.
 }
 
+void Diagram::registerElement( DiagramElement *e )
+{
+	m_elements.append(e);
+	connect(e,SIGNAL(selected(bool)),this,SLOT(elementSelected(bool)));
+	connect(e,SIGNAL(destroyed()),this,SLOT(elementDestroyed()));
+}
+
+void Diagram::elementDestroyed()
+{
+	const DiagramElement* e = dynamic_cast<const DiagramElement*>(sender());
+	if(!e)
+		return;
+	m_elements.removeRef(e);
+	m_selected.removeRef(e);
+}
+
+
+void Diagram::elementSelected(bool s)
+{
+	const DiagramElement* e = dynamic_cast<const DiagramElement*>(sender());
+	if(!e)
+		return;
+	if(s)
+	{
+		m_selected.append(e);
+	}
+	else
+	{
+		m_selected.removeRef(e);
+	}
+}
 
 UMLDoc* Diagram::document() const
 {
 	return m_doc;
 }
 
+DiagramElement* Diagram::firstDiagramElement( const QPoint &pos )
+{
+	QCanvasItemList list = collisions(pos);
+	DiagramElement *element(0);
+	Path *path(0);
+	PathSegment *segment(0);
+	//TEST
+	if(m_selected.count() == 1 && list.find(m_selected.first()) != list.end() )
+	{
+		return m_selected.first();
+	}
+	//endtest
+	QCanvasItemList::Iterator it = list.begin();
+	for( ; it != list.end(); ++it)
+	{
+		path = dynamic_cast<Path*>(*it);
+		if( path )
+			continue; //we need to check for collisions with the segments instead of the path
+		segment = dynamic_cast<PathSegment*>(*it);
+		if( segment )
+		{
+			element = segment->path();
+			break;
+		}
+		element = dynamic_cast<DiagramElement*>(*it);
+		if( element )
+			break;
+	}
+	return element;
+}
+
+DiagramWidget* Diagram::firstDiagramWidget( const QPoint &pos )
+{
+	QCanvasItemList list = collisions(pos);
+	DiagramWidget *widget(0);
+	//TEST
+	if(m_selected.count() == 1 && 
+	   list.find(m_selected.first()) != list.end() && 
+	   dynamic_cast<DiagramWidget*>(m_selected.first()))
+	{
+		return dynamic_cast<DiagramWidget*>(m_selected.first());
+	}
+	//endtest
+	QCanvasItemList::Iterator it = list.begin();
+	for( ; it != list.end(); ++it)
+	{
+		//neither paths nor segments are diagramwidgets, so a simple test does it
+		widget = dynamic_cast<DiagramWidget*>(*it);
+		if( widget )
+			break;
+	}
+	return widget;
+}
 
 /////////////////////////////////////////////////////////////////
 map<Diagram::DiagramType,list<const std::type_info*> > Diagram::allowedTypes;
