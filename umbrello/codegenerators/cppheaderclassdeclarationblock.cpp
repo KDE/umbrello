@@ -86,8 +86,8 @@ void CPPHeaderClassDeclarationBlock::updateContent ( )
 
 	// COMMENT
 
-        //check if class is abstract and / or has abstract methods
-        if((c->getAbstract() || isInterface ) && !c->hasAbstractOps())
+        //check if class is abstract.. it should have abstract methods
+        if(!isInterface && c->getAbstract() && !c->hasAbstractOps())
 	{
                 getComment()->setText("******************************* Abstract Class ****************************"+endLine
                           +CPPHeaderClassName+" does not have any pure virtual methods, but its author"+endLine
