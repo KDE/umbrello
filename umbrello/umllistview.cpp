@@ -2088,19 +2088,16 @@ bool UMLListView::isUnique( UMLListViewItem * item, QString name ) {
 	case Uml::lvt_Datatype:
 	case Uml::lvt_Enum:
 	{
-		UMLObject *o = m_doc -> findUMLObject( name );
-		if (o == NULL)
-			return true;
-		if (type == lvt_Package)  // This is perhaps a little coarse,
-			return false;     // but overloading package names
-					  // is bad style anyway, and forbidden
-					  // in various programming languages.
-		UMLPackage *pkg = o->getUMLPackage();
 		if (parentItem->getType() != lvt_Package)
-			return (pkg != NULL);
-		if (pkg == NULL)
-			return false;
-		return (parentItem->getUMLObject() != pkg);
+			return (m_doc->findUMLObject(name) == NULL);
+		UMLPackage *pkg = static_cast<UMLPackage*>(parentItem->getUMLObject());
+		if (pkg == NULL) {
+			kdError() << "UMLListView::isUnique: internal error - "
+				  << "parent listviewitem is package but has no UMLObject"
+				  << endl;
+			return true;
+		}
+		return (pkg->findObject(name) == NULL);
 		break;
 	}
 
