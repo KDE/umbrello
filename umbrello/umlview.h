@@ -122,7 +122,7 @@ public:
 	*/
 
 	Diagram_Type getType() {
-		return m_pData -> m_Type;
+		return m_pData -> getType();
 	}
 
 	/**
@@ -131,7 +131,7 @@ public:
 	*	@return	Returns the ID of this diagram.
 	*/
 	int getID() {
-		return m_pData -> m_nID;
+		return m_pData -> getID();
 	}
 
 	/**
@@ -140,7 +140,7 @@ public:
 	*	@return	Sets the ID of this diagram.
 	*/
 	void setID(int NewID) {
-		m_pData -> m_nID = NewID;
+		m_pData -> setID( NewID );
 	}
 
 	/**
@@ -499,14 +499,14 @@ public:
 	 * 	Returns the documentation for the view.
 	 */
 	QString getDoc() {
-		return m_pData -> m_Documentation;
+		return m_pData -> getDoc();
 	}
 
 	/**
 	 * 	Sets the documentation for the view.
 	 */
 	void setDoc( QString doc ) {
-		m_pData -> m_Documentation = doc;
+		m_pData -> setDoc( doc );
 	}
 
 	/**

@@ -532,7 +532,7 @@ void UMLView::slotObjectCreated(UMLObject* o) {
 			newWidget = new PackageWidget(this, o);
 		} else if(type == ot_Component) {
 			newWidget = new ComponentWidget(this, o);
-			if (m_pData->m_Type == dt_Deployment) {
+			if (getType() == dt_Deployment) {
 				newWidget->getData()->setIsInstance(true);
 			}
 		} else if(type == ot_Artifact) {
@@ -541,13 +541,14 @@ void UMLView::slotObjectCreated(UMLObject* o) {
 			newWidget = new NodeWidget(this, o);
 		} else if(type == ot_Interface) {
 		        InterfaceWidget* interfaceWidget = new InterfaceWidget(this, o);
-			if (getType() == dt_Component || getType() == dt_Deployment) {
+			Diagram_Type diagramType = getType();
+			if (diagramType == dt_Component || diagramType == dt_Deployment) {
 				interfaceWidget->setDrawAsCircle(true);
 			}
 			newWidget = (UMLWidget*)interfaceWidget;
 		} else if(type == ot_Class ) { // CORRECT?
 			//see if we really want an object widget or class widget
-			if(m_pData->m_Type == dt_Class) {
+			if(getType() == dt_Class) {
 				newWidget = new ClassWidget(this, o);
 			} else {
 				newWidget = new ObjectWidget(this, o, m_pData -> getUniqueID() );
@@ -557,7 +558,7 @@ void UMLView::slotObjectCreated(UMLObject* o) {
 		}
 		int y=m_Pos.y();
 
-		if (newWidget->getBaseType() == wt_Object && this->m_pData->m_Type == dt_Sequence) {
+		if (newWidget->getBaseType() == wt_Object && this->getType() == dt_Sequence) {
 			y = 80 - newWidget->height();
 		}
 		newWidget->setX( m_Pos.x() );
@@ -613,6 +614,8 @@ void UMLView::contentsDragEnterEvent(QDragEnterEvent *e) {
 
 	ListView_Type lvtype = data -> getType();
 
+	Diagram_Type diagramType = getType();
+
 	UMLObject* temp = 0;
 	//if dragging diagram - set false
 	switch( lvtype ) {
@@ -628,7 +631,7 @@ void UMLView::contentsDragEnterEvent(QDragEnterEvent *e) {
 			break;
 	}
 	//can't drag anything onto state/activity diagrams
-	if( m_pData->m_Type == dt_State || m_pData->m_Type == dt_Activity) {
+	if( diagramType == dt_State || diagramType == dt_Activity) {
 		status = false;
 	}
 	//make sure can find UMLObject
@@ -641,24 +644,24 @@ void UMLView::contentsDragEnterEvent(QDragEnterEvent *e) {
 	// actor,usecase - usecase diagram
 	if(status) {
 		UMLObject_Type ot = temp->getBaseType();
-		if(m_pData->m_Type == dt_UseCase && (ot != ot_Actor && ot != ot_UseCase) ) {
+		if(diagramType == dt_UseCase && (ot != ot_Actor && ot != ot_UseCase) ) {
 			status = false;
 		}
-		if((m_pData->m_Type == dt_Sequence || m_pData->m_Type == dt_Class ||
-		    m_pData->m_Type == dt_Collaboration) &&
+		if((diagramType == dt_Sequence || diagramType == dt_Class ||
+		    diagramType == dt_Collaboration) &&
 		   (ot != ot_Class && ot != ot_Package && ot != ot_Interface) ) {
 			status = false;
 		}
-		if (m_pData->m_Type == dt_Deployment &&
+		if (diagramType == dt_Deployment &&
 		    (ot != ot_Interface && ot != ot_Component && ot != ot_Class && ot != ot_Node)) {
 			status = false;
 		}
-		if (m_pData->m_Type == dt_Component &&
+		if (diagramType == dt_Component &&
 		    (ot != ot_Interface && ot != ot_Component && ot != ot_Artifact)) {
 			status = false;
 		}
-		if((m_pData->m_Type == dt_UseCase || m_pData->m_Type == dt_Class ||
-		    m_pData->m_Type == dt_Component || m_pData->m_Type == dt_Deployment)
+		if((diagramType == dt_UseCase || diagramType == dt_Class ||
+		    diagramType == dt_Component || diagramType == dt_Deployment)
 		   && widgetOnDiagram(data->getID()) ) {
 			status = false;
 		}
@@ -705,7 +708,7 @@ UMLWidget * UMLView::onWidgetLine( QPoint point ) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLView::checkMessages(UMLWidget * w) {
-	if(m_pData -> m_Type != dt_Sequence)
+	if(getType() != dt_Sequence)
 		return;
 
 
@@ -830,7 +833,7 @@ void UMLView::removeWidget(UMLWidget * o) {
 	removeAssociations(o);
 
 	UMLWidget_Type t = o->getBaseType();
-	if(m_pData -> m_Type == dt_Sequence && t == wt_Object)
+	if(getType() == dt_Sequence && t == wt_Object)
 		checkMessages(o);
 
 	if( m_pOnWidget == o ) {
@@ -848,13 +851,13 @@ void UMLView::removeWidget(UMLWidget * o) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLView::setFillColour(QColor colour) {
 	m_pData->setFillColor(colour);
-	emit sigColorChanged(m_pData->m_nID);
+	emit sigColorChanged( getID() );
 	canvas()->setAllChanged();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLView::setLineColor(QColor color) {
 	m_pData -> setLineColor(color );
-	emit sigColorChanged(m_pData -> m_nID);
+	emit sigColorChanged( getID() );
 	emit sigLineColorChanged( color );
 	canvas() -> setAllChanged();
 }
@@ -894,7 +897,7 @@ QRect UMLView::getDiagramRect() {
 		++it;
 	}
 	//if seq. diagram, make sure print all of the lines
-	if(m_pData -> m_Type == dt_Sequence ) {
+	if(getType() == dt_Sequence ) {
 		SeqLineWidget * pLine = 0;
 		for( pLine = m_SeqLineList.first(); pLine; pLine = m_SeqLineList.next() ) {
 			int y = pLine -> getObjectWidget() -> getEndLineY();
@@ -1917,11 +1920,8 @@ bool UMLView::activateAfterLoad(bool bUseLog) {
 		if( bUseLog ) {
 			beginPartialWidgetPaste();
 		}
-		// set the UMLViewData::m_View
-		if ( m_pData -> getView() == NULL )
-			m_pData -> setView( this );
 		//create and activate regular widgets first
-		UMLWidgetDataListIt w_it( m_pData -> m_WidgetList );
+		UMLWidgetDataListIt w_it( m_pData -> getWidgetList() );
 		while( ( widgetData = w_it.current() ) ) {
 			++w_it;
 			if( bUseLog ) {
@@ -1932,7 +1932,7 @@ bool UMLView::activateAfterLoad(bool bUseLog) {
 		}
 
 		//create the message widgets now
-		UMLWidgetDataListIt m_it( m_pData -> m_MessageList );
+		UMLWidgetDataListIt m_it( m_pData -> getMessageList() );
 		widgetData = 0;
 		while( ( widgetData = m_it.current() ) ) {
 			++m_it;
@@ -1944,7 +1944,7 @@ bool UMLView::activateAfterLoad(bool bUseLog) {
 		}
 
 		//now create the associations
-		AssociationWidgetDataListIt a_it( m_pData -> m_AssociationList );
+		AssociationWidgetDataListIt a_it( m_pData -> getAssociationList() );
 		while( ( assocData = a_it.current() ) ) {
 			++a_it;
 			if( bUseLog ) {
@@ -2171,11 +2171,11 @@ void UMLView::removeAllWidgets() {
 
 
 void UMLView::setName(QString& strName) {
-	m_pData -> m_Name = strName;
+	m_pData -> setName( strName );
 }
 
 QString UMLView::getName() {
-	return m_pData -> m_Name;
+	return m_pData -> getName();
 }
 
 WorkToolBar::ToolBar_Buttons UMLView::getCurrentCursor() const {
@@ -2670,7 +2670,7 @@ void UMLView::copyAsImage(QPixmap*& pix) {
 void UMLView::setMenu() {
 	slotRemovePopupMenu();
 	ListPopupMenu::Menu_Type menu = ListPopupMenu::mt_Undefined;
-	switch( m_pData -> m_Type ) {
+	switch( getType() ) {
 		case dt_Class:
 			menu = ListPopupMenu::mt_On_Class_Diagram;
 			break;
@@ -2912,17 +2912,17 @@ void UMLView::synchronizeData() {
            because the AssociationWidgetData::saveToXMI() directly
            saves the AssociationWidgets.
          */
-	m_pData -> m_AssociationList.clear();
+	m_pData->getAssociationList().clear();
 	AssociationWidgetListIt assoc_it(m_Associations);
 	AssociationWidget* assocwidget = 0;
 	while((assocwidget=assoc_it.current())) {
 		++assoc_it;
 		assocwidget->synchronizeData();
                 AssociationWidgetData* assocData = (AssociationWidgetData*)assocwidget;
-		m_pData->m_AssociationList.append( assocData );
+		m_pData->getAssociationList().append( assocData );
 	}
 	//get all the data for messagewidgets
-	m_pData->m_MessageList.clear();
+	m_pData->getMessageList().clear();
 	QObjectList * l = queryList( "UMLWidget" );
 	QObjectListIt it( *l );
 	UMLWidget *obj = 0;
@@ -2930,12 +2930,12 @@ void UMLView::synchronizeData() {
 		++it;
 		if(obj->getBaseType() == wt_Message) {
 			obj->synchronizeData();
-			m_pData->m_MessageList.append( obj -> getData() );
+			m_pData->getMessageList().append( obj -> getData() );
 		}
 	}//end while
 
 	delete l;
-	m_pData -> m_WidgetList.clear();
+	m_pData->getWidgetList().clear();
 	//get all the data for the rest of the widgets - for text only store of role tr_Floating
 	QObjectList * wl = queryList( "UMLWidget" );
 	QObjectListIt wit( *wl );
@@ -2946,11 +2946,11 @@ void UMLView::synchronizeData() {
 		if (type == wt_Text) {
 			if( ((FloatingText*)obj)->getRole() == tr_Floating ) {
 				obj->synchronizeData();
-				m_pData->m_WidgetList.append( obj->getData() );
+				m_pData->getWidgetList().append( obj->getData() );
 			}
 		} else if (type != wt_Message) {
 			obj->synchronizeData();
-			m_pData->m_WidgetList.append(obj->getData() );
+			m_pData->getWidgetList().append( obj->getData() );
 		}
 	}//end while
 	delete wl;

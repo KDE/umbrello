@@ -25,8 +25,6 @@ using namespace Uml;
  * @author Paul Hensgen
  */
 class UMLViewData {
-	friend class UMLView;
-
 public:
 
 	/**
@@ -63,16 +61,6 @@ public:
 	 * 		Set the documentation of the diagram.
 	 */
 	void setDoc( QString doc );
-
-	/**
-	 *		Return the UMLView to which we are linked.
-	 */
-	UMLView* getView();
-
-	/**
-	 * 		Set the UMLView to which we are linked.
-	 */
-	void setView( UMLView* v );
 
 	/**
 	 * 		Return the name of the diagram.
@@ -274,6 +262,27 @@ public:
 	}
 
 	/**
+	 *   Returns a reference to the association list.
+	 */
+	AssociationWidgetDataList& getAssociationList() {
+		return m_AssociationList;
+	}
+
+	/**
+	 *   Returns a reference to the widget list.
+	 */
+	UMLWidgetDataList& getWidgetList() {
+		return m_WidgetList;
+	}
+
+	/**
+	 *   Returns a reference to the message list.
+	 */
+	UMLWidgetDataList& getMessageList() {
+		return m_MessageList;
+	}
+
+	/**
 	 * creates the <diagram> tag, and fills it with the contents oft he diagram
 	 */
 	bool saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
@@ -382,11 +391,6 @@ protected:
 	 * Height of canvas in pixels
 	 */
 	int m_nCanvasHeight;
-
-	/**
-	 * The UMLView to which we are linked
-	 */
-	UMLView* m_View;
 
 };
 

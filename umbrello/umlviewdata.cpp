@@ -40,7 +40,6 @@ UMLViewData::UMLViewData() {
 	m_Documentation = "";
 	m_Name = "umlview";
 	m_Type = dt_Undefined;
-	m_View = NULL;
 	m_nLocalID = 30000;
 	m_bUseSnapToGrid = false;
 	m_bUseSnapComponentSizeToGrid = false;
@@ -100,14 +99,6 @@ QString UMLViewData::getDoc() {
 
 void UMLViewData::setDoc( QString doc ) {
 	m_Documentation = doc;
-}
-
-UMLView* UMLViewData::getView() {
-	return m_View;
-}
-
-void UMLViewData::setView( UMLView* v ) {
-	m_View = v;
 }
 
 QString UMLViewData::getName() {
@@ -226,19 +217,9 @@ bool UMLViewData::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	viewElement.appendChild( messageElement );
 	//now save the associations
 	QDomElement assocElement = qDoc.createElement( "associations" );
-	if (m_View) {  // FIXME: m_View should really always be set upon getting here.
-		AssociationWidgetList assocs;
-		m_View->getAssocWidgets( assocs );
-		AssociationWidget * assoc = 0;
-		AssociationWidgetListIt a_it( assocs );
-		while( ( assoc = a_it.current() ) ) {
-			++a_it;
-			AssociationWidgetData * assocData = (AssociationWidgetData*)assoc;
-			assocData -> saveToXMI( qDoc, assocElement );
-		}
-	} else if ( m_AssociationList.count() ) {
+	if ( m_AssociationList.count() ) {
 		// We guard against ( m_AssociationList.count() == 0 ) because
-		// this else part could be reached as follows:
+		// this code could be reached as follows:
 		//  ^  UMLView::saveToXMI()
 		//  ^  UMLDoc::saveToXMI()
 		//  ^  UMLDoc::addToUndoStack()
@@ -248,14 +229,14 @@ bool UMLViewData::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 		//  ^  UMLApp::newDocument()
 		//  ^  main()
 		//
-		// FIXME: This else part should never be entered.
-		kdDebug() << "UMLViewData::saveToXMI() entered deprecated else part." << endl;
 		AssociationWidgetDataListIt a_it( m_AssociationList );
 		AssociationWidgetData * assocData = 0;
 		while( ( assocData = a_it.current() ) ) {
 			++a_it;
 			assocData -> saveToXMI( qDoc, assocElement );
 		}
+		// kdDebug() << "UMLViewData::saveToXMI() saved "
+		//	<< m_AssociationList.count() << " assocData." << endl;
 	}
 	viewElement.appendChild( assocElement );
 	qElement.appendChild( viewElement );
