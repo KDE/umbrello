@@ -252,6 +252,7 @@ void RefactoringAssistant::addClassifier( UMLClassifier *classifier, QListViewIt
 	if(addSuper)
 	{
 	superFolder = new KListViewItem( classifierItem, i18n("Super") );
+	superFolder->setExpandable( true );
 	QPtrList<UMLClassifier> super = classifier->findSuperClassConcepts( m_doc );
 	for( UMLClassifier *cl = super.first(); cl ; cl = super.next() )
 	{
@@ -270,6 +271,7 @@ void RefactoringAssistant::addClassifier( UMLClassifier *classifier, QListViewIt
 	{
 	//add derived classifiers
 	derivedFolder = new KListViewItem( classifierItem, i18n("Derived") );
+	derivedFolder->setExpandable( true );
 	QPtrList<UMLClassifier> derived = classifier->findSubClassConcepts ( m_doc );
 	for( UMLClassifier *d = derived.first(); d ; d = derived.next() )
 	{
