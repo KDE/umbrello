@@ -29,7 +29,7 @@
 
 #include "../clipboard/umldrag.h"
 #include "../umllistviewitemdatalist.h"
-
+#include "../umllistviewitemdata.h"
 
 #include <typeinfo>
 #include <algorithm>

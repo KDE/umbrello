@@ -15,7 +15,7 @@
 #include "../umllistviewitemdatalist.h"
 #include "../umllistviewitemlist.h"
 #include "../umlviewdatalist.h"
-#include "../umlwidgetlist.h"
+#include "../umlwidgetdatalist.h"
 
 class IDChangeLog;
 class QMimeSource;

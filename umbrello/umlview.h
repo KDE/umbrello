@@ -16,6 +16,7 @@
 
 #include "umlobjectlist.h"
 #include "umlwidgetlist.h"
+#include "umlwidgetdatalist.h"
 #include "associationwidgetlist.h"
 #include "associationwidgetdatalist.h"
 
@@ -23,7 +24,6 @@
 #include "worktoolbar.h"
 #include "dialogs/settingsdlg.h"
 
-#include "umldoc.h"
 #include "umlviewdata.h"
 
 // QT includes
@@ -42,6 +42,7 @@ class SeqLineWidget;
 
 class UMLListView;
 class UMLApp;
+class UMLDoc;
 
 class KPrinter;
 
@@ -971,9 +972,7 @@ public slots:
 	/**
 	 *	Called by menu when to show the instance of the view.
 	 */
-	void slotShowView() {
-		getDocument() -> changeCurrentView( m_pData -> getID() );
-	}
+	void slotShowView();
 
 	/**
 	 *  Overrides standard method from QWidget to resize canvas when

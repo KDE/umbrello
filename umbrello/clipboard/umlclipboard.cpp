@@ -23,11 +23,10 @@
 #include "../operation.h"
 #include "../umldoc.h"
 #include "../umllistview.h"
-#include "../umllistviewitemdatalist.h"
+#include "../umllistviewitem.h"
 #include "../umlobjectlist.h"
 #include "../umlview.h"
 #include "../umlwidgetdata.h"
-#include "../umlwidgetlist.h"
 #include "../umlwidget.h"
 
 UMLClipboard::UMLClipboard() {

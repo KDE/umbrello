@@ -16,6 +16,7 @@
 
 #include "seqlinewidget.h"
 #include "umlview.h"
+#include "umldoc.h"
 #include "umlobject.h"
 #include "objectwidget.h"
 #include "listpopupmenu.h"

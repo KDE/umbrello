@@ -12,6 +12,7 @@
 #include "interface.h"
 #include "operation.h"
 #include "umlview.h"
+#include "umldoc.h"
 #include "listpopupmenu.h"
 
 #include <kdebug.h>

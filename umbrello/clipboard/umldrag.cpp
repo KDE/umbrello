@@ -15,6 +15,7 @@
 #include "../umlview.h"
 #include "../umlobject.h"
 #include "../umlwidgetdata.h"
+#include "../umllistviewitemdata.h"
 #include "../associationwidgetdata.h"
 
 class UMLDragPrivate {

@@ -16,6 +16,7 @@
 
 #include "associationwidgetlist.h"
 #include "dialogs/settingsdlg.h"
+#include "umlviewlist.h"
 #include "umlnamespace.h"
 #include <qdatastream.h>
 #include <qptrstack.h>
@@ -43,7 +44,6 @@ class IDChangeLog;
 class ObjectWidget;
 class UMLListView;
 class UMLObject;
-class UMLView;
 class UMLViewData;
 class UMLWidget;
 class UMLClassifier;
@@ -528,7 +528,7 @@ public:
 	/**
 	 *  Return the list of views for this document
 	 */
-	const QPtrList<UMLView> &getViewIterator() const {
+	const UMLViewList &getViewIterator() const {
 		return *pViewList;
 	}
 
@@ -700,7 +700,7 @@ public:
 	/**
 	 * All the UMLViews (i.e. diagrams)
 	 */
-	QPtrList<UMLView> *pViewList;
+	UMLViewList *pViewList;
 
 	/**
 	 * The tree view of diagrams and objects.
@@ -749,7 +749,7 @@ private:
 	/**
 	 * List of Not yet Activated views
 	 */
-	QPtrList<UMLView> viewsNotActivated;
+	UMLViewList viewsNotActivated;
 
 	/**
 	 * true if the we're loading a new document

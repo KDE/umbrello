@@ -11,6 +11,7 @@
 
 #include "activitywidget.h"
 #include "umlview.h"
+#include "umldoc.h"
 #include "umlwidget.h"
 #include "listpopupmenu.h"
 #include "association.h"

@@ -14,6 +14,7 @@
 
 #include "listpopupmenu.h"
 #include "umlwidget.h"
+#include "umldoc.h"
 #include "classwidget.h"
 #include "interfacewidget.h"
 #include "floatingtext.h"

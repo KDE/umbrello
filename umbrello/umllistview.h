@@ -10,6 +10,7 @@
 #ifndef UMLLISTVIEW_H
 #define UMLLISTVIEW_H
 
+#include "umllistviewitemdata.h"
 #include "umllistviewitemlist.h"
 #include <klistview.h>
 #include <qpixmap.h>

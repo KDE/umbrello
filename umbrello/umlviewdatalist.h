@@ -10,8 +10,10 @@
 #ifndef UMLVIEWDATALIST_H
 #define UMLVIEWDATALIST_H
 
-#include "umlviewdata.h"
+//#include "umlviewdata.h"
 #include <qptrlist.h>
+
+class UMLViewData;
 
 typedef QPtrList<UMLViewData> UMLViewDataList;
 typedef QPtrListIterator<UMLViewData> UMLViewDataListIt;

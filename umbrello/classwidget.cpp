@@ -14,6 +14,7 @@
 #include "listpopupmenu.h"
 #include "template.h"
 #include "umlview.h"
+#include "umldoc.h"
 #include <kdebug.h>
 #include <qpainter.h>
 

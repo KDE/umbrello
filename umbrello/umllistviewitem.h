@@ -12,8 +12,6 @@
 
 #include "umllistviewitemdata.h"
 #include <qlistview.h>
-//#include <qstring.h>
-//#include "umlobject.h"
 
 class UMLListView;
 

@@ -41,6 +41,7 @@
 #include "umlview.h"
 #include "listpopupmenu.h"
 #include "uml.h"
+#include "umldoc.h"
 #include "umlobject.h"
 #include "docwindow.h"
 #include "assocrules.h"
@@ -71,7 +72,7 @@
 #include "seqlinewidget.h"
 
 #include "umllistviewitemdatalist.h"
-#include "umlwidgetlist.h"
+#include "umllistviewitemdata.h"
 #include "umlobjectlist.h"
 
 #include "umlwidgetdata.h"
@@ -2961,6 +2962,10 @@ void UMLView::slotCutSuccessful() {
 		deleteSelection();
 		m_bStartedCut = false;
 	}
+}
+
+void UMLView::slotShowView() {
+	getDocument() -> changeCurrentView( m_pData -> getID() );
 }
 
 QPoint UMLView::getPastePoint() {

@@ -20,6 +20,7 @@
 #include "classifier.h"
 #include "dialogs/selectopdlg.h"
 #include "umlview.h"
+#include "umldoc.h"
 #include "listpopupmenu.h"
 
 MessageWidget::MessageWidget(UMLView* view, UMLWidgetData* pData) : UMLWidget(view, pData) {

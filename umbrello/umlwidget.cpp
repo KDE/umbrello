@@ -19,6 +19,7 @@
 #include "class.h"
 #include "umlwidget.h"
 #include "uml.h"
+#include "umldoc.h"
 #include "umllistview.h"
 #include "umlview.h"
 

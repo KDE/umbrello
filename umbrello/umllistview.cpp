@@ -24,6 +24,7 @@
 #include "umldoc.h"
 #include "umllistview.h"
 #include "umllistviewitemdatalist.h"
+#include "umllistviewitem.h"
 #include "umlview.h"
 #include "usecase.h"
 #include "clipboard/idchangelog.h"

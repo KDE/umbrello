@@ -8,6 +8,7 @@
  ***************************************************************************/
 #include "associationwidget.h"
 #include "umlview.h"
+#include "umldoc.h"
 #include "classifier.h"
 #include "floatingtext.h"
 #include "floatingtextdata.h"

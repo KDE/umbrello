@@ -12,7 +12,7 @@
 
 #include "associationwidgetdatalist.h"
 #include "dialogs/settingsdlg.h"
-#include "umlwidgetlist.h"
+#include "umlwidgetdatalist.h"
 
 class UMLWidgetData;
 

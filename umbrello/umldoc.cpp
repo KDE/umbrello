@@ -56,7 +56,7 @@ using Umbrello::DiagramView;
 
 
 UMLDoc::UMLDoc(QWidget *parent, const char *name) : QObject(parent, name) {
-	pViewList = new QPtrList<UMLView>();
+	pViewList = new UMLViewList();
 
 	listView = 0;
 	currentView = 0;
