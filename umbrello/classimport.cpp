@@ -56,8 +56,6 @@ void ClassImport::insertAttribute(UMLObject *o, Uml::Scope scope, QString name, 
 	temp->setScope(scope);
 
 	setModified(true);
-	emit sigChildObjectCreated(temp);
-	emit sigWidgetUpdated(o);
 }
 
 /** No descriptions */
@@ -79,8 +77,6 @@ void ClassImport::insertMethod(UMLObject *o, Uml::Scope scope, QString name, QSt
 
 	temp->setScope(scope);
 	setModified(true);
-	emit sigChildObjectCreated(temp);
-	emit sigWidgetUpdated(o);
 }
 
 void ClassImport::importCPP(QStringList headerFileList) {

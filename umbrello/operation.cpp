@@ -39,15 +39,16 @@ void UMLOperation::addParm(QString type, QString name, QString initialValue, QSt
 	a -> setDoc(doc);
 	a -> setInitialValue(initialValue);
 	m_List.append(a);
+	emit modified();
+	connect(a,SIGNAL(modified()),this,SIGNAL(modified()));
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLOperation::removeParm(UMLAttribute * a) {
-	UMLAttribute * obj=0;
-	for(obj=m_List.first();obj != 0;obj=m_List.next()) {
-		if(obj == a)
-			if(!m_List.remove(obj))
-				kdDebug() << "Error removing parm" << endl;
-	}
+	if(!m_List.remove(a))
+		kdDebug() << "Error removing parm" << endl;
+	
+	emit modified();
+	disconnect(a,SIGNAL(modified()),this,SIGNAL(modified()));
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLAttribute* UMLOperation::findParm(QString name) {
@@ -129,6 +130,8 @@ bool UMLOperation::serialize(QDataStream *s, bool archive, int fileversion) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLOperation::addParm(UMLAttribute *parameter) {
 	m_List.append(parameter);
+	emit modified();
+	connect(parameter,SIGNAL(modified()),this,SIGNAL(modified()));
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 QString UMLOperation::getUniqueParameterName() {

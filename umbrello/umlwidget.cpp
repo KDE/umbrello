@@ -219,13 +219,6 @@ void UMLWidget::updateWidget()
 		update();
 }
 
-void UMLWidget::slotChangeWidget(UMLObject * o) 
-{
-	if(m_pObject != o)
-		return;
-	updateWidget();
-	
-}
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 int UMLWidget::getID() {
@@ -288,7 +281,6 @@ void UMLWidget::init() {
 	connect( m_pView, SIGNAL( sigRemovePopupMenu() ), this, SLOT( slotRemovePopupMenu() ) );
 	connect( m_pView, SIGNAL( sigClearAllSelected() ), this, SLOT( slotClearAllSelected() ) );
 	connect( m_pView, SIGNAL(sigColorChanged(int)), this, SLOT(slotColorChanged(int)));
-	connect( m_pView -> getDocument(), SIGNAL(sigWidgetUpdated(UMLObject *)), this, SLOT(slotChangeWidget(UMLObject *)));
 	if( m_pObject )
 	{
 		connect( m_pObject,SIGNAL(modified()),this,SLOT(updateWidget()));

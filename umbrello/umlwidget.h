@@ -548,7 +548,6 @@ public slots:
 	 */
 	virtual void updateWidget();
 	
-	virtual void slotChangeWidget(UMLObject * o);
 
 	/**
 	 * Captures any popup menu signals for menus it created.

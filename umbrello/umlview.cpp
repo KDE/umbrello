@@ -218,6 +218,7 @@ void UMLView::print(KPrinter *pPrinter, QPainter & pPainter) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome) {
+
 	m_bMouseButtonPressed = false;
 	QMouseEvent* me = new QMouseEvent(QEvent::MouseButtonRelease, inverseWorldMatrix().map(ome->pos()),
 					  ome->button(),ome->state());
@@ -841,9 +842,7 @@ void UMLView::removeWidget(UMLWidget * o) {
 	disconnect( this, SIGNAL( sigRemovePopupMenu() ), o, SLOT( slotRemovePopupMenu() ) );
 	disconnect( this, SIGNAL( sigClearAllSelected() ), o, SLOT( slotClearAllSelected() ) );
 	disconnect( this, SIGNAL(sigColorChanged(int)), o, SLOT(slotColorChanged(int)));
-	disconnect( getDocument(), SIGNAL(sigWidgetUpdated(UMLObject *)), o, SLOT(slotChangeWidget(UMLObject *)));
 	o -> deleteLater();
-	delete o;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLView::setFillColour(QColor colour) {
