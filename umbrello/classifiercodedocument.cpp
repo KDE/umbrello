@@ -342,13 +342,19 @@ void ClassifierCodeDocument::syncNamesToParent( ) {
 
 void ClassifierCodeDocument::syncronize( ) {
 
-kdWarning()<<" Syncronize classifier code doc:"<<this<<endl;
-
 	updateHeader(); // doing this insures time/date stamp is at the time of this call
 	syncNamesToParent();
 	updateContent();
+	syncClassFields();
 	updateOperations();
 
+}
+
+void ClassifierCodeDocument::syncClassFields( ) 
+{
+        QPtrList<CodeClassField> *list = getCodeClassFieldList();
+	for(CodeClassField * cf = list->first(); cf; cf=list->next())
+		cf->syncronize();
 }
 
 void ClassifierCodeDocument::updateOperations( ) {
