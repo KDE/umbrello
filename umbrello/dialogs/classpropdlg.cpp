@@ -24,6 +24,7 @@
 #include "../umlobject.h"
 #include "../umldoc.h"
 #include "../objectwidget.h"
+#include "../componentwidget.h"
 #include "../uml.h"
 #include "../umlview.h"
 
@@ -85,6 +86,14 @@ ClassPropDlg::ClassPropDlg(QWidget *parent, UMLWidget * w) : KDialogBase(IconLis
 	if (w->getBaseType() == Uml::wt_Class || w->getBaseType() == Uml::wt_Package ||
 	    w->getBaseType() == Uml::wt_Interface) {
 		setupPages(m_pObject, true);
+	} if (w->getBaseType() == Uml::wt_Component) {
+		UMLWidgetData* widgetData = w->getData();
+		if ( (static_cast<ComponentWidgetData*>(widgetData))->getIsInstance() ) {
+			ComponentWidget* componetWidget = static_cast<ComponentWidget*>(w);
+			setupComponentInstancePages(componetWidget);
+		} else {
+			setupPages(m_pObject);
+		}
 	} else {
 		setupPages(m_pObject);
 	}
@@ -187,6 +196,15 @@ void ClassPropDlg::setupPages(UMLObject * c, bool assoc) {
 	} else {
 		m_pAssocPage = 0;
 	}
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+void ClassPropDlg::setupComponentInstancePages(ComponentWidget* component) {
+	QFrame* page = addPage( i18n("General"), i18n("General Settings"), DesktopIcon("misc") );
+	QHBoxLayout* genLayout = new QHBoxLayout(page);
+	page->setMinimumSize(310, 330);
+	m_pGenPage = new ClassGenPage(m_pDoc, page, component);
+	genLayout->addWidget(m_pGenPage);
+	m_pAssocPage = 0;
 }
 
 void ClassPropDlg::setupFontPage() {

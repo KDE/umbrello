@@ -19,6 +19,8 @@
 
 ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o) : QWidget(parent) {
 	m_pWidget = 0;
+	m_pObject = 0;
+	m_pComponentWidget = 0;
 	QString name;
 	int margin = fontMetrics().height();
 	Uml::UMLObject_Type t = o -> getBaseType();
@@ -173,6 +175,8 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o) : QWidget(p
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, ObjectWidget* o) : QWidget(parent) {
+	m_pObject = 0;
+	m_pComponentWidget = 0;
 	m_pWidget = o;
 	m_pDeconCB = 0;
 	m_pMultiCB = 0;
@@ -233,6 +237,53 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, ObjectWidget* o) : QWidge
 	m_pObject = 0;//needs to be set to zero
 	if( m_pMultiCB )
 		connect( m_pDrawActorCB, SIGNAL( toggled( bool ) ), this, SLOT( slotActorToggled( bool ) ) );
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, ComponentWidget* componentWidget) : QWidget(parent) {
+	m_pWidget = 0;
+	m_pObject = 0;
+	m_pComponentWidget = componentWidget;
+	m_pDeconCB = 0;
+	m_pMultiCB = 0;
+	int margin = fontMetrics().height();
+	//int t = o -> getBaseType();
+	m_pUmldoc = d;
+	setMinimumSize(310,330);
+	QGridLayout* topLayout = new QGridLayout(this, 2, 1);
+	topLayout->setSpacing(6);
+
+	//setup name
+	QGridLayout* m_pNameLayout = new QGridLayout(topLayout, 3, 2);
+	m_pNameLayout->setSpacing(6);
+	m_pNameL = new QLabel(this);
+	m_pNameL->setText(i18n("Component name:"));
+	m_pNameLayout->addWidget(m_pNameL, 0, 0);
+
+	m_pClassNameLE = new QLineEdit(this);
+	m_pClassNameLE->setText(componentWidget->getName());
+	m_pNameLayout->addWidget(m_pClassNameLE, 0, 1);
+
+	m_pInstanceL = new QLabel(this);
+	m_pInstanceL->setText(i18n("Instance name:"));
+	m_pNameLayout->addWidget(m_pInstanceL, 1, 0);
+
+	m_pInstanceLE = new QLineEdit(this);
+	ComponentWidgetData* widgetData = static_cast<ComponentWidgetData*>(componentWidget->getData());
+	m_pInstanceLE->setText(widgetData->getInstanceName());
+	m_pNameLayout->addWidget(m_pInstanceLE, 1, 1);
+
+	//setup documentation
+	m_pDocGB = new QGroupBox(this);
+	topLayout->addWidget(m_pDocGB, 1, 0);
+	QHBoxLayout* docLayout = new QHBoxLayout(m_pDocGB);
+	docLayout->setMargin(margin);
+	m_pDocGB->setTitle(i18n("Documentation"));
+
+	m_pDoc = new QMultiLineEdit(m_pDocGB);
+	m_pDoc->setWordWrap(QMultiLineEdit::WidgetWidth);
+	m_pDoc->setText(componentWidget->getDoc());
+	docLayout->addWidget(m_pDoc);
+	m_pObject = 0;//needs to be set to zero
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ClassGenPage::~ClassGenPage() {}
@@ -303,6 +354,19 @@ void ClassGenPage::updateObject() {
 			                   i18n("Name is Not Unique"), false);
 		} else
 			o -> setName(name);
+	} else if (m_pComponentWidget) {
+		ComponentWidgetData* widgetData = static_cast<ComponentWidgetData*>(m_pComponentWidget->getData());
+		widgetData->setInstanceName(m_pInstanceLE->text());
+		QString name = m_pClassNameLE->text();
+		m_pComponentWidget->setDoc(m_pDoc->text());
+		UMLObject* o = m_pComponentWidget->getUMLObject();
+		UMLObject* old = m_pUmldoc->findUMLObject(o->getBaseType(), name);
+		if(old && o != old) {
+			KMessageBox::sorry(this, i18n("The name you have chosen\nis already being used.\nThe name has been reset."),
+			                   i18n("Name is Not Unique"), false);
+		} else {
+			o->setName(name);
+		}
 	}
 }
 

@@ -402,6 +402,11 @@ public slots:
 	void slotComponentDiagram();
 
 	/**
+	 *	Create this view
+	 */
+	void slotDeploymentDiagram();
+
+	/**
 	 *
 	 */
 	void slotClipDataChanged();
@@ -658,6 +663,7 @@ private:
 	KAction* stateDiagram;
 	KAction* activityDiagram;
 	KAction* componentDiagram;
+	KAction* deploymentDiagram;
 	KAction* viewClearDiagram;
 	KAction *UclassDiagram;
 	KAction *UsequenceDiagram;

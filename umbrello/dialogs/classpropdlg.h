@@ -22,6 +22,7 @@ class AssocPage;
 class ClassOptionsPage;
 class UMLWidgetColorPage;
 
+class ComponentWidget;
 class ObjectWidget;
 class UMLDoc;
 class UMLObject;
@@ -70,9 +71,29 @@ public:
 		  page_assoc, page_options, page_color, page_font};
 
 protected:
+	/**
+	 * Calls slotApply() and accepts (closes) the dialogue
+	 */
 	void slotOk();
+
+	/**
+	 * Applys the settings in the dialogue to the widget and object
+	 */
 	void slotApply();
+
+	/**
+	 * Sets up the general, attribute, operations, template and association pages as appropriate
+	 */
 	void setupPages(UMLObject * c, bool assoc = false);
+
+	/**
+	 * Sets up the general page for the component
+	 */
+	void setupComponentInstancePages(ComponentWidget* component);
+
+	/**
+	 * Sets up the font page
+	 */
 	void setupFontPage();
 private:
 	KFontChooser * m_pChooser;

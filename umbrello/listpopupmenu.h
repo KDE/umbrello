@@ -34,6 +34,7 @@ public:
 	    mt_Logical_View = 1900,           //LVIEW
 	    mt_UseCase_View,                  //UCVIEW
 	    mt_Component_View,
+	    mt_Deployment_View,
 	    mt_UseCase_Diagram,               //UCDIAGRAM
 	    mt_Sequence_Diagram,              //SEQDIAGRAM
 	    mt_Class_Diagram,                 //CONDIAGRAM
@@ -41,6 +42,7 @@ public:
 	    mt_State_Diagram,
 	    mt_Activity_Diagram,
 	    mt_Component_Diagram,
+	    mt_Deployment_Diagram,
 
 	    mt_On_UseCase_Diagram,            //UCDIAGRAM
 	    mt_On_Sequence_Diagram,           //SEQDIAGRAM
@@ -49,10 +51,12 @@ public:
 	    mt_On_State_Diagram,
 	    mt_On_Activity_Diagram,
 	    mt_On_Component_Diagram,
+	    mt_On_Deployment_Diagram,
 
 	    mt_Logical_Folder,                //LFOLDER
 	    mt_UseCase_Folder,                //UCFOLDER
 	    mt_Component_Folder,
+	    mt_Deployment_Folder,
 
 	    mt_Concept,                       //CONCEPT
 	    mt_Package,

@@ -55,6 +55,8 @@ public:
 	    it_Folder_Grey_Open,
 	    it_Folder_Red,
 	    it_Folder_Red_Open,
+	    it_Folder_Violet,
+	    it_Folder_Violet_Open,
 	    it_Diagram, //change to have different one for each type of diagram
 	    it_Class,
 	    it_Template,
@@ -226,6 +228,7 @@ protected:
 	UMLListViewItem* ucv;//use case view item
 	UMLListViewItem* lv;//logical view item
 	UMLListViewItem* componentView;//component view item
+	UMLListViewItem* deploymentView;//deployment view item
 	UMLListViewItem *diagramFolder;
 	ListPopupMenu * menu;
 	QString oldText, message;
@@ -240,6 +243,8 @@ protected:
 		QPixmap Folder_Grey_Open;
 		QPixmap Folder_Red;
 		QPixmap Folder_Red_Open;
+		QPixmap Folder_Violet;
+		QPixmap Folder_Violet_Open;
 		QPixmap Diagram; //change to have different one for each type of diagram
 		QPixmap Class;
 		QPixmap Template;

@@ -504,11 +504,14 @@ void UMLView::slotObjectCreated(UMLObject* o) {
 			newWidget = new PackageWidget(this, o);
 		} else if(type == ot_Component) {
 			newWidget = new ComponentWidget(this, o);
+			if (m_pData->m_Type == dt_Deployment) {
+				static_cast<ComponentWidgetData*>(newWidget->getData())->setIsInstance(true);
+			}
 		} else if(type == ot_Artifact) {
 			newWidget = new ArtifactWidget(this, o);
 		} else if(type == ot_Interface) {
 		        InterfaceWidget* interfaceWidget = new InterfaceWidget(this, o);
-			if (getType() == dt_Component) {
+			if (getType() == dt_Component || getType() == dt_Deployment) {
 				interfaceWidget->setDrawAsCircle(true);
 			}
 			newWidget = (UMLWidget*)interfaceWidget;
@@ -619,6 +622,10 @@ void UMLView::contentsDragEnterEvent(QDragEnterEvent *e) {
 		if((m_pData->m_Type == dt_Sequence || m_pData->m_Type == dt_Class ||
 		    m_pData->m_Type == dt_Collaboration) &&
 		   (ot != ot_Concept && ot != ot_Package && ot != ot_Interface) ) {
+			status = false;
+		}
+		if (m_pData->m_Type == dt_Deployment &&
+		    (ot != ot_Interface && ot != ot_Component && ot != ot_Concept)) {
 			status = false;
 		}
 		if (m_pData->m_Type == dt_Component &&
@@ -2554,6 +2561,10 @@ void UMLView::setMenu() {
 
 		case dt_Component:
 			menu = ListPopupMenu::mt_On_Component_Diagram;
+			break;
+
+		case dt_Deployment:
+			menu = ListPopupMenu::mt_On_Deployment_Diagram;
 			break;
 
 		default:

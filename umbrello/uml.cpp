@@ -187,7 +187,7 @@ void UMLApp::initActions() {
 
 	UuseCaseDiagram= new KAction( i18n( "&Use Case Diagram(NEW)" ), SmallIconSet("folder_grey"), 0,
 	                             this, SLOT( UcreateDiagram() ), actionCollection(), "umbrello::new_use_case_diagram" );
-	
+
 	stateDiagram= new KAction( i18n( "S&tate Diagram" ), SmallIconSet("folder_green"), 0,
 	                           this, SLOT( slotStateDiagram() ), actionCollection(), "new_state_diagram" );
 
@@ -199,6 +199,10 @@ void UMLApp::initActions() {
 	componentDiagram = new KAction( i18n("Co&mponent Diagram"), SmallIconSet("folder_red"), 0,
 					this, SLOT( slotComponentDiagram() ), actionCollection(),
 					"new_component_diagram" );
+
+	deploymentDiagram = new KAction( i18n("&Deployment Diagram"), SmallIconSet("folder_violet"), 0,
+					this, SLOT( slotDeploymentDiagram() ), actionCollection(),
+					"new_deployment_diagram" );
 
 	viewClearDiagram = new KAction(i18n("&Clear Diagram"), SmallIconSet("editclear"), 0,
 	                        this, SLOT( slotCurrentViewClearDiagram() ), actionCollection(), "view_clear_diagram");
@@ -310,7 +314,7 @@ void UMLApp::initStatusBar() {
 	connect(listView,SIGNAL(sigSetStatusbarProgressSteps(int)),statProg,SLOT(setTotalSteps(int)));
 	connect(listView,SIGNAL(sigSetStatusbarProgress(int)),statProg,SLOT(setProgress(int)));
 	connect(listView,SIGNAL(sigResetStatusbarProgress()),statProg,SLOT(reset()));
-	connect(listView,SIGNAL(diagramSelected(int)),this,SLOT(UdiagramSelected(int))); 
+	connect(listView,SIGNAL(diagramSelected(int)),this,SLOT(UdiagramSelected(int)));
 	//FIXME change name to raiseDiagram
 
 	connect(doc, SIGNAL( sigWriteToStatusBar(const QString &) ), this, SLOT( slotStatusMsg(const QString &) ));
@@ -760,7 +764,7 @@ void UMLApp::UcreateDiagram()
 		t = Diagram::ActivityDiagram;
 	else if( o == UsequenceDiagram )
 		t = Diagram::SequenceDiagram;
-Umbrello::Diagram *d = 	
+Umbrello::Diagram *d =
 	getDocument()->UcreateDiagram( t, "FIXME ask for name here" );
 Umbrello::DiagramView *v = new Umbrello::DiagramView(d,getWorkToolBar(),viewStack);
 v->show();
@@ -802,6 +806,10 @@ void UMLApp::slotActivityDiagram() {
 
 void UMLApp::slotComponentDiagram() {
 	getDocument()->createDiagram( Uml::dt_Component );
+}
+
+void UMLApp::slotDeploymentDiagram() {
+	getDocument()->createDiagram(Uml::dt_Deployment);
 }
 
 WorkToolBar* UMLApp::getWorkToolBar() {

@@ -228,6 +228,10 @@ bool UMLDoc::newDocument() {
 	        case SettingsDlg::diagram_component:
 			createDiagram( Uml::dt_Component, false );
 			break;
+
+	        case SettingsDlg::diagram_deployment:
+			createDiagram( Uml::dt_Deployment, false );
+			break;
 		default:
 			break;
 	}//end switch
@@ -802,6 +806,8 @@ QString UMLDoc::uniqViewName(const Diagram_Type type) {
 		dname = i18n( "activity diagram" );
 	else if( type == dt_Component )
 		dname = i18n( "component diagram" );
+	else if( type == dt_Deployment )
+		dname = i18n( "deployment diagram" );
 	else {
 		kdWarning() << "uniqViewName() called with unknown diagram type" << endl;
 	}

@@ -66,6 +66,7 @@ UMLListView::UMLListView(QWidget *parent,const char *name) :
 	ucv = new UMLListViewItem(rv, i18n("Use Case View"), Uml::lvt_UseCase_View);
 	lv = new UMLListViewItem(rv, i18n("Logical View"), Uml::lvt_Logical_View);
 	componentView = new UMLListViewItem(rv, i18n("Component View"), Uml::lvt_Component_View);
+	deploymentView = new UMLListViewItem(rv, i18n("Deployment View"), Uml::lvt_Deployment_View);
 	diagramFolder = new UMLListViewItem(rv,i18n("Diagrams"),Uml::lvt_Diagrams);
 
 	init();
@@ -107,6 +108,7 @@ void UMLListView::contentsMousePressEvent(QMouseEvent *me) {
 		case Uml::lvt_State_Diagram:
 		case Uml::lvt_Activity_Diagram:
 		case Uml::lvt_Component_Diagram:
+		case Uml::lvt_Deployment_Diagram:
 			if( ! doc->activateView( item->getID()))
 				KMessageBox::error( kapp -> mainWidget(), i18n("Could not activate the diagram."), i18n("Diagram Load Error"));
 			else
@@ -200,6 +202,10 @@ void UMLListView::popupMenuSel(int sel) {
 
 		case ListPopupMenu::mt_Component_Diagram:
 			doc->createDiagram(dt_Component);
+			break;
+
+		case ListPopupMenu::mt_Deployment_Diagram:
+			doc->createDiagram(dt_Deployment);
 			break;
 
 		case ListPopupMenu::mt_Concept:
@@ -327,6 +333,11 @@ void UMLListView::popupMenuSel(int sel) {
 			doc->setModified(true);
 			break;
 
+		case ListPopupMenu::mt_Deployment_Folder:
+			addNewItem(temp, Uml::lvt_Deployment_Folder);
+			doc->setModified(true);
+			break;
+
 		case ListPopupMenu::mt_Cut:
 			m_bStartedCut = true;
 			doc -> editCut();
@@ -366,6 +377,8 @@ void UMLListView::slotDiagramCreated( int id ) {
 		p = ucv;
 	} else if (v->getType() == Uml::dt_Component) {
 		p = componentView;
+	} else if (v->getType() == Uml::dt_Deployment) {
+		p = deploymentView;
 	} else {
 		p = lv;
 	}
@@ -515,6 +528,7 @@ UMLListViewItem * UMLListView::findUMLObjectInFolder(UMLListViewItem* folder, UM
 			case Uml::lvt_Logical_Folder :
 			case Uml::lvt_UseCase_Folder :
 			case Uml::lvt_Component_Folder :
+			case Uml::lvt_Deployment_Folder :
 				{
 				UMLListViewItem *temp = findUMLObjectInFolder(item, obj);
 				if (temp)
@@ -606,6 +620,8 @@ UMLListViewItem* UMLListView::findView(UMLView *v) {
 		item = ucv;
 	} else if (dType == Uml::dt_Component) {
 		item = componentView;
+	} else if (dType == Uml::dt_Deployment) {
+		item = deploymentView;
 	} else {
 		item = lv;
 	}
@@ -647,12 +663,14 @@ void UMLListView::init() {
 	deleteChildrenOf( ucv );
 	deleteChildrenOf( lv );
 	deleteChildrenOf( componentView );
+	deleteChildrenOf( deploymentView );
 	deleteChildrenOf( diagramFolder );
 
 	rv->setOpen(true);
 	ucv->setOpen(true);
 	lv->setOpen(true);
 	componentView->setOpen(true);
+	deploymentView->setOpen(true);
 
 	//setup misc.
 	delete menu;
@@ -750,6 +768,11 @@ bool UMLListView::acceptDrag(QDropEvent* event) const {
 		    && (type == Uml::lvt_Component_Folder) ) {
 			continue;
 		}
+		if( //(data->getType() == Uml::lvt_Component || data->getType() == Uml::lvt_Artifact ||
+		     data->getType() == Uml::lvt_Deployment_Diagram
+		    && type == Uml::lvt_Deployment_Folder ) {
+			continue;
+		}
 		accept = false;
 	}
 
@@ -803,6 +826,13 @@ void UMLListView::slotDropped(QDropEvent * de, QListViewItem * parent, QListView
 		    && (type == Uml::lvt_Component_Folder || type == Uml::lvt_Component_View) ) {
 			moveItem(move, item, item);
 		}
+		if( (data->getType() == Uml::lvt_Deployment_Folder
+//		     || data->getType() == Uml::lvt_Component
+//		     || data->getType() == Uml::lvt_Artifact
+		     || data->getType() == Uml::lvt_Deployment_Diagram)
+		    && (type == Uml::lvt_Deployment_Folder || type == Uml::lvt_Deployment_View) ) {
+			moveItem(move, item, item);
+		}
 		if( ((data->getType() >= Uml::lvt_Collaboration_Diagram
 		      && data->getType() <= Uml::lvt_Sequence_Diagram)
 		     || data->getType() == Uml::lvt_Class
@@ -832,6 +862,7 @@ bool UMLListView::serialize(QDataStream *s, bool archive, int fileversion) {
 		deleteChildrenOf( ucv );
 		deleteChildrenOf( lv );
 		deleteChildrenOf( componentView );
+		deleteChildrenOf( deploymentView );
 		deleteChildrenOf( diagramFolder );
 
 		int id, childs =0, rootchilds =0;
@@ -1144,6 +1175,9 @@ UMLListViewItem* UMLListView::createItem(UMLListViewItemData& Data, IDChangeLog&
 			    Data.getType() == Uml::lvt_Component ||
 			    Data.getType() == Uml::lvt_Artifact) {
 			parent = componentView;
+		} else if ( Data.getType() == Uml::lvt_Deployment_Diagram) {
+//			    Data.getType() == Uml::lvt_Artifact) {
+			parent = deploymentView;
 		} else if( typeIsDiagram(Data.getType()) ) {
 			parent = lv;
 		} else if(Data.getType() != Uml::lvt_Attribute && Data.getType() != Uml::lvt_Operation) {
@@ -1175,6 +1209,7 @@ UMLListViewItem* UMLListView::createItem(UMLListViewItemData& Data, IDChangeLog&
 		case Uml::lvt_Logical_Folder:
 		case Uml::lvt_UseCase_Folder:
 		case Uml::lvt_Component_Folder:
+		case Uml::lvt_Deployment_Folder:
 			item = new UMLListViewItem(parent, Data.getLabel(), Data.getType());
 			break;
 		case Uml::lvt_Attribute:
@@ -1202,6 +1237,7 @@ UMLListViewItem* UMLListView::createItem(UMLListViewItemData& Data, IDChangeLog&
 		case Uml::lvt_State_Diagram:
 		case Uml::lvt_Activity_Diagram:
 		case Uml::lvt_Component_Diagram:
+		case Uml::lvt_Deployment_Diagram:
 			v = doc->findView(IDChanges.findNewID(Data.getID()));
 			if(!v) {
 				return 0;
@@ -1264,6 +1300,10 @@ Uml::ListView_Type UMLListView::convert_DT_LVT(Uml::Diagram_Type dt) {
 
 		case Uml::dt_Component:
 			type = Uml::lvt_Component_Diagram;
+			break;
+
+		case Uml::dt_Deployment:
+			type = Uml::lvt_Deployment_Diagram;
 			break;
 
 		default:
@@ -1351,6 +1391,14 @@ QPixmap & UMLListView::getPixmap( Icon_Type type ) {
 			return m_Pixmaps.Folder_Red_Open;
 			break;
 
+		case it_Folder_Violet:
+			return m_Pixmaps.Folder_Violet;
+			break;
+
+		case it_Folder_Violet_Open:
+			return m_Pixmaps.Folder_Violet_Open;
+			break;
+
 		case it_Diagram:
 			return m_Pixmaps.Diagram;
 			break;
@@ -1430,6 +1478,8 @@ void UMLListView::loadPixmaps() {
 	m_Pixmaps.Folder_Grey_Open = SmallIcon("folder_grey_open");
 	m_Pixmaps.Folder_Red = SmallIcon("folder_red");
 	m_Pixmaps.Folder_Red_Open = SmallIcon("folder_red_open");
+	m_Pixmaps.Folder_Violet = SmallIcon("folder_violet");
+	m_Pixmaps.Folder_Violet_Open = SmallIcon("folder_violet_open");
 
 	m_Pixmaps.Diagram.load( dataDir + "CVnamespace.png" ); //change to have different one for each type of diagram
 	m_Pixmaps.Class.load( dataDir + "umlclass.xpm" );
@@ -1454,10 +1504,12 @@ void UMLListView::slotExpanded( QListViewItem * item ) {
 		case Uml::lvt_Logical_View:
 		case Uml::lvt_UseCase_View:
 		case Uml::lvt_Component_View:
+		case Uml::lvt_Deployment_View:
 		case Uml::lvt_Logical_Folder:
 		case Uml::lvt_UseCase_Folder:
 		case Uml::lvt_Component_Folder:
-			myItem -> updateFolder();
+		case Uml::lvt_Deployment_Folder:
+			myItem->updateFolder();
 			break;
 		default:
 			break;
@@ -1470,9 +1522,11 @@ void UMLListView::slotCollapsed( QListViewItem * item ) {
 		case Uml::lvt_Logical_View:
 		case Uml::lvt_UseCase_View:
 		case Uml::lvt_Component_View:
+		case Uml::lvt_Deployment_View:
 		case Uml::lvt_Logical_Folder:
 		case Uml::lvt_UseCase_Folder:
 		case Uml::lvt_Component_Folder:
+		case Uml::lvt_Deployment_Folder:
 			myItem -> updateFolder();
 			break;
 		default:
@@ -1497,6 +1551,7 @@ void UMLListView::addNewItem( QListViewItem * parent, Uml::ListView_Type type ) 
 		case Uml::lvt_UseCase_Folder:
 		case Uml::lvt_Logical_Folder:
 		case Uml::lvt_Component_Folder:
+		case Uml::lvt_Deployment_Folder:
 			newItem = new UMLListViewItem( static_cast<UMLListViewItem *>( parent ), name, type, -1 );
 			break;
 
@@ -1587,6 +1642,11 @@ void UMLListView::addNewItem( QListViewItem * parent, Uml::ListView_Type type ) 
 
 		case Uml::lvt_Component_Diagram:
 			name = getUniqueDiagramName(Uml::dt_Component);
+			newItem = new UMLListViewItem(static_cast<UMLListViewItem*>(parent), name, type, -1);
+			break;
+
+		case Uml::lvt_Deployment_Diagram:
+			name = getUniqueDiagramName(Uml::dt_Deployment);
 			newItem = new UMLListViewItem(static_cast<UMLListViewItem*>(parent), name, type, -1);
 			break;
 		default:
@@ -1701,6 +1761,10 @@ bool UMLListView::slotItemRenamed( QListViewItem * item , int /*col*/ ) {
 
 		case Uml::lvt_Component_Diagram:
 			createDiagram( renamedItem, Uml::dt_Component );
+			break;
+
+		case Uml::lvt_Deployment_Diagram:
+			createDiagram( renamedItem, Uml::dt_Deployment );
 			break;
 
 		default:
@@ -1904,6 +1968,10 @@ bool UMLListView::isUnique( UMLListViewItem * item, QString name ) {
 			return !doc->findView(Uml::dt_Component, name);
 			break;
 
+		case Uml::lvt_Deployment_Diagram:
+			return !doc->findView(Uml::dt_Deployment, name);
+			break;
+
 		case Uml::lvt_Actor:
 			return !doc -> findUMLObject( Uml::ot_Actor, name );
 			break;
@@ -1963,6 +2031,7 @@ bool UMLListView::loadFromXMI( QDomElement & element ) {
 	deleteChildrenOf( ucv );
 	deleteChildrenOf( lv );
 	deleteChildrenOf( componentView );
+	deleteChildrenOf( deploymentView );
 	deleteChildrenOf( diagramFolder );
 
 	QDomNode node = element.firstChild();
@@ -2035,6 +2104,9 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
 				case Uml::lvt_Component_View:
 					item = componentView;
 					break;
+				case Uml::lvt_Deployment_View:
+					item = deploymentView;
+					break;
 
 				case Uml::lvt_Diagrams:
 					item = diagramFolder;
@@ -2090,7 +2162,8 @@ bool UMLListView::typeIsCanvasWidget(ListView_Type type) {
 bool UMLListView::typeIsFolder(ListView_Type type) {
 	if (type == Uml::lvt_Logical_Folder ||
 	    type == Uml::lvt_UseCase_Folder ||
-	    type == Uml::lvt_Component_Folder) {
+	    type == Uml::lvt_Component_Folder ||
+	    type == Uml::lvt_Deployment_Folder) {
 		return true;
 	} else {
 		return false;
@@ -2114,7 +2187,8 @@ bool UMLListView::typeIsDiagram(ListView_Type type) {
 	    type == Uml::lvt_Activity_Diagram ||
 	    type == Uml::lvt_Sequence_Diagram ||
 	    type == Uml::lvt_UseCase_Diagram ||
-	    type == Uml::lvt_Component_Diagram) {
+	    type == Uml::lvt_Component_Diagram ||
+	    type == Uml::lvt_Deployment_Diagram) {
 		return true;
 	} else {
 		return false;
@@ -2129,6 +2203,5 @@ void UMLListView::deleteChildrenOf( QListViewItem *parent )
     while ( parent->firstChild() )
         delete parent->firstChild();
 }
-
 
 #include "umllistview.moc"

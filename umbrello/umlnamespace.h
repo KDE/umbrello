@@ -65,6 +65,8 @@ namespace Uml {
 
 	enum Diagram_Type
 	{
+		//the values in this enum are saved out to the file
+		//for file compatibility, only add new values to the end
 	    dt_UseCase  =  400,
 	    dt_Collaboration,
 	    dt_Class,
@@ -72,6 +74,7 @@ namespace Uml {
 	    dt_State,
 	    dt_Activity,
 	    dt_Component,
+	    dt_Deployment,
 	    dt_Undefined = -1
 	};
 
@@ -150,6 +153,9 @@ namespace Uml {
 	    lvt_Component,
 	    lvt_Diagrams,
 	    lvt_Artifact,
+	    lvt_Deployment_Diagram,
+	    lvt_Deployment_Folder,
+	    lvt_Deployment_View,
   	    lvt_Unknown = -1
   	};
  

@@ -119,8 +119,7 @@ void UMLOperationDialog::setupDialog() {
 	m_pRtypeCB->setEditable(true);
 	m_pRtypeCB->setAutoCompletion(true);
 
-	//FIXMEnow also get the Interfaces
-	//now add the Concepts
+	//now add the Concepts and Interfaces
 	QPtrList<UMLConcept> namesList( pDoc->getConcepts() );
 	UMLConcept* pConcept = 0;
 	for(pConcept=namesList.first(); pConcept!=0 ;pConcept=namesList.next()) {

@@ -13,6 +13,7 @@
       <Action name="new_state_diagram"/>
       <Action name="new_activity_diagram"/>
       <Action name="new_component_diagram"/>
+      <Action name="new_deployment_diagram"/>
     </Menu>
     <Menu name="show_view"><text>Sh&amp;ow</text>
       <ActionList name="view_list">

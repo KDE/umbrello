@@ -43,6 +43,10 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, Uml::ListView_Type type) : KPopupM
 			mt = mt_Component_View;
 			break;
 
+		case Uml::lvt_Deployment_View:
+			mt = mt_Deployment_View;
+			break;
+
 		case Uml::lvt_Logical_Folder:
 			mt = mt_Logical_Folder;
 			break;
@@ -53,6 +57,10 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, Uml::ListView_Type type) : KPopupM
 
 		case Uml::lvt_Component_Folder:
 			mt = mt_Component_Folder;
+			break;
+
+		case Uml::lvt_Deployment_Folder:
+			mt = mt_Deployment_Folder;
 			break;
 
 		case Uml::lvt_UseCase_Diagram:
@@ -81,6 +89,10 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, Uml::ListView_Type type) : KPopupM
 
 		case Uml::lvt_Component_Diagram:
 			mt = mt_Component_Diagram;
+			break;
+
+		case Uml::lvt_Deployment_Diagram:
+			mt = mt_Deployment_Diagram;
 			break;
 
 		case Uml::lvt_Actor:
@@ -551,6 +563,20 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 			insertItem(i18n("Collapse All"),mt_Collapse_All);
 			break;
 
+		case mt_Deployment_View:
+			m_pInsert = new KPopupMenu(this, "New");
+			m_pInsert->insertItem(SmallIcon("folder_new"), i18n("Folder"), mt_Component_Folder);
+//			m_pInsert->insertItem(componentPixmap, i18n("Component..."), mt_Component);
+			m_pInsert->insertItem(SmallIcon("folder_violet"),i18n("Deployment Diagram"),
+					      mt_Deployment_Diagram);
+			insertItem(SmallIcon("filenew"), i18n("New"), m_pInsert);
+			insertSeparator();
+			insertItem(SmallIcon("editpaste"), i18n("Paste"), mt_Paste);
+			insertSeparator();
+			insertItem(i18n("Expand All"),mt_Expand_All);
+			insertItem(i18n("Collapse All"),mt_Collapse_All);
+			break;
+
 		case mt_UseCase_View:
 			m_pInsert = new KPopupMenu(this,"New");
 			m_pInsert -> insertItem(SmallIcon( "folder_new"),i18n("Folder"), mt_UseCase_Folder);
@@ -614,6 +640,25 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 			insertItem(i18n("Collapse All"),mt_Collapse_All);
 			break;
 
+		case mt_Deployment_Folder:
+			m_pInsert = new KPopupMenu(this, "New");
+			m_pInsert->insertItem(SmallIcon("folder_new"),i18n("Folder"), mt_Component_Folder);
+//			m_pInsert->insertItem(componentPixmap, i18n("Component..."), mt_Component);
+			m_pInsert->insertItem(SmallIcon("folder_violet"),i18n("Deployment Diagram"),
+					      mt_Deployment_Diagram);
+			insertItem(SmallIcon("filenew"), i18n("New"), m_pInsert);
+			insertSeparator();
+			insertItem(SmallIcon("editcut"), i18n("Cut"), mt_Cut);
+			insertItem(SmallIcon("editcopy"), i18n("Copy"), mt_Copy);
+			insertItem(SmallIcon("editpaste"), i18n("Paste"), mt_Paste);
+			insertSeparator();
+			insertItem(SmallIcon("charset"), i18n("Rename..."), mt_Rename);
+			insertItem(SmallIcon("editdelete"), i18n("Delete"), mt_Delete);
+			insertSeparator();
+			insertItem(i18n("Expand All"),mt_Expand_All);
+			insertItem(i18n("Collapse All"),mt_Collapse_All);
+			break;
+
 		case mt_UseCase_Folder:
 			m_pInsert = new KPopupMenu(this,"New");
 			m_pInsert -> insertItem(SmallIcon( "folder_new"),i18n("Folder"), mt_UseCase_Folder);
@@ -640,6 +685,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 		case mt_State_Diagram:
 		case mt_Activity_Diagram:
 		case mt_Component_Diagram:
+		case mt_Deployment_Diagram:
 			insertItem(SmallIcon( "editcut"), i18n("Cut"), mt_Cut);
 			insertItem(SmallIcon( "editcopy"), i18n("Copy"), mt_Copy);
 			insertItem(SmallIcon( "editpaste"), i18n("Paste"), mt_Paste);
@@ -698,6 +744,14 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 			m_pInsert = new KPopupMenu(this, "New");
 			m_pInsert->insertItem(componentPixmap, i18n("Component..."), mt_Component);
 			m_pInsert->insertItem(artifactPixmap, i18n("Artifact..."), mt_Artifact);
+			insertItem(SmallIcon("filenew"), i18n("New"), m_pInsert);
+			insertSeparator();
+			setupDiagramMenu(view);
+			break;
+
+		case mt_On_Deployment_Diagram:
+			m_pInsert = new KPopupMenu(this, "New");
+//			m_pInsert->insertItem(componentPixmap, i18n("Component..."), mt_Component);
 			insertItem(SmallIcon("filenew"), i18n("New"), m_pInsert);
 			insertSeparator();
 			setupDiagramMenu(view);

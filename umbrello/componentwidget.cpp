@@ -94,6 +94,14 @@ void ComponentWidget::draw(QPainter & p, int offsetX, int offsetY) {
 		lines = 1;
 	}
 
+	ComponentWidgetData* widgetData = static_cast<ComponentWidgetData*>( getData() );
+
+	if ( widgetData->getIsInstance() ) {
+		font.setUnderline(true);
+		p.setFont(font);
+		name = widgetData->getInstanceName() + " : " + name;
+	}
+
 	if (lines == 1) {
 		p.drawText(offsetX + (COMPONENT_MARGIN*4), offsetY + (h*0.5) - (fontHeight*0.5),
 			   w - (COMPONENT_MARGIN*4), fontHeight, AlignCenter, name );
@@ -119,7 +127,13 @@ void ComponentWidget::calculateSize() {
 	QFontMetrics fm = QFontMetrics( font );
 	int fontHeight  = fm.lineSpacing();
 
-	width = fm.width( m_pObject->getName() );
+	QString name = m_pObject->getName();
+	ComponentWidgetData* widgetData = static_cast<ComponentWidgetData*>( getData() );
+	if ( widgetData->getIsInstance() ) {
+		name = widgetData->getInstanceName() + " : " + name;
+	}
+
+	width = fm.width(name);
 
 	int tempWidth = 0;
 	if(m_pObject->getStereotype() != "") {
