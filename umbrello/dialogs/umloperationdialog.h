@@ -25,9 +25,9 @@ class QListBox;
 class QButtonGroup;
 class QRadioButton;
 class QLabel;
-class QComboBox;
-class QLineEdit;
 class QCheckBox;
+class KComboBox;
+class KLineEdit;
 
 class UMLOperationDialog : public KDialogBase {
 	Q_OBJECT
@@ -56,6 +56,11 @@ protected:
 	bool apply();
 
 	/**
+	* Inserts @p type into the type-combobox as well as its completion object.
+	*/
+	void insertType( const QString& type, int index = -1 );
+
+	/**
 	*	The operation to represent.
 	*/
 	UMLOperation * m_pOperation;
@@ -71,8 +76,8 @@ protected:
 	QButtonGroup * m_pScopeBG;
 	QRadioButton * m_pPublicRB, * m_pPrivateRB,  * m_pProtectedRB;
 	QLabel * m_pRtypeL, * m_pNameL;
-	QComboBox * m_pRtypeCB;
-	QLineEdit * m_pNameLE;
+	KComboBox * m_pRtypeCB;
+	KLineEdit * m_pNameLE;
 	QCheckBox * m_pAbstractCB;
 	QCheckBox * m_pStaticCB;
 	QPushButton* m_pDeleteButton;

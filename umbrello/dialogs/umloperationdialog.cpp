@@ -14,12 +14,12 @@
 #include <qbuttongroup.h>
 #include <qradiobutton.h>
 #include <qlabel.h>
-#include <qcombobox.h>
-#include <qlineedit.h>
 #include <qcheckbox.h>
 
 //kde includes
+#include <kcombobox.h>
 #include <kdebug.h>
+#include <klineedit.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kbuttonbox.h>
@@ -53,7 +53,7 @@ void UMLOperationDialog::setupDialog() {
 	m_pNameL = new QLabel(i18n("&Name:"), m_pGenGB);
 	genLayout -> addWidget(m_pNameL, 0, 0 );
 
-	m_pNameLE = new QLineEdit(m_pGenGB );
+	m_pNameLE = new KLineEdit(m_pGenGB );
 	m_pNameLE -> setText( m_pOperation -> getName() );
 	genLayout -> addWidget(m_pNameLE, 0, 1);
 	m_pNameL->setBuddy(m_pNameLE);
@@ -61,7 +61,7 @@ void UMLOperationDialog::setupDialog() {
 	m_pRtypeL = new QLabel(i18n("&Type:"), m_pGenGB );
 	genLayout -> addWidget(m_pRtypeL, 0, 2);
 
-	m_pRtypeCB = new QComboBox(m_pGenGB );
+	m_pRtypeCB = new KComboBox(true, m_pGenGB );
 	genLayout -> addWidget(m_pRtypeCB, 0, 3);
 	m_pRtypeL->setBuddy(m_pRtypeCB);
 
@@ -114,17 +114,16 @@ void UMLOperationDialog::setupDialog() {
 	                   "float", "date"};
 
 	for (int i=0; i<6; i++) {
-		m_pRtypeCB->insertItem(types[i]);
+		insertType(types[i]);
 	}
 
 	m_pRtypeCB->setDuplicatesEnabled(false);//only allow one of each type in box
-	m_pRtypeCB->setEditable(true);
 
 	//now add the Classes and Interfaces (both are Concepts)
 	QPtrList<UMLClassifier> namesList( pDoc->getConcepts() );
 	UMLClassifier* pConcept = 0;
 	for(pConcept=namesList.first(); pConcept!=0 ;pConcept=namesList.next()) {
-		m_pRtypeCB->insertItem( pConcept->getName() );
+		insertType( pConcept->getName() );
 	}
 
 	//work out which one to select
@@ -141,7 +140,7 @@ void UMLOperationDialog::setupDialog() {
 	}
 
 	if (!foundReturnType) {
-		m_pRtypeCB->insertItem( m_pOperation->getReturnType(), 0 );
+		insertType( m_pOperation->getReturnType(), 0 );
 		m_pRtypeCB->setCurrentItem(0);
 	}
 
@@ -366,6 +365,12 @@ void UMLOperationDialog::slotOk() {
 	if ( apply() ) {
 		accept();
 	}
+}
+
+void UMLOperationDialog::insertType( const QString& type, int index )
+{
+	m_pRtypeCB->insertItem( type, index );
+	m_pRtypeCB->completionObject()->addItem( type );
 }
 
 #include "umloperationdialog.moc"

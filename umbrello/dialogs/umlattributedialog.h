@@ -19,9 +19,10 @@
 class QButtonGroup;
 class QCheckBox;
 class QGroupBox;
-class QLineEdit;
 class QRadioButton;
 class UMLAttribute;
+class KComboBox;
+class KLineEdit;
 
 class UMLAttributeDialog : public KDialogBase {
 	Q_OBJECT
@@ -42,6 +43,11 @@ protected:
 	bool apply();
 
 	/**
+	* Inserts @p type into the type-combobox as well as its completion object.
+	*/
+	void insertType( const QString& type, int index = -1 );
+
+	/**
 	*	The Attribute to represent
 	*/
 	UMLAttribute * m_pAttribute;
@@ -51,8 +57,8 @@ protected:
 	QButtonGroup * m_pScopeBG;
 	QRadioButton * m_pPublicRB, * m_pPrivateRB,  * m_pProtectedRB;
 	QLabel * m_pTypeL, * m_pNameL, * m_pInitialL;
-	QComboBox * m_pTypeCB;
-	QLineEdit * m_pNameLE, * m_pInitialLE;
+	KComboBox * m_pTypeCB;
+	KLineEdit * m_pNameLE, * m_pInitialLE;
 	QCheckBox* m_pStaticCB;
 
 public slots:

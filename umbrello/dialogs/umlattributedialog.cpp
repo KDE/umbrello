@@ -12,6 +12,9 @@
 #include "../interface.h"
 #include "../classifier.h"
 #include "../umldoc.h"
+#include <kcombobox.h>
+#include <kcompletion.h>
+#include <klineedit.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kdebug.h>
@@ -45,14 +48,14 @@ void UMLAttributeDialog::setupDialog() {
 	m_pInitialL = new QLabel(i18n("&Initial value:"), m_pValuesGB);
 	valuesLayout -> addWidget(m_pInitialL, 2, 0);
 
-	m_pTypeCB = new QComboBox(m_pValuesGB);
+	m_pTypeCB = new KComboBox(true, m_pValuesGB);
 	valuesLayout -> addWidget(m_pTypeCB, 0, 1);
 
-	m_pNameLE = new QLineEdit(m_pValuesGB);
+	m_pNameLE = new KLineEdit(m_pValuesGB);
 	valuesLayout -> addWidget(m_pNameLE, 1, 1);
 	m_pNameLE -> setText( m_pAttribute -> getName() );
 
-	m_pInitialLE = new QLineEdit(m_pValuesGB);
+	m_pInitialLE = new KLineEdit(m_pValuesGB);
 	valuesLayout -> addWidget(m_pInitialLE, 2, 1);
 
 	m_pStaticCB = new QCheckBox( i18n("Classifier &scope (\"static\")"), m_pValuesGB );
@@ -89,28 +92,27 @@ void UMLAttributeDialog::setupDialog() {
 		m_pProtectedRB -> setChecked( true );
 
 	//add some standard attribute types to combo box
-	QString types[] = {
+	const QString types[] = {
 	                      i18n("int"), i18n("long"), i18n("bool"), i18n("string"),
 			      i18n("double"), i18n("float"), i18n("date")
 	                  };
 
 	for (int i=0; i<7; i++) {
-		m_pTypeCB->insertItem(types[i]);
+		insertType(types[i]);
 	}
 
-	m_pTypeCB->setEditable(true);
 	m_pTypeCB->setDuplicatesEnabled(false);//only allow one of each type in box
 
 	//now add the Concepts
 	QPtrList<UMLClassifier> namesList( pDoc->getConcepts() );
 	UMLClassifier* obj;
 	for (obj=namesList.first(); obj!=0; obj=namesList.next()) {
-		m_pTypeCB->insertItem( obj->getName() );
+		insertType( obj->getName() );
 	}
 	QPtrList<UMLInterface> interfaceList( pDoc->getInterfaces() );
 	UMLInterface* pInterface = 0;
 	for(pInterface=interfaceList.first(); pInterface!=0 ;pInterface=interfaceList.next()) {
-		m_pTypeCB->insertItem( pInterface->getName() );
+		insertType( pInterface->getName() );
 	}
 
 	//work out which one to select
@@ -127,7 +129,7 @@ void UMLAttributeDialog::setupDialog() {
 	}
 
 	if (!foundType) {
-		m_pTypeCB->insertItem( m_pAttribute->getTypeName(), 0 );
+		insertType( m_pAttribute->getTypeName(), 0 );
 		m_pTypeCB->setCurrentItem(0);
 	}
 
@@ -177,6 +179,11 @@ void UMLAttributeDialog::slotOk() {
 	}
 }
 
+void UMLAttributeDialog::insertType( const QString& type, int index )
+{
+	m_pTypeCB->insertItem( type, index );
+	m_pTypeCB->completionObject()->addItem( type );
+}
 
 
 #include "umlattributedialog.moc"
