@@ -142,7 +142,9 @@ void EnumWidget::calculateSize() {
 	QPtrList<UMLClassifierListItem>* list = ((UMLEnum*)m_pObject)->getEnumLiteralList();
 	UMLClassifierListItem* listItem = 0;
 	for (listItem = list->first();listItem != 0; listItem = list->next()) {
-		fm = getFontMetrics(FT_NORMAL);
+		/* FT_NORMAL doesn't return the correct width */
+//		fm = getFontMetrics(FT_NORMAL);
+		fm = getFontMetrics(FT_ITALIC_UNDERLINE);
 		int w = fm.boundingRect( listItem->toString(st_NoSig) ).width();
 		width = w > width?w:width;
 	}

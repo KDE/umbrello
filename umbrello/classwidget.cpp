@@ -63,8 +63,6 @@ void ClassWidget::draw(QPainter & p, int offsetX, int offsetY) {
 		kdDebug() << "ClassWidget::draw(): m_pObject is NULL" << endl;
 		return;
 	}
-#warning calculateSize() should be removed from ClassWidget::draw(...) because: see bug #65410
-	calculateSize();
 	p.setPen( UMLWidget::getLineColour() );
 	if ( UMLWidget::getUseFillColour() )
 		p.setBrush( UMLWidget::getFillColour() );
@@ -162,10 +160,10 @@ void ClassWidget::draw(QPainter & p, int offsetX, int offsetY) {
 		UMLClassifierListItem* obj=0;
 		QPtrList<UMLClassifierListItem>* list = ((UMLClass*)m_pObject)->getAttList();
 		for(obj=list->first();obj != 0;obj=list->next()) {
+			QString att = obj -> toString( m_ShowAttSigs);
 			f.setUnderline( obj -> getStatic() );
 			p.setFont( f );
-			p.drawText(offsetX + MARGIN, bodyOffsetY + y, w-MARGIN * 2, fontHeight, AlignVCenter,
-				   obj->toString( m_ShowAttSigs ));
+			p.drawText(offsetX + MARGIN, bodyOffsetY + y, w-MARGIN * 2, fontHeight, AlignVCenter, att);
 			f.setUnderline(false);
 			p.setFont(f);
 			y+=fontHeight;
@@ -180,15 +178,15 @@ void ClassWidget::draw(QPainter & p, int offsetX, int offsetY) {
 			p.drawLine(offsetX, bodyOffsetY + y, offsetX + w - 1, bodyOffsetY + y);
 		else
 			y = aStart;
+		p.setPen(QPen(black));
 		UMLClassifierListItem* obj = 0;
 		QPtrList<UMLClassifierListItem> *list = ((UMLClass*)m_pObject)->getOpList();
 		for(obj=list->first();obj != 0;obj=list->next()) {
 			QString op = obj -> toString( m_ShowOpSigs );
-			p.setPen(QPen(black));
 			f.setItalic( obj -> getAbstract() );
 			f.setUnderline( obj -> getStatic() );
 			p.setFont( f );
-			p.drawText(offsetX + MARGIN, bodyOffsetY + y, w-MARGIN * 2,fontHeight,AlignVCenter,op);
+			p.drawText(offsetX + MARGIN, bodyOffsetY + y, w-MARGIN * 2, fontHeight, AlignVCenter,op);
 			f.setItalic( false );
 			f.setUnderline(false);
 			p.setFont( f );
@@ -295,30 +293,53 @@ void ClassWidget::calculateSize() {
 
 	width = w > width?w:width;
 
+	/* calculate width of the attributes */
 	if (m_bShowAttributes) {
 		QPtrList<UMLClassifierListItem>* list = ((UMLClass *)m_pObject)->getAttList();
 		UMLClassifierListItem* a = 0;
 		for(a = list->first();a != 0; a = list->next()) {
-			int w = getFontMetrics(a->getStatic() ? FT_UNDERLINE : FT_NORMAL).boundingRect(a -> toString( m_ShowAttSigs )).width();
+			bool isStatic = a->getStatic();
+			if (isStatic)
+			{
+				fm = getFontMetrics(FT_UNDERLINE);
+			} else {
+				fm = getFontMetrics(FT_NORMAL);
+			}
+			int w = fm.boundingRect(a -> toString( m_ShowAttSigs )).width();
 			width = w > width?w:width;
 		}
 	}
+
+	/* calculate width of the operations */
 	if (m_bShowOperations) {
 		QPtrList<UMLClassifierListItem> * list = ((UMLClass *)m_pObject)->getOpList();
 		UMLClassifierListItem* listItem = 0;
 		for(listItem = list->first();listItem != 0; listItem = list->next()) {
-			bool isAbstract = listItem->getAbstract();
-			bool isStatic = listItem->getStatic();
-			fm = getFontMetrics(isAbstract && isStatic
-				? FT_ITALIC_UNDERLINE
-				: isAbstract
-					? FT_ITALIC
-					: FT_UNDERLINE);
+			/* we don't make a difference if the text is underlined or not, because
+			 * if we do so, we will get the wrong width;
+			 */
+			fm = getFontMetrics(FT_ITALIC_UNDERLINE);
+
+			/* it should be the following thing, but then the width will be too
+			 * small for FT_NORMAL text (only some pixels) */
+//			bool isAbstract = listItem->getAbstract();
+//			bool isStatic = listItem->getStatic();
+//			if (isAbstract && isStatic)
+//			{
+//				fm = getFontMetrics(FT_ITALIC_UNDERLINE);
+//			} else if (isAbstract) {
+//				fm = getFontMetrics(FT_ITALIC);
+//			} else if (isStatic) {
+//				fm = getFontMetrics(FT_UNDERLINE);
+//			} else {
+//				fm = getFontMetrics(FT_NORMAL);
+//			}
 
 			int w = fm.boundingRect( listItem->toString(m_ShowOpSigs) ).width();
 			width = w > width?w:width;
 		}
 	}
+
 	//allow for width margin
 	width += MARGIN * 2;
 

@@ -178,7 +178,7 @@ void InterfaceWidget::calculateSize() {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void InterfaceWidget::calculateAsCircleSize() {
-	QFontMetrics &fm = getFontMetrics(FT_NORMAL);
+	QFontMetrics &fm = getFontMetrics(FT_ITALIC_UNDERLINE);
 	int fontHeight = fm.lineSpacing();
 
 	int height = CIRCLE_SIZE + fontHeight;
@@ -226,18 +226,31 @@ void InterfaceWidget::calculateAsConceptSize() {
 
 
 	width = w > width?w:width;
+	width++;
 
 	if (m_bShowOperations) {
 		QPtrList<UMLClassifierListItem>* list = ((UMLInterface*)m_pObject)->getOpList();
 		UMLClassifierListItem* listItem = 0;
 		for(listItem = list->first();listItem != 0; listItem = list->next()) {
-			bool isAbstract = listItem->getAbstract();
-			bool isStatic = listItem->getStatic();
-			fm = getFontMetrics(isAbstract && isStatic
-				? FT_ITALIC_UNDERLINE
-				: isAbstract
-					? FT_ITALIC
-					: FT_UNDERLINE);
+			/* we don't make a difference if the text is underlined or not, because
+			 * if we do so, we will get the wrong width;
+			 */
+			fm = getFontMetrics(FT_ITALIC_UNDERLINE);
+
+			/* it should be the following thing, but then the width will be too
+			 * small for FT_NORMAL text (only some pixels) */
+//			bool isAbstract = listItem->getAbstract();
+//			bool isStatic = listItem->getStatic();
+//			if (isAbstract && isStatic)
+//			{
+//				fm = getFontMetrics(FT_ITALIC_UNDERLINE);
+//			} else if (isAbstract) {
+//				fm = getFontMetrics(FT_ITALIC);
+//			} else if (isStatic) {
+//				fm = getFontMetrics(FT_UNDERLINE);
+//			} else {
+//				fm = getFontMetrics(FT_NORMAL);
+//			}
 			int w = fm.boundingRect( listItem->toString(m_ShowOpSigs) ).width();
 			width = w > width?w:width;
 		}
