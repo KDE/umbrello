@@ -348,22 +348,22 @@ public:
 	void calculateNameTextSegment();
 
 	/**
-	 * Overrides standard event method
+	 * Adds a break point (if left mouse button)
 	 */
 	void mouseDoubleClickEvent(QMouseEvent * me);
 
 	/**
-	 *  Overrides standard event method
+	 *  Sets the association to be selected
 	 */
 	void mousePressEvent(QMouseEvent * me);
 
 	/**
-	 *  Overrides standard event method
+	 *  Displays the right mouse buttom menu if right button is pressed
 	 */
 	void mouseReleaseEvent(QMouseEvent * me);
 
 	/**
-	 *  Overrides standard event method
+	 *  Moves the break point being dragged
 	 */
 	void mouseMoveEvent(QMouseEvent * me);
 

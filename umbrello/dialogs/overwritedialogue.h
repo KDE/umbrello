@@ -19,7 +19,7 @@ class QCheckBox;
  * the user if they want to overwrite and existing file, generate a similar name
  * or cancel.  Gives an option to apply the choice to all remaining files.
  *
- * FIXME: uses OK and Apply buttons but overrides their text and behaviour, probably
+ * Uses OK and Apply buttons but overrides their text and behaviour, probably
  * better to use user defined buttons but I couldn't work out how.  KDialogBase guru needed.
  *
  * @author Jonathan Riddell <jr@jriddell.org>

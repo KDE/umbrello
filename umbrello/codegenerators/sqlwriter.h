@@ -53,7 +53,9 @@ private:
 	 */
 	void writeAttributes(UMLConcept *c, QTextStream &j);
 
-	//FIXME doc
+	/**
+	 * Prints out attributes as columns in the table
+	 */
 	void printAttributes(QTextStream& sql, QList<UMLAttribute> attributeList, bool first);
 };
 

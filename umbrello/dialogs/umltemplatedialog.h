@@ -12,16 +12,18 @@
 
 #include <kdialogbase.h>
 
-/** //FIXME
- * @author Paul Hensgen
- */
-
 class QButtonGroup;
 class QCheckBox;
 class QGroupBox;
 class QLineEdit;
 class QRadioButton;
 class UMLTemplate;
+
+/**
+ * A dialogue to edit the properties of a class template (paramaterised class)
+ *
+ * @author Jonathan Riddell
+ */
 
 class UMLTemplateDialog : public KDialogBase {
 	Q_OBJECT
