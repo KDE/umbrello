@@ -2529,7 +2529,7 @@ void UMLView::createAutoAttributeAssociations(UMLWidget *widget) {
 			// if the UMLDatatype is a reference (pointer) type
 			if (dt->isReference()) {
 				UMLClassifier *c = dt->originType();
-				UMLWidget *w = findWidget( c->getID() );
+				UMLWidget *w = c ? findWidget( c->getID() ) : 0;
 				// if the referenced type has a widget representation on this view
 				if (w &&
 				    // if the AssocWidget does not already exist then
