@@ -53,7 +53,7 @@ ESCAPE_SEQUENCE [\\]({SIMPLE_ESCAPE}|{OCTAL_ESCAPE}|{HEX_ESCAPE})
 CCHAR [^'\\\n]|{ESCAPE_SEQUENCE}
 SCHAR [^"\\\n]|{ESCAPE_SEQUENCE}
 
-%option yylineno
+%option yylineno noyywrap
 %option C++ yymore
 
 %%
