@@ -42,7 +42,7 @@ the Properties dialogue.</p>
 
 <tip category="Umbrello">
 <html>
-<p>Sequence diagram messages can act as contructors.  Click on the object box (rather than the vertical line) to make it a constructor.</p>
+<p>Sequence diagram messages can act as constructors.  Click on the object box (rather than the vertical line) to make it a constructor.</p>
 </html>
 </tip>
 
@@ -55,7 +55,7 @@ and other applications.</p>
 
 <tip category="Umbrello">
 <html>
-<p>Associations don't have to be in straight lines, double clicking on one will create a movable point.</p>
+<p>Associations do not have to be in straight lines, double clicking on one will create a movable point.</p>
 </html>
 </tip>
 
