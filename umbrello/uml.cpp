@@ -1114,6 +1114,8 @@ void UMLApp::viewCodeDocument ( UMLClassifier * c)
 			CodeViewerDialog * dialog = new CodeViewerDialog(this,cdoc,optionState.codeViewerState);
 			dialog->exec();
 			optionState.codeViewerState = dialog->getState();
+			delete dialog;
+			dialog = NULL;
 		   } else {
 			KMessageBox::sorry(0, i18n("Cannot view code until you generate some first!"),i18n("Cannot View Code"));
 		   }

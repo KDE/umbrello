@@ -31,17 +31,6 @@ class QVBoxLayout;
 class QHBoxLayout;
 class QGridLayout;
 class QFrame;
-class QTextBrowser;
-
-class CodeComment;
-class CodeDocument;
-class CodeClassFieldDeclarationBlock;
-class CodeMethodBlock;
-class HierarchicalCodeBlock;
-
-class TextBlockInfo;
-class TextBlock;
-class ParaInfo;
 
 class UMLObject;
 
@@ -61,99 +50,30 @@ public:
 	/** return the code viewer state */
 	SettingsDlg::CodeViewerState getState( );
 
+	QString parentDocName;
+
 protected:
-
-	void insert (const QString & text, TextBlock * parent, bool editable = false, const QColor & fgcolor = QColor("black"), const QColor & bgcolor = QColor("white"), UMLObject * umlobj = 0, const QString & displayName = ""); 
-
-	void loadFromDocument(CodeDocument * doc); 
-	void insertText (TextBlock * tblock); 
-	void insertText (HierarchicalCodeBlock * hblock); 
-	void insertText (CodeClassFieldDeclarationBlock * db );
-	void insertText (QPtrList<TextBlock> * items); 
-	void insertText (CodeMethodBlock * mb);
-	void insertText (CodeComment * comment, TextBlock * parent, UMLObject * umlObj = 0, const QString & compName="");
-
-	void editTextBlock(TextBlock * tBlock, int para);
-
-	// Rebuild our view of the document. Happens whenever we change
-	// some field/aspect of an underlying UML object used to create
-	// the view.
-	// If connections are right, then the UMLObject will send out the modified()
-	// signal which will trigger a call to re-generate the appropriate code within
-	// the code document. Our burden is to appropriately prepare the tool: we clear
-	// out ALL the textblocks in the QTextEdit widget and then re-show them
-	// after the dialog disappears
-	void rebuildView( int startCursorPos );
 
 	bool close ( bool alsoDelete ); 
 
+	/*
+	 *  Adds a code document to the tabbed output
+ 	 */
+	void addCodeDocument( CodeDocument * doc); 
+
 private:
 
-	QMap<int, TextBlock*> *m_paraInfoMap;
-	QMap<TextBlock*, TextBlockInfo*> *m_tbInfoMap;
-	QPtrList<TextBlock> m_textBlockList;
-
 	SettingsDlg::CodeViewerState m_state;
-	QString parentDocName;
 
-	bool m_isHighlighted;
-	TextBlock * m_selectedTextBlock;
-	TextBlock * m_lastTextBlockToBeEdited;
-	CodeDocument * m_parentDocument;
-
-	bool paraIsNotSingleLine (int para);
-	void expandSelectedParagraph( int where ); 
-	void contractSelectedParagraph( int where ); 
-	void updateMethodBlockBody (TextBlock * block);
-	void initText ( CodeDocument * doc ); 
-	void changeTextBlockHighlighting(TextBlock * tb, bool selected);
-	bool isParaEditable (int para);
-	bool textBlockIsClickable(UMLObject * obj); 
-	int m_lastPara;
-	int m_lastPos;
-	bool m_newLinePressed;
-	bool m_backspacePressed;
+	void initGUI ( const char * name );
 
 public slots:
 
-	void newLinePressed( );
-	void backspacePressed( );
-	void changeHighlighting(int signal);
-
 protected slots:
 
-	void clear();
-	void clicked(int para, int pos ); 
-	void doubleClicked(int para, int pos ); 
-	void cursorPositionChanged(int para, int pos ); 
-	void mouseMoved ( QMouseEvent * e );
     	virtual void languageChange();
 
 };
 
-
-class ParaInfo {
-public:
-	int start; // this is a relative offset from the beginning of the tblock
-	int size;
-	QColor fgcolor;
-	QColor bgcolor;
-	bool isEditable;
-
-	ParaInfo () { isEditable = false; }
-}; 
-
-class TextBlockInfo {
-public:
-	QPtrList<ParaInfo> m_paraList;
-	UMLObject * m_parent;
-	QString displayName;
-	bool isClickable;
-
-	TextBlockInfo () { m_parent = 0; isClickable = false; }
-	void setParent(UMLObject *p = 0) { m_parent = p; }
-	UMLObject * getParent() { return m_parent; }
-
-}; 
 
 #endif // CODEVIEWERDIALOG_H
