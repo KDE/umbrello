@@ -82,7 +82,7 @@ QString JavaCodeComment::toString ( )
         {
 		QString indent = getIndentationString();
                 QString endLine = getNewLineEndingChars();
-                output.append(formatMultiLineText (getText()+endLine, indent +"// ", endLine));
+                output.append(formatMultiLineText (getText(), indent +"// ", endLine));
         }
 
         return output; 
