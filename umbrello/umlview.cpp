@@ -1133,6 +1133,7 @@ void UMLView::deleteSelection()
 
 	//make sure list empty - it should be anyway, just a check.
 	m_SelectedList.clear();
+	m_pDoc->setModified();
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
