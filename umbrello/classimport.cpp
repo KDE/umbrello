@@ -219,8 +219,7 @@ UMLAttribute* ClassImport::addMethodParameter(UMLOperation *method,
 	m_putAtGlobalScope = true;
 	UMLObject *typeObj = createUMLObject(Uml::ot_UMLObject, type, parentPkg);
 	m_putAtGlobalScope = false;
-	UMLAttribute *attr = new UMLAttribute(method);
-	attr->setName(name);
+	UMLAttribute *attr = new UMLAttribute(method, name);
 	attr->setType(dynamic_cast<UMLClassifier*>(typeObj));
 	//attr->setInitialValue(initialValue);
 	//attr->setDoc(doc);
