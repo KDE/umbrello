@@ -8,6 +8,8 @@ Version 1.3-alpha (cvs-head, change this to 1.3 when released)
 * Operation parameters have a 'kind' which documents whether they are
   input or return values (in, out, inout)
 
+* Ability to show only public methods/members in diagram.
+
 * Improvements to scaled printing.
 
 * Bugs fixed / wishes implemented (see http://bugs.kde.org)
@@ -15,7 +17,7 @@ Version 1.3-alpha (cvs-head, change this to 1.3 when released)
 72971 73042 73139 73274 73275 73277 73278 73418 73521 73926
 73975 74432 74820 75111 75318 75380 75582 75789 75935 76114
 76209 76506 77367 78192 78317 78525 78806 78910 78912 79180
-79188 79631
+79188 79631 79883 80119
 
 
 Version 1.2
