@@ -17,6 +17,8 @@
 #include "associationwidgetdatalist.h"
 #include "dialogs/settingsdlg.h"
 #include "umlnamespace.h"
+#include <qdatastream.h>
+#include <qptrstack.h>
 #include <kurl.h>
 
 // forward declaration of the UML classes
@@ -86,8 +88,10 @@ public:
 	/**
 	 * sets the modified flag for the document after a modifying
 	 * action on the view connected to the document.
+	 *	@param	bool	The value to set the modified flag to
+	 *	@param	bool	Whether this is an action which should be added to the undo stack
 	 */
-	void setModified(bool _m=true);
+	void setModified(bool _m=true, bool addToUndo=true);
 
 	/**
 	 * returns if the document is modified or not. Use this to
@@ -95,7 +99,7 @@ public:
 	 * closing.
 	 */
 	bool isModified() {
-		return modified;
+		return m_modified;
 	};
 
 	/**
@@ -346,9 +350,9 @@ public:
 	 */
 	virtual bool serialize(QDataStream *s, bool archive, int fileversion);
 
-	virtual bool saveToXMI( QFile &file );
+	virtual bool saveToXMI(QIODevice& file);
 
-	virtual bool loadFromXMI( QFile & file );
+	virtual bool loadFromXMI(QIODevice& file);
 
 	/**
 	 * Ensures the XMI file is a valid UML file
@@ -597,11 +601,52 @@ public:
 	/**
 	 * Returns the version of the old UML files.
 	 */
-	int getFileVersion(void) {return version;};
+	int getFileVersion(void) {return version;}
 
+	/**
+	 * Preforms the undo function, loading the document back to the
+	 * state is was before the last addToUndoStack()
+	 */
+	void loadUndoData();
 
+	/**
+	 * Preforms the redo function, loading the document back to the 
+	 * state is was before the last undo()
+	 */
+	void loadRedoData();
+
+	/**
+	 * Takes an image of the document and adds it to the UndoStack.
+	 * Implemented using the saveToXMI functions.
+	 */
+	void addToUndoStack();
+
+	/**
+	 * Removes all entries from the UndoStack and RedoStack and disables the
+	 * undo and redo actions.
+	 */
+	void clearUndoStack();
+
+	/**
+	 * Removes all entries from the RedoStack and disables the
+	 * redo action.
+	 */
+	void clearRedoStack();
+
+	/**
+	 * All the UMLViews (i.e. diagrams)
+	 */
 	QList<UMLView> *pViewList;
+
+	/**
+	 * The infowidget, the blank widget which is shown when there
+	 * are no diagrams (no longer displays any info though).
+	 */
 	InfoWidget* infoWidget;
+
+	/**
+	 * The tree view of diagrams and objects.
+	 */
 	UMLListView* listView;
 private:
 	/**
@@ -625,7 +670,7 @@ private:
 
 	QList<UMLObject> objectList;
 	int uniqueID;
-	bool modified;
+	bool m_modified;
 	KURL doc_url;
 	UMLView* currentView;
 
@@ -657,7 +702,21 @@ private:
 	/**
 	 * Stores the version of old UML files.
 	 */
-	 int version;
+	int version;
+
+	/**
+	 * The stack of images of the document added to each time
+	 * something is changed.  A QPtrList is used rather than a
+	 * QPtrStack to be able to remove the ones off the bottom once
+	 * the stack gets too big.
+	 */
+	QPtrList<QDataStream> undoStack;
+
+	/**
+	 * The stack of images of the document added to each time
+	 * undo is called.
+	 */
+	QPtrList<QDataStream> redoStack;
 
 public slots:
 

@@ -99,11 +99,25 @@ public:
 	void setModified(bool _m);
 
 	/**
-	 *	Set whether to allow printing.  It will enable/disable the meny/toolbar options.
+	 *	Set whether to allow printing.  It will enable/disable the menu/toolbar options.
 	 *
-	 *	@param _p Set whether to allow printing.
+	 *	@param enable Set whether to allow printing.
 	 */
-	void enablePrint(bool _p);
+	void enablePrint(bool enable);
+
+	/**
+	 *	Set whether to allow printing.  It will enable/disable the menu/toolbar options.
+	 *
+	 *	@param enable Set whether to allow printing.
+	 */
+	void enableUndo(bool enable);
+
+	/**
+	 *	Set whether to allow printing.  It will enable/disable the menu/toolbar options.
+	 *
+	 *	@param enable Set whether to allow printing.
+	 */
+	void enableRedo(bool enable);
 
 	/**
 	 *      Returns a pointer to the documentation window.
@@ -468,11 +482,11 @@ public slots:
 	/**
 	* zooms in the current diagram
 	*/
-	void zoomIn();
+	void slotZoomIn();
 	/**
 	* zooms out of the current diagram
 	*/
-	void zoomOut();
+	void slotZoomOut();
 	
 	/**
 	* set the zoom factor of the current diagram
@@ -484,6 +498,18 @@ public slots:
 	* prepares the zoom menu for display
 	*/
 	void setupZoomMenu();
+
+	/**
+	 * Reverts the document back to the state it was prior to the
+	 * last action performed by the user.
+	 */
+	void slotEditUndo();
+
+	/**
+	 * Reverts the document back to the state it was prior to the
+	 * last undo.
+	 */
+	void slotEditRedo();
 private:
 	/**
 	 * to slect the active language
@@ -566,6 +592,8 @@ private:
 	KAction* editCut;
 	KAction* editCopy;
 	KAction* editPaste;
+	KAction* editUndo;
+	KAction* editRedo;
 	KAction* selectAll;
 	KAction* preferences;
 	
@@ -577,6 +605,7 @@ private:
 	KAction* stateDiagram;
 	KAction* activityDiagram;
 	KAction* viewClearDiagram;
+
 	KToggleAction* viewSnapToGrid;
 	KToggleAction* viewShowGrid;
 	KAction* viewExportImage;
@@ -608,6 +637,7 @@ private:
 	 */
 	bool loading;
 	SettingsDlg::OptionState optionState;
+
 public:
 	/**
 	 *  splitter used to split main window

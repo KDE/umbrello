@@ -24,6 +24,11 @@
 #include "dialogs/classpropdlg.h"
 #include "dialogs/umlattributedialog.h"
 #include "dialogs/umloperationdialog.h"
+
+#include <qpainter.h>
+#include <qtimer.h>
+#include <qbuffer.h>
+
 #include <kapplication.h>
 #include <kdebug.h>
 #include <kio/netaccess.h>
@@ -32,11 +37,10 @@
 #include <kmessagebox.h>
 #include <kprinter.h>
 #include <ktempfile.h>
-#include <qpainter.h>
-#include <qtimer.h>
 
 #define FILE_VERSION 5
 #define XMI_FILE_VERSION "1.1.5"
+static const uint undoMax = 30;
 
 UMLDoc::UMLDoc(QWidget *parent, const char *name) : QObject(parent, name) {
 	pViewList = new QList<UMLView>();
@@ -50,7 +54,7 @@ UMLDoc::UMLDoc(QWidget *parent, const char *name) : QObject(parent, name) {
 	pViewList->setAutoDelete(true);
 	m_pChangeLog = 0;
 	m_Doc = "";
-	modified = false;
+	m_modified = false;
 	loading = false;
 	m_pAutoSaveTimer = 0;
 	UMLApp * pApp = dynamic_cast<UMLApp *>( this -> parent() );
@@ -77,8 +81,9 @@ void UMLDoc::addView(UMLView *view) {
 			currentView = view;
 			view -> show();
 			emit sigDiagramChanged(view ->getType());
-		} else
+		} else {
 			view -> hide();
+		}
 	}
 	UMLApp * pApp = dynamic_cast<UMLApp *>( this -> parent() );
 	pApp->setDiagramMenuItemsState(true);
@@ -132,7 +137,7 @@ void UMLDoc::slotUpdateAllViews(UMLView *sender) {
 bool UMLDoc::saveModified() {
 	bool completed(true);
 
-	if(modified) {
+	if(m_modified) {
 		UMLApp *win=(UMLApp *) parent();
 		int want_save = KMessageBox::warningYesNoCancel(win, i18n("The current file has been modified.\nDo you want to save it?"), i18n("Warning"));
 		switch(want_save) {
@@ -211,6 +216,11 @@ bool UMLDoc::newDocument() {
 
 	setModified(false);
 	initSaveTimer();
+
+	((UMLApp*)parent())->enableUndo(false);
+	clearUndoStack();
+	addToUndoStack();
+
 	return true;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -266,9 +276,14 @@ bool UMLDoc::openDocument(const KURL& url, const char */*format =0*/) {
 		newDocument();
 		return false;
 	}
-	modified = false;
+	setModified(false);
 	loading = false;
 	initSaveTimer();
+
+	((UMLApp*)parent())->enableUndo(false);
+	clearUndoStack();
+	addToUndoStack();
+
 	return true;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -303,7 +318,7 @@ bool UMLDoc::saveDocument(const KURL& url, const char * /*format =0*/) {
 		KMessageBox::error(0, i18n("There was a problem uploading file: %1").arg(d.path()), i18n("Save Error"));
 		doc_url.setFileName(i18n("Untitled"));
 	}
-	modified = false;
+	setModified(false);
 	return (status && uploaded);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -445,6 +460,7 @@ void UMLDoc::createUMLObject(UMLObject_Type type) {
 
 			objectList.append(o);
 			emit sigObjectCreated(o);
+
 			setModified(true);
 			break;
 		}
@@ -660,7 +676,7 @@ void UMLDoc::createDiagram(Diagram_Type type, bool askForName /*= true */) {
 			temp -> setOptionState( ((UMLApp *) parent()) -> getOptionState() );
 			emit sigDiagramCreated(uniqueID);
 			setModified(true);
-			((UMLApp*)parent()) -> enablePrint(true);
+			((UMLApp*)parent())->enablePrint(true);
 			changeCurrentView(uniqueID);
 			break;
 		} else
@@ -1037,7 +1053,7 @@ bool UMLDoc::serialize(QDataStream *s, bool archive, int fileversion) {
 	return status;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-bool UMLDoc::saveToXMI( QFile &file ) {
+bool UMLDoc::saveToXMI(QIODevice& file) {
 	QDomDocument doc;
 
 	QDomProcessingInstruction xmlHeading =
@@ -1059,11 +1075,14 @@ bool UMLDoc::saveToXMI( QFile &file ) {
 	header.appendChild( meta );
 
 	QDomElement model = doc.createElement( "XMI.model" );
-	QString modelName = file.name();
-	modelName = modelName.section('/', -1 );
-	modelName = modelName.section('.', 0, 0);
-	model.setAttribute( "xmi.name", modelName );
-	model.setAttribute( "href", file.name() );
+	QFile* qfile = dynamic_cast<QFile*>(&file);
+	if (qfile) {
+		QString modelName = qfile->name();
+		modelName = modelName.section('/', -1 );
+		modelName = modelName.section('.', 0, 0);
+		model.setAttribute( "xmi.name", modelName );
+		model.setAttribute( "href", qfile->name() );
+	}
 
 	QDomElement documentation = doc.createElement( "XMI.documentation" );
 
@@ -1122,7 +1141,7 @@ bool UMLDoc::saveToXMI( QFile &file ) {
 	return status;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-bool UMLDoc::loadFromXMI( QFile & file ) {
+bool UMLDoc::loadFromXMI( QIODevice & file ) {
 	QTextStream stream( &file );
 	QString data = stream.read();
 	QString error;
@@ -1334,7 +1353,6 @@ void UMLDoc::print(KPrinter * pPrinter) {
 		printView = 0;
 	}
 	painter.end();
-	return;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -1351,17 +1369,19 @@ void UMLDoc::showProperties(UMLWidget * o) {
 		setModified(true);
 	}
 	dlg -> close(true);//wipe from memory
-	return;
 }
 
-void UMLDoc::setModified(bool _m /*=true*/) {
+void UMLDoc::setModified(bool modified /*=true*/, bool addToUndo /*=true*/) {
 	if(!loading) {
-		modified = _m;
-		((UMLApp *) parent()) -> setModified(_m);
-	}
-	return;
-}
+		m_modified = modified;
+		((UMLApp *) parent())->setModified(modified);
 
+		if (modified && addToUndo) {
+			addToUndoStack();
+			clearRedoStack();
+		}
+	}
+}
 
 bool UMLDoc::addUMLObjectPaste(UMLObject* Obj) {
 	if(!Obj || !m_pChangeLog) {
@@ -1400,7 +1420,6 @@ bool UMLDoc::addUMLObjectPaste(UMLObject* Obj) {
 
 /** Read property of IDChangeLog* m_pChangeLog. */
 IDChangeLog* UMLDoc::getChangeLog() {
-
 	return m_pChangeLog;
 }
 
@@ -1413,7 +1432,6 @@ void UMLDoc::beginPaste() {
 		m_pChangeLog = 0;
 	}
 	m_pChangeLog = new IDChangeLog;
-	return;
 }
 
 /** Closes a Paste session,
@@ -1423,7 +1441,6 @@ void UMLDoc::endPaste() {
 		delete m_pChangeLog;
 		m_pChangeLog = 0;
 	}
-	return;
 }
 
 /** Assigns a New ID to an Object, and also logs the assignment to its internal
@@ -1600,13 +1617,13 @@ void UMLDoc::initSaveTimer() {
 
 void UMLDoc::slotAutoSave() {
 	//Only save if modified.
-	if( !modified )
+	if( !m_modified )
 		return;
 	KURL tempURL = doc_url;
 	if( tempURL.fileName() == i18n("Untitled") ) {
 		tempURL.setFileName( i18n("autosave%1").arg(".xmi") );
 		saveDocument( tempURL );
-		modified = true;
+		m_modified = true;
 	} else
 		saveDocument( tempURL );
 	return;
@@ -1616,4 +1633,109 @@ void UMLDoc::signalDiagramRenamed(UMLView * pView ) {
 	emit sigDiagramRenamed( pView -> getID() );
 	return;
 }
+
+void UMLDoc::addToUndoStack() {
+	if (!loading) {
+
+		QBuffer* buffer = new QBuffer();
+		buffer->open(IO_WriteOnly);
+		QDataStream* undoData = new QDataStream();
+		undoData->setDevice(buffer);
+		saveToXMI(*buffer);
+		buffer->close();
+		undoStack.prepend(undoData);
+
+		if (undoStack.count() > 1) {
+			((UMLApp*)parent())->enableUndo(true);
+		}
+	}
+}
+
+void UMLDoc::clearUndoStack() {
+	undoStack.setAutoDelete(true);
+	redoStack.setAutoDelete(true);
+	undoStack.clear();
+	redoStack.clear();
+	((UMLApp*)parent())->enableRedo(false);
+	((UMLApp*)parent())->enableUndo(false);
+	undoStack.setAutoDelete(false);
+	redoStack.setAutoDelete(false);
+}
+
+void UMLDoc::clearRedoStack() {
+	redoStack.setAutoDelete(true);
+	redoStack.clear();
+	((UMLApp*)parent())->enableRedo(false);
+	redoStack.setAutoDelete(false);
+}
+
+void UMLDoc::loadUndoData() {
+	if (undoStack.count() > 1) {
+		int currentViewID = currentView->getID();
+		loading = true;
+		deleteContents();
+		redoStack.prepend( undoStack.getFirst() );
+		undoStack.removeFirst();
+		QDataStream* undoData = undoStack.getFirst();
+		QBuffer* buffer = static_cast<QBuffer*>( undoData->device() );
+		buffer->open(IO_ReadOnly);
+		loadFromXMI(*buffer);
+		buffer->close();
+
+		setModified(true, false);
+		getCurrentView()->resizeCanvasToItems();
+		loading = false;
+
+		undoStack.setAutoDelete(true);
+		if (undoStack.count() <= 1) {
+			((UMLApp*)parent())->enableUndo(false);
+		}
+		if (redoStack.count() >= 1) {
+			((UMLApp*)parent())->enableRedo(true);
+		}
+		while (undoStack.count() > undoMax) {
+			undoStack.removeLast();
+		}
+		if (currentView->getID() != currentViewID) {
+			changeCurrentView(currentViewID);
+		}
+		undoStack.setAutoDelete(false);
+	} else {
+		kdWarning() << "no data in undostack" << endl;
+	}
+}
+
+void UMLDoc::loadRedoData() {
+	if (redoStack.count() >= 1) {
+		int currentViewID = currentView->getID();
+		deleteContents();
+		loading = true;
+		undoStack.prepend( redoStack.getFirst() );
+		QDataStream* redoData = redoStack.getFirst();
+		redoStack.removeFirst();
+		QBuffer* buffer = static_cast<QBuffer*>( redoData->device() );
+		buffer->open(IO_ReadOnly);
+		loadFromXMI(*buffer);
+		buffer->close();
+
+		setModified(true, false);
+		getCurrentView()->resizeCanvasToItems();
+		loading = false;
+
+		redoStack.setAutoDelete(true);
+		if (redoStack.count() < 1) {
+			((UMLApp*)parent())->enableRedo(false);
+		}
+		if (undoStack.count() > 1) {
+			((UMLApp*)parent())->enableUndo(true);
+		}
+		if (currentView->getID() != currentViewID) {
+			changeCurrentView(currentViewID);
+		}
+		redoStack.setAutoDelete(false);
+	} else {
+		kdWarning() << "no data in redostack" << endl;
+	}
+}
+
 #include "umldoc.moc"

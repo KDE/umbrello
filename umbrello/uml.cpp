@@ -68,14 +68,16 @@ UMLApp::UMLApp(QWidget* , const char* name):KMainWindow(0, name) {
 	editCut->setEnabled(false);
 	editCopy->setEnabled(false);
 	editPaste->setEnabled(false);
+	editUndo->setEnabled(false);
+	editRedo->setEnabled(false);
 
 	//get a reference to the Code->Active Lanugage and to the Diagram->Zoom menu
 	//we need to search through the menuBar and the correspondig menus.
-	
+
 	QPopupMenu *menu = 0L;
 	int menu_count = menuBar() -> count();
-	
-	for( int i =0; i<menu_count; i++) 
+
+	for( int i =0; i<menu_count; i++)
 	{
 		if( menuBar()->findItem( menuBar()->idAt(i) )->popup()->name() == QString("code"))
 		{
@@ -85,28 +87,28 @@ UMLApp::UMLApp(QWidget* , const char* name):KMainWindow(0, name) {
 			//look for the "active language" sub-menu
 			for( int i=0; i< menu_count; i++)
 			{
-				if(menu->findItem(menu->idAt(i))->popup() && 
+				if(menu->findItem(menu->idAt(i))->popup() &&
 					menu->findItem( menu->idAt(i) )->popup()->name() == QString("active_lang_menu"))
 				{
 				//we found it. get a reference to it and get out.
 					langSelect = menu->findItem(menu->idAt(i))->popup();
 					break;
 				}
-			
+
 			}
-			
-		break;	
+
+		break;
 		}
-	
+
 	}
-	
+
 	if(langSelect == 0L)
 	{//in case langSelect hasnt been initialized we create the Popup menu.
 	 //it will be hidden, but at least we wont crash if someone takes the entry away from the ui.rc file
 		langSelect = new QPopupMenu(this);
-	}		
+	}
 
- 	
+
 	menu = 0L;
 	menu_count = menuBar()->count();
 	for( int i =0; i<menu_count; i++ )
@@ -119,7 +121,7 @@ UMLApp::UMLApp(QWidget* , const char* name):KMainWindow(0, name) {
 			//look for the "zoom" sub-menu
 			for( int i=0; i< menu_count; i++)
 			{
-				if(menu->findItem(menu->idAt(i))->popup() && 
+				if(menu->findItem(menu->idAt(i))->popup() &&
 					menu->findItem(menu->idAt(i))->popup()->name() == QString("zoom_menu"))
 				{
 					zoomSelect = menu->findItem(menu->idAt(i))->popup();
@@ -129,15 +131,15 @@ UMLApp::UMLApp(QWidget* , const char* name):KMainWindow(0, name) {
 		break;
 		}
 	}
-	
-		
+
+
 	if(zoomSelect == 0L)
 	{//in case zoomSelect hasnt been initialized we create the Popup menu.
 	 //it will be hidden, but at least we wont crash if some one takes the entry away from the ui.rc file
 		zoomSelect = new QPopupMenu(this);
 	}
-					
-	
+
+
 	//connect zoomSelect menu
 	zoomSelect->setCheckable(true);
 	connect(zoomSelect,SIGNAL(aboutToShow()),this,SLOT(setupZoomMenu()));
@@ -161,6 +163,8 @@ void UMLApp::initActions() {
 	fileClose = KStdAction::close(this, SLOT(slotFileClose()), actionCollection());
 	filePrint = KStdAction::print(this, SLOT(slotFilePrint()), actionCollection());
 	fileQuit = KStdAction::quit(this, SLOT(slotFileQuit()), actionCollection());
+	editUndo = KStdAction::undo(this, SLOT(slotEditUndo()), actionCollection());
+	editRedo = KStdAction::redo(this, SLOT(slotEditRedo()), actionCollection());
 	editCut = KStdAction::cut(this, SLOT(slotEditCut()), actionCollection());
 	editCopy = KStdAction::copy(this, SLOT(slotEditCopy()), actionCollection());
 	editPaste = KStdAction::paste(this, SLOT(slotEditPaste()), actionCollection());
@@ -168,8 +172,8 @@ void UMLApp::initActions() {
 	viewStatusBar = KStdAction::showStatusbar(this, SLOT(slotViewStatusBar()), actionCollection());
 	selectAll = KStdAction::selectAll(this,  SLOT( slotSelectAll() ), actionCollection());
 
-	zoomInAction = KStdAction::zoomIn(this,  SLOT( zoomIn() ), actionCollection(), "umbrello_zoom_in");
-	zoomOutAction = KStdAction::zoomOut(this,  SLOT( zoomOut() ), actionCollection(), "umbrello_zoom_out");
+	zoomInAction = KStdAction::zoomIn(this,  SLOT( slotZoomIn() ), actionCollection(), "umbrello_zoom_in");
+	zoomOutAction = KStdAction::zoomOut(this,  SLOT( slotZoomOut() ), actionCollection(), "umbrello_zoom_out");
 
 	classWizard = new KAction(i18n("&New Class Wizard..."),0,this,SLOT(slotClassWizard()),
 	                          actionCollection(),"class_wizard");
@@ -256,9 +260,9 @@ void UMLApp::initActions() {
 
 	showDocumentation->setChecked( optionState.uiState.showDocWindow );
 	showDocumentation->setStatusText( i18n( "Enables/disables the documentation window" ) );
+
 	// use the absolute path to your umbrelloui.rc file for testing purpose in createGUI();
 	createGUI();
-
 }
 //////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -270,7 +274,7 @@ void UMLApp::setZoom(int z)
 void UMLApp::setupZoomMenu()
 {
 	zoomSelect->clear();
-	
+
 	//IMPORTANT: The ID's must match the zoom value (text)
 	zoomSelect->insertItem(i18n(" &33 %"),33);
 	zoomSelect->insertItem(i18n(" &50 %"),50);
@@ -279,8 +283,8 @@ void UMLApp::setupZoomMenu()
 	zoomSelect->insertItem(i18n("1&50 %"),150);
 	zoomSelect->insertItem(i18n("&200 %"),200);
 	zoomSelect->insertItem(i18n("&300 %"),300);
-	
-	
+
+
 	int zoom = doc->getCurrentView()->currentZoom();
 	//if current zoom is not a "standard zoom" (because of zoom in / zoom out step
 	//we add it for information
@@ -291,21 +295,21 @@ void UMLApp::setupZoomMenu()
 		case 100:
 		case 150:
 		case 200:
-		case 300: 
+		case 300:
 			break;
 		default:
 			zoomSelect->insertSeparator();
 			zoomSelect->insertItem(QString::number(zoom)+" %",zoom);
 	}
-	zoomSelect->setItemChecked(zoom,true);	
+	zoomSelect->setItemChecked(zoom,true);
 }
 
-void UMLApp::zoomIn()
+void UMLApp::slotZoomIn()
 {
 	doc->getCurrentView()->zoomIn();
 }
 
-void UMLApp::zoomOut()
+void UMLApp::slotZoomOut()
 {
 	doc->getCurrentView()->zoomOut();
 }
@@ -689,6 +693,14 @@ void UMLApp::slotFileQuit() {
 	slotStatusMsg(i18n("Ready."));
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+void UMLApp::slotEditUndo() {
+	doc->loadUndoData();
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+void UMLApp::slotEditRedo() {
+	doc->loadRedoData();
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLApp::slotEditCut() {
 	slotStatusMsg(i18n("Cutting selection..."));
 	bool  fromview = (doc->getCurrentView() && doc->getCurrentView()->getSelectCount());
@@ -809,9 +821,19 @@ void UMLApp::setModified(bool _m) {
 		enablePrint(_m);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void UMLApp::enablePrint(bool _p) {
-	filePrint -> setEnabled(_p);
+void UMLApp::enablePrint(bool enable) {
+	filePrint->setEnabled(enable);
 }
+////////////////////////////////////////////////////////////////////////////////////////////////////
+void UMLApp::enableUndo(bool enable) {
+	editUndo->setEnabled(enable);
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+void UMLApp::enableRedo(bool enable) {
+	editRedo->setEnabled(enable);
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
 /** initialize the QT's global clipboard support for the application */
 void UMLApp::initClip() {
 	QClipboard* clip = QApplication::clipboard();
@@ -830,7 +852,6 @@ void UMLApp::initClip() {
 	m_copyTimer->start(500, FALSE);
 	connect(m_copyTimer, SIGNAL(timeout()), this, SLOT(slotCopyChanged()));
 }
-
 
 void UMLApp::slotClipDataChanged() {
 	QMimeSource * data = QApplication::clipboard()->data();
@@ -1117,6 +1138,7 @@ void UMLApp::slotUpdateViews() {
 
 	//		menu -> removeItemAt( i );
 	menu -> clear();
+
 	for(QListIterator<UMLView> views = getDocument()->getViewIterator(); views.current(); ++views) {
 		menu->insertItem( views.current()->getName(), views.current(), SLOT( slotShowView() ) );
 		views.current()->fileLoaded();

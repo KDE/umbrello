@@ -233,9 +233,14 @@ void UMLWidget::mouseReleaseEvent(QMouseEvent *me) {
 		startPopupMenu( me->globalPos() );
 		return;
 	}//end if right button
-	m_pView -> getDocument() -> setModified(true);
-	if( me -> button() == LeftButton && me -> stateAfter() != ShiftButton )
-		m_pView-> setAssoc( this );
+
+	if (m_bMoved) {
+		m_pView->getDocument()->setModified(true);
+	}
+
+	if ( me->button() == LeftButton && me->stateAfter() != ShiftButton ) {
+		m_pView->setAssoc(this);
+	}
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLWidget::init() {
@@ -551,8 +556,6 @@ void UMLWidget::startPopupMenu(QPoint At) {
 	connect(m_pMenu, SIGNAL(activated(int)), this, SLOT(slotMenuSelection(int)));
 
 	m_bMouseDown = m_bStartMove = false;
-
-	m_pView -> getDocument() -> setModified(true);
 }
 
 void UMLWidget::slotRemovePopupMenu() {

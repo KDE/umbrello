@@ -181,13 +181,11 @@ bool UMLViewData::serialize( QDataStream * stream, bool bArchive, int fileversio
 					return false;
 			}
 	}
-
 	bStatus = serializeWidgets( stream, bArchive, fileversion );
 	if( bStatus )
 		bStatus = serializeMessages( stream, bArchive, fileversion );
 	if( bStatus )
 		bStatus = serializeAssociations( stream, bArchive, fileversion );
-
 	return bStatus;
 }
 
