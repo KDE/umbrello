@@ -27,7 +27,7 @@ void PackageWidget::init() {
 	//set defaults from m_pView
 	if (m_pView) {
 		//check to see if correct
-		const SettingsDlg::OptionState& ops = m_pView->getOptionState();
+		const Settings::OptionState& ops = m_pView->getOptionState();
 		m_bShowStereotype = ops.classState.showStereoType;
 	}
 	//maybe loading and this may not be set.

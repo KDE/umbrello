@@ -30,7 +30,7 @@ UMLWidgetColorPage::UMLWidgetColorPage( QWidget *pParent, UMLWidget *pWidget ) :
 	m_pUseFillColorCB->setChecked( pWidget -> getUseFillColour() );
 }
 
-UMLWidgetColorPage::UMLWidgetColorPage( QWidget * pParent, SettingsDlg::OptionState *options ) : QWidget( pParent ) 
+UMLWidgetColorPage::UMLWidgetColorPage( QWidget * pParent, Settings::OptionState *options ) : QWidget( pParent ) 
 {
 	m_options = options;
 	m_pUMLWidget = 0;

@@ -25,6 +25,7 @@ class QGroupBox;
 class QListBox;
 class QButtonGroup;
 class QRadioButton;
+class QPushButton;
 class QLabel;
 class QCheckBox;
 class KComboBox;

@@ -27,7 +27,7 @@
 //app includes
 
 #include "../codegenerator.h"
-#include "codeviewerdialog.h"
+#include "../optionstate.h"
 
 class CodeGenerationOptionsPage;
 class CodeViewerOptionsPage;
@@ -39,78 +39,13 @@ class CodeViewerOptionsPage;
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
+using namespace Settings;
+
 class SettingsDlg : public KDialogBase {
 
 	Q_OBJECT
 
 public:
-	//enums
-	enum Page
-	{
-	    page_general = 0,
-	    page_font,
-	    page_UI,
-	    page_class,
-	    page_codegen, 
-	    page_codeview
-	};
-
-	enum Diagram
-	{
-	    diagram_no = 0,
-	    diagram_class,
-	    diagram_usecase,
-	    diagram_sequence,
-	    diagram_collaboration,
-	    diagram_state,
-	    diagram_activity,
-	    diagram_component,
-	    diagram_deployment
-	};
-
-	//public structs
-	struct GeneralState {
-		bool autosave;
-		int time;
-		bool logo;
-		bool tip;
-		bool loadlast;
-		Diagram diagram;
-		QString lastFile;
-	}
-	;//end struct GeneralState
-
-	struct UIState {
-		bool useFillColor;
-		QColor fillColor;
-		QColor lineColor;
-		uint   lineWidth;
-		QFont font;
-	}
-	;//end struct UIState
-
-	struct ClassState {
-		bool showScope;
-		bool showAtts;
-		bool showOps;
-		bool showStereoType;
-		bool showAttSig;
-		bool showOpSig;
-		bool showPackage;
-		Uml::Scope defaultAttributeScope;
-		Uml::Scope defaultOperationScope;
-	}
-	;//end struct ClassState
-
-	struct OptionState {
-		GeneralState generalState;
-		UIState uiState;
-		ClassState classState;
-		CodeViewerDialog::CodeViewerState codeViewerState;
-	//	CodeGenState codegenState;
-	}
-	;//end struct OptionState
-
 	SettingsDlg( QWidget * parent, OptionState state,
 		     QDict<GeneratorInfo> ldict, QString activeLanguage, CodeGenerator * gen);
 	~SettingsDlg();
@@ -196,7 +131,7 @@ private:
 	void setupGeneralPage();
 	void setupClassPage();
   	void setupCodeGenPage( CodeGenerator *gen, QDict<GeneratorInfo> ldict, QString activeLanguage);
-	void setupCodeViewerPage(CodeViewerDialog::CodeViewerState options);
+	void setupCodeViewerPage(CodeViewerState options);
 	void applyPage( Page page );
 
 	//private attributes

@@ -14,6 +14,7 @@
  */
 #include "javaclassdeclarationblock.h"
 #include "javacodecomment.h"
+#include "../codegenerator.h"
 
 // Constructors/Destructors
 //  

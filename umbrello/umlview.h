@@ -22,7 +22,7 @@
 #include "umlnamespace.h"
 #include "worktoolbar.h"
 #include "floatingtext.h"
-#include "dialogs/settingsdlg.h"
+#include "optionstate.h"
 
 // QT includes
 #include <qcanvas.h>
@@ -299,14 +299,14 @@ public:
 	/**
 	 * Returns the options being used.
 	 */
-	const SettingsDlg::OptionState& getOptionState() const {
+	const Settings::OptionState& getOptionState() const {
 		return m_Options;
 	}
 
 	/**
 	 * Sets the options to be used.
 	 */
-	void setOptionState( const SettingsDlg::OptionState& options) {
+	void setOptionState( const Settings::OptionState& options) {
 		m_Options = options;
 	}
 
@@ -885,7 +885,7 @@ protected:
 	/**
 	 * Options used by view
 	 */
-	SettingsDlg::OptionState	m_Options;
+	Settings::OptionState	m_Options;
 
 	/**
 	 * Contains all the data items for @ref MessageWidgets on the diagram.

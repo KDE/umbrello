@@ -16,7 +16,7 @@
 #include <qcheckbox.h>
 
 #include "../classwidget.h"
-#include "settingsdlg.h"
+#include "../optionstate.h"
 
 class ClassWidget;
 class InterfaceWidget;
@@ -41,7 +41,7 @@ public:
 	/**
 	*	Constructor - observe and modify an OptionState structure
 	*/
-	ClassOptionsPage(QWidget* pParent, SettingsDlg::OptionState *options );
+	ClassOptionsPage(QWidget* pParent, Settings::OptionState *options );
 
 	/**
 	*	destructor
@@ -110,6 +110,6 @@ protected:
 	/**
 	*	The OptionState structure to represent in the dialog page.
 	*/
-	SettingsDlg::OptionState *m_options;
+	Settings::OptionState *m_options;
 };
 #endif

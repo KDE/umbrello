@@ -20,6 +20,11 @@
 #include <kmessagebox.h>
 #include <kdebug.h>
 #include <qlayout.h>
+#include <qcheckbox.h>
+#include <qgroupbox.h>
+#include <qbuttongroup.h>
+#include <qradiobutton.h>
+#include <qlabel.h>
 
 UMLAttributeDialog::UMLAttributeDialog( QWidget * pParent, UMLAttribute * pAttribute ) : KDialogBase( Plain, i18n("Attribute Properties"), Help | Ok | Cancel , Ok, pParent, "_UMLATTRIBUTEDLG_", true, true) {
 	m_pAttribute = pAttribute;

@@ -14,9 +14,10 @@
 #include <config.h>
 #endif
 
-#include "dialogs/settingsdlg.h"
+#include "optionstate.h"
 
 #include <qmap.h>
+#include <qdict.h>
 #include <qprogressbar.h>
 
 #include <kdockwidget.h>
@@ -27,12 +28,15 @@
 class CodeDocument;
 class CodeGenerator;
 class CodeGenerationPolicy;
+class GeneratorInfo;
 class DocWindow;
+class UMLClassifier;
 class UMLDoc;
 class UMLListView;
 class UMLView;
 class WorkToolBar;
 class InfoWidget;
+class SettingsDlg;
 
 class KPlayerPopupSliderAction;
 
@@ -820,7 +824,7 @@ private:
 	 * True if the application is opening an existing document
 	 */
 	bool loading;
-	SettingsDlg::OptionState optionState;
+	Settings::OptionState optionState;
 
 	/**
 	 * Blank widget, displayed when there are no diagrams
@@ -843,7 +847,7 @@ public:
 	 * the global UML settings dialogue
 	 */
 	SettingsDlg* dlg;
-	SettingsDlg::OptionState getOptionState() {
+	Settings::OptionState getOptionState() {
 		return optionState;
 	}
 

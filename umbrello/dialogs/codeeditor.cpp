@@ -45,6 +45,7 @@
 #include "../classifiercodedocument.h"
 #include "../ownedhierarchicalcodeblock.h"
 
+#include "codeviewerdialog.h"
 #include "classpropdlg.h"
 #include "umlattributedialog.h"
 #include "umlroledialog.h"
@@ -80,7 +81,7 @@ void CodeEditor::clearText () {
 
 }
 
-CodeViewerDialog::CodeViewerState CodeEditor::getState()
+Settings::CodeViewerState CodeEditor::getState()
 {
 	return m_parentDlg->getState();
 }

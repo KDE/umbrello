@@ -33,7 +33,7 @@ void InterfaceWidget::init() {
 	m_pMenu = 0;
 	m_bDrawAsCircle = false;
 
-	const SettingsDlg::OptionState& ops = m_pView->getOptionState();
+	const Settings::OptionState& ops = m_pView->getOptionState();
 	m_bShowScope = ops.classState.showScope;
 	setShowOpSigs( ops.classState.showOpSig );
 	m_bShowOperations = ops.classState.showOps;

@@ -20,6 +20,7 @@
 
 #include <qlayout.h>
 #include <qtabwidget.h>
+#include <qcheckbox.h>
 
 #include "codeviewerdialog.h"
 
@@ -27,7 +28,8 @@
 #include "../classifiercodedocument.h"
 #include "codeeditor.h"
 
-CodeViewerDialog::CodeViewerDialog ( QWidget* parent, CodeDocument * doc, CodeViewerState state, 
+CodeViewerDialog::CodeViewerDialog ( QWidget* parent, CodeDocument * doc,
+                                     Settings::CodeViewerState state, 
                                      const char* name, bool modal, WFlags fl )
     : CodeViewerDialogBase ( parent, name, modal, fl )
 
@@ -84,7 +86,7 @@ void CodeViewerDialog::addCodeDocument( CodeDocument * doc)
 
 }
 
-CodeViewerDialog::CodeViewerState CodeViewerDialog::getState() {
+Settings::CodeViewerState CodeViewerDialog::getState() {
 	return m_state;
 }
 

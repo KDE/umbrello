@@ -20,7 +20,7 @@
 
 #include <qwidget.h>
 #include "codevieweroptionsbase.h"
-#include "codeviewerdialog.h"
+#include "../codeviewerstate.h"
 
 /**
  * @author Brian Thomas
@@ -29,18 +29,18 @@
 class CodeViewerOptionsPage : public CodeViewerOptionsBase  {
 	Q_OBJECT
 public:
-	CodeViewerOptionsPage (CodeViewerDialog::CodeViewerState options, QWidget *parent, const char *name=0);
+	CodeViewerOptionsPage (Settings::CodeViewerState options, QWidget *parent, const char *name=0);
 	~CodeViewerOptionsPage();
 
-	CodeViewerDialog::CodeViewerState getOptions();
+	Settings::CodeViewerState getOptions();
 	void apply();
 
 protected:
 
 private:
 
-	CodeViewerDialog::CodeViewerState m_options;
-	void init ( CodeViewerDialog::CodeViewerState options);
+	Settings::CodeViewerState m_options;
+	void init ( Settings::CodeViewerState options);
 
 protected slots:
 

@@ -14,7 +14,7 @@
 //app includes
 #include "classoptionspage.h"
 #include "umlwidgetcolorpage.h"
-#include "settingsdlg.h"
+#include "../optionstate.h"
 
 /**
  * @author Paul Hensgen
@@ -94,7 +94,7 @@ protected:
 	*/
 	UMLView * m_pView;
 
-	SettingsDlg::OptionState m_options;
+	Settings::OptionState m_options;
 
 	KFontChooser * m_pChooser;
 	DiagramPropertiesPage *m_diagramProperties;

@@ -204,7 +204,7 @@ void UMLDoc::closeDocument() {
 	deleteContents();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-SettingsDlg::OptionState UMLDoc::getOptionState() {
+Settings::OptionState UMLDoc::getOptionState() {
 	return UMLApp::app()-> getOptionState();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -213,38 +213,38 @@ bool UMLDoc::newDocument() {
 	currentView = 0;
 	doc_url.setFileName(i18n("Untitled"));
 	//see if we need to start with a new diagram
-	SettingsDlg::OptionState optionState = getOptionState();
+	Settings::OptionState optionState = getOptionState();
 
 	switch( optionState.generalState.diagram ) {
-		case SettingsDlg::diagram_usecase:
+		case Settings::diagram_usecase:
 			createDiagram( Uml::dt_UseCase, false);
 			break;
 
-		case SettingsDlg::diagram_class:
+		case Settings::diagram_class:
 			createDiagram( Uml::dt_Class, false );
 			break;
 
-		case SettingsDlg::diagram_sequence:
+		case Settings::diagram_sequence:
 			createDiagram( Uml::dt_Sequence, false );
 			break;
 
-		case SettingsDlg::diagram_collaboration:
+		case Settings::diagram_collaboration:
 			createDiagram( Uml::dt_Collaboration, false );
 			break;
 
-		case SettingsDlg::diagram_state:
+		case Settings::diagram_state:
 			createDiagram( Uml::dt_State, false );
 			break;
 
-		case SettingsDlg::diagram_activity:
+		case Settings::diagram_activity:
 			createDiagram( Uml::dt_Activity, false );
 			break;
 
-	        case SettingsDlg::diagram_component:
+	        case Settings::diagram_component:
 			createDiagram( Uml::dt_Component, false );
 			break;
 
-	        case SettingsDlg::diagram_deployment:
+	        case Settings::diagram_deployment:
 			createDiagram( Uml::dt_Deployment, false );
 			break;
 		default:
@@ -1911,7 +1911,7 @@ bool UMLDoc::loadDiagramsFromXMI( QDomNode & node ) {
 	QDomElement element = node.toElement();
 	if( element.isNull() )
 		return true;//return ok as it means there is no umlobjects
-	SettingsDlg::OptionState state =  getOptionState();
+	Settings::OptionState state =  getOptionState();
 	UMLView * pView = 0;
 	int count = 0;
 	while( !element.isNull() ) {
@@ -2211,7 +2211,7 @@ bool UMLDoc::activateAllViews() {
 	return status;
 }
 
-void UMLDoc::settingsChanged(SettingsDlg::OptionState optionState) {
+void UMLDoc::settingsChanged(Settings::OptionState optionState) {
 	// for each view update settings
 	for(UMLView *w = m_ViewList.first() ; w ; w = m_ViewList.next() )
 		w -> setOptionState(optionState);
@@ -2257,7 +2257,7 @@ void UMLDoc::initSaveTimer() {
 		m_pAutoSaveTimer = 0;
 	}
 	int time[] = { 5 , 10, 15 , 30 };
-	SettingsDlg::OptionState optionState = getOptionState();
+	Settings::OptionState optionState = getOptionState();
 	if( optionState.generalState.autosave ) {
 		m_pAutoSaveTimer = new QTimer(this, "_AUTOSAVETIMER_" );
 		connect( m_pAutoSaveTimer, SIGNAL( timeout() ), this, SLOT( slotAutoSave() ) );

@@ -17,6 +17,7 @@
 #include "javacodeaccessormethod.h"
 
 #include "../attribute.h"
+#include "../codegenerator.h"
 #include "../classifiercodedocument.h"
 #include "../umlobject.h"
 #include "../umlrole.h"

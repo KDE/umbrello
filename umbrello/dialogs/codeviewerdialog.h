@@ -24,6 +24,7 @@
 #include <qptrlist.h>
 #include <qstring.h>
 #include <qtextedit.h>
+#include "../codeviewerstate.h"
 #include "codeviewerdialogbase.h"
 
 class CodeDocument;
@@ -43,29 +44,12 @@ class CodeViewerDialog : public CodeViewerDialogBase
     Q_OBJECT
 public:
 
-        // configurable params for the code viewer tool
-        struct CodeViewerState {
-                int height;
-                int width;
-                bool showHiddenBlocks;
-                bool blocksAreHighlighted;
-                QFont font;
-                QColor paperColor;
-                QColor fontColor;
-                QColor selectedColor;
-                QColor editBlockColor;
-                QColor nonEditBlockColor;
-                QColor umlObjectColor;
-                QColor hiddenColor;
-        }
-        ;// end struct CodeViewerState
-
-	CodeViewerDialog ( QWidget* parent, CodeDocument * doc, CodeViewerState state,
+	CodeViewerDialog ( QWidget* parent, CodeDocument * doc, Settings::CodeViewerState state,
                            const char* name = 0, bool modal = FALSE, WFlags fl = 0 );
 	~CodeViewerDialog ();
 
 	/** return the code viewer state */
-	CodeViewerState getState( );
+	Settings::CodeViewerState getState( );
 
 	QString parentDocName;
 
@@ -80,7 +64,7 @@ protected:
 
 private:
 
-	CodeViewerState m_state;
+	Settings::CodeViewerState m_state;
 
 	void initGUI ( const char * name );
 

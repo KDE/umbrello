@@ -23,7 +23,7 @@ void NodeWidget::init() {
 	UMLWidget::setBaseType(wt_Node);
 	m_pMenu = 0;
 	
-	const SettingsDlg::OptionState& ops = m_pView->getOptionState();
+	const Settings::OptionState& ops = m_pView->getOptionState();
 	m_bShowStereotype = ops.classState.showStereoType;
 	
 	calculateSize();

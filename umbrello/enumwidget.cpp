@@ -35,7 +35,7 @@ void EnumWidget::init() {
 	//set defaults from m_pView
 	if (m_pView) {
 		//check to see if correct
-		const SettingsDlg::OptionState& ops = m_pView->getOptionState();
+		const Settings::OptionState& ops = m_pView->getOptionState();
 		m_bShowPackage = ops.classState.showPackage;
 	} else {
 		// For completeness only. Not supposed to happen.

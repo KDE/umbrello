@@ -193,7 +193,7 @@ UMLDoc * CodeGenerator::getDocument ( ) {
 
 // the vanilla version
 CodeViewerDialog * CodeGenerator::getCodeViewerDialog ( QWidget* parent, CodeDocument *doc,
-                                                        CodeViewerDialog::CodeViewerState state)
+                                                        Settings::CodeViewerState state)
 {
         return new CodeViewerDialog(parent, doc, state);
 }

@@ -12,6 +12,7 @@
 #include <qgroupbox.h>
 #include <qlistbox.h>
 #include <qbuttongroup.h>
+#include <qpushbutton.h>
 #include <qradiobutton.h>
 #include <qlabel.h>
 #include <qcheckbox.h>

@@ -22,13 +22,16 @@
 #include <qpopupmenu.h>
 #include <qstring.h>
 #include <qtextedit.h>
-#include "settingsdlg.h"
-#include "codeviewerdialog.h"
+#include "../codeviewerstate.h"
 
+class UMLObject;
+
+class CodeViewerDialog;
 class CodeComment;
 class CodeDocument;
 class CodeClassFieldDeclarationBlock;
 class CodeMethodBlock;
+class CodeBlockWithComments;
 class HierarchicalCodeBlock;
 
 class TextBlockInfo;
@@ -45,7 +48,7 @@ public:
 	~CodeEditor ();
 
 	// return code viewer state
-	CodeViewerDialog::CodeViewerState getState( );
+	Settings::CodeViewerState getState( );
 
 protected:
 

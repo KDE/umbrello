@@ -7,16 +7,22 @@
  *                                                                         *
  ***************************************************************************/
 
+// system includes
+#include <cstdlib>
+
+// qt/kde includes
+#include <kapplication.h>
+#include <klocale.h>
+#include <kmessagebox.h>
+#include <kdebug.h>
+
+// app includes
 #include "class.h"
 #include "umldoc.h"
 #include "umllistview.h"
 #include "umllistviewitem.h"
 #include "umlobjectlist.h"
 #include "umlview.h"
-#include <kapplication.h>
-#include <klocale.h>
-#include <kmessagebox.h>
-#include <kdebug.h>
 
 UMLListView* UMLListViewItem::s_pListView = 0;
 

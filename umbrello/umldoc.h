@@ -16,7 +16,7 @@
 
 #include "umlclassifierlist.h"
 #include "umlassociationlist.h"
-#include "dialogs/settingsdlg.h"
+#include "optionstate.h"
 #include "umlviewlist.h"
 #include "umlobjectlist.h"
 #include "umlinterfacelist.h"
@@ -54,6 +54,7 @@ class UMLView;
 class UMLWidget;
 class UMLClass;
 class UMLClassifier;
+class UMLOperation;
 class UMLPackage;
 class UMLEnum;
 class UMLApp;
@@ -736,7 +737,7 @@ public:
 	/** a friendly little utility method to allow accessing
 	 * the parent UMLApps option state.
 	 */
-	SettingsDlg::OptionState getOptionState();
+	Settings::OptionState getOptionState();
 
 	/**
 	 * Returns the documentation for the project.
@@ -808,7 +809,7 @@ public:
 	/**
 	 * Sets the default settings to the given settings.
 	 */
-	void settingsChanged(SettingsDlg::OptionState optionState);
+	void settingsChanged(Settings::OptionState optionState);
 
 
 	/**

@@ -982,7 +982,7 @@ void UMLApp::readOptionState() {
 	optionState.generalState.logo = config -> readBoolEntry( "logo", true );
 	optionState.generalState.loadlast = config -> readBoolEntry( "loadlast", true );
 
-	optionState.generalState.diagram  = ( SettingsDlg::Diagram ) config -> readNumEntry( "diagram", 1 );
+	optionState.generalState.diagram  = ( Settings::Diagram ) config -> readNumEntry( "diagram", 1 );
 	config -> setGroup( "TipOfDay");
 
 	optionState.generalState.tip = config -> readBoolEntry( "RunOnStart", true );

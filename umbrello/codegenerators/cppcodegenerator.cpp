@@ -24,7 +24,7 @@
 #include "cppsourcecodedocument.h"
 #include "cppheadercodedocument.h"
 
-// #include "cppheadercodedocuent.h"
+#include "codeviewerdialog.h"
 
 const bool CPPCodeGenerator::DEFAULT_BUILD_MAKEFILE = false;
 
@@ -120,7 +120,7 @@ bool CPPCodeGenerator::removeHeaderCodeDocument ( CPPHeaderCodeDocument * remove
 // In the C++ version, we need to make both source and header files as well
 // as the makefile available.
 CodeViewerDialog * CPPCodeGenerator::getCodeViewerDialog ( QWidget* parent, CodeDocument *doc,
-                                                        CodeViewerDialog::CodeViewerState state)
+                                                           Settings::CodeViewerState state)
 {
 
 	ClassifierCodeDocument * cdoc = dynamic_cast<ClassifierCodeDocument*>(doc);

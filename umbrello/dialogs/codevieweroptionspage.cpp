@@ -22,7 +22,7 @@
 //kde include
 //qt include
 
-CodeViewerOptionsPage::CodeViewerOptionsPage( CodeViewerDialog::CodeViewerState options, QWidget *parent, const char *name )
+CodeViewerOptionsPage::CodeViewerOptionsPage( Settings::CodeViewerState options, QWidget *parent, const char *name )
 	:CodeViewerOptionsBase(parent,name)
 {
 	init (options);
@@ -30,7 +30,7 @@ CodeViewerOptionsPage::CodeViewerOptionsPage( CodeViewerDialog::CodeViewerState 
 
 CodeViewerOptionsPage::~CodeViewerOptionsPage() { }
 
-void CodeViewerOptionsPage::init( CodeViewerDialog::CodeViewerState options )
+void CodeViewerOptionsPage::init( Settings::CodeViewerState options )
 {
 	m_options = options;
 
@@ -61,7 +61,7 @@ void CodeViewerOptionsPage::apply() {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-CodeViewerDialog::CodeViewerState CodeViewerOptionsPage::getOptions() {
+Settings::CodeViewerState CodeViewerOptionsPage::getOptions() {
 	return m_options;
 }
 

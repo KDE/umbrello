@@ -19,6 +19,7 @@
 
 #include "../attribute.h"
 #include "../classifiercodedocument.h"
+#include "../codegenerator.h"
 #include "../umlobject.h"
 #include "../umlrole.h"
 

@@ -11,7 +11,7 @@
 #define UMLWIDGETCOLORPAGE_H
 
 #include <qwidget.h>
-#include "settingsdlg.h"
+#include "../optionstate.h"
 
 /**
  * @author Paul Hensgen
@@ -37,7 +37,7 @@ public:
 	/**
 	* 	Constructor - Observe an OptionState structure
 	*/
-	UMLWidgetColorPage( QWidget * pParent, SettingsDlg::OptionState *options );
+	UMLWidgetColorPage( QWidget * pParent, Settings::OptionState *options );
 
 	/**
 	*	destructor
@@ -68,7 +68,7 @@ protected:
 	*/
 	UMLWidget * m_pUMLWidget;
 	
-	SettingsDlg::OptionState *m_options;
+	Settings::OptionState *m_options;
 	
 	//GUI widgets
 	QGroupBox * m_pColorGB;

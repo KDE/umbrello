@@ -17,7 +17,7 @@
 
 #include "umlnamespace.h"
 #include "associationwidgetlist.h"
-#include "dialogs/settingsdlg.h"
+#include "optionstate.h"
 
 class UMLObject;
 class UMLView;
@@ -55,7 +55,7 @@ public:
 	 * @param o		The UMLObject to represent.
 	 * @param optionState	The optionState of the diagram.  Used to set the initial colours.
 	 */
-	UMLWidget( UMLView * view, UMLObject * o, SettingsDlg::OptionState optionState );
+	UMLWidget( UMLView * view, UMLObject * o, Settings::OptionState optionState );
 
 	/**
 	 * Creates a UMLWidget object.
@@ -71,7 +71,7 @@ public:
 	 * @param view		The view to be displayed on.
 	 * @param optionState	The optionState of the diagram.  Used to set the initial colours.
 	 */
-	UMLWidget( UMLView * view, SettingsDlg::OptionState optionState );
+	UMLWidget( UMLView * view, Settings::OptionState optionState );
 
 	/**
 	 * Standard deconstructor

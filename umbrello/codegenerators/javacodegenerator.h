@@ -19,6 +19,7 @@
 #define JAVACODEGENERATOR_H
 
 #include <qstring.h>
+#include "../codeviewerstate.h"
 #include "../codegenerator.h"
 #include "../codeblockwithcomments.h"
 #include "../umldoc.h"
@@ -28,6 +29,8 @@
 #include "javaantcodedocument.h"
 
 #include "javacodegenerationpolicy.h"
+
+class CodeViewerDialog;
 
 class JavaCodeGenerator : public CodeGenerator
 {
@@ -93,7 +96,7 @@ public:
         /** Get the editing dialog for this code document
          */
         virtual CodeViewerDialog * getCodeViewerDialog( QWidget* parent, CodeDocument * doc,
-                                                        CodeViewerDialog::CodeViewerState state);
+                                                        Settings::CodeViewerState state);
 
 	// Other methods
 	//

@@ -30,7 +30,7 @@ ClassOptionsPage::ClassOptionsPage(QWidget* pParent, UMLWidget* pWidget, UMLWidg
 	
 }
 
-ClassOptionsPage::ClassOptionsPage(QWidget* pParent, SettingsDlg::OptionState *options) : QWidget( pParent )
+ClassOptionsPage::ClassOptionsPage(QWidget* pParent, Settings::OptionState *options) : QWidget( pParent )
 {
 	m_options = options;
 	m_pClassWidget = 0;

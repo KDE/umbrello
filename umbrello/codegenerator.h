@@ -53,7 +53,7 @@ class CodeViewerDialog;
 
 class KConfig;
 
-#include "dialogs/codeviewerdialog.h"
+#include "codeviewerstate.h"
 
 /**
   * class CodeGenerator
@@ -325,7 +325,7 @@ public:
         /** Get the editing dialog for this code document
          */
         virtual CodeViewerDialog * getCodeViewerDialog( QWidget* parent, CodeDocument * doc, 
-                                                        CodeViewerDialog::CodeViewerState state);
+                                                        Settings::CodeViewerState state);
 
 protected:
 

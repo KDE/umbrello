@@ -33,7 +33,7 @@ void ClassWidget::init() {
 	m_ShowOpSigs = Uml::st_ShowSig;
 	//set defaults from m_pView
 	if ( m_pView ) {
-		const SettingsDlg::OptionState& ops = m_pView -> getOptionState();
+		const Settings::OptionState& ops = m_pView -> getOptionState();
 		m_bShowAttributes = ops.classState.showAtts;
 		m_bShowOperations = ops.classState.showOps;
 		m_bShowPackage = ops.classState.showPackage;

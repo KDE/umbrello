@@ -24,6 +24,7 @@
 #include "javacodecomment.h"
 #include "javacodeclassfield.h"
 #include "javacodeclassfielddeclarationblock.h"
+#include "codeviewerdialog.h"
 
 const bool JavaCodeGenerator::DEFAULT_BUILD_ANT_DOC = false;
 
@@ -78,7 +79,7 @@ bool JavaCodeGenerator::getCreateANTBuildFile ( ) {
 
 // In the Java version, we make the ANT build file also available.
 CodeViewerDialog * JavaCodeGenerator::getCodeViewerDialog ( QWidget* parent, CodeDocument *doc,
-                                                        CodeViewerDialog::CodeViewerState state)
+                                                            Settings::CodeViewerState state)
 {
 	CodeViewerDialog *dialog = new CodeViewerDialog(parent, doc, state);
 	if(getCreateANTBuildFile())

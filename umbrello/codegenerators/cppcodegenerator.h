@@ -19,11 +19,13 @@
 #define CPPCODEGENERATOR_H
 
 #include <qstring.h>
+#include "../codeviewerstate.h"
 #include "../codegenerator.h"
 #include "../umldoc.h"
 #include "cppmakecodedocument.h"
 #include "cppcodegenerationpolicy.h"
 
+class CodeViewerDialog;
 class CPPHeaderCodeDocument;
 class CodeBlockWithComments;
 class KConfig;
@@ -109,7 +111,7 @@ public:
        /** Get the editing dialog for this code document
          */
         virtual CodeViewerDialog * getCodeViewerDialog( QWidget* parent, CodeDocument * doc,
-                                                        CodeViewerDialog::CodeViewerState state);
+                                                        Settings::CodeViewerState state);
 
        /**
          * Write out all code documents to file as appropriate.

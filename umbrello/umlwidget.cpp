@@ -54,7 +54,7 @@ UMLWidget::UMLWidget( UMLView * view, UMLObject * o )
 	}
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLWidget::UMLWidget( UMLView * view, UMLObject * o, SettingsDlg::OptionState optionState )
+UMLWidget::UMLWidget( UMLView * view, UMLObject * o, Settings::OptionState optionState )
 	: QObject(view), QCanvasRectangle( view->canvas() ),
 	  m_pObject(o),
 	  m_pView(view),
@@ -77,7 +77,7 @@ UMLWidget::UMLWidget( UMLView * view, int id )
 		m_nId = id;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLWidget::UMLWidget( UMLView * view, SettingsDlg::OptionState optionState )
+UMLWidget::UMLWidget( UMLView * view, Settings::OptionState optionState )
 	: QObject(view), QCanvasRectangle( view->canvas() ),
 	  m_pObject(0),
 	  m_pView(view),
@@ -422,7 +422,7 @@ void UMLWidget::init() {
 		m_bUsesDiagramLineColour = true;
 		m_bUsesDiagramLineWidth  = true;
 		m_bUsesDiagramUseFillColour = true;
-		const SettingsDlg::OptionState& optionState = m_pView->getOptionState();
+		const Settings::OptionState& optionState = m_pView->getOptionState();
 		m_FillColour = optionState.uiState.fillColor;
 		m_LineColour = optionState.uiState.lineColor;
 		m_LineWidth  = optionState.uiState.lineWidth;
