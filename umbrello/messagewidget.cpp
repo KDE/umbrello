@@ -836,6 +836,24 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement) {
 			// If m_pOperation is set, m_CustomOp isn't used anyway.
 			// Just setting it empty for the sake of sanity.
 			m_CustomOp = QString::null;
+		} else {
+			// Previous umbrello versions saved the operation text
+			// instead of the xmi.id of the operation.
+			// For backward compatibility, attempt to determine the
+			// m_pOperation from the operation text:
+			Umbrello::OpDescriptor od;
+			Umbrello::Parse_Status st = Umbrello::parseOperation(m_CustomOp, od, c);
+			if (st == Umbrello::PS_OK) {
+				UMLDoc *umldoc = UMLApp::app()->getDocument();
+				bool isExistingOp = false;
+				UMLObject *o = umldoc->createOperation(c, od.m_name, &isExistingOp, &od.m_args);
+				UMLOperation *op = static_cast<UMLOperation*>(o);
+				if (od.m_pReturnType) {
+					op->setType(od.m_pReturnType);
+				}
+				setOperation(op);
+				m_CustomOp = QString::null;
+			}
 		}
 	}
 
