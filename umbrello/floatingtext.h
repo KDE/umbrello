@@ -227,6 +227,12 @@ public:
 	void setSelected(bool _select);
 
 	/**
+	 * Handle the ListPopupMenu::mt_Rename case of the slotMenuSelection.
+	 * Given an own method because it requires rather lengthy code.
+	 */
+	void handleRename();
+
+	/**
 	 * Creates the <UML:FloatingTextWidget> XMI element.
 	 */
 	void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
@@ -267,12 +273,6 @@ private:
 	 * a sequence diagram message if appropriate
 	 */
 	void mouseMoveEvent(QMouseEvent* me);
-
-	/**
-	 * Handle the ListPopupMenu::mt_Rename case of the slotMenuSelection.
-	 * Given an own method because it requires rather lengthy code.
-	 */
-	void handleRename();
 
 	/**
 	 * The association or message widget we may be linked to.
