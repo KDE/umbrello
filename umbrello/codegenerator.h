@@ -132,6 +132,24 @@ protected:
 	 */
 	QString findFileName(UMLClassifier* concept, QString ext);
 
+	/**
+	 * Returns a name that can be written to in the output directory,
+	 * respecting the overwrite policy.
+	 * If a file of the given name and extension does not exist,
+	 * then just returns the name.
+	 * If a file of the given name and extension does exist,
+	 * then opens an overwrite dialog. In this case the name returned
+	 * may be a modification of the input name.
+	 * This method is invoked by findFileName().
+	 *
+	 * @param concept the class for which an output file name is desired.
+	 * @param name the proposed output file name
+	 * @param ext the extension (or suffix) used for output files
+	 * @return the real file name that should be used. (without extension) or 
+	 * 	NULL if none to be used
+	 */
+	QString overwritableName(UMLClassifier* concept, QString name, QString ext);
+
 	/** Opens a file named "name" for writing in the outputDirectory.
 	 * If something goes wrong, it informs the user
 	 * if this function returns true, you know you can write to the file

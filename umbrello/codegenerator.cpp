@@ -107,6 +107,10 @@ QString CodeGenerator::findFileName(UMLClassifier* concept, QString ext) {
 	ext.simplifyWhiteSpace();
 	ext.replace(QRegExp(" "),"_");
 
+	return overwritableName(concept, name, ext);
+}
+
+QString CodeGenerator::overwritableName(UMLClassifier* concept, QString name, QString ext) {
 	//check if a file named "name" with extension "ext" already exists
 	if(!m_outputDirectory.exists(name+ext)) {
 		m_fileMap->insert(concept,name);
