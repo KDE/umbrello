@@ -884,11 +884,13 @@ QRect UMLView::getDiagramRect() {
 		++assoc_it; // next assoc
 	}
 
+/* Margin causes problems of black border around the edge
 	// Margin:
 	startx -= 24;
 	starty -= 20;
 	endx += 24;
 	endy += 20;
+*/
 
 	return QRect(startx, starty,  endx - startx, endy - starty);
 }
