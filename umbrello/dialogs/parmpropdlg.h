@@ -85,10 +85,10 @@ public:
 	/**
 	 * Return the kind of the parameter (in, out, or inout).
 	 *
-	 * @return	The Uml::Parameter_Kind corresponding to
+	 * @return	The Uml::Parameter_Direction corresponding to
 	 *		the selected "Kind" radiobutton.
 	 */
-	Uml::Parameter_Kind getParmKind();
+	Uml::Parameter_Direction getParmKind();
 
 public slots:
 	void slotOk();

@@ -81,7 +81,7 @@ public:
 	UMLAttribute* addMethodParameter(UMLOperation *method,
 					 QString type, QString name,
 					 QString initialValue, QString doc,
-					 Uml::Parameter_Kind kind = Uml::pk_In);
+					 Uml::Parameter_Direction kind = Uml::pd_In);
 
 	/**
 	 * Add an enum literal to an UMLEnum.

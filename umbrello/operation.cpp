@@ -38,7 +38,7 @@ UMLOperation::~UMLOperation() {
 }
 
 UMLAttribute * UMLOperation::addParm(QString type, QString name, QString initialValue,
-				     QString doc, Uml::Parameter_Kind kind) {
+				     QString doc, Uml::Parameter_Direction kind) {
 	// make the new parameter (attribute) public, just to be safe
 	UMLDoc *umldoc = UMLApp::app()->getDocument();
 	UMLAttribute * a = new UMLAttribute(this, name, umldoc->getUniqueID(), Uml::Public, type);
@@ -194,10 +194,10 @@ void UMLOperation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 		}
 		attElement.setAttribute( "value", pAtt -> getInitialValue() );
 
-		Uml::Parameter_Kind kind = pAtt->getParmKind();
-		if (kind == Uml::pk_Out)
+		Uml::Parameter_Direction kind = pAtt->getParmKind();
+		if (kind == Uml::pd_Out)
 			attElement.setAttribute("kind", "out");
-		else if (kind == Uml::pk_InOut)
+		else if (kind == Uml::pd_InOut)
 			attElement.setAttribute("kind", "inout");
 		// The default for the parameter kind is "in".
 
@@ -226,11 +226,11 @@ bool UMLOperation::load( QDomElement & element ) {
 			}
 			QString kind = attElement.attribute("kind", "in");
 			if (kind == "out")
-				pAtt->setParmKind(Uml::pk_Out);
+				pAtt->setParmKind(Uml::pd_Out);
 			else if (kind == "inout")
-				pAtt->setParmKind(Uml::pk_InOut);
+				pAtt->setParmKind(Uml::pd_InOut);
 			else
-				pAtt->setParmKind(Uml::pk_In);
+				pAtt->setParmKind(Uml::pd_In);
 			m_List.append( pAtt );
 		}
 		node = node.nextSibling();

@@ -500,10 +500,10 @@ void AdaWriter::writeOperation(UMLOperation *op, QTextStream &ada, bool is_comme
 			if (is_comment)
 				ada << "-- ";
 			ada << cleanName(at->getName()) << " : ";
-			Uml::Parameter_Kind pk = at->getParmKind();
-			if (pk == Uml::pk_Out)
+			Uml::Parameter_Direction pk = at->getParmKind();
+			if (pk == Uml::pd_Out)
 				ada << "out ";
-			else if (pk == Uml::pk_InOut)
+			else if (pk == Uml::pd_InOut)
 				ada << "in out ";
 			else
 				ada << "in ";

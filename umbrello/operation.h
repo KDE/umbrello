@@ -101,7 +101,7 @@ public:
 	 * @return	Pointer to the UMLAttribute created.
 	 */
 	UMLAttribute * addParm(QString type, QString name, QString initialValue, QString doc,
-		               Uml::Parameter_Kind kind = Uml::pk_In);
+		               Uml::Parameter_Direction kind = Uml::pd_In);
 
 	/**
 	 * Remove a parameter from the operation.

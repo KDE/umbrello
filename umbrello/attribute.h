@@ -86,7 +86,7 @@ public:
 	 *			inital value.
 	 * @return	Returns a string representation of the UMLAttribute.
 	 */
-	QString toString(Uml::Signature_Type sig);
+	QString toString(Uml::Signature_Type sig = Uml::st_NoSig);
 
 	/**
 	 * This needs to be called after all UML objects have been loaded.
@@ -107,8 +107,8 @@ public:
 	 */
 	bool showPropertiesDialogue(QWidget* parent);
 
-	void setParmKind (Uml::Parameter_Kind pk);
-	Uml::Parameter_Kind getParmKind () const;
+	void setParmKind (Uml::Parameter_Direction pk);
+	Uml::Parameter_Direction getParmKind () const;
 
 protected:
 	/**
@@ -118,7 +118,7 @@ protected:
 
 private:
 	QString m_InitialValue; ///< text for the attribute's initial value.
-	Uml::Parameter_Kind m_ParmKind;
+	Uml::Parameter_Direction m_ParmKind;
 };
 
 #endif

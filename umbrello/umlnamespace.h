@@ -195,7 +195,7 @@ namespace Uml {
 	 *   inout = operation both reads and writes the parameter
 	 * The numeric values of this enum are not currently saved to file.
 	 */
-	enum Parameter_Kind { pk_In, pk_InOut, pk_Out };
+	enum Parameter_Direction { pd_In, pd_InOut, pd_Out };
 
 	/**
 	 * Function for comparing tags in XMI files.

@@ -22,7 +22,7 @@ UMLAttribute::UMLAttribute( const UMLObject *parent, QString Name, int id,
 	m_InitialValue = iv;
 	m_BaseType = Uml::ot_Attribute;
 	m_Scope = s;
-	m_ParmKind = Uml::pk_In;
+	m_ParmKind = Uml::pd_In;
 	m_TypeName = type;
 	UMLDoc *pDoc = UMLApp::app()->getDocument();
 	UMLObject *typeObj = pDoc->findUMLObject(type);
@@ -38,7 +38,7 @@ UMLAttribute::UMLAttribute( const UMLObject *parent, QString Name, int id,
 UMLAttribute::UMLAttribute(const UMLObject *parent) : UMLClassifierListItem(parent) {
 	m_BaseType = Uml::ot_Attribute;
 	m_Scope = Uml::Private;
-	m_ParmKind = Uml::pk_In;
+	m_ParmKind = Uml::pd_In;
 }
 
 UMLAttribute::~UMLAttribute() { }
@@ -54,11 +54,11 @@ void UMLAttribute::setInitialValue(QString iv) {
 	}
 }
 
-void UMLAttribute::setParmKind (Uml::Parameter_Kind pk) {
+void UMLAttribute::setParmKind (Uml::Parameter_Direction pk) {
 	m_ParmKind = pk;
 }
 
-Uml::Parameter_Kind UMLAttribute::getParmKind () const {
+Uml::Parameter_Direction UMLAttribute::getParmKind () const {
 	return m_ParmKind;
 }
 

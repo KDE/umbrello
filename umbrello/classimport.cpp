@@ -183,7 +183,7 @@ void ClassImport::insertMethod(UMLClass *klass, UMLOperation *op,
 UMLAttribute* ClassImport::addMethodParameter(UMLOperation *method,
 					      QString type, QString name,
 					      QString initialValue, QString doc,
-					      Uml::Parameter_Kind kind) {
+					      Uml::Parameter_Direction kind) {
 	// We don't necessarily expose the full declaration of UMLOperation
 	// to clients of ClassImport.  I.e. if clients only see a pointer
 	// to the forward declaration of UMLOperation, they can't call any

@@ -103,10 +103,10 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a)
 
 	// Check the proper Kind radiobutton.
 	if (a) {
-		Uml::Parameter_Kind kind = a->getParmKind();
-		if (kind == Uml::pk_Out)
+		Uml::Parameter_Direction kind = a->getParmKind();
+		if (kind == Uml::pd_Out)
 			m_pOut->setChecked(true);
-		else if (kind == Uml::pk_InOut)
+		else if (kind == Uml::pd_InOut)
 			m_pInOut->setChecked(true);
 		else
 			m_pIn->setChecked(true);
@@ -145,12 +145,12 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a)
 	m_pNameLE->setFocus();
 }
 
-Uml::Parameter_Kind ParmPropDlg::getParmKind() {
-	Uml::Parameter_Kind pk = Uml::pk_In;
+Uml::Parameter_Direction ParmPropDlg::getParmKind() {
+	Uml::Parameter_Direction pk = Uml::pd_In;
 	if (m_pOut->isChecked())
-		pk = Uml::pk_Out;
+		pk = Uml::pd_Out;
 	else if (m_pInOut->isChecked())
-		pk = Uml::pk_InOut;
+		pk = Uml::pd_InOut;
 	return pk;
 }
 
