@@ -421,7 +421,7 @@ void AssociationWidget::setChangeabilityA (Changeability_Type value)
 	if (value != old) {
 		QString changeString = UMLAssociation::ChangeabilityToString(value);
 		// update our attribute
-		setChangeabilityA(value);
+		AssociationWidgetData::setChangeabilityA(value);
 		m_pAssociation->setChangeabilityA(value);
 
 		// update our string representation
@@ -472,7 +472,7 @@ void AssociationWidget::setChangeabilityB(Changeability_Type value) {
 	if (value != old) {
 		QString changeString = UMLAssociation::ChangeabilityToString(value);
 		// update our attribute
-		setChangeabilityB(value);
+		AssociationWidgetData::setChangeabilityB(value);
 		m_pAssociation->setChangeabilityB(value);
 		// update our string representation
 		setChangeWidgetB(changeString);
