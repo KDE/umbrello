@@ -107,6 +107,9 @@ protected:
         bool m_forceDoc;
         bool m_forceSections;
         bool m_includeHeadings;
+        QString m_indentation;
+        int m_indentationAmount;
+        QString m_newLineEndingChars;
 
 	// override parent method..we need special handling
 	void initFromParentDocument( );

@@ -40,7 +40,7 @@ void SQLWriter::writeClass(UMLClassifier *c) {
 
 
 	if(!c) {
-		kdDebug()<<"Cannot write class of NULL concept!\n";
+		kdDebug()<<"Cannot write class of NULL concept!" << endl;
 		return;
 	}
 
@@ -75,10 +75,10 @@ void SQLWriter::writeClass(UMLClassifier *c) {
 
 	//Write class Documentation if there is somthing or if force option
 	if(forceDoc() || !c->getDoc().isEmpty()) {
-		sql<<"\n--\n";
+		sql << m_newLineEndingChars << "--" << m_newLineEndingChars;
 		sql<<"-- TABLE: "<<classname<<endl;
 		sql<<formatDoc(c->getDoc(),"-- ");
-		sql<<"--  \n\n";
+		sql << "--  " << m_newLineEndingChars << m_newLineEndingChars;
 	}
 
 	sql << "CREATE TABLE "<< classname << " ( " << endl;
@@ -90,16 +90,16 @@ void SQLWriter::writeClass(UMLClassifier *c) {
 	if( forceSections() || !aggregations.isEmpty() ) {
 		for(UMLAssociation* a = aggregations.first(); a; a = aggregations.next()) {
 			if( a->getObject(A)->getID()==c->getID() ) {
-				sql << "\n-- CONSTRAINT " << a->getName() << " FOREIGN KEY (" << a->getMulti(B) <<
+				sql << m_newLineEndingChars << "-- CONSTRAINT " << a->getName() << " FOREIGN KEY (" << a->getMulti(B) <<
 					") REFERENCES " <<   a->getObject(A)->getName() << "(" << a->getMulti(A) << ")";
 			} else {
-				sql << ",\n\tCONSTRAINT " << a->getName() << " FOREIGN KEY (" << a->getMulti(B) <<
+				sql << "," << m_newLineEndingChars << m_indentation << "CONSTRAINT " << a->getName() << " FOREIGN KEY (" << a->getMulti(B) <<
 					") REFERENCES " <<   a->getObject(A)->getName() << "(" << a->getMulti(A) << ")";
 			}
 		}
 	}
 
-	sql<<"\n);\n";
+	sql << m_newLineEndingChars << ");" << m_newLineEndingChars;
 
 	file.close();
 	emit codeGenerated(c, true);
@@ -157,7 +157,7 @@ void SQLWriter::printAttributes(QTextStream& sql, UMLAttributeList attributeList
 		}
 
 		// write the attribute
-		sql << "\t" << cleanName(at->getName()) << " " << at->getTypeName() << " "
+		sql << m_indentation << cleanName(at->getName()) << " " << at->getTypeName() << " "
 		    << (at->getInitialValue().isEmpty()?QString(""):QString(" DEFAULT ")+at->getInitialValue());
 
 		// now get documentation/comment of current attribute

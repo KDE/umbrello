@@ -36,7 +36,7 @@ void ASWriter::writeClass(UMLClassifier *c)
 {
 	if(!c)
 	{
-		kdDebug()<<"Cannot write class of NULL concept!\n";
+		kdDebug()<<"Cannot write class of NULL concept!" << endl;
 		return;
 	}
 
@@ -112,7 +112,7 @@ void ASWriter::writeClass(UMLClassifier *c)
 
 	as << classname << " = function ()" << endl;
 	as << "{" << endl;
-	as << "\tthis._init ();" << endl;
+	as << m_indentation << "this._init ();" << endl;
 	as << "}" << endl;
 	as << endl;
 
@@ -139,17 +139,17 @@ void ASWriter::writeClass(UMLClassifier *c)
 		{
 			if (forceDoc() || !at->getDoc().isEmpty())
 			{
-				as << "\t/**" << endl
-				 << formatDoc(at->getDoc(), "\t * ")
-				 << "\t */" << endl;
+				as << m_indentation << "/**" << endl
+				 << formatDoc(at->getDoc(), m_indentation + " * ")
+				 << m_indentation << " */" << endl;
 			}
 			if(!at->getInitialValue().isEmpty())
 			{
-				as << "\tthis.m_" << cleanName(at->getName()) << " = " << at->getInitialValue() << ";" << endl;
+				as << m_indentation << "this.m_" << cleanName(at->getName()) << " = " << at->getInitialValue() << ";" << endl;
 			}
 			else
 			{
-	 			as << "\tthis.m_" << cleanName(at->getName()) << " = \"\";" << endl;
+	 			as << m_indentation << "this.m_" << cleanName(at->getName()) << " = \"\";" << endl;
 			}
 		}
 	}
@@ -157,38 +157,38 @@ void ASWriter::writeClass(UMLClassifier *c)
 	//associations
 	if (forceSections() || !aggregations.isEmpty ())
 	{
-		as << "\n\t/**Aggregations: */\n";
+		as <<  m_newLineEndingChars << m_indentation << "/**Aggregations: */" << m_newLineEndingChars;
 		for (UMLAssociation *a = aggregations.first(); a; a = aggregations.next())
 		{
 			QString nm(cleanName(a->getObject(A)->getName()));
 			if (a->getMulti(A).isEmpty())
-				as << "\tthis.m_" << nm << " = new " << nm << " ();\n";
+				as << m_indentation << "this.m_" << nm << " = new " << nm << " ();" << m_newLineEndingChars;
 			else
-				as << "\tthis.m_" << nm.lower() << " = new Array ();\n";
+				as << m_indentation << "this.m_" << nm.lower() << " = new Array ();" << m_newLineEndingChars;
 		}
 	}
 	if( forceSections() || !compositions.isEmpty())
 	{
-		as << "\n\t/**Compositions: */\n";
+		as <<  m_newLineEndingChars << m_indentation << "/**Compositions: */" << m_newLineEndingChars;
 		for(UMLAssociation *a = compositions.first(); a; a = compositions.next())
 		{
 			QString nm(cleanName(a->getObject(A)->getName()));
 			if(a->getMulti(A).isEmpty())
-				as << "\tthis.m_" << nm << " = new " << nm << " ();\n";
+				as << m_indentation << "this.m_" << nm << " = new " << nm << " ();" << m_newLineEndingChars;
 			else
-				as << "\tthis.m_" << nm.lower() << " = new Array ();\n";
+				as << m_indentation << "this.m_" << nm.lower() << " = new Array ();" << m_newLineEndingChars;
 		}
 	}
 	as << endl;
 
-	as << "\t/**Protected: */\n";
+	as << m_indentation << "/**Protected: */" << m_newLineEndingChars;
 	if(myClass) {
 		UMLAttributeList *atl = myClass->getFilteredAttributeList();
 		for (UMLAttribute *at = atl->first(); at ; at = atl->next())
 		{
 			if (at->getScope() == Uml::Protected)
 			{
-				as << "\tASSetPropFlags (this, \"" << cleanName(at->getName()) << "\", 1);" << endl;
+				as << m_indentation << "ASSetPropFlags (this, \"" << cleanName(at->getName()) << "\", 1);" << endl;
 			}
 		}
 	}
@@ -198,18 +198,18 @@ void ASWriter::writeClass(UMLClassifier *c)
 	{
 		if (op->getScope() == Uml::Protected)
 		{
-			as << "\tASSetPropFlags (this, \"" << cleanName(op->getName()) << "\", 1);" << endl;
+			as << m_indentation << "ASSetPropFlags (this, \"" << cleanName(op->getName()) << "\", 1);" << endl;
 		}
 	}
 	as << endl;
-	as << "\t/**Private: */\n";
+	as << m_indentation << "/**Private: */" << m_newLineEndingChars;
 	if(myClass) {
 		UMLAttributeList *atl = myClass->getFilteredAttributeList();
 		for (UMLAttribute *at = atl->first(); at; at = atl->next())
 		{
 			if (at->getScope() == Uml::Private)
 			{
-				as << "\tASSetPropFlags (this, \"" << cleanName(at->getName()) << "\", 7);" << endl;
+				as << m_indentation << "ASSetPropFlags (this, \"" << cleanName(at->getName()) << "\", 7);" << endl;
 			}
 		}
 	}
@@ -218,7 +218,7 @@ void ASWriter::writeClass(UMLClassifier *c)
 	{
 		if (op->getScope() == Uml::Protected)
 		{
-			as << "\tASSetPropFlags (this, \"" << cleanName(op->getName()) << "\", 7);" << endl;
+			as << m_indentation << "ASSetPropFlags (this, \"" << cleanName(op->getName()) << "\", 7);" << endl;
 		}
 	}
 	as << "}" << endl;
@@ -257,7 +257,7 @@ void ASWriter::writeOperations(QString classname, UMLOperationList *opList, QTex
 
 		if( writeDoc )  //write method documentation
 		{
-			as << "/**\n" << formatDoc(op->getDoc()," * ");
+			as << "/**" << m_newLineEndingChars << formatDoc(op->getDoc()," * ");
 
 			for(at = atl->first(); at ; at = atl -> next())  //write parameter documentation
 			{
@@ -280,8 +280,9 @@ void ASWriter::writeOperations(QString classname, UMLOperationList *opList, QTex
 				 << (!(at->getInitialValue().isEmpty()) ? (QString(" = ")+at->getInitialValue()) : QString(""))
 				 << ((j < i-1)?", ":"");
 		}
-		as << ")\n{\n\t\n}\n";
-		as << "\n" << endl;
+		as << ")" << m_newLineEndingChars << "{" << m_newLineEndingChars <<
+		m_indentation << m_newLineEndingChars << "}" << m_newLineEndingChars;
+		as <<  m_newLineEndingChars << endl;
 	}//end for
 }
 

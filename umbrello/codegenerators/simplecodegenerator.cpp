@@ -257,6 +257,9 @@ void SimpleCodeGenerator::syncCodeToDocument() {
         m_forceSections = policy->getCodeVerboseSectionComments();
         m_outputDirectory = QDir(policy->getOutputDirectory().absPath());
         m_headingFiles = QDir(policy->getHeadingFileDir());
+        m_indentation = policy->getIndentation();
+        m_indentationAmount = policy->getIndentationAmount();
+        m_newLineEndingChars = policy->getNewLineEndingChars();
 
 }
 

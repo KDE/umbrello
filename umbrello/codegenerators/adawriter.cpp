@@ -50,7 +50,10 @@ AdaWriter::~AdaWriter() {}
 
 QString AdaWriter::spc() {
 	QString s;
-	s.fill(' ', indentlevel * 3);
+	if (m_indentation == " ")
+		s.fill(' ', indentlevel * m_indentationAmount);
+	else
+		s.fill('\t', indentlevel * m_indentationAmount);
 	return s;
 }
 
@@ -146,7 +149,7 @@ void AdaWriter::computeAssocTypeAndRole
 
 void AdaWriter::writeClass(UMLClassifier *c) {
 	if (!c) {
-		kdDebug() << "Cannot write class of NULL concept!\n";
+		kdDebug() << "Cannot write class of NULL concept!" << endl;
 		return;
 	}
 
@@ -186,55 +189,55 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 	if (imports.count()) {
 		for (UMLClassifier *con = imports.first(); con; con = imports.next()) {
 			if (con->getBaseType() != Uml::ot_Datatype)
-				ada << "with " << qualifiedName(con) << "; \n";
+				ada << "with " << qualifiedName(con) << "; " << m_newLineEndingChars;
 		}
-		ada << "\n";
+		ada << m_newLineEndingChars;
 	}
 
 	QString pkg = qualifiedName(c);
-	ada << spc() << "package " << pkg << " is\n\n";
+	ada << spc() << "package " << pkg << " is" << m_newLineEndingChars << m_newLineEndingChars;
 	indentlevel++;
 	if (c->getBaseType() == Uml::ot_Enum) {
 		UMLEnum *ue = static_cast<UMLEnum*>(c);
 		UMLEnumLiteralList litList = ue->getFilteredEnumLiteralList();
 		uint i = 0;
-		ada << spc() << "type " << classname << " is (\n";
+		ada << spc() << "type " << classname << " is (" << m_newLineEndingChars;
 		indentlevel++;
 		for (UMLEnumLiteral *lit = litList.first(); lit; lit = litList.next()) {
 			QString enumLiteral = cleanName(lit->getName());
 			ada << spc() << enumLiteral;
 			if (++i < litList.count())
-				ada << ",\n";
+				ada << "," << m_newLineEndingChars;
 		}
 		indentlevel--;
-		ada << ");\n\n";
+		ada << ");" << m_newLineEndingChars << m_newLineEndingChars;
 		indentlevel--;
-		ada << spc() << "end " << pkg << ";\n\n";
+		ada << spc() << "end " << pkg << ";" << m_newLineEndingChars << m_newLineEndingChars;
 		return;
 	}
 	if (! isOOClass(c)) {
 		QString stype = c->getStereotype();
 		if (stype == "CORBAConstant") {
-			ada << spc() << "-- " << stype << " is Not Yet Implemented\n\n";
+			ada << spc() << "-- " << stype << " is Not Yet Implemented" << m_newLineEndingChars << m_newLineEndingChars;
 		} else if (myClass && myClass->isEnumeration()) {
 			UMLAttributeList *atl = myClass->getFilteredAttributeList();
 			UMLAttribute *at;
-			ada << spc() << "type " << classname << " is (\n";
+			ada << spc() << "type " << classname << " is (" << m_newLineEndingChars;
 			indentlevel++;
 			uint i = 0;
 			for (at = atl->first(); at; at = atl->next()) {
 				QString enumLiteral = cleanName(at->getName());
 				ada << spc() << enumLiteral;
 				if (++i < atl->count())
-					ada << ",\n";
+					ada << "," << m_newLineEndingChars;
 			}
 			indentlevel--;
-			ada << ");\n\n";
+			ada << ");" << m_newLineEndingChars << m_newLineEndingChars;
 		} else if(stype == "CORBAStruct") {
 			if(myClass) {
 				UMLAttributeList *atl = myClass->getFilteredAttributeList();
 				UMLAttribute *at;
-				ada << spc() << "type " << classname << " is record\n";
+				ada << spc() << "type " << classname << " is record" << m_newLineEndingChars;
 				indentlevel++;
 				for (at = atl->first(); at; at = atl->next()) {
 					QString name = cleanName(at->getName());
@@ -243,29 +246,29 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 					QString initialVal = at->getInitialValue();
 					if (initialVal.latin1() && ! initialVal.isEmpty())
 						ada << " := " << initialVal;
-					ada << ";\n";
+					ada << ";" << m_newLineEndingChars;
 				}
 				indentlevel--;
-				ada << spc() << "end record;\n\n";
+				ada << spc() << "end record;" << m_newLineEndingChars << m_newLineEndingChars;
 			}
 		} else if(stype == "CORBAUnion") {
-			ada << spc() << "-- " << stype << " is Not Yet Implemented\n\n";
+			ada << spc() << "-- " << stype << " is Not Yet Implemented" << m_newLineEndingChars << m_newLineEndingChars;
 		} else if(stype == "CORBATypedef") {
-			ada << spc() << "-- " << stype << " is Not Yet Implemented\n\n";
+			ada << spc() << "-- " << stype << " is Not Yet Implemented" << m_newLineEndingChars << m_newLineEndingChars;
 		} else {
-			ada << spc() << "-- " << stype << ": Unknown stereotype\n\n";
+			ada << spc() << "-- " << stype << ": Unknown stereotype" << m_newLineEndingChars << m_newLineEndingChars;
 		}
 		indentlevel--;
-		ada << spc() << "end " << pkg << ";\n\n";
+		ada << spc() << "end " << pkg << ";" << m_newLineEndingChars << m_newLineEndingChars;
 		return;
 	}
 
 	// Write class Documentation if non-empty or if force option set.
 	if (forceDoc() || !c->getDoc().isEmpty()) {
-		ada << "--\n";
+		ada << "--" << m_newLineEndingChars;
 		ada << "-- class " << classname << endl;
 		ada << formatDoc(c->getDoc(), "-- ");
-		ada << "\n";
+		ada << m_newLineEndingChars;
 	}
 
 	UMLClassifierList superclasses = c->getSuperClasses();
@@ -280,8 +283,8 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 		UMLClassifier* parent = superclasses.first();
 		ada << "new " << qualifiedName(parent) << ".Object with ";
 	}
-	ada << "private;\n\n";
-	ada << spc() << "type Object_Ptr is access all Object'Class;\n\n";
+	ada << "private;" << m_newLineEndingChars << m_newLineEndingChars;
+	ada << spc() << "type Object_Ptr is access all Object'Class;" << m_newLineEndingChars << m_newLineEndingChars;
 
 	// Generate accessors for public attributes.
 	UMLAttributeList *atl = NULL;
@@ -297,17 +300,18 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 				atpub.append(at);
 		}
 		if (forceSections() || atpub.count())
-			ada << spc() << "-- Accessors for public attributes:\n\n";
+			ada << spc() << "-- Accessors for public attributes:" << m_newLineEndingChars << m_newLineEndingChars;
 		for (at = atpub.first(); at; at = atpub.next()) {
 			QString member = cleanName(at->getName());
 			ada << spc() << "procedure Set_" << member << " (";
 			if (! at->getStatic())
 				ada << "Self : access Object; ";
-			ada << "To : " << at->getTypeName() << ");\n";
+			ada << "To : " << at->getTypeName() << ");" << m_newLineEndingChars;
 			ada << spc() << "function  Get_" << member;
 			if (! at->getStatic())
 				ada << " (Self : access Object)";
-			ada << " return " << at->getTypeName() << ";\n\n";
+			ada << " return " << at->getTypeName() << ";" << m_newLineEndingChars
+<< m_newLineEndingChars;
 		}
 	}
 
@@ -321,12 +325,12 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 			oppub.append(op);
 	}
 	if (forceSections() || oppub.count())
-		ada << spc() << "-- Public methods:\n\n";
+		ada << spc() << "-- Public methods:" << m_newLineEndingChars << m_newLineEndingChars;
 	for (op = oppub.first(); op; op = oppub.next())
 		writeOperation(op, ada);
 
 	indentlevel--;
-	ada << spc() << "private\n\n";
+	ada << spc() << "private" << m_newLineEndingChars << m_newLineEndingChars;
 	indentlevel++;
 
 	// Generate auxiliary declarations for multiplicity of associations
@@ -340,9 +344,9 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 			// Handling of packages is missing here
 			// A test and error action is missing here for !isOOClass()
 			ada << spc() << "type " << member << "_Array is array"
-			    << " (Positive range <>) of " << member << ".Object_Ptr;\n";
+			    << " (Positive range <>) of " << member << ".Object_Ptr;" << m_newLineEndingChars;
 			ada << spc() << "type " << member << "_Array_Access is access "
-			    << member << "_array;\n\n";
+			    << member << "_array;" << m_newLineEndingChars << m_newLineEndingChars;
 		}
 	}
 	UMLAssociationList compositions = c->getCompositions();
@@ -355,9 +359,9 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 			// Handling of packages is missing here
 			// Treatment of !isOOClass() is missing here
 			ada << spc() << "type " << member << "_Array is array"
-			    << " (Positive range <>) of " << member << ".Object;\n";
+			    << " (Positive range <>) of " << member << ".Object;" << m_newLineEndingChars;
 			ada << spc() << "type " << member << "_Array_Access is access "
-			    << member << "_array;\n\n";
+			    << member << "_array;" << m_newLineEndingChars << m_newLineEndingChars;
 		}
 	}
 
@@ -371,30 +375,30 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 		UMLClassifier* parent = superclasses.first();
 		ada << "new " << qualifiedName(parent) << ".Object with ";
 	}
-	ada << "record\n";
+	ada << "record" << m_newLineEndingChars;
 	indentlevel++;
 
 	if (forceSections() || !aggregations.isEmpty()) {
-		ada << spc() << "-- Aggregations:\n";
+		ada << spc() << "-- Aggregations:" << m_newLineEndingChars;
 		for (UMLAssociation *a = aggregations.first(); a; a = aggregations.next()) {
 			QString typeName, roleName;
 			computeAssocTypeAndRole(a, typeName, roleName);
-			ada << spc() << roleName << " : " << typeName << ";\n";
+			ada << spc() << roleName << " : " << typeName << ";" << m_newLineEndingChars;
 		}
 		ada << endl;
 	}
 	if (forceSections() || !compositions.isEmpty()) {
-		ada << spc() << "-- Compositions:\n";
+		ada << spc() << "-- Compositions:" << m_newLineEndingChars;
 		for (UMLAssociation *a = compositions.first(); a; a = compositions.next()) {
 			QString typeName, roleName;
 			computeAssocTypeAndRole(a, typeName, roleName);
-			ada << spc() << roleName << " : " << typeName << ";\n";
+			ada << spc() << roleName << " : " << typeName << ";" << m_newLineEndingChars;
 		}
 		ada << endl;
 	}
 
 	if (myClass && (forceSections() || atl->count())) {
-		ada << spc() << "-- Attributes:\n";
+		ada << spc() << "-- Attributes:" << m_newLineEndingChars;
 		UMLAttribute *at;
 		for (at = atl->first(); at; at = atl->next()) {
 			if (at->getStatic())
@@ -403,21 +407,21 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 			    << at->getTypeName();
 			if (at && at->getInitialValue().latin1() && ! at->getInitialValue().isEmpty())
 				ada << " := " << at->getInitialValue();
-			ada << ";\n";
+			ada << ";" << m_newLineEndingChars;
 		}
 	}
 	bool haveAttrs = (myClass && atl->count());
 	if (aggregations.isEmpty() && compositions.isEmpty() && !haveAttrs)
-		ada << spc() << "null;\n";
+		ada << spc() << "null;" << m_newLineEndingChars;
 	indentlevel--;
-	ada << spc() << "end record;\n\n";
+	ada << spc() << "end record;" << m_newLineEndingChars << m_newLineEndingChars;
 	if (haveAttrs) {
 		bool seen_static_attr = false;
 		for (UMLAttribute *at = atl->first(); at; at = atl->next()) {
 			if (! at->getStatic())
 				continue;
 			if (! seen_static_attr) {
-				ada << spc() << "-- Static attributes:\n";
+				ada << spc() << "-- Static attributes:" << m_newLineEndingChars;
 				seen_static_attr = true;
 			}
 			ada << spc();
@@ -426,10 +430,10 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 			ada << cleanName(at->getName()) << " : " << at->getTypeName();
 			if (at && at->getInitialValue().latin1() && ! at->getInitialValue().isEmpty())
 				ada << " := " << at->getInitialValue();
-			ada << ";\n";
+			ada << ";" << m_newLineEndingChars;
 		}
 		if (seen_static_attr)
-			ada << "\n";
+			ada << m_newLineEndingChars;
 	}
 	// Generate protected operations.
 	UMLOperationList opprot;
@@ -439,7 +443,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 			opprot.append(op);
 	}
 	if (forceSections() || opprot.count())
-		ada << spc() << "-- Protected methods:\n\n";
+		ada << spc() << "-- Protected methods:" << m_newLineEndingChars << m_newLineEndingChars;
 	for (op = opprot.first(); op; op = opprot.next())
 		writeOperation(op, ada);
 
@@ -456,12 +460,12 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 			oppriv.append(op);
 	}
 	if (forceSections() || oppriv.count())
-		ada << spc() << "-- Private methods:\n\n";
+		ada << spc() << "-- Private methods:" << m_newLineEndingChars << m_newLineEndingChars;
 	for (op = oppriv.first(); op; op = oppriv.next())
 		writeOperation(op, ada, true);
 
 	indentlevel--;
-	ada << spc() << "end " << pkg << ";\n\n";
+	ada << spc() << "end " << pkg << ";" << m_newLineEndingChars << m_newLineEndingChars;
 	file.close();
 	emit codeGenerated(c, true);
 }
@@ -485,7 +489,7 @@ void AdaWriter::writeOperation(UMLOperation *op, QTextStream &ada, bool is_comme
 	if (! op->getStatic()) {
 		ada << "Self : access Object";
 		if (atl->count())
-			ada << ";\n";
+			ada << ";" << m_newLineEndingChars;
 	}
 	if (atl->count()) {
 		uint i = 0;
@@ -506,7 +510,7 @@ void AdaWriter::writeOperation(UMLOperation *op, QTextStream &ada, bool is_comme
 			if (! at->getInitialValue().isEmpty())
 				ada << " := " << at->getInitialValue();
 			if (++i < atl->count()) //FIXME gcc warning
-				ada << ";\n";
+				ada << ";" << m_newLineEndingChars;
 		}
 		indentlevel--;
 	}
@@ -514,7 +518,7 @@ void AdaWriter::writeOperation(UMLOperation *op, QTextStream &ada, bool is_comme
 		ada << ")";
 	if (! use_procedure)
 		ada << " return " << rettype;
-	ada << " is abstract;\n\n";
+	ada << " is abstract;" << m_newLineEndingChars << m_newLineEndingChars;
 	// TBH, we make the methods abstract here because we don't have the means
 	// for generating meaningful implementations.
 }

@@ -37,7 +37,7 @@ void JSWriter::writeClass(UMLClassifier *c)
 {
 	if(!c)
 	{
-		kdDebug()<<"Cannot write class of NULL concept!\n";
+		kdDebug()<<"Cannot write class of NULL concept!" << endl;
 		return;
 	}
 
@@ -110,7 +110,7 @@ void JSWriter::writeClass(UMLClassifier *c)
 
 	js << classname << " = function ()" << endl;
 	js << "{" << endl;
-	js << "\tthis._init ();" << endl;
+	js << m_indentation << "this._init ();" << endl;
 	js << "}" << endl;
 	js << endl;
 
@@ -137,17 +137,17 @@ void JSWriter::writeClass(UMLClassifier *c)
 		{
 			if (forceDoc() || !at->getDoc().isEmpty())
 			{
-				js << "\t/**" << endl
-				 << formatDoc(at->getDoc(), "\t * ")
-				 << "\t */" << endl;
+				js << m_indentation << "/**" << endl
+				 << formatDoc(at->getDoc(), m_indentation + " * ")
+				 << m_indentation << " */" << endl;
 			}
 			if(!at->getInitialValue().isEmpty())
 			{
-				js << "\tthis.m_" << cleanName(at->getName()) << " = " << at->getInitialValue() << ";" << endl;
+				js << m_indentation << "this.m_" << cleanName(at->getName()) << " = " << at->getInitialValue() << ";" << endl;
 			}
 			else
 			{
-	 			js << "\tthis.m_" << cleanName(at->getName()) << " = \"\";" << endl;
+	 			js << m_indentation << "this.m_" << cleanName(at->getName()) << " = \"\";" << endl;
 			}
 		}
 	}
@@ -156,27 +156,27 @@ void JSWriter::writeClass(UMLClassifier *c)
 	UMLAssociationList aggregations = c->getAggregations();
 	if (forceSections() || !aggregations.isEmpty ())
 	{
-		js << "\n\t/**Aggregations: */\n";
+		js << m_newLineEndingChars << m_indentation << "/**Aggregations: */" << m_newLineEndingChars;
 		for (UMLAssociation* a = aggregations.first(); a; a = aggregations.next())
 		{
 			QString nm(cleanName(a->getObject(A)->getName()));
 			if (a->getMulti(A).isEmpty())
-				js << "\tthis.m_" << nm << " = new " << nm << " ();\n";
+				js << m_indentation << "this.m_" << nm << " = new " << nm << " ();" << m_newLineEndingChars;
 			else
-				js << "\tthis.m_" << nm.lower() << " = new Array ();\n";
+				js << m_indentation << "this.m_" << nm.lower() << " = new Array ();" << m_newLineEndingChars;
 		}
 	}
 	UMLAssociationList compositions = c->getCompositions();
 	if( forceSections() || !compositions.isEmpty())
 	{
-		js << "\n\t/**Compositions: */\n";
+		js << m_newLineEndingChars << m_indentation << "/**Compositions: */" << m_newLineEndingChars;
 		for (UMLAssociation *a = compositions.first(); a; a = compositions.next())
 		{
 			QString nm(cleanName(a->getObject(A)->getName()));
 			if(a->getMulti(A).isEmpty())
-				js << "\tthis.m_" << nm << " = new "<< nm << " ();\n";
+				js << m_indentation << "this.m_" << nm << " = new "<< nm << " ();" << m_newLineEndingChars;
 			else
-				js << "\tthis.m_" << nm.lower() << " = new Array ();\n";
+				js << m_indentation << "this.m_" << nm.lower() << " = new Array ();" << m_newLineEndingChars;
 		}
 	}
 	js << endl;
@@ -215,7 +215,7 @@ void JSWriter::writeOperations(QString classname, UMLOperationList *opList, QTex
 
 		if( writeDoc )  //write method documentation
 		{
-			js << "/**\n" << formatDoc(op->getDoc()," * ");
+			js << "/**" << m_newLineEndingChars << formatDoc(op->getDoc()," * ");
 
 			for(at = atl->first(); at ; at = atl -> next())  //write parameter documentation
 			{
@@ -238,8 +238,9 @@ void JSWriter::writeOperations(QString classname, UMLOperationList *opList, QTex
 				 << (!(at->getInitialValue().isEmpty()) ? (QString(" = ")+at->getInitialValue()) : QString(""))
 				 << ((j < i-1)?", ":"");
 		}
-		js << ")\n{\n\t\n}\n";
-		js << "\n" << endl;
+		js << ")" << m_newLineEndingChars << "{" << m_newLineEndingChars <<
+		m_indentation << m_newLineEndingChars << "}" << m_newLineEndingChars;
+		js << m_newLineEndingChars << endl;
 	}//end for
 }
 

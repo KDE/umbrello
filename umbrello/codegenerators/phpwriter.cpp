@@ -36,7 +36,7 @@ PhpWriter::~PhpWriter() {}
 
 void PhpWriter::writeClass(UMLClassifier *c) {
 	if(!c) {
-		kdDebug()<<"Cannot write class of NULL concept!\n";
+		kdDebug()<<"Cannot write class of NULL concept!" << endl;
 		return;
 	}
 
@@ -111,35 +111,35 @@ void PhpWriter::writeClass(UMLClassifier *c) {
 		obj; obj = superclasses.next()) {
  		php<<cleanName(obj->getName());
 	}
-	php<<"\n{\n";
+	php<< m_newLineEndingChars << "{" << m_newLineEndingChars;
 
 	//associations
 	if( forceSections() || !aggregations.isEmpty()) {
-		php<<"\n\t/** Aggregations: */\n";
+		php<< m_newLineEndingChars << m_indentation << "/** Aggregations: */" << m_newLineEndingChars;
 		for (a = aggregations.first(); a; a = aggregations.next()) {
-			php<<"\n";
+			php<< m_newLineEndingChars;
 			//maybe we should parse the string here and take multiplicity into account to decide
 			//which container to use.
 			UMLObject *o = m_doc->findUMLObject(a->getRoleId(A));
 			QString typeName = cleanName(o->getName());
 			if (a->getMulti(A).isEmpty())  {
-				php << "\tvar $m_" << ";" << endl;
+				php << m_indentation << "var $m_" << ";" << endl;
 			} else {
-				php << "\tvar $m_" << "Vector = array();" << endl;
+				php << m_indentation << "var $m_" << "Vector = array();" << endl;
 			}
 		}//end for
 	}
 
 	if( forceSections() || !compositions.isEmpty()) {
-		php<<"\n\t/** Compositions: */\n";
+		php<< m_newLineEndingChars << m_indentation << "/** Compositions: */" << m_newLineEndingChars;
 		for (a = compositions.first(); a ; a = compositions.next()) {
 			// see comment on Aggregation about multiplicity...
 			UMLObject *o = m_doc->findUMLObject(a->getRoleId(A));
 			QString typeName = cleanName(o->getName());
 			if (a->getMulti(A).isEmpty())  {
-				php << "\tvar $m_" << ";" << endl;
+				php << m_indentation << "var $m_" << ";" << endl;
 			} else {
-				php << "\tvar $m_" << "Vector = array();" << endl;
+				php << m_indentation << "var $m_" << "Vector = array();" << endl;
 			}
 		}
 	}
@@ -157,26 +157,26 @@ void PhpWriter::writeClass(UMLClassifier *c) {
 		UMLAttributeList *atl = myClass->getFilteredAttributeList();
 		php << endl;
 
-		php << "\t/**" << endl;
+		php << m_indentation << "/**" << endl;
 		QString temp = "initAttributes sets all " + classname + " attributes to its default \
 			       value make sure to call this method within your class constructor";
-		php << formatDoc(temp,"\t * ");
-		php << "\t */" << endl;
-		php << "\tfunction "<<"initAttributes( )" << endl;
-		php << "\t{" << endl;
+		php << formatDoc(temp,m_indentation + " * ");
+		php << m_indentation << " */" << endl;
+		php << m_indentation << "function "<<"initAttributes( )" << endl;
+		php << m_indentation << "{" << endl;
 		for(UMLAttribute* at = atl->first(); at; at = atl->next())  {
 			if(!at->getInitialValue().isEmpty())  {
-				php << "\t\t$this->" << cleanName(at->getName()) << " = " <<
+				php << m_indentation << m_indentation << "$this->" << cleanName(at->getName()) << " = " <<
 					at->getInitialValue() << ";" << endl;
 			}
 		}
-		php << "\t}" << endl;
+		php << m_indentation << "}" << endl;
 	}
 
 	php << endl;
 
 	//finish file
-	php << "\n} // end of " << classname << endl;
+	php <<  m_newLineEndingChars << "} // end of " << classname << endl;
 	php << "?>" << endl;
 
 	//close files and notfiy we are done
@@ -245,35 +245,34 @@ void PhpWriter::writeOperations(QString /* classname */, UMLOperationList &opLis
 
 		if( writeDoc )  //write method documentation
 		{
-			php <<"\t/**\n"
-			<<formatDoc(op->getDoc(),"\t * ");
-			php << "\t *\n";
+			php <<m_indentation << "/**" << m_newLineEndingChars <<formatDoc(op->getDoc(),m_indentation + " * ");
+			php << m_indentation << " *" << m_newLineEndingChars;
 
 			for(at = atl->first(); at ; at = atl -> next())  //write parameter documentation
 			{
 				if(forceDoc() || !at->getDoc().isEmpty()) {
-					php <<"\t * @param " + at->getTypeName() + " " + cleanName(at->getName());
+					php <<m_indentation << " * @param " + at->getTypeName() + " " + cleanName(at->getName());
 					php << " " + formatDoc(at->getDoc(),"");
 				}
 			}//end for : write parameter documentation
-			php << "\t * @return " << op->getReturnType() << endl;
-			if (op->getAbstract()) php << "\t * @abstract\n";
-			if (op->getStatic()) php << "\t * @static\n";
+			php << m_indentation << " * @return " << op->getReturnType() << endl;
+			if (op->getAbstract()) php << m_indentation << " * @abstract" << m_newLineEndingChars;
+			if (op->getStatic()) php << m_indentation << " * @static" << m_newLineEndingChars;
 			switch(op->getScope()) {
 				case Uml::Public:
-					php << "\t * @access public\n";
+					php << m_indentation << " * @access public" << m_newLineEndingChars;
 					break;
 				case Uml::Protected:
-					php << "\t * @access protected\n";
+					php << m_indentation << " * @access protected" << m_newLineEndingChars;
 					break;
 				case Uml::Private:
-					php << "\t * @access private\n";
+					php << m_indentation << " * @access private" << m_newLineEndingChars;
 					break;
 			}
-			php <<"\t */" << endl;
+			php <<m_indentation << " */" << endl;
 		}//end if : write method documentation
 
-		php <<  "\tfunction " << cleanName(op->getName()) << "(";
+		php <<  m_indentation << "function " << cleanName(op->getName()) << "(";
 
 		int i= atl->count();
 		int j=0;
@@ -284,7 +283,7 @@ void PhpWriter::writeOperations(QString /* classname */, UMLOperationList &opLis
 			    QString(""))
 			<< ((j < i-1)?", ":"");
 		}
-		php <<" )\n\t{\n\t\t\n\t} // end of member function " + cleanName(op->getName()) + "\n";
+		php <<" )" << m_newLineEndingChars << m_indentation << "{" << m_newLineEndingChars << m_indentation << m_indentation << m_newLineEndingChars << m_indentation << "} // end of member function " + cleanName(op->getName()) + m_newLineEndingChars;
 		php << endl;
 	}//end for
 }
@@ -318,7 +317,7 @@ void PhpWriter::writeAttributes(UMLClass *c, QTextStream &php) {
 	}
 
 	if(forceSections() || atl->count())
-		php<<"\n\t/*** Attributes: ***/\n"<<endl;
+		php<< m_newLineEndingChars << m_indentation << " /*** Attributes: ***/" << m_newLineEndingChars <<endl;
 
 	if(forceSections() || atpub.count()) {
 		writeAttributes(atpub,php);
@@ -337,23 +336,22 @@ void PhpWriter::writeAttributes(UMLClass *c, QTextStream &php) {
 void PhpWriter::writeAttributes(UMLAttributeList &atList, QTextStream &php) {
 	for (UMLAttribute *at = atList.first(); at ; at = atList.next()) {
 		if (forceDoc() || !at->getDoc().isEmpty()) {
-			php << "\t/**" << endl
-			<< formatDoc(at->getDoc(), "\t * ");
+			php << m_indentation << "/**" << endl << formatDoc(at->getDoc(), m_indentation + " * ");
 			switch(at->getScope()) {
 				case Uml::Public:
-					php << "\t * @access public" << endl;
+					php << m_indentation << " * @access public" << endl;
 					break;
 				case Uml::Protected:
-					php << "\t * @access protected" << endl;
+					php << m_indentation << " * @access protected" << endl;
 					break;
 				case Uml::Private:
-					php << "\t * @access private" << endl;
+					php << m_indentation << " * @access private" << endl;
 					break;
 			}
 
-			php << "\t */" << endl;
+			php << m_indentation << " */" << endl;
 		}
-		php << "\tvar " << "$" << cleanName(at->getName()) << ";" << endl;
+		php << m_indentation << "var " << "$" << cleanName(at->getName()) << ";" << endl;
 
 	} // end for
 	return;
