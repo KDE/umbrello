@@ -1537,7 +1537,8 @@ bool UMLView::activate() {
 		//If this UMLWidget is already activated or is a MessageWidget then skip it
 		if(obj->isActivated() || obj->getBaseType() == wt_Message)
 			continue;
-		if (!m_pDoc->loading() && !obj->activate())
+
+		if (!obj->activate())
 			continue;
 		obj -> setVisible( true );
 	}//end while
