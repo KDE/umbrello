@@ -32,7 +32,7 @@
 #include "dialogs/umlattributedialog.h"
 #include "dialogs/umltemplatedialog.h"
 #include "dialogs/umloperationdialog.h"
-#include "dialogs/classpropertiespage.h"
+
 
 #include <qpainter.h>
 #include <qtimer.h>
@@ -1049,18 +1049,6 @@ void UMLDoc::showProperties(UMLObject* object, int page, bool assoc) {
 		setModified(true);
 	}
 	dialogue->close(true);//wipe from memory
-/*
-	if(typeid(*object) == typeid(UMLClassifier))
-	{
-	kdDebug()<<"showing props for class"<<endl;
-	ClassPropertiesPage *p = new ClassPropertiesPage(dynamic_cast<UMLClassifier*>(object),0L,"class page" );
-	p->show();
-	}
-	else
-	{
-	kdDebug()<<"object is of type "<<typeid(*object).name()<<" and not of type "<<typeid(UMLClassifier).name()<<endl;
-	}
-*/
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
