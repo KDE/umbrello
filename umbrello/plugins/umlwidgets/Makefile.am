@@ -1,7 +1,7 @@
 
 SUBDIRS = dialogs
 
-INCLUDES = -I. $(all_includes)
+INCLUDES = -I../../dialogs -Idialogs $(all_includes)
 LDFLAGS = $(all_libraries)
 LDADD = $(LIB_KDECORE)
 
