@@ -84,7 +84,12 @@ UMLObject* UMLConcept::addOperation(QString name, int id) {
 	return o;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-bool UMLConcept::addOperation(UMLOperation* Op, IDChangeLog* Log /* = 0*/) {
+bool UMLConcept::addOperation(UMLOperation* Op) {
+	m_OpsList.append( Op );
+	return true;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+bool UMLConcept::addOperation(UMLOperation* Op, IDChangeLog* Log) {
 	QString name = (QString)Op -> getName();
 	if( findChildObject( Uml::ot_Operation, name).count() == 0 ) {
 		Op -> parent() -> removeChild( Op );

@@ -110,7 +110,15 @@ public:
 	 *	Adds an already created Operation. The Operation must not belong to any other
 	 *	concept
 	 */
-	bool addOperation(UMLOperation* Op, IDChangeLog* Log = 0);
+	bool addOperation(UMLOperation* Op);
+
+	/**
+	 *	Adds an already created Operation and checks for
+	 *	operations with the same name. The Operation must not
+	 *	belong to any other concept.  Used by the clipboard
+	 *	when pasteing.
+	 */
+	bool addOperation(UMLOperation* Op, IDChangeLog* Log);
 
 	/**
 	 *	Remove an operation from the Concept.
