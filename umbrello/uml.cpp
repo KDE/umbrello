@@ -517,7 +517,9 @@ void UMLApp::readOptions() {
 	fileOpenRecent->loadEntries(config,"Recent Files");
 	config->setGroup("General Options");
 	setImageMimetype(config->readEntry("imageMimetype","image/png"));
-	resize( config->readSizeEntry("Geometry", new QSize(630,460)) );
+	QSize * tmpQSize = new QSize(630,460);
+	resize( config->readSizeEntry("Geometry", tmpQSize) );
+	delete tmpQSize;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
