@@ -34,6 +34,11 @@
 #include "classparser/driver.h"
 #include "classparser/cpptree2uml.h"
 
+// static members
+CppDriver * ClassImport::ms_driver;
+QStringList ClassImport::ms_seenFiles;
+bool ClassImport::ms_putAtGlobalScope;
+
 class CppDriver : public Driver {
 public:
 	void setupLexer(Lexer* lexer) {
@@ -42,10 +47,9 @@ public:
 	}
 };
 
-ClassImport::ClassImport(UMLDoc * parentDoc) {
-	m_umldoc = parentDoc;
-	m_driver = new CppDriver();
-	m_putAtGlobalScope = false;
+ClassImport::ClassImport() {
+	ms_driver = new CppDriver();
+	ms_putAtGlobalScope = false;
 }
 
 ClassImport::~ClassImport() {}
@@ -84,7 +88,7 @@ QString ClassImport::formatComment(const QString &comment) {
 UMLObject* ClassImport::findUMLObject(QString name,
 				      Uml::Object_Type type) {
 	// Why an extra wrapper? See comment at addMethodParameter()
-	UMLObject * o = m_umldoc->findUMLObject(name, type);
+	UMLObject * o = umldoc->findUMLObject(name, type);
 	return o;
 }
  */
@@ -94,7 +98,8 @@ UMLObject *ClassImport::createUMLObject(Uml::Object_Type type,
 					UMLPackage *parentPkg,
 					QString comment,
 					QString stereotype) {
-	UMLObject * o = m_umldoc->findUMLObject(name, type, parentPkg);
+	UMLDoc *umldoc = UMLApp::app()->getDocument();
+	UMLObject * o = umldoc->findUMLObject(name, type, parentPkg);
 	if (o == NULL) {
 		// Strip possible adornments and look again.
 		int isConst = name.contains(QRegExp("^const "));
@@ -103,10 +108,10 @@ UMLObject *ClassImport::createUMLObject(Uml::Object_Type type,
 		int isPointer = typeName.contains('*');
 		int isRef = typeName.contains('&');
 		typeName.remove(QRegExp("[^\\w: ].*$"));
-		UMLObject *origType = m_umldoc->findUMLObject(typeName, Uml::ot_UMLObject, parentPkg);
+		UMLObject *origType = umldoc->findUMLObject(typeName, Uml::ot_UMLObject, parentPkg);
 		if (origType == NULL) {
 			// Still not found. Create the stripped down type.
-			if (m_putAtGlobalScope)
+			if (ms_putAtGlobalScope)
 				parentPkg = NULL;
 			// Find, or create, the scopes.
 			if (typeName.contains("::")) {
@@ -116,7 +121,7 @@ UMLObject *ClassImport::createUMLObject(Uml::Object_Type type,
 				while ( components.count() ) {
 					QString scopeName = components.front();
 					components.pop_front();
-					o = m_umldoc->findUMLObject(scopeName, Uml::ot_UMLObject, parentPkg);
+					o = umldoc->findUMLObject(scopeName, Uml::ot_UMLObject, parentPkg);
 					if (o) {
 						parentPkg = static_cast<UMLPackage*>(o);
 						continue;
@@ -126,24 +131,24 @@ UMLObject *ClassImport::createUMLObject(Uml::Object_Type type,
 						i18n("C++ Import Requests Your Help"),
 						i18n("Namespace"), i18n("Class"));
 					Uml::Object_Type ot = (wantNamespace == KMessageBox::Yes ? Uml::ot_Package : Uml::ot_Class);
-					o = m_umldoc->createUMLObject(ot, scopeName, parentPkg);
+					o = umldoc->createUMLObject(ot, scopeName, parentPkg);
 					parentPkg = static_cast<UMLPackage*>(o);
 				}
 				// All scope qualified datatypes live in the global scope.
-				m_putAtGlobalScope = true;
+				ms_putAtGlobalScope = true;
 			}
 			Uml::Object_Type t = type;
 			if (type == Uml::ot_UMLObject || isConst || isRef || isPointer)
 				t = Uml::ot_Class;
-			origType = m_umldoc->createUMLObject(t, typeName, parentPkg);
+			origType = umldoc->createUMLObject(t, typeName, parentPkg);
 		}
 		if (isConst || isPointer || isRef) {
 			// Create the full given type (including adornments.)
 			if (isConst)
 				name.prepend("const ");
-			if (m_putAtGlobalScope)
+			if (ms_putAtGlobalScope)
 				parentPkg = NULL;
-			o = m_umldoc->createUMLObject(Uml::ot_Datatype, name, parentPkg);
+			o = umldoc->createUMLObject(Uml::ot_Datatype, name, parentPkg);
 			UMLDatatype *dt = static_cast<UMLDatatype*>(o);
 			UMLClassifier *c = dynamic_cast<UMLClassifier*>(origType);
 			if (c)
@@ -155,7 +160,7 @@ UMLObject *ClassImport::createUMLObject(Uml::Object_Type type,
 			dt->setIsReference();
 			/*
 			if (isPointer) {
-				UMLObject *pointerDecl = m_umldoc->createUMLObject(Uml::ot_Datatype, type);
+				UMLObject *pointerDecl = umldoc->createUMLObject(Uml::ot_Datatype, type);
 				UMLDatatype *dt = static_cast<UMLDatatype*>(pointerDecl);
 				dt->setOriginType(classifier);
 				dt->setIsReference();
@@ -164,7 +169,7 @@ UMLObject *ClassImport::createUMLObject(Uml::Object_Type type,
 		} else {
 			o = origType;
 		}
-	} else if (parentPkg && !m_putAtGlobalScope) {
+	} else if (parentPkg && !ms_putAtGlobalScope) {
 		o->setUMLPackage(parentPkg);
 	}
 	QString strippedComment = formatComment(comment);
@@ -198,9 +203,9 @@ UMLObject* ClassImport::insertAttribute(UMLClass *owner, Uml::Scope scope, QStri
 	}
 	UMLObject *attrType = owner->findTemplate(type);
 	if (attrType == NULL) {
-		m_putAtGlobalScope = true;
+		ms_putAtGlobalScope = true;
 		attrType = createUMLObject(Uml::ot_UMLObject, type, owner);
-		m_putAtGlobalScope = false;
+		ms_putAtGlobalScope = false;
 	}
 	UMLAttribute *attr = owner->addAttribute(name, attrType, scope);
 	attr->setStatic(isStatic);
@@ -210,7 +215,7 @@ UMLObject* ClassImport::insertAttribute(UMLClass *owner, Uml::Scope scope, QStri
 		UMLApp::app()->getDocWindow()->showDocumentation(attr, true);
 	}
 
-	m_umldoc->setModified(true);
+	UMLApp::app()->getDocument()->setModified(true);
 	return attr;
 }
 
@@ -225,9 +230,9 @@ void ClassImport::insertMethod(UMLClassifier *klass, UMLOperation *op,
 		} else {
 			UMLObject *typeObj = klass->findTemplate(type);
 			if (typeObj == NULL) {
-				m_putAtGlobalScope = true;
+				ms_putAtGlobalScope = true;
 				typeObj = createUMLObject(Uml::ot_UMLObject, type, klass);
-				m_putAtGlobalScope = false;
+				ms_putAtGlobalScope = false;
 				op->setType(typeObj);
 			}
 		}
@@ -235,7 +240,7 @@ void ClassImport::insertMethod(UMLClassifier *klass, UMLOperation *op,
 	op->setStatic(isStatic);
 	op->setAbstract(isAbstract);
 	klass->addOperation(op);
-	//m_umldoc->signalUMLObjectCreated(op);
+	//umldoc->signalUMLObjectCreated(op);
 	QString strippedComment = formatComment(comment);
 	if (! strippedComment.isEmpty()) {
 		op->setDoc(strippedComment);
@@ -249,9 +254,9 @@ UMLAttribute* ClassImport::addMethodParameter(UMLOperation *method,
 	UMLClassifier *owner = static_cast<UMLClassifier*>(method->parent());
 	UMLObject *typeObj = owner->findTemplate(type);
 	if (typeObj == NULL) {
-		m_putAtGlobalScope = true;
+		ms_putAtGlobalScope = true;
 		typeObj = createUMLObject(Uml::ot_UMLObject, type, owner);
-		m_putAtGlobalScope = false;
+		ms_putAtGlobalScope = false;
 	}
 	UMLAttribute *attr = new UMLAttribute(method, name);
 	attr->setType(typeObj);
@@ -268,11 +273,21 @@ void ClassImport::createGeneralization(UMLClass *child, const QString &parentNam
 	UMLClass *parent = static_cast<UMLClass*>(parentObj);
 	UMLAssociation *assoc = new UMLAssociation( Uml::at_Generalization,
 						    child, parent );
-	m_umldoc->addAssociation(assoc);
+	UMLDoc *umldoc = UMLApp::app()->getDocument();
+	umldoc->addAssociation(assoc);
+}
+
+QStringList ClassImport::includePathList() {
+	QStringList includePathList;
+	char *umbrello_incpath = getenv( "UMBRELLO_INCPATH" );
+	if (umbrello_incpath) {
+		includePathList = QStringList::split( ':', umbrello_incpath );
+	}
+	return includePathList;
 }
 
 void ClassImport::feedTheModel(QString fileName) {
-	QMap<QString, Dependence> deps = m_driver->dependences(fileName);
+	QMap<QString, Dependence> deps = ms_driver->dependences(fileName);
 	if (! deps.empty()) {
 		QMap<QString, Dependence>::Iterator it;
 		for (it = deps.begin(); it != deps.end(); ++it) {
@@ -285,75 +300,69 @@ void ClassImport::feedTheModel(QString fileName) {
 				continue;
 			}
 			kdDebug() << fileName << ": " << includeFile << " => " << it.data().first << endl;
-			if (m_seenFiles.find(includeFile) == m_seenFiles.end())
+			if (ms_seenFiles.find(includeFile) == ms_seenFiles.end())
 				feedTheModel(includeFile);
 		}
 	}
-	if (m_seenFiles.find(fileName) != m_seenFiles.end())
+	if (ms_seenFiles.find(fileName) != ms_seenFiles.end())
 		return;
-	m_seenFiles.append(fileName);
-	TranslationUnitAST *ast = m_driver->translationUnit( fileName );
+	ms_seenFiles.append(fileName);
+	TranslationUnitAST *ast = ms_driver->translationUnit( fileName );
 	if (ast == NULL) {
 		kdError() << "ClassImport::feedTheModel: " << fileName << " not found" << endl;
 		return;
 	}
-	CppTree2Uml modelFeeder( fileName, this );
-	m_umldoc->writeToStatusBar(i18n("Importing file: %1").arg(fileName));
+	CppTree2Uml modelFeeder( fileName );
+	UMLDoc *umldoc = UMLApp::app()->getDocument();
+	umldoc->writeToStatusBar(i18n("Importing file: %1").arg(fileName));
 	modelFeeder.parseTranslationUnit( ast );
 }
 
 void ClassImport::importIDL(QStringList idlFileList) {
-	char *umbrello_incpath = getenv( "UMBRELLO_INCPATH" );
-	if (umbrello_incpath) {
-		m_includePathList = QStringList::split( ':', umbrello_incpath );
-	}
+	UMLDoc *umldoc = UMLApp::app()->getDocument();
 	for (QStringList::Iterator fileIT = idlFileList.begin();
 				   fileIT != idlFileList.end(); ++fileIT) {
 		QString fileName = (*fileIT);
-		m_umldoc->writeToStatusBar(i18n("Importing file: %1").arg(fileName));
+		umldoc->writeToStatusBar(i18n("Importing file: %1").arg(fileName));
 		IDLImport::parseFile(fileName);
 	}
 }
 
 void ClassImport::importCPP(QStringList headerFileList) {
 	// Reset the driver
-	m_driver->reset();
+	ms_driver->reset();
 	// The driver shall attempt to parse included files.
-	m_driver->setResolveDependencesEnabled( true );
+	ms_driver->setResolveDependencesEnabled( true );
 	// Add some standard include paths
-	m_driver->addIncludePath( "/usr/include" );
-	m_driver->addIncludePath( "/usr/include/c++" );
-	m_driver->addIncludePath( "/usr/include/g++" );
-	m_driver->addIncludePath( "/usr/local/include" );
-	// FIXME: The following hack is to be replaced by a config menu in umbrello
-	char *umbrello_incpath = getenv( "UMBRELLO_INCPATH" );
-
-	if (umbrello_incpath) {
-
-		m_includePathList = QStringList::split( ':', umbrello_incpath );
-
-		QStringList::Iterator end(m_includePathList.end());
-		for (QStringList::Iterator i(m_includePathList.begin()); i != end; ++i) {
-			m_driver->addIncludePath( *i );
+	ms_driver->addIncludePath( "/usr/include" );
+	ms_driver->addIncludePath( "/usr/include/c++" );
+	ms_driver->addIncludePath( "/usr/include/g++" );
+	ms_driver->addIncludePath( "/usr/local/include" );
+	QStringList incPathList = includePathList();
+	if (incPathList.count()) {
+		QStringList::Iterator end(incPathList.end());
+		for (QStringList::Iterator i(incPathList.begin()); i != end; ++i) {
+			ms_driver->addIncludePath( *i );
                 }
 
 	}
-	m_seenFiles.clear();
+	ms_seenFiles.clear();
+	UMLDoc *umldoc = UMLApp::app()->getDocument();
 	for (QStringList::Iterator fileIT = headerFileList.begin();
 				   fileIT != headerFileList.end(); ++fileIT) {
 		QString fileName = (*fileIT);
-		m_umldoc->writeToStatusBar(i18n("Importing file: %1").arg(fileName));
+		umldoc->writeToStatusBar(i18n("Importing file: %1").arg(fileName));
 
 		/// kapp->processEvents();
 		// Invoking kapp->processEvents() improves responsiveness when importing
 		// many large header files but slows down import because the list view is
 		// intermittently updated.
 
-		if (m_seenFiles.find(fileName) != m_seenFiles.end())
+		if (ms_seenFiles.find(fileName) != ms_seenFiles.end())
 			continue;
-		m_driver->parseFile( fileName );
+		ms_driver->parseFile( fileName );
 		feedTheModel(fileName);
 	}
-	m_umldoc->writeToStatusBar("Ready.");
+	umldoc->writeToStatusBar("Ready.");
 }
 

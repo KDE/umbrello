@@ -21,6 +21,7 @@
 #include <qtimer.h>
 #include <qwidgetstack.h>
 #include <qslider.h>
+#include <qregexp.h>
 
 // kde includes
 #include <kaction.h>
@@ -89,7 +90,7 @@ UMLApp::UMLApp(QWidget* , const char* name):KDockMainWindow(0, name) {
 	// call inits to invoke all other construction parts
 	readOptionState();
 	m_doc = new UMLDoc();
-	m_classImporter = new ClassImport(m_doc);
+	m_classImporter = new ClassImport();
 	initActions(); //now calls initStatusBar() because it is affected by setupGUI()
 	initView();
 	initClip();
@@ -184,7 +185,7 @@ void UMLApp::initActions() {
 	genAll = new KAction(i18n("&Generate All Code"),0,this,SLOT(generateAllCode()),
 	                     actionCollection(),"generate_all");
 
-	importClasses = new KAction(i18n("&Import C++ Classes..."), SmallIconSet("source_cpp"), 0,
+	importClasses = new KAction(i18n("&Import Classes..."), SmallIconSet("source_cpp"), 0,
 				    this,SLOT(slotImportClasses()), actionCollection(),"import_class");
 
 	fileNew->setStatusText(i18n("Creates a new document"));
@@ -1400,20 +1401,28 @@ ClassImport * UMLApp::classImport() {
 }
 
 void UMLApp::slotImportClasses() {
-	QStringList fileList;
 	m_doc->setLoading(true);
+	// File selection is separated from invocation of ClassImport::import()
+	// because the user might decide to choose a language different from 
+	// the m_activeLanguage (by using the "All Files" option).
+	QString preselectedExtension;
 	if (m_activeLanguage == "IDL") {
-		fileList = KFileDialog::getOpenFileNames(":import-classes",
-	                       i18n("*.idl|IDL Files (*.idl)"), this, i18n("Select Code to Import") );
-		m_classImporter->importIDL( fileList );
+		preselectedExtension = i18n("*.idl|IDL Files (*.idl)");
+	} else if (m_activeLanguage == "Ada") {
+		preselectedExtension = i18n("*.ads *.ada|Ada Files (*.ads *.ada)");
 	} else {
-		fileList = KFileDialog::getOpenFileNames(":import-classes",
-	                       i18n("*.h *.hpp *.hxx|Header Files (*.h *.hpp *.hxx)\n*|All Files"), this, i18n("Select Classes to Import") );
-		if (fileList.first().endsWith(".idl"))
-			m_classImporter->importIDL( fileList );
-		else
-			m_classImporter->importCPP( fileList );
+		preselectedExtension = i18n("*.h *.hh *.hpp *.hxx *.H|Header Files (*.h *.hh *.hpp *.hxx *.H)");
 	}
+	preselectedExtension.append("\n*|" + i18n("All Files"));
+	QStringList fileList = KFileDialog::getOpenFileNames(":import-classes", preselectedExtension,
+							     this, i18n("Select Code to Import") );
+	const QString& firstFile = fileList.first();
+	if (firstFile.endsWith(".idl"))
+		m_classImporter->importIDL( fileList );
+	else if (firstFile.contains( QRegExp("\\.ad[sba]$") ))
+		/* m_classImporter->importAda( fileList ) */;
+	else
+		m_classImporter->importCPP( fileList );	 // the default.
 	m_doc->setLoading(false);
 }
 

@@ -18,7 +18,6 @@
 #include "../model_utils.h"
 
 // fwd decls
-class ClassImport;
 class UMLClass;
 class UMLOperation;
 class UMLPackage;
@@ -26,7 +25,7 @@ class UMLPackage;
 class CppTree2Uml: public TreeParser
 {
 public:
-    CppTree2Uml( const QString& fileName, ClassImport* store );
+    CppTree2Uml( const QString& fileName);
     virtual ~CppTree2Uml();
 
     //FileDom file() { return m_file; }
@@ -76,7 +75,6 @@ private:
     //FileDom m_file;
     QString m_fileName;
     QStringList m_currentScope;
-    ClassImport* m_importer;
     int m_currentAccess;
     bool m_inSlots;
     bool m_inSignals;

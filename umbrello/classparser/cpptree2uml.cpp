@@ -29,8 +29,8 @@
 #include "../template.h"
 #include "../class.h"
 
-CppTree2Uml::CppTree2Uml( const QString& fileName, ClassImport* store )
-    : m_importer( store ), m_anon( 0 ), m_nsCnt( 0 ), m_clsCnt( 0 )
+CppTree2Uml::CppTree2Uml( const QString& fileName)
+    : m_anon( 0 ), m_nsCnt( 0 ), m_clsCnt( 0 )
 {
     m_fileName = URLUtil::canonicalPath(fileName);
 }
@@ -79,7 +79,7 @@ void CppTree2Uml::parseNamespace( NamespaceAST* ast )
 #ifdef DEBUG_CPPTREE2UML
     kdDebug() << "CppTree2Uml::parseNamespace: " << nsName << endl;
 #endif
-    UMLObject * o = m_importer->createUMLObject( Uml::ot_Package, nsName,
+    UMLObject * o = ClassImport::createUMLObject( Uml::ot_Package, nsName,
 						 m_currentNamespace[m_nsCnt],
 						 ast->comment());
     UMLPackage *ns = (UMLPackage *)o;
@@ -147,16 +147,16 @@ void CppTree2Uml::parseTypedef( TypedefAST* ast )
 	             whether to build a Datatype (for pointers.)  */
 	    if (type.contains('*')) {
 		UMLObject *inner =
-	        m_importer->createUMLObject( Uml::ot_Class, typeId,
+	        ClassImport::createUMLObject( Uml::ot_Class, typeId,
 					     m_currentNamespace[m_nsCnt] );
 	        UMLObject *typedefObj =
-		m_importer->createUMLObject( Uml::ot_Datatype, id,
+		ClassImport::createUMLObject( Uml::ot_Datatype, id,
 					     m_currentNamespace[m_nsCnt] );
 	        UMLDatatype *dt = static_cast<UMLDatatype*>(typedefObj);
 		dt->setIsReference();
 		dt->setOriginType(static_cast<UMLClassifier*>(inner));
 	    } else {
-	        m_importer->createUMLObject( Uml::ot_Class, id,
+	        ClassImport::createUMLObject( Uml::ot_Class, id,
 					     m_currentNamespace[m_nsCnt],
 	 				     "" /* doc */,
 					     "typedef" /* stereotype */);
@@ -198,7 +198,7 @@ void CppTree2Uml::parseTemplateDeclaration( TemplateDeclarationAST* ast )
 		continue;
 	    }
 	    QString typeName = typeSpec->name()->text();
-	    UMLObject *t = m_importer->createUMLObject( Uml::ot_UMLObject, typeName,
+	    UMLObject *t = ClassImport::createUMLObject( Uml::ot_UMLObject, typeName,
 							m_currentNamespace[m_nsCnt] );
 	    DeclaratorAST* declNode = valueNode->declarator();
 	    NameAST* nameNode = declNode->declaratorId();
@@ -288,9 +288,9 @@ void CppTree2Uml::parseFunctionDefinition( FunctionDefinitionAST* ast )
 	return;
     }
     QString returnType = typeOfDeclaration( typeSpec, d );
-    UMLOperation *m = m_importer->makeOperation(c, id);
+    UMLOperation *m = ClassImport::makeOperation(c, id);
     parseFunctionArguments( d, m );
-    m_importer->insertMethod( c, m, (Uml::Scope)m_currentAccess, returnType,
+    ClassImport::insertMethod( c, m, (Uml::Scope)m_currentAccess, returnType,
 			      isStatic, false /*isAbstract*/, m_comment);
     m_comment = "";
 
@@ -339,7 +339,7 @@ void CppTree2Uml::parseClassSpecifier( ClassSpecifierAST* ast )
 	className = "anon_" + QString::number(m_anon);
 	m_anon++;
     }
-    UMLObject * o = m_importer->createUMLObject( Uml::ot_Class, className,
+    UMLObject * o = ClassImport::createUMLObject( Uml::ot_Class, className,
 						 m_currentNamespace[m_nsCnt],
 						 ast->comment() );
     UMLClass *klass = (UMLClass *)o;
@@ -379,7 +379,7 @@ void CppTree2Uml::parseEnumSpecifier( EnumSpecifierAST* ast )
     QString typeName = nameNode->unqualifiedName()->text().stripWhiteSpace();
     if (typeName.isEmpty())
 	return;  // skip constants
-    UMLObject *o = m_importer->createUMLObject( Uml::ot_Enum, typeName,
+    UMLObject *o = ClassImport::createUMLObject( Uml::ot_Enum, typeName,
 						m_currentNamespace[m_nsCnt],
 						ast->comment() );
 
@@ -387,7 +387,7 @@ void CppTree2Uml::parseEnumSpecifier( EnumSpecifierAST* ast )
     QPtrListIterator<EnumeratorAST> it( l );
     while ( it.current() ) {
 	QString enumLiteral = it.current()->id()->text();
-	m_importer->addEnumLiteral( (UMLEnum*)o, enumLiteral );
+	ClassImport::addEnumLiteral( (UMLEnum*)o, enumLiteral );
 	++it;
     }
 }
@@ -401,7 +401,7 @@ void CppTree2Uml::parseElaboratedTypeSpecifier( ElaboratedTypeSpecifierAST* type
     QString text = typeSpec->text();
     kdDebug() << "CppTree2Uml::parseElaboratedTypeSpecifier: text is " << text << endl;
     text.remove(QRegExp("^class\\s+"));
-    UMLObject *o = m_importer->createUMLObject( Uml::ot_Class, text );
+    UMLObject *o = ClassImport::createUMLObject( Uml::ot_Class, text );
     flushTemplateParams( static_cast<UMLClass*>(o) );
 }
 
@@ -456,7 +456,7 @@ void CppTree2Uml::parseDeclaration( GroupAST* funSpec, GroupAST* storageSpec,
 	}
     }
 
-    m_importer->insertAttribute( c, (Uml::Scope)m_currentAccess, id, typeName,
+    ClassImport::insertAttribute( c, (Uml::Scope)m_currentAccess, id, typeName,
 				 m_comment, isStatic);
     m_comment = "";
 }
@@ -523,9 +523,9 @@ void CppTree2Uml::parseFunctionDeclaration(  GroupAST* funSpec, GroupAST* storag
     }
 
     QString returnType = typeOfDeclaration( typeSpec, d );
-    UMLOperation *m = m_importer->makeOperation(c, id);
+    UMLOperation *m = ClassImport::makeOperation(c, id);
     parseFunctionArguments( d, m );
-    m_importer->insertMethod( c, m, (Uml::Scope)m_currentAccess, returnType,
+    ClassImport::insertMethod( c, m, (Uml::Scope)m_currentAccess, returnType,
 			      isStatic, isPure, m_comment);
     m_comment = "";
 }
@@ -550,7 +550,7 @@ void CppTree2Uml::parseFunctionArguments(DeclaratorAST* declarator,
 	    QString tp = typeOfDeclaration( param->typeSpec(), param->declarator() );
 
 	    if (tp != "void")
-		m_importer->addMethodParameter( method, tp, name );
+		ClassImport::addMethodParameter( method, tp, name );
 	}
     }
 }
@@ -587,7 +587,7 @@ void CppTree2Uml::parseBaseClause( BaseClauseAST * baseClause, UMLClass* klass )
 	}
 
 	QString baseName = baseSpecifier->name()->text();
-	m_importer->createGeneralization( klass, baseName );
+	ClassImport::createGeneralization( klass, baseName );
     }
 }
 

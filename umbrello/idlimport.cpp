@@ -165,8 +165,7 @@ void scan(QString line) {
 }
 
 void parseFile(QString filename) {
-	ClassImport *importer = UMLApp::app()->classImport();
-	QStringList includePaths = importer->includePathList();
+	QStringList includePaths = ClassImport::includePathList();
 	//QProcess command("cpp", UMLAp::app());
 	QString command("cpp -C");   // -C means "preserve comments"
 	for (QStringList::Iterator pathIt = includePaths.begin();
@@ -202,7 +201,7 @@ void parseFile(QString filename) {
 		}
 		if (keyword == "module") {
 			const QString& name = source[++srcIndex];
-			UMLObject *ns = importer->createUMLObject(Uml::ot_Package,
+			UMLObject *ns = ClassImport::createUMLObject(Uml::ot_Package,
 								  name, scope[scopeIndex], comment);
 			scope[++scopeIndex] = static_cast<UMLPackage*>(ns);
 			scope[scopeIndex]->setStereotype("CORBAModule");
@@ -215,7 +214,7 @@ void parseFile(QString filename) {
 		}
 		if (keyword == "interface") {
 			const QString& name = source[++srcIndex];
-			UMLObject *ns = importer->createUMLObject(Uml::ot_Class,
+			UMLObject *ns = ClassImport::createUMLObject(Uml::ot_Class,
 								  name, scope[scopeIndex], comment);
 			scope[++scopeIndex] = klass = static_cast<UMLClass*>(ns);
 			klass->setStereotype("CORBAInterface");
@@ -227,7 +226,7 @@ void parseFile(QString filename) {
 			if (source[srcIndex] == ":") {
 				while (++srcIndex < srcLength && source[srcIndex] != "{") {
 					const QString& baseName = source[srcIndex];
-					importer->createGeneralization(klass, baseName);
+					ClassImport::createGeneralization(klass, baseName);
 					if (source[++srcIndex] != ",")
 						break;
 				}
@@ -241,7 +240,7 @@ void parseFile(QString filename) {
 		}
 		if (keyword == "struct" || keyword == "exception") {
 			const QString& name = source[++srcIndex];
-			UMLObject *ns = importer->createUMLObject(Uml::ot_Class,
+			UMLObject *ns = ClassImport::createUMLObject(Uml::ot_Class,
 								  name, scope[scopeIndex], comment);
 			scope[++scopeIndex] = klass = static_cast<UMLClass*>(ns);
 			if (keyword == "struct")
@@ -263,12 +262,12 @@ void parseFile(QString filename) {
 		}
 		if (keyword == "enum") {
 			const QString& name = source[++srcIndex];
-			UMLObject *ns = importer->createUMLObject(Uml::ot_Enum,
+			UMLObject *ns = ClassImport::createUMLObject(Uml::ot_Enum,
 								  name, scope[scopeIndex], comment);
 			UMLEnum *enumType = static_cast<UMLEnum*>(ns);
 			srcIndex++;  // skip name
 			while (++srcIndex < srcLength && source[srcIndex] != "}") {
-				importer->addEnumLiteral(enumType, source[srcIndex]);
+				ClassImport::addEnumLiteral(enumType, source[srcIndex]);
 				if (source[++srcIndex] != ",")
 					break;
 			}
@@ -279,7 +278,7 @@ void parseFile(QString filename) {
 		if (keyword == "typedef") {
 			const QString& existingType = source[++srcIndex];
 			const QString& newType = source[++srcIndex];
-	        	importer->createUMLObject(Uml::ot_Class, newType, scope[scopeIndex],
+	        	ClassImport::createUMLObject(Uml::ot_Class, newType, scope[scopeIndex],
 	 					  comment, "CORBATypedef" /* stereotype */);
 			// @todo How do we convey the existingType ?
 			skipStmt();
@@ -298,7 +297,7 @@ void parseFile(QString filename) {
 		}
 		if (keyword == "valuetype") {
 			const QString& name = source[++srcIndex];
-			UMLObject *ns = importer->createUMLObject(Uml::ot_Class,
+			UMLObject *ns = ClassImport::createUMLObject(Uml::ot_Class,
 								  name, scope[scopeIndex], comment);
 			scope[++scopeIndex] = klass = static_cast<UMLClass*>(ns);
 			klass->setAbstract(isAbstract);
@@ -310,7 +309,7 @@ void parseFile(QString filename) {
 					srcIndex++;
 				while (srcIndex < srcLength && source[srcIndex] != "{") {
 					const QString& baseName = source[srcIndex];
-					importer->createGeneralization(klass, baseName);
+					ClassImport::createGeneralization(klass, baseName);
 					if (source[++srcIndex] != ",")
 						break;
 					srcIndex++;
@@ -345,7 +344,7 @@ void parseFile(QString filename) {
 		}
 		if (keyword == "}") {
 			if (scopeIndex)
-				scopeIndex--;
+				klass = dynamic_cast<UMLClass*>(scope[--scopeIndex]);
 			else
 				kdError() << "importIDL: too many }" << endl;
 			srcIndex++;  // skip ';'
@@ -376,13 +375,13 @@ void parseFile(QString filename) {
 		}
 		if (source[++srcIndex] == "(") {
 			// operation
-    			UMLOperation *op = importer->makeOperation(klass, name);
+    			UMLOperation *op = ClassImport::makeOperation(klass, name);
 			srcIndex++;
 			while (srcIndex < srcLength && source[srcIndex] != ")") {
 				const QString &direction = source[srcIndex++];
 				QString typeName = joinTypename();
 				const QString &parName = source[++srcIndex];
-				UMLAttribute *att = importer->addMethodParameter(op, typeName, parName);
+				UMLAttribute *att = ClassImport::addMethodParameter(op, typeName, parName);
 				Uml::Parameter_Direction dir;
 				if (Umbrello::stringToDirection(direction, dir))
 					att->setParmKind(dir);
@@ -393,7 +392,7 @@ void parseFile(QString filename) {
 					break;
 				srcIndex++;
 			}
-    			importer->insertMethod(klass, op, Uml::Public, typeName, false, false, comment);
+    			ClassImport::insertMethod(klass, op, Uml::Public, typeName, false, false, comment);
 			if (isOneway) {
 				op->setStereotype("oneway");
 				isOneway = false;
@@ -403,7 +402,7 @@ void parseFile(QString filename) {
 			continue;
 		}
 		// At this point we know it's some kind of attribute declaration.
-		UMLObject *o = importer->insertAttribute(klass, currentAccess, name, typeName, comment);
+		UMLObject *o = ClassImport::insertAttribute(klass, currentAccess, name, typeName, comment);
 		UMLAttribute *attr = static_cast<UMLAttribute*>(o);
 		if (isReadonly) {
 			attr->setStereotype("readonly");

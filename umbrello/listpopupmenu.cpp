@@ -452,7 +452,7 @@ void ListPopupMenu::insertStdItem(Menu_Type m)
 		break;
 
 	case mt_Import_Classes:
-		insertItem(BarIcon("source_cpp"), i18n("Import C++ Classes..."), mt_Import_Classes);
+		insertItem(BarIcon("source_cpp"), i18n("Import Classes..."), mt_Import_Classes);
 		break;
 	case mt_Component_Folder:
 		m_pInsert->insertItem(BarIcon("folder_new"), i18n("Folder"), mt_Component_Folder);

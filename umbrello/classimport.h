@@ -33,7 +33,7 @@ class CppDriver;
 
 class ClassImport {
 public:
-	ClassImport(UMLDoc *parentDoc);
+	ClassImport();
 	~ClassImport();
 
 	/**
@@ -49,7 +49,7 @@ public:
 	/**
 	 * Find or create a document object.
 	 */
-	UMLObject* createUMLObject(Uml::Object_Type type,
+	static UMLObject* createUMLObject(Uml::Object_Type type,
 				   QString name,
 				   UMLPackage *parentPkg = NULL,
 				   QString comment = QString::null,
@@ -58,7 +58,7 @@ public:
 	/**
 	 * Create a UMLAttribute and insert it into the document.
 	 */
-	UMLObject* insertAttribute(UMLClass *klass, Uml::Scope scope, QString name,
+	static UMLObject* insertAttribute(UMLClass *klass, Uml::Scope scope, QString name,
 				   QString type, QString comment = QString::null,
 				   bool isStatic = false);
 
@@ -71,14 +71,14 @@ public:
 	 * a conflict with a pre-existing parameterless method of the same
 	 * name.)
 	 */
-	UMLOperation* makeOperation(UMLClassifier *parent, const QString &name);
+	static UMLOperation* makeOperation(UMLClassifier *parent, const QString &name);
 
 	/**
 	 * Insert the UMLOperation into the document.
 	 * The parentPkg arg is only used for resolving possible scope
 	 * prefixes in the `type'.
 	 */
-	void insertMethod(UMLClassifier *klass, UMLOperation *op,
+	static void insertMethod(UMLClassifier *klass, UMLOperation *op,
 			  Uml::Scope scope, QString type,
 			  bool isStatic, bool isAbstract,
 			  QString comment = QString::null);
@@ -88,34 +88,32 @@ public:
 	 * The parentPkg arg is only used for resolving possible scope
 	 * prefixes in the `type'.
 	 */
-	UMLAttribute* addMethodParameter(UMLOperation *method,
+	static UMLAttribute* addMethodParameter(UMLOperation *method,
 					 QString type, QString name);
 
 	/**
 	 * Add an enum literal to an UMLEnum.
 	 */
-	void addEnumLiteral(UMLEnum *enumType, const QString &literal);
+	static void addEnumLiteral(UMLEnum *enumType, const QString &literal);
 
 	/**
 	 * Create a generalization from the existing child UMLObject to the given
 	 * parent class name.
 	 */
-	void createGeneralization(UMLClass *child, const QString &parentName);
+	static void createGeneralization(UMLClass *child, const QString &parentName);
 
 	/**
 	 * Strip comment lines of leading whitespace and stars.
 	 */
-	QString formatComment(const QString &comment);
+	static QString formatComment(const QString &comment);
 
 	/**
-	 * Return the list of paths set by the environment variable UBRELLO_INCPATH.
+	 * Return the list of paths set by the environment variable UMBRELLO_INCPATH.
 	 */
-	QStringList includePathList() {
-		return m_includePathList;
-	}
+	static QStringList includePathList();
 
 private:
-	/**
+		/**
 	 * Auxiliary method for recursively traversing the #include dependencies
 	 * in order to feed innermost includes to the model before dependent
 	 * includes.  It is important that includefiles are fed to the model
@@ -124,10 +122,8 @@ private:
 	 */
 	void feedTheModel(QString fileName);
 
-	UMLDoc * m_umldoc;  ///< just a shorthand for UMLApp::app()->getDocument()
-	CppDriver * m_driver;
-	QStringList m_includePathList;  ///< splits the UMBRELLO_INCPATH env var.
-	QStringList m_seenFiles;  ///< auxiliary buffer for feedTheModel()
+	static CppDriver * ms_driver;
+	static QStringList ms_seenFiles;  ///< auxiliary buffer for feedTheModel()
 	/**
 	 * On encountering a scoped typename string where the scopes
 	 * have not yet been seen, we synthesize UML objects for the
@@ -135,13 +131,8 @@ private:
 	 * whether to treat a scope as a class or as a package.)
 	 * However, such an unknown scope is put at the global level.
 	 * I.e. before calling createUMLObject() we set this flag to true.
-	 * FIXME: Find a better solution.
-	 *   Oftentimes the scope is misplaced to a wrong level.
-	 *   The whole thing should be less of a problem once
-	 *   included files are translated to model objects prior
-	 *   to the main header file.
 	 */
-	bool m_putAtGlobalScope;
+	static bool ms_putAtGlobalScope;
 };
 
 #endif
