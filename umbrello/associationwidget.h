@@ -712,12 +712,6 @@ private:
 	FloatingText* m_pName;
 
 	/**
-	 * Pointer to the operation represented by this asssociation
-	 * in a collaboration diagram (else unused.)
-	 */
-	UMLOperation *m_pOperation;
-
-	/**
 	 * The WidgetRole struct gathers all information pertaining to the role.
 	 * The AssociationWidget class contains two WidgetRole objects, one for each
 	 * side of the association (A and B).
