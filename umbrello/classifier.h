@@ -13,6 +13,7 @@
 #include "umlcanvasobject.h"
 #include "umlobjectlist.h"
 #include "umlclassifierlist.h"
+#include "umlattributelist.h"
 #include "umloperationlist.h"
 #include "umlclassifierlistitemlist.h"
 #include <qptrlist.h>
@@ -88,14 +89,18 @@ public:
 	 */
 	bool addOperation(UMLOperation* Op, IDChangeLog* Log);
 	
-	/** Checks whether an operation is valid based on its signature -
-	  * An operation is "valid" if the Operation's name and paramter list
-	  * are unique in the Classifier
-	  *
-	  * @param  op  the operation to check
-	  * @return true if the signature is valid (ok)
-	  */
-	bool checkOperationSignature( UMLOperation *op );
+	/**
+	 * Checks whether an operation is valid based on its signature -
+	 * An operation is "valid" if the operation's name and paramter list
+	 * are unique in the classifier.
+	 *
+	 * @param name		Name of the operation to check.
+	 * @param opParams	Pointer to the method argument list.
+	 * @return	NULL if the signature is valid (ok), else return a pointer
+	 *		to the existing UMLOperation that causes the conflict.
+	 */
+	UMLOperation * checkOperationSignature( QString name,
+						UMLAttributeList *opParams );
 
 	/**
 	 * Remove an operation from the Classifier.

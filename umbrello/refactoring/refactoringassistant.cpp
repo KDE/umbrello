@@ -641,7 +641,7 @@ void RefactoringAssistant::movableDropEvent (QListViewItem* parentItem, QListVie
 	if( typeid(*movingObject) == typeid(UMLOperation) )
 	{kdDebug()<<"moving operation"<<endl;
 		UMLOperation *op = static_cast<UMLOperation*>(movingObject);
-		if(!newClassifier->checkOperationSignature(op))
+		if(newClassifier->checkOperationSignature(op->getName(), op->getParmList()))
 		{
 			QString msg = QString(i18n("An operation with that signature already exists in %1.\n")).arg(newClassifier->getName())
 				+

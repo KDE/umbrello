@@ -28,49 +28,43 @@ UMLClassifier::UMLClassifier(const QString & name, int id)
 UMLClassifier::~UMLClassifier() {
 }
 
-bool UMLClassifier::checkOperationSignature( UMLOperation *op )
+UMLOperation * UMLClassifier::checkOperationSignature( QString name,
+						       UMLAttributeList *opParams )
 {
-	if( op->getName().length() == 0)
-		return false;
-	UMLObjectList list = findChildObject( Uml::ot_Operation, op->getName() );
+	UMLObjectList list = findChildObject( Uml::ot_Operation, name );
 	if( list.count() == 0 )
-		return true;
+		return NULL;
 
 	// there is at least one operation with the same name... compare the parameter list
-	list.setAutoDelete(false);
-	list.removeRef( op ); // dont compare against itself
-	
-	QPtrList<UMLAttribute> *testParams;
-	QPtrList<UMLAttribute> *opParams;
 	for( UMLOperation *test = dynamic_cast<UMLOperation*>(list.first()); 
 	     test != 0; 
 	     test = dynamic_cast<UMLOperation*>(list.next()) )
-	{// Should we test for default values? ( ambiguous signatures, or is that language/compiler dependent?
-		testParams = test->getParmList( );
-		opParams   = op->getParmList( );
-		
+	{
+		UMLAttributeList *testParams = test->getParmList( );
 		if( testParams->count() != opParams->count() )
 			continue;
 		int pCount = testParams->count();
 		int i = 0;
 		for( ; i < pCount; ++i )
 		{
+			// The only criterion for equivalence is the parameter types.
+			// (Default values are not considered.)
 			if( testParams->at(i)->getTypeName() != opParams->at(i)->getTypeName() )
 				break;
 		}
 		if( i == pCount )
 		{//all parameters matched -> the signature is not unique
-			return false;
+			return test;
 		}
 	}
 	// we did not find an exact match, so the signature is unique ( acceptable )
-	return true;
+	return NULL;
 }
 
 bool UMLClassifier::addOperation(UMLOperation* op, int position )
 {
 	if( m_OpsList.findRef( op ) != -1  ||
-	    checkOperationSignature( op ) == false ) 
+	    checkOperationSignature(op->getName(), op->getParmList()) ) 
 		return false;
 
 	if( op -> parent() )
@@ -316,7 +310,7 @@ bool UMLClassifier::load(QDomElement& element) {
 			if (! load(tempElement))
 				return false;
 		} else if (tag == "UML:Operation") {
-			UMLOperation* op = UMLApp::app()->getDocument()->createOperation( );
+			UMLOperation* op = new UMLOperation(NULL);
 			if( !op->loadFromXMI(tempElement) ||
 			    !this->addOperation(op) ) {
 				delete op;

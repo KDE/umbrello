@@ -14,7 +14,6 @@
 #include <config.h>
 #endif
 
-#include "associationwidgetlist.h"
 #include "umlclassifierlist.h"
 #include "umlassociationlist.h"
 #include "dialogs/settingsdlg.h"
@@ -244,20 +243,11 @@ public:
 	 * The Operation's signature is checked for validity within the parent classifier.
 	 *
 	 * @return The new operation, or NULL if the operation could not be created because
-	 *         for example, the User canceled the dialog or no appropiate name can be found
+	 *         for example, the user canceled the dialog or no appropriate name can be found.
 	*/
-	UMLOperation* createOperation( UMLClassifier *parent, const QString &name = QString::null, UMLAttributeList *params = 0);
-	/**
-	  * Creates a new Operation in the document.
-	  * The Operation is not-initialized, so it has no valid name, id, etc. so this
-	  * function is normally only used when you already have all this information, for
-	  * example from a file or clipboard. You are responsible for the consistency of the data
-	  * ie, the ID must be valid and not conflict with other ID's, etc.
-	  * The Operation does not belong to any Classifiers, so you should added to the one yourself
-	  *
-	  * @return The new operatioin
-	  */
-	UMLOperation* createOperation(  );
+	UMLOperation* createOperation( UMLClassifier *parent,
+				       const QString &name = QString::null,
+				       UMLAttributeList *params = NULL);
 
 	/**
 	 * Creates an attribute for the parent concept.
@@ -777,14 +767,6 @@ public:
 	 * @return	True if operation successful.
 	 */
 	bool activateAllViews();
-
-	/**  DEPRECATED - CANDIDATE FOR REMOVAL
-	 * Puts into the list variable a list of associations on all
-	 * diagrams that contain the given object.  The view is
-	 * given so it doesn't check its association list to save
-	 * time.
-	 */
-	void getAssciationListAllViews( UMLView * view, UMLObject * object, AssociationWidgetList & list );
 
 	/**
 	 * Passes onto @ref UMLApp that an event equivalent to

@@ -861,24 +861,37 @@ UMLObject* UMLDoc::createStereotype(UMLClassifier* classifier, UMLObject_Type li
 	emit sigObjectCreated(newStereotype);
 	return newStereotype;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLOperation* UMLDoc::createOperation( )
-{
-	UMLOperation* op = new UMLOperation( 0L );
-	return op;
-}
 
-UMLOperation* UMLDoc::createOperation(UMLClassifier* classifier, const QString &name /*=null*/, UMLAttributeList *params )
+UMLOperation* UMLDoc::createOperation(UMLClassifier* classifier,
+				      const QString &name /*=null*/,
+				      UMLAttributeList *params )
 {
 	if(!classifier)
 	{
-		kdWarning()<<"UMLDoc::createOperation(UMLClassifier* classifier) called with classifier == NULL"<<endl
-			   <<"Use UMLDoc::createOperation( ) instead!"<<endl;
-		return 0L;
+		kdWarning() << "UMLDoc::createOperation called with classifier == NULL"
+			    << endl;
+		return NULL;
 	}
-
-	int id = getUniqueID();
-	UMLOperation *op = new UMLOperation( 0L, name, id);
+	UMLOperation *op = NULL;
+	if (name == QString::null || name.isEmpty()) {
+		op = new UMLOperation( NULL, "", getUniqueID());
+		op->setName( classifier->uniqChildName(Uml::ot_Operation) );
+		//hack, make op a child of classifier without really adding it as operation
+		//this makes the Op.Dialog smoother in case of name conflicts
+		// classifier->insertChild( op );
+		do {
+			UMLOperationDialog operationDialogue(0, op);
+			if( operationDialogue.exec() != QDialog::Accepted ) {
+				delete op;
+				return NULL;
+			}
+		} while (classifier->checkOperationSignature(op->getName(), params));
+	} else {
+		UMLOperation *existingOp = classifier->checkOperationSignature(name, params);
+		if (existingOp)
+			return existingOp;
+		op = new UMLOperation( 0L, name, getUniqueID());
+	}
 
 	if(params)
 	{
@@ -889,22 +902,6 @@ UMLOperation* UMLDoc::createOperation(UMLClassifier* classifier, const QString &
 			par->setID(parID);
 			op->addParm(par);
 		}
-	}
-
-	if( !classifier->checkOperationSignature( op ) )
-	{
-		op->setName( classifier->uniqChildName(Uml::ot_Operation) );
-		//hack, make op a child of classifier without really adding it as operation
-		//this makes the Op.Dialog smoother in case of name conflicts
-		classifier->insertChild( op );
-		do{
-			UMLOperationDialog operationDialogue(0, op);
-			if( operationDialogue.exec() != QDialog::Accepted )
-			{
-				delete op;
-				return 0L;
-			}
-		}while( classifier->checkOperationSignature( op ) != true );
 	}
 
 	// operation name is ok, formally add it to the classifier
@@ -2184,48 +2181,6 @@ void UMLDoc::settingsChanged(SettingsDlg::OptionState optionState) {
 DocWindow * UMLDoc::getDocWindow() {
 	UMLApp* app = (UMLApp*)parent();
 	return app -> getDocWindow();
-}
-
-void UMLDoc::getAssciationListAllViews( UMLView * view, UMLObject * object, AssociationWidgetList & list ) {
-	UMLView * tempView = 0;
-	AssociationWidget * assocWidget = 0;
-	AssociationWidget * tempWidget = 0;
-	AssociationWidgetList tempList;
-
-	for( tempView = m_ViewList.first(); tempView != 0; tempView = m_ViewList.next() ) {
-		if( view == tempView || view->getType() != tempView->getType() )
-			continue;
-
-		AssociationWidgetList viewList;
-		tempView->getWidgetAssocs( object, viewList );
-
-		AssociationWidgetListIt view_it( viewList );
-
-		assocWidget = 0;
-		tempList.clear();
-		while( ( assocWidget = view_it.current() ) ) {
-			AssociationWidgetListIt it( list );
-			tempWidget = 0;
-			bool bAdd = true;
-
-			while( bAdd && ( tempWidget = it.current()  ) ) {
-				if( tempWidget -> getAssocType() == assocWidget -> getAssocType() ) {
-					if( tempWidget -> getWidgetAID() == assocWidget -> getWidgetAID() &&
-					        tempWidget -> getWidgetBID() == assocWidget -> getWidgetBID() )
-						bAdd = false;
-				}
-				if( bAdd )
-					tempList.append( assocWidget );
-				++it;
-			}
-			++view_it;
-		}//end while
-		AssociationWidgetListIt temp_it( tempList );
-		while( ( tempWidget = temp_it.current() ) ) {
-			list.append( tempWidget );
-			++temp_it;
-		}
-	}//end for
 }
 
 void UMLDoc::editCopy() {

@@ -332,19 +332,16 @@ bool UMLOperationDialog::apply()
 	}
 
 	UMLClassifier *classifier = dynamic_cast<UMLClassifier*>( m_pOperation->parent() );
-	QString oldName = m_pOperation->getName();
-	m_pOperation -> setName( name );
 	if( classifier != 0L &&
-	    classifier->checkOperationSignature( m_pOperation ) != true )
+	    classifier->checkOperationSignature(name, m_pOperation->getParmList()) )
 	{
 		QString msg = QString(i18n("An operation with that signature already exists in %1.\n")).arg(classifier->getName())
 				+
 			      QString(i18n("Choose a different name or parameter list." ));
 		KMessageBox::error(this, msg, i18n("Operation Name Invalid"), false);
-		m_pOperation->setName( oldName );
-		m_pNameLE->setText( oldName );
 	    	return false;
 	}
+	m_pOperation -> setName( name );
 
 	if( m_pPublicRB -> isChecked() )
 		m_pOperation -> setScope( Uml::Public );
