@@ -444,12 +444,20 @@ void FloatingText::setMessage(MessageWidget* m) {
 	setPositionFromMessage();
 }
 
+// God this is bad. Why not use the assocList in the 
+// parent umlwidget class? At the very least, we should
+// keep them synced.
 void FloatingText::setAssoc(AssociationWidget * a) {
+	// rmeove pre-existing associatino from our umlwidget assoc list
+	if(m_pAssoc)
+		removeAssoc(m_pAssoc);
+
 	m_pAssoc = a;
 	if (a != NULL) {
 		UMLAssociation *umla = a->getAssociation();
 		if (umla != NULL && getID() == -1)
 			setID( umla->getID() );
+		addAssoc(m_pAssoc);
 	}
 }
 

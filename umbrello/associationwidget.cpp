@@ -6,7 +6,6 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-
 #include <cmath>
 
 #include "activitywidget.h"
@@ -716,7 +715,7 @@ bool AssociationWidget::activate() {
 
 	if( m_pRoleA != NULL && AssocRules::allowRole( type ) ) {
 		// CHECK: How much of this is still needed
-		m_pRoleA->setAssoc(this);		// probably redundant
+		m_pRoleA->setAssoc(this);		// needed. -b.t.
 		m_pRoleA->setRole( tr_RoleAName);	// probably redundant
 		m_pRoleA->setPreText(UMLAssociation::ScopeToString(getVisibilityA()));
 
@@ -3355,18 +3354,9 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement )
 			if( ! ft->loadFromXMI(element) )
 				return false;
 
-			// In old files we are missing UMLassociation declarations so
-			// much data in our underlying association will be missing w/o this
-			// for oldStyle loads, we need to make a connection between
-			// the floating widget with the info, and this assoc widget.
-			// (apparently not done by loadFromXMI (Oliver, can you check?) -b.t.
-			if(oldStyleLoad)
-			{
-				ft->setAssoc(this);
-				// these next 2 things dont appear to be needed..
-				// ft->setActivated();
-				// ft->show();
-			}
+			// always need this
+			ft->setAssoc(this);
+
 			switch( role ) {
 				case Uml::tr_MultiA:
 					m_pMultiA = ft;

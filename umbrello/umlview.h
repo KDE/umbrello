@@ -644,13 +644,13 @@ public:
 	 * Adds an association to the view from the given data.
 	 * Use this method when pasting.
 	 */
-	bool addAssociation( AssociationWidget* pAssoc );
+	bool addAssociation( AssociationWidget* pAssoc , bool isPasteOperation = false);
 
 	/**
 	 * Adds a widget to the view from the given data.
 	 * Use this method when pasting.
 	 */
-	bool addWidget( UMLWidget * pWidget );
+	bool addWidget( UMLWidget * pWidget , bool isPasteOperation = false);
 
 	/**
 	 * Returns the offset point at which to place the paste from clipboard.

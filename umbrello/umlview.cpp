@@ -924,7 +924,6 @@ QRect UMLView::getDiagramRect() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLView::setSelected(UMLWidget * w, QMouseEvent * /*me*/) {
 	//only add if wasn't in list
-
 	if(!m_SelectedList.remove(w))
 		m_SelectedList.append(w);
 	int count = m_SelectedList.count();
@@ -1227,7 +1226,6 @@ void UMLView::selectWidgets() {
 		//if it is text that is part of an association then select the association
 		//and the objects that are connected to it.
 		if(temp -> getBaseType() == wt_Text && ((FloatingText *)temp) -> getRole() != tr_Floating ) {
-
 
 			int t = ((FloatingText *)temp) -> getRole();
 			if( t == tr_Seq_Message ) {
@@ -1627,15 +1625,15 @@ bool UMLView::getSelectedAssocs(AssociationWidgetList & assocWidgetList) {
 	return true;
 }
 
-bool UMLView::addWidget( UMLWidget * pWidget ) {
+bool UMLView::addWidget( UMLWidget * pWidget , bool isPasteOperation ) {
 	if( !pWidget ) {
 		return false;
 	}
 	UMLWidget_Type type = pWidget->getBaseType();
 	kdDebug() << "UMLView::addWidget called for basetype " << type << endl;
 	IDChangeLog * log = m_pDoc -> getChangeLog();
-	if( !log || !m_pIDChangesLog) {
-		kdDebug()<<"A log is not open"<<endl;
+	if( isPasteOperation && (!log || !m_pIDChangesLog)) {
+		kdError()<<" Cant addWidget to view in paste op because a log is not open"<<endl;
 		return false;
 
 	}
@@ -1756,54 +1754,58 @@ bool UMLView::addWidget( UMLWidget * pWidget ) {
 	return true;
 }
 
-bool UMLView::addAssociation( AssociationWidget* pAssoc ) {
+// Add the association, and its child widgets to this view
+bool UMLView::addAssociation( AssociationWidget* pAssoc , bool isPasteOperation) {
 	if(!pAssoc)
 		return false;
 
-	IDChangeLog * log = m_pDoc -> getChangeLog();
+	if( isPasteOperation )
+	{
+		IDChangeLog * log = m_pDoc -> getChangeLog();
 
-	if( !log )
-		return false;
+		if(!log )
+			return false;
 
-/* What is this code doing? Somebody please enlighten me  --okellogg
-	int ida = -1, idb = -1;
-	Association_Type type = pAssoc -> getAssocType();
-	IDChangeLog* localLog = getLocalIDChangeLog();
-	if( getType() == dt_Collaboration || getType() == dt_Sequence ) {
-		//check local log first
-		ida = localLog->findNewID( pAssoc->getWidgetAID() );
-		idb = localLog->findNewID( pAssoc->getWidgetBID() );
-		//if either is still not found and assoc type is anchor
-		//we are probably linking to a notewidet - else an error
-		if( ida == -1 && type == at_Anchor )
+		int ida = -1, idb = -1;
+		Association_Type type = pAssoc -> getAssocType();
+		IDChangeLog* localLog = getLocalIDChangeLog();
+		if( getType() == dt_Collaboration || getType() == dt_Sequence ) {
+			//check local log first
+			ida = localLog->findNewID( pAssoc->getWidgetAID() );
+			idb = localLog->findNewID( pAssoc->getWidgetBID() );
+			//if either is still not found and assoc type is anchor
+			//we are probably linking to a notewidet - else an error
+			if( ida == -1 && type == at_Anchor )
+				ida = log->findNewID(pAssoc->getWidgetAID());
+			if( idb == -1 && type == at_Anchor )
+				idb = log->findNewID(pAssoc->getWidgetBID());
+		} else {
 			ida = log->findNewID(pAssoc->getWidgetAID());
-		if( idb == -1 && type == at_Anchor )
 			idb = log->findNewID(pAssoc->getWidgetBID());
-	} else {
-		ida = log->findNewID(pAssoc->getWidgetAID());
-		idb = log->findNewID(pAssoc->getWidgetBID());
+		}
+		if(ida == -1 || idb == -1) {
+			return false;
+		}
+		// cant do this anymore.. may cause problem for pasting
+//		pAssoc->setWidgetAID(ida);
+//		pAssoc->setWidgetBID(idb);
+		pAssoc->setWidgetA(findWidget(ida));
+		pAssoc->setWidgetB(findWidget(idb));
 	}
-	if(ida == -1 || idb == -1) {
-		return false;
-	}
-	pAssoc->setWidgetAID(ida);
-	pAssoc->setWidgetBID(idb);
- */
 
 	UMLWidget * m_pWidgetA = findWidget(pAssoc->getWidgetAID());
 	UMLWidget * m_pWidgetB = findWidget(pAssoc->getWidgetBID());
 	//make sure valid widget ids
-
 	if(!m_pWidgetA || !m_pWidgetB)
 		return false;
 
 	//make sure valid
-	if( !AssocRules::allowAssociation( pAssoc -> getAssocType(), m_pWidgetA, m_pWidgetB ) ) {
+	if( isPasteOperation && !AssocRules::allowAssociation( pAssoc -> getAssocType(), m_pWidgetA, m_pWidgetB ) ) {
 		return true;//in a paste we still need to be true
 	}
+
 	//make sure there isn't already the same assoc
 	AssociationWidgetListIt assoc_it( m_AssociationList );
-
 	AssociationWidget* assocwidget = 0;
 	while((assocwidget=assoc_it.current())) {
 		++assoc_it;
@@ -1811,24 +1813,41 @@ bool UMLView::addAssociation( AssociationWidget* pAssoc ) {
 			return true;
 	}
 
-	addAssocInViewAndDoc(pAssoc);
+//	addAssocInViewAndDoc(pAssoc);
+
+	m_AssociationList.append(pAssoc);
+
+	FloatingText *pNameWidget = pAssoc->getNameWidget();
+	FloatingText *pRoleAWidget = pAssoc->getRoleAWidget();
+	FloatingText *pRoleBWidget = pAssoc->getRoleBWidget();
+	FloatingText *pMultiAWidget = pAssoc->getMultiAWidget();
+	FloatingText *pMultiBWidget = pAssoc->getMultiBWidget();
+        if (pNameWidget != NULL && pNameWidget->getID() == -1) {
+                pNameWidget->setID( pAssoc->getAssociation()->getID() );
+        }
+
+	if(pNameWidget)
+		addWidget(pNameWidget);
+	if(pRoleAWidget)
+		addWidget(pRoleAWidget);
+	if(pRoleBWidget)
+		addWidget(pRoleBWidget);
+	if(pMultiAWidget)
+		addWidget(pMultiAWidget);
+	if(pMultiBWidget)
+		addWidget(pMultiBWidget);
+
 	return true;
 }
 
-
 void UMLView::addAssocInViewAndDoc(AssociationWidget* a) {
-	UMLAssociation *umla = a->getAssociation();
 
 	// append in view
-	m_AssociationList.append(a);
+	addAssociation(a, false);
 
 	// append in document
-	getDocument() -> addAssociation (umla);
+	getDocument() -> addAssociation (a->getAssociation());
 
-	FloatingText *pNameWidget = a->getNameWidget();
-	if (pNameWidget != NULL && pNameWidget->getID() == -1) {
-		pNameWidget->setID( umla->getID() );
-	}
 }
 
 bool UMLView::activateAfterLoad(bool bUseLog) {
@@ -2916,7 +2935,13 @@ bool UMLView::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement widgetElement = qDoc.createElement( "widgets" );
 	while( ( widget = w_it.current() ) ) {
 		++w_it;
-		widget -> saveToXMI( qDoc, widgetElement );
+		// Having an exception is bad I know, but gotta work with 	
+		// system we are given.
+		// We DONT want to record any text widgets which are belonging
+		// to associations as they are recorded later in the "associations"
+		// section when each owning association is dumped. -b.t. 
+		if(widget->getBaseType() != wt_Text || !((FloatingText*)widget)->getAssoc())
+			widget -> saveToXMI( qDoc, widgetElement );
 	}
 	viewElement.appendChild( widgetElement );
 	//now save the message widgets
@@ -3151,7 +3176,8 @@ bool UMLView::loadAssociationsFromXMI( QDomElement & qElement ) {
 				   rest of the diagram might load okay.
 				 */
 			} else {
-				m_AssociationList.append( assoc );
+				if(!addAssociation(assoc, false))
+					return false;
 			}
 		}
 		node = assocElement.nextSibling();

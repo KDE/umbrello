@@ -583,7 +583,7 @@ bool UMLClipboard::pasteClip4(UMLDoc* doc, QMimeSource* data) {
 			objectAlreadyExists = true;
 		}
 
-		if ( !doc->getCurrentView()->addWidget(widget) ) {
+		if ( !doc->getCurrentView()->addWidget(widget, true) ) {
 			doc->getCurrentView()->endPartialWidgetPaste();
 			return false;
 		}
@@ -594,7 +594,7 @@ bool UMLClipboard::pasteClip4(UMLDoc* doc, QMimeSource* data) {
 	AssociationWidgetListIt assoc_it(assocs);
 	while ( (assoc=assoc_it.current()) != 0 ) {
 		++assoc_it;
-		if( !doc->getCurrentView()->addAssociation(assoc) ) {
+		if( !doc->getCurrentView()->addAssociation(assoc, true) ) {
 			doc->getCurrentView()->endPartialWidgetPaste();
 			return false;
 		}
