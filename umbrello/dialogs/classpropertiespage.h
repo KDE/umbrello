@@ -22,11 +22,7 @@ typedef UMLConcept UMLClass;
  *
 */
 
-//NOTE: we need virtual hineritance here in order to implement the interface DialogPage
-//and use the ui-generated ClassPropertiesPage. The other (prob. simplier) approach
-//would be to make a Designer template and make ClassPropertiesBase use the "DialogPage"
-//instead of a QWidget as basis.
-class ClassPropertiesPage :   virtual public  DialogPage, virtual public ClassPropertiesBase
+class ClassPropertiesPage : public  DialogPage
 {
 Q_OBJECT
 public:
@@ -41,6 +37,9 @@ protected:
 	virtual void loadData();
 	virtual void saveData();
 	UMLClass *m_umlObject;	
+
+private:
+	ClassPropertiesBase *m_base;
 };
 
 #endif

@@ -21,9 +21,11 @@
 
 
 ClassPropertiesPage::ClassPropertiesPage(UMLClass *c, QWidget *parent, const char *name)
-		: ClassPropertiesBase(parent, name,0), m_umlObject(c)
+	: DialogPage( parent, name ),
+	  m_umlObject(c)
 {
-	m_className->setText(m_umlObject->getName());
+	m_base = new ClassPropertiesBase( parent, "class properties base" );
+	m_base->m_className->setText(m_umlObject->getName());
 
 }
 	
@@ -45,32 +47,32 @@ kdDebug()<<"reload data from umlclass"<<endl;
 
 void ClassPropertiesPage::loadData()
 {
-	m_className->setText(m_umlObject->getName());
-	m_stereotype->setText(m_umlObject->getStereotype());
-	m_packageName->setText(m_umlObject->getPackage());
-	m_abstract->setChecked(m_umlObject->getAbstract());
+	m_base->m_className->setText(m_umlObject->getName());
+	m_base->m_stereotype->setText(m_umlObject->getStereotype());
+	m_base->m_packageName->setText(m_umlObject->getPackage());
+	m_base->m_abstract->setChecked(m_umlObject->getAbstract());
 	switch(m_umlObject->getScope())
 	{
 		case Uml::Public:
-			m_public->setChecked(true);
+			m_base->m_public->setChecked(true);
 			break;
 		case Uml::Protected:
-			m_protected->setChecked(true);
+			m_base->m_protected->setChecked(true);
 			break;
 		case Uml::Private:
 		default:
-			m_private->setChecked(true);
+			m_base->m_private->setChecked(true);
 	}
-	m_documentation->setText(m_umlObject->getDoc());
+	m_base->m_documentation->setText(m_umlObject->getDoc());
 
 }
 
 void ClassPropertiesPage::saveData()
 {
-	m_umlObject->setName(m_className->text());
-	m_umlObject->setStereotype(m_stereotype->text());
-	m_umlObject->setPackage(m_packageName->text());
+	m_umlObject->setName(m_base->m_className->text());
+	m_umlObject->setStereotype(m_base->m_stereotype->text());
+	m_umlObject->setPackage(m_base->m_packageName->text());
 	
 	
-	m_umlObject->setDoc(m_documentation->text());
+	m_umlObject->setDoc(m_base->m_documentation->text());
 }

@@ -18,7 +18,7 @@ class DialogPage : public QObject
 {
 Q_OBJECT
 public:
-	DialogPage( ) {};
+	DialogPage( QObject *parent = 0, const char *name = 0 ) : QObject( parent, name ) {}
 public slots:
 /** apply changes to the object being handled*/
 	virtual void apply() = 0;
