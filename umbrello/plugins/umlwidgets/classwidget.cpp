@@ -119,7 +119,9 @@ void ClassWidget::drawShape(QPainter &p)
 			currentY += vMargin;
 		}
 		p.setPen(textPen);
-		for(QValueList<AttString>::Iterator it = m_atts.begin(); it != m_atts.end(); ++it )
+
+		QValueList<AttString>::Iterator atts_end(m_atts.end());
+		for(QValueList<AttString>::Iterator it = m_atts.begin(); it != atts_end; ++it )
 		{
 			font.setUnderline( ((*it).flags & Underline) );
 			p.setFont(font);
@@ -135,7 +137,9 @@ void ClassWidget::drawShape(QPainter &p)
 		p.drawLine((int)x(),currentY,(int) x() + width() -1, currentY);
 		currentY += vMargin;
 		p.setPen(textPen);
-		for(QValueList<OpString>::Iterator it = m_ops.begin(); it != m_ops.end(); ++it )
+
+		QValueList<OpString>::Iterator ops_end(m_ops.end());
+		for(QValueList<OpString>::Iterator it = m_ops.begin(); it != ops_end; ++it )
 		{
 			font.setUnderline( ((*it).flags & Underline) );
 			font.setItalic( ((*it).flags & Italics) );
@@ -289,11 +293,15 @@ void ClassWidget::calculateSize()
 
 	maxWidth = kMax(maxWidth,fm.width(m_stereotype));
 	maxWidth = kMax(maxWidth, fm.width(m_name));
-	for(QValueList<AttString>::Iterator it = m_atts.begin(); it != m_atts.end(); ++it )
+
+	QValueList<AttString>::Iterator atts_end(m_atts.end());
+	for(QValueList<AttString>::Iterator it(m_atts.begin()); it != atts_end; ++it )
 	{
 		maxWidth = kMax(maxWidth,fm.width((*it).string));
 	}
-	for(QValueList<OpString>::Iterator it = m_ops.begin(); it != m_ops.end(); ++it )
+
+	QValueList<OpString>::Iterator ops_end(m_ops.end());
+	for(QValueList<OpString>::Iterator it(m_ops.begin()); it != ops_end; ++it )
 	{
 		maxWidth = kMax(maxWidth,fm.width((*it).string));
 	}

@@ -345,9 +345,10 @@ bool UMLDoc::openDocument(const KURL& url, const char* /*format =0*/) {
 		QString entryMimeType;
 		bool foundXMI = false;
 		QStringList::Iterator it;
+		QStringList::Iterator end(entries.end());
 
 		// now go through all entries till we find an xmi file
-		for (it = entries.begin(); it != entries.end(); ++it)
+		for (it = entries.begin(); it != end; ++it)
 		{
 			// only check files, we do not go in subdirectories
 			if (rootDir->entry(*it)->isFile() == true)

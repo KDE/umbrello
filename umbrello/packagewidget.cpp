@@ -65,7 +65,7 @@ void PackageWidget::draw(QPainter & p, int offsetX, int offsetY) {
 	int lines = 1;
 	if (m_pObject != NULL) {
 		QString stereotype = m_pObject->getStereotype();
-		if (stereotype != "") {
+		if (!stereotype.isEmpty()) {
 			p.drawText(offsetX, offsetY + fontHeight + PACKAGE_MARGIN,
 				   w, fontHeight, AlignCenter, stereotype);
 			lines = 2;
@@ -90,7 +90,7 @@ void PackageWidget::calculateSize() {
 	int fontHeight  = fm.lineSpacing();
 
 	int lines;
-	if (m_pObject->getStereotype() != "") {
+	if (!m_pObject->getStereotype().isEmpty()) {
 		lines = 2;
 	} else {
 		lines = 1;
@@ -99,7 +99,7 @@ void PackageWidget::calculateSize() {
 	width = fm.width( m_pObject->getName() );
 
 	int tempWidth = 0;
-	if(m_pObject->getStereotype() != "") {
+	if(!m_pObject->getStereotype().isEmpty()) {
 		tempWidth = fm.width(m_pObject->getStereotype());
 	}
 	width = tempWidth>width ? tempWidth : width;

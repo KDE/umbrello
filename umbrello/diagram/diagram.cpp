@@ -133,8 +133,9 @@ kdDebug()<<"diagram::properties : show dialog here"<<endl;
 void Diagram::selectAll()
 {
 	QCanvasItemList list = allItems();
-	QCanvasItemList::iterator it;
-	for(it = list.begin(); it != list.end(); ++it)
+	QCanvasItemList::iterator end(list.end());
+
+	for(QCanvasItemList::iterator it(list.begin()); it != end; ++it)
 	{
   		(*it)->setSelected(true);
 	}
@@ -152,8 +153,9 @@ void Diagram::deselectAll()
 void Diagram::setItemsSelected(const QRect &rect, bool selected)
 {
 	QCanvasItemList list = collisions(rect);
-	QCanvasItemList::iterator it;
-	for(it = list.begin(); it != list.end(); ++it)
+	QCanvasItemList::iterator end(list.end());
+
+	for(QCanvasItemList::iterator it(list.begin()); it != end; ++it)
 	{
 		(*it)->setSelected(selected);
 	}
@@ -270,13 +272,15 @@ DiagramElement* Diagram::firstDiagramElement( const QPoint &pos )
 	DiagramElement *element(0);
 	Path *path(0);
 	PathSegment *segment(0);
+
 	//give priority to selected items
 	if(m_selected.count() == 1 && list.find(m_selected.first()) != list.end() )
 	{
 		return m_selected.first();
 	}
-	QCanvasItemList::Iterator it = list.begin();
-	for( ; it != list.end(); ++it)
+
+	QCanvasItemList::Iterator end(list.end());
+	for(QCanvasItemList::Iterator it(list.begin()) ; it != end; ++it)
 	{
 		path = dynamic_cast<Path*>(*it);
 		if( path )
@@ -306,14 +310,15 @@ DiagramWidget* Diagram::firstDiagramWidget( const QPoint &pos )
 		return dynamic_cast<DiagramWidget*>(m_selected.first());
 	}
 	//endtest
-	QCanvasItemList::Iterator it = list.begin();
-	for( ; it != list.end(); ++it)
+	QCanvasItemList::Iterator end(list.end());
+	for(QCanvasItemList::Iterator it(list.begin()) ; it != end; ++it)
 	{
 		//neither paths nor segments are diagramwidgets, so a simple test does it
 		widget = dynamic_cast<DiagramWidget*>(*it);
 		if( widget )
 			break;
 	}
+
 	return widget;
 }
 

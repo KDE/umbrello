@@ -57,8 +57,8 @@ ToolBar::~ToolBar()
 
 void ToolBar::setCurrentTool( const QString &name )
 {
-	ToolMap::Iterator it;
-	for( it = m_toolMap.begin(); it != m_toolMap.end(); ++it )
+	ToolMap::Iterator end(m_toolMap.end());
+	for(ToolMap::Iterator it(m_toolMap.begin()); it != end; ++it )
 	{
 		if((*it)->name() == name )
 		{
@@ -97,8 +97,8 @@ void ToolBar::showTools( const QString &category, bool exclusive )
 //FIXME - make this category based and not tool-based
 	if( exclusive )
 	{
-		ToolMap::Iterator it;
-		for( it = m_toolMap.begin(); it != m_toolMap.end(); ++it )
+	        ToolMap::Iterator end(m_toolMap.end());
+		for(ToolMap::Iterator it(m_toolMap.begin()); it != end; ++it )
 		{
 			hideItem( it.key() );
 		}

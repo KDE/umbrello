@@ -281,11 +281,11 @@ int LinePath::count() {
 }
 
 int LinePath::onLinePath( QPoint position ) {
-	typedef QCanvasItemList ItemList;
-	ItemList list = getCanvas() -> collisions( position );
-	ItemList::iterator item_it;
+	QCanvasItemList list = getCanvas() -> collisions( position );
 	int index = 0;
-	for( item_it = list.begin(); item_it != list.end(); ++item_it ) {
+
+	QCanvasItemList::iterator end(list.end());
+	for(QCanvasItemList::iterator item_it(list.begin()); item_it != end; ++item_it ) {
 		if( ( index = m_LineList.findRef( (QCanvasLine*)*item_it ) ) != -1 )
 			return index + 1;
 	}//end for

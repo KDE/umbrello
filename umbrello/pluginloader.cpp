@@ -160,7 +160,9 @@ PluginLoader::slotDestroyed(QObject *obj)
   // we can't just use the name because its already been destroyed
   // at this point. we have to iterate thru and find the reference
   // by hand.
-  for(PluginMap::iterator i = _plugins.begin(); i != _plugins.end(); i++) {
+
+  PluginMap::iterator end(_plugins.end());
+  for(PluginMap::iterator i = _plugins.begin(); i != end; i++) {
     Plugin *p = i.data();
     if(p == plugin) {
       kdDebug() << "unloading plugin " << i.key() << endl;

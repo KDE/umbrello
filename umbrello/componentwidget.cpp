@@ -71,17 +71,18 @@ void ComponentWidget::draw(QPainter & p, int offsetX, int offsetY) {
 	p.setPen( QPen(black) );
 	p.setFont(font);
 
-	if (stereotype != "") {
+	if (!stereotype.isEmpty()) {
 		p.drawText(offsetX + (COMPONENT_MARGIN*4), offsetY + (h/2) - fontHeight,
 			   w - (COMPONENT_MARGIN*4), fontHeight, AlignCenter, stereotype);
 	}
 
 	int lines;
-	if (stereotype != "") {
-		lines = 2;
-	} else {
-		lines = 1;
-	}
+
+        if (stereotype.isEmpty()) {
+                lines = 1;
+        } else {
+                lines = 2;
+        }
 
 	if ( UMLWidget::getIsInstance() ) {
 		font.setUnderline(true);
@@ -119,7 +120,7 @@ void ComponentWidget::calculateSize() {
 	width = fm.width(name);
 
 	int tempWidth = 0;
-	if(m_pObject->getStereotype() != "") {
+	if(!m_pObject->getStereotype().isEmpty()) {
 		tempWidth = fm.width(m_pObject->getStereotype());
 	}
 	width = tempWidth>width ? tempWidth : width;

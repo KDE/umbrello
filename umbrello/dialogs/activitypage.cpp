@@ -59,7 +59,9 @@ void ActivityPage::setupPage() {
 
 	//now fill activity list box
 	QStringList list = m_pStateWidget -> getActivityList();
-	for( QStringList::Iterator it = list.begin(); it != list.end(); ++it ) {
+	QStringList::Iterator end(list.end());
+
+	for( QStringList::Iterator it(list.begin()); it != end; ++it ) {
 		m_pActivityLB -> insertItem( *it );
 	}
 

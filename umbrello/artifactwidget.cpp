@@ -48,13 +48,13 @@ void ArtifactWidget::drawAsNormal(QPainter& p, int offsetX, int offsetY) {
 	p.setPen( QPen(black) );
 	p.setFont(font);
 
-	if (stereotype != "") {
+	if (!stereotype.isEmpty()) {
 		p.drawText(offsetX + ARTIFACT_MARGIN, offsetY + (h/2) - fontHeight,
 			   w, fontHeight, AlignCenter, stereotype);
 	}
 
 	int lines;
-	if (stereotype != "") {
+	if (!stereotype.isEmpty()) {
 		lines = 2;
 	} else {
 		lines = 1;
@@ -231,7 +231,7 @@ QSize ArtifactWidget::calculateNormalSize() {
 	width = fm.width( m_pObject->getName() );
 
 	int tempWidth = 0;
-	if(m_pObject->getStereotype() != "") {
+	if(!m_pObject->getStereotype().isEmpty()) {
 		tempWidth = fm.width("«" + m_pObject->getStereotype() + "»");
 	}
 	width = tempWidth>width ? tempWidth : width;

@@ -1391,7 +1391,9 @@ void UMLView::exportImage() {
 	// "normal" image types that are present
 	QString m;
 	QStringList::Iterator it;
-	for( it = fmt.begin(); it != fmt.end(); ++it ) {
+
+	QStringList::Iterator end(fmt.end());
+	for( it = fmt.begin(); it != end; ++it ) {
 		m = imageTypeToMimeType(*it);
 		if (!m.isNull()) mimetypes.append(m);
 	}

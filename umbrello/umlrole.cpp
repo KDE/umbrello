@@ -140,11 +140,11 @@ void UMLRole::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	// We use AssociationEndRole, other products use AssociationEnd.
 	QDomElement roleElement = qDoc.createElement( "UML:AssociationEndRole" );
 	roleElement.setAttribute( "type", ID2STR(getID()) );
-	if (m_Multi != "")
+	if (!m_Multi.isEmpty())
 		roleElement.setAttribute("multiplicity", m_Multi);
-	if (m_Name != "")
+	if (!m_Name.isEmpty())
 		roleElement.setAttribute("name", m_Name);
-	if (m_Doc != "")
+	if (!m_Doc.isEmpty())
 		roleElement.setAttribute("comment", m_Doc);
 	if (m_roleID == Uml::A) {  // role aggregation based on parent type
 		// role A

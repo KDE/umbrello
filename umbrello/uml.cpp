@@ -1352,7 +1352,9 @@ void UMLApp::initGenerators() {
 
 	CodeGeneratorFactory codeGeneratorFactory;
 	QStringList languages = codeGeneratorFactory.languagesAvailable();
-	for ( QStringList::Iterator langit = languages.begin(); langit != languages.end(); ++langit ) {
+
+	QStringList::Iterator end(languages.end());
+	for ( QStringList::Iterator langit(languages.begin()); langit != end; ++langit ) {
 		GeneratorInfo* info;
 		info = new GeneratorInfo;
 		info->language = *langit;  //language name

@@ -257,7 +257,7 @@ void UMLObject::setStereotype(QString _name) {
 void UMLObject::setPackage(QString _name) {
 	// TBD: Resolve nested packages given in _name (e.g. A::B::C)
 	UMLObject *pkgObj = NULL;
-	if (_name != "") {
+	if (!_name.isEmpty()) {
 		UMLDoc* umldoc = UMLApp::app()->getDocument();
 		if (umldoc == NULL) {
 			kdError() << "UMLObject::setPackage: cannot set package name on "

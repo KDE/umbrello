@@ -219,14 +219,19 @@ void DiagramElement::fillContextMenu(QPopupMenu &menu)
 void DiagramElement::moveToForeground()
 {
 	QCanvasItemList l = collisions(false);
-	if(l.empty()) return; // nothing to do
+	if(l.empty()) 
+		return; // nothing to do
 
 	double maxZ = z();
+
 	QCanvasItemList::iterator it;
-	for( it = l.begin() ; it != l.end() ; ++it )
+        QCanvasItemList::iterator end(l.end());
+
+        for(it = l.begin(); it != end; ++it )
 	{
 		maxZ = kMax(maxZ, (*it)->z());
 	}
+
 	kdDebug()<<"max z is "<<maxZ<<endl;
 	if( z() < maxZ )
 	{
@@ -234,7 +239,8 @@ void DiagramElement::moveToForeground()
 	}
 	else // we are already higher or equal than all others,
 	{   //  move all others one down to make sure we are drawn on top
-		for( it = l.begin() ; it != l.end() ; ++it )
+
+		for( it = l.begin() ; it != end ; ++it )
 		{
 			(*it)->setZ((*it)->z() - 1 );
 			kdDebug()<<"lowering other"<<maxZ<<endl;
@@ -248,11 +254,15 @@ void DiagramElement::moveToBackground()
 	if(l.empty()) return; // nothing to do
 
 	double minZ = z();
+
 	QCanvasItemList::iterator it;
-	for( it = l.begin() ; it != l.end() ; ++it )
+        QCanvasItemList::iterator end(l.end());
+
+        for(it = l.begin(); it != end; ++it )
 	{
 		minZ = kMin(minZ, (*it)->z());
 	}
+
 	kdDebug()<<"min z is "<<minZ<<endl;
 	if( z() > minZ )
 	{
@@ -260,7 +270,7 @@ void DiagramElement::moveToBackground()
 	}
 	else // we are already lower or equal than all others,
 	{   //  move all others one up to make sure we are drawn in the backround
-		for( it = l.begin() ; it != l.end() ; ++it )
+		for( it = l.begin() ; it != end ; ++it )
 		{
 			(*it)->setZ((*it)->z() + 1 );
 			kdDebug()<<"raising other"<<minZ<<endl;
@@ -274,8 +284,12 @@ void DiagramElement::raise()
 	if(l.empty()) return; // nothing to do
 
 	double next = z();
-	QCanvasItemList::iterator it;
-	for( it = l.begin() ; it != l.end() ; ++it )
+
+
+        QCanvasItemList::iterator it;
+        QCanvasItemList::iterator end(l.end());
+
+	for( it = l.begin() ; it != end ; ++it )
 	{
 		if((*it)->z() > z() )
 		{
@@ -289,7 +303,7 @@ void DiagramElement::raise()
 	}
 	else // we are already higher or equal than all others,
 	{   //  move all others one down to make sure we are drawn on the top
-		for( it = l.begin() ; it != l.end() ; ++it )
+		for( it = l.begin() ; it != end ; ++it )
 		{
 			(*it)->setZ((*it)->z() - 1 );
 			kdDebug()<<"lowering other"<<endl;
@@ -303,8 +317,11 @@ void DiagramElement::lower()
 	if(l.empty()) return; // nothing to do
 
 	double prev = z();
-	QCanvasItemList::iterator it;
-	for( it = l.begin() ; it != l.end() ; ++it )
+
+        QCanvasItemList::iterator it;
+        QCanvasItemList::iterator end(l.end());
+
+	for( it = l.begin() ; it != end ; ++it )
 	{
 		if((*it)->z() < z() )
 		{
@@ -318,7 +335,7 @@ void DiagramElement::lower()
 	}
 	else // we are already lower or equal than all others,
 	{   //  move all others one up to make sure we are drawn on the bottom
-		for( it = l.begin() ; it != l.end() ; ++it )
+		for( it = l.begin() ; it != end ; ++it )
 		{
 			(*it)->setZ((*it)->z() + 1 );
 			kdDebug()<<"raising other"<<endl;

@@ -68,7 +68,7 @@ void NodeWidget::draw(QPainter & p, int offsetX, int offsetY) {
 	int lines = 1;
 	if (m_pObject) {
 		QString stereotype = m_pObject->getStereotype();
-		if (stereotype != "") {
+		if (!stereotype.isEmpty()) {
 			p.drawText(offsetX, bodyOffsetY + (bodyHeight/2) - fontHeight,
 				   bodyWidth, fontHeight, AlignCenter, stereotype);
 			lines = 2;
@@ -109,7 +109,7 @@ void NodeWidget::calculateSize() {
 	int width = fm.width(name);
 
 	int tempWidth = 0;
-	if(m_pObject->getStereotype() != "") {
+	if(!m_pObject->getStereotype().isEmpty()) {
 		tempWidth = fm.width(m_pObject->getStereotype());
 	}
 	width = tempWidth>width ? tempWidth : width;

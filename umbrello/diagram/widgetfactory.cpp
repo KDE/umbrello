@@ -51,7 +51,9 @@ namespace Umbrello{
 
     bool WidgetFactory::canCreateWidget( UMLObject *obj )
     {
-	for( WidgetSetList::Iterator it = widgetSets.begin(); it != widgetSets.end(); ++it )
+
+	WidgetSetList::Iterator end(widgetSets.end());
+	for( WidgetSetList::Iterator it(widgetSets.begin()); it != end; ++it )
 	{
             if((*it)->canCreateWidget( obj ))
             {
@@ -67,7 +69,9 @@ namespace Umbrello{
     DiagramWidget* WidgetFactory::createWidget( UMLObject *obj, Diagram *diagram )
     {
 	DiagramWidget *w(0);
-	for( WidgetSetList::Iterator it = widgetSets.begin(); it != widgetSets.end(); ++it )
+
+	WidgetSetList::Iterator end(widgetSets.end());
+	for( WidgetSetList::Iterator it(widgetSets.begin()); it != end; ++it )
 	{
             if((*it)->canCreateWidget( obj ))
             {

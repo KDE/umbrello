@@ -408,7 +408,8 @@ QString Driver::findIncludeFile( const Dependence& dep ) const
 
     }
 
-    for ( QStringList::ConstIterator it = m_includePaths.begin(); it != m_includePaths.end(); ++it ) {
+    QStringList::ConstIterator end(m_includePaths.end());
+    for ( QStringList::ConstIterator it(m_includePaths.begin()); it != end; ++it ) {
         QFileInfo fileInfo( *it, fileName );
 	if ( fileInfo.exists() && fileInfo.isFile() )
 	    return fileInfo.absFilePath();

@@ -62,7 +62,9 @@ void StateWidget::draw(QPainter & p, int offsetX, int offsetY) {
 					p.setFont( font );
 					UMLWidget::draw(p, offsetX, offsetY);
 					int linePosY = textStartY + fontHeight;
-					for( QStringList::Iterator it = m_Activities.begin(); it != m_Activities.end(); ++it ) {
+
+					QStringList::Iterator end(m_Activities.end());
+					for( QStringList::Iterator it(m_Activities.begin()); it != end; ++it ) {
 						textStartY += fontHeight;
 						p.drawLine( offsetX, linePosY, offsetX + w - 1, linePosY );
 						p.setPen(black);
@@ -101,7 +103,9 @@ void StateWidget::calculateSize() {
 		height = fontHeight;
 		if( count > 0 ) {
 			height = fontHeight * ( count + 1);
-			for( QStringList::Iterator it = m_Activities.begin(); it != m_Activities.end(); ++it ) {
+
+			QStringList::Iterator end(m_Activities.end());
+			for( QStringList::Iterator it(m_Activities.begin()); it != end; ++it ) {
 				int w = fm.width( *it );
 				if( w > textWidth )
 					textWidth = w;
@@ -240,7 +244,9 @@ void StateWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	stateElement.setAttribute( "statetype", m_StateType );
 	//save states activities
 	QDomElement activitiesElement = qDoc.createElement( "Activities" );
-	for( QStringList::Iterator it = m_Activities.begin(); it != m_Activities.end(); ++it ) {
+
+	QStringList::Iterator end(m_Activities.end());
+	for( QStringList::Iterator it(m_Activities.begin()); it != end; ++it ) {
 		QDomElement tempElement = qDoc.createElement( "Activity" );
 		tempElement.setAttribute( "name", *it );
 		activitiesElement.appendChild( tempElement );

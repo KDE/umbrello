@@ -113,7 +113,9 @@ void InterfaceWidget::drawShape(QPainter &p)
 		p.drawLine((int)x(),currentY,(int) x() + width() -1, currentY);
 		currentY += vMargin;
 		p.setPen(textPen);
-		for(QValueList<OpString>::Iterator it = m_ops.begin(); it != m_ops.end(); ++it )
+
+		QValueList<OpString>::Iterator end(m_ops.end());
+		for(QValueList<OpString>::Iterator it(m_ops.begin()); it != end; ++it )
 		{
 			font.setUnderline( ((*it).flags & Underline) );
 			font.setItalic( ((*it).flags & Italics) );
@@ -229,7 +231,9 @@ void InterfaceWidget::calculateSize()
 
 	maxWidth = kMax(maxWidth,fm.width(m_stereotype));
 	maxWidth = kMax(maxWidth, fm.width(m_name));
-	for(QValueList<OpString>::Iterator it = m_ops.begin(); it != m_ops.end(); ++it )
+
+	QValueList<OpString>::Iterator end(m_ops.end());
+	for(QValueList<OpString>::Iterator it(m_ops.begin()); it != end; ++it )
 	{
 		maxWidth = kMax(maxWidth,fm.width((*it).string));
 	}

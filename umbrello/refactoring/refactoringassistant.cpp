@@ -107,8 +107,8 @@ UMLObject* RefactoringAssistant::findUMLObject( const QListViewItem *item )
 
 QListViewItem* RefactoringAssistant::findListViewItem( const UMLObject *obj )
 {
-	UMLObjectMap::iterator it;
-	for( it = m_umlObjectMap.begin() ; it != m_umlObjectMap.end() ; ++it )
+	UMLObjectMap::iterator end(m_umlObjectMap.end());
+	for( UMLObjectMap::iterator it(m_umlObjectMap.begin()) ; it != end ; ++it )
 		if( (*it).second == obj )
 			return (*it).first;
 	kdWarning() << "RefactoringAssistant::findListViewItem:"

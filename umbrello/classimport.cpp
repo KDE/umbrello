@@ -49,7 +49,9 @@ QString ClassImport::doxyComment(QString comment) {
 	lines.pop_back();   // remove comment end
 	if (! lines.count())
 		return "";
-	for (QStringList::Iterator lit = lines.begin(); lit != lines.end(); ++lit) {
+
+	QStringList::Iterator end(lines.end());
+	for (QStringList::Iterator lit(lines.begin()); lit != end; ++lit) {
 		(*lit).remove(QRegExp("^\\s+"));
 		(*lit).remove(QRegExp("^\\*+\\s?"));
 	}
@@ -221,11 +223,15 @@ void ClassImport::importCPP(QStringList headerFileList) {
 	m_driver->addIncludePath( "/usr/local/include" );
 	// FIXME: The following hack is to be replaced by a config menu in umbrello
 	char *umbrello_incpath = getenv( "UMBRELLO_INCPATH" );
+
 	if (umbrello_incpath) {
+
 		QStringList includes = QStringList::split( ':', umbrello_incpath );
-		for (QStringList::Iterator i = includes.begin();
-					   i != includes.end(); i++)
+
+		QStringList::Iterator end(includes.end());
+		for (QStringList::Iterator i(includes.begin()); i != end; i++)
 			m_driver->addIncludePath( *i );
+
 	}
 	for (QStringList::Iterator fileIT = headerFileList.begin();
 				   fileIT != headerFileList.end(); ++fileIT) {
