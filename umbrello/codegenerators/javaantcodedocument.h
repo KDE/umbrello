@@ -46,11 +46,6 @@ public:
 	 */
 	virtual ~JavaANTCodeDocument ( );
 
-	/**
-	 * @return	QString
-	 */
-	QString toString ( );
-
 	QString getPath ( );
 
 	void updateContent();

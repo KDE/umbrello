@@ -6,6 +6,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+#include <iostream.h>
 #include "actor.h"
 #include "associationwidget.h"
 #include "association.h"
@@ -65,6 +66,8 @@ UMLDoc::UMLDoc(QWidget *parent, const char *name) : QObject(parent, name) {
 	objectList.setAutoDelete(true);
 	diagrams.setAutoDelete(true);
 	m_ViewList.setAutoDelete(true);
+
+	m_codeGenerationXMIParamMap = new QMap<QString, QDomElement>;
 
 	m_pChangeLog = 0;
 	m_Doc = "";
@@ -402,9 +405,17 @@ bool UMLDoc::addCodeGenerator ( CodeGenerator * gen)
         return true;
 }
 
-QDomElement UMLDoc::getCodeGeneratorXMIParams ( )
+bool UMLDoc::hasCodeGeneratorXMIParams ( QString lang )
 {
-	return CodeGenerationParams;
+cerr<<"hasCOdeGeneratorXMIParams called for :"<<lang.latin1()<<endl;
+	if (m_codeGenerationXMIParamMap->contains(lang))
+		return true;
+	return false;
+}
+
+QDomElement UMLDoc::getCodeGeneratorXMIParams ( QString lang )
+{
+	return ((*m_codeGenerationXMIParamMap)[lang]);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -413,8 +424,10 @@ QDomElement UMLDoc::getCodeGeneratorXMIParams ( )
  */
 bool UMLDoc::removeCodeGenerator ( CodeGenerator * remove_object ) {
         QString lang = remove_object->getLanguage();
-        if(!(lang.isEmpty()))
+cerr<<" REMOVE CODE GENERATOR:"<<lang.latin1()<<endl; 
+        if(!(lang.isEmpty()) && m_codeGeneratorDictionary.find(lang))
 	{
+                m_codeGenerationXMIParamMap->erase(lang);
                 m_codeGeneratorDictionary.remove(lang);
 		delete remove_object;
         } else
@@ -509,6 +522,22 @@ QString	UMLDoc::uniqObjectName(const UMLObject_Type type) {
 	        name = currentName + "_" + QString::number(number))
 		;
 	return name;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+/**
+  *   Adds a UMLObject thats already created but doesn't change
+  *   any ids or signal.  Used by the list view.  Use
+  *   AddUMLObjectPaste if pasting.
+  */
+void UMLDoc::addUMLObject( UMLObject * object ) 
+{
+	objectList.append( object );
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// a simple removeal of an object
+void UMLDoc::slotRemoveUMLObject( UMLObject * object ) 
+{
+	objectList.remove(object);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLObject* UMLDoc::createUMLObject(const std::type_info &type)
@@ -651,6 +680,8 @@ UMLObject* UMLDoc::createAttribute(UMLObject* umlobject) {
 
 	((UMLClass*)umlobject)->addAttribute(newAttribute);
 
+	// addUMLObject(newAttribute);
+
 	setModified(true);
 	emit sigObjectCreated(newAttribute);
 	return newAttribute;
@@ -751,12 +782,15 @@ UMLObject* UMLDoc::createOperation(UMLObject* umlobject) {
 
 		classifier->addOperation(newOperation);
 
+		// addUMLObject(newOperation);
+
 		setModified(true);
 		emit sigObjectCreated(newOperation);
 
 	} else {
 		kdWarning() << "creating operation for something which isn't a class or an interface" << endl;
 	}
+
 
 	return newOperation;
 }
@@ -1228,11 +1262,21 @@ bool UMLDoc::saveToXMI(QIODevice& file) {
 	docElement.setAttribute( "documentation", m_Doc );
 	docElement.setAttribute( "uniqueid", uniqueID );
 	content.appendChild( docElement );
-	//  save each UMLObject
+
+	//  save each UMLObject.. No! ONLY classifiers (class/interfaces) and associations 
+	// are saved. The operations, attributes are owned by these things and will show
+	// up as child nodes.
 	QDomElement objectsElement = doc.createElement( "umlobjects" );
-	for(UMLObject *pObject = objectList.first(); pObject && status; pObject = objectList.next() )
-		status = pObject -> saveToXMI( doc, objectsElement );
+
+        UMLClassifierList clist = getConcepts();
+	for (UMLClassifier * con = clist.first(); con; con= clist.next()) 
+		con->saveToXMI(doc, objectsElement);
+
+        UMLAssociationList alist = getAssociations();
+	for (UMLAssociation * a = alist.first(); a; a = alist.next()) 
+		a->saveToXMI(doc, objectsElement);
 	content.appendChild( objectsElement );
+
 	if( !status )
 		return status;
 	//  save each view/diagram
@@ -1533,8 +1577,17 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
 					return false;
 				}
 			} else if( tag == "codegeneration" ) {
+				QDomNode cgnode = node.firstChild();
+				QDomElement cgelement = cgnode.toElement();
 				// save for later on
-				CodeGenerationParams = element;
+				while( !cgelement.isNull() ) {
+					QString nodeName = cgelement.tagName();
+					QString lang = cgelement.attribute("language","UNKNOWN");
+cerr<<"FOUND Code Gen element: "<<nodeName.latin1()<<" with lang:"<<lang.latin1()<<endl;
+                			m_codeGenerationXMIParamMap->insert(lang, cgelement);
+					cgnode = cgnode.nextSibling();
+					cgelement = cgnode.toElement();
+				}
 			}
 			node = node.nextSibling();
 			element = node.toElement();

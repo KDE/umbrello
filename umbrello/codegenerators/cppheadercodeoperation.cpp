@@ -25,7 +25,7 @@
 CPPHeaderCodeOperation::CPPHeaderCodeOperation ( CPPHeaderCodeDocument * doc, UMLOperation *parent, const QString & body, const QString & comment )
     : CodeOperation ((ClassifierCodeDocument*)doc, parent, body, comment) 
 {
-	init(doc, parent);
+	init(doc);
 };
 
 CPPHeaderCodeOperation::~CPPHeaderCodeOperation ( ) { };
@@ -123,7 +123,7 @@ void CPPHeaderCodeOperation::updateMethodDeclaration()
 
 }
 
-void CPPHeaderCodeOperation::init (CPPHeaderCodeDocument * doc, UMLOperation * parent ) 
+void CPPHeaderCodeOperation::init (CPPHeaderCodeDocument * doc ) 
 {
 
 	// lets not go with the default comment and instead use

@@ -20,6 +20,7 @@
 #include <qregexp.h>
 
 #include "javacodegenerator.h"
+#include "javacodecomment.h"
 #include "javacodeclassfield.h"
 #include "javacodeclassfielddeclarationblock.h"
 #include "javagetaccessormethod.h"
@@ -149,72 +150,8 @@ CodeDocument * JavaCodeGenerator::newClassifierCodeDocument ( UMLClassifier * c)
         return doc;
 }
 
-void JavaCodeGenerator::loadFromXMI(QDomElement & qElement ) {
-
-kdDebug()<<" **** LOAD FROM XMI CALLED FOR JAVA CODE GENERATOR **** "<<endl;
-
-        //now look for our particular child element
-        QDomNode node = qElement.firstChild();
-        QDomElement element = node.toElement();
-	QString langType = getLanguage();
-        while( !element.isNull() ) {
-                QString tag = element.tagName();
-                if( tag == "codegenerator" && element.attribute( "language", "UNKNOWN" ) == langType ) {
-			// got our code generator element, now load 
-			// codedocuments
-        		QDomNode codeDocNode = element.firstChild();
-        		QDomElement codeDocElement = codeDocNode.toElement();
-        		while( !codeDocElement.isNull() ) {
-
-                		QString docTag = codeDocElement.tagName();
-                		if( docTag == "codedocument" ) {
-					QString id = codeDocElement.attribute( "tag", "-1" );
-kdDebug()<<" XMI LOAD: GOT CODE DOCUMENT W/ ID:"<<id.latin1()<<endl;
-					CodeDocument * codeDoc = findCodeDocumentByID(id);
-					if(codeDoc)
-						codeDoc->loadFromXMI(element);
-					else { 
-						kdWarning()<<" LOAD FROM XMI: MISSING CODE DOCUMENT, create a new one or ignore and throw a warning?"<<endl;
-						// FIX: have switch based on a 'type' attribute
-					}
-				} else {
-					kdWarning()<<" XMI WARNING: got unknown codegenerator child node:"<<docTag<<", ignoring."<<endl;
-				}
-
-				codeDocNode = codeDocElement.nextSibling();
-                		codeDocElement = codeDocNode.toElement();
-			}
-			break; // no more to do 
-		}
-		node = element.nextSibling();
-                element = node.toElement();
-	}
-}
-
-bool JavaCodeGenerator::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
-	QString langType = getLanguage();
-	QDomElement docElement = doc.createElement( "codegenerator" );
-	docElement.setAttribute("language",langType);
-	bool status = true;
-
-	QPtrList<CodeDocument> * docList = getCodeDocumentList();
-	for (CodeDocument * codeDoc = docList->first(); codeDoc; codeDoc= docList->next())
-	{
-/*
-		ClassifierCodeDocument * classDoc = dynamic_cast<ClassifierCodeDocument*>(codeDoc);
-		if(classDoc)
-{
-kdDebug()<<" saveToXMI got a classifier code document"<<endl;
-			status = classDoc->saveToXMI(doc, docElement) ? status : false;
-}
-		else
-*/
-			status = codeDoc->saveToXMI(doc, docElement) ? status : false;
-	}
-
-	root.appendChild( docElement );
-
-	return status;
+CodeComment * JavaCodeGenerator::newCodeComment ( CodeDocument * doc) {
+        return new JavaCodeComment(doc);
 }
 
 void JavaCodeGenerator::initFields ( ) {

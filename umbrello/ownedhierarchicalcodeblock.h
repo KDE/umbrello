@@ -55,6 +55,21 @@ public:
 	 */
 	UMLObject * getParentObject( );
 
+	// Return the parent code document
+	CodeDocument * getParentDocument();
+
+	// these next 2 methods should be supplited by inheriting classes
+       /**
+         * Save the XMI representation of this object
+         * @return      bool    status of save
+         */
+        virtual bool saveToXMI ( QDomDocument & doc, QDomElement & root ) = 0;
+
+        /**
+         * load params from the appropriate XMI element node.
+         */
+        virtual void loadFromXMI ( QDomElement & root ) = 0;
+
 protected:
 
        /** set attributes of the node that represents this class

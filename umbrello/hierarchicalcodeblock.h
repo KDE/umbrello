@@ -125,6 +125,11 @@ public:
 	virtual CodeBlockWithComments * newCodeBlockWithComments();
 	virtual HierarchicalCodeBlock * newHierarchicalCodeBlock();
 
+	/** get the parent generator for this text block.. e.g. trace back
+	  * up through the parent code document to find this.
+	  */
+	CodeGenerator * getParentGenerator();
+
 protected:
 
         /** set attributes of the node that represents this class
@@ -136,6 +141,13 @@ protected:
          * the passed element node.
          */
         virtual void setAttributesFromNode ( QDomElement & element);
+
+        // this is needed by the parent codegenobjectwithtextblocks class
+        // in order to search for text blocks by tag when loading from XMI
+        CodeDocument * getCodeDocument();
+
+	// look for specific text blocks which belong to code classfields
+	TextBlock * findCodeClassFieldTextBlockByTag (QString tag);
 
 private:
 

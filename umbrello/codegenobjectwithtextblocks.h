@@ -32,6 +32,8 @@ class CodeDocument;
 class CodeOperation; 
 class HierarchicalCodeBlock; 
 class TextBlock;
+
+class UMLDoc;
 class UMLOperation;
 
 /**
@@ -131,6 +133,18 @@ public:
 	 */
 	virtual QString getUniqueTag (QString prefix = "" ) = 0;
 
+        /** Virtual methods that return a new code document objects.
+         */
+        virtual CodeBlock * newCodeBlock() = 0;
+        virtual CodeBlockWithComments * newCodeBlockWithComments() = 0;
+        virtual HierarchicalCodeBlock * newHierarchicalCodeBlock() = 0;
+        virtual CodeOperation * newCodeOperation(UMLOperation *op);
+        virtual CodeAccessorMethod * newCodeAccesorMethod(CodeClassField *cf, CodeAccessorMethod::AccessorType type);
+        virtual CodeComment * newCodeComment() = 0;
+
+	// get the parent code generator for this object. 
+	virtual CodeGenerator * getParentGenerator() = 0;
+
 protected:
 
         /** set attributes of the node that represents this class
@@ -148,18 +162,9 @@ protected:
          * as they are the only instanciatable (vanilla) things
          * this method should be overridden if this class is inherited
          * by some other class that is concrete and takes children
-         * derived from codeblock/codecomment
+         * derived from codeblock/codecomment/hierarchicalcb/ownedhiercodeblock 
          */
-        void loadChildTextBlocksFromNode ( QDomElement & root);
-
-	/** return a new code comment.
-	 */
-	virtual CodeBlock * newCodeBlock() = 0;
-	virtual CodeBlockWithComments * newCodeBlockWithComments() = 0;
-        virtual HierarchicalCodeBlock * newHierarchicalCodeBlock() = 0;
-	virtual CodeOperation * newCodeOperation(UMLOperation *op);
-        virtual CodeAccessorMethod * newCodeAccesorMethod(CodeClassField *cf, CodeAccessorMethod::AccessorType type);
-	virtual CodeComment * newCodeComment() = 0;
+        virtual void loadChildTextBlocksFromNode ( QDomElement & root);
 
 	// reset/clear the inventory text blocks held by this object
 	virtual void resetTextBlocks();
@@ -167,10 +172,16 @@ protected:
         QMap<QString, TextBlock *> * m_textBlockTagMap;
 	QPtrList<TextBlock> m_textblockVector;
 
+	// this is needed in order to use findTextBlocksByTag
+	virtual CodeDocument * getCodeDocument() = 0;
+
+	// find specific text block belonging to code classfields.
+	// block may not presently be alocated t othe textblock list.
+	virtual TextBlock * findCodeClassFieldTextBlockByTag(QString tag) = 0;
+
 private:
 
 	void initFields ();
-	CodeDocument * m_parentDoc;
 	
 };
 

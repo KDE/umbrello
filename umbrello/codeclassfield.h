@@ -74,6 +74,7 @@ public:
 	 */
 //	CodeClassFieldDialog getDialog ( );
 
+	// Determine if this cf is attribute or some type of association
 	QString getTypeName ( );
 
 	/**
@@ -128,6 +129,17 @@ public:
          */
         void setWriteOutMethods( bool val);
 
+        /**
+         * Save the XMI representation of this object
+         * @return      bool    status of save
+         */
+        virtual bool saveToXMI ( QDomDocument & doc, QDomElement & root );
+
+        /**
+         * load params from the appropriate XMI element node.
+         */
+        virtual void loadFromXMI ( QDomElement & root );
+
 protected:
 
 	/** Set the parent UMLobject appropriately.
@@ -160,17 +172,6 @@ protected:
 	 * Remove a Method object from m_methodVector List
 	 */
 	bool removeMethod ( CodeAccessorMethod * remove);
-
-        /**
-         * Save the XMI representation of this object
-         * @return      bool    status of save
-         */
-        virtual bool saveToXMI ( QDomDocument & doc, QDomElement & root );
-
-        /**
-         * load params from the appropriate XMI element node.
-         */
-        virtual void loadFromXMI ( QDomElement & root );
 
 	// Updates the status of the accessor methods
 	// as to whether or not they should be written out.

@@ -33,8 +33,7 @@ public:
 	/**
 	 * Empty Constructor
 	 */
-	JavaCodeOperation ( JavaClassifierCodeDocument * doc, UMLOperation * op, QString body, QString comment);
-	JavaCodeOperation ( JavaClassifierCodeDocument * doc, UMLOperation * op);
+	JavaCodeOperation ( JavaClassifierCodeDocument * doc, UMLOperation * op, const QString & body = "", const QString & comment = "");
 
 	/**
 	 * Empty Destructor
@@ -68,7 +67,7 @@ protected:
 	void updateContent();
 
 private:
-	void init (JavaClassifierCodeDocument * doc, UMLOperation * parent);
+	void init (JavaClassifierCodeDocument * doc );
 
 
 };

@@ -13,6 +13,7 @@
  *      Date   : Thu Jun 19 2003
  */
 
+#include <iostream.h>
 #include <kdebug.h>
 #include <qregexp.h>
 
@@ -22,6 +23,7 @@
 #include "attribute.h"
 #include "class.h"
 #include "interface.h"
+#include "umldoc.h"
 #include "umlrole.h"
 #include "umlattributelist.h"
 #include "umloperationlist.h"
@@ -259,7 +261,7 @@ void ClassifierCodeDocument::addOperation (UMLObject * op ) {
  */
 void ClassifierCodeDocument::removeOperation (UMLObject * op ) {
 // FIX
-kdWarning()<<"REMOVE OPERATION CALLED for op:"<<op<<endl;
+cerr<<"REMOVE OPERATION CALLED for op:"<<op<<endl;
 }
 
 // Other methods
@@ -321,8 +323,6 @@ CodeClassField * ClassifierCodeDocument::newCodeClassField (UMLRole * role ) {
 void ClassifierCodeDocument::init (UMLClassifier * c ) 
 {
 
-kdWarning()<<" **> Start INIT Classifier code doc"<<endl;
-
   	m_parentclassifier = c;
 	m_classfieldVector.setAutoDelete(true);
         m_classFieldMap = new QMap<UMLObject *, CodeClassField*>;
@@ -338,10 +338,8 @@ kdWarning()<<" **> Start INIT Classifier code doc"<<endl;
 	connect(c,SIGNAL(sigAssociationRemoved(UMLAssociation*)),this,SLOT(removeAssociationClassField(UMLAssociation*)));
 	connect(c,SIGNAL(operationAdded(UMLObject*)),this,SLOT(addOperation(UMLObject*)));
 	connect(c,SIGNAL(operationRemoved(UMLObject*)),this,SLOT(removeOperation(UMLObject*)));
-
 	connect(c,SIGNAL(modified()),this,SLOT(syncToParent()));
 
-kdWarning()<<" **> END INIT Classifier code doc"<<endl;
 }
 
 // IF the classifier object is modified, this will get called. 
@@ -355,7 +353,7 @@ void ClassifierCodeDocument::syncNamesToParent( ) {
 
 void ClassifierCodeDocument::syncronize( ) {
 
-kdWarning()<<" Syncronize classifier code doc:"<<this<<endl;
+cerr<<" Syncronize classifier code doc:"<<this<<endl;
 
 	updateHeader(); // doing this insures time/date stamp is at the time of this call
 	syncNamesToParent(); 
@@ -389,7 +387,6 @@ void ClassifierCodeDocument::syncToParent( ) {
  */
 void ClassifierCodeDocument::initCodeClassFields ( ) {
 
-kdWarning()<<" INIT CODE CLASSFIELDS IN CLASSIFIER DOC"<<endl;
 	UMLClassifier * c = getParentClassifier();
 	// first, do the code classifields that arise from attributes
         if (!parentIsInterface()) {
@@ -412,8 +409,6 @@ kdWarning()<<" INIT CODE CLASSFIELDS IN CLASSIFIER DOC"<<endl;
 	updateAssociationClassFields(ag);
 	updateAssociationClassFields(ac);
 
-kdWarning()<<" FINISH - INIT CODE CLASSFIELDS IN CLASSIFIER DOC"<<endl;
-
 }
 
 void ClassifierCodeDocument::updateAssociationClassFields ( UMLAssociationList &assocList )
@@ -426,7 +421,6 @@ void ClassifierCodeDocument::updateAssociationClassFields ( UMLAssociationList &
 void ClassifierCodeDocument::addAssociationClassField (UMLAssociation * a, bool syncToParentIfAdded) 
 {
 
-kdWarning()<<"ADD ASSOCIATION CLASSFIELD CALLED FOR :"<<a<<endl;
 	int cid = getParentClassifier()->getID(); // so we know who 'we' are 
 	bool printRoleA = false, printRoleB = false;
 	// it may seem counter intuitive, but you want to insert the role of the
@@ -470,27 +464,135 @@ kdWarning()<<"ADD ASSOCIATION CLASSFIELD CALLED FOR :"<<a<<endl;
 void ClassifierCodeDocument::setAttributesFromNode ( QDomElement & elem ) 
 {
 
-	// call super-class
+	// NOTE: we DONT set the parent here as we ONLY get to this point
+	// IF the parent codegenerator could find a matching parent classifier
+	// that already has a code document. 
+
+	// We FIRST set code class field stuff..check re-linnking with 
+	// accessor methods by looking for our particular child element
+        QDomNode node = elem.firstChild();
+        QDomElement childElem = node.toElement();
+        while( !childElem.isNull() ) {
+                QString tag = childElem.tagName();
+                if( tag == "classfields" ) {
+                        // load classfields
+			loadClassFieldsFromXMI(childElem);
+                        break;
+                }
+                node = childElem.nextSibling();
+                childElem= node.toElement();
+        }
+
+	// call super-class after. THis will populate the text blocks (incl
+	// the code accessor methods above) as is appropriate
 	CodeDocument::setAttributesFromNode(elem);
 
-        // set attributes
-	int parent_id = elem.attribute("parent_class","-1").toInt();
-kdWarning()<<"setAttributeFromNode in classifiercodedoc got parent class id:"<<parent_id<<endl;
-// FIX
+}
 
+// look at all classfields currently in document.. match up
+// by parent object ID
+CodeClassField * ClassifierCodeDocument::findCodeClassFieldFromParentID (int id) 
+{
+
+	QPtrList<CodeClassField> * list = getCodeClassFieldList();
+	for(CodeClassField * cf = list->first(); cf; cf=list->next())
+		if(cf->getID().toInt() == id)
+			return cf;
+
+cerr<<" DANGER DANGER! DIDNT find code classfield for id:"<<id<<endl;
+
+	return (CodeClassField*) NULL; // not found
+}
+
+void ClassifierCodeDocument::loadClassFieldsFromXMI( QDomElement & elem) {
+
+        QDomNode node = elem.firstChild();
+        QDomElement childElem = node.toElement();
+        while( !childElem.isNull() ) {
+		QString nodeName = childElem.tagName();
+		if( nodeName == "codeclassfield") 
+		{
+			QString id = childElem.attribute("parent_id","-1");
+			CodeClassField * cf = findCodeClassFieldFromParentID(id.toInt());
+			if(cf) 
+				cf->loadFromXMI(childElem);
+			else
+				cerr<<"ERROR: cant find code classfield for ID:"<<id.latin1()<<" do you have a corrupt savefile?"<<endl;
+		}
+		node = childElem.nextSibling();
+		childElem= node.toElement();
+	}
+}
+
+/**
+ * Save the XMI representation of this object
+ * @return      bool    status of save
+ */
+bool ClassifierCodeDocument::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
+        bool status = true;
+
+        QDomElement docElement = doc.createElement( "classifiercodedocument" );
+
+        setAttributesOnNode(doc, docElement);
+
+        root.appendChild( docElement );
+
+        return status;
+}
+
+/**
+ * load params from the appropriate XMI element node.
+ */
+void ClassifierCodeDocument::loadFromXMI ( QDomElement & root ) {
+
+        // set attributes/fields
+        setAttributesFromNode(root);
+
+        // now sync our doc, needed?
+        // syncronize();
 }
 
 /** set attributes of the node that represents this class
  * in the XMI document.
  */
-void ClassifierCodeDocument::setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement)
+void ClassifierCodeDocument::setAttributesOnNode ( QDomDocument & doc, QDomElement & docElement)
 {
 
 	// do super-class first
-	CodeDocument::setAttributesOnNode(doc, blockElement);
+	CodeDocument::setAttributesOnNode(doc, docElement);
 
-	// cache parent class id
-        blockElement.setAttribute("parent_class",QString::number(getParentClassifier()->getID()));
+	// cache local attributes/fields
+        docElement.setAttribute("parent_class",QString::number(getParentClassifier()->getID()));
+
+	// (code) class fields
+        // which we will store in its own separate child node block
+        QDomElement fieldsElement = doc.createElement( "classfields" );
+	QPtrList<CodeClassField> * list = getCodeClassFieldList();
+	for (CodeClassField * field =list->first(); field; field=list->next())
+        	field->saveToXMI(doc, fieldsElement); 
+        docElement.appendChild( fieldsElement);
+
+
+}
+
+TextBlock * ClassifierCodeDocument::findCodeClassFieldTextBlockByTag (QString tag) 
+{
+
+	QPtrList<CodeClassField> * list = getCodeClassFieldList();
+	for(CodeClassField * cf = list->first(); cf; cf=list->next())
+	{
+		CodeClassFieldDeclarationBlock * decl = cf->getDeclarationCodeBlock(); 
+		if(decl && decl->getTag() == tag)
+			return decl;
+		// well, if not in the decl block, then in the methods perhaps?
+		QPtrList<CodeAccessorMethod> * mlist = cf->getMethodList();
+		for(CodeAccessorMethod * m = mlist->first(); m; m=mlist->next())
+			if(m->getTag() == tag)
+				return m; 
+	}
+
+	// if we get here, we failed.
+        return (TextBlock*) NULL;
 
 }
 

@@ -55,9 +55,34 @@ UMLObject * CodeClassFieldDeclarationBlock::getParentObject ( ) {
 	return m_parentclassfield->getParentObject();
 }
 
+CodeDocument * CodeClassFieldDeclarationBlock::getParentDocument ( ) {
+	return TextBlock::getParentDocument();
+}
 
 // Other methods
 //
+
+/**
+ * Save the XMI representation of this object
+ * @return      bool    status of save
+ */
+bool CodeClassFieldDeclarationBlock::saveToXMI ( QDomDocument & doc, QDomElement & elem) 
+{
+        bool status = true;
+
+        QDomElement docElement = doc.createElement( "declarationcodeblock" );
+
+        setAttributesOnNode(doc, docElement);
+
+        elem.appendChild( docElement );
+
+        return status;
+}
+
+void CodeClassFieldDeclarationBlock::loadFromXMI ( QDomElement & root ) 
+{
+	setAttributesFromNode(root);
+}
 
 void CodeClassFieldDeclarationBlock::setAttributesOnNode (QDomDocument & doc, QDomElement & elem ) {
 

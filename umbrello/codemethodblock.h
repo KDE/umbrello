@@ -71,6 +71,9 @@ public:
          */
         QString getEndMethodText () const;
 
+	// get the parent code document
+	CodeDocument * getParentDocument();
+
 protected:
 
         /**

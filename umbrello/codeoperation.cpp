@@ -12,9 +12,17 @@
  *      Author : thomas
  *      Date   : Fri Jun 20 2003
  */
+
+#include <iostream.h>
 #include <kdebug.h>
 #include "codeoperation.h"
+
+#include "codedocument.h"
+#include "codegenerator.h"
 #include "classifiercodedocument.h"
+
+#include "umldoc.h"
+#include "umlobject.h"
 
 // Constructors/Destructors
 //  
@@ -92,10 +100,6 @@ void CodeOperation::setAttributesOnNode ( QDomDocument & doc, QDomElement & elem
 
 	CodeMethodBlock::setAttributesOnNode(doc,elem); // superclass
 
-        // set local class attributes
-        elem.setAttribute("parentOp",getParentOperation()->getID()); 
-
-
 }
 
 /** set the class attributes of this object from
@@ -104,19 +108,24 @@ void CodeOperation::setAttributesOnNode ( QDomDocument & doc, QDomElement & elem
 void CodeOperation::setAttributesFromNode ( QDomElement & element) 
 {
 
-	// disconnect(m_parentOperation,SIGNAL(modified()),this,SLOT(syncToParent()));
-
 	CodeMethodBlock::setAttributesFromNode(element); // superclass
 
-	// local attributes
-// FIX
-/*
-	int id = root.attribute("startMethodText","-1").toInt();
-	UMLObject * obj = findObjById(id); 
-	m_parentOperation = (UMLOperation*) obj;
-	connect(m_parentOperation,SIGNAL(modified()),this,SLOT(syncToParent()));
-*/
-kdWarning()<<"UMLOperation load needs parent op, please fix"<<endl;
+	// now set local attributes
+
+	// oops..this is done in the parent class "ownedcodeblock".
+	// we simply need to record the parent operation here
+	// m_parentOperation->disconnect(this); // always disconnect from current parent
+
+	int id = element.attribute("parent_id","-1").toInt();
+	UMLObject * obj = getParentDocument()->getParentGenerator()->getDocument()->findUMLObject(id); 
+	UMLOperation * op = dynamic_cast<UMLOperation*>(obj);
+
+	if(op)
+		m_parentOperation = op; 
+	else
+		kdError()<<"ERROR: could'nt load code operation because of missing UMLoperation, corrupt savefile?"<<endl;
+
+cerr<<" NEW CODE OP HAS TEXT:["<<getText().latin1()<<"]"<<endl;
 
 }
 
@@ -127,7 +136,8 @@ void CodeOperation::init (UMLOperation * parentOp)
 	m_parentOperation = parentOp;
 	setTag(CodeOperation::findTag(parentOp));
 
-	connect(m_parentOperation,SIGNAL(modified()),this,SLOT(syncToParent()));
+	// not needed.. done by parent "ownedcodeblock" class
+//	connect(m_parentOperation,SIGNAL(modified()),this,SLOT(syncToParent()));
 
 }
 

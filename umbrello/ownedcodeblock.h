@@ -21,6 +21,7 @@
 #include <qstring.h>
 #include <qobject.h>
 
+class CodeDocument;
 class UMLObject;
 
 /**
@@ -52,6 +53,9 @@ public:
 	 */
 	virtual UMLObject * getParentObject ( ) = 0;
 
+	// get the parent code document of this code block
+	virtual CodeDocument * getParentDocument ( ) = 0;
+
 protected:
 
         /** set attributes of the node that represents this class
@@ -71,6 +75,7 @@ protected:
 
 private:
 
+	void initFields( UMLObject * parent );
 
 public slots:
 

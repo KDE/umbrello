@@ -69,7 +69,8 @@ CPPHeaderClassDeclarationBlock * CPPHeaderCodeDocument::getClassDecl ( )
 
         // So we see if it already exists, IF it *does* then we wont create a 
 	// new one.
-        CPPHeaderClassDeclarationBlock * codeBlock = (CPPHeaderClassDeclarationBlock *) findTextBlockByTag("classBlock");
+        CPPHeaderClassDeclarationBlock * codeBlock = 
+		(CPPHeaderClassDeclarationBlock *) findTextBlockByTag("classBlock");
 	if(!codeBlock) {
 		codeBlock = new CPPHeaderClassDeclarationBlock (this);
 		codeBlock->setTag("classBlock");
@@ -93,29 +94,6 @@ void CPPHeaderCodeDocument::declareClassFields (QPtrList<CodeClassField> & list 
 		CodeClassFieldDeclarationBlock * declBlock = field->getDeclarationCodeBlock();
 		classDeclBlock->addTextBlock(declBlock); // wont add it IF its already present
         }
-}
-
-/**
- * Save the XMI representation of this object
- * @return      bool    status of save
- */
-bool CPPHeaderCodeDocument::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
-        bool status = true;
-
-        QDomElement docElement = doc.createElement( "cppheadercodedocument" );
-
-        setAttributesOnNode(doc, docElement);
-
-        root.appendChild( docElement );
-
-        return status;
-}
-
-/**
- * load params from the appropriate XMI element node.
- */
-void CPPHeaderCodeDocument::loadFromXMI ( QDomElement & root ) {
-        setAttributesFromNode(root);
 }
 
 /** set attributes of the node that represents this class
@@ -196,6 +174,22 @@ CodeOperation * CPPHeaderCodeDocument::newCodeOperation( UMLOperation * op) {
 
 CodeClassFieldDeclarationBlock * CPPHeaderCodeDocument::newDeclarationCodeBlock (CodeClassField * cf ) {
         return new CPPHeaderCodeClassFieldDeclarationBlock((CPPCodeClassField*)cf);
+}
+
+/**
+ * Save the XMI representation of this object
+ * @return      bool    status of save
+ */
+bool CPPHeaderCodeDocument::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
+        bool status = true;
+
+        QDomElement docElement = doc.createElement( "cppheadercodedocument" );
+
+        setAttributesOnNode(doc, docElement);
+
+        root.appendChild( docElement );
+
+        return status;
 }
 
 // This method will cause the class to rebuild its text representation.

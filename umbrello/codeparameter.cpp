@@ -13,11 +13,13 @@
  *      Date   : Fri Jun 20 2003
  */
 
-
+#include <iostream.h>
 #include <kdebug.h>
 #include "codeparameter.h"
-
+#include "association.h"
+#include "codegenerator.h"
 #include "classifiercodedocument.h"
+#include "umldoc.h"
 #include "umlobject.h"
 
 // Constructors/Destructors
@@ -133,6 +135,20 @@ CodeGenerator * CodeParameter::getParentGenerator ( ) {
         return getParentDocument()->getParentGenerator();
 }
 
+// need to get the ID of the parent object
+// this is kind of broken for UMLRoles.
+QString CodeParameter::getID () {
+	UMLRole * role = dynamic_cast<UMLRole*>(m_parentObject);
+	if(role)
+	{
+		// cant use Role "ID" as that is used to distinquish if its
+		// role "A" or "B"
+		UMLAssociation *assoc = (UMLAssociation*) role->parent();
+        	return QString::number(assoc->getID());
+	} else
+        	return QString::number(getParentObject()->getID());
+}
+
 // Other methods
 //  
 
@@ -141,7 +157,20 @@ void CodeParameter::setAttributesOnNode ( QDomDocument & doc, QDomElement & bloc
 
 
         // set local attributes 
-	blockElement.setAttribute("parent_id",getParentObject()->getID());
+	blockElement.setAttribute("parent_id",getID());
+
+	// setting ID's takes special treatment
+	// as UMLRoles arent properly stored in the XMI right now.
+	// (change would break the XMI format..save for big version change )
+	UMLRole * role = dynamic_cast<UMLRole*>(m_parentObject);
+	if(role) 
+{
+		blockElement.setAttribute("role_id",role->getID());
+cerr<<" CODE PARAM saveToXMI gets role_id:"<<role->getID()<<endl;
+}	else 
+
+		blockElement.setAttribute("role_id","-1");
+
 	blockElement.setAttribute("initialValue",getInitialValue());
 
         // a comment which we will store in its own separate child node block
@@ -156,7 +185,52 @@ void CodeParameter::setAttributesOnNode ( QDomDocument & doc, QDomElement & bloc
  */
 void CodeParameter::setAttributesFromNode ( QDomElement & root) {
 
-        // set local attributes (none on superclass we need) 
+        // set local attributes, parent object first
+	int id = root.attribute("parent_id","-1").toInt();
+
+	// always disconnect
+	m_parentObject->disconnect(this);
+
+	// now, what is the new object we want to set?
+	UMLObject * obj = m_parentDocument->getParentGenerator()->getDocument()->findUMLObject(id);
+	if(obj)
+	{
+
+		// FIX..one day.
+		// Ugh. This is UGLY, but we have to do it this way because UMLRoles
+		// dont go into the document list of UMLobjects, and have the same
+		// ID as their parent UMLAssociations. So..the drill is then special
+		// for Associations..in that case we need to find out which role will
+		// serve as the parametger here. The REAL fix, of course, would be to
+		// treat UMLRoles on a more even footing, but im not sure how that change
+		// might ripple throughout the code and cause problems. Thus, since the
+		// change appears to be needed for only this part, I'll do this crappy
+		// change instead. -b.t.
+		UMLAssociation * assoc = dynamic_cast<UMLAssociation*>(obj);
+		if(assoc) {
+			// In this case we init with indicated role child obj. 
+			UMLRole * role = 0;
+			int role_id = root.attribute("role_id","-1").toInt();
+			if(assoc->getUMLRoleA()->getID() == role_id)
+				role = assoc->getUMLRoleA();
+			else if(assoc->getUMLRoleB()->getID() == role_id)
+{
+				role = assoc->getUMLRoleB();
+cerr<<"SET ROLE B w/ hint of id:"<<id<<endl;
+}
+			else // this will cause a crash
+				cerr<<"ERROR! corrupt save file? cant get proper UMLRole for codeparameter:"<<id<<" w/role_id:"<<role_id<<endl;
+
+			// init using UMLRole obj
+			initFields ( m_parentDocument, role); 
+
+		} else
+			initFields ( m_parentDocument, obj); // just the regular approach 
+
+	} else
+		kdError()<<"CANT LOAD CODE PARARMETER: parentUMLObject w/id:"<<id<<" not found, corrupt save file?"<<endl;
+
+	// other attribs now
 	setInitialValue(root.attribute("initialValue",""));
 
         // load comment now
@@ -181,11 +255,6 @@ void CodeParameter::setAttributesFromNode ( QDomElement & root) {
                 kdWarning()<<" loadFromXMI : Warning: unable to initialize CodeComment in codeparam:"<<this<<endl;
 
 
-// FIX: set parent object 
-// dont forget disconnect too!
-//        m_parentObject = root.attribute("parent_id","");
-	// setText(getParentObject()->getDoc());
-
 }
 
 /**
@@ -201,8 +270,9 @@ void CodeParameter::syncToParent( ) {
 
 void CodeParameter::initFields ( ClassifierCodeDocument * doc, UMLObject * obj) {
 
-	m_parentDocument = doc;
 	m_parentObject = obj;
+
+	m_parentDocument = doc;
 	m_initialValue = QString("");
 
 	m_comment = m_parentDocument->newCodeComment();

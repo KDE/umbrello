@@ -13,6 +13,7 @@
  *      Date   : Thu Jun 19 2003
  */
 
+#include <iostream.h>
 #include <cstdlib> //to get the user name
 #include <kdebug.h>
 
@@ -58,7 +59,7 @@ CodeGenerator::CodeGenerator ( UMLDoc * doc , const char *name )
 CodeGenerator::CodeGenerator ( UMLDoc * doc,  const char *name, QDomElement & element ) 
     : QObject ( (QObject *)doc, name) {
 	initFields( doc);
-	// loadFromXMI(element); // hmm. cant call this here.. its 'pure' virtual
+	loadFromXMI(element); // hmm. cant call this here.. its 'pure' virtual
 }
 
 CodeGenerator::~CodeGenerator ( ) { 
@@ -208,30 +209,30 @@ void CodeGenerator::loadFromXMI (QDomElement & qElement ) {
         QDomElement element = node.toElement();
         QString langType = getLanguage();
 
-kdDebug()<<" **** LOAD FROM XMI CALLED for "<<langType.latin1()<<" CODE GENERATOR **** "<<endl;
-        while( !element.isNull() ) {
-                QString tag = element.tagName();
-                if( tag == "codegenerator" && element.attribute( "language", "UNKNOWN" ) == langType ) {
-                        // got our code generator element, now load
-                        // codedocuments
-                        QDomNode codeDocNode = element.firstChild();
-                        QDomElement codeDocElement = codeDocNode.toElement();
-                        while( !codeDocElement.isNull() ) {
+cerr<<" **** LOAD FROM XMI CALLED for "<<langType.latin1()<<" CODE GENERATOR **** "<<endl;
+	if( qElement.tagName() == "codegenerator" 
+                   && qElement.attribute( "language", "UNKNOWN" ) == langType ) 
+        {
+		// got our code generator element, now load
+		// codedocuments
+		QDomNode codeDocNode = qElement.firstChild();
+                QDomElement codeDocElement = codeDocNode.toElement();
+                while( !codeDocElement.isNull() ) {
 
-                                QString docTag = codeDocElement.tagName();
-kdDebug()<<" XMI LOAD: GOT CODE DOCUMENT W/ tag:"<<docTag.latin1()<<endl;
-                                if( docTag == "codedocument" ||
+			QString docTag = codeDocElement.tagName();
+cerr<<" XMI LOAD: GOT CODE DOCUMENT W/ tag:"<<docTag.latin1()<<endl;
+			if( docTag == "codedocument" ||
                                     docTag == "classifiercodedocument"
-                                  ) {
-                                        QString id = codeDocElement.attribute( "id", "-1" );
-kdDebug()<<" XMI LOAD: GOT CODE DOCUMENT W/ ID:"<<id.latin1()<<endl;
-                                        CodeDocument * codeDoc = findCodeDocumentByID(id);
-                                        if(codeDoc)
-                                                codeDoc->loadFromXMI(codeDocElement);
-                                        else {
-                                                kdError()<<" LOAD FROM XMI: MISSING CODE DOCUMENT, create a new one or ignore and throw a warning?"<<endl;
-                                        }
-                                } else 
+			) {
+				QString id = codeDocElement.attribute( "id", "-1" );
+cerr<<" XMI LOAD: GOT CODE DOCUMENT W/ ID:"<<id.latin1()<<endl;
+				CodeDocument * codeDoc = findCodeDocumentByID(id);
+				if(codeDoc)
+					codeDoc->loadFromXMI(codeDocElement);
+				else {
+					kdError()<<" LOAD FROM XMI: MISSING CODE DOCUMENT, create a new one or ignore and throw a warning?"<<endl;
+				}
+			} else 
 /*
 				// load Policy??
                                 if( docTag == "codegenpolicy" ) {
@@ -239,18 +240,14 @@ kdDebug()<<" XMI LOAD: GOT CODE DOCUMENT W/ ID:"<<id.latin1()<<endl;
                                 } else 
 */
 {
-kdDebug()<<" XMI WARNING: got strange codegenerator child node:"<<docTag.latin1()<<", ignoring."<<endl;
+cerr<<" XMI WARNING: got strange codegenerator child node:"<<docTag.latin1()<<", ignoring."<<endl;
                                         kdWarning()<<" XMI WARNING: got strange codegenerator child node:"<<docTag<<", ignoring."<<endl;
 }
 
-                                codeDocNode = codeDocElement.nextSibling();
-                                codeDocElement = codeDocNode.toElement();
-                        }
-                        break; // no more to do
-                }
-                node = element.nextSibling();
-                element = node.toElement();
-        }
+			codeDocNode = codeDocElement.nextSibling();
+			codeDocElement = codeDocNode.toElement();
+		}
+	}
 }
 
 bool CodeGenerator::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
@@ -259,7 +256,7 @@ bool CodeGenerator::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
         docElement.setAttribute("language",langType);
         bool status = true;
 
-kdDebug()<<"Code GENERATOR saveToXMI Called:"<<langType.latin1()<<endl;
+cerr<<"Code GENERATOR saveToXMI Called:"<<langType.latin1()<<endl;
 
         QPtrList<CodeDocument> * docList = getCodeDocumentList();
         for (CodeDocument * codeDoc = docList->first(); codeDoc; codeDoc= docList->next())

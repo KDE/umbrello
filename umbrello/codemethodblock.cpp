@@ -41,6 +41,11 @@ CodeMethodBlock::~CodeMethodBlock ( ) { }
 // Accessor methods
 //  
 
+// we can just call the superclass
+CodeDocument * CodeMethodBlock::getParentDocument() {
+	return TextBlock::getParentDocument();
+}
+
 /**
  * Get the starting text that begins this method before the body is printed.
  */

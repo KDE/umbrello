@@ -92,18 +92,18 @@ public:
          */
         virtual CodeOperation * newCodeOperation( UMLOperation * op );
 
-       /**
-         * Save the XMI representation of this object
-         * @return      bool    status of save
-         */
-        virtual bool saveToXMI ( QDomDocument & doc, QDomElement & root );
-
-        /**
-         * load params from the appropriate XMI element node.
-         */
-        virtual void loadFromXMI ( QDomElement & root );
+	/**
+	 * create a new code comment. IN this case it is a JavaCodeComment.
+	 */
+	CodeComment * newCodeComment ( );
 
 protected:
+
+       /**
+         * need to overwrite this for java since we need to pick up the 
+	 * java class declaration block.
+         */
+        virtual void loadChildTextBlocksFromNode ( QDomElement & root);
 
 	/** create new code classfield for this document.
 	 */

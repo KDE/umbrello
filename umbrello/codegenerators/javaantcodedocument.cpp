@@ -78,7 +78,7 @@ void JavaANTCodeDocument::setAttributesOnNode ( QDomDocument & doc, QDomElement 
 bool JavaANTCodeDocument::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
         bool status = true;
 
-        QDomElement docElement = doc.createElement( "javaantcodedocument" );
+        QDomElement docElement = doc.createElement( "codedocument" );
 
         setAttributesOnNode(doc, docElement);
 
@@ -90,14 +90,11 @@ bool JavaANTCodeDocument::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
 // we add in our code blocks that describe how to generate
 // the project here...
 void JavaANTCodeDocument::updateContent( ) {
-   // FIX : fill in content
-}
-
-/**
- * @return	QString
- */
-QString JavaANTCodeDocument::toString ( ) {
-	return "<!-- java ant build document -->";
+   	// FIX : fill in more content based on classes
+	// which exist
+	CodeBlock * block = newCodeBlock();
+	block->setText("<!-- java ANT build document -->");
+	addTextBlock(block);
 }
 
 // We overwritten by Java language implementation to get lowercase path

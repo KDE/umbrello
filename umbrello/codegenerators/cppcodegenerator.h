@@ -74,9 +74,6 @@ public:
 
         virtual bool isType (QString & type);
 
-        bool saveToXMI ( QDomDocument & doc, QDomElement & root );
-        void loadFromXMI(QDomElement & node);
-
 	QString getLanguage(); 
 
 	// should be 'static' method

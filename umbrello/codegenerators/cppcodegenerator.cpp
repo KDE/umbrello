@@ -153,13 +153,6 @@ CPPMakefileCodeDocument * CPPCodeGenerator::newMakefileCodeDocument ( ) {
 	return new CPPMakefileCodeDocument (this);
 }
 
-void CPPCodeGenerator::loadFromXMI(QDomElement & node) {
-
-}
-
-bool CPPCodeGenerator::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
-	return false;
-}
 
 /**
  * Overloaded so that we may have both source and header documents for each

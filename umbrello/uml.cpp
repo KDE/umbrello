@@ -7,6 +7,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <iostream.h>
 #include "uml.h"
 
 #include "infowidget.h"
@@ -135,9 +136,9 @@ UMLApp::UMLApp(QWidget* , const char* name):KDockMainWindow(0, name) {
 	m_defaultcodegenerationpolicy = new CodeGenerationPolicy(this,config);
 
 ////FIXME - remove when dialog linking problems are solved
-	UMLClass *dummyc = new UMLClass(this, "dummy", 9999);
-	UMLInterface *dummyi = new UMLInterface(this, "dummy", 9999);
-	UMLPackage *dummyp = new UMLPackage(this, "dummy", 9999);
+	UMLClass *dummyc = new UMLClass(doc, "dummy", 9999);
+	UMLInterface *dummyi = new UMLInterface(doc, "dummy", 9999);
+	UMLPackage *dummyp = new UMLPackage(doc, "dummy", 9999);
 
 		delete new UmbrelloDialog(this);
 		delete new Umbrello::ClassPropertiesPage(dummyc);
@@ -438,6 +439,13 @@ void UMLApp::openDocumentFile(const KURL& url) {
 	slotStatusMsg(i18n("Ready."));
 	setCaption(doc->URL().fileName(), false);
 	enablePrint(true);
+
+	// restore any saved code generators to memory.
+	// This is important because we need to insure that
+	// even if a code generator isnt worked with, it will
+	// remain in sync with the UML diagram(s) should they change. 
+	initSavedCodeGenerators();
+
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLDoc *UMLApp::getDocument() const {
@@ -510,7 +518,7 @@ void UMLApp::saveOptions() {
 	{
 		CodeGenerator * gen = doc->findCodeGeneratorByLanguage(it.current()->language);
 		if (gen)
-	gen->getPolicy()->writeConfig(config);
+			gen->getPolicy()->writeConfig(config);
 	}
 
 	// now write the basic defaults to the config file
@@ -1220,7 +1228,7 @@ CodeGenerator* UMLApp::createGenerator() {
 	g->getPolicy()->setDefaults(m_defaultcodegenerationpolicy, false);
 
 	// configure it from XMI
-	QDomElement elem = getDocument()->getCodeGeneratorXMIParams();
+	QDomElement elem = getDocument()->getCodeGeneratorXMIParams( g->getLanguage() );
 	g->loadFromXMI(elem);
 
 	// add to our UML document
@@ -1576,6 +1584,25 @@ void UMLApp::newDocument() {
 	doc->newDocument();
 	setGenerator(createGenerator());
 	slotUpdateViews();
+}
+
+void UMLApp::initSavedCodeGenerators() {
+	QString activeLang = activeLanguage;
+        QDictIterator<GeneratorInfo> it( ldict );
+        for(it.toFirst() ; it.current(); ++it )
+	{
+		activeLanguage = it.current()->language;
+cerr<<"Check for SAVED Code generator:"<<activeLanguage.latin1()<<endl;
+		if( doc->hasCodeGeneratorXMIParams(activeLanguage)) 
+		{
+cerr<<" ** INIT SAVED Code generator:"<<activeLanguage.latin1()<<endl;
+			createGenerator();
+		}
+	}
+
+	// now set back to old activeLanguage
+	activeLanguage = activeLang;
+	setGenerator(createGenerator());
 }
 
 QWidget* UMLApp::getMainViewWidget() {

@@ -1639,6 +1639,8 @@ void UMLListView::createChildUMLObject( UMLListViewItem * item, Uml::UMLObject_T
 		object = parent -> addOperation( name, m_doc -> getUniqueID() );
 	}
 
+	m_doc -> addUMLObject( object );
+
 	UMLListViewItemData * pData = item -> getdata();
 	pData -> setUMLObject( object );
 	pData -> setID( object -> getID() );

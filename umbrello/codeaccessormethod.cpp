@@ -13,7 +13,10 @@
  *      Date   : Tue Jul 1 2003
  */
 
+#include <kdebug.h>
+
 #include "codeaccessormethod.h"
+#include "classifiercodedocument.h"
 #include "codeclassfield.h"
 
 #include "attribute.h"
@@ -74,6 +77,29 @@ void CodeAccessorMethod::setType ( CodeAccessorMethod::AccessorType atype) {
 // Other methods
 //  
 
+/**
+ * load params from the appropriate XMI element node.
+ */
+void CodeAccessorMethod::loadFromXMI ( QDomElement & root ) {
+        setAttributesFromNode(root);
+}
+
+/**
+ * Save the XMI representation of this object
+ * @return      bool    status of save
+ */
+bool CodeAccessorMethod::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
+        bool status = true;
+
+        QDomElement docElement = doc.createElement( "codeaccessormethod" );
+
+        setAttributesOnNode(doc, docElement);
+
+        root.appendChild( docElement );
+
+        return status;
+}
+
 /** set attributes of the node that represents this class
   * in the XMI document.
   */
@@ -85,7 +111,7 @@ void CodeAccessorMethod::setAttributesOnNode ( QDomDocument & doc, QDomElement &
 
         // set local class attributes
         elem.setAttribute("accessType",getType());
-      //  elem.setAttribute("parentCF",QString::number(getParentClassField()->getID()));
+        elem.setAttribute("classfield_id",getParentClassField()->getID());
 
 }
 
@@ -94,17 +120,24 @@ void CodeAccessorMethod::setAttributesOnNode ( QDomDocument & doc, QDomElement &
   */
 void CodeAccessorMethod::setAttributesFromNode ( QDomElement & root) {
 
-        disconnect(m_parentclassfield,SIGNAL(modified()),this,SLOT(syncToParent()));
-
         // set attributes from the XMI
         CodeMethodBlock::setAttributesFromNode(root); // superclass load
 
-        // now load local attributes
+        QString id = root.attribute("classfield_id","-1");
+        CodeClassField * newCF = 0;
+	ClassifierCodeDocument * cdoc = dynamic_cast<ClassifierCodeDocument*>(getParentDocument());
+	if(cdoc)
+        	newCF = cdoc->findCodeClassFieldFromParentID (id.toInt());
+
+        m_parentclassfield->disconnect(this); // always disconnect 
+	if(newCF) 
+		initFields(newCF);
+	else
+		kdError()<<"ERROR: code accessor method cant load parent codeclassfield, corrupt file?"<<endl;
+
+        // now load/set other local attributes
         setType((AccessorType) root.attribute("accessType","0").toInt());
-
-// FIX: need parent codeclassfield.
-
-        connect(m_parentclassfield,SIGNAL(modified()),this,SLOT(syncToParent()));
+ 
 }
 
 void CodeAccessorMethod::initFields(CodeClassField * parentClassField ) {

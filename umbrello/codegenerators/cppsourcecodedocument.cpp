@@ -110,13 +110,6 @@ bool CPPSourceCodeDocument::saveToXMI ( QDomDocument & doc, QDomElement & root )
         return status;
 }
 
-/**
- * load params from the appropriate XMI element node.
- */
-void CPPSourceCodeDocument::loadFromXMI ( QDomElement & root ) {
-        setAttributesFromNode(root);
-}
-
 /** set attributes of the node that represents this class
  * in the XMI document.
  */

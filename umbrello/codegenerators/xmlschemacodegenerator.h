@@ -50,9 +50,6 @@ public:
         bool isType (QString & type);
 	QString getLanguage(); 
 
-        bool saveToXMI ( QDomDocument & doc, QDomElement & root );
-        void loadFromXMI(QDomElement & node);
-
 	/**
 	 * @return	ClassifierCodeDocument
 	 * @param	classifier 

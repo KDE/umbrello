@@ -22,16 +22,10 @@
 // Constructors/Destructors
 // 
 
-CPPSourceCodeOperation::CPPSourceCodeOperation ( CPPSourceCodeDocument * doc, UMLOperation *parent, QString body, QString comment )
+CPPSourceCodeOperation::CPPSourceCodeOperation ( CPPSourceCodeDocument * doc, UMLOperation *parent, const QString & body, const QString & comment )
     : CodeOperation ((ClassifierCodeDocument*)doc, parent, body, comment) 
 {
-	init(doc, parent);
-};
-
-CPPSourceCodeOperation::CPPSourceCodeOperation ( CPPSourceCodeDocument * doc, UMLOperation *parent )
-    : CodeOperation ((ClassifierCodeDocument*)doc, parent) 
-{
-	init(doc, parent);
+	init(doc);
 };
 
 CPPSourceCodeOperation::~CPPSourceCodeOperation ( ) { };
@@ -129,7 +123,7 @@ void CPPSourceCodeOperation::updateMethodDeclaration()
 
 }
 
-void CPPSourceCodeOperation::init (CPPSourceCodeDocument * doc, UMLOperation * parent ) 
+void CPPSourceCodeOperation::init (CPPSourceCodeDocument * doc ) 
 {
 
 	// lets not go with the default comment and instead use

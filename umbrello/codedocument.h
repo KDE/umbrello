@@ -296,6 +296,14 @@ protected:
         // in the inheriting class, should it have any text in it.
         virtual void updateContent();
 
+	// this is needed by the parent codegenobjectwithtextblocks class
+	// in order to search for text blocks by tag when loading from XMI
+	CodeDocument * getCodeDocument() { return this; }
+
+	// have to implement this for CodeObjectWithTextBlocks
+	// doenst actually do anythying fo ra vannilla code document
+	virtual TextBlock * findCodeClassFieldTextBlockByTag(QString tag);
+
 private:
 
 	int lastTagIndex;

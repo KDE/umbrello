@@ -69,14 +69,6 @@ kdDebug()<<"Create New XMLSCHEMA Classifier doc"<<endl;
 	return new XMLSchemaClassifierCodeDocument(classifier,this);
 }
 
-void XMLSchemaCodeGenerator::loadFromXMI(QDomElement & node) {
-
-}
-
-bool XMLSchemaCodeGenerator::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
-	return false;
-}
-
 void XMLSchemaCodeGenerator::initFields ( ) {
 
         // setPolicy ( new JavaCodeGenerationPolicy(this) );

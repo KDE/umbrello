@@ -68,7 +68,7 @@ protected:
 	void updateContent();
 
 private:
-	void init (CPPHeaderCodeDocument * doc, UMLOperation * parent);
+	void init (CPPHeaderCodeDocument * doc );
 
 
 };

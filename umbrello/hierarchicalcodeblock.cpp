@@ -39,6 +39,12 @@ HierarchicalCodeBlock::~HierarchicalCodeBlock ( ) { }
 // Accessor methods
 //  
 
+// this is needed by the parent codegenobjectwithtextblocks class
+// in order to search for text blocks by tag when loading from XMI
+CodeDocument * HierarchicalCodeBlock::getCodeDocument() { 
+	return getParentDocument(); 
+}
+
 /**
  * Set the value of m_endText
  * @param new_var the new value of m_endText
@@ -63,6 +69,10 @@ QString HierarchicalCodeBlock::getUniqueTag()
 QString HierarchicalCodeBlock::getUniqueTag(QString prefix)
 {
 	return getParentDocument()->getUniqueTag(prefix);
+}
+
+CodeGenerator * HierarchicalCodeBlock::getParentGenerator() {
+	return getParentDocument()->getParentGenerator();
 }
 
 // other methods
@@ -302,6 +312,19 @@ QString  HierarchicalCodeBlock::childTextBlocksToString() {
 	}
 	return retString;
 } 
+
+TextBlock * HierarchicalCodeBlock::findCodeClassFieldTextBlockByTag (QString tag)
+{
+
+	ClassifierCodeDocument * cdoc = dynamic_cast<ClassifierCodeDocument*>(getParentDocument());
+	if(cdoc)
+		return cdoc->findCodeClassFieldTextBlockByTag(tag);
+
+        // if we get here, we failed.
+        return (TextBlock*) NULL;
+
+}
+
 
 void HierarchicalCodeBlock::initAttributes ( ) {
 	m_endText = "";

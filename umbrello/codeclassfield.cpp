@@ -14,6 +14,7 @@
  */
 
 #include <qregexp.h>
+#include <iostream.h>
 
 #include "codeclassfield.h"
 
@@ -213,6 +214,7 @@ CodeAccessorMethod * CodeClassField::newCodeAccessorMethod ( CodeAccessorMethod:
  * load params from the appropriate XMI element node.
  */
 void CodeClassField::loadFromXMI ( QDomElement & root ) {
+cerr<<" CODE CLASSIFLEED CLOAD FROM XMI CALLED"<<endl;
         setAttributesFromNode(root);
 }
 
@@ -226,25 +228,19 @@ void CodeClassField::setAttributesOnNode ( QDomDocument & doc, QDomElement & cfE
         CodeParameter::setAttributesOnNode(doc,cfElem);
 
         // now set local attributes/fields
-        cfElem.setAttribute("parent_id",getParentObject()->getID());
         cfElem.setAttribute("field_type",m_classFieldType);
         cfElem.setAttribute("listClassName",m_listClassName);
         cfElem.setAttribute("writeOutMethods",getWriteOutMethods()?"true":"false");
 
         // record tag on declaration codeblock
         // which we will store in its own separate child node block
-        QDomElement declElem = doc.createElement( "declarationcodeblock" );
-        declElem.setAttribute("tag",m_declCodeBlock->getTag());
-        cfElem.appendChild( declElem );
+	m_declCodeBlock->saveToXMI(doc, cfElem);
 
 	// now record the tags on our accessormethods
 	QPtrList<CodeAccessorMethod> * list = getMethodList ( );
 	for(CodeAccessorMethod * method=list->first(); method; method=list->next()) 
 	{
-        	QDomElement methodElem = doc.createElement( "codeaccessormethod" );
-        	methodElem.setAttribute("tag",method->getTag());
-        	methodElem.setAttribute("accessType",method->getType());
-        	cfElem.appendChild( methodElem );
+		method->saveToXMI(doc,cfElem);
 	}
 
 }
@@ -254,13 +250,16 @@ void CodeClassField::setAttributesOnNode ( QDomDocument & doc, QDomElement & cfE
  */
 void CodeClassField::setAttributesFromNode ( QDomElement & root) {
 
+	// clear methods
+	m_methodVector.clear();
+	m_methodMap->clear();
+	
 	// super class
         CodeParameter::setAttributesFromNode(root);
 
-        // now set local attributes
-
         setWriteOutMethods(root.attribute("writeOutMethods","true") == "true" ? true : false);
         m_listClassName = root.attribute("listClassName","");
+        m_classFieldType = (ClassFieldType) root.attribute("field_type","0").toInt();
 
         // load accessor methods now
         // by looking for our particular child element
@@ -269,21 +268,27 @@ void CodeClassField::setAttributesFromNode ( QDomElement & root) {
         while( !element.isNull() ) {
                 QString tag = element.tagName();
                 if( tag == "declarationcodeblock" ) {
-/* //FIX : just find from the parent? 
-                        QDomNode cnode = element.firstChild();
-                        QDomElement celem = cnode.toElement();
-        		m_declCodeBlock->loadFromXMI(celem);
-*/
+			m_declCodeBlock = newDeclarationCodeBlock();
+			m_declCodeBlock->loadFromXMI(element);
+cerr<< " >> GOT ClassFIeld Decl Code BLOCK OK"<<endl;
                 } else 
-                if( tag == "accessormethod" ) {
-/* // FIX: just load/find pointer from parent document?
-   and then configure params here?
-*/
-		}
+                if( tag == "codeaccessormethod" ) {
+cerr<< " >> GOT Code Accessor BLOCK OK"<<endl;
+			CodeAccessorMethod * method = newCodeAccessorMethod (CodeAccessorMethod::GET);
+			if(method)
+			{
+				method->loadFromXMI(element);
+				addMethod(method);
+			}
+		} else
+                if( tag == "header" ) {
+			// this is treated in parent.. skip over here
+		} else
+			cerr<<"ERROR: bad savefile? code classfield loadFromXMI got child element with unknown tag:"<<tag.latin1()<<endl;  
+
                 node = element.nextSibling();
                 element = node.toElement();
         }
-
 }
 
 /**

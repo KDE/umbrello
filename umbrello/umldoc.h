@@ -23,6 +23,7 @@
 #include "umlinterfacelist.h"
 #include "umlnamespace.h"
 #include <qdatastream.h>
+#include <qmap.h>
 #include <qdict.h>
 #include <qptrstack.h>
 #include <kurl.h>
@@ -288,6 +289,15 @@ public:
 	 */
 	void createDiagram(Diagram_Type type, bool askForName = true);
 
+        /**
+         *      Removes an @ref UMLObject from the current file.  If this object
+         *      is being represented on a diagram it will also delete all those
+         *      representations.
+         *
+         *      @param o The object to delete.
+         */
+        void removeUMLObject(UMLObject*o);
+
 	Umbrello::Diagram* UcreateDiagram(Umbrello::Diagram::DiagramType);
 
 	/**
@@ -329,15 +339,6 @@ public:
 	 *	@param	id	The ID of the diagram to delete.
 	 */
 	void removeDiagram(int id);
-
-	/**
-	 *	Removes an @ref UMLObject from the current file.  If this object
-	 *	is being represented on a diagram it will also delete all those
-	 *	representations.
-	 *
-	 *	@param o The object to delete.
-	 */
-	void removeUMLObject(UMLObject*o);
 
 	/**
 	 *	Used to find a reference to a @ref UMLObject by its ID.
@@ -657,15 +658,6 @@ public:
 	bool getCutCopyState();
 
 	/**
-	 *   Adds a UMLObject thats already created but doesn't change
-	 *   any ids or signal.  Used by the list view.  Use
-	 *   AddUMLObjectPaste if pasting.
-	 */
-	void addUMLObject( UMLObject * object ) {
-		objectList.append( object );
-	}
-
-	/**
 	 *   Returns the central dock widget used for diagrams
 	 */
 	QWidget* getMainViewWidget();
@@ -713,7 +705,11 @@ public:
 
 	/** Get the root node for the code generation parameters.
 	 */
-	QDomElement getCodeGeneratorXMIParams ( );
+	QDomElement getCodeGeneratorXMIParams ( QString lang );
+
+	/** Allow checking to see if saved XMI parameters exist already.
+	 */
+	bool hasCodeGeneratorXMIParams ( QString lang ); 
 
 	/**
 	 * All the UMLViews (i.e. diagrams)
@@ -790,7 +786,10 @@ private:
 	bool m_modified;
 	KURL doc_url;
 	UMLView* currentView;
-	QDomElement CodeGenerationParams;
+
+	// a dictionary of the parameters in the save XMI file
+	// sorted by language.
+        QMap<QString, QDomElement> * m_codeGenerationXMIParamMap;
 
         // A dictionary of various code generators we currently have configured
 	// for this UML document.
@@ -842,6 +841,16 @@ private:
 
 
 public slots:
+
+       /**
+         *   Adds a UMLObject thats already created but doesn't change
+         *   any ids or signal.  Used by the list view.  Use
+         *   AddUMLObjectPaste if pasting.
+         */
+        void addUMLObject( UMLObject * object );
+
+        void slotRemoveUMLObject(UMLObject*o);
+
 
 	/**
 	 * calls repaint() on all views connected to the document

@@ -33,8 +33,7 @@ public:
 	/**
 	 * Empty Constructor
 	 */
-	CPPSourceCodeOperation ( CPPSourceCodeDocument * doc, UMLOperation * op, QString body, QString comment);
-	CPPSourceCodeOperation ( CPPSourceCodeDocument * doc, UMLOperation * op);
+	CPPSourceCodeOperation ( CPPSourceCodeDocument * doc, UMLOperation * op, const QString & body = "", const QString & comment = "");
 
 	/**
 	 * Empty Destructor
@@ -68,7 +67,7 @@ protected:
 	void updateContent();
 
 private:
-	void init (CPPSourceCodeDocument * doc, UMLOperation * parent);
+	void init (CPPSourceCodeDocument * doc );
 
 
 };

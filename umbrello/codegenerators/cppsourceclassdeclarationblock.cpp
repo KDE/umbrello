@@ -31,6 +31,29 @@ CPPSourceClassDeclarationBlock::~CPPSourceClassDeclarationBlock ( ) { };
 // Methods
 //  
 
+/**
+ * Save the XMI representation of this object
+ * @return      bool    status of save
+ */
+bool CPPSourceClassDeclarationBlock::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
+        bool status = true;
+
+        QDomElement blockElement = doc.createElement( "cppsourceclassdeclarationblock" );
+
+        setAttributesOnNode(doc, blockElement);
+
+        root.appendChild( blockElement );
+
+        return status;
+}
+
+/**
+ * load params from the appropriate XMI element node.
+ */
+void CPPSourceClassDeclarationBlock::loadFromXMI ( QDomElement & root ) {
+        setAttributesFromNode(root);
+}
+
 
 // Accessor methods
 //  

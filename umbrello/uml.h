@@ -632,6 +632,13 @@ private:
 	 */
 	void initClip();
 
+	/** Initialize code generators at startup. 
+	 * Why is this important? Because IF we dont do this, then changes
+	 * to the UML may not be synced with the saved code generation params
+	 * for those languages which arent currently active.
+	 */
+	void initSavedCodeGenerators();
+
 	/**
 	 * the configuration object of the application
 	 */

@@ -39,6 +39,7 @@
 
 class ClassifierCodeDocument : public CodeDocument
 {
+	friend class HierarchicalCodeBlock;
 	Q_OBJECT
 public:
 
@@ -125,6 +126,12 @@ public:
 	 */
 	QPtrList<CodeClassField> getSpecificClassFields (CodeClassField::ClassFieldType cfType, bool isStatic, Uml::Scope visibility);
 
+	/** Using the parent object's UML ID, find the cooresponding
+	 * codeclassfield object in this classifiercodedocument. Returns
+	 * NULL if no such codeclassfield object exists in this document.
+	 */
+	CodeClassField * findCodeClassFieldFromParentID (int id);
+
 	/**
 	 * Get the value of m_parentclassifier
 	 * @return the value of m_parentclassifier
@@ -151,12 +158,12 @@ public:
          * Save the XMI representation of this object
          * @return      bool    status of save
          */
-        virtual bool saveToXMI ( QDomDocument & doc, QDomElement & root ) = 0;
+        virtual bool saveToXMI ( QDomDocument & doc, QDomElement & root );
 
         /**
          * load params from the appropriate XMI element node.
          */
-        virtual void loadFromXMI ( QDomElement & root ) = 0;
+        virtual void loadFromXMI ( QDomElement & root );
 
 	virtual CodeClassFieldDeclarationBlock * newDeclarationCodeBlock (CodeClassField * cf) = 0;
 	virtual CodeAccessorMethod * newCodeAccessorMethod ( CodeClassField *cp, CodeAccessorMethod::AccessorType type) = 0;
@@ -164,6 +171,11 @@ public:
 
 
 protected:
+
+	/**
+	 * little utility method to load codeclassifields from XMI element node.
+	 */
+	void loadClassFieldsFromXMI( QDomElement & childElem);
 
         /**
          * @return      CodeClassField
@@ -187,8 +199,12 @@ protected:
          */
         virtual void setAttributesFromNode ( QDomElement & element);
 
-	virtual void updateContent( ) = 0;
+	// find a specific textblock held by any code class field in this document 
+	// by its tag
+	TextBlock * findCodeClassFieldTextBlockByTag (QString tag);
 
+	virtual void updateContent( ) = 0;
+ 
 private:
 
 	QPtrList<CodeClassField> m_classfieldVector;

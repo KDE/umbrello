@@ -108,12 +108,11 @@ public:
 	// returns a java code generation policy
 	virtual CodeGenerationPolicy * newCodeGenerationPolicy(KConfig * config = 0);
 
+	CodeComment * newCodeComment ( CodeDocument * doc) ;
+
 	// return "Java"
 	QString getLanguage();
 
-        bool saveToXMI ( QDomDocument & doc, QDomElement & root );
-
-	void loadFromXMI(QDomElement & node); 
 
 protected:
 

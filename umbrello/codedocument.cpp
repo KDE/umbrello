@@ -555,4 +555,9 @@ kdWarning()<<"INIT CODE DOCUMENT"<<endl;
 kdWarning()<<"INIT CODE DOCUMENT - FINISHED "<<endl;
 }
 
+TextBlock * CodeDocument::findCodeClassFieldTextBlockByTag (QString tag) {
+	kdWarning()<<"Called findCodeClassFieldMethodByTag("<<tag<<") for a regular CodeDocument"<<endl;
+	return (TextBlock *) NULL;
+}
+
 #include "codedocument.moc"

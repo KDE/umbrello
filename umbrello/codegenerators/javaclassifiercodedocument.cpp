@@ -23,12 +23,14 @@
   *   guts of the class (e.g. field decl, accessor methods, operations, dependant classes)
 */
 
+#include <iostream.h>
 #include <kdebug.h>
 #include <kdebug.h>
 #include <qregexp.h>
 
 #include "javaclassifiercodedocument.h"
 #include "javacodegenerator.h"
+#include "javacodecomment.h"
 #include "javaclassdeclarationblock.h"
 #include "javacodeclassfielddeclarationblock.h"
 #include "javagetaccessormethod.h"
@@ -168,6 +170,14 @@ CodeClassFieldDeclarationBlock * JavaClassifierCodeDocument::newDeclarationCodeB
 }
 
 /**
+ * create a new CodeBlockWithComments object belonging to this CodeDocument.
+ * @return      CodeBlockWithComments
+ */
+CodeComment * JavaClassifierCodeDocument::newCodeComment ( ) {
+        return new JavaCodeComment(this);
+}
+
+/**
  * create a new CodeAccesorMethod object belonging to this CodeDocument.
  * @return      CodeAccessorMethod
  */
@@ -218,24 +228,18 @@ CodeOperation * JavaClassifierCodeDocument::newCodeOperation( UMLOperation * op)
 	return new JavaCodeOperation(this, op); 
 }
 
-/**
- * load params from the appropriate XMI element node.
- */
-void JavaClassifierCodeDocument::loadFromXMI ( QDomElement & root ) {
-        setAttributesFromNode(root);
-}
-
 /** set attributes of the node that represents this class
  * in the XMI document.
  */
 void JavaClassifierCodeDocument::setAttributesOnNode ( QDomDocument & doc, QDomElement & docElement)
 {
 
+cerr<<"JAVA classcode doc setAttributesOnNode called"<<endl;
         // superclass call
         ClassifierCodeDocument::setAttributesOnNode(doc,docElement);
 
-        // now set local attributes/fields
-// FIX
+        // now set local attributes/fields -- none to set 
+
 }
 
 /** set the class attributes of this object from
@@ -244,28 +248,137 @@ void JavaClassifierCodeDocument::setAttributesOnNode ( QDomDocument & doc, QDomE
 void JavaClassifierCodeDocument::setAttributesFromNode ( QDomElement & root) 
 {
 
+cerr<<" JAVA classcode doc setAttributesFromNode called"<<endl;
 	// superclass save
         ClassifierCodeDocument::setAttributesFromNode(root);
 
-        // now set local attributes
-// FIX
+        // now set local attributes/fields -- none to set 
 
 }
 
-/**
- * Save the XMI representation of this object
- * @return      bool    status of save
- */
-bool JavaClassifierCodeDocument::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
-        bool status = true;
+// Sigh. NOT optimal. The only reason that we need to have this
+// is so we can create the JavaClassDeclarationBlock.
+// would be better if we could create a handler interface that each
+// codeblock used so all we have to do here is add the handler
+// for "javaclassdeclarationblock"
+void JavaClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & root)
+{
 
-        QDomElement docElement = doc.createElement( "javaclassifiercodedocument" );
+QString rtag = root.tagName();
+cerr<<"Java class doc LoadChildTextBlocks from root element:"<<rtag.latin1()<<" first child."<<endl;
 
-        setAttributesOnNode(doc, docElement);
+        QDomNode tnode = root.firstChild();
+        QDomElement telement = tnode.toElement();
+        bool gotChildren = false;
+        while( !telement.isNull() ) {
+                QString nodeName = telement.tagName();
 
-        root.appendChild( docElement );
+                if( nodeName == "textblocks" ) {
 
-        return status;
+                        QDomNode node = telement.firstChild();
+                        QDomElement element = node.toElement();
+
+                        while( !element.isNull() ) {
+                                QString name = element.tagName();
+
+cerr<<" *** (j) LOADING child node : "<<name.latin1()<<endl;
+
+                                if( name == "javaclassdeclarationblock" ) {
+					JavaClassDeclarationBlock * classDeclBlock = new JavaClassDeclarationBlock (this);
+ 					classDeclBlock->loadFromXMI(element);
+					if(!addTextBlock(classDeclBlock))
+                                                cerr<<"Unable to add javaclassdeclaration block to :"<<this<<endl;
+					else
+                                                gotChildren= true;
+                                } else
+                                if( name == "codecomment" ) {
+                                        CodeComment * block = newCodeComment();
+                                        block->loadFromXMI(element);
+                                        if(!addTextBlock(block))
+                                                cerr<<"Unable to add codeComment to :"<<this<<endl;
+                                        else
+                                                gotChildren= true;
+                                } else
+                                if( name == "codeaccessormethod" ||
+                                    name == "declarationcodeblock"
+                                  ) {
+                                        QString acctag = element.attribute("tag","");
+cerr<<"Trying to create code classfield tblock tag:"<<acctag.latin1()<<" in codegenobjectw/textblocks ";
+                                        // search for our method in the
+                                        TextBlock * tb = findCodeClassFieldTextBlockByTag(acctag);
+                                        if(!tb || !addTextBlock(tb, true))
+{
+                                                kdWarning()<<"Unable to add codeaccessormethod to:"<<this<<endl;
+cerr<<"..FAILED"<<endl;
+}
+                                        else
+{
+cerr<<"..SUCCESS!"<<endl;
+                                                gotChildren= true;
+}
+                                } else
+                                if( name == "codeblock" ) {
+                                        CodeBlock * block = newCodeBlock();
+                                        block->loadFromXMI(element);
+                                        if(!addTextBlock(block))
+                                                cerr<<"Unable to add codeBlock to :"<<this<<endl;
+                                        else
+                                                gotChildren= true;
+                                } else
+                                if( name == "codeblockwithcomments" ) {
+                                        CodeBlockWithComments * block = newCodeBlockWithComments();
+                                        block->loadFromXMI(element);
+                                        if(!addTextBlock(block))
+                                                cerr<<"Unable to add codeBlockwithcomments to:"<<this<<endl;
+                                        else
+                                                gotChildren= true;
+                                } else
+                                if( name == "header" ) {
+                                       // do nothing.. this is treated elsewhere
+                                } else
+                                if( name == "hierarchicalcodeblock" ) {
+                                        HierarchicalCodeBlock * block = newHierarchicalCodeBlock();
+                                        block->loadFromXMI(element);
+                                        if(!addTextBlock(block))
+                                                cerr<<"Unable to add hierarchicalcodeBlock to:"<<this<<endl;
+                                        else
+                                                gotChildren= true;
+                                } else
+                                if( name == "codeoperation" ) {
+                                       // find the code operation by id
+                                        QString id = element.attribute("parent_op","-1");
+                                        UMLObject * obj = getParentGenerator()->getDocument()->findUMLObject(id.toInt());
+                                        UMLOperation * op = dynamic_cast<UMLOperation*>(obj);
+                                        if(op) {
+                                                CodeOperation * block = newCodeOperation(op);
+cerr<<" *** "<<endl<<"  LOADING CODE OP "<<endl<<" *** "<<endl;
+                                                block->loadFromXMI(element);
+                                                if(addTextBlock(block))
+                                                        gotChildren= true;
+                                        } else
+                                              kdWarning()<<"Unable to add codeoperation to:"<<this<<endl;
+                                } else
+{
+                                        cerr<<" Got strange tag in text block stacK:"<<name.latin1()<<endl;
+                                        kdWarning()<<" GOt strange tag in text block stacK:"<<name<<endl;
+}
+
+                                node = element.nextSibling();
+                                element = node.toElement();
+                        }
+                        break;
+                }
+
+                tnode = telement.nextSibling();
+                telement = tnode.toElement();
+        }
+
+        if(!gotChildren)
+{
+                cerr<<" loadFromXMI : Warning: unable to initialize any child blocks in:"<<this<<endl;
+                kdWarning()<<" loadFromXMI : Warning: unable to initialize any child blocks in:"<<this<<endl;
+}
+
 }
 
 QString JavaClassifierCodeDocument::scopeToJavaDecl(Uml::Scope scope)

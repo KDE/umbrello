@@ -21,16 +21,10 @@
 // Constructors/Destructors
 //  
 
-JavaCodeOperation::JavaCodeOperation ( JavaClassifierCodeDocument * doc, UMLOperation *parent, QString body, QString comment )
+JavaCodeOperation::JavaCodeOperation ( JavaClassifierCodeDocument * doc, UMLOperation *parent, const QString & body, const QString & comment )
     : CodeOperation ((ClassifierCodeDocument*)doc, parent, body, comment) 
 {
-	init(doc, parent);
-};
-
-JavaCodeOperation::JavaCodeOperation ( JavaClassifierCodeDocument * doc, UMLOperation *parent )
-    : CodeOperation ((ClassifierCodeDocument*)doc, parent) 
-{
-	init(doc, parent);
+	init(doc );
 };
 
 JavaCodeOperation::~JavaCodeOperation ( ) { };
@@ -126,7 +120,7 @@ void JavaCodeOperation::updateMethodDeclaration()
 
 }
 
-void JavaCodeOperation::init (JavaClassifierCodeDocument * doc, UMLOperation * parent ) 
+void JavaCodeOperation::init (JavaClassifierCodeDocument * doc ) 
 {
 
 	// lets not go with the default comment and instead use

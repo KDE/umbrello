@@ -126,6 +126,9 @@ public:
 	 */
 	CodeComment * getComment ( );
 
+	// the id of this parameter is the same as the parent UMLObject id.
+	QString getID (); 
+
 protected:
 
         // a little utility method..
