@@ -19,6 +19,8 @@
 #include "operationpropertiesbase.h"
 
 class UMLOperation;
+class UMLAttribute;
+class UMLDoc;
 
 /** @short A Page to display / change the properties of a UMLOperation 
  * 
@@ -38,10 +40,10 @@ public:
 	 * @param parent The widget parent, normally a UmbrelloDialog or null
 	 * @param name   The name of the page
 	 */
-	OperationPropertiesPage(UMLOperation *c, QWidget *parent = 0, const char *name = 0 );
+	OperationPropertiesPage(UMLOperation *c, UMLDoc *m_doc, QWidget *parent = 0, const char *name = 0 );
 	
 	/** Destructor */
-	~OperationPropertiesPage( );
+	virtual ~OperationPropertiesPage( );
 	
 public slots:
 	/** apply changes to the object being observed*/
@@ -52,11 +54,28 @@ public slots:
 	virtual void pageContentsModified();
 	/** Load the widget data from the UMLObject. */
 	virtual void loadData();
+signals:
+	void pageModified( );
 protected:
+	virtual void moveUp( );
+	virtual void moveDown( );
+	virtual void createParameter( );
+	virtual void editSelected( );
+	virtual void deleteSelected( );
+	virtual void itemSelected(QListViewItem *item);
+
 	/** Apply changes made in the page to the UMLOperation being observed */
 	virtual void saveData();
+	virtual void loadPixmaps();
+	struct { QPixmap Public,
+			 Protected,
+			 Private;
+		} m_pixmaps;
 	
 	UMLOperation *m_umlObject;
+	UMLDoc *m_doc;
+	QPtrList<UMLAttribute> m_paramList;
+	QMap<QListViewItem*,UMLAttribute*> m_paramMap;
 };
 
 #endif

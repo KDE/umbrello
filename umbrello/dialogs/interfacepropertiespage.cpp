@@ -1,5 +1,5 @@
 /***************************************************************************
-                          classpropertiespage.cpp
+                          interfacepropertiespage.cpp
                              -------------------
     copyright            : (C) 2003 Luis De la Parra
  ***************************************************************************/
@@ -12,8 +12,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "classpropertiespage.h"
-#include "../class.h"
+#include "interfacepropertiespage.h"
+#include "../interface.h"
 
 #include <qlineedit.h>
 #include <qtextedit.h>
@@ -26,8 +26,8 @@
 namespace Umbrello{
 
 
-ClassPropertiesPage::ClassPropertiesPage(UMLClass *c, QWidget *parent, const char *name)
-	: ClassPropertiesBase( parent, name ),
+InterfacePropertiesPage::InterfacePropertiesPage(UMLInterface *c, QWidget *parent, const char *name)
+	: InterfacePropertiesBase( parent, name ),
 	  DialogPage(parent==0),
 	  m_umlObject(c)
 {
@@ -35,7 +35,6 @@ ClassPropertiesPage::ClassPropertiesPage(UMLClass *c, QWidget *parent, const cha
 	connect(m_name,SIGNAL(textChanged(const QString&)),this,SIGNAL(pageModified()));
 	connect(m_package,SIGNAL(textChanged(const QString&)),this,SIGNAL(pageModified()));
 	connect(m_stereotype,SIGNAL(textChanged(const QString&)),this,SIGNAL(pageModified()));
-	connect(m_abstract,SIGNAL(toggled(bool)),this,SIGNAL(pageModified()));
 	connect(m_public,SIGNAL(toggled(bool)),this,SIGNAL(pageModified()));
 	connect(m_protected,SIGNAL(toggled(bool)),this,SIGNAL(pageModified()));
 	connect(m_private,SIGNAL(toggled(bool)),this,SIGNAL(pageModified()));
@@ -45,19 +44,19 @@ ClassPropertiesPage::ClassPropertiesPage(UMLClass *c, QWidget *parent, const cha
 	connect(this,SIGNAL(pageModified()),this,SLOT(pageContentsModified()));
 }
 
-ClassPropertiesPage::~ClassPropertiesPage() {}
+InterfacePropertiesPage::~InterfacePropertiesPage() {}
 
-void ClassPropertiesPage::apply()
+void InterfacePropertiesPage::apply()
 {
 	saveData();
 }
 
-void ClassPropertiesPage::cancel()
+void InterfacePropertiesPage::cancel()
 {
 	loadData();
 }
 
-void ClassPropertiesPage::pageContentsModified()
+void InterfacePropertiesPage::pageContentsModified()
 {
 	if(m_autoApply)
 	{
@@ -66,14 +65,13 @@ void ClassPropertiesPage::pageContentsModified()
 }
 
 
-void ClassPropertiesPage::loadData()
+void InterfacePropertiesPage::loadData()
 {
 	disconnect(this,SIGNAL(pageModified()),this,SLOT(pageContentsModified()));
 
 	m_name->setText(m_umlObject->getName());
 	m_stereotype->setText(m_umlObject->getStereotype());
 	m_package->setText(m_umlObject->getPackage());
-	m_abstract->setChecked(m_umlObject->getAbstract());
 	switch(m_umlObject->getScope())
 	{
 		case Uml::Public:
@@ -91,7 +89,7 @@ void ClassPropertiesPage::loadData()
 	connect(this,SIGNAL(pageModified()),this,SLOT(pageContentsModified()));
 }
 
-void ClassPropertiesPage::saveData()
+void InterfacePropertiesPage::saveData()
 {
 	m_umlObject->blockSignals( true );
 	//disconnect(m_umlObject,SIGNAL(modified()),this,SLOT(loadData()));
@@ -115,5 +113,5 @@ void ClassPropertiesPage::saveData()
 
 }//namespace Umbrello
 
-#include "classpropertiespage.moc"
+#include "interfacepropertiespage.moc"
 

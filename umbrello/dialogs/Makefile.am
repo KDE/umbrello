@@ -11,8 +11,16 @@ libdialogs_la_SOURCES = overwritedialogue.cpp codegenerationwizard.cpp codegener
                         statedialog.cpp settingsdlg.cpp selectopdlg.cpp parmpropdlg.cpp diagramprintpage.cpp \
                         classpropdlg.cpp classoptionspage.cpp classopspage.cpp classgenpage.cpp classattpage.cpp \
                         assocpropdlg.cpp assocpage.cpp diagrampropertiespage.ui assocrolepage.cpp assocgenpage.cpp \
-                        umltemplatedialog.cpp classtemplatepage.cpp umbrellodialog.cpp classpropertiespage.cpp \
-                        classpropertiesbase.ui classattributespage.cpp classattributesbase.ui classoperationspage.cpp \
-                        classoperationsbase.ui operationpropertiesbase.ui operationpropertiespage.cpp \
+                        umltemplatedialog.cpp classtemplatepage.cpp umbrellodialog.cpp \
+                        classpropertiesbase.ui classpropertiespage.cpp interfacepropertiesbase.ui interfacepropertiespage.cpp \
+                        packagepropertiesbase.ui packagepropertiespage.cpp \
+                        classattributesbase.ui classattributespage.cpp classifieroperationsbase.ui classifieroperationspage.cpp \
+                        operationpropertiesbase.ui operationpropertiespage.cpp attributepropertiesbase.ui attributepropertiespage.cpp \
+                        parameterpropertiesbase.ui parameterpropertiespage.cpp \
+                        classtemplatesbase.ui classtemplatespage.cpp templatepropertiesbase.ui templatepropertiespage.cpp \
+                        umlobjectassociationsbase.ui umlobjectassociationspage.cpp \
                         widgetcolorsbase.ui widgetcolorspage.cpp
+
+libdialogs_la_LDFLAGS = $(all_libraries) $(KDE_RPATH) -export-dynamic
+
 

@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>483</width>
-            <height>381</height>
+            <width>368</width>
+            <height>369</height>
         </rect>
     </property>
     <property name="caption">
@@ -39,17 +39,6 @@
                             <cstring>unnamed</cstring>
                         </property>
                         <widget class="QListView" row="0" column="0" rowspan="2" colspan="1">
-                            <column>
-                                <property name="text">
-                                    <string></string>
-                                </property>
-                                <property name="clickable">
-                                    <bool>true</bool>
-                                </property>
-                                <property name="resizable">
-                                    <bool>true</bool>
-                                </property>
-                            </column>
                             <column>
                                 <property name="text">
                                     <string>Name</string>
@@ -156,23 +145,6 @@
                                 <string>Delete</string>
                             </property>
                         </widget>
-                        <spacer>
-                            <property name="name">
-                                <cstring>spacer2</cstring>
-                            </property>
-                            <property name="orientation">
-                                <enum>Horizontal</enum>
-                            </property>
-                            <property name="sizeType">
-                                <enum>Expanding</enum>
-                            </property>
-                            <property name="sizeHint">
-                                <size>
-                                    <width>81</width>
-                                    <height>21</height>
-                                </size>
-                            </property>
-                        </spacer>
                     </hbox>
                 </widget>
             </vbox>

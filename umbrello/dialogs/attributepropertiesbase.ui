@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>314</width>
-            <height>231</height>
+            <width>323</width>
+            <height>226</height>
         </rect>
     </property>
     <property name="caption">
@@ -96,9 +96,9 @@
                 </spacer>
             </grid>
         </widget>
-        <widget class="QGroupBox">
+        <widget class="QButtonGroup">
             <property name="name">
-                <cstring>groupBox3</cstring>
+                <cstring>buttonGroup2</cstring>
             </property>
             <property name="title">
                 <string>Visibility</string>

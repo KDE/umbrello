@@ -1,5 +1,5 @@
 /***************************************************************************
-                          widgetcolorspage.h
+                          attributepropertiespage.h
                              -------------------
     copyright            : (C) 2003 Luis De la Parra
  ***************************************************************************/
@@ -12,23 +12,39 @@
  *                                                                         *
  ***************************************************************************/
  
-#ifndef WIDGET_COLORS_PAGE_H
-#define WIDGET_COLORS_PAGE_H
- 
- #include "widgetcolorsbase.h"
- #include "dialogpage.h"
- 
- 
- namespace Umbrello{
- 
- class DiagramElement;
- 
- class WidgetColorsPage : public WidgetColorsBase, public DialogPage
- {
- Q_OBJECT
- public:
- 	WidgetColorsPage( DiagramElement *e, QWidget *parent = 0, const char *name = 0 );
-	virtual ~WidgetColorsPage();
+#ifndef ATTRIBUTE_PROPERTIES_PAGE
+#define ATTRIBUTE_PROPERTIES_PAGE
+
+#include "attributepropertiesbase.h"
+#include "dialogpage.h"
+
+class UMLAttribute;
+
+namespace Umbrello{
+
+/** @short A Page to display / change the properties of a UMLAttribute
+ * 
+ * @description Dialog page to display / change the properties of
+ * an attribute: Name, type, scope, visibility and initial value.
+ * If the parent widget is null, the page will default to autoApply, but you can
+ * change this at any time. 
+ * @see also DialogPage
+ *
+*/
+class AttributePropertiesPage : public  AttributePropertiesBase, public DialogPage
+{
+Q_OBJECT
+public:
+	/** Constructor.
+	 * @param c The UMLAttribute to observe
+	 * @param parent The widget parent, normally a UmbrelloDialog or null
+	 * @param name   The name of the page
+	 */
+	AttributePropertiesPage(UMLAttribute *a, QWidget *parent = 0, const char *name = 0 );
+	
+	/** Destructor */
+	virtual ~AttributePropertiesPage( );
+	
 public slots:
 	/** apply changes to the object being observed*/
 	virtual void apply();
@@ -45,12 +61,11 @@ signals:
 protected:
 	/** Apply changes made in the page to the UMLClass being observed */
 	virtual void saveData();
+	
+	UMLAttribute *m_umlObject;	
+};
 
-	DiagramElement *m_element;
- };
- 
- }
- 
- 
- 
- #endif
+} //  namespace Umbrello
+
+#endif // ATTRIBUTE_PROPERTIES_PAGE
+

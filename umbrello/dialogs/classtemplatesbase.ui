@@ -1,19 +1,19 @@
 <!DOCTYPE UI><UI version="3.1" stdsetdef="1">
-<class>ClassOperationsBase</class>
+<class>ClassTemplatesBase</class>
 <widget class="QWidget">
     <property name="name">
-        <cstring>ClassOperationsBase</cstring>
+        <cstring>ClassTemplatesBase</cstring>
     </property>
     <property name="geometry">
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>354</width>
-            <height>372</height>
+            <width>368</width>
+            <height>369</height>
         </rect>
     </property>
     <property name="caption">
-        <string>Class operations</string>
+        <string>Class templates</string>
     </property>
     <vbox>
         <property name="name">
@@ -24,7 +24,7 @@
                 <cstring>groupBox7</cstring>
             </property>
             <property name="title">
-                <string>Operations</string>
+                <string>Templates</string>
             </property>
             <vbox>
                 <property name="name">
@@ -41,17 +41,6 @@
                         <widget class="QListView" row="0" column="0" rowspan="2" colspan="1">
                             <column>
                                 <property name="text">
-                                    <string></string>
-                                </property>
-                                <property name="clickable">
-                                    <bool>true</bool>
-                                </property>
-                                <property name="resizable">
-                                    <bool>true</bool>
-                                </property>
-                            </column>
-                            <column>
-                                <property name="text">
                                     <string>Name</string>
                                 </property>
                                 <property name="clickable">
@@ -62,7 +51,7 @@
                                 </property>
                             </column>
                             <property name="name">
-                                <cstring>m_operationsList</cstring>
+                                <cstring>m_templatesList</cstring>
                             </property>
                             <property name="sizePolicy">
                                 <sizepolicy>
@@ -126,7 +115,7 @@
                 </widget>
                 <widget class="QLayoutWidget">
                     <property name="name">
-                        <cstring>layout13</cstring>
+                        <cstring>layout4</cstring>
                     </property>
                     <hbox>
                         <property name="name">
@@ -190,45 +179,45 @@
 </images>
 <connections>
     <connection>
-        <sender>m_operationsList</sender>
+        <sender>m_templatesList</sender>
         <signal>selectionChanged(QListViewItem*)</signal>
-        <receiver>ClassOperationsBase</receiver>
+        <receiver>ClassTemplatesBase</receiver>
         <slot>itemSelected(QListViewItem*)</slot>
     </connection>
     <connection>
         <sender>m_newButton</sender>
         <signal>clicked()</signal>
-        <receiver>ClassOperationsBase</receiver>
-        <slot>createOperation()</slot>
+        <receiver>ClassTemplatesBase</receiver>
+        <slot>createTemplate()</slot>
     </connection>
     <connection>
         <sender>m_deleteButton</sender>
         <signal>clicked()</signal>
-        <receiver>ClassOperationsBase</receiver>
+        <receiver>ClassTemplatesBase</receiver>
         <slot>deleteSelected()</slot>
     </connection>
     <connection>
         <sender>m_propertiesButton</sender>
         <signal>clicked()</signal>
-        <receiver>ClassOperationsBase</receiver>
+        <receiver>ClassTemplatesBase</receiver>
         <slot>editSelected()</slot>
     </connection>
     <connection>
         <sender>m_upButton</sender>
         <signal>clicked()</signal>
-        <receiver>ClassOperationsBase</receiver>
+        <receiver>ClassTemplatesBase</receiver>
         <slot>moveUp()</slot>
     </connection>
     <connection>
         <sender>m_downButton</sender>
         <signal>clicked()</signal>
-        <receiver>ClassOperationsBase</receiver>
+        <receiver>ClassTemplatesBase</receiver>
         <slot>moveDown()</slot>
     </connection>
 </connections>
 <slots>
     <slot>itemSelected(QListViewItem*)</slot>
-    <slot>createOperation()</slot>
+    <slot>createTemplate()</slot>
     <slot>editSelected()</slot>
     <slot>deleteSelected()</slot>
     <slot>moveUp()</slot>

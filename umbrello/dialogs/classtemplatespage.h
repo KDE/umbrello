@@ -1,5 +1,5 @@
 /***************************************************************************
-                          classattributespage.h
+                          classtemplatespage.h
                              -------------------
     copyright            : (C) 2003 Luis De la Parra
  ***************************************************************************/
@@ -12,25 +12,25 @@
  *                                                                         *
  ***************************************************************************/
  
-#ifndef CLASS_ATTRIBUTES_PAGE
-#define CLASS_ATTRIBUTES_PAGE
+#ifndef CLASS_TEMPLATES_PAGE
+#define CLASS_TEMPLATES_PAGE
 
-#include "classattributesbase.h"
+#include "classtemplatesbase.h"
 #include <qptrlist.h>
 #include <qmap.h>
-#include <qpixmap.h>
 #include "dialogpage.h"
 
 class UMLClass;
-class UMLAttribute;
+class UMLTemplate;
 class UMLDoc;
 class QListViewItem;
 
-namespace Umbrello{
+namespace Umbrello {
 
-/** @short A Page to display / change the attributes of a UMLClass 
+
+/** @short A Page to display / change the templates of a UMLClass 
  *
- * @description A dialog Page to display / change the attributes of a UMLClass
+ * @description A dialog Page to display / change the templates of a UMLClass
  * Changes will be made to the UMLClass when apply() is called, or inmediatly if
  * autoApply is true.
  * If the parent widget is null, the page will default to autoApply, but you can 
@@ -38,20 +38,18 @@ namespace Umbrello{
  * @see also DialogPage
  *
 */
-class ClassAttributesPage : public  ClassAttributesBase, public DialogPage
+class ClassTemplatesPage : public  ClassTemplatesBase, public DialogPage
 {
 Q_OBJECT
 public:
 	/** Constructor
 	* @param c The class being observed
-	* @param doc The document (model) the class belongs to. This is needed because
-	*        class attributes are not created / destroyed by the class itself, but
-	*        by the document
+	* @param doc The document (model) the class belongs to. 
 	* @param parent The widget parent, normally a UmbrelloDialog or null
 	* @param name   The name of the page*/
-	ClassAttributesPage(UMLClass *c, UMLDoc *doc, QWidget *parent, const char *name = 0 );
+	ClassTemplatesPage(UMLClass *c, UMLDoc *doc, QWidget *parent, const char *name = 0 );
 	
-	virtual ~ClassAttributesPage( );
+	virtual ~ClassTemplatesPage( );
 	
 public slots:
 	/** apply changes to the object being observed*/
@@ -65,7 +63,7 @@ public slots:
 protected:
 	virtual void moveUp( );
 	virtual void moveDown( );
-	virtual void createAttribute( );
+	virtual void createTemplate( );
 	virtual void editSelected( );
 	virtual void deleteSelected( );
 	virtual void itemSelected(QListViewItem *item);
@@ -76,16 +74,11 @@ signals:
 protected:
 /** Apply changes made in the page to the UMLClass being observed */
 	virtual void saveData();
-	virtual void loadPixmaps();
-	struct { QPixmap Public,
-			 Protected,
-			 Private;
-		} m_pixmaps;
 	
 	UMLClass *m_umlObject;
 	UMLDoc   *m_doc;
-	QPtrList<UMLAttribute> m_attList;
-	QMap<QListViewItem*,UMLAttribute*> m_attMap;
+	QPtrList<UMLTemplate> m_tempsList;
+	QMap<QListViewItem*,UMLTemplate*> m_tempMap;
 };
 
 } //namespace Umbrello

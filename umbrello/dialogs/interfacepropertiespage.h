@@ -1,5 +1,5 @@
 /***************************************************************************
-                          widgetcolorspage.h
+                          interfacepropertiespage.h
                              -------------------
     copyright            : (C) 2003 Luis De la Parra
  ***************************************************************************/
@@ -12,23 +12,39 @@
  *                                                                         *
  ***************************************************************************/
  
-#ifndef WIDGET_COLORS_PAGE_H
-#define WIDGET_COLORS_PAGE_H
- 
- #include "widgetcolorsbase.h"
- #include "dialogpage.h"
- 
- 
- namespace Umbrello{
- 
- class DiagramElement;
- 
- class WidgetColorsPage : public WidgetColorsBase, public DialogPage
- {
- Q_OBJECT
- public:
- 	WidgetColorsPage( DiagramElement *e, QWidget *parent = 0, const char *name = 0 );
-	virtual ~WidgetColorsPage();
+#ifndef INTERFACE_PROPERTIES_PAGE
+#define INTERFACE_PROPERTIES_PAGE
+
+#include "interfacepropertiesbase.h"
+#include "dialogpage.h"
+
+class UMLInterface;
+
+namespace Umbrello{
+
+/** @short A Page to display / change basic properties of a UMLInterface 
+ * 
+ * @description Dialog page to display / change the basic properties of
+ * a interface: Name, package, stereotype, visibility, and documentation
+ * If the parent widget is null, the page will default to autoApply, but you can
+ * change this at any time. 
+ * @see also DialogPage
+ *
+*/
+class InterfacePropertiesPage : public  InterfacePropertiesBase, public DialogPage
+{
+Q_OBJECT
+public:
+	/** Constructor.
+	 * @param c The UMLInterface to observe
+	 * @param parent The widget parent, normally a UmbrelloDialog or null
+	 * @param name   The name of the page
+	 */
+	InterfacePropertiesPage(UMLInterface *c, QWidget *parent = 0, const char *name = 0 );
+	
+	/** Destructor */
+	virtual ~InterfacePropertiesPage( );
+	
 public slots:
 	/** apply changes to the object being observed*/
 	virtual void apply();
@@ -43,14 +59,12 @@ signals:
 	void pageModified( );
 
 protected:
-	/** Apply changes made in the page to the UMLClass being observed */
+	/** Apply changes made in the page to the UMLInterface being observed */
 	virtual void saveData();
+	
+	UMLInterface *m_umlObject;
+};
 
-	DiagramElement *m_element;
- };
- 
- }
- 
- 
- 
- #endif
+} //namespace Umbrello
+
+#endif

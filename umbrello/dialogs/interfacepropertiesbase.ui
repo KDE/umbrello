@@ -1,8 +1,8 @@
 <!DOCTYPE UI><UI version="3.1" stdsetdef="1">
-<class>ClassPropertiesBase</class>
+<class>InterfacePropertiesBase</class>
 <widget class="QWidget">
     <property name="name">
-        <cstring>ClassPropertiesBase</cstring>
+        <cstring>InterfacePropertiesBase</cstring>
     </property>
     <property name="geometry">
         <rect>
@@ -13,7 +13,7 @@
         </rect>
     </property>
     <property name="caption">
-        <string>Class properties</string>
+        <string>Interface properties</string>
     </property>
     <vbox>
         <property name="name">
@@ -44,6 +44,9 @@
                     <property name="name">
                         <cstring>m_stereotype</cstring>
                     </property>
+                    <property name="enabled">
+                        <bool>false</bool>
+                    </property>
                 </widget>
                 <widget class="QLabel" row="1" column="0">
                     <property name="name">
@@ -58,7 +61,7 @@
                         <cstring>m_nameLabel</cstring>
                     </property>
                     <property name="text">
-                        <string>Name:</string>
+                        <string>Interface name</string>
                     </property>
                 </widget>
                 <widget class="QLineEdit" row="0" column="1">
@@ -67,41 +70,6 @@
                     </property>
                 </widget>
             </grid>
-        </widget>
-        <widget class="QLayoutWidget">
-            <property name="name">
-                <cstring>layout6</cstring>
-            </property>
-            <hbox>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <widget class="QCheckBox">
-                    <property name="name">
-                        <cstring>m_abstract</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Abstract class</string>
-                    </property>
-                </widget>
-                <spacer>
-                    <property name="name">
-                        <cstring>spacer2</cstring>
-                    </property>
-                    <property name="orientation">
-                        <enum>Horizontal</enum>
-                    </property>
-                    <property name="sizeType">
-                        <enum>Expanding</enum>
-                    </property>
-                    <property name="sizeHint">
-                        <size>
-                            <width>231</width>
-                            <height>20</height>
-                        </size>
-                    </property>
-                </spacer>
-            </hbox>
         </widget>
         <widget class="QGroupBox">
             <property name="name">

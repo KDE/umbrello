@@ -1,5 +1,5 @@
 /***************************************************************************
-                          widgetcolorspage.h
+                          umlobjectassociationspage.h
                              -------------------
     copyright            : (C) 2003 Luis De la Parra
  ***************************************************************************/
@@ -12,23 +12,37 @@
  *                                                                         *
  ***************************************************************************/
  
-#ifndef WIDGET_COLORS_PAGE_H
-#define WIDGET_COLORS_PAGE_H
- 
- #include "widgetcolorsbase.h"
- #include "dialogpage.h"
- 
- 
- namespace Umbrello{
- 
- class DiagramElement;
- 
- class WidgetColorsPage : public WidgetColorsBase, public DialogPage
- {
- Q_OBJECT
- public:
- 	WidgetColorsPage( DiagramElement *e, QWidget *parent = 0, const char *name = 0 );
-	virtual ~WidgetColorsPage();
+#ifndef UMLOBJECT_ASSOCIATIONS_PAGE
+#define UMLOBJECT_ASSOCIATIONS_PAGE
+
+#include "umlobjectassociationsbase.h"
+#include "dialogpage.h"
+
+class UMLCanvasObject;
+
+namespace Umbrello{
+
+/** @short A Page to display the associations of a UMLObject
+ * 
+ * @description Dialog page to display  the properties of all
+ * Associations related to a particular object
+ * @see also DialogPage
+ *
+*/
+class UMLObjectAssociationsPage : public  UMLObjectAssociationsBase, public DialogPage
+{
+Q_OBJECT
+public:
+	/** Constructor.
+	 * @param o The UMLObject to observe
+	 * @param parent The widget parent, normally a UmbrelloDialog or null
+	 * @param name   The name of the page
+	 */
+	UMLObjectAssociationsPage( UMLCanvasObject *o, QWidget *parent = 0, const char *name = 0 );
+	
+	/** Destructor */
+	virtual ~UMLObjectAssociationsPage( );
+	
 public slots:
 	/** apply changes to the object being observed*/
 	virtual void apply();
@@ -45,12 +59,11 @@ signals:
 protected:
 	/** Apply changes made in the page to the UMLClass being observed */
 	virtual void saveData();
+	
+	UMLCanvasObject *m_umlObject;
+};
 
-	DiagramElement *m_element;
- };
- 
- }
- 
- 
- 
- #endif
+} //  namespace Umbrello
+
+#endif // UMLOBJECT_ASSOCIATIONS_PAGE
+

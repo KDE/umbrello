@@ -20,6 +20,8 @@
 
 class UMLClass;
 
+namespace Umbrello{
+
 /** @short A Page to display / change basic properties of a UMLClass 
  * 
  * @description Dialog page to display / change the basic properties of
@@ -41,7 +43,7 @@ public:
 	ClassPropertiesPage(UMLClass *c, QWidget *parent = 0, const char *name = 0 );
 	
 	/** Destructor */
-	~ClassPropertiesPage( );
+	virtual ~ClassPropertiesPage( );
 	
 public slots:
 	/** apply changes to the object being observed*/
@@ -57,10 +59,12 @@ signals:
 	void pageModified( );
 
 protected:
-	/** Apply changes made in the page to the UMLClass being observed */
+	/** Apply changes made in the page to the UMLClassifier being observed */
 	virtual void saveData();
 	
-	UMLClass *m_umlObject;	
+	UMLClass *m_umlObject;
 };
+
+} //namespace Umbrello
 
 #endif

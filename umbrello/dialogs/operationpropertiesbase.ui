@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>482</width>
-            <height>418</height>
+            <width>416</width>
+            <height>415</height>
         </rect>
     </property>
     <property name="caption">
@@ -55,6 +55,9 @@
                     <property name="name">
                         <cstring>m_type</cstring>
                     </property>
+                    <property name="editable">
+                        <bool>true</bool>
+                    </property>
                 </widget>
                 <widget class="QCheckBox" row="1" column="0" rowspan="1" colspan="2">
                     <property name="name">
@@ -74,9 +77,9 @@
                 </widget>
             </grid>
         </widget>
-        <widget class="QGroupBox">
+        <widget class="QButtonGroup">
             <property name="name">
-                <cstring>groupBox3</cstring>
+                <cstring>buttonGroup1</cstring>
             </property>
             <property name="title">
                 <string>Visibility</string>
@@ -283,25 +286,39 @@
         <sender>m_newButton</sender>
         <signal>clicked()</signal>
         <receiver>OperationPropertiesBase</receiver>
-        <slot>newParameter()</slot>
+        <slot>createParameter()</slot>
     </connection>
     <connection>
         <sender>m_propertiesButton</sender>
         <signal>clicked()</signal>
         <receiver>OperationPropertiesBase</receiver>
-        <slot>parameterProperties()</slot>
+        <slot>editSelected()</slot>
     </connection>
     <connection>
         <sender>m_deleteButton</sender>
         <signal>clicked()</signal>
         <receiver>OperationPropertiesBase</receiver>
-        <slot>deleteParameter()</slot>
+        <slot>deleteSelected()</slot>
+    </connection>
+    <connection>
+        <sender>m_upButton</sender>
+        <signal>clicked()</signal>
+        <receiver>OperationPropertiesBase</receiver>
+        <slot>moveUp()</slot>
+    </connection>
+    <connection>
+        <sender>m_downButton</sender>
+        <signal>clicked()</signal>
+        <receiver>OperationPropertiesBase</receiver>
+        <slot>moveDown()</slot>
     </connection>
 </connections>
 <slots>
-    <slot>newParameter()</slot>
-    <slot>parameterProperties()</slot>
-    <slot>deleteParameter()</slot>
+    <slot>createParameter()</slot>
+    <slot>editSelected()</slot>
+    <slot>deleteSelected()</slot>
+    <slot>moveUp()</slot>
+    <slot>moveDown()</slot>
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
