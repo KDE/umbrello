@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
 <class>JavaCodeGenerationFormBase</class>
 <widget class="QWidget">
     <property name="name">
@@ -8,191 +8,271 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>469</width>
-            <height>347</height>
+            <width>462</width>
+            <height>376</height>
         </rect>
+    </property>
+    <property name="caption">
+        <string>Form1</string>
     </property>
     <grid>
         <property name="name">
             <cstring>unnamed</cstring>
         </property>
-        <widget class="QLabel" row="0" column="0">
+        <widget class="QLayoutWidget" row="0" column="0">
             <property name="name">
-                <cstring>textLabel1_2</cstring>
-            </property>
-            <property name="sizePolicy">
-                <sizepolicy>
-                    <hsizetype>5</hsizetype>
-                    <vsizetype>4</vsizetype>
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                </sizepolicy>
-            </property>
-            <property name="text">
-                <string>&lt;p align="center"&gt;Java Code Generation&lt;/p&gt;</string>
-            </property>
-        </widget>
-        <widget class="QGroupBox" row="1" column="0">
-            <property name="name">
-                <cstring>groupBox1</cstring>
-            </property>
-            <property name="sizePolicy">
-                <sizepolicy>
-                    <hsizetype>5</hsizetype>
-                    <vsizetype>4</vsizetype>
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                </sizepolicy>
-            </property>
-            <property name="title">
-                <string>Documentation</string>
-            </property>
-            <hbox>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <widget class="QLabel">
-                    <property name="name">
-                        <cstring>textLabel1</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Style:</string>
-                    </property>
-                </widget>
-                <widget class="QComboBox">
-                    <item>
-                        <property name="text">
-                            <string>Slash-Star (/**  */)</string>
-                        </property>
-                    </item>
-                    <item>
-                        <property name="text">
-                            <string>Slash-Slash (//)</string>
-                        </property>
-                    </item>
-                    <property name="name">
-                        <cstring>m_SelectCommentStyle</cstring>
-                    </property>
-                </widget>
-            </hbox>
-        </widget>
-        <widget class="QGroupBox" row="2" column="0">
-            <property name="name">
-                <cstring>groupBox2</cstring>
-            </property>
-            <property name="sizePolicy">
-                <sizepolicy>
-                    <hsizetype>5</hsizetype>
-                    <vsizetype>4</vsizetype>
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                </sizepolicy>
-            </property>
-            <property name="title">
-                <string>Auto-Generate Methods</string>
+                <cstring>layout6</cstring>
             </property>
             <grid>
                 <property name="name">
                     <cstring>unnamed</cstring>
                 </property>
-                <widget class="QCheckBox" row="0" column="0">
+                <widget class="QGroupBox" row="3" column="0">
                     <property name="name">
-                        <cstring>m_generateConstructors</cstring>
+                        <cstring>groupBox3</cstring>
                     </property>
-                    <property name="text">
-                        <string>Empty constructor methods</string>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>5</hsizetype>
+                            <vsizetype>4</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
                     </property>
-                    <property name="checked">
-                        <bool>false</bool>
+                    <property name="title">
+                        <string>Project Generation</string>
                     </property>
+                    <vbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="QCheckBox">
+                            <property name="name">
+                                <cstring>m_makeANTDocumentCheckBox</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Create ANT build document</string>
+                            </property>
+                        </widget>
+                    </vbox>
                 </widget>
-                <widget class="QCheckBox" row="1" column="0">
+                <widget class="QGroupBox" row="2" column="0">
                     <property name="name">
-                        <cstring>m_generateAccessors</cstring>
+                        <cstring>groupBox2</cstring>
                     </property>
-                    <property name="text">
-                        <string>Accessor methods</string>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>5</hsizetype>
+                            <vsizetype>4</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
                     </property>
-                    <property name="checked">
-                        <bool>true</bool>
-                    </property>
-                </widget>
-                <widget class="QLayoutWidget" row="2" column="0">
-                    <property name="name">
-                        <cstring>layout4</cstring>
+                    <property name="title">
+                        <string>Auto-Generate Methods</string>
                     </property>
                     <grid>
                         <property name="name">
                             <cstring>unnamed</cstring>
                         </property>
-                        <widget class="QComboBox" row="0" column="1">
-                            <item>
-                                <property name="text">
-                                    <string>Public</string>
-                                </property>
-                            </item>
-                            <item>
-                                <property name="text">
-                                    <string>Private</string>
-                                </property>
-                            </item>
-                            <item>
-                                <property name="text">
-                                    <string>Protected</string>
-                                </property>
-                            </item>
-                            <item>
-                                <property name="text">
-                                    <string>From Parent Object</string>
-                                </property>
-                            </item>
+                        <widget class="QLayoutWidget" row="0" column="0">
                             <property name="name">
-                                <cstring>m_accessorScopeCB</cstring>
+                                <cstring>layout2</cstring>
                             </property>
-                            <property name="currentItem">
-                                <number>3</number>
-                            </property>
+                            <grid>
+                                <property name="name">
+                                    <cstring>unnamed</cstring>
+                                </property>
+                                <widget class="QCheckBox" row="0" column="0">
+                                    <property name="name">
+                                        <cstring>m_generateConstructors</cstring>
+                                    </property>
+                                    <property name="text">
+                                        <string>Empty constructor methods</string>
+                                    </property>
+                                    <property name="checked">
+                                        <bool>false</bool>
+                                    </property>
+                                </widget>
+                                <widget class="QCheckBox" row="2" column="0">
+                                    <property name="name">
+                                        <cstring>m_generateAssocAccessors</cstring>
+                                    </property>
+                                    <property name="text">
+                                        <string>Association Accessor methods</string>
+                                    </property>
+                                    <property name="checked">
+                                        <bool>true</bool>
+                                    </property>
+                                </widget>
+                                <widget class="QCheckBox" row="1" column="0">
+                                    <property name="name">
+                                        <cstring>m_generateAttribAccessors</cstring>
+                                    </property>
+                                    <property name="text">
+                                        <string>Attribute Accessor methods</string>
+                                    </property>
+                                    <property name="checked">
+                                        <bool>true</bool>
+                                    </property>
+                                </widget>
+                            </grid>
                         </widget>
-                        <widget class="QLabel" row="0" column="0">
+                        <widget class="QLayoutWidget" row="1" column="0">
                             <property name="name">
-                                <cstring>textLabel1_3</cstring>
+                                <cstring>layout4</cstring>
                             </property>
-                            <property name="text">
-                                <string>Default accessor scope:</string>
+                            <grid>
+                                <property name="name">
+                                    <cstring>unnamed</cstring>
+                                </property>
+                                <widget class="QComboBox" row="0" column="1">
+                                    <item>
+                                        <property name="text">
+                                            <string>Public</string>
+                                        </property>
+                                    </item>
+                                    <item>
+                                        <property name="text">
+                                            <string>Private</string>
+                                        </property>
+                                    </item>
+                                    <item>
+                                        <property name="text">
+                                            <string>Protected</string>
+                                        </property>
+                                    </item>
+                                    <item>
+                                        <property name="text">
+                                            <string>From Parent Object</string>
+                                        </property>
+                                    </item>
+                                    <property name="name">
+                                        <cstring>m_accessorScopeCB</cstring>
+                                    </property>
+                                    <property name="currentItem">
+                                        <number>3</number>
+                                    </property>
+                                </widget>
+                                <widget class="QLabel" row="0" column="0">
+                                    <property name="name">
+                                        <cstring>textLabel1_3</cstring>
+                                    </property>
+                                    <property name="text">
+                                        <string>Default attribute accessor scope:</string>
+                                    </property>
+                                </widget>
+                            </grid>
+                        </widget>
+                        <widget class="QLayoutWidget" row="2" column="0">
+                            <property name="name">
+                                <cstring>layout4</cstring>
                             </property>
+                            <grid>
+                                <property name="name">
+                                    <cstring>unnamed</cstring>
+                                </property>
+                                <widget class="QLabel" row="0" column="0">
+                                    <property name="name">
+                                        <cstring>textLabel1_3_2</cstring>
+                                    </property>
+                                    <property name="text">
+                                        <string>Default association field scope:</string>
+                                    </property>
+                                </widget>
+                                <widget class="QComboBox" row="0" column="1">
+                                    <item>
+                                        <property name="text">
+                                            <string>Public</string>
+                                        </property>
+                                    </item>
+                                    <item>
+                                        <property name="text">
+                                            <string>Private</string>
+                                        </property>
+                                    </item>
+                                    <item>
+                                        <property name="text">
+                                            <string>Protected</string>
+                                        </property>
+                                    </item>
+                                    <item>
+                                        <property name="text">
+                                            <string>From Parent Role</string>
+                                        </property>
+                                    </item>
+                                    <property name="name">
+                                        <cstring>m_assocFieldScopeCB</cstring>
+                                    </property>
+                                    <property name="currentItem">
+                                        <number>3</number>
+                                    </property>
+                                </widget>
+                            </grid>
                         </widget>
                     </grid>
                 </widget>
-            </grid>
-        </widget>
-        <widget class="QGroupBox" row="3" column="0">
-            <property name="name">
-                <cstring>groupBox3</cstring>
-            </property>
-            <property name="sizePolicy">
-                <sizepolicy>
-                    <hsizetype>5</hsizetype>
-                    <vsizetype>4</vsizetype>
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                </sizepolicy>
-            </property>
-            <property name="title">
-                <string>Project Generation</string>
-            </property>
-            <vbox>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <widget class="QCheckBox">
+                <widget class="QGroupBox" row="1" column="0">
                     <property name="name">
-                        <cstring>m_makeANTDocumentCheckBox</cstring>
+                        <cstring>groupBox1</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>5</hsizetype>
+                            <vsizetype>4</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="title">
+                        <string>Documentation</string>
+                    </property>
+                    <hbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>textLabel1</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Style:</string>
+                            </property>
+                        </widget>
+                        <widget class="QComboBox">
+                            <item>
+                                <property name="text">
+                                    <string>Slash-Star (/**  */)</string>
+                                </property>
+                            </item>
+                            <item>
+                                <property name="text">
+                                    <string>Slash-Slash (//)</string>
+                                </property>
+                            </item>
+                            <property name="name">
+                                <cstring>m_SelectCommentStyle</cstring>
+                            </property>
+                        </widget>
+                    </hbox>
+                </widget>
+                <widget class="QLabel" row="0" column="0">
+                    <property name="name">
+                        <cstring>textLabel1_2</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>5</hsizetype>
+                            <vsizetype>4</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
                     </property>
                     <property name="text">
-                        <string>Create ANT build document</string>
+                        <string>&lt;p align="center"&gt;Java Code Generation&lt;/p&gt;</string>
                     </property>
                 </widget>
-            </vbox>
+            </grid>
         </widget>
     </grid>
 </widget>

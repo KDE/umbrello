@@ -113,9 +113,14 @@ bool JavaCodeGenerator::getAutoGenerateConstructors ( )
 	return getJavaPolicy()->getAutoGenerateConstructors();
 }
 
-bool JavaCodeGenerator::getAutoGenerateAccessors ( )
+bool JavaCodeGenerator::getAutoGenerateAttribAccessors ( )
 {
-        return getJavaPolicy()->getAutoGenerateAccessors ();
+        return getJavaPolicy()->getAutoGenerateAttribAccessors ();
+}
+
+bool JavaCodeGenerator::getAutoGenerateAssocAccessors ( )
+{
+        return getJavaPolicy()->getAutoGenerateAssocAccessors ();
 }
 
 QString JavaCodeGenerator::getListFieldClassName () {

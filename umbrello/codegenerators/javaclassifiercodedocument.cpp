@@ -375,9 +375,13 @@ void JavaClassifierCodeDocument::updateContent( )
 	JavaCodeGenerator * gen = (JavaCodeGenerator*)g;
 
 	// first, set the global flag on whether or not to show classfield info
+	// This depends on whether or not we have attribute/association classes
 	QPtrList<CodeClassField> * cfList = getCodeClassFieldList();
 	for(CodeClassField * field = cfList->first(); field; field = cfList->next())
-		field->setWriteOutMethods(gen->getAutoGenerateAccessors());
+		if(field->parentIsAttribute())
+			field->setWriteOutMethods(gen->getAutoGenerateAttribAccessors());
+		else
+			field->setWriteOutMethods(gen->getAutoGenerateAssocAccessors());
 
       	// attribute-based ClassFields
       	// we do it this way to have the static fields sorted out from regular ones

@@ -17,6 +17,7 @@
 
 #include "javacodeclassfield.h"
 #include "javaclassifiercodedocument.h"
+#include "javacodegenerationpolicy.h"
 
 // Constructors/Destructors
 //  
@@ -48,6 +49,9 @@ void JavaCodeClassFieldDeclarationBlock::updateContent( )
 	ClassifierCodeDocument * doc = cf->getParentDocument();
 	JavaCodeClassField * jcf = (JavaCodeClassField*) cf;
         JavaClassifierCodeDocument* jdoc = (JavaClassifierCodeDocument*) doc;
+	JavaCodeGenerationPolicy * javapolicy = (JavaCodeGenerationPolicy *) jdoc->getPolicy(); 
+
+	JavaCodeGenerationPolicy::ScopePolicy scopePolicy = javapolicy->getAssociationFieldScope();
 
         // Set the comment
         QString notes = getParentObject()->getDoc();
@@ -56,6 +60,22 @@ void JavaCodeClassFieldDeclarationBlock::updateContent( )
         // Set the body
         QString staticValue = getParentObject()->getStatic() ? "static " : "";
         QString scopeStr = jdoc->scopeToJavaDecl(getParentObject()->getScope());
+
+	// IF this is from an association, then scope taken as appropriate to policy
+	if(!jcf->parentIsAttribute())
+	{
+        	switch (scopePolicy) {
+                	case JavaCodeGenerationPolicy::Public:
+                	case JavaCodeGenerationPolicy::Private:
+                	case JavaCodeGenerationPolicy::Protected:
+                        	scopeStr = jdoc->scopeToJavaDecl((Uml::Scope) scopePolicy);
+                        	break;
+                	default:
+                	case JavaCodeGenerationPolicy::FromParent:
+				// do nothing here... will leave as from parent object
+                       		break;
+        	}
+        }
 
         QString typeName = jcf->getTypeName();
         QString fieldName = jcf->getFieldName();

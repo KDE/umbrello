@@ -84,9 +84,14 @@ public:
 	bool getAutoGenerateConstructors ( );
 
 	/**
-   	 * A utility method to get the javaCodeGenerationPolicy()->getAutoGenerateAccessors() value.
+   	 * A utility method to get the javaCodeGenerationPolicy()->getAutoGenerateAttribAccessors() value.
 	 */
-        bool getAutoGenerateAccessors( );
+        bool getAutoGenerateAttribAccessors( );
+
+        /**
+         * A utility method to get the javaCodeGenerationPolicy()->getAutoGenerateAssocAccessors() value.
+         */
+        bool getAutoGenerateAssocAccessors( );
 
 	/**
 	 * Get the list variable class name to use. For Java, we have set this to "Vector".

@@ -28,13 +28,15 @@ class JavaCodeGenerationPolicy : public CodeGenerationPolicy
 	Q_OBJECT
 public:
 
-	enum AccessorScope { Public=200, Private, Protected, FromParent };
+	enum ScopePolicy { Public=200, Private, Protected, FromParent };
 	enum JavaCommentStyle { SlashStar=0, DoubleSlash };
 
-	static const AccessorScope DEFAULT_ACCESSOR_SCOPE;
+	static const ScopePolicy DEFAULT_ATTRIB_ACCESSOR_SCOPE;
+	static const ScopePolicy DEFAULT_ASSOC_FIELD_SCOPE;
 	static const JavaCommentStyle DEFAULT_COMMENT;
         static const bool DEFAULT_AUTO_GEN_EMPTY_CONSTRUCTORS;
-        static const bool DEFAULT_AUTO_GEN_ACCESSORS;
+        static const bool DEFAULT_AUTO_GEN_ATTRIB_ACCESSORS;
+        static const bool DEFAULT_AUTO_GEN_ASSOC_ACCESSORS;
 
 	// Constructors/Destructors
 	//  
@@ -57,25 +59,46 @@ public:
 	// Public attribute accessor methods
 	//  
 
-	/** Get the default scope for new accessor methods. 
+	/** Get the default scope for new attribute accessor methods. 
 	 */
-	AccessorScope getAccessorScope ();
+	ScopePolicy getAttributeAccessorScope ();
 
-	/** Set the default scope for new accessor methods. 
+	/** Set the default scope for new attribute accessor methods. 
 	*/
-	void setAccessorScope (AccessorScope scope);
+	void setAttributeAccessorScope (ScopePolicy scope);
+
+       /** Get the default scope for new association class fields.
+         */
+        ScopePolicy getAssociationFieldScope();
+
+        /** Set the default scope for new association class fields.
+        */
+        void setAssociationFieldScope (ScopePolicy scope);
+
 
        /**
-         * Set the value of m_autoGenerateAccessors
+         * Set the value of m_autoGenerateAttribAccessors
          * @param new_var the new value
          */
-        void setAutoGenerateAccessors ( bool var );
+        void setAutoGenerateAttribAccessors ( bool var );
 
        /**
-         * Get the value of m_autoGenerateAccessors
-         * @return value the boolean value of m_autoGenerateAccessors
+         * Get the value of m_autoGenerateAttribAccessors
+         * @return value the boolean value of m_autoGenerateAttribAccessors
          */
-        bool getAutoGenerateAccessors( );
+        bool getAutoGenerateAttribAccessors( );
+
+       /**
+         * Set the value of m_autoGenerateAssocAccessors
+         * @param new_var the new value
+         */
+        void setAutoGenerateAssocAccessors ( bool var );
+
+       /**
+         * Get the value of m_autoGenerateAssocAccessors
+         * @return value the boolean value of m_autoGenerateAssocAccessors
+         */
+        bool getAutoGenerateAssocAccessors( );
 
 	/**
          * Set the value of m_autoGenerateConstructors
@@ -139,10 +162,12 @@ private:
 
         JavaCodeGenerator * m_parentCodeGenerator;
 
-	AccessorScope m_defaultAccessorScope;
+	ScopePolicy m_defaultAttributeAccessorScope;
+	ScopePolicy m_defaultAssociationFieldScope;
 	JavaCommentStyle m_commentStyle;
 	bool m_autoGenerateConstructors;
-        bool m_autoGenerateAccessors;
+        bool m_autoGenerateAttribAccessors;
+        bool m_autoGenerateAssocAccessors;
 
 	void initFields( JavaCodeGenerator * parent) ;
 

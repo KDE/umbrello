@@ -26,9 +26,11 @@ JavaCodeGenerationPolicyPage::JavaCodeGenerationPolicyPage( QWidget *parent, con
 	form = new JavaCodeGenerationFormBase(this);
 	form->m_SelectCommentStyle->setCurrentItem(commentTypeToInteger(policy->getCommentStyle()));
 	form->m_generateConstructors->setChecked(policy->getAutoGenerateConstructors());
-	form->m_generateAccessors->setChecked(policy->getAutoGenerateAccessors());
+	form->m_generateAttribAccessors->setChecked(policy->getAutoGenerateAttribAccessors());
+	form->m_generateAssocAccessors->setChecked(policy->getAutoGenerateAssocAccessors());
     	form->m_makeANTDocumentCheckBox->setChecked(policy->getBuildANTCodeDocument());
-	form->m_accessorScopeCB->setCurrentItem((policy->getAccessorScope() - 200));
+	form->m_accessorScopeCB->setCurrentItem((policy->getAttributeAccessorScope() - 200));
+	form->m_assocFieldScopeCB->setCurrentItem((policy->getAssociationFieldScope() - 200));
 
 }
 
@@ -56,9 +58,11 @@ void JavaCodeGenerationPolicyPage::apply()
         parent->blockSignals(true);
 
 	parent->setCommentStyle((JavaCodeGenerationPolicy::JavaCommentStyle ) form->m_SelectCommentStyle->currentItem());
-	parent->setAccessorScope((JavaCodeGenerationPolicy::AccessorScope) (form->m_accessorScopeCB->currentItem()+200));
+	parent->setAttributeAccessorScope((JavaCodeGenerationPolicy::ScopePolicy) (form->m_accessorScopeCB->currentItem()+200));
+	parent->setAssociationFieldScope((JavaCodeGenerationPolicy::ScopePolicy) (form->m_assocFieldScopeCB->currentItem()+200));
 	parent->setAutoGenerateConstructors(form->m_generateConstructors->isChecked());
-	parent->setAutoGenerateAccessors(form->m_generateAccessors->isChecked());
+	parent->setAutoGenerateAttribAccessors(form->m_generateAttribAccessors->isChecked());
+	parent->setAutoGenerateAssocAccessors(form->m_generateAssocAccessors->isChecked());
     	parent->setBuildANTCodeDocument(form->m_makeANTDocumentCheckBox->isChecked());
 
         parent->blockSignals(false);

@@ -133,7 +133,7 @@ void JavaCodeAccessorMethod::updateMethodDeclaration()
 	JavaCodeGenerationPolicy * javapolicy = (JavaCodeGenerationPolicy *) javadoc->getPolicy(); 
 
 	// gather defs
-	JavaCodeGenerationPolicy::AccessorScope scopeType = javapolicy->getAccessorScope();
+	JavaCodeGenerationPolicy::ScopePolicy scopePolicy = javapolicy->getAttributeAccessorScope();
         QString strVis = "";
         QString fieldName = javafield->getFieldName();
         QString fieldType = javafield->getTypeName();
@@ -141,11 +141,11 @@ void JavaCodeAccessorMethod::updateMethodDeclaration()
 	if(objectType.isEmpty())
 		objectType = fieldName; 
         QString endLine = javadoc->getParentGenerator()->getNewLineEndingChars();
-	switch (scopeType) {
+	switch (scopePolicy) {
 		case JavaCodeGenerationPolicy::Public:
 		case JavaCodeGenerationPolicy::Private:
 		case JavaCodeGenerationPolicy::Protected:
-        		strVis = javadoc->scopeToJavaDecl((Uml::Scope) scopeType);
+        		strVis = javadoc->scopeToJavaDecl((Uml::Scope) scopePolicy);
 			break;
 		default:
 		case JavaCodeGenerationPolicy::FromParent:
