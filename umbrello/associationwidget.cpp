@@ -533,9 +533,11 @@ void AssociationWidget::setVisibilityA (Scope value)
 			m_pAssociation->setVisibilityA(value);
 		m_VisibilityA = value;
 		// update RoleA pre-text attribute as appropriate
-		getRoleAWidget()->setPreText(scopeString);
-	synchronizeData(); // because FloatingText of RoleA is updated
-		// this is a terrible method, btw
+		if (m_pRoleA) {
+			m_pRoleA->setPreText(scopeString);
+			synchronizeData(); // because FloatingText of RoleA is updated
+			// this is a terrible method, btw
+		}
 	}
 }
 
@@ -556,9 +558,11 @@ void AssociationWidget::setVisibilityB (Scope value)
 			m_pAssociation->setVisibilityB(value);
 		m_VisibilityB = value;
 		// update RoleB pre-text attribute as appropriate
-		getRoleBWidget()->setPreText(scopeString);
-	synchronizeData(); // because FloatingText of RoleB is updated
-		// this is a terrible method, btw
+		if (m_pRoleB) {
+			m_pRoleB->setPreText(scopeString);
+			synchronizeData(); // because FloatingText of RoleB is updated
+			// this is a terrible method, btw
+		}
 	}
 }
 
@@ -867,8 +871,19 @@ int AssociationWidget::getWidgetAID() const {
 
 void AssociationWidget::setWidgetAID(int AID) {
 	m_nWidgetAID = AID;
-	if (m_pAssociation)
-		m_pAssociation->setRoleAId(AID);
+	if (m_pAssociation == NULL)
+		return;
+	int uml_AID = m_pAssociation->getRoleAId();
+	if (uml_AID != AID) {
+		kdDebug() << "AssociationWidget::setWidgetAID(): ";
+		if (uml_AID == -1)
+			kdDebug() << "initializing UMLAssociation::RoleAId to id "
+				  << AID << endl;
+		else
+			kdDebug() << "widget id " << AID << " does not match UML object's id "
+				  << uml_AID << endl;
+	}
+	m_pAssociation->setRoleAId(AID);
 }
 
 int AssociationWidget::getWidgetBID() const {
@@ -879,8 +894,19 @@ int AssociationWidget::getWidgetBID() const {
 
 void AssociationWidget::setWidgetBID(int BID) {
 	m_nWidgetBID = BID;
-	if (m_pAssociation)
-		m_pAssociation->setRoleBId(BID);
+	if (m_pAssociation == NULL)
+		return;
+	int uml_BID = m_pAssociation->getRoleBId();
+	if (uml_BID != BID) {
+		kdDebug() << "AssociationWidget::setWidgetBID(): ";
+		if (uml_BID == -1)
+			kdDebug() << "initializing UMLAssociation::RoleBId to id "
+				  << BID << endl;
+		else
+			kdDebug() << "widget id " << BID << " does not match UML object's id "
+				  << uml_BID << endl;
+	}
+	m_pAssociation->setRoleBId(BID);
 }
 
 /** Returns a QString Object representing this AssociationWidget */
@@ -940,8 +966,7 @@ QString AssociationWidget::toString() {
 	default:
 		string.append(i18n("Other Type"));
 		break;
-	}
-	;//end switch
+	}; //end switch
 	string.append(":");
 	if(m_pWidgetB) {
 		string += m_pWidgetB -> getName();
@@ -1502,7 +1527,6 @@ QPoint AssociationWidget::findRectIntersectionPoint(UMLWidget* pWidget, QPoint P
 		break;
 	case East:
 		result = findIntersection(rc.topRight(), rc.bottomRight(), P1, P2);
-
 		break;
 	case South:
 		result = findIntersection(rc.bottomLeft(), rc.bottomRight(), P1, P2);
@@ -1510,7 +1534,6 @@ QPoint AssociationWidget::findRectIntersectionPoint(UMLWidget* pWidget, QPoint P
 
 	case NorthWest:
 		result = rc.topLeft();
-
 		break;
 	case NorthEast:
 		result  = rc.topRight();
@@ -1611,7 +1634,6 @@ QPoint AssociationWidget::findIntersection(QPoint P1, QPoint P2, QPoint P3, QPoi
 		pt.setX(static_cast<int>((slope1*x3) + b1));
 		pt.setY(x3);
 		if(y3 >= y4) {
-
 			if( !(y4 <= pt.x() && pt.x() <= y3)) {
 
 				pt.setX(-1);
@@ -1635,7 +1657,6 @@ QPoint AssociationWidget::findIntersection(QPoint P1, QPoint P2, QPoint P3, QPoi
 		}
 	} else if (x2 < x1 && y2 >= y1)
 	{
-
 		if(! ((x2 <= pt.x() && pt.x() <= x1)	&& (y1 <= pt.y() && pt.y() <= y2)) ) {
 			pt.setX(-1);
 			pt.setY(-1);
@@ -1761,72 +1782,44 @@ QPoint AssociationWidget::calculatePointAtDistance(QPoint P1, QPoint P2, float D
 
 	if(t < 0) {
 		return QPoint(-1, -1);
-
 	}
 	float sol_1 = ((-1* B) + sqrt(t) ) / (2*A);
 	float sol_2 = ((-1*B) - sqrt(t) ) / (2*A);
 
-	if(sol_1 < 0 && sol_2 < 0) {
-
+	if(sol_1 < 0.0 && sol_2 < 0.0) {
 		return QPoint(-1, -1);
-
 	}
+	QPoint sol1Point(static_cast<int>(slope*sol_1 + b), static_cast<int>(sol_1));
+	QPoint sol2Point(static_cast<int>(slope*sol_2 + b), static_cast<int>(sol_2));
 	if(sol_1 < 0 && sol_2 >=0) {
 		if(x2 > x1) {
-			if(x1 <= sol_2 && sol_2 <= x2) {
-				return QPoint(static_cast<int>(slope*sol_2 + b), static_cast<int>(sol_2));
-			}
-			else {
-
-				return QPoint(-1, -1);
-			}
+			if(x1 <= sol_2 && sol_2 <= x2)
+				return sol2Point;
 		} else {
-			if(x2 <= sol_2 && sol_2 <= x1) {
-				return QPoint(static_cast<int>(slope*sol_2 + b), static_cast<int>(sol_2));
-			} else {
-				return QPoint(-1, -1);
-			}
-		}
+			if(x2 <= sol_2 && sol_2 <= x1)
+				return sol2Point;
+		} 
 	} else if(sol_1 >= 0 && sol_2 < 0) {
 		if(x2 > x1) {
-			if(x1 <= sol_1 && sol_1 <= x2) {
-				return QPoint(static_cast<int>(slope*sol_1 + b), static_cast<int>(sol_1));
-			} else {
-				return QPoint(-1, -1);
-			}
+			if(x1 <= sol_1 && sol_1 <= x2)
+				return sol1Point;
 		} else {
-			if(x2 <= sol_1 && sol_1 <= x1) {
-				return QPoint(static_cast<int>(slope*sol_1 + b), static_cast<int>(sol_1));
-			} else {
-				return QPoint(-1, -1);
-			}
-
+			if(x2 <= sol_1 && sol_1 <= x1)
+				return sol1Point;
 		}
 	} else {
 		if(x2 > x1) {
-			if(x1 <= sol_1 && sol_1 <= x2) {
-				return QPoint(static_cast<int>(slope*sol_1 + b), static_cast<int>(sol_1));
-			} else {
-				if(x1 <= sol_2 && sol_2 <= x2) {
-					return QPoint(static_cast<int>(slope*sol_2 + b), static_cast<int>(sol_2));
-				} else {
-
-					return QPoint(-1, -1);
-				}
-			}
+			if(x1 <= sol_1 && sol_1 <= x2)
+				return sol1Point;
+			if(x1 <= sol_2 && sol_2 <= x2)
+				return sol2Point;
 		} else {
-			if(x2 <= sol_1 && sol_1 <= x1) {
-				return QPoint(static_cast<int>(slope*sol_1 + b), static_cast<int>(sol_1));
-			} else {
-				if(x2 <= sol_2 && sol_2 <= x1) {
-					return QPoint(static_cast<int>(slope*sol_2 + b), static_cast<int>(sol_2));
-				} else {
-					return QPoint(-1, -1);
-				}
-			}
+			if(x2 <= sol_1 && sol_1 <= x1)
+				return sol1Point;
+			if(x2 <= sol_2 && sol_2 <= x1)
+				return sol2Point;
 		}
 	}
-
 	return QPoint(-1, -1);
 }
 
@@ -1925,31 +1918,27 @@ QPoint AssociationWidget::calculatePointAtDistanceOnPerpendicular(QPoint P1, QPo
 	if(sol_1 < 0 && sol_2 < 0) {
 		return QPoint(-1, -1);
 	}
+	QPoint sol1Point(static_cast<int>(slope*sol_1 + b), static_cast<int>(sol_1));
+	QPoint sol2Point(static_cast<int>(slope*sol_2 + b), static_cast<int>(sol_2));
 	if(sol_1 < 0 && sol_2 >=0) {
-		return QPoint(static_cast<int>(slope*sol_2 + b), static_cast<int>(sol_2));
+		return sol2Point;
 	} else if(sol_1 >= 0 && sol_2 < 0) {
-		return QPoint(static_cast<int>(slope*sol_1 + b), static_cast<int>(sol_1));
-	} else //Choose one solution , either will work fine
-	{
+		return sol1Point;
+	} else {	// Choose one solution , either will work fine
 		if(slope >= 0) {
 			if(sol_1 <= sol_2)
-			{
-				return QPoint(static_cast<int>(slope*sol_2 + b), static_cast<int>(sol_2));
-			} else {
-				return QPoint(static_cast<int>(slope*sol_1 + b), static_cast<int>(sol_1));
-			}
+				return sol2Point;
+			else
+				return sol1Point;
 		} else {
 			if(sol_1 <= sol_2)
-			{
-				return QPoint(static_cast<int>(slope*sol_1 + b), static_cast<int>(sol_1));
-			} else {
-				return QPoint(static_cast<int>(slope*sol_2 + b), static_cast<int>(sol_2));
-			}
+				return sol1Point;
+			else
+				return sol2Point;
 		}
 
 	}
-	return QPoint(-1, -1);
-
+	return QPoint(-1, -1);  // never reached, just keep compilers happy
 }
 
 /** Calculates the intersection (PS) between line P1P2 and a perpendicular line containing
@@ -1979,7 +1968,6 @@ float AssociationWidget::perpendicularProjection(QPoint P1, QPoint P2, QPoint P3
 		sx = x2;
 		sy = y3;
 	} else if(y2 == y1) {
-
 		sy = y2;
 		sx = x3;
 	} else {
@@ -2235,12 +2223,9 @@ void AssociationWidget::setTextPosition(Text_Role role, QPoint pos) {
 	case tr_MultiA:
 			m_pMultiA->setLinePos( pos.x(), pos.y() );
 		break;
-
-
 	case tr_MultiB:
 			m_pMultiB->setLinePos( pos.x(), pos.y() );
 		break;
-
 	case tr_Name:
 	case tr_Coll_Message:
 			m_pName->setLinePos( pos.x(), pos.y() );
@@ -2288,7 +2273,6 @@ void AssociationWidget::setTextPositionRelatively(Text_Role role, QPoint pos, QP
 			m_pMultiA->setLinePositionRelatively( pos.x(), pos.y(),
 							      oldPosition.x(), oldPosition.y() );
 		break;
-
 
 	case tr_MultiB:
 			m_pMultiB->setLinePositionRelatively( pos.x(), pos.y(),
@@ -2631,6 +2615,7 @@ void AssociationWidget::mouseMoveEvent(QMouseEvent* me) {
 	moveEvent(&m);
 	m_pView->resizeCanvasToItems();
 }
+
 AssociationWidget::Region AssociationWidget::getWidgetRegion(AssociationWidget * widget) const {
 	if(widget -> getWidgetA() == m_pWidgetA)
 		return m_WidgetARegion;
@@ -3244,8 +3229,20 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement ) {
 		QString changeabilityB = qElement.attribute( "changeabilityB", "0");
 		setWidgetAID( aId );
 		setWidgetBID( bId );
-		setWidgetA(m_pView->findWidget(getWidgetAID()));
-		setWidgetB(m_pView->findWidget(getWidgetBID()));
+		UMLWidget *pWidgetA = m_pView->findWidget( aId );
+		if (pWidgetA == NULL) {
+			kdWarning() << "AssociationWidget::loadFromXMI(): "
+				    << "cannot find widget for id " << aId << endl;
+			return false;
+		}
+		UMLWidget *pWidgetB = m_pView->findWidget( bId );
+		if (pWidgetB == NULL) {
+			kdWarning() << "AssociationWidget::loadFromXMI(): "
+				    << "cannot find widget for id " << bId << endl;
+			return false;
+		}
+		setWidgetA(pWidgetA);
+		setWidgetB(pWidgetB);
 		if( !type.isEmpty() )
 			setAssocType( (Uml::Association_Type)type.toInt() );
 
@@ -3268,7 +3265,7 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement ) {
 		m_nTotalCountB = totalcountb.toInt();
 	} else {
 		// New style: The xmi.id is a reference to the UMLAssociation.
-		m_pAssociation = (UMLAssociation*)(umldoc->findUMLObject(nId));
+		m_pAssociation = (UMLAssociation*)umldoc->findUMLObject(nId);
 		if (m_pAssociation == NULL) {
 			kdDebug() << " cannot find UML:Association " << nId << endl;
 			return false;
