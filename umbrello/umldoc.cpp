@@ -267,11 +267,14 @@ bool UMLDoc::openDocument(const KURL& url, const char* /*format =0*/) {
 		return false;
 	}
 
-	m_bLoading = true;
-
 	doc_url = url;
 	QDir d = url.path(1);
 	deleteContents();
+	// IMPORTANT: set m_bLoading to true
+	// _AFTER_ the call of UMLDoc::deleteContents()
+	// as it sets m_bLoading to false afer it was temporarely
+	// changed to true to block recording of changes in redo-buffer
+	m_bLoading = true;
 	QString tmpfile;
 	KIO::NetAccess::download( url, tmpfile
 #if KDE_IS_VERSION(3,1,90)
@@ -380,6 +383,8 @@ void UMLDoc::deleteContents() {
 
 	if (listView) {
 		listView->init();
+		// store old setting - for restore of last setting
+		bool m_bLoading_old = m_bLoading;
 		m_bLoading = true; // This is to prevent document becoming modified.
 		// For reference, here is an example of a call sequence that would
 		// otherwise result in futile addToUndoStack() calls:
@@ -389,6 +394,7 @@ void UMLDoc::deleteContents() {
 		//     UMLDoc::setModified(true, true)  =>
 		//      addToUndoStack().
 		removeAllViews();
+		m_bLoading = m_bLoading_old;
 		if(objectList.count() > 0) {
 			// clear our object list. We do this explicitly since setAutoDelete is false for the objectList now.
 			for(UMLObject * obj = objectList.first(); obj != 0; obj = objectList.next())
@@ -2194,11 +2200,13 @@ bool UMLDoc::activateView ( int viewID ) {
 
 bool UMLDoc::activateAllViews() {
 	bool status = true;
+	// store old setting - for restore of last setting
+	bool m_bLoading_old = m_bLoading;
 	m_bLoading = true; //this is to prevent document becoming modified when activating a view
 
 	for(UMLView *v = m_ViewList.first(); v; v = m_ViewList.next() )
 		status = status && v->activateAfterLoad();
-	m_bLoading = false;
+	m_bLoading = m_bLoading_old;
 	viewsNotActivated.clear();
 	return status;
 }
@@ -2313,6 +2321,8 @@ void UMLDoc::clearRedoStack() {
 void UMLDoc::loadUndoData() {
 	if (undoStack.count() > 1) {
 		int currentViewID = currentView->getID();
+		// store old setting - for restore of last setting
+		bool m_bLoading_old = m_bLoading;
 		m_bLoading = true;
 		deleteContents();
 		redoStack.prepend( undoStack.getFirst() );
@@ -2325,7 +2335,7 @@ void UMLDoc::loadUndoData() {
 
 		setModified(true, false);
 		getCurrentView()->resizeCanvasToItems();
-		m_bLoading = false;
+		m_bLoading = m_bLoading_old;
 
 		undoStack.setAutoDelete(true);
 		if (undoStack.count() <= 1) {
@@ -2349,6 +2359,8 @@ void UMLDoc::loadUndoData() {
 void UMLDoc::loadRedoData() {
 	if (redoStack.count() >= 1) {
 		int currentViewID = currentView->getID();
+		// store old setting - for restore of last setting
+		bool m_bLoading_old = m_bLoading;
 		m_bLoading = true;
 		deleteContents();
 		undoStack.prepend( redoStack.getFirst() );
@@ -2361,7 +2373,7 @@ void UMLDoc::loadRedoData() {
 
 		setModified(true, false);
 		getCurrentView()->resizeCanvasToItems();
-		m_bLoading = false;
+		m_bLoading = m_bLoading_old;
 
 		redoStack.setAutoDelete(true);
 		if (redoStack.count() < 1) {
