@@ -13,7 +13,7 @@
  *      Date   : Thu Jun 19 2003
  */
 
-#include <iostream.h>
+#include <kdebug.h>
 #include <kconfig.h>
 
 #include "cppcodegenerator.h"
@@ -30,13 +30,13 @@ CPPCodeGenerator::CPPCodeGenerator ( UMLDoc * parentDoc , const char * name)
     : CodeGenerator( parentDoc, name ) {
 
 	//m_parentDoc = parentDoc; // this should be done by the call to the parent constructor?
-cerr<<"CPPCodeGenerator "<<this<<" created with parent document:"<<parentDoc<<endl;
+kdDebug()<<"CPPCodeGenerator "<<this<<" created with parent document:"<<parentDoc<<endl;
 
 	initAttributes();
 };
 
 CPPCodeGenerator::~CPPCodeGenerator ( ) { 
-    cerr<<"CPPCodeGenerator "<<this<<" destroyed"<<endl;
+    kdDebug()<<"CPPCodeGenerator "<<this<<" destroyed"<<endl;
 	// destroy all separately owned codedocuments (e.g. header docs)
         for (CPPHeaderCodeDocument *doc = m_headercodedocumentVector.first(); doc; doc=m_headercodedocumentVector.next())
                 delete doc;
@@ -167,7 +167,7 @@ bool CPPCodeGenerator::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
  */
 void CPPCodeGenerator::initFromParentDocument( ) {
 
-cerr<<" CPP INITTOPARENT called"<<endl;
+kdDebug()<<" CPP INITTOPARENT called"<<endl;
 
         // Walk through the document converting classifiers into
         // classifier code documents as needed (e.g only if doesnt exist)
@@ -191,14 +191,14 @@ cerr<<" CPP INITTOPARENT called"<<endl;
                 }
         }
 
-cerr<<"CPP INITTOPARENT END"<<endl;
+kdDebug()<<"CPP INITTOPARENT END"<<endl;
 
 }
 
 void CPPCodeGenerator::initAttributes ( ) 
 {
 
-cerr<<"CPP CODE GENERTOR INIT"<<endl;
+kdDebug()<<"CPP CODE GENERTOR INIT"<<endl;
 
 	setPolicy ( new CPPCodeGenerationPolicy(this, getPolicy()) );
 
@@ -212,7 +212,7 @@ cerr<<"CPP CODE GENERTOR INIT"<<endl;
         // set our 'writeout' policy for that code document
         setCreateProjectMakefile(DEFAULT_BUILD_MAKEFILE);
 
-cerr<<"CPP CODE GENERTOR INIT - end"<<endl;
+kdDebug()<<"CPP CODE GENERTOR INIT - end"<<endl;
 
 }
 

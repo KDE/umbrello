@@ -24,7 +24,7 @@
   *   guts of the class (e.g. field decl, accessor methods, operations, dependant classes)
 */
 
-#include <iostream.h>
+#include <kdebug.h>
 #include <kdebug.h>
 #include <qregexp.h>
 
@@ -44,7 +44,7 @@ CPPSourceCodeDocument::CPPSourceCodeDocument ( UMLClassifier * concept, CPPCodeG
 };
 
 CPPSourceCodeDocument::~CPPSourceCodeDocument ( ) { 
- 	cerr<<"   CPPSourceCodeGenerator "<<this<<" destroyed"<<endl;
+ 	kdDebug()<<"   CPPSourceCodeGenerator "<<this<<" destroyed"<<endl;
 };
 
 //  

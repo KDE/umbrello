@@ -12,7 +12,7 @@
  *      Date   : Wed Jul 30 2003
  */
 
-#include <iostream.h>
+#include <kdebug.h>
 #include <klocale.h>
 #include <qlabel.h>
 #include <qcombobox.h>
@@ -51,7 +51,7 @@ void CPPCodeGenerationPolicyPage::apply()
 	// now do our cpp-specific configs
 	CPPCodeGenerationPolicy * parent = (CPPCodeGenerationPolicy*) m_parentPolicy;
 
-cerr<<"Apply in CPPCodeGenerationPage called (parent:"<<parent<<")"<<endl;
+kdDebug()<<"Apply in CPPCodeGenerationPage called (parent:"<<parent<<")"<<endl;
 
 	parent->setCommentStyle((CPPCodeGenerationPolicy::CPPCommentStyle ) form->m_SelectCommentStyle->currentItem());
 	parent->setAutoGenerateConstructors(form->m_generateConstructors->isChecked());

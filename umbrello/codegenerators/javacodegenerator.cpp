@@ -13,7 +13,7 @@
  *      Date   : Thu Jun 19 2003
  */
 
-#include <iostream.h>
+#include <kdebug.h>
 
 #include <kdebug.h>
 #include <kconfig.h>
@@ -46,7 +46,7 @@ JavaCodeGenerator::JavaCodeGenerator ( UMLDoc * parentDoc, const char * name )
 };
 
 JavaCodeGenerator::~JavaCodeGenerator ( ) { 
- 	cerr<<"JavaCodeGenerator "<<this<<" destroyed"<<endl;
+ 	kdDebug()<<"JavaCodeGenerator "<<this<<" destroyed"<<endl;
 };
 
 //  
@@ -151,7 +151,7 @@ CodeDocument * JavaCodeGenerator::newClassifierCodeDocument ( UMLClassifier * c)
 
 void JavaCodeGenerator::loadFromXMI(QDomElement & qElement ) {
 
-cerr<<" **** LOAD FROM XMI CALLED FOR JAVA CODE GENERATOR **** "<<endl;
+kdDebug()<<" **** LOAD FROM XMI CALLED FOR JAVA CODE GENERATOR **** "<<endl;
 
         //now look for our particular child element
         QDomNode node = qElement.firstChild();
@@ -169,7 +169,7 @@ cerr<<" **** LOAD FROM XMI CALLED FOR JAVA CODE GENERATOR **** "<<endl;
                 		QString docTag = codeDocElement.tagName();
                 		if( docTag == "codedocument" ) {
 					QString id = codeDocElement.attribute( "tag", "-1" );
-cerr<<" XMI LOAD: GOT CODE DOCUMENT W/ ID:"<<id.latin1()<<endl;
+kdDebug()<<" XMI LOAD: GOT CODE DOCUMENT W/ ID:"<<id.latin1()<<endl;
 					CodeDocument * codeDoc = findCodeDocumentByID(id);
 					if(codeDoc)
 						codeDoc->loadFromXMI(element);
@@ -204,7 +204,7 @@ bool JavaCodeGenerator::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
 		ClassifierCodeDocument * classDoc = dynamic_cast<ClassifierCodeDocument*>(codeDoc);
 		if(classDoc)
 {
-cerr<<" saveToXMI got a classifier code document"<<endl;
+kdDebug()<<" saveToXMI got a classifier code document"<<endl;
 			status = classDoc->saveToXMI(doc, docElement) ? status : false;
 }
 		else
@@ -219,7 +219,7 @@ cerr<<" saveToXMI got a classifier code document"<<endl;
 
 void JavaCodeGenerator::initFields ( ) {
 
-cerr<<"JAVA CODE GENERTOR INIT"<<endl;
+kdDebug()<<"JAVA CODE GENERTOR INIT"<<endl;
 
 	setPolicy ( new JavaCodeGenerationPolicy(this, getPolicy()) );
 
@@ -233,6 +233,6 @@ cerr<<"JAVA CODE GENERTOR INIT"<<endl;
 	// set our 'writeout' policy for that code document
         setCreateANTBuildFile(DEFAULT_BUILD_ANT_DOC);
 
-cerr<<"JAVA CODE GENERTOR INIT - END"<<endl;
+kdDebug()<<"JAVA CODE GENERTOR INIT - END"<<endl;
 }
 

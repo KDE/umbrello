@@ -13,7 +13,7 @@
  *      Date   : Fri Aug 31 2003
  */
 
-#include <iostream.h>
+#include <kdebug.h>
 
 #include "cppheadercodeaccessormethod.h"
 

@@ -13,7 +13,7 @@
  *      Date   : Thu Jun 19 2003
  */
 
-#include <iostream.h>
+#include <kdebug.h>
 
 #include "xmlschemacodegenerator.h"
 #include "xmlschemaclassifiercodedocument.h"
@@ -26,13 +26,13 @@ XMLSchemaCodeGenerator::XMLSchemaCodeGenerator ( UMLDoc * parentDoc , const char
     : CodeGenerator( parentDoc, name ) {
 
 	//m_parentDoc = parentDoc; // this should be done by the call to the parent constructor?
-cerr<<"XMLSchemaCodeGenerator "<<this<<" created with parent document:"<<parentDoc<<endl;
+kdDebug()<<"XMLSchemaCodeGenerator "<<this<<" created with parent document:"<<parentDoc<<endl;
 
 	initFields();
 };
 
 XMLSchemaCodeGenerator::~XMLSchemaCodeGenerator ( ) { 
-cerr<<"XMLSchemaCodeGenerator "<<this<<" destroyed"<<endl;
+kdDebug()<<"XMLSchemaCodeGenerator "<<this<<" destroyed"<<endl;
 };
 
 //  
@@ -65,7 +65,7 @@ bool XMLSchemaCodeGenerator::isType (QString & type)
  */
 CodeDocument * XMLSchemaCodeGenerator::newClassifierCodeDocument (UMLClassifier * classifier) 
 {
-cerr<<"Create New XMLSCHEMA Classifier doc"<<endl; 
+kdDebug()<<"Create New XMLSCHEMA Classifier doc"<<endl; 
 	return new XMLSchemaClassifierCodeDocument(classifier,this);
 }
 

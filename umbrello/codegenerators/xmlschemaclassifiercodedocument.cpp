@@ -20,7 +20,7 @@
   * XML schema body
 */
 
-#include <iostream.h>
+#include <kdebug.h>
 #include <kdebug.h>
 // #include <qregexp.h>
 
@@ -225,7 +225,7 @@ QString XMLSchemaClassifierCodeDocument::scopeToXMLSchemaDecl(Uml::Scope scope)
 void XMLSchemaClassifierCodeDocument::updateContent( ) 
 {
 
-cerr<<"XML schema ClassifierCodeDoc "<<this<<" SyncToParent Called"<<endl;
+kdDebug()<<"XML schema ClassifierCodeDoc "<<this<<" SyncToParent Called"<<endl;
 
       	// Gather info on the various fields and parent objects of this class...
 	// UMLClassifier * c = getParentClassifier();
@@ -263,7 +263,7 @@ cerr<<"XML schema ClassifierCodeDoc "<<this<<" SyncToParent Called"<<endl;
 	else
 		fcomment->setWriteOutText(true);
 
-cerr<<"XMLschema ClassifierCodeDoc SyncToParent END "<<endl;
+kdDebug()<<"XMLschema ClassifierCodeDoc SyncToParent END "<<endl;
 
 }
 

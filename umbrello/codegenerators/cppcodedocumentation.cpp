@@ -13,7 +13,7 @@
  *      Date   : Mon Sep 1 2003
  */
 
-#include <iostream.h>
+#include <kdebug.h>
 #include "cppcodedocumentation.h"
 #include "../classifiercodedocument.h"
 // #include "cppcodegenerationpolicy.h"

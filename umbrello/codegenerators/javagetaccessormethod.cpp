@@ -13,7 +13,7 @@
  *      Date   : Fri Jun 20 2003
  */
 
-#include <iostream.h>
+#include <kdebug.h>
 
 #include "javagetaccessormethod.h"
 

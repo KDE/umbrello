@@ -12,7 +12,7 @@
  *      Date   : Wed Jul 30 2003
  */
 
-#include <iostream.h>
+#include <kdebug.h>
 #include <klocale.h>
 #include <qlabel.h>
 #include <qcombobox.h>
@@ -51,7 +51,7 @@ void JavaCodeGenerationPolicyPage::apply()
 	// now do our java-specific configs
 	JavaCodeGenerationPolicy * parent = (JavaCodeGenerationPolicy*) m_parentPolicy;
 
-cerr<<"Apply in JavaCodeGenerationPage called (parent:"<<parent<<")"<<endl;
+kdDebug()<<"Apply in JavaCodeGenerationPage called (parent:"<<parent<<")"<<endl;
 
 	parent->setCommentStyle((JavaCodeGenerationPolicy::JavaCommentStyle ) form->m_SelectCommentStyle->currentItem());
 	parent->setAutoGenerateConstructors(form->m_generateConstructors->isChecked());

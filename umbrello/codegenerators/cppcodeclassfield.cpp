@@ -14,7 +14,7 @@
  */
 
 
-#include <iostream.h>
+#include <kdebug.h>
 #include <qregexp.h>
 
 #include "cppcodeclassfield.h"

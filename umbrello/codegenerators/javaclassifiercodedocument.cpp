@@ -23,7 +23,7 @@
   *   guts of the class (e.g. field decl, accessor methods, operations, dependant classes)
 */
 
-#include <iostream.h>
+#include <kdebug.h>
 #include <kdebug.h>
 #include <qregexp.h>
 

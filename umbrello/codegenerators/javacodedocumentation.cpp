@@ -13,7 +13,7 @@
  *      Date   : Mon Jun 23 2003
  */
 
-#include <iostream.h>
+#include <kdebug.h>
 #include "javacodedocumentation.h"
 #include "javaclassifiercodedocument.h"
 #include "javacodegenerationpolicy.h"
