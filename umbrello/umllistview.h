@@ -310,6 +310,11 @@ protected:
 	 */
 	bool typeIsClassifierList(ListView_Type type);
 
+	/**
+	 * Deletes all child-items of @p parent.
+	 */
+	static void deleteChildrenOf( QListViewItem *parent );
+
 public slots:
 	void slotDiagramCreated(int id);
 	void diagramCreated(Umbrello::Diagram*);
