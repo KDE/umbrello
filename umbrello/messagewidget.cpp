@@ -67,36 +67,6 @@ void MessageWidget::init() {
 MessageWidget::~MessageWidget() {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void MessageWidget::setWidgetAID( int widgetAID ) {
-	if (m_pWA == NULL)
-		kdDebug() << "MessageWidget::setWidgetAID called while m_pWA is NULL" << endl;
-	else
-		m_pWA->setID( widgetAID );
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////
-int MessageWidget::getWidgetAID() const {
-	if (m_pWA == NULL) {
-		kdDebug() << "MessageWidget::getWidgetAID called while m_pWA is NULL" << endl;
-		return -1;
-	}
-	return m_pWA->getLocalID();
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////
-void MessageWidget::setWidgetBID( int widgetBID ) {
-	if (m_pWB == NULL)
-		kdDebug() << "MessageWidget::setWidgetBID called while m_pWB is NULL" << endl;
-	else
-		m_pWB->setID( widgetBID );
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////
-int MessageWidget::getWidgetBID() const {
-	if (m_pWB == NULL) {
-		kdDebug() << "MessageWidget::getWidgetBID called while m_pWB is NULL" << endl;
-		return -1;
-	}
-	return m_pWB->getLocalID();
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////
 void MessageWidget::draw(QPainter& p, int offsetX, int offsetY) {
 
 	if(!m_pWA || !m_pWB) {
@@ -420,11 +390,11 @@ void MessageWidget::calculateDimensionsAsynchronous() {
 void MessageWidget::cleanup() {
 	if (m_pWA) {
 		disconnect(this, SIGNAL(sigMessageMoved()), m_pWA, SLOT(slotMessageMoved()) );
-		static_cast<ObjectWidget*>(m_pWA)->messageRemoved(this);
+		m_pWA->messageRemoved(this);
 	}
 	if (m_pWB) {
 		disconnect(this, SIGNAL(sigMessageMoved()), m_pWB, SLOT(slotMessageMoved()) );
-		static_cast<ObjectWidget*>(m_pWB)->messageRemoved(this);
+		m_pWB->messageRemoved(this);
 	}
 
 	UMLWidget::cleanup();
@@ -583,8 +553,8 @@ bool MessageWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement messageElement = qDoc.createElement( "UML:MessageWidget" );
 	bool status = UMLWidget::saveToXMI( qDoc, messageElement );
 	//messageElement.setAttribute( "textid", m_nTextID );
-	messageElement.setAttribute( "widgetaid", getWidgetAID() );
-	messageElement.setAttribute( "widgetbid", getWidgetBID() );
+	messageElement.setAttribute( "widgetaid", m_pWA->getLocalID() );
+	messageElement.setAttribute( "widgetbid", m_pWB->getLocalID() );
 	messageElement.setAttribute( "operation", m_Operation );
 	messageElement.setAttribute( "seqnum", m_SequenceNumber );
 	messageElement.setAttribute( "sequencemessagetype", m_sequenceMessageType );

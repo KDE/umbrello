@@ -68,30 +68,6 @@ public:
 	virtual ~MessageWidget();
 
 	/**
-	 * DEPRECATED - candidate for removal
-	 * Sets the ID in the role A widget.
-	 */
-	void setWidgetAID( int widgetAID );
-
-	/**
-	 * Returns the ID of the role A widget.
-	 * Just for convenience. We can always get the ID directly from the widget.
-	 */
-	int getWidgetAID() const;
-
-	/**
-	 * DEPRECATED - candidate for removal
-	 * Sets the ID in the role B widget.
-	 */
-	void setWidgetBID( int widgetBID );
-
-	/**
-	 * Returns the ID of the role B widget.
-	 * Just for convenience. We can always get the ID directly from the widget.
-	 */
-	int getWidgetBID() const;
-
-	/**
 	 * Write property of QString m_SequenceNumber.
 	 */
 	void setSequenceNumber( QString sequenceNumber );
@@ -236,16 +212,16 @@ public:
 	void setSelected(bool _select);
 
 	/**
-	 *		Returns the minimum height this widget should be set at on
-	 *		a sequence diagrams.  Takes into account the widget positions
-	 *		it is related to.
+	 *	Returns the minimum height this widget should be set at on
+	 *	a sequence diagrams.  Takes into account the widget positions
+	 *	it is related to.
 	 */
 	int getMinHeight();
 
 	/**
-	 *		Returns the maximum height this widget should be set at on
-	 *		a sequence diagrams.  Takes into account the widget positions
-	 *		it is related to.
+	 *	Returns the maximum height this widget should be set at on
+	 *	a sequence diagrams.  Takes into account the widget positions
+	 *	it is related to.
 	 */
 	int getMaxHeight();
 
@@ -273,7 +249,6 @@ protected:
 	// Data loaded/saved
 	QString m_SequenceNumber;
 	QString m_Operation;
-	//int m_nTextID;
 	/**
 	 *	Whether the message is synchronous or asynchronous
 	 */
