@@ -138,7 +138,48 @@ private:
 	}
 	m_Pixmaps;
 
+	/**
+	 * These are loaded by loadPixmaps() and contain the images used
+	 * for the mouse cursors.
+	 */
+	struct CursorPixmaps {
+		QPixmap Actor;
+		QPixmap Aggregation;
+		QPixmap Anchor;
+		QPixmap Artifact;
+		QPixmap Association;
+		QPixmap Box;
+		QPixmap Branch;
+		QPixmap Case;
+		QPixmap Component;
+		QPixmap Composition;
+		QPixmap Dependency;
+		QPixmap EndState;
+		QPixmap Fork;
+		QPixmap Generalisation;
+		QPixmap InitialState;
+		QPixmap Interface;
+		QPixmap MessageAsynchronous;
+		QPixmap MessageSynchronous;
+		QPixmap Node;
+		QPixmap Note;
+		QPixmap Object;
+		QPixmap Package;
+		QPixmap Text;
+		QPixmap Class;
+		QPixmap UniAssoc;
+	}
+	m_CursorPixmaps;
+
+	/**
+	 * Loads toolbar icon and mouse cursor images from disk
+	 */
 	void loadPixmaps();
+
+	/**
+	 * Returns the current cursor depending on m_CurrentButtonID
+	 */
+	QCursor currentCursor();
 signals:
 	void sigButtonChanged(int);
 	void toolSelected(WorkToolBar::EditTool);

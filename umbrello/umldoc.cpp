@@ -505,7 +505,7 @@ UMLObject* UMLDoc::createUMLObject(UMLObject_Type type, const QString &n) {
 	{
 		name = uniqObjectName(type);
 		do {
-		name = KLineEditDlg::getText(i18n("Enter name:"), name, &ok, (QWidget*)parent());
+                name = KLineEditDlg::getText(i18n("Enter name:"), name, &ok, (QWidget*)parent());
 		if (!ok) {
 			return 0;
 		}
@@ -549,6 +549,7 @@ UMLObject* UMLDoc::createUMLObject(UMLObject_Type type, const QString &n) {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLObject* UMLDoc::createUMLObject(UMLObject* umlobject, UMLObject_Type type) {
+
 	if(type == ot_Attribute) {
 		return createAttribute(umlobject);
 	} else if(type == ot_Operation) {
