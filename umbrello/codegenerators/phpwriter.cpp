@@ -87,9 +87,9 @@ void PhpWriter::writeClass(UMLClassifier *c) {
 	//Write class Documentation if there is somthing or if force option
 	if(forceDoc() || !c->getDoc().isEmpty()) {
 		php << endl << "/**" << endl;
-		php << "  * class " << classname << endl;
-		php << formatDoc(c->getDoc(),"  * ");
-		php << "  */" << endl << endl;
+		php << " * class " << classname << endl;
+		php << formatDoc(c->getDoc()," * ");
+		php << " */" << endl ;
 	}
 
 	UMLAssociationList generalizations = c->getGeneralizations();
@@ -98,7 +98,8 @@ void PhpWriter::writeClass(UMLClassifier *c) {
 	UMLAssociation *a;
 
 	//check if class is abstract and / or has abstract methods
-	if(c->getAbstract() && !hasAbstractOps(c))
+//FG	if(c->getAbstract() && !hasAbstractOps(c))
+	if(c->getAbstract())
 		php << "/******************************* Abstract Class ****************************" << endl << "  "
 		<< classname << " does not have any pure virtual methods, but its author" << endl
 		<< "  defined it as an abstract class, so you should not use it directly." << endl
@@ -112,36 +113,38 @@ void PhpWriter::writeClass(UMLClassifier *c) {
 	        a && i;
 	        a = generalizations.next(), i--) {
 		UMLObject* obj = m_doc->findUMLObject(a->getRoleBId());
-		php<<cleanName(obj->getName());
+ 		php<<cleanName(obj->getName());
 	}
 	php<<"\n{\n";
 
 	//associations
 	if( forceSections() || !aggregations.isEmpty()) {
-		php<<"\n  /**Aggregations: */\n";
+		php<<"\n\t/** Aggregations: */\n";
 		for (a = aggregations.first(); a; a = aggregations.next()) {
 			php<<"\n";
 			//maybe we should parse the string here and take multiplicity into account to decide
 			//which container to use.
 			UMLObject *o = m_doc->findUMLObject(a->getRoleAId());
 			QString typeName = cleanName(o->getName());
-			if (a->getMultiA().isEmpty())
-				php << "  var $m_" << typeName << ";" << endl;
-			else
-				php << "  var $m_" << typeName << "Vector = array();" << endl;
+			if (a->getMultiA().isEmpty())  {
+				php << "\tvar $m_" << ";" << endl;
+			} else {
+				php << "\tvar $m_" << "Vector = array();" << endl;
+			}
 		}//end for
 	}
 
 	if( forceSections() || !compositions.isEmpty()) {
-		php<<"\n  /**Compositions: */\n";
+		php<<"\n\t/** Compositions: */\n";
 		for (a = compositions.first(); a ; a = compositions.next()) {
 			// see comment on Aggregation about multiplicity...
 			UMLObject *o = m_doc->findUMLObject(a->getRoleAId());
 			QString typeName = cleanName(o->getName());
-			if(a->getMultiA().isEmpty())
-				php << "  var $m_" << typeName << ";" << endl;
-			else
-				php << "  var $m_" << typeName << "Vector = array();" << endl;
+			if (a->getMultiA().isEmpty())  {
+				php << "\tvar $m_" << ";" << endl;
+			} else {
+				php << "\tvar $m_" << "Vector = array();" << endl;
+			}
 		}
 	}
 
@@ -158,23 +161,26 @@ void PhpWriter::writeClass(UMLClassifier *c) {
 		UMLAttributeList *atl = myClass->getFilteredAttributeList();
 		php << endl;
 
-		php << endl << "  /**" << endl;
+		php << "\t/**" << endl;
 		QString temp = "initAttributes sets all " + classname + " attributes to its default \
 		               value make sure to call this method within your class constructor";
-		php << formatDoc(temp,"    * ");
-		php << "    */" << endl;
-		php << "  function "<<"initAttributes( )" << endl;
-                php << "  {" << endl;
-		for(UMLAttribute *at = atl->first(); at ; at = atl->next())
-			if(!at->getInitialValue().isEmpty())
-				php<<"    $"<<cleanName(at->getName())<<" = "<<at->getInitialValue()<<";" << endl;
-		php << "  }" << endl;
+		php << formatDoc(temp,"\t * ");
+		php << "\t */" << endl;
+		php << "\tfunction "<<"initAttributes( )" << endl;
+                php << "\t{" << endl;
+		for(UMLAttribute* at = atl->first(); at; at = atl->next())  {
+			if(!at->getInitialValue().isEmpty())  {
+				php << "\t\t$this->" << cleanName(at->getName()) << " = " <<
+					at->getInitialValue() << ";" << endl;
+			}
+		}
+		php << "\t}" << endl;
 	}
 
 	php << endl;
 
 	//finish file
-	php << "\n}" << endl;
+	php << "\n} // end of " << classname << endl;
 	php << "?>" << endl;
 
 	//close files and notfiy we are done
@@ -244,20 +250,35 @@ void PhpWriter::writeOperations(QString /* classname */, UMLOperationList &opLis
 
 		if( writeDoc )  //write method documentation
 		{
-			php <<"  /**\n"
-			<<formatDoc(op->getDoc(),"    * ");
+			php <<"\t/**\n"
+			<<formatDoc(op->getDoc(),"\t * ");
+			php << "\t *\n";
 
 			for(at = atl->first(); at ; at = atl -> next())  //write parameter documentation
 			{
 				if(forceDoc() || !at->getDoc().isEmpty()) {
-					php <<"    * @param " + cleanName(at->getName())<<endl;
-					php <<formatDoc(at->getDoc(),"    *      ");
+					php <<"\t * @param " + at->getTypeName() + " " + cleanName(at->getName());
+					php << " " + formatDoc(at->getDoc(),"");
 				}
 			}//end for : write parameter documentation
-			php <<"    */" << endl;
+			php << "\t * @return " << op->getReturnType() << endl;
+			if (op->getAbstract()) php << "\t * @abstract\n";
+			if (op->getStatic()) php << "\t * @static\n";
+			switch(op->getScope()) {
+				case Uml::Public:
+					php << "\t * @access public\n";
+					break;
+				case Uml::Protected:
+					php << "\t * @access protected\n";
+					break;
+				case Uml::Private:
+					php << "\t * @access private\n";
+					break;
+			}
+			php <<"\t */" << endl;
 		}//end if : write method documentation
 
-		php <<  "  function " << cleanName(op->getName()) << "(";
+		php <<  "\tfunction " << cleanName(op->getName()) << "(";
 
 		int i= atl->count();
 		int j=0;
@@ -268,8 +289,8 @@ void PhpWriter::writeOperations(QString /* classname */, UMLOperationList &opLis
 			    QString(""))
 			<< ((j < i-1)?", ":"");
 		}
-		php <<" )\n  {\n    \n  }\n";
-		php << "\n" << endl;
+		php <<" )\n\t{\n\t\t\n\t} // end of member function " + cleanName(op->getName()) + "\n";
+		php << endl;
 	}//end for
 }
 
@@ -302,7 +323,7 @@ void PhpWriter::writeAttributes(UMLClass *c, QTextStream &php) {
 	}
 
 	if(forceSections() || atl->count())
-		php<<"\n\n  /**Attributes: */\n"<<endl;
+		php<<"\n\t/*** Attributes: ***/\n"<<endl;
 
 	if(forceSections() || atpub.count()) {
 		writeAttributes(atpub,php);
@@ -321,11 +342,23 @@ void PhpWriter::writeAttributes(UMLClass *c, QTextStream &php) {
 void PhpWriter::writeAttributes(UMLAttributeList &atList, QTextStream &php) {
 	for (UMLAttribute *at = atList.first(); at ; at = atList.next()) {
 		if (forceDoc() || !at->getDoc().isEmpty()) {
-			php << "    /**" << endl
-			<< formatDoc(at->getDoc(), "      * ")
-			<< "      */" << endl;
+			php << "\t/**" << endl
+			<< formatDoc(at->getDoc(), "\t * ");
+			switch(at->getScope()) {
+				case Uml::Public:
+					php << "\t * @access public" << endl;
+					break;
+				case Uml::Protected:
+					php << "\t * @access protected" << endl;
+					break;
+				case Uml::Private:
+					php << "\t * @access private" << endl;
+					break;
+			}
+
+			php << "\t */" << endl;
 		}
-		php << "    var $" << cleanName(at->getName()) << ";" << endl;
+		php << "\tvar " << "$" << cleanName(at->getName()) << ";" << endl;
 
 	} // end for
 	return;
