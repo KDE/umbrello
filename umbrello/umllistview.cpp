@@ -878,7 +878,7 @@ bool UMLListView::acceptDrag(QDropEvent* event) const {
 	return accept;
 }
 
-void UMLListView::slotDropped(QDropEvent* de, QListViewItem* parent, QListViewItem* item) {
+void UMLListView::slotDropped(QDropEvent* de, QListViewItem* /* parent */, QListViewItem* item) {
 	if(!item) {
 		return;
 	}
