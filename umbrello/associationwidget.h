@@ -629,7 +629,7 @@ private:
 	 *		8 = On diagonal 1 between Region4 and 1
 	 *		9 = On diagonal 1 and On diagonal 2 (the center)
 	 */
-	static AssociationWidget::Region findPointRegion(QRect Rect, int PosX, int PosY);
+	static Region findPointRegion(QRect Rect, int PosX, int PosY);
 
 	/**
 	 * Overrides moveEvent.
