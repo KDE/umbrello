@@ -53,10 +53,7 @@ class QWidgetStack;
 class QMenuData;
 class QClipboard;
 
-namespace Umbrello
-{
 class RefactoringAssistant;
-}
 
 /**
  * The base class for UML application windows. It sets up the main
@@ -771,7 +768,7 @@ private:
 	DocWindow* m_pDocWindow;
 	
 	/** Refactoring assistant. */
-	Umbrello::RefactoringAssistant* m_refactoringAssist;
+	RefactoringAssistant* m_refactoringAssist;
 
 	//KAction pointers to enable/disable actions
 	KAction* fileNew;

@@ -58,9 +58,6 @@
 #include "configurable.h"
 
 
-using Umbrello::RefactoringAssistant;
-
-
 UMLApp::UMLApp(QWidget* , const char* name):KDockMainWindow(0, name) {
 	s_instance = this;
 	m_pDocWindow = 0;

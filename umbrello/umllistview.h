@@ -25,20 +25,12 @@
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
  
-namespace Umbrello
-{
-	class Diagram;
-	class DiagramView;
-} 
 class IDChangeLog;
 class ListPopupMenu;
 class UMLClassifier;
 class UMLDoc;
 class UMLListViewItem;
 class UMLView;
-
-using Umbrello::Diagram;
-using Umbrello::DiagramView;
 
 
 class UMLListView : public KListView {
@@ -399,12 +391,6 @@ public slots:
 	 * @param id the id of the new diagram
 	 */
 	void slotDiagramCreated(int id);
-
-	/**
-	 * Creates a new item to represent a new diagram
-	 * @param d pointer to the new diagram
-	 */
-	void diagramCreated(Umbrello::Diagram* d);
 
 	/**
 	 * renames a diagram in the list view

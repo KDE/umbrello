@@ -4,15 +4,13 @@ INCLUDES = -I$(top_srcdir) $(all_includes)
 
 libdialogs_la_METASOURCES = AUTO
 
-libdialogs_la_SOURCES = classpropertiesbase.ui \
+libdialogs_la_SOURCES = \
 			codegenerationoptionsbase.ui \
 			codegenerationpolicybase.ui \
 			codegenerationwizardbase.ui \
 			codeviewerdialogbase.ui \
 			codevieweroptionsbase.ui \
 			diagrampropertiespage.ui \
-			interfacepropertiesbase.ui \
-			packagepropertiesbase.ui \
 			umlrolepropertiesbase.ui \
 activitydialog.cpp \
 activitypage.cpp \
@@ -24,7 +22,6 @@ classgenpage.cpp \
 classifierlistpage.cpp\
 classoptionspage.cpp \
 classpropdlg.cpp \
-classpropertiespage.cpp \
 classwizard.cpp \
 codeeditor.cpp \
 codegenerationoptionspage.cpp \
@@ -35,10 +32,8 @@ codevieweroptionspage.cpp \
 defaultcodegenpolicypage.cpp \
 diagramprintpage.cpp \
 dialog_utils.cpp \
-interfacepropertiespage.cpp \
 notedialog.cpp \
 overwritedialogue.cpp \
-packagepropertiespage.cpp \
 pkgcontentspage.cpp \
 parmpropdlg.cpp \
 selectopdlg.cpp \

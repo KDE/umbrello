@@ -12,12 +12,6 @@
 
 #include <qstring.h>
 
-//uncomment for use with Luis' diagram code
-//namespace Umbrello
-//{
-//enum Visibility {Public = 200, Private, Protected };
-//}
-
 
 /**
  *@author Paul Hensgen

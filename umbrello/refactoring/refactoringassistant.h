@@ -13,27 +13,25 @@
  ***************************************************************************/
 
  
- #ifndef REFACTORING_ASSISTANT
- #define REFACTORING_ASSISTANT
+#ifndef REFACTORING_ASSISTANT
+#define REFACTORING_ASSISTANT
  
  
- #include <klistview.h>
- #include <qpixmap.h>
- #include <map>
+#include <klistview.h>
+#include <qpixmap.h>
+#include <map>
  
  
- class UMLClass;
- class UMLObject;
- class UMLClassifier;
- class UMLAttribute;
- class UMLOperation;
- class UMLDoc;
+class UMLClass;
+class UMLObject;
+class UMLClassifier;
+class UMLAttribute;
+class UMLOperation;
+class UMLDoc;
  
- class QPopupMenu;
- class QPoint;
+class QPopupMenu;
+class QPoint;
  
- 
- namespace Umbrello{
  
 class RefactoringAssistant : public KListView
 {
@@ -88,10 +86,8 @@ protected:
 	UMLObjectMap m_umlObjectMap;
 	
  
- };
+};
 
 
-}
- 
- #endif
+#endif
  

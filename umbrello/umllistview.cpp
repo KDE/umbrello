@@ -378,12 +378,6 @@ void UMLListView::popupMenuSel(int sel) {
 	}//end switch
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void UMLListView::diagramCreated(Diagram* /* d */) {
-//Uncomment for using Luis diagram display code
-//	new UMLListViewItem( diagramFolder, d->name(),
-//			     convert_DT_LVT((Uml::Diagram_Type)d->diagramType()), d->getID() );
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLListView::slotDiagramCreated( int id ) {
 	if( loading )
 		return;
@@ -626,7 +620,6 @@ void UMLListView::setDocument(UMLDoc *d) {
 
 
 	connect(m_doc, SIGNAL(sigDiagramCreated(int)), this, SLOT(slotDiagramCreated(int)));
-//	connect(m_doc, SIGNAL(diagramCreated(Umbrello::Diagram*)), this, SLOT( diagramCreated(Umbrello::Diagram*)));
 	connect(m_doc, SIGNAL(sigDiagramRemoved(int)), this, SLOT(slotDiagramRemoved(int)));
 	connect(m_doc, SIGNAL(sigDiagramRenamed(int)), this, SLOT(slotDiagramRenamed(int)));
 

@@ -38,9 +38,6 @@
 using std::type_info;
 
 
-namespace Umbrello {
-
-
 RefactoringAssistant::RefactoringAssistant( UMLDoc *doc, UMLClassifier *obj, QWidget *parent, const char *name ):
 		KListView( parent, name ), m_doc( doc )
 {
@@ -695,9 +692,6 @@ void RefactoringAssistant::loadPixmaps()
 
 
 }
-
-}  //namespace Umbrello
-
 
 
 
