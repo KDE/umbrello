@@ -51,6 +51,8 @@ UMLAssociation::UMLAssociation( Association_Type type /* = Uml::at_Unknown */)
 UMLAssociation::~UMLAssociation( ) {
 	// delete ourselves from the parent document
 	UMLApp::app()->getDocument()->removeAssociation(this);
+	delete m_pRole[A];
+	delete m_pRole[B];
 }
 
 bool UMLAssociation::operator==(UMLAssociation &rhs) {
@@ -524,9 +526,6 @@ void UMLAssociation::init(Association_Type type, UMLObject *roleAObj, UMLObject 
 
 	m_pRole[Uml::A] = new UMLRole (this, roleAObj, Uml::A);
 	m_pRole[Uml::B] = new UMLRole (this, roleBObj, Uml::B);
-	UMLDoc *pDoc = UMLApp::app()->getDocument();
-	pDoc->addUMLObject(m_pRole[Uml::A]);
-	pDoc->addUMLObject(m_pRole[Uml::B]);
 }
 
 
