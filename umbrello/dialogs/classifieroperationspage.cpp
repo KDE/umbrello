@@ -62,12 +62,13 @@ void ClassifierOperationsPage::pageContentsModified()
 void ClassifierOperationsPage::loadData()
 {
 // disconnect(this,SIGNAL(pageModified()),this,SLOT(pageContentsModified()));
+	/*FIXME, sorry don't have time to fix this just now
 	m_opsList.clear();
-	QPtrList<UMLOperation> *list = m_umlObject->getOpList();
-	QListViewItem *item;
-	UMLOperation *copy;
+	QPtrList<UMLClassifierListItem>* list = m_umlObject->getOpList();
+	QListViewItem* item;
+	UMLOperation* copy;
 	// create list view and working-copy of operations
-	for( UMLOperation *op = list->last(); op; op = list->prev() )
+	for( UMLOperation* op = list->last(); op; op = list->prev() )
 	{
 		copy = new UMLOperation(this, op->getName(),-1, op->getScope(), op->getReturnType());
 		m_opsList.prepend(copy);
@@ -76,18 +77,20 @@ void ClassifierOperationsPage::loadData()
 				    (copy->getScope() == Uml::Protected ? m_pixmaps.Protected :
 				    m_pixmaps.Private)));
 		m_opsMap[item] = copy;
-		
+
 		QPtrList<UMLAttribute> *prmList = op->getParmList();
 		for( UMLAttribute *p = prmList->first(); p ; p = prmList->next() )
 		{
 			copy->addParm( new UMLAttribute(this,p->getName(),p->getID(),p->getTypeName(), p->getScope(),p->getInitialValue()));
 		}
 	}
+	*/
 // connect(this,SIGNAL(pageModified()),this,SLOT(pageContentsModified()));
 }
 
 void ClassifierOperationsPage::saveData()
 {
+	/*FIXME
 	m_umlObject->blockSignals( true );
 	{
 	 //remove deleted operations
@@ -109,7 +112,7 @@ void ClassifierOperationsPage::saveData()
 		}
 	}
 	}
-	
+
 	{
 	// add/update operations
 	QPtrList<UMLOperation> *pList = m_umlObject->getOpList();
@@ -148,6 +151,7 @@ void ClassifierOperationsPage::saveData()
 	m_umlObject->blockSignals( false );
 	m_umlObject->emitModified();
 	//connect(m_umlObject,SIGNAL(modified()),this,SLOT(loadData()));
+	*/
 }
 
 void ClassifierOperationsPage::moveUp( )
@@ -164,7 +168,7 @@ void ClassifierOperationsPage::moveUp( )
 		return;
 	}
 	above = above->itemAbove( );
-	if( above ) 
+	if( above )
 	{
 		item->moveItem( above );
 	}
@@ -198,7 +202,7 @@ void ClassifierOperationsPage::moveDown( )
 void ClassifierOperationsPage::createOperation( )
 {
 	UMLOperation *o = new UMLOperation(this,"new_operation",-1);
-	UmbrelloDialog dialog(this, UmbrelloDialog::Swallow, "edit_operation", true, i18n("Operation properties"), 
+	UmbrelloDialog dialog(this, UmbrelloDialog::Swallow, "edit_operation", true, i18n("Operation properties"),
 	                       UmbrelloDialog::Ok | UmbrelloDialog::Cancel );
 	OperationPropertiesPage *page = new OperationPropertiesPage(o,m_doc,&dialog,0);
 	dialog.setMainWidget(page);
@@ -225,7 +229,7 @@ void ClassifierOperationsPage::editSelected( )
 	UMLOperation *o = m_opsMap[item];
 	if(!o)
 		return;
-	UmbrelloDialog dialog(this, UmbrelloDialog::Swallow, "edit_operation", true, i18n("Operation properties"), 
+	UmbrelloDialog dialog(this, UmbrelloDialog::Swallow, "edit_operation", true, i18n("Operation properties"),
 	                       UmbrelloDialog::Ok | UmbrelloDialog::Cancel );
 	OperationPropertiesPage *page = new OperationPropertiesPage(o,m_doc,&dialog,0);
 // 	dialog.addPage(page,i18n("Attribute Properties"));
@@ -238,7 +242,7 @@ void ClassifierOperationsPage::editSelected( )
 			    	m_pixmaps.Private)));
 		emit pageModified( );
 	}
-	
+
 }
 
 void ClassifierOperationsPage::deleteSelected( )
@@ -261,7 +265,7 @@ void ClassifierOperationsPage::syncParams( UMLOperation *src, UMLOperation *dest
 	{
 	QPtrList<UMLAttribute> list = *(dest->getParmList());
 	list.setAutoDelete(false);
-	
+
 	kdDebug()<<"removing deleted params"<<endl;
 	for( UMLAttribute *att = list.first(); att ; att = list.next() )
 	{
@@ -323,7 +327,7 @@ void ClassifierOperationsPage::itemSelected(QListViewItem *item )
 	UMLOperation *op = m_opsMap[item];
 	if( !op )
 		return;
-	
+
 	//set doc
 	m_documentation->setText( op->getDoc( ) );
 	//enable/disable buttons

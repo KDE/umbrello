@@ -158,7 +158,7 @@ void IDLWriter::writeClass(UMLClassifier *c) {
 			idl << spc() << "// " << stype << " is Not Yet Implemented\n\n";
 		} else if(stype == "CORBAEnum") {
 			if(myClass) {
-				QPtrList<UMLAttribute> *atl = myClass->getAttList();
+				QPtrList<UMLAttribute> *atl = myClass->getFilteredAttributeList();
 				UMLAttribute *at;
 				idl << spc() << "enum " << classname << " {\n";
 				indentlevel++;
@@ -175,7 +175,7 @@ void IDLWriter::writeClass(UMLClassifier *c) {
 			}
 		} else if(stype == "CORBAStruct") {
 			if(myClass) {
-				QPtrList<UMLAttribute> *atl = myClass->getAttList();
+				QPtrList<UMLAttribute> *atl = myClass->getFilteredAttributeList();
 				UMLAttribute *at;
 				idl << spc() << "struct " << classname << " {\n";
 				indentlevel++;
@@ -256,7 +256,7 @@ void IDLWriter::writeClass(UMLClassifier *c) {
 
 	// Generate public attributes.
 	if(myClass) {
-		QPtrList<UMLAttribute> *atl = myClass->getAttList();
+		QPtrList<UMLAttribute> *atl = myClass->getFilteredAttributeList();
 		QPtrList<UMLAttribute> atpub;
 		UMLAttribute *at;
 		for (at = atl->first(); at; at = atl->next()) {
@@ -274,7 +274,7 @@ void IDLWriter::writeClass(UMLClassifier *c) {
 	}
 
 	// Generate public operations.
-	QPtrList<UMLOperation> *opl = c->getOpList();
+	QPtrList<UMLOperation> *opl = c->getFilteredOperationsList();
 	QPtrList<UMLOperation> oppub;
 	UMLOperation *op;
 	for (op = opl->first(); op; op = opl->next()) {

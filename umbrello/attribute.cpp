@@ -9,15 +9,18 @@
 
 
 #include "attribute.h"
+#include "dialogs/umlattributedialog.h"
 
-UMLAttribute::UMLAttribute(QObject *parent, QString Name, int id, QString type, Scope s, QString iv) : UMLObject(parent,Name, id) {
+#include <kdebug.h>
+
+UMLAttribute::UMLAttribute(QObject *parent, QString Name, int id, QString type, Scope s, QString iv) : UMLClassifierListItem(parent,Name, id) {
 	m_TypeName = type;
 	m_InitialValue = iv;
 	m_BaseType = ot_Attribute;
 	m_Scope = s;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLAttribute::UMLAttribute(QObject * parent) : UMLObject(parent) {
+UMLAttribute::UMLAttribute(QObject * parent) : UMLClassifierListItem(parent) {
 	m_BaseType = ot_Attribute;
 	m_TypeName = m_InitialValue = "";
 }
@@ -87,5 +90,7 @@ bool UMLAttribute::loadFromXMI( QDomElement & element ) {
 	return true;
 }
 
-
-
+bool UMLAttribute::showPropertiesDialogue(QWidget* parent) {
+	UMLAttributeDialog dialogue(parent, this);
+	return dialogue.exec();
+}

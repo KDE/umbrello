@@ -11,7 +11,7 @@
 #define OPERATION_H
 
 #include <qptrlist.h>
-#include "umlobject.h"
+#include "classifierlistitem.h"
 
 // forward declarations
 class UMLAttribute;
@@ -26,7 +26,7 @@ class UMLAttribute;
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
-class UMLOperation : public UMLObject {
+class UMLOperation : public UMLClassifierListItem {
 	Q_OBJECT
 public:
 	/**
@@ -132,6 +132,12 @@ public:
 	 *  Returns an unused parameter name for a new parameter
 	 */
 	QString getUniqueParameterName();
+
+	/**
+	 * Display the properties configuration dialogue for the template.
+	 */
+	bool showPropertiesDialogue(QWidget* parent);
+
 
 	bool saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 

@@ -109,7 +109,7 @@ void SQLWriter::writeAttributes(UMLClass *c, QTextStream &sql) {
 	atpriv.setAutoDelete(false);
 
 	//sort attributes by scope and see if they have a default value
-	atl = c->getAttList();
+	atl = c->getFilteredAttributeList();
 	for(UMLAttribute* at=atl->first(); at ; at=atl->next()) {
 		switch(at->getScope()) {
 		case Uml::Public:

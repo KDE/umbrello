@@ -11,6 +11,7 @@
 #include "association.h"
 #include "attribute.h"
 #include "operation.h"
+#include "classifierlistitem.h"
 #include "template.h"
 #include "clipboard/idchangelog.h"
 #include <kdebug.h>
@@ -168,19 +169,19 @@ QPtrList<UMLObject> UMLClass::findChildObject(UMLObject_Type t , QString n) {
  	if (t == ot_Association) {
 		return UMLClassifier::findChildObject(t, n);
  	} else if (t == ot_Attribute) {
-  		UMLAttribute * obj=0;
+  		UMLClassifierListItem * obj=0;
   		for(obj=m_AttsList.first();obj != 0;obj=m_AttsList.next()) {
   			if(obj->getBaseType() == t && obj -> getName() == n)
 				list.append( obj );
 		}
  	} else if (t == ot_Template) {
-  		UMLTemplate* obj=0;
+  		UMLClassifierListItem* obj=0;
   		for(obj=m_TemplateList.first(); obj != 0; obj=m_TemplateList.next()) {
   			if (obj->getBaseType() == t && obj->getName() == n)
 				list.append(obj);
 		}
 	} else if (t == ot_Operation) {
-		UMLOperation * obj=0;
+		UMLClassifierListItem* obj=0;
 		for(obj=m_OpsList.first();obj != 0;obj=m_OpsList.next()) {
 			if(obj->getBaseType() == t && obj -> getName() == n)
 				list.append( obj );
@@ -193,12 +194,12 @@ QPtrList<UMLObject> UMLClass::findChildObject(UMLObject_Type t , QString n) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLObject* UMLClass::findChildObject(int id) {
-	UMLAttribute * a = 0;
+	UMLClassifierListItem * a = 0;
 	for(a=m_AttsList.first();a != 0;a=m_AttsList.next()) {
 		if(a->getID() == id)
 			return a;
 	}
-	UMLTemplate* t = 0;
+	UMLClassifierListItem* t = 0;
 	for (t=m_TemplateList.first();t != 0;t=m_TemplateList.next()) {
 		if (t->getID() == id) {
 			return t;
@@ -245,15 +246,15 @@ bool UMLClass::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement classElement = qDoc.createElement( "UML:Class" );
 	bool status = UMLObject::saveToXMI( qDoc, classElement );
 	//save operations
-	UMLOperation * pOp = 0;
+	UMLClassifierListItem * pOp = 0;
 	for( pOp = m_OpsList.first(); pOp != 0; pOp = m_OpsList.next() )
 		pOp -> saveToXMI( qDoc, classElement );
 	//save attributes
-	UMLAttribute * pAtt = 0;
+	UMLClassifierListItem * pAtt = 0;
 	for( pAtt = m_AttsList.first(); pAtt != 0; pAtt = m_AttsList.next() )
 		pAtt -> saveToXMI( qDoc, classElement );
 	//save templates
-	UMLTemplate* newTemplate = 0;
+	UMLClassifierListItem* newTemplate = 0;
 	for (newTemplate = m_TemplateList.first(); newTemplate != 0; newTemplate = m_TemplateList.next() ) {
 		newTemplate->saveToXMI(qDoc, classElement);
 	}
@@ -303,12 +304,34 @@ int UMLClass::attributes() {
 	return m_AttsList.count();
 }
 
-QPtrList<UMLAttribute>* UMLClass::getAttList() {
+QPtrList<UMLClassifierListItem>* UMLClass::getAttList() {
 	return &m_AttsList;
 }
 
-QPtrList<UMLTemplate>* UMLClass::getTemplateList() {
+QPtrList<UMLAttribute>* UMLClass::getFilteredAttributeList() {
+	QPtrList<UMLAttribute>* attributeList = new QPtrList<UMLAttribute>;
+	for(UMLClassifierListItem* listItem = m_AttsList.first(); listItem;
+	    listItem = m_AttsList.next())  {
+		if (listItem->getBaseType() == ot_Attribute) {
+			attributeList->append(static_cast<UMLAttribute*>(listItem));
+		}
+	}
+	return attributeList;
+}
+
+QPtrList<UMLClassifierListItem>* UMLClass::getTemplateList() {
 	return &m_TemplateList;
+}
+
+QPtrList<UMLTemplate>* UMLClass::getFilteredTemplateList() {
+	QPtrList<UMLTemplate>* templateList = new QPtrList<UMLTemplate>;
+	for(UMLClassifierListItem* listItem = m_TemplateList.first(); listItem;
+	    listItem = m_TemplateList.next())  {
+		if (listItem->getBaseType() == ot_Template) {
+			templateList->append(static_cast<UMLTemplate*>(listItem));
+		}
+	}
+	return templateList;
 }
 
 #include "class.moc"

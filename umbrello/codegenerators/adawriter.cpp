@@ -191,7 +191,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 		if (stype == "CORBAConstant") {
 			ada << spc() << "-- " << stype << " is Not Yet Implemented\n\n";
 		} else if (myClass && myClass->isEnumeration()) {
-			QPtrList<UMLAttribute> *atl = myClass->getAttList();
+			QPtrList<UMLAttribute> *atl = myClass->getFilteredAttributeList();
 			UMLAttribute *at;
 			ada << spc() << "type " << classname << " is (\n";
 			indentlevel++;
@@ -206,7 +206,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 			ada << ");\n\n";
 		} else if(stype == "CORBAStruct") {
 			if(myClass) {
-				QPtrList<UMLAttribute> *atl = myClass->getAttList();
+				QPtrList<UMLAttribute> *atl = myClass->getFilteredAttributeList();
 				UMLAttribute *at;
 				ada << spc() << "type " << classname << " is record\n";
 				indentlevel++;
@@ -265,7 +265,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 		QPtrList<UMLAttribute> atpub;
 		atpub.setAutoDelete(false);
 
-		atl = myClass->getAttList();
+		atl = myClass->getFilteredAttributeList();
 
 		UMLAttribute *at;
 		for (at = atl->first(); at; at = atl->next()) {
@@ -291,7 +291,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 	}
 
 	// Generate public operations.
-	QPtrList<UMLOperation> *opl = c->getOpList();
+	QPtrList<UMLOperation> *opl = c->getFilteredOperationsList();
 	QPtrList<UMLOperation> oppub;
 	oppub.setAutoDelete(false);
 	UMLOperation *op;

@@ -10,6 +10,7 @@
 #include "classattpage.h"
 #include "umlattributedialog.h"
 #include "../attribute.h"
+#include "../classifierlistitem.h"
 #include "../umldoc.h"
 #include <kbuttonbox.h>
 #include <kdebug.h>
@@ -62,8 +63,8 @@ ClassAttPage::ClassAttPage(QWidget *parent, UMLClass * c, UMLDoc * doc) : QWidge
 	mainLayout -> addWidget(m_pDocGB);
 
 	//add attributes to list
-	UMLAttribute *a;
-	m_pAttList = c -> getAttList();
+	UMLClassifierListItem* a;
+	m_pAttList = c->getAttList();
 	for(a=m_pAttList->first();a != 0;a=m_pAttList->next())
 	{
 		m_pAttsLB -> insertItem(a->getName());
@@ -140,12 +141,12 @@ void ClassAttPage::slotClicked(QListBoxItem *item) {
 		return;
 	}
 	QString name = m_pAttsLB ->currentText();
-	UMLAttribute * pAtt = m_pAttList -> at( m_pAttsLB -> index( item ) );
+	UMLClassifierListItem* listItem = m_pAttList->at( m_pAttsLB->index(item) );
 
 	//now update screen
-	m_pDocTE -> setText( pAtt -> getDoc() );
+	m_pDocTE->setText( listItem->getDoc() );
 	enableWidgets(true);
-	m_pOldAtt = pAtt;
+	m_pOldAtt = listItem;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void ClassAttPage::updateObject() {
@@ -219,8 +220,8 @@ void ClassAttPage::slotRightButtonPressed(QListBoxItem * item, const QPoint & p)
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void ClassAttPage::slotPopupMenuSel(int id) {
-	UMLAttribute * a = m_pAttList -> at( m_pAttsLB -> currentItem() );
-	if(!a && id != ListPopupMenu::mt_New_Attribute) {
+	UMLClassifierListItem* listItem = m_pAttList->at( m_pAttsLB->currentItem() );
+	if(!listItem && id != ListPopupMenu::mt_New_Attribute) {
 		kdDebug() << "can't find att from selection" << endl;
 		return;
 	}
@@ -235,7 +236,7 @@ void ClassAttPage::slotPopupMenuSel(int id) {
 
 		case ListPopupMenu::mt_Rename:
 			m_bSigWaiting = true;
-			m_pDoc -> renameChildUMLObject(a);
+			m_pDoc -> renameChildUMLObject(listItem);
 			break;
 
 		case ListPopupMenu::mt_Properties:
@@ -260,8 +261,8 @@ void ClassAttPage::slotUpClicked() {
 	QListBoxItem * item = m_pAttsLB -> item( index - 1 );
 	m_pAttsLB -> setSelected( item, true );
 	//now change around in the list
-	UMLAttribute * aboveAtt = m_pAttList -> at( index - 1 );
-	UMLAttribute * currentAtt = m_pAttList -> take( index );
+	UMLClassifierListItem* aboveAtt = m_pAttList->at( index - 1 );
+	UMLClassifierListItem* currentAtt = m_pAttList->take( index );
 	m_pAttList -> insert( m_pAttList -> findRef( aboveAtt ), currentAtt );
 	slotClicked( item );
 }
@@ -282,8 +283,8 @@ void ClassAttPage::slotDownClicked() {
 	QListBoxItem * item = m_pAttsLB -> item( index + 1 );
 	m_pAttsLB -> setSelected( item, true );
 	//now change around in the list
-	UMLAttribute * aboveAtt = m_pAttList -> at( index + 1 );
-	UMLAttribute * currentAtt = m_pAttList -> take( index );
+	UMLClassifierListItem* aboveAtt = m_pAttList->at( index + 1 );
+	UMLClassifierListItem* currentAtt = m_pAttList->take( index );
 	m_pAttList -> insert( m_pAttList -> findRef( aboveAtt ) + 1, currentAtt );
 	slotClicked( item );
 }
@@ -292,20 +293,19 @@ void ClassAttPage::slotDoubleClick( QListBoxItem * item ) {
 	if( !item )
 		return;
 	QString name = item -> text();
-	UMLAttribute * pAtt  = m_pAttList -> at( m_pAttsLB -> index( item ) );
+	UMLClassifierListItem* pAtt  = m_pAttList -> at( m_pAttsLB -> index( item ) );
 	if( !pAtt ) {
 		kdDebug() << "can't find att from selection" << endl;
 		return;
 	}
-	UMLAttributeDialog dlg( this, pAtt );
-	if( dlg.exec() ) {
-		m_pAttsLB->changeItem( pAtt->getName(), m_pAttsLB->index(item) );
 
+	if( pAtt->showPropertiesDialogue(this) ) {
+		m_pAttsLB->changeItem( pAtt->getName(), m_pAttsLB->index(item) );
 	}
 }
 
 void ClassAttPage::slotDelete() {
-	UMLAttribute* selectedAttribute = m_pAttList->at( m_pAttsLB->currentItem() );
+	UMLClassifierListItem* selectedAttribute = m_pAttList->at( m_pAttsLB->currentItem() );
 	//should really wait for signal back
 	//but really shouldn't matter
 	m_pDoc->removeUMLObject(selectedAttribute);
@@ -325,7 +325,7 @@ void ClassAttPage::slotNewAttribute() {
 }
 
 void ClassAttPage::saveCurrentItemDocumentation() {
-	UMLAttribute* selectedAttribute = m_pAttList->at( m_pAttsLB->currentItem() );
+	UMLClassifierListItem* selectedAttribute = m_pAttList->at( m_pAttsLB->currentItem() );
 	if (selectedAttribute) {
 		selectedAttribute->setDoc( m_pDocTE->text() );
 	}

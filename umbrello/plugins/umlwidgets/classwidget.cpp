@@ -194,7 +194,7 @@ void ClassWidget::calculateSize()
 
 	if (m_attsDisplayOpts & ShowAtts )
 	{
-		QPtrList<UMLAttribute> *atts = obj->getAttList();
+		QPtrList<UMLAttribute> *atts = obj->getFilteredAttributeList();
 		UMLAttribute *att;
 		for( att=atts->first(); att != 0 ;att=atts->next() )
 		{
@@ -233,7 +233,7 @@ void ClassWidget::calculateSize()
 	if (m_opsDisplayOpts & ShowOps )
 	{
 
-		QPtrList<UMLOperation> *ops = obj->getOpList();
+		QPtrList<UMLOperation> *ops = obj->getFilteredOperationsList();//FIXME probably want getOpsList()
 		UMLOperation *op;
 		for( op=ops->first();op != 0;op=ops->next() )
 		{
@@ -322,6 +322,7 @@ void ClassWidget::calculateSize()
 		(( (m_opsDisplayOpts & ShowOps) && (!m_ops.isEmpty())) ? 1 * vMargin : 0 );
 
 	setSize(width,height);
+
 }
 
 void ClassWidget::editProperties()

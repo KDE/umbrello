@@ -21,7 +21,7 @@
 #include "../interface.h"
 #include "../operation.h"
 
-ClassifierInfo::ClassifierInfo( UMLClassifier *classifier , UMLDoc *doc) 
+ClassifierInfo::ClassifierInfo( UMLClassifier *classifier , UMLDoc *doc)
 {
 
 	init(classifier, doc);
@@ -29,7 +29,7 @@ ClassifierInfo::ClassifierInfo( UMLClassifier *classifier , UMLDoc *doc)
 
 ClassifierInfo::~ClassifierInfo() { }
 
-void ClassifierInfo::init(UMLClassifier *c, UMLDoc *doc) { 
+void ClassifierInfo::init(UMLClassifier *c, UMLDoc *doc) {
 
 	// make all QPtrLists autoDelete false
 	atpub.setAutoDelete(false);
@@ -40,7 +40,7 @@ void ClassifierInfo::init(UMLClassifier *c, UMLDoc *doc) {
 	static_atprot.setAutoDelete(false);
 	static_atpriv.setAutoDelete(false);
 
-	// set default class, file names 
+	// set default class, file names
 	className = c->getName();
 	fileName = c->getName().lower();
 
@@ -56,7 +56,7 @@ void ClassifierInfo::init(UMLClassifier *c, UMLDoc *doc) {
 	// sort attributes by Scope
 	if(!isInterface) {
 		UMLClass * myClass = dynamic_cast<UMLClass *>(c);
-		QPtrList <UMLAttribute> *atl = myClass->getAttList();
+		QPtrList <UMLAttribute> *atl = myClass->getFilteredAttributeList();
 		for(UMLAttribute *at=atl->first(); at ; at=atl->next()) {
 			switch(at->getScope())
 			{
@@ -103,7 +103,7 @@ void ClassifierInfo::init(UMLClassifier *c, UMLDoc *doc) {
 	generalizations = c->getGeneralizations();
 	generalizations.setAutoDelete(false);
 
-	// set some summary information about the classifier now 
+	// set some summary information about the classifier now
 	hasAssociations = plainAssociations.count() > 0 || aggregations.count() > 0 || compositions.count() > 0;
 	hasAttributes = atpub.count() > 0 || atprot.count() > 0 || atpriv.count() > 0
 			     || static_atpub.count() > 0
@@ -116,7 +116,7 @@ void ClassifierInfo::init(UMLClassifier *c, UMLDoc *doc) {
 
 	hasAccessorMethods = hasAttributes || hasAssociations;
 
-	hasOperationMethods = c->getOpList()->last() ? true : false;
+	hasOperationMethods = c->getFilteredOperationsList()->last() ? true : false;
 
 	hasMethods = hasOperationMethods || hasAccessorMethods;
 
@@ -140,10 +140,10 @@ QPtrList<UMLClassifier> ClassifierInfo::getCompositionChildClassifierList() {
 	return findAssocClassifierObjsInRoles(&compositions);
 }
 
-QPtrList<UMLClassifier> ClassifierInfo::findAssocClassifierObjsInRoles (QPtrList<UMLAssociation> * list) 
+QPtrList<UMLClassifier> ClassifierInfo::findAssocClassifierObjsInRoles (QPtrList<UMLAssociation> * list)
 {
 
-	
+
 	QPtrList<UMLClassifier> classifiers;
 	classifiers.setAutoDelete(false);
 
@@ -152,7 +152,7 @@ QPtrList<UMLClassifier> ClassifierInfo::findAssocClassifierObjsInRoles (QPtrList
 		// convention, that means to ignore the classfier on that end of
 		// the association.
 		// We also ignore classfiers which are the same as the current one
-		// (e.g. id matches), we only want the "other" classfiers 
+		// (e.g. id matches), we only want the "other" classfiers
 		if (a->getRoleAId() == m_nID && a->getRoleNameB() != "") {
 			UMLClassifier *c = dynamic_cast<UMLClassifier*>(a->getObjectB());
 			if(c)

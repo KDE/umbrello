@@ -71,13 +71,13 @@ private:
 	QGroupBox * m_pDocGB, * m_pAttsGB;
 	QListBox * m_pAttsLB;
 	QTextEdit * m_pDocTE;
-	QPtrList<UMLAttribute> * m_pAttList;
+	QPtrList<UMLClassifierListItem>* m_pAttList;
 
 	KArrowButton * m_pUpArrowB, * m_pDownArrowB;
 	QPushButton* m_pDeleteAttributeButton;
 	QPushButton* m_pPropertiesButton;
 
-	UMLAttribute * m_pOldAtt;
+	UMLClassifierListItem* m_pOldAtt;
 	UMLDoc * m_pDoc;
 	ListPopupMenu * m_pMenu;
 	bool m_bSigWaiting;

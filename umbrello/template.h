@@ -10,7 +10,7 @@
 #ifndef TEMPLATE_H
 #define TEMPLATE_H
 
-#include "umlobject.h"
+#include "classifierlistitem.h"
 
 /**
  *	This class holds information used by template classes, called
@@ -23,7 +23,7 @@
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
-class UMLTemplate : public UMLObject {
+class UMLTemplate : public UMLClassifierListItem {
 public:
 	/**
 	 *	Sets up an template.
@@ -71,7 +71,12 @@ public:
 	 *
 	 *	@return	Returns a string representation of the UMLTemplate.
 	 */
-	QString toString();
+	QString toString(Signature_Type sig = st_NoSig);
+
+	/**
+	 * Display the properties configuration dialogue for the template.
+	 */
+	bool showPropertiesDialogue(QWidget* parent);
 	
 	/**
 	 * Write the <template> element.

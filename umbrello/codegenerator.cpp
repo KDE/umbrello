@@ -311,7 +311,7 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, QPtrList<UMLClassifier>
 	}
 
 	//operations
-	QPtrList<UMLOperation> *opl = c->getOpList();
+	QPtrList<UMLOperation> *opl = c->getFilteredOperationsList();
 	for(UMLOperation *op = opl->first(); op ; op = opl->next()) {
 		temp =0;
 		//check return value
@@ -333,7 +333,7 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, QPtrList<UMLClassifier>
 	//attributes
 	UMLClass * myClass = dynamic_cast<UMLClass*>(c);
 	if(myClass) {
-		atl = myClass->getAttList();
+		atl = myClass->getFilteredAttributeList();
 		for(at = atl->first(); at; at = atl->next()) {
 			temp=0;
 			// temp =(UMLClassifier*) m_doc->findUMLObject(Uml::ot_Concept,at->getTypeName());
@@ -348,7 +348,7 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, QPtrList<UMLClassifier>
 
 
 bool CodeGenerator::hasDefaultValueAttr(UMLClass *c) {
-	QPtrList<UMLAttribute> *atl = c->getAttList();
+	QPtrList<UMLAttribute> *atl = c->getFilteredAttributeList();
 	for(UMLAttribute *at = atl->first(); at; at = atl->next())
 		if(!at->getInitialValue().isEmpty())
 			return true;
@@ -356,7 +356,7 @@ bool CodeGenerator::hasDefaultValueAttr(UMLClass *c) {
 }
 
 bool CodeGenerator::hasAbstractOps(UMLClassifier *c) {
-	QPtrList<UMLOperation> *opl = c->getOpList();
+	QPtrList<UMLOperation> *opl = c->getFilteredOperationsList();
 	for(UMLOperation *op = opl->first(); op ; op = opl->next())
 		if(op->getAbstract())
 			return true;

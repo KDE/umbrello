@@ -155,7 +155,7 @@ void PhpWriter::writeClass(UMLClassifier *c) {
 	writeOperations(c,php);
 
 	if(myClass && hasDefaultValueAttr(myClass)) {
-		QPtrList<UMLAttribute> *atl = myClass->getAttList();
+		QPtrList<UMLAttribute> *atl = myClass->getFilteredAttributeList();
 		php << endl;
 
 		php << endl << "  /**" << endl;
@@ -196,7 +196,7 @@ void PhpWriter::writeOperations(UMLClassifier *c, QTextStream &php) {
 	oppriv.setAutoDelete(false);
 
 	//sort operations by scope first and see if there are abstract methods
-	opl = c->getOpList();
+	opl = c->getFilteredOperationsList();
 	for(UMLOperation *op = opl->first(); op ; op = opl->next()) {
 		switch(op->getScope()) {
 			case Uml::Public:
@@ -283,7 +283,7 @@ void PhpWriter::writeAttributes(UMLClass *c, QTextStream &php) {
 	atdefval.setAutoDelete(false);
 
 	//sort attributes by scope and see if they have a default value
-	atl = c->getAttList();
+	atl = c->getFilteredAttributeList();
 	UMLAttribute *at;
 	for(at = atl->first(); at ; at = atl->next()) {
 		if(!at->getInitialValue().isEmpty())

@@ -55,7 +55,7 @@ bool UMLInterface::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement classElement = qDoc.createElement("UML:Interface");
 	bool status = UMLObject::saveToXMI( qDoc, classElement );
 	//save operations
-	UMLOperation* pOp = 0;
+	UMLClassifierListItem* pOp = 0;
 	for ( pOp = m_OpsList.first(); pOp != 0; pOp = m_OpsList.next() ) {
 		pOp->saveToXMI(qDoc, classElement);
 	}

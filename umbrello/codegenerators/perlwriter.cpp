@@ -170,7 +170,7 @@ void PerlWriter::writeOperations(UMLClassifier *c, QTextStream &perl) {
 
 	//sort operations by scope first and see if there are abstract methods
 	//keep this for documentation only!
-	opl = c->getOpList();
+	opl = c->getFilteredOperationsList();
 	for(UMLOperation *op = opl->first(); op ; op = opl->next()) {
 		switch(op->getScope()) {
 			case Uml::Public:
@@ -213,7 +213,7 @@ void PerlWriter::writeOperations(UMLClassifier *c, QTextStream &perl) {
 	UMLClass *myClass = dynamic_cast<UMLClass*>(c);
 
 	if(myClass && hasDefaultValueAttr(myClass)) {
-		QPtrList<UMLAttribute> *atl = myClass->getAttList();
+		QPtrList<UMLAttribute> *atl = myClass->getFilteredAttributeList();
 
 		perl << endl;
 		perl << endl << "=item _init\n\n" << endl;
@@ -283,7 +283,7 @@ void PerlWriter::writeAttributes(UMLClass *c, QTextStream &perl) {
 	atdefval.setAutoDelete(false);
 
 	//sort attributes by scope and see if they have a default value
-	atl = c->getAttList();
+	atl = c->getFilteredAttributeList();
 	UMLAttribute *at;
 	for(at = atl->first(); at ; at = atl->next()) {
 		if(!at->getInitialValue().isEmpty())

@@ -10,6 +10,7 @@
 #include "classtemplatepage.h"
 #include "umltemplatedialog.h"
 #include "../template.h"
+#include "../classifierlistitem.h"
 #include "../listpopupmenu.h"
 #include <kbuttonbox.h>
 #include <kdebug.h>
@@ -62,7 +63,7 @@ ClassTemplatePage::ClassTemplatePage(QWidget* parent, UMLClass * myclass , UMLDo
 	mainLayout->addWidget(m_pDocGB);
 
 	//add templates to list
-	UMLTemplate* theTemplate;
+	UMLClassifierListItem* theTemplate;
 	m_pTemplateList = myclass->getTemplateList();
 	for (theTemplate=m_pTemplateList->first();theTemplate != 0;theTemplate=m_pTemplateList->next()) {
 		m_pTemplateLB->insertItem( theTemplate->getName() );
@@ -142,7 +143,7 @@ void ClassTemplatePage::slotClicked(QListBoxItem* item) {
 		return;
 	}
 	QString name = m_pTemplateLB->currentText();
-	UMLTemplate* pTemplate = m_pTemplateList->at( m_pTemplateLB->index(item) );
+	UMLClassifierListItem* pTemplate = m_pTemplateList->at( m_pTemplateLB->index(item) );
 
 	//now update screen
 	m_pDocTE->setText( pTemplate->getDoc() );
@@ -220,7 +221,7 @@ void ClassTemplatePage::slotRightButtonPressed(QListBoxItem* item, const QPoint&
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void ClassTemplatePage::slotPopupMenuSel(int id) {
-	UMLTemplate* theTemplate = m_pTemplateList->at( m_pTemplateLB->currentItem() );
+	UMLClassifierListItem* theTemplate = m_pTemplateList->at( m_pTemplateLB->currentItem() );
 	if(!theTemplate && id != ListPopupMenu::mt_New_Attribute) {
 		kdWarning() << "can't find template from selection" << endl;
 		return;
@@ -262,8 +263,8 @@ void ClassTemplatePage::slotUpClicked() {
 	QListBoxItem* item = m_pTemplateLB->item( index - 1 );
 	m_pTemplateLB->setSelected( item, true );
 	//now change around in the list
-	UMLTemplate* aboveTemplate = m_pTemplateList->at( index - 1 );
-	UMLTemplate* currentTemplate = m_pTemplateList->take( index );
+	UMLClassifierListItem* aboveTemplate = m_pTemplateList->at( index - 1 );
+	UMLClassifierListItem* currentTemplate = m_pTemplateList->take( index );
 	m_pTemplateList->insert( m_pTemplateList->findRef( aboveTemplate ), currentTemplate );
 	slotClicked( item );
 }
@@ -285,8 +286,8 @@ void ClassTemplatePage::slotDownClicked() {
 	QListBoxItem* item = m_pTemplateLB->item( index + 1 );
 	m_pTemplateLB->setSelected( item, true );
 	//now change around in the list
-	UMLTemplate* aboveTemplate = m_pTemplateList->at( index + 1 );
-	UMLTemplate* currentTemplate = m_pTemplateList->take( index );
+	UMLClassifierListItem* aboveTemplate = m_pTemplateList->at( index + 1 );
+	UMLClassifierListItem* currentTemplate = m_pTemplateList->take( index );
 	m_pTemplateList->insert( m_pTemplateList->findRef( aboveTemplate ) + 1, currentTemplate );
 	slotClicked( item );
 }
@@ -296,19 +297,19 @@ void ClassTemplatePage::slotDoubleClick(QListBoxItem* item) {
 		return;
 	}
 	QString name = item->text();
-	UMLTemplate* pTemplate  = m_pTemplateList->at( m_pTemplateLB->index(item) );
+	UMLClassifierListItem* pTemplate  = m_pTemplateList->at( m_pTemplateLB->index(item) );
 	if( !pTemplate ) {
 		kdWarning() << "can't find template from selection" << endl;
 		return;
 	}
-	UMLTemplateDialog dialogue(this, pTemplate);
-	if ( dialogue.exec() ) {
+
+	if ( pTemplate->showPropertiesDialogue(this) ) {
 		m_pTemplateLB->changeItem( pTemplate->getName(), m_pTemplateLB->index(item) );
 	}
 }
 
 void ClassTemplatePage::slotDelete() {
-	UMLTemplate* selectedTemplate = m_pTemplateList->at( m_pTemplateLB->currentItem() );
+	UMLClassifierListItem* selectedTemplate = m_pTemplateList->at( m_pTemplateLB->currentItem() );
 	//should really wait for signal back
 	//but really shouldn't matter
 	m_pDoc->removeUMLObject(selectedTemplate);
@@ -328,7 +329,7 @@ void ClassTemplatePage::slotNewTemplate() {
 }
 
 void ClassTemplatePage::saveCurrentItemDocumentation() {
-	UMLTemplate* selectedTemplate = m_pTemplateList->at( m_pTemplateLB->currentItem() );
+	UMLClassifierListItem* selectedTemplate = m_pTemplateList->at( m_pTemplateLB->currentItem() );
 	if (selectedTemplate) {
 		selectedTemplate->setDoc( m_pDocTE->text() );
 	}

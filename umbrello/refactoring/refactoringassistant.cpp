@@ -224,7 +224,7 @@ void RefactoringAssistant::addClassifier( UMLClassifier *classifier, QListViewIt
 		attsFolder = new KListViewItem( classifierItem, i18n("Attributes"), "attributes" );
 		attsFolder->setPixmap(0,SmallIcon("folder_green_open"));
 		attsFolder->setExpandable( true );
-		QPtrList<UMLAttribute> *atts = static_cast<UMLClass*>(classifier)->getAttList( );
+		QPtrList<UMLAttribute>* atts = static_cast<UMLClass*>(classifier)->getFilteredAttributeList();
 		for( UMLAttribute *att = atts->first(); att ; att = atts->next() )
 		{
 			item = new KListViewItem( attsFolder, att->getName() );
@@ -252,7 +252,7 @@ void RefactoringAssistant::addClassifier( UMLClassifier *classifier, QListViewIt
 	opsFolder = new KListViewItem( classifierItem, i18n("Operations"), "operations" );
 	opsFolder->setPixmap(0,SmallIcon("folder_blue_open"));
 	attsFolder->setExpandable( true );
-	QPtrList<UMLOperation> *ops = classifier->getOpList( );
+	QPtrList<UMLOperation> *ops = classifier->getFilteredOperationsList();
 	for( UMLOperation *op = ops->first(); op ; op = ops->next() )
 	{
 		item = new KListViewItem( opsFolder, op->getName() );

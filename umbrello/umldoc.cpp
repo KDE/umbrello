@@ -22,6 +22,7 @@
 #include "operation.h"
 #include "attribute.h"
 #include "template.h"
+#include "classifierlistitem.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "umllistview.h"
@@ -1591,24 +1592,24 @@ bool UMLDoc::addUMLObjectPaste(UMLObject* Obj) {
 	//If it is a CONCEPT then change the ids of all its operations and attributes
 	if(Obj->getBaseType() == ot_Class ) {
 
-		QPtrList<UMLAttribute>* attibutes = ((UMLClass *)Obj)->getAttList();
-		for(UMLObject *o = attibutes->first(); o; o = attibutes->next()) {
-			result = assignNewID(o->getID());
-			o->setID(result);
+		QPtrList<UMLClassifierListItem>* attibutes = ((UMLClass *)Obj)->getAttList();
+		for(UMLObject* listItem = attibutes->first(); listItem; listItem = attibutes->next()) {
+			result = assignNewID(listItem->getID());
+			listItem->setID(result);
 		}
 
-		QPtrList<UMLTemplate>* templates = ((UMLClass *)Obj)->getTemplateList();
-		for(UMLObject* o = templates->first(); o; o = templates->next()) {
-			result = assignNewID(o->getID());
-			o->setID(result);
+		QPtrList<UMLClassifierListItem>* templates = ((UMLClass *)Obj)->getTemplateList();
+		for(UMLObject* listItem = templates->first(); listItem; listItem = templates->next()) {
+			result = assignNewID(listItem->getID());
+			listItem->setID(result);
 		}
 	}
 
 	if(Obj->getBaseType() == ot_Interface || Obj->getBaseType() == ot_Class ) {
-		QPtrList<UMLOperation>* operations = ((UMLClassifier*)Obj)->getOpList();
-		for(UMLObject *o = operations->first(); o; o = operations->next()) {
-			result =  assignNewID(o->getID());
-			o->setID(result);
+		QPtrList<UMLClassifierListItem>* operations = ((UMLClassifier*)Obj)->getOpList();
+		for(UMLObject* listItem = operations->first(); listItem; listItem = operations->next()) {
+			result = assignNewID(listItem->getID());
+			listItem->setID(result);
 		}
 	}
 

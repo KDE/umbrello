@@ -83,7 +83,7 @@ void JavaWriter::writeClass(UMLClassifier *c)
 	UMLClass * myClass = dynamic_cast<UMLClass *>(c);
 
 	if(myClass) {
-	        atl = myClass->getAttList();
+	        atl = myClass->getFilteredAttributeList();
 	        for(at=atl->first(); at ; at=atl->next()) {
 	                switch(at->getScope())
 	                {
@@ -120,7 +120,7 @@ void JavaWriter::writeClass(UMLClassifier *c)
 			     || final_atprot.count() > 0
 			     || final_atpriv.count() > 0;
 	bool hasAccessorMethods = hasAttributes || hasAssociations;
-	bool hasOperationMethods = c->getOpList()->last() ? true : false;
+	bool hasOperationMethods = c->getFilteredOperationsList()->last() ? true : false;
 	// this is a bit too simplistic..some associations are for
 	// SINGLE objects, and WONT be declared as Vectors, so this
 	// is a bit overly inclusive
@@ -653,7 +653,7 @@ void JavaWriter::writeOperations(UMLClassifier *c, QTextStream &java) {
 
 	UMLOperation *op;
 	//sort operations by scope first and see if there are abstrat methods
-	opl = c->getOpList();
+	opl = c->getFilteredOperationsList();
 	for(op = opl->first(); op ; op=opl->next()) {
 		switch(op->getScope()) {
 		case Uml::Public:

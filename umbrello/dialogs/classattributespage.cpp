@@ -61,6 +61,7 @@ void ClassAttributesPage::pageContentsModified()
 void ClassAttributesPage::loadData()
 {
 // disconnect(this,SIGNAL(pageModified()),this,SLOT(pageContentsModified()));
+	/*FIXME sorry, too busy to fix this
 	m_attList.clear();
 	QPtrList<UMLAttribute> *list = m_umlObject->getAttList();
 	QListViewItem *item;
@@ -76,11 +77,13 @@ void ClassAttributesPage::loadData()
 				    m_pixmaps.Private)));
 		m_attMap[item] = copy;
 	}
+	*/
 // connect(this,SIGNAL(pageModified()),this,SLOT(pageContentsModified()));
 }
 
 void ClassAttributesPage::saveData()
 {
+	/*FIXME sorry too busy to fix this
 	m_umlObject->blockSignals( true );
 	{
 	 //remove deleted attributes
@@ -103,7 +106,7 @@ void ClassAttributesPage::saveData()
 		}
 	}
 	}
-	
+
 	{
 	// add/update attributes
 	QPtrList<UMLAttribute> *pList = m_umlObject->getAttList();
@@ -143,6 +146,7 @@ void ClassAttributesPage::saveData()
 	m_umlObject->blockSignals( false );
 	m_umlObject->emitModified();
 	//connect(m_umlObject,SIGNAL(modified()),this,SLOT(loadData()));
+	*/
 }
 
 void ClassAttributesPage::moveUp( )
@@ -159,7 +163,7 @@ void ClassAttributesPage::moveUp( )
 		return;
 	}
 	above = above->itemAbove( );
-	if( above ) 
+	if( above )
 	{
 		item->moveItem( above );
 	}
@@ -193,7 +197,7 @@ void ClassAttributesPage::moveDown( )
 void ClassAttributesPage::createAttribute( )
 {
 	UMLAttribute *a = new UMLAttribute(this,"new_att",-1);
-	UmbrelloDialog dialog(this, UmbrelloDialog::Swallow, "edit_attribute", true, i18n("Attribute properties"), 
+	UmbrelloDialog dialog(this, UmbrelloDialog::Swallow, "edit_attribute", true, i18n("Attribute properties"),
 	                       UmbrelloDialog::Ok | UmbrelloDialog::Cancel );
 	AttributePropertiesPage *page = new AttributePropertiesPage(a,&dialog,0);
 	dialog.setMainWidget(page);
@@ -220,7 +224,7 @@ void ClassAttributesPage::editSelected( )
 	UMLAttribute *a = m_attMap[item];
 	if(!a)
 		return;
-	UmbrelloDialog dialog(this, UmbrelloDialog::Swallow, "edit_attribute", true, i18n("Attribute properties"), 
+	UmbrelloDialog dialog(this, UmbrelloDialog::Swallow, "edit_attribute", true, i18n("Attribute properties"),
 	                       UmbrelloDialog::Ok | UmbrelloDialog::Cancel );
 	AttributePropertiesPage *page = new AttributePropertiesPage(a,&dialog,0);
 // 	dialog.addPage(page,i18n("Attribute Properties"));
@@ -233,7 +237,7 @@ void ClassAttributesPage::editSelected( )
 			    	m_pixmaps.Private)));
 		emit pageModified( );
 	}
-	
+
 }
 
 void ClassAttributesPage::deleteSelected( )
@@ -254,7 +258,7 @@ void ClassAttributesPage::itemSelected(QListViewItem *item )
 	UMLAttribute *att = m_attMap[item];
 	if( !att )
 		return;
-	
+
 	//set doc
 	m_documentation->setText( att->getDoc( ) );
 	//enable/disable buttons

@@ -172,7 +172,7 @@ void InterfaceWidget::calculateSize()
 	if (m_opsDisplayOpts & ShowOps )
 	{
 
-		QPtrList<UMLOperation> *ops = obj->getOpList();
+		QPtrList<UMLOperation> *ops = obj->getFilteredOperationsList(); //FIXME probably want getOpsList()
 		UMLOperation *op;
 		for( op=ops->first();op != 0;op=ops->next() )
 		{

@@ -26,6 +26,7 @@
 #include "../classifier.h"
 #include "../listpopupmenu.h"
 class UMLDoc;
+class UMLClassifierItemList;
 
 /**
  *	A dialog page to display class operation properties.  This is not normally setup
@@ -70,11 +71,11 @@ private:
 	QPushButton* m_pDeleteOperationButton;
 	QPushButton* m_pPropertiesButton;
 
-	UMLOperation * m_pOldOp;
+	UMLClassifierListItem* m_pOldOp;
 	ListPopupMenu * m_pMenu;
 	UMLDoc * m_pDoc;
 	bool m_bSigWaiting;
-	QPtrList<UMLOperation> * m_pOpList;
+	QPtrList<UMLClassifierListItem>* m_pOpList;
 	/**
 	 *	Set the state of the widgets on the page with the given value.
 	 *

@@ -84,7 +84,7 @@ QPtrList<UMLObject> UMLClassifier::findChildObject(UMLObject_Type t , QString n)
  	if (t == ot_Association) {
 		return UMLCanvasObject::findChildObject(t, n);
 	} else if (t == ot_Operation) {
-		UMLOperation * obj=0;
+		UMLClassifierListItem* obj=0;
 		for(obj=m_OpsList.first();obj != 0;obj=m_OpsList.next()) {
 			if(obj->getBaseType() == t && obj -> getName() == n)
 				list.append( obj );
@@ -97,7 +97,7 @@ QPtrList<UMLObject> UMLClassifier::findChildObject(UMLObject_Type t , QString n)
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLObject* UMLClassifier::findChildObject(int id) {
-        UMLOperation * o=0;
+        UMLClassifierListItem * o=0;
 	for(o=m_OpsList.first();o != 0;o=m_OpsList.next()) {
 		if(o->getID() == id)
 			return o;
@@ -191,10 +191,20 @@ int UMLClassifier::operations() {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-QPtrList<UMLOperation>* UMLClassifier::getOpList() {
+QPtrList<UMLClassifierListItem>* UMLClassifier::getOpList() {
 	return &m_OpsList;
 }
-
+////////////////////////////////////////////////////////////////////////////////////////////////////
+QPtrList<UMLOperation>* UMLClassifier::getFilteredOperationsList()  {
+	QPtrList<UMLOperation>* operationList = new QPtrList<UMLOperation>;
+	for(UMLClassifierListItem* listItem = m_OpsList.first(); listItem;
+	    listItem = m_OpsList.next())  {
+		if (listItem->getBaseType() == ot_Operation) {
+			operationList->append(static_cast<UMLOperation*>(listItem));
+		}
+	}
+	return operationList;
+}
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLClassifier::init() {
 	m_BaseType = ot_UMLObject;

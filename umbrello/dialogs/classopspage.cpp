@@ -84,7 +84,7 @@ void ClassOpsPage::slotClicked(QListBoxItem *i) {
 	//if not first time an item is highlighted
 	//save old highlighted item first
 	if( m_pOldOp ) {
-		m_pOldOp -> setDoc( m_pDocTE -> text() );
+		m_pOldOp->setDoc( m_pDocTE->text() );
 	}//end if
 
 	//make sure clicked on an item
@@ -95,7 +95,7 @@ void ClassOpsPage::slotClicked(QListBoxItem *i) {
 		return;
 	}
 	QString name = m_pOpsLB -> currentText();
-	UMLOperation * o = m_pOpList -> at( m_pOpsLB -> index( i ) );
+	UMLClassifierListItem * o = m_pOpList -> at( m_pOpsLB -> index( i ) );
 
 	//now update screen
 	m_pDocTE -> setText( o -> getDoc() );
@@ -181,7 +181,7 @@ void ClassOpsPage::slotOpRightButtonClicked(QListBoxItem * /*item*/, const QPoin
 }
 
 void ClassOpsPage::slotOpPopupMenuSel(int id) {
-	UMLOperation * o = m_pOpList -> at( m_pOpsLB -> currentItem() );
+	UMLClassifierListItem * o = m_pOpList -> at( m_pOpsLB -> currentItem() );
 	if(!o && id != ListPopupMenu::mt_New_Operation) {
 		kdWarning() << "can't find op from selection" << endl;
 		return;
@@ -244,8 +244,8 @@ void ClassOpsPage::slotUpClicked() {
 	QListBoxItem * item = m_pOpsLB -> item( index - 1 );
 	m_pOpsLB -> setSelected( item, true );
 	//now change around in the list
-	UMLOperation * aboveOp = m_pOpList -> at( index - 1 );
-	UMLOperation * currentOp = m_pOpList -> take( index );
+	UMLClassifierListItem* aboveOp = m_pOpList -> at( index - 1 );
+	UMLClassifierListItem* currentOp = m_pOpList -> take( index );
 	m_pOpList -> insert( m_pOpList -> findRef( aboveOp ), currentOp );
 	slotClicked( item );
 }
@@ -266,8 +266,8 @@ void ClassOpsPage::slotDownClicked() {
 	QListBoxItem * item = m_pOpsLB -> item( index + 1 );
 	m_pOpsLB -> setSelected( item, true );
 	//now change around in the list
-	UMLOperation * belowOp = m_pOpList -> at( index + 1 );
-	UMLOperation * currentOp = m_pOpList -> take( index );
+	UMLClassifierListItem* belowOp = m_pOpList -> at( index + 1 );
+	UMLClassifierListItem* currentOp = m_pOpList -> take( index );
 	m_pOpList -> insert( m_pOpList -> findRef( belowOp ) + 1, currentOp );
 	slotClicked( item );
 }
@@ -275,15 +275,14 @@ void ClassOpsPage::slotDownClicked() {
 void ClassOpsPage::slotDoubleClick( QListBoxItem * item ) {
 	if( !item )
 		return;
-	UMLOperation * pOp = m_pOpList -> at( m_pOpsLB -> index( item ) );
+	UMLClassifierListItem* pOp = m_pOpList -> at( m_pOpsLB -> index( item ) );
 	if( !pOp ) {
 		kdDebug() << "can't find op from selection" << endl;
 		return;
 	}
-	UMLOperationDialog dlg( this, pOp );
-	if( dlg.exec() ) {
+
+	if( pOp->showPropertiesDialogue(this) ) {
 		m_pOpsLB->changeItem( pOp->getName(), m_pOpsLB->index(item) );
-//FIXME		m_pDoc->signalChildUMLObjectUpdate(pOp);
 	}
 }
 
@@ -293,7 +292,7 @@ void ClassOpsPage::slotProperties() {
 }
 
 void ClassOpsPage::slotDelete() {
-	UMLOperation* selectedOperation = m_pOpList->at( m_pOpsLB -> currentItem() );
+	UMLClassifierListItem* selectedOperation = m_pOpList->at( m_pOpsLB -> currentItem() );
 	//should really wait for signal back
 	//but really shouldn't matter
 	m_pDoc->removeUMLObject(selectedOperation);
@@ -308,7 +307,7 @@ void ClassOpsPage::slotNewOperation() {
 }
 
 void ClassOpsPage::saveCurrentItemDocumentation() {
-	UMLOperation* selectedOperation = m_pOpList->at( m_pOpsLB->currentItem() );
+	UMLClassifierListItem* selectedOperation = m_pOpList->at( m_pOpsLB->currentItem() );
         if (selectedOperation) {
                 selectedOperation->setDoc( m_pDocTE->text() );
 	}

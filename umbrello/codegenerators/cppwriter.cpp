@@ -28,6 +28,7 @@
 #include "../class.h"
 #include "../interface.h"
 #include "../operation.h"
+#include "../classifierlistitem.h"
 #include "../umlnamespace.h"
 
 // 3-14-2003: this code developed from the javawriter with parts of the
@@ -221,7 +222,7 @@ void CppWriter::writeHeaderFile (UMLClassifier *c, QFile &fileh) {
 		UMLClass* k = dynamic_cast<UMLClass*>(c);
 		if (k->isEnumeration()) {
 			h << "enum " << classifierInfo->className << " {" << endl;
-			QPtrList <UMLAttribute> *atl = k->getAttList();
+			QPtrList<UMLAttribute>* atl = k->getFilteredAttributeList();
 			for (UMLAttribute *at=atl->first(); at ; ) {
 				QString attrName = cleanName(at->getName());
 				h << getIndent() << attrName;
@@ -1041,15 +1042,14 @@ void CppWriter::writeInitAttibuteMethod (QTextStream &stream)
 		stream<<indent<<"void "<<className<<"::"<<"initAttributes ( ) {"<<endl;
 
 		IndentLevel++;
-		// first, initialization of fields derived from attributes
-		QPtrList<UMLAttribute> *atl = classifierInfo->getAttList();
-		for(UMLAttribute *at = atl->first(); at ; at = atl->next())
-			if(!at->getInitialValue().isEmpty())
-			{
+		// first, initiation of fields derived from attributes
+		QPtrList<UMLAttribute>* atl = classifierInfo->getAttList();
+		for(UMLAttribute *at = atl->first(); at ; at = atl->next()) {
+			if(!at->getInitialValue().isEmpty()) {
 				QString varName = getAttributeVariableName(at);
 				stream<<getIndent()<<varName<<" = "<<at->getInitialValue()<<";"<<endl;
 			}
-
+		}
 		// Now initialize the association related fields (e.g. vectors)
 		if (VECTOR_METHOD_INIT != "") {
   			QStringList::Iterator it;
@@ -1134,7 +1134,7 @@ void CppWriter::writeOperations(UMLClassifier *c, bool isHeaderMethod, Scope per
 
 	UMLOperation *op;
 	//sort operations by scope first and see if there are abstrat methods
-	opl = c->getOpList();
+	opl = c->getFilteredOperationsList();
 	for(op = opl->first(); op ; op=opl->next()) {
 		switch(op->getScope()) {
 		case Uml::Public:

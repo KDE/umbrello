@@ -23,6 +23,7 @@
 #include "../class.h"
 
 class ListPopupMenu;
+class UMLClassifierListItem;
 
 /**
  *	A dialogue page to display class template properties.  It is used by the @ref ClassPropDlg.
@@ -72,14 +73,14 @@ private:
 	QGroupBox* m_pTemplateGB;
 	QListBox* m_pTemplateLB;
 	QTextEdit* m_pDocTE;
-	QPtrList<UMLTemplate>* m_pTemplateList;
+	QPtrList<UMLClassifierListItem>* m_pTemplateList;
 
 	KArrowButton* m_pUpArrowB;
 	KArrowButton* m_pDownArrowB;
 	QPushButton* m_pDeleteTemplateButton;
 	QPushButton* m_pPropertiesButton;
 
-	UMLTemplate* m_pOldTemplate;
+	UMLClassifierListItem* m_pOldTemplate;
 	UMLDoc* m_pDoc;
 	ListPopupMenu* m_pMenu;
 	bool m_bSigWaiting;

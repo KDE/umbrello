@@ -129,7 +129,7 @@ void ASWriter::writeClass(UMLClassifier *c)
 	UMLClass *myClass = dynamic_cast<UMLClass*>(c);
 	if(myClass) {
 
-		QPtrList<UMLAttribute> *atl = myClass->getAttList();
+		QPtrList<UMLAttribute> *atl = myClass->getFilteredAttributeList();
 
 	 	as << "/**" << endl;
 		QString temp = "_init sets all " + classname + " attributes to its default\
@@ -184,7 +184,7 @@ void ASWriter::writeClass(UMLClassifier *c)
 
 	as << "\t/**Protected: */\n";
 	if(myClass) {
-		QPtrList<UMLAttribute> *atl = myClass->getAttList();
+		QPtrList<UMLAttribute> *atl = myClass->getFilteredAttributeList();
 		for (UMLAttribute *at = atl->first(); at ; at = atl->next())
 		{
 			if (at->getScope() == Uml::Protected)
@@ -194,7 +194,7 @@ void ASWriter::writeClass(UMLClassifier *c)
 		}
 	}
 
- 	QPtrList<UMLOperation> *opList = c->getOpList();
+ 	QPtrList<UMLOperation> *opList = c->getFilteredOperationsList();
 	for (UMLOperation *op = opList->first(); op; op = opList->next())
 	{
 		if (op->getScope() == Uml::Protected)
@@ -205,7 +205,7 @@ void ASWriter::writeClass(UMLClassifier *c)
 	as << endl;
 	as << "\t/**Private: */\n";
 	if(myClass) {
-		QPtrList<UMLAttribute> *atl = myClass->getAttList();
+		QPtrList<UMLAttribute> *atl = myClass->getFilteredAttributeList();
 		for (UMLAttribute *at = atl->first(); at; at = atl->next())
 		{
 			if (at->getScope() == Uml::Private)
@@ -227,7 +227,7 @@ void ASWriter::writeClass(UMLClassifier *c)
 	as << endl;
 
 	//operations
-	writeOperations(classname, c->getOpList(), as);
+	writeOperations(classname, c->getFilteredOperationsList(), as);
 
 	as << endl;
 

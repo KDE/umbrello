@@ -27,8 +27,8 @@ ClassWidget::ClassWidget(UMLView * view, UMLObject *o, UMLWidgetData *pData)
 	}
 }
 
-ClassWidget::ClassWidget(UMLView * view, UMLObject *o) 
-	: UMLWidget(view,o, new ClassWidgetData(view->getOptionState() )) 
+ClassWidget::ClassWidget(UMLView * view, UMLObject *o)
+	: UMLWidget(view,o, new ClassWidgetData(view->getOptionState() ))
 {
 	init();
 	setSize(100,30);
@@ -36,8 +36,8 @@ ClassWidget::ClassWidget(UMLView * view, UMLObject *o)
 	m_pData->setType(wt_Class);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-ClassWidget::ClassWidget(UMLView * view) 
-	: UMLWidget(view, new ClassWidgetData(view->getOptionState() )) 
+ClassWidget::ClassWidget(UMLView * view)
+	: UMLWidget(view, new ClassWidgetData(view->getOptionState() ))
 {
 	init();
 	setSize(100,30);
@@ -165,8 +165,8 @@ void ClassWidget::draw(QPainter & p, int offsetX, int offsetY) {
 	if (data->getShowAttributes()) {
 		QFont f( p.font());
 		y = aStart;
-		UMLAttribute * obj=0;
-		QPtrList<UMLAttribute> *list = ((UMLClass*)m_pObject)->getAttList();
+		UMLClassifierListItem* obj=0;
+		QPtrList<UMLClassifierListItem>* list = ((UMLClass*)m_pObject)->getAttList();
 		for(obj=list->first();obj != 0;obj=list->next()) {
 			f.setUnderline( obj -> getStatic() );
 			p.setFont( f );
@@ -186,8 +186,8 @@ void ClassWidget::draw(QPainter & p, int offsetX, int offsetY) {
 			p.drawLine(offsetX, bodyOffsetY + y, offsetX + w - 1, bodyOffsetY + y);
 		else
 			y = aStart;
-		UMLOperation * obj = 0;
-		QPtrList<UMLOperation> *list = ((UMLClass*)m_pObject)->getOpList();
+		UMLClassifierListItem* obj = 0;
+		QPtrList<UMLClassifierListItem> *list = ((UMLClass*)m_pObject)->getOpList();
 		for(obj=list->first();obj != 0;obj=list->next()) {
 			QString op = obj -> toString( data->getShowOpSigs() );
 			p.setPen(QPen(black));
@@ -215,8 +215,8 @@ void ClassWidget::draw(QPainter & p, int offsetX, int offsetY) {
 		font.setItalic(false);
 		font.setUnderline(false);
 		font.setBold(false);
-		QPtrList<UMLTemplate>* list = ((UMLClass*)m_pObject)->getTemplateList();
-		UMLTemplate* theTemplate = 0;
+		QPtrList<UMLClassifierListItem>* list = ((UMLClass*)m_pObject)->getTemplateList();
+		UMLClassifierListItem* theTemplate = 0;
 		int y = offsetY + MARGIN;
 		for ( theTemplate=list->first(); theTemplate != 0; theTemplate=list->next() ) {
 			QString text = theTemplate->toString();
@@ -242,8 +242,8 @@ QSize ClassWidget::calculateTemplatesBoxSize() {
 
 	height = count * fm.lineSpacing() + (MARGIN*2);
 
-	QPtrList<UMLTemplate>* list = ((UMLClass *)m_pObject)->getTemplateList();
-	UMLTemplate* theTemplate = 0;
+	QPtrList<UMLClassifierListItem>* list = ((UMLClass *)m_pObject)->getTemplateList();
+	UMLClassifierListItem* theTemplate = 0;
 	for ( theTemplate=list->first(); theTemplate != 0; theTemplate=list->next() ) {
 		int textWidth = fm.boundingRect( theTemplate->toString() ).width();
 		width = textWidth>width ? textWidth : width;
@@ -300,26 +300,26 @@ void ClassWidget::calculateSize() {
 	width = w > width?w:width;
 
 	if (data->getShowAttributes()) {
-		QPtrList<UMLAttribute> * list = ((UMLClass *)m_pObject)->getAttList();
-		UMLAttribute * a = 0;
+		QPtrList<UMLClassifierListItem>* list = ((UMLClass *)m_pObject)->getAttList();
+		UMLClassifierListItem* a = 0;
 		for(a = list->first();a != 0; a = list->next()) {
 			int w = getFontMetrics(a->getStatic() ? FT_UNDERLINE : FT_NORMAL).boundingRect(a -> toString(data->getShowAttSigs())).width();
 			width = w > width?w:width;
 		}
 	}
 	if (data->getShowOperations()) {
-		QPtrList<UMLOperation> * list = ((UMLClass *)m_pObject)->getOpList();
-		UMLOperation * o = 0;
-		for(o = list->first();o != 0; o = list->next()) {
-			bool isAbstract = o -> getAbstract();
-			bool isStatic = o -> getStatic();
+		QPtrList<UMLClassifierListItem> * list = ((UMLClass *)m_pObject)->getOpList();
+		UMLClassifierListItem* listItem = 0;
+		for(listItem = list->first();listItem != 0; listItem = list->next()) {
+			bool isAbstract = listItem->getAbstract();
+			bool isStatic = listItem->getStatic();
 			fm = getFontMetrics(isAbstract && isStatic
 				? FT_ITALIC_UNDERLINE
 				: isAbstract
 					? FT_ITALIC
 					: FT_UNDERLINE);
 
-			int w = fm.boundingRect(o -> toString(data->getShowOpSigs())).width();
+			int w = fm.boundingRect( listItem->toString(data->getShowOpSigs()) ).width();
 			width = w > width?w:width;
 		}
 	}

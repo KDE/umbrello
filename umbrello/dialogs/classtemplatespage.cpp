@@ -60,6 +60,7 @@ void ClassTemplatesPage::pageContentsModified()
 void ClassTemplatesPage::loadData()
 {
 // disconnect(this,SIGNAL(pageModified()),this,SLOT(pageContentsModified()));
+	/*FIXME sorry too busy to fix this
 	m_tempsList.clear();
 	QPtrList<UMLTemplate> *list = m_umlObject->getTemplateList();
 	QListViewItem *item;
@@ -72,11 +73,13 @@ void ClassTemplatesPage::loadData()
 		item = new QListViewItem( m_templatesList, copy->getName() );
 		m_tempMap[item] = copy;
 	}
+	*/
 // connect(this,SIGNAL(pageModified()),this,SLOT(pageContentsModified()));
 }
 
 void ClassTemplatesPage::saveData()
 {
+	/*FIXME sorry too busy to fix this
 	m_umlObject->blockSignals( true );
 	{
 	 //remove deleted templates
@@ -98,7 +101,7 @@ void ClassTemplatesPage::saveData()
 		}
 	}
 	}
-	
+
 	{
 	// add/update templates
 	QPtrList<UMLTemplate> *pList = m_umlObject->getTemplateList();
@@ -135,6 +138,7 @@ void ClassTemplatesPage::saveData()
 	m_umlObject->blockSignals( false );
 	m_umlObject->emitModified();
 	//connect(m_umlObject,SIGNAL(modified()),this,SLOT(loadData()));
+	*/
 }
 
 void ClassTemplatesPage::moveUp( )
@@ -151,7 +155,7 @@ void ClassTemplatesPage::moveUp( )
 		return;
 	}
 	above = above->itemAbove( );
-	if( above ) 
+	if( above )
 	{
 		item->moveItem( above );
 	}
@@ -185,7 +189,7 @@ void ClassTemplatesPage::moveDown( )
 void ClassTemplatesPage::createTemplate( )
 {
 	UMLTemplate *t = new UMLTemplate(this,"new_template",-1);
-	UmbrelloDialog dialog(this, UmbrelloDialog::Swallow, "edit_template", true, i18n("Template properties"), 
+	UmbrelloDialog dialog(this, UmbrelloDialog::Swallow, "edit_template", true, i18n("Template properties"),
 	                       UmbrelloDialog::Ok | UmbrelloDialog::Cancel );
 	TemplatePropertiesPage *page = new TemplatePropertiesPage(t,&dialog,0);
 	dialog.setMainWidget(page);
@@ -209,7 +213,7 @@ void ClassTemplatesPage::editSelected( )
 	UMLTemplate *t = m_tempMap[item];
 	if(!t)
 		return;
-	UmbrelloDialog dialog(this, UmbrelloDialog::Swallow, "edit_template", true, i18n("Template properties"), 
+	UmbrelloDialog dialog(this, UmbrelloDialog::Swallow, "edit_template", true, i18n("Template properties"),
 	                       UmbrelloDialog::Ok | UmbrelloDialog::Cancel );
 	TemplatePropertiesPage *page = new TemplatePropertiesPage(t,&dialog,0);
 // 	dialog.addPage(page,i18n("Template Properties"));
@@ -219,7 +223,7 @@ void ClassTemplatesPage::editSelected( )
 		item->setText(0,t->getName());
 		emit pageModified( );
 	}
-	
+
 }
 
 void ClassTemplatesPage::deleteSelected( )
@@ -240,7 +244,7 @@ void ClassTemplatesPage::itemSelected(QListViewItem *item )
 	UMLTemplate *temp = m_tempMap[item];
 	if( !temp )
 		return;
-	
+
 	//set doc
 	m_documentation->setText( temp->getDoc( ) );
 	//enable/disable buttons

@@ -15,6 +15,7 @@
 
 class UMLAttribute;
 class UMLTemplate;
+class UMLClassifierListItem;
 
 // This class performs the functionality of the old UMLClassifier class
 
@@ -135,14 +136,24 @@ public:
 	 *
 	 *	@return The list of attributes for the Concept.
 	 */
-	QPtrList<UMLAttribute>* getAttList();
+	QPtrList<UMLClassifierListItem>* getAttList();
+
+	/**
+	 * Returns the entries in m_pAttList that are actually attributes
+	 */
+	QPtrList<UMLAttribute>* getFilteredAttributeList();
 
 	/**
 	 *	Return the list of templates for the Concept.
 	 *
 	 *	@return The list of templates for the Concept.
 	 */
-	QPtrList<UMLTemplate>* getTemplateList();
+	QPtrList<UMLClassifierListItem>* getTemplateList();
+
+	/**
+	 * Returns the entries in m_pTemplatesList that are actually templates
+	 */
+	QPtrList<UMLTemplate>* getFilteredTemplateList();
 
 	/**
 	 *      Find a list of attributes, operations, associations or
@@ -205,12 +216,12 @@ private:
 	/**
 	 * 	List of all the attributes in this class.
 	 */
-	QPtrList<UMLAttribute> m_AttsList;
+	QPtrList<UMLClassifierListItem> m_AttsList;
 
 	/**
 	 * 	List of all the templates in this class.
 	 */
-	QPtrList<UMLTemplate> m_TemplateList;
+	QPtrList<UMLClassifierListItem> m_TemplateList;
 };
 
 #endif // UMLCLASS_H 

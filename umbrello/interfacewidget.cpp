@@ -11,6 +11,7 @@
 #include "interfacewidgetdata.h"
 #include "interface.h"
 #include "operation.h"
+#include "classifierlistitem.h"
 #include "umlview.h"
 #include "umldoc.h"
 #include "listpopupmenu.h"
@@ -168,8 +169,8 @@ void InterfaceWidget::drawAsConcept(QPainter& p, int offsetX, int offsetY) {
 
 		p.drawLine(offsetX, offsetY + y, offsetX + w - 1, offsetY + y);
 
-		UMLOperation* obj = 0;
-		QPtrList<UMLOperation>* list = ((UMLInterface*)m_pObject)->getOpList();
+		UMLClassifierListItem* obj = 0;
+		QPtrList<UMLClassifierListItem>* list = ((UMLInterface*)m_pObject)->getOpList();
 		for(obj=list->first();obj != 0;obj=list->next()) {
 			QString op = obj->toString(((InterfaceWidgetData*)m_pData)->getShowOpSigs());
 			p.setPen( QPen(black) );
@@ -251,17 +252,17 @@ void InterfaceWidget::calculateAsConceptSize() {
 	width = w > width?w:width;
 
 	if(data->getShowOperations()) {
-		QPtrList<UMLOperation>* list = ((UMLInterface*)m_pObject)->getOpList();
-		UMLOperation * o = 0;
-		for(o = list->first();o != 0; o = list->next()) {
-			bool isAbstract = o -> getAbstract();
-			bool isStatic = o -> getStatic();
+		QPtrList<UMLClassifierListItem>* list = ((UMLInterface*)m_pObject)->getOpList();
+		UMLClassifierListItem* listItem = 0;
+		for(listItem = list->first();listItem != 0; listItem = list->next()) {
+			bool isAbstract = listItem->getAbstract();
+			bool isStatic = listItem->getStatic();
 			fm = getFontMetrics(isAbstract && isStatic
 				? FT_ITALIC_UNDERLINE
 				: isAbstract
 					? FT_ITALIC
 					: FT_UNDERLINE);
-			int w = fm.boundingRect(o -> toString(data->getShowOpSigs())).width();
+			int w = fm.boundingRect( listItem->toString(data->getShowOpSigs()) ).width();
 			width = w > width?w:width;
 		}
 	}

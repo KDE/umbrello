@@ -175,7 +175,7 @@ QPtrList <UMLAttribute> XMLSchemaWriter::findAttributes (UMLClassifier *c)
 
 	UMLClass * myClass = dynamic_cast<UMLClass*>(c);
 	if(myClass) {
-	        QPtrList <UMLAttribute> *atl = myClass->getAttList();
+	        QPtrList <UMLAttribute> *atl = myClass->getFilteredAttributeList();
 	        for(UMLAttribute *at=atl->first(); at ; at=atl->next()) {
 	                switch(at->getScope())
 	                {
@@ -401,7 +401,7 @@ QStringList XMLSchemaWriter::findAttributeGroups (UMLClassifier *c)
 			// only classes have attributes..
 			UMLClass * myClass = dynamic_cast<UMLClass*>(classifier);
 			if(myClass) {
-				QPtrList<UMLAttribute>* attribs = myClass->getAttList();
+				QPtrList<UMLAttribute>* attribs = myClass->getFilteredAttributeList();
 				if (attribs->count() > 0)
 					list.append(getElementName(classifier)+"AttribGroupType");
 			}

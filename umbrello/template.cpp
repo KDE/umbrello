@@ -8,14 +8,15 @@
  ***************************************************************************/
 
 #include "template.h"
+#include "dialogs/umltemplatedialog.h"
 #include <kdebug.h>
 
-UMLTemplate::UMLTemplate(QObject* parent, QString name, int id, QString type) : UMLObject(parent, name, id) {
+UMLTemplate::UMLTemplate(QObject* parent, QString name, int id, QString type) : UMLClassifierListItem(parent, name, id) {
 	m_TypeName = type;
 	m_BaseType = ot_Template;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLTemplate::UMLTemplate(QObject* parent) : UMLObject(parent) {
+UMLTemplate::UMLTemplate(QObject* parent) : UMLClassifierListItem(parent) {
 	m_BaseType = ot_Template;
 	m_TypeName = "";
 }
@@ -30,7 +31,7 @@ void UMLTemplate::setTypeName(QString type) {
 	m_TypeName = type;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-QString UMLTemplate::toString() {
+QString UMLTemplate::toString(Signature_Type /*sig = st_NoSig*/) {
 	if (m_TypeName == "" || m_TypeName == "class") {
 		return getName();
 	} else {
@@ -65,4 +66,9 @@ bool UMLTemplate::loadFromXMI(QDomElement& element) {
 	}
 	m_TypeName = element.attribute("type", "");
 	return true;
+}
+
+bool UMLTemplate::showPropertiesDialogue(QWidget* parent) {
+	UMLTemplateDialog dialogue(parent, this);
+	return dialogue.exec();
 }

@@ -15,6 +15,7 @@
 
 class IDChangeLog;
 class UMLAssociation;
+class UMLClassifierListItem;
 class UMLOperation;
 class UMLDoc;
 
@@ -100,7 +101,12 @@ public:
 	 *
 	 *	@return The list of operation for the Concept.
 	 */
-	QPtrList<UMLOperation>* getOpList();
+	QPtrList<UMLClassifierListItem>* getOpList();
+
+	/**
+	 * Returns the entries in m_pOpsList that are actually operations
+	 */
+	QPtrList<UMLOperation>* getFilteredOperationsList();
 
 	/**
 	 * Returns a name for the new association, operation, template
@@ -172,7 +178,7 @@ protected:
 	/**
 	 * 	List of all the operations in this class.
 	 */
-	QPtrList<UMLOperation> m_OpsList;
+	QPtrList<UMLClassifierListItem> m_OpsList;
 
 };
 

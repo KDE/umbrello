@@ -10,7 +10,7 @@
 #ifndef ATTRIBUTE_H
 #define ATTRIBUTE_H
 
-#include "umlobject.h"
+#include "classifierlistitem.h"
 
 /**
  *	This class is used to set up information for an attribute.  This is like
@@ -22,7 +22,7 @@
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
-class UMLAttribute : public UMLObject {
+class UMLAttribute : public UMLClassifierListItem {
 public:
 	/**
 	 *	Sets up an attribute.
@@ -96,6 +96,12 @@ public:
 	bool saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 	bool loadFromXMI( QDomElement & element );
+
+	/**
+	 * Display the properties configuration dialogue for the attribute.
+	 */
+	bool showPropertiesDialogue(QWidget* parent);
+
 private:
 	QString m_TypeName, m_InitialValue;
 };
