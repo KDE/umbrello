@@ -31,6 +31,7 @@ class UMLDoc;
 class UMLView;
 class UMLAssociation;
 class UMLAttribute;
+class UMLOperation;
 
 /**
  * This class represents an association inside a diagram.
@@ -408,6 +409,18 @@ public:
 	UMLClassifier *getOperationOwner();
 
 	/**
+	 * Implements operation from LinkWidget.
+	 * Motivated by FloatingText.
+	 */
+	UMLOperation *getOperation();
+
+	/**
+	 * Implements operation from LinkWidget.
+	 * Motivated by FloatingText.
+	 */
+	void setOperation(UMLOperation *op);
+
+	/**
 	 * Overrides operation from LinkWidget.
 	 * Required by FloatingText.
 	 */
@@ -697,6 +710,12 @@ private:
 	 * name of this association.
 	 */
 	FloatingText* m_pName;
+
+	/**
+	 * Pointer to the operation represented by this asssociation
+	 * in a collaboration diagram (else unused.)
+	 */
+	UMLOperation *m_pOperation;
 
 	/**
 	 * The WidgetRole struct gathers all information pertaining to the role.

@@ -2752,6 +2752,7 @@ void AssociationWidget::init (UMLView *view)
 	m_AssocType = Uml::at_Association;
 	m_umldoc = UMLApp::app()->getDocument();
 	m_LinePath.setAssociation( this );
+	m_pOperation = NULL;
 
 	connect(m_pView, SIGNAL(sigRemovePopupMenu()), this, SLOT(slotRemovePopupMenu()));
 	connect(m_pView, SIGNAL( sigClearAllSelected() ), this, SLOT( slotClearAllSelected() ) );
@@ -2795,6 +2796,14 @@ void AssociationWidget::setTotalCount(int count, Role_Type role) {
 
 int AssociationWidget::getTotalCount(Role_Type role) const {
 	return  m_role[role].m_nTotalCount;
+}
+
+UMLOperation *AssociationWidget::getOperation() {
+	return m_pOperation;
+}
+
+void AssociationWidget::setOperation(UMLOperation *op) {
+	m_pOperation = op;
 }
 
 UMLClassifier *AssociationWidget::getOperationOwner() {

@@ -2594,7 +2594,6 @@ void UMLDoc::signalDiagramRenamed(UMLView* pView ) {
         	UMLApp::app()->tabWidget()->setTabLabel( pView, pView->getName() );
 #endif
 	emit sigDiagramRenamed( pView -> getID() );
-	return;
 }
 
 void UMLDoc::addToUndoStack() {

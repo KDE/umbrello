@@ -21,6 +21,8 @@
 // forward declarations
 class FloatingText;
 class ObjectWidget;
+class UMLOperation;
+
 /**
  * Used to display a message on a sequence diagram.  The message
  * could be between two objects or a message that calls itself on
@@ -144,6 +146,18 @@ public:
 	 * @todo Move to LinkWidget.
 	 */
 	UMLClassifier *getOperationOwner();
+
+	/**
+	 * Implements operation from LinkWidget.
+	 * Motivated by FloatingText.
+	 */
+	UMLOperation *getOperation();
+
+	/**
+	 * Implements operation from LinkWidget.
+	 * Motivated by FloatingText.
+	 */
+	void setOperation(UMLOperation *op);
 
 	/**
 	 * Overrides operation from LinkWidget.
