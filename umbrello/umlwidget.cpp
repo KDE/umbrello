@@ -880,14 +880,18 @@ void UMLWidget::setView(UMLView * v) {
 }
 
 void UMLWidget::setX( int x ) {
-	if (!m_bIgnoreSnapToGrid)
-		x = m_pView->snappedX(x);
+	if (!m_bIgnoreSnapToGrid) {
+		const int halfWidth =  width() / 2;
+		x = m_pView->snappedX(x + halfWidth) - halfWidth;
+	}
 	QCanvasItem::setX( (double)x );
 }
 
 void UMLWidget::setY( int y ) {
-	if (!m_bIgnoreSnapToGrid)
-		y = m_pView->snappedX(y);
+	if (!m_bIgnoreSnapToGrid){
+		const int halfHeight = height() / 2;
+		y = m_pView->snappedX(y + halfHeight) - halfHeight;
+	}
 	QCanvasItem::setY( (double)y );
 }
 
@@ -1121,9 +1125,9 @@ bool UMLWidget::loadFromXMI( QDomElement & qElement ) {
 	m_bUsesDiagramLineColour = (bool)usesDiagramLineColour.toInt();
 	m_bUsesDiagramLineWidth = (bool)usesDiagramLineWidth.toInt();
 	m_bUsesDiagramUseFillColour = (bool)usesDiagramUseFillColour.toInt();
+	setSize( w.toInt(), h.toInt() );
 	setX( x.toInt() );
 	setY( y.toInt() );
-	setSize( w.toInt(), h.toInt() );
 	if (fillColour != "none") {
 		m_FillColour = QColor(fillColour);
 	}
