@@ -635,11 +635,11 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 			m_pInsert -> insertItem(datatypePixmap, i18n("Datatype"), mt_Datatype);
 			m_pInsert -> insertItem(enumPixmap, i18n("Enum"), mt_Enum);
 			m_pInsert->insertItem(packagePixmap, i18n("Package"), mt_Package);
-			m_pInsert -> insertItem(SmallIcon( "folder_green"),i18n("Class Diagram..."), mt_Class_Diagram);
-			m_pInsert -> insertItem(SmallIcon( "folder_green"),i18n("State Diagram..."), mt_State_Diagram);
-			m_pInsert -> insertItem(SmallIcon( "folder_green"),i18n("Activity Diagram..."), mt_Activity_Diagram);
-			m_pInsert -> insertItem(SmallIcon( "folder_green"),i18n("Sequence Diagram..."), mt_Sequence_Diagram);
-			m_pInsert -> insertItem(SmallIcon( "folder_green"),i18n("Collaboration Diagram..."), mt_Collaboration_Diagram);
+			m_pInsert -> insertItem(SmallIconSet( "umbrello_diagram_class"),i18n("Class Diagram..."), mt_Class_Diagram);
+			m_pInsert -> insertItem(SmallIconSet( "umbrello_diagram_state"),i18n("State Diagram..."), mt_State_Diagram);
+			m_pInsert -> insertItem(SmallIconSet( "umbrello_diagram_activity"),i18n("Activity Diagram..."), mt_Activity_Diagram);
+			m_pInsert -> insertItem(SmallIconSet( "umbrello_diagram_sequence"),i18n("Sequence Diagram..."), mt_Sequence_Diagram);
+			m_pInsert -> insertItem(SmallIconSet( "umbrello_diagram_collaboration"),i18n("Collaboration Diagram..."), mt_Collaboration_Diagram);
 			insertItem(SmallIcon( "filenew"), i18n("New"), m_pInsert);
 			insertSeparator();
 //			insertStdItem(mt_Cut);
@@ -659,7 +659,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 			m_pInsert->insertItem(SmallIcon("folder_new"), i18n("Folder"), mt_Component_Folder);
 			m_pInsert->insertItem(componentPixmap, i18n("Component"), mt_Component);
 			m_pInsert->insertItem(artifactPixmap, i18n("Artifact"), mt_Artifact);
-			m_pInsert->insertItem(SmallIcon("folder_red"),i18n("Component Diagram..."),
+			m_pInsert->insertItem(SmallIconSet("umbrello_diagram_component"),i18n("Component Diagram..."),
 					      mt_Component_Diagram);
 			insertItem(SmallIcon("filenew"), i18n("New"), m_pInsert);
 			insertSeparator();
@@ -673,7 +673,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 			m_pInsert = new KPopupMenu(this, "New");
 			m_pInsert->insertItem(SmallIcon("folder_new"), i18n("Folder"), mt_Component_Folder);
 			m_pInsert->insertItem(nodePixmap, i18n("Node"), mt_Node);
-			m_pInsert->insertItem(SmallIcon("folder_violet"),i18n("Deployment Diagram..."),
+			m_pInsert->insertItem(SmallIconSet("umbrello_diagram_deployment"),i18n("Deployment Diagram..."),
 					      mt_Deployment_Diagram);
 			insertItem(SmallIcon("filenew"), i18n("New"), m_pInsert);
 			insertSeparator();
@@ -688,7 +688,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 			m_pInsert -> insertItem(SmallIcon( "folder_new"),i18n("Folder"), mt_UseCase_Folder);
 			m_pInsert -> insertItem(actorPixmap, i18n("Actor"), mt_Actor);
 			m_pInsert -> insertItem(usecasePixmap, i18n("Use Case"), mt_UseCase);
-			m_pInsert -> insertItem(SmallIcon( "folder_grey"),i18n("Use Case Diagram..."), mt_UseCase_Diagram);
+			m_pInsert -> insertItem(SmallIconSet( "umbrello_diagram_usecase"),i18n("Use Case Diagram..."), mt_UseCase_Diagram);
 			insertItem(SmallIcon( "filenew"), i18n("New"), m_pInsert);
 			insertSeparator();
 //			insertStdItem(mt_Cut);
@@ -704,12 +704,12 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 			m_pInsert -> insertItem(SmallIcon( "folder_new"),i18n("Folder"), mt_Logical_Folder);
 			m_pInsert -> insertItem(classPixmap, i18n("Class"), mt_Class);
 			m_pInsert -> insertItem(packagePixmap, i18n("Package"), mt_Package);
-			m_pInsert -> insertItem(SmallIcon( "folder_green"),i18n("Class Diagram..."), mt_Class_Diagram);
-			m_pInsert -> insertItem(SmallIcon( "folder_green"),i18n("State Diagram..."), mt_State_Diagram);
+			m_pInsert -> insertItem(SmallIconSet( "umbrello_diagram_class"),i18n("Class Diagram..."), mt_Class_Diagram);
+			m_pInsert -> insertItem(SmallIconSet( "umbrello_diagram_state"),i18n("State Diagram..."), mt_State_Diagram);
 
-			m_pInsert -> insertItem(SmallIcon( "folder_green"),i18n("Activity Diagram..."), mt_Activity_Diagram);
-			m_pInsert -> insertItem(SmallIcon( "folder_green"),i18n("Sequence Diagram..."), mt_Sequence_Diagram);
-			m_pInsert -> insertItem(SmallIcon( "folder_green"),i18n("Collaboration Diagram..."), mt_Collaboration_Diagram);
+			m_pInsert -> insertItem(SmallIconSet( "umbrello_diagram_activity"),i18n("Activity Diagram..."), mt_Activity_Diagram);
+			m_pInsert -> insertItem(SmallIconSet( "umbrello_diagram_sequence"),i18n("Sequence Diagram..."), mt_Sequence_Diagram);
+			m_pInsert -> insertItem(SmallIconSet( "umbrello_diagram_collaboration"),i18n("Collaboration Diagram..."), mt_Collaboration_Diagram);
 			insertItem(SmallIcon( "filenew"), i18n("New"), m_pInsert);
 			insertSeparator();
 			insertStdItem(mt_Cut);
@@ -731,7 +731,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 			m_pInsert->insertItem(SmallIcon("folder_new"),i18n("Folder"), mt_Component_Folder);
 			m_pInsert->insertItem(componentPixmap, i18n("Component"), mt_Component);
 			m_pInsert->insertItem(artifactPixmap, i18n("Artifact"), mt_Artifact);
-			m_pInsert->insertItem(SmallIcon("folder_red"),i18n("Component Diagram..."),
+			m_pInsert->insertItem(SmallIconSet("umbrello_diagram_component"),i18n("Component Diagram..."),
 					      mt_Component_Diagram);
 			insertItem(SmallIcon("filenew"), i18n("New"), m_pInsert);
 			insertSeparator();
@@ -750,7 +750,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 			m_pInsert = new KPopupMenu(this, "New");
 			m_pInsert->insertItem(SmallIcon("folder_new"),i18n("Folder"), mt_Component_Folder);
 			m_pInsert->insertItem(nodePixmap, i18n("Node"), mt_Node);
-			m_pInsert->insertItem(SmallIcon("folder_violet"),i18n("Deployment Diagram..."),
+			m_pInsert->insertItem(SmallIconSet("umbrello_diagram_deployment"),i18n("Deployment Diagram..."),
 					      mt_Deployment_Diagram);
 			insertItem(SmallIcon("filenew"), i18n("New"), m_pInsert);
 			insertSeparator();
@@ -770,7 +770,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 			m_pInsert -> insertItem(SmallIcon( "folder_new"),i18n("Folder"), mt_UseCase_Folder);
 			m_pInsert -> insertItem(actorPixmap, i18n("Actor"), mt_Actor);
 			m_pInsert -> insertItem(usecasePixmap, i18n("Use Case"), mt_UseCase);
-			m_pInsert -> insertItem(SmallIcon( "folder_grey"),i18n("Use Case Diagram..."), mt_UseCase_Diagram);
+			m_pInsert -> insertItem(SmallIconSet( "umbrello_diagram_usecase"),i18n("Use Case Diagram..."), mt_UseCase_Diagram);
 			insertItem(SmallIcon( "filenew"), i18n("New"), m_pInsert);
 			insertSeparator();
 			insertStdItem(mt_Cut);
