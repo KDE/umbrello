@@ -15,7 +15,6 @@
 
 #include "notewidget.h"
 #include "boxwidget.h"
-#include "boxwidget.h"
 #include "floatingtext.h"
 #include "activitywidget.h"
 #include "statewidget.h"

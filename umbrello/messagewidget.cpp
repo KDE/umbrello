@@ -22,7 +22,6 @@
 #include "umlview.h"
 #include "umldoc.h"
 #include "listpopupmenu.h"
-#include "objectwidget.h"
 
 MessageWidget::MessageWidget(UMLView * view, ObjectWidget* a, ObjectWidget* b, FloatingText* ft, int id, int y,
 			     Sequence_Message_Type sequenceMessageType) : UMLWidget(view) {

@@ -12,7 +12,6 @@
 #include <qlayout.h>
 
 //kde includes
-#include <kdebug.h>
 #include <klocale.h>
 
 //app includes

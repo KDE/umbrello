@@ -16,7 +16,6 @@
 
 #include "../uml.h"
 // #include "umlwidget.h"
-#include "diagramelement.h"
 #include "path.h"
 
 

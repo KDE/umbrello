@@ -21,7 +21,6 @@
 #include <qdir.h>
 
 #include <klocale.h>
-#include <kdebug.h>
 #include <kmessagebox.h>
 #include <kdialogbase.h>
 #include <kapplication.h>

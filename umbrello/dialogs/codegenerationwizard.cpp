@@ -19,7 +19,6 @@
 #include <qdir.h>
 #include <qlistview.h>
 #include <qfileinfo.h>
-#include <kdebug.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <qapplication.h>

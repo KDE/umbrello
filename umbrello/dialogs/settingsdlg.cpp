@@ -11,7 +11,6 @@
 #include <kiconloader.h>
 #include <klocale.h>
 #include <kfiledialog.h>
-#include <kdebug.h>
 //qt includes
 #include <qlayout.h>
 #include <qvbox.h>

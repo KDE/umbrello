@@ -31,7 +31,6 @@
 #include "classifier.h"
 #include "associationwidget.h"
 #include "dialogs/settingsdlg.h"
-#include "codegenerator.h"
 #include "codedocument.h"
 #include "floatingtext.h"
 #include "objectwidget.h"

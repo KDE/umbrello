@@ -23,7 +23,6 @@
 #include <knuminput.h>
 #include <kfiledialog.h>
 #include <klocale.h>
-#include <kdebug.h>
 
 //qt include
 #include <qlineedit.h>

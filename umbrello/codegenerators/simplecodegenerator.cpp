@@ -29,7 +29,6 @@
 
 #include "simplecodegenerator.h"
 
-#include <qregexp.h>
 #include "../attribute.h"
 #include "../class.h"
 #include "../classifier.h"
