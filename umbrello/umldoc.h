@@ -272,7 +272,7 @@ public:
 	 */
 	void createDiagram(Diagram_Type type, bool askForName = true);
 	
-	Umbrello::Diagram* UcreateDiagram(Umbrello::Diagram::DiagramType, const QString& = QString::null );
+	Umbrello::Diagram* UcreateDiagram(Umbrello::Diagram::DiagramType);
 
 	/**
 	 *	Used to rename a document.  This method takes care of everything.

@@ -800,9 +800,10 @@ void UMLApp::UcreateDiagram()
 	else if( o == UsequenceDiagram )
 		t = Diagram::SequenceDiagram;
 Umbrello::Diagram *d =
-	getDocument()->UcreateDiagram( t, "FIXME ask for name here" );
-Umbrello::DiagramView *v = new Umbrello::DiagramView(d,getWorkToolBar(),viewStack);
-v->show();
+	getDocument()->UcreateDiagram( t );
+if(!d)
+	return;
+Umbrello::DiagramView *v = d->createView(viewStack);
 diagramViews[d->getID()] = v;
 kdDebug()<<"diagram created with id = "<<d->getID()<<endl;
 viewStack->raiseWidget(v);

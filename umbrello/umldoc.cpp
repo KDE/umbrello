@@ -831,8 +831,12 @@ QString UMLDoc::uniqViewName(const Diagram_Type type) {
 }
 
 
-Umbrello::Diagram* UMLDoc::UcreateDiagram(Diagram::DiagramType dType, const QString& name)
+Umbrello::Diagram* UMLDoc::UcreateDiagram(Diagram::DiagramType dType)
 {
+	bool ok = true;
+	QString name = KLineEditDlg::getText(i18n("Enter name:"), i18n("new_diagram"), &ok, UMLApp::app() );
+	if(!ok)
+		return (Umbrello::Diagram*)0L;
 	int id = getUniqueID();
 	Diagram *diagram = new Diagram(dType, this, id, name);
 	diagrams.append(diagram);
