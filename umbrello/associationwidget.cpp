@@ -1156,19 +1156,12 @@ void AssociationWidget::doUpdates(int otherX, int otherY, Role_Type role) {
 	if( oldRegion != region ) {
 		updateRegionLineCount( regionCount - 1, regionCount, region, role );
 		updateAssociations( totalCount - 1, oldRegion, role );
-		updateAssociations( regionCount, region, role );
 	} else if( totalCount != regionCount ) {
 		updateRegionLineCount( regionCount - 1, regionCount, region, role );
-		updateAssociations( regionCount, region, role );
 	} else {
 		updateRegionLineCount( m_role[role].m_nIndex, totalCount, region, role );
-		/*
-		 * This update does not seem to be required after all.
-		 * Nevertheless, if you experience strange crossed lines,
-		 * try uncommenting the following:
-		 */
-		// updateAssociations( totalCount, region, role );
 	}
+	updateAssociations( regionCount, region, role );
 }
 
 /** Read property of bool m_bActivated. */
@@ -2553,18 +2546,8 @@ void AssociationWidget::updateAssociations(int totalCount,
 	// we order the AssociationWidget list by region and x/y value
 	while ( (assocwidget = assoc_it.current()) ) {
 		++assoc_it;
-		WidgetRole *roleA;
-		WidgetRole *roleB;
-		if (assocwidget->getAssocType() == at_Generalization) {
-			// For generalizations, the general class plays role A
-			// and the specialized class plays role B.
-			// Let's swap the roles to simplify the following logic.
-			roleA = &assocwidget->m_role[B];
-			roleB = &assocwidget->m_role[A];
-		} else {
-			roleA = &assocwidget->m_role[A];
-			roleB = &assocwidget->m_role[B];
-		}
+		WidgetRole *roleA = &assocwidget->m_role[A];
+		WidgetRole *roleB = &assocwidget->m_role[B];
 		UMLWidget *wA = roleA->m_pWidget;
 		UMLWidget *wB = roleB->m_pWidget;
 		// Now we must find out with which end the assocwidget connects
@@ -2581,11 +2564,7 @@ void AssociationWidget::updateAssociations(int totalCount,
 		// assocwidget at the right position so that the lines don't cross
 		for (AssociationWidget* assocwidget2 = ordered.first(); assocwidget2;
 		     assocwidget2 = ordered.next()) {
-			UMLWidget * otherWidget;
-			if (assocwidget2->getAssocType() == at_Generalization)
-				otherWidget = assocwidget2->m_role[role].m_pWidget;
-			else
-				otherWidget = assocwidget2->m_role[other].m_pWidget;
+			UMLWidget * otherWidget = assocwidget2->m_role[other].m_pWidget;
 			if (ownWidget == otherWidget) {
 #ifdef DEBUG_ASSOCLINES
 				kdDebug() << "skipping (ownWidget == otherWidget)" << endl;
