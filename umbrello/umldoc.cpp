@@ -628,12 +628,12 @@ void UMLDoc::deleteContents() {
 		if (m_objectList.count() > 0) {
 			// clear our object list. We do this explicitly since setAutoDelete is false for the objectList now.
 			for(UMLObject * obj = m_objectList.first(); obj != 0; obj = m_objectList.next())
-				obj->deleteLater();
+				; //obj->deleteLater();
 			m_objectList.clear();
 		}
 		if (m_stereoList.count() > 0) {
 			for (UMLStereotype *s = m_stereoList.first(); s; s = m_stereoList.next())
-				s->deleteLater();
+				; //s->deleteLater();
 			m_stereoList.clear();
 		}
 	}
