@@ -115,7 +115,7 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a)
 
 	m_pTypeCB->setDuplicatesEnabled(false);//only allow one of each type in box
 	m_pTypeCB->setEditable(true);
-	m_pTypeCB->setAutoCompletion(true);
+	m_pTypeCB->setAutoCompletion(false);
 
 	//now add the Concepts
 	UMLClassifierList namesList( m_pUmldoc->getConcepts() );
