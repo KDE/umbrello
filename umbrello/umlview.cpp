@@ -167,7 +167,6 @@ UMLDoc* UMLView::getDocument() const {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLView::print(KPrinter *pPrinter, QPainter & pPainter) {
 	int height, width;
-	int offsetX = 0, offsetY = 0, widthX = 0, heightY = 0;
 	//get the size of the page
 	QPaintDeviceMetrics metrics(pPrinter);
 	QFontMetrics fm = pPainter.fontMetrics(); // use the painter font metrics, not the screen fm!
@@ -193,6 +192,8 @@ void UMLView::print(KPrinter *pPrinter, QPainter & pPainter) {
 	QRect rect = getDiagramRect();
 	//now draw to printer
 
+#if 0
+	int offsetX = 0, offsetY = 0, widthX = 0, heightY = 0;
 	// respect the margin
 	pPainter.translate(marginX, marginY);
 
@@ -241,6 +242,64 @@ void UMLView::print(KPrinter *pPrinter, QPainter & pPainter) {
 			}
 		}
 	}
+#else
+	// be gentle - as described in Qt-Doc "The Coordinate System"
+	pPainter.save();
+
+	int diagramHeight = rect.height();
+	// + 4+fontHeight between diagram and footline as space-buffer
+	// + 2            between line and foot-text
+	// + 1            for foot-line
+	// + fontHeight   for foot-text
+	// ==============
+	// (2*fontHeight) + 7
+	int footHeight = (2*fontHeight) + 7;
+	int footTop    = rect.y() + diagramHeight  + 4+fontHeight;
+	int drawHeight = diagramHeight  + footHeight;
+
+	// set window of painter to dimensions of diagram
+	// set window to viewport relation so that x:y isn't changed
+	double dScaleX = (double)rect.width()/ (double)width;
+	double dScaleY = (double)drawHeight/ (double)height;
+	// select the scaling factor so that the larger dimension
+	// fits on the printer page -> use the larger scaling factor
+	// -> the virtual diagram window has some additional space at the
+	// shorter dimension
+	double dScaleUse = ( dScaleX > dScaleY )?dScaleX:dScaleY;
+
+	int windowWidth  = (int)ceil(dScaleUse*width);
+	int windowHeight = (int)ceil(dScaleUse*height);
+#ifdef DEBUG_PRINTING
+	kdDebug() << "drawHeight: " << drawHeight << ", width: " << rect.width()
+		<< "\nPageHeight: " << height << ", PageWidht: " << width
+		<< "\nScaleY: " << dScaleY << ", ScaleX: " << dScaleX
+		<< "\ndScaleUse: " << dScaleUse
+		<< "\nVirtualSize: Width: " << windowWidth << ", Height: " << windowHeight
+		<< "\nFoot Top: " << footTop
+		<< endl;
+#endif
+	// set virtual drawing area window - where diagram fits 100% in
+	pPainter.setWindow( rect.x(), rect.y(), windowWidth, windowHeight );
+
+	// set viewport - the physical mapping
+	// --> Qt's QPainter will map all drawed elements from diagram area ( window )
+	//     to printer area ( viewport )
+	pPainter.setViewport( marginX, marginY, width, height );
+
+	// get Diagram
+	getDiagram(QRect(rect.x(), rect.y(), windowWidth, diagramHeight), pPainter);
+
+	//draw foot note
+	QString string = i18n("Diagram: %2 Page %1").arg( 1).arg(getName());
+	QColor textColor(50, 50, 50);
+	pPainter.setPen(textColor);
+	pPainter.drawLine(rect.x(), footTop    , windowWidth, footTop);
+	pPainter.drawText(rect.x(), footTop + 3, windowWidth, fontHeight, AlignLeft, string);
+
+	// now restore scaling
+	pPainter.restore();
+
+#endif
 	// next painting will most probably be to a different device (i.e. the screen)
 	forceUpdateWidgetFontMetrics(0);
 }
