@@ -1,3 +1,5 @@
+# TODO: fix the problem
+KDE_OPTIONS = nofinal
 
 SUBDIRS = dialogs
 
