@@ -936,6 +936,12 @@ private:
 	 */
 	void initSaveTimer();
 
+	/**
+	 * Returns whether the given type is a classifierListItem
+	 * (attribute, operation, template, enumliteral or stereotype)
+	 */
+	bool objectTypeIsClassifierListItem(UMLObject_Type type);
+
 	CodeGenerator * m_currentcodegenerator;
 	UMLObjectList objectList;
 	int uniqueID;

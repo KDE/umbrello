@@ -1170,13 +1170,32 @@ void UMLDoc::removeDiagram(int id) {
 	}
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void UMLDoc::removeUMLObject(UMLObject *o) {
-	getDocWindow() -> updateDocumentation( true );
-	UMLObject_Type type = o->getBaseType();
-	if (type >= ot_Actor && type <= ot_Association) {
+void UMLDoc::removeUMLObject(UMLObject* umlobject) {
+	getDocWindow()->updateDocumentation(true);
+	UMLObject_Type type = umlobject->getBaseType();
+
+	if (objectTypeIsClassifierListItem(type))  {
+
+		UMLClassifier* parent = (UMLClassifier*)umlobject->parent();
+		emit sigObjectRemoved(umlobject);
+		if (type == ot_Operation) {
+			parent->removeOperation(dynamic_cast<UMLOperation*>(umlobject));
+		} else if (type == ot_Attribute) {
+			UMLClass* pClass = dynamic_cast<UMLClass*>(parent);
+			if (pClass)  {
+				pClass->removeAttribute(umlobject);
+			}
+		} else if (type == ot_Template) {
+			UMLClass* pClass = dynamic_cast<UMLClass*>(parent);
+			if (pClass)  {
+				pClass->removeTemplate((UMLTemplate*)umlobject);
+			}
+		}
+
+	} else {
 		if (type == ot_Association) {
 			// Remove the UMLAssociation at the concept that plays role B.
-			UMLAssociation *a = (UMLAssociation *)o;
+			UMLAssociation *a = (UMLAssociation *)umlobject;
 			Uml::Association_Type assocType = a->getAssocType();
 			int AId = a->getRoleAId();
 			int BId = a->getRoleBId();
@@ -1203,30 +1222,13 @@ void UMLDoc::removeUMLObject(UMLObject *o) {
 				}
 			}
 		}
-		UMLPackage *pkg = o->getUMLPackage();
-		if (pkg)
-			pkg->removeObject(o);
-		emit sigObjectRemoved(o);
-		objectList.remove(o);
-		setModified(true);
-		return;
+		UMLPackage* pkg = umlobject->getUMLPackage();
+		if (pkg)  {
+			pkg->removeObject(umlobject);
+		}
+		emit sigObjectRemoved(umlobject);
+		objectList.remove(umlobject);
 	}
-
-	//must be att or op
-	UMLClassifier *p = (UMLClassifier*)o->parent();
-	emit sigObjectRemoved(o);
-	if (type == ot_Operation) {
-		p->removeOperation(dynamic_cast<UMLOperation*>(o));
-	} else if (type == ot_Attribute) {
-		UMLClass *pClass = dynamic_cast<UMLClass *>(p);
-		if(pClass)
-			pClass->removeAttribute(o);
-	} else if (type == ot_Template) {
-		UMLClass *pClass = dynamic_cast<UMLClass *>(p);
-		if(pClass)
-			pClass->removeTemplate((UMLTemplate*)o);
-	}
-
 	setModified(true);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2339,6 +2341,15 @@ void UMLDoc::createDatatype(QString name)  {
 		createUMLObject(ot_Datatype, name);
 	}
 	listView->closeDatatypesFolder();
+}
+
+bool UMLDoc::objectTypeIsClassifierListItem(UMLObject_Type type)  {
+	if (type == ot_Attribute || type == ot_Operation || type == ot_Template
+	    || type == ot_EnumLiteral || type == ot_Stereotype)  {
+		return true;
+	} else {
+		return false;
+	}
 }
 
 #include "umldoc.moc"
