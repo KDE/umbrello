@@ -1576,7 +1576,6 @@ QPixmap & UMLListView::getPixmap( Icon_Type type ) {
 void UMLListView::loadPixmaps() {
 	KStandardDirs * dirs = KGlobal::dirs();
 	QString dataDir = dirs -> findResourceDir("data", "umbrello/pics/object.png");
-	kdDebug() << "datadir: " + dataDir << endl;
 	dataDir += "/umbrello/pics/";
 
 	m_Pixmaps.Home = BarIcon("folder_home");

@@ -533,8 +533,8 @@ void UMLListViewItem::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement itemElement = qDoc.createElement( "listitem" );
 	Uml::IDType id = getID();
 	QString idStr = ID2STR(id);
-	kdDebug() << "UMLListViewItem::saveToXMI: id = " << idStr
-		  << ", type = " << m_Type << endl;
+	//kdDebug() << "UMLListViewItem::saveToXMI: id = " << idStr
+	//	  << ", type = " << m_Type << endl;
 	if (id != Uml::id_None)
 		itemElement.setAttribute( "id", idStr );
 	itemElement.setAttribute( "type", m_Type );
