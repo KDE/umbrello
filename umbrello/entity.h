@@ -124,9 +124,11 @@ public:
 	 * the returned entityAttribute (or to delete the entityAttribute)
 	 *
 	 * @param  el entityAttribute to tkae
+	 * @param wasAtIndex	if given, the index in m_List of the item taken
+	 *			is returned in the int pointed-to.
 	 * @return pointer to the entityAttribute or null if not found.
 	 */
-	UMLEntityAttribute* takeEntityAttribute(UMLEntityAttribute* el);
+	UMLEntityAttribute* takeEntityAttribute(UMLEntityAttribute* el, int *wasAtIndex = NULL);
 
 	/**
 	 * Returns the number of entityAttributes for the class.

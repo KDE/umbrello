@@ -141,8 +141,10 @@ int UMLEnum::removeEnumLiteral(UMLObject* literal) {
 	return m_List.count();
 }
 
-UMLEnumLiteral* UMLEnum::takeEnumLiteral(UMLEnumLiteral* el) {
+UMLEnumLiteral* UMLEnum::takeEnumLiteral(UMLEnumLiteral* el, int *wasAtIndex) {
 	int index = m_List.findRef( el );
+	if (wasAtIndex)
+		*wasAtIndex = index;
 	el = (index == -1 ? 0 : dynamic_cast<UMLEnumLiteral*>(m_List.take( )));
 	if (el) {
 		emit enumLiteralRemoved(el);

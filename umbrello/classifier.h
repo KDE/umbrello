@@ -158,9 +158,11 @@ public:
 	 * the returned operation (or to delete the operation)
 	 *
 	 * @param  o operation to take
+	 * @param wasAtIndex	if given, the index in m_List of the item taken
+	 *			is returned in the int pointed-to.
 	 * @return pointer to the operation or null if not found.
 	 */
-	UMLOperation* takeOperation(UMLOperation* o);
+	UMLOperation* takeOperation(UMLOperation* o, int *wasAtIndex = NULL);
 
 	/**
 	 * counts the number of operations in the Classifier.
@@ -231,9 +233,11 @@ public:
 	 * the returned template (or to delete the template)
 	 *
 	 * @param t		template to take
+	 * @param wasAtIndex	if given, the index in m_List of the item taken
+	 *			is returned in the int pointed-to.
 	 * @return	pointer to the template or null if not found.
 	 */
-	UMLTemplate* takeTemplate(UMLTemplate* t);
+	UMLTemplate* takeTemplate(UMLTemplate* t, int *wasAtIndex = NULL);
 
 	/**
 	 * Seeks the template parameter of the given name.

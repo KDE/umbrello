@@ -154,8 +154,10 @@ int UMLEntity::removeEntityAttribute(UMLObject* literal) {
 	return m_List.count();
 }
 
-UMLEntityAttribute* UMLEntity::takeEntityAttribute(UMLEntityAttribute* el) {
+UMLEntityAttribute* UMLEntity::takeEntityAttribute(UMLEntityAttribute* el, int *wasAtIndex) {
 	int index = m_List.findRef( el );
+	if (wasAtIndex)
+		*wasAtIndex = index;
 	el = (index == -1 ? 0 : dynamic_cast<UMLEntityAttribute*>(m_List.take( )));
 	if (el) {
 		emit entityAttributeRemoved(el);

@@ -121,9 +121,11 @@ public:
 	 * the returned enumliteral (or to delete the enumliteral)
 	 *
 	 * @param  el enumliteral to tkae
+	 * @param wasAtIndex	if given, the index in m_List of the item taken
+	 *			is returned in the int pointed-to.
 	 * @return pointer to the enumliteral or null if not found.
 	 */
-	UMLEnumLiteral* takeEnumLiteral(UMLEnumLiteral* el);
+	UMLEnumLiteral* takeEnumLiteral(UMLEnumLiteral* el, int *wasAtIndex = NULL);
 
 	/**
 	 * Returns the number of enumliterals for the class.

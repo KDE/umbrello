@@ -117,9 +117,11 @@ public:
 	 * the returned attribute (or to delete the attribute)
 	 *
 	 * @param  a		attribute to take
+	 * @param wasAtIndex	if given, the index in m_List of the item taken
+	 *			is returned in the int pointed-to.
 	 * @return	pointer to the attribute or null if not found.
 	 */
-	UMLAttribute* takeAttribute(UMLAttribute* a);
+	UMLAttribute* takeAttribute(UMLAttribute* a, int *wasAtIndex = NULL);
 
 	/**
 	 * Returns the number of attributes for the class.

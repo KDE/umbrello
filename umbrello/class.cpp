@@ -149,8 +149,10 @@ int UMLClass::removeAttribute(UMLObject* a) {
 	return m_List.count();
 }
 
-UMLAttribute* UMLClass::takeAttribute(UMLAttribute* a) {
+UMLAttribute* UMLClass::takeAttribute(UMLAttribute* a, int *wasAtIndex) {
 	int index = m_List.findRef( a );
+	if (wasAtIndex)
+		*wasAtIndex = index;
 	UMLAttribute *retval = NULL;
 	if (index != -1)
 		retval = dynamic_cast<UMLAttribute*>(m_List.take( ));
