@@ -145,7 +145,8 @@ QString CodeParameter::getID () {
 		UMLAssociation *assoc = role->getParentAssociation();
         	return QString::number(assoc->getID());
 	} else
-        	return QString::number(getParentObject()->getID());
+        	return QString::number(m_parentObject->getID());
+
 }
 
 // Other methods

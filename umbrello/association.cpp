@@ -187,6 +187,7 @@ bool UMLAssociation::loadFromXMI( QDomElement & element ) {
 
 	UMLDoc * doc = UMLApp::app()->getDocument();
 	if (m_AssocType == Uml::at_Generalization) {
+
 		QString roleAIdStr = element.attribute( "child", "-1" );
 		if (roleAIdStr == "-1") {
 			kdError() << "UMLAssociation::loadFromXMI: "
@@ -199,6 +200,8 @@ bool UMLAssociation::loadFromXMI( QDomElement & element ) {
 				  << "parent not given or illegal" << endl;
 			return false;
 		}
+
+		// set umlobjects of roles
 		UMLObject *objA, *objB;
 		if (roleAIdStr.contains(QRegExp("\\D")))
 			objA = doc->findObjectByIdStr(roleAIdStr);
@@ -210,6 +213,7 @@ bool UMLAssociation::loadFromXMI( QDomElement & element ) {
 			return false;
 		}
 		getUMLRoleA()->setObject(objA);
+
 		if (roleBIdStr.contains(QRegExp("\\D")))
 			objB = doc->findObjectByIdStr(roleBIdStr);
 		else
@@ -220,11 +224,28 @@ bool UMLAssociation::loadFromXMI( QDomElement & element ) {
 			return false;
 		}
 		getUMLRoleB()->setObject(objB);
+
+		// setting the association type:
+                //
+                // In the old days, we could just record this on the association,
+                // and be done with it. But thats not how the UML13.dtd does things.
+                // As a result, we are checking roleA for information about the
+                // parent association (!) which by this point in the parse, should
+                // be set. However, the information that the roles are allowed to have
+                // is not complete, so we need to finish the analysis here.
+
+/*
 		if (objA->getBaseType() == Uml::ot_Class &&
 		    objB->getBaseType() == Uml::ot_Interface)
+*/
+		// its a realization if either endpoint is an interface
+		if (objA->getBaseType() == Uml::ot_Interface ||
+		    objB->getBaseType() == Uml::ot_Interface)
 			m_AssocType = Uml::at_Realization;
+
 		return true;
 	}
+
 	QDomNode node = element.firstChild();
 	if (!node.isNull()) {
 		// uml13.dtd compliant format (new style)
@@ -246,11 +267,11 @@ bool UMLAssociation::loadFromXMI( QDomElement & element ) {
 		node = tempElement.firstChild();
 		tempElement = node.toElement();
 		if (tempElement.isNull()) {
-			kdWarning() << "UML:AssociationEnd: element (A) is Null" << endl;
+			kdWarning() << "UML:Association : element (A) is Null" << endl;
 			return false;
 		}
 		tag = tempElement.tagName();
-		if (tag != "UML:AssociationEnd") {
+		if (tag != "UML:AssociationEndRole" && tag != "UML:AssociationEnd") {
 			kdWarning() << "UMLAssociation::loadFromXMI: "
 				    << "unknown child (A) tag " << tag << endl;
 			return false;
@@ -261,21 +282,40 @@ bool UMLAssociation::loadFromXMI( QDomElement & element ) {
 		node = node.nextSibling();
 		tempElement = node.toElement();
 		if (tempElement.isNull()) {
-			kdWarning() << "UML:AssociationEnd: element (B) is Null" << endl;
+			kdWarning() << "UML:Association : element (B) is Null" << endl;
 			return false;
 		}
 		tag = tempElement.tagName();
-		if (tag != "UML:AssociationEnd") {
+		if (tag != "UML:AssociationEndRole" && tag != "UML:AssociationEnd") {
 			kdWarning() << "UMLAssociation::loadFromXMI: "
 				    << "unknown child (B) tag " << tag << endl;
 			return false;
 		}
 		if (! getUMLRoleB()->loadFromXMI(tempElement))
 			return false;
-		if (getRoleAId() == getRoleBId()) { //CHECK: Is this the right criterion for inferring
-						    // self association?
+
+		// setting the association type:
+		//
+		// In the old days, we could just record this on the association,
+		// and be done with it. But thats not how the UML13.dtd does things.
+		// As a result, we are checking roleA for information about the 
+		// parent association (!) which by this point in the parse, should
+		// be set. However, the information that the roles are allowed to have
+		// is not complete, so we need to finish the analysis here.
+
+		// find self-associations
+		if(getAssocType() == Uml::at_Association && getRoleAId() == getRoleBId()) 
 			m_AssocType = Uml::at_Association_Self;
+
+		// fall-back default type
+		if(getAssocType() == Uml::at_Unknown)
+		{
+			m_AssocType = Uml::at_Association;
+			// Q: is this truely a warning condition? Do state diagrams store
+			// stuff this way (for example)?
+			kdWarning()<<" Warning: loadFromXMI can't determine association type, setting to 'plain' association"<<endl;
 		}
+
 		return true;
 	}
 
@@ -412,6 +452,12 @@ UMLRole * UMLAssociation::getUMLRoleB() {
 
 void UMLAssociation::setAssocType(Uml::Association_Type assocType) {
 	m_AssocType = assocType;
+	if(m_AssocType == at_UniAssociation) 
+	{
+		// In this case we need to auto-set the multiplicity/rolenames 
+		// of the roles
+		kdWarning()<<" A new uni-association has been created. Shame on you."<<endl;
+	}
 	emit modified();
 }
 
@@ -501,13 +547,12 @@ void UMLAssociation::init(UMLDoc * parent, Association_Type type, UMLObject *rol
 	m_AssocType = type;
 	m_BaseType = ot_Association;
 	m_Name = "";
-	nrof_parent_widgets = 0;
+	nrof_parent_widgets = -1;
 
 	m_pRoleA = new UMLRole (this, roleAObj, 1);
 	m_pRoleB = new UMLRole (this, roleBObj, 0);
 
 	parentDoc = parent; 
-	parentDoc->addAssociation(this);
 
 }
 

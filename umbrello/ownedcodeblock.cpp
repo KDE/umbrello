@@ -33,13 +33,19 @@ OwnedCodeBlock::OwnedCodeBlock ( UMLObject * parent )
 	initFields(parent);
 }
 
-OwnedCodeBlock::~OwnedCodeBlock ( ) { }
+OwnedCodeBlock::~OwnedCodeBlock ( ) { 
+/*
+	if(m_parentObject)
+		m_parentObject->disconnect(this);
+*/
+}
 
 //
 // Methods
 //
 
 void OwnedCodeBlock::release () {
+	if(m_parentObject)
 	m_parentObject->disconnect(this);
 	m_parentObject = 0;
 }
@@ -139,13 +145,13 @@ void OwnedCodeBlock::setAttributesFromNode ( QDomElement & elem) {
 			}
 
 	                // init using UMLRole obj
-			initFields ( role ); // just the regular approach
+			initFields ( role ); 
 	        } else
 			initFields ( obj); // just the regular approach
 
 	}
 	else
-		kdError()<<"CANT LOAD OWNEDCODEBLOCK: parentUMLObject w/id:"<<id<<" not found, corrupt save file?"<<endl;
+		kdError()<<"ERROR: can't load ownedcodeblock: parentUMLObject w/id:"<<id<<" not found, corrupt save file?"<<endl;
 
 }
 
@@ -159,7 +165,6 @@ void OwnedCodeBlock::initFields(UMLObject * parent )
         // signals a change has been made, we automatically update
         // ourselves
         connect(m_parentObject, SIGNAL(modified()), this, SLOT(syncToParent()));
-
 }
 
 /**

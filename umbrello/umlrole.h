@@ -42,7 +42,7 @@ public:
 	/**
 	 * Standard deconstructor.
 	 */
-	~UMLRole() { }
+	virtual ~UMLRole();
 
 	/**
 	 * Returns the UMLObject assigned to the role.

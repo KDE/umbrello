@@ -190,7 +190,7 @@ bool UMLWidget::operator==(const UMLWidget& other) {
 }
 
 void UMLWidget::setID(int id) {
-	kdWarning()<<"UMLWidget::setID(int id) called!"<<endl;
+	// kdWarning()<<"UMLWidget::setID(int id) called!"<<endl;
 	if (m_pObject)
 		m_pObject->setID( id );
 	m_nId = id;

@@ -52,16 +52,17 @@ CodeClassField::~CodeClassField ( ) {
 	QPtrList<CodeAccessorMethod> list = m_methodVector;
 	for(CodeAccessorMethod * m = list.first(); m ; m=list.next())
 	{
-		//removeMethod(m);
-		m->release(); 
+		getParentDocument()->removeTextBlock(m);
+		m->forceRelease(); 
 	}
 	list.clear();
 
 	// clear the decl block from parent text block list too
 	if(m_declCodeBlock)
 	{
-		//getParentDocument()->removeTextBlock(m_declCodeBlock);
-		m_declCodeBlock->release(); 
+		getParentDocument()->removeTextBlock(m_declCodeBlock);
+		m_declCodeBlock->forceRelease(); 
+		m_declCodeBlock = 0;
 	}
 
 }
@@ -508,6 +509,7 @@ void CodeClassField::updateContent()
                         // first off, some accessor methods wont appear if its a singleValue 
 			// role and vice-versa
                         if(isSingleValue)
+			{
 				switch(type) {
 					case CodeAccessorMethod::SET:
                         			// SET method true ONLY IF changeability is NOT Frozen
@@ -526,7 +528,9 @@ void CodeClassField::updateContent()
 						method->setWriteOutText(false);
 						break;
 				}
+			}
 			else
+			{
 				switch(type) {
 					// get/set always false
 					case CodeAccessorMethod::GET:
@@ -552,6 +556,7 @@ void CodeClassField::updateContent()
 						method->setWriteOutText(true);
 						break;
 				}
+			}
 
 
                 }
@@ -594,7 +599,7 @@ void CodeClassField::initFields ( ) {
 	updateContent();
 
 	connect(getParentObject(),SIGNAL(modified()),this,SIGNAL(modified())); // child objects will trigger off this signal
-	// m_dialog = new CodeClassFieldDialog( );
+
 }
 
 #include "codeclassfield.moc"

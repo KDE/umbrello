@@ -243,6 +243,7 @@ void JavaCodeGenerator::createDefaultDatatypes() {
 	m_document->createDatatype("double");
 	m_document->createDatatype("byte");
 	m_document->createDatatype("short");
+	m_document->createDatatype("string");
 }
 
 #include "javacodegenerator.moc"
