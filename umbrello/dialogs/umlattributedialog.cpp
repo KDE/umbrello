@@ -150,7 +150,11 @@ bool UMLAttributeDialog::apply() {
 		m_pAttribute->setScope(Uml::Protected);
 	}
 
-	m_pAttribute->setTypeName( m_pTypeCB->currentText() );
+	QString typeName = m_pTypeCB->currentText();
+	// TODO: The type of UMLAttributes is just a "passive" string.
+	// UMLAttribute should be enhanced to give the user the choice
+	// of referencing existing UMLClassifiers instead.
+	m_pAttribute->setTypeName( typeName );
 	m_pAttribute->setInitialValue( m_pInitialLE->text() );
 	QString name = m_pNameLE->text();
 	if( name.length() == 0 ) {
@@ -170,7 +174,9 @@ bool UMLAttributeDialog::apply() {
 	m_pAttribute->setName(name);
 	m_pAttribute->setStatic( m_pStaticCB->isChecked() );
 
-	UMLApp::app()->getDocument()->createDatatype( m_pTypeCB->currentText() );
+	UMLDoc *umldoc = UMLApp::app()->getDocument();
+	if (umldoc->findUMLObject(typeName) == NULL)
+		umldoc->createDatatype( m_pTypeCB->currentText() );
 
 	return true;
 }
