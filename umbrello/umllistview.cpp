@@ -42,6 +42,7 @@
 #include "entity.h"
 #include "docwindow.h"
 #include "listpopupmenu.h"
+#include "template.h"
 #include "operation.h"
 #include "attribute.h"
 #include "uml.h"
@@ -56,6 +57,7 @@
 #include "dialogs/classpropdlg.h"
 #include "dialogs/umlattributedialog.h"
 #include "dialogs/umloperationdialog.h"
+#include "dialogs/umltemplatedialog.h"
 
 class LVToolTip : public QToolTip
 {
@@ -398,13 +400,18 @@ void UMLListView::popupMenuSel(int sel) {
 			m_doc->showProperties(object, ClassPropDlg::page_gen);
 		} else if(umlType == Uml::ot_Attribute) {
 			// show the attribute dialogue
-			UMLAttribute* selectedAttribute = (UMLAttribute*)object;
+			UMLAttribute* selectedAttribute = static_cast<UMLAttribute*>(object);
 			UMLAttributeDialog dialogue( this, selectedAttribute );
 			dialogue.exec();
 		} else if(umlType == Uml::ot_Operation) {
 			// show the operation dialogue
-			UMLOperation* selectedOperation = (UMLOperation*)object;
+			UMLOperation* selectedOperation = static_cast<UMLOperation*>(object);
 			UMLOperationDialog dialogue( this, selectedOperation );
+			dialogue.exec();
+		} else if(umlType == Uml::ot_Template) {
+			// show the template dialogue
+			UMLTemplate* selectedTemplate = static_cast<UMLTemplate*>(object);
+			UMLTemplateDialog dialogue( this, selectedTemplate );
 			dialogue.exec();
 		} else {
 			kdWarning() << "calling properties on unknown type" << endl;
@@ -1484,6 +1491,10 @@ Uml::Object_Type UMLListView::convert_LVT_OT(Uml::ListView_Type lvt) {
 		ot = Uml::ot_Entity;
 		break;
 
+	case Uml::lvt_EntityAttribute:
+		ot = Uml::ot_EntityAttribute;
+		break;
+
 	case Uml::lvt_Attribute:
 		ot = Uml::ot_Attribute;
 		break;
@@ -1495,6 +1506,7 @@ Uml::Object_Type UMLListView::convert_LVT_OT(Uml::ListView_Type lvt) {
 	case Uml::lvt_Template:
 		ot = Uml::ot_Template;
 		break;
+
 	default:
 		break;
 	}
