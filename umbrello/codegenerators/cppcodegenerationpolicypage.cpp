@@ -11,7 +11,6 @@
  *      Author : thomas
  *      Date   : Wed Jul 30 2003
  */
-#include <iostream.h>
 
 #include <kdebug.h>
 #include <klocale.h>
