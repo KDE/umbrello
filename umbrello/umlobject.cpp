@@ -194,7 +194,7 @@ bool UMLObject::getStatic() const
 	return m_bStatic;
 }
 /** Sets the value for m_bStatic. */
-void UMLObject::setStatic(const bool bStatic)
+void UMLObject::setStatic(bool bStatic)
 {
 	m_bStatic = bStatic;
 	emit modified();

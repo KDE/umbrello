@@ -190,7 +190,8 @@ bool UMLAssociation::load( QDomElement & element ) {
 				if (Umbrello::isCommonXMIAttribute(tag))
 					continue;
 				bool isGeneralization = (m_AssocType == Uml::at_Generalization &&
-							 (tagEq(tag, "child") || tagEq(tag, "parent")));
+							 (tagEq(tag, "child") || tagEq(tag, "parent") ||
+							  tagEq(tag, "subtype") || tagEq(tag, "supertype")));
 				bool isDependency = (m_AssocType == Uml::at_Dependency &&
 						     (tagEq(tag, "client") || tagEq(tag, "supplier")));
 				if (!isGeneralization && !isDependency)
@@ -213,7 +214,7 @@ bool UMLAssociation::load( QDomElement & element ) {
 				}
 				// Since we know for sure that we're dealing with a non
 				// umbrello file, use deferred resolution unconditionally.
-				if (tagEq(tag, "child") || tagEq(tag, "client")) {
+				if (tagEq(tag, "child") || tagEq(tag, "subtype") || tagEq(tag, "client")) {
 					getUMLRole(A)->setIdStr(idStr);
 				} else {
 					getUMLRole(B)->setIdStr(idStr);

@@ -260,7 +260,7 @@ protected:
 	 */
 	static const Uml::Association_Type atypeFirst;
 	static const Uml::Association_Type atypeLast;
-	static const unsigned nAssocTypes;
+	static const unsigned int nAssocTypes;
 	static const QString assocTypeStr[];
 
 	UMLRole * m_pRole[2];

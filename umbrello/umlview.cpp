@@ -3463,17 +3463,108 @@ void UMLView::addObject(UMLObject *object)
 	m_pDoc->addObject(object);
 }
 
-bool UMLView::uisLoadFromXMI(QDomElement & qElement) {
+bool UMLView::loadUisDiagramPresentation(QDomElement & qElement) {
+	for (QDomNode node = qElement.firstChild(); !node.isNull(); node = node.nextSibling()) {
+		QDomElement elem = node.toElement();
+		QString tag = elem.tagName();
+		if (! Uml::tagEq(tag, "Presentation")) {
+			kdError() << "ignoring unknown UisDiagramPresentation tag "
+				  << tag << endl;
+			continue;
+		}
+		QDomNode n = elem.firstChild();
+		QDomElement e = n.toElement();
+		QString idStr;
+		int x = 0, y = 0, w = 0, h = 0;
+		while (!e.isNull()) {
+			tag = e.tagName();
+			kdDebug() << "Presentation: tag = " << tag << endl;
+			if (Uml::tagEq(tag, "Presentation.geometry")) {
+				QDomNode gnode = e.firstChild();
+				QDomElement gelem = gnode.toElement();
+				QString csv = gelem.text();
+				QStringList dim = QStringList::split(",", csv);
+				x = dim[0].toInt();
+				y = dim[1].toInt();
+				w = dim[2].toInt();
+				h = dim[3].toInt();
+			} else if (Uml::tagEq(tag, "Presentation.style")) {
+				// TBD
+			} else if (Uml::tagEq(tag, "Presentation.model")) {
+				QDomNode mnode = e.firstChild();
+				QDomElement melem = mnode.toElement();
+				idStr = melem.attribute("xmi.idref", "");
+			} else {
+				kdDebug() << "UMLView::uisLoadFromXMI: ignoring tag "
+					  << tag << endl;
+			}
+			n = n.nextSibling();
+			e = n.toElement();
+		}
+		Uml::IDType id = STR2ID(idStr);
+		UMLObject *o = m_pDoc->findObjectById(id);
+		if (o == NULL) {
+			kdError() << "UMLView::uisLoadFromXMI: Cannot find object for id "
+				  << idStr << endl;
+		} else {
+			Uml::Object_Type ot = o->getBaseType();
+			kdDebug() << "Create widget for model object of type "
+				  << ot << endl;
+			UMLWidget *widget = NULL;
+			switch (ot) {
+				case Uml::ot_Class:
+					widget = new ClassWidget(this, static_cast<UMLClass*>(o));
+					break;
+				case Uml::ot_Association:
+				{
+					UMLAssociation *umla = static_cast<UMLAssociation*>(o);
+					Uml::Association_Type at = umla->getAssocType();
+					UMLObject* objA = umla->getObject(Uml::A);
+					UMLObject* objB = umla->getObject(Uml::B);
+					if (objA == NULL || objB == NULL) {
+						kdError() << "intern err 1" << endl;
+						return false;
+					}
+					UMLWidget *wA = findWidget(objA->getID());
+					UMLWidget *wB = findWidget(objB->getID());
+					if (wA != NULL && wB != NULL) {
+						AssociationWidget *aw =
+						    new AssociationWidget(this, wA, at, wB);
+						m_AssociationList.append(aw);
+					} else {
+						kdError() << "cannot create assocwidget from ("
+							  << wA << ", " << wB << ")" << endl;
+					}
+					break;
+				}
+				default:
+					kdError() << "UMLView::uisLoadFromXMI: "
+						  << "Cannot create widget of type "
+						  << ot << endl;
+			}
+			if (widget) {
+				kdDebug() << "Widget: x=" << x << ", y=" << y
+					  << ", w=" << w << ", h=" << h << endl;
+				widget->setX(x);
+				widget->setY(y);
+				widget->setSize(w, h);
+				m_WidgetList.append(widget);
+			}
+		}
+	}
+}
+
+bool UMLView::loadUISDiagram(QDomElement & qElement) {
 	QString idStr = qElement.attribute( "xmi.id", "" );
 	if (idStr.isEmpty())
 		return false;
 	m_nID = STR2ID(idStr);
 	UMLListViewItem *ulvi = NULL;
-	QDomNode node = qElement.firstChild();
-	QDomElement elem = node.toElement();
-	QString tag;
-	while (!elem.isNull()) {
-		tag = elem.tagName();
+	for (QDomNode node = qElement.firstChild(); !node.isNull(); node = node.nextSibling()) {
+		if (node.isComment())
+			continue;
+		QDomElement elem = node.toElement();
+		QString tag = elem.tagName();
 		if (tag == "uisDiagramName") {
 			m_Name = elem.text();
 			if (ulvi)
@@ -3483,10 +3574,6 @@ bool UMLView::uisLoadFromXMI(QDomElement & qElement) {
 			if (diagramStyle != "ClassDiagram") {
 				kdError() << "UMLView::uisLoadFromXMI: diagram style " << diagramStyle
 					  << " is not yet implemented" << endl;
-				node = node.nextSibling();
-				while (node.isComment())
-					node = node.nextSibling();
-				elem = node.toElement();
 				continue;
 			}
 			m_pDoc->setMainViewID(m_nID);
@@ -3495,74 +3582,11 @@ bool UMLView::uisLoadFromXMI(QDomElement & qElement) {
 			ulvi = new UMLListViewItem( lv->theLogicalView(), m_Name,
 						    Uml::lvt_Class_Diagram, m_nID );
 		} else if (tag == "uisDiagramPresentation") {
-			node = elem.firstChild();
-			elem = node.toElement();
-		} else if (Uml::tagEq(tag, "Presentation")) {
-			QDomNode n = elem.firstChild();
-			QDomElement e = n.toElement();
-			idStr = "";
-			int x = 0, y = 0, w = 0, h = 0;
-			while (!e.isNull()) {
-				tag = e.tagName();
-				kdDebug() << "Presentation: tag = " << tag << endl;
-				if (Uml::tagEq(tag, "Presentation.geometry")) {
-					QDomNode gnode = e.firstChild();
-					QDomElement gelem = gnode.toElement();
-					QString csv = gelem.text();
-					QStringList dim = QStringList::split(",", csv);
-					x = dim[0].toInt();
-					y = dim[1].toInt();
-					w = dim[2].toInt();
-					h = dim[3].toInt();
-				} else if (Uml::tagEq(tag, "Presentation.style")) {
-					// TBD
-				} else if (Uml::tagEq(tag, "Presentation.model")) {
-					QDomNode mnode = e.firstChild();
-					QDomElement melem = mnode.toElement();
-					idStr = melem.attribute("xmi.idref", "");
-				} else {
-					kdDebug() << "UMLView::uisLoadFromXMI: ignoring tag "
-						  << tag << endl;
-				}
-				n = n.nextSibling();
-				e = n.toElement();
-			}
-			Uml::IDType id = STR2ID(idStr);
-			UMLObject *o = m_pDoc->findObjectById(id);
-			if (o == NULL) {
-				kdError() << "UMLView::uisLoadFromXMI: Cannot find object for id "
-					  << idStr << endl;
-			} else {
-				Uml::Object_Type ot = o->getBaseType();
-				kdDebug() << "Create widget for model object of type "
-					  << ot << endl;
-				UMLWidget *widget = NULL;
-				switch (ot) {
-					case Uml::ot_Class:
-						widget = new ClassWidget(this, static_cast<UMLClass*>(o));
-						break;
-					default:
-						kdError() << "UMLView::uisLoadFromXMI: "
-							  << "Cannot create widget of type "
-							  << ot << endl;
-				}
-				if (widget) {
-					kdDebug() << "Widget: x=" << x << ", y=" << y
-						  << ", w=" << w << ", h=" << h << endl;
-					widget->setX(x);
-					widget->setY(y);
-					widget->setSize(w, h);
-					m_WidgetList.append(widget);
-				}
-			}
+			loadUisDiagramPresentation(elem);
 		} else if (tag != "uisToolName") {
 			kdDebug() << "UMLView::uisLoadFromXMI: ignoring tag "
 				  << tag << endl;
 		}
-		node = node.nextSibling();
-		if (node.isComment())
-			node = node.nextSibling();
-		elem = node.toElement();
 	}
 	return true;
 }

@@ -286,7 +286,7 @@ public:
 	/**
 	 * Sets the value for m_bStatic.
 	 */
-	void setStatic(const bool bStatic);
+	void setStatic(bool bStatic);
 
 	/**
 	 * This should be reimplemented by subclasses if they wish to

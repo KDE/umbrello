@@ -2177,9 +2177,14 @@ void UMLDoc::loadExtensionsFromXMI(QDomNode& node) {
 
 	} else if (tag == "diagrams" || tag == "UISModelElement") {
 		QDomNode diagramNode = node.firstChild();
-		if (tag == "UISModelElement") {                  // Unisys.JCR.1
-			kdDebug() << "encountering a UISModelElement" << endl;
-			diagramNode = diagramNode.firstChild();  // uisOwnedDiagram
+		if (tag == "UISModelElement") {          // Unisys.IntegratePlus.2
+			element = diagramNode.toElement();
+			tag = element.tagName();
+			if (tag != "uisOwnedDiagram") {
+				kdError() << "unknown child node " << tag << endl;
+				return;
+			}
+			diagramNode = diagramNode.firstChild();
 		}
 		if( !loadDiagramsFromXMI( diagramNode ) ) {
 			kdWarning() << "failed load on diagrams" << endl;
@@ -2264,7 +2269,7 @@ bool UMLDoc::loadDiagramsFromXMI( QDomNode & node ) {
 			pView -> setOptionState( state );
 			bool success = false;
 			if (tag == "UISDiagram") {
-				success = pView->uisLoadFromXMI(element);
+				success = pView->loadUISDiagram(element);
 			} else {
 				success = pView->loadFromXMI(element);
 			}

@@ -828,7 +828,7 @@ public:
 	/**
 	 * Loads the <UISDiagram> tag of Unisys.JCR.1 generated files.
 	 */
- 	bool uisLoadFromXMI(QDomElement & qElement);
+ 	bool loadUISDiagram(QDomElement & qElement);
 
 	/**
 	 * Loads a <widget> element such as <UML:Class>, used by loadFromXMI() and the clipboard.
@@ -861,6 +861,8 @@ protected:
 	bool loadMessagesFromXMI( QDomElement & qElement );
 
 	bool loadAssociationsFromXMI( QDomElement & qElement );
+
+	bool loadUisDiagramPresentation(QDomElement & qElement);
 
 	/**
 	 * Contains the unique ID to allocate to a widget that needs an
