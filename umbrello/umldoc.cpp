@@ -1773,7 +1773,7 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
 				uniqueID = uniqueid.toInt();
 				getDocWindow() -> newDocumentation();
 			} else if( tag == "umlobjects"  // for bkwd compat.
-			         || tag == "UML:Model" ) {
+			         || tagEq(tag, "Model") ) {
 				emit sigResetStatusbarProgress();
 				emit sigSetStatusbarProgress( 0 );
 				emit sigSetStatusbarProgressSteps( 10 );
@@ -1849,12 +1849,21 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element) {
 
 	while ( !tempElement.isNull() ) {
 		QString type = tempElement.tagName();
-		if (type == "UML:Namespace.ownedElement") {
+		if (tagEq(type, "Namespace.ownedElement") ||
+		    tagEq(type, "Namespace.contents")) {
 			//CHECK: Umbrello currently assumes that nested elements
 			// are ownedElements anyway.
 			// Therefore the <UML:Namespace.ownedElement> tag is of no
 			// significance.
 			loadUMLObjectsFromXMI(tempElement);
+			node = node.nextSibling();
+			tempElement = node.toElement();
+			continue;
+		} else if (tagEq(type, "name") || tagEq(type, "isSpecification") ||
+			   tagEq(type, "isRoot") || tagEq(type, "isLeaf") ||
+			   tagEq(type, "isAbstract")) {
+			kdDebug() << "UMLDoc::loadUMLObjectsFromXMI: skipping tag "
+				  << type << endl;
 			node = node.nextSibling();
 			tempElement = node.toElement();
 			continue;
@@ -1869,7 +1878,7 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element) {
 			continue;
 		}
 		bool status = pObject -> loadFromXMI( tempElement );
-		if (type == "UML:Association" || type == "UML:Generalization") {
+		if (tagEq(type, "Association") || tagEq(type, "Generalization")) {
 			if ( !status ) {
 				// Some interim umbrello versions saved empty UML:Associations,
 				// thus we tolerate problems loading them.
@@ -1890,7 +1899,7 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element) {
 
 		// Now, we need to add all the UMLObjects held by the package
 		// should it have any.
-		if (type == "UML:Package") {
+		if (tagEq(type, "Package")) {
 			UMLObjectList oList = ((UMLPackage*) pObject)->containedObjects();
 			for (UMLObject * obj = oList.first(); obj != 0; obj = oList.next())
 				objectList.append(obj);
@@ -1905,30 +1914,30 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLObject* UMLDoc::makeNewUMLObject(QString type) {
 	UMLObject* pObject = 0;
-	if (type == "UML:UseCase") {
+	if (tagEq(type, "UseCase")) {
 		pObject = new UMLUseCase();
-	} else if (type == "UML:Actor") {
+	} else if (tagEq(type, "Actor")) {
 		pObject = new UMLActor();
-	} else if (type == "UML:Class") {
+	} else if (tagEq(type, "Class")) {
 		pObject = new UMLClass();
-	} else if (type == "UML:Package") {
+	} else if (tagEq(type, "Package")) {
 		pObject = new UMLPackage();
-	} else if (type == "UML:Component") {
+	} else if (tagEq(type, "Component")) {
 		pObject = new UMLComponent();
-	} else if (type == "UML:Node") {
+	} else if (tagEq(type, "Node")) {
 		pObject = new UMLNode();
-	} else if (type == "UML:Artifact") {
+	} else if (tagEq(type, "Artifact")) {
 		pObject = new UMLArtifact();
-	} else if (type == "UML:Interface") {
+	} else if (tagEq(type, "Interface")) {
 		pObject = new UMLInterface();
-	} else if (type == "UML:Datatype"         // for bkwd compat.
-		|| type == "UML:DataType") {
+	} else if (tagEq(type, "Datatype")        // for bkwd compat.
+		|| tagEq(type, "DataType")) {
 		pObject = new UMLDatatype();
-	} else if (type == "UML:Enum") {
+	} else if (tagEq(type, "Enum")) {
 		pObject = new UMLEnum();
-	} else if (type == "UML:Association") {
+	} else if (tagEq(type, "Association")) {
 		pObject = new UMLAssociation(Uml::at_Unknown, (UMLObject*)NULL, (UMLObject*) NULL);
-	} else if (type == "UML:Generalization") {
+	} else if (tagEq(type, "Generalization")) {
 		pObject = new UMLAssociation(Uml::at_Generalization, NULL, NULL);
 	}
 	return pObject;

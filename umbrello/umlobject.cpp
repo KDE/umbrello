@@ -410,6 +410,41 @@ bool UMLObject::loadFromXMI( QDomElement & element ) {
 	}
 	/**** End of XMI_FLAT_PACKAGES and old files handling ****************/
 
+	// If the name is not set, let's check whether the attributes are saved
+	// as child nodes.
+	if (m_Name.isEmpty()) {
+		QDomNode node = element.firstChild();
+		QDomElement elem = node.toElement();
+		while( !elem.isNull() ) {
+			QString tag = elem.tagName();
+			if (tagEq(tag, "name")) {
+				m_Name = elem.attribute("xmi.value", "");
+				if (m_Name.isEmpty())
+					m_Name = elem.text();
+			} else if (tagEq(tag, "visibility")) {
+				QString vis = elem.attribute("xmi.value", "");
+				if (vis.isEmpty())
+					vis = elem.text();
+				if (vis == "private" || vis == "private_vis")
+					m_Scope = Uml::Private;
+				else if (vis == "protected" || vis == "protected_vis")
+					m_Scope = Uml::Protected;
+			} else if (tagEq(tag, "isAbstract")) {
+				QString isAbstract = elem.attribute("xmi.value", "");
+				if (isAbstract.isEmpty())
+					isAbstract = elem.text();
+				m_bAbstract = (isAbstract == "true");
+			} else if (tagEq(tag, "ownerScope")) {
+				QString ownerScope = elem.attribute("xmi.value", "");
+				if (ownerScope.isEmpty())
+					ownerScope = elem.text();
+				m_bStatic = (ownerScope == "classifier");
+			}
+			node = node.nextSibling();
+			elem = node.toElement();
+		}
+	}
+
 	if (m_pUMLPackage)
 		m_pUMLPackage->addObject(this);
 	umldoc->signalUMLObjectCreated(this);

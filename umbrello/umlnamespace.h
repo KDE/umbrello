@@ -10,6 +10,7 @@
 #ifndef UMLNAMESPACE_H
 #define UMLNAMESPACE_H
 
+#include <qstring.h>
 
 //uncomment for use with Luis' diagram code
 //namespace Umbrello
@@ -196,6 +197,11 @@ namespace Uml {
 	 */
 	enum Parameter_Kind { pk_In, pk_InOut, pk_Out };
 
-  }
+	/**
+	 * Function for comparing tags in XMI files.
+	 */
+	bool tagEq (QString tag, QString pattern);
+
+}
 
 #endif
