@@ -28,7 +28,7 @@
 #include <qpopupmenu.h>
 
 #include <typeinfo>
-#include <kstddirs.h>
+#include <kstandarddirs.h>
 #include <kiconloader.h>
 #include <klocale.h>
 #include <klineeditdlg.h>
