@@ -116,6 +116,8 @@ void ClassWidget::draw(QPainter & p, int offsetX, int offsetY) {
 		if (m_bShowStereotype && m_pObject->getStereotype().isEmpty() == false ) {
 			QFont f( UMLWidget::getFont() );
 			f.setBold( true );
+			//FIXME why is underline sometimes true
+			f.setUnderline( false );
 			p.setFont( f );
 			p.drawText(offsetX + MARGIN, bodyOffsetY, w-MARGIN * 2,fontHeight,AlignCenter, "«" + m_pObject -> getStereotype() + "»");
 			f.setItalic( m_pObject -> getAbstract() );
@@ -130,6 +132,7 @@ void ClassWidget::draw(QPainter & p, int offsetX, int offsetY) {
 		} else {
 			QFont f( UMLWidget::getFont() );
 			f.setBold( true );
+			f.setUnderline( false );
 			f.setItalic( m_pObject -> getAbstract() );
 			p.setFont( f );
 			p.drawText(offsetX + MARGIN, bodyOffsetY, w-MARGIN * 2,fontHeight,AlignCenter, name);

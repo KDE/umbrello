@@ -50,6 +50,8 @@ void PackageWidget::draw(QPainter & p, int offsetX, int offsetY) {
 	int h = height();
 	QFont font = UMLWidget::getFont();
 	font.setBold(true);
+	//FIXME italic is true when a package is first created until you click elsewhere, not sure why
+	font.setItalic(false);
 	QFontMetrics &fm = getFontMetrics(FT_BOLD);
 	int fontHeight  = fm.lineSpacing();
 	QString name = getName();

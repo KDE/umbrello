@@ -32,13 +32,13 @@ void InterfaceWidget::init() {
 	UMLWidget::setBaseType(wt_Interface);
 	m_pMenu = 0;
 	m_bDrawAsCircle = false;
-	
+
 	const SettingsDlg::OptionState& ops = m_pView->getOptionState();
 	m_bShowScope = ops.classState.showScope;
 	setShowOpSigs( ops.classState.showOpSig );
 	m_bShowOperations = ops.classState.showOps;
 	m_bShowPackage = ops.classState.showPackage;
-	
+
 	updateSigs();
 	initUMLObject( m_pObject );
 }
@@ -127,6 +127,8 @@ void InterfaceWidget::drawAsConcept(QPainter& p, int offsetX, int offsetY) {
 		   AlignCenter, "«" + m_pObject -> getStereotype() + "»");
 
 	font.setItalic( m_pObject -> getAbstract() );
+	//FIXME why is underline sometimes true
+	font.setUnderline( false );
 	p.setFont(font);
 	p.drawText(offsetX + INTERFACE_MARGIN, offsetY + fontHeight,
 		   w - INTERFACE_MARGIN * 2, fontHeight, AlignCenter, name);
