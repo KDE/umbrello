@@ -66,17 +66,26 @@ bool SeqLineWidget::onWidget( const QPoint & p ) {
 }
 
 void SeqLineWidget::mouseMoveEvent( QMouseEvent *me ) {
-	if( !m_bMouseDown )
-		return;
-	int dy = (int)me -> y() - m_nOffsetY - m_nOldY;
-	QPoint ep = endPoint();
-	int newY = (int)ep.y() + dy;
-	m_nOldY = newY;
-	QPoint sp = startPoint();
-	newY = newY < m_nMinY?m_nMinY:newY;
-	setPoints( sp.x(), sp.y(), sp.x(), newY );
-	m_nLengthY = newY - (int)m_pObject -> y() - m_pObject -> height();
-	moveDeconBox();
+	if( m_bMouseDown ) {
+		int dy = (int)me->y() - m_nOffsetY - m_nOldY;
+		QPoint ep = endPoint();
+		int newY = (int)ep.y() + dy;
+		m_nOldY = newY;
+		QPoint sp = startPoint();
+
+		if (newY < m_nMinY) {
+			newY = m_nMinY;
+		}
+
+		int maxY = m_pView->canvas()->height();
+		if (newY > maxY - 10) {
+			newY = maxY - 10;
+		}
+
+		setPoints( sp.x(), sp.y(), sp.x(), newY );
+		m_nLengthY = newY - (int)m_pObject->y() - m_pObject->height();
+		moveDeconBox();
+	}
 }
 
 void SeqLineWidget::mouseReleaseEvent( QMouseEvent * /*me*/ ) {
