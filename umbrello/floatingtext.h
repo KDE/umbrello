@@ -59,25 +59,6 @@ public:
 	virtual ~FloatingText();
 
 	/**
-	 * Called to set the position of the FloatingText.
-	 *
-	 * @param x	Vertical co-ordinate of the point.
-	 * @param y	Horizontal co-ordinate of the point.
-	 */
-	void setLinePos(int x, int y);
-
-	/**
-	 * Called to set the position of the FloatingText by the difference
-	 * between the two points.
-	 *
-	 * @param newX	The new X coordinate.
-	 * @param newY	The new Y coordinate.
-	 * @param oldX	The old X coordinate.
-	 * @param oldY	The old Y coordinate.
-	 */
-	void setLinePositionRelatively(int newX, int newY, int oldX, int oldY);
-
-	/**
 	 * Set the main body of text to display.
 	 *
 	 * @param t	The text to display.

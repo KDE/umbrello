@@ -247,7 +247,17 @@ void MessageWidget::setTextPosition() {
 		else if (ftX > xUpperBound)
 			ftX = xUpperBound;
 	}
-	m_pFText->setLinePos(ftX, getY() - m_pFText->getHeight());
+	int ftY = getY() - m_pFText->getHeight();
+	if ( (ftX < 0 || ftX > FloatingText::restrictPositionMax) ||
+	     (ftY < 0 || ftY > FloatingText::restrictPositionMax) ) {
+		kdDebug() << "MessageWidget::setTextPosition( " << ftX << " , " << ftY << " ) "
+			<< "- was blocked because at least one value is out of bounds: ["
+			<< "0 ... " << FloatingText::restrictPositionMax << "]"
+			<< endl;
+		return;
+	}
+	m_pFText->setX( ftX );
+	m_pFText->setY( ftY );
 }
 
 void MessageWidget::updateMessagePos(int textHeight, int& newX, int& newY) {

@@ -70,45 +70,6 @@ void FloatingText::draw(QPainter & p, int offsetX, int offsetY) {
 
 void FloatingText::resizeEvent(QResizeEvent * /*re*/) {}
 
-void FloatingText::setLinePos(int x, int y) {
-	bool xIsValid = (x >= restrictPositionMin && x <= restrictPositionMax);
-	bool yIsValid = (y >= restrictPositionMin && y <= restrictPositionMax);
-	if (xIsValid && yIsValid) { // fine
-		setX(x);
-		setY(y);
-	} else { // something is broken
-		kdDebug() << "FloatingText::setLinePos( " << x << " , " << y << " ) "
-			<< "- was blocked because at least one value is out of bounds: ["
-			<< restrictPositionMin << "..." << restrictPositionMax << "]  "
-			<< "origX: " << getX() << ", origY: " << getY()
-			<< endl;
-		// Let's just leave them at their original values.
-	}
-}
-
-void FloatingText::setLinePositionRelatively(int newX, int newY, int oldX, int oldY) {
-	int myNewX = getX() + (newX-oldX);
-	int myNewY = getY() + (newY-oldY);
-	bool xIsValid = (myNewX >= restrictPositionMin && myNewX <= restrictPositionMax);
-	bool yIsValid = (myNewY >= restrictPositionMin && myNewY <= restrictPositionMax);
-	if (xIsValid && yIsValid) { // fine
-		bool oldIgnoreSnapToGrid = m_bIgnoreSnapToGrid;
-		m_bIgnoreSnapToGrid = true;
-		setX(myNewX);
-		setY(myNewY);
-		m_bIgnoreSnapToGrid = oldIgnoreSnapToGrid;
-	} else { // something is broken
-		kdDebug() << "FloatingText::setLinePositionRelatively( " << myNewX
-			<< " , " << myNewY << " ) - was Blocked because at least one value is out of bounds: ["
-			<< restrictPositionMin << "..." << restrictPositionMax << "]\n"
-			<< "ToX: " << newX << ", ToY: " << newY
-			<< "FromX: " << oldX << ", FromY: " << oldY
-			<< "CurrentPointX: " << getX() << ", CurrentPointY: " << getY()
-			<< endl;
-		// Let's just leave them at their original values.
-	}
-}
-
 void FloatingText::calculateSize() {
 	QFontMetrics &fm = getFontMetrics(FT_NORMAL);
 	int h = fm.lineSpacing();
