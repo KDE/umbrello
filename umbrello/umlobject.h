@@ -33,123 +33,123 @@ class UMLObject : public QObject {
 public:
 
 	/**
-	 *	Creates a UMLObject.
+	 * Creates a UMLObject.
 	 *
-	 *	@param	parent		The parent of the object.
-	 *	@param	name		The name of the object.
-	 *	@param	id			The ID of the object.
+	 * @param	parent		The parent of the object.
+	 * @param	name		The name of the object.
+	 * @param	id		The ID of the object.
 	 */
 	UMLObject(QObject * parent, QString Name, int id);
 
 	/**
-	 *	Creates a UMLObject.
+	 * Creates a UMLObject.
 	 *
-	 *	@param	parent		The parent of the object.
+	 * @param	parent		The parent of the object.
 	 */
 	UMLObject(QObject * parent);
 
 	/**
-	 * 		Overloaded '==' operator
+	 * Overloaded '==' operator
 	 */
 	virtual bool operator==(UMLObject & rhs );
 
 	/**
-	 *	Standard deconstructor.
+	 * Standard deconstructor.
 	 */
-	~UMLObject();
+	virtual ~UMLObject();
 
 	/**
-	 *	Returns the type of the object.
+	 * Returns the type of the object.
 	 *
-	 *	@return	Returns the type of the object.
+	 * @return	Returns the type of the object.
 	 */
 	UMLObject_Type getBaseType() const;
 
 	/**
-	 *	Returns the ID of the object.
+	 * Returns the ID of the object.
 	 *
-	 *	@return	Returns the ID of the object.
+	 * @return	Returns the ID of the object.
 	 */
 	int getID() const;
 
 	/**
-	 *	Sets the documentation for the object.
+	 * Sets the documentation for the object.
 	 *
-	 *	@param	d	The documentation for the object.
+	 * @param	d	The documentation for the object.
 	 */
 	void setDoc(QString d);
 
 	/**
-	 *	Returns the documentation for the object.
+	 * Returns the documentation for the object.
 	 *
-	 *	@return	Returns the documentation for the object.
+	 * @return	Returns the documentation for the object.
 	 */
 	QString getDoc() const;
 
 	/**
-	 *	Returns the scope of the object.
+	 * Returns the scope of the object.
 	 *
-	 *	@return	Returns the scope of the object.
+	 * @return	Returns the scope of the object.
 	 */
 	Scope getScope() const;
 
 	/**
-	 *	Sets the scope of the object.
+	 * Sets the scope of the object.
 	 *
-	 *	@param	s	The scope of the object.
+	 * @param	s	The scope of the object.
 	 */
 	void setScope(Scope s);
 
 	/**
-	 *	Sets the classes Stereotype.
+	 * Sets the classes Stereotype.
 	 *
-	 *	@param _name	Sets the classes Stereotype name.
+	 * @param _name	Sets the classes Stereotype name.
 	 */
 	void setStereotype(QString _name);
 
 	/**
-	 *	Sets the classes Package.
+	 * Sets the classes Package.
 	 *
-	 *	@param _name	The classes Package name.
+	 * @param _name	The classes Package name.
 	 */
 	void setPackage(QString _name);
 
 	/**
-	 *	Returns the classes Stereotype.
+	 * Returns the classes Stereotype.
 	 *
-	 *	@return	Returns the classes Stereotype.
+	 * @return	Returns the classes Stereotype.
 	 */
 	QString getStereotype();
 
 	/**
-	 *	Returns the classes Package.
+	 * Returns the classes Package.
 	 *
-	 *	@return	Returns the classes Package.
+	 * @return	Returns the classes Package.
 	 */
 	QString getPackage();
 
 	/**
-	 *    Assigns a new Id to the object
+	 * Assigns a new Id to the object
 	 */
 	void setID(int NewID);
 
 	/**
-	 *   Returns a copy of m_Name
+	 * Returns a copy of m_Name
 	 */
 	QString getName() const;
 
 	/**
-	 *    Set the UMlObject's name
+	 * Set the UMlObject's name
 	 */
 	void setName(QString strName);
 
 	/**
-	 *   Returns the abstract state of the object.
+	 * Returns the abstract state of the object.
 	 */
 	bool getAbstract() const;
 
 	/**
-	 *     Sets the abstract state of the object.
+	 * Sets the abstract state of the object.
 	 */
 	void setAbstract(bool bAbstract);
 
@@ -157,19 +157,19 @@ public:
 
 	virtual bool loadFromXMI( QDomElement & element );
 
-	/** 
+	/**
 	 * Returns true if this UMLObject has classifier scope,
 	 * otherwise false (the default).
 	 */
 	bool getStatic() const;
 
 
-	/** 
-	 * Sets the value for m_bStatic. 
+	/**
+	 * Sets the value for m_bStatic.
 	 */
 	void setStatic(const bool bStatic);
-  
-	/** 
+
+	/**
 	 * This should be reimplemented by subclasses if they wish to
 	 * accept certain types of associations. Note that this only
 	 * tells if this UMLObject can accept the association
@@ -181,18 +181,18 @@ public:
 	 * is not valid and will not be created.  The default accepts
 	 * nothing (returns false)
 	 */
-  	virtual bool acceptAssociationType(Uml::Association_Type);
-	
+	virtual bool acceptAssociationType(Uml::Association_Type);
+
 public slots:
-	/** 
-	 * Forces the emition of the modified signal.  Usefull when
+	/**
+	 * Forces the emition of the modified signal.  Useful when
 	 * updating several attributes at a time: you can block the
 	 * signals, update all atts, and then force the signal.
 	 */
 	void emitModified();
 
 signals:
-	void modified();  
+	void modified();
 
 protected:
 	/**
@@ -201,37 +201,37 @@ protected:
 	int m_nId;
 
 	/**
-	 *   The objects documentation.
+	 * The objects documentation.
 	 */
 	QString m_Doc;
 
 	/**
-	 *   The package the object belongs to if applicable.
+	 * The package the object belongs to if applicable.
 	 */
 	QString m_Package;
 
 	/**
-	 *   The stereotype of the object if applicable.
+	 * The stereotype of the object if applicable.
 	 */
 	QString m_Stereotype;
 
 	/**
-	 *     The objects name.
+	 * The objects name.
 	 */
 	QString m_Name;
 
 	/**
-	 *     The objects type.
+	 * The objects type.
 	 */
 	UMLObject_Type m_BaseType;
 
 	/**
-	 *     The objects scope.
+	 * The objects scope.
 	 */
 	Scope m_Scope;
 
 	/**
-	 *     The state of whether the object is abstract or not.
+	 * The state of whether the object is abstract or not.
 	 */
 	bool m_bAbstract;
 

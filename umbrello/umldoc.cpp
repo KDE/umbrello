@@ -8,7 +8,6 @@
  ***************************************************************************/
 #include "actor.h"
 #include "associationwidget.h"
-#include "associationwidgetdata.h"
 #include "association.h"
 #include "class.h"
 #include "package.h"
@@ -58,8 +57,6 @@ using Umbrello::DiagramView;
 
 
 UMLDoc::UMLDoc(QWidget *parent, const char *name) : QObject(parent, name) {
-	pViewList = new UMLViewList();
-
 	listView = 0;
 	currentView = 0;
 	uniqueID = 0;
@@ -68,11 +65,10 @@ UMLDoc::UMLDoc(QWidget *parent, const char *name) : QObject(parent, name) {
 	objectList.setAutoDelete(true);
 	diagrams.setAutoDelete(true);
 
-	pViewList->setAutoDelete(true);
 	m_pChangeLog = 0;
 	m_Doc = "";
 	m_modified = false;
-	loading = false;
+	m_bLoading = false;
 	m_pAutoSaveTimer = 0;
 	UMLApp * pApp = UMLApp::app();
 	connect(this, SIGNAL(sigDiagramCreated(int)), pApp, SLOT(slotUpdateViews()));
@@ -85,15 +81,14 @@ UMLDoc::UMLDoc(QWidget *parent, const char *name) : QObject(parent, name) {
 UMLDoc::~UMLDoc() {
 	delete m_pChangeLog;
 	m_pChangeLog = 0;
-	delete pViewList;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLDoc::addView(UMLView *view) {
 	if(listView)
 		connect(this, SIGNAL(sigObjectRemoved(UMLObject *)), view, SLOT(slotObjectRemoved(UMLObject *)));
-	pViewList->append(view);
+	m_ViewList.append(view);
 
-	if ( ! loading ) {
+	if ( ! m_bLoading ) {
 		if(currentView == 0) {
 			currentView = view;
 			view -> show();
@@ -117,10 +112,10 @@ void UMLDoc::removeView(UMLView *view) {
 	//need to do to stop crashes.  These can occur depending on order of
 	//children being deleted.
 	view->removeAllWidgets();
-	pViewList->remove(view);
+	m_ViewList.remove(view);
 	if(view == currentView) {
 		currentView = 0;
-		if (UMLView* firstView = pViewList->first()) {
+		if (UMLView* firstView = m_ViewList.first()) {
 			changeCurrentView( firstView->getID() );
 			UMLApp::app()->setDiagramMenuItemsState(true);
 		} else {
@@ -140,11 +135,9 @@ const KURL& UMLDoc::URL() const {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLDoc::slotUpdateAllViews(UMLView *sender) {
-	if(pViewList) {
-		for(UMLView *w = pViewList->first(); w; w = pViewList->next()) {
-			if(w != sender) {
-				w->repaint();
-			}
+	for(UMLView *w = m_ViewList.first(); w; w = m_ViewList.next()) {
+		if(w != sender) {
+			w->repaint();
 		}
 	}
 	return;
@@ -169,7 +162,7 @@ bool UMLDoc::saveModified() {
 					saveDocument(URL());
 					deleteContents();
 					completed=true;
-				};
+				}
 				break;
 
 			case KMessageBox::No:
@@ -247,13 +240,13 @@ bool UMLDoc::newDocument() {
 	return true;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-bool UMLDoc::openDocument(const KURL& url, const char */*format =0*/) {
+bool UMLDoc::openDocument(const KURL& url, const char* /*format =0*/) {
 	if(url.fileName().length() == 0) {
 		newDocument();
 		return false;
 	}
 
-	loading = true;
+	m_bLoading = true;
 
 	doc_url = url;
 	QDir d = url.path(1);
@@ -264,7 +257,7 @@ bool UMLDoc::openDocument(const KURL& url, const char */*format =0*/) {
 	if ( !file.exists() ) {
 		KMessageBox::error(0, i18n("The file %1 does not exist.").arg(d.path()), i18n("Load Error"));
 		doc_url.setFileName(i18n("Untitled"));
-		loading = false;
+		m_bLoading = false;
 		newDocument();
 		return false;
 	}
@@ -272,7 +265,7 @@ bool UMLDoc::openDocument(const KURL& url, const char */*format =0*/) {
 	if( !file.open( IO_ReadOnly ) ) {
 		KMessageBox::error(0, i18n("There was a problem loading file: %1").arg(d.path()), i18n("Load Error"));
 		doc_url.setFileName(i18n("Untitled"));
-		loading = false;
+		m_bLoading = false;
 		newDocument();
 		return false;
 	}
@@ -281,12 +274,12 @@ bool UMLDoc::openDocument(const KURL& url, const char */*format =0*/) {
 	KIO::NetAccess::removeTempFile( tmpfile );
 	if( !status ) {
 		KMessageBox::error(0, i18n("There was a problem loading file: %1").arg(d.path()), i18n("Load Error"));
-		loading = false;
+		m_bLoading = false;
 		newDocument();
 		return false;
 	}
 	setModified(false);
-	loading = false;
+	m_bLoading = false;
 	initSaveTimer();
 
 	((UMLApp*)parent())->enableUndo(false);
@@ -392,13 +385,13 @@ bool UMLDoc::addCodeGenerator ( CodeGenerator * gen)
 	if(!gen)
 		return false;
 
-        QString tag = gen->getLanguage(); // this should be unique 
+        QString tag = gen->getLanguage(); // this should be unique
 
         if(m_codeGeneratorDictionary.find(tag))
                 return false; // return false, we already have some object with this tag in the list
         else
                 m_codeGeneratorDictionary.insert(tag, gen);
- 
+
         return true;
 }
 
@@ -409,7 +402,7 @@ QDomElement UMLDoc::getCodeGeneratorXMIParams ( )
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 /**
- * Remove a CodeGenerator object 
+ * Remove a CodeGenerator object
  */
 bool UMLDoc::removeCodeGenerator ( CodeGenerator * remove_object ) {
         QString lang = remove_object->getLanguage();
@@ -430,11 +423,9 @@ CodeGenerator * UMLDoc::findCodeGeneratorByLanguage (QString lang) {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLView * UMLDoc::findView(int id) {
-	if(pViewList) {
-		for(UMLView *w = pViewList->first(); w; w = pViewList->next()) {
-			if(w->getID() ==id) {
-				return w;
-			}
+	for(UMLView *w = m_ViewList.first(); w; w = m_ViewList.next()) {
+		if(w->getID() ==id) {
+			return w;
 		}
 	}
 	kdDebug() << "Unable to find a view identified by " << id << endl;
@@ -445,18 +436,16 @@ Diagram* UMLDoc::findDiagram(int id)
 {
 	for(Diagram *d = diagrams.first(); d; diagrams.next())
 	{
-  	if(d->getID() == id)
+	if(d->getID() == id)
 			return d;
 	}
 	return 0L;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLView * UMLDoc::findView(Diagram_Type type, QString name) {
-	if(pViewList) {
-		for(UMLView *w = pViewList->first(); w; w = pViewList->next()) {
-			if( (w->getType() == type) && ( w->getName() == name) ) {
-				return w;
-			}
+	for(UMLView *w = m_ViewList.first(); w; w = m_ViewList.next()) {
+		if( (w->getType() == type) && ( w->getName() == name) ) {
+			return w;
 		}
 	}
 	return 0;
@@ -503,6 +492,8 @@ QString	UMLDoc::uniqObjectName(const UMLObject_Type type) {
 		currentName = i18n("new_artifact");
 	else if(type == ot_Interface)
 		currentName = i18n("new_interface");
+	else if(type == ot_Association)
+		currentName = i18n("new_association");
 	else
 		currentName = i18n("new_object");
 
@@ -726,27 +717,27 @@ UMLObject* UMLDoc::createOperation(UMLObject* umlobject) {
 	UMLClassifier * classifier = dynamic_cast<UMLClassifier*>(umlobject);
 
 	// can only create operations for classifiers..
-	if(classifier) 
+	if(classifier)
 	{
 		int id = getUniqueID();
 		QString currentName = classifier->uniqChildName(Uml::ot_Operation);
 		newOperation = new UMLOperation(classifier, currentName, id);
-	
+
 		int button = QDialog::Accepted;
 		bool goodName = false;
-	
+
 		while (button==QDialog::Accepted && !goodName) {
 			UMLOperationDialog operationDialogue(0, newOperation);
 			button = operationDialogue.exec();
 			QString name = newOperation->getName();
-	
+
 			if(name.length() == 0) {
 				KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
 			} else {
 				goodName = true;
 			}
 		}
-	
+
 		if (button != QDialog::Accepted) {
 			return NULL;
 		}
@@ -836,7 +827,7 @@ void UMLDoc::addAssociation(UMLAssociation *Assoc)
 	UMLAssociation *a;
 	for (a = assocs.first(); a; a = assocs.next()) {
 		// check if its already been added (shouldnt be the case right now
-		// as UMLAssociations only belong to one associaitonwidget at a time right now)
+		// as UMLAssociations only belong to one associationwidget at a time right now)
 		if (a == Assoc)
 		{
 			return;
@@ -845,6 +836,11 @@ void UMLDoc::addAssociation(UMLAssociation *Assoc)
 
 	// If we get here it's really a new association, so lets
 	// add it to our concept list and the document.
+
+	// This is the one and only place where the UMLAssociation is assigned
+	// its unique ID (unless it was successfully loaded from XMI.)
+	if (Assoc->getID() == -1)
+		Assoc->setID( getUniqueID() );
 
 	// Add the UMLAssociation at the appropriate concept.
 	addAssocToConcepts(Assoc);
@@ -937,11 +933,10 @@ void UMLDoc::createDiagram(Diagram_Type type, bool askForName /*= true */) {
 		if(name.length() == 0)
 			KMessageBox::error(0, i18n("That is an invalid name for a diagram."), i18n("Invalid Name"));
 		else if(!findView(type, name)) {
-			UMLViewData data;
-			data.setName( name );
-			data.setType( type );
-			data.setID( ++uniqueID );
-			UMLView* temp = new UMLView(UMLApp::app()->getMainViewWidget(), data, this);
+			UMLView* temp = new UMLView(UMLApp::app()->getMainViewWidget(), this);
+			temp->setName( name );
+			temp->setType( type );
+			temp->setID( getUniqueID() );
 			addView(temp);
 			temp -> setOptionState( ((UMLApp *) parent()) -> getOptionState() );
 			emit sigDiagramCreated(uniqueID);
@@ -952,7 +947,6 @@ void UMLDoc::createDiagram(Diagram_Type type, bool askForName /*= true */) {
 		} else
 			KMessageBox::error(0, i18n("A diagram is already using that name."), i18n("Not a Unique Name"));
 	}//end while
-	return;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLDoc::renameDiagram(int id) {
@@ -970,7 +964,7 @@ void UMLDoc::renameDiagram(int id) {
 		if(name.length() == 0)
 			KMessageBox::error(0, i18n("That is an invalid name for a diagram."), i18n("Invalid Name"));
 		else if(!findView(type, name)) {
-			temp->UMLViewData::setName(name);
+			temp->setName(name);
 
 			emit sigDiagramRenamed(id);
 			setModified(true);
@@ -1063,36 +1057,36 @@ void UMLDoc::removeDiagram(int id) {
 void UMLDoc::removeUMLObject(UMLObject *o) {
 	getDocWindow() -> updateDocumentation( true );
 	UMLObject_Type type = o->getBaseType();
- 	if (type >= ot_Actor && type <= ot_Association) {
- 		if (type == ot_Association) {
- 			// Remove the UMLAssociation at the concept that plays role B.
- 			UMLAssociation *a = (UMLAssociation *)o;
- 			Uml::Association_Type assocType = a->getAssocType();
- 			int AId = a->getRoleAId();
- 			int BId = a->getRoleBId();
- 			QPtrList<UMLClassifier> concepts = getConcepts();
- 			for (UMLClassifier *c = concepts.first(); c; c = concepts.next()) {
- 				switch (assocType) {
- 					case Uml::at_Generalization:
- 						if (AId == c->getID())
- 							c->removeAssociation(a);
- 						break;
- 					case Uml::at_Aggregation:
- 					case Uml::at_Composition:
- 						if (BId == c->getID())
- 							c->removeAssociation(a);
- 						break;
- 						/*
- 					case Uml::at_Association:
- 						// CHECK: doesnt seem correct
- 						if (AId == c->getID() || BId == c->getID())
- 							c->removeAssociation(a);
- 							*/
- 					default:
- 						break;
- 				}
- 			}
- 		}
+	if (type >= ot_Actor && type <= ot_Association) {
+		if (type == ot_Association) {
+			// Remove the UMLAssociation at the concept that plays role B.
+			UMLAssociation *a = (UMLAssociation *)o;
+			Uml::Association_Type assocType = a->getAssocType();
+			int AId = a->getRoleAId();
+			int BId = a->getRoleBId();
+			QPtrList<UMLClassifier> concepts = getConcepts();
+			for (UMLClassifier *c = concepts.first(); c; c = concepts.next()) {
+				switch (assocType) {
+					case Uml::at_Generalization:
+						if (AId == c->getID())
+							c->removeAssociation(a);
+						break;
+					case Uml::at_Aggregation:
+					case Uml::at_Composition:
+						if (BId == c->getID())
+							c->removeAssociation(a);
+						break;
+						/*
+					case Uml::at_Association:
+						// CHECK: doesnt seem correct
+						if (AId == c->getID() || BId == c->getID())
+							c->removeAssociation(a);
+							*/
+					default:
+						break;
+				}
+			}
+		}
 		emit sigObjectRemoved(o);
 		objectList.remove(o);
 		setModified(true);
@@ -1234,7 +1228,7 @@ bool UMLDoc::saveToXMI(QIODevice& file) {
 		return status;
 	//  save each view/diagram
 	QDomElement diagramsElement = doc.createElement( "diagrams" );
-	for(UMLView *pView = pViewList->first(); pView && status; pView = pViewList->next() )
+	for(UMLView *pView = m_ViewList.first(); pView && status; pView = m_ViewList.next() )
 		status = pView -> saveToXMI( doc, diagramsElement );
 	content.appendChild( diagramsElement );
 	if( !status )
@@ -1355,7 +1349,7 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
 	{
 		stream.setEncoding(QTextStream::UnicodeUTF8);
 	}
-		
+
 	QString data = stream.read();
 	QString error;
 	int line;
@@ -1478,61 +1472,65 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
 	node = node.firstChild();
 
 	int nViewID = -1;
-	bool cont = true;
-	while( !node.isNull() && cont ) {
+	while( !node.isNull() ) {
 		QDomElement element = node.toElement();
 
+		if (element.isNull()) {
+			node = node.nextSibling();
+			element = node.toElement();
+			continue;
+		}
 		//check header
-		if( !element.isNull() && element.tagName() == "XMI.header" ) {
+		if( element.tagName() == "XMI.header" ) {
 			QDomNode headerNode = node.firstChild();
 			if ( !validateXMIHeader(headerNode) ) {
 				return false;
 			}
 		}
-		if( !element.isNull() && element.tagName() == "XMI.content" ) {
-			node = node.firstChild();
-			element = node.toElement();
-			while( !element.isNull() ) {
-				QString tag = element.tagName();
-				if( tag == "docsettings" ) {
-					QString viewID = element.attribute( "viewid", "-1" );
-					m_Doc = element.attribute( "documentation", "" );
-					QString uniqueid = element.attribute( "uniqueid", "0" );
-
-					nViewID = viewID.toInt();
-					uniqueID = uniqueid.toInt();
-					getDocWindow() -> newDocumentation();
-				} else if( tag == "umlobjects" ) {
-					QDomNode objectNode = node.firstChild();
-					if( !loadUMLObjectsFromXMI( objectNode ) ) {
-						kdWarning() << "failed load on objects" << endl;
-						return false;
-					}
-				} else if( tag == "diagrams" ) {
-					QDomNode diagramNode = node.firstChild();
-
-					if( !loadDiagramsFromXMI( diagramNode ) ) {
-						kdWarning() << "failed load on diagrams" << endl;
-						return false;
-					}
-				} else if( tag == "listview" ) {
-					if( !listView -> loadFromXMI( element ) ) {
-						kdWarning() << "failed load on listview" << endl;
-						return false;
-					}
-				} else if( tag == "codegeneration" ) {
-					// save for later on
-					CodeGenerationParams = element;
-				}
-				node = node.nextSibling();
-				element = node.toElement();
-			}//end while
-			break;
-		}//end if docsettings
-		else {
+		if( element.tagName() != "XMI.content" ) {
 			node = node.nextSibling();
 			element = node.toElement();
+			continue;
 		}
+		//process content
+		node = node.firstChild();
+		element = node.toElement();
+		while( !element.isNull() ) {
+			QString tag = element.tagName();
+			if( tag == "docsettings" ) {
+				QString viewID = element.attribute( "viewid", "-1" );
+				m_Doc = element.attribute( "documentation", "" );
+				QString uniqueid = element.attribute( "uniqueid", "0" );
+
+				nViewID = viewID.toInt();
+				uniqueID = uniqueid.toInt();
+				getDocWindow() -> newDocumentation();
+			} else if( tag == "umlobjects" ) {
+				QDomNode objectNode = node.firstChild();
+				if( !loadUMLObjectsFromXMI( objectNode ) ) {
+					kdWarning() << "failed load on objects" << endl;
+					return false;
+				}
+			} else if( tag == "diagrams" ) {
+				QDomNode diagramNode = node.firstChild();
+
+				if( !loadDiagramsFromXMI( diagramNode ) ) {
+					kdWarning() << "failed load on diagrams" << endl;
+					return false;
+				}
+			} else if( tag == "listview" ) {
+				if( !listView -> loadFromXMI( element ) ) {
+					kdWarning() << "failed load on listview" << endl;
+					return false;
+				}
+			} else if( tag == "codegeneration" ) {
+				// save for later on
+				CodeGenerationParams = element;
+			}
+			node = node.nextSibling();
+			element = node.toElement();
+		}//end while
+		break;
 	}//end while
 	emit sigWriteToStatusBar( i18n("Setting up the document...") );
 	currentView = 0;
@@ -1576,19 +1574,27 @@ bool UMLDoc::loadUMLObjectsFromXMI( QDomNode & node ) {
 	while ( !element.isNull() ) {
 		pObject = 0;
 		QString type = element.tagName();
-		if (type != "UML:Association") {
- 			//For the time being, we skip loading asociations from
- 			// here. Instead, we will get them from the association widgets.
- 			// meaning that UML:Association nodes are effectively ignored
- 			// for the nonce.
-			pObject = makeNewUMLObject(type);
-			if( !pObject ) {
-				kdWarning() << "Given wrong type of umlobject to create:" << type << endl;
-				return false;
+		pObject = makeNewUMLObject(type);
+		if( !pObject ) {
+			kdWarning() << "Given wrong type of umlobject to create: " << type << endl;
+			return false;
+		}
+		bool status = pObject -> loadFromXMI( element );
+		if (type == "UML:Association") {
+			if ( !status ) {
+				// Some interim umbrello versions saved empty UML:Associations,
+				// thus we tolerate problems loading them.
+				// May happen when dealing with the pre-1.2 file format.
+				// In this case all association info is given in the
+				// UML:AssocWidget section.  --okellogg
+				delete pObject;
+			} else {
+				addAssociation( (UMLAssociation*)pObject );
 			}
-			if( !pObject -> loadFromXMI( element ) ) {
-				return false;
-			}
+		} else if ( !status ) {
+			delete pObject;
+			return false;
+		} else {
 			objectList.append( pObject );
 		}
 		emit sigSetStatusbarProgress( ++count );
@@ -1662,12 +1668,12 @@ bool UMLDoc::loadDiagramsFromXMI( QDomNode & node ) {
 	int count = 0;
 	while( !element.isNull() ) {
 		if( element.tagName() == "diagram" ) {
-			UMLViewData viewData;
-			if( !viewData.loadFromXMI( element ) ) {
+			pView = new UMLView(UMLApp::app()->getMainViewWidget(), this);
+			if( !pView->loadFromXMI( element ) ) {
 				kdWarning() << "failed load on viewdata loadfromXMI" << endl;
+				delete pView;
 				return false;
 			}
-			pView = new UMLView(UMLApp::app()->getMainViewWidget(), viewData, this);
 			pView -> hide();
 			pView -> setOptionState( state );
 			addView( pView );
@@ -1680,12 +1686,14 @@ bool UMLDoc::loadDiagramsFromXMI( QDomNode & node ) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLDoc::removeAllViews() {
-	for(UMLView *v = pViewList->first(); v; v = pViewList->next())
+	for(UMLView *v = m_ViewList.first(); v; v = m_ViewList.next()) {
 		v->removeAllAssociations();
-	pViewList -> clear();
-	currentView = 0;
+		removeView(v);
+	}
+	// m_ViewList.clear();
+	// currentView = 0;
 	emit sigDiagramChanged(dt_Undefined);
-	UMLApp::app()->setDiagramMenuItemsState(false);
+	// UMLApp::app()->setDiagramMenuItemsState(false);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 QStringList UMLDoc::getModelTypes()
@@ -1775,7 +1783,7 @@ bool UMLDoc::showProperties(UMLWidget * o) {
 }
 
 void UMLDoc::setModified(bool modified /*=true*/, bool addToUndo /*=true*/) {
-	if(!loading) {
+	if(!m_bLoading) {
 		m_modified = modified;
 		((UMLApp *) parent())->setModified(modified);
 
@@ -1858,7 +1866,7 @@ void UMLDoc::endPaste() {
 /** Assigns a New ID to an Object, and also logs the assignment to its internal
 ChangeLog */
 int UMLDoc::assignNewID(int OldID) {
-	int result = ++uniqueID;
+	int result = getUniqueID();
 	if (m_pChangeLog) {
 		m_pChangeLog->addIDChange(OldID, result);
 	}
@@ -1869,21 +1877,20 @@ int UMLDoc::assignNewID(int OldID) {
 if its name is already in use then the function appends
 a number to it to differentiate it from the others; this number is incremental so if
 number 1 is in use then it tries 2 and then 3 and so on */
-bool UMLDoc::addUMLView(UMLViewData * pViewData ) {
-	if(!pViewData || !m_pChangeLog)
+bool UMLDoc::addUMLView(UMLView * pView ) {
+	if(!pView || !m_pChangeLog)
 		return false;
 
 	int i = 0;
-	QString viewName = (QString)pViewData->getName();
+	QString viewName = (QString)pView->getName();
 	QString name = viewName;
-	while( findView(pViewData->getType(), name) != NULL) {
+	while( findView(pView->getType(), name) != NULL) {
 		name = viewName + "_" + QString::number(++i);
 	}
 	if(i) //If name was modified
-		pViewData->setName(name);
-	int result = assignNewID(pViewData->getID());
-	pViewData->setID(result);
-	UMLView* pView = new UMLView(UMLApp::app()->getMainViewWidget(), *pViewData, this);
+		pView->setName(name);
+	int result = assignNewID(pView->getID());
+	pView->setID(result);
 
 	if (!pView->activateAfterLoad( true ) ) {
 		kdDebug()<<"Error activating diagram"<<endl;
@@ -1904,26 +1911,25 @@ bool UMLDoc::activateView ( int viewID ) {
 			status = v->activateAfterLoad();
 			viewsNotActivated.remove();
 		}
-	loading = false;
+	m_bLoading = false;
 	return status;
 }
 
 bool UMLDoc::activateAllViews() {
 	bool status = true;
-	loading = true; //this is to prevent document becoming modified when activating a view
+	m_bLoading = true; //this is to prevent document becoming modified when activating a view
 
-	for(UMLView *v = pViewList -> first(); v; v = pViewList -> next() )
+	for(UMLView *v = m_ViewList.first(); v; v = m_ViewList.next() )
 		status = status && v->activateAfterLoad();
-	loading = false;
+	m_bLoading = false;
 	viewsNotActivated.clear();
 	return status;
 }
 
 void UMLDoc::settingsChanged(SettingsDlg::OptionState optionState) {
 	// for each view update settings
-	if( pViewList )
-		for(UMLView *w = pViewList -> first() ; w ; w = pViewList -> next() )
-			w -> setOptionState(optionState);
+	for(UMLView *w = m_ViewList.first() ; w ; w = m_ViewList.next() )
+		w -> setOptionState(optionState);
 	initSaveTimer();
 	return;
 }
@@ -1939,7 +1945,7 @@ void UMLDoc::getAssciationListAllViews( UMLView * view, UMLObject * object, Asso
 	AssociationWidget * tempWidget = 0;
 	AssociationWidgetList tempList;
 
-	for( tempView = pViewList->first(); tempView != 0; tempView = pViewList->next() ) {
+	for( tempView = m_ViewList.first(); tempView != 0; tempView = m_ViewList.next() ) {
 		if( view == tempView || view->getType() != tempView->getType() )
 			continue;
 
@@ -2039,7 +2045,7 @@ void UMLDoc::signalDiagramRenamed(UMLView * pView ) {
 }
 
 void UMLDoc::addToUndoStack() {
-	if (!loading) {
+	if (!m_bLoading) {
 
 		QBuffer* buffer = new QBuffer();
 		buffer->open(IO_WriteOnly);
@@ -2073,7 +2079,7 @@ void UMLDoc::clearRedoStack() {
 void UMLDoc::loadUndoData() {
 	if (undoStack.count() > 1) {
 		int currentViewID = currentView->getID();
-		loading = true;
+		m_bLoading = true;
 		deleteContents();
 		redoStack.prepend( undoStack.getFirst() );
 		undoStack.removeFirst();
@@ -2085,7 +2091,7 @@ void UMLDoc::loadUndoData() {
 
 		setModified(true, false);
 		getCurrentView()->resizeCanvasToItems();
-		loading = false;
+		m_bLoading = false;
 
 		undoStack.setAutoDelete(true);
 		if (undoStack.count() <= 1) {
@@ -2109,7 +2115,7 @@ void UMLDoc::loadUndoData() {
 void UMLDoc::loadRedoData() {
 	if (redoStack.count() >= 1) {
 		int currentViewID = currentView->getID();
-		loading = true;
+		m_bLoading = true;
 		deleteContents();
 		undoStack.prepend( redoStack.getFirst() );
 		QDataStream* redoData = redoStack.getFirst();
@@ -2121,7 +2127,7 @@ void UMLDoc::loadRedoData() {
 
 		setModified(true, false);
 		getCurrentView()->resizeCanvasToItems();
-		loading = false;
+		m_bLoading = false;
 
 		redoStack.setAutoDelete(true);
 		if (redoStack.count() < 1) {

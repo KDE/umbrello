@@ -14,19 +14,17 @@
 #include "umlclipboard.h"
 #include "umldrag.h"
 #include "idchangelog.h"
-#include "../associationwidgetdatalist.h"
-#include "../associationwidgetdata.h"
+#include "../associationwidget.h"
 #include "../attribute.h"
 #include "../class.h"
 #include "../classifier.h"
-#include "../floatingtextdata.h"
+#include "../floatingtext.h"
 #include "../operation.h"
 #include "../umldoc.h"
 #include "../umllistview.h"
 #include "../umllistviewitem.h"
 #include "../umlobjectlist.h"
 #include "../umlview.h"
-#include "../umlwidgetdata.h"
 #include "../umlwidget.h"
 
 UMLClipboard::UMLClipboard() {
@@ -34,12 +32,12 @@ UMLClipboard::UMLClipboard() {
 	m_pObjectList->setAutoDelete( false );
 	m_pItemDataList = new UMLListViewItemDataList;
 	m_pItemDataList->setAutoDelete( false );
-	m_pWidgetDataList = new UMLWidgetDataList;
-	m_pWidgetDataList->setAutoDelete( false );
-	m_pAssociationDataList = new AssociationWidgetDataList;
-	m_pAssociationDataList->setAutoDelete( false );
-	m_pViewDataList = new UMLViewDataList;
-	m_pViewDataList->setAutoDelete( false );
+	m_pWidgetList = new UMLWidgetList;
+	m_pWidgetList->setAutoDelete( false );
+	m_pAssociationList = new AssociationWidgetList;
+	m_pAssociationList->setAutoDelete( false );
+	m_pViewList = new UMLViewList;
+	m_pViewList->setAutoDelete( false );
 	m_type = clip1;
 }
 
@@ -50,14 +48,14 @@ UMLClipboard::~UMLClipboard() {
 	if(m_pItemDataList) {
 		delete m_pItemDataList;
 	}
-	if(m_pWidgetDataList) {
-		delete m_pWidgetDataList;
+	if(m_pWidgetList) {
+		delete m_pWidgetList;
 	}
-	if(m_pAssociationDataList) {
-		delete m_pAssociationDataList;
+	if(m_pAssociationList) {
+		delete m_pAssociationList;
 	}
-	if(m_pViewDataList) {
-		delete m_pViewDataList;
+	if(m_pViewList) {
+		delete m_pViewList;
 	}
 
 }
@@ -67,10 +65,10 @@ QMimeSource* UMLClipboard::copy(UMLDoc* Doc, bool fromView/*=false*/) {
 		return 0;
 	}
 	//Clear previous copied data
-	m_pAssociationDataList->clear();
+	m_pAssociationList->clear();
 	m_pItemDataList->clear();
 	m_pObjectList->clear();
-	m_pViewDataList->clear();
+	m_pViewList->clear();
 
 	UMLDrag *data = 0;
 	QPixmap* png = 0;
@@ -82,28 +80,28 @@ QMimeSource* UMLClipboard::copy(UMLDoc* Doc, bool fromView/*=false*/) {
 	if(fromView) {
 		m_type = clip4;
 		Doc->getCurrentView() -> checkSelections();
-		if(!Doc->getCurrentView()->getSelectedWidgetDatas(*m_pWidgetDataList)) {
+		if(!Doc->getCurrentView()->getSelectedWidgets(*m_pWidgetList)) {
 			return 0;
 		}
 		//if there is no selected widget then there is no copy action
-		if(!m_pWidgetDataList->count()) {
+		if(!m_pWidgetList->count()) {
 			return 0;
 		}
-		UMLWidgetDataListIt widgetdata_it(*m_pWidgetDataList);
-		UMLWidgetData* widgetdata = widgetdata_it.current();
+		UMLWidgetListIt widget_it(*m_pWidgetList);
+		UMLWidget* widget = widget_it.current();
 		UMLObject* object = 0;
-		while(widgetdata) {
-			++widgetdata_it;
-			if ( UMLWidget::widgetHasUMLObject(widgetdata->getType()) ) {
-				object = Doc->findUMLObject(widgetdata->getId());
+		while(widget) {
+			++widget_it;
+			if ( UMLWidget::widgetHasUMLObject(widget->getBaseType()) ) {
+				object = Doc->findUMLObject(widget->getID());
 				//if the object is not already on the list
 				if(m_pObjectList->find(object) == -1) {
 					m_pObjectList->append(object);
 				}
 			}
-			widgetdata = widgetdata_it.current();
+			widget = widget_it.current();
 		}
-		if(!Doc->getCurrentView()->getSelectedAssocDatas(*m_pAssociationDataList)) {
+		if(!Doc->getCurrentView()->getSelectedAssocs(*m_pAssociationList)) {
 			return 0;
 		}
 
@@ -141,7 +139,7 @@ QMimeSource* UMLClipboard::copy(UMLDoc* Doc, bool fromView/*=false*/) {
 			//to the clipboard
 			selectedItems.clear();
 			UMLListViewItem* item = 0;
-			UMLViewDataListIt view_it(*m_pViewDataList);
+			UMLViewListIt view_it(*m_pViewList);
 			//For each selected view select all the Actors, USe Cases and Concepts
 			//widgets in the ListView
 			UMLObjectList* objects = 0;
@@ -171,15 +169,15 @@ QMimeSource* UMLClipboard::copy(UMLDoc* Doc, bool fromView/*=false*/) {
 			data = new UMLDrag(*m_pObjectList, *m_pItemDataList);
 			break;
 		case clip2:
-			data = new UMLDrag(*m_pObjectList, *m_pItemDataList, *m_pViewDataList);
+			data = new UMLDrag(*m_pObjectList, *m_pItemDataList, *m_pViewList);
 			break;
 		case clip3:
 			data = new UMLDrag(*m_pItemDataList);
 			break;
 		case clip4:
 			if(png) {
-				data = new UMLDrag(*m_pObjectList, *m_pItemDataList, *m_pWidgetDataList,
-				                    *m_pAssociationDataList, *png, Doc -> getCurrentView() -> getType() );
+				data = new UMLDrag(*m_pObjectList, *m_pItemDataList, *m_pWidgetList,
+				                    *m_pAssociationList, *png, Doc -> getCurrentView() -> getType() );
 			} else {
 				return 0;
 			}
@@ -316,8 +314,7 @@ void UMLClipboard::checkItemForCopyType(UMLListViewItem* Item, bool & WithDiagra
 			WithDiagrams = true;
 			OnlyAttsOps = false;
 			view = Doc->findView( Item->getID() );
-			view->synchronizeData(); //make sure all data up to date
-			m_pViewDataList->append( (UMLViewData*) view );
+			m_pViewList->append( view );
 	} else if ( UMLListView::typeIsFolder(type) ) {
 			OnlyAttsOps = false;
 			if(Item->childCount()) {
@@ -386,11 +383,11 @@ bool UMLClipboard::pasteChildren(UMLListViewItem* Parent, UMLListViewItemDataLis
 }
 /** Cleans the list of associations taking out the ones that point to an object not in
 m_pObjectList */
-void UMLClipboard::CleanAssociations(AssociationWidgetDataList& AssociationDatas) {
+void UMLClipboard::CleanAssociations(AssociationWidgetList& associations) {
 
 
-	AssociationWidgetDataListIt it(AssociationDatas);
-	AssociationWidgetData* assoc = it.current();
+	AssociationWidgetListIt it(associations);
+	AssociationWidget* assoc = it.current();
 
 	while (assoc) {
 		++it;
@@ -460,7 +457,7 @@ bool UMLClipboard::pasteClip2(UMLDoc* doc, QMimeSource* data) {
 	UMLListViewItemDataList itemdatalist;
 	UMLObjectList objects;
 	objects.setAutoDelete(false);
-	UMLViewDataList		views;
+	UMLViewList		views;
 	IDChangeLog* idchanges = 0;
 
 	bool result = UMLDrag::decodeClip2(data, objects, itemdatalist, views, doc);
@@ -481,11 +478,11 @@ bool UMLClipboard::pasteClip2(UMLDoc* doc, QMimeSource* data) {
 		}
 	}
 
-	UMLViewData * pViewData = 0;
-	UMLViewDataListIt view_it( views );
-	while ( ( pViewData =view_it.current()) != 0 ) {
+	UMLView * pView = 0;
+	UMLViewListIt view_it( views );
+	while ( ( pView =view_it.current()) != 0 ) {
 		++view_it;
-		if( !doc->addUMLView( pViewData ) ) {
+		if( !doc->addUMLView( pView ) ) {
 			return false;
 		}
 	}
@@ -553,22 +550,22 @@ bool UMLClipboard::pasteClip4(UMLDoc* doc, QMimeSource* data) {
 	objects.setAutoDelete(false);
 
 
-	UMLWidgetDataList		widgetdatas;
-	widgetdatas.setAutoDelete(false);
+	UMLWidgetList		widgets;
+	widgets.setAutoDelete(false);
 
-	AssociationWidgetDataList	assocs;
+	AssociationWidgetList	assocs;
 	assocs.setAutoDelete(false);
 
 	IDChangeLog* idchanges = 0;
 
 	Uml::Diagram_Type diagramType;
 
-	if( !UMLDrag::decodeClip4(data, objects, itemdatalist, widgetdatas, assocs, diagramType, doc) ) {
+	if( !UMLDrag::decodeClip4(data, objects, itemdatalist, widgets, assocs, diagramType, doc) ) {
 		return false;
 	}
 
 	if( diagramType != doc->getCurrentView()->getType() ) {
-		if( !checkPasteWidgets(widgetdatas) ) {
+		if( !checkPasteWidgets(widgets) ) {
 			return false;
 		}
 	}
@@ -590,24 +587,24 @@ bool UMLClipboard::pasteClip4(UMLDoc* doc, QMimeSource* data) {
 	//now add any widget we are want to paste
 	bool objectAlreadyExists = false;
 	doc->getCurrentView()->beginPartialWidgetPaste();
-	UMLWidgetData* widgetdata =0;
-	UMLWidgetDataListIt widgetdata_it(widgetdatas);
-	while ( (widgetdata=widgetdata_it.current()) != 0 ) {
-		++widgetdata_it;
+	UMLWidget* widget =0;
+	UMLWidgetListIt widget_it(widgets);
+	while ( (widget=widget_it.current()) != 0 ) {
+		++widget_it;
 
-		if (doc->getCurrentView()->findWidget(idchanges->findNewID(widgetdata->getId()))) {
+		if (doc->getCurrentView()->findWidget(idchanges->findNewID(widget->getID()))) {
 			objectAlreadyExists = true;
 		}
 
-		if ( !doc->getCurrentView()->addWidget(widgetdata) ) {
+		if ( !doc->getCurrentView()->addWidget(widget) ) {
 			doc->getCurrentView()->endPartialWidgetPaste();
 			return false;
 		}
 	}
 
 	//now paste the associations
-	AssociationWidgetData* assoc;
-	AssociationWidgetDataListIt assoc_it(assocs);
+	AssociationWidget* assoc;
+	AssociationWidgetListIt assoc_it(assocs);
 	while ( (assoc=assoc_it.current()) != 0 ) {
 		++assoc_it;
 		if( !doc->getCurrentView()->addAssociation(assoc) ) {
@@ -716,17 +713,17 @@ bool UMLClipboard::insertItemDataChildren( UMLListViewItem * item ) {
 	return true;
 }
 
-bool UMLClipboard::checkPasteWidgets( UMLWidgetDataList & widgetList ) {
-	UMLWidgetData * pData = 0;
-	UMLWidgetDataListIt it( widgetList );
-	while ( ( pData = it.current()) != 0 ) {
+bool UMLClipboard::checkPasteWidgets( UMLWidgetList & widgetList ) {
+	UMLWidget * p = 0;
+	UMLWidgetListIt it( widgetList );
+	while ( ( p = it.current()) != 0 ) {
 		++it;
-		switch( pData -> getType() ) {
+		switch( p -> getBaseType() ) {
 			case Uml::wt_Note:
 				break;
 
 			case Uml::wt_Text:
-				if( dynamic_cast<FloatingTextData *>( pData )->
+				if( dynamic_cast<FloatingText *>( p )->
 				        getRole() != Uml::tr_Floating )
 					return false;
 				break;

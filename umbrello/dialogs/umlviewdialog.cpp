@@ -22,7 +22,6 @@
 #include <qvbox.h>
 
 #include "umlviewdialog.h"
-#include "../umlviewdata.h"
 #include "../umlview.h"
 #include "../umldoc.h"
 #include "../classwidget.h"
@@ -129,8 +128,8 @@ void UMLViewDialog::applyPage( Page page ) {
 			}
 		case Color:
 			m_pColorPage->updateUMLWidget();
-			m_pView->setUseFillColor( m_pTempWidget->getUseFillColor() );
-			m_pView->setLineColor( m_pTempWidget->getLineColor() );
+			m_pView->setUseFillColor( m_pTempWidget->getUseFillColour() );
+			m_pView->setLineColor( m_pTempWidget->getLineColour() );
 			m_pView->setFillColor( m_pTempWidget->getFillColour() );
 			break;
 
@@ -177,7 +176,7 @@ void UMLViewDialog::checkName() {
 		m_diagramProperties->diagramName->setText( m_pView->getName() );
 		return;
 	}
-	((UMLViewData *)m_pView)->setName( name );
+	m_pView->setName( name );
 	pDoc->signalDiagramRenamed(m_pView);
 }
 

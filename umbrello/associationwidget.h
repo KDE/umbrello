@@ -11,7 +11,7 @@
 #define ASSOCIATIONWIDGET_H
 
 #include "umlnamespace.h"
-#include "associationwidgetdata.h"
+#include "linepath.h"
 
 // qt includes
 #include <qobject.h>
@@ -28,16 +28,18 @@ class UMLAssociation;
 
 using namespace Uml;
 
-/** This class represents an association
- * inside a diagram. It is the equivalent
- * to the original Association class
- * plus support for non straight lines
+/**
+ * This class represents an association inside a diagram.
+ * Associations exist not only between UML objects. For example, when a Note is
+ * attached to a UML object, the Note itself is not a UML object.
+ * This class supports both kinds of associations. An association where one or
+ * both roles are not a UML object is called a "pure widget association".
  *
  * @author Gustavo Madrigal
  * @short This class represents an association inside a diagram.
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class AssociationWidget : public QObject, public AssociationWidgetData {
+class AssociationWidget : public QObject {
 	Q_OBJECT
 public:
 	/**
@@ -54,11 +56,6 @@ public:
 	* Constructor
 	*/
 	AssociationWidget(QWidget *parent, UMLWidget* WidgetA, Association_Type Type, UMLWidget* WidgetB);
-
-	/**
-	* Constructor
-	*/
-	AssociationWidget(QWidget *parent, AssociationWidgetData& aData);
 
 	/**
 	* Deconstructor
@@ -92,74 +89,74 @@ public:
 
 	/**
 	 * Write property of m_pWidgetB
-	 */ 
+	 */
 	void setWidgetB( UMLWidget* WidgetB);
 
 	/**
 	* Read property of FloatingText* m_pMultiA.
 	*/
-	virtual  FloatingText* getMultiAWidget();
+	FloatingText* getMultiAWidget();
 
 	/**
 	 * Returns the m_pMultiA's text.
 	 */
-	virtual  QString getMultiA();
+	QString getMultiA() const;
 
 	/**
 	* Read property of FloatingText* m_pMultiB.
 	*/
-	virtual  FloatingText* getMultiBWidget();
+	FloatingText* getMultiBWidget();
 
 	/**
 	* Returns the m_pMultiB's text.
 	*/
-	virtual  QString getMultiB();
+	QString getMultiB() const;
 
 	/**
 	 * Read property of CFloatingText* m_pRoleA.
 	 */
-	virtual  FloatingText* getNameWidget();
+	FloatingText* getNameWidget();
 
 	/**
 	 * Returns the m_pName's text.
 	 */
-	virtual QString getName();
+	QString getName() const;
 
 	/**
 	* Read property of CFloatingText* m_pRoleA.
 	*/
-	virtual  FloatingText* getRoleAWidget();
+	FloatingText* getRoleAWidget();
 
 	/**
 	* Read property of CFloatingText* m_pRoleB.
 	*/
-	virtual  FloatingText* getRoleBWidget();
+	FloatingText* getRoleBWidget();
 
 	/**
 	 * Returns the documentation about this association.
 	 */
-	virtual  QString getDoc();
+	QString getDoc() const;
 
 	/**
 	* Returns the m_pRoleA's text.
 	*/
-	virtual  QString getRoleNameA();
+	QString getRoleNameA() const;
 
 	/**
 	 * Returns the documentation about RoleA.
 	 */
-	virtual  QString getRoleADoc();
+	QString getRoleADoc() const;
 
 	/**
 	* Returns the m_pRoleB's text.
 	*/
-	virtual  QString getRoleNameB();
+	QString getRoleNameB() const;
 
 	/**
 	 * Returns the documentation about Role B.
 	 */
-	virtual  QString getRoleBDoc();
- 
+	QString getRoleBDoc() const;
+
 	/**
 	 * Sets the text to the FloatingText representing the Name of this association
 	 */
@@ -181,58 +178,77 @@ public:
 	/**
 	 * Gets the visibility on the rolename A end of the Association
 	 */
-	virtual Scope getVisibilityA ();
+	Scope getVisibilityA () const;
 
 	/*
 	 * Gets the visibility on the rolename B end of the Association
 	 */
-	virtual Scope getVisibilityB ();
+	Scope getVisibilityB () const;
 
 	/**
 	 * Sets the visibility on the rolename 'A' end of the Association
 	 */
-	virtual void setVisibilityA ( Scope visibility );
+	void setVisibilityA ( Scope visibility );
 
 	/*
 	 * Sets the visibility on the rolename 'B' end of the Association
 	 */
-	virtual void setVisibilityB (Scope visibility);
-
+	void setVisibilityB (Scope visibility);
 
 	/**
 	 * Gets the changeability on the rolename A end of the Association
 	 */
-	virtual Changeability_Type getChangeabilityA();
+	Changeability_Type getChangeabilityA() const;
 
 	/**
 	 * Gets the changeability on the rolename B end of the Association
 	 */
-	virtual Changeability_Type getChangeabilityB();
+	Changeability_Type getChangeabilityB() const;
 
 	/**
 	 * Sets the changeability on the rolename 'B' end of the Association
 	 */
-	virtual void setChangeabilityA (Changeability_Type value);
+	void setChangeabilityA (Changeability_Type value);
 
 	/**
 	 * Sets the changeability on the rolename 'B' end of the Association
 	 */
-	virtual void setChangeabilityB (Changeability_Type value);
+	void setChangeabilityB (Changeability_Type value);
+
+	/**
+	* Write property of int m_nWidgetAID.
+	*/
+	void setWidgetAID(int AID);
+
+	/**
+	* Read property of int m_nWidgetAID.
+	*/
+	int getWidgetAID() const;
+
+	/**
+	* Write property of int m_nWidgetBID.
+	*/
+	void setWidgetBID(int BID);
+
+	/**
+	* Read property of int m_nWidgetBID.
+	*/
+	int getWidgetBID() const;
 
 	/**
 	 * Read property of UMLWidget* m_pWidgetA.
 	 */
-	virtual UMLWidget* getWidgetA();
+	UMLWidget* getWidgetA();
 
 	/**
 	 * Set the associated widgets.
 	 */
-	virtual bool setWidgets( UMLWidget* WidgetA, Association_Type AssocType, UMLWidget* WidgetB);
+	bool setWidgets( UMLWidget* WidgetA, Association_Type AssocType, UMLWidget* WidgetB);
 
 	/**
 	 * Read property of UMLWidget* m_pWidgetB.
 	 */
-	virtual UMLWidget* getWidgetB();
+	UMLWidget* getWidgetB();
 
 	/**
 	 * Synchronizes the Widget's data members with its display properties, for example:
@@ -255,6 +271,11 @@ public:
 	 * Returns true if the Widget is either at the starting or ending side of the association
 	 */
 	bool contains(UMLWidget* Widget);
+
+	/**
+	 * Gets the association's type
+	 */
+	Association_Type getAssocType() const;
 
 	/**
 	 * Sets the association's type
@@ -288,7 +309,7 @@ public:
 	 *
 	 *	@return Returns the state of whether the widget is selected.
 	 */
-	bool getSelected() {
+	bool getSelected() const {
 		return m_bSelected;
 	}
 
@@ -356,14 +377,14 @@ public:
 	QRect getAssocLineRectangle();
 
 
-	/** 
-	 * Return the first font found being  used 
+	/**
+	 * Return the first font found being  used
 	 * by any child widget (they could be different fonts,
 	 * so this is slightly mis-leading method)
          */
-	QFont getFont ();
+	QFont getFont () const;
 
-	/** 
+	/**
 	 * set all 'owned' child widgets to this font
 	 */
 	void setFont (QFont font);
@@ -372,12 +393,12 @@ public:
 	/**
 	 * Read property of FloatingText * m_pChangeWidgetA.
 	 */
-	virtual  FloatingText* getChangeWidgetA();
+	FloatingText* getChangeWidgetA();
 
 	/**
 	 * Read property of FloatingText * m_pChangeWidgetB.
 	 */
-	virtual  FloatingText* getChangeWidgetB();
+	FloatingText* getChangeWidgetB();
 
 
 	/**
@@ -385,24 +406,24 @@ public:
 	 * For this funtion to work properly, the associated widgets (m_pWidgetA and m_pWidgetB)
 	 * should be already set
 	 */
-	bool setRoleNameA(QString strRole); 
+	bool setRoleNameA(QString strRole);
 	bool setRoleNameB(QString strRole);
 
-	/** 
+	/**
 	 * Set the documentation on this association
 	 */
-	void setDoc(QString doc); 
+	void setDoc(QString doc);
 
 	/**
 	 * Set the documentation on roles A,B.
 	 */
-	void setRoleADoc(QString doc); 
-	void setRoleBDoc(QString doc); 
+	void setRoleADoc(QString doc);
+	void setRoleBDoc(QString doc);
 
 	/**
-	 * Returns the UMLAssociaiton representation of this object.
+	 * Returns the UMLAssociation representation of this object.
 	 */
-	UMLAssociation * getAssociation () { 
+	UMLAssociation * getAssociation () {
 		return m_pAssociation;
 	}
 
@@ -411,15 +432,73 @@ public:
 	 */
 	void resetTextPositions();
 
-private:
+	/**
+	*  Sets the Association line index for widgetA
+	*/
+	void setIndexA(int index) {
+		m_nIndexA = index;
+	}
 
 	/**
-	 * Merges/syncs the association widget data into UML object  
-	 * representation. Should eventually remove this method when the
-	 * day finally comes that we get rid of associationwidgetdata
-	 * child object.
+	*  Returns the Association line index for widgetA
+	*/
+	int getIndexA() const {
+		return m_nIndexA;
+	}
+
+	/**
+	*  Sets the Association line index for widgetB
+	*/
+	void setIndexB(int index) {
+		m_nIndexB = index;
+	}
+
+	/**
+	*  Returns the Association line index for widgetB
+	*/
+	int getIndexB() const {
+		return m_nIndexB;
+	}
+
+	/**
+	*  Sets the total count on the Association region for widgetA
+	*/
+	void setTotalCountA(int count) {
+		m_nTotalCountA = count;
+	}
+
+	/**
+	*  Returns the total count on the Association region for widgetA
+	*/
+	int getTotalCountA() const {
+		return m_nTotalCountA;
+	}
+
+	/**
+	*  Sets the total count on the Association region for widgetB
+	*/
+	void setTotalCountB(int count) {
+		m_nTotalCountB = count;
+	}
+
+	/**
+	*  Region the total count on the Association region for widgetB
+	*/
+	int getTotalCountB() const {
+		return m_nTotalCountB;
+	}
+
+	bool saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+
+	bool loadFromXMI( QDomElement & qElement );
+
+private:
+	/**
+	 * Merges/syncs the association widget data into UML object
+	 * representation.
+	 * FIXME: Get rid of this.
 	 */
-	void mergeAssociationDataIntoUMLRepresentation(); 
+	void mergeAssociationDataIntoUMLRepresentation();
 
 	/**
 	 * Finds out in which region contains the Point (PosX, PosY) and returns the region
@@ -515,9 +594,9 @@ private:
 	 * Association, Since the number of Associations on the same region for the
 	 * same widget will mean the lines will need to be spread out across the region.
 	 */
-	Region getWidgetRegion(AssociationWidget * widget);
+	Region getWidgetRegion(AssociationWidget * widget) const;
 
-	/** This is a pointer to the Floating Text widget which displays the name of this 
+	/** This is a pointer to the Floating Text widget which displays the name of this
 	 * association.
 	 */
 	FloatingText* m_pName;
@@ -591,14 +670,14 @@ private:
 	/**
 	 * Returns the region the line is on for widgetA.
 	 */
-	Region getWidgetARegion() {
+	Region getWidgetARegion() const {
 		return m_WidgetARegion;
 	}
 
 	/**
 	 * Returns the region the line is on for widgetB.
 	 */
-	Region getWidgetBRegion() {
+	Region getWidgetBRegion() const {
 		return m_WidgetBRegion;
 	}
 
@@ -629,17 +708,17 @@ protected:
 
 private:
 
-	/** 
+	/**
 	 * initialize attributes of this class at construction time
 	 */
-	void init (QWidget *parent); 
+	void init (QWidget *parent);
 
 	// yes, this is correct, we dont want other classes/users seeing this
 	// they should use setChangeability[AB] instead
-	bool setChangeWidgetA (QString strChangeWidgetA); 
+	bool setChangeWidgetA (QString strChangeWidgetA);
 
 	// yes, this is correct, we dont want other classes/users seeing this
-	bool setChangeWidgetB (QString strChangeWidgetB); 
+	bool setChangeWidgetB (QString strChangeWidgetB);
 
 	/**
 	 *  Checks to see if the given point is one of the points of the line.
@@ -653,7 +732,7 @@ private:
 	QBitmap 	*m_pMask;*/
 
 	UMLView 	* m_pView;
-	Region 		m_WidgetARegion, 
+	Region 		m_WidgetARegion,
 			m_WidgetBRegion;
 
 	/**
@@ -670,9 +749,48 @@ private:
 	uint 		m_unNameLineSegment;
 	bool 		m_bFocus;
 	ListPopupMenu 	*m_pMenu;
-	UMLAssociation * m_pAssociation;
+	UMLAssociation  *m_pAssociation;
 	bool 		m_bSelected;
 	int 		m_nMovingPoint;
+
+	// Data loaded/saved:
+
+	/**
+	 * The definition points for the association line
+	 */
+	LinePath m_LinePath;
+
+	/**
+	 * The index of where the line is on the region for widget a
+	 */
+	int m_nIndexA;
+
+	/**
+	 * The index of where the line is on the region for widget b
+	 */
+	int m_nIndexB;
+
+	/**
+	 * The total amount of associations on the region widget a line is on.
+	 */
+	int m_nTotalCountA;
+
+	/**
+	 * The total amount of associations on the region widget b line is on.
+	 */
+	int m_nTotalCountB;
+
+	/**
+	 * The following items are only used if m_pAssociation is not set.
+	 */
+	Uml::Association_Type m_AssocType;
+	int m_RoleAId;
+	int m_RoleBId;
+	QString m_RoleADoc, m_RoleBDoc;
+	QString m_RoleNameA, m_RoleNameB;
+	QString m_MultiA, m_MultiB;
+	Scope m_VisibilityA, m_VisibilityB;
+	Changeability_Type m_ChangeabilityA, m_ChangeabilityB;
 
 public slots:
 	/**
@@ -686,7 +804,7 @@ public slots:
 	 * children should make sure that they don't have a menu active or there
 	 * could be more than one popup menu displayed.
 	 */
-	virtual void slotRemovePopupMenu();
+	void slotRemovePopupMenu();
 
 	/**
 	 * Handles any signals that tells everyone not to be selected.
@@ -696,6 +814,6 @@ public slots:
 	/**
 	 * Merge together the UMLAssociation representation and this widget
 	 */
-	void mergeUMLRepresentationIntoAssociationData(); 
+	void mergeUMLRepresentationIntoAssociationData();
 };
 #endif

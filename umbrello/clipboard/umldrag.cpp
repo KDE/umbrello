@@ -6,17 +6,17 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include <iostream.h>
 #include <kdebug.h>
 #include <qdom.h>
 
 #include "umldrag.h"
+#include "../uml.h"
 #include "../umldoc.h"
 #include "../umlview.h"
 #include "../umlobject.h"
-#include "../umlwidgetdata.h"
+#include "../umlwidget.h"
 #include "../umllistviewitemdata.h"
-#include "../associationwidgetdata.h"
+#include "../associationwidget.h"
 
 class UMLDragPrivate {
 public:
@@ -58,7 +58,7 @@ UMLDrag::UMLDrag(UMLObjectList& objects, UMLListViewItemDataList& umlListViewIte
 	setUMLDataClip1(objects, umlListViewItems);
 }
 
-UMLDrag::UMLDrag(UMLObjectList& objects, UMLListViewItemDataList& umlListViewItems, UMLViewDataList& diagrams,
+UMLDrag::UMLDrag(UMLObjectList& objects, UMLListViewItemDataList& umlListViewItems, UMLViewList& diagrams,
 		 QWidget* dragSource /*= 0*/, const char* name /*= 0*/ ): QDragObject(dragSource, name) {
 	data = new UMLDragPrivate;
 	setUMLDataClip2(objects, umlListViewItems, diagrams);
@@ -71,11 +71,11 @@ UMLDrag::UMLDrag(UMLListViewItemDataList& umlListViewItems, QWidget* dragSource 
 }
 
 UMLDrag::UMLDrag(UMLObjectList& objects, UMLListViewItemDataList& umlListViewItems,
-		 UMLWidgetDataList& widgetDatas, AssociationWidgetDataList& associationDatas,
+		 UMLWidgetList& widgets, AssociationWidgetList& associationDatas,
 		 QPixmap& pngImage, Uml::Diagram_Type dType, QWidget * dragSource /*= 0*/,
 		 const char * name /*= 0*/ ): QDragObject(dragSource, name) {
 	data = new UMLDragPrivate;
-	setUMLDataClip4(objects, umlListViewItems, widgetDatas, associationDatas, pngImage, dType);
+	setUMLDataClip4(objects, umlListViewItems, widgets, associationDatas, pngImage, dType);
 }
 
 UMLDrag::UMLDrag(UMLObjectList& objects, UMLListViewItemDataList& umlListViewItems, int,
@@ -144,7 +144,7 @@ void UMLDrag::setUMLDataClip1(UMLObjectList& objects, UMLListViewItemDataList& u
 }
 
 void UMLDrag::setUMLDataClip2(UMLObjectList& objects, UMLListViewItemDataList& umlListViewItems,
-			      UMLViewDataList& diagrams) {
+			      UMLViewList& diagrams) {
 	setSubType("clip2", 0);
 
 	QDomDocument domDoc;
@@ -163,11 +163,11 @@ void UMLDrag::setUMLDataClip2(UMLObjectList& objects, UMLListViewItemDataList& u
 	QDomElement viewsTag = domDoc.createElement("umlviews");
 	xmiclip.appendChild(viewsTag);
 
-	UMLViewDataListIt diagram_it(diagrams);
-	UMLViewData* viewData = 0;
-	while ( (viewData=diagram_it.current()) != 0 ) {
+	UMLViewListIt diagram_it(diagrams);
+	UMLView* view = 0;
+	while ( (view=diagram_it.current()) != 0 ) {
 		++diagram_it;
-		viewData->saveToXMI(domDoc, viewsTag);
+		view->saveToXMI(domDoc, viewsTag);
 	}
 
 	QDomElement itemsTag = domDoc.createElement("umllistviewitems");
@@ -202,7 +202,7 @@ void UMLDrag::setUMLDataClip3(UMLListViewItemDataList& umlListViewItems) {
 }
 
 void UMLDrag::setUMLDataClip4(UMLObjectList& objects, UMLListViewItemDataList& umlListViewItems,
-			      UMLWidgetDataList& widgetDatas, AssociationWidgetDataList& associationDatas,
+			      UMLWidgetList& widgets, AssociationWidgetList& associations,
 			      QPixmap& pngImage, Uml::Diagram_Type dType ) {
 	setSubType("clip4", 0);
 
@@ -223,18 +223,18 @@ void UMLDrag::setUMLDataClip4(UMLObjectList& objects, UMLListViewItemDataList& u
 	QDomElement widgetsTag = domDoc.createElement("widgets");
 	xmiclip.appendChild(widgetsTag);
 
-	UMLWidgetDataListIt widget_it(widgetDatas);
-	UMLWidgetData* widgetData = 0;
-	while ( (widgetData=widget_it.current()) != 0 ) {
+	UMLWidgetListIt widget_it(widgets);
+	UMLWidget* widget = 0;
+	while ( (widget=widget_it.current()) != 0 ) {
 		++widget_it;
-		widgetData->saveToXMI(domDoc, widgetsTag);
+		widget->saveToXMI(domDoc, widgetsTag);
 	}
 
 	QDomElement associationWidgetsTag = domDoc.createElement("associations");
 	xmiclip.appendChild(associationWidgetsTag);
 
-	AssociationWidgetDataListIt associations_it(associationDatas);
-	AssociationWidgetData* association;
+	AssociationWidgetListIt associations_it(associations);
+	AssociationWidget* association;
 	while ( (association=associations_it.current()) != 0 ) {
 		++associations_it;
 		association->saveToXMI(domDoc, associationWidgetsTag);
@@ -376,7 +376,7 @@ bool UMLDrag::decodeClip1(const QMimeSource* mimeSource, UMLObjectList& objects,
 }
 
 bool UMLDrag::decodeClip2(const QMimeSource* mimeSource, UMLObjectList& objects,
-			  UMLListViewItemDataList& umlListViewItems, UMLViewDataList& diagrams, UMLDoc* doc) {
+			  UMLListViewItemDataList& umlListViewItems, UMLViewList& diagrams, UMLDoc* doc) {
 	if ( !mimeSource->provides("application/x-uml-clip2") ) {
 		return false;
 	}
@@ -440,7 +440,7 @@ bool UMLDrag::decodeClip2(const QMimeSource* mimeSource, UMLObjectList& objects,
 		return false;
 	}
 	while ( !diagramElement.isNull() ) {
-		UMLViewData* view = new UMLViewData();
+		UMLView* view = new UMLView(UMLApp::app()->getMainViewWidget(), doc);
 		view->loadFromXMI(diagramElement);
 		diagrams.append(view);
 		diagramNode = diagramNode.nextSibling();
@@ -512,8 +512,8 @@ bool UMLDrag::decodeClip3(const QMimeSource* mimeSource, UMLListViewItemDataList
 }
 
 bool UMLDrag::decodeClip4(const QMimeSource* mimeSource, UMLObjectList& objects,
-			  UMLListViewItemDataList& umlListViewItems, UMLWidgetDataList& widgetDatas,
-			  AssociationWidgetDataList& associationDatas, Uml::Diagram_Type & dType,
+			  UMLListViewItemDataList& umlListViewItems, UMLWidgetList& widgets,
+			  AssociationWidgetList& associations, Uml::Diagram_Type & dType,
 			  UMLDoc* doc) {
 	if ( !mimeSource->provides("application/x-uml-clip4") ) {
 		return false;
@@ -547,75 +547,68 @@ bool UMLDrag::decodeClip4(const QMimeSource* mimeSource, UMLObjectList& objects,
 	QDomNode objectsNode = xmiClipNode.firstChild();
 	QDomNode objectElement = objectsNode.firstChild();
 	QDomElement element = objectElement.toElement();
-	if ( !element.isNull() ) {
+	while ( !element.isNull() ) {
 		UMLObject* pObject = 0;
-		while ( !element.isNull() ) {
-			pObject = 0;
-			QString type = element.tagName();
-			//FIXME associations don't load
-			pObject = doc->makeNewUMLObject(type);
+		QString type = element.tagName();
+		//FIXME associations don't load
+		pObject = doc->makeNewUMLObject(type);
 
-			if ( !pObject ) {
-				kdWarning() << "Given wrong type of umlobject to create:" << type << endl;
-				return false;
-			}
-			if ( !pObject->loadFromXMI( element ) ) {
-				kdWarning() << "failed to load object from XMI" << endl;
-				return false;
-			}
-			objects.append(pObject);
-			objectElement = objectElement.nextSibling();
-			element = objectElement.toElement();
+		if ( !pObject ) {
+			kdWarning() << "Given wrong type of umlobject to create: " << type << endl;
+			return false;
 		}
+		if ( !pObject->loadFromXMI( element ) ) {
+			kdWarning() << "failed to load object from XMI" << endl;
+			return false;
+		}
+		objects.append(pObject);
+		objectElement = objectElement.nextSibling();
+		element = objectElement.toElement();
 	}
-	//widgetDatas
-	QDomNode widgetDatasNode = objectsNode.nextSibling();
-	QDomNode widgetDataNode = widgetDatasNode.firstChild();
-	QDomElement widgetDataElement = widgetDataNode.toElement();
-	if ( widgetDataElement.isNull() ) {
-		kdWarning() << "no widget datas in XMI clip" << endl;
+	//widgets
+	QDomNode widgetsNode = objectsNode.nextSibling();
+	QDomNode widgetNode = widgetsNode.firstChild();
+	QDomElement widgetElement = widgetNode.toElement();
+	if ( widgetElement.isNull() ) {
+		kdWarning() << "no widgets in XMI clip" << endl;
 		return false;
 	}
-	while ( !widgetDataElement.isNull() ) {
-		UMLWidgetData* widgetData = doc->getCurrentView()->loadWidgetFromXMI(widgetDataElement);
-		widgetDatas.append(widgetData);
-		widgetDataNode = widgetDataNode.nextSibling();
-		widgetDataElement = widgetDataNode.toElement();
+	while ( !widgetElement.isNull() ) {
+		UMLWidget* widget = doc->getCurrentView()->loadWidgetFromXMI(widgetElement);
+		widgets.append(widget);
+		widgetNode = widgetNode.nextSibling();
+		widgetElement = widgetNode.toElement();
 	}
 
-	//associationWidgetDatas
-	QDomNode associationWidgetsNode = widgetDatasNode.nextSibling();
+	//AssociationWidgets
+	QDomNode associationWidgetsNode = widgetsNode.nextSibling();
 	QDomNode associationWidgetNode = associationWidgetsNode.firstChild();
 	QDomElement associationWidgetElement = associationWidgetNode.toElement();
-	if ( !associationWidgetElement.isNull() ) {
-		while ( !associationWidgetElement.isNull() ) {
-			AssociationWidgetData* associationWidgetData = new AssociationWidgetData();
-			associationWidgetData->loadFromXMI(associationWidgetElement);
-			associationDatas.append(associationWidgetData);
-			associationWidgetNode = associationWidgetNode.nextSibling();
-			associationWidgetElement = associationWidgetNode.toElement();
-		}
+	while ( !associationWidgetElement.isNull() ) {
+		AssociationWidget* associationWidget = new AssociationWidget(doc->getCurrentView());
+		associationWidget->loadFromXMI(associationWidgetElement);
+		associations.append(associationWidget);
+		associationWidgetNode = associationWidgetNode.nextSibling();
+		associationWidgetElement = associationWidgetNode.toElement();
 	}
 
 	//listviewitems
 	QDomNode listItemNode = associationWidgetsNode.nextSibling();
 	QDomNode listItems = listItemNode.firstChild();
 	QDomElement listItemElement = listItems.toElement();
-	if ( !listItemElement.isNull() ) {
-		while ( !listItemElement.isNull() ) {
-			UMLListViewItemData* itemData = new UMLListViewItemData();
-			itemData->loadFromXMI(listItemElement);
-			umlListViewItems.append(itemData);
-			listItems = listItems.nextSibling();
-			listItemElement = listItems.toElement();
-		}
+	while ( !listItemElement.isNull() ) {
+		UMLListViewItemData* itemData = new UMLListViewItemData();
+		itemData->loadFromXMI(listItemElement);
+		umlListViewItems.append(itemData);
+		listItems = listItems.nextSibling();
+		listItemElement = listItems.toElement();
 	}
 	return true;
 }
 
 bool UMLDrag::decodeClip5(const QMimeSource* mimeSource, UMLObjectList& objects,
 			  UMLListViewItemDataList& umlListViewItems, UMLDoc* doc) {
-cerr<<"DECODE CLIP 5 CALLED"<<endl;
+kdDebug()<<"DECODE CLIP 5 CALLED"<<endl;
 	if ( !mimeSource->provides("application/x-uml-clip5") ) {
 		return false;
 	}

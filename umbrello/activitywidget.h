@@ -11,6 +11,7 @@
 #define ACTIVITYWIDGET_H
 
 #include "umlwidget.h"
+#include "worktoolbar.h"
 
 #define ACTIVITY_MARGIN 5
 #define ACTIVITY_WIDTH 30
@@ -41,19 +42,12 @@ public:
 	    Branch,
 	    Fork
 	};
-	/**
-	 *	Creates a Activity widget.
-	 *
-	 *	@param	view		The parent of the widget.
-	 *	@param	pData		The UMLWidgetData to represent.
-	 */
-	ActivityWidget( UMLView * view, UMLWidgetData* pData );
 
 	/**
 	 *	Creates a Activity widget.
 	 *
 	 *	@param	view		The parent of the widget.
-	 *	@param	activityType  The type of activity.
+	 *	@param	activityType	The type of activity.
 	 */
 	ActivityWidget( UMLView * view, ActivityType activityType );
 
@@ -70,12 +64,6 @@ public:
 	~ActivityWidget();
 
 	/**
-	 * Synchronize the Widget's m_pData member with its display properties, for example:
-	 *the X and Y positions of the widget, etc
-	 */
-	virtual void synchronizeData();
-
-	/**
 	 *	Overrides the standard paint event.
 	 */
 	void draw(QPainter & p, int offsetX, int offsetY);
@@ -88,12 +76,12 @@ public:
 	/**
 	 * Returns the name of the Activity.
 	 */
-	virtual QString getName();
+	virtual QString getName() const;
 
 	/**
 	 *   Returns the documentation of the activity.
 	 */
-	QString getDoc();
+	QString getDoc() const;
 
 	/**
 	 *   Sets the documenation of the activity.
@@ -103,7 +91,7 @@ public:
 	/**
 	 *   Returns the type of activity.
 	 */
-	ActivityType getActivityType();
+	ActivityType getActivityType() const;
 
 	/**
 	 *     Sets the type of activity.
@@ -115,11 +103,37 @@ public:
 	 */
 	void mouseDoubleClickEvent(QMouseEvent * /*me*/);
 
+	static bool isActivity( WorkToolBar::ToolBar_Buttons tbb,
+				ActivityType& resultType );
+
+	bool saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+
+	bool loadFromXMI( QDomElement & qElement );
+
 protected:
 	/**
 	 *	Calculates the size of the widget.
 	 */
 	void calculateSize();
+
+	/*
+	*   Data loaded/saved
+	*/
+
+	/**
+	*   Type of activity.
+	*/
+	ActivityWidget::ActivityType m_ActivityType;
+
+	/**
+	*   Name of the activity.
+	*/
+	QString m_Name;
+
+	/**
+	*   Documentation for the activity;
+	*/
+	QString m_Doc;
 
 public slots:
 

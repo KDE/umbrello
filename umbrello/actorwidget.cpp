@@ -9,30 +9,27 @@
 
 #include "actorwidget.h"
 #include <qpainter.h>
-#include "actorwidgetdata.h"
 #include "umlview.h"
 
-ActorWidget::ActorWidget(UMLView * view, UMLObject *o, UMLWidgetData* pData) : UMLWidget(view, o,  pData) {}
-
-ActorWidget::ActorWidget(UMLView * view, UMLObject *o) : UMLWidget(view, o, new ActorWidgetData(view->getOptionState() )) {
-	m_pData->setType(wt_Actor);
+ActorWidget::ActorWidget(UMLView * view, UMLObject *o) : UMLWidget(view, o) {
+	UMLWidget::setBaseType( wt_Actor );
 	calculateSize();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-ActorWidget::ActorWidget(UMLView * view) : UMLWidget(view, new ActorWidgetData(view->getOptionState() )) {
-	m_pData->setType(wt_Actor);
+ActorWidget::ActorWidget(UMLView * view) : UMLWidget(view) {
+	UMLWidget::setBaseType( wt_Actor );
 	calculateSize();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ActorWidget::~ActorWidget() {}
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void ActorWidget::draw(QPainter & p, int offsetX, int offsetY) {
-	p.setPen(m_pData->getLineColour());
-	if(m_pData->getUseFillColor())
-		p.setBrush(m_pData->getFillColour());
+	p.setPen( UMLWidget::getLineColour() );
+	if( UMLWidget::getUseFillColour() )
+		p.setBrush( UMLWidget::getFillColour() );
 	int w = width();
 	int textStartY = A_HEIGHT + A_MARGIN;
-	p.setFont( m_pData -> getFont() );
+	p.setFont( UMLWidget::getFont() );
 	QFontMetrics &fm = getFontMetrics(FT_NORMAL);
 	int fontHeight  = fm.lineSpacing();
 
@@ -61,12 +58,6 @@ void ActorWidget::calculateSize() {
 
 	width += A_MARGIN * 2;
 	setSize(width, height);
-	adjustAssocs( (int)x(), (int)y() );//adjust assoc lines
+	adjustAssocs( getX(), getY() );//adjust assoc lines
 }
 
-/** Synchronizes the Widget's m_pData member with its display properties, for example:
- the X and Y positions of the widget, etc */
-void ActorWidget::synchronizeData() {
-	//Nothing to synchronize
-	UMLWidget::synchronizeData();
-}

@@ -16,23 +16,18 @@
 //app includes
 #include "umlview.h"
 #include "boxwidget.h"
-#include "boxwidgetdata.h"
 
-BoxWidget::BoxWidget(UMLView* view, UMLWidgetData* pData) : UMLWidget(view, pData) {
-	init();
-}
-
-BoxWidget::BoxWidget(UMLView* view, int id) : UMLWidget( view, id, new BoxWidgetData() ) {
+BoxWidget::BoxWidget(UMLView * view, int id) : UMLWidget( view, id ) {
 	init();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-BoxWidget::BoxWidget(UMLView* view) : UMLWidget( view, new BoxWidgetData() ) {
+BoxWidget::BoxWidget(UMLView * view) : UMLWidget( view ) {
 	init();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void BoxWidget::init() {
 	setSize(100,80);
-	m_pData->setType(wt_Box);
+	UMLWidget::setBaseType( wt_Box );
 	setZ(0);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -61,7 +56,7 @@ void BoxWidget::mouseMoveEvent(QMouseEvent *me) {
 	newW = newW < 20?20:newW;
 	newH = newH < 20?20:newH;
 	setSize( newW, newH );
-	adjustAssocs( (int)x(), (int)y() );
+	adjustAssocs( getX(), getY() );
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void BoxWidget::mousePressEvent(QMouseEvent *me) {
@@ -72,8 +67,8 @@ void BoxWidget::mousePressEvent(QMouseEvent *me) {
 	m_nOldH = h;
 	int m = 10;
 	//bottomRight
-	if( (m_nOldX + m_nPressOffsetX) >= ((int)x() + width() - m) &&
-	    (m_nOldY + m_nPressOffsetY) >= ((int)y() + height() - m) && me->button() == LeftButton) {
+	if( (m_nOldX + m_nPressOffsetX) >= (getX() + width() - m) &&
+	    (m_nOldY + m_nPressOffsetY) >= (getY() + height() - m) && me->button() == LeftButton) {
 		m_bResizing = true;
 		m_pView->setCursor(KCursor::sizeFDiagCursor());
 	}
@@ -84,5 +79,11 @@ void BoxWidget::mouseReleaseEvent(QMouseEvent* me) {
 	m_bResizing = false;
 	m_pView->setCursor( KCursor::arrowCursor() );
 }
-
+////////////////////////////////////////////////////////////////////////////////////////////////////
+bool BoxWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
+	QDomElement boxElement = qDoc.createElement("boxwidget");
+	bool status = UMLWidget::saveToXMI(qDoc, boxElement);
+	qElement.appendChild(boxElement);
+	return status;
+}
 

@@ -27,28 +27,21 @@ class UMLView;
  */
 class PackageWidget : public UMLWidget {
 public:
-	/**
-	 *	Constructs a PackageWidget.
-	 *
-	 *	@param	view		The parent of this PackageWidget.
-	 *	@param	pData		The PackageWidgetData to represent.
-	 */
-	PackageWidget(UMLView* view, UMLObject* o, UMLWidgetData* pData);
 
 	/**
 	 *	Constructs a PackageWidget.
 	 *
-	 *	@param	view		The parent of this PackageWidget.
-	 *	@param	o		The UMLObject is will be representing.
+	 *	@param	view	The parent of this PackageWidget.
+	 *	@param	o	The UMLObject this will be representing.
 	 */
-	PackageWidget(UMLView* view, UMLObject* o);
+	PackageWidget(UMLView * view, UMLObject * o);
 
 	/**
 	 *	Constructs a PackageWidget.
 	 *
 	 *	@param	view	The parent of this PackageWidget.
 	 */
-	PackageWidget(UMLView* view);
+	PackageWidget(UMLView * view);
 
 	/**
 	 *	Standard deconstructor.
@@ -83,8 +76,27 @@ public:
 	 *	Overrides standards method
 	 */
 	void draw(QPainter& p, int offsetX, int offsetY);
-private:
 
+	/**
+	 * Saves to the <packagewidget> element
+	 */
+	bool saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
+
+	/**
+	 * Loads from a <packagewidget> element
+	 */
+	bool loadFromXMI(QDomElement& qElement);
+
+protected:
+	// Data loaded/saved
+
+	/**
+	 * Should it show the <<stereotype>> of the package, currently ignored
+	 * (stereotype is shown if it isn't empty).
+	 */
+	bool m_bShowStereotype;
+
+private:
 	/**
 	 *	Automatically calculates the size of the object.
 	 */

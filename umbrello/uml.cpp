@@ -17,6 +17,7 @@
 
 #include "umldoc.h"
 #include "umllistview.h"
+#include "umlviewlist.h"
 #include "worktoolbar.h"
 
 #include "clipboard/umlclipboard.h"
@@ -502,19 +503,19 @@ void UMLApp::saveOptions() {
 	if(gen && gen->getPolicy())
 	      m_defaultcodegenerationpolicy->setDefaults(gen->getPolicy());
 
-	// write the config for each language-specific code gen policies 
+	// write the config for each language-specific code gen policies
 	QDictIterator<GeneratorInfo> it( ldict );
-	for(it.toFirst() ; it.current(); ++it ) 
+	for(it.toFirst() ; it.current(); ++it )
 	{
 		CodeGenerator * gen = doc->findCodeGeneratorByLanguage(it.current()->language);
-		if (gen) 
-                	gen->getPolicy()->writeConfig(config);
+		if (gen)
+	gen->getPolicy()->writeConfig(config);
 	}
 
 	// now write the basic defaults to the config file
 	m_defaultcodegenerationpolicy->writeConfig(config);
 
-	// next, we record the activeLanguage in the Code Generation Group 
+	// next, we record the activeLanguage in the Code Generation Group
 	config->setGroup("Code Generation");
 	config->writeEntry("activeLanguage",activeLanguage);
 
@@ -1092,7 +1093,7 @@ void UMLApp::readOptionState() {
 
 
 /** Call the code viewing assistant on a code document */
-void UMLApp::viewCodeDocument ( UMLClassifier * c) 
+void UMLApp::viewCodeDocument ( UMLClassifier * c)
 {
 
 	CodeGenerator * currentGen = getGenerator();
@@ -1114,7 +1115,7 @@ void UMLApp::viewCodeDocument ( UMLClassifier * c)
 void UMLApp::refactor( UMLClassifier *c ){
  if(! m_refactoringAssist )
  {
- 	m_refactoringAssist = new RefactoringAssistant( doc, 0, 0, "refactoring_assistant" );
+	m_refactoringAssist = new RefactoringAssistant( doc, 0, 0, "refactoring_assistant" );
  }
  m_refactoringAssist->setObject( c );
  m_refactoringAssist->show();
@@ -1151,7 +1152,7 @@ CodeGenerator* UMLApp::getGenerator(bool warnMissing ) {
 
 	CodeGenerator * gen = getDocument()->getCurrentCodeGenerator();
 
-	if( !gen) 
+	if( !gen)
 	{
 		gen = createGenerator();
 		setGenerator(gen, warnMissing);
@@ -1176,8 +1177,8 @@ CodeGenerator* UMLApp::createGenerator() {
 		return 0;
 	}
 
-	// does the code generator for our activeLanguage already exist? 
-	// then simply return that 
+	// does the code generator for our activeLanguage already exist?
+	// then simply return that
 	g = getDocument()->findCodeGeneratorByLanguage(activeLanguage);
 	if(g) {
 		return g;
@@ -1207,8 +1208,8 @@ CodeGenerator* UMLApp::createGenerator() {
         // now set defaults on the new policy from the the configuration
         // file and THEN the default policy, which may have been updated
 	// since it was first created. In both cases, DONT emit the modifiedCodeContent
-	// signal as we will be doing that later. 
-	// 
+	// signal as we will be doing that later.
+	//
 	g->getPolicy()->setDefaults(config, false); // picks up language specific stuff
 	g->getPolicy()->setDefaults(m_defaultcodegenerationpolicy, false);
 
@@ -1246,7 +1247,7 @@ void UMLApp::generationWizard() {
 void UMLApp::setActiveLanguage(int id) {
 
 	// only change the active language IF different from one we currently have
-	if (!langSelect->isItemChecked(id)) 
+	if (!langSelect->isItemChecked(id))
 	{
 
 		for(unsigned int i=0; i < langSelect->count(); i++) {
@@ -1266,18 +1267,16 @@ void UMLApp::setActiveLanguage(QString activeLanguage) {
 
 	for(unsigned int j=0; j < langSelect->count(); j++) {
 		int id = langSelect->idAt(j);
-   
-		if (langSelect->text(id) == activeLanguage && 
-		      langSelect->isItemChecked(id)) 
+
+		if (langSelect->text(id) == activeLanguage &&
+		      langSelect->isItemChecked(id))
 			return; // already set.. no need to do anything
 	}
 
 	for(unsigned int i=0; i < langSelect->count(); i++) {
-		if (langSelect->text(langSelect->idAt(i)) == activeLanguage) {
-			langSelect->setItemChecked(langSelect->idAt(i),true);
-		} else {
-			langSelect->setItemChecked(langSelect->idAt(i),false);  //uncheck everything
-		}
+		bool isActiveLang = (langSelect->text(langSelect->idAt(i)) == activeLanguage);
+		//uncheck everything except the active language
+		langSelect->setItemChecked(langSelect->idAt(i), isActiveLang);
 	}
 	this->activeLanguage = activeLanguage;
 
@@ -1335,9 +1334,10 @@ void UMLApp::slotUpdateViews() {
 
 	menu->clear();
 
-	for (QPtrListIterator<UMLView> views = getDocument()->getViewIterator(); views.current(); ++views) {
-		menu->insertItem( views.current()->getName(), views.current(), SLOT( slotShowView() ) );
-		views.current()->fileLoaded();
+	UMLViewList views = getDocument()->getViewIterator();
+	for(UMLView *view = views.first(); view; view = views.next()) {
+		menu->insertItem( view->getName(), view, SLOT( slotShowView() ) );
+		view->fileLoaded();
 	}
 
 }
@@ -1441,7 +1441,7 @@ void UMLApp::initLibraries() {
 	QStringList languages;
 	GeneratorInfo *info;
 
-	//////// Load informatin for already registered libraries.
+	//////// Load information for already registered libraries.
 	for ( QStringList::Iterator it = libsKnown.begin(); it != libsKnown.end(); ++it ) {
 		languages = config->readListEntry(*it);
 		for ( QStringList::Iterator lit = languages.begin(); lit != languages.end(); ++lit ) {

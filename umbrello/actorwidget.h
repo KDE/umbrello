@@ -35,13 +35,6 @@
 
 class ActorWidget : public UMLWidget {
 public:
-	/**
-	 *	Constructs an ActorWidget.
-	 *
-	 * @param view 	The parent of this ActorWidget.
-	 * @param pData The ActorWidgetData to represent.
-	 */
-	ActorWidget(UMLView * view, UMLObject *o, UMLWidgetData* pData);
 
 	/**
 	 *	Constructs an ActorWidget.
@@ -62,13 +55,6 @@ public:
 	 *	Standard deconstructor.
 	 */
 	~ActorWidget();
-
-	/**
-	 * Synchronizes the Widget's m_pData member with its display
-	 * properties, for example: the X and Y positions of the
-	 * widget, etc
-	 */
-	virtual void synchronizeData();
 
 	/**
 	 *	Overrides the standard paint event.

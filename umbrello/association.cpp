@@ -86,7 +86,6 @@ bool UMLAssociation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement associationElement = qDoc.createElement( "UML:Association" );
 	bool status = UMLObject::saveToXMI( qDoc, associationElement );
 
-	associationElement.setAttribute( "name", getName() );
 	// associationElement.setAttribute( "assoctype", toString( getAssocType() ) );
 	associationElement.setAttribute( "assoctype", getAssocType() );
 	associationElement.setAttribute( "rolea", getRoleAId() );
@@ -109,8 +108,6 @@ bool UMLAssociation::loadFromXMI( QDomElement & element ) {
 
 	if( !UMLObject::loadFromXMI( element ) )
 		return false;
-
-	setName(element.attribute( "name", "" ));
 
 	setAssocType( toAssocType( element.attribute( "assoctype", "" )));
 
@@ -241,7 +238,7 @@ void UMLAssociation::setVisibilityB(Scope value) {
 
 void UMLAssociation::setChangeabilityA(Changeability_Type value) {
 	m_pRoleA->setChangeability(value);
-//	emit modified(); // not needed.. should originate from UMLRole 
+//	emit modified(); // not needed.. should originate from UMLRole
 }
 
 void UMLAssociation::setChangeabilityB(Changeability_Type value) {
@@ -327,3 +324,4 @@ void UMLAssociation::init() {
 	m_ChangeabilityB = chg_Changeable;
 */
 }
+#include "association.moc"

@@ -17,7 +17,7 @@
 #define A_MARGIN 5
 
 #include "umlwidget.h"
-#include "objectwidgetdata.h"
+#include "messagewidgetlist.h"
 #include "messagewidget.h"
 
 #include <qptrlist.h>
@@ -39,25 +39,16 @@ public:
 	/**
 	 *	Creates an ObjectWidget.
 	 *
-	 *	@param	view		The parent to this object.
-	 *	@param	o				The object it will be representing.
-	 *	@param	lid			The local id for the object.
+	 *  @param view		The parent to this object.
+	 *  @param o		The object it will be representing.
+	 *  @param lid		The local id for the object.
 	 */
 	ObjectWidget(UMLView * view, UMLObject *o, int lid);
 
 	/**
 	 *	Creates an ObjectWidget.
 	 *
-	 *	@param	view		The parent to this object.
-	 *	@param	o				The object it will be representing.
-	 *  @param pData		The UMLWidgetData to represent.
-	 */
-	ObjectWidget(UMLView * view,  UMLObject *o, UMLWidgetData *pData);
-
-	/**
-	 *	Creates an ObjectWidget.
-	 *
-	 *	@param	view		The parent to this object.
+	 *  @param view		The parent to this object.
 	 */
 	ObjectWidget(UMLView * view);
 
@@ -78,8 +69,8 @@ public:
 	 *
 	 *	@return Returns the local ID.
 	 */
-	int getLocalID() {
-		return ((ObjectWidgetData*)m_pData)->getLocalID();
+	int getLocalID() const {
+		return m_nLocalID;
 	}
 
 	/**
@@ -87,8 +78,8 @@ public:
 	 *
 	 *	@return Returns the instance name.
 	 */
-	QString getInstanceName() {
-		return ((ObjectWidgetData*)m_pData)->getInstanceName();
+	QString getInstanceName() const {
+		return m_InstanceName;
 	}
 
 	/**
@@ -97,7 +88,7 @@ public:
 	 *	@param	name	The name to set the instance name to.
 	 */
 	void setInstanceName(QString name) {
-		((ObjectWidgetData*)m_pData)->setInstanceName( name );
+		m_InstanceName = name;
 	}
 
 	/**
@@ -105,7 +96,7 @@ public:
 	 *
 	 *	@return	Returns the documentation for the object.
 	 */
-	QString getDoc();
+	QString getDoc() const;
 
 	/**
 	 *	Sets the documentation.
@@ -121,8 +112,8 @@ public:
 	 *
 	 *	@return	Returns whether object is representing a multi-object.
 	 */
-	bool getMultipleInstance() {
-		return ((ObjectWidgetData*)m_pData)->getMultipleInstance();
+	bool getMultipleInstance() const {
+		return m_bMultipleInstance;
 	}
 
 	/**
@@ -130,7 +121,7 @@ public:
 	 *
 	 *	@param	multiple	Object state. true- multi, false - single.
 	 */
-	void setMultipleInstance(bool m_bMultiple);
+	void setMultipleInstance(bool multiple);
 
 	/**
 	 *	Sets the local id of the object.
@@ -138,7 +129,7 @@ public:
 	 * 	@param id the local id of the object.
 	 */
 	void setLocalID(int id) {
-		((ObjectWidgetData*)m_pData)->setLocalID( id );
+		m_nLocalID = id;
 	}
 
 	/**
@@ -146,7 +137,7 @@ public:
 	 *
 	 *	@param Returns the local id of the object.
 	 */
-	int getOldID() {
+	int getOldID() const {
 		return m_nOldID;
 	}
 
@@ -154,12 +145,6 @@ public:
 	 * Activate the object after serializing it from a QDataStream
 	 */
 	virtual bool activate(IDChangeLog* ChangeLog = 0);
-
-	/**
-	 * Synchronize the Widget's m_pData member with its display properties, for example:
-	 * the X and Y positions of the widget, etc
-	 */
-	virtual void synchronizeData();
 
 	/**
 	 * Override default method
@@ -179,16 +164,15 @@ public:
 	/**
 	 * 		Returns whether to draw as an object or not.
 	 */
-	bool getDrawAsActor() {
-		return ( ( ObjectWidgetData *)m_pData ) -> getDrawAsActor();
+	bool getDrawAsActor() const {
+		return m_bDrawAsActor;
 	}
 
 	/**
 	 * 		Sets whether to draw as an Actor.
 	 */
 	void setDrawAsActor( bool drawAsActor ) {
-		( ( ObjectWidgetData *)m_pData ) -> setDrawAsActor( drawAsActor );
-		calculateSize();
+		m_bDrawAsActor = drawAsActor;
 	}
 
 	/**
@@ -204,8 +188,8 @@ public:
 	/**
 	 *		Returns whether to show deconstruction on sequence line
 	 */
-	bool getShowDestruction() {
-		return ( ( ObjectWidgetData *)m_pData ) -> getShowDestruction();
+	bool getShowDestruction() const {
+		return m_bShowDestruction;
 	}
 
 	/**
@@ -237,6 +221,10 @@ public:
 	 */
 	bool messageOverlap(int y, MessageWidget* messageWidget);
 
+	bool saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+
+	bool loadFromXMI( QDomElement & qElement );
+
 protected:
 	QString m_Doc;
 	int m_nOldID;
@@ -267,11 +255,43 @@ protected:
 	 */
 	void tabDown();
 
+	// Data loaded/saved:
+
+	/**
+	 *		Instance name of object.
+	 */
+	QString m_InstanceName;
+
+	/**
+	 *		Local ID used on views.  Needed as a it can
+	 *		represent a class that has many objects
+	 *		representing it.
+	 */
+	int m_nLocalID;
+
+	/**
+	 *		Determines whether to draw an object as a
+	 *		multiple object instance.
+	 */
+	bool m_bMultipleInstance;
+
+	/**
+	 *		Determines whether the object should be drawn
+	 *		as an Actor or a an Object.
+	 */
+	bool m_bDrawAsActor;
+
+	/**
+	 *		Determines whether to show object destruction
+	 *		on sequence diagram line.
+	 */
+	bool m_bShowDestruction;
+
 private:
 	/**
 	 * A list of the message widgets with an end on this widget
 	 */
-	QPtrList<MessageWidget> messageWidgetList;
+	MessageWidgetList messageWidgetList;
 
 public slots:
 	/**

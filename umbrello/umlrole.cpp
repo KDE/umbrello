@@ -11,8 +11,8 @@
 #include "association.h"
 
 // constructor
-UMLRole::UMLRole(UMLAssociation * parent) 
-    : UMLObject((UMLObject *)parent) 
+UMLRole::UMLRole(UMLAssociation * parent)
+    : UMLObject((UMLObject *)parent)
 {
 	init();
 
@@ -30,14 +30,14 @@ bool UMLRole::operator==(UMLRole &rhs) {
 		m_Changeability == rhs.m_Changeability &&
 		m_Visibility == rhs.m_Visibility &&
 		m_Multi == rhs.m_Multi &&
-		m_Name == rhs.m_Name 
+		m_Name == rhs.m_Name
               );
 }
 
 UMLAssociation * UMLRole::getParentAssociation () {
 	UMLAssociation * assoc = dynamic_cast<UMLAssociation*>(this->parent());
 	return assoc;
-};
+}
 
 UMLObject* UMLRole::getObject() {
 	return m_pObject;
@@ -117,3 +117,4 @@ void UMLRole::init() {
 	m_Changeability = chg_Changeable;
 }
 
+#include "umlrole.moc"

@@ -29,28 +29,21 @@ class UMLView;
  */
 class ArtifactWidget : public UMLWidget {
 public:
-	/**
-	 *	Constructs a ArtifactWidget.
-	 *
-	 *	@param	view		The parent of this ArtifactWidget.
-	 *	@param	pData		The ArtifactWidgetData to represent.
-	 */
-	ArtifactWidget(UMLView* view, UMLObject* o, UMLWidgetData* pData);
 
 	/**
 	 *	Constructs a ArtifactWidget.
 	 *
-	 *	@param	view		The parent of this ArtifactWidget.
-	 *	@param	o		The UMLObject is will be representing.
+	 *	@param	view	The parent of this ArtifactWidget.
+	 *	@param	o	The UMLObject this will be representing.
 	 */
-	ArtifactWidget(UMLView* view, UMLObject* o);
+	ArtifactWidget(UMLView * view, UMLObject * o);
 
 	/**
 	 *	Constructs a ArtifactWidget.
 	 *
 	 *	@param	view	The parent of this ArtifactWidget.
 	 */
-	ArtifactWidget(UMLView* view);
+	ArtifactWidget(UMLView * view);
 
 	/**
 	 *	Standard deconstructor.
@@ -68,9 +61,17 @@ public:
 	virtual bool activate(IDChangeLog* ChangeLog  = 0 );
 
 	/**
-	 *	Overrides standards method
+	 *	Overrides standard method
 	 */
 	void draw(QPainter& p, int offsetX, int offsetY);
+
+	/**
+	 * Saves to the <artifactwidget> element
+	 */
+	bool saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
+
+	// For loadFromXMI we can use the UMLWidgetData inherited method.
+
 private:
 
 	/**

@@ -8,7 +8,6 @@
  ***************************************************************************/
 
 #include "interfacewidget.h"
-#include "interfacewidgetdata.h"
 #include "interface.h"
 #include "operation.h"
 #include "classifierlistitem.h"
@@ -21,41 +20,29 @@
 
 #define CIRCLE_SIZE 30
 
-InterfaceWidget::InterfaceWidget(UMLView* view, UMLObject* o, UMLWidgetData* pData) : UMLWidget(view, o, pData) {
-	m_pMenu = 0;
-	if( m_pObject ) {
-		initUMLObject(m_pObject);
-		calculateSize();
-		update();
-	}
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////
-InterfaceWidget::InterfaceWidget(UMLView* view, UMLObject* o) : UMLWidget(view, o, new InterfaceWidgetData(view->getOptionState() )) {
+InterfaceWidget::InterfaceWidget(UMLView * view, UMLObject * o) : UMLWidget(view, o) {
 	init();
 	setSize(100,30);
 	calculateSize();
-	m_pData->setType(wt_Interface);
+	UMLWidget::setBaseType(wt_Interface);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-InterfaceWidget::InterfaceWidget(UMLView* view) : UMLWidget(view, new InterfaceWidgetData(view->getOptionState() )) {
+InterfaceWidget::InterfaceWidget(UMLView * view) : UMLWidget(view) {
 	init();
 	setSize(100,30);
-	m_pData->setType(wt_Interface);
+	UMLWidget::setBaseType(wt_Interface);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void InterfaceWidget::init() {
 	m_pMenu = 0;
 	//set defaults from m_pView
-	if(m_pView && m_pData) {
+	if(m_pView) {
 		//check to see if correct
-		SettingsDlg::OptionState ops = m_pView->getOptionState();
-
+		const SettingsDlg::OptionState& ops = m_pView->getOptionState();
 		setShowOpSigs( ops.classState.showOpSig );
-
-		InterfaceWidgetData* data = (InterfaceWidgetData*) m_pData;
-		data -> setShowOperations( ops.classState.showOps );
-		data -> setShowPackage( ops.classState.showPackage );
-		data -> setShowScope( ops.classState.showScope  );
+		m_bShowOperations = ops.classState.showOps;
+		m_bShowPackage = ops.classState.showPackage;
+		m_bShowScope = ops.classState.showScope;
 		updateSigs();
 	}
 	//maybe loading and this may not be set.
@@ -89,10 +76,10 @@ void InterfaceWidget::draw(QPainter& p, int offsetX, int offsetY) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void InterfaceWidget::drawAsCircle(QPainter& p, int offsetX, int offsetY) {
-	p.setPen( m_pData->getLineColour() );
+	p.setPen( UMLWidget::getLineColour() );
 
-	if ( m_pData->getUseFillColor() ) {
-		p.setBrush( m_pData->getFillColour() );
+	if ( UMLWidget::getUseFillColour() ) {
+		p.setBrush( UMLWidget::getFillColour() );
 	} else {
 		p.setBrush( m_pView->viewport()->backgroundColor() );
 	}
@@ -102,7 +89,7 @@ void InterfaceWidget::drawAsCircle(QPainter& p, int offsetX, int offsetY) {
 	QFontMetrics &fm = getFontMetrics(FT_NORMAL);
 	int fontHeight  = fm.lineSpacing();
 	QString name;
-	if ( ((InterfaceWidgetData*)m_pData)->getShowPackage() ) {
+	if ( m_bShowPackage ) {
 		name = m_pObject -> getPackage() + "::" + this -> getName();
 	} else {
 		name = this -> getName();
@@ -111,7 +98,7 @@ void InterfaceWidget::drawAsCircle(QPainter& p, int offsetX, int offsetY) {
 	p.drawEllipse(offsetX + w/2 - CIRCLE_SIZE/2, offsetY, CIRCLE_SIZE, CIRCLE_SIZE);
 	p.setPen( QPen(black) );
 
-	QFont font = m_pData->getFont();
+	QFont font = UMLWidget::getFont();
 	p.setFont(font);
 	p.drawText(offsetX, offsetY + CIRCLE_SIZE,
 		   w, fontHeight, AlignCenter, name);
@@ -122,9 +109,9 @@ void InterfaceWidget::drawAsCircle(QPainter& p, int offsetX, int offsetY) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void InterfaceWidget::drawAsConcept(QPainter& p, int offsetX, int offsetY) {
-	p.setPen(m_pData->getLineColour());
-	if(m_pData->getUseFillColor())
-		p.setBrush(m_pData->getFillColour());
+	p.setPen(UMLWidget::getLineColour());
+	if(UMLWidget::getUseFillColour())
+		p.setBrush(UMLWidget::getFillColour());
 	else
 		p.setBrush(m_pView -> viewport() -> backgroundColor());
 
@@ -134,7 +121,7 @@ void InterfaceWidget::drawAsConcept(QPainter& p, int offsetX, int offsetY) {
 	QFontMetrics &fm = getFontMetrics(FT_NORMAL);
 	int fontHeight  = fm.lineSpacing();
 	QString name;
-	if ( ((InterfaceWidgetData*)m_pData)->getShowPackage() ) {
+	if ( m_bShowPackage ) {
 		name = m_pObject -> getPackage() + "::" + this -> getName();
 	} else {
 		name = this -> getName();
@@ -143,7 +130,7 @@ void InterfaceWidget::drawAsConcept(QPainter& p, int offsetX, int offsetY) {
 	p.drawRect(offsetX, offsetY, w, h);
 	p.setPen(QPen(black));
 
-	QFont font = m_pData->getFont();
+	QFont font = UMLWidget::getFont();
 	font.setBold(true);
 	p.setFont(font);
 	p.drawText(offsetX + INTERFACE_MARGIN, offsetY,
@@ -162,17 +149,17 @@ void InterfaceWidget::drawAsConcept(QPainter& p, int offsetX, int offsetY) {
 	int operationsStart = fontHeight * 2;
 	int y;
 
-	if( ((InterfaceWidgetData*)m_pData)->getShowOperations() ) {
+	if ( m_bShowOperations ) {
 		QFont font( p.font() );
 		y = operationsStart;
-		p.setPen( m_pData->getLineColour() );
+		p.setPen( UMLWidget::getLineColour() );
 
 		p.drawLine(offsetX, offsetY + y, offsetX + w - 1, offsetY + y);
 
 		UMLClassifierListItem* obj = 0;
 		QPtrList<UMLClassifierListItem>* list = ((UMLInterface*)m_pObject)->getOpList();
 		for(obj=list->first();obj != 0;obj=list->next()) {
-			QString op = obj->toString(((InterfaceWidgetData*)m_pData)->getShowOpSigs());
+			QString op = obj->toString( m_ShowOpSigs );
 			p.setPen( QPen(black) );
 			font.setUnderline( obj->getStatic() );
 			font.setItalic( obj->getAbstract() );
@@ -206,7 +193,7 @@ void InterfaceWidget::calculateAsCircleSize() {
 	int height = CIRCLE_SIZE + fontHeight;
 
 	int width;
-	if( ((InterfaceWidgetData*)m_pData)->getShowPackage() ) {
+	if ( m_bShowPackage ) {
 		width = fm.width(m_pObject->getPackage() + "::" + getName());
 	} else {
 		width = fm.width(getName());
@@ -214,11 +201,11 @@ void InterfaceWidget::calculateAsCircleSize() {
 	width = width<CIRCLE_SIZE ? CIRCLE_SIZE : width;
 
 	setSize(width, height);
-	adjustAssocs( (int)x(), (int)y() );//adjust assoc lines
+	adjustAssocs( getX(), getY() );//adjust assoc lines
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void InterfaceWidget::calculateAsConceptSize() {
-	if( !m_pData || !m_pObject)
+	if( !m_pObject)
 		return;
 	int width, height;
 	QFontMetrics &fm = getFontMetrics(FT_NORMAL);
@@ -227,13 +214,11 @@ void InterfaceWidget::calculateAsConceptSize() {
 	int lines = 1;//always have one line - for name
 	int numOps = ((UMLInterface*)m_pObject)->operations();
 
-	InterfaceWidgetData* data = (InterfaceWidgetData*)m_pData;
-
 	lines++; //for the stereotype
 
 	height = width = 0;
 	//set the height of the concept
-	if(data->getShowOperations()) {
+	if (m_bShowOperations) {
 		lines += numOps;
 		if(numOps == 0) {
 			height += fontHeight / 2;//no ops, so just add a but of space
@@ -242,7 +227,7 @@ void InterfaceWidget::calculateAsConceptSize() {
 	height += lines * fontHeight;
 	//now set the width of the concept
 	//set width to name to start with
-	if(data->getShowPackage())
+	if(m_bShowPackage)
 		width = getFontMetrics(FT_BOLD_ITALIC).boundingRect(m_pObject->getPackage() + "::" + getName()).width();
 	else
 		width = getFontMetrics(FT_BOLD_ITALIC).boundingRect(getName()).width();
@@ -251,7 +236,7 @@ void InterfaceWidget::calculateAsConceptSize() {
 
 	width = w > width?w:width;
 
-	if(data->getShowOperations()) {
+	if (m_bShowOperations) {
 		QPtrList<UMLClassifierListItem>* list = ((UMLInterface*)m_pObject)->getOpList();
 		UMLClassifierListItem* listItem = 0;
 		for(listItem = list->first();listItem != 0; listItem = list->next()) {
@@ -262,7 +247,7 @@ void InterfaceWidget::calculateAsConceptSize() {
 				: isAbstract
 					? FT_ITALIC
 					: FT_UNDERLINE);
-			int w = fm.boundingRect( listItem->toString(data->getShowOpSigs()) ).width();
+			int w = fm.boundingRect( listItem->toString(m_ShowOpSigs) ).width();
 			width = w > width?w:width;
 		}
 	}
@@ -270,19 +255,17 @@ void InterfaceWidget::calculateAsConceptSize() {
 	width += INTERFACE_MARGIN * 2;
 
 	setSize(width, height);
-	adjustAssocs( (int)x(), (int)y() );//adjust assoc lines
+	adjustAssocs( getX(), getY() );//adjust assoc lines
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void InterfaceWidget::slotMenuSelection(int sel) {
-	InterfaceWidgetData* data = (InterfaceWidgetData*)m_pData;
-
 	switch(sel) {
 		case ListPopupMenu::mt_Operation:
 			m_pView->getDocument()->createUMLObject(m_pObject, ListPopupMenu::convert_MT_OT( (ListPopupMenu::Menu_Type)sel) );
 			break;
 
 		case ListPopupMenu::mt_Show_Operations:
-			data->setShowOperations( !data->getShowOperations() );
+			m_bShowOperations = !m_bShowOperations;
 			updateSigs();
 			calculateSize();
 
@@ -290,29 +273,29 @@ void InterfaceWidget::slotMenuSelection(int sel) {
 			break;
 
 		case ListPopupMenu::mt_Show_Operation_Signature:
-			if(data->getShowOpSigs() == Uml::st_ShowSig || data->getShowOpSigs() == Uml::st_SigNoScope) {
-				if(data->getShowScope())
-					data->setShowOpSigs( Uml::st_NoSig );
+			if (m_ShowOpSigs == Uml::st_ShowSig || m_ShowOpSigs == Uml::st_SigNoScope) {
+				if (m_bShowScope)
+					m_ShowOpSigs = Uml::st_NoSig;
 				else
-					data->setShowOpSigs( Uml::st_NoSigNoScope );
-			} else if(data->getShowScope())
-				data->setShowOpSigs( Uml::st_ShowSig );
+					m_ShowOpSigs = Uml::st_NoSigNoScope;
+			} else if (m_bShowScope)
+				m_ShowOpSigs = Uml::st_ShowSig;
 
 			else
-				data->setShowOpSigs( Uml::st_SigNoScope );
+				m_ShowOpSigs = Uml::st_SigNoScope;
 			calculateSize();
 			update();
 			break;
 
 		case ListPopupMenu::mt_Scope:
-			data->setShowScope( !data->getShowScope() );
+			m_bShowScope = !m_bShowScope;
 			updateSigs();
 			calculateSize();
 			update();
 			break;
 
 		case ListPopupMenu::mt_DrawAsCircle:
-			data->setDrawAsCircle( !data->getDrawAsCircle() );
+			m_bDrawAsCircle = !m_bDrawAsCircle;
 			updateSigs();
 			calculateSize();
 			update();
@@ -322,19 +305,18 @@ void InterfaceWidget::slotMenuSelection(int sel) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void InterfaceWidget::updateSigs() {
-	InterfaceWidgetData* data = (InterfaceWidgetData*)m_pData;
 	//turn on scope
-	if(data->getShowScope()) {
-		if(data->getShowOpSigs() == Uml::st_NoSigNoScope) {
-			data->setShowOpSigs( Uml::st_NoSig );
-		} else if(data->getShowOpSigs() == Uml::st_SigNoScope) {
-			data->setShowOpSigs( Uml::st_ShowSig );
+	if (m_bShowScope) {
+		if (m_ShowOpSigs == Uml::st_NoSigNoScope) {
+			m_ShowOpSigs = Uml::st_NoSig;
+		} else if (m_ShowOpSigs == Uml::st_SigNoScope) {
+			m_ShowOpSigs = Uml::st_ShowSig;
 		}
 	} else { //turn off scope
-		if(data->getShowOpSigs() == Uml::st_ShowSig) {
-			data->setShowOpSigs( Uml::st_SigNoScope );
-		} else if(data->getShowOpSigs() == Uml::st_NoSig) {
-			data->setShowOpSigs( Uml::st_NoSigNoScope );
+		if (m_ShowOpSigs == Uml::st_ShowSig) {
+			m_ShowOpSigs = Uml::st_SigNoScope;
+		} else if (m_ShowOpSigs == Uml::st_NoSig) {
+			m_ShowOpSigs = Uml::st_NoSigNoScope;
 		}
 	}
 	calculateSize();
@@ -342,44 +324,44 @@ void InterfaceWidget::updateSigs() {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void InterfaceWidget::setShowScope(bool _scope) {
-	((InterfaceWidgetData*)m_pData)->setShowScope( _scope );
+	m_bShowScope = _scope;
 	updateSigs();
 	calculateSize();
 	update();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void InterfaceWidget::setShowOps(bool _show) {
-	((InterfaceWidgetData*)m_pData)->setShowOperations( _show );
+	m_bShowOperations = _show;
 	updateSigs();
 	calculateSize();
 	update();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void InterfaceWidget::setOpSignature(Signature_Type sig) {
-	((InterfaceWidgetData*)m_pData)->setShowOpSigs( sig );
+	m_ShowOpSigs = sig;
 	updateSigs();
 	calculateSize();
 	update();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void InterfaceWidget::setShowPackage(bool _status) {
-	((InterfaceWidgetData*)m_pData)->setShowPackage( _status );
+	m_bShowPackage = _status;
 	calculateSize();
 	update();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-bool InterfaceWidget::getShowPackage() {
-	return ((InterfaceWidgetData*)m_pData)->getShowPackage();
+bool InterfaceWidget::getShowPackage() const {
+	return m_bShowPackage;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void InterfaceWidget::setDrawAsCircle(bool drawAsCircle) {
-	((InterfaceWidgetData*)m_pData)->setDrawAsCircle( drawAsCircle );
+	m_bDrawAsCircle = drawAsCircle;
 	calculateSize();
 	update();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-bool InterfaceWidget::getDrawAsCircle() {
-	return ((InterfaceWidgetData*)m_pData)->getDrawAsCircle();
+bool InterfaceWidget::getDrawAsCircle() const {
+	return m_bDrawAsCircle;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool InterfaceWidget::activate(IDChangeLog* ChangeLog /* = 0 */) {
@@ -391,29 +373,62 @@ bool InterfaceWidget::activate(IDChangeLog* ChangeLog /* = 0 */) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void InterfaceWidget::setShowOpSigs(bool _status) {
-	InterfaceWidgetData* data = (InterfaceWidgetData*)m_pData;
 	if( !_status ) {
-		if(data->getShowScope())
-			data->setShowOpSigs( Uml::st_NoSig );
+		if (m_bShowScope)
+			m_ShowOpSigs = Uml::st_NoSig;
 		else
-			data->setShowOpSigs( Uml::st_NoSigNoScope );
+			m_ShowOpSigs = Uml::st_NoSigNoScope;
 
-	} else if(data->getShowScope())
-		data->setShowOpSigs( Uml::st_ShowSig );
+	} else if (m_bShowScope)
+		m_ShowOpSigs = Uml::st_ShowSig;
 	else
-		data->setShowOpSigs( Uml::st_SigNoScope );
+		m_ShowOpSigs = Uml::st_SigNoScope;
 	calculateSize();
 	update();
 }
 
-bool InterfaceWidget::getShowOps() {
-	return ((InterfaceWidgetData*)m_pData)->getShowOperations();
+bool InterfaceWidget::getShowOps() const {
+	return m_bShowOperations;
 }
 
-Uml::Signature_Type InterfaceWidget::getShowOpSigs() {
-	return ((InterfaceWidgetData*)m_pData)->getShowOpSigs();
+Uml::Signature_Type InterfaceWidget::getShowOpSigs() const {
+	return m_ShowOpSigs;
 }
 
-bool InterfaceWidget::getShowScope() {
-	return ((InterfaceWidgetData*)m_pData)->getShowScope();
+bool InterfaceWidget::getShowScope() const {
+	return m_bShowScope;
 }
+
+bool InterfaceWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
+	QDomElement conceptElement = qDoc.createElement("interfacewidget");
+	bool status = UMLWidget::saveToXMI(qDoc, conceptElement);
+
+	conceptElement.setAttribute("showoperations", m_bShowOperations);
+	conceptElement.setAttribute("showopsigs", m_ShowOpSigs);
+	conceptElement.setAttribute("showpackage", m_bShowPackage);
+	conceptElement.setAttribute("showscope", m_bShowScope);
+	conceptElement.setAttribute("drawascircle", m_bDrawAsCircle);
+	qElement.appendChild(conceptElement);
+
+	return status;
+}
+
+bool InterfaceWidget::loadFromXMI( QDomElement & qElement ) {
+	if ( !UMLWidget::loadFromXMI(qElement) ) {
+		return false;
+	}
+	QString showops = qElement.attribute("showoperations", "1");
+	QString showopsigs = qElement.attribute("showopsigs", "600");
+	QString showpackage = qElement.attribute("showpackage", "0");
+	QString showscope = qElement.attribute("showscope", "0");
+	QString drawascircle = qElement.attribute("drawascircle", "0");
+
+	m_bShowOperations = (bool)showops.toInt();
+	m_ShowOpSigs = (Uml::Signature_Type)showopsigs.toInt();
+	m_bShowPackage = (bool)showpackage.toInt();
+	m_bShowScope = (bool)showscope.toInt();
+	m_bDrawAsCircle = (bool)drawascircle.toInt();
+
+	return true;
+}
+

@@ -46,7 +46,7 @@ class DocWindow;
 class IDChangeLog;
 class ObjectWidget;
 class UMLListView;
-class UMLViewData;
+class UMLView;
 class UMLWidget;
 class UMLClassifier;
 class UMLInterface;
@@ -113,7 +113,7 @@ public:
 	 */
 	bool isModified() {
 		return m_modified;
-	};
+	}
 
 	/**
 	 * "save modified" - asks the user for saving if the document
@@ -171,7 +171,7 @@ public:
 	void setupListView(UMLListView *lv);
 
 	//int createObject(type, Umbrello::DiagramView  *widget, bool useWizard = false);
-	
+
 	/**
 	 *	Creates a @ref UMLObject of the given type.
 	 *
@@ -181,112 +181,112 @@ public:
 	UMLObject* createUMLObject(UMLObject_Type type, const QString &n = QString::null);
 	UMLObject* createUMLObject(const std::type_info &type);
 
-  	/**
-  	 *  Creates either an operation or attribute for the parent concept.
-  	 *
- 	 *	@param	o	The parent concept
-  	 *	@param	type	The type to create, either an operation or attribute.
- 	 *	@return		The UMLObject created
-  	 */
-  	UMLObject* createUMLObject(UMLObject* o, UMLObject_Type type);
-  
-  	/**
- 	 *  Creates an attribute for the parent concept.
-  	 *
- 	 *	@param	o	The parent concept
- 	 *	@return		The UMLAttribute created
-  	 */
-  	UMLObject* createAttribute(UMLObject* o);
+	/**
+	 *  Creates either an operation or attribute for the parent concept.
+	 *
+	 *	@param	o	The parent concept
+	 *	@param	type	The type to create, either an operation or attribute.
+	 *	@return		The UMLObject created
+	 */
+	UMLObject* createUMLObject(UMLObject* o, UMLObject_Type type);
 
-  	/**
- 	 *  Creates a template for the parent concept.
-  	 *
- 	 *	@param	o	The parent concept
- 	 *	@return		The UMLTemplate created
-  	 */
-  	UMLObject* createTemplate(UMLObject* o);
-  
-  	/**
- 	 *  Creates a stereotype for the parent classifier.
-  	 *
- 	 *	@param	o	The parent concept
- 	 *	@return		The UMLTemplate created
-  	 */
-  	UMLObject* createStereotype(UMLObject* umlobject, UMLObject_Type list);
-  
-  	/**
- 	 *  Creates an operation for the parent concept.
-  	 *
- 	 *	@param	o	The parent concept
- 	 *	@return		The UMLOperation created
-  	 */
-  	UMLObject* createOperation(UMLObject* o);
-  
+	/**
+	 *  Creates an attribute for the parent concept.
+	 *
+	 *	@param	o	The parent concept
+	 *	@return		The UMLAttribute created
+	 */
+	UMLObject* createAttribute(UMLObject* o);
+
+	/**
+	 *  Creates a template for the parent concept.
+	 *
+	 *	@param	o	The parent concept
+	 *	@return		The UMLTemplate created
+	 */
+	UMLObject* createTemplate(UMLObject* o);
+
+	/**
+	 *  Creates a stereotype for the parent classifier.
+	 *
+	 *	@param	o	The parent concept
+	 *	@return		The UMLTemplate created
+	 */
+	UMLObject* createStereotype(UMLObject* umlobject, UMLObject_Type list);
+
+	/**
+	 *  Creates an operation for the parent concept.
+	 *
+	 *	@param	o	The parent concept
+	 *	@return		The UMLOperation created
+	 */
+	UMLObject* createOperation(UMLObject* o);
+
 	/**
 	 * Creates an association between two UMLObjects.
 	 * NOTE: this method does not check if the association is valid / legal
-	 *  
+	 *
 	 * @param a	The UMLObject "A" for the association (source)
 	 * @param b	The UMLObject "B" for the association (destination)
 	 * @param type	The association's type
 	 * @return	The Association created
 	 */
 	UMLAssociation* createUMLAssociation(UMLObject *a, UMLObject *b, Uml::Association_Type type);
-  	/**
- 	 *  Adds an existing association to the matching concept in the list of concepts.
- 	 *  The selection of the matching concept depends on the association type:
- 	 *  For generalizations, the assoc is added to the concept that matches role A.
- 	 *  For aggregations and compositions , the assoc is added to the concept
- 	 *  that matches role B.
- 	 *
- 	 *	@param	assoc	The association to add
- 	 */
- 	void addAssocToConcepts(UMLAssociation* assoc);
- 
- 	/**
- 	 *  Creates an association.
- 	 *
- 	 *	@param	name		The name of the association
- 	 *	@param	assocType	The type of the association
- 	 *	@param	AId		The ID of the role A concept
- 	 *	@param	BID		The ID of the role B concept
- 	 *	@param	nameA		The name given to role A (optional)
- 	 *	@param	nameB		The name given to role B (optional)
- 	 *	@param	multiA		The multiplicity at role A (optional)
- 	 *	@param	multiB		The multiplicity at role B (optional)
- 	 *	@param	visibilityA	The visibility of role A (optional)
- 	 *	@param	visibilityB	The visibility of role B (optional)
- 	 */
- 	/* 
+	/**
+	 *  Adds an existing association to the matching concept in the list of concepts.
+	 *  The selection of the matching concept depends on the association type:
+	 *  For generalizations, the assoc is added to the concept that matches role A.
+	 *  For aggregations and compositions , the assoc is added to the concept
+	 *  that matches role B.
+	 *
+	 *	@param	assoc	The association to add
+	 */
+	void addAssocToConcepts(UMLAssociation* assoc);
+
+	/**
+	 *  Creates an association.
+	 *
+	 *	@param	name		The name of the association
+	 *	@param	assocType	The type of the association
+	 *	@param	AId		The ID of the role A concept
+	 *	@param	BID		The ID of the role B concept
+	 *	@param	nameA		The name given to role A (optional)
+	 *	@param	nameB		The name given to role B (optional)
+	 *	@param	multiA		The multiplicity at role A (optional)
+	 *	@param	multiB		The multiplicity at role B (optional)
+	 *	@param	visibilityA	The visibility of role A (optional)
+	 *	@param	visibilityB	The visibility of role B (optional)
+	 */
+	/*
          void addAssociation(QString name, Association_Type assocType,
- 			int AId, int BId,
- 			QString nameA = "", QString nameB = "",
- 			QString multiA = "", QString multiB = "",
- 			Scope visibilityA = Public, Scope visibilityB = Public, 
- 			Changeability_Type changeA = chg_Changeable, 
- 			Changeability_Type changeb = chg_Changeable 
- 			);
- 			*/
- 	/**
- 	 *  Adds an association.
- 	 */
+			int AId, int BId,
+			QString nameA = "", QString nameB = "",
+			QString multiA = "", QString multiB = "",
+			Scope visibilityA = Public, Scope visibilityB = Public,
+			Changeability_Type changeA = chg_Changeable,
+			Changeability_Type changeb = chg_Changeable
+			);
+			*/
+	/**
+	 *  Adds an association.
+	 */
          void addAssociation(UMLAssociation *pAssoc);
- 
- 	/**
- 	 *  Removes an association.
- 	 *	@param	assoc	Pointer to the association
- 	 */
- 	void removeAssociation(UMLAssociation *pAssoc);
- 
- 	/**
-  	 *	Creates a diagram of the given type.
-  	 *
-  	 *	@param	type	The type of diagram to create.
+
+	/**
+	 *  Removes an association.
+	 *	@param	assoc	Pointer to the association
+	 */
+	void removeAssociation(UMLAssociation *pAssoc);
+
+	/**
+	 *	Creates a diagram of the given type.
+	 *
+	 *	@param	type	The type of diagram to create.
 	 *	@param	type	The type of diagram to create.
 	 *      @param  askForName  If true shows a dialog box asking for name, else uses a default name.
 	 */
 	void createDiagram(Diagram_Type type, bool askForName = true);
-	
+
 	Umbrello::Diagram* UcreateDiagram(Umbrello::Diagram::DiagramType);
 
 	/**
@@ -296,7 +296,7 @@ public:
 	 *	@param	id	The ID of the diagram to rename.
 	 */
 	void renameDiagram(int id);
-	
+
 	QStringList getModelTypes();
 
 	/**
@@ -382,7 +382,7 @@ public:
 	 *	@return	Returns a reference to the view found.  If not found returns 0.
 	 */
 	UMLView * findView(Diagram_Type type, QString name);
-	
+
 	Umbrello::Diagram* findDiagram(int id);
 
 	/**
@@ -456,7 +456,7 @@ public:
 	 */
 	UMLObject* makeNewUMLObject(QString type);
 
-	
+
 	/**
 	 *		Signal a view/diagram has been renamed.
 	 */
@@ -475,7 +475,7 @@ public:
 	 */
 	void signalUMLObjectCreated(UMLObject * o);
 
-	
+
 	/**
 	 *	Show a properties dialog for an @ref ObjectWidget.
 	 *
@@ -542,7 +542,7 @@ public:
 	 *  Return the list of views for this document
 	 */
 	const UMLViewList &getViewIterator() const {
-		return *pViewList;
+		return m_ViewList;
 	}
 
 	/**
@@ -561,14 +561,14 @@ public:
 	 * the others; this number is incremental so if number 1 is in
 	 * use then it tries 2 and then 3 and so on
 	 */
-	bool addUMLView(UMLViewData * pViewData );
+	bool addUMLView(UMLView * pView );
 
 	/**
 	 * Read property of IDChangeLog* m_pChangeLog.
 	 */
 	virtual IDChangeLog* getChangeLog();
 
- 	/**
+	/**
 	 * Closes a Paste session, Deletes the ChangeLog
 	 */
 	void endPaste();
@@ -593,7 +593,7 @@ public:
 	/**
 	 * 	Returns the documentation for the project.
 	 */
-	QString getDoc() {
+	QString getDoc() const {
 		return m_Doc;
 	}
 
@@ -687,7 +687,7 @@ public:
 	void loadUndoData();
 
 	/**
-	 * Performs the redo function, loading the document back to the 
+	 * Performs the redo function, loading the document back to the
 	 * state is was before the last undo()
 	 */
 	void loadRedoData();
@@ -712,12 +712,12 @@ public:
 
 	/** Get the root node for the code generation parameters.
 	 */
-	QDomElement getCodeGeneratorXMIParams ( ); 
+	QDomElement getCodeGeneratorXMIParams ( );
 
 	/**
 	 * All the UMLViews (i.e. diagrams)
 	 */
-	UMLViewList *pViewList;
+	UMLViewList m_ViewList;
 
 	/**
 	 * The tree view of diagrams and objects.
@@ -730,6 +730,13 @@ public:
 	 * diagram_1 etc
 	 */
 	QString uniqViewName(const Diagram_Type type);
+
+	/**
+	 * Returns true when loading a document file.
+	 */
+	bool loading() const {
+		return m_bLoading;
+	}
 
         /**
          * Find a code generator by the given language.
@@ -758,7 +765,7 @@ public:
 private:
 
 	/**
-	 * remove this association from concepts list. This might be 
+	 * remove this association from concepts list. This might be
 	 * a public method if removeAssociation is removed.
 	 */
 	void removeAssocFromConcepts(UMLAssociation *assoc);
@@ -784,7 +791,7 @@ private:
 	UMLView* currentView;
 	QDomElement CodeGenerationParams;
 
-        // A dictionary of various code generators we currently have configured 
+        // A dictionary of various code generators we currently have configured
 	// for this UML document.
         QDict<CodeGenerator> m_codeGeneratorDictionary;
 
@@ -801,7 +808,7 @@ private:
 	/**
 	 * true if the we're loading a new document
 	 */
-	bool loading;
+	bool m_bLoading;
 
 	/**
 	 * 	Documentation for the project.

@@ -22,7 +22,7 @@ int const SeqLineWidget::m_nMouseDownEpsilonX = 20;
 SeqLineWidget::SeqLineWidget( UMLView * pView, ObjectWidget * pObject ) : QCanvasLine( pView -> canvas() ) {
 	m_pView = pView;
 	m_pObject = pObject;
-	setPen( QPen( m_pObject -> getLineColor(), 0, DashLine ) );
+	setPen( QPen( m_pObject -> getLineColour(), 0, DashLine ) );
 	setZ( 0 );
 	setVisible( true );
 	m_pDestructionBox.line1 = 0;
@@ -30,7 +30,7 @@ SeqLineWidget::SeqLineWidget( UMLView * pView, ObjectWidget * pObject ) : QCanva
 	setupDestructionBox();
 	m_nOffsetY = m_nOldY = 0;
 	m_pView -> addSeqLine( this );
-	m_nMinY = m_nLengthY + m_pObject->height() + (int)m_pObject->y();
+	m_nMinY = m_nLengthY + m_pObject->getHeight() + m_pObject->getY();
 }
 
 SeqLineWidget::~SeqLineWidget() {}
@@ -76,8 +76,8 @@ void SeqLineWidget::setupDestructionBox() {
 		return;
 	}
 	QRect rect;
-	rect.setX( (int)m_pObject->x() + m_pObject->width() / 2 - 10 );
-	rect.setY( (int)m_pObject->y() + m_pObject->height() + m_nLengthY );
+	rect.setX( m_pObject->getX() + m_pObject->getWidth() / 2 - 10 );
+	rect.setY( m_pObject->getY() + m_pObject->getHeight() + m_nLengthY );
 	rect.setWidth( 14 );
 	rect.setHeight( 14 );
 
@@ -85,13 +85,13 @@ void SeqLineWidget::setupDestructionBox() {
 	m_pDestructionBox.line1->setPoints( rect.x(), rect.y(),
 					      rect.x() + rect.width(), rect.y() + rect.height() );
 	m_pDestructionBox.line1->setVisible( true );
-	m_pDestructionBox.line1->setPen( QPen(m_pObject->getLineColor(), 2) );
+	m_pDestructionBox.line1->setPen( QPen(m_pObject->getLineColour(), 2) );
 	m_pDestructionBox.line1->setZ( 2 );
 
 	m_pDestructionBox.line2 = new QCanvasLine( m_pView -> canvas() );
 	m_pDestructionBox.line2->setPoints( rect.x(), rect.y() + rect.height(), rect.x() + rect.width(), rect.y() );
 	m_pDestructionBox.line2->setVisible( true );
-	m_pDestructionBox.line2->setPen( QPen(m_pObject->getLineColor(), 2) );
+	m_pDestructionBox.line2->setPen( QPen(m_pObject->getLineColour(), 2) );
 	m_pDestructionBox.line2->setZ( 2 );
 }
 
@@ -100,8 +100,8 @@ void SeqLineWidget::moveDestructionBox() {
 		return;
 	}
 	QRect rect;
-	rect.setX( (int)m_pObject->x() + m_pObject->width() / 2 - 7 );
-	rect.setY( (int)m_pObject->y() + m_pObject->height() + m_nLengthY - 7 );
+	rect.setX( m_pObject->getX() + m_pObject->getWidth() / 2 - 7 );
+	rect.setY( m_pObject->getY() + m_pObject->getHeight() + m_nLengthY - 7 );
 	rect.setWidth( 14 );
 	rect.setHeight( 14 );
 	m_pDestructionBox.line1->setPoints( rect.x(), rect.y(),
@@ -114,7 +114,7 @@ void SeqLineWidget::setLineLength( int nLength ) {
 	m_nLengthY = nLength;
 	QPoint sp = startPoint();
 	setPoints( sp.x(), sp.y(), sp.x(),
-		   m_nLengthY + (int)m_pObject->y() + m_pObject->height() + m_nLengthY );
+		   m_nLengthY + m_pObject->getY() + m_pObject->getHeight() + m_nLengthY );
 	moveDestructionBox();
 }
 
@@ -130,7 +130,7 @@ void SeqLineWidget::setEndOfLine(int height) {
 	}
 
 	setPoints( sp.x(), sp.y(), sp.x(), newY );
-	m_nLengthY = newY - (int)m_pObject->y() - m_pObject->height();
+	m_nLengthY = newY - m_pObject->getY() - m_pObject->getHeight();
 	moveDestructionBox();
 	m_pView->resizeCanvasToItems();
 }

@@ -25,39 +25,39 @@ UMLCanvasObject::UMLCanvasObject(QObject* parent) : UMLObject(parent) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLCanvasObject::~UMLCanvasObject() {
- 	m_AssocsList.clear();
- 	m_TmpAssocs.clear();
+	m_AssocsList.clear();
+	m_TmpAssocs.clear();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 QPtrList<UMLAssociation> UMLCanvasObject::getSpecificAssocs(Uml::Association_Type assocType) {
- 	QPtrList<UMLAssociation> list;
- 	for (UMLAssociation* a = m_AssocsList.first(); a; a = m_AssocsList.next())
- 		if (a->getAssocType() == assocType)
- 			list.append(a);
- 	return list;
+	QPtrList<UMLAssociation> list;
+	for (UMLAssociation* a = m_AssocsList.first(); a; a = m_AssocsList.next())
+		if (a->getAssocType() == assocType)
+			list.append(a);
+	return list;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool UMLCanvasObject::addAssociation(UMLAssociation* assoc) {
- 	m_AssocsList.append( assoc );
+	m_AssocsList.append( assoc );
 	emit modified();
 	emit sigAssociationAdded(assoc);
 	return true;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool UMLCanvasObject::hasAssociation(UMLAssociation* assoc) {
- 	if(m_AssocsList.containsRef(assoc) > 0)
- 		return true;
- 	return false;
+	if(m_AssocsList.containsRef(assoc) > 0)
+		return true;
+	return false;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 int UMLCanvasObject::removeAssociation(UMLAssociation * assoc) {
- 	if(!m_AssocsList.remove(assoc)) {
- 		kdWarning() << "can't find assoc given in list" << endl;
- 		return -1;
- 	}
+	if(!m_AssocsList.remove(assoc)) {
+		kdWarning() << "can't find assoc given in list" << endl;
+		return -1;
+	}
 	emit modified();
 	emit sigAssociationRemoved(assoc);
- 	return m_AssocsList.count();
+	return m_AssocsList.count();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 QString UMLCanvasObject::uniqChildName(UMLObject_Type type) {
@@ -76,14 +76,14 @@ QString UMLCanvasObject::uniqChildName(UMLObject_Type type) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 QPtrList<UMLObject> UMLCanvasObject::findChildObject(UMLObject_Type t, QString n) {
-  	QPtrList<UMLObject> list;
- 	if (t == ot_Association) {
- 		UMLAssociation * obj=0;
- 		for (obj = m_AssocsList.first(); obj != 0; obj = m_AssocsList.next()) {
- 			if (obj->getBaseType() == t && obj -> getName() == n)
- 				list.append( obj );
- 		}
- 	} else {
+	QPtrList<UMLObject> list;
+	if (t == ot_Association) {
+		UMLAssociation * obj=0;
+		for (obj = m_AssocsList.first(); obj != 0; obj = m_AssocsList.next()) {
+			if (obj->getBaseType() == t && obj -> getName() == n)
+				list.append( obj );
+		}
+	} else {
 		kdWarning() << "unknown type in findChildObject()" << endl;
 	}
 	return list;
@@ -140,3 +140,4 @@ QPtrList<UMLAssociation> UMLCanvasObject::getAggregations() {
 QPtrList<UMLAssociation> UMLCanvasObject::getCompositions() {
 	return getSpecificAssocs(Uml::at_Composition);
 }
+#include "umlcanvasobject.moc"

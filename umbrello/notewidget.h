@@ -12,7 +12,6 @@
 
 //app includes
 #include "umlwidget.h"
-#include "notewidgetdata.h"
 
 // forward declarations
 
@@ -31,19 +30,12 @@ class QPainter;
  */
 class NoteWidget : public UMLWidget {
 public:
-	/**
-	 *	Constructs a NoteWidget.
-	 *
-	 *	@param	view		The parent to this widget.
-	 *	@param	pData		The NoteWidget to represent.
-	 */
-	NoteWidget(UMLView * view, UMLWidgetData* pData);
 
 	/**
 	 *	Constructs a NoteWidget.
 	 *
 	 *	@param	view		The parent to this widget.
-	 *	@param	id				The unique id of the widget.
+	 *	@param	id		The unique id of the widget.
 	 */
 	NoteWidget(UMLView * view, int id);
 
@@ -89,19 +81,29 @@ public:
 	 *
 	 *	@return Returns the text in the box.
 	 */
-	QString getDoc() {
-		return ((NoteWidgetData*)m_pData) -> getText();
+	QString getDoc() const {
+		return m_Text;
 	}
 
 	/**
 	 *   Sets the note documentation.
 	 */
 	void setDoc(QString newText) {
-		((NoteWidgetData*)m_pData)->setText(newText);
+		m_Text = newText;
 	}
 
-	bool getLinkState() {
-		return ((NoteWidgetData*)m_pData)->getLinkDocumentation();
+	/**
+	 *   Read property of bool m_bLinkDocumentation.
+	 */
+	bool getLinkState() const {
+		return m_bLinkDocumentation;
+	}
+
+	/**
+	 *   Write property of bool m_bLinkDocumentation.
+	 */
+	void setLinkState( bool linkDocumentation ) {
+		m_bLinkDocumentation = linkDocumentation;
 	}
 
 	/**
@@ -110,21 +112,32 @@ public:
 	virtual bool activate( IDChangeLog* ChangeLog = 0 );
 
 	/**
-	 * Synchronize the Widget's m_pData member with its display properties, for example:
-	 * the X and Y positions of the widget, etc
-	 */
-	virtual void synchronizeData();
-
-	/**
 	 * Override default method
 	 */
 	void draw(QPainter & p, int offsetX, int offsetY);
 
+	/**
+	 *	Saves the box to XMI using <UML:NoteWidget>
+	 */
+	bool saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+
+	/**
+	 *	Loads the <UML:NoteWidget> element
+	 */
+	bool loadFromXMI( QDomElement & qElement );
+
 protected:
+	/**
+	 * Data loaded/saved
+	 */
+	QString m_Text;
+	bool m_bLinkDocumentation;
+
 	/**
 	 * Draws the text.  Called by draw and not called by anyone else.
 	 */
 	void drawText(QPainter & p, int offsetX, int offsetY);
+
 public slots:
 	void slotMenuSelection(int sel);
 };

@@ -27,28 +27,21 @@ class UMLView;
  */
 class InterfaceWidget : public UMLWidget {
 public:
-	/**
-	 *	Constructs an InterfaceWidget.
-	 *
-	 *	@param	view		The parent of this InterfaceWidget.
-	 *	@param	pData		The InterfaceWidgetData to represent.
-	 */
-	InterfaceWidget(UMLView* view, UMLObject* o, UMLWidgetData* pData);
 
 	/**
 	 *	Constructs a InterfaceWidget.
 	 *
-	 *	@param	view		The parent of this InterfaceWidget.
-	 *	@param	o		The UMLObject is will be representing.
+	 *	@param	view	The parent of this InterfaceWidget.
+	 *	@param	o	The UMLObject this will be representing.
 	 */
-	InterfaceWidget(UMLView* view, UMLObject* o);
+	InterfaceWidget(UMLView * view, UMLObject * o);
 
 	/**
 	 *	Constructs a InterfaceWidget.
 	 *
 	 *	@param	view	The parent of this InterfaceWidget.
 	 */
-	InterfaceWidget(UMLView* view);
+	InterfaceWidget(UMLView * view);
 
 	/**
 	 *	Standard deconstructor.
@@ -65,14 +58,14 @@ public:
 	 *
 	 *	@return	Return the status of showing operations.
 	 */
-	bool getShowOps();
+	bool getShowOps() const;
 
 	/**
 	 *	Return the status of showing operation signatures.
 	 *
 	 *	@return Returns the status of showing operation signatures.
 	 */
-	Uml::Signature_Type getShowOpSigs();
+	Uml::Signature_Type getShowOpSigs() const;
 
 	/**
 	 *	Set the status of whether to show scope
@@ -86,7 +79,7 @@ public:
 	 *
 	 *	@return  Returns the status of whether to show scope.
 	 */
-	bool getShowScope();
+	bool getShowScope() const;
 
 	/**
 	 * 	Set the status of whether to show Operation signature
@@ -114,7 +107,7 @@ public:
 	 *
 	 *	@return  Returns the status of whether to show Package.
 	 */
-	bool getShowPackage();
+	bool getShowPackage() const;
 
 	/**
 	 * 	Set the status of whether to show Package
@@ -128,7 +121,7 @@ public:
 	 *
 	 *	@return  Returns the status of whether to show Package.
 	 */
-	bool getDrawAsCircle();
+	bool getDrawAsCircle() const;
 
 	/**
 	 * 	Set the status of whether to show Package
@@ -151,6 +144,24 @@ public:
 	 * Overrides default impl. to set e.g. the abstract attribute.
 	 */
 	virtual void setUMLObject(UMLObject* object);
+
+	/**
+	 * Saves to the <interfacewidget> element
+	 */
+	bool saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+
+	/**
+	 * Loads from an <interfacewidget> element
+	 */
+	bool loadFromXMI( QDomElement & qElement );
+
+protected:
+	// Data loaded/saved
+	bool m_bShowOperations;
+	bool m_bShowScope;
+	bool m_bShowPackage;
+	bool m_bDrawAsCircle;
+	Uml::Signature_Type m_ShowOpSigs;
 
 private:
 	/**

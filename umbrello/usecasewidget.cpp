@@ -8,31 +8,28 @@
  ***************************************************************************/
 
 #include "usecasewidget.h"
-#include "usecasewidgetdata.h"
 #include "umlwidget.h"
 #include "umlview.h"
 
 #include <qpainter.h>
 
-UseCaseWidget::UseCaseWidget(UMLView * view, UMLObject *o, UMLWidgetData* pData) : UMLWidget(view, o, pData) {}
-
-UseCaseWidget::UseCaseWidget(UMLView * view, UMLObject *o) : UMLWidget(view, o, new UseCaseWidgetData(view->getOptionState() )) {
-	m_pData->setType(wt_UseCase);
+UseCaseWidget::UseCaseWidget(UMLView * view, UMLObject *o) : UMLWidget(view, o) {
+	UMLWidget::setBaseType(wt_UseCase);
 	calculateSize();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-UseCaseWidget::UseCaseWidget(UMLView * view) : UMLWidget(view, new UseCaseWidgetData(view->getOptionState())) {
-	m_pData->setType(wt_UseCase);
+UseCaseWidget::UseCaseWidget(UMLView * view) : UMLWidget(view) {
+	UMLWidget::setBaseType(wt_UseCase);
 	calculateSize();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UseCaseWidget::~UseCaseWidget() {}
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UseCaseWidget::draw(QPainter & p, int offsetX, int offsetY) {
-	p.setPen(m_pData->getLineColour());
-	if(m_pData->getUseFillColor())
-		p.setBrush(m_pData->getFillColour());
-	p.setFont( m_pData -> getFont() );
+	p.setPen( UMLWidget::getLineColour() );
+	if ( UMLWidget::getUseFillColour() )
+		p.setBrush( UMLWidget::getFillColour() );
+	p.setFont( UMLWidget::getFont() );
 	QFontMetrics &fm = getFontMetrics(FT_NORMAL);
 	int fontHeight  = fm.lineSpacing();
 	int w = width();
@@ -43,7 +40,7 @@ void UseCaseWidget::draw(QPainter & p, int offsetX, int offsetY) {
 	p.drawEllipse(offsetX, offsetY, w, h);
 	p.setPen(black);
 	p.drawText(offsetX + UC_MARGIN, offsetY + textStartY, w - UC_MARGIN * 2, fontHeight, AlignCenter, getName());
-	p.setPen(m_pData->getLineColour());
+	p.setPen( UMLWidget::getLineColour() );
 	if(m_bSelected)
 		drawSelected(&p, offsetX, offsetY);
 
@@ -63,8 +60,11 @@ void UseCaseWidget::calculateSize()
 	width += UC_MARGIN * 2;
 	setSize(width, height);
 }
-
-void UseCaseWidget::synchronizeData() {
-	//Nothing to synchronize
-	UMLWidget::synchronizeData();
+////////////////////////////////////////////////////////////////////////////////////////////////////
+bool UseCaseWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
+	QDomElement usecaseElement = qDoc.createElement( "UML:UseCaseWidget" );
+	bool status = UMLWidget::saveToXMI( qDoc, usecaseElement );
+	qElement.appendChild( usecaseElement );
+	return status;
 }
+

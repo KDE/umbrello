@@ -35,13 +35,6 @@ class QPainter;
  */
 class UseCaseWidget : public UMLWidget {
 public:
-	/**
-	 *	Creates a UseCase widget.
-	 *
-	 *	@param	view		The parent of the widget.
-	 *	@param	pData		The UMLWidgetData to represent.
-	 */
-	UseCaseWidget(UMLView * view, UMLObject *o, UMLWidgetData* pData);
 
 	/**
 	 *	Creates a UseCase widget.
@@ -64,16 +57,17 @@ public:
 	~UseCaseWidget();
 
 	/**
-	*       Synchronize the Widget's m_pData member with its
-	*       display properties, for example: the X and Y positions
-	*       of the widget, etc
-	*/
-	virtual void synchronizeData();
-
-	/**
 	*	Overrides the standard paint event.
 	*/
 	void draw(QPainter & p, int offsetX, int offsetY);
+
+	/**
+	*	Saves this UseCase to file.
+	*/
+	bool saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+
+	// For loading we can use the loadFromXMI() inherited from UMLWidget.
+
 protected:
 	/**
 	 *	Calculates the size of the widget.

@@ -20,22 +20,18 @@
 #include "notewidget.h"
 #include "listpopupmenu.h"
 
-NoteWidget::NoteWidget(UMLView * view, UMLWidgetData* pData)  : UMLWidget(view, pData) {
-	init();
-}
-
-NoteWidget::NoteWidget(UMLView * view, int id)  : UMLWidget(view, id, new NoteWidgetData(view->getOptionState() )) {
+NoteWidget::NoteWidget(UMLView * view, int id) : UMLWidget(view, id) {
 	init();
 	setSize(100,80);
-	m_pData->setType(wt_Note);
-	((NoteWidgetData*)m_pData)->setLinkDocumentation( false );
+	UMLWidget::setBaseType( wt_Note );
+	m_bLinkDocumentation = false;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-NoteWidget::NoteWidget(UMLView * view) : UMLWidget(view, new NoteWidgetData(view->getOptionState() )) {
+NoteWidget::NoteWidget(UMLView * view) : UMLWidget(view) {
 	init();
 	setSize(100,80);
-	m_pData->setType(wt_Note);
-	((NoteWidgetData*)m_pData)->setLinkDocumentation( false );
+	UMLWidget::setBaseType(wt_Note);
+	m_bLinkDocumentation = false;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void NoteWidget::init() {
@@ -57,9 +53,9 @@ void NoteWidget::draw(QPainter & p, int offsetX, int offsetY) {
 	poly.setPoint(3, offsetX + w, offsetY + margin);
 	poly.setPoint(4, offsetX + w - margin, offsetY);
 	poly.setPoint(5, offsetX, offsetY);
-	p.setPen(m_pData->getLineColour());
-	if(m_pData->getUseFillColor()) {
-		p.setBrush(m_pData->getFillColour());
+	p.setPen( UMLWidget::getLineColour() );
+	if ( UMLWidget::getUseFillColour() ) {
+		p.setBrush( UMLWidget::getFillColour() );
 		p.drawPolygon(poly);
 	} else
 		p.drawPolyline(poly);
@@ -85,18 +81,18 @@ void NoteWidget::mouseMoveEvent(QMouseEvent *me) {
 	newW = newW < 50?50:newW;
 	newH = newH < 50?50:newH;
 	setSize( newW, newH );
-	adjustAssocs( (int)x(), (int)y() );
+	adjustAssocs( getX(), getY() );
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void NoteWidget::mousePressEvent(QMouseEvent *me) {
 	UMLWidget::mousePressEvent(me);
-	int w = width();
-	int h = height();
-	m_nOldW=w;
-	m_nOldH=h;
+	m_nOldW = getWidth();
+	m_nOldH = getHeight();
 	int m = 10;
 	//bottomRight
-	if( (m_nOldX + m_nPressOffsetX ) >= ((int)x() + width() - m) && ( m_nOldY + m_nPressOffsetY ) >= ( (int)y() + height() - m) && me -> button() == LeftButton) {
+	if( m_nOldX + m_nPressOffsetX >= getX() + m_nOldW - m &&
+	    m_nOldY + m_nPressOffsetY >= getY() + m_nOldH - m &&
+	    me -> button() == LeftButton) {
 		m_bResizing = true;
 		m_pView -> setCursor(KCursor::sizeFDiagCursor());
 	}
@@ -130,10 +126,6 @@ bool NoteWidget::activate ( IDChangeLog* ChangeLog /*= 0*/ ) {
 	return status;
 }
 
-void NoteWidget::synchronizeData() {
-	UMLWidget::synchronizeData();
-}
-
 void NoteWidget::mouseReleaseEvent( QMouseEvent * me ) {
 	UMLWidget::mouseReleaseEvent( me );
 	m_bResizing = false;
@@ -155,7 +147,7 @@ void NoteWidget::drawText(QPainter & p, int offsetX, int offsetY) {
 	start new line on \n character
 	*/
 	p.setPen( black );
-	QFont font = m_pData -> getFont();
+	QFont font = UMLWidget::getFont();
 	p.setFont( font );
 	QFontMetrics &fm = getFontMetrics(FT_NORMAL);
 	int fontHeight  = fm.lineSpacing();
@@ -226,6 +218,21 @@ void NoteWidget::drawText(QPainter & p, int offsetX, int offsetY) {
 		else
 			p.drawText( offsetX + textX, offsetY + textY , textWidth, fontHeight, AlignLeft, word );
 	}//end if
+}
+
+bool NoteWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
+	QDomElement noteElement = qDoc.createElement( "UML:NoteWidget" );
+	bool status = UMLWidget::saveToXMI( qDoc, noteElement );
+	noteElement.setAttribute( "text", m_Text );
+	qElement.appendChild( noteElement );
+	return status;
+}
+
+bool NoteWidget::loadFromXMI( QDomElement & qElement ) {
+	if( !UMLWidget::loadFromXMI( qElement ) )
+		return false;
+	m_Text = qElement.attribute( "text", "" );
+	return true;
 }
 
 

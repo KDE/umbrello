@@ -824,33 +824,33 @@ bool UMLListView::acceptDrag(QDropEvent* event) const {
 
 	UMLListViewItemDataListIt it(list);
 	UMLListViewItemData* data = 0;
-	int type = 0;
+	int itemType = item->getType();
 	bool accept = true;
-	type = item->getType();
 	while(accept && ((data = it.current()) != 0)) {
 		++it;
-		if((data->getType() == Uml::lvt_Class || data->getType() == Uml::lvt_Package
-		    || data->getType() == Uml::lvt_Interface || data->getType() == Uml::lvt_Class_Diagram
-		    || data->getType() == Uml::lvt_Collaboration_Diagram
-		    || data->getType() == Uml::lvt_State_Diagram
-		    || data->getType() == Uml::lvt_Activity_Diagram
-		    || data->getType() == Uml::lvt_Sequence_Diagram)
-		   && (type == Uml::lvt_Logical_Folder || type == Uml::lvt_Logical_View) ) {
+		Uml::ListView_Type lvType = data->getType();
+		if((lvType == Uml::lvt_Class || lvType == Uml::lvt_Package
+		    || lvType == Uml::lvt_Interface || lvType == Uml::lvt_Class_Diagram
+		    || lvType == Uml::lvt_Collaboration_Diagram
+		    || lvType == Uml::lvt_State_Diagram
+		    || lvType == Uml::lvt_Activity_Diagram
+		    || lvType == Uml::lvt_Sequence_Diagram)
+		   && (itemType == Uml::lvt_Logical_Folder || itemType == Uml::lvt_Logical_View) ) {
 			continue;
 		}
-		if( (data->getType() == Uml::lvt_Actor || data->getType() == Uml::lvt_UseCase
-		     || data->getType() == Uml::lvt_UseCase_Diagram)
-		    && (type == Uml::lvt_UseCase_Folder || type == Uml::lvt_UseCase_View) ) {
+		if( (lvType == Uml::lvt_Actor || lvType == Uml::lvt_UseCase
+		     || lvType == Uml::lvt_UseCase_Diagram)
+		    && (itemType == Uml::lvt_UseCase_Folder || itemType == Uml::lvt_UseCase_View) ) {
 			continue;
 		}
-		if( (data->getType() == Uml::lvt_Component || data->getType() == Uml::lvt_Artifact
-		     || data->getType() == Uml::lvt_Component_Diagram)
-		    && (type == Uml::lvt_Component_Folder) ) {
+		if( (lvType == Uml::lvt_Component || lvType == Uml::lvt_Artifact
+		     || lvType == Uml::lvt_Component_Diagram)
+		    && (itemType == Uml::lvt_Component_Folder) ) {
 			continue;
 		}
-		if( (data->getType() == Uml::lvt_Node ||
-		     data->getType() == Uml::lvt_Deployment_Diagram)
-		    && type == Uml::lvt_Deployment_Folder ) {
+		if( (lvType == Uml::lvt_Node ||
+		     lvType == Uml::lvt_Deployment_Diagram)
+		    && itemType == Uml::lvt_Deployment_Folder ) {
 			continue;
 		}
 		accept = false;
@@ -860,7 +860,6 @@ bool UMLListView::acceptDrag(QDropEvent* event) const {
 }
 
 void UMLListView::slotDropped(QDropEvent* de, QListViewItem* parent, QListViewItem* item) {
-	UMLListViewItem * move;
 	parent = 0;//done just to stop compiler warning
 	if(!item) {
 		return;
@@ -871,53 +870,50 @@ void UMLListView::slotDropped(QDropEvent* de, QListViewItem* parent, QListViewIt
 	if(!status) {
 		return;
 	}
+	Uml::ListView_Type itemType = ((UMLListViewItem*)item) -> getType();
 	UMLListViewItemDataListIt it(list);
 	UMLListViewItemData* data = 0;
-	Uml::ListView_Type type = Uml::lvt_Unknown;
-	UMLView * v = 0;
-	UMLObject * o =0;
 	while((data =  it.current()) != 0) {
 		++it;
-		if( typeIsDiagram(data->getType()) ) {
-			v = m_doc -> findView(data->getID());
+		UMLListViewItem * move;
+		Uml::ListView_Type lvType = data->getType();
+		if( typeIsDiagram(lvType) ) {
+			UMLView * v = m_doc -> findView(data->getID());
 			move = findView(v);
-			if(!move)
-				continue;
 		} else {
-			o = m_doc -> findUMLObject(data->getID());
+			UMLObject * o = m_doc -> findUMLObject(data->getID());
 			move = findUMLObject(o);
-			if(!move)
-				continue;
 		}
-		type = ((UMLListViewItem*)item)  -> getType();
+		if(!move)
+			continue;
 		//make sure trying to place in correct location
 
-		if( (data->getType() == Uml::lvt_UseCase_Folder
-		     || data->getType() == Uml::lvt_Actor
-		     || data->getType() == Uml::lvt_UseCase
-		     || data->getType() == Uml::lvt_UseCase_Diagram)
-		    && (type == Uml::lvt_UseCase_Folder || type == Uml::lvt_UseCase_View) ) {
+		if( (lvType == Uml::lvt_UseCase_Folder
+		     || lvType == Uml::lvt_Actor
+		     || lvType == Uml::lvt_UseCase
+		     || lvType == Uml::lvt_UseCase_Diagram)
+		    && (itemType == Uml::lvt_UseCase_Folder || itemType == Uml::lvt_UseCase_View) ) {
 			moveItem(move, item, item);
 		}
-		if( (data->getType() == Uml::lvt_Component_Folder
-		     || data->getType() == Uml::lvt_Component
-		     || data->getType() == Uml::lvt_Artifact
-		     || data->getType() == Uml::lvt_Component_Diagram)
-		    && (type == Uml::lvt_Component_Folder || type == Uml::lvt_Component_View) ) {
+		if( (lvType == Uml::lvt_Component_Folder
+		     || lvType == Uml::lvt_Component
+		     || lvType == Uml::lvt_Artifact
+		     || lvType == Uml::lvt_Component_Diagram)
+		    && (itemType == Uml::lvt_Component_Folder || itemType == Uml::lvt_Component_View) ) {
 			moveItem(move, item, item);
 		}
-		if( (data->getType() == Uml::lvt_Deployment_Folder
-		     || data->getType() == Uml::lvt_Node
-		     || data->getType() == Uml::lvt_Deployment_Diagram)
-		    && (type == Uml::lvt_Deployment_Folder || type == Uml::lvt_Deployment_View) ) {
+		if( (lvType == Uml::lvt_Deployment_Folder
+		     || lvType == Uml::lvt_Node
+		     || lvType == Uml::lvt_Deployment_Diagram)
+		    && (itemType == Uml::lvt_Deployment_Folder || itemType == Uml::lvt_Deployment_View) ) {
 			moveItem(move, item, item);
 		}
-		if( ((data->getType() >= Uml::lvt_Collaboration_Diagram
-		      && data->getType() <= Uml::lvt_Sequence_Diagram)
-		     || data->getType() == Uml::lvt_Class
-		     || data->getType() == Uml::lvt_Package
-		     || data->getType() == Uml::lvt_Interface)
-		    && (type == Uml::lvt_Logical_Folder || type == Uml::lvt_Logical_View)) {
+		if( ((lvType >= Uml::lvt_Collaboration_Diagram
+		      && lvType <= Uml::lvt_Sequence_Diagram)
+		     || lvType == Uml::lvt_Class
+		     || lvType == Uml::lvt_Package
+		     || lvType == Uml::lvt_Interface)
+		    && (itemType == Uml::lvt_Logical_Folder || itemType == Uml::lvt_Logical_View)) {
 			moveItem(move, item, item);
 		}
 	}
@@ -1662,11 +1658,10 @@ void UMLListView::createDiagram( UMLListViewItem * item, Uml::Diagram_Type type 
 		delete item;
 		return;
 	}
-	UMLViewData viewData;
-	viewData.setName( name );
-	viewData.setType( type );
-	viewData.setID( m_doc -> getUniqueID() );
-	view = new UMLView(UMLApp::app()->getMainDockWidget(), viewData, m_doc);
+	view = new UMLView(UMLApp::app()->getMainDockWidget(), m_doc);
+	view->setName( name );
+	view->setType( type );
+	view->setID( m_doc -> getUniqueID() );
 	m_doc -> addView( view );
 	view  -> setOptionState( ((UMLApp *) m_doc -> parent()) -> getOptionState() );
 	UMLListViewItemData * data = item -> getdata();
@@ -1883,24 +1878,28 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
 	QDomNode node = element.firstChild();
 	QDomElement domElement = node.toElement();
 	while( !domElement.isNull() ) {
-		if( domElement.tagName() == "listitem" ) {
-			QString id = domElement.attribute( "id", "-1" );
-			QString type = domElement.attribute( "type", "-1" );
-			QString label = domElement.attribute( "label", "" );
-			QString open = domElement.attribute( "open", "1" );
-			if( type == "-1" )
-				return false;
-			Uml::ListView_Type lvType = (Uml::ListView_Type)type.toInt();
-			bool bOpen = (bool)open.toInt();
-			int nID = id.toInt();
-			UMLObject * pObject = 0;
-			UMLListViewItem * item = 0;
-			pObject = m_doc->findUMLObject(nID);
-			if (pObject) {
-				connectNewObjectsSlots(pObject);
-			}
+		node = domElement.nextSibling();
+		if( domElement.tagName() != "listitem" ) {
+			domElement = node.toElement();
+			continue;
+		}
+		QString id = domElement.attribute( "id", "-1" );
+		QString type = domElement.attribute( "type", "-1" );
+		QString label = domElement.attribute( "label", "" );
+		QString open = domElement.attribute( "open", "1" );
+		if( type == "-1" )
+			return false;
+		Uml::ListView_Type lvType = (Uml::ListView_Type)type.toInt();
+		bool bOpen = (bool)open.toInt();
+		int nID = id.toInt();
+		UMLObject * pObject = 0;
+		UMLListViewItem * item = 0;
+		pObject = m_doc->findUMLObject(nID);
+		if (pObject) {
+			connectNewObjectsSlots(pObject);
+		}
 
-			switch( lvType ) {
+		switch( lvType ) {
 			case Uml::lvt_Class:
 				item = new UMLListViewItem(parent, label, lvType, pObject);
 				break;
@@ -1948,18 +1947,16 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
 			default:
 				item = new UMLListViewItem( parent, label, lvType, nID );
 				break;
-			}//end switch
+		}//end switch
 
-			if (item)  {
-				item->setOpen( (bool)bOpen );
-				if ( !loadChildrenFromXMI(item, domElement) ) {
-					return false;
-				}
-			} else {
-				kdWarning() << "unused list view item" << endl;
+		if (item)  {
+			item->setOpen( (bool)bOpen );
+			if ( !loadChildrenFromXMI(item, domElement) ) {
+				return false;
 			}
-		}//end if
-		node = domElement.nextSibling();
+		} else {
+			kdWarning() << "unused list view item" << endl;
+		}
 		domElement = node.toElement();
 	}//end while
 	return true;

@@ -11,7 +11,6 @@
 #define MESSAGEWIDGET_H
 
 #include "umlwidget.h"
-#include "messagewidgetdata.h"
 
 // forward declarations
 class FloatingText;
@@ -24,7 +23,7 @@ class ObjectWidget;
  *	widget that is passed in the constructor.  A message can be
  *	synchronous (calls a method and gains control back on return,
  *	as happens in most programming languages) or asynchronous
- *	(calls a method and gains back control immediatly).
+ *	(calls a method and gains back control immediately).
  *
  *	@short	Displays a message.
  *	@author Paul Hensgen
@@ -35,16 +34,9 @@ class ObjectWidget;
 class MessageWidget : public UMLWidget {
 	Q_OBJECT
 public:
-	/**
-	 *	Cosntructs a MessageWidget.
-	 *
-	 *  @param	view		The parent to this class.
-	 *  @param	pData		The CMessageWidget to represent
-	 */
-	MessageWidget(UMLView* view, UMLWidgetData* pData);
 
 	/**
-	 *	Cosntructs a MessageWidget.
+	 *	Constructs a MessageWidget.
 	 *
 	 *	@param	view	The parent to this class.
 	 *	@param	a	The role A widget for this message.
@@ -54,15 +46,15 @@ public:
 	 *	@param	y	The vertical position to display this message.
 	 *	@param sequenceMessageType Whether synchronous or asynchronous
 	 */
-	MessageWidget(UMLView* view, UMLWidget* a, UMLWidget* b, FloatingText* ft, 
+	MessageWidget(UMLView * view, UMLWidget* a, UMLWidget* b, FloatingText* ft, 
 		      int id, int y, Sequence_Message_Type sequenceMessageType);
 
 	/**
-	 *	Cosntructs a MessageWidget.
+	 *	Constructs a MessageWidget.
 	 *
 	 *	@param	view		The parent to this class.
 	 */
-	MessageWidget(UMLView* view, Sequence_Message_Type sequenceMessageType);
+	MessageWidget(UMLView * view, Sequence_Message_Type sequenceMessageType);
 
 	/**
 	 *	Initializes key variables of the class.
@@ -73,6 +65,83 @@ public:
 	 *	Standard deconstructor.
 	 */
 	virtual ~MessageWidget();
+
+	/**
+	 * Write property of int m_nWidgetAID.
+	 */
+	void setWidgetAID( int widgetAID ) {
+		m_nWidgetAID = widgetAID;
+	}
+
+	/**
+	 * Read property of int m_nWidgetAID.
+	 */
+	int getWidgetAID() const {
+		return m_nWidgetAID;
+	}
+
+	/**
+	 * Write property of int m_nWidgetBID.
+	 */
+	void setWidgetBID( int widgetBID ) {
+		m_nWidgetBID = widgetBID;
+	}
+
+	/**
+	 * Read property of int m_nWidgetBID.
+	 */
+	int getWidgetBID() const {
+		return m_nWidgetBID;
+	}
+
+	/**
+	 * Write property of QString m_SequenceNumber.
+	 */
+	void setSequenceNumber( QString sequenceNumber ) {
+		m_SequenceNumber = sequenceNumber;
+	}
+
+	/**
+	 * Read property of QString m_SequenceNumber.
+	 */
+	QString getSequenceNumber() const {
+		return m_SequenceNumber;
+	}
+
+	/**
+	 * Write property of QString m_Operation.
+	 */
+	void setOperation( QString operation ) {
+		m_Operation = operation;
+	}
+
+	/**
+	 * Read property of QString m_Operation.
+	 */
+	QString getOperation() const {
+		return m_Operation;
+	}
+
+	/**
+	 * Write property of int m_nTextID.
+	 */
+	void setTextID( int textID ) {
+		m_nTextID = textID;
+	}
+
+	/**
+	 * Read property of int m_nTextID.
+	 */
+	int getTextID() const {
+		return m_nTextID;
+	}
+
+	/**
+	 * Returns whether the message is synchronous or asynchronous
+	 */
+	Sequence_Message_Type getSequenceMessageType() const {
+		return m_sequenceMessageType;
+	}
 
 	/**
 	 *	Check to see if the given UMLWidget is involved in the message.
@@ -101,8 +170,8 @@ public:
 	 *
 	 *	@return Returns the id of the A widget it is related to..
 	 */
-	int getCopyIDA() {
-		return ((MessageWidgetData*)m_pData)->getWidgetAID();
+	int getCopyIDA() const {
+		return m_nWidgetAID;
 	}
 
 	/**
@@ -110,8 +179,8 @@ public:
 	 *
 	 *	@return Returns the id of the B widget it is related to..
 	 */
-	int getCopyIDB() {
-		return ((MessageWidgetData*)m_pData)->getWidgetBID();
+	int getCopyIDB() const {
+		return m_nWidgetBID;
 	}
 
 	/**
@@ -140,7 +209,7 @@ public:
 	/**
 	 *	Sets the text widget it is related to.
 	 *
-	 *	@param wa the text widget it is related to.
+	 *	@param f	The text widget it is related to.
 	 */
 	void setFloatingText(FloatingText * f) {
 		m_pFText = f;
@@ -158,10 +227,11 @@ public:
 	bool activate(IDChangeLog * Log = 0);
 
 	/**
-	 * Synchronizes the Widget's m_pData member with its display properties, for exmaple:
+	 * Synchronizes the WidgetData members with the properties of the corresponding
+	 * UMLObject, for example:
 	 * the X and Y position of the widget, etc
 	 */
-	virtual void synchronizeData();
+	void synchronizeData();
 
 	/**
 	 * Calculates the size of the widget by calling
@@ -238,6 +308,28 @@ public:
 	 *	Overrides the standard operation.
 	 */
 	virtual void mousePressEvent(QMouseEvent *me);
+
+	/**
+	 * saves properties for the supplied <UML:MessageWidget> tag
+	 */
+	bool saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+
+	/**
+	 * loads properties from a supplied <UML:MessageWidget> tag
+	 */
+	bool loadFromXMI( QDomElement & qElement );
+
+protected:
+	// Data loaded/saved
+	int m_nWidgetAID;
+	int m_nWidgetBID;
+	QString m_SequenceNumber;
+	QString m_Operation;
+	int m_nTextID;
+	/**
+	 *	Whether the message is synchronous or asynchronous
+	 */
+        Sequence_Message_Type m_sequenceMessageType;
 
 private:
 	void moveEvent(QMoveEvent */*m*/);

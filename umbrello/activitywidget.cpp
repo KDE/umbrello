@@ -8,7 +8,6 @@
  ***************************************************************************/
 
 #include "activitywidget.h"
-#include "activitywidgetdata.h"
 #include "umlview.h"
 #include "listpopupmenu.h"
 #include "dialogs/activitydialog.h"
@@ -17,19 +16,15 @@
 #include <klocale.h>
 #include <qpainter.h>
 
-ActivityWidget::ActivityWidget(UMLView * view, UMLWidgetData* pData)
-  : UMLWidget(view, pData) {}
-
-ActivityWidget::ActivityWidget(UMLView * view, ActivityType activityType )
-  : UMLWidget(view, new ActivityWidgetData(view->getOptionState() )) {
-	static_cast<ActivityWidgetData *>( m_pData ) -> setActivityType( activityType );
-	m_pData->setType(wt_Activity);
+ActivityWidget::ActivityWidget(UMLView * view, ActivityType activityType ) : UMLWidget(view) {
+	m_ActivityType = activityType;
+	UMLWidget::setBaseType( wt_Activity );
 	calculateSize();
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-ActivityWidget::ActivityWidget(UMLView * view) : UMLWidget(view, new ActivityWidgetData(view->getOptionState() )) {
-	m_pData->setType(wt_Activity);
+ActivityWidget::ActivityWidget(UMLView * view) : UMLWidget(view) {
+	UMLWidget::setBaseType( wt_Activity );
 	calculateSize();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -38,13 +33,12 @@ ActivityWidget::~ActivityWidget() {}
 void ActivityWidget::draw(QPainter & p, int offsetX, int offsetY) {
 	int w = width();
 	int h = height();
-	ActivityType type = static_cast<ActivityWidgetData *>( m_pData )->getActivityType();
-	switch ( type )
+	switch ( m_ActivityType )
 	{
 		case Normal :
-			p.setPen(m_pData->getLineColour());
-			if(m_pData->getUseFillColor()) {
-				p.setBrush(m_pData->getFillColour());
+			p.setPen( UMLWidget::getLineColour() );
+			if ( UMLWidget::getUseFillColour() ) {
+				p.setBrush( UMLWidget::getFillColour() );
 			}
 			{
 				QFontMetrics &fm = getFontMetrics(FT_NORMAL);
@@ -53,28 +47,28 @@ void ActivityWidget::draw(QPainter & p, int offsetX, int offsetY) {
 				int textStartY = (h / 2) - (fontHeight / 2);
 				p.drawRoundRect(offsetX, offsetY, w, h, (h * 60) / w, 60);
 				p.setPen(black);
-				p.setFont(m_pData->getFont());
+				p.setFont( UMLWidget::getFont() );
 				p.drawText(offsetX + ACTIVITY_MARGIN, offsetY + textStartY, w - ACTIVITY_MARGIN * 2, fontHeight, AlignCenter, getName());
 			}
-			p.setPen(m_pData->getLineColour());
+			p.setPen( UMLWidget::getLineColour() );
 			break;
 		case Initial :
-			p.setPen(m_pData->getLineColour());
-			p.setBrush(m_pData->getLineColour());
+			p.setPen( UMLWidget::getLineColour() );
+			p.setBrush( UMLWidget::getLineColour() );
 			p.drawEllipse( offsetX, offsetY, w, h );
 			break;
 		case End :
-			p.setPen(m_pData->getLineColour());
-			p.setBrush( m_pData->getLineColour() );
+			p.setPen( UMLWidget::getLineColour() );
+			p.setBrush( UMLWidget::getLineColour() );
 			p.drawEllipse( offsetX, offsetY, w, h );
 			p.setBrush( white );
 			p.drawEllipse( offsetX + 1, offsetY + 1, w - 2, h - 2 );
-			p.setBrush( m_pData->getLineColour() );
+			p.setBrush( UMLWidget::getLineColour() );
 			p.drawEllipse( offsetX + 3, offsetY + 3, w - 6, h - 6 );
 			break;
 		case Branch :
-			p.setPen(m_pData->getLineColour());
-			p.setBrush(m_pData->getFillColour());
+			p.setPen( UMLWidget::getLineColour() );
+			p.setBrush( UMLWidget::getFillColour() );
 			{
 				QPointArray array( 4 );
 				array[ 0 ] = QPoint( offsetX + w / 2, offsetY );
@@ -95,8 +89,7 @@ void ActivityWidget::draw(QPainter & p, int offsetX, int offsetY) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void ActivityWidget::calculateSize() {
 	int width = 10, height = 10;
-	ActivityType type = static_cast<ActivityWidgetData *>( m_pData ) -> getActivityType();
-	if( type == Normal ) {
+	if ( m_ActivityType == Normal ) {
 		QFontMetrics &fm = getFontMetrics(FT_NORMAL);
 		int fontHeight  = fm.lineSpacing();
 		int textWidth = fm.width(getName());
@@ -105,57 +98,52 @@ void ActivityWidget::calculateSize() {
 		height = height > ACTIVITY_HEIGHT?height:ACTIVITY_HEIGHT;
 		width += ACTIVITY_MARGIN * 2;
 		height += ACTIVITY_MARGIN * 2;
-	} else if( type == Branch ) {
+	} else if ( m_ActivityType == Branch ) {
 		width = height = 20;
-	} else if( type == Fork ) {
+	} else if ( m_ActivityType == Fork ) {
 		width = 40;
 		height = 4;
 	}
 	setSize(width, height);
 }
 
-void ActivityWidget::synchronizeData() {
-	//Nothing to synchronize
-	UMLWidget::synchronizeData();
-}
-
 void ActivityWidget::setName(QString strName) {
-	static_cast<ActivityWidgetData*>(m_pData)->setName(strName);
+	m_Name = strName;
 	calculateSize();
-	adjustAssocs( (int)x(), (int)y() );
+	adjustAssocs( getX(), getY() );
 }
 
-QString ActivityWidget::getName() {
-	return static_cast<ActivityWidgetData*>(m_pData)->getName();
+QString ActivityWidget::getName() const {
+	return m_Name;
 }
 
-QString ActivityWidget::getDoc() {
-	return static_cast<ActivityWidgetData*>(m_pData)->getDoc();
+QString ActivityWidget::getDoc() const {
+	return m_Doc;
 }
 
 void ActivityWidget::setDoc( QString doc ) {
-	static_cast<ActivityWidgetData*>(m_pData)->setDoc(doc);
+	m_Doc = doc;
 }
 
-ActivityWidget::ActivityType ActivityWidget::getActivityType() {
-	return static_cast<ActivityWidgetData*>(m_pData)->getActivityType();
+ActivityWidget::ActivityType ActivityWidget::getActivityType() const {
+	return m_ActivityType;
 }
 
 void ActivityWidget::setActivityType( ActivityType activityType ) {
-	static_cast<ActivityWidgetData*>(m_pData)->setActivityType(activityType);
+	m_ActivityType = activityType;
 }
 
 void ActivityWidget::slotMenuSelection(int sel) {
 	bool done = false;
 
 	bool ok = false;
-	QString name = getName();
+	QString name = m_Name;
 
 	switch( sel ) {
 		case ListPopupMenu::mt_Rename:
-			name = KLineEditDlg::getText( i18n("Enter Activity Name"), i18n("Enter the name of the new activity:"), getName(), &ok );
+			name = KLineEditDlg::getText( i18n("Enter Activity Name"), i18n("Enter the name of the new activity:"), m_Name, &ok );
 			if( ok && name.length() > 0 )
-				setName( name );
+				m_Name = name;
 			done = true;
 			break;
 
@@ -179,5 +167,53 @@ void ActivityWidget::mouseDoubleClickEvent(QMouseEvent * /*me*/) {
 	}
 	m_pView -> showDocumentation( this, true );
 }
+
+bool ActivityWidget::isActivity(WorkToolBar::ToolBar_Buttons tbb,
+				ActivityType& resultType)
+{
+	bool status = true;
+	switch (tbb) {
+		case WorkToolBar::tbb_Initial_Activity:
+			resultType = Initial;
+			break;
+		case WorkToolBar::tbb_Activity:
+			resultType = Normal;
+			break;
+		case WorkToolBar::tbb_End_Activity:
+			resultType = End;
+			break;
+		case WorkToolBar::tbb_Branch:
+			resultType = Branch;
+			break;
+		case WorkToolBar::tbb_Fork:
+			resultType = Fork;
+			break;
+		default:
+			status = false;
+			break;
+	}
+	return status;
+}
+
+bool ActivityWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
+	QDomElement activityElement = qDoc.createElement( "UML:ActivityWidget" );
+	bool status = UMLWidget::saveToXMI( qDoc, activityElement );
+	activityElement.setAttribute( "activityname", m_Name );
+	activityElement.setAttribute( "documentation", m_Doc );
+	activityElement.setAttribute( "activitytype", m_ActivityType );
+	qElement.appendChild( activityElement );
+	return status;
+}
+
+bool ActivityWidget::loadFromXMI( QDomElement & qElement ) {
+	if( !UMLWidget::loadFromXMI( qElement ) )
+		return false;
+	m_Name = qElement.attribute( "activityname", "" );
+	m_Doc = qElement.attribute( "documentation", "" );
+	QString type = qElement.attribute( "activitytype", "1" );
+	m_ActivityType = (ActivityType)type.toInt();
+	return true;
+}
+
 
 #include "activitywidget.moc"

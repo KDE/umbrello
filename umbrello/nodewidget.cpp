@@ -8,41 +8,31 @@
  ***************************************************************************/
 
 #include "nodewidget.h"
-#include "nodewidgetdata.h"
 #include "node.h"
 #include "umlview.h"
 #include <kdebug.h>
 #include <qpainter.h>
 
-NodeWidget::NodeWidget(UMLView* view, UMLObject* o, UMLWidgetData* pData) : UMLWidget(view, o, pData) {
-	m_pMenu = 0;
-	if (m_pObject) {
-		calculateSize();
-		update();
-	}
-}
-
-NodeWidget::NodeWidget(UMLView* view, UMLObject* o) : UMLWidget(view, o, new NodeWidgetData(view->getOptionState() )) {
+NodeWidget::NodeWidget(UMLView * view, UMLObject * o) : UMLWidget(view, o) {
 	init();
 	setSize(100, 30);
 	calculateSize();
-	m_pData->setType(wt_Node);
+	UMLWidget::setBaseType(wt_Node);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-NodeWidget::NodeWidget(UMLView * view) : UMLWidget(view, new NodeWidgetData(view->getOptionState() )) {
+NodeWidget::NodeWidget(UMLView * view) : UMLWidget(view) {
 	init();
 	setSize(100,30);
-	m_pData->setType(wt_Node);
+	UMLWidget::setBaseType(wt_Node);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void NodeWidget::init() {
 	m_pMenu = 0;
 	//set defaults from m_pView
-	if (m_pView && m_pData) {
+	if (m_pView) {
 		//check to see if correct
-		SettingsDlg::OptionState ops = m_pView->getOptionState();
-
-		( (NodeWidgetData*)m_pData ) -> setShowStereotype( ops.classState.showStereoType );
+		const SettingsDlg::OptionState& ops = m_pView->getOptionState();
+		m_bShowStereotype = ops.classState.showStereoType;
 	}
 	//maybe loading and this may not be set.
 	if (m_pObject) {
@@ -54,9 +44,9 @@ void NodeWidget::init() {
 NodeWidget::~NodeWidget() {}
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void NodeWidget::draw(QPainter & p, int offsetX, int offsetY) {
-	p.setPen( m_pData->getLineColour() );
-	if ( m_pData->getUseFillColor() ) {
-		p.setBrush( m_pData->getFillColour() );
+	p.setPen( UMLWidget::getLineColour() );
+	if ( UMLWidget::getUseFillColour() ) {
+		p.setBrush( UMLWidget::getFillColour() );
 	} else {
 		p.setBrush( m_pView->viewport()->backgroundColor() );
 	}
@@ -66,7 +56,7 @@ void NodeWidget::draw(QPainter & p, int offsetX, int offsetY) {
 	int bodyOffsetY = offsetY + (h/3);
 	int bodyWidth = w - (w/3);
 	int bodyHeight = h - (h/3);
-	QFont font = m_pData->getFont();
+	QFont font = UMLWidget::getFont();
 	font.setBold(true);
 	QFontMetrics &fm = getFontMetrics(FT_BOLD);
 	int fontHeight  = fm.lineSpacing();
@@ -88,7 +78,7 @@ void NodeWidget::draw(QPainter & p, int offsetX, int offsetY) {
 	p.setFont(font);
 
 	if (stereotype != "") {
-		p.drawText(offsetX, (int)(bodyOffsetY + (bodyHeight*0.5) - fontHeight),
+		p.drawText(offsetX, bodyOffsetY + (bodyHeight/2) - fontHeight,
 			   bodyWidth, fontHeight, AlignCenter, "<< " + stereotype + " >>");
 	}
 
@@ -99,17 +89,17 @@ void NodeWidget::draw(QPainter & p, int offsetX, int offsetY) {
 		lines = 1;
 	}
 
-	if ( getData()->getIsInstance() ) {
+	if ( UMLWidget::getIsInstance() ) {
 		font.setUnderline(true);
 		p.setFont(font);
-		name = getData()->getInstanceName() + " : " + name;
+		name = UMLWidget::getInstanceName() + " : " + name;
 	}
 
 	if (lines == 1) {
-		p.drawText(offsetX, (int)(bodyOffsetY + (bodyHeight*0.5) - (fontHeight*0.5)),
+		p.drawText(offsetX, bodyOffsetY + (bodyHeight/2) - (fontHeight/2),
 			   bodyWidth, fontHeight, AlignCenter, name);
 	} else {
-		p.drawText(offsetX, (int)(bodyOffsetY + (bodyHeight*0.5)),
+		p.drawText(offsetX, bodyOffsetY + (bodyHeight/2),
 			   bodyWidth, fontHeight, AlignCenter, name);
 	}
 
@@ -125,8 +115,8 @@ void NodeWidget::calculateSize() {
 	int fontHeight  = fm.lineSpacing();
 
 	QString name = m_pObject->getName();
-	if ( getData()->getIsInstance() ) {
-		name = getData()->getInstanceName() + " : " + name;
+	if ( UMLWidget::getIsInstance() ) {
+		name = UMLWidget::getInstanceName() + " : " + name;
 	}
 
 	width = fm.width(name);
@@ -144,11 +134,11 @@ void NodeWidget::calculateSize() {
 	height = static_cast<int>(height * 1.5);
 
 	setSize(width, height);
-	adjustAssocs( (int)x(), (int)y() );//adjust assoc lines
+	adjustAssocs( getX(), getY() );//adjust assoc lines
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void NodeWidget::setShowStereotype(bool _status) {
-	((NodeWidgetData*)m_pData)->setShowStereotype( _status );
+	m_bShowStereotype = _status;
 	calculateSize();
 	update();
 }
@@ -161,6 +151,15 @@ bool NodeWidget::activate(IDChangeLog* ChangeLog /* = 0 */) {
 	return status;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-bool NodeWidget::getShowStereotype() {
-	return ((NodeWidgetData*)m_pData)->getShowStereotype();
+bool NodeWidget::getShowStereotype() const {
+	return m_bShowStereotype;
 }
+////////////////////////////////////////////////////////////////////////////////////////////////////
+bool NodeWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
+	QDomElement conceptElement = qDoc.createElement("nodewidget");
+	bool status = UMLWidget::saveToXMI(qDoc, conceptElement);
+	conceptElement.setAttribute("showstereotype", m_bShowStereotype);
+	qElement.appendChild(conceptElement);
+	return status;
+}
+

@@ -26,13 +26,6 @@
  */
 class BoxWidget : public UMLWidget {
 public:
-	/**
-	 *	Constructs a BoxWidget.
-	 *
-	 *	@param	view		The parent to this widget.
-	 *	@param	pData		The BoxWidget to represent.
-	 */
-	BoxWidget(UMLView* view, UMLWidgetData* pData);
 
 	/**
 	 *	Constructs a BoxWidget.
@@ -40,7 +33,7 @@ public:
 	 *	@param	view	The parent to this widget.
 	 *	@param	id	The unique id of the widget.
 	 */
-	BoxWidget(UMLView* view, int id);
+	BoxWidget(UMLView * view, int id);
 
 	/**
 	 *	Constructs a BoxWidget.
@@ -81,6 +74,13 @@ public:
 	 * Draws a rectangle.
 	 */
 	void draw(QPainter & p, int offsetX, int offsetY);
+
+	/**
+	 * Saves to the <boxwidget> element
+	 */
+	bool saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
+
+	// For loadFromXMI we can use the UMLWidgetData inherited method.
 
 };
 

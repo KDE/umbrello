@@ -27,32 +27,21 @@
  */
 static const int sequenceLineMargin = 20;
 
-ObjectWidget::ObjectWidget(UMLView * view,  UMLObject *o, UMLWidgetData *pData) : UMLWidget(view, o, pData) {
+ObjectWidget::ObjectWidget(UMLView * view, UMLObject *o, int lid) : UMLWidget(view, o) {
 	m_pLine = 0;
-	init();
-	int lineLength = ((ObjectWidgetData*)m_pData)->getLineLength();
-	if( m_pLine && lineLength != 0 ) {
-		m_pLine->setLineLength( lineLength );
-	}
-}
-
-ObjectWidget::ObjectWidget(UMLView * view, UMLObject *o, int lid) : UMLWidget(view, o, new ObjectWidgetData(view->getOptionState() )) {
-	ObjectWidgetData* data = (ObjectWidgetData*)m_pData;
-	m_pLine = 0;
-	data->setLocalID( lid );
-	data->setInstanceName( "" );
-	data->setMultipleInstance( false );
-	m_pData->setType(wt_Object);
+	m_nLocalID = lid;
+	m_InstanceName = "";
+	m_bMultipleInstance = false;
+	UMLWidget::setBaseType(wt_Object);
 	calculateSize();
 	init();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-ObjectWidget::ObjectWidget(UMLView * view) : UMLWidget(view, new ObjectWidgetData(view->getOptionState() )) {
-	ObjectWidgetData* data = (ObjectWidgetData*)m_pData;
+ObjectWidget::ObjectWidget(UMLView *view) : UMLWidget(view) {
 	m_pLine = 0;
-	data->setLocalID( -1 );
-	data->setInstanceName( "" );
-	data->setMultipleInstance( false );
+	m_nLocalID = -1;
+	m_InstanceName = "";
+	m_bMultipleInstance = false;
 	init();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -62,18 +51,20 @@ void ObjectWidget::init() {
 	messageWidgetList.setAutoDelete(false);
 	if( m_pView -> getType() == dt_Sequence ) {
 		m_pLine = new SeqLineWidget( m_pView, this );
+	} else {
+		m_pLine = NULL;
 	}
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ObjectWidget::~ObjectWidget() {}
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void ObjectWidget::draw(QPainter & p , int offsetX, int offsetY) {
-	if( ( (ObjectWidgetData *) m_pData ) -> getDrawAsActor() )
+	if ( m_bDrawAsActor )
 		drawActor( p, offsetX, offsetY );
 	else
 		drawObject( p, offsetX, offsetY );
 
-	p.setPen(m_pData->getLineColour());
+	p.setPen( UMLWidget::getLineColour() );
 	if(m_bSelected)
 		drawSelected(&p, offsetX, offsetY);
 }
@@ -85,9 +76,9 @@ void ObjectWidget::slotMenuSelection(int sel) {
 		{
 			bool ok;
 			QRegExpValidator* validator = new QRegExpValidator(QRegExp(".*"), 0);
-			name = KLineEditDlg::getText(i18n("Enter object name:"), ((ObjectWidgetData*)m_pData)->getInstanceName(), &ok, m_pView, validator);
+			name = KLineEditDlg::getText(i18n("Enter object name:"), m_InstanceName, &ok, m_pView, validator);
 			if (ok) {
-				((ObjectWidgetData*)m_pData)->setInstanceName( name );
+				m_InstanceName = name;
 				calculateSize();
 				moveEvent( 0 );
 				update();
@@ -121,20 +112,19 @@ void ObjectWidget::calculateSize() {
 	int width, height, textWidth;
 	QFontMetrics &fm = getFontMetrics(FT_UNDERLINE);
 	int fontHeight  = fm.lineSpacing();
-	ObjectWidgetData *data = (ObjectWidgetData *)m_pData;
-	if ( data -> getDrawAsActor() ) {
-		QString t = data->getInstanceName() + " : " + m_pObject -> getName();
+	if ( m_bDrawAsActor ) {
+		QString t = m_InstanceName + " : " + m_pObject -> getName();
 		textWidth = fm.width( t );
 		width = textWidth > A_WIDTH?textWidth:A_WIDTH;
 		height = A_HEIGHT + fontHeight + A_MARGIN;
 		width += A_MARGIN * 2;
 	} else {
-		QString t = data->getInstanceName() + " : " + m_pObject -> getName();
+		QString t = m_InstanceName + " : " + m_pObject -> getName();
 		textWidth = fm.width(t);
 		width = textWidth > O_WIDTH?textWidth:O_WIDTH;
 		height = fontHeight + O_MARGIN * 2;
 		width += O_MARGIN * 2;
-		if (data->getMultipleInstance()) {
+		if (m_bMultipleInstance) {
 			width += 10;
 			height += 10;
 		}
@@ -142,15 +132,15 @@ void ObjectWidget::calculateSize() {
 	setSize(width, height);
 	if( m_pView -> getType() == dt_Sequence ) {
 //FIXME not quite sure what this did, but it broke paste
-//		setY( (int)y() + (oldHeight - height ) );
+//		setY( getY() + (oldHeight - height ) );
 	}
-	emit sigWidgetMoved( data->getLocalID() );//makes any message widgets connected resize themselves
-	adjustAssocs( (int)x(), (int)y() );//adjust assoc lines
+	emit sigWidgetMoved( m_nLocalID );//makes any message widgets connected resize themselves
+	adjustAssocs( getX(), getY() );//adjust assoc lines
 	moveEvent( 0 );
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-QString ObjectWidget::getDoc() {
+QString ObjectWidget::getDoc() const {
 	return m_Doc;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -158,7 +148,7 @@ void ObjectWidget::setMultipleInstance(bool multiple) {
 	//make sure only calling this in relation to an object on a collab. diagram
 	if(m_pView -> getType() != dt_Collaboration)
 		return;
-	((ObjectWidgetData*)m_pData)->setMultipleInstance( multiple );
+	m_bMultipleInstance = multiple;
 	calculateSize();
 	update();
 }
@@ -174,24 +164,18 @@ bool ObjectWidget::activate(IDChangeLog* ChangeLog /*= 0*/) {
 	return status;
 }
 
-void ObjectWidget::synchronizeData() {
-	UMLWidget::synchronizeData();
-	if( m_pLine )
-		((ObjectWidgetData*)m_pData)-> setLineLength( m_pLine -> getLineLength() );
-}
-
 void ObjectWidget::moveEvent(QMoveEvent */*m*/) {
-	emit sigWidgetMoved( m_pData->getId() );
+	emit sigWidgetMoved( UMLWidget::getID() );
 	if( m_pLine )
-		m_pLine -> setStartPoint( (int)x() + width() / 2, (int)y() + height() );
+		m_pLine -> setStartPoint( getX() + width() / 2, getY() + height() );
 }
 
 void ObjectWidget::slotColorChanged(int /*viewID*/) {
-	m_pData->getFillColour() = m_pView->getFillColor();
-	m_pData->getLineColour() = m_pView->getLineColor();
+	UMLWidget::getFillColour() = m_pView->getFillColor();
+	UMLWidget::getLineColour() = m_pView->getLineColor();
 
 	if( m_pLine)
-		m_pLine -> setPen( QPen( m_pData->getLineColour(), 0, DashLine ) );
+		m_pLine -> setPen( QPen( UMLWidget::getLineColour(), 0, DashLine ) );
 }
 
 void ObjectWidget::cleanup() {
@@ -207,21 +191,20 @@ void ObjectWidget::cleanup() {
 void ObjectWidget::drawObject(QPainter & p, int offsetX, int offsetY) {
 
 	QFont oldFont = p.font();
-	QFont font = m_pData->getFont();
+	QFont font = UMLWidget::getFont();
 	font.setUnderline( true );
 	p.setFont( font );
 
-	p.setPen(m_pData->getLineColour());
-	if(m_pData->getUseFillColor())
-		p.setBrush(m_pData->getFillColour());
+	p.setPen(UMLWidget::getLineColour());
+	if(UMLWidget::getUseFillColour())
+		p.setBrush(UMLWidget::getFillColour());
 	else
 		p.setBrush(m_pView -> viewport() -> backgroundColor());
 	int w = width();
 	int h= height();
 
-	ObjectWidgetData* data = (ObjectWidgetData*)m_pData;
-	QString t = data->getInstanceName() + " : " + m_pObject -> getName();
-	if ( data->getMultipleInstance() ) {
+	QString t = m_InstanceName + " : " + m_pObject -> getName();
+	if ( m_bMultipleInstance ) {
 		p.drawRect(offsetX + 10, offsetY + 10, w - 10, h - 10);
 		p.drawRect(offsetX + 5, offsetY + 5, w - 10, h - 10);
 		p.drawRect(offsetX, offsetY, w - 10, h - 10);
@@ -240,9 +223,9 @@ void ObjectWidget::drawObject(QPainter & p, int offsetX, int offsetY) {
 void ObjectWidget::drawActor(QPainter & p, int offsetX, int offsetY) {
 	QFontMetrics &fm = getFontMetrics(FT_UNDERLINE);
 
-	p.setPen(m_pData->getLineColour());
-	if(m_pData->getUseFillColor())
-		p.setBrush(m_pData->getFillColour());
+	p.setPen(UMLWidget::getLineColour());
+	if ( UMLWidget::getUseFillColour() )
+		p.setBrush( UMLWidget::getFillColour() );
 	int w = width();
 	int textStartY = A_HEIGHT + A_MARGIN;
 	int fontHeight  = fm.lineSpacing();
@@ -259,7 +242,7 @@ void ObjectWidget::drawActor(QPainter & p, int offsetX, int offsetY) {
 	p.drawLine(offsetX + middleX - A_WIDTH / 2, offsetY + thirdY + thirdY / 2, offsetX + middleX + A_WIDTH / 2, offsetY + thirdY + thirdY / 2);//arms
 	//draw text
 	p.setPen(QPen(black));
-	QString t = ((ObjectWidgetData*)m_pData)->getInstanceName() + " : " + m_pObject -> getName();
+	QString t = m_InstanceName + " : " + m_pObject -> getName();
 	p.drawText(offsetX + A_MARGIN, offsetY + textStartY, w - A_MARGIN * 2, fontHeight, AlignCenter, t);
 }
 
@@ -271,7 +254,7 @@ void ObjectWidget::mouseMoveEvent(QMouseEvent* me) {
 
 		//implement rule for sequence diagram
 		if( m_pView -> getType() == dt_Sequence ) {
-			newY = (int)this -> y();
+			newY = this -> getY();
 		}
 		m_nOldX = newX;
 		m_nOldY = newY;
@@ -284,35 +267,35 @@ void ObjectWidget::mouseMoveEvent(QMouseEvent* me) {
 }
 
 void ObjectWidget::tabUp() {
-	int newY = (int)y() - height();
+	int newY = getY() - height();
 	newY = ( newY + height() ) < 80?80 - height():newY;
 	setY( newY );
 	moveEvent( 0 );
-	adjustAssocs( (int)x(), newY);
+	adjustAssocs( getX(), newY);
 }
 
 void ObjectWidget::tabDown() {
-	int newY = (int)y() + height();
+	int newY = getY() + height();
 	setY( newY );
 	moveEvent( 0 );
-	adjustAssocs( (int)x(), newY);
+	adjustAssocs( getX(), newY);
 }
 
 bool ObjectWidget::canTabUp() {
-	return (int)y() >= 80;
+	return getY() >= 80;
 }
 
 void ObjectWidget::setShowDestruction( bool bShow ) {
-	( ( ObjectWidgetData *)m_pData ) -> setShowDestruction( bShow );
+	m_bShowDestruction = bShow;
 	if( m_pLine )
 		m_pLine -> setupDestructionBox();
 }
 
 int ObjectWidget::getEndLineY() {
-	int y = (int)this -> y() + height();
+	int y = this -> getY() + getHeight();
 	if( m_pLine)
 		y += m_pLine -> getLineLength();
-	if( ( ( ObjectWidgetData *)m_pData ) -> getShowDestruction() )
+	if ( m_bShowDestruction )
 		y += 10;
 	return y;
 }
@@ -331,7 +314,7 @@ void ObjectWidget::slotMessageMoved() {
 	int lowestMessage = 0;
 	while ( (message = iterator.current()) != 0 ) {
 		++iterator;
-		int messageHeight = (int)message->y() + message->height();
+		int messageHeight = message->getY() + message->getHeight();
 		if (lowestMessage < messageHeight) {
 			lowestMessage = messageHeight;
 		}
@@ -345,12 +328,41 @@ bool ObjectWidget::messageOverlap(int y, MessageWidget* messageWidget) {
 	int lowestMessage = 0;
 	while ( (message = iterator.current()) != 0 ) {
 		++iterator;
-		int messageHeight = (int)message->y() + message->height();
-		if (y >= (int)message->y() && y <= messageHeight && message != messageWidget) {
+		int messageHeight = message->getY() + message->getHeight();
+		if (y >= message->getY() && y <= messageHeight && message != messageWidget) {
 			return true;
 		}
 	}
 	return false;
+}
+
+bool ObjectWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
+	QDomElement objectElement = qDoc.createElement( "UML:ObjectWidget" );
+	bool status = UMLWidget::saveToXMI( qDoc, objectElement );
+	objectElement.setAttribute( "instancename", m_InstanceName );
+	objectElement.setAttribute( "drawasactor", m_bDrawAsActor );
+	objectElement.setAttribute( "multipleinstance", m_bMultipleInstance );
+	objectElement.setAttribute( "localid", m_nLocalID );
+	objectElement.setAttribute( "decon", m_bShowDestruction );
+	qElement.appendChild( objectElement );
+	return status;
+}
+
+bool ObjectWidget::loadFromXMI( QDomElement & qElement ) {
+	if( !UMLWidget::loadFromXMI( qElement ) )
+		return false;
+	m_InstanceName = qElement.attribute( "instancename", "" );
+	QString draw = qElement.attribute( "drawasactor", "0" );
+	QString multi = qElement.attribute( "multipleinstance", "0" );
+	QString localid = qElement.attribute( "localid", "0" );
+	QString decon = qElement.attribute( "decon", "0" );
+
+	m_bDrawAsActor = (bool)draw.toInt();
+	m_bMultipleInstance = (bool)multi.toInt();
+	m_nLocalID = localid.toInt();
+	m_bShowDestruction = (bool)decon.toInt();
+	return true;
+
 }
 
 #include "objectwidget.moc"

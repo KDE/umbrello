@@ -18,7 +18,6 @@
 #include <kdebug.h>
 
 // application includes
-#include "associationwidgetdata.h"
 #include "associationwidget.h"
 #include "activitywidget.h"
 #include "umlview.h"
@@ -487,12 +486,8 @@ void LinePath::createHeadLines() {
 	QPen pen( getLineColor() );
 	QCanvasLine * line = 0;
 	QCanvas * canvas = getCanvas();
-	ActivityWidget * pActivity = 0;
 	switch( getAssocType() ) {
 		case at_Activity:
-			if( m_pAssociation ) {
-				pActivity = static_cast<ActivityWidget*>( m_pAssociation->getWidgetB() );
-			}
 			line = new QCanvasLine( canvas );
 			line -> setZ( 0 );
 			line -> setPen( pen );
@@ -756,6 +751,7 @@ void LinePath::cleanup() {
 	if( m_pAssociation ) {
 		UMLView * view =  (UMLView *)m_pAssociation -> parent();
 		disconnect( view, SIGNAL( sigLineColorChanged( QColor ) ), this, SLOT( setLineColor( QColor ) ) );
+		m_pAssociation = NULL;
 	}
 }
 

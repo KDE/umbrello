@@ -161,7 +161,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object, bool multi) :
 	Uml::UMLWidget_Type type = object -> getBaseType();
 
 	if(multi) {
-		setupColorSelection(object -> getUseFillColor());
+		setupColorSelection(object -> getUseFillColour());
 		insertSeparator();
 		insertItem(SmallIcon( "editcut" ) , i18n("Cut"), mt_Cut);
 		insertItem(SmallIcon( "editcopy" ), i18n("Copy"), mt_Copy);
@@ -181,7 +181,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object, bool multi) :
 	switch(type) {
 		case Uml::wt_Actor:
 		case Uml::wt_UseCase:
-			setupColor(object -> getUseFillColor());
+			setupColor(object -> getUseFillColour());
 			insertSeparator();
 			insertItem( SmallIcon( "editcut" ) , i18n("Cut"), mt_Cut);
 			insertItem( SmallIcon( "editcopy" ), i18n("Copy"), mt_Copy);
@@ -221,7 +221,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object, bool multi) :
 			m_pShow -> setItemChecked(mt_Show_Attribute_Signature, sig);
 			insertItem(SmallIcon( "info"),i18n("Show"), m_pShow);
 
-			setupColor(object -> getUseFillColor());
+			setupColor(object -> getUseFillColour());
 			insertSeparator();
 			insertItem( SmallIcon( "editcut"), i18n("Cut"), mt_Cut);
 			insertItem( SmallIcon( "editcopy"), i18n("Copy"), mt_Copy);
@@ -254,7 +254,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object, bool multi) :
 			m_pShow->setItemChecked(mt_Show_Operation_Signature, sig);
 			insertItem(SmallIcon("info"),i18n("Show"), m_pShow);
 
-			setupColor(object->getUseFillColor());
+			setupColor(object->getUseFillColour());
 			insertSeparator();
 			insertItem(SmallIcon("editcut"), i18n("Cut"), mt_Cut);
 			insertItem(SmallIcon("editcopy"), i18n("Copy"), mt_Copy);
@@ -272,7 +272,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object, bool multi) :
 		case Uml::wt_Component:
 		case Uml::wt_Node:
 		case Uml::wt_Artifact:
-			setupColor(object->getUseFillColor());
+			setupColor(object->getUseFillColour());
 			insertItem(SmallIcon("editcut"), i18n("Cut"), mt_Cut);
 			insertItem(SmallIcon("editcopy"), i18n("Copy"), mt_Copy);
 			insertItem(SmallIcon("editpaste"), i18n("Paste"), mt_Paste);
@@ -286,7 +286,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object, bool multi) :
 		case Uml::wt_Object:
 			//Used for sequence diagram and collaboration diagram widgets
 
-			setupColor( object->getUseFillColor() );
+			setupColor( object->getUseFillColour() );
 			if( pView->getType() == Uml::dt_Sequence ) {
 				insertSeparator();
 				int tabUp = insertItem( SmallIcon( "1uparrow"), i18n("Move Up"), mt_Up);
@@ -320,7 +320,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object, bool multi) :
 			break;
 
 		case Uml::wt_Note:
-			setupColor(object -> getUseFillColor());
+			setupColor(object -> getUseFillColour());
 			insertSeparator();
 			insertItem(SmallIcon( "editcut"), i18n("Cut"), mt_Cut);
 			insertItem(SmallIcon( "editcopy"), i18n("Copy"), mt_Copy);
@@ -348,7 +348,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object, bool multi) :
 				m_pInsert -> insertItem(SmallIcon( "filenew"), i18n("Activity..."), mt_New_Activity);
 				insertItem(SmallIcon( "filenew"),i18n("New"), m_pInsert);
 			}
-			setupColor( object -> getUseFillColor() );
+			setupColor( object -> getUseFillColour() );
 			insertItem(SmallIcon( "editcut"), i18n("Cut"), mt_Cut);
 			insertItem(SmallIcon( "editcopy"), i18n("Copy"), mt_Copy);
 			insertItem(SmallIcon( "editpaste"), i18n("Paste"), mt_Paste);
@@ -363,7 +363,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object, bool multi) :
 
 		case Uml::wt_Activity:
 			if( pActivity -> getActivityType() == ActivityWidget::Normal )
-				setupColor( object -> getUseFillColor() );
+				setupColor( object -> getUseFillColour() );
 			insertItem(SmallIcon( "editcut"), i18n("Cut"), mt_Cut);
 			insertItem(SmallIcon( "editcopy"), i18n("Copy"), mt_Copy);
 			insertItem(SmallIcon( "editpaste"), i18n("Paste"), mt_Paste);
@@ -380,20 +380,20 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object, bool multi) :
 			switch( (static_cast<FloatingText*>(object))->getRole() ) {
 				case Uml::tr_MultiB:
 				case Uml::tr_MultiA:
- 				case Uml::tr_Name:
- 				case Uml::tr_RoleAName:
- 				case Uml::tr_RoleBName:
+				case Uml::tr_Name:
+				case Uml::tr_RoleAName:
+				case Uml::tr_RoleBName:
 				case Uml::tr_ChangeA:
 				case Uml::tr_ChangeB:
 					insertItem(SmallIcon("editdelete"), i18n("Delete Association"), mt_Delete_Association);
 					insertItem(SmallIcon("fonts"),  i18n("Change Font..."), mt_Change_Font );
-  					insertItem(i18n("Reset Label Positions"), mt_Reset_Label_Positions);
-  					insertItem(SmallIcon( "info"), i18n("Properties..."), mt_Properties);
-  					break;
+					insertItem(i18n("Reset Label Positions"), mt_Reset_Label_Positions);
+					insertItem(SmallIcon( "info"), i18n("Properties..."), mt_Properties);
+					break;
 
-  				case Uml::tr_Coll_Message_Self:
-  				case Uml::tr_Coll_Message:
-  				case Uml::tr_Seq_Message_Self:
+				case Uml::tr_Coll_Message_Self:
+				case Uml::tr_Coll_Message:
+				case Uml::tr_Seq_Message_Self:
 				case Uml::tr_Seq_Message:
 //					insertItem(SmallIcon( "editcut"), i18n("Cut"), mt_Cut);
 //					insertItem(SmallIcon( "editcopy"), i18n("Copy"), mt_Copy);
@@ -914,26 +914,26 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 			insertItem(SmallIcon( "charset"),i18n("Change Multiplicity..."), mt_Rename_MultiA);
 			insertItem(SmallIcon( "fonts"),i18n( "Change Font..." ), mt_Change_Font );
 			insertItem(i18n("Reset Label Positions"), mt_Reset_Label_Positions);
-  			insertItem(SmallIcon( "info"),i18n("Properties..."), mt_Properties);
-  			break;
+			insertItem(SmallIcon( "info"),i18n("Properties..."), mt_Properties);
+			break;
 
- 		case mt_Name:
- 			insertItem(SmallIcon( "editdelete"),i18n("Delete Association"), mt_Delete_Association);
- 			insertItem(SmallIcon( "charset"), i18n("Change Name"), mt_Rename_Name);
- 			insertItem(SmallIcon( "fonts"), i18n( "Change Font" ), mt_Change_Font );
+		case mt_Name:
+			insertItem(SmallIcon( "editdelete"),i18n("Delete Association"), mt_Delete_Association);
+			insertItem(SmallIcon( "charset"), i18n("Change Name"), mt_Rename_Name);
+			insertItem(SmallIcon( "fonts"), i18n( "Change Font" ), mt_Change_Font );
 			insertItem(i18n("Reset Label Positions"), mt_Reset_Label_Positions);
- 			insertItem(SmallIcon( "info"),i18n("Properties..."), mt_Properties);
- 			break;
+			insertItem(SmallIcon( "info"),i18n("Properties..."), mt_Properties);
+			break;
 
- 		case mt_RoleName:
-  			insertItem(SmallIcon( "editdelete"),i18n("Delete Association"), mt_Delete_Association);
- 			insertItem(SmallIcon( "charset"), i18n("Change Association Name"), mt_Rename_Name);
- 			insertItem(SmallIcon( "charset"), i18n("Change Role A Name"), mt_Rename_RoleAName);
- 			insertItem(SmallIcon( "charset"), i18n("Change Role B Name"), mt_Rename_RoleBName);
-  			insertItem(SmallIcon( "fonts"), i18n( "Change Font" ), mt_Change_Font );
+		case mt_RoleName:
+			insertItem(SmallIcon( "editdelete"),i18n("Delete Association"), mt_Delete_Association);
+			insertItem(SmallIcon( "charset"), i18n("Change Association Name"), mt_Rename_Name);
+			insertItem(SmallIcon( "charset"), i18n("Change Role A Name"), mt_Rename_RoleAName);
+			insertItem(SmallIcon( "charset"), i18n("Change Role B Name"), mt_Rename_RoleBName);
+			insertItem(SmallIcon( "fonts"), i18n( "Change Font" ), mt_Change_Font );
 			insertItem(i18n("Reset Label Positions"), mt_Reset_Label_Positions);
-  			insertItem(SmallIcon( "info"),i18n("Properties..."), mt_Properties);
-  			break;
+			insertItem(SmallIcon( "info"),i18n("Properties..."), mt_Properties);
+			break;
 
 		case mt_Collaboration_Message:
 //			insertItem(SmallIcon( "editcut"), i18n("Cut"), mt_Cut);

@@ -11,6 +11,7 @@
 #define STATEWIDGET_H
 #include <qpainter.h>
 #include "umlwidget.h"
+#include "worktoolbar.h"
 
 #define STATE_MARGIN 5
 #define STATE_WIDTH 30
@@ -30,7 +31,6 @@
  */
 class StateWidget : public UMLWidget {
 	Q_OBJECT
-
 public:
 
 	enum StateType
@@ -39,26 +39,19 @@ public:
 	    Normal,
 	    End
 	};
-	/**
-	 *	Creates a State widget.
-	 *
-	 *	@param	view		The parent of the widget.
-	 *	@param	pData		The UMLWidgetData to represent.
-	 */
-	StateWidget( UMLView * view, UMLWidgetData* pData );
 
 	/**
-	 *	Creates a State widget.
+	 * Creates a State widget.
 	 *
-	 *	@param	view		The parent of the widget.
-	 *	@param	stateType  The type of state.
+	 * @param	view		The parent of the widget.
+	 * @param	stateType	The type of state.
 	 */
 	StateWidget( UMLView * view, StateType stateType );
 
 	/**
-	 *	Creates a State widget.
+	 * Creates a State widget.
 	 *
-	 *	@param	view		The parent of the widget.
+	 * @param	view		The parent of the widget.
 	 */
 	StateWidget(UMLView * view);
 
@@ -68,13 +61,7 @@ public:
 	~StateWidget();
 
 	/**
-	 * Synchronize the Widget's m_pData member with its display properties, for example:
-	 * the X and Y positions of the widget, etc
-	 */
-	virtual void synchronizeData();
-
-	/**
-	 *	Overrides the standard paint event.
+	 * Overrides the standard paint event.
 	 */
 	void draw(QPainter & p, int offsetX, int offsetY);
 
@@ -86,12 +73,12 @@ public:
 	/**
 	 * Returns the name of the State.
 	 */
-	virtual QString getName();
+	virtual QString getName() const;
 
 	/**
-	 *   Returns the documentation of the state.
+	 * Returns the documentation of the state.
 	 */
-	QString getDoc();
+	QString getDoc() const;
 
 	/**
 	 *   Sets the documenation of the state.
@@ -99,9 +86,9 @@ public:
 	void setDoc( QString doc );
 
 	/**
-	 *   Returns the type of state.
+	 * Returns the type of state.
 	 */
-	StateType getStateType();
+	StateType getStateType() const;
 
 	/**
 	 *     Sets the type of state.
@@ -109,45 +96,79 @@ public:
 	void setStateType( StateType stateType );
 
 	/**
-	 *   Overrides a method.  Used to pickup double clicks.
+	 * Overrides a method.  Used to pickup double clicks.
 	 */
 	void mouseDoubleClickEvent(QMouseEvent * /*me*/);
 
 	/**
-	 *		Adds the given activity to the state.
+	 * Adds the given activity to the state.
 	 */
 	bool addActivity( QString activity );
 
 	/**
-	 *		Removes the given activity from the state.
+	 * Removes the given activity from the state.
 	 */
 	bool removeActivity( QString activity );
 
 	/**
-	 *		Renames the given activity.
+	 * Renames the given activity.
 	 */
 	bool renameActivity( QString activity, QString newName );
 
 	/**
-	 *		Sets the states activities to the ones given.
+	 * Sets the states activities to the ones given.
 	 */
 	void setActivities( QStringList & list );
 
 	/**
-	 *		Returns the list of activities.
+	 * Returns the list of activities.
 	 */
 	QStringList & getActivityList();
 
+	/**
+	 * Returns true if the given toolbar button represents a State.
+	 *
+	 * @param tbb		Input value of type WorkToolBar::ToolBar_Buttons.
+	 * @param resultType	Output value, the StateType that corresponds to tbb.
+	 *			Only set if the method returns true.
+	 */
+	static bool isState( WorkToolBar::ToolBar_Buttons tbb,
+			     StateType& resultType );
+
+	bool saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+
+	bool loadFromXMI( QDomElement & qElement );
+
 protected:
 	/**
-	 *	Calculates the size of the widget.
+	 * Calculates the size of the widget.
 	 */
 	void calculateSize();
+
+	/**
+	 * Type of state.
+	 */
+	StateWidget::StateType m_StateType;
+
+	/**
+	 * Name of the state.
+	 */
+	QString m_Name;
+
+	/**
+	 * Documentation for the state
+	 */
+	QString m_Doc;
+
+	/**
+	 * List of activities for the state.
+	 */
+	QStringList m_Activities;
 
 public slots:
 
 	/**
-	 *   Captures any popup menu signals for menus it created.
+	 * Captures any popup menu signals for menus it created.
 	 */
 	void slotMenuSelection(int sel);
 };

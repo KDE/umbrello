@@ -38,39 +38,57 @@
 
 
 
-UMLWidget::UMLWidget( UMLView * view, UMLObject * o, UMLWidgetData * pData )
-	: QObject( view), QCanvasRectangle( view -> canvas() ),
+UMLWidget::UMLWidget( UMLView * view, UMLObject * o )
+	: QObject(view), QCanvasRectangle( view->canvas() ),
 	  m_pObject(o),
 	  m_pView(view),
-	  m_pMenu(0),
-	  m_pData(pData)
+	  m_pMenu(0)
 {
+	init();
 	if(m_pObject) {
-		setName(m_pObject->getName());
-		if(m_pData)
-			m_pData->setID( m_pObject->getID() );
+		setName( m_pObject->getName() );
+		setID( m_pObject->getID() );
 	}
-	init();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLWidget::UMLWidget( UMLView * view, int id, UMLWidgetData * pData )
-	: QObject( view), QCanvasRectangle( view -> canvas() ),
-	  m_pObject(0),
+UMLWidget::UMLWidget( UMLView * view, UMLObject * o, SettingsDlg::OptionState optionState )
+	: QObject(view), QCanvasRectangle( view->canvas() ),
+	  m_pObject(o),
 	  m_pView(view),
-	  m_pMenu(0),
-	  m_pData(pData)
+	  m_pMenu(0)
 {
-	if(m_pData)
-		m_pData->setID( id );
 	init();
+	m_FillColour = optionState.uiState.fillColor;
+	m_LineColour = optionState.uiState.lineColor;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLWidget::UMLWidget(UMLView * view,  UMLWidgetData * pData )
-	: QObject( view), QCanvasRectangle( view -> canvas() ),
+UMLWidget::UMLWidget( UMLView * view, int id )
+	: QObject(view), QCanvasRectangle( view->canvas() ),
 	  m_pObject(0),
 	  m_pView(view),
-	  m_pMenu(0),
-	  m_pData(pData)
+	  m_pMenu(0)
+{
+	init();
+	m_nId = id;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+UMLWidget::UMLWidget( UMLView * view, SettingsDlg::OptionState optionState )
+	: QObject(view), QCanvasRectangle( view->canvas() ),
+	  m_pObject(0),
+	  m_pView(view),
+	  m_pMenu(0)
+{
+	init();
+	m_FillColour = optionState.uiState.fillColor;
+	m_LineColour = optionState.uiState.lineColor;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+UMLWidget::UMLWidget(UMLView * view )
+	: QObject(view), QCanvasRectangle( view->canvas() ),
+	  m_pObject(0),
+	  m_pView(view),
+	  m_pMenu(0)
 {
 	init();
 }
@@ -79,6 +97,106 @@ UMLWidget::~UMLWidget() {
 	//slotRemovePopupMenu();
 	cleanup();
 }
+////////////////////////////////////////////////////////////////////////////////////////////////////
+UMLWidget& UMLWidget::operator=(const UMLWidget& other) {
+	if (this == &other)
+		return *this;
+
+	// assign members loaded/saved
+	m_bUseFillColour = other.m_bUseFillColour;
+	m_nId = other.m_nId;
+	m_Type = other.m_Type;
+	setX( other.getX() );
+	setY( other.getY() );
+	m_Assocs = other.m_Assocs;
+	m_Font = other.m_Font;
+	QCanvasRectangle::setSize( other.width(), other.height() );
+	m_bUsesDiagramFillColour = other.m_bUsesDiagramFillColour;
+	m_bUsesDiagramLineColour = other.m_bUsesDiagramLineColour;
+	m_bUsesDiagramUseFillColour = other.m_bUsesDiagramUseFillColour;
+	m_LineColour = other.m_LineColour;
+	m_FillColour = other.m_FillColour;
+	m_bIsInstance = other.m_bIsInstance;
+	m_instanceName = other.m_instanceName;
+
+	// assign volatile (non-saved) members
+	m_bMouseDown = other.m_bMouseDown;
+	m_bMouseOver = other.m_bMouseOver;
+	m_bSelected = other.m_bSelected;
+	m_bStartMove = other.m_bStartMove;
+	m_bMoved = other.m_bMoved;
+	m_bShiftPressed = other.m_bShiftPressed;
+	m_nOldX = other.m_nOldX;
+	m_nOldY = other.m_nOldY;
+	m_nPosX = other.m_nPosX;
+	m_nOldID = other.m_nOldID;
+	m_pObject = other.m_pObject;
+	m_pView = other.m_pView;
+	m_pMenu = other.m_pMenu;
+	m_bResizing = other.m_bResizing;
+	m_nPressOffsetX = other.m_nPressOffsetX;
+	m_nPressOffsetY = other.m_nPressOffsetY;
+	m_nOldH = other.m_nOldH;
+	m_nOldW = other.m_nOldW;
+	for (unsigned i = 0; i < FT_INVALID; i++)
+		m_pFontMetrics[i] = other.m_pFontMetrics[i];
+	m_bActivated = other.m_bActivated;
+	m_bIgnoreSnapToGrid = other.m_bIgnoreSnapToGrid;
+	m_bIgnoreSnapComponentSizeToGrid = other.m_bIgnoreSnapComponentSizeToGrid;
+	return *this;
+}
+
+bool UMLWidget::operator==(const UMLWidget& other) {
+	if( this == &other )
+		return true;
+
+	if(m_Type != other.m_Type) {
+		return false;
+	}
+
+	if(m_Assocs.count() != other.m_Assocs.count()) {
+		return false;
+	}
+
+	AssociationWidgetListIt assoc_it( m_Assocs );
+	AssociationWidgetListIt assoc_it2( other.m_Assocs );
+	AssociationWidget * assoc = 0, *assoc2 = 0;
+	while ( ((assoc=assoc_it.current()) != 0) &&  ((assoc2=assoc_it2.current()) != 0)) {
+		++assoc_it;
+		++assoc_it2;
+		if(!(*assoc == *assoc2)) {
+			return false;
+		}
+	}
+	return true;
+	// NOTE:  In the comparison tests we are going to do, we don't need these values.
+	// They will actually stop things functioning correctly so if you change these, be aware of that.
+	/*
+	if(m_bUseFillColour != other.m_bUseFillColour)
+		return false;
+	if(m_nId != other.m_nId)
+		return false;
+	if( m_Font != other.m_Font )
+		return false;
+	if(m_nX  != other.m_nX)
+		return false;
+	if(m_nY != other.m_nY)
+		return false;
+	 */
+}
+
+void UMLWidget::setID(int id) {
+	if (m_pObject)
+		m_pObject->setID( id );
+	m_nId = id;
+}
+
+int UMLWidget::getID() const {
+	if (m_pObject)
+		return m_pObject->getID();
+	return m_nId;
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 QPoint UMLWidget::doMouseMove(QMouseEvent* me) {
 	int newX = 0, newY = 0, count;
@@ -104,11 +222,11 @@ QPoint UMLWidget::doMouseMove(QMouseEvent* me) {
 		moveY = (int)me->y() - m_nOldY - m_nPressOffsetY;
 
 		//if mouse moves off the edge of the canvas this moves the widget to 0 or canvasSize
-		if( ((int)x() + moveX) < 0 ) {
-			moveX = moveX - (int)x();
+		if( (getX() + moveX) < 0 ) {
+			moveX = moveX - getX();
 		}
-		if( ((int)y() + moveY) < 0 ) {
-			moveY = moveY - (int)y();
+		if( (getY() + moveY) < 0 ) {
+			moveY = moveY - getY();
 		}
 
 		if( count > 1 ) {
@@ -119,8 +237,8 @@ QPoint UMLWidget::doMouseMove(QMouseEvent* me) {
 			}
 		}
 	}
-	newX = (int)x() + moveX;
-	newY = (int)y() + moveY;
+	newX = getX() + moveX;
+	newY = getY() + moveY;
 
 	newX = newX<0 ? 0 : newX;
 	newY = newY<0 ? 0 : newY;
@@ -149,10 +267,10 @@ void UMLWidget::mouseMoveEvent(QMouseEvent* me) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLWidget::mousePressEvent(QMouseEvent *me) {
-	m_nPressOffsetX = me -> x() - (int)this -> x();
-	m_nPressOffsetY = me -> y() - (int)this -> y();
-	m_nOldX = (int)x();
-	m_nOldY = (int)y();
+	m_nOldX = getX();
+	m_nOldY = getY();
+	m_nPressOffsetX = me -> x() - m_nOldX;
+	m_nPressOffsetY = me -> y() - m_nOldY;
 	m_bMouseDown = false;
 	m_bMoved = false;
 	int count = m_pView -> getSelectCount();
@@ -209,25 +327,12 @@ void UMLWidget::mousePressEvent(QMouseEvent *me) {
 	}
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-Uml::UMLWidget_Type UMLWidget::getBaseType()
-{
-	return m_pData->getType();
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLWidget::updateWidget()
 {
-	if(m_pObject)
-		setName(m_pObject->getName());//sync names
 	calculateSize();
-	adjustAssocs( (int)x(), (int)y() );//adjust assoc lines
+	adjustAssocs( getX(), getY() ); //adjust assoc lines
 	if(isVisible())
 		update();
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-int UMLWidget::getID() {
-	return m_pData->getID();
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -267,12 +372,29 @@ void UMLWidget::mouseReleaseEvent(QMouseEvent *me) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLWidget::init() {
+	m_nId = -1;
+	m_Type = wt_UMLWidget;
+	m_bIsInstance = false;
+	if (m_pView) {
+		m_bUseFillColour = true;
+		m_bUsesDiagramFillColour = true;
+		m_bUsesDiagramLineColour = true;
+		m_bUsesDiagramUseFillColour = true;
+		const SettingsDlg::OptionState& optionState = m_pView->getOptionState();
+		m_FillColour = optionState.uiState.fillColor;
+		m_LineColour = optionState.uiState.lineColor;
+	} else {
+		m_bUseFillColour = false;
+		m_bUsesDiagramFillColour = false;
+		m_bUsesDiagramLineColour = false;
+		m_bUsesDiagramUseFillColour = false;
+	}
+
 	for (int i = 0; i < (int)FT_INVALID; ++i)
 		m_pFontMetrics[(UMLWidget::FontType)i] = 0;
 
 	m_bResizing = false;
 	m_bMouseOver = false;
-
 
 	m_bMouseDown = false;
 	m_bSelected = false;
@@ -300,11 +422,11 @@ void UMLWidget::init() {
 void UMLWidget::slotMenuSelection(int sel) {
 	QFont font;
 	QColor newColour;
-	const Uml::UMLWidget_Type wt = m_pData->getType();
+	const Uml::UMLWidget_Type wt = m_Type;
 	switch(sel) {
 		case ListPopupMenu::mt_Rename:
 			m_pView -> getDocument() -> renameUMLObject(m_pObject);
-			adjustAssocs( (int)x(), (int)y() );//adjust assoc lines
+			adjustAssocs( getX(), getY() );//adjust assoc lines
 			break;
 
 		case ListPopupMenu::mt_Delete:
@@ -324,13 +446,13 @@ void UMLWidget::slotMenuSelection(int sel) {
 			} else {
 				kdWarning() << "making properties dialogue for unknown widget type" << endl;
 			}
-			adjustAssocs( (int)x(), (int)y() );//adjust assoc lines
+			adjustAssocs( getX(), getY() );//adjust assoc lines
 			break;
 
 		case ListPopupMenu::mt_Line_Color:
 			if( KColorDialog::getColor(newColour) ) {
-				m_pData->setLineColour(newColour);
-				m_pData->setUsesDiagramLineColour(false);
+				m_LineColour = newColour;
+				m_bUsesDiagramLineColour = false;
 
 			}
 			break;
@@ -344,8 +466,8 @@ void UMLWidget::slotMenuSelection(int sel) {
 
 		case ListPopupMenu::mt_Fill_Color:
 			if ( KColorDialog::getColor(newColour) ) {
-				m_pData->setFillColour(newColour);
-				m_pData->setUsesDiagramFillColour(false);
+				m_FillColour = newColour;
+				m_bUsesDiagramFillColour = false;
 			}
 			break;
 
@@ -357,19 +479,19 @@ void UMLWidget::slotMenuSelection(int sel) {
 			break;
 
 		case ListPopupMenu::mt_Use_Fill_Color:
-			m_pData->setUseFillColor( !m_pData->getUseFillColor() );
-			m_pData->setUsesDiagramUseFillColour(false);
-			m_pView->selectionUseFillColor( m_pData->getUseFillColor() );
+			m_bUseFillColour = !m_bUseFillColour;
+			m_bUsesDiagramUseFillColour = false;
+			m_pView->selectionUseFillColor( m_bUseFillColour );
 			break;
 
 		case ListPopupMenu::mt_ViewCode: {
-                       	UMLClassifier *c = dynamic_cast<UMLClassifier*>(m_pObject);
-                       	if(c)
-                       	{
+	UMLClassifier *c = dynamic_cast<UMLClassifier*>(m_pObject);
+	if(c)
+	{
 				UMLApp::app()->viewCodeDocument(c);
-                       	}
-                       	break;
-               	}
+	}
+	break;
+	}
 
 		case ListPopupMenu::mt_Delete_Selection:
 			m_pView -> deleteSelection();
@@ -414,19 +536,19 @@ void UMLWidget::slotMenuSelection(int sel) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLWidget::slotWidgetMoved(int /*id*/) {}
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void UMLWidget::slotColorChanged(int m_pViewID) {
+void UMLWidget::slotColorChanged(int viewID) {
 	//only change if on the diagram concerned
-	if(m_pView->getID() != m_pViewID) {
+	if(m_pView->getID() != viewID) {
 		return;
 	}
-	if ( m_pData->getUsesDiagramFillColour() ) {
-		m_pData->setFillColour( m_pView->getFillColor() );
+	if ( m_bUsesDiagramFillColour ) {
+		m_FillColour = m_pView->getFillColor();
 	}
-	if ( m_pData->getUsesDiagramLineColour() ) {
-		m_pData->setLineColour( m_pView->getLineColor() );
+	if ( m_bUsesDiagramLineColour ) {
+		m_LineColour = m_pView->getLineColor();
 	}
-	if ( m_pData->getUsesDiagramUseFillColour() ) {
-		m_pData->setUseFillColor( m_pView->getUseFillColor() );
+	if ( m_bUsesDiagramUseFillColour ) {
+		m_bUseFillColour = m_pView->getUseFillColor();
 	}
 	update();
 }
@@ -436,36 +558,28 @@ void UMLWidget::mouseDoubleClickEvent( QMouseEvent * me ) {
 	    m_pView->getCurrentCursor() != WorkToolBar::tbb_Arrow)
 		return;
 
-	const Uml::UMLWidget_Type wt = m_pData->getType();
+	const Uml::UMLWidget_Type wt = m_Type;
 	if( (wt >= wt_Actor && wt <= wt_Object) ||
 	    wt == wt_Component || wt == wt_Node || wt == wt_Artifact) {
 		slotMenuSelection(ListPopupMenu::mt_Properties);
 	}
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-QColor UMLWidget::getFillColour() {
-	return m_pData->getFillColour();
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////
-QColor UMLWidget::getLineColor() {
-	return m_pData->getLineColour();
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////
-void UMLWidget::setUseFillColor(bool fc) {
-	m_pData->setUseFillColor(fc);
-	m_pData->setUsesDiagramUseFillColour(false);
+void UMLWidget::setUseFillColour(bool fc) {
+	m_bUseFillColour = fc;
+	m_bUsesDiagramUseFillColour = false;
 	update();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLWidget::setLineColour(QColor colour) {
-	m_pData->setLineColour(colour);
-	m_pData->setUsesDiagramLineColour(false);
+	m_LineColour = colour;
+	m_bUsesDiagramLineColour = false;
 	update();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLWidget::setFillColour(QColor colour) {
-	m_pData->setFillColour(colour);
-	m_pData->setUsesDiagramFillColour(false);
+	m_FillColour = colour;
+	m_bUsesDiagramFillColour = false;
 	update();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -485,23 +599,21 @@ void UMLWidget::drawSelected(QPainter * p, int offsetX, int offsetY, bool resize
 }
 
 bool UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */) {
-	setSize( m_pData -> getWidth(), m_pData -> getHeight() );
+	setSize( getWidth(), getHeight() );
 	m_bActivated = true;
-	if( m_pObject )
-		m_Name = m_pObject -> getName();
 	calculateSize();
 	if( m_pView -> getPastePoint().x() != 0 ) {
 		FloatingText * ft = 0;
 		QPoint point = m_pView -> getPastePoint();
-		int x = point.x() + m_pData -> getX();
-		int y = point.y() + m_pData -> getY();
+		int x = point.x() + getX();
+		int y = point.y() + getY();
 		x = x < 0?0:x;
 		y = y < 0?0:y;
 		if( m_pView -> getType() == dt_Sequence ) {
 			switch( getBaseType() ) {
 				case wt_Object:
 				case wt_Message:
-					setY( m_pData -> getY() );
+					setY( getY() );
 					setX( x );
 					break;
 
@@ -510,12 +622,12 @@ bool UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */) {
 					switch( ft  -> getRole() ) {
 						case tr_Seq_Message:
 							setX( x );
-							setY( m_pData -> getY() );
+							setY( getY() );
 							break;
 
 						default:
-							setX( m_pData -> getX() );
-							setY( m_pData -> getY() );
+							setX( getX() );
+							setY( getY() );
 							break;
 					}//end switch role
 					break;
@@ -532,8 +644,8 @@ bool UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */) {
 		moveEvent( 0 );//for object widget to move lines
 	}//end if pastepoint
 	else {
-		setX( m_pData -> getX() );
-		setY( m_pData -> getY() );
+		setX( getX() );
+		setY( getY() );
 	}
 	if ( m_pView -> getPaste() )
 		m_pView -> createAutoAssociations( this );
@@ -541,29 +653,31 @@ bool UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */) {
 }
 
 /** Read property of bool m_bActivated. */
-const bool& UMLWidget::isActivated() {
+bool UMLWidget::isActivated() {
 	return m_bActivated;
 }
 
-UMLWidgetData* UMLWidget::getData() {
-	//	synchronizeData();
-	return m_pData;
-}
-
-void UMLWidget::synchronizeData() {
-	m_pData->setX( (int)x() );
-	m_pData->setY( (int)y() );
-	m_pData -> setWidth( width() );
-	m_pData -> setHeight( height() );
-}
+void UMLWidget::synchronizeData() {}
 
 void UMLWidget::setActivated(bool Active /*=true*/) {
 	m_bActivated = Active;
 }
 
+void UMLWidget::addAssoc(AssociationWidget* pAssoc) {
+	if(pAssoc) {
+		m_Assocs.append(pAssoc);
+	}
+}
+
+void UMLWidget::removeAssoc(AssociationWidget* pAssoc) {
+	if(pAssoc) {
+		m_Assocs.remove(pAssoc);
+	}
+}
+
 void UMLWidget::adjustAssocs(int x, int y)
 {
-	AssociationWidgetListIt assoc_it(m_pData->getAssocList());
+	AssociationWidgetListIt assoc_it(m_Assocs);
 	AssociationWidget* assocwidget = 0;
 	while((assocwidget=assoc_it.current())) {
 		++assoc_it;
@@ -575,7 +689,7 @@ void UMLWidget::startPopupMenu(QPoint At) {
 	slotRemovePopupMenu();
 	//if in a multi- selection to a specific m_pMenu for that
 	int count = m_pView -> getSelectCount();
-	//a MessageWidget when slected will select its text widget and vice versa
+	//a MessageWidget when selected will select its text widget and vice versa
 	//so take that into account for popup menu.
 	if( m_bSelected ) {
 		if( m_pView -> getType() == dt_Sequence ) {
@@ -627,11 +741,11 @@ void UMLWidget::draw( QPainter & /*p*/, int /*offsetX*/, int /*offsetY*/ ) {
 }
 
 void UMLWidget::drawShape(QPainter &p ) {
-	draw( p, (int)x(), (int)y() );
+	draw( p, getX(), getY() );
 }
 
 void UMLWidget::setSelected(bool _select) {
-	const Uml::UMLWidget_Type wt = m_pData->getType();
+	const Uml::UMLWidget_Type wt = m_Type;
 	if( _select ) {
 		if( m_pView -> getSelectCount() == 0 ) {
 			if ( widgetHasUMLObject(wt) ) {
@@ -671,45 +785,47 @@ void UMLWidget::setView(UMLView * v) {
 }
 
 void UMLWidget::setX( int x ) {
-	m_pData -> setX( x );
 	if( !m_bIgnoreSnapToGrid && m_pView -> getSnapToGrid() ) {
 		int gridX = m_pView -> getSnapX();
 
-		int modX = m_pData -> getX() % gridX;
+		int modX = getX() % gridX;
 		x -= modX;
 		if( modX >= ( gridX / 2 ) )
 			x += gridX;
 	}
-	QCanvasItem::setX( x );
+	QCanvasItem::setX( (double)x );
 }
 
 void UMLWidget::setY( int y ) {
-	m_pData -> setY( y );
 	if( !m_bIgnoreSnapToGrid && m_pView -> getSnapToGrid() ) {
 		int gridY = m_pView -> getSnapY();
-		int modY = m_pData -> getY() % gridY;
+		int modY = getY() % gridY;
 		y -= modY;
 		if( modY >= ( gridY / 2 ) )
 			y += gridY;
 	}
-	QCanvasItem::setY( y );
+	QCanvasItem::setY( (double)y );
 }
 
 void UMLWidget::setName(QString strName) {
-	m_Name = strName;
+	if (m_pObject)
+		m_pObject->setName(strName);
 	calculateSize();
-	adjustAssocs( m_pData -> getX(), m_pData -> getY() );
+	adjustAssocs( getX(), getY() );
 }
 
+QString UMLWidget::getName() const {
+	if (m_pObject)
+		return m_pObject->getName();
+	return "";
+}
 
 void UMLWidget::cleanup() {
-	delete m_pData;
-	m_pData = 0;
 }
 
 void UMLWidget::slotSnapToGrid( ) {
-	setX( m_pData -> getX() );
-	setY( m_pData -> getY() );
+	setX( getX() );
+	setY( getY() );
 }
 
 bool UMLWidget::widgetHasUMLObject(Uml::UMLWidget_Type type) {
@@ -726,6 +842,17 @@ bool UMLWidget::widgetHasUMLObject(Uml::UMLWidget_Type type) {
 	} else {
 		return false;
 	}
+}
+
+QString UMLWidget::getDoc() const {
+	if (m_pObject != NULL)
+		return m_pObject->getDoc();
+	return "";
+}
+
+void UMLWidget::setDoc( QString doc ) {
+	if (m_pObject != NULL)
+		m_pObject->setDoc( doc );
 }
 
 void UMLWidget::setSize(int width,int height) {
@@ -751,17 +878,16 @@ void UMLWidget::updateComponentSize(){
 }
 
 void UMLWidget::setDefaultFontMetrics(UMLWidget::FontType fontType) {
-	QFont font = m_pData -> getFont();
-	setupFontType(font, fontType);
-	setFontMetrics(fontType, QFontMetrics(font));
+	setupFontType(m_Font, fontType);
+	setFontMetrics(fontType, QFontMetrics(m_Font));
 }
 
 void UMLWidget::setupFontType(QFont &font, UMLWidget::FontType fontType) {
- 	switch(fontType){
+	switch(fontType){
 		case FT_NORMAL:
 			font.setBold(false);
 			font.setItalic(false);
-   			font.setUnderline(false);
+			font.setUnderline(false);
 		break;
 		case FT_BOLD:
 			font.setBold(true);
@@ -776,7 +902,7 @@ void UMLWidget::setupFontType(QFont &font, UMLWidget::FontType fontType) {
 		case FT_UNDERLINE:
 			font.setBold(false);
 			font.setItalic(false);
-   			font.setUnderline(true);
+			font.setUnderline(true);
 		break;
 		case FT_BOLD_ITALIC:
 			font.setBold(true);
@@ -786,27 +912,26 @@ void UMLWidget::setupFontType(QFont &font, UMLWidget::FontType fontType) {
 		case FT_BOLD_UNDERLINE:
 			font.setBold(true);
 			font.setItalic(false);
-   			font.setUnderline(true);
+			font.setUnderline(true);
 		break;
 		case FT_ITALIC_UNDERLINE:
 			font.setBold(false);
 			font.setItalic(true);
-   			font.setUnderline(true);
+			font.setUnderline(true);
 		break;
 		case FT_BOLD_ITALIC_UNDERLINE:
 			font.setBold(true);
 			font.setItalic(true);
-   			font.setUnderline(true);
+			font.setUnderline(true);
 		break;
 		default: return;
 	}
 }
 
 void UMLWidget::setDefaultFontMetrics(UMLWidget::FontType fontType, QPainter &painter) {
-	QFont font = m_pData -> getFont();
-	setupFontType(font, fontType);
-	painter.setFont(font);
-	setFontMetrics(fontType,painter.fontMetrics());
+	setupFontType(m_Font, fontType);
+	painter.setFont(m_Font);
+	setFontMetrics(fontType, painter.fontMetrics());
 }
 
 QFontMetrics &UMLWidget::getFontMetrics(UMLWidget::FontType fontType) {
@@ -826,7 +951,7 @@ void UMLWidget::setFontMetrics(UMLWidget::FontType fontType, QFontMetrics fm) {
 }
 
 void UMLWidget::setFont( QFont font ) {
-	m_pData -> setFont( font );
+	m_Font = font;
 	forceUpdateFontMetrics(0);
 	update();
 }
@@ -846,4 +971,72 @@ void UMLWidget::forceUpdateFontMetrics(QPainter *painter) {
 	// calculate the size, based on the new font metric
 	calculateSize();
 }
+
+bool UMLWidget::saveToXMI( QDomDocument & /*qDoc*/, QDomElement & qElement ) {
+	/*
+	  Call after required actions in child class.
+	  Type must be set in the child class.
+	*/
+	qElement.setAttribute( "xmi.id", getID() );
+	qElement.setAttribute( "font", m_Font.toString() );
+	qElement.setAttribute( "usefillcolor", m_bUseFillColour );
+	qElement.setAttribute( "x", getX() );
+	qElement.setAttribute( "y", getY() );
+	qElement.setAttribute( "width", getWidth() );
+	qElement.setAttribute( "height", getHeight() );
+	qElement.setAttribute( "usesdiagramfillcolour", m_bUsesDiagramFillColour );
+	qElement.setAttribute( "usesdiagramlinecolour", m_bUsesDiagramLineColour );
+	qElement.setAttribute( "usesdiagramusefillcolour", m_bUsesDiagramUseFillColour );
+	if (m_bUsesDiagramFillColour) {
+		qElement.setAttribute( "fillcolour", "none" );
+	} else {
+		qElement.setAttribute( "fillcolour", m_FillColour.name() );
+	}
+	if (m_bUsesDiagramLineColour) {
+		qElement.setAttribute( "linecolour", "none" );
+	} else {
+		qElement.setAttribute( "linecolour", m_LineColour.name() );
+	}
+	qElement.setAttribute("isinstance", m_bIsInstance);
+	qElement.setAttribute("instancename", m_instanceName);
+	return true;
+}
+
+bool UMLWidget::loadFromXMI( QDomElement & qElement ) {
+	QString id = qElement.attribute( "xmi.id", "-1" );
+	QString font = qElement.attribute( "font", "" );
+	QString usefillcolor = qElement.attribute( "usefillcolor", "1" );
+	QString x = qElement.attribute( "x", "0" );
+	QString y = qElement.attribute( "y", "0" );
+	QString h = qElement.attribute( "height", "0" );
+	QString w = qElement.attribute( "width", "0" );
+	QString fillColour = qElement.attribute( "fillcolour", "none" );
+	QString lineColour = qElement.attribute( "linecolour", "none" );
+	QString usesDiagramFillColour = qElement.attribute( "usesdiagramfillcolour", "1" );
+	QString usesDiagramLineColour = qElement.attribute( "usesdiagramlinecolour", "1" );
+	QString usesDiagramUseFillColour = qElement.attribute( "usesdiagramusefillcolour", "1" );
+
+	setID( id.toInt() );
+	if( !font.isEmpty() ) {
+		m_Font.fromString( font );
+	}
+	m_bUseFillColour = (bool)usefillcolor.toInt();
+	m_bUsesDiagramFillColour = (bool)usesDiagramFillColour.toInt();
+	m_bUsesDiagramLineColour = (bool)usesDiagramLineColour.toInt();
+	m_bUsesDiagramUseFillColour = (bool)usesDiagramUseFillColour.toInt();
+	setX( x.toInt() );
+	setY( y.toInt() );
+	setSize( w.toInt(), h.toInt() );
+	if (fillColour != "none") {
+		m_FillColour = QColor(fillColour);
+	}
+	if (lineColour != "none") {
+		m_LineColour = QColor(lineColour);
+	}
+	QString isinstance = qElement.attribute("isinstance", "0");
+	m_bIsInstance = (bool)isinstance.toInt();
+	m_instanceName = qElement.attribute("instancename", "");
+	return true;
+}
+
 #include "umlwidget.moc"

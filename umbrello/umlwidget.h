@@ -12,11 +12,12 @@
 #include <qobject.h>
 #include <qstring.h>
 #include <qcanvas.h>
+#include <qdom.h>
 
 #include "umlnamespace.h"
-#include "umlwidgetdata.h"
+#include "associationwidgetlist.h"
+#include "dialogs/settingsdlg.h"
 
-class AssociationWidget;
 class UMLObject;
 class UMLView;
 class ListPopupMenu;
@@ -35,88 +36,96 @@ using namespace Uml;
  * @author 	Paul Hensgen <phensgen@techie.com>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class UMLWidget :  public QObject, public QCanvasRectangle {
+class UMLWidget : public QObject, public QCanvasRectangle {
 	Q_OBJECT
-
-	friend class UMLView;
-
 public:
 	/**
 	 * Creates a UMLWidget object.
 	 *
 	 * @param view	The view to be displayed on.
 	 * @param o	The UMLObject to represent.
-	 * @param pData	The UMLWidgetData for this UMLWidget, it must not be null
 	 */
-	UMLWidget( UMLView * view, UMLObject * o, UMLWidgetData * pData );
+	UMLWidget( UMLView * view, UMLObject * o );
+
+	/**
+	 * Constructor
+	 *
+	 * @param view		The view to be displayed on.
+	 * @param o		The UMLObject to represent.
+	 * @param optionState	The optionState of the diagram.  Used to set the initial colours.
+	 */
+	UMLWidget( UMLView * view, UMLObject * o, SettingsDlg::OptionState optionState );
 
 	/**
 	 * Creates a UMLWidget object.
 	 *
 	 * @param view	The view to be displayed on.
 	 * @param id	The id of the widget.
-	 * @param pData	The UMLWidgetData for this UMLWidget, it must not be null
 	 */
-	UMLWidget( UMLView * view, int id,  UMLWidgetData * pData);
+	UMLWidget( UMLView * view, int id );
 
 	/**
 	 * Creates a UMLWidget object.
 	 *
 	 * @param view	The view to be displayed on.
-	 * @param pData	The UMLWidgetData for this UMLWidget, it must not be null
 	 */
-	UMLWidget( UMLView * view,  UMLWidgetData * pData );
+	UMLWidget( UMLView * view );
+
+	/**
+	 * Constructor
+	 *
+	 * @param view		The view to be displayed on.
+	 * @param optionState	The optionState of the diagram.  Used to set the initial colours.
+	 */
+	UMLWidget( UMLView * view, SettingsDlg::OptionState optionState );
 
 	/**
 	 * Standard deconstructor
 	 */
-	~UMLWidget();
+	virtual ~UMLWidget();
 
 	/**
-	 * Returns the type of object this represents.
-	 *
-	 * @return	Returns the type of object this represents.
+	 * Copy constructor
 	 */
-	virtual Uml::UMLWidget_Type getBaseType();
+	UMLWidget(const UMLWidget& other);
 
 	/**
-	 * Returns the ID of this object.
-	 *
-	 * @return	Returns the ID this object.
+	 * Assignment operator
 	 */
-	virtual int getID();
+	virtual UMLWidget& operator=(const UMLWidget& other);
 
 	/**
-	 * Sets the id of the UMLWidget.
-	 *
-	 * @param id The id to set the widget to.
+	 * Overload '==' operator
 	 */
-	virtual void setID(int Id) {
-		m_pData->setID( Id );
+	virtual bool operator==(const UMLWidget& other);
+
+	/**
+	* Write property of m_Type.
+	*/
+	void setBaseType( UMLWidget_Type type ) {
+		m_Type = type;
 	}
 
 	/**
-	 * Adds one to the amount of association this object is connected to.
-	 *
-	 * @param pAssoc The association to be added.
-	 */
-	void addAssoc(AssociationWidget* pAssoc) {
-		m_pData->addAssoc(pAssoc);
+	* Read property of m_Type.
+	*/
+	UMLWidget_Type getBaseType() const {
+		return m_Type;
 	}
 
 	/**
-	 * Removes one from the count of the amount of associations this object
-	 * is connected to.
-	 *
-	 * @param pAssoc The association to be deleted.
-	 */
-	void removeAssoc(AssociationWidget* pAssoc) {
-		m_pData->removeAssoc(pAssoc);
-	}
+	* Write property of m_nId.
+	*/
+	void setID( int id );
+
+	/**
+	* Read property of m_nId.
+	*/
+	int getID() const;
 
 	/**
 	 * Returns the @ref UMLObject set to represent.
-	 * 
+	 *
 	 * @return the UMLObject to represent.
 	 */
 	UMLObject * getUMLObject() {
@@ -147,34 +156,18 @@ public:
 	virtual void mouseDoubleClickEvent(QMouseEvent *me);
 
 	/**
-	 * Return the status of using fill color.
-	 *
-	 * @return	Return the status of using fill color.
-	 */
-	bool getUseFillColor() {
-		return m_pData->getUseFillColor();
-	}
-
-	/**
-	 * Return the background color.
-	 *
-	 * @return	Return the background color.
-	 */
-	QColor getFillColour();
-
-	/**
-	 * Return the line color.
-	 *
-	 * @return Return the line color.
-	 */
-	QColor getLineColor();
-
-	/**
 	 * Set the status of using fill color.
 	 *
 	 * @param	fc the status of using fill color.
 	 */
-	void setUseFillColor(bool fc);
+	void setUseFillColour(bool fc);
+
+	/**
+	 * Read property of bool m_bUseFillColour.
+	 */
+	bool getUseFillColour() const {
+		return m_bUseFillColour;
+	}
 
 	/**
 	 * Sets the line colour
@@ -184,11 +177,25 @@ public:
 	void setLineColour(QColor colour);
 
 	/**
+	 * Read property of QColor m_LineColour.
+	 */
+	QColor getLineColour() const {
+		return m_LineColour;
+	}
+
+	/**
 	 * Sets the background fill colour
 	 *
 	 * @param colour the new fill colour
 	 */
 	void setFillColour(QColor colour);
+
+	/**
+	 * Read property of QColor m_FillColour.
+	 */
+	QColor getFillColour() const {
+		return m_FillColour;
+	}
 
 	/**
 	 * Overrides the standard operation.
@@ -207,7 +214,7 @@ public:
 	QPoint doMouseMove(QMouseEvent* me);
 
 	/**
-	 * Returns wether this is a line of text.
+	 * Returns whether this is a line of text.
 	 * Used for transparency in printing.
 	 *
 	 * @return always false
@@ -228,8 +235,12 @@ public:
 	 *
 	 * @return Returns the state of whether the widget is selected.
 	 */
-	bool getSelected() {
+	bool getSelected() const {
 		return m_bSelected;
+	}
+
+	void setSelectedFlag(bool _select) {
+		m_bSelected = _select;
 	}
 
 	/**
@@ -244,7 +255,7 @@ public:
 	 *
 	 * @return Returns the old id of the widget.
 	 */
-	virtual int getOldID() {
+	virtual int getOldID() const {
 		return m_nOldID;
 	}
 
@@ -261,8 +272,8 @@ public:
 	 * Activate the object after serializing it from a QDataStream
 	 *
 	 * @param ChangeLog
-	 * 
-	 * @return 
+	 *
+	 * @return
 	 */
 	virtual bool activate(IDChangeLog* ChangeLog = 0);
 
@@ -270,7 +281,7 @@ public:
 	 * Returns true if the given point is in the boundaries of the widget
 	 *
 	 * @param p Point to be checked.
-	 * 
+	 *
 	 * @return
 	 */
 	virtual bool onWidget(const QPoint & p);
@@ -287,19 +298,16 @@ public:
 
 	/**
 	 * Sets the font the widget is to use.
-	 * 
+	 *
 	 * @param font Font to be set.
 	 */
-
 	virtual void setFont( QFont font );
 
 	/**
-	 * Returns the font the widget is too use.
-	 *
-	 * @return The current font set.
+	 *  Returns the font the widget is to use.
 	 */
-	virtual QFont getFont() {
-		return m_pData -> getFont();
+	virtual QFont getFont() const {
+		return m_Font;
 	}
 
 	/**
@@ -314,7 +322,7 @@ public:
 
 	/**
 	 * Sets the x-coordinate.
-	 * 
+	 *
 	 * @param x The x-coordinate to be set.
 	 */
 	void setX( int x );
@@ -326,9 +334,37 @@ public:
 	 */
 	void setY( int y );
 
-	/** 
+	/**
+	 * Gets the x-coordinate.
+	 */
+	int getX() const {
+		return (int)QCanvasItem::x();
+	}
+
+	/**
+	 * Gets the y-coordinate.
+	 */
+	int getY() const {
+		return (int)QCanvasItem::y();
+	}
+
+	/**
+	 * Returns the height of widget.
+	 */
+	int getHeight() const {
+		return QCanvasRectangle::height();
+	}
+
+	/**
+	 * Returns the width of the widget.
+	 */
+	int getWidth() const {
+		return QCanvasRectangle::width();
+	}
+
+	/**
 	 * Sets the size.
-	 * If m_pView->getSnapComponentSizeToGrid() is true, then 
+	 * If m_pView->getSnapComponentSizeToGrid() is true, then
 	 * set the next larger size that snaps to the grid.
 	 */
 	void setSize(int width,int height);
@@ -336,33 +372,116 @@ public:
 	/**
 	 * Used by some child classes to get documentation.
 	 *
-	 * @return Always an empty string.
+	 * @return	The documentation from the UMLObject (if m_pObject is set.)
 	 */
-	virtual QString getDoc() {
-		return "";
-	}
+	virtual QString getDoc() const;
 
 	/**
 	 * Used by some child classes to set documentation.
 	 *
-	 * @param doc The documentation to be set. Will be ignored.
+	 * @param doc The documentation to be set in the UMLObject (if m_pObject is set.)
 	 */
-	virtual void setDoc( QString ) { }
- 
+	virtual void setDoc( QString doc );
+
+	/**
+	 * Removes an already created association from the list of
+	 * associations that include this UMLWidget
+	 */
+	void removeAssoc(AssociationWidget* pAssoc);
+
+	/**
+	 * Adds an already created association to the list of
+	 * associations that include this UMLWidget
+	 */
+	void addAssoc(AssociationWidget* pAssoc);
+
+	/**
+	 *  Returns the list of associations connected to this widget.
+	 */
+	AssociationWidgetList & getAssocList() {
+		return m_Assocs;
+	}
+
+	/**
+	 * Returns m_bUsesDiagramFillColour
+	 */
+	bool getUsesDiagramFillColour() const {
+		return m_bUsesDiagramFillColour;
+	}
+
+	/**
+	 * Returns m_bUsesDiagramLineColour
+	 */
+	bool getUsesDiagramLineColour() const {
+		return m_bUsesDiagramLineColour;
+	}
+
+	/**
+	 * Returns m_bUsesDiagramUseFillColour
+	 */
+	bool getUsesDiagramUseFillColour() const {
+		return m_bUsesDiagramUseFillColour;
+	}
+
+	/**
+	 * Sets m_bUsesDiagramFillColour
+	 */
+	void setUsesDiagramFillColour(bool usesDiagramFillColour) {
+		m_bUsesDiagramFillColour = usesDiagramFillColour;
+	}
+
+	/**
+	 * Sets m_bUsesDiagramLineColour
+	 */
+	void setUsesDiagramLineColour(bool usesDiagramLineColour) {
+		m_bUsesDiagramLineColour = usesDiagramLineColour;
+	}
+
+	/**
+	 * Sets m_bUsesDiagramUseFillColour
+	 */
+	void setUsesDiagramUseFillColour(bool usesDiagramUseFillColour) {
+		m_bUsesDiagramUseFillColour = usesDiagramUseFillColour;
+	}
+
+	/**
+	 * Write property of bool m_bIsInstance
+	 */
+	void setIsInstance(bool isInstance) {
+		m_bIsInstance = isInstance;
+	}
+
+	/**
+	 * Read property of bool m_bIsInstance
+	 */
+	bool getIsInstance() const {
+		return m_bIsInstance;
+	}
+
+	/**
+	 * Write property of m_instanceName
+	 */
+	void setInstanceName(QString instanceName) {
+		m_instanceName = instanceName;
+	}
+
+	/**
+	 * Read property of m_instanceName
+	 */
+	QString getInstanceName() const {
+		return m_instanceName;
+	}
+
+	virtual bool saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+
+	virtual bool loadFromXMI( QDomElement & qElement );
 
 	/**
 	 * Returns true if the Activate method has been called for this instance
 	 *
 	 * @return The activate status.
 	 */
-	virtual const bool& isActivated();
-
-	/**
-	 * Return a UMLWidgetData Containing all information about this instance of UMLWidget
-	 *
-	 * @return The widget data represting the UML object.
-	 */
-	virtual UMLWidgetData* getData();
+	bool isActivated();
 
 	/**
 	 * Synchronize the Widget's m_pData member with its display properties, for example:
@@ -371,20 +490,20 @@ public:
 	virtual void synchronizeData();
 
 	/**
-	 * Sets the m_Name property
+	 * Sets the name in the corresponding UMLObject.
+	 * No-op if m_pObject is NULL.
 	 *
 	 * @param strName The name to be set.
 	 */
 	virtual void setName(QString strName);
 
 	/**
-	 * Returns a copy of m_Name
+	 * Gets the name from the corresponding UMLObject.
+	 * Returns an empty string if m_pObject is NULL.
 	 *
 	 * @return The currently set name.
 	 */
-	virtual QString getName() {
-		return m_Name;
-	}
+	virtual QString getName() const;
 
 	/**
 	 * Starts the popup menu.
@@ -432,6 +551,21 @@ public:
 	 *  first before a special painter like a printer device is used.
 	 */
 	void forceUpdateFontMetrics(QPainter *painter);
+
+	/**
+	 * Overrides the standard operation.
+	 *
+	 * @param me The mouse event.
+	 */
+	virtual void mousePressEvent(QMouseEvent *me);
+
+	/**
+	 * Overrides the standard operation.
+	 *
+	 * @param me The move event.
+	 */
+	virtual void moveEvent(QMoveEvent *) { }
+
 protected:
 	/**
 	 * Draws that the widget is selected.
@@ -448,20 +582,6 @@ protected:
 	 * @param p Device on which the shape has to be drawn.^
 	 */
 	virtual void drawShape(QPainter &p );
-
-	/**
-	 * Overrides the standard operation.
-	 *
-	 * @param me The mouse event.
-	 */
-	virtual void mousePressEvent(QMouseEvent *me);
-
-	/**
-	 * Overrides the standard operation.
-	 *
-	 * @param me The move event.
-	 */
-	virtual void moveEvent(QMoveEvent *) { }
 
 	/**
 	 * Calculates the size of the widget.
@@ -490,12 +610,69 @@ protected:
 	QFontMetrics &getFontMetrics(UMLWidget::FontType fontType);
 	/** set the font metric to use */
 	void setFontMetrics(UMLWidget::FontType fontType, QFontMetrics &fm);
- 	void setFontMetrics(UMLWidget::FontType fontType, QFontMetrics fm);
+	void setFontMetrics(UMLWidget::FontType fontType, QFontMetrics fm);
 	void setupFontType(QFont &font, UMLWidget::FontType fontType);
 	/**
 	 * Initializes key attributes of the class.
 	 */
 	void init();
+
+	///////////////// Data Loaded/Saved /////////////////////////////////
+
+	/**
+	 * Type of widget.
+	 */
+	UMLWidget_Type m_Type;
+
+	/**
+	 * This ID is only used when the UMLWidget does not have a
+	 * corresponding UMLObject (i.e. the m_pObject pointer is NULL.)
+	 * For UML objects, the ID from the UMLObject is used.
+	 */
+	int m_nId;
+
+	/**
+	 * This flag indicates if the UMLWidget uses the Diagram FillColour
+	 */
+	bool m_bUseFillColour;
+
+	/**
+	 *  true by default, false if the colours have
+	 *  been explicity set for this widget
+	 */
+	bool m_bUsesDiagramFillColour, m_bUsesDiagramLineColour, m_bUsesDiagramUseFillColour;
+
+	/**
+	 * Colour of the lines of the widget
+	 */
+	QColor m_LineColour;
+
+	/**
+	 * Colour of the background of the widget
+	 */
+	QColor m_FillColour;
+
+	/**
+	 * A list of AssociationWidgets between the UMLWidget and other UMLWidgets in the diagram
+	 */
+	AssociationWidgetList m_Assocs;
+
+	/**
+	 * 	The font the widget will use.
+	 */
+	QFont m_Font;
+
+	/**
+	 * Holds whether this widget is a component instance (i.e. on a deployment diagram)
+	 */
+	bool m_bIsInstance;
+
+	/**
+	 * The instance name (used if on a deployment diagram)
+	 */
+	QString m_instanceName;
+
+	///////////////// End of Data Loaded/Saved //////////////////////////
 
 	bool 		m_bMouseDown,
 			m_bMouseOver,
@@ -503,12 +680,12 @@ protected:
 			m_bStartMove;
 
 	/**
-	 * It is true, if the object was moved during mouseMoveEvent
+	 * True if the object was moved during mouseMoveEvent
 	 */
 	bool m_bMoved;
 
 	/**
-	 * It is true, if the shift key was pressed during mousePressEvent
+	 * True if the shift key was pressed during mousePressEvent
 	 */
 	bool m_bShiftPressed;
 
@@ -520,21 +697,17 @@ protected:
 	UMLView 	*m_pView;
 	ListPopupMenu 	*m_pMenu;
 	bool 		m_bResizing;
-	UMLWidgetData	*m_pData;
 	int 		m_nPressOffsetX,
 			m_nPressOffsetY;
 	int 		m_nOldH,
 			m_nOldW;
 	QFontMetrics	*m_pFontMetrics[FT_INVALID];
+
 	/**
 	 * It is true if the Activate Function has been called for this
 	 * class instance
 	 */
 	bool m_bActivated;
-	/**
-	 * UMLWidget's name property
-	 */
-	QString m_Name;
 
 	/**
 	 * Change Widget Behaviour

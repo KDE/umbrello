@@ -19,7 +19,7 @@ class UMLRole;
 
 /**
  *	This class contains the non-graphic representation of an association.
- *	An association can be an aggregation or composition.
+ *	An association can be a generalization, aggregation, or composition.
  *
  *	@short Sets up association information.
  *	@author Oliver Kellogg <okellogg@users.sourceforge.net>
@@ -28,7 +28,6 @@ class UMLRole;
  */
 
 class UMLAssociation : public UMLObject {
-	friend class AssociationWidget;
 	Q_OBJECT
 public:
 	/**
@@ -46,7 +45,7 @@ public:
 	/**
 	 *	Standard deconstructor.
 	 */
-	~UMLAssociation() {}
+	virtual ~UMLAssociation() {}
 
 	/**
 	 *	Converts a Uml::Association_Type to its string representation.
@@ -122,7 +121,7 @@ public:
 
 	/**
 	 *	Returns the Visibility of role B.
-	 *	
+	 *
 	 *	@return		Scope of roleB.
 	 */
 	Scope getVisibilityB() const;
@@ -224,7 +223,7 @@ public:
 	 */
 
 	void setChangeabilityB(Changeability_Type value);
-		 
+
 	/**
 	 *	Sets the multiplicity of role A of the UMLAssociation.
 	 *
@@ -270,21 +269,21 @@ public:
 	bool loadFromXMI(QDomElement& element);
 
 	/**
-         * Convert Changeability_Type value into QString representation. 
+         * Convert Changeability_Type value into QString representation.
 	 */
 	static QString ChangeabilityToString(Uml::Changeability_Type type);
 
         /**
-         * Convert Scope value into QString representation. 
+         * Convert Scope value into QString representation.
          */
 	static QString ScopeToString(Uml::Scope scope);
 
 	/**
 	 * Get the respective, underlying UMLRole object for either role A or B.
 	 */
-	UMLRole * getUMLRoleA(); 
+	UMLRole * getUMLRoleA();
 
-	UMLRole * getUMLRoleB(); 
+	UMLRole * getUMLRoleB();
 
 protected:
 

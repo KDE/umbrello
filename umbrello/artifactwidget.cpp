@@ -8,41 +8,27 @@
  ***************************************************************************/
 
 #include "artifactwidget.h"
-#include "artifactwidgetdata.h"
 #include "artifact.h"
 #include "umlview.h"
 #include <kdebug.h>
 #include <qpainter.h>
 #include <qpointarray.h>
 
-ArtifactWidget::ArtifactWidget(UMLView* view, UMLObject* o, UMLWidgetData* pData) : UMLWidget(view, o, pData) {
-	m_pMenu = 0;
-	if (m_pObject) {
-		calculateSize();
-		update();
-	}
-}
-
-ArtifactWidget::ArtifactWidget(UMLView* view, UMLObject* o) : UMLWidget(view, o, new ArtifactWidgetData(view->getOptionState() )) {
+ArtifactWidget::ArtifactWidget(UMLView * view, UMLObject * o) : UMLWidget(view, o) {
 	init();
 	setSize(100, 30);
 	calculateSize();
-	m_pData->setType(wt_Artifact);
+	UMLWidget::setBaseType( wt_Artifact );
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-ArtifactWidget::ArtifactWidget(UMLView * view) : UMLWidget(view, new ArtifactWidgetData(view->getOptionState() )) {
+ArtifactWidget::ArtifactWidget(UMLView * view) : UMLWidget(view) {
 	init();
 	setSize(100,30);
-	m_pData->setType(wt_Artifact);
+	UMLWidget::setBaseType( wt_Artifact );
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void ArtifactWidget::init() {
 	m_pMenu = 0;
-	//set defaults from m_pView
-	if (m_pView && m_pData) {
-		//check to see if correct
-		SettingsDlg::OptionState ops = m_pView->getOptionState();
-	}
 	//maybe loading and this may not be set.
 	if (m_pObject) {
 		calculateSize();
@@ -53,16 +39,16 @@ void ArtifactWidget::init() {
 ArtifactWidget::~ArtifactWidget() {}
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void ArtifactWidget::drawAsNormal(QPainter& p, int offsetX, int offsetY) {
-	p.setPen( m_pData->getLineColour() );
-	if ( m_pData->getUseFillColor() ) {
-		p.setBrush( m_pData->getFillColour() );
+	p.setPen( UMLWidget::getLineColour() );
+	if ( UMLWidget::getUseFillColour() ) {
+		p.setBrush( UMLWidget::getFillColour() );
 	} else {
 		p.setBrush( m_pView->viewport()->backgroundColor() );
 	}
 
 	int w = width();
 	int h = height();
-	QFont font = m_pData->getFont();
+	QFont font = UMLWidget::getFont();
 	font.setBold(true);
 	QFontMetrics &fm = getFontMetrics(FT_BOLD);
 	int fontHeight  = fm.lineSpacing();
@@ -75,7 +61,7 @@ void ArtifactWidget::drawAsNormal(QPainter& p, int offsetX, int offsetY) {
 	p.setFont(font);
 
 	if (stereotype != "") {
-		p.drawText(offsetX + ARTIFACT_MARGIN, offsetY + (h*0.5) - fontHeight,
+		p.drawText(offsetX + ARTIFACT_MARGIN, offsetY + (h/2) - fontHeight,
 			   w, fontHeight, AlignCenter, "<< " + stereotype + " >>");
 	}
 
@@ -87,10 +73,10 @@ void ArtifactWidget::drawAsNormal(QPainter& p, int offsetX, int offsetY) {
 	}
 
 	if (lines == 1) {
-		p.drawText(offsetX, offsetY + (h*0.5) - (fontHeight*0.5),
+		p.drawText(offsetX, offsetY + (h/2) - (fontHeight/2),
 			   w, fontHeight, AlignCenter, name);
 	} else {
-		p.drawText(offsetX, offsetY + (h*0.5),
+		p.drawText(offsetX, offsetY + (h/2),
 			   w, fontHeight, AlignCenter, name);
 	}
 
@@ -100,16 +86,16 @@ void ArtifactWidget::drawAsNormal(QPainter& p, int offsetX, int offsetY) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void ArtifactWidget::drawAsFile(QPainter& p, int offsetX, int offsetY) {
-	p.setPen( m_pData->getLineColour() );
-	if ( m_pData->getUseFillColor() ) {
-		p.setBrush( m_pData->getFillColour() );
+	p.setPen( UMLWidget::getLineColour() );
+	if ( UMLWidget::getUseFillColour() ) {
+		p.setBrush( UMLWidget::getFillColour() );
 	} else {
 		p.setBrush( m_pView->viewport()->backgroundColor() );
 	}
 
 	int w = width();
 	int h = height();
-	QFont font = m_pData->getFont();
+	QFont font = UMLWidget::getFont();
 	QFontMetrics &fm = getFontMetrics(FT_NORMAL);
 	int fontHeight  = fm.lineSpacing();
 	QString name = getName();
@@ -141,16 +127,16 @@ void ArtifactWidget::drawAsFile(QPainter& p, int offsetX, int offsetY) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void ArtifactWidget::drawAsLibrary(QPainter& p, int offsetX, int offsetY) {
 	//FIXME this should have gears on it
-	p.setPen( m_pData->getLineColour() );
-	if ( m_pData->getUseFillColor() ) {
-		p.setBrush( m_pData->getFillColour() );
+	p.setPen( UMLWidget::getLineColour() );
+	if ( UMLWidget::getUseFillColour() ) {
+		p.setBrush( UMLWidget::getFillColour() );
 	} else {
 		p.setBrush( m_pView->viewport()->backgroundColor() );
 	}
 
 	int w = width();
 	int h = height();
-	QFont font = m_pData->getFont();
+	QFont font = UMLWidget::getFont();
 	QFontMetrics &fm = getFontMetrics(FT_NORMAL);
 	int fontHeight  = fm.lineSpacing();
 	QString name = getName();
@@ -181,16 +167,16 @@ void ArtifactWidget::drawAsLibrary(QPainter& p, int offsetX, int offsetY) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void ArtifactWidget::drawAsTable(QPainter& p, int offsetX, int offsetY) {
-	p.setPen( m_pData->getLineColour() );
-	if ( m_pData->getUseFillColor() ) {
-		p.setBrush( m_pData->getFillColour() );
+	p.setPen( UMLWidget::getLineColour() );
+	if ( UMLWidget::getUseFillColour() ) {
+		p.setBrush( UMLWidget::getFillColour() );
 	} else {
 		p.setBrush( m_pView->viewport()->backgroundColor() );
 	}
 
 	int w = width();
 	int h = height();
-	QFont font = m_pData->getFont();
+	QFont font = UMLWidget::getFont();
 	QFontMetrics &fm = getFontMetrics(FT_NORMAL);
 	int fontHeight  = fm.lineSpacing();
 	QString name = getName();
@@ -250,7 +236,7 @@ QSize ArtifactWidget::calculateIconSize() {
 	height = 50 + fontHeight;
 
 	setSize(width, height);
-	adjustAssocs( (int)x(), (int)y() );//adjust assoc lines
+	adjustAssocs( getX(), getY() );//adjust assoc lines
 	return QSize(width, height);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -272,12 +258,12 @@ QSize ArtifactWidget::calculateNormalSize() {
 	height = (2*fontHeight) + (ARTIFACT_MARGIN * 2);
 
 	setSize(width, height);
-	adjustAssocs( (int)x(), (int)y() );//adjust assoc lines
+	adjustAssocs( getX(), getY() );//adjust assoc lines
 	return QSize(width, height);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void ArtifactWidget::calculateSize() {
-	if ( !m_pData || !m_pObject) {
+	if ( !m_pObject) {
 		return;
 	}
 	if ((static_cast<UMLArtifact*>(m_pObject))->getDrawAsType() == defaultDraw) {
@@ -294,3 +280,11 @@ bool ArtifactWidget::activate(IDChangeLog* ChangeLog /* = 0 */) {
 	}
 	return status;
 }
+
+bool ArtifactWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
+	QDomElement conceptElement = qDoc.createElement("artifactwidget");
+	bool status = UMLWidget::saveToXMI(qDoc, conceptElement);
+	qElement.appendChild(conceptElement);
+	return status;
+}
+

@@ -7,14 +7,14 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef UMLWIDGETDATALIST_H
-#define UMLWIDGETDATALIST_H
+#ifndef MESSAGEWIDGETLIST_H
+#define MESSAGEWIDGETLIST_H
 
 #include <qptrlist.h>
 
-class UMLWidgetData;
+class MessageWidget;
 
-typedef QPtrList<UMLWidgetData> UMLWidgetDataList;
-typedef QPtrListIterator<UMLWidgetData> UMLWidgetDataListIt;
+typedef QPtrList<MessageWidget> MessageWidgetList;
+typedef QPtrListIterator<MessageWidget> MessageWidgetListIt;
 
 #endif

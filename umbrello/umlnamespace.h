@@ -49,22 +49,22 @@ namespace Uml {
 
 	enum UMLWidget_Type
 	{
-	    wt_UMLWidget  =  300,
-	    wt_Actor,
-	    wt_UseCase,
-	    wt_Class,
-	    wt_Interface,
-	    wt_Package,
-	    wt_Object,
-	    wt_Note,
-	    wt_Box,
-	    wt_Message,
-	    wt_Text,
-	    wt_State,
-	    wt_Activity,
-	    wt_Component,
-	    wt_Artifact,
-	    wt_Node
+	    wt_UMLWidget  =  300,	// does not have UMLObject representation
+	    wt_Actor,			// has UMLObject representation
+	    wt_UseCase,			// has UMLObject representation
+	    wt_Class,			// has UMLObject representation
+	    wt_Interface,		// has UMLObject representation
+	    wt_Package,			// has UMLObject representation
+	    wt_Object,			// has UMLObject representation
+	    wt_Note,			// does not have UMLObject representation
+	    wt_Box,			// does not have UMLObject representation
+	    wt_Message,			// does not have UMLObject representation
+	    wt_Text,			// does not have UMLObject representation
+	    wt_State,			// does not have UMLObject representation
+	    wt_Activity,		// does not have UMLObject representation
+	    wt_Component,		// has UMLObject representation
+	    wt_Artifact,		// has UMLObject representation
+	    wt_Node			// has UMLObject representation
 	};
 
 	enum Diagram_Type
@@ -113,22 +113,22 @@ namespace Uml {
 
 	enum Text_Role
 	{
-  	    tr_Floating  =  700,  //text widget on diagrams
-  	    tr_MultiA,               //Text for Multiple A
-  	    tr_MultiB,                //Text for Multiple B
- 	    tr_Name,               //mddile text on most associations
-  	    tr_Seq_Message,     //message on seq diagram between two objects
-  	    tr_Seq_Message_Self,  //message to self on seq diagram - feature not implemented yet
-  	    tr_Coll_Message,      //message between two objects on a collab diagram
-  	    tr_Coll_Message_Self,  //message to object self on collab diagram
- 	    tr_State,
- 	    tr_RoleAName,          //RoleA text on associations
- 	    tr_RoleBName,          //RoleB text on associations
- 	    tr_ChangeA,            //Changeability A text on associations
- 	    tr_ChangeB             //Changeability B text on associations
-  	};
-  
-  	enum ListView_Type
+	    tr_Floating  =  700,   //text widget on diagrams
+	    tr_MultiA,             //Text for Multiple A
+	    tr_MultiB,             //Text for Multiple B
+	    tr_Name,               //middle text on most associations
+	    tr_Seq_Message,        //message on seq diagram between two objects
+	    tr_Seq_Message_Self,   //message to self on seq diagram - feature not implemented yet
+	    tr_Coll_Message,       //message between two objects on a collab diagram
+	    tr_Coll_Message_Self,  //message to object self on collab diagram
+	    tr_State,
+	    tr_RoleAName,          //RoleA text on associations
+	    tr_RoleBName,          //RoleB text on associations
+	    tr_ChangeA,            //Changeability A text on associations
+	    tr_ChangeB             //Changeability B text on associations
+	};
+
+	enum ListView_Type
 	{
 		//the values in this enum are saved out to the file
 		//for file compatibility, only add new values to the end
@@ -147,8 +147,8 @@ namespace Uml {
 	    lvt_UseCase,
 	    lvt_Class,
 	    lvt_Attribute,
-  	    lvt_Operation,
-  	    lvt_Template,
+	    lvt_Operation,
+	    lvt_Template,
 	    lvt_Interface,
 	    lvt_Package,
 	    lvt_Component_Diagram,
@@ -161,15 +161,15 @@ namespace Uml {
 	    lvt_Deployment_Folder,
 	    lvt_Deployment_View,
 	    lvt_Node,
-  	    lvt_Unknown = -1
-  	};
- 
- 	enum Changeability_Type
- 	{
- 		chg_Changeable = 900,
- 		chg_Frozen,
- 		chg_AddOnly
- 	};
+	    lvt_Unknown = -1
+	};
+
+	enum Changeability_Type
+	{
+		chg_Changeable = 900,
+		chg_Frozen,
+		chg_AddOnly
+	};
 
 	enum Sequence_Message_Type
 	{
@@ -179,5 +179,5 @@ namespace Uml {
 	};
 
   }
-  
+
 #endif

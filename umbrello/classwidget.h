@@ -11,7 +11,6 @@
 #define CLASSWIDGET_H
 
 #include "umlwidget.h"
-#include "classwidgetdata.h"
 #include <qsize.h>
 
 class UMLView;
@@ -29,21 +28,14 @@ class UMLView;
  */
 class ClassWidget : public UMLWidget {
 public:
-	/**
-	 *	Constructs a ClassWidget.
-	 *
-	 *	@param	view		The parent of this ClassWidget.
-	 *	@param	pData		The ClassWidgetData to represent.
-	 */
-	ClassWidget(UMLView * view, UMLObject *o, UMLWidgetData *pData);
 
 	/**
 	 *	Constructs a ClassWidget.
 	 *
-	 *	@param	view		The parent of this ClassWidget.
-	 *	@param	o		The UMLObject to represent.
+	 *	@param	view	The parent of this ClassWidget.
+	 *	@param	o	The UMLObject to represent.
 	 */
-	ClassWidget(UMLView * view, UMLObject *o);
+	ClassWidget(UMLView * view, UMLObject * o);
 
 	/**
 	 *	Constructs a ClassWidget.
@@ -68,7 +60,7 @@ public:
 	 *	@return	Returns the status of showing attributes.
 	 */
 	bool getShowAtts() {
-		return ((ClassWidgetData*)m_pData)->getShowAttributes();
+		return m_bShowAttributes;
 	}
 
 	/**
@@ -77,7 +69,7 @@ public:
 	 *	@return	Return the status of showing operations.
 	 */
 	bool getShowOps() {
-		return ((ClassWidgetData*)m_pData)->getShowOperations();
+		return m_bShowOperations;
 	}
 
 	/**
@@ -86,7 +78,7 @@ public:
 	 *	@return Returns the status of showing operation signatures.
 	 */
 	Uml::Signature_Type getShowOpSigs() {
-		return ((ClassWidgetData*)m_pData)->getShowOpSigs();
+		return m_ShowOpSigs;
 	}
 
 	/**
@@ -95,7 +87,7 @@ public:
 	 *	@return	Returns the status of showing attribute signatures.
 	 */
 	Uml::Signature_Type getShowAttSigs() {
-		return ((ClassWidgetData*)m_pData)->getShowAttSigs();
+		return m_ShowAttSigs;
 	}
 
 	/**
@@ -104,7 +96,7 @@ public:
 	 *	@return  Returns the status of whether to show scope.
 	 */
 	bool getShowScope() {
-		return ((ClassWidgetData*)m_pData)->getShowScope();
+		return m_bShowScope;
 	}
 
 	/**
@@ -162,7 +154,7 @@ public:
 	 *	@return  Returns the status of whether to show StereoType.
 	 */
 	bool getShowStereotype() {
-		return ((ClassWidgetData*)m_pData)->getShowStereotype();
+		return m_bShowStereotype;
 	}
 
 	/**
@@ -171,7 +163,7 @@ public:
 	 *	@return  Returns the status of whether to show Package.
 	 */
 	bool getShowPackage() {
-		return ((ClassWidgetData*)m_pData)->getShowPackage();
+		return m_bShowPackage;
 	}
 
 	/**
@@ -194,15 +186,13 @@ public:
 	virtual bool activate(IDChangeLog* ChangeLog  = 0 );
 
 	/**
-	 * Synchronizes the Widget's m_pData member with its display properties, for example:
-	 * the X and Y positions of the widget, etc
-	 */
-	virtual void synchronizeData();
-
-	/**
 	 *	Overrides standards method
 	 */
 	void draw(QPainter & p, int offsetX, int offsetY);
+
+	bool saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+
+	bool loadFromXMI( QDomElement & qElement );
 
 private:
 
@@ -226,6 +216,17 @@ private:
 	 * The right mouse button menu
 	 */
 	ListPopupMenu* m_pMenu;
+
+	/**
+	 * Data members loaded/saved
+	 */
+	bool m_bShowAttributes;
+	bool m_bShowOperations;
+	bool m_bShowScope;
+	bool m_bShowPackage;
+	bool m_bShowStereotype;
+	Uml::Signature_Type m_ShowOpSigs;
+	Uml::Signature_Type m_ShowAttSigs;
 
 public slots:
 	/**

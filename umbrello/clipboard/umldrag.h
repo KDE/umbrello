@@ -15,10 +15,10 @@
 #include <qobject.h>
 
 #include "../umllistviewitemdatalist.h"
-#include "../associationwidgetdatalist.h"
+#include "../associationwidgetlist.h"
 #include "../umlobjectlist.h"
-#include "../umlviewdatalist.h"
-#include "../umlwidgetdatalist.h"
+#include "../umlviewlist.h"
+#include "../umlwidgetlist.h"
 #include "../umlnamespace.h"
 
 /**
@@ -54,7 +54,7 @@ public:
 	 *	"application/x-uml-clip2
 	 */
 	UMLDrag(UMLObjectList &Objects, UMLListViewItemDataList& UMLListViewItems,
-		 UMLViewDataList& Diagrams, QWidget * dragSource = 0, const char * name = 0 );
+		 UMLViewList& Diagrams, QWidget * dragSource = 0, const char * name = 0 );
 
 	/**
 	 *	For use when the user selects only empty folders from
@@ -72,7 +72,7 @@ public:
 	 *	"application/x-uml-clip4
 	 */
 	UMLDrag(UMLObjectList& Objects, UMLListViewItemDataList& UMLListViewItems,
-		UMLWidgetDataList& WidgetDatas, AssociationWidgetDataList& AssociationDatas,
+		UMLWidgetList& Widgets, AssociationWidgetList& Associations,
 		QPixmap& PngImage, Uml::Diagram_Type dType, QWidget* dragSource = 0,
 		const char* name = 0 );
 
@@ -105,7 +105,7 @@ public:
 	 *	from the ListView to be copied
 	 */
 	void setUMLDataClip2(UMLObjectList& Objects, UMLListViewItemDataList& UMLListViewItems,
-			     UMLViewDataList& Diagrams);
+			     UMLViewList& Diagrams);
 
 	/**
 	 *		For use when the user selects only empty
@@ -120,8 +120,8 @@ public:
 	 *	its respective ListView Items
 	 */
 	void setUMLDataClip4(UMLObjectList& Objects, UMLListViewItemDataList& UMLListViewItems,
-			     UMLWidgetDataList& WidgetDatas,
-			     AssociationWidgetDataList& AssociationDatas, QPixmap& PngImage,
+			     UMLWidgetList& WidgetDatas,
+			     AssociationWidgetList& Associations, QPixmap& PngImage,
 			     Uml::Diagram_Type dType);
 
 	/**
@@ -174,7 +174,7 @@ public:
 	 */
 	static bool decodeClip2(const QMimeSource* mimeSource, UMLObjectList& objects,
 				UMLListViewItemDataList& umlListViewItems,
-				UMLViewDataList& diagrams, UMLDoc* doc);
+				UMLViewList& diagrams, UMLDoc* doc);
 
 	/**
 	 *	For use when the user selects UMLObjects from
@@ -192,8 +192,8 @@ public:
 	 */
 	static bool decodeClip4(const QMimeSource* mimeSource, UMLObjectList& objects,
 				UMLListViewItemDataList& umlListViewItems,
-				UMLWidgetDataList& widgetDatas,
-				AssociationWidgetDataList& associationDatas,
+				UMLWidgetList& widgets,
+				AssociationWidgetList& associations,
 				Uml::Diagram_Type & dType, UMLDoc* doc);
 
 	/**

@@ -14,8 +14,8 @@
 #include "umlwidget.h"
 #include "umlobject.h"
 #include "associationwidget.h"
-#include "statewidgetdata.h"
-#include "activitywidgetdata.h"
+#include "statewidget.h"
+#include "activitywidget.h"
 
 AssocRules::AssocRules() {}
 
@@ -42,7 +42,7 @@ bool AssocRules::allowAssociation( Association_Type assocType, UMLWidget * widge
 	if( !bValid ) {
 		return false;
 	}
-	AssociationWidgetList list = widget -> getData() -> getAssocList();
+	AssociationWidgetList list = widget -> getAssocList();
 	AssociationWidgetListIt it( list );
 	AssociationWidget * assoc = 0;
 	switch( assocType ) {
@@ -104,7 +104,7 @@ bool AssocRules::allowAssociation( Association_Type assocType, UMLWidget * widge
 	if (!bValid) {
 		return false;
 	}
-	AssociationWidgetList list = widgetB -> getData() -> getAssocList();
+	AssociationWidgetList list = widgetB -> getAssocList();
 	AssociationWidgetListIt it( list );
 	AssociationWidget * assoc = 0;
 	switch( assocType ) {
@@ -183,7 +183,7 @@ bool AssocRules::allowAssociation( Association_Type assocType, UMLWidget * widge
 			    ActivityWidget::Fork &&
 			    static_cast<ActivityWidget*>(widgetA)->getActivityType() !=
 			    ActivityWidget::Branch ) {
-				QPtrList<AssociationWidget> list = widgetA->getData()->getAssocList();
+				QPtrList<AssociationWidget> list = widgetA->getAssocList();
 				for (AssociationWidget* assoc = list.first(); assoc; assoc = list.next()) {
 					if (assoc->getWidgetA() == widgetA) {
 						return false;

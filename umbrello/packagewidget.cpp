@@ -8,43 +8,32 @@
  ***************************************************************************/
 
 #include "packagewidget.h"
-#include "packagewidgetdata.h"
 #include "package.h"
 #include "umlview.h"
 #include "umlobject.h"
-#include "umlwidgetdata.h"
 #include <kdebug.h>
 #include <qpainter.h>
 
-PackageWidget::PackageWidget(UMLView* view, UMLObject* o, UMLWidgetData* pData) : UMLWidget(view, o, pData) {
-	m_pMenu = 0;
-	if (m_pObject) {
-		calculateSize();
-		update();
-	}
-}
-
-PackageWidget::PackageWidget(UMLView* view, UMLObject* o) : UMLWidget(view, o, new PackageWidgetData(view->getOptionState() )) {
+PackageWidget::PackageWidget(UMLView * view, UMLObject * o) : UMLWidget(view, o) {
 	init();
 	setSize(100, 30);
 	calculateSize();
-	m_pData->setType(wt_Package);
+	UMLWidget::setBaseType(wt_Package);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-PackageWidget::PackageWidget(UMLView * view) : UMLWidget(view, new PackageWidgetData(view->getOptionState() )) {
+PackageWidget::PackageWidget(UMLView * view) : UMLWidget(view) {
 	init();
 	setSize(100,30);
-	m_pData->setType(wt_Package);
+	UMLWidget::setBaseType(wt_Package);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void PackageWidget::init() {
 	m_pMenu = 0;
 	//set defaults from m_pView
-	if (m_pView && m_pData) {
+	if (m_pView) {
 		//check to see if correct
-		SettingsDlg::OptionState ops = m_pView->getOptionState();
-
-		( (PackageWidgetData*)m_pData ) -> setShowStereotype( ops.classState.showStereoType );
+		const SettingsDlg::OptionState& ops = m_pView->getOptionState();
+		m_bShowStereotype = ops.classState.showStereoType;
 	}
 	//maybe loading and this may not be set.
 	if (m_pObject) {
@@ -56,15 +45,15 @@ void PackageWidget::init() {
 PackageWidget::~PackageWidget() {}
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void PackageWidget::draw(QPainter & p, int offsetX, int offsetY) {
-	p.setPen(m_pData->getLineColour());
-	if(m_pData->getUseFillColor())
-		p.setBrush(m_pData->getFillColour());
+	p.setPen( UMLWidget::getLineColour() );
+	if ( UMLWidget::getUseFillColour() )
+		p.setBrush( UMLWidget::getFillColour() );
 	else
 		p.setBrush(m_pView -> viewport() -> backgroundColor());
 
 	int w = width();
 	int h = height();
-	QFont font = m_pData->getFont();
+	QFont font = UMLWidget::getFont();
 	font.setBold(true);
 	QFontMetrics &fm = getFontMetrics(FT_BOLD);
 	int fontHeight  = fm.lineSpacing();
@@ -98,7 +87,7 @@ void PackageWidget::draw(QPainter & p, int offsetX, int offsetY) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void PackageWidget::calculateSize() {
-	if ( !m_pData || !m_pObject) {
+	if ( !m_pObject ) {
 		return;
 	}
 	int width, height;
@@ -126,11 +115,11 @@ void PackageWidget::calculateSize() {
 	height = (lines*fontHeight) + fontHeight + (PACKAGE_MARGIN * 2);
 
 	setSize(width, height);
-	adjustAssocs( (int)x(), (int)y() );//adjust assoc lines
+	adjustAssocs( getX(), getY() );//adjust assoc lines
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void PackageWidget::setShowStereotype(bool _status) {
-	((PackageWidgetData*)m_pData)->setShowStereotype( _status );
+	m_bShowStereotype = _status;
 	calculateSize();
 	update();
 }
@@ -144,5 +133,23 @@ bool PackageWidget::activate(IDChangeLog* ChangeLog /* = 0 */) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool PackageWidget::getShowStereotype() {
-	return ((PackageWidgetData*)m_pData)->getShowStereotype();
+	return m_bShowStereotype;
 }
+////////////////////////////////////////////////////////////////////////////////////////////////////
+bool PackageWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
+	QDomElement conceptElement = qDoc.createElement("packagewidget");
+	bool status = UMLWidget::saveToXMI(qDoc, conceptElement);
+	conceptElement.setAttribute("showstereotype", m_bShowStereotype);
+	qElement.appendChild(conceptElement);
+	return status;
+}
+
+bool PackageWidget::loadFromXMI(QDomElement& qElement) {
+	if ( !UMLWidget::loadFromXMI(qElement) ) {
+		return false;
+	}
+	QString showstereo = qElement.attribute("showstereotype", "0");
+	m_bShowStereotype = (bool)showstereo.toInt();
+	return true;
+}
+

@@ -10,12 +10,12 @@
 #ifndef UMLCLIPBOARD_H
 #define UMLCLIPBOARD_H
 
-#include "../associationwidgetdatalist.h"
+#include "../associationwidgetlist.h"
 #include "../umlobjectlist.h"
 #include "../umllistviewitemdatalist.h"
 #include "../umllistviewitemlist.h"
-#include "../umlviewdatalist.h"
-#include "../umlwidgetdatalist.h"
+#include "../umlviewlist.h"
+#include "../umlwidgetlist.h"
 
 class IDChangeLog;
 class QMimeSource;
@@ -67,7 +67,7 @@ private:
 	*	Cleans the list of associations taking out the ones
 	*	that point to an object not in m_pObjectList
 	*/
-	void CleanAssociations(AssociationWidgetDataList& AssociationDatas);
+	void CleanAssociations(AssociationWidgetList& associations);
 
 	/**
 	*	If clipboard has mime type application/x-uml-clip1,
@@ -110,13 +110,13 @@ private:
 	*	widgets to be pasted can be.  At the moment this only
 	*	includes NoteWidgets and lines of text.
 	*/
-	bool checkPasteWidgets(UMLWidgetDataList & widgetList);
+	bool checkPasteWidgets(UMLWidgetList & widgetList);
 
 	UMLObjectList* m_pObjectList;
 	UMLListViewItemDataList* m_pItemDataList;
-	UMLWidgetDataList* m_pWidgetDataList;
-	AssociationWidgetDataList* m_pAssociationDataList;
-	UMLViewDataList* m_pViewDataList;
+	UMLWidgetList* m_pWidgetList;
+	AssociationWidgetList* m_pAssociationList;
+	UMLViewList* m_pViewList;
 	UMLCopyType m_type; //Type of copy operation to perform
 
 private:

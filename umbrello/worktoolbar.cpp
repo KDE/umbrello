@@ -23,7 +23,7 @@ WorkToolBar::WorkToolBar(QMainWindow *parentWindow, const char*name) : KToolBar(
 	m_Type = Uml::dt_Class;//first time in just want it to load arrow, needs anything but dt_Undefined
 	setOrientation( Vertical );
 	setVerticalStretchable( true );
-	//intialize old tool mal, everything starts with select tool (arrow)
+	//intialize old tool map, everything starts with select tool (arrow)
 	m_map.insert(Uml::dt_UseCase,tbb_Arrow);
 	m_map.insert(Uml::dt_Collaboration,tbb_Arrow);
 	m_map.insert(Uml::dt_Class,tbb_Arrow);
@@ -40,83 +40,54 @@ WorkToolBar::~WorkToolBar() {
 	disconnect(this, SIGNAL(released(int)),this,SLOT(buttonChanged(int)));
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+#define BTN(name, label)  \
+	insertButton(m_Pixmaps . name, tbb_ ## name, true, i18n(label)); \
+	setToggle( tbb_ ## name, true )
+
 void WorkToolBar::slotCheckToolBar(Uml::Diagram_Type dt) {
 	if( dt == m_Type )
 		return;
 	clear();
 	m_Type = dt;
 
+	if( m_Type == Uml::dt_Undefined )
+		return;
+
 	//insert note, anchor and lines of text on all diagrams
-	if( m_Type != Uml::dt_Undefined ) {
-		insertButton( m_Pixmaps.Arrow, tbb_Arrow );
-		setToggle( tbb_Arrow,true );
-		toggleButton( tbb_Arrow );
-		m_CurrentButtonID = tbb_Arrow;
+	insertButton( m_Pixmaps.Arrow, tbb_Arrow );
+	setToggle( tbb_Arrow,true );
+	toggleButton( tbb_Arrow );
+	m_CurrentButtonID = tbb_Arrow;
 
-		insertButton( m_Pixmaps.Note, tbb_Note, true, i18n("Note"));
-		setToggle( tbb_Note, true );
-
-		insertButton( m_Pixmaps.Anchor, tbb_Anchor, true, i18n("Anchor"));
-		setToggle( tbb_Anchor, true );
-
-		insertButton( m_Pixmaps.Text, tbb_Text, true, i18n("Line of text"));
-		setToggle( tbb_Text, true );
-
-		insertButton( m_Pixmaps.Box, tbb_Box, true, i18n("Box") );
-		setToggle(tbb_Box, true);
-	}
+	BTN(Note, "Note");
+	BTN(Anchor, "Anchor");
+	BTN(Text, "Line of text");
+	BTN(Box, "Box");
 
 	//insert diagram specific tools
 	if( m_Type == Uml::dt_UseCase ) {
-		insertButton( m_Pixmaps.Actor, tbb_Actor, true, i18n("Actor"));
-		setToggle( tbb_Actor, true );
+		BTN(Actor, "Actor");
+		BTN(UseCase, "Use case");
+		BTN(Generalization, "Implements (Generalisation/Realisation)");
+		BTN(Dependency, "Dependency");
+		BTN(Association, "Association");
+		BTN(UniAssociation, "Unidirectional association");
 
-		insertButton( m_Pixmaps.UseCase, tbb_UseCase, true, i18n("Use case"));
-		setToggle( tbb_UseCase, true );
-
-		insertButton( m_Pixmaps.Generalization, tbb_Generalization, true,
-			      i18n("Implements (Generalisation/Realisation)"));
-		setToggle( tbb_Generalization, true );
-
-		insertButton( m_Pixmaps.Dependency, tbb_Dependency, true, i18n("Dependency"));
-		setToggle( tbb_Dependency,true );
-
-		insertButton( m_Pixmaps.Association, tbb_Association, true, i18n("Association"));
-		setToggle( tbb_Association,true );
-
-		insertButton( m_Pixmaps.UniAssociation, tbb_UniAssociation, true, i18n("Unidirectional association"));
-		setToggle( tbb_UniAssociation, true );
 	} else if( m_Type == Uml::dt_Class ) {
 		insertButton( m_Pixmaps.Concept, tbb_Class, true, i18n("Class"));
 		setToggle( tbb_Class,true );
 
-		insertButton( m_Pixmaps.Interface, tbb_Interface, true, i18n("Interface"));
-		setToggle( tbb_Interface,true );
+		BTN(Interface, "Interface");
+		BTN(Package, "Package");
+		BTN(Composition, "Composition");
+		BTN(Generalization, "Implements (Generalisation/Realisation)");
+		BTN(Aggregation, "Aggregation");
+		BTN(Dependency, "Dependency");
+		BTN(Association, "Association");
+		BTN(UniAssociation, "Unidirectional association");
 
-		insertButton( m_Pixmaps.Package, tbb_Package, true, i18n("Package"));
-		setToggle( tbb_Package,true );
-
-		insertButton( m_Pixmaps.Composition, tbb_Composition, true, i18n("Composition"));
-		setToggle( tbb_Composition, true );
-
-		insertButton( m_Pixmaps.Generalization, tbb_Generalization, true,
-			      i18n("Implements (Generalisation/Realisation)"));
-		setToggle( tbb_Generalization, true );
-
-		insertButton( m_Pixmaps.Aggregation, tbb_Aggregation, true, i18n("Aggregation"));
-		setToggle( tbb_Aggregation, true );
-
-		insertButton( m_Pixmaps.Dependency, tbb_Dependency, true, i18n("Dependency"));
-		setToggle( tbb_Dependency, true );
-
-		insertButton( m_Pixmaps.Association, tbb_Association, true, i18n("Association"));
-		setToggle( tbb_Association,true );
-
-		insertButton( m_Pixmaps.UniAssociation, tbb_UniAssociation, true, i18n("Unidirectional association"));
-		setToggle( tbb_UniAssociation,true );
 	} else if( m_Type == Uml::dt_Sequence ) {
-		insertButton( m_Pixmaps.Object, tbb_Object, true, i18n("Object"));
-		setToggle (tbb_Object, true);
+		BTN(Object, "Object");
 
 		insertButton( m_Pixmaps.MessageSynchronous, tbb_Seq_Message_Synchronous, true,
 			      i18n("Synchronous Message"));
@@ -125,24 +96,24 @@ void WorkToolBar::slotCheckToolBar(Uml::Diagram_Type dt) {
 		insertButton( m_Pixmaps.MessageAsynchronous, tbb_Seq_Message_Asynchronous, true,
 			      i18n("Asynchronous Message"));
 		setToggle( tbb_Seq_Message_Asynchronous, true );
+
 	} else if( m_Type == Uml::dt_Collaboration ) {
-		insertButton( m_Pixmaps.Object, tbb_Object, true, i18n("Object"));
-		setToggle( tbb_Object, true );
+		BTN(Object, "Object");
 
 		insertButton( m_Pixmaps.MessageAsynchronous, tbb_Coll_Message, true, i18n("Message"));
 		setToggle( tbb_Coll_Message, true );
+
 	} else if( m_Type == Uml::dt_State ) {
-		insertButton( m_Pixmaps.Initial_State, tbb_Initial_State, true, i18n("Initial state"));
-		setToggle( tbb_Initial_State, true );
+		BTN(Initial_State, "Initial state");
 
 		insertButton( m_Pixmaps.UseCase, tbb_State, true, i18n("State"));
 		setToggle( tbb_State, true );
 
-		insertButton( m_Pixmaps.End_State, tbb_End_State, true, i18n("End state"));
-		setToggle( tbb_End_State, true );
+		BTN(End_State, "End state");
 
 		insertButton( m_Pixmaps.UniAssociation, tbb_State_Transition, true, i18n("State transition"));
 		setToggle( tbb_State_Transition, true );
+
 	} else if( m_Type == Uml::dt_Activity ) {
 		insertButton( m_Pixmaps.Initial_State, tbb_Initial_Activity, true, i18n("Initial activity"));
 		setToggle( tbb_Initial_Activity, true );
@@ -153,59 +124,35 @@ void WorkToolBar::slotCheckToolBar(Uml::Diagram_Type dt) {
 		insertButton( m_Pixmaps.End_State, tbb_End_Activity, true, i18n("End activity"));
 		setToggle( tbb_End_Activity, true );
 
-		insertButton( m_Pixmaps.Branch, tbb_Branch, true, i18n("Branch/merge"));
-		setToggle( tbb_Branch, true );
+		BTN(Branch, "Branch/merge");
 
-		insertButton( m_Pixmaps.Fork, tbb_Fork, true, i18n("Fork/join"));
-		setToggle( tbb_Fork, true );
+		BTN(Fork, "Fork/join");
 
 		insertButton( m_Pixmaps.UniAssociation, tbb_Activity_Transition, true, i18n("Activity transition"));
 		setToggle( tbb_Activity_Transition, true );
+
 	} else if (m_Type == Uml::dt_Component) {
-		insertButton( m_Pixmaps.Interface, tbb_Interface, true, i18n("Interface"));
-		setToggle( tbb_Interface,true );
+		BTN(Interface, "Interface");
+		BTN(Component, "Component");
+		BTN(Artifact, "Artifact");
+		BTN(Generalization, "Implements (Generalisation/Realisation)");
+		BTN(Dependency, "Dependency");
+		BTN(Association, "Association");
 
-		insertButton(m_Pixmaps.Component, tbb_Component, true, i18n("Component"));
-		setToggle(tbb_Component, true);
-
-		insertButton(m_Pixmaps.Artifact, tbb_Artifact, true, i18n("Artifact"));
-		setToggle(tbb_Artifact, true);
-
-		insertButton(m_Pixmaps.Generalization, tbb_Generalization, true,
-			      i18n("Implements (Generalisation/Realisation)"));
-		setToggle(tbb_Generalization, true);
-
-		insertButton(m_Pixmaps.Dependency, tbb_Dependency, true, i18n("Dependency"));
-		setToggle(tbb_Dependency, true);
-
-		insertButton(m_Pixmaps.Association, tbb_Association, true, i18n("Association"));
-		setToggle(tbb_Association, true);
 	} else if (m_Type == Uml::dt_Deployment) {
-		insertButton( m_Pixmaps.Object, tbb_Object, true, i18n("Object"));
-		setToggle( tbb_Object, true );
+		BTN(Object, "Object");
+		BTN(Interface, "Interface");
+		BTN(Component, "Component");
+		BTN(Node, "Node");
+		BTN(Generalization, "Implements (Generalisation/Realisation)");
+		BTN(Dependency, "Dependency");
+		BTN(Association, "Association");
 
-		insertButton( m_Pixmaps.Interface, tbb_Interface, true, i18n("Interface"));
-		setToggle( tbb_Interface,true );
-
-		insertButton(m_Pixmaps.Component, tbb_Component, true, i18n("Component"));
-		setToggle(tbb_Component, true);
-
-		insertButton(m_Pixmaps.Node, tbb_Node, true, i18n("Node"));
-		setToggle(tbb_Node, true);
-
-		insertButton(m_Pixmaps.Generalization, tbb_Generalization, true,
-			      i18n("Implements (Generalisation/Realisation)"));
-		setToggle(tbb_Generalization, true);
-
-		insertButton(m_Pixmaps.Dependency, tbb_Dependency, true, i18n("Dependency"));
-		setToggle(tbb_Dependency, true);
-
-		insertButton(m_Pixmaps.Association, tbb_Association, true, i18n("Association"));
-		setToggle(tbb_Association, true);
-	} else if (m_Type != Uml::dt_Undefined) {
+	} else {
 		kdWarning() << "slotCheckToolBar() on unknown diagram type:" << m_Type << endl;
 	}
 }
+#undef BTN
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void WorkToolBar::buttonChanged(int b) {

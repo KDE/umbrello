@@ -27,28 +27,21 @@ class UMLView;
  */
 class NodeWidget : public UMLWidget {
 public:
-	/**
-	 *	Constructs a NodeWidget.
-	 *
-	 *	@param	view		The parent of this NodeWidget.
-	 *	@param	pData		The NodeWidgetData to represent.
-	 */
-	NodeWidget(UMLView* view, UMLObject* o, UMLWidgetData* pData);
 
 	/**
 	 *	Constructs a NodeWidget.
 	 *
-	 *	@param	view		The parent of this NodeWidget.
-	 *	@param	o		The UMLObject is will be representing.
+	 *	@param	view	The parent of this NodeWidget.
+	 *	@param	o	The UMLObject this will be representing.
 	 */
-	NodeWidget(UMLView* view, UMLObject* o);
+	NodeWidget(UMLView * view, UMLObject * o);
 
 	/**
 	 *	Constructs a NodeWidget.
 	 *
 	 *	@param	view	The parent of this NodeWidget.
 	 */
-	NodeWidget(UMLView* view);
+	NodeWidget(UMLView * view);
 
 	/**
 	 *	Standard deconstructor.
@@ -65,7 +58,7 @@ public:
 	 *
 	 *	@return  Returns the status of whether to show StereoType.
 	 */
-	bool getShowStereotype();
+	bool getShowStereotype() const;
 
 	/**
 	 * 	Set the status of whether to show StereoType
@@ -83,6 +76,21 @@ public:
 	 *	Overrides standards method
 	 */
 	void draw(QPainter& p, int offsetX, int offsetY);
+
+	/**
+	 * Saves to the <nodewidget> element
+	 */
+	bool saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
+
+	// For loading we can use the loadFromXMI() inherited from UMLWidgetData.
+
+protected:
+	/**
+	 * Should it show the <<stereotype>> of the node, currently ignored
+	 * (stereotype is shown if it isn't empty).
+	 */
+	bool m_bShowStereotype;
+
 private:
 
 	/**

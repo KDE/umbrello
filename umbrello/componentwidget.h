@@ -27,28 +27,21 @@ class UMLView;
  */
 class ComponentWidget : public UMLWidget {
 public:
-	/**
-	 *	Constructs a ComponentWidget.
-	 *
-	 *	@param	view		The parent of this ComponentWidget.
-	 *	@param	pData		The ComponentWidgetData to represent.
-	 */
-	ComponentWidget(UMLView* view, UMLObject* o, UMLWidgetData* pData);
 
 	/**
 	 *	Constructs a ComponentWidget.
 	 *
-	 *	@param	view		The parent of this ComponentWidget.
-	 *	@param	o		The UMLObject is will be representing.
+	 *	@param	view	The parent of this ComponentWidget.
+	 *	@param	o	The UMLObject this will be representing.
 	 */
-	ComponentWidget(UMLView* view, UMLObject* o);
+	ComponentWidget(UMLView * view, UMLObject * o);
 
 	/**
 	 *	Constructs a ComponentWidget.
 	 *
 	 *	@param	view	The parent of this ComponentWidget.
 	 */
-	ComponentWidget(UMLView* view);
+	ComponentWidget(UMLView * view);
 
 	/**
 	 *	Standard deconstructor.
@@ -65,7 +58,7 @@ public:
 	 *
 	 *	@return  Returns the status of whether to show StereoType.
 	 */
-	bool getShowStereotype();
+	bool getShowStereotype() const;
 
 	/**
 	 * 	Set the status of whether to show StereoType
@@ -80,11 +73,28 @@ public:
 	virtual bool activate(IDChangeLog* ChangeLog  = 0 );
 
 	/**
-	 *	Overrides standards method
+	 * Overrides standard method
 	 */
 	void draw(QPainter& p, int offsetX, int offsetY);
-private:
 
+	/**
+	 * Saves to the <componentwidget> element
+	 */
+	bool saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
+
+	/**
+	 * Loads from a <componentwidget> element
+	 */
+	bool loadFromXMI(QDomElement& qElement);
+
+protected:
+	/**
+	 * Should it show the <<stereotype>> of the component, currently ignored
+	 * (stereotype is shown if it isn't empty).
+	 */
+	bool m_bShowStereotype;
+
+private:
 	/**
 	 *	Automatically calculates the size of the object.
 	 */

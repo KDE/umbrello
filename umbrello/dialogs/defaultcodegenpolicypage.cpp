@@ -33,3 +33,4 @@ DefaultCodeGenPolicyPage::DefaultCodeGenPolicyPage ( QWidget *parent, const char
 
 DefaultCodeGenPolicyPage::~DefaultCodeGenPolicyPage() { }
 
+#include "defaultcodegenpolicypage.moc"

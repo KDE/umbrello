@@ -20,6 +20,7 @@
 #include "diagramprintpage.h"
 #include "../umldoc.h"
 #include "../umlview.h"
+#include "../umlviewlist.h"
 #include "../umlnamespace.h"
 
 DiagramPrintPage::DiagramPrintPage(QWidget * parent, UMLDoc * m_pDoc) : KPrintDialogPage(parent), m_pDoc(m_pDoc) {
@@ -123,7 +124,7 @@ bool DiagramPrintPage::isValid( QString& msg ) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void DiagramPrintPage::slotClicked(int id) {
-	QPtrList<UMLView> *list = m_pDoc ->  pViewList;
+	UMLViewList list = m_pDoc -> getViewIterator();
 	UMLView * view = 0;
 	int count = 0;
 	QString type;
@@ -143,7 +144,7 @@ void DiagramPrintPage::slotClicked(int id) {
 			m_pTypeCB -> setEnabled(false);
 			m_pSelectLB -> setEnabled(false);
 			m_pSelectLB -> clear();
-			for(view = list -> first();view;view = list -> next()) {
+			for(view = list.first(); view; view = list.next()) {
 				m_pSelectLB -> insertItem(view -> getName());
 				m_nIdList[count++] = view -> getID();
 			}
@@ -154,7 +155,7 @@ void DiagramPrintPage::slotClicked(int id) {
 			m_pTypeCB -> setEnabled(false);
 			m_pSelectLB -> setEnabled(true);
 			m_pSelectLB -> clear();
-			for(view = list -> first();view;view = list -> next()) {
+			for(view = list.first(); view; view = list.next()) {
 				m_pSelectLB -> insertItem(view -> getName());
 				m_nIdList[count++] = view -> getID();
 			}
@@ -164,7 +165,7 @@ void DiagramPrintPage::slotClicked(int id) {
 			m_pTypeCB -> setEnabled(true);
 			m_pSelectLB -> setEnabled(true);
 			m_pSelectLB -> clear();
-			for(view = list -> first();view;view = list -> next()) {
+			for(view = list.first(); view; view = list.next()) {
 				if(view -> getType() == m_ViewType) {
 					m_pSelectLB -> insertItem(view -> getName());
 					m_nIdList[count++] = view -> getID();
@@ -175,7 +176,7 @@ void DiagramPrintPage::slotClicked(int id) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void DiagramPrintPage::slotActivated(const QString & text) {
-	QPtrList<UMLView> *list = m_pDoc ->  pViewList;
+	UMLViewList list = m_pDoc -> getViewIterator();
 	UMLView * view = 0;
 	int count = 0;
 
@@ -188,7 +189,7 @@ void DiagramPrintPage::slotActivated(const QString & text) {
 	else if(text == i18n("Collaboration"))
 		m_ViewType = Uml::dt_Collaboration;
 	m_pSelectLB -> clear();
-	for(view = list -> first();view;view = list -> next()) {
+	for(view = list.first(); view; view = list.next()) {
 		if(view -> getType() == m_ViewType) {
 			m_pSelectLB -> insertItem(view -> getName());
 			m_nIdList[count++] = view -> getID();
