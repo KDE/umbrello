@@ -26,6 +26,7 @@
 
 #include "xmlschemaclassifiercodedocument.h"
 #include "xmlschemacodegenerator.h"
+#include "xmlschemacodeclassfield.h"
 
 // Constructors/Destructors
 //  
@@ -99,7 +100,16 @@ void XMLSchemaClassifierCodeDocument::setAttributesFromNode ( QDomElement & root
  * @return      CodeAccessorMethod
  */
 CodeAccessorMethod * XMLSchemaClassifierCodeDocument::newCodeAccessorMethod( CodeClassField *cf, CodeAccessorMethod::AccessorType type ) {
-        return getParentGenerator()->newCodeAccessorMethod(cf, type);
+        return (CodeAccessorMethod*)NULL;
+}
+
+
+CodeClassField * XMLSchemaClassifierCodeDocument::newCodeClassField ( UMLAttribute * at) {
+        return new XMLSchemaCodeClassField(this,at);
+}
+
+CodeClassField * XMLSchemaClassifierCodeDocument::newCodeClassField ( UMLRole * role) {
+        return new XMLSchemaCodeClassField(this,role);
 }
 
 /**
@@ -107,9 +117,13 @@ CodeAccessorMethod * XMLSchemaClassifierCodeDocument::newCodeAccessorMethod( Cod
  * @return      CodeOperation
  */
 CodeOperation * XMLSchemaClassifierCodeDocument::newCodeOperation( UMLOperation * op) {
-        return getParentGenerator()->newCodeOperation(this, op);
+        return (CodeOperation*)NULL;
 }
 
+
+CodeClassFieldDeclarationBlock * XMLSchemaClassifierCodeDocument::newDeclarationCodeBlock (CodeClassField * cf ) {
+        return (CodeClassFieldDeclarationBlock*)NULL;
+}
 
 // Make it easier on ourselves 
 /*
@@ -171,6 +185,8 @@ bool XMLSchemaClassifierCodeDocument::addCodeOperation (CodeOperation * op ) {
 void XMLSchemaClassifierCodeDocument::init ( ) {
 
 	setFileExtension(".xsd");
+ 
+	initCodeClassFields(); // we have to call here as .newCodeClassField is pure virtual in parent class 
 
 	// this makes the initial initialization of the textblocks 
 	// within the document

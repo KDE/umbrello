@@ -75,6 +75,11 @@ public:
 	 */
 	bool addCodeOperation (CodeOperation * op );
 
+	/**
+         * create a new CodeClassField declaration block object belonging to this CodeDocument.
+	 */
+	virtual CodeClassFieldDeclarationBlock * newDeclarationCodeBlock (CodeClassField * cf);
+
        /**
          * create a new CodeAccesorMethod object belonging to this CodeDocument.
          * @return      CodeAccessorMethod
@@ -99,6 +104,11 @@ public:
         virtual void loadFromXMI ( QDomElement & root );
 
 protected:
+
+	/** create new code classfield for this document.
+	 */
+	virtual CodeClassField * newCodeClassField( UMLAttribute *at);
+        virtual CodeClassField * newCodeClassField( UMLRole *role);
 
 	/** set attributes of the node that represents this class
          * in the XMI document.

@@ -34,7 +34,6 @@
 #include "class.h" 
 #include "classifier.h" 
 #include "classifiercodedocument.h" 
-#include "codecomment.h"
 #include "codedocument.h"
 #include "operation.h"
 #include "umldoc.h" 
@@ -378,22 +377,6 @@ kdWarning()<<"CODE GEN writes code for:"<<filename.latin1()<<endl;
 CodeDocument * CodeGenerator::newCodeDocument ( ) {
    CodeDocument * newCodeDoc = new CodeDocument (this);
    return newCodeDoc;
-}
-
-// this is the default implementation.. it may be desirable to 
-// override it.
-CodeComment * CodeGenerator::newCodeComment(CodeDocument * doc) 
-{
-kdWarning()<<" NEW CODE COMMENT "<<endl;
-	return new CodeComment(doc);
-}
-
-// this is the default implementation.. it may be desirable to
-// override it.
-CodeBlock * CodeGenerator::newCodeBlock(CodeDocument * doc)
-{
-kdWarning()<<" NEW CODE BLock "<<endl;
-        return new CodeBlock(doc);
 }
 
 CodeGenerationPolicy * CodeGenerator::newCodeGenerationPolicy ( KConfig * config) {

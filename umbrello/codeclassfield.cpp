@@ -175,7 +175,7 @@ QPtrList<CodeAccessorMethod> * CodeClassField::getMethodList ( ) {
 }
 
 CodeClassFieldDeclarationBlock * CodeClassField::newDeclarationCodeBlock() {
-	return getParentGenerator()->newDeclarationCodeBlock(this);
+	return getParentDocument()->newDeclarationCodeBlock(this);
 }
 
 /** determine if we will *allow* methods to be viewable.
@@ -203,7 +203,7 @@ CodeClassFieldDeclarationBlock * CodeClassField::getDeclarationCodeBlock( )
 }
 
 CodeAccessorMethod * CodeClassField::newCodeAccessorMethod ( CodeAccessorMethod::AccessorType type ) {
-	return getParentGenerator()->newCodeAccessorMethod(this, type);
+	return getParentDocument()->newCodeAccessorMethod(this, type);
 }
 
 // Other methods

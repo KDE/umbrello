@@ -21,7 +21,9 @@
 #include <qstring.h>
 #include "../codegenerator.h"
 #include "../umldoc.h"
+#include "cppmakecodedocument.h"
 
+class CPPHeaderCodeDocument;
 class CodeBlockWithComments;
 class KConfig;
 
@@ -30,12 +32,13 @@ class CPPCodeGenerator : public CodeGenerator
 	Q_OBJECT
 public:
 
+        static const bool DEFAULT_BUILD_MAKE_DOC = false;
+
 	// Constructors/Destructors
 	//  
 
-
 	/**
-	 * Empty Constructor
+	 * Basic Constructor
 	 */
 	CPPCodeGenerator ( UMLDoc * doc , const char * name);
 
@@ -44,26 +47,30 @@ public:
 	 */
 	virtual ~CPPCodeGenerator ( );
 
-	enum CommentStyle { DoubleSlash=0, SlashStar };
+        /**
+         * Set the value of m_createMakefile
+         * @param new_var the new value of m_createMakefile
+         */
+        void setCreateProjectMakefile ( bool new_var );
 
-	// Public attributes
-	//  
-
+        /**
+         * Get the value of m_createMakefile
+         * @return the value of m_createMakefile
+         */
+        bool getCreateProjectMakefile ( );
 
 	// Public attribute accessor methods
 	//  
 
 	/**
-	 * Set the value of m_cppMethodCommentStyle
-	 * @param new_var the new value of m_cppMethodCommentStyle
+	 * Add a header CodeDocument object from m_headercodedocumentVector List
 	 */
-	void setCPPMethodCommentStyle ( CommentStyle new_var );
+	bool addHeaderCodeDocument ( CPPHeaderCodeDocument * doc ); 
 
 	/**
-	 * Get the value of m_cppMethodCommentStyle
-	 * @return the value of m_cppMethodCommentStyle
-	 */
-	CommentStyle getCPPMethodCommentStyle ( ) const;
+	 * Remove a header CodeDocument object from m_headercodedocumentVector List
+ 	 */
+	bool removeHeaderCodeDocument ( CPPHeaderCodeDocument * remove_object );
 
         virtual bool isType (QString & type);
 
@@ -72,34 +79,37 @@ public:
 
 	QString getLanguage(); 
 
-        CodeClassField * newCodeClassField(ClassifierCodeDocument *doc, UMLAttribute *at );
-        CodeClassField * newCodeClassField(ClassifierCodeDocument *doc, UMLRole *role );
+	// should be 'static' method
+        QString scopeToCPPDecl(Uml::Scope scope);
 
-        CodeAccessorMethod * newCodeAccessorMethod(CodeClassField *cf , CodeAccessorMethod::AccessorType type);
-        CodeOperation * newCodeOperation(ClassifierCodeDocument *doc, UMLOperation *op );
-
-	/**
-	 * @return	ClassifierCodeDocument
-	 * @param	classifier 
-	 * @param	this This package generator object.
-	 */
+	// generate 2 different types of classifier code documents.
 	CodeDocument * newClassifierCodeDocument (UMLClassifier * classifier);
-
-	CodeClassFieldDeclarationBlock * newDeclarationCodeBlock (CodeClassField * cf);
-
+	CPPHeaderCodeDocument * newHeaderClassifierCodeDocument (UMLClassifier * classifier);
 
 protected:
 
+
 	/**
-	 * @return	CPPANTCodeDocument
+	 * @return	CPPMakeCodeDocument
 	 * @param	this 
 	 */
-//	CPPANTCodeDocument newANTCodeDocument (CPPPackageCodeGenerator this );
+	CPPMakefileCodeDocument * newMakefileCodeDocument ( );
 
-	CommentStyle m_cppMethodCommentStyle;
+	/**
+	 * Find a cppheadercodedocument by the given classifier.
+	 * @return      CPPHeaderCodeDocument
+	 * @param       classifier
+	 */
+	CPPHeaderCodeDocument * findHeaderCodeDocumentByClassifier (UMLClassifier * classifier ); 
+
+	void initFromParentDocument( );
 
 private:
 
+	bool m_createMakefile;
+
+	// a separate list for recording the header documents
+	QPtrList<CPPHeaderCodeDocument> m_headercodedocumentVector;
 
 	void initAttributes ( ) ;
 

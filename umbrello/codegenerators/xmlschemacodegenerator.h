@@ -53,20 +53,12 @@ public:
         bool saveToXMI ( QDomDocument & doc, QDomElement & root );
         void loadFromXMI(QDomElement & node);
 
-        CodeClassField * newCodeClassField(ClassifierCodeDocument *doc, UMLAttribute *at);
-        CodeClassField * newCodeClassField(ClassifierCodeDocument *doc, UMLRole *role);
-
-        CodeAccessorMethod * newCodeAccessorMethod(CodeClassField *cf, CodeAccessorMethod::AccessorType type);
-	CodeOperation * newCodeOperation ( ClassifierCodeDocument *doc, UMLOperation *op);
-
 	/**
 	 * @return	ClassifierCodeDocument
 	 * @param	classifier 
 	 * @param	this This package generator object.
 	 */
 	CodeDocument * newClassifierCodeDocument (UMLClassifier * classifier);
-
-	CodeClassFieldDeclarationBlock * newDeclarationCodeBlock (CodeClassField * cf);
 
 protected:
 

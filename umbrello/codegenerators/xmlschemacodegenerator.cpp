@@ -69,27 +69,6 @@ cerr<<"Create New XMLSCHEMA Classifier doc"<<endl;
 	return new XMLSchemaClassifierCodeDocument(classifier,this);
 }
 
-CodeClassField * XMLSchemaCodeGenerator::newCodeClassField (ClassifierCodeDocument * doc, UMLAttribute * at) {
-        return new XMLSchemaCodeClassField((XMLSchemaClassifierCodeDocument*)doc,at);
-}
-
-CodeClassField * XMLSchemaCodeGenerator::newCodeClassField (ClassifierCodeDocument * doc, UMLRole * role) {
-        return new XMLSchemaCodeClassField((XMLSchemaClassifierCodeDocument*)doc,role);
-}
-
-CodeOperation * XMLSchemaCodeGenerator::newCodeOperation( ClassifierCodeDocument * doc, UMLOperation *op) 
-{
-	return (CodeOperation*) NULL;
-}
-
-CodeAccessorMethod * XMLSchemaCodeGenerator::newCodeAccessorMethod(CodeClassField *cf , CodeAccessorMethod::AccessorType type) {
-        return (CodeAccessorMethod*) NULL;
-}
-
-CodeClassFieldDeclarationBlock * XMLSchemaCodeGenerator::newDeclarationCodeBlock (CodeClassField * cf) {
-        return (CodeClassFieldDeclarationBlock*)NULL;
-}
-
 void XMLSchemaCodeGenerator::loadFromXMI(QDomElement & node) {
 
 }

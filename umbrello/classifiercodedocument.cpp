@@ -246,7 +246,7 @@ void ClassifierCodeDocument::addOperation (UMLObject * op ) {
 	QString tag = CodeOperation::findTag((UMLOperation*)op);
 	if(!findTextBlockByTag(tag, true)) 
 	{
-		CodeOperation *opblock = getParentGenerator()->newCodeOperation(this, (UMLOperation*)op);
+		CodeOperation *opblock = newCodeOperation((UMLOperation*)op);
 		if(!addCodeOperation(opblock)) // wont add if already present
 			delete opblock; // delete unused operations
 	}
@@ -295,17 +295,21 @@ bool ClassifierCodeDocument::parentIsInterface () {
  * @return	CodeClassField
  * @param	attribute attribute which is parent of this class field.
  */
+/*
 CodeClassField * ClassifierCodeDocument::newCodeClassField ( UMLAttribute * attribute ) {
 	return getParentGenerator()->newCodeClassField(this,attribute);
 }
+*/
 
 /**
  * @return	CodeClassField
  * @param	role 
  */
+/*
 CodeClassField * ClassifierCodeDocument::newCodeClassField (UMLRole * role ) {
 	return getParentGenerator()->newCodeClassField(this,role);
 }
+*/
 
 /**
  * Init from a UMLClassifier object.
@@ -323,7 +327,7 @@ kdWarning()<<" **> Start INIT Classifier code doc"<<endl;
 
 	updateHeader(); 
 	syncNamesToParent();
-	initCodeClassFields(); 
+	// initCodeClassFields(); // cant call here?..newCodeClassField is pure virtual 
 
 	// slots
 	connect(c,SIGNAL(attributeAdded(UMLObject*)),this,SLOT(addAttributeClassField(UMLObject*)));
@@ -366,7 +370,7 @@ void ClassifierCodeDocument::updateOperations( ) {
 		QString tag = CodeOperation::findTag(op);
         	if(!findTextBlockByTag(tag, true))
 		{
-			CodeOperation * codeOp = getParentGenerator()->newCodeOperation(this, op);
+			CodeOperation * codeOp = newCodeOperation(op);
 			if(!addCodeOperation(codeOp)) //wont add IF already present
 				delete codeOp; // delete unused operations
 		}

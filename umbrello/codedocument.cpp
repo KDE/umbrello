@@ -462,7 +462,7 @@ CodeBlockWithComments * CodeDocument::newCodeBlockWithComments ( ) {
  * @return      CodeBlockWithComments
  */
 CodeComment * CodeDocument::newCodeComment ( ) {
-        return getParentGenerator()->newCodeComment(this);
+        return new CodeComment(this);
 }
 
 HierarchicalCodeBlock * CodeDocument::newHierarchicalCodeBlock ( ) {

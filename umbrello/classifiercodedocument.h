@@ -137,7 +137,7 @@ public:
        /**
          * Utility method to appropriately populate the code classfields for this document.
          */
-        void initCodeClassFields ( );
+        virtual void initCodeClassFields ( );
 
 	// cause this classifier code document to syncronize to current policy
 	virtual void syncronize();
@@ -158,8 +158,10 @@ public:
          */
         virtual void loadFromXMI ( QDomElement & root ) = 0;
 
+	virtual CodeClassFieldDeclarationBlock * newDeclarationCodeBlock (CodeClassField * cf) = 0;
 	virtual CodeAccessorMethod * newCodeAccessorMethod ( CodeClassField *cp, CodeAccessorMethod::AccessorType type) = 0;
 	virtual CodeOperation * newCodeOperation ( UMLOperation * op) = 0;
+
 
 protected:
 
@@ -167,13 +169,13 @@ protected:
          * @return      CodeClassField
          * @param       attribute attribute which is parent of this class field.
          */
-        CodeClassField * newCodeClassField (UMLAttribute * attribute );
+        virtual CodeClassField * newCodeClassField (UMLAttribute * attribute ) = 0;
 
         /**
          * @return      CodeClassField
          * @param       role 
          */
-        CodeClassField * newCodeClassField (UMLRole * role );
+        virtual CodeClassField * newCodeClassField (UMLRole * role ) = 0;
 
         /** set attributes of the node that represents this class
          * in the XMI document.

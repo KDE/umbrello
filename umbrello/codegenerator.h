@@ -185,6 +185,7 @@ public:
 	 * @return	CodeDocument
 	 * @param	classifier 
 	 */
+// FIX: this should be 'protected' or we will have problems with CPP code generator
 	CodeDocument * findCodeDocumentByClassifier (UMLClassifier * classifier );
 
 	/**
@@ -284,11 +285,6 @@ public:
         // a series of accessor method constructors that we need to define
         // for any particular language.
         virtual CodeDocument * newClassifierCodeDocument (UMLClassifier * classifier ) = 0;
-        virtual CodeClassField * newCodeClassField (ClassifierCodeDocument *doc, UMLAttribute * attribute ) = 0;
-        virtual CodeClassField * newCodeClassField (ClassifierCodeDocument *doc, UMLRole * role ) = 0;
-        virtual CodeOperation * newCodeOperation (ClassifierCodeDocument *doc, UMLOperation * op) = 0;
-	virtual CodeClassFieldDeclarationBlock * newDeclarationCodeBlock (CodeClassField * cf) = 0;
-	virtual CodeAccessorMethod * newCodeAccessorMethod(CodeClassField *cf, CodeAccessorMethod::AccessorType type ) = 0;
 
        /** get the name of the class which holds lists, e.g. "QPtrlist" or
          * "Vector" or "List" and so on. Not all languages may need this.
@@ -312,12 +308,6 @@ public:
 	 * @return CodeDocument pointer to new code document.
          */
 	virtual CodeDocument * newCodeDocument ( );
-
-	// create a code comment for given document
-        virtual CodeComment * newCodeComment (CodeDocument * doc); 
-
-	// create a code block for given document
-        virtual CodeBlock * newCodeBlock (CodeDocument * doc); 
 
         /**
          * Return the unique language string that identifies this type of code generator
@@ -371,6 +361,9 @@ protected:
 
 	static const char * hierarchicalCodeBlockNodeName;
 
+	// map of what code documents we currently have in this generator.
+	QDict<CodeDocument> m_codeDocumentDictionary;
+
 private:
 
         /**
@@ -380,8 +373,6 @@ private:
 	// this seems silly and overkill now. -b.t.
         // QMap<CodeDocument*,QString> *m_fileMap;
 
-	// map of what code documents we currently have in this generator.
-	QDict<CodeDocument> m_codeDocumentDictionary;
         QPtrList<CodeDocument> m_codedocumentVector;
         CodeGenerationPolicy * m_codegeneratorpolicy;
         UMLDoc * m_document;

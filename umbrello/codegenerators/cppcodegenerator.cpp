@@ -15,7 +15,12 @@
 
 #include <iostream.h>
 #include <kconfig.h>
+
 #include "cppcodegenerator.h"
+#include "cppsourcecodedocument.h"
+#include "cppheadercodedocument.h"
+
+// #include "cppheadercodedocuent.h"
 
 // Constructors/Destructors
 //  
@@ -30,12 +35,15 @@ cerr<<"CPPCodeGenerator "<<this<<" created with parent document:"<<parentDoc<<en
 };
 
 CPPCodeGenerator::~CPPCodeGenerator ( ) { 
-cerr<<"CPPCodeGenerator "<<this<<" destroyed"<<endl;
+    cerr<<"CPPCodeGenerator "<<this<<" destroyed"<<endl;
 };
 
 //  
 // Methods
 //  
+
+// Accessor methods
+//
 
 QString CPPCodeGenerator::getLanguage() {
         return "Cpp";
@@ -48,75 +56,97 @@ bool CPPCodeGenerator::isType (QString & type)
    return false;
 }
 
-
-// Accessor methods
-//  
-
-
-// Public attribute accessor methods
-//  
-
-
 /**
- * Set the value of m_cppMethodCommentStyle
- * @param new_var the new value of m_cppMethodCommentStyle
+ * Set the value of m_createMakefile
+ * @param new_var the new value of m_createMakefile
  */
-void CPPCodeGenerator::setCPPMethodCommentStyle ( CommentStyle new_var ) {
-	m_cppMethodCommentStyle = new_var;
+void CPPCodeGenerator::setCreateProjectMakefile ( bool buildIt) {
+        m_createMakefile = buildIt;
+        CodeDocument * antDoc = findCodeDocumentByID("MAKE_DOC");
+        if (antDoc)
+                antDoc->setWriteOutCode(buildIt);
 }
 
 /**
- * Get the value of m_cppMethodCommentStyle
- * @return the value of m_cppMethodCommentStyle
+ * Get the value of m_createMakefile
+ * @return the value of m_createMakefile
  */
-CPPCodeGenerator::CommentStyle CPPCodeGenerator::getCPPMethodCommentStyle ( ) const {
-	return m_cppMethodCommentStyle;
+bool CPPCodeGenerator::getCreateProjectMakefile ( ) {
+        return m_createMakefile;
+}
+
+bool CPPCodeGenerator::addHeaderCodeDocument ( CPPHeaderCodeDocument * doc )
+{
+
+        QString tag = doc->getID();
+
+	// assign a tag if one doesnt already exist
+        if(tag.isEmpty())
+        {
+        	tag = "cppheader"+QString::number(doc->getParentClassifier()->getID());
+                doc->setID(tag);
+        }
+
+        if(m_codeDocumentDictionary.find(tag))
+                return false; // return false, we already have some object with this tag in the list
+        else
+                m_codeDocumentDictionary.insert(tag, doc);
+
+        m_headercodedocumentVector.append(doc);
+        return true;
+}
+
+/**
+ * Remove a header CodeDocument object from m_headercodedocumentVector List
+ */
+bool CPPCodeGenerator::removeHeaderCodeDocument ( CPPHeaderCodeDocument * remove_object ) {
+        QString tag = remove_object->getID();
+        if(!(tag.isEmpty()))
+                m_codeDocumentDictionary.remove(tag);
+        else
+                return false;
+
+        m_headercodedocumentVector.remove(remove_object);
+        return true;
 }
 
 // Other methods
 //  
 
 /**
+ * Find a cppheadercodedocument by the given classifier.
+ * @return      CPPHeaderCodeDocument
+* @param       classifier
+*/
+CPPHeaderCodeDocument * CPPCodeGenerator::findHeaderCodeDocumentByClassifier (UMLClassifier * classifier )
+{
+        CodeDocument * doc = findCodeDocumentByID("cppheader"+QString::number(classifier->getID()));
+	return dynamic_cast<CPPHeaderCodeDocument*>(doc);
+}
+
+/**
  * @return	ClassifierCodeDocument
  * @param	classifier 
  * @param	this This package generator object.
  */
+// source document version.
 CodeDocument * CPPCodeGenerator::newClassifierCodeDocument (UMLClassifier * classifier) 
 {
-	return (CodeDocument*) NULL;
+	return new CPPSourceCodeDocument(classifier, this);
 }
 
-CodeClassField * CPPCodeGenerator::newCodeClassField (ClassifierCodeDocument * doc, UMLAttribute * at) {
-        return (CodeClassField*) NULL;
-}
-
-CodeClassField * CPPCodeGenerator::newCodeClassField (ClassifierCodeDocument * doc, UMLRole * role) {
-        return (CodeClassField*) NULL;
-}
-
-CodeOperation * CPPCodeGenerator::newCodeOperation(ClassifierCodeDocument *doc, UMLOperation *op)
+CPPHeaderCodeDocument * CPPCodeGenerator::newHeaderClassifierCodeDocument (UMLClassifier * classifier) 
 {
-        return (CodeOperation*) NULL;
+	return new CPPHeaderCodeDocument(classifier, this);
 }
-
-CodeAccessorMethod * CPPCodeGenerator::newCodeAccessorMethod(CodeClassField *cf , CodeAccessorMethod::AccessorType type) {
-        return (CodeAccessorMethod*) NULL;
-}
-
-CodeClassFieldDeclarationBlock * CPPCodeGenerator::newDeclarationCodeBlock (CodeClassField * cf) {
-        return (CodeClassFieldDeclarationBlock*)NULL;
-}
-
 
 /**
  * @return	CPPMakefileCodeDocument
  * @param	this 
  */
-/*
-CPPMakefileCodeDocument CPPCodeGenerator::newMakefileCodeDocument ( ) {
-
+CPPMakefileCodeDocument * CPPCodeGenerator::newMakefileCodeDocument ( ) {
+	return new CPPMakefileCodeDocument (this);
 }
-*/
 
 void CPPCodeGenerator::loadFromXMI(QDomElement & node) {
 
@@ -126,7 +156,76 @@ bool CPPCodeGenerator::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
 	return false;
 }
 
-void CPPCodeGenerator::initAttributes ( ) {
-	m_cppMethodCommentStyle = DoubleSlash;
+/**
+ * Overloaded so that we may have both source and header documents for each
+ * classifier.
+ */
+void CPPCodeGenerator::initFromParentDocument( ) {
+
+cerr<<" CPP INITTOPARENT called"<<endl;
+
+        // Walk through the document converting classifiers into
+        // classifier code documents as needed (e.g only if doesnt exist)
+        QPtrList<UMLClassifier> concepts = getDocument()->getConcepts();
+        for (UMLClassifier *c = concepts.first(); c; c = concepts.next())
+        {
+
+                // Doesnt exist? Then build one.
+                CodeDocument * codeDoc = findCodeDocumentByClassifier(c);
+                if (!codeDoc)
+                {
+                        codeDoc = newClassifierCodeDocument(c);
+                        addCodeDocument(codeDoc); // this will also add a unique tag to the code document
+                }
+
+                CPPHeaderCodeDocument * hcodeDoc = findHeaderCodeDocumentByClassifier(c);
+                if (!hcodeDoc)
+                {
+                        hcodeDoc = new CPPHeaderCodeDocument(c,this);
+                        addHeaderCodeDocument(hcodeDoc); // this will also add a unique tag to the code document
+                }
+        }
+
+cerr<<"CPP INITTOPARENT END"<<endl;
+
+}
+
+void CPPCodeGenerator::initAttributes ( ) 
+{
+
+cerr<<"CPP CODE GENERTOR INIT"<<endl;
+
+       // load Classifier documents from parent document
+        initFromParentDocument();
+
+        // add in an Make build document
+        CPPMakefileCodeDocument * buildDoc = newMakefileCodeDocument( );
+        addCodeDocument(buildDoc);
+
+        // set our 'writeout' policy for that code document
+        setCreateProjectMakefile(DEFAULT_BUILD_MAKE_DOC);
+
+cerr<<"CPP CODE GENERTOR INIT - end"<<endl;
+
+}
+
+// should be 'static'
+QString CPPCodeGenerator::scopeToCPPDecl(Uml::Scope scope)
+{
+        QString scopeString;
+        switch(scope)
+        {
+                case Uml::Public:
+                        scopeString = "public";
+                        break;
+                case Uml::Protected:
+                        scopeString = "protected";
+                        break;
+                case Uml::Private:
+                default:
+                        scopeString = "private";
+                        break;
+        }
+        return scopeString;
 }
 

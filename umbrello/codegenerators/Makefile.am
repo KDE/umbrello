@@ -13,7 +13,14 @@ libcodegenerator_la_SOURCES = codegenfactory.cpp classifierinfo.cpp \
 				javaclassdeclarationblock.cpp javacodeclassfielddeclarationblock.cpp \
 				javalistaccessormethod.cpp javaremoveaccessormethod.cpp javaaddaccessormethod.cpp \
 				javacodegenerationpolicypage.cpp \
-				cppcodegenerator.cpp cppclassifiercodedocument.cpp \
+				cppcodegenerator.cpp cppcodedocumentation.cpp cppcodeclassfield.cpp \
+				cppcodecomment.cpp cppmakecodedocument.cpp \
+				cppsourcecodedocument.cpp cppsourceclassdeclarationblock.cpp\
+				cppsourcecodeoperation.cpp cppsourcecodeaccessormethod.cpp \
+				cppsourcecodeclassfielddeclarationblock.cpp \
+				cppheadercodedocument.cpp cppheaderclassdeclarationblock.cpp \
+				cppheadercodeoperation.cpp cppheadercodeaccessormethod.cpp \
+				cppheadercodeclassfielddeclarationblock.cpp \
 				xmlschemacodegenerator.cpp xmlschemaclassifiercodedocument.cpp \
 				xmlschemacodeclassfield.cpp
 

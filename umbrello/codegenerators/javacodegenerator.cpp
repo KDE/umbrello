@@ -20,7 +20,6 @@
 #include <qregexp.h>
 
 #include "javacodegenerator.h"
-#include "javacodecomment.h"
 #include "javacodeclassfield.h"
 #include "javacodeclassfielddeclarationblock.h"
 #include "javagetaccessormethod.h"
@@ -54,6 +53,9 @@ JavaCodeGenerator::~JavaCodeGenerator ( ) {
 // Methods
 //  
 
+// Accessor methods
+//
+
 // return our language
 QString JavaCodeGenerator::getLanguage() {
 	return "Java";
@@ -77,14 +79,6 @@ void JavaCodeGenerator::setCreateANTBuildFile ( bool buildIt) {
 bool JavaCodeGenerator::getCreateANTBuildFile ( ) {
         return m_createANTBuildFile;
 }
-
-// Accessor methods
-//  
-
-
-// Public attribute accessor methods
-//  
-
 
 // Other methods
 //  
@@ -141,46 +135,6 @@ CodeGenerationPolicy * JavaCodeGenerator::newCodeGenerationPolicy( KConfig * con
 	return myPolicy;
 }
 
-CodeOperation * JavaCodeGenerator::newCodeOperation (ClassifierCodeDocument * doc, UMLOperation * op)
-{
-	return new JavaCodeOperation((JavaClassifierCodeDocument*)doc,op);
-}
-
-CodeAccessorMethod * JavaCodeGenerator::newCodeAccessorMethod(CodeClassField *cf, CodeAccessorMethod::AccessorType type) {
-	CodeAccessorMethod * method = (CodeAccessorMethod*) NULL;
-	switch (type) {
-		case CodeAccessorMethod::GET:  
-			method = new JavaGetAccessorMethod((JavaCodeClassField*)cf);
-			method->setOverallIndentationLevel(1);
-			break;
-		case CodeAccessorMethod::SET:  
-			method = new JavaSetAccessorMethod((JavaCodeClassField*)cf);
-			method->setOverallIndentationLevel(1);
-			break;
-		case CodeAccessorMethod::LIST: 
-			method = new JavaListAccessorMethod((JavaCodeClassField*)cf);
-			method->setOverallIndentationLevel(1);
-			break;
-		case CodeAccessorMethod::REMOVE:  
-			method = new JavaRemoveAccessorMethod((JavaCodeClassField*)cf);
-			method->setOverallIndentationLevel(1);
-			break;
-		case CodeAccessorMethod::ADD:
-			method = new JavaAddAccessorMethod((JavaCodeClassField*)cf);
-			method->setOverallIndentationLevel(1);
-			break;
-		default:
-			// perhaps this is a fatal condition??
-			kdWarning()<<"Error: cannot make accessor method with type:"<<type<<endl;
-			break;
-	}
-	return method;
-}
-
-CodeClassFieldDeclarationBlock * JavaCodeGenerator::newDeclarationCodeBlock (CodeClassField * cf ) {
-	return new JavaCodeClassFieldDeclarationBlock(cf);
-}
-
 QString JavaCodeGenerator::getListFieldClassName () {
 	return QString("Vector");
 }
@@ -193,22 +147,6 @@ CodeDocument * JavaCodeGenerator::newClassifierCodeDocument ( UMLClassifier * c)
 {
         JavaClassifierCodeDocument * doc = new JavaClassifierCodeDocument(c,this);
         return doc;
-}
-
-CodeClassField * JavaCodeGenerator::newCodeClassField (ClassifierCodeDocument * doc, UMLAttribute * at) {
-	//JavaClassifierCodeDocument*jdoc = dynamic_cast<JavaClassifierCodeDocument*>(doc);
-	JavaClassifierCodeDocument *jdoc = (JavaClassifierCodeDocument*) doc;
-	return new JavaCodeClassField(jdoc,at);
-}
-
-CodeClassField * JavaCodeGenerator::newCodeClassField (ClassifierCodeDocument * doc, UMLRole * role) {
-	// JavaClassifierCodeDocument *jdoc = dynamic_cast<JavaClassifierCodeDocument*>(doc);
-	JavaClassifierCodeDocument *jdoc = (JavaClassifierCodeDocument*)doc;
-        return new JavaCodeClassField(jdoc,role);
-}
-
-CodeComment * JavaCodeGenerator::newCodeComment ( CodeDocument * doc) {
-        return new JavaCodeComment(doc);
 }
 
 void JavaCodeGenerator::loadFromXMI(QDomElement & qElement ) {
@@ -262,8 +200,8 @@ bool JavaCodeGenerator::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
 	QPtrList<CodeDocument> * docList = getCodeDocumentList();
 	for (CodeDocument * codeDoc = docList->first(); codeDoc; codeDoc= docList->next())
 	{
-		ClassifierCodeDocument * classDoc = dynamic_cast<ClassifierCodeDocument*>(codeDoc);
 /*
+		ClassifierCodeDocument * classDoc = dynamic_cast<ClassifierCodeDocument*>(codeDoc);
 		if(classDoc)
 {
 cerr<<" saveToXMI got a classifier code document"<<endl;

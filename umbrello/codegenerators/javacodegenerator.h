@@ -105,15 +105,8 @@ public:
 	 */
 	CodeDocument * newClassifierCodeDocument (UMLClassifier * classifier);
 
-	CodeClassField * newCodeClassField(ClassifierCodeDocument *doc, UMLAttribute *at);
-	CodeClassField * newCodeClassField(ClassifierCodeDocument *doc, UMLRole *role);
-
-        CodeAccessorMethod * newCodeAccessorMethod(CodeClassField *cf , CodeAccessorMethod::AccessorType type);
-        CodeOperation * newCodeOperation(ClassifierCodeDocument * doc, UMLOperation * op);
-
-	CodeComment * newCodeComment(CodeDocument *doc);
-
-	CodeClassFieldDeclarationBlock * newDeclarationCodeBlock (CodeClassField * cf);
+	// returns a java code generation policy
+	virtual CodeGenerationPolicy * newCodeGenerationPolicy(KConfig * config = 0);
 
 	// return "Java"
 	QString getLanguage();
@@ -121,8 +114,6 @@ public:
         bool saveToXMI ( QDomDocument & doc, QDomElement & root );
 
 	void loadFromXMI(QDomElement & node); 
-
-	virtual CodeGenerationPolicy * newCodeGenerationPolicy(KConfig * config = 0);
 
 protected:
 
