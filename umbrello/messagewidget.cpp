@@ -152,8 +152,10 @@ bool MessageWidget::activate(IDChangeLog * Log /*= 0*/) {
 	if(!status)
 		return false;
 	MessageWidgetData* widgetdata = static_cast<MessageWidgetData*>(m_pData);
-	if( !m_pFText )
+	if( !m_pFText ) {
 		m_pFText = new FloatingText( m_pView, tr_Seq_Message, "" );
+		m_pFText->getData()->setFont(widgetdata->getFont());
+	}
 	if(widgetdata->m_nTextID != -1)
 	{
 		m_pFText -> setID(widgetdata->m_nTextID);   //this is wrong//change when anchors back
