@@ -82,14 +82,14 @@ private:
 
 	/**
 	 * write all field declarations, for both attributes and associations for the
-         * given permitted scope.
-         */
+	 * given permitted scope.
+	 */
 	void writeFieldDecl(UMLClassifier *c, Uml::Scope permitScope, QTextStream &stream); 
 
-        /**
+	/**
 	 * write all method declarations, for attributes and associations 
-         * for the given permitted scope.
-         */
+	 * for the given permitted scope.
+	 */
 	void writeAccessorMethodDecl(UMLClassifier *c, Uml::Scope permitScope, QTextStream &stream); 
 
 	/**
@@ -133,7 +133,7 @@ private:
 	void writeHeaderAttributeAccessorMethods (Uml::Scope visibility, bool writeStatic, QTextStream &stream ); 
 
 	void writeHeaderAttributeAccessorMethodDecls(UMLClassifier *c, Uml::Scope permitVisibility, QTextStream &stream); 
-        void writeHeaderAccessorMethodDecl(UMLClassifier *c, Uml::Scope permitScope, QTextStream &stream); 
+	 void writeHeaderAccessorMethodDecl(UMLClassifier *c, Uml::Scope permitScope, QTextStream &stream); 
 
 
 	/**
@@ -230,16 +230,6 @@ private:
 	 * If needed, write out the declaration for the method to initialize attributes of our class.
 	 */
 	void writeInitAttibuteDecl (QTextStream &stream); 
-
-	/**
-	 * How much indent to use (current, based on amount of indentLevel).
-	 */
-	QString getIndent (); 
-
-	/**
-	 * current level of indentation for code
-	 */
-	int IndentLevel;
 
 	/**
 	 * Returns the name of the given object (if it exists)

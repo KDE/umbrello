@@ -61,10 +61,10 @@ public:
 
 private:
 
-        /**
-          * we do not want to write the comment "Private methods" twice
-          */
-        bool bPrivateSectionCommentIsWritten;
+	/**
+	 * we do not want to write the comment "Private methods" twice
+	 */
+	bool bPrivateSectionCommentIsWritten;
 
 	/**
 	  * write a list of class operations
@@ -74,7 +74,7 @@ private:
 	  * @param as output stream for the AS file
 	  */
 	void writeOperations(QString classname, UMLOperationList *opList,
-	                     QTextStream &as);
+			     QTextStream &as);
 };
 
 #endif //ASWRITER

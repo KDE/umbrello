@@ -85,7 +85,7 @@ void PythonWriter::writeClass(UMLClassifier *c) {
 	if(!str.isEmpty()) {
 		str.replace(QRegExp("%filename%"), fileName+".py");
 		str.replace(QRegExp("%filepath%"), fileh.name());
-		h<<str<<m_newLineEndingChars;
+		h<<str<<m_endl;
 	}
 
 
@@ -99,10 +99,10 @@ void PythonWriter::writeClass(UMLClassifier *c) {
 			first = headerName.at(0);
 			first = first.upper();
 			headerName = headerName.replace(0, 1, first);
-			h<<"from "<<headerName<<" import *"<<m_newLineEndingChars;
+			h<<"from "<<headerName<<" import *"<<m_endl;
 		}
 	}
-	h<<m_newLineEndingChars;
+	h<<m_endl;
 
 	h<<"class "<<classname<<(superclasses.count() > 0 ? " (":"");
 	int i = superclasses.count();
@@ -114,21 +114,21 @@ void PythonWriter::writeClass(UMLClassifier *c) {
 	}
 
 
-	h<<(superclasses.count() > 0 ? ")":"")<<":"<<m_newLineEndingChars<<m_newLineEndingChars;
+	h<<(superclasses.count() > 0 ? ")":"")<<":"<<m_endl<<m_endl;
 
 	if(forceDoc() || !c->getDoc().isEmpty()) {
-		h<<m_indentation<<"\"\"\""<<m_newLineEndingChars;
-		h<<m_indentation<<c->getDoc()<<m_newLineEndingChars;
-		h<<m_indentation<<":version:"<<m_newLineEndingChars;
-		h<<m_indentation<<":author:"<<m_newLineEndingChars;
-		h<<m_indentation<<"\"\"\""<<m_newLineEndingChars<<m_newLineEndingChars;
+		h<<m_indentation<<"\"\"\""<<m_endl;
+		h<<m_indentation<<c->getDoc()<<m_endl;
+		h<<m_indentation<<":version:"<<m_endl;
+		h<<m_indentation<<":author:"<<m_endl;
+		h<<m_indentation<<"\"\"\""<<m_endl<<m_endl;
 	}
 
 	//operations
 	writeOperations(c,h);
 
 	//finish files
-	h<<m_newLineEndingChars<<m_newLineEndingChars;
+	h<<m_endl<<m_endl;
 
 	//close files and notfiy we are done
 	fileh.close();
@@ -220,27 +220,27 @@ void PythonWriter::writeOperations(QString /*classname*/, UMLOperationList &opLi
 			    QString(""));
 		}
 
-		h<<"):"<<m_newLineEndingChars;
+		h<<"):"<<m_endl;
 
 		if( writeDoc )  //write method documentation
 		{
-			h<<m_indentation<<m_indentation<<"\"\"\""<<m_newLineEndingChars;
-			h<<m_indentation<<m_indentation<<op->getDoc()<<m_newLineEndingChars<<m_newLineEndingChars;
+			h<<m_indentation<<m_indentation<<"\"\"\""<<m_endl;
+			h<<m_indentation<<m_indentation<<op->getDoc()<<m_endl<<m_endl;
 
 			for(at = atl->first(); at ; at = atl -> next())  //write parameter documentation
 			{
 				if(forceDoc() || !at->getDoc().isEmpty()) {
 					h<<m_indentation<<m_indentation<<"@param "<<at->getTypeName()<<
 						" " << cleanName(at->getName());
-					h<<" : "<<at->getDoc()<<m_newLineEndingChars;
+					h<<" : "<<at->getDoc()<<m_endl;
 				}
 			}//end for : write parameter documentation
-			h<<m_indentation<<m_indentation<<"@return " + op->getTypeName()<<" :"<<m_newLineEndingChars;
-			h<<m_indentation<<m_indentation<<"@since"<<m_newLineEndingChars;
-			h<<m_indentation<<m_indentation<<"@author"<<m_newLineEndingChars;
-			h<<m_indentation<<m_indentation<<"\"\"\""<<m_newLineEndingChars;
+			h<<m_indentation<<m_indentation<<"@return " + op->getTypeName()<<" :"<<m_endl;
+			h<<m_indentation<<m_indentation<<"@since"<<m_endl;
+			h<<m_indentation<<m_indentation<<"@author"<<m_endl;
+			h<<m_indentation<<m_indentation<<"\"\"\""<<m_endl;
 		}
-		h<<m_indentation<<m_indentation<<"pass"<<m_newLineEndingChars<<m_newLineEndingChars;
+		h<<m_indentation<<m_indentation<<"pass"<<m_endl<<m_endl;
 
 	}//end for
 }
@@ -249,7 +249,7 @@ void PythonWriter::writeOperations(QString /*classname*/, UMLOperationList &opLi
  * returns "Python"
  */
 QString PythonWriter::getLanguage() {
-        return "Python";
+	return "Python";
 }
 
 /**
@@ -260,7 +260,7 @@ QString PythonWriter::getLanguage() {
 bool PythonWriter::isType (QString & type)
 {
    if(type == "PythonWriter")
-        return true;
+	return true;
    return false;
 }
 
@@ -270,139 +270,139 @@ const QStringList PythonWriter::reservedKeywords() const {
 
   if (keywords.isEmpty()) {
     keywords << "abs"
-             << "and"
-             << "apply"
-             << "ArithmeticError"
-             << "assert"
-             << "AssertionError"
-             << "AttributeError"
-             << "break"
-             << "buffer"
-             << "callable"
-             << "chr"
-             << "class"
-             << "classmethod"
-             << "cmp"
-             << "coerce"
-             << "compile"
-             << "complex"
-             << "continue"
-             << "def"
-             << "del"
-             << "delattr"
-             << "DeprecationWarning"
-             << "dict"
-             << "dir"
-             << "divmod"
-             << "elif"
-             << "Ellipsis"
-             << "else"
-             << "EnvironmentError"
-             << "EOFError"
-             << "eval"
-             << "except"
-             << "Exception"
-             << "exec"
-             << "execfile"
-             << "file"
-             << "filter"
-             << "finally"
-             << "float"
-             << "FloatingPointError"
-             << "for"
-             << "from"
-             << "getattr"
-             << "global"
-             << "globals"
-             << "hasattr"
-             << "hash"
-             << "hex"
-             << "id"
-             << "if"
-             << "import"
-             << "__import__"
-             << "ImportError"
-             << "in"
-             << "IndentationError"
-             << "IndexError"
-             << "input"
-             << "int"
-             << "intern"
-             << "IOError"
-             << "is"
-             << "isinstance"
-             << "issubclass"
-             << "iter"
-             << "KeyboardInterrupt"
-             << "KeyError"
-             << "lambda"
-             << "len"
-             << "list"
-             << "locals"
-             << "long"
-             << "LookupError"
-             << "map"
-             << "max"
-             << "MemoryError"
-             << "min"
-             << "NameError"
-             << "None"
-             << "not"
-             << "NotImplemented"
-             << "NotImplementedError"
-             << "object"
-             << "oct"
-             << "open"
-             << "or"
-             << "ord"
-             << "OSError"
-             << "OverflowError"
-             << "OverflowWarning"
-             << "pass"
-             << "pow"
-             << "print"
-             << "property"
-             << "raise"
-             << "range"
-             << "raw_input"
-             << "reduce"
-             << "ReferenceError"
-             << "reload"
-             << "repr"
-             << "return"
-             << "round"
-             << "RuntimeError"
-             << "RuntimeWarning"
-             << "setattr"
-             << "slice"
-             << "StandardError"
-             << "staticmethod"
-             << "StopIteration"
-             << "str"
-             << "super"
-             << "SyntaxError"
-             << "SyntaxWarning"
-             << "SystemError"
-             << "SystemExit"
-             << "TabError"
-             << "try"
-             << "tuple"
-             << "type"
-             << "TypeError"
-             << "UnboundLocalError"
-             << "unichr"
-             << "unicode"
-             << "UnicodeError"
-             << "UserWarning"
-             << "ValueError"
-             << "vars"
-             << "Warning"
-             << "while"
-             << "WindowsError"
-             << "xrange"
-             << "yield"
-             << "ZeroDivisionError"
-             << "zip";
+	     << "and"
+	     << "apply"
+	     << "ArithmeticError"
+	     << "assert"
+	     << "AssertionError"
+	     << "AttributeError"
+	     << "break"
+	     << "buffer"
+	     << "callable"
+	     << "chr"
+	     << "class"
+	     << "classmethod"
+	     << "cmp"
+	     << "coerce"
+	     << "compile"
+	     << "complex"
+	     << "continue"
+	     << "def"
+	     << "del"
+	     << "delattr"
+	     << "DeprecationWarning"
+	     << "dict"
+	     << "dir"
+	     << "divmod"
+	     << "elif"
+	     << "Ellipsis"
+	     << "else"
+	     << "EnvironmentError"
+	     << "EOFError"
+	     << "eval"
+	     << "except"
+	     << "Exception"
+	     << "exec"
+	     << "execfile"
+	     << "file"
+	     << "filter"
+	     << "finally"
+	     << "float"
+	     << "FloatingPointError"
+	     << "for"
+	     << "from"
+	     << "getattr"
+	     << "global"
+	     << "globals"
+	     << "hasattr"
+	     << "hash"
+	     << "hex"
+	     << "id"
+	     << "if"
+	     << "import"
+	     << "__import__"
+	     << "ImportError"
+	     << "in"
+	     << "IndentationError"
+	     << "IndexError"
+	     << "input"
+	     << "int"
+	     << "intern"
+	     << "IOError"
+	     << "is"
+	     << "isinstance"
+	     << "issubclass"
+	     << "iter"
+	     << "KeyboardInterrupt"
+	     << "KeyError"
+	     << "lambda"
+	     << "len"
+	     << "list"
+	     << "locals"
+	     << "long"
+	     << "LookupError"
+	     << "map"
+	     << "max"
+	     << "MemoryError"
+	     << "min"
+	     << "NameError"
+	     << "None"
+	     << "not"
+	     << "NotImplemented"
+	     << "NotImplementedError"
+	     << "object"
+	     << "oct"
+	     << "open"
+	     << "or"
+	     << "ord"
+	     << "OSError"
+	     << "OverflowError"
+	     << "OverflowWarning"
+	     << "pass"
+	     << "pow"
+	     << "print"
+	     << "property"
+	     << "raise"
+	     << "range"
+	     << "raw_input"
+	     << "reduce"
+	     << "ReferenceError"
+	     << "reload"
+	     << "repr"
+	     << "return"
+	     << "round"
+	     << "RuntimeError"
+	     << "RuntimeWarning"
+	     << "setattr"
+	     << "slice"
+	     << "StandardError"
+	     << "staticmethod"
+	     << "StopIteration"
+	     << "str"
+	     << "super"
+	     << "SyntaxError"
+	     << "SyntaxWarning"
+	     << "SystemError"
+	     << "SystemExit"
+	     << "TabError"
+	     << "try"
+	     << "tuple"
+	     << "type"
+	     << "TypeError"
+	     << "UnboundLocalError"
+	     << "unichr"
+	     << "unicode"
+	     << "UnicodeError"
+	     << "UserWarning"
+	     << "ValueError"
+	     << "vars"
+	     << "Warning"
+	     << "while"
+	     << "WindowsError"
+	     << "xrange"
+	     << "yield"
+	     << "ZeroDivisionError"
+	     << "zip";
   }
 
   return keywords;

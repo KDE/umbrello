@@ -71,7 +71,7 @@ void JSWriter::writeClass(UMLClassifier *c)
 	{
 		str.replace(QRegExp("%filename%"),fileName+".js");
 		str.replace(QRegExp("%filepath%"),filejs.name());
-		js << str << endl;
+		js << str << m_endl;
 	}
 
 
@@ -84,69 +84,69 @@ void JSWriter::writeClass(UMLClassifier *c)
 		QString headerName = findFileName(conc, ".js");
 		if ( !headerName.isEmpty() )
 		{
-			js << "#include \"" << findFileName(conc,".js") << ".js\"" << endl;
+			js << "#include \"" << findFileName(conc,".js") << ".js\"" << m_endl;
 		}
 	}
-	js << endl;
+	js << m_endl;
 
 	//Write class Documentation if there is somthing or if force option
 	if(forceDoc() || !c->getDoc().isEmpty())
 	{
-		js << endl << "/**" << endl;
-		js << "  * class " << classname << endl;
+		js << m_endl << "/**" << m_endl;
+		js << "  * class " << classname << m_endl;
 		js << formatDoc(c->getDoc(),"  * ");
-		js << "  */" << endl << endl;
+		js << "  */" << m_endl << m_endl;
 	}
 
 
 	//check if class is abstract and / or has abstract methods
 	if(c->getAbstract() && !hasAbstractOps(c))
-		js << "/******************************* Abstract Class ****************************" << endl << "  "
-		<< classname << " does not have any pure virtual methods, but its author" << endl
-		<< "  defined it as an abstract class, so you should not use it directly." << endl
-		<< "  Inherit from it instead and create only objects from the derived classes" << endl
-		<< "*****************************************************************************/" << endl << endl;
+		js << "/******************************* Abstract Class ****************************" << m_endl << "  "
+		<< classname << " does not have any pure virtual methods, but its author" << m_endl
+		<< "  defined it as an abstract class, so you should not use it directly." << m_endl
+		<< "  Inherit from it instead and create only objects from the derived classes" << m_endl
+		<< "*****************************************************************************/" << m_endl << m_endl;
 
-	js << classname << " = function ()" << endl;
-	js << "{" << endl;
-	js << m_indentation << "this._init ();" << endl;
-	js << "}" << endl;
-	js << endl;
+	js << classname << " = function ()" << m_endl;
+	js << "{" << m_endl;
+	js << m_indentation << "this._init ();" << m_endl;
+	js << "}" << m_endl;
+	js << m_endl;
 
 	UMLClassifierList superclasses = c->getSuperClasses();
 	for (UMLClassifier *obj = superclasses.first();
 	     obj; obj = superclasses.next()) {
-		js << classname << ".prototype = new " << cleanName(obj->getName()) << " ();" << endl;
+		js << classname << ".prototype = new " << cleanName(obj->getName()) << " ();" << m_endl;
 	}
 
-	js << endl;
+	js << m_endl;
 
 	UMLClass *myClass = dynamic_cast<UMLClass*>(c);
 	if(myClass) {
 		UMLAttributeList atl = myClass->getFilteredAttributeList();
 
-	 	js << "/**" << endl;
-		QString temp = "_init sets all " + classname + " attributes to its default\
-	 value make sure to call this method within your class constructor";
+	 	js << "/**" << m_endl;
+		QString temp = "_init sets all " + classname + " attributes to their default value."
+				" Make sure to call this method within your class constructor";
 		js << formatDoc(temp, " * ");
-		js << " */" << endl;
-		js << classname << ".prototype._init = function ()" << endl;
-		js << "{" << endl;
+		js << " */" << m_endl;
+		js << classname << ".prototype._init = function ()" << m_endl;
+		js << "{" << m_endl;
 		for(UMLAttribute *at = atl.first(); at ; at = atl.next())
 		{
 			if (forceDoc() || !at->getDoc().isEmpty())
 			{
-				js << m_indentation << "/**" << endl
+				js << m_indentation << "/**" << m_endl
 				 << formatDoc(at->getDoc(), m_indentation + " * ")
-				 << m_indentation << " */" << endl;
+				 << m_indentation << " */" << m_endl;
 			}
 			if(!at->getInitialValue().isEmpty())
 			{
-				js << m_indentation << "this.m_" << cleanName(at->getName()) << " = " << at->getInitialValue() << ";" << endl;
+				js << m_indentation << "this.m_" << cleanName(at->getName()) << " = " << at->getInitialValue() << ";" << m_endl;
 			}
 			else
 			{
-	 			js << m_indentation << "this.m_" << cleanName(at->getName()) << " = \"\";" << endl;
+	 			js << m_indentation << "this.m_" << cleanName(at->getName()) << " = \"\";" << m_endl;
 			}
 		}
 	}
@@ -155,38 +155,38 @@ void JSWriter::writeClass(UMLClassifier *c)
 	UMLAssociationList aggregations = c->getAggregations();
 	if (forceSections() || !aggregations.isEmpty ())
 	{
-		js << m_newLineEndingChars << m_indentation << "/**Aggregations: */" << m_newLineEndingChars;
+		js << m_endl << m_indentation << "/**Aggregations: */" << m_endl;
 		for (UMLAssociation* a = aggregations.first(); a; a = aggregations.next())
 		{
 			QString nm(cleanName(a->getObject(Uml::A)->getName()));
 			if (a->getMulti(Uml::A).isEmpty())
-				js << m_indentation << "this.m_" << nm << " = new " << nm << " ();" << m_newLineEndingChars;
+				js << m_indentation << "this.m_" << nm << " = new " << nm << " ();" << m_endl;
 			else
-				js << m_indentation << "this.m_" << nm.lower() << " = new Array ();" << m_newLineEndingChars;
+				js << m_indentation << "this.m_" << nm.lower() << " = new Array ();" << m_endl;
 		}
 	}
 	UMLAssociationList compositions = c->getCompositions();
 	if( forceSections() || !compositions.isEmpty())
 	{
-		js << m_newLineEndingChars << m_indentation << "/**Compositions: */" << m_newLineEndingChars;
+		js << m_endl << m_indentation << "/**Compositions: */" << m_endl;
 		for (UMLAssociation *a = compositions.first(); a; a = compositions.next())
 		{
 			QString nm(cleanName(a->getObject(Uml::A)->getName()));
 			if(a->getMulti(Uml::A).isEmpty())
-				js << m_indentation << "this.m_" << nm << " = new "<< nm << " ();" << m_newLineEndingChars;
+				js << m_indentation << "this.m_" << nm << " = new "<< nm << " ();" << m_endl;
 			else
-				js << m_indentation << "this.m_" << nm.lower() << " = new Array ();" << m_newLineEndingChars;
+				js << m_indentation << "this.m_" << nm.lower() << " = new Array ();" << m_endl;
 		}
 	}
-	js << endl;
-	js << "}" << endl;
-	js << endl;
+	js << m_endl;
+	js << "}" << m_endl;
+	js << m_endl;
 
 	//operations
 	UMLOperationList ops(c->getOpList());
 	writeOperations(classname, &ops, js);
 
-	js << endl;
+	js << m_endl;
 
 	//finish file
 
@@ -214,17 +214,17 @@ void JSWriter::writeOperations(QString classname, UMLOperationList *opList, QTex
 
 		if( writeDoc )  //write method documentation
 		{
-			js << "/**" << m_newLineEndingChars << formatDoc(op->getDoc()," * ");
+			js << "/**" << m_endl << formatDoc(op->getDoc()," * ");
 
 			for(at = atl->first(); at ; at = atl -> next())  //write parameter documentation
 			{
 				if(forceDoc() || !at->getDoc().isEmpty())
 				{
-					js << " * @param " + cleanName(at->getName())<<endl;
+					js << " * @param " + cleanName(at->getName())<<m_endl;
 					js << formatDoc(at->getDoc(),"    *      ");
 				}
 			}//end for : write parameter documentation
-			js << " */" << endl;
+			js << " */" << m_endl;
 		}//end if : write method documentation
 
 		js << classname << ".prototype." << cleanName(op->getName()) << " function " << "(";
@@ -237,9 +237,9 @@ void JSWriter::writeOperations(QString classname, UMLOperationList *opList, QTex
 				 << (!(at->getInitialValue().isEmpty()) ? (QString(" = ")+at->getInitialValue()) : QString(""))
 				 << ((j < i-1)?", ":"");
 		}
-		js << ")" << m_newLineEndingChars << "{" << m_newLineEndingChars <<
-		m_indentation << m_newLineEndingChars << "}" << m_newLineEndingChars;
-		js << m_newLineEndingChars << endl;
+		js << ")" << m_endl << "{" << m_endl <<
+		m_indentation << m_endl << "}" << m_endl;
+		js << m_endl << m_endl;
 	}//end for
 }
 
@@ -247,7 +247,7 @@ void JSWriter::writeOperations(QString classname, UMLOperationList *opList, QTex
  * returns "JavaScript"
  */
 QString JSWriter::getLanguage() {
-        return "JavaScript";
+	return "JavaScript";
 }
 
 /**
@@ -257,9 +257,9 @@ QString JSWriter::getLanguage() {
  */
 bool JSWriter::isType (QString & type)
 {
-   if(type == "JSWriter")
-        return true;
-   return false;
+	if(type == "JSWriter")
+		return true;
+	return false;
 }
 
 const QStringList JSWriter::reservedKeywords() const {
@@ -268,24 +268,24 @@ const QStringList JSWriter::reservedKeywords() const {
 
   if (keywords.isEmpty()) {
     keywords << "break"
-             << "case"
-             << "const"
-             << "continue"
-             << "default"
-             << "else"
-             << "false"
-             << "for"
-             << "function"
-             << "if"
-             << "in"
-             << "new"
-             << "return"
-             << "switch"
-             << "this"
-             << "true"
-             << "var"
-             << "while"
-             << "with";
+	     << "case"
+	     << "const"
+	     << "continue"
+	     << "default"
+	     << "else"
+	     << "false"
+	     << "for"
+	     << "function"
+	     << "if"
+	     << "in"
+	     << "new"
+	     << "return"
+	     << "switch"
+	     << "this"
+	     << "true"
+	     << "var"
+	     << "while"
+	     << "with";
   }
 
   return keywords;

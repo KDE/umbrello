@@ -101,22 +101,22 @@ void PerlWriter::writeClass(UMLClassifier *c) {
 		str.replace(QRegExp("%filepath%"),fileperl.name());
 		str.replace(QRegExp("%date%"),QDate::currentDate().toString());
 		str.replace(QRegExp("%time%"),QTime::currentTime().toString());
-		perl<<str<<m_newLineEndingChars;
+		perl<<str<<m_endl;
 	}
-	perl << m_newLineEndingChars << m_newLineEndingChars << "package " << classname << ";" << m_newLineEndingChars << m_newLineEndingChars;
+	perl << m_endl << m_endl << "package " << classname << ";" << m_endl << m_endl;
 	//write includes
-	perl << m_newLineEndingChars << "#UML_MODELER_BEGIN_PERSONAL_VARS_" << classname << m_newLineEndingChars ;
-	perl << m_newLineEndingChars << "#UML_MODELER_END_PERSONAL_VARS_" << classname << m_newLineEndingChars << m_newLineEndingChars ;
+	perl << m_endl << "#UML_MODELER_BEGIN_PERSONAL_VARS_" << classname << m_endl ;
+	perl << m_endl << "#UML_MODELER_END_PERSONAL_VARS_" << classname << m_endl << m_endl ;
 	UMLClassifierList includes;//ca existe en perl??
 	findObjectsRelated(c,includes);
 	UMLClassifier *conc;
 	for(conc = includes.first(); conc ;conc = includes.next()) {
 			if ((cleanName(conc->getName()) != AV) && (cleanName(conc->getName()) != SV ) && (cleanName(conc->getName()) != HV))
 			{
-				perl << "use " << cleanName(conc->getName()) << ";" << m_newLineEndingChars; // seems OK
+				perl << "use " << cleanName(conc->getName()) << ";" << m_endl; // seems OK
 			}
 	}
-	perl << m_newLineEndingChars;
+	perl << m_endl;
 
 	UMLClassifierList superclasses = c->getSuperClasses();
 	UMLAssociationList aggregations = c->getAggregations();
@@ -128,20 +128,20 @@ void PerlWriter::writeClass(UMLClassifier *c) {
 		     obj; obj = superclasses.next()) {
 			perl << cleanName(obj->getName()) << " ";
 		}
-		perl << ");" << m_newLineEndingChars;
+		perl << ");" << m_endl;
 	}
 
 	//Write class Documentation
 	if(forceDoc() || !c->getDoc().isEmpty()) {
-		perl << m_newLineEndingChars << "=head1";
-		perl << " " << classname.upper() << m_newLineEndingChars << m_newLineEndingChars;
+		perl << m_endl << "=head1";
+		perl << " " << classname.upper() << m_endl << m_endl;
 		perl << c->getDoc();
-		perl << m_newLineEndingChars << m_newLineEndingChars << "=cut" << m_newLineEndingChars << m_newLineEndingChars;
+		perl << m_endl << m_endl << "=cut" << m_endl << m_endl;
 	}
 
 	//check if class is abstract and / or has abstract methods
 	if(c->getAbstract())
-        perl << "=head1 ABSTRACT CLASS" << m_newLineEndingChars << m_newLineEndingChars << "=cut" << m_newLineEndingChars;
+		perl << "=head1 ABSTRACT CLASS" << m_endl << m_endl << "=cut" << m_endl;
 
 	//attributes
 	UMLClass *myClass = dynamic_cast<UMLClass*>(c);
@@ -151,11 +151,11 @@ void PerlWriter::writeClass(UMLClassifier *c) {
 	//operations
 	writeOperations(c,perl);
 
-	perl << m_newLineEndingChars;
+	perl << m_endl;
 
 	//finish file
-	//perl << m_newLineEndingChars << m_newLineEndingChars << "=cut" << m_newLineEndingChars;
-	perl << m_newLineEndingChars << m_newLineEndingChars << "return 1;" << m_newLineEndingChars;
+	//perl << m_endl << m_endl << "=cut" << m_endl;
+	perl << m_endl << m_endl << "return 1;" << m_endl;
 
 	//close files and notify we are done
 	fileperl.close();
@@ -166,7 +166,7 @@ void PerlWriter::writeClass(UMLClassifier *c) {
  * returns "Perl"
  */
 QString PerlWriter::getLanguage() {
-        return "Perl";
+	return "Perl";
 }
 
 /**
@@ -176,9 +176,9 @@ QString PerlWriter::getLanguage() {
  */
 bool PerlWriter::isType (QString & type)
 {
-   if(type == "PerlWriter")
-        return true;
-   return false;
+	if(type == "PerlWriter")
+		return true;
+	return false;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -214,23 +214,23 @@ void PerlWriter::writeOperations(UMLClassifier *c, QTextStream &perl) {
 
 	//write operations to file
 	if(forceSections() || !oppub.isEmpty()) {
-		perl << m_newLineEndingChars << "=head1 PUBLIC METHODS" << m_newLineEndingChars << m_newLineEndingChars ;
+		perl << m_endl << "=head1 PUBLIC METHODS" << m_endl << m_endl ;
 		writeOperations(classname,oppub,perl);
-		perl << m_newLineEndingChars << m_newLineEndingChars << "=cut" << m_newLineEndingChars << m_newLineEndingChars;
+		perl << m_endl << m_endl << "=cut" << m_endl << m_endl;
 	}
 
 	if(forceSections() || !opprot.isEmpty()) {
-		perl << m_newLineEndingChars << "=head1 METHODS FOR SUBCLASSING" << m_newLineEndingChars << m_newLineEndingChars ;
-		//perl << "=pod "  << m_newLineEndingChars << m_newLineEndingChars << "=head3 " ;
+		perl << m_endl << "=head1 METHODS FOR SUBCLASSING" << m_endl << m_endl ;
+		//perl << "=pod "  << m_endl << m_endl << "=head3 " ;
 		writeOperations(classname,opprot,perl);
-		perl << m_newLineEndingChars << m_newLineEndingChars << "=cut" << m_newLineEndingChars << m_newLineEndingChars;
+		perl << m_endl << m_endl << "=cut" << m_endl << m_endl;
 	}
 
 	if(forceSections() || !oppriv.isEmpty()) {
-		perl << m_newLineEndingChars << "=head1 PRIVATE METHODS" << m_newLineEndingChars << m_newLineEndingChars ;
-		//perl << "=pod "  << m_newLineEndingChars << m_newLineEndingChars << "=head3 " ;
+		perl << m_endl << "=head1 PRIVATE METHODS" << m_endl << m_endl ;
+		//perl << "=pod "  << m_endl << m_endl << "=head3 " ;
 		writeOperations(classname,oppriv,perl);
-		perl << m_newLineEndingChars << m_newLineEndingChars << "=cut" << m_newLineEndingChars << m_newLineEndingChars;
+		perl << m_endl << m_endl << "=cut" << m_endl << m_endl;
 	}
 
     // moved here for perl
@@ -239,23 +239,22 @@ void PerlWriter::writeOperations(UMLClassifier *c, QTextStream &perl) {
 	if(myClass && hasDefaultValueAttr(myClass)) {
 		UMLAttributeList atl = myClass->getFilteredAttributeList();
 
-		perl << m_newLineEndingChars;
-		perl << m_newLineEndingChars << "=head2 _init" << m_newLineEndingChars << m_newLineEndingChars << m_newLineEndingChars;
-		perl << "_init sets all " + classname + " attributes to their default \
-		               values unless already set" << m_newLineEndingChars << m_newLineEndingChars << "=cut" << m_newLineEndingChars << m_newLineEndingChars;
-		perl << "sub _init {" << m_newLineEndingChars << m_indentation << "my $self = shift;" << m_newLineEndingChars<<m_newLineEndingChars;
+		perl << m_endl;
+		perl << m_endl << "=head2 _init" << m_endl << m_endl << m_endl;
+		perl << "_init sets all " + classname + " attributes to their default values unless already set" << m_endl << m_endl << "=cut" << m_endl << m_endl;
+		perl << "sub _init {" << m_endl << m_indentation << "my $self = shift;" << m_endl<<m_endl;
 
 		for(UMLAttribute *at = atl.first(); at ; at = atl.next()) {
 			if(!at->getInitialValue().isEmpty())
 				perl << m_indentation << "defined $self->{" << cleanName(at->getName())<<"}"
-                		<< " or $self->{" << cleanName(at->getName()) << "} = "
-                		<< at->getInitialValue() << ";" << m_newLineEndingChars;
-            	}
+				<< " or $self->{" << cleanName(at->getName()) << "} = "
+				<< at->getInitialValue() << ";" << m_endl;
+		}
 
-	    perl << " }" << m_newLineEndingChars;
+		perl << " }" << m_endl;
 	}
 
-	perl << m_newLineEndingChars << m_newLineEndingChars;
+	perl << m_endl << m_endl;
 }
 
 void PerlWriter::writeOperations(QString /* classname */, UMLOperationList &opList, QTextStream &perl) {
@@ -273,32 +272,32 @@ void PerlWriter::writeOperations(QString /* classname */, UMLOperationList &opLi
 
 		if( writeDoc )  //write method documentation
 		{
-			perl << "=pod "  << m_newLineEndingChars << m_newLineEndingChars << "=head3 " ;
-			perl << cleanName(op->getName()) << m_newLineEndingChars << m_newLineEndingChars;
+			perl << "=pod "  << m_endl << m_endl << "=head3 " ;
+			perl << cleanName(op->getName()) << m_endl << m_endl;
 
-            		perl << "   Parameters :" << m_newLineEndingChars ;
+			perl << "   Parameters :" << m_endl ;
 			for(at = atl->first(); at ; at = atl -> next())  //write parameter documentation
 			{
 				if(forceDoc() || !at->getDoc().isEmpty())
 				{
 					perl << "      " << at->getTypeName() <<cleanName(at->getName()) << "  " << at->getDoc();
-					perl << m_newLineEndingChars;
+					perl << m_endl;
 				}
 			}//end for : write parameter documentation
 
-			perl << m_newLineEndingChars;
-			perl << "   Return : " << m_newLineEndingChars;
+			perl << m_endl;
+			perl << "   Return : " << m_endl;
 			perl << "      " << op->getTypeName();
-			perl << m_newLineEndingChars << m_newLineEndingChars;
-			perl << "   Description : " << m_newLineEndingChars;
+			perl << m_endl << m_endl;
+			perl << "   Description : " << m_endl;
 			perl << "      " << op->getDoc();
-			perl << m_newLineEndingChars << m_newLineEndingChars << "=cut" << m_newLineEndingChars << m_newLineEndingChars;
+			perl << m_endl << m_endl << "=cut" << m_endl << m_endl;
 		}//end if : write method documentation
-		perl <<  "sub " << cleanName(op->getName()) << m_newLineEndingChars << "{" << m_newLineEndingChars;
+		perl <<  "sub " << cleanName(op->getName()) << m_endl << "{" << m_endl;
 		perl << "#UML_MODELER_BEGIN_PERSONAL_CODE_" << cleanName(op->getName());
-		perl << m_newLineEndingChars << "#UML_MODELER_END_PERSONAL_CODE_" << cleanName(op->getName()) << m_newLineEndingChars;
-		perl << "}" << m_newLineEndingChars;
-		perl << m_newLineEndingChars << m_newLineEndingChars;
+		perl << m_endl << "#UML_MODELER_END_PERSONAL_CODE_" << cleanName(op->getName()) << m_endl;
+		perl << "}" << m_endl;
+		perl << m_endl << m_endl;
 	}//end for
 }
 
@@ -347,17 +346,17 @@ void PerlWriter::writeAttributes(UMLClass *c, QTextStream &perl) {
 
 void PerlWriter::writeAttributes(UMLAttributeList &atList, QTextStream &perl)
 {
-    	perl << m_newLineEndingChars << "=head1 PUBLIC ATTRIBUTES" << m_newLineEndingChars << m_newLineEndingChars;
-	perl << "=pod "  << m_newLineEndingChars << m_newLineEndingChars ;
+    	perl << m_endl << "=head1 PUBLIC ATTRIBUTES" << m_endl << m_endl;
+	perl << "=pod "  << m_endl << m_endl ;
 	for (UMLAttribute *at = atList.first(); at ; at = atList.next())
 	{
 		if (forceDoc() || !at->getDoc().isEmpty())
 		{
-	            perl  << "=head3 " << cleanName(at->getName()) << m_newLineEndingChars << m_newLineEndingChars ;
-		    perl  << "   Description : " << at->getDoc() << m_newLineEndingChars << m_newLineEndingChars;
+			perl  << "=head3 " << cleanName(at->getName()) << m_endl << m_endl ;
+			perl  << "   Description : " << at->getDoc() << m_endl << m_endl;
 		}
 	} // end for
-    	perl << m_newLineEndingChars << m_newLineEndingChars << "=cut" << m_newLineEndingChars << m_newLineEndingChars;
+    	perl << m_endl << m_endl << "=cut" << m_endl << m_endl;
 	return;
 }
 
@@ -373,245 +372,245 @@ const QStringList PerlWriter::reservedKeywords() const {
 
   if (keywords.isEmpty()) {
     keywords << "abs"
-             << "accept"
-             << "alarm"
-             << "and"
-             << "atan2"
-             << "BEGIN"
-             << "bind"
-             << "binmode"
-             << "bless"
-             << "byte"
-             << "caller"
-             << "carp"
-             << "chdir"
-             << "chmod"
-             << "chomp"
-             << "chop"
-             << "chown"
-             << "chr"
-             << "chroot"
-             << "close"
-             << "closedir"
-             << "cmp"
-             << "confess"
-             << "connect"
-             << "continue"
-             << "cos"
-             << "croak"
-             << "crypt"
-             << "dbmclose"
-             << "dbmopen"
-             << "defined"
-             << "delete"
-             << "die"
-             << "do"
-             << "dump"
-             << "each"
-             << "else"
-             << "elsif"
-             << "END"
-             << "endgrent"
-             << "endhostent"
-             << "endnetent"
-             << "endprotoent"
-             << "endpwent"
-             << "endservent"
-             << "eof"
-             << "eq"
-             << "eval"
-             << "exec"
-             << "exists"
-             << "exit"
-             << "exp"
-             << "fcntl"
-             << "fileno"
-             << "flock"
-             << "for"
-             << "foreach"
-             << "fork"
-             << "format"
-             << "formline"
-             << "ge"
-             << "getc"
-             << "getgrent"
-             << "getgrgid"
-             << "getgrnam"
-             << "gethostbyaddr"
-             << "gethostbyname"
-             << "gethostent"
-             << "getlogin"
-             << "getnetbyaddr"
-             << "getnetbyname"
-             << "getnetent"
-             << "getpeername"
-             << "getpgrp"
-             << "getppid"
-             << "getpriority"
-             << "getprotobyname"
-             << "getprotobynumber"
-             << "getprotoent"
-             << "getpwent"
-             << "getpwnam"
-             << "getpwuid"
-             << "getservbyname"
-             << "getservbyport"
-             << "getservent"
-             << "getsockname"
-             << "getsockopt"
-             << "glob"
-             << "gmtime"
-             << "goto"
-             << "grep"
-             << "gt"
-             << "hex"
-             << "if"
-             << "import"
-             << "index"
-             << "int"
-             << "integer"
-             << "ioctl"
-             << "join"
-             << "keys"
-             << "kill"
-             << "last"
-             << "lc"
-             << "lcfirst"
-             << "le"
-             << "length"
-             << "lib"
-             << "link"
-             << "listen"
-             << "local"
-             << "localtime"
-             << "lock"
-             << "log"
-             << "lstat"
-             << "lt"
-             << "map"
-             << "mkdir"
-             << "msgctl"
-             << "msgget"
-             << "msgrcv"
-             << "msgsnd"
-             << "my"
-             << "ne"
-             << "new"
-             << "next"
-             << "no"
-             << "not"
-             << "oct"
-             << "open"
-             << "opendir"
-             << "or"
-             << "ord"
-             << "our"
-             << "pack"
-             << "package"
-             << "pipe"
-             << "pop"
-             << "pos"
-             << "print"
-             << "printf"
-             << "prototype"
-             << "push"
-             << "quotemeta"
-             << "rand"
-             << "read"
-             << "readdir"
-             << "readline"
-             << "readlink"
-             << "readpipe"
-             << "recv"
-             << "redo"
-             << "ref"
-             << "rename"
-             << "require"
-             << "reset"
-             << "return"
-             << "reverse"
-             << "rewinddir"
-             << "rindex"
-             << "rmdir"
-             << "scalar"
-             << "seek"
-             << "seekdir"
-             << "select"
-             << "semctl"
-             << "semget"
-             << "semop"
-             << "send"
-             << "setgrent"
-             << "sethostent"
-             << "setnetent"
-             << "setpgrp"
-             << "setpriority"
-             << "setprotoent"
-             << "setpwent"
-             << "setservent"
-             << "setsockopt"
-             << "shift"
-             << "shmctl"
-             << "shmget"
-             << "shmread"
-             << "shmwrite"
-             << "shutdown"
-             << "sigtrap"
-             << "sin"
-             << "sleep"
-             << "socket"
-             << "socketpair"
-             << "sort"
-             << "splice"
-             << "split"
-             << "sprintf"
-             << "sqrt"
-             << "srand"
-             << "stat"
-             << "strict"
-             << "study"
-             << "sub"
-             << "subs"
-             << "substr"
-             << "switch"
-             << "symlink"
-             << "syscall"
-             << "sysopen"
-             << "sysread"
-             << "sysseek"
-             << "system"
-             << "syswrite"
-             << "tell"
-             << "telldir"
-             << "tie"
-             << "tied"
-             << "time"
-             << "times"
-             << "truncate"
-             << "uc"
-             << "ucfirst"
-             << "umask"
-             << "undef"
-             << "unless"
-             << "unlink"
-             << "unpack"
-             << "unshift"
-             << "untie"
-             << "until"
-             << "use"
-             << "utf8"
-             << "utime"
-             << "values"
-             << "vars"
-             << "vec"
-             << "wait"
-             << "waitpid"
-             << "wantarray"
-             << "warn"
-             << "warnings"
-             << "while"
-             << "write"
-             << "xor";
+	     << "accept"
+	     << "alarm"
+	     << "and"
+	     << "atan2"
+	     << "BEGIN"
+	     << "bind"
+	     << "binmode"
+	     << "bless"
+	     << "byte"
+	     << "caller"
+	     << "carp"
+	     << "chdir"
+	     << "chmod"
+	     << "chomp"
+	     << "chop"
+	     << "chown"
+	     << "chr"
+	     << "chroot"
+	     << "close"
+	     << "closedir"
+	     << "cmp"
+	     << "confess"
+	     << "connect"
+	     << "continue"
+	     << "cos"
+	     << "croak"
+	     << "crypt"
+	     << "dbmclose"
+	     << "dbmopen"
+	     << "defined"
+	     << "delete"
+	     << "die"
+	     << "do"
+	     << "dump"
+	     << "each"
+	     << "else"
+	     << "elsif"
+	     << "END"
+	     << "endgrent"
+	     << "endhostent"
+	     << "endnetent"
+	     << "endprotoent"
+	     << "endpwent"
+	     << "endservent"
+	     << "eof"
+	     << "eq"
+	     << "eval"
+	     << "exec"
+	     << "exists"
+	     << "exit"
+	     << "exp"
+	     << "fcntl"
+	     << "fileno"
+	     << "flock"
+	     << "for"
+	     << "foreach"
+	     << "fork"
+	     << "format"
+	     << "formline"
+	     << "ge"
+	     << "getc"
+	     << "getgrent"
+	     << "getgrgid"
+	     << "getgrnam"
+	     << "gethostbyaddr"
+	     << "gethostbyname"
+	     << "gethostent"
+	     << "getlogin"
+	     << "getnetbyaddr"
+	     << "getnetbyname"
+	     << "getnetent"
+	     << "getpeername"
+	     << "getpgrp"
+	     << "getppid"
+	     << "getpriority"
+	     << "getprotobyname"
+	     << "getprotobynumber"
+	     << "getprotoent"
+	     << "getpwent"
+	     << "getpwnam"
+	     << "getpwuid"
+	     << "getservbyname"
+	     << "getservbyport"
+	     << "getservent"
+	     << "getsockname"
+	     << "getsockopt"
+	     << "glob"
+	     << "gmtime"
+	     << "goto"
+	     << "grep"
+	     << "gt"
+	     << "hex"
+	     << "if"
+	     << "import"
+	     << "index"
+	     << "int"
+	     << "integer"
+	     << "ioctl"
+	     << "join"
+	     << "keys"
+	     << "kill"
+	     << "last"
+	     << "lc"
+	     << "lcfirst"
+	     << "le"
+	     << "length"
+	     << "lib"
+	     << "link"
+	     << "listen"
+	     << "local"
+	     << "localtime"
+	     << "lock"
+	     << "log"
+	     << "lstat"
+	     << "lt"
+	     << "map"
+	     << "mkdir"
+	     << "msgctl"
+	     << "msgget"
+	     << "msgrcv"
+	     << "msgsnd"
+	     << "my"
+	     << "ne"
+	     << "new"
+	     << "next"
+	     << "no"
+	     << "not"
+	     << "oct"
+	     << "open"
+	     << "opendir"
+	     << "or"
+	     << "ord"
+	     << "our"
+	     << "pack"
+	     << "package"
+	     << "pipe"
+	     << "pop"
+	     << "pos"
+	     << "print"
+	     << "printf"
+	     << "prototype"
+	     << "push"
+	     << "quotemeta"
+	     << "rand"
+	     << "read"
+	     << "readdir"
+	     << "readline"
+	     << "readlink"
+	     << "readpipe"
+	     << "recv"
+	     << "redo"
+	     << "ref"
+	     << "rename"
+	     << "require"
+	     << "reset"
+	     << "return"
+	     << "reverse"
+	     << "rewinddir"
+	     << "rindex"
+	     << "rmdir"
+	     << "scalar"
+	     << "seek"
+	     << "seekdir"
+	     << "select"
+	     << "semctl"
+	     << "semget"
+	     << "semop"
+	     << "send"
+	     << "setgrent"
+	     << "sethostent"
+	     << "setnetent"
+	     << "setpgrp"
+	     << "setpriority"
+	     << "setprotoent"
+	     << "setpwent"
+	     << "setservent"
+	     << "setsockopt"
+	     << "shift"
+	     << "shmctl"
+	     << "shmget"
+	     << "shmread"
+	     << "shmwrite"
+	     << "shutdown"
+	     << "sigtrap"
+	     << "sin"
+	     << "sleep"
+	     << "socket"
+	     << "socketpair"
+	     << "sort"
+	     << "splice"
+	     << "split"
+	     << "sprintf"
+	     << "sqrt"
+	     << "srand"
+	     << "stat"
+	     << "strict"
+	     << "study"
+	     << "sub"
+	     << "subs"
+	     << "substr"
+	     << "switch"
+	     << "symlink"
+	     << "syscall"
+	     << "sysopen"
+	     << "sysread"
+	     << "sysseek"
+	     << "system"
+	     << "syswrite"
+	     << "tell"
+	     << "telldir"
+	     << "tie"
+	     << "tied"
+	     << "time"
+	     << "times"
+	     << "truncate"
+	     << "uc"
+	     << "ucfirst"
+	     << "umask"
+	     << "undef"
+	     << "unless"
+	     << "unlink"
+	     << "unpack"
+	     << "unshift"
+	     << "untie"
+	     << "until"
+	     << "use"
+	     << "utf8"
+	     << "utime"
+	     << "values"
+	     << "vars"
+	     << "vec"
+	     << "wait"
+	     << "waitpid"
+	     << "wantarray"
+	     << "warn"
+	     << "warnings"
+	     << "while"
+	     << "write"
+	     << "xor";
   }
 
   return keywords;

@@ -35,29 +35,16 @@
 
 IDLWriter::IDLWriter(UMLDoc *parent, const char *name)
 		: SimpleCodeGenerator(parent, name, false) {
-	indentlevel = 0;
-	// FIXME: Eventually we should fabricate an Indenter class
-	// that can be used by all code generators.
-	// NOTE: this has now been done in new code gen class. -b.t.
 }
 
 IDLWriter::~IDLWriter() {}
 
-QString IDLWriter::spc() {
-	QString s;
-	if (m_indentation.contains(' '))
-		s.fill(' ', indentlevel * m_indentationAmount);
-	else
-		s.fill('\t', indentlevel * m_indentationAmount);
-	return s;
-}
-
 bool IDLWriter::isOOClass(UMLClassifier *c) {
 	QString stype = c->getStereotype(false);
 	if (stype == "CORBAConstant" || stype == "CORBAEnum" ||
-	        stype == "CORBAStruct" || stype == "CORBAUnion" ||
-	        stype == "CORBASequence" || stype == "CORBAArray" ||
-	        stype == "CORBATypedef")
+	    stype == "CORBAStruct" || stype == "CORBAUnion" ||
+	    stype == "CORBASequence" || stype == "CORBAArray" ||
+	    stype == "CORBATypedef")
 		return false;
 
 	// CORBAValue, CORBAInterface, and all empty/unknown stereotypes are
@@ -175,7 +162,7 @@ void IDLWriter::writeClass(UMLClassifier *c) {
 	if (!str.isEmpty()) {
 		str.replace(QRegExp("%filename%"), fileName);
 		str.replace(QRegExp("%filepath%"), file.name());
-		idl << str << m_newLineEndingChars;
+		idl << str << m_endl;
 	}
 
 	// Write includes.
@@ -187,9 +174,9 @@ void IDLWriter::writeClass(UMLClassifier *c) {
 				continue;
 			QString baseName = findFileName(conc, ".idl");
 			if (!baseName.isEmpty())
-				idl << "#include \"" << baseName << ".idl\"" << m_newLineEndingChars;
+				idl << "#include \"" << baseName << ".idl\"" << m_endl;
 		}
-		idl << m_newLineEndingChars;
+		idl << m_endl;
 	}
 
 	// Generate the module declaration(s) for the package(s) in which
@@ -197,37 +184,36 @@ void IDLWriter::writeClass(UMLClassifier *c) {
 	UMLPackageList pkgList = c->getPackages();
 	UMLPackage *pkg;
 	for (pkg = pkgList.first(); pkg != NULL; pkg = pkgList.next()) {
-		idl << spc() << "module " << pkg->getName() << " {" << m_newLineEndingChars << m_newLineEndingChars;
-		indentlevel++;
+		idl << getIndent() << "module " << pkg->getName() << " {" << m_endl << m_endl;
+		m_indentLevel++;
 	}
 
 	// Write class Documentation if non-empty or if force option set.
 	if (forceDoc() || !c->getDoc().isEmpty()) {
-		idl << "//" << m_newLineEndingChars;
-		idl << "// class " << classname << m_newLineEndingChars;
+		idl << "//" << m_endl;
+		idl << "// class " << classname << m_endl;
 		idl << formatDoc(c->getDoc(), "// ");
-		idl << m_newLineEndingChars;
+		idl << m_endl;
 	}
 
 	if (c->getBaseType() == Uml::ot_Enum) {
-		UMLEnum *ue = static_cast<UMLEnum*>(c);
-		UMLClassifierListItemList litList = ue->getFilteredList(Uml::ot_EnumLiteral);
+		UMLClassifierListItemList litList = c->getFilteredList(Uml::ot_EnumLiteral);
 		uint i = 0;
-		idl << spc() << "enum " << classname << " {" << m_newLineEndingChars;
-		indentlevel++;
+		idl << getIndent() << "enum " << classname << " {" << m_endl;
+		m_indentLevel++;
 		for (UMLClassifierListItem *lit = litList.first(); lit; lit = litList.next()) {
 			QString enumLiteral = cleanName(lit->getName());
-			idl << spc() << enumLiteral;
+			idl << getIndent() << enumLiteral;
 			if (++i < litList.count())
 				idl << ",";
-			idl << m_newLineEndingChars;
+			idl << m_endl;
 		}
-		indentlevel--;
-		idl << spc() << "};" << m_newLineEndingChars << m_newLineEndingChars;
+		m_indentLevel--;
+		idl << getIndent() << "};" << m_endl << m_endl;
 		// Close the modules inside which we might be nested.
 		for (pkg = pkgList.first(); pkg != NULL; pkg = pkgList.next()) {
-			indentlevel--;
-			idl << spc() << "};" << m_newLineEndingChars << m_newLineEndingChars;
+			m_indentLevel--;
+			idl << getIndent() << "};" << m_endl << m_endl;
 		}
 		return;
 	}
@@ -247,68 +233,68 @@ void IDLWriter::writeClass(UMLClassifier *c) {
 		if (stype == "CORBAEnum") {
 			UMLAttributeList atl = myClass->getFilteredAttributeList();
 			UMLAttribute *at;
-			idl << spc() << "enum " << classname << " {" << m_newLineEndingChars;
-			indentlevel++;
+			idl << getIndent() << "enum " << classname << " {" << m_endl;
+			m_indentLevel++;
 			uint i = 0;
 			for (at = atl.first(); at; at = atl.next()) {
 				QString enumLiteral = cleanName(at->getName());
-				idl << spc() << enumLiteral;
+				idl << getIndent() << enumLiteral;
 				if (++i < atl.count())
 					idl << ",";
-				idl << m_newLineEndingChars;
+				idl << m_endl;
 			}
-			indentlevel--;
-			idl << spc() << "};" << m_newLineEndingChars << m_newLineEndingChars;
+			m_indentLevel--;
+			idl << getIndent() << "};" << m_endl << m_endl;
 		} else if (stype == "CORBAStruct") {
 			UMLAttributeList atl = myClass->getFilteredAttributeList();
 			UMLAttribute *at;
-			idl << spc() << "struct " << classname << " {" << m_newLineEndingChars;
-			indentlevel++;
+			idl << getIndent() << "struct " << classname << " {" << m_endl;
+			m_indentLevel++;
 			for (at = atl.first(); at; at = atl.next()) {
 				QString name = cleanName(at->getName());
-				idl << spc() << at->getTypeName() << " " << name << ";" << m_newLineEndingChars;
+				idl << getIndent() << at->getTypeName() << " " << name << ";" << m_endl;
 				// Initial value not possible in IDL.
 			}
 			UMLAssociationList compositions = c->getCompositions();
 			if (!compositions.isEmpty()) {
-				idl << spc() << "// Compositions." << m_newLineEndingChars;
+				idl << getIndent() << "// Compositions." << m_endl;
 				for (UMLAssociation *a = compositions.first(); a; a = compositions.next()) {
 					QString memberType, memberName;
 					computeAssocTypeAndRole(a, c, memberType, memberName);
-					idl << spc() << memberType << " " << memberName << ";" << m_newLineEndingChars;
+					idl << getIndent() << memberType << " " << memberName << ";" << m_endl;
 				}
 			}
 			UMLAssociationList aggregations = c->getAggregations();
 			if (!aggregations.isEmpty()) {
-				idl << spc() << "// Aggregations." << m_newLineEndingChars;
+				idl << getIndent() << "// Aggregations." << m_endl;
 				for (UMLAssociation *a = aggregations.first(); a; a = aggregations.next()) {
 					QString memberType, memberName;
 					computeAssocTypeAndRole(a, c, memberType, memberName);
-					idl << spc() << memberType << " " << memberName << ";" << m_newLineEndingChars;
+					idl << getIndent() << memberType << " " << memberName << ";" << m_endl;
 				}
 			}
-			indentlevel--;
-			idl << spc() << "};" << m_newLineEndingChars << m_newLineEndingChars;
+			m_indentLevel--;
+			idl << getIndent() << "};" << m_endl << m_endl;
 		} else if (stype == "CORBAUnion") {
-			idl << spc() << "// " << stype << " " << c->getName()
-			    << " is Not Yet Implemented" << m_newLineEndingChars << m_newLineEndingChars;
+			idl << getIndent() << "// " << stype << " " << c->getName()
+			    << " is Not Yet Implemented" << m_endl << m_endl;
 		} else if (stype == "CORBATypedef") {
 			UMLClassifierList superclasses = c->getSuperClasses();
 			UMLClassifier* firstParent = superclasses.first();
-			idl << spc() << "typedef " << firstParent->getName() << " "
-			    << c->getName() << ";" << m_newLineEndingChars << m_newLineEndingChars;
+			idl << getIndent() << "typedef " << firstParent->getName() << " "
+			    << c->getName() << ";" << m_endl << m_endl;
 		} else {
-			idl << spc() << "// " << stype << ": Unknown stereotype" << m_newLineEndingChars << m_newLineEndingChars;
+			idl << getIndent() << "// " << stype << ": Unknown stereotype" << m_endl << m_endl;
 		}
 		// Close the modules inside which we might be nested.
 		for (pkg = pkgList.first(); pkg != NULL; pkg = pkgList.next()) {
-			indentlevel--;
-			idl << spc() << "};" << m_newLineEndingChars << m_newLineEndingChars;
+			m_indentLevel--;
+			idl << getIndent() << "};" << m_endl << m_endl;
 		}
 		return;
 	}
 
-	idl << spc();
+	idl << getIndent();
 	if (c->getAbstract())
 		idl << "abstract ";
 	bool isValuetype = (c->getStereotype(false) == "CORBAValue");
@@ -329,8 +315,8 @@ void IDLWriter::writeClass(UMLClassifier *c) {
 			parent = superclasses.next();
 		}
 	}
-	idl << " {" << m_newLineEndingChars << m_newLineEndingChars;
-	indentlevel++;
+	idl << " {" << m_endl << m_endl;
+	m_indentLevel++;
 
 	// Generate auxiliary declarations for multiplicity of associations
 	UMLAssociation *a;
@@ -343,24 +329,24 @@ void IDLWriter::writeClass(UMLClassifier *c) {
 		if (multiplicity.isEmpty() || multiplicity == "1")
 			continue;
 		if (!didComment) {
-			idl << spc() << "// Types for association multiplicities" << m_newLineEndingChars << m_newLineEndingChars;
+			idl << getIndent() << "// Types for association multiplicities" << m_endl << m_endl;
 			didComment = true;
 		}
 		UMLClassifier* other = (UMLClassifier*)m_doc->findObjectById(a->getRoleId(Uml::A));
 		QString bareName = cleanName(other->getName());
-		idl << spc() << "typedef sequence<" << qualifiedName(other) << "> "
-		    << bareName << "Vector;" << m_newLineEndingChars << m_newLineEndingChars;
+		idl << getIndent() << "typedef sequence<" << qualifiedName(other) << "> "
+		    << bareName << "Vector;" << m_endl << m_endl;
 	}
 
 	// Generate public attributes.
 	if(myClass) {
 		UMLAttributeList atl = myClass->getFilteredAttributeList();
 		if (forceSections() || atl.count()) {
-			idl << spc() << "// Attributes:" << m_newLineEndingChars << m_newLineEndingChars;
+			idl << getIndent() << "// Attributes:" << m_endl << m_endl;
 			for (UMLAttribute *at = atl.first(); at; at = atl.next()) {
 				QString attName = cleanName(at->getName());
 				Uml::Scope scope = at->getScope();
-				idl << spc();
+				idl << getIndent();
 				if (isValuetype) {
 					if (scope == Uml::Public)
 						idl << "public ";
@@ -370,13 +356,13 @@ void IDLWriter::writeClass(UMLClassifier *c) {
 					if (scope != Uml::Public) {
 						idl << "// visibility should be: "
 						    << Umbrello::scopeToString(scope, false)
-						    << m_newLineEndingChars;
-						idl << spc();
+						    << m_endl;
+						idl << getIndent();
 					}
 					idl << "attribute ";
 				}
 				idl << at->getTypeName() << " " << attName << ";"
-				    << m_newLineEndingChars << m_newLineEndingChars;
+				    << m_endl << m_endl;
 			}
 		}
 	}
@@ -390,15 +376,15 @@ void IDLWriter::writeClass(UMLClassifier *c) {
 			oppub.append(op);
 	}
 	if (forceSections() || oppub.count()) {
-		idl << spc() << "// Public methods:" << m_newLineEndingChars << m_newLineEndingChars;
+		idl << getIndent() << "// Public methods:" << m_endl << m_endl;
 		for (op = oppub.first(); op; op = oppub.next())
 			writeOperation(op, idl);
-		idl << m_newLineEndingChars;
+		idl << m_endl;
 	}
 
 
 	if (forceSections() || !assocs.isEmpty()) {
-		idl << spc() << "// Associations:" << m_newLineEndingChars << m_newLineEndingChars;
+		idl << getIndent() << "// Associations:" << m_endl << m_endl;
 		for (a = assocs.first(); a; a = assocs.next()) {
 			Uml::Association_Type at = a->getAssocType();
 			if (! assocTypeIsMappableToAttribute(at))
@@ -407,24 +393,24 @@ void IDLWriter::writeClass(UMLClassifier *c) {
 			computeAssocTypeAndRole(a, c, typeName, roleName);
 			if (roleName.isEmpty())  // presumably because we are at the "wrong" end
 				continue;
-			idl << spc() << "// " << UMLAssociation::typeAsString(at) << m_newLineEndingChars;
-			idl << spc();
+			idl << getIndent() << "// " << UMLAssociation::typeAsString(at) << m_endl;
+			idl << getIndent();
 			if (isValuetype)
 				idl << "public ";
 			else
 				idl << "attribute ";
-			idl << typeName << " " << roleName << ";" << m_newLineEndingChars;
+			idl << typeName << " " << roleName << ";" << m_endl;
 		}
-		idl << m_newLineEndingChars;
+		idl << m_endl;
 	}
 
-	indentlevel--;
-	idl << spc() << "};" << m_newLineEndingChars << m_newLineEndingChars;
+	m_indentLevel--;
+	idl << getIndent() << "};" << m_endl << m_endl;
 
 	// Close the modules inside which we might be nested.
 	for (pkg = pkgList.first(); pkg != NULL; pkg = pkgList.next()) {
-		indentlevel--;
-		idl << spc() << "};" << m_newLineEndingChars << m_newLineEndingChars;
+		m_indentLevel--;
+		idl << getIndent() << "};" << m_endl << m_endl;
 	}
 	file.close();
 	emit codeGenerated(c, true);
@@ -435,16 +421,16 @@ void IDLWriter::writeOperation(UMLOperation *op, QTextStream &idl, bool is_comme
 	UMLAttributeList *atl = op->getParmList();
 	QString rettype = op->getTypeName();
 
-	idl << spc();
+	idl << getIndent();
 	if (is_comment)
 		idl << "// ";
 	idl << rettype << " " << cleanName(op->getName()) << " (";
 	if (atl->count()) {
-		idl << m_newLineEndingChars;
-		indentlevel++;
+		idl << m_endl;
+		m_indentLevel++;
 		uint i = 0;
 		for (UMLAttribute *at = atl->first(); at; at = atl->next()) {
-			idl << spc();
+			idl << getIndent();
 			if (is_comment)
 				idl << "// ";
 			Uml::Parameter_Direction pk = at->getParmKind();
@@ -456,11 +442,11 @@ void IDLWriter::writeOperation(UMLOperation *op, QTextStream &idl, bool is_comme
 				idl << "in ";
 			idl << at->getTypeName() << " " << cleanName(at->getName());
 			if (++i < atl->count())
-				idl << "," << m_newLineEndingChars;
+				idl << "," << m_endl;
 		}
-		indentlevel--;
+		m_indentLevel--;
 	}
-	idl << ");" << m_newLineEndingChars << m_newLineEndingChars;
+	idl << ");" << m_endl << m_endl;
 }
 
 void IDLWriter::createDefaultDatatypes() {
@@ -482,38 +468,38 @@ const QStringList IDLWriter::reservedKeywords() const {
 
   if (keywords.isEmpty()) {
     keywords << "any"
-             << "attribute"
-             << "boolean"
-             << "case"
-             << "char"
-             << "const"
-             << "context"
-             << "default"
-             << "double"
-             << "enum"
-             << "exception"
-             << "FALSE"
-             << "float"
-             << "in"
-             << "inout"
-             << "interface"
-             << "long"
-             << "module"
-             << "octet"
-             << "oneway"
-             << "out"
-             << "raises"
-             << "readonly"
-             << "sequence"
-             << "short"
-             << "string"
-             << "struct"
-             << "switch"
-             << "TRUE"
-             << "typedef"
-             << "union"
-             << "unsigned"
-             << "void";
+	     << "attribute"
+	     << "boolean"
+	     << "case"
+	     << "char"
+	     << "const"
+	     << "context"
+	     << "default"
+	     << "double"
+	     << "enum"
+	     << "exception"
+	     << "FALSE"
+	     << "float"
+	     << "in"
+	     << "inout"
+	     << "interface"
+	     << "long"
+	     << "module"
+	     << "octet"
+	     << "oneway"
+	     << "out"
+	     << "raises"
+	     << "readonly"
+	     << "sequence"
+	     << "short"
+	     << "string"
+	     << "struct"
+	     << "switch"
+	     << "TRUE"
+	     << "typedef"
+	     << "union"
+	     << "unsigned"
+	     << "void";
   }
 
   return keywords;

@@ -130,7 +130,7 @@ private:
 	 */
 	void writeAssociationMethods(UMLAssociationList associations, UMLClassifier *thisClass,
 				     QTextStream &java); 
-	
+
 	/**
 	 * calls @ref writeSingleAttributeAccessorMethods() or @ref
 	 * writeVectorAttributeAccessorMethods() on the assocaition
@@ -195,11 +195,6 @@ private:
 	 * a little method for converting scope to string value
 	 */
 	QString scopeToJavaDecl(Uml::Scope scope); 
-	
-	/**
-	 * A tab, used to indent code
-	 */
-	QString indent;
 
 	/**
 	 * A \n, used at the end of each line

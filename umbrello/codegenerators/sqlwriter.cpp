@@ -69,18 +69,18 @@ void SQLWriter::writeClass(UMLClassifier *c) {
 	if(!str.isEmpty()) {
 		str.replace(QRegExp("%filename%"),fileName);
 		str.replace(QRegExp("%filepath%"),file.name());
-		sql<<str<<endl;
+		sql<<str<<m_endl;
 	}
 
 	//Write class Documentation if there is somthing or if force option
 	if(forceDoc() || !c->getDoc().isEmpty()) {
-		sql << m_newLineEndingChars << "--" << m_newLineEndingChars;
-		sql<<"-- TABLE: "<<classname<<endl;
+		sql << m_endl << "--" << m_endl;
+		sql<<"-- TABLE: "<<classname<<m_endl;
 		sql<<formatDoc(c->getDoc(),"-- ");
-		sql << "--  " << m_newLineEndingChars << m_newLineEndingChars;
+		sql << "--  " << m_endl << m_endl;
 	}
 
-	sql << "CREATE TABLE "<< classname << " ( " << endl;
+	sql << "CREATE TABLE "<< classname << " ( " << m_endl;
 
 	if(myClass)
 		writeAttributes(myClass,sql);
@@ -90,7 +90,7 @@ void SQLWriter::writeClass(UMLClassifier *c) {
 		for(UMLAssociation* a = aggregations.first(); a; a = aggregations.next()) {
 			if( a->getObject(Uml::A)->getID() != c->getID() ) {
 
-				sql << m_indentation << "," << m_newLineEndingChars << m_indentation
+				sql << m_indentation << "," << m_endl << m_indentation
 					 << "CONSTRAINT " << a->getName() << " FOREIGN KEY ("
 					 << a->getRoleName(Uml::B) << ") REFERENCES "
 					 << a->getObject(Uml::A)->getName()
@@ -99,7 +99,7 @@ void SQLWriter::writeClass(UMLClassifier *c) {
 		}
 	}
 
-	sql << m_newLineEndingChars << ");" << m_newLineEndingChars;
+	sql << m_endl << ");" << m_endl;
 
 	file.close();
 	emit codeGenerated(c, true);
@@ -170,9 +170,9 @@ void SQLWriter::printAttributes(QTextStream& sql, UMLAttributeList attributeList
 		// print documentation/comment of last attribute at end of line
 		if (attrDoc.isEmpty() == false)
 		{
-			sql << " -- " << attrDoc << endl;
+			sql << " -- " << attrDoc << m_endl;
 		} else {
-			sql << endl;
+			sql << m_endl;
 		}
 
 		// write the attribute
@@ -186,16 +186,16 @@ void SQLWriter::printAttributes(QTextStream& sql, UMLAttributeList attributeList
 	// print documentation/comment at end of line
 	if (attrDoc.isEmpty() == false)
 	{
-		sql << " -- " << attrDoc << endl;
+		sql << " -- " << attrDoc << m_endl;
 	} else {
-		sql << endl;
+		sql << m_endl;
 	}
 
 	return;
 }
 
 QString SQLWriter::getLanguage() {
-        return "SQL";
+	return "SQL";
 }
 
 /**
@@ -205,9 +205,9 @@ QString SQLWriter::getLanguage() {
  */
 bool SQLWriter::isType (QString & type)
 {
-   if(type == "SQLWriter")
-        return true;
-   return false;
+	if(type == "SQLWriter")
+		return true;
+	return false;
 }
 
 const QStringList SQLWriter::reservedKeywords() const {
@@ -216,142 +216,142 @@ const QStringList SQLWriter::reservedKeywords() const {
 
   if (keywords.isEmpty()) {
     keywords << "access"
-             << "add"
-             << "all"
-             << "alter"
-             << "analyze"
-             << "and"
-             << "any"
-             << "as"
-             << "asc"
-             << "audit"
-             << "begin"
-             << "between"
-             << "boolean"
-             << "by"
-             << "char"
-             << "character"
-             << "check"
-             << "cluster"
-             << "column"
-             << "comment"
-             << "commit"
-             << "compress"
-             << "connect"
-             << "create"
-             << "current"
-             << "cursor"
-             << "date"
-             << "decimal"
-             << "default"
-             << "delete"
-             << "desc"
-             << "distinct"
-             << "drop"
-             << "else"
-             << "elsif"
-             << "end"
-             << "escape"
-             << "exception"
-             << "exclusive"
-             << "execute"
-             << "exists"
-             << "explain"
-             << "false"
-             << "file"
-             << "float"
-             << "for"
-             << "from"
-             << "function"
-             << "grant"
-             << "group"
-             << "having"
-             << "identified"
-             << "if"
-             << "immediate"
-             << "in"
-             << "increment"
-             << "index"
-             << "initial"
-             << "insert"
-             << "integer"
-             << "intersect"
-             << "into"
-             << "is"
-             << "level"
-             << "like"
-             << "lock"
-             << "long"
-             << "loop"
-             << "maxextents"
-             << "minus"
-             << "mlslabel"
-             << "mode"
-             << "modify"
-             << "noaudit"
-             << "nocompress"
-             << "not"
-             << "nowait"
-             << "null"
-             << "number"
-             << "of"
-             << "offline"
-             << "on"
-             << "online"
-             << "option"
-             << "or"
-             << "order"
-             << "out"
-             << "pctfree"
-             << "prior"
-             << "privileges"
-             << "procedure"
-             << "public"
-             << "raw"
-             << "rename"
-             << "resource"
-             << "return"
-             << "revoke"
-             << "rollback"
-             << "row"
-             << "rowid"
-             << "rowlabel"
-             << "rownum"
-             << "rows"
-             << "savepoint"
-             << "select"
-             << "session"
-             << "set"
-             << "share"
-             << "size"
-             << "smallint"
-             << "some"
-             << "start"
-             << "successful"
-             << "synonym"
-             << "sysdate"
-             << "table"
-             << "then"
-             << "to"
-             << "trigger"
-             << "true"
-             << "truncate"
-             << "type"
-             << "uid"
-             << "union"
-             << "unique"
-             << "update"
-             << "user"
-             << "using"
-             << "validate"
-             << "values"
-             << "varchar"
-             << "varchar2"
-             << "varray"
-             << "view"
-             << "whenever"
-             << "where"
-             << "with";
+	     << "add"
+	     << "all"
+	     << "alter"
+	     << "analyze"
+	     << "and"
+	     << "any"
+	     << "as"
+	     << "asc"
+	     << "audit"
+	     << "begin"
+	     << "between"
+	     << "boolean"
+	     << "by"
+	     << "char"
+	     << "character"
+	     << "check"
+	     << "cluster"
+	     << "column"
+	     << "comment"
+	     << "commit"
+	     << "compress"
+	     << "connect"
+	     << "create"
+	     << "current"
+	     << "cursor"
+	     << "date"
+	     << "decimal"
+	     << "default"
+	     << "delete"
+	     << "desc"
+	     << "distinct"
+	     << "drop"
+	     << "else"
+	     << "elsif"
+	     << "end"
+	     << "escape"
+	     << "exception"
+	     << "exclusive"
+	     << "execute"
+	     << "exists"
+	     << "explain"
+	     << "false"
+	     << "file"
+	     << "float"
+	     << "for"
+	     << "from"
+	     << "function"
+	     << "grant"
+	     << "group"
+	     << "having"
+	     << "identified"
+	     << "if"
+	     << "immediate"
+	     << "in"
+	     << "increment"
+	     << "index"
+	     << "initial"
+	     << "insert"
+	     << "integer"
+	     << "intersect"
+	     << "into"
+	     << "is"
+	     << "level"
+	     << "like"
+	     << "lock"
+	     << "long"
+	     << "loop"
+	     << "maxextents"
+	     << "minus"
+	     << "mlslabel"
+	     << "mode"
+	     << "modify"
+	     << "noaudit"
+	     << "nocompress"
+	     << "not"
+	     << "nowait"
+	     << "null"
+	     << "number"
+	     << "of"
+	     << "offline"
+	     << "on"
+	     << "online"
+	     << "option"
+	     << "or"
+	     << "order"
+	     << "out"
+	     << "pctfree"
+	     << "prior"
+	     << "privileges"
+	     << "procedure"
+	     << "public"
+	     << "raw"
+	     << "rename"
+	     << "resource"
+	     << "return"
+	     << "revoke"
+	     << "rollback"
+	     << "row"
+	     << "rowid"
+	     << "rowlabel"
+	     << "rownum"
+	     << "rows"
+	     << "savepoint"
+	     << "select"
+	     << "session"
+	     << "set"
+	     << "share"
+	     << "size"
+	     << "smallint"
+	     << "some"
+	     << "start"
+	     << "successful"
+	     << "synonym"
+	     << "sysdate"
+	     << "table"
+	     << "then"
+	     << "to"
+	     << "trigger"
+	     << "true"
+	     << "truncate"
+	     << "type"
+	     << "uid"
+	     << "union"
+	     << "unique"
+	     << "update"
+	     << "user"
+	     << "using"
+	     << "validate"
+	     << "values"
+	     << "varchar"
+	     << "varchar2"
+	     << "varray"
+	     << "view"
+	     << "whenever"
+	     << "where"
+	     << "with";
   }
 
   return keywords;

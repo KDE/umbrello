@@ -82,7 +82,7 @@ private:
 	  * @param php output stream for the PHP file
 	  */
 	void writeOperations(QString classname, UMLOperationList &opList,
-	                     QTextStream &php);
+			     QTextStream &php);
 
 	/** write all the attributes of a class
 	  * @param c the class we are generating code for

@@ -63,10 +63,10 @@ public:
 
 private:
 
-        /**
-          * we do not want to write the comment "Private methods" twice
-          */
-        bool bPrivateSectionCommentIsWritten;
+	/**
+	 * we do not want to write the comment "Private methods" twice
+	 */
+	bool bPrivateSectionCommentIsWritten;
 
 	/**
 	  * write all operations for a given class
@@ -85,7 +85,7 @@ private:
 	  * @param interface indicates if the operation is an interface member
 	  */
 	void writeOperations(QString classname, UMLOperationList &opList,
-	                     QTextStream &php, bool interface);
+			     QTextStream &php, bool interface);
 
 	/** write all the attributes of a class
 	  * @param c the class we are generating code for

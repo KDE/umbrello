@@ -89,7 +89,7 @@ private:
 	  * @param perl output stream for the Perl file
 	  */
 	void writeOperations(QString classname, UMLOperationList &opList,
-	                     QTextStream &perl);
+			     QTextStream &perl);
 
 	/** write all the attributes of a class
 	  * @param c the class we are generating code for

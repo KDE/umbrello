@@ -79,9 +79,6 @@ private:
 
 	QString qualifiedName(UMLClassifier* c);
 
-	QString spc();
-
-	int indentlevel;
 };
 
 #endif // IDLWRITER_H

@@ -94,11 +94,8 @@ private:
 	QString qualifiedName
 	(UMLClassifier *c, bool withType = false, bool byValue = false);
 
-	QString spc ();
-
 	static const QString defaultPackageSuffix;
 
-	int indentlevel;
 };
 
 #endif // ADAWRITER_H

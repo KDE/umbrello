@@ -36,9 +36,6 @@ XMLSchemaWriter::XMLSchemaWriter( UMLDoc *doc, const char *name )
 	packageNamespaceURI = "http://foo.example.com/";
 	schemaNamespaceTag = "xs";
 	schemaNamespaceURI = "http://www.w3.org/2001/XMLSchema";
-	indent = m_indentation;
-	indentLevel = 0;
-	startline = m_newLineEndingChars;
 }
 
 // form of..."the Destructor"!!
@@ -49,7 +46,7 @@ XMLSchemaWriter::~XMLSchemaWriter() {
  * returns "XMLSchema"
  */
 QString XMLSchemaWriter::getLanguage() {
-        return "XMLSchema";
+	return "XMLSchema";
 }
 
 /**
@@ -59,9 +56,9 @@ QString XMLSchemaWriter::getLanguage() {
  */
 bool XMLSchemaWriter::isType (QString & type)
 {
-   if(type == "XMLSchemaWriter")
-        return true;
-   return false;
+	if(type == "XMLSchemaWriter")
+		return true;
+	return false;
 }
 
 // main method for invoking..
@@ -91,14 +88,14 @@ void XMLSchemaWriter::writeClass(UMLClassifier *c)
 	QTextStream XMLschema(&file);
 
 	// set package namespace tag appropriately
-        if(!c->getPackage().isEmpty())
+ 	if(!c->getPackage().isEmpty())
 	       packageNamespaceTag = c->getPackage();
 
 	// START WRITING
 
 	// 0. FIRST THING: open the xml processing instruction. This MUST be
 	// the first thing in the file
-	XMLschema<<"<?xml version=\"1.0\"?>"<<endl;
+	XMLschema<<"<?xml version=\"1.0\"?>"<<m_endl;
 
 	// 1. create the header
 	QString headerText = getHeadingFile(".xsd");
@@ -107,30 +104,30 @@ void XMLSchemaWriter::writeClass(UMLClassifier *c)
 		headerText.replace(QRegExp("%filepath%"),file.name());
 	}
 	if(!headerText.isEmpty())
-		XMLschema<<headerText<<endl;
+		XMLschema<<headerText<<m_endl;
 
 	// 2. Open schema element node with appropriate namespace decl
 	XMLschema<<"<"<<makeSchemaTag("schema");
 	// common namespaces we know will be in the file..
-	XMLschema<<" targetNamespace=\""<<packageNamespaceURI+packageNamespaceTag<<"\""<<endl;
+	XMLschema<<" targetNamespace=\""<<packageNamespaceURI+packageNamespaceTag<<"\""<<m_endl;
 	XMLschema<<" xmlns:"<<schemaNamespaceTag<<"=\""<<schemaNamespaceURI<<"\"";
 	XMLschema<<" xmlns:"<<packageNamespaceTag<<"=\""<<packageNamespaceURI+packageNamespaceTag<<"\"";
 
-	XMLschema<<">"<<endl; // close opening declaration
+	XMLschema<<">"<<m_endl; // close opening declaration
 
-	indentLevel++;
+	m_indentLevel++;
 
-        // 3? IMPORT statements -- do we need to do anything here? I suppose if
+	// 3? IMPORT statements -- do we need to do anything here? I suppose if
 	// our document has more than one package, which is possible, we are missing
 	// the correct import statements. Leave that for later at this time.
-        /*
-        //only import classes in a different package as this class
-        UMLClassifierList imports;
-        findObjectsRelated(c,imports);
-        for(UMLClassifier *con = imports.first(); con ; con = imports.next())
-                if(con->getPackage() != c->getPackage())
-                        XMLschema<<"import "<<con->getPackage()<<"."<<cleanName(con->getName())<<";"<<endl;
-        */
+	/*
+	//only import classes in a different package as this class
+	UMLClassifierList imports;
+	findObjectsRelated(c,imports);
+	for(UMLClassifier *con = imports.first(); con ; con = imports.next())
+		if(con->getPackage() != c->getPackage())
+			XMLschema<<"import "<<con->getPackage()<<"."<<cleanName(con->getName())<<";"<<m_endl;
+	*/
 
 	// 4. BODY of the schema.
 	// start the writing by sending this classifier, the "root" for this particular
@@ -139,12 +136,12 @@ void XMLSchemaWriter::writeClass(UMLClassifier *c)
 	writeClassifier(c, XMLschema);
 
 	// 5. What remains is to make the root node declaration
-	XMLschema<<endl;
+	XMLschema<<m_endl;
 	writeElementDecl(getElementName(c), getElementTypeName(c), XMLschema);
 
 	// 6. Finished: now we may close schema decl
-	indentLevel--;
-	XMLschema<<getIndent()<<"</"<<makeSchemaTag("schema")<<">"<<endl; // finished.. close schema node
+	m_indentLevel--;
+	XMLschema<<getIndent()<<"</"<<makeSchemaTag("schema")<<">"<<m_endl; // finished.. close schema node
 
 	// bookeeping for code generation
 	emit codeGenerated(c, true);
@@ -159,13 +156,13 @@ void XMLSchemaWriter::writeClass(UMLClassifier *c)
 
 void XMLSchemaWriter::writeElementDecl( const QString &elementName, const QString &elementTypeName, QTextStream &XMLschema)
 {
-        if(forceDoc())
+	if(forceDoc())
 		writeComment(elementName+" is the root element, declared here.", XMLschema);
 
 	XMLschema<<getIndent()<<"<"<<makeSchemaTag("element")
 		<<" name=\""<<elementName<<"\""
 		<<" type=\""<<makePackageTag(elementTypeName)<<"\""
-		<<"/>"<<endl;
+		<<"/>"<<m_endl;
 
 }
 
@@ -176,10 +173,10 @@ void XMLSchemaWriter::writeClassifier (UMLClassifier *c, QTextStream &XMLschema)
 	if(hasBeenWritten(c))
 		return;
 
-	XMLschema<<endl;
+	XMLschema<<m_endl;
 
 	// write documentation for class, if any, first
-        if(forceDoc() || !c->getDoc().isEmpty())
+	if(forceDoc() || !c->getDoc().isEmpty())
 		writeComment(c->getDoc(),XMLschema);
 
 	if(c->getAbstract() || dynamic_cast<UMLInterface*>(c) )
@@ -191,9 +188,9 @@ void XMLSchemaWriter::writeClassifier (UMLClassifier *c, QTextStream &XMLschema)
 
 UMLAttributeList XMLSchemaWriter::findAttributes (UMLClassifier *c)
 {
-        // sort attributes by Scope
-        UMLAttributeList attribs;
-        attribs.setAutoDelete(false);
+	// sort attributes by Scope
+	UMLAttributeList attribs;
+	attribs.setAutoDelete(false);
 
 	UMLClass * myClass = dynamic_cast<UMLClass*>(c);
 	if(myClass) {
@@ -242,7 +239,7 @@ void XMLSchemaWriter::writeAbstractClassifier (UMLClassifier *c, QTextStream &XM
 	{
 
 		QString elementName = getElementName(c);
-        	UMLAttributeList attribs = findAttributes(c);
+		UMLAttributeList attribs = findAttributes(c);
 		QStringList attribGroups = findAttributeGroups(c);
 
 		writeAttributeGroupDecl(elementName, attribs, XMLschema);
@@ -267,23 +264,23 @@ void XMLSchemaWriter::writeGroupClassifierDecl (UMLClassifier *c,
 	QString elementTypeName = getElementGroupTypeName(c);
 
 	// start Writing node but only if it has subclasses? Nah..right now put in empty group
-	XMLschema<<getIndent()<<"<"<<makeSchemaTag("group")<<" name=\""<<elementTypeName<<"\">"<<endl;
-	indentLevel++;
+	XMLschema<<getIndent()<<"<"<<makeSchemaTag("group")<<" name=\""<<elementTypeName<<"\">"<<m_endl;
+	m_indentLevel++;
 
-	XMLschema<<getIndent()<<"<"<<makeSchemaTag("choice")<<">"<<endl;
-	indentLevel++;
+	XMLschema<<getIndent()<<"<"<<makeSchemaTag("choice")<<">"<<m_endl;
+	m_indentLevel++;
 
 	for(UMLClassifier *classifier = subclasses.first(); classifier; classifier = subclasses.next()) {
 		writeAssociationRoleDecl(classifier, "1", XMLschema);
 	}
 
-	indentLevel--;
-	XMLschema<<getIndent()<<"</"<<makeSchemaTag("choice")<<">"<<endl;
+	m_indentLevel--;
+	XMLschema<<getIndent()<<"</"<<makeSchemaTag("choice")<<">"<<m_endl;
 
-	indentLevel--;
+	m_indentLevel--;
 
 	// finish node
-	XMLschema<<getIndent()<<"</"<<makeSchemaTag("group")<<">"<<endl;
+	XMLschema<<getIndent()<<"</"<<makeSchemaTag("group")<<">"<<m_endl;
 
 }
 
@@ -317,25 +314,25 @@ void XMLSchemaWriter::writeComplexTypeClassifierDecl (UMLClassifier *c,
 	if(hasAssociations || hasAttributes || hasSuperclass)
 	{
 
-		XMLschema<<">"<<endl;
+		XMLschema<<">"<<m_endl;
 
-		indentLevel++;
+		m_indentLevel++;
 
 		if(hasSuperclass)
 		{
 			QString superClassName = getElementTypeName(superclasses.first());
-			XMLschema<<getIndent()<<"<"<<makeSchemaTag("complexContent")<<">"<<endl;
+			XMLschema<<getIndent()<<"<"<<makeSchemaTag("complexContent")<<">"<<m_endl;
 
 			//PROBLEM: we only treat ONE superclass for inheritence.. bah.
-			indentLevel++;
+			m_indentLevel++;
 			XMLschema<<getIndent()<<"<"<<makeSchemaTag("extension")<<" base=\""<<makePackageTag(superClassName)
 				<<"\"";
 			if(hasAssociations || hasAttributes )
-				XMLschema<<">"<<endl;
+				XMLschema<<">"<<m_endl;
 			else
-				XMLschema<<"/>"<<endl;
+				XMLschema<<"/>"<<m_endl;
 
-			indentLevel++;
+			m_indentLevel++;
 		}
 
 		if(hasAssociations)
@@ -348,8 +345,8 @@ void XMLSchemaWriter::writeComplexTypeClassifierDecl (UMLClassifier *c,
 			didFirstOne = writeAssociationDecls(compositions, false, didFirstOne, c->getID(), XMLschema);
 
 			if (didFirstOne) {
-				indentLevel--;
-				XMLschema<<getIndent()<<"</"<<makeSchemaTag("sequence")<<">"<<endl;
+				m_indentLevel--;
+				XMLschema<<getIndent()<<"</"<<makeSchemaTag("sequence")<<">"<<m_endl;
 			}
 		}
 
@@ -360,26 +357,26 @@ void XMLSchemaWriter::writeComplexTypeClassifierDecl (UMLClassifier *c,
 			writeAttributeDecls(attribs, XMLschema);
 			for(uint i= 0; i < attribGroups.count(); i++)
 				XMLschema<<getIndent()<<"<"<<makeSchemaTag("attributeGroup")<<" ref=\""
-					<<makePackageTag(attribGroups[i])<<"\"/>"<<endl;
+					<<makePackageTag(attribGroups[i])<<"\"/>"<<m_endl;
 		}
 
 		if(hasSuperclass)
 		{
-			indentLevel--;
+			m_indentLevel--;
 
 			if(hasAssociations || hasAttributes )
-				XMLschema<<getIndent()<<"</"<<makeSchemaTag("extension")<<">"<<endl;
+				XMLschema<<getIndent()<<"</"<<makeSchemaTag("extension")<<">"<<m_endl;
 
-			indentLevel--;
-			XMLschema<<getIndent()<<"</"<<makeSchemaTag("complexContent")<<">"<<endl;
+			m_indentLevel--;
+			XMLschema<<getIndent()<<"</"<<makeSchemaTag("complexContent")<<">"<<m_endl;
 		}
 
 		// close this element decl
-		indentLevel--;
-		XMLschema<<getIndent()<<"</"<<makeSchemaTag("complexType")<<">"<<endl;
+		m_indentLevel--;
+		XMLschema<<getIndent()<<"</"<<makeSchemaTag("complexType")<<">"<<m_endl;
 
 	} else
-		XMLschema<<"/>"<<endl; // empty node. just close this element decl
+		XMLschema<<"/>"<<m_endl; // empty node. just close this element decl
 
 }
 
@@ -495,7 +492,7 @@ void XMLSchemaWriter::writeAttributeDecl(UMLAttribute *attrib, QTextStream &XMLs
 
 	XMLschema<<getIndent()<<"<"<<makeSchemaTag("attribute")
        		<<" name=\""<<cleanName(attrib->getName())<<"\""
-               	<<" type=\""<<typeName<<"\"";
+		<<" type=\""<<typeName<<"\"";
 
 	// default value?
 	if(!initialValue.isEmpty())
@@ -509,7 +506,7 @@ void XMLSchemaWriter::writeAttributeDecl(UMLAttribute *attrib, QTextStream &XMLs
 	}
 
 	// finish decl
-	XMLschema<<"/>"<<endl;
+	XMLschema<<"/>"<<m_endl;
 
 }
 
@@ -522,19 +519,19 @@ void XMLSchemaWriter::writeAttributeGroupDecl (const QString &elementName, UMLAt
 		writeComment("attributes for element "+elementName,XMLschema);
 
 		// open attribute group
-		XMLschema<<getIndent()<<"<"<<makeSchemaTag("attributeGroup")<<" name=\""<<elementName+"AttribGroupType"<<"\">"<<endl;
+		XMLschema<<getIndent()<<"<"<<makeSchemaTag("attributeGroup")<<" name=\""<<elementName+"AttribGroupType"<<"\">"<<m_endl;
 
-		indentLevel++;
+		m_indentLevel++;
 
 		for( UMLAttribute *at=attribs.first(); at; at=attribs.next())
 		{
 			writeAttributeDecl(at,XMLschema);
 		}
 
-		indentLevel--;
+		m_indentLevel--;
 
 		// close attrib group node
-		XMLschema<<getIndent()<<"</"<<makeSchemaTag("attributeGroup")<<">"<<endl;
+		XMLschema<<getIndent()<<"</"<<makeSchemaTag("attributeGroup")<<">"<<m_endl;
 	}
 }
 
@@ -546,16 +543,16 @@ void XMLSchemaWriter::writeComment( const QString &comment, QTextStream &XMLsche
 	QString indent = getIndent();
 	XMLschema<<indent<<"<!-- ";
 	if (comment.contains(QRegExp("\n"))) {
-		XMLschema<<endl;
+		XMLschema<<m_endl;
 		QStringList lines = QStringList::split( "\n", comment);
 		for(uint i= 0; i < lines.count(); i++)
-			XMLschema<<indent<<"     "<<lines[i]<<endl;
+			XMLschema<<indent<<"     "<<lines[i]<<m_endl;
 
-		XMLschema<<indent<<"-->"<<endl;
+		XMLschema<<indent<<"-->"<<m_endl;
 	} else {
 		// this should be more fancy in the future, breaking it up into 80 char
 		// lines so that it doesnt look too bad
-		XMLschema<<comment<<" -->"<<endl;
+		XMLschema<<comment<<" -->"<<m_endl;
 	}
 }
 
@@ -593,8 +590,8 @@ bool XMLSchemaWriter::writeAssociationDecls(UMLAssociationList associations,
 			if(!didFirstOne && (printRoleA || printRoleB))
 			{
 				didFirstOne = true;
-				XMLschema<<getIndent()<<"<"<<makeSchemaTag("sequence")<<">"<<endl;
-				indentLevel++;
+				XMLschema<<getIndent()<<"<"<<makeSchemaTag("sequence")<<">"<<m_endl;
+				m_indentLevel++;
 			}
 
 			// print RoleB decl
@@ -743,7 +740,7 @@ void XMLSchemaWriter::writeAssociationRoleDecl( UMLClassifier *c, const QString 
 		XMLschema<<" maxOccurs=\""<<maxOccurs<<"\"";
 
 	// tidy up the node
-	XMLschema<<"/>"<<endl;
+	XMLschema<<"/>"<<m_endl;
 
 }
 
@@ -770,24 +767,8 @@ QString XMLSchemaWriter::fixInitialStringDeclValue(QString value, const QString 
 	return value;
 }
 
-QString XMLSchemaWriter::lowerFirstLetterCase(QString string)
-{
-	QChar firstChar = string.at(0);
-	string.replace( 0, 1, firstChar.lower());
-	return string;
-}
-
-QString XMLSchemaWriter::getIndent ()
-{
-	QString myIndent = "";
-	for (int i = 0 ; i < indentLevel ; i++)
-		myIndent.append(indent);
-	return myIndent;
-}
-
 QString XMLSchemaWriter::getElementName(UMLClassifier *c)
 {
-	// return cleanName(lowerFirstLetterCase(c->getName()));
 	return cleanName(c->getName());
 }
 
@@ -819,21 +800,21 @@ const QStringList XMLSchemaWriter::reservedKeywords() const {
 
   if (keywords.isEmpty()) {
     keywords << "ATTLIST"
-             << "CDATA"
-             << "DOCTYPE"
-             << "ELEMENT"
-             << "ENTITIES"
-             << "ENTITY"
-             << "ID"
-             << "IDREF"
-             << "IDREFS"
-             << "NMTOKEN"
-             << "NMTOKENS"
-             << "NOTATION"
-             << "PUBLIC"
-             << "SHORTREF"
-             << "SYSTEM"
-             << "USEMAP";
+	     << "CDATA"
+	     << "DOCTYPE"
+	     << "ELEMENT"
+	     << "ENTITIES"
+	     << "ENTITY"
+	     << "ID"
+	     << "IDREF"
+	     << "IDREFS"
+	     << "NMTOKEN"
+	     << "NMTOKENS"
+	     << "NOTATION"
+	     << "PUBLIC"
+	     << "SHORTREF"
+	     << "SYSTEM"
+	     << "USEMAP";
   }
 
   return keywords;

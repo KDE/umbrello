@@ -43,9 +43,6 @@ CppWriter::CppWriter( UMLDoc *parent, const char *name )
 {
 
 	// set some general parameters for how to generate code in this class
-	INDENT = "\t";
-	IndentLevel = 0;
-
 	STRING_TYPENAME = "string";
 	STRING_TYPENAME_INCLUDE = "<string>";
 
@@ -161,35 +158,35 @@ void CppWriter::writeHeaderFile (UMLClassifier *c, QFile &fileh) {
 	QTextStream h (&fileh);
 
 	// up the indent level to one
-	IndentLevel = 1;
+	m_indentLevel = 1;
 
 	// write header blurb
 	QString str = getHeadingFile(".h");
 	if(!str.isEmpty()) {
 		str.replace(QRegExp("%filename%"),classifierInfo->fileName+".h");
 		str.replace(QRegExp("%filepath%"),fileh.name());
-		h<<str<< m_newLineEndingChars;
+		h<<str<< m_endl;
 	}
 
 	// Write the hash define stuff to prevent multiple parsing/inclusion of header
 	QString hashDefine = classifierInfo->className.upper().simplifyWhiteSpace().replace(QRegExp(" "),  "_");
 	writeBlankLine(h);
-	h << "#ifndef "<< hashDefine + "_H" << m_newLineEndingChars;
-	h << "#define "<< hashDefine + "_H" << m_newLineEndingChars;
+	h << "#ifndef "<< hashDefine + "_H" << m_endl;
+	h << "#define "<< hashDefine + "_H" << m_endl;
 
 	UMLClassifierList superclasses = classifierInfo->superclasses;
 	for(UMLClassifier *classifier = superclasses.first(); classifier ;classifier = superclasses.next()) {
 		QString headerName = findFileName(classifier, ".h");
 		if (headerName.isEmpty()) {
-			h<<"#include \""<<findFileName(classifier,".h")<<".h\""<<m_newLineEndingChars;
+			h<<"#include \""<<findFileName(classifier,".h")<<".h\""<<m_endl;
 		}
 	}
 
 	writeBlankLine(h);
-	h<<"#include "<<STRING_TYPENAME_INCLUDE<<m_newLineEndingChars;
+	h<<"#include "<<STRING_TYPENAME_INCLUDE<<m_endl;
 	if(classifierInfo->hasVectorFields)
 	{
-		h<<"#include "<<VECTOR_TYPENAME_INCLUDE<<m_newLineEndingChars;
+		h<<"#include "<<VECTOR_TYPENAME_INCLUDE<<m_endl;
 		writeBlankLine(h);
 	}
 
@@ -206,17 +203,17 @@ void CppWriter::writeHeaderFile (UMLClassifier *c, QFile &fileh) {
 
 	for(UMLClassifier *classifier = superclasses.first(); classifier ; classifier = superclasses.next()) {
 		if(classifier->getPackage()!=c->getPackage() && !classifier->getPackage().isEmpty()) {
-			h<<"using "<<cleanName(classifier->getPackage())<<"::"<<cleanName(classifier->getName())<<";"<<m_newLineEndingChars;
+			h<<"using "<<cleanName(classifier->getPackage())<<"::"<<cleanName(classifier->getName())<<";"<<m_endl;
 		}
 	}
 
 	if(!c->getPackage().isEmpty() && WRITE_PACKAGE_NAMESPACE)
-		h<<m_newLineEndingChars<<"namespace "<<cleanName(c->getPackage())<<" {"<<m_newLineEndingChars<<m_newLineEndingChars;
+		h<<m_endl<<"namespace "<<cleanName(c->getPackage())<<" {"<<m_endl<<m_endl;
 
 	//Write class Documentation if there is somthing or if force option
 	if(forceDoc() || !c->getDoc().isEmpty()) {
-		h<<m_newLineEndingChars<<"/**"<<m_newLineEndingChars;
-		h<<"  * class "<<classifierInfo->className<<m_newLineEndingChars;
+		h<<m_endl<<"/**"<<m_endl;
+		h<<"  * class "<<classifierInfo->className<<m_endl;
 		h<<formatDoc(c->getDoc(),"  * ");
 		h<<"  */";
 		writeBlankLine(h);
@@ -226,16 +223,16 @@ void CppWriter::writeHeaderFile (UMLClassifier *c, QFile &fileh) {
 	//check if class is abstract and / or has abstract methods
 	if((c->getAbstract() || classifierInfo->isInterface )
 			&& !hasAbstractOps(c))
-		h<<"/******************************* Abstract Class ****************************"<<m_newLineEndingChars
-		<<classifierInfo->className<<" does not have any pure virtual methods, but its author"<<m_newLineEndingChars
-		<<"  defined it as an abstract class, so you should not use it directly."<<m_newLineEndingChars
-		<<"  Inherit from it instead and create only objects from the derived classes"<<m_newLineEndingChars
-		<<"*****************************************************************************/"<<m_newLineEndingChars<<m_newLineEndingChars;
+		h<<"/******************************* Abstract Class ****************************"<<m_endl
+		<<classifierInfo->className<<" does not have any pure virtual methods, but its author"<<m_endl
+		<<"  defined it as an abstract class, so you should not use it directly."<<m_endl
+		<<"  Inherit from it instead and create only objects from the derived classes"<<m_endl
+		<<"*****************************************************************************/"<<m_endl<<m_endl;
 
 	if (!classifierInfo->isInterface) {
 		UMLClass* k = dynamic_cast<UMLClass*>(c);
 		if (k->isEnumeration()) {
-			h << "enum " << classifierInfo->className << " {" << m_newLineEndingChars;
+			h << "enum " << classifierInfo->className << " {" << m_endl;
 			UMLAttributeList atl = k->getFilteredAttributeList();
 			UMLAttribute *at = atl.first();
 			while (at) {
@@ -243,28 +240,28 @@ void CppWriter::writeHeaderFile (UMLClassifier *c, QFile &fileh) {
 				h << getIndent() << attrName;
 				if ((at = atl.next()) == NULL)
 					break;
-				h << "," << m_newLineEndingChars;
+				h << "," << m_endl;
 			}
-			h << m_newLineEndingChars << "};" << m_newLineEndingChars;	// end of class header
+			h << m_endl << "};" << m_endl;	// end of class header
 	                if(!c->getPackage().isEmpty() && WRITE_PACKAGE_NAMESPACE)
-				h << "}  // end of package namespace" << m_newLineEndingChars;
-			h << m_newLineEndingChars << "#endif // " << hashDefine + "_H" << m_newLineEndingChars;
+				h << "}  // end of package namespace" << m_endl;
+			h << m_endl << "#endif // " << hashDefine + "_H" << m_endl;
 			return;
 		} else if (c->getBaseType() == Uml::ot_Enum) {
 			UMLClassifierListItemList litList = c->getFilteredList(Uml::ot_EnumLiteral);
 			uint i = 0;
-			h << "enum " << classifierInfo->className << " {" << m_newLineEndingChars;
+			h << "enum " << classifierInfo->className << " {" << m_endl;
 			for (UMLClassifierListItem *lit = litList.first(); lit; lit = litList.next()) {
 				QString enumLiteral = cleanName(lit->getName());
 				h << getIndent() << enumLiteral;
 				if (++i < litList.count())
 					h << ",";
-				h << m_newLineEndingChars;
+				h << m_endl;
 			}
-			h << m_newLineEndingChars << "};" << m_newLineEndingChars;	// end of class header
+			h << m_endl << "};" << m_endl;	// end of class header
 	                if(!c->getPackage().isEmpty() && WRITE_PACKAGE_NAMESPACE)
-				h << "}  // end of package namespace" << m_newLineEndingChars;
-			h << m_newLineEndingChars << "#endif // " << hashDefine + "_H" << m_newLineEndingChars;
+				h << "}  // end of package namespace" << m_endl;
+			h << m_endl << "#endif // " << hashDefine + "_H" << m_endl;
 			return;
 		}
 	}
@@ -284,7 +281,7 @@ void CppWriter::writeHeaderFile (UMLClassifier *c, QFile &fileh) {
 			h << ", ";
 	}
 
-	h<<m_newLineEndingChars<<"{"<<m_newLineEndingChars; // begin the body of the class
+	h<<m_endl<<"{"<<m_endl; // begin the body of the class
 
 
 	//declarations of operations
@@ -295,7 +292,7 @@ void CppWriter::writeHeaderFile (UMLClassifier *c, QFile &fileh) {
 	//
 
 	// PUBLIC attribs/methods
-	h<<scopeToCPPDecl(Uml::Public)<<":"<<m_newLineEndingChars<<m_newLineEndingChars; // print visibility decl.
+	h<<scopeToCPPDecl(Uml::Public)<<":"<<m_endl<<m_endl; // print visibility decl.
 	// for public: constructors are first ops we print out
 	if(!classifierInfo->isInterface)
 		writeConstructorDecls(h);
@@ -305,28 +302,28 @@ void CppWriter::writeHeaderFile (UMLClassifier *c, QFile &fileh) {
 
 	// PROTECTED attribs/methods
 	//
-	h<<scopeToCPPDecl(Uml::Protected)<<":"<<m_newLineEndingChars<<m_newLineEndingChars; // print visibility decl.
+	h<<scopeToCPPDecl(Uml::Protected)<<":"<<m_endl<<m_endl; // print visibility decl.
 	writeHeaderFieldDecl(c,Uml::Protected, h);
         writeHeaderAccessorMethodDecl(c, Uml::Protected, h);
 	writeOperations(c,true,Uml::Protected,h);
 
 	// PRIVATE attribs/methods
 	//
-	h<<scopeToCPPDecl(Uml::Private)<<":"<<m_newLineEndingChars<<m_newLineEndingChars; // print visibility decl.
+	h<<scopeToCPPDecl(Uml::Private)<<":"<<m_endl<<m_endl; // print visibility decl.
 	writeHeaderFieldDecl(c,Uml::Private, h);
         writeHeaderAccessorMethodDecl(c, Uml::Private, h);
 	writeOperations(c,true,Uml::Private,h);
         writeInitAttibuteDecl(h); // this is always private, used by constructors to initialize class
 
 	// end of class header
-	h<<m_newLineEndingChars<<"};"<<m_newLineEndingChars;
+	h<<m_endl<<"};"<<m_endl;
 
 	// end of class namespace, if any
 	if(!c->getPackage().isEmpty() && WRITE_PACKAGE_NAMESPACE)
-		h<<"}; // end of package namespace"<<m_newLineEndingChars;
+		h<<"}; // end of package namespace"<<m_endl;
 
 	// last thing..close our hashdefine
-	h << m_newLineEndingChars << "#endif // " << hashDefine + "_H" << m_newLineEndingChars;
+	h << m_endl << "#endif // " << hashDefine + "_H" << m_endl;
 
 
 }
@@ -369,7 +366,7 @@ void CppWriter::writeSourceFile (UMLClassifier *c, QFile &filecpp ) {
 	QTextStream cpp (&filecpp);
 
 	// set the starting indentation at zero
-	IndentLevel = 0;
+	m_indentLevel = 0;
 
 	//try to find a heading file (license, coments, etc)
 	QString str;
@@ -377,14 +374,14 @@ void CppWriter::writeSourceFile (UMLClassifier *c, QFile &filecpp ) {
 	if(!str.isEmpty()) {
 		str.replace(QRegExp("%filename%"),classifierInfo->fileName+".cpp");
 		str.replace(QRegExp("%filepath%"),filecpp.name());
-		cpp<<str<<m_newLineEndingChars;
+		cpp<<str<<m_endl;
 	}
 
 	// IMPORT statements
 	// Q: Why all utils? Isnt just List and Vector the only classes we are using?
 	// Our import *should* also look at operations, and check that objects being
 	// used arent in another package (and thus need to be explicitly imported here).
-	cpp<<"#include \""<<(classifierInfo->className).lower()<<".h\""<<m_newLineEndingChars;
+	cpp<<"#include \""<<(classifierInfo->className).lower()<<".h\""<<m_endl;
 	writeBlankLine(cpp);
 
 	// Start body of class
@@ -578,7 +575,7 @@ void CppWriter::writeAttributeDecls (Uml::Scope visibility, bool writeStatic, QT
 	                QString typeName = fixTypeName(at->getTypeName());
 	                if(!documentation.isEmpty())
 	                        writeComment(documentation, getIndent(), stream);
-	                stream<<getIndent()<<staticValue<<typeName<<" "<<varName<<";"<<m_newLineEndingChars;
+	                stream<<getIndent()<<staticValue<<typeName<<" "<<varName<<";"<<m_endl;
 
 	        }
 
@@ -682,12 +679,12 @@ void CppWriter::writeComment(QString comment, QString myIndent, QTextStream &cpp
 		QStringList lines = QStringList::split( "\n", comment);
 		for(uint i= 0; i < lines.count(); i++)
 		{
-			cpp<<myIndent<<"// "<<lines[i] << m_newLineEndingChars;
+			cpp<<myIndent<<"// "<<lines[i] << m_endl;
 		}
 	} else {
 		// this should be more fancy in the future, breaking it up into 80 char
 		// lines so that it doesnt look too bad
-		cpp<<myIndent<<"// "<< comment << m_newLineEndingChars;
+		cpp<<myIndent<<"// "<< comment << m_endl;
 	}
 }
 
@@ -696,7 +693,7 @@ void CppWriter::writeDocumentation(QString header, QString body, QString end, QT
 	writeBlankLine(cpp);
 	QString indent = getIndent();
 
-	cpp<<indent<<"/**"<<m_newLineEndingChars;
+	cpp<<indent<<"/**"<<m_endl;
 	if (!header.isEmpty())
 		cpp<<formatDoc(header, indent+" * ");
 	if (!body.isEmpty())
@@ -707,7 +704,7 @@ void CppWriter::writeDocumentation(QString header, QString body, QString end, QT
 		for(uint i= 0; i < lines.count(); i++)
 			cpp<<formatDoc(lines[i], indent+" * ");
 	}
-	cpp<<indent<<" */"<<m_newLineEndingChars;
+	cpp<<indent<<" */"<<m_endl;
 }
 
 void CppWriter::writeAssociationDecls(UMLAssociationList associations, Uml::Scope permitScope, Uml::IDType id, QTextStream &h)
@@ -787,7 +784,7 @@ void CppWriter::writeAssociationRoleDecl(QString fieldClassName, QString roleNam
                 	ObjectFieldVariables.append(fieldClassName);
 		}
 
-		stream<<indent<<fieldClassName<<" * "<<fieldVarName<<";"<<m_newLineEndingChars;
+		stream<<indent<<fieldClassName<<" * "<<fieldVarName<<";"<<m_endl;
 	}
 	else
 	{
@@ -799,7 +796,7 @@ void CppWriter::writeAssociationRoleDecl(QString fieldClassName, QString roleNam
                 	VectorFieldVariables.append(fieldVarName);
 
 		stream << indent << VECTOR_TYPENAME <<"<" << fieldClassName << "*";
-	       	stream << "> " << fieldVarName << ";" << m_newLineEndingChars;
+	       	stream << "> " << fieldVarName << ";" << m_endl;
 	}
 }
 
@@ -898,13 +895,13 @@ void CppWriter::writeVectorAttributeAccessorMethods (QString fieldClassName, QSt
 			method.replace(QRegExp("%VARNAME%"),fieldVarName);
 			method.replace(QRegExp("%VECTORTYPENAME%"), VECTOR_TYPENAME);
 			method.replace(QRegExp("%ITEMCLASS%"),fieldClassName);
-			stream<<indent<<" {"<<m_newLineEndingChars;
-	                IndentLevel++;
+			stream<<indent<<" {"<<m_endl;
+	                m_indentLevel++;
 			printTextAsSeparateLinesWithIndent(method,getIndent(),stream);
-	                IndentLevel--;
-			stream<<indent<<"}"<<m_newLineEndingChars;
+	                m_indentLevel--;
+			stream<<indent<<"}"<<m_endl;
 		} else
-			stream<<";"<<m_newLineEndingChars;
+			stream<<";"<<m_endl;
 	}
 
 	// ONLY IF changeability is Changeable
@@ -920,13 +917,13 @@ void CppWriter::writeVectorAttributeAccessorMethods (QString fieldClassName, QSt
 			method.replace(QRegExp("%VARNAME%"),fieldVarName);
 			method.replace(QRegExp("%VECTORTYPENAME%"), VECTOR_TYPENAME);
 			method.replace(QRegExp("%ITEMCLASS%"),fieldClassName);
-			stream<<indent<<" {"<<m_newLineEndingChars;
-	                IndentLevel++;
+			stream<<indent<<" {"<<m_endl;
+	                m_indentLevel++;
 			printTextAsSeparateLinesWithIndent(method,getIndent(),stream);
-	                IndentLevel--;
-			stream<<indent<<"}"<<m_newLineEndingChars;
+	                m_indentLevel--;
+			stream<<indent<<"}"<<m_endl;
 		} else
-			stream<<";"<<m_newLineEndingChars;
+			stream<<";"<<m_endl;
 	}
 
 	// always allow getting the list of stuff
@@ -937,13 +934,13 @@ void CppWriter::writeVectorAttributeAccessorMethods (QString fieldClassName, QSt
 		stream<<classifierInfo->className<<"::";
 	stream<<"get"<<fieldName<<"List ( )";
 	if(writeMethodBody) {
-		stream<<indent<<" {"<<m_newLineEndingChars;
-		IndentLevel++;
-		stream<<getIndent()<<"return "<<fieldVarName<<";"<<m_newLineEndingChars;
-		IndentLevel--;
-		stream<<indent<<"}"<<m_newLineEndingChars;
+		stream<<indent<<" {"<<m_endl;
+		m_indentLevel++;
+		stream<<getIndent()<<"return "<<fieldVarName<<";"<<m_endl;
+		m_indentLevel--;
+		stream<<indent<<"}"<<m_endl;
 	} else
-		stream<<";"<<m_newLineEndingChars;
+		stream<<";"<<m_endl;
 
 }
 
@@ -974,16 +971,16 @@ void CppWriter::writeSingleAttributeAccessorMethods(QString fieldClassName, QStr
 		stream<<"set"<<fieldName<<" ( "<<fieldClassName<<" new_var )";
 
 		if(writeMethodBody) {
-			stream<<indent<<" {"<<m_newLineEndingChars;
-			IndentLevel++;
+			stream<<indent<<" {"<<m_endl;
+			m_indentLevel++;
 			stream<<getIndent()<<indent;
-			IndentLevel--;
+			m_indentLevel--;
 			if(isStatic)
 				stream<<classifierInfo->className<<"::";
-			stream<<fieldVarName<<" = new_var;"<<m_newLineEndingChars;
-			stream<<indent<<"}"<<m_newLineEndingChars;
+			stream<<fieldVarName<<" = new_var;"<<m_endl;
+			stream<<indent<<"}"<<m_endl;
 		} else
-		       stream<<";"<<m_newLineEndingChars;
+		       stream<<";"<<m_endl;
 	}
 
 	// get method
@@ -994,16 +991,16 @@ void CppWriter::writeSingleAttributeAccessorMethods(QString fieldClassName, QStr
 	stream<<"get"<<fieldName<<" ( )";
 
 	if(writeMethodBody) {
-		stream<<indent<<" {"<<m_newLineEndingChars;
-		IndentLevel++;
+		stream<<indent<<" {"<<m_endl;
+		m_indentLevel++;
 		stream<<getIndent()<<"return ";
-		IndentLevel--;
+		m_indentLevel--;
 		if(isStatic)
 			stream<<classifierInfo->className<<"::";
-		stream<<fieldVarName<<";"<<m_newLineEndingChars;
+		stream<<fieldVarName<<";"<<m_endl;
 		stream<<indent<<"}";
 	} else
-		       stream<<";"<<m_newLineEndingChars;
+		       stream<<";"<<m_endl;
 
 	writeBlankLine(stream);
 }
@@ -1022,7 +1019,7 @@ void CppWriter::writeConstructorDecls(QTextStream &stream)
 	if(WRITE_EMPTY_CONSTRUCTOR)
 	{
 		writeDocumentation("", "Empty Constructor", "", stream);
-		stream<<getIndent()<<classifierInfo->className<<" ( );"<<m_newLineEndingChars;
+		stream<<getIndent()<<classifierInfo->className<<" ( );"<<m_endl;
 	}
 
 	if(WRITE_EMPTY_DESTRUCTOR)
@@ -1031,7 +1028,7 @@ void CppWriter::writeConstructorDecls(QTextStream &stream)
 		stream<<getIndent();
 		if (WRITE_VIRTUAL_DESTRUCTORS)
 			stream<<"virtual ";
-		stream<<"~"<<classifierInfo->className<<" ( );"<<m_newLineEndingChars;
+		stream<<"~"<<classifierInfo->className<<" ( );"<<m_endl;
 	}
 
 	if(WRITE_EMPTY_DESTRUCTOR || WRITE_EMPTY_CONSTRUCTOR)
@@ -1041,7 +1038,7 @@ void CppWriter::writeConstructorDecls(QTextStream &stream)
 void CppWriter::writeInitAttibuteDecl (QTextStream &stream)
 {
 	if(WRITE_EMPTY_CONSTRUCTOR && classifierInfo->hasAttributes)
-		stream<<getIndent()<<"void initAttributes ( ) ;"<<m_newLineEndingChars;
+		stream<<getIndent()<<"void initAttributes ( ) ;"<<m_endl;
 }
 
 void CppWriter::writeInitAttibuteMethod (QTextStream &stream)
@@ -1053,49 +1050,49 @@ void CppWriter::writeInitAttibuteMethod (QTextStream &stream)
 		QString className = classifierInfo->className;
 		QString indent = getIndent();
 
-		stream<<indent<<"void "<<className<<"::"<<"initAttributes ( ) {"<<m_newLineEndingChars;
+		stream<<indent<<"void "<<className<<"::"<<"initAttributes ( ) {"<<m_endl;
 
-		IndentLevel++;
+		m_indentLevel++;
 		// first, initiation of fields derived from attributes
 		UMLAttributeList* atl = classifierInfo->getAttList();
 		for(UMLAttribute *at = atl->first(); at ; at = atl->next()) {
 			if(!at->getInitialValue().isEmpty()) {
 				QString varName = getAttributeVariableName(at);
-				stream<<getIndent()<<varName<<" = "<<at->getInitialValue()<<";"<<m_newLineEndingChars;
+				stream<<getIndent()<<varName<<" = "<<at->getInitialValue()<<";"<<m_endl;
 			}
 		}
 		// Now initialize the association related fields (e.g. vectors)
 		if (VECTOR_METHOD_INIT != "") {
   			QStringList::Iterator it;
-	        	for( it = VectorFieldVariables.begin(); it != VectorFieldVariables.end(); ++it ) {
-	                	QString fieldVarName = *it;
-	                        QString method = VECTOR_METHOD_INIT;
-	                        method.replace(QRegExp("%VARNAME%"),fieldVarName);
-	                        method.replace(QRegExp("%VECTORTYPENAME%"), VECTOR_TYPENAME);
-				stream<<getIndent()<<method<<m_newLineEndingChars;
-	        	}
+			for( it = VectorFieldVariables.begin(); it != VectorFieldVariables.end(); ++it ) {
+				QString fieldVarName = *it;
+				QString method = VECTOR_METHOD_INIT;
+				method.replace(QRegExp("%VARNAME%"),fieldVarName);
+				method.replace(QRegExp("%VECTORTYPENAME%"), VECTOR_TYPENAME);
+				stream<<getIndent()<<method<<m_endl;
+			}
 		}
 
 		if (OBJECT_METHOD_INIT != "") {
   			QStringList::Iterator it;
-	        	for( it = ObjectFieldVariables.begin(); it != ObjectFieldVariables.end(); ++it ) {
-	                	QString fieldVarName = *it;
+			for( it = ObjectFieldVariables.begin(); it != ObjectFieldVariables.end(); ++it ) {
+				QString fieldVarName = *it;
 				it++;
-	                	QString fieldClassName = *it;
-	                        QString method = OBJECT_METHOD_INIT;
-	                        method.replace(QRegExp("%VARNAME%"),fieldVarName);
+				QString fieldClassName = *it;
+				QString method = OBJECT_METHOD_INIT;
+				method.replace(QRegExp("%VARNAME%"),fieldVarName);
 				method.replace(QRegExp("%ITEMCLASS%"),fieldClassName);
-				stream<<getIndent()<<method<<m_newLineEndingChars;
-	        	}
+				stream<<getIndent()<<method<<m_endl;
+			}
 		}
 
 		// clean up
 		ObjectFieldVariables.clear(); // shouldnt be needed?
 		VectorFieldVariables.clear(); // shouldnt be needed?
 
-		IndentLevel--;
+		m_indentLevel--;
 
-		stream<<indent<<"}"<<m_newLineEndingChars;
+		stream<<indent<<"}"<<m_endl;
 	}
 }
 
@@ -1116,17 +1113,17 @@ void CppWriter::writeConstructorMethods(QTextStream &stream)
 	if(WRITE_EMPTY_CONSTRUCTOR)
 	{
 		QString indent = getIndent();
-		stream<<indent<<className<<"::"<<className<<" ( ) {"<<m_newLineEndingChars;
+		stream<<indent<<className<<"::"<<className<<" ( ) {"<<m_endl;
 		if(classifierInfo->hasAttributes)
-			stream<<indent<<INDENT<<"initAttributes();"<<m_newLineEndingChars;
-		stream<<indent<<"};"<<m_newLineEndingChars;
+			stream<<indent<<INDENT<<"initAttributes();"<<m_endl;
+		stream<<indent<<"};"<<m_endl;
 		writeBlankLine(stream);
 	}
 
 	// empty destructor
 	if(WRITE_EMPTY_DESTRUCTOR)
 	{
-		stream<<getIndent()<<className<<"::~"<<className<<" ( ) { };"<<m_newLineEndingChars;
+		stream<<getIndent()<<className<<"::~"<<className<<" ( ) { };"<<m_endl;
 		writeBlankLine(stream);
 	}
 
@@ -1201,20 +1198,20 @@ void CppWriter::writeOperations(UMLOperationList &oplist, bool isHeaderMethod, Q
 
 		str = ""; // reset for next method
 		if (op->getAbstract() || classifierInfo->isInterface) {
-                	if (isHeaderMethod) {
+			if (isHeaderMethod) {
  				// declare abstract method as 'virtual'
 				str += "virtual ";
 			}
-                }
+		}
 
 		// static declaration for header file
-                if (isHeaderMethod)
+		if (isHeaderMethod)
 			str += ((op->getStatic() && isHeaderMethod) ? "static ":"");
 
 		// returntype of method
 		str += methodReturnType + " ";
 
-                if (!isHeaderMethod)
+		if (!isHeaderMethod)
 			str += className + "::";
 
 		str += cleanName(op->getName()) + " (";
@@ -1243,7 +1240,7 @@ void CppWriter::writeOperations(UMLOperationList &oplist, bool isHeaderMethod, Q
 
 		// write it out
 		writeDocumentation("", op->getDoc(), returnStr, cpp);
-		cpp<<getIndent()<<str<<m_newLineEndingChars;
+		cpp<<getIndent()<<str<<m_endl;
 		writeBlankLine(cpp);
 	}
 }
@@ -1272,9 +1269,9 @@ void CppWriter::printAssociationIncludeDecl (UMLAssociationList list, Uml::IDTyp
 		// how to declare some associations.
 		if( current )
 			if( !isFirstClass && !a->getRoleName(Uml::A).isEmpty() && !a->getRoleName(Uml::B).isEmpty())
-				stream<<"class "<<current->getName()<<";"<<m_newLineEndingChars; // special case: use forward declaration
+				stream<<"class "<<current->getName()<<";"<<m_endl; // special case: use forward declaration
 			else
-				stream<<"#include \""<<current->getName().lower()<<".h\""<<m_newLineEndingChars; // just the include statement
+				stream<<"#include \""<<current->getName().lower()<<".h\""<<m_endl; // just the include statement
 	}
 }
 
@@ -1326,15 +1323,7 @@ QString CppWriter::capitalizeFirstLetter(QString string)
 
 void CppWriter::writeBlankLine(QTextStream &stream)
 {
-	stream<<m_newLineEndingChars;
-}
-
-QString CppWriter::getIndent ()
-{
-	QString myIndent = "";
-	for (int i = 0 ; i < IndentLevel ; i++)
-		myIndent.append(INDENT);
-	return myIndent;
+	stream<<m_endl;
 }
 
 void CppWriter::printTextAsSeparateLinesWithIndent (QString text, QString indent, QTextStream &stream)
@@ -1344,7 +1333,7 @@ void CppWriter::printTextAsSeparateLinesWithIndent (QString text, QString indent
 
 	QStringList lines = QStringList::split( "\n", text);
 	for(uint i= 0; i < lines.count(); i++)
-		stream<<indent<<lines[i]<<m_newLineEndingChars;
+		stream<<indent<<lines[i]<<m_endl;
 }
 
 QString CppWriter::getAttributeVariableName (UMLAttribute *at)

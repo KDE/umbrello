@@ -73,7 +73,7 @@ private:
 	  * @param js output stream for the JS file
 	  */
 	void writeOperations(QString classname, UMLOperationList *opList,
-	                     QTextStream &js);
+			     QTextStream &js);
 };
 
 #endif //JSWRITER

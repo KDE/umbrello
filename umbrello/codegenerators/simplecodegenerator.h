@@ -83,6 +83,11 @@ protected:
         bool hasDefaultValueAttr(UMLClass *c);
         bool hasAbstractOps(UMLClassifier *c);
 
+	/**
+	 * Returns the current indent string based on m_indentLevel and m_indentation.
+	 */
+	QString getIndent (); 
+
         /**
          * Maps UMLObjects to filenames. Used for finding out which file
          * each class was written to.
@@ -109,8 +114,8 @@ protected:
         bool m_forceSections;
         bool m_includeHeadings;
         QString m_indentation;
-        int m_indentationAmount;
-        QString m_newLineEndingChars;
+	int m_indentLevel;
+        QString m_endl;
 
 	// override parent method..we need special handling
 	void initFromParentDocument( );

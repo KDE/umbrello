@@ -187,16 +187,6 @@ private:
 	UMLObjectList findChildObjsInAssociations (UMLClassifier *c, UMLAssociationList associations);
 
 	/**
-	 * Returns the current indent string
-	 */
-	QString getIndent (); 
-		
-	/**
-	 * Lowers the case of the first letter in the given string
-	 */
-	QString lowerFirstLetterCase( QString string ); 
-
-	/**
 	 * Replaces `string' with `String' and `bool' with `boolean'
 	 */
 	QString fixTypeName( QString string ); 
@@ -238,16 +228,6 @@ private:
 	 * mark a concept as written, so it is not repeatedly re-declared in the schema
 	 */ 
 	void markAsWritten(UMLClassifier *c);
-
-	/**
-	 * Basic unit of whitespace used to indent code
-	 */
-	QString indent;
-
-	/**
-	 * Parameter to record the amount of indent we have.
-	 */
-	int indentLevel;
 
 	/**
 	 * The basic schemaNamespace tag

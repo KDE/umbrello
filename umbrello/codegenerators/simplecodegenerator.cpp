@@ -45,6 +45,7 @@ SimpleCodeGenerator::SimpleCodeGenerator (UMLDoc * parentDoc , const char * name
 					  bool createDirHierarchyForPackages /* =true */)
     : CodeGenerator( parentDoc, name )
 {
+	m_indentLevel = 0;
 	parentDoc->disconnect(this); // disconnect from UMLDoc.. we arent planning to be synced at all
 	m_createDirHierarchyForPackages = createDirHierarchyForPackages;
 	initFields(parentDoc);
@@ -62,6 +63,14 @@ SimpleCodeGenerator::~SimpleCodeGenerator ( ) { }
 
 // Other methods
 //
+
+QString SimpleCodeGenerator::getIndent ()
+{
+	QString myIndent;
+	for (int i = 0 ; i < m_indentLevel ; i++)
+		myIndent.append(m_indentation);
+	return myIndent;
+}
 
 QString SimpleCodeGenerator::findFileName(UMLClassifier* concept, QString ext) {
 
@@ -263,8 +272,7 @@ void SimpleCodeGenerator::syncCodeToDocument() {
         m_outputDirectory = QDir(policy->getOutputDirectory().absPath());
         m_headingFiles = QDir(policy->getHeadingFileDir());
         m_indentation = policy->getIndentation();
-        m_indentationAmount = policy->getIndentationAmount();
-        m_newLineEndingChars = policy->getNewLineEndingChars();
+        m_endl = policy->getNewLineEndingChars();
 
 }
 
