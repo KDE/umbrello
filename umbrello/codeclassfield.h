@@ -135,14 +135,14 @@ public:
 	  * is returned. Similarly, if the association (role) CF doesnt have a multiplicty
 	  * 0 is returned.
 	  */
-	int CodeClassField::minimumListOccurances( );
+	int minimumListOccurances( );
 
         /** Find the maximum number of things that can occur in an association
           * If mistakenly called on attribute CF's the default value of is "1"
           * is returned. If the association (role) CF doesnt have a multiplicty
           * or has a "*" specified then '-1' (unbounded) is returned.
           */
-	int CodeClassField::maximumListOccurances( );
+	int maximumListOccurances( );
 
         /**
          * Save the XMI representation of this object

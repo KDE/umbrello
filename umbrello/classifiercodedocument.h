@@ -210,7 +210,7 @@ protected:
 	virtual void updateContent( ) = 0;
  
 	// force syncronization of child classfields to their parent objects
-	void ClassifierCodeDocument::syncClassFields( );
+	void syncClassFields( );
 
 private:
 
