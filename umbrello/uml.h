@@ -22,6 +22,7 @@
 
 #include <kdockwidget.h>
 #include <kurl.h>
+#include <kdeversion.h>
 #include <qprogressbar.h>
 
 // forward declaration of the UML classes
@@ -348,6 +349,18 @@ public slots:
 	 * paste the clipboard into the document
 	 */
 	void slotEditPaste();
+
+#if KDE_VERSION < 0x030190
+	/**
+	 * toggles the toolbar
+	 */
+	void slotViewToolBar();
+
+	/**
+	 * toggles the statusbar
+	 */
+	void slotViewStatusBar();
+#endif
 
 	/**
 	 * changes the statusbar contents for the standard label
@@ -677,6 +690,10 @@ private:
 	KAction* classWizard;
 	KAction* deleteSelectedWidget;
 	KAction* deleteDiagram;
+#if KDE_VERSION < 0x030190
+	KToggleAction* viewToolBar;
+	KToggleAction* viewStatusBar;
+#endif
 	WorkToolBar* toolsbar;
 	QTimer* m_clipTimer;
 	QTimer* m_copyTimer;

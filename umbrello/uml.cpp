@@ -119,9 +119,13 @@ void UMLApp::initActions() {
 	editCut = KStdAction::cut(this, SLOT(slotEditCut()), actionCollection());
 	editCopy = KStdAction::copy(this, SLOT(slotEditCopy()), actionCollection());
 	editPaste = KStdAction::paste(this, SLOT(slotEditPaste()), actionCollection());
+#if KDE_VERSION >= 0x030190
 	createStandardStatusBarAction();
-        setStandardToolBarMenuEnabled(true);
-	
+	setStandardToolBarMenuEnabled(true);
+#else
+	viewToolBar = KStdAction::showToolbar(this, SLOT(slotViewToolBar()), actionCollection());
+	viewStatusBar = KStdAction::showStatusbar(this, SLOT(slotViewStatusBar()), actionCollection());
+#endif
 	selectAll = KStdAction::selectAll(this,  SLOT( slotSelectAll() ), actionCollection());
 
 	zoomInAction = KStdAction::zoomIn(this,  SLOT( slotZoomIn() ), actionCollection(), "umbrello_zoom_in");
@@ -155,6 +159,10 @@ void UMLApp::initActions() {
 	editCut->setStatusText(i18n("Cuts the selected section and puts it to the clipboard"));
 	editCopy->setStatusText(i18n("Copies the selected section to the clipboard"));
 	editPaste->setStatusText(i18n("Pastes the clipboard contents to actual position"));
+#ifndef KDE_VERSION_MAJOR >= 3 && KDE_VERSION_MINOR > 1
+	viewToolBar->setStatusText(i18n("Enables/disables the toolbar"));
+	viewStatusBar->setStatusText(i18n("Enables/disables the statusbar"));
+#endif
 	preferences->setStatusText( i18n( "Set the default program preferences") );
 
 	deleteSelectedWidget = new KAction( i18n("&Delete Selected"),
@@ -704,6 +712,38 @@ void UMLApp::slotEditPaste() {
 	editPaste->setEnabled(false);
 	doc -> setModified( true );
 }
+
+#if KDE_VERSION < 0x030190
+////////////////////////////////////////////////////////////////////////////////////////////////////
+void UMLApp::slotViewToolBar() {
+	slotStatusMsg(i18n("Toggling toolbar..."));
+
+	///////////////////////////////////////////////////////////////////
+	// turn Toolbar on or off
+
+	if(!viewToolBar->isChecked()) {
+		toolBar("mainToolBar")->hide();
+	} else {
+		toolBar("mainToolBar")->show();
+	}
+
+	slotStatusMsg(i18n("Ready."));
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+void UMLApp::slotViewStatusBar() {
+	slotStatusMsg(i18n("Toggle the statusbar..."));
+	///////////////////////////////////////////////////////////////////
+	//turn Statusbar on or off
+	if(!viewStatusBar->isChecked()) {
+		statusBar()->hide();
+	} else {
+		statusBar()->show();
+	}
+
+	slotStatusMsg(i18n("Ready."));
+}
+#endif
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLApp::slotStatusMsg(const QString &text) {
 	///////////////////////////////////////////////////////////////////
