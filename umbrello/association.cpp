@@ -67,7 +67,8 @@ const QString UMLAssociation::assocTypeStr[UMLAssociation::nAssocTypes] = {
 	"activity", 		// at_Activity
 };
 
-//FIXME needed??
+// Required by loadFromXMI(): In an early version of saveToXMI(),
+// the assoctype natural names were saved instead of the numbers.
 Uml::Association_Type UMLAssociation::toAssocType (QString atype) {
 	for (unsigned i = 0; i < nAssocTypes; i++)
 		if (atype == assocTypeStr[i])
@@ -118,12 +119,20 @@ bool UMLAssociation::loadFromXMI( QDomElement & element ) {
 	if( !UMLObject::loadFromXMI( element ) )
 		return false;
 
-	int atype = element.attribute( "assoctype", "-1" ).toInt();
-	if (atype < (int)atypeFirst | atype > (int)atypeLast) {
-		kdWarning() << "bad assoctype of UML:Association " << getID() << endl;
-		return false;
+	QString assocTypeStr = element.attribute( "assoctype", "-1" );
+	Uml::Association_Type assocType = Uml::at_Unknown;
+	if (assocTypeStr[0] >= 'a' && assocTypeStr[0] <= 'z') {
+		// In an earlier version, the natural assoctype names were saved.
+		assocType = toAssocType( assocTypeStr );
+	} else {
+		int assocTypeNum = assocTypeStr.toInt();
+		if (assocTypeNum < (int)atypeFirst | assocTypeNum > (int)atypeLast) {
+			kdWarning() << "bad assoctype of UML:Association " << getID() << endl;
+			return false;
+		}
+		assocType = (Uml::Association_Type)assocTypeNum;
 	}
-	setAssocType( (Uml::Association_Type)atype );
+	setAssocType( assocType );
 
 	int roleAObjID = element.attribute( "rolea", "-1" ).toInt();
 	int roleBObjID = element.attribute( "roleb", "-1" ).toInt();
