@@ -53,6 +53,10 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, Uml::ListView_Type type)
 			mt = mt_Component_View;
 			break;
 
+		case Uml::lvt_EntityRelationship_Model:
+			mt = mt_EntityRelationship_Model;
+			break;
+
 		case Uml::lvt_Deployment_View:
 			mt = mt_Deployment_View;
 			break;
