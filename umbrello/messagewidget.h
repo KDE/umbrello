@@ -48,13 +48,12 @@ public:
 	 * @param view	The parent to this class.
 	 * @param a	The role A widget for this message.
 	 * @param b	The role B widget for this message.
-	 * @param ft	The FloatingText widget that is needed to display text.
 	 * @param y	The vertical position to display this message.
 	 * @param sequenceMessageType Whether synchronous or asynchronous
 	 * @param id	A unique id used for deleting this object cleanly.
 	 *              The default (-1) will prompt generation of a new ID.
 	 */
-	MessageWidget(UMLView * view, ObjectWidget* a, ObjectWidget* b, FloatingText* ft, 
+	MessageWidget(UMLView * view, ObjectWidget* a, ObjectWidget* b,
 		      int y, Uml::Sequence_Message_Type sequenceMessageType,
 		      Uml::IDType id = Uml::id_None);
 
@@ -85,16 +84,6 @@ public:
 	 * Read property of QString m_SequenceNumber.
 	 */
 	QString getSequenceNumber() const;
-
-	/**
-	 * Write property of QString m_Operation.
-	 */
-	void setOperation( const QString &operation );
-
-	/**
-	 * Read property of QString m_Operation.
-	 */
-	QString getOperation() const;
 
 	/**
 	 * Returns whether the message is synchronous or asynchronous
@@ -152,14 +141,21 @@ public:
 	/**
 	 * Overrides operation from LinkWidget.
 	 * Required by FloatingText.
+	 * @todo Move to LinkWidget.
 	 */
-	UMLClassifier *getOperationOwner(FloatingText *ft);
+	UMLClassifier *getOperationOwner();
 
 	/**
 	 * Overrides operation from LinkWidget.
 	 * Required by FloatingText.
 	 */
-	void setOperationText(FloatingText *ft, const QString &opText);
+	QString getCustomOpText();
+
+	/**
+	 * Overrides operation from LinkWidget.
+	 * Required by FloatingText.
+	 */
+	void setCustomOpText(const QString &opText);
 
 	/**
 	 * Overrides operation from LinkWidget.
@@ -349,7 +345,7 @@ protected:
 
 	// Data loaded/saved
 	QString m_SequenceNumber;
-	QString m_Operation;
+	QString m_CustomOp;
 	/**
 	 * Whether the message is synchronous or asynchronous
 	 */

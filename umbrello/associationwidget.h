@@ -403,14 +403,21 @@ public:
 	/**
 	 * Overrides operation from LinkWidget.
 	 * Required by FloatingText.
+	 * @todo Move to LinkWidget.
 	 */
-	UMLClassifier *getOperationOwner(FloatingText *ft);
+	UMLClassifier *getOperationOwner();
 
 	/**
 	 * Overrides operation from LinkWidget.
 	 * Required by FloatingText.
 	 */
-	void setOperationText(FloatingText *ft, const QString &opText);
+	QString getCustomOpText();
+
+	/**
+	 * Overrides operation from LinkWidget.
+	 * Required by FloatingText.
+	 */
+	void setCustomOpText(const QString &opText);
 
 	/**
 	 * Overrides operation from LinkWidget.

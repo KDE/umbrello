@@ -23,31 +23,24 @@
 #include "floatingtext.h"
 #include "objectwidget.h"
 #include "classifier.h"
+#include "operation.h"
 #include "umlview.h"
 #include "umldoc.h"
 #include "uml.h"
 #include "listpopupmenu.h"
 
 MessageWidget::MessageWidget(UMLView * view, ObjectWidget* a, ObjectWidget* b,
-			     FloatingText* ft, int y,
-			     Uml::Sequence_Message_Type sequenceMessageType,
+			     int y, Uml::Sequence_Message_Type sequenceMessageType,
 			     Uml::IDType id /* = Uml::id_None */)
   : UMLWidget(view, id) {
 	init();
 	m_pOw[Uml::A] = a;
 	m_pOw[Uml::B] = b;
-	m_pFText = ft;
 	m_nY = y;
 	m_sequenceMessageType = sequenceMessageType;
 	if (m_sequenceMessageType == Uml::sequence_message_creation) {
 		y -= m_pOw[Uml::B]->getHeight() / 2;
 		m_pOw[Uml::B]->setY(y);
-	}
-
-	//CHECK: This is contorted - it should be in the caller's responsibility:
-	if (ft) {
-		ft->setUMLObject(b->getUMLObject());
-		setLinkAndTextPos();
 	}
 
 	connect(m_pOw[Uml::A], SIGNAL(sigWidgetMoved(Uml::IDType)), this, SLOT(slotWidgetMoved(Uml::IDType)));
@@ -383,6 +376,8 @@ void MessageWidget::slotMenuSelection(int sel) {
 			setLinkAndTextPos();
 			m_pFText->setText("");
 			m_pFText->setActivated();
+
+			//CHECK: Do we need this?
 			m_pFText->setUMLObject( m_pOw[Uml::B]->getUMLObject() );
 		}
 		m_pFText -> slotMenuSelection(sel);
@@ -415,7 +410,10 @@ bool MessageWidget::activate(IDChangeLog * Log /*= 0*/) {
 	m_pFText->setActivated();
 	QString messageText = m_pFText->getText();
 	m_pFText->setVisible( messageText.length() > 1 );
+
+	//CHECK: Do we need this?
 	m_pFText -> setUMLObject( m_pOw[Uml::B] -> getUMLObject() );
+
 	connect(m_pOw[Uml::A], SIGNAL(sigWidgetMoved(Uml::IDType)), this, SLOT(slotWidgetMoved(Uml::IDType)));
 	connect(m_pOw[Uml::B], SIGNAL(sigWidgetMoved(Uml::IDType)), this, SLOT(slotWidgetMoved(Uml::IDType)));
 	if ( ! UMLApp::app()->getDocument()->loading() )
@@ -437,7 +435,7 @@ bool MessageWidget::activate(IDChangeLog * Log /*= 0*/) {
 }
 
 void MessageWidget::setMessageText(FloatingText *ft) {
-	QString displayText = m_SequenceNumber + ": " + m_Operation;
+	QString displayText = m_SequenceNumber + ": " + getOperationText();
 	ft->setText(displayText);
 	setTextPosition();
 }
@@ -449,7 +447,7 @@ void MessageWidget::setText(FloatingText *ft, const QString &newText) {
 
 void MessageWidget::setSeqNumAndOp(const QString &seqNum, const QString &op) {
 	setSequenceNumber( seqNum );
-	setOperation( op );
+	m_CustomOp = op;   ///FIXME m_pOperation
 }
 
 void MessageWidget::setSequenceNumber( const QString &sequenceNumber ) {
@@ -460,35 +458,41 @@ QString MessageWidget::getSequenceNumber() const {
 	return m_SequenceNumber;
 }
 
-void MessageWidget::setOperation( const QString &operation ) {
-	m_Operation = operation;
-}
-
-QString MessageWidget::getOperation() const {
-	return m_Operation;
-}
-
 void MessageWidget::lwSetFont (QFont font) {
 	UMLWidget::setFont( font );
 }
 
-UMLClassifier *MessageWidget::getOperationOwner(FloatingText *ft) {
-	UMLObject *pObject = ft->getUMLObject();
+UMLClassifier *MessageWidget::getOperationOwner() {
+	UMLObject *pObject = m_pOw[Uml::B]->getUMLObject();
 	if (pObject == NULL)
 		return NULL;
 	UMLClassifier *c = dynamic_cast<UMLClassifier*>(pObject);
 	return c;
 }
 
-void MessageWidget::setOperationText(FloatingText *ft, const QString &opText) {
-	setOperation(opText);
-	ft->setMessageText();
+QString MessageWidget::getCustomOpText() {
+	return m_CustomOp;
+}
+
+void MessageWidget::setCustomOpText(const QString &opText) {
+	m_CustomOp = opText;
+	m_pFText->setMessageText();
 }
 
 UMLClassifier * MessageWidget::getSeqNumAndOp(FloatingText *ft, QString& seqNum,
 							        QString& op) {
 	seqNum = m_SequenceNumber;
-	op = m_Operation;
+	if (m_pOperation) {
+		Uml::Signature_Type sigType;
+		if (m_pView->getShowOpSig())
+			sigType = Uml::st_SigNoScope;
+		else
+			sigType = Uml::st_NoSigNoScope;
+		op = m_pOperation->toString(sigType);
+	} else {
+		op = m_CustomOp;
+	}
+	//CHECK: I believe we should retrieve the UMLObject from m_pOw[A|B]
 	UMLObject *o = ft->getUMLObject();
 	UMLClassifier *c = dynamic_cast<UMLClassifier*>(o);
 	return c;
@@ -768,7 +772,10 @@ void MessageWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	UMLWidget::saveToXMI( qDoc, messageElement );
 	messageElement.setAttribute( "widgetaid", ID2STR(m_pOw[Uml::A]->getLocalID()) );
 	messageElement.setAttribute( "widgetbid", ID2STR(m_pOw[Uml::B]->getLocalID()) );
-	messageElement.setAttribute( "operation", m_Operation );
+	if (m_pOperation)
+		messageElement.setAttribute( "operation", ID2STR(m_pOperation->getID()) );
+	else
+		messageElement.setAttribute( "operation", m_CustomOp );
 	messageElement.setAttribute( "seqnum", m_SequenceNumber );
 	messageElement.setAttribute( "sequencemessagetype", m_sequenceMessageType );
 
@@ -788,7 +795,7 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement) {
 	QString textid = qElement.attribute( "textid", "-1" );
 	QString widgetaid = qElement.attribute( "widgetaid", "-1" );
 	QString widgetbid = qElement.attribute( "widgetbid", "-1" );
-	m_Operation = qElement.attribute( "operation", "" );
+	m_CustomOp = qElement.attribute( "operation", "" );
 	m_SequenceNumber = qElement.attribute( "seqnum", "" );
 	QString sequenceMessageType = qElement.attribute( "sequencemessagetype", "1001" );
 	m_sequenceMessageType = (Uml::Sequence_Message_Type)sequenceMessageType.toInt();
@@ -821,6 +828,35 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement) {
 		return false;
 	}
 
+	UMLClassifier *c = dynamic_cast<UMLClassifier*>( pWB->getUMLObject() );
+	if (c) {
+		Uml::IDType opId = STR2ID(m_CustomOp);
+		m_pOperation = dynamic_cast<UMLOperation*>( c->findChildObject(opId) );
+		if (m_pOperation) {
+			// If m_pOperation is set, m_CustomOp isn't used anyway.
+			// Just setting it empty for the sake of sanity.
+			m_CustomOp = QString::null;
+		} else {
+			// Previous umbrello versions saved the operation text
+			// instead of the xmi.id of the operation.
+			// For backward compatibility, attempt to determine the
+			// m_pOperation from the operation text:
+			Umbrello::OpDescriptor od;
+			Umbrello::Parse_Status st = Umbrello::parseOperation(m_CustomOp, od, c);
+			if (st == Umbrello::PS_OK) {
+				UMLDoc *umldoc = UMLApp::app()->getDocument();
+				bool isExistingOp = false;
+				UMLObject *o = umldoc->createOperation(c, od.m_name, &isExistingOp, &od.m_args);
+				UMLOperation *op = static_cast<UMLOperation*>(o);
+				if (od.m_pReturnType) {
+					op->setType(od.m_pReturnType);
+				}
+				setOperation(op);
+				m_CustomOp = QString::null;
+			}
+		}
+	}
+
 	Uml::IDType textId = STR2ID(textid);
 	if (textId != Uml::id_None) {
 		UMLWidget *flotext = m_pView -> findWidget( textId );
@@ -846,7 +882,7 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement) {
 	if ( !element.isNull() ) {
 		QString tag = element.tagName();
 		if (tag == "floatingtext") {
-			m_pFText = new FloatingText( m_pView, tr, m_Operation, textId );
+			m_pFText = new FloatingText( m_pView, tr, getOperationText(), textId );
 			if( ! m_pFText->loadFromXMI(element) ) {
 				// Most likely cause: The FloatingText is empty.
 				delete m_pFText;
