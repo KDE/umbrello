@@ -28,14 +28,14 @@ static const char *description =
 static KCmdLineOptions options[] =
     {
         { "+[File]", I18N_NOOP("file to open"), 0 },
-        KCmdLineLastOption
         // INSERT YOUR COMMANDLINE OPTIONS HERE
+        KCmdLineLastOption
     };
 
 int main(int argc, char *argv[]) {
 	KAboutData aboutData( "umbrello", I18N_NOOP("Umbrello UML Modeller"),
 	                      UMBRELLO_VERSION, description, KAboutData::License_GPL,
-	                      I18N_NOOP("(c) 2001 Paul Hensgen, (c) 2002 Umbrello UML Modeller Authors"), 0,
+	                      I18N_NOOP("(c) 2001 Paul Hensgen, (c) 2002, 2003 Umbrello UML Modeller Authors"), 0,
 	                      "http://uml.sf.net/");
 	aboutData.addAuthor("Paul Hensgen",0, "phensgen@users.sourceforge.net");
 	aboutData.addAuthor(I18N_NOOP("Umbrello UML Modeller Authors"), 0, "uml-devel@lists.sourceforge.net");
