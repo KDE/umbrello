@@ -77,33 +77,22 @@ void ToolBarStateMessages::mouseRelease(QMouseEvent* ome)
 		}
 		else
 		{
-			//clicked on second sequence line to create message
-			Uml::Text_Role tr = Uml::tr_Seq_Message;
-			if (m_pSelectedWidget == clickedOnWidget)
-				tr = Uml::tr_Seq_Message_Self;
-			FloatingText* messageText = new FloatingText(m_pUMLView, tr, "");
-			messageText->setFont( m_pUMLView->getFont() );
-
 			ObjectWidget* pFirstSelectedObj = dynamic_cast<ObjectWidget*>(m_pSelectedWidget);
 			if (pFirstSelectedObj == NULL) {
 				kdDebug() << "first selected widget is not an object" << endl;
 				return;
 			}
 			MessageWidget* message = new MessageWidget(m_pUMLView, pFirstSelectedObj,
-								   clickedOnWidget, messageText,
+								   clickedOnWidget, NULL,
 								   m_pMouseEvent->y(),
 								   getMessageType());
 
 			// TODO Do we really need a connect? It makes the code so hard to read. 
 			m_pUMLView->connect(m_pUMLView, SIGNAL(sigColorChanged(Uml::IDType)), message, SLOT(slotColorChanged(Uml::IDType)));
 
-			messageText->setLink( message );
-			messageText->setActivated();
 			message->setActivated();
 
 			m_pSelectedWidget = 0;
-			if (! m_pUMLView->m_WidgetList.contains(messageText))
-				m_pUMLView->m_WidgetList.append(messageText);
 			m_pUMLView->m_MessageList.append(message);
 		}
 	}

@@ -36,8 +36,10 @@ MessageWidget::MessageWidget(UMLView * view, ObjectWidget* a, ObjectWidget* b,
 	m_sequenceMessageType = sequenceMessageType;
 
 	//CHECK: This is contorted - it should be in the caller's responsibility:
-	ft->setUMLObject(b->getUMLObject());
-	ft -> setLink(this);
+	if (ft) {
+		ft->setUMLObject(b->getUMLObject());
+		ft->setLink(this);
+	}
 
 	connect(m_pOw[Uml::A], SIGNAL(sigWidgetMoved(Uml::IDType)), this, SLOT(slotWidgetMoved(Uml::IDType)));
 	connect(m_pOw[Uml::B], SIGNAL(sigWidgetMoved(Uml::IDType)), this, SLOT(slotWidgetMoved(Uml::IDType)));
@@ -292,12 +294,25 @@ void MessageWidget::slotMenuSelection(int sel) {
 	if(sel == ListPopupMenu::mt_Delete) {
 		// This will clean up this widget and the text widget:
 		m_pView -> removeWidget(this);
-	} else
+	} else {
+		if (m_pFText == NULL) {
+			Uml::Text_Role tr = Uml::tr_Seq_Message;
+			if (m_pOw[Uml::A] == m_pOw[Uml::B])
+				tr = Uml::tr_Seq_Message_Self;
+			m_pFText = new FloatingText( m_pView, tr );
+			m_pFText->setFont(UMLWidget::getFont());
+			m_pFText->setLink(this);
+			m_pFText->setText("");
+			m_pFText->setActivated();
+			m_pFText->setUMLObject( m_pOw[Uml::B]->getUMLObject() );
+		}
 		m_pFText -> slotMenuSelection(sel);
+	}
 }
 
 void MessageWidget::mouseDoubleClickEvent(QMouseEvent * /*me*/) {
-	if(m_pView -> getCurrentCursor() == WorkToolBar::tbb_Arrow)
+	if (m_pView->getCurrentCursor() == WorkToolBar::tbb_Arrow &&
+	    m_pFText != NULL)
 		m_pFText -> slotMenuSelection(ListPopupMenu::mt_Select_Operation);
 }
 
@@ -311,7 +326,7 @@ bool MessageWidget::activate(IDChangeLog * Log /*= 0*/) {
 	}
 	if( !m_pFText ) {
 		Uml::Text_Role tr = Uml::tr_Seq_Message;
-		if (m_pOw[Uml::A] ==m_pOw[Uml::B])
+		if (m_pOw[Uml::A] == m_pOw[Uml::B])
 			tr = Uml::tr_Seq_Message_Self;
 		m_pFText = new FloatingText( m_pView, tr, "" );
 		m_pFText->setFont(UMLWidget::getFont());
@@ -637,7 +652,6 @@ ObjectWidget* MessageWidget::getWidget(Uml::Role_Type role) {
 void MessageWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement messageElement = qDoc.createElement( "messagewidget" );
 	UMLWidget::saveToXMI( qDoc, messageElement );
-	messageElement.setAttribute( "textid", m_pFText->getID() );
 	messageElement.setAttribute( "widgetaid", m_pOw[Uml::A]->getLocalID() );
 	messageElement.setAttribute( "widgetbid", m_pOw[Uml::B]->getLocalID() );
 	messageElement.setAttribute( "operation", m_Operation );
@@ -645,8 +659,10 @@ void MessageWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	messageElement.setAttribute( "sequencemessagetype", m_sequenceMessageType );
 
 	// save the corresponding message text
-	if( m_pFText )
+	if (m_pFText && !m_pFText->getText().isEmpty()) {
+		messageElement.setAttribute( "textid", m_pFText->getID() );
 		m_pFText -> saveToXMI( qDoc, messageElement );
+	}
 
 	qElement.appendChild( messageElement );
 }
@@ -709,39 +725,28 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement) {
 	Uml::Text_Role tr = Uml::tr_Seq_Message;
 	if (m_pOw[Uml::A] == m_pOw[Uml::B])
 		tr = Uml::tr_Seq_Message_Self;
-	m_pFText = new FloatingText( m_pView, tr, m_Operation, textId );
-	bool textLoadSuccess = false;
 
 	//now load child elements
 	QDomNode node = qElement.firstChild();
 	QDomElement element = node.toElement();
-	while( !element.isNull() ) {
+	if ( !element.isNull() ) {
 		QString tag = element.tagName();
-		if (tag == "floatingtext"  ) {
+		if (tag == "floatingtext") {
+			m_pFText = new FloatingText( m_pView, tr, m_Operation, textId );
 			if( ! m_pFText->loadFromXMI(element) ) {
 				// Most likely cause: The FloatingText is empty.
-				node = element.nextSibling();
-				element = node.toElement();
-				continue;
+				delete m_pFText;
+				m_pFText = NULL;
 			}
-			else {
-				textLoadSuccess = true;
-				break; // no more to load
-			}
+		} else {
+			kdError() << "MessageWidget::loadFromXMI: unknown tag "
+				  << tag << endl;
 		}
 	}
 
-	if ( ! textLoadSuccess ) {
-		// set FloatingText from tag m_Operation
-		// m_pFText->setText(m_Operation);
-		m_pFText->setFont(UMLWidget::getFont());
-		m_pFText->setActivated();
-		m_pFText->setVisible( m_Operation.length() > 1 );
-		m_pFText -> setUMLObject( m_pOw[Uml::B] -> getUMLObject() );
-	}
-
 	// always need this
-	m_pFText->setLink(this);
+	if (m_pFText)
+		m_pFText->setLink(this);
 
 	return true;
 }
