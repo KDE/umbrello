@@ -6,7 +6,6 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include <iostream.h>
 #include <cmath>
 
 // qt includes
@@ -799,7 +798,7 @@ void LinePath::dumpPoints () {
 	int count = m_LineList.count();
 	for( int i = 1; i < count; i++ ) {
 		QPoint point = getPoint( i );
-		cerr<<" * point x:"<<point.x()<<" y:"<<point.y()<<endl;
+		kdDebug()<<" * point x:"<<point.x()<<" y:"<<point.y()<<endl;
 	}
 
 }
