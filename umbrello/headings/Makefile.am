@@ -1,2 +1,2 @@
-my_DIR = $(kde_datadir)/umbrello/headings
+mydir = $(kde_datadir)/umbrello/headings
 my_DATA = heading.java heading.h heading.php heading.cpp 
