@@ -983,7 +983,17 @@ void UMLView::selectionSetLineColor( QColor color )
 		temp -> setLineColour( color );
 		temp -> getData() -> setUsesDiagramLineColour(false);
 	}
+}
 
+void UMLView::selectionSetFillColor( QColor color )
+{
+	UMLWidget * temp = 0;
+	for(temp=(UMLWidget *) m_SelectedList.first();
+				temp;
+					temp=(UMLWidget *)m_SelectedList.next()) {
+		temp -> setFillColour( color );
+		temp -> getData() -> setUsesDiagramFillColour(false);
+	}
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

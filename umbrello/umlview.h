@@ -231,6 +231,11 @@ public:
 	void selectionSetLineColor( QColor color );
 
 	/**
+	 * 	Set the fill color for all the currently selected items.
+	 */
+	void selectionSetFillColor( QColor color );
+
+	/**
 	 *	Delete the selected widgets list and the widgets in it.
 	 */
 	void deleteSelection();

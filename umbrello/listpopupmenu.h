@@ -121,8 +121,9 @@ public:
 
 	    mt_Multi_Selection,               //MULTISELECTION
 	    mt_Line_Color,                    //LINECOLOR
-	    mt_Line_Color_Selection,          //LINECOLOR, multiple Items
+	    mt_Line_Color_Selection,          //LINECOLOR, multiple items
 	    mt_Fill_Color,                    //FILLCOLOR
+	    mt_Fill_Color_Selection,          //FILLCOLOR, multiple items
 	    mt_Use_Fill_Color,                //USEFCOLOR
 	    mt_Default_Properties,            //DEFAULTPROPERTIES
 	    mt_Rename_MultiA,

@@ -451,7 +451,7 @@ void ListPopupMenu::setupColorSelection(bool fc)
 {
 	m_pColor = new KPopupMenu( this, "Colour");
 	m_pColor -> insertItem(SmallIcon( "color_line"), i18n("Line Color"), mt_Line_Color_Selection);
-	m_pColor -> insertItem(SmallIcon( "color_fill"), i18n("Fill Color"), mt_Fill_Color);
+	m_pColor -> insertItem(SmallIcon( "color_fill"), i18n("Fill Color"), mt_Fill_Color_Selection);
 	m_pColor -> insertItem( i18n("Use Fill Color"), mt_Use_Fill_Color);
 
 	m_pColor -> setItemChecked(mt_Use_Fill_Color, fc);

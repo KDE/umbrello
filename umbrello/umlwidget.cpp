@@ -347,6 +347,13 @@ void UMLWidget::slotMenuSelection(int sel) {
 				}
 				break;
 
+			case ListPopupMenu::mt_Fill_Color_Selection:
+				if ( KColorDialog::getColor(newColour) ) {
+					m_pView -> selectionSetFillColor( newColour );
+					m_pView->getDocument()->setModified(true);
+				}
+				break;
+
 			case ListPopupMenu::mt_Use_Fill_Color:
 				m_pData->setUseFillColor( !m_pData->getUseFillColor() );
 				m_pData->setUsesDiagramUseFillColour(false);
