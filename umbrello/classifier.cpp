@@ -478,7 +478,10 @@ bool UMLClassifier::load(QDomElement& element) {
 				kdError() << "UMLClassifier::load: error from op->loadFromXMI()"
 					  << endl;
 				delete op;
-				return false;
+				return true;
+				// Returning false here will spoil the entire load.
+				// At this point the user has been warned that
+				// something went wrong so let's still try to go on.
 			}
 			if (!addOperation(op) ) {
 				kdError() << "UMLClassifier::load: error from addOperation(op)"
