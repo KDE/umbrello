@@ -910,6 +910,11 @@ private:
 	 */
 	UMLDoc* m_pDoc;
 
+	/**
+	 * Used by @ref contentsMouseMoveEvent() to know if a mouse button is pressed.
+	 */
+	bool m_bMouseButtonPressed;
+
 public slots:
 
 	void zoomIn();
