@@ -26,7 +26,7 @@ MessageWidget::MessageWidget(UMLView * view, UMLWidgetData * pData) : UMLWidget(
 	init();
 	m_pData->setType(wt_Message);
 }
-
+////////////////////////////////////////////////////////////////////////////////////////////////////
 MessageWidget::MessageWidget(UMLView * view, UMLWidget * a, UMLWidget * b, FloatingText * ft, int id, int y) : UMLWidget(view, id, new MessageWidgetData(view->getOptionState() )) {
 	init();
 	m_pFText = ft;
@@ -325,6 +325,9 @@ void MessageWidget::mouseMoveEvent(QMouseEvent *me) {
 	newY = newY < getMinHeight() ? getMinHeight() : newY;
 	newY = newY > getMaxHeight() ? getMaxHeight() : newY;
 
+	if (m_nOldX != newX || m_nOldY != newY) {
+		m_bMoved = true;
+	}
 	m_nOldX = newX;
 	m_nOldY = newY;
 	setX( newX );
