@@ -122,8 +122,10 @@ void ClassOperationsPage::createOperation( )
 }
 void ClassOperationsPage::editSelected( )
 {kdDebug()<<"edit selected"<<endl;
+/*
 	QPtrList<UMLOperation> *opList = m_umlObject->getOpList();
 	UMLOperation *op(0);
+
 	for( op = opList->first(); op; op = opList->next() )
 	{
 		//if(op->getName( ) == item->text(1))
@@ -133,7 +135,7 @@ void ClassOperationsPage::editSelected( )
 	{
 		QWidget *page = new OperationPropertiesPage(op,this,"operation properties");
 	}
-	
+*/	
 }
 
 void ClassOperationsPage::deleteSelected( )
