@@ -12,34 +12,28 @@
  *      Date   : Wed Jul 30 2003
  */
 
-#ifndef CPPCODEGENERATIONPOLICYPAGE_H
-#define CPPCODEGENERATIONPOLICYPAGE_H
+#ifndef CPPCODEGENERATIONFORM_H
+#define CPPCODEGENERATIONFORM_H
 
-#include "../dialogs/codegenerationpolicypage.h"
-
-#include "cppcodegenerationform.h"
-#include "cppcodegenerationpolicy.h"
+#include "cppcodegenerationformbase.h"
 
 /**
  * @author Brian Thomas
  */
 
-class CPPCodeGenerationPolicyPage : public CodeGenerationPolicyPage {
+class CPPCodeGenerationForm : public CPPCodeGenerationFormBase {
 	Q_OBJECT
 public:
 
-	CPPCodeGenerationPolicyPage (QWidget *parent=0, const char *name=0, CPPCodeGenerationPolicy * policy = 0);
+	CPPCodeGenerationForm (QWidget *parent=0, const char *name=0);
 
-	virtual ~CPPCodeGenerationPolicyPage();
+	virtual ~CPPCodeGenerationForm();
 
 protected:
 
-	CPPCodeGenerationForm * form;
-	int commentTypeToInteger(CPPCodeGenerationPolicy::CPPCommentStyle type);
-
 public slots:
 
-	void apply();
+	virtual void browseClicked();
 
 };
 

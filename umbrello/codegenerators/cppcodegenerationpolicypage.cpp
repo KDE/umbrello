@@ -15,7 +15,7 @@
 #include <kdebug.h>
 #include <klocale.h>
 #include <qlabel.h>
-#include <qcombobox.h>
+#include <kcombobox.h>
 #include <qcheckbox.h>
 #include "cppcodegenerationpolicypage.h"
 #include "cppcodegenerationformbase.h"
@@ -23,7 +23,7 @@
 CPPCodeGenerationPolicyPage::CPPCodeGenerationPolicyPage( QWidget *parent, const char *name, CPPCodeGenerationPolicy * policy )
 	:CodeGenerationPolicyPage(parent,name,(CodeGenerationPolicy*)policy) 
 {
-	form = new CPPCodeGenerationFormBase(this);
+	form = new CPPCodeGenerationForm(this);
 	form->m_SelectCommentStyle->setCurrentItem(commentTypeToInteger(policy->getCommentStyle()));
 	form->m_generateConstructors->setChecked(policy->getAutoGenerateConstructors());
 	form->m_generateAccessors->setChecked(policy->getAutoGenerateAccessors());
@@ -35,6 +35,14 @@ CPPCodeGenerationPolicyPage::CPPCodeGenerationPolicyPage( QWidget *parent, const
 
     	form->m_createMakefile->setChecked(policy->getBuildMakefile());
 
+	form->m_stringClassHCombo->setCurrentItem(policy->getStringClassName(),true);
+	form->m_listClassHCombo->setCurrentItem(policy->getVectorClassName(),true);
+
+	form->m_stringIncludeFileHistoryCombo->setCurrentItem(policy->getStringClassNameInclude(),true);
+	form->m_listIncludeFileHistoryCombo->setCurrentItem(policy->getVectorClassNameInclude(),true);
+
+	form->m_globalStringCheckBox->setChecked(policy->stringIncludeIsGlobal()); 
+	form->m_globalListCheckBox->setChecked(policy->vectorIncludeIsGlobal()); 
 }
 
 CPPCodeGenerationPolicyPage::~CPPCodeGenerationPolicyPage()
@@ -70,6 +78,13 @@ kdDebug()<<"Apply in CPPCodeGenerationPage called (parent:"<<parent<<")"<<endl;
 
     	parent->setBuildMakefile(form->m_createMakefile->isChecked());
 
+	parent->setStringClassName(form->m_stringClassHCombo->currentText());
+	parent->setStringClassNameInclude(form->m_stringIncludeFileHistoryCombo->currentText());
+	parent->setStringIncludeIsGlobal(form->m_globalStringCheckBox->isChecked());
+
+	parent->setVectorClassName(form->m_listClassHCombo->currentText());
+	parent->setVectorClassNameInclude(form->m_listIncludeFileHistoryCombo->currentText());
+	parent->setVectorIncludeIsGlobal(form->m_globalListCheckBox->isChecked());
 }
 
 

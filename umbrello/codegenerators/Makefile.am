@@ -19,7 +19,7 @@ libcodegenerator_la_SOURCES = codegenfactory.cpp classifierinfo.cpp \
 				cppheadercodeoperation.cpp cppheadercodeaccessormethod.cpp \
 				cppheadercodeclassfielddeclarationblock.cpp \
 				cppcodegenerationpolicy.cpp cppcodegenerationpolicypage.cpp \
-				cppcodegenerationformbase.ui \
+				cppcodegenerationformbase.ui cppcodegenerationform.cpp \
 				simplecodegenerator.cpp \
 				adawriter.cpp aswriter.cpp jswriter.cpp idlwriter.cpp perlwriter.cpp \
 				phpwriter.cpp pythonwriter.cpp sqlwriter.cpp xmlschemawriter.cpp \

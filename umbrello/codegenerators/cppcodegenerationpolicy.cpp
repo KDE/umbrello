@@ -30,13 +30,15 @@ const bool CPPCodeGenerationPolicy::DEFAULT_INLINE_OPERATIONS = false;
 const bool CPPCodeGenerationPolicy::DEFAULT_VIRTUAL_DESTRUCTORS = true;
 const bool CPPCodeGenerationPolicy::DEFAULT_PACKAGE_IS_NAMESPACE = false;
 const char * CPPCodeGenerationPolicy::DEFAULT_STRING_CLASS_NAME = "string";
-const char * CPPCodeGenerationPolicy::DEFAULT_STRING_CLASS_INCLUDE = "<string.h>";
+const char * CPPCodeGenerationPolicy::DEFAULT_STRING_CLASS_INCLUDE = "string.h";
 const char * CPPCodeGenerationPolicy::DEFAULT_VECTOR_CLASS_NAME = "vector";
-const char * CPPCodeGenerationPolicy::DEFAULT_VECTOR_CLASS_INCLUDE = "<vector.h>";
+const char * CPPCodeGenerationPolicy::DEFAULT_VECTOR_CLASS_INCLUDE = "vector.h";
 const char * CPPCodeGenerationPolicy::DEFAULT_VECTOR_METHOD_APPEND = "%VARNAME%.push_back(value);";
 const char * CPPCodeGenerationPolicy::DEFAULT_VECTOR_METHOD_REMOVE = "int size = %VARNAME%.size();\nfor ( int i = 0; i < size; i++) {\n\t%ITEMCLASS% item = %VARNAME%.at(i);\n\tif(item == value) {\n\t\tvector<%ITEMCLASS%>::iterator it = %VARNAME%.begin() + i;\n\t\t%VARNAME%.erase(it);\n\t\treturn;\n\t}\n }";
 const char * CPPCodeGenerationPolicy::DEFAULT_VECTOR_METHOD_INIT = ""; // nothing to do in std::vector 
 const char * CPPCodeGenerationPolicy::DEFAULT_OBJECT_METHOD_INIT = "%VARNAME% = new %ITEMCLASS%( );";
+const bool CPPCodeGenerationPolicy::DEFAULT_STRING_INCLUDE_GLOBAL = true;
+const bool CPPCodeGenerationPolicy::DEFAULT_VECTOR_INCLUDE_GLOBAL = true;
 
 
 // Constructors/Destructors
@@ -221,6 +223,45 @@ QString CPPCodeGenerationPolicy::getVectorClassNameInclude() {
 	return m_vectorClassNameInclude;
 }
 
+void CPPCodeGenerationPolicy::setStringClassName(QString value) {
+	m_stringClassName = value;
+	emit modifiedCodeContent();
+}
+
+void CPPCodeGenerationPolicy::setStringClassNameInclude(QString value) {
+	m_stringClassNameInclude = value;
+	emit modifiedCodeContent();
+}
+
+void CPPCodeGenerationPolicy::setVectorClassName(QString value) {
+	m_vectorClassName = value;
+	emit modifiedCodeContent();
+}
+
+void CPPCodeGenerationPolicy::setVectorClassNameInclude(QString value) {
+	m_vectorClassNameInclude = value;
+	emit modifiedCodeContent();
+}
+
+/** determine if the string include is global one */
+bool CPPCodeGenerationPolicy::stringIncludeIsGlobal () {
+	return m_stringIncludeIsGlobal;
+}
+
+bool CPPCodeGenerationPolicy::vectorIncludeIsGlobal () {
+	return m_vectorIncludeIsGlobal;
+}
+
+void CPPCodeGenerationPolicy::setStringIncludeIsGlobal(bool value) {
+	m_stringIncludeIsGlobal = value;
+	emit modifiedCodeContent();
+}
+
+void CPPCodeGenerationPolicy::setVectorIncludeIsGlobal(bool value) {
+	m_vectorIncludeIsGlobal = value;
+	emit modifiedCodeContent();
+}
+
 QString CPPCodeGenerationPolicy::getVectorMethodAppend(const QString & variableName, const QString & itemClassName) {
 	QString value = m_vectorMethodAppendBase;
 	if(!variableName.isEmpty())
@@ -280,6 +321,14 @@ void CPPCodeGenerationPolicy::writeConfig ( KConfig * config )
 	config->writeEntry("virtualDestructors",getDestructorsAreVirtual());
 	config->writeEntry("packageIsNamespace",getPackageIsNamespace());
 
+	config->writeEntry("stringClassName",getStringClassName());
+	config->writeEntry("stringClassNameInclude",getStringClassNameInclude());
+	config->writeEntry("stringIncludeIsGlobal",stringIncludeIsGlobal());
+
+	config->writeEntry("vectorClassName",getVectorClassName());
+	config->writeEntry("vectorClassNameInclude",getVectorClassNameInclude());
+	config->writeEntry("vectorIncludeIsGlobal",vectorIncludeIsGlobal());
+
 }
 
 void CPPCodeGenerationPolicy::setDefaults ( CodeGenerationPolicy * clone, bool emitUpdateSignal )
@@ -310,6 +359,14 @@ void CPPCodeGenerationPolicy::setDefaults ( CodeGenerationPolicy * clone, bool e
         	setOperationsAreInline(cppclone->getOperationsAreInline());
 		setDestructorsAreVirtual(cppclone->getDestructorsAreVirtual());
 		setPackageIsNamespace(cppclone->getPackageIsNamespace());
+
+		setStringClassName(cppclone->getStringClassName() );
+		setStringClassNameInclude(cppclone->getStringClassNameInclude());
+		setStringIncludeIsGlobal(cppclone->stringIncludeIsGlobal());
+
+		setVectorClassName(cppclone->getVectorClassName());
+		setVectorClassNameInclude(cppclone->getVectorClassNameInclude());
+		setVectorIncludeIsGlobal(cppclone->vectorIncludeIsGlobal());
 
 	}
 
@@ -347,6 +404,14 @@ void CPPCodeGenerationPolicy::setDefaults( KConfig * config, bool emitUpdateSign
 	setDestructorsAreVirtual(config->readBoolEntry("virtualDestructors",DEFAULT_VIRTUAL_DESTRUCTORS));
 	setPackageIsNamespace(config->readBoolEntry("packageIsNamespace",DEFAULT_PACKAGE_IS_NAMESPACE));
 
+	setStringClassName(config->readEntry("stringClassName",DEFAULT_STRING_CLASS_NAME) );
+	setStringClassNameInclude(config->readEntry("stringClassNameInclude",DEFAULT_STRING_CLASS_INCLUDE ) );
+	setStringIncludeIsGlobal(config->readBoolEntry("stringIncludeIsGlobal",DEFAULT_STRING_INCLUDE_GLOBAL) );
+
+	setVectorClassName(config->readEntry("vectorClassName",DEFAULT_VECTOR_CLASS_NAME) );
+	setVectorClassNameInclude(config->readEntry("vectorClassNameInclude",DEFAULT_VECTOR_CLASS_INCLUDE) );
+	setVectorIncludeIsGlobal(config->readBoolEntry("vectorIncludeIsGlobal",DEFAULT_VECTOR_INCLUDE_GLOBAL) );
+
         blockSignals(false); // "as you were citizen"
 
 	if(emitUpdateSignal)
@@ -377,8 +442,11 @@ void CPPCodeGenerationPolicy::initFields ( CPPCodeGenerator * parent ) {
 
 	m_stringClassName = DEFAULT_STRING_CLASS_NAME;
 	m_stringClassNameInclude = DEFAULT_STRING_CLASS_INCLUDE;
+	m_stringIncludeIsGlobal = DEFAULT_STRING_INCLUDE_GLOBAL;
+
 	m_vectorClassName = DEFAULT_VECTOR_CLASS_NAME;
 	m_vectorClassNameInclude = DEFAULT_VECTOR_CLASS_INCLUDE;
+	m_vectorIncludeIsGlobal = DEFAULT_VECTOR_INCLUDE_GLOBAL;
 
 	m_vectorMethodAppendBase = DEFAULT_VECTOR_METHOD_APPEND; 
 	m_vectorMethodRemoveBase = DEFAULT_VECTOR_METHOD_REMOVE; 

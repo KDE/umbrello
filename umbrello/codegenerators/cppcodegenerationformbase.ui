@@ -517,6 +517,23 @@
         </widget>
     </widget>
 </widget>
+<connections>
+    <connection>
+        <sender>m_browseListButton</sender>
+        <signal>clicked()</signal>
+        <receiver>CPPCodeGenerationFormBase</receiver>
+        <slot>browseClicked()</slot>
+    </connection>
+    <connection>
+        <sender>m_browseStringButton</sender>
+        <signal>clicked()</signal>
+        <receiver>CPPCodeGenerationFormBase</receiver>
+        <slot>browseClicked()</slot>
+    </connection>
+</connections>
+<slots>
+    <slot>browseClicked()</slot>
+</slots>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>kcombobox.h</includehint>

@@ -38,6 +38,9 @@ public:
  	static const bool DEFAULT_VIRTUAL_DESTRUCTORS;
 	static const bool DEFAULT_PACKAGE_IS_NAMESPACE;
 
+	static const bool DEFAULT_STRING_INCLUDE_GLOBAL;
+	static const bool DEFAULT_VECTOR_INCLUDE_GLOBAL;
+
 	static const char * DEFAULT_STRING_CLASS_NAME;
 	static const char * DEFAULT_STRING_CLASS_INCLUDE;
 	static const char * DEFAULT_VECTOR_CLASS_NAME;
@@ -165,6 +168,20 @@ public:
 	QString getVectorClassName();
 	QString getVectorClassNameInclude();
 
+	/** determine if the string include is global one */
+	bool stringIncludeIsGlobal ();
+	bool vectorIncludeIsGlobal ();
+
+         /** also allow setting these parameters! */
+        void setStringClassName(QString value);
+        void setStringClassNameInclude(QString value);
+        void setVectorClassName(QString value);
+        void setVectorClassNameInclude(QString value);
+
+	/** allow setting of these params */
+	void setStringIncludeIsGlobal (bool value);
+	void setVectorIncludeIsGlobal (bool value);
+
 	/** More flexible generation. We want to allow the user to specifiy how the 
 	 *  bodies of the vector methods should be auto-generated.
 	 */
@@ -216,6 +233,9 @@ private:
         bool m_inlineOperations;
         bool m_virtualDestructors;
         bool m_packageIsNamespace;
+
+	bool m_stringIncludeIsGlobal;
+	bool m_vectorIncludeIsGlobal;
 
 	QString m_stringClassName;
 	QString m_stringClassNameInclude;
