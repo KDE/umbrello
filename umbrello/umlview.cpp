@@ -3187,6 +3187,16 @@ UMLWidget* UMLView::loadWidgetFromXMI(QDomElement& widgetElement) {
 	else
 	{
 	// Find the UMLObject and create the Widget to represent it
+	/* TODO:
+	   We peek ahead at the xmi.id and do a UMLDoc::findUMLObject()
+	   to resolve the corresponding UMLObject for the widget.
+	   That is a breach of encapsulation: Loading the xmi.id should
+	   be the sole responsibility of UMLWidget::loadFromXMI().
+	   I.e. the widget constructors that take an UMLObject arg
+	   should be removed. Any computation in those constructors
+	   that relies on the m_pObject being set should be relegated
+	   to a separate method.
+	 */
 		QString idstr  = widgetElement.attribute( "xmi.id", "-1" );
 		int id = idstr.toInt();
 		UMLObject *o(0);
