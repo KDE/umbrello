@@ -11,8 +11,12 @@
 #include "umlview.h"
 #include "listpopupmenu.h"
 #include "dialogs/activitydialog.h"
-
-#include <kinputdialog.h>
+#if QT_VERSION < 0x030200
+# include <klineeditdlg.h>  //deprecated
+# define KInputDialog       KLineEditDlg
+#else
+# include <kinputdialog.h>
+#endif
 #include <klocale.h>
 #include <qpainter.h>
 

@@ -7,13 +7,18 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <kinputdialog.h>
+#include "statewidget.h"
+#if QT_VERSION < 0x030200
+# include <klineeditdlg.h>  //deprecated
+# define KInputDialog       KLineEditDlg
+#else
+# include <kinputdialog.h>
+#endif
 #include <klocale.h>
 #include <kdebug.h>
 #include "umlwidget.h"
 #include "umlview.h"
 #include "dialogs/statedialog.h"
-#include "statewidget.h"
 #include "listpopupmenu.h"
 
 StateWidget::StateWidget(UMLView * view, StateType stateType) : UMLWidget(view) {

@@ -11,7 +11,12 @@
 #include "stereotype.h"
 
 #include <klocale.h>
-#include <kinputdialog.h>
+#if QT_VERSION < 0x030200
+# include <klineeditdlg.h>  //deprecated
+# define KInputDialog       KLineEditDlg
+#else
+# include <kinputdialog.h>
+#endif
 #include <kdebug.h>
 
 UMLStereotype::UMLStereotype(QObject* parent, QString name, int id, UMLObject_Type listType) : UMLClassifierListItem(parent, name, id) {
