@@ -665,7 +665,7 @@ bool UMLClipboard::checkPasteWidgets( UMLWidgetList & widgetList ) {
 				break;
 
 			case Uml::wt_Text:
-				if( dynamic_cast<FloatingText *>( p )->
+				if( static_cast<FloatingText *>( p )->
 				        getRole() != Uml::tr_Floating )
 					return false;
 				break;
