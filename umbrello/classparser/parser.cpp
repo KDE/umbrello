@@ -1875,6 +1875,11 @@ bool Parser::parseClassSpecifier( TypeSpecifierAST::Node& node )
 	}
     }
 
+    QString comment;
+    while (lex->lookAhead(0) == Token_comment) {
+	comment += lex->lookAhead(0).text();
+	lex->nextToken();
+    }
     if( lex->lookAhead(0) != '{' ){
 	lex->setIndex( start );
 	return false;
