@@ -3091,10 +3091,14 @@ bool UMLView::loadWidgetsFromXMI( QDomElement & qElement ) {
 	QDomElement widgetElement = node.toElement();
 	while( !widgetElement.isNull() ) {
 		widget = loadWidgetFromXMI(widgetElement);
-		if (!widget) {
-			return false;
+		if (widget) {
+			m_WidgetList.append( widget );
+		// In the interest of best-effort loading, in case of a
+		// (widget == NULL) we still go on.
+		// The individual widget's loadFromXMI method should
+		// already have generated an error message to tell the
+		// user that something went wrong.
 		}
-		m_WidgetList.append( widget );
 		node = widgetElement.nextSibling();
 		widgetElement = node.toElement();
 	}
