@@ -169,6 +169,12 @@ protected:
 	 */
 	virtual void updateSigs();
 
+	/**
+	 * Return the number of displayed members of the given Object_Type.
+	 * Takes into consideration m_bShowPublicOnly but not other settings,
+	 */
+	int displayedMembers(Uml::Object_Type ot);
+
 	bool m_bShowOperations;            ///< Loaded/saved item.
 	bool m_bShowPublicOnly;            ///< Loaded/saved item.
 	bool m_bShowScope;                 ///< Loaded/saved item.

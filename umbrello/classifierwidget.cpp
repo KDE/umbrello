@@ -179,17 +179,21 @@ void ClassifierWidget::setOpSignature(Uml::Signature_Type sig) {
 	update();
 }
 
-int ClassifierWidget::displayedOperations() {
-	if (!m_bShowOperations)
-		return 0;
+int ClassifierWidget::displayedMembers(Uml::Object_Type ot) {
 	UMLClassifier *c = static_cast<UMLClassifier*>(m_pObject);
 	int count = 0;
-	UMLClassifierListItemList list = c->getFilteredList(Uml::ot_Operation);
+	UMLClassifierListItemList list = c->getFilteredList(ot);
 	for (UMLClassifierListItem *m = list.first(); m; m = list.next()) {
 		if (!(m_bShowPublicOnly && m->getScope() != Uml::Public))
 			count++;
 	}
 	return count;
+}
+
+int ClassifierWidget::displayedOperations() {
+	if (!m_bShowOperations)
+		return 0;
+	return displayedMembers(Uml::ot_Operation);
 }
 
 bool ClassifierWidget::activate(IDChangeLog* ChangeLog /* = 0 */) {

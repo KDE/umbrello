@@ -54,14 +54,7 @@ ClassWidget::~ClassWidget() {}
 int ClassWidget::displayedAttributes() {
 	if (!m_bShowAttributes)
 		return 0;
-	UMLClassifier *c = static_cast<UMLClassifier*>(m_pObject);
-	int count = 0;
-	UMLClassifierListItemList list = c->getFilteredList(Uml::ot_Attribute);
-	for (UMLClassifierListItem *m = list.first(); m; m = list.next()) {
-		if (!(m_bShowPublicOnly && m->getScope() != Uml::Public))
-			count++;
-	}
-	return count;
+	return ClassifierWidget::displayedMembers(Uml::ot_Attribute);
 }
 
 void ClassWidget::drawMembers(QPainter & p, Uml::Object_Type ot, Uml::Signature_Type sigType,
