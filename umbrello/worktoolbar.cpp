@@ -288,7 +288,7 @@ void WorkToolBar::loadPixmaps() {
 	m_Pixmaps.Object.load( dataDir + "object.xpm" );
 	m_Pixmaps.MessageSynchronous.load( dataDir + "message-synchronous.xpm" );
 	m_Pixmaps.MessageAsynchronous.load( dataDir + "message-asynchronous.xpm" );
-	m_Pixmaps.Arrow.load( dataDir + "arrow.xpm" );
+	m_Pixmaps.Arrow.load( dataDir + "arrow.png" );
 	m_Pixmaps.Association.load( dataDir + "line.xpm" );
 	m_Pixmaps.Anchor.load( dataDir + "anchor.xpm" );
 	m_Pixmaps.Text.load( dataDir + "text.xpm" );
