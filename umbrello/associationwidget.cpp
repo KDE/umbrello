@@ -58,8 +58,6 @@ AssociationWidget::AssociationWidget(UMLView *view, UMLWidget* pWidgetA,
 	: WidgetBase(view)
 {
 	init(view);
-	UMLDoc *umldoc = UMLApp::app()->getDocument();
-
 	if (umlassoc)
 		setUMLAssociation(umlassoc);
 	else
@@ -76,7 +74,7 @@ AssociationWidget::AssociationWidget(UMLView *view, UMLWidget* pWidgetA,
 			// done BEFORE creation of the widget, if it mattered to the code.
 			// But lets leave check in here for the time being so that debugging
 			// output is shown, in case there is a collision with code elsewhere.
-			UMLAssociation * myAssoc = umldoc->findAssociation( assocType, umlRoleA, umlRoleB, &swap );
+			UMLAssociation * myAssoc = m_umldoc->findAssociation( assocType, umlRoleA, umlRoleB, &swap );
 			if (myAssoc != NULL) {
 				if (assocType == at_Generalization) {
 					kdDebug() << " Ignoring second construction of same generalization"
@@ -903,8 +901,8 @@ void AssociationWidget::mouseDoubleClickEvent(QMouseEvent * me) {
 
 		m_LinePath.update();
 
-		//calculateRoleTextSegment();
 		calculateNameTextSegment();
+		m_umldoc->setModified(true);
 	}
 }
 
@@ -913,7 +911,7 @@ void AssociationWidget::moveEvent(QMoveEvent* me) {
 	// Simple Approach to block moveEvent during load of
 	// XMI
 	/// @todo avoid trigger of this event during load
-	if ( UMLApp::app()->getDocument()->loading() ) {
+	if ( m_umldoc->loading() ) {
 		// hmmh - change of position during load of XMI
 		// -> there is something wrong
 		// -> avoid movement during opening
@@ -1189,7 +1187,7 @@ void AssociationWidget::widgetMoved(UMLWidget* widget, int x, int y ) {
 	// Simple Approach to block moveEvent during load of
 	// XMI
 	/// @todo avoid trigger of this event during load
-	if ( UMLApp::app()->getDocument()->loading() ) {
+	if ( m_umldoc->loading() ) {
 		// hmmh - change of position during load of XMI
 		// -> there is something wrong
 		// -> avoid movement during opening
@@ -2163,8 +2161,7 @@ void AssociationWidget::slotMenuSelection(int sel) {
 		font = getFont();
 		if( KFontDialog::getFont( font, false, m_pView ) ) {
 			m_pView -> selectionSetFont( font );
-			UMLDoc* pDoc = UMLApp::app()->getDocument();
-			pDoc->setModified(true);
+			m_umldoc->setModified(true);
 		}
 		break;
 
@@ -2743,7 +2740,7 @@ void AssociationWidget::init (UMLView *view)
 	m_role[A].m_Changeability = chg_Changeable;
 	m_role[B].m_Changeability = chg_Changeable;
 	m_AssocType = Uml::at_Association;
-
+	m_umldoc = UMLApp::app()->getDocument();
 	m_LinePath.setAssociation( this );
 
 	connect(m_pView, SIGNAL(sigRemovePopupMenu()), this, SLOT(slotRemovePopupMenu()));
@@ -2951,7 +2948,7 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
 					umlRoleB = pWidgetB->getUMLObject();
 				}
 
-				setUMLAssociation(UMLApp::app()->getDocument()->createUMLAssociation(umlRoleA, umlRoleB, aType));
+				setUMLAssociation(m_umldoc->createUMLAssociation(umlRoleA, umlRoleB, aType));
 			}
 		}
 
@@ -2990,9 +2987,8 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
 		}
 
 		// New style: The xmi.id is a reference to the UMLAssociation.
-		UMLDoc* umldoc = UMLApp::app()->getDocument();
 		Uml::IDType nId = STR2ID(id);
-		UMLObject *myObj = umldoc->findObjectById(nId);
+		UMLObject *myObj = m_umldoc->findObjectById(nId);
 		if (myObj == NULL) {
 			kdError() << "AssociationWidget::loadFromXMI: cannot find UMLObject "
 				  << ID2STR(nId) << endl;

@@ -27,6 +27,7 @@ class ListPopupMenu;
 class QBitmap;
 class QPixmap;
 class QDataStream;
+class UMLDoc;
 class UMLView;
 class UMLAssociation;
 class UMLAttribute;
@@ -834,7 +835,7 @@ private:
 	 * m_LinePath[m_unNameLineSegment] -- m_LinePath[m_unNameLineSegment+1]
 	 */
 	uint 		m_unNameLineSegment;
-
+	UMLDoc * m_umldoc;  ///< just a shorthand for UMLApp::app()->getDocument()
 	bool 		m_bFocus;
 	ListPopupMenu 	*m_pMenu;
 	bool 		m_bSelected;
