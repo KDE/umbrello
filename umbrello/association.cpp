@@ -103,6 +103,9 @@ QString UMLAssociation::toString ( ) const
 	case at_Association:
 		string += i18n("Association");
 		break;
+	case at_Association_Self:
+		string += i18n("Self Association");
+		break;
 	case at_Anchor:
 		string += i18n("Anchor");
 		break;
@@ -146,6 +149,7 @@ bool UMLAssociation::assocTypeHasUMLRepresentation(Uml::Association_Type atype)
 {
 	return (atype == Uml::at_Generalization ||
 		atype == Uml::at_Realization ||
+		atype == Uml::at_Association_Self ||
 		atype == Uml::at_Aggregation ||
 		atype == Uml::at_Composition);
 }
@@ -402,8 +406,8 @@ void UMLAssociation::init(Association_Type type, UMLObject *roleAObj, UMLObject 
 	m_Name = "";
 	nrof_parent_widgets = 0;
 
-	m_pRoleA = new UMLRole (this, roleAObj);
-	m_pRoleB = new UMLRole (this, roleBObj);
+	m_pRoleA = new UMLRole (this, roleAObj, 1);
+	m_pRoleB = new UMLRole (this, roleBObj, 0);
 
 }
 

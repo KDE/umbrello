@@ -45,7 +45,7 @@ class CodeClassField : public CodeParameter
 	Q_OBJECT
 public:
 
-	enum ClassFieldType { Attribute, PlainAssociation, Aggregation, Composition, Unknown_Assoc };
+	enum ClassFieldType { Attribute, PlainAssociation, Self, Aggregation, Composition, Unknown_Assoc };
 
 	// Constructors/Destructors
 	//  

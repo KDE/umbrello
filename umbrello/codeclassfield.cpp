@@ -81,8 +81,8 @@ void CodeClassField::setParentUMLObject (UMLObject * obj) {
         	Uml::Association_Type atype = parentAssoc->getAssocType();
 		m_parentIsAttribute = false;
 
-        	if (atype == Uml::at_Association)
-                	m_classFieldType = PlainAssociation;
+        	if ( atype == Uml::at_Association || atype == Uml::at_Association_Self)
+                	m_classFieldType = PlainAssociation; // Plain == Self + untyped associations 
         	else if (atype == Uml::at_Aggregation)
                 	m_classFieldType = Aggregation;
         	else if (atype == Uml::at_Composition)

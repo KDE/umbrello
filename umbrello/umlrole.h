@@ -31,7 +31,7 @@ public:
 	 *
 	 * @param parent	The parent of this UMLRole.
 	 */
-	UMLRole (UMLAssociation * parent, UMLObject * parentUMLObject);
+	UMLRole (UMLAssociation * parent, UMLObject * parentUMLObject, int roleId);
 
 	/**
 	 * Overloaded '==' operator
@@ -139,15 +139,23 @@ public:
 	// bool saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
 	// bool loadFromXMI(QDomElement& element);
+	/** get the 'id' of the role (NOT the parent object). This could be
+	 * either a '0' (roleA) or '1' (roleB). Yes, it would be better if we
+	 * could get along without this, but we need it to distinquish saved
+	 * umlrole objects in the XMI for 'self' associations where both roles
+	 * will point to the same underlying UMLObject.
+	 */
+	int getRoleID();
 
 private:
 
 	/** do some initialization at construction time */
-	void init (UMLAssociation * parent, UMLObject * parentObj);
+	void init (UMLAssociation * parent, UMLObject * parentObj, int id);
 
 	QString m_Doc;
 	UMLObject* m_pObject;
 	UMLAssociation * m_pAssoc;
+	int m_roleID;
 	QString m_Name;
 	QString m_Multi;
 	Scope m_Visibility;

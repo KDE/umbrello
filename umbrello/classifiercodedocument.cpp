@@ -191,16 +191,16 @@ void ClassifierCodeDocument::removeAttributeClassField(UMLObject *obj)
 void ClassifierCodeDocument::removeAssociationClassField (UMLAssociation *assoc )
 {
 
-	// the object could be either role a or b. We should check
+	// the object could be either (or both!) role a or b. We should check
 	// both parts of the association.
         CodeClassField * remove_object = (*m_classFieldMap)[assoc->getUMLRoleA()];
         if(remove_object)
                 removeCodeClassField(remove_object);
-	else { // check role b
-        	remove_object = (*m_classFieldMap)[assoc->getUMLRoleB()];
-        	if(remove_object)
+
+	// check role b
+        remove_object = (*m_classFieldMap)[assoc->getUMLRoleB()];
+        if(remove_object)
                 	removeCodeClassField(remove_object);
-	}
 
 }
 
@@ -459,10 +459,12 @@ void ClassifierCodeDocument::initCodeClassFields ( ) {
 	UMLAssociationList ap = c->getSpecificAssocs(Uml::at_Association);
 	UMLAssociationList ag = c->getAggregations();
 	UMLAssociationList ac = c->getCompositions();
+	UMLAssociationList selfAssoc = c->getSpecificAssocs(Uml::at_Association_Self);
 
 	updateAssociationClassFields(ap);
 	updateAssociationClassFields(ag);
 	updateAssociationClassFields(ac);
+	updateAssociationClassFields(selfAssoc);
 
 }
 
@@ -477,7 +479,7 @@ void ClassifierCodeDocument::addAssociationClassField (UMLAssociation * a, bool 
 {
 
 	int cid = getParentClassifier()->getID(); // so we know who 'we' are
-	bool printRoleA = false, printRoleB = false;
+	bool printRoleA = false, printRoleB = false, shouldSync = false;
 	// it may seem counter intuitive, but you want to insert the role of the
 	// *other* class into *this* class.
 	if (a->getRoleAId() == cid)
@@ -494,8 +496,8 @@ void ClassifierCodeDocument::addAssociationClassField (UMLAssociation * a, bool 
         	if(!(m_classFieldMap->contains((UMLObject*)role)))
 		{
                 	CodeClassField * classfield = newCodeClassField(role);
-			if( addCodeClassField(classfield) && syncToParentIfAdded)
-				syncToParent(); // needed for a slot add
+			if( addCodeClassField(classfield))
+				shouldSync = true;
 		}
 	}
 
@@ -506,10 +508,13 @@ void ClassifierCodeDocument::addAssociationClassField (UMLAssociation * a, bool 
 		if(!(m_classFieldMap->contains((UMLObject*)role)))
 		{
 			CodeClassField * classfield = newCodeClassField(role);
-			if( addCodeClassField(classfield) && syncToParentIfAdded)
-				syncToParent(); // needed for a slot add
+			if( addCodeClassField(classfield))
+				shouldSync = true;
 		}
 	}
+
+	if (shouldSync && syncToParentIfAdded)
+		syncToParent(); // needed for a slot add
 
 }
 

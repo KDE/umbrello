@@ -604,6 +604,7 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLClassifierList &cLis
                                         cList.append(temp);
                                 break;
                         case Uml::at_Association:
+                        case Uml::at_Association_Self:
                                 if(a->getWidgetBID()==c->getID())
                                         temp = (UMLClassifier*)m_document->findUMLObject(a->getWidgetAID());
 				else if(a->getWidgetAID()==c->getID())

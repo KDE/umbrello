@@ -78,7 +78,7 @@ void OwnedCodeBlock::setAttributesOnNode(QDomDocument& /*doc*/, QDomElement& ele
         if(role)
 	{
         	elem.setAttribute("parent_id",QString::number(role->getParentAssociation()->getID()));
-                elem.setAttribute("role_id",role->getID());
+                elem.setAttribute("role_id",role->getRoleID());
 	}
         else
 	{
@@ -119,12 +119,25 @@ void OwnedCodeBlock::setAttributesFromNode ( QDomElement & elem) {
 	                // In this case we init with indicated role child obj.
 	                UMLRole * role = 0;
 	                int role_id = elem.attribute("role_id","-1").toInt();
-	                if(assoc->getUMLRoleA()->getID() == role_id)
-	                        role = assoc->getUMLRoleA();
-	                else if(assoc->getUMLRoleB()->getID() == role_id)
-	                        role = assoc->getUMLRoleB();
-	                else // this will cause a crash
-	                        kdError()<<"ERROR! corrupt save file? cant get proper UMLRole for codeparameter:"<<id<<" w/role_id:"<<role_id<<endl;
+			// compatibility w/ older save files, make go away soon
+			if(role_id > 1) 
+			{
+	                	if(assoc->getUMLRoleA()->getID() == role_id)
+	                        	role = assoc->getUMLRoleA();
+	                	else if(assoc->getUMLRoleB()->getID() == role_id)
+	                        	role = assoc->getUMLRoleB();
+	                	else // this will cause a crash
+	                        	kdError()<<"ERROR! corrupt save file? cant get proper UMLRole for codeparameter:"<<id<<" w/role_id:"<<role_id<<endl;
+			} else {
+
+	                	if(role_id == 0) 
+	                        	role = assoc->getUMLRoleA();
+	                	else if(role_id == 1) 
+	                        	role = assoc->getUMLRoleB();
+	                	else // this will cause a crash
+	                        	kdError()<<"ERROR! corrupt save file? cant get proper UMLRole for codeparameter:"<<id<<" w/role_id:"<<role_id<<endl;
+			}
+
 	                // init using UMLRole obj
 			initFields ( role ); // just the regular approach
 	        } else

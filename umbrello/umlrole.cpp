@@ -12,10 +12,10 @@
 #include "association.h"
 
 // constructor
-UMLRole::UMLRole(UMLAssociation * parent, UMLObject * parentObj)
+UMLRole::UMLRole(UMLAssociation * parent, UMLObject * parentObj, int roleID)
     : UMLObject((UMLObject *)parent)
 {
-	init(parent, parentObj);
+	init(parent, parentObj, roleID);
 }
 
 bool UMLRole::operator==(UMLRole &rhs) {
@@ -118,8 +118,13 @@ void UMLRole::setDoc(QString doc) {
 	emit modified();
 }
 
-void UMLRole::init(UMLAssociation * parent, UMLObject * parentObj) {
+int UMLRole::getRoleID() {
+	return m_roleID;
+}
 
+void UMLRole::init(UMLAssociation * parent, UMLObject * parentObj, int id) {
+
+	m_roleID = id;
 	m_pAssoc = parent;
 	m_pObject = parentObj;
 	m_Multi = "";

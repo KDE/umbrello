@@ -2031,7 +2031,13 @@ bool UMLView::setAssoc(UMLWidget *pWidget) {
 	if (type == at_Generalization)
 		type = AssocRules::isGeneralisationOrRealisation(widgetA, widgetB);
 	if (widgetA == widgetB)
+	{
 		valid = AssocRules::allowSelf( type, at );
+		if(valid && type == at_Association)
+		{
+			type = at_Association_Self;
+		}
+	}
 	else
 		valid =  AssocRules::allowAssociation( type, widgetA, widgetB );
 	if( valid ) {

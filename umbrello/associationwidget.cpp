@@ -178,6 +178,10 @@ bool AssociationWidget::operator!=(AssociationWidget & Other) {
 	return !(*this == Other);
 }
 
+UMLAssociation * AssociationWidget::getAssociation () {
+	return m_pAssociation;
+}
+
 FloatingText* AssociationWidget::getMultiAWidget() {
 	return m_role[A].m_pMulti;
 }
@@ -764,9 +768,15 @@ void AssociationWidget::setUMLAssociation (UMLAssociation * assoc)
 		//    further exist even when it's (temporarily) not present
 		//    on any diagram. This is exactly what cut and paste
 		//    relies on (at least the way it's implemented now)
+		// ANSWER: yes, we *should* do this.
+		//   This only implies that IF an association once 'belonged'
+ 		//   to one or more parent associationwidgets, then it must 'die' when the
+		//   last widget does. UMLAssociations which never had a parent
+		//   in the first place wont be affected by this code, and can happily
+		//   live on without a parent.
 		if(m_pAssociation->nrof_parent_widgets == 0)
 		{
-			delete m_pAssociation;
+			m_pAssociation->deleteLater();
 		}
 	
 		m_pAssociation = 0;
@@ -887,6 +897,10 @@ QString AssociationWidget::toString() {
 
 	case at_Association:
 		string.append(i18n("Association"));
+		break;
+
+	case at_Association_Self:
+		string.append(i18n("Self Association"));
 		break;
 
 	case at_Anchor:

@@ -49,13 +49,14 @@ bool AssocRules::allowAssociation( Association_Type assocType, UMLWidget * widge
 		case at_UniAssociation:
 		case at_Dependency:
 		case at_Coll_Message:
+		case at_Generalization://can have many sub/super types
 		case at_Aggregation:
 		case at_Composition:
 			return true;//doesn't matter whats already connected to widget
 			break;
 
-		case at_Generalization://can have many sub/super types
-			return true;
+		case at_Association_Self:
+			return true;// we should really check that connection is to same object
 			break;
 
 		case at_Realization:
@@ -115,6 +116,7 @@ bool AssocRules::allowAssociation( Association_Type assocType, UMLWidget * widge
 	AssociationWidget * assoc = 0;
 	switch( assocType ) {
 		case at_Association:
+		case at_Association_Self:
 		case at_UniAssociation:
 		case at_Dependency:
 		case at_Coll_Message:
@@ -249,14 +251,16 @@ Association_Type AssocRules::isGeneralisationOrRealisation(UMLWidget* widgetA, U
 
 AssocRules::Assoc_Rule AssocRules::m_AssocRules []= {
             //	Association	widgetA		widgetB		role	multiplicity	directional	self
-            { at_Association,	wt_Class,	wt_Class,	true,	true,	true,	true  },
-            { at_Association,	wt_Interface,	wt_Interface,	true,	true,	true,	true  },
-            { at_Association,	wt_Interface,	wt_Class,	true,	true,	true,	true  },
-            { at_Association,	wt_Class,	wt_Interface,	true,	true,	true,	true  },
-            { at_Association,	wt_Datatype,	wt_Class,	true,	true,	true,	true  },
-            { at_Association,	wt_Class,	wt_Datatype,	true,	true,	true,	true  },
-            { at_Association,	wt_Enum,	wt_Class,	true,	true,	true,	true  },
-            { at_Association,	wt_Class,	wt_Enum,	true,	true,	true,	true  },
+            { at_Association_Self,wt_Class,	wt_Class,	true,	true,	true,	true  },
+            { at_Association_Self,wt_Interface,	wt_Interface,	true,	true,	true,	true  },
+            { at_Association,	wt_Class,	wt_Class,	true,	true,	true,	true },
+            { at_Association,	wt_Interface,	wt_Interface,	true,	true,	true,	true },
+            { at_Association,	wt_Interface,	wt_Class,	true,	true,	true,	false },
+            { at_Association,	wt_Class,	wt_Interface,	true,	true,	true,	false },
+            { at_Association,	wt_Datatype,	wt_Class,	true,	true,	true,	false },
+            { at_Association,	wt_Class,	wt_Datatype,	true,	true,	true,	false },
+            { at_Association,	wt_Enum,	wt_Class,	true,	true,	true,	false },
+            { at_Association,	wt_Class,	wt_Enum,	true,	true,	true,	false },
             { at_Association,	wt_Actor,	wt_UseCase,	true,	false,	false,	false },
             { at_Association,	wt_UseCase,	wt_UseCase,	true,	false,	false,	false },
             { at_Association,	wt_Actor,	wt_Actor,	true,	false,	false,	false },

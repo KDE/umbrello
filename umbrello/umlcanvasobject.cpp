@@ -36,10 +36,15 @@ UMLAssociationList UMLCanvasObject::getSpecificAssocs(Uml::Association_Type asso
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool UMLCanvasObject::addAssociation(UMLAssociation* assoc) {
-	m_AssocsList.append( assoc );
-	emit modified();
-	emit sigAssociationAdded(assoc);
-	return true;
+	// add association only if not already present in list
+	if(!hasAssociation(assoc))
+	{
+		m_AssocsList.append( assoc );
+		emit modified();
+		emit sigAssociationAdded(assoc);
+		return true;
+	}
+	return false;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool UMLCanvasObject::hasAssociation(UMLAssociation* assoc) {
@@ -49,7 +54,7 @@ bool UMLCanvasObject::hasAssociation(UMLAssociation* assoc) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 int UMLCanvasObject::removeAssociation(UMLAssociation * assoc) {
-	if(!m_AssocsList.remove(assoc)) {
+	if(!hasAssociation(assoc) || !m_AssocsList.remove(assoc)) {
 		kdWarning() << "can't find assoc given in list" << endl;
 		return -1;
 	}

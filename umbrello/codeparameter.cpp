@@ -163,7 +163,7 @@ void CodeParameter::setAttributesOnNode ( QDomDocument & doc, QDomElement & bloc
 	// (change would break the XMI format..save for big version change )
 	UMLRole * role = dynamic_cast<UMLRole*>(m_parentObject);
 	if(role) 
-		blockElement.setAttribute("role_id",role->getID());
+		blockElement.setAttribute("role_id",role->getRoleID());
 	else 
 		blockElement.setAttribute("role_id","-1");
 
@@ -207,12 +207,24 @@ void CodeParameter::setAttributesFromNode ( QDomElement & root) {
 			// In this case we init with indicated role child obj. 
 			UMLRole * role = 0;
 			int role_id = root.attribute("role_id","-1").toInt();
-			if(assoc->getUMLRoleA()->getID() == role_id)
-				role = assoc->getUMLRoleA();
-			else if(assoc->getUMLRoleB()->getID() == role_id)
-				role = assoc->getUMLRoleB();
-			else // this will cause a crash
+			// deal with OLD save files (make go away some time soon)
+			if (role_id > 1) {
+				if(assoc->getUMLRoleA()->getID() == role_id)
+					role = assoc->getUMLRoleA();
+				else if(assoc->getUMLRoleB()->getID() == role_id)
+					role = assoc->getUMLRoleB();
+				else // this will cause a crash
 				kdError()<<"ERROR! corrupt save file? cant get proper UMLRole for codeparameter:"<<id<<" w/role_id:"<<role_id<<endl;
+
+			} else {
+
+                                if(role_id == 0) 
+                                        role = assoc->getUMLRoleA();
+                                if(role_id == 1) 
+                                        role = assoc->getUMLRoleB();
+                                else 
+					kdError()<<"ERROR! corrupt save file? cant get proper UMLRole for codeparameter:"<<id<<" w/role_id:"<<role_id<<endl;
+			}
 
 			// init using UMLRole obj
 			initFields ( m_parentDocument, role); 

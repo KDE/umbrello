@@ -496,9 +496,7 @@ public:
 	 * @return	Pointer to the UMLAssociation that is represented by
 	 *		this AsociationWidget.
 	 */
-	UMLAssociation * getAssociation () {
-		return m_pAssociation;
-	}
+	UMLAssociation * getAssociation ();
 
 	/**
 	 * Calls @ref setTextPosition() on all the labels.

@@ -237,6 +237,7 @@ bool UMLClassifier::acceptAssociationType(Uml::Association_Type type)
 		case at_Aggregation:
 		case at_Dependency:
 		case at_Association:
+		case at_Association_Self:
 		case at_Implementation:
 		case at_Composition:
 		case at_Realization:
