@@ -2528,68 +2528,127 @@ void AssociationWidget::updateAssociations(int totalCount,
 	AssociationWidgetList list = m_pView -> getAssociationList();
 	AssociationWidgetListIt assoc_it(list);
 	AssociationWidget* assocwidget = 0;
-	AssociationWidget* assocwidget2 = 0;
 
 	AssociationWidgetList ordered;
 	Role_Type other = (role == A ? B : A);
-
+	UMLWidget *ownWidget = m_role[role].m_pWidget;
+#ifdef DEBUG_ASSOCLINES
+	kdDebug() << "looking at assoc type " << getAssocType()
+	    << ";  own widget: " << ownWidget->getName() << ", other end: "
+	    << m_role[other].m_pWidget->getName() << endl;
+#endif
 	// we order the AssociationWidget list by region and x/y value
 	while ( (assocwidget = assoc_it.current()) ) {
 		++assoc_it;
-		// Now we must find out with which end assocwidget connects to
-		// m_role[role].m_pWidget
-		bool inWidgetARegion = ( m_role[role].m_pWidget == assocwidget->getWidgetA() &&
-					 region == assocwidget->m_role[A].m_WidgetRegion );
-		bool inWidgetBRegion = ( m_role[role].m_pWidget == assocwidget->getWidgetB() &&
-					 region == assocwidget->m_role[B].m_WidgetRegion);
+		WidgetRole *roleA;
+		WidgetRole *roleB;
+		if (assocwidget->getAssocType() == at_Generalization) {
+			// For generalizations, the general class plays role A
+			// and the specialized class plays role B.
+			// Let's swap the roles to simplify the following logic.
+			roleA = &assocwidget->m_role[B];
+			roleB = &assocwidget->m_role[A];
+		} else {
+			roleA = &assocwidget->m_role[A];
+			roleB = &assocwidget->m_role[B];
+		}
+		UMLWidget *wA = roleA->m_pWidget;
+		UMLWidget *wB = roleB->m_pWidget;
+		// Now we must find out with which end of assocwidget connects to
+		// the input widget (ownWidget).
+		bool inWidgetARegion = ( ownWidget == wA &&
+					 region == roleA->m_WidgetRegion );
+		bool inWidgetBRegion = ( ownWidget == wB &&
+					 region == roleB->m_WidgetRegion);
 		if ( !inWidgetARegion && !inWidgetBRegion )
 			continue;
 		uint counter = 0;
-		bool out = false;
+		bool aCond = false, bCond = false;
 		// now we go through all already known associations and insert
 		// assocwidget at the right position so that the lines don't cross
-		for (assocwidget2 = ordered.first(); assocwidget2;
+		for (AssociationWidget* assocwidget2 = ordered.first(); assocwidget2;
 		     assocwidget2 = ordered.next()) {
-			UMLWidget * otherWidget = assocwidget2->m_role[other].m_pWidget;
-			switch (region) {
-			case North:
-			case South:
-				if ( (inWidgetARegion &&
-				      otherWidget->x() > assocwidget->getWidgetB()->x()) ||
-				     (inWidgetBRegion &&
-				      otherWidget->x() > assocwidget->getWidgetA()->x()) ) {
+			UMLWidget * otherWidget;
+			if (assocwidget2->getAssocType() == at_Generalization)
+				otherWidget = assocwidget2->m_role[role].m_pWidget;
+			else
+				otherWidget = assocwidget2->m_role[other].m_pWidget;
+			if (ownWidget == otherWidget) {
+				counter++;
+				continue;
+			}
+			if (region == North || region == South) {
+				aCond = (inWidgetARegion && otherWidget->x() > wB->x());
+				bCond = (inWidgetBRegion && otherWidget->x() > wA->x());
+				if (bCond)
+				if ( aCond || bCond ) {
+#ifdef DEBUG_ASSOCLINES
+					QString s;
+					if (region == North)
+						s = "North";
+					else
+						s = "South";
+					s.append(" insert because ");
+					if (aCond) {
+						s.append("inWidgetARegion and ");
+						s.append(otherWidget->getName());
+						s.append("->x > ");
+						s.append(wB->getName());
+						s.append("->x");
+					} else {
+						s.append("inWidgetBRegion and ");
+						s.append(otherWidget->getName());
+						s.append("->x > ");
+						s.append(wA->getName());
+						s.append("->x");
+					}
+					kdDebug() << s << endl;
+#endif
 					ordered.insert(counter, assocwidget);
-					out = true;
 				}
-				break;
-			case East:
-			case West:
-				if ( (inWidgetARegion &&
-				      otherWidget->y() > assocwidget->getWidgetB()->y()) ||
-				     (inWidgetBRegion &&
-				      otherWidget->y() > assocwidget->getWidgetA()->y()) ) {
+			} else if (region == East || region == West) {
+				aCond = (inWidgetARegion && otherWidget->y() > wB->y());
+				bCond = (inWidgetBRegion && otherWidget->y() > wA->y());
+				if ( aCond || bCond ) {
+#ifdef DEBUG_ASSOCLINES
+					QString s;
+					if (region == East)
+						s = "East";
+					else
+						s = "West";
+					s.append(" insert because ");
+					if (aCond) {
+						s.append("inWidgetARegion and ");
+						s.append(otherWidget->getName());
+						s.append("->y > ");
+						s.append(wB->getName());
+						s.append("->y");
+					} else {
+						s.append("inWidgetBRegion and ");
+						s.append(otherWidget->getName());
+						s.append("->y > ");
+						s.append(wA->getName());
+						s.append("->y");
+					}
+					kdDebug() << s << endl;
+#endif
 					ordered.insert(counter, assocwidget);
-					out = true;
 				}
-				break;
-			default:
-				break;
-			} // switch (region)
-			if (out)
+			} // end if (region)
+			if (aCond || bCond)
 				break;
 			counter++;
 		} // for (assocwidget2 = ordered.first(); assocwidget2; ...
-		if (out == false)
+		if (!aCond && !bCond)
 			ordered.append(assocwidget);
 	} // while ( (assocwidget = assoc_it.current()) )
 
 	// we now have an ordered list and we only have to call updateRegionLineCount
 	int index = 1;
 	for (assocwidget = ordered.first(); assocwidget; assocwidget = ordered.next()) {
-		UMLWidget *pWidget = m_role[role].m_pWidget;
-		if (pWidget == assocwidget->getWidgetA()) {
+		if (ownWidget == assocwidget->getWidgetA()) {
 			assocwidget->updateRegionLineCount(index++, totalCount, region, A);
-		} else if (pWidget == assocwidget->getWidgetB()) {
+		} else if (ownWidget == assocwidget->getWidgetB()) {
 			assocwidget->updateRegionLineCount(index++, totalCount, region, B);
 		}
 	} // for (assocwidget = ordered.first(); ...)
