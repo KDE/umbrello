@@ -70,7 +70,7 @@ void ClassifierOperationsPage::loadData()
 	// create list view and working-copy of operations
 	for( UMLOperation* op = list->last(); op; op = list->prev() )
 	{
-		copy = new UMLOperation(this, op->getName(),-1, op->getScope(), op->getReturnType());
+		copy = new UMLOperation(m_umlObject, op->getName(),-1, op->getScope(), op->getReturnType());
 		m_opsList.prepend(copy);
 		item = new QListViewItem( m_operationsList, copy->getName() );
 		item->setPixmap(0, (copy->getScope() == Uml::Public ? m_pixmaps.Public :
@@ -201,8 +201,8 @@ void ClassifierOperationsPage::moveDown( )
 
 void ClassifierOperationsPage::createOperation( )
 {
-	UMLOperation *o = new UMLOperation(this,"new_operation",-1);
-	UmbrelloDialog dialog(this, UmbrelloDialog::Swallow, "edit_operation", true, i18n("Operation properties"),
+	UMLOperation *o = new UMLOperation(m_umlObject,"new_operation",-1);
+	UmbrelloDialog dialog(this, UmbrelloDialog::Swallow, "edit_operation", true, i18n("Operation properties"), 
 	                       UmbrelloDialog::Ok | UmbrelloDialog::Cancel );
 	OperationPropertiesPage *page = new OperationPropertiesPage(o,m_doc,&dialog,0);
 	dialog.setMainWidget(page);
