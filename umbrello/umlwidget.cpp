@@ -260,6 +260,10 @@ QPoint UMLWidget::doMouseMove(QMouseEvent* me) {
 	return QPoint(newX, newY);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+#ifdef DEBUG_ASSOCLINES
+int calls_to_calc_head;
+#endif
+
 void UMLWidget::mouseMoveEvent(QMouseEvent* me) {
 	if( m_bMouseDown || me->button() == LeftButton ) {
 		QPoint newPosition = doMouseMove(me);
@@ -271,7 +275,13 @@ void UMLWidget::mouseMoveEvent(QMouseEvent* me) {
 		setX( newX );
 		setY( newY );
 		if (lastUpdate.elapsed() > 25) {
+#ifdef DEBUG_ASSOCLINES
+			calls_to_calc_head = 0;
+#endif
 			adjustAssocs(newX, newY);
+#ifdef DEBUG_ASSOCLINES
+			kdDebug() << "calls_to_calc_head = " << calls_to_calc_head << endl;
+#endif
 			m_pView->resizeCanvasToItems();
 			lastUpdate.restart();
 		}
@@ -378,6 +388,10 @@ void UMLWidget::mouseReleaseEvent(QMouseEvent *me) {
 	}//end if right button
 
 	if (m_bMoved) {
+		// Adjust assoc lines again - when the widget is moved around
+		// quickly the lastUpdate timer may have not yet fired.
+		adjustAssocs( getX(), getY() );
+
 		m_pView->getDocument()->setModified(true);
 	}
 
