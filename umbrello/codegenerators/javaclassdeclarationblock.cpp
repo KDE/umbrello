@@ -108,24 +108,36 @@ void JavaClassDeclarationBlock::updateContent ( )
         startText.append(JavaClassName);
 
         // write inheritances out
-        UMLClassifier *concept;
         UMLClassifierList superclasses =
-                        c->findSuperClassConcepts(parentDoc->getParentGenerator()->getDocument());
+                        c->findSuperClassConcepts(parentDoc->getParentGenerator()->getDocument(), UMLClassifier::CLASS);
+        UMLClassifierList superinterfaces =
+                        c->findSuperClassConcepts(parentDoc->getParentGenerator()->getDocument(), UMLClassifier::INTERFACE);
+	int nrof_superclasses = superclasses.count();
+	int nrof_superinterfaces = superinterfaces.count();
 
-        if(superclasses.count()>0)
-                startText.append(" extends ");
-
+	// write out inheritance
         int i = 0;
-        for (concept= superclasses.first(); concept; concept = superclasses.next())
+        if(nrof_superclasses >0)
+                startText.append(" extends ");
+        for (UMLClassifier * concept= superclasses.first(); concept; concept = superclasses.next())
         {
                 startText.append(parentDoc->cleanName(concept->getName()));
-                if(i>0)
-                        startText.append(", ");
+                if(i != (nrof_superclasses-1))
+                      startText.append(", ");
                 i++;
         }
 
-// FIX
-// Q: Where is 'implements' ??
+	// write out what we 'implement'
+	i = 0;
+        if(nrof_superinterfaces >0)
+                startText.append(" implements ");
+        for (UMLClassifier * concept= superinterfaces.first(); concept; concept = superinterfaces.next())
+	{
+                startText.append(parentDoc->cleanName(concept->getName()));
+                if(i != (nrof_superinterfaces-1))
+                      startText.append(", ");
+                i++;
+	}
 
         // Set the header and end text for the hier.codeblock
         setText(startText+" {");
@@ -143,17 +155,6 @@ void JavaClassDeclarationBlock::init (JavaClassifierCodeDocument *parentDoc, QSt
 	setEndText("}");
 
 	updateContent(); 
-
-// FIX : for implements..
-	// connect to modified signal of parent object. NOTE IF we 
-	// implement the "implements" part, we will need to connect
-	// to the modified signal of each of the parent classes to
-	// our class, which is problematic. WHy? because the associations
-	// can be changing all of the time and we dont necessarily want
-	// to have to keep track of all of that.
-
-// note: next line not needed CONNECT already done by parent class
-        // connect(c,SIGNAL(modified()),this,SLOT(syncToParent())); 
 
 }
 
