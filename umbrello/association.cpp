@@ -150,6 +150,7 @@ bool UMLAssociation::assocTypeHasUMLRepresentation(Uml::Association_Type atype)
 	return (atype == Uml::at_Generalization ||
 		atype == Uml::at_Realization ||
 		atype == Uml::at_Association_Self ||
+		atype == Uml::at_UniAssociation ||
 		atype == Uml::at_Aggregation ||
 		atype == Uml::at_Composition);
 }
@@ -165,13 +166,11 @@ bool UMLAssociation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	}
 	QDomElement associationElement = qDoc.createElement( "UML:Association" );
 	bool status = UMLObject::saveToXMI( qDoc, associationElement );
-	if (m_AssocType != Uml::at_Association &&
-	    m_AssocType != Uml::at_Aggregation &&
-	    m_AssocType != Uml::at_Composition) {
-		kdDebug() << "UMLAssociation::saveToXMI: FIXME: saving assoctype "
-			  << m_AssocType << " is not yet uml13.dtd compliant"
+	if (m_AssocType == Uml::at_Realization) {
+		kdDebug() << "UMLAssociation::saveToXMI: FIXME: saving of assoctype "
+			  << m_AssocType << "is not yet UML DTD compliant"
 			  << endl;
-		// Old style stuff - FIXME: Convert to new style.
+		// Old style stuff - FIXME: Make UML DTD compliant.
 		associationElement.setAttribute( "assoctype", getAssocType() );
 		associationElement.setAttribute( "rolea", getRoleAId() );
 		associationElement.setAttribute( "roleb", getRoleBId() );
@@ -269,6 +268,10 @@ bool UMLAssociation::loadFromXMI( QDomElement & element ) {
 		}
 		if (! getUMLRoleB()->loadFromXMI(tempElement))
 			return false;
+		if (getRoleAId() == getRoleBId()) { //CHECK: Is this the right criterion for inferring
+						    // self association?
+			m_AssocType = Uml::at_Association_Self;
+		}
 		return true;
 	}
 
@@ -280,7 +283,7 @@ bool UMLAssociation::loadFromXMI( QDomElement & element ) {
 		assocType = toAssocType( assocTypeStr );
 	} else {
 		int assocTypeNum = assocTypeStr.toInt();
-		if (assocTypeNum < (int)atypeFirst | assocTypeNum > (int)atypeLast) {
+		if (assocTypeNum < (int)atypeFirst || assocTypeNum > (int)atypeLast) {
 			kdWarning() << "bad assoctype of UML:Association " << getID() << endl;
 			return false;
 		}
@@ -290,6 +293,13 @@ bool UMLAssociation::loadFromXMI( QDomElement & element ) {
 
 	int roleAObjID = element.attribute( "rolea", "-1" ).toInt();
 	int roleBObjID = element.attribute( "roleb", "-1" ).toInt();
+	if (assocType == at_Aggregation || assocType == at_Composition) {
+		// Flip roles to compensate for changed diamond logic in LinePath.
+		// For further explanations see AssociationWidget::loadFromXMI.
+		int tmp = roleAObjID;
+		roleAObjID = roleBObjID;
+		roleBObjID = tmp;
+	}
 
 	UMLDoc * doc = ((UMLDoc*)parent());
 	UMLObject * objA = doc->findUMLObject(roleAObjID);
@@ -314,7 +324,7 @@ bool UMLAssociation::loadFromXMI( QDomElement & element ) {
 	setRoleADoc(element.attribute( "doca", "" ));
 	setRoleBDoc(element.attribute( "docb", "" ));
 
-        // visibilty defaults to Public if it cant set it here..
+        // Visibility defaults to Public if it cant set it here..
         QString visibilityA = element.attribute( "visibilitya", "0");
         QString visibilityB = element.attribute( "visibilityb", "0");
         if (visibilityA.toInt() > 0)
@@ -322,7 +332,7 @@ bool UMLAssociation::loadFromXMI( QDomElement & element ) {
         if (visibilityB.toInt() > 0)
                 setVisibilityB( (Scope) visibilityB.toInt());
 
-        // Changeability defaults to "Changeable" if it cant set it here..
+        // Changeability defaults to Changeable if it cant set it here..
         QString changeabilityA = element.attribute( "changeabilitya", "0");
         QString changeabilityB = element.attribute( "changeabilityb", "0");
         if (changeabilityA.toInt() > 0)

@@ -56,6 +56,8 @@ AssociationWidget::AssociationWidget(UMLView *view, UMLWidget* pWidgetA,
 			if (m_pAssociation == NULL) {
 				m_pAssociation = new UMLAssociation( umldoc, assocType, umlRoleA, umlRoleB );
 			} else if (swap) {
+				kdDebug() << "AssociationWidget(): umldoc->findAssoc returns swap true "
+					  << "for assoctype " << assocType << endl;
 				UMLWidget *tmp = pWidgetA;
 				pWidgetA = pWidgetB;
 				pWidgetB = tmp;
@@ -3139,6 +3141,25 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
 			if (!m_pAssociation && umlRoleA && umlRoleB)
 			{
 				oldStyleLoad = true; // flag for further special config below
+				if (aType == at_Aggregation || aType == at_Composition) {
+					// We have to swap the A and B widgets to compensate
+					// for the long standing bug in LinePath of drawing
+					// the diamond at the wrong end which was fixed
+					// just before the 1.2 release.
+					// The logic here is that the user has understood
+					// that the diamond belongs at the SOURCE end of the
+					// the association (i.e. at the container, not at the
+					// contained), and has compensated for this anomaly
+					// by drawing the aggregations/compositions from
+					// target to source.
+					UMLWidget *tmpWidget = pWidgetA;
+					pWidgetA = pWidgetB;
+					pWidgetB = tmpWidget;
+				        setWidgetA(pWidgetA);
+				        setWidgetB(pWidgetB);
+					umlRoleA = pWidgetA->getUMLObject();
+					umlRoleB = pWidgetB->getUMLObject();
+				}
 				m_pAssociation = m_pView->getDocument()->createUMLAssociation(
 							umlRoleA, umlRoleB, aType);
 				connect(m_pAssociation, SIGNAL(modified()), this,
