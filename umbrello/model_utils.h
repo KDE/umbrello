@@ -15,6 +15,10 @@
 #ifndef MODEL_UTILS_H
 #define MODEL_UTILS_H
 
+#include <qstring.h>
+#include <qpair.h>
+#include <qvaluelist.h>
+
 #include "umlnamespace.h"
 #include "umlobjectlist.h"
 
@@ -23,6 +27,12 @@
  * @author Oliver Kellogg
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
+
+
+// forward declarations
+class UMLPackage;
+class UMLClassifier;
+
 namespace Umbrello {
 
 	/**
@@ -70,6 +80,59 @@ namespace Umbrello {
 	 * "isActive" | "ownerScope"
 	 */
 	bool isCommonXMIAttribute(const QString &tag);
+
+
+	/**
+	 * Return type of parseOperation()
+	 */
+	enum Parse_Status {
+		PS_OK, PS_Empty, PS_Malformed_Arg, PS_Unknown_ArgType,
+		PS_Illegal_MethodName, PS_Unknown_ReturnType, PS_Unspecified_Error
+	};
+
+	/**
+	 * Data structure filled by parseAttribute()
+	 */
+	typedef QPair<QString, UMLClassifier*> NameAndType;
+
+	/**
+	 * Data structure filled by parseOperation()
+	 */
+	struct OpDescriptor {
+		QString m_name;
+		typedef QValueList<NameAndType> NameAndType_List;
+		typedef QValueListIterator<NameAndType> NameAndType_ListIt;
+		NameAndType_List m_args;
+		UMLClassifier *m_pReturnType;
+	};
+
+	/**
+	 * Parses an attribute given in UML syntax.
+	 *
+	 * @param a		Input text of the attribute in UML syntax.
+	 *			Example:  argname : argtype
+	 * @param nmTpPair	NameAndType returned by this method.
+	 * @param owningScope	Pointer to the owning scope of the attribute.
+	 * @return	Error status of the parse, PS_OK for success.
+	 */
+	Parse_Status parseAttribute(QString a, NameAndType& nmTpPair, UMLPackage *owningScope);
+
+	/**
+	 * Parses an operation given in UML syntax.
+	 *
+	 * @param m		Input text of the operation in UML syntax.
+	 *			Example of a two-argument operation returning "void":
+	 *			methodname (arg1name : arg1type, arg2name : arg2type) : void
+	 * @param desc		OpDescriptor returned by this method.
+	 * @param owningScope	Pointer to the owning scope of the operation.
+	 * @return	Error status of the parse, PS_OK for success.
+	 */
+	Parse_Status parseOperation(QString m, OpDescriptor& desc, UMLPackage *owningScope);
+
+	/**
+	 * Returns the Parse_Status as a text.
+	 */
+	QString psText(Parse_Status value);
 
 }
 

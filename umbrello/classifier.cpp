@@ -9,7 +9,6 @@
 // own header
 #include "classifier.h"
 // qt/kde includes
-#include <qregexp.h>
 #include <kdebug.h>
 #include <klocale.h>
 // app includes
@@ -135,58 +134,6 @@ UMLOperation* UMLClassifier::takeOperation(UMLOperation* o) {
 		return o;
 	}
 	return 0;
-}
-
-UMLClassifier::OpParseStatus UMLClassifier::parseOperation(QString m, OpDescriptor& desc) {
-	UMLDoc *pDoc = UMLApp::app()->getDocument();
-
-	m = m.stripWhiteSpace();
-	if (m.isEmpty())
-		return Op_Empty;
-	QRegExp pat( "^(\\w+)" );
-	int pos = pat.search(m);
-	if (pos == -1)
-		return Op_Illegal_MethodName;
-	desc.m_name = pat.cap(1);
-	desc.m_pReturnType = NULL;
-	pat = QRegExp( ":\\s*(\\w+)$" );
-	pos = pat.search(m);
-	if (pos != -1) {  // return type is optional
-		QString retType = pat.cap(1);
-		UMLObject *pRetType = pDoc->findUMLObject(retType, Uml::ot_UMLObject, m_pUMLPackage);
-		if (pRetType == NULL)
-			return Op_Unknown_ReturnType;
-		desc.m_pReturnType = dynamic_cast<UMLClassifier*>(pRetType);
-	}
-	desc.m_args.clear();
-	pat = QRegExp( "\\((.*)\\)" );
-	pos = pat.search(m);
-	if (pos == -1)  // argument list is optional
-		return Op_OK;
-	QString arglist = pat.cap(1);
-	arglist = arglist.stripWhiteSpace();
-	if (arglist.isEmpty())
-		return Op_OK;
-	QStringList args = QStringList::split( QRegExp("\\s*,\\s*"), arglist);
-	for (QStringList::Iterator lit = args.begin(); lit != args.end(); ++lit) {
-		QStringList nameAndType = QStringList::split( QRegExp("\\s*:\\s*"), *lit);
-		if (nameAndType.count() != 2)
-			return Op_Malformed_Arg;
-		UMLObject *pType = pDoc->findUMLObject(nameAndType[1], Uml::ot_UMLObject, m_pUMLPackage);
-		if (pType == NULL)
-			return Op_Unknown_ArgType;
-		OpDescriptor::NameAndType nmTpPair(nameAndType[0], dynamic_cast<UMLClassifier*>(pType));
-		desc.m_args.append(nmTpPair);
-	}
-	return Op_OK;
-}
-
-QString UMLClassifier::opParseStatusText(OpParseStatus value) {
-	const QString text[] = { 
-		i18n("OK"), i18n("Empty"), i18n("Illegal method name"), i18n("Malformed argument"),
-		i18n("Unknown argument type"), i18n("Unknown return type"), i18n("Unspecified error")
-	};
-	return text[(unsigned) value];
 }
 
 UMLObjectList UMLClassifier::findChildObject(Object_Type t , const QString &n) {

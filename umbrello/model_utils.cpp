@@ -16,13 +16,17 @@
 #include "model_utils.h"
 
 // qt/kde includes
+#include <qregexp.h>
 #include <qstringlist.h>
+#include <klocale.h>
 #include <kdebug.h>
 
 // app includes
 #include "umlobject.h"
 #include "package.h"
 #include "classifier.h"
+#include "umldoc.h"
+#include "uml.h"
 
 namespace Umbrello {
 
@@ -174,6 +178,74 @@ bool isCommonXMIAttribute( const QString &tag ) {
 		       Uml::tagEq(tag, "supplierDependency")  //NYI
 		      );
 	return retval;
+}
+
+Parse_Status parseAttribute(QString a, NameAndType& nmTpPair, UMLPackage *owningScope) {
+	UMLDoc *pDoc = UMLApp::app()->getDocument();
+
+	a = a.stripWhiteSpace();
+	if (a.isEmpty())
+		return PS_Empty;
+
+	QStringList nameAndType = QStringList::split( QRegExp("\\s*:\\s*"), a);
+	if (nameAndType.count() != 2)
+		return PS_Malformed_Arg;
+
+	UMLObject *pType = pDoc->findUMLObject(nameAndType[1], Uml::ot_UMLObject, owningScope);
+	if (pType == NULL)
+		return PS_Unknown_ArgType;
+	nmTpPair = NameAndType(nameAndType[0], dynamic_cast<UMLClassifier*>(pType));
+	return PS_OK;
+}
+
+Parse_Status parseOperation(QString m, OpDescriptor& desc, UMLPackage *owningScope) {
+	UMLDoc *pDoc = UMLApp::app()->getDocument();
+
+	m = m.stripWhiteSpace();
+	if (m.isEmpty())
+		return PS_Empty;
+	QRegExp pat( "^(\\w+)" );
+	int pos = pat.search(m);
+	if (pos == -1)
+		return PS_Illegal_MethodName;
+	desc.m_name = pat.cap(1);
+	desc.m_pReturnType = NULL;
+	pat = QRegExp( ":\\s*(\\w+)$" );
+	pos = pat.search(m);
+	if (pos != -1) {  // return type is optional
+		QString retType = pat.cap(1);
+		UMLObject *pRetType = pDoc->findUMLObject(retType, Uml::ot_UMLObject, owningScope);
+		if (pRetType == NULL)
+			return PS_Unknown_ReturnType;
+		desc.m_pReturnType = dynamic_cast<UMLClassifier*>(pRetType);
+	}
+	desc.m_args.clear();
+	pat = QRegExp( "\\((.*)\\)" );
+	pos = pat.search(m);
+	if (pos == -1)  // argument list is optional
+		return PS_OK;
+	QString arglist = pat.cap(1);
+	arglist = arglist.stripWhiteSpace();
+	if (arglist.isEmpty())
+		return PS_OK;
+	QStringList args = QStringList::split( QRegExp("\\s*,\\s*"), arglist);
+	for (QStringList::Iterator lit = args.begin(); lit != args.end(); ++lit) {
+		NameAndType nmTpPair;
+		Parse_Status ps = parseAttribute(*lit, nmTpPair, owningScope);
+		if (ps)
+			return ps;
+		desc.m_args.append(nmTpPair);
+	}
+	return PS_OK;
+}
+
+QString psText(Parse_Status value) {
+	const QString text[] = { 
+		i18n("OK"), i18n("Empty"), i18n("Malformed argument"),
+		i18n("Unknown argument type"), i18n("Illegal method name"),
+		i18n("Unknown return type"), i18n("Unspecified error")
+	};
+	return text[(unsigned) value];
 }
 
 }  // namespace Umbrello

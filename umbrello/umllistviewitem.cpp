@@ -30,6 +30,7 @@
 #include "umllistviewitem.h"
 #include "umlobjectlist.h"
 #include "umlview.h"
+#include "model_utils.h"
 
 UMLListView* UMLListViewItem::s_pListView = 0;
 
@@ -185,120 +186,108 @@ void UMLListViewItem::updateObject() {
 	Uml::Scope scope = m_pObject->getScope();
 	setText( m_pObject->getName() );
 
+	UMLListView::Icon_Type icon = UMLListView::it_Home;
 	switch( m_pObject->getBaseType() ) {
 		case Uml::ot_Actor:
-			setPixmap( 0, s_pListView -> getPixmap( UMLListView::it_Actor ) );
+			icon = UMLListView::it_Actor;
 			break;
 
 		case Uml::ot_UseCase:
-			setPixmap( 0, s_pListView -> getPixmap( UMLListView::it_UseCase ) );
+			icon = UMLListView::it_UseCase;
 			break;
 
 		case Uml::ot_Class:
-			setPixmap( 0, s_pListView -> getPixmap( UMLListView::it_Class ) );
+			icon = UMLListView::it_Class;
 			break;
 
 		case Uml::ot_Template:
-			setPixmap( 0, s_pListView->getPixmap(UMLListView::it_Template) );
+			icon = UMLListView::it_Template;
 			break;
 
 		case Uml::ot_Package:
-			setPixmap( 0, s_pListView -> getPixmap( UMLListView::it_Package ) );
+			icon =  UMLListView::it_Package;
 			break;
 
 		case Uml::ot_Component:
-			setPixmap( 0, s_pListView -> getPixmap( UMLListView::it_Component ) );
+			icon =  UMLListView::it_Component;
 			break;
 
 		case Uml::ot_Node:
-			setPixmap( 0, s_pListView -> getPixmap( UMLListView::it_Node ) );
+			icon =  UMLListView::it_Node;
 			break;
 
 		case Uml::ot_Artifact:
-			setPixmap( 0, s_pListView -> getPixmap( UMLListView::it_Artifact ) );
+			icon =  UMLListView::it_Artifact;
 			break;
 
 		case Uml::ot_Interface:
-			setPixmap( 0, s_pListView -> getPixmap( UMLListView::it_Interface ) );
+			icon =  UMLListView::it_Interface;
 			break;
 
 		case Uml::ot_Datatype:
-			setPixmap( 0, s_pListView -> getPixmap( UMLListView::it_Datatype ) );
+			icon =  UMLListView::it_Datatype;
 			break;
 
 		case Uml::ot_Enum:
-			setPixmap( 0, s_pListView -> getPixmap( UMLListView::it_Enum ) );
+			icon =  UMLListView::it_Enum;
 			break;
 
 		case Uml::ot_Operation:
 			if( scope == Uml::Public )
-				setPixmap( 0, s_pListView -> getPixmap( UMLListView::it_Public_Method ) );
+				icon =  UMLListView::it_Public_Method;
 			else if( scope == Uml::Private )
-				setPixmap( 0, s_pListView -> getPixmap( UMLListView::it_Private_Method ) );
+				icon =  UMLListView::it_Private_Method;
 			else
-				setPixmap( 0, s_pListView -> getPixmap( UMLListView::it_Protected_Method ) );
+				icon =  UMLListView::it_Protected_Method;
 			break;
 
 		case Uml::ot_Attribute:
 			if( scope == Uml::Public )
-				setPixmap( 0, s_pListView -> getPixmap( UMLListView::it_Public_Attribute ) );
+				icon =  UMLListView::it_Public_Attribute;
 			else if( scope == Uml::Private )
-				setPixmap( 0, s_pListView -> getPixmap( UMLListView::it_Private_Attribute ) );
+				icon =  UMLListView::it_Private_Attribute;
 			else
-				setPixmap( 0, s_pListView -> getPixmap( UMLListView::it_Protected_Attribute ) );
+				icon =  UMLListView::it_Protected_Attribute;
 			break;
 		default:
 			break;
 	}//end switch
+	if (icon)
+		setPixmap(0, s_pListView->getPixmap(icon) );
 }
 
 void UMLListViewItem::updateFolder() {
+	UMLListView::Icon_Type icon = UMLListView::it_Home;
 	switch( m_Type ) {
 		case Uml::lvt_UseCase_View:
 		case Uml::lvt_UseCase_Folder:
-			if( isOpen() )
-				setPixmap( 0, s_pListView -> getPixmap( UMLListView::it_Folder_Grey_Open ) );
-			else
-				setPixmap( 0, s_pListView -> getPixmap( UMLListView::it_Folder_Grey ) );
+			icon = (UMLListView::Icon_Type)((int)UMLListView::it_Folder_Grey + (int)isOpen());
 			break;
 
 		case Uml::lvt_Logical_View:
 		case Uml::lvt_Logical_Folder:
-			if( isOpen() )
-				setPixmap( 0, s_pListView -> getPixmap( UMLListView::it_Folder_Green_Open ) );
-			else
-				setPixmap( 0, s_pListView -> getPixmap( UMLListView::it_Folder_Green ) );
+			icon = (UMLListView::Icon_Type)((int)UMLListView::it_Folder_Green + (int)isOpen());
 			break;
 
 		case Uml::lvt_Datatype_Folder:
-			if ( isOpen() )  {
-				setPixmap( 0, s_pListView->getPixmap(UMLListView::it_Folder_Orange_Open) );
-			} else {
-				setPixmap( 0, s_pListView->getPixmap(UMLListView::it_Folder_Orange) );
-			}
+			icon = (UMLListView::Icon_Type)((int)UMLListView::it_Folder_Orange + (int)isOpen());
 			break;
 
 		case Uml::lvt_Component_View:
 		case Uml::lvt_Component_Folder:
-			if ( isOpen() ) {
-				setPixmap(0, s_pListView->getPixmap(UMLListView::it_Folder_Red_Open) );
-			} else {
-				setPixmap(0, s_pListView->getPixmap(UMLListView::it_Folder_Red) );
-			}
+			icon = (UMLListView::Icon_Type)((int)UMLListView::it_Folder_Red + (int)isOpen());
 			break;
 
 		case Uml::lvt_Deployment_View:
 		case Uml::lvt_Deployment_Folder:
-			if ( isOpen() ) {
-				setPixmap(0, s_pListView->getPixmap(UMLListView::it_Folder_Violet_Open) );
-			} else {
-				setPixmap(0, s_pListView->getPixmap(UMLListView::it_Folder_Violet) );
-			}
+			icon = (UMLListView::Icon_Type)((int)UMLListView::it_Folder_Violet + (int)isOpen());
 			break;
 
 		default:
 			break;
 	}
+	if (icon)
+		setPixmap(0, s_pListView->getPixmap(icon) );
 }
 
 void UMLListViewItem::setOpen( bool open ) {
@@ -359,9 +348,9 @@ void UMLListViewItem::okRename( int col ) {
 			}
 			UMLOperation *op = static_cast<UMLOperation*>(m_pObject);
 			UMLClassifier *parent = static_cast<UMLClassifier *>( op -> parent() );
-			UMLClassifier::OpDescriptor od;
-			UMLClassifier::OpParseStatus st = parent->parseOperation(newText, od);
-			if (st == UMLClassifier::Op_OK) {
+			Umbrello::OpDescriptor od;
+			Umbrello::Parse_Status st = Umbrello::parseOperation(newText, od, parent);
+			if (st == Umbrello::PS_OK) {
 			// TODO: Check that no operation with the exact same profile exists.
 				op->setName( od.m_name );
 				op->setType( od.m_pReturnType );
@@ -373,9 +362,9 @@ void UMLListViewItem::okRename( int col ) {
 					}
 					i = 0;
 				}
-				for (UMLClassifier::OpDescriptor::NameAndType_ListIt lit =
+				for (Umbrello::OpDescriptor::NameAndType_ListIt lit =
 				     od.m_args.begin(); lit != od.m_args.end(); ++lit, ++i) {
-					const UMLClassifier::OpDescriptor::NameAndType& nm_tp = *lit;
+					const Umbrello::NameAndType& nm_tp = *lit;
 					UMLAttribute *a;
 					if (i < parmList->count()) {
 						a = parmList->at(i);
@@ -392,7 +381,7 @@ void UMLListViewItem::okRename( int col ) {
 				m_Label = op->toString(Uml::st_SigNoScope);
 			} else {
 				KMessageBox::error( kapp->mainWidget(),
-						    UMLClassifier::opParseStatusText(st),
+						    Umbrello::psText(st),
 						    i18n("Rename canceled") );
 			}
 			QListViewItem::setText(0, m_Label);
@@ -406,13 +395,24 @@ void UMLListViewItem::okRename( int col ) {
 				return;
 			}
 			UMLClass *parent = static_cast<UMLClass*>( m_pObject -> parent() );
-			UMLObjectList list = parent -> findChildObject( m_pObject -> getBaseType(), newText );
-			if (! list.isEmpty()) {
-				cancelRenameWithMsg();
-				return;
+			Umbrello::NameAndType nt;
+			Umbrello::Parse_Status st = Umbrello::parseAttribute(newText, nt, parent);
+			if (st == Umbrello::PS_OK) {
+				UMLObjectList list = parent->findChildObject( m_pObject->getBaseType(), newText );
+				if (! list.isEmpty()) {
+					cancelRenameWithMsg();
+					return;
+				}
+				m_pObject->setName(nt.first);
+				UMLAttribute *pAtt = static_cast<UMLAttribute*>(m_pObject);
+				pAtt->setType(nt.second);
+				m_Label = pAtt->toString(Uml::st_SigNoScope);
+			} else {
+				KMessageBox::error( kapp->mainWidget(),
+						    Umbrello::psText(st),
+						    i18n("Rename canceled") );
 			}
-			m_pObject -> setName( newText );
-			m_Label = newText;
+			QListViewItem::setText(0, m_Label);
 			break;
 		}
 

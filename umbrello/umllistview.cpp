@@ -49,6 +49,7 @@
 #include "umllistviewitem.h"
 #include "umlview.h"
 #include "usecase.h"
+#include "model_utils.h"
 #include "clipboard/idchangelog.h"
 #include "clipboard/umldrag.h"
 #include "dialogs/classpropdlg.h"
@@ -617,11 +618,8 @@ void UMLListView::childObjectAdded(UMLObject* obj, UMLObject* parent) {
 	}
 	if (!m_bCreatingChildObject) {
 		UMLListViewItem *parentItem = findUMLObject(parent);
-		QString text = obj->getName();
-		if (ot == Uml::ot_Operation) {
-			UMLOperation *op = static_cast<UMLOperation*>(obj);
-			text = op->toString(Uml::st_SigNoScope);
-		}
+		UMLClassifierListItem *child = static_cast<UMLClassifierListItem*>(obj);
+		QString text = child->toString(Uml::st_SigNoScope);
 		UMLListViewItem *newItem = new UMLListViewItem(parentItem, text,
 							       convert_OT_LVT(obj->getBaseType()), obj);
 		ensureItemVisible(newItem);
@@ -1989,48 +1987,63 @@ void UMLListView::createUMLObject( UMLListViewItem * item, Uml::Object_Type type
 
 void UMLListView::createChildUMLObject( UMLListViewItem * item, Uml::Object_Type type ) {
 	m_bCreatingChildObject = true;
-	QString name = item->text( 0 );
+	QString text = item->text( 0 );
 	UMLObject* parent = static_cast<UMLListViewItem *>( item->parent() )->getUMLObject();
 	if( !parent ) {
+		kdError() << "UMLListView::createChildUMLObject: parent UMLObject is NULL"
+			  << endl;
 		delete item;
+		m_bCreatingChildObject = false;
 		return;
 	}
 
-	//kdDebug() << "UMLListView::createChildUMLObject (" << name << ")" << endl;
+	//kdDebug() << "UMLListView::createChildUMLObject (" << text << ")" << endl;
 	UMLObject* newObject;
 	if ( type == Uml::ot_Attribute )  {
-		newObject = m_doc->createAttribute( static_cast<UMLClass*>(parent), name );
-	} else {
-		UMLClassifier *owningClass = static_cast<UMLClassifier*>(parent);
-		UMLClassifier::OpDescriptor od;
-		UMLClassifier::OpParseStatus st = owningClass->parseOperation(name, od);
+		UMLClass *owningClass = static_cast<UMLClass*>(parent);
+		Umbrello::NameAndType nt;
+		Umbrello::Parse_Status st = Umbrello::parseAttribute(text, nt, owningClass);
 		if (st) {
-			kdError() << "UMLListView::createChildUMLObject(" << name << "): "
-				  << "owningClass->parseOperation returns " << st << endl;
+			kdError() << "UMLListView::createChildUMLObject(" << text << "): "
+				  << "Umbrello::parseAttribute returns " << st << endl;
 			m_bCreatingChildObject = false;
 			return;
 		}
-		UMLAttributeList attList;
-		for (UMLClassifier::OpDescriptor::NameAndType_ListIt lit = od.m_args.begin();
-		     lit != od.m_args.end(); ++lit) {
-			const UMLClassifier::OpDescriptor::NameAndType& nm_tp = *lit;
-			UMLAttribute *a = new UMLAttribute(owningClass, nm_tp.first);
-			a->setType(nm_tp.second);
-			attList.append(a);
+		newObject = m_doc->createAttribute( owningClass, nt.first );
+		UMLAttribute *att = static_cast<UMLAttribute*>(newObject);
+		att->setType(nt.second);
+	} else if ( type == Uml::ot_Operation ) {
+		UMLClassifier *owningClassifier = static_cast<UMLClassifier*>(parent);
+		Umbrello::OpDescriptor od;
+		Umbrello::Parse_Status st = Umbrello::parseOperation(text, od, owningClassifier);
+		if (st) {
+			kdError() << "UMLListView::createChildUMLObject(" << text << "): "
+				  << "Umbrello::parseOperation returns " << st << endl;
+			m_bCreatingChildObject = false;
+			return;
 		}
-		newObject = m_doc->createOperation( owningClass, od.m_name, &attList );
+		newObject = m_doc->createOperation( owningClassifier, od.m_name );
+		UMLOperation *op = static_cast<UMLOperation*>(newObject);
+		for (Umbrello::OpDescriptor::NameAndType_ListIt lit = od.m_args.begin();
+		     lit != od.m_args.end(); ++lit) {
+			const Umbrello::NameAndType& nm_tp = *lit;
+			UMLAttribute *a = new UMLAttribute(op, nm_tp.first);
+			a->setType(nm_tp.second);
+			op->addParm(a);
+		}
 		if (od.m_pReturnType) {
 			UMLOperation *op = static_cast<UMLOperation*>(newObject);
 			op->setType(od.m_pReturnType);
 		}
+	} else {
+		kdError() << "UMLListView::createChildUMLObject called for type "
+			  << type << " (ignored)" << endl;
+		m_bCreatingChildObject = false;
+		return;
 	}
 
-	//FIXME actually this seems to be unnecessary, when creating by other ways
-	//attributes, ops etc and not added to UMLDoc:objectList
-	m_doc->addUMLObject( newObject );
-
 	item->setUMLObject( newObject );
-	item->setText( name );
+	item->setText( text );
 	m_bCreatingChildObject = false;
 
 	//m_doc->setModified();
@@ -2416,6 +2429,7 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
 
 		if (item)  {
 			item->setOpen( (bool)bOpen );
+			kapp->processEvents();  // give UI events a chance
 			if ( !loadChildrenFromXMI(item, domElement) ) {
 				return false;
 			}
