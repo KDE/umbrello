@@ -133,7 +133,10 @@ void FloatingText::slotMenuSelection(int sel) {
 		{
 			UMLClassifier* c;
 			if (m_pAssoc)  {
-				c = (UMLClassifier*)( m_pAssoc->getWidgetA()->getUMLObject() );
+				if (m_pAssoc->getAssocType() == at_Coll_Message)
+					c = (UMLClassifier*)( m_pAssoc->getWidgetB()->getUMLObject() );
+				else
+					c = (UMLClassifier*)( m_pAssoc->getWidgetA()->getUMLObject() );
 			} else {
 				c = (UMLClassifier*)getUMLObject();
 			}

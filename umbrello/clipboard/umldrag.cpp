@@ -682,7 +682,9 @@ bool UMLDrag::decodeClip4(const QMimeSource* mimeSource, UMLObjectList& objects,
 	return true;
 }
 
+#ifdef __GNUC__
 #warning "decodeClip5 needs fixing"
+#endif
 bool UMLDrag::decodeClip5(const QMimeSource* mimeSource, UMLObjectList& /* objects */,
 			  UMLListViewItemList& umlListViewItems, UMLDoc* doc) {
 	if ( !mimeSource->provides("application/x-uml-clip5") ) {

@@ -149,9 +149,7 @@ void CPPSourceCodeAccessorMethod::updateMethodDeclaration()
 	setOverallIndentationLevel(0);
 
 	// these ONLY appear if they arent inline
-	if(!isInlineMethod)
-		setWriteOutText(true);
-	else
+	if(isInlineMethod)
 		setWriteOutText(false);
 
 }

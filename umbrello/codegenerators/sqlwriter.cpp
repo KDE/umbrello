@@ -89,8 +89,13 @@ void SQLWriter::writeClass(UMLClassifier *c) {
 	UMLAssociationList aggregations = c->getAggregations();
 	if( forceSections() || !aggregations.isEmpty() ) {
 		for(UMLAssociation* a = aggregations.first(); a; a = aggregations.next()) {
-			sql << ",\n\tCONSTRAINT " << a->getName() << " FOREIGN KEY (" << a->getMultiB() <<
-			       ") REFERENCES " <<   a->getObjectA()->getName() << "(" << a->getMultiA() << ")";
+                        if( a->getObjectA()->getID()==c->getID() ) {
+                                sql << "\n-- CONSTRAINT " << a->getName() << " FOREIGN KEY (" << a->getMultiB() <<
+                                        ") REFERENCES " <<   a->getObjectA()->getName() << "(" << a->getMultiA() << ")";
+                        } else {
+                                sql << ",\n\tCONSTRAINT " << a->getName() << " FOREIGN KEY (" << a->getMultiB() <<
+                                        ") REFERENCES " <<   a->getObjectA()->getName() << "(" << a->getMultiA() << ")";
+                        }
 		}
 	}
 

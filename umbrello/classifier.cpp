@@ -29,18 +29,26 @@ UMLClassifier::~UMLClassifier() {
 }
 
 UMLOperation * UMLClassifier::checkOperationSignature( QString name,
-						       UMLAttributeList *opParams )
+																UMLAttributeList *opParams,
+																UMLOperation *exemptOp)
 {
 	UMLObjectList list = findChildObject( Uml::ot_Operation, name );
 	if( list.count() == 0 )
 		return NULL;
 
 	// there is at least one operation with the same name... compare the parameter list
-	for( UMLOperation *test = dynamic_cast<UMLOperation*>(list.first()); 
-	     test != 0; 
+	for( UMLOperation *test = dynamic_cast<UMLOperation*>(list.first());
+	     test != 0;
 	     test = dynamic_cast<UMLOperation*>(list.next()) )
 	{
+		if (test == exemptOp)
+			continue;
 		UMLAttributeList *testParams = test->getParmList( );
+		if (!opParams) {
+			if (0 == testParams->count())
+				return test;
+			continue;
+		}
 		if( testParams->count() != opParams->count() )
 			continue;
 		int pCount = testParams->count();
@@ -64,7 +72,7 @@ UMLOperation * UMLClassifier::checkOperationSignature( QString name,
 bool UMLClassifier::addOperation(UMLOperation* op, int position )
 {
 	if( m_OpsList.findRef( op ) != -1  ||
-	    checkOperationSignature(op->getName(), op->getParmList()) ) 
+	    checkOperationSignature(op->getName(), op->getParmList()) )
 		return false;
 
 	if( op -> parent() )
@@ -111,13 +119,16 @@ bool UMLClassifier::addStereotype(UMLStereotype* newStereotype, UMLObject_Type l
 		if(newStereotype->parent())
 			newStereotype->parent()->removeChild(newStereotype);
 		this->insertChild(newStereotype);
+		// What is this?? do we really want to store stereotypes in opsList?!?? -b.t.
+#ifdef __GNUC__
+#warning "addStereotype method needs review..conflicts with set/getStereoType in umlobject aswell as opList storage issues"
+#endif
 		if (list == ot_Operation) {
 			m_OpsList.append(newStereotype);
 			emit modified();
 			emit childObjectAdded(newStereotype);
+			emit stereotypeAdded(newStereotype);
 			connect(newStereotype, SIGNAL(modified()), this, SIGNAL(modified()));
-//			emit operationAdded(newStereotype);
-#warning "FIXME change operationAdded listeners to childObject, or create stereotypeAdded signal"
 		} else {
 			kdWarning() << "unknown list type in addStereotype()" << endl;
 		}
@@ -128,6 +139,16 @@ bool UMLClassifier::addStereotype(UMLStereotype* newStereotype, UMLObject_Type l
 	}
 	return false;
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+int UMLClassifier::removeStereotype(UMLStereotype * /* stype*/) {
+#ifdef __GNUC__
+#warning "removeStereotype method not implemented yet"
+#endif
+	kdError() << "can't find stereotype given in list" << endl;
+	return -1;
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLObjectList UMLClassifier::findChildObject(UMLObject_Type t , QString n) {
   	UMLObjectList list;
@@ -275,6 +296,15 @@ UMLOperationList* UMLClassifier::getFilteredOperationsList()  {
 void UMLClassifier::init() {
 	m_BaseType = ot_UMLObject;
 	m_OpsList.setAutoDelete(false);
+
+	// make connections so that parent document is updated of list of uml objects
+#ifdef __GNUC__
+#warning "Cheap add/removeOperation fix for slot add/RemoveUMLObject calls. Need long-term solution"
+#endif
+        UMLDoc * parent = UMLApp::app()->getDocument();
+        connect(this,SIGNAL(childObjectAdded(UMLObject *)),parent,SLOT(addUMLObject(UMLObject*)));
+        connect(this,SIGNAL(childObjectRemoved(UMLObject *)),parent,SLOT(slotRemoveUMLObject(UMLObject*)));
+
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool UMLClassifier::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {

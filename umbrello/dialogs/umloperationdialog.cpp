@@ -333,7 +333,7 @@ bool UMLOperationDialog::apply()
 
 	UMLClassifier *classifier = dynamic_cast<UMLClassifier*>( m_pOperation->parent() );
 	if( classifier != 0L &&
-	    classifier->checkOperationSignature(name, m_pOperation->getParmList()) )
+	    classifier->checkOperationSignature(name, m_pOperation->getParmList(), m_pOperation) )
 	{
 		QString msg = QString(i18n("An operation with that signature already exists in %1.\n")).arg(classifier->getName())
 				+

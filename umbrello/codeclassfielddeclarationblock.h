@@ -97,6 +97,9 @@ protected:
 	 */
         virtual void updateContent() = 0;
 
+	// so parent can actually release this block
+	void forceRelease ();
+
 private:
 
 	CodeClassField * m_parentclassfield;

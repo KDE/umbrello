@@ -147,6 +147,8 @@ void IDLWriter::writeClass(UMLClassifier *c) {
 	findObjectsRelated(c, includes);
 	if (includes.count()) {
 		for (UMLClassifier *conc = includes.first(); conc; conc = includes.next()) {
+			if (conc->getBaseType() == Uml::ot_Datatype)
+				continue;
 			QString baseName = findFileName(conc, ".idl");
 			if (!baseName.isEmpty())
 				idl << "#include \"" << baseName << ".idl\"\n";

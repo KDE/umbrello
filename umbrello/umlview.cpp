@@ -1553,7 +1553,7 @@ void UMLView::exportImage() {
 		{
 			int want_save = KMessageBox::questionYesNo(0, i18n("The selected file %1 exists.\nDo you want to overwrite it?").arg(m_ImageURL.fileName()),
 								i18n("File Already Exists"),
-								i18n("Yes"), i18n("No"));
+								KStdGuiItem::yes(), KStdGuiItem::no());
 			if (want_save == KMessageBox::No)
 				// another possibility would be to show the save dlg again
 				return;
@@ -1942,8 +1942,10 @@ void UMLView::addAssocInViewAndDoc(AssociationWidget* a) {
 	{
 		// if view went ok, then append in document
 		getDocument() -> addAssociation (a->getAssociation());
-	} else
-		kdError() << "cannot addAssocInViewAndDoc()" << endl;
+	} else {
+		kdError() << "cannot addAssocInViewAndDoc(), deleting" << endl;
+		delete a;
+	}
 
 }
 
@@ -2466,21 +2468,33 @@ void UMLView::createAutoAssociations( UMLWidget * widget ) {
 		if (pOtherWidget == NULL)
 			continue;
 		// Both objects are represented in this view:
+		// Assign widget roles as indicated by the UMLAssociation.
+		UMLWidget *widgetA, *widgetB;
+		if (myID == roleAObj->getID()) {
+			widgetA = widget;
+			widgetB = pOtherWidget;
+		} else {
+			widgetA = pOtherWidget;
+			widgetB = widget;
+		}
 		// Check that the assocwidget does not already exist.
 		Uml::Association_Type assocType = assoc->getAssocType();
-		AssociationWidget * temp = findAssocWidget(assocType, widget, pOtherWidget);
+		AssociationWidget * temp = findAssocWidget(assocType, widgetA, widgetB);
 		if (temp) {
 			temp->calculateEndingPoints();  // recompute assoc lines
 			continue;
 		}
 		// Check that the assoc is allowed.
-		if (!AssocRules::allowAssociation(assocType, widget, pOtherWidget, false)) {
+		if (!AssocRules::allowAssociation(assocType, widgetA, widgetB, false)) {
 			kdDebug() << "createAutoAssociations: not transferring assoc "
 				  << "of type " << assocType << endl;
 			continue;
 		}
 		// Create the AssociationWidget.
-		temp = new AssociationWidget( this, widget, assocType, pOtherWidget );
+		temp = new AssociationWidget( this );
+		temp->setWidgetA(widgetA);
+		temp->setWidgetB(widgetB);
+		temp->setAssocType(assocType);
 		temp->setVisibilityA(assoc->getVisibilityA());
 		temp->setVisibilityB(assoc->getVisibilityB());
 		temp->setChangeabilityA(assoc->getChangeabilityA());
@@ -2489,6 +2503,8 @@ void UMLView::createAutoAssociations( UMLWidget * widget ) {
 		temp->setMultiB(assoc->getMultiB());
 		temp->setRoleNameA(assoc->getRoleNameA());
 		temp->setRoleNameB(assoc->getRoleNameB());
+		temp->calculateEndingPoints();
+		temp->setActivated(true);
 		if (! addAssociation(temp))
 			delete temp;
 	}
@@ -2680,6 +2696,7 @@ void UMLView::slotMenuSelection(int sel) {
 				ft->setVisible( true );
 				ft->setID(m_pDoc -> getUniqueID());
 				ft->setActivated();
+				setupNewWidget(ft);
 			}
 			break;
 
@@ -2762,6 +2779,7 @@ void UMLView::slotMenuSelection(int sel) {
 			state -> setY ( m_Pos.y() );
 			state -> setVisible( true );
 			state -> setActivated();
+			setupNewWidget( state );
 			break;
 
 		case ListPopupMenu::mt_End_State:
@@ -2771,6 +2789,7 @@ void UMLView::slotMenuSelection(int sel) {
 			state -> setY ( m_Pos.y() );
 			state -> setVisible( true );
 			state -> setActivated();
+			setupNewWidget( state );
 			break;
 
 		case ListPopupMenu::mt_State:
@@ -2783,6 +2802,7 @@ void UMLView::slotMenuSelection(int sel) {
 				state -> setY ( m_Pos.y() );
 				state -> setVisible( true );
 				state -> setActivated();
+				setupNewWidget( state );
 			}
 			break;
 
@@ -2793,6 +2813,7 @@ void UMLView::slotMenuSelection(int sel) {
 			activity -> setY ( m_Pos.y() );
 			activity -> setVisible( true );
 			activity -> setActivated();
+			setupNewWidget(activity);
 			break;
 
 
@@ -2803,6 +2824,7 @@ void UMLView::slotMenuSelection(int sel) {
 			activity -> setY ( m_Pos.y() );
 			activity -> setVisible( true );
 			activity -> setActivated();
+			setupNewWidget(activity);
 			break;
 
 		case ListPopupMenu::mt_Branch:
@@ -2812,6 +2834,7 @@ void UMLView::slotMenuSelection(int sel) {
 			activity -> setY ( m_Pos.y() );
 			activity -> setVisible( true );
 			activity -> setActivated();
+			setupNewWidget(activity);
 			break;
 
 		case ListPopupMenu::mt_Activity:
@@ -2825,6 +2848,7 @@ void UMLView::slotMenuSelection(int sel) {
 				activity -> setY ( m_Pos.y() );
 				activity -> setVisible( true );
 				activity -> setActivated();
+				setupNewWidget(activity);
 			}
 			break;
 
@@ -3407,7 +3431,6 @@ bool UMLView::loadAssociationsFromXMI( QDomElement & qElement ) {
 				kdError() << "couldn't loadFromXMI association widget:"
 				          << assoc << ", bad XMI file? Deleting from umlview."
 					  << endl;
-//				assoc->cleanup();
 				delete assoc;
 				/* return false;
 				   Returning false here is a little harsh when the
@@ -3416,7 +3439,7 @@ bool UMLView::loadAssociationsFromXMI( QDomElement & qElement ) {
 			} else {
 				if(!addAssociation(assoc, false))
 				{
-					kdError()<<"COULDNT addAssociation("<<assoc<<") to umlview, deleting."<<endl;
+					kdError()<<"Couldnt addAssociation("<<assoc<<") to umlview, deleting."<<endl;
 //					assoc->cleanup();
 					delete assoc;
 					//return false; // soften error.. may not be that bad

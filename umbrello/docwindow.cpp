@@ -136,5 +136,12 @@ void DocWindow::newDocumentation( ) {
 	m_pDocMLE -> setText( m_pUMLDoc -> getDoc() );
 }
 
+bool DocWindow::isTyping()
+{
+	if (m_pDocMLE->hasFocus())
+		return true;
+	else
+		return false;
+}
 
 #include "docwindow.moc"

@@ -35,6 +35,7 @@ class CodeClassField;
 
 class CodeMethodBlock : public CodeBlockWithComments, public OwnedCodeBlock 
 {
+        friend class CodeGenObjectWithTextBlocks;
 	Q_OBJECT
 public:
 
@@ -76,6 +77,13 @@ public:
 	CodeDocument * getParentDocument();
 
 protected:
+
+
+        /** causes the text block to release all of its connections
+         * and any other text blocks that it 'owns'.
+         * needed to be called prior to deletion of the textblock.
+         */
+        virtual void release ();
 
         /**
          * Set the starting text that begins this method before the body is printed.

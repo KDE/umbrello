@@ -14,6 +14,7 @@
 #include "umlnamespace.h"
 #include "umlobject.h"
 
+class UMLDoc;
 class UMLRole;
 
 using namespace Uml;
@@ -39,7 +40,7 @@ public:
 	 * @param roleA		Pointer to the UMLObject in role A.
 	 * @param roleB		Pointer to the UMLObject in role B.
 	 */
-	UMLAssociation(Association_Type type, UMLObject *roleA = 0, UMLObject *roleB = 0);
+	UMLAssociation(UMLDoc * parent, Association_Type type, UMLObject *roleA = 0, UMLObject *roleB = 0);
 
 	/**
 	 * Overloaded '==' operator
@@ -326,11 +327,12 @@ protected:
 	/**
 	 * Common initializations at construction time.
 	 *
+	 * @param parent 	Pointer to the parent UMLDocument. 
 	 * @param type		The Association_Type to represent.
 	 * @param roleAObj	Pointer to the role A UMLObject.
 	 * @param roleBObj	Pointer to the role B UMLObject.
 	 */
-	void init(Association_Type type, UMLObject *roleAObj, UMLObject *roleBObj);
+	void init(UMLDoc * parent, Association_Type type, UMLObject *roleAObj, UMLObject *roleBObj);
 
 	/* If the type Uml::Association_Type is changed then also the following
 	   must be changed accordingly:
@@ -343,6 +345,7 @@ protected:
 	static const unsigned nAssocTypes;
 	static const QString assocTypeStr[];
 
+	UMLDoc * parentDoc;
 	UMLRole * m_pRoleA;
 	UMLRole * m_pRoleB;
 

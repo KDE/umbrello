@@ -32,9 +32,7 @@ CodeAccessorMethod::CodeAccessorMethod ( CodeClassField * parentCF )
 	initFields(parentCF);
 }
 
-CodeAccessorMethod::~CodeAccessorMethod ( ) { 
-	m_parentclassfield->disconnect(this);
-}
+CodeAccessorMethod::~CodeAccessorMethod ( ) { }
 
 //  
 // Methods
@@ -88,6 +86,13 @@ void CodeAccessorMethod::setType ( CodeAccessorMethod::AccessorType atype) {
 // until the codeclassfield is released.
 void CodeAccessorMethod::release () {
 	// do nothing	
+}
+
+// ok, a method so the parent can force it to release
+void CodeAccessorMethod::forceRelease () {
+	if(m_parentclassfield)
+        	m_parentclassfield->disconnect(this);
+	CodeMethodBlock::release();
 }
 
 /**
