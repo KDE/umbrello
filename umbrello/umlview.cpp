@@ -2981,15 +2981,6 @@ bool UMLView::showPropDialog() {
 
 void UMLView::setFont( QFont font ) {
 	UMLViewData::setFont( font );
-	UMLWidget * pWidget = 0;
-	QObjectList * wl = queryList( "UMLWidget" );
-	QObjectListIt wit( *wl );
-	while ( ( pWidget = static_cast<UMLWidget *>( wit.current() ) )  != 0 ) {
-		++wit;
-		pWidget -> setFont( font );
-	}
-	delete wl;
-	canvas() -> setAllChanged();
 }
 
 void UMLView::setClassWidgetOptions( ClassOptionsPage * page ) {

@@ -143,7 +143,7 @@ void UMLViewDialog::applyPage( Page page ) {
 				return;
 			}
 			m_pOptionsPage->updateUMLWidget();
-			m_pView->setClassWidgetOptions( m_pOptionsPage );
+			//m_pView->setClassWidgetOptions( m_pOptionsPage );
 			m_pOptionsPage->setWidget( m_pTempWidget );
 			options.classState.showAtts = m_pTempWidget->getShowAtts();
 			options.classState.showOps = m_pTempWidget->getShowOps();

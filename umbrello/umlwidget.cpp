@@ -284,7 +284,7 @@ void UMLWidget::init() {
 	m_nOldH = m_nOldW = 0;
 	connect( m_pView, SIGNAL( sigRemovePopupMenu() ), this, SLOT( slotRemovePopupMenu() ) );
 	connect( m_pView, SIGNAL( sigClearAllSelected() ), this, SLOT( slotClearAllSelected() ) );
-	connect( m_pView, SIGNAL(sigColorChanged(int)), this, SLOT(slotColorChanged(int)));
+//	connect( m_pView, SIGNAL(sigColorChanged(int)), this, SLOT(slotColorChanged(int)));
 	if( m_pObject )
 	{
 		connect( m_pObject,SIGNAL(modified()),this,SLOT(updateWidget()));
