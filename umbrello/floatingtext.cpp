@@ -329,7 +329,7 @@ void FloatingText::showOpDlg() {
 
 	UMLClassifier* c;
 	if (m_pAssoc)  {
-		c = (UMLClassifier*)( m_pAssoc->getWidgetA()->getUMLObject() );
+		c = (UMLClassifier*)( m_pAssoc->getWidgetB()->getUMLObject() );
 	} else {
 		c = (UMLClassifier*)getUMLObject();
 	}
