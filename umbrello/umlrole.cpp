@@ -272,8 +272,7 @@ bool UMLRole::load( QDomElement & element ) {
 			}
 		} else if (m_SecondaryId.isEmpty() &&
 			   (Uml::tagEq(tag, "type") ||
-			    Uml::tagEq(tag, "participant") ||
-			    Uml::tagEq(tag, "association"))) {
+			    Uml::tagEq(tag, "participant"))) {
 			m_SecondaryId = tempElement.attribute("xmi.id", "");
 			if (m_SecondaryId.isEmpty())
 				m_SecondaryId = tempElement.attribute("xmi.idref", "");
