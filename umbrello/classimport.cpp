@@ -166,8 +166,7 @@ UMLOperation* ClassImport::makeOperation(UMLClass *parent, const QString &name) 
 
 UMLObject* ClassImport::insertAttribute(UMLClass *owner, Uml::Scope scope, QString name,
 					QString type, QString comment /* ="" */,
-					bool isStatic /* =false */,
-					UMLPackage *parentPkg /* = NULL */) {
+					bool isStatic /* =false */) {
 	Uml::Object_Type ot = owner->getBaseType();
 	if (ot != Uml::ot_Class) {
 		kdDebug() << "ClassImport::insertAttribute: Don't know what to do with "
@@ -181,7 +180,7 @@ UMLObject* ClassImport::insertAttribute(UMLClass *owner, Uml::Scope scope, QStri
 	UMLObject *attrType = owner->findTemplate(type);
 	if (attrType == NULL) {
 		m_putAtGlobalScope = true;
-		attrType = createUMLObject(Uml::ot_UMLObject, type, parentPkg);
+		attrType = createUMLObject(Uml::ot_UMLObject, type, owner);
 		m_putAtGlobalScope = false;
 	}
 	UMLAttribute *attr = owner->addAttribute(name, attrType, scope);
@@ -199,16 +198,19 @@ UMLObject* ClassImport::insertAttribute(UMLClass *owner, Uml::Scope scope, QStri
 void ClassImport::insertMethod(UMLClass *klass, UMLOperation *op,
 					 Uml::Scope scope, QString type,
 					 bool isStatic, bool isAbstract,
-					 QString comment,
-					 UMLPackage *parentPkg) {
+					 QString comment) {
 	op->setScope(scope);
 	if (!type.isEmpty()) {  // return type may be missing (constructor/destructor)
-		UMLObject *typeObj = klass->findTemplate(type);
-		if (typeObj == NULL) {
-			m_putAtGlobalScope = true;
-			createUMLObject(Uml::ot_UMLObject, type, parentPkg);
-			m_putAtGlobalScope = false;
-			op->setType(typeObj);
+		if (type == klass->getName()) {
+			op->setType(klass);
+		} else {
+			UMLObject *typeObj = klass->findTemplate(type);
+			if (typeObj == NULL) {
+				m_putAtGlobalScope = true;
+				typeObj = createUMLObject(Uml::ot_UMLObject, type, klass);
+				m_putAtGlobalScope = false;
+				op->setType(typeObj);
+			}
 		}
 	}
 	op->setStatic(isStatic);

@@ -51,13 +51,10 @@ public:
 
 	/**
 	 * Create a UMLAttribute and insert it into the document.
-	 * The parentPkg arg is only used for resolving possible scope
-	 * prefixes in the `type'.
 	 */
 	UMLObject* insertAttribute(UMLClass *klass, Uml::Scope scope, QString name,
 				   QString type, QString comment = QString::null,
-				   bool isStatic = false,
-				   UMLPackage *parentPkg = NULL);
+				   bool isStatic = false);
 
 	/**
 	 * Create a UMLOperation.
@@ -78,8 +75,7 @@ public:
 	void insertMethod(UMLClass *klass, UMLOperation *op,
 			  Uml::Scope scope, QString type,
 			  bool isStatic, bool isAbstract,
-			  QString comment = QString::null,
-			  UMLPackage *parentPkg = NULL);
+			  QString comment = QString::null);
 
 	/**
 	 * Add an argument to a UMLOperation.

@@ -291,8 +291,7 @@ void CppTree2Uml::parseFunctionDefinition( FunctionDefinitionAST* ast )
     UMLOperation *m = m_importer->makeOperation(c, id);
     parseFunctionArguments( d, m );
     m_importer->insertMethod( c, m, (Uml::Scope)m_currentAccess, returnType,
-			      isStatic, false /*isAbstract*/, m_comment,
-			      m_currentNamespace[m_nsCnt]);
+			      isStatic, false /*isAbstract*/, m_comment);
     m_comment = "";
 
 /* For reference, Kdevelop does some more:
@@ -458,8 +457,7 @@ void CppTree2Uml::parseDeclaration( GroupAST* funSpec, GroupAST* storageSpec,
     }
 
     m_importer->insertAttribute( c, (Uml::Scope)m_currentAccess, id, typeName,
-				 m_comment, isStatic,
-				 m_currentNamespace[m_nsCnt]);
+				 m_comment, isStatic);
     m_comment = "";
 }
 
@@ -528,8 +526,7 @@ void CppTree2Uml::parseFunctionDeclaration(  GroupAST* funSpec, GroupAST* storag
     UMLOperation *m = m_importer->makeOperation(c, id);
     parseFunctionArguments( d, m );
     m_importer->insertMethod( c, m, (Uml::Scope)m_currentAccess, returnType,
-			      isStatic, isPure, m_comment,
-			      m_currentNamespace[m_nsCnt]);
+			      isStatic, isPure, m_comment);
     m_comment = "";
 }
 
