@@ -15,6 +15,7 @@
 #include "umlwidgetlist.h"
 
 #include <klocale.h>
+#include <kmessagebox.h>
 #include <kstandarddirs.h>
 
 AlignToolBar::AlignToolBar(QMainWindow* parentWindow, const char* name)
@@ -243,6 +244,8 @@ void AlignToolBar::slotButtonChanged(int btn)
 			++it;
 			widget->updateWidget();
 		}
+	} else {
+		KMessageBox::messageBox(0, KMessageBox::Information, i18n("For alignment you have to select at least 2 objects like classes or actors. You can not align associations."), i18n("Information"), i18n("&Ok"), QString(""), "showAlignInformation");
 	} // if (widgetList.count() > 1)
 
 	return;
