@@ -151,40 +151,42 @@ void UMLDoc::slotUpdateAllViews(UMLView *sender) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool UMLDoc::saveModified() {
 	bool completed(true);
+	if (!m_modified)
+		return completed;
 
-	if(m_modified) {
-		UMLApp *win=(UMLApp *) parent();
-		int want_save = KMessageBox::warningYesNoCancel(win, i18n("The current file has been modified.\nDo you want to save it?"), i18n("Warning"));
-		switch(want_save) {
-			case KMessageBox::Yes:
-				if (doc_url.fileName() == i18n("Untitled")) {
-					if (win->slotFileSaveAs()) {
-						deleteContents();
-						completed=true;
-					} else {
-						completed=false;
-					}
-				} else {
-					saveDocument(URL());
+	UMLApp *win=(UMLApp *) parent();
+	int want_save = KMessageBox::warningYesNoCancel( win,
+				i18n("The current file has been modified.\n"
+				     "Do you want to save it?"), i18n("Warning"));
+	switch(want_save) {
+		case KMessageBox::Yes:
+			if (doc_url.fileName() == i18n("Untitled")) {
+				if (win->slotFileSaveAs()) {
 					deleteContents();
 					completed=true;
+				} else {
+					completed=false;
 				}
-				break;
-
-			case KMessageBox::No:
-				setModified(false);
+			} else {
+				saveDocument(URL());
 				deleteContents();
 				completed=true;
-				break;
+			}
+			break;
 
-			case KMessageBox::Cancel:
-				completed=false;
-				break;
+		case KMessageBox::No:
+			setModified(false);
+			deleteContents();
+			completed=true;
+			break;
 
-			default:
-				completed=false;
-				break;
-		}
+		case KMessageBox::Cancel:
+			completed=false;
+			break;
+
+		default:
+			completed=false;
+			break;
 	}
 	return completed;
 }
@@ -1182,6 +1184,9 @@ void UMLDoc::removeUMLObject(UMLObject *o) {
 				}
 			}
 		}
+		UMLPackage *pkg = o->getUMLPackage();
+		if (pkg)
+			pkg->removeObject(o);
 		emit sigObjectRemoved(o);
 		objectList.remove(o);
 		setModified(true);
