@@ -54,6 +54,7 @@ using Umbrello::Diagram;
 using Umbrello::RefactoringAssistant;
 
 UMLApp::UMLApp(QWidget* , const char* name):KDockMainWindow(0, name) {
+	_instance = this;
 	m_pDocWindow = 0;
 	config=kapp->config();
 	listView = 0;
