@@ -26,11 +26,11 @@
 */
 
 #include <kdebug.h>
-#include <kdebug.h>
 #include <qregexp.h>
 
 #include "cppheadercodedocument.h"
 #include "cppcodegenerator.h"
+#include "cppcodedocumentation.h"
 #include "cppheadercodeaccessormethod.h"
 #include "cppheadercodeoperation.h"
 #include "cppheaderclassdeclarationblock.h"
@@ -44,9 +44,7 @@ CPPHeaderCodeDocument::CPPHeaderCodeDocument ( UMLClassifier * concept, CPPCodeG
 	init ( );
 }
 
-CPPHeaderCodeDocument::~CPPHeaderCodeDocument ( ) { 
- 	kdDebug()<<"   CPPHeaderCodeGenerator "<<this<<" destroyed"<<endl;
-}
+CPPHeaderCodeDocument::~CPPHeaderCodeDocument ( ) { }
 
 //  
 // Methods
@@ -56,70 +54,58 @@ CPPHeaderCodeDocument::~CPPHeaderCodeDocument ( ) {
 //
 
 QString CPPHeaderCodeDocument::getCPPClassName (QString name) {
-	CodeGenerator *g = getParentGenerator();
-	return g->cleanName(name);
+	CPPCodeGenerator *g = (CPPCodeGenerator*) getParentGenerator();
+	return g->getCPPClassName(name);
 }
 
 // Other methods
 //
-
-// we will put the class 'guts' inside a hierarchical code block
-CPPHeaderClassDeclarationBlock * CPPHeaderCodeDocument::getClassDecl ( )
-{
-
-        // So we see if it already exists, IF it *does* then we wont create a 
-	// new one.
-        CPPHeaderClassDeclarationBlock * codeBlock = 
-		(CPPHeaderClassDeclarationBlock *) findTextBlockByTag("classBlock");
-	if(!codeBlock) {
-		codeBlock = new CPPHeaderClassDeclarationBlock (this);
-		codeBlock->setTag("classBlock");
-	} 
-
-        return codeBlock;
-
-}
 
 // a little utility method 
 bool CPPHeaderCodeDocument::forceDoc () {
         return getParentGenerator()->forceDoc();
 }
 
-// add declaration blocks for the passed classfields
-void CPPHeaderCodeDocument::declareClassFields (QPtrList<CodeClassField> & list ,
-       				 HierarchicalCodeBlock * classDeclBlock )
+void CPPHeaderCodeDocument::loadChildTextBlocksFromNode ( QDomElement & root)
 {
-     	for (CodeClassField * field = list.first(); field ; field = list.next())
-	{
-		CodeClassFieldDeclarationBlock * declBlock = field->getDeclarationCodeBlock();
-		classDeclBlock->addTextBlock(declBlock); // wont add it IF its already present
+
+        QDomNode tnode = root.firstChild();
+        QDomElement telement = tnode.toElement();
+        bool gotChildren = false;
+        while( !telement.isNull() ) {
+                QString nodeName = telement.tagName();
+
+                if( nodeName == "textblocks" ) {
+
+                        QDomNode node = telement.firstChild();
+                        QDomElement element = node.toElement();
+
+                        while( !element.isNull() ) {
+                                QString name = element.tagName();
+
+                                if( name == "cppheaderclassdeclarationblock" )
+                                {
+                                                classDeclCodeBlock = new CPPHeaderClassDeclarationBlock (this); // was deleted before our load
+                                                classDeclCodeBlock->loadFromXMI(element);
+                                                gotChildren= true;
+                                                break; // its the only node we are looking for
+                                }
+
+                                node = element.nextSibling();
+                                element = node.toElement();
+                        }
+                        break;
+                }
+
+                tnode = telement.nextSibling();
+                telement = tnode.toElement();
         }
-}
 
-/** set attributes of the node that represents this class
- * in the XMI document.
- */
-void CPPHeaderCodeDocument::setAttributesOnNode ( QDomDocument & doc, QDomElement & docElement)
-{
+        if(!gotChildren)
+                kdWarning()<<" loadFromXMI : Warning: unable to initialize class declaration blocks in cpp header document:"<<this<<endl;
 
-        // superclass call
-        ClassifierCodeDocument::setAttributesOnNode(doc,docElement);
-
-        // now set local attributes/fields
-// FIX
-}
-
-/** set the class attributes of this object from
- * the passed element node.
- */
-void CPPHeaderCodeDocument::setAttributesFromNode ( QDomElement & root)
-{
-
-        // superclass save
-        ClassifierCodeDocument::setAttributesFromNode(root);
-
-        // now set local attributes
-// FIX
+        // now make the super-class call
+        CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( root );
 
 }
 
@@ -130,8 +116,25 @@ void CPPHeaderCodeDocument::init ( ) {
 
 	initCodeClassFields(); // we have to call here as .newCodeClassField is pure virtual in parent class 
 
+	classDeclCodeBlock = new CPPHeaderClassDeclarationBlock (this);
+	classDeclCodeBlock->setTag("classDeclarationBlock");
+
+	publicBlock = 0;
+	protectedBlock = 0;
+	privateBlock = 0;
+
 	// this will call updateContent() as well as other things that sync our document.
         synchronize();
+}
+
+// IF the classifier object is modified, this will get called.
+// Possible mods include changing the filename and package
+// the classifier has.
+void CPPHeaderCodeDocument::syncNamesToParent( )
+{
+
+        setFileName(getParentGenerator()->cleanName(getParentClassifier()->getName().lower()));
+        setPackage(getParentGenerator()->cleanName(getParentClassifier()->getPackage().lower()));
 }
 
 /**
@@ -141,10 +144,35 @@ void CPPHeaderCodeDocument::init ( ) {
 // of the document
 bool CPPHeaderCodeDocument::addCodeOperation (CodeOperation * op ) {
 
+	Uml::Scope scope = op->getParentOperation()->getScope();
 	if(!op->getParentOperation()->isConstructorOperation())
-        	return operationsBlock->addTextBlock(op);
-	else
-        	return constructorBlock->addTextBlock(op);
+	{
+		switch (scope) {
+			default:
+			case Uml::Public:
+        			return pubOperationsBlock->addTextBlock(op);
+				break;
+			case Uml::Protected:
+        			return protOperationsBlock->addTextBlock(op);
+				break;
+			case Uml::Private:
+        			return privOperationsBlock->addTextBlock(op);
+				break;
+		}
+	} else {
+		switch (scope) {
+			default:
+			case Uml::Public:
+        			return pubConstructorBlock->addTextBlock(op);
+				break;
+			case Uml::Protected:
+        			return protConstructorBlock->addTextBlock(op);
+				break;
+			case Uml::Private:
+        			return privConstructorBlock->addTextBlock(op);
+				break;
+		}
+	}
 }
 
 /**
@@ -162,6 +190,14 @@ CodeClassField * CPPHeaderCodeDocument::newCodeClassField ( UMLAttribute * at) {
 
 CodeClassField * CPPHeaderCodeDocument::newCodeClassField ( UMLRole * role) {
         return new CPPCodeClassField(this,role);
+}
+
+/**
+ * create a new CodeBlockWithComments object belonging to this CodeDocument.
+ * @return      CodeBlockWithComments
+ */
+CodeComment * CPPHeaderCodeDocument::newCodeComment ( ) {
+        return new CPPCodeDocumentation(this);
 }
 
 /**
@@ -202,16 +238,12 @@ bool CPPHeaderCodeDocument::saveToXMI ( QDomDocument & doc, QDomElement & root )
 void CPPHeaderCodeDocument::updateContent( ) 
 {
 
-	// temp document construction
-        constructorBlock = getHierarchicalCodeBlock("constructionMethods", "Constructors", 1);
-        operationsBlock = getHierarchicalCodeBlock("operationMethods", "Operations", 1);
-
-/*
       	// Gather info on the various fields and parent objects of this class...
 	UMLClassifier * c = getParentClassifier();
 	CodeGenerator * g = getParentGenerator();
 	// CPPCodeGenerator * gen = dynamic_cast<CPPCodeGenerator*>(g);
 	CPPCodeGenerator * gen = (CPPCodeGenerator*)g;
+	CPPCodeGenerationPolicy * policy = (CPPCodeGenerationPolicy*)getPolicy();
 
 	// first, set the global flag on whether or not to show classfield info 
 	QPtrList<CodeClassField> * cfList = getCodeClassFieldList();
@@ -220,210 +252,423 @@ void CPPHeaderCodeDocument::updateContent( )
 
       	// attribute-based ClassFields
       	// we do it this way to have the static fields sorted out from regular ones
-        QPtrList<CodeClassField> staticAttribClassFields = getSpecificClassFields (CodeClassField::Attribute, true);
-        QPtrList<CodeClassField> attribClassFields = getSpecificClassFields (CodeClassField::Attribute, false);
+        QPtrList<CodeClassField> staticPublicAttribClassFields = getSpecificClassFields (CodeClassField::Attribute, true, Uml::Public );
+        QPtrList<CodeClassField> publicAttribClassFields = getSpecificClassFields (CodeClassField::Attribute, false, Uml::Public );
+        QPtrList<CodeClassField> staticProtectedAttribClassFields = getSpecificClassFields (CodeClassField::Attribute, true, Uml::Protected );
+        QPtrList<CodeClassField> protectedAttribClassFields = getSpecificClassFields (CodeClassField::Attribute, false, Uml::Protected );
+        QPtrList<CodeClassField> staticPrivateAttribClassFields = getSpecificClassFields (CodeClassField::Attribute, true, Uml::Private );
+        QPtrList<CodeClassField> privateAttribClassFields = getSpecificClassFields (CodeClassField::Attribute, false, Uml::Private);
+
       	// association-based ClassFields 
       	// dont care if they are static or not..all are lumped together
-        QPtrList<CodeClassField> plainAssocClassFields = getSpecificClassFields ( CodeClassField::PlainAssociation );
-        QPtrList<CodeClassField> aggregationClassFields = getSpecificClassFields ( CodeClassField::Aggregation );
-        QPtrList<CodeClassField> compositionClassFields = getSpecificClassFields ( CodeClassField::Composition );
+        QPtrList<CodeClassField> publicPlainAssocClassFields = getSpecificClassFields ( CodeClassField::PlainAssociation , Uml::Public);
+        QPtrList<CodeClassField> publicAggregationClassFields = getSpecificClassFields ( CodeClassField::Aggregation, Uml::Public);
+        QPtrList<CodeClassField> publicCompositionClassFields = getSpecificClassFields ( CodeClassField::Composition, Uml::Public );
+
+        QPtrList<CodeClassField> protPlainAssocClassFields = getSpecificClassFields ( CodeClassField::PlainAssociation , Uml::Protected);
+        QPtrList<CodeClassField> protAggregationClassFields = getSpecificClassFields ( CodeClassField::Aggregation, Uml::Protected);
+        QPtrList<CodeClassField> protCompositionClassFields = getSpecificClassFields ( CodeClassField::Composition, Uml::Protected);
+
+        QPtrList<CodeClassField> privPlainAssocClassFields = getSpecificClassFields ( CodeClassField::PlainAssociation , Uml::Private);
+        QPtrList<CodeClassField> privAggregationClassFields = getSpecificClassFields ( CodeClassField::Aggregation, Uml::Private);
+        QPtrList<CodeClassField> privCompositionClassFields = getSpecificClassFields ( CodeClassField::Composition, Uml::Private);
 
         bool hasOperationMethods = c->getFilteredOperationsList()->last() ? true : false;
+	bool hasNamespace = false;
+	bool isEnumeration = false;
+	bool isInterface = parentIsInterface();
+	bool hasclassFields = hasClassFields();
+	bool forcedoc = forceDoc();
         QString endLine = gen->getNewLineEndingChars(); // a shortcut..so we dont have to call this all the time
+
+        UMLClassifierList superclasses = c->findSuperClassConcepts(gen->getDocument(), UMLClassifier::ALL);
 
 
 	// START GENERATING CODE/TEXT BLOCKS and COMMENTS FOR THE DOCUMENT
 	//
 
-	//
-        // PACKAGE CODE BLOCK
-        //
-	QString packageText = getPackage().isEmpty() ? "" : "package "+getPackage()+";";
-	addOrUpdateTaggedCodeBlockWithComments("packages", packageText, "", 0, false);
+        // Write the hash define stuff to prevent multiple parsing/inclusion of header
+        QString cppClassName = gen->getCPPClassName(c->getName());
+        QString hashDefine = gen->getCPPClassName(c->getName()).upper().simplifyWhiteSpace().replace(QRegExp(" "),  "_");
+        QString defText = "#ifndef "+hashDefine + "_H"+ endLine + "#define "+ hashDefine + "_H";
+	addOrUpdateTaggedCodeBlockWithComments("hashDefBlock", defText, "", 0, false);
 
-       	// IMPORT CODEBLOCK 
+       	// INCLUDE CODEBLOCK 
        	//
        	// Q: Why all utils? Isnt just List and Vector the only classes we are using?
        	// A: doesn't matter at all; its more readable to just include '*' and cpp compilers
        	//    don't slow down or anything. (TZ)
-       	QString importStatement = "";
+       	QString includeStatement = "";
+       	includeStatement.append("include "+policy->getStringClassNameInclude()+";"+endLine);
        	if ( hasObjectVectorClassFields() )
-       		importStatement.append("import cpp.util.*;"+endLine);
+       		includeStatement.append("include "+policy->getVectorClassNameInclude()+";"+endLine);
 
-   	//only import classes in a different package from this class
-       	UMLClassifierList imports;
+   	//only include classes in a different package from this class
+       	UMLClassifierList includes;
        	QMap<UMLClassifier *,QString> *packageMap = new QMap<UMLClassifier*,QString>; // so we dont repeat packages
 
-	gen->findObjectsRelated(c,imports);
-       	for(UMLClassifier *con = imports.first(); con ; con = imports.next())
-       	if ((con->getPackage() != c->getPackage())
-       	        && !(packageMap->contains(con)))
+	gen->findObjectsRelated(c,includes);
+       	for(UMLClassifier *con = includes.first(); con ; con = includes.next())
+       	if (!(packageMap->contains(con)))
 	{
        		packageMap->insert(con,con->getPackage());
-               	importStatement.append("import "+con->getPackage()+"."+gen->cleanName(con->getName())+";"+endLine);
+		if(con != getParentClassifier())
+               		includeStatement.append("include "+gen->cleanName(con->getName().lower())+".h;"+endLine);
 	}
-        // now, add/update the imports codeblock
-	addOrUpdateTaggedCodeBlockWithComments("imports", importStatement, "", 0, false);
+        // now, add/update the includes codeblock
+	addOrUpdateTaggedCodeBlockWithComments("includes", includeStatement, "", 0, false);
+
+	// Using
+	QString usingStatement;
+        for(UMLClassifier *classifier = superclasses.first(); classifier ; classifier = superclasses.next()) {
+                if(classifier->getPackage()!=c->getPackage() && !classifier->getPackage().isEmpty()) {
+                        usingStatement.append("using "+gen->cleanName(c->getPackage())+"::"+cleanName(c->getName())+";"+endLine);
+                }
+        }
+	addOrUpdateTaggedCodeBlockWithComments("using", usingStatement, "", 0, false);
+
+	// namespace
+	// This needs special treatment. We cant use "nowriteouttext" for this, as
+	// that will prevent the class declaration from being written. Instead, we
+	// check if "hasNamspace" is true or not, and then indent the remaining code
+	// appropriately as well as set the start/end text of this namespace block.
+        if(!c->getPackage().isEmpty() && policy->getPackageIsNamespace())
+		hasNamespace = true;
+	else
+		hasNamespace = false;
+
+	// set start/end text of namespace block
+	namespaceBlock = getHierarchicalCodeBlock("namespace", "Namespace", 1);
+	if(hasNamespace) {
+		namespaceBlock->setStartText("namespace "+gen->cleanName(c->getPackage()));
+		namespaceBlock->setEndText("};");
+		namespaceBlock->getComment()->setWriteOutText(true);
+	} else {
+		namespaceBlock->setStartText("");
+		namespaceBlock->setEndText("");
+		namespaceBlock->getComment()->setWriteOutText(false);
+	}
+
+	// Enum types for include
+        if (!isInterface) {
+
+		QString enumStatement;
+                QString indent = policy->getIndentation();
+                UMLClass* k = dynamic_cast<UMLClass*>(c);
+                if (k->isEnumeration()) {
+                        enumStatement.append(indent + "enum "+cppClassName+" {"+endLine);
+
+			// populate 
+                        UMLAttributeList* atl = k->getFilteredAttributeList();
+                        for (UMLAttribute *at=atl->first(); at ; ) {
+                                enumStatement.append(indent+indent);
+                                enumStatement.append(gen->cleanName(at->getName()));
+                                if ((at=atl->next()) != 0)
+                                        enumStatement.append(", "+endLine);
+                                else
+                                        break;
+                                enumStatement.append(endLine);
+                        }
+                        enumStatement.append(indent+"};");
+			isEnumeration = true;
+                }
+		namespaceBlock->addOrUpdateTaggedCodeBlockWithComments("enums", enumStatement, "", 0, false);
+         }
 
 	// CLASS DECLARATION BLOCK
 	//
 
-	// get the declaration block. If its not already present, add it too
-        CPPHeaderClassDeclarationBlock * classDeclBlock = getClassDecl ( );
-	addTextBlock(classDeclBlock); // note: wont add if already present
+	// add the class declaration block to the namespace block. 
+	namespaceBlock->addTextBlock(classDeclCodeBlock); // note: wont add if already present
 
-	// NOW create document in sections..
-	// now we want to populate the body of our class
-	// our layout is the following general groupings of code blocks:
+	// Is this really true?? hmm..
+	if(isEnumeration)
+		classDeclCodeBlock->setWriteOutText(false); // not written out IF its an enumeration class
+	else	
+		classDeclCodeBlock->setWriteOutText(true);
 
-	// start cpp classifier document
+	//
+	// Main Sub-Blocks
+	//
 
-	// header comment
+	// declare public, protected and private methods, attributes (fields).
+	// set the start text ONLY if this is the first time we created the objects.
+	bool createdPublicBlock = publicBlock == 0 ? true : false;
+	publicBlock = classDeclCodeBlock->getHierarchicalCodeBlock("publicBlock","Public stuff",0);
+	if (createdPublicBlock)
+		publicBlock->setStartText("public:");
 
-	// package code block
+	bool createdProtBlock = protectedBlock == 0 ? true : false;
+	protectedBlock = classDeclCodeBlock->getHierarchicalCodeBlock("protectedBlock","Protected stuff",0);
+	if(createdProtBlock)
+		protectedBlock->setStartText("protected:");
 
-	// import code block
-
-	// class declaration 
-
-	//   section:
-	//   - class field declaration section comment
-	//   - class field declarations (0+ codeblocks)
- 
-	//   section:
-	//   - methods section comment
-
-	//     sub-section: constructor ops
-	//     - constructor method section comment
-	//     - constructor methods (0+ codeblocks)
-
-	//     sub-section: accessors
-	//     - accessor method section comment
-	//     - static accessor methods (0+ codeblocks)
-	//     - non-static accessor methods (0+ codeblocks)
-
-	//     sub-section: non-constructor ops 
-	//     - operation method section comment
-	//     - operations (0+ codeblocks)
-
-	// end class declaration 
-
-	// end cpp classifier document
-
-
-	// Q: Why use the more complicated scheme of arranging code blocks within codeblocks?
-	// A: This will allow us later to preserve the format of our document so that if 
-	//    codeblocks are added, they may be easily added in the correct place, rather than at
-	//    the end of the document, or by using a difficult algorithm to find the location of
-	//    the last appropriate code block sibling (which may not exist.. for example user adds
-	//    a constructor operation, but there currently are no constructor code blocks 
-	//    within the document). 
+	bool createdPrivBlock = privateBlock == 0 ? true : false;
+	privateBlock = classDeclCodeBlock->getHierarchicalCodeBlock("privateBlock","Private stuff",0);
+	if(createdPrivBlock)
+		privateBlock->setStartText("private:");
 
 	//
 	// * CLASS FIELD declaration section
 	//
 
-	// get/create the field declaration code block
-        HierarchicalCodeBlock * fieldDeclBlock = classDeclBlock->getHierarchicalCodeBlock("fieldsDecl", "Fields", 1);
+	// setup/get/create the field declaration code block
+	// 
 
-        // Update the comment: we only set comment to appear under the following conditions
-        CodeComment * fcomment = fieldDeclBlock->getComment();
-        if (!forceDoc() && !hasClassFields() )
-		fcomment->setWriteOutText(false);
+        // public fields: Update the comment: we only set comment to appear under the following conditions
+        HierarchicalCodeBlock * publicFieldDeclBlock = publicBlock->getHierarchicalCodeBlock("publicFieldsDecl", "Fields", 1);
+        CodeComment * pubFcomment = publicFieldDeclBlock->getComment();
+        if (!forcedoc && !hasclassFields )
+		pubFcomment->setWriteOutText(false);
 	else
-		fcomment->setWriteOutText(true);
+		pubFcomment->setWriteOutText(true);
+
+        // protected fields: Update the comment: we only set comment to appear under the following conditions
+        HierarchicalCodeBlock * protectedFieldDeclBlock = protectedBlock->getHierarchicalCodeBlock("protectedFieldsDecl", "Fields", 1);
+        CodeComment * protFcomment = protectedFieldDeclBlock->getComment();
+        if (!forcedoc && !hasclassFields )
+                protFcomment->setWriteOutText(false);
+        else
+                protFcomment->setWriteOutText(true);
+
+        // private fields: Update the comment: we only set comment to appear under the following conditions
+        HierarchicalCodeBlock * privateFieldDeclBlock = privateBlock->getHierarchicalCodeBlock("privateFieldsDecl", "Fields", 1);
+        CodeComment * privFcomment = privateFieldDeclBlock->getComment();
+        if (!forcedoc && !hasclassFields )
+                privFcomment->setWriteOutText(false);
+        else
+                privFcomment->setWriteOutText(true);
+
 
 	// now actually declare the fields within the appropriate HCodeBlock
-	declareClassFields(staticAttribClassFields, fieldDeclBlock);
-	declareClassFields(attribClassFields, fieldDeclBlock);
-	declareClassFields(plainAssocClassFields, fieldDeclBlock);
-	declareClassFields(aggregationClassFields, fieldDeclBlock);
-	declareClassFields(compositionClassFields, fieldDeclBlock);
+	//
+
+	// public 
+	declareClassFields(staticPublicAttribClassFields, publicFieldDeclBlock);
+	declareClassFields(publicAttribClassFields, publicFieldDeclBlock);
+	declareClassFields(publicPlainAssocClassFields, publicFieldDeclBlock);
+	declareClassFields(publicAggregationClassFields, publicFieldDeclBlock);
+	declareClassFields(publicCompositionClassFields, publicFieldDeclBlock);
+
+	// protected
+	declareClassFields(staticProtectedAttribClassFields, protectedFieldDeclBlock);
+	declareClassFields(protectedAttribClassFields, protectedFieldDeclBlock);
+	declareClassFields(protPlainAssocClassFields, protectedFieldDeclBlock);
+	declareClassFields(protAggregationClassFields, protectedFieldDeclBlock);
+	declareClassFields(protCompositionClassFields, protectedFieldDeclBlock);
+
+	// private
+	declareClassFields(staticPrivateAttribClassFields, privateFieldDeclBlock);
+	declareClassFields(privateAttribClassFields, privateFieldDeclBlock);
+	declareClassFields(privPlainAssocClassFields, privateFieldDeclBlock);
+	declareClassFields(privAggregationClassFields, privateFieldDeclBlock);
+	declareClassFields(privCompositionClassFields, privateFieldDeclBlock);
 
 	//
         // METHODS section
         //
 
         // get/create the method codeblock
-        HierarchicalCodeBlock * methodsBlock = classDeclBlock->getHierarchicalCodeBlock("methodsBlock", "Methods", 1);
 
-        // Update the section comment
-        CodeComment * methodsComment = methodsBlock->getComment();
+	// public methods
+        HierarchicalCodeBlock * pubMethodsBlock = publicBlock->getHierarchicalCodeBlock("pubMethodsBlock", "", 1);
+        CodeComment * pubMethodsComment = pubMethodsBlock->getComment();
         // set conditions for showing this comment
-        if (!forceDoc() && !hasClassFields() && !hasOperationMethods)
-                methodsComment->setWriteOutText(false);
+        if (!forcedoc && !hasclassFields && !hasOperationMethods)
+                pubMethodsComment->setWriteOutText(false);
         else
-                methodsComment->setWriteOutText(true);
+                pubMethodsComment->setWriteOutText(true);
+
+       // protected methods
+        HierarchicalCodeBlock * protMethodsBlock = protectedBlock->getHierarchicalCodeBlock("protMethodsBlock", "", 1);
+        CodeComment * protMethodsComment = protMethodsBlock->getComment();
+        // set conditions for showing this comment
+        if (!forcedoc && !hasclassFields && !hasOperationMethods)
+                protMethodsComment->setWriteOutText(false);
+        else
+                protMethodsComment->setWriteOutText(true);
+
+       // private methods
+        HierarchicalCodeBlock * privMethodsBlock = privateBlock->getHierarchicalCodeBlock("privMethodsBlock", "", 1);
+        CodeComment * privMethodsComment = privMethodsBlock->getComment();
+        // set conditions for showing this comment
+        if (!forcedoc && !hasclassFields && !hasOperationMethods)
+                privMethodsComment->setWriteOutText(false);
+        else
+                privMethodsComment->setWriteOutText(true);
+
 
         // METHODS sub-section : constructor methods
-        //
+	//
 
-	// get/create the constructor codeblock
-        HierarchicalCodeBlock * constBlock = methodsBlock->getHierarchicalCodeBlock("constructorMethods", "Constructors", 1);
-	constructorBlock = constBlock; // record this codeblock for later, when operations are updated
+	// setup/get/create the constructor codeblocks
 
+	// public
+	pubConstructorBlock = pubMethodsBlock->getHierarchicalCodeBlock("constructionMethods", "Constructors", 1);
 	// special condiions for showing comment: only when autogenerateding empty constructors
 	// Although, we *should* check for other constructor methods too
-	CodeComment * constComment = constBlock->getComment();
-	if (!forceDoc() && (parentIsInterface() || !gen->getAutoGenerateConstructors()))
-		constComment->setWriteOutText(false);
+	CodeComment * pubConstComment = pubConstructorBlock->getComment();
+	if (!forcedoc && (isInterface || !gen->getAutoGenerateConstructors()))
+		pubConstComment->setWriteOutText(false);
 	else
-		constComment->setWriteOutText(true);
+		pubConstComment->setWriteOutText(true);
 
-	// add/get the empty constructor 
+	// protected
+	protConstructorBlock = protMethodsBlock->getHierarchicalCodeBlock("constructionMethods", "Constructors", 1);
+       // special condiions for showing comment: only when autogenerateding empty constructors
+        // Although, we *should* check for other constructor methods too
+        CodeComment * protConstComment = protConstructorBlock->getComment();
+        if (!forcedoc && (isInterface || !gen->getAutoGenerateConstructors()))
+                protConstComment->setWriteOutText(false);
+        else
+                protConstComment->setWriteOutText(true);
+
+	// private
+	privConstructorBlock = privMethodsBlock->getHierarchicalCodeBlock("constructionMethods", "Constructors", 1);
+       // special condiions for showing comment: only when autogenerateding empty constructors
+        // Although, we *should* check for other constructor methods too
+        CodeComment * privConstComment = privConstructorBlock->getComment();
+        if (!forcedoc && (isInterface || !gen->getAutoGenerateConstructors()))
+                privConstComment->setWriteOutText(false);
+        else
+                privConstComment->setWriteOutText(true);
+
+	// add/get the empty constructor. I guess since there is no 
+	// meta-data to state what the scope of this method is, we will make it
+	// "public" as a default. This might present problems if the user wants
+	// to move the block into the "private" or "protected" blocks.
 	QString CPPClassName = getCPPClassName(c->getName()); 
-	QString emptyConstStatement = "public "+CPPClassName+" ( ) { }";
-	CodeBlockWithComments * emptyConstBlock = 
-		constBlock->addOrUpdateTaggedCodeBlockWithComments("emptyconstructor", emptyConstStatement, "Empty Constructor", 1, false);
+	QString emptyConstStatement = CPPClassName+" ( ) { }";
+
+	// search for this first in the entire document. IF not present, put
+	// it in the public constructor method block
+	TextBlock * emptyConstTb = findTextBlockByTag("emptyconstructor", true);
+	CodeBlockWithComments * emptyConstBlock = dynamic_cast<CodeBlockWithComments*>(emptyConstTb);
+	if(!emptyConstBlock)
+		emptyConstBlock = pubConstructorBlock->addOrUpdateTaggedCodeBlockWithComments("emptyconstructor", emptyConstStatement, "Empty Constructor", 1, false);
+
 	// Now, as an additional condition we only show the empty constructor block 
 	// IF it was desired to be shown
-	if(!parentIsInterface() && gen->getAutoGenerateConstructors())
+	if(!isInterface && gen->getAutoGenerateConstructors())
 		emptyConstBlock->setWriteOutText(true);
 	else
 		emptyConstBlock->setWriteOutText(false);
+
 
         // METHODS subsection : ACCESSOR METHODS 
 	//
 
         // get/create the accessor codeblock
-        HierarchicalCodeBlock * accessorBlock = methodsBlock->getHierarchicalCodeBlock("accessorMethods", "Accessor Methods", 1);
 
+	// public
+        HierarchicalCodeBlock * pubAccessorBlock = pubMethodsBlock->getHierarchicalCodeBlock("accessorMethods", "Accessor Methods", 1);
 	// set conditions for showing section comment
-        CodeComment * accessComment = accessorBlock->getComment();
-        if (!forceDoc() && !hasClassFields())
-		accessComment->setWriteOutText(false);
+        CodeComment * pubAccessComment = pubAccessorBlock->getComment();
+        if (!forcedoc && !hasclassFields)
+		pubAccessComment->setWriteOutText(false);
 	else
-		accessComment->setWriteOutText(true);
+		pubAccessComment->setWriteOutText(true);
+
+        // protected
+        HierarchicalCodeBlock * protAccessorBlock = protMethodsBlock->getHierarchicalCodeBlock("accessorMethods", "Accessor Methods", 1);
+        // set conditions for showing section comment
+        CodeComment * protAccessComment = protAccessorBlock->getComment();
+        if (!forcedoc && !hasclassFields)
+                protAccessComment->setWriteOutText(false);
+        else
+                protAccessComment->setWriteOutText(true);
+
+        // private
+        HierarchicalCodeBlock * privAccessorBlock = privMethodsBlock->getHierarchicalCodeBlock("accessorMethods", "Accessor Methods", 1);
+        // set conditions for showing section comment
+        CodeComment * privAccessComment = privAccessorBlock->getComment();
+        if (!forcedoc && !hasclassFields)
+                privAccessComment->setWriteOutText(false);
+        else
+                privAccessComment->setWriteOutText(true);
 
 	// now, 2 sub-sub sections in accessor block
         // add/update accessor methods for attributes
-        HierarchicalCodeBlock * staticAccessors = accessorBlock->getHierarchicalCodeBlock("staticAccessorMethods", "", 1);
-	staticAccessors->getComment()->setWriteOutText(false); // never write block comment
-	staticAccessors->addCodeClassFieldMethods(staticAttribClassFields); 
-	staticAccessors->addCodeClassFieldMethods(attribClassFields);
+        HierarchicalCodeBlock * pubStaticAccessors = pubAccessorBlock->getHierarchicalCodeBlock("pubStaticAccessorMethods", "", 1);
+        HierarchicalCodeBlock * pubRegularAccessors = pubAccessorBlock->getHierarchicalCodeBlock("pubRegularAccessorMethods", "", 1);
+	pubStaticAccessors->getComment()->setWriteOutText(false); // never write block comment
+	pubRegularAccessors->getComment()->setWriteOutText(false); // never write block comment
 
-        // add/update accessor methods for associations
-        HierarchicalCodeBlock * regularAccessors = accessorBlock->getHierarchicalCodeBlock("regularAccessorMethods", "", 1);
-	regularAccessors->getComment()->setWriteOutText(false); // never write block comment
-	regularAccessors->addCodeClassFieldMethods(plainAssocClassFields);
-	regularAccessors->addCodeClassFieldMethods(aggregationClassFields);
-	regularAccessors->addCodeClassFieldMethods(compositionClassFields);
+        HierarchicalCodeBlock * protStaticAccessors = protAccessorBlock->getHierarchicalCodeBlock("protStaticAccessorMethods", "", 1);
+        HierarchicalCodeBlock * protRegularAccessors = protAccessorBlock->getHierarchicalCodeBlock("protRegularAccessorMethods", "", 1);
+	protStaticAccessors->getComment()->setWriteOutText(false); // never write block comment
+	protRegularAccessors->getComment()->setWriteOutText(false); // never write block comment
 
-        // METHODS subsection : Operation methods (which arent constructors) 
+        HierarchicalCodeBlock * privStaticAccessors = privAccessorBlock->getHierarchicalCodeBlock("privStaticAccessorMethods", "", 1);
+        HierarchicalCodeBlock * privRegularAccessors = privAccessorBlock->getHierarchicalCodeBlock("privRegularAccessorMethods", "", 1);
+	privStaticAccessors->getComment()->setWriteOutText(false); // never write block comment
+	privRegularAccessors->getComment()->setWriteOutText(false); // never write block comment
+
+	// now add in accessors as appropriate
+
+	// public stuff
+	pubStaticAccessors->addCodeClassFieldMethods(staticPublicAttribClassFields); 
+	pubRegularAccessors->addCodeClassFieldMethods(publicAttribClassFields);
+	pubRegularAccessors->addCodeClassFieldMethods(publicPlainAssocClassFields);
+	pubRegularAccessors->addCodeClassFieldMethods(publicAggregationClassFields);
+	pubRegularAccessors->addCodeClassFieldMethods(publicCompositionClassFields);
+
+	// protected stuff
+        protStaticAccessors->addCodeClassFieldMethods(staticProtectedAttribClassFields);
+        protRegularAccessors->addCodeClassFieldMethods(protectedAttribClassFields);
+        protRegularAccessors->addCodeClassFieldMethods(protPlainAssocClassFields);
+        protRegularAccessors->addCodeClassFieldMethods(protAggregationClassFields);
+        protRegularAccessors->addCodeClassFieldMethods(protCompositionClassFields);
+
+	// private stuff
+        privStaticAccessors->addCodeClassFieldMethods(staticPrivateAttribClassFields);
+        privRegularAccessors->addCodeClassFieldMethods(privateAttribClassFields);
+        privRegularAccessors->addCodeClassFieldMethods(privPlainAssocClassFields);
+        privRegularAccessors->addCodeClassFieldMethods(privAggregationClassFields);
+        privRegularAccessors->addCodeClassFieldMethods(privCompositionClassFields);
+
+
+        // METHODS subsection : Operation methods (e.g. methods derive from operations but which arent constructors)
 	//
 
-        // get/create the operations codeblock
-        HierarchicalCodeBlock * opsBlock = methodsBlock->getHierarchicalCodeBlock("operationMethods", "Operations", 1);
-	operationsBlock = opsBlock; // record this so that later operations go in right place
+        // setup/get/create the operations codeblock
 
+	// public
+	pubOperationsBlock = pubMethodsBlock->getHierarchicalCodeBlock("operationMethods", "Operations", 1);
 	// set conditions for showing section comment
-	CodeComment * ocomment = opsBlock->getComment();
-        if (!forceDoc() && !hasOperationMethods )
-		ocomment->setWriteOutText(false);
+	CodeComment * pubOcomment = pubOperationsBlock->getComment();
+        if (!forcedoc && !hasOperationMethods )
+		pubOcomment->setWriteOutText(false);
 	else
-		ocomment->setWriteOutText(true);
+		pubOcomment->setWriteOutText(true);
 
-*/
+	//protected
+	protOperationsBlock = protMethodsBlock->getHierarchicalCodeBlock("operationMethods", "Operations", 1);
+        // set conditions for showing section comment
+        CodeComment * protOcomment = protOperationsBlock->getComment();
+        if (!forcedoc && !hasOperationMethods )
+                protOcomment->setWriteOutText(false);
+        else
+                protOcomment->setWriteOutText(true);
+
+	//private
+	privOperationsBlock = privMethodsBlock->getHierarchicalCodeBlock("operationMethods", "Operations", 1);
+        // set conditions for showing section comment
+        CodeComment * privOcomment = privOperationsBlock->getComment();
+        if (!forcedoc && !hasOperationMethods )
+                privOcomment->setWriteOutText(false);
+        else
+                privOcomment->setWriteOutText(true);
+
+	// Operations
+	//
+	// nothing to do here.. "updateOperations" in parent class puts things
+	// in the right place using the "addCodeOperation" method we defined in this class
+
+	// FINISH up with hash def block close
+	QString defTextEnd = "#endif //"+hashDefine + "_H";
+        addOrUpdateTaggedCodeBlockWithComments("hashDefBlockEnd", defTextEnd, "", 0, false);
+
 }
 
 

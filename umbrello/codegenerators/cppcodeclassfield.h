@@ -47,6 +47,11 @@ public:
 	QString getFieldType();
 	QString getFieldName();
 	QString getInitialValue();
+	/** get the name of the class which holds lists, e.g. "QPtrlist" or
+          * "Vector" or "List" and so on.
+          */
+        QString getListFieldClassName();
+
 
 protected:
 

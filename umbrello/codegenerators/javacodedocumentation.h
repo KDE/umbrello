@@ -42,8 +42,7 @@ public:
 	/**
 	 * Constructors
 	 */
-	JavaCodeDocumentation ( JavaClassifierCodeDocument * doc, QString text );
-	JavaCodeDocumentation ( JavaClassifierCodeDocument * doc );
+	JavaCodeDocumentation ( JavaClassifierCodeDocument * doc, const QString & text = "");
 
 	/**
 	 * Empty Destructor
@@ -61,11 +60,6 @@ public:
          * @return      bool    status of save
          */
         virtual bool saveToXMI ( QDomDocument & doc, QDomElement & root );
-
-        /**
-         * load params from the appropriate XMI element node.
-         */
-        virtual void loadFromXMI ( QDomElement & root );
 
 	/**
 	 * @return	QString

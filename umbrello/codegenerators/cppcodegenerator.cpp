@@ -17,6 +17,7 @@
 #include <kconfig.h>
 
 #include "cppcodegenerator.h"
+#include "cppcodedocumentation.h"
 #include "cppcodegenerationpolicy.h"
 #include "cppsourcecodedocument.h"
 #include "cppheadercodedocument.h"
@@ -32,17 +33,13 @@ CPPCodeGenerator::CPPCodeGenerator ( UMLDoc * parentDoc , const char * name)
     : CodeGenerator( parentDoc, name ) {
 
 	//m_parentDoc = parentDoc; // this should be done by the call to the parent constructor?
-kdDebug()<<"CPPCodeGenerator "<<this<<" created with parent document:"<<parentDoc<<endl;
-
 	initAttributes();
 }
 
 CPPCodeGenerator::~CPPCodeGenerator ( ) {
-    kdDebug()<<"CPPCodeGenerator "<<this<<" destroyed"<<endl;
 	// destroy all separately owned codedocuments (e.g. header docs)
-        for (CPPHeaderCodeDocument *doc = m_headercodedocumentVector.first(); doc; doc=m_headercodedocumentVector.next())
+        for (CodeDocument *doc = m_headercodedocumentVector.first(); doc; doc=m_headercodedocumentVector.next())
                 delete doc;
-
 }
 
 //
@@ -145,9 +142,60 @@ CodeViewerDialog * CPPCodeGenerator::getCodeViewerDialog ( QWidget* parent, Code
 	}
 }
 
+QString CPPCodeGenerator::getCPPClassName (QString name) {
+	return cleanName(name);
+}
+
+CPPCodeGenerationPolicy::CPPCommentStyle CPPCodeGenerator::getCommentStyle ( )
+{
+        return ((CPPCodeGenerationPolicy*)getPolicy())->getCommentStyle();
+}
+
+bool CPPCodeGenerator::getAutoGenerateConstructors ( )
+{
+        return ((CPPCodeGenerationPolicy*)getPolicy())->getAutoGenerateConstructors();
+}
+
+bool CPPCodeGenerator::getAutoGenerateAccessors ( )
+{
+        return ((CPPCodeGenerationPolicy*)getPolicy())->getAutoGenerateAccessors ();
+}
 
 // Other methods
 //
+
+/**
+ * Write out all code documents to file as appropriate.
+ */
+void CPPCodeGenerator::writeCodeToFile ( )
+{
+	// write all source documents (incl. Makefile)
+        writeListedCodeDocsToFile(getCodeDocumentList());
+
+	// write all header documents
+        writeListedCodeDocsToFile(&m_headercodedocumentVector);
+
+}
+
+// overridden because we need to be able to generate code for
+// both the header and source documents
+void CPPCodeGenerator::writeCodeToFile ( UMLClassifierList & concepts) {
+        QPtrList<CodeDocument> docs;
+        docs.setAutoDelete(false);
+
+        for (UMLClassifier *concept= concepts.first(); concept; concept= concepts.next())
+        {
+                CodeDocument * doc = findCodeDocumentByClassifier(concept);
+                if(doc)
+                        docs.append(doc);
+                CodeDocument * hdoc = findHeaderCodeDocumentByClassifier(concept);
+                if(hdoc)
+                        docs.append(hdoc);
+        }
+
+        writeListedCodeDocsToFile(&docs);
+}
+
 
 /**
  * Find a cppheadercodedocument by the given classifier.
@@ -171,6 +219,10 @@ CodeDocument * CPPCodeGenerator::newClassifierCodeDocument (UMLClassifier * clas
 	return new CPPSourceCodeDocument(classifier, this);
 }
 
+CodeComment * CPPCodeGenerator::newCodeComment ( CodeDocument * doc) {
+        return new CPPCodeDocumentation(doc);
+}
+
 CPPHeaderCodeDocument * CPPCodeGenerator::newHeaderClassifierCodeDocument (UMLClassifier * classifier)
 {
 	return new CPPHeaderCodeDocument(classifier, this);
@@ -190,8 +242,6 @@ CPPMakefileCodeDocument * CPPCodeGenerator::newMakefileCodeDocument ( ) {
  * classifier.
  */
 void CPPCodeGenerator::initFromParentDocument( ) {
-
-kdDebug()<<" CPP INITTOPARENT called"<<endl;
 
         // Walk through the document converting classifiers into
         // classifier code documents as needed (e.g only if doesnt exist)
@@ -215,14 +265,49 @@ kdDebug()<<" CPP INITTOPARENT called"<<endl;
                 }
         }
 
-kdDebug()<<"CPP INITTOPARENT END"<<endl;
+}
+
+// need to worry about adding both source, and header documents for each
+// classifier
+void CPPCodeGenerator::checkAddUMLObject (UMLObject * obj) {
+        if (!obj)
+                return;
+
+        UMLClassifier * c = dynamic_cast<UMLClassifier*>(obj);
+        if(c) {
+                CodeDocument * cDoc = newClassifierCodeDocument(c);
+                CPPHeaderCodeDocument * hcodeDoc = new CPPHeaderCodeDocument(c, this);
+                addCodeDocument(cDoc);
+		addHeaderCodeDocument(hcodeDoc); // this will also add a unique tag to the code document
+        }
+}
+
+// need to worry about removing both source, and header documents for each
+// classifier
+void CPPCodeGenerator::checkRemoveUMLObject (UMLObject * obj)
+{
+
+        if (!obj)
+                return;
+
+        UMLClassifier * c = dynamic_cast<UMLClassifier*>(obj);
+        if(c) {
+
+		// source
+                ClassifierCodeDocument * cDoc = (ClassifierCodeDocument*) findCodeDocumentByClassifier(c);
+                if (cDoc)
+                        removeCodeDocument(cDoc);
+
+		// header
+                CPPHeaderCodeDocument * hcodeDoc = findHeaderCodeDocumentByClassifier(c);
+                if (hcodeDoc)
+                        removeHeaderCodeDocument(hcodeDoc);
+        }
 
 }
 
 void CPPCodeGenerator::initAttributes ( )
 {
-
-kdDebug()<<"CPP CODE GENERTOR INIT"<<endl;
 
 	setPolicy ( new CPPCodeGenerationPolicy(this, getPolicy()) );
 
@@ -235,8 +320,6 @@ kdDebug()<<"CPP CODE GENERTOR INIT"<<endl;
 
         // set our 'writeout' policy for that code document
         setCreateProjectMakefile(DEFAULT_BUILD_MAKEFILE);
-
-kdDebug()<<"CPP CODE GENERTOR INIT - end"<<endl;
 
 }
 

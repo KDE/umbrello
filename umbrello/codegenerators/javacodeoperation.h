@@ -40,28 +40,7 @@ public:
 	 */
 	virtual ~JavaCodeOperation ( );
 
-        /**
-         * Save the XMI representation of this object
-         * @return      bool    status of save
-         */
-        virtual bool saveToXMI ( QDomDocument & doc, QDomElement & root );
-
-        /**
-         * load params from the appropriate XMI element node.
-         */
-        virtual void loadFromXMI ( QDomElement & root );
-
 protected:
-
-       /** set attributes of the node that represents this class
-         * in the XMI document.
-         */
-        virtual void setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement);
-
-        /** set the class attributes of this object from
-         * the passed element node.
-         */
-        virtual void setAttributesFromNode ( QDomElement & element);
 
         void updateMethodDeclaration();
 

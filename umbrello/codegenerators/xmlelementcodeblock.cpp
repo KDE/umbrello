@@ -59,6 +59,33 @@ void XMLElementCodeBlock::loadFromXMI ( QDomElement & root )
         setAttributesFromNode(root);
 }
 
+/** set attributes of the node that represents this class
+ * in the XMI document.
+ */
+void XMLElementCodeBlock::setAttributesOnNode ( QDomDocument & doc, QDomElement & docElement)
+{
+
+        // superclass call
+	HierarchicalCodeBlock::setAttributesOnNode(doc,docElement);
+
+        // now set local attributes/fields
+        docElement.setAttribute("nodeName",getNodeName());
+
+}
+
+/** set the class attributes of this object from
+ * the passed element node.
+ */
+void XMLElementCodeBlock::setAttributesFromNode ( QDomElement & root) {
+
+        // superclass call
+	HierarchicalCodeBlock::setAttributesFromNode(root);
+
+        // now set local attributes
+        setNodeName(root.attribute("nodeName","UNKNOWN"));
+
+}
+
 // Accessor methods
 //  
 
@@ -94,6 +121,7 @@ void XMLElementCodeBlock::updateContent ( )
 
 	// Now update START/ENDING Text
         QString startText = "<"+nodeName;
+	QString endText = "";
 
 	QPtrList<UMLAttribute> * alist = getAttributeList();
 	for (UMLAttribute *at = alist->first(); at; at=alist->next())
@@ -110,11 +138,14 @@ void XMLElementCodeBlock::updateContent ( )
 	if(getTextBlockList()->count())
 	{
 		startText.append(">");
-		setEndText("</"+nodeName+">"); 
+		endText = "</"+nodeName+">";
 	} else {
 		startText.append("/>");
-		setEndText("");
+		endText = "";
 	}
+
+	setStartText(startText);
+	setEndText(endText);
 
 }
 

@@ -59,16 +59,21 @@ public:
          */
         virtual bool saveToXMI ( QDomDocument & doc, QDomElement & root );
 
-        /**
-         * load params from the appropriate XMI element node.
-         */
-        virtual void loadFromXMI ( QDomElement & root );
-
 	/**
 	 * @return	QString
 	 */
 	QString toString ( );
 
+
+       /** UnFormat a long text string. Typically, this means removing
+         *  the indentaion (linePrefix) and/or newline chars from each line.
+         */
+        virtual QString unformatText ( const QString & text, const QString & indent = "" );
+
+        /** a special version here because we want to not only indent
+         * the new line, but to add the "//" sequence as well.
+         */
+        virtual QString getNewEditorLine ( int amount );
 
 protected:
 

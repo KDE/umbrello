@@ -53,17 +53,6 @@ public:
 	// Other
 	//  
 
-        /**
-         * Save the XMI representation of this object
-         * @return      bool    status of save
-         */
-        virtual bool saveToXMI ( QDomDocument & doc, QDomElement & root );
-
-        /**
-         * load params from the appropriate XMI element node.
-         */
-        virtual void loadFromXMI ( QDomElement & root );
-
 	/**
 	 * @return	QString
 	 */

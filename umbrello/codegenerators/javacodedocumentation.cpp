@@ -25,14 +25,8 @@
 // Constructors/Destructors
 //  
 
-JavaCodeDocumentation::JavaCodeDocumentation ( JavaClassifierCodeDocument * doc, QString text ) 
+JavaCodeDocumentation::JavaCodeDocumentation ( JavaClassifierCodeDocument * doc, const QString & text ) 
     : CodeComment ((CodeDocument*) doc, text)
-{
-
-}
-
-JavaCodeDocumentation::JavaCodeDocumentation ( JavaClassifierCodeDocument * doc ) 
-    : CodeComment ((CodeDocument*) doc)
 {
 
 }
@@ -63,13 +57,6 @@ bool JavaCodeDocumentation::saveToXMI ( QDomDocument & doc, QDomElement & root )
         root.appendChild( blockElement );
 
         return status;
-}
-
-/**
- * load params from the appropriate XMI element node.
- */
-void JavaCodeDocumentation::loadFromXMI ( QDomElement & root ) {
-        setAttributesFromNode(root);
 }
 
 /**

@@ -32,50 +32,6 @@ JavaCodeOperation::~JavaCodeOperation ( ) { }
 // Other methods
 //  
 
-/** Save the XMI representation of this object
- * @return      bool    status of save
- */
-bool JavaCodeOperation::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
-        bool status = true;
-
-        QDomElement blockElement = doc.createElement( "codeoperation" );
-
-        // set attributes
-        setAttributesOnNode(doc, blockElement);
-
-        root.appendChild( blockElement );
-
-        return status;
-}
-
-void JavaCodeOperation::setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement)
-{
-
-        // set super-class attributes
-        CodeOperation::setAttributesOnNode(doc, blockElement);
-
-        // set local attributes now
-
-}
-
-/**
- * load params from the appropriate XMI element node.
- */
-void JavaCodeOperation::loadFromXMI ( QDomElement & root )
-{
-        setAttributesFromNode(root);
-}
-
-void JavaCodeOperation::setAttributesFromNode( QDomElement & root)
-{
-
-        // set attributes from superclass method the XMI
-        CodeOperation::setAttributesFromNode(root);
-
-        // load local stuff
-
-}
-
 // we basically want to update the doc and start text of this method
 void JavaCodeOperation::updateMethodDeclaration()
 {

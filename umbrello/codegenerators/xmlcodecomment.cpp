@@ -39,28 +39,6 @@ XMLCodeComment::~XMLCodeComment ( ) { }
 //  
 
 /**
- * Save the XMI representation of this object
- * @return      bool    status of save
- */
-bool XMLCodeComment::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
-        bool status = true;
-
-        QDomElement blockElement = doc.createElement( "xmlcodecomment" );
-        setAttributesOnNode(doc, blockElement); // as we added no additional fields to this class we may
-                                                // just use parent TextBlock method
-        root.appendChild( blockElement );
-
-        return status;
-}
-
-/**
- * load params from the appropriate XMI element node.
- */
-void XMLCodeComment::loadFromXMI ( QDomElement & root ) {
-        setAttributesFromNode(root);
-}
-
-/**
  * @return	QString
  */
 QString XMLCodeComment::toString ( ) 

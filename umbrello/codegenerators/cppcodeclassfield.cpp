@@ -18,8 +18,10 @@
 #include <qregexp.h>
 
 #include "cppcodeclassfield.h"
-#include "cppcodecomment.h"
+#include "cppcodegenerationpolicy.h"
 
+#include "../codegenerator.h"
+#include "../classifiercodedocument.h"
 #include "../attribute.h"
 #include "../umlobject.h"
 #include "../umlrole.h"
@@ -55,6 +57,8 @@ CPPCodeClassField::~CPPCodeClassField ( ) { }
 // Same thing again for "bool" to "boolean"
 QString CPPCodeClassField::fixTypeName(QString string)
 {
+// FIX!!
+        string.replace(QRegExp("^[Ll]ist$"),"QPtrList");
         string.replace(QRegExp("^string$"),"QString");
         string.replace(QRegExp("^bool$"),"bool");
         return cleanName(string);
@@ -78,6 +82,11 @@ QString CPPCodeClassField::getFieldName() {
 	}
 }
 
+QString CPPCodeClassField::getListFieldClassName () {
+	CodeGenerator * gen = getParentDocument()->getParentGenerator(); 
+	CPPCodeGenerationPolicy *policy = (CPPCodeGenerationPolicy*) gen->getPolicy();
+	return policy->getVectorClassName();
+}
 
 QString CPPCodeClassField::getInitialValue() {
 

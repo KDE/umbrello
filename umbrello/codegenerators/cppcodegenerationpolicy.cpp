@@ -16,6 +16,7 @@
 #include <kdebug.h>
 
 #include <kconfig.h>
+#include <qregexp.h>
 
 #include "cppcodegenerationpolicy.h"
 #include "cppcodegenerationpolicypage.h"
@@ -28,6 +29,15 @@ const bool CPPCodeGenerationPolicy::DEFAULT_INLINE_ACCESSORS = false;
 const bool CPPCodeGenerationPolicy::DEFAULT_INLINE_OPERATIONS = false;
 const bool CPPCodeGenerationPolicy::DEFAULT_VIRTUAL_DESTRUCTORS = true;
 const bool CPPCodeGenerationPolicy::DEFAULT_PACKAGE_IS_NAMESPACE = false;
+const char * CPPCodeGenerationPolicy::DEFAULT_STRING_CLASS_NAME = "string";
+const char * CPPCodeGenerationPolicy::DEFAULT_STRING_CLASS_INCLUDE = "<string.h>";
+const char * CPPCodeGenerationPolicy::DEFAULT_VECTOR_CLASS_NAME = "vector";
+const char * CPPCodeGenerationPolicy::DEFAULT_VECTOR_CLASS_INCLUDE = "<vector.h>";
+const char * CPPCodeGenerationPolicy::DEFAULT_VECTOR_METHOD_APPEND = "%VARNAME%.push_back(value);";
+const char * CPPCodeGenerationPolicy::DEFAULT_VECTOR_METHOD_REMOVE = "int size = %VARNAME%.size();\nfor ( int i = 0; i < size; i++) {\n\t%ITEMCLASS% item = %VARNAME%.at(i);\n\tif(item == value) {\n\t\tvector<%ITEMCLASS%>::iterator it = %VARNAME%.begin() + i;\n\t\t%VARNAME%.erase(it);\n\t\treturn;\n\t}\n }";
+const char * CPPCodeGenerationPolicy::DEFAULT_VECTOR_METHOD_INIT = ""; // nothing to do in std::vector 
+const char * CPPCodeGenerationPolicy::DEFAULT_OBJECT_METHOD_INIT = "%VARNAME% = new %ITEMCLASS%( );";
+
 
 // Constructors/Destructors
 //
@@ -195,6 +205,62 @@ void CPPCodeGenerationPolicy::setBuildMakefile( bool buildIt )
 	emit modifiedCodeContent();
 }
 
+QString CPPCodeGenerationPolicy::getStringClassName() {
+	return m_stringClassName;
+}
+
+QString CPPCodeGenerationPolicy::getStringClassNameInclude() {
+	return m_stringClassNameInclude;
+}
+
+QString CPPCodeGenerationPolicy::getVectorClassName() {
+	return m_vectorClassName;
+}
+
+QString CPPCodeGenerationPolicy::getVectorClassNameInclude() {
+	return m_vectorClassNameInclude;
+}
+
+QString CPPCodeGenerationPolicy::getVectorMethodAppend(const QString & variableName, const QString & itemClassName) {
+	QString value = m_vectorMethodAppendBase;
+	if(!variableName.isEmpty())
+		value.replace(QRegExp("%VARNAME%"),variableName);
+	value.replace(QRegExp("%VECTORTYPENAME%"), m_vectorClassName);
+	if(!itemClassName.isEmpty())
+		value.replace(QRegExp("%ITEMCLASS%"),itemClassName);
+        return value;
+}
+
+QString CPPCodeGenerationPolicy::getVectorMethodRemove(const QString & variableName, const QString & itemClassName) {
+	QString value = m_vectorMethodRemoveBase;
+        if(!variableName.isEmpty())
+                value.replace(QRegExp("%VARNAME%"),variableName);
+        value.replace(QRegExp("%VECTORTYPENAME%"), m_vectorClassName);
+        if(!itemClassName.isEmpty())
+                value.replace(QRegExp("%ITEMCLASS%"),itemClassName);
+        return value;
+}
+
+QString CPPCodeGenerationPolicy::getVectorMethodInit(const QString & variableName, const QString & itemClassName) {
+	QString value = m_vectorMethodInitBase;
+        if(!variableName.isEmpty())
+                value.replace(QRegExp("%VARNAME%"),variableName);
+        value.replace(QRegExp("%VECTORTYPENAME%"), m_vectorClassName);
+        if(!itemClassName.isEmpty())
+                value.replace(QRegExp("%ITEMCLASS%"),itemClassName);
+        return value;
+}
+
+QString CPPCodeGenerationPolicy::getObjectMethodInit(const QString & variableName, const QString & itemClassName) {
+	QString value = m_objectMethodInitBase;
+        if(!variableName.isEmpty())
+                value.replace(QRegExp("%VARNAME%"),variableName);
+        value.replace(QRegExp("%VECTORTYPENAME%"), m_vectorClassName);
+        if(!itemClassName.isEmpty())
+                value.replace(QRegExp("%ITEMCLASS%"),itemClassName);
+        return value;
+}
+
 // Other methods
 //
 
@@ -296,10 +362,6 @@ CodeGenerationPolicyPage * CPPCodeGenerationPolicy::createPage ( QWidget *parent
         return new CPPCodeGenerationPolicyPage ( parent, name, this );
 }
 
-void CPPCodeGenerationPolicy::loadFromXMI (QDomElement& /* element */) {
-	// FIX ME
-}
-
 void CPPCodeGenerationPolicy::initFields ( CPPCodeGenerator * parent ) {
 
         m_parentCodeGenerator = parent;
@@ -313,8 +375,15 @@ void CPPCodeGenerationPolicy::initFields ( CPPCodeGenerator * parent ) {
 	m_virtualDestructors = DEFAULT_VIRTUAL_DESTRUCTORS;
 	m_packageIsNamespace = DEFAULT_PACKAGE_IS_NAMESPACE;
 
-	stringClassName = "string";
-	vectorClassName = "vector";
+	m_stringClassName = DEFAULT_STRING_CLASS_NAME;
+	m_stringClassNameInclude = DEFAULT_STRING_CLASS_INCLUDE;
+	m_vectorClassName = DEFAULT_VECTOR_CLASS_NAME;
+	m_vectorClassNameInclude = DEFAULT_VECTOR_CLASS_INCLUDE;
+
+	m_vectorMethodAppendBase = DEFAULT_VECTOR_METHOD_APPEND; 
+	m_vectorMethodRemoveBase = DEFAULT_VECTOR_METHOD_REMOVE; 
+	m_vectorMethodInitBase = DEFAULT_VECTOR_METHOD_INIT;
+	m_objectMethodInitBase = DEFAULT_OBJECT_METHOD_INIT;
 
 }
 

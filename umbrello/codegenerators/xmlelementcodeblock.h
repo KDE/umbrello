@@ -63,6 +63,16 @@ public:
 
 protected:
 
+       /** set attributes of the node that represents this class
+         * in the XMI document.
+         */
+        virtual void setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement);
+
+        /** set the class attributes of this object from
+         * the passed element node.
+         */
+        virtual void setAttributesFromNode ( QDomElement & element);
+
 	/**
 	 * Update the start/end text of this codeblock.
 	 */

@@ -95,7 +95,7 @@ public:
 	/**
 	 * create a new code comment. IN this case it is a JavaCodeComment.
 	 */
-	CodeComment * newCodeComment ( );
+	virtual CodeComment * newCodeComment ( );
 
 protected:
 
@@ -113,22 +113,8 @@ protected:
 	virtual CodeClassField * newCodeClassField( UMLAttribute *at);
         virtual CodeClassField * newCodeClassField( UMLRole *role);
 
-	/** set attributes of the node that represents this class
-         * in the XMI document.
-         */
-        virtual void setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement);
-
-        /** set the class attributes of this object from
-         * the passed element node.
-         */
-        virtual void setAttributesFromNode ( QDomElement & element);
-
 	void addOrUpdateCodeClassFieldMethodsInCodeBlock(QPtrList<CodeClassField> &list, JavaClassDeclarationBlock * codeBlock); 
 
-	// add the declaration text blocks for various classfields
-	void declareClassFields (QPtrList<CodeClassField> & list , HierarchicalCodeBlock * hCodeBlock ); 
-
-	JavaClassDeclarationBlock * getClassDecl ( );
 	bool forceDoc ();
 
 	void updateContent();

@@ -13,6 +13,7 @@
  *      Date   : Tue Jun 24 2003
  */
 
+#include <kdebug.h>
 #include <qregexp.h>
 
 #include "javaantcodedocument.h"
@@ -46,9 +47,11 @@ JavaANTCodeDocument::~JavaANTCodeDocument ( ) { }
  * create a new CodeBlockWithComments object belonging to this CodeDocument.
  * @return      CodeBlockWithComments
  */
+/*
 CodeBlockWithComments * JavaANTCodeDocument::newCodeBlockWithComments ( ) {
         return new XMLElementCodeBlock(this,"empty");
 }
+*/
 
 /**
  * create a new CodeBlockWithComments object belonging to this CodeDocument.
@@ -60,6 +63,53 @@ CodeComment * JavaANTCodeDocument::newCodeComment ( ) {
 
 HierarchicalCodeBlock * JavaANTCodeDocument::newHierarchicalCodeBlock ( ) {
         return new XMLElementCodeBlock(this,"empty");
+}
+
+void JavaANTCodeDocument::loadChildTextBlocksFromNode ( QDomElement & root)
+{
+
+        QDomNode tnode = root.firstChild();
+        QDomElement telement = tnode.toElement();
+        bool gotChildren = false;
+        while( !telement.isNull() ) {
+                QString nodeName = telement.tagName();
+
+                if( nodeName == "textblocks" ) {
+
+                        QDomNode node = telement.firstChild();
+                        QDomElement element = node.toElement();
+
+                        while( !element.isNull() ) {
+                                QString name = element.tagName();
+
+                                if( name == "xmlelementblock" ) {
+					QString xmltag = element.attribute("nodeName","UNKNOWN");
+					XMLElementCodeBlock * block = new XMLElementCodeBlock(this,xmltag);
+                                        block->loadFromXMI(element);
+                                        if(!addTextBlock(block))
+                                        {
+                                                kdError()<<"Unable to add XMLelement to Java ANT document:"<<this<<endl;
+                                                block->deleteLater();
+                                        } else
+                                                gotChildren= true;
+				}
+
+                                node = element.nextSibling();
+                                element = node.toElement();
+                        }
+                        break;
+                }
+
+                tnode = telement.nextSibling();
+                telement = tnode.toElement();
+        }
+
+        if(!gotChildren)
+                kdWarning()<<" loadFromXMI : Warning: unable to initialize root XML element block in java document:"<<this<<endl;
+
+        // now make the super-class call
+        CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( root );
+
 }
 
 /** set the class attributes of this object from
@@ -119,9 +169,11 @@ void JavaANTCodeDocument::updateContent( ) {
 	// which exist
 	CodeBlockWithComments * xmlDecl = getCodeBlockWithComments("xmlDecl","",0);
 	xmlDecl->setText("<?xml version=\"1.0\"?>");
+	addTextBlock(xmlDecl);
 
-	XMLElementCodeBlock * rootNode = (XMLElementCodeBlock*) getHierarchicalCodeBlock("projectDecl", "Java ANT build document", 1);
-	rootNode->setNodeName("project");
+	XMLElementCodeBlock * rootNode = new XMLElementCodeBlock(this, "project", "Java ANT build document");
+	rootNode->setTag("projectDecl");
+	addTextBlock(rootNode);
 
 // <project name="XDF" default="help" basedir=".">
 	//HierarchicalCodeBlock * projDecl = xmlDecl->getHierarchicalCodeBlock("projectDecl", "Java ANT build document", 1);

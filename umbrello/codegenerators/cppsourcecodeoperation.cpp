@@ -33,75 +33,24 @@ CPPSourceCodeOperation::~CPPSourceCodeOperation ( ) { }
 // Other methods
 //
 
-/** Save the XMI representation of this object
- * @return      bool    status of save
- */
-bool CPPSourceCodeOperation::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
-        bool status = true;
-
-        QDomElement blockElement = doc.createElement( "codeoperation" );
-
-        // set attributes
-        setAttributesOnNode(doc, blockElement);
-
-        root.appendChild( blockElement );
-
-        return status;
-}
-
-void CPPSourceCodeOperation::setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement)
-{
-
-        // set super-class attributes
-        CodeOperation::setAttributesOnNode(doc, blockElement);
-
-        // set local attributes now
-
-}
-
-/**
- * load params from the appropriate XMI element node.
- */
-void CPPSourceCodeOperation::loadFromXMI ( QDomElement & root )
-{
-        setAttributesFromNode(root);
-}
-
-void CPPSourceCodeOperation::setAttributesFromNode( QDomElement & root)
-{
-
-        // set attributes from superclass method the XMI
-        CodeOperation::setAttributesFromNode(root);
-
-        // load local stuff
-
-}
-
-// we set the body of the operation here
-void CPPSourceCodeOperation::updateContent() {
-	// empty. Dont auto-generate content for operations
-}
-
 // we basically want to update the doc and start text of this method
 void CPPSourceCodeOperation::updateMethodDeclaration()
 {
 
-//FIXME delete this?        CodeDocument * doc = getParentDocument();
-//FIXME delete this?        CodeGenerator * g = doc->getParentGenerator();
-//        CPPSourceCodeDocument * cppdoc = dynamic_cast<CPPSourceCodeDocument*>(doc);
+	CPPSourceCodeDocument * doc = (CPPSourceCodeDocument*) getParentDocument();
+	CPPCodeGenerator * gen = (CPPCodeGenerator*) getParentDocument()->getParentGenerator();
+	UMLClassifier * c = doc->getParentClassifier();
 	UMLOperation * o = getParentOperation();
 
 	// first, the comment on the operation
 	QString comment = o->getDoc();
 	getComment()->setText(comment);
 
-	// now, the starting text.
-//	QString strVis = ((CPPCodeGenerator*) g)->scopeToCPPDecl(o->getScope());
-
 	// no return type for constructors
-	QString returnType = o->isConstructorOperation() ? QString("") : (o->getReturnType() + QString(" "));
+	QString returnType = o->isConstructorOperation() ? QString("") : o->getReturnType();
 	QString methodName = o->getName();
 	QString paramStr = QString("");
+	QString className = gen->getCPPClassName(c->getName());
 
 	// assemble parameters
         UMLAttributeList * list = getParentOperation()->getParmList();
@@ -118,7 +67,7 @@ void CPPSourceCodeOperation::updateMethodDeclaration()
 			paramStr  += ", ";
 	}
 
-	QString startText = returnType + methodName + " ( "+paramStr+") {";
+	QString startText = returnType + " " + className + "::" + methodName + " ("+paramStr+") {";
 	setStartMethodText(startText);
 
 }
@@ -131,7 +80,7 @@ void CPPSourceCodeOperation::init (CPPSourceCodeDocument * doc )
         setComment(new CPPCodeDocumentation(doc));
 
 	// these things never change..
-        setOverallIndentationLevel(1);
+        setOverallIndentationLevel(0);
 	setEndMethodText("}");
 
         updateMethodDeclaration();

@@ -16,6 +16,7 @@
 #include "cppheadercodeclassfielddeclarationblock.h"
 
 #include "cppcodeclassfield.h"
+#include "cppheadercodedocument.h"
 
 // Constructors/Destructors
 //  
@@ -41,31 +42,30 @@ CPPHeaderCodeClassFieldDeclarationBlock::~CPPHeaderCodeClassFieldDeclarationBloc
 void CPPHeaderCodeClassFieldDeclarationBlock::updateContent( ) 
 {
 
-/*
 	CodeClassField * cf = getParentClassField();
-	ClassifierCodeDocument * doc = cf->getParentDocument();
-	CPPCodeClassField * jcf = (CPPCodeClassField*) cf;
-        CPPClassifierCodeDocument* jdoc = (CPPClassifierCodeDocument*) doc;
+	CPPCodeClassField * hcppcf = (CPPCodeClassField*) cf;
 
         // Set the comment
         QString notes = getParentObject()->getDoc();
         getComment()->setText(notes);
+	if(notes.isEmpty())
+		getComment()->setWriteOutText(false);
+	else
+		getComment()->setWriteOutText(true);
+	
 
         // Set the body
         QString staticValue = getParentObject()->getStatic() ? "static " : "";
-        QString scopeStr = jdoc->scopeToCPPDecl(getParentObject()->getScope());
+        QString typeName = hcppcf->getTypeName();
+        QString fieldName = hcppcf->getFieldName();
 
-        QString typeName = jcf->getTypeName();
-        QString fieldName = jcf->getFieldName();
-        QString initialV = jcf->getInitialValue();
+	// Ugh. Sloppy exception.
+        if (!cf->parentIsAttribute() && !cf->fieldIsSingleValue())
+                typeName = hcppcf->getListFieldClassName();
 
-        QString body = staticValue+scopeStr+" "+typeName+" "+fieldName;
-        if (!initialV.isEmpty())
-                body.append(" = " + initialV);
-        setText(body+";");
-*/
-        setText("FIX ME;");
+        QString body = staticValue+" "+typeName+" "+fieldName+";";
 
+        setText(body);
 
 }
 

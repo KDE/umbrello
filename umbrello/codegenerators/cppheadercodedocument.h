@@ -76,6 +76,9 @@ public:
          */
         virtual bool saveToXMI ( QDomDocument & doc, QDomElement & root );
 
+	// a little utility method to save us some work
+	QString getCPPClassName (QString name);
+
 protected:
 
         /** create new code classfield for this document.
@@ -83,26 +86,23 @@ protected:
         virtual CodeClassField * newCodeClassField( UMLAttribute *at);
         virtual CodeClassField * newCodeClassField( UMLRole *role);
 
-	// a little utility method to save us some work
-	QString getCPPClassName (QString name);
-
-       /** set attributes of the node that represents this class
-         * in the XMI document.
+       /**
+         * need to overwrite this for cpp header since we need to pick up the
+         * header class declaration block.
          */
-        virtual void setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement);
-
-        /** set the class attributes of this object from
-         * the passed element node.
-         */
-        virtual void setAttributesFromNode ( QDomElement & element);
+        virtual void loadChildTextBlocksFromNode ( QDomElement & root);
 
 	void addOrUpdateCodeClassFieldMethodsInCodeBlock(QPtrList<CodeClassField> &list, CPPHeaderClassDeclarationBlock * codeBlock); 
 
-	// add the declaration text blocks for various classfields
-	void declareClassFields (QPtrList<CodeClassField> & list , HierarchicalCodeBlock * hCodeBlock ); 
+        /**
+         * create a new code comment. IN this case it is a CPPCodeDocumentation object.
+         */
+        CodeComment * newCodeComment ( );
 
-	// get the main class source code declaration block
-	CPPHeaderClassDeclarationBlock * getClassDecl ( );
+       // IF the classifier object is modified, this will get called.
+        // Possible mods include changing the filename and package
+        // based on values the classifier has.
+        virtual void syncNamesToParent( );
 
         bool forceDoc ();
 
@@ -110,10 +110,22 @@ protected:
 
 private:
 
-	HierarchicalCodeBlock * constructorBlock;
-	HierarchicalCodeBlock * operationsBlock;
+        CPPHeaderClassDeclarationBlock * classDeclCodeBlock;
 
-	ClassifierInfo * info;
+	HierarchicalCodeBlock * publicBlock;
+	HierarchicalCodeBlock * privateBlock;
+	HierarchicalCodeBlock * protectedBlock;
+
+	HierarchicalCodeBlock * namespaceBlock;
+
+	HierarchicalCodeBlock * pubConstructorBlock;
+	HierarchicalCodeBlock * protConstructorBlock;
+	HierarchicalCodeBlock * privConstructorBlock;
+
+	HierarchicalCodeBlock * pubOperationsBlock;
+	HierarchicalCodeBlock * privOperationsBlock;
+	HierarchicalCodeBlock * protOperationsBlock;
+
 	QString fileName; // Just for our convience in creating code
 	QString endLine; // characters for ending line. Just for our convience in creating code
 	QString CPPClassName;

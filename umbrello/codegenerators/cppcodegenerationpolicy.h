@@ -38,6 +38,15 @@ public:
  	static const bool DEFAULT_VIRTUAL_DESTRUCTORS;
 	static const bool DEFAULT_PACKAGE_IS_NAMESPACE;
 
+	static const char * DEFAULT_STRING_CLASS_NAME;
+	static const char * DEFAULT_STRING_CLASS_INCLUDE;
+	static const char * DEFAULT_VECTOR_CLASS_NAME;
+	static const char * DEFAULT_VECTOR_CLASS_INCLUDE;
+	static const char * DEFAULT_VECTOR_METHOD_APPEND;
+	static const char * DEFAULT_VECTOR_METHOD_REMOVE;
+	static const char * DEFAULT_VECTOR_METHOD_INIT;
+	static const char * DEFAULT_OBJECT_METHOD_INIT;
+
 	// Constructors/Destructors
 	//  
 
@@ -147,6 +156,27 @@ public:
         // the status of the building the Makefile document 
         void setBuildMakefile(bool buildIt);
 
+	/** We want to be flexible about which classes are allowed for generation
+	 * of the CPP code. In the next 4 methods, we give accessors that allow getting
+	 * the names of the classes, and their include files for string and vectors.
+	 */
+	QString getStringClassName();
+	QString getStringClassNameInclude();
+	QString getVectorClassName();
+	QString getVectorClassNameInclude();
+
+	/** More flexible generation. We want to allow the user to specifiy how the 
+	 *  bodies of the vector methods should be auto-generated.
+	 */
+	QString getVectorMethodAppend(const QString & variableName ="", const QString & itemClassName = "");
+	QString getVectorMethodRemove(const QString & variableName ="", const QString & itemClassName = "");
+	QString getVectorMethodInit(const QString & variableName ="", const QString & itemClassName = "");
+
+	/** Be somewhat flexible about how new object classes are initialized.
+	 * Not sure if this should be user configureable. For now, it isnt.
+	 */
+	QString getObjectMethodInit(const QString & variableName ="", const QString & itemClassName = "");
+
         /**
          * set the defaults for this code generator from the passed generator.
          */
@@ -161,9 +191,6 @@ public:
          * write Default params to passed KConfig pointer.
          */
         virtual void writeConfig (KConfig * config);
-
-
-	void loadFromXMI (QDomElement & element );
 
 	/**
          * Create a new dialog interface for this object.
@@ -190,8 +217,14 @@ private:
         bool m_virtualDestructors;
         bool m_packageIsNamespace;
 
-	QString stringClassName;
-	QString vectorClassName;
+	QString m_stringClassName;
+	QString m_stringClassNameInclude;
+	QString m_vectorClassName;
+	QString m_vectorClassNameInclude;
+	QString m_vectorMethodAppendBase;
+	QString m_vectorMethodRemoveBase;
+	QString m_vectorMethodInitBase;
+	QString m_objectMethodInitBase;
 
 	void initFields( CPPCodeGenerator * parent) ;
 

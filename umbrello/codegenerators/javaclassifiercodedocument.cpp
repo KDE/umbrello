@@ -107,31 +107,6 @@ QString JavaClassifierCodeDocument::getJavaClassName (QString name) {
 	return capitalizeFirstLetter(g->cleanName(name));
 }
 
-// we will put the class 'guts' inside a hierarchical code block
-JavaClassDeclarationBlock * JavaClassifierCodeDocument::getClassDecl ( )
-{
-
-        // So we see if it already exists, IF it *does* then we wont create a
-	// new one.
-	if(!classDeclCodeBlock) {
-		classDeclCodeBlock = new JavaClassDeclarationBlock (this);
-		classDeclCodeBlock->setTag("ClassDeclBlock");
-	}
-        return classDeclCodeBlock;
-
-}
-
-// add declaration blocks for the passed classfields
-void JavaClassifierCodeDocument::declareClassFields (QPtrList<CodeClassField> & list ,
-       				 HierarchicalCodeBlock * classDeclBlock )
-{
-     	for (CodeClassField * field = list.first(); field ; field = list.next())
-	{
-		CodeClassFieldDeclarationBlock * declBlock = field->getDeclarationCodeBlock();
-		classDeclBlock->addTextBlock(declBlock); // wont add it IF its already present
-        }
-}
-
 // Initialize this java classifier code document
 void JavaClassifierCodeDocument::init ( ) {
 
@@ -198,32 +173,6 @@ CodeOperation * JavaClassifierCodeDocument::newCodeOperation( UMLOperation * op)
 	return new JavaCodeOperation(this, op);
 }
 
-/** set attributes of the node that represents this class
- * in the XMI document.
- */
-void JavaClassifierCodeDocument::setAttributesOnNode ( QDomDocument & doc, QDomElement & docElement)
-{
-
-        // superclass call
-        ClassifierCodeDocument::setAttributesOnNode(doc,docElement);
-
-        // now set local attributes/fields -- none to set
-
-}
-
-/** set the class attributes of this object from
- * the passed element node.
- */
-void JavaClassifierCodeDocument::setAttributesFromNode ( QDomElement & root)
-{
-
-	// superclass save
-        ClassifierCodeDocument::setAttributesFromNode(root);
-
-        // now set local attributes/fields -- none to set
-
-}
-
 // Sigh. NOT optimal. The only reason that we need to have this
 // is so we can create the JavaClassDeclarationBlock.
 // would be better if we could create a handler interface that each
@@ -246,93 +195,13 @@ void JavaClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & roo
                         while( !element.isNull() ) {
                                 QString name = element.tagName();
 
-                                if( name == "javaclassdeclarationblock" ) {
-					JavaClassDeclarationBlock * classDeclBlock = getClassDecl();
-					if(!classDeclBlock || !addTextBlock(classDeclBlock))
-					{
-                                                kdError()<<"Unable to add javaclassdeclaration block to :"<<this<<endl;
-						classDeclBlock->deleteLater();
-					} else {
- 						classDeclBlock->loadFromXMI(element);
+                                if( name == "javaclassdeclarationblock" ) 
+				{
+						classDeclCodeBlock = new JavaClassDeclarationBlock (this); // was deleted before our load
+ 						classDeclCodeBlock->loadFromXMI(element);
                                                 gotChildren= true;
-					}
-                                } else
-                                if( name == "codecomment" ) {
-                                        CodeComment * block = newCodeComment();
-                                        block->loadFromXMI(element);
-                                        if(!addTextBlock(block))
-					{
-                                                kdError()<<"Unable to add codeComment to :"<<this<<endl;
-						block->deleteLater();
-                                        } else
-                                                gotChildren= true;
-                                } else
-                                if( name == "codeaccessormethod" ||
-                                    name == "declarationcodeblock"
-                                  ) {
-                                        QString acctag = element.attribute("tag","");
-                                        // search for our method in the
-                                        TextBlock * tb = findCodeClassFieldTextBlockByTag(acctag);
-                                        if(!tb || !addTextBlock(tb, true))
-					{
-                                                kdError()<<"Unable to add codeaccessormethod to:"<<this<<endl;
-						// DONT delete
-                                        } else
-                                                gotChildren= true;
-
-                                } else
-                                if( name == "codeblock" ) {
-                                        CodeBlock * block = newCodeBlock();
-                                        block->loadFromXMI(element);
-                                        if(!addTextBlock(block))
-					{
-                                                kdError()<<"Unable to add codeBlock to :"<<this<<endl;
-						block->deleteLater();
-                                        } else
-                                                gotChildren= true;
-                                } else
-                                if( name == "codeblockwithcomments" ) {
-                                        CodeBlockWithComments * block = newCodeBlockWithComments();
-                                        block->loadFromXMI(element);
-                                        if(!addTextBlock(block))
-					{
-                                                kdError()<<"Unable to add codeBlockwithcomments to:"<<this<<endl;
-						block->deleteLater();
-                                        } else
-                                                gotChildren= true;
-                                } else
-                                if( name == "header" ) {
-                                       // do nothing.. this is treated elsewhere
-                                } else
-                                if( name == "hierarchicalcodeblock" ) {
-                                        HierarchicalCodeBlock * block = newHierarchicalCodeBlock();
-                                        block->loadFromXMI(element);
-                                        if(!addTextBlock(block))
-					{
-                                                kdError()<<"Unable to add hierarchicalcodeBlock to:"<<this<<endl;
-						block->deleteLater();
-                                        } else
-                                                gotChildren= true;
-                                } else
-                                if( name == "codeoperation" ) {
-                                       // find the code operation by id
-                                        QString id = element.attribute("parent_op","-1");
-                                        UMLObject * obj = getParentGenerator()->getDocument()->findUMLObject(id.toInt());
-                                        UMLOperation * op = dynamic_cast<UMLOperation*>(obj);
-                                        if(op) {
-                                                CodeOperation * block = newCodeOperation(op);
-                                                block->loadFromXMI(element);
-                                                if(addTextBlock(block))
-                                                        gotChildren= true;
-						else
-						{
-                                              		kdError()<<"Unable to add codeoperation to:"<<this<<endl;
-							block->deleteLater();
-						}
-                                        } else
-                                              kdError()<<"Unable to find operation create codeoperation for:"<<this<<endl;
-                                } else
-                                        kdWarning()<<" LoadFromXMI: Got strange tag in text block stack:"<<name<<", ignorning"<<endl;
+                        			break; // its the only node we are looking for
+                                } 
 
                                 node = element.nextSibling();
                                 element = node.toElement();
@@ -345,7 +214,10 @@ void JavaClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & roo
         }
 
         if(!gotChildren)
-                kdWarning()<<" loadFromXMI : Warning: unable to initialize any child blocks in:"<<this<<endl;
+                kdWarning()<<" loadFromXMI : Warning: unable to initialize class declaration blocks in java document:"<<this<<endl;
+
+	// now make the super-class call
+	CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( root );
 
 }
 
@@ -447,7 +319,6 @@ void JavaClassifierCodeDocument::updateContent( )
 	//
 
 	// get the declaration block. If its not already present, add it too
-        //JavaClassDeclarationBlock * classDeclBlock = getClassDecl ( );
 	addTextBlock(classDeclCodeBlock); // note: wont add if already present
 
 	// NOW create document in sections..
@@ -502,7 +373,7 @@ void JavaClassifierCodeDocument::updateContent( )
 	//
 
 	// get/create the field declaration code block
-        HierarchicalCodeBlock * fieldDeclBlock = getClassDecl()->getHierarchicalCodeBlock("fieldsDecl", "Fields", 1);
+        HierarchicalCodeBlock * fieldDeclBlock = classDeclCodeBlock->getHierarchicalCodeBlock("fieldsDecl", "Fields", 1);
 
         // Update the comment: we only set comment to appear under the following conditions
         CodeComment * fcomment = fieldDeclBlock->getComment();
@@ -523,7 +394,7 @@ void JavaClassifierCodeDocument::updateContent( )
         //
 
         // get/create the method codeblock
-        HierarchicalCodeBlock * methodsBlock = getClassDecl()->getHierarchicalCodeBlock("methodsBlock", "Methods", 1);
+        HierarchicalCodeBlock * methodsBlock = classDeclCodeBlock->getHierarchicalCodeBlock("methodsBlock", "Methods", 1);
 
         // Update the section comment
         CodeComment * methodsComment = methodsBlock->getComment();
@@ -592,11 +463,10 @@ void JavaClassifierCodeDocument::updateContent( )
 	//
 
         // get/create the operations codeblock
-        HierarchicalCodeBlock * opsBlock = methodsBlock->getHierarchicalCodeBlock("operationMethods", "Operations", 1);
-	operationsBlock = opsBlock; // record this so that later operations go in right place
+        operationsBlock = methodsBlock->getHierarchicalCodeBlock("operationMethods", "Operations", 1);
 
 	// set conditions for showing section comment
-	CodeComment * ocomment = opsBlock->getComment();
+	CodeComment * ocomment = operationsBlock->getComment();
         if (!forceDoc() && !hasOperationMethods )
 		ocomment->setWriteOutText(false);
 	else

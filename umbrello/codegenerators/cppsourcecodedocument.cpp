@@ -19,20 +19,19 @@
 
   * header
   * includes 
-  * import statements
-  * class declaration
-  *   guts of the class (e.g. field decl, accessor methods, operations, dependant classes)
+  * constructor methods
+  * all other methods
+
 */
 
-#include <kdebug.h>
 #include <kdebug.h>
 #include <qregexp.h>
 
 #include "cppsourcecodedocument.h"
 #include "cppcodegenerator.h"
+#include "cppcodedocumentation.h"
 #include "cppsourcecodeaccessormethod.h"
 #include "cppsourcecodeoperation.h"
-#include "cppsourceclassdeclarationblock.h"
 #include "cppsourcecodeclassfielddeclarationblock.h"
 
 // Constructors/Destructors
@@ -43,9 +42,7 @@ CPPSourceCodeDocument::CPPSourceCodeDocument ( UMLClassifier * concept, CPPCodeG
 	init ( );
 }
 
-CPPSourceCodeDocument::~CPPSourceCodeDocument ( ) { 
- 	kdDebug()<<"   CPPSourceCodeGenerator "<<this<<" destroyed"<<endl;
-}
+CPPSourceCodeDocument::~CPPSourceCodeDocument ( ) { }
 
 //  
 // Methods
@@ -54,44 +51,17 @@ CPPSourceCodeDocument::~CPPSourceCodeDocument ( ) {
 // Accessor methods
 //
 
-QString CPPSourceCodeDocument::getCPPClassName (QString name) {
-	CodeGenerator *g = getParentGenerator();
-	return g->cleanName(name);
-}
-
 // Other methods
 //
 
-// we will put the class 'guts' inside a hierarchical code block
-CPPSourceClassDeclarationBlock * CPPSourceCodeDocument::getClassDecl ( )
-{
-
-        // So we see if it already exists, IF it *does* then we wont create a 
-	// new one.
-        CPPSourceClassDeclarationBlock * codeBlock = (CPPSourceClassDeclarationBlock *) findTextBlockByTag("classBlock");
-	if(!codeBlock) {
-		codeBlock = new CPPSourceClassDeclarationBlock (this);
-		codeBlock->setTag("classBlock");
-	} 
-
-        return codeBlock;
-
+QString CPPSourceCodeDocument::getCPPClassName (QString name) {
+        CPPCodeGenerator *g = (CPPCodeGenerator*) getParentGenerator();
+        return g->getCPPClassName(name);
 }
 
 // a little utility method 
 bool CPPSourceCodeDocument::forceDoc () {
         return getParentGenerator()->forceDoc();
-}
-
-// add declaration blocks for the passed classfields
-void CPPSourceCodeDocument::declareClassFields (QPtrList<CodeClassField> & list ,
-       				 HierarchicalCodeBlock * classDeclBlock )
-{
-     	for (CodeClassField * field = list.first(); field ; field = list.next())
-	{
-		CodeClassFieldDeclarationBlock * declBlock = field->getDeclarationCodeBlock();
-		classDeclBlock->addTextBlock(declBlock); // wont add it IF its already present
-        }
 }
 
 /**
@@ -137,10 +107,23 @@ void CPPSourceCodeDocument::setAttributesFromNode ( QDomElement & root)
 
 }
 
+// IF the classifier object is modified, this will get called.
+// Possible mods include changing the filename and package
+// the classifier has.
+void CPPSourceCodeDocument::syncNamesToParent( ) 
+{
+
+        setFileName(getParentGenerator()->cleanName(getParentClassifier()->getName().lower()));
+        setPackage(getParentGenerator()->cleanName(getParentClassifier()->getPackage().lower()));
+}
+
 // Initialize this cpp classifier code document
 void CPPSourceCodeDocument::init ( ) {
 
 	setFileExtension(".cpp");
+
+	methodsBlock = 0;
+	constructorBlock = 0;
 
 	initCodeClassFields(); // we have to call here as .newCodeClassField is pure virtual in parent class 
 
@@ -156,8 +139,9 @@ void CPPSourceCodeDocument::init ( ) {
 bool CPPSourceCodeDocument::addCodeOperation (CodeOperation * op ) {
 
 	if(!op->getParentOperation()->isConstructorOperation())
-        	return operationsBlock->addTextBlock(op);
-	else
+	{
+        	return methodsBlock->addTextBlock(op);
+	} else
         	return constructorBlock->addTextBlock(op);
 }
 
@@ -176,6 +160,14 @@ CodeClassField * CPPSourceCodeDocument::newCodeClassField ( UMLAttribute * at) {
 
 CodeClassField * CPPSourceCodeDocument::newCodeClassField ( UMLRole * role) {
         return new CPPCodeClassField(this,role);
+}
+
+/**
+ * create a new CodeBlockWithComments object belonging to this CodeDocument.
+ * @return      CodeBlockWithComments
+ */
+CodeComment * CPPSourceCodeDocument::newCodeComment ( ) {
+        return new CPPCodeDocumentation(this);
 }
 
 /**
@@ -200,16 +192,11 @@ CodeClassFieldDeclarationBlock * CPPSourceCodeDocument::newDeclarationCodeBlock 
 void CPPSourceCodeDocument::updateContent( ) 
 {
 
-	// temp document construction
-        constructorBlock = getHierarchicalCodeBlock("constructionMethods", "Constructors", 1);
-        operationsBlock = getHierarchicalCodeBlock("operationMethods", "Operations", 1);
-
-/*
       	// Gather info on the various fields and parent objects of this class...
 	UMLClassifier * c = getParentClassifier();
-	CodeGenerator * g = getParentGenerator();
-	// CPPCodeGenerator * gen = dynamic_cast<CPPCodeGenerator*>(g);
-	CPPCodeGenerator * gen = (CPPCodeGenerator*)g;
+	CPPCodeGenerator * gen = (CPPCodeGenerator*) getParentGenerator();
+	CPPCodeGenerationPolicy * policy = (CPPCodeGenerationPolicy*) getParentGenerator()->getPolicy();
+        QString endLine = gen->getNewLineEndingChars(); // a shortcut..so we dont have to call this all the time
 
 	// first, set the global flag on whether or not to show classfield info 
 	QPtrList<CodeClassField> * cfList = getCodeClassFieldList();
@@ -226,202 +213,48 @@ void CPPSourceCodeDocument::updateContent( )
         QPtrList<CodeClassField> aggregationClassFields = getSpecificClassFields ( CodeClassField::Aggregation );
         QPtrList<CodeClassField> compositionClassFields = getSpecificClassFields ( CodeClassField::Composition );
 
-        bool hasOperationMethods = c->getFilteredOperationsList()->last() ? true : false;
-        QString endLine = gen->getNewLineEndingChars(); // a shortcut..so we dont have to call this all the time
-
-
 	// START GENERATING CODE/TEXT BLOCKS and COMMENTS FOR THE DOCUMENT
 	//
 
-	//
-        // PACKAGE CODE BLOCK
+       // INCLUDE CODEBLOCK
         //
-	QString packageText = getPackage().isEmpty() ? "" : "package "+getPackage()+";";
-	addOrUpdateTaggedCodeBlockWithComments("packages", packageText, "", 0, false);
+        // Q: Why all utils? Isnt just List and Vector the only classes we are using?
+        // A: doesn't matter at all; its more readable to just include '*' and cpp compilers
+        //    don't slow down or anything. (TZ)
+        QString includeStatement = "";
+        includeStatement.append("include "+policy->getStringClassNameInclude()+";"+endLine);
+        if ( hasObjectVectorClassFields() )
+                includeStatement.append("include "+policy->getVectorClassNameInclude()+";"+endLine);
 
-       	// IMPORT CODEBLOCK 
-       	//
-       	// Q: Why all utils? Isnt just List and Vector the only classes we are using?
-       	// A: doesn't matter at all; its more readable to just include '*' and cpp compilers
-       	//    don't slow down or anything. (TZ)
-       	QString importStatement = "";
-       	if ( hasObjectVectorClassFields() )
-       		importStatement.append("import cpp.util.*;"+endLine);
+        //only include classes in a different package from this class
+        UMLClassifierList includes;
+        QMap<UMLClassifier *,QString> *packageMap = new QMap<UMLClassifier*,QString>; // so we dont repeat packages
 
-   	//only import classes in a different package from this class
-       	UMLClassifierList imports;
-       	QMap<UMLClassifier *,QString> *packageMap = new QMap<UMLClassifier*,QString>; // so we dont repeat packages
+        gen->findObjectsRelated(c,includes);
+        for(UMLClassifier *con = includes.first(); con ; con = includes.next())
+        if (!(packageMap->contains(con)))
+        {
+                packageMap->insert(con,con->getPackage());
+                includeStatement.append("include "+gen->cleanName(con->getName().lower())+".h;"+endLine);
+        }
+        // now, add/update the includes codeblock
+        addOrUpdateTaggedCodeBlockWithComments("includes", includeStatement, "", 0, false);
 
-	gen->findObjectsRelated(c,imports);
-       	for(UMLClassifier *con = imports.first(); con ; con = imports.next())
-       	if ((con->getPackage() != c->getPackage())
-       	        && !(packageMap->contains(con)))
-	{
-       		packageMap->insert(con,con->getPackage());
-               	importStatement.append("import "+con->getPackage()+"."+gen->cleanName(con->getName())+";"+endLine);
-	}
-        // now, add/update the imports codeblock
-	addOrUpdateTaggedCodeBlockWithComments("imports", importStatement, "", 0, false);
+	// After the includes we have just 2 big blocks basically, the "constructor" block and the
+	// block for the rest of our methods (operations + accessors)
 
-	// CLASS DECLARATION BLOCK
-	//
+        constructorBlock = getHierarchicalCodeBlock("constructionMethodsBlock", "Constructors/Destructors", 0);
+        methodsBlock = getHierarchicalCodeBlock("otherMethodsBlock", "Methods", 0);
+        
+	// add accessors to the methods block
+        methodsBlock->addCodeClassFieldMethods(staticAttribClassFields);
+        methodsBlock->addCodeClassFieldMethods(attribClassFields);
+        methodsBlock->addCodeClassFieldMethods(plainAssocClassFields);
+        methodsBlock->addCodeClassFieldMethods(aggregationClassFields);
+        methodsBlock->addCodeClassFieldMethods(compositionClassFields);
 
-	// get the declaration block. If its not already present, add it too
-        CPPSourceClassDeclarationBlock * classDeclBlock = getClassDecl ( );
-	addTextBlock(classDeclBlock); // note: wont add if already present
+	// constuctors and other operations are handled by the "addCodeOperation" method above.
 
-	// NOW create document in sections..
-	// now we want to populate the body of our class
-	// our layout is the following general groupings of code blocks:
-
-	// start cpp classifier document
-
-	// header comment
-
-	// package code block
-
-	// import code block
-
-	// class declaration 
-
-	//   section:
-	//   - class field declaration section comment
-	//   - class field declarations (0+ codeblocks)
- 
-	//   section:
-	//   - methods section comment
-
-	//     sub-section: constructor ops
-	//     - constructor method section comment
-	//     - constructor methods (0+ codeblocks)
-
-	//     sub-section: accessors
-	//     - accessor method section comment
-	//     - static accessor methods (0+ codeblocks)
-	//     - non-static accessor methods (0+ codeblocks)
-
-	//     sub-section: non-constructor ops 
-	//     - operation method section comment
-	//     - operations (0+ codeblocks)
-
-	// end class declaration 
-
-	// end cpp classifier document
-
-
-	// Q: Why use the more complicated scheme of arranging code blocks within codeblocks?
-	// A: This will allow us later to preserve the format of our document so that if 
-	//    codeblocks are added, they may be easily added in the correct place, rather than at
-	//    the end of the document, or by using a difficult algorithm to find the location of
-	//    the last appropriate code block sibling (which may not exist.. for example user adds
-	//    a constructor operation, but there currently are no constructor code blocks 
-	//    within the document). 
-
-	//
-	// * CLASS FIELD declaration section
-	//
-
-	// get/create the field declaration code block
-        HierarchicalCodeBlock * fieldDeclBlock = classDeclBlock->getHierarchicalCodeBlock("fieldsDecl", "Fields", 1);
-
-        // Update the comment: we only set comment to appear under the following conditions
-        CodeComment * fcomment = fieldDeclBlock->getComment();
-        if (!forceDoc() && !hasClassFields() )
-		fcomment->setWriteOutText(false);
-	else
-		fcomment->setWriteOutText(true);
-
-	// now actually declare the fields within the appropriate HCodeBlock
-	declareClassFields(staticAttribClassFields, fieldDeclBlock);
-	declareClassFields(attribClassFields, fieldDeclBlock);
-	declareClassFields(plainAssocClassFields, fieldDeclBlock);
-	declareClassFields(aggregationClassFields, fieldDeclBlock);
-	declareClassFields(compositionClassFields, fieldDeclBlock);
-
-	//
-        // METHODS section
-        //
-
-        // get/create the method codeblock
-        HierarchicalCodeBlock * methodsBlock = classDeclBlock->getHierarchicalCodeBlock("methodsBlock", "Methods", 1);
-
-        // Update the section comment
-        CodeComment * methodsComment = methodsBlock->getComment();
-        // set conditions for showing this comment
-        if (!forceDoc() && !hasClassFields() && !hasOperationMethods)
-                methodsComment->setWriteOutText(false);
-        else
-                methodsComment->setWriteOutText(true);
-
-        // METHODS sub-section : constructor methods
-        //
-
-	// get/create the constructor codeblock
-        HierarchicalCodeBlock * constBlock = methodsBlock->getHierarchicalCodeBlock("constructorMethods", "Constructors", 1);
-	constructorBlock = constBlock; // record this codeblock for later, when operations are updated
-
-	// special condiions for showing comment: only when autogenerateding empty constructors
-	// Although, we *should* check for other constructor methods too
-	CodeComment * constComment = constBlock->getComment();
-	if (!forceDoc() && (parentIsInterface() || !gen->getAutoGenerateConstructors()))
-		constComment->setWriteOutText(false);
-	else
-		constComment->setWriteOutText(true);
-
-	// add/get the empty constructor 
-	QString CPPClassName = getCPPClassName(c->getName()); 
-	QString emptyConstStatement = "public "+CPPClassName+" ( ) { }";
-	CodeBlockWithComments * emptyConstBlock = 
-		constBlock->addOrUpdateTaggedCodeBlockWithComments("emptyconstructor", emptyConstStatement, "Empty Constructor", 1, false);
-	// Now, as an additional condition we only show the empty constructor block 
-	// IF it was desired to be shown
-	if(!parentIsInterface() && gen->getAutoGenerateConstructors())
-		emptyConstBlock->setWriteOutText(true);
-	else
-		emptyConstBlock->setWriteOutText(false);
-
-        // METHODS subsection : ACCESSOR METHODS 
-	//
-
-        // get/create the accessor codeblock
-        HierarchicalCodeBlock * accessorBlock = methodsBlock->getHierarchicalCodeBlock("accessorMethods", "Accessor Methods", 1);
-
-	// set conditions for showing section comment
-        CodeComment * accessComment = accessorBlock->getComment();
-        if (!forceDoc() && !hasClassFields())
-		accessComment->setWriteOutText(false);
-	else
-		accessComment->setWriteOutText(true);
-
-	// now, 2 sub-sub sections in accessor block
-        // add/update accessor methods for attributes
-        HierarchicalCodeBlock * staticAccessors = accessorBlock->getHierarchicalCodeBlock("staticAccessorMethods", "", 1);
-	staticAccessors->getComment()->setWriteOutText(false); // never write block comment
-	staticAccessors->addCodeClassFieldMethods(staticAttribClassFields); 
-	staticAccessors->addCodeClassFieldMethods(attribClassFields);
-
-        // add/update accessor methods for associations
-        HierarchicalCodeBlock * regularAccessors = accessorBlock->getHierarchicalCodeBlock("regularAccessorMethods", "", 1);
-	regularAccessors->getComment()->setWriteOutText(false); // never write block comment
-	regularAccessors->addCodeClassFieldMethods(plainAssocClassFields);
-	regularAccessors->addCodeClassFieldMethods(aggregationClassFields);
-	regularAccessors->addCodeClassFieldMethods(compositionClassFields);
-
-        // METHODS subsection : Operation methods (which arent constructors) 
-	//
-
-        // get/create the operations codeblock
-        HierarchicalCodeBlock * opsBlock = methodsBlock->getHierarchicalCodeBlock("operationMethods", "Operations", 1);
-	operationsBlock = opsBlock; // record this so that later operations go in right place
-
-	// set conditions for showing section comment
-	CodeComment * ocomment = opsBlock->getComment();
-        if (!forceDoc() && !hasOperationMethods )
-		ocomment->setWriteOutText(false);
-	else
-		ocomment->setWriteOutText(true);
-
-*/
 }
 
 

@@ -22,6 +22,7 @@
 #include "../codegenerator.h"
 #include "../umldoc.h"
 #include "cppmakecodedocument.h"
+#include "cppcodegenerationpolicy.h"
 
 class CPPHeaderCodeDocument;
 class CodeBlockWithComments;
@@ -62,10 +63,29 @@ public:
 	// Public attribute accessor methods
 	//  
 
+        /**
+         * A utility method to get the cppCodeGenerationPolicy()->getCommentStyle() value.
+         */
+        CPPCodeGenerationPolicy::CPPCommentStyle getCommentStyle ( );
+
+        /**
+         * A utility method to get the javaCodeGenerationPolicy()->getAutoGenerateConstructors() value.
+         */
+        bool getAutoGenerateConstructors ( );
+
+        /**
+         * A utility method to get the javaCodeGenerationPolicy()->getAutoGenerateAccessors() value.
+         */
+        bool getAutoGenerateAccessors( );
+
 	/**
 	 * Add a header CodeDocument object from m_headercodedocumentVector List
 	 */
 	bool addHeaderCodeDocument ( CPPHeaderCodeDocument * doc ); 
+
+	/** Converts the passed name into an acceptable class name for CPP code.
+	 */
+	QString getCPPClassName (QString name); 
 
 	/**
 	 * Remove a header CodeDocument object from m_headercodedocumentVector List
@@ -81,12 +101,23 @@ public:
 
 	// generate 2 different types of classifier code documents.
 	CodeDocument * newClassifierCodeDocument (UMLClassifier * classifier);
+	CodeComment * newCodeComment ( CodeDocument * doc);
 	CPPHeaderCodeDocument * newHeaderClassifierCodeDocument (UMLClassifier * classifier);
 
        /** Get the editing dialog for this code document
          */
         virtual CodeViewerDialog * getCodeViewerDialog( QWidget* parent, CodeDocument * doc,
                                                         CodeViewerDialog::CodeViewerState state);
+
+       /**
+         * Write out all code documents to file as appropriate.
+         */
+        virtual void writeCodeToFile ( );
+
+        // this method is here to provide class wizard the
+        // ability to write out only those classes which
+        // are selected by the user.
+        virtual void writeCodeToFile(UMLClassifierList &list);
 
 	/**
 	 * Add C++ primitives as datatypes
@@ -116,9 +147,20 @@ private:
 	bool m_createMakefile;
 
 	// a separate list for recording the header documents
-	QPtrList<CPPHeaderCodeDocument> m_headercodedocumentVector;
+	QPtrList<CodeDocument> m_headercodedocumentVector;
 
 	void initAttributes ( ) ;
+
+public slots:
+
+        /** These 2 functions check for adding or removing objects to the UMLDocument 
+	 * they are need to be overridden here because unlike in the Java (or most other lang)
+	 * we add 2 types of classifiercodedocument per classifier,
+	 * e.g. a "source" and a "header" document.
+	 */
+        virtual void checkAddUMLObject (UMLObject * obj);
+        virtual void checkRemoveUMLObject (UMLObject * obj);
+
 
 };
 

@@ -23,6 +23,7 @@
 #include "../umlrole.h"
 
 #include "cppsourcecodedocument.h"
+#include "cppcodegenerationpolicy.h"
 #include "cppcodeclassfield.h"
 #include "cppcodedocumentation.h"
 
@@ -42,63 +43,35 @@ CPPHeaderCodeAccessorMethod::~CPPHeaderCodeAccessorMethod ( ) { }
 // Other
 //
 
-/** Save the XMI representation of this object
- * @return      bool    status of save
- */
-bool CPPHeaderCodeAccessorMethod::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
-        bool status = true;
-
-        QDomElement blockElement = doc.createElement( "codeaccessormethod" );
-
-        // set attributes
-        setAttributesOnNode(doc, blockElement);
-
-        root.appendChild( blockElement );
-
-        return status;
-}
-
-void CPPHeaderCodeAccessorMethod::setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement)
-{
-
-        // set super-class attributes
-        CodeAccessorMethod::setAttributesOnNode(doc, blockElement);
-
-        // set local attributes now
-
-}
-
-/**
- * load params from the appropriate XMI element node.
- */
-void CPPHeaderCodeAccessorMethod::loadFromXMI ( QDomElement & root )
-{
-        setAttributesFromNode(root);
-}
-
-void CPPHeaderCodeAccessorMethod::setAttributesFromNode( QDomElement & root)
-{
-
-        // set attributes from superclass method the XMI
-        CodeAccessorMethod::setAttributesFromNode(root);
-
-        // load local stuff
-
-}
-
 // we basically want to update the body of this method
 void CPPHeaderCodeAccessorMethod::updateContent( )
 {
 	CodeClassField * parentField = getParentClassField();
 	CPPCodeClassField * cppfield = (CPPCodeClassField*)parentField;
-        QString fieldName = cppfield->getFieldName();
+	CPPCodeGenerationPolicy * policy = (CPPCodeGenerationPolicy*) parentField->getParentDocument()->getParentGenerator()->getPolicy();
+	bool isInlineMethod = policy->getAccessorsAreInline( ); 
+
+        QString variableName = cppfield->getFieldName();
+        QString itemClassName = cppfield->getTypeName();
 	QString text = "";
 
-	switch(getType()) {
-		case CodeAccessorMethod::GET:
-		default:
-			text = "return "+fieldName+";";
-			break;
+	if(isInlineMethod) {
+		switch(getType()) {
+			case CodeAccessorMethod::ADD:
+				text = policy->getVectorMethodAppend(variableName, itemClassName);
+				break;
+			case CodeAccessorMethod::REMOVE:
+				text = policy->getVectorMethodRemove(variableName, itemClassName);
+				break;
+			case CodeAccessorMethod::SET:
+				text = variableName+" = value;";
+				break;
+			case CodeAccessorMethod::LIST:
+			case CodeAccessorMethod::GET:
+			default:
+				text = "return "+variableName+";";
+				break;
+		}
 	}
 
         setText(text);
@@ -110,37 +83,45 @@ void CPPHeaderCodeAccessorMethod::updateMethodDeclaration()
 
 	CodeClassField * parentField = getParentClassField();
 	ClassifierCodeDocument * doc = parentField->getParentDocument();
-
-	//CPPClassifierCodeDocument * cppdoc = dynamic_cast<CPPClassifierCodeDocument*>(doc);
-//	CPPClassifierCodeDocument * cppdoc = (CPPClassifierCodeDocument*) doc;
+	CPPCodeGenerationPolicy * policy = (CPPCodeGenerationPolicy*) doc->getParentGenerator()->getPolicy();
 	CPPCodeClassField * cppfield = (CPPCodeClassField*) parentField;
 
+	bool isInlineMethod = policy->getAccessorsAreInline( ); 
+
+	QString vectorClassName = policy->getVectorClassName();
         QString fieldName = cppfield->getFieldName();
         QString fieldType = cppfield->getTypeName();
+        QString objectType = cppfield->getListObjectType();
+        if(objectType.isEmpty())
+                objectType = fieldName;
+
         QString methodReturnType = "void";
         QString methodName = ""; // "get"+cppdoc->capitalizeFirstLetter(fieldName);
-        QString methodParams = ""; // "get"+cppdoc->capitalizeFirstLetter(fieldName);
+        QString methodParams = " "; // "get"+cppdoc->capitalizeFirstLetter(fieldName);
         QString headerText = ""; 
 	QString endLine = doc->getParentGenerator()->getNewLineEndingChars();
 	
 	switch(getType()) {
 		case CodeAccessorMethod::ADD:
-        		methodName = "add_"+fieldName;
+        		methodName = "add_"+fieldType;
         		methodReturnType = "void";
+			methodParams = objectType+" value ";
 			headerText = "Add a "+fieldName+" object to the "+fieldName+"List"+endLine+getParentObject()->getDoc()+endLine+"@return void";
 			break;
 		case CodeAccessorMethod::REMOVE:
-        		methodName = "remove_"+fieldName;
+        		methodName = "remove_"+fieldType;
+			methodParams = objectType+" value ";
         		methodReturnType = "void";
 			headerText = "Remove a "+fieldName+" object from the "+fieldName+"List"+endLine+getParentObject()->getDoc()+endLine+"@return void";
 			break;
 		case CodeAccessorMethod::LIST:
-        		methodName = "get_"+fieldName+"List";
-        		methodReturnType = "vector";
-			headerText = "Get the "+fieldName+"List"+endLine+getParentObject()->getDoc()+endLine+"@return vector with list of objects";
+        		methodName = "get_"+fieldType+"_list";
+        		methodReturnType = vectorClassName;
+			headerText = "Get the "+fieldName+"List"+endLine+getParentObject()->getDoc()+endLine+"@return "+vectorClassName+"with list of objects";
 			break;
 		case CodeAccessorMethod::SET:
         		methodName = "set_"+fieldName;
+			methodParams = fieldType+" value ";
         		methodReturnType = "void";
 			headerText = "Set the value of "+fieldName+endLine+getParentObject()->getDoc()+endLine+"@return the value of "+fieldName;
 			break;
@@ -148,7 +129,6 @@ void CPPHeaderCodeAccessorMethod::updateMethodDeclaration()
 		default:
         		methodName = "get_"+fieldName;
         		methodReturnType = fieldType;
-        		methodParams = "";
 			headerText = "Get the value of "+fieldName+endLine+getParentObject()->getDoc()+endLine+"@return the value of "+fieldName;
 			break;
 	}
@@ -160,8 +140,11 @@ void CPPHeaderCodeAccessorMethod::updateMethodDeclaration()
 	setComment(header);
 
 	// set start/end method text
-        setStartMethodText(methodReturnType+" "+methodName+" ( "+methodParams+" ) ;");
-        setEndMethodText("");
+	QString startText = methodReturnType+" "+methodName+" ("+methodParams+")" + (isInlineMethod ? " {" : ";");
+	QString endText = (isInlineMethod ? "}" : ""); 
+
+        setStartMethodText(startText);
+        setEndMethodText(endText);
 
 	setOverallIndentationLevel(1);
 }

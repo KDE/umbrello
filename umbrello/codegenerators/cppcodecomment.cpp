@@ -13,6 +13,8 @@
  *      Date   : Mon Sep 1 2003
  */
 
+#include <qregexp.h>
+
 #include "cppcodecomment.h"
 
 // Constructors/Destructors
@@ -57,13 +59,6 @@ bool CPPCodeComment::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
 }
 
 /**
- * load params from the appropriate XMI element node.
- */
-void CPPCodeComment::loadFromXMI ( QDomElement & root ) {
-        setAttributesFromNode(root);
-}
-
-/**
  * @return	QString
  */
 QString CPPCodeComment::toString ( ) 
@@ -82,5 +77,23 @@ QString CPPCodeComment::toString ( )
         return output; 
 }
 
+QString CPPCodeComment::getNewEditorLine ( int amount ) {
+        QString line = getIndentationString(amount) + "// ";
+        return line;
+}
+
+/** UnFormat a long text string. Typically, this means removing
+ *  the indentaion (linePrefix) and/or newline chars from each line.
+ */
+QString CPPCodeComment::unformatText ( const QString & text , const QString & indent)
+{
+
+        // remove leading or trailing comment stuff
+        QString mytext = TextBlock::unformatText(text, indent);
+
+        // now leading slashes
+        mytext.remove(QRegExp("^\\/\\/\\s*"));
+        return mytext;
+}
 
 #include "cppcodecomment.moc"

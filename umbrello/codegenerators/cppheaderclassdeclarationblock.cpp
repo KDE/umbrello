@@ -14,6 +14,8 @@
  */
 
 #include "cppheaderclassdeclarationblock.h"
+#include "cppcodegenerator.h"
+#include "cppcodegenerationpolicy.h"
 #include "cppcodecomment.h"
 
 // Constructors/Destructors
@@ -30,6 +32,14 @@ CPPHeaderClassDeclarationBlock::~CPPHeaderClassDeclarationBlock ( ) { }
 //  
 // Methods
 //  
+
+/**
+ * load params from the appropriate XMI element node.
+ */
+void CPPHeaderClassDeclarationBlock::loadFromXMI ( QDomElement & root )
+{
+        setAttributesFromNode(root);
+}
 
 /** set the class attributes from a passed object
  */
@@ -54,15 +64,6 @@ bool CPPHeaderClassDeclarationBlock::saveToXMI ( QDomDocument & doc, QDomElement
         return status;
 }
 
-/**
- * load params from the appropriate XMI element node.
- */
-void CPPHeaderClassDeclarationBlock::loadFromXMI ( QDomElement & root ) {
-        setAttributesFromNode(root);
-}
-
-
-
 // Accessor methods
 //  
 
@@ -75,19 +76,30 @@ void CPPHeaderClassDeclarationBlock::loadFromXMI ( QDomElement & root ) {
 void CPPHeaderClassDeclarationBlock::updateContent ( ) 
 {
 
-/*
 	CPPHeaderCodeDocument *parentDoc = (CPPHeaderCodeDocument*)getParentDocument();
 	UMLClassifier *c = parentDoc->getParentClassifier();
-        CodeGenerator *g = parentDoc->getParentGenerator();
+        CPPCodeGenerator *g = (CPPCodeGenerator*) parentDoc->getParentGenerator();
+        //CPPCodeGenerationPolicy *policy = (CPPCodeGenerationPolicy*) g->getPolicy();
 	QString endLine = parentDoc->getNewLineEndingChars();
         bool isInterface = parentDoc->parentIsInterface(); // a little shortcut
-        QString CPPHeaderClassName = parentDoc->getCPPHeaderClassName(c->getName());
+        QString CPPHeaderClassName = parentDoc->getCPPClassName(c->getName());
 
 	// COMMENT
-        if(isInterface)
-        	getComment()->setText("Interface "+CPPHeaderClassName+endLine+c->getDoc());
-        else
-        	getComment()->setText("Class "+CPPHeaderClassName+endLine+c->getDoc());
+
+        //check if class is abstract and / or has abstract methods
+        if((c->getAbstract() || isInterface ) && !c->hasAbstractOps())
+	{
+                getComment()->setText("******************************* Abstract Class ****************************"+endLine
+                          +CPPHeaderClassName+" does not have any pure virtual methods, but its author"+endLine
+                          +"  defined it as an abstract class, so you should not use it directly."+endLine
+                          +"  Inherit from it instead and create only objects from the derived classes"+endLine
+                          +"*****************************************************************************");
+	} else {
+        	if(isInterface)
+        		getComment()->setText("Interface "+CPPHeaderClassName+endLine+c->getDoc());
+        	else
+        		getComment()->setText("Class "+CPPHeaderClassName+endLine+c->getDoc());
+	}
 
         if(g->forceDoc() || !c->getDoc().isEmpty())
 		getComment()->setWriteOutText(true);
@@ -97,50 +109,40 @@ void CPPHeaderClassDeclarationBlock::updateContent ( )
 
 	// Now set START/ENDING Text
         QString startText = "";
-        if (c->getAbstract())
-                startText.append("abstract ");
 
-        if (c->getScope() != Uml::Public) {
-                // We should probably emit a warning in here .. cpp doesnt like to allow
-                // private/protected classes. The best we can do (I believe)
-                // is to let these declarations default to "package visibility"
-                // which is a level between traditional "private" and "protected"
-                // scopes. To get this visibility level we just print nothing..
-        } else
-                startText.append("public ");
+/*
+*/
 
+/*
         if(parentDoc->parentIsInterface())
                 startText.append("interface ");
         else
-                startText.append("class ");
+*/
+        startText.append("class ");
 
         startText.append(CPPHeaderClassName);
 
         // write inheritances out
-        UMLClassifier *concept;
         UMLClassifierList superclasses =
-                        c->findSuperClassConcepts(parentDoc->getParentGenerator()->getDocument());
+                        c->findSuperClassConcepts(parentDoc->getParentGenerator()->getDocument(), UMLClassifier::ALL);
+        int nrof_superclasses = superclasses.count();
 
-        if(superclasses.count()>0)
-                startText.append(" extends ");
-
+        // write out inheritance
         int i = 0;
-        for (concept= superclasses.first(); concept; concept = superclasses.next())
+        if(nrof_superclasses >0)
+                startText.append(" : ");
+        for (UMLClassifier * concept= superclasses.first(); concept; concept = superclasses.next())
         {
-                startText.append(parentDoc->cleanName(concept->getName()));
-                if(i>0)
-                        startText.append(", ");
+                startText.append(g->scopeToCPPDecl(concept->getScope())+" "+parentDoc->getCPPClassName(concept->getName()));
+                if(i != (nrof_superclasses-1))
+                      startText.append(", ");
                 i++;
         }
 
-// FIX
-// Q: Where is 'implements' ??
-
         // Set the header and end text for the hier.codeblock
-        setText(startText+" {");
+        setStartText(startText+" {");
 
 	// setEndText("}"); // not needed 
-*/
 
 }
 
@@ -150,7 +152,6 @@ void CPPHeaderClassDeclarationBlock::init (CPPHeaderCodeDocument *parentDoc, QSt
 	setComment(new CPPCodeComment(parentDoc));
 	getComment()->setText(comment);
 
-	setStartText(" class CLASS : ??? {");
 	setEndText("}");
 
 	updateContent(); 

@@ -85,6 +85,9 @@ public:
 	 */
         bool getAutoGenerateAccessors( );
 
+	/**
+	 * Get the list variable class name to use. For Java, we have set this to "Vector".
+	 */
 	QString getListFieldClassName();
 
         /** Get the editing dialog for this code document

@@ -72,7 +72,7 @@ public:
          * create a new CodeBlockWithComments object belonging to this CodeDocument.
          * @return      CodeBlockWithComments
          */
-        virtual CodeBlockWithComments * newCodeBlockWithComments ( );
+//        virtual CodeBlockWithComments * newCodeBlockWithComments ( );
 
         // create a code comment for this document
         virtual CodeComment * newCodeComment();
@@ -89,6 +89,11 @@ protected:
          */
         virtual void setAttributesFromNode ( QDomElement & element);
 
+       /**
+         * need to overwrite this for java since we need to pick up the
+         * xml declaration blocks.
+         */
+        virtual void loadChildTextBlocksFromNode ( QDomElement & root);
 
 private:
 

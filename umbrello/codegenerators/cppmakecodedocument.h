@@ -61,11 +61,6 @@ public:
          */
         virtual bool saveToXMI ( QDomDocument & doc, QDomElement & root );
 
-        /**
-         * load params from the appropriate XMI element node.
-         */
-        virtual void loadFromXMI ( QDomElement & root );
-
 
 protected:
 

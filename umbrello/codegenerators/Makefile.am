@@ -13,8 +13,7 @@ libcodegenerator_la_SOURCES = codegenfactory.cpp classifierinfo.cpp \
 				javacodegenerationformbase.ui \
 				cppcodegenerator.cpp cppcodedocumentation.cpp cppcodeclassfield.cpp \
 				cppcodecomment.cpp cppmakecodedocument.cpp \
-				cppsourcecodedocument.cpp cppsourceclassdeclarationblock.cpp\
-				cppsourcecodeoperation.cpp cppsourcecodeaccessormethod.cpp \
+				cppsourcecodedocument.cpp cppsourcecodeoperation.cpp cppsourcecodeaccessormethod.cpp \
 				cppsourcecodeclassfielddeclarationblock.cpp \
 				cppheadercodedocument.cpp cppheaderclassdeclarationblock.cpp \
 				cppheadercodeoperation.cpp cppheadercodeaccessormethod.cpp \

@@ -25,7 +25,6 @@
 //#include "cppcodeoperation.h"
 
 class CPPCodeGenerator;
-class CPPSourceClassDeclarationBlock;
 
 /**
   * class CPPSourceCodeDocument
@@ -85,6 +84,11 @@ protected:
         virtual CodeClassField * newCodeClassField( UMLAttribute *at);
         virtual CodeClassField * newCodeClassField( UMLRole *role);
 
+        /**
+         * create a new code comment. IN this case it is a CPPCodeDocumentation object.
+         */
+        CodeComment * newCodeComment ( );
+
 	// a little utility method to save us some work
 	QString getCPPClassName (QString name);
 
@@ -98,13 +102,10 @@ protected:
          */
         virtual void setAttributesFromNode ( QDomElement & element);
 
-	void addOrUpdateCodeClassFieldMethodsInCodeBlock(QPtrList<CodeClassField> &list, CPPSourceClassDeclarationBlock * codeBlock); 
-
-	// add the declaration text blocks for various classfields
-	void declareClassFields (QPtrList<CodeClassField> & list , HierarchicalCodeBlock * hCodeBlock ); 
-
-	// get the main class source code declaration block
-	CPPSourceClassDeclarationBlock * getClassDecl ( );
+       // IF the classifier object is modified, this will get called.
+        // Possible mods include changing the filename and package
+        // based on values the classifier has.
+        virtual void syncNamesToParent( );
 
         bool forceDoc ();
 
@@ -113,15 +114,9 @@ protected:
 private:
 
 	HierarchicalCodeBlock * constructorBlock;
-	HierarchicalCodeBlock * operationsBlock;
-
-	ClassifierInfo * info;
-	QString fileName; // Just for our convience in creating code
-	QString endLine; // characters for ending line. Just for our convience in creating code
-	QString CPPClassName;
+	HierarchicalCodeBlock * methodsBlock;
 
 	void init ( );
-
 
 };
 
