@@ -12,6 +12,7 @@
 
 // qt includes
 #include <qlayout.h>
+#include <qtooltip.h>
 
 // kde includes
 #include <klocale.h>
@@ -70,8 +71,9 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a)
 					    m_pStereoTypeL, i18n("&Stereotype name:"),
 					    m_pStereoTypeLE, m_pAtt->getStereotype() );
 
-	m_pKind =  new QButtonGroup(i18n("Kind"), plainPage());
+	m_pKind =  new QButtonGroup(i18n("Passing Direction"), plainPage());
 	m_pKind->setExclusive(true);
+	QToolTip::add(m_pKind, i18n("\"in\" is a readonly parameter, \"out\" is a writeonly parameter and \"inout\" is a parameter for reading and writing."));
 
 	QHBoxLayout * kindLayout = new QHBoxLayout( m_pKind );
 	kindLayout->setMargin(margin);
