@@ -248,8 +248,9 @@ void UMLApp::setupZoomMenu()
 	int zoom = doc->getCurrentView()->currentZoom();
 
 	//first uncheck all
-	for(int index = 0; index < zoomSelect->count(); index++)
+	for (uint index = 0; index < zoomSelect->count(); index++) {
 		zoomSelect->setItemChecked(zoomSelect->idAt(index),false);
+	}
 	zoomSelect->setItemChecked(zoom,true);
 }
 
