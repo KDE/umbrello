@@ -743,6 +743,20 @@ void UMLWidget::removeAssoc(AssociationWidget* pAssoc) {
 
 void UMLWidget::adjustAssocs(int x, int y)
 {
+	// 2004-04-30: Achim Spangler
+	// don't adjust Assocs on file load, as
+	// the original positions, which are stored in XMI
+	// should be reproduced exactly
+	// ( don't try to reposition assocs as long
+	//   as file is only partly loaded -> reposition
+	//   could be misguided )
+	/// @todo avoid trigger of this event during load
+	if ( m_pView->getDocument()->loading() ) {
+		// don't recalculate the assocs during load of XMI
+		// -> return immediately without action
+		kdDebug() << "UMLWidget::adjustAssocs() called during load of XMI" << endl;
+		return;
+	}
 	AssociationWidgetListIt assoc_it(m_Assocs);
 	AssociationWidget* assocwidget = 0;
 	while((assocwidget=assoc_it.current())) {
