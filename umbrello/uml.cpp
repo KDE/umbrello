@@ -586,6 +586,7 @@ void UMLApp::slotFileNew() {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLApp::slotFileOpen() {
+	kdDebug() << k_funcinfo << "start" << endl;
 	slotStatusMsg(i18n("Opening file..."));
 	loading = true;
 
@@ -608,6 +609,7 @@ void UMLApp::slotFileOpen() {
 	slotUpdateViews();
 	loading = false;
 	slotStatusMsg(i18n("Ready."));
+	kdDebug() << k_funcinfo << "end" << endl;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLApp::slotFileOpenRecent(const KURL& url) {
@@ -855,11 +857,17 @@ void UMLApp::setModified(bool modified) {
 	//if anything else needs to be done on a mofication, put it here
 
 	// printing should be possible whenever there is something to print
-	if ( modified == true && doc->getCurrentView() )  {
+	if ( loading == false && modified == true && doc->getCurrentView() )  {
 		enablePrint(true);
 	}
 
-	setCaption(doc->URL().fileName(), modified); //add disk icon to taskbar if modified
+	if (loading == false)  {
+		kdDebug() << k_funcinfo << "loading is false, modified:" << modified << endl;
+		setCaption(doc->URL().fileName(), modified); //add disk icon to taskbar if modified
+	} else { //FIXMEnow
+		kdDebug() << k_funcinfo << "loading is true, modified:" << modified << endl;
+	}
+	kdDebug() << k_funcinfo << kdBacktrace() << endl;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLApp::enablePrint(bool enable) {

@@ -42,8 +42,8 @@ WorkToolBar::~WorkToolBar() {
 	disconnect(this, SIGNAL(released(int)),this,SLOT(buttonChanged(int)));
 }
 
-void WorkToolBar::insertHotBtn(ToolBar_Buttons tbb, const char *label) {
-	insertButton(m_Pixmaps[tbb], tbb, true, i18n(label));
+void WorkToolBar::insertHotBtn(ToolBar_Buttons tbb, const QString label) {
+	insertButton(m_Pixmaps[tbb], tbb, true, label);
 	setToggle( tbb, true );
 }
 
@@ -62,50 +62,50 @@ void WorkToolBar::slotCheckToolBar(Uml::Diagram_Type dt) {
 	toggleButton( tbb_Arrow );
 	m_CurrentButtonID = tbb_Arrow;
 
-	insertHotBtn(tbb_Note, "Note");
-	insertHotBtn(tbb_Anchor, "Anchor");
-	insertHotBtn(tbb_Text, "Line of text");
-	insertHotBtn(tbb_Box, "Box");
+	insertHotBtn(tbb_Note, i18n("Note"));
+	insertHotBtn(tbb_Anchor, i18n("Anchor"));
+	insertHotBtn(tbb_Text, i18n("Line of text"));
+	insertHotBtn(tbb_Box, i18n("Box"));
 
 	//insert diagram specific tools
 	switch (m_Type) {
 	case Uml::dt_UseCase:
-		insertHotBtn(tbb_Actor, "Actor");
-		insertHotBtn(tbb_UseCase, "Use case");
+		insertHotBtn(tbb_Actor, i18n("Actor"));
+		insertHotBtn(tbb_UseCase, i18n("Use case"));
 		insertBasicAssociations();
 		break;
 
 	case Uml::dt_Class:
-		insertHotBtn(tbb_Class, "Class");
-		insertHotBtn(tbb_Interface, "Interface");
-		insertHotBtn(tbb_Datatype, "Datatype");
-		insertHotBtn(tbb_Enum, "Enum");
-		insertHotBtn(tbb_Package, "Package");
+		insertHotBtn(tbb_Class, i18n("Class"));
+		insertHotBtn(tbb_Interface, i18n("Interface"));
+		insertHotBtn(tbb_Datatype, i18n("Datatype"));
+		insertHotBtn(tbb_Enum, i18n("Enum"));
+		insertHotBtn(tbb_Package, i18n("Package"));
 		insertBasicAssociations();
-		insertHotBtn(tbb_Composition, "Composition");
-		insertHotBtn(tbb_Aggregation, "Aggregation");
+		insertHotBtn(tbb_Composition, i18n("Composition"));
+		insertHotBtn(tbb_Aggregation, i18n("Aggregation"));
 		break;
 
 	case Uml::dt_Sequence:
-		insertHotBtn(tbb_Object, "Object");
+		insertHotBtn(tbb_Object, i18n("Object"));
 
-		insertHotBtn(tbb_Seq_Message_Synchronous, "Synchronous Message");
-		insertHotBtn(tbb_Seq_Message_Asynchronous, "Asynchronous Message");
+		insertHotBtn(tbb_Seq_Message_Synchronous, i18n("Synchronous Message"));
+		insertHotBtn(tbb_Seq_Message_Asynchronous, i18n("Asynchronous Message"));
 		break;
 
 	case Uml::dt_Collaboration:
-		insertHotBtn(tbb_Object, "Object");
+		insertHotBtn(tbb_Object, i18n("Object"));
 		insertButton( m_Pixmaps[tbb_Seq_Message_Asynchronous], tbb_Coll_Message,
 			      true, i18n("Message"));
 		setToggle( tbb_Coll_Message, true );
 		break;
 
 	case Uml::dt_State:
-		insertHotBtn(tbb_Initial_State, "Initial state");
+		insertHotBtn(tbb_Initial_State, i18n("Initial state"));
 		insertButton( m_Pixmaps[tbb_UseCase], tbb_State,
 			      true, i18n("State"));
 		setToggle( tbb_State, true );
-		insertHotBtn(tbb_End_State, "End state");
+		insertHotBtn(tbb_End_State, i18n("End state"));
 		insertButton( m_Pixmaps[tbb_UniAssociation], tbb_State_Transition,
 			      true, i18n("State transition"));
 		setToggle( tbb_State_Transition, true );
@@ -122,9 +122,9 @@ void WorkToolBar::slotCheckToolBar(Uml::Diagram_Type dt) {
 			      true, i18n("End activity"));
 		setToggle( tbb_End_Activity, true );
 
-		insertHotBtn(tbb_Branch, "Branch/merge");
+		insertHotBtn(tbb_Branch, i18n("Branch/merge"));
 
-		insertHotBtn(tbb_Fork, "Fork/join");
+		insertHotBtn(tbb_Fork, i18n("Fork/join"));
 
 		insertButton( m_Pixmaps[tbb_UniAssociation], tbb_Activity_Transition,
 			      true, i18n("Activity transition"));
@@ -132,17 +132,17 @@ void WorkToolBar::slotCheckToolBar(Uml::Diagram_Type dt) {
 		break;
 
 	case Uml::dt_Component:
-		insertHotBtn(tbb_Interface, "Interface");
-		insertHotBtn(tbb_Component, "Component");
-		insertHotBtn(tbb_Artifact, "Artifact");
+		insertHotBtn(tbb_Interface, i18n("Interface"));
+		insertHotBtn(tbb_Component, i18n("Component"));
+		insertHotBtn(tbb_Artifact, i18n("Artifact"));
 		insertBasicAssociations();
 		break;
 
 	case Uml::dt_Deployment:
-		insertHotBtn(tbb_Object, "Object");
-		insertHotBtn(tbb_Interface, "Interface");
-		insertHotBtn(tbb_Component, "Component");
-		insertHotBtn(tbb_Node, "Node");
+		insertHotBtn(tbb_Object, i18n("Object"));
+		insertHotBtn(tbb_Interface, i18n("Interface"));
+		insertHotBtn(tbb_Component, i18n("Component"));
+		insertHotBtn(tbb_Node, i18n("Node"));
 		insertBasicAssociations();
 		break;
 
@@ -354,12 +354,12 @@ void WorkToolBar::loadPixmaps() {
 }
 
 void WorkToolBar::insertBasicAssociations()  {
-		insertHotBtn(tbb_Association, "Association");
+		insertHotBtn(tbb_Association, i18n("Association"));
 		if (m_Type == dt_Class || m_Type == dt_UseCase)  {
-			insertHotBtn(tbb_UniAssociation, "Unidirectional association");
+			insertHotBtn(tbb_UniAssociation, i18n("Unidirectional association"));
 		}
-		insertHotBtn(tbb_Dependency, "Dependency");
-		insertHotBtn(tbb_Generalization, "Implements (Generalisation/Realisation)");
+		insertHotBtn(tbb_Dependency, i18n("Dependency"));
+		insertHotBtn(tbb_Generalization, i18n("Implements (Generalisation/Realisation)"));
 }
 
 #include "worktoolbar.moc"

@@ -901,7 +901,7 @@ UMLOperation* UMLDoc::createOperation(UMLClassifier* classifier, const QString &
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLDoc::removeAssociation (UMLAssociation * assoc) {
-
+//FIXMEnow	kdDebug() << k_funcinfo << kdBacktrace() << endl;
 	if(!assoc)
 		return;
 
@@ -1797,6 +1797,7 @@ bool UMLDoc::loadUMLObjectsFromXMI( QDomNode & node ) {
 				// In this case all association info is given in the
 				// UML:AssocWidget section.  --okellogg
 				// removeAssociation((UMLAssociation*)pObject);
+				kdDebug() << k_funcinfo << "delete pObject!!!!" << endl;
 				delete pObject;
 			} else {
 				addAssociation((UMLAssociation*) pObject);

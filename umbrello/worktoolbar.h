@@ -179,7 +179,7 @@ private:
 	 * Inserts the button corresponding to the tbb value given
 	 * and activates the toggle.
 	 */
-	void insertHotBtn(ToolBar_Buttons tbb, const char *label);
+	void insertHotBtn(ToolBar_Buttons tbb, const QString label);
 
 	/**
 	 * Inserts most associations, just reduces some string

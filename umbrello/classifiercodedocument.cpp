@@ -1,4 +1,3 @@
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -36,10 +35,14 @@ ClassifierCodeDocument::ClassifierCodeDocument ( UMLClassifier * parent , CodeGe
 	init (parent);
 }
 
-ClassifierCodeDocument::~ClassifierCodeDocument ( ) 
+ClassifierCodeDocument::~ClassifierCodeDocument ( )
 {
-        for (CodeClassField * cf = m_classfieldVector.first(); cf; cf = m_classfieldVector.next())
-		delete cf;
+	kdDebug() << k_funcinfo << "count:" << m_classfieldVector.count() << endl;
+        for (CodeClassField * cf = m_classfieldVector.first(); cf; cf = m_classfieldVector.next())  {
+		if (cf)  { //FIXMEnow
+//			delete cf;
+		}
+	}
 }
 
 //
@@ -167,6 +170,7 @@ void ClassifierCodeDocument::addAttributeClassField (UMLObject *obj, bool syncTo
  * Remove a CodeClassField object from m_classfieldVector List
  */
 bool ClassifierCodeDocument::removeCodeClassField ( CodeClassField * remove_object ) {
+	kdDebug() << k_funcinfo << "!!!!!!!!!" << endl;
 	UMLObject * umlobj = remove_object->getParentObject();
         if(m_classFieldMap->contains(umlobj))
 	{
@@ -256,8 +260,8 @@ void ClassifierCodeDocument::addOperation (UMLOperation * op ) {
 	}
 
 	// now try to add it. This may fail because it (or a block with
-	// the same tag) is already in the document somewhere. IF we 	
-	// created this new, then we need to delete our object. 
+	// the same tag) is already in the document somewhere. IF we
+	// created this new, then we need to delete our object.
 	if(!addCodeOperation(codeOp)) // wont add if already present
 		if(createdNew)
 			delete codeOp;
@@ -396,7 +400,7 @@ void ClassifierCodeDocument::synchronize( ) {
 
 }
 
-void ClassifierCodeDocument::syncClassFields( ) 
+void ClassifierCodeDocument::syncClassFields( )
 {
         QPtrList<CodeClassField> *list = getCodeClassFieldList();
 	for(CodeClassField * cf = list->first(); cf; cf=list->next())

@@ -24,14 +24,15 @@ const unsigned UMLAssociation::nAssocTypes = (unsigned)atypeLast -
 UMLAssociation::UMLAssociation( UMLDoc* parent,
 				Association_Type type,
 				UMLObject * roleA, UMLObject * roleB )
-    : UMLObject(parent, "", -1) 
+    : UMLObject(parent, "", -1)
 {
 	init(type, roleA, roleB);
 }
 
 // destructor
-UMLAssociation::~UMLAssociation( ) { 
+UMLAssociation::~UMLAssociation( ) {
 	// delete ourselves from the parent document
+	kdDebug() << k_funcinfo << "destructor!!" << endl;
 	((UMLDoc *)parent())->removeAssociation(this);
 }
 
@@ -82,7 +83,7 @@ Uml::Association_Type UMLAssociation::getAssocType() const {
 QString UMLAssociation::toString ( ) const
 {
 	QString string;
-	if(m_pRoleA) 
+	if(m_pRoleA)
 	{
 		string += m_pRoleA->getObject( )->getName();
 		string += ":";
@@ -129,7 +130,7 @@ QString UMLAssociation::toString ( ) const
 		break;
 	} //end switch
 	string += ":";
-	if(m_pRoleB) 
+	if(m_pRoleB)
 	{
 		string += m_pRoleB->getObject( )->getName();
 		string += ":";
