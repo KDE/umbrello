@@ -15,7 +15,7 @@
 #ifndef CLASS_PROPERTIES_PAGE
 #define CLASS_PROPERTIES_PAGE
 
-#include "umbrello/umbrello/dialogs/classpropertiesbase.h"
+#include "classpropertiesbase.h"
 #include "dialogpage.h"
 
 class UMLClass;
