@@ -10,6 +10,7 @@
 #ifndef STATEWIDGET_H
 #define STATEWIDGET_H
 #include <qpainter.h>
+#include <qstringlist.h>
 #include "umlwidget.h"
 #include "worktoolbar.h"
 
