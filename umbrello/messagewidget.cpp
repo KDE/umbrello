@@ -44,6 +44,11 @@ MessageWidget::MessageWidget(UMLView * view, UMLWidget * a, UMLWidget * b, Float
 	y = y < getMinHeight() ? getMinHeight() : y;
 	y = y > getMaxHeight() ? getMaxHeight() : y;
 	m_nY = y;
+
+	connect(this, SIGNAL(sigMessageMoved()), m_pWA, SLOT(slotMessageMoved()) );
+	connect(this, SIGNAL(sigMessageMoved()), m_pWB, SLOT(slotMessageMoved()) );
+	static_cast<ObjectWidget*>(m_pWA)->messageAdded(this);
+	static_cast<ObjectWidget*>(m_pWB)->messageAdded(this);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 MessageWidget::MessageWidget(UMLView * view) : UMLWidget(view, new MessageWidgetData(view->getOptionState() )) {
@@ -59,7 +64,8 @@ void MessageWidget::init() {
 	setVisible(true);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-MessageWidget::~MessageWidget() {}
+MessageWidget::~MessageWidget() {
+}
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void MessageWidget::draw(QPainter & p, int offsetX, int offsetY) {
 	if(!m_pWA || !m_pWB)
@@ -100,6 +106,7 @@ void MessageWidget::moveEvent(QMoveEvent* /*m*/) {
 	}
 	m_pFText->setPositionFromMessage();
 
+	emit sigMessageMoved();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void MessageWidget::resizeEvent(QResizeEvent */*re*/) {
@@ -184,6 +191,12 @@ bool MessageWidget::activate(IDChangeLog * Log /*= 0*/) {
 	connect(m_pWA, SIGNAL(sigWidgetMoved(int)), this, SLOT(slotWidgetMoved(int)));
 	connect(m_pWB, SIGNAL(sigWidgetMoved(int)), this, SLOT(slotWidgetMoved(int)));
 	calculateDimensions();
+
+	connect(this, SIGNAL(sigMessageMoved()), m_pWA, SLOT(slotMessageMoved()) );
+	connect(this, SIGNAL(sigMessageMoved()), m_pWB, SLOT(slotMessageMoved()) );
+	static_cast<ObjectWidget*>(m_pWA)->messageAdded(this);
+	static_cast<ObjectWidget*>(m_pWB)->messageAdded(this);
+
 	return status;
 }
 
@@ -244,9 +257,19 @@ void MessageWidget::calculateDimensions() {
 }
 
 void MessageWidget::cleanup() {
+	if (m_pWA) {
+		disconnect(this, SIGNAL(sigMessageMoved()), m_pWA, SLOT(slotMessageMoved()) );
+		static_cast<ObjectWidget*>(m_pWA)->messageRemoved(this);
+	}
+	if (m_pWB) {
+		disconnect(this, SIGNAL(sigMessageMoved()), m_pWB, SLOT(slotMessageMoved()) );
+		static_cast<ObjectWidget*>(m_pWB)->messageRemoved(this);
+	}
+
 	UMLWidget::cleanup();
-	if( m_pFText )
-		m_pView -> removeWidget(m_pFText);
+	if (m_pFText) {
+		m_pView->removeWidget(m_pFText);
+	}
 }
 
 void MessageWidget::mouseMoveEvent(QMouseEvent *me) {

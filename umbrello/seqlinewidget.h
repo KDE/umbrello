@@ -39,21 +39,6 @@ public:
 	bool onWidget( const QPoint & p );
 
 	/**
-	*		Mouse moved when pressing on widget
-	*/
-	void mouseMoveEvent( QMouseEvent *me );
-
-	/**
-	*		Mouse release on widget
-	*/
-	void mouseReleaseEvent( QMouseEvent * me );
-
-	/**
-	*		Mouse press on widget
-	*/
-	void mousePressEvent( QMouseEvent * me );
-
-	/**
 	*		Cleanup anything before deletion
 	*/
 	void cleanup();
@@ -88,11 +73,12 @@ public:
 	}
 
 	/**
-	*		Return whether mouse down, meaning a move event is allowed.
-	*/
-	bool getMouseDown() {
-		return m_bMouseDown;
-	}
+	 * Sets the y position of the bottom of the vertical line
+	 *
+	 * @param yPosition the y coordinate for the bottom of the line
+	 */
+	void setEndOfLine(int yPosition);
+
 protected:
 	/**
 	*		Cleanup decon. box.
@@ -120,9 +106,10 @@ protected:
 		QCanvasLine * line2;
 	}    m_pDeconBox;
 
+	/**
+	 * The length of the line
+	 */
 	int m_nLengthY;
-
-	bool m_bMouseDown;
 
 	int m_nOffsetY, m_nOldY, m_nMinY;
 	static int const m_nMouseDownEpsilonX;

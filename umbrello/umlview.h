@@ -667,11 +667,10 @@ public:
 	}
 
 	/**
-	*		Removes a sequence line to the list.
+	*		Removes a sequence line from the list.
 	*/
-	void removeSeqLine( SeqLineWidget * pLine ) {
-		m_SeqLineList.remove( pLine );
-		m_pSeqLine = 0;
+	void removeSeqLine(SeqLineWidget* pLine) {
+		m_SeqLineList.remove(pLine);
 	}
 
 	/**
@@ -817,11 +816,6 @@ protected:
 	 * 		Flag if view/children started cut operation.
 	 */
 	bool m_bStartedCut;
-
-	/**
-	 *		Sequence line used to track mouse events.
-	 */
-	SeqLineWidget * m_pSeqLine;
 
 public:
 	//TODO:  make these protected with relevant get/set methods.

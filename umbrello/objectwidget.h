@@ -18,6 +18,9 @@
 
 #include "umlwidget.h"
 #include "objectwidgetdata.h"
+#include "messagewidget.h"
+
+#include <qptrlist.h>
 
 class SeqLineWidget;
 
@@ -208,6 +211,17 @@ public:
 	 *		Returns the end Y co-ord of the seq. line.
 	 */
 	int getEndLineY();
+
+	/**
+	 * Add a message widget to the list
+	 */
+	void messageAdded(MessageWidget* message);
+
+	/**
+	 * Remove a message widget from the list
+	 */
+	void messageRemoved(MessageWidget* message);
+
 protected:
 	QString m_Doc;
 	int m_nOldID;
@@ -238,6 +252,12 @@ protected:
 	 */
 	void tabDown();
 
+private:
+	/**
+	 * A list of the message widgets with an end on this widget
+	 */
+	QPtrList<MessageWidget> messageWidgetList;
+
 public slots:
 	/**
 	 *     Handles a popup menu selection.
@@ -250,13 +270,10 @@ public slots:
 	virtual void slotColorChanged(int viewID);
 
 	/**
-	 *   When a message is added to the view, all lines must extend themselves.  The view will change
-	 *   the length and signal all objects.
-	 *
-	 *   FUTURE:- signal here when you add manual line length changes by the user.
+	 * Called when a message widget with an end on this object has moved up or down.
+	 * Sets the bottom of the line to a nice position.
 	 */
-	void slotLineLengthChanged();
-
+	void slotMessageMoved();
 };
 
 #endif

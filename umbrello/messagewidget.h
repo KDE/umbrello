@@ -212,6 +212,7 @@ public:
 	 *	Overrides the standard operation.
 	 */
 	virtual void mousePressEvent(QMouseEvent *me);
+
 private:
 	void moveEvent(QMoveEvent */*m*/);
 	void resizeEvent(QResizeEvent */*re*/);
@@ -223,6 +224,12 @@ private:
 public slots:
 	void slotWidgetMoved(int id);
 	void slotMenuSelection(int sel);
+signals:
+	/**
+	 * emitted when the message widget is moved up or down
+	 * slots into ObjectWidget::slotMessageMoved()
+	 */
+	void sigMessageMoved();
 };
 
 #endif

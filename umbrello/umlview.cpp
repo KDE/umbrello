@@ -106,7 +106,6 @@ void UMLView::init() {
 	m_pIDChangesLog = 0;
 	m_pFirstSelectedWidget = 0;
 	m_pMenu = 0;
-	m_pSeqLine = 0;
 	//setup graphical items
 	viewport() -> setBackgroundMode( NoBackground );
 	setCanvas( new UMLViewCanvas( this ) );
@@ -435,10 +434,13 @@ void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome) {
 				messageText->setFont( m_pData -> getFont() );
 				messageText->setID(getDocument() -> getUniqueID());
 
-				MessageWidget* message = new MessageWidget(this, m_pFirstSelectedWidget, clickedOnWidget,
-									messageText, getDocument() -> getUniqueID(),
-									me->y());
-				connect(this, SIGNAL(sigColorChanged(int)), message, SLOT(slotColorChanged(int)));
+				MessageWidget* message = new MessageWidget(this, m_pFirstSelectedWidget,
+									   clickedOnWidget, messageText,
+									   getDocument()->getUniqueID(),
+									   me->y());
+				connect(this, SIGNAL(sigColorChanged(int)),
+					message, SLOT(slotColorChanged(int)));
+
 				messageText->setActivated();
 				message->setActivated();
 				m_pFirstSelectedWidget = 0;
@@ -677,10 +679,11 @@ void UMLView::contentsDropEvent(QDropEvent *e) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLWidget * UMLView::onWidgetLine( QPoint point ) {
 	SeqLineWidget * pLine = 0;
-	for( pLine = m_SeqLineList.first(); pLine; pLine = m_SeqLineList.next() )
+	for( pLine = m_SeqLineList.first(); pLine; pLine = m_SeqLineList.next() ) {
 		if( pLine -> onWidget( point ) ) {
 			return pLine -> getObjectWidget();
 		}
+	}
 	return 0;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2235,7 +2238,6 @@ Uml::UMLObject_Type UMLView::convert_TBB_OT(WorkToolBar::ToolBar_Buttons tbb) {
 bool UMLView::allocateMousePressEvent(QMouseEvent * me) {
 	m_pMoveAssoc = 0;
 	m_pOnWidget = 0;
-	m_pSeqLine = 0;
 
 	QObjectList* l = queryList("UMLWidget");
 	QObjectListIt it( *l );
@@ -2286,22 +2288,7 @@ bool UMLView::allocateMousePressEvent(QMouseEvent * me) {
 		}
 		++assoc_it;
 	}
-	////**********now check sequence lines******///
-	if( m_pData -> getType() == dt_Sequence ) {
-		SeqLineWidget * pLine = 0;
-		for( pLine = m_SeqLineList.first(); pLine; pLine = m_SeqLineList.next() ) {
-			//if on widget and clicking on bottom on sequence line
-			//and normal mouse arrow then move the sequence line
-			if (pLine->onWidget(me->pos()) && pLine->getMouseDown() &&
-			    m_CurrentCursor == WorkToolBar::tbb_Arrow) {
-				m_pSeqLine = pLine;
-				m_pSeqLine->mousePressEvent( me );
-				return true;
-			}
-		}
-	}
 	m_pMoveAssoc = 0;
-	m_pSeqLine = 0;
 	m_pOnWidget = 0;
 	return false;
 }
@@ -2319,11 +2306,7 @@ bool UMLView::allocateMouseReleaseEvent(QMouseEvent * me) {
 		m_pMoveAssoc -> mouseReleaseEvent( me );
 		return true;
 	}
-	if( m_pSeqLine ) {
-		m_pSeqLine -> mouseReleaseEvent( me );
-		return true;
-	}
-	m_pSeqLine = 0;
+
 	m_pOnWidget = 0;
 	m_pMoveAssoc = 0;
 	return false;
@@ -2339,7 +2322,6 @@ bool UMLView::allocateMouseDoubleClickEvent(QMouseEvent * me) {
 		m_pMoveAssoc -> mouseDoubleClickEvent( me );
 		return true;
 	}
-	m_pSeqLine = 0;
 	m_pOnWidget = 0;
 	m_pMoveAssoc = 0;
 	return false;
@@ -2355,10 +2337,6 @@ bool UMLView::allocateMouseMoveEvent(QMouseEvent * me) {
 	}
 	if(m_pMoveAssoc) {
 		m_pMoveAssoc -> mouseMoveEvent( me );
-		return true;
-	}
-	if( m_pSeqLine ) {
-		m_pSeqLine -> mouseMoveEvent( me );
 		return true;
 	}
 	return false;

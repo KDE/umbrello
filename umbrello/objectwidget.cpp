@@ -19,6 +19,12 @@
 #include "objectwidget.h"
 #include "listpopupmenu.h"
 
+/**
+ * The number of pixels margin between the lowest message
+ * and the bottom of the vertical line
+ */
+static const int sequenceLineMargin = 20;
+
 ObjectWidget::ObjectWidget(UMLView * view,  UMLObject *o, UMLWidgetData *pData) : UMLWidget(view, o, pData) {
 	m_pLine = 0;
 	init();
@@ -49,6 +55,7 @@ ObjectWidget::ObjectWidget(UMLView * view) : UMLWidget(view, new ObjectWidgetDat
 void ObjectWidget::init() {
 	m_Doc = "";
 	m_nOldID = 0;
+	messageWidgetList.setAutoDelete(false);
 	if( m_pView -> getType() == dt_Sequence ) {
 		m_pLine = new SeqLineWidget( m_pView, this );
 	}
@@ -181,10 +188,6 @@ void ObjectWidget::slotColorChanged(int /*viewID*/) {
 		m_pLine -> setPen( QPen( m_pData->getLineColour(), 0, DashLine ) );
 }
 
-void ObjectWidget::slotLineLengthChanged() {
-	moveEvent( 0 );
-}
-
 void ObjectWidget::cleanup() {
 
 	UMLWidget::cleanup();
@@ -301,16 +304,26 @@ int ObjectWidget::getEndLineY() {
 	return y;
 }
 
+void ObjectWidget::messageAdded(MessageWidget* message) {
+	messageWidgetList.append(message);
+}
 
+void ObjectWidget::messageRemoved(MessageWidget* message) {
+	messageWidgetList.remove(message);
+}
 
-
-
-
-
-
-
-
-
-
+void ObjectWidget::slotMessageMoved() {
+	QPtrListIterator<MessageWidget> iterator(messageWidgetList);
+	MessageWidget* message;
+	int lowestMessage = 0;
+	while ( (message = iterator.current()) != 0 ) {
+		++iterator;
+		int messageHeight = message->y() + message->height();
+		if (lowestMessage < messageHeight) {
+			lowestMessage = messageHeight;
+		}
+	}
+	m_pLine->setEndOfLine(lowestMessage + sequenceLineMargin);
+}
 
 #include "objectwidget.moc"

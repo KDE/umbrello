@@ -17,9 +17,11 @@
 #include "seqlinewidget.h"
 
 // class members
+/**
+ * Margin used for mouse clicks
+ */
 int const SeqLineWidget::m_nMouseDownEpsilonX = 20;
 
-// 
 SeqLineWidget::SeqLineWidget( UMLView * pView, ObjectWidget * pObject ) : QCanvasLine( pView -> canvas() ) {
 	m_pView = pView;
 	m_pObject = pObject;
@@ -27,24 +29,23 @@ SeqLineWidget::SeqLineWidget( UMLView * pView, ObjectWidget * pObject ) : QCanva
 	setZ( 0 );
 	setVisible( true );
 	m_pDeconBox.rect = 0;
-	m_nLengthY = (int)m_pObject -> y() + 250;
+	m_nLengthY = 250;
 	setupDeconBox();
-	m_bMouseDown = false;
 	m_nOffsetY = m_nOldY = 0;
 	m_pView -> addSeqLine( this );
+	m_nMinY = m_nLengthY + m_pObject->height() + (int)m_pObject->y();
 }
 
 SeqLineWidget::~SeqLineWidget() {}
 
 bool SeqLineWidget::onWidget( const QPoint & p ) {
 	bool bOnWidget = false;
-	m_bMouseDown = false;
 	QPoint sp = startPoint();
 	QPoint ep = endPoint();
 	//see if on widget ( for message creation )
-	if( sp.x() - m_nMouseDownEpsilonX < p.x() 
-	    && ep.x() + m_nMouseDownEpsilonX > p.x() 
-	    && sp.y() < p.y() && ep.y() + 3 > p.y() ) 
+	if( sp.x() - m_nMouseDownEpsilonX < p.x()
+	    && ep.x() + m_nMouseDownEpsilonX > p.x()
+	    && sp.y() < p.y() && ep.y() + 3 > p.y() )
 	{
 		bOnWidget = true;
 	}
@@ -55,68 +56,7 @@ bool SeqLineWidget::onWidget( const QPoint & p ) {
 			bOnWidget = true;
 		}
 	}
-	//see if going to do a move
-	if( ep.x() - 3 < p.x() && ep.x() + 3 > p.x() &&
-	    ep.y() - 3 < p.y() && ep.y() + 3 > p.y() ) {
-		m_bMouseDown = true;
-	}
-
-	if( m_pDeconBox.rect ) {
-		QRect rect = m_pDeconBox.rect -> rect();
-		if( rect.x() <= p.x() && rect.x() + rect.width() >= p.x() &&
-		    rect.y() <= p.y() && rect.y() + rect.height() >= p.y() ) {
-			m_bMouseDown =  true;
-		}
-	}
 	return bOnWidget;
-}
-
-void SeqLineWidget::mouseMoveEvent( QMouseEvent *me ) {
-	if( m_bMouseDown ) {
-		int dy = (int)me->y() - m_nOffsetY - m_nOldY;
-		QPoint ep = endPoint();
-		int newY = (int)ep.y() + dy;
-		m_nOldY = newY;
-		QPoint sp = startPoint();
-
-		if (newY < m_nMinY) {
-			newY = m_nMinY;
-		}
-
-		setPoints( sp.x(), sp.y(), sp.x(), newY );
-		m_nLengthY = newY - (int)m_pObject->y() - m_pObject->height();
-		moveDeconBox();
-		m_pView->resizeCanvasToItems();
-	}
-}
-
-void SeqLineWidget::mouseReleaseEvent( QMouseEvent * /*me*/ ) {
-	m_bMouseDown = false;
-	m_pView -> setCursor(KCursor::arrowCursor());
-}
-
-void SeqLineWidget::mousePressEvent( QMouseEvent * me ) {
-	QPoint ep = endPoint();
-	if( me -> button() != LeftButton )
-		return;
-	m_nOffsetY = me -> y() - ep.y();
-	m_nOldY = ep.y();
-	m_pView -> setCursor(KCursor::sizeVerCursor());
-	m_nMinY = (int)m_pObject -> y() + m_pObject -> height() + 50;
-	QPtrList<MessageWidget> m_List = m_pView -> getMessageWidgetList();
-	MessageWidget * pMessage = 0;
-	ObjectWidget * wA, * wB;
-	for( pMessage = m_List.first(); pMessage; pMessage = m_List.next() ) {
-		int y = 0;
-		wA = (ObjectWidget*)pMessage -> getWidgetA();
-		wB = (ObjectWidget*)pMessage -> getWidgetB();
-		if( wA == m_pObject ) {
-			y = (int)pMessage -> y() + pMessage -> height();
-		} else if( wB == m_pObject ) {
-			y = (int)pMessage -> y() + pMessage -> height();
-		}
-		m_nMinY = m_nMinY < y?y:m_nMinY;
-	}
 }
 
 void SeqLineWidget::cleanup() {
@@ -187,8 +127,24 @@ void SeqLineWidget::moveDeconBox() {
 void SeqLineWidget::setLineLength( int nLength ) {
 	m_nLengthY = nLength;
 	QPoint sp = startPoint();
-	setPoints( sp.x(), sp.y(), sp.x(), m_nLengthY + (int)m_pObject -> y() + m_pObject -> height() + m_nLengthY );
+	setPoints( sp.x(), sp.y(), sp.x(),
+		   m_nLengthY + (int)m_pObject->y() + m_pObject->height() + m_nLengthY );
 	moveDeconBox();
 }
 
+void SeqLineWidget::setEndOfLine(int height) {
+	int dy = height - m_nOffsetY - m_nOldY;
+	QPoint endpoint = endPoint();
+	int newY = (int)endpoint.y() + dy;
+	m_nOldY = newY;
+	QPoint sp = startPoint();
 
+	if (newY < m_nMinY) {
+		newY = m_nMinY;
+	}
+
+	setPoints( sp.x(), sp.y(), sp.x(), newY );
+	m_nLengthY = newY - (int)m_pObject->y() - m_pObject->height();
+	moveDeconBox();
+	m_pView->resizeCanvasToItems();
+}
