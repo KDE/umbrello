@@ -103,6 +103,18 @@ public:
 	 */
 	void print(KPrinter *pPrinter, QPainter & pPainter);
 
+	/** 
+	 * Print the specified area (rect) of the diagram to the file 'filename'
+	 */
+	void printToFile(QString filename, QRect rect);
+
+	/** 
+	 * Fix the file 'filename' to be a valid EPS containing the 
+	 * specified area (rect) of the diagram. 
+	 * Corrects the bounding box.
+	 */
+	void fixEPS(QString filename, QRect rect);
+
 	/**
 	*	Returns the type of diagram this is.
 	*

@@ -24,6 +24,7 @@
 #include <qpixmap.h>
 #include <qcolor.h>
 #include <qwmatrix.h>
+#include <qregexp.h>
 
 //kde include files
 #include <ktempfile.h>
@@ -1316,7 +1317,6 @@ void UMLView::updateNoteWidgets() {
 }
 
 QString imageTypeToMimeType(QString imagetype) {
-	if (QString("EPS") == imagetype) return "image/x-eps";
 	if (QString("BMP") == imagetype) return "image/x-bmp";
 	if (QString("JPEG") == imagetype) return "image/jpeg";
 	if (QString("PBM") == imagetype) return "image/x-portable-bitmap";
@@ -1325,11 +1325,11 @@ QString imageTypeToMimeType(QString imagetype) {
 	if (QString("PPM") == imagetype) return "image/x-portable-pixmap";
 	if (QString("XBM") == imagetype) return "image/x-xbm";
 	if (QString("XPM") == imagetype) return "image/x-xpm";
+	if (QString("EPS") == imagetype) return "image/x-eps";
 	return QString::null;
 }
 
 QString mimeTypeToImageType(QString mimetype) {
-	if (QString("image/x-eps") == mimetype) return "EPS";
 	if (QString("image/x-bmp") == mimetype) return "BMP";
 	if (QString("image/jpeg") == mimetype) return "JPEG";
 	if (QString("image/x-portable-bitmap") == mimetype) return "PBM";
@@ -1338,7 +1338,54 @@ QString mimeTypeToImageType(QString mimetype) {
 	if (QString("image/x-portable-pixmap") == mimetype) return "PPM";
 	if (QString("image/x-xbm") == mimetype) return "XBM";
 	if (QString("image/x-xpm") == mimetype) return "XPM";
+	if (QString("image/x-eps") == mimetype) return "EPS";
 	return QString::null;
+}
+
+void UMLView::fixEPS(QString filename, QRect rect) {
+	// now open the file and make a correct eps out of it
+	QFile epsfile(filename);
+	QString fileContent;
+	if (epsfile.open(IO_ReadOnly )) {
+		// read 
+		QTextStream ts(&epsfile);
+		fileContent = ts.read();
+		epsfile.close();
+					
+		// write new content to file
+		if (epsfile.open(IO_WriteOnly | IO_Truncate)) {
+			// read information
+			QRegExp rx("%%BoundingBox:\\s*(-?[\\d\\.]+)\\s*(-?[\\d\\.]+)\\s*(-?[\\d\\.]+)\\s*(-?[\\d\\.]+)");
+			int pos = rx.search(fileContent);
+			float left = rx.cap(1).toFloat();
+			float top = rx.cap(4).toFloat();
+						
+			// modify content
+			fileContent.replace(pos,rx.cap(0).length(),
+					    QString("%%BoundingBox: %1 %2 %3 %4").arg(left).arg(top-rect.height()).arg(left+rect.width()).arg(top));
+						
+			ts << fileContent;
+			epsfile.close();
+		}
+	}
+}
+
+void UMLView::printToFile(QString filename, QRect rect) {
+	// print the image to a normal postscript file,
+	// do not clip so that everything ends up in the file
+	// regardless of "paper size"
+
+	// because we want to work with postscript
+	// user-coordinates, set to the resolution
+	// of the printer (which should be 72dpi here)
+	QPrinter printer(QPrinter::PrinterResolution);
+	printer.setOutputToFile(true);
+	printer.setOutputFileName(filename);
+	// do not call printer.setup(); because we want no user 
+	// interaction here 
+	QPainter painter(&printer);
+	painter.translate(-rect.x(),-rect.y());
+	getDiagram(rect,painter);
 }
 
 void UMLView::exportImage() {
@@ -1346,6 +1393,9 @@ void UMLView::exportImage() {
 
 	// get all supported mimetypes
 	QStringList mimetypes;
+	// special image types that are handled separately
+	mimetypes.append("image/x-eps");
+	// "normal" image types that are present 
 	QString m;
 	QStringList::Iterator it;
 	for( it = fmt.begin(); it != fmt.end(); ++it ) {
@@ -1397,10 +1447,15 @@ void UMLView::exportImage() {
 			KMessageBox::sorry(0, i18n("Can not save an empty diagram"),
 			                   i18n("Diagram Save Error!"));
 		} else {
-			QPixmap diagram(rect.width(), rect.height());
-			getDiagram(rect, diagram);
-			diagram.save(s, mimeTypeToImageType(m_imageMimetype).ascii());
-
+			//  eps requested
+			if (m_imageMimetype == "image/x-eps") {
+				printToFile(s,rect);
+				fixEPS(s,rect);
+			}else{
+				QPixmap diagram(rect.width(), rect.height());
+				getDiagram(rect, diagram);
+				diagram.save(s, mimeTypeToImageType(m_imageMimetype).ascii());
+			}
 			if (!url.isLocalFile()) {
 				if(!KIO::NetAccess::upload(tmpfile.name(), url)) {
 					KMessageBox::error(0,
@@ -1408,7 +1463,7 @@ void UMLView::exportImage() {
 					                   i18n("Save Error"));
 				}
 				tmpfile.unlink();
-			} //!isLocalFile
+			} //!isLocalFile		  
 		} //rect.isEmpty()
 
 	} //!url.isEmpty()
