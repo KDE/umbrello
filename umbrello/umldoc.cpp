@@ -2803,7 +2803,6 @@ void UMLDoc::createDatatype(const QString &name)  {
 void UMLDoc::addObject(UMLObject* o) {
 	m_objectList.append(o);
 	signalUMLObjectCreated(o);
-	setModified(true);
 }
 
 void UMLDoc::slotDiagramPopupMenu(QWidget* umlview, const QPoint& point) {
