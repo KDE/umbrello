@@ -33,7 +33,7 @@
 
   <Menu name="settings"><text>&amp;Settings</text>
     <Action name="Show_Documentation"/>
-    <Action name="Configure_UML"/>
+    <Action name="umbrello_configure"/>
   </Menu>
   <Menu name="code"><text>&amp;Code</text>
     <Action name="import_class"/>
@@ -49,6 +49,6 @@
 <ToolBar name="mainToolBar">
   <Action name="umbrello_zoom_in"/>
   <Action name="umbrello_zoom_out"/>
-  <Action name="Configure_UML" icon="configure.png"/>
+  <Action name="umbrello_configure"/>
 </ToolBar>
 </kpartgui>

@@ -198,8 +198,7 @@ void UMLApp::initActions() {
 	classWizard = new KAction(i18n("&New Class Wizard..."),0,this,SLOT(slotClassWizard()),
 	                          actionCollection(),"class_wizard");
 
-	preferences = new KAction(i18n("&Configure Umbrello..."), SmallIconSet("configure"), 0,
-				  this, SLOT( slotPrefs() ), actionCollection(), "Configure_UML");
+	preferences = KStdAction::preferences(this,  SLOT( slotPrefs() ), actionCollection(), "umbrello_configure");
 
 	genWizard = new KAction(i18n("&Code Generation Wizard..."),0,this,SLOT(generationWizard()),
 	                        actionCollection(),"generation_wizard");
