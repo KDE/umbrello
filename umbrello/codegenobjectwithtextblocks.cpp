@@ -468,7 +468,7 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( QDomElement & ro
                                 } else
                                 if( name == "codeoperation" ) {
                                        // find the code operation by id
-                                        QString id = element.attribute("parent_op","-1");
+                                        QString id = element.attribute("parent_id","-1");
                                         UMLObject * obj = getParentGenerator()->getDocument()->findUMLObject(id.toInt());
                                         UMLOperation * op = dynamic_cast<UMLOperation*>(obj);
                                         if(op) {
