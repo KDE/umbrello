@@ -3468,7 +3468,7 @@ bool UMLView::uisLoadFromXMI(QDomElement & qElement) {
 	if (idStr.isEmpty())
 		return false;
 	m_nID = STR2ID(idStr);
-	m_pDoc->setMainViewID(m_nID);
+	UMLListViewItem *ulvi = NULL;
 	QDomNode node = qElement.firstChild();
 	QDomElement elem = node.toElement();
 	QString tag;
@@ -3476,14 +3476,24 @@ bool UMLView::uisLoadFromXMI(QDomElement & qElement) {
 		tag = elem.tagName();
 		if (tag == "uisDiagramName") {
 			m_Name = elem.text();
+			if (ulvi)
+				ulvi->setText( m_Name );
 		} else if (tag == "uisDiagramStyle") {
 			QString diagramStyle = elem.text();
 			if (diagramStyle != "ClassDiagram") {
-				kdError() << "UMLView::uisLoadFromXMI: diagram style "
+				kdError() << "UMLView::uisLoadFromXMI: diagram style " << diagramStyle
 					  << " is not yet implemented" << endl;
-				return false;
+				node = node.nextSibling();
+				while (node.isComment())
+					node = node.nextSibling();
+				elem = node.toElement();
+				continue;
 			}
+			m_pDoc->setMainViewID(m_nID);
 			m_Type = Uml::dt_Class;
+			UMLListView *lv = UMLApp::app()->getListView();
+			ulvi = new UMLListViewItem( lv->theLogicalView(), m_Name,
+						    Uml::lvt_Class_Diagram, m_nID );
 		} else if (tag == "uisDiagramPresentation") {
 			node = elem.firstChild();
 			elem = node.toElement();

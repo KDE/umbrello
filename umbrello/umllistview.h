@@ -279,6 +279,9 @@ class UMLListView : public KListView {
 
 	void closeDatatypesFolder();
 
+	UMLListViewItem *theRootView() { return rv; }
+	UMLListViewItem *theLogicalView() { return lv; }
+
 	void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 	bool loadFromXMI( QDomElement & element );
