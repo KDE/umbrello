@@ -61,9 +61,9 @@ void PerlWriter::writeClass(UMLConcept *c) {
 			newDir = regEx.cap(1);
 			fragment.remove(0, (regEx.pos(2) + 2)); // get round strange minimal matching bug
 			existing->setPath(curDir + "/" + newDir);
-			if (not existing->exists()) {
+			if (! existing->exists()) {
 				existing->setPath(curDir);
-				if (not existing->mkdir(newDir)) {
+				if (! existing->mkdir(newDir)) {
 					emit codeGenerated(c, false);
 					return;
 				}
