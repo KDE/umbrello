@@ -11,7 +11,7 @@
 #define UMBRELLO_PATHTTOOL_H
 
 #include "tool.h"
-#include <qlist.h>
+#include <qptrlist.h>
 #include <qpoint.h>
 
 

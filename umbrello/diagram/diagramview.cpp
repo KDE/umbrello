@@ -34,7 +34,7 @@ DiagramView::DiagramView( Diagram *diagram, QWidget *parent, const char *name, W
              QCanvasView( diagram, parent, name, f ),m_tool(0L)
 {
 	if( parent )
-		m_toolBar = new ToolBar( UMLApp::app(), this, QMainWindow::Top );
+		m_toolBar = new ToolBar( UMLApp::app(), this, QMainWindow::DockTop );
 	else
 		m_toolBar = new ToolBar( UMLApp::app(), this );
 	m_contextMenu = new QPopupMenu( this, "diagram context menu");
