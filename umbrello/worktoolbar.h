@@ -28,22 +28,6 @@ class WorkToolBar : public KToolBar {
 public:
 
 	/**
-	 * Enumeration of all available edit tools.
-	 */
-	enum EditTool {
-		Select = 0,
-		Generalization, Aggregation, Dependency, Association,
-		CollMessage, SeqMessage,
-		Composition, UniAssociation,
-		StateTransition, ActivityTransition,
-		Anchor, Note, Box, Text,
-		Actor, UseCase, Class, Interface,
-		Package, Component, Artifact, Object,
-		InitialState, State, EndState,
-		InitialActivity, Activity, EndActivity, Branch, Fork
-	};
-
-	/**
 	 * Creates a work tool bar.
 	 *
 	 * @param parentWindow	The parent of the toolbar.
@@ -65,13 +49,6 @@ public:
 	void setDefaultTool();
 
 	/**
-	 * Returns the currently selected EditTool.
-	 *
-	 * @return	The currently selected EditTool.
-	 */
-	EditTool currentTool();
-
-	/**
 	 * Standard deconstructor.
 	 */
 	~WorkToolBar();
@@ -87,6 +64,7 @@ public:
 	    tbb_Aggregation,
 	    tbb_Dependency,
 	    tbb_Association,
+	    tbb_Containment,
 	    tbb_Coll_Message,
 	    tbb_Seq_Message_Synchronous,
 	    tbb_Seq_Message_Asynchronous,
@@ -145,6 +123,7 @@ private:
 		QPixmap Case;
 		QPixmap Component;
 		QPixmap Composition;
+		QPixmap Containment;
 		QPixmap Dependency;
 		QPixmap EndState;
 		QPixmap Fork;
@@ -189,7 +168,6 @@ private:
 
 signals:
 	void sigButtonChanged(int);
-	void toolSelected(WorkToolBar::EditTool);
 public slots:
 	void slotCheckToolBar(Uml::Diagram_Type dt);
 	void buttonChanged(int b);

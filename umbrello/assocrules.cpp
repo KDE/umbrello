@@ -52,6 +52,7 @@ bool AssocRules::allowAssociation( Association_Type assocType, UMLWidget * widge
 		case at_Generalization://can have many sub/super types
 		case at_Aggregation:
 		case at_Composition:
+		case at_Containment:
 			return true;//doesn't matter whats already connected to widget
 			break;
 
@@ -59,11 +60,9 @@ bool AssocRules::allowAssociation( Association_Type assocType, UMLWidget * widge
 			return true;// we should really check that connection is to same object
 			break;
 
-		case at_Realization:
-		case at_Implementation://one connected to widget only (a or b)
+		case at_Realization:  // one connected to widget only (a or b)
 			while( ( assoc = it.current() ) ) {
-				if( assoc -> getAssocType() == at_Implementation ||
-				        assoc -> getAssocType() == at_Realization )
+				if( assoc -> getAssocType() == at_Realization )
 					return false;
 				++it;
 			}
@@ -122,6 +121,7 @@ bool AssocRules::allowAssociation( Association_Type assocType, UMLWidget * widge
 		case at_Coll_Message:
 		case at_Aggregation:
 		case at_Composition:
+		case at_Containment:
 			return true;//doesn't matter whats already connected to widget
 			break;
 
@@ -149,16 +149,6 @@ bool AssocRules::allowAssociation( Association_Type assocType, UMLWidget * widge
 				   widgetB->getBaseType() == wt_Package) {
 				return true;
 			}
-			break;
-
-		case at_Implementation://one connected to widget only (a or b)
-			while( ( assoc = it.current() ) ) {
-				if( assoc -> getAssocType() == at_Implementation ||
-				        assoc -> getAssocType() == at_Realization )
-					return false;
-				++it;
-			}
-			return true;
 			break;
 
 		case at_State:
@@ -307,8 +297,11 @@ AssocRules::Assoc_Rule AssocRules::m_AssocRules []= {
             { at_Composition,	wt_Class,	wt_Class,	true,	true,	false,	true  },
             { at_Composition,	wt_Class,	wt_Interface,	true,	true,	false,	false },
             { at_Composition,	wt_Class,	wt_Datatype,	false,	false,	false,	false },
-            { at_Composition,	wt_Class,	wt_Enum,	false,	false,	false,	false },
-            { at_Implementation,wt_Class,	wt_Class,	false,	false,	false,	false },
+            { at_Composition,	wt_Class,	wt_Class,	false,	false,	false,	false },
+            { at_Containment,	wt_Package,	wt_Class,	false,	false,	true,	false },
+            { at_Containment,	wt_Package,	wt_Interface,	false,	false,	true,	false },
+            { at_Containment,	wt_Package,	wt_Enum,	false,	false,	true,	false },
+            { at_Containment,	wt_Package,	wt_Package,	false,	false,	true,	false },
             { at_Coll_Message,	wt_Object,	wt_Object,	true,	false,	true,	true  },
             { at_State,		wt_State,	wt_State,	true,	false,	true,	true  },
             { at_Activity,	wt_Activity,	wt_Activity,	true,	false,	true,	true  },

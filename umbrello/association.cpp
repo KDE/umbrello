@@ -49,33 +49,25 @@ bool UMLAssociation::operator==(UMLAssociation &rhs) {
 }
 
 const QString UMLAssociation::assocTypeStr[UMLAssociation::nAssocTypes] = {
-	"generalization",	// at_Generalization
-	"aggregation",		// at_Aggregation
-	"dependency",		// at_Dependency
-	"association",		// at_Association
-	"associationself",	// at_Association_Self
-	"collmessage",		// at_Coll_Message
-	"seqmessage",		// at_Seq_Message
-	"collmessageself",	// at_Coll_Message_Self
-	"seqmessageself",	// at_Seq_Message_Self
-	/*implementation no longer exists, but we keep it for compatibility*/
-	"implementation",	// at_Implementation
-	"composition",		// at_Composition
-	"realization",		// at_Realization
-	"uniassociation",	// at_UniAssociation
-	"anchor",		// at_Anchor
-	"state",		// at_State
-	"activity", 		// at_Activity
+	/* The elements must be listed in the same order as in the
+	   Uml::Association_Type.  */
+	i18n("Generalization"),			// at_Generalization
+	i18n("Aggregation"),			// at_Aggregation
+	i18n("Dependency"),			// at_Dependency
+	i18n("Association"),			// at_Association
+	i18n("Self Association"),		// at_Association_Self
+	i18n("Collaboration Message"),		// at_Coll_Message
+	i18n("Sequence Message"),		// at_Seq_Message
+	i18n("Collaboration Self Message"),	// at_Coll_Message_Self
+	i18n("Sequence Self Message"),		// at_Seq_Message_Self
+	i18n("Containment"),			// at_Containment
+	i18n("Composition"),			// at_Composition
+	i18n("Realization"),			// at_Realization
+	i18n("Uni Association"),		// at_UniAssociation
+	i18n("Anchor"),				// at_Anchor
+	i18n("State Transition"),		// at_State
+	i18n("Activity"), 			// at_Activity
 };
-
-// Required by loadFromXMI(): In an early version of saveToXMI(),
-// the assoctype natural names were saved instead of the numbers.
-Uml::Association_Type UMLAssociation::toAssocType (QString atype) {
-	for (unsigned i = 0; i < nAssocTypes; i++)
-		if (atype == assocTypeStr[i])
-			return (Uml::Association_Type)(i + (unsigned)atypeFirst);
-	return at_Unknown;
-}
 
 Uml::Association_Type UMLAssociation::getAssocType() const {
 	return m_AssocType;
@@ -90,47 +82,7 @@ QString UMLAssociation::toString ( ) const
 		string += ":";
 		string += m_pRoleA->getName();
 	}
-	string += ":";
-	switch(m_AssocType)
-	{
-	case at_Generalization:
-		string += i18n("Generalization");
-		break;
-	case at_Aggregation:
-		string += i18n("Aggregation");
-		break;
-	case at_Dependency:
-		string += i18n("Dependency");
-		break;
-	case at_Association:
-		string += i18n("Association");
-		break;
-	case at_Association_Self:
-		string += i18n("Self Association");
-		break;
-	case at_Anchor:
-		string += i18n("Anchor");
-		break;
-	case at_Realization:
-		string += i18n("Realization");
-		break;
-	case at_Composition:
-		string += i18n("Composition");
-		break;
-	case at_UniAssociation:
-		string += i18n("Uni Association");
-		break;
-	case at_Implementation:
-		string += i18n("Implementation");
-		break;
-	case at_State:
-		string += i18n("State Transition");
-		break;
-	default:
-		string += i18n("Other Type");
-		break;
-	} //end switch
-	string += ":";
+	string += ":" + typeAsString(m_AssocType) + ":";
 	if(m_pRoleB)
 	{
 		string += m_pRoleB->getObject( )->getName();
@@ -322,17 +274,12 @@ bool UMLAssociation::loadFromXMI( QDomElement & element ) {
 	// From here on it's old-style stuff.
 	QString assocTypeStr = element.attribute( "assoctype", "-1" );
 	Uml::Association_Type assocType = Uml::at_Unknown;
-	if (assocTypeStr[0] >= 'a' && assocTypeStr[0] <= 'z') {
-		// In an earlier version, the natural assoctype names were saved.
-		assocType = toAssocType( assocTypeStr );
-	} else {
-		int assocTypeNum = assocTypeStr.toInt();
-		if (assocTypeNum < (int)atypeFirst || assocTypeNum > (int)atypeLast) {
-			kdWarning() << "bad assoctype of UML:Association " << getID() << endl;
-			return false;
-		}
-		assocType = (Uml::Association_Type)assocTypeNum;
+	int assocTypeNum = assocTypeStr.toInt();
+	if (assocTypeNum < (int)atypeFirst || assocTypeNum > (int)atypeLast) {
+		kdWarning() << "bad assoctype of UML:Association " << getID() << endl;
+		return false;
 	}
+	assocType = (Uml::Association_Type)assocTypeNum;
 	setAssocType( assocType );
 
 	int roleAObjID = element.attribute( "rolea", "-1" ).toInt();

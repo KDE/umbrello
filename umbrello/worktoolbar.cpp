@@ -84,6 +84,7 @@ void WorkToolBar::slotCheckToolBar(Uml::Diagram_Type dt) {
 		insertBasicAssociations();
 		insertHotBtn(tbb_Composition, i18n("Composition"));
 		insertHotBtn(tbb_Aggregation, i18n("Aggregation"));
+		insertHotBtn(tbb_Containment, i18n("Containment"));
 		break;
 
 	case Uml::dt_Sequence:
@@ -170,7 +171,6 @@ void WorkToolBar::buttonChanged(int b) {
 		toggleButton(tbb_Arrow);
 		m_CurrentButtonID = tbb_Arrow;
 		emit sigButtonChanged(m_CurrentButtonID);
-		emit toolSelected((EditTool)m_CurrentButtonID);
 		view->setCursor( currentCursor() );
 		return;
 	}
@@ -178,7 +178,6 @@ void WorkToolBar::buttonChanged(int b) {
 	toggleButton(m_CurrentButtonID);
 	m_CurrentButtonID = tbb;
 	emit sigButtonChanged(m_CurrentButtonID);
-	emit toolSelected((EditTool)m_CurrentButtonID);
         view->setCursor( currentCursor() );
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -195,8 +194,10 @@ QCursor WorkToolBar::currentCursor() {
 		return QCursor(m_CursorPixmaps.Anchor, 9, 9);
 	} else if (m_CurrentButtonID == tbb_Artifact)  {
 		return QCursor(m_CursorPixmaps.Artifact, 9, 9);
-	} else if (m_CurrentButtonID == tbb_Association)  {
+	} else if (m_CurrentButtonID == tbb_Association) {
 		return QCursor(m_CursorPixmaps.Association, 9, 9);
+	} else if (m_CurrentButtonID == tbb_Containment)  {
+		return QCursor(m_CursorPixmaps.Containment, 9, 9);
 	} else if (m_CurrentButtonID == tbb_Box)  {
 		return QCursor(m_CursorPixmaps.Box, 9, 9);
 	} else if (m_CurrentButtonID == tbb_Branch)  {
@@ -260,7 +261,6 @@ void WorkToolBar::slotResetToolBar() {
 	m_CurrentButtonID = tbb_Arrow;
 	toggleButton(m_CurrentButtonID);
 	emit sigButtonChanged(m_CurrentButtonID);
-	emit toolSelected((EditTool)m_CurrentButtonID);
 
 	QCursor curs;
 	curs.setShape(Qt::ArrowCursor);
@@ -271,12 +271,6 @@ void WorkToolBar::slotResetToolBar() {
 	}
 }
 
-
-WorkToolBar::EditTool WorkToolBar::currentTool()
-{
-return (EditTool)m_CurrentButtonID;
-}
-///////////////////////////////////////////////////////////////////////////////////////////
 void WorkToolBar::setOldTool() {
 	KToolBarButton *b = (KToolBarButton*) getWidget(m_map[m_Type]);
 	if(b)
@@ -299,6 +293,7 @@ void WorkToolBar::loadPixmaps() {
 	m_Pixmaps[tbb_Seq_Message_Asynchronous].load( dataDir + "message-asynchronous.xpm" );
 	m_Pixmaps[tbb_Arrow].load( dataDir + "arrow.png" );
 	m_Pixmaps[tbb_Association].load( dataDir + "association.xpm" );
+	m_Pixmaps[tbb_Containment].load( dataDir + "containment.xpm" );
 	m_Pixmaps[tbb_Anchor].load( dataDir + "anchor.xpm" );
 	m_Pixmaps[tbb_Text].load( dataDir + "text.xpm" );
 	m_Pixmaps[tbb_Note].load( dataDir + "note.xpm" );
@@ -334,6 +329,7 @@ void WorkToolBar::loadPixmaps() {
 	m_CursorPixmaps.Case.load( dataDir + "cursor-case.xpm");
 	m_CursorPixmaps.Component.load( dataDir + "cursor-component.xpm");
 	m_CursorPixmaps.Composition.load( dataDir + "cursor-composition.xpm");
+	m_CursorPixmaps.Containment.load( dataDir + "cursor-containment.xpm");
 	m_CursorPixmaps.Dependency.load( dataDir + "cursor-dependency.xpm");
 	m_CursorPixmaps.EndState.load( dataDir + "cursor-end-state.xpm");
 	m_CursorPixmaps.Fork.load( dataDir + "cursor-fork.xpm");
@@ -354,12 +350,12 @@ void WorkToolBar::loadPixmaps() {
 }
 
 void WorkToolBar::insertBasicAssociations()  {
-		insertHotBtn(tbb_Association, i18n("Association"));
-		if (m_Type == dt_Class || m_Type == dt_UseCase)  {
-			insertHotBtn(tbb_UniAssociation, i18n("Directional Association"));
-		}
-		insertHotBtn(tbb_Dependency, i18n("Dependency"));
-		insertHotBtn(tbb_Generalization, i18n("Implements (Generalisation/Realisation)"));
+	insertHotBtn(tbb_Association, i18n("Association"));
+	if (m_Type == dt_Class || m_Type == dt_UseCase)  {
+		insertHotBtn(tbb_UniAssociation, i18n("Directional Association"));
+	}
+	insertHotBtn(tbb_Dependency, i18n("Dependency"));
+	insertHotBtn(tbb_Generalization, i18n("Implements (Generalisation/Realisation)"));
 }
 
 #include "worktoolbar.moc"

@@ -99,7 +99,7 @@ namespace Uml {
 	    at_Seq_Message,
 	    at_Coll_Message_Self,
 	    at_Seq_Message_Self,
-	    at_Implementation,
+	    at_Containment,
 	    at_Composition,
 	    at_Realization,
 	    at_UniAssociation,

@@ -24,6 +24,32 @@
 
 using namespace std;
 
+LinePath::Circle::Circle(QCanvas * canvas, int radius /* = 0 */)
+  : QCanvasEllipse(radius * 2, radius * 2, canvas) {
+}
+
+void LinePath::Circle::setX(int x) {
+	QCanvasItem::setX( (double) x );
+}
+
+void LinePath::Circle::setY(int y) {
+	QCanvasItem::setY( (double) y );
+}
+
+void LinePath::Circle::setRadius(int radius) {
+	QCanvasEllipse::setSize(radius * 2, radius * 2);
+}
+
+int LinePath::Circle::getRadius() const {
+	return (QCanvasEllipse::height() / 2);
+}
+
+void LinePath::Circle::drawShape(QPainter& p) {
+	int diameter = height();
+	int radius = diameter / 2;
+	p.drawEllipse( (int)x() - radius, (int)y() - radius, diameter, diameter);
+}
+
 LinePath::LinePath() {
 	m_RectList.setAutoDelete( true );
 	m_LineList.setAutoDelete( true );
@@ -31,7 +57,7 @@ LinePath::LinePath() {
 	m_ParallelList.setAutoDelete( true );
 	m_bSelected = false;
 	m_pClearPoly = 0;
-	m_pEllipse = 0;
+	m_pCircle = 0;
 	m_PointArray.resize( 4 );
 	m_ParallelLines.resize( 4 );
 	m_pAssociation = 0;
@@ -198,7 +224,7 @@ bool LinePath::removePoint( int pointIndex, QPoint point, unsigned short delta )
 		QPoint startPoint = current_line -> startPoint();
 		QPoint endPoint = next_line -> endPoint();
 		next_line -> setPoints(startPoint.x(), startPoint.y(),
-									  endPoint.x(), endPoint.y());
+					  endPoint.x(), endPoint.y());
 
 	} else
 	if (abs( current_line -> startPoint().x() - point.x() ) <= delta
@@ -216,7 +242,7 @@ bool LinePath::removePoint( int pointIndex, QPoint point, unsigned short delta )
 		QPoint startPoint = previous_line -> startPoint();
 		QPoint endPoint = current_line -> endPoint();
 		previous_line -> setPoints(startPoint.x(), startPoint.y(),
-											endPoint.x(), endPoint.y());
+						endPoint.x(), endPoint.y());
 	} else {
 		/* the user clicked neither on the start- nor on the end point of
 		 * the line; this really shouldn't happen, but just make sure */
@@ -329,8 +355,8 @@ void LinePath::setLineColor( QColor color ) {
 	else if( getAssocType() == at_Composition )
 		if (m_pClearPoly) m_pClearPoly -> setBrush( QBrush( color ) );
 
-	if( m_pEllipse )
-		m_pEllipse -> setPen( color );
+	if( m_pCircle )
+		m_pCircle->setPen( QPen(color) );
 }
 
 void LinePath::moveSelected( int pointIndex ) {
@@ -400,48 +426,56 @@ void LinePath::calculateHead() {
 	calls_to_calc_head++;
 #endif
 	uint size = m_LineList.count();
-	bool diamond;
-	int xa, ya, xb, yb;
-	uint edgePointIndex;
-	if (getAssocType() == at_Aggregation || getAssocType() == at_Composition) {
-		diamond = true;
-		xa = getPoint(1).x();
-		ya = getPoint(1).y();
-		xb = getPoint(0).x();
-		yb = getPoint(0).y();
-		edgePointIndex = 0;
+	QPoint farPoint;
+	int halfLength = 10;
+	double arrowAngle = 0.2618;   // 0.5 * atan(sqrt(3.0) / 3.0) = 0.2618
+	Association_Type at = getAssocType();
+	bool diamond = (at == at_Aggregation || at == at_Composition);
+	if (diamond || at == at_Containment) {
+		farPoint = getPoint(1);
+		m_EgdePoint = getPoint(0);
+		if (diamond) {
+			arrowAngle *= 1.5;	// wider
+			halfLength += 1;	// longer
+		} else {
+			// Containment has a circle-plus symbol at the
+			// containing object.  What we are tweaking here
+			// is the perpendicular line through the circle
+			// (i.e. the horizontal line of the plus sign if
+			// the objects are oriented north/south)
+			arrowAngle *= 2.5;	// wider
+			halfLength -= 4;	// shorter
+		}
 	} else {
-		diamond = false;
-		xa = getPoint(size - 1).x();
-		ya = getPoint(size - 1).y();
-		xb = getPoint(size).x();
-		yb = getPoint(size).y();
-		edgePointIndex = size;
+		farPoint = getPoint(size - 1);
+		m_EgdePoint = getPoint(size);
+		// We have an arrow.
+		arrowAngle *= 2.0;	// wider
+		halfLength += 3;	// longer
 	}
+	int xa = farPoint.x();
+	int ya = farPoint.y();
+	int xb = m_EgdePoint.x();
+	int yb = m_EgdePoint.y();
 	double deltaX = xb - xa;
 	double deltaY = yb - ya;
 	double hypotenuse = sqrt(deltaX*deltaX + deltaY*deltaY); // the length
-	int halfLength = 10;
-	double arrowAngle = 0.5 * atan(sqrt(3.0) / 3.0);
-	if (diamond) {
-		arrowAngle *= 1.5;	// wider
-		halfLength += 1;	// longer
-	} else {
-		arrowAngle *= 2;	// wider
-		halfLength += 3;	// longer
-	}
 	double slope = atan2(deltaY, deltaX);	//slope of line
-	double cosx = hypotenuse==0?1:halfLength * deltaX/hypotenuse;
-
-	double siny = hypotenuse==0?0:halfLength * deltaY/hypotenuse;
 	double arrowSlope = slope + arrowAngle;
+	double cosx, siny;
+	if (hypotenuse < 1.0e-6) {
+		cosx = 1.0;
+		siny = 0.0;
+	} else {
+		cosx = halfLength * deltaX/hypotenuse;
+		siny = halfLength * deltaY/hypotenuse;
+	}
 
-	m_LastPoint = getPoint(edgePointIndex);
-	m_ArrowPointA.setX( (int)rint(m_LastPoint.x() - halfLength * cos(arrowSlope)) );
-	m_ArrowPointA.setY( (int)rint(m_LastPoint.y() - halfLength * sin(arrowSlope)) );
+	m_ArrowPointA.setX( (int)rint(xb - halfLength * cos(arrowSlope)) );
+	m_ArrowPointA.setY( (int)rint(yb - halfLength * sin(arrowSlope)) );
 	arrowSlope = slope - arrowAngle;
-	m_ArrowPointB.setX( (int)rint(m_LastPoint.x() - halfLength * cos(arrowSlope)) );
-	m_ArrowPointB.setY( (int)rint(m_LastPoint.y() - halfLength * sin(arrowSlope)) );
+	m_ArrowPointB.setX( (int)rint(xb - halfLength * cos(arrowSlope)) );
+	m_ArrowPointB.setY( (int)rint(yb - halfLength * sin(arrowSlope)) );
 
 	if(xa > xb)
 		cosx = cosx > 0 ? cosx : cosx * -1;
@@ -453,19 +487,21 @@ void LinePath::calculateHead() {
 	else
 		siny = siny > 0 ? siny * -1 : siny;
 
-	m_MidPoint.setX( (int)rint(m_LastPoint.x() + cosx) );
-	m_MidPoint.setY( (int)rint(m_LastPoint.y() + siny) );
-	m_FullPoint.setX( (int)rint(m_LastPoint.x() + cosx * 2) );
-	m_FullPoint.setY( (int)rint(m_LastPoint.y() + siny * 2) );
+	m_MidPoint.setX( (int)rint(xb + cosx) );
+	m_MidPoint.setY( (int)rint(yb + siny) );
 
-	m_PointArray.setPoint(0, m_LastPoint);
+	m_PointArray.setPoint(0, m_EgdePoint);
 	m_PointArray.setPoint(1, m_ArrowPointA);
-	m_PointArray.setPoint(2, m_FullPoint);
-	m_PointArray.setPoint(3, m_ArrowPointB);
 	if( getAssocType() == at_Realization ||
-	        getAssocType() == at_Generalization ) {
+	    getAssocType() == at_Generalization ) {
 		m_PointArray.setPoint( 2, m_ArrowPointB );
-		m_PointArray.setPoint( 3, m_LastPoint );
+		m_PointArray.setPoint( 3, m_EgdePoint );
+	} else {
+		QPoint diamondFarPoint;
+		diamondFarPoint.setX( (int)rint(xb + cosx * 2) );
+		diamondFarPoint.setY( (int)rint(yb + siny * 2) );
+		m_PointArray.setPoint(2, diamondFarPoint);
+		m_PointArray.setPoint(3, m_ArrowPointB);
 	}
 }
 
@@ -480,10 +516,10 @@ void LinePath::updateHead() {
 			if( count < 2)
 				return;
 			line = m_HeadList.at( 0 );
-			line -> setPoints( m_LastPoint.x(), m_LastPoint.y(), m_ArrowPointA.x(), m_ArrowPointA.y() );
+			line -> setPoints( m_EgdePoint.x(), m_EgdePoint.y(), m_ArrowPointA.x(), m_ArrowPointA.y() );
 
 			line = m_HeadList.at( 1 );
-			line -> setPoints( m_LastPoint.x(), m_LastPoint.y(), m_ArrowPointB.x(), m_ArrowPointB.y() );
+			line -> setPoints( m_EgdePoint.x(), m_EgdePoint.y(), m_ArrowPointB.x(), m_ArrowPointB.y() );
 			break;
 
 		case at_Generalization:
@@ -491,10 +527,10 @@ void LinePath::updateHead() {
 			if( count < 3)
 				return;
 			line = m_HeadList.at( 0 );
-			line -> setPoints( m_LastPoint.x(), m_LastPoint.y(), m_ArrowPointA.x(), m_ArrowPointA.y() );
+			line -> setPoints( m_EgdePoint.x(), m_EgdePoint.y(), m_ArrowPointA.x(), m_ArrowPointA.y() );
 
 			line = m_HeadList.at( 1 );
-			line -> setPoints( m_LastPoint.x(), m_LastPoint.y(), m_ArrowPointB.x(), m_ArrowPointB.y() );
+			line -> setPoints( m_EgdePoint.x(), m_EgdePoint.y(), m_ArrowPointB.x(), m_ArrowPointB.y() );
 
 			line = m_HeadList.at( 2 );
 			line -> setPoints( m_ArrowPointA.x(), m_ArrowPointA.y(), m_ArrowPointB.x(), m_ArrowPointB.y() );
@@ -519,19 +555,14 @@ void LinePath::updateHead() {
 			m_pClearPoly -> setPoints( m_PointArray );
 			break;
 
-		case at_Implementation:
-			//find which side we are on of icon to calculate circle co-ords
-			if( m_MidPoint.y() <= m_LastPoint.y()) {
-				m_pEllipse -> setY( m_MidPoint.y() );
-			} else {
-				m_pEllipse -> setY( m_LastPoint.y() );
-			}
-
-			if( m_MidPoint.x() <= m_LastPoint.x()) {
-				m_pEllipse -> setX( m_MidPoint.x() );
-			} else {
-				m_pEllipse -> setX( m_LastPoint.x() );
-			}
+		case at_Containment:
+			if (count < 1)
+				return;
+			line = m_HeadList.at( 0 );
+			line->setPoints( m_PointArray[ 1 ].x(), m_PointArray[ 1 ].y(),
+					 m_PointArray[ 3 ].x(), m_PointArray[ 3 ].y() );
+			m_pCircle -> setX( m_MidPoint.x() );
+			m_pCircle -> setY( m_MidPoint.y() );
 			break;
 		default:
 			break;
@@ -554,9 +585,6 @@ void LinePath::createHeadLines() {
 	QCanvas * canvas = getCanvas();
 	switch( getAssocType() ) {
 		case at_Activity:
-			growHeadList( 2 );
-			break;
-
 		case at_State:
 		case at_Dependency:
 		case at_UniAssociation:
@@ -584,12 +612,12 @@ void LinePath::createHeadLines() {
 			m_pClearPoly -> setZ( -1 );
 			break;
 
-		case at_Implementation:
-			if (!m_pEllipse) {
-				m_pEllipse = new QCanvasEllipse( canvas );
-				m_pEllipse -> setVisible( true );
-				m_pEllipse -> setBrush( QBrush( getLineColor() ) );
-				m_pEllipse -> setSize( 10, 10 );
+		case at_Containment:
+			growHeadList( 1 );
+			if (!m_pCircle) {
+				m_pCircle = new Circle( canvas, 6 );
+				m_pCircle->show();
+				m_pCircle->setPen( QPen( getLineColor() ) );
 			}
 			break;
 		default:
@@ -749,9 +777,9 @@ void LinePath::cleanup() {
 
 	if( m_pClearPoly )
 		delete m_pClearPoly;
-	if( m_pEllipse )
-		delete m_pEllipse;
-	m_pEllipse = 0;
+	if( m_pCircle )
+		delete m_pCircle;
+	m_pCircle = 0;
 	m_pClearPoly = 0;
 	m_bHeadCreated = m_bParallelLineCreated = false;
 	if( m_pAssociation ) {

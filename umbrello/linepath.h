@@ -13,6 +13,8 @@
 #include <qptrlist.h>
 #include <qpoint.h>
 #include <qpointarray.h>
+#include <qcanvas.h>
+#include <qpainter.h>
 #include "umlnamespace.h"
 
 /* how many pixels a user could click around a point */
@@ -22,11 +24,6 @@ class AssociationWidget;
 class UMLView;
 
 // Qt forward declarations
-class QCanvasEllipse;
-class QCanvasLine;
-class QCanvasPolygon;
-class QCanvasRectangle;
-class QCanvas;
 class QDataStream;
 class QDomDocument;
 class QDomElement;
@@ -175,6 +172,24 @@ public:
 protected:
 
 	/**
+	 * Draw a (hollow) circle.
+	 * We can't use QCanvasEllipse directly for this because it doesn't
+	 * use the pen, i.e. QCanvasEllipse only draws filled ellipses.
+	 */
+	class Circle : public QCanvasEllipse {
+	public:
+		Circle(QCanvas * canvas, int radius = 0);
+		void setRadius(int radius);
+		int getRadius() const;
+		void setX(int x);
+		void setY(int y);
+		/**
+		 * The beef: Override method from QCanvasEllipse.
+		 */
+		void drawShape(QPainter& p);
+	};
+
+	/**
 	*   Returns the canvas being used.
 	*   Will return zero if the Association hasn't been set.
 	*
@@ -294,7 +309,7 @@ protected:
 	/*
 	*   Contains calculated points used to draw the line head.
 	*/
-	QPoint m_ArrowPointA, m_ArrowPointB, m_MidPoint, m_FullPoint, m_LastPoint;
+	QPoint m_ArrowPointA, m_ArrowPointB, m_MidPoint, m_EgdePoint;
 
 	/**
 	*   A polygon object to blank out any lines we don't want to see.
@@ -302,9 +317,9 @@ protected:
 	QCanvasPolygon * m_pClearPoly;
 
 	/**
-	*   The Ellipse object to display, (what else) an ellipse.
-	*/
-	QCanvasEllipse * m_pEllipse;
+	 *  The transparent circle required by containment associations.
+	 */
+	Circle * m_pCircle;
 
 	/**
 	*   Contains the calculated points for the parallel line

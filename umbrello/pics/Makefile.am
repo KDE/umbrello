@@ -10,6 +10,7 @@ case.xpm \
 component.xpm \
 composition.xpm \
 constraint.xpm \
+containment.xpm \
 CVglobal_meth.png \
 CVglobal_var.png \
 CVnamespace.png \
@@ -68,6 +69,7 @@ cursor-initial-state.xpm \
 cursor-package.xpm \
 cursor-aggregation.xpm \
 cursor-component.xpm \
+cursor-containment.xpm \
 cursor-interface.xpm \
 cursor-datatype.xpm \
 cursor-enum.xpm \

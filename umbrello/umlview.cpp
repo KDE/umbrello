@@ -2193,6 +2193,10 @@ Uml::Association_Type UMLView::convert_TBB_AT(WorkToolBar::ToolBar_Buttons tbb) 
 			at = at_Dependency;
 			break;
 
+		case WorkToolBar::tbb_Containment:
+			at = at_Containment;
+			break;
+
 		case WorkToolBar::tbb_Seq_Message_Synchronous:
 		case WorkToolBar::tbb_Seq_Message_Asynchronous:
 			at = at_Seq_Message;

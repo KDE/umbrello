@@ -933,55 +933,7 @@ QString AssociationWidget::toString() {
 		string += m_role[A].m_pRole -> getText();
 	}
 	string.append(":");
-	switch(getAssocType()) {
-	case at_Generalization:
-		string.append(i18n("Generalization"));
-		break;
-
-	case at_Aggregation:
-		string.append(i18n("Aggregation"));
-		break;
-
-	case at_Dependency:
-		string.append(i18n("Dependency"));
-		break;
-
-	case at_Association:
-		string.append(i18n("Association"));
-		break;
-
-	case at_Association_Self:
-		string.append(i18n("Self Association"));
-		break;
-
-	case at_Anchor:
-		string.append(i18n("Anchor"));
-		break;
-
-	case at_Realization:
-		string.append( i18n("Realization") );
-		break;
-
-	case at_Composition:
-		string.append( i18n("Composition") );
-		break;
-
-	case at_UniAssociation:
-		string.append( i18n("Uni Association") );
-		break;
-
-	case at_Implementation:
-		string.append( i18n("Implementation") );
-		break;
-
-	case at_State:
-		string.append( i18n("State Transition") );
-		break;
-
-	default:
-		string.append(i18n("Other Type"));
-		break;
-	}; //end switch
+	string.append( UMLAssociation::typeAsString(getAssocType()) );
 	string.append(":");
 	if(m_role[B].m_pWidget) {
 		string += m_role[B].m_pWidget -> getName();
