@@ -214,7 +214,7 @@ void UMLApp::initActions() {
 					    "delete_selected" );
 
 	// The different views
-        newDiagram = new KActionMenu(0,  SmallIconSet("new"), actionCollection(), "new_view");
+        newDiagram = new KActionMenu(0, SmallIconSet("filenew"), actionCollection(), "new_view");
 	classDiagram = new KAction( i18n( "&Class Diagram" ), SmallIconSet("folder_green"), 0,
 	                            this, SLOT( slotClassDiagram() ), actionCollection(), "new_class_diagram" );
 
@@ -1110,39 +1110,51 @@ void UMLApp::setDiagramMenuItemsState(bool bState) {
 
 void UMLApp::slotUpdateViews() {
 	int count = menuBar() -> count();
-	int id=-1;
-	for( int i =0; i<count;i++) {
+	int id = -1;
+	//Find the Diagram menu
+	for (int i=0; i<count;i++) {
 		id = menuBar()->idAt(i);
-		if(id == -1)
+		if (id == -1) {
+			kdWarning() << "menu not found" << endl;
 			return;
-		if(menuBar()->findItem(id)->popup()->name() == QString("views"))
+		}
+		if (menuBar()->findItem(id)->popup()->name() == QString("views")) {
 			break;
+		}
 	}
-	if(id == -1)
+	if (id == -1) {
+		kdWarning() << "menu not found" << endl;
 		return;
-	QPopupMenu *menu = menuBar()->findItem(id)->popup();
-	if( !menu )
+	}
+	QPopupMenu* menu = menuBar()->findItem(id)->popup();
+	if (!menu) {
+		kdWarning() << "menu not found" << endl;
 		return;
-	count = menu -> count();
+	}
+	count = menu->count();
 	id = -1;
-	for( int i =0; i<count;i++) {
+	//Find the Show menu
+	for (int i=0; i<count;i++) {
 		id = menu -> idAt( i );
-		QString text = menu -> findItem( id ) -> text();
-		if( text == i18n("Show") )
+		if( menu->findItem(id)->popup()->name() == QString("show_view") ) {
 			break;
+		}
 	}
-	if( id == -1 )
+	if (id == -1) {
+		kdWarning() << k_funcinfo << "show menu not found" << endl;
 		return;
-	menu = menu -> findItem( id ) -> popup();
-	if( !menu )
+	}
+
+	menu = menu->findItem(id)->popup();
+
+	if (!menu) {
+		kdWarning() << k_funcinfo << "menu now found" << endl;
 		return;
-	//	count = menu -> count();
-	//	for( int i =0; i<count;i++)
+	}
 
-	//		menu -> removeItemAt( i );
-	menu -> clear();
+	menu->clear();
 
-	for(QListIterator<UMLView> views = getDocument()->getViewIterator(); views.current(); ++views) {
+	for (QListIterator<UMLView> views = getDocument()->getViewIterator(); views.current(); ++views) {
 		menu->insertItem( views.current()->getName(), views.current(), SLOT( slotShowView() ) );
 		views.current()->fileLoaded();
 	}

@@ -645,7 +645,7 @@ private:
 	KAction* stateDiagram;
 	KAction* activityDiagram;
 	KAction* viewClearDiagram;
-
+	
 	KToggleAction* viewSnapToGrid;
 	KToggleAction* viewShowGrid;
 	KAction* viewExportImage;
