@@ -126,6 +126,11 @@ void UMLOperationDialog::setupDialog() {
 	for(pConcept=namesList.first(); pConcept!=0 ;pConcept=namesList.next()) {
 		m_pRtypeCB->insertItem( pConcept->getName() );
 	}
+	QPtrList<UMLInterface> interfaceList( pDoc->getInterfaces() );
+	UMLInterface* pInterface = 0;
+	for(pInterface=interfaceList.first(); pInterface!=0 ;pInterface=interfaceList.next()) {
+		m_pRtypeCB->insertItem( pInterface->getName() );
+	}
 
 	//work out which one to select
 	int returnBoxCount = 0;

@@ -1437,6 +1437,16 @@ QList<UMLConcept> UMLDoc::getConcepts() {
 	return conceptList;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+QList<UMLInterface> UMLDoc::getInterfaces() {
+	QList<UMLInterface> interfaceList;
+	for(UMLObject* obj = objectList.first(); obj ; obj = objectList.next()) {
+		if(obj->getBaseType() == ot_Interface) {
+			interfaceList.append((UMLInterface*)obj);
+		}
+	}
+	return interfaceList;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
 QList<UMLAssociation> UMLDoc::getAssociations() {
 	QList<UMLAssociation> associationList;
 	for(UMLObject *obj = objectList.first(); obj ; obj = objectList.next())

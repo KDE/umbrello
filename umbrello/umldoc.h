@@ -38,6 +38,7 @@ class UMLView;
 class UMLViewData;
 class UMLWidget;
 class UMLConcept;
+class UMLInterface;
 class UMLAssociation;
 class UMLApp;
 
@@ -464,6 +465,13 @@ public:
 	 *	@return	Returns a list of concepts
 	 */
 	QList<UMLConcept> getConcepts();
+
+	/**
+	 *	Returns a list of interfaces
+	 *
+	 *	@return	Returns a list of interfaces
+	 */
+	QList<UMLInterface> getInterfaces();
 
 	/**
 	 *	Returns a list of associations
