@@ -329,7 +329,7 @@ UMLClassifierListItemList UMLClassifier::getFilteredList(Object_Type ot) {
 	return resultList;
 }
 
-UMLObject* UMLClassifier::addTemplate(const QString &name, Uml::IDType id) {
+UMLTemplate* UMLClassifier::addTemplate(const QString &name, Uml::IDType id) {
 	UMLTemplate* newTemplate = new UMLTemplate(this, name, id);
 	m_List.append(newTemplate);
 	emit modified();

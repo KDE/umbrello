@@ -158,7 +158,7 @@ public:
 	 * @param id		The id of the template.
 	 * @return	Pointer to the UMLTemplate object created.
 	 */
-	UMLObject* addTemplate(const QString &name, Uml::IDType id = Uml::id_None);
+	UMLTemplate* addTemplate(const QString &name, Uml::IDType id = Uml::id_None);
 
 	/**
 	 * Adds an already created template.
