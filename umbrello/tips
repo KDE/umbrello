@@ -2,20 +2,20 @@
 <html>
 <p>Welcome to Umbrello.</p>
 
-<p>UML diagrams let you design and document object orientated software.  <a href="help:/umbrello">The Umbrello Handbook</a> is a good introduction to using UML.</p>
+<p>UML diagrams let you design and document object oriented software.  <a href="help:/umbrello">The Umbrello Handbook</a> is a good introduction to using UML.</p>
 </html>
 </tip>
 
 <tip category="Umbrello">
 <html>
-<p>Welcome to Umbrello 1.4.  New in this version is tabbed diagrams, canvas items can be moved with Alt+arrowkeys, a PHP 5 code generator and many fixes.</p>
+<p>Welcome to Umbrello 1.4.  New in this version are tabbed diagrams, canvas items can be moved with Alt+arrowkeys, a PHP 5 code generator and many fixes.</p>
 </html>
 </tip>
 
 <tip category="Umbrello">
 <html>
 <p>Most diagram items can not be resized, they will resize themselves to fit to their contents.
-Boxes, notes and sequence diagram messages can be resized just click and drag on the red square.</p>
+Boxes, notes and sequence diagram messages can be resized, just click and drag on the red square.</p>
 </html>
 </tip>
 
@@ -43,6 +43,20 @@ the Properties dialogue.</p>
 <tip category="Umbrello">
 <html>
 <p>Sequence diagram messages can act as constructors.  Click on the object box (rather than the vertical line) to make it a constructor.</p>
+</html>
+</tip>
+
+<tip category="Umbrello">
+<html>
+<p>Sequence diagrams support messages to self.  Click on the same vertical line again to create an automessage.</p>
+</html>
+</tip>
+
+<tip category="Umbrello">
+<html>
+<p>If on loading a foreign file nothing is displayed in the list view, try saving the model under a different name,
+closing, and reloading the saved file.  Usually the list view is then properly populated.
+</p>
 </html>
 </tip>
 
