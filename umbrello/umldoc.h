@@ -665,7 +665,7 @@ public:
 	/** a friendly little utility method to allow accessing
 	 * the parent UMLApps option state.
 	 */
-	SettingsDlg::OptionState UMLDoc::getOptionState();
+	SettingsDlg::OptionState getOptionState();
 
 	/**
 	 * Returns the documentation for the project.
