@@ -1387,7 +1387,7 @@ bool UMLDoc::saveToXMI(QIODevice& file) {
 
 	QDomElement objectsElement = doc.createElement( "UML:Model" );
 
-#ifndef XMI_NEST_PACKAGES
+#ifdef XMI_FLAT_PACKAGES
 	// Save packages first so that when loading they are known first.
 	// This simplifies the establishing of cross reference links from
 	// contained objects to their containing package.
@@ -1406,14 +1406,13 @@ bool UMLDoc::saveToXMI(QIODevice& file) {
 	// Associations are saved in an extra step (see below.)
 	for (UMLObject *o = objectList.first(); o; o = objectList.next() ) {
 		UMLObject_Type t = o->getBaseType();
-#if defined (XMI_NEST_PACKAGES)
-		// Under construction:
+#if defined (XMI_FLAT_PACKAGES)
+		if (t == ot_Package)
+			continue;
+#else
 		// Objects contained in a package are already saved by
 		// UMLPackage::saveToXMI().
 		if (o->getUMLPackage())
-			continue;
-#else
-		if (t == ot_Package)
 			continue;
 #endif
 		if (t == ot_Attribute || t == ot_Operation || t == ot_Association)
