@@ -1825,6 +1825,7 @@ void UMLListView::createUMLObject( UMLListViewItem * item, Uml::UMLObject_Type t
 
 	case Uml::ot_Enum:
 		object = new UMLEnum( m_doc, name, m_doc->getUniqueID() );
+		break;
 
 	default:
 		kdWarning() << "createing UML Object of unknown type" << endl;
