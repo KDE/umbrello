@@ -851,6 +851,7 @@ bool UMLListView::acceptDrag(QDropEvent* event) const {
 			case Uml::lvt_State_Diagram:
 			case Uml::lvt_Activity_Diagram:
 			case Uml::lvt_Sequence_Diagram:
+			case Uml::lvt_Logical_Folder:
 				accept = (dstType == Uml::lvt_Logical_Folder ||
 					  dstType == Uml::lvt_Logical_View);
 				break;
@@ -896,7 +897,8 @@ void UMLListView::slotDropped(QDropEvent* de, QListViewItem* /* parent */, QList
 	while((src = it.current()) != 0) {
 		++it;
 		UMLListViewItem * move;
-		Uml::ListView_Type srcType = src->type;
+
+		/****** Why aren't we just using findItem() here?
 		if( typeIsDiagram(srcType) ) {
 			UMLView * v = m_doc -> findView(src->id);
 			move = findView(v);
@@ -904,9 +906,14 @@ void UMLListView::slotDropped(QDropEvent* de, QListViewItem* /* parent */, QList
 			UMLObject * o = m_doc -> findUMLObject(src->id);
 			move = findUMLObject(o);
 		}
+		 ******/
+		// Let's use findItem() instead of the above code:
+		move = findItem( src->id );
+
 		if(!move)
 			continue;
 		UMLListViewItem *newItem = NULL;
+		Uml::ListView_Type srcType = src->type;
 
 		//make sure trying to place in correct location
 		switch (srcType) {
@@ -944,6 +951,7 @@ void UMLListView::slotDropped(QDropEvent* de, QListViewItem* /* parent */, QList
 			case Uml::lvt_State_Diagram:
 			case Uml::lvt_Activity_Diagram:
 			case Uml::lvt_Sequence_Diagram:
+			case Uml::lvt_Logical_Folder:
 				if (itemType == Uml::lvt_Logical_Folder ||
 				    itemType == Uml::lvt_Logical_View) {
 					newItem = move->deepCopy(newParent);
