@@ -144,11 +144,6 @@ public:
 	bool saveModified();
 
 	/**
-	 * Deletes the document's contents.
-	 */
-	void deleteContents();
-
-	/**
 	 * Initializes the document generally.
 	 *
 	 * @return	True if operation successful.
@@ -1029,6 +1024,11 @@ private:
 	 * True when reading a native Umbrello XMI file.
 	 */
 	bool m_bNativeXMIFile;
+
+	/**
+	 * True when type resolution pass has been executed.
+	 */
+	bool m_bTypesAreResolved;
 
 public slots:
 

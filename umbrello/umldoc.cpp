@@ -84,7 +84,6 @@ using namespace Uml;
 
 static const uint undoMax = 30;
 
-
 UMLDoc::UMLDoc() {
 	m_currentView = 0;
 	m_uniqueID = 0;
@@ -102,6 +101,7 @@ UMLDoc::UMLDoc() {
 	m_Doc = "";
 	m_modified = false;
 	m_bLoading = false;
+	m_bTypesAreResolved = false;
 	m_pAutoSaveTimer = 0;
 	m_nViewID = Uml::id_None;
 	m_highestIDforForeignFile = 0;
@@ -201,21 +201,21 @@ bool UMLDoc::saveModified() {
 		case KMessageBox::Yes:
 			if (m_doc_url.fileName() == i18n("Untitled")) {
 				if (win->slotFileSaveAs()) {
-					deleteContents();
+					closeDocument();
 					completed=true;
 				} else {
 					completed=false;
 				}
 			} else {
 				saveDocument(URL());
-				deleteContents();
+				closeDocument();
 				completed=true;
 			}
 			break;
 
 		case KMessageBox::No:
 			setModified(false);
-			deleteContents();
+			closeDocument();
 			completed=true;
 			break;
 
@@ -231,11 +231,51 @@ bool UMLDoc::saveModified() {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLDoc::closeDocument() {
-	deleteContents();
+	m_Doc = "";
+	DocWindow* dw = UMLApp::app()->getDocWindow();
+	if (dw) {
+		dw->newDocumentation();
+	}
+
+	// remove all code generators
+	QDictIterator<CodeGenerator> it( m_codeGeneratorDictionary );
+	for( ; it.current(); ++it )
+		removeCodeGenerator(it.current());
+
+	m_currentcodegenerator = 0;
+
+	UMLListView *listView = UMLApp::app()->getListView();
+	if (listView) {
+		listView->init();
+		// store old setting - for restore of last setting
+		bool m_bLoading_old = m_bLoading;
+		m_bLoading = true; // This is to prevent document becoming modified.
+		// For reference, here is an example of a call sequence that would
+		// otherwise result in futile addToUndoStack() calls:
+		//  removeAllViews()  =>
+		//   UMLView::removeAllAssociations()  =>
+		//    UMLView::removeAssoc()  =>
+		//     UMLDoc::setModified(true, true)  =>
+		//      addToUndoStack().
+		removeAllViews();
+		m_bLoading = m_bLoading_old;
+		if (m_objectList.count() > 0) {
+			// clear our object list. We do this explicitly since setAutoDelete is false for the objectList now.
+			for(UMLObject * obj = m_objectList.first(); obj != 0; obj = m_objectList.next())
+				; //obj->deleteLater();
+			m_objectList.clear();
+		}
+		if (m_stereoList.count() > 0) {
+			for (UMLStereotype *s = m_stereoList.first(); s; s = m_stereoList.next())
+				; //s->deleteLater();
+			m_stereoList.clear();
+		}
+	}
+	m_bTypesAreResolved = false;
 }
 
 bool UMLDoc::newDocument() {
-	/*deleteContents();*/ closeDocument();
+	closeDocument();
 	m_currentView = NULL;
 	m_doc_url.setFileName(i18n("Untitled"));
 	//see if we need to start with a new diagram
@@ -297,9 +337,9 @@ bool UMLDoc::openDocument(const KURL& url, const char* /*format =0*/) {
 
 	m_doc_url = url;
 	QDir d = url.path(1);
-	deleteContents();
+	closeDocument();
 	// IMPORTANT: set m_bLoading to true
-	// _AFTER_ the call of UMLDoc::deleteContents()
+	// _AFTER_ the call of UMLDoc::closeDocument()
 	// as it sets m_bLoading to false afer it was temporarily
 	// changed to true to block recording of changes in redo-buffer
 	m_bLoading = true;
@@ -615,50 +655,6 @@ CodeGenerator* UMLDoc::getCurrentCodeGenerator() {
 	return m_currentcodegenerator;
 }
 
-void UMLDoc::deleteContents() {
-
-	m_Doc = "";
-	DocWindow* dw = UMLApp::app()->getDocWindow();
-	if (dw) {
-		dw->newDocumentation();
-	}
-
-	// remove all code generators
-	QDictIterator<CodeGenerator> it( m_codeGeneratorDictionary );
-	for( ; it.current(); ++it )
-		removeCodeGenerator(it.current());
-
-	m_currentcodegenerator = 0;
-
-	UMLListView *listView = UMLApp::app()->getListView();
-	if (listView) {
-		listView->init();
-		// store old setting - for restore of last setting
-		bool m_bLoading_old = m_bLoading;
-		m_bLoading = true; // This is to prevent document becoming modified.
-		// For reference, here is an example of a call sequence that would
-		// otherwise result in futile addToUndoStack() calls:
-		//  removeAllViews()  =>
-		//   UMLView::removeAllAssociations()  =>
-		//    UMLView::removeAssoc()  =>
-		//     UMLDoc::setModified(true, true)  =>
-		//      addToUndoStack().
-		removeAllViews();
-		m_bLoading = m_bLoading_old;
-		if (m_objectList.count() > 0) {
-			// clear our object list. We do this explicitly since setAutoDelete is false for the objectList now.
-			for(UMLObject * obj = m_objectList.first(); obj != 0; obj = m_objectList.next())
-				; //obj->deleteLater();
-			m_objectList.clear();
-		}
-		if (m_stereoList.count() > 0) {
-			for (UMLStereotype *s = m_stereoList.first(); s; s = m_stereoList.next())
-				; //s->deleteLater();
-			m_stereoList.clear();
-		}
-	}
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLDoc::setupSignals() {
 	WorkToolBar *tb = UMLApp::app() -> getWorkToolBar();
 
@@ -2142,6 +2138,9 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element) {
 		kapp->processEvents();  // give UI events a chance
 	}
 
+	if (m_bTypesAreResolved)
+		return true;
+	m_bTypesAreResolved = true;
 #ifdef VERBOSE_DEBUGGING
 	kdDebug() << "UMLDoc::m_objectList.count() is " << m_objectList.count() << endl;
 #endif
@@ -2691,7 +2690,7 @@ void UMLDoc::loadUndoData() {
 		// store old setting - for restore of last setting
 		bool m_bLoading_old = m_bLoading;
 		m_bLoading = true;
-		deleteContents();
+		closeDocument();
 		redoStack.prepend( undoStack.take(0) );
 		QDataStream* undoData = undoStack.getFirst();
 		QBuffer* buffer = static_cast<QBuffer*>( undoData->device() );
@@ -2728,7 +2727,7 @@ void UMLDoc::loadRedoData() {
 		// store old setting - for restore of last setting
 		bool m_bLoading_old = m_bLoading;
 		m_bLoading = true;
-		deleteContents();
+		closeDocument();
 		undoStack.prepend( redoStack.getFirst() );
 		QDataStream* redoData = redoStack.getFirst();
 		redoStack.removeFirst();
