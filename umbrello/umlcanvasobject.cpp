@@ -131,14 +131,6 @@ void UMLCanvasObject::copyInto(UMLCanvasObject *rhs) const
 	//rhs->m_AssocsList = m_AssocsList;
 }
 
-UMLCanvasObject* UMLCanvasObject::clone() const
-{
-	UMLCanvasObject *clone = new UMLCanvasObject();
-	copyInto(clone);
-
-	return clone;
-}
-
 int UMLCanvasObject::associations() {
 	return m_AssocsList.count();
 }

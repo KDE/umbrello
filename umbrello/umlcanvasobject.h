@@ -61,11 +61,8 @@ public:
 	 */
 	virtual void copyInto(UMLCanvasObject *rhs) const;
 
-	/**
-	 * Make a clone of this object.
-	 */
-	virtual UMLCanvasObject* clone() const;
-
+	// The abstract method UMLObject::clone() is implemented
+	// in the classes inheriting from UMLCanvasObject.
 
 	/**
 	 * Adds an association.
@@ -176,6 +173,9 @@ public:
 	 * @return	Unique name string for the UMLObject_Type given.
 	 */
 	virtual QString uniqChildName(const UMLObject_Type type);
+
+	// The abstract method UMLObject::saveToXMI() is implemented
+	// in the classes inheriting from UMLCanvasObject.
 
 protected:
 

@@ -76,8 +76,9 @@ public:
 
 	/**
 	 * Make a clone of this object.
+	 * To be implemented by inheriting classes.
 	 */
-	virtual UMLObject* clone() const;
+	virtual UMLObject* clone() const = 0;
 
 	/**
 	 * Returns the type of the object.
@@ -197,8 +198,20 @@ public:
 	 */
 	void setAbstract(bool bAbstract);
 
-	virtual bool saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+	/**
+	 * This method saves the XMI attributes of each specific model class.
+	 * It needs to be implemented by each child class.
+	 * For creating the QDomElement and saving the common XMI parts,
+	 * it can use the save() method.
+	 */
+	virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) = 0;
 
+	/**
+	 * This method loads the generic parts of the XMI common to most model
+	 * classes.  It is not usually reimplemented by child classes.
+	 * Instead, it invokes the load() method which implements the loading
+	 * of the specifics of each child class.
+	 */
 	virtual bool loadFromXMI( QDomElement & element );
 
 	/**
@@ -234,6 +247,14 @@ public:
 	 */
 	QString getAuxId() const;
 
+	/**
+	 * Auxiliary to saveToXMI.
+	 * Create a QDomElement with the given tag, and save the XMI attributes
+	 * that are common to all child classes to the newly created element.
+	 * This method does not need to be overridden by child classes.
+	 */
+	QDomElement save( QString tag, QDomDocument & qDoc );
+
 public slots:
 	/**
 	 * Forces the emission of the modified signal.  Useful when
@@ -267,6 +288,14 @@ protected:
 	 * Initializes key variables of the class.
 	 */
 	virtual void init();
+
+	/**
+	 * Auxiliary to loadFromXMI.
+	 * This method is usually overridden by child classes.
+	 * It is responsible for loading the specific XMI structure
+	 * of the child class.
+	 */
+	virtual bool load( QDomElement& element );
 
 	/**
 	 * The object's id.

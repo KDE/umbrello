@@ -22,18 +22,19 @@ UMLNode::~UMLNode() {
 void UMLNode::init() {
 	m_BaseType = ot_Node;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
-bool UMLNode::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
-	QDomElement nodeElement = qDoc.createElement("UML:Node");
-	bool status = UMLObject::saveToXMI(qDoc, nodeElement);
-	qElement.appendChild(nodeElement);
-	return status;
+
+UMLObject* UMLNode::clone() const {
+	UMLNode *clone = new UMLNode();
+	UMLObject::copyInto(clone);
+	return clone;
 }
 
-bool UMLNode::loadFromXMI(QDomElement& element) {
-	if ( !UMLObject::loadFromXMI(element) ) {
-		return false;
-	}
+void UMLNode::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
+	QDomElement nodeElement = UMLObject::save("UML:Node", qDoc);
+	qElement.appendChild(nodeElement);
+}
+
+bool UMLNode::load(QDomElement& ) {
 	return true;
 }
 

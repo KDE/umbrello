@@ -78,11 +78,10 @@ public:
 	virtual void copyInto(UMLClassifierListItem *rhs) const;
 
 	/**
-	 * Make a clone of this object. This function is abstract
-	 * since it is not possible to realise a clone. It has other abstract
-	 * functions. Underlying classes must implement the clone functionality.
+	 * The abstract method UMLObject::clone() must be implemented
+	 * by the classes inheriting from UMLClassifierListItem.
 	 */
-	virtual UMLClassifierListItem* clone() const = 0;
+	virtual UMLObject* clone() const = 0;
 
 };
 

@@ -54,7 +54,7 @@ public:
 	/**
 	 * Make a clone of this object.
 	 */
-	virtual UMLEnumLiteral* clone() const;
+	virtual UMLObject* clone() const;
 
 	/**
 	 * destructor
@@ -80,19 +80,18 @@ public:
 	/**
 	 * Creates the <UML:EnumLiteral> XMI element.
 	 */
-	bool saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
-
-	/**
-	 * Loads the <UML:EnumLiteral> XMI element.
-	 */
-	bool loadFromXMI(QDomElement& element);
+	void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
 	/**
 	 * Display the properties configuration dialogue for the enum literal.
 	 */
 	bool showPropertiesDialogue(QWidget* parent);
 
-private:
+protected:
+	/**
+	 * Loads the <UML:EnumLiteral> XMI element (empty.)
+	 */
+	bool load(QDomElement& element);
 
 };
 

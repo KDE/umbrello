@@ -51,18 +51,20 @@ public:
 	virtual void init();
 
 	/**
-	 * Creates the <UML:Node> XMI element including its operations,
-	 * attributes and templates.
+	 * Make a clone of this object.
 	 */
-	bool saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+	virtual UMLObject* clone() const;
 
 	/**
-	 * Loads the <UML:Node> XMI element including its operations,
-	 * attributes and templates.
+	 * Creates the <UML:Node> XMI element.
 	 */
-	bool loadFromXMI( QDomElement & element );
+	void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
-private:
+protected:
+	/**
+	 * Loads the <UML:Node> XMI element (empty.)
+	 */
+	bool load( QDomElement & element );
 	
 };
 

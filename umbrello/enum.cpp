@@ -36,7 +36,7 @@ void UMLEnum::copyInto(UMLEnum *rhs) const
 	m_EnumLiteralList.copyInto(&(rhs->m_EnumLiteralList));
 }
 
-UMLEnum* UMLEnum::clone() const
+UMLObject* UMLEnum::clone() const
 {
 	UMLEnum *clone = new UMLEnum();
 	copyInto(clone);
@@ -65,9 +65,8 @@ QString UMLEnum::uniqChildName(UMLObject_Type type) {
 	return name;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-bool UMLEnum::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
-	QDomElement enumElement = qDoc.createElement("UML:Enum");
-	bool status = UMLObject::saveToXMI(qDoc, enumElement);
+void UMLEnum::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
+	QDomElement enumElement = UMLObject::save("UML:Enum", qDoc);
 	//save operations
 	UMLClassifierListItem* pEnumLiteral = 0;
 	for ( pEnumLiteral = m_EnumLiteralList.first(); pEnumLiteral != 0;
@@ -75,14 +74,9 @@ bool UMLEnum::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
 		pEnumLiteral->saveToXMI(qDoc, enumElement);
 	}
 	qElement.appendChild(enumElement);
-	return status;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-bool UMLEnum::loadFromXMI(QDomElement& element) {
-	if( !UMLObject::loadFromXMI(element) ) {
-		return false;
-	}
-
+bool UMLEnum::load(QDomElement& element) {
 	QDomNode node = element.firstChild();
 	QDomElement tempElement = node.toElement();
 	while( !tempElement.isNull() ) {
@@ -106,7 +100,7 @@ bool UMLEnum::loadFromXMI(QDomElement& element) {
 				kdWarning() << "unknown listtype with stereotype:" << listType << endl;
 			}
 		} else {
-			kdWarning() << "loading unknown child type in UMLClass::loadFromXMI" << endl;
+			kdWarning() << "unknown child type in UMLEnum::load" << endl;
 		}
 		node = node.nextSibling();
 		tempElement = node.toElement();

@@ -48,14 +48,20 @@ public:
 	virtual void init();
 
 	/**
-	 * Creates the <UML:Actor> XMI element.
+	 * Make a clone of this object.
 	 */
-	bool saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+	virtual UMLObject* clone() const;
 
 	/**
-	 * Loads the <UML:Actor> XMI element.
+	 * Creates the <UML:Actor> XMI element.
 	 */
-	bool loadFromXMI( QDomElement & element );
+	void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+
+protected:
+	/**
+	 * Loads the <UML:Actor> XMI element (empty.)
+	 */
+	bool load( QDomElement & element );
 };
 
 #endif

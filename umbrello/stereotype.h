@@ -61,7 +61,7 @@ public:
 	/**
 	 * Make a clone of this object.
 	 */
-	virtual UMLStereotype* clone() const;
+	virtual UMLObject* clone() const;
 
 	/**
 	 * Returns a string representation of the UMLStereotype.
@@ -74,12 +74,7 @@ public:
 	/**
 	 * Saves to the <UML:StereoType> XMI element.
 	 */
-	bool saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
-
-	/**
-	 * Loads a <UML:StereoType> XMI element.
-	 */
-	bool loadFromXMI(QDomElement& element);
+	void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
 	/**
 	 * Display the properties configuration dialogue for the stereotype
@@ -91,6 +86,13 @@ public:
 	 * Return the stereotype name surrounded by double angle brackets.
 	 */
 	virtual QString getShortName();
+
+protected:
+	/**
+	 * Loads a <UML:StereoType> XMI element.
+	 */
+	bool load(QDomElement& element);
+
 private:
 	/**
 	 * The list this stereotype is part of (operation, attribute etc)

@@ -1027,7 +1027,7 @@ UMLAssociation* UMLDoc::createUMLAssociation(UMLObject *a, UMLObject *b, Uml::As
 	bool swap;
 	UMLAssociation *assoc = findAssociation(type, a, b, &swap);
 	if (assoc == NULL) {
-		assoc = new UMLAssociation(this, type, a, b );
+		assoc = new UMLAssociation(type, a, b );
 		addAssociation(assoc);
 	}
 	return assoc;
@@ -1437,7 +1437,6 @@ bool UMLDoc::saveToXMI(QIODevice& file) {
 	root.appendChild( header );
 
 	QDomElement content = doc.createElement( "XMI.content" );
-	bool status=true;
 	QDomElement docElement = doc.createElement( "docsettings" );
 	int viewID = -1;
 	if( currentView )
@@ -1457,8 +1456,7 @@ bool UMLDoc::saveToXMI(QIODevice& file) {
 		UMLObject_Type t = p->getBaseType();
 		if (t != ot_Package)
 			continue;
-		if (! p->saveToXMI(doc, objectsElement))
-			status = false;
+		p->saveToXMI(doc, objectsElement);
 	}
 #endif
 
@@ -1479,10 +1477,7 @@ bool UMLDoc::saveToXMI(QIODevice& file) {
 #endif
 		if (t == ot_Attribute || t == ot_Operation || t == ot_Association)
 			continue;
-		if (! o->saveToXMI(doc, objectsElement))  {
-			status = false;
-		}
-
+		o->saveToXMI(doc, objectsElement);
 	}
 
 	// Save the UMLAssociations.
@@ -1494,8 +1489,7 @@ bool UMLDoc::saveToXMI(QIODevice& file) {
 		a->saveToXMI(doc, objectsElement);
 	content.appendChild( objectsElement );
 
-	if( !status )
-		return status;
+	bool status = true;
 
 	// Save each view/diagram.
 	QDomElement diagramsElement = doc.createElement( "diagrams" );
@@ -1933,9 +1927,9 @@ UMLObject* UMLDoc::makeNewUMLObject(QString type) {
 	} else if (type == "UML:Enum") {
 		pObject = new UMLEnum();
 	} else if (type == "UML:Association") {
-		pObject = new UMLAssociation(this, Uml::at_Unknown, (UMLObject*)NULL, (UMLObject*) NULL);
+		pObject = new UMLAssociation(Uml::at_Unknown, (UMLObject*)NULL, (UMLObject*) NULL);
 	} else if (type == "UML:Generalization") {
-		pObject = new UMLAssociation(this, Uml::at_Generalization, NULL, NULL);
+		pObject = new UMLAssociation(Uml::at_Generalization, NULL, NULL);
 	}
 	return pObject;
 }

@@ -25,19 +25,20 @@ void UMLArtifact::init() {
 	m_BaseType = ot_Artifact;
 	m_drawAsType = defaultDraw;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
-bool UMLArtifact::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
-	QDomElement artifactElement = qDoc.createElement("UML:Artifact");
-	bool status = UMLObject::saveToXMI(qDoc, artifactElement);
-	artifactElement.setAttribute("drawas", m_drawAsType);
-	qElement.appendChild(artifactElement);
-	return status;
+
+UMLObject* UMLArtifact::clone() const {
+	UMLArtifact *clone = new UMLArtifact();
+	UMLObject::copyInto(clone);
+	return clone;
 }
 
-bool UMLArtifact::loadFromXMI(QDomElement& element) {
-	if ( !UMLObject::loadFromXMI(element) ) {
-		return false;
-	}
+void UMLArtifact::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
+	QDomElement artifactElement = UMLObject::save("UML:Artifact", qDoc);
+	artifactElement.setAttribute("drawas", m_drawAsType);
+	qElement.appendChild(artifactElement);
+}
+
+bool UMLArtifact::load(QDomElement& element) {
 	QString drawAs = element.attribute("drawas", "0");
 	m_drawAsType = (Draw_Type)drawAs.toInt();
 	return true;

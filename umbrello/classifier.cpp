@@ -342,26 +342,6 @@ void UMLClassifier::init() {
 	connect(this,SIGNAL(childObjectRemoved(UMLObject *)),parent,SLOT(slotRemoveUMLObject(UMLObject*)));
 
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
-bool UMLClassifier::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
-	QDomElement classElement = qDoc.createElement("UML:Interface");
-	bool status = UMLObject::saveToXMI( qDoc, classElement );
-	//save operations
-	UMLClassifierListItem* pOp = 0;
-	for ( pOp = m_OpsList.first(); pOp != 0; pOp = m_OpsList.next() ) {
-		pOp->saveToXMI(qDoc, classElement);
-	}
-	qElement.appendChild( classElement );
-	return status;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-bool UMLClassifier::loadFromXMI( QDomElement & element ) {
-	if( !UMLObject::loadFromXMI(element) ) {
-		return false;
-	}
-	return load(element);
-}
 
 bool UMLClassifier::load(QDomElement& element) {
 	QDomNode node = element.firstChild();

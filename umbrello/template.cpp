@@ -61,7 +61,7 @@ void UMLTemplate::copyInto(UMLTemplate *rhs) const
 	rhs->m_TypeName = m_TypeName;
 }
 
-UMLTemplate* UMLTemplate::clone() const
+UMLObject* UMLTemplate::clone() const
 {
 	UMLTemplate *clone = new UMLTemplate( (UMLTemplate*) parent());
 	copyInto(clone);
@@ -71,18 +71,14 @@ UMLTemplate* UMLTemplate::clone() const
 
 
 
-bool UMLTemplate::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
-	QDomElement attributeElement = qDoc.createElement("template");
-	bool status = UMLObject::saveToXMI(qDoc, attributeElement);
+void UMLTemplate::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
+	//FIXME: uml13.dtd compliance
+	QDomElement attributeElement = UMLObject::save("template", qDoc);
 	attributeElement.setAttribute("type", m_TypeName);
 	qElement.appendChild(attributeElement);
-	return status;
 }
 
-bool UMLTemplate::loadFromXMI(QDomElement& element) {
-	if ( !UMLObject::loadFromXMI(element) ) {
-		return false;
-	}
+bool UMLTemplate::load(QDomElement& element) {
 	m_TypeName = element.attribute("type", "");
 	return true;
 }

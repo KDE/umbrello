@@ -58,7 +58,7 @@ public:
 	/**
 	 * Make a clone of this object.
 	 */
-	virtual UMLPackage* clone() const;
+	virtual UMLObject* clone() const;
 
 	/**
 	 * Initializes key variables of the class.
@@ -103,20 +103,16 @@ public:
 	/**
 	 * Creates the <UML:Package> XMI element.
 	 */
-	bool saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
+	void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
+protected:
 	/**
 	 * Loads the <UML:Package> XMI element.
-	 */
-	bool loadFromXMI(QDomElement& element);
-
-private:
-
-	/**
-	 * Auxiliary to loadFromXMI.
+	 * Auxiliary to UMLObject::loadFromXMI.
 	 */
 	bool load(QDomElement& element);
 
+private:
 	/**
 	 * References to the objects contained in this package.
 	 * The UMLPackage is the owner of the objects.

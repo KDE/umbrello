@@ -76,7 +76,7 @@ public:
 	 * since it is not possible to realise a clone. It has other abstract
 	 * functions. Underlying classes must implement the clone functionality.
 	 */
-	virtual UMLClassifier* clone() const = 0;
+	virtual UMLObject* clone() const = 0;
 
 	/**
 	 * Adds an operation to the classifier, at the given position.
@@ -239,18 +239,6 @@ public:
 	/** reimplemented from UMLObject */
 	virtual bool acceptAssociationType(Uml::Association_Type);
 
-	/**
-	 * Creates the XMI element including its operations and generalizations.
-	 * This method is usually overridden/extended by the inheriting classes.
-	 */
-	virtual bool saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
-
-	/**
-	 * Creates the XMI element including its operations and generalizations.
-	 * This method is usually overridden/extended by the inheriting classes.
-	 */
-	virtual bool loadFromXMI( QDomElement & element );
-
 	//
 	// now a number of pure virtual methods..
 	//
@@ -301,10 +289,11 @@ private:
 	 */
 	void init();
 
+protected:
 	/**
 	 * Auxiliary to loadFromXMI.
 	 */
-	bool load(QDomElement& element);
+	virtual bool load(QDomElement& element);
 
 };
 

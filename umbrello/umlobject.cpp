@@ -152,13 +152,10 @@ void UMLObject::copyInto(UMLObject *rhs) const
 	rhs->m_bStatic = m_bStatic;
 	rhs->m_BaseType = m_BaseType;
 	rhs->m_Scope = m_Scope;
+	rhs->m_pUMLPackage = m_pUMLPackage;
 
 	// We don't want the same name existing twice.
 	rhs->m_Name = umldoc->uniqObjectName(m_BaseType, m_Name);
-
-	// Copy only if not NULL.
-	if (m_pUMLPackage != NULL)
-		rhs->m_pUMLPackage = m_pUMLPackage->clone();
 
 	// Create a new ID.
 	rhs->m_nId = umldoc->getUniqueID();
@@ -168,13 +165,6 @@ void UMLObject::copyInto(UMLObject *rhs) const
 		kdDebug() << "copyInto has a wrong parent" << endl;
 }
 
-UMLObject* UMLObject::clone() const
-{
-	UMLObject *clone = new UMLObject( (UMLObject *) parent());
-	copyInto(clone);
-
-	return clone;
-}
 
 bool UMLObject::getAbstract() const{
 	return m_bAbstract;
@@ -276,11 +266,13 @@ QString UMLObject::getAuxId() const {
 	return m_AuxId;
 }
 
-bool UMLObject::saveToXMI( QDomDocument & /*qDoc*/, QDomElement & qElement ) {
+QDomElement UMLObject::save( QString tag, QDomDocument & qDoc ) {
 	/*
-	  Call after required actions in child class.
-	  Type must be set in the child class.
+	  Call as the first action of saveToXMI() in child class:
+	  This creates the QDomElement with which to work.
 	*/
+	QDomElement qElement = qDoc.createElement(tag);
+
 	qElement.setAttribute( "xmi.id", m_nId );
 	if (!m_Name.isEmpty())
 		qElement.setAttribute( "name", m_Name );
@@ -313,6 +305,12 @@ bool UMLObject::saveToXMI( QDomDocument & /*qDoc*/, QDomElement & qElement ) {
 	/* else
 		qElement.setAttribute( "ownerScope", "instance" );
 	 *** ownerScope defaults to instance if not set **********/
+	return qElement;
+}
+
+bool UMLObject::load( QDomElement& ) {
+	// This body is not usually executed because child classes
+	// overwrite the load method.
 	return true;
 }
 
@@ -322,9 +320,13 @@ bool UMLObject::loadFromXMI( QDomElement & element ) {
 		kdError() << "UMLObject::loadFromXMI: umldoc is NULL" << endl;
 		return false;
 	}
+	// Read the name first so that if we encounter a problem, the error
+	// message can say the name.
+	m_Name = element.attribute( "name", "" );
 	QString id = element.attribute( "xmi.id", "" );
 	if (id.isEmpty() || id == "-1") {
-		kdError() << "nonexistent or illegal xmi.id" << endl;
+		kdError() << "UMLObject::loadFromXMI(" << m_Name
+			  << "): nonexistent or illegal xmi.id" << endl;
 		return false;
 	}
 	if (id.contains(QRegExp("\\D"))) {
@@ -334,7 +336,6 @@ bool UMLObject::loadFromXMI( QDomElement & element ) {
 		m_nId = id.toInt();
 	}
 
-	m_Name = element.attribute( "name", "" );
 	if (element.hasAttribute("documentation"))  // for bkwd compat.
 		m_Doc = element.attribute( "documentation", "" );
 	else
@@ -347,15 +348,16 @@ bool UMLObject::loadFromXMI( QDomElement & element ) {
 		if (nScope >= Uml::Public && nScope <= Uml::Protected)
 			m_Scope = (Scope)nScope;
 		else
-			kdError() << "illegal scope" << endl;  // soft error
+			kdError() << "UMLObject::loadFromXMI(" << m_Name
+				  << "): illegal scope" << endl;  // soft error
 	} else {
 		QString visibility = element.attribute( "visibility", "public" );
-		if (visibility == "private")
+		if (visibility == "private"
+		    || visibility == "private_vis")    // for compatibility with other programs
 			m_Scope = Uml::Private;
-		else if (visibility == "protected")
+		else if (visibility == "protected"
+		    || visibility == "protected_vis")  // for compatibility with other programs
 			m_Scope = Uml::Protected;
-		else if (visibility != "public")
-			kdError() << "illegal scope" << endl;  // soft error
 	}
 
 	m_Stereotype = element.attribute( "stereotype", "" );
@@ -397,10 +399,12 @@ bool UMLObject::loadFromXMI( QDomElement & element ) {
 		if (pkgObj != NULL) {
 			m_pUMLPackage = dynamic_cast<UMLPackage *>(pkgObj);
 			if (m_pUMLPackage == NULL)  // soft error
-				kdError() << "UMLObject::loadFromXMI: object of packageid "
+				kdError() << "UMLObject::loadFromXMI(" << m_Name
+					  << "): object of packageid "
 					  << pkgId << " is not a package" << endl;
 		} else {  // soft error
-			kdError() << "UMLObject::loadFromXMI: cannot resolve packageid "
+			kdError() << "UMLObject::loadFromXMI(" << m_Name
+				  << "): cannot resolve packageid "
 				  << pkgId << endl;
 		}
 	}
@@ -409,7 +413,7 @@ bool UMLObject::loadFromXMI( QDomElement & element ) {
 	if (m_pUMLPackage)
 		m_pUMLPackage->addObject(this);
 	umldoc->signalUMLObjectCreated(this);
-	return true;
+	return load(element);
 }
 
 kdbgstream& operator<< (kdbgstream& s, const UMLObject& a) {

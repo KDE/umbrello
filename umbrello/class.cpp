@@ -300,7 +300,7 @@ void UMLClass::copyInto(UMLClass *rhs) const
 	m_TemplateList.copyInto(&(rhs->m_TemplateList));
 }
 
-UMLClass* UMLClass::clone() const
+UMLObject* UMLClass::clone() const
 {
 	UMLClass *clone = new UMLClass();
 	copyInto(clone);
@@ -308,9 +308,8 @@ UMLClass* UMLClass::clone() const
 	return clone;
 }
 
-bool UMLClass::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
-	QDomElement classElement = qDoc.createElement( "UML:Class" );
-	bool status = UMLObject::saveToXMI( qDoc, classElement );
+void UMLClass::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
+	QDomElement classElement = UMLObject::save("UML:Class", qDoc);
 	//save operations
 	UMLClassifierListItem * pOp = 0;
 	for( pOp = m_OpsList.first(); pOp != 0; pOp = m_OpsList.next() )
@@ -326,17 +325,12 @@ bool UMLClass::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	}
 
 	qElement.appendChild( classElement );
-	return status;
-}
-
-bool UMLClass::loadFromXMI( QDomElement & element ) {
-	if( !UMLClassifier::loadFromXMI( element ) ) {
-		return false;
-	}
-	return load(element);
 }
 
 bool UMLClass::load(QDomElement & element) {
+	if( !UMLClassifier::load( element ) ) {
+		return false;
+	}
 	QDomNode node = element.firstChild();
 	QDomElement tempElement = node.toElement();
 	while( !tempElement.isNull() ) {
@@ -380,7 +374,8 @@ bool UMLClass::load(QDomElement & element) {
 				kdWarning() << "unknown listtype with stereotype:" << listType << endl;
 			}
 		} else if (tag != "UML:Operation") {
-			kdWarning() << "loading unknown child type in UMLClass::loadFromXMI" << endl;
+			kdWarning() << "UMLClass::loadFromXMI(" << getName()
+				    << "): unknown child type " << tag << endl;
 		}
 		node = node.nextSibling();
 		tempElement = node.toElement();

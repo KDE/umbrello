@@ -146,12 +146,20 @@ public:
 	int getRoleID();
 
 	/**
+	 * Make a clone of this object.
+	 * Not yet implemented.
+	 */
+	UMLObject* clone() const { return NULL; }
+
+	/**
 	 * Creates the <UML:AssociationEnd> XMI element.
 	 */
-	bool saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
+	void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
 	/**
 	 * Loads the <UML:AssociationEnd> XMI element.
+	 * Since we need some special attributes, we override the UMLObject
+	 * method here.
 	 */
 	bool loadFromXMI(QDomElement& element);
 

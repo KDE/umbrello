@@ -154,7 +154,7 @@ void UMLOperation::copyInto(UMLOperation *rhs) const
 	m_List.copyInto(&(rhs->m_List));
 }
 
-UMLOperation* UMLOperation::clone() const
+UMLObject* UMLOperation::clone() const
 {
 	// TODO Why is this a UMLClassifier?
 	UMLOperation *clone = new UMLOperation( (UMLClassifier *) parent());
@@ -164,15 +164,13 @@ UMLOperation* UMLOperation::clone() const
 }
 
 
-bool UMLOperation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
-	QDomElement operationElement = qDoc.createElement( "UML:Operation" );
-	bool status = UMLObject::saveToXMI( qDoc, operationElement );
+void UMLOperation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
+	QDomElement operationElement = UMLObject::save("UML:Operation", qDoc);
 	operationElement.setAttribute( "type", m_ReturnType );
 	//save each attribute here, type different
 	UMLAttribute* pAtt = 0;
 	for( pAtt = m_List.first(); pAtt != 0; pAtt = m_List.next() ) {
-		QDomElement attElement = qDoc.createElement( "UML:Parameter" );
-		pAtt -> UMLObject::saveToXMI( qDoc, attElement );
+		QDomElement attElement = pAtt->UMLObject::save("UML:Parameter", qDoc);
 		attElement.setAttribute( "type", pAtt -> getTypeName() );
 		attElement.setAttribute( "value", pAtt -> getInitialValue() );
 
@@ -186,13 +184,9 @@ bool UMLOperation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 		operationElement.appendChild( attElement );
 	}
 	qElement.appendChild( operationElement );
-	return status;
 }
 
-bool UMLOperation::loadFromXMI( QDomElement & element ) {
-	if( !UMLObject::loadFromXMI( element ) )
-		return false;
-
+bool UMLOperation::load( QDomElement & element ) {
 	m_ReturnType = element.attribute( "type", "" );
 	QDomNode node = element.firstChild();
 	QDomElement attElement = node.toElement();

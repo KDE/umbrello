@@ -39,7 +39,7 @@ void UMLEnumLiteral::copyInto(UMLEnumLiteral *rhs) const
 	UMLClassifierListItem::copyInto(rhs);
 }
 
-UMLEnumLiteral* UMLEnumLiteral::clone() const
+UMLObject* UMLEnumLiteral::clone() const
 {
 	UMLEnumLiteral *clone = new UMLEnumLiteral((UMLObject *) parent());
 	copyInto(clone);
@@ -52,17 +52,12 @@ QString UMLEnumLiteral::toString(Signature_Type /*sig = st_NoSig*/) {
 	return getName();
 }
 
-bool UMLEnumLiteral::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
-	QDomElement attributeElement = qDoc.createElement( "UML:EnumLiteral" );
-	bool status = UMLObject::saveToXMI( qDoc, attributeElement );
+void UMLEnumLiteral::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
+	QDomElement attributeElement = UMLObject::save("UML:EnumLiteral", qDoc);
 	qElement.appendChild( attributeElement );
-	return status;
 }
 
-bool UMLEnumLiteral::loadFromXMI(QDomElement& element) {
-	if ( !UMLObject::loadFromXMI(element) )  {
-		return false;
-	}
+bool UMLEnumLiteral::load(QDomElement& ) {
 	return true;
 }
 

@@ -63,7 +63,7 @@ public:
 	/**
 	 * Make a clone of the UMLAttribute.
 	 */
-	virtual UMLAttribute* clone() const;
+	virtual UMLObject* clone() const;
 
 	/**
 	 * Returns the type of the UMLAttribute.
@@ -105,12 +105,7 @@ public:
 	/**
 	 * Creates the <UML:Attribute> XMI element.
 	 */
-	bool saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
-
-	/**
-	 * Loads the <UML:Attribute> XMI element.
-	 */
-	bool loadFromXMI( QDomElement & element );
+	void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 	/**
 	 * Display the properties configuration dialogue for the attribute.
@@ -119,6 +114,12 @@ public:
 
 	void setParmKind (Uml::Parameter_Kind pk);
 	Uml::Parameter_Kind getParmKind () const;
+
+protected:
+	/**
+	 * Loads the <UML:Attribute> XMI element.
+	 */
+	bool load( QDomElement & element );
 
 private:
 	QString m_TypeName;     ///< text for the attribute type.

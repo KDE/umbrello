@@ -106,7 +106,7 @@ UMLObject* ClassImport::insertAttribute(UMLClass *o, Uml::Scope scope, QString n
 			assocType = Uml::at_Aggregation;
 		else
 			assocType = Uml::at_Composition;
-		UMLAssociation *assoc = new UMLAssociation(m_umldoc, assocType, o, other);
+		UMLAssociation *assoc = new UMLAssociation(assocType, o, other);
 		assoc->setRoleNameB(name);
 		assoc->setVisibilityB(scope);
 		m_umldoc->addAssociation(assoc);
@@ -191,7 +191,7 @@ void ClassImport::createGeneralization(UMLClass *child, QString parentName) {
 		      << parentName << endl;
 	    return;
 	}
-	UMLAssociation *assoc = new UMLAssociation( m_umldoc, Uml::at_Generalization,
+	UMLAssociation *assoc = new UMLAssociation( Uml::at_Generalization,
 						    child, parent );
 	m_umldoc->addAssociation(assoc);
 }

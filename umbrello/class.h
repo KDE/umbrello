@@ -50,7 +50,7 @@ public:
 	/**
 	 * Make a clone of this object.
 	 */
-	virtual UMLClass* clone() const;
+	virtual UMLObject* clone() const;
 
 	/**
 	 * Standard deconstructor.
@@ -253,13 +253,7 @@ public:
 	 * Creates the <UML:Class> XMI element including its operations,
 	 * attributes and templates.
 	 */
-	virtual bool saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
-
-	/**
-	 * Loads the <UML:Class> XMI element including its operations,
-	 * attributes and templates.
-	 */
-	virtual bool loadFromXMI( QDomElement & element );
+	void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 	/**
 	 * Determines whether this class acts as an interface.
@@ -274,17 +268,20 @@ signals:
 	void templateAdded(UMLObject*);
 	void templateRemoved(UMLObject*);
 
+protected:
+	/**
+	 * Loads the <UML:Class> XMI element including its operations,
+	 * attributes and templates.
+	 * Auxiliary to loadFromXMI.
+	 */
+	bool load( QDomElement & element );
+
 private:
 
 	/**
 	 * Initializes key variables of the class.
 	 */
 	void init();
-
-	/**
-	 * Auxiliary to loadFromXMI.
-	 */
-	bool load(QDomElement& element);
 
 	/**
 	 * List of all the attributes in this class.

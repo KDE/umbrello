@@ -53,16 +53,15 @@ public:
 	virtual void init();
 
 	/**
-	 * Creates the UML:Component element including it's operations,
-	 * attributes and templates
+	 * Make a clone of this object.
 	 */
-	bool saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+	virtual UMLObject* clone() const;
 
 	/**
-	 * Loads the UML:Component element including it's operations,
+	 * Creates the UML:Component element including its operations,
 	 * attributes and templates
 	 */
-	bool loadFromXMI( QDomElement & element );
+	void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 	/**
 	 * sets m_executable
@@ -73,8 +72,15 @@ public:
 	 * returns the value of m_executable
 	 */
 	bool getExecutable();
+
+protected:
+	/**
+	 * Loads the UML:Component element including its operations,
+	 * attributes and templates
+	 */
+	bool load( QDomElement & element );
+
 private:
-	
 	/**
 	 * holds whether this is an executable component or not
 	 */

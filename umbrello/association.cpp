@@ -23,18 +23,17 @@ const unsigned UMLAssociation::nAssocTypes = (unsigned)atypeLast -
 					     (unsigned)atypeFirst + 1;
 
 // constructor
-UMLAssociation::UMLAssociation( UMLDoc * parent, Association_Type type,
+UMLAssociation::UMLAssociation( Association_Type type,
 				UMLObject * roleA, UMLObject * roleB )
-    : UMLObject((UMLObject*)parent, "", -1)
+    : UMLObject("", -1)
 {
-	init(parent, type, roleA, roleB);
+	init(type, roleA, roleB);
 }
 
 // destructor
 UMLAssociation::~UMLAssociation( ) {
 	// delete ourselves from the parent document
-	//UMLApp::app()->getDocument()->removeAssociation(this);
-	parentDoc->removeAssociation(this);
+	UMLApp::app()->getDocument()->removeAssociation(this);
 }
 
 bool UMLAssociation::operator==(UMLAssociation &rhs) {
@@ -109,31 +108,46 @@ bool UMLAssociation::assocTypeHasUMLRepresentation(Uml::Association_Type atype)
 		atype == Uml::at_Composition);
 }
 
-bool UMLAssociation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
+void UMLAssociation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	if (m_AssocType == Uml::at_Generalization ||
 	    m_AssocType == Uml::at_Realization) {
-		QDomElement assocElement = qDoc.createElement( "UML:Generalization" );
-		bool status = UMLObject::saveToXMI( qDoc, assocElement );
+		QDomElement assocElement = UMLObject::save("UML:Generalization", qDoc);
 		assocElement.setAttribute( "child", getRoleAId() );
 		assocElement.setAttribute( "parent", getRoleBId() );
 		qElement.appendChild( assocElement );
-		return status;
+		return;
 	}
-	QDomElement associationElement = qDoc.createElement( "UML:Association" );
-	bool status = UMLObject::saveToXMI( qDoc, associationElement );
+	QDomElement associationElement = UMLObject::save("UML:Association", qDoc);
 	QDomElement connElement = qDoc.createElement("UML:Association.connection");
 	getUMLRoleA()->saveToXMI (qDoc, connElement);
 	getUMLRoleB()->saveToXMI (qDoc, connElement);
 	associationElement.appendChild (connElement);
 	qElement.appendChild( associationElement );
-	return status;
 }
 
-bool UMLAssociation::loadFromXMI( QDomElement & element ) {
+/*
+bool UMLAssociation::load(QDomElement& element) {
+	UMLDoc *umldoc = UMLApp::app()->getDocument();
+	QDomNode node = element.firstChild();
+	element = node.toElement();
+	while (!element.isNull()) {
+		QString type = element.tagName();
+		QDomElement tempElement = element;
+		if (type == "UML:Namespace.ownedElement" ||
+		    type == "UML:Namespace.contents") {
+			//CHECK: Umbrello currently assumes that nested elements
+			// are ownedElements anyway.
+			// Therefore the <UML:Namespace.ownedElement> tag is of no
+			// significance.
+			if (! load(tempElement))
+				return false;
+			node = node.nextSibling();
+			element = node.toElement();
+			continue;
+		}
+ */
 
-	if( !UMLObject::loadFromXMI( element ) )
-		return false;
-
+bool UMLAssociation::load( QDomElement & element ) {
 	if (getID() == -1)
 		return false; // old style XMI file. No real info in this association.
 
@@ -142,13 +156,13 @@ bool UMLAssociation::loadFromXMI( QDomElement & element ) {
 
 		QString roleAIdStr = element.attribute( "child", "-1" );
 		if (roleAIdStr == "-1") {
-			kdError() << "UMLAssociation::loadFromXMI: "
+			kdError() << "UMLAssociation::load: "
 				  << "child not given or illegal" << endl;
 			return false;
 		}
 		QString roleBIdStr = element.attribute( "parent", "-1" );
 		if (roleBIdStr == "-1") {
-			kdError() << "UMLAssociation::loadFromXMI: "
+			kdError() << "UMLAssociation::load: "
 				  << "parent not given or illegal" << endl;
 			return false;
 		}
@@ -160,7 +174,7 @@ bool UMLAssociation::loadFromXMI( QDomElement & element ) {
 		else
 			objA = doc->findUMLObject(roleAIdStr.toInt());
 		if (objA == NULL) {
-			kdError() << "UMLAssociation::loadFromXMI: "
+			kdError() << "UMLAssociation::load: "
 				  << "cannot find child object " << roleAIdStr << endl;
 			return false;
 		}
@@ -171,7 +185,7 @@ bool UMLAssociation::loadFromXMI( QDomElement & element ) {
 		else
 			objB = doc->findUMLObject(roleBIdStr.toInt());
 		if (objB == NULL) {
-			kdError() << "UMLAssociation::loadFromXMI: "
+			kdError() << "UMLAssociation::load: "
 				  << "cannot find parent object " << roleBIdStr << endl;
 			return false;
 		}
@@ -205,14 +219,15 @@ bool UMLAssociation::loadFromXMI( QDomElement & element ) {
 		QString tag;
 		tempElement = node.toElement();
 		if (tempElement.isNull()) {
-			kdWarning() << "UMLAssociation::loadFromXMI: "
+			kdWarning() << "UMLAssociation::load: "
 				<< "expecting UML:Association.connection" << endl;
 			return false;
 		}
 		tag = tempElement.tagName();
-		if (tag != "UML:Association.connection") {
-			kdWarning() << "UMLAssociation::loadFromXMI: "
-				    << "unknown child node" << tag << endl;
+		if (tag != "UML:Association.connection" &&
+		    tag != "UML:Namespace.contents") {
+			kdWarning() << "UMLAssociation::load: "
+				    << "unknown child node " << tag << endl;
 			return false;
 		}
 		// Load role A.
@@ -224,7 +239,7 @@ bool UMLAssociation::loadFromXMI( QDomElement & element ) {
 		}
 		tag = tempElement.tagName();
 		if (tag != "UML:AssociationEndRole" && tag != "UML:AssociationEnd") {
-			kdWarning() << "UMLAssociation::loadFromXMI: "
+			kdWarning() << "UMLAssociation::load: "
 				    << "unknown child (A) tag " << tag << endl;
 			return false;
 		}
@@ -239,7 +254,7 @@ bool UMLAssociation::loadFromXMI( QDomElement & element ) {
 		}
 		tag = tempElement.tagName();
 		if (tag != "UML:AssociationEndRole" && tag != "UML:AssociationEnd") {
-			kdWarning() << "UMLAssociation::loadFromXMI: "
+			kdWarning() << "UMLAssociation::load: "
 				    << "unknown child (B) tag " << tag << endl;
 			return false;
 		}
@@ -265,7 +280,7 @@ bool UMLAssociation::loadFromXMI( QDomElement & element ) {
 			m_AssocType = Uml::at_Association;
 			// Q: is this truely a warning condition? Do state diagrams store
 			// stuff this way (for example)?
-			kdWarning()<<" Warning: loadFromXMI can't determine association type, setting to 'plain' association"<<endl;
+			kdWarning()<<" Warning: load can't determine association type, setting to 'plain' association"<<endl;
 		}
 
 		return true;
@@ -489,8 +504,7 @@ QString UMLAssociation::ScopeToString(Uml::Scope scope) {
 	}
 }
 
-void UMLAssociation::init(UMLDoc * parent, Association_Type type, UMLObject *roleAObj, UMLObject *roleBObj) {
-
+void UMLAssociation::init(Association_Type type, UMLObject *roleAObj, UMLObject *roleBObj) {
 	m_AssocType = type;
 	m_BaseType = ot_Association;
 	m_Name = "";
@@ -498,9 +512,7 @@ void UMLAssociation::init(UMLDoc * parent, Association_Type type, UMLObject *rol
 
 	m_pRoleA = new UMLRole (this, roleAObj, 1);
 	m_pRoleB = new UMLRole (this, roleBObj, 0);
-
-	parentDoc = parent;
-
 }
+
 
 #include "association.moc"

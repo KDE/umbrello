@@ -25,19 +25,20 @@ void UMLComponent::init() {
 	m_BaseType = ot_Component;
 	m_executable = false;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
-bool UMLComponent::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
-	QDomElement componentElement = qDoc.createElement("UML:Component");
-	bool status = UMLObject::saveToXMI(qDoc, componentElement);
-	componentElement.setAttribute("executable", m_executable);
-	qElement.appendChild(componentElement);
-	return status;
+
+UMLObject* UMLComponent::clone() const {
+	UMLComponent *clone = new UMLComponent();
+	UMLObject::copyInto(clone);
+	return clone;
 }
 
-bool UMLComponent::loadFromXMI(QDomElement& element) {
-	if ( !UMLObject::loadFromXMI(element) ) {
-		return false;
-	}
+void UMLComponent::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
+	QDomElement componentElement = UMLObject::save("UML:Component", qDoc);
+	componentElement.setAttribute("executable", m_executable);
+	qElement.appendChild(componentElement);
+}
+
+bool UMLComponent::load(QDomElement& element) {
 	QString executable = element.attribute("executable", "0");
 	m_executable = (bool)executable.toInt();
 	return true;

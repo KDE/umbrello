@@ -48,6 +48,8 @@ AssociationWidget::AssociationWidget(UMLView *view, UMLWidget* pWidgetA,
 	init(view);
 
 	UMLDoc *umldoc = m_pView->getDocument();
+	//FIXME: There are too many ways to retrieve the UMLDoc, there should be
+	// only one:  UMLApp::app()->getDocument().
 
 	// set up UMLAssociation obj if assoc is represented and both roles are UML objects
 	if (UMLAssociation::assocTypeHasUMLRepresentation(assocType)) {
@@ -68,7 +70,7 @@ AssociationWidget::AssociationWidget(UMLView *view, UMLWidget* pWidgetA,
 					"as an already existing assoc (swap=" << swap << ")" << endl;
 
 			// now, just create a new association anyways
-			UMLAssociation * myAssoc = new UMLAssociation( umldoc, assocType, umlRoleA, umlRoleB );
+			UMLAssociation * myAssoc = new UMLAssociation( assocType, umlRoleA, umlRoleB );
 /*
 			else if (swap) {
 				kdDebug() << "AssociationWidget(): umldoc->findAssoc returns swap true "

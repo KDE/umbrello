@@ -56,7 +56,7 @@ public:
 	/**
 	 * Make a clone of this object.
 	 */
-	virtual UMLDatatype* clone() const;
+	virtual UMLObject* clone() const;
 
 	/**
 	 * Empty, just calls parent method
@@ -64,16 +64,9 @@ public:
 	virtual QString uniqChildName(const UMLObject_Type type);
 
 	/**
-	 * Creates the <UML:Datatype> element including its operations,
-	 * attributes and templates.
+	 * Creates the <UML:DataType> XMI element.
 	 */
-	virtual bool saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
-
-	/**
-	 * Loads the <UML:Datatype> element including its operations,
-	 * attributes and templates.
-	 */
-	virtual bool loadFromXMI(QDomElement& element);
+	void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
 	/**
 	 * returns false
@@ -81,6 +74,10 @@ public:
 	virtual bool isInterface();
 
 protected:
+	/**
+	 * Loads the <UML:DataType> XMI element (empty.)
+	 */
+	bool load( QDomElement & element );
 
 	/**
 	 * Initializes key variables of the class.

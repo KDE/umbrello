@@ -59,7 +59,7 @@ public:
 	/**
 	 * Make a clone of this object.
 	 */
-	virtual UMLEnum* clone() const;
+	virtual UMLObject* clone() const;
 
 	/**
 	 * Returns a name for the new enumliteral
@@ -71,12 +71,7 @@ public:
 	/**
 	 * Creates the <UML:Enum> element including its enumliterals.
 	 */
-	virtual bool saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
-
-	/**
-	 * Loads the <UML:Enum> element including its enumliterals.
-	 */
-	virtual bool loadFromXMI( QDomElement & element );
+	virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 	virtual bool isInterface () { return false; }
 
@@ -183,6 +178,11 @@ signals:
 	void enumLiteralRemoved(UMLObject*);
 
 protected:
+	/**
+	 * Loads the <UML:Enum> element including its enumliterals.
+	 */
+	bool load( QDomElement & element );
+
 	/**
 	 * List of all the enumliterals in this class.
 	 */

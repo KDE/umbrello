@@ -17,10 +17,10 @@ UMLDatatype::UMLDatatype(const QString& name, int id)
   : UMLClassifier(name, id) {
 	init();
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 UMLDatatype::~UMLDatatype() {
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool UMLDatatype::operator==(UMLDatatype& rhs) {
 	return UMLClassifier::operator==(rhs);
 }
@@ -30,7 +30,7 @@ void UMLDatatype::copyInto(UMLDatatype *rhs) const
 	UMLClassifier::copyInto(rhs);
 }
 
-UMLDatatype* UMLDatatype::clone() const
+UMLObject* UMLDatatype::clone() const
 {
 	UMLDatatype *clone = new UMLDatatype();
 	copyInto(clone);
@@ -38,29 +38,25 @@ UMLDatatype* UMLDatatype::clone() const
 	return clone;
 }
 
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
 QString UMLDatatype::uniqChildName(UMLObject_Type type) {
 	return UMLCanvasObject::uniqChildName(type);
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
-bool UMLDatatype::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
-	QDomElement classElement = qDoc.createElement("UML:DataType");
-	bool status = UMLObject::saveToXMI( qDoc, classElement );
+
+void UMLDatatype::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
+	QDomElement classElement = UMLObject::save("UML:DataType", qDoc);
 	qElement.appendChild( classElement );
-	return status;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
-bool UMLDatatype::loadFromXMI(QDomElement& element) {
-	return UMLObject::loadFromXMI(element);
+
+bool UMLDatatype::load(QDomElement&) {
+	return true;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void UMLDatatype::init() {
 	m_BaseType = ot_Datatype;
 	setStereotype( i18n("datatype") );
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool UMLDatatype::isInterface() {
 	return false;
 }
+

@@ -24,7 +24,7 @@ void UMLClassifierListItemList::copyInto(UMLClassifierListItemList *rhs) const {
 	UMLClassifierListItem *item;
 	for (item = tmp->first(); item; item = tmp->next() )
 	{
-		rhs->append(item->clone());
+		rhs->append((UMLClassifierListItem*)item->clone());
 	}
 	delete tmp;
 }

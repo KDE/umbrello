@@ -24,7 +24,7 @@ void UMLAttributeList::copyInto(UMLAttributeList *rhs) const {
 	UMLAttribute *item;
 	for (item = tmp->first(); item; item = tmp->next() )
 	{
-		rhs->append(item->clone());
+		rhs->append((UMLAttribute*)item->clone());
 	}
 	delete tmp;
 }

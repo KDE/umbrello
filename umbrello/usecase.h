@@ -45,14 +45,20 @@ public:
 	virtual void init();
 
 	/**
-	 * Creates the <UML:UseCase> element
+	 * Make a clone of this object.
 	 */
-	bool saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+	virtual UMLObject* clone() const;
 
 	/**
-	 * Loads the <UML:UseCase> element
+	 * Creates the <UML:UseCase> element.
 	 */
-	bool loadFromXMI( QDomElement & element );
+	void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+
+protected:
+	/**
+	 * Loads the <UML:UseCase> element (empty.)
+	 */
+	bool load( QDomElement & element );
 };
 
 #endif

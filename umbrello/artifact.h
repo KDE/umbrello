@@ -62,16 +62,15 @@ public:
 	virtual void init();
 
 	/**
+	 * Make a clone of this object.
+	 */
+	virtual UMLObject* clone() const;
+
+	/**
 	 * Creates the UML:Artifact element including its operations,
 	 * attributes and templates
 	 */
-	bool saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
-
-	/**
-	 * Loads the UML:Artifact element including its operations,
-	 * attributes and templates
-	 */
-	bool loadFromXMI( QDomElement & element );
+	void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 	/**
 	 * sets m_drawAsType for which method to draw the artifact as
@@ -83,8 +82,14 @@ public:
 	 */
 	Draw_Type getDrawAsType();
 
-private:
+protected:
+	/**
+	 * Loads the UML:Artifact element including its operations,
+	 * attributes and templates
+	 */
+	bool load( QDomElement & element );
 
+private:
 	/**
 	 * Artifacts can be drawn as one of several different icons,
 	 * this value choosing how to draw them.

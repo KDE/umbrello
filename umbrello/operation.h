@@ -68,7 +68,7 @@ public:
 	/**
 	 * Make a clone of this object.
 	 */
-	virtual UMLOperation* clone() const;
+	virtual UMLObject* clone() const;
 
 	/**
 	 * Sets the return type of the operation.
@@ -156,12 +156,7 @@ public:
 	/**
 	 * Saves to the <UML:Operation> XMI element.
 	 */
-	bool saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
-
-	/**
-	 * Loads a <UML:Operation> XMI element.
-	 */
-	bool loadFromXMI( QDomElement & element );
+	void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 	/**
 	 * Returns whether this operation is a constructor.
@@ -169,6 +164,12 @@ public:
 	 * @return	True if this operation is a constructor.
 	 */
 	bool isConstructorOperation ( ) const;
+
+protected:
+	/**
+	 * Loads a <UML:Operation> XMI element.
+	 */
+	bool load( QDomElement & element );
 
 private:
 	QString m_ReturnType;

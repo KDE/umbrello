@@ -56,7 +56,7 @@ public:
 	/**
 	 * Make a clone of this object.
 	 */
-	virtual UMLTemplate* clone() const;
+	virtual UMLObject* clone() const;
 
 	/**
 	 * destructor
@@ -95,12 +95,14 @@ public:
 	/**
 	 * Write the <UML:Template> XMI element.
 	 */
-	bool saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
+	void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
 
+protected:
 	/**
 	 * Loads the <UML:Template> XMI element.
 	 */
-	bool loadFromXMI(QDomElement & element);
+	bool load(QDomElement & element);
+
 private:
 	/**
 	 * The type of the template, usually just "class"

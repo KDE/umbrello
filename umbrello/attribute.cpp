@@ -109,7 +109,7 @@ void UMLAttribute::copyInto(UMLAttribute *rhs) const
 	rhs->m_ParmKind = m_ParmKind;
 }
 
-UMLAttribute* UMLAttribute::clone() const
+UMLObject* UMLAttribute::clone() const
 {
 	UMLAttribute *clone = new UMLAttribute( (UMLAttribute *)parent() );
 	copyInto(clone);
@@ -118,18 +118,14 @@ UMLAttribute* UMLAttribute::clone() const
 }
 
 
-bool UMLAttribute::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
-	QDomElement attributeElement = qDoc.createElement( "UML:Attribute" );
-	bool status = UMLObject::saveToXMI( qDoc, attributeElement );
+void UMLAttribute::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
+	QDomElement attributeElement = UMLObject::save("UML:Attribute", qDoc);
 	attributeElement.setAttribute( "type", m_TypeName );
 	attributeElement.setAttribute( "value", m_InitialValue );
 	qElement.appendChild( attributeElement );
-	return status;
 }
 
-bool UMLAttribute::loadFromXMI( QDomElement & element ) {
-	if( !UMLObject::loadFromXMI( element ) )
-		return false;
+bool UMLAttribute::load( QDomElement & element ) {
 	m_TypeName = element.attribute( "type", "" );
 	m_InitialValue = element.attribute( "value", "" );
 	return true;

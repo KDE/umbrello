@@ -32,7 +32,7 @@ void UMLPackage::copyInto(UMLPackage *rhs) const
 	m_objects.copyInto(&(rhs->m_objects));
 }
 
-UMLPackage* UMLPackage::clone() const
+UMLObject* UMLPackage::clone() const
 {
 	UMLPackage *clone = new UMLPackage();
 	copyInto(clone);
@@ -82,24 +82,14 @@ UMLObject * UMLPackage::findObject(int id) {
 	return NULL;
 }
 
-bool UMLPackage::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
-	QDomElement packageElement = qDoc.createElement("UML:Package");
-	bool status = UMLObject::saveToXMI(qDoc, packageElement);
+void UMLPackage::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
+	QDomElement packageElement = UMLObject::save("UML:Package", qDoc);
 
 #ifndef XMI_FLAT_PACKAGES
 	for (UMLObject *obj = m_objects.first(); obj; obj = m_objects.next())
 		obj->saveToXMI (qDoc, packageElement);
 #endif
-
 	qElement.appendChild(packageElement);
-	return status;
-}
-
-bool UMLPackage::loadFromXMI(QDomElement& element) {
-	if ( !UMLObject::loadFromXMI(element) ) {
-		return false;
-	}
-	return load(element);
 }
 
 bool UMLPackage::load(QDomElement& element) {
@@ -109,7 +99,8 @@ bool UMLPackage::load(QDomElement& element) {
 	while (!element.isNull()) {
 		QString type = element.tagName();
 		QDomElement tempElement = element;
-		if (type == "UML:Namespace.ownedElement") {
+		if (type == "UML:Namespace.ownedElement" ||
+		    type == "UML:Namespace.contents") {
 			//CHECK: Umbrello currently assumes that nested elements
 			// are ownedElements anyway.
 			// Therefore the <UML:Namespace.ownedElement> tag is of no
@@ -122,10 +113,12 @@ bool UMLPackage::load(QDomElement& element) {
 		}
 		UMLObject *pObject = umldoc->makeNewUMLObject(type);
 		if( !pObject ) {
-			kdWarning() << "UMLPackage::loadFromXMI: "
-				    << "Given wrong type of umlobject to create: "
+			kdWarning() << "UMLPackage::load: "
+				    << "Unknown type of umlobject to create: "
 				    << type << endl;
-			return false;
+			node = node.nextSibling();
+			element = node.toElement();
+			continue;
 		}
 		pObject->setUMLPackage(this);
 		if (pObject->loadFromXMI(tempElement)) {

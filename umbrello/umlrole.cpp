@@ -12,6 +12,7 @@
 #include "umlrole.h"
 #include "association.h"
 #include "umldoc.h"
+#include "uml.h"
 
 // constructor
 UMLRole::UMLRole(UMLAssociation * parent, UMLObject * parentObj, int roleID)
@@ -137,7 +138,7 @@ void UMLRole::init(UMLAssociation * parent, UMLObject * parentObj, int id) {
 	connect(this,SIGNAL(modified()),parent,SIGNAL(modified()));
 }
 
-bool UMLRole::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
+void UMLRole::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement roleElement = qDoc.createElement( "UML:AssociationEndRole" );
 	roleElement.setAttribute( "type", getID() );
 	if (m_Multi != "")
@@ -188,13 +189,11 @@ bool UMLRole::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 			break;
 	}
 	qElement.appendChild( roleElement );
-
-	return true;
 }
 
 bool UMLRole::loadFromXMI( QDomElement & element ) {
-
-	UMLDoc * doc = (UMLDoc*)(m_pAssoc->parent());
+	// Special case: Override the UMLObject::loadFromXMI method.
+	UMLDoc * doc = UMLApp::app()->getDocument();
 	if (doc == NULL) {
 		kdError() << "UMLRole::loadFromXMI failed to retrieve the UMLDoc"
 			  << endl;

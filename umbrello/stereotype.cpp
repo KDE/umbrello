@@ -52,7 +52,7 @@ void UMLStereotype::copyInto(UMLStereotype *rhs) const
 	rhs->m_listType = m_listType;
 }
 
-UMLStereotype* UMLStereotype::clone() const
+UMLObject* UMLStereotype::clone() const
 {
 	UMLStereotype *clone = new UMLStereotype( (UMLStereotype *) parent());
 	copyInto(clone);
@@ -61,18 +61,14 @@ UMLStereotype* UMLStereotype::clone() const
 }
 
 
-bool UMLStereotype::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
-	QDomElement stereotypeElement = qDoc.createElement("stereotype");
-	bool status = UMLObject::saveToXMI(qDoc, stereotypeElement);
+void UMLStereotype::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
+	//FIXME: uml13.dtd compliance
+	QDomElement stereotypeElement = UMLObject::save("stereotype", qDoc);
 	stereotypeElement.setAttribute("listtype", m_listType);
 	qElement.appendChild( stereotypeElement );
-	return status;
 }
 
-bool UMLStereotype::loadFromXMI(QDomElement& element) {
-	if ( !UMLObject::loadFromXMI(element) ) {
-		return false;
-	}
+bool UMLStereotype::load(QDomElement& element) {
 	QString listType = element.attribute("listtype", "-1");
 	m_listType = (UMLObject_Type)listType.toInt();
 	if (m_listType == -1) {

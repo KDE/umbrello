@@ -40,7 +40,7 @@ public:
 	 * @param roleA		Pointer to the UMLObject in role A.
 	 * @param roleB		Pointer to the UMLObject in role B.
 	 */
-	UMLAssociation(UMLDoc * parent, Association_Type type, UMLObject *roleA = 0, UMLObject *roleB = 0);
+	UMLAssociation(Association_Type type, UMLObject *roleA = 0, UMLObject *roleB = 0);
 
 	/**
 	 * Overloaded '==' operator
@@ -297,18 +297,23 @@ public:
 	UMLRole * getUMLRoleB();
 
 	/**
-	 * Creates the <UML:Generalization> or <UML:Association> XMI element
-	 * including its role objects.
+	 * Make a clone of this object.
+	 * Cloning associations is not supported yet.
 	 */
-	bool saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
+	virtual UMLObject* clone() const { return NULL; }
 
 	/**
 	 * Creates the <UML:Generalization> or <UML:Association> XMI element
 	 * including its role objects.
 	 */
-	bool loadFromXMI(QDomElement& element);
+	void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
 protected:
+	/**
+	 * Creates the <UML:Generalization> or <UML:Association> XMI element
+	 * including its role objects.
+	 */
+	bool load(QDomElement& element);
 
 	// keep track of number of parent widgets
 	int nrof_parent_widgets;
@@ -316,12 +321,11 @@ protected:
 	/**
 	 * Common initializations at construction time.
 	 *
-	 * @param parent 	Pointer to the parent UMLDocument. 
 	 * @param type		The Association_Type to represent.
 	 * @param roleAObj	Pointer to the role A UMLObject.
 	 * @param roleBObj	Pointer to the role B UMLObject.
 	 */
-	void init(UMLDoc * parent, Association_Type type, UMLObject *roleAObj, UMLObject *roleBObj);
+	void init(Association_Type type, UMLObject *roleAObj, UMLObject *roleBObj);
 
 	/* If the type Uml::Association_Type is changed then also the following
 	   must be changed accordingly:
@@ -334,7 +338,6 @@ protected:
 	static const unsigned nAssocTypes;
 	static const QString assocTypeStr[];
 
-	UMLDoc * parentDoc;
 	UMLRole * m_pRoleA;
 	UMLRole * m_pRoleB;
 

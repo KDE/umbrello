@@ -19,20 +19,20 @@ void UMLActor::init() {
 	m_BaseType = ot_Actor;
 }
 
-bool UMLActor::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
-	QDomElement actorElement = qDoc.createElement("UML:Actor");
-	bool status = UMLObject::saveToXMI(qDoc, actorElement);
+UMLObject* UMLActor::clone() const {
+	UMLActor *clone = new UMLActor();
+	UMLObject::copyInto(clone);
+	return clone;
+}
+
+void UMLActor::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
+	QDomElement actorElement = UMLObject::save("UML:Actor", qDoc);
 	qElement.appendChild(actorElement);
-	return status;
 }
 
-bool UMLActor::loadFromXMI(QDomElement& element) {
-	return UMLObject::loadFromXMI(element);
+bool UMLActor::load(QDomElement&) {
+	return true;
 }
-
-
-
-
 
 
 #include "actor.moc"

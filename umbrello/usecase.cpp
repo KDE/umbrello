@@ -20,20 +20,19 @@ void UMLUseCase::init() {
 	m_BaseType = ot_UseCase;
 }
 
-bool UMLUseCase::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
-	QDomElement usecaseElement = qDoc.createElement("UML:UseCase");
-	bool status = UMLObject::saveToXMI(qDoc, usecaseElement);
+UMLObject* UMLUseCase::clone() const {
+	UMLUseCase *clone = new UMLUseCase();
+	UMLObject::copyInto(clone);
+	return clone;
+}
+
+void UMLUseCase::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
+	QDomElement usecaseElement = UMLObject::save("UML:UseCase", qDoc);
 	qElement.appendChild(usecaseElement);
-	return status;
 }
 
-bool UMLUseCase::loadFromXMI(QDomElement& element) {
-	return UMLObject::loadFromXMI(element);
+bool UMLUseCase::load(QDomElement& ) {
+	return true;
 }
-
-
-
-
-
 
 

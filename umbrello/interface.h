@@ -57,7 +57,7 @@ public:
 	/**
 	 * Make a clone of this object.
 	 */
-	virtual UMLInterface* clone() const;
+	virtual UMLObject* clone() const;
 
 
 	/**
@@ -67,13 +67,15 @@ public:
 	 */
 	virtual QString uniqChildName(const UMLObject_Type type);
 
-	/*
-	 * For loadFromXMI/saveToXMI, the base class methods are used.
-	 */
-
 	virtual bool isInterface () { return true; }
 
+	void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+
 protected:
+	/**
+	 * Loads the <UML:Interface> XMI element including its operations.
+	 */
+	bool load( QDomElement & element );
 
 	/**
 	 * Initializes key variables of the class.
