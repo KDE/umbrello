@@ -146,10 +146,6 @@ void UMLDoc::addView(UMLView *view) {
 	if (optionState.generalState.tabdiagrams) {
 		tabWidget = UMLApp::app()->tabWidget();
 		tabWidget->addTab(view, view->getName());
-		//set title again to adjust tabs to window width
-		//FIXMEnowTAB not sure why this is required, need to check my ktabwidget code
-		tabWidget->setTabLabel(view, view->getName());
-
 		tabWidget->setTabIconSet(view, Umbrello::iconSet(view->getType()));
 	}
 	pApp->setDiagramMenuItemsState(true);
