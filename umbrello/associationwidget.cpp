@@ -3147,9 +3147,13 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
 				return false;
 			Uml::Text_Role role = (Uml::Text_Role)r.toInt();
 			FloatingText *ft = new FloatingText(m_pView, role);
-			if( ! ft->loadFromXMI(element) )
-				return false;
-
+			if( ! ft->loadFromXMI(element) ) {
+				// Most likely cause: The FloatingText is empty.
+				delete ft;
+				node = element.nextSibling();
+				element = node.toElement();
+				continue;
+			}
 			// always need this
 			ft->setAssoc(this);
 
