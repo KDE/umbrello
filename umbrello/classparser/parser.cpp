@@ -1393,6 +1393,14 @@ bool Parser::parseEnumSpecifier( TypeSpecifierAST::Node& node )
 {
     //kdDebug(9007)<< "--- tok = " << lex->lookAhead(0).text() << " -- "  << "Parser::parseEnumSpecifier()" << endl;
 
+    QString comment;
+    while( lex->lookAhead(0) == Token_comment ) {
+	comment += lex->lookAhead(0).text();
+	lex->nextToken();
+    }
+    if( lex->lookAhead(0).isNull() )
+	return false;
+
     int start = lex->index();
 
     if( lex->lookAhead(0) != Token_enum ){
@@ -2131,6 +2139,14 @@ bool Parser::parseExceptionSpecification( GroupAST::Node& node )
 bool Parser::parseEnumerator( EnumeratorAST::Node& node )
 {
     //kdDebug(9007)<< "--- tok = " << lex->lookAhead(0).text() << " -- "  << "Parser::parseEnumerator()" << endl;
+
+    QString comment;
+    while( lex->lookAhead(0) == Token_comment ) {
+	comment += lex->lookAhead(0).text();
+	lex->nextToken();
+    }
+    if( lex->lookAhead(0).isNull() )
+	return false;
 
     int start = lex->index();
 
