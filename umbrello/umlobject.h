@@ -52,7 +52,7 @@ public:
 	/**
 	 * 		Overloaded '==' operator
 	 */
-	bool operator==(UMLObject & rhs );
+	virtual bool operator==(UMLObject & rhs );
 
 	/**
 	 *	Standard deconstructor.

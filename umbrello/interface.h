@@ -10,7 +10,7 @@
 #ifndef INTERFACE_H
 #define INTERFACE_H
 
-#include "umlobject.h"
+#include "umlcanvasobject.h"
 #include <qptrlist.h>
 
 class IDChangeLog;
@@ -19,17 +19,16 @@ class UMLOperation;
 
 /**
  *	This class contains the non-graphical information required for a UML Interface.
- *	This class inherits from @ref UMLObject which contains most of the information.
+ *	This class inherits from @ref UMLCanvasObject which contains most of the information.
  *	The @ref UMLDoc class creates instances of this type.  All Interfaces will need a unique
  *	id.  This will be given by the @ref UMLDoc class.  If you don't leave it up to the @ref UMLDoc
  *	class then call the method @ref UMLDoc::getUniqueID to get a unique id.
  *
  *	@short	Information for a non-graphical Interface.
  *	@author Jonathan Riddell
- *	@see	UMLObject
  */
 
-class UMLInterface : public UMLObject {
+class UMLInterface : public UMLCanvasObject {
 public:
 	/**
 	 *	Sets up an interface.
@@ -57,30 +56,6 @@ public:
 	 */
   	bool operator==(UMLInterface& rhs);
   
-  	/**
- 	 *	Adds an association.
- 	 *	Which role is "this" side (i.e. identifies the current concept)
- 	 *	depends on the association type:
- 	 *	For generalizations, role A is "this" side.
- 	 *	For aggregations and compositions, role B is "this" side.
- 	 *
- 	 *	@param	assoc	The association to add.
- 	 */
- 	bool addAssociation(UMLAssociation* assoc);
- 
- 	/**
- 	 *	Determine if this interface has this association.
- 	 *	@param	assoc	The association to check.
- 	 */
- 	bool hasAssociation(UMLAssociation* assoc);
- 
- 	/**
- 	 *	Remove an association from the Interface.
- 	 *
- 	 *	@param	o	The association to remove.
- 	 */
- 	int removeAssociation(UMLObject *o);
- 
 	/**
 	 *	Adds an operation to the Interface.
 	 *
@@ -111,42 +86,6 @@ public:
 	int removeOperation(UMLObject *o);
 
 	/**
-	 *	Returns the number of associations for the interface.
-	 *	This is the sum of the aggregations and compositions.
-	 *
-	 *	@return	The number of associations for the interface.
-	 */
-	int associations();
-
-	/**
-	 *	Returns the number of operations for the interface.
-	 *
-	 *	@return	The number of operations for the interface.
-	 */
-	int operations() ;
-
- 	/**
-	 *	Return the list of associations for the interface.
-	 *
-	 *	@return The list of associations for the Interface.
-	 */
-	const QPtrList<UMLAssociation>& getAssociations();
-
-	/**
-	 *	Return the subset of m_AssocsList that matches `assocType'.
-	 *
-	 *	@return The list of associations that match `assocType'.
-	 */
-	QPtrList<UMLAssociation> getSpecificAssocs(Uml::Association_Type assocType);
-
-	/**
-	 *	Shorthand for getSpecificAssocs(Uml::at_Generalization)
-	 *
-	 *	@return The list of generalizations for the Interface.
-	 */
-	QPtrList<UMLAssociation> getGeneralizations();
-
-	/**
 	 *	Return the list of operations for the Interface.
 	 *
 	 *	@return The list of operation for the Interface.
@@ -174,11 +113,18 @@ public:
 	UMLObject* findChildObject(int id);
 
 	/**
+	 *	Returns the number of operations for the interface.
+	 *
+	 *	@return	The number of operations for the interface.
+	 */
+	int operations() ;
+
+	/**
 	 * Used to save or load this classes information for the clipboard
 	 *
 	 *	@param	s	Pointer to the datastream (file) to save/load from.
 	 *	@param	archive	If true will save the classes information, else will
-	 * load the information.
+	 * 								load the information.
 	 *	@param	fileversion	the version of the serialize format
 	 *
 	 *	@return	Returns the result of the operation.
@@ -193,7 +139,7 @@ public:
 	/**
 	 *	Initializes key variables of the class.
 	 */
-	void init();
+	virtual void init();
 
 	/**
 	 * Creates the UML:Interface element including it's operations,
@@ -207,26 +153,7 @@ public:
 	 */
 	bool loadFromXMI(QDomElement& element);
 
-	/**
-	 * Returns a name for the new operation or
-	 * association appended with a number if the
-	 * default name is taken e.g. new attribute, new attribute_1
-	 * etc
-	 */
-	QString uniqChildName(const UMLObject_Type type);
-
 private:
-	/**
-	 * 	List of all the associations in this interface.
-	 */
-	QPtrList<UMLAssociation> m_AssocsList;
-
-	/**
-	 * 	List for computation of subsets of m_AssocsList.
-	 * 	This is always computed from m_AssocsList.
-	 */
-	QPtrList<UMLAssociation> m_TmpAssocs;
-
 	/**
 	 * 	List of all the operations in this interface.
 	 */

@@ -16,49 +16,18 @@
 #include <kdebug.h>
 #include <klocale.h>
 
-UMLConcept::UMLConcept(QObject * parent, QString Name, int id) : UMLObject(parent,Name, id) {
+UMLConcept::UMLConcept(QObject * parent, QString Name, int id) : UMLCanvasObject(parent,Name, id) {
 	init();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLConcept::UMLConcept(QObject * parent) : UMLObject(parent) {
+UMLConcept::UMLConcept(QObject * parent) : UMLCanvasObject(parent) {
 	init();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLConcept::~UMLConcept() {
- 	m_AssocsList.clear();
- 	m_TmpAssocs.clear();
   	m_AttsList.clear();
   	m_TemplateList.clear();
   	m_OpsList.clear();
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////
-QPtrList<UMLAssociation> UMLConcept::getSpecificAssocs(Uml::Association_Type assocType) {
- 	QPtrList<UMLAssociation> list;
- 	for (UMLAssociation *a = m_AssocsList.first(); a; a = m_AssocsList.next())
- 		if (a->getAssocType() == assocType)
- 			list.append(a);
- 	return list;
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////
-bool UMLConcept::addAssociation(UMLAssociation* assoc) {
- 	m_AssocsList.append( assoc );
-	return true;
-	emit modified();
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////
-bool UMLConcept::hasAssociation(UMLAssociation *a) {
- 	if(m_AssocsList.containsRef(a) > 0)
- 		return true;
- 	return false;
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////
-int UMLConcept::removeAssociation(UMLObject *a) {
- 	if(!m_AssocsList.remove((UMLAssociation *)a)) {
- 		kdDebug() << "can't find assoc given in list" << endl;
- 		return -1;
- 	}
-	emit modified();
- 	return m_AssocsList.count();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLObject* UMLConcept::addAttribute(QString name, int id) {
@@ -156,34 +125,11 @@ int UMLConcept::removeOperation(UMLObject *o) {
 	emit modified();
 	return m_OpsList.count();
 }
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-QString UMLConcept::uniqChildName(UMLObject_Type type) {
-	QString currentName;
-	if (type == ot_Association) {
-		currentName = i18n("new_association");
-	} else if (type == ot_Attribute) {
-		currentName = i18n("new_attribute");
-	} else if (type == ot_Template) {
-		currentName = i18n("new_template");
-	} else {
-		currentName = i18n("new_operation");
-	}
-	QString name = currentName;
-	for (int number = 0; findChildObject(type, name).count(); ++number,
-	        name = currentName + "_" + QString::number(number))
-		;
-	return name;
-}
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 QPtrList<UMLObject> UMLConcept::findChildObject(UMLObject_Type t , QString n) {
   	QPtrList<UMLObject> list;
  	if (t == ot_Association) {
- 		UMLAssociation * obj=0;
- 		for (obj = m_AssocsList.first(); obj != 0; obj = m_AssocsList.next()) {
- 			if (obj->getBaseType() == t && obj -> getName() == n)
- 				list.append( obj );
- 		}
+		return UMLCanvasObject::findChildObject(t, n);
  	} else if (t == ot_Attribute) {
   		UMLAttribute * obj=0;
   		for(obj=m_AttsList.first();obj != 0;obj=m_AttsList.next()) {
@@ -196,18 +142,22 @@ QPtrList<UMLObject> UMLConcept::findChildObject(UMLObject_Type t , QString n) {
   			if (obj->getBaseType() == t && obj->getName() == n)
 				list.append(obj);
 		}
-	} else {
+	} else if (t == ot_Operation) {
 		UMLOperation * obj=0;
 		for(obj=m_OpsList.first();obj != 0;obj=m_OpsList.next()) {
 			if(obj->getBaseType() == t && obj -> getName() == n)
 				list.append( obj );
 		}
+	} else {
+		kdWarning() << "finding child object of unknown type" << endl;
 	}
+
 	return list;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLObject* UMLConcept::findChildObject(int id) {
-	UMLOperation * o=0;
+/*FIXME no idea what's upsetting this method
+        UMLOperation * o=0;
 	for(o=m_OpsList.first();o != 0;o=m_OpsList.next()) {
 		if(o->getID() == id)
 			return o;
@@ -228,6 +178,7 @@ UMLObject* UMLConcept::findChildObject(int id) {
 		if (asso->getID() == id)
 			return asso;
 	}
+*/
 	return 0;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -293,23 +244,8 @@ void UMLConcept::init() {
 	m_AttsList.setAutoDelete(true);
 	m_TemplateList.clear();
 	m_TemplateList.setAutoDelete(true);
-	m_AssocsList.clear();
-	m_AssocsList.setAutoDelete(false);
-	m_TmpAssocs.clear();
-	m_TmpAssocs.setAutoDelete(false);
 }
 
-/** Returns the amount of bytes needed to serialize this object */
-/* If the serialization method of this class is changed this function will have to be CHANGED TOO*/
-/*This function is used by the Copy and Paste Functionality*/
-/*The Size in bytes of a serialized QString Object is long sz:
-		if ( (sz =str.length()*sizeof(QChar)) && !(const char*)str.unicode() )
-		{
-			sz = size of Q_UINT32; //  typedef unsigned int	Q_UINT32;		// 32 bit unsigned
-		}
-	This calculation is valid only for QT 2.1.x or superior, this is totally incompatible with QT 2.0.x or QT 1.x or inferior
-	That means the copy and paste functionality will work on with QT 2.1.x or superior
-*/
 long UMLConcept::getClipSizeOf() {
 	long l_size = UMLObject::getClipSizeOf();
 	//  Q_UINT32 tmp; //tmp is used to calculate the size of each serialized null string
@@ -334,36 +270,25 @@ long UMLConcept::getClipSizeOf() {
 }
 
 bool UMLConcept::operator==( UMLConcept & rhs ) {
-	if( this == &rhs )
-		return true;
-
-	if( ! UMLObject::operator==( rhs) )
+	if ( m_AttsList.count() != rhs.m_AttsList.count() ) {
 		return false;
-
-	if( m_AssocsList.count() != rhs.m_AssocsList.count() )
+	}
+	if ( m_TemplateList.count() != rhs.m_TemplateList.count() ) {
 		return false;
-
-	if( m_AttsList.count() != rhs.m_AttsList.count() )
+	}
+	if ( m_OpsList.count() != rhs.m_OpsList.count() ) {
 		return false;
-
-	if( m_TemplateList.count() != rhs.m_TemplateList.count() )
+	}
+	if ( &m_AttsList != &(rhs.m_AttsList) ) {
 		return false;
-
-	if( m_OpsList.count() != rhs.m_OpsList.count() )
+	}
+	if ( &m_TemplateList != &(rhs.m_TemplateList) ) {
 		return false;
-
-	if( &m_AssocsList != &(rhs.m_AssocsList) )
+	}
+	if ( &m_OpsList != &(rhs.m_OpsList) ) {
 		return false;
-
-	if( &m_AttsList != &(rhs.m_AttsList) )
-		return false;
-
-	if( &m_TemplateList != &(rhs.m_TemplateList) )
-		return false;
-
-	if( &m_OpsList != &(rhs.m_OpsList) )
-		return false;
-	return true;
+	}
+	return UMLCanvasObject::operator==(rhs);
 }
 
 bool UMLConcept::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
@@ -427,28 +352,8 @@ int UMLConcept::operations() {
 	return m_OpsList.count();
 }
 
-int UMLConcept::associations() {
-	return m_AssocsList.count();
-}
-
 int UMLConcept::attributes() {
 	return m_AttsList.count();
-}
-
-const QPtrList<UMLAssociation>& UMLConcept::getAssociations() {
-	return m_AssocsList;
-}
-
-QPtrList<UMLAssociation> UMLConcept::getGeneralizations() {
-	return getSpecificAssocs(Uml::at_Generalization);
-}
-
-QPtrList<UMLAssociation> UMLConcept::getAggregations() {
-	return getSpecificAssocs(Uml::at_Aggregation);
-}
-
-QPtrList<UMLAssociation> UMLConcept::getCompositions() {
-	return getSpecificAssocs(Uml::at_Composition);
 }
 
 QPtrList<UMLAttribute>* UMLConcept::getAttList() {

@@ -10,22 +10,20 @@
 #ifndef USECASE_H
 #define USECASE_H
 
-#include "umlobject.h"
-
+#include "umlcanvasobject.h"
 
 /**
- *	This class contains the non-graphical information required for a UML UseCase.
- * This class inherits from @ref UMLObject which contains most of the information.
+ * This class contains the non-graphical information required for a UML UseCase.
+ * This class inherits from @ref UMLCanvasObject which contains most of the information.
  * The @ref UMLDoc class creates instances of this type.  All UseCases will need a unique
  * id.  This will be given by the @ref UMLDoc class.  If you don't leave it up to the @ref UMLDoc
  * class then call the method @ref UMLDoc::getUniqueID to get a unique id.
  *
  * @short Information for a non-graphical UML UseCase.
- *	@author Paul Hensgen <phensgen@techie.com>
- *	@version 1.0
+ * @author Paul Hensgen <phensgen@techie.com>
  */
 
-class UMLUseCase : public UMLObject {
+class UMLUseCase : public UMLCanvasObject {
 public:
 	/**
 	 *	Creates a UseCase object
@@ -34,14 +32,14 @@ public:
 	 *	@param name		The name of the object.
 	 *	@param	id				The id of the object.
 	 */
-	UMLUseCase(QObject * parent, QString Name, int id);
+	UMLUseCase(QObject* parent, QString Name, int id);
 
 	/**
 	 *	Creates a UseCase object
 	 *
 	 *	@param	parent		The parent of the object.
 	 */
-	UMLUseCase(QObject * parent);
+	UMLUseCase(QObject* parent);
 
 	/**
 	 *	Standard deconstructor
@@ -49,23 +47,18 @@ public:
 	~UMLUseCase();
 
 	/**
-	 * Use to save or load this classes information
-	 *
-	 *	@param	s	Pointer to the datastream (file) to save/load from.
-	 *	@param	archive	If true will save the classes information, else will
-	 * load the information.
-	 *
-	 *	@return	Returns the status of the operation.
+	 *	Initializes key variables of the class.
 	 */
-	virtual bool serialize(QDataStream * s, bool archive, int serialize);
+	virtual void init();
 
 	/**
-	 * Returns the amount of bytes needed to serialize an instance object to the clipboard
+	 * Creates the <UML:UseCase> element
 	 */
-	virtual long getClipSizeOf();
-
 	bool saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
+	/**
+	 * Loads the <UML:UseCase> element
+	 */
 	bool loadFromXMI( QDomElement & element );
 };
 

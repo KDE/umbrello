@@ -1955,6 +1955,7 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
 					break;
 				case Uml::lvt_Attribute:
 				case Uml::lvt_Operation:
+				case Uml::lvt_Template:
 				{
 					UMLObject* umlObject = parent->getUMLObject();
 					if (!umlObject) {

@@ -10,7 +10,7 @@
 #ifndef CONCEPT_H
 #define CONCEPT_H
 
-#include "umlobject.h"
+#include "umlcanvasobject.h"
 #include <qptrlist.h>
 
 class IDChangeLog;
@@ -21,18 +21,16 @@ class UMLTemplate;
 
 /**
  *	This class contains the non-graphical information required for a UML Concept (ie a class).
- *	This class inherits from @ref UMLObject which contains most of the information.
+ *	This class inherits from @ref UMLCanvasObject which contains most of the information.
  *	The @ref UMLDoc class creates instances of this type.  All Concepts will need a unique
  *	id.  This will be given by the @ref UMLDoc class.  If you don't leave it up to the @ref UMLDoc
  *	class then call the method @ref UMLDoc::getUniqueID to get a unique id.
  *
  *	@short	Information for a non-graphical Concept/Class.
  *	@author Paul Hensgen	<phensgen@techie.com>
- *	@version 1.0
- *	@see	UMLObject
  */
 
-class UMLConcept : public UMLObject {
+class UMLConcept : public UMLCanvasObject {
 public:
 	/**
 	 *	Sets up a Concept.
@@ -41,14 +39,14 @@ public:
 	 *	@param	name	The name of the Concept.
 	 *	@param	id	The unique id of the Concept.
 	 */
-	UMLConcept(QObject * parent, QString Name, int id);
+	UMLConcept(QObject* parent, QString Name, int id);
 
 	/**
 	 *	Sets up a Concept.
 	 *
 	 *	@param	parent		The parent to this Concept.
 	 */
-	UMLConcept(QObject * parent);
+	UMLConcept(QObject* parent);
 
 	/**
 	 *	Standard deconstructor.
@@ -60,30 +58,6 @@ public:
 	 */
   	bool operator==( UMLConcept & rhs );
   
-  	/**
- 	 *	Adds an association.
- 	 *	Which role is "this" side (i.e. identifies the current concept)
- 	 *	depends on the association type:
- 	 *	For generalizations, role A is "this" side.
- 	 *	For aggregations and compositions, role B is "this" side.
- 	 *
- 	 *	@param	assoc	The association to add.
- 	 */
- 	bool addAssociation(UMLAssociation* assoc);
- 
- 	/**
- 	 *	Determine if this concept has this association.
- 	 *	@param	assoc	The association to check.
- 	 */
- 	bool hasAssociation(UMLAssociation* assoc);
- 
- 	/**
- 	 *	Remove an association from the Concept.
- 	 *
- 	 *	@param	o	The association to remove.
- 	 */
- 	int removeAssociation(UMLObject *o);
- 
  	/**
   	 *	Adds an attribute to the Concept.
   	 *
@@ -156,14 +130,6 @@ public:
 	int removeOperation(UMLObject *o);
 
 	/**
-	 *	Returns the number of associations for the Concept.
-	 *	This is the sum of the aggregations and compositions.
-	 *
-	 *	@return	The number of associations for the Concept.
-	 */
-	int associations();
-
-	/**
 	 *	Returns the number of attributes for the Concept.
 	 *
 	 *	@return	The number of attributes for the Concept.
@@ -183,41 +149,6 @@ public:
 	 *	@return	The number of operations for the Concept.
 	 */
 	int operations() ;
-
- 	/**
-	 *	Return the list of associations for the Concept.
-	 *
-	 *	@return The list of associations for the Concept.
-	 */
-	const QPtrList<UMLAssociation>& getAssociations();
-
-	/**
-	 *	Return the subset of m_AssocsList that matches `assocType'.
-	 *
-	 *	@return The list of associations that match `assocType'.
-	 */
-	QPtrList<UMLAssociation> getSpecificAssocs(Uml::Association_Type assocType);
-
-	/**
-	 *	Shorthand for getSpecificAssocs(Uml::at_Generalization)
-	 *
-	 *	@return The list of generalizations for the Concept.
-	 */
-	QPtrList<UMLAssociation> getGeneralizations();
-
-	/**
-	 *	Shorthand for getSpecificAssocs(Uml::at_Aggregation)
-	 *
-	 *	@return The list of aggregations for the Concept.
-	 */
-	QPtrList<UMLAssociation> getAggregations();
-
-	/**
-	 *	Shorthand for getSpecificAssocs(Uml::at_Composition)
-	 *
-	 *	@return The list of compositions for the Concept.
-	 */
-	QPtrList<UMLAssociation> getCompositions();
 
 	/**
 	 *	Return the list of attributes for the Concept.
@@ -294,25 +225,7 @@ public:
 	 */
 	bool loadFromXMI( QDomElement & element );
 
-	/**
-	 * Returns a name for the new attribute, operation,
-	 * association or template appended with a number if the
-	 * default name is taken e.g. new attribute, new attribute_1
-	 * etc
-	 */
-	QString uniqChildName(const UMLObject_Type type);
-
 private:
-	/**
-	 * 	List of all the associations in this class.
-	 */
-	QPtrList<UMLAssociation> m_AssocsList;
-
-	/**
-	 * 	List for computation of subsets of m_AssocsList.
-	 * 	This is always computed from m_AssocsList.
-	 */
-	QPtrList<UMLAssociation> m_TmpAssocs;
 
 	/**
 	 * 	List of all the operations in this class.
