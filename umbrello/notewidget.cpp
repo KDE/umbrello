@@ -18,6 +18,7 @@
 #include "dialogs/notedialog.h"
 #include "umldoc.h"
 #include "umlview.h"
+#include "uml.h"
 #include "notewidget.h"
 #include "listpopupmenu.h"
 
@@ -95,7 +96,7 @@ void NoteWidget::mousePressEvent(QMouseEvent *me) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void NoteWidget::slotMenuSelection(int sel) {
 	NoteDialog * dlg = 0;
-	UMLDoc *doc = m_pView->getDocument();
+	UMLDoc *doc = UMLApp::app()->getDocument();
 	switch(sel) {
 		case ListPopupMenu::mt_Link_Docs:
 			m_pView->updateNoteWidgets();

@@ -101,9 +101,9 @@ const int UMLView::defaultCanvasSize = 1300;
 
 
 // constructor
-UMLView::UMLView(QWidget* parent, UMLDoc* doc) : QCanvasView(parent, "AnUMLView") {
+UMLView::UMLView() : QCanvasView(UMLApp::app()->getMainViewWidget(), "AnUMLView") {
 	init();
-	m_pDoc = doc;
+	m_pDoc = UMLApp::app()->getDocument();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLView::init() {
@@ -207,10 +207,6 @@ UMLView::~UMLView() {
 	}
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLDoc* UMLView::getDocument() const {
-	return m_pDoc;
-}
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLView::print(KPrinter *pPrinter, QPainter & pPainter) {
 	int height, width;
@@ -1855,7 +1851,7 @@ void UMLView::addAssocInViewAndDoc(AssociationWidget* a) {
 	if(addAssociation(a, false))
 	{
 		// if view went ok, then append in document
-		getDocument() -> addAssociation (a->getAssociation());
+		m_pDoc -> addAssociation (a->getAssociation());
 	} else {
 		kdError() << "cannot addAssocInViewAndDoc(), deleting" << endl;
 		delete a;

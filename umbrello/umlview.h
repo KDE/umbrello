@@ -64,7 +64,7 @@ public:
 	/**
 	 * Constructor for the main view
 	 */
-	UMLView(QWidget* parent, UMLDoc* doc);
+	UMLView();
 
 	/**
 	 * Destructor for the main view
@@ -340,17 +340,6 @@ public:
 	* return the current zoom factor
 	*/
 	int currentZoom();
-
-	/**
-	 * returns a pointer to the document connected to the view
-	 * instance. Mind that this method requires a UMLApp instance
-	 * as a parent widget to get to the window document pointer by
-	 * calling the UMLApp::getDocument() method.
-	 *
-	 * @see UMLApp#getDocument
-	 */
-	UMLDoc* getDocument() const;
-
 
 	/**
 	 * contains the implementation for printing functionality

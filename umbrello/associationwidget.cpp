@@ -44,10 +44,7 @@ AssociationWidget::AssociationWidget(UMLView *view, UMLWidget* pWidgetA,
 	: LinkWidget(view)
 {
 	init(view);
-
-	UMLDoc *umldoc = m_pView->getDocument();
-	//FIXME: There are too many ways to retrieve the UMLDoc, there should be
-	// only one:  UMLApp::app()->getDocument().
+	UMLDoc *umldoc = UMLApp::app()->getDocument();
 
 	// set up UMLAssociation obj if assoc is represented and both roles are UML objects
 	if (UMLAssociation::assocTypeHasUMLRepresentation(assocType)) {
@@ -884,7 +881,7 @@ void AssociationWidget::moveEvent(QMoveEvent* me) {
 	// Simple Approach to block moveEvent during load of
 	// XMI
 	/// @todo avoid trigger of this event during load
-	if ( m_pView->getDocument()->loading() ) {
+	if ( UMLApp::app()->getDocument()->loading() ) {
 		// hmmh - change of position during load of XMI
 		// -> there is something wrong
 		// -> avoid movement during opening
@@ -1193,7 +1190,7 @@ void AssociationWidget::widgetMoved(UMLWidget* widget, int x, int y ) {
 	// Simple Approach to block moveEvent during load of
 	// XMI
 	/// @todo avoid trigger of this event during load
-	if ( m_pView->getDocument()->loading() ) {
+	if ( UMLApp::app()->getDocument()->loading() ) {
 		// hmmh - change of position during load of XMI
 		// -> there is something wrong
 		// -> avoid movement during opening
@@ -2942,7 +2939,7 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
 					umlRoleB = pWidgetB->getUMLObject();
 				}
 
-				setUMLAssociation(m_pView->getDocument()->createUMLAssociation(umlRoleA, umlRoleB, aType));
+				setUMLAssociation(UMLApp::app()->getDocument()->createUMLAssociation(umlRoleA, umlRoleB, aType));
 			}
 		}
 
@@ -2981,7 +2978,7 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
 		}
 
 		// New style: The xmi.id is a reference to the UMLAssociation.
-		UMLDoc* umldoc = m_pView->getDocument();
+		UMLDoc* umldoc = UMLApp::app()->getDocument();
 		UMLAssociation * myAssoc = (UMLAssociation*)umldoc->findUMLObject(nId);
 		if (myAssoc == NULL) {
 			kdError() << " AssociationWidget cannot find UML:Association " << nId << " for loadFromXMI"<< endl;

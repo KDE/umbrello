@@ -13,6 +13,7 @@
 #include "classifierlistitem.h"
 #include "umlview.h"
 #include "umldoc.h"
+#include "uml.h"
 #include "listpopupmenu.h"
 
 #include <kdebug.h>
@@ -251,7 +252,7 @@ void InterfaceWidget::calculateAsConceptSize() {
 void InterfaceWidget::slotMenuSelection(int sel) {
 	switch(sel) {
 		case ListPopupMenu::mt_Operation:
-			m_pView->getDocument()->createChildObject(m_pObject, Uml::ot_Operation);
+			UMLApp::app()->getDocument()->createChildObject(m_pObject, Uml::ot_Operation);
 			break;
 
 		case ListPopupMenu::mt_Show_Operations:

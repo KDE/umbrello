@@ -25,6 +25,7 @@
 #include "umlviewdialog.h"
 #include "../umlview.h"
 #include "../umldoc.h"
+#include "../uml.h"
 #include "../classwidget.h"
 #include "diagrampropertiespage.h"
 
@@ -147,7 +148,7 @@ void UMLViewDialog::applyPage( Page page ) {
 
 void UMLViewDialog::checkName() {
 	QString name = m_diagramProperties->diagramName-> text();
-	UMLDoc * pDoc = m_pView -> getDocument();
+	UMLDoc * pDoc = UMLApp::app()-> getDocument();
 	UMLView * pView = pDoc -> findView( m_pView -> getType(), name );
 	if( name.length() == 0 ) {
 		KMessageBox::sorry(this, i18n("The name you have entered is invalid."),

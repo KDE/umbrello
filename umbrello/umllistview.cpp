@@ -1956,7 +1956,7 @@ void UMLListView::createDiagram( UMLListViewItem * item, Uml::Diagram_Type type 
 		delete item;
 		return;
 	}
-	view = new UMLView(UMLApp::app()->getMainDockWidget(), m_doc);
+	view = new UMLView();
 	view->setName( name );
 	view->setType( type );
 	view->setID( m_doc -> getUniqueID() );

@@ -15,6 +15,7 @@
 #include "template.h"
 #include "umlview.h"
 #include "umldoc.h"
+#include "uml.h"
 #include <kdebug.h>
 #include <qpainter.h>
 
@@ -357,7 +358,7 @@ void ClassWidget::slotMenuSelection(int sel) {
 		case ListPopupMenu::mt_Attribute:
 		case ListPopupMenu::mt_Operation:
 		{
-			UMLDoc *doc = m_pView->getDocument();
+			UMLDoc *doc = UMLApp::app()->getDocument();
 			Uml::UMLObject_Type ot = ListPopupMenu::convert_MT_OT(mt);
 			if (doc->createChildObject(m_pObject, ot))
 				doc->setModified();

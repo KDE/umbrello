@@ -13,6 +13,7 @@
 #include "classifierlistitem.h"
 #include "umlview.h"
 #include "umldoc.h"
+#include "uml.h"
 #include "listpopupmenu.h"
 
 #include <kdebug.h>
@@ -157,8 +158,8 @@ void EnumWidget::calculateSize() {
 void EnumWidget::slotMenuSelection(int sel) {
 	switch(sel) {
 		case ListPopupMenu::mt_EnumLiteral:
-			if ( m_pView->getDocument()->createChildObject(m_pObject, ot_EnumLiteral) )  {
-				m_pView->getDocument()->setModified();
+			if ( UMLApp::app()->getDocument()->createChildObject(m_pObject, ot_EnumLiteral) )  {
+				UMLApp::app()->getDocument()->setModified();
 			}
 			break;
 	}

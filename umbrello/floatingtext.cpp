@@ -19,6 +19,7 @@
 #include "association.h"
 #include "umlview.h"
 #include "umldoc.h"
+#include "uml.h"
 #include "classifier.h"
 #include "messagewidget.h"
 #include "listpopupmenu.h"
@@ -46,7 +47,7 @@ void FloatingText::init() {
 	m_Type = Uml::wt_Text;
 	// initialize non-saved (i.e. volatile) data
 	m_pLink = NULL;
-	if ( ! m_pView->getDocument()->loading() ) {
+	if ( ! UMLApp::app()->getDocument()->loading() ) {
 		calculateSize();
 		setZ( 10 );//make sure always on top.
 		update();
@@ -174,7 +175,7 @@ void FloatingText::slotMenuSelection(int sel) {
 					m_pLink->setOperationText(this, opText);
 				return;
 			}
-			UMLObject* umlObj = m_pView->getDocument()->createChildObject(c, Uml::ot_Operation);
+			UMLObject* umlObj = UMLApp::app()->getDocument()->createChildObject(c, Uml::ot_Operation);
 			if (umlObj) {
 				UMLOperation* newOperation = static_cast<UMLOperation*>( umlObj );
 				// It should perhaps be configurable whether the
@@ -252,7 +253,7 @@ void FloatingText::handleRename() {
 		m_pLink->setText(this, newText);
 	} else {
 		setText( newText );
-		m_pView->getDocument()->setModified(true);
+		UMLApp::app()->getDocument()->setModified(true);
 	}
 	setVisible( true );
 	calculateSize();

@@ -446,7 +446,7 @@ bool UMLDrag::decodeClip2(const QMimeSource* mimeSource, UMLObjectList& objects,
 		return false;
 	}
 	while ( !diagramElement.isNull() ) {
-		UMLView* view = new UMLView(UMLApp::app()->getMainViewWidget(), doc);
+		UMLView* view = new UMLView();
 		view->loadFromXMI(diagramElement);
 		diagrams.append(view);
 		diagramNode = diagramNode.nextSibling();

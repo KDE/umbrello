@@ -6,22 +6,22 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+// own header
 #include "toolbarstatemessages.h"
 
+// system includes
 #include <qevent.h>
+#include <qcanvas.h>
+#include <qwmatrix.h> // need for inverseWorldMatrix.map
+#include <kdebug.h>
 
+// local includes
 #include "umlview.h"
 #include "umldoc.h"
-
+#include "uml.h"
 #include "objectwidget.h"
 #include "floatingtext.h"
 #include "messagewidget.h"
-#include <qcanvas.h>
-
-#include <kdebug.h>
-
-#include <qwmatrix.h> // need for inverseWorldMatrix.map
-
 
 
 ToolBarStateMessages::ToolBarStateMessages(UMLView *umlView) : ToolBarStatePool(umlView)	
@@ -93,7 +93,7 @@ void ToolBarStateMessages::mouseRelease(QMouseEvent* ome)
 								   clickedOnWidget, messageText,
 								   m_pMouseEvent->y(),
 								   getMessageType(),
-								   m_pUMLView->getDocument()->getUniqueID());
+								   UMLApp::app()->getDocument()->getUniqueID());
 
 			// TODO Do we really need a connect? It makes the code so hard to read. 
 			m_pUMLView->connect(m_pUMLView, SIGNAL(sigColorChanged(int)), message, SLOT(slotColorChanged(int)));
@@ -113,7 +113,7 @@ void ToolBarStateMessages::mouseRelease(QMouseEvent* ome)
 		m_pSelectedWidget = 0;
 	}
 
-	m_pUMLView->getDocument()->setModified();
+	UMLApp::app()->getDocument()->setModified();
 }
 
 // Override the ToolBarState::setSelectedWidget method.

@@ -70,7 +70,7 @@ UMLWidget::UMLWidget(UMLView * view, int id /* = -1 */)
 {
 	init();
 	if (id == -1)
-		m_nId = m_pView->getDocument()->getUniqueID();
+		m_nId = UMLApp::app()->getDocument()->getUniqueID();
 	else
 		m_nId = id;
 }
@@ -393,7 +393,7 @@ void UMLWidget::mouseReleaseEvent(QMouseEvent *me) {
 	}//end if right button
 
 	if (m_bMoved) {
-		m_pView->getDocument()->setModified(true);
+		UMLApp::app()->getDocument()->setModified(true);
 	}
 
 	if ( me->button() == LeftButton &&
@@ -465,7 +465,7 @@ void UMLWidget::slotMenuSelection(int sel) {
 	const Uml::UMLWidget_Type wt = m_Type;
 	switch(sel) {
 		case ListPopupMenu::mt_Rename:
-			m_pView -> getDocument() -> renameUMLObject(m_pObject);
+			UMLApp::app()-> getDocument() -> renameUMLObject(m_pObject);
 			// adjustAssocs( getX(), getY() );//adjust assoc lines
 			break;
 
@@ -480,9 +480,9 @@ void UMLWidget::slotMenuSelection(int sel) {
 			    wt == wt_Component || wt == wt_Artifact ||
 			    wt == wt_Node || wt == wt_Enum ||
 			    (wt == wt_Class && m_pView -> getType() == dt_Class)) {
-				m_pView->getDocument() -> showProperties(this);
+				UMLApp::app()->getDocument() -> showProperties(this);
 			} else if (wt == wt_Object) {
-				m_pView->getDocument() -> showProperties(m_pObject);
+				UMLApp::app()->getDocument() -> showProperties(m_pObject);
 			} else {
 				kdWarning() << "making properties dialogue for unknown widget type" << endl;
 			}
@@ -493,7 +493,7 @@ void UMLWidget::slotMenuSelection(int sel) {
 		case ListPopupMenu::mt_Line_Color_Selection:
 			if( KColorDialog::getColor(newColour) ) {
 				m_pView -> selectionSetLineColor( newColour );
-				m_pView->getDocument()->setModified(true);
+				UMLApp::app()->getDocument()->setModified(true);
 			}
 			break;
 
@@ -501,7 +501,7 @@ void UMLWidget::slotMenuSelection(int sel) {
 		case ListPopupMenu::mt_Fill_Color_Selection:
 			if ( KColorDialog::getColor(newColour) ) {
 				m_pView -> selectionSetFillColor( newColour );
-				m_pView->getDocument()->setModified(true);
+				UMLApp::app()->getDocument()->setModified(true);
 			}
 			break;
 
@@ -520,7 +520,7 @@ void UMLWidget::slotMenuSelection(int sel) {
 		case ListPopupMenu::mt_Show_Stereotypes_Selection:
 		case ListPopupMenu::mt_Show_Public_Only_Selection:
 		 	m_pView->selectionToggleShow(sel);
-			m_pView->getDocument()->setModified(true);
+			UMLApp::app()->getDocument()->setModified(true);
 		 	break;
 
 		case ListPopupMenu::mt_ViewCode: {
@@ -547,7 +547,7 @@ void UMLWidget::slotMenuSelection(int sel) {
 			if( KFontDialog::getFont( font, false, m_pView ) )
 			{
 				m_pView -> selectionSetFont( font );
-				m_pView->getDocument()->setModified(true);
+				UMLApp::app()->getDocument()->setModified(true);
 			}
 			break;
 
@@ -746,7 +746,7 @@ void UMLWidget::adjustAssocs(int x, int y)
 	//   as file is only partly loaded -> reposition
 	//   could be misguided )
 	/// @todo avoid trigger of this event during load
-	if ( m_pView->getDocument()->loading() ) {
+	if ( UMLApp::app()->getDocument()->loading() ) {
 		// don't recalculate the assocs during load of XMI
 		// -> return immediately without action
 		QString trace = kdBacktrace();
@@ -813,7 +813,7 @@ void UMLWidget::startPopupMenu(QPoint At) {
 								multi, unique);
 
 	// disable the "view code" menu for simple code generators
-	CodeGenerator * currentCG = m_pView->getDocument()->getCurrentCodeGenerator();
+	CodeGenerator * currentCG = UMLApp::app()->getDocument()->getCurrentCodeGenerator();
 	if(currentCG && dynamic_cast<SimpleCodeGenerator*>(currentCG))
 			m_pMenu->setItemEnabled(ListPopupMenu::mt_ViewCode, false);
 
@@ -1043,7 +1043,7 @@ void UMLWidget::setFontMetrics(UMLWidget::FontType fontType, QFontMetrics fm) {
 void UMLWidget::setFont( QFont font ) {
 	m_Font = font;
 	forceUpdateFontMetrics(0);
-	if (m_pView->getDocument()->loading())
+	if (UMLApp::app()->getDocument()->loading())
 		return;
 	update();
 }

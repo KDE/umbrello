@@ -1424,7 +1424,7 @@ void UMLDoc::createDiagram(Diagram_Type type, bool askForName /*= true */) {
 		if (name.length() == 0)  {
 			KMessageBox::error(0, i18n("That is an invalid name for a diagram."), i18n("Invalid Name"));
 		} else if(!findView(type, name)) {
-			UMLView* temp = new UMLView(UMLApp::app()->getMainViewWidget(), this);
+			UMLView* temp = new UMLView();
 			temp -> setOptionState( UMLApp::app()->getOptionState() );
 			temp->setName( name );
 			temp->setType( type );
@@ -2203,7 +2203,7 @@ bool UMLDoc::loadDiagramsFromXMI( QDomNode & node ) {
 	int count = 0;
 	while( !element.isNull() ) {
 		if( element.tagName() == "diagram" ) {
-			pView = new UMLView(UMLApp::app()->getMainViewWidget(), this);
+			pView = new UMLView();
 			// IMPORTANT: Set OptionState of new UMLView _BEFORE_
 			// reading the corresponding diagram:
 			// + allow using per-diagram color and line-width settings

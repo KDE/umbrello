@@ -21,6 +21,7 @@
 #include "dialogs/selectopdlg.h"
 #include "umlview.h"
 #include "umldoc.h"
+#include "uml.h"
 #include "listpopupmenu.h"
 
 MessageWidget::MessageWidget(UMLView * view, ObjectWidget* a, ObjectWidget* b,
@@ -314,7 +315,7 @@ bool MessageWidget::activate(IDChangeLog * Log /*= 0*/) {
 		m_pFText = new FloatingText( m_pView, tr, "" );
 		m_pFText->setFont(UMLWidget::getFont());
 	} else if (m_pFText->getID() == -1) {
-		int newid = m_pView->getDocument()->getUniqueID();
+		int newid = UMLApp::app()->getDocument()->getUniqueID();
 		kdDebug() << "MessageWidget::activate: assigning new id=" << newid
 			  << " to m_pFText" << endl;
 		m_pFText -> setID(newid);
@@ -327,7 +328,7 @@ bool MessageWidget::activate(IDChangeLog * Log /*= 0*/) {
 	m_pFText -> setUMLObject( m_pOw[B] -> getUMLObject() );
 	connect(m_pOw[A], SIGNAL(sigWidgetMoved(int)), this, SLOT(slotWidgetMoved(int)));
 	connect(m_pOw[B], SIGNAL(sigWidgetMoved(int)), this, SLOT(slotWidgetMoved(int)));
-	if ( ! m_pView->getDocument()->loading() )
+	if ( ! UMLApp::app()->getDocument()->loading() )
 	{ // calculate the dimensions only if no XMI file is loaded
 		// - this functions derives the dimension properties of this widget ( as said by the
 		//   function
@@ -353,7 +354,7 @@ void MessageWidget::setMessageText(FloatingText *ft) {
 
 void MessageWidget::setText(FloatingText *ft, QString newText) {
 	ft->setText(newText);
-	m_pView->getDocument()->setModified(true);
+	UMLApp::app()->getDocument()->setModified(true);
 }
 
 void MessageWidget::setSeqNumAndOp(QString seqNum, QString op) {
@@ -705,7 +706,7 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement) {
 		}
 	} else {
 		// no textid stored -> get unique new one
-		textId = m_pView->getDocument()->getUniqueID();
+		textId = UMLApp::app()->getDocument()->getUniqueID();
 	}
 
 	Text_Role tr = tr_Seq_Message;

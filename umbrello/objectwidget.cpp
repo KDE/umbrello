@@ -18,6 +18,7 @@
 #include "seqlinewidget.h"
 #include "umlview.h"
 #include "umldoc.h"
+#include "uml.h"
 #include "umlobject.h"
 #include "listpopupmenu.h"
 
@@ -87,13 +88,13 @@ void ObjectWidget::slotMenuSelection(int sel) {
 				calculateSize();
 				moveEvent( 0 );
 				update();
-				m_pView->getDocument()->setModified(true);
+				UMLApp::app()->getDocument()->setModified(true);
 			}
 			delete validator;
 			break;
 		}
 		case ListPopupMenu::mt_Properties:
-			m_pView->getDocument() -> showProperties(this);
+			UMLApp::app()->getDocument() -> showProperties(this);
 			calculateSize();
 			moveEvent( 0 );
 			update();
