@@ -105,6 +105,7 @@ ClassifierListPage::ClassifierListPage(QWidget* parent, UMLClassifier* classifie
 	enableWidgets(false);//disable widgets until an att is chosen
 	m_pOldListItem = 0;
 	connect(m_pItemListLB, SIGNAL(clicked(QListBoxItem*)), this, SLOT(slotClicked(QListBoxItem*)));
+	connect(m_pItemListLB, SIGNAL(selectionChanged(QListBoxItem*)), this, SLOT(slotClicked(QListBoxItem*)));
 
 	connect(m_pItemListLB, SIGNAL(rightButtonPressed(QListBoxItem*, const QPoint&)),
 	        this, SLOT(slotRightButtonPressed(QListBoxItem*, const QPoint&)));
