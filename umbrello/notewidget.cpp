@@ -16,6 +16,7 @@
 #include <kcolordialog.h>
 //app includes
 #include "dialogs/notedialog.h"
+#include "umldoc.h"
 #include "umlview.h"
 #include "notewidget.h"
 #include "listpopupmenu.h"
@@ -94,9 +95,11 @@ void NoteWidget::mousePressEvent(QMouseEvent *me) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void NoteWidget::slotMenuSelection(int sel) {
 	NoteDialog * dlg = 0;
+	UMLDoc *doc = m_pView->getDocument();
 	switch(sel) {
 		case ListPopupMenu::mt_Link_Docs:
 			m_pView->updateNoteWidgets();
+			doc -> setModified(true);
 			break;
 
 		case ListPopupMenu::mt_Rename:
@@ -104,6 +107,7 @@ void NoteWidget::slotMenuSelection(int sel) {
 			dlg = new NoteDialog( m_pView, this );
 			if( dlg -> exec() ) {
 				m_pView -> showDocumentation( this, true );
+				doc -> setModified(true);
 				update();
 			}
 			delete dlg;

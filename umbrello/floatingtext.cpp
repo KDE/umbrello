@@ -184,6 +184,7 @@ void FloatingText::slotMenuSelection(int sel) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void FloatingText::handleRename() {
 	QString t;
+	UMLDoc *doc = m_pView->getDocument();
 
 	if( m_Role == tr_RoleAName || m_Role == tr_RoleBName ) {
 		t = i18n("Enter role name:");
@@ -236,6 +237,7 @@ void FloatingText::handleRename() {
 		}//end switch
 	} else {
 		setText( newText );
+		doc -> setModified(true);
 	}
 	setVisible( true );
 	calculateSize();

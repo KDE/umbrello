@@ -81,8 +81,11 @@ public:
 	 * for the current project instead of the widget documentation.
 	 *
 	 * This is usually called before displaying a properties dialog.
+	 *
+	 * @param clear	If true, show the documentation of current project
+	 * @param startup	If true, no setModified(true) calls will be done and nothing is pushed to the undo stack
 	 */
-	void updateDocumentation( bool clear = false );
+	void updateDocumentation( bool clear = false, bool startup = false );
 
 
 	/**
