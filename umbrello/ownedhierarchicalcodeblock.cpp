@@ -31,7 +31,9 @@ OwnedHierarchicalCodeBlock::OwnedHierarchicalCodeBlock ( UMLObject *parent, Code
 	initFields ( parent);
 } 
 
-OwnedHierarchicalCodeBlock::~OwnedHierarchicalCodeBlock ( ) { }
+OwnedHierarchicalCodeBlock::~OwnedHierarchicalCodeBlock ( ) { 
+	getParentObject()->disconnect();
+}
 
 //  
 // Methods
@@ -143,7 +145,6 @@ void OwnedHierarchicalCodeBlock::syncToParent ( ) {
 
 void OwnedHierarchicalCodeBlock::initFields ( UMLObject * parent) { 
 	m_parentObject = parent; 
-	connect(parent,SIGNAL(modified()),this,SLOT(syncToParent()));
 }
 
 

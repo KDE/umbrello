@@ -31,7 +31,10 @@ CodeClassFieldDeclarationBlock::CodeClassFieldDeclarationBlock ( CodeClassField 
 	init(parentCF);
 }
 
-CodeClassFieldDeclarationBlock::~CodeClassFieldDeclarationBlock ( ) { }
+CodeClassFieldDeclarationBlock::~CodeClassFieldDeclarationBlock ( ) { 
+        m_parentclassfield->getParentObject()->disconnect();
+        m_parentclassfield->disconnect();
+}
 
 //  
 // Methods

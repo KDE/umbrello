@@ -30,7 +30,9 @@ CodeMethodBlock::CodeMethodBlock ( ClassifierCodeDocument * doc)
 	initFields();
 }
 
-CodeMethodBlock::~CodeMethodBlock ( ) { }
+CodeMethodBlock::~CodeMethodBlock ( ) { 
+	((ClassifierCodeDocument *) getParentDocument())->getParentClassifier()->disconnect();
+}
 
 //  
 // Methods

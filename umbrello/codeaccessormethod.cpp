@@ -32,7 +32,9 @@ CodeAccessorMethod::CodeAccessorMethod ( CodeClassField * parentCF )
 	initFields(parentCF);
 }
 
-CodeAccessorMethod::~CodeAccessorMethod ( ) { }
+CodeAccessorMethod::~CodeAccessorMethod ( ) { 
+	m_parentclassfield->disconnect(this);
+}
 
 //  
 // Methods
