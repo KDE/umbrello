@@ -161,6 +161,10 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, Uml::ListView_Type type)
 			mt = mt_Operation;
 			break;
 
+		case Uml::lvt_Template:
+			mt = mt_Template;
+			break;
+
 		case Uml::lvt_Entity:
 			mt = mt_Entity;
 			break;
@@ -1009,6 +1013,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 		case mt_UseCase:
 		case mt_Attribute:
 		case mt_Operation:
+		case mt_Template:
 			insertStdItems(false);
 			insertStdItem(mt_Properties);
 			break;
