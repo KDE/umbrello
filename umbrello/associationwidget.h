@@ -34,6 +34,12 @@ using namespace Uml;
  * attached to a UML object, the Note itself is not a UML object.
  * This class supports both kinds of associations. An association where one or
  * both roles are not a UML object is called a "pure widget association".
+ * An AssociationWidget where both roles are UML objects has a corresponding
+ * UMLAssociation. The UMLAssociation can be retrieved using the getAssociation()
+ * method.
+ * A pure widget association does not have a corresponding UMLAssociation.
+ * The getAssociation method returns NULL in this case.
+ * 
  *
  * @author Gustavo Madrigal
  * @short This class represents an association inside a diagram.
