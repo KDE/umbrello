@@ -130,6 +130,7 @@ void NoteWidget::mouseReleaseEvent( QMouseEvent * me ) {
 	if ( m_bResizing ) {
 		m_bResizing = false;
 		m_pView -> setCursor( KCursor::arrowCursor() );
+		UMLApp::app()->getDocument()->setModified(true);
 	}
 }
 
