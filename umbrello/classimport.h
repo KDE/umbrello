@@ -18,7 +18,8 @@
 class UMLDoc;
 class UMLObject;
 class UMLPackage;
-class CClassStore;
+class UMLOperation;
+class CppDriver;
 
 /**
  * Interfaces classparser library to uml models
@@ -39,7 +40,7 @@ public:
 	/**
 	 * Find or create a document object.
 	 */
-	UMLObject *createUMLObject(Uml::UMLObject_Type type,
+	UMLObject* createUMLObject(Uml::UMLObject_Type type,
 				   QString name,
 				   QString comment = "",
 				   UMLPackage *parentPkg = NULL);
@@ -47,17 +48,16 @@ public:
 	/**
 	 * Create a UMLAttribute and insert it into the document.
 	 */
-	void insertAttribute(CClassStore& store,
-			     UMLObject *o, Uml::Scope scope, QString name,
-			     QString type, QString comment = "",
-			     bool isStatic = false);
+	UMLObject* insertAttribute(UMLObject *o, Uml::Scope scope, QString name,
+				   QString type, QString comment = "",
+				   bool isStatic = false);
 
 	/**
 	 * Create a UMLOperation and insert it into the document.
 	 */
-	void insertMethod(UMLObject *o, Uml::Scope scope, QString name,
-			  QString type, bool isStatic, bool isAbstract,
-			  QString comment="", UMLAttributeList *parList=NULL);
+	UMLOperation* insertMethod(UMLObject *o, Uml::Scope scope, QString name,
+				   QString type, bool isStatic, bool isAbstract,
+				   QString comment="", UMLAttributeList *parList=NULL);
 
 	/**
 	 * Check that a given comment conforms to the Doxygen convention, i.e.
@@ -68,6 +68,7 @@ public:
 
 private:
 	UMLDoc * m_umldoc;  // just a shorthand for UMLApp::app()->getDocument()
+	CppDriver * m_driver;
 };
 
 #endif

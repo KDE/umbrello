@@ -1,10 +1,4 @@
-tokenizer.cc: $(srcdir)/tokenizer.l
-	flex -+ -o$@ $(srcdir)/tokenizer.l
-
-CLEANFILES = tokenizer.cc
-
-noinst_LTLIBRARIES = libclassparser.la
 INCLUDES = $(all_includes)
-libclassparser_la_METASOURCES = AUTO
+noinst_LTLIBRARIES = libclassparser.la
+libclassparser_la_SOURCES = ast.cpp driver.cpp errors.cpp lexer.cpp lookup.cpp parser.cpp tree_parser.cpp urlutil.cpp ast_utils.cpp cpptree2uml.cpp
 
-libclassparser_la_SOURCES = tokenizer.cc PersistantClassStore.cc ParsedStruct.cc ParsedSignalSlot.cc ParsedScopeContainer.cc ParsedParent.cc ParsedMethod.cc ParsedItem.cc ParsedContainer.cc ParsedClassContainer.cc ParsedClass.cc ParsedAttribute.cc ParsedArgument.cc ClassTreeNode.cc ClassStore.cc ClassParser.cc 
