@@ -52,7 +52,7 @@
 #include <kprinter.h>
 #include <ktempfile.h>
 
-#define XMI_FILE_VERSION "1.1.5"
+#define XMI_FILE_VERSION "1.2.0"
 static const uint undoMax = 30;
 
 
