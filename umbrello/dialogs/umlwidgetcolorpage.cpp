@@ -66,12 +66,12 @@ UMLWidgetColorPage::UMLWidgetColorPage( QWidget * pParent, UMLWidget * pWidget )
 UMLWidgetColorPage::~UMLWidgetColorPage() {}
 
 void UMLWidgetColorPage::slotLineButtonClicked() {
-	UMLView * pView = dynamic_cast<UMLView *>( m_pUMLWidget -> parent() );
+//	UMLView * pView = dynamic_cast<UMLView *>( m_pUMLWidget -> parent() );
 	m_pLineColorB -> setColor( UMLApp::app() -> getOptionState().uiState.lineColor );
 }
 
 void UMLWidgetColorPage::slotFillButtonClicked() {
-	UMLView * pView = dynamic_cast<UMLView *>( m_pUMLWidget -> parent() );
+//	UMLView * pView = dynamic_cast<UMLView *>( m_pUMLWidget -> parent() );
 	m_pFillColorB -> setColor( UMLApp::app() -> getOptionState().uiState.fillColor );
 }
 
