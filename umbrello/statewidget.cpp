@@ -17,13 +17,16 @@
 #include "listpopupmenu.h"
 
 StateWidget::StateWidget(UMLView * view, StateType stateType) : UMLWidget(view) {
-	m_StateType = stateType;
 	UMLWidget::setBaseType(wt_State);
+	m_StateType = stateType;
+	m_Name = "State";
 	calculateSize();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 StateWidget::StateWidget(UMLView * view) : UMLWidget(view) {
 	UMLWidget::setBaseType(wt_State);
+	m_StateType = StateWidget::Normal;
+	m_Name = "State";
 	calculateSize();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////

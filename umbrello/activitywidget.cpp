@@ -24,6 +24,7 @@ ActivityWidget::ActivityWidget(UMLView * view, ActivityType activityType ) : UML
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ActivityWidget::ActivityWidget(UMLView * view) : UMLWidget(view) {
+	m_ActivityType = ActivityWidget::Normal;
 	UMLWidget::setBaseType( wt_Activity );
 	calculateSize();
 }
