@@ -10,7 +10,7 @@
 #ifndef CLASS_OPERATIONS_PAGE
 #define CLASS_OPERATIONS_PAGE
 
-#include "classoperationsbase.h"
+#include "umbrello/umbrello/dialogs/classoperationsbase.h"
 #include "dialogpage.h"
 
 class UMLClass;

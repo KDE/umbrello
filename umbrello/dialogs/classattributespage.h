@@ -10,7 +10,7 @@
 #ifndef CLASS_ATTRIBUTES_PAGE
 #define CLASS_ATTRIBUTES_PAGE
 
-#include "classattributesbase.h"
+#include "umbrello/umbrello/dialogs/classattributesbase.h"
 #include <qptrlist.h>
 #include "dialogpage.h"
 
