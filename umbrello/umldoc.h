@@ -565,6 +565,13 @@ public:
 	bool loadUMLObjectsFromXMI( QDomElement & element );
 
 	/**
+	 * Loads umbrello specific extensions from XMI to the UMLDoc.
+	 * The extension tags are: <docsettings>, <diagrams>, <listview>,
+	 * and <codegeneration>.
+	 */
+	void loadExtensionsFromXMI(QDomNode & node);
+
+	/**
 	 * Loads all diagrams from XMI into the current UMLDoc.
 	 *
 	 * @return	True if operation successful.
@@ -1051,6 +1058,10 @@ private:
 	 */
 	QPtrList<QDataStream> redoStack;
 
+	/**
+	 * Auxiliary to <docsettings> processing
+	 */
+	int m_nViewID;
 
 public slots:
 

@@ -53,7 +53,11 @@
 #include <kprinter.h>
 #include <ktempfile.h>
 
-#define XMI_FILE_VERSION "1.2.0"
+#define XMI_FILE_VERSION "1.2.90"
+// Hmm, if the XMI_FILE_VERSION is meant to reflect the umbrello version
+// then the version number "1.3" is prone to create confusion with the UML
+// DTD version...
+
 static const uint undoMax = 30;
 
 
@@ -75,6 +79,7 @@ UMLDoc::UMLDoc(QWidget *parent, const char *name) : QObject(parent, name) {
 	m_modified = false;
 	m_bLoading = false;
 	m_pAutoSaveTimer = 0;
+	m_nViewID = -1;
 	UMLApp * pApp = UMLApp::app();
 	connect(this, SIGNAL(sigDiagramCreated(int)), pApp, SLOT(slotUpdateViews()));
 	connect(this, SIGNAL(sigDiagramRemoved(int)), pApp, SLOT(slotUpdateViews()));
@@ -615,6 +620,9 @@ void UMLDoc::addUMLObject(UMLObject* object) {
 	//stop it being added twice
 	if ( objectList.find(object) == -1)  {
 		objectList.append( object );
+	} else {
+		kdDebug() << "UMLDoc::addUMLObject: not adding " << object->getName()
+			  << " because already there." << endl;
 	}
 }
 
@@ -1438,14 +1446,6 @@ void UMLDoc::saveToXMI(QIODevice& file) {
 	root.appendChild( header );
 
 	QDomElement content = doc.createElement( "XMI.content" );
-	QDomElement docElement = doc.createElement( "docsettings" );
-	int viewID = -1;
-	if( currentView )
-		viewID = currentView -> getID();
-	docElement.setAttribute( "viewid", viewID );
-	docElement.setAttribute( "documentation", m_Doc );
-	docElement.setAttribute( "uniqueid", uniqueID );
-	content.appendChild( docElement );
 
 	QDomElement objectsElement = doc.createElement( "UML:Model" );
 
@@ -1490,23 +1490,39 @@ void UMLDoc::saveToXMI(QIODevice& file) {
 		a->saveToXMI(doc, objectsElement);
 	content.appendChild( objectsElement );
 
+	root.appendChild( content );
+
+	// Save the XMI extensions: docsettings, diagrams, listview, and codegeneration.
+	QDomElement extensions = doc.createElement( "XMI.extensions" );
+	extensions.setAttribute( "xmi.extender", "umbrello" );
+
+	QDomElement docElement = doc.createElement( "docsettings" );
+	int viewID = -1;
+	if( currentView )
+		viewID = currentView -> getID();
+	docElement.setAttribute( "viewid", viewID );
+	docElement.setAttribute( "documentation", m_Doc );
+	docElement.setAttribute( "uniqueid", uniqueID );
+	extensions.appendChild( docElement );
+
 	// Save each view/diagram.
 	QDomElement diagramsElement = doc.createElement( "diagrams" );
 	for(UMLView *pView = m_ViewList.first(); pView; pView = m_ViewList.next() )
 		pView -> saveToXMI( doc, diagramsElement );
-	content.appendChild( diagramsElement );
+	extensions.appendChild( diagramsElement );
 
 	//  save listview
-	listView -> saveToXMI( doc, content );
+	listView -> saveToXMI( doc, extensions );
 
 	// save code generators
 	QDomElement codeGenElement = doc.createElement( "codegeneration" );
 	QDictIterator<CodeGenerator> it( m_codeGeneratorDictionary );
 	for( ; it.current(); ++it )
 		it.current()->saveToXMI ( doc, codeGenElement );
-	content.appendChild( codeGenElement );
+	extensions.appendChild( codeGenElement );
 
-	root.appendChild( content );
+	root.appendChild( extensions );
+
 	QTextStream stream( &file );
 	stream.setEncoding(QTextStream::UnicodeUTF8);
 	stream << doc.toString();
@@ -1734,101 +1750,76 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
 	}
 	node = node.firstChild();
 
-	int nViewID = -1;
+	m_nViewID = -1;
 	while( !node.isNull() ) {
 		QDomElement element = node.toElement();
 
 		if (element.isNull()) {
+			kdDebug() << "loadFromXMI: skip empty elem" << endl;
 			node = node.nextSibling();
-			element = node.toElement();
 			continue;
 		}
+		bool recognized = false;
+		QString outerTag = element.tagName();
 		//check header
-		if( element.tagName() == "XMI.header" ) {
+		if (outerTag == "XMI.header") {
 			QDomNode headerNode = node.firstChild();
 			if ( !validateXMIHeader(headerNode) ) {
 				return false;
 			}
+			recognized = true;
+		} else if (outerTag == "XMI.extensions") {
+			QDomNode extensionsNode = node.firstChild();
+			while (! extensionsNode.isNull()) {
+				loadExtensionsFromXMI(extensionsNode);
+				extensionsNode = extensionsNode.nextSibling();
+			}
+			recognized = true;
 		}
-		if( element.tagName() != "XMI.content" ) {
+		if (outerTag != "XMI.content" ) {
+			if (!recognized)
+				kdDebug() << "UMLDoc::loadFromXMI: skipping <"
+					  << outerTag << ">" << endl;
 			node = node.nextSibling();
-			element = node.toElement();
 			continue;
 		}
 		//process content
-		QDomNode parentNode = node;
-		node = node.firstChild();
-		element = node.toElement();
+		QDomNode child = node.firstChild();
+		element = child.toElement();
 		while( !element.isNull() ) {
 			QString tag = element.tagName();
-			if( tag == "docsettings" ) {
-				QString viewID = element.attribute( "viewid", "-1" );
-				m_Doc = element.attribute( "documentation", "" );
-				QString uniqueid = element.attribute( "uniqueid", "0" );
-
-				nViewID = viewID.toInt();
-				uniqueID = uniqueid.toInt();
-				getDocWindow() -> newDocumentation();
-			} else if( tag == "umlobjects"  // for bkwd compat.
+			if (tag == "umlobjects"  // for bkwd compat.
 				 || tagEq(tag, "Model") ) {
-				emit sigResetStatusbarProgress();
-				emit sigSetStatusbarProgress( 0 );
-				emit sigSetStatusbarProgressSteps( 10 );
-						//FIXME need a way to make status bar actually reflect
-						//how much of the file has been loaded rather than just
-						//counting to 10 (an arbitrary number)
-				emit sigWriteToStatusBar( i18n("Loading UML elements...") );
-				m_count = 0;
 				if( !loadUMLObjectsFromXMI( element ) ) {
 					kdWarning() << "failed load on objects" << endl;
 					return false;
-				}
-			} else if( tag == "diagrams" ) {
-				QDomNode diagramNode = node.firstChild();
-
-				if( !loadDiagramsFromXMI( diagramNode ) ) {
-					kdWarning() << "failed load on diagrams" << endl;
-					return false;
-				}
-			} else if( tag == "listview" ) {
-				if( !listView -> loadFromXMI( element ) ) {
-					kdWarning() << "failed load on listview" << endl;
-					return false;
-				}
-			} else if( tag == "codegeneration" ) {
-				QDomNode cgnode = node.firstChild();
-				QDomElement cgelement = cgnode.toElement();
-				// save for later on
-				while( !cgelement.isNull() ) {
-					QString nodeName = cgelement.tagName();
-					QString lang = cgelement.attribute("language","UNKNOWN");
-					m_codeGenerationXMIParamMap->insert(lang, cgelement);
-					cgnode = cgnode.nextSibling();
-					cgelement = cgnode.toElement();
 				}
 			} else if (tagEq(tag, "Package") ||
 				   tagEq(tag, "Class") ||
 				   tagEq(tag, "Interface")) {
 				// These tests are only for foreign XMI files that
 				// are missing the <Model> tag (e.g. NSUML)
-				element = parentNode.toElement();
-				if( !loadUMLObjectsFromXMI( element ) ) {
+				QDomElement parentElem = node.toElement();
+				if( !loadUMLObjectsFromXMI( parentElem ) ) {
 					kdWarning() << "failed load on model objects" << endl;
 					return false;
 				}
 				break;
+			} else {
+				// for backward compatibility
+				loadExtensionsFromXMI(child);
 			}
-			node = node.nextSibling();
-			element = node.toElement();
+			child = child.nextSibling();
+			element = child.toElement();
 		}//end while
-		break;
+		node = node.nextSibling();
 	}//end while
 	emit sigWriteToStatusBar( i18n("Setting up the document...") );
 	currentView = 0;
 	activateAllViews();
 
-	if( findView( nViewID ) ) {
-		changeCurrentView( nViewID );
+	if( m_nViewID != -1 && findView( m_nViewID ) ) {
+		changeCurrentView( m_nViewID );
 	} else {
 		createDiagram( Uml::dt_Class, false );
 	}
@@ -1854,6 +1845,16 @@ bool UMLDoc::validateXMIHeader(QDomNode& headerNode) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element) {
+	/* FIXME need a way to make status bar actually reflect
+	   how much of the file has been loaded rather than just
+	   counting to 10 (an arbitrary number)
+	emit sigResetStatusbarProgress();
+	emit sigSetStatusbarProgress( 0 );
+	emit sigSetStatusbarProgressSteps( 10 );
+	m_count = 0;
+	 */
+	emit sigWriteToStatusBar( i18n("Loading UML elements...") );
+
 	QDomNode node = element.firstChild();
 	QDomElement tempElement = node.toElement();
 
@@ -1903,14 +1904,9 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element) {
 		} else if ( !status ) {
 			delete pObject;
 			return false;
-		} else {
-			objectList.append( pObject );
 		}
 
 		/** CHECK ***********************************************
-		 *  Hi Brian,
-		 *  Could you please clarify why this was (or still is?)
-		 *  necessary.
 		 *  The containments should be hierarchical:
 		 *  The UMLDoc only contains the "global" objects.
 		 *  Each package contains its own objects.
@@ -1927,12 +1923,53 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element) {
 		}
 		 */
 
+		/* FIXME see comment at loadUMLObjectsFromXMI
 		emit sigSetStatusbarProgress( ++m_count );
+		 */
 		node = node.nextSibling();
 		tempElement = node.toElement();
 	}//end while
 	return true;
 }
+
+void UMLDoc::loadExtensionsFromXMI(QDomNode& node) {
+	QDomElement element = node.toElement();
+	QString tag = element.tagName();
+
+	if (tag == "docsettings") {
+		QString viewID = element.attribute( "viewid", "-1" );
+		m_Doc = element.attribute( "documentation", "" );
+		QString uniqueid = element.attribute( "uniqueid", "0" );
+
+		m_nViewID = viewID.toInt();
+		uniqueID = uniqueid.toInt();
+		getDocWindow() -> newDocumentation();
+
+	} else if (tag == "diagrams") {
+		QDomNode diagramNode = node.firstChild();
+		if( !loadDiagramsFromXMI( diagramNode ) ) {
+			kdWarning() << "failed load on diagrams" << endl;
+		}
+
+	} else if (tag == "listview") {
+		if( !listView -> loadFromXMI( element ) ) {
+			kdWarning() << "failed load on listview" << endl;
+		}
+
+	} else if (tag == "codegeneration") {
+		QDomNode cgnode = node.firstChild();
+		QDomElement cgelement = cgnode.toElement();
+		// save for later on
+		while( !cgelement.isNull() ) {
+			QString nodeName = cgelement.tagName();
+			QString lang = cgelement.attribute("language","UNKNOWN");
+			m_codeGenerationXMIParamMap->insert(lang, cgelement);
+			cgnode = cgnode.nextSibling();
+			cgelement = cgnode.toElement();
+		}
+	}
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLObject* UMLDoc::makeNewUMLObject(QString type) {
 	UMLObject* pObject = 0;
