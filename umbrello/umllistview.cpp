@@ -375,7 +375,6 @@ void UMLListView::popupMenuSel(int sel) {
 					moveObject(obj->getID(), convert_OT_LVT(obj->getBaseType()), m_lv);
 				}
 			}
-			m_doc->removeUMLObject(object);
 			UMLCanvasObject *canvasObj = dynamic_cast<UMLCanvasObject*>(object);
 			if (canvasObj) {
 				/**
@@ -388,6 +387,7 @@ void UMLListView::popupMenuSel(int sel) {
 			         */
 				canvasObj->removeAllAssociations();
 			}
+			m_doc->removeUMLObject(object);
 		} else {
 			kdWarning() << "umllistview::listpopupmenu::mt_Delete called with unknown type"
 				    << endl;
