@@ -2167,11 +2167,11 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
 	if (m_nViewID != Uml::id_None)
 		viewToBeSet = findView( m_nViewID );
 	if (viewToBeSet) {
+		changeCurrentView( m_nViewID );
 		Settings::OptionState optionState = UMLApp::app()->getOptionState();
 		if (optionState.generalState.tabdiagrams) {
 			UMLApp::app()->tabWidget()->showPage(viewToBeSet);
 		} else {
-			changeCurrentView( m_nViewID );
 			// Make sure we have a treeview item for each diagram.
 			// It may happen that we are missing them after switching off
 			// tabbed widgets.
