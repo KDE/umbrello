@@ -62,6 +62,14 @@ UMLListViewItemData& UMLListViewItemData::operator=(UMLListViewItemData & Other)
 	return *this;
 }
 
+void UMLListViewItemData::setID( int id ) {
+	m_nId = id;
+}
+
+int UMLListViewItemData::getID() {
+	return m_nId;
+}
+
 bool UMLListViewItemData::operator==(const UMLListViewItemData& Other) {
 	if(m_pItem != Other.m_pItem) {
 		return false;

@@ -392,9 +392,7 @@ public:
 	 *
 	 *	@return	Returns a unique ID.
 	 */
-	int getUniqueID() {
-		return ++uniqueID;
-	}
+	int getUniqueID();
 
 	/**
 	 *	This method is called if you wish to see the properties of a

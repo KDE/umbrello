@@ -1919,6 +1919,10 @@ void UMLDoc::endPaste() {
 	}
 }
 
+int UMLDoc::getUniqueID() {
+	return ++uniqueID;
+}
+
 /** Assigns a New ID to an Object, and also logs the assignment to its internal
 ChangeLog */
 int UMLDoc::assignNewID(int OldID) {
