@@ -426,3 +426,6 @@ void FloatingText::setMessageText() {
 	calculateSize();
 }
 
+
+#include "floatingtext.moc"
+
