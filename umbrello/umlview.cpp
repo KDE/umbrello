@@ -2680,6 +2680,7 @@ void UMLView::slotMenuSelection(int sel) {
 				ft->setVisible( true );
 				ft->setID(m_pDoc -> getUniqueID());
 				ft->setActivated();
+				setupNewWidget(ft);
 			}
 			break;
 
@@ -2762,6 +2763,7 @@ void UMLView::slotMenuSelection(int sel) {
 			state -> setY ( m_Pos.y() );
 			state -> setVisible( true );
 			state -> setActivated();
+			setupNewWidget( state );
 			break;
 
 		case ListPopupMenu::mt_End_State:
@@ -2771,6 +2773,7 @@ void UMLView::slotMenuSelection(int sel) {
 			state -> setY ( m_Pos.y() );
 			state -> setVisible( true );
 			state -> setActivated();
+			setupNewWidget( state );
 			break;
 
 		case ListPopupMenu::mt_State:
@@ -2783,6 +2786,7 @@ void UMLView::slotMenuSelection(int sel) {
 				state -> setY ( m_Pos.y() );
 				state -> setVisible( true );
 				state -> setActivated();
+				setupNewWidget( state );
 			}
 			break;
 
@@ -2793,6 +2797,7 @@ void UMLView::slotMenuSelection(int sel) {
 			activity -> setY ( m_Pos.y() );
 			activity -> setVisible( true );
 			activity -> setActivated();
+			setupNewWidget(activity);
 			break;
 
 
@@ -2803,6 +2808,7 @@ void UMLView::slotMenuSelection(int sel) {
 			activity -> setY ( m_Pos.y() );
 			activity -> setVisible( true );
 			activity -> setActivated();
+			setupNewWidget(activity);
 			break;
 
 		case ListPopupMenu::mt_Branch:
@@ -2812,6 +2818,7 @@ void UMLView::slotMenuSelection(int sel) {
 			activity -> setY ( m_Pos.y() );
 			activity -> setVisible( true );
 			activity -> setActivated();
+			setupNewWidget(activity);
 			break;
 
 		case ListPopupMenu::mt_Activity:
@@ -2825,6 +2832,7 @@ void UMLView::slotMenuSelection(int sel) {
 				activity -> setY ( m_Pos.y() );
 				activity -> setVisible( true );
 				activity -> setActivated();
+				setupNewWidget(activity);
 			}
 			break;
 
