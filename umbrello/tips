@@ -36,6 +36,14 @@ JavaScript, ActionScript, XMLSchema, Perl, Python, SQL, IDL and Ada.</p>
 
 <tip category="Umbrello">
 <html>
+<p>Umbrello's new refactoring agent lets you move operations between a class and its derived and base 
+classes.
+Right click a class to open the refactoring agent.</p>
+</html>
+</tip>
+
+<tip category="Umbrello">
+<html>
 <p>Sequence diagram objects can have a destructor box and be drawn as actors.  Double click one for
 the Properties dialogue.</p>
 </html>
