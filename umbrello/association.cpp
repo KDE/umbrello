@@ -137,7 +137,8 @@ bool UMLAssociation::assocTypeHasUMLRepresentation(Uml::Association_Type atype)
 		atype == Uml::at_UniAssociation ||
 		atype == Uml::at_Aggregation ||
 		atype == Uml::at_Relationship ||
-		atype == Uml::at_Composition);
+		atype == Uml::at_Composition ||
+		atype == Uml::at_Dependency);
 }
 
 bool UMLAssociation::resolveRef() {
@@ -162,6 +163,13 @@ void UMLAssociation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 		QDomElement assocElement = UMLObject::save("UML:Generalization", qDoc);
 		assocElement.setAttribute( "child", ID2STR(getObjectId(A)) );
 		assocElement.setAttribute( "parent", ID2STR(getObjectId(B)) );
+		qElement.appendChild( assocElement );
+		return;
+	}
+	if (m_AssocType == Uml::at_Dependency) {
+		QDomElement assocElement = UMLObject::save("UML:Dependency", qDoc);
+		assocElement.setAttribute( "client", ID2STR(getObjectId(A)) );
+		assocElement.setAttribute( "supplier", ID2STR(getObjectId(B)) );
 		qElement.appendChild( assocElement );
 		return;
 	}
