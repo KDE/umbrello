@@ -1065,9 +1065,9 @@ UMLAssociation * UMLDoc::findAssociation(Uml::Association_Type assocType,
 	for (a = assocs.first(); a; a = assocs.next()) {
 		if (a->getAssocType() != assocType)
 			continue;
-		if (a->getObjectA() == roleAObj && a->getObjectB() == roleBObj)
+		if (a->getObject(A) == roleAObj && a->getObject(B) == roleBObj)
 			return a;
-		if (a->getObjectA() == roleBObj && a->getObjectB() == roleAObj) {
+		if (a->getObject(A) == roleBObj && a->getObject(B) == roleAObj) {
 			ret = a;
 		}
 	}
@@ -1130,8 +1130,8 @@ void UMLDoc::addAssociation(UMLAssociation *Assoc)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLDoc::addAssocToConcepts(UMLAssociation* a) {
 
-	int AId = a->getRoleAId();
-	int BId = a->getRoleBId();
+	int AId = a->getRoleId(A);
+	int BId = a->getRoleId(B);
 	UMLClassifierList concepts = getConcepts();
 	for (UMLClassifier *c = concepts.first(); c; c = concepts.next()) {
 		switch (a->getAssocType()) {
@@ -1356,8 +1356,8 @@ void UMLDoc::removeUMLObject(UMLObject* umlobject) {
 			// Remove the UMLAssociation at the concept that plays role B.
 			UMLAssociation *a = (UMLAssociation *)umlobject;
 			Uml::Association_Type assocType = a->getAssocType();
-			int AId = a->getRoleAId();
-			int BId = a->getRoleBId();
+			int AId = a->getRoleId(A);
+			int BId = a->getRoleId(B);
 			UMLClassifierList concepts = getConcepts();
 			for (UMLClassifier *c = concepts.first(); c; c = concepts.next()) {
 				switch (assocType) {

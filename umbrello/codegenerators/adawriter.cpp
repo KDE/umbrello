@@ -120,13 +120,13 @@ QString AdaWriter::qualifiedName(UMLClassifier *c, bool withType, bool byValue) 
 
 void AdaWriter::computeAssocTypeAndRole
        (UMLAssociation *a, QString& typeName, QString& roleName) {
-	UMLClassifier* c = (UMLClassifier*) m_doc->findUMLObject(a->getRoleAId());
+	UMLClassifier* c = (UMLClassifier*) m_doc->findUMLObject(a->getRoleId(A));
 	typeName = cleanName(c->getName());
-	if (! a->getMultiA().isEmpty())
+	if (! a->getMulti(A).isEmpty())
 		typeName.append("_Array_Access");
-	roleName = a->getRoleNameA();
+	roleName = a->getRoleName(A);
 	if (roleName.isEmpty()) {
-		if (a->getMultiA().isEmpty()) {
+		if (a->getMulti(A).isEmpty()) {
 			roleName = "M_";
 			roleName.append(typeName);
 		} else {
@@ -325,9 +325,9 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 	UMLAssociationList aggregations = c->getAggregations();
 	if (!aggregations.isEmpty()) {
 		for (UMLAssociation *a = aggregations.first(); a; a = aggregations.next()) {
-			if (a->getMultiA().isEmpty())
+			if (a->getMulti(A).isEmpty())
 				continue;
-			UMLClassifier* other = (UMLClassifier*) m_doc->findUMLObject(a->getRoleAId());
+			UMLClassifier* other = (UMLClassifier*) m_doc->findUMLObject(a->getRoleId(A));
 			QString member = cleanName(other->getName());
 			// Handling of packages is missing here
 			// A test and error action is missing here for !isOOClass()
@@ -340,9 +340,9 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 	UMLAssociationList compositions = c->getCompositions();
 	if (!compositions.isEmpty()) {
 		for (UMLAssociation *a = compositions.first(); a; a = compositions.next()) {
-			if (a->getMultiA().isEmpty())
+			if (a->getMulti(A).isEmpty())
 				continue;
-			UMLObject *other = m_doc->findUMLObject(a->getRoleAId());
+			UMLObject *other = m_doc->findUMLObject(a->getRoleId(A));
 			QString member = cleanName(other->getName());
 			// Handling of packages is missing here
 			// Treatment of !isOOClass() is missing here

@@ -189,6 +189,11 @@ namespace Uml {
 	};
 
 	/**
+	 * Constants used for indexing the roles of associations. 
+	 */
+	enum Role_Type { A, B };
+
+	/**
 	 * Direction of operation parameters:
 	 *   in = operation uses the parameter as an input value
 	 *   out = operation fills the parameter as a return value

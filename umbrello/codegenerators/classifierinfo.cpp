@@ -145,17 +145,17 @@ UMLClassifierList ClassifierInfo::findAssocClassifierObjsInRoles (UMLAssociation
 	classifiers.setAutoDelete(false);
 
 	for (UMLAssociation *a = list->first(); a; a = list->next()) {
-		// DONT accept a classfier IF the association role is empty, by
-		// convention, that means to ignore the classfier on that end of
+		// DONT accept a classifier IF the association role is empty, by
+		// convention, that means to ignore the classifier on that end of
 		// the association.
-		// We also ignore classfiers which are the same as the current one
-		// (e.g. id matches), we only want the "other" classfiers
-		if (a->getRoleAId() == m_nID && a->getRoleNameB() != "") {
-			UMLClassifier *c = dynamic_cast<UMLClassifier*>(a->getObjectB());
+		// We also ignore classifiers which are the same as the current one
+		// (e.g. id matches), we only want the "other" classifiers
+		if (a->getRoleId(A) == m_nID && a->getRoleName(B) != "") {
+			UMLClassifier *c = dynamic_cast<UMLClassifier*>(a->getObject(B));
 			if(c)
 				classifiers.append(c);
-		} else if (a->getRoleBId() == m_nID && a->getRoleNameA() != "") {
-			UMLClassifier *c = dynamic_cast<UMLClassifier*>(a->getObjectA());
+		} else if (a->getRoleId(B) == m_nID && a->getRoleName(A) != "") {
+			UMLClassifier *c = dynamic_cast<UMLClassifier*>(a->getObject(A));
 			if(c)
 				classifiers.append(c);
 		}

@@ -130,6 +130,7 @@ void UMLView::init() {
 	m_pMoveAssoc = 0;
 	m_pOnWidget = 0;
 	m_pAssocLine = 0;
+	m_PastePoint = QPoint(0, 0);
 	m_pIDChangesLog = 0;
 	m_pFirstSelectedWidget = 0;
 	m_pMenu = 0;
@@ -718,13 +719,13 @@ AssociationWidget * UMLView::findAssocWidget(Association_Type at,
 		Association_Type testType = assoc->getAssocType();
 		if (testType != at)
 			continue;
-		if (pWidgetA->getID() == assoc->getWidgetAID() &&
-		    pWidgetB->getID() == assoc->getWidgetBID())
+		if (pWidgetA->getID() == assoc->getWidgetID(A) &&
+		    pWidgetB->getID() == assoc->getWidgetID(B))
 			return assoc;
 		// Allow for the swapped roles of generalization/realization assocwidgets.
 		// When the swapped roles bug is fixed, this code can disappear.
-		if (pWidgetA->getID() == assoc->getWidgetBID() &&
-		    pWidgetB->getID() == assoc->getWidgetAID()) {
+		if (pWidgetA->getID() == assoc->getWidgetID(B) &&
+		    pWidgetB->getID() == assoc->getWidgetID(A)) {
 			kdDebug() << "UMLView::findAssocWidget: found assoctype " << at
 				  << "with swapped roles (A: " << pWidgetA->getName()
 				  << ", B: " << pWidgetB->getName() << ")" << endl;
@@ -1072,15 +1073,15 @@ void UMLView::selectWidgetsOfAssoc (AssociationWidget * a) {
 		return;
 	a -> setSelected(true);
 	//select the two widgets
-	makeSelected( a->getWidgetA() );
-	makeSelected( a->getWidgetB() );
+	makeSelected( a->getWidget(A) );
+	makeSelected( a->getWidget(B) );
 	//select all the text
-	makeSelected( a->getMultiAWidget() );
-	makeSelected( a->getMultiBWidget() );
-	makeSelected( a->getRoleAWidget() );
-	makeSelected( a->getRoleBWidget() );
-	makeSelected( a->getChangeWidgetA() );
-	makeSelected( a->getChangeWidgetB() );
+	makeSelected( a->getMultiWidget(A) );
+	makeSelected( a->getMultiWidget(B) );
+	makeSelected( a->getRoleWidget(A) );
+	makeSelected( a->getRoleWidget(B) );
+	makeSelected( a->getChangeWidget(A) );
+	makeSelected( a->getChangeWidget(B) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1129,8 +1130,8 @@ void UMLView::selectWidgets(int px, int py, int qx, int qy) {
 			MessageWidget * mw = dynamic_cast<MessageWidget*>(lw);
 			if (mw) {
 				makeSelected( mw );
-				makeSelected( mw->getWidgetA() );
-				makeSelected( mw->getWidgetB() );
+				makeSelected( mw->getWidget(A) );
+				makeSelected( mw->getWidget(B) );
 			} else if (t != tr_Floating) {
 				AssociationWidget * a = dynamic_cast<AssociationWidget*>(lw);
 				if (a)
@@ -1138,8 +1139,8 @@ void UMLView::selectWidgets(int px, int py, int qx, int qy) {
 			}
 		} else if(temp -> getBaseType() == wt_Message) {
 			MessageWidget *mw = static_cast<MessageWidget*>(temp);
-			makeSelected( mw -> getWidgetA() );
-			makeSelected( mw -> getWidgetB() );
+			makeSelected( mw -> getWidget(A) );
+			makeSelected( mw -> getWidget(B) );
 		}
 		if(temp -> isVisible()) {
 			makeSelected( temp );
@@ -1152,8 +1153,8 @@ void UMLView::selectWidgets(int px, int py, int qx, int qy) {
 	MessageWidget *w = 0;
 	while ( (w = itw.current()) != 0 ) {
 		++itw;
-		if( w -> getWidgetA() -> getSelected() &&
-		        w -> getWidgetB() -> getSelected() ) {
+		if( w -> getWidget(A) -> getSelected() &&
+		        w -> getWidget(B) -> getSelected() ) {
 			makeSelected( w );
 		}//end if
 	}//end while
@@ -1203,8 +1204,8 @@ void UMLView::updateNoteWidgets() {
 		++assoc_it;
 		if(a->getAssocType() != at_Anchor)
 			continue;
-		UMLWidget *wa = a->getWidgetA();
-		UMLWidget *wb = a->getWidgetB();
+		UMLWidget *wa = a->getWidget(A);
+		UMLWidget *wb = a->getWidget(B);
 		UMLWidget *destination= 0, *source = 0;
 		bool copyText = false;
 		if(wa->getBaseType() == wt_Note) {
@@ -1526,13 +1527,20 @@ bool UMLView::addWidget( UMLWidget * pWidget , bool isPasteOperation ) {
 	if( !pWidget ) {
 		return false;
 	}
+	if (!isPasteOperation && findWidget(pWidget->getID())) {
+		kdDebug() << "UMLView::addWidget: Not adding "
+			  << "(id=" << pWidget->getID()
+			  << "/type=" << pWidget->getBaseType()
+			  << "/name=" << pWidget->getName()
+			  << ") because it's already there" << endl;
+		return false;
+	}
 	UMLWidget_Type type = pWidget->getBaseType();
 	//kdDebug() << "UMLView::addWidget called for basetype " << type << endl;
 	IDChangeLog * log = m_pDoc -> getChangeLog();
 	if( isPasteOperation && (!log || !m_pIDChangesLog)) {
 		kdError()<<" Cant addWidget to view in paste op because a log is not open"<<endl;
 		return false;
-
 	}
 	int wX = pWidget -> getX();
 	int wY = pWidget -> getY();
@@ -1618,8 +1626,8 @@ bool UMLView::addWidget( UMLWidget * pWidget , bool isPasteOperation ) {
 					kdDebug() << "UMLView::addWidget(): pMessage is NULL" << endl;
 					return false;
 				}
-				ObjectWidget *objWidgetA = pMessage -> getWidgetA();
-				ObjectWidget *objWidgetB = pMessage -> getWidgetB();
+				ObjectWidget *objWidgetA = pMessage -> getWidget(A);
+				ObjectWidget *objWidgetB = pMessage -> getWidget(B);
 				int waID = objWidgetA -> getLocalID();
 				int wbID = objWidgetB -> getLocalID();
 				int newWAID = m_pIDChangesLog ->findNewID( waID );
@@ -1698,17 +1706,17 @@ bool UMLView::addAssociation( AssociationWidget* pAssoc , bool isPasteOperation)
 		IDChangeLog* localLog = getLocalIDChangeLog();
 		if( getType() == dt_Collaboration || getType() == dt_Sequence ) {
 			//check local log first
-			ida = localLog->findNewID( pAssoc->getWidgetAID() );
-			idb = localLog->findNewID( pAssoc->getWidgetBID() );
+			ida = localLog->findNewID( pAssoc->getWidgetID(A) );
+			idb = localLog->findNewID( pAssoc->getWidgetID(B) );
 			//if either is still not found and assoc type is anchor
 			//we are probably linking to a notewidet - else an error
 			if( ida == -1 && type == at_Anchor )
-				ida = log->findNewID(pAssoc->getWidgetAID());
+				ida = log->findNewID(pAssoc->getWidgetID(A));
 			if( idb == -1 && type == at_Anchor )
-				idb = log->findNewID(pAssoc->getWidgetBID());
+				idb = log->findNewID(pAssoc->getWidgetID(B));
 		} else {
-			int oldIdA = pAssoc->getWidgetAID();
-			int oldIdB = pAssoc->getWidgetBID();
+			int oldIdA = pAssoc->getWidgetID(A);
+			int oldIdB = pAssoc->getWidgetID(B);
 			ida = log->findNewID( oldIdA );
 			if (ida == -1) {  // happens after a cut
 				if (oldIdA == -1)
@@ -1726,14 +1734,14 @@ bool UMLView::addAssociation( AssociationWidget* pAssoc , bool isPasteOperation)
 			return false;
 		}
 		// cant do this anymore.. may cause problem for pasting
-//		pAssoc->setWidgetAID(ida);
-//		pAssoc->setWidgetBID(idb);
-		pAssoc->setWidgetA(findWidget(ida));
-		pAssoc->setWidgetB(findWidget(idb));
+//		pAssoc->setWidgetID(ida, A);
+//		pAssoc->setWidgetID(idb, B);
+		pAssoc->setWidget(findWidget(ida), A);
+		pAssoc->setWidget(findWidget(idb), B);
 	}
 
-	UMLWidget * m_pWidgetA = findWidget(pAssoc->getWidgetAID());
-	UMLWidget * m_pWidgetB = findWidget(pAssoc->getWidgetBID());
+	UMLWidget * m_pWidgetA = findWidget(pAssoc->getWidgetID(A));
+	UMLWidget * m_pWidgetB = findWidget(pAssoc->getWidgetID(B));
 	//make sure valid widget ids
 	if(!m_pWidgetA || !m_pWidgetB)
 		return false;
@@ -1760,10 +1768,10 @@ bool UMLView::addAssociation( AssociationWidget* pAssoc , bool isPasteOperation)
 	m_AssociationList.append(pAssoc);
 
 	FloatingText *pNameWidget = pAssoc->getNameWidget();
-	FloatingText *pRoleAWidget = pAssoc->getRoleAWidget();
-	FloatingText *pRoleBWidget = pAssoc->getRoleBWidget();
-	FloatingText *pMultiAWidget = pAssoc->getMultiAWidget();
-	FloatingText *pMultiBWidget = pAssoc->getMultiBWidget();
+	FloatingText *pRoleAWidget = pAssoc->getRoleWidget(A);
+	FloatingText *pRoleBWidget = pAssoc->getRoleWidget(B);
+	FloatingText *pMultiAWidget = pAssoc->getMultiWidget(A);
+	FloatingText *pMultiBWidget = pAssoc->getMultiWidget(B);
 
 	if(pNameWidget)
 		addWidget(pNameWidget);
@@ -1954,8 +1962,8 @@ void UMLView::selectAssociations(bool bSelect) {
 	while((assocwidget=assoc_it.current())) {
 		++assoc_it;
 		if(bSelect &&
-		  assocwidget->getWidgetA() && assocwidget->getWidgetA()->getSelected() &&
-		  assocwidget->getWidgetB() && assocwidget->getWidgetB()->getSelected() ) {
+		  assocwidget->getWidget(A) && assocwidget->getWidget(A)->getSelected() &&
+		  assocwidget->getWidget(B) && assocwidget->getWidget(B)->getSelected() ) {
 			assocwidget->setSelected(true);
 		} else {
 			assocwidget->setSelected(false);
@@ -1970,8 +1978,8 @@ void UMLView::getWidgetAssocs(UMLObject* Obj, AssociationWidgetList & Associatio
 	AssociationWidgetListIt assoc_it(m_AssociationList);
 	AssociationWidget * assocwidget;
 	while((assocwidget = assoc_it.current())) {
-		if(assocwidget->getWidgetA()->getUMLObject() == Obj
-		        || assocwidget->getWidgetB()->getUMLObject() == Obj)
+		if(assocwidget->getWidget(A)->getUMLObject() == Obj
+		        || assocwidget->getWidget(B)->getUMLObject() == Obj)
 			Associations.append(assocwidget);
 		++assoc_it;
 	}//end while
@@ -2131,13 +2139,13 @@ void UMLView::createAutoAssociations( UMLWidget * widget ) {
 	while ((assoc = it.current()) != NULL) {
 		++it;
 		UMLCanvasObject *other = NULL;
-		UMLObject *roleAObj = assoc->getObjectA();
+		UMLObject *roleAObj = assoc->getObject(A);
 		if (roleAObj == NULL) {
 			kdDebug() << "createAutoAssociations: roleA object is NULL at UMLAssoc "
 				  << assoc->getID() << endl;
 			continue;
 		}
-		UMLObject *roleBObj = assoc->getObjectB();
+		UMLObject *roleBObj = assoc->getObject(B);
 		if (roleBObj == NULL) {
 			kdDebug() << "createAutoAssociations: roleB object is NULL at UMLAssoc "
 				  << assoc->getID() << endl;
@@ -2189,21 +2197,21 @@ void UMLView::createAutoAssociations( UMLWidget * widget ) {
 		}
 		// Create the AssociationWidget.
 		assocwidget = new AssociationWidget( this );
-		assocwidget->setWidgetA(widgetA);
-		assocwidget->setWidgetB(widgetB);
+		assocwidget->setWidget(widgetA, A);
+		assocwidget->setWidget(widgetB, B);
 		assocwidget->setAssocType(assocType);
 		// Call calculateEndingPoints() before setting the FloatingTexts
 		// because their positions are computed according to the
 		// assocwidget line positions.
 		assocwidget->calculateEndingPoints();
-		assocwidget->setVisibilityA(assoc->getVisibilityA());
-		assocwidget->setVisibilityB(assoc->getVisibilityB());
-		assocwidget->setChangeabilityA(assoc->getChangeabilityA());
-		assocwidget->setChangeabilityB(assoc->getChangeabilityB());
-		assocwidget->setMultiA(assoc->getMultiA());
-		assocwidget->setMultiB(assoc->getMultiB());
-		assocwidget->setRoleNameA(assoc->getRoleNameA());
-		assocwidget->setRoleNameB(assoc->getRoleNameB());
+		assocwidget->setVisibility(assoc->getVisibility(A), A);
+		assocwidget->setVisibility(assoc->getVisibility(B), B);
+		assocwidget->setChangeability(assoc->getChangeability(A), A);
+		assocwidget->setChangeability(assoc->getChangeability(B), B);
+		assocwidget->setMulti(assoc->getMulti(A), A);
+		assocwidget->setMulti(assoc->getMulti(B), B);
+		assocwidget->setRoleName(assoc->getRoleName(A), A);
+		assocwidget->setRoleName(assoc->getRoleName(B), B);
 		assocwidget->setActivated(true);
 		if (! addAssociation(assocwidget))
 			delete assocwidget;
@@ -2316,12 +2324,12 @@ void UMLView::copyAsImage(QPixmap*& pix) {
 		++assoc_it;
 		if (! a->getSelected())
 			continue;
-		const FloatingText* multiA = const_cast<FloatingText*>(a->getMultiAWidget());
-		const FloatingText* multiB = const_cast<FloatingText*>(a->getMultiBWidget());
-		const FloatingText* roleA = const_cast<FloatingText*>(a->getRoleAWidget());
-		const FloatingText* roleB = const_cast<FloatingText*>(a->getRoleBWidget());
-		const FloatingText* changeA = const_cast<FloatingText*>(a->getChangeWidgetA());
-		const FloatingText* changeB = const_cast<FloatingText*>(a->getChangeWidgetB());
+		const FloatingText* multiA = const_cast<FloatingText*>(a->getMultiWidget(A));
+		const FloatingText* multiB = const_cast<FloatingText*>(a->getMultiWidget(B));
+		const FloatingText* roleA = const_cast<FloatingText*>(a->getRoleWidget(A));
+		const FloatingText* roleB = const_cast<FloatingText*>(a->getRoleWidget(B));
+		const FloatingText* changeA = const_cast<FloatingText*>(a->getChangeWidget(A));
+		const FloatingText* changeB = const_cast<FloatingText*>(a->getChangeWidget(B));
 		findMaxBoundingRectangle(multiA, px, py, qx, qy);
 		findMaxBoundingRectangle(multiB, px, py, qx, qy);
 		findMaxBoundingRectangle(roleA, px, py, qx, qy);
@@ -2676,8 +2684,8 @@ void UMLView::checkSelections() {
 	for(pTemp=(UMLWidget *)m_SelectedList.first();pTemp;pTemp=(UMLWidget *)m_SelectedList.next()) {
 		if( pTemp->getBaseType() == wt_Message && pTemp -> getSelected() ) {
 			MessageWidget * pMessage = static_cast<MessageWidget *>( pTemp );
-			pWA = pMessage -> getWidgetA();
-			pWB = pMessage -> getWidgetB();
+			pWA = pMessage -> getWidget(A);
+			pWB = pMessage -> getWidget(B);
 			if( !pWA -> getSelected() ) {
 				pWA -> setSelectedFlag( true );
 				m_SelectedList.append( pWA );
@@ -2694,8 +2702,8 @@ void UMLView::checkSelections() {
 	while((pAssoc = it.current())) {
 		++it;
 		if( pAssoc -> getSelected() ) {
-			pWA = pAssoc -> getWidgetA();
-			pWB = pAssoc -> getWidgetB();
+			pWA = pAssoc -> getWidget(A);
+			pWB = pAssoc -> getWidget(B);
 			if( !pWA -> getSelected() ) {
 				pWA -> setSelectedFlag( true );
 				m_SelectedList.append( pWA );

@@ -572,10 +572,10 @@ bool XMLSchemaWriter::writeAssociationDecls(UMLAssociationList associations,
 			// it may seem counter intuitive, but you want to insert the role of the
 			// *other* class into *this* class.
 
-			if (a->getRoleAId() == id && a->getVisibilityB() != Uml::Private)
+			if (a->getRoleId(A) == id && a->getVisibility(B) != Uml::Private)
 				printRoleB = true;
 
-			if (a->getRoleBId() == id && a->getVisibilityA() != Uml::Private)
+			if (a->getRoleId(B) == id && a->getVisibility(A) != Uml::Private)
 				printRoleA = true;
 
 			// First: we insert documentaion for association IF it has either role
@@ -611,12 +611,12 @@ bool XMLSchemaWriter::writeAssociationDecls(UMLAssociationList associations,
 			// print RoleA decl
 			if (printRoleA)
 			{
-				UMLClassifier *classifierA = dynamic_cast<UMLClassifier*>(a->getObjectA());
+				UMLClassifier *classifierA = dynamic_cast<UMLClassifier*>(a->getObject(A));
 				if (classifierA) {
 					// ONLY write out IF there is a rolename given
 					// otherwise its not meant to be declared
-					if (!a->getRoleNameA().isEmpty() || noRoleNameOK )
-						writeAssociationRoleDecl(classifierA, a->getMultiA(), XMLschema);
+					if (!a->getRoleName(A).isEmpty() || noRoleNameOK )
+						writeAssociationRoleDecl(classifierA, a->getMulti(A), XMLschema);
 				}
 			}
 		}
@@ -632,17 +632,17 @@ UMLObjectList XMLSchemaWriter::findChildObjsInAssociations (UMLClassifier *c, UM
 	UMLObjectList list;
 	for(UMLAssociation *a = associations.first(); a; a = associations.next())
 	{
-		if (a->getRoleAId() == id
-				&& a->getVisibilityB() != Uml::Private
-				&& !a->getRoleNameB().isEmpty()
+		if (a->getRoleId(A) == id
+				&& a->getVisibility(B) != Uml::Private
+				&& !a->getRoleName(B).isEmpty()
 		   )
-			list.append(a->getObjectB());
+			list.append(a->getObject(B));
 
-		if (a->getRoleBId() == id
-				&& a->getVisibilityA() != Uml::Private
-				&& !a->getRoleNameA().isEmpty()
+		if (a->getRoleId(B) == id
+				&& a->getVisibility(A) != Uml::Private
+				&& !a->getRoleName(A).isEmpty()
 		   )
-			list.append(a->getObjectA());
+			list.append(a->getObject(A));
 	}
 	return list;
 }

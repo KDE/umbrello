@@ -107,46 +107,25 @@ public:
 	bool activate();
 
 	/**
-	 * Write property of m_pWidgetA.
+	 * Set the widget of the given role.
 	 *
-	 * @param widgetA	Pointer to the role A UMLWidget.
+	 * @param widget	Pointer to the UMLWidget.
 	 */
-	void setWidgetA( UMLWidget* widgetA);
+	void setWidget(UMLWidget* widget, Role_Type role);
 
 	/**
-	 * Write property of m_pWidgetB.
+	 * Return the multiplicity FloatingText widget of the given role.
 	 *
-	 * @param widgetB	Pointer to the role B UMLWidget.
+	 * @return	Pointer to the multiplicity FloatingText object.
 	 */
-	void setWidgetB( UMLWidget* widgetB);
+	FloatingText* getMultiWidget(Role_Type role);
 
 	/**
-	 * Read property of FloatingText* m_pMultiA.
+	 * Return the given role's multiplicity text.
 	 *
-	 * @return	Pointer to the multiA FloatingText.
+	 * @return	Text of the given role's multiplicity widget.
 	 */
-	FloatingText* getMultiAWidget();
-
-	/**
-	 * Returns the m_pMultiA's text.
-	 *
-	 * @return	Text of the multiA widget.
-	 */
-	QString getMultiA() const;
-
-	/**
-	 * Read property of FloatingText* m_pMultiB.
-	 *
-	 * @return	Pointer to the multiB FloatingText.
-	 */
-	FloatingText* getMultiBWidget();
-
-	/**
-	 * Returns the m_pMultiB's text.
-	 *
-	 * @return	Text of the multiB widget.
-	 */
-	QString getMultiB() const;
+	QString getMulti(Role_Type role) const;
 
 	/**
 	 * Read property of FloatingText* m_pName.
@@ -163,18 +142,11 @@ public:
 	QString getName() const;
 
 	/**
-	 * Read property of FloatingText* m_pRoleA.
+	 * Return the given role's FloatingText object.
 	 *
-	 * @return	Pointer to the role A FloatingText widget.
+	 * @return	Pointer to the role's FloatingText widget.
 	 */
-	FloatingText* getRoleAWidget();
-
-	/**
-	 * Read property of FloatingText* m_pRoleB.
-	 *
-	 * @return	Pointer to the role B FloatingText widget.
-	 */
-	FloatingText* getRoleBWidget();
+	FloatingText* getRoleWidget(Role_Type role);
 
 	/**
 	 * Returns the documentation about this association.
@@ -184,28 +156,16 @@ public:
 	QString getDoc() const;
 
 	/**
-	 * Returns the m_pRoleA's text.
+	 * Return the given role's FloatingText widget text.
 	 *
-	 * @return	The name set at the roleA FloatingText.
+	 * @return	The name set at the FloatingText.
 	 */
-	QString getRoleNameA() const;
+	QString getRoleName(Role_Type role) const;
 
 	/**
-	 * Returns the documentation about RoleA.
+	 * Returns the given role's documentation.
 	 */
-	QString getRoleADoc() const;
-
-	/**
-	 * Returns the m_pRoleB's text.
-	 *
-	 * @return	The name set at the roleB FloatingText.
-	 */
-	QString getRoleNameB() const;
-
-	/**
-	 * Returns the documentation about Role B.
-	 */
-	QString getRoleBDoc() const;
+	QString getRoleDoc(Role_Type role) const;
 
 	/**
 	 * Sets the text in the FloatingText widget representing the Name
@@ -214,73 +174,42 @@ public:
 	void setName (QString strRole);
 
 	/**
-	 * Sets the text in the FloatingText representing the Multiplicity
-	 * at the ending side of the association.
+	 * Sets the text in the FloatingText representing the multiplicity
+	 * at the given side of the association.
 	 */
-	bool setMultiB(QString strMultiB);
+	void setMulti(QString strMulti, Role_Type role);
 
 	/**
-	 * Sets the text in the FloatingText representing the Multiplicity
-	 * at the starting side of the association.
+	 * Gets the visibility on the given role of the association.
 	 */
-	bool setMultiA(QString strMultiA);
+	Scope getVisibility (Role_Type role) const;
 
 	/**
-	 * Gets the visibility on the rolename A end of the Association.
+	 * Sets the visibility on the given role of the association.
 	 */
-	Scope getVisibilityA () const;
+	void setVisibility (Scope visibility, Role_Type role );
 
 	/**
-	 * Gets the visibility on the rolename B end of the Association.
+	 * Gets the changeability on the the given end of the Association.
 	 */
-	Scope getVisibilityB () const;
+	Changeability_Type getChangeability(Role_Type role) const;
 
 	/**
-	 * Sets the visibility on the rolename 'A' end of the Association.
+	 * Sets the changeability on the the given end of the Association.
 	 */
-	void setVisibilityA ( Scope visibility );
+	void setChangeability (Changeability_Type value, Role_Type role);
 
 	/**
-	 * Sets the visibility on the rolename 'B' end of the Association.
+	 * Gets the ID of the given role widget.
 	 */
-	void setVisibilityB (Scope visibility);
+	int getWidgetID(Role_Type role) const;
 
 	/**
-	 * Gets the changeability on the rolename A end of the Association.
-	 */
-	Changeability_Type getChangeabilityA() const;
-
-	/**
-	 * Gets the changeability on the rolename B end of the Association.
-	 */
-	Changeability_Type getChangeabilityB() const;
-
-	/**
-	 * Sets the changeability on the rolename 'B' end of the Association.
-	 */
-	void setChangeabilityA (Changeability_Type value);
-
-	/**
-	 * Sets the changeability on the rolename 'B' end of the Association.
-	 */
-	void setChangeabilityB (Changeability_Type value);
-
-	/**
-	 * Gets the ID of role A.
-	 */
-	int getWidgetAID() const;
-
-	/**
-	 * Gets the ID of role B.
-	 */
-	int getWidgetBID() const;
-
-	/**
-	 * Read property of UMLWidget* m_pWidgetA.
+	 * Gets the given role widget.
 	 *
-	 * @return	Pointer to the role A UMLWidget.
+	 * @return	Pointer to the role's UMLWidget.
 	 */
-	UMLWidget* getWidgetA();
+	UMLWidget* getWidget(Role_Type role);
 
 	/**
 	 * Sets the associated widgets.
@@ -290,13 +219,6 @@ public:
 	 * @param widgetB	Pointer the role B widget for the association.
 	 */
 	bool setWidgets( UMLWidget* widgetA, Association_Type assocType, UMLWidget* widgetB);
-
-	/**
-	 * Read property of UMLWidget* m_pWidgetB.
-	 *
-	 * @return	Pointer to the role B UMLWidget.
-	 */
-	UMLWidget* getWidgetB();
 
 	/**
 	 * Returns true if this association associates widgetA to widgetB,
@@ -432,12 +354,6 @@ public:
 	void moveEntireAssoc( int x, int y );
 
 	/**
-	 * Sets the new font for the text widgets used.
-	 * Called by the text widgets when the menu was selected on one of them.
-	 */
-	void changeFont(QFont font);
-
-	/**
 	 * Returns the bounding rectangle of all segments of the association.
 	 */
 	QRect getAssocLineRectangle();
@@ -453,26 +369,18 @@ public:
 	 */
 	void setFont (QFont font);
 
-
 	/**
-	 * Read property of FloatingText * m_pChangeWidgetA.
+	 * Return the given role's changeability FloatingText widget.
 	 */
-	FloatingText* getChangeWidgetA();
-
-	/**
-	 * Read property of FloatingText * m_pChangeWidgetB.
-	 */
-	FloatingText* getChangeWidgetB();
-
+	FloatingText* getChangeWidget(Role_Type role);
 
 	/**
 	 * Sets the text to the FloatingText that display the Role text of this
 	 * association.
-	 * For this funtion to work properly, the associated widgets
-	 * (m_pWidgetA and m_pWidgetB) should already be set.
+	 * For this function to work properly, the associated widget
+	 *  should already be set.
 	 */
-	bool setRoleNameA(QString strRole);
-	bool setRoleNameB(QString strRole);
+	bool setRoleName(QString strRole, Role_Type role);
 
 	/**
 	 * Set the documentation on this association.
@@ -480,14 +388,9 @@ public:
 	void setDoc(QString doc);
 
 	/**
-	 * Set the documentation on role A.
+	 * Set the documentation on the given role.
 	 */
-	void setRoleADoc(QString doc);
-
-	/**
-	 * Set the documentation on role B.
-	 */
-	void setRoleBDoc(QString doc);
+	void setRoleDoc(QString doc, Role_Type role);
 
 	/**
 	 * Returns the UMLAssociation representation of this object.
@@ -498,49 +401,46 @@ public:
 	UMLAssociation * getAssociation ();
 
 	/**
+	 * Sets the text of the FloatingText identified by the given Text_Role.
+	 */
+	void setText(QString text, Text_Role role);
+
+	/**
 	 * Calls @ref setTextPosition() on all the labels.
 	 */
 	void resetTextPositions();
 
 	/**
-	 * Sets the Association line index for widgetA.
+	 * Shows the association properties dialog and updates the
+	 * corresponding texts if its execution is successful.
+	 * Returns true for success.
 	 */
-	void setIndexA(int index);
+	bool showDialog();
 
 	/**
-	 * Returns the Association line index for widgetA.
+	 * Sets the Association line index for the given role.
 	 */
-	int getIndexA() const;
+	void setIndex(int index, Role_Type role);
 
 	/**
-	 * Sets the Association line index for widgetB.
+	 * Returns the Association line index for the given role.
 	 */
-	void setIndexB(int index);
+	int getIndex(Role_Type role) const;
 
 	/**
-	 * Returns the Association line index for widgetB.
+	 * Sets the total count on the Association region.
 	 */
-	int getIndexB() const;
+	void setTotalCount(int count, Role_Type role);
 
 	/**
-	 * Sets the total count on the Association region for widgetA.
+	 * Returns the total count on the Association region.
 	 */
-	void setTotalCountA(int count);
-
-	/**
-	 * Returns the total count on the Association region for widgetA.
-	 */
-	int getTotalCountA() const;
+	int getTotalCount(Role_Type role) const;
 
 	/**
 	 * Sets the total count on the Association region for widgetB.
 	 */
-	void setTotalCountB(int count);
-
-	/**
-	 * Region the total count on the Association region for widgetB
-	 */
-	int getTotalCountB() const;
+	void setTotalCount(int count);
 
 	/**
 	 * Calculates and sets the first and last point in the association's
@@ -791,11 +691,6 @@ private:
 	} m_role[2];
 
 	/**
-	 * Constants used for indexing the roles. 
-	 */
-	enum Role_Type { A, B };
-
-	/**
 	 * Called to tell the association that another association has added
 	 * a line to the region of one of its widgets. The widget is identified
 	 * by its role (A or B).
@@ -829,35 +724,10 @@ private:
 	void doUpdates(int otherX, int otherY, Role_Type role);
 
 	/**
-	 * Auxiliary to setMulti{A,B}.
-	 */
-	void setMulti(QString strMulti, Role_Type role);
-
-	/**
-	 * Auxiliary to setRoleName{A,B}.
-	 */
-	bool setRoleName (QString strRole, Role_Type role);
-
-	/**
-	 * Auxiliary to setVisibility{A,B}.
-	 */
-	void setVisibility (Scope value, Role_Type role);
-
-	/**
-	 * Auxiliary to setChangeability{A,B}.
-	 */
-	void setChangeability (Changeability_Type value, Role_Type role);
-
-	/**
 	 * For internal purposes only.
-	 * Other classes/users should use setChangeability[AB] instead.
+	 * Other classes/users should use setChangeability() instead.
 	 */
 	void setChangeWidget(QString strChangeWidget, Role_Type role);
-
-	/**
-	 * Auxiliary to getWidget{A,B}ID.
-	 */
-	int getWidgetID(Role_Type role) const;
 
 	/**
 	 * Checks to see if the given point is one of the points of the line.

@@ -79,103 +79,53 @@ public:
 	Uml::Association_Type getAssocType() const;
 
 	/**
-	 * Returns the UMLObject assigned to the role A.
+	 * Returns the UMLObject assigned to the given role.
 	 *
-	 * @return	Pointer to the UMLObject in role A.
+	 * @return	Pointer to the UMLObject in the given role.
 	 */
-	UMLObject* getObjectA();
+	UMLObject* getObject(Role_Type role);
 
 	/**
-	 * Returns the UMLObject assigned to the role B.
+	 * Returns the ID of the UMLObject assigned to the given role.
 	 *
-	 * @return	Pointer to the UMLObject in role B.
+	 * @return	ID of the UMLObject of the given role.
 	 */
-	UMLObject* getObjectB();
+	int getRoleId(Role_Type role) const;
 
 	/**
-	 * Returns the ID of the UMLObject assigned to the role A.
+	 * Returns the Changeablity of the given role.
 	 *
-	 * @return	ID of the UMLObject of role A.
+	 * @return	Changeability_Type of the given role.
 	 */
-	int getRoleAId() const;
+	Changeability_Type getChangeability(Role_Type role) const;
 
 	/**
-	 * Returns the ID of the UMLObject assigned to the role B.
+	 * Returns the Visibility of the given role.
 	 *
-	 * @return	ID of the UMLObject of role B.
+	 * @return	Scope of the given role.
 	 */
-	int getRoleBId() const;
+	Scope getVisibility(Role_Type role) const;
 
 	/**
-	 * Returns the Changeablity of role A.
+	 * Returns the multiplicity assigned to the given role.
 	 *
-	 * @return	Changeability_Type of roleA.
+	 * @return	The multiplicity assigned to the given role.
 	 */
-	Changeability_Type getChangeabilityA() const;
-
-	/**
-	 * Returns the Changeablity of role B.
-	 *
-	 * @return	Changeability_Type of roleB.
-	 */
-
-	Changeability_Type getChangeabilityB() const;
-
-	/**
-	 * Returns the Visibility of role A.
-	 *
-	 * @return	Scope of roleA.
-	 */
-	Scope getVisibilityA() const;
-
-	/**
-	 * Returns the Visibility of role B.
-	 *
-	 * @return	Scope of roleB.
-	 */
-	Scope getVisibilityB() const;
-
-	/**
-	 * Returns the multiplicity assigned to the role A.
-	 *
-	 * @return	The multiplicity assigned to the role A.
-	 */
-	QString getMultiA() const;
-
-	/**
-	 * Returns the multiplicity assigned to the role B.
-	 *
-	 * @return	The multiplicity assigned to the role B.
-	 */
-	QString getMultiB() const;
+	QString getMulti(Role_Type role) const;
 
 	/**
 	 * Returns the name assigned to the role A.
 	 *
-	 * @return	The name assigned to the role A.
+	 * @return	The name assigned to the given role.
 	 */
-	QString getRoleNameA() const;
+	QString getRoleName(Role_Type role) const;
 
 	/**
-	 * Returns the name assigned to the role B.
+	 * Returns the documentation assigned to the given role.
 	 *
-	 * @return	The name assigned to the role B.
+	 * @return	Documentation text of given role.
 	 */
-	QString getRoleNameB() const;
-
-	/**
-	 * Returns the documentation assigned to the role A.
-	 *
-	 * @return	Documentation text of role A.
-	 */
-	QString getRoleADoc() const;
-
-	/**
-	 * Returns the documentation assigned to the role B.
-	 *
-	 * @return	Documentation text of role B.
-	 */
-	QString getRoleBDoc() const;
+	QString getRoleDoc(Role_Type role) const;
 
 	/**
 	 * Sets the assocType of the UMLAssociation.
@@ -185,88 +135,46 @@ public:
 	void setAssocType(Uml::Association_Type assocType);
 
 	/**
-	 * Sets the UMLObject playing role A in the association.
+	 * Sets the UMLObject playing the given role in the association.
 	 *
-	 * @param obj		Pointer to the UMLObject of role A.
+	 * @param obj		Pointer to the UMLObject of the given role.
 	 */
-	void setObjectA(UMLObject *obj);
+	void setObject(UMLObject *obj, Role_Type role);
 
 	/**
-	 * Sets the UMLObject playing role B in the association.
-	 * @param obj		Pointer to the UMLObject of role B.
-	 */
-	void setObjectB(UMLObject *obj);
-
-	/**
-	 * Sets the visibility of role A of the UMLAssociation.
+	 * Sets the visibility of the given role of the UMLAssociation.
 	 *
 	 * @param value 	Scope of role A visibility.
 	 */
-	void setVisibilityA(Scope value);
+	void setVisibility(Scope value, Role_Type role);
 
 	/**
-	 * Sets the visibility of role B of the UMLAssociation.
+	 * Sets the changeability of the given role of the UMLAssociation.
 	 *
-	 * @param value 	Scope of role A visibility.
+	 * @param value 	Changeability_Type of the given role.
 	 */
-	void setVisibilityB(Scope value);
+	void setChangeability(Changeability_Type value, Role_Type role);
 
 	/**
-	 * Sets the changeability of role A of the UMLAssociation.
+	 * Sets the multiplicity of the given role of the UMLAssociation.
 	 *
-	 * @param value 	Changeability_Type of role A changeability.
+	 * @param multiA	The multiplicity of the given role.
 	 */
-	void setChangeabilityA(Changeability_Type value);
+	void setMulti(QString multi, Role_Type role);
 
 	/**
-	 * Sets the changeability of role B of the UMLAssociation.
+	 * Sets the name of the given role of the UMLAssociation.
 	 *
-	 * @param value 	Changeability_Type of role B changeability.
+	 * @param roleNameA	The name of the given role.
 	 */
-
-	void setChangeabilityB(Changeability_Type value);
+	void setRoleName(QString roleName, Role_Type role);
 
 	/**
-	 * Sets the multiplicity of role A of the UMLAssociation.
-	 *
-	 * @param multiA	The multiplicity of role A of the UMLAssociation.
-	 */
-	void setMultiA(QString multiA);
-
-	/**
-	 * Sets the multiplicity of role B of the UMLAssociation.
-	 *
-	 * @param multiB	The multiplicity of role B of the UMLAssociation.
-	 */
-	void setMultiB(QString multiB);
-
-	/**
-	 * Sets the name of role A of the UMLAssociation.
-	 *
-	 * @param roleNameA	The name of role A of the UMLAssociation.
-	 */
-	void setRoleNameA(QString roleNameA);
-
-	/**
-	 * Sets the documentation on role A in the association.
+	 * Sets the documentation on the given role in the association.
 	 *
 	 * @param doc		The string with the documentation.
 	 */
-	void setRoleADoc(QString doc);
-
-	/**
-	 * Sets the name of role B of the UMLAssociation.
-	 *
-	 * @param roleNameB	The name of role B of the UMLAssociation.
-	 */
-	void setRoleNameB(QString roleNameB);
-
-	/**
-	 * Sets the documentation on role B in the association.
-	 *
-	 * @param doc	The string with the documentation.
-	 */
-	void setRoleBDoc(QString doc);
+	void setRoleDoc(QString doc, Role_Type role);
 
 	/**
          * Convert Changeability_Type value into QString representation.
@@ -283,18 +191,11 @@ public:
 	static QString ScopeToString(Uml::Scope scope);
 
 	/**
-	 * Get the underlying UMLRole object for role A.
+	 * Get the underlying UMLRole object for the given role.
 	 *
-	 * @return	Pointer to the UMLRole object for role A.
+	 * @return	Pointer to the UMLRole object for the given role.
 	 */
-	UMLRole * getUMLRoleA();
-
-	/**
-	 * Get the underlying UMLRole object for role B.
-	 *
-	 * @return	Pointer to the UMLRole object for role B.
-	 */
-	UMLRole * getUMLRoleB();
+	UMLRole * getUMLRole(Role_Type role);
 
 	/**
 	 * Make a clone of this object.
@@ -338,8 +239,7 @@ protected:
 	static const unsigned nAssocTypes;
 	static const QString assocTypeStr[];
 
-	UMLRole * m_pRoleA;
-	UMLRole * m_pRoleB;
+	UMLRole * m_pRole[2];
 
 	Uml::Association_Type m_AssocType;
 	QString m_Name;

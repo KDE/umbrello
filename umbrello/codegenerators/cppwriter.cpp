@@ -701,10 +701,10 @@ void CppWriter::writeAssociationDecls(UMLAssociationList associations, Scope per
 
 			// it may seem counter intuitive, but you want to insert the role of the
 			// *other* class into *this* class.
-			if (a->getRoleAId() == id && a->getRoleNameB() != "")
+			if (a->getRoleId(A) == id && a->getRoleName(B) != "")
 				printRoleB = true;
 
-			if (a->getRoleBId() == id && a->getRoleNameA() != "")
+			if (a->getRoleId(B) == id && a->getRoleName(A) != "")
 				printRoleA = true;
 
 			// First: we insert documentaion for association IF it has either role AND some documentation (!)
@@ -712,18 +712,18 @@ void CppWriter::writeAssociationDecls(UMLAssociationList associations, Scope per
 				writeComment(a->getDoc(), getIndent(), h);
 
 			// print RoleB decl
-			if (printRoleB && a->getVisibilityB() == permitScope)
+			if (printRoleB && a->getVisibility(B) == permitScope)
 			{
 
-				QString fieldClassName = cleanName(getUMLObjectName(a->getObjectB()));
-				writeAssociationRoleDecl(fieldClassName, a->getRoleNameB(), a->getMultiB(), a->getRoleBDoc(), h);
+				QString fieldClassName = cleanName(getUMLObjectName(a->getObject(B)));
+				writeAssociationRoleDecl(fieldClassName, a->getRoleName(B), a->getMulti(B), a->getRoleDoc(B), h);
 			}
 
 			// print RoleA decl
-			if (printRoleA && a->getVisibilityA() == permitScope)
+			if (printRoleA && a->getVisibility(A) == permitScope)
 			{
-				QString fieldClassName = cleanName(getUMLObjectName(a->getObjectA()));
-				writeAssociationRoleDecl(fieldClassName, a->getRoleNameA(), a->getMultiA(), a->getRoleADoc(), h);
+				QString fieldClassName = cleanName(getUMLObjectName(a->getObject(A)));
+				writeAssociationRoleDecl(fieldClassName, a->getRoleName(A), a->getMulti(A), a->getRoleDoc(A), h);
 			}
 
 			// reset for next association in our loop
@@ -798,32 +798,32 @@ void CppWriter::writeAssociationMethods (UMLAssociationList associations,
 
 			// insert the methods to access the role of the other
 			// class in the code of this one
-			if (a->getRoleAId() == myID && a->getVisibilityB() == permitVisib)
+			if (a->getRoleId(A) == myID && a->getVisibility(B) == permitVisib)
 			{
 				// only write out IF there is a rolename given
-				if(!a->getRoleNameB().isEmpty()) {
-					QString fieldClassName = getUMLObjectName(a->getObjectB()) + (writePointerVar ? " *":"");
+				if(!a->getRoleName(B).isEmpty()) {
+					QString fieldClassName = getUMLObjectName(a->getObject(B)) + (writePointerVar ? " *":"");
 					writeAssociationRoleMethod(fieldClassName,
 									isHeaderMethod,
 									writeMethodBody,
-								   a->getRoleNameB(),
-								   a->getMultiB(), a->getRoleBDoc(),
-								   a->getChangeabilityB(), stream);
+								   a->getRoleName(B),
+								   a->getMulti(B), a->getRoleDoc(B),
+								   a->getChangeability(B), stream);
 				}
 			}
 
-			if (a->getRoleBId() == myID && a->getVisibilityA() == permitVisib)
+			if (a->getRoleId(B) == myID && a->getVisibility(A) == permitVisib)
 			{
 				// only write out IF there is a rolename given
 				if(!a->getRoleNameA().isEmpty()) {
-					QString fieldClassName = getUMLObjectName(a->getObjectA()) + (writePointerVar ? " *":"");
+					QString fieldClassName = getUMLObjectName(a->getObject(A)) + (writePointerVar ? " *":"");
 					writeAssociationRoleMethod(fieldClassName,
 									isHeaderMethod,
 									writeMethodBody,
-								   a->getRoleNameA(),
-								   a->getMultiA(),
-								   a->getRoleADoc(),
-								   a->getChangeabilityA(),
+								   a->getRoleName(A),
+								   a->getMulti(A),
+								   a->getRoleDoc(A),
+								   a->getChangeability(A),
 								   stream);
 				}
 			}
@@ -1242,17 +1242,17 @@ void CppWriter::printAssociationIncludeDecl (UMLAssociationList list, int myId, 
 
 		// only use OTHER classes (e.g. we dont need to write includes for ourselves!!
 		// AND only IF the roleName is defined, otherwise, its not meant to be noticed.
-		if (a->getRoleAId() == myId && a->getRoleNameB() != "") {
-			current = dynamic_cast<UMLClassifier*>(a->getObjectB());
-		} else if (a->getRoleBId() == myId && a->getRoleNameA() != "") {
-			current = dynamic_cast<UMLClassifier*>(a->getObjectA());
+		if (a->getRoleId(A) == myId && a->getRoleName(B) != "") {
+			current = dynamic_cast<UMLClassifier*>(a->getObject(B));
+		} else if (a->getRoleId(B) == myId && a->getRoleName(A) != "") {
+			current = dynamic_cast<UMLClassifier*>(a->getObject(A));
 			isFirstClass = false;
 		}
 
 		// as header doc for this method indicates, we need to be a bit sophisticated on
 		// how to declare some associations.
 		if( current )
-			if( !isFirstClass && !a->getRoleNameA().isEmpty() && !a->getRoleNameB().isEmpty())
+			if( !isFirstClass && !a->getRoleName(A).isEmpty() && !a->getRoleName(B).isEmpty())
 				stream<<"class "<<current->getName()<<";"<<endl; // special case: use forward declaration
 			else
 				stream<<"#include \""<<current->getName().lower()<<".h\""<<endl; // just the include statement

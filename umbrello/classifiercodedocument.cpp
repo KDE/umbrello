@@ -194,12 +194,12 @@ void ClassifierCodeDocument::removeAssociationClassField (UMLAssociation *assoc 
 
 	// the object could be either (or both!) role a or b. We should check
 	// both parts of the association.
-	CodeClassField * remove_object = (*m_classFieldMap)[assoc->getUMLRoleA()];
+	CodeClassField * remove_object = (*m_classFieldMap)[assoc->getUMLRole(A)];
 	if(remove_object)
 		removeCodeClassField(remove_object);
 
 	// check role b
-	remove_object = (*m_classFieldMap)[assoc->getUMLRoleB()];
+	remove_object = (*m_classFieldMap)[assoc->getUMLRole(B)];
 	if(remove_object)
 			removeCodeClassField(remove_object);
 
@@ -483,17 +483,17 @@ void ClassifierCodeDocument::addAssociationClassField (UMLAssociation * a, bool 
 	bool printRoleA = false, printRoleB = false, shouldSync = false;
 	// it may seem counter intuitive, but you want to insert the role of the
 	// *other* class into *this* class.
-	if (a->getRoleAId() == cid)
+	if (a->getRoleId(A) == cid)
 		printRoleB = true;
 
-	if (a->getRoleBId() == cid)
+	if (a->getRoleId(B) == cid)
 		printRoleA = true;
 
 	// grab RoleB decl
 	if (printRoleB)
 	{
 
-		UMLRole * role = a->getUMLRoleB();
+		UMLRole * role = a->getUMLRole(B);
 		if(!(m_classFieldMap->contains((UMLObject*)role)))
 		{
 			CodeClassField * classfield = newCodeClassField(role);
@@ -505,7 +505,7 @@ void ClassifierCodeDocument::addAssociationClassField (UMLAssociation * a, bool 
 	// print RoleA decl
 	if (printRoleA)
 	{
-		UMLRole * role = a->getUMLRoleA();
+		UMLRole * role = a->getUMLRole(A);
 		if(!(m_classFieldMap->contains((UMLObject*)role)))
 		{
 			CodeClassField * classfield = newCodeClassField(role);

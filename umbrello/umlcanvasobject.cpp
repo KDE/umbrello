@@ -141,27 +141,17 @@ const UMLAssociationList& UMLCanvasObject::getAssociations() {
 
 UMLClassifierList UMLCanvasObject::getSuperClasses() {
 	UMLClassifierList list;
-	// WARNING:
-	// Currently there's quite some chaos regarding role assignments in
-	// generalizations. The diagram code (AssociationWidget et al.) assumes
-	//    B -> A
-	// i.e. the specialized class is role B and the general class is role A,
-	// while the document code (i.e. UMLAssociation et al.) assumes
-	//    A -> B
-	// i.e. the general class is role B and the specialized class is role A,
-	// Right here, we have the A->B case.
-	// I hope to clean this up shortly   --okellogg 2003/12/22
 	for (UMLAssociation* a = m_AssocsList.first(); a; a = m_AssocsList.next()) {
 		if ( a->getAssocType() != Uml::at_Generalization ||
-		     a->getRoleAId() != this->getID() )
+		     a->getRoleId(A) != this->getID() )
 			continue;
-		UMLClassifier *c = dynamic_cast<UMLClassifier*>(a->getObjectB());
+		UMLClassifier *c = dynamic_cast<UMLClassifier*>(a->getObject(B));
 		if (c)
 			list.append(c);
 		else
 			kdDebug() << "UMLCanvasObject::getSuperClasses: generalization's"
 				  << " other end is not a UMLClassifier"
-				  << " (id= " << a->getRoleBId() << ")" << endl;
+				  << " (id= " << a->getRoleId(B) << ")" << endl;
 	}
 	return list;
 }
@@ -171,15 +161,15 @@ UMLClassifierList UMLCanvasObject::getSubClasses() {
 	// WARNING: See remark at getSuperClasses()
 	for (UMLAssociation* a = m_AssocsList.first(); a; a = m_AssocsList.next()) {
 		if ( a->getAssocType() != Uml::at_Generalization ||
-		     a->getRoleBId() != this->getID() )
+		     a->getRoleId(B) != this->getID() )
 			continue;
-		UMLClassifier *c = dynamic_cast<UMLClassifier*>(a->getObjectA());
+		UMLClassifier *c = dynamic_cast<UMLClassifier*>(a->getObject(A));
 		if (c)
 			list.append(c);
 		else
 			kdDebug() << "UMLCanvasObject::getSubClasses: specialization's"
 				  << " other end is not a UMLClassifier"
-				  << " (id=" << a->getRoleAId() << ")" << endl;
+				  << " (id=" << a->getRoleId(A) << ")" << endl;
 	}
 	return list;
 }

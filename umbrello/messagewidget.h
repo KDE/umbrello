@@ -105,32 +105,18 @@ public:
 	bool contains(ObjectWidget * w);
 
 	/**
-	 * Returns the A widget it is related to.
+	 * Returns the related widget on the given side.
 	 *
-	 * @return	The A widget we are related to.
+	 * @return	The ObjectWidget we are related to.
 	 */
-	ObjectWidget* getWidgetA();
+	ObjectWidget* getWidget(Role_Type role);
 
 	/**
-	 * Returns the B widget it is related to.
+	 * Sets the related widget on the given side.
 	 *
-	 * @return	The B widget we are related to.
+	 * @param ow	The ObjectWidget we are related to.
 	 */
-        ObjectWidget* getWidgetB();
-
-	/**
-	 * Sets the A widget it is related to.
-	 *
-	 * @param wa	The A widget we are related to.
-	 */
-	void setWidgetA(ObjectWidget * wa) ;
-
-	/**
-	 * Sets the B widget it is related to.
-	 *
-	 * @param wb	The B widget we are related to.
-	 */
-	void setWidgetB(ObjectWidget * wb);
+	void setWidget(ObjectWidget * ow, Role_Type role) ;
 
 	/**
 	 * Returns the text widget it is related to.
@@ -156,7 +142,7 @@ public:
 	void calculateWidget();
 
 	/**
-	 * Activates a MessageWidget.  Connects its m_pWA and m_pWB pointers
+	 * Activates a MessageWidget.  Connects its m_pOw[] pointers
 	 * to UMLObjects and also send signals about its FloatingText.
 	 */
 	bool activate(IDChangeLog * Log = 0);
@@ -195,6 +181,10 @@ public:
 	 */
 	void drawAsynchronous(QPainter& p, int offsetX, int offsetY);
 
+	/**
+	 * Sets the text position relative to the sequence message.
+	 */
+	void setTextPosition();
 
 	/**
 	 * Used to cleanup any other widget it may need to delete.
@@ -261,7 +251,7 @@ private:
 	void resizeEvent(QResizeEvent */*re*/);
 	void mouseDoubleClickEvent(QMouseEvent */* me*/);
 
-	ObjectWidget * m_pWA, * m_pWB;
+	ObjectWidget * m_pOw[2];
 	FloatingText * m_pFText;
 	int m_nY;
 public slots:

@@ -63,16 +63,8 @@ void AssocPage::slotDoubleClick(QListBoxItem * i) {
 
  	AssociationWidget * a = m_List.at(item);
 
-	AssocPropDlg dlg(this, a);
-	int result = dlg.exec();
-	if(result) {
-		a -> setName(dlg.getName());
-		a -> setRoleNameA(dlg.getRoleAName());
-		a -> setRoleNameB(dlg.getRoleBName());
-		a -> setMultiA(dlg.getMultiA());
-		a -> setMultiB(dlg.getMultiB());
+	if (a->showDialog())
 		fillListBox();
-	}
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void AssocPage::fillListBox() {

@@ -43,8 +43,8 @@ bool UMLAssociation::operator==(UMLAssociation &rhs) {
        return( UMLObject::operator== ( rhs ) &&
                 m_AssocType == rhs.m_AssocType &&
                 m_Name == rhs.m_Name &&
-                m_pRoleA == rhs.m_pRoleA &&
-                m_pRoleB == rhs.m_pRoleB );
+                m_pRole[A] == rhs.m_pRole[A] &&
+                m_pRole[B] == rhs.m_pRole[B] );
 }
 
 const QString UMLAssociation::assocTypeStr[UMLAssociation::nAssocTypes] = {
@@ -75,18 +75,18 @@ Uml::Association_Type UMLAssociation::getAssocType() const {
 QString UMLAssociation::toString ( ) const
 {
 	QString string;
-	if(m_pRoleA)
+	if(m_pRole[A])
 	{
-		string += m_pRoleA->getObject( )->getName();
+		string += m_pRole[A]->getObject()->getName();
 		string += ":";
-		string += m_pRoleA->getName();
+		string += m_pRole[A]->getName();
 	}
 	string += ":" + typeAsString(m_AssocType) + ":";
-	if(m_pRoleB)
+	if(m_pRole[B])
 	{
-		string += m_pRoleB->getObject( )->getName();
+		string += m_pRole[B]->getObject( )->getName();
 		string += ":";
-		string += m_pRoleB->getName();
+		string += m_pRole[B]->getName();
 	}
 	return string;
 }
@@ -112,15 +112,15 @@ void UMLAssociation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	if (m_AssocType == Uml::at_Generalization ||
 	    m_AssocType == Uml::at_Realization) {
 		QDomElement assocElement = UMLObject::save("UML:Generalization", qDoc);
-		assocElement.setAttribute( "child", getRoleAId() );
-		assocElement.setAttribute( "parent", getRoleBId() );
+		assocElement.setAttribute( "child", getRoleId(A) );
+		assocElement.setAttribute( "parent", getRoleId(B) );
 		qElement.appendChild( assocElement );
 		return;
 	}
 	QDomElement associationElement = UMLObject::save("UML:Association", qDoc);
 	QDomElement connElement = qDoc.createElement("UML:Association.connection");
-	getUMLRoleA()->saveToXMI (qDoc, connElement);
-	getUMLRoleB()->saveToXMI (qDoc, connElement);
+	getUMLRole(A)->saveToXMI (qDoc, connElement);
+	getUMLRole(B)->saveToXMI (qDoc, connElement);
 	associationElement.appendChild (connElement);
 	qElement.appendChild( associationElement );
 }
@@ -156,7 +156,7 @@ bool UMLAssociation::load( QDomElement & element ) {
 				  << "cannot find child object " << roleAIdStr << endl;
 			return false;
 		}
-		getUMLRoleA()->setObject(objA);
+		getUMLRole(A)->setObject(objA);
 
 		if (roleBIdStr.contains(QRegExp("\\D")))
 			objB = doc->findObjectByIdStr(roleBIdStr);
@@ -167,7 +167,7 @@ bool UMLAssociation::load( QDomElement & element ) {
 				  << "cannot find parent object " << roleBIdStr << endl;
 			return false;
 		}
-		getUMLRoleB()->setObject(objB);
+		getUMLRole(B)->setObject(objB);
 
 		// setting the association type:
                 //
@@ -221,7 +221,7 @@ bool UMLAssociation::load( QDomElement & element ) {
 				    << "unknown child (A) tag " << tag << endl;
 			return false;
 		}
-		if (! getUMLRoleA()->loadFromXMI(tempElement, false)) // do not load xmi.id
+		if (! getUMLRole(A)->loadFromXMI(tempElement, false)) // do not load xmi.id
 			return false;
 		// Load role B.
 		node = node.nextSibling();
@@ -237,7 +237,7 @@ bool UMLAssociation::load( QDomElement & element ) {
 				    << "unknown child (B) tag " << tag << endl;
 			return false;
 		}
-		if (! getUMLRoleB()->loadFromXMI(tempElement, false)) // do not load xmi.id
+		if (! getUMLRole(B)->loadFromXMI(tempElement, false)) // do not load xmi.id
 			return false;
 
 		// setting the association type:
@@ -250,7 +250,7 @@ bool UMLAssociation::load( QDomElement & element ) {
 		// is not complete, so we need to finish the analysis here.
 
 		// find self-associations
-		if(getAssocType() == Uml::at_Association && getRoleAId() == getRoleBId())
+		if(getAssocType() == Uml::at_Association && getRoleId(A) == getRoleId(B))
 			m_AssocType = Uml::at_Association_Self;
 
 		// fall-back default type
@@ -290,105 +290,73 @@ bool UMLAssociation::load( QDomElement & element ) {
 	UMLObject * objB = doc->findUMLObject(roleBObjID);
 
 	if(objA)
-		getUMLRoleA()->setObject(objA);
+		getUMLRole(A)->setObject(objA);
 	else
 		return false;
 
 	if(objB)
-		getUMLRoleB()->setObject(objB);
+		getUMLRole(B)->setObject(objB);
 	else
 		return false;
 
-	setMultiA(element.attribute( "multia", "" ));
-	setMultiB(element.attribute( "multib", "" ));
+	setMulti(element.attribute( "multia", "" ), A);
+	setMulti(element.attribute( "multib", "" ), B);
 
-	setRoleNameA(element.attribute( "namea", "" ));
-	setRoleNameB(element.attribute( "nameb", "" ));
+	setRoleName(element.attribute( "namea", "" ), A);
+	setRoleName(element.attribute( "nameb", "" ), B);
 
-	setRoleADoc(element.attribute( "doca", "" ));
-	setRoleBDoc(element.attribute( "docb", "" ));
+	setRoleDoc(element.attribute( "doca", "" ), A);
+	setRoleDoc(element.attribute( "docb", "" ), B);
 
         // Visibility defaults to Public if it cant set it here..
         QString visibilityA = element.attribute( "visibilitya", "0");
         QString visibilityB = element.attribute( "visibilityb", "0");
         if (visibilityA.toInt() > 0)
-                setVisibilityA( (Scope) visibilityA.toInt());
+                setVisibility( (Scope) visibilityA.toInt(), A);
         if (visibilityB.toInt() > 0)
-                setVisibilityB( (Scope) visibilityB.toInt());
+                setVisibility( (Scope) visibilityB.toInt(), B);
 
         // Changeability defaults to Changeable if it cant set it here..
         QString changeabilityA = element.attribute( "changeabilitya", "0");
         QString changeabilityB = element.attribute( "changeabilityb", "0");
         if (changeabilityA.toInt() > 0)
-                setChangeabilityA ( (Changeability_Type) changeabilityA.toInt());
+                setChangeability ( (Changeability_Type) changeabilityA.toInt(), A);
         if (changeabilityB.toInt() > 0)
-                setChangeabilityB ( (Changeability_Type) changeabilityB.toInt());
+                setChangeability ( (Changeability_Type) changeabilityB.toInt(), B);
 
 	return true;
 }
 
-UMLObject* UMLAssociation::getObjectA() {
-	return m_pRoleA->getObject();
+UMLObject* UMLAssociation::getObject(Role_Type role) {
+	return m_pRole[role]->getObject();
 }
 
-UMLObject* UMLAssociation::getObjectB() {
-	return m_pRoleB->getObject();
+int UMLAssociation::getRoleId(Role_Type role) const {
+	return m_pRole[role]->getID();
 }
 
-int UMLAssociation::getRoleAId() const {
-	return m_pRoleA->getID();
+Changeability_Type UMLAssociation::getChangeability(Role_Type role) const {
+	return m_pRole[role]->getChangeability();
 }
 
-int UMLAssociation::getRoleBId() const {
-	return m_pRoleB->getID();
+Scope UMLAssociation::getVisibility(Role_Type role) const {
+	return m_pRole[role]->getVisibility();
 }
 
-Changeability_Type UMLAssociation::getChangeabilityA() const {
-	return m_pRoleA->getChangeability();
+QString UMLAssociation::getMulti(Role_Type role) const {
+	return m_pRole[role]->getMultiplicity();
 }
 
-Changeability_Type UMLAssociation::getChangeabilityB() const {
-	return m_pRoleB->getChangeability();
+QString UMLAssociation::getRoleName(Role_Type role) const {
+	return m_pRole[role]->getName();
 }
 
-Scope UMLAssociation::getVisibilityA() const {
-	return m_pRoleA->getVisibility();
+QString UMLAssociation::getRoleDoc(Role_Type role) const {
+	return m_pRole[role]->getDoc();
 }
 
-Scope UMLAssociation::getVisibilityB() const {
-	return m_pRoleB->getVisibility();
-}
-
-QString UMLAssociation::getMultiA() const {
-	return m_pRoleA->getMultiplicity();
-}
-
-QString UMLAssociation::getMultiB() const {
-	return m_pRoleB->getMultiplicity();
-}
-
-QString UMLAssociation::getRoleNameA() const {
-	return m_pRoleA->getName();
-}
-
-QString UMLAssociation::getRoleADoc() const {
-	return m_pRoleA->getDoc();
-}
-
-QString UMLAssociation::getRoleNameB() const {
-	return m_pRoleB->getName();
-}
-
-QString UMLAssociation::getRoleBDoc() const {
-	return m_pRoleB->getDoc();
-}
-
-UMLRole * UMLAssociation::getUMLRoleA() {
-	return m_pRoleA;
-}
-
-UMLRole * UMLAssociation::getUMLRoleB() {
-	return m_pRoleB;
+UMLRole * UMLAssociation::getUMLRole(Role_Type role) {
+	return m_pRole[role];
 }
 
 void UMLAssociation::setAssocType(Uml::Association_Type assocType) {
@@ -402,57 +370,31 @@ void UMLAssociation::setAssocType(Uml::Association_Type assocType) {
 	emit modified();
 }
 
-void UMLAssociation::setObjectA(UMLObject *obj) {
-	m_pRoleA->setObject(obj);
+void UMLAssociation::setObject(UMLObject *obj, Role_Type role) {
+	m_pRole[role]->setObject(obj);
 }
 
-void UMLAssociation::setObjectB(UMLObject *obj) {
-	m_pRoleB->setObject(obj);
+void UMLAssociation::setVisibility(Scope value, Role_Type role) {
+	m_pRole[role]->setVisibility(value);
 }
 
-void UMLAssociation::setVisibilityA(Scope value) {
-	m_pRoleA->setVisibility(value);
+void UMLAssociation::setChangeability(Changeability_Type value, Role_Type role) {
+	m_pRole[role]->setChangeability(value);
 }
 
-void UMLAssociation::setVisibilityB(Scope value) {
-	m_pRoleB->setVisibility(value);
+void UMLAssociation::setMulti(QString value, Role_Type role) {
+	m_pRole[role]->setMultiplicity(value);
 }
 
-void UMLAssociation::setChangeabilityA(Changeability_Type value) {
-	m_pRoleA->setChangeability(value);
-//	emit modified(); // not needed.. should originate from UMLRole
+void UMLAssociation::setRoleName(QString value, Role_Type role) {
+	m_pRole[role]->setName(value);
 }
 
-void UMLAssociation::setChangeabilityB(Changeability_Type value) {
-	m_pRoleB->setChangeability(value);
-}
-
-void UMLAssociation::setMultiA(QString value) {
-	m_pRoleA->setMultiplicity(value);
-}
-
-void UMLAssociation::setMultiB(QString value) {
-	m_pRoleB->setMultiplicity(value);
-}
-
-void UMLAssociation::setRoleNameA(QString value) {
-	m_pRoleA->setName(value);
-}
-
-void UMLAssociation::setRoleADoc(QString doc) {
-	m_pRoleA->setDoc(doc);
-}
-
-void UMLAssociation::setRoleNameB(QString value) {
-	m_pRoleB->setName(value);
-}
-
-void UMLAssociation::setRoleBDoc(QString doc) {
-	m_pRoleB->setDoc(doc);
+void UMLAssociation::setRoleDoc(QString doc, Role_Type role) {
+	m_pRole[role]->setDoc(doc);
 }
 
 QString UMLAssociation::ChangeabilityToString(Uml::Changeability_Type type) {
-
 	switch (type) {
 	case Uml::chg_Frozen:
 		return "frozen";
@@ -468,7 +410,6 @@ QString UMLAssociation::ChangeabilityToString(Uml::Changeability_Type type) {
 }
 
 QString UMLAssociation::ScopeToString(Uml::Scope scope) {
-
 	switch (scope) {
 	case Uml::Protected:
 		return "#";
@@ -489,8 +430,8 @@ void UMLAssociation::init(Association_Type type, UMLObject *roleAObj, UMLObject 
 	m_Name = "";
 	nrof_parent_widgets = -1;
 
-	m_pRoleA = new UMLRole (this, roleAObj, 1);
-	m_pRoleB = new UMLRole (this, roleBObj, 0);
+	m_pRole[A] = new UMLRole (this, roleAObj, 1);
+	m_pRole[B] = new UMLRole (this, roleBObj, 0);
 }
 
 

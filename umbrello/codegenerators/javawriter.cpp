@@ -431,10 +431,10 @@ void JavaWriter::writeAssociationDecls(UMLAssociationList associations, int id, 
 		{
 			// it may seem counter intuitive, but you want to insert the role of the
 			// *other* class into *this* class.
-			if (a->getRoleAId() == id)
+			if (a->getRoleId(A) == id)
 				printRoleB = true;
 
-			if (a->getRoleBId() == id)
+			if (a->getRoleId(B) == id)
 				printRoleA = true;
 
 			// First: we insert documentaion for association IF it has either role AND some documentation (!)
@@ -444,15 +444,15 @@ void JavaWriter::writeAssociationDecls(UMLAssociationList associations, int id, 
 			// print RoleB decl
 			if (printRoleB)
 			{
-				QString fieldClassName = cleanName(getUMLObjectName(a->getObjectB()));
-				writeAssociationRoleDecl(fieldClassName, a->getRoleNameB(), a->getMultiB(), a->getRoleBDoc(), a->getVisibilityB(), java);
+				QString fieldClassName = cleanName(getUMLObjectName(a->getObject(B)));
+				writeAssociationRoleDecl(fieldClassName, a->getRoleName(B), a->getMulti(B), a->getRoleDoc(B), a->getVisibility(B), java);
 			}
 
 			// print RoleA decl
 			if (printRoleA)
 			{
-				QString fieldClassName = cleanName(getUMLObjectName(a->getObjectA()));
-				writeAssociationRoleDecl(fieldClassName, a->getRoleNameA(), a->getMultiA(), a->getRoleADoc(), a->getVisibilityA(), java);
+				QString fieldClassName = cleanName(getUMLObjectName(a->getObject(A)));
+				writeAssociationRoleDecl(fieldClassName, a->getRoleName(A), a->getMulti(A), a->getRoleDoc(A), a->getVisibility(A), java);
 			}
 		}
 	}
@@ -502,29 +502,29 @@ void JavaWriter::writeAssociationMethods (UMLAssociationList associations, UMLCl
 
 			// insert the methods to access the role of the other
 			// class in the code of this one
-			if (a->getRoleAId() == thisClass->getID())
+			if (a->getRoleId(A) == thisClass->getID())
 			{
 				// only write out IF there is a rolename given
 				if(!a->getRoleNameB().isEmpty()) {
-					QString fieldClassName = getUMLObjectName(a->getObjectB());
+					QString fieldClassName = getUMLObjectName(a->getObject(B));
 					writeAssociationRoleMethod(fieldClassName,
-								   a->getRoleNameB(),
-								   a->getMultiB(), a->getRoleBDoc(),
-								   a->getVisibilityB(),
-								   a->getChangeabilityB(), java);
+								   a->getRoleName(B),
+								   a->getMulti(B), a->getRoleDoc(B),
+								   a->getVisibility(B),
+								   a->getChangeability(B), java);
 				}
 			}
 
-			if (a->getRoleBId() == thisClass->getID())
+			if (a->getRoleId(B) == thisClass->getID())
 			{
 				// only write out IF there is a rolename given
-				if(!a->getRoleNameA().isEmpty()) {
-					QString fieldClassName = getUMLObjectName(a->getObjectA());
-					writeAssociationRoleMethod(fieldClassName, a->getRoleNameA(),
-								   a->getMultiA(),
-								   a->getRoleADoc(),
-								   a->getVisibilityA(),
-								   a->getChangeabilityA(),
+				if(!a->getRoleName(A).isEmpty()) {
+					QString fieldClassName = getUMLObjectName(a->getObject(A));
+					writeAssociationRoleMethod(fieldClassName, a->getRoleName(A),
+								   a->getMulti(A),
+								   a->getRoleDoc(A),
+								   a->getVisibility(A),
+								   a->getChangeability(A),
 								   java);
 				}
 			}

@@ -120,9 +120,9 @@ void PhpWriter::writeClass(UMLClassifier *c) {
 			php<<"\n";
 			//maybe we should parse the string here and take multiplicity into account to decide
 			//which container to use.
-			UMLObject *o = m_doc->findUMLObject(a->getRoleAId());
+			UMLObject *o = m_doc->findUMLObject(a->getRoleId(A));
 			QString typeName = cleanName(o->getName());
-			if (a->getMultiA().isEmpty())  {
+			if (a->getMulti(A).isEmpty())  {
 				php << "\tvar $m_" << ";" << endl;
 			} else {
 				php << "\tvar $m_" << "Vector = array();" << endl;
@@ -134,9 +134,9 @@ void PhpWriter::writeClass(UMLClassifier *c) {
 		php<<"\n\t/** Compositions: */\n";
 		for (a = compositions.first(); a ; a = compositions.next()) {
 			// see comment on Aggregation about multiplicity...
-			UMLObject *o = m_doc->findUMLObject(a->getRoleAId());
+			UMLObject *o = m_doc->findUMLObject(a->getRoleId(A));
 			QString typeName = cleanName(o->getName());
-			if (a->getMultiA().isEmpty())  {
+			if (a->getMulti(A).isEmpty())  {
 				php << "\tvar $m_" << ";" << endl;
 			} else {
 				php << "\tvar $m_" << "Vector = array();" << endl;

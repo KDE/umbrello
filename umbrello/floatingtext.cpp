@@ -111,21 +111,11 @@ void FloatingText::setLinePositionRelatively(int newX, int newY, int oldX, int o
 	}
 }
 
-void FloatingText::setPositionFromMessage() {
-	MessageWidget *m = dynamic_cast<MessageWidget*>(m_pLink);
-	if (m == NULL) {
-		return;
-	}
-	calculateSize();
-	setLinePos(m->getX() + 5, m->getY() - height());
-}
-
 void FloatingText::calculateSize() {
 	QFontMetrics &fm = getFontMetrics(FT_NORMAL);
 	int h = fm.lineSpacing();
 	int w = fm.width( getDisplayText() );
 	setSize( w + 8, h + 4 );//give a small margin
-	// adjustAssocs( getX(), getY() );//adjust assoc lines, why? Let em be. The user can do the adjustment.
 }
 
 void FloatingText::slotMenuSelection(int sel) {
@@ -139,6 +129,8 @@ void FloatingText::slotMenuSelection(int sel) {
 		AssociationWidget *a = dynamic_cast<AssociationWidget*>(m_pLink);
 		if (a)
 			m_pView->removeAssoc(a);
+		kdDebug() << "FloatingText::slotMenuSelection(mt_Delete_Association)"
+			  << " is called." << endl;
 		break;
 	}
 
@@ -158,12 +150,14 @@ void FloatingText::slotMenuSelection(int sel) {
 		} else {
 			//here to delete this from a seq. diagram.
 			MessageWidget *m = static_cast<MessageWidget*>(m_pLink);
-			m -> slotMenuSelection(ListPopupMenu::mt_Delete);
+			m_pView->removeWidget( m );
 		}
 		break;
 
 	case ListPopupMenu::mt_Operation:
 		{
+			kdDebug() << "FloatingText::slotMenuSelection(mt_Operation) is called."
+				  << endl;
 			if (m_pLink == NULL) {
 				kdDebug() << "FloatingText::slotMenuSelection(mt_Operation): "
 					  << "m_pLink is NULL" << endl;
@@ -173,20 +167,14 @@ void FloatingText::slotMenuSelection(int sel) {
 			AssociationWidget *a = dynamic_cast<AssociationWidget*>(m_pLink);
 			if (a)  {
 				if (a->getAssocType() == at_Coll_Message)
-					c = (UMLClassifier*)( a->getWidgetB()->getUMLObject() );
+					c = (UMLClassifier*)( a->getWidget(B)->getUMLObject() );
 				else
-					c = (UMLClassifier*)( a->getWidgetA()->getUMLObject() );
+					c = (UMLClassifier*)( a->getWidget(A)->getUMLObject() );
 			} else {
 				c = (UMLClassifier*)getUMLObject();
 			}
-			Uml::UMLObject_Type ot = ListPopupMenu::convert_MT_OT((ListPopupMenu::Menu_Type)sel);
-			UMLObject* umlObj = m_pView->getDocument()->createChildObject(c, ot);
-			UMLOperation* newOperation = dynamic_cast<UMLOperation*>( umlObj );
-			if (newOperation == NULL) {
-				kdDebug() << "FloatingText::slotMenuSelection(mt_Operation): "
-					  << "internal error - newOperation is NULL" << endl;
-				return;
-			}
+			UMLObject* umlObj = m_pView->getDocument()->createChildObject(c, Uml::ot_Operation);
+			UMLOperation* newOperation = static_cast<UMLOperation*>( umlObj );
 			if (a) {
 				a->setName( newOperation->toString(st_SigNoScope) );
 			} else {
@@ -214,7 +202,7 @@ void FloatingText::slotMenuSelection(int sel) {
 				} else {
 					AssociationWidget *a = dynamic_cast<AssociationWidget*>(m_pLink);
 					if (a)
-						a->changeFont(font);
+						a->setFont(font);
 				}
 			}
 		}
@@ -226,8 +214,8 @@ void FloatingText::slotMenuSelection(int sel) {
 			if (a)
 				a->resetTextPositions();
 		}
-		UMLWidget::slotMenuSelection(sel);
 		break;
+
 	default:
 		UMLWidget::slotMenuSelection(sel);
 		break;
@@ -268,26 +256,8 @@ void FloatingText::handleRename() {
 		return;
 	}
 	AssociationWidget *a = dynamic_cast<AssociationWidget*>(m_pLink);
-	if (a) {  // Don't call setText() in this case because the association setters
-		switch (m_Role) { // will call back to setText() here. (Infinite recursion.)
-		case tr_Name:
-			a->setName(newText);
-			break;
-		case tr_RoleAName:
-			a->setRoleNameA(newText);
-			break;
-		case tr_RoleBName:
-			a->setRoleNameB(newText);
-			break;
-		case tr_MultiA:
-			a->setMultiA(newText);
-			break;
-		case tr_MultiB:
-			a->setMultiB(newText);
-			break;
-		default:
-			break;
-		}//end switch
+	if (a) {
+		a->setText( newText, m_Role );
 	} else {
 		setText( newText );
 		doc -> setModified(true);
@@ -347,15 +317,7 @@ void FloatingText::mouseDoubleClickEvent(QMouseEvent * /* me*/) {
 		if(m_Role == tr_Coll_Message || m_Role == tr_Coll_Message_Self) {
 			showOpDlg();
 		} else {
-			AssocPropDlg dlg(static_cast<QWidget*>(m_pView), a );
-			if (! dlg.exec())
-				return;
-			QString rnA = dlg.getRoleAName(), rnB = dlg.getRoleBName(),
-				ma = dlg.getMultiA(), mb = dlg.getMultiB();
-			a -> setRoleNameA(rnA);
-			a -> setRoleNameB(rnB);
-			a -> setMultiA(ma);
-			a -> setMultiB(mb);
+			a->showDialog();
 		} //end if m_Role
 	} else if (m_Role == tr_Seq_Message || m_Role == tr_Seq_Message_Self) {
 		//if on a seq. diagram the assoc widget won't be set
@@ -376,9 +338,9 @@ void FloatingText::showOpDlg() {
 		seqNum = m->getSequenceNumber();
 		op = m->getOperation();
 	} else if (a)  {
-		seqNum = a->getMultiA();
+		seqNum = a->getMulti(A);
 		op = a->getName();
-		c = (UMLClassifier*)( a->getWidgetB()->getUMLObject() );
+		c = (UMLClassifier*)( a->getWidget(B)->getUMLObject() );
 	}
 
 	SelectOpDlg selectDlg((QWidget*)m_pView, c);
@@ -396,17 +358,9 @@ void FloatingText::showOpDlg() {
 		m->setOperation( op );
 	} else if (a) {
 		a->setName(op);
-		a->setMultiA(seqNum);
+		a->setMulti(seqNum, A);
 	}
 	setMessageText();
-	/*
-	if( m_Role == tr_Coll_Message || m_Role == tr_Seq_Message ) {
-		setText( displayText );
-	}
-	setVisible(getText().length() > 0);
-	calculateSize();
-	setPositionFromMessage(); //force it to display
-	*/
 }
 
 void FloatingText::mouseMoveEvent(QMouseEvent* me) {
@@ -499,13 +453,13 @@ void FloatingText::setLink(LinkWidget * l) {
 		UMLWidget::addAssoc(a);
 	} else { // Uml::wt_Message
 		MessageWidget *m = static_cast<MessageWidget*>(m_pLink);
-		if (getID() != -1) {
+		if (getID() > 0) {
 			kdDebug() << "FloatingText::setLink: overriding own id "
 				  << getID() << " with new value " << m->getID()
 				  << endl;
 		}
 		setID( m->getID() );
-		setPositionFromMessage();
+		m->setTextPosition();
 	}
 }
 
@@ -616,6 +570,7 @@ void FloatingText::setMessageText() {
 		QString op = m->getOperation();
 		displayText = seqNum + ": " + op;
 		setText( displayText );
+		m->setTextPosition();
 	} else if (a) {
 		AssociationWidget *a  = static_cast<AssociationWidget*>(m_pLink);
 		displayText = a->getName();
@@ -624,6 +579,5 @@ void FloatingText::setMessageText() {
 
 	setVisible(getText().length() > 0);
 	calculateSize();
-	setPositionFromMessage(); //force it to display
 }
 

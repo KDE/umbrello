@@ -173,11 +173,6 @@ public:
 	void setLink(LinkWidget * l);
 
 	/**
-	 * Sets the position relative to the sequence message.
-	 */
-	void setPositionFromMessage();
-
-	/**
 	 * Returns the LinkWidget this floating text is related to.
 	 *
 	 * @return	The LinkWidget this floating text is related to.

@@ -159,10 +159,11 @@ void JSWriter::writeClass(UMLClassifier *c)
 		js << "\n\t/**Aggregations: */\n";
 		for (UMLAssociation* a = aggregations.first(); a; a = aggregations.next())
 		{
-			if (a->getMultiA().isEmpty())
-				js << "\tthis.m_" << cleanName(a->getObjectA()->getName()) << " = new " << cleanName(a->getObjectA()->getName()) << " ();\n";
+			QString nm(cleanName(a->getObject(A)->getName()));
+			if (a->getMulti(A).isEmpty())
+				js << "\tthis.m_" << nm << " = new " << nm << " ();\n";
 			else
-				js << "\tthis.m_" << cleanName(a->getObjectA()->getName()).lower() << " = new Array ();\n";
+				js << "\tthis.m_" << nm.lower() << " = new Array ();\n";
 		}
 	}
 	UMLAssociationList compositions = c->getCompositions();
@@ -171,10 +172,11 @@ void JSWriter::writeClass(UMLClassifier *c)
 		js << "\n\t/**Compositions: */\n";
 		for (UMLAssociation *a = compositions.first(); a; a = compositions.next())
 		{
-			if(a->getMultiA().isEmpty())
-				js << "\tthis.m_" << cleanName(a->getObjectA()->getName()) << " = new "<<cleanName(a->getObjectA()->getName()) << " ();\n";
+			QString nm(cleanName(a->getObject(A)->getName()));
+			if(a->getMulti(A).isEmpty())
+				js << "\tthis.m_" << nm << " = new "<< nm << " ();\n";
 			else
-				js << "\tthis.m_" << cleanName(a->getObjectA()->getName()).lower()<<" = new Array ();\n";
+				js << "\tthis.m_" << nm.lower() << " = new Array ();\n";
 		}
 	}
 	js << endl;

@@ -97,8 +97,8 @@ UMLObject* ClassImport::insertAttribute(UMLClass *o, Uml::Scope scope, QString n
 		else
 			assocType = Uml::at_Composition;
 		UMLAssociation *assoc = new UMLAssociation(assocType, o, other);
-		assoc->setRoleNameB(name);
-		assoc->setVisibilityB(scope);
+		assoc->setRoleName(name, B);
+		assoc->setVisibility(scope, B);
 		m_umldoc->addAssociation(assoc);
 		newObj = assoc;
 	} else {

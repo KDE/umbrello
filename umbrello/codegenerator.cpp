@@ -589,8 +589,8 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLClassifierList &cLis
 			case Uml::at_Generalization:
 			case Uml::at_Realization:
 				// only the "b" end is seen by the "a" end, not other way around
-				if(a->getWidgetBID()!=c->getID())
-					temp =(UMLClassifier*) m_document->findUMLObject(a->getWidgetBID());
+				if(a->getWidgetID(B)!=c->getID())
+					temp =(UMLClassifier*) m_document->findUMLObject(a->getWidgetID(B));
 				break;
 			case Uml::at_UniAssociation:
 				// What the hell are these things? My assumption is that they are
@@ -599,20 +599,20 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLClassifierList &cLis
 				// These typically DONT have a rolename specified. Oh well, we
 				// shall include it. The individual code generators will need to know
 				// what to do with a "role-less" uni-associated classifier. -b.t.
-				if(a->getWidgetAID()!=c->getID())
-					temp = (UMLClassifier*)m_document->findUMLObject(a->getWidgetAID());
-				else if(a->getWidgetBID()!=c->getID())
-					temp = (UMLClassifier*)m_document->findUMLObject(a->getWidgetBID());
+				if(a->getWidgetID(A)!=c->getID())
+					temp = (UMLClassifier*)m_document->findUMLObject(a->getWidgetID(A));
+				else if(a->getWidgetID(B)!=c->getID())
+					temp = (UMLClassifier*)m_document->findUMLObject(a->getWidgetID(B));
 				break;
 			case Uml::at_Aggregation:
 			case Uml::at_Composition:
 			case Uml::at_Association_Self:
 			case Uml::at_Association:
 				// add related objects ONLY if the rolename is NOT empty
-				if(a->getWidgetAID()!=c->getID() && !a->getRoleNameA().isEmpty())
-					temp = (UMLClassifier*)m_document->findUMLObject(a->getWidgetAID());
-				else if(a->getWidgetBID()!=c->getID() && !a->getRoleNameB().isEmpty())
-					temp =(UMLClassifier*) m_document->findUMLObject(a->getWidgetBID());
+				if(a->getWidgetID(A)!=c->getID() && !a->getRoleName(A).isEmpty())
+					temp = (UMLClassifier*)m_document->findUMLObject(a->getWidgetID(A));
+				else if(a->getWidgetID(B)!=c->getID() && !a->getRoleName(B).isEmpty())
+					temp =(UMLClassifier*) m_document->findUMLObject(a->getWidgetID(B));
 				break;
 			default: /* all others.. like for state diagrams..we currently dont use */
 				break;

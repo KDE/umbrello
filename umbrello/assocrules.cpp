@@ -127,7 +127,7 @@ bool AssocRules::allowAssociation( Association_Type assocType, UMLWidget * widge
 
 		case at_Generalization://can have many sub/super types but can't sup/sub each
 			while( ( assoc = it.current() ) ) {
-				if( ( widgetA == assoc -> getWidgetA() || widgetA == assoc -> getWidgetB() )
+				if( ( widgetA == assoc -> getWidget(A) || widgetA == assoc -> getWidget(B) )
 				        && assoc -> getAssocType() == at_Generalization )
 					return false;
 				++it;
@@ -137,7 +137,7 @@ bool AssocRules::allowAssociation( Association_Type assocType, UMLWidget * widge
 
 		case at_Realization: // can only connect to abstract (interface) classes
 			while( ( assoc = it.current() ) ) {
-				if( ( widgetA == assoc->getWidgetA() || widgetA == assoc->getWidgetB() )
+				if( ( widgetA == assoc->getWidget(A) || widgetA == assoc->getWidget(B) )
 				    && assoc->getAssocType() == at_Realization ) {
 					return false;
 				}
@@ -183,7 +183,7 @@ bool AssocRules::allowAssociation( Association_Type assocType, UMLWidget * widge
 			    ActivityWidget::Branch ) {
 				AssociationWidgetList list = widgetA->getAssocList();
 				for (AssociationWidget* assoc = list.first(); assoc; assoc = list.next()) {
-					if (assoc->getWidgetA() == widgetA) {
+					if (assoc->getWidget(A) == widgetA) {
 						return false;
 					}
 				}
