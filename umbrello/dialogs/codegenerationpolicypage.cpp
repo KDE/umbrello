@@ -20,11 +20,11 @@
 #include "codegenerationpolicypage.h"
 #include "../codegenerationpolicy.h"
 
-/** This is the page which comes up IF there is no special options for the 
+/** This is the page which comes up IF there is no special options for the
  * code generator.
  */
 CodeGenerationPolicyPage::CodeGenerationPolicyPage( QWidget *parent, const char *name, CodeGenerationPolicy * policy )
-	:CodeGenerationPolicyBase(parent,name) 
+	:CodeGenerationPolicyBase(parent,name)
 {
 	m_parentPolicy = policy;
 }
@@ -34,11 +34,11 @@ CodeGenerationPolicyPage::~CodeGenerationPolicyPage()
 	this->disconnect();
 }
 
-void CodeGenerationPolicyPage::apply() { 
-    // do nothing in vanilla version 
+void CodeGenerationPolicyPage::apply() {
+    // do nothing in vanilla version
 }
 
 void CodeGenerationPolicyPage::setDefaults() { }
 
-#include "codegenerationpolicypage.moc"
+#include "codegenerationpolicypage.moc.cpp"
 
