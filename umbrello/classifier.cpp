@@ -300,24 +300,22 @@ bool UMLClassifier::loadFromXMI( QDomElement & element ) {
 	if( !UMLObject::loadFromXMI(element) ) {
 		return false;
 	}
-	QString gen = "generalization";
-	/* I'm working on this  --okellogg 2003/12/22
-	int count = 0;
-	while (element.hasAttribute(gen)) {
-		QString superIdStr = element.attribute( gen, "-1" );
-		int superId = superIdStr.toInt();
+	return load(element);
+}
 
-		gen = "generalization_" + QString::number(++count);
-		// Yup, this is non-standard - but I don't know how to handle
-		// more than one parent in a uml13.dtd conforming way.
-		// Enlightenment, anyone?
-	}
-	 */
+bool UMLClassifier::load(QDomElement& element) {
 	QDomNode node = element.firstChild();
 	QDomElement tempElement = node.toElement();
 	while( !tempElement.isNull() ) {
 		QString tag = tempElement.tagName();
-		if (tag == "UML:Operation") {
+		if (tag == "UML:Classifier.feature") {
+			//CHECK: Umbrello currently assumes that nested elements
+			// are features anyway.
+			// Therefore the <UML:Classifier.feature> tag is of no
+			// significance.
+			if (! load(tempElement))
+				return false;
+		} else if (tag == "UML:Operation") {
 			UMLOperation* op = UMLApp::app()->getDocument()->createOperation( );
 			if( !op->loadFromXMI(tempElement) ||
 			    !this->addOperation(op) ) {

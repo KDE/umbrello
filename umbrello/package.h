@@ -84,6 +84,14 @@ public:
 	UMLObject * findObject(QString name);
 
 	/**
+	 * Find the object of the given ID in the list of contained objects.
+	 *
+	 * @param id		The ID to seek.
+	 * @return	Pointer to the UMLObject found or NULL if not found.
+	 */
+	UMLObject * findObject(int id);
+
+	/**
 	 * Creates the <UML:Package> XMI element.
 	 */
 	bool saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
@@ -94,6 +102,11 @@ public:
 	bool loadFromXMI(QDomElement& element);
 
 private:
+
+	/**
+	 * Auxiliary to loadFromXMI.
+	 */
+	bool load(QDomElement& element);
 
 	/**
 	 * References to the objects contained in this package.

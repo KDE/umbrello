@@ -548,7 +548,7 @@ public:
 	 *
 	 * @return	True if operation successful.
 	 */
-	bool loadUMLObjectsFromXMI( QDomNode & node );
+	bool loadUMLObjectsFromXMI( QDomElement & element );
 
 	/**
 	 * Loads all diagrams from XMI into the current UMLDoc.
@@ -964,6 +964,7 @@ private:
 	CodeGenerator * m_currentcodegenerator;
 	UMLObjectList objectList;
 	int uniqueID;
+	int m_count;   ///< auxiliary counter for the progress bar
 	bool m_modified;
 	KURL doc_url;
 	UMLView* currentView;

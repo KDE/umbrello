@@ -29,7 +29,7 @@ QString UMLDatatype::uniqChildName(UMLObject_Type type) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool UMLDatatype::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
-	QDomElement classElement = qDoc.createElement("UML:Datatype");
+	QDomElement classElement = qDoc.createElement("UML:DataType");
 	bool status = UMLObject::saveToXMI( qDoc, classElement );
 	qElement.appendChild( classElement );
 	return status;

@@ -44,6 +44,13 @@ UMLObject * UMLPackage::findObject(QString name) {
 	return NULL;
 }
 
+UMLObject * UMLPackage::findObject(int id) {
+	for (UMLObject *obj = m_objects.first(); obj; obj = m_objects.next())
+		if (obj->getID() == id)
+			return obj;
+	return NULL;
+}
+
 bool UMLPackage::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
 	QDomElement packageElement = qDoc.createElement("UML:Package");
 	bool status = UMLObject::saveToXMI(qDoc, packageElement);
@@ -62,12 +69,26 @@ bool UMLPackage::loadFromXMI(QDomElement& element) {
 	if ( !UMLObject::loadFromXMI(element) ) {
 		return false;
 	}
-	UMLDoc *parentDoc = (UMLDoc*)parent();
+	return load(element);
+}
 
+bool UMLPackage::load(QDomElement& element) {
+	UMLDoc *parentDoc = (UMLDoc*)parent();
 	QDomNode node = element.firstChild();
 	QDomElement tempElement = node.toElement();
 	while (!tempElement.isNull()) {
 		QString type = tempElement.tagName();
+		if (type == "UML:Namespace.ownedElement") {
+			//CHECK: Umbrello currently assumes that nested elements
+			// are ownedElements anyway.
+			// Therefore the <UML:Namespace.ownedElement> tag is of no
+			// significance.
+			if (! load(tempElement))
+				return false;
+			node = node.nextSibling();
+			tempElement = node.toElement();
+			continue;
+		}
 		UMLObject *pObject = parentDoc->makeNewUMLObject(type);
 		if( !pObject ) {
 			kdWarning() << "UMLPackage::loadFromXMI: "
@@ -75,7 +96,7 @@ bool UMLPackage::loadFromXMI(QDomElement& element) {
 				    << type << endl;
 			return false;
 		}
-		if (! pObject->loadFromXMI(element)) {
+		if (! pObject->loadFromXMI(tempElement)) {
 			delete pObject;
 			return false;
 		}

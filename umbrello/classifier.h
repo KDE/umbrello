@@ -242,6 +242,11 @@ private:
 	 */ 
 	void init();
 
+	/**
+	 * Auxiliary to loadFromXMI.
+	 */
+	bool load(QDomElement& element);
+
 };
 
 #endif // CONCEPT_H 

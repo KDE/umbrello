@@ -254,6 +254,11 @@ private:
 	void init(); 
 
 	/**
+	 * Auxiliary to loadFromXMI.
+	 */
+	bool load(QDomElement& element);
+
+	/**
 	 * List of all the attributes in this class.
 	 */
 	UMLClassifierListItemList m_AttsList;

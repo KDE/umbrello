@@ -60,6 +60,7 @@ UMLDoc::UMLDoc(QWidget *parent, const char *name) : QObject(parent, name) {
 	listView = 0;
 	currentView = 0;
 	uniqueID = 0;
+	m_count = 0;
 	m_currentcodegenerator = 0;
 	objectList.clear();
 	objectList.setAutoDelete(false); // DONT autodelete
@@ -482,8 +483,15 @@ UMLView * UMLDoc::findView(Diagram_Type type, QString name) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLObject* UMLDoc::findUMLObject(int id) {
 	for(UMLObject * obj = objectList.first(); obj != 0; obj = objectList.next())
+	{
 		if(obj -> getID() == id)
 			return obj;
+		if (obj->getBaseType() == Uml::ot_Package) {
+			UMLObject *o = ((UMLPackage*)obj)->findObject(id);
+			if (o)
+				return o;
+		}
+	}
 	return 0;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1704,8 +1712,15 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
 				getDocWindow() -> newDocumentation();
 			} else if( tag == "umlobjects"  // for bkwd compat.
 			         || tag == "UML:Model" ) {
-				QDomNode objectNode = node.firstChild();
-				if( !loadUMLObjectsFromXMI( objectNode ) ) {
+				emit sigResetStatusbarProgress();
+				emit sigSetStatusbarProgress( 0 );
+				emit sigSetStatusbarProgressSteps( 10 );
+						//FIXME need a way to make status bar actually reflect
+	                                        //how much of the file has been loaded rather than just
+	                                        //counting to 10 (an arbitrary number)
+				emit sigWriteToStatusBar( i18n("Loading UML elements...") );
+				m_count = 0;
+				if( !loadUMLObjectsFromXMI( element ) ) {
 					kdWarning() << "failed load on objects" << endl;
 					return false;
 				}
@@ -1766,26 +1781,32 @@ bool UMLDoc::validateXMIHeader(QDomNode& headerNode) {
 	return true;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-bool UMLDoc::loadUMLObjectsFromXMI( QDomNode & node ) {
-	QDomElement element = node.toElement();
-	if( element.isNull() )
-		return true;//return ok as it means there is no umlobjects
-	emit sigResetStatusbarProgress();
-	emit sigSetStatusbarProgress( 0 );
-	emit sigSetStatusbarProgressSteps( 10 ); //FIXME need a way to make status bar actually reflect
-	                                         //how much of the file has been loaded rather than just
-	                                         //counting to 10 (an arbitrary number)
-	emit sigWriteToStatusBar( i18n("Loading UML elements...") );
-	int count = 0;
+bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element) {
+	QDomNode node = element.firstChild();
+	QDomElement tempElement = node.toElement();
 
-	while ( !element.isNull() ) {
-		QString type = element.tagName();
+	while ( !tempElement.isNull() ) {
+		QString type = tempElement.tagName();
+		if (type == "UML:Namespace.ownedElement") {
+			//CHECK: Umbrello currently assumes that nested elements
+			// are ownedElements anyway.
+			// Therefore the <UML:Namespace.ownedElement> tag is of no
+			// significance.
+			loadUMLObjectsFromXMI(tempElement);
+			node = node.nextSibling();
+			tempElement = node.toElement();
+			continue;
+		}
 		UMLObject *pObject = makeNewUMLObject(type);
 		if( !pObject ) {
-			kdWarning() << "Given wrong type of umlobject to create: " << type << endl;
-			return false;
+			kdWarning() << "Unknown type of umlobject to create: " << type << endl;
+			// We want a best effort, therefore this is handled as a
+			// soft error.
+			node = node.nextSibling();
+			tempElement = node.toElement();
+			continue;
 		}
-		bool status = pObject -> loadFromXMI( element );
+		bool status = pObject -> loadFromXMI( tempElement );
 		if (type == "UML:Association") {
 			if ( !status ) {
 				// Some interim umbrello versions saved empty UML:Associations,
@@ -1802,20 +1823,13 @@ bool UMLDoc::loadUMLObjectsFromXMI( QDomNode & node ) {
 			delete pObject;
 			return false;
 		} else {
-			/* CHECK: Does the UMLPackage require knowledge
-			   of its children? If so then:
-			UMLPackage *umlpkg = pObject->getUMLPackage();
-			if (umlpkg)
-				umlpkg->addObjRef( pObject );
-				// Add the method addObjRef() to UMLPackage.
-			 */
 			if (type == "UML:Generalization")
 				addAssocToConcepts((UMLAssociation *) pObject);
 			objectList.append( pObject );
 		}
-		emit sigSetStatusbarProgress( ++count );
+		emit sigSetStatusbarProgress( ++m_count );
 		node = node.nextSibling();
-		element = node.toElement();
+		tempElement = node.toElement();
 	}//end while
 	return true;
 }
@@ -1838,7 +1852,8 @@ UMLObject* UMLDoc::makeNewUMLObject(QString type) {
 		pObject = new UMLArtifact(this);
 	} else if (type == "UML:Interface") {
 		pObject = new UMLInterface(this);
-	} else if (type == "UML:Datatype") {
+	} else if (type == "UML:Datatype"         // for bkwd compat.
+		|| type == "UML:DataType") {
 		pObject = new UMLDatatype(this);
 	} else if (type == "UML:Enum") {
 		pObject = new UMLEnum(this);

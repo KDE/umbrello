@@ -295,12 +295,22 @@ bool UMLClass::loadFromXMI( QDomElement & element ) {
 	if( !UMLClassifier::loadFromXMI( element ) ) {
 		return false;
 	}
+	return load(element);
+}
 
+bool UMLClass::load(QDomElement & element) {
 	QDomNode node = element.firstChild();
 	QDomElement tempElement = node.toElement();
 	while( !tempElement.isNull() ) {
 		QString tag = tempElement.tagName();
-		if (tag == "UML:Attribute") {
+		if (tag == "UML:Classifier.feature") {
+			//CHECK: Umbrello currently assumes that nested elements
+			// are features anyway.
+			// Therefore the <UML:Classifier.feature> tag is of no
+			// significance.
+			if (! load(tempElement))
+				return false;
+		} else if (tag == "UML:Attribute") {
 			UMLAttribute * pAtt = new UMLAttribute( this );
 			if( !pAtt -> loadFromXMI( tempElement ) )
 				return false;
@@ -308,12 +318,14 @@ bool UMLClass::loadFromXMI( QDomElement & element ) {
 			// connect( pAtt,SIGNAL(modified()),this,SIGNAL(modified()));
 			// m_AttsList.append( pAtt );
 		} else if (tag == "template") {
+			//FIXME: Make UML DTD compliant.
 			UMLTemplate* newTemplate = new UMLTemplate(this);
 			if ( !newTemplate->loadFromXMI(tempElement) ) {
 				return false;
 			}
 			m_TemplateList.append(newTemplate);
 		} else if (tag == "stereotype") {
+			//FIXME: Make UML DTD compliant.
 			UMLStereotype* newStereotype = new UMLStereotype(this);
 			if ( !newStereotype->loadFromXMI(tempElement) ) {
 				return false;
