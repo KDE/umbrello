@@ -205,7 +205,7 @@ void ClassOpsPage::slotOpPopupMenuSel(int id) {
 void ClassOpsPage::slotOperationCreated(UMLObject * object) {
 	if(!m_bSigWaiting)
 		return;
-	if( object->getBaseType() != Uml::ot_Operation || 
+	if( object->getBaseType() != Uml::ot_Operation ||
 	    dynamic_cast<UMLClassifier*>(object->parent()) != m_pConcept)
 	{
 		return;

@@ -364,11 +364,11 @@ void UMLDoc::deleteContents() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLDoc::setupSignals() {
 	WorkToolBar *tb = ((UMLApp*)parent()) -> getWorkToolBar();
-	
-	
+
+
 	connect(this, SIGNAL(sigDiagramChanged(Uml::Diagram_Type)), tb, SLOT(slotCheckToolBar(Uml::Diagram_Type)));
 	//new signals below
-	
+
 	return;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -163,7 +163,7 @@ void ClassAttPage::slotAttributeCreated(UMLObject * object) {
 		return;
 	}
 	if( object->getBaseType() != Uml::ot_Attribute ||
-	    parent() != m_pClass )
+	    object->parent() != m_pClass )
 	{
 		return;
 	}
