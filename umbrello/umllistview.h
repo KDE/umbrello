@@ -135,7 +135,7 @@ class UMLListView : public KListView {
 	 * @param lvt	The ListView_Type for which to lookup the parent.
 	 * @return	Pointer to the parent UMLListViewItem chosen.
 	 */
-	UMLListViewItem* parentItem(Uml::ListView_Type lvt) const;
+	UMLListViewItem* determineParentItem(Uml::ListView_Type lvt) const;
 
 	/**
 	 *  Return the amount of items selected.

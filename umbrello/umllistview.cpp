@@ -831,7 +831,7 @@ bool UMLListView::acceptDrag(QDropEvent* event) const {
 	UMLDrag::LvTypeAndID_It it(list);
 	UMLDrag::LvTypeAndID * data = 0;
 	Uml::ListView_Type dstType = item->getType();
-	kdDebug() << "UMLListView::acceptDrag: dstType = " << dstType << endl;
+	//kdDebug() << "UMLListView::acceptDrag: dstType = " << dstType << endl;
 	bool accept = true;
 	while(accept && ((data = it.current()) != 0)) {
 		++it;
@@ -907,8 +907,12 @@ void UMLListView::slotDropped(QDropEvent* de, QListViewItem* parent, QListViewIt
 		}
 		if(!move)
 			continue;
-		//make sure trying to place in correct location
+		UMLListViewItem *newParent = (UMLListViewItem*)item;
+		QString nm = move->getText();
+		Uml::ListView_Type t = move->getType();
+		UMLObject *o = move->getUMLObject();
 
+		//make sure trying to place in correct location
 		switch (srcType) {
 			case Uml::lvt_UseCase_Folder:
 			case Uml::lvt_Actor:
@@ -916,8 +920,8 @@ void UMLListView::slotDropped(QDropEvent* de, QListViewItem* parent, QListViewIt
 			case Uml::lvt_UseCase_Diagram:
 				if (itemType == Uml::lvt_UseCase_Folder ||
 				    itemType == Uml::lvt_UseCase_View) {
-					takeItem(move);
-					item->insertItem(move);
+					item = new UMLListViewItem(newParent, nm, t, o);
+					delete move;
 				}
 				break;
 			case Uml::lvt_Component_Folder:
@@ -926,8 +930,8 @@ void UMLListView::slotDropped(QDropEvent* de, QListViewItem* parent, QListViewIt
 			case Uml::lvt_Component_Diagram:
 				if (itemType == Uml::lvt_Component_Folder ||
 				    itemType == Uml::lvt_Component_View) {
-					takeItem(move);
-					item->insertItem(move);
+					item = new UMLListViewItem(newParent, nm, t, o);
+					delete move;
 				}
 				break;
 			case Uml::lvt_Deployment_Folder:
@@ -935,8 +939,8 @@ void UMLListView::slotDropped(QDropEvent* de, QListViewItem* parent, QListViewIt
 			case Uml::lvt_Deployment_Diagram:
 				if (itemType == Uml::lvt_Deployment_Folder ||
 				    itemType == Uml::lvt_Deployment_View) {
-					takeItem(move);
-					item->insertItem(move);
+					item = new UMLListViewItem(newParent, nm, t, o);
+					delete move;
 				}
 				break;
 			case Uml::lvt_Collaboration_Diagram:
@@ -946,8 +950,8 @@ void UMLListView::slotDropped(QDropEvent* de, QListViewItem* parent, QListViewIt
 			case Uml::lvt_Sequence_Diagram:
 				if (itemType == Uml::lvt_Logical_Folder ||
 				    itemType == Uml::lvt_Logical_View) {
-					takeItem(move);
-					item->insertItem(move);
+					item = new UMLListViewItem(newParent, nm, t, o);
+					delete move;
 				}
 				break;
 			case Uml::lvt_Class:
@@ -956,8 +960,8 @@ void UMLListView::slotDropped(QDropEvent* de, QListViewItem* parent, QListViewIt
 				if (itemType == Uml::lvt_Logical_Folder ||
 				    itemType == Uml::lvt_Logical_View ||
 				    itemType == Uml::lvt_Package) {
-					takeItem(move);
-					item->insertItem(move);
+					item = new UMLListViewItem(newParent, nm, t, o);
+					delete move;
 				}
 				break;
 			default:
@@ -989,7 +993,7 @@ UMLListViewItem* UMLListView::createItem(UMLListViewItem& Data, IDChangeLog& IDC
 	UMLListViewItem* item = 0;
 	Uml::ListView_Type lvt = Data.getType();
 	if(!parent) {
-		parent = parentItem(lvt);
+		parent = determineParentItem(lvt);
 		if (!parent)
 			return 0;
 	}
@@ -1065,7 +1069,7 @@ UMLListViewItem* UMLListView::createItem(UMLListViewItem& Data, IDChangeLog& IDC
 	return item;
 }
 
-UMLListViewItem* UMLListView::parentItem(Uml::ListView_Type lvt) const {
+UMLListViewItem* UMLListView::determineParentItem(Uml::ListView_Type lvt) const {
 	UMLListViewItem* parent = 0;
 	if(lvt == Uml::lvt_Actor || lvt == Uml::lvt_UseCase || lvt == Uml::lvt_UseCase_Folder || lvt == Uml::lvt_UseCase_Diagram) {
 		parent = ucv;

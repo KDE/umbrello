@@ -571,7 +571,7 @@ bool UMLDrag::decodeClip3(const QMimeSource* mimeSource,
 			continue;
 		}
 		Uml::ListView_Type t = (Uml::ListView_Type)(type.toInt());
-		UMLListViewItem* parent = parentListView->parentItem(t);
+		UMLListViewItem* parent = parentListView->determineParentItem(t);
 		UMLListViewItem* item = new UMLListViewItem(parent);
 		item->loadFromXMI(listItemElement);
 		umlListViewItems.append(item);
