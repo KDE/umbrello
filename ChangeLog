@@ -1,5 +1,17 @@
 Version 1.2
 
+* Refactoring agent
+
+* Improved code export
+
+* Improved printing code (cleanup, SVG, EPS)
+
+* New datatype widget and internal representation 
+
+* Can change properties of multiple items at one time
+
+* Code base is tightened up (no more WidgetData classes)
+
 * Bugs fixed / wishes implemented (see http://bugs.kde.org)
   53354 53356 53357 53359 53362 53363 53365 53367 53371 53379
   53381 53385 53387 53388 53447 53487 53652 53653 53777 54183
