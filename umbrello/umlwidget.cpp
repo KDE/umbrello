@@ -405,7 +405,7 @@ void UMLWidget::mouseDoubleClickEvent( QMouseEvent * me ) {
 	if( me -> button() != LeftButton ||
 	    m_pView->getCurrentCursor() != WorkToolBar::tbb_Arrow)
 		return;
-	
+
 	const Uml::UMLWidget_Type wt = m_pData->getType();
 	if( (wt >= wt_Actor && wt <= wt_Object) ||
 	    wt == wt_Component || wt == wt_Node || wt == wt_Artifact) {

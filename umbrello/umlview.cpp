@@ -2021,7 +2021,6 @@ bool UMLView::getAssocWidgets(AssociationWidgetList & Associations) {
 }
 
 bool UMLView::setAssoc(UMLWidget *pWidget) {
-
 	Association_Type type = convert_TBB_AT(m_CurrentCursor);
 	m_bDrawRect = false;
 	m_SelectionRect.clear();
@@ -2330,7 +2329,11 @@ bool UMLView::allocateMouseReleaseEvent(QMouseEvent * me) {
 	//values will already be set through press event.
 	//may not be over it, but should still get the event.
 
-	if( m_pOnWidget ) {
+	//cursor tests are to stop this being wrongly used when
+	//adding a message to a sequence diagram when the object is selected
+	if( m_pOnWidget &&
+	    (m_CurrentCursor == WorkToolBar::tbb_Seq_Message_Synchronous ||
+	     m_CurrentCursor == WorkToolBar::tbb_Seq_Message_Asynchronous) ) {
 		m_pOnWidget -> mouseReleaseEvent( me );
 		return true;
 	}
