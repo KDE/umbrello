@@ -74,7 +74,7 @@ UMLObject* UMLTemplate::clone() const
 
 void UMLTemplate::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
 	//FIXME: uml13.dtd compliance
-	QDomElement attributeElement = UMLObject::save("template", qDoc);
+	QDomElement attributeElement = UMLObject::save("UML:TemplateParameter", qDoc);
 	if (m_pSecondary)
 		attributeElement.setAttribute("type", ID2STR(m_pSecondary->getID()));
 	qElement.appendChild(attributeElement);
@@ -82,15 +82,6 @@ void UMLTemplate::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
 
 bool UMLTemplate::load(QDomElement& element) {
 	m_SecondaryId = element.attribute("type", "");
-	if (m_SecondaryId.contains( QRegExp("^\\d+$") )) {
-		UMLDoc *pDoc = UMLApp::app()->getDocument();
-		m_pSecondary = pDoc->findObjectById( STR2ID(m_SecondaryId) );
-		if (m_pSecondary)
-			m_SecondaryId = "";
-		else
-			kdDebug() << "UMLTemplate::load: Cannot find UML object"
-				  << " for type " << m_SecondaryId << endl;
-	}
 	return true;
 }
 

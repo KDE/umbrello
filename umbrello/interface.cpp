@@ -51,6 +51,8 @@ void UMLInterface::init() {
 
 void UMLInterface::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement interfaceElement = UMLObject::save("UML:Interface", qDoc);
+	//save templates
+	UMLClassifier::saveToXMI(qDoc, interfaceElement);
 	//save operations
 	UMLOperationList opsList = getOpList();
 	if (opsList.count()) {

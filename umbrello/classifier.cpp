@@ -16,6 +16,7 @@
 #include "umlassociationlist.h"
 #include "operation.h"
 #include "attribute.h"
+#include "template.h"
 #include "stereotype.h"
 #include "clipboard/idchangelog.h"
 #include "umldoc.h"
@@ -30,8 +31,12 @@ UMLClassifier::UMLClassifier(const QString & name, Uml::IDType id)
 	init();
 }
 
-
 UMLClassifier::~UMLClassifier() {
+}
+
+void UMLClassifier::init() {
+	m_BaseType = ot_UMLObject;
+	m_List.setAutoDelete(false);
 }
 
 UMLOperation * UMLClassifier::checkOperationSignature( QString name,
@@ -324,9 +329,99 @@ UMLClassifierListItemList UMLClassifier::getFilteredList(Object_Type ot) {
 	return resultList;
 }
 
-void UMLClassifier::init() {
-	m_BaseType = ot_UMLObject;
-	m_List.setAutoDelete(false);
+UMLObject* UMLClassifier::addTemplate(const QString &name, Uml::IDType id) {
+	UMLTemplate* newTemplate = new UMLTemplate(this, name, id);
+	m_List.append(newTemplate);
+	emit modified();
+	connect(newTemplate,SIGNAL(modified()),this,SIGNAL(modified()));
+	emit templateAdded(newTemplate);
+	return newTemplate;
+}
+
+bool UMLClassifier::addTemplate(UMLTemplate* newTemplate, IDChangeLog* log /* = 0*/) {
+	QString name = newTemplate->getName();
+	if (findChildObject(Uml::ot_Template, name).count() == 0) {
+		newTemplate->parent()->removeChild(newTemplate);
+		this->insertChild(newTemplate);
+		m_List.append(newTemplate);
+		emit modified();
+		connect(newTemplate,SIGNAL(modified()),this,SIGNAL(modified()));
+		emit templateAdded(newTemplate);
+		return true;
+	} else if (log) {
+		log->removeChangeByNewID( newTemplate->getID() );
+		delete newTemplate;
+	}
+	return false;
+}
+
+bool UMLClassifier::addTemplate(UMLTemplate* Template, int position)
+{
+	QString name = Template->getName();
+	if (findChildObject(Uml::ot_Template, name).count() == 0) {
+		Template->parent()->removeChild(Template);
+		this->insertChild(Template);
+		if( position >= 0 && position <= (int)m_List.count() )
+			m_List.insert(position,Template);
+		else
+			m_List.append(Template);
+		emit modified();
+		connect(Template,SIGNAL(modified()),this,SIGNAL(modified()));
+		emit templateAdded(Template);
+		return true;
+	}
+	//else
+	return false;
+}
+
+int UMLClassifier::removeTemplate(UMLTemplate* umltemplate) {
+	if ( !m_List.remove(umltemplate) ) {
+		kdWarning() << "can't find att given in list" << endl;
+		return -1;
+	}
+	emit templateRemoved(umltemplate);
+	emit modified();
+	disconnect(umltemplate,SIGNAL(modified()),this,SIGNAL(modified()));
+	return m_List.count();
+}
+
+UMLTemplate* UMLClassifier::takeTemplate(UMLTemplate* t) {
+	int index = m_List.findRef( t );
+	t = (index == -1 ? 0 : dynamic_cast<UMLTemplate*>(m_List.take( )));
+	if (t) {
+		emit templateRemoved(t);
+		emit modified();
+	}
+	return t;
+}
+
+int UMLClassifier::templates() {
+	UMLClassifierListItemList tempList = getFilteredList(Uml::ot_Template);
+	return tempList.count();
+}
+
+UMLTemplateList UMLClassifier::getFilteredTemplateList() {
+	UMLTemplateList templateList;
+	for (UMLClassifierListItemListIt lit(m_List); lit.current(); ++lit) {
+		UMLClassifierListItem *listItem = lit.current();
+		if (listItem->getBaseType() == Uml::ot_Template) {
+			templateList.append(static_cast<UMLTemplate*>(listItem));
+		}
+	}
+	return templateList;
+}
+
+
+void UMLClassifier::saveToXMI(QDomDocument & qDoc, QDomElement & qElement) {
+	//save templates
+	UMLClassifierListItemList list = getFilteredList(Uml::ot_Template);
+	if (list.count()) {
+		QDomElement tmplElement = qDoc.createElement( "UML:ModelElement.templateParameter" );
+		for (UMLClassifierListItem *tmpl = list.first(); tmpl; tmpl = list.next() ) {
+			tmpl->saveToXMI(qDoc, tmplElement);
+		}
+		qElement.appendChild( tmplElement );
+	}
 }
 
 bool UMLClassifier::load(QDomElement& element) {
@@ -337,14 +432,19 @@ bool UMLClassifier::load(QDomElement& element) {
 			continue;
 		element = node.toElement();
 		QString tag = element.tagName();
-		if (tagEq(tag, "Classifier.feature") ||
+		if (tagEq(tag, "ModelElement.templateParameter") ||
+		    tagEq(tag, "Classifier.feature") ||
 		    tagEq(tag, "Namespace.ownedElement") ||
 		    tagEq(tag, "Namespace.contents")) {
-			//CHECK: Umbrello currently assumes that nested elements
-			// are features/ownedElements anyway.
-			// Therefore these tags are not further interpreted.
 			if (! load(element))
 				return false;
+		} else if (tagEq(tag, "TemplateParameter")) {
+			UMLTemplate* tmplParm = new UMLTemplate(this);
+			if (!tmplParm->loadFromXMI(element)) {
+				delete tmplParm;
+			} else {
+				addTemplate(tmplParm);
+			}
 		} else if (tagEq(tag, "Operation")) {
 			UMLOperation* op = new UMLOperation(this);
 			if (!op->loadFromXMI(element)) {

@@ -85,13 +85,13 @@ public:
 	bool showPropertiesDialogue(QWidget* parent);
 
 	/**
-	 * Write the <UML:Template> XMI element.
+	 * Writes the <UML:TemplateParameter> XMI element.
 	 */
 	void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
 
 protected:
 	/**
-	 * Loads the <UML:Template> XMI element.
+	 * Loads the <UML:TemplateParameter> XMI element.
 	 */
 	bool load(QDomElement & element);
 

@@ -16,7 +16,6 @@
 #define UMLCLASS_H
 
 #include "classifier.h"
-#include "umltemplatelist.h"
 
 /**
  * This class contains the non-graphical information required for a UML Class.
@@ -115,69 +114,11 @@ public:
 	UMLAttribute* takeAttribute(UMLAttribute* a);
 
 	/**
-	 * Adds a template to the class.
-	 *
-	 * @param name		The name of the template.
-	 * @param id		The id of the template.
-	 * @return	Pointer to the UMLTemplate object created.
-	 */
-	UMLObject* addTemplate(const QString &name, Uml::IDType id = Uml::id_None);
-
-	/**
-	 * Adds an already created template.
-	 * The template object must not belong to any other concept.
-	 *
-	 * @param newTemplate	Pointer to the UMLTemplate object to add.
-	 * @param log		Pointer to the IDChangeLog.
-	 * @return	True if the template was sucessfully added.
-	 */
-	bool addTemplate(UMLTemplate* newTemplate, IDChangeLog* log = 0);
-
-	/**
-	 * Adds an template to the class.
-	 * The template object must not belong to any other class.
-	 *
-	 * @param Template	Pointer to the UMLTemplate to add.
-	 * @param position	The position of the template in the list.
-	 *			A value of -1 will add the template at the end.
-	 * @return	True if the template was sucessfully added.
-	 */
-	 //TODO: if the param IDChangeLog from the method above is not being used,
-	  // give position a default value of -1 and the method can replace the above one
-	bool addTemplate(UMLTemplate* Template, int position);
-
-	/**
-	 * Removes a template from the class.
-	 *
-	 * @param template	The template to remove.
-	 * @return	Count of the remaining templates after removal.
-	 *		Returns -1 if the given template was not found.
-	 */
-	int removeTemplate(UMLTemplate* umltemplate);
-
-	/**
-	 * Take and return a templatee from class.
-	 * It is the callers responsibility to pass on ownership of
-	 * the returned template (or to delete the template)
-	 *
-	 * @param t		template to take
-	 * @return	pointer to the template or null if not found.
-	 */
-	UMLTemplate* takeTemplate(UMLTemplate* t);
-
-	/**
 	 * Returns the number of attributes for the class.
 	 *
 	 * @return	The number of attributes for the class.
 	 */
 	int attributes();
-
-	/**
-	 * Returns the number of templates for the class.
-	 *
-	 * @return	The number of templates for the class.
-	 */
-	int templates();
 
 	/**
 	 * Returns the attributes.
@@ -187,15 +128,6 @@ public:
 	 * @return	List of true attributes for the class.
 	 */
 	UMLAttributeList getFilteredAttributeList();
-
-	/**
-	 * Returns the templates.
-	 * Same as UMLClassifier::getFilteredList(ot_Template) but
-	 * return type is a true UMLTemplateList.
-	 *
-	 * @return	Pointer to the list of true templates for the class.
-	 */
-	UMLTemplateList getFilteredTemplateList();
 
 	/**
 	 * Return true if this class has an enumeration stereotype.
@@ -225,8 +157,6 @@ public:
 signals:
 	void attributeAdded(UMLObject*);
 	void attributeRemoved(UMLObject*);
-	void templateAdded(UMLObject*);
-	void templateRemoved(UMLObject*);
 
 protected:
 	/**

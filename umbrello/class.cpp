@@ -109,72 +109,6 @@ UMLAttribute* UMLClass::takeAttribute(UMLAttribute* a) {
 	return a;
 }
 
-UMLObject* UMLClass::addTemplate(const QString &name, Uml::IDType id) {
-	UMLTemplate* newTemplate = new UMLTemplate(this, name, id);
-	m_List.append(newTemplate);
-	emit modified();
-	connect(newTemplate,SIGNAL(modified()),this,SIGNAL(modified()));
-	emit templateAdded(newTemplate);
-	return newTemplate;
-}
-
-bool UMLClass::addTemplate(UMLTemplate* newTemplate, IDChangeLog* log /* = 0*/) {
-	QString name = newTemplate->getName();
-	if (findChildObject(Uml::ot_Template, name).count() == 0) {
-		newTemplate->parent()->removeChild(newTemplate);
-		this->insertChild(newTemplate);
-		m_List.append(newTemplate);
-		emit modified();
-		connect(newTemplate,SIGNAL(modified()),this,SIGNAL(modified()));
-		emit templateAdded(newTemplate);
-		return true;
-	} else if (log) {
-		log->removeChangeByNewID( newTemplate->getID() );
-		delete newTemplate;
-	}
-	return false;
-}
-
-bool UMLClass::addTemplate(UMLTemplate* Template, int position)
-{
-	QString name = Template->getName();
-	if (findChildObject(Uml::ot_Template, name).count() == 0) {
-		Template->parent()->removeChild(Template);
-		this->insertChild(Template);
-		if( position >= 0 && position <= (int)m_List.count() )
-			m_List.insert(position,Template);
-		else
-			m_List.append(Template);
-		emit modified();
-		connect(Template,SIGNAL(modified()),this,SIGNAL(modified()));
-		emit templateAdded(Template);
-		return true;
-	}
-	//else
-	return false;
-}
-
-int UMLClass::removeTemplate(UMLTemplate* umltemplate) {
-	if ( !m_List.remove(umltemplate) ) {
-		kdWarning() << "can't find att given in list" << endl;
-		return -1;
-	}
-	emit templateRemoved(umltemplate);
-	emit modified();
-	disconnect(umltemplate,SIGNAL(modified()),this,SIGNAL(modified()));
-	return m_List.count();
-}
-
-UMLTemplate* UMLClass::takeTemplate(UMLTemplate* t) {
-	int index = m_List.findRef( t );
-	t = (index == -1 ? 0 : dynamic_cast<UMLTemplate*>(m_List.take( )));
-	if (t) {
-		emit templateRemoved(t);
-		emit modified();
-	}
-	return t;
-}
-
 bool UMLClass::isEnumeration() {
 	QString st = getStereotype();
 	return st.contains("enum", false);
@@ -203,27 +137,22 @@ UMLObject* UMLClass::clone() const
 
 void UMLClass::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement classElement = UMLObject::save("UML:Class", qDoc);
+
+	// save templates
+	UMLClassifier::saveToXMI(qDoc, classElement);
+
+	// save attributes and operations
 	QDomElement featureElement = qDoc.createElement( "UML:Classifier.feature" );
-	//save operations
-	UMLOperationList opList = getOpList();
-	UMLOperation * pOp = 0;
-	for( pOp = opList.first(); pOp != 0; pOp = opList.next() )
-		pOp -> saveToXMI( qDoc, featureElement );
-	UMLClassifierListItemList list;
-	//save attributes
-	list = getFilteredList(Uml::ot_Attribute);
-	UMLClassifierListItem * pAtt = 0;
-	for( pAtt = list.first(); pAtt != 0; pAtt = list.next() )
+	UMLClassifierListItemList list = getFilteredList(Uml::ot_Attribute);
+	for (UMLClassifierListItem *pAtt = list.first(); pAtt; pAtt = list.next() )
 		pAtt -> saveToXMI( qDoc, featureElement );
-	//save templates
-	list = getFilteredList(Uml::ot_Template);
-	UMLClassifierListItem* newTemplate = 0;
-	for (newTemplate = list.first(); newTemplate != 0; newTemplate = list.next() ) {
-		newTemplate->saveToXMI(qDoc, featureElement);
-	}
+	UMLOperationList opList = getOpList();
+	for (UMLOperation *pOp = opList.first(); pOp; pOp = opList.next() )
+		pOp -> saveToXMI( qDoc, featureElement );
 	if (featureElement.hasChildNodes())
 		classElement.appendChild( featureElement );
-	//save contained objects
+
+	// save contained objects
 	if (m_objects.count()) {
 		QDomElement ownedElement = qDoc.createElement( "UML:Namespace.ownedElement" );
 		for (UMLObjectListIt oit(m_objects); oit.current(); ++oit) {
@@ -245,8 +174,8 @@ bool UMLClass::loadSpecialized(QDomElement & element) {
 		}
 		addAttribute(pAtt);
 		return true;
-	} else if (tag == "template") {
-		//FIXME: Make UML DTD compliant.
+	} else if (tag == "template") { // for backward compatibility
+		// DEPRECATED : Remove this code after the 1.4 release
 		UMLTemplate* newTemplate = new UMLTemplate(this);
 		if ( !newTemplate->loadFromXMI(element) ) {
 			delete newTemplate;
@@ -254,17 +183,12 @@ bool UMLClass::loadSpecialized(QDomElement & element) {
 		}
 		addTemplate(newTemplate);
 		return true;
-	} else if (tag == "stereotype") {
+	} else if (tag == "stereotype") {  // sorry, no longer supported
 		kdDebug() << "UMLClass::loadSpecialized(" << m_Name
 			  << "): losing old-format stereotype." << endl;
 		return true;
 	}
 	return false;
-}
-
-int UMLClass::templates() {
-	UMLClassifierListItemList tempList = getFilteredList(Uml::ot_Template);
-	return tempList.count();
 }
 
 int UMLClass::attributes() {
@@ -282,18 +206,6 @@ UMLAttributeList UMLClass::getFilteredAttributeList() {
 	}
 	return attributeList;
 }
-
-UMLTemplateList UMLClass::getFilteredTemplateList() {
-	UMLTemplateList templateList;
-	for (UMLClassifierListItemListIt lit(m_List); lit.current(); ++lit) {
-		UMLClassifierListItem *listItem = lit.current();
-		if (listItem->getBaseType() == Uml::ot_Template) {
-			templateList.append(static_cast<UMLTemplate*>(listItem));
-		}
-	}
-	return templateList;
-}
-
 
 
 #include "class.moc"
