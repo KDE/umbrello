@@ -87,7 +87,8 @@ You can submit bugs with the Report Bug tool in the Help menu.</p>
 
 <tip category="Umbrello">
 <html>
-<p>When using a design tool from the Work Tool Bar, pressing the Escape key sets you back to the Select Tool.</p>
+<p>Pressing the Escape key sets the current tool to the select tool.
+Backspace jumps to the previously used tool.</p>
 </html>
 </tip>
 
