@@ -872,28 +872,14 @@ UMLOperation* UMLDoc::createOperation(UMLClassifier* classifier,
 			    << endl;
 		return NULL;
 	}
-	UMLOperation *op = NULL;
-	if (name == QString::null || name.isEmpty()) {
-		op = new UMLOperation( NULL, "", getUniqueID());
-		op->setName( classifier->uniqChildName(Uml::ot_Operation) );
-		//hack, make op a child of classifier without really adding it as operation
-		//this makes the Op.Dialog smoother in case of name conflicts
-		// classifier->insertChild( op );
-		do {
-			UMLOperationDialog operationDialogue(0, op);
-			if( operationDialogue.exec() != QDialog::Accepted ) {
-				delete op;
-				return NULL;
-			}
-		} while (classifier->checkOperationSignature(op->getName(), params));
-	} else {
+	if (name != QString::null && !name.isEmpty()) {
 		UMLOperation *existingOp = classifier->checkOperationSignature(name, params);
 		if (existingOp)
 			return existingOp;
-		op = new UMLOperation( 0L, name, getUniqueID());
 	}
-
-	if(params)
+	UMLOperation *op = new UMLOperation(NULL, name, getUniqueID());
+	op->setName( classifier->uniqChildName(Uml::ot_Operation) );
+	if (params)
 	{
 		UMLAttributeListIt it(*params);
 		for( ; it.current(); ++it ) {
@@ -903,6 +889,13 @@ UMLOperation* UMLDoc::createOperation(UMLClassifier* classifier,
 			op->addParm(par);
 		}
 	}
+	do {
+		UMLOperationDialog operationDialogue(0, op);
+		if( operationDialogue.exec() != QDialog::Accepted ) {
+			delete op;
+			return NULL;
+		}
+	} while (classifier->checkOperationSignature(op->getName(), op->getParmList()));
 
 	// operation name is ok, formally add it to the classifier
 	classifier->addOperation( op );
