@@ -114,16 +114,16 @@ void InterfaceWidget::drawAsConcept(QPainter& p, int offsetX, int offsetY) {
 
 	font.setBold(true);
 	p.setFont(font);
-	p.drawText(offsetX + INTERFACE_MARGIN, offsetY,
-		   w - INTERFACE_MARGIN * 2,fontHeight,
+	p.drawText(offsetX + ClassifierWidget::MARGIN, offsetY,
+		   w - ClassifierWidget::MARGIN * 2,fontHeight,
 		   AlignCenter, m_pObject->getStereotype());
 
 	font.setItalic( m_pObject -> getAbstract() );
 	//FIXME why is underline sometimes true
 	font.setUnderline( false );
 	p.setFont(font);
-	p.drawText(offsetX + INTERFACE_MARGIN, offsetY + fontHeight,
-		   w - INTERFACE_MARGIN * 2, fontHeight, AlignCenter, name);
+	p.drawText(offsetX + ClassifierWidget::MARGIN, offsetY + fontHeight,
+		   w - ClassifierWidget::MARGIN * 2, fontHeight, AlignCenter, name);
 	font.setBold(false);
 	font.setItalic(false);
 	p.setFont(font);
@@ -142,25 +142,9 @@ void InterfaceWidget::drawAsConcept(QPainter& p, int offsetX, int offsetY) {
 		UMLWidget::draw(p, offsetX, offsetY);
 
 		p.drawLine(offsetX, offsetY + y, offsetX + w - 1, offsetY + y);
-
-		UMLOperation* obj = 0;
-		UMLOperationList list(((UMLInterface*)m_pObject)->getOpList());
-		for(obj=list.first();obj != 0;obj=list.next()) {
-			if (m_bShowPublicOnly && obj->getScope() != Uml::Public)
-				continue;
-			QString op = obj->toString( m_ShowOpSigs );
-			p.setPen( QPen(black) );
-			font.setUnderline( obj->getStatic() );
-			font.setItalic( obj->getAbstract() );
-			p.setFont(font);
-			QFontMetrics fontMetrics(font);
-			p.drawText(offsetX + INTERFACE_MARGIN, offsetY + y,
-				   fontMetrics.width(op), fontHeight, AlignVCenter, op);
-			font.setUnderline(false);
-			font.setItalic(false);
-			p.setFont(font);
-			y+=fontHeight;
-		}
+		p.setPen( QPen(black) );
+		drawMembers(p, Uml::ot_Operation, m_ShowOpSigs,
+			    offsetX + ClassifierWidget::MARGIN, offsetY, y, fontHeight);
 	}//end if op
 
 	if (m_bSelected) {
@@ -197,55 +181,8 @@ void InterfaceWidget::calculateAsCircleSize() {
 void InterfaceWidget::calculateAsConceptSize() {
 	if( !m_pObject)
 		return;
-	int width, height;
-	QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-	int fontHeight = fm.lineSpacing();
-
-	int lines = 1;//always have one line - for name
-	int numOps = 0;
-
-	lines++; //for the stereotype
-
-	height = width = 0;
-	//set the height of the concept
-	if (m_bShowOperations) {
-		numOps = ClassifierWidget::displayedOperations();
-		lines += numOps;
-		if(numOps == 0) {
-			height += fontHeight / 2;//no ops, so just add a but of space
-		}
-	}
-	height += lines * fontHeight;
-	//now set the width of the concept
-	//set width to name to start with
-	if(m_bShowPackage)
-		width = getFontMetrics(FT_BOLD_ITALIC).boundingRect(m_pObject->getPackage() + "::" + getName()).width();
-	else
-		width = getFontMetrics(FT_BOLD_ITALIC).boundingRect(getName()).width();
-	int w = getFontMetrics(FT_BOLD).boundingRect(m_pObject->getStereotype()).width();
-
-
-	width = w > width?w:width;
-	width++;
-
-	if (m_bShowOperations) {
-		UMLOperationList list(((UMLInterface*)m_pObject)->getOpList());
-		UMLOperation* listItem = 0;
-		for(listItem = list.first();listItem != 0; listItem = list.next()) {
-			if (m_bShowPublicOnly && listItem->getScope() != Uml::Public)
-				continue;
-			QFont font = UMLWidget::getFont();
-			font.setUnderline( listItem->getStatic() );
-			font.setItalic( listItem->getAbstract() );
-			QFontMetrics fontMetrics(font);
-
-			int w = fontMetrics.width(listItem->toString(m_ShowOpSigs));
-			width = w > width?w:width;
-		}
-	}
-	//allow for width margin
-	width += INTERFACE_MARGIN * 2;
-
+	int width = 0, height = 0;
+	ClassifierWidget::computeBasicSize(width, height);
 	setSize(width, height);
 	adjustAssocs( getX(), getY() );//adjust assoc lines
 }

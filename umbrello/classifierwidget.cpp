@@ -12,9 +12,12 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <kdebug.h>
-
+// own header
 #include "classifierwidget.h"
+// qt/kde includes
+#include <qpainter.h>
+#include <kdebug.h>
+// app includes
 #include "classifier.h"
 #include "operation.h"
 #include "umlview.h"
@@ -25,6 +28,8 @@ ClassifierWidget::ClassifierWidget(UMLView * view, UMLClassifier *c, Uml::Widget
 }
 
 ClassifierWidget::~ClassifierWidget() {}
+
+const int ClassifierWidget::MARGIN = 5;
 
 void ClassifierWidget::init(Uml::Widget_Type wt) {
 	UMLWidget::setBaseType(wt);
@@ -194,6 +199,87 @@ int ClassifierWidget::displayedOperations() {
 	if (!m_bShowOperations)
 		return 0;
 	return displayedMembers(Uml::ot_Operation);
+}
+
+void ClassifierWidget::drawMembers(QPainter & p, Uml::Object_Type ot, Uml::Signature_Type sigType,
+				   int x, int bodyOffsetY, int y, int fontHeight) {
+	QFont f = UMLWidget::getFont();
+	f.setBold(false);
+	UMLClassifier *c = static_cast<UMLClassifier*>(m_pObject);
+	UMLClassifierListItemList list = c->getFilteredList(ot);
+	for (UMLClassifierListItem *obj = list.first(); obj; obj = list.next()) {
+		if (m_bShowPublicOnly && obj->getScope() != Uml::Public)
+			continue;
+		QString text = obj->toString(sigType);
+		f.setItalic( obj->getAbstract() );
+		f.setUnderline( obj->getStatic() );
+		p.setFont( f );
+		QFontMetrics fontMetrics(f);
+		p.drawText(x, bodyOffsetY + y, fontMetrics.width(text), fontHeight, AlignVCenter, text);
+		f.setItalic(false);
+		f.setUnderline(false);
+		p.setFont(f);
+		y += fontHeight;
+	}
+}
+
+void ClassifierWidget::computeBasicSize(int &width, int &height,
+					bool showStereotype /* =true */) {
+
+	// set the height of the concept
+	{
+		height = 0;
+		const QFontMetrics &fm = getFontMetrics(UMLWidget::FT_NORMAL);
+		const int fontHeight = fm.lineSpacing();
+		int lines = 1;  // always have one line - for name
+		if (showStereotype)
+			lines++;
+		const int numOps = displayedOperations();
+		if (numOps == 0)
+			height += fontHeight / 2;  // no ops, so just add a bit of space
+		else
+			lines += numOps;
+		height += lines * fontHeight;
+	}
+
+	// set the width of the concept
+	{
+		// set width to name to start with
+		QString displayName = getName();
+		if (m_bShowPackage)
+			displayName.prepend( m_pObject->getPackage() + "::" );
+
+		UMLClassifier *uc = static_cast<UMLClassifier*>(m_pObject);
+		const UMLWidget::FontType f(uc->getAbstract() ? FT_BOLD_ITALIC : FT_BOLD);
+		width = getFontMetrics(f).boundingRect(displayName).width();
+
+		// adjust width to stereotype if given
+		if (showStereotype) {
+			const QString& stereo = m_pObject->getStereotype();
+			const int w = getFontMetrics(FT_BOLD).boundingRect(stereo).width();
+			if (w > width)
+				width = w;
+		}
+
+		// calculate width of the operations
+		if (m_bShowOperations) {
+			UMLOperationList list(uc->getOpList());
+			for (UMLOperation* op = list.first(); op; op = list.next()) {
+				if (m_bShowPublicOnly && op->getScope() != Uml::Public)
+					continue;
+				QFont font = UMLWidget::getFont();
+				font.setUnderline( op->getStatic() );
+				font.setItalic( op->getAbstract() );
+				const QFontMetrics fontMetrics(font);
+				const int w = fontMetrics.width( op->toString(m_ShowOpSigs) );
+				if (w > width)
+					width = w;
+			}
+		}
+
+		//allow for width margin
+		width += MARGIN * 2;
+	}
 }
 
 bool ClassifierWidget::activate(IDChangeLog* ChangeLog /* = 0 */) {

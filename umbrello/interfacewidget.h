@@ -19,8 +19,6 @@
 
 class UMLInterface;
 
-#define INTERFACE_MARGIN 5
-
 /**
  * Defines a graphical version of the interface.  Most of the functionality
  * comes from its ancestors, @ref ClassifierWidget and @ref UMLWidget.

@@ -57,28 +57,6 @@ int ClassWidget::displayedAttributes() {
 	return ClassifierWidget::displayedMembers(Uml::ot_Attribute);
 }
 
-void ClassWidget::drawMembers(QPainter & p, Uml::Object_Type ot, Uml::Signature_Type sigType,
-			      int x, int bodyOffsetY, int y, int fontHeight) {
-	QFont f = UMLWidget::getFont();
-	UMLClassifier *c = static_cast<UMLClassifier*>(m_pObject);
-	UMLClassifierListItemList list = c->getFilteredList(ot);
-	for (UMLClassifierListItem *obj = list.first(); obj; obj = list.next()) {
-		if (m_bShowPublicOnly && obj->getScope() != Uml::Public)
-			continue;
-		QString text = obj->toString(sigType);
-		f.setItalic( obj->getAbstract() );
-		f.setBold(false);
-		f.setUnderline( obj->getStatic() );
-		p.setFont( f );
-		QFontMetrics fontMetrics(f);
-		p.drawText(x, bodyOffsetY + y, fontMetrics.width(text), fontHeight, AlignVCenter, text);
-		f.setItalic(false);
-		f.setUnderline(false);
-		p.setFont(f);
-		y += fontHeight;
-	}
-}
-
 void ClassWidget::draw(QPainter & p, int offsetX, int offsetY) {
 	if (!m_pObject) {
 		kdDebug() << "ClassWidget::draw(): m_pObject is NULL" << endl;
@@ -104,57 +82,53 @@ void ClassWidget::draw(QPainter & p, int offsetX, int offsetY) {
 	int fontHeight  = fm.lineSpacing();
 	QString name;
 	if ( m_bShowPackage ) {
-		name = m_pObject -> getPackage() + "::" + this -> getName();
+		name = m_pObject->getFullyQualifiedName();
 	} else {
 		name = this -> getName();
 	}
 
 	p.drawRect(offsetX, bodyOffsetY, w, h);
 	p.setPen(QPen(black));
+	const int textX = offsetX + MARGIN;
+	const int textWidth = w - MARGIN * 2;
 	if ( !m_bShowOperations && !m_bShowAttributes && !m_bShowStereotype ) {
 		QFont font = UMLWidget::getFont();
 		font.setBold( true );
 		font.setItalic( m_pObject-> getAbstract() );
 		p.setFont( font );
-		p.drawText(offsetX + MARGIN, bodyOffsetY, w - MARGIN * 2, h, AlignCenter, name);
+		p.drawText(textX, bodyOffsetY, textWidth, h, AlignCenter, name);
 		font.setBold( false );
 		font.setItalic( false );
 		p.setFont( font );
 	} else {
+		QFont f( UMLWidget::getFont() );
+		f.setBold( true );
+		//FIXME why is underline sometimes true
+		f.setUnderline( false );
 		/* if no stereotype is given, we don't want to show the empty << >> */
-		if (m_bShowStereotype && m_pObject->getStereotype().isEmpty() == false ) {
-			QFont f( UMLWidget::getFont() );
-			f.setBold( true );
-			//FIXME why is underline sometimes true
-			f.setUnderline( false );
-			p.setFont( f );
-			p.drawText(offsetX + MARGIN, bodyOffsetY, w-MARGIN * 2,fontHeight,AlignCenter, m_pObject -> getStereotype());
-			f.setItalic( m_pObject -> getAbstract() );
-			p.setFont( f );
-			p.drawText(offsetX + MARGIN, bodyOffsetY + fontHeight,w-MARGIN * 2,fontHeight,AlignCenter, name);
-			f.setItalic( false );
-			f.setBold( false );
-			p.setFont( f );
-			UMLWidget::draw(p, offsetX, offsetY);
-			p.drawLine(offsetX, bodyOffsetY + fontHeight * 2, offsetX + w - 1,
-				   bodyOffsetY + fontHeight * 2);
-		} else {
-			QFont f( UMLWidget::getFont() );
-			f.setBold( true );
-			f.setUnderline( false );
-			f.setItalic( m_pObject -> getAbstract() );
-			p.setFont( f );
-			p.drawText(offsetX + MARGIN, bodyOffsetY, w-MARGIN * 2,fontHeight,AlignCenter, name);
-			f.setItalic( false );
-			f.setBold( false );
-			p.setFont( f );
-			UMLWidget::draw(p, offsetX, offsetY);
-			p.drawLine(offsetX, bodyOffsetY + fontHeight, offsetX + w - 1, bodyOffsetY + fontHeight);
+		QString firstLine = m_pObject->getStereotype();
+		bool showStereotype = (m_bShowStereotype && !firstLine.isEmpty() );
+		if (!showStereotype) {
+			firstLine = name;
+			f.setItalic( m_pObject->getAbstract() );
 		}
+		p.setFont( f );
+		p.drawText(textX, bodyOffsetY, textWidth, fontHeight, AlignCenter, firstLine);
+		if (showStereotype) {
+			f.setItalic( m_pObject -> getAbstract() );
+			p.setFont( f );
+			bodyOffsetY += fontHeight;
+			p.drawText(textX, bodyOffsetY, textWidth, fontHeight, AlignCenter, name);
+		}
+		bodyOffsetY += fontHeight;
+		f.setItalic( false );
+		f.setBold( false );
+		p.setFont( f );
+		UMLWidget::draw(p, offsetX, offsetY);
+		p.drawLine(offsetX, bodyOffsetY, offsetX + w - 1, bodyOffsetY);
 	}
 
-	int aStart = fontHeight;
-	int numAtts = displayedAttributes();
+	int aStart = 0;
 	if (m_bShowStereotype) {
 		aStart += fontHeight;
 	}
@@ -163,18 +137,16 @@ void ClassWidget::draw(QPainter & p, int offsetX, int offsetY) {
 	UMLClass *umlclass = static_cast<UMLClass*>(m_pObject);
 
 	if (m_bShowAttributes) {
-		drawMembers(p, Uml::ot_Attribute, m_ShowAttSigs, offsetX + MARGIN,
+		drawMembers(p, Uml::ot_Attribute, m_ShowAttSigs, textX,
 			    bodyOffsetY, aStart, fontHeight);
 	}//end if att
 
+	int numAtts = displayedAttributes();
 	if (m_bShowOperations) {
 		QFont f = UMLWidget::getFont();
 		int oStart = numAtts * fontHeight + aStart;
-		if (m_bShowStereotype) {
-			oStart += fontHeight;
-		}
 		if (numAtts == 0)
-			oStart = aStart + fontHeight / 2;
+			oStart += fontHeight / 2;
 		int y = oStart;
 		if (m_bShowAttributes) {
 			UMLWidget::draw(p, offsetX, offsetY);
@@ -182,7 +154,7 @@ void ClassWidget::draw(QPainter & p, int offsetX, int offsetY) {
 			p.setPen(QPen(black));
 		} else
 			y = aStart;
-		drawMembers(p, Uml::ot_Operation, m_ShowOpSigs, offsetX + MARGIN,
+		drawMembers(p, Uml::ot_Operation, m_ShowOpSigs, textX,
 			    bodyOffsetY, y, fontHeight);
 	}//end if op
 
@@ -246,93 +218,40 @@ QSize ClassWidget::calculateTemplatesBoxSize() {
 	return QSize(width, height);
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
 void ClassWidget::calculateSize() {
 	if( !m_pObject )
 		return;
-	UMLClass *umlclass = static_cast<UMLClass*>(m_pObject);
+	int width = 0, height = 0;
+	ClassifierWidget::computeBasicSize(width, height, m_bShowStereotype);
 
-	QFontMetrics &fm = getFontMetrics(UMLWidget::FT_NORMAL);
-	int fontHeight  = fm.lineSpacing();
-
-	int lines = 1;//always have one line - for name
-
-	if (m_bShowStereotype)
-		lines++;
-
-	int height = 0;
-	//set the height of the concept
 	if (m_bShowAttributes) {
+		// calculate height of the attributes
+		const QFontMetrics &fm = getFontMetrics(UMLWidget::FT_NORMAL);
+		const int fontHeight = fm.lineSpacing();
 		int numAtts = displayedAttributes();
-		lines += numAtts;
-		if(numAtts == 0)
+		if (numAtts == 0)
 			height += fontHeight / 2;  // no atts, so just add a bit of space
-	}
+		else
+			height += fontHeight * numAtts;
 
-	if (m_bShowOperations) {
-		int numOps = displayedOperations();
-		lines += numOps;
-		if(numOps == 0)
-			height += fontHeight / 2;  // no ops, so just add a bit of space
-	}
-	height += lines * fontHeight;
-
-	//now set the width of the concept
-	//set width to name to start with
-	QString displayedName = getName();
-	if (m_bShowPackage)
-		displayedName.prepend( m_pObject->getPackage() + "::" );
-
-	UMLWidget::FontType nameFont = (m_pObject->getAbstract() ? FT_BOLD_ITALIC : FT_BOLD);
-	int width = getFontMetrics(nameFont).boundingRect(displayedName).width();
-
-	/* adjust width to stereotype if given */
-	QString displayedStereotype = m_pObject->getStereotype();
-	if (! displayedStereotype.isEmpty() ) {
-		int w = getFontMetrics(FT_BOLD).boundingRect(displayedStereotype).width();
-		if (w > width)
-			width = w;
-	}
-
-	/* calculate width of the attributes */
-	if (m_bShowAttributes) {
+		// calculate width of the attributes
+		UMLClass *umlclass = static_cast<UMLClass*>(m_pObject);
 		UMLClassifierListItemList list = umlclass->getFilteredList(Uml::ot_Attribute);
-		UMLClassifierListItem* a = 0;
-		for (a = list.first(); a; a = list.next()) {
+		for (UMLClassifierListItem *a = list.first(); a; a = list.next()) {
 			if (m_bShowPublicOnly && a->getScope() != Uml::Public)
 				continue;
-			bool isStatic = a->getStatic();
 			QFont font = UMLWidget::getFont();
-			font.setUnderline(isStatic);
+			font.setUnderline(a->getStatic());
 			font.setItalic(false);
-			QFontMetrics fontMetrics(font);
-			int w = fm.width(a->toString(m_ShowAttSigs));
-			width = w > width?w:width;
+			const QFontMetrics fontMetrics(font);
+			const int w = fontMetrics.width(a->toString(m_ShowAttSigs));
+			if (w > width)
+				width = w;
 		}
 	}
-
-	/* calculate width of the operations */
-	if (m_bShowOperations) {
-		UMLOperationList list(umlclass->getOpList());
-		UMLOperation* listItem = 0;
-		for(listItem = list.first();listItem != 0; listItem = list.next()) {
-			if (m_bShowPublicOnly && listItem->getScope() != Uml::Public)
-				continue;
-			QFont font = UMLWidget::getFont();
-			font.setUnderline( listItem->getStatic() );
-			font.setItalic( listItem->getAbstract() );
-			QFontMetrics fontMetrics(font);
-
-			int w = fontMetrics.width(listItem->toString(m_ShowOpSigs));
-			width = w > width?w:width;
-		}
-	}
-
-	//allow for width margin
-	width += MARGIN * 2;
 
 	if (!m_bShowOperations && !m_bShowAttributes && !m_bShowStereotype) {
-		height += MARGIN * 2;
+		height += ClassifierWidget::MARGIN * 2;
 	}
 
 	QSize templatesBoxSize = calculateTemplatesBoxSize();
@@ -340,13 +259,13 @@ void ClassWidget::calculateSize() {
 		width += templatesBoxSize.width() / 2;
 	}
 	if (templatesBoxSize.height() != 0) {
-		height += templatesBoxSize.height() - MARGIN;
+		height += templatesBoxSize.height() - ClassifierWidget::MARGIN;
 	}
 
 	setSize(width, height);
 	adjustUnselectedAssocs( getX(), getY() );
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void ClassWidget::slotMenuSelection(int sel) {
 	ListPopupMenu::Menu_Type mt = (ListPopupMenu::Menu_Type)sel;
 	switch (mt) {

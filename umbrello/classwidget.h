@@ -21,8 +21,6 @@
 class UMLView;
 class UMLClass;
 
-#define MARGIN 5
-
 /**
  * Defines a graphical version of the Class.  Most of the functionality
  * comes from its ancestors, @ref ClassifierWidget and @ref UMLWidget.
@@ -137,7 +135,7 @@ public:
 	 * Loads the <classwidget> XML element.
 	 */
 	bool loadFromXMI( QDomElement & qElement );
-	
+
 public slots:
 	/**
 	 * Called when a menu selection has been made from the popup menu.
@@ -151,7 +149,7 @@ private:
 	 * Initializes key variables of the class.
 	 */
 	void init();
-	
+
 	/**
 	 * Automatically calculates the size of the object.
 	 */
@@ -164,19 +162,6 @@ private:
 	 * @return	QSize of the templates flap.
 	 */
 	QSize calculateTemplatesBoxSize();
-
-	/**
-	 * Auxiliary method for draw(): draw the attributes or operations.
-	 *
-	 * @param p		QPainter to paint to.
-	 * @param ot		Object type to draw, either ot_Attribute or ot_Operation.
-	 * @param sigType	Governs details of the member display.
-	 * @param x		X coordinate at which to draw the texts.
-	 * @param y		Y coordinate at which text drawing commences.
-	 * @param fontHeight	The font height.
-	 */
-	void drawMembers(QPainter & p, Uml::Object_Type ot, Uml::Signature_Type sigType,
-			 int x, int bodyOffsetY, int y, int fontHeight);
 
 	/**
 	 * Updates m_ShowOpSigs and m_ShowAttSigs to match m_bShowScope.

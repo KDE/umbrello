@@ -17,6 +17,7 @@
 
 #include "umlwidget.h"
 
+class QPainter;
 class UMLClassifier;
 
 /**
@@ -165,6 +166,18 @@ protected:
 	virtual void calculateSize() = 0;
 
 	/**
+	 * Auxiliary method for calculateSize():
+	 * Computes the width and height of the classifier widget
+	 * taking into account the name, stereotype, and operations.
+	 *
+	 * @param width		Return value: the computed width.
+	 * @param height	Return value: the computed height.
+	 * @param showStereotype True to include the stereotype.
+	 */
+	virtual void computeBasicSize(int &width, int &height,
+				      bool showStereotype = true);
+
+	/**
 	 * Updates m_ShowOpSigs to match m_bShowScope.
 	 */
 	virtual void updateSigs();
@@ -175,11 +188,30 @@ protected:
 	 */
 	int displayedMembers(Uml::Object_Type ot);
 
+	/**
+	 * Auxiliary method for draw() of child classes:
+	 * Draw the attributes or operations.
+	 *
+	 * @param p		QPainter to paint to.
+	 * @param ot		Object type to draw, either ot_Attribute or ot_Operation.
+	 * @param sigType	Governs details of the member display.
+	 * @param x		X coordinate at which to draw the texts.
+	 * @param y		Y coordinate at which text drawing commences.
+	 * @param fontHeight	The font height.
+	 */
+	void drawMembers(QPainter & p, Uml::Object_Type ot, Uml::Signature_Type sigType,
+			 int x, int bodyOffsetY, int y, int fontHeight);
+
 	bool m_bShowOperations;            ///< Loaded/saved item.
 	bool m_bShowPublicOnly;            ///< Loaded/saved item.
 	bool m_bShowScope;                 ///< Loaded/saved item.
 	bool m_bShowPackage;               ///< Loaded/saved item.
 	Uml::Signature_Type m_ShowOpSigs;  ///< Loaded/saved item.
+
+	/**
+	 * Text width margin
+	 */
+	static const int MARGIN;
 
 };
 
