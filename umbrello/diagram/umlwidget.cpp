@@ -22,15 +22,7 @@ UMLWidget::~UMLWidget()
 	hide();
 }
 
-uint UMLWidget::width() const
-{
-	return m_width;
-}
 
-uint UMLWidget::height() const
-{
-	return m_height;
-}
 
 QPointArray UMLWidget::areaPoints() const
 {

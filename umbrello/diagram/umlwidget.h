@@ -21,9 +21,11 @@ public:
 	
 	virtual ~UMLWidget();
 	
-	uint width() const;
+	inline UMLObject* umlObject( ) const;
 	
-	uint height() const;
+	inline uint width() const;
+	
+	inline uint height() const;
 	
 	virtual QPointArray areaPoints() const;
 	
@@ -48,6 +50,11 @@ protected:
 //	QPtrList<AssociationWidget> m_associations;
 
 };
+
+//inline functions
+UMLObject* UMLWidget::umlObject() const { return m_umlObject;}
+uint UMLWidget::width() const  { return m_width;  }
+uint UMLWidget::height() const { return m_height; }
 
 } //end of namespace Umbrello
 #endif  // DIA_UMLWIDGET_H
