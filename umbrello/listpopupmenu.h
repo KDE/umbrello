@@ -210,7 +210,7 @@ private:
 	 *
 	 * @param m	The Menu_Type for which to insert a menu item.
 	 */
-	void insrtItm(Menu_Type m);
+	void insertStdItem(Menu_Type m);
 
 	/**
 	 * Shortcut for commonly used menu initializations.
