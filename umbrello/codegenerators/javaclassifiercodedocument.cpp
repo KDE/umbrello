@@ -117,14 +117,12 @@ QString JavaClassifierCodeDocument::getJavaClassName (QString name) {
 JavaClassDeclarationBlock * JavaClassifierCodeDocument::getClassDecl ( )
 {
 
-/*
         // So we see if it already exists, IF it *does* then we wont create a 
 	// new one.
 	if(!classDeclCodeBlock) {
 		classDeclCodeBlock = new JavaClassDeclarationBlock (this);
-		classDeclCodeBlock->setTag("classBlock");
+		classDeclCodeBlock->setTag("ClassDeclBlock");
 	} 
-*/
         return classDeclCodeBlock;
 
 }
@@ -149,6 +147,7 @@ void JavaClassifierCodeDocument::init ( ) {
 
 	// a short-cut object we created to handle the body of the class
 	classDeclCodeBlock = new JavaClassDeclarationBlock (this);
+	classDeclCodeBlock->setTag("ClassDeclBlock");
 
 	// this will call updateContent() as well as other things that sync our document.
         syncronize();
