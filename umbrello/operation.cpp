@@ -12,9 +12,12 @@
 
 #include "operation.h"
 #include "attribute.h"
+#include "classifier.h"
 #include "dialogs/umloperationdialog.h"
 
-UMLOperation::UMLOperation(QObject *parent, QString Name, int id, Scope s, QString rt) : UMLClassifierListItem(parent,Name, id) {
+UMLOperation::UMLOperation(UMLClassifier *parent, QString Name, int id, Scope s, QString rt) 
+    : UMLClassifierListItem((UMLObject*)parent,Name, id) 
+{
 	m_ReturnType = rt;
 	m_Scope = s;
 	m_BaseType = ot_Operation;
@@ -23,7 +26,9 @@ UMLOperation::UMLOperation(QObject *parent, QString Name, int id, Scope s, QStri
 	m_List.setAutoDelete(false);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLOperation::UMLOperation(QObject * parent) : UMLClassifierListItem(parent) {
+UMLOperation::UMLOperation(UMLClassifier * parent) 
+    : UMLClassifierListItem ((UMLObject*) parent) 
+{
 	m_ReturnType = "";
 	m_BaseType = ot_Operation;
 	m_nUniqueID = 0;
@@ -183,10 +188,21 @@ bool UMLOperation::loadFromXMI( QDomElement & element ) {
 	return true;
 }
 
+bool UMLOperation::isConstructorOperation ( ) {
+        UMLClassifier * c = dynamic_cast<UMLClassifier*>(this->parent());
+
+        QString cName = c->getName();
+        QString opName = getName();
+        QString opReturn = getReturnType();
+
+        // its a constructor operation if the operation name and return type
+        // match that of the parent classifier
+        return (cName == opName && cName == opReturn) ? true : false;
+}
+
 bool UMLOperation::showPropertiesDialogue(QWidget* parent) {
 	UMLOperationDialog dialogue(parent, this);
 	return dialogue.exec();
 }
-
 
 #include "operation.moc"

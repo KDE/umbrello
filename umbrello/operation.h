@@ -15,6 +15,7 @@
 
 // forward declarations
 class UMLAttribute;
+class UMLClassifier;
 
 /**
  *	This class is used to set up information for an operation.  This is like
@@ -38,14 +39,14 @@ public:
 	 *	@param	s				The scope of the operation.
 	 *	@param	rt				The return type of the operation.
 	 */
-	UMLOperation(QObject * parent, QString Name, int id, Scope s = Public, QString rt = "void");
+	UMLOperation(UMLClassifier * parent, QString Name, int id, Scope s = Public, QString rt = "void");
 
 	/**
 	 *	Constructs an UMLOperation.
 	 *
 	 *	@param	parent		The parent to this operation.
 	 */
-	UMLOperation(QObject * parent);
+	UMLOperation(UMLClassifier * parent);
 
 	/**
 	 * 		Overloaded '==' operator
@@ -142,6 +143,8 @@ public:
 	bool saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 	bool loadFromXMI( QDomElement & element );
+
+	bool isConstructorOperation ( );
 
 private:
 	QString m_ReturnType;
