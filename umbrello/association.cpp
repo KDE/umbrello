@@ -40,6 +40,7 @@ const QString UMLAssociation::assocTypeStr[UMLAssociation::nAssocTypes] = {
 	"seqmessage",		// at_Seq_Message
 	"collmessageself",	// at_Coll_Message_Self
 	"seqmessageself",	// at_Seq_Message_Self
+	/*implementation no longer exists, but we keep it for compatibility*/
 	"implementation",	// at_Implementation
 	"composition",		// at_Composition
 	"realization",		// at_Realization

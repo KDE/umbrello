@@ -64,7 +64,6 @@ public:
 	    tbb_Association,
 	    tbb_Coll_Message,
 	    tbb_Seq_Message,
-	    tbb_Implementation,
 	    tbb_Composition,
 	    tbb_UniAssociation,
 	    tbb_State_Transition,

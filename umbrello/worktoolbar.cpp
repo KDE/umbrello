@@ -96,9 +96,6 @@ void WorkToolBar::slotCheckToolBar(Uml::Diagram_Type dt) {
 		insertButton( m_Pixmaps.Composition, tbb_Composition, true, i18n("Composition"));
 		setToggle( tbb_Composition, true );
 
-		insertButton( m_Pixmaps.Implementation, tbb_Implementation, true, i18n("Implementation"));
-		setToggle( tbb_Implementation, true );
-
 		insertButton( m_Pixmaps.Generalization, tbb_Generalization, true,
 			      i18n("Implements (Generalisation/Realisation)"));
 		setToggle( tbb_Generalization, true );

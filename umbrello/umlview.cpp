@@ -2033,10 +2033,6 @@ Uml::Association_Type UMLView::convert_TBB_AT(WorkToolBar::ToolBar_Buttons tbb) 
 			at = at_Composition;
 			break;
 
-		case WorkToolBar::tbb_Implementation:
-			at = at_Implementation;
-			break;
-
 		case WorkToolBar::tbb_Aggregation:
 			at = at_Aggregation;
 			break;
