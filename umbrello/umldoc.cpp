@@ -1812,6 +1812,10 @@ void UMLDoc::saveToXMI(QIODevice& file) {
 	QDomElement contentNS = doc.createElement( "UML:Namespace.contents" );
 
 	QDomElement objectsElement = doc.createElement( "UML:Model" );
+	objectsElement.setAttribute( "isSpecification", "false" );
+	objectsElement.setAttribute( "isAbstract", "false" );
+	objectsElement.setAttribute( "isRoot", "false" );
+	objectsElement.setAttribute( "isLeaf", "false" );
 
 	QDomElement ownedNS = doc.createElement( "UML:Namespace.ownedElement" );
 

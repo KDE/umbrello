@@ -422,7 +422,9 @@ QDomElement UMLObject::save( const QString &tag, QDomDocument & qDoc ) {
 	  This creates the QDomElement with which to work.
 	*/
 	QDomElement qElement = qDoc.createElement(tag);
-
+	qElement.setAttribute( "isLeaf", "false" );
+	qElement.setAttribute( "isRoot", "false" );
+	qElement.setAttribute( "isSpecification", "false" );
 	qElement.setAttribute( "xmi.id", ID2STR(m_nId) );
 	if (!m_Name.isEmpty())
 		qElement.setAttribute( "name", m_Name );
@@ -447,9 +449,8 @@ QDomElement UMLObject::save( const QString &tag, QDomDocument & qDoc ) {
 		qElement.setAttribute( "stereotype", ID2STR(m_pStereotype->getID()) );
 	if (m_bAbstract)
 		qElement.setAttribute( "isAbstract", "true" );
-	/* else
+	else
 		qElement.setAttribute( "isAbstract", "false" );
-	 *** isAbstract defaults to false if not set **********/
 	if (m_bStatic)
 		qElement.setAttribute( "ownerScope", "classifier" );
 	/* else
