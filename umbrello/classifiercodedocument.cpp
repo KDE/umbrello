@@ -36,7 +36,11 @@ ClassifierCodeDocument::ClassifierCodeDocument ( UMLClassifier * parent , CodeGe
 	init (parent);
 }
 
-ClassifierCodeDocument::~ClassifierCodeDocument ( ) { }
+ClassifierCodeDocument::~ClassifierCodeDocument ( ) 
+{
+        for (CodeClassField * cf = m_classfieldVector.first(); cf; cf = m_classfieldVector.next())
+		delete cf;
+}
 
 //
 // Methods
