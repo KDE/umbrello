@@ -13,7 +13,6 @@
  *      Date   : Fri Aug 07 2003
  */
 
-#include <iostream.h>
 #include <kdebug.h>
 #include "ownedhierarchicalcodeblock.h"
 #include "association.h"
@@ -66,13 +65,9 @@ void OwnedHierarchicalCodeBlock::setAttributesOnNode (QDomDocument & doc, QDomEl
         // (change would break the XMI format..save for big version change )
         UMLRole * role = dynamic_cast<UMLRole*>(m_parentObject);
         if(role)
-{
                 elem.setAttribute("role_id",role->getID());
-cerr<<" OWNED H BLOCK saveToXMI sets role_id:"<<role->getID()<<endl;
-}       else
-
+        else
                 elem.setAttribute("role_id","-1");
-
 
 }
 
@@ -116,12 +111,9 @@ void OwnedHierarchicalCodeBlock::setAttributesFromNode ( QDomElement & root)
                         if(assoc->getUMLRoleA()->getID() == role_id)
                                 role = assoc->getUMLRoleA();
                         else if(assoc->getUMLRoleB()->getID() == role_id)
-{
                                 role = assoc->getUMLRoleB();
-cerr<<"SET ROLE B w/ hint of id:"<<id<<endl;
-}
                         else // this will cause a crash
-                                cerr<<"ERROR! corrupt save file? cant get proper UMLRole for codeparameter:"<<id<<" w/role_id:"<<role_id<<endl;
+                                kdError()<<"ERROR! corrupt save file? cant get proper UMLRole for codeparameter:"<<id<<" w/role_id:"<<role_id<<endl;
 
                         // init using UMLRole obj
                         initFields ( role);

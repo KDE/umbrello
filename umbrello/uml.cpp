@@ -7,7 +7,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <iostream.h>
 #include "uml.h"
 
 #include "infowidget.h"
@@ -1592,12 +1591,8 @@ void UMLApp::initSavedCodeGenerators() {
         for(it.toFirst() ; it.current(); ++it )
 	{
 		activeLanguage = it.current()->language;
-cerr<<"Check for SAVED Code generator:"<<activeLanguage.latin1()<<endl;
 		if( doc->hasCodeGeneratorXMIParams(activeLanguage)) 
-		{
-cerr<<" ** INIT SAVED Code generator:"<<activeLanguage.latin1()<<endl;
 			createGenerator();
-		}
 	}
 
 	// now set back to old activeLanguage

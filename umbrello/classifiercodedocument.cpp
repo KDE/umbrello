@@ -13,7 +13,6 @@
  *      Date   : Thu Jun 19 2003
  */
 
-#include <iostream.h>
 #include <kdebug.h>
 #include <qregexp.h>
 
@@ -261,7 +260,7 @@ void ClassifierCodeDocument::addOperation (UMLObject * op ) {
  */
 void ClassifierCodeDocument::removeOperation (UMLObject * op ) {
 // FIX
-cerr<<"REMOVE OPERATION CALLED for op:"<<op<<endl;
+kdError()<<"REMOVE OPERATION CALLED for op:"<<op<<endl;
 }
 
 // Other methods
@@ -353,7 +352,7 @@ void ClassifierCodeDocument::syncNamesToParent( ) {
 
 void ClassifierCodeDocument::syncronize( ) {
 
-cerr<<" Syncronize classifier code doc:"<<this<<endl;
+kdWarning()<<" Syncronize classifier code doc:"<<this<<endl;
 
 	updateHeader(); // doing this insures time/date stamp is at the time of this call
 	syncNamesToParent(); 
@@ -499,7 +498,8 @@ CodeClassField * ClassifierCodeDocument::findCodeClassFieldFromParentID (int id)
 		if(cf->getID().toInt() == id)
 			return cf;
 
-cerr<<" DANGER DANGER! DIDNT find code classfield for id:"<<id<<endl;
+	// shouldnt happen..
+	kdError()<<" DANGER DANGER! DIDNT find code classfield for id:"<<id<<" corrupt code generator?"<<endl;
 
 	return (CodeClassField*) NULL; // not found
 }
@@ -517,7 +517,7 @@ void ClassifierCodeDocument::loadClassFieldsFromXMI( QDomElement & elem) {
 			if(cf) 
 				cf->loadFromXMI(childElem);
 			else
-				cerr<<"ERROR: cant find code classfield for ID:"<<id.latin1()<<" do you have a corrupt savefile?"<<endl;
+				kdError()<<"ERROR: cant find code classfield for ID:"<<id<<" do you have a corrupt savefile?"<<endl;
 		}
 		node = childElem.nextSibling();
 		childElem= node.toElement();

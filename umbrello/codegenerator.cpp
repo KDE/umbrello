@@ -13,7 +13,6 @@
  *      Date   : Thu Jun 19 2003
  */
 
-#include <iostream.h>
 #include <cstdlib> //to get the user name
 #include <kdebug.h>
 
@@ -209,7 +208,7 @@ void CodeGenerator::loadFromXMI (QDomElement & qElement ) {
         QDomElement element = node.toElement();
         QString langType = getLanguage();
 
-cerr<<" **** LOAD FROM XMI CALLED for "<<langType.latin1()<<" CODE GENERATOR **** "<<endl;
+kdDebug()<<" **** LOAD FROM XMI CALLED for "<<langType.latin1()<<" CODE GENERATOR **** "<<endl;
 	if( qElement.tagName() == "codegenerator" 
                    && qElement.attribute( "language", "UNKNOWN" ) == langType ) 
         {
@@ -220,12 +219,11 @@ cerr<<" **** LOAD FROM XMI CALLED for "<<langType.latin1()<<" CODE GENERATOR ***
                 while( !codeDocElement.isNull() ) {
 
 			QString docTag = codeDocElement.tagName();
-cerr<<" XMI LOAD: GOT CODE DOCUMENT W/ tag:"<<docTag.latin1()<<endl;
+kdDebug()<<" XMI LOAD: GOT CODE DOCUMENT W/ tag:"<<docTag.latin1()<<endl;
 			if( docTag == "codedocument" ||
                                     docTag == "classifiercodedocument"
 			) {
 				QString id = codeDocElement.attribute( "id", "-1" );
-cerr<<" XMI LOAD: GOT CODE DOCUMENT W/ ID:"<<id.latin1()<<endl;
 				CodeDocument * codeDoc = findCodeDocumentByID(id);
 				if(codeDoc)
 					codeDoc->loadFromXMI(codeDocElement);
@@ -234,15 +232,11 @@ cerr<<" XMI LOAD: GOT CODE DOCUMENT W/ ID:"<<id.latin1()<<endl;
 				}
 			} else 
 /*
-				// load Policy??
-                                if( docTag == "codegenpolicy" ) {
-					getPolicy()->loadFromXMI(codeDocElement);
-                                } else 
+                        if( docTag == "codegenpolicy" ) {
+				getPolicy()->loadFromXMI(codeDocElement);
+                        } else 
 */
-{
-cerr<<" XMI WARNING: got strange codegenerator child node:"<<docTag.latin1()<<", ignoring."<<endl;
-                                        kdWarning()<<" XMI WARNING: got strange codegenerator child node:"<<docTag<<", ignoring."<<endl;
-}
+				kdWarning()<<" XMI WARNING: got strange codegenerator child node:"<<docTag<<", ignoring."<<endl;
 
 			codeDocNode = codeDocElement.nextSibling();
 			codeDocElement = codeDocNode.toElement();
@@ -255,8 +249,6 @@ bool CodeGenerator::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
         QDomElement docElement = doc.createElement( "codegenerator" );
         docElement.setAttribute("language",langType);
         bool status = true;
-
-cerr<<"Code GENERATOR saveToXMI Called:"<<langType.latin1()<<endl;
 
         QPtrList<CodeDocument> * docList = getCodeDocumentList();
         for (CodeDocument * codeDoc = docList->first(); codeDoc; codeDoc= docList->next())

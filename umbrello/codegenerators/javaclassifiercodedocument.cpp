@@ -23,7 +23,6 @@
   *   guts of the class (e.g. field decl, accessor methods, operations, dependant classes)
 */
 
-#include <iostream.h>
 #include <kdebug.h>
 #include <kdebug.h>
 #include <qregexp.h>
@@ -234,7 +233,6 @@ CodeOperation * JavaClassifierCodeDocument::newCodeOperation( UMLOperation * op)
 void JavaClassifierCodeDocument::setAttributesOnNode ( QDomDocument & doc, QDomElement & docElement)
 {
 
-cerr<<"JAVA classcode doc setAttributesOnNode called"<<endl;
         // superclass call
         ClassifierCodeDocument::setAttributesOnNode(doc,docElement);
 
@@ -248,7 +246,6 @@ cerr<<"JAVA classcode doc setAttributesOnNode called"<<endl;
 void JavaClassifierCodeDocument::setAttributesFromNode ( QDomElement & root) 
 {
 
-cerr<<" JAVA classcode doc setAttributesFromNode called"<<endl;
 	// superclass save
         ClassifierCodeDocument::setAttributesFromNode(root);
 
@@ -264,9 +261,6 @@ cerr<<" JAVA classcode doc setAttributesFromNode called"<<endl;
 void JavaClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & root)
 {
 
-QString rtag = root.tagName();
-cerr<<"Java class doc LoadChildTextBlocks from root element:"<<rtag.latin1()<<" first child."<<endl;
-
         QDomNode tnode = root.firstChild();
         QDomElement telement = tnode.toElement();
         bool gotChildren = false;
@@ -281,13 +275,11 @@ cerr<<"Java class doc LoadChildTextBlocks from root element:"<<rtag.latin1()<<" 
                         while( !element.isNull() ) {
                                 QString name = element.tagName();
 
-cerr<<" *** (j) LOADING child node : "<<name.latin1()<<endl;
-
                                 if( name == "javaclassdeclarationblock" ) {
 					JavaClassDeclarationBlock * classDeclBlock = new JavaClassDeclarationBlock (this);
  					classDeclBlock->loadFromXMI(element);
 					if(!addTextBlock(classDeclBlock))
-                                                cerr<<"Unable to add javaclassdeclaration block to :"<<this<<endl;
+                                                kdError()<<"Unable to add javaclassdeclaration block to :"<<this<<endl;
 					else
                                                 gotChildren= true;
                                 } else
@@ -295,7 +287,7 @@ cerr<<" *** (j) LOADING child node : "<<name.latin1()<<endl;
                                         CodeComment * block = newCodeComment();
                                         block->loadFromXMI(element);
                                         if(!addTextBlock(block))
-                                                cerr<<"Unable to add codeComment to :"<<this<<endl;
+                                                kdError()<<"Unable to add codeComment to :"<<this<<endl;
                                         else
                                                 gotChildren= true;
                                 } else
@@ -303,25 +295,19 @@ cerr<<" *** (j) LOADING child node : "<<name.latin1()<<endl;
                                     name == "declarationcodeblock"
                                   ) {
                                         QString acctag = element.attribute("tag","");
-cerr<<"Trying to create code classfield tblock tag:"<<acctag.latin1()<<" in codegenobjectw/textblocks ";
                                         // search for our method in the
                                         TextBlock * tb = findCodeClassFieldTextBlockByTag(acctag);
                                         if(!tb || !addTextBlock(tb, true))
-{
                                                 kdWarning()<<"Unable to add codeaccessormethod to:"<<this<<endl;
-cerr<<"..FAILED"<<endl;
-}
                                         else
-{
-cerr<<"..SUCCESS!"<<endl;
                                                 gotChildren= true;
-}
+
                                 } else
                                 if( name == "codeblock" ) {
                                         CodeBlock * block = newCodeBlock();
                                         block->loadFromXMI(element);
                                         if(!addTextBlock(block))
-                                                cerr<<"Unable to add codeBlock to :"<<this<<endl;
+                                                kdError()<<"Unable to add codeBlock to :"<<this<<endl;
                                         else
                                                 gotChildren= true;
                                 } else
@@ -329,7 +315,7 @@ cerr<<"..SUCCESS!"<<endl;
                                         CodeBlockWithComments * block = newCodeBlockWithComments();
                                         block->loadFromXMI(element);
                                         if(!addTextBlock(block))
-                                                cerr<<"Unable to add codeBlockwithcomments to:"<<this<<endl;
+                                                kdError()<<"Unable to add codeBlockwithcomments to:"<<this<<endl;
                                         else
                                                 gotChildren= true;
                                 } else
@@ -340,7 +326,7 @@ cerr<<"..SUCCESS!"<<endl;
                                         HierarchicalCodeBlock * block = newHierarchicalCodeBlock();
                                         block->loadFromXMI(element);
                                         if(!addTextBlock(block))
-                                                cerr<<"Unable to add hierarchicalcodeBlock to:"<<this<<endl;
+                                                kdError()<<"Unable to add hierarchicalcodeBlock to:"<<this<<endl;
                                         else
                                                 gotChildren= true;
                                 } else
@@ -351,17 +337,13 @@ cerr<<"..SUCCESS!"<<endl;
                                         UMLOperation * op = dynamic_cast<UMLOperation*>(obj);
                                         if(op) {
                                                 CodeOperation * block = newCodeOperation(op);
-cerr<<" *** "<<endl<<"  LOADING CODE OP "<<endl<<" *** "<<endl;
                                                 block->loadFromXMI(element);
                                                 if(addTextBlock(block))
                                                         gotChildren= true;
                                         } else
                                               kdWarning()<<"Unable to add codeoperation to:"<<this<<endl;
                                 } else
-{
-                                        cerr<<" Got strange tag in text block stacK:"<<name.latin1()<<endl;
-                                        kdWarning()<<" GOt strange tag in text block stacK:"<<name<<endl;
-}
+                                        kdError()<<" LoadFromXMI: Got strange tag in text block stack:"<<name<<endl;
 
                                 node = element.nextSibling();
                                 element = node.toElement();
@@ -374,10 +356,7 @@ cerr<<" *** "<<endl<<"  LOADING CODE OP "<<endl<<" *** "<<endl;
         }
 
         if(!gotChildren)
-{
-                cerr<<" loadFromXMI : Warning: unable to initialize any child blocks in:"<<this<<endl;
                 kdWarning()<<" loadFromXMI : Warning: unable to initialize any child blocks in:"<<this<<endl;
-}
 
 }
 

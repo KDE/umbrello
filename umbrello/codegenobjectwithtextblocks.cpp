@@ -14,7 +14,6 @@
  */
 
 #include <kdebug.h>
-#include <iostream.h>
 #include "codegenobjectwithtextblocks.h"
 
 #include "umldoc.h"
@@ -270,8 +269,6 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( QDomElement & ro
 			while( !element.isNull() ) {
                 		QString name = element.tagName();
 
-cerr<<" *** (c) LOADING child textblock node : "<<name.latin1()<<endl;
-
 /*
 // Well, this is pretty ugly. What we really want is some kind of singleton that we
 // can call on to supply us with the correct method to build this stuff with. That
@@ -340,17 +337,15 @@ cerr<<" *** (c) LOADING child textblock node : "<<name.latin1()<<endl;
 		                        QString id = element.attribute("parent_id","-1");
 					UMLObject * obj = getParentGenerator()->getDocument()->findUMLObject(id.toInt());
 					UMLOperation * op = dynamic_cast<UMLOperation*>(obj);
-cerr<<" *** parent operation id:"<<id.latin1()<<" obj is:"<<op<<endl;
 					if(op) {
 		                        	CodeOperation * block = newCodeOperation(op);
-cerr<<" *** got parent operation..loading from XMI now"<<endl;
 		                        	block->loadFromXMI(element);
 		                        	if(addTextBlock(block))
 		                                	gotChildren= true;
 					} else 
 		                              kdWarning()<<"Unable to add codeoperation to:"<<this<<endl;
 		                } else
-					cerr<<" ERROR: Got strange tag in text block stack:"<<name.latin1()<<endl;
+					kdWarning()<<" ERROR: Got strange tag in text block stack:"<<name<<" ignoring."<<endl;
 			
                 		node = element.nextSibling();
                 		element = node.toElement();

@@ -9,7 +9,6 @@
 
 #include <kdebug.h>
 
-#include <iostream.h>
 #include "association.h"
 #include "classifier.h"
 #include "umldoc.h"
@@ -323,8 +322,6 @@ void UMLAssociation::init() {
 
 	m_pRoleA = new UMLRole (this);
 	m_pRoleB = new UMLRole (this);
-
-cerr<<" NEW ROLE ID A: "<<m_pRoleA->getID()<<endl;
 
 /*
 	m_pObjectA = 0;

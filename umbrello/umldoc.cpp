@@ -6,7 +6,6 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include <iostream.h>
 #include "actor.h"
 #include "associationwidget.h"
 #include "association.h"
@@ -407,7 +406,6 @@ bool UMLDoc::addCodeGenerator ( CodeGenerator * gen)
 
 bool UMLDoc::hasCodeGeneratorXMIParams ( QString lang )
 {
-cerr<<"hasCOdeGeneratorXMIParams called for :"<<lang.latin1()<<endl;
 	if (m_codeGenerationXMIParamMap->contains(lang))
 		return true;
 	return false;
@@ -424,7 +422,6 @@ QDomElement UMLDoc::getCodeGeneratorXMIParams ( QString lang )
  */
 bool UMLDoc::removeCodeGenerator ( CodeGenerator * remove_object ) {
         QString lang = remove_object->getLanguage();
-cerr<<" REMOVE CODE GENERATOR:"<<lang.latin1()<<endl; 
         if(!(lang.isEmpty()) && m_codeGeneratorDictionary.find(lang))
 	{
                 m_codeGenerationXMIParamMap->erase(lang);
@@ -1583,7 +1580,6 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
 				while( !cgelement.isNull() ) {
 					QString nodeName = cgelement.tagName();
 					QString lang = cgelement.attribute("language","UNKNOWN");
-cerr<<"FOUND Code Gen element: "<<nodeName.latin1()<<" with lang:"<<lang.latin1()<<endl;
                 			m_codeGenerationXMIParamMap->insert(lang, cgelement);
 					cgnode = cgnode.nextSibling();
 					cgelement = cgnode.toElement();

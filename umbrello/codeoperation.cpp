@@ -13,7 +13,6 @@
  *      Date   : Fri Jun 20 2003
  */
 
-#include <iostream.h>
 #include <kdebug.h>
 #include "codeoperation.h"
 
@@ -124,8 +123,6 @@ void CodeOperation::setAttributesFromNode ( QDomElement & element)
 		m_parentOperation = op; 
 	else
 		kdError()<<"ERROR: could'nt load code operation because of missing UMLoperation, corrupt savefile?"<<endl;
-
-cerr<<" NEW CODE OP HAS TEXT:["<<getText().latin1()<<"]"<<endl;
 
 }
 

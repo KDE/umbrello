@@ -14,7 +14,7 @@
  */
 
 #include <qregexp.h>
-#include <iostream.h>
+#include <kdebug.h>
 
 #include "codeclassfield.h"
 
@@ -214,7 +214,6 @@ CodeAccessorMethod * CodeClassField::newCodeAccessorMethod ( CodeAccessorMethod:
  * load params from the appropriate XMI element node.
  */
 void CodeClassField::loadFromXMI ( QDomElement & root ) {
-cerr<<" CODE CLASSIFLEED CLOAD FROM XMI CALLED"<<endl;
         setAttributesFromNode(root);
 }
 
@@ -270,10 +269,8 @@ void CodeClassField::setAttributesFromNode ( QDomElement & root) {
                 if( tag == "declarationcodeblock" ) {
 			m_declCodeBlock = newDeclarationCodeBlock();
 			m_declCodeBlock->loadFromXMI(element);
-cerr<< " >> GOT ClassFIeld Decl Code BLOCK OK"<<endl;
                 } else 
                 if( tag == "codeaccessormethod" ) {
-cerr<< " >> GOT Code Accessor BLOCK OK"<<endl;
 			CodeAccessorMethod * method = newCodeAccessorMethod (CodeAccessorMethod::GET);
 			if(method)
 			{
@@ -284,7 +281,7 @@ cerr<< " >> GOT Code Accessor BLOCK OK"<<endl;
                 if( tag == "header" ) {
 			// this is treated in parent.. skip over here
 		} else
-			cerr<<"ERROR: bad savefile? code classfield loadFromXMI got child element with unknown tag:"<<tag.latin1()<<endl;  
+			kdError()<<"ERROR: bad savefile? code classfield loadFromXMI got child element with unknown tag:"<<tag.latin1()<<endl;  
 
                 node = element.nextSibling();
                 element = node.toElement();
