@@ -862,7 +862,6 @@ void UMLApp::UcreateDiagram() {
 }
 
 void UMLApp::UdiagramSelected(int id) {
-	kdDebug()<<"diagram with id = "<<id<<" selected"<<endl;
 	if(diagramViews.find(id) != diagramViews.end()) {
 		viewStack->raiseWidget(diagramViews[id]);
 		diagramViews[id]->setFocus();

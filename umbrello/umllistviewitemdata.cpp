@@ -119,4 +119,6 @@ bool UMLListViewItemData::loadFromXMI(QDomElement& qElement) {
 	return true;
 }
 
-
+void UMLListViewItemData::setLabel(QString newLabel) {
+	label = newLabel;
+}

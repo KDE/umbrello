@@ -201,10 +201,9 @@ void UMLListViewItem::setOpen( bool open ) {
 	updateFolder();
 }
 
-void UMLListViewItem::setText( QString text ) {
-	m_Data.setLabel( text );
-	QListViewItem::setText( 0, text );
-	//method was going to have tooltip functions but maybe not needed.
+void UMLListViewItem::setText(QString newText) {
+	m_Data.setLabel(newText);
+	QListViewItem::setText(0, newText);
 }
 
 void UMLListViewItem::okRename( int col ) {
@@ -340,6 +339,6 @@ int UMLListViewItem::compare(QListViewItem *other, int col, bool ascending) cons
 	if ( ourType > otherType )
 		return 1;
 
-	return 0;	
+	return 0;
 }
 UMLListView* UMLListViewItem::s_pListView = 0;

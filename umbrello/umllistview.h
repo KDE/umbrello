@@ -325,13 +325,13 @@ class UMLListView : public KListView {
 	 */
 	static void deleteChildrenOf( QListViewItem *parent );
 
-	public slots:
+public slots:
 
-		/**
-		 * Creates a new item to represent a new diagram
-		 * @param id the id of the new diagram
-		 */
-		void slotDiagramCreated(int id);
+	/**
+	 * Creates a new item to represent a new diagram
+	 * @param id the id of the new diagram
+	 */
+	void slotDiagramCreated(int id);
 
 	/**
 	 * Creates a new item to represent a new diagram
@@ -455,6 +455,13 @@ class UMLListView : public KListView {
 	 * @param totalSteps Total range of the progressbar (0..totalStep
 	 */
 	void sigSetStatusbarProgress(int stepPosition);
+
+ private:
+	/**
+	 * Searches the tree for a diagram (view).
+	 * Used by findView().
+	 */
+	UMLListViewItem* recursiveSearchForView(UMLListViewItem* folder, ListView_Type type, int id);
 
 };
 

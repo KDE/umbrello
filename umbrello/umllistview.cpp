@@ -549,10 +549,10 @@ void UMLListView::childObjectRemoved(UMLObject* obj) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLListView::slotDiagramRenamed(int id) {
-	UMLListViewItem * temp;
-	UMLView *v = m_doc->findView(id);
+	UMLListViewItem* temp;
+	UMLView* v = m_doc->findView(id);
 	temp = findView(v);
-	temp -> setText(v->getName());
+	temp->setText( v->getName() );
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLListView::setDocument(UMLDoc *d) {
@@ -660,10 +660,12 @@ UMLListViewItem * UMLListView::findUMLObject(UMLObject *p) const {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLListViewItem* UMLListView::findView(UMLView *v) {
-	if(!v)
+UMLListViewItem* UMLListView::findView(UMLView* v) {
+	if (!v) {
+		kdWarning() << "returning 0 from UMLListView::findView()" << endl;
 		return 0;
-	UMLListViewItem *item, *temp, * child;
+	}
+	UMLListViewItem* item;
 	Uml::Diagram_Type dType = v->getType();
 	Uml::ListView_Type type = convert_DT_LVT( dType );
 	int id = v->getID();
@@ -677,20 +679,30 @@ UMLListViewItem* UMLListView::findView(UMLView *v) {
 		item = lv;
 	}
 
-	temp = (UMLListViewItem *)item->firstChild();
-	while(temp) {
-		if( typeIsFolder(temp->getType()) ) {
-			child = (UMLListViewItem *)temp -> firstChild();
-			while(child) {
-				if( child -> getType() == type && child -> getID() == id)
-					return child;
-				child = (UMLListViewItem *)child-> nextSibling();
+	UMLListViewItem* searchStartItem = (UMLListViewItem *)item->firstChild();
+
+	UMLListViewItem* foundItem = recursiveSearchForView(searchStartItem, type, id);
+
+	if (!foundItem) {
+		kdWarning() << "returning 0 at UMLListView::findView" << endl;
+	}
+	return foundItem;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+UMLListViewItem* UMLListView::recursiveSearchForView(UMLListViewItem* listViewItem, ListView_Type type, int id) {
+	while (listViewItem) {
+		if ( typeIsFolder(listViewItem->getType()) ) {
+			UMLListViewItem* child = (UMLListViewItem *)listViewItem->firstChild();
+			UMLListViewItem* resultListViewItem = recursiveSearchForView(child, type, id);
+			if (resultListViewItem) {
+				return resultListViewItem;
 			}
 		} else {
-			if(temp->getType() == type && temp->getID() == id)
-				return temp;
+			if(listViewItem->getType() == type && listViewItem->getID() == id) {
+				return listViewItem;
+			}
 		}
-		temp = (UMLListViewItem *)temp->nextSibling();
+		listViewItem = (UMLListViewItem*)listViewItem->nextSibling();
 	}
 	return 0;
 }

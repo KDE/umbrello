@@ -129,9 +129,7 @@ public:
 	/**
 	 * 		Sets the label text.
 	 */
-	void setLabel( QString _label ) {
-		label = _label;
-	}
+	void setLabel(QString newLabel);
 
 	/**
 	 * saves the listview item to a <listitem> tag
