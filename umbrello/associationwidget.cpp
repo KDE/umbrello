@@ -2680,7 +2680,6 @@ int AssociationWidget::getRegionCount(AssociationWidget::Region region, bool wid
 			//they are different and placement won't interfere with them
 			bool count = true;
 			if( a == b && assocwidget -> getWidgetARegion() == assocwidget -> getWidgetBRegion() )
-				;
 			{
 				//count = false;
 			}
