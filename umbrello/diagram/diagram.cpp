@@ -270,12 +270,11 @@ DiagramElement* Diagram::firstDiagramElement( const QPoint &pos )
 	DiagramElement *element(0);
 	Path *path(0);
 	PathSegment *segment(0);
-	//TEST
+	//give priority to selected items
 	if(m_selected.count() == 1 && list.find(m_selected.first()) != list.end() )
 	{
 		return m_selected.first();
 	}
-	//endtest
 	QCanvasItemList::Iterator it = list.begin();
 	for( ; it != list.end(); ++it)
 	{

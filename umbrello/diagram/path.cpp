@@ -29,8 +29,7 @@ namespace Umbrello{
 
 Path::Path( Diagram *diagram, uint id) : DiagramElement(diagram,id)
 {
-	//FIXMEm_segments.setAutoDelete(true);
-	m_segments.setAutoDelete(false);
+	m_segments.setAutoDelete(true);
 	m_style = Direct;
 }
 
@@ -148,6 +147,79 @@ void Path::fillContextMenu(QPopupMenu &menu)
 	menu.insertItem(i18n("Path Style"),pathMenu);
 
 	DiagramElement::fillContextMenu(menu);
+}
+
+void Path::execDefaultAction()
+{
+	//QPoint = QCursor::pos();
+	//map from global !!
+	
+	//insert / delete  a point inthe path
+	
+}
+
+void Path::toggleHotSpot( const QPoint &p )
+{kdDebug()<<"Path::toggleHotSpot( const QPoint &p )"<<endl;
+	int hs = isHotSpot( p );
+	if( hs > 0 ) //remove hotspot
+	{kdDebug()<<"remove hs "<<hs<<endl;
+		if( hs == 0 || hs == m_segments.count() )
+		{
+			kdDebug()<<"Request to move HS "<<hs<<" ignored - cannot move first/last hs"<<endl;
+			return;
+		}
+		QPointArray a(m_segments.count());
+		a[0] = m_segments.first()->startPoint();
+		int i;
+		PathSegment *segment;
+		for( segment = m_segments.first(), i = 1 ; segment; segment = m_segments.next(), ++i )
+		{
+			if( i == hs )
+			{
+				--i;
+				continue;
+			}
+			a[i] = segment->endPoint();
+		}
+		setPathPoints(a);
+	}
+	else //insert HotSpot
+	{
+		PathSegment *tobreak;
+		QCanvasRectangle *test = new QCanvasRectangle( p.x()-3, p.y()-3, 3, 3, diagram() );
+		for( tobreak = m_segments.first(); tobreak; tobreak = m_segments.next() )
+		{
+			if( tobreak->collidesWith( test ) )
+				break;
+		}
+		delete test;
+		if( !tobreak )
+		{
+			kdDebug()<<"Request to create hotspot at ( "<<p.x()<<","<<p.y()<<") ignored - not on path"<<endl;
+			return;
+		}
+		QPointArray a(m_segments.count() + 1 + 1);
+		kdDebug()<<"a( "<<m_segments.count() + 1 + 1<<" )"<<endl;
+		a[0] = m_segments.first()->startPoint();
+		int i;
+		PathSegment *segment;
+		for( segment = m_segments.first(), i = 1 ; segment; segment = m_segments.next(), ++i )
+		{
+			if( segment == tobreak )
+			{
+				a[i] = p;
+				kdDebug()<<"a["<<i<<"] = "<<p.x()<<","<<p.y()<<endl;
+				++i;
+			}
+			kdDebug()<<"a["<<i<<"] = "<<segment->endPoint().x()<<","<<segment->endPoint().y()<<endl;
+			a[i] = segment->endPoint();
+		}
+		setPathPoints(a);
+	}
+	setSelected(true);
+	update();
+	canvas()->update();
+	
 }
 
 void Path::setDirectStyle()

@@ -16,7 +16,8 @@
 
 #include "../uml.h"
 // #include "umlwidget.h"
-// #include "diagramelement.h"
+#include "diagramelement.h"
+#include "path.h"
 
 
 #include <qpoint.h>
@@ -43,9 +44,12 @@ DiagramView::DiagramView( Diagram *diagram, QWidget *parent, const char *name, W
 	m_toolBar->showTools( "classtool" );
 	m_toolBar->showTools( "interfacetool" );
 	m_toolBar->showTools( "packagetool" );
-	m_toolBar->showTools( "associationtool" );
 	m_toolBar->showTools( "generalizationtool" );
 	m_toolBar->showTools( "compositiontool" );
+	m_toolBar->showTools( "aggregationtool" );
+	m_toolBar->showTools( "dependencytool" );
+	m_toolBar->showTools( "associationtool" );
+	m_toolBar->showTools( "uniassociationtool" );
 	m_toolBar->showTools( "boxtool" );
 	m_toolBar->showTools( "notetool" );
 	m_toolBar->showTools( "texttool" );
@@ -123,6 +127,19 @@ void DiagramView::contentsMouseDoubleClickEvent( QMouseEvent *e )
 	if(!m_tool)
 		return;
 	bool accepted = m_tool->mouseEvent(e,diagramPos);
+	if(!accepted)
+	{
+		DiagramElement *element = diagram()->firstDiagramElement( diagramPos );
+		if( !element )
+			return;
+		//the default action for a Path is to create/remove "break points" (hotspots)
+		//but it since the path knows nothing about the view (it only knows the Diagram)
+		//we have to explicitly give the point
+		if( dynamic_cast<Path*>(element) )
+			dynamic_cast<Path*>(element)->toggleHotSpot(diagramPos);
+		else
+			element->execDefaultAction();
+	}
 }
 
 

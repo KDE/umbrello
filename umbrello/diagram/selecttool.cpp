@@ -18,6 +18,7 @@
 #include "diagramelement.h"
 #include "associationwidget.h"
 #include "diagramwidget.h"
+#include "path.h"
 
 #include <qcursor.h>
 #include <qpopupmenu.h>
@@ -161,7 +162,11 @@ bool SelectTool::mouseDragReleaseEvent( )
 bool SelectTool::mouseDblClickEvent( ) 
 {
 	DiagramElement *element = diagram()->firstDiagramElement( currentPos( ));
-	if( element )
+	if( !element )
+		return false;
+	if( dynamic_cast<Path*>(element) )
+		static_cast<Path*>(element)->toggleHotSpot(currentPos());
+	else
 		element->execDefaultAction();
 	return true;
 }

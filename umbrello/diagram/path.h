@@ -74,6 +74,12 @@ public:
 	*/
 	virtual void fillContextMenu(QPopupMenu &menu);
 	
+	/** Execute teh default action for Paths: create/delete
+	 * hotspots in the path
+	 */
+	virtual void execDefaultAction();
+	virtual void toggleHotSpot( const QPoint& );
+	
 	virtual QPointArray areaPoints() const;
 
 		

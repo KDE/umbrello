@@ -88,6 +88,11 @@ public:
 	/** Return a reference to the diagram in which the element is */
 	Diagram* diagram() const;
 	
+	inline bool useOwnPen() const;
+	void setUseOwnPen( bool );
+	inline bool useOwnBrush() const;
+	void setUseOwnBrush( bool );
+	
 public slots:
 	/** Move the element one level up in the element stack */
 	virtual void raise( );
@@ -131,6 +136,8 @@ private:
 };
 
 bool DiagramElement::isShowHotSpots( ) const {return m_showHotSpots;}
+bool DiagramElement::useOwnPen() const { return m_useOwnPen; }
+bool DiagramElement::useOwnBrush() const { return m_useOwnBrush; }
 
 } // end of namespace Umbrello
 

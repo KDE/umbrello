@@ -45,6 +45,9 @@ public slots:
 	* can update itself */
 	virtual void umlObjectModified();
 	
+	/** Show a dialog to edit the properties of the element */
+	virtual void editProperties();
+	
 protected:
 	virtual void drawShape(QPainter &);
 	void calculateSize();

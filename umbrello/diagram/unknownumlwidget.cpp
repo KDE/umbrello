@@ -15,7 +15,10 @@
 
 #include "unknownumlwidget.h"
 #include "diagram.h"
+#include "../dialogs/umbrellodialog.h"
+#include "../dialogs/widgetcolorspage.h"
 #include "../umlobject.h"
+#include <klocale.h>
 #include <qpainter.h>
 #include <qrect.h>
 
@@ -96,6 +99,15 @@ void UnknownUMLWidget::calculateSize()
 	uint width  = fm.width(m_name) + (2 * hMargin);
 	uint height = fm.lineSpacing() + (2 * vMargin);
 	setSize(width,height);
+}
+
+void UnknownUMLWidget::editProperties()
+{
+	UmbrelloDialog dialog(0L);
+	WidgetColorsPage *page = new WidgetColorsPage(this,&dialog);
+	dialog.addPage(page, i18n("Colors"));
+	dialog.exec();
+	
 }
 
 } //end of namespace Umbrello

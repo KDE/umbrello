@@ -355,6 +355,20 @@ Diagram* DiagramElement::diagram() const
 	return dynamic_cast<Diagram*>(canvas());
 }
 
+void DiagramElement::setUseOwnPen( bool b )
+{
+	m_useOwnPen = b;
+	update();
+	canvas()->update();
+}
+
+void DiagramElement::setUseOwnBrush( bool b )
+{
+	m_useOwnBrush = b;
+	update();
+	canvas()->update();
+}
+
 }
 
 
