@@ -89,11 +89,6 @@ protected:
 	 */
 	bool load(QDomElement & element);
 
-private:
-	/**
-	 * The type of the template, usually just "class"
-	 */
-	QString m_TypeName;
 };
 
 #endif
