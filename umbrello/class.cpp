@@ -221,13 +221,17 @@ void UMLClass::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	for (newTemplate = list.first(); newTemplate != 0; newTemplate = list.next() ) {
 		newTemplate->saveToXMI(qDoc, featureElement);
 	}
-	//save contained objects
-	for (UMLObjectListIt oit(m_objects); oit.current(); ++oit) {
-		UMLObject *obj = oit.current();
-		obj->saveToXMI (qDoc, featureElement);
-	}
 	if (featureElement.hasChildNodes())
 		classElement.appendChild( featureElement );
+	//save contained objects
+	if (m_objects.count()) {
+		QDomElement ownedElement = qDoc.createElement( "UML:Namespace.ownedElement" );
+		for (UMLObjectListIt oit(m_objects); oit.current(); ++oit) {
+			UMLObject *obj = oit.current();
+			obj->saveToXMI (qDoc, ownedElement);
+		}
+		classElement.appendChild( ownedElement );
+	}
 	qElement.appendChild( classElement );
 }
 

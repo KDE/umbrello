@@ -51,18 +51,22 @@ void UMLInterface::init() {
 
 void UMLInterface::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement interfaceElement = UMLObject::save("UML:Interface", qDoc);
-	QDomElement featureElement = qDoc.createElement( "UML:Classifier.feature" );
 	//save operations
 	UMLOperationList opsList = getOpList();
-	UMLOperation* pOp = 0;
-	for ( pOp = opsList.first(); pOp != 0; pOp = opsList.next() ) {
-		pOp->saveToXMI(qDoc, featureElement);
+	if (opsList.count()) {
+		QDomElement featureElement = qDoc.createElement( "UML:Classifier.feature" );
+		for (UMLOperation *pOp = opsList.first(); pOp; pOp = opsList.next() ) {
+			pOp->saveToXMI(qDoc, featureElement);
+		}
+		interfaceElement.appendChild( featureElement );
 	}
 	//save contained objects
-	for (UMLObject *obj = m_objects.first(); obj; obj = m_objects.next())
-		obj->saveToXMI (qDoc, featureElement);
-	if (featureElement.hasChildNodes())
-		interfaceElement.appendChild( featureElement );
+	if (m_objects.count()) {
+		QDomElement ownedElement = qDoc.createElement( "UML:Namespace.ownedElement" );
+		for (UMLObject *obj = m_objects.first(); obj; obj = m_objects.next())
+			obj->saveToXMI (qDoc, ownedElement);
+		interfaceElement.appendChild( ownedElement );
+	}
 	qElement.appendChild( interfaceElement );
 }
 
