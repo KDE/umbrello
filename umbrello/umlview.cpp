@@ -69,8 +69,8 @@
 #include "activitywidget.h"
 #include "seqlinewidget.h"
 
-#include "umllistviewitemdatalist.h"
-#include "umllistviewitemdata.h"
+#include "umllistviewitemlist.h"
+#include "umllistviewitem.h"
 #include "umlobjectlist.h"
 #include "association.h"
 
@@ -574,13 +574,13 @@ void UMLView::slotObjectRemoved(UMLObject * o) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLView::contentsDragEnterEvent(QDragEnterEvent *e) {
-	UMLListViewItemDataList list;
+	UMLListViewItemList list;
 	if(!UMLDrag::decodeClip3(e, list)) {
 		return;
 	}
-	UMLListViewItemDataListIt it(list);
+	UMLListViewItemListIt it(list);
 
-	UMLListViewItemData* data = it.current();
+	UMLListViewItem* data = it.current();
 
 	ListView_Type lvtype = data -> getType();
 
@@ -645,13 +645,13 @@ void UMLView::contentsDragEnterEvent(QDragEnterEvent *e) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLView::contentsDropEvent(QDropEvent *e) {
-	UMLListViewItemDataList list;
+	UMLListViewItemList list;
 	if( !UMLDrag::decodeClip3(e, list) ) {
 		return;
 	}
 
-	UMLListViewItemDataListIt it(list);
-	UMLListViewItemData* data = it.current();
+	UMLListViewItemListIt it(list);
+	UMLListViewItem* data = it.current();
 	ListView_Type lvtype = data->getType();
 	UMLObject* o = 0;
 	if(lvtype >= lvt_UseCase_Diagram && lvtype <= lvt_Sequence_Diagram) {

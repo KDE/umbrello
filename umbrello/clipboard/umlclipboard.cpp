@@ -30,8 +30,6 @@
 UMLClipboard::UMLClipboard() {
 	m_pObjectList = new UMLObjectList;
 	m_pObjectList->setAutoDelete( false );
-	m_pItemDataList = new UMLListViewItemDataList;
-	m_pItemDataList->setAutoDelete( false );
 	m_pWidgetList = new UMLWidgetList;
 	m_pWidgetList->setAutoDelete( false );
 	m_pAssociationList = new AssociationWidgetList;
@@ -43,7 +41,6 @@ UMLClipboard::UMLClipboard() {
 
 UMLClipboard::~UMLClipboard() {
     delete m_pObjectList;
-    delete m_pItemDataList;
     delete m_pWidgetList;
     delete m_pAssociationList;
     delete m_pViewList;
@@ -56,7 +53,7 @@ QMimeSource* UMLClipboard::copy(UMLDoc* Doc, bool fromView/*=false*/) {
 	}
 	//Clear previous copied data
 	m_pAssociationList->clear();
-	m_pItemDataList->clear();
+	m_ItemList.clear();
 	m_pObjectList->clear();
 	m_pViewList->clear();
 
@@ -95,7 +92,7 @@ QMimeSource* UMLClipboard::copy(UMLDoc* Doc, bool fromView/*=false*/) {
 			return 0;
 		}
 
-		//For each Selected UMLObject get its UMLListViewItemData and children
+		//For each Selected UMLObject get its UMLListViewItem and children
 		UMLObjectListIt object_it(*m_pObjectList);
 		object = object_it.current();
 		UMLListViewItem* item = 0;
@@ -103,8 +100,8 @@ QMimeSource* UMLClipboard::copy(UMLDoc* Doc, bool fromView/*=false*/) {
 			++object_it;
 			item = listView->findItem(object->getID());
 			if(item) {
-				m_pItemDataList->append( item->getdata() );
-				insertItemDataChildren( item );
+				m_ItemList.append( item );
+				insertItemChildren( item );
 			} else {
 				return 0;
 			}
@@ -156,24 +153,24 @@ QMimeSource* UMLClipboard::copy(UMLDoc* Doc, bool fromView/*=false*/) {
 	int i =0;
 	switch(m_type) {
 		case clip1:
-			data = new UMLDrag(*m_pObjectList, *m_pItemDataList);
+			data = new UMLDrag(*m_pObjectList, m_ItemList);
 			break;
 		case clip2:
-			data = new UMLDrag(*m_pObjectList, *m_pItemDataList, *m_pViewList);
+			data = new UMLDrag(*m_pObjectList, m_ItemList, *m_pViewList);
 			break;
 		case clip3:
-			data = new UMLDrag(*m_pItemDataList);
+			data = new UMLDrag(m_ItemList);
 			break;
 		case clip4:
 			if(png) {
-				data = new UMLDrag(*m_pObjectList, *m_pItemDataList, *m_pWidgetList,
+				data = new UMLDrag(*m_pObjectList, m_ItemList, *m_pWidgetList,
 				                    *m_pAssociationList, *png, Doc -> getCurrentView() -> getType() );
 			} else {
 				return 0;
 			}
 			break;
 		case clip5:
-			data = new UMLDrag(*m_pObjectList, *m_pItemDataList, i); //The int i is used to differenciate
+			data = new UMLDrag(*m_pObjectList, m_ItemList, i); //The int i is used to differenciate
 			//which UMLDrag Constructor gets called
 			break;
 	}
@@ -222,7 +219,7 @@ bool UMLClipboard::fillSelectionLists(UMLListViewItemList& SelectedItems) {
 				item = (UMLListViewItem*)it.current();
 				type = item->getType();
 				if ( !UMLListView::typeIsClassifierList(type) ) {
-					m_pItemDataList->append(item->getdata());
+					m_ItemList.append(item);
 					insertItemChildren(item, SelectedItems);
                                         //Because it is being called when m_type is 3
 					//it will insert only child empty folders of other folders.
@@ -240,7 +237,7 @@ bool UMLClipboard::fillSelectionLists(UMLListViewItemList& SelectedItems) {
 				type = item->getType();
 				if ( !UMLListView::typeIsClassifierList(type) ) {
 
-					m_pItemDataList->append(item->getdata());
+					m_ItemList.append(item);
 
 					if ( UMLListView::typeIsCanvasWidget(type) ) {
 						m_pObjectList->append(item->getUMLObject());
@@ -254,7 +251,7 @@ bool UMLClipboard::fillSelectionLists(UMLListViewItemList& SelectedItems) {
 				item = (UMLListViewItem*)it.current();
 				type = item->getType();
 				if( UMLListView::typeIsClassifierList(type) ) {
-					m_pItemDataList->append(item->getdata());
+					m_ItemList.append(item);
 					m_pObjectList->append(item->getUMLObject());
 
 				} else {
@@ -317,13 +314,13 @@ void UMLClipboard::checkItemForCopyType(UMLListViewItem* Item, bool & WithDiagra
 	}
 }
 
-/** Adds the children of a UMLListViewItem to m_pItemDataList */
+/** Adds the children of a UMLListViewItem to m_ItemList */
 bool UMLClipboard::insertItemChildren(UMLListViewItem * Item, UMLListViewItemList& SelectedItems) {
 	if(Item->childCount()) {
 		UMLListViewItem * child = (UMLListViewItem*)Item->firstChild();
 		int type;
 		while(child) {
-			m_pItemDataList->append(child->getdata());
+			m_ItemList.append(child);
 			type = child->getType();
 			if(type == Uml::lvt_Actor || type == Uml::lvt_UseCase || type == Uml::lvt_Class) {
 				m_pObjectList->append(child->getUMLObject());
@@ -340,16 +337,16 @@ bool UMLClipboard::insertItemChildren(UMLListViewItem * Item, UMLListViewItemLis
 	return true;
 }
 
-bool UMLClipboard::pasteChildren(UMLListViewItem* Parent, UMLListViewItemDataListIt* It,
+bool UMLClipboard::pasteChildren(UMLListViewItem* Parent, UMLListViewItemListIt* It,
                                   IDChangeLog& ChangeLog, UMLDoc * Doc) {
 	if(!It || !Parent || !Doc) {
 		kdWarning()<<"Paste Children Error, maybe: no It, Parent or Doc"<<endl;
 		return false;
 	}
-	UMLListViewItemData* itemdata = It->current();//itemdata gets the parent's info
+	UMLListViewItem* itemdata = It->current();//itemdata gets the parent's info
 	//of children to be added
 	UMLListViewItem* item = 0;
-	int children = itemdata -> getChildren();
+	int children = itemdata -> childCount();
 	for(int i = 0; i < children; i++) {
 		++(*It);
 		itemdata = It->current();
@@ -359,7 +356,7 @@ bool UMLClipboard::pasteChildren(UMLListViewItem* Parent, UMLListViewItemDataLis
 			//has children and that means It->current() shouldn't be null
 		}
 		item = Doc->listView->createItem(*itemdata, ChangeLog, Parent);
-		int count = itemdata -> getChildren();
+		int count = itemdata -> childCount();
 		if( item && count ) {
 			kdDebug()<<count<<endl;
 			if(!pasteChildren(item, It, ChangeLog, Doc)) {
@@ -388,7 +385,7 @@ void UMLClipboard::CleanAssociations(AssociationWidgetList& associations) {
 /** If clipboard has mime type application/x-uml-clip1,
 Pastes the data from the clipboard into the current Doc */
 bool UMLClipboard::pasteClip1(UMLDoc* doc, QMimeSource* data) {
-	UMLListViewItemDataList itemdatalist;
+	UMLListViewItemList itemdatalist;
 	UMLObjectList objects;
 
 	objects.setAutoDelete(false);
@@ -412,8 +409,8 @@ bool UMLClipboard::pasteClip1(UMLDoc* doc, QMimeSource* data) {
 	}
 	bool objectAlreadyExists = false;
 	UMLListViewItem* item = 0;
-	UMLListViewItemData* itemdata = 0;
-	UMLListViewItemDataListIt it(itemdatalist);
+	UMLListViewItem* itemdata = 0;
+	UMLListViewItemListIt it(itemdatalist);
 	while ( (itemdata=it.current()) != 0 ) {
 		if ( (item = doc->listView->findItem(idchanges->findNewID(itemdata->getID()))) ) {
 			objectAlreadyExists = true;
@@ -425,7 +422,7 @@ bool UMLClipboard::pasteClip1(UMLDoc* doc, QMimeSource* data) {
 		if(!item) {
 			return false;
 		}
-		if(itemdata -> getChildren()) {
+		if(itemdata -> childCount()) {
 			if(!pasteChildren(item, &it, *idchanges, doc)) {
 				return false;
 			}
@@ -444,7 +441,7 @@ bool UMLClipboard::pasteClip1(UMLDoc* doc, QMimeSource* data) {
 Pastes the data from the clipboard into the current Doc */
 bool UMLClipboard::pasteClip2(UMLDoc* doc, QMimeSource* data) {
 
-	UMLListViewItemDataList itemdatalist;
+	UMLListViewItemList itemdatalist;
 	UMLObjectList objects;
 	objects.setAutoDelete(false);
 	UMLViewList		views;
@@ -478,14 +475,14 @@ bool UMLClipboard::pasteClip2(UMLDoc* doc, QMimeSource* data) {
 	}
 
 	UMLListViewItem* item = 0;
-	UMLListViewItemData* itemdata = 0;
-	UMLListViewItemDataListIt it(itemdatalist);
+	UMLListViewItem* itemdata = 0;
+	UMLListViewItemListIt it(itemdatalist);
 	while ( (itemdata=it.current()) != 0 ) {
 		item = doc->listView->createItem(*itemdata, *idchanges);
 		if(!item) {
 			return false;
 		}
-		if(itemdata -> getChildren()) {
+		if(itemdata -> childCount()) {
 			if(!pasteChildren(item, &it, *idchanges, doc)) {
 				return false;
 			}
@@ -500,9 +497,9 @@ bool UMLClipboard::pasteClip2(UMLDoc* doc, QMimeSource* data) {
 Pastes the data from the clipboard into the current Doc */
 bool UMLClipboard::pasteClip3(UMLDoc* doc, QMimeSource* data) {
 
-	UMLListViewItemDataList itemdatalist;
+	UMLListViewItemList itemdatalist;
 	UMLListViewItem* item = 0;
-	UMLListViewItemData* itemdata = 0;
+	UMLListViewItem* itemdata = 0;
 	IDChangeLog* idchanges = doc->getChangeLog();
 
 	if(!idchanges) {
@@ -513,10 +510,10 @@ bool UMLClipboard::pasteClip3(UMLDoc* doc, QMimeSource* data) {
 	if(!result) {
 		return false;
 	}
-	UMLListViewItemDataListIt it(itemdatalist);
+	UMLListViewItemListIt it(itemdatalist);
 	while ( (itemdata=it.current()) != 0 ) {
 		item = doc->listView->createItem(*itemdata, *idchanges);
-		if(itemdata -> getChildren()) {
+		if(itemdata -> childCount()) {
 			if(!pasteChildren(item, &it, *idchanges, doc)) {
 				return false;
 			}
@@ -533,7 +530,7 @@ bool UMLClipboard::pasteClip4(UMLDoc* doc, QMimeSource* data) {
 	if(!doc->getCurrentView()) {
 		return false;
 	}
-	UMLListViewItemDataList itemdatalist;
+	UMLListViewItemList itemdatalist;
 	itemdatalist.setAutoDelete(false);
 
 	UMLObjectList objects;
@@ -611,14 +608,14 @@ bool UMLClipboard::pasteClip4(UMLDoc* doc, QMimeSource* data) {
 	doc->getCurrentView()->endPartialWidgetPaste();
 
 	UMLListViewItem* item = 0;
-	UMLListViewItemData* itemdata = 0;
-	UMLListViewItemDataListIt it(itemdatalist);
+	UMLListViewItem* itemdata = 0;
+	UMLListViewItemListIt it(itemdatalist);
 	while ( (itemdata=it.current()) != 0 ) {
 		item = doc->listView->createItem(*itemdata, *idchanges);
 		if(!item) {
 			return false;
 		}
-		if(itemdata -> getChildren()) {
+		if(itemdata -> childCount()) {
 			if(!pasteChildren(item, &it, *idchanges, doc)) {
 				return false;
 			}
@@ -639,7 +636,7 @@ bool UMLClipboard::pasteClip5(UMLDoc* doc, QMimeSource* data) {
 	if(!lvitem || (lvitem->getType() != Uml::lvt_Class)) {
 		return false;
 	}
-	UMLListViewItemDataList itemdatalist;
+	UMLListViewItemList itemdatalist;
 	UMLObjectList objects;
 	objects.setAutoDelete(false);
 	IDChangeLog* idchanges = 0;
@@ -691,12 +688,12 @@ bool UMLClipboard::pasteClip5(UMLDoc* doc, QMimeSource* data) {
 	return result;
 }
 
-bool UMLClipboard::insertItemDataChildren( UMLListViewItem * item ) {
+bool UMLClipboard::insertItemChildren( UMLListViewItem * item ) {
 	if( item -> childCount() ) {
 		UMLListViewItem * child =dynamic_cast<UMLListViewItem *>( item -> firstChild() );
 		while( child ) {
-			m_pItemDataList -> append( child->getdata() );
-			insertItemDataChildren( child );
+			m_ItemList.append( child );
+			insertItemChildren( child );
 			child = dynamic_cast<UMLListViewItem *>( child->nextSibling() );
 		}
 	}

@@ -10,8 +10,8 @@
 #ifndef UMLLISTVIEW_H
 #define UMLLISTVIEW_H
 
-#include "umllistviewitemdata.h"
 #include "umllistviewitemlist.h"
+#include "umllistviewitem.h"
 #include <klistview.h>
 #include <qpixmap.h>
 
@@ -116,11 +116,13 @@ class UMLListView : public KListView {
 	bool getSelectedItems(UMLListViewItemList &ItemList);
 
 	/**
-	 * Creates a new UMLListViewItem from a UMLListViewItemData, if
+	 * CHECK - This is perhaps redundant since the
+	 *         UMLListViewItemData => UMLListViewItem merge.
+	 * Creates a new UMLListViewItem from a UMLListViewItem, if
 	 * parent is null the ListView Decides who is going to be the
 	 * parent
 	 */
-	UMLListViewItem* createItem(UMLListViewItemData& Data, IDChangeLog& IDChanges,
+	UMLListViewItem* createItem(UMLListViewItem& Data, IDChangeLog& IDChanges,
 				    UMLListViewItem* parent = 0);
 
 	/**

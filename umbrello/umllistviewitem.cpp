@@ -18,58 +18,73 @@
 #include <kmessagebox.h>
 #include <kdebug.h>
 
+UMLListView* UMLListViewItem::s_pListView = 0;
+
 UMLListViewItem::UMLListViewItem( UMLListView * parent, QString name,
                                   Uml::ListView_Type t, UMLObject* o)
   : QListViewItem(parent, name) {
 	m_bCreating = false;
 	s_pListView = parent;
-	m_Data.setType( t );
-	m_Data.setUMLObject( o );
-	if( !o )
-		m_Data.setID( -1 );
+	m_Type = t ;
+	m_pObject = o;
+	if (o)
+		m_nId = o->getID();
 	else
-		m_Data.setID( o -> getID() );
+		m_nId = -1;
 	setPixmap( 0, s_pListView -> getPixmap( UMLListView::it_Home ) );
-	m_Data.setListViewItem( this );
 	setText( name );
 	setRenameEnabled( 0, false );
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLListViewItem::UMLListViewItem(UMLListViewItem * parent, QString name, Uml::ListView_Type t,UMLObject*o) : QListViewItem(parent, name) {
+UMLListViewItem::UMLListViewItem(UMLListView * parent)
+  : QListViewItem(parent) {
+	m_bCreating = false;
+	if (s_pListView == NULL) {
+		s_pListView = parent;
+	}
+	if (parent == NULL)
+		kdDebug() << "UMLListViewItem constructor called with a NULL parent" << endl;
+	m_Type = Uml::lvt_Unknown;
+	m_pObject = NULL;
+	m_nId = -1;
+	m_nChildren = 0;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+UMLListViewItem::UMLListViewItem(UMLListViewItem * parent, QString name, Uml::ListView_Type t,UMLObject*o)
+  : QListViewItem(parent, name) {
 	m_bCreating = false;
 	if (s_pListView == NULL) {
 		kdDebug() << "UMLListViewItem internal error 1: s_pListView is NULL" << endl;
 		exit(1);
 	}
-	m_Data.setType( t );
-	m_Data.setUMLObject( o );
+	m_Type = t;
+	m_pObject = o;
 	if( !o ) {
-		m_Data.setID( -1 );
+		m_nId = -1;
 		updateFolder();
 	} else {
 		updateObject();
-		m_Data.setID( o -> getID() );
+		m_nId = o->getID();
 	}
 	if( t == Uml::lvt_Logical_View || t == Uml::lvt_UseCase_View ||
 	    t == Uml::lvt_Component_View || t == Uml::lvt_Deployment_View )
 		setRenameEnabled( 0, false );
 	else
 		setRenameEnabled( 0, true );
-	m_Data.setListViewItem(this);
 	setText( name );
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLListViewItem::UMLListViewItem(UMLListViewItem * parent, QString name, Uml::ListView_Type t,int id) : QListViewItem(parent, name) {
+UMLListViewItem::UMLListViewItem(UMLListViewItem * parent, QString name, Uml::ListView_Type t,int id)
+  : QListViewItem(parent, name) {
 	m_bCreating = false;
 	if (s_pListView == NULL) {
 		kdDebug() << "UMLListViewItem internal error 2: s_pListView is NULL" << endl;
 		exit(1);
 	}
-	m_Data.setType( t );
-	m_Data.setUMLObject( 0 );
-	m_Data.setID( id );
+	m_Type = t;
+	m_pObject = NULL;
+	m_nId = id;
 	setPixmap(0, s_pListView -> getPixmap( UMLListView::it_Diagram ) );
-	m_Data.setListViewItem( this );
 	/*
 		Constructor also used by folder so just make sure we don't need to
 		to set pixmap to folder.  doesn't hurt diagrams.
@@ -82,21 +97,33 @@ UMLListViewItem::UMLListViewItem(UMLListViewItem * parent, QString name, Uml::Li
 UMLListViewItem::~UMLListViewItem() {}
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 Uml::ListView_Type UMLListViewItem::getType() const {
-	return m_Data.getType();
+	return m_Type;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-int UMLListViewItem::getID() {
-	return m_Data.getID();
+int UMLListViewItem::getID() const {
+	if (m_pObject)
+		return m_pObject->getID();
+	return m_nId;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+void UMLListViewItem::setID(int id) {
+	if (m_pObject) {
+		int oid = m_pObject->getID();
+		if (id != -1 && oid != id)
+			kdDebug() << "UMLListViewItem::setID: new id " << id
+				  << " does not agree with object id " << oid << endl;
+	}
+	m_nId = id;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLListViewItem::updateObject() {
-	if( !m_Data.getUMLObject() )
+	if( m_pObject == NULL )
 		return;
 
-	Uml::Scope scope = m_Data.getUMLObject() -> getScope();
-	setText( m_Data.getUMLObject() -> getName());
+	Uml::Scope scope = m_pObject->getScope();
+	setText( m_pObject->getName() );
 
-	switch(m_Data.getUMLObject() -> getBaseType()) {
+	switch( m_pObject->getBaseType() ) {
 		case Uml::ot_Actor:
 			setPixmap( 0, s_pListView -> getPixmap( UMLListView::it_Actor ) );
 			break;
@@ -155,17 +182,8 @@ void UMLListViewItem::updateObject() {
 	}//end switch
 }
 
-UMLListViewItemData* UMLListViewItem::getdata() {
-	return &m_Data;
-
-}
-
-void UMLListViewItem::setdata(UMLListViewItemData& NewData) {
-	m_Data = NewData;
-}
-
 void UMLListViewItem::updateFolder() {
-	switch( m_Data.getType() ) {
+	switch( m_Type ) {
 		case Uml::lvt_UseCase_View:
 		case Uml::lvt_UseCase_Folder:
 			if( isOpen() )
@@ -211,55 +229,54 @@ void UMLListViewItem::setOpen( bool open ) {
 }
 
 void UMLListViewItem::setText(QString newText) {
-	m_Data.setLabel(newText);
+	m_Label = newText;
 	QListViewItem::setText(0, newText);
 }
 
 void UMLListViewItem::okRename( int col ) {
-
+	QListViewItem::okRename( col );
 	if (m_bCreating) {
 		m_bCreating = false;
-		QListViewItem::okRename( col );
 		if ( s_pListView -> slotItemRenamed( this, 0 ) ) {
-			m_Data.setLabel( text(col) );
+			m_Label = text(col);
 		} else {
 			startRename(0);
 		}
 		return;
 	}
-	QListViewItem::okRename( col );
 	QString newText = text( col );
 	UMLObject * object = 0;
 	UMLClassifier * parent = 0;
 	UMLView * view = 0, * anotherView;
+	UMLDoc * doc = s_pListView -> getDocument();
 	if( newText.length() == 0 ) {
 		KMessageBox::error( kapp->mainWidget() ,
 				    i18n("The name you entered was invalid!\nRenaming process has been canceled."),
 		                    i18n("Name Not Valid") );
-		setText( m_Data.getLabel() );
+		setText( m_Label );
 		return;
 	}
-	switch( m_Data.getType( ) ) {
+	switch( m_Type ) {
 		case Uml::lvt_UseCase:
 		case Uml::lvt_Actor:
 		case Uml::lvt_Class:
 		case Uml::lvt_Package:
 		case Uml::lvt_Interface:
-			object = m_Data.getUMLObject();
+			object = m_pObject;
 			if( object ) {
-				object = s_pListView -> getDocument() -> findUMLObject( object -> getBaseType(), newText );
-				if( object && object == m_Data.getUMLObject() )
+				object = doc -> findUMLObject( object -> getBaseType(), newText );
+				if( object && object == m_pObject )
 					object = 0;
 				if( !object ) {
-					m_Data.getUMLObject() -> setName( newText );
-					m_Data.setLabel( newText );
+					m_pObject -> setName( newText );
+					m_Label = newText;
 					return;
 				}
 			}
 			break;
 
 		case Uml::lvt_Operation:
-			object = m_Data.getUMLObject();
+			object = m_pObject;
 			if( object ) {
 				parent = static_cast<UMLClassifier *>( object -> parent() );
 				//see if op already has that name and not the op/att we are renaming
@@ -269,22 +286,22 @@ void UMLListViewItem::okRename( int col ) {
 				                      i18n( "The name you entered was not unique!\nIs this what you wanted?" ),
 				                      i18n( "Name Not Unique" ) ) == KMessageBox::Yes )) {
 					object -> setName( newText );
-					m_Data.setLabel( newText );
+					m_Label = newText;
 					return;
 				}
-				setText( m_Data.getLabel() );
+				setText( m_Label );
 				return;
 			}
 			break;
 
 		case Uml::lvt_Attribute:
-			object = m_Data.getUMLObject();
+			object = m_pObject;
 			if( object ) {
 				parent = static_cast<UMLClass*>( object -> parent() );
 				UMLObjectList list = parent -> findChildObject( object -> getBaseType(), newText );
 				if (list.isEmpty()) {
 					object -> setName( newText );
-					m_Data.setLabel( newText );
+					m_Label = newText;
 					return;
 				}
 			}
@@ -298,15 +315,15 @@ void UMLListViewItem::okRename( int col ) {
 		case Uml::lvt_Activity_Diagram:
 		case Uml::lvt_Component_Diagram:
 		case Uml::lvt_Deployment_Diagram:
-			view = s_pListView -> getDocument() -> findView( m_Data.getID() );
+			view = doc -> findView( getID() );
 			if( view ) {
-				anotherView = s_pListView -> getDocument() -> findView( view -> getType(), newText );
-				if( anotherView && anotherView -> getID() == m_Data.getID() )
+				anotherView = doc -> findView( view -> getType(), newText );
+				if( anotherView && anotherView -> getID() == getID() )
 					anotherView = 0;
 				if( !anotherView ) {
 					view->setName( newText );
-					m_Data.setLabel( newText );
-					s_pListView->getDocument()->signalDiagramRenamed(view);
+					m_Label = newText;
+					doc->signalDiagramRenamed(view);
 					return;
 				}
 			}
@@ -315,7 +332,7 @@ void UMLListViewItem::okRename( int col ) {
 		case Uml::lvt_Logical_Folder:
 		case Uml::lvt_Component_Folder:
 		case Uml::lvt_Deployment_Folder:
-			m_Data.setLabel( newText );
+			m_Label = newText;
 			return;
 			break;
 		default:
@@ -324,7 +341,7 @@ void UMLListViewItem::okRename( int col ) {
 	KMessageBox::error( kapp->mainWidget() ,
 			    i18n("The name you entered was invalid!\nRenaming process has been canceled."),
 	                    i18n("Name Not Valid") );
-	setText( m_Data.getLabel() );
+	setText( m_Label );
 }
 
 void UMLListViewItem::cancelRename(int col) {
@@ -350,4 +367,37 @@ int UMLListViewItem::compare(QListViewItem *other, int col, bool ascending) cons
 
 	return 0;
 }
-UMLListView* UMLListViewItem::s_pListView = 0;
+
+bool UMLListViewItem::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
+	QDomElement itemElement = qDoc.createElement( "listitem" );
+	itemElement.setAttribute( "id", getID() );
+	itemElement.setAttribute( "type", m_Type );
+	itemElement.setAttribute( "label", m_Label );
+	itemElement.setAttribute( "open", isOpen() );
+	UMLListViewItem * childItem = static_cast<UMLListViewItem *> ( firstChild() );
+	while( childItem ) {
+		bool status = childItem -> saveToXMI( qDoc, itemElement );
+		if( !status )
+			return false;
+		childItem = static_cast<UMLListViewItem *> ( childItem -> nextSibling() );
+	}
+	qElement.appendChild( itemElement );
+	return true;
+}
+
+bool UMLListViewItem::loadFromXMI(QDomElement& qElement) {
+	QString id = qElement.attribute( "id", "-1" );
+	QString type = qElement.attribute( "type", "-1" );
+	setText( qElement.attribute( "label", "" ) );
+	QString open = qElement.attribute( "open", "1" );
+
+	m_nChildren = qElement.childNodes().count();
+
+	m_nId = id.toInt();
+	if (m_nId != -1)
+		m_pObject = s_pListView->getDocument()->findUMLObject( m_nId );
+	m_Type = (Uml::ListView_Type)(type.toInt());
+	setOpen( (bool)open.toInt() );
+	return true;
+}
+

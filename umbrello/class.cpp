@@ -183,7 +183,8 @@ QString UMLClass::uniqChildName(UMLObject_Type type) {
 	} else if (type == ot_Stereotype) {
 		currentName = i18n("new_stereotype");
 	} else {
-		kdWarning() << "uniqChildName() called for unknown child type" << endl;
+		kdWarning() << "uniqChildName() called for unknown child type " << type << endl;
+		return "ERROR_in_UMLClass_uniqChildName";
 	}
 
 	QString name = currentName;

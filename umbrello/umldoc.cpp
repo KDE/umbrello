@@ -1232,15 +1232,24 @@ bool UMLDoc::saveToXMI(QIODevice& file) {
 	docElement.setAttribute( "uniqueid", uniqueID );
 	content.appendChild( docElement );
 
-	//  save each UMLObject.. No! ONLY classifiers (class/interfaces) and associations 
-	// are saved. The operations, attributes are owned by these things and will show
-	// up as child nodes.
+	//  save each UMLObject.. No! ONLY classifiers (class/interfaces), packages,
+	// usecases, actors, and associations are saved.
+	// The operations, attributes are owned by these things and will show up
+	// as child nodes.
 	QDomElement objectsElement = doc.createElement( "umlobjects" );
 
-        UMLClassifierList clist = getConcepts();
-	for (UMLClassifier * con = clist.first(); con; con= clist.next()) 
-		con->saveToXMI(doc, objectsElement);
-
+	for(UMLObject *o = objectList.first(); o; o = objectList.next() ) {
+		UMLObject_Type t = o->getBaseType();
+		if (t != ot_Class && t != ot_Interface && t != ot_Actor &&
+		    t != ot_UseCase && t != ot_Package) {
+			if (t != ot_Attribute && t != ot_Operation && t != ot_Association)
+		   	 	kdDebug() << "UMLDoc::saveToXMI(): skipping object of type "
+					  << t << endl;
+			continue;
+		}
+		if (! o->saveToXMI(doc, objectsElement))
+			status = false;
+	}
         UMLAssociationList alist = getAssociations();
 	for (UMLAssociation * a = alist.first(); a; a = alist.next()) 
 		a->saveToXMI(doc, objectsElement);

@@ -12,8 +12,8 @@
 
 #include "../associationwidgetlist.h"
 #include "../umlobjectlist.h"
-#include "../umllistviewitemdatalist.h"
 #include "../umllistviewitemlist.h"
+#include "../umllistviewitem.h"
 #include "../umlviewlist.h"
 #include "../umlwidgetlist.h"
 
@@ -112,7 +112,7 @@ private:
 	bool checkPasteWidgets(UMLWidgetList & widgetList);
 
 	UMLObjectList* m_pObjectList;
-	UMLListViewItemDataList* m_pItemDataList;
+	UMLListViewItemList m_ItemList;
 	UMLWidgetList* m_pWidgetList;
 	AssociationWidgetList* m_pAssociationList;
 	UMLViewList* m_pViewList;
@@ -149,12 +149,12 @@ private:
 	 * 	to make * sure classes have all the attributes and
 	 * 	operations saved.
 	 */
-	bool insertItemDataChildren(UMLListViewItem* item);
+	bool insertItemChildren(UMLListViewItem* item);
 
 	/**
 	 *	 Pastes the children of a UMLListViewItem (The Parent)
 	 */
-	bool pasteChildren(UMLListViewItem* Parent, UMLListViewItemDataListIt* It,
+	bool pasteChildren(UMLListViewItem* Parent, UMLListViewItemListIt* It,
 			   IDChangeLog& ChangeLog, UMLDoc * Doc);
 
 	/**

@@ -28,8 +28,8 @@
 #include "../association.h"
 
 #include "../clipboard/umldrag.h"
-#include "../umllistviewitemdatalist.h"
-#include "../umllistviewitemdata.h"
+#include "../umllistviewitemlist.h"
+#include "../umllistviewitem.h"
 
 #include <typeinfo>
 #include <algorithm>
@@ -183,14 +183,14 @@ void Diagram::dragEnterEvent(QDragEnterEvent *e)
 
 void Diagram::dropEvent(QDropEvent *e)
 {
-	UMLListViewItemDataList list;
+	UMLListViewItemList list;
 	bool status = UMLDrag::decodeClip3(e,list);
 	if(!status)
 	{
 		return;
 	}
-	UMLListViewItemDataListIt it(list);
-	UMLListViewItemData* data = it.current();
+	UMLListViewItemListIt it(list);
+	UMLListViewItem* data = it.current();
 	UMLObject* o = 0;
 	o = m_doc->findUMLObject(data->getID());
 	if(!o)
@@ -209,15 +209,15 @@ void Diagram::dropEvent(QDropEvent *e)
 
 bool Diagram::canAcceptDrop(QDropEvent *e)
 {
-	UMLListViewItemDataList list;
+	UMLListViewItemList list;
 	bool status = UMLDrag::decodeClip3(e,list);
 	if(!status)
 	{
 		return false;
 	}
 
-	UMLListViewItemDataListIt it(list);
-	UMLListViewItemData* data = it.current();
+	UMLListViewItemListIt it(list);
+	UMLListViewItem* data = it.current();
 	UMLObject* o = 0;
 	if( !(o = m_doc->findUMLObject(data->getID())) )
 	{
