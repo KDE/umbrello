@@ -234,6 +234,7 @@ bool UMLOperation::resolveRef() {
 
 void UMLOperation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement operationElement = UMLObject::save("UML:Operation", qDoc);
+	QDomElement featureElement = qDoc.createElement( "UML:BehavioralFeature.parameter" );
 	if (m_pSecondary) {
 		//operationElement.setAttribute( "type", ID2STR(m_pSecondary->getID()) );
 		if (m_pSecondary->getName() != "void") {
@@ -242,7 +243,7 @@ void UMLOperation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 			retElement.setAttribute( "xmi.id", ID2STR(pDoc->getUniqueID()) );
 			retElement.setAttribute( "type", ID2STR(m_pSecondary->getID()) );
 			retElement.setAttribute( "kind", "return" );
-			operationElement.appendChild( retElement );
+			featureElement.appendChild( retElement );
 		}
 	} else {
 		//operationElement.setAttribute( "type", m_SecondaryId );
@@ -268,8 +269,10 @@ void UMLOperation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 			attElement.setAttribute("kind", "inout");
 		// The default for the parameter kind is "in".
 
-		operationElement.appendChild( attElement );
+		featureElement.appendChild( attElement );
 	}
+	if (featureElement.hasChildNodes())
+		operationElement.appendChild( featureElement );
 	qElement.appendChild( operationElement );
 }
 
