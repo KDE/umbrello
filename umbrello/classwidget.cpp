@@ -277,6 +277,7 @@ void ClassWidget::calculateSize() {
 		if(numOps == 0)
 			height += fontHeight / 2;//no ops, so just add a but of space
 	}
+	//kdDebug() << "ClassWidget::calculateSize: numAtts=" << numAtts << ", numOps=" << numOps << endl;
 	height += lines * fontHeight;
 	//now set the width of the concept
 	//set width to name to start with
@@ -347,7 +348,7 @@ void ClassWidget::calculateSize() {
 	}
 
 	setSize(width, height);
-//	adjustAssocs( getX(), getY() );//adjust assoc lines. Doesnt appear to be needed. -b.t.
+	adjustUnselectedAssocs( getX(), getY() );
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void ClassWidget::slotMenuSelection(int sel) {
