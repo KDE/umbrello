@@ -185,8 +185,8 @@ void NoteWidget::drawText(QPainter & p, int offsetX, int offsetY) {
 				}//end if
 				else
 					p.drawText( offsetX + textX, offsetY + textY , textWidth, fontHeight, AlignLeft, word );
-				textX = textWidth;
 			}//end if
+                        textX = margin;
 			textY += fontHeight;
 			word = "";
 		} else if( c.isSpace() ) {
