@@ -42,8 +42,7 @@ public:
 	/**
 	 * Constructors
 	 */
-	CPPCodeDocumentation ( ClassifierCodeDocument * doc, QString text );
-	CPPCodeDocumentation ( ClassifierCodeDocument * doc );
+	CPPCodeDocumentation ( ClassifierCodeDocument * doc, const QString & text = "");
 
 	/**
 	 * Empty Destructor

@@ -21,14 +21,8 @@
 // Constructors/Destructors
 //  
 
-CPPCodeDocumentation::CPPCodeDocumentation ( ClassifierCodeDocument * doc, QString text ) 
+CPPCodeDocumentation::CPPCodeDocumentation ( ClassifierCodeDocument * doc, const QString & text ) 
     : CodeComment ((CodeDocument*) doc, text)
-{
-
-}
-
-CPPCodeDocumentation::CPPCodeDocumentation ( ClassifierCodeDocument * doc ) 
-    : CodeComment ((CodeDocument*) doc)
 {
 
 }
