@@ -106,8 +106,10 @@ void XMLSchemaWriter::writeClass(UMLClassifier *c)
 	// 2. Open schema element node with appropriate namespace decl
 	XMLschema<<"<"<<makeSchemaTag("schema");
 	// common namespaces we know will be in the file..
+	XMLschema<<" targetNamespace=\""<<packageNamespaceURI+packageNamespaceTag<<"\""<<endl;
 	XMLschema<<" xmlns:"<<schemaNamespaceTag<<"=\""<<schemaNamespaceURI<<"\"";
 	XMLschema<<" xmlns:"<<packageNamespaceTag<<"=\""<<packageNamespaceURI+packageNamespaceTag<<"\"";
+
 	XMLschema<<">"<<endl; // close opening declaration
 
 	indentLevel++;
@@ -781,13 +783,13 @@ QString XMLSchemaWriter::getElementName(UMLClassifier *c)
 QString XMLSchemaWriter::getElementTypeName(UMLClassifier *c)
 {
 	QString elementName = getElementName(c);
-	return elementName + "Type";
+	return elementName + "SchemaType";
 }
 
 QString XMLSchemaWriter::getElementGroupTypeName(UMLClassifier *c)
 {
 	QString elementName = getElementName(c);
-	return elementName + "InterfaceType";
+	return elementName + "SchemaInterfaceType";
 }
 
 QString XMLSchemaWriter::makePackageTag (QString tagName) {
