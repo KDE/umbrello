@@ -665,7 +665,7 @@ private:
 	 * Returns the FloatingText identified by the given text role.
 	 * Returns NULL if there is no FloatingText active for the text role.
 	 */
-	FloatingText* AssociationWidget::floatingText(Uml::Text_Role role);
+	FloatingText* floatingText(Uml::Text_Role role);
 
 	/**
 	 * Puts the text widget with the given role at the given position.

@@ -288,7 +288,7 @@ public:
 	/**
 	 * Finds or creates a stereotype for the parent object.
 	 */
-	UMLStereotype* UMLDoc::findOrCreateStereotype(QString name);
+	UMLStereotype* findOrCreateStereotype(QString name);
 
 	/**
 	 * Creates an operation for the parent concept.
