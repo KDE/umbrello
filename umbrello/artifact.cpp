@@ -40,15 +40,15 @@ bool UMLArtifact::loadFromXMI(QDomElement& element) {
 		return false;
 	}
 	QString drawAs = element.attribute("drawas", "0");
-	m_drawAsType = (Artifact_draw_type)drawAs.toInt();
+	m_drawAsType = (Draw_Type)drawAs.toInt();
 	return true;
 }
 
-void UMLArtifact::setDrawAsType(Artifact_draw_type type) {
+void UMLArtifact::setDrawAsType(Draw_Type type) {
 	m_drawAsType = type;
 }
 
-Artifact_draw_type UMLArtifact::getDrawAsType() {
+UMLArtifact::Draw_Type UMLArtifact::getDrawAsType() {
 	return m_drawAsType;
 }
 

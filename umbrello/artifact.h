@@ -16,59 +16,63 @@ class IDChangeLog;
 class UMLAssociation;
 class UMLDoc;
 
-/**
- * Artifacts can be drawn using one of several icons
- */
-enum Artifact_draw_type {
-	defaultDraw,
-	file,
-	library,
-	table
-};
-
 
 /**
- *	This class contains the non-graphical information required for a UML Artifact.
- *	This class inherits from @ref UMLCanvasObject which contains most of the information.
- *	The @ref UMLDoc class creates instances of this type.  All Artifacts will need a unique
- *	id.  This will be given by the @ref UMLDoc class.  If you don't leave it up to the @ref UMLDoc
- *	class then call the method @ref UMLDoc::getUniqueID to get a unique id.
+ * This class contains the non-graphical information required for a UML
+ * Artifact.
+ * This class inherits from @ref UMLCanvasObject which contains most of the
+ * information.
+ * The @ref UMLDoc class creates instances of this type.  All Artifacts will
+ * need a unique id.  This will be given by the @ref UMLDoc class.  If you
+ * don't leave it up to the @ref UMLDoc class then call the method @ref
+ * UMLDoc::getUniqueID to get a unique id.
  *
- *	@short	Non-graphical information for a Artifact.
- *	@author Jonathan Riddell
- *	@see	UMLCanvasObject
+ * @short Non-graphical information for a Artifact.
+ * @author Jonathan Riddell
+ * @see	UMLCanvasObject
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class UMLArtifact : public UMLCanvasObject {
 	Q_OBJECT
 public:
+
 	/**
-	 *	Sets up a Artifact.
+	 * Artifacts can be drawn using one of several icons.
+	 */
+	enum Draw_Type {
+		defaultDraw,
+		file,
+		library,
+		table
+	};
+
+	/**
+	 * Sets up a Artifact.
 	 *
-	 *	@param	parent	The parent to this Concept.
-	 *	@param	name	The name of the Concept.
-	 *	@param	id	The unique id of the Concept.
+	 * @param parent	The parent to this Concept.
+	 * @param name		The name of the Concept.
+	 * @param id		The unique id of the Concept.
 	 */
 	UMLArtifact(UMLDoc * parent, const QString & Name = "", int id = -1);
 
 	/**
-	 *	Empty deconstructor.
+	 * Standard deconstructor.
 	 */
 	virtual ~UMLArtifact();
 
 	/**
-	 *	Initializes key variables of the class.
+	 * Initializes key variables of the class.
 	 */
 	virtual void init();
 
 	/**
-	 * Creates the UML:Artifact element including it's operations,
+	 * Creates the UML:Artifact element including its operations,
 	 * attributes and templates
 	 */
 	bool saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 	/**
-	 * Loads the UML:Artifact element including it's operations,
+	 * Loads the UML:Artifact element including its operations,
 	 * attributes and templates
 	 */
 	bool loadFromXMI( QDomElement & element );
@@ -76,20 +80,20 @@ public:
 	/**
 	 * sets m_drawAsType for which method to draw the artifact as
 	 */
-	void setDrawAsType(Artifact_draw_type type);
+	void setDrawAsType(Draw_Type type);
 
 	/**
 	 * returns the value of m_drawAsType
 	 */
-	Artifact_draw_type getDrawAsType();
+	Draw_Type getDrawAsType();
 
 private:
 
 	/**
-	 * Artifacts can be drawn as one of several different icons.
-	 * This value choosing how to draw them.
+	 * Artifacts can be drawn as one of several different icons,
+	 * this value choosing how to draw them.
 	 */
-	Artifact_draw_type m_drawAsType;
+	Draw_Type m_drawAsType;
 };
 
 #endif

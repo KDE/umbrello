@@ -123,13 +123,13 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o) : QWidget(p
 
 		topLayout->addWidget(m_pDrawAsBG);
 
-		Artifact_draw_type drawAs = (static_cast<UMLArtifact*>(o))->getDrawAsType();
+		UMLArtifact::Draw_Type drawAs = (static_cast<UMLArtifact*>(o))->getDrawAsType();
 
-		if (drawAs == file) {
+		if (drawAs == UMLArtifact::file) {
 			m_pFileRB->setChecked(true);
-		} else if (drawAs == library) {
+		} else if (drawAs == UMLArtifact::library) {
 			m_pLibraryRB->setChecked(true);
-		} else if (drawAs == table) {
+		} else if (drawAs == UMLArtifact::table) {
 			m_pTableRB->setChecked(true);
 		} else {
 			m_pDefaultRB->setChecked(true);
@@ -341,15 +341,15 @@ void ClassGenPage::updateObject() {
 		}
 
 		if (m_pObject->getBaseType() == Uml::ot_Artifact) {
-			Artifact_draw_type drawAsType;
+			UMLArtifact::Draw_Type drawAsType;
 			if ( m_pFileRB->isChecked() ) {
-				drawAsType = file;
+				drawAsType = UMLArtifact::file;
 			} else if ( m_pLibraryRB->isChecked() ) {
-				drawAsType = library;
+				drawAsType = UMLArtifact::library;
 			} else if (m_pTableRB->isChecked() ) {
-				drawAsType = table;
+				drawAsType = UMLArtifact::table;
 			} else {
-				drawAsType = defaultDraw;
+				drawAsType = UMLArtifact::defaultDraw;
 			}
 			(static_cast<UMLArtifact*>(m_pObject))->setDrawAsType(drawAsType);
 		}
