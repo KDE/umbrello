@@ -51,12 +51,17 @@ AssociationWidget::AssociationWidget(UMLView *view, UMLWidget* pWidgetA,
 		UMLObject* umlRoleA = pWidgetA->getUMLObject();
 		UMLObject* umlRoleB = pWidgetB->getUMLObject();
 		if (umlRoleA != NULL && umlRoleB != NULL) {
-			bool swap;
-			// m_pAssociation = umldoc->findAssociation( assocType, umlRoleA, umlRoleB, &swap );
-			UMLAssociation * myAssoc = umldoc->findAssociation( assocType, umlRoleA, umlRoleB, &swap );
-			if (myAssoc == NULL) {
-				myAssoc = new UMLAssociation( umldoc, assocType, umlRoleA, umlRoleB );
+//			bool swap;
+
+			// THis isnt correct. We could very easily have more than one
+			// of the same type of association between the same two objects.
+			// Just create the association. This search should have been
+			// done BEFORE creation of the widget, if it mattered to the code.
+//			UMLAssociation * myAssoc = umldoc->findAssociation( assocType, umlRoleA, umlRoleB, &swap );
+//			if (myAssoc == NULL) {
+				UMLAssociation * myAssoc = new UMLAssociation( umldoc, assocType, umlRoleA, umlRoleB );
 				setUMLAssociation(myAssoc);
+/*
 			} else if (swap) {
 				kdDebug() << "AssociationWidget(): umldoc->findAssoc returns swap true "
 					  << "for assoctype " << assocType << endl;
@@ -68,6 +73,7 @@ AssociationWidget::AssociationWidget(UMLView *view, UMLWidget* pWidgetA,
 				myAssoc = new UMLAssociation( umldoc, assocType, umlRoleA, umlRoleB );
 			}
 			setUMLAssociation(myAssoc);
+*/
 /*
 			connect(m_pAssociation, SIGNAL(modified()), this,
 				SLOT(mergeUMLRepresentationIntoAssociationData()));
