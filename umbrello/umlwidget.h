@@ -389,15 +389,6 @@ public:
 	void addAssoc(AssociationWidget* pAssoc);
 
 	/**
-	 * Resolves the given association's crossing one or more of
-	 * the existing association lines of this UMLWidget.
-	 *
-	 * @param a	Pointer to the AssociationWidget whose line
-	 *		may cause the intersection.
-	 */
-	void resolveAssocLineCrossing(AssociationWidget *a);
-
-	/**
 	 *  Returns the list of associations connected to this widget.
 	 */
 	AssociationWidgetList & getAssocList() {

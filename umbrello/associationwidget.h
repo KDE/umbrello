@@ -423,12 +423,6 @@ public:
 	void mouseMoveEvent(QMouseEvent * me);
 
 	/**
-	 * Resolves the crossing of the line of the given association with
-	 * our own association line.
-	 */
-	void resolveCrossing(AssociationWidget *a);
-
-	/**
 	 *  Returns true if the given point is on the Association.
 	 */
 	bool onAssociation(const QPoint & point);

@@ -340,39 +340,12 @@ void UMLWidget::updateWidget()
 		update();
 }
 
-void UMLWidget::resolveAssocLineCrossing(AssociationWidget *a) {
-	AssociationWidgetListIt assoc_it(m_Assocs);
-	AssociationWidget* assocwidget = 0;
-	while((assocwidget=assoc_it.current())) {
-		++assoc_it;
-		if (assocwidget == a)
-			continue;
-		a->resolveCrossing(assocwidget);
-	}
-}
-
 void UMLWidget::mouseReleaseEvent(QMouseEvent *me) {
 	int count = m_pView -> getSelectCount();
 	m_bStartMove = false;
 	m_bMouseDown = false;
 
 	if (me->button() == LeftButton) {
-		/*
-		if (m_bMoved) {
-			// Resolve crossing of association lines.
-			AssociationWidgetListIt assoc_it(m_Assocs);
-			AssociationWidget* assocwidget = 0;
-			while((assocwidget=assoc_it.current())) {
-				++assoc_it;
-				UMLWidget *pWa = assocwidget->getWidgetA();
-				UMLWidget *pWb = assocwidget->getWidgetB();
-				if (pWa == pWb)
-					continue;
-				UMLWidget *other = (this == pWa ? pWb : pWa);
-				other->resolveAssocLineCrossing(assocwidget);
-			}
-		}
-		 */
 		/* if multiple elements were not moved with the left mouse button,
 		 * deselect all and select only the current */
 		if ((m_bMoved == false) && (count > 1) && (m_bShiftPressed == false))
@@ -710,13 +683,6 @@ void UMLWidget::adjustAssocs(int x, int y)
 	while((assocwidget=assoc_it.current())) {
 		++assoc_it;
 		assocwidget->widgetMoved(this, x, y);
-		// Resolve crossing of association lines.
-		UMLWidget *pWa = assocwidget->getWidgetA();
-		UMLWidget *pWb = assocwidget->getWidgetB();
-		if (pWa == pWb)
-			continue;
-		UMLWidget *other = (this == pWa ? pWb : pWa);
-		other->resolveAssocLineCrossing(assocwidget);
 	}
 }
 

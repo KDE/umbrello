@@ -1282,14 +1282,14 @@ void AssociationWidget::calculateEndingPoints() {
 	if( oldRegionA != m_WidgetARegion ) {
 		updateRegionLineCount( regionCountA - 1, regionCountA, m_WidgetARegion, true );
 		updateAssociations( oldCountA - 1, oldRegionA, true );//tell the old region this ones left
-
 		updateAssociations( regionCountA, m_WidgetARegion, true );
 	} else if( oldCountA != regionCountA ) {
 		updateRegionLineCount( regionCountA - 1, regionCountA, m_WidgetARegion, true );
-
 		updateAssociations( regionCountA, m_WidgetARegion, true );
-	} else
+	} else {
 		updateRegionLineCount( m_nIndexA, m_nTotalCountA, m_WidgetARegion, true );
+		updateAssociations( m_nTotalCountA, m_WidgetARegion, true );
+	}
 	//now do the same for widgetB
 	//if the line has more than one segment change the values to calculate
 	//from widgetB to point the last point away from it
@@ -1336,8 +1336,10 @@ void AssociationWidget::calculateEndingPoints() {
 	} else if( oldCountB != regionCountB ) {
 		updateRegionLineCount( regionCountB - 1, regionCountB, m_WidgetBRegion, false );
 		updateAssociations( regionCountB, m_WidgetBRegion, false );
-	} else
+	} else {
 		updateRegionLineCount( m_nIndexB, m_nTotalCountB, m_WidgetBRegion, false );
+		updateAssociations( m_nTotalCountB, m_WidgetBRegion, false );
+	}
 }
 
 /** Read property of bool m_bActivated. */
@@ -1769,98 +1771,6 @@ QPoint AssociationWidget::findIntersection(QPoint P1, QPoint P2, QPoint P3, QPoi
 	}
 
 	return swapXY(pt);  // Swap X and Y in target to go back to Qt coord.sys.
-}
-
-void AssociationWidget::resolveCrossing(AssociationWidget *a) {
-	if (m_LinePath.count() > 2) {
-		kdDebug() << "resolveCrossing: m_LinePath.count() is " << m_LinePath.count()
-			  << endl;
-		return;
-	}
-	LinePath *pOther = a->getLinePath();
-	if (pOther->count() > 2) {
-		kdDebug() << "resolveCrossing: pOther->count() is " << pOther->count()
-			  << endl;
-		return;
-	}
-	/* not needed:
-	UMLWidget *commonWidget = NULL;
-	if (a->getWidgetA() == m_pWidgetA || a->getWidgetB() == m_pWidgetA)
-		commonWidget = m_pWidgetA;
-	else if (a->getWidgetA() == m_pWidgetB || a->getWidgetB() == m_pWidgetB)
-		commonWidget = m_pWidgetB;
-	else {
-		kdDebug() << "resolveCrossing: No common widget between the two assocs"
-			  << endl;
-		return;
-	}
-	 */
-	QPoint myStart = m_LinePath.getPoint(0);
-	QPoint myEnd = m_LinePath.getPoint(1);
-	QPoint otherStart = pOther->getPoint(0);
-	QPoint otherEnd = pOther->getPoint(1);
-	QPoint none(-1, -1);
-	if (findIntersection(myStart, myEnd, otherStart, otherEnd) == none)
-		return;
-	if (myStart.x() == otherStart.x()) {
-		kdDebug() << "resolveCrossing: myStart.x() == otherStart.x()" << endl;
-		// Swap Y coordinates
-		QPoint my(myStart.x(), otherStart.y());
-		m_LinePath.setPoint(0, my);
-		QPoint other(otherStart.x(), myStart.y());
-		pOther->setPoint(0, other);
-	} else if (myStart.y() == otherStart.y()) {
-		kdDebug() << "resolveCrossing: myStart.y() == otherStart.y()" << endl;
-		// Swap X coordinates
-		QPoint my(otherStart.x(), myStart.y());
-		m_LinePath.setPoint(0, my);
-		QPoint other(myStart.x(), otherStart.y());
-		pOther->setPoint(0, other);
-	} else if (myEnd.x() == otherEnd.x()) {
-		kdDebug() << "resolveCrossing: myEnd.x() == otherEnd.x()" << endl;
-		// Swap Y coordinates
-		QPoint my(myEnd.x(), otherEnd.y());
-		m_LinePath.setPoint(1, my);
-		QPoint other(otherEnd.x(), myEnd.y());
-		pOther->setPoint(1, other);
-	} else if (myEnd.y() == otherEnd.y()) {
-		kdDebug() << "resolveCrossing: myEnd.y() == otherEnd.y()" << endl;
-		// Swap X coordinates
-		QPoint my(otherEnd.x(), myEnd.y());
-		m_LinePath.setPoint(1, my);
-		QPoint other(myEnd.x(), otherEnd.y());
-		pOther->setPoint(1, other);
-	} else if (myStart.x() == otherEnd.x()) {
-		kdDebug() << "resolveCrossing: myStart.x() == otherEnd.x()" << endl;
-		// Swap Y coordinates
-		QPoint my(myStart.x(), otherEnd.y());
-		m_LinePath.setPoint(0, my);
-		QPoint other(otherEnd.x(), myStart.y());
-		pOther->setPoint(1, other);
-	} else if (myStart.y() == otherEnd.y()) {
-		kdDebug() << "resolveCrossing: myStart.y() == otherEnd.y()" << endl;
-		// Swap X coordinates
-		QPoint my(otherEnd.x(), myStart.y());
-		m_LinePath.setPoint(0, my);
-		QPoint other(myStart.x(), otherEnd.y());
-		pOther->setPoint(1, other);
-	} else if (myEnd.x() == otherStart.x()) {
-		kdDebug() << "resolveCrossing: myEnd.x() == otherStart.x()" << endl;
-		// Swap Y coordinates
-		QPoint my(myEnd.x(), otherStart.y());
-		m_LinePath.setPoint(1, my);
-		QPoint other(otherStart.x(), myEnd.y());
-		pOther->setPoint(0, other);
-	} else if (myEnd.y() == otherStart.y()) {
-		kdDebug() << "resolveCrossing: myEnd.y() == otherStart.y()" << endl;
-		// Swap X coordinates
-		QPoint my(otherStart.x(), myEnd.y());
-		m_LinePath.setPoint(1, my);
-		QPoint other(myEnd.x(), otherStart.y());
-		pOther->setPoint(0, other);
-	} else {
-		kdDebug() << "resolveCrossing: Oops, boog: Cannot swap." << endl;
-	}
 }
 
 /* Returns the total length of the association's LinePath:
