@@ -231,4 +231,9 @@ void UMLObject::setStatic(const bool bStatic)
 	m_bStatic = bStatic;
 	emit modified();
 }
+
+void UMLObject::emitModified()
+{
+	emit modified();
+}
 #include "umlobject.moc"

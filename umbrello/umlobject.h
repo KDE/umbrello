@@ -112,6 +112,7 @@ public:
 	 */
 	void setScope(Scope s) {
 		m_Scope = s;
+		emit modified();
 	}
 
 	/**
@@ -133,6 +134,7 @@ public:
 	 */
 	void setStereotype(QString _name) {
 		m_Stereotype = _name;
+		emit modified();
 	}
 
 	/**
@@ -142,6 +144,7 @@ public:
 	 */
 	void setPackage(QString _name) {
 		m_Package = _name;
+		emit modified();
 	}
 
 	/**
@@ -212,6 +215,11 @@ public:
 	The default accepts nothing (returns false)
 	*/
   	virtual bool acceptAssociationType(Uml::Association_Type);
+	
+	/** Forces the emition of the modified signal. 
+	  * Usefull when updating several attributes at a time: you can block the signals, update all atts, and
+	  * then force the signal.*/
+	void emitModified();
   
 signals:
 	void modified();  

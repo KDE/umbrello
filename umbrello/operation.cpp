@@ -19,7 +19,7 @@ UMLOperation::UMLOperation(QObject *parent, QString Name, int id, Scope s, QStri
 	m_BaseType = ot_Operation;
 	m_nUniqueID = 0;//used for parm ids - local only to this op
 	m_List.clear();
-	m_List.setAutoDelete(true);
+	m_List.setAutoDelete(false);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLOperation::UMLOperation(QObject * parent) : UMLObject(parent) {
@@ -128,8 +128,11 @@ bool UMLOperation::serialize(QDataStream *s, bool archive, int fileversion) {
 	return status;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void UMLOperation::addParm(UMLAttribute *parameter) {
-	m_List.append(parameter);
+void UMLOperation::addParm(UMLAttribute *parameter, int position) {
+	if( position >= 0 && position <= m_List.count() )
+		m_List.insert(position,parameter);
+	else
+		m_List.append( parameter );
 	emit modified();
 	connect(parameter,SIGNAL(modified()),this,SIGNAL(modified()));
 }

@@ -35,14 +35,19 @@ UMLObject* UMLClassifier::addOperation(QString name, int id) {
 	connect(o,SIGNAL(modified()),this,SIGNAL(modified()));
 	return o;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
-bool UMLClassifier::addOperation(UMLOperation* Op) {
-	kdDebug()<<"adding operation "<<Op->getName()<<"to "<<getName()<<endl;
-	m_OpsList.append( Op );
-	kdDebug()<<"operation added to"<<getName()<<endl;
+
+bool UMLClassifier::addOperation(UMLOperation* op, int position )
+{
+	QString name = (QString)op->getName();
+	op -> parent() -> removeChild( op );
+	this -> insertChild( op );
+	if( position >= 0 && position <= m_OpsList.count() )
+		m_OpsList.insert(position,op);
+	else
+		m_OpsList.append( op );
 	emit modified();
-	emit operationAdded(Op);
-	connect(Op,SIGNAL(modified()),this,SIGNAL(modified()));
+	connect(op,SIGNAL(modified()),this,SIGNAL(modified()));
+	emit operationAdded(op);
 	return true;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////

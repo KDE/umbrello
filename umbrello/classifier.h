@@ -67,11 +67,10 @@ public:
 	 */
 	UMLObject* addOperation(QString name, int id);
 
-	/**
-	 *	Adds an already created Operation. The Operation must not belong to any other
-	 *	concept
-	 */
-	bool addOperation(UMLOperation* Op);
+	/** Adds an operation to the classifier, at the given position. If position is negative or too large,
+	 * the attribute is added to the end of the list */
+	bool addOperation(UMLOperation* Op, int position = -1);
+	
 
 	/**
 	 *	Adds an already created Operation and checks for

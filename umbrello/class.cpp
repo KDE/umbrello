@@ -56,6 +56,25 @@ bool UMLClass::addAttribute(UMLAttribute* Att, IDChangeLog* Log /* = 0*/) {
 	}
 	return false;
 }
+bool UMLClass::addAttribute(UMLAttribute* Att, int position )
+{
+	QString name = (QString)Att->getName();
+	if( findChildObject( Uml::ot_Attribute, name).count() == 0 ) 
+	{
+		Att -> parent() -> removeChild( Att );
+		this -> insertChild( Att );
+		if( position >= 0 && position <= m_AttsList.count() )
+			m_AttsList.insert(position,Att);
+		else
+			m_AttsList.append( Att );
+		emit modified();
+		connect(Att,SIGNAL(modified()),this,SIGNAL(modified()));
+		emit attributeAdded(Att);
+		return true;
+	}
+	return false;
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 int UMLClass::removeAttribute(UMLObject* a) {
 	if(!m_AttsList.remove((UMLAttribute *)a)) {
@@ -91,6 +110,24 @@ bool UMLClass::addTemplate(UMLTemplate* newTemplate, IDChangeLog* log /* = 0*/) 
 		log->removeChangeByNewID( newTemplate->getID() );
 		delete newTemplate;
 	}
+	return false;
+}
+bool UMLClass::addTemplate(UMLTemplate* Template, int position)
+{
+	QString name = Template->getName();
+	if (findChildObject(Uml::ot_Template, name).count() == 0) {
+		Template->parent()->removeChild(Template);
+		this->insertChild(Template);
+		if( position >= 0 && position <= m_TemplateList.count() )
+			m_TemplateList.insert(position,Template);
+		else
+			m_TemplateList.append(Template);
+		emit modified();
+		connect(Template,SIGNAL(modified()),this,SIGNAL(modified()));
+		emit templateAdded(Template);
+		return true;
+	}
+	//else
 	return false;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -241,7 +278,7 @@ void UMLClass::init() {
 	m_AttsList.clear();
 	m_AttsList.setAutoDelete(false);
 	m_TemplateList.clear();
-	m_TemplateList.setAutoDelete(true);
+	m_TemplateList.setAutoDelete(false);
 }
 
 long UMLClass::getClipSizeOf() {

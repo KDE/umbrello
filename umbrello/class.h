@@ -70,6 +70,11 @@ public:
 	 *	concept
 	 */
 	bool addAttribute(UMLAttribute* Att, IDChangeLog* Log = 0);
+	
+	/** Adds an attribute to the class, at the given position. If position is negative or too large,
+	 * the attribute is added to the end of the list */
+	 //TODO:  give default value -1 to position (append) - now it conflicts with the method above..
+	bool addAttribute(UMLAttribute* Att, int position );
 
 	/**
 	 *	Removes an attribute from the Concept.
@@ -91,6 +96,17 @@ public:
 	 *	concept
 	 */
 	bool addTemplate(UMLTemplate* newTemplate, IDChangeLog* log = 0);
+	
+	/**
+	 * Adds an template to the class, the template object must not belong to any other
+	 * class
+	 * @param Template The template to add
+	 * @param position The position of the template in the list. A value of -1 will
+	 *                 add the template to the end of the list
+	 */
+	 //TODO: if the param IDChangeLog from the method above is not being used,
+	  // give position a default value of -1 and the method can replace the above one
+	bool addTemplate(UMLTemplate* Template, int position);
 
 	/**
 	 *	Removes a template from the Concept.

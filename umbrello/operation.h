@@ -134,10 +134,11 @@ public:
 	/**
 	 *	Add a parameter to the operation.
 	 *
-	 *	@param	type	The type of the parameter.
-	 *	@param	name	The name of the parameter.
+	 *	@param	parameter The paramter to add
+	 *	@param	position The position in the parameter list. If position = -1 the parameter
+	 *              will be appended to the list
 	 */
-	void addParm(UMLAttribute *parameter);
+	void addParm(UMLAttribute *parameter, int position = -1);
 
 	/**
 	 *   Returns the amount of bytes needed to serialize an instance object to the clipboard
