@@ -13,12 +13,8 @@
 #include "cpptree2uml.h"
 #include "ast_utils.h"
 #include "../classimport.h"
-#include "../attribute.h"
-#include "../operation.h"
-#include "../association.h"
-#include "../enum.h"
-#include "../umldoc.h"
-#include "../uml.h"
+#include "../attribute.h"  // to be removed (make factory method in ClassImport)
+#include "../operation.h"  // to be removed (make factory method in ClassImport)
 #include "urlutil.h"
 
 #include <kdebug.h>
@@ -69,7 +65,9 @@ void CppTree2Uml::parseNamespace( NamespaceAST* ast )
 	nsName = ast->namespaceName()->text();
     }
 
+#ifdef DEBUG_CPPTREE2UML
     kdDebug() << "CppTree2Uml::parseNamespace: " << nsName << endl;
+#endif
     UMLObject * o = m_importer->createUMLObject( Uml::ot_Package, nsName, "",
 						 m_currentNamespace.top() );
     UMLPackage *ns = (UMLPackage *)o;
@@ -126,8 +124,9 @@ void CppTree2Uml::parseTypedef( TypedefAST* ast )
 	       if( d->declaratorId() )
 		  id = d->declaratorId()->text();
 	    }
+#ifdef DEBUG_CPPTREE2UML
 	    kdDebug() << "CppTree2Uml::parseTypedef: name=" << id << ", type=" << type << endl;
-
+#endif
 	    UMLObject * o = m_importer->createUMLObject( Uml::ot_Class, id, "",
 							 m_currentNamespace.top() );
 	    o->setStereotype( "typedef" );
@@ -209,15 +208,15 @@ void CppTree2Uml::parseFunctionDefinition( FunctionDefinitionAST* ast )
 
     QString id = d->declaratorId()->unqualifiedName()->text().stripWhiteSpace();
 
-    if (m_currentClass.top() == NULL) {
-        kdDebug() << "CppTree2Uml::parseFunctionDefinition: nothing on m_currentClass"
-		  << endl;
+    UMLClass *c = m_currentClass.top();
+    if (c == NULL) {
+        kdDebug() << "CppTree2Uml::parseFunctionDefinition (" << id
+		  << "): need a surrounding class." << endl;
 	return;
     }
     QString returnType = typeOfDeclaration( typeSpec, d );
     UMLAttributeList parList;
-    UMLOperation *m = m_importer->insertMethod( m_currentClass.top(),
-						(Uml::Scope)m_currentAccess, id,
+    UMLOperation *m = m_importer->insertMethod( c, (Uml::Scope)m_currentAccess, id,
 						returnType, isStatic,
 						false,    // isAbstract
 						"",       // doc
@@ -257,8 +256,9 @@ void CppTree2Uml::parseClassSpecifier( ClassSpecifierAST* ast )
     } else {
 	className = ast->name()->unqualifiedName()->text().stripWhiteSpace();
     }
+#ifdef DEBUG_CPPTREE2UML
     kdDebug() << "CppTree2Uml::parseClassSpecifier: name=" << className << endl;
-
+#endif
     if( !scopeOfName( ast->name(), QStringList() ).isEmpty() ){
 	kdDebug() << "skip private class declarations" << endl;
 	return;
@@ -290,14 +290,12 @@ void CppTree2Uml::parseEnumSpecifier( EnumSpecifierAST* ast )
     QString typeName = ast->name()->unqualifiedName()->text().stripWhiteSpace();
     UMLObject *o = m_importer->createUMLObject( Uml::ot_Enum, typeName, "", /* comment */
 						m_currentNamespace.top() );
-    UMLEnum *e = static_cast<UMLEnum*>( o );
-    UMLDoc *umldoc = UMLApp::app()->getDocument();
 
     QPtrList<EnumeratorAST> l = ast->enumeratorList();
     QPtrListIterator<EnumeratorAST> it( l );
     while ( it.current() ) {
 	QString enumLiteral = it.current()->id()->text();
-	e->addEnumLiteral( enumLiteral, umldoc->getUniqueID() );
+	m_importer->addEnumLiteral( o, enumLiteral );
 	++it;
     }
 }
@@ -324,25 +322,20 @@ void CppTree2Uml::parseDeclaration( GroupAST* funSpec, GroupAST* storageSpec,
     if( t && t->declaratorId() && t->declaratorId()->unqualifiedName() )
 	id = t->declaratorId()->unqualifiedName()->text();
 
-    kdDebug() << "CppTree2Uml::parseDeclaration(2): name=" << id << endl;
     if( !scopeOfDeclarator(d, QStringList()).isEmpty() ){
-	kdDebug() << "CppTree2Uml::parseDeclaration(2): skipping declaration" << endl;
+	kdDebug() << "CppTree2Uml::parseDeclaration (" << id << "): skipping."
+		  << endl;
 	return;
     }
 
     UMLClass *c = m_currentClass.top();
     if (c == NULL) {
-	kdDebug() << "CppTree2Uml::parseDeclaration(2): attributes outside class not supported"
-		  << endl;
+        kdDebug() << "CppTree2Uml::parseDeclaration (" << id
+		  << "): need a surrounding class." << endl;
 	return;
     }
-    UMLDoc *umldoc = UMLApp::app()->getDocument();
-    UMLAttribute *attr = c->addAttribute( id, umldoc->getUniqueID() );
-    attr->setScope( (Uml::Scope)m_currentAccess );
-    QString typeName = typeOfDeclaration( typeSpec, d );
-    if ( !typeName.isEmpty() )
-	attr->setTypeName( typeName );
 
+    QString typeName = typeOfDeclaration( typeSpec, d );
     bool isFriend = false;
     bool isStatic = false;
     //bool isInitialized = decl->initializer() != 0;
@@ -358,7 +351,8 @@ void CppTree2Uml::parseDeclaration( GroupAST* funSpec, GroupAST* storageSpec,
 	}
     }
 
-    attr->setStatic( isStatic );
+    m_importer->insertAttribute( c, (Uml::Scope)m_currentAccess, id, typeName,
+				 "" /* comment */, isStatic);
 }
 
 void CppTree2Uml::parseAccessDeclaration( AccessDeclarationAST * access )
@@ -414,11 +408,17 @@ void CppTree2Uml::parseFunctionDeclaration(  GroupAST* funSpec, GroupAST* storag
 
     DeclaratorAST* d = decl->declarator();
     QString id = d->declaratorId()->unqualifiedName()->text();
+
+    UMLClass *c = m_currentClass.top();
+    if (c == NULL) {
+        kdDebug() << "CppTree2Uml::parseFunctionDeclaration (" << id
+		  << "): need a surrounding class." << endl;
+	return;
+    }
+
     QString returnType = typeOfDeclaration( typeSpec, d );
-    kdDebug() << "CppTree2Uml::parseFunctionDeclaration: name=" << id << endl;
     UMLAttributeList parList;
-    UMLOperation *m = m_importer->insertMethod( m_currentClass.top(),
-						(Uml::Scope)m_currentAccess, id,
+    UMLOperation *m = m_importer->insertMethod( c, (Uml::Scope)m_currentAccess, id,
 		 				returnType, isStatic, isPure, "",
 						&parList );
     parseFunctionArguments( d, m );
@@ -473,21 +473,14 @@ void CppTree2Uml::parseBaseClause( BaseClauseAST * baseClause, UMLClass* klass )
 	BaseSpecifierAST* baseSpecifier = it.current();
 	++it;
 
-	QString baseName;
-	if( baseSpecifier->name() )
-	    baseName = baseSpecifier->name()->text();
-
-	// Create a generalization.
-	UMLDoc *umldoc = UMLApp::app()->getDocument();
-	UMLObject *parent = umldoc->findUMLObject( baseName, Uml::ot_Class );
-	if (parent == NULL) {
-	    kdDebug() << "CppTree2Uml::parseBaseClause: Could not find UML object for "
-		      << baseName << endl;
-	    continue;
+	if (baseSpecifier->name() == NULL) {
+		kdDebug() << "CppTree2Uml::parseBaseClause: baseSpecifier->name() is NULL"
+			  << endl;
+		continue;
 	}
-	UMLAssociation *assoc = new UMLAssociation( umldoc, Uml::at_Generalization,
-						    klass, parent );
-	umldoc->addAssociation(assoc);
+
+	QString baseName = baseSpecifier->name()->text();
+	m_importer->createGeneralization( klass, baseName );
     }
 }
 
