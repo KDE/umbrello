@@ -117,7 +117,10 @@ UMLObject *ClassImport::createUMLObject(Uml::Object_Type type,
 				}
 				name.remove(QRegExp("^.*::"));  // may also zap "const "
 			}
-			origType = m_umldoc->createUMLObject(Uml::ot_Class, typeName, parentPkg);
+			Uml::Object_Type t = type;
+			if (type == Uml::ot_UMLObject || isConst || isRef || isPointer)
+				t = Uml::ot_Class;
+			origType = m_umldoc->createUMLObject(t, typeName, parentPkg);
 		}
 		if (isConst || isPointer || isRef) {
 			// Create the full given type (including adornments.)
@@ -150,7 +153,7 @@ UMLObject *ClassImport::createUMLObject(Uml::Object_Type type,
 		} else {
 			o = origType;
 		}
-	} else if (parentPkg) {
+	} else if (parentPkg && !m_putAtGlobalScope) {
 		o->setUMLPackage(parentPkg);
 	}
 	QString strippedComment = doxyComment(comment);
@@ -284,8 +287,7 @@ void ClassImport::feedTheModel(QString fileName) {
 		return;
 	}
 	CppTree2Uml modelFeeder( fileName, this );
-	kdDebug() << "Now calling modelFeeder.parseTranslationUnit for file "
-		  << fileName << endl;
+	m_umldoc->writeToStatusBar(i18n("Importing file: %1").arg(fileName));
 	modelFeeder.parseTranslationUnit( ast );
 }
 
