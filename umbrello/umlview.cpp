@@ -665,10 +665,50 @@ bool UMLView::widgetOnDiagram(int id) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLView::contentsMouseMoveEvent(QMouseEvent *ome)
 {
+	{//Autoscroll -- First try. 
+	//
+	//This is the first experiment with autoscroll. will be fixed soon.
+	
+	//FIXME: we need to keep scrolling while we are close to the border and not only
+	//when we get mouseMoveEvents. ->that means if the user leaves the cursor near to a border
+	//auto-resize could grow the canvas to infinite
+	//
+	//this is only doing autoscroll in mousemove events: when moving the cursor with the
+	//mouse button down OR when moving the cursor if we have a widget selected (mouse tracking
+	//is turned on.
+	//
+	int vx = ome->x();
+	int vy = ome->y();
+	int cx = viewportToContents(ome->pos()).x();
+	int cy = viewportToContents(ome->pos()).y();
+	int contsX = contentsX();
+	int contsY = contentsY();
+	int visw = visibleWidth();
+	int vish = visibleHeight();
+	/*kdDebug()<<"viewport: x = "<<vx<<" y = "<<vy<<endl
+	<<"contents: x ="<<cx<<" y = "<<cy<<endl<<"Visible width and height = "<<visw<<" , "<<vish<<endl
+	<<"contentsX = "<<contsX<<" ContentsY ="<<contsY<<endl
+	<<"viewport x - Conts X ="<<vx-contsX<<",for Y = "<<vy-contsY<<endl
+	<<"contents x - Conts X ="<<cx-contsX<<",for Y = "<<cy-contsY<<endl<<"*********************"<<endl;
+	*/
+	int dtr = visw - (vx-contsX);
+	int dtb = vish - (vy-contsY);
+	int dtt =  (vy-contsY);
+	int dtl =  (vx-contsX);
+	kdDebug()<<"************************\n************************"<<endl
+	<<"distance to: top = "<<dtt<<endl<<"right = "<<dtr<<endl<<"bottom = "<<dtb<<endl<<"left = "<<dtl<<endl;
+	if(dtr < 30 ) scrollBy(30-dtr,0);
+	if(dtb < 30 ) scrollBy(0,30-dtb);
+	if(dtl < 30 ) scrollBy(-(30-dtl),0);
+	if(dtt < 30 ) scrollBy(0,-(30-dtt));
+	}
+	
+	
 	QMouseEvent *me = new QMouseEvent(QEvent::MouseMove,
-																		inverseWorldMatrix().map(ome->pos()),
-																		ome->button(),
-																		ome->state());
+					inverseWorldMatrix().map(ome->pos()),
+					ome->button(),
+					ome->state());
+
 	m_LineToPos = me->pos();
 	if( m_pFirstSelectedWidget ) {
 		if( m_pAssocLine ) {
