@@ -23,17 +23,18 @@ const unsigned UMLAssociation::nAssocTypes = (unsigned)atypeLast -
 					     (unsigned)atypeFirst + 1;
 
 // constructor
-UMLAssociation::UMLAssociation( Association_Type type,
+UMLAssociation::UMLAssociation( UMLDoc * parent, Association_Type type,
 				UMLObject * roleA, UMLObject * roleB )
-    : UMLObject("", -1)
+    : UMLObject((UMLObject*)parent, "", -1) 
 {
-	init(type, roleA, roleB);
+	init(parent, type, roleA, roleB);
 }
 
 // destructor
 UMLAssociation::~UMLAssociation( ) {
 	// delete ourselves from the parent document
 	//UMLApp::app()->getDocument()->removeAssociation(this);
+	parentDoc->removeAssociation(this);
 }
 
 bool UMLAssociation::operator==(UMLAssociation &rhs) {
@@ -199,7 +200,6 @@ bool UMLAssociation::loadFromXMI( QDomElement & element ) {
 			return false;
 		}
 		UMLObject *objA, *objB;
-		int roleAObjID = roleAIdStr.toInt();
 		if (roleAIdStr.contains(QRegExp("\\D")))
 			objA = doc->findObjectByIdStr(roleAIdStr);
 		else
@@ -496,7 +496,7 @@ QString UMLAssociation::ScopeToString(Uml::Scope scope) {
 	}
 }
 
-void UMLAssociation::init(Association_Type type, UMLObject *roleAObj, UMLObject *roleBObj) {
+void UMLAssociation::init(UMLDoc * parent, Association_Type type, UMLObject *roleAObj, UMLObject *roleBObj) {
 
 	m_AssocType = type;
 	m_BaseType = ot_Association;
@@ -505,6 +505,9 @@ void UMLAssociation::init(Association_Type type, UMLObject *roleAObj, UMLObject 
 
 	m_pRoleA = new UMLRole (this, roleAObj, 1);
 	m_pRoleB = new UMLRole (this, roleBObj, 0);
+
+	parentDoc = parent; 
+	parentDoc->addAssociation(this);
 
 }
 
