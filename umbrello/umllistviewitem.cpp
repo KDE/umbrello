@@ -18,6 +18,7 @@
 
 // app includes
 #include "class.h"
+#include "operation.h"
 #include "umldoc.h"
 #include "umllistview.h"
 #include "umllistviewitem.h"
@@ -288,9 +289,6 @@ void UMLListViewItem::okRename( int col ) {
 		return;
 	}
 	QString newText = text( col );
-	UMLObject * object = 0;
-	UMLClassifier * parent = 0;
-	UMLView * view = 0, * anotherView;
 	UMLDoc * doc = s_pListView -> getDocument();
 	if( newText.length() == 0 ) {
 		KMessageBox::error( kapp->mainWidget() ,
@@ -307,49 +305,52 @@ void UMLListViewItem::okRename( int col ) {
 		case Uml::lvt_Interface:
 		case Uml::lvt_Datatype:
 		case Uml::lvt_Enum:
-			object = m_pObject;
-			if( object ) {
-				if(doc->isUnique(newText))
-				{
-					m_pObject -> setName( newText );
-					m_Label = newText;
-					return;
-				} else
-					object = 0;
+			if (m_pObject == NULL || !doc->isUnique(newText)) {
+				cancelRenameWithMsg();
+				return;
 			}
+			m_pObject -> setName( newText );
+			m_Label = newText;
 			break;
 
 		case Uml::lvt_Operation:
-			object = m_pObject;
-			if( object ) {
-				parent = static_cast<UMLClassifier *>( object -> parent() );
-				//see if op already has that name and not the op/att we are renaming
-				//then give a warning about the name being the same
-				UMLObjectList list = parent -> findChildObject( object -> getBaseType(), newText );
-				if(list.isEmpty() || (!list.isEmpty() && KMessageBox::warningYesNo( kapp -> mainWidget() ,
-						      i18n( "The name you entered was not unique.\nIs this what you wanted?" ),
-						      i18n( "Name Not Unique" ) ) == KMessageBox::Yes )) {
-					object -> setName( newText );
-					m_Label = newText;
-					return;
-				}
-				QListViewItem::setText(0, m_Label);
+		{
+			if (m_pObject == NULL) {
+				cancelRenameWithMsg();
 				return;
 			}
-			break;
-
-		case Uml::lvt_Attribute:
-			object = m_pObject;
-			if( object ) {
-				parent = static_cast<UMLClass*>( object -> parent() );
-				UMLObjectList list = parent -> findChildObject( object -> getBaseType(), newText );
-				if (list.isEmpty()) {
-					object -> setName( newText );
-					m_Label = newText;
-					return;
-				}
+			UMLOperation *op = static_cast<UMLOperation*>(m_pObject);
+			UMLClassifier *parent = static_cast<UMLClassifier *>( op -> parent() );
+			//see if op already has that name and not the op/att we are renaming
+			//then give a warning about the name being the same
+			UMLObjectList list = parent -> findChildObject( op->getBaseType(), newText );
+			if(list.isEmpty() || (!list.isEmpty() && KMessageBox::warningYesNo( kapp -> mainWidget() ,
+					      i18n( "The name you entered was not unique.\nIs this what you wanted?" ),
+					      i18n( "Name Not Unique" ) ) == KMessageBox::Yes )) {
+				op->setName( newText );
+				m_Label = newText;
+			} else {
+				QListViewItem::setText(0, m_Label);
 			}
 			break;
+		}
+
+		case Uml::lvt_Attribute:
+		{
+			if (m_pObject == NULL) {
+				cancelRenameWithMsg();
+				return;
+			}
+			UMLClass *parent = static_cast<UMLClass*>( m_pObject -> parent() );
+			UMLObjectList list = parent -> findChildObject( m_pObject -> getBaseType(), newText );
+			if (! list.isEmpty()) {
+				cancelRenameWithMsg();
+				return;
+			}
+			m_pObject -> setName( newText );
+			m_Label = newText;
+			break;
+		}
 
 		case Uml::lvt_UseCase_Diagram:
 		case Uml::lvt_Class_Diagram:
@@ -359,29 +360,37 @@ void UMLListViewItem::okRename( int col ) {
 		case Uml::lvt_Activity_Diagram:
 		case Uml::lvt_Component_Diagram:
 		case Uml::lvt_Deployment_Diagram:
-			view = doc -> findView( getID() );
-			if( view ) {
-				anotherView = doc -> findView( view -> getType(), newText );
-				if( anotherView && anotherView -> getID() == getID() )
-					anotherView = 0;
-				if( !anotherView ) {
-					view->setName( newText );
-					m_Label = newText;
-					doc->signalDiagramRenamed(view);
-					return;
-				}
+		{
+			UMLView *view = doc -> findView( getID() );
+			if (view == NULL) {
+				cancelRenameWithMsg();
+				return;
 			}
+			UMLView *anotherView = doc -> findView( view->getType(), newText );
+			if( anotherView && anotherView -> getID() == getID() )
+				anotherView = 0;
+			if (anotherView) {
+				cancelRenameWithMsg();
+				return;
+			}
+			view->setName( newText );
+			m_Label = newText;
+			doc->signalDiagramRenamed(view);
 			break;
+		}
 		case Uml::lvt_UseCase_Folder:
 		case Uml::lvt_Logical_Folder:
 		case Uml::lvt_Component_Folder:
 		case Uml::lvt_Deployment_Folder:
 			m_Label = newText;
-			return;
 			break;
 		default:
+			cancelRenameWithMsg();
 			break;
 	}
+}
+
+void UMLListViewItem::cancelRenameWithMsg() {
 	KMessageBox::error( kapp->mainWidget() ,
 			    i18n("The name you entered was invalid.\nRenaming process has been canceled."),
 			    i18n("Name Not Valid") );

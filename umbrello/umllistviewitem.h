@@ -216,6 +216,11 @@ protected:
 	void okRename( int col );
 
 	/**
+	 * Auxiliary method for okRename().
+	 */
+	void cancelRenameWithMsg();
+
+	/**
 	 * This list view all the instance of this class are displayed on.
 	 */
 	static UMLListView * s_pListView;
