@@ -69,6 +69,12 @@ public:
 	virtual bool removeTextBlock ( TextBlock * remove_object ) = 0;
 
 	/**
+	 * Insert a new text block before/after the existing text block. Returns
+	 * false if it cannot insert the textblock.
+	 */
+	virtual bool insertTextBlock (TextBlock * newBlock, TextBlock * existingBlock, bool after) = 0;
+
+	/**
 	 * Get the list of TextBlock objects held by m_textblockVector
 	 * @return QPtrList<TextBlock> list of TextBlock objects held by m_textblockVector
 	 */

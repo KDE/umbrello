@@ -143,6 +143,60 @@ bool HierarchicalCodeBlock::addTextBlock ( TextBlock * add_object , bool replace
 }
 
 /**
+ * Insert a new text block before the existing text block. Returns
+ * false if it cannot insert the textblock.
+ */
+bool HierarchicalCodeBlock::insertTextBlock(TextBlock * newBlock, TextBlock * existingBlock, bool after)
+{
+
+        if(!newBlock || !existingBlock)
+                return false;
+
+        QString tag = existingBlock->getTag();
+        if(!m_textBlockTagMap->contains(tag))
+                return false;
+
+        int index = m_textblockVector.findRef(existingBlock);
+        if(index < 0)
+        {
+                // may be hiding in child hierarchical codeblock
+                for(TextBlock * tb = m_textblockVector.first(); tb ; tb = m_textblockVector.next())
+                {
+                        HierarchicalCodeBlock * hb = dynamic_cast<HierarchicalCodeBlock*>(tb);
+                        if(hb && hb->insertTextBlock(newBlock, existingBlock, after))
+                                return true; // found, and inserted, otherwise keep going
+                }
+        }
+
+        // if we get here.. it was in this object so insert
+
+        // check for tag FIRST
+        QString new_tag = newBlock->getTag();
+
+        // assign a tag if one doesnt already exist
+        if(new_tag.isEmpty())
+        {
+                new_tag = getUniqueTag();
+                newBlock->setTag(new_tag);
+        }
+
+        if(m_textBlockTagMap->contains(new_tag))
+                return false; // return false, we already have some object with this tag in the list
+        else {
+                m_textBlockTagMap->insert(new_tag, newBlock);
+                getParentDocument()->addChildTagToMap(new_tag, newBlock);
+	}
+
+
+        if(after)
+                index++;
+
+        m_textblockVector.insert(index,newBlock);
+
+        return true;
+}
+
+/**
  * Remove a CodeBlock object from m_textblockVector List
  */
 bool HierarchicalCodeBlock::removeTextBlock ( TextBlock * remove_object ) {
@@ -292,7 +346,7 @@ QString HierarchicalCodeBlock::toString ( ) {
 		QString comment = getComment()->toString();
 
 		// tack in text, if there is something there..
-		if(!comment.isEmpty())
+		if(!comment.isEmpty() && getComment()->getWriteOutText())
                 	string.append(comment);
 
 		if (!startText.isEmpty())

@@ -67,6 +67,12 @@ public:
 	 */
 	bool addTextBlock ( TextBlock * add_object , bool replaceExisting = false);
 
+        /**
+         * Insert a new text block before/after the existing text block. Returns
+         * false if it cannot insert the textblock.
+         */
+        bool insertTextBlock (TextBlock * newBlock, TextBlock * existingBlock, bool after = true);
+
 	/**
 	 * Remove a TextBlock object from m_textblockVector List
 	 * returns boolean - true if successfull

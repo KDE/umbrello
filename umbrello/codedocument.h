@@ -178,6 +178,12 @@ public:
 	 */
 	bool removeTextBlock ( TextBlock * remove_object );
 
+        /**
+         * Insert a new text block after the existing text block. Returns
+         * false if it cannot insert the textblock.
+         */
+        bool insertTextBlock (TextBlock * newBlock, TextBlock * existingBlock, bool after = true);
+
 	/**
 	 * Lookup a certain textblock by its tag value, returns NULL if it cant
          * find the TextBlock with such a tag. If descendIntoChildren is true, then
