@@ -24,11 +24,11 @@ ClassGenPage::ClassGenPage(UMLDoc *d, QWidget *parent, UMLObject * o) : QWidget(
 	Uml::UMLObject_Type t = o -> getBaseType();
 	m_pUmldoc = d;
 	if(t == Uml::ot_Concept)
-		name = i18n("Class name");
+		name = i18n("Class name:");
 	else if(t == Uml::ot_Actor)
-		name = i18n("Actor name");
+		name = i18n("Actor name:");
 	else
-		name = i18n("Use Case name");
+		name = i18n("Use case name:");
 	setMinimumSize(310,330);
 	QVBoxLayout * topLayout = new QVBoxLayout(this);
 	topLayout -> setSpacing(6);
@@ -49,7 +49,7 @@ ClassGenPage::ClassGenPage(UMLDoc *d, QWidget *parent, UMLObject * o) : QWidget(
 	m_pAbstractCB = 0;
 	m_pDeconCB = 0;
 	if(t == Uml::ot_Concept) {
-		m_pStereoTypeL = new QLabel(i18n("Stereotype name"), this);
+		m_pStereoTypeL = new QLabel(i18n("Stereotype name:"), this);
 		m_pNameLayout -> addWidget(m_pStereoTypeL, 1, 0);
 
 		m_pStereoTypeLE = new QLineEdit(this);
@@ -57,7 +57,7 @@ ClassGenPage::ClassGenPage(UMLDoc *d, QWidget *parent, UMLObject * o) : QWidget(
 
 		m_pStereoTypeLE -> setText(o -> getStereotype());
 
-		m_pPackageL = new QLabel(i18n("Package name"), this);
+		m_pPackageL = new QLabel(i18n("Package name:"), this);
 		m_pNameLayout -> addWidget(m_pPackageL, 2, 0);
 
 		m_pPackageLE = new QLineEdit(this);
@@ -127,7 +127,7 @@ ClassGenPage::ClassGenPage(UMLDoc *d, QWidget *parent, ObjectWidget * o) : QWidg
 	QGridLayout * m_pNameLayout = new QGridLayout(topLayout, 3, 2);
 	m_pNameLayout -> setSpacing(6);
 	m_pNameL = new QLabel(this);
-	m_pNameL -> setText(i18n("Class name"));
+	m_pNameL -> setText(i18n("Class name:"));
 	m_pNameLayout -> addWidget(m_pNameL, 0, 0);
 
 	m_pClassNameLE = new QLineEdit(this);
@@ -135,7 +135,7 @@ ClassGenPage::ClassGenPage(UMLDoc *d, QWidget *parent, ObjectWidget * o) : QWidg
 	m_pNameLayout -> addWidget(m_pClassNameLE, 0, 1);
 
 	m_pInstanceL = new QLabel(this);
-	m_pInstanceL -> setText(i18n("Instance name"));
+	m_pInstanceL -> setText(i18n("Instance name:"));
 	m_pNameLayout -> addWidget(m_pInstanceL, 1, 0);
 
 	m_pInstanceLE = new QLineEdit(this);
@@ -143,19 +143,19 @@ ClassGenPage::ClassGenPage(UMLDoc *d, QWidget *parent, ObjectWidget * o) : QWidg
 	m_pNameLayout -> addWidget(m_pInstanceLE, 1, 1);
 	UMLView * view = m_pUmldoc -> getCurrentView();
 
-	m_pDrawActorCB = new QCheckBox( i18n( "Draw As Actor" ) , this );
+	m_pDrawActorCB = new QCheckBox( i18n( "Draw as actor" ) , this );
 	m_pDrawActorCB -> setChecked( o -> getDrawAsActor() );
 	m_pNameLayout -> addWidget( m_pDrawActorCB, 2, 0 );
 
 	if(view -> getType() == Uml::dt_Collaboration) {
-		m_pMultiCB = new QCheckBox(i18n("Multiple Instance"), this);
+		m_pMultiCB = new QCheckBox(i18n("Multiple instance"), this);
 		m_pMultiCB -> setChecked(o -> getMultipleInstance());
 		m_pNameLayout -> addWidget(m_pMultiCB, 2,1);
 		if( m_pDrawActorCB -> isChecked() )
 			m_pMultiCB -> setEnabled( false );
 	} else//sequence diagram
 	{
-		m_pDeconCB = new QCheckBox(i18n("Show Deconstruction"), this);
+		m_pDeconCB = new QCheckBox(i18n("Show deconstruction"), this);
 		m_pDeconCB -> setChecked(o -> getShowDeconstruction());
 		m_pNameLayout -> addWidget(m_pDeconCB, 2,1);
 	}
@@ -195,7 +195,7 @@ void ClassGenPage::updateObject() {
 		UMLObject *o = m_pUmldoc -> findUMLObject(m_pObject -> getBaseType(), name);
 		if(o && m_pObject != o) {
 			KMessageBox::sorry(this, i18n("The name you have chosen\nis already being used.\nThe name has been reset."),
-			                   i18n("ERROR 16: Name is not unique."), false);
+			                   i18n("Name is Not Unique"), false);
 			m_pClassNameLE -> setText( m_pObject -> getName() );
 		} else
 			m_pObject -> setName(name);
@@ -220,8 +220,8 @@ void ClassGenPage::updateObject() {
 		UMLObject * o = m_pWidget -> getUMLObject();
 		UMLObject * old = m_pUmldoc -> findUMLObject(o -> getBaseType(), name);
 		if(old && o != old) {
-			KMessageBox::sorry(this, i18n("The Name you have chosen\nis already being used.\nThe name has been reset."),
-			                   i18n("ERROR 16: Name is not unique."), false);
+			KMessageBox::sorry(this, i18n("The name you have chosen\nis already being used.\nThe name has been reset."),
+			                   i18n("Name is Not Unique"), false);
 		} else
 			o -> setName(name);
 	}

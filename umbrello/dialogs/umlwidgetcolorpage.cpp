@@ -27,7 +27,7 @@ UMLWidgetColorPage::UMLWidgetColorPage( QWidget * pParent, UMLWidget * pWidget )
 	QVBoxLayout * topLayout = new QVBoxLayout( this );
 	topLayout -> setSpacing( 6 );
 
-	m_pColorGB = new QGroupBox( i18n( "Colour" ), this );
+	m_pColorGB = new QGroupBox( i18n( "Color" ), this );
 	topLayout -> addWidget( m_pColorGB );
 	QGridLayout * colorLayout = new QGridLayout( m_pColorGB, 3, 3 );
 	colorLayout -> setMargin( margin );

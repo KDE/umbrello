@@ -165,21 +165,21 @@ void CodeGenerationWizard::showPage(QWidget *page) {
 		{
 			if(KMessageBox::questionYesNo(this,
 			i18n("The directory %1 does not exist. Do you want to create it now?").arg(info.filePath()),
-			i18n("Output directoy does not exist")) == KMessageBox::Yes)
+			i18n("Output Directoy Does Not Exist")) == KMessageBox::Yes)
 			{
 				QDir dir;
 				if(!dir.mkdir(info.filePath()))
 				{
-					KMessageBox::sorry(this,i18n("The directory could not be created.\nPlease make sure you have write access to its parent directory or select valid directory"),
-					i18n("Error creating directory"));
+					KMessageBox::sorry(this,i18n("The directory could not be created.\nPlease make sure you have write access to its parent directory or select valid directory."),
+					i18n("Error Creating Directory"));
 					return;
 				}
 				//else, directory created
 			}
 			else // do not create output directory
 			{
-				KMessageBox::information(this,i18n("Please select a valid directory"),
-				i18n("Output directory does not exist"));
+				KMessageBox::information(this,i18n("Please select a valid directory."),
+				i18n("Output Directory Does Not Exist"));
 				return;
 			}
 		}
@@ -187,15 +187,15 @@ void CodeGenerationWizard::showPage(QWidget *page) {
 			if(!info.isWritable())
 			{
       	KMessageBox::sorry(this,i18n("The output directory exists, but it is not writable.\nPlease set\
-				the appropiate permissions or choose another directory"),
-				i18n("Error writing to output directory"));
+				the appropiate permissions or choose another directory."),
+				i18n("Error Writing to Output Directory"));
 				return;
 			}
      // it exits and we can write... make sure it is a directory
 			if(!info.isDir())
 			{
 				KMessageBox::sorry(this,i18n("%1 does not seem to be a directory. Please choose a valid directory.").arg(info.filePath()),
-				i18n("Please choose a valid directory"));
+				i18n("Please Choose Valid Directory"));
 				return;
 			}
 		}
@@ -208,8 +208,8 @@ CodeGenerator* CodeGenerationWizard::generator() {
 	GeneratorInfo* info;
 	if( m_CodeGenerationOptionsPage->getCodeGenerationLanguage().isEmpty() ) {
 		KMessageBox::sorry(this,i18n("There is no Active Language defined.\nPlease select\
-		                             one of the installed languages to generate the code in"),
-				   i18n("No Language selected"));
+		                             one of the installed languages to generate the code in."),
+				   i18n("No Language Selected"));
 		return 0;
 	}
 	info = m_ldict.find( m_CodeGenerationOptionsPage->getCodeGenerationLanguage() );

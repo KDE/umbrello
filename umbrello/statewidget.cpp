@@ -163,7 +163,7 @@ void StateWidget::slotMenuSelection(int sel) {
 
 	switch( sel ) {
 		case ListPopupMenu::mt_Rename:
-			name = KLineEditDlg::getText( i18n("Enter State name."), i18n("Enter the name of the new State."), getName(), &ok );
+			name = KLineEditDlg::getText( i18n("Enter State Name"), i18n("Enter the name of the new State:"), getName(), &ok );
 			if( ok && name.length() > 0 )
 				setName( name );
 			done = true;
@@ -174,7 +174,7 @@ void StateWidget::slotMenuSelection(int sel) {
 			done = true;
 			break;
 		case ListPopupMenu::mt_New_Activity:
-			name = KLineEditDlg::getText( i18n("Enter Activity."), i18n("Enter the name of the new Activity."), i18n("new activity"), &ok );
+			name = KLineEditDlg::getText( i18n("Enter Activity"), i18n("Enter the name of the new Activity:"), i18n("new activity"), &ok );
 			if( ok && name.length() > 0 )
 				addActivity( name );
 			done = true;

@@ -44,7 +44,7 @@ ClassOpsPage::ClassOpsPage(QWidget *parent, UMLConcept * c, UMLDoc * doc) : QWid
 	buttonLayout -> addWidget( m_pDownArrowB );
 
 	KButtonBox* buttonBox = new KButtonBox(m_pOpsGB);
-	buttonBox->addButton( i18n("New Operation"), this, SLOT(slotNewOperation()) );
+	buttonBox->addButton( i18n("New Operation..."), this, SLOT(slotNewOperation()) );
 	m_pDeleteOperationButton = buttonBox->addButton( i18n("Delete"),
 							  this, SLOT(slotDelete()) );
 	m_pPropertiesButton = buttonBox->addButton( i18n("Properties"), this, SLOT(slotProperties()) );

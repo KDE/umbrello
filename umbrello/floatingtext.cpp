@@ -99,11 +99,11 @@ void FloatingText::slotMenuSelection(int sel) {
 	KLineEditDlg * dlg = 0;
 
 	if( getRole() == tr_RoleName) {
-		t = i18n("Enter role name");
+		t = i18n("Enter role name:");
 	} else if (getRole() == tr_MultiA || getRole() == tr_MultiB) {
-		t = i18n("Enter multiplicity");
+		t = i18n("Enter multiplicity:");
 	} else if (getRole() == tr_Floating) {
-		t = i18n("Enter new text");
+		t = i18n("Enter new text:");
 	} else {
 		t = i18n("ERROR");
 	}
@@ -161,7 +161,7 @@ void FloatingText::slotMenuSelection(int sel) {
 		break;
 
 		case ListPopupMenu::mt_Sequence_Number:
-			t = KLineEditDlg::getText(i18n("Enter sequence number"), getSeqNum(), &ok, (QWidget*)m_pView);
+			t = KLineEditDlg::getText(i18n("Enter sequence number:"), getSeqNum(), &ok, (QWidget*)m_pView);
 			if(ok) {
 				setSeqNum( t );
 				calculateSize();
@@ -242,7 +242,7 @@ void FloatingText::startMenu(AssociationWidget * a, QPoint p) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void FloatingText::changeTextDlg() {
-	KLineEditDlg dlg(i18n("Enter new text"), getText(), m_pView);
+	KLineEditDlg dlg(i18n("Enter new text:"), getText(), m_pView);
 	int result = dlg.exec();
 	QString newText = dlg.text();
 

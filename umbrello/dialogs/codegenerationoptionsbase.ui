@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.0" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
 <class>CodeGenerationOptionsBase</class>
 <widget class="QWidget">
     <property name="name">
@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>380</width>
-            <height>363</height>
+            <width>389</width>
+            <height>441</height>
         </rect>
     </property>
     <property name="caption">
@@ -88,7 +88,7 @@
                         <cstring>TextLabel2</cstring>
                     </property>
                     <property name="text">
-                        <string>Write all generated files to directory</string>
+                        <string>Write all generated files to directory:</string>
                     </property>
                 </widget>
                 <widget class="QPushButton" row="1" column="2">
@@ -96,7 +96,7 @@
                         <cstring>m_browseOutput</cstring>
                     </property>
                     <property name="text">
-                        <string>Browse</string>
+                        <string>Browse...</string>
                     </property>
                 </widget>
                 <widget class="QPushButton" row="3" column="2">
@@ -104,7 +104,7 @@
                         <cstring>m_browseHeadings</cstring>
                     </property>
                     <property name="text">
-                        <string>Browse</string>
+                        <string>Browse...</string>
                     </property>
                 </widget>
                 <widget class="QCheckBox" row="2" column="0" rowspan="1" colspan="2">
@@ -135,7 +135,7 @@
                     </property>
                 </widget>
                 <spacer row="1" column="0">
-                    <property name="name" stdset="0">
+                    <property name="name">
                         <cstring>Spacer1</cstring>
                     </property>
                     <property name="orientation">
@@ -152,7 +152,7 @@
                     </property>
                 </spacer>
                 <spacer row="3" column="0">
-                    <property name="name" stdset="0">
+                    <property name="name">
                         <cstring>Spacer1_2</cstring>
                     </property>
                     <property name="orientation">
@@ -192,7 +192,7 @@
                         <cstring>TextLabel1</cstring>
                     </property>
                     <property name="text">
-                        <string>If a file with the same name as the name Code Generator
+                        <string>If a file with the same name as the name code generator
 wants to use as output file already exists:</string>
                     </property>
                 </widget>
@@ -251,13 +251,13 @@ wants to use as output file already exists:</string>
                 <property name="spacing">
                     <number>6</number>
                 </property>
-        	<widget class="QComboBox">
+                <widget class="QComboBox">
                     <property name="name">
-                       <cstring>m_SelectLanguageBox</cstring>
+                        <cstring>m_SelectLanguageBox</cstring>
                     </property>
                 </widget>
             </hbox>
-    	</widget>
+        </widget>
     </vbox>
 </widget>
 <connections>

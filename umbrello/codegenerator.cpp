@@ -95,7 +95,7 @@ QString CodeGenerator::findFileName(UMLConcept* concept, QString ext) {
 		if (! (packageDir.exists() || packageDir.mkdir(packageDir.absPath()) ) ) {
 			KMessageBox::error(0, i18n("Cannot create the package directory:\n") +
 					   packageDir.absPath() + i18n("\nPlease check the access rigths"),
-					   i18n("Cannot create directory"));
+					   i18n("Cannot Create Directory"));
 			return NULL;
 		}
 	}
@@ -174,7 +174,7 @@ bool CodeGenerator::openFile(QFile &file, QString fileName) {
 	} else {
 		file.setName(m_outputDirectory.absFilePath(fileName));
 		if(!file.open(IO_WriteOnly)) {
-			KMessageBox::sorry(0,i18n("Cannot open file %1 for writing. Please make sure the directory exists and you have permisions to write to it").arg(file.name()),i18n("Cannot open file"));
+			KMessageBox::sorry(0,i18n("Cannot open file %1 for writing. Please make sure the directory exists and you have permisions to write to it.").arg(file.name()),i18n("Cannot Open File"));
 			return false;
 		}
 		return true;

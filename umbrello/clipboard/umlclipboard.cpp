@@ -771,7 +771,7 @@ void UMLClipboard::pasteItemAlreadyExists(UMLDoc* doc) {
 	KMessageBox::sorry( doc->getCurrentView(), i18n("At least one of the items in the clipboard "
 							"could not be pasted because an item of the "
 							"same name already exists.  Any other items "
-							"have been pasted."), i18n("Paste error") );
+							"have been pasted."), i18n("Paste Error") );
 }
 
 #include "umlclipboard.moc"

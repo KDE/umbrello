@@ -541,7 +541,7 @@ QString AssociationWidget::toString() {
 			break;
 
 		case at_UniAssociation:
-			string.append( i18n("UniAssociation") );
+			string.append( i18n("Uni Association") );
 			break;
 
 		case at_Implementation:
@@ -553,7 +553,7 @@ QString AssociationWidget::toString() {
 			break;
 
 		default:
-			string.append(i18n("OtherType"));
+			string.append(i18n("Other Type"));
 			break;
 	}
 	;//end switch
@@ -1715,7 +1715,7 @@ void AssociationWidget::slotMenuSelection(int sel) {
 				setRole("");
 				m_pRole -> setUMLObject(m_pWidgetB -> getUMLObject());
 			}
-			newText = KLineEditDlg::getText(i18n("Enter sequence number"), m_pRole -> getSeqNum(), &ok, m_pView);
+			newText = KLineEditDlg::getText(i18n("Enter sequence number:"), m_pRole -> getSeqNum(), &ok, m_pView);
 			if(ok) {
 				//Lets make sure the role text is there to set values
 				//if not, set it up with default values and then put the
@@ -1738,7 +1738,7 @@ void AssociationWidget::slotMenuSelection(int sel) {
 				oldText = m_pMultiA -> getText();
 			else
 				oldText = "";
-			dlg = new KLineEditDlg( i18n("Enter multiplicity") , oldText, m_pView);
+			dlg = new KLineEditDlg( i18n("Enter multiplicity:") , oldText, m_pView);
 			result = dlg ->exec();
 			newText = dlg -> text();
 			delete dlg;
@@ -1753,7 +1753,7 @@ void AssociationWidget::slotMenuSelection(int sel) {
 				oldText = m_pMultiB -> getText();
 			else
 				oldText = "";
-			dlg = new KLineEditDlg( i18n("Enter multiplicity") , oldText, m_pView);
+			dlg = new KLineEditDlg( i18n("Enter multiplicity:") , oldText, m_pView);
 			result = dlg ->exec();
 
 			newText = dlg -> text();
@@ -1769,7 +1769,7 @@ void AssociationWidget::slotMenuSelection(int sel) {
 				oldText = m_pRole -> getText();
 			else
 				oldText = "";
-			dlg = new KLineEditDlg( i18n("Enter role name") , oldText, m_pView);
+			dlg = new KLineEditDlg( i18n("Enter role name:") , oldText, m_pView);
 			result = dlg ->exec();
 			newText = dlg -> text();
 			delete dlg;

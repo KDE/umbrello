@@ -276,7 +276,7 @@ void UMLView::contentsMouseReleaseEvent(QMouseEvent* mouseEvent) {
 	if( m_CurrentCursor == WorkToolBar::tbb_Activity )
 	{
 		bool ok = false;
-		QString name = KLineEditDlg::getText( i18n("Enter Activity name."), i18n("Enter the name of the new Activity."), i18n("new activity"), &ok );
+		QString name = KLineEditDlg::getText( i18n("Enter Activity Name"), i18n("Enter the name of the new activity:"), i18n("new activity"), &ok );
 		if( ok ) {
 			ActivityWidget * temp = new ActivityWidget( this , ActivityWidget::Normal );
 			temp->setName( name );
@@ -293,7 +293,7 @@ void UMLView::contentsMouseReleaseEvent(QMouseEvent* mouseEvent) {
 	//create a state widget
 	if( m_CurrentCursor == WorkToolBar::tbb_State ) {
 		bool ok = false;
-		QString name = KLineEditDlg::getText( i18n("Enter State name."), i18n("Enter the name of the new State."), i18n("new state"), &ok );
+		QString name = KLineEditDlg::getText( i18n("Enter State Name"), i18n("Enter the name of the new State:"), i18n("new state"), &ok );
 		if( ok ) {
 			StateWidget * temp = new StateWidget( this , StateWidget::Normal );
 			temp -> setName( name );
@@ -1179,7 +1179,7 @@ void UMLView::updateNoteWidgets() {
 
 void UMLView::exportImage() {
 	KURL url = KFileDialog::getSaveURL(":export-image", i18n("*.png|PNG Image\n*.*|All Files"),
-					   this, i18n("Save as...") );
+					   this, i18n("Save As") );
 	if(!url.isEmpty())
 	{
 		QString s;
@@ -1197,7 +1197,7 @@ void UMLView::exportImage() {
 			if (info.exists())
 			{
 				int want_save = KMessageBox::questionYesNo(0, i18n("The selected file %1 exists.\nDo you want to overwrite it?").arg(url.fileName()),
-									i18n("File already exists."),
+									i18n("File Already Exists"),
 									i18n("Yes"), i18n("No"));
 				if (want_save == KMessageBox::No)
 					// another possibility would be to show the save dlg again
@@ -1210,7 +1210,7 @@ void UMLView::exportImage() {
 		QRect rect = getDiagramRect();
 		if (rect.isEmpty()) {
 			KMessageBox::sorry(0, i18n("Can not save an empty diagram"),
-			                   i18n("Diagram save error!"));
+			                   i18n("Diagram Save Error!"));
 		} else {
 			QPixmap diagram(rect.width(), rect.height());
 			getDiagram(rect, diagram);
@@ -1220,7 +1220,7 @@ void UMLView::exportImage() {
 				if(!KIO::NetAccess::upload(tmpfile.name(), url)) {
 					KMessageBox::error(0,
 					                   i18n("There was a problem saving file: %1").arg(url.path()),
-					                   i18n("Save error!"));
+					                   i18n("Save Error"));
 				}
 				tmpfile.unlink();
 			} //!isLocalFile
@@ -1726,7 +1726,7 @@ bool UMLView::setAssoc(UMLWidget *pWidget) {
 
 	if(!m_pFirstSelectedWidget) {
 		if( !AssocRules::allowAssociation( type, pWidget ) ) {
-			KMessageBox::error(0, i18n("Incorrect use of associations."), i18n("Association error!"));
+			KMessageBox::error(0, i18n("Incorrect use of associations."), i18n("Association Error"));
 			return true;
 		}
 		//set up position
@@ -1763,7 +1763,7 @@ bool UMLView::setAssoc(UMLWidget *pWidget) {
 			AssociationWidget *temp = new AssociationWidget(this, widgetA, type, widgetB);
 			m_Associations.append(temp);
 		} else {
-			KMessageBox::error(0, i18n("Incorrect use of associations."), i18n("Association error!"));
+			KMessageBox::error(0, i18n("Incorrect use of associations."), i18n("Association Error"));
 		}
 		m_pFirstSelectedWidget = 0;
 
@@ -2402,7 +2402,7 @@ void UMLView::slotMenuSelection(int sel) {
 			break;
 
 		case ListPopupMenu::mt_State:
-			name = KLineEditDlg::getText( i18n("Enter State name."), i18n("Enter the name of the new State."), i18n("new state"), &ok );
+			name = KLineEditDlg::getText( i18n("Enter State Name"), i18n("Enter the name of the new State:"), i18n("new state"), &ok );
 			if( ok ) {
 				state = new StateWidget( this , StateWidget::Normal );
 				state -> setName( name );
@@ -2443,7 +2443,7 @@ void UMLView::slotMenuSelection(int sel) {
 			break;
 
 		case ListPopupMenu::mt_Activity:
-			name = KLineEditDlg::getText( i18n("Enter Activity name."), i18n("Enter the name of the new Activity."), i18n("new activity"), &ok );
+			name = KLineEditDlg::getText( i18n("Enter Activity Name"), i18n("Enter the name of the new Activity:"), i18n("new activity"), &ok );
 			if( ok ) {
 				activity = new ActivityWidget( this , ActivityWidget::Normal );
 				activity -> setName( name );
@@ -2643,7 +2643,7 @@ QPtrList<MessageWidget> UMLView::getMessageWidgetList() {
 void UMLView::clearDiagram() {
 	if( KMessageBox::Yes == KMessageBox::warningYesNo( this, i18n("You are about to delete "
 								       "the entire diagram.\nAre you sure?"),
-							    i18n("Delete diagram?") ) ) {
+							    i18n("Delete Diagram?") ) ) {
 		removeAllWidgets();
 	}
 }

@@ -48,15 +48,15 @@ void UMLViewDialog::slotApply() {
 
 void UMLViewDialog::setupPages() {
 	//setup the general page
-	QFrame *page = addPage( i18n("General"), i18n("General settings"), DesktopIcon( "misc") );
+	QFrame *page = addPage( i18n("General"), i18n("General Settings"), DesktopIcon( "misc") );
 	QVBoxLayout * topLayout = new QVBoxLayout(page);
-	m_pValuesGB = new QGroupBox( i18n( "Diagram settings" ), page );
+	m_pValuesGB = new QGroupBox( i18n( "Diagram Settings" ), page );
 
 	QGridLayout * valueLayout = new QGridLayout( m_pValuesGB, 3, 4 );
 	valueLayout -> setSpacing( 10 );
 	valueLayout -> setMargin( fontMetrics().height() );
 
-	m_pNameL = new QLabel( i18n( "Name" ), m_pValuesGB);
+	m_pNameL = new QLabel( i18n( "Name:" ), m_pValuesGB);
 	valueLayout -> addWidget( m_pNameL, 0, 0 );
 	valueLayout -> setColStretch( 0, 1);
 
@@ -72,14 +72,14 @@ void UMLViewDialog::setupPages() {
 	m_pSnapToGridCB -> setChecked( m_pView -> getSnapToGrid() );
 	valueLayout -> addWidget( m_pSnapToGridCB, 1, 2 );
 
-	m_pSpinXL = new QLabel( i18n( "X value" ), m_pValuesGB );
+	m_pSpinXL = new QLabel( i18n( "X value:" ), m_pValuesGB );
 	valueLayout -> addWidget( m_pSpinXL, 2, 0 );
 
 	m_pSnapXSB = new QSpinBox( 2, 50, 1, m_pValuesGB );
 	m_pSnapXSB -> setValue( m_pView -> getSnapX() );
 	valueLayout -> addWidget( m_pSnapXSB, 2, 1 );
 
-	m_pSpinYL = new QLabel( i18n( "Y value" ), m_pValuesGB );
+	m_pSpinYL = new QLabel( i18n( "Y value:" ), m_pValuesGB );
 	valueLayout -> addWidget( m_pSpinYL, 2, 2 );
 
 	m_pSnapYSB = new QSpinBox( 2, 50, 1, m_pValuesGB );
@@ -121,14 +121,14 @@ void UMLViewDialog::setupClassPage() {
 }
 
 void UMLViewDialog::setupColorPage() {
-	QFrame * colorPage = addPage( i18n("Colour"), i18n("Diagram Colours"), DesktopIcon( "colors") );
+	QFrame * colorPage = addPage( i18n("Color"), i18n("Diagram Colors"), DesktopIcon( "colors") );
 	QHBoxLayout * m_pColorLayout = new QHBoxLayout(colorPage);
 	m_pColorPage = new UMLWidgetColorPage( colorPage, m_pTempWidget );
 	m_pColorLayout -> addWidget(m_pColorPage);
 }
 
 void UMLViewDialog::setupFontPage() {
-	QVBox * page = addVBoxPage( i18n("Font"), i18n("Font settings"), DesktopIcon( "fonts")  );
+	QVBox * page = addVBoxPage( i18n("Font"), i18n("Font Settings"), DesktopIcon( "fonts")  );
 	m_pChooser = new KFontChooser( (QWidget*)page, "font", false, QStringList(), false);
 	m_pChooser -> setFont( m_pView -> getOptionState().uiState.font );
 	m_pChooser->setSampleText("Umbrello font");
@@ -189,13 +189,13 @@ void UMLViewDialog::checkName() {
 	UMLView * pView = pDoc -> findView( m_pView -> getType(), name );
 	if( name.length() == 0 ) {
 		KMessageBox::sorry(this, i18n("The name you have entered is invalid."),
-		                   i18n("Invalid name."), false);
+		                   i18n("Invalid Name"), false);
 		m_pNameLE->setText( m_pView->getName() );
 		return;
 	}
 	if( pView && pView != m_pView ) {
 		KMessageBox::sorry(this, i18n("The name you have entered is not unique."),
-		                   i18n("Name not unique."), false);
+		                   i18n("Name Not Unique"), false);
 		m_pNameLE->setText( m_pView->getName() );
 		return;
 	}

@@ -17,7 +17,7 @@
 #include "overwritedialogue.h"
 
 OverwriteDialogue::OverwriteDialogue(QString fileName, QString outputDirectory, bool applyToAllRemaining, QWidget* parent, const char* name):
-	KDialogBase(Plain, i18n("Destination file already exists"), Ok|Apply|Cancel, Yes, parent, name) {
+	KDialogBase(Plain, i18n("Destination File Already Exists"), Ok|Apply|Cancel, Yes, parent, name) {
 
 	QVBoxLayout* layout = new QVBoxLayout( plainPage(), 0, spacingHint() );
 
@@ -29,8 +29,8 @@ OverwriteDialogue::OverwriteDialogue(QString fileName, QString outputDirectory, 
 	layout->addWidget(m_applyToAllRemaining);
 
 	setButtonText(KDialogBase::Ok, i18n("Overwrite"));
-	setButtonText(KDialogBase::Apply, i18n("Generate a similar file name"));
-	setButtonText(KDialogBase::Cancel, i18n("Do not generate file"));
+	setButtonText(KDialogBase::Apply, i18n("Generate Similar File Name"));
+	setButtonText(KDialogBase::Cancel, i18n("Do Not Generate File"));
 }
 
 OverwriteDialogue::~OverwriteDialogue() {

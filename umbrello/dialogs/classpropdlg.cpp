@@ -51,13 +51,13 @@ ClassPropDlg::ClassPropDlg(QWidget *parent, ObjectWidget * o) : KDialogBase(Icon
 	m_Type = pt_ObjectWidget;
 	m_pObject = m_pWidget->getUMLObject();
 	m_pDoc = ((UMLApp *)parent) -> getDocument();
-	QFrame *page = addPage( i18n("General"), i18n("General settings"), DesktopIcon( "misc") );
+	QFrame *page = addPage( i18n("General"), i18n("General Settings"), DesktopIcon( "misc") );
 	page -> setMinimumSize(310, 330);
 	QHBoxLayout * topLayout = new QHBoxLayout(page);
 	m_pGenPage = new ClassGenPage(m_pDoc, page, o);
 	topLayout -> addWidget(m_pGenPage);
 
-	QFrame * newPage = addPage( i18n("Colour"), i18n("Widget Colours"), DesktopIcon( "colors") );
+	QFrame * newPage = addPage( i18n("Color"), i18n("Widget Colors"), DesktopIcon( "colors") );
 	QHBoxLayout * m_pColorLayout = new QHBoxLayout(newPage);
 	m_pColorPage = new UMLWidgetColorPage(newPage, o);
 	m_pColorLayout -> addWidget(m_pColorPage);
@@ -89,7 +89,7 @@ ClassPropDlg::ClassPropDlg(QWidget *parent, UMLWidget * w) : KDialogBase(IconLis
 		m_pOptionsLayout -> addWidget(m_pOptionsPage);
 	}
 
-	QFrame * colorPage = addPage( i18n("Colour"), i18n("Widget Colours"), DesktopIcon( "colors") );
+	QFrame * colorPage = addPage( i18n("Color"), i18n("Widget Colors"), DesktopIcon( "colors") );
 	QHBoxLayout * m_pColorLayout = new QHBoxLayout(colorPage);
 	m_pColorPage = new UMLWidgetColorPage(colorPage, w);
 	m_pColorLayout -> addWidget(m_pColorPage);
@@ -135,26 +135,26 @@ void ClassPropDlg::slotApply() {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void ClassPropDlg::setupPages(UMLObject * c, bool assoc) {
-	QFrame *page = addPage(i18n("General"), i18n("General settings"), DesktopIcon( "misc") );
+	QFrame *page = addPage(i18n("General"), i18n("General Settings"), DesktopIcon( "misc") );
 	QHBoxLayout * genLayout = new QHBoxLayout(page);
 	page -> setMinimumSize(310, 330);
 	m_pGenPage = new ClassGenPage(m_pDoc, page, c);
 	genLayout -> addWidget(m_pGenPage);
 	//add extra pages for concept
 	if(c->getBaseType() == Uml::ot_Concept) {
-		QFrame *newPage = addPage(i18n("Attributes"), i18n("Attribute settings"), DesktopIcon( "misc") );
+		QFrame *newPage = addPage(i18n("Attributes"), i18n("Attribute Settings"), DesktopIcon( "misc") );
 		m_pAttPage = new ClassAttPage(newPage, (UMLConcept*)c, m_pDoc);
 		QHBoxLayout * attLayout = new QHBoxLayout(newPage);
 		attLayout -> addWidget(m_pAttPage);
 		connect(m_pAttPage, SIGNAL(sigUpdateChildObject(int)), this, SLOT(slotUpdateChildObject(int)));
 
-		newPage = addPage(i18n("Operations"), i18n("Operation settings"), DesktopIcon( "misc") );
+		newPage = addPage(i18n("Operations"), i18n("Operation Settings"), DesktopIcon( "misc") );
 		m_pOpsPage = new ClassOpsPage(newPage, (UMLConcept*)c, m_pDoc);
 		QHBoxLayout * m_pOpsLayout = new QHBoxLayout(newPage);
 		m_pOpsLayout -> addWidget(m_pOpsPage);
 		connect(m_pOpsPage, SIGNAL(sigUpdateChildObject(int)), this, SLOT(slotUpdateChildObject(int)));
 		if(assoc) {
-			newPage = addPage(i18n("Associations"), i18n("Class associations"), DesktopIcon( "misc") );
+			newPage = addPage(i18n("Associations"), i18n("Class Associations"), DesktopIcon( "misc") );
 			m_pAssocPage = new AssocPage(newPage, m_pDoc -> getCurrentView(), m_pObject);
 			QHBoxLayout * assocLayout = new QHBoxLayout(newPage);
 			assocLayout -> addWidget(m_pAssocPage);
@@ -166,7 +166,7 @@ void ClassPropDlg::setupPages(UMLObject * c, bool assoc) {
 void ClassPropDlg::setupFontPage() {
 	if( !m_pWidget )
 		return;
-	QVBox * page = addVBoxPage( i18n("Font"), i18n("Font settings"), DesktopIcon( "fonts")  );
+	QVBox * page = addVBoxPage( i18n("Font"), i18n("Font Settings"), DesktopIcon( "fonts")  );
 	m_pChooser = new KFontChooser( (QWidget*)page, "font", false, QStringList(), false);
 	m_pChooser -> setFont( m_pWidget -> getFont() );
 	m_pChooser->setSampleText("Umbrello font");

@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.0" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
 <class>ConfigCodeGenBase</class>
 <widget class="QDialog">
     <property name="name">
@@ -33,7 +33,7 @@
                 <property name="clickable">
                     <bool>true</bool>
                 </property>
-                <property name="resizeable">
+                <property name="resizable">
                     <bool>true</bool>
                 </property>
             </column>
@@ -44,7 +44,7 @@
                 <property name="clickable">
                     <bool>true</bool>
                 </property>
-                <property name="resizeable">
+                <property name="resizable">
                     <bool>true</bool>
                 </property>
             </column>
@@ -55,7 +55,7 @@
                 <property name="clickable">
                     <bool>true</bool>
                 </property>
-                <property name="resizeable">
+                <property name="resizable">
                     <bool>true</bool>
                 </property>
             </column>
@@ -68,7 +68,7 @@
                 <cstring>addButton</cstring>
             </property>
             <property name="text">
-                <string>Add</string>
+                <string>&amp;Add</string>
             </property>
         </widget>
         <widget class="QPushButton" row="1" column="2">
@@ -76,7 +76,7 @@
                 <cstring>okButton</cstring>
             </property>
             <property name="text">
-                <string>OK</string>
+                <string>&amp;OK</string>
             </property>
         </widget>
         <widget class="QPushButton" row="1" column="1">
@@ -84,7 +84,7 @@
                 <cstring>removeButton</cstring>
             </property>
             <property name="text">
-                <string>Remove</string>
+                <string>&amp;Remove</string>
             </property>
         </widget>
     </grid>

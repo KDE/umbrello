@@ -13,17 +13,17 @@
 #include <klocale.h>
 #include <qlayout.h>
 
-SelectOpDlg::SelectOpDlg(QWidget * parent, UMLConcept * c) : KDialogBase(Plain, i18n("Select operation"), Ok | Cancel , Ok, parent, "_SELOPDLG_", true, true) {
+SelectOpDlg::SelectOpDlg(QWidget * parent, UMLConcept * c) : KDialogBase(Plain, i18n("Select Operation"), Ok | Cancel , Ok, parent, "_SELOPDLG_", true, true) {
 	QVBoxLayout * topLayout = new QVBoxLayout(plainPage());
 
-	m_pOpGB = new QGroupBox(i18n("Select an operation"), plainPage());
+	m_pOpGB = new QGroupBox(i18n("Select Operation"), plainPage());
 	topLayout -> addWidget(m_pOpGB);
 
 	QGridLayout * mainLayout = new QGridLayout(m_pOpGB, 3, 2);
 	mainLayout -> setSpacing(spacingHint());
 	mainLayout -> setMargin(fontMetrics().height());
 
-	m_pSeqL = new QLabel(i18n("Sequence Number"), m_pOpGB);
+	m_pSeqL = new QLabel(i18n("Sequence number:"), m_pOpGB);
 	mainLayout -> addWidget(m_pSeqL, 0, 0);
 
 	m_pSeqLE = new QLineEdit(m_pOpGB);
@@ -32,10 +32,10 @@ SelectOpDlg::SelectOpDlg(QWidget * parent, UMLConcept * c) : KDialogBase(Plain, 
 	m_pOpCB = new QComboBox(m_pOpGB);
 	mainLayout -> addWidget(m_pOpCB, 1, 1);
 
-	m_pOpRB = new QRadioButton(i18n("Class operation"), m_pOpGB);
+	m_pOpRB = new QRadioButton(i18n("Class operation:"), m_pOpGB);
 	mainLayout -> addWidget(m_pOpRB, 1, 0);
 
-	m_pCustomRB = new QRadioButton(i18n("Custom Operation"), m_pOpGB);
+	m_pCustomRB = new QRadioButton(i18n("Custom operation:"), m_pOpGB);
 	mainLayout -> addWidget(m_pCustomRB, 2, 0);
 
 	m_pOpLE = new QLineEdit(m_pOpGB);

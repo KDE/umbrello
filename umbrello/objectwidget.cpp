@@ -71,7 +71,7 @@ void ObjectWidget::slotMenuSelection(int sel) {
 		case ListPopupMenu::mt_Rename_Object:
 
 			bool ok;
-			name = KLineEditDlg::getText(i18n("Enter object name"), ((ObjectWidgetData*)m_pData)->m_InstanceName, &ok, m_pView);
+			name = KLineEditDlg::getText(i18n("Enter object name:"), ((ObjectWidgetData*)m_pData)->m_InstanceName, &ok, m_pView);
 			if(ok) {
 				((ObjectWidgetData*)m_pData)->m_InstanceName = name;
 				calculateSize();

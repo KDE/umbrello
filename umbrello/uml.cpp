@@ -129,7 +129,7 @@ void UMLApp::initActions() {
 	importClasses = new KAction(i18n("Import Classes..."), SmallIconSet("source_cpp"), 0,
 				    this,SLOT(slotImportClasses()), actionCollection(),"import_class");
 
-	confLanguages = new KAction(i18n("Add / Remove Generation Languages"),0,this,
+	confLanguages = new KAction(i18n("Add/Remove Generation Languages..."),0,this,
 	                            SLOT(configureLanguages()),actionCollection(),"configure_languages");
 
 	fileNew->setStatusText(i18n("Creates a new document"));
@@ -175,7 +175,7 @@ void UMLApp::initActions() {
 
 	viewClearDiagram = new KAction(i18n("&Clear Diagram"), SmallIconSet("editclear"), 0,
 	                        this, SLOT( slotCurrentViewClearDiagram() ), actionCollection(), "view_clear_diagram");
-	viewSnapToGrid = new KToggleAction(i18n("&Snap To Grid"), 0,
+	viewSnapToGrid = new KToggleAction(i18n("&Snap to Grid"), 0,
 	                        this, SLOT( slotCurrentViewToggleSnapToGrid() ), actionCollection(), "view_snap_to_grid");
 	viewShowGrid = new KToggleAction(i18n("S&how Grid"), 0,
 	                        this, SLOT( slotCurrentViewToggleShowGrid() ), actionCollection(), "view_show_grid");
@@ -183,7 +183,7 @@ void UMLApp::initActions() {
 				    this, SLOT( slotDeleteDiagram() ), actionCollection(), "view_delete");
 	viewExportImage = new KAction(i18n("&Export as Picture..."), SmallIconSet("image"), 0,
 	                        this, SLOT( slotCurrentViewExportImage() ), actionCollection(), "view_export_image");
-	viewProperties = new KAction(i18n("&Properties..."), SmallIconSet("info"), 0,
+	viewProperties = new KAction(i18n("&Properties"), SmallIconSet("info"), 0,
 				     this, SLOT( slotCurrentViewProperties() ), actionCollection(), "view_properties");
 
 	viewSnapToGrid->setChecked(false);
@@ -457,7 +457,7 @@ void UMLApp::slotFileOpen() {
 
 	} else {
 		KURL url=KFileDialog::getOpenURL(":open-umbrello-file", i18n("*.xmi|XMI Files\n*.uml|Old UML Files\n*.*|All Files"),
-				this, i18n("Open File..."));
+				this, i18n("Open File"));
 		if(!url.isEmpty()) {
 			if(doc->openDocument(url))
 				fileOpenRecent->addURL( url );
@@ -512,7 +512,7 @@ bool UMLApp::slotFileSaveAs()
 	KURL url;
 	QString ext;
 	while(cont) {
-		url=KFileDialog::getSaveURL(":save-umbrello-file", i18n("*.xmi|XMI Files\n*.*|All Files"), this, i18n("Save as..."));
+		url=KFileDialog::getSaveURL(":save-umbrello-file", i18n("*.xmi|XMI Files\n*.*|All Files"), this, i18n("Save As"));
 
 		if(url.isEmpty())
 			cont = false;
@@ -613,7 +613,7 @@ void UMLApp::slotEditPaste() {
 	if(!clipboard.paste(doc, data)) {
 		KMessageBox::sorry( this, i18n("Umbrello could not paste the clipboard contents.  "
 					       "The objects in the clipboard may be of the wrong "
-					       " type to be pasted here."), i18n("Paste error") );
+					       " type to be pasted here."), i18n("Paste Error") );
 	}
 	slotStatusMsg(i18n("Ready."));
 	setCursor(KCursor::arrowCursor());
@@ -858,14 +858,14 @@ void UMLApp::readOptionState() {
 CodeGenerator* UMLApp::generator() {
 	GeneratorInfo *info;
 	if(activeLanguage.isEmpty()) {
-		KMessageBox::sorry(this,i18n("There is no Active Language defined.\nPlease select\
-		                             one of the installed languages to generate the code with."),i18n("No Language selected"));
+		KMessageBox::sorry(this,i18n("There is no active language defined.\nPlease select\
+		                             one of the installed languages to generate the code with."),i18n("No Language Selected"));
 		return 0;
 	}
 	info = ldict.find(activeLanguage);
 	if(!info) {
-		KMessageBox::sorry(this,i18n("Could not find Active Language.\nPlease select\
-		                             one of the installed languages to generate the code with."),i18n("No Language selected"));
+		KMessageBox::sorry(this,i18n("Could not find active language.\nPlease select\
+		                             one of the installed languages to generate the code with."),i18n("No Language Selected"));
 		return 0;
 	}
 
@@ -1017,7 +1017,7 @@ void UMLApp::slotUpdateViews() {
 
 void UMLApp::slotImportClasses() {
 	QStringList fileList = KFileDialog::getOpenFileNames(":import-classes",
-	                       i18n("*.h *.hpp *.hxx|Header Files (*.h *.hpp *.hxx)\n*.*|All Files"), this, i18n("Select Classes to Import...") );
+	                       i18n("*.h *.hpp *.hxx|Header Files (*.h *.hpp *.hxx)\n*.*|All Files"), this, i18n("Select Classes to Import") );
 	((ClassImport*)doc)->importCPP( fileList );
 }
 
@@ -1128,8 +1128,8 @@ void UMLApp::initLibraries() {
 	//////// Register new libraries
 	if(!libsFound.isEmpty()) {
 
-		KMessageBox::information(this,i18n("Umbrello UML Modeller found new Code Generation libraries.\nPlease select the languages you want to use"),
-		                         i18n("New Libraries found"));
+		KMessageBox::information(this,i18n("Umbrello UML Modeller found new code generation libraries.\nPlease select the languages you want to use."),
+		                         i18n("New Libraries Found"));
 
 		SelectLanguagesDlg d(this);
 		d.offerLanguages(libsFound);
@@ -1159,7 +1159,7 @@ void UMLApp::initLibraries() {
 
 
 		KMessageBox::information(this,i18n("The following libraries are registered in Umbrello UML Modeller\
-		                                   for Code Generation but can not be found. They will be removed from the configuration\n")+ str);
+		                                   for code generation but can not be found. They will be removed from the configuration.\n")+ str);
 		//maybe show the path were the libs were looked for?
 
 	}

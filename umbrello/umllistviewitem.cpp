@@ -182,8 +182,8 @@ void UMLListViewItem::okRename( int col ) {
 	UMLView * view = 0, * anotherView;
 	if( newText.length() == 0 ) {
 		KMessageBox::error( kapp->mainWidget() ,
-				    i18n("The name you entered was invalid!\nRenaming process has been cancelled"),
-		                    i18n("Name not valid!") );
+				    i18n("The name you entered was invalid!\nRenaming process has been cancelled."),
+		                    i18n("Name Not Valid") );
 		setText( m_Data.getLabel() );
 		return;
 	}
@@ -214,7 +214,7 @@ void UMLListViewItem::okRename( int col ) {
 				QPtrList<UMLObject> list = parent -> findChildObject( object -> getBaseType(), newText );
 				if(list.isEmpty() || (!list.isEmpty() && KMessageBox::warningYesNo( kapp -> mainWidget() ,
 				                      i18n( "The name you entered was not unique!\nIs this what you wanted?" ),
-				                      i18n( "Name not unique!" ) ) == KMessageBox::Yes )) {
+				                      i18n( "Name Not Unique" ) ) == KMessageBox::Yes )) {
 					object -> setName( newText );
 					m_Data.setLabel( newText );
 					m_pListView -> getDocument() -> signalChildUMLObjectUpdate( m_Data.getUMLObject() );
@@ -267,8 +267,8 @@ void UMLListViewItem::okRename( int col ) {
 			break;
 	}
 	KMessageBox::error( kapp->mainWidget() ,
-			    i18n("The name you entered was invalid!\nRenaming process has been cancelled"),
-	                    i18n("Name not valid!") );
+			    i18n("The name you entered was invalid!\nRenaming process has been cancelled."),
+	                    i18n("Name Not Valid") );
 	setText( m_Data.getLabel() );
 }
 

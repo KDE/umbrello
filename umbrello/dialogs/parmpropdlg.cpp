@@ -51,7 +51,7 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a) : KDi
 	m_pTypeCB = new QComboBox(m_pParmGB);
 	propLayout -> addWidget(m_pTypeCB, 0, 1);
 
-	m_pInitialL = new QLabel(i18n("Initial Value:"), m_pParmGB);
+	m_pInitialL = new QLabel(i18n("Initial value:"), m_pParmGB);
 	propLayout -> addWidget(m_pInitialL, 2, 0);
 
 	m_pInitialLE = new QLineEdit(m_pParmGB);

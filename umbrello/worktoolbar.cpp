@@ -51,104 +51,104 @@ void WorkToolBar::slotCheckToolBar(Uml::Diagram_Type dt) {
 		toggleButton( tbb_Arrow );
 		m_CurrentButtonID = tbb_Arrow;
 
-		insertButton( m_Pixmaps.Note, tbb_Note, true, i18n("note"));
+		insertButton( m_Pixmaps.Note, tbb_Note, true, i18n("Note"));
 		setToggle( tbb_Note, true );
 
-		insertButton( m_Pixmaps.Anchor, tbb_Anchor, true, i18n("anchor"));
+		insertButton( m_Pixmaps.Anchor, tbb_Anchor, true, i18n("Anchor"));
 		setToggle( tbb_Anchor, true );
 
-		insertButton( m_Pixmaps.Text, tbb_Text, true, i18n("Line of Text"));
+		insertButton( m_Pixmaps.Text, tbb_Text, true, i18n("Line of text"));
 		setToggle( tbb_Text, true );
 	}
 	if( m_Type == Uml::dt_UseCase ) {
 
 
 
-		insertButton( m_Pixmaps.Actor, tbb_Actor, true, i18n("actor"));
+		insertButton( m_Pixmaps.Actor, tbb_Actor, true, i18n("Actor"));
 		setToggle( tbb_Actor, true );
 
-		insertButton( m_Pixmaps.UseCase, tbb_UseCase,true, i18n("use case"));
+		insertButton( m_Pixmaps.UseCase, tbb_UseCase,true, i18n("Use case"));
 		setToggle( tbb_UseCase, true );
 
-		insertButton( m_Pixmaps.Generalization, tbb_Generalization, true, i18n("generalization"));
+		insertButton( m_Pixmaps.Generalization, tbb_Generalization, true, i18n("Generalization"));
 		setToggle( tbb_Generalization, true );
 
-		insertButton( m_Pixmaps.Dependency, tbb_Dependency, true, i18n("dependency"));
+		insertButton( m_Pixmaps.Dependency, tbb_Dependency, true, i18n("Dependency"));
 		setToggle( tbb_Dependency,true );
 
-		insertButton( m_Pixmaps.Association, tbb_Association, true, i18n("association"));
+		insertButton( m_Pixmaps.Association, tbb_Association, true, i18n("Association"));
 		setToggle( tbb_Association,true );
 
-		insertButton( m_Pixmaps.UniAssociation, tbb_UniAssociation, true, i18n("unidirectional association"));
+		insertButton( m_Pixmaps.UniAssociation, tbb_UniAssociation, true, i18n("Unidirectional association"));
 		setToggle( tbb_UniAssociation, true );
 	} else if( m_Type == Uml::dt_Class ) {
-		insertButton( m_Pixmaps.Concept, tbb_Concept, true, i18n("class"));
+		insertButton( m_Pixmaps.Concept, tbb_Concept, true, i18n("Class"));
 		setToggle( tbb_Concept,true );
 
-		insertButton( m_Pixmaps.Composition, tbb_Composition, true, i18n("composition"));
+		insertButton( m_Pixmaps.Composition, tbb_Composition, true, i18n("Composition"));
 		setToggle( tbb_Composition, true );
 
-		insertButton( m_Pixmaps.Implementation, tbb_Implementation, true, i18n("implementation"));
+		insertButton( m_Pixmaps.Implementation, tbb_Implementation, true, i18n("Implementation"));
 		setToggle( tbb_Implementation, true );
 
-		insertButton( m_Pixmaps.Realization, tbb_Realization, true, i18n("realization"));
+		insertButton( m_Pixmaps.Realization, tbb_Realization, true, i18n("Realization"));
 		setToggle( tbb_Realization, true );
 
-		insertButton( m_Pixmaps.Generalization, tbb_Generalization, true, i18n("generalization"));
+		insertButton( m_Pixmaps.Generalization, tbb_Generalization, true, i18n("Generalization"));
 		setToggle( tbb_Generalization, true );
 
-		insertButton( m_Pixmaps.Aggregation, tbb_Aggregation, true, i18n("aggregation"));
+		insertButton( m_Pixmaps.Aggregation, tbb_Aggregation, true, i18n("Aggregation"));
 		setToggle( tbb_Aggregation, true );
 
-		insertButton( m_Pixmaps.Dependency, tbb_Dependency, true, i18n("dependency"));
+		insertButton( m_Pixmaps.Dependency, tbb_Dependency, true, i18n("Dependency"));
 		setToggle( tbb_Dependency, true );
 
-		insertButton( m_Pixmaps.Association, tbb_Association, true, i18n("association"));
+		insertButton( m_Pixmaps.Association, tbb_Association, true, i18n("Association"));
 		setToggle( tbb_Association,true );
 
-		insertButton( m_Pixmaps.UniAssociation, tbb_UniAssociation, true, i18n("unidirectional association"));
+		insertButton( m_Pixmaps.UniAssociation, tbb_UniAssociation, true, i18n("Unidirectional association"));
 		setToggle( tbb_UniAssociation,true );
 	} else if( m_Type == Uml::dt_Sequence ) {
-		insertButton( m_Pixmaps.Object, tbb_Object, true, i18n("object"));
+		insertButton( m_Pixmaps.Object, tbb_Object, true, i18n("Object"));
 		setToggle (tbb_Object, true);
 
-		insertButton( m_Pixmaps.Message, tbb_Seq_Message, true, i18n("message"));
+		insertButton( m_Pixmaps.Message, tbb_Seq_Message, true, i18n("Message"));
 		setToggle( tbb_Seq_Message, true );
 	} else if( m_Type == Uml::dt_Collaboration ) {
-		insertButton( m_Pixmaps.Object, tbb_Object, true, i18n("object"));
+		insertButton( m_Pixmaps.Object, tbb_Object, true, i18n("Object"));
 		setToggle( tbb_Object, true );
 
-		insertButton( m_Pixmaps.Message, tbb_Coll_Message, true, i18n("message"));
+		insertButton( m_Pixmaps.Message, tbb_Coll_Message, true, i18n("Message"));
 		setToggle( tbb_Coll_Message, true );
 	} else if( m_Type == Uml::dt_State ) {
-		insertButton( m_Pixmaps.Initial_State, tbb_Initial_State, true, i18n("initial state"));
+		insertButton( m_Pixmaps.Initial_State, tbb_Initial_State, true, i18n("Initial state"));
 		setToggle( tbb_Initial_State, true );
 
-		insertButton( m_Pixmaps.UseCase, tbb_State, true, i18n("state"));
+		insertButton( m_Pixmaps.UseCase, tbb_State, true, i18n("State"));
 		setToggle( tbb_State, true );
 
-		insertButton( m_Pixmaps.End_State, tbb_End_State, true, i18n("end state"));
+		insertButton( m_Pixmaps.End_State, tbb_End_State, true, i18n("End state"));
 		setToggle( tbb_End_State, true );
 
-		insertButton( m_Pixmaps.UniAssociation, tbb_State_Transition, true, i18n("state transition"));
+		insertButton( m_Pixmaps.UniAssociation, tbb_State_Transition, true, i18n("State transition"));
 		setToggle( tbb_State_Transition, true );
 	} else if( m_Type == Uml::dt_Activity ) {
-		insertButton( m_Pixmaps.Initial_State, tbb_Initial_Activity, true, i18n("initial activity"));
+		insertButton( m_Pixmaps.Initial_State, tbb_Initial_Activity, true, i18n("Initial activity"));
 		setToggle( tbb_Initial_Activity, true );
 
-		insertButton( m_Pixmaps.UseCase, tbb_Activity, true, i18n("activity"));
+		insertButton( m_Pixmaps.UseCase, tbb_Activity, true, i18n("Activity"));
 		setToggle( tbb_Activity, true );
 
-		insertButton( m_Pixmaps.End_State, tbb_End_Activity, true, i18n("end activity"));
+		insertButton( m_Pixmaps.End_State, tbb_End_Activity, true, i18n("End activity"));
 		setToggle( tbb_End_Activity, true );
 
-		insertButton( m_Pixmaps.Branch, tbb_Branch, true, i18n("branch/merge"));
+		insertButton( m_Pixmaps.Branch, tbb_Branch, true, i18n("Branch/merge"));
 		setToggle( tbb_Branch, true );
 
-		insertButton( m_Pixmaps.Fork, tbb_Fork, true, i18n("fork/join"));
+		insertButton( m_Pixmaps.Fork, tbb_Fork, true, i18n("Fork/join"));
 		setToggle( tbb_Fork, true );
 
-		insertButton( m_Pixmaps.UniAssociation, tbb_Activity_Transition, true, i18n("activity transition"));
+		insertButton( m_Pixmaps.UniAssociation, tbb_Activity_Transition, true, i18n("Activity transition"));
 		setToggle( tbb_Activity_Transition, true );
 	}
 }

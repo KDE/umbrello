@@ -50,14 +50,14 @@ void UMLOperationDialog::setupDialog() {
 	genLayout -> setMargin(margin);
 	genLayout -> setSpacing(10);
 
-	m_pNameL = new QLabel(i18n("Name"), m_pGenGB);
+	m_pNameL = new QLabel(i18n("Name:"), m_pGenGB);
 	genLayout -> addWidget(m_pNameL, 0, 0 );
 
 	m_pNameLE = new QLineEdit(m_pGenGB );
 	m_pNameLE -> setText( m_pOperation -> getName() );
 	genLayout -> addWidget(m_pNameLE, 0, 1);
 
-	m_pRtypeL = new QLabel(i18n("Type"), m_pGenGB );
+	m_pRtypeL = new QLabel(i18n("Type:"), m_pGenGB );
 	genLayout -> addWidget(m_pRtypeL, 0, 2);
 
 	m_pRtypeCB = new QComboBox(m_pGenGB );
@@ -96,7 +96,7 @@ void UMLOperationDialog::setupDialog() {
 	parmsLayout -> addWidget(m_pParmsLB);
 
 	KButtonBox* buttonBox = new KButtonBox(m_pParmsGB);
-	buttonBox->addButton( i18n("New Parameter"), this, SLOT(slotNewParameter()) );
+	buttonBox->addButton( i18n("New Parameter..."), this, SLOT(slotNewParameter()) );
 	m_pDeleteButton = buttonBox->addButton( i18n("Delete"), this, SLOT(slotDeleteParameter()) );
 	m_pPropertiesButton = buttonBox->addButton( i18n("Properties"), this,
 						    SLOT(slotParameterProperties()) );
@@ -239,7 +239,7 @@ void UMLOperationDialog::slotNewParameter() {
 	if( result ) {
 		if( name.length() == 0 ) {
 			KMessageBox::error(this, i18n("You have entered an invalid parameter name."),
-					   i18n("Parameter name Invalid."), false);
+					   i18n("Parameter Name Invalid"), false);
 			return;
 		}
 		if( !pAtt ) {
@@ -248,8 +248,8 @@ void UMLOperationDialog::slotNewParameter() {
 			m_pParmsLB -> insertItem( dlg.getName() );
 			pDoc -> setModified( true );
 		} else {
-			KMessageBox::sorry(this, i18n("The Parameter name you have chosen\nis already being used in this operation."),
-					   i18n("Parameter name not unique."), false);
+			KMessageBox::sorry(this, i18n("The parameter name you have chosen\nis already being used in this operation."),
+					   i18n("Parameter Name Not Unique"), false);
 		}
 	}//end if result
 	delete newAttribute;
@@ -286,7 +286,7 @@ void UMLOperationDialog::slotParameterProperties() {
 	if( result ) {
 		if( name.length() == 0 ) {
 			KMessageBox::error(this, i18n("You have entered an invalid parameter name."),
-					   i18n("Parameter name Invalid."), false);
+					   i18n("Parameter Name Invalid"), false);
 			return;
 		}
 		if( !pAtt || ( pOldAtt->getTypeName() != dlg.getTypeName() ) ) {
@@ -297,8 +297,8 @@ void UMLOperationDialog::slotParameterProperties() {
 			pOldAtt->setInitialValue( dlg.getInitialValue() );
 			pDoc->setModified( true );
 		} else if( pAtt != pOldAtt ) {
-			KMessageBox::error(this, i18n("The Parameter name you have chosen is already being used in this operation."),
-					   i18n("Parameter name not unique."), false);
+			KMessageBox::error(this, i18n("The parameter name you have chosen is already being used in this operation."),
+					   i18n("Parameter Name Not Unique."), false);
 		}
 	}
 }
@@ -328,13 +328,13 @@ bool UMLOperationDialog::apply() {
 	QPtrList<UMLObject> list= pConcept -> findChildObject( Uml::ot_Operation, name );
 	if( name.length() == 0 ) {
 		KMessageBox::error(this, i18n("You have entered an invalid operation name."),
-		                   i18n("Operation name Invalid."), false);
+		                   i18n("Operation Name Invalid"), false);
 		m_pNameLE -> setText( m_pOperation -> getName() );
 		return false;
 	}
 	if( list.count() != 0 && list.findRef( m_pOperation ) ) {
 		if( KMessageBox::warningYesNo( this , i18n( "The name you entered was not unique!\nIs this what you wanted?" ),
-		                               i18n( "Name not unique!" ) ) == KMessageBox::No ) {
+		                               i18n( "Name Not unique" ) ) == KMessageBox::No ) {
 			m_pNameLE -> setText( m_pOperation -> getName() );
 			return false;
 		}

@@ -228,7 +228,7 @@ bool UMLDoc::openDocument(const KURL& url, const char */*format =0*/) {
 	KIO::NetAccess::download( url, tmpfile );
 	QFile file( tmpfile );
 	if( !file.open( IO_ReadOnly ) ) {
-		KMessageBox::error(0, i18n("There was a problem loading file: %1").arg(d.path()), i18n("Load error!"));
+		KMessageBox::error(0, i18n("There was a problem loading file: %1").arg(d.path()), i18n("Load Error"));
 		doc_url.setFileName(i18n("Untitled"));
 		loading = false;
 		newDocument();
@@ -252,7 +252,7 @@ bool UMLDoc::openDocument(const KURL& url, const char */*format =0*/) {
 	file.close();
 	KIO::NetAccess::removeTempFile( tmpfile );
 	if( !status ) {
-		KMessageBox::error(0, i18n("There was a problem loading file: %1").arg(d.path()), i18n("Load error!"));
+		KMessageBox::error(0, i18n("There was a problem loading file: %1").arg(d.path()), i18n("Load Error"));
 		loading = false;
 		newDocument();
 		return false;
@@ -276,7 +276,7 @@ bool UMLDoc::saveDocument(const KURL& url, const char * /*format =0*/) {
 		file.setName( tmpfile.name() );
 
 	if( !file.open( IO_WriteOnly ) ) {
-		KMessageBox::error(0, i18n("There was a problem saving file: %1").arg(d.path()), i18n("Save error!"));
+		KMessageBox::error(0, i18n("There was a problem saving file: %1").arg(d.path()), i18n("Save Error"));
 		return false;
 	}
 	bool status = true;
@@ -287,11 +287,11 @@ bool UMLDoc::saveDocument(const KURL& url, const char * /*format =0*/) {
 		tmpfile.unlink();
 	}
 	if (!status ) {
-		KMessageBox::error(0, i18n("There was a problem saving file: %1").arg(d.path()), i18n("Save error!"));
+		KMessageBox::error(0, i18n("There was a problem saving file: %1").arg(d.path()), i18n("Save Error"));
 		doc_url.setFileName(i18n("Untitled"));
 	}
 	if( !uploaded ) {
-		KMessageBox::error(0, i18n("There was a problem uploading file: %1").arg(d.path()), i18n("Save error!"));
+		KMessageBox::error(0, i18n("There was a problem uploading file: %1").arg(d.path()), i18n("Save Error"));
 		doc_url.setFileName(i18n("Untitled"));
 	}
 	modified = false;
@@ -408,17 +408,17 @@ void UMLDoc::createUMLObject(UMLObject_Type type) {
 	QString name,
 	currentName = uniqObjectName(type);
 	while (true) {
-		name = KLineEditDlg::getText(i18n("Enter name..."), currentName, &ok, (QWidget*)parent());
+		name = KLineEditDlg::getText(i18n("Enter name:"), currentName, &ok, (QWidget*)parent());
 		currentName = name;
 		if (!ok) {
 			break;
 		}
 		UMLObject* o = findUMLObject(type, name);
 		if (name.length() == 0) {
-			KMessageBox::error(0, i18n("That is an invalid name."), i18n("ERROR 20: Invalid Name!"));
+			KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
 		}
 		if (o) {
-			KMessageBox::error(0, i18n("That name is already being used."), i18n("ERROR 16: None unique name!"));
+			KMessageBox::error(0, i18n("That name is already being used."), i18n("None Unique Name"));
 		} else {  //create an object
 			if(type == ot_Actor) {
 				UMLActor *a = new UMLActor(this, name, ++uniqueID);
@@ -469,9 +469,9 @@ UMLObject* UMLDoc::createAttribute(UMLObject* umlobject) {
 		QString name = newAttribute->getName();
 
 		if(name.length() == 0) {
-			KMessageBox::error(0, i18n("That is an invalid name."), i18n("ERROR 20: Invalid Name!"));
+			KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
 		} else if ( ((UMLConcept*)umlobject)->findChildObject(Uml::ot_Attribute, name).count() > 0 ) {
-			KMessageBox::error(0, i18n("That name is already being used."), i18n("ERROR 16: None unique name!"));
+			KMessageBox::error(0, i18n("That name is already being used."), i18n("None Unique Name"));
 		} else {
 			goodName = true;
 		}
@@ -504,7 +504,7 @@ UMLObject* UMLDoc::createOperation(UMLObject* umlobject) {
 		QString name = newOperation->getName();
 
 		if(name.length() == 0) {
-			KMessageBox::error(0, i18n("That is an invalid name."), i18n("ERROR 20: Invalid Name!"));
+			KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
 		} else {
 			goodName = true;
 		}
@@ -550,13 +550,13 @@ void UMLDoc::createDiagram(Diagram_Type type, bool askForName /*= true */) {
 
 	while(true) {
 		if( askForName )
-			name = KLineEditDlg::getText(i18n("Enter name..."), dname, &ok, (QWidget*)parent());
+			name = KLineEditDlg::getText(i18n("Enter name:"), dname, &ok, (QWidget*)parent());
 		else
 			name = dname;
 		if(!ok)
 			break;
 		if(name.length() == 0)
-			KMessageBox::error(0, i18n("That is an invalid name for a diagram."), i18n("ERROR 21: Invalid Name!"));
+			KMessageBox::error(0, i18n("That is an invalid name for a diagram."), i18n("Invalid Name"));
 		else if(!findView(type, name)) {
 			UMLViewData * pData = new UMLViewData();
 			pData -> setName( name );
@@ -571,7 +571,7 @@ void UMLDoc::createDiagram(Diagram_Type type, bool askForName /*= true */) {
 			changeCurrentView(uniqueID);
 			break;
 		} else
-			KMessageBox::error(0, i18n("A diagram is already using that name."), i18n("ERROR 22: None unique name!"));
+			KMessageBox::error(0, i18n("A diagram is already using that name."), i18n("None Unique Name"));
 	}//end while
 	return;
 }
@@ -584,12 +584,12 @@ void UMLDoc::renameDiagram(int id) {
 
 	QString oldName= temp->getName();
 	while(true) {
-		QString name = KLineEditDlg::getText(i18n("Enter name..."), oldName, &ok, (QWidget*)parent());
+		QString name = KLineEditDlg::getText(i18n("Enter name:"), oldName, &ok, (QWidget*)parent());
 
 		if(!ok)
 			break;
 		if(name.length() == 0)
-			KMessageBox::error(0, i18n("That is an invalid name for a diagram."), i18n("ERROR 21: Invalid Name!"));
+			KMessageBox::error(0, i18n("That is an invalid name for a diagram."), i18n("Invalid Name"));
 		else if(!findView(type, name)) {
 			temp->setName(name);
 
@@ -597,7 +597,7 @@ void UMLDoc::renameDiagram(int id) {
 			setModified(true);
 			break;
 		} else
-			KMessageBox::error(0, i18n("A diagram is already using that name."), i18n("ERROR 22: None unique name!"));
+			KMessageBox::error(0, i18n("A diagram is already using that name."), i18n("None Unique Name"));
 	}
 	return;
 }
@@ -606,11 +606,11 @@ void UMLDoc::renameUMLObject(UMLObject *o) {
 	bool ok = false;
 	QString oldName= o->getName();
 	while(true) {
-		QString name = KLineEditDlg::getText(i18n("Enter name..."), oldName, &ok, (QWidget*)parent());
+		QString name = KLineEditDlg::getText(i18n("Enter name:"), oldName, &ok, (QWidget*)parent());
 		if(!ok)
 			break;
 		if(name.length() == 0)
-			KMessageBox::error(0, i18n("That is an invalid name."), i18n("ERROR 20: Invalid Name!"));
+			KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
 		else if(!findUMLObject(o->getBaseType(), name)) {
 			o->setName(name);
 			emit sigObjectChanged(o);
@@ -618,7 +618,7 @@ void UMLDoc::renameUMLObject(UMLObject *o) {
 			setModified(true);
 			break;
 		} else {
-			KMessageBox::error(0, i18n("That name is already being used."), i18n("ERROR 16: None unique name!"));
+			KMessageBox::error(0, i18n("That name is already being used."), i18n("None Uunique Name"));
 		}
 	}
 	return;
@@ -634,24 +634,24 @@ void UMLDoc::renameChildUMLObject(UMLObject *o) {
 
 	QString oldName= o->getName();
 	while(true) {
-		QString name = KLineEditDlg::getText(i18n("Enter name..."), oldName, &ok, (QWidget*)parent());
+		QString name = KLineEditDlg::getText(i18n("Enter name:"), oldName, &ok, (QWidget*)parent());
 		if(!ok)
 			break;
 		if(name.length() == 0)
-			KMessageBox::error(0, i18n("That is an invalid name."), i18n("ERROR 20: Invalid Name!"));
+			KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
 		else {
 			if((dynamic_cast<UMLConcept *>(p)->findChildObject(o->getBaseType(), name)
 			        .count() == 0)
 			        || ((o->getBaseType() == Uml::ot_Operation) && KMessageBox::warningYesNo( kapp -> mainWidget() ,
 			                i18n( "The name you entered was not unique!\nIs this what you wanted?" ),
-			                i18n( "Name not unique!")) == KMessageBox::Yes) ) {
+			                i18n( "Name Not Unique")) == KMessageBox::Yes) ) {
 				o->setName(name);
 				emit sigChildObjectChanged(o);
 				emit sigWidgetUpdated(p);
 				setModified(true);
 				break;
 			} else {
-				KMessageBox::error(0, i18n("That name is already being used."), i18n("ERROR 16: None unique name!"));
+				KMessageBox::error(0, i18n("That name is already being used."), i18n("None Unique Name"));
 			}
 		}
 	}
@@ -677,7 +677,7 @@ void UMLDoc::changeCurrentView(int id) {
 void UMLDoc::removeDiagram(int id) {
 	getDocWindow()->updateDocumentation(true);
 	UMLView* umlview = findView(id);
-	if (KMessageBox::warningYesNo(0, i18n("Are you sure you want to delete diagram %1?").arg(umlview->getName()), i18n("Delete diagram")) == KMessageBox::Yes) {
+	if (KMessageBox::warningYesNo(0, i18n("Are you sure you want to delete diagram %1?").arg(umlview->getName()), i18n("Delete Fiagram")) == KMessageBox::Yes) {
 		removeView(umlview);
 		emit sigDiagramRemoved(id);
 		setModified(true);

@@ -46,7 +46,7 @@ void ActivityPage::setupPage() {
 	buttonLayout -> addWidget( m_pDownArrowB );
 
 	KButtonBox* buttonBox = new KButtonBox(m_pActivityGB);
-	buttonBox->addButton( i18n("New Activity"), this, SLOT(slotNewActivity()) );
+	buttonBox->addButton( i18n("New Activity..."), this, SLOT(slotNewActivity()) );
 	m_pDeleteActivityButton = buttonBox->addButton( i18n("Delete"),
 							  this, SLOT(slotDelete()) );
 	m_pRenameButton = buttonBox->addButton( i18n("Rename"), this, SLOT(slotRename()) );
@@ -103,7 +103,7 @@ void ActivityPage::slotMenuSelection( int sel ) {
 void ActivityPage::slotNewActivity() {
 	bool ok = false;
 	QString name = m_pActivityLB->currentText();
-	name = KLineEditDlg::getText( i18n("New Activity."), i18n("Enter the name of the new Activity."),
+	name = KLineEditDlg::getText( i18n("New Activity"), i18n("Enter the name of the new activity:"),
 				      i18n("new activity"), &ok );
 	if( ok && name.length() > 0 ) {
 		m_pActivityLB->insertItem( name );
@@ -122,7 +122,7 @@ void ActivityPage::slotRename() {
 	bool ok = false;
 	QString name = m_pActivityLB -> currentText();
 	QString oldName = name;
-	name = KLineEditDlg::getText( i18n("Rename Activity."), i18n("Enter the new name of the Activity."), name, &ok );
+	name = KLineEditDlg::getText( i18n("Rename Activity"), i18n("Enter the new name of the Activity:"), name, &ok );
 	if( ok && name.length() > 0 ) {
 		m_pActivityLB -> changeItem( name, m_pActivityLB -> currentItem());
 		m_pStateWidget -> renameActivity( oldName, name );

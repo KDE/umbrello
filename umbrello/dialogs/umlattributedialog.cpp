@@ -35,13 +35,13 @@ void UMLAttributeDialog::setupDialog() {
 	valuesLayout -> setMargin(margin);
 	valuesLayout -> setSpacing(10);
 
-	m_pTypeL = new QLabel(i18n("Type"), m_pValuesGB);
+	m_pTypeL = new QLabel(i18n("Type:"), m_pValuesGB);
 	valuesLayout -> addWidget(m_pTypeL, 0, 0);
 
-	m_pNameL = new QLabel(i18n("Name"), m_pValuesGB);
+	m_pNameL = new QLabel(i18n("Name:"), m_pValuesGB);
 	valuesLayout -> addWidget(m_pNameL, 1, 0);
 
-	m_pInitialL = new QLabel(i18n("Initial value"), m_pValuesGB);
+	m_pInitialL = new QLabel(i18n("Initial value:"), m_pValuesGB);
 	valuesLayout -> addWidget(m_pInitialL, 2, 0);
 
 	m_pTypeCB = new QComboBox(m_pValuesGB);
@@ -141,7 +141,7 @@ bool UMLAttributeDialog::apply() {
 	QString name = m_pNameLE->text();
 	if( name.length() == 0 ) {
 		KMessageBox::error(this, i18n("You have entered an invalid attribute name."),
-		                   i18n("Attribute name invalid."), false);
+		                   i18n("Attribute Name Invalid"), false);
 		m_pNameLE->setText( m_pAttribute->getName() );
 		return false;
 	}
@@ -149,7 +149,7 @@ bool UMLAttributeDialog::apply() {
 	QPtrList<UMLObject> list= pConcept->findChildObject(Uml::ot_Attribute, name);
 	if( list.count() != 0 && list.findRef( m_pAttribute ) ) {
 		KMessageBox::error(this, i18n("The attribute name you have chosen is already being used in this operation."),
-		                   i18n("Attribute name not unique."), false);
+		                   i18n("Attribute Name Not Unique"), false);
 		m_pNameLE->setText( m_pAttribute->getName() );
 		return false;
 	}

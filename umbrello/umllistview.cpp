@@ -67,7 +67,7 @@ void UMLListView::contentsMousePressEvent(QMouseEvent *me) {
 		case Uml::lvt_State_Diagram:
 		case Uml::lvt_Activity_Diagram:
 			if( ! doc->activateView( item->getID()))
-				KMessageBox::error( kapp -> mainWidget(), i18n("Could not activate the diagram."), i18n("ERROR: Diagram load!"));
+				KMessageBox::error( kapp -> mainWidget(), i18n("Could not activate the diagram."), i18n("Diagram Load Error"));
 			else
 				doc -> changeCurrentView(item->getID());
 			doc -> getDocWindow() -> showDocumentation( doc -> findView( item -> getID() ), false );
@@ -173,7 +173,7 @@ void UMLListView::popupMenuSel(int sel) {
 			((ClassImport*)doc)->importCPP(
 			    KFileDialog::getOpenFileNames(":import-classes",
 			                                  i18n("*.h|Header Files (*.h)\n*.*|All Files"),
-			                                  this, i18n("Select Classes to Import...") ));
+			                                  this, i18n("Select Classes to Import") ));
 		case ListPopupMenu::mt_Expand_All:
 				expandAll(temp);
 				break;
@@ -197,7 +197,7 @@ void UMLListView::popupMenuSel(int sel) {
 				doc->removeDiagram(id);
 			else if(lvtType == Uml::lvt_Logical_Folder || lvtType == Uml::lvt_UseCase_Folder) {
 				if(temp -> firstChild()) {
-					KMessageBox::error( kapp -> mainWidget(), i18n("The folder must be emptied before it can be deleted."), i18n("Folder not Empty!"));
+					KMessageBox::error( kapp -> mainWidget(), i18n("The folder must be emptied before it can be deleted."), i18n("Folder Not Empty"));
 					return;
 				}
 				delete temp;
@@ -1389,7 +1389,7 @@ bool UMLListView::slotItemRenamed( QListViewItem * item , int /*col*/ ) {
 	//if the length of any type then delete it.
 	if( newText.length() == 0 ) {
 		KMessageBox::error( kapp -> mainWidget() , i18n( "The name you entered was invalid!\nCreation process has been cancelled" ),
-		                    i18n( "Name not valid!" ) );
+		                    i18n( "Name Not Valid" ) );
 		delete item;
 		return false;
 	}
@@ -1401,13 +1401,13 @@ bool UMLListView::slotItemRenamed( QListViewItem * item , int /*col*/ ) {
 		//if operation ask if ok not to be unique i.e overloading
 		if( type == Uml::lvt_Operation ) {
 			if( KMessageBox::warningYesNo( kapp -> mainWidget() , i18n( "The name you entered was not unique!\nIs this what you wanted?" ),
-			                               i18n( "Name not unique!" ) ) == KMessageBox::No ) {
+			                               i18n( "Name Not Unique" ) ) == KMessageBox::No ) {
 				delete item;
 				return false;
 			}
 		} else {
 			KMessageBox::error( kapp -> mainWidget() , i18n( "The name you entered was not unique!\nCreation process has been cancelled" ),
-			                    i18n( "Name not unique!" ) );
+			                    i18n( "Name Not Unique" ) );
 			delete item;
 			return false;
 		}

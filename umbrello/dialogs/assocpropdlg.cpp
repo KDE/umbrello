@@ -35,21 +35,21 @@ AssocPropDlg::AssocPropDlg(QWidget * parent, AssociationWidget * a) : KDialogBas
 	QGridLayout * layout = new QGridLayout(m_pAssocGB, 3, 4);
 	layout -> setSpacing(10);
 	layout -> setMargin(margin);
-	QString nameA = i18n("Name"), nameB = i18n("Name");
+	QString nameA = i18n("Name:"), nameB = i18n("Name:");
 
 	layout -> addWidget(new QLabel(nameA, m_pAssocGB), 0, 0);
 	m_pNameALE = new QLineEdit(m_pAssocGB);
 	layout -> addWidget(m_pNameALE, 0, 1);
 
-	layout -> addWidget(new QLabel(i18n("Multiplicity"), m_pAssocGB), 0, 2);
+	layout -> addWidget(new QLabel(i18n("Multiplicity:"), m_pAssocGB), 0, 2);
 	m_pMultiALE = new QLineEdit(m_pAssocGB);
 	layout -> addWidget(m_pMultiALE, 0, 3);
 
-	layout -> addWidget(new QLabel(i18n("Type"), m_pAssocGB), 1, 0);
+	layout -> addWidget(new QLabel(i18n("Type:"), m_pAssocGB), 1, 0);
 	m_pTypeLE = new QLineEdit(m_pAssocGB);
 	layout -> addWidget(m_pTypeLE, 1, 1);
 
-	layout -> addWidget(new QLabel(i18n("Role name"), m_pAssocGB), 1, 2);
+	layout -> addWidget(new QLabel(i18n("Role name:"), m_pAssocGB), 1, 2);
 	m_pRoleNameLE = new QLineEdit(m_pAssocGB);
 	layout -> addWidget(m_pRoleNameLE, 1, 3);
 
@@ -57,7 +57,7 @@ AssocPropDlg::AssocPropDlg(QWidget * parent, AssociationWidget * a) : KDialogBas
 	m_pNameBLE = new QLineEdit(m_pAssocGB);
 	layout -> addWidget(m_pNameBLE, 2, 1);
 
-	layout -> addWidget(new QLabel(i18n("Multiplicity"), m_pAssocGB), 2, 2);
+	layout -> addWidget(new QLabel(i18n("Multiplicity:"), m_pAssocGB), 2, 2);
 	m_pMultiBLE = new QLineEdit(m_pAssocGB);
 	layout -> addWidget(m_pMultiBLE, 2, 3);
 

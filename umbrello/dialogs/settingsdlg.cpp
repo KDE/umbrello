@@ -39,30 +39,30 @@ void SettingsDlg::setupUIPage() {
 	//setup UI page
 	QVBox * page = addVBoxPage( i18n("User Interface"), i18n("User Interface settings"), DesktopIcon( "window_list") );
 
-	m_UiWidgets.colorGB = new QGroupBox( i18n("Colour"), page );
+	m_UiWidgets.colorGB = new QGroupBox( i18n("Color"), page );
 	QGridLayout * colorLayout = new QGridLayout( m_UiWidgets.colorGB, 3, 3 );
 	colorLayout -> setSpacing( spacingHint() );
 	colorLayout -> setMargin( fontMetrics().height() );
 
-	m_UiWidgets.lineColorL = new QLabel( i18n("Line colour"), m_UiWidgets.colorGB );
+	m_UiWidgets.lineColorL = new QLabel( i18n("Line color:"), m_UiWidgets.colorGB );
 	colorLayout -> addWidget( m_UiWidgets.lineColorL, 0, 0 );
 
 	m_UiWidgets.lineColorB = new KColorButton( m_OptionState.uiState.lineColor, m_UiWidgets.colorGB );
 	colorLayout -> addWidget( m_UiWidgets.lineColorB, 0, 1 );
 
-	m_UiWidgets.lineDefaultB = new QPushButton( i18n("Default colour"), m_UiWidgets.colorGB );
+	m_UiWidgets.lineDefaultB = new QPushButton( i18n("Default Color"), m_UiWidgets.colorGB );
 	colorLayout -> addWidget( m_UiWidgets.lineDefaultB, 0, 2 );
 
-	m_UiWidgets.fillColorL = new QLabel( i18n("Fill colour"), m_UiWidgets.colorGB );
+	m_UiWidgets.fillColorL = new QLabel( i18n("Fill color:"), m_UiWidgets.colorGB );
 	colorLayout -> addWidget( m_UiWidgets.fillColorL, 1, 0 );
 
 	m_UiWidgets.fillColorB = new KColorButton( m_OptionState.uiState.fillColor, m_UiWidgets.colorGB );
 	colorLayout -> addWidget( m_UiWidgets.fillColorB, 1, 1 );
 
-	m_UiWidgets.fillDefaultB = new QPushButton( i18n("Default colour"), m_UiWidgets.colorGB );
+	m_UiWidgets.fillDefaultB = new QPushButton( i18n("Default Color"), m_UiWidgets.colorGB );
 	colorLayout -> addWidget( m_UiWidgets.fillDefaultB, 1, 2 );
 
-	m_UiWidgets.useFillColorCB = new QCheckBox( i18n("Use fill colour"), m_UiWidgets.colorGB );
+	m_UiWidgets.useFillColorCB = new QCheckBox( i18n("Use fill color"), m_UiWidgets.colorGB );
 	colorLayout -> setRowStretch( 2, 2 );
 	colorLayout -> addWidget( m_UiWidgets.useFillColorCB, 2, 0 );
 	m_UiWidgets.useFillColorCB -> setChecked( m_OptionState.uiState.useFillColor );
@@ -84,7 +84,7 @@ void SettingsDlg::setupUIPage() {
 void SettingsDlg::setupGeneralPage() {
 	//setup General page
 
-	QVBox * page = addVBoxPage( i18n("General"), i18n("General settings"), DesktopIcon( "misc")  );
+	QVBox * page = addVBoxPage( i18n("General"), i18n("General Settings"), DesktopIcon( "misc")  );
 
 	//setup autosave settings
 
@@ -98,7 +98,7 @@ void SettingsDlg::setupGeneralPage() {
 	m_GeneralWidgets.autosaveCB -> setChecked( m_OptionState.generalState.autosave );
 	autosaveLayout -> addWidget( m_GeneralWidgets.autosaveCB, 0, 0 );
 
-	m_GeneralWidgets.autosaveL = new QLabel( i18n("Select autosave time-interval (mins):"), m_GeneralWidgets.autosaveGB );
+	m_GeneralWidgets.autosaveL = new QLabel( i18n("Select auto-save time interval (mins):"), m_GeneralWidgets.autosaveGB );
 
 
 	autosaveLayout -> addWidget( m_GeneralWidgets.autosaveL, 1, 0 );
@@ -151,7 +151,7 @@ void SettingsDlg::setupGeneralPage() {
 void SettingsDlg::setupClassPage() {
 	//setup class settings page
 
-	QVBox * page = addVBoxPage( i18n("Class"), i18n("Class settings"), DesktopIcon( "edit")  );
+	QVBox * page = addVBoxPage( i18n("Class"), i18n("Class Settings"), DesktopIcon( "edit")  );
 	m_ClassWidgets.visibilityGB = new QGroupBox( i18n("Visibility"), page );
 
 	QGridLayout * visibilityLayout = new QGridLayout( m_ClassWidgets.visibilityGB );
@@ -190,13 +190,13 @@ void SettingsDlg::setupClassPage() {
 }
 void SettingsDlg::setupCodeGenPage(QDict<GeneratorInfo> ldict, QString activeLanguage) {
 	//setup code generation settings page
-	QVBox * page = addVBoxPage( i18n("Code Generation"), i18n("Code Generation settings"), DesktopIcon( "source") );
+	QVBox * page = addVBoxPage( i18n("Code Generation"), i18n("Code Generation Settings"), DesktopIcon( "source") );
 	m_pCodeGenPage = new CodeGenerationOptionsPage(m_OptionState.codegenState, ldict,
 						       activeLanguage, page);
 }
 
 void SettingsDlg::setupFontPage() {
-	QVBox * page = addVBoxPage( i18n("Font"), i18n("Font settings"), DesktopIcon( "fonts")  );
+	QVBox * page = addVBoxPage( i18n("Font"), i18n("Font Settings"), DesktopIcon( "fonts")  );
 	m_FontWidgets.chooser = new KFontChooser( page, "font", false, QStringList(), false);
 	m_FontWidgets.chooser->setSampleText("Umbrello font");
 
