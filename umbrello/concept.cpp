@@ -126,6 +126,27 @@ int UMLConcept::removeOperation(UMLObject *o) {
 	return m_OpsList.count();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+QString UMLConcept::uniqChildName(UMLObject_Type type) {
+	QString currentName;
+	if (type == ot_Association) {
+		return UMLCanvasObject::uniqChildName(type);
+	} else if (type == ot_Attribute) {
+		currentName = i18n("new_attribute");
+	} else if (type == ot_Template) {
+		currentName = i18n("new_template");
+	} else if (type == ot_Operation) {
+		currentName = i18n("new_operation");
+	} else {
+		kdWarning() << "uniqChildName() called for unknown child type" << endl;
+	}
+
+	QString name = currentName;
+	for (int number = 1; findChildObject(type, name).count(); ++number) {
+	        name = currentName + "_" + QString::number(number);
+	}
+	return name;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
 QPtrList<UMLObject> UMLConcept::findChildObject(UMLObject_Type t , QString n) {
   	QPtrList<UMLObject> list;
  	if (t == ot_Association) {

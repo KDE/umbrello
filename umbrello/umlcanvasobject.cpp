@@ -60,12 +60,6 @@ QString UMLCanvasObject::uniqChildName(UMLObject_Type type) {
 	QString currentName;
 	if (type == ot_Association) {
 		currentName = i18n("new_association");
-	} else if (type == ot_Attribute) {
-		currentName = i18n("new_attribute");
-	} else if (type == ot_Template) {
-		currentName = i18n("new_template");
-	} else if (type == ot_Operation) {
-		currentName = i18n("new_operation");
 	} else {
 		kdWarning() << "uniqChildName() called for unknown child type" << endl;
 	}

@@ -172,6 +172,13 @@ public:
 	QPtrList<UMLOperation>* getOpList();
 
 	/**
+	 * Returns a name for the new association, operation, template
+	 * or attribute appended with a number if the default name is
+	 * taken e.g. new_association, new_association_1 etc
+	 */
+	virtual QString uniqChildName(const UMLObject_Type type);
+
+	/**
 	 *	Find a list of attributes, operations, associations or
 	 *	templates with the given name.
 	 *

@@ -76,6 +76,23 @@ QPtrList<UMLObject> UMLInterface::findChildObject(UMLObject_Type t , QString n) 
 	return list;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+QString UMLInterface::uniqChildName(UMLObject_Type type) {
+	QString currentName;
+	if (type == ot_Association) {
+		return UMLCanvasObject::uniqChildName(type);
+	} else if (type == ot_Operation) {
+		currentName = i18n("new_operation");
+	} else {
+		kdWarning() << "uniqChildName() called for unknown child type" << endl;
+	}
+
+	QString name = currentName;
+	for (int number = 1; findChildObject(type, name).count(); ++number) {
+	        name = currentName + "_" + QString::number(number);
+	}
+	return name;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLObject* UMLInterface::findChildObject(int id) {
 	UMLOperation * o=0;
 	for(o=m_OpsList.first();o != 0;o=m_OpsList.next()) {
