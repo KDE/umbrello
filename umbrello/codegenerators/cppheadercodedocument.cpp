@@ -460,7 +460,7 @@ void CPPHeaderCodeDocument::updateContent( )
 
 	gen->findObjectsRelated(c,includes);
        	for(UMLClassifier *con = includes.first(); con ; con = includes.next())
-       	if (!(packageMap->contains(con)))
+       	if (con->getBaseType() != Uml::ot_Datatype && !packageMap->contains(con))
 	{
        		packageMap->insert(con,con->getPackage());
 		if(con != getParentClassifier())
