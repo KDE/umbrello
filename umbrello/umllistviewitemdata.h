@@ -95,7 +95,7 @@ public:
 	/**
 	 *		Returns the type of item.
 	 */
-	Uml::ListView_Type getType() {
+	Uml::ListView_Type getType() const {
 		return m_Type;
 	}
 
