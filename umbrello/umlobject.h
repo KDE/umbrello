@@ -348,6 +348,12 @@ protected:
 	virtual void init();
 
 	/**
+	 * Calls UMLDoc::signalUMLObjectCreated() if m_BaseType affords
+	 * doing so.
+	 */
+	void maybeSignalObjectCreated();
+
+	/**
 	 * Auxiliary to loadFromXMI.
 	 * This method is usually overridden by child classes.
 	 * It is responsible for loading the specific XMI structure

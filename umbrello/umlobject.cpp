@@ -327,12 +327,18 @@ QString UMLObject::getSecondaryId() const {
 	return m_SecondaryId;
 }
 
+void UMLObject::maybeSignalObjectCreated() {
+	if (m_BaseType != Uml::ot_Stereotype &&
+	    m_BaseType != Uml::ot_Association &&
+	    m_BaseType != Uml::ot_Role) {
+		UMLDoc* umldoc = UMLApp::app()->getDocument();
+		umldoc->signalUMLObjectCreated(this);
+	}
+}
+
 bool UMLObject::resolveRef() {
-	UMLDoc* umldoc = UMLApp::app()->getDocument();
 	if (m_pSecondary || m_SecondaryId.isEmpty()) {
-		if (m_BaseType != Uml::ot_Stereotype &&
-		    m_BaseType != Uml::ot_Association && m_BaseType != Uml::ot_UMLObject)
-			umldoc->signalUMLObjectCreated(this);
+		maybeSignalObjectCreated();
 		return true;
 	}
 	UMLDoc *pDoc = UMLApp::app()->getDocument();
@@ -343,9 +349,7 @@ bool UMLObject::resolveRef() {
 		m_pSecondary = pDoc->findUMLObject( m_SecondaryId, Uml::ot_UMLObject, this );
 		if (m_pSecondary) {
 			m_SecondaryId = "";
-			if (m_BaseType != Uml::ot_Stereotype &&
-			    m_BaseType != Uml::ot_Association && m_BaseType != Uml::ot_UMLObject)
-				umldoc->signalUMLObjectCreated(this);
+			maybeSignalObjectCreated();
 			return true;
 		}
 		// Work around UMLDoc::createUMLObject()'s incapability
@@ -354,9 +358,7 @@ bool UMLObject::resolveRef() {
 		m_pSecondary = pDoc->findUMLObject( m_SecondaryId, Uml::ot_UMLObject, this );
 		if (m_pSecondary) {
 			m_SecondaryId = "";
-			if (m_BaseType != Uml::ot_Stereotype &&
-			    m_BaseType != Uml::ot_Association && m_BaseType != Uml::ot_UMLObject)
-				umldoc->signalUMLObjectCreated(this);
+			maybeSignalObjectCreated();
 			return true;
 		}
 		kdDebug() << "UMLObject::resolveRef: Creating new type for "
@@ -396,9 +398,7 @@ bool UMLObject::resolveRef() {
 		if (m_pSecondary == NULL)
 			return false;
 		m_SecondaryId = "";
-		if (m_BaseType != Uml::ot_Stereotype &&
-		    m_BaseType != Uml::ot_Association && m_BaseType != Uml::ot_UMLObject)
-			umldoc->signalUMLObjectCreated(this);
+		maybeSignalObjectCreated();
 		return true;
 	}
 	// New, XMI standard compliant save format:
@@ -412,9 +412,7 @@ bool UMLObject::resolveRef() {
 		return false;
 	}
 	m_SecondaryId = "";
-	if (m_BaseType != Uml::ot_Stereotype &&
-	    m_BaseType != Uml::ot_Association && m_BaseType != Uml::ot_UMLObject)
-		umldoc->signalUMLObjectCreated(this);
+	maybeSignalObjectCreated();
 	return true;
 }
 
