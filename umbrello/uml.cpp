@@ -9,6 +9,7 @@
 
 #include "uml.h"
 
+#include "aligntoolbar.h"
 #include "infowidget.h"
 #include "classimport.h"
 #include "docwindow.h"
@@ -363,6 +364,10 @@ void UMLApp::initView() {
 	toolsbar->setLabel(i18n("Diagram Toolbar"));
 	addToolBar(toolsbar, Qt::DockTop, false);
 
+	m_alignToolBar = new AlignToolBar(this, "");
+	m_alignToolBar->setLabel(i18n("Alignment Toolbar"));
+	addToolBar(m_alignToolBar, Qt::DockTop, false);
+
 	m_mainDock = createDockWidget("maindock", 0L, 0L, "main dock");
 	viewStack = new QWidgetStack(m_mainDock, "viewstack");
 
@@ -417,6 +422,7 @@ UMLDoc *UMLApp::getDocument() const {
 void UMLApp::saveOptions() {
 	toolBar("mainToolBar")->saveSettings(config, "toolbar");
 	toolsbar->saveSettings(config, "workbar");
+	m_alignToolBar->saveSettings(config, "aligntoolbar");
 	fileOpenRecent->saveEntries(config,"Recent Files");
 	config->setGroup( "General Options" );
 	config->writeEntry( "Geometry", size() );
@@ -507,6 +513,7 @@ void UMLApp::readOptions() {
 	toolBar("mainToolBar")->applySettings(config, "toolbar");
 	//do config for work toolbar
 	toolsbar->applySettings(config, "workbar");
+	m_alignToolBar->applySettings(config, "aligntoolbar");
 	fileOpenRecent->loadEntries(config,"Recent Files");
 	config->setGroup("General Options");
 	setImageMimetype(config->readEntry("imageMimetype","image/png"));

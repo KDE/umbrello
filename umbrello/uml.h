@@ -25,6 +25,7 @@
 #include <kurl.h>
 
 // forward declaration of the UML classes
+class AlignToolBar;
 class CodeDocument;
 class CodeGenerator;
 class CodeGenerationPolicy;
@@ -816,6 +817,7 @@ private:
 	WorkToolBar* toolsbar;
 	QTimer* m_clipTimer;
 	QTimer* m_copyTimer;
+	AlignToolBar* m_alignToolBar;
 
 	KStatusBarLabel* m_statusLabel;
 

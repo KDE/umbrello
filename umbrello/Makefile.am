@@ -4,6 +4,7 @@ umbrello_COMPILE_FIRST = version.h
 umbrello_SOURCES = activitywidget.cpp \
 actor.cpp \
 actorwidget.cpp \
+aligntoolbar.cpp \
 artifact.cpp \
 artifactwidget.cpp \
 association.cpp \
