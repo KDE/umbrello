@@ -1,9 +1,16 @@
-
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
+ 
 #include "diagramview.h"
 #include "diagram.h"
 #include "umlwidget.h"
 #include "diagramelement.h"
-#include <qpoint.h>
 
 #include "../concept.h"
 #include "../package.h"
@@ -14,6 +21,7 @@
 
 #include "../worktoolbar.h"
 #include "../umldoc.h"
+#include <qpoint.h>
 #include <qpopupmenu.h>
 #include <qcursor.h>
 #include <qpainter.h>
@@ -154,10 +162,21 @@ QCanvasItemList list = diagram()->collisions(diagramPos);
 		if( diagram()->acceptType(*(toolMap[m_tool])))
 		{
 			UMLObject *obj = diagram()->document()->createUMLObject(*(toolMap[m_tool]));
-			diagram()->createWidget(obj, diagramPos);
+			diagram()->createUMLWidget(obj, diagramPos);
 			return;
 		}
 		break;
+////////////////////////////////////////////////////////
+//FIXME this should be similar to the "UMLObjects" above	
+	case WorkToolBar::InitialActivity:
+	case WorkToolBar::EndActivity:
+	case WorkToolBar::Branch:
+	case WorkToolBar::Fork:
+	case WorkToolBar::Activity:
+	case WorkToolBar::State:
+	case WorkToolBar::InitialState:
+			break;
+/////////////////////////////////////////////////			
 	case WorkToolBar::Generalization:
 	case WorkToolBar::Aggregation:
 	case WorkToolBar::Association:
@@ -210,17 +229,13 @@ QCanvasItemList list = diagram()->collisions(diagramPos);
 			return;
 		}
 		break;
-	//FIXME this should be similar to the "UMLObjects" above	
-	case WorkToolBar::InitialActivity:
-	case WorkToolBar::EndActivity:
-	case WorkToolBar::Branch:
-	case WorkToolBar::Fork:
-	case WorkToolBar::Activity:
-	case WorkToolBar::State:
-	case WorkToolBar::InitialState:
+	
 	//////
 	case WorkToolBar::Note:
 	case WorkToolBar::Text:
+			//FIXME - place holder only!!
+		diagram()->createCustomWidget( 1, diagramPos);
+		break;
 	default:
 		kdDebug()<<"tool "<<m_tool<<" not handled in MousePressEvent"<<endl;
 	}

@@ -57,7 +57,6 @@ canvas()->update();
 
 void ClassWidget::drawShape(QPainter &p)
 {
-//kdDebug()<<"drawing ClassWidget..."<<endl;
 	QPen textPen(Qt::black);
 	QFont font;
 	//if(!useOwnPen !useOwnBrush)

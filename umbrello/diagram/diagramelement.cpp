@@ -66,6 +66,8 @@ void DiagramElement::fillContextMenu(QPopupMenu &menu)
 void DiagramElement::moveToForeground()
 {
 	kdDebug()<<"foreground.."<<endl;
+	QCanvasItemList l = collisions(false);
+	kdDebug()<<"list is empty? "<<l.empty();
 //	QCanvasItemList::iterator it;
 //	for(it = collisions(false).begin(); it != collisions(false).end(); ++it)
 //	kdDebug()<<"z = "<<(*it)->z()<<endl;
