@@ -118,8 +118,7 @@ UMLObject* ClassImport::insertAttribute(UMLClass *o, Uml::Scope scope, QString n
 				  << o->getName() << " (object type " << ot << ")" << endl;
 			return NULL;
 		}
-		int attID = m_umldoc->getUniqueID();
-		UMLAttribute *attr = ((UMLClass*)o)->addAttribute(name , attID);
+		UMLAttribute *attr = ((UMLClass*)o)->addAttribute(name);
 		attr->setTypeName(type);
 		attr->setScope(scope);
 		attr->setStatic(isStatic);
