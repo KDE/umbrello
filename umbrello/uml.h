@@ -247,9 +247,6 @@ public:
 
 	/**
 	 * Returns the widget used as the parent for UMLViews.
-	 * @fixme DEPRECATED -
-	 *	will disappear by resolving the contorted
-	 *	widget parenthood between UMLView and UMLViewCanvas.
 	 * @return	The main view widget.
 	 */
 	QWidget* getMainViewWidget();
