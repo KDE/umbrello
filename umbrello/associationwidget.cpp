@@ -319,7 +319,7 @@ void AssociationWidget::setName(QString strName) {
 
 		newLabel = true;
 		m_pName = new FloatingText(m_pView, CalculateNameType(tr_Name), strName);
-		m_pName->setAssoc(this);
+		m_pName->setLink(this);
 		m_pName->setUMLObject(m_role[B].m_pWidget->getUMLObject());
 		m_pView->addWidget(m_pName);
 	} else {
@@ -356,7 +356,7 @@ void AssociationWidget::setMulti(QString strMulti, Role_Type role) {
 
 		newLabel = true;
 		m_role[role].m_pMulti = new FloatingText(m_pView, tr, strMulti);
-		m_role[role].m_pMulti->setAssoc(this);
+		m_role[role].m_pMulti->setLink(this);
 		m_pView->addWidget(m_role[role].m_pMulti);
 	} else {
 		if (m_role[role].m_pMulti->getText() == "") {
@@ -420,7 +420,7 @@ bool AssociationWidget::setRoleName (QString strRole, Role_Type role) {
 
 		newLabel = true;
 		m_role[role].m_pRole = new FloatingText(m_pView, tr, strRole);
-		m_role[role].m_pRole->setAssoc(this);
+		m_role[role].m_pRole->setLink(this);
 		m_pView->addWidget(m_role[role].m_pRole);
 		Scope scope = (role == A ? getVisibilityA() : getVisibilityB());
 		m_role[role].m_pRole->setPreText(UMLAssociation::ScopeToString(scope));
@@ -555,7 +555,7 @@ void AssociationWidget::setChangeWidget(QString strChangeWidget, Role_Type role)
 
 		newLabel = true;
 		m_role[role].m_pChangeWidget = new FloatingText(m_pView, tr, strChangeWidget);
-		m_role[role].m_pChangeWidget->setAssoc(this);
+		m_role[role].m_pChangeWidget->setLink(this);
 		m_pView->addWidget(m_role[role].m_pChangeWidget);
 		m_role[role].m_pChangeWidget->setPreText("{"); // all types have this
 		m_role[role].m_pChangeWidget->setPostText("}"); // all types have this
@@ -644,7 +644,7 @@ bool AssociationWidget::activate() {
 			WidgetRole& robj = m_role[r];
 			if (robj.m_pRole == NULL)
 				continue;
-			robj.m_pRole->setAssoc(this);
+			robj.m_pRole->setLink(this);
 			Text_Role tr = (r == A ? tr_RoleAName : tr_RoleBName);
 			robj.m_pRole->setRole(tr);
 			Scope scope;
@@ -665,7 +665,7 @@ bool AssociationWidget::activate() {
 	}
 
 	if( m_pName != NULL ) {
-		m_pName->setAssoc(this);
+		m_pName->setLink(this);
 		m_pName->setRole( CalculateNameType(tr_Name) );
 
 		if ( FloatingText::isTextValid(m_pName->getText()) ) {
@@ -686,7 +686,7 @@ bool AssociationWidget::activate() {
 		FloatingText* pMulti = robj.m_pMulti;
 		if (pMulti != NULL &&
 		    AssocRules::allowMultiplicity(type, robj.m_pWidget->getBaseType())) {
-			pMulti->setAssoc(this);
+			pMulti->setLink(this);
 			Text_Role tr = (r == A ? tr_MultiA : tr_MultiB);
 			pMulti->setRole(tr);
 			if (FloatingText::isTextValid(pMulti->getText()))
@@ -698,7 +698,7 @@ bool AssociationWidget::activate() {
 
 		FloatingText* pChangeWidget = robj.m_pChangeWidget;
 		if (pChangeWidget != NULL ) {
-			pChangeWidget->setAssoc(this);
+			pChangeWidget->setLink(this);
 			Text_Role tr = (r == A ? tr_ChangeA : tr_ChangeB);
 			pChangeWidget->setRole(tr);
 			if (FloatingText::isTextValid(pChangeWidget->getText()))
@@ -3200,7 +3200,7 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
 				continue;
 			}
 			// always need this
-			ft->setAssoc(this);
+			ft->setLink(this);
 
 			switch( role ) {
 				case Uml::tr_MultiA:
@@ -3231,7 +3231,7 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
 
 				case Uml::tr_Coll_Message:
 					m_pName = ft;
-					ft->setAssoc(this);
+					ft->setLink(this);
 					ft->setActivated();
 					setTextPosition( tr_Name, calculateTextPosition(tr_Name) );
 					if(FloatingText::isTextValid(ft->getText()))

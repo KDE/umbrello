@@ -1125,14 +1125,16 @@ void UMLView::selectWidgets(int px, int py, int qx, int qy) {
 		if (temp -> getBaseType() == wt_Text) {
 			FloatingText *ft = static_cast<FloatingText*>(temp);
 			Text_Role t = ft -> getRole();
-			if (t == tr_Seq_Message ) {
-				MessageWidget * mw = ft -> getMessage();
+			LinkWidget *lw = ft->getLink();
+			MessageWidget * mw = dynamic_cast<MessageWidget*>(lw);
+			if (mw) {
 				makeSelected( mw );
 				makeSelected( mw->getWidgetA() );
 				makeSelected( mw->getWidgetB() );
 			} else if (t != tr_Floating) {
-				AssociationWidget * a = ft -> getAssoc();
-				selectWidgetsOfAssoc( a );
+				AssociationWidget * a = dynamic_cast<AssociationWidget*>(lw);
+				if (a)
+					selectWidgetsOfAssoc( a );
 			}
 		} else if(temp -> getBaseType() == wt_Message) {
 			MessageWidget *mw = static_cast<MessageWidget*>(temp);
@@ -2905,8 +2907,13 @@ void UMLView::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 		// We DONT want to record any text widgets which are belonging
 		// to associations as they are recorded later in the "associations"
 		// section when each owning association is dumped. -b.t.
-		if(widget->getBaseType() != wt_Text || !((FloatingText*)widget)->getAssoc())
+		if (widget->getBaseType() != wt_Text) {
 			widget -> saveToXMI( qDoc, widgetElement );
+		} else {
+			FloatingText *ft = static_cast<FloatingText*>(widget);
+			if (dynamic_cast<AssociationWidget*>(ft->getLink()) == NULL)
+				widget -> saveToXMI( qDoc, widgetElement );
+		}
 	}
 	viewElement.appendChild( widgetElement );
 	//now save the message widgets

@@ -12,9 +12,10 @@
 
 #include "umlwidget.h"
 
-class AssociationWidget;
-class MessageWidget;
 class UMLView;
+// TODO: Make LinkWidget a proper base class for MessageWidget and
+// AssociationWidget.  For now, it's just a typedef:
+typedef QObject LinkWidget;
 
 /**
  * This is a multipurpose class.  In its simplest form it will display a
@@ -160,27 +161,16 @@ public:
 	QString getDisplayText() const;
 
 	/**
-	 * If this object is associated with a @ref AssociationWidget
-	 * then this method will be called by that association when it
-	 * thinks this object has been right clicked on.
-	 *
-	 * @param a	The AssociationWidget linked to this FloatingText.
-	 * @param p	The point at which the right button was clicked.
-	 */
-	void startMenu(AssociationWidget * a, QPoint p);
-
-	/**
 	 * Displays a dialog box to change the text.
 	 */
 	void changeTextDlg();
 
 	/**
-	 * Sets the message to the @ref MessageWidget that this class may
-	 * represent.
+	 * Set the LinkWidget that this FloatingText is related to.
 	 *
-	 * @param m	The MessageWidget that may be represented.
+	 * @param m	The related LinkWidget.
 	 */
-	void setMessage(MessageWidget * m);
+	void setLink(LinkWidget * l);
 
 	/**
 	 * Sets the position relative to the sequence message.
@@ -188,26 +178,16 @@ public:
 	void setPositionFromMessage();
 
 	/**
-	 * Returns the @ref MessageWidget this floating text is related to.
+	 * Returns the LinkWidget this floating text is related to.
 	 *
-	 * @return	The @ref MessageWidget this floating text is
-	 *		related to.
+	 * @return	The LinkWidget this floating text is related to.
 	 */
-	MessageWidget * getMessage() const {
-		return m_pMessage;
-	}
+	LinkWidget * getLink();
 
 	/**
 	 * Overrides a method.  Used to pickup double clicks.
 	 */
 	void mouseDoubleClickEvent(QMouseEvent * /*me*/);
-
-	/**
-	 * Sets the @ref AssociationWidget to represent.
-	 *
-	 * @param a	The Association to represent.
-	 */
-	void setAssoc(AssociationWidget * a);
 
 	/**
 	 * Returns whether this is a line of text.
@@ -217,15 +197,6 @@ public:
 	 */
 	bool isText() {
 		return true;
-	}
-
-	/**
-	 * Returns the @ref AssociationWidget this object is related to.
-	 *
-	 * @return	The AssociationWidget this object is related to.
-	 */
-	AssociationWidget * getAssoc() const {
-		return m_pAssoc;
 	}
 
 	/**
@@ -260,20 +231,6 @@ public:
 	static bool isTextValid(QString text);
 
 	/**
-	 * Returns true if we are dealing with an association related role.
-	 *
-	 * @return	True if this FloatingText plays an association role.
-	 */
-	bool playsAssocRole() const;
-
-	/**
-	 * Returns true if we are dealing with a message related role.
-	 *
-	 * @return	True if this FloatingText plays a message role.
-	 */
-	bool playsMessageRole() const;
-
-	/**
 	 * Calculates the size of the widget.
 	 */
 	void calculateSize();
@@ -291,12 +248,6 @@ public:
 	void setSelected(bool _select);
 
 	/**
-	 * Sets the text for this label if it is acting as a sequence
-	 * diagram message or a collaboration diagram message.
-	 */
-	void setMessageText();
-
-	/**
 	 * Creates the <UML:FloatingTextWidget> XMI element.
 	 */
 	void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
@@ -305,6 +256,7 @@ public:
 	 * Loads the <UML:FloatingTextWidget> XMI element.
 	 */
 	bool loadFromXMI( QDomElement & qElement );
+
 public slots:
 	/**
 	 * Called when a menu selection has been made.
@@ -315,40 +267,17 @@ public slots:
 	 */
 	void slotMenuSelection(int sel);	
 
-protected:
-	// Data loaded/saved:
-
-	// These strings describe the text that the widget will display.
-
-	/// Prepended text (such as for scope of association Role or method)
-	QString m_PreText;
-	/// Main text body.
-	QString m_Text;
-	/** Ending text (such as bracket on changability notation for
-	 * association Role)
-	 */
-	QString m_PostText;
-
-	/**
-	 * The role the text widget will enact.
-	 */
-	Uml::Text_Role m_Role;
-
 private:
 	/**
 	 * Initializes key variables of the class.
 	 */
 	void init();
-	
-	/**
-	 * The association it may be linked to.
-	 */
-	AssociationWidget * m_pAssoc;
 
 	/**
-	 * The message widget it may be linked to.
+	 * Sets the text for this label if it is acting as a sequence
+	 * diagram message or a collaboration diagram message.
 	 */
-	MessageWidget * m_pMessage;
+	void setMessageText();
 
 	/**
 	 * Override default method
@@ -376,6 +305,28 @@ private:
 	 * Given an own method because it requires rather lengthy code.
 	 */
 	void handleRename();
+
+	/**
+	 * The association or message widget we may be linked to.
+	 */
+	LinkWidget * m_pLink;
+
+	//////////////////// Data loaded/saved:
+
+	/// Prepended text (such as for scope of association Role or method)
+	QString m_PreText;
+	/// Main text body.
+	QString m_Text;
+	/**
+	 * Ending text (such as bracket on changability notation for
+	 * association Role)
+	 */
+	QString m_PostText;
+
+	/**
+	 * The role the text widget will enact.
+	 */
+	Uml::Text_Role m_Role;
 
 };
 

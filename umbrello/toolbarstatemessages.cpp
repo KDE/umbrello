@@ -96,7 +96,7 @@ void ToolBarStateMessages::mouseRelease(QMouseEvent* ome)
 			m_pUMLView->connect(m_pUMLView, SIGNAL(sigColorChanged(int)), message, SLOT(slotColorChanged(int)));
 
 			messageText->setID( message->getID() );
-			messageText->setMessage( message );
+			messageText->setLink( message );
 			messageText->setActivated();
 			message->setActivated();
 

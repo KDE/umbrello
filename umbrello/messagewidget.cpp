@@ -36,7 +36,7 @@ MessageWidget::MessageWidget(UMLView * view, ObjectWidget* a, ObjectWidget* b,
 
 	//CHECK: This is contorted - it should be in the caller's responsibility:
 	ft->setUMLObject(b->getUMLObject());
-	ft -> setMessage(this);
+	ft -> setLink(this);
 	ft -> setID( UMLWidget::getID() );
 
 	connect(m_pWA, SIGNAL(sigWidgetMoved(int)), this, SLOT(slotWidgetMoved(int)));
@@ -279,7 +279,7 @@ bool MessageWidget::activate(IDChangeLog * Log /*= 0*/) {
 		int newid = m_pView->getDocument()->getUniqueID();
 		m_pFText -> setID(newid);
 	}
-	m_pFText -> setMessage(this);
+	m_pFText -> setLink(this);
 	m_pFText -> setText("");
 	m_pFText->setActivated();
 	QString messageText = m_pFText->getText();
