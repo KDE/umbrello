@@ -31,29 +31,40 @@
 
 #include "clipboard/idchangelog.h"
 
-UMLWidget::UMLWidget( UMLView * view, UMLObject * o, UMLWidgetData * pData ) : QObject( view), QCanvasRectangle( view -> canvas() ) {
-	m_pObject = o;
-	m_pData = pData;
-	setName(m_pObject->getName());
-	m_pView = view;
-	if(pData)
-		m_pData->m_nId = m_pObject->getID();
+UMLWidget::UMLWidget( UMLView * view, UMLObject * o, UMLWidgetData * pData ) 
+	: QObject( view), QCanvasRectangle( view -> canvas() ), 
+	  m_pObject(o), 
+	  m_pView(view),
+	  m_pMenu(0),
+	  m_pData(pData) 
+{
+	if(m_pObject) {
+		setName(m_pObject->getName());
+		if(m_pData)
+			m_pData->m_nId = m_pObject->getID();
+	}
 	init();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLWidget::UMLWidget( UMLView * view, int id, UMLWidgetData * pData ) : QObject( view), QCanvasRectangle( view -> canvas() ) {
-	m_pView = view;
-	m_pObject = 0;
-	m_pData = pData;
-	if(pData)
+UMLWidget::UMLWidget( UMLView * view, int id, UMLWidgetData * pData ) 
+	: QObject( view), QCanvasRectangle( view -> canvas() ),
+	  m_pObject(0), 
+	  m_pView(view),
+	  m_pMenu(0),
+	  m_pData(pData) 
+{
+	if(m_pData)
 		m_pData->m_nId = id;
 	init();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLWidget::UMLWidget(UMLView * view,  UMLWidgetData * pData ) : QObject( view), QCanvasRectangle( view -> canvas() ) {
-	m_pView = view;
-	m_pObject = 0;
-	m_pData = pData;
+UMLWidget::UMLWidget(UMLView * view,  UMLWidgetData * pData ) 
+	: QObject( view), QCanvasRectangle( view -> canvas() ),
+	  m_pObject(0), 
+	  m_pView(view),
+	  m_pMenu(0),
+	  m_pData(pData) 
+{
 	init();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -17,22 +17,27 @@
 #include <kdebug.h>
 #include <qpainter.h>
 
-ClassWidget::ClassWidget(UMLView * view, UMLObject *o, UMLWidgetData *pData) : UMLWidget(view,  o, pData) {
-	m_pMenu = 0;
+ClassWidget::ClassWidget(UMLView * view, UMLObject *o, UMLWidgetData *pData) 
+	: UMLWidget(view,  o, pData) 
+{
 	if( m_pObject ) {
 		calculateSize();
 		update();
 	}
 }
 
-ClassWidget::ClassWidget(UMLView * view, UMLObject *o) : UMLWidget(view,o, new ClassWidgetData(view->getOptionState() )) {
+ClassWidget::ClassWidget(UMLView * view, UMLObject *o) 
+	: UMLWidget(view,o, new ClassWidgetData(view->getOptionState() )) 
+{
 	init();
 	setSize(100,30);
 	calculateSize();
 	m_pData->setType(wt_Class);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-ClassWidget::ClassWidget(UMLView * view) : UMLWidget(view, new ClassWidgetData(view->getOptionState() )) {
+ClassWidget::ClassWidget(UMLView * view) 
+	: UMLWidget(view, new ClassWidgetData(view->getOptionState() )) 
+{
 	init();
 	setSize(100,30);
 	m_pData->setType(wt_Class);
