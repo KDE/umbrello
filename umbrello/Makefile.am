@@ -48,6 +48,7 @@ interface.cpp \
 interfacewidget.cpp \
 kstartuplogo.cpp \
 linepath.cpp \
+linkwidget.cpp \
 listpopupmenu.cpp \
 main.cpp \
 messagewidget.cpp \

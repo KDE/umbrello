@@ -137,6 +137,67 @@ public:
 	}
 
 	/**
+	 * Overrides operation from LinkWidget.
+	 * Required by FloatingText.
+	 */
+	UMLClassifier *getOperationOwner(FloatingText *ft);
+
+	/**
+	 * Overrides operation from LinkWidget.
+	 * Required by FloatingText.
+	 */
+	void setOperationText(FloatingText *ft, QString opText);
+
+	/**
+	 * Overrides operation from LinkWidget.
+	 * Required by FloatingText.
+	 *
+	 * @param ft	The text widget which to update.
+	 */
+	void setMessageText(FloatingText *ft);
+
+	/**
+	 * Overrides operation from LinkWidget.
+	 * Required by FloatingText.
+	 *
+	 * @param ft	The text widget which to update.
+	 * @param newText	The new text to set.
+	 */
+	void setText(FloatingText *ft, QString newText);
+
+	/**
+	 * Overrides operation from LinkWidget.
+	 * Required by FloatingText.
+	 *
+	 * @param seqNum	The new sequence number string to set.
+	 * @param op		The new operation string to set.
+	 */
+	void setSeqNumAndOp(QString seqNum, QString op);
+
+	/**
+	 * Overrides operation from LinkWidget.
+	 * Required by FloatingText.
+	 *
+	 * @param ft		The calling FloatingText.
+	 * @param seqNum	Return this MessageWidget's sequence number string.
+	 * @param op		Return this MessageWidget's operation string.
+	 */
+	UMLClassifier * getSeqNumAndOp(FloatingText *ft, QString& seqNum,
+							 QString& op);
+
+	/**
+	 * Overrides operation from LinkWidget.
+	 * Required by FloatingText.
+	 */
+	void setupAfterFTsetLink(FloatingText *ft);
+
+	/**
+	 * Overrides operation from LinkWidget.
+	 * Required by FloatingText.
+	 */
+	void setFTselected(FloatingText *ft);
+
+	/**
 	 * Calculate the geometry of the widget.
 	 */
 	void calculateWidget();
@@ -187,8 +248,9 @@ public:
 	void setTextPosition();
 
 	/**
-	 * Updates the message widget X and Y corrdinates based on
+	 * Updates the message widget X and Y coordinates based on
 	 * the given height of a floating text.
+	 * Overrides operation from LinkWidget.
 	 */
 	void updateMessagePos(int textHeight, int& newX, int& newY);
 

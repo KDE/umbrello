@@ -13,9 +13,6 @@
 #include "umlwidget.h"
 
 class UMLView;
-// TODO: Make LinkWidget a proper base class for MessageWidget and
-// AssociationWidget.  For now, it's just a typedef:
-typedef QObject LinkWidget;
 
 /**
  * This is a multipurpose class.  In its simplest form it will display a
@@ -103,24 +100,30 @@ public:
 	 * Set the sequence number to display.
 	 *
 	 * @param sn	The sequence number to display.
-	 *
+	 */
 	void setSeqNum(QString sn);
 
-	 **
+	/**
 	 * Return the sequence number.
 	 *
 	 * @return	The sequence number.
-	 *
+	 */
 	QString getSeqNum() const;
 
-	 **
+	/**
 	 * Set the operation to display.
 	 *
 	 * @param op	The operation to display.
-	 *
+	 */
 	void setOperation(QString op);
 
-	 **
+	/**
+	 * Sets the text for this label if it is acting as a sequence
+	 * diagram message or a collaboration diagram message.
+	 */
+	void setMessageText();
+
+	/**
 	 * Return the operation that is displayed.
 	 *
 	 * @return	The operation that is displayed.
@@ -267,12 +270,6 @@ private:
 	 * Initializes key variables of the class.
 	 */
 	void init();
-
-	/**
-	 * Sets the text for this label if it is acting as a sequence
-	 * diagram message or a collaboration diagram message.
-	 */
-	void setMessageText();
 
 	/**
 	 * Override default method

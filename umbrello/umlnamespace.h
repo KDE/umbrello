@@ -71,7 +71,8 @@ namespace Uml {
 	    wt_Activity,		// does not have UMLObject representation
 	    wt_Component,		// has UMLObject representation
 	    wt_Artifact,		// has UMLObject representation
-	    wt_Node			// has UMLObject representation
+	    wt_Node,			// has UMLObject representation
+	    wt_Association		// has UMLObject representation
 	};
 
 	enum Diagram_Type

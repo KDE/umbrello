@@ -227,6 +227,27 @@ void MessageWidget::updateMessagePos(int textHeight, int& newX, int& newY) {
 	setY( newY + textHeight );
 }
 
+void MessageWidget::setupAfterFTsetLink(FloatingText *ft) {
+	if (ft->getID() > 0) {
+		kdDebug() << "MessageWidget::setupAfterFTsetLink: "
+			  << "overriding FloatingText id " << ft->getID()
+			  << " with new value " << getID()
+			  << endl;
+	}
+	ft->setID( getID() );
+	setTextPosition();
+}
+
+void MessageWidget::setFTselected(FloatingText *ft) {
+	if (ft->getSelected() && getSelected())
+		return;
+	if (!ft->getSelected() && !getSelected())
+		return;
+	// in FloatingText:  m_nOldID = -10;
+	m_pView -> setSelected( this, /*QMouseEvent*/ NULL );
+	setSelected( ft->getSelected() );
+}
+
 void MessageWidget::moveEvent(QMoveEvent* /*m*/) {
 	if (!m_pFText) {
 		return;
@@ -323,6 +344,22 @@ bool MessageWidget::activate(IDChangeLog * Log /*= 0*/) {
 	return status;
 }
 
+void MessageWidget::setMessageText(FloatingText *ft) {
+	QString displayText = m_SequenceNumber + ": " + m_Operation;
+	ft->setText(displayText);
+	setTextPosition();
+}
+
+void MessageWidget::setText(FloatingText *ft, QString newText) {
+	ft->setText(newText);
+	m_pView->getDocument()->setModified(true);
+}
+
+void MessageWidget::setSeqNumAndOp(QString seqNum, QString op) {
+	setSequenceNumber( seqNum );
+	setOperation( op );
+}
+
 void MessageWidget::setSequenceNumber( QString sequenceNumber ) {
 	m_SequenceNumber = sequenceNumber;
 }
@@ -339,8 +376,33 @@ QString MessageWidget::getOperation() const {
 	return m_Operation;
 }
 
-void MessageWidget::calculateDimensions() {
+UMLClassifier *MessageWidget::getOperationOwner(FloatingText *ft) {
+	UMLObject *pObject = ft->getUMLObject();
+	if (pObject == NULL)
+		return NULL;
+	UMLClassifier *c = dynamic_cast<UMLClassifier*>(pObject);
+	if (c == NULL)
+		kdError() << "MessageWidget::getOperationOwner: "
+			  << "ft->getUMLObject() is not a classifier"
+			  << endl;
+	return c;
+}
 
+void MessageWidget::setOperationText(FloatingText *ft, QString opText) {
+	setOperation(opText);
+	ft->setMessageText();
+}
+
+UMLClassifier * MessageWidget::getSeqNumAndOp(FloatingText *ft, QString& seqNum,
+							        QString& op) {
+	seqNum = m_SequenceNumber;
+	op = m_Operation;
+	UMLObject *o = ft->getUMLObject();
+	UMLClassifier *c = dynamic_cast<UMLClassifier*>(o);
+	return c;
+}
+
+void MessageWidget::calculateDimensions() {
 	if (m_sequenceMessageType == sequence_message_synchronous) {
 		calculateDimensionsSynchronous();
 	} else if (m_sequenceMessageType == sequence_message_asynchronous) {

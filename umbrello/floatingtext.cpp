@@ -125,36 +125,38 @@ void FloatingText::slotMenuSelection(int sel) {
 		break;
 
 	case ListPopupMenu::mt_Delete_Association:
-	{
-		AssociationWidget *a = dynamic_cast<AssociationWidget*>(m_pLink);
-		if (a)
-			m_pView->removeAssoc(a);
-		kdDebug() << "FloatingText::slotMenuSelection(mt_Delete_Association)"
+		// UNEXPECTED - should not be here
+		// Remove this branch when confident that it does not happen
+		kdError() << "UNEXPECTED: "
+			  << "FloatingText::slotMenuSelection(mt_Delete_Association)"
 			  << " is called." << endl;
 		break;
-	}
 
 	case ListPopupMenu::mt_Delete:
 		m_pView -> removeWidget(this);
 		break;
 
 	case ListPopupMenu::mt_Delete_Message:
-	{
+		// UNEXPECTED - should not be here
+		// Remove this branch when confident that it does not happen
+		kdDebug() << "FloatingText::slotMenuSelection(mt_Delete_Message)"
+			  << " is called" << endl;
 		if (m_pLink == NULL)
 			return;
-		AssociationWidget *a = dynamic_cast<AssociationWidget*>(m_pLink);
-		if (a) {
-			if(m_pView -> getType() != dt_Collaboration)
-				return;
-			//here to delete assoc. on collab diagram.
-			m_pView->removeAssoc( a );
-		} else {
+		if (m_Role == tr_Seq_Message || m_Role == tr_Seq_Message_Self) {
 			//here to delete this from a seq. diagram.
+			kdDebug() << "  --- for Seq_Message." << endl;
 			MessageWidget *m = static_cast<MessageWidget*>(m_pLink);
 			m_pView->removeWidget( m );
+		} else {
+			if (m_pView->getType() != dt_Collaboration)
+				return;
+			kdDebug() << "  --- for association." << endl;
+			//here to delete assoc. on collab diagram.
+			AssociationWidget *a = static_cast<AssociationWidget*>(m_pLink);
+			m_pView->removeAssoc( a );
 		}
 		break;
-	}
 
 	case ListPopupMenu::mt_Operation:
 		{
@@ -165,25 +167,11 @@ void FloatingText::slotMenuSelection(int sel) {
 					  << "m_pLink is NULL" << endl;
 				return;
 			}
-			UMLClassifier* c;
-			AssociationWidget *a = dynamic_cast<AssociationWidget*>(m_pLink);
-			if (a)  {
-				if (a->getAssocType() == at_Coll_Message)
-					c = (UMLClassifier*)( a->getWidget(B)->getUMLObject() );
-				else
-					c = (UMLClassifier*)( a->getWidget(A)->getUMLObject() );
-			} else {
-				c = (UMLClassifier*)getUMLObject();
-			}
+			UMLClassifier* c = m_pLink->getOperationOwner(this);
 			UMLObject* umlObj = m_pView->getDocument()->createChildObject(c, Uml::ot_Operation);
 			UMLOperation* newOperation = static_cast<UMLOperation*>( umlObj );
-			if (a) {
-				a->setName( newOperation->toString(st_SigNoScope) );
-			} else {
-				MessageWidget *m = static_cast<MessageWidget*>(m_pLink);
-				m->setOperation( newOperation->toString(st_SigNoScope) );
-				setMessageText();
-			}
+			QString opText = newOperation->toString(st_SigNoScope);
+			m_pLink->setOperationText(this, opText);
 		}
 		break;
 
@@ -201,21 +189,16 @@ void FloatingText::slotMenuSelection(int sel) {
 			if( KFontDialog::getFont( font, false, m_pView ) ) {
 				if( m_Role == tr_Floating || m_Role == tr_Seq_Message ) {
 					setFont( font );
-				} else {
-					AssociationWidget *a = dynamic_cast<AssociationWidget*>(m_pLink);
-					if (a)
-						a->setFont(font);
+				} else if (m_pLink) {
+					m_pLink->setFont(font);
 				}
 			}
 		}
 		break;
 
 	case ListPopupMenu::mt_Reset_Label_Positions:
-		{
-			AssociationWidget *a = dynamic_cast<AssociationWidget*>(m_pLink);
-			if (a)
-				a->resetTextPositions();
-		}
+		if (m_pLink)
+			m_pLink->resetTextPositions();
 		break;
 
 	default:
@@ -226,8 +209,6 @@ void FloatingText::slotMenuSelection(int sel) {
 
 void FloatingText::handleRename() {
 	QString t;
-	UMLDoc *doc = m_pView->getDocument();
-
 	if( m_Role == tr_RoleAName || m_Role == tr_RoleBName ) {
 		t = i18n("Enter role name:");
 	} else if (m_Role == tr_MultiA || m_Role == tr_MultiB) {
@@ -246,9 +227,8 @@ void FloatingText::handleRename() {
 	}
 	bool ok = false;
 	QString newText = KInputDialog::getText(i18n("Rename"), t, getText(), &ok, m_pView);
-	if (!ok)  {
+	if (!ok)
 		return;
-	}
 	bool valid = isTextValid(newText);
 	if (!valid || newText == getText()) {
 		if (!valid && m_Role == tr_Floating)
@@ -257,12 +237,11 @@ void FloatingText::handleRename() {
 		update();
 		return;
 	}
-	AssociationWidget *a = dynamic_cast<AssociationWidget*>(m_pLink);
-	if (a) {
-		a->setText( newText, m_Role );
+	if (m_pLink && m_Role != tr_Seq_Message && m_Role != tr_Seq_Message_Self) {
+		m_pLink->setText(this, newText);
 	} else {
 		setText( newText );
-		doc -> setModified(true);
+		m_pView->getDocument()->setModified(true);
 	}
 	setVisible( true );
 	calculateSize();
@@ -271,9 +250,8 @@ void FloatingText::handleRename() {
 
 void FloatingText::setText(QString t) {
 	if (m_Role == tr_Seq_Message || m_Role == tr_Seq_Message_Self) {
-		MessageWidget *m = static_cast<MessageWidget*>(m_pLink);
-		QString seqNum = m->getSequenceNumber();
-		QString op = m->getOperation();
+		QString seqNum, op;
+		m_pLink->getSeqNumAndOp(this, seqNum, op);
 		if (seqNum.length() > 0 || op.length() > 0)
 			m_Text = seqNum.append(": ").append( op );
 		else
@@ -320,25 +298,23 @@ void FloatingText::mouseDoubleClickEvent(QMouseEvent * /* me*/) {
 	} else if (m_Role == tr_Floating) {
 		// double clicking on a text line opens the dialog to change the text
 		handleRename();
-	} else {
-		AssociationWidget *a = dynamic_cast<AssociationWidget*>(m_pLink);
-		if (a)
-			a->showDialog();
+	} else if (m_pLink) {
+		m_pLink->showDialog();
 	}
 }
 
 void FloatingText::showOpDlg() {
+	if (m_pLink == NULL) {
+		kdError() << "FloatingText::showOpDlg: m_pLink is NULL" << endl;
+		return;
+	}
 	QString seqNum, op;
-	MessageWidget *m = dynamic_cast<MessageWidget*>(m_pLink);
-	AssociationWidget *a = dynamic_cast<AssociationWidget*>(m_pLink);
-	UMLClassifier* c = (UMLClassifier*)getUMLObject();
-	if (m) {
-		seqNum = m->getSequenceNumber();
-		op = m->getOperation();
-	} else if (a)  {
-		seqNum = a->getMulti(A);
-		op = a->getName();
-		c = (UMLClassifier*)( a->getWidget(B)->getUMLObject() );
+	UMLClassifier* c = m_pLink->getSeqNumAndOp(this, seqNum, op);
+	if (c == NULL) {
+		kdError() << "FloatingText::showOpDlg: "
+			  << "m_pLink->getSeqNumAndOp() returns a NULL classifier"
+			  << endl;
+		return;
 	}
 
 	SelectOpDlg selectDlg((QWidget*)m_pView, c);
@@ -350,14 +326,7 @@ void FloatingText::showOpDlg() {
 	}
 	seqNum = selectDlg.getSeqNumber();
 	op = selectDlg.getOpText();
-	QString displayText = seqNum + ": " + op;
-	if (m) {
-		m->setSequenceNumber( seqNum );
-		m->setOperation( op );
-	} else if (a) {
-		a->setName(op);
-		a->setMulti(seqNum, A);
-	}
+	m_pLink->setSeqNumAndOp(seqNum, op);
 	setMessageText();
 }
 
@@ -369,16 +338,14 @@ void FloatingText::mouseMoveEvent(QMouseEvent* me) {
 
 		//implement specific rules for a sequence diagram
 		if( m_Role == tr_Seq_Message || m_Role == tr_Seq_Message_Self) {
-			MessageWidget *m = static_cast<MessageWidget*>(m_pLink);
-			m->updateMessagePos(getHeight(), newX, newY);
+			m_pLink->updateMessagePos(getHeight(), newX, newY);
 		}
 		m_nOldX = newX;
 		m_nOldY = newY;
 		setX( newX );
 		setY( newY );
-		AssociationWidget *a = dynamic_cast<AssociationWidget*>(m_pLink);
-		if (a)
-			a->calculateNameTextSegment();
+		if (m_pLink)
+			m_pLink->calculateNameTextSegment();
 		m_pView->resizeCanvasToItems();
 		moveEvent(0);
 	}
@@ -427,30 +394,11 @@ bool FloatingText::activate( IDChangeLog* ChangeLog /*= 0 */) {
 // XMI id. There CAN be more than one floating text widget with this id
 // but a findWidget will come up with only the first one.
 void FloatingText::setLink(LinkWidget * l) {
-	AssociationWidget *a = dynamic_cast<AssociationWidget*>(m_pLink);
-	if (a) {
-		// remove pre-existing association from our umlwidget assoc list
-		removeAssoc(a);
-	}
+	if (m_pLink)  // remove pre-existing link
+		m_pLink->cleanupBeforeFTsetLink(this);
 	m_pLink = l;
-	if (l == NULL)
-		return;
-	a = dynamic_cast<AssociationWidget*>(m_pLink);
-	if (a != NULL) {
-		UMLAssociation *umla = a->getAssociation();
-		if (umla != NULL) // *always* sync id to association id.
-			setID( umla->getID() );
-		UMLWidget::addAssoc(a);
-	} else { // Uml::wt_Message
-		MessageWidget *m = static_cast<MessageWidget*>(m_pLink);
-		if (getID() > 0) {
-			kdDebug() << "FloatingText::setLink: overriding own id "
-				  << getID() << " with new value " << m->getID()
-				  << endl;
-		}
-		setID( m->getID() );
-		m->setTextPosition();
-	}
+	if (m_pLink)
+		m_pLink->setupAfterFTsetLink(this);
 }
 
 LinkWidget * FloatingText::getLink() {
@@ -502,17 +450,8 @@ void FloatingText::setSelected(bool _select) {
 		return;
 	}
 	UMLWidget::setSelected( _select );
-	if (m_Role != tr_Seq_Message && m_Role != tr_Seq_Message_Self)
-		return;
-	MessageWidget *m = static_cast<MessageWidget*>(m_pLink);
-	if (m_bSelected && m->getSelected())
-		return;
-	if (!m_bSelected && !m->getSelected())
-		return;
-
-	m_nOldID = -10;
-	m_pView -> setSelected( m, NULL );
-	m -> setSelected( m_bSelected );
+	if (m_pLink)
+		m_pLink->setFTselected(this);
 }
 
 void FloatingText::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
@@ -552,21 +491,8 @@ bool FloatingText::loadFromXMI( QDomElement & qElement ) {
 }
 
 void FloatingText::setMessageText() {
-	QString displayText;
-	MessageWidget *m  = dynamic_cast<MessageWidget*>(m_pLink);
-	AssociationWidget *a = dynamic_cast<AssociationWidget*>(m_pLink);
-	if (m) {
-		QString seqNum = m->getSequenceNumber();
-		QString op = m->getOperation();
-		displayText = seqNum + ": " + op;
-		setText( displayText );
-		m->setTextPosition();
-	} else if (a) {
-		AssociationWidget *a  = static_cast<AssociationWidget*>(m_pLink);
-		displayText = a->getName();
-		setText( displayText );
-	}
-
+	if (m_pLink)
+		m_pLink->setMessageText(this);
 	setVisible(getText().length() > 0);
 	calculateSize();
 }

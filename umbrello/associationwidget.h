@@ -10,6 +10,7 @@
 #ifndef ASSOCIATIONWIDGET_H
 #define ASSOCIATIONWIDGET_H
 
+#include "linkwidget.h"
 #include "umlwidgetlist.h"
 #include "messagewidgetlist.h"
 #include "associationwidgetlist.h"
@@ -48,7 +49,7 @@ using namespace Uml;
  * @version $Revision$
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class AssociationWidget : public QObject {
+class AssociationWidget : public LinkWidget {
 	Q_OBJECT
 public:
 	/**
@@ -315,6 +316,9 @@ public:
 	 * be the RoleTextSegment (if this segment moves then the RoleText
 	 * will move with it). It sets m_unNameLineSegment to the start point
 	 * of the chosen segment.
+	 *
+	 * Overrides operation from LinkWidget (i.e. this method is also
+	 * required by FloatingText.)
 	 */
 	void calculateNameTextSegment();
 
@@ -393,6 +397,26 @@ public:
 	void setRoleDoc(QString doc, Role_Type role);
 
 	/**
+	 * Overrides operation from LinkWidget.
+	 * Required by FloatingText.
+	 */
+	UMLClassifier *getOperationOwner(FloatingText *ft);
+
+	/**
+	 * Overrides operation from LinkWidget.
+	 * Required by FloatingText.
+	 */
+	void setOperationText(FloatingText *ft, QString opText);
+
+	/**
+	 * Overrides operation from LinkWidget.
+	 * Required by FloatingText.
+	 *
+	 * @param ft	The text widget which to update.
+	 */
+	void setMessageText(FloatingText *ft);
+
+	/**
 	 * Returns the UMLAssociation representation of this object.
 	 *
 	 * @return	Pointer to the UMLAssociation that is represented by
@@ -401,12 +425,15 @@ public:
 	UMLAssociation * getAssociation ();
 
 	/**
-	 * Sets the text of the FloatingText identified by the given Text_Role.
+	 * Sets the text of the FloatingText identified by the ft's Text_Role.
+	 * Overrides operation from LinkWidget.
+	 * Required by FloatingText.
 	 */
-	void setText(QString text, Text_Role role);
+	void setText(FloatingText *ft, QString text);
 
 	/**
 	 * Calls @ref setTextPosition() on all the labels.
+	 * Overrides operation from LinkWidget.
 	 */
 	void resetTextPositions();
 
@@ -441,6 +468,38 @@ public:
 	 * Sets the total count on the Association region for widgetB.
 	 */
 	void setTotalCount(int count);
+
+	/**
+	 * Overrides operation from LinkWidget.
+	 * Required by FloatingText.
+	 *
+	 * @param seqNum	The new sequence number string to set.
+	 * @param op		The new operation string to set.
+	 */
+	void setSeqNumAndOp(QString seqNum, QString op);
+
+	/**
+	 * Overrides operation from LinkWidget.
+	 * Required by FloatingText.
+	 *
+	 * @param ft		The calling FloatingText (unused here.)
+	 * @param seqNum	Return this AssociationWidget's sequence number string.
+	 * @param op		Return this AssociationWidget's operation string.
+	 */
+	UMLClassifier * getSeqNumAndOp(FloatingText *ft, QString& seqNum,
+							 QString& op);
+
+	/**
+	 * Overrides operation from LinkWidget.
+	 * Required by FloatingText.
+	 */
+	void cleanupBeforeFTsetLink(FloatingText *ft);
+
+	/**
+	 * Overrides operation from LinkWidget.
+	 * Required by FloatingText.
+	 */
+	void setupAfterFTsetLink(FloatingText *ft);
 
 	/**
 	 * Calculates and sets the first and last point in the association's
@@ -681,7 +740,7 @@ private:
 		 */
 		int m_nTotalCount;
 
-		// The following items are only used if m_pAssociation is not set.
+		// The following items are only used if m_pObject is not set.
 		Scope m_Visibility;
 		Changeability_Type m_Changeability;
 		QString m_RoleDoc;
@@ -769,8 +828,6 @@ private:
 	/*QPixmap 	*m_pPix;
 	QBitmap 	*m_pMask;*/
 
-	UMLView 	* m_pView;
-
 	/**
 	 * Flag which is true if the activate method has been called for this
 	 * class instance.
@@ -788,7 +845,6 @@ private:
 
 	bool 		m_bFocus;
 	ListPopupMenu 	*m_pMenu;
-	UMLAssociation  *m_pAssociation;
 	bool 		m_bSelected;
 	int 		m_nMovingPoint;
 
@@ -797,7 +853,7 @@ private:
 	 */
 	LinePath m_LinePath;
 
-	// The following items are only used if m_pAssociation is not set.
+	// The following items are only used if m_pObject is not set.
 	QString m_Doc;
 	Uml::Association_Type m_AssocType;
 

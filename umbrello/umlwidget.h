@@ -13,6 +13,7 @@
 #include <qdom.h>
 #include <qdatetime.h>
 
+#include "linkwidget.h"
 #include "associationwidgetlist.h"
 #include "optionstate.h"
 
@@ -34,7 +35,7 @@ using namespace Uml;
  * @author 	Paul Hensgen <phensgen@techie.com>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class UMLWidget : public QObject, public QCanvasRectangle {
+class UMLWidget : public LinkWidget, public QCanvasRectangle {
 	Q_OBJECT
 public:
 	/**
@@ -92,20 +93,6 @@ public:
 	virtual bool operator==(const UMLWidget& other);
 
 	/**
-	* Write property of m_Type.
-	*/
-	void setBaseType( UMLWidget_Type type ) {
-		m_Type = type;
-	}
-
-	/**
-	* Read property of m_Type.
-	*/
-	UMLWidget_Type getBaseType() const {
-		return m_Type;
-	}
-
-	/**
 	* Write property of m_nId.
 	*/
 	void setID( int id );
@@ -114,24 +101,6 @@ public:
 	* Read property of m_nId.
 	*/
 	int getID() const;
-
-	/**
-	 * Returns the @ref UMLObject set to represent.
-	 *
-	 * @return the UMLObject to represent.
-	 */
-	UMLObject * getUMLObject() {
-		return m_pObject;
-	}
-
-	/**
-	 * Sets the @ref UMLObject to represent.
-	 *
-	 * @param o	The object to represent.
-	 */
-	virtual void setUMLObject(UMLObject * o) {
-		m_pObject = o;
-	}
 
 	/**
 	 * Overrides the standard operation.
@@ -374,20 +343,6 @@ public:
 	 * set the next larger size that snaps to the grid.
 	 */
 	void setSize(int width,int height);
-
-	/**
-	 * Used by some child classes to get documentation.
-	 *
-	 * @return	The documentation from the UMLObject (if m_pObject is set.)
-	 */
-	virtual QString getDoc() const;
-
-	/**
-	 * Used by some child classes to set documentation.
-	 *
-	 * @param doc The documentation to be set in the UMLObject (if m_pObject is set.)
-	 */
-	virtual void setDoc( QString doc );
 
 	/**
 	 * Removes an already created association from the list of
@@ -641,11 +596,6 @@ protected:
 	///////////////// Data Loaded/Saved /////////////////////////////////
 
 	/**
-	 * Type of widget.
-	 */
-	UMLWidget_Type m_Type;
-
-	/**
 	 * This ID is only used when the UMLWidget does not have a
 	 * corresponding UMLObject (i.e. the m_pObject pointer is NULL.)
 	 * For UML objects, the ID from the UMLObject is used.
@@ -719,8 +669,6 @@ protected:
 			m_nOldY,
 			m_nPosX,
 			m_nOldID;
-	UMLObject 	*m_pObject;
-	UMLView 	*m_pView;
 	ListPopupMenu 	*m_pMenu;
 	bool 		m_bResizing;
 	int 		m_nPressOffsetX,

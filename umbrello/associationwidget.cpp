@@ -28,13 +28,11 @@
 #include <kdebug.h>
 #include <klocale.h>
 
-// using namespace std;  CHECK: strange... it compiles without this for me.
-
 // this constructor really only for loading from XMI, otherwise it
 // is bad..and shouldnt be allowed as it creates an incomplete
 // associationwidget.
 AssociationWidget::AssociationWidget(UMLView *view)
-	: QObject(view)
+	: LinkWidget(view)
 {
 	init(view);
 }
@@ -42,9 +40,8 @@ AssociationWidget::AssociationWidget(UMLView *view)
 // the preferred constructor
 AssociationWidget::AssociationWidget(UMLView *view, UMLWidget* pWidgetA,
 				     Association_Type assocType, UMLWidget* pWidgetB )
-	: QObject(view)
+	: LinkWidget(view)
 {
-
 	init(view);
 
 	UMLDoc *umldoc = m_pView->getDocument();
@@ -71,24 +68,7 @@ AssociationWidget::AssociationWidget(UMLView *view, UMLWidget* pWidgetA,
 
 			// now, just create a new association anyways
 			UMLAssociation * myAssoc = new UMLAssociation( assocType, umlRoleA, umlRoleB );
-/*
-			else if (swap) {
-				kdDebug() << "AssociationWidget(): umldoc->findAssoc returns swap true "
-					  << "for assoctype " << assocType << endl;
-				UMLWidget *tmp = pWidgetA;
-				pWidgetA = pWidgetB;
-				pWidgetB = tmp;
-				umlRoleA = pWidgetA->getUMLObject();
-				umlRoleB = pWidgetB->getUMLObject();
-				myAssoc = new UMLAssociation( umldoc, assocType, umlRoleA, umlRoleB );
-			}
-*/
 			setUMLAssociation(myAssoc);
-/*
-			connect(m_pAssociation, SIGNAL(modified()), this,
-				SLOT(mergeUMLRepresentationIntoAssociationData()));
-			m_pAssociation->nrof_parent_widgets++;
-*/
 		}
 	}
 
@@ -113,8 +93,8 @@ AssociationWidget::AssociationWidget(UMLView *view, UMLWidget* pWidgetA,
 		QString localIdStr;
 		localIdStr.setNum(ow->getLocalID());
 		setName("m" + localIdStr);
-		if (m_pAssociation)
-			m_pName->setUMLObject( m_pAssociation );
+		if (m_pObject)
+			m_pName->setUMLObject( m_pObject );
 		else
 			m_pName->setUMLObject( ow->getUMLObject() );
 	}
@@ -172,8 +152,7 @@ AssociationWidget& AssociationWidget::operator=(AssociationWidget & Other) {
 	m_unNameLineSegment = Other.m_unNameLineSegment;
 	m_bFocus = Other.m_bFocus;
 	m_pMenu = Other.m_pMenu;
-	//m_pAssociation = Other.m_pAssociation;
-	setUMLAssociation(Other.m_pAssociation);
+	setUMLAssociation(Other.getAssociation());
 	m_bSelected = Other.m_bSelected;
 	m_nMovingPoint = Other.m_nMovingPoint;
 
@@ -184,12 +163,12 @@ bool AssociationWidget::operator==(AssociationWidget & Other) {
 	if( this == &Other )
 		return true;
 
-	if( !m_pAssociation || !Other.m_pAssociation ) {
-		if( !Other.m_pAssociation && m_pAssociation )
+	if( !m_pObject || !Other.m_pObject ) {
+		if( !Other.m_pObject && m_pObject )
 			return false;
-		if( Other.m_pAssociation && !m_pAssociation )
+		if( Other.m_pObject && !m_pObject )
 			return false;
-	} else if( m_pAssociation != Other.m_pAssociation )
+	} else if( m_pObject != Other.m_pObject )
 		return false;
 
 	if (getAssocType() != Other.getAssocType())
@@ -225,7 +204,7 @@ bool AssociationWidget::operator!=(AssociationWidget & Other) {
 }
 
 UMLAssociation * AssociationWidget::getAssociation () {
-	return m_pAssociation;
+	return static_cast<UMLAssociation*>(m_pObject);
 }
 
 FloatingText* AssociationWidget::getMultiWidget(Role_Type role) {
@@ -251,8 +230,8 @@ QString AssociationWidget::getName() const {
 }
 
 QString AssociationWidget::getDoc() const {
-	if (m_pAssociation)
-		return m_pAssociation->getDoc();
+	if (m_pObject)
+		return m_pObject->getDoc();
 	return m_Doc;
 }
 
@@ -271,9 +250,10 @@ QString AssociationWidget::getRoleName(Role_Type role) const {
 }
 
 QString AssociationWidget::getRoleDoc(Role_Type role) const {
-	if (m_pAssociation)
-		return m_pAssociation->getRoleDoc(role);
-	return "";
+	if (m_pObject == NULL)
+		return "";
+	UMLAssociation *umla = static_cast<UMLAssociation*>(m_pObject);
+	return umla->getRoleDoc(role);
 }
 
 void AssociationWidget::setName(QString strName) {
@@ -292,8 +272,8 @@ void AssociationWidget::setName(QString strName) {
 	}
 
 	// set attribute of UMLAssociation associated with this associationwidget
-	if (m_pAssociation)
-		m_pAssociation->setName(strName);
+	if (m_pObject)
+		m_pObject->setName(strName);
 
 	setTextPosition( tr_Name, calculateTextPosition(tr_Name) );
 	if (newLabel) {
@@ -339,8 +319,8 @@ void AssociationWidget::setMulti(QString strMulti, Role_Type role) {
 	else
 		m_role[role].m_pMulti -> hide();
 
-	if (m_pAssociation)
-		m_pAssociation->setMulti(strMulti, role);
+	if (m_pObject)
+		getAssociation()->setMulti(strMulti, role);
 }
 
 bool AssociationWidget::setRoleName (QString strRole, Role_Type role) {
@@ -371,9 +351,8 @@ bool AssociationWidget::setRoleName (QString strRole, Role_Type role) {
 	}
 
 	// set attribute of UMLAssociation associated with this associationwidget
-	if (m_pAssociation) {
-		m_pAssociation->setRoleName(strRole, role);
-	}
+	if (m_pObject)
+		getAssociation()->setRoleName(strRole, role);
 	m_role[role].m_RoleName = strRole;
 
 	m_role[role].m_pRole->setActivated();
@@ -390,28 +369,36 @@ bool AssociationWidget::setRoleName (QString strRole, Role_Type role) {
 }
 
 void AssociationWidget::setDoc (QString doc) {
-	if (m_pAssociation)
-		m_pAssociation->setDoc(doc);
+	if (m_pObject)
+		m_pObject->setDoc(doc);
+	else
+		m_Doc = doc;
 }
 
 void AssociationWidget::setRoleDoc (QString doc, Role_Type role) {
-	if (m_pAssociation)
-		m_pAssociation->setRoleDoc(doc, role);
-	m_role[role].m_RoleDoc = doc;
+	if (m_pObject)
+		getAssociation()->setRoleDoc(doc, role);
+	else
+		m_role[role].m_RoleDoc = doc;
+}
+
+void AssociationWidget::setMessageText(FloatingText *ft) {
+	ft->setText( getName() );
 }
 
 Scope AssociationWidget::getVisibility(Role_Type role) const {
-	if (m_pAssociation)
-		return m_pAssociation->getVisibility(role);
-	return m_role[role].m_Visibility;
+	if (m_pObject == NULL)
+		return m_role[role].m_Visibility;
+	UMLAssociation *umla = static_cast<UMLAssociation*>(m_pObject);
+	return umla->getVisibility(role);
 }
 
 void AssociationWidget::setVisibility (Scope value, Role_Type role)
 {
 	if (value == getVisibility(role))
 		return;
-	if (m_pAssociation)  // update our model object
-		m_pAssociation->setVisibility(value, role);
+	if (m_pObject)  // update our model object
+		getAssociation()->setVisibility(value, role);
 	m_role[role].m_Visibility = value;
 	// update role pre-text attribute as appropriate
 	if (m_role[role].m_pRole) {
@@ -422,9 +409,10 @@ void AssociationWidget::setVisibility (Scope value, Role_Type role)
 
 Changeability_Type AssociationWidget::getChangeability(Role_Type role) const
 {
-	if (m_pAssociation)
-		return m_pAssociation->getChangeability(role);
-	return m_role[role].m_Changeability;
+	if (m_pObject == NULL)
+		return m_role[role].m_Changeability;
+	UMLAssociation *umla = static_cast<UMLAssociation*>(m_pObject);
+	return umla->getChangeability(role);
 }
 
 void AssociationWidget::setChangeability (Changeability_Type value, Role_Type role)
@@ -432,8 +420,8 @@ void AssociationWidget::setChangeability (Changeability_Type value, Role_Type ro
 	if (value == getChangeability(role))
 		return;
 	QString changeString = UMLAssociation::ChangeabilityToString(value);
-	if (m_pAssociation)	// update our model object
-		m_pAssociation->setChangeability(value, role);
+	if (m_pObject)  // update our model object
+		getAssociation()->setChangeability(value, role);
 	m_role[role].m_Changeability = value;
 	// update our string representation
 	setChangeWidget(changeString, role);
@@ -485,7 +473,8 @@ bool AssociationWidget::linePathStartsAt(const UMLWidget* widget) {
 	return result;
 }
 
-void AssociationWidget::setText(QString text, Text_Role role) {
+void AssociationWidget::setText(FloatingText *ft, QString text) {
+	Uml::Text_Role role = ft->getRole();
 	switch (role) {
 		case tr_Name:
 			setName(text);
@@ -526,14 +515,6 @@ bool AssociationWidget::activate() {
 
 	calculateEndingPoints();
 	m_LinePath.activate();
-
-	/*
-	  There used to be calls to to setRole( ), setMultiA, setMultiB here.  But I
-	  have removed them and cut and pasted most of that code here - why??
-	  There was a call to SynchronizeData in each of them which deleted the
-	  data we needed.  The other way is to add a loading variable to miss that call
-	  but just as easy to put the code we need here.
-	*/
 
 	if (AssocRules::allowRole(type)) {
 		for (unsigned r = A; r <= B; r++) {
@@ -693,7 +674,7 @@ void AssociationWidget::cleanup() {
 		m_pName = 0;
 	}
 
-	if (m_pAssociation) {
+	if (m_pObject) {
 		/*
 		   We do not remove the UMLAssociation from the document.
 		   Why? - Well, for example we might be in the middle of
@@ -713,21 +694,20 @@ void AssociationWidget::cleanup() {
 	}
 
 	m_LinePath.cleanup();
-
 }
 
 void AssociationWidget::setUMLAssociation (UMLAssociation * assoc) 
 {
-
-	if(m_pAssociation) {
+	if (m_pObject) {
+		UMLAssociation *umla = getAssociation();
 
 		// safety check. Did some num-nuts try to set the existing
 		// association again? If so, just bail here
-		if(assoc && m_pAssociation == assoc)
+		if (assoc && umla == assoc)
 			return;
 
-		m_pAssociation->disconnect(this);
-		m_pAssociation->nrof_parent_widgets--;
+		umla->disconnect(this);
+		umla->nrof_parent_widgets--;
 
 		// we are the last "owner" of this association, so delete it
 		// from the parent UMLDoc, and as a stand-alone
@@ -759,23 +739,22 @@ void AssociationWidget::setUMLAssociation (UMLAssociation * assoc)
 		// (IF a paste operation) rather than passing around object pointers. Its
 		// just too hard otherwise to prevent problems in the code. Bottom line: we need to
 		// delete orphaned associations or we well get code crashes and memory leaks.
-		if(m_pAssociation->nrof_parent_widgets == 0)
-		{
-			m_pAssociation->deleteLater();
+		if (umla->nrof_parent_widgets == 0) {
+			umla->deleteLater();
 		}
 	
-		m_pAssociation = 0;
+		m_pObject = NULL;
 	}
 
 	if(assoc) {
-		m_pAssociation = assoc;
+		m_pObject = assoc;
 	
 		// move counter to "0" from "-1" (which means, no assocwidgets) 
-		if(m_pAssociation->nrof_parent_widgets < 0)
-			m_pAssociation->nrof_parent_widgets = 0;
+		if(assoc->nrof_parent_widgets < 0)
+			assoc->nrof_parent_widgets = 0;
 
-		m_pAssociation->nrof_parent_widgets++;
-		connect(m_pAssociation, SIGNAL(modified()), this,
+		assoc->nrof_parent_widgets++;
+		connect(assoc, SIGNAL(modified()), this,
 					SLOT(mergeUMLRepresentationIntoAssociationData()));
 	}
 
@@ -788,15 +767,16 @@ bool AssociationWidget::contains(UMLWidget* widget) {
 }
 
 Association_Type AssociationWidget::getAssocType() const {
-	if (m_pAssociation)
-		return m_pAssociation->getAssocType();
-	return m_AssocType;
+	if (m_pObject == NULL)
+		return m_AssocType;
+	UMLAssociation *umla = static_cast<UMLAssociation*>(m_pObject);
+	return umla->getAssocType();
 }
 
 /** Sets the association's type */
 void AssociationWidget::setAssocType(Association_Type type) {
-	if (m_pAssociation)
-		m_pAssociation->setAssocType(type);
+	if (m_pObject)
+		getAssociation()->setAssocType(type);
 	m_AssocType = type;
 	m_LinePath.setAssocType(type);
 	// If the association new type is not supposed to have Multiplicity
@@ -828,9 +808,9 @@ void AssociationWidget::setAssocType(Association_Type type) {
 
 int AssociationWidget::getWidgetID(Role_Type role) const {
 	if (m_role[role].m_pWidget == NULL) {
-		if (m_pAssociation) {
-			int id = m_pAssociation->getRoleId(role);
-			return id;
+		if (m_pObject) {
+			UMLAssociation *umla = static_cast<UMLAssociation*>(m_pObject);
+			return umla->getRoleId(role);
 		}
 		kdError() << "AssociationWidget::getWidgetID(): m_pWidget is NULL" << endl;
 		return -1;
@@ -1167,7 +1147,7 @@ void AssociationWidget::mergeUMLRepresentationIntoAssociationData()
 void AssociationWidget::mergeAssociationDataIntoUMLRepresentation()
 {
 
-	UMLAssociation *uml = m_pAssociation;
+	UMLAssociation *uml = getAssociation();
 	if (uml == NULL)
 		return;
 
@@ -2071,7 +2051,6 @@ bool AssociationWidget::showDialog() {
 
 void AssociationWidget::slotMenuSelection(int sel) {
 	QString oldText, newText;
-	bool done = false;
 	QFont font;
 	Uml::Association_Type atype = getAssocType();
 
@@ -2095,14 +2074,12 @@ void AssociationWidget::slotMenuSelection(int sel) {
 			m_pView -> updateDocumentation( false );
 			showDialog();
 		}
-		done = true;
 		break;
 
 	case ListPopupMenu::mt_Delete://for anchor
 	case ListPopupMenu::mt_Delete_Association:
 	case ListPopupMenu::mt_Delete_Message:
 		m_pView->removeAssocInViewAndDoc(this);
-		done = true;
 		break;
 
 	case ListPopupMenu::mt_Rename_MultiA:
@@ -2708,10 +2685,8 @@ QRect AssociationWidget::getAssocLineRectangle()
 
 void AssociationWidget::init (UMLView *view)
 {
-	// pointer to parent viewwidget object
-	m_pView = view;
-
-	m_pAssociation = NULL;   // Must be set to something useful later.
+	m_pView = view;  // pointer to parent viewwidget object
+	m_Type = wt_Association;
 
 	// pointers to floating text widgets objects owned by this association
 	m_pName = 0;
@@ -2787,12 +2762,55 @@ int AssociationWidget::getTotalCount(Role_Type role) const {
 	return  m_role[role].m_nTotalCount;
 }
 
+UMLClassifier *AssociationWidget::getOperationOwner(FloatingText *) {
+	Association_Type atype = getAssocType();
+	Role_Type role = (atype == at_Coll_Message ? B : A);
+	UMLObject *o = getWidget(role)->getUMLObject();
+	if (o == NULL)
+		return NULL;
+	UMLClassifier *c = dynamic_cast<UMLClassifier*>(o);
+	if (c == NULL)
+		kdError() << "AssociationWidget::getOperationOwner: "
+			  << "getWidget(" << role << ") is not a classifier"
+			  << endl;
+	return c;
+}
+
+void AssociationWidget::setSeqNumAndOp(QString seqNum, QString op) {
+	setName(op);
+	setMulti(seqNum, A);
+}
+
+UMLClassifier *AssociationWidget::getSeqNumAndOp(FloatingText *,
+						 QString& seqNum, QString& op) {
+	seqNum = getMulti(A);
+	op = getName();
+	UMLObject *o = getWidget(B)->getUMLObject();
+	UMLClassifier *c = dynamic_cast<UMLClassifier*>(o);
+	return c;
+}
+
+void AssociationWidget::setOperationText(FloatingText *, QString opText) {
+	setName(opText);
+}
+
+void AssociationWidget::cleanupBeforeFTsetLink(FloatingText *ft) {
+	ft->removeAssoc(this);  // FIXME: This is horrible.
+}
+
+void AssociationWidget::setupAfterFTsetLink(FloatingText *ft) {
+	UMLAssociation *umla = getAssociation();
+	if (umla != NULL)  // sync id to association id.
+		ft->setID( umla->getID() );
+	ft->addAssoc(this);    // FIXME: This is horrible.
+}
+
 void AssociationWidget::setWidget( UMLWidget* widget, Role_Type role) {
 	m_role[role].m_pWidget = widget;
 	if (widget) {
 		m_role[role].m_pWidget->addAssoc(this);
-		if(m_pAssociation)
-			m_pAssociation->setObject(widget->getUMLObject(), role);
+		if (m_pObject)
+			getAssociation()->setObject(widget->getUMLObject(), role);
 	}
 }
 
@@ -2826,8 +2844,8 @@ UMLWidget* AssociationWidget::findWidget( int id, const UMLWidgetList& widgets,
 void AssociationWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement assocElement = qDoc.createElement( "assocwidget" );
 
-	if (m_pAssociation) {
-		assocElement.setAttribute( "xmi.id", m_pAssociation->getID() );
+	if (m_pObject) {
+		assocElement.setAttribute( "xmi.id", getAssociation()->getID() );
 	} else {
 		assocElement.setAttribute( "type", m_AssocType );
 		assocElement.setAttribute( "visibilityA", m_role[A].m_Visibility);
@@ -2918,7 +2936,7 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
 			// with older files isn't important anymore. -b.t.
 			UMLObject* umlRoleA = pWidgetA->getUMLObject();
 			UMLObject* umlRoleB = pWidgetB->getUMLObject();
-			if (!m_pAssociation && umlRoleA && umlRoleB)
+			if (!m_pObject && umlRoleA && umlRoleB)
 			{
 				oldStyleLoad = true; // flag for further special config below
 				if (aType == at_Aggregation || aType == at_Composition) {
@@ -2943,13 +2961,6 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
 				}
 
 				setUMLAssociation(m_pView->getDocument()->createUMLAssociation(umlRoleA, umlRoleB, aType));
-/*
-				m_pAssociation = m_pView->getDocument()->createUMLAssociation(
-							umlRoleA, umlRoleB, aType);
-				connect(m_pAssociation, SIGNAL(modified()), this,
-					SLOT(mergeUMLRepresentationIntoAssociationData()));
-				m_pAssociation->nrof_parent_widgets++;
-*/
 			}
 		}
 
@@ -2980,15 +2991,15 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
 	} else {
 
 		// we should disconnect any prior association (can this happen??)
-		if(m_pAssociation)
+		if (m_pObject)
 		{
-			m_pAssociation->disconnect(this);
-			m_pAssociation->nrof_parent_widgets--;
+			UMLAssociation *umla = getAssociation();
+			umla->disconnect(this);
+			umla->nrof_parent_widgets--;
 		}
 
 		// New style: The xmi.id is a reference to the UMLAssociation.
 		UMLDoc* umldoc = m_pView->getDocument();
-		// m_pAssociation = (UMLAssociation*)umldoc->findUMLObject(nId);
 		UMLAssociation * myAssoc = (UMLAssociation*)umldoc->findUMLObject(nId);
 		if (myAssoc == NULL) {
 			kdError() << " AssociationWidget cannot find UML:Association " << nId << " for loadFromXMI"<< endl;
@@ -2996,14 +3007,9 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
 		} else
 		{
 			setUMLAssociation(myAssoc);
-/*
-			connect(m_pAssociation, SIGNAL(modified()), this,
-				SLOT(mergeUMLRepresentationIntoAssociationData()));
-			m_pAssociation->nrof_parent_widgets++;
-*/
 		}
 
-		m_LinePath.setAssocType( m_pAssociation->getAssocType() );
+		m_LinePath.setAssocType( getAssociation()->getAssocType() );
 
 	}
 

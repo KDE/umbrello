@@ -42,11 +42,10 @@
 // Jeez. Look at all these constructors each with its own initialzation
 // conditions. bad bad bad. Very easy to mess up a code change.
 UMLWidget::UMLWidget( UMLView * view, UMLObject * o )
-	: QObject(view), QCanvasRectangle( view->canvas() ),
-	  m_pObject(o),
-	  m_pView(view),
+	: LinkWidget(view), QCanvasRectangle( view->canvas() ),
 	  m_pMenu(0)
 {
+	m_pObject = o;
 	init();
 	if(m_pObject) {
 		m_nId = m_pObject->getID();
@@ -54,11 +53,10 @@ UMLWidget::UMLWidget( UMLView * view, UMLObject * o )
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLWidget::UMLWidget( UMLView * view, UMLObject * o, Settings::OptionState optionState )
-	: QObject(view), QCanvasRectangle( view->canvas() ),
-	  m_pObject(o),
-	  m_pView(view),
+	: LinkWidget(view), QCanvasRectangle( view->canvas() ),
 	  m_pMenu(0)
 {
+	m_pObject = o;
 	init();
 	m_FillColour = optionState.uiState.fillColor;
 	m_LineColour = optionState.uiState.lineColor;
@@ -66,9 +64,7 @@ UMLWidget::UMLWidget( UMLView * view, UMLObject * o, Settings::OptionState optio
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLWidget::UMLWidget(UMLView * view, int id /* = -1 */)
-	: QObject(view), QCanvasRectangle( view->canvas() ),
-	  m_pObject(0),
-	  m_pView(view),
+	: LinkWidget(view), QCanvasRectangle( view->canvas() ),
 	  m_pMenu(0)
 {
 	init();
@@ -79,9 +75,7 @@ UMLWidget::UMLWidget(UMLView * view, int id /* = -1 */)
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLWidget::UMLWidget( UMLView * view, Settings::OptionState optionState )
-	: QObject(view), QCanvasRectangle( view->canvas() ),
-	  m_pObject(0),
-	  m_pView(view),
+	: LinkWidget(view), QCanvasRectangle( view->canvas() ),
 	  m_pMenu(0)
 {
 	init();
@@ -415,7 +409,6 @@ void UMLWidget::mouseReleaseEvent(QMouseEvent *me) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLWidget::init() {
 	m_nId = m_nOldID = -1;
-	m_Type = wt_UMLWidget;
 	m_bIsInstance = false;
 	if (m_pView) {
 		m_bUseFillColour = true;
@@ -947,17 +940,6 @@ bool UMLWidget::widgetHasUMLObject(Uml::UMLWidget_Type type) {
 	} else {
 		return false;
 	}
-}
-
-QString UMLWidget::getDoc() const {
-	if (m_pObject != NULL)
-		return m_pObject->getDoc();
-	return "";
-}
-
-void UMLWidget::setDoc( QString doc ) {
-	if (m_pObject != NULL)
-		m_pObject->setDoc( doc );
 }
 
 void UMLWidget::setSize(int width,int height) {
