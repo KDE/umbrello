@@ -153,7 +153,13 @@ bool HierarchicalCodeBlock::insertTextBlock(TextBlock * newBlock, TextBlock * ex
                 return false;
 
         QString tag = existingBlock->getTag();
-        if(!m_textBlockTagMap->contains(tag))
+	// FIX: just do a quick check if the parent DOCUMENT has this.
+	// IF it does, then the lack of an index will force us into
+	// a search of any child hierarchical codeblocks we may have
+	// Its not efficent, but works. I dont think speed is a problem
+	// right now for the current implementation, but in the future
+	// when code import/roundtripping is done, it *may* be. -b.t.
+	if(!getParentDocument()->findTextBlockByTag(tag, true))
                 return false;
 
         int index = m_textblockVector.findRef(existingBlock);
@@ -403,7 +409,6 @@ TextBlock * HierarchicalCodeBlock::findCodeClassFieldTextBlockByTag (QString tag
         return (TextBlock*) NULL;
 
 }
-
 
 void HierarchicalCodeBlock::initAttributes ( ) {
 	m_canDelete = false;

@@ -288,7 +288,7 @@ bool CodeDocument::insertTextBlock(TextBlock * newBlock, TextBlock * existingBlo
 		return false;
 
 	QString tag = existingBlock->getTag();
-        if(!m_textBlockTagMap->contains(tag))
+	if(!findTextBlockByTag(tag, true))
 		return false;
 
 	int index = m_textblockVector.findRef(existingBlock);
