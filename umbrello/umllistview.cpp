@@ -458,6 +458,7 @@ void UMLListView::slotObjectCreated(UMLObject* object) {
 	newItem = new UMLListViewItem(parentItem, object->getName(), convert_OT_LVT(type), object);
 	ensureItemVisible(newItem);
 	newItem->setOpen(true);
+	clearSelection();
 	setSelected(newItem, true);
 	m_doc->getDocWindow()->showDocumentation(object, false);
 }
@@ -528,6 +529,7 @@ void UMLListView::childObjectAdded(UMLObject* obj) {
 		UMLListViewItem *newItem = new UMLListViewItem(parentItem, obj->getName(), convert_OT_LVT(obj->getBaseType()), obj);
 
 		ensureItemVisible(newItem);
+		clearSelection();
 		setSelected(newItem, true);
 		m_doc->getDocWindow()->showDocumentation(obj, false);
 	}
