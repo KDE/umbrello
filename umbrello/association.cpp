@@ -148,6 +148,8 @@ bool UMLAssociation::resolveRef() {
 		if (objA && objA->getBaseType() == Uml::ot_Interface ||
 		    objB && objB->getBaseType() == Uml::ot_Interface)
 			m_AssocType = Uml::at_Realization;
+		UMLDoc *doc = UMLApp::app()->getDocument();
+		doc->addAssocToConcepts(this);
 		return true;
 	}
 	return false;
@@ -211,8 +213,10 @@ bool UMLAssociation::load( QDomElement & element ) {
 							  tagEq(tag, "subtype") || tagEq(tag, "supertype")));
 				bool isDependency = (m_AssocType == Uml::at_Dependency &&
 						     (tagEq(tag, "client") || tagEq(tag, "supplier")));
-				if (!isGeneralization && !isDependency)
+				if (!isGeneralization && !isDependency) {
+					kdDebug() << "UMLAssociation::load: cannot load " << tag << endl;
 					continue;
+				}
 				QString idStr = tempElement.attribute( "xmi.id", "" );
 				if (idStr.isEmpty())
 					idStr = tempElement.attribute( "xmi.idref", "" );
@@ -432,11 +436,19 @@ UMLObject* UMLAssociation::getObject(Role_Type role) {
 }
 
 Uml::IDType UMLAssociation::getObjectId(Role_Type role) {
-	UMLObject *o = getObject(role);
+	UMLRole *roleObj = m_pRole[role];
+	UMLObject *o = roleObj->getObject();
 	if (o == NULL) {
-		kdError() << "UMLAssociation::getObjectId(" << role
-			  << "): getObject returns NULL" << endl;
-		return Uml::id_None;
+		QString auxID = roleObj->getSecondaryId();
+		if (auxID.isEmpty()) {
+			kdError() << "UMLAssociation::getObjectId(" << role
+				  << "): getObject returns NULL" << endl;
+			return Uml::id_None;
+		} else {
+			kdDebug() << "UMLAssociation::getObjectId(" << role
+				  << "): using secondary ID " << auxID << endl;
+			return STR2ID(auxID);
+		}
 	}
 	return o->getID();
 }

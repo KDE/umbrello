@@ -1355,8 +1355,11 @@ void UMLDoc::addAssociation(UMLAssociation *Assoc)
 	// If we get here it's really a new association, so lets
 	// add it to our concept list and the document.
 
-	// Add the UMLAssociation at the appropriate concept.
-	addAssocToConcepts(Assoc);
+	// Adding the UMLAssociation at the appropriate concepts is done
+	// later (in UMLAssociation::resolveRef()) in order to support
+	// xmi.idref forward references. (The participating concepts
+	// might not yet be known right here.)
+	//addAssocToConcepts(Assoc);
 
 	// Add the UMLAssociation in this UMLDoc.
 	m_objectList.append( (UMLObject*) Assoc);
@@ -2161,6 +2164,17 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element) {
 		}
 		if (Umbrello::isCommonXMIAttribute(type))
 			continue;
+		if (! tempElement.hasAttribute("xmi.id")) {
+			QString idref = tempElement.attribute("xmi.idref", "");
+			if (! idref.isEmpty()) {
+				kdDebug() << "resolution of xmi.idref " << idref
+					  << " is not yet implemented" << endl;
+			} else {
+				kdError() << "Cannot load " << type
+					  << " because xmi.id is missing" << endl;
+			}
+			continue;
+		}
 		UMLObject *pObject = makeNewUMLObject(type);
 		if( !pObject ) {
 			kdWarning() << "Unknown type of umlobject to create: " << type << endl;
