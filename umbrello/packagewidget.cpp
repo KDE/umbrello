@@ -57,7 +57,6 @@ void PackageWidget::draw(QPainter & p, int offsetX, int offsetY) {
 	QFontMetrics &fm = getFontMetrics(FT_BOLD);
 	int fontHeight  = fm.lineSpacing();
 	QString name = getName();
-	QString stereotype = m_pObject->getStereotype();
 
 	p.drawRect(offsetX, offsetY, 50, fontHeight);
 	p.drawRect(offsetX, offsetY + fontHeight - 1, w, h - fontHeight);
@@ -65,16 +64,14 @@ void PackageWidget::draw(QPainter & p, int offsetX, int offsetY) {
 	p.setPen( QPen(black) );
 	p.setFont(font);
 
-	if (stereotype != "") {
-		p.drawText(offsetX, offsetY + fontHeight + PACKAGE_MARGIN,
-			   w, fontHeight, AlignCenter, "<< " + stereotype + " >>");
-	}
-
-	int lines;
-	if (stereotype != "") {
-		lines = 2;
-	} else {
-		lines = 1;
+	int lines = 1;
+	if (m_pObject != NULL) {
+		QString stereotype = m_pObject->getStereotype();
+		if (stereotype != "") {
+			p.drawText(offsetX, offsetY + fontHeight + PACKAGE_MARGIN,
+				   w, fontHeight, AlignCenter, "<< " + stereotype + " >>");
+			lines = 2;
+		}
 	}
 
 	p.drawText(offsetX, offsetY + (fontHeight*lines) + PACKAGE_MARGIN,
