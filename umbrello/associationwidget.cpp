@@ -17,6 +17,7 @@
 #include "messagewidget.h"
 #include "umlrole.h"
 #include "listpopupmenu.h"
+#include "classifier.h"
 #include "attribute.h"
 #include "association.h"
 #include "associationwidget.h"
@@ -25,7 +26,6 @@
 #include "objectwidget.h"
 #include "widget_utils.h"
 #include "dialogs/assocpropdlg.h"
-#include "dialogs/selectopdlg.h"
 #include "inputdialog.h"
 
 #include <kdebug.h>

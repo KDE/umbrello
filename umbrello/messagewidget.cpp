@@ -18,7 +18,6 @@
 #include "floatingtext.h"
 #include "objectwidget.h"
 #include "classifier.h"
-#include "dialogs/selectopdlg.h"
 #include "umlview.h"
 #include "umldoc.h"
 #include "uml.h"
