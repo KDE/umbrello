@@ -294,6 +294,16 @@ public:
 	virtual UMLObject* findChildObject(Uml::IDType id);
 
 	/**
+	 * Find an operation of the given name and parameter signature.
+	 *
+	 * @param name		The name of the operation to find.
+	 * @param params	The parameter descriptors of the operation to find.
+	 *
+	 * @return	The operation found.  Will return 0 if none found.
+	 */
+	UMLOperation* findOperation(QString name, Umbrello::NameAndType_List params);
+
+	/**
 	 * Returns a list of concepts which this concept inherits from.
 	 *
 	 * @param type		The ClassifierType to seek.

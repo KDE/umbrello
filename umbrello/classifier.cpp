@@ -83,53 +83,55 @@ UMLOperation * UMLClassifier::checkOperationSignature( QString name,
 	return NULL;
 }
 
+UMLOperation* UMLClassifier::findOperation(QString name, Umbrello::NameAndType_List params) {
+	UMLObjectList list = findChildObject(Uml::ot_Operation, name);
+	if (list.count() == 0)
+		return NULL;
+	// If there are operation(s) with the same name then compare the parameter list
+	const int inputParmCount = params.count();
+	UMLOperation* test = NULL;
+	for (UMLObjectListIt oit(list);
+	     (test = static_cast<UMLOperation*>(oit.current())) != NULL; ++oit) {
+		UMLAttributeList *testParams = test->getParmList();
+		const int pCount = testParams->count();
+		if (inputParmCount == 0 && pCount == 0)
+			break;
+		if (inputParmCount != pCount)
+			continue;
+		int i = 0;
+		for (; i < pCount; ++i) {
+			Umbrello::NameAndType_ListIt nt(params.at(i));
+			UMLObject *c = (*nt).second;
+			QString typeName = testParams->at(i)->getTypeName();
+			if (c == NULL) {       //template parameter
+				if (typeName != "class")
+					break;
+			} else if (typeName != c->getName())
+				break;
+		}
+		if (i == pCount)
+			break;  // all parameters matched
+	}
+	return test;
+}
+
 UMLOperation* UMLClassifier::createOperation(const QString &name /*=null*/,
 					     bool *isExistingOp  /*=NULL*/,
 					     Umbrello::NameAndType_List *params  /*=NULL*/)
 {
 	bool nameNotSet = (name.isNull() || name.isEmpty());
 	if (! nameNotSet) {
-		UMLObjectList list = findChildObject(Uml::ot_Operation, name);
-		// If there are operation(s) with the same name then compare the parameter list
-		if (list.count()) {
-			const int inputParmCount = (params ? params->count() : 0);
-			for (UMLObjectListIt oit(list); oit.current(); ++oit) {
-				UMLOperation* test = dynamic_cast<UMLOperation*>(oit.current());
-				if (test == NULL)
-					continue;
-				UMLAttributeList *testParams = test->getParmList();
-				if (params == NULL) {
-					if (testParams->count() == 0) {
-						if (isExistingOp != NULL)
-							*isExistingOp = true;
-						return test;
-					}
-					continue;
-				}
-				const int pCount = testParams->count();
-				if (pCount != inputParmCount)
-					continue;
-				int i = 0;
-				for (; i < pCount; ++i) {
-					Umbrello::NameAndType_ListIt nt(params->at(i));
-					UMLObject *c = (*nt).second;
-					QString typeName = testParams->at(i)->getTypeName();
-					if (c == NULL) {       //template parameter
-						if (typeName != "class")
-							break;
-					} else if (typeName != c->getName())
-						break;
-				}
-				if (i == pCount) {
-					//all parameters matched -> the signature is not unique
-					if (isExistingOp != NULL)
-						*isExistingOp = true;
-					return test;
-				}
-			}
-			// we did not find an exact match, so the signature is unique ( acceptable )
+		Umbrello::NameAndType_List parList;
+		if (params)
+			parList = *params;
+		UMLOperation* existingOp = findOperation(name, parList);
+		if (existingOp != NULL) {
+			if (isExistingOp != NULL)
+				*isExistingOp = true;
+			return existingOp;
 		}
 	}
+	// we did not find an exact match, so the signature is unique
 	UMLOperation *op = new UMLOperation(this, name);
 	if (params) {
 		for (Umbrello::NameAndType_ListIt it = params->begin(); it != params->end(); ++it ) {
