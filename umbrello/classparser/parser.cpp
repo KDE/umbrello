@@ -1409,18 +1409,25 @@ bool Parser::parseEnumSpecifier( TypeSpecifierAST::Node& node )
 
     EnumeratorAST::Node enumerator;
     if( parseEnumerator(enumerator) ){
-        ast->addEnumerator( enumerator );
+	ast->addEnumerator( enumerator );
 
-        while( lex->lookAhead(0) == ',' ){
-	    lex->nextToken();
+	QString comment;
+	while( lex->lookAhead(0) == ',' ){
+	    comment = "";
+	    advanceAndCheckTrailingComment( comment );
+	    if ( !comment.isEmpty() ){
+		EnumeratorAST *lastLit = ast->enumeratorList().last();
+		if( lastLit )
+		    lastLit->setComment( comment );
+	    }
 
 	    if( !parseEnumerator(enumerator) ){
-	        //reportError( i18n("Enumerator expected") );
-	        break;
+		//reportError( i18n("Enumerator expected") );
+		break;
 	    }
 
 	    ast->addEnumerator( enumerator );
-        }
+	}
     }
 
     if( lex->lookAhead(0) != '}' )

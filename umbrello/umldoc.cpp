@@ -394,7 +394,7 @@ bool UMLDoc::openDocument(const KURL& url, const char* /*format =0*/) {
 				return false;
 			}
 			status = loadFromXMI( xmi_file, ENC_UNKNOWN );
-	
+
 			// close the extracted file and the temporary directory
 			xmi_file.close();
 			tmp_dir.unlink();
@@ -456,7 +456,7 @@ bool UMLDoc::saveDocument(const KURL& url, const char * /* format */) {
 	if (fileExt == "xmi" || fileExt == "bak.xmi")
 	{
 		fileFormat = "xmi";
-	} else if (fileExt == "xmi.tgz" || fileExt == "bak.xmi.tgz") { 
+	} else if (fileExt == "xmi.tgz" || fileExt == "bak.xmi.tgz") {
 		fileFormat = "tgz";
 	} else if (fileExt == "xmi.tar.bz2" || fileExt == "bak.xmi.tar.bz2") {
 		fileFormat = "bz2";
@@ -522,7 +522,7 @@ bool UMLDoc::saveDocument(const KURL& url, const char * /* format */) {
 		// now the xmi file was added to the archive, so we can delete it
 		tmp_xmi_file.close();
 		tmp_xmi_file.unlink();
-		
+
 		// now we have to check, if we have to upload the file
 		if ( !url.isLocalFile() ) {
 			uploaded = KIO::NetAccess::upload( tmp_tgz_file.name(), m_doc_url,
@@ -628,12 +628,12 @@ void UMLDoc::deleteContents() {
 		if (m_objectList.count() > 0) {
 			// clear our object list. We do this explicitly since setAutoDelete is false for the objectList now.
 			for(UMLObject * obj = m_objectList.first(); obj != 0; obj = m_objectList.next())
-				obj->deleteLater();
+				; //obj->deleteLater();
 			m_objectList.clear();
 		}
 		if (m_stereoList.count() > 0) {
 			for (UMLStereotype *s = m_stereoList.first(); s; s = m_stereoList.next())
-				s->deleteLater();
+				; //s->deleteLater();
 			m_stereoList.clear();
 		}
 	}
@@ -1592,6 +1592,8 @@ void UMLDoc::removeUMLObject(UMLObject* umlobject) {
 		emit sigObjectRemoved(umlobject);
 		if (type == ot_Operation) {
 			parent->removeOperation(static_cast<UMLOperation*>(umlobject));
+		} else if (type == ot_EnumLiteral) {
+			static_cast<UMLEnum*>(parent)->removeEnumLiteral(umlobject);
 		} else {
 			UMLClass* pClass = dynamic_cast<UMLClass*>(parent);
 			if (pClass == NULL)  {
@@ -2294,6 +2296,11 @@ QStringList UMLDoc::getModelTypes()
 	types.append("double");
 	types.append("float");
 	types.append("date");
+
+	// adding for perl The 3 base type (SV,AV,HV)
+	types.append("$");
+	types.append("@");
+	types.append("%");
 
 	//now add the Classes and Interfaces (both are Concepts)
 	UMLClassifierList namesList( getConcepts() );
