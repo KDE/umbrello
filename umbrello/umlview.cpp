@@ -477,8 +477,6 @@ void UMLView::slotObjectCreated(UMLObject* o) {
 			interfaceWidget->setDrawAsCircle(true);
 		}
 		newWidget = interfaceWidget;
-	} else if(type == ot_Datatype) {
-		newWidget = new DatatypeWidget(this, static_cast<UMLDatatype*>(o));
 	} else if(type == ot_Class ) { // CORRECT?
 		//see if we really want an object widget or class widget
 		if(getType() == dt_Class) {
