@@ -105,17 +105,19 @@ AssociationWidget::AssociationWidget(UMLView *view, UMLWidget* pWidgetA,
 	// sync UML meta-data to settings here
 	mergeAssociationDataIntoUMLRepresentation();
 
-	//collaboration messages need a name label because it's that
-	//which handles the right click menu options
+	// Collaboration messages need a name label because it's that
+	// which lets operator== distinguish them, which in turn
+	// permits us to have more than one message between two objects.
 	if (getAssocType() == at_Coll_Message) {
 		// Create a temporary name to bring on setName()
-		ObjectWidget *ow = static_cast<ObjectWidget*>(m_role[B].m_pWidget);
-		QString localIdStr = ID2STR(ow->getLocalID());
-		setName("m" + localIdStr);
-		if (m_pObject)
+		int collabID = m_pView->generateCollaborationId();
+		setName("m" + QString::number(collabID));
+		if (m_pObject) {
 			m_pName->setUMLObject( m_pObject );
-		else
+		} else {
+			ObjectWidget *ow = static_cast<ObjectWidget*>(m_role[B].m_pWidget);
 			m_pName->setUMLObject( ow->getUMLObject() );
+		}
 	}
 }
 
@@ -215,7 +217,11 @@ bool AssociationWidget::operator==(AssociationWidget & Other) {
 			return false;
 	}
 
-	return true;
+	// Two objects in a collaboration can have multiple messages between each other.
+	// Here we depend on the messages having names, and the names must be different.
+	// That is the reason why collaboration messages have strange initial names like
+	// "m29997" or similar.
+	return (getName() == Other.getName());
 }
 
 bool AssociationWidget::operator!=(AssociationWidget & Other) {

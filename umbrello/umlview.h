@@ -947,6 +947,11 @@ public:
 		emit sigRemovePopupMenu();
 	}
 
+	/**
+	 * Used for creating unique name of collaboration messages.
+	 */
+	int generateCollaborationId();
+
 protected:
 
 	// Methods and members related to loading/saving
@@ -1146,6 +1151,11 @@ protected:
 				      int& px, int& py, int& qx, int& qy);
 
 	void forceUpdateWidgetFontMetrics(QPainter *painter);
+
+	/**
+	 * Used for creating unique name of collaboration messages.
+	 */
+	int m_nCollaborationId;
 
 	QPoint m_Pos, m_LineToPos;
 	bool m_bCreateObject, m_bDrawRect, m_bDrawSelectedOnly, m_bPaste;

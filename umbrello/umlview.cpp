@@ -129,6 +129,7 @@ void UMLView::init() {
 	m_nZoom = 100;
 	m_nCanvasWidth = UMLView::defaultCanvasSize;
 	m_nCanvasHeight = UMLView::defaultCanvasSize;
+	m_nCollaborationId = 0;
 
 	// Initialize other data
 	m_AssociationList.setAutoDelete( true );
@@ -218,6 +219,10 @@ QString UMLView::getName() const {
 
 void UMLView::setName(const QString &name) {
 	QObject::setName( name.latin1() );
+}
+
+int UMLView::generateCollaborationId() {
+	return ++m_nCollaborationId;
 }
 
 void UMLView::print(KPrinter *pPrinter, QPainter & pPainter) {
