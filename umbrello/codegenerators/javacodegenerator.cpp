@@ -42,13 +42,10 @@ JavaCodeGenerator::JavaCodeGenerator ( UMLDoc * parentDoc , const char * name, Q
 JavaCodeGenerator::JavaCodeGenerator ( UMLDoc * parentDoc, const char * name )
     : CodeGenerator ( parentDoc , name)
 {
-
 	initFields();
 }
 
-JavaCodeGenerator::~JavaCodeGenerator ( ) {
- 	kdDebug()<<"JavaCodeGenerator "<<this<<" destroyed"<<endl;
-}
+JavaCodeGenerator::~JavaCodeGenerator ( ) { }
 
 //
 // Methods
@@ -167,8 +164,6 @@ CodeComment * JavaCodeGenerator::newCodeComment ( CodeDocument * doc) {
 
 void JavaCodeGenerator::initFields ( ) {
 
-kdDebug()<<"JAVA CODE GENERTOR INIT"<<endl;
-
 	setPolicy ( new JavaCodeGenerationPolicy(this, getPolicy()) );
 
 	// load Classifier documents from parent document
@@ -181,7 +176,6 @@ kdDebug()<<"JAVA CODE GENERTOR INIT"<<endl;
 	// set our 'writeout' policy for that code document
         setCreateANTBuildFile(DEFAULT_BUILD_ANT_DOC);
 
-kdDebug()<<"JAVA CODE GENERTOR INIT - END"<<endl;
 }
 
 void JavaCodeGenerator::createDefaultDatatypes() {
