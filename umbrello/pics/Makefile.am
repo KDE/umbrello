@@ -47,6 +47,7 @@ realizes.xpm \
 smallpackage.xpm \
 snapshot.xpm \
 startlogo.png \
+template.png \
 text.png \
 umlclass_template.xpm \
 class.png \

@@ -1522,17 +1522,17 @@ void UMLListView::loadPixmaps() {
 	m_Pixmaps.Diagram_Collaboration = SmallIcon("umbrello_diagram_collaboration");
 
 	m_Pixmaps.Diagram.load( dataDir + "CVnamespace.png" );
-	m_Pixmaps.Class.load( dataDir + "umlclass.xpm" );
-	m_Pixmaps.Template.load( dataDir + "umlclass_template.xpm" );
-	m_Pixmaps.Package.load( dataDir + "package.xpm" );
-	m_Pixmaps.Component.load( dataDir + "component.xpm" );
-	m_Pixmaps.Node.load( dataDir + "node.xpm" );
-	m_Pixmaps.Artifact.load( dataDir + "artifact.xpm" );
-	m_Pixmaps.Interface.load( dataDir + "interface.xpm" );
-	m_Pixmaps.Datatype.load( dataDir + "datatype.xpm" );
-	m_Pixmaps.Enum.load( dataDir + "enum.xpm" );
-	m_Pixmaps.Actor.load( dataDir + "actor.xpm" );
-	m_Pixmaps.UseCase.load( dataDir + "case.xpm" );
+	m_Pixmaps.Class.load( dataDir + "class.png" );
+	m_Pixmaps.Template.load( dataDir + "template.png" );
+	m_Pixmaps.Package.load( dataDir + "package.png" );
+	m_Pixmaps.Component.load( dataDir + "component.png" );
+	m_Pixmaps.Node.load( dataDir + "node.png" );
+	m_Pixmaps.Artifact.load( dataDir + "artifact.png" );
+	m_Pixmaps.Interface.load( dataDir + "interface.png" );
+	m_Pixmaps.Datatype.load( dataDir + "datatype.png" );
+	m_Pixmaps.Enum.load( dataDir + "enum.png" );
+	m_Pixmaps.Actor.load( dataDir + "actor.png" );
+	m_Pixmaps.UseCase.load( dataDir + "usecase.png" );
 	m_Pixmaps.Public_Method.load( dataDir + "CVpublic_meth.png" );
 	m_Pixmaps.Private_Method.load( dataDir + "CVprivate_meth.png" );
 	m_Pixmaps.Protected_Method.load( dataDir + "CVprotected_meth.png" );
