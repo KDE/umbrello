@@ -331,23 +331,21 @@ bool UMLObject::loadFromXMI( QDomElement & element ) {
 	}
 	if (pkgId != -1) {
 		UMLObject *pkgObj = umldoc->findUMLObject( pkgId );
-		if (pkgObj == NULL) {
-			kdDebug() << "UMLObject::loadFromXMI: cannot resolve packageid "
+		if (pkgObj != NULL) {
+			m_pUMLPackage = dynamic_cast<UMLPackage *>(pkgObj);
+			if (m_pUMLPackage == NULL)  // soft error
+				kdError() << "UMLObject::loadFromXMI: object of packageid "
+					  << pkgId << " is not a package" << endl;
+		} else {  // soft error
+			kdError() << "UMLObject::loadFromXMI: cannot resolve packageid "
 				  << pkgId << endl;
-			return true;  // soft error
-		}
-		m_pUMLPackage = dynamic_cast<UMLPackage *>(pkgObj);
-		if (m_pUMLPackage == NULL) {
-			kdDebug() << "UMLObject::loadFromXMI: object of packageid "
-				  << pkgId << " is not a package" << endl;
-			return true;  // soft error
 		}
 	}
 	/**** End of XMI_FLAT_PACKAGES and old files handling ****************/
 
 	if (m_pUMLPackage)
 		m_pUMLPackage->addObject(this);
-	//umldoc->signalUMLObjectCreated(this);
+	umldoc->signalUMLObjectCreated(this);
 	return true;
 }
 

@@ -415,16 +415,6 @@ void UMLListView::slotObjectCreated(UMLObject* object) {
 	UMLListViewItem* newItem = 0;
 	UMLListViewItem* parentItem = 0;
 	UMLListViewItem* current = (UMLListViewItem*) currentItem();
-	UMLPackage *pkg = object->getUMLPackage();
-	if (pkg) {
-		UMLListViewItem* pkgItem = findUMLObject(pkg);
-		if (pkgItem == NULL)
-			kdDebug() << "UMLListView::slotObjectCreated: could not find "
-				  << "parent package " << pkg->getName() << endl;
-		else
-			current = pkgItem;
-	}
-	connectNewObjectsSlots(object);
 	Uml::UMLObject_Type type = object->getBaseType();
 	Uml::ListView_Type lvt = Uml::lvt_Unknown;
 	if (current)
@@ -445,8 +435,19 @@ void UMLListView::slotObjectCreated(UMLObject* object) {
 	case Uml::ot_Interface:
 	case Uml::ot_Enum:
 	case Uml::ot_Package:
-		if (lvt == Uml::lvt_Package) {
-			parentItem = current;
+	{
+		UMLPackage *pkg = object->getUMLPackage();
+		if (pkg) {
+			UMLListViewItem* pkgItem = findUMLObject(pkg);
+			if (pkgItem == NULL)
+				kdDebug() << "UMLListView::slotObjectCreated: could not find "
+					  << "parent package " << pkg->getName() << endl;
+			else
+				parentItem = pkgItem;
+		}
+		if (parentItem) {
+			//CHECK: Are these assignments necessary here?
+			// They should already have been done at object creation.
 			UMLPackage *pkg = (UMLPackage*)parentItem->getUMLObject();
 			object->setUMLPackage(pkg);
 			if (pkg)
@@ -455,6 +456,7 @@ void UMLListView::slotObjectCreated(UMLObject* object) {
 			parentItem = current;
 		else
 			parentItem = lv;
+	}
 		break;
 	case Uml::ot_Datatype:
 		parentItem = datatypeFolder;
@@ -482,6 +484,7 @@ void UMLListView::slotObjectCreated(UMLObject* object) {
 		parentItem = ucv;
 	}
 
+	connectNewObjectsSlots(object);
 	newItem = new UMLListViewItem(parentItem, object->getName(), convert_OT_LVT(type), object);
 	ensureItemVisible(newItem);
 	newItem->setOpen(true);
@@ -2132,9 +2135,9 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
 		UMLListViewItem * item = 0;
 		if (nID != -1) {
 			pObject = m_doc->findUMLObject(nID);
-			if (pObject) {
-				connectNewObjectsSlots(pObject);
-			}
+			//if (pObject) {
+			//	connectNewObjectsSlots(pObject);
+			//}
 		} else if (typeIsFolder(lvType) ||
 			   lvType == Uml::lvt_Diagrams) {
 			// Pre-1.2 format: Folders did not have their ID set.
@@ -2153,7 +2156,7 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
 			case Uml::lvt_Component:
 			case Uml::lvt_Node:
 			case Uml::lvt_Artifact:
-				item = NULL;   // Should be: findItem(nID);
+				item = findItem(nID);
 				if (item == NULL) {
 					if (pObject && pObject->getUMLPackage() &&
 					    parent->getType() != Uml::lvt_Package) {
@@ -2179,7 +2182,7 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
 			case Uml::lvt_Attribute:
 			case Uml::lvt_Template:
 			case Uml::lvt_Operation:
-				item = NULL;   // Should be: findItem(nID);
+				item = findItem(nID);
 				if (item == NULL) {
 					kdDebug() << "UMLListView::loadChildrenFromXMI: "
 						<< "item " << id << " (of type "
