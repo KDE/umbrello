@@ -17,6 +17,7 @@
 #include "messagewidget.h"
 #include "umlrole.h"
 #include "listpopupmenu.h"
+#include "attribute.h"
 #include "association.h"
 #include "associationwidget.h"
 #include "assocrules.h"
@@ -205,6 +206,12 @@ UMLAssociation * AssociationWidget::getAssociation () {
 	if (m_pObject == NULL || m_pObject->getBaseType() != ot_Association)
 		return NULL;
 	return static_cast<UMLAssociation*>(m_pObject);
+}
+
+UMLAttribute * AssociationWidget::getAttribute () {
+	if (m_pObject == NULL || m_pObject->getBaseType() != ot_Attribute)
+		return NULL;
+	return static_cast<UMLAttribute*>(m_pObject);
 }
 
 FloatingText* AssociationWidget::getMultiWidget(Role_Type role) {
@@ -2827,15 +2834,18 @@ void AssociationWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 
 	if (m_pObject) {
 		assocElement.setAttribute( "xmi.id", m_pObject->getID() );
-	} else {
+	}
+	if (getAssociation() == NULL) {
 		assocElement.setAttribute( "type", m_AssocType );
 		assocElement.setAttribute( "visibilityA", m_role[A].m_Visibility);
 		assocElement.setAttribute( "visibilityB", m_role[B].m_Visibility);
 		assocElement.setAttribute( "changeabilityA", m_role[A].m_Changeability);
 		assocElement.setAttribute( "changeabilityB", m_role[B].m_Changeability);
-		assocElement.setAttribute( "roleAdoc", m_role[A].m_RoleDoc);
-		assocElement.setAttribute( "roleBdoc", m_role[B].m_RoleDoc);
-		assocElement.setAttribute( "documentation", m_Doc );
+		if (m_pObject == NULL) {
+			assocElement.setAttribute( "roleAdoc", m_role[A].m_RoleDoc);
+			assocElement.setAttribute( "roleBdoc", m_role[B].m_RoleDoc);
+			assocElement.setAttribute( "documentation", m_Doc );
+		}
 	}
 	assocElement.setAttribute( "widgetaid", getWidgetID(A) );
 	assocElement.setAttribute( "widgetbid", getWidgetID(B) );
@@ -2898,7 +2908,6 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
 	bool oldStyleLoad = false;
 	int nId = id.toInt();
 	if (nId == -1) {
-
 		// xmi.id not present, ergo either a pure widget association,
 		// or old (pre-1.2) style:
 		// Everything is loaded from the AssociationWidget.
@@ -2988,6 +2997,9 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
 			return false;
 		} else if (myObj->getBaseType() == ot_Attribute) {
 			m_pObject = myObj;
+			QString type = qElement.attribute( "type", "-1" );
+			Uml::Association_Type aType = (Uml::Association_Type) type.toInt();
+			setAssocType(aType);
 		} else {
 			UMLAssociation * myAssoc = (UMLAssociation*)myObj;
 			setUMLAssociation(myAssoc);

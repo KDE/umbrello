@@ -2394,6 +2394,7 @@ void UMLView::createAutoAttributeAssociations(UMLWidget *widget) {
 				return;
 			// create a composition AssocWidget
 			AssociationWidget *a = new AssociationWidget (this, widget, at_Composition, w);
+			a->setUMLObject(attr);
 			a->calculateEndingPoints();
 			a->setVisibility(attr->getScope(), B);
 			//a->setChangeability(true, B);
@@ -2424,6 +2425,7 @@ void UMLView::createAutoAttributeAssociations(UMLWidget *widget) {
 				// to the widget of the referenced type
 				AssociationWidget *a = new AssociationWidget
 							(this, widget, at_Aggregation, w);
+				a->setUMLObject(attr);
 				a->calculateEndingPoints();
 				a->setVisibility(attr->getScope(), B);
 				//a->setChangeability(true, B);

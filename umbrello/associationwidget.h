@@ -26,6 +26,7 @@ class QPixmap;
 class QDataStream;
 class UMLView;
 class UMLAssociation;
+class UMLAttribute;
 
 using namespace Uml;
 
@@ -423,6 +424,14 @@ public:
 	 *		this AsociationWidget.
 	 */
 	UMLAssociation * getAssociation ();
+
+	/**
+	 * Returns the UMLAttribute representation of this object.
+	 *
+	 * @return	Pointer to the UMLAttribute that is represented by
+	 *		this AsociationWidget.
+	 */
+	UMLAttribute * getAttribute ();
 
 	/**
 	 * Sets the text of the FloatingText identified by the ft's Text_Role.
