@@ -187,7 +187,7 @@ void ObjectWidget::moveEvent(QMoveEvent */*m*/) {
 }
 
 void ObjectWidget::slotColorChanged(int /*viewID*/) {
-	m_pData->getFillColour() = m_pView->getFillColour();
+	m_pData->getFillColour() = m_pView->getFillColor();
 	m_pData->getLineColour() = m_pView->getLineColor();
 
 	if( m_pLine)

@@ -58,13 +58,13 @@ using namespace Uml;
  * @author Paul Hensgen <phensgen@techie.com>
  * @version 1.0
  */
-class UMLView : public QCanvasView {
+class UMLView : public QCanvasView, public UMLViewData {
 	Q_OBJECT
 public:
 	/**
 	 * Constructor for the main view
 	 */
-	UMLView(QWidget* parent, UMLViewData* pData, UMLDoc* doc);
+	UMLView(QWidget* parent, UMLViewData& data, UMLDoc* doc);
 
 	/**
 	 * Destructor for the main view
@@ -115,34 +115,6 @@ public:
 	 * Corrects the bounding box.
 	 */
 	void fixEPS(QString filename, QRect rect);
-
-	/**
-	*	Returns the type of diagram this is.
-	*
-	*	@return	Returns the type of diagram this is.
-	*/
-
-	Diagram_Type getType() {
-		return m_pData -> getType();
-	}
-
-	/**
-	*	Returns the ID of this diagram.
-	*
-	*	@return	Returns the ID of this diagram.
-	*/
-	int getID() {
-		return m_pData -> getID();
-	}
-
-	/**
-	*	Sets the ID of this diagram.
-	*
-	*	@return	Sets the ID of this diagram.
-	*/
-	void setID(int NewID) {
-		m_pData -> setID( NewID );
-	}
 
 	/**
 	 * Overrides the standard operation.
@@ -196,7 +168,7 @@ public:
 	 *
 	 *	@param	color	The color to use.
 	 */
-	void setFillColour(QColor colour);
+	void setFillColor(QColor color);
 
 	/**
 	 *	Sets the line color.
@@ -209,24 +181,6 @@ public:
 	 *	Sets the font for the view and all the widgets on the view.
 	 */
 	void setFont( QFont font );
-
-	/**
-	 *	Returns the background color.
-	 *
-	 *	@return	Returns the background color.
-	 */
-	QColor getFillColour() {
-		return m_pData->getFillColor();
-	}
-
-	/**
-	 *	Returns the line color.
-	 *
-	 *	@return	Returns the line color.
-	 */
-	QColor getLineColor() {
-		return m_pData -> getLineColor();
-	};
 
 	/**
 	 *	Sets a widget to a selected state and adds it to a list of selected widgets.
@@ -287,7 +241,7 @@ public:
 	 *	@return Return a unique ID for the diagram.
 	 */
 	int getLocalID() {
-		return m_pData -> getUniqueID();
+		return UMLViewData::getUniqueID();
 	}
 
 	/**
@@ -432,44 +386,6 @@ public:
 	void removeAllWidgets();
 
 	/**
-	 * Sets whether to use the fill/background color
-	 */
-	void setUseFillColor( bool ufc ) {
-		m_pData -> setUseFillColor( ufc );
-	}
-
-	/**
-	 * Returns whether to use the fill/background color
-	 */
-	bool getUseFillColor() {
-		return m_pData -> getUseFillColor();
-	}
-
-	/**
-	 *   Returns the options being used.
-	 */
-	SettingsDlg::OptionState getOptionState() {
-		return m_pData -> getOptionState();
-	}
-
-	/**
-	 *		Sets the options to be used.
-	 */
-	void setOptionState( SettingsDlg::OptionState options) {
-		m_pData -> setOptionState( options );
-	}
-	/**
-	 *  Returns a copy of m_Name
-	 */
-	QString getName();
-
-
-	/**
-	 *  Set the UMLView's m_Name property
-	 */
-	void setName(QString& strName);
-
-	/**
 	 * Returns the list containing all the association widgets on this view.
 	 */
 	AssociationWidgetList * getAssociationWidgetList() {
@@ -495,20 +411,6 @@ public:
 	* 	Calls the same method in the DocWindow.
 	*/
 	void updateDocumentation( bool clear );
-
-	/**
-	 * 	Returns the documentation for the view.
-	 */
-	QString getDoc() {
-		return m_pData -> getDoc();
-	}
-
-	/**
-	 * 	Sets the documentation for the view.
-	 */
-	void setDoc( QString doc ) {
-		m_pData -> setDoc( doc );
-	}
 
 	/**
 	 *	Returns the PNG picture of the paste operation.
@@ -546,13 +448,6 @@ public:
 	bool addWidget( UMLWidgetData * pWidgetData );
 
 	/**
-	 * 		Returns the views data.
-	 */
-	UMLViewData * getData() {
-		return m_pData;
-	}
-
-	/**
 	 * 		Returns the offset point at which to place the paste from clipboard.
 	 *		Just add the amount to your co-ords.
 	 *		Only call this straight after the event, the value won't stay valid.
@@ -576,45 +471,10 @@ public:
 	void createAutoAssociations( UMLWidget * widget );
 
 	/**
-	 * 		Return whether to use snap to grid.
-	 */
-	bool getSnapToGrid() {
-		return m_pData -> getSnapToGrid();
-	}
-
-	/**
-	 * 		Return whether to use snap to grid for component size.
-	 */
-	bool getSnapComponentSizeToGrid() {
-		return m_pData -> getSnapComponentSizeToGrid();
-	}
-
-	/**
-	 * 		Returns whether to show snap grid.
-	 */
-	bool getShowSnapGrid() {
-		return m_pData -> getShowSnapGrid();
-	}
-
-	/**
-	 *		Returns the x grid size.
-	 */
-	int getSnapX() {
-		return m_pData -> getSnapX();
-	}
-
-	/**
-	 *		Returns the y grid size.
-	 */
-	int getSnapY() {
-		return m_pData -> getSnapY();
-	}
-
-	/**
 	 *		Sets the x grid size.
 	 */
 	void setSnapX( int x ) {
-		m_pData -> setSnapX( x );
+		UMLViewData::setSnapX( x );
 		canvas() -> setAllChanged();
 	}
 
@@ -622,7 +482,7 @@ public:
 	 *		Sets the y grid size.
 	 */
 	void setSnapY( int y ) {
-		m_pData -> setSnapY( y );
+		UMLViewData::setSnapY( y );
 		canvas() -> setAllChanged();
 	}
 
@@ -684,25 +544,25 @@ public:
 
 	/**
 	 *	Asks for confirmation and clears everything on the diagram.
-	 *	Called from menus.
+	 *	Called from menues.
 	 */
 	void clearDiagram();
 
 	/**
-	 *	Changes snap to grid boolean in m_pData.
-	 *	Called from menus.
+	 *	Changes snap to grid boolean in UMLViewData.
+	 *	Called from menues.
 	 */
 	void toggleSnapToGrid();
 
 	/**
-	 *	Changes snap to grid for component size boolean in m_pData.
-	 *	Called from menus.
+	 *	Changes snap to grid for component size boolean in UMLViewData.
+	 *	Called from menues.
 	 */
 	void toggleSnapComponentSizeToGrid();
 
 	/**
-	 * 	Changed show grid boolean in m_pData
-	 *	Called from menus.
+	 * 	Changes show grid boolean in UMLViewData.
+	 *	Called from menues.
 	 */
 	void toggleShowGrid();
 
@@ -901,11 +761,6 @@ private:
 	 *   The Line used to show a join between objects as an association is being made.
 	 */
 	QCanvasLine * m_pAssocLine;
-
-	/**
-	 * 		The data object for the view class.
-	 */
-	UMLViewData * m_pData;
 
 	/**
 	 * 		The offset at which to paste the clipboard.

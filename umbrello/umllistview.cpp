@@ -1651,11 +1651,11 @@ void UMLListView::createDiagram( UMLListViewItem * item, Uml::Diagram_Type type 
 		delete item;
 		return;
 	}
-	UMLViewData * pData = new UMLViewData();
-	pData -> setName( name );
-	pData -> setType( type );
-	pData -> setID( m_doc -> getUniqueID() );
-	view = new UMLView(UMLApp::app()->getMainDockWidget(), pData, m_doc);
+	UMLViewData viewData;
+	viewData.setName( name );
+	viewData.setType( type );
+	viewData.setID( m_doc -> getUniqueID() );
+	view = new UMLView(UMLApp::app()->getMainDockWidget(), viewData, m_doc);
 	m_doc -> addView( view );
 	view  -> setOptionState( ((UMLApp *) m_doc -> parent()) -> getOptionState() );
 	UMLListViewItemData * data = item -> getdata();

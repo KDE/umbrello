@@ -842,11 +842,11 @@ void UMLDoc::createDiagram(Diagram_Type type, bool askForName /*= true */) {
 		if(name.length() == 0)
 			KMessageBox::error(0, i18n("That is an invalid name for a diagram."), i18n("Invalid Name"));
 		else if(!findView(type, name)) {
-			UMLViewData * pData = new UMLViewData();
-			pData -> setName( name );
-			pData -> setType( type );
-			pData -> setID( ++uniqueID );
-			UMLView* temp = new UMLView(UMLApp::app()->getMainViewWidget(), pData, this);
+			UMLViewData data;
+			data.setName( name );
+			data.setType( type );
+			data.setID( ++uniqueID );
+			UMLView* temp = new UMLView(UMLApp::app()->getMainViewWidget(), data, this);
 			addView(temp);
 			temp -> setOptionState( ((UMLApp *) parent()) -> getOptionState() );
 			emit sigDiagramCreated(uniqueID);
@@ -875,7 +875,7 @@ void UMLDoc::renameDiagram(int id) {
 		if(name.length() == 0)
 			KMessageBox::error(0, i18n("That is an invalid name for a diagram."), i18n("Invalid Name"));
 		else if(!findView(type, name)) {
-			temp->setName(name);
+			temp->UMLViewData::setName(name);
 
 			emit sigDiagramRenamed(id);
 			setModified(true);
@@ -1452,13 +1452,14 @@ bool UMLDoc::loadDiagramsFromXMI( QDomNode & node ) {
 	int count = 0;
 	while( !element.isNull() ) {
 		if( element.tagName() == "diagram" ) {
-			pView = new UMLView(UMLApp::app()->getMainViewWidget(), new UMLViewData(), this);
-			pView -> hide();
-			pView -> setOptionState( state );
-			if( !pView -> getData() -> loadFromXMI( element ) ) {
+			UMLViewData viewData;
+			if( !viewData.loadFromXMI( element ) ) {
 				kdWarning() << "failed load on viewdata loadfromXMI" << endl;
 				return false;
 			}
+			pView = new UMLView(UMLApp::app()->getMainViewWidget(), viewData, this);
+			pView -> hide();
+			pView -> setOptionState( state );
 			addView( pView );
 			emit sigSetStatusbarProgress( ++count );
 		}
@@ -1669,7 +1670,7 @@ bool UMLDoc::addUMLView(UMLViewData * pViewData ) {
 		pViewData->setName(name);
 	int result = assignNewID(pViewData->getID());
 	pViewData->setID(result);
-	UMLView* pView = new UMLView(UMLApp::app()->getMainViewWidget(), pViewData, this);
+	UMLView* pView = new UMLView(UMLApp::app()->getMainViewWidget(), *pViewData, this);
 
 	if (!pView->activateAfterLoad( true ) ) {
 		kdDebug()<<"Error activating diagram"<<endl;

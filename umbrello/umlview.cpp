@@ -83,8 +83,8 @@ const int UMLView::defaultCanvasSize = 1300;
 
 
 // constructor
-UMLView::UMLView(QWidget* parent, UMLViewData* pData, UMLDoc* doc) : QCanvasView(parent, "AnUMLView" ) {
-	m_pData = pData;
+UMLView::UMLView(QWidget* parent, UMLViewData& data, UMLDoc* doc)
+    : QCanvasView(parent, "AnUMLView"), UMLViewData(data) {
 	m_pDoc = doc;
 	init();
 }
@@ -126,8 +126,6 @@ void UMLView::init() {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLView::~UMLView() {
-	if( m_pData )
-		delete m_pData;
 	if(m_pIDChangesLog) {
 		delete    m_pIDChangesLog;
 		m_pIDChangesLog = 0;
@@ -258,8 +256,8 @@ void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome) {
 		temp->setY ( m_Pos.y() );
 		temp->setVisible( true );
 		temp->setActivated();
-		temp->setFont( m_pData -> getFont() );
-		temp->slotColorChanged( m_pData->getID() );
+		temp->setFont( UMLViewData::getFont() );
+		temp->slotColorChanged( UMLViewData::getID() );
 		resizeCanvasToItems();
 		getDocument()->setModified();
 		return;
@@ -272,8 +270,8 @@ void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome) {
 		temp -> setY ( m_Pos.y() );
 		temp -> setVisible( true );
 		temp->setActivated();
-		temp -> setFont( m_pData -> getFont() );
-		temp->slotColorChanged( m_pData->getID() );
+		temp -> setFont( UMLViewData::getFont() );
+		temp->slotColorChanged( UMLViewData::getID() );
 		resizeCanvasToItems();
 		getDocument()->setModified();
 		return;
@@ -286,8 +284,8 @@ void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome) {
 		temp -> setY ( m_Pos.y() );
 		temp -> setVisible( true );
 		temp->setActivated();
-		temp -> setFont( m_pData -> getFont() );
-		temp->slotColorChanged( m_pData->getID() );
+		temp -> setFont( UMLViewData::getFont() );
+		temp->slotColorChanged( UMLViewData::getID() );
 		resizeCanvasToItems();
 		getDocument()->setModified();
 		return;
@@ -300,8 +298,8 @@ void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome) {
 		temp -> setY ( m_Pos.y() );
 		temp -> setVisible( true );
 		temp->setActivated();
-		temp -> setFont( m_pData -> getFont() );
-		temp->slotColorChanged( m_pData->getID() );
+		temp -> setFont( UMLViewData::getFont() );
+		temp->slotColorChanged( UMLViewData::getID() );
 		resizeCanvasToItems();
 		getDocument()->setModified();
 		return;
@@ -319,8 +317,8 @@ void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome) {
 			temp->setY ( m_Pos.y() );
 			temp->setVisible( true );
 			temp->setActivated();
-			temp->setFont( m_pData -> getFont() );
-			temp->slotColorChanged( m_pData->getID() );
+			temp->setFont( UMLViewData::getFont() );
+			temp->slotColorChanged( UMLViewData::getID() );
 		}
 		resizeCanvasToItems();
 		getDocument()->setModified();
@@ -338,8 +336,8 @@ void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome) {
 			temp -> setY ( m_Pos.y() );
 			temp -> setVisible( true );
 			temp->setActivated();
-			temp -> setFont( m_pData -> getFont() );
-			temp->slotColorChanged( m_pData->getID() );
+			temp -> setFont( UMLViewData::getFont() );
+			temp->slotColorChanged( UMLViewData::getID() );
 		}
 		resizeCanvasToItems();
 		getDocument()->setModified();
@@ -353,8 +351,8 @@ void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome) {
 		temp -> setY ( m_Pos.y() );
 		temp -> setVisible( true );
 		temp->setActivated();
-		temp -> setFont( m_pData -> getFont() );
-		temp->slotColorChanged( m_pData->getID() );
+		temp -> setFont( UMLViewData::getFont() );
+		temp->slotColorChanged( UMLViewData::getID() );
 		resizeCanvasToItems();
 		getDocument()->setModified();
 		return;
@@ -367,8 +365,8 @@ void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome) {
 		temp -> setY ( m_Pos.y() );
 		temp -> setVisible( true );
 		temp->setActivated();
-		temp -> setFont( m_pData -> getFont() );
-		temp->slotColorChanged( m_pData->getID() );
+		temp -> setFont( UMLViewData::getFont() );
+		temp->slotColorChanged( UMLViewData::getID() );
 		resizeCanvasToItems();
 		getDocument()->setModified();
 		return;
@@ -382,8 +380,8 @@ void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome) {
 		temp -> setY ( m_Pos.y() );
 		temp -> setVisible( true );
 		temp->setActivated();
-		temp -> setFont( m_pData -> getFont() );
-		temp->slotColorChanged( m_pData->getID() );
+		temp -> setFont( UMLViewData::getFont() );
+		temp->slotColorChanged( UMLViewData::getID() );
 		resizeCanvasToItems();
 		getDocument()->setModified();
 		return;
@@ -397,8 +395,8 @@ void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome) {
 		newBox->setY( m_Pos.y() );
 		newBox->setVisible( true );
 		newBox->setActivated();
-		newBox->setFont( m_pData->getFont() );
-		newBox->slotColorChanged( m_pData->getID() );
+		newBox->setFont( UMLViewData::getFont() );
+		newBox->slotColorChanged( UMLViewData::getID() );
 		resizeCanvasToItems();
 		getDocument()->setModified();
 		return;
@@ -416,8 +414,8 @@ void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome) {
 			ft -> setVisible( true );
 			ft -> setID(getDocument() -> getUniqueID());
 			ft->setActivated();
-			ft -> setFont( m_pData -> getFont() );
-			ft->slotColorChanged( m_pData->getID() );
+			ft -> setFont( UMLViewData::getFont() );
+			ft->slotColorChanged( UMLViewData::getID() );
 		}
 		resizeCanvasToItems();
 		getDocument()->setModified();
@@ -433,12 +431,12 @@ void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome) {
 				viewport()->setMouseTracking( true );
 				m_pAssocLine = new QCanvasLine( canvas() );
 				m_pAssocLine->setPoints( me->x(), me->y(), me->x(), me->y() );
-				m_pAssocLine->setPen( QPen( m_pData -> getLineColor(), 0, DashLine ) );
+				m_pAssocLine->setPen( QPen( UMLViewData::getLineColor(), 0, DashLine ) );
 				m_pAssocLine->setVisible( true );
 				return;
 			} else { //clicked on second sequence line to create message
 				FloatingText* messageText = new FloatingText(this, tr_Seq_Message, "");
-				messageText->setFont( m_pData -> getFont() );
+				messageText->setFont( UMLViewData::getFont() );
 				messageText->setID(getDocument() -> getUniqueID());
 
 				MessageWidget* message;
@@ -552,7 +550,7 @@ void UMLView::slotObjectCreated(UMLObject* o) {
 			if(getType() == dt_Class) {
 				newWidget = new ClassWidget(this, o);
 			} else {
-				newWidget = new ObjectWidget(this, o, m_pData -> getUniqueID() );
+				newWidget = new ObjectWidget(this, o, UMLViewData::getUniqueID() );
 			}
 		} else {
 			kdWarning() << "ERROR: trying to create an invalid widget" << endl;
@@ -567,8 +565,8 @@ void UMLView::slotObjectCreated(UMLObject* o) {
 		newWidget->moveEvent( 0 );//needed for ObjectWidget to set seq. line properly
 		newWidget->setVisible( true );
 		newWidget->setActivated();
-		newWidget->setFont( m_pData -> getFont() );
-		newWidget->slotColorChanged( m_pData->getID() );
+		newWidget->setFont( UMLViewData::getFont() );
+		newWidget->slotColorChanged( UMLViewData::getID() );
 		m_bCreateObject = false;
 		switch( type ) {
 			case ot_Actor:
@@ -850,14 +848,14 @@ void UMLView::removeWidget(UMLWidget * o) {
 	delete o;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void UMLView::setFillColour(QColor colour) {
-	m_pData->setFillColor(colour);
+void UMLView::setFillColor(QColor color) {
+	UMLViewData::setFillColor(color);
 	emit sigColorChanged( getID() );
 	canvas()->setAllChanged();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLView::setLineColor(QColor color) {
-	m_pData -> setLineColor(color );
+	UMLViewData::setLineColor(color);
 	emit sigColorChanged( getID() );
 	emit sigLineColorChanged( color );
 	canvas() -> setAllChanged();
@@ -1806,7 +1804,7 @@ bool UMLView::addWidget( UMLWidgetData * pWidgetData ) {
 					return false;
 				}
 				pObjectData -> setId( newID );
-				int nNewLocalID = m_pData -> getUniqueID();
+				int nNewLocalID = UMLViewData::getUniqueID();
 				int nOldLocalID = pObjectData -> getLocalID();
 				m_pIDChangesLog->addIDChange( nOldLocalID, nNewLocalID );
 				pObjectData -> setLocalID( nNewLocalID );
@@ -1922,7 +1920,7 @@ bool UMLView::activateAfterLoad(bool bUseLog) {
 			beginPartialWidgetPaste();
 		}
 		//create and activate regular widgets first
-		UMLWidgetDataListIt w_it( m_pData -> getWidgetList() );
+		UMLWidgetDataListIt w_it( UMLViewData::getWidgetList() );
 		while( ( widgetData = w_it.current() ) ) {
 			++w_it;
 			if( bUseLog ) {
@@ -1933,7 +1931,7 @@ bool UMLView::activateAfterLoad(bool bUseLog) {
 		}
 
 		//create the message widgets now
-		UMLWidgetDataListIt m_it( m_pData -> getMessageList() );
+		UMLWidgetDataListIt m_it( UMLViewData::getMessageList() );
 		widgetData = 0;
 		while( ( widgetData = m_it.current() ) ) {
 			++m_it;
@@ -1945,7 +1943,7 @@ bool UMLView::activateAfterLoad(bool bUseLog) {
 		}
 
 		//now create the associations
-		AssociationWidgetDataListIt a_it( m_pData -> getAssociationList() );
+		AssociationWidgetDataListIt a_it( UMLViewData::getAssociationList() );
 		while( ( assocData = a_it.current() ) ) {
 			++a_it;
 			if( bUseLog ) {
@@ -1963,7 +1961,7 @@ bool UMLView::activateAfterLoad(bool bUseLog) {
 			endPartialWidgetPaste();
 		}
 		resizeCanvasToItems();
-		setZoom( m_pData->getZoom() );
+		setZoom( UMLViewData::getZoom() );
 	}//end if active
 	if(status) {
 		m_bActivated = true;
@@ -2052,7 +2050,7 @@ bool UMLView::setAssoc(UMLWidget *pWidget) {
 		m_pAssocLine = 0;
 		m_pAssocLine = new QCanvasLine( canvas() );
 		m_pAssocLine -> setPoints( pos.x(), pos.y(), pos.x(), pos.y() );
-		m_pAssocLine -> setPen( QPen( m_pData -> getLineColor(), 0, DashLine ) );
+		m_pAssocLine -> setPen( QPen( UMLViewData::getLineColor(), 0, DashLine ) );
 
 		m_pAssocLine -> setVisible( true );
 
@@ -2170,14 +2168,6 @@ void UMLView::removeAllWidgets() {
 	delete l;
 }
 
-
-void UMLView::setName(QString& strName) {
-	m_pData -> setName( strName );
-}
-
-QString UMLView::getName() {
-	return m_pData -> getName();
-}
 
 WorkToolBar::ToolBar_Buttons UMLView::getCurrentCursor() const {
 	return m_CurrentCursor;
@@ -2908,22 +2898,22 @@ void UMLView::slotMenuSelection(int sel) {
 void UMLView::synchronizeData() {
 	//get all the data for associations
         /* FIXME: Get rid of this, and instead do it like so:
-           The AssociationWidgetData list in m_pData is only filled
+           The UMLViewData::AssociationWidgetData list is only filled
            initially, and then there's no need to keep it in synch
            because the AssociationWidgetData::saveToXMI() directly
            saves the AssociationWidgets.
          */
-	m_pData->getAssociationList().clear();
+	UMLViewData::getAssociationList().clear();
 	AssociationWidgetListIt assoc_it(m_Associations);
 	AssociationWidget* assocwidget = 0;
 	while((assocwidget=assoc_it.current())) {
 		++assoc_it;
 		assocwidget->synchronizeData();
                 AssociationWidgetData* assocData = (AssociationWidgetData*)assocwidget;
-		m_pData->getAssociationList().append( assocData );
+		UMLViewData::getAssociationList().append( assocData );
 	}
 	//get all the data for messagewidgets
-	m_pData->getMessageList().clear();
+	UMLViewData::getMessageList().clear();
 	QObjectList * l = queryList( "UMLWidget" );
 	QObjectListIt it( *l );
 	UMLWidget *obj = 0;
@@ -2931,12 +2921,12 @@ void UMLView::synchronizeData() {
 		++it;
 		if(obj->getBaseType() == wt_Message) {
 			obj->synchronizeData();
-			m_pData->getMessageList().append( obj -> getData() );
+			UMLViewData::getMessageList().append( obj -> getData() );
 		}
 	}//end while
 
 	delete l;
-	m_pData->getWidgetList().clear();
+	UMLViewData::getWidgetList().clear();
 	//get all the data for the rest of the widgets - for text only store of role tr_Floating
 	QObjectList * wl = queryList( "UMLWidget" );
 	QObjectListIt wit( *wl );
@@ -2947,11 +2937,11 @@ void UMLView::synchronizeData() {
 		if (type == wt_Text) {
 			if( ((FloatingText*)obj)->getRole() == tr_Floating ) {
 				obj->synchronizeData();
-				m_pData->getWidgetList().append( obj->getData() );
+				UMLViewData::getWidgetList().append( obj->getData() );
 			}
 		} else if (type != wt_Message) {
 			obj->synchronizeData();
-			m_pData->getWidgetList().append( obj->getData() );
+			UMLViewData::getWidgetList().append( obj->getData() );
 		}
 	}//end while
 	delete wl;
@@ -2965,7 +2955,7 @@ void UMLView::slotCutSuccessful() {
 }
 
 void UMLView::slotShowView() {
-	getDocument() -> changeCurrentView( m_pData -> getID() );
+	getDocument() -> changeCurrentView( UMLViewData::getID() );
 }
 
 QPoint UMLView::getPastePoint() {
@@ -2977,7 +2967,7 @@ QPoint UMLView::getPastePoint() {
 
 bool UMLView::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	synchronizeData();
-	return m_pData -> saveToXMI( qDoc, qElement );
+	return UMLViewData::saveToXMI( qDoc, qElement );
 }
 
 bool UMLView::showPropDialog() {
@@ -2990,7 +2980,7 @@ bool UMLView::showPropDialog() {
 
 
 void UMLView::setFont( QFont font ) {
-	m_pData -> setFont( font );
+	UMLViewData::setFont( font );
 	UMLWidget * pWidget = 0;
 	QObjectList * wl = queryList( "UMLWidget" );
 	QObjectListIt wit( *wl );
@@ -3079,32 +3069,32 @@ void UMLView::clearDiagram() {
 }
 
 void UMLView::toggleSnapToGrid() {
-	setSnapToGrid( (m_pData->getSnapToGrid()?false:true) );
+	setSnapToGrid( !UMLViewData::getSnapToGrid() );
 }
 
 void UMLView::toggleSnapComponentSizeToGrid() {
-	setSnapComponentSizeToGrid( !m_pData->getSnapComponentSizeToGrid() );
+	setSnapComponentSizeToGrid( !UMLViewData::getSnapComponentSizeToGrid() );
 }
 
 void UMLView::toggleShowGrid() {
-	setShowSnapGrid( (m_pData->getShowSnapGrid()?false:true) );
+	setShowSnapGrid( !UMLViewData::getShowSnapGrid() );
 }
 
 void UMLView::setSnapToGrid(bool bSnap) {
-	m_pData->setSnapToGrid( bSnap );
-	emit sigSnapToGridToggled( m_pData->getSnapToGrid() );
+	UMLViewData::setSnapToGrid( bSnap );
+	emit sigSnapToGridToggled( UMLViewData::getSnapToGrid() );
 }
 
 void UMLView::setSnapComponentSizeToGrid(bool bSnap) {
-	m_pData->setSnapComponentSizeToGrid( bSnap );
+	UMLViewData::setSnapComponentSizeToGrid( bSnap );
 	updateComponentSizes();
-	emit sigSnapComponentSizeToGridToggled( m_pData->getSnapComponentSizeToGrid() );
+	emit sigSnapComponentSizeToGridToggled( UMLViewData::getSnapComponentSizeToGrid() );
 }
 
 void UMLView::setShowSnapGrid(bool bShow) {
-	m_pData->setShowSnapGrid( bShow );
+	UMLViewData::setShowSnapGrid( bShow );
 	canvas()->setAllChanged();
-	emit sigShowGridToggled( m_pData->getShowSnapGrid() );
+	emit sigShowGridToggled( UMLViewData::getShowSnapGrid() );
 }
 
 void UMLView::setZoom(int zoom) {
@@ -3118,7 +3108,7 @@ void UMLView::setZoom(int zoom) {
 	wm.scale(zoom/100.0,zoom/100.0);
 	setWorldMatrix(wm);
 
-	m_pData->setZoom( currentZoom() );
+	UMLViewData::setZoom( currentZoom() );
 	resizeCanvasToItems();
 }
 
@@ -3139,13 +3129,13 @@ void UMLView::zoomOut() {
 }
 
 void UMLView::fileLoaded() {
-	setZoom( m_pData->getZoom() );
+	setZoom( UMLViewData::getZoom() );
 	resizeCanvasToItems();
 }
 
 void UMLView::setCanvasSize(int width, int height) {
-	m_pData->setCanvasWidth(width);
-	m_pData->setCanvasHeight(height);
+	UMLViewData::setCanvasWidth(width);
+	UMLViewData::setCanvasHeight(height);
 	canvas()->resize(width, height);
 }
 

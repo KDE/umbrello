@@ -50,7 +50,7 @@ public:
 	/**
 	 * 		Deconstructor
 	 */
-	~UMLViewData();
+	virtual ~UMLViewData();
 
 	/**
 	 *		Return the documentation of the diagram.
@@ -90,7 +90,7 @@ public:
 	/**
 	 * 		Sets the fill color to use.
 	 */
-	void setFillColor( QColor color );
+	virtual void setFillColor( QColor color );
 
 	/**
 	 * 		Returns the line color to use.
@@ -100,7 +100,7 @@ public:
 	/**
 	 * 		Sets the line color to use.
 	 */
-	void setLineColor( QColor color );
+	virtual void setLineColor( QColor color );
 
 	/**
 	 * 		Returns the ID of the diagram.
@@ -120,7 +120,7 @@ public:
 	/**
 	 * 		Sets the zoom of the diagram.
 	 */
-	void setZoom(int zoom);
+	virtual void setZoom(int zoom);
 
 	/**
 	 * 		Returns the height of the diagram.
@@ -193,28 +193,28 @@ public:
 	/**
 	 *		Sets the x grid size.
 	 */
-	void setSnapX( int x) {
+	virtual void setSnapX( int x) {
 		m_nSnapX = x;
 	}
 
 	/**
 	 *		Sets the y grid size.
 	 */
-	void setSnapY( int y) {
+	virtual void setSnapY( int y) {
 		m_nSnapY = y;
 	}
 
 	/**
 	 * 		Sets whether to snap to grid.
 	 */
-	void setSnapToGrid( bool bSnap ) {
+	virtual void setSnapToGrid( bool bSnap ) {
 		m_bUseSnapToGrid = bSnap;
 	}
 
 	/**
 	 * 		Sets whether to snap to grid for component size.
 	 */
-	void setSnapComponentSizeToGrid( bool bSnap ) {
+	virtual void setSnapComponentSizeToGrid( bool bSnap ) {
 		m_bUseSnapComponentSizeToGrid = bSnap;
 	}
 
@@ -236,7 +236,7 @@ public:
 	/**
 	 *		Sets the font to use.
 	 */
-	void setFont( QFont font ) {
+	virtual void setFont( QFont font ) {
 		m_Options.uiState.font = font;
 	}
 
@@ -285,12 +285,12 @@ public:
 	/**
 	 * creates the <diagram> tag, and fills it with the contents oft he diagram
 	 */
-	bool saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+	virtual bool saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 	/**
 	 * Loads the <diagram> tag
 	 */
-	bool loadFromXMI( QDomElement & qElement );
+	virtual bool loadFromXMI( QDomElement & qElement );
 
 	/**
 	 * Loads a <widget> element such as <UML:Class>, used by loadFromXMI() and the clipboard

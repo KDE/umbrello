@@ -68,6 +68,18 @@ UMLViewData & UMLViewData::operator=( UMLViewData & rhs ) {
 	m_nLocalID = rhs.m_nLocalID;
 	m_Options = rhs.m_Options;
 
+	m_MessageList = rhs.m_MessageList;
+	m_WidgetList = rhs.m_WidgetList;
+	m_AssociationList = rhs.m_AssociationList;
+	m_nSnapX = rhs.m_nSnapX;
+	m_nSnapY = rhs.m_nSnapY;
+	m_bUseSnapToGrid = rhs.m_bUseSnapToGrid;
+	m_bUseSnapComponentSizeToGrid = rhs.m_bUseSnapComponentSizeToGrid;
+	m_bShowSnapGrid = rhs.m_bShowSnapGrid;
+	m_nZoom = rhs.m_nZoom;
+	m_nCanvasWidth = rhs.m_nCanvasWidth;
+	m_nCanvasHeight = rhs.m_nCanvasHeight;
+
 	return *this;
 }
 

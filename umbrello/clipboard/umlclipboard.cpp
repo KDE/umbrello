@@ -317,7 +317,7 @@ void UMLClipboard::checkItemForCopyType(UMLListViewItem* Item, bool & WithDiagra
 			OnlyAttsOps = false;
 			view = Doc->findView( Item->getID() );
 			view->synchronizeData(); //make sure all data up to date
-			m_pViewDataList->append( view -> getData() );
+			m_pViewDataList->append( (UMLViewData*) view );
 	} else if ( UMLListView::typeIsFolder(type) ) {
 			OnlyAttsOps = false;
 			if(Item->childCount()) {

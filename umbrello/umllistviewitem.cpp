@@ -295,7 +295,7 @@ void UMLListViewItem::okRename( int col ) {
 				if( anotherView && anotherView -> getID() == m_Data.getID() )
 					anotherView = 0;
 				if( !anotherView ) {
-					view->setName( newText );
+					view->UMLViewData::setName( newText );
 					m_Data.setLabel( newText );
 					s_pListView->getDocument()->signalDiagramRenamed(view);
 					return;

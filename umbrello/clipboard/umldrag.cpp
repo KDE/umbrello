@@ -577,7 +577,7 @@ bool UMLDrag::decodeClip4(const QMimeSource* mimeSource, UMLObjectList& objects,
 		return false;
 	}
 	while ( !widgetDataElement.isNull() ) {
-		UMLWidgetData* widgetData = doc->getCurrentView()->getData()->loadWidgetFromXMI(widgetDataElement);
+		UMLWidgetData* widgetData = doc->getCurrentView()->loadWidgetFromXMI(widgetDataElement);
 		widgetDatas.append(widgetData);
 		widgetDataNode = widgetDataNode.nextSibling();
 		widgetDataElement = widgetDataNode.toElement();

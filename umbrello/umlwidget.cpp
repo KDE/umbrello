@@ -390,7 +390,7 @@ void UMLWidget::slotMenuSelection(int sel) {
 			return;
 		}
 		if ( m_pData->getUsesDiagramFillColour() ) {
-			m_pData->setFillColour( m_pView->getFillColour() );
+			m_pData->setFillColour( m_pView->getFillColor() );
 		}
 		if ( m_pData->getUsesDiagramLineColour() ) {
 			m_pData->setLineColour( m_pView->getLineColor() );
