@@ -346,58 +346,31 @@ void ClassWidget::slotMenuSelection(int sel) {
 			break;
 
 		case ListPopupMenu::mt_Show_Operations:
-			m_bShowOperations = !m_bShowOperations;
-			updateSigs();
-			calculateSize();
-
-			update();
+			toggleShowOps();
 			break;
 
 		case ListPopupMenu::mt_Show_Attributes:
-			m_bShowAttributes = !m_bShowAttributes;
-			updateSigs();
-			calculateSize();
-			update();
-
+			toggleShowAtts();
 			break;
 
 		case ListPopupMenu::mt_Show_Operation_Signature:
-			if (m_ShowOpSigs == Uml::st_ShowSig ||
-			    m_ShowOpSigs == Uml::st_SigNoScope) {
-				if (m_bShowScope)
-					m_ShowOpSigs = Uml::st_NoSig;
-				else
-					m_ShowOpSigs = Uml::st_NoSigNoScope;
-			} else if (m_bShowScope)
-				m_ShowOpSigs = Uml::st_ShowSig;
-
-			else
-				m_ShowOpSigs = Uml::st_SigNoScope;
-			calculateSize();
-			update();
+			toggleShowOpSigs();
 			break;
 
 		case ListPopupMenu::mt_Show_Attribute_Signature:
-			if (m_ShowAttSigs == Uml::st_ShowSig ||
-			        m_ShowAttSigs == Uml::st_SigNoScope) {
-				if (m_bShowScope)
-					m_ShowAttSigs = Uml::st_NoSig;
-				else
-					m_ShowAttSigs = Uml::st_NoSigNoScope;
-			}
-			else if (m_bShowScope)
-				m_ShowAttSigs = Uml::st_ShowSig;
-			else
-				m_ShowAttSigs = Uml::st_SigNoScope;
-			calculateSize();
-			update();
+			toggleShowAttSigs();
 			break;
 
 		case ListPopupMenu::mt_Scope:
-			m_bShowScope = !m_bShowScope;
-			updateSigs();
-			calculateSize();
-			update();
+			toggleShowScope();
+			break;
+		
+		case ListPopupMenu::mt_Show_Packages:
+			toggleShowPackage();
+			break;
+
+		case ListPopupMenu::mt_Show_Stereotypes:
+			toggleShowStereotype();
 			break;
 	}
 	UMLWidget::slotMenuSelection(sel);
@@ -552,3 +525,92 @@ bool ClassWidget::loadFromXMI( QDomElement & qElement ) {
 	return true;
 }
 
+void ClassWidget::toggleShowAtts()
+{
+	m_bShowAttributes = !m_bShowAttributes;
+	updateSigs();
+	calculateSize();
+	update();
+
+	return;
+}
+
+void ClassWidget::toggleShowOps()
+{
+	m_bShowOperations = !m_bShowOperations;
+	updateSigs();
+	calculateSize();
+
+	update();
+	
+	return;
+}
+
+void ClassWidget::toggleShowOpSigs()
+{
+	if (m_ShowOpSigs == Uml::st_ShowSig || m_ShowOpSigs == Uml::st_SigNoScope) {
+		if (m_bShowScope) {
+			m_ShowOpSigs = Uml::st_NoSig;
+		} else {
+			m_ShowOpSigs = Uml::st_NoSigNoScope;
+		}
+	} else if (m_bShowScope) {
+		m_ShowOpSigs = Uml::st_ShowSig;
+	} else {
+		m_ShowOpSigs = Uml::st_SigNoScope;
+	}
+	calculateSize();
+	update();
+
+	return;
+}
+
+void ClassWidget::toggleShowAttSigs()
+{
+	if (m_ShowAttSigs == Uml::st_ShowSig ||
+        m_ShowAttSigs == Uml::st_SigNoScope) {
+		if (m_bShowScope) {
+			m_ShowAttSigs = Uml::st_NoSig;
+		} else {
+			m_ShowAttSigs = Uml::st_NoSigNoScope;
+		}
+	} else if (m_bShowScope) {
+				m_ShowAttSigs = Uml::st_ShowSig;
+	} else {
+		m_ShowAttSigs = Uml::st_SigNoScope;
+	}
+	calculateSize();
+	update();
+
+	return;
+}
+
+void ClassWidget::toggleShowScope()
+{
+	m_bShowScope = !m_bShowScope;
+	updateSigs();
+	calculateSize();
+	update();
+
+	return;
+}
+
+void ClassWidget::toggleShowPackage()
+{
+	m_bShowPackage = !m_bShowPackage;
+	updateSigs();
+	calculateSize();
+	update();
+
+	return;
+}
+
+void ClassWidget::toggleShowStereotype()
+{
+	m_bShowStereotype = !m_bShowStereotype;
+	updateSigs();
+	calculateSize();
+	update();
+
+	return;
+}

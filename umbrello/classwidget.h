@@ -64,6 +64,11 @@ public:
 	}
 
 	/**
+	 * toggles the status of showing attributes
+	 */
+	void toggleShowAtts();
+
+	/**
 	 *	Return the status of showing operations.
 	 *
 	 *	@return	Return the status of showing operations.
@@ -71,6 +76,11 @@ public:
 	bool getShowOps() {
 		return m_bShowOperations;
 	}
+
+	/**
+	 * toggles the status of showing operations
+	 */
+	void toggleShowOps();
 
 	/**
 	 *	Return the status of showing operation signatures.
@@ -82,6 +92,11 @@ public:
 	}
 
 	/**
+	 * toggles the status of showing operation signatures
+	 */
+	void toggleShowOpSigs();
+
+	/**
 	 *	Returns the status of showing attribute signatures.
 	 *
 	 *	@return	Returns the status of showing attribute signatures.
@@ -91,6 +106,11 @@ public:
 	}
 
 	/**
+	 * toggles the status of showing attribute signatures
+	 */
+	void toggleShowAttSigs();
+
+	/**
 	 *	Returns the status of whether to show scope.
 	 *
 	 *	@return  Returns the status of whether to show scope.
@@ -98,6 +118,11 @@ public:
 	bool getShowScope() {
 		return m_bShowScope;
 	}
+
+	/**
+	 * toggles the status of whether to show scope
+	 */
+	void toggleShowScope();
 
 	/**
 	 *	Set the status of whether to show scope
@@ -167,11 +192,21 @@ public:
 	}
 
 	/**
+	 * toggles the status of wether to show package
+	 */
+	void toggleShowPackage();
+
+	/**
 	 * 	Set the status of whether to show StereoType
 	 *
 	 *	@param _show  The status of whether to show StereoType
 	 */
 	void setShowStereotype(bool _status);
+
+	/*
+	 * toggles the status of wether to show StereoType
+	 */
+	void toggleShowStereotype();
 
 	/**
 	 * 	Set the status of whether to show Package
