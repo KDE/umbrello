@@ -351,7 +351,7 @@ int UMLClass::attributes() {
 	return m_AttsList.count();
 }
 
-QPtrList<UMLClassifierListItem>* UMLClass::getAttList() {
+UMLClassifierListItemList* UMLClass::getAttList() {
 	return &m_AttsList;
 }
 
@@ -366,7 +366,7 @@ UMLAttributeList* UMLClass::getFilteredAttributeList() {
 	return attributeList;
 }
 
-QPtrList<UMLClassifierListItem>* UMLClass::getTemplateList() {
+UMLClassifierListItemList* UMLClass::getTemplateList() {
 	return &m_TemplateList;
 }
 

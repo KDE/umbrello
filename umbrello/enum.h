@@ -12,9 +12,9 @@
 
 #include "classifier.h"
 #include "umlenumliterallist.h"
+#include "umlclassifierlistitemlist.h"
 
 class UMLDoc;
-class UMLEnumLiteral;
 
 /**
  * This class contains the non-graphical information required for a UML
@@ -124,7 +124,7 @@ public:
 	 *
 	 * @return	Pointer to the list of enumliterals for the class.
 	 */
-	QPtrList<UMLClassifierListItem>* getEnumLiteralList();
+	UMLClassifierListItemList* getEnumLiteralList();
 
 	/**
 	 * Returns the entries in m_EnumLiteralList that are actually enumliterals.
@@ -169,7 +169,7 @@ protected:
 	/**
 	 * List of all the enumliterals in this class.
 	 */
-	QPtrList<UMLClassifierListItem> m_EnumLiteralList;
+	UMLClassifierListItemList m_EnumLiteralList;
 private:
 	/**
 	 * Initializes key variables of the class.

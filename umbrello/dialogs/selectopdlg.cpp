@@ -10,6 +10,7 @@
 #include "selectopdlg.h"
 #include "../attribute.h"
 #include "../operation.h"
+#include "../umlclassifierlistitemlist.h"
 #include <klocale.h>
 #include <kdebug.h>
 #include <qlayout.h>
@@ -50,7 +51,7 @@ SelectOpDlg::SelectOpDlg(QWidget * parent, UMLClassifier * c)
 	m_pOpBG -> setExclusive(true);
 	m_pOpBG -> setButton(OP);
 
-	QPtrList<UMLClassifierListItem>* list = c -> getOpList();
+	UMLClassifierListItemList* list = c -> getOpList();
 	UMLClassifierListItem* obj=0;
 	for(obj=list -> first();obj != 0;obj=list -> next()) {
 		m_pOpCB -> insertItem(obj -> toString(Uml::st_SigNoScope));

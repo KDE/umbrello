@@ -13,13 +13,13 @@
 #include <qptrlist.h>
 #include "umldoc.h"
 #include "classifierlistitem.h"
+#include "umlattributelist.h"
 
 // forward declarations
-class UMLAttribute;
 class UMLClassifier;
 
 /**
- * This class represents an Operation in the UML Modell.
+ * This class represents an operation in the UML model.
  *
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
@@ -102,7 +102,7 @@ public:
 	 *
 	 * @return A list of the paramters in the operation.
 	 */
-	QPtrList<UMLAttribute>* getParmList() {
+	UMLAttributeList* getParmList() {
 		return &m_List;
 	}
 
@@ -164,7 +164,7 @@ public:
 
 private:
 	QString m_ReturnType;
-	QPtrList<UMLAttribute> m_List;
+	UMLAttributeList m_List;
 	int m_nUniqueID;
 };
 

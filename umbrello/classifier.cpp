@@ -286,7 +286,7 @@ bool UMLClassifier::acceptAssociationType(Uml::Association_Type type)
 }
 
 bool UMLClassifier::hasAbstractOps () {
-        QPtrList<UMLOperation> *opl = getFilteredOperationsList();
+        UMLOperationList *opl = getFilteredOperationsList();
         for(UMLOperation *op = opl->first(); op ; op = opl->next())
                 if(op->getAbstract())
                         return true;
@@ -299,7 +299,7 @@ int UMLClassifier::operations() {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-QPtrList<UMLClassifierListItem>* UMLClassifier::getOpList() {
+UMLClassifierListItemList* UMLClassifier::getOpList() {
 	return &m_OpsList;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////

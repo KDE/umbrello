@@ -12,6 +12,7 @@
 #include "../attribute.h"
 #include "../operation.h"
 #include "../umllistview.h"
+#include "../umlclassifierlistitemlist.h"
 #include "../classifierlistitem.h"
 #include <khelpmenu.h>
 #include <klocale.h>
@@ -83,12 +84,12 @@ void ClassWizard::accept() {
 	m_pDoc -> addUMLObject( m_pClass );
 	m_pDoc->signalUMLObjectCreated(m_pClass);
 
-	QPtrList<UMLClassifierListItem>* attributes = m_pClass->getAttList();
+	UMLClassifierListItemList* attributes = m_pClass->getAttList();
 	for ( UMLClassifierListItem* attribute = attributes->first(); attribute; attribute = attributes->next() )  {
 		m_pDoc->getListView()->childObjectAdded(attribute, m_pClass);
 	}
 
-	QPtrList<UMLClassifierListItem>* operations = m_pClass->getOpList();
+	UMLClassifierListItemList* operations = m_pClass->getOpList();
 	for ( UMLClassifierListItem* operation = operations->first(); operation; operation = operations->next() )  {
 		m_pDoc->getListView()->childObjectAdded(operation, m_pClass);
 	}

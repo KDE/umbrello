@@ -89,7 +89,7 @@ void EnumWidget::draw(QPainter& p, int offsetX, int offsetY) {
 	p.drawLine(offsetX, offsetY + y, offsetX + w - 1, offsetY + y);
 
 	UMLClassifierListItem* enumLiteral = 0;
-	QPtrList<UMLClassifierListItem>* list = ((UMLEnum*)m_pObject)->getEnumLiteralList();
+	UMLClassifierListItemList* list = ((UMLEnum*)m_pObject)->getEnumLiteralList();
 	for(enumLiteral=list->first(); enumLiteral != 0; enumLiteral=list->next()) {
 		QString text = enumLiteral->toString( st_NoSig );
 		p.setPen( QPen(black) );
@@ -139,7 +139,7 @@ void EnumWidget::calculateSize() {
 
 	width = w > width?w:width;
 
-	QPtrList<UMLClassifierListItem>* list = ((UMLEnum*)m_pObject)->getEnumLiteralList();
+	UMLClassifierListItemList* list = ((UMLEnum*)m_pObject)->getEnumLiteralList();
 	UMLClassifierListItem* listItem = 0;
 	for (listItem = list->first();listItem != 0; listItem = list->next()) {
 		/* FT_NORMAL doesn't return the correct width */

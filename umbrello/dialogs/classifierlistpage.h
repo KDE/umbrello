@@ -21,6 +21,7 @@
 //app includes
 #include "../class.h"
 #include "../listpopupmenu.h"
+#include "../umlclassifierlistitemlist.h"
 class UMLDoc;
 
 /**
@@ -73,7 +74,7 @@ private:
 	QGroupBox* m_pItemListGB;
 	QListBox* m_pItemListLB;
 	QTextEdit* m_pDocTE;
-	QPtrList<UMLClassifierListItem>* m_pItemList;
+	UMLClassifierListItemList* m_pItemList;
 	UMLObject_Type itemType;
 
 	KArrowButton* m_pUpArrowB;

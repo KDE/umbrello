@@ -16,8 +16,7 @@
 #include "umlobjectlist.h"
 #include "umlattributelist.h"
 #include "umltemplatelist.h"
-
-class UMLClassifierListItem;
+#include "umlclassifierlistitemlist.h"
 
 /**
  * This class contains the non-graphical information required for a UML Class.
@@ -159,7 +158,7 @@ public:
 	 *
 	 * @return	Pointer to the list of attributes for the class.
 	 */
-	QPtrList<UMLClassifierListItem>* getAttList();
+	UMLClassifierListItemList* getAttList();
 
 	/**
 	 * Returns the entries in m_pAttList that are actually attributes.
@@ -173,7 +172,7 @@ public:
 	 *
 	 * @return	Pointer to the list of templates for the class.
 	 */
-	QPtrList<UMLClassifierListItem>* getTemplateList();
+	UMLClassifierListItemList* getTemplateList();
 
 	/**
 	 * Returns the entries in m_pTemplatesList that are actually templates
@@ -257,12 +256,12 @@ private:
 	/**
 	 * List of all the attributes in this class.
 	 */
-	QPtrList<UMLClassifierListItem> m_AttsList;
+	UMLClassifierListItemList m_AttsList;
 
 	/**
 	 * List of all the templates in this class.
 	 */
-	QPtrList<UMLClassifierListItem> m_TemplateList;
+	UMLClassifierListItemList m_TemplateList;
 };
 
 #endif // UMLCLASS_H 

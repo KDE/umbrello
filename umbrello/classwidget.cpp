@@ -158,7 +158,7 @@ void ClassWidget::draw(QPainter & p, int offsetX, int offsetY) {
 		QFont f( p.font());
 		y = aStart;
 		UMLClassifierListItem* obj=0;
-		QPtrList<UMLClassifierListItem>* list = ((UMLClass*)m_pObject)->getAttList();
+		UMLClassifierListItemList* list = ((UMLClass*)m_pObject)->getAttList();
 		for(obj=list->first();obj != 0;obj=list->next()) {
 			QString att = obj -> toString( m_ShowAttSigs);
 			f.setUnderline( obj -> getStatic() );
@@ -180,7 +180,7 @@ void ClassWidget::draw(QPainter & p, int offsetX, int offsetY) {
 			y = aStart;
 		p.setPen(QPen(black));
 		UMLClassifierListItem* obj = 0;
-		QPtrList<UMLClassifierListItem> *list = ((UMLClass*)m_pObject)->getOpList();
+		UMLClassifierListItemList *list = ((UMLClass*)m_pObject)->getOpList();
 		for(obj=list->first();obj != 0;obj=list->next()) {
 			QString op = obj -> toString( m_ShowOpSigs );
 			f.setItalic( obj -> getAbstract() );
@@ -206,7 +206,7 @@ void ClassWidget::draw(QPainter & p, int offsetX, int offsetY) {
 		font.setItalic(false);
 		font.setUnderline(false);
 		font.setBold(false);
-		QPtrList<UMLClassifierListItem>* list = ((UMLClass*)m_pObject)->getTemplateList();
+		UMLClassifierListItemList* list = ((UMLClass*)m_pObject)->getTemplateList();
 		UMLClassifierListItem* theTemplate = 0;
 		int y = offsetY + MARGIN;
 		for ( theTemplate=list->first(); theTemplate != 0; theTemplate=list->next() ) {
@@ -233,7 +233,7 @@ QSize ClassWidget::calculateTemplatesBoxSize() {
 
 	height = count * fm.lineSpacing() + (MARGIN*2);
 
-	QPtrList<UMLClassifierListItem>* list = ((UMLClass *)m_pObject)->getTemplateList();
+	UMLClassifierListItemList* list = ((UMLClass *)m_pObject)->getTemplateList();
 	UMLClassifierListItem* theTemplate = 0;
 	for ( theTemplate=list->first(); theTemplate != 0; theTemplate=list->next() ) {
 		int textWidth = fm.boundingRect( theTemplate->toString() ).width();
@@ -295,7 +295,7 @@ void ClassWidget::calculateSize() {
 
 	/* calculate width of the attributes */
 	if (m_bShowAttributes) {
-		QPtrList<UMLClassifierListItem>* list = ((UMLClass *)m_pObject)->getAttList();
+		UMLClassifierListItemList* list = ((UMLClass *)m_pObject)->getAttList();
 		UMLClassifierListItem* a = 0;
 		for(a = list->first();a != 0; a = list->next()) {
 			bool isStatic = a->getStatic();
@@ -312,7 +312,7 @@ void ClassWidget::calculateSize() {
 
 	/* calculate width of the operations */
 	if (m_bShowOperations) {
-		QPtrList<UMLClassifierListItem> * list = ((UMLClass *)m_pObject)->getOpList();
+		UMLClassifierListItemList * list = ((UMLClass *)m_pObject)->getOpList();
 		UMLClassifierListItem* listItem = 0;
 		for(listItem = list->first();listItem != 0; listItem = list->next()) {
 			/* we don't make a difference if the text is underlined or not, because

@@ -14,10 +14,10 @@
 #include "umlobjectlist.h"
 #include "umlclassifierlist.h"
 #include "umloperationlist.h"
+#include "umlclassifierlistitemlist.h"
 #include <qptrlist.h>
 
 class IDChangeLog;
-class UMLClassifierListItem;
 class UMLStereotype;
 class UMLDoc;
 
@@ -133,14 +133,14 @@ public:
 	 *
 	 * @return	The list of operations for the Classifier.
 	 */
-	QPtrList<UMLClassifierListItem>* getOpList();
+	UMLClassifierListItemList* getOpList();
 
 	/**
 	 * Returns the entries in m_pOpsList that are actually operations.
 	 *
 	 * @return	The list of true operations for the Concept.
 	 */
-	QPtrList<UMLOperation>* getFilteredOperationsList();
+	UMLOperationList* getFilteredOperationsList();
 
 	/**
 	 * Returns a name for the new association, operation, template
@@ -237,7 +237,7 @@ protected:
 	/**
 	 * List of all the operations in this classifier.
 	 */
-	QPtrList<UMLClassifierListItem> m_OpsList;
+	UMLClassifierListItemList m_OpsList;
 
 private:
 
