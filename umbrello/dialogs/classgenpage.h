@@ -47,7 +47,7 @@ public:
 	ClassGenPage(UMLDoc *d, QWidget *parent, UMLObject * o);
 
 	/**
-	 *	Sets up the ClassGenPage.
+	 *	Sets up the ClassGenPage for an ObjectWidget
 	 *
 	 *	@param	d	The UMLDoc which controls controls object creation.
 	 *	@param	parent	The parent to the ClassGenPage.

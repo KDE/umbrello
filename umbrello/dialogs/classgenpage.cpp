@@ -17,7 +17,7 @@
 
 
 
-ClassGenPage::ClassGenPage(UMLDoc *d, QWidget *parent, UMLObject * o) : QWidget(parent) {
+ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o) : QWidget(parent) {
 	m_pWidget = 0;
 	QString name;
 	int margin = fontMetrics().height();
@@ -31,6 +31,8 @@ ClassGenPage::ClassGenPage(UMLDoc *d, QWidget *parent, UMLObject * o) : QWidget(
 		name = i18n("Package name:");
 	} else if (t == Uml::ot_UseCase) {
 		name = i18n("Use case name:");
+	} else if (t == Uml::ot_Interface) {
+		name = i18n("Interface name:");
 	} else {
 		kdWarning() << "creating class gen page for unknown widget type" << endl;
 	}
@@ -54,7 +56,7 @@ ClassGenPage::ClassGenPage(UMLDoc *d, QWidget *parent, UMLObject * o) : QWidget(
 	m_pAbstractCB = 0;
 	m_pDeconCB = 0;
 
-	if (t == Uml::ot_Concept || t == Uml::ot_Package) {
+	if (t == Uml::ot_Concept || t == Uml::ot_Package || t == Uml::ot_Interface) {
 		m_pStereoTypeL = new QLabel(i18n("Stereotype name:"), this);
 		m_pNameLayout -> addWidget(m_pStereoTypeL, 1, 0);
 
@@ -63,8 +65,11 @@ ClassGenPage::ClassGenPage(UMLDoc *d, QWidget *parent, UMLObject * o) : QWidget(
 
 		m_pStereoTypeLE -> setText(o -> getStereotype());
 	}
+	if (t == Uml::ot_Interface) {
+		m_pStereoTypeLE->setEnabled(false);
+	}
 
-	if (t == Uml::ot_Concept) {
+	if (t == Uml::ot_Concept || t == Uml::ot_Interface) {
 		m_pPackageL = new QLabel(i18n("Package name:"), this);
 		m_pNameLayout -> addWidget(m_pPackageL, 2, 0);
 
@@ -72,7 +77,9 @@ ClassGenPage::ClassGenPage(UMLDoc *d, QWidget *parent, UMLObject * o) : QWidget(
 		m_pNameLayout -> addWidget(m_pPackageLE, 2, 1);
 
 		m_pPackageLE -> setText(o -> getPackage());
+	}
 
+	if (t == Uml::ot_Concept) {
 		m_pAbstractCB = new QCheckBox( i18n("A&bstract class"), this );
 		m_pAbstractCB -> setChecked( o -> getAbstract() );
 		m_pNameLayout -> addWidget( m_pAbstractCB, 3, 0 );
@@ -120,7 +127,7 @@ ClassGenPage::ClassGenPage(UMLDoc *d, QWidget *parent, UMLObject * o) : QWidget(
 	//////////
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-ClassGenPage::ClassGenPage(UMLDoc *d, QWidget *parent, ObjectWidget * o) : QWidget(parent) {
+ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, ObjectWidget* o) : QWidget(parent) {
 	m_pWidget = o;
 	m_pDeconCB = 0;
 	m_pMultiCB = 0;

@@ -15,6 +15,7 @@
 #include "listpopupmenu.h"
 #include "umlwidget.h"
 #include "conceptwidget.h"
+#include "interfacewidget.h"
 #include "floatingtext.h"
 #include "umlview.h"
 #include "notewidget.h"
@@ -85,6 +86,10 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, Uml::ListView_Type type) : KPopupM
 			mt = mt_Package;
 			break;
 
+		case Uml::lvt_Interface:
+			mt = mt_Interface;
+			break;
+
 		case Uml::lvt_Attribute:
 			mt = mt_Attribute;
 			break;
@@ -111,6 +116,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object, bool multi) :
 	StateWidget * pState = static_cast< StateWidget *>( object );
 	ActivityWidget * pActivity = static_cast<ActivityWidget *>( object );
 	ConceptWidget * c = static_cast< ConceptWidget *>( object );
+	InterfaceWidget* interfaceWidget = static_cast<InterfaceWidget*>(object);
 	UMLView * pView = static_cast<UMLView *>( parent );
 	Uml::UMLWidget_Type type = object -> getBaseType();
 
@@ -185,6 +191,39 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object, bool multi) :
 			insertItem( SmallIcon( "charset"), i18n("Rename..."), mt_Rename);
 			insertItem( SmallIcon( "fonts"),  i18n( "Change Font..." ), mt_Change_Font );
 			insertItem(SmallIcon( "info"), i18n("Properties"), mt_Properties);
+			break;
+
+		case Uml::wt_Interface:
+			m_pInsert = new KPopupMenu(this,"New");
+			m_pInsert->insertItem(SmallIcon("source"), i18n("Operation"), mt_Operation);
+			insertItem(SmallIcon("filenew"),i18n("New"), m_pInsert);
+
+			m_pShow = new KPopupMenu(this, "Show");
+			m_pShow->setCheckable(true);
+			m_pShow->insertItem(i18n("Operations"), mt_Show_Operations);
+			m_pShow->setItemChecked(mt_Show_Operations, interfaceWidget->getShowOps());
+			m_pShow->insertItem(i18n("Visibility"), mt_Scope);
+			m_pShow->setItemChecked(mt_Scope, interfaceWidget->getShowScope());
+			m_pShow->insertItem(i18n("Operation Signature"), mt_Show_Operation_Signature);
+			sig = false;
+			if( interfaceWidget->getShowOpSigs() == Uml::st_SigNoScope ||
+			        interfaceWidget->getShowOpSigs() == Uml::st_ShowSig)
+				sig = true;
+			m_pShow->setItemChecked(mt_Show_Operation_Signature, sig);
+			insertItem(SmallIcon("info"),i18n("Show"), m_pShow);
+
+			setupColor(object->getUseFillColor());
+			insertSeparator();
+			insertItem(SmallIcon("editcut"), i18n("Cut"), mt_Cut);
+			insertItem(SmallIcon("editcopy"), i18n("Copy"), mt_Copy);
+			insertItem(SmallIcon("editpaste"), i18n("Paste"), mt_Paste);
+			insertSeparator();
+			insertItem(SmallIcon("editdelete"), i18n("Delete"), mt_Delete);
+			insertItem(SmallIcon("charset"), i18n("Rename..."), mt_Rename);
+			insertItem(SmallIcon("fonts"),  i18n("Change Font..." ), mt_Change_Font);
+			insertItem(i18n("Draw as Circle"), mt_DrawAsCircle);
+			setItemChecked( mt_DrawAsCircle, interfaceWidget->getDrawAsCircle() );
+			insertItem(SmallIcon("info"), i18n("Properties"), mt_Properties);
 			break;
 
 		case Uml::wt_Package:
@@ -430,6 +469,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 	dataDir += "/umbrello/pics/";
 	QPixmap classPixmap(dataDir+"umlclass.xpm");
 	QPixmap packagePixmap(dataDir+"package.xpm");
+	QPixmap interfacePixmap(dataDir+"interface.xpm");
 	QPixmap actorPixmap(dataDir+"actor.xpm");
 	QPixmap usecasePixmap(dataDir+"case.xpm");
 	QPixmap initialStatePixmap(dataDir+"initial_state.xpm");
@@ -442,6 +482,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 			m_pInsert = new KPopupMenu(this, "New");
 			m_pInsert -> insertItem(SmallIcon( "folder_new"), i18n("Folder"), mt_Logical_Folder);
 			m_pInsert -> insertItem(classPixmap, i18n("Class..."), mt_Concept);
+			m_pInsert -> insertItem(interfacePixmap, i18n("Interface..."), mt_Interface);
 			m_pInsert->insertItem(packagePixmap, i18n("Package..."), mt_Package);
 			m_pInsert -> insertItem(SmallIcon( "folder_green"),i18n("Class Diagram"), mt_Class_Diagram);
 			m_pInsert -> insertItem(SmallIcon( "folder_green"),i18n("State Diagram"), mt_State_Diagram);
@@ -553,6 +594,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 		case mt_On_Class_Diagram:
 			m_pInsert = new KPopupMenu( this, "New" );
 			m_pInsert -> insertItem(classPixmap, i18n("Class..."), mt_Concept);
+			m_pInsert->insertItem(interfacePixmap, i18n("Interface..."), mt_Interface);
 			m_pInsert -> insertItem(packagePixmap, i18n("Package..."), mt_Package);
 			m_pInsert -> insertItem(SmallIcon( "text"), i18n( "Text Line..." ), mt_FloatText );
 			insertItem(SmallIcon( "filenew"), i18n("New"), m_pInsert);
@@ -606,6 +648,20 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 			insertItem(SmallIcon( "charset"), i18n("Rename..."), mt_Rename);
 			insertItem(SmallIcon( "editdelete"), i18n("Delete"), mt_Delete);
 			insertItem(SmallIcon( "info"), i18n("Properties"), mt_Properties);
+			break;
+
+		case mt_Interface:
+			m_pInsert = new KPopupMenu(this,"New");
+			m_pInsert->insertItem(SmallIcon( "source"), i18n("Operation"), mt_Operation);
+			insertItem(SmallIcon("filenew"), i18n("New"), m_pInsert);
+			insertSeparator();
+			insertItem(SmallIcon("editcut"), i18n("Cut"), mt_Cut);
+			insertItem(SmallIcon("editcopy"), i18n("Copy"), mt_Copy);
+			insertItem(SmallIcon("editpaste"), i18n("Paste"), mt_Paste);
+			insertSeparator();
+			insertItem(SmallIcon("charset"), i18n("Rename..."), mt_Rename);
+			insertItem(SmallIcon("editdelete"), i18n("Delete"), mt_Delete);
+			insertItem(SmallIcon("info"), i18n("Properties"), mt_Properties);
 			break;
 
 		case mt_Package:

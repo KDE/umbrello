@@ -50,6 +50,7 @@
 
 #include "conceptwidget.h"
 #include "packagewidget.h"
+#include "interfacewidget.h"
 #include "actorwidget.h"
 #include "usecasewidget.h"
 #include "notewidget.h"
@@ -207,7 +208,7 @@ void UMLView::print(KPrinter *pPrinter, QPainter & pPainter) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome) {
 	m_bMouseButtonPressed = false;
-	QMouseEvent *me = new QMouseEvent(QEvent::MouseButtonRelease, inverseWorldMatrix().map(ome->pos()),
+	QMouseEvent* me = new QMouseEvent(QEvent::MouseButtonRelease, inverseWorldMatrix().map(ome->pos()),
 					  ome->button(),ome->state());
 
 	if(m_bDrawRect) {
@@ -486,6 +487,9 @@ void UMLView::slotObjectCreated(UMLObject* o) {
 		} else if(type == ot_Package) {
 		        PackageWidget* packageWidget = new PackageWidget(this, o);
 			temp = (UMLWidget*)packageWidget;
+		} else if(type == ot_Interface) {
+		        InterfaceWidget* interfaceWidget = new InterfaceWidget(this, o);
+			temp = (UMLWidget*)interfaceWidget;
 		} else if(type == ot_Concept) {
 			//see if we really want an object widget or concept widget
 			if(m_pData -> m_Type == dt_Class) {
@@ -518,6 +522,7 @@ void UMLView::slotObjectCreated(UMLObject* o) {
 			case ot_UseCase:
 			case ot_Concept:
 			case ot_Package:
+			case ot_Interface:
 				createAutoAssociations( temp );
 				break;
 		}
@@ -594,7 +599,7 @@ void UMLView::contentsDragEnterEvent(QDragEnterEvent *e) {
 		   && (ot != ot_Concept) ) {
 				status = false;
 		}
-		if (m_pData->m_Type == dt_Class && ot == ot_Package) {
+		if (m_pData->m_Type == dt_Class && (ot == ot_Package || ot == ot_Interface)) {
 			status = true;
 		}
 		if((m_pData->m_Type == dt_UseCase || m_pData->m_Type == dt_Class)
@@ -812,13 +817,10 @@ void UMLView::setLineColor(QColor color) {
 	canvas() -> setAllChanged();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void UMLView::contentsMouseDoubleClickEvent(QMouseEvent * ome)
-{
+void UMLView::contentsMouseDoubleClickEvent(QMouseEvent* ome) {
 
-	QMouseEvent *me = new QMouseEvent(QEvent::MouseButtonDblClick,
-																		inverseWorldMatrix().map(ome->pos()),
-																		ome->button(),
-																		ome->state());
+	QMouseEvent *me = new QMouseEvent(QEvent::MouseButtonDblClick,inverseWorldMatrix().map(ome->pos()),
+					  ome->button(),ome->state());
 	if ( allocateMouseDoubleClickEvent(me) ) {
 		return;
 	}
@@ -1509,6 +1511,10 @@ bool UMLView::createWidget(UMLWidgetData* WidgetData) {
 			widget = new PackageWidget(this, object, WidgetData);
 			break;
 
+		case wt_Interface:
+			widget = new InterfaceWidget(this, object, WidgetData);
+			break;
+
 		case wt_Text:
 			widget = new FloatingText(this, WidgetData);
 			break;
@@ -2082,6 +2088,10 @@ Uml::UMLObject_Type UMLView::convert_TBB_OT(WorkToolBar::ToolBar_Buttons tbb) {
 		case WorkToolBar::tbb_Package:
 			ot = ot_Package;
 			break;
+
+		case WorkToolBar::tbb_Interface:
+			ot = ot_Interface;
+			break;
 		default:
 			break;
 	}
@@ -2093,7 +2103,7 @@ bool UMLView::allocateMousePressEvent(QMouseEvent * me) {
 	m_pOnWidget = 0;
 	m_pSeqLine = 0;
 
-	QObjectList * l = queryList( "UMLWidget");
+	QObjectList* l = queryList("UMLWidget");
 	QObjectListIt it( *l );
 	UMLWidget * obj, * backup = 0;
 	while ( (obj=(UMLWidget*)it.current()) != 0 ) {
@@ -2602,6 +2612,11 @@ void UMLView::slotMenuSelection(int sel) {
 			getDocument()->createUMLObject(ot_Package);
 			break;
 
+		case ListPopupMenu::mt_Interface:
+			m_bCreateObject = true;
+			getDocument()->createUMLObject(ot_Interface);
+			break;
+
 		case ListPopupMenu::mt_Paste:
 			m_PastePoint = m_Pos;
 			m_Pos.setX( 2000 );
@@ -2739,6 +2754,7 @@ void UMLView::synchronizeData() {
 			case wt_UseCase:
 			case wt_Class:
 			case wt_Package:
+			case wt_Interface:
 			case wt_Object:
 			case wt_Note:
 			case wt_State:

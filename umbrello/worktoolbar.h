@@ -56,7 +56,7 @@ public:
 
 	enum ToolBar_Buttons
 	{
-	    tbb_Undefined  =  -  1,
+	    tbb_Undefined = -1,
 	    tbb_Arrow,
 	    tbb_Generalization,
 	    tbb_Aggregation,
@@ -76,6 +76,7 @@ public:
 	    tbb_Actor,
 	    tbb_UseCase,
 	    tbb_Concept,
+	    tbb_Interface,
 	    tbb_Package,
 	    tbb_Object,
 	    tbb_Initial_State,
@@ -117,7 +118,8 @@ private:
 		End_State,
 		Branch,
 		Fork,
-		Package;
+		Package,
+		Interface;
 	}
 	m_Pixmaps;
 

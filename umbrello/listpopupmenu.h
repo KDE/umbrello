@@ -52,6 +52,7 @@ public:
 
 	    mt_Concept,                       //CONCEPT
 	    mt_Package,
+	    mt_Interface,
 	    mt_Actor,                         //ACTOR
 	    mt_UseCase,                       //USECASE
 	    mt_Attribute,                     //ATTRIBUTE
@@ -75,6 +76,7 @@ public:
 	    mt_Show_Attributes,               //SHOWATTS
 	    mt_Show_Operations,               //SHOWOPS
 	    mt_Scope,                         //SCOPE
+	    mt_DrawAsCircle,
 	    mt_Rename_Object,                 //ROBJECT
 	    mt_Select_Operation,              //SOPERATION
 	    mt_Anchor,                        //ANCHOR

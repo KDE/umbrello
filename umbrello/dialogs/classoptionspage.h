@@ -18,6 +18,7 @@
 #include "../conceptwidget.h"
 
 class ConceptWidget;
+class InterfaceWidget;
 
 /**
  *	A dialog page to display options for a @ref UMLWidget and it's
@@ -34,7 +35,7 @@ public:
 	/**
 	*	Constructor
 	*/
-	ClassOptionsPage( QWidget * pParent, UMLWidget * pWidget );
+	ClassOptionsPage(QWidget* pParent, UMLWidget* pWidget, UMLWidget_Type type);
 
 	/**
 	*	Deconstructor
@@ -51,18 +52,45 @@ public:
 	*	settings of a widget.
 	*/
 	void setWidget( ConceptWidget * pWidget ) {
-		m_pWidget = pWidget;
+		m_pClassWidget = pWidget;
 	}
 protected:
+
+	/**
+	 * Creates the page with the correct options for a class/concept
+	 */
+	void setupClassPage();
+
+	/**
+	 * Creates the page with the correct options for an interface
+	 */
+	void setupInterfacePage();
+
+	/**
+	 * Sets the class's properties to those selected in this dialogue page.
+	 */
+	void updateClassWidget();
+
+	/**
+	 * Sets the interface's properties to those selected in this dialogue page.
+	 */
+	void updateInterfaceWidget();
+
 	//GUI widgets
 	QGroupBox * m_pVisibilityGB;
 	QCheckBox * m_pShowScopeCB, * m_pShowAttSigCB;
 	QCheckBox * m_pShowOpSigCB, * m_pShowAttsCB, * m_pShowOpsCB;
 	QCheckBox * m_pShowStereotypeCB, * m_pShowPackageCB;
+	QCheckBox* m_pDrawAsCircleCB;
 
 	/**
-	*		The widget to represent in the dialog page.
+	*	The class widget to represent in the dialog page.
 	*/
-	ConceptWidget * m_pWidget;
+	ConceptWidget* m_pClassWidget;
+
+	/**
+	*	The interface widget to represent in the dialog page.
+	*/
+	InterfaceWidget* m_pInterfaceWidget;
 };
 #endif

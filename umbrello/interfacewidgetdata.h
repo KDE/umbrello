@@ -7,30 +7,46 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef CONCEPTWIDGETDATA_H
-#define CONCEPTWIDGETDATA_H
+#ifndef INTERFACEWIDGETDATA_H
+#define INTERFACEWIDGETDATA_H
 
 #include "umlwidgetdata.h"
 
 /**
- * This class holds all the ConceptWidget's Information All this
- * information goes to a file or clipboard when an ConceptWidget
- * object is serialized With this class we are trying to achieve
+ * This class holds all the InterfaceWidget's information. All this
+ * information goes to a file or clipboard when an InterfaceWidget
+ * object is serialized.  With this class we are trying to achieve
  * isolation between data and display layers.
  *
- * @author Gustavo Madrigal
+ * @author Jonathan Riddell
  */
-class ConceptWidgetData : public UMLWidgetData {
-	friend class ConceptWidget;
+class InterfaceWidgetData : public UMLWidgetData {
+	friend class InterfaceWidget;
 public:
-	ConceptWidgetData(SettingsDlg::OptionState optionState);
-	ConceptWidgetData(ConceptWidgetData & Other);
+	/**
+	 * creates an InterfaceWidgetData object
+	 */
+	InterfaceWidgetData(SettingsDlg::OptionState optionState);
 
-	virtual ~ConceptWidgetData();
+	/**
+	 * creates a copy of an InterfaceWidgetData object
+	 */
+	InterfaceWidgetData(InterfaceWidgetData& Other);
 
-	virtual ConceptWidgetData & operator=(ConceptWidgetData & Other);
+	/**
+	 * destructor, empty
+	 */
+	virtual ~InterfaceWidgetData();
 
-	virtual bool operator==(ConceptWidgetData & Other);
+	/**
+	 * Make the same as another InterfaceWidgetData
+	 */
+	virtual InterfaceWidgetData& operator=(InterfaceWidgetData& Other);
+
+	/**
+	 * Compare two InterfaceWidgetData.
+	 */
+	virtual bool operator==(InterfaceWidgetData& Other);
 
 	/**
 	 * Save/Restore the object.
@@ -39,7 +55,7 @@ public:
 	 *	@param	fileversion	the version of the serialize format
 	 *	@return	true if successful else false
 	 */
-	virtual bool serialize(QDataStream *s, bool archive, int fileversion);
+	virtual bool serialize(QDataStream* s, bool archive, int fileversion);
 
 	/**
 	 * Returns the amount of bytes needed to serialize this object
@@ -55,16 +71,6 @@ public:
 	 * That means the copy and paste functionality will work on with QT 2.1.x or superior
 	 */
 	virtual long getClipSizeOf();
-
-	/**
-	 * Write property of bool m_bShowAttributes.
-	 */
-	virtual void setShowAttributes(bool ShowAttributes);
-
-	/**
-	 * Read property of bool m_bShowAttributes.
-	 */
-	virtual bool getShowAttributes();
 
 	/**
 	 * Write property of bool m_bShowOperations.
@@ -87,16 +93,6 @@ public:
 	virtual Uml::Signature_Type getShowOpSigs();
 
 	/**
-	 * Write property of ConceptWidgetData::SigType m_ShowAttSigs.
-	 */
-	virtual void setShowAttSigs( Uml::Signature_Type ShowAttSigs);
-
-	/**
-	 * Read property of ConceptWidgetData::SigType m_ShowAttSigs.
-	 */
-	virtual Uml::Signature_Type getShowAttSigs();
-
-	/**
 	 * Write property of bool m_bShowScope.
 	 */
 	virtual void setShowScope( bool ShowScope);
@@ -117,33 +113,37 @@ public:
 	virtual bool getShowPackage();
 
 	/**
-	 * Write property of bool m_bShowStereotype.
+	 * Write property of bool m_bDrawAsCircle.
 	 */
-	virtual void setShowStereotype( bool ShowStereotype);
+	virtual void setDrawAsCircle(bool drawAsCircle);
 
 	/**
-	 * Read property of bool m_bShowStereotype.
+	 * Read property of bool m_bDrawAsCircle.
 	 */
-	virtual bool getShowStereotype();
+	virtual bool getDrawAsCircle();
 
 	/**
 	 * Debugging method
 	 */
 	virtual void print2cerr();
 
+	/**
+	 * Saves to the <interfacewidget> element
+	 */
 	bool saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
+	/**
+	 * Loads from an <interfacewidget> element
+	 */
 	bool loadFromXMI( QDomElement & qElement );
 protected:
 
-	bool m_bShowAttributes;
 	bool m_bShowOperations;
 	bool m_bShowScope;
 	bool m_bShowPackage;
-	bool m_bShowStereotype;
+	bool m_bDrawAsCircle;
 
 	Uml::Signature_Type m_ShowOpSigs;
-	Uml::Signature_Type m_ShowAttSigs;
 };
 
 #endif

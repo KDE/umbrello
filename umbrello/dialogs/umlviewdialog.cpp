@@ -86,7 +86,7 @@ void UMLViewDialog::setupClassPage() {
 	m_pTempWidget -> setShowAttSigs( options.classState.showAttSig );
 	QFrame * newPage = addPage( i18n("Display"), i18n("Classes Display Options"), DesktopIcon( "info") );
 	QHBoxLayout * m_pOptionsLayout = new QHBoxLayout( newPage );
-	m_pOptionsPage = new ClassOptionsPage( newPage, m_pTempWidget );
+	m_pOptionsPage = new ClassOptionsPage( newPage, m_pTempWidget, m_pTempWidget->getBaseType() );
 	m_pOptionsLayout -> addWidget( m_pOptionsPage );
 }
 

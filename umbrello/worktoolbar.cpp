@@ -86,6 +86,9 @@ void WorkToolBar::slotCheckToolBar(Uml::Diagram_Type dt) {
 		insertButton( m_Pixmaps.Concept, tbb_Concept, true, i18n("Class"));
 		setToggle( tbb_Concept,true );
 
+		insertButton( m_Pixmaps.Interface, tbb_Interface, true, i18n("Interface"));
+		setToggle( tbb_Interface,true );
+
 		insertButton( m_Pixmaps.Package, tbb_Package, true, i18n("Package"));
 		setToggle( tbb_Package,true );
 
@@ -248,6 +251,7 @@ void WorkToolBar::loadPixmaps() {
 	m_Pixmaps.Branch.load( dataDir + "branch.xpm" );
 	m_Pixmaps.Fork.load( dataDir + "fork.xpm" );
 	m_Pixmaps.Package.load( dataDir + "package.xpm" );
+	m_Pixmaps.Interface.load( dataDir + "interface.xpm" );
 }
 
 #include "worktoolbar.moc"

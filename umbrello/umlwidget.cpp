@@ -283,11 +283,14 @@ void UMLWidget::slotMenuSelection(int sel) {
 
 		case ListPopupMenu::mt_Properties:
 			if (m_pData->m_Type == wt_Actor || m_pData->m_Type == wt_UseCase
-			    || m_pData->m_Type == wt_Package ||
-			        (m_pData->m_Type == wt_Class && m_pView -> getType() == dt_Class))
+			    || m_pData->m_Type == wt_Package || m_pData->m_Type == wt_Interface ||
+			    (m_pData->m_Type == wt_Class && m_pView -> getType() == dt_Class)) {
 				m_pView->getDocument() -> showProperties(this);
-			else
+			} else if (m_pData->m_Type == wt_Object) {
 				m_pView->getDocument() -> showProperties(m_pObject);
+			} else {
+				kdWarning() << "making properties dialogue for unknown widget type" << endl;
+			}
 			adjustAssocs( (int)x(), (int)y() );//adjust assoc lines
 			break;
 

@@ -26,6 +26,7 @@
 //app includes
 #include "../operation.h"
 #include "../concept.h"
+#include "../interface.h"
 #include "../umldoc.h"
 #include "../listpopupmenu.h"
 #include "parmpropdlg.h"
@@ -40,8 +41,7 @@ UMLOperationDialog::UMLOperationDialog( QWidget * parent, UMLOperation * pOperat
 UMLOperationDialog::~UMLOperationDialog() {}
 
 void UMLOperationDialog::setupDialog() {
-	UMLConcept * pConcept = dynamic_cast<UMLConcept *>( m_pOperation -> parent() );
-	UMLDoc * pDoc = dynamic_cast<UMLDoc *>( pConcept -> parent() );
+	UMLDoc* pDoc = dynamic_cast<UMLDoc*>( m_pOperation->parent()->parent() );
 	int margin = fontMetrics().height();
 	QVBoxLayout * topLayout = new QVBoxLayout( plainPage() );
 
@@ -119,9 +119,10 @@ void UMLOperationDialog::setupDialog() {
 	m_pRtypeCB->setEditable(true);
 	m_pRtypeCB->setAutoCompletion(true);
 
+	//FIXMEnow also get the Interfaces
 	//now add the Concepts
 	QPtrList<UMLConcept> namesList( pDoc->getConcepts() );
-	pConcept = 0;
+	UMLConcept* pConcept = 0;
 	for(pConcept=namesList.first(); pConcept!=0 ;pConcept=namesList.next()) {
 		m_pRtypeCB->insertItem( pConcept->getName() );
 	}
@@ -226,8 +227,7 @@ void UMLOperationDialog::slotParmPopupMenuSel(int id) {
 void UMLOperationDialog::slotNewParameter() {
 	int result = 0;
 	UMLAttribute* pAtt = 0;
-	UMLConcept* pConcept = dynamic_cast<UMLConcept *>( m_pOperation->parent() );
-	UMLDoc* pDoc = dynamic_cast<UMLDoc *>( pConcept->parent() );
+	UMLDoc* pDoc = dynamic_cast<UMLDoc *>( m_pOperation->parent()->parent() );
 
 	QString currentName = m_pOperation->getUniqueParameterName();
 	UMLAttribute* newAttribute = new UMLAttribute(0, currentName, 0);
@@ -257,8 +257,7 @@ void UMLOperationDialog::slotNewParameter() {
 
 void UMLOperationDialog::slotDeleteParameter() {
 	UMLAttribute* pOldAtt = m_pOperation->findParm( m_pParmsLB->currentText() );
-	UMLConcept* pConcept = dynamic_cast<UMLConcept *>( m_pOperation->parent() );
-	UMLDoc* pDoc = dynamic_cast<UMLDoc *>( pConcept->parent() );
+	UMLDoc* pDoc = dynamic_cast<UMLDoc*>( m_pOperation->parent()->parent() );
 
 	m_pOperation->removeParm( pOldAtt );
 	m_pParmsLB->removeItem( m_pParmsLB->currentItem() );
@@ -272,8 +271,7 @@ void UMLOperationDialog::slotParameterProperties() {
 	int result = 0;
 	UMLAttribute* pAtt = 0, * pOldAtt = 0;
 	pOldAtt = m_pOperation->findParm( m_pParmsLB->currentText() );
-	UMLConcept* pConcept = dynamic_cast<UMLConcept *>( m_pOperation->parent() );
-	UMLDoc* pDoc = dynamic_cast<UMLDoc *>( pConcept->parent() );
+	UMLDoc* pDoc = dynamic_cast<UMLDoc*>( m_pOperation->parent()->parent() );
 
 	if( !pOldAtt ) {
 		kdDebug() << "THE impossible has occurred for:" << m_pParmsLB->currentText() << endl;
@@ -315,7 +313,7 @@ void UMLOperationDialog::slotParamsBoxClicked(QListBoxItem* parameterItem) {
 
 bool UMLOperationDialog::apply() {
 	QString name = m_pNameLE -> text();
-	UMLConcept * pConcept = dynamic_cast<UMLConcept *>( m_pOperation -> parent() );
+
 	if( m_pPublicRB -> isChecked() )
 		m_pOperation -> setScope( Uml::Public );
 	else if( m_pPrivateRB -> isChecked() )
@@ -325,7 +323,18 @@ bool UMLOperationDialog::apply() {
 	m_pOperation -> setReturnType( m_pRtypeCB -> currentText() );
 	m_pOperation -> setAbstract( m_pAbstractCB -> isChecked() );
 	m_pOperation -> setStatic( m_pStaticCB -> isChecked() );
-	QPtrList<UMLObject> list= pConcept -> findChildObject( Uml::ot_Operation, name );
+
+	QPtrList<UMLObject> list;
+	if (static_cast<UMLObject*>(m_pOperation->parent())->getBaseType() == Uml::ot_Concept) {
+		UMLConcept* pConcept = static_cast<UMLConcept*>( m_pOperation->parent() );
+		list= pConcept->findChildObject(Uml::ot_Operation, name);
+	} else if (static_cast<UMLObject*>(m_pOperation->parent())->getBaseType() == Uml::ot_Interface) {
+		UMLInterface* pInterface = static_cast<UMLInterface*>( m_pOperation->parent() );
+		list = pInterface->findChildObject(Uml::ot_Operation, name);
+	} else {
+		kdWarning() << "not a concept or interface" << endl;
+	}
+
 	if( name.length() == 0 ) {
 		KMessageBox::error(this, i18n("You have entered an invalid operation name."),
 		                   i18n("Operation Name Invalid"), false);

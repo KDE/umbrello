@@ -46,6 +46,7 @@ public:
 	    it_Diagram, //change to have different one for each type of diagram
 	    it_Class,
 	    it_Package,
+	    it_Interface,
 	    it_Actor,
 	    it_UseCase,
 	    it_Public_Method,
@@ -225,6 +226,7 @@ protected:
 		QPixmap Diagram; //change to have different one for each type of diagram
 		QPixmap Class;
 		QPixmap Package;
+		QPixmap Interface;
 		QPixmap Actor;
 		QPixmap UseCase;
 		QPixmap Public_Method;

@@ -11,6 +11,7 @@
 #include "classimport.h"
 #include "concept.h"
 #include "package.h"
+#include "interface.h"
 #include "docwindow.h"
 #include "listpopupmenu.h"
 #include "operation.h"
@@ -77,6 +78,7 @@ void UMLListView::contentsMousePressEvent(QMouseEvent *me) {
 		case Uml::lvt_UseCase:
 		case Uml::lvt_Class:
 		case Uml::lvt_Package:
+		case Uml::lvt_Interface:
 		case Uml::lvt_Actor:
 		case Uml::lvt_Attribute:
 		case Uml::lvt_Operation:
@@ -157,6 +159,10 @@ void UMLListView::popupMenuSel(int sel) {
 
 		case ListPopupMenu::mt_Package:
 			addNewItem(temp, Uml::lvt_Package);
+			break;
+
+		case ListPopupMenu::mt_Interface:
+			addNewItem(temp, Uml::lvt_Interface);
 			break;
 
 		case ListPopupMenu::mt_Actor:
@@ -307,13 +313,15 @@ void UMLListView::slotObjectCreated(UMLObject* newObject) {
 	//See if we wanted to create diagram in currently selected folder
 	UMLListViewItem* current = (UMLListViewItem*) currentItem();
 	if( (current->getType() == Uml::lvt_Logical_Folder &&
-	     (type == Uml::ot_Concept || type == Uml::ot_Package))
+	     (type == Uml::ot_Concept || type == Uml::ot_Package || type == Uml::ot_Interface))
 	    || (current->getType() == Uml::lvt_UseCase_Folder &&
 		(type == Uml::ot_Actor || type == Uml::ot_UseCase)) ) {
 		parentItem = current;
 	} else if( type == Uml::ot_Concept ) {
 		parentItem = lv;
 	} else if( type == Uml::ot_Package ) {
+		parentItem = lv;
+	} else if( type == Uml::ot_Interface ) {
 		parentItem = lv;
 	} else if( type == Uml::ot_Association ) {
 		return;
@@ -421,6 +429,7 @@ UMLListViewItem * UMLListView::findUMLObjectInFolder(UMLListViewItem* folder, UM
 			case Uml::lvt_UseCase :
 			case Uml::lvt_Class :
 			case Uml::lvt_Package :
+			case Uml::lvt_Interface :
 				if(item->getUMLObject() == obj)
 					return item;
 				break;
@@ -442,7 +451,7 @@ UMLListViewItem * UMLListView::findUMLObjectInFolder(UMLListViewItem* folder, UM
 UMLListViewItem * UMLListView::findUMLObject(UMLObject *p) {
 	Uml::UMLObject_Type pt = p->getBaseType();
 	UMLListViewItem *item, *temp;
-	if(pt == Uml::ot_Concept || pt == Uml::ot_Package) {
+	if(pt == Uml::ot_Concept || pt == Uml::ot_Package || pt == Uml::ot_Interface) {
 		item = lv;
 	} else if(pt == Uml::ot_Actor || pt == Uml::ot_UseCase) {
 		item = ucv;
@@ -648,7 +657,8 @@ bool UMLListView::acceptDrag(QDropEvent* event) const {
 	type = item->getType();
 	while(accept && ((data = it.current()) != 0)) {
 		++it;
-		if((data->getType() == Uml::lvt_Class || data->getType() == Uml::lvt_Package)
+		if((data->getType() == Uml::lvt_Class || data->getType() == Uml::lvt_Package
+		    || data->getType() == Uml::lvt_Interface)
 		   && (type == Uml::lvt_Logical_Folder || type == Uml::lvt_Logical_View) ) {
 			continue;
 		}
@@ -702,7 +712,7 @@ void UMLListView::slotDropped(QDropEvent * de, QListViewItem * parent, QListView
 		if( (data->getType() == Uml::lvt_UseCase_Folder || data->getType() == Uml::lvt_Actor || data->getType() == Uml::lvt_UseCase || data->getType() == Uml::lvt_UseCase_Diagram) && (type == Uml::lvt_UseCase_Folder || type == Uml::lvt_UseCase_View) ) {
 			moveItem(move, item, item);
 		}
-		if( ((data->getType() >= Uml::lvt_Collaboration_Diagram && data->getType() <= Uml::lvt_Sequence_Diagram) || data->getType() == Uml::lvt_Class || data->getType() == Uml::lvt_Package) && (type == Uml::lvt_Logical_Folder || type == Uml::lvt_Logical_View)) {
+		if( ((data->getType() >= Uml::lvt_Collaboration_Diagram && data->getType() <= Uml::lvt_Sequence_Diagram) || data->getType() == Uml::lvt_Class || data->getType() == Uml::lvt_Package || data->getType() == Uml::lvt_Interface) && (type == Uml::lvt_Logical_Folder || type == Uml::lvt_Logical_View)) {
 			moveItem(move, item, item);
 		}
 	}
@@ -888,7 +898,7 @@ bool UMLListView::ReadChilds( UMLListViewItem* parent, QDataStream *s) {
 	>> open;
 	type = (Uml::ListView_Type)t;
 	if(type == Uml::lvt_Actor || type == Uml::lvt_UseCase ||
-	   type == Uml::lvt_Class || type == Uml::lvt_Package) {
+	   type == Uml::lvt_Class || type == Uml::lvt_Package || type == Uml::lvt_Interface) {
 		o = doc -> findUMLObject(id);
 		item = new UMLListViewItem(parent, text, type, o);
 	} else if(type == Uml::lvt_Attribute || type == Uml::lvt_Operation) {
@@ -1060,6 +1070,7 @@ UMLListViewItem* UMLListView::createItem(UMLListViewItemData& Data, IDChangeLog&
 		case Uml::lvt_UseCase:
 		case Uml::lvt_Class:
 		case Uml::lvt_Package:
+		case Uml::lvt_Interface:
 			newID = IDChanges.findNewID(Data.getID());
 			//if there is no ListViewItem associated with the new ID,
 			//it could exist an Item already asocciated if the user chose to reuse an uml object
@@ -1179,6 +1190,10 @@ Uml::ListView_Type UMLListView::convert_OT_LVT(Uml::UMLObject_Type ot) {
 			type = Uml::lvt_Package;
 			break;
 
+		case Uml::ot_Interface:
+			type = Uml::lvt_Interface;
+			break;
+
 		case Uml::ot_Attribute:
 			type = Uml::lvt_Attribute;
 			break;
@@ -1230,6 +1245,10 @@ QPixmap & UMLListView::getPixmap( Icon_Type type ) {
 			return m_Pixmaps.Package;
 			break;
 
+		case it_Interface:
+			return m_Pixmaps.Interface;
+			break;
+
 		case it_Actor:
 			return m_Pixmaps.Actor;
 			break;
@@ -1278,6 +1297,7 @@ void UMLListView::loadPixmaps() {
 	m_Pixmaps.Diagram.load( dataDir + "CVnamespace.png" ); //change to have different one for each type of diagram
 	m_Pixmaps.Class.load( dataDir + "umlclass.xpm" );
 	m_Pixmaps.Package.load( dataDir + "package.xpm" );
+	m_Pixmaps.Interface.load( dataDir + "interface.xpm" );
 	m_Pixmaps.Actor.load( dataDir + "actor.xpm" );
 	m_Pixmaps.UseCase.load( dataDir + "case.xpm" );
 	m_Pixmaps.Public_Method.load( dataDir + "CVpublic_meth.png" );
@@ -1351,6 +1371,12 @@ void UMLListView::addNewItem( QListViewItem * parent, Uml::ListView_Type type ) 
 			name = getUniqueUMLObjectName( Uml::ot_Package );
 			newItem = new UMLListViewItem( static_cast<UMLListViewItem *>( parent ), name, type, (UMLObject *)0 );
 			newItem->setPixmap( 0, getPixmap( it_Package ) );
+			break;
+
+		case Uml::lvt_Interface:
+			name = getUniqueUMLObjectName( Uml::ot_Interface );
+			newItem = new UMLListViewItem( static_cast<UMLListViewItem*>(parent), name, type, (UMLObject*)0 );
+			newItem->setPixmap( 0, getPixmap( it_Interface ) );
 			break;
 
 		case Uml::lvt_Attribute:
@@ -1462,6 +1488,10 @@ bool UMLListView::slotItemRenamed( QListViewItem * item , int /*col*/ ) {
 			createUMLObject( renamedItem, Uml::ot_Package );
 			break;
 
+		case Uml::lvt_Interface:
+			createUMLObject( renamedItem, Uml::ot_Interface );
+			break;
+
 		case Uml::lvt_UseCase:
 			createUMLObject( renamedItem, Uml::ot_UseCase );
 			break;
@@ -1528,6 +1558,10 @@ void UMLListView::createUMLObject( UMLListViewItem * item, Uml::UMLObject_Type t
 		case Uml::ot_Package:
 			object = new UMLPackage( doc, name, doc->getUniqueID() );
 			break;
+
+		case Uml::ot_Interface:
+			object = new UMLInterface( doc, name, doc->getUniqueID() );
+			break;
 		default:
 			kdWarning() << "createing UML Object of unknown type" << endl;
 			break;
@@ -1588,6 +1622,7 @@ QString UMLListView::getUniqueUMLObjectName( Uml::UMLObject_Type type ) {
 	QString name = "";
 	QString newClass = i18n("new_class");
 	QString newPackage = i18n("new_package");
+	QString newInterface = i18n("new_interface");
 	QString newActor = i18n("new_actor");
 	QString newUseCase = i18n("new_usecase");
 
@@ -1602,6 +1637,8 @@ QString UMLListView::getUniqueUMLObjectName( Uml::UMLObject_Type type ) {
 		name = newClass;
 	} else if (type == Uml::ot_Package) {
 		name = newPackage;
+	} else if (type == Uml::ot_Interface) {
+		name = newInterface;
 	} else {
 		kdWarning() << "getting unique uml object name for unknown type" << endl;
 	}
@@ -1723,6 +1760,10 @@ bool UMLListView::isUnique( UMLListViewItem * item, QString name ) {
 			return !doc->findUMLObject(Uml::ot_Package, name);
 			break;
 
+		case Uml::lvt_Interface:
+			return !doc->findUMLObject(Uml::ot_Interface, name);
+			break;
+
 		case Uml::lvt_Attribute:
 			return ( parent -> findChildObject( Uml::ot_Attribute, name ).count() == 0 );
 			break;
@@ -1797,8 +1838,9 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
 				case Uml::lvt_UseCase:
 				case Uml::lvt_Class:
 				case Uml::lvt_Package:
-					pObject = doc -> findUMLObject( nID );
-					item = new UMLListViewItem( parent, label, lvType, pObject );
+				case Uml::lvt_Interface:
+					pObject = doc->findUMLObject(nID);
+					item = new UMLListViewItem(parent, label, lvType, pObject);
 					break;
 				case Uml::lvt_Attribute:
 				case Uml::lvt_Operation:

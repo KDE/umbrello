@@ -12,6 +12,7 @@
 #include "association.h"
 #include "concept.h"
 #include "package.h"
+#include "interface.h"
 #include "docwindow.h"
 #include "objectwidget.h"
 #include "operation.h"
@@ -414,6 +415,8 @@ QString	UMLDoc::uniqObjectName(const UMLObject_Type type) {
 		currentName = i18n("new_usecase");
 	else if(type == ot_Package)
 		currentName = i18n("new_package");
+	else if(type == ot_Interface)
+		currentName = i18n("new_interface");
 	else
 		currentName = i18n("new_object");
 
@@ -454,6 +457,9 @@ void UMLDoc::createUMLObject(UMLObject_Type type) {
 			} else if(type == ot_Package) {
 				UMLPackage* package = new UMLPackage(this, name, ++uniqueID);
 				o = (UMLObject*)package;
+			} else if(type == ot_Interface) {
+				UMLInterface* interface = new UMLInterface(this, name, ++uniqueID);
+				o = (UMLObject*)interface;
 			} else {
 				kdWarning() << "CreateUMLObject(int) error" << endl;
 				return;
@@ -554,7 +560,14 @@ UMLObject* UMLDoc::createTemplate(UMLObject* umlobject) {
 UMLObject* UMLDoc::createOperation(UMLObject* umlobject) {
 	UMLOperation* newOperation = 0;
 	int id = getUniqueID();
-	QString currentName = dynamic_cast<UMLConcept *>(umlobject)->uniqChildName(Uml::ot_Operation);
+	QString currentName;
+	if (umlobject->getBaseType() == ot_Concept) {
+		currentName = static_cast<UMLConcept*>(umlobject)->uniqChildName(Uml::ot_Operation);
+	} else if (umlobject->getBaseType() == ot_Interface) {
+		currentName = static_cast<UMLConcept*>(umlobject)->uniqChildName(Uml::ot_Operation);
+	} else {
+		kdDebug() << "creating operation for something which isn't a class or an interface" << endl;
+	}
 	newOperation = new UMLOperation(umlobject, currentName, id);
 
 	int button = QDialog::Accepted;
@@ -576,7 +589,13 @@ UMLObject* UMLDoc::createOperation(UMLObject* umlobject) {
 		return NULL;
 	}
 
-	((UMLConcept*)umlobject)->addOperation((UMLOperation*)newOperation);
+	if (umlobject->getBaseType() == ot_Concept) {
+		((UMLConcept*)umlobject)->addOperation((UMLOperation*)newOperation);
+	} else if (umlobject->getBaseType() == ot_Interface) {
+		((UMLInterface*)umlobject)->addOperation((UMLOperation*)newOperation);
+	} else {
+		kdWarning() << "creating operation for something which isn't a class or an interface" << endl;
+	}
 
 	setModified(true);
 	emit sigChildObjectCreated(newOperation);
@@ -1342,6 +1361,8 @@ bool UMLDoc::loadUMLObjectsFromXMI( QDomNode & node ) {
 			pObject = new UMLConcept(this);
 		} else if (type == "UML:Package") {
 			pObject = new UMLPackage(this);
+		} else if (type == "UML:Interface") {
+			pObject = new UMLInterface(this);
 		} else if( type == "UML:Association" ) {
  			//For the time being, we skip loading asociations from
  			// here. Instead, we will get them from the association widgets.

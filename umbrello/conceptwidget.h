@@ -216,6 +216,9 @@ private:
 	 */
 	QSize calculateTemplatesBoxSize();
 
+	/**
+	 * updates m_ShowOpSigs and m_ShowAttSigs to match m_bShowScope
+	 */
 	void updateSigs();
 
 	/**

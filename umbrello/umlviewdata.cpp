@@ -18,6 +18,7 @@
 #include "associationwidgetdata.h"
 #include "conceptwidgetdata.h"
 #include "packagewidgetdata.h"
+#include "interfacewidgetdata.h"
 #include "floatingtextdata.h"
 #include "notewidgetdata.h"
 #include "messagewidgetdata.h"
@@ -649,6 +650,8 @@ bool UMLViewData::loadWidgetsFromXMI( QDomElement & qElement ) {
 			widgetData = new ConceptWidgetData(getOptionState());
 		} else if( tag == "packagewidget" ) {
 			widgetData = new PackageWidgetData(getOptionState());
+		} else if( tag == "interfacewidget" ) {
+			widgetData = new InterfaceWidgetData(getOptionState());
 		} else if( tag == "UML:StateWidget" ) {
 			widgetData = new StateWidgetData(getOptionState());
 		} else if( tag == "UML:NoteWidget" ) {
