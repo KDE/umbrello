@@ -173,9 +173,11 @@ void NoteWidget::drawText(QPainter & p, int offsetX, int offsetY) {
 					p.drawText( offsetX + textX, offsetY + textY , textWidth, fontHeight, AlignLeft, word );
 				}//end if
 				else
+				{
 					if ( textY > height )
 						return;
 					p.drawText( offsetX + textX, offsetY + textY , textWidth, fontHeight, AlignLeft, word );
+				}
 			}//end if
                         textX = margin;
 			textY += fontHeight;
@@ -194,7 +196,11 @@ void NoteWidget::drawText(QPainter & p, int offsetX, int offsetY) {
 					p.drawText( offsetX + textX, offsetY + textY , textWidth, fontHeight, AlignLeft, word );
 				}//end if
 				else
+				{
+					if ( textY > height )
+						return;
 					p.drawText( offsetX + textX, offsetY + textY , textWidth, fontHeight, AlignLeft, word );
+				}
 				textX += textWidth;
 			}//end if
 			textX += fm.width( " " );
@@ -214,7 +220,11 @@ void NoteWidget::drawText(QPainter & p, int offsetX, int offsetY) {
 			p.drawText( offsetX + textX, offsetY + textY , textWidth, fontHeight, AlignLeft, word );
 		}//end if
 		else
+		{
+			if ( textY > height )
+				return;
 			p.drawText( offsetX + textX, offsetY + textY , textWidth, fontHeight, AlignLeft, word );
+		}
 	}//end if
 }
 
