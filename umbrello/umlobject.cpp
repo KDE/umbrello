@@ -147,6 +147,7 @@ void UMLObject::emitModified()
 
 void UMLObject::setDoc(QString d) {
 	m_Doc = d;
+	emit modified();
 }
 
 UMLObject_Type UMLObject::getBaseType() const {
