@@ -92,9 +92,13 @@ bool JavaANTCodeDocument::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
 void JavaANTCodeDocument::updateContent( ) {
    	// FIX : fill in more content based on classes
 	// which exist
-	CodeBlock * block = newCodeBlock();
-	block->setText("<!-- java ANT build document -->");
-	addTextBlock(block);
+	CodeBlock * block = 0;
+	if( !(block = findTextBlockByTag("title")))
+	{
+		block = newCodeBlock();
+		block->setText("<!-- java ANT build document -->");
+		addTextBlock(block);
+	}
 }
 
 // We overwritten by Java language implementation to get lowercase path
