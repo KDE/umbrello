@@ -237,7 +237,7 @@ generator wants to use as output file already exists:</string>
                                             <bool>true</bool>
                                         </property>
                                         <property name="whatsThis" stdset="0">
-                                            <string>If a file with the same name alreay exists, ask what to do</string>
+                                            <string>If a file with the same name already exists, ask what to do</string>
                                         </property>
                                     </widget>
                                     <widget class="QRadioButton">

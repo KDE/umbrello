@@ -20,7 +20,7 @@
 #include <unistd.h>
 
 static const char *description =
-    I18N_NOOP("Umbrello UML Modeller");
+    I18N_NOOP("Umbrello UML Modeler");
 // INSERT A DESCRIPTION FOR YOUR APPLICATION HERE
 
 
@@ -33,12 +33,12 @@ static KCmdLineOptions options[] =
 
 int main(int argc, char *argv[]) {
 
-	KAboutData aboutData( "umbrello", I18N_NOOP("Umbrello UML Modeller"),
+	KAboutData aboutData( "umbrello", I18N_NOOP("Umbrello UML Modeler"),
 	                      VERSION, description, KAboutData::License_GPL,
-	                      I18N_NOOP("(c) 2001 Paul Hensgen, (c) 2002 Umbrello UML Modeller Authors"), 0,
+	                      I18N_NOOP("(c) 2001 Paul Hensgen, (c) 2002 Umbrello UML Modeler Authors"), 0,
 	                      "http://uml.sf.net/");
 	aboutData.addAuthor("Paul Hensgen",0, "phensgen@users.sourceforge.net");
-	aboutData.addAuthor(I18N_NOOP("Umbrello UML Modeller Authors"), 0, "uml-devel@lists.sourceforge.net");
+	aboutData.addAuthor(I18N_NOOP("Umbrello UML Modeler Authors"), 0, "uml-devel@lists.sourceforge.net");
 	KCmdLineArgs::init( argc, argv, &aboutData );
 	KCmdLineArgs::addCmdLineOptions( options ); // Add our own options.
 

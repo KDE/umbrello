@@ -167,10 +167,10 @@ void RefactoringAssistant::addSuperClassifier()
 	UMLObject_Type type;
 	if(typeid(*obj) == typeid(UMLClass))
 	{
-		text = i18n("Enter a name for exisiting or new super class");
+		text = i18n("Enter a name for existing or new super class");
 		type = ot_Class;
 	} else if(typeid(*obj) == typeid(UMLInterface)) {
-		text = i18n("Enter a name for exisiting or new super interface");
+		text = i18n("Enter a name for existing or new super interface");
 		type = ot_Interface;
 	} else {
 		kdWarning() << "unknown typeid" << endl;

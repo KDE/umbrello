@@ -1,4 +1,4 @@
-# KDE Config File  
+# KDE Config File
 [Desktop Entry]
 Type=Application
 Exec=umbrello -caption "%c" %i %m
@@ -6,8 +6,15 @@ Icon=umbrello.png
 MiniIcon=umbrello.png
 DocPath=umbrello/index.html
 Comment=
+Comment[xx]=xxxx
 Terminal=false
-Name=Umbrello UML Modeller
+Name=Umbrello UML Modeler
+Name[ca]=Modelador UML Umbrello
+Name[cy]=Modelydd UML Umbrello
+Name[hu]=Umbrello UML-modellező
+Name[pt_BR]=Modelador UML Umbrello
+Name[ru]=Моделер UML Umbrello 
 Name[sv]=Umbrello UML-modellering
+Name[xx]=xxUmbrello UML Modellerxx
 MimeType=application/x-uml
 Categories=Qt;KDE;Development

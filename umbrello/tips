@@ -1,6 +1,6 @@
 <tip category="Umbrello">
 <html>
-<p>Welcome to Umbrello UML Modeller.  UML lets you create models of
+<p>Welcome to Umbrello UML Modeler.  UML lets you create models of
 software systems in a standard diagramming language.  Please read the
 Umbrello Handbook, available from the Help menu, to learn more about UML.</p>
 </html>
@@ -15,7 +15,7 @@ Umbrello Handbook, available from the Help menu, to learn more about UML.</p>
 <tip category="Umbrello">
 <html>
 <p>PHP Code Generation has been added in the 1.1rc1 release.  If you had an earlier version
-installed you may need to initialise it from Code menu->Add/Remove Languages.</p>
+installed you may need to initialize it from Code menu->Add/Remove Languages.</p>
 </html>
 </tip>
 
