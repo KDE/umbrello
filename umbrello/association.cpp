@@ -9,6 +9,7 @@
 
 #include <kdebug.h>
 
+#include <iostream.h>
 #include "association.h"
 #include "classifier.h"
 #include "umldoc.h"
@@ -20,7 +21,9 @@ const Uml::Association_Type UMLAssociation::atypeLast = Uml::at_Activity;
 const unsigned UMLAssociation::nAssocTypes = (unsigned)atypeLast - (unsigned)atypeFirst + 1;
 
 // constructor
-UMLAssociation::UMLAssociation(UMLDoc* parent) : UMLObject((UMLObject *)parent) {
+UMLAssociation::UMLAssociation(UMLDoc* parent) 
+    : UMLObject((UMLObject *)parent) 
+{
 	init();
 }
 
@@ -101,6 +104,12 @@ bool UMLAssociation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	associationElement.setAttribute( "visibilityb", getVisibilityB() );
 	associationElement.setAttribute( "changeabilitya", getChangeabilityA() );
 	associationElement.setAttribute( "changeabilityb", getChangeabilityB() );
+/*
+// the future...
+	getUMLRoleA()->saveToXMI (doc, associationElement);
+	getUMLRoleB()->saveToXMI (doc, associationElement);
+*/
+
 	qElement.appendChild( associationElement );
 	return status;
 }
@@ -158,11 +167,11 @@ UMLObject* UMLAssociation::getObjectB() {
 }
 
 int UMLAssociation::getRoleAId() const {
-	return m_pRoleA->getId();
+	return m_pRoleA->getID();
 }
 
 int UMLAssociation::getRoleBId() const {
-	return m_pRoleB->getId();
+	return m_pRoleB->getID();
 }
 
 Changeability_Type UMLAssociation::getChangeabilityA() const {
@@ -219,11 +228,11 @@ void UMLAssociation::setAssocType(Uml::Association_Type assocType) {
 }
 
 void UMLAssociation::setRoleAId (int roleA) {
-	m_pRoleA->setId(roleA);
+	m_pRoleA->setID(roleA);
 }
 
 void UMLAssociation::setRoleBId(int roleB) {
-	m_pRoleB->setId(roleB);
+	m_pRoleB->setID(roleB);
 }
 
 void UMLAssociation::setObjectA(UMLObject *obj) {
@@ -314,6 +323,8 @@ void UMLAssociation::init() {
 
 	m_pRoleA = new UMLRole (this);
 	m_pRoleB = new UMLRole (this);
+
+cerr<<" NEW ROLE ID A: "<<m_pRoleA->getID()<<endl;
 
 /*
 	m_pObjectA = 0;
