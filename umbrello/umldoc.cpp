@@ -536,7 +536,8 @@ UMLObject* UMLDoc::findUMLObject(UMLObjectList inList, QString name,
 		if (nameWithoutFirstPrefix.isEmpty()) {
 			if (type != ot_UMLObject && type != foundType) {
 				kdDebug() << "findUMLObject: type mismatch for "
-					  << name << " (actual type: "
+					  << name << " (seeking type: "
+					  << type << ", found type: "
 					  << foundType << ")" << endl;
 				continue;
 			}
