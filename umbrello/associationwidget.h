@@ -508,58 +508,42 @@ public:
 	/**
 	 * Sets the Association line index for widgetA.
 	 */
-	void setIndexA(int index) {
-		m_nIndexA = index;
-	}
+	void setIndexA(int index);
 
 	/**
 	 * Returns the Association line index for widgetA.
 	 */
-	int getIndexA() const {
-		return m_nIndexA;
-	}
+	int getIndexA() const;
 
 	/**
 	 * Sets the Association line index for widgetB.
 	 */
-	void setIndexB(int index) {
-		m_nIndexB = index;
-	}
+	void setIndexB(int index);
 
 	/**
 	 * Returns the Association line index for widgetB.
 	 */
-	int getIndexB() const {
-		return m_nIndexB;
-	}
+	int getIndexB() const;
 
 	/**
 	 * Sets the total count on the Association region for widgetA.
 	 */
-	void setTotalCountA(int count) {
-		m_nTotalCountA = count;
-	}
+	void setTotalCountA(int count);
 
 	/**
 	 * Returns the total count on the Association region for widgetA.
 	 */
-	int getTotalCountA() const {
-		return m_nTotalCountA;
-	}
+	int getTotalCountA() const;
 
 	/**
 	 * Sets the total count on the Association region for widgetB.
 	 */
-	void setTotalCountB(int count) {
-		m_nTotalCountB = count;
-	}
+	void setTotalCountB(int count);
 
 	/**
 	 * Region the total count on the Association region for widgetB
 	 */
-	int getTotalCountB() const {
-		return m_nTotalCountB;
-	}
+	int getTotalCountB() const;
 
 	/**
 	 * Saves this widget to the <UML:AssociationWidget> XMI element.
@@ -754,92 +738,78 @@ private:
 	FloatingText* m_pName;
 
 	/**
-	 * This is a pointer to the Floating Text widget at the starting side
-	 * of the association.
-	 * This FloatingText displays the information regarding multiplicity.
+	 * The WidgetRole struct gathers all information pertaining to the role.
+	 * The AssociationWidget class contains two WidgetRole objects, one for each
+	 * side of the association (A and B).
 	 */
-	FloatingText* m_pMultiA;
+	struct WidgetRole {
+
+		/**
+		 * This is a pointer to the Floating Text widget at the role's side
+		 * of the association.
+		 * This FloatingText displays the information regarding multiplicity.
+		 */
+		FloatingText* m_pMulti;
+
+		/**
+		 * This is a pointer to the Floating Text widget at the role's side
+		 * of the association.
+		 * This FloatingText displays the information regarding changeability.
+		 */
+		FloatingText* m_pChangeWidget;
+
+		/**
+		 * This member holds a pointer to the floating text that displays
+		 * the role's label of this association.
+		 */
+		FloatingText* m_pRole;
+
+		/**
+		 * This member holds a pointer to the UMLWidget at this role's side
+		 * of the association.
+		 */
+		UMLWidget* m_pWidget;
+
+		/**
+		 * This role's old top left corner before moving.
+		 */
+		QPoint m_OldCorner;
+
+		/**
+		 * This role's old top left region according to the other role's bounding
+		 * rectangle.
+		 * Not currently used. (findRectIntersectionPoint() is inactive.)
+		 */
+		int m_nCornerRegion;
+
+		/**
+		 * The region of this role's widget.
+		 */
+		Region m_WidgetRegion;
+
+		/**
+		 * The index of where the line is on the region for this role.
+		 */
+		int m_nIndex;
+
+		/**
+		 * The total amount of associations on the region this role's line is on.
+		 */
+		int m_nTotalCount;
+
+		// The following items are only used if m_pAssociation is not set.
+		Scope m_Visibility;
+		Changeability_Type m_Changeability;
+		QString m_RoleDoc;
+		QString m_RoleName;
+		QString m_Multi;
+
+	} m_role[2];
 
 	/**
-	 * This is a pointer to the Floating Text widget at the ending side
-	 * of the association.
-	 * This FloatingText displays the information regarding multiplicity.
+	 * Constants used for indexing the roles.
 	 */
-	FloatingText* m_pMultiB;
-
-	/**
-	 * This is a pointer to the Floating Text widget at the "A" side
-	 * of the association.
-	 * This FloatingText displays the information regarding changeability.
-	 */
-	FloatingText* m_pChangeWidgetA;
-
-	/**
-	 * This is a pointer to the Floating Text widget at the "A" side
-	 * of the association.
-	 * This FloatingText displays the information regarding changeability.
-	 */
-	FloatingText* m_pChangeWidgetB;
-
-	/**
-	 * This member holds a pointer to the floating text that displays
-	 * role A of this association.
-	 */
-	FloatingText* m_pRoleA;
-
-	/**
-	 * This member holds a pointer to the floating text that displays
-	 * role B of this association.
-	 */
-	FloatingText* m_pRoleB;
-
-	/**
-	 * This member holds a pointer to the UMLWidget at the starting side
-	 * of the association.
-	 */
-	UMLWidget* m_pWidgetA;
-
-	/**
-	 * This member holds a pointer to the UMLWidget at the ending side
-	 * of the association.
-	 */
-	UMLWidget* m_pWidgetB;
-
-	/**
-	 * WidgetA's old top left corner before moving.
-	 */
-	QPoint m_OldCornerA;
-
-	/**
-	 * WidgetB's old top left corner before moving.
-	 */
-	QPoint m_OldCornerB;
-
-	/**
-	 * WidgetA's old top left region according to WidgetB's bounding
-	 * rectangle.
-	 */
-	int m_nCornerARegion;
-
-	/**
-	 * WidgetA's old top left region according to WidgetB's bounding 
-	 * rectangle.
-	 */
-	int m_nCornerBRegion;
-
-	/**
-	 * Returns the region the line is on for widgetA.
-	 */
-	Region getWidgetARegion() const {
-		return m_WidgetARegion;
-	}
-
-	/**
-	 * Returns the region the line is on for widgetB.
-	 */
-	Region getWidgetBRegion() const {
-		return m_WidgetBRegion;
-	}
+	enum Role_Type { A, B };
 
 	/**
 	 * Called to tell the association that another association has added
@@ -850,8 +820,6 @@ private:
 	 * @ref calculateEndingPoints when required.
 	 */
 	void updateRegionLineCount(int index, int totalCount, AssociationWidget::Region region , bool widgetA);
-
-protected:
 
 	/**
 	 * Tells all the other view associations the new count for the
@@ -866,19 +834,41 @@ protected:
 	 */
 	int getRegionCount(Region region, bool widgetA);
 
-private:
-
 	/**
 	 * Initialize attributes of this class at construction time.
 	 */
 	void init (UMLView *view);
 
-	// yes, this is correct, we dont want other classes/users seeing this
-	// they should use setChangeability[AB] instead
-	bool setChangeWidgetA (QString strChangeWidgetA);
+	/**
+	 * Auxiliary to setMulti{A,B}.
+	 */
+	bool setMulti(QString strMulti, Role_Type role);
 
-	// yes, this is correct, we dont want other classes/users seeing this
-	bool setChangeWidgetB (QString strChangeWidgetB);
+	/**
+	 * Auxiliary to setRoleName{A,B}.
+	 */
+	bool setRoleName (QString strRole, Role_Type role);
+
+	/**
+	 * Auxiliary to setVisibility{A,B}.
+	 */
+	void setVisibility (Scope value, Role_Type role);
+
+	/**
+	 * Auxiliary to setChangeability{A,B}.
+	 */
+	void setChangeability (Changeability_Type value, Role_Type role);
+
+	/**
+	 * For internal purposes only.
+	 * Other classes/users should use setChangeability[AB] instead.
+	 */
+	bool setChangeWidget(QString strChangeWidgetA, Role_Type role);
+
+	/**
+	 * Auxiliary to getWidget{A,B}ID.
+	 */
+	int getWidgetID(Role_Type role) const;
 
 	/**
 	 * Checks to see if the given point is one of the points of the line.
@@ -903,8 +893,6 @@ private:
 	QBitmap 	*m_pMask;*/
 
 	UMLView 	* m_pView;
-	Region 		m_WidgetARegion,
-			m_WidgetBRegion;
 
 	/**
 	 * Flag which is true if the activate method has been called for this
@@ -927,41 +915,14 @@ private:
 	bool 		m_bSelected;
 	int 		m_nMovingPoint;
 
-	// Data loaded/saved:
-
 	/**
 	 * The definition points for the association line.
 	 */
 	LinePath m_LinePath;
 
-	/**
-	 * The index of where the line is on the region for widget a.
-	 */
-	int m_nIndexA;
-
-	/**
-	 * The index of where the line is on the region for widget b.
-	 */
-	int m_nIndexB;
-
-	/**
-	 * The total amount of associations on the region widget a line is on.
-	 */
-	int m_nTotalCountA;
-
-	/**
-	 * The total amount of associations on the region widget b line is on.
-	 */
-	int m_nTotalCountB;
-
 	// The following items are only used if m_pAssociation is not set.
-	Uml::Association_Type m_AssocType;
-	Scope m_VisibilityA, m_VisibilityB;
-	Changeability_Type m_ChangeabilityA, m_ChangeabilityB;
-	QString m_RoleADoc, m_RoleBDoc;
-	QString m_RoleNameA, m_RoleNameB;
-	QString m_MultiA, m_MultiB;
 	QString m_Doc;
+	Uml::Association_Type m_AssocType;
 
 public slots:
 	/**
