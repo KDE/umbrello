@@ -47,11 +47,14 @@ AssociationWidget::AssociationWidget(QWidget *parent, UMLWidget* WidgetA,
 
 	UMLDoc *umldoc = m_pView->getDocument();
 
-	// set up UMLAssociation obj
-	m_pAssociation = new UMLAssociation( umldoc, Type, WidgetA->getUMLObject(), WidgetB->getUMLObject() );
-	umldoc->addAssociation( m_pAssociation );
-	connect(m_pAssociation, SIGNAL(modified()), this,
+	// set up UMLAssociation obj if both roles are UML objects
+	UMLObject* umlRoleA = WidgetA->getUMLObject();
+	UMLObject* umlRoleB = WidgetB->getUMLObject();
+	if (umlRoleA != NULL && umlRoleB != NULL) {
+		m_pAssociation = umldoc->createUMLAssociation( umlRoleA, umlRoleB, Type);
+		connect(m_pAssociation, SIGNAL(modified()), this,
 			SLOT(mergeUMLRepresentationIntoAssociationData()));
+	}
 
 	setAssocType(Type);
 
@@ -768,7 +771,7 @@ bool AssociationWidget::activate() {
 		m_pMultiA->activate();
 	}
 
-	if( m_pMultiB != NULL && AssocRules::allowMultiplicity( type, getWidgetA() -> getBaseType() ) ) {
+	if( m_pMultiB != NULL && AssocRules::allowMultiplicity( type, getWidgetB() -> getBaseType() ) ) {
 		m_pMultiB->setAssoc(this);
 		m_pMultiB->setRole( tr_MultiB );
 
@@ -1641,12 +1644,11 @@ QPoint AssociationWidget::findIntersection(QPoint P1, QPoint P2, QPoint P3, QPoi
 	 * increase from left to right and y-values increase from top to bottom; it means
 	 * the visible area is quadrant I in the regular XY coordinate system
 	 *
-
-	 *								|
-	 *	Quadrant II		|   Quadrant I
-	 *		-----------------|-----------------
-	 *	Quadrant III		|   Quadrant IV
-	 *								|
+	 *                     |
+	 *      Quadrant II    |   Quadrant I
+	 *    -----------------|-----------------
+	 *      Quadrant III   |   Quadrant IV
+	 *                     |
 	 * In order for the linear function calculations to work in this method we must switch x and y values
 	 * (x values become y values and viceversa)
 	 */
@@ -1837,11 +1839,10 @@ QPoint AssociationWidget::calculatePointAtDistance(QPoint P1, QPoint P2, float D
 
 
 	                         ---------------
-	  sol_2  =   -B -  ---  /  2
+	             -B -  ---  /  2
 	                      \/  B   - 4*A*C
-	           --------------------------------
+	  sol_2  = --------------------------------
 	                       2*A
-
 
 
 	  then in the distance formula we have only one variable x3 and that is easy
@@ -2441,7 +2442,7 @@ void AssociationWidget::mouseReleaseEvent(QMouseEvent * me) {
 		if(type == at_Coll_Message) {
 			menuType = ListPopupMenu::mt_Collaboration_Message;
 		}
-	}//end else
+	}
 	m_pMenu = new ListPopupMenu(m_pView, menuType);
 	m_pMenu->popup(me -> globalPos());
 	connect(m_pMenu, SIGNAL(activated(int)), this, SLOT(slotMenuSelection(int)));
@@ -2977,7 +2978,6 @@ void AssociationWidget::updateRegionLineCount(int index, int totalCount, Associa
 	case West:
 		pt.setX(x);
 		pt.setY(y + ch);
-
 		break;
 	case North:
 		pt.setX(x + cw);
@@ -2989,7 +2989,6 @@ void AssociationWidget::updateRegionLineCount(int index, int totalCount, Associa
 		break;
 	case South:
 	case Center:
-
 		pt.setX(x + cw);
 		pt.setY(y + wh);
 		break;
@@ -3279,15 +3278,19 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement )
         int bId = widgetbid.toInt();
         UMLWidget *pWidgetA = m_pView->findWidget( aId );
         if (!pWidgetA) {
-                        kdError() << "AssociationWidget::loadFromXMI(): "
-                                    << "cannot find widget for roleA id " << aId << endl;
-                        return false;
+		kdError() << "AssociationWidget::loadFromXMI(): "
+			  << "cannot find widget for roleA id " << aId << endl;
+		/* Just returning false here is a little harsh when the rest of the diagram
+		   might load okay.  As a compromise, let's be tolerant if the ID is -1.  */
+		return (aId == -1);
         }
         UMLWidget *pWidgetB = m_pView->findWidget( bId );
         if (!pWidgetB) {
-                        kdError() << "AssociationWidget::loadFromXMI(): "
-                                    << "cannot find widget for roleB id " << bId << endl;
-                        return false;
+		kdError() << "AssociationWidget::loadFromXMI(): "
+			  << "cannot find widget for roleB id " << bId << endl;
+		/* Just returning false here is a little harsh when the rest of the diagram
+		   might load okay.  As a compromise, let's be tolerant if the ID is -1.  */
+		return (bId == -1);
         }
         setWidgetA(pWidgetA);
         setWidgetB(pWidgetB);
