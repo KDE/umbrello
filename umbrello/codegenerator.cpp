@@ -780,7 +780,7 @@ void CodeGenerator::createDefaultDatatypes()  {
  * @param rPossiblyReservedKeyword is the string to check
  *
  */
-bool CodeGenerator::isReservedKeyword(const QString & rPossiblyReservedKeyword) {
+bool CodeGenerator::isReservedKeyword(const QString & /* rPossiblyReservedKeyword*/) {
 	return false;
 }
 
