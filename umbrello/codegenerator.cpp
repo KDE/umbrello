@@ -12,23 +12,28 @@
  *      Date   : Thu Jun 19 2003
  */
 
-#include <cstdlib> //to get the user name
-#include <kdebug.h>
+// own header
+#include "codegenerator.h"
 
+// system includes
+#include <cstdlib> //to get the user name
+
+// qt includes
 #include <qdatetime.h>
 #include <qregexp.h>
 #include <qdir.h>
 
+// kde includes
+#include <kdebug.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kdialogbase.h>
 #include <kapplication.h>
 
+// app includes
 #include "dialogs/overwritedialogue.h"
-
-#include "codegenerator.h"
+#include "dialogs/codeviewerdialog.h"
 #include "codegenerators/simplecodegenerator.h"
-
 #include "attribute.h"
 #include "associationwidget.h"
 #include "class.h"
@@ -42,7 +47,6 @@
 #include "umlattributelist.h"
 #include "umloperationlist.h"
 
-#include "dialogs/codeviewerdialog.h"
 
 // Constructors/Destructors
 //
@@ -662,21 +666,24 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLClassifierList &cLis
  * @param	linewidth
  */
 QString CodeGenerator::formatDoc(const QString &text, const QString &linePrefix, int lineWidth) {
-	QString output,
-	comment(text);
+	QString output, comment(text);
 
-	QString endLine = getNewLineEndingChars();
-	comment.replace(QRegExp(endLine)," ");
-	comment.simplifyWhiteSpace();
-
-	int index;
-	do {
-		index = comment.findRev(" ",lineWidth + 1);
-		output += linePrefix + comment.left(index) + endLine; // add line
-		comment.remove(0, index + 1);		      //and remove processed string, including
-		// white space
-	} while(index > 0 );
-
+	const QString endLine = getNewLineEndingChars();
+	QStringList lines = QStringList::split(endLine, comment);
+	for (QStringList::ConstIterator lit = lines.begin(); lit != lines.end(); ++lit) {
+		QString input = *lit;
+		input.remove( QRegExp("\\s+$") );
+		if (input.length() < (uint)lineWidth) {
+			output += linePrefix + input + endLine;
+			continue;
+		}
+		do {
+			const int index = comment.findRev(" ", lineWidth + 1);
+			output += linePrefix + input.left(index) + endLine; // add line
+			input.remove(0, index + 1);	//and remove processed string, including
+							// white space
+		} while(index > 0 );
+	}
 	return output;
 }
 
