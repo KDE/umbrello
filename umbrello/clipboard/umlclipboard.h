@@ -74,7 +74,7 @@ public:
 private:
 	/**
 	 * Cleans the list of associations taking out the ones
-	 * that point to an object not in m_pObjectList.
+	 * that point to an object not in m_ObjectList.
 	 *
 	 * @param associations	The list of associations to process.
 	 */
@@ -141,11 +141,11 @@ private:
 	 */
 	bool checkPasteWidgets(UMLWidgetList & widgetList);
 
-	UMLObjectList* m_pObjectList;
+	UMLObjectList m_ObjectList;
 	UMLListViewItemList m_ItemList;
-	UMLWidgetList* m_pWidgetList;
-	AssociationWidgetList* m_pAssociationList;
-	UMLViewList* m_pViewList;
+	UMLWidgetList m_WidgetList;
+	AssociationWidgetList m_AssociationList;
+	UMLViewList m_ViewList;
 	UMLCopyType m_type; ///< Type of copy operation to perform.
 
 private:
@@ -173,7 +173,7 @@ private:
 				  UMLDoc* Doc);
 
 	/**
-	 * Adds the children of a UMLListViewItem to m_pItemList.
+	 * Adds the children of a UMLListViewItem to m_ItemList.
 	 */
 	bool insertItemChildren(UMLListViewItem* Item,
 				UMLListViewItemList& SelectedItems);

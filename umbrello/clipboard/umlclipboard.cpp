@@ -28,23 +28,10 @@
 #include "../umlwidget.h"
 
 UMLClipboard::UMLClipboard() {
-	m_pObjectList = new UMLObjectList;
-	m_pObjectList->setAutoDelete( false );
-	m_pWidgetList = new UMLWidgetList;
-	m_pWidgetList->setAutoDelete( false );
-	m_pAssociationList = new AssociationWidgetList;
-	m_pAssociationList->setAutoDelete( false );
-	m_pViewList = new UMLViewList;
-	m_pViewList->setAutoDelete( false );
 	m_type = clip1;
 }
 
 UMLClipboard::~UMLClipboard() {
-    delete m_pObjectList;
-    delete m_pWidgetList;
-    delete m_pAssociationList;
-    delete m_pViewList;
-
 }
 
 QMimeSource* UMLClipboard::copy(UMLDoc* Doc, bool fromView/*=false*/) {
@@ -52,10 +39,10 @@ QMimeSource* UMLClipboard::copy(UMLDoc* Doc, bool fromView/*=false*/) {
 		return 0;
 	}
 	//Clear previous copied data
-	m_pAssociationList->clear();
+	m_AssociationList.clear();
 	m_ItemList.clear();
-	m_pObjectList->clear();
-	m_pViewList->clear();
+	m_ObjectList.clear();
+	m_ViewList.clear();
 
 	UMLDrag *data = 0;
 	QPixmap* png = 0;
@@ -67,58 +54,23 @@ QMimeSource* UMLClipboard::copy(UMLDoc* Doc, bool fromView/*=false*/) {
 	if(fromView) {
 		m_type = clip4;
 		Doc->getCurrentView() -> checkSelections();
-		if(!Doc->getCurrentView()->getSelectedWidgets(*m_pWidgetList)) {
+		if(!Doc->getCurrentView()->getSelectedWidgets(m_WidgetList)) {
 			return 0;
 		}
 		//if there is no selected widget then there is no copy action
-		if(!m_pWidgetList->count()) {
+		if(!m_WidgetList.count()) {
 			return 0;
 		}
-		if(!Doc->getCurrentView()->getSelectedAssocs(*m_pAssociationList)) {
+		if(!Doc->getCurrentView()->getSelectedAssocs(m_AssociationList)) {
 			return 0;
 		}
-
-		/* CHECK: Why would the UMLObjects and UMLListViewItems be
-		   involved here at all?  --okellogg
-		UMLWidgetListIt widget_it(*m_pWidgetList);
-		UMLWidget* widget = widget_it.current();
-		UMLObject* object = 0;
-		while(widget) {
-			++widget_it;
-			if ( UMLWidget::widgetHasUMLObject(widget->getBaseType()) ) {
-				object = Doc->findUMLObject(widget->getID());
-				//if the object is not already on the list
-				if(m_pObjectList->find(object) == -1) {
-					m_pObjectList->append(object);
-				}
-			}
-			widget = widget_it.current();
-		}
-
-		//For each Selected UMLObject get its UMLListViewItem and children
-		UMLObjectListIt object_it(*m_pObjectList);
-		object = object_it.current();
-		UMLListViewItem* item = 0;
-		while(object) {
-			++object_it;
-			item = listView->findItem(object->getID());
-			if(item) {
-				m_ItemList.append( item );
-				insertItemChildren( item );
-			} else {
-				return 0;
-			}
-			object = object_it.current();
-		}
-		 */
-
 		Doc->getCurrentView()->copyAsImage(png);
 	} else { //if the copy action is being performed from the ListView
 		if(!listView->getSelectedItems(selectedItems)) {
 			return 0;
 		}
 		//Set What type of copy operation are we performing and
-		//also fill m_pViewList with all the selected Diagrams
+		//also fill m_ViewList with all the selected Diagrams
 		setCopyType(selectedItems, Doc);
 
 		//if we are copying a diagram or part of a diagram, select the items
@@ -129,7 +81,7 @@ QMimeSource* UMLClipboard::copy(UMLDoc* Doc, bool fromView/*=false*/) {
 			//to the clipboard
 			selectedItems.clear();
 			UMLListViewItem* item = 0;
-			UMLViewListIt view_it(*m_pViewList);
+			UMLViewListIt view_it(m_ViewList);
 			//For each selected view select all the Actors, USe Cases and Concepts
 			//widgets in the ListView
 			UMLObjectList* objects = 0;
@@ -156,25 +108,26 @@ QMimeSource* UMLClipboard::copy(UMLDoc* Doc, bool fromView/*=false*/) {
 	int i =0;
 	switch(m_type) {
 		case clip1:
-			data = new UMLDrag(*m_pObjectList, m_ItemList);
+			data = new UMLDrag(m_ObjectList, m_ItemList);
 			break;
 		case clip2:
-			data = new UMLDrag(*m_pObjectList, m_ItemList, *m_pViewList);
+			data = new UMLDrag(m_ObjectList, m_ItemList, m_ViewList);
 			break;
 		case clip3:
 			data = new UMLDrag(m_ItemList);
 			break;
 		case clip4:
 			if(png) {
-				data = new UMLDrag(*m_pObjectList, m_ItemList, *m_pWidgetList,
-				                    *m_pAssociationList, *png, Doc -> getCurrentView() -> getType() );
+				data = new UMLDrag(m_ObjectList, m_ItemList, m_WidgetList,
+				                    m_AssociationList, *png, Doc -> getCurrentView() -> getType() );
 			} else {
 				return 0;
 			}
 			break;
 		case clip5:
-			data = new UMLDrag(*m_pObjectList, m_ItemList, i); //The int i is used to differenciate
-			//which UMLDrag Constructor gets called
+			data = new UMLDrag(m_ObjectList, m_ItemList, i);
+			// The int i is used to differentiate
+			// which UMLDrag constructor gets called.
 			break;
 	}
 
@@ -243,7 +196,7 @@ bool UMLClipboard::fillSelectionLists(UMLListViewItemList& SelectedItems) {
 					m_ItemList.append(item);
 
 					if ( UMLListView::typeIsCanvasWidget(type) ) {
-						m_pObjectList->append(item->getUMLObject());
+						m_ObjectList.append(item->getUMLObject());
 					}
 					insertItemChildren(it.current(), SelectedItems);
 				}
@@ -255,7 +208,7 @@ bool UMLClipboard::fillSelectionLists(UMLListViewItemList& SelectedItems) {
 				type = item->getType();
 				if( UMLListView::typeIsClassifierList(type) ) {
 					m_ItemList.append(item);
-					m_pObjectList->append(item->getUMLObject());
+					m_ObjectList.append(item->getUMLObject());
 
 				} else {
 					return false;
@@ -304,7 +257,7 @@ void UMLClipboard::checkItemForCopyType(UMLListViewItem* Item, bool & WithDiagra
 			WithDiagrams = true;
 			OnlyAttsOps = false;
 			view = Doc->findView( Item->getID() );
-			m_pViewList->append( view );
+			m_ViewList.append( view );
 	} else if ( UMLListView::typeIsFolder(type) ) {
 			OnlyAttsOps = false;
 			if(Item->childCount()) {
@@ -326,10 +279,10 @@ bool UMLClipboard::insertItemChildren(UMLListViewItem * Item, UMLListViewItemLis
 			m_ItemList.append(child);
 			type = child->getType();
 			if(type == Uml::lvt_Actor || type == Uml::lvt_UseCase || type == Uml::lvt_Class) {
-				m_pObjectList->append(child->getUMLObject());
+				m_ObjectList.append(child->getUMLObject());
 			}
-			//if the child is selected, remove it from the list of selected items otherwise it will be
-			//inserted twice in m_pObjectList
+			// If the child is selected, remove it from the list of selected items
+			// otherwise it will be inserted twice in m_ObjectList.
 			if(child->isSelected()) {
 				SelectedItems.remove(SelectedItems.find(child) );
 			}
@@ -371,11 +324,10 @@ bool UMLClipboard::pasteChildren(UMLListViewItem* Parent, UMLListViewItemListIt*
 
 	return true;
 }
-/** Cleans the list of associations taking out the ones that point to an object not in
-m_pObjectList */
+
+/** Cleans the list of associations taking out the ones that point to an object
+    not in m_ObjectList. */
 void UMLClipboard::CleanAssociations(AssociationWidgetList& associations) {
-
-
 	AssociationWidgetListIt it(associations);
 	AssociationWidget* assoc = it.current();
 
