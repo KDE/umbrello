@@ -25,11 +25,11 @@ class UMLAssociation;
 class UMLOperation;
 
 /**
-  * class IDLWriter is a code generator for UMLClassifier objects.
-  * Create an instance of this class, and feed it a UMLClassifier when
-  * calling writeClass and it will generate an IDL package spec for
-  * that concept
-  */
+ * Class IDLWriter is a code generator for UMLClassifier objects.
+ * Create an instance of this class, and feed it a UMLClassifier when
+ * calling writeClass and it will generate an IDL interface for that
+ * concept.
+ */
 class IDLWriter : public SimpleCodeGenerator {
 public:
 
@@ -44,6 +44,8 @@ public:
 
 	virtual bool isType (QString & type);
         virtual QString getLanguage();
+
+	void createDefaultDatatypes();
 
 private:
 

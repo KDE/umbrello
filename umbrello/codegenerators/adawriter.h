@@ -47,6 +47,8 @@ public:
 	virtual bool isType (QString & type);
         virtual QString getLanguage();
 
+	void createDefaultDatatypes();
+
 private:
 
 	/**
@@ -62,10 +64,6 @@ private:
 
 	QString qualifiedName
 	(UMLClassifier *c, bool withType = false, bool byValue = false);
-
-	QString adatype (QString umbtype);
-
-	QString toupperfirst (QString s);
 
 	QString spc ();
 

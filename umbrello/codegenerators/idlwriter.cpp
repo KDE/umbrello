@@ -382,4 +382,16 @@ void IDLWriter::writeOperation(UMLOperation *op, QTextStream &idl, bool is_comme
 	idl << ");\n\n";
 }
 
+void IDLWriter::createDefaultDatatypes() {
+	m_doc->createDatatype("boolean");
+	m_doc->createDatatype("char");
+	m_doc->createDatatype("octet");
+	m_doc->createDatatype("short");
+	m_doc->createDatatype("unsigned short");
+	m_doc->createDatatype("long");
+	m_doc->createDatatype("unsigned long");
+	m_doc->createDatatype("float");
+	m_doc->createDatatype("double");
+	m_doc->createDatatype("string");
+}
 

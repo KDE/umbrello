@@ -54,31 +54,6 @@ QString AdaWriter::spc() {
 	return s;
 }
 
-QString AdaWriter::toupperfirst(QString s) {
-	QChar first = s.at(0);
-	QString retval = first.upper() + s.right(s.length() - 1);
-	return retval;
-}
-
-QString AdaWriter::adatype(QString umbtype) {
-	QString retval;
-	if (umbtype == "int")
-		retval = "Integer";
-	else if(umbtype == "long")
-		retval = "Long_Integer";
-	else if(umbtype == "bool")
-		retval = "Boolean";
-	else if(umbtype == "string")
-		retval = "String";
-	else if(umbtype == "double")
-		retval = "Long_Float";
-	else if(umbtype == "float")
-		retval = "Float";
-	else
-		retval = umbtype;
-	return retval;
-}
-
 QString AdaWriter::getLanguage() {
         return "Ada";
 }
@@ -253,7 +228,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 				indentlevel++;
 				for (at = atl->first(); at; at = atl->next()) {
 					QString name = cleanName(at->getName());
-					QString typeName = adatype(at->getTypeName());
+					QString typeName = at->getTypeName();
 					ada << spc() << name << " : " << typeName;
 					QString initialVal = at->getInitialValue();
 					if (initialVal.latin1() && ! initialVal.isEmpty())
@@ -318,11 +293,11 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 			ada << spc() << "procedure Set_" << member << " (";
 			if (! at->getStatic())
 				ada << "Self : access Object; ";
-			ada << "To : " << adatype(at->getTypeName()) << ");\n";
+			ada << "To : " << at->getTypeName() << ");\n";
 			ada << spc() << "function  Get_" << member;
 			if (! at->getStatic())
 				ada << " (Self : access Object)";
-			ada << " return " << adatype(at->getTypeName()) << ";\n\n";
+			ada << " return " << at->getTypeName() << ";\n\n";
 		}
 	} else {
 		kdWarning() << "atl not initialised in writeClass()" << endl;
@@ -418,7 +393,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 			if (at->getStatic())
 				continue;
 			ada << spc() << cleanName(at->getName()) << " : "
-			    << adatype(at->getTypeName());
+			    << at->getTypeName();
 			if (at && at->getInitialValue().latin1() && ! at->getInitialValue().isEmpty())
 				ada << " := " << at->getInitialValue();
 			ada << ";\n";
@@ -440,8 +415,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 		ada << spc();
 		if (at->getScope() == Uml::Private)
 			ada << "-- Private:  ";
-		ada << cleanName(at->getName()) << " : "
-		    << adatype(at->getTypeName());
+		ada << cleanName(at->getName()) << " : " << at->getTypeName();
 		if (at && at->getInitialValue().latin1() && ! at->getInitialValue().isEmpty())
 			ada << " := " << at->getInitialValue();
 		ada << ";\n";
@@ -513,7 +487,7 @@ void AdaWriter::writeOperation(UMLOperation *op, QTextStream &ada, bool is_comme
 			if (is_comment)
 				ada << "-- ";
 			ada << cleanName(at->getName()) << " : "
-			    << adatype(at->getTypeName());
+			    << at->getTypeName();
 			if (! at->getInitialValue().isEmpty())
 				ada << " := " << at->getInitialValue();
 			if (++i < atl->count()) //FIXME gcc warning
@@ -524,12 +498,24 @@ void AdaWriter::writeOperation(UMLOperation *op, QTextStream &ada, bool is_comme
 	if (! (op->getStatic() && atl->count() == 0))
 		ada << ")";
 	if (! use_procedure)
-		ada << " return " << adatype(rettype);
+		ada << " return " << rettype;
 	ada << " is abstract;\n\n";
 	// TBH, we make the methods abstract here because we don't have the means
 	// for generating meaningful implementations.
 }
 
+void AdaWriter::createDefaultDatatypes() {
+	m_doc->createDatatype("Boolean");
+	m_doc->createDatatype("Character");
+	m_doc->createDatatype("Positive");
+	m_doc->createDatatype("Natural");
+	m_doc->createDatatype("Integer");
+	m_doc->createDatatype("Short_Integer");
+	m_doc->createDatatype("Long_Integer");
+	m_doc->createDatatype("Float");
+	m_doc->createDatatype("Long_Float");
+	m_doc->createDatatype("String");
+}
 
 
 #include "adawriter.moc"
