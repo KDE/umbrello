@@ -113,6 +113,11 @@ public:
 	/**
 	 * Override method from UMLWidget.
 	 */
+	void setFont(QFont font);
+
+	/**
+	 * Override method from UMLWidget.
+	 */
 	void setX(int x);
 
 	/**

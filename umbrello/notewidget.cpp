@@ -59,6 +59,11 @@ void NoteWidget::slotViewScrolled(int x, int y) {
 	setEditorGeometry(x, y);
 }
 
+void NoteWidget::setFont(QFont font) {
+	UMLWidget::setFont(font);
+	m_pEditor->setFont(font);
+}
+
 void NoteWidget::setEditorGeometry(int dx /*=0*/, int dy /*=0*/) {
 	const QRect editorGeometry( UMLWidget::getX() - dx + 6,
 				    UMLWidget::getY() - dy + 10,
