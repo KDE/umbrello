@@ -32,6 +32,7 @@
 #include "javacodeclassfielddeclarationblock.h"
 #include "javacodeaccessormethod.h"
 #include "javacodeoperation.h"
+#include "../datatype.h"
 
 // Constructors/Destructors
 //
@@ -259,7 +260,6 @@ void JavaClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & roo
                                        // find the code operation by id
                                         QString id = element.attribute("parent_id","-1");
                                         UMLObject * obj = getParentGenerator()->getDocument()->findUMLObject(id.toInt());
-if(!obj) kdError()<<" CANT FIND PARENT OP FOR ID:"<<id<<endl;
                                         UMLOperation * op = dynamic_cast<UMLOperation*>(obj);
                                         if(op) {
                                                 CodeOperation * block = newCodeOperation(op);
@@ -372,7 +372,6 @@ void JavaClassifierCodeDocument::updateContent( )
       	// Gather info on the various fields and parent objects of this class...
 	UMLClassifier * c = getParentClassifier();
 	CodeGenerator * g = getParentGenerator();
-	// JavaCodeGenerator * gen = dynamic_cast<JavaCodeGenerator*>(g);
 	JavaCodeGenerator * gen = (JavaCodeGenerator*)g;
 
 	// first, set the global flag on whether or not to show classfield info
@@ -423,7 +422,10 @@ void JavaClassifierCodeDocument::updateContent( )
 
 	gen->findObjectsRelated(c,imports);
        	for(UMLClassifier *con = imports.first(); con ; con = imports.next())
-       		if (!(packageMap->contains(con)))
+		// NO (default) datatypes in the import statement.. use defined
+		// ones whould be possible, but no idea how to do that...at least for now.
+		// Dynamic casting is slow..not an optimal way to do this.
+       		if (!(packageMap->contains(con)) && !(dynamic_cast<UMLDatatype*>(con)))
 		{
        			packageMap->insert(con,con->getPackage());
 
