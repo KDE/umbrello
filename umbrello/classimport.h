@@ -118,9 +118,9 @@ private:
 	 */
 	void feedTheModel(QString fileName);
 
-	UMLDoc * m_umldoc;  // just a shorthand for UMLApp::app()->getDocument()
+	UMLDoc * m_umldoc;  ///< just a shorthand for UMLApp::app()->getDocument()
 	CppDriver * m_driver;
-	QStringList m_seenFiles;
+	QStringList m_seenFiles;  ///< auxiliary buffer for feedTheModel()
 	/**
 	 * On encountering a scoped typename string where the scopes
 	 * have not yet been seen, we synthesize UML objects for the
