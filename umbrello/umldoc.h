@@ -53,6 +53,7 @@ class UMLView;
 class UMLWidget;
 class UMLClass;
 class UMLClassifier;
+class UMLPackage;
 class UMLEnum;
 class UMLApp;
 
@@ -205,11 +206,14 @@ public:
 	/**
 	 * Creates a @ref UMLObject of the given type.
 	 *
-	 * @param type	The type of @ref UMLObject to create.
-	 *		Used to create Actors, Use Cases and concepts.
-	 * @param n	A name to give to the object (optional.)
+	 * @param type		The type of @ref UMLObject to create.
+	 *			Used to create Actors, Use Cases and concepts.
+	 * @param n		A name to give to the object (optional.)
+	 * @param parentPkg	The object's parent package (optional.)
 	 */
-	UMLObject* createUMLObject(UMLObject_Type type, const QString &n = QString::null);
+	UMLObject* createUMLObject(UMLObject_Type type,
+				   const QString &n = QString::null,
+				   UMLPackage *parentPkg = NULL);
 	/**
 	 * Creates a @ref UMLObject of the given type.
 	 *

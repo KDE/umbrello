@@ -415,6 +415,15 @@ void UMLListView::slotObjectCreated(UMLObject* object) {
 	UMLListViewItem* newItem = 0;
 	UMLListViewItem* parentItem = 0;
 	UMLListViewItem* current = (UMLListViewItem*) currentItem();
+	UMLPackage *pkg = object->getUMLPackage();
+	if (pkg) {
+		UMLListViewItem* pkgItem = findUMLObject(pkg);
+		if (pkgItem == NULL)
+			kdDebug() << "UMLListView::slotObjectCreated: could not find "
+				  << "parent package " << pkg->getName() << endl;
+		else
+			current = pkgItem;
+	}
 	connectNewObjectsSlots(object);
 	Uml::UMLObject_Type type = object->getBaseType();
 	Uml::ListView_Type lvt = Uml::lvt_Unknown;

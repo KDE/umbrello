@@ -14,6 +14,8 @@
 #include "umldoc.h"
 #include "umlattributelist.h"
 
+class UMLPackage;
+
 /**
  * Interfaces classparser library to uml models
  * @author Mikko Pasanen
@@ -31,9 +33,10 @@ public:
 	void importCPP(QStringList headerFiles);
 
 	/**
-	 *
+	 * Find or create a document object.
 	 */
-	UMLObject *createUMLObject(QString className, Uml::UMLObject_Type type);
+	UMLObject *createUMLObject(QString name, Uml::UMLObject_Type type,
+				   UMLPackage *parentPkg = NULL);
 
 	/**
 	 *
@@ -45,10 +48,6 @@ public:
 	 */
 	void insertMethod(UMLObject *o, Uml::Scope scope, QString name, QString type, UMLAttributeList *parList = NULL);
 
-	/**
-	 *
-	 */
-	bool createClass(QString className, UMLObject *uObject);
 };
 
 #endif

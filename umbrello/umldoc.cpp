@@ -625,7 +625,9 @@ UMLObject* UMLDoc::createUMLObject(const std::type_info &type)
 	}
 	return createUMLObject(t);
 }
-UMLObject* UMLDoc::createUMLObject(UMLObject_Type type, const QString &n) {
+
+UMLObject* UMLDoc::createUMLObject(UMLObject_Type type, const QString &n,
+				   UMLPackage *parentPkg /* = NULL */) {
 	bool ok = false;
 	int id;
 	QString name;
@@ -677,6 +679,7 @@ UMLObject* UMLDoc::createUMLObject(UMLObject_Type type, const QString &n) {
 		kdWarning() << "CreateUMLObject(int) error" << endl;
 		return (UMLObject*)0L;
 	}
+	o->setUMLPackage(parentPkg);
 	objectList.append(o);
 	emit sigObjectCreated(o);
 	setModified(true);

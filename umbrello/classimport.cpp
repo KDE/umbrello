@@ -10,6 +10,7 @@
 #include "classimport.h"
 #include "uml.h"
 #include "umldoc.h"
+#include "package.h"
 #include "class.h"
 #include "operation.h"
 #include "attribute.h"
@@ -27,15 +28,11 @@ ClassImport::ClassImport(QWidget *parent, const char *name) : UMLDoc(parent, nam
 ClassImport::~ClassImport() {}
 /** No descriptions */
 
-UMLObject *ClassImport::createUMLObject(QString className, Uml::UMLObject_Type type) {
-	if (type != Uml::ot_Class) {
-		kdDebug() << "CreateUMLObject(int) error" << endl;
-		return NULL;
-	}
-
-	UMLObject * o = findUMLObject(type, className);
+UMLObject *ClassImport::createUMLObject(QString name, Uml::UMLObject_Type type,
+					UMLPackage *parentPkg) {
+	UMLObject * o = findUMLObject(type, name);
 	if (o == NULL)
-		o = UMLDoc::createUMLObject( type, className );
+		o = UMLDoc::createUMLObject( type, name, parentPkg );
 	return o;
 }
 
@@ -96,7 +93,13 @@ void ClassImport::importCPP(QStringList headerFileList) {
 		QPtrList<CParsedAttribute> *attributes = currentParsedClass->getSortedAttributeList();
 		QPtrListIterator<CParsedAttribute> aIt(*attributes);
 
-		currentClass = createUMLObject(currentParsedClass->name, Uml::ot_Class);
+		QString pkgName( currentParsedClass->declaredInScope );
+		UMLPackage *pkg = NULL;
+		if( ! pkgName.isEmpty() )
+			pkg = (UMLPackage *)createUMLObject(pkgName, Uml::ot_Package);
+		currentClass = createUMLObject(currentParsedClass->name, Uml::ot_Class, pkg);
+		if (pkg)
+			pkg->addObject( currentClass );
 
 		for( ; aIt.current() ; ++aIt) {
 			CParsedAttribute *attr = aIt.current();
@@ -198,12 +201,3 @@ void ClassImport::importCPP(QStringList headerFileList) {
 	}
 } // method
 
-/** No descriptions */
-bool ClassImport::createClass(QString className, UMLObject *uObject) {
-	uObject = this->createUMLObject(className, Uml::ot_Class); // create class
-	if(uObject != NULL)
-		return true;
-	else {
-		return false;
-	}
-}
