@@ -197,3 +197,5 @@ void UMLViewDialog::checkName() {
 
 
 
+
+#include "umlviewdialog.moc"

@@ -111,3 +111,5 @@ void CodeGenerationOptionsPage::browseClicked() {
 QString CodeGenerationOptionsPage::getCodeGenerationLanguage() {
 	return m_SelectLanguageBox->currentText();
 }
+
+#include "codegenerationoptionspage.moc"

@@ -349,3 +349,5 @@ void UMLOperationDialog::slotOk() {
 
 
 
+
+#include "umloperationdialog.moc"

@@ -295,3 +295,5 @@ void ClassOpsPage::slotNewOperation() {
 	m_bSigWaiting = true;
 	m_pDoc->createUMLObject(m_pConcept, Uml::ot_Operation);
 }
+
+#include "classopspage.moc"

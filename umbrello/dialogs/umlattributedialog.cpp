@@ -169,3 +169,5 @@ void UMLAttributeDialog::slotOk() {
 }
 
 
+
+#include "umlattributedialog.moc"

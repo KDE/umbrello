@@ -134,3 +134,5 @@ void StateDialog::setupActivityPage() {
 
 
 
+
+#include "statedialog.moc"

@@ -802,3 +802,5 @@ int UMLDrag::getCodingType(const QMimeSource* e) {
 
 	return result;
 }
+
+#include "umldrag.moc"

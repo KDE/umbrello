@@ -108,3 +108,5 @@ GeneratorInfoDict ConfigCodeGenerators::configDictionary() {
 	}
 	return dict;
 }
+
+#include "configcodegenerators.moc"

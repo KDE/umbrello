@@ -190,3 +190,5 @@ void DiagramPrintPage::slotActivated(const QString & text) {
 		}
 	}
 }
+
+#include "diagramprintpage.moc"

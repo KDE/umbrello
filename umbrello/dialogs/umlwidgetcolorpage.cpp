@@ -73,3 +73,5 @@ void UMLWidgetColorPage::updateUMLWidget() {
 	m_pUMLWidget->setLineColour( m_pLineColorB -> color() );
 	m_pUMLWidget->setFillColour( m_pFillColorB -> color() );
 }
+
+#include "umlwidgetcolorpage.moc"

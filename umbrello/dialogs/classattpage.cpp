@@ -310,3 +310,5 @@ void ClassAttPage::slotNewAttribute() {
 	m_bSigWaiting = true;
 	m_pDoc->createUMLObject(m_pConcept, Uml::ot_Attribute);
 }
+
+#include "classattpage.moc"

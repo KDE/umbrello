@@ -124,3 +124,5 @@ void AssocPage::slotPopupMenuSel(int id) {
 
 
 
+
+#include "assocpage.moc"

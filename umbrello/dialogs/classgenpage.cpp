@@ -233,3 +233,5 @@ void ClassGenPage::slotActorToggled( bool state ) {
 }
 
 
+
+#include "classgenpage.moc"

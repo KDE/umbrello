@@ -173,3 +173,5 @@ void ClassPropDlg::setupFontPage() {
 }
 
 
+
+#include "classpropdlg.moc"

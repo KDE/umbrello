@@ -119,3 +119,5 @@ void ActivityDialog::setupColorPage() {
 
 
 
+
+#include "activitydialog.moc"

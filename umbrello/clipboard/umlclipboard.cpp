@@ -773,3 +773,5 @@ void UMLClipboard::pasteItemAlreadyExists(UMLDoc* doc) {
 							"same name already exists.  Any other items "
 							"have been pasted."), i18n("Paste error") );
 }
+
+#include "umlclipboard.moc"

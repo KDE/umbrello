@@ -323,3 +323,4 @@ QString SettingsDlg::getCodeGenerationLanguage() {
 
 
 
+#include "settingsdlg.moc"

@@ -51,3 +51,5 @@ void OverwriteDialogue::slotCancel() {
 bool OverwriteDialogue::applyToAllRemaining() {
 	return m_applyToAllRemaining->isChecked();
 }
+
+#include "overwritedialogue.moc"

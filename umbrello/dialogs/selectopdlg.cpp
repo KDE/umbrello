@@ -91,3 +91,5 @@ void SelectOpDlg::setCustomOp(QString op) {
 
 
 
+
+#include "selectopdlg.moc"

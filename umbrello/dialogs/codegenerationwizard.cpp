@@ -240,3 +240,5 @@ CodeGenerator* CodeGenerationWizard::generator() {
 	g->setDocument(m_doc);
 	return g;
 }
+
+#include "codegenerationwizard.moc"
