@@ -138,7 +138,7 @@ public:
 	virtual void setID ( int id);
 
 	/** get the 'id' of the role (NOT the parent object). This could be
-	 * either a '0' (roleA) or '1' (roleB). Yes, it would be better if we
+	 * either a '1' (roleA) or '0' (roleB). Yes, it would be better if we
 	 * could get along without this, but we need it to distinguish saved
 	 * umlrole objects in the XMI for 'self' associations where both roles
 	 * will point to the same underlying UMLObject.
