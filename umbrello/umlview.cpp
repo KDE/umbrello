@@ -509,7 +509,7 @@ void UMLView::slotObjectCreated(UMLObject* o) {
 			newWidget = new ObjectWidget(this, o, getLocalID() );
 		}
 	} else {
-		kdWarning() << "ERROR: trying to create an invalid widget" << endl;
+		kdWarning() << "trying to create an invalid widget" << endl;
 		return;
 	}
 	int y=m_Pos.y();
@@ -1086,7 +1086,7 @@ void UMLView::deleteSelection()
 		}
 	}
 
-	//now delete any selected associations
+	// Delete any selected associations.
 	AssociationWidgetListIt assoc_it( m_AssociationList );
 	AssociationWidget* assocwidget = 0;
 	while((assocwidget=assoc_it.current())) {
@@ -1833,8 +1833,10 @@ bool UMLView::addAssociation( AssociationWidget* pAssoc , bool isPasteOperation)
 		return false;
 
 	//make sure valid
-	if( isPasteOperation && !AssocRules::allowAssociation( pAssoc -> getAssocType(), m_pWidgetA, m_pWidgetB ) ) {
-		return true;//in a paste we still need to be true
+	if( !AssocRules::allowAssociation( pAssoc->getAssocType(), m_pWidgetA, m_pWidgetB ) ) {
+		kdDebug() << "UMLView::addAssociation: allowAssociation returns false "
+			  << "for AssocType " << pAssoc->getAssocType() << endl;
+		return isPasteOperation; //in a paste we still need to be true
 	}
 
 	//make sure there isn't already the same assoc
@@ -1878,7 +1880,7 @@ void UMLView::addAssocInViewAndDoc(AssociationWidget* a) {
 		// if view went ok, then append in document
 		getDocument() -> addAssociation (a->getAssociation());
 	} else
-		kdError()<<" ERROR: cannot addAssocInViewAndDoc()"<<endl;
+		kdError() << "cannot addAssocInViewAndDoc()" << endl;
 
 }
 
@@ -1930,23 +1932,22 @@ void UMLView::removeAssoc(AssociationWidget* pAssoc) {
 		m_pDoc -> getDocWindow() -> updateDocumentation( true );
 		m_pMoveAssoc = 0;
 	}
-	removeAssocInViewAndDoc(pAssoc, true);
+	// Remove the association in this view.
+	pAssoc->cleanup();
+	m_AssociationList.remove(pAssoc);
 }
 
-void UMLView::removeAssocInViewAndDoc(AssociationWidget* a, bool /* deleteLater */) {
+void UMLView::removeAssocInViewAndDoc(AssociationWidget* a) {
+	// For umbrello 1.2, UMLAssociations can only be removed in two ways:
+	// 1. Right click on the assocwidget in the view and select Delete
+	// 2. Go to the Class Properties page, select Associations, right click
+	//    on the association and select Delete
 	if(!a)
 		return;
-
-	// Ah, its back. Apparently cut-n-paste ops crash if
-	// we delete associations from within the association widget
-	// cleanup method (below)
-	m_pDoc->removeAssociation(a->getAssociation()); // Remove the association from the UMLDoc.
-
-	// Remove the association in this view.
-	a->cleanup();
-
-	m_AssociationList.remove(a);
-
+	// Remove assoc in doc.
+	m_pDoc->removeAssociation(a->getAssociation());
+	// Remove assoc in view.
+	removeAssoc(a);
 }
 
 bool UMLView::setAssoc(UMLWidget *pWidget) {
@@ -2014,7 +2015,6 @@ bool UMLView::setAssoc(UMLWidget *pWidget) {
 
 /** Removes all the associations related to Widget */
 void UMLView::removeAssociations(UMLWidget* Widget) {
-
 	AssociationWidgetListIt assoc_it(m_AssociationList);
 	AssociationWidget* assocwidget = 0;
 	while((assocwidget=assoc_it.current())) {
@@ -2059,13 +2059,13 @@ void UMLView::closeEvent ( QCloseEvent * e ) {
 }
 
 void UMLView::removeAllAssociations() {
-	//Remove All associations
+	//Remove All association widgets
 	AssociationWidgetListIt assoc_it(m_AssociationList);
 	AssociationWidget* assocwidget = 0;
 	while((assocwidget=assoc_it.current()))
 	{
 		++assoc_it;
-		removeAssocInViewAndDoc(assocwidget);
+		removeAssoc(assocwidget);
 	}
 	m_AssociationList.clear();
 }
@@ -3213,7 +3213,9 @@ int countr = 0;
 countr++;
 			AssociationWidget *assoc = new AssociationWidget(this);
 			if( !assoc->loadFromXMI( assocElement ) ) {
-				kdError()<<"ERROR: couldnt loadFromXMI association widget:"<<assoc<<", bad XMI file? Deleting from umlview."<<endl;
+				kdError() << "couldn't loadFromXMI association widget:"
+				          << assoc << ", bad XMI file? Deleting from umlview."
+					  << endl;
 				assoc->cleanup();
 				delete assoc;
 				/* return false;
