@@ -187,7 +187,7 @@ void SettingsDlg::setupClassPage() {
 	QGridLayout * scopeLayout = new QGridLayout( m_ClassWidgets.scopeGB );
 	scopeLayout -> setSpacing( spacingHint() );
 	scopeLayout -> setMargin(  fontMetrics().height()  );
- 
+
         m_ClassWidgets.attributeLabel = new QLabel( i18n("Default attribute scope:"), m_ClassWidgets.scopeGB);
         scopeLayout -> addWidget( m_ClassWidgets.attributeLabel, 0, 0 );
 
@@ -255,6 +255,7 @@ void SettingsDlg::slotDefault() {
 		case page_general:
 			m_GeneralWidgets.autosaveCB -> setChecked( false );
 			m_GeneralWidgets.timeKB -> setCurrentItem( 0 );
+                        m_GeneralWidgets.timeKB->setEnabled( false );
 			m_GeneralWidgets.logoCB -> setChecked( true );
 			m_GeneralWidgets.tipCB -> setChecked( true );
 			m_GeneralWidgets.loadlastCB -> setChecked( true );
@@ -280,7 +281,7 @@ void SettingsDlg::slotDefault() {
 			m_ClassWidgets.showOpSigCB -> setChecked( false );
 			m_ClassWidgets.showPackageCB -> setChecked( false );
 			m_ClassWidgets.m_pAttribScopeCB->setCurrentItem(1); // Private
-			m_ClassWidgets.m_pOperationScopeCB->setCurrentItem(0); // Public 
+			m_ClassWidgets.m_pOperationScopeCB->setCurrentItem(0); // Public
 			break;
 
 		case page_codegen:
