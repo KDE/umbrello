@@ -294,7 +294,7 @@ void UMLAssociation::setRoleNameB(QString roleNameB) {
 	m_RoleNameB = roleNameB;
 }
 
-static QString UMLAssociation::ChangeabilityToString(Uml::Changeability_Type type) {
+QString UMLAssociation::ChangeabilityToString(Uml::Changeability_Type type) {
 
 	switch (type) {
 	case Uml::chg_Frozen:
@@ -310,7 +310,7 @@ static QString UMLAssociation::ChangeabilityToString(Uml::Changeability_Type typ
 	}
 }
 
-static QString UMLAssociation::ScopeToString(Uml::Scope scope) {
+QString UMLAssociation::ScopeToString(Uml::Scope scope) {
 
 	switch (scope) {
 	case Uml::Protected:
