@@ -52,7 +52,7 @@ CodeClassField::~CodeClassField ( ) {
 	QPtrList<CodeAccessorMethod> list = m_methodVector;
 	for(CodeAccessorMethod * m = list.first(); m ; m=list.next())
 	{
-		removeMethod(m);
+		//removeMethod(m);
 		m->release(); 
 	}
 	list.clear();
@@ -60,7 +60,7 @@ CodeClassField::~CodeClassField ( ) {
 	// clear the decl block from parent text block list too
 	if(m_declCodeBlock)
 	{
-		getParentDocument()->removeTextBlock(m_declCodeBlock);
+		//getParentDocument()->removeTextBlock(m_declCodeBlock);
 		m_declCodeBlock->release(); 
 	}
 
