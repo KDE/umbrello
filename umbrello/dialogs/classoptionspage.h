@@ -71,17 +71,12 @@ protected:
 	void init();
 
 	/**
-	 * Creates the page with the correct options for a class/concept
+	 * Creates the page with the correct options for the class/interface
 	 */
-	void setupClassPage();
+	void setupPage();
 
 	/**
-	 * Creates the page with the correct options for an interface
-	 */
-	void setupInterfacePage();
-	
-	/**
-	 * Creates the page base on de OptionState
+	 * Creates the page based on the OptionState
 	 */
 	void setupClassPageOption();
 

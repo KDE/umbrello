@@ -26,11 +26,7 @@ ClassOptionsPage::ClassOptionsPage(QWidget* pParent, ClassifierWidget* pWidget)
 	init();
 	Uml::Widget_Type type = pWidget->getBaseType();
 	m_pWidget = pWidget;
-	if (type == Uml::wt_Class) {
-		setupClassPage();
-	} else if (type == Uml::wt_Interface) {
-		setupInterfacePage();
-	}
+	setupPage();
 }
 
 ClassOptionsPage::ClassOptionsPage(QWidget* pParent, Settings::OptionState *options) : QWidget( pParent )
@@ -53,8 +49,7 @@ ClassOptionsPage::~ClassOptionsPage() {}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void ClassOptionsPage::setupClassPage() {
-	ClassWidget *pClassWidget = static_cast<ClassWidget*>(m_pWidget);
+void ClassOptionsPage::setupPage() {
 	int margin = fontMetrics().height();
 
 	bool sig = false;
@@ -67,12 +62,17 @@ void ClassOptionsPage::setupClassPage() {
 	QGridLayout * visibilityLayout = new QGridLayout(m_pVisibilityGB);
 	visibilityLayout -> setSpacing(10);
 	visibilityLayout -> setMargin(margin);
+	visibilityLayout -> setRowStretch(3, 1);
 
 	m_pShowOpsCB = new QCheckBox(i18n("Operatio&ns"), m_pVisibilityGB);
-	m_pShowOpsCB -> setChecked(pClassWidget -> getShowOps());
+	m_pShowOpsCB -> setChecked(m_pWidget -> getShowOps());
 	visibilityLayout -> addWidget(m_pShowOpsCB, 0, 0);
 
-	sigtype = pClassWidget -> getShowOpSigs();
+	m_pShowScopeCB = new QCheckBox(i18n("&Visibility"), m_pVisibilityGB);
+	m_pShowScopeCB -> setChecked(m_pWidget -> getShowScope());
+	visibilityLayout -> addWidget(m_pShowScopeCB, 0, 1);
+
+	sigtype = m_pWidget -> getShowOpSigs();
 	if(sigtype == Uml::st_NoSig || sigtype == Uml::st_NoSigNoScope)
 		sig = false;
 	else
@@ -80,33 +80,40 @@ void ClassOptionsPage::setupClassPage() {
 	m_pShowOpSigCB = new QCheckBox(i18n("O&peration signature"), m_pVisibilityGB);
 	m_pShowOpSigCB -> setChecked(sig);
 	visibilityLayout -> addWidget(m_pShowOpSigCB, 1, 0);
-	visibilityLayout -> setRowStretch(3, 1);
-
-	m_pShowAttsCB = new QCheckBox(i18n("Att&ributes"), m_pVisibilityGB);
-	m_pShowAttsCB -> setChecked(pClassWidget -> getShowAtts());
-	visibilityLayout -> addWidget(m_pShowAttsCB, 2, 0);
-
-	m_pShowAttSigCB = new QCheckBox(i18n("Attr&ibute signature"), m_pVisibilityGB);
-	sigtype = pClassWidget -> getShowAttSigs();
-	if(sigtype == Uml::st_NoSig || sigtype == Uml::st_NoSigNoScope)
-		sig = false;
-	else
-		sig = true;
-	m_pShowAttSigCB -> setChecked(sig);
-	visibilityLayout -> addWidget(m_pShowAttSigCB, 3, 0);
-
-	m_pShowScopeCB = new QCheckBox(i18n("&Visibility"), m_pVisibilityGB);
-	m_pShowScopeCB -> setChecked(pClassWidget -> getShowScope());
-	visibilityLayout -> addWidget(m_pShowScopeCB, 0, 1);
 
 	m_pShowPackageCB = new QCheckBox(i18n("Pac&kage"), m_pVisibilityGB);
-	m_pShowPackageCB -> setChecked(pClassWidget -> getShowPackage());
+	m_pShowPackageCB -> setChecked(m_pWidget -> getShowPackage());
 	visibilityLayout -> addWidget(m_pShowPackageCB, 1, 1);
 
-	m_pShowStereotypeCB = new QCheckBox(i18n("Stereot&ype"), m_pVisibilityGB);
-	m_pShowStereotypeCB -> setChecked(pClassWidget -> getShowStereotype());
-	visibilityLayout -> addWidget(m_pShowStereotypeCB, 2, 1);
+	Uml::Widget_Type type = m_pWidget->getBaseType();
 
+	if (type == Uml::wt_Class) {
+		ClassWidget *pClassWidget = static_cast<ClassWidget*>(m_pWidget);
+
+		m_pShowAttsCB = new QCheckBox(i18n("Att&ributes"), m_pVisibilityGB);
+		m_pShowAttsCB->setChecked(pClassWidget->getShowAtts());
+		visibilityLayout->addWidget(m_pShowAttsCB, 2, 0);
+
+		m_pShowStereotypeCB = new QCheckBox(i18n("Stereot&ype"), m_pVisibilityGB);
+		m_pShowStereotypeCB->setChecked(pClassWidget->getShowStereotype());
+		visibilityLayout->addWidget(m_pShowStereotypeCB, 2, 1);
+
+		m_pShowAttSigCB = new QCheckBox(i18n("Attr&ibute signature"), m_pVisibilityGB);
+		sigtype = pClassWidget->getShowAttSigs();
+		if(sigtype == Uml::st_NoSig || sigtype == Uml::st_NoSigNoScope)
+			sig = false;
+		else
+			sig = true;
+		m_pShowAttSigCB->setChecked(sig);
+		visibilityLayout->addWidget(m_pShowAttSigCB, 3, 0);
+
+	} else if (type == Uml::wt_Interface) {
+		InterfaceWidget *pInterfaceWidget = static_cast<InterfaceWidget*>(m_pWidget);
+
+		m_pDrawAsCircleCB = new QCheckBox(i18n("Draw as circle"), m_pVisibilityGB);
+		m_pDrawAsCircleCB->setChecked( pInterfaceWidget->getDrawAsCircle() );
+		visibilityLayout->addWidget(m_pDrawAsCircleCB, 2, 0);
+	}
 }
 
 void ClassOptionsPage::setupClassPageOption() {
@@ -149,49 +156,6 @@ void ClassOptionsPage::setupClassPageOption() {
 	m_pShowStereotypeCB = new QCheckBox(i18n("Stereot&ype"), m_pVisibilityGB);
 	m_pShowStereotypeCB -> setChecked(m_options->classState.showStereoType);
 	visibilityLayout -> addWidget(m_pShowStereotypeCB, 2, 1);
-
-}
-
-void ClassOptionsPage::setupInterfacePage() {
-	InterfaceWidget *pInterfaceWidget = static_cast<InterfaceWidget*>(m_pWidget);
-	int margin = fontMetrics().height();
-
-	bool sig = false;
-	Uml::Signature_Type sigtype;
-
-	QVBoxLayout * topLayout = new QVBoxLayout(this);
-	topLayout -> setSpacing(6);
-	m_pVisibilityGB = new QGroupBox(i18n("Show"), this);
-	topLayout -> addWidget(m_pVisibilityGB);
-	QGridLayout * visibilityLayout = new QGridLayout(m_pVisibilityGB);
-	visibilityLayout -> setSpacing(10);
-	visibilityLayout -> setMargin(margin);
-
-	m_pShowOpsCB = new QCheckBox(i18n("Operatio&ns"), m_pVisibilityGB);
-	m_pShowOpsCB -> setChecked(pInterfaceWidget -> getShowOps());
-	visibilityLayout -> addWidget(m_pShowOpsCB, 0, 0);
-
-	sigtype = pInterfaceWidget -> getShowOpSigs();
-	if(sigtype == Uml::st_NoSig || sigtype == Uml::st_NoSigNoScope)
-		sig = false;
-	else
-		sig = true;
-	m_pShowOpSigCB = new QCheckBox(i18n("O&peration signature"), m_pVisibilityGB);
-	m_pShowOpSigCB -> setChecked(sig);
-	visibilityLayout -> addWidget(m_pShowOpSigCB, 1, 0);
-	visibilityLayout -> setRowStretch(3, 1);
-
-	m_pShowScopeCB = new QCheckBox(i18n("&Visibility"), m_pVisibilityGB);
-	m_pShowScopeCB -> setChecked(pInterfaceWidget -> getShowScope());
-	visibilityLayout -> addWidget(m_pShowScopeCB, 0, 1);
-
-	m_pShowPackageCB = new QCheckBox(i18n("Pac&kage"), m_pVisibilityGB);
-	m_pShowPackageCB -> setChecked(pInterfaceWidget -> getShowPackage());
-	visibilityLayout -> addWidget(m_pShowPackageCB, 1, 1);
-
-	m_pDrawAsCircleCB = new QCheckBox(i18n("Draw as circle"), m_pVisibilityGB);
-	m_pDrawAsCircleCB->setChecked( pInterfaceWidget->getDrawAsCircle() );
-	visibilityLayout->addWidget(m_pDrawAsCircleCB, 2, 0);
 
 }
 
