@@ -218,7 +218,7 @@ void UMLClass::init() {
 	setStereotype( i18n("class") );
 
 	m_AttsList.clear();
-	m_AttsList.setAutoDelete(true);
+	m_AttsList.setAutoDelete(false);
 	m_TemplateList.clear();
 	m_TemplateList.setAutoDelete(true);
 }

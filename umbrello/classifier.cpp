@@ -35,8 +35,11 @@ UMLObject* UMLClassifier::addOperation(QString name, int id) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool UMLClassifier::addOperation(UMLOperation* Op) {
+	kdDebug()<<"adding operation "<<Op->getName()<<"to "<<getName()<<endl;
 	m_OpsList.append( Op );
+	kdDebug()<<"operation added to"<<getName()<<endl;
 	emit modified();
+	
 	return true;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -60,6 +63,7 @@ int UMLClassifier::removeOperation(UMLObject *o) {
 		kdDebug() << "can't find opp given in list" << endl;
 		return -1;
 	}
+	kdDebug()<<"operation removed from"<<getName()<<endl;
 	emit modified();
 	return m_OpsList.count();
 }
@@ -184,5 +188,5 @@ QPtrList<UMLOperation>* UMLClassifier::getOpList() {
 void UMLClassifier::init() {
 	m_BaseType = ot_UMLObject;
 	m_OpsList.clear();
-	m_OpsList.setAutoDelete(true);
+	m_OpsList.setAutoDelete(false);
 }

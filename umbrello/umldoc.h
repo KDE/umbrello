@@ -171,7 +171,7 @@ public:
 	 *	@param	type	The type of @ref UMLObject to create.  Used to
 	 * create Actors, Use Cases and concepts.
 	 */
-	UMLObject* createUMLObject(UMLObject_Type type);
+	UMLObject* createUMLObject(UMLObject_Type type, const QString &n = QString::null);
 	UMLObject* createUMLObject(const std::type_info &type);
 
   	/**
@@ -281,6 +281,8 @@ public:
 	 *	@param	id	The ID of the diagram to rename.
 	 */
 	void renameDiagram(int id);
+	
+	QStringList getModelTypes();
 
 	/**
 	 *	Used to rename a @ref UMLObject.  The @ref UMLObject is to be an

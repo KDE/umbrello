@@ -519,14 +519,17 @@ UMLObject* UMLDoc::createUMLObject(const std::type_info &type)
 	}
 	return createUMLObject(t);
 }
-UMLObject* UMLDoc::createUMLObject(UMLObject_Type type) {
+UMLObject* UMLDoc::createUMLObject(UMLObject_Type type, const QString &n) {
 	bool ok = false;
 	int id;
-	QString name,
+	bool askForName = !n.isEmpty();
+	QString name = n,
 	currentName = uniqObjectName(type);
 	UMLObject *o = 0L;
 	while (true) {
+		if( askForName ){
 		name = KLineEditDlg::getText(i18n("Enter name:"), currentName, &ok, (QWidget*)parent());
+		}
 		currentName = name;
 		if (!ok) {
 			break;
@@ -537,6 +540,7 @@ UMLObject* UMLDoc::createUMLObject(UMLObject_Type type) {
 		}
 		if (o) {
 			KMessageBox::error(0, i18n("That name is already being used."), i18n("Not a Unique Name"));
+			askForName = true;
 		} else {  //create an object
 
 			id = getUniqueID();
@@ -1036,6 +1040,7 @@ void UMLDoc::removeUMLObject(UMLObject *o) {
 	emit sigObjectRemoved(o);
 	if (type == ot_Operation) {
 		p->removeOperation(o);
+		delete o;
 	} else if (type == ot_Attribute) {
 		UMLClass *pClass = dynamic_cast<UMLClass *>(p);
 		if(pClass)
@@ -1601,6 +1606,28 @@ void UMLDoc::removeAllViews() {
 	dynamic_cast<UMLApp *>( parent() )->setDiagramMenuItemsState(false);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+QStringList UMLDoc::getModelTypes()
+{
+	QStringList types;
+	//insert "standard" (frequently used) types --FIXME, make this language dependant.
+	types.append("void");
+	types.append("int");
+	types.append("long");
+	types.append("bool");
+	types.append("string");
+	types.append("double");
+	types.append("float");
+	types.append("date");
+	
+	//now add the Classes and Interfaces (both are Concepts)
+	QPtrList<UMLClassifier> namesList( getConcepts() );
+	UMLClassifier* pConcept = 0;
+	for(pConcept=namesList.first(); pConcept!=0 ;pConcept=namesList.next()) 
+	{
+		types.append( pConcept->getName() );
+	}
+}
+
 QPtrList<UMLClassifier> UMLDoc::getConcepts() {
 	QPtrList<UMLClassifier> conceptList;
 	for(UMLObject *obj = objectList.first(); obj ; obj = objectList.next())
