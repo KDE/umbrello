@@ -80,7 +80,7 @@ void ClassWizard::back() {
 
 void ClassWizard::accept() {
 	m_pDoc -> addUMLObject( m_pClass );
-	//add signal code here for list view
+	m_pDoc->signalUMLObjectCreated(m_pClass);
 	m_pDoc -> getListView() -> setLoading( false );
 	QWizard::accept();
 }
