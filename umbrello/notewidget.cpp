@@ -65,8 +65,9 @@ void NoteWidget::draw(QPainter & p, int offsetX, int offsetY) {
 		p.drawPolyline(poly);
 	p.drawLine(offsetX + w - margin, offsetY, offsetX + w - margin, offsetY + margin);
 	p.drawLine(offsetX + w - margin, offsetY + margin, offsetX + w, offsetY + margin);
-	if(m_bSelected)
-		drawSelected(&p, offsetX, offsetY);
+	if(m_bSelected) {
+		drawSelected(&p, offsetX, offsetY,  true);
+	}
 
 	drawText( p, offsetX, offsetY );
 }
@@ -93,7 +94,7 @@ void NoteWidget::mousePressEvent(QMouseEvent *me) {
 	int h = height();
 	m_nOldW=w;
 	m_nOldH=h;
-	int m=6;
+	int m = 10;
 	//bottomRight
 	if( (m_nOldX + m_nPressOffsetX ) >= ((int)x() + width() - m) && ( m_nOldY + m_nPressOffsetY ) >= ( (int)y() + height() - m) && me -> button() == LeftButton) {
 		m_bResizing = true;

@@ -44,7 +44,7 @@ void BoxWidget::draw(QPainter& p, int offsetX, int offsetY) {
 	p.drawRect( offsetX, offsetY, width(), height() );
 
 	if (m_bSelected) {
-		drawSelected(&p, offsetX, offsetY);
+		drawSelected(&p, offsetX, offsetY, true);
 	}
 }
 
@@ -70,7 +70,7 @@ void BoxWidget::mousePressEvent(QMouseEvent *me) {
 	int h = height();
 	m_nOldW = w;
 	m_nOldH = h;
-	int m = 6;
+	int m = 10;
 	//bottomRight
 	if( (m_nOldX + m_nPressOffsetX) >= ((int)x() + width() - m) &&
 	    (m_nOldY + m_nPressOffsetY) >= ((int)y() + height() - m) && me->button() == LeftButton) {
@@ -78,7 +78,7 @@ void BoxWidget::mousePressEvent(QMouseEvent *me) {
 		m_pView->setCursor(KCursor::sizeFDiagCursor());
 	}
 }
-
+////////////////////////////////////////////////////////////////////////////////////////////////////
 void BoxWidget::mouseReleaseEvent(QMouseEvent* me) {
 	UMLWidget::mouseReleaseEvent(me);
 	m_bResizing = false;

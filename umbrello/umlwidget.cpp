@@ -437,7 +437,7 @@ void UMLWidget::setFillColour(QColor colour) {
 	update();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void UMLWidget::drawSelected(QPainter * p, int offsetX, int offsetY) {
+void UMLWidget::drawSelected(QPainter * p, int offsetX, int offsetY, bool resizeable /*=false*/) {
 	int w = width();
 	int h = height();
 	int s = 4;
@@ -446,7 +446,7 @@ void UMLWidget::drawSelected(QPainter * p, int offsetX, int offsetY) {
 	p -> fillRect(offsetX, offsetY + h - s, s, s, brush);
 	p -> fillRect(offsetX + w - s, offsetY, s, s, brush);
 
-	if (getBaseType() == wt_Note || getBaseType() == wt_Box) {
+	if (resizeable) {
 		brush.setColor(red);
 	}
 	p->fillRect(offsetX + w - s, offsetY + h - s, s, s, brush);

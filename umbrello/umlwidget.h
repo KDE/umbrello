@@ -440,7 +440,7 @@ protected:
 	 * @param offsetX The x-coordinate for drawing.
 	 * @param offsetY The y-coordinate for drawing.
 	 */
-	virtual void drawSelected(QPainter * p, int offsetX, int offsetY);
+	virtual void drawSelected(QPainter * p, int offsetX, int offsetY, bool resizeable = false);
 
 	/**
 	 * Overrides default method.

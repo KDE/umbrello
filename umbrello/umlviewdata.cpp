@@ -410,7 +410,7 @@ bool UMLViewData::loadMessagesFromXMI( QDomElement & qElement ) {
 	QDomElement messageElement = node.toElement();
 	while( !messageElement.isNull() ) {
 		if( messageElement.tagName() == "UML:MessageWidget" ) {
-			messageData = new MessageWidgetData(getOptionState());
+			messageData = new MessageWidgetData(getOptionState(), sequence_message_asynchronous);
 			if( !messageData -> loadFromXMI( messageElement ) )
 				return false;
 			m_MessageList.append( messageData );

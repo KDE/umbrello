@@ -1257,7 +1257,7 @@ void UMLApp::slotDeleteSelectedWidget() {
 	if ( doc->getCurrentView() ) {
 		doc->getCurrentView()->deleteSelection();
 	} else {
-		kdWarning() << k_funcinfo << " trying to delete widgets when there is no current view (see bug 59774)" << endl;
+		kdWarning() << " trying to delete widgets when there is no current view (see bug 59774)" << endl;
 	}
 }
 

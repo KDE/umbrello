@@ -17,10 +17,14 @@
 class FloatingText;
 
 /**
- *	Used to display a message on a sequence diagram.  The message could be between
- *	two objects or a message that calls itself on an object.  This class will only
- *	display the line that is required and the text will be setup by the @ref FloatingText
- *	widget that is passed in the constructor.
+ *	Used to display a message on a sequence diagram.  The message
+ *	could be between two objects or a message that calls itself on
+ *	an object.  This class will only display the line that is
+ *	required and the text will be setup by the @ref FloatingText
+ *	widget that is passed in the constructor.  A message can be
+ *	synchronous (calls a method and gains control back on return,
+ *	as happens in most programming languages) or asynchronous
+ *	(calls a method and gains back control immediatly).
  *
  *	@short	Displays a message.
  *	@author Paul Hensgen
@@ -37,7 +41,7 @@ public:
 	 *  @param	view		The parent to this class.
 	 *  @param	pData		The CMessageWidget to represent
 	 */
-	MessageWidget(UMLView * view, UMLWidgetData * pData);
+	MessageWidget(UMLView* view, UMLWidgetData* pData);
 
 	/**
 	 *	Cosntructs a MessageWidget.
@@ -48,15 +52,17 @@ public:
 	 *	@param	ft	The FloatingText widget that is needed to display text.
 	 *	@param	id	A unique id used for deleting this object cleanly.
 	 *	@param	y	The vertical position to display this message.
+	 *	@param sequenceMessageType Whether synchronous or asynchronous
 	 */
-	MessageWidget(UMLView * view, UMLWidget * a, UMLWidget * b, FloatingText * ft, int id, int y);
+	MessageWidget(UMLView* view, UMLWidget* a, UMLWidget* b, FloatingText* ft, 
+		      int id, int y, Sequence_Message_Type sequenceMessageType);
 
 	/**
 	 *	Cosntructs a MessageWidget.
 	 *
 	 *	@param	view		The parent to this class.
 	 */
-	MessageWidget(UMLView * view);
+	MessageWidget(UMLView* view, Sequence_Message_Type sequenceMessageType);
 
 	/**
 	 *	Initializes key variables of the class.
@@ -162,14 +168,38 @@ public:
 	virtual void synchronizeData();
 
 	/**
-	 *
+	 * Calculates the size of the widget by calling
+	 * calculateDimenstionsSynchronous() or
+	 * calculateDimenstionsAsynchronous()
 	 */
 	void calculateDimensions();
 
 	/**
-	 * override default method
+	 * Calculates and sets the size of the widget for a synchronous message
 	 */
-	void draw(QPainter & p, int offsetX, int offsetY);
+	void calculateDimensionsSynchronous();
+
+	/**
+	 * Calculates and sets the size of the widget for an asynchronous message
+	 */
+	void calculateDimensionsAsynchronous();
+
+	/** 
+	 * calls drawSynchronous() or drawAsynchronous()
+	 */
+	void draw(QPainter& p, int offsetX, int offsetY);
+
+	/**
+	 * Draws the calling arrow with filled in arrowhead, the
+	 * timeline box and the returning arrow with a dashed line and
+	 * stick arrowhead
+	 */
+	void drawSynchronous(QPainter& p, int offsetX, int offsetY);
+
+	/**
+	 * Draws a solid arrow line and a stick arrow head
+	 */
+	void drawAsynchronous(QPainter& p, int offsetX, int offsetY);
 
 
 	/**

@@ -118,13 +118,18 @@ void WorkToolBar::slotCheckToolBar(Uml::Diagram_Type dt) {
 		insertButton( m_Pixmaps.Object, tbb_Object, true, i18n("Object"));
 		setToggle (tbb_Object, true);
 
-		insertButton( m_Pixmaps.Message, tbb_Seq_Message, true, i18n("Message"));
-		setToggle( tbb_Seq_Message, true );
+		insertButton( m_Pixmaps.MessageSynchronous, tbb_Seq_Message_Synchronous, true,
+			      i18n("Synchronous Message"));
+		setToggle( tbb_Seq_Message_Synchronous, true );
+
+		insertButton( m_Pixmaps.MessageAsynchronous, tbb_Seq_Message_Asynchronous, true,
+			      i18n("Asynchronous Message"));
+		setToggle( tbb_Seq_Message_Asynchronous, true );
 	} else if( m_Type == Uml::dt_Collaboration ) {
 		insertButton( m_Pixmaps.Object, tbb_Object, true, i18n("Object"));
 		setToggle( tbb_Object, true );
 
-		insertButton( m_Pixmaps.Message, tbb_Coll_Message, true, i18n("Message"));
+		insertButton( m_Pixmaps.MessageAsynchronous, tbb_Coll_Message, true, i18n("Message"));
 		setToggle( tbb_Coll_Message, true );
 	} else if( m_Type == Uml::dt_State ) {
 		insertButton( m_Pixmaps.Initial_State, tbb_Initial_State, true, i18n("Initial state"));
@@ -281,7 +286,8 @@ void WorkToolBar::loadPixmaps() {
 	dataDir += "/umbrello/pics/";
 
 	m_Pixmaps.Object.load( dataDir + "object.xpm" );
-	m_Pixmaps.Message.load( dataDir + "message.xpm" );
+	m_Pixmaps.MessageSynchronous.load( dataDir + "message-synchronous.xpm" );
+	m_Pixmaps.MessageAsynchronous.load( dataDir + "message-asynchronous.xpm" );
 	m_Pixmaps.Arrow.load( dataDir + "arrow.xpm" );
 	m_Pixmaps.Association.load( dataDir + "line.xpm" );
 	m_Pixmaps.Anchor.load( dataDir + "anchor.xpm" );

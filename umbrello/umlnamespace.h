@@ -168,6 +168,14 @@ namespace Uml {
  		chg_Frozen,
  		chg_AddOnly
  	};
+
+	enum Sequence_Message_Type
+	{
+		//This is saved out to the file so only add new entries at the end
+		sequence_message_synchronous = 1000,
+		sequence_message_asynchronous
+	};
+
   };
   
 #endif

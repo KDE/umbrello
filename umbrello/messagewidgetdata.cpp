@@ -12,13 +12,15 @@
 
 #include "messagewidgetdata.h"
 
-MessageWidgetData::MessageWidgetData(SettingsDlg::OptionState optionState):UMLWidgetData(optionState) {
+MessageWidgetData::MessageWidgetData(SettingsDlg::OptionState optionState,
+				     Sequence_Message_Type sequenceMessageType):UMLWidgetData(optionState) {
 	m_nWidgetAID = -1;
 	m_nWidgetBID = -1;
 	m_SequenceNumber = "";
 	m_Operation = "";
 	m_nTextID = -1;
 	m_Type = Uml::wt_Message;
+	m_sequenceMessageType = sequenceMessageType;
 }
 
 MessageWidgetData::MessageWidgetData(MessageWidgetData & Other) : UMLWidgetData(Other) {
@@ -35,6 +37,7 @@ MessageWidgetData & MessageWidgetData::operator=(MessageWidgetData & Other) {
 	m_SequenceNumber = Other.m_SequenceNumber;
 	m_Operation = Other.m_Operation;
 	m_nTextID = Other.m_nTextID;
+	m_sequenceMessageType = Other.m_sequenceMessageType;
 
 	return *this;
 }
@@ -58,6 +61,9 @@ bool MessageWidgetData::operator==(MessageWidgetData & Other) {
 	if(m_nTextID != Other.m_nTextID) {
 		return false;
 	}
+	if (m_sequenceMessageType != Other.m_sequenceMessageType) {
+		return false;
+	}
 
 	return true;
 }
@@ -78,12 +84,11 @@ int MessageWidgetData::getWidgetBID() {
 }
 
 /** Write property of int m_nWidgetBID. */
-void MessageWidgetData::setWidgetBID( int WidgetBID) {
+void MessageWidgetData::setWidgetBID(int WidgetBID) {
 	m_nWidgetBID = WidgetBID;
 }
 
 /** Read property of QString m_SequenceNumber. */
-
 QString MessageWidgetData::getSequenceNumber() {
 	return m_SequenceNumber;
 }
@@ -114,6 +119,10 @@ void MessageWidgetData::setTextID( int TextID) {
 	m_nTextID = TextID;
 }
 
+Sequence_Message_Type MessageWidgetData::getSequenceMessageType() {
+	return m_sequenceMessageType;
+}
+
 /** No descriptions */
 void MessageWidgetData::print2cerr() {
 	UMLWidgetData::print2cerr();
@@ -132,19 +141,23 @@ bool MessageWidgetData::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 	messageElement.setAttribute( "widgetbid", m_nWidgetBID );
 	messageElement.setAttribute( "operation", m_Operation );
 	messageElement.setAttribute( "seqnum", m_SequenceNumber );
+	messageElement.setAttribute( "sequencemessagetype", m_sequenceMessageType );
 	qElement.appendChild( messageElement );
 	return status;
 }
 
-bool MessageWidgetData::loadFromXMI( QDomElement & qElement ) {
-	if( !UMLWidgetData::loadFromXMI( qElement ) )
+bool MessageWidgetData::loadFromXMI(QDomElement& qElement) {
+	if ( !UMLWidgetData::loadFromXMI(qElement) ) {
 		return false;
+	}
 	QString textid = qElement.attribute( "textid", "-1" );
 	QString widgetaid = qElement.attribute( "widgetaid", "-1" );
 	QString widgetbid = qElement.attribute( "widgetbid", "-1" );
 	m_Operation = qElement.attribute( "operation", "" );
 	m_SequenceNumber = qElement.attribute( "seqnum", "" );
+	QString sequenceMessageType = qElement.attribute( "sequencemessagetype", "1001" );
 
+	m_sequenceMessageType = (Sequence_Message_Type)sequenceMessageType.toInt();
 	m_nTextID = textid.toInt();
 	m_nWidgetAID = widgetaid.toInt();
 	m_nWidgetBID = widgetbid.toInt();

@@ -22,12 +22,14 @@
 #include "umlview.h"
 #include "listpopupmenu.h"
 
-MessageWidget::MessageWidget(UMLView * view, UMLWidgetData * pData) : UMLWidget(view, pData) {
+MessageWidget::MessageWidget(UMLView* view, UMLWidgetData* pData) : UMLWidget(view, pData) {
 	init();
 	m_pData->setType(wt_Message);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-MessageWidget::MessageWidget(UMLView * view, UMLWidget * a, UMLWidget * b, FloatingText * ft, int id, int y) : UMLWidget(view, id, new MessageWidgetData(view->getOptionState() )) {
+MessageWidget::MessageWidget(UMLView* view, UMLWidget* a, UMLWidget* b, FloatingText* ft, int id, int y,
+			     Sequence_Message_Type sequenceMessageType)
+	: UMLWidget(view, id, new MessageWidgetData(view->getOptionState(), sequenceMessageType)) {
 	init();
 	m_pFText = ft;
 	m_pWA = a;
@@ -51,7 +53,8 @@ MessageWidget::MessageWidget(UMLView * view, UMLWidget * a, UMLWidget * b, Float
 	static_cast<ObjectWidget*>(m_pWB)->messageAdded(this);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-MessageWidget::MessageWidget(UMLView * view) : UMLWidget(view, new MessageWidgetData(view->getOptionState() )) {
+MessageWidget::MessageWidget(UMLView* view, Sequence_Message_Type sequenceMessageType)
+	: UMLWidget(view, new MessageWidgetData(view->getOptionState(), sequenceMessageType)) {
 	m_pData->setType(wt_Message);
 	init();
 }
@@ -67,12 +70,84 @@ void MessageWidget::init() {
 MessageWidget::~MessageWidget() {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void MessageWidget::draw(QPainter & p, int offsetX, int offsetY) {
-	if(!m_pWA || !m_pWB)
+void MessageWidget::draw(QPainter& p, int offsetX, int offsetY) {
+	MessageWidgetData* widgetdata = static_cast<MessageWidgetData*>(m_pData);
+
+	if(!m_pWA || !m_pWB) {
 		return;
+	}
+
+	if (widgetdata->getSequenceMessageType() == sequence_message_synchronous) {
+		drawSynchronous(p, offsetX, offsetY);
+	} else if (widgetdata->getSequenceMessageType() == sequence_message_asynchronous) {
+		drawAsynchronous(p, offsetX, offsetY);
+	} else {
+		kdWarning() << "Unknown message type" << endl;
+	}
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+void MessageWidget::drawSynchronous(QPainter& p, int offsetX, int offsetY) {
+	p.setPen( m_pData->getLineColour() );
+	int x1 = (int)m_pWA->x();
+	int x2 = (int)m_pWB->x();
+	int w = width() - 1;
+	int h = height();
+
+	if(m_pWA == m_pWB) {
+		p.fillRect( offsetX, offsetY, 17, h,  QBrush(white) );			//box
+		p.drawRect(offsetX, offsetY, 17, h);					//box
+		p.drawLine(offsetX + 17, offsetY + 3, offsetX + w, offsetY + 3);	//arrow body lines
+		p.drawLine(offsetX + w, offsetY + 3, offsetX + w, offsetY + h - 3);
+		p.drawLine(offsetX + w, offsetY + h - 3, offsetX + 17, offsetY + h - 3);
+		p.drawLine(offsetX + 17, offsetY + h - 3, offsetX + 17 + 4, offsetY + h);	//arrow head
+		p.drawLine(offsetX + 17, offsetY + h - 3, offsetX + 17 + 4, offsetY + h - 6);
+	} else if(x1 < x2) {
+		QPen pen = p.pen();
+		p.fillRect( offsetX + w - 16, offsetY, 17, h,  QBrush(white) );		//box
+		p.drawRect(offsetX + w - 16, offsetY, 17, h);				//box
+		p.drawLine(offsetX, offsetY + 4, offsetX + w - 16, offsetY + 4);	//arrow line
+		QPointArray points;
+		points.putPoints(0, 3, offsetX + w - 17,offsetY + 4, offsetX + w - 17 - 4,   //arrow head
+				 offsetY + 1, offsetX + w - 17 - 4,offsetY + 7);
+		p.setBrush( QBrush(pen.color()) );
+		p.drawPolygon(points);
+
+		p.drawLine(offsetX, offsetY + h - 3, offsetX + 4, offsetY + h);		 //return arrow
+		p.drawLine(offsetX, offsetY + h - 3, offsetX + 4, offsetY + h - 6);	 //return arrow
+
+		pen.setStyle(Qt::DotLine);
+		p.setPen(pen);
+
+		p.drawLine(offsetX, offsetY + h - 3, offsetX + w - 16, offsetY + h - 3);  //return line
+	} else	{
+		QPen pen = p.pen();
+		p.fillRect( offsetX, offsetY, 17, h,  QBrush(white) );			//box
+		p.drawRect(offsetX, offsetY, 17, h);					//box
+		p.drawLine(offsetX + 18, offsetY + 4, offsetX + w, offsetY + 4);	//arrow line
+		QPointArray points;
+		points.putPoints(0, 3, offsetX + 17,offsetY + 4, offsetX + 17 + 4,offsetY + 1,  //arrow head
+				 offsetX + 17 + 4,offsetY + 7);
+		p.setBrush( QBrush(pen.color()) );
+		p.drawPolygon(points);
+
+		p.drawLine(offsetX + w, offsetY + h - 3, offsetX + w - 4, offsetY + h);		 //return arrow
+		p.drawLine(offsetX + w, offsetY + h - 3, offsetX + w - 4, offsetY + h - 6);	 //return arrow
+
+		pen.setStyle(Qt::DotLine);
+		p.setPen(pen);
+
+		p.drawLine(offsetX + 18, offsetY + h - 3, offsetX + w, offsetY + h - 3);  //return line
+	}
+
+	if(m_bSelected) {
+		drawSelected(&p, offsetX, offsetY, true);
+	}
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+void MessageWidget::drawAsynchronous(QPainter& p, int offsetX, int offsetY) {
 	p.setPen(m_pData->getLineColour());
-	int x1 = (int)m_pWA -> x();
-	int x2 = (int)m_pWB -> x();
+	int x1 = (int)m_pWA->x();
+	int x2 = (int)m_pWB->x();
 	int w = width() - 1;
 	int h = height() - 1;
 	if(m_pWA == m_pWB) {
@@ -81,20 +156,21 @@ void MessageWidget::draw(QPainter & p, int offsetX, int offsetY) {
 		p.drawLine(offsetX + w, offsetY + h - 3, offsetX, offsetY + h - 3);
 		p.drawLine(offsetX, offsetY + h - 3, offsetX + 4, offsetY + h);
 		p.drawLine(offsetX, offsetY + h - 3, offsetX + 4, offsetY + h - 6);
-	}//end m_pWA == m_pWB
-	else if(x1 < x2) {
+	} else if(x1 < x2) {
 		p.drawLine(offsetX, offsetY + 4, offsetX + w, offsetY + 4);
 		p.drawLine(offsetX + w, offsetY + 4, offsetX + w - 4, offsetY + 1);
 		p.drawLine(offsetX + w, offsetY + 4, offsetX + w - 4, offsetY + 7);
-	} else
-
-	{
+	} else	{
 		p.drawLine(offsetX, offsetY + 4, offsetX + w, offsetY + 4);
 		p.drawLine(offsetX, offsetY + 4, offsetX + 4, offsetY + 1);
 		p.drawLine(offsetX, offsetY + 4, offsetX + 4, offsetY + 7);
 	}
-	if(m_bSelected)
+
+	if (m_bSelected && m_pWA == m_pWB) {
+		drawSelected(&p, offsetX, offsetY, true);
+	} else if (m_bSelected) {
 		drawSelected(&p, offsetX, offsetY);
+	}
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void MessageWidget::moveEvent(QMoveEvent* /*m*/) {
@@ -220,40 +296,84 @@ void MessageWidget::synchronizeData() {
 	}
 }
 
-/** No descriptions */
 void MessageWidget::calculateDimensions() {
+	MessageWidgetData* widgetdata = static_cast<MessageWidgetData*>(m_pData);
+
+	if (widgetdata->getSequenceMessageType() == sequence_message_synchronous) {
+		calculateDimensionsSynchronous();
+	} else if (widgetdata->getSequenceMessageType() == sequence_message_asynchronous) {
+		calculateDimensionsAsynchronous();
+	} else {
+		kdWarning() << "Unknown message type" << endl;
+	}
+}
+
+void MessageWidget::calculateDimensionsSynchronous() {
 	int x = 0;
 
-	int x1 = (int)m_pWA -> x();
-	int x2 = (int)m_pWB -> x();
-	int w1 = m_pWA -> width() / 2;
-	int w2 =  m_pWB -> width() / 2;
-
-
-	int wy= 8;
+	int x1 = (int)m_pWA->x();
+	int x2 = (int)m_pWB->x();
+	int w1 = m_pWA->width() / 2;
+	int w2 =  m_pWB->width() / 2;
 	x1 += w1;
 	x2 += w2;
 
-	int w = 0;
+	int widgetWidth = 0;
+	int widgetHeight = 0;
 	if( m_pWA == m_pWB ) {
-		w = 50;
-		x = x1;
-		if( height() < 20 )
-			wy = 20;
-		else
-			wy = height();
+		widgetWidth = 50;
+		x = x1 - 2;
 	} else if( x1 < x2 ) {
 		x = x1;
-		w = x2 - x1;
+		widgetWidth = x2 - x1 + 8;
+	} else {
+		x = x2 - 8;
+		widgetWidth = x1 - x2 + 8;
+	}
+
+	if ( height() < 20 ) {
+		widgetHeight = 20;
+	} else {
+		widgetHeight = height();
+	}
+
+	m_nPosX = x;
+	setSize(widgetWidth, widgetHeight);
+	adjustAssocs( (int)this->x(), (int)this->y() );//adjust assoc lines
+}
+
+void MessageWidget::calculateDimensionsAsynchronous() {
+	int x = 0;
+
+	int x1 = (int)m_pWA->x();
+	int x2 = (int)m_pWB->x();
+	int w1 = m_pWA -> width() / 2;
+	int w2 =  m_pWB -> width() / 2;
+	x1 += w1;
+	x2 += w2;
+
+	int widgetWidth = 0;
+	int widgetHeight = 8;
+	if( m_pWA == m_pWB ) {
+		widgetWidth = 50;
+		x = x1;
+		if( height() < 20 ) {
+			widgetHeight = 20;
+		} else {
+			widgetHeight = height();
+		}
+	} else if( x1 < x2 ) {
+		x = x1;
+		widgetWidth = x2 - x1;
 	} else {
 		x = x2;
-		w = x1 - x2;
+		widgetWidth = x1 - x2;
 	}
 	x += 1;
-	w -= 2;
+	widgetWidth -= 2;
 	m_nPosX = x;
-	setSize(w, wy);
-	adjustAssocs( (int)this -> x(), (int) this -> y() );//adjust assoc lines
+	setSize(widgetWidth, widgetHeight);
+	adjustAssocs( (int)this->x(), (int)this->y() );//adjust assoc lines
 }
 
 void MessageWidget::cleanup() {
@@ -381,20 +501,22 @@ int MessageWidget::getMaxHeight() {
 	return (height - this->height());
 }
 
-void MessageWidget::mousePressEvent(QMouseEvent *me) {
+void MessageWidget::mousePressEvent(QMouseEvent* me) {
 	UMLWidget::mousePressEvent(me);
-	if( m_pView -> m_CurrentCursor != WorkToolBar::tbb_Arrow ) {
-		//anything else needed??
+	if ( m_pView->m_CurrentCursor != WorkToolBar::tbb_Arrow ) {
 		return;
 	}
-	//resize only interests a message to self
-	if( m_pWA != m_pWB )
+	//resize only interests a message to self or an asynchronous message
+	MessageWidgetData* widgetdata = static_cast<MessageWidgetData*>(m_pData);
+	if ( widgetdata->getSequenceMessageType() == sequence_message_asynchronous && m_pWA != m_pWB ) {
 		return;
-	int m = 6;
-	//see if clicked on arrow head(bottom left corner)
-	if( (m_nOldX + m_nPressOffsetX ) <= ((int)x() + m) && ( m_nOldY + m_nPressOffsetY ) >= ( (int)y() + height() - m) && me -> button() == LeftButton) {
+	}
+	int m = 10;
+	//see if clicked on bottom right corner
+	if( (m_nOldX + m_nPressOffsetX) >= ((int)x() + width() - m) &&
+	    (m_nOldY + m_nPressOffsetY) >= ((int)y() + height() - m) && me->button() == LeftButton) {
 		m_bResizing = true;
-		m_pView -> setCursor(KCursor::sizeVerCursor());
+		m_pView->setCursor(KCursor::sizeVerCursor());
 		m_nOldH = height();
 	} else {
 		m_bResizing = false;
@@ -405,7 +527,7 @@ void MessageWidget::mousePressEvent(QMouseEvent *me) {
 void MessageWidget::mouseReleaseEvent( QMouseEvent * me ) {
 	UMLWidget::mouseReleaseEvent( me );
 	m_bResizing = false;
-	m_pView -> setCursor( KCursor::arrowCursor() );
+	m_pView->setCursor( KCursor::arrowCursor() );
 }
 
 void MessageWidget::setWidgetA(UMLWidget * wa) {
@@ -417,7 +539,5 @@ void MessageWidget::setWidgetB(UMLWidget * wb) {
 	m_pWB = wb;
 	((MessageWidgetData*)m_pData)->m_nWidgetBID = ((ObjectWidget *)wb) -> getLocalID();
 }
-
-
 
 #include "messagewidget.moc"

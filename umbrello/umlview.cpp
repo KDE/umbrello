@@ -423,7 +423,8 @@ void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome) {
 		return;
 	}
 	//Create a Message on a Sequence diagram
-	if(m_CurrentCursor == WorkToolBar::tbb_Seq_Message) {
+	if(m_CurrentCursor == WorkToolBar::tbb_Seq_Message_Synchronous ||
+	   m_CurrentCursor == WorkToolBar::tbb_Seq_Message_Asynchronous) {
 		UMLWidget* clickedOnWidget = onWidgetLine( me->pos() );
 		if(clickedOnWidget) {
 			if(!m_pFirstSelectedWidget) { //we are starting a new message
@@ -439,10 +440,21 @@ void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome) {
 				messageText->setFont( m_pData -> getFont() );
 				messageText->setID(getDocument() -> getUniqueID());
 
-				MessageWidget* message = new MessageWidget(this, m_pFirstSelectedWidget,
-									   clickedOnWidget, messageText,
-									   getDocument()->getUniqueID(),
-									   me->y());
+				MessageWidget* message;
+
+				if (m_CurrentCursor == WorkToolBar::tbb_Seq_Message_Synchronous) {
+					message = new MessageWidget(this, m_pFirstSelectedWidget,
+										   clickedOnWidget, messageText,
+										   getDocument()->getUniqueID(),
+										   me->y(),
+										   sequence_message_synchronous);
+				} else {
+					message = new MessageWidget(this, m_pFirstSelectedWidget,
+										   clickedOnWidget, messageText,
+										   getDocument()->getUniqueID(),
+										   me->y(),
+										   sequence_message_asynchronous);
+				}
 				connect(this, SIGNAL(sigColorChanged(int)),
 					message, SLOT(slotColorChanged(int)));
 
@@ -1018,8 +1030,7 @@ void UMLView::selectAll() {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void UMLView::contentsMousePressEvent(QMouseEvent* ome)
-{
+void UMLView::contentsMousePressEvent(QMouseEvent* ome) {
 	m_bMouseButtonPressed = true;
 	QMouseEvent *me = new QMouseEvent(QEvent::MouseButtonPress,
 					  inverseWorldMatrix().map(ome->pos()),
@@ -1033,9 +1044,13 @@ void UMLView::contentsMousePressEvent(QMouseEvent* ome)
 	viewport()->setMouseTracking(true);
 	emit sigRemovePopupMenu();
 
-	if( allocateMousePressEvent(me) ) {
+	//bit of a kludge to allow you to click over sequence diagram messages when
+	//adding a new message
+	if ( m_CurrentCursor != WorkToolBar::tbb_Seq_Message_Synchronous &&
+	     m_CurrentCursor != WorkToolBar::tbb_Seq_Message_Asynchronous && allocateMousePressEvent(me) ) {
 		return;
 	}
+
 
 	x = me->x();
 	y = me->y();
@@ -2190,8 +2205,8 @@ Uml::Association_Type UMLView::convert_TBB_AT(WorkToolBar::ToolBar_Buttons tbb) 
 			at = at_Dependency;
 			break;
 
-
-		case WorkToolBar::tbb_Seq_Message:
+		case WorkToolBar::tbb_Seq_Message_Synchronous:
+		case WorkToolBar::tbb_Seq_Message_Asynchronous:
 			at = at_Seq_Message;
 			break;
 

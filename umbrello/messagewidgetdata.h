@@ -26,10 +26,29 @@ class QDataStream;
 class MessageWidgetData : public UMLWidgetData {
 	friend class MessageWidget;
 public:
-	MessageWidgetData(SettingsDlg::OptionState optionState);
-	MessageWidgetData(MessageWidgetData & Other);
+	/**
+	 * Constructor.  Sets message type to sequenceMessageType.
+	 */
+	MessageWidgetData(SettingsDlg::OptionState optionState, Sequence_Message_Type sequenceMessageType);
+
+	/**
+	 * Copy constructor
+	 */
+	MessageWidgetData(MessageWidgetData& Other);
+
+	/**
+	 * Destructor, empty
+	 */
 	virtual ~MessageWidgetData();
-	virtual MessageWidgetData & operator=(MessageWidgetData & Other);
+
+	/**
+	 * Assignment
+	 */
+	virtual MessageWidgetData& operator=(MessageWidgetData& Other);
+
+	/**
+	 * Comparason
+	 */
 	virtual bool operator==(MessageWidgetData & Other);
 
 	/**
@@ -82,10 +101,24 @@ public:
 	 */
 	virtual int getTextID();
 
+	/**
+	 * Returns whether the message is synchronous or asynchronous
+	 */
+	Sequence_Message_Type getSequenceMessageType();
+
+	/**
+	 * Debugging method
+	 */
 	virtual void print2cerr();
 
+	/**
+	 * saves properties for the supplied <UML:MessageWidget> tag
+	 */
 	bool saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
+	/**
+	 * loads properties from a supplied <UML:MessageWidget> tag
+	 */
 	bool loadFromXMI( QDomElement & qElement );
 protected:
 	int m_nWidgetAID;
@@ -95,6 +128,11 @@ protected:
 	QString m_Operation;
 
 	int m_nTextID;
+
+	/**
+	 *	Whether the message is synchronous or asynchronous
+	 */
+        Sequence_Message_Type m_sequenceMessageType;
 };
 
 #endif
