@@ -24,7 +24,7 @@ using namespace Uml;
 
 /**	This class holds all the UMLWidget's Information All this
  *	information goes to a file or clipboard when a UMLWidget
- *	object is serialized With this class we are trying to achieve
+ *	object is saved With this class we are trying to achieve
  *	isolation between data and display layers.
  *
  *      @author Gustavo Madrigal
@@ -168,19 +168,9 @@ public:
 	virtual QColor getFillColour();
 
 	/**
-	 *		Saves/loads the class
-	 */
-	virtual bool serialize(QDataStream *s, bool archive, int fileversion);
-
-	/**
 	 * Read property of int m_nNumAssoc.
 	 */
 	virtual uint getNumAssoc();
-
-	/**
-	 * Returns the amount of bytes needed to serialize this object
-	 */
-	virtual long getClipSizeOf();
 
 	/**
 	 * Prints the data members to standard error

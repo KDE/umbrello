@@ -172,21 +172,6 @@ public:
 	void checkMessages(UMLWidget * w);
 
 	/**
-	 * Use to save or load this classes information
-	 *
-	 *	@param	s	Pointer to the datastream (file or clip) to save/load from.
-	 *	@param	archive	If true will save the classes information, else will
-	 * load the information.
-	 * Archive to true to save to file or to clip
-	 */
-	virtual bool serialize(QDataStream *s, bool archive, int fileversion);
-
-	/**
-	 * Returns the amount of bytes needed to serialize an instance object to the clipboard
-	 */
-	virtual long getClipSizeOf();
-
-	/**
 	 *	Finds a widget with the given ID.
 	 *
 	 *	@param	id	The ID of the widget to find.
@@ -355,14 +340,13 @@ public:
 	 */
 	void updateNoteWidgets();
 
-
 	/**
 	 * Returns a List of all the UMLObjects(Use Cases, Concepts and Actors) in the View
 	 */
 	UMLObjectList* getUMLObjects();
 
 	/**
-	 * Activate all the objects and associations after a clipSerialize from the clipboard
+	 * Activate all the objects and associations after a load from the clipboard
 	 */
 	bool activate();
 
@@ -393,11 +377,11 @@ public:
 	bool createAssoc(AssociationWidgetData* AssocData);
 
 	/**
-	 * Activate the view after a load a new file (serialize)
+	 * Activate the view after a load a new file
 	 *
 	 * @return Return true if the activate was succesful
 	 */
-	bool activateAfterSerialize( bool bUseLog = false );
+	bool activateAfterLoad( bool bUseLog = false );
 
 	/**
 	 *  FIXME Gustavo ???

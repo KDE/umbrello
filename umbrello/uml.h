@@ -10,8 +10,6 @@
 #ifndef UML_H
 #define UML_H
 
-#define FILE_VERSION	5
-
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -619,7 +617,7 @@ private:
 	/**
 	 * the configuration object of the application
 	 */
-	KConfig *config;
+	KConfig* config;
 
 	/**
 	 * view is the main widget which represents your working
@@ -628,18 +626,18 @@ private:
 	 * according to your application's needs by changing the view
 	 * class.
 	 */
-	UMLView *view;
+	UMLView* view;
 
 	/**
 	 * doc represents your actual document and is created only once. It keeps
-	 * information such as filename and does the serialization of your files.
+	 * information such as filename and does the loading and saving of your files
 	 */
-	UMLDoc *doc;
+	UMLDoc* doc;
 
 	/**
 	 *	listview shows the current open file
 	 */
-	UMLListView * listView;
+	UMLListView* listView;
 
 	/**
 	 * 	The widget which shows the diagrams
@@ -662,7 +660,7 @@ private:
 	DocWindow* m_pDocWindow;
 	
 	/** Refactoring assistant */
-	Umbrello::RefactoringAssistant *m_refactoringAssist;
+	Umbrello::RefactoringAssistant* m_refactoringAssist;
 
 	//KAction pointers to enable/disable actions
 	KAction* fileNew;
@@ -692,20 +690,20 @@ private:
 	KAction* componentDiagram;
 	KAction* deploymentDiagram;
 	KAction* viewClearDiagram;
-	KAction *UclassDiagram;
-	KAction *UsequenceDiagram;
-	KAction *UcollaborationDiagram;
-	KAction *UuseCaseDiagram;
-	KAction *UstateDiagram;
-	KAction *UactivityDiagram;
+	KAction* UclassDiagram;
+	KAction* UsequenceDiagram;
+	KAction* UcollaborationDiagram;
+	KAction* UuseCaseDiagram;
+	KAction* UstateDiagram;
+	KAction* UactivityDiagram;
 
 	KToggleAction* viewSnapToGrid;
 	KToggleAction* viewShowGrid;
 	KAction* viewExportImage;
 	KAction* viewProperties;
 	
-	KAction *zoomInAction;
-	KAction *zoomOutAction;
+	KAction* zoomInAction;
+	KAction* zoomOutAction;
 
 	KAction* genAll;
 	KAction* genWizard;
@@ -722,9 +720,8 @@ private:
 	QTimer* m_clipTimer;
 	QTimer* m_copyTimer;
 
-	/**  */
-	KStatusBarLabel * m_statusLabel;
-	/**  */
+	KStatusBarLabel* m_statusLabel;
+
 	QGuardedPtr<QProgressBar> statProg;
 	/**
 	 * True if the application is opening an existing document

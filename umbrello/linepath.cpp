@@ -719,43 +719,6 @@ LinePath & LinePath::operator=( LinePath & rhs ) {
 	return *this;
 }
 
-long LinePath::getClipSizeOf() {
-	//amount of points + each point( x, y )
-	return (long)( count() * 2 * sizeof( Q_INT32 ) + sizeof( Q_INT32 ) );
-}
-
-bool LinePath::serialize( QDataStream * stream, bool archive, int fileversion ) {
-	if (fileversion < 5)
-		return true;
-	if( archive ) {
-		int count = m_LineList.count();
-		//save count
-		*stream << (Q_INT32)( count + 1 );
-		//save start-end points
-		*stream << getPoint( 0 );
-		*stream << getPoint( count  );
-		//now save all other points
-		for( int i = 1; i < count; i++ )
-			*stream << getPoint( i );
-	} else {
-		//get count
-		int count = 0;
-		*stream >> count;
-		if( count >= 2 ) {
-			QPoint p, q;
-			//get start - end points
-			*stream >> p >> q;
-			setStartEndPoints( p , q );
-			//get the rest
-			for( int i = 1; i < count - 1; i ++ ) {
-				*stream >> p;
-				insertPoint( i , p );
-			}
-		}//end if count >= 2
-	}//end else archive
-	return true;
-}
-
 QCanvas * LinePath::getCanvas() {
 	if( !m_pAssociation )
 		return 0;

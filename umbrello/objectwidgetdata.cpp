@@ -84,65 +84,6 @@ void ObjectWidgetData::setMultipleInstance( bool MultipleInstance) {
 	m_bMultipleInstance = MultipleInstance;
 }
 
-long ObjectWidgetData::getClipSizeOf() {
-
-	long l_size = UMLWidgetData::getClipSizeOf();
-	l_size += sizeof(m_nLocalID);
-	l_size += sizeof( int ); //m_bMultipleInstance
-	l_size += sizeof( int ); //m_bDrawAsActor
-	l_size += sizeof( int ); //m_bShowDeconstruction
-	l_size += sizeof( int ); //m_nLineLength
-	Q_UINT32 tmp; //tmp is used to calculate the size of each serialized null string
-
-	if ( !m_InstanceName.length() ) //We assume we are working with QT 2.1.x or superior, that means
-		//if unicode returns a null pointer then the serialization process of the QString object
-		//will write a null marker 0xffffff, see QString::operator<< implementation
-	{
-
-		l_size += sizeof(tmp);
-	} else {
-		l_size += (m_InstanceName.length()*sizeof(QChar));
-	}
-
-	return l_size;
-}
-
-bool ObjectWidgetData::serialize(QDataStream *s, bool archive, int fileversion) {
-	if(!UMLWidgetData::serialize(s, archive, fileversion)) {
-		return false;
-	}
-	if(archive) {
-		*s << m_nLocalID
-		<< m_InstanceName
-		<< (int)m_bMultipleInstance
-		<< (int)m_bDrawAsActor
-		<< (int)m_bShowDeconstruction
-		<< m_nLineLength;
-	} else {
-		int multi, actor, decon;
-		*s >> m_nLocalID
-		>> m_InstanceName
-		>> multi;
-		m_bMultipleInstance = multi;
-		if (fileversion > 4)
-		{
-			*s >> actor
-			>> decon
-			>> m_nLineLength;
-			m_bDrawAsActor = actor;
-			m_bShowDeconstruction = decon;
-		}
-		else
-		{
-			m_bDrawAsActor = false;
-			m_bShowDeconstruction = false;
-			m_nLineLength = 200;
-		}
-	}
-
-	return true;
-}
-
 void ObjectWidgetData::print2cerr() {
 	UMLWidgetData::print2cerr();
 	kdDebug() << "m_InstanceName = " << m_InstanceName << endl;

@@ -43,42 +43,14 @@ bool PackageWidgetData::operator==(PackageWidgetData & Other) {
 	return true;
 }
 
-long PackageWidgetData::getClipSizeOf() {
-	long l_size = UMLWidgetData::getClipSizeOf();
-	//Q_UINT32 tmp; //tmp is used to calculate the size of each serialized null string
-
-	l_size += sizeof((int)m_bShowStereotype);
-
-	return l_size;
-}
-
-/** No descriptions */
-bool PackageWidgetData::serialize(QDataStream *s, bool archive, int fileversion) {
-	if(!UMLWidgetData::serialize(s, archive, fileversion)) {
-		return false;
-	}
-	if(archive) {
-		*s << (int)m_bShowStereotype;
-	} else {
-		int showStereotype = 0;
-		*s >> showStereotype;
-		m_bShowStereotype = (bool)showStereotype;
-	}
-
-	return true;
-}
-
-/** Read property of bool m_bShowStereotype. */
 bool PackageWidgetData::getShowStereotype() {
 	return m_bShowStereotype;
 }
 
-/** Write property of bool m_bShowStereotype. */
 void PackageWidgetData::setShowStereotype( bool ShowStereotype) {
 	m_bShowStereotype = ShowStereotype;
 }
 
-/** No descriptions */
 void PackageWidgetData::print2cerr() {
 	UMLWidgetData::print2cerr();
 	if(m_bShowStereotype) {

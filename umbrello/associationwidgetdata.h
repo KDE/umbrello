@@ -51,31 +51,6 @@ public:
 	virtual bool  operator==(AssociationWidgetData & Other);
 
 	/**
-	*	Save/load data
-	* @param	s
-	* @param	archive	if true will save the classes information else will load the information
-	* @param	fileversion the version of the serialize format
-	* @return	true if successful else false
-	*/
-	virtual bool serialize(QDataStream *s, bool archive, int fileversion);
-
-	/**
-	* Returns the amount of bytes needed to serialize this object
-	*	If the serialization method of this class is changed this function will have to be CHANGED TOO
-	* This function is used by the Copy and Paste Functionality
-	*	The Size in bytes of a serialized QString Object is long sz:
-	*	if ( (sz =str.length()*sizeof(QChar)) && !(const char*)str.unicode() )
-	*	{
-	*		sz = size of Q_UINT32; //  typedef unsigned int	Q_UINT32;		// 32 bit unsigned
-	*	}
-	*	This calculation is valid only for QT 2.1.x or
-	*	superior, this is totally incompatible with QT 2.0.x
-	*	or QT 1.x or inferior
-	*	That means the copy and paste functionality will work on with QT 2.1.x or superior
-	*/
-	virtual long getClipSizeOf();
-
-	/**
 	* Write property of FloatingTextData* m_pMultiDataA.
 	*/
 	virtual void setMultiDataA( FloatingTextData* pMultiData);

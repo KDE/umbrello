@@ -25,50 +25,6 @@ UMLInterface::~UMLInterface() {
   	m_OpsList.clear();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-bool UMLInterface::serialize(QDataStream *s, bool archive, int fileversion) {
-	bool status = UMLObject::serialize(s, archive, fileversion);
-	if(!status)
-		return status;
-	// Note: The m_AssocsList is filled by UMLDoc::serialize().
-	// UMLDoc::serialize() serializes the UMLInterfaces before the
-	// UMLAssociations.
-	if(archive) {
-		*s << m_OpsList.count();
-		//save operations
-		UMLOperation * o=0;
-		for(o=m_OpsList.first();o != 0;o=m_OpsList.next()) {
-			o->serialize(s, archive, fileversion);
-		}
-	} else {
-		int opCount, type;
-		//load operations
-		*s >> opCount;
-		//load operations
-		for(int i=0;i<opCount;i++) {
-			*s >> type;
-			UMLOperation *o = new UMLOperation(this);
-			o->serialize(s, archive, fileversion);
-			m_OpsList.append(o);
-		}
-	}//end else
-	return status;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-long UMLInterface::getClipSizeOf() {
-	long l_size = UMLObject::getClipSizeOf();
-	//  Q_UINT32 tmp; //tmp is used to calculate the size of each serialized null string
-	l_size += sizeof(m_OpsList.count());
-
-	UMLOperation * o=0;
-	for(o=m_OpsList.first();o != 0;o=m_OpsList.next()) {
-		l_size += o->getClipSizeOf();
-	}
-
-	return l_size;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
 bool UMLInterface::operator==( UMLInterface & rhs ) {
 	if ( m_OpsList.count() != rhs.m_OpsList.count() ) {
 		return false;

@@ -116,18 +116,6 @@ public:
 	 */
 	QString toString(Signature_Type sig = st_NoSig);
 
-	/**
-	 * Use to save or load this classes information
-	 *
-	 *	@param	s	Pointer to the datastream (file) to save/load from.
-	 *	@param	archive	If true will save the classes information, else will
-	 * load the information.
-	 *	@param	fileversion	the version of the serialize format
-	 *
-	 *	@return	Returns the status of the operation.
-	 */
-	virtual bool serialize(QDataStream *s, bool archive, int fileversion);
-
 	int getUniqueID() {
 		return m_nUniqueID;
 	}
@@ -139,11 +127,6 @@ public:
 	 *              will be appended to the list
 	 */
 	void addParm(UMLAttribute *parameter, int position = -1);
-
-	/**
-	 *   Returns the amount of bytes needed to serialize an instance object to the clipboard
-	 */
-	virtual long getClipSizeOf();
 
 	/**
 	 *  Returns an unused parameter name for a new parameter

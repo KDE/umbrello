@@ -131,24 +131,6 @@ public:
 	}
 
 	/**
-	 * Use to save or load this classes information
-	 *
-	 * @param s		Pointer to the datastream (file) to save/load from.
-	 * @param archive	If true will save the classes information, else will
-	 *                      load the information.
-	 *
-	 * @return Returns the status of the operation.
-	 */
-	virtual bool serialize(QDataStream *s, bool archive, int fileversion);
-
-	/**
-	 * Returns the amount of bytes needed to serialize an instance object to the clipboard
-	 *
-	 * @return 
-	 */
-	virtual long getClipSizeOf();
-
-	/**
 	 * Overrides the standard operation.
 	 *
 	 * @param me The mouse event.

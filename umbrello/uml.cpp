@@ -125,13 +125,13 @@ UMLApp::UMLApp(QWidget* , const char* name):KDockMainWindow(0, name) {
 	connect(zoomSelect,SIGNAL(activated(int)),this,SLOT(setZoom(int)));
 
 	m_refactoringAssist = 0L;
-	
-	
+
+
 ////FIXME - remove when dialog linking problems are solved
 	UMLClass *dummyc = new UMLClass(this, "dummy", 9999);
 	UMLInterface *dummyi = new UMLInterface(this, "dummy", 9999);
 	UMLPackage *dummyp = new UMLPackage(this, "dummy", 9999);
-	
+
 		delete new UmbrelloDialog(this);
 		delete new Umbrello::ClassPropertiesPage(dummyc);
 		delete new Umbrello::ClassPropertiesPage(dummyc);
@@ -144,8 +144,8 @@ UMLApp::UMLApp(QWidget* , const char* name):KDockMainWindow(0, name) {
 	delete dummyc;
 	delete dummyi;
 	delete dummyp;
-////////////////////////////////////////	
-	
+////////////////////////////////////////
+
 
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -600,7 +600,8 @@ void UMLApp::slotFileOpen() {
 		// here saving wasn't successful
 
 	} else {
-		KURL url=KFileDialog::getOpenURL(":open-umbrello-file", i18n("*.xmi|XMI Files\n*.uml|Old UML Files\n*|All Files"),
+		KURL url=KFileDialog::getOpenURL(":open-umbrello-file",
+						 i18n("*.xmi|Umbrello XMI Files\n*|All Files"),
 				this, i18n("Open File"));
 		if(!url.isEmpty()) {
 			if(doc->openDocument(url))
@@ -617,10 +618,6 @@ void UMLApp::slotFileOpen() {
 void UMLApp::slotFileOpenRecent(const KURL& url) {
 	slotStatusMsg(i18n("Opening file..."));
 	loading = true;
-
-
-
-
 
 	KURL oldURL = doc->URL();
 

@@ -55,33 +55,6 @@ public:
 	~UMLViewData();
 
 	/**
-	 * 		Save/Loads to the stream.
-	 */
-	bool serialize( QDataStream * stream, bool bArchive, int fileversion );
-
-	/**
-	 * 		Save/Loads to the stream.
-	 */
-	bool serializeWidgets( QDataStream * stream, bool bArchive, int fileversion );
-
-	/**
-	 * 		Save/Loads to the stream.
-	 */
-	bool serializeMessages( QDataStream * stream, bool bArchive, int fileversion );
-
-	/**
-	 * 		Save/Loads to the stream.
-	 */
-	bool serializeAssociations( QDataStream * stream, bool bArchive, int fileversion );
-
-	/**
-	 *		Returns the amount of bytes to serialize this object.
-	 *		Remember: if you add anything to the @ref serialize method
-	 *		add it to this method also.
-	 */
-	long getClipSizeOf();
-
-	/**
 	 *		Return the documentation of the diagram.
 	 */
 	QString getDoc();

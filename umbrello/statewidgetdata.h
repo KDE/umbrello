@@ -20,7 +20,7 @@
 /**
  *  This class holds all the StateWidget's Information
  *   All this information goes to a file or clipboard
- *   when an StateWidget object is serialized
+ *   when an StateWidget object is saved
  *   With this class we are trying to achieve isolation
  *   between data and display layers.
  *   @author Paul Hensgen
@@ -52,16 +52,6 @@ public:
 	 *   Overrides '==' operator
 	 */
 	virtual bool operator==(StateWidgetData & Other);
-
-	/**
-	 *   Returns the buffer size needed to serialize object
-	 */
-	virtual long getClipSizeOf();
-
-	/**
-	 *   Saves/Loads the object.
-	 */
-	virtual bool serialize(QDataStream *s, bool archive, int fileversion);
 
 	/**
 	 *   Returns type of state

@@ -66,35 +66,6 @@ bool InterfaceWidgetData::operator==(InterfaceWidgetData& Other) {
 	return true;
 }
 
-long InterfaceWidgetData::getClipSizeOf() {
-	long l_size = UMLWidgetData::getClipSizeOf();
-
-	l_size += sizeof(m_bShowOperations) + sizeof((int)m_bShowPackage)
-	          + sizeof(m_ShowOpSigs) + sizeof((int)m_bShowScope);
-
-	return l_size;
-}
-
-bool InterfaceWidgetData::serialize(QDataStream *s, bool archive, int fileversion) {
-	if(!UMLWidgetData::serialize(s, archive, fileversion)) {
-		return false;
-	}
-	if(archive) {
-		*s << m_bShowOperations
-		<< m_ShowOpSigs
-		<< (int)m_bShowScope
-		<< (int)m_bShowPackage;
-	} else {
-		int ss = 0, so = 0, scope = 0, sp = 0;
-		*s >> so >> ss >> scope >> sp;
-		m_bShowOperations = so;
-		m_ShowOpSigs = (Uml::Signature_Type)ss;
-		m_bShowScope = (bool)scope;
-		m_bShowPackage = (bool)sp;
-	}
-	return true;
-}
-
 bool InterfaceWidgetData::getShowOperations() {
 	return m_bShowOperations;
 }

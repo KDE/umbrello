@@ -36,22 +36,6 @@ bool ArtifactWidgetData::operator==(ArtifactWidgetData & Other) {
 	return true;
 }
 
-long ArtifactWidgetData::getClipSizeOf() {
-	long l_size = UMLWidgetData::getClipSizeOf();
-	//Q_UINT32 tmp; //tmp is used to calculate the size of each serialized null string
-
-	return l_size;
-}
-
-/** No descriptions */
-bool ArtifactWidgetData::serialize(QDataStream *s, bool archive, int fileversion) {
-	if(!UMLWidgetData::serialize(s, archive, fileversion)) {
-		return false;
-	}
-
-	return true;
-}
-
 bool ArtifactWidgetData::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
 	QDomElement conceptElement = qDoc.createElement("artifactwidget");
 	bool status = UMLWidgetData::saveToXMI(qDoc, conceptElement);

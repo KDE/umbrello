@@ -34,12 +34,12 @@
 
 
 
-UMLWidget::UMLWidget( UMLView * view, UMLObject * o, UMLWidgetData * pData ) 
-	: QObject( view), QCanvasRectangle( view -> canvas() ), 
-	  m_pObject(o), 
+UMLWidget::UMLWidget( UMLView * view, UMLObject * o, UMLWidgetData * pData )
+	: QObject( view), QCanvasRectangle( view -> canvas() ),
+	  m_pObject(o),
 	  m_pView(view),
 	  m_pMenu(0),
-	  m_pData(pData) 
+	  m_pData(pData)
 {
 	if(m_pObject) {
 		setName(m_pObject->getName());
@@ -49,24 +49,24 @@ UMLWidget::UMLWidget( UMLView * view, UMLObject * o, UMLWidgetData * pData )
 	init();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLWidget::UMLWidget( UMLView * view, int id, UMLWidgetData * pData ) 
+UMLWidget::UMLWidget( UMLView * view, int id, UMLWidgetData * pData )
 	: QObject( view), QCanvasRectangle( view -> canvas() ),
-	  m_pObject(0), 
+	  m_pObject(0),
 	  m_pView(view),
 	  m_pMenu(0),
-	  m_pData(pData) 
+	  m_pData(pData)
 {
 	if(m_pData)
 		m_pData->m_nId = id;
 	init();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLWidget::UMLWidget(UMLView * view,  UMLWidgetData * pData ) 
+UMLWidget::UMLWidget(UMLView * view,  UMLWidgetData * pData )
 	: QObject( view), QCanvasRectangle( view -> canvas() ),
-	  m_pObject(0), 
+	  m_pObject(0),
 	  m_pView(view),
 	  m_pMenu(0),
-	  m_pData(pData) 
+	  m_pData(pData)
 {
 	init();
 }
@@ -378,32 +378,6 @@ void UMLWidget::slotMenuSelection(int sel) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLWidget::slotWidgetMoved(int /*id*/) {}
-////////////////////////////////////////////////////////////////////////////////////////////////////
-bool UMLWidget::serialize(QDataStream *s, bool archive, int fileversion) {
-	if(archive) {
-		synchronizeData();
-	}
-	return m_pData->serialize(s, archive, fileversion);
-}
-
-/** Returns the amount of bytes needed to serialize this m_pObject */
-/* If the serialization method of this class is changed this function will have to be CHANGED TOO*/
-/*This function is used by the Copy and Paste Functionality*/
-/*The Size in bytes of a serialized QString Object is long sz:
-		if ( (sz =str.length()*sizeof(QChar)) && !(const char*)str.unicode() )
-		{
-			sz = size of Q_UINT32; //  typedef unsigned int	Q_UINT32;		// 32 bit unsigned
-		}
-	This calculation is valid only for QT 2.1.x or superior, this is totally incompatible with QT 2.0.x or QT 1.x or inferior
-	That means the copy and paste functionality will work on with QT 2.1.x or superior
-*/
-
-long UMLWidget::getClipSizeOf() {
-	synchronizeData();
-
-	return m_pData->getClipSizeOf();
-}
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLWidget::slotColorChanged(int m_pViewID) {
 	//only change if on the diagram concerned

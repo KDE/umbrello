@@ -105,41 +105,14 @@ class UMLListView : public KListView {
 	 *
 	 *	@param	v	The current view.
 	 */
-	void setView(UMLView * v);
+	void setView(UMLView* v);
 
 	/**
-	 * Use to save or load this classes information
-	 *
-	 *	@param	s	Pointer to the datastream (file) to save/load from.
-	 *	@param	archive	If true will save the classes information, else will
-	 *                      load the information.
-	 *
-	 *	@return	Returns the status of the operation.
+	 * sets loading boolean flag to the value given
 	 */
-	virtual bool serialize(QDataStream *s, bool archive, int fileversion);
-
-	/**
-	 * used by serialise()
-	 */
-	bool readChilds( UMLListViewItem* parent, QDataStream *s);
-
-	long getClipSizeOf();
-
-	void setLoading(bool _state) {
-		loading = _state;
-	}
+	void setLoading(bool state);
 
 	bool getSelectedItems(UMLListViewItemList &ItemList);
-
-	/**
-	 * Returns the amount of bytes needed to serialize Item to the clipboard
-	 */
-	long getClipSizeOfItemList(UMLListViewItemList* Items);
-
-	/**
-	 * Serialize Item to a QDataStream that will be put in the clipboard
-	 */
-	bool clipSerializeItemList(UMLListViewItemList* Items, QDataStream *s, const bool toClip);
 
 	/**
 	 * Creates a new UMLListViewItem from a UMLListViewItemData, if

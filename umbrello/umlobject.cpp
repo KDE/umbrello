@@ -39,46 +39,6 @@ bool UMLObject::acceptAssociationType(Uml::Association_Type)
 	return false;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-bool UMLObject::serialize(QDataStream *s, bool archive, int fileversion) {
-	bool status = true;
-	if(archive) {
-		//save to current file
-		*s << m_BaseType
-		<< getName()
-		<< m_nId
-		<< m_Doc
-		<< m_Scope
-		<< (QString)m_Package
-		<< (QString)m_Stereotype
-		<< (int)m_bAbstract
-		<< (int)m_bStatic;
-	} else {
-		int scope;
-		m_bAbstract = false;
-		m_bStatic = false;
-		QString _name;
-		*s >> _name
-		>> m_nId
-		>> m_Doc
-		>> scope
-		>> m_Package
-		>> m_Stereotype;
-		setName(_name);
-		if (fileversion > 4)
-		{
-			int bAbstract, bStatic;
-			*s >> bAbstract
-			>> bStatic;
-			m_Scope = (Uml::Scope)scope;
-			m_bAbstract = bAbstract;
-			m_bStatic = bStatic;
-		}
-		else
-			m_Scope = (Uml::Scope)(scope - 1);
-	}
-	return status;
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLObject::setID(int NewID) {
 	m_nId = NewID;
 	emit modified();
@@ -93,58 +53,6 @@ QString UMLObject::getName() const {
 	return m_Name;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/** Returns the amount of bytes needed to serialize this object */
-/* If the serialization method of this class is changed this function will have to be CHANGED TOO*/
-/*This function is used by the Copy and Paste Functionality*/
-/*The Size in bytes of a serialized QString Object is long sz:
-		if ( (sz =str.length()*sizeof(QChar)) && !(const char*)str.unicode() )
-		{
-			sz = size of Q_UINT32; //  typedef unsigned int	Q_UINT32;		// 32 bit unsigned
-		}
-	This calculation is valid only for QT 2.1.x or superior, this is totally incompatible with QT 2.0.x or QT 1.x or inferior
-	That means the copy and paste functionality will work on with QT 2.1.x or superior
-*/
-long UMLObject::getClipSizeOf() {
-	long l_size = sizeof(m_BaseType) + sizeof(m_nId) + sizeof(m_Scope);
-
-	Q_UINT32 tmp; //tmp is used to calculate the size of each serialized null string
-
-	QString _name = getName();
-
-	if ( !_name.length() ) //We assume we are working with QT 2.1.x or superior, that means
-		//if unicode returns a null pointer then the serialization process of the QString object
-		//will write a null marker 0xffffff, see QString::operator<< implementation
-	{
-		l_size += sizeof(tmp);
-	} else {
-		l_size += (_name.length()*sizeof(QChar));
-	}
-
-	if ( !m_Doc.length() ) {
-		l_size += sizeof(tmp);
-	} else {
-		l_size += (m_Doc.length()*sizeof(QChar));
-	}
-
-	if ( !m_Package.length() ) {
-		l_size += sizeof(tmp);
-	} else {
-		l_size += (m_Package.length()*sizeof(QChar));
-	}
-
-	if ( !m_Stereotype.length() ) {
-		l_size += sizeof(tmp);
-	} else {
-		l_size += (m_Stereotype.length()*sizeof(QChar));
-	}
-
-	l_size += sizeof( int );//m_bAbstract
-	l_size += sizeof( int );//m_bStatic
-
-	return l_size;
-}
-
 bool UMLObject::operator==(UMLObject & rhs ) {
 	if( this == &rhs )
 		return true;

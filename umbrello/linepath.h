@@ -67,16 +67,6 @@ public:
 	LinePath & operator=( LinePath & rhs );
 
 	/**
-	* Returns the size of the serialize class
-	*/
-	long getClipSizeOf();
-
-	/**
-	*   Saves and loads the class information
-	*/
-	virtual bool serialize( QDataStream * stream, bool archive, int fileversion);
-
-	/**
 	*   Returns the point at the point index.
 	*/
 	QPoint getPoint( int pointIndex );

@@ -41,52 +41,6 @@ bool StateWidgetData::operator==(StateWidgetData & Other) {
 	return true;
 }
 
-long StateWidgetData::getClipSizeOf() {
-	long l_size = ( UMLWidgetData::getClipSizeOf() + sizeof( int ) );
-	if( m_Name.length() == 0 )
-		l_size += sizeof( Q_UINT32 );
-	else
-		l_size += ( sizeof( QChar ) * m_Name.length() );
-	if( m_Doc.length() == 0 )
-		l_size += sizeof( Q_UINT32 );
-	else
-		l_size += ( sizeof( QChar ) * m_Doc.length() );
-	//save state acitivites
-	l_size += sizeof( int );//count of activities
-	for( QStringList::Iterator it = m_Activities.begin(); it != m_Activities.end(); ++it ) {
-		QString temp = *it;
-		l_size += temp.length() * sizeof( QChar );//length will never be allowed to be zero
-	}
-
-	return l_size;
-}
-
-bool StateWidgetData::serialize(QDataStream *s, bool archive, int fileversion) {
-	int nState = (int)m_StateType;
-	int count = m_Activities.count();
-	if( archive ) {
-		*s << nState
-		<< m_Name
-		<< m_Doc
-		<< count;
-		for( QStringList::Iterator it = m_Activities.begin(); it != m_Activities.end(); ++it )
-			*s << (QString)*it;
-	} else {
-		*s >> nState
-		>> m_Name
-		>> m_Doc
-		>> count;
-		QString temp;
-		for( int i = 0;i < count; i++ ) {
-			*s >> temp;
-			m_Activities.append( temp );
-		}
-
-		m_StateType = (StateWidget::StateType)nState;
-	}
-	return UMLWidgetData::serialize(s, archive, fileversion);
-}
-
 bool StateWidgetData::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement stateElement = qDoc.createElement( "UML:StateWidget" );
 	bool status = UMLWidgetData::saveToXMI( qDoc, stateElement );

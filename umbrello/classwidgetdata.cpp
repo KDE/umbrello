@@ -84,129 +84,62 @@ bool ClassWidgetData::operator==(ClassWidgetData & Other) {
 	return true;
 }
 
-/** Returns the amount of bytes needed to serialize this object
-If the serialization method of this class is changed this function will have to be CHANGED TOO
-This function is used by the Copy and Paste Functionality
-The Size in bytes of a serialized QString Object is long sz:
-		if ( (sz =str.length()*sizeof(QChar)) && !(const char*)str.unicode() )
-		{
-
-
-
-
-
-			sz = size of Q_UINT32; //  typedef unsigned int	Q_UINT32;		// 32 bit unsigned
-		}
-	This calculation is valid only for QT 2.1.x or superior, this is totally incompatible with QT 2.0.x or QT 1.x or inferior
-	That means the copy and paste functionality will work on with QT 2.1.x or superior */
-long ClassWidgetData::getClipSizeOf() {
-	long l_size = UMLWidgetData::getClipSizeOf();
-	//Q_UINT32 tmp; //tmp is used to calculate the size of each serialized null string
-
-	l_size += sizeof(m_bShowAttributes) + sizeof(m_bShowOperations) + sizeof((int)m_bShowPackage)
-	          + sizeof((int)m_bShowStereotype) + sizeof(m_ShowOpSigs) + sizeof(m_ShowAttSigs)
-	          + sizeof((int)m_bShowScope);
-
-	return l_size;
-}
-
-/** No descriptions */
-bool ClassWidgetData::serialize(QDataStream *s, bool archive, int fileversion) {
-	if(!UMLWidgetData::serialize(s, archive, fileversion)) {
-		return false;
-	}
-	if(archive) {
-		*s << m_bShowAttributes
-		<< m_bShowOperations
-		<< m_ShowOpSigs
-		<< m_ShowAttSigs
-		<< (int)m_bShowScope
-		<< (int)m_bShowPackage
-		<< (int)m_bShowStereotype;
-	} else {
-		int ss = 0, sa = 0, so = 0, sat = 0, scope = 0, si = 0, sp = 0;
-		*s >> sa >> so >> ss >> sat >> scope >> sp >> si;
-		m_bShowAttributes = sa;
-		m_bShowOperations = so;
-		m_ShowOpSigs = (Uml::Signature_Type)ss;
-		m_ShowAttSigs = (Uml::Signature_Type)sat;
-		m_bShowScope = (bool)scope;
-		m_bShowPackage = (bool)sp;
-		m_bShowStereotype = (bool)si;
-	}
-
-	return true;
-}
-/** Read property of bool m_bShowAttributes. */
 bool ClassWidgetData::getShowAttributes() {
 	return m_bShowAttributes;
 }
 
-/** Write property of bool m_bShowAttributes. */
 void ClassWidgetData::setShowAttributes( bool ShowAttributes) {
 	m_bShowAttributes = ShowAttributes;
 }
 
-/** Read property of bool m_bShowOperations. */
 bool ClassWidgetData::getShowOperations() {
 	return m_bShowOperations;
 }
 
-/** Write property of bool m_bShowOperations. */
 void ClassWidgetData::setShowOperations( bool ShowOperations) {
 	m_bShowOperations = ShowOperations;
 }
 
-/** Read property of ClassWidgetData::SigType m_ShowOpSigs. */
 Uml::Signature_Type ClassWidgetData::getShowOpSigs() {
 	return m_ShowOpSigs;
 }
-/** Write property of ClassWidgetData::SigType m_ShowOpSigs. */
+
 void ClassWidgetData::setShowOpSigs( Uml::Signature_Type ShowOpSigs) {
 	m_ShowOpSigs = ShowOpSigs;
 }
 
-/** Read property of ClassWidgetData::SigType m_ShowAttSigs. */
 Uml::Signature_Type ClassWidgetData::getShowAttSigs() {
 	return m_ShowAttSigs;
 }
 
-/** Write property of ClassWidgetData::SigType m_ShowAttSigs. */
 void ClassWidgetData::setShowAttSigs( Uml::Signature_Type ShowAttSigs) {
 	m_ShowAttSigs = ShowAttSigs;
 }
 
-/** Read property of bool m_bShowScope. */
 bool ClassWidgetData::getShowScope() {
 	return m_bShowScope;
 }
 
-/** Write property of bool m_bShowScope. */
 void ClassWidgetData::setShowScope( bool ShowScope) {
 	m_bShowScope = ShowScope;
 }
 
-/** Read property of bool m_bShowPackage. */
 bool ClassWidgetData::getShowPackage() {
 	return m_bShowPackage;
 }
 
-/** Write property of bool m_bShowPackage. */
 void ClassWidgetData::setShowPackage( bool ShowPackage) {
 	m_bShowPackage = ShowPackage;
 }
 
-/** Read property of bool m_bShowStereotype. */
 bool ClassWidgetData::getShowStereotype() {
 	return m_bShowStereotype;
 }
 
-/** Write property of bool m_bShowStereotype. */
 void ClassWidgetData::setShowStereotype( bool ShowStereotype) {
 	m_bShowStereotype = ShowStereotype;
 }
 
-/** No descriptions */
 void ClassWidgetData::print2cerr() {
 	UMLWidgetData::print2cerr();
 	if(m_bShowAttributes) {

@@ -53,58 +53,12 @@ void NoteWidgetData::setText( QString Text) {
 	m_Text = Text;
 }
 
-long NoteWidgetData::getClipSizeOf() {
-	long l_size = UMLWidgetData::getClipSizeOf();
-	Q_UINT32 tmp; //tmp is used to calculate the size of each serialized null string
-
-	QString name;
-	if(m_bLinkDocumentation == true) {
-		name = "@LINKDOCS@";
-	} else {
-		name = m_Text;
-	}
-
-	if ( !name.length() ) {
-		l_size += sizeof(tmp);
-	} else {
-		l_size += (name.length()*sizeof(QChar));
-	}
-
-	return l_size;
-}
-
 bool NoteWidgetData::getLinkDocumentation() {
 	return m_bLinkDocumentation;
 }
 
 void NoteWidgetData::setLinkDocumentation( bool LinkDocumentation) {
 	m_bLinkDocumentation = LinkDocumentation;
-}
-
-bool NoteWidgetData::serialize(QDataStream *s, bool archive, int fileversion) {
-	if(!UMLWidgetData::serialize(s, archive, fileversion)) {
-		return false;
-	}
-	if(archive) {
-		QString saveString;
-		if(m_bLinkDocumentation == true) {
-			saveString = "@LINKDOCS@";
-		} else {
-			saveString = m_Text;
-		}
-
-		*s << saveString;
-	} else {
-		//Temporary store the text
-		*s	>> m_Text;
-		if (fileversion < 5)
-		{
-			int     w, h;
-			*s >> w >> h;
-		}
-	}
-
-	return true;
 }
 
 bool NoteWidgetData::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {

@@ -33,7 +33,6 @@
 #include "dialogs/umltemplatedialog.h"
 #include "dialogs/umloperationdialog.h"
 
-
 #include <qpainter.h>
 #include <qtimer.h>
 #include <qbuffer.h>
@@ -48,15 +47,12 @@
 #include <kprinter.h>
 #include <ktempfile.h>
 
-#define FILE_VERSION 5
 #define XMI_FILE_VERSION "1.1.5"
 static const uint undoMax = 30;
 
 //#include "diagram/diagram.h"
 using Umbrello::Diagram;
 using Umbrello::DiagramView;
-
-
 
 
 UMLDoc::UMLDoc(QWidget *parent, const char *name) : QObject(parent, name) {
@@ -277,21 +273,7 @@ bool UMLDoc::openDocument(const KURL& url, const char */*format =0*/) {
 		newDocument();
 		return false;
 	}
-	// FIXME: for now only check the file extension... after the filter is tested maybe
-	// we should do a better check here
-	bool status = false;
-	if(file.name().endsWith(".uml"))  //binary file
-	{
-		QDataStream stream(&file);
-		status = serialize(&stream,false, FILE_VERSION);
-		if (status) {
-			QString newFileName = url.fileName(false);
-			doc_url.setFileName(newFileName.replace(newFileName.length() - 4, 4, ".xmi"));
-			setModified();
-		}
-	} else { 	// XML file
-		status = loadFromXMI( file );
-	}
+	bool status = loadFromXMI( file );
 	file.close();
 	KIO::NetAccess::removeTempFile( tmpfile );
 	if( !status ) {
@@ -1070,154 +1052,6 @@ void UMLDoc::signalUMLObjectCreated(UMLObject * o) {
 	emit sigObjectCreated(o);
 	setModified(true);
 }
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-bool UMLDoc::serialize(QDataStream *s, bool archive, int fileversion) {
-	bool status = true;
-	if(archive) {
-		int viewID = -1;
-		//int i = 0;
-		if(currentView)
-			viewID = currentView -> getID();
-		getDocWindow() -> updateDocumentation( false );
-		//save current file
-		*s << 0xabcd 	//magic number
-		<< fileversion	//version
-		<< uniqueID
-		<< viewID
-		<< m_Doc;
-		//save each UMLObject
-		UMLObject * obj;
-		*s << objectList.count();
-		for(obj=objectList.first();obj!=0;obj=objectList.next()) {
-			status = obj -> serialize(s, archive, fileversion);
-			if(!status)
-				return status;
-		}
-
-		//save each view/diagram
-		*s << pViewList -> count();
-
-		UMLView *w;
-		for(w=pViewList->first(); w!=0; w=pViewList->next()) {
-			w->getID();
-			status = w -> serialize(s, archive, fileversion);
-			if(!status)
-				return status;
-
-
-		}
-
-		listView -> serialize(s, archive, fileversion);
-	}//end save
-	else {
-
-		listView -> setLoading(true);
-		int magic, count, type, viewID;
-
-		UMLObject * temp;
-		int steps;
-
-		loading = true;
-		//make sure right file type;
-		*s >> magic;
-		if(magic != 0xabcd)
-			return false;
-		*s >> version;
-		fileversion = version;
-		*s >> uniqueID >> viewID;
-		if (version > 2)
-			listView -> setLoading(true);
-		if (version > 4)
-			*s >> m_Doc;
-		//load UMLObjects
-		*s >> count;
-		getDocWindow() -> newDocumentation();
-		for(int i=0;i<count;i++) {
-			*s >> type;
-                                UMLUseCase * uc = new UMLUseCase(this);
-                                temp = (UMLObject *)uc;
-
-			if((version > 4 && type == ot_Actor)
-				|| (version < 5 && type == /* ot_Actor */ 100)) {
-				UMLActor * a = new UMLActor(this);
-				temp = (UMLObject *)a;
-			} else if((version > 4 && type == ot_UseCase)
-				|| (version < 5 && type == /* ot_UseCase */ 101)) {
-				UMLUseCase * uc = new UMLUseCase(this);
-				temp = (UMLObject *)uc;
-			} else if((version > 4 && type == ot_Class)
-				|| (version < 5 && type == /*ot_Concept */ 102)) {
-				UMLClass * c = new UMLClass(this);
-				temp = (UMLObject *)c;
-			} else if(version > 4 && type == ot_Interface) {
-				UMLInterface * c = new UMLInterface(this);
-				temp = (UMLObject *)c;
-			} else
-				return false;
-			status = temp -> serialize(s, archive, fileversion);
-			if(!status)
-				return status;
-			objectList.append(temp);
-		}//end for i
-
-		this->emit sigWriteToStatusBar( i18n("Loading diagrams...") );
-		//load each views/diagrams
-		*s >> count;
-		steps = count - 1;
-		//Show the progress of the load of diagrams
-		this->emit sigResetStatusbarProgress();
-		this->emit sigSetStatusbarProgress( 0 );
-		this->emit sigSetStatusbarProgressSteps( steps );
-
-		viewsNotActivated.clear();
-		UMLApp* app = (UMLApp*)parent();
-		SettingsDlg::OptionState state =  app -> getOptionState();
-		for(int i=0;i<count;i++) {
-			UMLView * v = new UMLView(UMLApp::app()->getMainViewWidget(), new UMLViewData(), this);
-			v -> hide();
-			v -> setOptionState( state );
-			status = v -> serialize(s, archive, fileversion);
-
-			if ( !status )
-				return status;
-
-			addView(v);
-			viewsNotActivated.append(v);
-			this-> emit sigSetStatusbarProgress( i );
-		}//end for
-
-		this->emit sigResetStatusbarProgress();
-		this->emit sigWriteToStatusBar( i18n("Loading UML elements...") );
-
-
-		if(version > 4 )
-		{
-			listView -> setLoading(false);
-			listView -> serialize(s, archive, fileversion);
-		}
-		else
-		{
-			listView -> setLoading(false);
-			for(UMLView *v = pViewList->first(); v ; v = pViewList->next())
-				emit sigDiagramCreated(v->getData()->getID());
-
-			for(UMLObject *o = objectList.first(); o ; o = objectList.next())
-			{
-				emit sigObjectCreated(o);
-			}
-		}
-
-		loading = false;
-		this->emit sigWriteToStatusBar( i18n("Setting up the document...") );
-		//activate all diagrams after load to make sure all widgets get the correct ids they need
-		currentView = 0;
-		activateAllViews();
-		if( findView( viewID ) )
-			changeCurrentView( viewID );
-	}//end else
-	return status;
-}
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool UMLDoc::saveToXMI(QIODevice& file) {
 	QDomDocument doc;
@@ -1739,7 +1573,7 @@ bool UMLDoc::addUMLView(UMLViewData * pViewData ) {
 	pViewData->setID(result);
 	UMLView* pView = new UMLView(UMLApp::app()->getMainViewWidget(), pViewData, this);
 
-	if (!pView->activateAfterSerialize( true ) ) {
+	if (!pView->activateAfterLoad( true ) ) {
 		kdDebug()<<"Error activating diagram"<<endl;
 		return false;
 	}
@@ -1750,24 +1584,24 @@ bool UMLDoc::addUMLView(UMLViewData * pViewData ) {
 	return true;
 }
 
-
 bool UMLDoc::activateView ( int viewID ) {
 	bool status = true;
 
 	for(UMLView *v = viewsNotActivated.first(); v; v = viewsNotActivated.next() )
 		if ( v->getID() == viewID) {
-			status = v->activateAfterSerialize();
+			status = v->activateAfterLoad();
 			viewsNotActivated.remove();
 		}
 	loading = false;
 	return status;
 }
+
 bool UMLDoc::activateAllViews() {
 	bool status = true;
 	loading = true; //this is to prevent document becoming modified when activating a view
 
 	for(UMLView *v = pViewList -> first(); v; v = pViewList -> next() )
-		status = status && v->activateAfterSerialize();
+		status = status && v->activateAfterLoad();
 	loading = false;
 	viewsNotActivated.clear();
 	return status;

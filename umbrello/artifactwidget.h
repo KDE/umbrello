@@ -62,7 +62,7 @@ public:
 	void init();
 
 	/**
-	 * Activate the object after serializing it from a QDataStream
+	 * Activate the object after loading it
 	 */
 	virtual bool activate(IDChangeLog* ChangeLog  = 0 );
 

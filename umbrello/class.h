@@ -171,28 +171,11 @@ public:
 	bool isEnumeration();
 
 	/**
-	 * Use to save or load this classes information
-	 *
-	 *	@param	s	Pointer to the datastream (file) to save/load from.
-	 *	@param	archive	If true will save the classes information, else will
-	 * load the information.
-	 *	@param	fileversion	the version of the serialize format
-	 *
-	 *	@return	Returns the result of the operation.
-	 */
-	virtual bool serialize(QDataStream *s, bool archive, int fileversion);
-
-	/**
 	 * Returns a name for the new association, operation, template
 	 * or attribute appended with a number if the default name is
 	 * taken e.g. new_association, new_association_1 etc
 	 */
 	virtual QString uniqChildName(const UMLObject_Type type);
-
-	/**
-	 * Returns the amount of bytes needed to serialize an instance object to the clipboard
-	 */
-	virtual long getClipSizeOf();
 
 	/**
 	 * Creates the UML:Concept element including it's operations, attributes and templates

@@ -116,18 +116,6 @@ public:
 	}
 
 	/**
-	 * Use to save or load this classes information
-	 *
-	 *	@param	s	Pointer to the datastream (file) to save/load from.
-	 *	@param	archive	If true will save the classes information, else will
-	 *                      load the information.
-	 *	@param	fileversion the version of the serialize format
-	 *
-	 *	@return	Returns the status of the operation.
-	 */
-	virtual bool serialize(QDataStream *s, bool archive, int fileversion);
-
-	/**
 	 *	Sets the classes Stereotype.
 	 *
 	 *	@param _name	Sets the classes Stereotype name.
@@ -164,11 +152,6 @@ public:
 	QString getPackage() {
 		return m_Package;
 	}
-
-	/**
-	 *   Returns the amount of bytes needed to serialize an instance object to the clipboard
-	 */
-	virtual long getClipSizeOf();
 
 	/**
 	 *    Assigns a new Id to the object

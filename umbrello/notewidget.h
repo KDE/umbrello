@@ -105,7 +105,7 @@ public:
 	}
 
 	/**
-	 *Activate the NoteWidget after the serialized data has been loaded
+	 *Activate the NoteWidget after the saved data has been loaded
 	 */
 	virtual bool activate( IDChangeLog* ChangeLog = 0 );
 

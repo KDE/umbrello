@@ -390,15 +390,6 @@ public:
 	 */
 	void showProperties(UMLObject *o, int page = 0, bool assoc = false);
 
-	/**
-	 * Use to save or load this classes information
-	 *
-	 *	@param	s	Pointer to the datastream (file) to save/load from.
-	 *	@param	archive	If true will save the classes information, else will
-	 *                       load the information.
-	 */
-	virtual bool serialize(QDataStream *s, bool archive, int fileversion);
-
 	virtual bool saveToXMI(QIODevice& file);
 
 	virtual bool loadFromXMI(QIODevice& file);

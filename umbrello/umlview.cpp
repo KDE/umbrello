@@ -781,16 +781,7 @@ void UMLView::contentsMouseMoveEvent(QMouseEvent* ome) {
 
 	allocateMouseMoveEvent(me);
 }
-
-bool UMLView::serialize(QDataStream *s, bool archive, int fileversion) {
-	return m_pData -> serialize( s, archive, fileversion);
-}
-
-long UMLView::getClipSizeOf() {
-	synchronizeData();
-	return m_pData -> getClipSizeOf();
-}
-
+////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLWidget * UMLView::findWidget( int id ) {
 	QObjectList * l = queryList( "UMLWidget");
 	QObjectListIt it( *l );
@@ -812,7 +803,6 @@ UMLWidget * UMLView::findWidget( int id ) {
 	delete l;
 	return 0;
 }
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLView::removeWidget(UMLWidget * o) {
 	if(!o)
@@ -1881,7 +1871,7 @@ void UMLView::addAssocInViewAndDoc(AssociationWidget* a) {
 
 }
 
-bool UMLView::activateAfterSerialize( bool bUseLog ) {
+bool UMLView::activateAfterLoad(bool bUseLog) {
 	bool status = true;
 	AssociationWidgetData * assocData = 0;
 	UMLWidgetData * widgetData = 0;

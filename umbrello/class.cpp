@@ -59,7 +59,7 @@ bool UMLClass::addAttribute(UMLAttribute* Att, IDChangeLog* Log /* = 0*/) {
 bool UMLClass::addAttribute(UMLAttribute* Att, int position )
 {
 	QString name = (QString)Att->getName();
-	if( findChildObject( Uml::ot_Attribute, name).count() == 0 ) 
+	if( findChildObject( Uml::ot_Attribute, name).count() == 0 )
 	{
 		Att -> parent() -> removeChild( Att );
 		this -> insertChild( Att );
@@ -206,66 +206,10 @@ UMLObject* UMLClass::findChildObject(int id) {
 	}
 	return UMLClassifier::findChildObject(id);
 }
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool UMLClass::isEnumeration() {
 	QString st = getStereotype();
 	return st == "Enumeration" || st == "enumeration" || st == "CORBAEnum";
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-bool UMLClass::serialize(QDataStream *s, bool archive, int fileversion) {
-	bool status = UMLObject::serialize(s, archive, fileversion);
-	if(!status)
-		return status;
-	// Note: The m_AssocsList is filled by UMLDoc::serialize().
-	// UMLDoc::serialize() serializes the UMLClassifiers before the
-	// UMLAssociations.
-	if(archive) {
-		*s << m_OpsList.count()
-		<< m_AttsList.count()
-		<< m_TemplateList.count();
-		//save operations
-		UMLOperation * o=0;
-		for(o=m_OpsList.first();o != 0;o=m_OpsList.next())
-			o -> serialize(s, archive, fileversion);
-		//save attributes
-		UMLAttribute * a = 0;
-		for(a=m_AttsList.first();a != 0;a=m_AttsList.next())
-			a -> serialize(s, archive, fileversion);
-		UMLTemplate* t = 0;
-		for ( t=m_TemplateList.first(); t != 0; t=m_TemplateList.next() ) {
-			t->serialize(s, archive, fileversion);
-		}
-	} else {
-		int opCount, attCount, templateCount, type;
-		//load concept instance and ops/atts
-		*s >> opCount
-		   >> attCount
-		   >> templateCount;
-		//load operations
-		for(int i=0;i<opCount;i++) {
-			*s >> type;
-			UMLOperation *o = new UMLOperation(this);
-			o -> serialize(s, archive, fileversion);
-			m_OpsList.append(o);
-		}
-		//load attributes
-		for(int i=0;i<attCount;i++) {
-			*s >> type;
-			UMLAttribute * a = new UMLAttribute(this);
-			a -> serialize(s, archive, fileversion);
-			m_AttsList.append(a);
-		}
-		//load templates
-		for (int i=0;i<templateCount;i++) {
-			*s >> type;
-			UMLTemplate* newTemplate = new UMLTemplate(this);
-			newTemplate->serialize(s, archive, fileversion);
-			m_TemplateList.append(newTemplate);
-		}
-	}//end else
-	return status;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLClass::init() {
@@ -279,29 +223,6 @@ void UMLClass::init() {
 	m_AttsList.setAutoDelete(false);
 	m_TemplateList.clear();
 	m_TemplateList.setAutoDelete(false);
-}
-
-long UMLClass::getClipSizeOf() {
-	long l_size = UMLObject::getClipSizeOf();
-	//  Q_UINT32 tmp; //tmp is used to calculate the size of each serialized null string
-	l_size += sizeof(m_OpsList.count());
-	l_size += sizeof(m_AttsList.count());
-	l_size += sizeof(m_TemplateList.count());
-
-	UMLOperation * o=0;
-	for(o=m_OpsList.first();o != 0;o=m_OpsList.next()) {
-		l_size += o->getClipSizeOf();
-	}
-	UMLAttribute * a = 0;
-	for(a=m_AttsList.first();a != 0;a=m_AttsList.next()) {
-		l_size += a->getClipSizeOf();
-	}
-	UMLTemplate* t = 0;
-	for ( t=m_TemplateList.first(); t != 0; t=m_TemplateList.next() ) {
-		l_size += t->getClipSizeOf();
-	}
-
-	return l_size;
 }
 
 bool UMLClass::operator==( UMLClass & rhs ) {

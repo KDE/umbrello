@@ -18,7 +18,7 @@ class QDataStream;
 
 /**	This class holds all the NoteWidget's Information
  *	All this information goes to a file or clipboard
- *	when an NoteWidget object is serialized
+ *	when an NoteWidget object is saved
  *	With this class we are trying to achieve isolation
  *	between data and display layers.
  *	@author Gustavo Madrigal
@@ -63,11 +63,6 @@ public:
 	virtual QString getText();
 
 	/**
-	*	Returns the amount of bytes needed to serialize this object
-	*/
-	virtual long getClipSizeOf();
-
-	/**
 	*	Write property of bool m_bLinkDocumentation.
 	*/
 	virtual void setLinkDocumentation( bool LinkDocumentation);
@@ -76,11 +71,6 @@ public:
 	*	Read property of bool m_bLinkDocumentation.
 	*/
 	virtual bool getLinkDocumentation();
-
-	/**
-	*	No descriptions
-	*/
-	virtual bool serialize(QDataStream *s, bool archive, int fileversion);
 
 	/**
 	 *	Saves the box to XMI using <UML:NoteWidget>

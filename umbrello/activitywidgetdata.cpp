@@ -44,34 +44,6 @@ bool ActivityWidgetData::operator==(ActivityWidgetData & Other) {
 	return true;
 }
 
-long ActivityWidgetData::getClipSizeOf() {
-	long l_size = ( UMLWidgetData::getClipSizeOf() + sizeof( int ) );
-	if( m_Name.length() == 0 )
-		l_size += sizeof( Q_UINT32 );
-	else
-		l_size += ( sizeof( QChar ) * m_Name.length() );
-	if( m_Doc.length() == 0 )
-		l_size += sizeof( Q_UINT32 );
-	else
-		l_size += ( sizeof( QChar ) * m_Doc.length() );
-	return l_size;
-}
-
-bool ActivityWidgetData::serialize(QDataStream *s, bool archive, int fileversion) {
-	int nActivity = (int)m_ActivityType;
-	if( archive ) {
-		*s << nActivity
-		<< m_Name
-		<< m_Doc;
-	} else {
-		*s >> nActivity
-		>> m_Name
-		>> m_Doc;
-		m_ActivityType = (ActivityWidget::ActivityType)nActivity;
-	}
-	return UMLWidgetData::serialize(s, archive, fileversion);
-}
-
 bool ActivityWidgetData::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement activityElement = qDoc.createElement( "UML:ActivityWidget" );
 	bool status = UMLWidgetData::saveToXMI( qDoc, activityElement );

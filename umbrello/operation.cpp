@@ -46,7 +46,7 @@ void UMLOperation::addParm(QString type, QString name, QString initialValue, QSt
 void UMLOperation::removeParm(UMLAttribute * a) {
 	if(!m_List.remove(a))
 		kdDebug() << "Error removing parm" << endl;
-	
+
 	emit modified();
 	disconnect(a,SIGNAL(modified()),this,SIGNAL(modified()));
 }
@@ -100,34 +100,6 @@ QString UMLOperation::toString(Signature_Type sig) {
 	return s;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-bool UMLOperation::serialize(QDataStream *s, bool archive, int fileversion) {
-	bool status = UMLObject::serialize(s, archive, fileversion);
-	if(!status)
-		return status;
-	if(archive) {
-		*s << m_ReturnType
-		<< m_nUniqueID
-		<< m_List.count();
-
-		UMLAttribute * obj;
-		for(obj=m_List.first();obj != 0;obj=m_List.next())
-			obj -> serialize(s, archive, fileversion);
-	} else {
-		int count, type;
-		*s >> m_ReturnType
-		>> m_nUniqueID
-		>> count;
-		for(int i=0;i<count;i++)//load each parm
-		{
-			*s >> type;
-			UMLAttribute *a = new UMLAttribute(this);
-			a -> serialize(s, archive, fileversion);
-			m_List.append(a);
-		}//end for i
-	}//end else
-	return status;
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLOperation::addParm(UMLAttribute *parameter, int position) {
 	if( position >= 0 && position <= m_List.count() )
 		m_List.insert(position,parameter);
@@ -146,45 +118,6 @@ QString UMLOperation::getUniqueParameterName() {
 	return name;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/** Returns the amount of bytes needed to serialize this object */
-/* If the serialization method of this class is changed this function will have to be CHANGED TOO*/
-/*This function is used by the Copy and Paste Functionality*/
-/*The Size in bytes of a serialized QString Object is long sz:
-		if ( (sz =str.length()*sizeof(QChar)) && !(const char*)str.unicode() )
-		{
-			sz = size of Q_UINT32; //  typedef unsigned int	Q_UINT32;		// 32 bit unsigned
-		}
-	This calculation is valid only for QT 2.1.x or superior, this is totally incompatible with QT 2.0.x or QT 1.x or inferior
-	That means the copy and paste functionality will work on with QT 2.1.x or superior
-*/
-long UMLOperation::getClipSizeOf() {
-	long l_size = UMLObject::getClipSizeOf();
-	Q_UINT32 tmp; //tmp is used to calculate the size of each serialized null string
-
-	if ( !m_ReturnType.length() ) //We assume we are working with QT 2.1.x or superior, that means
-		//if unicode returns a null pointer then the serialization process of the QString object
-		//will write a null marker 0xffffff, see QString::operator<< implementation
-	{
-		l_size += sizeof(tmp);
-	} else {
-		l_size += (m_ReturnType.length()*sizeof(QChar));
-
-
-
-	}
-	l_size += sizeof(m_nUniqueID);
-	l_size += sizeof(m_List.count());
-
-	UMLAttribute * obj;
-	for(obj=m_List.first();obj != 0;obj=m_List.next()) {
-		l_size += obj->getClipSizeOf();
-	}
-
-	return l_size;
-}
-
-
 bool UMLOperation::operator==( UMLOperation & rhs ) {
 	if( this == &rhs )
 		return true;

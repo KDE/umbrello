@@ -181,73 +181,10 @@ void UMLWidgetData::setLineColour(QColor colour) {
 	m_LineColour = colour;
 }
 
-bool UMLWidgetData::serialize(QDataStream *s, bool archive, int fileversion) {
-	if(archive) {
-		*s	<< m_Type
-		<< m_nX
-		<< m_nY
-		<< m_nId
-		<< m_bUseFillColor
-		<< m_Font
-		<< m_nHeight
-		<< m_nWidth;
-	} else {
-		int nType;
-		*s	>> nType
-		>> m_nX
-		>> m_nY
-		>> m_nId
-		>> (int)m_bUseFillColor;
-		if (fileversion > 4) {
-			m_Type = (Uml::UMLWidget_Type)nType;
-			*s >> m_Font
-			>> m_nHeight
-			>> m_nWidth;
-		} else
-			switch (nType)
-			{
-				case /* ACTOR */ 100 :
-					m_Type = Uml::wt_Actor;
-					break;
-				case /* USECASE */ 101 :
-					m_Type = Uml::wt_UseCase;
-					break;
-				case /* CONCEPTW */ 104 :
-				case /* CONCEPT */ 102 :
-					m_Type = Uml::wt_Class;
-					break;
-				case /* OBJECT */ 103 :
-					m_Type = Uml::wt_Object;
-					break;
-				case /* MESSAGEW */ 105:
-					m_Type = Uml::wt_Message;
-					break;
-				case /* MESSAGET */ 106:
-					m_Type = Uml::wt_Text;
-					break;
-				default:
-					m_Type = Uml::wt_UMLWidget;
-					kdDebug() << "Unknown widget type (" << nType << ")" << endl;
-					return false;
-			}
-	}
-	return true;
-}
-
 uint UMLWidgetData::getNumAssoc() {
 	return m_Assocs.count();
 }
 
-long UMLWidgetData::getClipSizeOf() {
-	return sizeof(m_Type) +
-	       sizeof(m_nId) +
-	       sizeof(m_nX) +
-	       sizeof(m_nY) +
-	       sizeof(m_bUseFillColor) +
-	       sizeof( m_Font ) +
-	       sizeof( m_nHeight ) +
-	       sizeof( m_nWidth );
-}
 /** Prints the data members to standard error */
 void UMLWidgetData::print2cerr() {
 	if(m_bUseFillColor) {

@@ -140,18 +140,6 @@ public:
          */
         QPtrList<UMLClassifier> findSubClassConcepts ( UMLDoc *doc);
 
-	/**
-	 * Use to save or load this classes information
-	 *
-	 *	@param	s	Pointer to the datastream (file) to save/load from.
-	 *	@param	archive	If true will save the classes information, else will
-	 * load the information.
-	 *	@param	fileversion	the version of the serialize format
-	 *
-	 *	@return	Returns the result of the operation.
-	 */
-	// bool serialize(QDataStream *s, bool archive, int fileversion);
-
 	/** reimplemented from UMLObject*/
 	virtual bool acceptAssociationType(Uml::Association_Type);
 
@@ -159,11 +147,6 @@ public:
 	// now a number of pure virtual methods..
 	//
 	
-	/**
-	 * Returns the amount of bytes needed to serialize an instance object to the clipboard
-	 */
-	virtual long getClipSizeOf() = 0;
-
 	/**
 	 * Creates the UML:Concept element including it's operations, attributes and templates
 	 */

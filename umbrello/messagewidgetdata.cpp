@@ -62,69 +62,6 @@ bool MessageWidgetData::operator==(MessageWidgetData & Other) {
 	return true;
 }
 
-/** Returns the amount of bytes needed to serialize this object
-If the serialization method of this class is changed this function will have to be CHANGED TOO
-This function is used by the Copy and Paste Functionality
-The Size in bytes of a serialized QString Object is long sz:
-		if ( (sz =str.length()*sizeof(QChar)) && !(const char*)str.unicode() )
-		{
-			sz = size of Q_UINT32; //  typedef unsigned int	Q_UINT32;		// 32 bit unsigned
-		}
-	This calculation is valid only for QT 2.1.x or superior, this is totally incompatible with QT 2.0.x or QT 1.x or inferior
-	That means the copy and paste functionality will work on with QT 2.1.x or superior */
-long MessageWidgetData::getClipSizeOf() {
-	long l_size = UMLWidgetData::getClipSizeOf();
-	Q_UINT32 tmp; //tmp is used to calculate the size of each serialized null string
-
-	l_size += sizeof(m_nWidgetAID);
-	l_size += sizeof(m_nWidgetBID);
-
-	if ( !m_SequenceNumber.length() ) //We assume we are working with QT 2.1.x or superior, that means
-		//if unicode returns a null pointer then the serialization process of the QString object
-		//will write a null marker 0xffffff, see QString::operator<< implementation
-	{
-		l_size += sizeof(tmp);
-	} else {
-		l_size += (m_SequenceNumber.length()*sizeof(QChar));
-	}
-	if ( !m_Operation.length() ) //We assume we are working with QT 2.1.x or superior, that means
-		//if unicode returns a null pointer then the serialization process of the QString object
-		//will write a null marker 0xffffff, see QString::operator<< implementation
-	{
-		l_size += sizeof(tmp);
-	} else {
-		l_size += (m_Operation.length()*sizeof(QChar));
-	}
-
-	l_size += sizeof(m_nTextID);
-
-	return l_size;
-}
-
-/** No descriptions */
-bool MessageWidgetData::serialize(QDataStream *s, bool archive, int fileversion) {
-	bool status = UMLWidgetData::serialize(s, archive, fileversion);
-	if(!status) {
-		return status;
-	}
-
-	if(archive) {
-		*s << m_nWidgetAID
-		<< m_nWidgetBID
-		<< m_SequenceNumber
-		<< m_Operation
-		<< m_nTextID;
-	} else {
-		*s >> m_nWidgetAID
-		>> m_nWidgetBID
-		>> m_SequenceNumber
-		>> m_Operation
-		>> m_nTextID;
-	}
-
-	return true;
-}
-
 /** Read property of int m_nWidgetAID. */
 int MessageWidgetData::getWidgetAID() {
 	return m_nWidgetAID;

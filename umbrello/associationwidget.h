@@ -75,7 +75,7 @@ public:
 	bool operator!=(AssociationWidget & Other);
 
 	/**
-	*   activates an associationwidget after a serialize function
+	*   activates an associationwidget after a load
 	*/
 	bool activate();
 
@@ -274,20 +274,6 @@ public:
 	 * Set the m_bActivated flag of a widget but does not perform the Activate method
 	 */
 	void setActivated(bool Active /*=true*/);
-
-	/**
-	 *  Save/load the widget
-	 *  @param	s	
-	 *  @param	archive	if true will the classes information, else will load the information
-	 *  @param	fileversion	the version of the serialize format
-	 *  @return	true if successful else false
-	 */
-	virtual bool serialize(QDataStream *s, bool archive, int fileversion );
-
-	/**
-	 *Returns the amount of bytes needed to serialize this object
-	 */
-	long getClipSizeOf();
 
 	/**
 	 *	Sets the state of whether the widget is selected.

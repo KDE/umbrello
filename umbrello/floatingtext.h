@@ -220,7 +220,7 @@ public:
 	}
 
 	/**
-	 * Activate the FloatingText after the serialized data has been loaded
+	 * Activate the FloatingText after the saved data has been loaded
 	 */
 	virtual bool activate( IDChangeLog* ChangeLog = 0 );
 

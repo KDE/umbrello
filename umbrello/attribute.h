@@ -86,23 +86,6 @@ public:
 	}
 
 	/**
-	 * Use to save or load this classes information
-	 *
-	 *	@param	s	Pointer to the datastream (file) to save/load from.
-	 *	@param	archive	If true will save the classes information, else will
-	 *                       load the information.
-	 *	@param	fileversion	the version of the serialize format
-	 *
-	 *	@return					Returns the success of the operation.
-	 */
-	virtual bool serialize(QDataStream *s, bool archive, int fileversion);
-
-	/**
-	 *    Returns the amount of bytes needed to serialize an instance object to the clipboard
-	 */
-	virtual long getClipSizeOf();
-
-	/**
 	 *	Returns a string representation of the UMLAttribute.
 	 *	@param	sig	If true will show the attribute type and inital value.
 	 *

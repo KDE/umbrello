@@ -64,12 +64,6 @@ public:
 	 */
 	~ActorWidget();
 
-
-	/**
-	 * Returns the amount of bytes needed to serialize an instance object to the clipboard
-	 */
-	virtual long getClipSizeOf();
-
 	/**
 	 * Synchronizes the Widget's m_pData member with its display
 	 * properties, for example: the X and Y positions of the

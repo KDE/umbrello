@@ -79,7 +79,7 @@ QString FloatingTextData::getPostText() {
 	return m_PostText;
 }
 
-QString FloatingTextData::getDisplayText() 
+QString FloatingTextData::getDisplayText()
 {
 	QString displayText = m_Text;
 	displayText.prepend(m_PreText);
@@ -97,67 +97,6 @@ void FloatingTextData::setPreText( QString Text) {
 
 void FloatingTextData::setPostText ( QString Text) {
 	m_PostText = Text;
-}
-
-long FloatingTextData::getClipSizeOf() {
-	long l_size = UMLWidgetData::getClipSizeOf();
-	Q_UINT32 tmp; //tmp is used to calculate the size of each serialized null string
-
-	if ( !m_Text.length() ) //We assume we are working with QT 2.1.x or superior, that means
-		//if unicode returns a null pointer then the serialization process of the QString object
-		//will write a null marker 0xffffff, see QString::operator<< implementation
-	{
-
-		l_size += sizeof(tmp);
-	} else {
-		l_size += (m_Text.length()*sizeof(QChar));
-	}
-
-	if( !m_SeqNum.length() )
-		l_size += sizeof( tmp );
-	else
-		l_size += ( m_SeqNum.length() * sizeof(QChar) );
-
-	if( !m_Operation.length() )
-		l_size += sizeof( tmp );
-	else
-		l_size += ( m_Operation.length() * sizeof(QChar) );
-
-	l_size += sizeof( int );//role
-
-
-
-	return l_size;
-}
-
-bool FloatingTextData::serialize(QDataStream *s, bool archive, int fileversion) {
-	if(!UMLWidgetData::serialize(s, archive, fileversion)) {
-		return false;
-	}
-	if(archive) {
-		int role = m_Role;
-		*s << m_Text
-		<< m_SeqNum
-		<< m_Operation
-		<< role;
-	} else {
-		int role = 0;
-		*s >> m_Text;
-		if (fileversion > 4)
-		{
-			*s >> m_SeqNum
-			>> m_Operation
-			>> role;
-			m_Role = (Uml::Text_Role)role;
-		}
-		else
-		{
-			m_SeqNum = "";
-			m_Operation = "";
-			m_Role = Uml::tr_Floating;
-		}
-	}
-	return true;
 }
 
 void FloatingTextData::print2cerr() {

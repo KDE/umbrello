@@ -1216,21 +1216,6 @@ void AssociationWidget::setActivated(bool Active /*=true*/) {
 	m_bActivated = Active;
 }
 
-bool AssociationWidget::serialize(QDataStream *s, bool archive, int fileversion) {
-
-	if(archive) {
-		synchronizeData();
-	} else if (fileversion > 4)
-		m_pData -> m_LinePath.setAssociation( this );
-	return m_pData->serialize(s, archive, fileversion);
-}
-
-long AssociationWidget::getClipSizeOf() {
-	synchronizeData();
-	return m_pData->getClipSizeOf();
-
-}
-/** No descriptions */
 AssociationWidgetData* AssociationWidget::getData() {
 	return m_pData;
 }

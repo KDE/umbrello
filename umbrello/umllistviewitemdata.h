@@ -56,21 +56,6 @@ public:
 	UMLListViewItem* getListViewItem();
 
 	/**
-	 *	 serializes this object to a QDataStream
-	 */
-	virtual bool serialize(QDataStream *s, bool archive, int fileversion);
-
-	/**
-	 *	Serialize an instance of this class to a QDataStream that will be put in the clipboard
-	 */
-	virtual bool clipSerialize(QDataStream *s, const bool toClip);
-
-	/**
-	 *	 Returns the amount of bytes needed to serialize an instance object to the clipboard
-	 */
-	virtual long getClipSizeOf();
-
-	/**
 	 * Returns the text of the UMLListViewItem containing this object
 	 */
 	QString text(int index);
