@@ -1,3 +1,8 @@
+ /*
+  *  copyright (C) 2002-2004
+  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+  */
+
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -268,7 +273,7 @@ void MessageWidget::constrainTextPos(int &textX, int &textY, int textWidth, int 
 		textY = maxTextY;
 	setY( textY + textHeight );   // NB: side effect
 }
- 
+
 void MessageWidget::setLinkAndTextPos() {
 	if (m_pFText == NULL)
 		return;
@@ -277,7 +282,7 @@ void MessageWidget::setLinkAndTextPos() {
 }
 
 void MessageWidget::moveEvent(QMoveEvent* /*m*/) {
-	//kdDebug() << "MessageWidget::moveEvent: m_pFText is " << m_pFText << endl; 
+	//kdDebug() << "MessageWidget::moveEvent: m_pFText is " << m_pFText << endl;
 	if (!m_pFText) {
 		return;
 	}

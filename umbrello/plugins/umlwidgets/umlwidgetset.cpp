@@ -1,3 +1,8 @@
+ /*
+  *  copyright (C) 2003-2004
+  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+  */
+
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -38,7 +43,7 @@ UMBRELLO_EXPORT_PLUGIN_FACTORY(libumlwidgets, KGenericFactory<Umbrello::UMLWidge
 
 namespace Umbrello{
 
-UMLWidgetSet::UMLWidgetSet(QObject *parent, const char *c, const QStringList &args): 
+UMLWidgetSet::UMLWidgetSet(QObject *parent, const char *c, const QStringList &args):
 	WidgetSet(parent, "umlwidgetset", args)
 {
 	kdDebug()<<"UMLWidgetSet: passing \"umlwidgetset\" to parent, received \""<<c<<"\""<<endl;
@@ -129,27 +134,27 @@ DiagramWidget* UMLWidgetSet::createWidget( UMLObject *obj, Diagram *diagram )
 	DiagramWidget *w(0);
 	if(dynamic_cast<UMLClass*>(obj))
 	{
-		w = new ClassWidget( diagram, 
+		w = new ClassWidget( diagram,
 		                    diagram->document()->getUniqueID(),
 				    static_cast<UMLClass*>(obj) );
 		return w;
 	}
 	else if(dynamic_cast<UMLInterface*>(obj))
 	{
-		w = new InterfaceWidget( diagram, 
+		w = new InterfaceWidget( diagram,
 		                    diagram->document()->getUniqueID(),
 				    static_cast<UMLInterface*>(obj) );
 		return w;
 	}
 	else if(dynamic_cast<UMLPackage*>(obj))
 	{
-		w = new PackageWidget( diagram, 
+		w = new PackageWidget( diagram,
 		                    diagram->document()->getUniqueID(),
 				    static_cast<UMLPackage*>(obj) );
 		return w;
 	}
 	//else....
-	
+
 	kdWarning()<<"UMLWidgetSet::createWidget( ) called for object of unrecognized type "<<typeid(*obj).name()<<endl;
 	return w;
 }

@@ -1,3 +1,8 @@
+ /*
+  *  copyright (C) 2004
+  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+  */
+
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -52,7 +57,7 @@ void LinkWidget::constrainTextPos(int & /*textX*/, int & /*textY*/,
 				  Uml::Text_Role /*tr*/) {
 	// Only applicable to MessageWidget.
 }
- 
+
 void LinkWidget::calculateNameTextSegment() {
 	// Only applicable to MessageWidget and AssociationWidget.
 }
