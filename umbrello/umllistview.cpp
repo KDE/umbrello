@@ -299,6 +299,10 @@ void UMLListView::popupMenuSel(int sel) {
 		addNewItem(temp, Uml::lvt_Enum);
 		break;
 
+	case ListPopupMenu::mt_Template:
+		addNewItem(temp, Uml::lvt_Template);
+		break;
+
 	case ListPopupMenu::mt_Entity:
 		addNewItem(temp, Uml::lvt_Entity);
 		break;
@@ -1860,6 +1864,12 @@ void UMLListView::addNewItem( QListViewItem * parent, Uml::ListView_Type type ) 
 		newItem->setPixmap( 0, getPixmap( it_Enum ) );
 		break;
 
+	case Uml::lvt_Template:
+		name = getUniqueUMLObjectName( Uml::ot_Template );
+		newItem = new UMLListViewItem( parentItem, name, type, (UMLObject*)0 );
+		newItem->setPixmap( 0, getPixmap( it_Template ) );
+		break;
+
 	case Uml::lvt_Entity:
 		name = getUniqueUMLObjectName( Uml::ot_Entity );
 		newItem = new UMLListViewItem( parentItem, name, type, (UMLObject*)0 );
@@ -2013,6 +2023,10 @@ bool UMLListView::slotItemRenamed( QListViewItem * item , int /*col*/ ) {
 	}
 	break;
 
+	case Uml::lvt_Template:
+		return createChildUMLObject( renamedItem, Uml::ot_Template );
+		break;
+
 	case Uml::lvt_Attribute:
 		return createChildUMLObject( renamedItem, Uml::ot_Attribute );
 		break;
@@ -2107,6 +2121,10 @@ void UMLListView::createUMLObject( UMLListViewItem * item, Uml::Object_Type type
 		object = new UMLEnum( name );
 		break;
 
+	case Uml::ot_Template:
+		object = new UMLEnum( name );
+		break;
+
 	case Uml::ot_Entity:
 		object = new UMLEntity( name );
 		break;
@@ -2142,7 +2160,23 @@ bool UMLListView::createChildUMLObject( UMLListViewItem * item, Uml::Object_Type
 
 	//kdDebug() << "UMLListView::createChildUMLObject (" << text << ")" << endl;
 	UMLObject* newObject = NULL;
-	if ( type == Uml::ot_Attribute )  {
+	if ( type == Uml::ot_Template )  {
+		UMLClassifier *owningClassifier = static_cast<UMLClassifier*>(parent);
+		Umbrello::NameAndType nt;
+		Umbrello::Parse_Status st = Umbrello::parseTemplate(text, nt, owningClassifier);
+		if (st) {
+			KMessageBox::error( kapp->mainWidget(),
+					    Umbrello::psText(st),
+					    i18n("Creation canceled") );
+			delete item;
+			m_bCreatingChildObject = false;
+			return false;
+		}
+		newObject = m_doc->createTemplate( owningClassifier, nt.first );
+		UMLTemplate *tmplParm = static_cast<UMLTemplate*>(newObject);
+		tmplParm->setType(nt.second);
+		text = tmplParm->toString(Uml::st_SigNoScope);
+	} else if ( type == Uml::ot_Attribute )  {
 		UMLClass *owningClass = static_cast<UMLClass*>(parent);
 		Umbrello::NameAndType nt;
 		Umbrello::Parse_Status st = Umbrello::parseAttribute(text, nt, owningClass);
@@ -2278,18 +2312,16 @@ QString UMLListView::getUniqueUMLObjectName( Uml::Object_Type type ) {
 }
 
 QString UMLListView::getUniqueChildUMLObjectName( UMLClassifier * parent, Uml::Object_Type type ) {
-	QString name = "";
+	QString name;
+	if (type == Uml::ot_Template)
+		name = i18n("new_template");
+	else if (type == Uml::ot_Attribute)
+		name = i18n("new_attribute");
+	else
+		name = i18n("new_operation");
 	QString temp = "";
-	QString newAtt = i18n("new_attribute");
-	QString newOp = i18n("new_operation");
-
 	bool cont = true;
 	int count = 0;
-
-	if( type == Uml::ot_Attribute )
-		name = newAtt;
-	else
-		name = newOp;
 
 	do {
 		temp = name;
@@ -2373,17 +2405,13 @@ bool UMLListView::isUnique( UMLListViewItem * item, const QString &name ) {
 		break;
 	}
 
+	case Uml::lvt_Template:
 	case Uml::lvt_Attribute:
-	{
-		UMLClass * parent = static_cast<UMLClass *>( parentItem  -> getUMLObject() );
-		return ( parent -> findChildObject( Uml::ot_Attribute, name ).count() == 0 );
-		break;
-	}
-
 	case Uml::lvt_Operation:
 	{
-		UMLClassifier * parent = static_cast<UMLClassifier *>( parentItem  -> getUMLObject() );
-		return ( parent -> findChildObject( Uml::ot_Operation, name ).count() == 0 );
+		UMLClassifier *parent = static_cast<UMLClassifier*>(parentItem->getUMLObject());
+		Uml::Object_Type ot = convert_LVT_OT(type);
+		return (parent->findChildObject(ot, name).count() == 0);
 		break;
 	}
 

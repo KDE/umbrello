@@ -23,6 +23,7 @@
 
 // app includes
 #include "class.h"
+#include "template.h"
 #include "attribute.h"
 #include "operation.h"
 #include "umldoc.h"
@@ -186,7 +187,7 @@ void UMLListViewItem::updateObject() {
 	Uml::Scope scope = m_pObject->getScope();
 	Uml::Object_Type ot = m_pObject->getBaseType();
 	QString modelObjText = m_pObject->getName();
-	if (ot == Uml::ot_Operation || ot == Uml::ot_Attribute) {
+	if (ot == Uml::ot_Operation || ot == Uml::ot_Attribute || ot == Uml::ot_Template) {
 		UMLClassifierListItem *pNarrowed = static_cast<UMLClassifierListItem*>(m_pObject);
 		modelObjText = pNarrowed->toString(Uml::st_SigNoScope);
 	}
@@ -348,7 +349,6 @@ void UMLListViewItem::okRename( int col ) {
 		case Uml::lvt_Interface:
 		case Uml::lvt_Datatype:
 		case Uml::lvt_Enum:
-		case Uml::lvt_Template:
 			if (m_pObject == NULL || !doc->isUnique(newText)) {
 				cancelRenameWithMsg();
 				return;
@@ -425,6 +425,34 @@ void UMLListViewItem::okRename( int col ) {
 				UMLAttribute *pAtt = static_cast<UMLAttribute*>(m_pObject);
 				pAtt->setType(nt.second);
 				m_Label = pAtt->toString(Uml::st_SigNoScope);
+			} else {
+				KMessageBox::error( kapp->mainWidget(),
+						    Umbrello::psText(st),
+						    i18n("Rename canceled") );
+			}
+			QListViewItem::setText(0, m_Label);
+			break;
+		}
+
+		case Uml::lvt_Template:
+		{
+			if (m_pObject == NULL) {
+				cancelRenameWithMsg();
+				return;
+			}
+			UMLClassifier *parent = static_cast<UMLClassifier*>(m_pObject->parent());
+			Umbrello::NameAndType nt;
+			Umbrello::Parse_Status st = Umbrello::parseTemplate(newText, nt, parent);
+			if (st == Umbrello::PS_OK) {
+				UMLObjectList list = parent->findChildObject( m_pObject->getBaseType(), newText );
+				if (! list.isEmpty()) {
+					cancelRenameWithMsg();
+					return;
+				}
+				m_pObject->setName(nt.first);
+				UMLTemplate *tmpl = static_cast<UMLTemplate*>(m_pObject);
+				tmpl->setType(nt.second);
+				m_Label = tmpl->toString(Uml::st_SigNoScope);
 			} else {
 				KMessageBox::error( kapp->mainWidget(),
 						    Umbrello::psText(st),

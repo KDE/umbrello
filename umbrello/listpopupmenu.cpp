@@ -981,6 +981,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 			m_pInsert = new KPopupMenu(this,"New");
 			m_pInsert -> insertItem(SmallIcon( "CVpublic_var"), i18n("Attribute"), mt_Attribute);
 			m_pInsert -> insertItem(SmallIcon( "CVpublic_meth"), i18n("Operation"), mt_Operation);
+			m_pInsert -> insertItem(SmallIcon("source"), i18n("Template"), mt_Template);
 			insertFileNew();
 			insertStdItems();
 			insertStdItem(mt_Properties);
