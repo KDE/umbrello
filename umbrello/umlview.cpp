@@ -2425,6 +2425,18 @@ void UMLView::createAutoAssociations( UMLWidget * widget ) {
 	//       end if
 	//     end if
 	//   end loop
+	//   if the UMLCanvasObject is an ot_Package then
+	//     for each of the package's containedObjects
+	//       if the containedObject has a widget representation on this view then
+	//         create the containment AssocWidget
+	//       end if
+	//     end loop
+	//   end if
+	//   if the UMLCanvasObject has a parentPackage then
+	//     if the parentPackage has a widget representation on this view then
+	//       create the containment AssocWidget
+	//     end if
+	//   end if
 	// end if
 	UMLObject *tmpUmlObj = widget->getUMLObject();
 	if (tmpUmlObj == NULL)
@@ -2513,6 +2525,48 @@ void UMLView::createAutoAssociations( UMLWidget * widget ) {
 		if (! addAssociation(temp))
 			delete temp;
 	}
+	// if the UMLCanvasObject is an ot_Package then
+	if (umlObj->getBaseType() == ot_Package) {
+		// for each of the package's containedObjects
+		UMLPackage *umlPkg = static_cast<UMLPackage*>(umlObj);
+		UMLObjectList& lst = umlPkg->containedObjects();
+		for (UMLObject *obj = lst.first(); obj; obj = lst.next()) {
+			// if the containedObject has a widget representation on this view then
+			int id = obj->getID();
+			for (UMLWidget *w = m_WidgetList.first(); w; w = m_WidgetList.next()) {
+				if (w->getID() != id)
+					continue;
+				// create the containment AssocWidget
+				AssociationWidget *a = new AssociationWidget(this, widget,
+									     at_Containment, w);
+				a->calculateEndingPoints();
+				a->setActivated(true);
+				if (! addAssociation(a))
+					delete a;
+			}
+		}
+	}
+	// if the UMLCanvasObject has a parentPackage then
+	UMLPackage *parent = umlObj->getUMLPackage();
+	if (parent == NULL)
+		return;
+	// if the parentPackage has a widget representation on this view then
+	int pkgID = parent->getID();
+	UMLWidget *pWidget;
+	UMLWidgetListIt wit(m_WidgetList);
+	while ((pWidget = wit.current()) != NULL) {
+		++wit;
+		if (pWidget->getID() == pkgID)
+			break;
+	}
+	if (pWidget == NULL)
+		return;
+	// create the containment AssocWidget
+	AssociationWidget *a = new AssociationWidget(this, pWidget, at_Containment, widget);
+	a->calculateEndingPoints();
+	a->setActivated(true);
+	if (! addAssociation(a))
+		delete a;
 }
 
 void UMLView::findMaxBoundingRectangle(const FloatingText* ft, int& px, int& py, int& qx, int& qy)
