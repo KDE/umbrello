@@ -49,9 +49,9 @@ ClassImport::ClassImport(UMLDoc * parentDoc) {
 
 ClassImport::~ClassImport() {}
 
-QString ClassImport::doxyComment(const QString &comment) {
+QString ClassImport::formatComment(const QString &comment) {
 	QStringList lines = QStringList::split("\n", comment);
-	if (lines.first() != "/**")
+	if (!lines.first().contains("/*"))
 		return "";
 	lines.pop_front();  // remove comment start
 	lines.pop_back();   // remove comment end
@@ -153,7 +153,7 @@ UMLObject *ClassImport::createUMLObject(Uml::Object_Type type,
 	} else if (parentPkg && !m_putAtGlobalScope) {
 		o->setUMLPackage(parentPkg);
 	}
-	QString strippedComment = doxyComment(comment);
+	QString strippedComment = formatComment(comment);
 	if (! strippedComment.isEmpty()) {
 		o->setDoc(strippedComment);
 		UMLApp::app()->getDocWindow()->showDocumentation(o, true);
@@ -190,7 +190,7 @@ UMLObject* ClassImport::insertAttribute(UMLClass *owner, Uml::Scope scope, QStri
 	}
 	UMLAttribute *attr = owner->addAttribute(name, attrType, scope);
 	attr->setStatic(isStatic);
-	QString strippedComment = doxyComment(comment);
+	QString strippedComment = formatComment(comment);
 	if (! strippedComment.isEmpty()) {
 		attr->setDoc(strippedComment);
 		UMLApp::app()->getDocWindow()->showDocumentation(attr, true);
@@ -222,7 +222,7 @@ void ClassImport::insertMethod(UMLClass *klass, UMLOperation *op,
 	op->setAbstract(isAbstract);
 	klass->addOperation(op);
 	//m_umldoc->signalUMLObjectCreated(op);
-	QString strippedComment = doxyComment(comment);
+	QString strippedComment = formatComment(comment);
 	if (! strippedComment.isEmpty()) {
 		op->setDoc(strippedComment);
 		UMLApp::app()->getDocWindow()->showDocumentation(op, true);

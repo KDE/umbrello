@@ -97,11 +97,9 @@ public:
 	void createGeneralization(UMLClass *child, const QString &parentName);
 
 	/**
-	 * Check that a given comment conforms to the Doxygen convention, i.e.
-	 * check that it begins with slash-star-star.
-	 * Strip the comment lines of leading whitespace and stars.
+	 * Strip comment lines of leading whitespace and stars.
 	 */
-	QString doxyComment(const QString &comment);
+	QString formatComment(const QString &comment);
 
 private:
 	/**
