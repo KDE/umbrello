@@ -89,7 +89,7 @@ UMLObject *ClassImport::createUMLObject(Uml::Object_Type type,
 		QString typeName(name);
 		int isPointer = typeName.contains('*');
 		int isRef = typeName.contains('&');
-		typeName.remove(QRegExp("[^:\\w].*$"));
+		typeName.remove(QRegExp("[^\\w: ].*$"));
 		UMLObject *origType = m_umldoc->findUMLObject(typeName, Uml::ot_UMLObject, parentPkg);
 		if (origType == NULL) {
 			// Still not found. Create the stripped down type.
