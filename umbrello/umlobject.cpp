@@ -143,8 +143,9 @@ bool UMLObject::operator==(UMLObject & rhs ) {
 
 void UMLObject::copyInto(UMLObject *rhs) const
 {
+	UMLDoc *umldoc = UMLApp::app()->getDocument();
+
 	// Data members with copy constructor
-	rhs->m_Name = m_Name;
 	rhs->m_Doc = m_Doc;
 	rhs->m_Stereotype = m_Stereotype;
 	rhs->m_bAbstract = m_bAbstract;
@@ -152,12 +153,14 @@ void UMLObject::copyInto(UMLObject *rhs) const
 	rhs->m_BaseType = m_BaseType;
 	rhs->m_Scope = m_Scope;
 
+	// We don't want the same name existing twice.
+	rhs->m_Name = umldoc->uniqObjectName(m_BaseType, m_Name);
+
 	// Copy only if not NULL.
 	if (m_pUMLPackage != NULL)
 		rhs->m_pUMLPackage = m_pUMLPackage->clone();
 
 	// Create a new ID.
-	UMLDoc* umldoc = UMLApp::app()->getDocument();
 	rhs->m_nId = umldoc->getUniqueID();
 
 	// Hope that the parent from QObject is okay.
