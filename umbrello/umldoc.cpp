@@ -1340,12 +1340,14 @@ void UMLDoc::addAssociation(UMLAssociation *Assoc)
 	// This may happen when loading old XMI files where all the association
 	// information was taken from the <UML:AssocWidget> tag.
 	UMLAssociationList assocs = getAssociations();
-	UMLAssociation *a;
-	for (a = assocs.first(); a; a = assocs.next()) {
+	for (UMLAssociationListIt ait(assocs); ait.current(); ++ait) {
+		UMLAssociation *a = ait.current();
 		// check if its already been added (shouldnt be the case right now
-		// as UMLAssociations only belong to one associationwidget at a time right now)
+		// as UMLAssociations only belong to one associationwidget at a time)
 		if (a == Assoc)
 		{
+			kdDebug() << "UMLDoc::addAssociation: duplicate addition attempted"
+				  << endl;
 			return;
 		}
 	}
@@ -1370,7 +1372,8 @@ void UMLDoc::addAssocToConcepts(UMLAssociation* a) {
 	Uml::IDType AId = a->getObjectId(Uml::A);
 	Uml::IDType BId = a->getObjectId(Uml::B);
 	UMLClassifierList concepts = getConcepts();
-	for (UMLClassifier *c = concepts.first(); c; c = concepts.next()) {
+	for (UMLClassifierListIt it(concepts); it.current(); ++it) {
+		UMLClassifier *c = it.current();
 		switch (a->getAssocType()) {
 			// for the next cases should add association to all classes involved
 			// in the interaction.
