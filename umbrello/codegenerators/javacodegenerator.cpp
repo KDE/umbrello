@@ -203,4 +203,197 @@ void JavaCodeGenerator::createDefaultDatatypes() {
 	m_document->createDatatype("string");
 }
 
+/**
+ * List of reserved keywords for this code generator.
+ *
+ * Just add new keywords, then mark all lines and
+ * pipe it through the external 'sort' program.
+ */
+static const char *ReservedWords[] = {
+  "abstract",
+  "AbstractMethodError",
+  "ArithmeticException",
+  "ArrayIndexOutOfBoundsException",
+  "ArrayStoreException",
+  "assert",
+  "AssertionError",
+  "auto",
+  "boolean",
+  "Boolean",
+  "break",
+  "byte",
+  "Byte",
+  "catch",
+  "char",
+  "Character",
+  "CharSequence",
+  "Class",
+  "ClassCastException",
+  "ClassCircularityError",
+  "ClassFormatError",
+  "ClassLoader",
+  "ClassNotFoundException",
+  "clone",
+  "Cloneable",
+  "CloneNotSupportedException",
+  "Comparable",
+  "Compiler",
+  "const",
+  "continue",
+  "default",
+  "delete",
+  "do",
+  "double",
+  "Double",
+  "else",
+  "enum",
+  "equals",
+  "Error",
+  "Exception",
+  "ExceptionInInitializerError",
+  "extends",
+  "extern",
+  "false",
+  "final",
+  "finalize",
+  "finally",
+  "FIXME",
+  "float",
+  "Float",
+  "for",
+  "friend",
+  "getClass",
+  "goto",
+  "hashCode",
+  "if",
+  "IllegalAccessError",
+  "IllegalAccessException",
+  "IllegalArgumentException",
+  "IllegalMonitorStateException",
+  "IllegalStateException",
+  "IllegalThreadStateException",
+  "implements",
+  "import",
+  "IncompatibleClassChangeError",
+  "IndexOutOfBoundsException",
+  "InheritableThreadLocal",
+  "inline",
+  "instanceof",
+  "InstantiationError",
+  "InstantiationException",
+  "int",
+  "Integer",
+  "interface",
+  "InternalError",
+  "InterruptedException",
+  "LinkageError",
+  "long",
+  "Long",
+  "Math",
+  "native",
+  "NegativeArraySizeException",
+  "new",
+  "nextgroup=javaUserLabelRef",
+  "NoClassDefFoundError",
+  "NoSuchFieldError",
+  "NoSuchFieldException",
+  "NoSuchMethodError",
+  "NoSuchMethodException",
+  "notify",
+  "notifyAll",
+  "null",
+  "NullPointerException",
+  "Number",
+  "NumberFormatException",
+  "Object",
+  "operator",
+  "OutOfMemoryError",
+  "package",
+  "Package",
+  "private",
+  "Process",
+  "protected",
+  "public",
+  "redeclared",
+  "register",
+  "return",
+  "Runnable",
+  "Runtime",
+  "RuntimeException",
+  "RuntimePermission",
+  "SecurityException",
+  "SecurityManager",
+  "serializable",
+  "short",
+  "Short",
+  "signed",
+  "sizeof",
+  "skipwhite",
+  "StackOverflowError",
+  "StackTraceElement",
+  "static",
+  "strictfp",
+  "StrictMath",
+  "String",
+  "StringBuffer",
+  "StringIndexOutOfBoundsException",
+  "struct",
+  "super",
+  "switch",
+  "synchronized",
+  "template",
+  "this",
+  "Thread",
+  "ThreadDeath",
+  "ThreadGroup",
+  "ThreadLocal",
+  "throw",
+  "Throwable",
+  "throws",
+  "TODO",
+  "toString",
+  "transient",
+  "true",
+  "try",
+  "typedef",
+  "union",
+  "UnknownError",
+  "UnsatisfiedLinkError",
+  "unsigned",
+  "UnsupportedClassVersionError",
+  "UnsupportedOperationException",
+  "VerifyError",
+  "VirtualMachineError",
+  "void",
+  "Void",
+  "volatile",
+  "wait",
+  "while",
+  "XXX"
+};
+
+/**
+ * Check whether the given string is a reserved word for the
+ * language of this code generator
+ *
+ * @param rPossiblyReservedKeyword  The string to check.
+ */
+bool JavaCodeGenerator::isReservedKeyword(const QString & rPossiblyReservedKeyword) {
+	unsigned int uiNumberOfReservedKeywords = sizeof(ReservedWords) / sizeof(char *);
+
+	unsigned int uiKeywordIndex = 0;
+
+	for (uiKeywordIndex = 0;
+	     uiKeywordIndex < uiNumberOfReservedKeywords;
+	     uiKeywordIndex++) {
+		QString keyword(ReservedWords[uiKeywordIndex]);
+
+		if (keyword == rPossiblyReservedKeyword) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
 #include "javacodegenerator.moc"

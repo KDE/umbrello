@@ -77,10 +77,18 @@ QString IDLWriter::qualifiedName(UMLClassifier *c) {
 	return retval;
 }
 
+/**
+ * returns "IDL"
+ */
 QString IDLWriter::getLanguage() {
         return "IDL";
 }
 
+/**
+ * checks whether type is "IDLWriter"
+ *
+ * @param type
+ */
 bool IDLWriter::isType (QString & type)
 {
    if(type == "IDLWriter")
@@ -446,5 +454,71 @@ void IDLWriter::createDefaultDatatypes() {
 	m_doc->createDatatype("float");
 	m_doc->createDatatype("double");
 	m_doc->createDatatype("string");
+}
+
+/**
+ * List of reserved keywords for this code generator.
+ *
+ * Just add new keywords, then mark all lines and
+ * pipe it through the external 'sort' program.
+ */
+static const char *ReservedWords[] = {
+  "any",
+  "attribute",
+  "boolean",
+  "case",
+  "char",
+  "const",
+  "context",
+  "default",
+  "double",
+  "enum",
+  "exception",
+  "FALSE",
+  "float",
+  "in",
+  "inout",
+  "interface",
+  "long",
+  "module",
+  "octet",
+  "oneway",
+  "out",
+  "raises",
+  "readonly",
+  "sequence",
+  "short",
+  "string",
+  "struct",
+  "switch",
+  "TRUE",
+  "typedef",
+  "union",
+  "unsigned",
+  "void"
+};
+
+/**
+ * Check whether the given string is a reserved word for the
+ * language of this code generator
+ *
+ * @param rPossiblyReservedKeyword  The string to check.
+ */
+bool IDLWriter::isReservedKeyword(const QString & rPossiblyReservedKeyword) {
+	unsigned int uiNumberOfReservedKeywords = sizeof(ReservedWords) / sizeof(char *);
+
+	unsigned int uiKeywordIndex = 0;
+
+	for (uiKeywordIndex = 0;
+	     uiKeywordIndex < uiNumberOfReservedKeywords;
+	     uiKeywordIndex++) {
+		QString keyword(ReservedWords[uiKeywordIndex]);
+
+		if (keyword == rPossiblyReservedKeyword) {
+			return true;
+		}
+	}
+
+	return false;
 }
 

@@ -54,10 +54,18 @@ QString AdaWriter::spc() {
 	return s;
 }
 
+/**
+ * returns "Ada"
+ */
 QString AdaWriter::getLanguage() {
         return "Ada";
 }
 
+/**
+ * checks whether type is "AdaWriter"
+ *
+ * @param type
+ */
 bool AdaWriter::isType (QString & type)
 {
    if(type == "AdaWriter")
@@ -522,6 +530,157 @@ void AdaWriter::createDefaultDatatypes() {
 	m_doc->createDatatype("Float");
 	m_doc->createDatatype("Long_Float");
 	m_doc->createDatatype("String");
+}
+
+/**
+ * List of reserved keywords for this code generator.
+ *
+ * Just add new keywords, then mark all lines and
+ * pipe it through the external 'sort' program.
+ */
+static const char *ReservedWords[] = {
+  "abort",
+  "abs",
+  "abstract",
+  "accept",
+  "access",
+  "aliased",
+  "all",
+  "and",
+  "Argument_Error",
+  "array",
+  "Assert_Failure",
+  "at",
+  "begin",
+  "body",
+  "Boolean",
+  "case",
+  "Character",
+  "constant",
+  "Constraint_Error",
+  "Conversion_Error",
+  "Data_Error",
+  "declare",
+  "delay",
+  "delta",
+  "Dereference_Error",
+  "Device_Error",
+  "digits",
+  "do",
+  "Duration",
+  "else",
+  "elsif",
+  "end",
+  "End_Error",
+  "entry",
+  "exception",
+  "exit",
+  "false",
+  "Float",
+  "for",
+  "function",
+  "generic",
+  "goto",
+  "if",
+  "in",
+  "Index_Error",
+  "Integer",
+  "is",
+  "Layout_Error",
+  "Length_Error",
+  "limited",
+  "Long_Float",
+  "Long_Integer",
+  "Long_Long_Float",
+  "Long_Long_Integer",
+  "loop",
+  "mod",
+  "Mode_Error",
+  "Name_Error",
+  "Natural",
+  "new",
+  "not",
+  "null",
+  "of",
+  "or",
+  "others",
+  "out",
+  "package",
+  "Pattern_Error",
+  "Picture_Error",
+  "Pointer_Error",
+  "Positive",
+  "pragma",
+  "private",
+  "procedure",
+  "Program_Error",
+  "protected",
+  "raise",
+  "range",
+  "record",
+  "rem",
+  "renames",
+  "requeue",
+  "return",
+  "reverse",
+  "select",
+  "separate",
+  "Short_Float",
+  "Short_Integer",
+  "Short_Short_Float",
+  "Short_Short_Integer",
+  "Status_Error",
+  "Storage_Error",
+  "String",
+  "subtype",
+  "Tag_Error",
+  "tagged",
+  "task",
+  "Tasking_Error",
+  "terminate",
+  "Terminator_Error",
+  "then",
+  "Time_Error",
+  "Translation_Error",
+  "true",
+  "type",
+  "until",
+  "Update_Error",
+  "use",
+  "Use_Error",
+  "when",
+  "while",
+  "Wide_Character",
+  "Wide_String",
+  "with",
+  "xor"
+};
+
+/**
+ * Check whether the given string is a reserved word for the
+ * language of this code generator
+ *
+ * @param rPossiblyReservedKeyword  The string to check.
+ */
+bool AdaWriter::isReservedKeyword(const QString & rPossiblyReservedKeyword) {
+	unsigned int uiNumberOfReservedKeywords = sizeof(ReservedWords) / sizeof(char *);
+
+	unsigned int uiKeywordIndex = 0;
+
+	for (uiKeywordIndex = 0;
+	     uiKeywordIndex < uiNumberOfReservedKeywords;
+	     uiKeywordIndex++) {
+		QString keyword(ReservedWords[uiKeywordIndex]);
+
+    /*
+     * Ada is entirely case insensitive
+     */
+		if (keyword == rPossiblyReservedKeyword.lower()) {
+			return true;
+		}
+	}
+
+	return false;
 }
 
 

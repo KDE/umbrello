@@ -42,10 +42,27 @@ public:
 	 */
 	virtual void writeClass (UMLClassifier *c);
 
+  /**
+   * checks whether type is "IDLWriter"
+   *
+   * @param type
+   */
 	virtual bool isType (QString & type);
-        virtual QString getLanguage();
+
+  /**
+   * returns "IDL"
+   */
+  virtual QString getLanguage();
 
 	void createDefaultDatatypes();
+
+	/**
+	 * Check whether the given string is a reserved word for the
+	 * language of this code generator
+	 *
+	 * @param rPossiblyReservedKeyword  The string to check.
+	 */
+	virtual bool isReservedKeyword(const QString & rPossiblyReservedWord);
 
 private:
 

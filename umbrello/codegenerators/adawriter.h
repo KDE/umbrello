@@ -35,7 +35,14 @@ class AdaWriter : public SimpleCodeGenerator {
         Q_OBJECT
 public:
 
+	/**
+	 * Basic Constructor
+	 */
 	AdaWriter (UMLDoc * parent = 0, const char* name = 0);
+
+	/**
+	 * Empty Destructor
+	 */
 	virtual ~AdaWriter ();
 
 	/**
@@ -44,10 +51,27 @@ public:
 	 */
 	virtual void writeClass (UMLClassifier *c);
 
+  /**
+   * checks whether type is "AdaWriter"
+   *
+   * @param type
+   */
 	virtual bool isType (QString & type);
-        virtual QString getLanguage();
+
+  /**
+   * returns "Ada"
+   */
+  virtual QString getLanguage();
 
 	void createDefaultDatatypes();
+
+	/**
+	 * Check whether the given string is a reserved word for the
+	 * language of this code generator
+	 *
+	 * @param rPossiblyReservedKeyword  The string to check.
+	 */
+	virtual bool isReservedKeyword(const QString & rPossiblyReservedWord);
 
 private:
 
