@@ -451,35 +451,35 @@ UMLClassifierListItemList ClassifierListPage::getItemList() {
 	return UMLClassifierListItemList();
 }
 
-bool ClassifierListPage::addClassifier(UMLClassifierListItem* classifier, int position) {
+bool ClassifierListPage::addClassifier(UMLClassifierListItem* listitem, int position) {
 	switch (itemType) {
 		case ot_Attribute: {
 			UMLClass* c = dynamic_cast<UMLClass*>(m_pClassifier);
 			if (c) {
-				return c->addAttribute(dynamic_cast<UMLAttribute*>(classifier), NULL, position);
+				return c->addAttribute(dynamic_cast<UMLAttribute*>(listitem), NULL, position);
 			}
 			break;
 		}
 		case ot_Operation: {
-			return m_pClassifier->addOperation(dynamic_cast<UMLOperation*>(classifier), position);
+			return m_pClassifier->addOperation(dynamic_cast<UMLOperation*>(listitem), position);
 		case ot_Template:
 			UMLClass* c = dynamic_cast<UMLClass*>(m_pClassifier);
 			if (c) {
-				return c->addTemplate(dynamic_cast<UMLTemplate*>(classifier), position);
+				return c->addTemplate(dynamic_cast<UMLTemplate*>(listitem), position);
 			}
 			break;
 		}
 		case ot_EnumLiteral: {
 			UMLEnum* c = dynamic_cast<UMLEnum*>(m_pClassifier);
 			if (c) {
-				return c->addEnumLiteral(dynamic_cast<UMLEnumLiteral*>(classifier), position);
+				return c->addEnumLiteral(dynamic_cast<UMLEnumLiteral*>(listitem), position);
 			}
 			break;
 		}
 		case ot_EntityAttribute: {
 			UMLEntity* c = dynamic_cast<UMLEntity*>(m_pClassifier);
 			if (c) {
-				return c->addEntityAttribute(dynamic_cast<UMLEntityAttribute*>(classifier), position);
+				return c->addEntityAttribute(dynamic_cast<UMLEntityAttribute*>(listitem), position);
 			}
 			break;
 		}
@@ -488,40 +488,40 @@ bool ClassifierListPage::addClassifier(UMLClassifierListItem* classifier, int po
 			return false;
 		}
 	}
-	kdError() << "ClassifierListPage::addClassifier unable to handle classifier type in current state" << endl;
+	kdError() << "ClassifierListPage::addClassifier unable to handle listitem type in current state" << endl;
 	return false;
 }
 
-UMLClassifierListItem* ClassifierListPage::takeClassifier(UMLClassifierListItem* classifier) {
+UMLClassifierListItem* ClassifierListPage::takeClassifier(UMLClassifierListItem* listitem) {
 	switch (itemType) {
 		case ot_Attribute: {
 			UMLClass* c = dynamic_cast<UMLClass*>(m_pClassifier);
 			if (c) {
-				return c->takeAttribute(dynamic_cast<UMLAttribute*>(classifier));
+				return c->takeAttribute(dynamic_cast<UMLAttribute*>(listitem));
 			}
 			break;
 		}
 		case ot_Operation: {
-			return m_pClassifier->takeOperation(dynamic_cast<UMLOperation*>(classifier));
+			return m_pClassifier->takeOperation(dynamic_cast<UMLOperation*>(listitem));
 		}
 		case ot_Template: {
 			UMLClass* c = dynamic_cast<UMLClass*>(m_pClassifier);
 			if (c) {
-				return c->takeTemplate(dynamic_cast<UMLTemplate*>(classifier));
+				return c->takeTemplate(dynamic_cast<UMLTemplate*>(listitem));
 			}
 			break;
 		}
 		case ot_EnumLiteral: {
 			UMLEnum* c = dynamic_cast<UMLEnum*>(m_pClassifier);
 			if (c) {
-				return c->takeEnumLiteral(dynamic_cast<UMLEnumLiteral*>(classifier));
+				return c->takeEnumLiteral(dynamic_cast<UMLEnumLiteral*>(listitem));
 			}
 			break;
 		}
 		case ot_EntityAttribute: {
 			UMLEntity* c = dynamic_cast<UMLEntity*>(m_pClassifier);
 			if (c) {
-				return c->takeEntityAttribute(dynamic_cast<UMLEntityAttribute*>(classifier));
+				return c->takeEntityAttribute(dynamic_cast<UMLEntityAttribute*>(listitem));
 			}
 			break;
 		}
@@ -530,40 +530,40 @@ UMLClassifierListItem* ClassifierListPage::takeClassifier(UMLClassifierListItem*
 			return 0;
 		}
 	}
-	kdError() << "ClassifierListPage::takeClassifier unable to handle classifier type in current state" << endl;
+	kdError() << "ClassifierListPage::takeClassifier unable to handle listitem type in current state" << endl;
 	return 0;
 }
 
-int ClassifierListPage::removeClassifier(UMLClassifierListItem* classifier) {
+int ClassifierListPage::removeClassifier(UMLClassifierListItem* listitem) {
 	switch (itemType) {
 		case ot_Attribute: {
 			UMLClass* c = dynamic_cast<UMLClass*>(m_pClassifier);
 			if (c) {
-				return c->removeAttribute(dynamic_cast<UMLAttribute*>(classifier));
+				return c->removeAttribute(dynamic_cast<UMLAttribute*>(listitem));
 			}
 			break;
 		}
 		case ot_Operation: {
-			return m_pClassifier->removeOperation(dynamic_cast<UMLOperation*>(classifier));
+			return m_pClassifier->removeOperation(dynamic_cast<UMLOperation*>(listitem));
 		}
 		case ot_Template: {
 			UMLClass* c = dynamic_cast<UMLClass*>(m_pClassifier);
 			if (c) {
-				return c->removeTemplate(dynamic_cast<UMLTemplate*>(classifier));
+				return c->removeTemplate(dynamic_cast<UMLTemplate*>(listitem));
 			}
 			break;
 		}
 		case ot_EnumLiteral: {
 			UMLEnum* c = dynamic_cast<UMLEnum*>(m_pClassifier);
 			if (c) {
-				return c->removeEnumLiteral(dynamic_cast<UMLEnumLiteral*>(classifier));
+				return c->removeEnumLiteral(dynamic_cast<UMLEnumLiteral*>(listitem));
 			}
 			break;
 		}
 		case ot_EntityAttribute: {
 			UMLEntity* c = dynamic_cast<UMLEntity*>(m_pClassifier);
 			if (c) {
-				return c->removeEntityAttribute(dynamic_cast<UMLEntityAttribute*>(classifier));
+				return c->removeEntityAttribute(dynamic_cast<UMLEntityAttribute*>(listitem));
 			}
 			break;
 		}
@@ -572,7 +572,7 @@ int ClassifierListPage::removeClassifier(UMLClassifierListItem* classifier) {
 			return -1;
 		}
 	}
-	kdError() << "ClassifierListPage::removeClassifier unable to handle classifier type in current state" << endl;
+	kdError() << "ClassifierListPage::removeClassifier unable to handle listitem type in current state" << endl;
 	return -1;
 }
 #include "classifierlistpage.moc"
