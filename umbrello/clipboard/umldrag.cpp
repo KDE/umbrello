@@ -658,8 +658,12 @@ bool UMLDrag::decodeClip4(const QMimeSource* mimeSource, UMLObjectList& objects,
 	QDomElement associationWidgetElement = associationWidgetNode.toElement();
 	while ( !associationWidgetElement.isNull() ) {
 		AssociationWidget* associationWidget = new AssociationWidget(doc->getCurrentView());
-		associationWidget->loadFromXMI(associationWidgetElement);
-		associations.append(associationWidget);
+		if (associationWidget->loadFromXMI(associationWidgetElement, widgets))
+			associations.append(associationWidget);
+		else {
+			associationWidget->cleanup();
+			delete associationWidget;
+		}
 		associationWidgetNode = associationWidgetNode.nextSibling();
 		associationWidgetElement = associationWidgetNode.toElement();
 	}

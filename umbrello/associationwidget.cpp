@@ -861,17 +861,19 @@ UMLWidget* AssociationWidget::getWidgetB() {
 }
 
 
-bool AssociationWidget::setWidgets( UMLWidget* WidgetA,
-				    Association_Type AssocType, UMLWidget* WidgetB) {
+bool AssociationWidget::setWidgets( UMLWidget* widgetA,
+				    Association_Type assocType,
+				    UMLWidget* widgetB) {
 	//if the association already has a WidgetB or WidgetA associated, then
 	//it cannot be changed to other widget, that would require a  deletion
 	//of the association and the creation of a new one
-	if((m_pWidgetA && (m_pWidgetA != WidgetA)) || (m_pWidgetB && (m_pWidgetB != WidgetB))) {
+	if ((m_pWidgetA && (m_pWidgetA != widgetA)) ||
+	    (m_pWidgetB && (m_pWidgetB != widgetB))) {
 		return false;
 	}
-	setWidgetA(WidgetA);
-	setAssocType(AssocType);
-	setWidgetB(WidgetB);
+	setWidgetA(widgetA);
+	setAssocType(assocType);
+	setWidgetB(widgetB);
 
 	calculateEndingPoints();
 	return true;
@@ -879,8 +881,8 @@ bool AssociationWidget::setWidgets( UMLWidget* WidgetA,
 
 /** Returns true if this association associates WidgetA to WidgetB, otherwise it returns
     false */
-bool AssociationWidget::checkAssoc(UMLWidget * WidgetA, UMLWidget *WidgetB) {
-	return (WidgetA == m_pWidgetA && WidgetB == m_pWidgetB);
+bool AssociationWidget::checkAssoc(UMLWidget * widgetA, UMLWidget *widgetB) {
+	return (widgetA == m_pWidgetA && widgetB == m_pWidgetB);
 }
 
 /** CleansUp all the association's data in the related widgets  */
@@ -931,11 +933,17 @@ void AssociationWidget::cleanup() {
 		m_pChangeWidgetB = 0;
 	}
 
-	// For now, we simply remove the UMLAssociation from the document.
-	// (It would be better to decouple the existence of the UMLAssociation
-	// from the existence of the widgets. Someday...)
 	if (m_pAssociation) {
+		/*
 		m_pView->getDocument()->removeAssociation(m_pAssociation);
+		   We do not remove the UMLAssociation from the document.
+		   Why? - Well, for example we might be in the middle of
+		   a cut/paste. If the UMLAssociation is removed by the cut
+		   then upon pasteing we have a problem.
+		   This is not quite clean yet - there should be a way to
+		   explicitly delete a UMLAssociation.  The Right Thing would
+		   be to have a ListView representation for UMLAssociation.
+		 */
 		m_pAssociation = 0;
 	}
 
@@ -944,8 +952,8 @@ void AssociationWidget::cleanup() {
 
 
 /** Returns true if the Widget is either at the starting or ending side of the association */
-bool AssociationWidget::contains(UMLWidget* Widget) {
-	return (Widget == m_pWidgetA || Widget == m_pWidgetB);
+bool AssociationWidget::contains(UMLWidget* widget) {
+	return (widget == m_pWidgetA || widget == m_pWidgetB);
 }
 
 Association_Type AssociationWidget::getAssocType() const {
@@ -1334,8 +1342,8 @@ const bool AssociationWidget::isActivated() {
 }
 
 /** Set the m_bActivated flag of a widget but does not perform the Activate method */
-void AssociationWidget::setActivated(bool Active /*=true*/) {
-	m_bActivated = Active;
+void AssociationWidget::setActivated(bool active /*=true*/) {
+	m_bActivated = active;
 }
 
 // ugly. but its what we are forced into by having the ugly association
@@ -2392,18 +2400,17 @@ void AssociationWidget::mousePressEvent(QMouseEvent * me) {
 	if(me -> button() != RightButton && me->button() != LeftButton)
 		return;
 	QPoint mep = me->pos();
-	//See is the user has clicked on a point to start moving od line from that point
+	// See if the user has clicked on a point to start moving the line segment
+	// from that point
 	checkPoints(mep);
-	bool _select = m_bSelected?false:true;
 	if( me -> state() != ShiftButton )
 		m_pView -> clearSelected();
-	m_bSelected = _select;
-	setSelected( _select );
+	setSelected( !m_bSelected );
 }
 
 void AssociationWidget::mouseReleaseEvent(QMouseEvent * me) {
 	if(me -> button() != RightButton && me->button() != LeftButton) {
-		setSelected( (m_bSelected = false) );
+		setSelected( false );
 		return;
 	}
 	m_nMovingPoint = -1;
@@ -2444,7 +2451,7 @@ void AssociationWidget::mouseReleaseEvent(QMouseEvent * me) {
 	m_pMenu = new ListPopupMenu(m_pView, menuType);
 	m_pMenu->popup(me -> globalPos());
 	connect(m_pMenu, SIGNAL(activated(int)), this, SLOT(slotMenuSelection(int)));
-	setSelected( m_bSelected = true  );
+	setSelected();
 }//end method mouseReleaseEvent
 
 void AssociationWidget::slotMenuSelection(int sel) {
@@ -2650,7 +2657,7 @@ void AssociationWidget::mouseMoveEvent(QMouseEvent* me) {
 	if( m_nMovingPoint == -1 || me->state() != LeftButton) {
 		return;
 	}
-	setSelected( m_bSelected = true );
+	setSelected();
 	//new position for point
 	QPoint p = me->pos();
 	QPoint oldp = m_LinePath.getPoint(m_nMovingPoint);
@@ -2982,7 +2989,7 @@ void AssociationWidget::updateRegionLineCount(int index, int totalCount, Associa
 		m_LinePath.setPoint( m_LinePath.count() - 1, pt );
 }
 
-void AssociationWidget::setSelected(bool _select) {
+void AssociationWidget::setSelected(bool _select /* = true */) {
 	if( _select ) {
 		if( m_pView -> getSelectCount() == 0 )
 			m_pView -> showDocumentation( this, false );
@@ -3182,22 +3189,38 @@ void AssociationWidget::resetTextPositions() {
 	}
 }
 
-void AssociationWidget::setWidgetA( UMLWidget* WidgetA) {
-	m_pWidgetA = WidgetA;
-	if (WidgetA) {
+void AssociationWidget::setWidgetA( UMLWidget* widgetA) {
+	m_pWidgetA = widgetA;
+	if (widgetA) {
 		m_pWidgetA->addAssoc(this);
 		if(m_pAssociation)
 			m_pAssociation->setObjectA(m_pWidgetA->getUMLObject());
 	}
 }
 
-void AssociationWidget::setWidgetB( UMLWidget* WidgetB) {
-	m_pWidgetB = WidgetB;
-	if (WidgetB) {
+void AssociationWidget::setWidgetB( UMLWidget* widgetB) {
+	m_pWidgetB = widgetB;
+	if (widgetB) {
 		m_pWidgetB->addAssoc(this);
 		if(m_pAssociation)
 			m_pAssociation->setObjectB(m_pWidgetB->getUMLObject());
 	}
+}
+
+UMLWidget* AssociationWidget::findWidget(const UMLWidgetList& widgets, int id)
+{
+	UMLWidgetListIt it( widgets );
+	UMLWidget * obj = NULL;
+	while ( (obj = it.current()) != 0 ) {
+		++it;
+		if (obj->getBaseType() == wt_Object) {
+			if (static_cast<ObjectWidget *>(obj)->getLocalID() == id) 
+				return obj;
+		} else if (obj->getID() == id) {
+			return obj;
+		}
+	}
+	return NULL;
 }
 
 bool AssociationWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
@@ -3249,7 +3272,8 @@ bool AssociationWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 	return status;
 }
 
-bool AssociationWidget::loadFromXMI( QDomElement & qElement )
+bool AssociationWidget::loadFromXMI( QDomElement & qElement,
+				     const UMLWidgetList& widgets )
 {
 
 	// load child widgets first
@@ -3257,13 +3281,13 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement )
         QString widgetbid = qElement.attribute( "widgetbid", "-1" );
         int aId = widgetaid.toInt();
         int bId = widgetbid.toInt();
-        UMLWidget *pWidgetA = m_pView->findWidget( aId );
+        UMLWidget *pWidgetA = findWidget( widgets, aId );
         if (!pWidgetA) {
 		kdError() << "AssociationWidget::loadFromXMI(): "
 			  << "cannot find widget for roleA id " << aId << endl;
 		return false;
         }
-        UMLWidget *pWidgetB = m_pView->findWidget( bId );
+        UMLWidget *pWidgetB = findWidget( widgets, bId );
         if (!pWidgetB) {
 		kdError() << "AssociationWidget::loadFromXMI(): "
 			  << "cannot find widget for roleB id " << bId << endl;
@@ -3464,6 +3488,10 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement )
 	}
 
 	return true;
+}
+
+bool AssociationWidget::loadFromXMI( QDomElement & qElement ) {
+	return loadFromXMI( qElement, m_pView->getWidgetList() );
 }
 
 #include "associationwidget.moc"

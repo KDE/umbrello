@@ -784,39 +784,6 @@ void UMLView::contentsMouseMoveEvent(QMouseEvent* ome) {
 	allocateMouseMoveEvent(me);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-/*
-UMLWidget * UMLView::findWidget( int id, bool allowClassForObject ) {
-        UMLWidget *obj, *objWidget = NULL;
-
-        UMLWidgetListIt it( m_WidgetList );
-        while ( (obj = it.current()) != 0 ) {
-                ++it;
-                if( obj -> getBaseType() == wt_Object ) {
-                        if( static_cast<ObjectWidget *>( obj ) ->
-                                getLocalID() == id ) {
-
-                                return obj;
-                        }
-                        if (allowClassForObject && obj->getID() == id)
-                                objWidget = (UMLWidget*) obj;
-                } else if( obj -> getID() == id ) {
-                        return obj;
-                }
-        }
-        if (objWidget)
-                return objWidget;
-
-        MessageWidgetListIt mit( m_MessageList );
-        while ( (obj = (UMLWidget*)mit.current()) != 0 ) {
-                ++mit;
-                if( obj -> getID() == id )
-                        return obj;
-        }
-
-        return 0;
-}
-*/
-
 // search both our UMLWidget AND MessageWidget lists
 UMLWidget * UMLView::findWidget( int id ) {
 
@@ -1693,10 +1660,14 @@ bool UMLView::addWidget( UMLWidget * pWidget , bool isPasteOperation ) {
 		case wt_Actor:
 		case wt_UseCase:
 			{
-				int newID = log->findNewID( pWidget -> getID() );
-				if( newID == -1 )
-					return false;
-				pWidget -> setID( newID );
+				int id = pWidget -> getID();
+				int newID = log->findNewID( id );
+				if( newID == -1 ) {  // happens after a cut
+					if (id == -1)
+						return false;
+					newID = id; //don't stop paste
+				} else
+					pWidget -> setID( newID );
 				UMLObject * pObject = m_pDoc -> findUMLObject( newID );
 				if( !pObject ) {
 					kdDebug() << "addWidget: Can't find UMLObject for id "
@@ -1820,8 +1791,20 @@ bool UMLView::addAssociation( AssociationWidget* pAssoc , bool isPasteOperation)
 			if( idb == -1 && type == at_Anchor )
 				idb = log->findNewID(pAssoc->getWidgetBID());
 		} else {
-			ida = log->findNewID(pAssoc->getWidgetAID());
-			idb = log->findNewID(pAssoc->getWidgetBID());
+			int oldIdA = pAssoc->getWidgetAID();
+			int oldIdB = pAssoc->getWidgetBID();
+			ida = log->findNewID( oldIdA );
+			if (ida == -1) {  // happens after a cut
+				if (oldIdA == -1)
+					return false;
+				ida = oldIdA;
+			}
+			idb = log->findNewID( oldIdB );
+			if (idb == -1) {  // happens after a cut
+				if (oldIdB == -1)
+					return false;
+				idb = oldIdB;
+			}
 		}
 		if(ida == -1 || idb == -1) {
 			return false;

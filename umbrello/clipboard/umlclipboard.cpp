@@ -74,6 +74,12 @@ QMimeSource* UMLClipboard::copy(UMLDoc* Doc, bool fromView/*=false*/) {
 		if(!m_pWidgetList->count()) {
 			return 0;
 		}
+		if(!Doc->getCurrentView()->getSelectedAssocs(*m_pAssociationList)) {
+			return 0;
+		}
+
+		/* CHECK: Why would the UMLObjects and UMLListViewItems be
+		   involved here at all?  --okellogg
 		UMLWidgetListIt widget_it(*m_pWidgetList);
 		UMLWidget* widget = widget_it.current();
 		UMLObject* object = 0;
@@ -87,9 +93,6 @@ QMimeSource* UMLClipboard::copy(UMLDoc* Doc, bool fromView/*=false*/) {
 				}
 			}
 			widget = widget_it.current();
-		}
-		if(!Doc->getCurrentView()->getSelectedAssocs(*m_pAssociationList)) {
-			return 0;
 		}
 
 		//For each Selected UMLObject get its UMLListViewItem and children
@@ -107,7 +110,7 @@ QMimeSource* UMLClipboard::copy(UMLDoc* Doc, bool fromView/*=false*/) {
 			}
 			object = object_it.current();
 		}
-
+		 */
 
 		Doc->getCurrentView()->copyAsImage(png);
 	} else { //if the copy action is being performed from the ListView

@@ -33,6 +33,7 @@ void CodeViewerOptionsPage::init( CodeViewerDialog::CodeViewerState options )
 	m_options = options;
 
 	// set widget stuff
+/*
 	fontChooser->setFont( options.font );
 	selectColorButton -> setColor (options.selectedColor);
 	fontColorButton -> setColor (options.fontColor);
@@ -40,12 +41,12 @@ void CodeViewerOptionsPage::init( CodeViewerDialog::CodeViewerState options )
 	editBlockColorButton -> setColor (options.editBlockColor);
 	nonEditBlockColorButton -> setColor (options.nonEditBlockColor);
 	umlObjectColorButton -> setColor (options.umlObjectColor);
-
+ */
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void CodeViewerOptionsPage::apply() {
-
+/*
 	m_options.umlObjectColor = umlObjectColorButton->color();
 	m_options.editBlockColor = editBlockColorButton->color();
 	m_options.nonEditBlockColor = nonEditBlockColorButton->color();
@@ -53,7 +54,7 @@ void CodeViewerOptionsPage::apply() {
 	m_options.paperColor = paperColorButton->color();
 	m_options.fontColor = fontColorButton->color();
 	m_options.font = fontChooser->font();
-
+ */
 	emit applyClicked();
 }
 

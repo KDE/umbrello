@@ -11,6 +11,7 @@
 #define ASSOCIATIONWIDGET_H
 
 #include "umlnamespace.h"
+#include "umlwidgetlist.h"
 #include "linepath.h"
 
 // qt includes
@@ -23,7 +24,6 @@ class QBitmap;
 class QPixmap;
 class QDataStream;
 class UMLView;
-class UMLWidget;
 class UMLAssociation;
 
 using namespace Uml;
@@ -101,66 +101,92 @@ public:
 
 	/**
 	 * Activates the AssociationWidget after a load.
+	 *
+	 * @return	True if activation successful.
 	 */
 	bool activate();
 
 	/**
 	 * Write property of m_pWidgetA.
+	 *
+	 * @param widgetA	Pointer to the role A UMLWidget.
 	 */
-	void setWidgetA( UMLWidget* WidgetA);
+	void setWidgetA( UMLWidget* widgetA);
 
 	/**
 	 * Write property of m_pWidgetB.
+	 *
+	 * @param widgetB	Pointer to the role B UMLWidget.
 	 */
-	void setWidgetB( UMLWidget* WidgetB);
+	void setWidgetB( UMLWidget* widgetB);
 
 	/**
 	 * Read property of FloatingText* m_pMultiA.
+	 *
+	 * @return	Pointer to the multiA FloatingText.
 	 */
 	FloatingText* getMultiAWidget();
 
 	/**
 	 * Returns the m_pMultiA's text.
+	 *
+	 * @return	Text of the multiA widget.
 	 */
 	QString getMultiA() const;
 
 	/**
 	 * Read property of FloatingText* m_pMultiB.
+	 *
+	 * @return	Pointer to the multiB FloatingText.
 	 */
 	FloatingText* getMultiBWidget();
 
 	/**
 	 * Returns the m_pMultiB's text.
+	 *
+	 * @return	Text of the multiB widget.
 	 */
 	QString getMultiB() const;
 
 	/**
-	 * Read property of CFloatingText* m_pRoleA.
+	 * Read property of FloatingText* m_pName.
+	 *
+	 * @return	Pointer to the FloatingText name widget.
 	 */
 	FloatingText* getNameWidget();
 
 	/**
 	 * Returns the m_pName's text.
+	 *
+	 * @return	Text of the FloatingText name widget.
 	 */
 	QString getName() const;
 
 	/**
-	 * Read property of CFloatingText* m_pRoleA.
+	 * Read property of FloatingText* m_pRoleA.
+	 *
+	 * @return	Pointer to the role A FloatingText widget.
 	 */
 	FloatingText* getRoleAWidget();
 
 	/**
-	 * Read property of CFloatingText* m_pRoleB.
+	 * Read property of FloatingText* m_pRoleB.
+	 *
+	 * @return	Pointer to the role B FloatingText widget.
 	 */
 	FloatingText* getRoleBWidget();
 
 	/**
 	 * Returns the documentation about this association.
+	 *
+	 * @return	The AssociationWidget's documentation text.
 	 */
 	QString getDoc() const;
 
 	/**
 	 * Returns the m_pRoleA's text.
+	 *
+	 * @return	The name set at the roleA FloatingText.
 	 */
 	QString getRoleNameA() const;
 
@@ -171,6 +197,8 @@ public:
 
 	/**
 	 * Returns the m_pRoleB's text.
+	 *
+	 * @return	The name set at the roleB FloatingText.
 	 */
 	QString getRoleNameB() const;
 
@@ -249,28 +277,36 @@ public:
 
 	/**
 	 * Read property of UMLWidget* m_pWidgetA.
+	 *
+	 * @return	Pointer to the role A UMLWidget.
 	 */
 	UMLWidget* getWidgetA();
 
 	/**
 	 * Sets the associated widgets.
 	 *
-	 * @param WidgetA	Pointer the role A widget for the association.
-	 * @param AssocType	The Association_Type for this association.
-	 * @param WidgetB	Pointer the role B widget for the association.
+	 * @param widgetA	Pointer the role A widget for the association.
+	 * @param assocType	The Association_Type for this association.
+	 * @param widgetB	Pointer the role B widget for the association.
 	 */
-	bool setWidgets( UMLWidget* WidgetA, Association_Type AssocType, UMLWidget* WidgetB);
+	bool setWidgets( UMLWidget* widgetA, Association_Type assocType, UMLWidget* widgetB);
 
 	/**
 	 * Read property of UMLWidget* m_pWidgetB.
+	 *
+	 * @return	Pointer to the role B UMLWidget.
 	 */
 	UMLWidget* getWidgetB();
 
 	/**
-	 * Returns true if this association associates WidgetA to WidgetB,
+	 * Returns true if this association associates widgetA to widgetB,
 	 * otherwise it returns false.
+	 *
+	 * @param widgetA	Pointer the role A widget to check.
+	 * @param widgetB	Pointer the role B widget to check.
+	 * @return	True if widgetA and widgetB are associated.
 	 */
-	bool checkAssoc(UMLWidget * WidgetA, UMLWidget *WidgetB);
+	bool checkAssoc(UMLWidget * widgetA, UMLWidget *widgetB);
 
 	/**
 	 * Cleans up all the association's data in the related widgets.
@@ -280,41 +316,53 @@ public:
 	/**
 	 * Returns true if the Widget is either at the starting or ending side
 	 * of the association.
+	 *
+	 * @return	True if widget plays role A or B in this assoc.
 	 */
-	bool contains(UMLWidget* Widget);
+	bool contains(UMLWidget* widget);
 
 	/**
 	 * Gets the association's type.
+	 *
+	 * @return	This AssociationWidget's Association_Type.
 	 */
 	Association_Type getAssocType() const;
 
 	/**
 	 * Sets the association's type.
+	 *
+	 * @param type		The Association_Type to set.
 	 */
-	void setAssocType(Association_Type Type);
+	void setAssocType(Association_Type type);
 
 	/**
 	 * Returns a QString object representing this AssociationWidget.
+	 *
+	 * @return	Textual representation of the AssociationWidget.
 	 */
 	QString toString();
 
 	/**
 	 * Read property of bool m_bActivated.
+	 *
+	 * @return	True if this AssociationWidget has been activated.
 	 */
 	const bool isActivated();
 
 	/**
 	 * Set the m_bActivated flag of a widget but does not perform the
 	 * activate method.
+	 *
+	 * @param active	The flag status to set.
 	 */
-	void setActivated(bool Active /*=true*/);
+	void setActivated(bool active /*=true*/);
 
 	/**
 	 * Sets the state of whether the widget is selected.
 	 *
 	 * @param _select	The state of whether the widget is selected.
 	 */
-	void setSelected(bool _select);
+	void setSelected(bool _select = true);
 
 	/**
 	 * Returns the state of whether the widget is selected.
@@ -328,11 +376,11 @@ public:
 	/**
 	 * Adjusts the ending point of the association that connects to Widget
 	 *
-	 * @param Widget	Pointer to the widget that was moved.
+	 * @param widget	Pointer to the widget that was moved.
 	 * @param x		New X coordinate of the widget.
 	 * @param y		New Y coordinate of the widget.
 	 */
-	void widgetMoved(UMLWidget* Widget, int x, int y);
+	void widgetMoved(UMLWidget* widget, int x, int y);
 
 	/**
 	 * Calculates the m_unNameLineSegment value according to the new
@@ -368,7 +416,7 @@ public:
 
 
 	/**
-	 *  Returns true if the given point is ob the Association.
+	 *  Returns true if the given point is on the Association.
 	 */
 	bool onAssociation(const QPoint & point);
 
@@ -520,6 +568,14 @@ public:
 	 * Loads this widget from the <UML:AssociationWidget> XMI element.
 	 */
 	bool loadFromXMI( QDomElement & qElement );
+
+	/**
+	 * Same as above, but uses the supplied widgetList for resolving
+	 * the role A and role B widgets. (The other loadFromXMI() queries
+	 * the UMLView for these widgets.)
+	 * Required for clipboard operations.
+	 */
+	bool loadFromXMI( QDomElement & qElement, const UMLWidgetList& widgets );
 
 private:
 	/**
@@ -806,6 +862,16 @@ private:
 	 * while the left mouse button is down.
 	 */
 	void checkPoints(QPoint p);
+
+	/**
+	 * Utility: Find the widget identified by the given ID in the given
+	 * widget list.
+	 * It's somewhat arbitrary that this utility is here as it has no
+	 * dependencies whatsoever on AssociationWidget.  It just happens
+	 * to be needed here.  We should pull it out from here if it also
+	 * becomes needed somewhere else.
+	 */
+	static UMLWidget* findWidget(const UMLWidgetList& widgets, int id);
 
 	/*QPixmap 	*m_pPix;
 	QBitmap 	*m_pMask;*/
