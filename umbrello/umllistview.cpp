@@ -2633,6 +2633,7 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
 						if (UMLListView::typeIsFolder(lvType)) {
 							QString folderFile = domElement.attribute( "external_file", "" );
 							if (!folderFile.isEmpty()) {
+								setCurrentItem(item);
 								item->setFolderFile(folderFile);
 								const QString fqfn(m_doc->URL().directory(false) + folderFile);
 								kdDebug() << "UMLListView::loadChildrenFromXMI:"

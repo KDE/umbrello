@@ -1841,6 +1841,8 @@ bool UMLDoc::loadFolderFile( QString filename ) {
 					kdError() << "UMLDoc::loadFolderFile(" << filename
 						  << "): Error loading type " << type << endl;
 					delete pObject;
+				} else {
+					addObject(pObject);
 				}
 			} else {
 				kdError() << "UMLDoc::loadFolderFile(" << filename
@@ -2800,7 +2802,7 @@ void UMLDoc::createDatatype(const QString &name)  {
 
 void UMLDoc::addObject(UMLObject* o) {
 	m_objectList.append(o);
-	emit sigObjectCreated(o);
+	signalUMLObjectCreated(o);
 	setModified(true);
 }
 
