@@ -32,15 +32,15 @@ XMLSchemaCodeClassField::XMLSchemaCodeClassField (XMLSchemaClassifierCodeDocumen
     : CodeClassField((ClassifierCodeDocument*)parentDoc, role) 
 {
 
-};
+}
 
 XMLSchemaCodeClassField::XMLSchemaCodeClassField (XMLSchemaClassifierCodeDocument * parentDoc, UMLAttribute * attrib) 
     : CodeClassField((ClassifierCodeDocument*)parentDoc, attrib) 
 {
 
-};
+}
 
-XMLSchemaCodeClassField::~XMLSchemaCodeClassField ( ) { };
+XMLSchemaCodeClassField::~XMLSchemaCodeClassField ( ) { }
 
 //  
 // Methods

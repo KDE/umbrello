@@ -26,9 +26,9 @@ CPPMakefileCodeDocument::CPPMakefileCodeDocument ( CPPCodeGenerator * gen )
 	setFileName("Makefile"); // default name
 	setFileExtension("");
 	setID("Makefile_DOC"); // default id tag for this type of document
-};
+}
 
-CPPMakefileCodeDocument::~CPPMakefileCodeDocument ( ) { };
+CPPMakefileCodeDocument::~CPPMakefileCodeDocument ( ) { }
 
 //  
 // Methods

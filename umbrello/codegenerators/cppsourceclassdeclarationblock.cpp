@@ -23,9 +23,9 @@ CPPSourceClassDeclarationBlock::CPPSourceClassDeclarationBlock ( CPPSourceCodeDo
     : OwnedHierarchicalCodeBlock((UMLObject*) parentDoc->getParentClassifier(), (CodeDocument*)parentDoc, startText, endText, comment)
 {
 	init(parentDoc, comment);
-};
+}
 
-CPPSourceClassDeclarationBlock::~CPPSourceClassDeclarationBlock ( ) { };
+CPPSourceClassDeclarationBlock::~CPPSourceClassDeclarationBlock ( ) { }
 
 //  
 // Methods

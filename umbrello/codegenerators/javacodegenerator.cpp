@@ -44,11 +44,11 @@ JavaCodeGenerator::JavaCodeGenerator ( UMLDoc * parentDoc, const char * name )
 {
 
 	initFields();
-};
+}
 
 JavaCodeGenerator::~JavaCodeGenerator ( ) { 
  	kdDebug()<<"JavaCodeGenerator "<<this<<" destroyed"<<endl;
-};
+}
 
 //  
 // Methods

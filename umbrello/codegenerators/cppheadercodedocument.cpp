@@ -42,11 +42,11 @@
 CPPHeaderCodeDocument::CPPHeaderCodeDocument ( UMLClassifier * concept, CPPCodeGenerator *parent) 
    : ClassifierCodeDocument (concept, (CodeGenerator *) parent ) { 
 	init ( );
-};
+}
 
 CPPHeaderCodeDocument::~CPPHeaderCodeDocument ( ) { 
  	kdDebug()<<"   CPPHeaderCodeGenerator "<<this<<" destroyed"<<endl;
-};
+}
 
 //  
 // Methods

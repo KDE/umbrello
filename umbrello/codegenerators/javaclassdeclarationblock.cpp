@@ -23,9 +23,9 @@ JavaClassDeclarationBlock::JavaClassDeclarationBlock ( JavaClassifierCodeDocumen
     : OwnedHierarchicalCodeBlock((UMLObject*) parentDoc->getParentClassifier(), (CodeDocument*)parentDoc, startText, endText, comment)
 {
 	init(parentDoc, comment);
-};
+}
 
-JavaClassDeclarationBlock::~JavaClassDeclarationBlock ( ) { };
+JavaClassDeclarationBlock::~JavaClassDeclarationBlock ( ) { }
 
 //  
 // Methods

@@ -36,7 +36,7 @@ JavaRemoveAccessorMethod::JavaRemoveAccessorMethod ( JavaCodeClassField * field)
 	updateContent();
 }
 
-JavaRemoveAccessorMethod::~JavaRemoveAccessorMethod ( ) { };
+JavaRemoveAccessorMethod::~JavaRemoveAccessorMethod ( ) { }
 
 // Other methods
 //

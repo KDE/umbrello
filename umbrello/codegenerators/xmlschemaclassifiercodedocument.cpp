@@ -34,9 +34,9 @@
 XMLSchemaClassifierCodeDocument::XMLSchemaClassifierCodeDocument ( UMLClassifier * concept , XMLSchemaCodeGenerator *parent) 
    : ClassifierCodeDocument (concept, (CodeGenerator *) parent) { 
 	init();
-};
+}
 
-XMLSchemaClassifierCodeDocument::~XMLSchemaClassifierCodeDocument ( ) { };
+XMLSchemaClassifierCodeDocument::~XMLSchemaClassifierCodeDocument ( ) { }
 
 //  
 // Methods

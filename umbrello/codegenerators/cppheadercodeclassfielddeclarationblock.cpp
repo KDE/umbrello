@@ -25,9 +25,9 @@ CPPHeaderCodeClassFieldDeclarationBlock::CPPHeaderCodeClassFieldDeclarationBlock
 {
 	setOverallIndentationLevel(1);
 	updateContent();
-};
+}
 
-CPPHeaderCodeClassFieldDeclarationBlock::~CPPHeaderCodeClassFieldDeclarationBlock ( ) { };
+CPPHeaderCodeClassFieldDeclarationBlock::~CPPHeaderCodeClassFieldDeclarationBlock ( ) { }
 
 //  
 // Methods

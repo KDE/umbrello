@@ -26,9 +26,9 @@ CPPHeaderCodeOperation::CPPHeaderCodeOperation ( CPPHeaderCodeDocument * doc, UM
     : CodeOperation ((ClassifierCodeDocument*)doc, parent, body, comment) 
 {
 	init(doc);
-};
+}
 
-CPPHeaderCodeOperation::~CPPHeaderCodeOperation ( ) { };
+CPPHeaderCodeOperation::~CPPHeaderCodeOperation ( ) { }
 
 // Other methods
 //  

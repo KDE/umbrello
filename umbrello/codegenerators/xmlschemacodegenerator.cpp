@@ -29,11 +29,11 @@ XMLSchemaCodeGenerator::XMLSchemaCodeGenerator ( UMLDoc * parentDoc , const char
 kdDebug()<<"XMLSchemaCodeGenerator "<<this<<" created with parent document:"<<parentDoc<<endl;
 
 	initFields();
-};
+}
 
 XMLSchemaCodeGenerator::~XMLSchemaCodeGenerator ( ) { 
 kdDebug()<<"XMLSchemaCodeGenerator "<<this<<" destroyed"<<endl;
-};
+}
 
 //  
 // Methods

@@ -29,16 +29,16 @@ CPPCodeGenerationPolicy::CPPCodeGenerationPolicy ( CPPCodeGenerator * parent, Co
 {
 	initFields(parent);
 	setDefaults(defaults,false);
-};
+}
 
 CPPCodeGenerationPolicy::CPPCodeGenerationPolicy ( CPPCodeGenerator * parent, KConfig *config) 
     : CodeGenerationPolicy ( (QObject*) parent, config) 
 {
 	initFields(parent);
 	setDefaults(config,false);
-};
+}
 
-CPPCodeGenerationPolicy::~CPPCodeGenerationPolicy ( ) { };
+CPPCodeGenerationPolicy::~CPPCodeGenerationPolicy ( ) { }
 
 //  
 // Methods

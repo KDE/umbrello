@@ -26,9 +26,9 @@ JavaANTCodeDocument::JavaANTCodeDocument ( JavaCodeGenerator * gen )
 	setFileName("build"); // default name
 	setFileExtension(".xml");
 	setID("ANTDOC"); // default id tag for this type of document
-};
+}
 
-JavaANTCodeDocument::~JavaANTCodeDocument ( ) { };
+JavaANTCodeDocument::~JavaANTCodeDocument ( ) { }
 
 //  
 // Methods

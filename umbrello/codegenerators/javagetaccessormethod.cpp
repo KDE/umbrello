@@ -34,9 +34,9 @@ JavaGetAccessorMethod::JavaGetAccessorMethod ( JavaCodeClassField * field)
 {
         updateMethodDeclaration();
 	updateContent();
-};
+}
 
-JavaGetAccessorMethod::~JavaGetAccessorMethod ( ) { };
+JavaGetAccessorMethod::~JavaGetAccessorMethod ( ) { }
 
 // Other
 //

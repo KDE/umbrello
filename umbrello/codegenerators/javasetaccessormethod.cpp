@@ -33,9 +33,9 @@ JavaSetAccessorMethod::JavaSetAccessorMethod ( JavaCodeClassField * field )
 {
         updateMethodDeclaration();
         updateContent();
-};
+}
 
-JavaSetAccessorMethod::~JavaSetAccessorMethod ( ) { };
+JavaSetAccessorMethod::~JavaSetAccessorMethod ( ) { }
 
 // Other methods
 //

@@ -25,18 +25,18 @@ CodeEditor::CodeEditor ( const QString & text, const QString & context, QWidget 
     : QTextEdit ( text, context, parent, name) 
 {
 	init();
-};
+}
 
 CodeEditor::CodeEditor ( QWidget* parent, const char* name)
     : QTextEdit ( parent, name )
 {
 	init();
-};
+}
 
 /*
  *  Destroys the object and frees any allocated resources
  */
-CodeEditor::~CodeEditor() { };
+CodeEditor::~CodeEditor() { }
 
 void CodeEditor::contentsMouseMoveEvent ( QMouseEvent * e ) {
 	emit mouseMoved(e);

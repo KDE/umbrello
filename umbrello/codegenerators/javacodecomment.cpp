@@ -22,15 +22,15 @@ JavaCodeComment::JavaCodeComment ( CodeDocument * doc, QString text )
     : CodeComment (doc, text)
 {
 
-};
+}
 
 JavaCodeComment::JavaCodeComment ( CodeDocument * doc ) 
     : CodeComment (doc)
 {
 
-};
+}
 
-JavaCodeComment::~JavaCodeComment ( ) { };
+JavaCodeComment::~JavaCodeComment ( ) { }
 
 //  
 // Methods

@@ -33,7 +33,7 @@ CPPCodeGenerator::CPPCodeGenerator ( UMLDoc * parentDoc , const char * name)
 kdDebug()<<"CPPCodeGenerator "<<this<<" created with parent document:"<<parentDoc<<endl;
 
 	initAttributes();
-};
+}
 
 CPPCodeGenerator::~CPPCodeGenerator ( ) { 
     kdDebug()<<"CPPCodeGenerator "<<this<<" destroyed"<<endl;
@@ -41,7 +41,7 @@ CPPCodeGenerator::~CPPCodeGenerator ( ) {
         for (CPPHeaderCodeDocument *doc = m_headercodedocumentVector.first(); doc; doc=m_headercodedocumentVector.next())
                 delete doc;
 
-};
+}
 
 //  
 // Methods

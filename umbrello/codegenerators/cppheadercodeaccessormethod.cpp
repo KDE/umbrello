@@ -35,9 +35,9 @@ CPPHeaderCodeAccessorMethod::CPPHeaderCodeAccessorMethod ( CPPCodeClassField * f
 	setType(type);
         updateMethodDeclaration();
 	updateContent();
-};
+}
 
-CPPHeaderCodeAccessorMethod::~CPPHeaderCodeAccessorMethod ( ) { };
+CPPHeaderCodeAccessorMethod::~CPPHeaderCodeAccessorMethod ( ) { }
 
 // Other
 //

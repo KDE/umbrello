@@ -35,9 +35,9 @@ CPPSourceCodeAccessorMethod::CPPSourceCodeAccessorMethod ( CPPCodeClassField * f
 	setType(type);
         updateMethodDeclaration();
 	updateContent();
-};
+}
 
-CPPSourceCodeAccessorMethod::~CPPSourceCodeAccessorMethod ( ) { };
+CPPSourceCodeAccessorMethod::~CPPSourceCodeAccessorMethod ( ) { }
 
 // Other
 //

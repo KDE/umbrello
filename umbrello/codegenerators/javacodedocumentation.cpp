@@ -25,15 +25,15 @@ JavaCodeDocumentation::JavaCodeDocumentation ( JavaClassifierCodeDocument * doc,
     : CodeComment ((CodeDocument*) doc, text)
 {
 
-};
+}
 
 JavaCodeDocumentation::JavaCodeDocumentation ( JavaClassifierCodeDocument * doc ) 
     : CodeComment ((CodeDocument*) doc)
 {
 
-};
+}
 
-JavaCodeDocumentation::~JavaCodeDocumentation ( ) { };
+JavaCodeDocumentation::~JavaCodeDocumentation ( ) { }
 
 //  
 // Methods

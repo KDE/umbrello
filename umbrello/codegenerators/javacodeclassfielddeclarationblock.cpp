@@ -26,9 +26,9 @@ JavaCodeClassFieldDeclarationBlock::JavaCodeClassFieldDeclarationBlock ( CodeCla
 {
 	setOverallIndentationLevel(1);
 	updateContent();
-};
+}
 
-JavaCodeClassFieldDeclarationBlock::~JavaCodeClassFieldDeclarationBlock ( ) { };
+JavaCodeClassFieldDeclarationBlock::~JavaCodeClassFieldDeclarationBlock ( ) { }
 
 //  
 // Methods

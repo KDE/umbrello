@@ -22,15 +22,15 @@ CPPCodeComment::CPPCodeComment ( CodeDocument * doc, QString text )
     : CodeComment (doc, text)
 {
 
-};
+}
 
 CPPCodeComment::CPPCodeComment ( CodeDocument * doc ) 
     : CodeComment (doc)
 {
 
-};
+}
 
-CPPCodeComment::~CPPCodeComment ( ) { };
+CPPCodeComment::~CPPCodeComment ( ) { }
 
 //  
 // Methods

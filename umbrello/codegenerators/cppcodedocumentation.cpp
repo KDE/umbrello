@@ -25,15 +25,15 @@ CPPCodeDocumentation::CPPCodeDocumentation ( ClassifierCodeDocument * doc, QStri
     : CodeComment ((CodeDocument*) doc, text)
 {
 
-};
+}
 
 CPPCodeDocumentation::CPPCodeDocumentation ( ClassifierCodeDocument * doc ) 
     : CodeComment ((CodeDocument*) doc)
 {
 
-};
+}
 
-CPPCodeDocumentation::~CPPCodeDocumentation ( ) { };
+CPPCodeDocumentation::~CPPCodeDocumentation ( ) { }
 
 //  
 // Methods

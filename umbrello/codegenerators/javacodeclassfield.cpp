@@ -38,15 +38,15 @@ JavaCodeClassField::JavaCodeClassField (JavaClassifierCodeDocument * parentDoc, 
     : CodeClassField((ClassifierCodeDocument*)parentDoc, role) 
 {
 
-};
+}
 
 JavaCodeClassField::JavaCodeClassField (JavaClassifierCodeDocument * parentDoc, UMLAttribute * attrib) 
     : CodeClassField((ClassifierCodeDocument*)parentDoc, attrib) 
 {
 
-};
+}
 
-JavaCodeClassField::~JavaCodeClassField ( ) { };
+JavaCodeClassField::~JavaCodeClassField ( ) { }
 
 //  
 // Methods

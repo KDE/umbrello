@@ -36,7 +36,7 @@ JavaListAccessorMethod::JavaListAccessorMethod ( JavaCodeClassField * field )
 	updateContent();
 }
 
-JavaListAccessorMethod::~JavaListAccessorMethod ( ) { };
+JavaListAccessorMethod::~JavaListAccessorMethod ( ) { }
 
 // Other methods
 //

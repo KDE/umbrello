@@ -45,9 +45,9 @@
 JavaClassifierCodeDocument::JavaClassifierCodeDocument ( UMLClassifier * concept , JavaCodeGenerator *parent) 
    : ClassifierCodeDocument (concept, (CodeGenerator *) parent) { 
 	init();
-};
+}
 
-JavaClassifierCodeDocument::~JavaClassifierCodeDocument ( ) { };
+JavaClassifierCodeDocument::~JavaClassifierCodeDocument ( ) { }
 
 //  
 // Methods

@@ -25,9 +25,9 @@ JavaCodeOperation::JavaCodeOperation ( JavaClassifierCodeDocument * doc, UMLOper
     : CodeOperation ((ClassifierCodeDocument*)doc, parent, body, comment) 
 {
 	init(doc );
-};
+}
 
-JavaCodeOperation::~JavaCodeOperation ( ) { };
+JavaCodeOperation::~JavaCodeOperation ( ) { }
 
 // Other methods
 //  

@@ -27,16 +27,16 @@ JavaCodeGenerationPolicy::JavaCodeGenerationPolicy ( JavaCodeGenerator * parent,
 {
 	initFields(parent);
 	setDefaults(defaults,false);
-};
+}
 
 JavaCodeGenerationPolicy::JavaCodeGenerationPolicy ( JavaCodeGenerator * parent, KConfig *config) 
     : CodeGenerationPolicy ( (QObject*) parent, config) 
 {
 	initFields(parent);
 	setDefaults(config,false);
-};
+}
 
-JavaCodeGenerationPolicy::~JavaCodeGenerationPolicy ( ) { };
+JavaCodeGenerationPolicy::~JavaCodeGenerationPolicy ( ) { }
 
 //  
 // Methods

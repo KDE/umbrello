@@ -34,9 +34,9 @@ JavaAddAccessorMethod::JavaAddAccessorMethod ( JavaCodeClassField * field)
 {
 	updateMethodDeclaration();
 	updateContent();
-};
+}
 
-JavaAddAccessorMethod::~JavaAddAccessorMethod ( ) { };
+JavaAddAccessorMethod::~JavaAddAccessorMethod ( ) { }
 
 // Other methods
 //

@@ -26,9 +26,9 @@ CPPSourceCodeOperation::CPPSourceCodeOperation ( CPPSourceCodeDocument * doc, UM
     : CodeOperation ((ClassifierCodeDocument*)doc, parent, body, comment) 
 {
 	init(doc);
-};
+}
 
-CPPSourceCodeOperation::~CPPSourceCodeOperation ( ) { };
+CPPSourceCodeOperation::~CPPSourceCodeOperation ( ) { }
 
 // Other methods
 //  

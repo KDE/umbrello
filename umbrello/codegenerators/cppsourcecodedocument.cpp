@@ -41,11 +41,11 @@
 CPPSourceCodeDocument::CPPSourceCodeDocument ( UMLClassifier * concept, CPPCodeGenerator *parent) 
    : ClassifierCodeDocument (concept, (CodeGenerator *) parent ) { 
 	init ( );
-};
+}
 
 CPPSourceCodeDocument::~CPPSourceCodeDocument ( ) { 
  	kdDebug()<<"   CPPSourceCodeGenerator "<<this<<" destroyed"<<endl;
-};
+}
 
 //  
 // Methods
