@@ -20,7 +20,6 @@
 #include <kdebug.h>
 #include <qregexp.h>
 #include <qstring.h>
-#include <cassert>
 
 #include "../umldoc.h"
 #include "../concept.h"
@@ -108,11 +107,6 @@ void PhpWriter::writeClass(UMLConcept *c) {
 
 	php << "class " << classname << (generalizations.count() > 0 ? " extends ":"");
 	int i;
-
-        /*
-         * php does not support multiple inheritance
-         */
-        assert(generalizations.count() <= 1);
 
 	for (a = generalizations.first(), i = generalizations.count();
 	        a && i;
