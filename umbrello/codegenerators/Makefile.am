@@ -1,4 +1,4 @@
-umbrello_DIR = $(kde_datadir)/umbrello/codegenerators
+umbrellodir = $(kde_datadir)/umbrello/codegenerators
 umbrello_LTLIBRARIES = libcodegenerator.la
 
 INCLUDES = $(all_includes)
