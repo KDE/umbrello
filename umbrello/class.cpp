@@ -33,8 +33,15 @@ UMLClass::~UMLClass() {
 	// already gives us clear()ed lists.)
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLAttribute* UMLClass::addAttribute(QString name, int id) {
+UMLAttribute* UMLClass::addAttribute(QString name, int id /* = -1 */) {
+	UMLClassifierListItem *obj = NULL;
+	for (obj = m_AttsList.first(); obj; obj = m_AttsList.next()) {
+		if (obj->getBaseType() == ot_Attribute && obj->getName() == name)
+			return static_cast<UMLAttribute*>(obj);
+	}
 	UMLDoc *umldoc = UMLApp::app()->getDocument();
+	if (id == -1)
+		id = umldoc->getUniqueID();
 	Uml::Scope scope = umldoc->getOptionState().classState.defaultAttributeScope;
 	UMLAttribute *a = new UMLAttribute(this, name, id, "int", scope);
 	m_AttsList.append(a);

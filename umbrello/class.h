@@ -64,12 +64,17 @@ public:
 
 	/**
 	 * Adds an attribute to the class.
+	 * If an attribute of the given name already exists, then
+	 * returns the existing attribute instead of creating a new one.
 	 *
 	 * @param name		The name of the attribute.
-	 * @param id		The id of the attribute.
-	 * @return	Pointer to the UMLAttribute created.
+	 * @param id		The id of the attribute (optional.)
+	 *                      If not given, and the attribute name
+	 *                      does not already exist, then the method
+	 *                      will internally assign a new ID.
+	 * @return	Pointer to the UMLAttribute created or found.
 	 */
-	UMLAttribute* addAttribute(QString name, int id);
+	UMLAttribute* addAttribute(QString name, int id = -1);
 
 	/**
 	 * Adds an already created attribute.
