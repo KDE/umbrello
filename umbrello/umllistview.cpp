@@ -43,7 +43,7 @@
 #include <kstandarddirs.h>
 
 UMLListView::UMLListView(QWidget *parent, const char *name)
-  : KListView(parent,name), m_pMenu(0)
+  : KListView(parent,name), m_pMenu(0), m_doc(0)
 {
 	loadPixmaps();
 
@@ -436,6 +436,7 @@ void UMLListView::slotObjectCreated(UMLObject* object) {
 	case Uml::ot_Interface:
 	case Uml::ot_Enum:
 	case Uml::ot_Package:
+	case Uml::ot_Datatype:
 	{
 		UMLPackage *pkg = object->getUMLPackage();
 		if (pkg) {
@@ -455,12 +456,11 @@ void UMLListView::slotObjectCreated(UMLObject* object) {
 				pkg->addObject(object);
 		} else if (lvt == Uml::lvt_Logical_Folder)
 			parentItem = current;
+		else if (type == Uml::ot_Datatype)
+			parentItem = datatypeFolder;
 		else
 			parentItem = lv;
 	}
-		break;
-	case Uml::ot_Datatype:
-		parentItem = datatypeFolder;
 		break;
 	case Uml::ot_Actor:
 	case Uml::ot_UseCase:
@@ -900,6 +900,13 @@ bool UMLListView::acceptDrag(QDropEvent* event) const {
 					  dstType == Uml::lvt_Class ||
 					  dstType == Uml::lvt_Package);
 				break;
+			case Uml::lvt_Datatype:
+				accept = (dstType == Uml::lvt_Logical_Folder ||
+					  dstType == Uml::lvt_Datatype_Folder ||
+					  dstType == Uml::lvt_Class ||
+					  dstType == Uml::lvt_Interface ||
+					  dstType == Uml::lvt_Package);
+				break;
 			case Uml::lvt_Class_Diagram:
 			case Uml::lvt_Collaboration_Diagram:
 			case Uml::lvt_State_Diagram:
@@ -1002,7 +1009,9 @@ UMLListViewItem * UMLListView::moveObject(int srcId, Uml::ListView_Type srcType,
 		case Uml::lvt_Package:
 		case Uml::lvt_Interface:
 		case Uml::lvt_Enum:
+		case Uml::lvt_Datatype:
 			if (newParentType == Uml::lvt_Logical_Folder ||
+			    newParentType == Uml::lvt_Datatype_Folder ||
 			    newParentType == Uml::lvt_Logical_View ||
 			    newParentType == Uml::lvt_Class ||
 			    newParentType == Uml::lvt_Interface ||
