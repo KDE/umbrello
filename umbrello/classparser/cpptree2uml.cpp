@@ -50,8 +50,9 @@ void CppTree2Uml::parseTranslationUnit( TranslationUnitAST* ast )
 
 void CppTree2Uml::parseNamespace( NamespaceAST* ast )
 {
-    if( m_clsCnt >= 0 ){
-	kdDebug() << "CppTree2Uml::parseNamespace: **error** !!" << endl;
+    if (m_clsCnt > 0) {
+	kdDebug() << "CppTree2Uml::parseNamespace: error - cannot nest namespace inside class"
+		  << endl;
 	return;
     }
 
