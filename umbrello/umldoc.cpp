@@ -2450,7 +2450,7 @@ void UMLDoc::removeAllViews() {
 	for(UMLView *v = m_ViewList.first(); v; v = m_ViewList.next()) {
 		v->removeAllAssociations(); // note : It may not be apparent, but when we remove all associations
 						// from a view, it also causes any UMLAssociations that lack parent
-						// associaiton widgets (but once had them) to remove themselves from
+						// association widgets (but once had them) to remove themselves from
 						// this document.
 		removeView(v, false);
 	}
