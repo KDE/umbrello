@@ -41,6 +41,8 @@ ClassifierCodeDocument::~ClassifierCodeDocument ( )
 	for (CodeClassField * cf = m_classfieldVector.first(); cf; cf = m_classfieldVector.next())  {
 	       delete cf;
 	}
+
+	delete m_classFieldMap;
 }
 
 //
