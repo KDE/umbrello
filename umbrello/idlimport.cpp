@@ -35,7 +35,7 @@ QStringList source;
 int srcIndex = 0;
 UMLPackage *scope[32];
 int scopeIndex = 0;  // index 0 is reserved for global scope
-UMLClassifier *classifier = NULL;
+UMLClass *klass = NULL;
 bool isAbstract = false, isOneway = false, isReadonly = false, isAttribute = false;
 Uml::Scope currentAccess = Uml::Public;
 
@@ -45,20 +45,53 @@ void skipStmt(QString until = ";") {
 		srcIndex++;
 }
 
-// Check for split type names (e.g. unsigned long long)
-// Remove the excess entries in source and return the joined type.
+/// Check for split type names (e.g. unsigned long long)
 QString joinTypename() {
 	QString typeName = source[srcIndex];
-	kdDebug() << "joinTypename: srcIndex=" << srcIndex << ", typeName=" << typeName
-		  << endl;
 	if (source[srcIndex] == "unsigned")
 		typeName += ' ' + source[++srcIndex];
 	if (source[srcIndex] == "long" &&
 	    (source[srcIndex + 1] == "long" || source[srcIndex + 1] == "double"))
 		typeName += ' ' + source[++srcIndex];
-	kdDebug() << "joinTypename:                              typeName=" << typeName
-		  << endl;
 	return typeName;
+}
+
+/// The lexer. Tokenizes the given string and fills `source'.
+void scan(QString line) {
+	if (line.startsWith("#"))
+		return;
+	line = line.simplifyWhiteSpace();
+	if (line.isEmpty())
+		return;
+	//kdDebug() << "line: " << line << endl;
+
+	// doesn't work:
+	// QStringList tmpList = QStringList::split( QRegExp("\\b"), line );
+	// instead:
+	QStringList tmpList = QStringList::split( QRegExp("\\s+"), line );
+	for (QStringList::Iterator tmpIt = tmpList.begin(); tmpIt != tmpList.end(); ++tmpIt) {
+		QString tmp = (*tmpIt).stripWhiteSpace();
+		if (tmp.isEmpty())
+			continue;
+		QString word;
+		for (uint i = 0; i < tmp.length(); i++) {
+			QChar c = tmp[i];
+			if (c.isLetterOrNumber() || c == '_') {
+				word += c;
+			} else if (c == ':' && tmp[i + 1] == ':') {
+				word += "::";
+				i++;
+			} else {
+				if (!word.isEmpty()) {
+					source.append(word);
+					word = QString::null;
+				}
+				source.append(c);
+			}
+		}
+		if (!word.isEmpty())
+			source.append(word);
+	}
 }
 
 void parseFile(QString filename) {
@@ -79,48 +112,16 @@ void parseFile(QString filename) {
 		kdError() << "IDLImport::parseFile: cannot popen(" << command << ")" << endl;
 		return;
 	}
+	// Scan the input file into the QStringList source.
 	source.clear();
 	char buf[256];
 	while (fgets(buf, sizeof(buf), fp) != NULL) {
 		int len = strlen(buf);
 		if (buf[len - 1] == '\n')
 			buf[--len] = '\0';
-		QString line(buf);
-		if (line.startsWith("#"))
-			continue;
-		line = line.simplifyWhiteSpace();
-		if (line.isEmpty())
-			continue;
-		//kdDebug() << "line: " << line << endl;
-
-		// doesn't work:
-		// QStringList tmpList = QStringList::split( QRegExp("\\b"), line );
-		// instead:
-		QStringList tmpList = QStringList::split( QRegExp("\\s+"), line );
-		for (QStringList::Iterator tmpIt = tmpList.begin(); tmpIt != tmpList.end(); ++tmpIt) {
-			QString tmp = (*tmpIt).stripWhiteSpace();
-			if (tmp.isEmpty())
-				continue;
-			QString word;
-			for (uint i = 0; i < tmp.length(); i++) {
-				QChar c = tmp[i];
-				if (c.isLetterOrNumber() || c == '_') {
-					word += c;
-				} else if (c == ':' && tmp[i + 1] == ':') {
-					word += "::";
-					i++;
-				} else {
-					if (!word.isEmpty()) {
-						source.append(word);
-						word = QString::null;
-					}
-					source.append(c);
-				}
-			}
-			if (!word.isEmpty())
-				source.append(word);
-		}
+		scan( QString(buf) );
 	}
+	// Parse the QStringList source.
 	const int srcLength = source.count();
 	for (srcIndex = 0; srcIndex < srcLength; srcIndex++) {
 		const QString& keyword = source[srcIndex];
@@ -129,6 +130,7 @@ void parseFile(QString filename) {
 			UMLObject *ns = importer->createUMLObject(Uml::ot_Package,
 						  source[++srcIndex], scope[scopeIndex]);
 			scope[++scopeIndex] = static_cast<UMLPackage*>(ns);
+			scope[scopeIndex]->setStereotype("CORBAModule");
 			if (source[++srcIndex] != "{") {
 				kdError() << "importIDL: unexpected: " << source[srcIndex] << endl;
 				skipStmt("{");
@@ -136,34 +138,49 @@ void parseFile(QString filename) {
 			continue;
 		}
 		if (keyword == "interface") {
-			UMLObject *ns = importer->createUMLObject(Uml::ot_Interface,
-						  source[++srcIndex], scope[scopeIndex]);
-			scope[++scopeIndex] = classifier = static_cast<UMLClassifier*>(ns);
-			classifier->setAbstract(isAbstract);
-			isAbstract = false;
-			// inheritance: TBD
-			skipStmt("{");
-			continue;
-		}
-		if (keyword == "struct") {
 			const QString& name = source[++srcIndex];
 			UMLObject *ns = importer->createUMLObject(Uml::ot_Class,
 								  name, scope[scopeIndex]);
-			scope[++scopeIndex] = classifier = static_cast<UMLClassifier*>(ns);
+			scope[++scopeIndex] = klass = static_cast<UMLClass*>(ns);
+			klass->setStereotype("CORBAInterface");
+			klass->setAbstract(isAbstract);
+			isAbstract = false;
+			if (source[++srcIndex] == ";")   // forward declaration
+				continue;
+			if (source[srcIndex] == ":") {
+				while (++srcIndex < srcLength && source[srcIndex] != "{") {
+					const QString& baseName = source[srcIndex];
+					importer->createGeneralization(klass, baseName);
+					if (source[++srcIndex] != ",")
+						break;
+				}
+			}
+			if (source[srcIndex] != "{") {
+				kdError() << "importIDL: ignoring excess chars at "
+					  << name << endl;
+				skipStmt("{");
+			}
+			continue;
+		}
+		if (keyword == "struct" || keyword == "exception") {
+			const QString& name = source[++srcIndex];
+			UMLObject *ns = importer->createUMLObject(Uml::ot_Class,
+								  name, scope[scopeIndex]);
+			scope[++scopeIndex] = klass = static_cast<UMLClass*>(ns);
+			if (keyword == "struct")
+				klass->setStereotype("CORBAStruct");
+			else
+				klass->setStereotype("CORBAException");
 			if (source[++srcIndex] != "{") {
 				kdError() << "importIDL: expecting '{' at " << name << endl;
 				skipStmt("{");
 			}
 			continue;
 		}
-		if (keyword == "union" || keyword == "exception") {
+		if (keyword == "union") {
 			// TBD. <gulp>
-			while (++srcIndex < srcLength) {
-				if (source[srcIndex] == "}") {
-					srcIndex++;  // skip ';'
-					break;
-				}
-			}
+			skipStmt("}");
+			srcIndex++;  // advance to ';'
 			continue;
 		}
 		if (keyword == "enum") {
@@ -198,13 +215,12 @@ void parseFile(QString filename) {
 			const QString& name = source[++srcIndex];
 			UMLObject *ns = importer->createUMLObject(Uml::ot_Class,
 								  name, scope[scopeIndex]);
-			scope[++scopeIndex] = classifier = static_cast<UMLClassifier*>(ns);
-			classifier->setAbstract(isAbstract);
+			scope[++scopeIndex] = klass = static_cast<UMLClass*>(ns);
+			klass->setAbstract(isAbstract);
 			isAbstract = false;
 			if (source[++srcIndex] == ";")   // forward declaration
 				continue;
 			if (source[srcIndex] == ":") {
-				UMLClass *klass = static_cast<UMLClass*>(classifier);
 				if (source[++srcIndex] == "truncatable")
 					srcIndex++;
 				while (srcIndex < srcLength && source[srcIndex] != "{") {
@@ -267,15 +283,14 @@ void parseFile(QString filename) {
 			skipStmt();
 			continue;
 		}
-		// At this point we most definitely need a classifier.
-		if (classifier == NULL) {
-			kdError() << "importIDL: no classifier set for "
-				  << name << endl;
+		// At this point we most definitely need a class.
+		if (klass == NULL) {
+			kdError() << "importIDL: no class set for " << name << endl;
 			continue;
 		}
 		if (source[++srcIndex] == "(") {
 			// operation
-    			UMLOperation *op = importer->makeOperation(classifier, name);
+    			UMLOperation *op = importer->makeOperation(klass, name);
 			srcIndex++;
 			while (srcIndex < srcLength && source[srcIndex] != ")") {
 				const QString &direction = source[srcIndex++];
@@ -292,17 +307,12 @@ void parseFile(QString filename) {
 					break;
 				srcIndex++;
 			}
-    			importer->insertMethod( classifier, op, Uml::Public, typeName, false, false);
+    			importer->insertMethod( klass, op, Uml::Public, typeName, false, false);
 			skipStmt();  // skip possible "raises" clause
 			continue;
 		}
 		// At this point we know it's some kind of attribute declaration.
-		UMLClass *klass = dynamic_cast<UMLClass*>(classifier);
-		if (klass)
-			importer->insertAttribute( klass, currentAccess, name, typeName);
-		else
-			kdDebug() << "importIDL: attributes of interfaces are Not Yet Implemented"
-				  << endl;
+		importer->insertAttribute( klass, currentAccess, name, typeName);
 		currentAccess = Uml::Public;
 		if (source[srcIndex] != ";") {
 			kdError() << "importIDL: ignoring trailing items at " << name << endl;
