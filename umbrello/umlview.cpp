@@ -205,12 +205,11 @@ UMLView::~UMLView() {
 	// on deletion of each removed widget
 	blockSignals( true );
 	removeAllWidgets();
-	if ( canvas() != NULL ) {
-		// Qt Doc for QCanvasView::~QCanvasView () states:
-		// "Destroys the canvas view. The associated canvas is not deleted."
-		// we should do it now
-		delete canvas();
-	}
+
+	// Qt Doc for QCanvasView::~QCanvasView () states:
+	// "Destroys the canvas view. The associated canvas is not deleted."
+	// we should do it now
+	delete canvas();
 }
 
 QString UMLView::getName() const {
