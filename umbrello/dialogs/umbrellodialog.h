@@ -17,7 +17,7 @@ class UmbrelloDialog : public KDialogBase
 {
 public:
 	UmbrelloDialog( QWidget *parent = 0L, int dialogType = IconList, const char *name = 0, bool modal = true, 
-	                const QString &caption = "Umbrello UML Modeler", int buttonMask = Ok | Apply | Cancel);
+	                const QString &caption = "Umbrello UML Modeller", int buttonMask = Ok | Apply | Cancel);
 	
 	virtual ~UmbrelloDialog();
 	

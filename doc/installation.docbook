@@ -7,7 +7,7 @@
 The easiest way to install &umbrello; is to get a pre-compiled binary package for your system.
 
 <!-- If you are running Linux, chances are that your distribution
-includes Umbrello UML Modeler, so you can install it directly from
+includes Umbrello UML Modeller, so you can install it directly from
 your CDs. FIXME not true as far as I know -->
 
 <!-- LW: Above is absolutely true now that it's part of KDE -->
@@ -132,7 +132,7 @@ Once you have installed &umbrello;, you can run it from any command line by typi
 </para>
 <para>
 Or by selecting the entry from the &kmenu;.
-The program is located under the <guimenu>Development</guimenu> menu as <guimenuitem>Umbrello UML Modeler</guimenuitem>.
+The program is located under the <guimenu>Development</guimenu> menu as <guimenuitem>Umbrello UML Modeller</guimenuitem>.
 </para>
 
 <screenshot>

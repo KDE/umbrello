@@ -1489,7 +1489,7 @@ void UMLApp::initLibraries() {
 	//////// Register new libraries
 	if(!libsFound.isEmpty()) {
 
-		KMessageBox::information(this,i18n("Umbrello UML Modeler found new code generation libraries.\nPlease select the languages you want to use."),
+		KMessageBox::information(this,i18n("Umbrello UML Modeller found new code generation libraries.\nPlease select the languages you want to use."),
 		                         i18n("New Libraries Found"));
 
 		SelectLanguagesDlg d(this);
@@ -1519,7 +1519,7 @@ void UMLApp::initLibraries() {
 			str += *it + "\n";
 
 
-		KMessageBox::information(this,i18n("The following libraries are registered in Umbrello UML Modeler\
+		KMessageBox::information(this,i18n("The following libraries are registered in Umbrello UML Modeller\
 		                                   for code generation but can not be found. They will be removed from the configuration.\n")+ str);
 		//maybe show the path were the libs were looked for?
 
