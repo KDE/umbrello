@@ -1942,8 +1942,10 @@ void UMLView::addAssocInViewAndDoc(AssociationWidget* a) {
 	{
 		// if view went ok, then append in document
 		getDocument() -> addAssociation (a->getAssociation());
-	} else
-		kdError() << "cannot addAssocInViewAndDoc()" << endl;
+	} else { 
+		kdError() << "cannot addAssocInViewAndDoc(), deleting" << endl;
+		delete a;
+	}
 
 }
 
@@ -3416,7 +3418,6 @@ bool UMLView::loadAssociationsFromXMI( QDomElement & qElement ) {
 				kdError() << "couldn't loadFromXMI association widget:"
 				          << assoc << ", bad XMI file? Deleting from umlview."
 					  << endl;
-//				assoc->cleanup();
 				delete assoc;
 				/* return false;
 				   Returning false here is a little harsh when the
@@ -3425,7 +3426,7 @@ bool UMLView::loadAssociationsFromXMI( QDomElement & qElement ) {
 			} else {
 				if(!addAssociation(assoc, false))
 				{
-					kdError()<<"COULDNT addAssociation("<<assoc<<") to umlview, deleting."<<endl;
+					kdError()<<"Couldnt addAssociation("<<assoc<<") to umlview, deleting."<<endl;
 //					assoc->cleanup();
 					delete assoc;
 					//return false; // soften error.. may not be that bad
