@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui>
-<kpartgui name="umbrello" version="1.1">
+<kpartgui name="umbrello" version="11">
 <MenuBar>
   <Menu name="edit"><text>&amp;Edit</text>
     <Action name="delete_selected"/>
