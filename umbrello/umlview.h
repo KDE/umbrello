@@ -48,7 +48,7 @@ using namespace Uml;
 
 /** The UMLView class provides the view widget for the UMLApp
  * instance.  The View instance inherits QWidget as a base class and
- * represents the view object of a KTMainWindow. As UMLView is part of
+ * represents the view object of a KMainWindow. As UMLView is part of
  * the document-view model, it needs a reference to the document
  * object connected with it by the UMLApp class to manipulate and
  * display the document structure provided by the UMLDoc class.
