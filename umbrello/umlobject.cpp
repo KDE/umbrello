@@ -340,6 +340,10 @@ bool UMLObject::resolveRef() {
 		maybeSignalObjectCreated();
 		return true;
 	}
+#ifdef VERBOSE_DEBUGGING
+	kdDebug() << "UMLObject::resolveRef(" << m_Name << "): m_SecondaryId is "
+		  << m_SecondaryId << endl;
+#endif
 	UMLDoc *pDoc = UMLApp::app()->getDocument();
 	// In the new, XMI standard compliant save format,
 	// the type is the xmi.id of a UMLClassifier.
@@ -367,12 +371,14 @@ bool UMLObject::resolveRef() {
 	}
 	// Work around UMLDoc::createUMLObject()'s incapability
 	// of on-the-fly scope creation:
-	m_SecondaryId.replace("::", ".");
-	m_pSecondary = pDoc->findUMLObject( m_SecondaryId, Uml::ot_UMLObject, this );
-	if (m_pSecondary) {
-		m_SecondaryId = "";
-		maybeSignalObjectCreated();
-		return true;
+	if (m_SecondaryId.contains("::")) {
+		m_SecondaryId.replace("::", ".");
+		m_pSecondary = pDoc->findUMLObject( m_SecondaryId, Uml::ot_UMLObject, this );
+		if (m_pSecondary) {
+			m_SecondaryId = "";
+			maybeSignalObjectCreated();
+			return true;
+		}
 	}
 	kdDebug() << "UMLObject::resolveRef: Creating new type for "
 		  << m_SecondaryId << endl;
