@@ -8,12 +8,15 @@
  ***************************************************************************/
  
 #include "diagram.h"
-#include "classwidget.h"
-#include "actorwidget.h"
+#include "widgetfactory.h"
+#include "diagramelement.h"
+#include "umlwidget.h"
 
 #include "../umldoc.h"
-#include "../umlobject.h"
 
+//include declarations of umlobject and subclasses
+//needed for the RTTI
+#include "../umlobject.h"
 #include "../concept.h"
 #include "../interface.h"
 #include "../package.h"
@@ -26,9 +29,11 @@
 #include "../clipboard/umldrag.h"
 #include "../umllistviewitemdatalist.h"
 
+
 #include <typeinfo>
 #include <algorithm>
 #include <list>
+
 #include <qpopupmenu.h>
 #include <qcolor.h>
 
@@ -114,50 +119,51 @@ void Diagram::moveSelectedBy(int x, int y)
 }
 
 
-void Diagram::createWidget( uint umlObjectID, const QPoint &pos)
+void Diagram::createUMLWidget( uint umlObjectID, const QPoint &pos)
 {
 	UMLObject* o = 0;
 	o = m_doc->findUMLObject(umlObjectID);
 	if(!o)
 	{
-		kdWarning()<<"Diagram::createWidget(uint,QPoint): object with id = "
+		kdWarning()<<"Diagram::createUMLWidget(uint,QPoint): object with id = "
 			<<umlObjectID<<" not found in document"<<endl;
  		return;
 	}
-	createWidget(o,pos);
+	createUMLWidget(o,pos);
 }
 
-void Diagram::createWidget( UMLObject *obj, const QPoint &pos)
+void Diagram::createUMLWidget( UMLObject *obj, const QPoint &pos)
 {
 
-	UMLWidget *w = 0L;
-	const std::type_info &type = typeid(*obj);
-	if(!acceptType(type))
-	{kdDebug()<<"type "<<type.name()<<"not accepted by diagram.(diagram type ="<<m_type<<")"<<endl;
+	if(!( acceptType(typeid(*obj)) ))
+	{
+		kdDebug()<<"type "<<typeid(*obj).name()
+			<<"not accepted by diagram.(diagram type ="<<m_type<<")"<<endl;
 		return;
 	}
-	
-	int widgetId = m_doc->getUniqueID();
-	if( type == typeid(UMLClass) )
+	DiagramElement *w;
+	if( w = WidgetFactory::createUMLWidget(obj,this) )
 	{
-		w = w = new ClassWidget(this,widgetId,dynamic_cast<UMLClass*>(obj));
+		w->moveAbs(pos.x(),pos.y());
+		w->show();
+		update();
+		emit modified();
 	}
-	else if ( type == typeid(UMLActor) )
+}
+
+void Diagram::createCustomWidget( int type, const QPoint &pos )
+{
+	//since these widgets have no real meaning in the
+	//model, we dont need any checks: they are allways accepted
+	DiagramElement *w = WidgetFactory::createCustomWidget( type, this );
+	if(!w)
 	{
-		w = new ActorWidget(this,widgetId,dynamic_cast<UMLActor*>(obj));
+		return;
 	}
-	//else if ( type == typeid(...) )
-	else
-	{
-		kdDebug()<<"Widget fot type "<<type.name()<<" not yet implemented"<<endl;
-	}
-		
 	w->moveAbs(pos.x(),pos.y());
 	w->show();
 	update();
-	
 	emit modified();
-
 }
 
 
@@ -166,44 +172,6 @@ bool Diagram::acceptType(const std::type_info &type)
 return (find((allowedTypes[m_type]).begin(),
 		     (allowedTypes[m_type]).end(),
 		     &type) != allowedTypes[m_type].end());
-
-}
-
-bool Diagram::canAcceptDrop(QDropEvent *e)
-{
-	UMLListViewItemDataList list;
-	bool status = UMLDrag::decode(e,list);
-	if(!status)
-	{
-		return false;
-	}
-
-	UMLListViewItemDataListIt it(list);
-	UMLListViewItemData* data = it.current();
-	UMLObject* o = 0;
-	o = m_doc->findUMLObject(data->getID());
-	if(!o)
-	{
-		kdWarning()<<"object with id = "<<data->getID()<<" not found in document"<<endl;
- 		return false;
-	}
-	return acceptType(typeid(*o));
-	
-// see if we are trying to drop elements from our own model
-	//if (m_doc->hasObjects(x))
-	//{
-	
-	//}
-	//else
-	//{
-// see if the model can accept the data being draged	
-	//m_doc->canAcceptDrop(x);
-	//if yes, we have two options:
-	// if the data is accepted by both, the model and the diagram add it to both
-	// if it is accepted by the model but not by the diagram we can 1) just reject
-	// the drop, or add the data to the model but not to the diagram
-	//}
-	
 }
 
 void Diagram::dragEnterEvent(QDragEnterEvent *e)
@@ -219,7 +187,6 @@ void Diagram::dropEvent(QDropEvent *e)
 	{
 		return;
 	}
-
 	UMLListViewItemDataListIt it(list);
 	UMLListViewItemData* data = it.current();
 	UMLObject* o = 0;
@@ -229,39 +196,34 @@ void Diagram::dropEvent(QDropEvent *e)
 		kdDebug()<<"object with id = "<<data->getID()<<" not found in document"<<endl;
  		return;
 	}
-	
-	//depending on what type we are.. for now we are only class diagrams
-	UMLClass *umlClass = dynamic_cast<UMLClass*>(o);
-	if(!umlClass)
+	createUMLWidget(o,e->pos());
+}
+
+bool Diagram::canAcceptDrop(QDropEvent *e)
+{
+	UMLListViewItemDataList list;
+	bool status = UMLDrag::decode(e,list);
+	if(!status)
 	{
-		kdDebug()<<"object found, but is not a class. not accepted!"<<endl;
-		kdDebug()<<"rtti is "<<typeid(o).name()<<endl;
-		return;
-	}
-	int widgetId = m_doc->getUniqueID();
-	kdDebug()<<"creating widget with id = "<<widgetId<<endl;
-	ClassWidget *wid = new ClassWidget(this,widgetId,umlClass); 
-	wid->moveAbs(e->pos().x(),e->pos().y());
-	wid->show();
-	update();
-	
-	m_doc->setModified(true);
-	
-	//////FIXME
-	/*This will be removed. a port of the drag and drop mechanism
-	//is needed. make it based on the XMI info
-	//FIXME	UMLListViewItemDataList list;
-	bool status = UMLDrag::decode(e, list);
-		if(!status) {
-		return;
+		return false;
 	}
 
 	UMLListViewItemDataListIt it(list);
 	UMLListViewItemData* data = it.current();
-	
-//FIXME endl*/
-
+	UMLObject* o = 0;
+	if( !(o = m_doc->findUMLObject(data->getID())) )
+	{
+		kdWarning()<<"object with id = "<<data->getID()<<" not found in document"<<endl;
+ 		return false;
+	}
+	return acceptType(typeid(*o));
+//FIXME - change UMLDrag - make it XMI based
+// check if we are droping elements from another model (ie, from another instance of
+// umbrello or another program which also "exports" XMI
+// if we the drag comes from another app, check if the document (model) accepts it.
+// and check if the diagram accepts it as well.	
 }
+
 
 UMLDoc* Diagram::document() const
 {

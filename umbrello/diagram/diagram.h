@@ -46,8 +46,20 @@ public:
 	virtual void dragEnterEvent(QDragEnterEvent *e);
 	virtual void dropEvent(QDropEvent *e);
 	
-	void createWidget( uint umlObjectID, const QPoint &pos);
-	void createWidget( UMLObject *obj, const QPoint &pos);
+	/** Create a Widget which represents the UMLObject with id umlObjectID
+	*   The widget will only be created if the diagram allows that kind of object
+	*/
+	void createUMLWidget( uint umlObjectID, const QPoint &pos);
+	/** Create a Widget which represents the UMLObject obj
+	*   The widget will only be created if the diagram allows that kind of object
+	*/
+	void createUMLWidget( UMLObject *obj, const QPoint &pos);
+	
+	/** Creates a Non-UML Widget in the Diagram. These widgets exist only
+	* in the diagram (they do not exist in the UML Model (UMLDoc)
+	* FIXME temp only: type = note, text, box, ellipse, etc
+	**/
+	void createCustomWidget( int type, const QPoint &pos);
 	
 	void fillContextMenu(QPopupMenu &menu) const;
 	
@@ -75,7 +87,7 @@ protected:
 
 	DiagramType m_type;
 	UMLDoc *m_doc;
-	int m_id;	
+	int m_id;
 	QString m_name;
 	
 	QPen m_pen;
