@@ -344,11 +344,10 @@ class UMLListView : public KListView {
 	 * Converts a list view type enum to the equivalent object type.
 	 *
 	 * @param lvt		The ListView_Type to convert.
-	 * @param ot		The converted UMLObject_Type.
-	 * @return	True if conversion was successful, i.e. the listview
-	 *		type has a UMLObject_Type representation.
+	 * @return	The converted UMLObject_Type if the listview type
+	 *		has a UMLObject_Type representation, else 0.
 	 */
-	static bool convert_LVT_OT(Uml::ListView_Type lvt, Uml::UMLObject_Type& ot);
+	static Uml::UMLObject_Type convert_LVT_OT(Uml::ListView_Type lvt);
 
 	/**
 	 * 	Loads the pixmaps to use in the list items.

@@ -1275,9 +1275,8 @@ Uml::ListView_Type UMLListView::convert_OT_LVT(Uml::UMLObject_Type ot) {
 	return type;
 }
 
-bool
-UMLListView::convert_LVT_OT(Uml::ListView_Type lvt, Uml::UMLObject_Type& ot) {
-	ot = (Uml::UMLObject_Type)0;
+Uml::UMLObject_Type UMLListView::convert_LVT_OT(Uml::ListView_Type lvt) {
+	Uml::UMLObject_Type ot = (Uml::UMLObject_Type)0;
 	switch (lvt) {
 	case Uml::lvt_UseCase:
 		ot = Uml::ot_UseCase;
@@ -1333,7 +1332,7 @@ UMLListView::convert_LVT_OT(Uml::ListView_Type lvt, Uml::UMLObject_Type& ot) {
 	default:
 		break;
 	}
-	return ((int)ot != 0);
+	return ot;
 }
 
 QPixmap & UMLListView::getPixmap( Icon_Type type ) {
@@ -1743,8 +1742,8 @@ bool UMLListView::slotItemRenamed( QListViewItem * item , int /*col*/ ) {
 	case Uml::lvt_Enum:
 	case Uml::lvt_UseCase:
 	{
-		Uml::UMLObject_Type ot;
-		if (! convert_LVT_OT(type, ot)) {
+		Uml::UMLObject_Type ot = convert_LVT_OT(type);
+		if (! ot) {
 			kdError() << "UMLListView::slotItemRenamed() internal" << endl;
 			return false;
 		}
@@ -2027,11 +2026,14 @@ bool UMLListView::isUnique( UMLListViewItem * item, QString name ) {
 
 	case Uml::lvt_Actor:
 	case Uml::lvt_UseCase:
-	case Uml::lvt_Class:
-	case Uml::lvt_Package:
-	case Uml::lvt_Component:
 	case Uml::lvt_Node:
 	case Uml::lvt_Artifact:
+	case Uml::lvt_Component:
+		return !m_doc->findUMLObject( name, convert_LVT_OT(type) );
+		break;
+
+	case Uml::lvt_Class:
+	case Uml::lvt_Package:
 	case Uml::lvt_Interface:
 	case Uml::lvt_Datatype:
 	case Uml::lvt_Enum:
