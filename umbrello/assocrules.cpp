@@ -57,11 +57,11 @@ bool AssocRules::allowAssociation( Association_Type assocType, UMLWidget * widge
 			break;
 
 		case at_State:
-			return ( dynamic_cast<StateWidget *>( widget ) -> getStateType() != StateWidget::End );
+			return ( static_cast<StateWidget*>(widget)->getStateType() != StateWidget::End );
 			break;
 
 		case at_Activity:
-			return ( dynamic_cast<ActivityWidget *>( widget ) -> getActivityType() != ActivityWidget::End );
+			return ( static_cast<ActivityWidget*>(widget)->getActivityType() != ActivityWidget::End );
 			break;
 
 		case at_Anchor:
@@ -128,40 +128,42 @@ bool AssocRules::allowAssociation( Association_Type assocType, UMLWidget * widge
 			break;
 
 		case at_State:
-			if( dynamic_cast<StateWidget *>( widgetB ) ->
-			        getStateType() == StateWidget::Initial )
+			if( static_cast<StateWidget*>(widgetB)->getStateType() == StateWidget::Initial )
 				return false;
-			if( dynamic_cast<StateWidget *>
-			        ( widgetB ) -> getStateType() == StateWidget::End &&
-			        dynamic_cast<StateWidget *>( widgetA ) -> getStateType() != StateWidget::Normal )
+			if( static_cast<StateWidget*>(widgetB)->getStateType() == StateWidget::End &&
+			    static_cast<StateWidget*>(widgetA)->getStateType() != StateWidget::Normal )
 				return false;
 			return true;
 			break;
 
 		case at_Activity:
 			// no transitions to initial activity allowed
-			if( dynamic_cast<ActivityWidget *>
-			        ( widgetB ) -> getActivityType() == ActivityWidget::Initial )
+			if( static_cast<ActivityWidget*>(widgetB)->getActivityType() ==
+			    ActivityWidget::Initial )
 				return false;
 			// only from a normal, branch or fork activity to the end
-			if( dynamic_cast<ActivityWidget *>
-			        ( widgetB ) -> getActivityType() == ActivityWidget::End &&
-							dynamic_cast<ActivityWidget *>( widgetA ) -> getActivityType() != ActivityWidget::Normal &&
-							dynamic_cast<ActivityWidget *>( widgetA ) -> getActivityType() != ActivityWidget::Branch &&
-							dynamic_cast<ActivityWidget *>( widgetA ) -> getActivityType() != ActivityWidget::Fork
-				)
+			if( static_cast<ActivityWidget*>(widgetB)->getActivityType() ==
+			    ActivityWidget::End &&
+			    static_cast<ActivityWidget*>(widgetA)->getActivityType() !=
+			    ActivityWidget::Normal &&
+			    static_cast<ActivityWidget*>(widgetA)->getActivityType() !=
+			    ActivityWidget::Branch &&
+			    static_cast<ActivityWidget*>(widgetA)->getActivityType() !=
+			    ActivityWidget::Fork ) {
 					return false;
+			}
 			// only Forks and Branches can have more than one "outgoing" transition
-			if( dynamic_cast<ActivityWidget *>
-			        ( widgetA ) -> getActivityType() != ActivityWidget::Fork &&
-					dynamic_cast<ActivityWidget *>
-			        ( widgetA ) -> getActivityType() != ActivityWidget::Branch )
-					{
-						QList<AssociationWidget> list = widgetA->getData()->getAssocList();
-						for (AssociationWidget *assoc = list.first(); assoc; assoc = list.next())
-								if( assoc->getWidgetA() == widgetA)
-										return false;
+			if( static_cast<ActivityWidget*>(widgetA)->getActivityType() !=
+			    ActivityWidget::Fork &&
+			    static_cast<ActivityWidget*>(widgetA)->getActivityType() !=
+			    ActivityWidget::Branch ) {
+				QList<AssociationWidget> list = widgetA->getData()->getAssocList();
+				for (AssociationWidget* assoc = list.first(); assoc; assoc = list.next()) {
+					if (assoc->getWidgetA() == widgetA) {
+						return false;
 					}
+				}
+			}
 			return true;
 			break;
 

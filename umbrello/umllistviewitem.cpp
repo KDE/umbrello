@@ -208,7 +208,7 @@ void UMLListViewItem::okRename( int col ) {
 		case Uml::lvt_Operation:
 			object = m_Data.getUMLObject();
 			if( object ) {
-				parent = dynamic_cast<UMLConcept *>( object -> parent() );
+				parent = static_cast<UMLConcept *>( object -> parent() );
 				//see if op already has that name and not the op/att we are renaming
 				//then give a warning about the name being the same
 				QPtrList<UMLObject> list = parent -> findChildObject( object -> getBaseType(), newText );
@@ -228,7 +228,7 @@ void UMLListViewItem::okRename( int col ) {
 		case Uml::lvt_Attribute:
 			object = m_Data.getUMLObject();
 			if( object ) {
-				parent = dynamic_cast<UMLConcept *>( object -> parent() );
+				parent = static_cast<UMLConcept *>( object -> parent() );
 				QPtrList<UMLObject> list = parent -> findChildObject( object -> getBaseType(), newText );
 				if (list.isEmpty()) {
 					object -> setName( newText );

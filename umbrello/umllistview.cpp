@@ -576,7 +576,7 @@ void UMLListView::setView(UMLView * v) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLListView::contentsMouseDoubleClickEvent(QMouseEvent * me) {
-	UMLListViewItem * item = dynamic_cast<UMLListViewItem *>( currentItem() );
+	UMLListViewItem * item = static_cast<UMLListViewItem *>( currentItem() );
 	if( !item || me -> button() != LeftButton )
 		return;
 	//see if on view
@@ -1298,74 +1298,74 @@ void UMLListView::slotCutSuccessful() {
 
 void UMLListView::addNewItem( QListViewItem * parent, Uml::ListView_Type type ) {
 	QString name = i18n("folder");
-	UMLListViewItem * newItem = dynamic_cast<UMLListViewItem *>( parent );//used for att/ops - rest overwrite
+	UMLListViewItem * newItem = static_cast<UMLListViewItem *>( parent );//used for att/ops - rest overwrite
 	UMLConcept * childParent = 0;
 	parent -> setOpen( true );
 	switch( type ) {
 		case Uml::lvt_UseCase_Folder:
 		case Uml::lvt_Logical_Folder:
-			newItem = new UMLListViewItem( dynamic_cast<UMLListViewItem *>( parent ), name, type, -1 );
+			newItem = new UMLListViewItem( static_cast<UMLListViewItem *>( parent ), name, type, -1 );
 			break;
 
 		case Uml::lvt_Actor:
 			name = getUniqueUMLObjectName( Uml::ot_Actor );
-			newItem = new UMLListViewItem( dynamic_cast<UMLListViewItem *>( parent ), name, type, (UMLObject *)0 );
+			newItem = new UMLListViewItem( static_cast<UMLListViewItem *>( parent ), name, type, (UMLObject *)0 );
 			newItem -> setPixmap( 0, getPixmap( it_Actor ) );
 			break;
 
 		case Uml::lvt_Class:
 			name = getUniqueUMLObjectName( Uml::ot_Concept );
-			newItem = new UMLListViewItem( dynamic_cast<UMLListViewItem *>( parent ), name, type, (UMLObject *)0 );
+			newItem = new UMLListViewItem( static_cast<UMLListViewItem *>( parent ), name, type, (UMLObject *)0 );
 			newItem -> setPixmap( 0, getPixmap( it_Class ) );
 			break;
 
 		case Uml::lvt_Attribute:
-			childParent = dynamic_cast<UMLConcept *>( newItem -> getdata() -> getUMLObject() );
+			childParent = static_cast<UMLConcept *>( newItem -> getdata() -> getUMLObject() );
 			name = getUniqueChildUMLObjectName( childParent, Uml::ot_Attribute );
-			newItem = new UMLListViewItem( dynamic_cast<UMLListViewItem *>( parent ), name, type, (UMLObject *)0 );
+			newItem = new UMLListViewItem( static_cast<UMLListViewItem *>( parent ), name, type, (UMLObject *)0 );
 			newItem -> setPixmap( 0, getPixmap( it_Public_Attribute ) );
 			break;
 
 		case Uml::lvt_Operation:
-			childParent = dynamic_cast<UMLConcept *>( newItem -> getdata() -> getUMLObject() );
+			childParent = static_cast<UMLConcept *>( newItem -> getdata() -> getUMLObject() );
 			name = getUniqueChildUMLObjectName( childParent, Uml::ot_Operation );
-			newItem = new UMLListViewItem( dynamic_cast<UMLListViewItem *>( parent ), name, type, (UMLObject *)0 );
+			newItem = new UMLListViewItem( static_cast<UMLListViewItem *>( parent ), name, type, (UMLObject *)0 );
 			newItem -> setPixmap( 0, getPixmap( it_Public_Method ) );
 			break;
 
 		case Uml::lvt_UseCase:
 			name = getUniqueUMLObjectName( Uml::ot_UseCase );
-			newItem = new UMLListViewItem( dynamic_cast<UMLListViewItem *>( parent ), name, type, (UMLObject *)0 );
+			newItem = new UMLListViewItem( static_cast<UMLListViewItem *>( parent ), name, type, (UMLObject *)0 );
 			newItem -> setPixmap( 0, getPixmap( it_UseCase ) );
 			break;
 
 		case Uml::lvt_Class_Diagram:
 			name = getUniqueDiagramName( Uml::dt_Class );
-			newItem = new UMLListViewItem( dynamic_cast<UMLListViewItem *>( parent ), name, type, -1 );
+			newItem = new UMLListViewItem( static_cast<UMLListViewItem *>( parent ), name, type, -1 );
 			break;
 
 		case Uml::lvt_UseCase_Diagram:
 			name = getUniqueDiagramName( Uml::dt_UseCase );
-			newItem = new UMLListViewItem( dynamic_cast<UMLListViewItem *>( parent ), name, type, -1 );
+			newItem = new UMLListViewItem( static_cast<UMLListViewItem *>( parent ), name, type, -1 );
 			break;
 
 		case Uml::lvt_Sequence_Diagram:
 			name = getUniqueDiagramName( Uml::dt_Sequence );
-			newItem = new UMLListViewItem( dynamic_cast<UMLListViewItem *>( parent ), name, type, -1 );
+			newItem = new UMLListViewItem( static_cast<UMLListViewItem *>( parent ), name, type, -1 );
 			break;
 
 		case Uml::lvt_Collaboration_Diagram:
 			name = getUniqueDiagramName( Uml::dt_Collaboration );
-			newItem = new UMLListViewItem( dynamic_cast<UMLListViewItem *>( parent ), name, type, -1 );
+			newItem = new UMLListViewItem( static_cast<UMLListViewItem *>( parent ), name, type, -1 );
 			break;
 
 		case Uml::lvt_State_Diagram:
 			name = getUniqueDiagramName( Uml::dt_State );
-			newItem = new UMLListViewItem( dynamic_cast<UMLListViewItem *>( parent ), name, type, -1 );
+			newItem = new UMLListViewItem( static_cast<UMLListViewItem *>( parent ), name, type, -1 );
 			break;
 		case Uml::lvt_Activity_Diagram:
 			name = getUniqueDiagramName( Uml::dt_Activity );
-			newItem = new UMLListViewItem( dynamic_cast<UMLListViewItem *>( parent ), name, type, -1 );
+			newItem = new UMLListViewItem( static_cast<UMLListViewItem *>( parent ), name, type, -1 );
 			break;
 		default:
 			break;
@@ -1383,7 +1383,7 @@ bool UMLListView::slotItemRenamed( QListViewItem * item , int /*col*/ ) {
 		return true;
 	}
 	m_bIgnoreCancelRename = true;
-	UMLListViewItem * renamedItem = dynamic_cast< UMLListViewItem *>( item ) ;
+	UMLListViewItem * renamedItem = static_cast< UMLListViewItem *>( item ) ;
 	Uml::ListView_Type type = renamedItem -> getType();
 	QString newText = renamedItem -> text( 0 );
 	renamedItem -> setCreating( false );
@@ -1498,12 +1498,12 @@ void UMLListView::createUMLObject( UMLListViewItem * item, Uml::UMLObject_Type t
 
 void UMLListView::createChildUMLObject( UMLListViewItem * item, Uml::UMLObject_Type type ) {
 	QString name = item -> text( 0 );
-	UMLObject * object = dynamic_cast<UMLListViewItem *>( item -> parent() ) -> getUMLObject();
+	UMLObject * object = static_cast<UMLListViewItem *>( item -> parent() ) -> getUMLObject();
 	if( !object ) {
 		delete item;
 		return;
 	}
-	UMLConcept * parent = dynamic_cast<UMLConcept *>( object );
+	UMLConcept * parent = static_cast<UMLConcept *>( object );
 
 	if( type == Uml::ot_Attribute )
 		object = parent -> addAttribute( name, doc -> getUniqueID() );
@@ -1630,8 +1630,8 @@ QString UMLListView::getUniqueDiagramName( Uml::Diagram_Type type )
 }
 
 bool UMLListView::isUnique( UMLListViewItem * item, QString name ) {
-	UMLListViewItem * parentItem = dynamic_cast<UMLListViewItem *>( item -> parent() );
-	UMLConcept * parent = dynamic_cast<UMLConcept *>( parentItem  -> getUMLObject() );
+	UMLListViewItem * parentItem = static_cast<UMLListViewItem *>( item -> parent() );
+	UMLConcept * parent = static_cast<UMLConcept *>( parentItem  -> getUMLObject() );
 	Uml::ListView_Type type = item -> getType();
 	switch( type ) {
 		case Uml::lvt_Class_Diagram:
@@ -1753,7 +1753,7 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
 					if (!umlObject) {
 						return false;
 					}
-					umlObject = dynamic_cast<UMLConcept*>(umlObject)->findChildObject(nID);
+					umlObject = static_cast<UMLConcept*>(umlObject)->findChildObject(nID);
 					item = new UMLListViewItem( parent, label, lvType, umlObject);
 				}
 				break;

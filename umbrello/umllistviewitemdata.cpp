@@ -166,12 +166,12 @@ bool UMLListViewItemData::saveToXMI( QDomDocument & qDoc, QDomElement & qElement
 	itemElement.setAttribute( "type", m_Type );
 	itemElement.setAttribute( "label", label );
 	itemElement.setAttribute( "open", m_pItem -> isOpen() );
-	UMLListViewItem * childItem = dynamic_cast<UMLListViewItem *> ( m_pItem -> firstChild() );
+	UMLListViewItem * childItem = static_cast<UMLListViewItem *> ( m_pItem -> firstChild() );
 	while( childItem ) {
 		bool status = childItem -> getdata() -> saveToXMI( qDoc, itemElement );
 		if( !status )
 			return false;
-		childItem = dynamic_cast<UMLListViewItem *> ( childItem -> nextSibling() );
+		childItem = static_cast<UMLListViewItem *> ( childItem -> nextSibling() );
 	}
 	qElement.appendChild( itemElement );
 	return true;

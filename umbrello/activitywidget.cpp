@@ -19,7 +19,7 @@ ActivityWidget::ActivityWidget(UMLView * view, UMLWidgetData* pData)
 
 ActivityWidget::ActivityWidget(UMLView * view, ActivityType activityType )
   : UMLWidget(view, new ActivityWidgetData(view->getOptionState() )) {
-	dynamic_cast<ActivityWidgetData *>( m_pData ) -> setActivityType( activityType );
+	static_cast<ActivityWidgetData *>( m_pData ) -> setActivityType( activityType );
 	m_pData->setType(wt_Activity);
 	calculateSize();
 }
@@ -35,7 +35,7 @@ ActivityWidget::~ActivityWidget() {}
 void ActivityWidget::draw(QPainter & p, int offsetX, int offsetY) {
 	int w = width();
 	int h = height();
-	ActivityType type = dynamic_cast<ActivityWidgetData *>( m_pData )->getActivityType();
+	ActivityType type = static_cast<ActivityWidgetData *>( m_pData )->getActivityType();
 	switch ( type )
 	{
 		case Normal :
@@ -92,7 +92,7 @@ void ActivityWidget::draw(QPainter & p, int offsetX, int offsetY) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void ActivityWidget::calculateSize() {
 	int width = 10, height = 10;
-	ActivityType type = dynamic_cast<ActivityWidgetData *>( m_pData ) -> getActivityType();
+	ActivityType type = static_cast<ActivityWidgetData *>( m_pData ) -> getActivityType();
 	if( type == Normal ) {
 		QFont font = m_pData -> getFont();
 		QFontMetrics fm = QFontMetrics( font );
@@ -118,29 +118,29 @@ void ActivityWidget::synchronizeData() {
 }
 
 void ActivityWidget::setName(QString strName) {
-	dynamic_cast<ActivityWidgetData *>( m_pData ) -> setName( strName );
+	static_cast<ActivityWidgetData*>(m_pData)->setName(strName);
 	calculateSize();
 	adjustAssocs( (int)x(), (int)y() );
 }
 
 QString ActivityWidget::getName() {
-	return dynamic_cast<ActivityWidgetData *>( m_pData ) -> getName();
+	return static_cast<ActivityWidgetData*>(m_pData)->getName();
 }
 
 QString ActivityWidget::getDoc() {
-	return dynamic_cast<ActivityWidgetData *>( m_pData ) -> getDoc();
+	return static_cast<ActivityWidgetData*>(m_pData)->getDoc();
 }
 
 void ActivityWidget::setDoc( QString doc ) {
-	dynamic_cast<ActivityWidgetData *>( m_pData ) -> setDoc( doc );
+	static_cast<ActivityWidgetData*>(m_pData)->setDoc(doc);
 }
 
 ActivityWidget::ActivityType ActivityWidget::getActivityType() {
-	return dynamic_cast<ActivityWidgetData *>( m_pData ) -> getActivityType();
+	return static_cast<ActivityWidgetData*>(m_pData)->getActivityType();
 }
 
 void ActivityWidget::setActivityType( ActivityType activityType ) {
-	dynamic_cast<ActivityWidgetData *>( m_pData ) -> setActivityType( activityType );
+	static_cast<ActivityWidgetData*>(m_pData)->setActivityType(activityType);
 }
 
 void ActivityWidget::slotMenuSelection(int sel) {

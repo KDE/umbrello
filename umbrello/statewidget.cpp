@@ -19,7 +19,7 @@
 StateWidget::StateWidget(UMLView * view, UMLWidgetData* pData) : UMLWidget(view, pData) {}
 
 StateWidget::StateWidget(UMLView * view, StateType stateType ) : UMLWidget(view, new StateWidgetData(view->getOptionState() )) {
-	dynamic_cast<StateWidgetData *>( m_pData ) -> setStateType( stateType );
+	static_cast<StateWidgetData *>( m_pData ) -> setStateType( stateType );
 	m_pData->setType(wt_State);
 	calculateSize();
 }
@@ -34,7 +34,7 @@ StateWidget::~StateWidget() {}
 void StateWidget::draw(QPainter & p, int offsetX, int offsetY) {
 	int w = width();
 	int h = height();
-	StateType type = dynamic_cast<StateWidgetData *>( m_pData ) -> getStateType();
+	StateType type = static_cast<StateWidgetData *>( m_pData ) -> getStateType();
 	switch (type)
 	{
 		case Normal :
@@ -45,7 +45,7 @@ void StateWidget::draw(QPainter & p, int offsetX, int offsetY) {
 				QFontMetrics fm = QFontMetrics( m_pData -> getFont() );
 				int fontHeight  = fm.lineSpacing();
 				int textStartY = (h / 2) - (fontHeight / 2);
-				QStringList list = dynamic_cast<StateWidgetData *>( m_pData ) -> getActivityList();
+				QStringList list = static_cast<StateWidgetData *>( m_pData ) -> getActivityList();
 				int count = list.count();
 				if( count == 0 ) {
 					p.drawRoundRect(offsetX, offsetY, w, h, (h*40)/w, (w*40)/h);
@@ -99,14 +99,13 @@ void StateWidget::draw(QPainter & p, int offsetX, int offsetY) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void StateWidget::calculateSize() {
 	int width = 10, height = 10;
-	if( dynamic_cast<StateWidgetData *>( m_pData ) ->
-	        getStateType() == Normal ) {
+	if( static_cast<StateWidgetData*>(m_pData)->getStateType() == Normal ) {
 		QFont font = m_pData -> getFont();
 		font.setBold( true );//use bold for all calculations
 		QFontMetrics fm = QFontMetrics( font );
 		int fontHeight  = fm.lineSpacing();
 		int textWidth = fm.width(getName());
-		QStringList list = dynamic_cast<StateWidgetData *>( m_pData ) -> getActivityList();
+		QStringList list = static_cast<StateWidgetData *>( m_pData ) -> getActivityList();
 		int count = list.count();
 		height = fontHeight;
 		if( count > 0 ) {
@@ -131,29 +130,29 @@ void StateWidget::synchronizeData() {
 }
 
 void StateWidget::setName(QString strName) {
-	dynamic_cast<StateWidgetData *>( m_pData ) -> setName( strName );
+	static_cast<StateWidgetData *>( m_pData ) -> setName( strName );
 	calculateSize();
 	adjustAssocs( (int)x(), (int)y() );
 }
 
 QString StateWidget::getName() {
-	return dynamic_cast<StateWidgetData *>( m_pData ) -> getName();
+	return static_cast<StateWidgetData *>( m_pData ) -> getName();
 }
 
 QString StateWidget::getDoc() {
-	return dynamic_cast<StateWidgetData *>( m_pData ) -> getDoc();
+	return static_cast<StateWidgetData *>( m_pData ) -> getDoc();
 }
 
 void StateWidget::setDoc( QString doc ) {
-	dynamic_cast<StateWidgetData *>( m_pData ) -> setDoc( doc );
+	static_cast<StateWidgetData *>( m_pData ) -> setDoc( doc );
 }
 
 StateWidget::StateType StateWidget::getStateType() {
-	return dynamic_cast<StateWidgetData *>( m_pData ) -> getStateType();
+	return static_cast<StateWidgetData *>( m_pData ) -> getStateType();
 }
 
 void StateWidget::setStateType( StateType stateType ) {
-	dynamic_cast<StateWidgetData *>( m_pData ) -> setStateType( stateType );
+	static_cast<StateWidgetData *>( m_pData ) -> setStateType( stateType );
 }
 
 void StateWidget::slotMenuSelection(int sel) {
@@ -196,7 +195,7 @@ void StateWidget::mouseDoubleClickEvent(QMouseEvent * /*me*/) {
 }
 
 bool StateWidget::addActivity( QString activity ) {
-	bool result = dynamic_cast<StateWidgetData *>( m_pData ) -> addActivity( activity );
+	bool result = static_cast<StateWidgetData *>( m_pData ) -> addActivity( activity );
 	if( result ) {
 		calculateSize();
 	}
@@ -204,7 +203,7 @@ bool StateWidget::addActivity( QString activity ) {
 }
 
 bool StateWidget::removeActivity( QString activity ) {
-	bool result = dynamic_cast<StateWidgetData *>( m_pData ) -> removeActivity( activity );
+	bool result = static_cast<StateWidgetData *>( m_pData ) -> removeActivity( activity );
 	if( result ) {
 		calculateSize();
 	}
@@ -212,16 +211,16 @@ bool StateWidget::removeActivity( QString activity ) {
 }
 
 void StateWidget::setActivities( QStringList & list ) {
-	dynamic_cast<StateWidgetData *>( m_pData ) -> setActivities( list );
+	static_cast<StateWidgetData *>( m_pData ) -> setActivities( list );
 	calculateSize();
 }
 
 QStringList & StateWidget::getActivityList() {
-	return dynamic_cast<StateWidgetData *>( m_pData ) -> getActivityList();
+	return static_cast<StateWidgetData *>( m_pData ) -> getActivityList();
 }
 
 bool StateWidget::renameActivity( QString activity, QString newName ) {
-	return dynamic_cast<StateWidgetData *>( m_pData ) -> renameActivity( activity, newName );
+	return static_cast<StateWidgetData *>( m_pData ) -> renameActivity( activity, newName );
 }
 
 

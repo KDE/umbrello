@@ -480,8 +480,9 @@ void LinePath::createHeadLines() {
 	ActivityWidget * pActivity = 0;
 	switch( getAssocType() ) {
 		case at_Activity:
-			if( m_pAssociation )
-				pActivity = dynamic_cast<ActivityWidget *>( m_pAssociation -> getWidgetB() );
+			if( m_pAssociation ) {
+				pActivity = static_cast<ActivityWidget*>( m_pAssociation->getWidgetB() );
+			}
 			line = new QCanvasLine( canvas );
 			line -> setZ( 0 );
 			line -> setPen( pen );

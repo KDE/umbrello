@@ -340,28 +340,28 @@ bool UMLViewData::serializeWidgets( QDataStream * stream, bool bArchive, int fil
 				Uml::UMLWidget_Type type = (Uml::UMLWidget_Type)nType;
 				if( type == wt_UseCase ) {
 					UseCaseWidgetData * uc = new UseCaseWidgetData(getOptionState() );
-					widgetData = dynamic_cast<UMLWidgetData *>( uc );
+					widgetData = static_cast<UMLWidgetData *>( uc );
 				} else if( type == wt_Actor ) {
 					ActorWidgetData * a = new ActorWidgetData(getOptionState() );
-					widgetData = dynamic_cast<UMLWidgetData *>( a );
+					widgetData = static_cast<UMLWidgetData *>( a );
 				} else if( type == wt_Class ) {
 					ConceptWidgetData * c = new ConceptWidgetData(getOptionState() );
-					widgetData = dynamic_cast<UMLWidgetData *>( c );
+					widgetData = static_cast<UMLWidgetData *>( c );
 				} else if( type == wt_Object ) {
 					ObjectWidgetData * o = new ObjectWidgetData(getOptionState() );
-					widgetData = dynamic_cast<UMLWidgetData *>( o );
+					widgetData = static_cast<UMLWidgetData *>( o );
 				} else if( type == wt_Note ) {
 					NoteWidgetData * n = new NoteWidgetData(getOptionState() );
-					widgetData = dynamic_cast<UMLWidgetData *>( n );
+					widgetData = static_cast<UMLWidgetData *>( n );
 				} else if( type == wt_Text ) {
 					FloatingTextData * ft = new FloatingTextData();
-					widgetData = dynamic_cast<UMLWidgetData *>( ft );
+					widgetData = static_cast<UMLWidgetData *>( ft );
 				} else if( type == wt_State ) {
 					StateWidgetData * s = new StateWidgetData(getOptionState() );
-					widgetData = dynamic_cast<UMLWidgetData *>( s );
+					widgetData = static_cast<UMLWidgetData *>( s );
 				} else if( type == wt_Activity ) {
 					ActivityWidgetData * a = new ActivityWidgetData(getOptionState() );
-					widgetData = dynamic_cast<UMLWidgetData *>( a );
+					widgetData = static_cast<UMLWidgetData *>( a );
 				} else {
 					kdDebug()<<"UMLViewData::error: trying to load bad widget type."<<endl;
 					return false;
@@ -377,22 +377,22 @@ bool UMLViewData::serializeWidgets( QDataStream * stream, bool bArchive, int fil
 			while(stype != "_ENDWIDGETS_") {
 				if( stype == "USECASE" ) {
 					UseCaseWidgetData * uc = new UseCaseWidgetData(m_Options);
-					widgetData = dynamic_cast<UMLWidgetData *>( uc );
+					widgetData = static_cast<UMLWidgetData *>( uc );
 				} else if( stype == "ACTOR" ) {
 					ActorWidgetData * a = new ActorWidgetData(m_Options);
-					widgetData = dynamic_cast<UMLWidgetData *>( a );
+					widgetData = static_cast<UMLWidgetData *>( a );
 				} else if( stype == "CONCEPT" ) {
 					ConceptWidgetData * c = new ConceptWidgetData(m_Options);
-					widgetData = dynamic_cast<UMLWidgetData *>( c );
+					widgetData = static_cast<UMLWidgetData *>( c );
 				} else if( stype == "OBJECT" ) {
 					ObjectWidgetData * o = new ObjectWidgetData(m_Options);
-					widgetData = dynamic_cast<UMLWidgetData *>( o );
+					widgetData = static_cast<UMLWidgetData *>( o );
 				} else if( stype == "NOTE" ) {
 					NoteWidgetData * n = new NoteWidgetData(m_Options);
-					widgetData = dynamic_cast<UMLWidgetData *>( n );
+					widgetData = static_cast<UMLWidgetData *>( n );
 				} else if( stype == "FLOATTEXT" ) {
 					FloatingTextData * ft = new FloatingTextData();
-					widgetData = dynamic_cast<UMLWidgetData *>( ft );
+					widgetData = static_cast<UMLWidgetData *>( ft );
 				} else {
 					kdDebug()<<"UMLViewData::error: trying to load bad widget type. (" << stype << ")" <<endl;
 					return false;

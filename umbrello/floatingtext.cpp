@@ -367,11 +367,11 @@ void FloatingText::setMessage(MessageWidget* m) {
 }
 
 void FloatingText::setRole(Text_Role Role) {
-	dynamic_cast<FloatingTextData *>( m_pData ) -> setRole( Role );
+	static_cast<FloatingTextData *>( m_pData ) -> setRole( Role );
 }
 
 Uml::Text_Role FloatingText::getRole() {
-	return dynamic_cast<FloatingTextData *>( m_pData ) -> getRole();
+	return static_cast<FloatingTextData *>( m_pData ) -> getRole();
 }
 
 bool FloatingText::isTextValid(QString text) {

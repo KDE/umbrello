@@ -147,7 +147,7 @@ bool MessageWidget::activate(IDChangeLog * Log /*= 0*/) {
 	bool status = UMLWidget::activate(Log);
 	if(!status)
 		return false;
-	MessageWidgetData* widgetdata = dynamic_cast<MessageWidgetData*>(m_pData);
+	MessageWidgetData* widgetdata = static_cast<MessageWidgetData*>(m_pData);
 	if( !m_pFText )
 		m_pFText = new FloatingText( m_pView, tr_Seq_Message, "" );
 	if(widgetdata->m_nTextID != -1)
@@ -189,10 +189,10 @@ void MessageWidget::synchronizeData() {
 		MessageWidgetData* p_widgetdata = 0;
 		if((p_widgetdata = dynamic_cast<MessageWidgetData*>(m_pData))) {
 			if(dynamic_cast<ObjectWidget *>(m_pWA)) {
-				p_widgetdata->setWidgetAID(dynamic_cast<ObjectWidget *>(m_pWA)->getLocalID());
+				p_widgetdata->setWidgetAID( static_cast<ObjectWidget*>(m_pWA)->getLocalID() );
 			}
 			if(dynamic_cast<ObjectWidget *>(m_pWB)) {
-				p_widgetdata->setWidgetBID(dynamic_cast<ObjectWidget *>(m_pWB) ->getLocalID());
+				p_widgetdata->setWidgetBID( static_cast<ObjectWidget*>(m_pWB)->getLocalID() );
 			}
 			p_widgetdata->setSequenceNumber(m_pFText -> getSeqNum());
 			p_widgetdata->setOperation(m_pFText -> getOperation());

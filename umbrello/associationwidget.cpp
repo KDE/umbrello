@@ -62,7 +62,7 @@ AssociationWidget::AssociationWidget(QWidget *parent, UMLWidget* WidgetA,
 	//which handles the right click menu options
 	if (m_pData->m_AssocType == at_Coll_Message) {
 		setRole("");
-		m_pData->setRoleData( dynamic_cast<FloatingTextData*>(getRoleWidget()->getData()) );
+		m_pData->setRoleData( static_cast<FloatingTextData*>(getRoleWidget()->getData()) );
 		m_pRole->setUMLObject( m_pWidgetB->getUMLObject() );
 	}
 }
@@ -417,19 +417,19 @@ void AssociationWidget::synchronizeData() {
 	}
 	if(m_pRole) {
 		//The FloatingText::getData() call already synchronizes the FloatingText with its FloatingTextData
-		m_pData->setRoleData(dynamic_cast<FloatingTextData*>(m_pRole->getData()));
+		m_pData->setRoleData(static_cast<FloatingTextData*>(m_pRole->getData()));
 	} else {
 		m_pData->setRoleData(0);
 	}
 	if(m_pMultiA) {
 		//The FloatingText::getData() call already synchronizes the FloatingText with its FloatingTextData
-		m_pData->setMultiDataA(dynamic_cast<FloatingTextData*>(m_pMultiA->getData()));
+		m_pData->setMultiDataA(static_cast<FloatingTextData*>(m_pMultiA->getData()));
 	} else {
 		m_pData->setMultiDataA(0);
 	}
 	if(m_pMultiB) {
 		//The FloatingText::getData() call already synchronizes the FloatingText with its FloatingTextData
-		m_pData->setMultiDataB(dynamic_cast<FloatingTextData*>(m_pMultiB->getData()));
+		m_pData->setMultiDataB(static_cast<FloatingTextData*>(m_pMultiB->getData()));
 	} else {
 		m_pData->setMultiDataB(0);
 	}
@@ -2188,8 +2188,7 @@ void AssociationWidget::updateRegionLineCount(int index, int totalCount, Associa
 		pWidget = m_pWidgetB;
 	//if a fork (ActivityWidget) for widget B then all associations should meet in the middle
 	if( pWidget -> getBaseType() == Uml::wt_Activity) {
-		if( dynamic_cast<ActivityWidget *>( pWidget ) ->
-		        getActivityType() == ActivityWidget::Fork ) {
+		if( static_cast<ActivityWidget*>(pWidget)->getActivityType() == ActivityWidget::Fork ) {
 			totalCount = 2;
 			index = 1;
 		}

@@ -105,10 +105,10 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object, bool multi) :
 	if(!object)
 		return;
 
-	StateWidget * pState = dynamic_cast< StateWidget *>( object );
-	ActivityWidget * pActivity = dynamic_cast<ActivityWidget *>( object );
-	ConceptWidget * c = dynamic_cast< ConceptWidget *>( object );
-	UMLView * pView = dynamic_cast<UMLView *>( parent );
+	StateWidget * pState = static_cast< StateWidget *>( object );
+	ActivityWidget * pActivity = static_cast<ActivityWidget *>( object );
+	ConceptWidget * c = static_cast< ConceptWidget *>( object );
+	UMLView * pView = static_cast<UMLView *>( parent );
 	Uml::UMLWidget_Type type = object -> getBaseType();
 
 	if(multi) {
@@ -266,8 +266,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object, bool multi) :
 			break;
 
 		case Uml::wt_Text:
-			switch( (dynamic_cast<FloatingText*>(object))->
-			        getRole() ) {
+			switch( (static_cast<FloatingText*>(object))->getRole() ) {
 				case Uml::tr_MultiB:
 				case Uml::tr_MultiA:
 					insertItem(SmallIcon( "editcut"), i18n("Cut"), mt_Cut);

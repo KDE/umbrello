@@ -774,7 +774,7 @@ UMLWidget * UMLView::findWidget( int id ) {
 	while ( (obj=(UMLWidget*)it.current()) != 0 ) {
 		++it;
 		if( obj -> getBaseType() == wt_Object ) {
-			if( dynamic_cast<ObjectWidget *>( obj ) ->
+			if( static_cast<ObjectWidget *>( obj ) ->
 			        getLocalID() == id ) {
 
 				delete l;
@@ -1124,7 +1124,7 @@ void UMLView::selectWidgets() {
 					m_SelectedList.remove(ow);//make sure not in there
 					m_SelectedList.append(ow);
 				} else {
-					AssociationWidget * a = dynamic_cast<AssociationWidget *>( (dynamic_cast<FloatingText *>(temp)) -> getAssoc() );
+					AssociationWidget * a = static_cast<AssociationWidget *>( (static_cast<FloatingText *>(temp)) -> getAssoc() );
 
 					a -> setSelected(true);
 					//select the two widgets
@@ -1575,7 +1575,7 @@ bool UMLView::addWidget( UMLWidgetData * pWidgetData ) {
 			newID = getDocument()->assignNewID( pWidgetData -> getId() );
 
 			pWidgetData -> setId( newID );
-			pMessageData = dynamic_cast<MessageWidgetData *>( pWidgetData );
+			pMessageData = static_cast<MessageWidgetData *>( pWidgetData );
 			waID = pMessageData -> getWidgetAID();
 			wbID = pMessageData -> getWidgetBID();
 			newWAID = m_pIDChangesLog ->findNewID( waID );
@@ -1596,7 +1596,7 @@ bool UMLView::addWidget( UMLWidgetData * pWidgetData ) {
 			break;
 
 		case wt_Object:
-			if((pObjectData = dynamic_cast<ObjectWidgetData*>(pWidgetData))) {
+			if((pObjectData = static_cast<ObjectWidgetData*>(pWidgetData))) {
 				newID = log->findNewID( pWidgetData -> getId() );
 				if( newID == -1 )
 					return false;
@@ -2675,7 +2675,7 @@ void UMLView::setFont( QFont font ) {
 	UMLWidget * pWidget = 0;
 	QObjectList * wl = queryList( "UMLWidget" );
 	QObjectListIt wit( *wl );
-	while ( ( pWidget = dynamic_cast<UMLWidget *>( wit.current() ) )  != 0 ) {
+	while ( ( pWidget = static_cast<UMLWidget *>( wit.current() ) )  != 0 ) {
 		++wit;
 		pWidget -> setFont( font );
 	}
@@ -2687,10 +2687,10 @@ void UMLView::setConceptWidgetOptions( ClassOptionsPage * page ) {
 	UMLWidget * pWidget = 0;
 	QObjectList * wl = queryList( "UMLWidget" );
 	QObjectListIt wit( *wl );
-	while ( ( pWidget = dynamic_cast<UMLWidget *>( wit.current() ) )  != 0 ) {
+	while ( ( pWidget = static_cast<UMLWidget *>( wit.current() ) )  != 0 ) {
 		++wit;
 		if( pWidget -> getBaseType() == Uml::wt_Class ) {
-			page -> setWidget( dynamic_cast<ConceptWidget *>( pWidget ) );
+			page -> setWidget( static_cast<ConceptWidget *>( pWidget ) );
 			page -> updateUMLWidget();
 		}
 	}
@@ -2703,7 +2703,7 @@ void UMLView::checkSelections() {
 	//check messages
 	for(pTemp=(UMLWidget *)m_SelectedList.first();pTemp;pTemp=(UMLWidget *)m_SelectedList.next()) {
 		if( pTemp->getBaseType() == wt_Message && pTemp -> getSelected() ) {
-			MessageWidget * pMessage = dynamic_cast<MessageWidget *>( pTemp );
+			MessageWidget * pMessage = static_cast<MessageWidget *>( pTemp );
 			pWA = pMessage -> getWidgetA();
 			pWB = pMessage -> getWidgetB();
 			if( !pWA -> getSelected() ) {
@@ -2741,7 +2741,7 @@ QPtrList<MessageWidget> UMLView::getMessageWidgetList() {
 	QObjectList * wl = queryList( "UMLWidget" );
 	QObjectListIt wit( *wl );
 	QPtrList<MessageWidget> list;
-	while ( ( pWidget = dynamic_cast<UMLWidget *>( wit.current() ) )  != 0 ) {
+	while ( ( pWidget = static_cast<UMLWidget *>( wit.current() ) )  != 0 ) {
 		++wit;
 		if( pWidget -> getBaseType() == Uml::wt_Message ) {
 			list.append( (MessageWidget*)pWidget );

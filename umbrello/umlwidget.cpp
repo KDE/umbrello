@@ -457,7 +457,7 @@ bool UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */) {
 					break;
 
 				case wt_Text:
-					ft = dynamic_cast<FloatingText *>( this );
+					ft = static_cast<FloatingText *>( this );
 					switch( ft  -> getRole() ) {
 						case tr_Seq_Message:
 							setX( x );
