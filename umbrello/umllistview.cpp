@@ -409,8 +409,8 @@ void UMLListView::slotDiagramCreated( int id ) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLListView::slotObjectCreated(UMLObject* object) {
-	/* kdDebug() << "UMLListView::slotObjectCreated: ID is "
- 		  << object->getID() << endl;
+	/* kdDebug() << "UMLListView::slotObjectCreated(" << object->getName()
+		  << "): ID is " << object->getID() << endl;
 	 */
 	UMLListViewItem* newItem = 0;
 	UMLListViewItem* parentItem = 0;
@@ -562,8 +562,8 @@ void UMLListView::childObjectAdded(UMLObject* obj) {
 	if (obj->getBaseType() == ot_Stereotype) {
 		return;
 	}
-	/* kdDebug() << "UMLListView::childObjectCreated: ID is "
- 		  << obj->getID() << endl;
+	/* kdDebug() << "UMLListView::childObjectAdded(" << obj->getName()
+ 		  << "): ID is " << obj->getID() << endl;
 	 */
 	if (!m_bCreatingChildObject) {
 		UMLObject *parent = const_cast<UMLObject*>(dynamic_cast<const UMLObject*>(sender()));
@@ -776,9 +776,11 @@ UMLListViewItem* UMLListView::recursiveSearchForView(UMLListViewItem* listViewIt
 UMLListViewItem* UMLListView::findItem(int id) {
 	UMLListViewItem *temp;
 	QListViewItemIterator it(this);
-	for( ; (temp = (UMLListViewItem*)it.current()); ++it )
-		if(temp->getID() == id)
-			return temp;
+	for( ; (temp = (UMLListViewItem*)it.current()); ++it ) {
+		UMLListViewItem * item = temp->findItem(id);
+		if (item)
+			return item;
+	}
 	return 0;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2227,7 +2229,7 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
 						item = new UMLListViewItem(parent, label, lvType, pObject);
 					}
 				}
-				else
+				else if (parent != item->parent())
 				{ // The existing item was created by the slot event triggered
 				  // by the loading of the corresponding model object from the
 				  // XMI file.
@@ -2239,10 +2241,12 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
 				  // one of the default predefined folders, but the actual
 				  // listview item might be located in a user created folder.
 				  // Thanks to Achim Spangler for spotting the problem.
-					if (label.isEmpty())
-						label = item->getText();
+					/* kdDebug() << "UMLListView::loadChildrenFromXMI: Reparenting "
+						  << item->getText() << endl;
+					 */
+					UMLListViewItem *newItem = item->deepCopy(parent);
 					delete item;
-					item = new UMLListViewItem(parent, label, lvType, pObject);
+					item = newItem;
 				}
 				break;
 			case Uml::lvt_Attribute:
