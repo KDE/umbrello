@@ -275,7 +275,16 @@ void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome) {
 	if( m_CurrentCursor == WorkToolBar::tbb_Arrow || me -> state() != LeftButton ) {
 		viewport()->setMouseTracking( false );
 		if (me->state() == RightButton) {
-			setMenu();
+
+			/* if the user right clicks on the diagram, first the default tool is
+			 * selected from the toolbar; this only happens when the default tool
+			 * wasn't selected yet AND there is no other widget under the mouse
+			 * pointer
+			 * in any other case the right click menu will be shown */
+			if ( m_CurrentCursor != WorkToolBar::tbb_Arrow )
+				UMLApp::app()->getWorkToolBar()->setDefaultTool();
+			else		
+				setMenu();
 		}
 		return;
 	}
@@ -1788,7 +1797,7 @@ void UMLView::removeAssoc(AssociationWidget* pAssoc) {
 	removeAssocInViewAndDoc(pAssoc, true);
 }
 
-void UMLView::removeAssocInViewAndDoc(AssociationWidget* a, bool deleteLater) {
+void UMLView::removeAssocInViewAndDoc(AssociationWidget* a, bool /* deleteLater */) {
 	if(!a)
 		return;
 	// Remove the association from the UMLDoc.
