@@ -35,9 +35,9 @@
  
  namespace Umbrello{
  
- class RefactoringAssistant : public KListView
- {
- Q_OBJECT 
+class RefactoringAssistant : public KListView
+{
+        Q_OBJECT
 public:
 	RefactoringAssistant( UMLDoc *doc, UMLClassifier *obj = 0, QWidget *parent = 0, const char *name = 0 );
 	virtual ~RefactoringAssistant();
