@@ -95,7 +95,7 @@ ClassifierListPage::ClassifierListPage(QWidget* parent, UMLClassifier* classifie
 	mainLayout->addWidget(m_pDocGB);
 
 	UMLClassifierListItemList itemList(getItemList());
-	
+
 	// add each item in the list to the ListBox and connect each item modified signal
 	// to the ListItemModified slot in this class
 	for (UMLClassifierListItem* listItem = itemList.first(); listItem != 0; listItem = itemList.next() ) {
@@ -174,25 +174,18 @@ void ClassifierListPage::slotClicked(QListBoxItem*item) {
 	//
 	// for more information see Qt doc for void QListBox::clearSelection()
 	UMLClassifierListItem* listItem;
-	if (item == NULL) {
-		if (m_pItemListLB->count() == 0) {
-			enableWidgets(false);
-			m_pOldListItem = 0;
-			m_pItemListLB->clearSelection();
-		} else {
-			kdDebug() << "ClassifierListPage::slotClicked: item is NULL"
-				  << endl;
-		}
+	if(!item && m_pItemListLB->count() == 0) {
+		enableWidgets(false);
+		m_pOldListItem = 0;
+		m_pItemListLB->clearSelection();
 		return;
-	}
-	UMLClassifierListItemList itemList(getItemList());
-	if (m_pItemListLB->count() > 0) {
+	} else if (!item && m_pItemListLB->count() > 0) {
 		m_pItemListLB->setSelected(0, true);
-		listItem = itemList.at(0);
+		listItem = getItemList().at(0);
 	} else {
-		int index = m_pItemListLB->index(item);
-		listItem = itemList.at(index);
+		listItem = getItemList().at( m_pItemListLB->index(item) );
 	}
+
 	if (listItem) {
 		//now update screen
 		m_pDocTE->setText( listItem->getDoc() );
@@ -205,7 +198,7 @@ void ClassifierListPage::updateObject() {
 	saveCurrentItemDocumentation();
 	QListBoxItem*i = m_pItemListLB->item(m_pItemListLB->currentItem());
 	slotClicked(i);
-	
+
 	// The rest of this function does nothing?!
 	QStringList stringList;
 	int count = m_pItemListLB->count();
@@ -333,7 +326,7 @@ void ClassifierListPage::slotUpClicked() {
 	//set the moved item selected
 	QListBoxItem* item = m_pItemListLB->item( index - 1 );
 	m_pItemListLB->setSelected( item, true );
-	
+
 	//now change around in the list
 	UMLClassifierListItem* currentAtt = getItemList().at( index );
 	takeClassifier(currentAtt);
@@ -440,7 +433,7 @@ UMLClassifierListItemList ClassifierListPage::getItemList() {
 	kdError() << "ClassifierListPage is in an inconsistent state!" << endl;
 	return UMLClassifierListItemList();
 }
-	
+
 bool ClassifierListPage::addClassifier(UMLClassifierListItem* classifier, int position) {
 	switch (itemType) {
 		case ot_Attribute: {
