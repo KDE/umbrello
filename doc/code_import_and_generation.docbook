@@ -79,13 +79,13 @@ in the source code to delimit the different sections of a class. For example <qu
 </para>
 </sect4>
 <sect4>
-<title>Directories</title>
+<title>Folders</title>
 <para>
-<guilabel>Write all generated files to directory</guilabel>. Here you should select the directory 
+<guilabel>Write all generated files to folder</guilabel>. Here you should select the folder 
 where you want Umbrello to put the generated sources.
 </para>
 <para>
-The <guilabel>Include heading files from directory</guilabel> option allows you to insert a 
+The <guilabel>Include heading files from folder</guilabel> option allows you to insert a 
 heading at the beginning of each generated file. Heading files can contain copyright or licensing
  information and contain variables that are evaluated at generation time. You can take a look
  at the template heading files shipped with Umbrello to see how to use this variables for replacing
@@ -97,7 +97,7 @@ heading at the beginning of each generated file. Heading files can contain copyr
 <!-- FIXME update for Umbrello 1.2's new C++ and Java code generators -->
 <para>
 This option tells Umbrello what to do if the file it wants to create already exists in
-the destination directory. Umbrello 1.1 <emphasis>cannot modify existing source files</emphasis>,
+the destination folder. Umbrello 1.1 <emphasis>cannot modify existing source files</emphasis>,
 so you have to choose between overwriting the existing file, skipping the generation of
 that particular file or letting Umbrello choose a different file name. If you choose the option
 to use a different name, Umbrello will add a suffix to the file name.
@@ -120,7 +120,7 @@ You need only to click on the Generate button to get your classes written for yo
 <para>
 Note that the Options you select during the Code Generation wizard are only valid for the current
 generation. The next time you run the Wizard you will need to re-select all the options
-(your headings directory, overwrite policy, and so on). You can set the defaults used by Umbrello 
+(your headings folder, overwrite policy, and so on). You can set the defaults used by Umbrello 
 in the <guilabel>Code Generation</guilabel> section of the Umbrello settings, available
 at <menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure Umbrello...</guimenuitem></menuchoice>
 </para>
@@ -129,7 +129,7 @@ If you have set your Code Generation options to the right settings and want to g
 some code right away without going through the wizard, you can select the entire 
 <guimenuitem>Generate All Code</guimenuitem> from the Code menu. 
 This will generate code for all the classes in your Model using the current settings 
-(including Output Directory and Overwrite Policy, so use with care).
+(including Output Folder and Overwrite Policy, so use with care).
 </para>
 </sect3>
 </sect2><!--generate-code-->
