@@ -2498,10 +2498,12 @@ void UMLView::createAutoAttributeAssociations(UMLWidget *widget) {
 		}
 		Uml::Association_Type assocType = Uml::at_Composition;
 		UMLWidget *w = findWidget( attrType->getID() );
+		AssociationWidget *aw = NULL;
 		// if the attribute type has a widget representation on this view
 		if (w &&
 		    // if the AssocWidget does not already exist then
-		    findAssocWidget(assocType, widget, w) == NULL &&
+		    ((aw = findAssocWidget(assocType, widget, w)) == NULL ||
+		      aw->getRoleName(Uml::B) != attr->getName()) &&
 		    // if the current diagram type permits compositions
 		    AssocRules::allowAssociation(assocType, widget, w, false)) {
 			// Create a composition AssocWidget, or, if the attribute type is
