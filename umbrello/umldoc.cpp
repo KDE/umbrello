@@ -2195,10 +2195,11 @@ UMLObject* UMLDoc::makeNewUMLObject(QString type) {
 		pObject = new UMLArtifact();
 	} else if (tagEq(type, "Interface")) {
 		pObject = new UMLInterface();
-	} else if (tagEq(type, "Datatype")	// for bkwd compat.
-		|| tagEq(type, "DataType")) {
+	} else if (tagEq(type, "DataType")
+		|| tagEq(type, "Datatype")) {	// for bkwd compat.
 		pObject = new UMLDatatype();
-	} else if (tagEq(type, "Enum")) {
+	} else if (tagEq(type, "Enumeration") ||
+		   tagEq(type, "Enum")) {	// for bkwd compat.
 		pObject = new UMLEnum();
 	} else if (tagEq(type, "Association")) {
 		pObject = new UMLAssociation(Uml::at_Unknown, (UMLObject*)NULL, (UMLObject*) NULL);

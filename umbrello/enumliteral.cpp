@@ -53,7 +53,7 @@ QString UMLEnumLiteral::toString(Signature_Type /*sig = st_NoSig*/) {
 }
 
 void UMLEnumLiteral::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
-	QDomElement attributeElement = UMLObject::save("UML:EnumLiteral", qDoc);
+	QDomElement attributeElement = UMLObject::save("UML:EnumerationLiteral", qDoc);
 	qElement.appendChild( attributeElement );
 }
 

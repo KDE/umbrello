@@ -66,7 +66,7 @@ QString UMLEnum::uniqChildName(UMLObject_Type type) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLEnum::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
-	QDomElement enumElement = UMLObject::save("UML:Enum", qDoc);
+	QDomElement enumElement = UMLObject::save("UML:Enumeration", qDoc);
 	//save operations
 	UMLClassifierListItem* pEnumLiteral = 0;
 	for ( pEnumLiteral = m_EnumLiteralList.first(); pEnumLiteral != 0;
@@ -81,7 +81,8 @@ bool UMLEnum::load(QDomElement& element) {
 	QDomElement tempElement = node.toElement();
 	while( !tempElement.isNull() ) {
 		QString tag = tempElement.tagName();
-		if (tagEq(tag, "EnumLiteral")) {
+		if (tagEq(tag, "EnumerationLiteral") ||
+		    tagEq(tag, "EnumLiteral")) {   // for backward compatibility
 			UMLEnumLiteral* pEnumLiteral = new UMLEnumLiteral(this);
 			if( !pEnumLiteral->loadFromXMI(tempElement) ) {
 				return false;
