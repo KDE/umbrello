@@ -22,6 +22,7 @@
 #include <kdebug.h>
 #include <klocale.h>
 #include <kmessagebox.h>
+#include <qapplication.h>
 
 #include "codegenerationwizard.h"
 #include "codegenerationoptionspage.h"
@@ -70,6 +71,12 @@ CodeGenerationWizard::CodeGenerationWizard(UMLDoc *doc,
 	finishButton()->disconnect();
 	finishButton()->setText(i18n("&Generate"));
 	connect(finishButton(),SIGNAL(clicked()),this,SLOT(generateCode()));
+        if ( QApplication::reverseLayout() )
+        {
+            QPixmap tmpPixmap( *m_addButton->pixmap() );
+            m_addButton->setPixmap(*m_removeButton->pixmap());
+            m_removeButton->setPixmap(tmpPixmap);
+        }
 }
 
 CodeGenerationWizard::~CodeGenerationWizard() {}
@@ -243,7 +250,7 @@ CodeGenerator* CodeGenerationWizard::generator() {
 
 // when we change language, we need to update the codegenoptions page
 // language-dependent stuff. THe way to do this is to call its "apply" method.
-void CodeGenerationWizard::changeLanguage() 
+void CodeGenerationWizard::changeLanguage()
 {
 	m_app->setActiveLanguage( m_CodeGenerationOptionsPage->getCodeGenerationLanguage() );
 	m_CodeGenerationOptionsPage->setCodeGenerator(m_doc->getCurrentCodeGenerator());
