@@ -34,7 +34,7 @@ public:
 	 * @param s		The scope of the UMLAttribute.
 	 * @param iv		The initial value of the attribute.
 	 */
-	UMLAttribute(QObject * parent, QString name, int id, QString type = "int", Scope s = Private, QString iv = 0);
+	UMLAttribute(QObject * parent, QString name, int id, QString type = "int", Scope s = Public, QString iv = 0);
 
 	/**
 	 * Sets up an attribute.
