@@ -66,9 +66,14 @@ AssociationWidget::AssociationWidget(QWidget *parent, UMLWidget* WidgetA,
 
 	//collaboration messages need a name label because it's that
 	//which handles the right click menu options
-	if (getAssocType() == at_Coll_Message) {
-		setName( dynamic_cast<FloatingText*>(getNameWidget())->getText() );
-		m_pName->setUMLObject( m_pWidgetB->getUMLObject() );
+	if (getAssocType() == at_Coll_Message && m_pName != NULL) {
+		FloatingText *pSrcName = dynamic_cast<FloatingText*>(getNameWidget());
+		if (pSrcName) {
+			setName( pSrcName->getText() );
+			m_pName->setUMLObject( m_pWidgetB->getUMLObject() );
+		} else {
+			kdDebug("AssociationWidget constructor: source name widget is not a FloatingText");
+		}
 	}
 
 }
@@ -86,33 +91,54 @@ AssociationWidget& AssociationWidget::operator=(AssociationWidget & Other) {
 
 	m_pView = Other.m_pView;
 
-	m_pName = new FloatingText(m_pView);
-	if (Other.m_pName)
+	if (Other.m_pName) {
+		m_pName = new FloatingText(m_pView);
 		*m_pName = *(Other.m_pName);
+	} else {
+		m_pName = NULL;
+	}
 
-	m_pMultiA = new FloatingText(m_pView);
-	if (Other.m_pMultiA)
+	if (Other.m_pMultiA) {
+		m_pMultiA = new FloatingText(m_pView);
 		*m_pMultiA = *(Other.m_pMultiA);
+	} else {
+		m_pMultiA = NULL;
+	}
 
-	m_pMultiB = new FloatingText(m_pView);
-	if (Other.m_pMultiB)
+	if (Other.m_pMultiB) {
+		m_pMultiB = new FloatingText(m_pView);
 		*m_pMultiB = *(Other.m_pMultiB);
+	} else {
+		m_pMultiB = NULL;
+	}
 
-	m_pRoleA = new FloatingText(m_pView);
-	if (Other.m_pRoleA)
+	if (Other.m_pRoleA) {
+		m_pRoleA = new FloatingText(m_pView);
 		*m_pRoleA = *(Other.m_pRoleA);
+	} else {
+		m_pRoleA = NULL;
+	}
 
-	m_pRoleB = new FloatingText(m_pView);
-	if (Other.m_pRoleB)
+	if (Other.m_pRoleB) {
+		m_pRoleB = new FloatingText(m_pView);
 		*m_pRoleB = *(Other.m_pRoleB);
+	} else {
+		m_pRoleB = NULL;
+	}
 
-	m_pChangeWidgetA = new FloatingText(m_pView);
-	if (Other.m_pChangeWidgetA)
+	if (Other.m_pChangeWidgetA) {
+		m_pChangeWidgetA = new FloatingText(m_pView);
 		*m_pChangeWidgetA = *(Other.m_pChangeWidgetA);
+	} else {
+		m_pChangeWidgetA = NULL;
+	}
 
-	m_pChangeWidgetB = new FloatingText(m_pView);
-	if (Other.m_pChangeWidgetB)
+	if (Other.m_pChangeWidgetB) {
+		m_pChangeWidgetB = new FloatingText(m_pView);
 		*m_pChangeWidgetB = *(Other.m_pChangeWidgetB);
+	} else {
+		m_pChangeWidgetB = NULL;
+	}
 
 	m_pWidgetA = Other.m_pWidgetA;
 	m_pWidgetB = Other.m_pWidgetB;
@@ -3372,7 +3398,7 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement ) {
 					m_pRoleB = ft;
 					break;
 				default:
-					kdWarning() << "AssociationWidget::loadFromXMI() :"
+					kdDebug() << "AssociationWidget::loadFromXMI(): "
 						<< "unexpected FloatingText (textrole "
 						<< role << ")" << endl;
 					delete ft;
