@@ -478,9 +478,42 @@ UMLObject* UMLDoc::findUMLObject(int id) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLObject* UMLDoc::findUMLObject(UMLObject_Type type, QString name) {
-	for(UMLObject * obj = objectList.first(); obj != 0; obj = objectList.next())
-		if(obj -> getName() == name && type == obj -> getBaseType())
+	return findUMLObject(type, name, objectList);
+}
+
+UMLObject* UMLDoc::findUMLObject(UMLObject_Type type, QString name,
+				 UMLObjectList inList) {
+	QStringList components = QStringList::split("::", name);
+	QString nameWithoutFirstPrefix;
+	if (components.size() > 1) {
+		name = components.front();
+		components.pop_front();
+		nameWithoutFirstPrefix = components.join("::");
+	}
+	for (UMLObject * obj = inList.first(); obj != 0; obj = inList.next()) {
+		if (obj->getName() != name)
+			continue;
+		UMLObject_Type foundType = obj->getBaseType();
+		if (nameWithoutFirstPrefix.isEmpty()) {
+			if (type != foundType) {
+				// Really the `type' should be irrelevant...
+				// CHECK: Consider removing the `type' arg.
+				kdDebug() << "findUMLObject: type mismatch for "
+					  << name << " (actual type: "
+					  << foundType << ")" << endl;
+				continue;
+			}
 			return obj;
+		}
+		if (foundType != Uml::ot_Package) {
+			kdDebug() << "findUMLObject: found \"" << name
+				  << "\" is not a package (?)" << endl;
+			continue;
+		}
+		UMLPackage *pkg = static_cast<UMLPackage*>(obj);
+		return findUMLObject( type, nameWithoutFirstPrefix,
+				      pkg->containedObjects() );
+	}
 	return 0;
 }
 

@@ -915,6 +915,15 @@ private:
 	QString uniqObjectName(const UMLObject_Type type);
 
 	/**
+	 * Utility method for the public findUMLObject() method: Find the
+	 * UML object of the given type and name in the passed-in list.
+	 * There is nothing that binds this method to UMLDoc thus it is easily
+	 * relocated if need be.
+	 */
+	static UMLObject* findUMLObject( UMLObject_Type type, QString name,
+					 UMLObjectList inList );
+
+	/**
 	 * Sets up the autosave timer.
 	 */
 	void initSaveTimer();

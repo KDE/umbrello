@@ -333,12 +333,22 @@ class UMLListView : public KListView {
 	/**
 	 * Converts a diagram type enum to the equivalent list view type
 	 */
-	Uml::ListView_Type convert_DT_LVT(Uml::Diagram_Type dt);
+	static Uml::ListView_Type convert_DT_LVT(Uml::Diagram_Type dt);
 
 	/**
 	 * Converts an object type enum to the equivalent list view type
 	 */
-	Uml::ListView_Type convert_OT_LVT(Uml::UMLObject_Type ot);
+	static Uml::ListView_Type convert_OT_LVT(Uml::UMLObject_Type ot);
+
+	/**
+	 * Converts a list view type enum to the equivalent object type.
+	 *
+	 * @param lvt		The ListView_Type to convert.
+	 * @param ot		The converted UMLObject_Type.
+	 * @return	True if conversion was successful, i.e. the listview
+	 *		type has a UMLObject_Type representation.
+	 */
+	static bool convert_LVT_OT(Uml::ListView_Type lvt, Uml::UMLObject_Type& ot);
 
 	/**
 	 * 	Loads the pixmaps to use in the list items.

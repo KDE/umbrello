@@ -12,6 +12,7 @@
 
 #include <qptrlist.h>
 #include "umlcanvasobject.h"
+#include "umlobjectlist.h"
 
 class IDChangeLog;
 class UMLDoc;
@@ -56,6 +57,25 @@ public:
 	void init();
 
 	/**
+	 * Adds an object in this package.
+	 *
+	 * @param pObject	Pointer to the UMLObject to add.
+	 */
+	void addObject(const UMLObject *pObject);
+
+	/**
+	 * Removes an object from this package.
+	 *
+	 * @param pObject	Pointer to the UMLObject to be removed.
+	 */
+	void removeObject(const UMLObject *pObject);
+
+	/**
+	 * Returns the list of objects contained in this package.
+	 */
+	UMLObjectList& containedObjects();
+
+	/**
 	 * Creates the <UML:Package> XMI element.
 	 */
 	bool saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
@@ -66,6 +86,15 @@ public:
 	bool loadFromXMI(QDomElement& element);
 
 private:
+
+	/**
+	 * References to the objects contained in this package.
+	 * For now, these are references only - the UMLDoc owns the objects,
+	 * not the package.
+	 * FIXME: The UMLPackage should be made the owner of the objects.
+	 *        (sounds like a heavy weight change --okellogg)
+	 */
+	UMLObjectList m_objects;
 
 };
 

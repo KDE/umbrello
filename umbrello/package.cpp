@@ -24,6 +24,18 @@ void UMLPackage::init() {
 	m_BaseType = ot_Package;
 }
 
+void UMLPackage::addObject(const UMLObject *pObject) {
+	m_objects.append( pObject );
+}
+
+void UMLPackage::removeObject(const UMLObject *pObject) {
+	m_objects.remove( pObject );
+}
+
+UMLObjectList& UMLPackage::containedObjects() {
+	return m_objects;
+}
+
 bool UMLPackage::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
 	QDomElement packageElement = qDoc.createElement("UML:Package");
 	bool status = UMLObject::saveToXMI(qDoc, packageElement);

@@ -109,60 +109,6 @@ void UMLObject::setAbstract(bool bAbstract) {
 	emit modified();
 }
 
-bool UMLObject::saveToXMI( QDomDocument & /*qDoc*/, QDomElement & qElement ) {
-	/*
-	  Call after required actions in child class.
-	  Type must be set in the child class.
-	*/
-	qElement.setAttribute( "xmi.id", m_nId );
-	qElement.setAttribute( "name", m_Name );
-	qElement.setAttribute( "documentation", m_Doc );
-	if (m_pUMLPackage)
-		qElement.setAttribute( "packageid", m_pUMLPackage->getID() );
-	qElement.setAttribute( "scope", m_Scope );
-	qElement.setAttribute( "stereotype", m_Stereotype );
-	qElement.setAttribute( "abstract", m_bAbstract );
- 	qElement.setAttribute( "static", m_bStatic );
-	return true;
-}
-
-bool UMLObject::loadFromXMI( QDomElement & element ) {
-	QString id = element.attribute( "xmi.id", "-1" );
-	m_Name = element.attribute( "name", "" );
-	m_Doc = element.attribute( "documentation", "" );
-	QString scope = element.attribute( "scope", "-1" );
-	m_Stereotype = element.attribute( "stereotype", "" );
-	QString abstract = element.attribute( "abstract", "0" );
-	QString staticScope = element.attribute( "static", "0" );
-
-	m_nId = id.toInt();
-	m_Scope = (Scope)scope.toInt();
-	m_bAbstract = (bool)abstract.toInt();
-	m_bStatic = (bool)staticScope.toInt();
-	if( m_nId == -1 || m_Scope == -1 )
-		return false;
-
-	QString pkgId = element.attribute( "packageid", "-1" );
-	if (pkgId == "-1") {
-		// Old files used "package" instead so test for it.
-		QString pkgName = element.attribute( "package", "" );
-		if (pkgName != "") {
-			setPackage( pkgName );
-		}
-	} else {
-		UMLDoc* umldoc = dynamic_cast<UMLDoc *>( parent() );
-		if (umldoc == NULL) {
-			kdDebug() << "UMLObject::loadFromXMI: cannot set package on "
-				  << m_Name << endl;
-			return true;  // soft error
-		}
-		UMLObject *pkgObj = umldoc->findUMLObject( pkgId.toInt() );
-		if (pkgObj)
-			m_pUMLPackage = static_cast<UMLPackage *>(pkgObj);
-	}
-	return true;
-}
-
 /** Returns true if this UMLObject has classifier scope, otherwise false (the default). */
 bool UMLObject::getStatic() const
 {
@@ -228,8 +174,7 @@ void UMLObject::setPackage(QString _name) {
 			pkgObj = umldoc->createUMLObject(ot_Package, _name);
 		}
 	}
-	m_pUMLPackage = static_cast<UMLPackage *>(pkgObj);
-	emit modified();
+	setUMLPackage( static_cast<UMLPackage *>(pkgObj) );
 }
 
 void UMLObject::setUMLPackage(UMLPackage* pPkg) {
@@ -250,5 +195,71 @@ QString UMLObject::getPackage() {
 UMLPackage* UMLObject::getUMLPackage() {
 	return m_pUMLPackage;
 }
+
+bool UMLObject::saveToXMI( QDomDocument & /*qDoc*/, QDomElement & qElement ) {
+	/*
+	  Call after required actions in child class.
+	  Type must be set in the child class.
+	*/
+	qElement.setAttribute( "xmi.id", m_nId );
+	qElement.setAttribute( "name", m_Name );
+	qElement.setAttribute( "documentation", m_Doc );
+	if (m_pUMLPackage)
+		qElement.setAttribute( "packageid", m_pUMLPackage->getID() );
+	qElement.setAttribute( "scope", m_Scope );
+	qElement.setAttribute( "stereotype", m_Stereotype );
+	qElement.setAttribute( "abstract", m_bAbstract );
+ 	qElement.setAttribute( "static", m_bStatic );
+	return true;
+}
+
+bool UMLObject::loadFromXMI( QDomElement & element ) {
+	QString id = element.attribute( "xmi.id", "-1" );
+	m_Name = element.attribute( "name", "" );
+	m_Doc = element.attribute( "documentation", "" );
+	QString scope = element.attribute( "scope", "-1" );
+	m_Stereotype = element.attribute( "stereotype", "" );
+	QString abstract = element.attribute( "abstract", "0" );
+	QString staticScope = element.attribute( "static", "0" );
+
+	m_nId = id.toInt();
+	m_Scope = (Scope)scope.toInt();
+	m_bAbstract = (bool)abstract.toInt();
+	m_bStatic = (bool)staticScope.toInt();
+	if( m_nId == -1 || m_Scope == -1 )
+		return false;
+
+	QString pkgId = element.attribute( "packageid", "-1" );
+	if (pkgId == "-1") {
+		// Old files used "package" instead so test for it.
+		QString pkgName = element.attribute( "package", "" );
+		if (pkgName != "") {
+			setPackage( pkgName );
+		}
+	} else {
+		UMLDoc* umldoc = dynamic_cast<UMLDoc *>( parent() );
+		if (umldoc == NULL) {
+			kdDebug() << "UMLObject::loadFromXMI: cannot set package on "
+				  << m_Name << endl;
+			return true;  // soft error
+		}
+		UMLObject *pkgObj = umldoc->findUMLObject( pkgId.toInt() );
+		if (pkgObj == NULL) {
+			kdDebug() << "UMLObject::loadFromXMI: cannot resolve packageid "
+				  << pkgId.toInt() << endl;
+			return true;  // soft error
+		}
+		m_pUMLPackage = dynamic_cast<UMLPackage *>(pkgObj);
+		if (m_pUMLPackage == NULL) {
+			kdDebug() << "UMLObject::loadFromXMI: object of packageid "
+				  << pkgId.toInt() << " is not a package" << endl;
+			return true;  // soft error
+		}
+	}
+	if (m_pUMLPackage)
+		m_pUMLPackage->addObject(this);
+	return true;
+}
+
 
 #include "umlobject.moc"
