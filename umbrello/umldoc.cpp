@@ -1765,6 +1765,7 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
 			continue;
 		}
 		//process content
+		QDomNode parentNode = node;
 		node = node.firstChild();
 		element = node.toElement();
 		while( !element.isNull() ) {
@@ -1814,6 +1815,17 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
 					cgnode = cgnode.nextSibling();
 					cgelement = cgnode.toElement();
 				}
+			} else if (tagEq(tag, "Package") ||
+				   tagEq(tag, "Class") ||
+				   tagEq(tag, "Interface")) {
+				// These tests are only for foreign XMI files that
+				// are missing the <Model> tag (e.g. NSUML)
+				element = parentNode.toElement();
+				if( !loadUMLObjectsFromXMI( element ) ) {
+					kdWarning() << "failed load on model objects" << endl;
+					return false;
+				}
+				break;
 			}
 			node = node.nextSibling();
 			element = node.toElement();
@@ -1827,7 +1839,7 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
 	if( findView( nViewID ) ) {
 		changeCurrentView( nViewID );
 	} else {
-		createDiagram( Uml::dt_Class );
+		createDiagram( Uml::dt_Class, false );
 	}
 	emit sigResetStatusbarProgress();
 	return true;
