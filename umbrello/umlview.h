@@ -21,6 +21,7 @@
 
 #include "umlnamespace.h"
 #include "worktoolbar.h"
+#include "floatingtext.h"
 #include "dialogs/settingsdlg.h"
 
 // QT includes
@@ -989,6 +990,27 @@ protected:
 	 * Updates the size of all components in this view.
 	 */
 	void updateComponentSizes();
+
+	/**
+	 * Find the maximum bounding rectangle of FloatingText widgets.
+	 * Auxiliary to copyAsImage().
+	 *
+	 * @param ft	Pointer to the FloatingText widget to consider.
+	 * @param px	X coordinate of lower left corner. This value will be
+	 *		updated if the X coordinate of the lower left corner
+	 *		of ft is smaller than the px value passed in.
+	 * @param py	Y coordinate of lower left corner. This value will be
+	 *		updated if the Y coordinate of the lower left corner
+	 *		of ft is smaller than the py value passed in.
+	 * @param qx	X coordinate of upper right corner. This value will be
+	 *		updated if the X coordinate of the upper right corner
+	 *		of ft is larger than the qx value passed in.
+	 * @param qy	Y coordinate of upper right corner. This value will be
+	 *		updated if the Y coordinate of the upper right corner
+	 *		of ft is larger than the qy value passed in.
+	 */
+	void findMaxBoundingRectangle(const FloatingText* ft,
+				      int& px, int& py, int& qx, int& qy);
 
 	void forceUpdateWidgetFontMetrics(QPainter *painter);
 

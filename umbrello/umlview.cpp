@@ -63,7 +63,6 @@
 #include "boxwidget.h"
 #include "associationwidget.h"
 #include "objectwidget.h"
-#include "floatingtext.h"
 #include "messagewidget.h"
 #include "statewidget.h"
 #include "activitywidget.h"
@@ -876,10 +875,10 @@ QRect UMLView::getDiagramRect() {
 		++it;
 		if (! obj->isVisible())
 			continue;
-		int objEndX = static_cast<int>(obj -> x()) + obj -> width();
-		int objEndY = static_cast<int>(obj -> y()) + obj -> height();
-		int objStartX = static_cast<int>(obj -> x());
-		int objStartY = static_cast<int>(obj -> y());
+		int objEndX = obj -> getX() + obj -> getWidth();
+		int objEndY = obj -> getY() + obj -> getHeight();
+		int objStartX = obj -> getX();
+		int objStartY = obj -> getY();
 		if (startx >= objStartX)
 			startx = objStartX;
 		if (starty >= objStartY)
@@ -1902,7 +1901,8 @@ bool UMLView::setAssoc(UMLWidget *pWidget) {
 	m_bDrawRect = false;
 	m_SelectionRect.clear();
 	//if this we are not concerned here so return
-	if(m_CurrentCursor < WorkToolBar::tbb_Generalization || m_CurrentCursor > WorkToolBar::tbb_Anchor) {
+	if (m_CurrentCursor < WorkToolBar::tbb_Generalization ||
+	    m_CurrentCursor > WorkToolBar::tbb_Anchor) {
 		return false;
 	}
 	clearSelected();
@@ -2307,10 +2307,27 @@ void UMLView::createAutoAssociations( UMLWidget * widget ) {
 	}//end while docAssoc
 }
 
-void UMLView::copyAsImage(QPixmap*& pix) {
+void UMLView::findMaxBoundingRectangle(const FloatingText* ft, int& px, int& py, int& qx, int& qy)
+{
+	if (ft == NULL || !ft->isVisible())
+		return;
 
-	int px, py, qx, qy;
-	int x, y, x1, y1;
+	int x = ft -> getX();
+	int y = ft -> getY();
+	int x1 = x + ft -> getWidth() - 1;
+	int y1 = y + ft -> getHeight() - 1;
+
+	if (px == -1 || x < px)
+		px = x;
+	if (py == -1 || y < py)
+		py = y;
+	if (qx == -1 || x1 > qx)
+		qx = x1;
+	if (qy == -1 || y1 > qy)
+		qy = y1;
+}
+
+void UMLView::copyAsImage(QPixmap*& pix) {
 	//get the smallest rect holding the diagram
 	QRect rect = getDiagramRect();
 	QPixmap diagram( rect.width(), rect.height() );
@@ -2321,15 +2338,14 @@ void UMLView::copyAsImage(QPixmap*& pix) {
 	getDiagram(rect, diagram);
 
 	//now get the selection cut
-	//first get the smallest rect holding the widgets
-	px = py = qx = qy = -1;
-	UMLWidget * temp = 0;
+	int px = -1, py = -1, qx = -1, qy = -1;
 
-	for(temp=(UMLWidget *)m_SelectedList.first();temp;temp=(UMLWidget *)m_SelectedList.next()) {
-		x = temp -> getX();
-		y = temp -> getY();
-		x1 = x + temp -> width() - 1;
-		y1 = y + temp -> height() - 1;
+	//first get the smallest rect holding the widgets
+	for (UMLWidget* temp = m_SelectedList.first(); temp; temp = m_SelectedList.next()) {
+		int x = temp -> getX();
+		int y = temp -> getY();
+		int x1 = x + temp -> width() - 1;
+		int y1 = y + temp -> height() - 1;
 		if(px == -1 || x < px) {
 			px = x;
 		}
@@ -2345,145 +2361,28 @@ void UMLView::copyAsImage(QPixmap*& pix) {
 	}
 
 	//also take into account any text lines in assocs or messages
-	AssociationWidget *assocwidget;
+	AssociationWidget *a;
 	AssociationWidgetListIt assoc_it(m_AssociationList);
 
 	//get each type of associations
 	//This needs to be reimplemented to increase the rectangle
 	//if a part of any association is not included
-	while((assocwidget = assoc_it.current()))
-	{
+	while ((a = assoc_it.current()) != NULL) {
 		++assoc_it;
-		if(assocwidget->getSelected())
-		{
-			temp = const_cast<FloatingText*>(assocwidget->getMultiAWidget());
-			if(temp && temp->isVisible()) {
-				x = temp->getX();
-				y = temp->getY();
-				x1 = x + temp->getWidth() - 1;
-				y1 = y + temp->getHeight() - 1;
-
-				if (px == -1 || x < px) {
-					px = x;
-				}
-				if (py == -1 || y < py) {
-					py = y;
-				}
-				if (qx == -1 || x1 > qx) {
-					qx = x1;
-				}
-				if (qy == -1 || y1 > qy) {
-					qy = y1;
-				}
-			}//end if temp
-
-			temp = const_cast<FloatingText*>(assocwidget->getMultiBWidget());
-
-			if(temp && temp->isVisible()) {
-				x = temp->getX();
-				y = temp->getY();
-				x1 = x + temp->getWidth() - 1;
-				y1 = y + temp->getHeight() - 1;
-
-				if (px == -1 || x < px) {
-					px = x;
-				}
-				if (py == -1 || y < py) {
-					py = y;
-				}
-				if (qx == -1 || x1 > qx) {
-					qx = x1;
-				}
-				if (qy == -1 || y1 > qy) {
-					qy = y1;
-				}
-			}//end if temp
-
-			temp = const_cast<FloatingText*>(assocwidget->getRoleAWidget());
-			if(temp && temp -> isVisible()) {
-				x = temp->getX();
-				y = temp->getY();
-				x1 = x + temp->getWidth() - 1;
-				y1 = y + temp->getHeight() - 1;
-
-				if (px == -1 || x < px) {
-					px = x;
-				}
-				if (py == -1 || y < py) {
-					py = y;
-				}
-				if (qx == -1 || x1 > qx) {
-					qx = x1;
-				}
-				if (qy == -1 || y1 > qy) {
-					qy = y1;
-				}
-			}//end if temp
-
-			temp = const_cast<FloatingText*>(assocwidget->getRoleBWidget());
-			if(temp && temp -> isVisible()) {
-				x = temp->getX();
-				y = temp->getY();
-				x1 = x + temp->getWidth() - 1;
-				y1 = y + temp->getHeight() - 1;
-				if (px == -1 || x < px) {
-					px = x;
-				}
-				if (py == -1 || y < py) {
-					py = y;
-				}
-				if (qx == -1 || x1 > qx) {
-					qx = x1;
-				}
-				if (qy == -1 || y1 > qy) {
-					qy = y1;
-				}
-
-			}//end if temp
-
-                        temp = const_cast<FloatingText*>(assocwidget->getChangeWidgetA());
-                        if(temp && temp->isVisible()) {
-                                x = temp->getX();
-                                y = temp->getY();
-                                x1 = x + temp->getWidth() - 1;
-                                y1 = y + temp->getHeight() - 1;
-
-                                if (px == -1 || x < px) {
-                                        px = x;
-                                }
-                                if (py == -1 || y < py) {
-                                        py = y;
-                                }
-                                if (qx == -1 || x1 > qx) {
-                                        qx = x1;
-                                }
-                                if (qy == -1 || y1 > qy) {
-                                        qy = y1;
-                                }
-                        }//end if temp
-
-                        temp = const_cast<FloatingText*>(assocwidget->getChangeWidgetB());
-                        if(temp && temp->isVisible()) {
-                                x = temp->getX();
-                                y = temp->getY();
-                                x1 = x + temp->getWidth() - 1;
-                                y1 = y + temp->getHeight() - 1;
-
-                                if (px == -1 || x < px) {
-                                        px = x;
-                                }
-                                if (py == -1 || y < py) {
-                                        py = y;
-                                }
-                                if (qx == -1 || x1 > qx) {
-                                        qx = x1;
-                                }
-                                if (qy == -1 || y1 > qy) {
-                                        qy = y1;
-                                }
-                        }//end if temp
-
-		}//end if selected
+		if (! a->getSelected())
+			continue;
+		const FloatingText* multiA = const_cast<FloatingText*>(a->getMultiAWidget());
+		const FloatingText* multiB = const_cast<FloatingText*>(a->getMultiBWidget());
+		const FloatingText* roleA = const_cast<FloatingText*>(a->getRoleAWidget());
+		const FloatingText* roleB = const_cast<FloatingText*>(a->getRoleBWidget());
+		const FloatingText* changeA = const_cast<FloatingText*>(a->getChangeWidgetA());
+		const FloatingText* changeB = const_cast<FloatingText*>(a->getChangeWidgetB());
+		findMaxBoundingRectangle(multiA, px, py, qx, qy);
+		findMaxBoundingRectangle(multiB, px, py, qx, qy);
+		findMaxBoundingRectangle(roleA, px, py, qx, qy);
+		findMaxBoundingRectangle(roleB, px, py, qx, qy);
+		findMaxBoundingRectangle(changeA, px, py, qx, qy);
+		findMaxBoundingRectangle(changeB, px, py, qx, qy);
 	}//end while
 
 	QRect imageRect;  //area with respect to getDiagramRect()
