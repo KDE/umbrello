@@ -306,6 +306,7 @@ AssocRules::Assoc_Rule AssocRules::m_AssocRules []= {
             { at_Realization,	wt_Interface,	wt_Interface,	false,	false,	false,	false },
             { at_Composition,	wt_Class,	wt_Class,	true,	true,	false,	true  },
             { at_Composition,	wt_Class,	wt_Interface,	true,	true,	false,	false },
+            { at_Composition,	wt_Class,	wt_Datatype,	false,	false,	false,	false },
             { at_Composition,	wt_Class,	wt_Enum,	false,	false,	false,	false },
             { at_Implementation,wt_Class,	wt_Class,	false,	false,	false,	false },
             { at_Coll_Message,	wt_Object,	wt_Object,	true,	false,	true,	true  },
