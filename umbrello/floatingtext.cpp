@@ -72,13 +72,57 @@ void FloatingText::moveEvent(QMoveEvent * /*m*/) {
 void FloatingText::resizeEvent(QResizeEvent * /*re*/) {}
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void FloatingText::setLinePos(int x, int y) {
-	setX(x);
-	setY(y);
+	bool xIsValid = (x >= restrictPositionMin && x <= restrictPositionMax);
+	bool yIsValid = (y >= restrictPositionMin && y <= restrictPositionMax);
+	if (xIsValid && yIsValid) { // fine
+		setX(x);
+		setY(y);
+	} else { // something is broken
+		kdDebug() << "FloatingText::setLinePositionRelatively( " << x
+			<< " , " << y << " ) - was blocked because at least one value is out of bounds: ["
+			<< restrictPositionMin << "..." << restrictPositionMax << "]  "
+			<< "origX: " << getX() << ", origY: " << getY()
+			<< endl;
+		// Let's just leave them at their original values.
+	}
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void FloatingText::setLinePositionRelatively(int newX, int newY, int oldX, int oldY) {
-	setX( getX() + (newX-oldX) );
-	setY( getY() + (newY-oldY) );
+	int myNewX = getX() + (newX-oldX);
+	int myNewY = getY() + (newY-oldY);
+	if ( myNewX >= restrictPositionMin && myNewX <= restrictPositionMax )
+	{ // fine
+		setX(myNewX);
+	}
+	else
+	{ // something is broken
+		kdDebug() << "FloatingText::setLinePositionRelatively( " << myNewX
+			<< " , " << myNewY << " ) - was Blocked because at least one value is out of bounds: ["
+			<< restrictPositionMin << "..." << restrictPositionMax << "]\n"
+			<< "ToX: " << newX << ", ToY: " << newY
+			<< "FromX: " << oldX << ", FromY: " << oldY
+			<< "CurrentPointX: " << getX() << ", CurrentPointY: " << getY()
+			<< endl;
+		// set to 0
+		setX( 0 );
+	}
+
+	if ( myNewY >= restrictPositionMin && myNewY <= restrictPositionMax )
+	{ // fine
+		setY(myNewY);
+	}
+	else
+	{ // something is broken
+		kdDebug() << "FloatingText::setLinePositionRelatively( " << myNewX
+			<< " , " << myNewY << " ) - was Blocked because at least one value is out of bounds: ["
+			<< restrictPositionMin << "..." << restrictPositionMax << "]\n"
+			<< "ToX: " << newX << ", ToY: " << newY
+			<< "FromX: " << oldX << ", FromY: " << oldY
+			<< "CurrentPointX: " << getX() << ", CurrentPointY: " << getY()
+			<< endl;
+		// set to 0
+		setY( 0 );
+	}
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void FloatingText::setPositionFromMessage() {
