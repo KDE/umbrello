@@ -7,6 +7,7 @@
  *                                                                         *
  ***************************************************************************/
 #include <kdebug.h>
+#include <klocale.h>
 
 #include "association.h"
 #include "classifier.h"
@@ -308,16 +309,6 @@ void UMLAssociation::setAssocType(Uml::Association_Type assocType) {
 	m_AssocType = assocType;
 	emit modified();
 }
-
-/*
-void UMLAssociation::setRoleAId (int roleA) {
-	m_pRoleA->setID(roleA);
-}
-
-void UMLAssociation::setRoleBId(int roleB) {
-	m_pRoleB->setID(roleB);
-}
-*/
 
 void UMLAssociation::setObjectA(UMLObject *obj) {
 	m_pRoleA->setObject(obj);
