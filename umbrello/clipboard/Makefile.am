@@ -1,4 +1,4 @@
-INCLUDES = $(all_includes)
+INCLUDES = -I$(top_builddir)/umbrello/umbrello/dialogs $(all_includes)
 
 METASOURCES = AUTO
 
