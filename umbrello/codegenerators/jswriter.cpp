@@ -27,8 +27,8 @@
 #include <qregexp.h>
 #include <qstring.h>
 
-JSWriter::JSWriter( QObject *parent, const char *name )
-	:CodeGenerator( parent, name) {}
+JSWriter::JSWriter( UMLDoc *parent, const char *name )
+	:SimpleCodeGenerator( parent, name) {}
 
 JSWriter::~JSWriter() {}
 
@@ -242,5 +242,16 @@ void JSWriter::writeOperations(QString classname, UMLOperationList *opList, QTex
 		js << ")\n{\n\t\n}\n";
 		js << "\n" << endl;
 	}//end for
+}
+
+QString JSWriter::getLanguage() {
+        return "JavaScript";
+}
+
+bool JSWriter::isType (QString & type)
+{
+   if(type == "JSWriter")
+        return true;
+   return false;
 }
 

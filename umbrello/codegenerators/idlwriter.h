@@ -18,7 +18,7 @@
 #ifndef IDLWRITER_H
 #define IDLWRITER_H
 
-#include "../codegenerator.h"
+#include "simplecodegenerator.h"
 #include <qtextstream.h>
 
 class UMLAssociation;
@@ -30,10 +30,10 @@ class UMLOperation;
   * calling writeClass and it will generate an IDL package spec for
   * that concept
   */
-class IDLWriter : public CodeGenerator {
+class IDLWriter : public SimpleCodeGenerator {
 public:
 
-	IDLWriter (QObject* parent = 0, const char* name = 0);
+	IDLWriter (UMLDoc * parent, const char* name = 0);
 	virtual ~IDLWriter ();
 
 	/**
@@ -41,6 +41,9 @@ public:
 	 * @param c the class to generate code for
 	 */
 	virtual void writeClass (UMLClassifier *c);
+
+	bool isType (QString & type);
+        QString getLanguage();
 
 private:
 

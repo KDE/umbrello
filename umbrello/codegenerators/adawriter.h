@@ -19,7 +19,7 @@
 #ifndef ADAWRITER_H
 #define ADAWRITER_H
 
-#include "../codegenerator.h"
+#include "simplecodegenerator.h"
 #include <qtextstream.h>
 
 class UMLAssociation;
@@ -31,10 +31,11 @@ class UMLOperation;
   * calling writeClass and it will generate an Ada package spec for
   * that concept
   */
-class AdaWriter : public CodeGenerator {
+class AdaWriter : public SimpleCodeGenerator {
+        Q_OBJECT
 public:
 
-	AdaWriter (QObject* parent = 0, const char* name = 0);
+	AdaWriter (UMLDoc * parent = 0, const char* name = 0);
 	virtual ~AdaWriter ();
 
 	/**
@@ -42,6 +43,9 @@ public:
 	 * @param c the class to generate code for
 	 */
 	virtual void writeClass (UMLClassifier *c);
+
+	bool isType (QString & type);
+        QString getLanguage();
 
 private:
 

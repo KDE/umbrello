@@ -18,7 +18,7 @@
 #ifndef ASWRITER_H
 #define ASWRITER_H
 
-#include "../codegenerator.h"
+#include "simplecodegenerator.h"
 #include "../umloperationlist.h"
 
 #include <qptrlist.h>
@@ -28,10 +28,11 @@
   * class ASWriter is a ActionScript code generator for UMLClassifier objects
   * Just call writeClass and feed it a UMLClassifier;
   */
-class ASWriter : public CodeGenerator {
+class ASWriter : public SimpleCodeGenerator {
+	Q_OBJECT
 public:
 
-	ASWriter( QObject* parent = 0, const char* name = 0 );
+	ASWriter( UMLDoc* parent, const char* name = 0 );
 	virtual ~ASWriter();
 
 	/**
@@ -39,6 +40,10 @@ public:
 	  * @param c the class you want to generate code for.
 	  */
 	virtual void writeClass(UMLClassifier *c);
+
+	bool isType (QString & type);
+        QString getLanguage();
+
 
 private:
 

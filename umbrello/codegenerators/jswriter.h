@@ -18,7 +18,7 @@
 #ifndef JSWRITER_H
 #define JSWRITER_H
 
-#include "../codegenerator.h"
+#include "simplecodegenerator.h"
 
 #include <qptrlist.h>
 #include <qstringlist.h>
@@ -28,10 +28,11 @@
   * class JSWriter is a JavaScript code generator for UMLClassifier objects
   * Just call writeClass and feed it a UMLClassifier;
   */
-class JSWriter : public CodeGenerator {
+class JSWriter : public SimpleCodeGenerator {
+	Q_OBJECT
 public:
 
-	JSWriter( QObject* parent = 0, const char* name = 0 );
+	JSWriter( UMLDoc * parent, const char* name = 0 );
 	virtual ~JSWriter();
 
 	/**
@@ -39,6 +40,9 @@ public:
 	  * @param c the class you want to generate code for.
 	  */
 	virtual void writeClass(UMLClassifier *c);
+
+	bool isType (QString & type);
+        QString getLanguage();
 
 private:
 

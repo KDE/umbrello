@@ -27,14 +27,15 @@
 #include <qregexp.h>
 
 #include "../umldoc.h"
+#include "../umlattributelist.h"
 #include "../association.h"
 #include "../attribute.h"
 #include "../classifier.h"
 #include "../operation.h"
 #include "../umlnamespace.h"
 
-PythonWriter::PythonWriter( QObject *parent, const char *name ) :
-  CodeGenerator( parent, name) {}
+PythonWriter::PythonWriter( UMLDoc *parent, const char *name ) :
+  	SimpleCodeGenerator( parent, name) {}
 
 PythonWriter::~PythonWriter() {}
 
@@ -259,6 +260,16 @@ void PythonWriter::writeOperations(QString /*classname*/, UMLOperationList &opLi
 	}//end for
 }
 
+QString PythonWriter::getLanguage() {
+        return "Python";
+}
+
+bool PythonWriter::isType (QString & type)
+{
+   if(type == "PythonWriter")
+        return true;
+   return false;
+}
 
 
 

@@ -56,9 +56,6 @@ public:
         virtual bool isType (QString & type) = 0;
 	virtual QString getLanguage() = 0;  
 
-        bool saveToXMI ( QDomDocument & doc, QDomElement & root );
-        void loadFromXMI(QDomElement & node);
-
 	void writeCodeToFile ( UMLClassifierList & concepts);
 	void writeCodeToFile ( );
 

@@ -31,11 +31,12 @@
 #include "../operation.h"
 #include "../umlnamespace.h"
 
-IDLWriter::IDLWriter(QObject *parent, const char *name)
-		: CodeGenerator(parent, name) {
+IDLWriter::IDLWriter(UMLDoc *parent, const char *name)
+		: SimpleCodeGenerator(parent, name) {
 	indentlevel = 0;
 	// FIXME: Eventually we should fabricate an Indenter class
 	// that can be used by all code generators.
+	// NOTE: this has now been done in new code gen class. -b.t.
 }
 
 IDLWriter::~IDLWriter() {}
@@ -69,6 +70,17 @@ QString IDLWriter::qualifiedName(UMLClassifier *c) {
 	}
 	retval.append(className);
 	return retval;
+}
+
+QString IDLWriter::getLanguage() {
+        return "IDL";
+}
+
+bool IDLWriter::isType (QString & type)
+{
+   if(type == "IDLWriter")
+        return true;
+   return false;
 }
 
 void IDLWriter::computeAssocTypeAndRole

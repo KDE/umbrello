@@ -34,11 +34,12 @@
 
 const QString AdaWriter::defaultPackageSuffix = "_Holder";
 
-AdaWriter::AdaWriter(QObject *parent, const char *name)
-		: CodeGenerator(parent, name) {
+AdaWriter::AdaWriter(UMLDoc *parent, const char *name)
+		: SimpleCodeGenerator(parent, name) {
 	indentlevel = 0;
 	// FIXME: Eventually we should fabricate an Indenter class
 	// that can be used by all code generators.
+	// NOTE: this now exists under new code gen system. Dont do here! -b.t.
 }
 
 AdaWriter::~AdaWriter() {}
@@ -73,6 +74,18 @@ QString AdaWriter::adatype(QString umbtype) {
 		retval = umbtype;
 	return retval;
 }
+
+QString AdaWriter::getLanguage() {
+        return "Ada";
+}
+
+bool AdaWriter::isType (QString & type)
+{
+   if(type == "AdaWriter")
+        return true;
+   return false;
+}
+
 
 bool AdaWriter::isOOClass(UMLClassifier *c) {
 	QString stype = c->getStereotype();

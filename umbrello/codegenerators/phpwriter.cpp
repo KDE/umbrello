@@ -28,8 +28,8 @@
 #include "../operation.h"
 #include "../umlnamespace.h"
 
-PhpWriter::PhpWriter( QObject *parent, const char *name )
-	:CodeGenerator( parent, name) {}
+PhpWriter::PhpWriter( UMLDoc *parent, const char *name )
+	:SimpleCodeGenerator( parent, name) {}
 
 PhpWriter::~PhpWriter() {}
 
@@ -329,6 +329,17 @@ void PhpWriter::writeAttributes(UMLAttributeList &atList, QTextStream &php) {
 
 	} // end for
 	return;
+}
+
+QString PhpWriter::getLanguage() {
+        return "PHP";
+}
+
+bool PhpWriter::isType (QString & type)
+{
+   if(type == "PhpWriter")
+        return true;
+   return false;
 }
 
 

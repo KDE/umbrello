@@ -17,7 +17,7 @@
 #ifndef PYTHONWRITER_H
 #define PYTHONWRITER_H
 
-#include "../codegenerator.h"
+#include "simplecodegenerator.h"
 #include "../umloperationlist.h"
 
 #include <qptrlist.h>
@@ -29,10 +29,11 @@ enum Access {PRIVATE, PUBLIC, PROTECTED};
   * class PythonWriter is a python code generator for UMLClassifier objects
   * Just call writeClass and feed it a UMLClassifier;
   */
-class PythonWriter : public CodeGenerator {
+class PythonWriter : public SimpleCodeGenerator {
+	Q_OBJECT
 public:
 
-	PythonWriter( QObject* parent = 0, const char* name = 0 );
+	PythonWriter( UMLDoc * parent, const char* name = 0 );
 	virtual ~PythonWriter();
 
 	/**
@@ -41,8 +42,11 @@ public:
 	  */
 	virtual void writeClass(UMLClassifier *c);
 
-  void setSpaceIndent(int number);
-  int getSpaceIndent(void);
+	bool isType (QString & type);
+	QString getLanguage();
+
+	void setSpaceIndent(int number);
+	int getSpaceIndent(void);
 
 private:
 

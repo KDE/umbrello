@@ -25,7 +25,8 @@ libcodegenerator_la_SOURCES = codegenfactory.cpp classifierinfo.cpp \
 				xmlschemacodegenerator.cpp xmlschemaclassifiercodedocument.cpp \
 				xmlschemacodeclassfield.cpp \
 				simplecodegenerator.cpp \
-				perlwriter.cpp
+				adawriter.cpp aswriter.cpp jswriter.cpp idlwriter.cpp perlwriter.cpp \
+				phpwriter.cpp pythonwriter.cpp sqlwriter.cpp
 install-data-local:
 	$(mkinstalldirs) $(DESTDIR)$(kde_datadir)/umbrello/codegenerators/
 	$(INSTALL_DATA) libcodegenerator.la $(DESTDIR)$(kde_datadir)/umbrello/codegenerators/libcodegenerator.la

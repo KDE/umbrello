@@ -172,7 +172,7 @@ public:
 	/**
 	 * @return	QString
 	 */
-	virtual bool saveToXMI ( QDomDocument & doc, QDomElement & root ) = 0;
+	virtual bool saveToXMI ( QDomDocument & doc, QDomElement & root );
 
 	/**
          * Find a code document by the given id string.
@@ -286,7 +286,7 @@ public:
         /**
          * @param       element
          */
-        virtual void loadFromXMI (QDomElement & element ) = 0;
+        virtual void loadFromXMI (QDomElement & element );
 
         /**
          * Create a new code generation policy object.

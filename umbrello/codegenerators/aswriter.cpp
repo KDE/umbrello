@@ -26,8 +26,8 @@
 #include <qregexp.h>
 #include <qstring.h>
 
-ASWriter::ASWriter( QObject *parent, const char *name )
-	:CodeGenerator( parent, name) {}
+ASWriter::ASWriter( UMLDoc *parent, const char *name )
+	:SimpleCodeGenerator( parent, name) {}
 
 ASWriter::~ASWriter() {}
 
@@ -283,5 +283,16 @@ void ASWriter::writeOperations(QString classname, UMLOperationList *opList, QTex
 		as << ")\n{\n\t\n}\n";
 		as << "\n" << endl;
 	}//end for
+}
+
+QString ASWriter::getLanguage() {
+        return "ActionScript";
+}
+
+bool ASWriter::isType (QString & type)
+{
+   if(type == "ASWriter")
+        return true;
+   return false;
 }
 

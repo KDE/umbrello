@@ -31,8 +31,8 @@
 #include "../association.h"
 #include "../attribute.h"
 
-SQLWriter::SQLWriter( QObject *parent, const char *name )
-		:CodeGenerator( parent, name) {}
+SQLWriter::SQLWriter( UMLDoc *parent, const char *name )
+		:SimpleCodeGenerator( parent, name) {}
 
 SQLWriter::~SQLWriter() {}
 
@@ -143,3 +143,15 @@ void SQLWriter::printAttributes(QTextStream& sql, UMLAttributeList attributeList
 		    << (at->getInitialValue().isEmpty()?QString(""):QString(" DEFAULT ")+at->getInitialValue());
 	}
 }
+
+QString SQLWriter::getLanguage() {
+        return "SQL";
+}
+
+bool SQLWriter::isType (QString & type)
+{
+   if(type == "SQLWriter")
+        return true;
+   return false;
+}
+

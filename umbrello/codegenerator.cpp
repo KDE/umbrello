@@ -14,6 +14,7 @@
  */
 
 #include <cstdlib> //to get the user name
+#include <iostream.h>
 
 #include <qdatetime.h>
 #include <qregexp.h>
@@ -28,6 +29,7 @@
 #include "dialogs/overwritedialogue.h"
 
 #include "codegenerator.h"
+#include "codegenerators/simplecodegenerator.h"
 
 #include "attribute.h"
 #include "associationwidget.h"
@@ -194,6 +196,79 @@ UMLDoc * CodeGenerator::getDocument ( ) {
 
 // Other methods
 //  
+
+void CodeGenerator::loadFromXMI (QDomElement & qElement ) {
+
+	// dont do anything for simple (compatability) code generators 
+	if(dynamic_cast<SimpleCodeGenerator*>(this))
+		return;
+
+        //now look for our particular child element
+        QDomNode node = qElement.firstChild();
+        QDomElement element = node.toElement();
+        QString langType = getLanguage();
+
+cerr<<" **** LOAD FROM XMI CALLED for "<<langType.latin1()<<" CODE GENERATOR **** "<<endl;
+        while( !element.isNull() ) {
+                QString tag = element.tagName();
+                if( tag == "codegenerator" && element.attribute( "language", "UNKNOWN" ) == langType ) {
+                        // got our code generator element, now load
+                        // codedocuments
+                        QDomNode codeDocNode = element.firstChild();
+                        QDomElement codeDocElement = codeDocNode.toElement();
+                        while( !codeDocElement.isNull() ) {
+
+                                QString docTag = codeDocElement.tagName();
+cerr<<" XMI LOAD: GOT CODE DOCUMENT W/ tag:"<<docTag.latin1()<<endl;
+                                if( docTag == "codedocument" ||
+                                    docTag == "classifiercodedocument"
+                                  ) {
+                                        QString id = codeDocElement.attribute( "id", "-1" );
+cerr<<" XMI LOAD: GOT CODE DOCUMENT W/ ID:"<<id.latin1()<<endl;
+                                        CodeDocument * codeDoc = findCodeDocumentByID(id);
+                                        if(codeDoc)
+                                                codeDoc->loadFromXMI(codeDocElement);
+                                        else {
+                                                kdError()<<" LOAD FROM XMI: MISSING CODE DOCUMENT, create a new one or ignore and throw a warning?"<<endl;
+                                        }
+                                } else 
+/*
+				// load Policy??
+                                if( docTag == "codegenpolicy" ) {
+					getPolicy()->loadFromXMI(codeDocElement);
+                                } else 
+*/
+{
+cerr<<" XMI WARNING: got strange codegenerator child node:"<<docTag.latin1()<<", ignoring."<<endl;
+                                        kdWarning()<<" XMI WARNING: got strange codegenerator child node:"<<docTag<<", ignoring."<<endl;
+}
+
+                                codeDocNode = codeDocElement.nextSibling();
+                                codeDocElement = codeDocNode.toElement();
+                        }
+                        break; // no more to do
+                }
+                node = element.nextSibling();
+                element = node.toElement();
+        }
+}
+
+bool CodeGenerator::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
+        QString langType = getLanguage();
+        QDomElement docElement = doc.createElement( "codegenerator" );
+        docElement.setAttribute("language",langType);
+        bool status = true;
+
+cerr<<"Code GENERATOR saveToXMI Called:"<<langType.latin1()<<endl;
+
+        QPtrList<CodeDocument> * docList = getCodeDocumentList();
+        for (CodeDocument * codeDoc = docList->first(); codeDoc; codeDoc= docList->next())
+                status = codeDoc->saveToXMI(doc, docElement) ? status : false;
+
+        root.appendChild( docElement );
+
+        return status;
+}
 
 /**
  * Initialize this code generator from its parent UMLDoc. When this is called, it will

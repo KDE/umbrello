@@ -13,8 +13,6 @@
  *      Date   : Sep Mon 1 2003
  */
 
-#include <iostream.h>
-
 #include <cstdlib> //to get the user name
 
 #include <qdatetime.h>
@@ -44,14 +42,10 @@
 SimpleCodeGenerator::SimpleCodeGenerator (UMLDoc * parentDoc , const char * name) 
     : CodeGenerator( parentDoc, name ) 
 {
-cerr<<"SimpleCodeGenerator "<<this<<" created with parent document:"<<parentDoc<<endl;
 	initFields(parentDoc);
-
 };
 
-SimpleCodeGenerator::~SimpleCodeGenerator ( ) { 
-cerr<<"SimpleCodeGenerator "<<this<<" destroyed"<<endl;
-};
+SimpleCodeGenerator::~SimpleCodeGenerator ( ) { };
 
 //  
 // Methods
@@ -66,13 +60,10 @@ cerr<<"SimpleCodeGenerator "<<this<<" destroyed"<<endl;
 
 QString SimpleCodeGenerator::findFileName(UMLClassifier* concept, QString ext) {
 
-cerr<<"SIMPLE CODE GEN FIND FILE NAME:"<<concept<<" ext:"<<ext.latin1()<<endl;
-
         //if we already know to which file this class was written/should be written, just return it.
         if(m_fileMap->contains(concept))
                 return ((*m_fileMap)[concept]);
 
-cerr<<"SIMPLE CODE GEN passed map:"<<endl;
         //else, determine the "natural" file name
         QString name;
         // Get the package name
@@ -84,7 +75,6 @@ cerr<<"SIMPLE CODE GEN passed map:"<<endl;
         // Replace all blanks with underscore
         package.replace(QRegExp(" "), "_");
 
-cerr<<"SIMPLE CODE GEN 1:"<<endl;
         // if package is given add this as a directory to the file name
         if (!package.isEmpty()) {
                 name = package + "." + concept->getName();
@@ -94,7 +84,6 @@ cerr<<"SIMPLE CODE GEN 1:"<<endl;
                 name = concept->getName();
         }
 
-cerr<<"SIMPLE CODE GEN 2:"<<endl;
         // Convert all "." to "/" : Platform-specific path separator
         name.replace(QRegExp("\\."),"/"); // Simple hack!
         if (ext != ".java" && ext != ".pm" && ext != ".py") {
@@ -119,15 +108,12 @@ cerr<<"SIMPLE CODE GEN 2:"<<endl;
         ext.simplifyWhiteSpace();
         ext.replace(QRegExp(" "),"_");
 
-cerr<<"SIMPLE CODE GHEN GOT FILENAME"<<endl;
         return overwritableName(concept, name, ext);
 }
 
 QString SimpleCodeGenerator::overwritableName(UMLClassifier* concept, QString name, QString ext) {
-cerr<<"DO OVERWIRTE CODE GEN:"<<endl;
         //check if a file named "name" with extension "ext" already exists
         if(!m_outputDirectory.exists(name+ext)) {
-cerr<<"DO OVERWIRTE CODE GEN inserts filename:"<<name.latin1()<<" and exits"<<endl;
                 m_fileMap->insert(concept,name);
                 return name; //if not, "name" is OK and we have not much to to
         }
@@ -182,7 +168,6 @@ cerr<<"DO OVERWIRTE CODE GEN inserts filename:"<<name.latin1()<<" and exits"<<en
                         break;
         }
 
-cerr<<"DO OVERWIRTE CODE GEN ends w/ name:"<<name.latin1()<<endl;
         m_fileMap->insert(concept,name);
         return name;
 }
@@ -212,15 +197,6 @@ bool SimpleCodeGenerator::hasAbstractOps(UMLClassifier *c) {
 CodeDocument * SimpleCodeGenerator::newClassifierCodeDocument (UMLClassifier * classifier) 
 {
 	return (CodeDocument*)NULL;
-}
-
-void SimpleCodeGenerator::loadFromXMI(QDomElement & node) 
-{
-	// so do we do anything??
-}
-
-bool SimpleCodeGenerator::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
-	return true;
 }
 
 // write all concepts in project to file
@@ -256,17 +232,14 @@ void SimpleCodeGenerator::initFields ( UMLDoc * parentDoc ) {
 // the newer codegenpolicy object and the older class fields.
 void SimpleCodeGenerator::syncCodeToDocument() {
 
-cerr<<"SYNCTODOC CALLED FOR SIMPLE"<<endl;
 	CodeGenerationPolicy *policy = getPolicy();
 
         m_overwrite = policy->getOverwritePolicy();
         m_modname = policy->getModifyPolicy();
         m_forceDoc = policy->getCodeVerboseDocumentComments();
         m_forceSections = policy->getCodeVerboseSectionComments();
-        m_outputDirectory = QDir(policy->getOutputDirectory().absPath()); // QDir::home();
-cerr<<" Sett output directory to :"<<m_outputDirectory.absPath().latin1()<<endl;
-        m_headingFiles = QDir(policy->getHeadingFileDir()); // QDir::home();
-//        m_headingFiles.cd("headings");
+        m_outputDirectory = QDir(policy->getOutputDirectory().absPath()); 
+        m_headingFiles = QDir(policy->getHeadingFileDir()); 
 
 }
 

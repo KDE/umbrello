@@ -16,27 +16,23 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <iostream.h>
 #include "../codegenerator.h"
+
+// the new 
 #include "cppcodegenerator.h"
 #include "javacodegenerator.h"
 #include "xmlschemacodegenerator.h"
-/*
+
+// the old
 #include "adawriter.h"
-#include "cppwriter.h"
-#include "cswriter.h"
+// #include "cswriter.h" // missing in action?!? 
 #include "idlwriter.h"
-#include "javawriter.h"
 #include "phpwriter.h"
-*/
 #include "perlwriter.h"
-/*
 #include "pythonwriter.h"
 #include "sqlwriter.h"
 #include "aswriter.h"
 #include "jswriter.h"
-#include "xmlschemawriter.h"
-*/
 
 #include "qstringlist.h"
 #include <kdebug.h>
@@ -53,25 +49,19 @@ CodeGeneratorFactory::~CodeGeneratorFactory() {
 
 QStringList CodeGeneratorFactory::languagesAvailable() {
 	kdDebug()<<"Querying languages available"<<endl;
+
 	QStringList l;
-/*
 	l.append("Ada");
 	l.append("ActionScript");
-*/
 	l.append("Cpp");
-/*
-	l.append("C#");
+//	l.append("C#");
 	l.append("IDL");
-*/
 	l.append("Java");
-
-//	l.append("JavaScript");
+	l.append("JavaScript");
  	l.append("Perl");
-/*
 	l.append("PHP");
 	l.append("Python");
 	l.append("SQL");
-*/
 	l.append("XMLSchema");
 	return l;
 }
@@ -82,28 +72,26 @@ QString CodeGeneratorFactory::generatorName(const QString &l) {
 		return "JavaCodeGenerator";
 	if (l=="Cpp")
 		return "CppCodeGenerator";
-/*
 	if (l == "Ada")
 		return "AdaWriter";
 	if (l == "ActionScript")
 		return "ASWriter";
+/*
 	if (l=="C#")
 		return "C#Writer";
+*/
 	if (l=="IDL")
 		return "IDLWriter";
 	if (l == "JavaScript")
 		return "JSWriter";
 	if (l == "PHP")
 		return "PHPWriter";
-*/
  	if (l == "Perl")
  		return "PerlWriter";
-/*
  	if (l == "Python")
  		return "PythonWriter";
  	if (l == "SQL")
  		return "SQLWriter";
-*/
  	if (l == "XMLSchema")
  		return "XMLSchemaCodeGenerator";
 	//else...
@@ -118,8 +106,6 @@ QObject* CodeGeneratorFactory::createObject ( QObject* parent, const char* name,
 
 	QString n(cname);
 
-cerr<<"CreateObject called with parent:"<<parent<<endl;
-
 	kdDebug()<<"Trying to create object of type "<<n<<endl;
 
 	QObject *obj = 0;
@@ -133,32 +119,24 @@ cerr<<"CreateObject called with parent:"<<parent<<endl;
 			obj = new CPPCodeGenerator(doc, name);
  		} else if (n == "XMLSchemaCodeGenerator") {
 			obj = new XMLSchemaCodeGenerator(doc, name);
-/*
-	if (n == "AdaWriter") {
-		obj = new AdaWriter(parent, name);
-	} else if(n == "ASWriter") {
-		obj = new ASWriter( parent, name );
-	} else if(n == "CppWriter") {
-		obj = new CppWriter( parent, name );
-	} else if(n == "C#Writer") {
-		obj = new CsWriter( parent, name );
-	} else if(n == "IDLWriter") {
-		obj = new IDLWriter( parent, name );
-	} else if(n =="JavaWriter") {
-		obj = new JavaWriter(parent, name);
-	} else if(n == "JSWriter") {
-		obj = new JSWriter( parent, name );
-	} else if (n == "PHPWriter") {
-		obj = new PhpWriter(parent, name);
-*/
+		} else if (n == "AdaWriter") {
+			obj = new AdaWriter(doc, name);
+		} else if(n == "ASWriter") {
+			obj = new ASWriter( doc, name );
+//		} else if(n == "C#Writer") {
+//			obj = new CsWriter( doc, name );
+		} else if(n == "IDLWriter") {
+			obj = new IDLWriter( doc, name );
+		} else if(n == "JSWriter") {
+			obj = new JSWriter( doc, name );
+		} else if (n == "PHPWriter") {
+			obj = new PhpWriter( doc, name);
  		} else if (n == "PerlWriter") {
-			obj = new PerlWriter(doc, name);
-/*
- 	} else if (n == "PythonWriter") {
-		obj = new PythonWriter(parent, name);
- 	} else if (n == "SQLWriter") {
-		obj = new SQLWriter(parent, name);
-*/
+			obj = new PerlWriter( doc, name);
+ 		} else if (n == "PythonWriter") {
+			obj = new PythonWriter( doc, name);
+ 		} else if (n == "SQLWriter") {
+			obj = new SQLWriter( doc, name);
 		} else {
 			kdDebug()<<"CodeGeneratorFactory:: cannot create object of type "<<n<<". Type unknown"<<endl;
 		}
