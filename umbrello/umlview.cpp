@@ -484,12 +484,20 @@ void UMLView::slotObjectCreated(UMLObject* o) {
 	} else if(type == ot_Entity) {
 		newWidget = new EntityWidget(this, static_cast<UMLEntity*>(o));
 	} else if(type == ot_Interface) {
-	        InterfaceWidget* interfaceWidget = new InterfaceWidget(this, static_cast<UMLInterface*>(o));
 		Diagram_Type diagramType = getType();
-		if (diagramType == dt_Component || diagramType == dt_Deployment) {
-			interfaceWidget->setDrawAsCircle(true);
+		if (diagramType == dt_Sequence || diagramType == dt_Collaboration) {
+			ObjectWidget *ow = new ObjectWidget(this, o, getLocalID() );
+			if (m_Type == dt_Sequence) {
+				y = ow->topMargin();
+			}
+			newWidget = ow;
+		} else {
+			InterfaceWidget* interfaceWidget = new InterfaceWidget(this, static_cast<UMLInterface*>(o));
+			if (diagramType == dt_Component || diagramType == dt_Deployment) {
+				interfaceWidget->setDrawAsCircle(true);
+			}
+			newWidget = interfaceWidget;
 		}
-		newWidget = interfaceWidget;
 	} else if(type == ot_Class ) { // CORRECT?
 		//see if we really want an object widget or class widget
 		if(getType() == dt_Class) {
@@ -603,7 +611,7 @@ void UMLView::contentsDragEnterEvent(QDragEnterEvent *e) {
 		return;
 	}
 	if((diagramType == dt_Sequence || diagramType == dt_Collaboration) &&
-	   ot != ot_Class && ot != ot_Actor) {
+	   ot != ot_Class && ot != ot_Interface && ot != ot_Actor) {
 		e->accept(false);
 		return;
 	}
@@ -1499,6 +1507,7 @@ UMLObjectList* UMLView::getUMLObjects() {
 		{
 			case wt_Actor:
 			case wt_Class:
+			case wt_Interface:
 			case wt_Package:
 			case wt_Component:
 			case wt_Node:
