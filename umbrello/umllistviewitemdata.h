@@ -88,9 +88,7 @@ public:
 	/**
 	 * 	Returns the id of the item being represented.
 	 */
-	int getID() {
-		return m_nId;
-	}
+	int getID();
 
 	/**
 	 * 		Returns the label text.
@@ -123,9 +121,7 @@ public:
 	/**
 	 * 	Sets the id of the item being represented.
 	 */
-	void setID( int id ) {
-		m_nId = id;
-	}
+	void setID( int id );
 
 	/**
 	 * 		Sets the label text.
