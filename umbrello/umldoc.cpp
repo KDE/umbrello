@@ -1662,18 +1662,11 @@ bool UMLDoc::addUMLView(UMLViewData * pViewData ) {
 	int i = 0;
 	QString viewName = (QString)pViewData->getName();
 	QString name = viewName;
-	while(true) {
-		UMLView * o = findView(pViewData->getType(), name);
-		if(o) {
-			name = viewName;
-			name += "_" + QString::number(++i);
-			o = findView(pViewData->getType(), name);
-		} else {
-			if(i) //If name was modified
-				pViewData->setName(name);
-			break;
-		}
+	while( findView(pViewData->getType(), name) != NULL) {
+		name = viewName + "_" + QString::number(++i);
 	}
+	if(i) //If name was modified
+		pViewData->setName(name);
 	int result = assignNewID(pViewData->getID());
 	pViewData->setID(result);
 	UMLView* pView = new UMLView(UMLApp::app()->getMainViewWidget(), pViewData, this);
