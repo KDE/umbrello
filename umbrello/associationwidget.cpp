@@ -276,7 +276,7 @@ QString AssociationWidget::getName() const {
 QString AssociationWidget::getDoc() const {
 	if (m_pAssociation)
 		return m_pAssociation->getDoc();
-	return "";
+	return m_Doc;
 }
 
 FloatingText* AssociationWidget::getRoleAWidget()
@@ -470,6 +470,7 @@ void AssociationWidget::setDoc (QString doc) {
 void AssociationWidget::setRoleADoc (QString doc) {
 	if (m_pAssociation)
 		m_pAssociation->setRoleADoc(doc);
+	m_RoleADoc = doc;
 }
 
 bool AssociationWidget::setRoleNameB(QString strRole) {
@@ -524,11 +525,13 @@ Scope AssociationWidget::getVisibilityA() const
 
 void AssociationWidget::setVisibilityA (Scope value)
 {
-	Scope old = m_pAssociation->getVisibilityA();
+	Scope old = getVisibilityA();
 	if (value != old) {
 		QString scopeString = UMLAssociation::ScopeToString(value);
 		// update our attribute
-		m_pAssociation->setVisibilityA(value);
+		if (m_pAssociation)
+			m_pAssociation->setVisibilityA(value);
+		m_VisibilityA = value;
 		// update RoleA pre-text attribute as appropriate
 		getRoleAWidget()->setPreText(scopeString);
 	synchronizeData(); // because FloatingText of RoleA is updated
@@ -545,13 +548,13 @@ Scope AssociationWidget::getVisibilityB() const
 
 void AssociationWidget::setVisibilityB (Scope value)
 {
-	Scope old = m_VisibilityB;
-	if (m_pAssociation)
-		old = m_pAssociation->getVisibilityB();
+	Scope old = getVisibilityB();
 	if (value != old) {
 		QString scopeString = UMLAssociation::ScopeToString(value);
 		// update our attribute
-		m_pAssociation->setVisibilityB(value);
+		if (m_pAssociation)
+			m_pAssociation->setVisibilityB(value);
+		m_VisibilityB = value;
 		// update RoleB pre-text attribute as appropriate
 		getRoleBWidget()->setPreText(scopeString);
 	synchronizeData(); // because FloatingText of RoleB is updated
@@ -568,9 +571,7 @@ Changeability_Type AssociationWidget::getChangeabilityA() const
 
 void AssociationWidget::setChangeabilityA (Changeability_Type value)
 {
-	Changeability_Type old = m_ChangeabilityA;
-	if (m_pAssociation)
-		old = m_pAssociation->getChangeabilityA();
+	Changeability_Type old = getChangeabilityA();
 	if (value == old)
 		return;
 
@@ -578,6 +579,7 @@ void AssociationWidget::setChangeabilityA (Changeability_Type value)
 	// update our attribute
 	if (m_pAssociation)
 		m_pAssociation->setChangeabilityA(value);
+	m_ChangeabilityA = value;
 	// update our string representation
 	setChangeWidgetA(changeString);
 }
@@ -621,13 +623,15 @@ Changeability_Type AssociationWidget::getChangeabilityB() const
 }
 
 void AssociationWidget::setChangeabilityB(Changeability_Type value) {
-	Changeability_Type old = m_pAssociation->getChangeabilityB();
+	Changeability_Type old = getChangeabilityB();
 	if (value == old)
 		return;
 
 	QString changeString = UMLAssociation::ChangeabilityToString(value);
 	// update our attribute
-	m_pAssociation->setChangeabilityB(value);
+	if (m_pAssociation)
+		m_pAssociation->setChangeabilityB(value);
+	m_ChangeabilityB = value;
 	// update our string representation
 	setChangeWidgetB(changeString);
 }
@@ -858,11 +862,11 @@ void AssociationWidget::setAssocType(Association_Type type) {
 int AssociationWidget::getWidgetAID() const {
 	if (m_pAssociation)
 		return m_pAssociation->getRoleAId();
-	return m_RoleAId;
+	return m_nWidgetAID;
 }
 
 void AssociationWidget::setWidgetAID(int AID) {
-	m_RoleAId = AID;
+	m_nWidgetAID = AID;
 	if (m_pAssociation)
 		m_pAssociation->setRoleAId(AID);
 }
@@ -870,11 +874,11 @@ void AssociationWidget::setWidgetAID(int AID) {
 int AssociationWidget::getWidgetBID() const {
 	if (m_pAssociation)
 		return m_pAssociation->getRoleBId();
-	return m_RoleBId;
+	return m_nWidgetBID;
 }
 
 void AssociationWidget::setWidgetBID(int BID) {
-	m_RoleBId = BID;
+	m_nWidgetBID = BID;
 	if (m_pAssociation)
 		m_pAssociation->setRoleBId(BID);
 }
@@ -2338,43 +2342,44 @@ void AssociationWidget::mouseReleaseEvent(QMouseEvent * me) {
 		return;
 	}
 	m_nMovingPoint = -1;
-	if(me->button() == RightButton) {
-		//work out the type of menu we want
-		//work out if the association allows rolenames, multiplicity, etc
-		//also must be within a certain ditance to be a multiplicity menu
-		QPoint p = me -> pos();
-		ListPopupMenu::Menu_Type menuType = ListPopupMenu::mt_Undefined;
-		int pos = m_LinePath.count() - 1;
-		int DISTANCE = 40;//must be within this many pixels for it to be a multi menu
-		float lengthMAP = sqrt( pow( double(m_LinePath.getPoint(0).x() - p.x()), 2.0) +
-		                        pow( double(m_LinePath.getPoint(0).y() - p.y()), 2.0) );
-		float lengthMBP = sqrt( pow( double(m_LinePath.getPoint(pos).x() - p.x()), 2.0) +
-		                        pow( double(m_LinePath.getPoint(pos).y() - p.y()), 2.0) );
-		Association_Type type = getAssocType();
-		//allow multiplicity
-		if( AssocRules::allowMultiplicity( type, getWidgetA() -> getBaseType() ) ) {
-			if(lengthMAP < DISTANCE)
-				menuType =  ListPopupMenu::mt_MultiA;
-			else if(lengthMBP < DISTANCE)
-				menuType = ListPopupMenu::mt_MultiB;
+	if(me->button() != RightButton) {
+		return;
+	}
+	// right button action:
+	//work out the type of menu we want
+	//work out if the association allows rolenames, multiplicity, etc
+	//also must be within a certain ditance to be a multiplicity menu
+	QPoint p = me -> pos();
+	ListPopupMenu::Menu_Type menuType = ListPopupMenu::mt_Undefined;
+	int pos = m_LinePath.count() - 1;
+	int DISTANCE = 40;//must be within this many pixels for it to be a multi menu
+	float lengthMAP = sqrt( pow( double(m_LinePath.getPoint(0).x() - p.x()), 2.0) +
+	                        pow( double(m_LinePath.getPoint(0).y() - p.y()), 2.0) );
+	float lengthMBP = sqrt( pow( double(m_LinePath.getPoint(pos).x() - p.x()), 2.0) +
+	                        pow( double(m_LinePath.getPoint(pos).y() - p.y()), 2.0) );
+	Association_Type type = getAssocType();
+	//allow multiplicity
+	if( AssocRules::allowMultiplicity( type, getWidgetA() -> getBaseType() ) ) {
+		if(lengthMAP < DISTANCE)
+			menuType =  ListPopupMenu::mt_MultiA;
+		else if(lengthMBP < DISTANCE)
+			menuType = ListPopupMenu::mt_MultiB;
+	}
+	if( menuType == ListPopupMenu::mt_Undefined ) {
+		if( type == at_Anchor )
+			menuType = ListPopupMenu::mt_Anchor;
+		else if( AssocRules::allowRole( type ) )
+			menuType = ListPopupMenu::mt_RoleName;
+		else
+			menuType = ListPopupMenu::mt_Association_Selected;
+		if(type == at_Coll_Message) {
+			menuType = ListPopupMenu::mt_Collaboration_Message;
 		}
-		if( menuType == ListPopupMenu::mt_Undefined ) {
-			if( type == at_Anchor )
-				menuType = ListPopupMenu::mt_Anchor;
-			else if( AssocRules::allowRole( type ) )
-				menuType = ListPopupMenu::mt_RoleName;
-			else
-				menuType = ListPopupMenu::mt_Association_Selected;
-			if(type == at_Coll_Message) {
-				menuType = ListPopupMenu::mt_Collaboration_Message;
-			}
-		}//end else
-		m_pMenu = new ListPopupMenu(m_pView, menuType);
-		m_pMenu->popup(me -> globalPos());
-		connect(m_pMenu, SIGNAL(activated(int)), this, SLOT(slotMenuSelection(int)));
-		setSelected( m_bSelected = true  );
-	}//end if RightButton
-	if(me->button() == LeftButton) {}//end LeftButton
+	}//end else
+	m_pMenu = new ListPopupMenu(m_pView, menuType);
+	m_pMenu->popup(me -> globalPos());
+	connect(m_pMenu, SIGNAL(activated(int)), this, SLOT(slotMenuSelection(int)));
+	setSelected( m_bSelected = true  );
 }//end method mouseReleaseEvent
 
 void AssociationWidget::slotMenuSelection(int sel) {
@@ -2394,8 +2399,7 @@ void AssociationWidget::slotMenuSelection(int sel) {
 
 	switch(sel) {
 	case ListPopupMenu::mt_Properties:
-		if(atype == at_Seq_Message || atype == at_Seq_Message_Self
-			) {
+		if(atype == at_Seq_Message || atype == at_Seq_Message_Self) {
 			// show op dlg for seq. diagram here
 			// don't worry about here, I don't think it can get here as
 			// line is widget on seq. diagram
@@ -2687,178 +2691,119 @@ void AssociationWidget::updateAssociations(int totalCount,
 	// we order the AssociationWidget list by region and x/y value
 	while ( (assocwidget = assoc_it.current()) )
 	{
+		++assoc_it;
 		// widgetA is given as function parameter!
 		if (widgetA)
 		{
 			// so we have to look at m_pWidgetA
 			// now we must find out with which end assocwidget connects to
 			// m_pWidgetA
-			if ( (m_pWidgetA == assocwidget -> getWidgetA() &&
-			      region == assocwidget -> getWidgetARegion()))
+			bool inWidgetARegion = ( m_pWidgetA == assocwidget -> getWidgetA() &&
+						 region == assocwidget -> getWidgetARegion() );
+			bool inWidgetBRegion = ( m_pWidgetA == assocwidget -> getWidgetB() &&
+						 region == assocwidget -> getWidgetBRegion());
+			if ( !inWidgetARegion && !inWidgetBRegion )
+				continue;
+			counter = 0;
+			out = false;
+			// now we go through all already known associations and insert
+			// assocwidget at the right position so that the lines don't cross
+			for (assocwidget2 = ordered.first(); assocwidget2;
+			     assocwidget2 = ordered.next())
 			{
-				counter = 0;
-				out = false;
-
-				// now we go through all allready known associations and insert
-				// assocwidget at the right position, so that the lines don't cross
-				for (assocwidget2 = ordered.first(); assocwidget2;
-				     assocwidget2 = ordered.next())
+				switch (region)
 				{
-					switch (region)
+				case North:
+				case South:
+					if ( (inWidgetARegion &&
+					      assocwidget2->getWidgetB()->x() >
+					      assocwidget->getWidgetB()->x()) ||
+					     (inWidgetBRegion &&
+					      assocwidget2->getWidgetB()->x() >
+					      assocwidget->getWidgetA()->x()) )
 					{
-					case North:
-					case South:
-						if (assocwidget2->getWidgetB()->x() >
-						    assocwidget->getWidgetB()->x())
-						{
-							ordered.insert(counter, assocwidget);
-							out = true;
-						}
-						break;
-					case East:
-					case West:
-						if (assocwidget2->getWidgetB()->y() >
-						    assocwidget->getWidgetB()->y())
-						{
-							ordered.insert(counter, assocwidget);
-							out = true;
-						}
-						break;
-					default:
-						break;
-					} // switch (region)
-					if (out == true)
-						break;
-					counter++;
-				} // for (assocwidget2 = ordered.first(); assocwidget2; ...
-				if (out == false)
-					ordered.append(assocwidget);
-			} else if (m_pWidgetA == assocwidget -> getWidgetB() &&
-				   region == assocwidget -> getWidgetBRegion()) {
-				counter = 0;
-				out = false;
-
-				// now we go through all allready known associations and insert
-				// assocwidget at the right position, so that the lines don't cross
-				for (assocwidget2 = ordered.first(); assocwidget2;
-				     assocwidget2 = ordered.next())
-				{
-					switch (region)
+						ordered.insert(counter, assocwidget);
+						out = true;
+					}
+					break;
+				case East:
+				case West:
+					if ( (inWidgetARegion &&
+					      assocwidget2->getWidgetB()->y() >
+					      assocwidget->getWidgetB()->y()) ||
+					     (inWidgetBRegion &&
+					      assocwidget2->getWidgetB()->y() >
+					      assocwidget->getWidgetA()->y()) )
 					{
-					case North:
-					case South:
-						if (assocwidget2->getWidgetB()->x() >
-						    assocwidget->getWidgetA()->x())
-						{
-							ordered.insert(counter, assocwidget);
-							out = true;
-						}
-						break;
-					case East:
-					case West:
-						if (assocwidget2->getWidgetB()->y() >
-						    assocwidget->getWidgetA()->y())
-						{
-							ordered.insert(counter, assocwidget);
-							out = true;
-						}
-						break;
-					default:
-						break;
-					} // switch (region)
-					if (out == true)
-						break;
-					counter++;
-				} // for (assocwidget2 = ordered.first(); assocwidget2; ...
-				if (out == false)
-					ordered.append(assocwidget);
-			} // if (m_pWidgetA == assocwidget-> getWidgetA() && region == ...
+						ordered.insert(counter, assocwidget);
+						out = true;
+					}
+					break;
+				default:
+					break;
+				} // switch (region)
+				if (out == true)
+					break;
+				counter++;
+			} // for (assocwidget2 = ordered.first(); assocwidget2; ...
+			if (out == false)
+				ordered.append(assocwidget);
 		} else {
 			// so we have to look at m_pWidgetB
 			// now we must find out with which end assocwidget connects to
 			// m_pWidgetB
-			if (m_pWidgetB == assocwidget -> getWidgetA() &&
-			    region == assocwidget -> getWidgetARegion())
+			bool inWidgetARegion = ( m_pWidgetB == assocwidget -> getWidgetA() &&
+						 region == assocwidget -> getWidgetARegion() );
+			bool inWidgetBRegion = ( m_pWidgetB == assocwidget -> getWidgetB() &&
+						 region == assocwidget -> getWidgetBRegion() );
+			if ( !inWidgetARegion && !inWidgetBRegion )
+				continue;
+			counter = 0;
+			out = false;
+
+			// now we go through all already known associations and insert
+			// assocwidget at the right position so that the lines don't cross
+			for (assocwidget2 = ordered.first(); assocwidget2;
+			     assocwidget2 = ordered.next())
 			{
-				counter = 0;
-				out = false;
-
-				// now we go through all allready known associations and insert
-				// assocwidget at the right position, so that the lines don't cross
-				for (assocwidget2 = ordered.first(); assocwidget2;
-				     assocwidget2 = ordered.next())
+				switch (region)
 				{
-					switch (region)
+				case North:
+				case South:
+					if ( (inWidgetARegion &&
+					      assocwidget2->getWidgetA()->x() >
+					      assocwidget->getWidgetB()->x()) ||
+					     (inWidgetBRegion &&
+					      assocwidget2->getWidgetA()->x() >
+					      assocwidget->getWidgetA()->x()) )
 					{
-					case North:
-					case South:
-						if (assocwidget2->getWidgetA()->x() >
-						    assocwidget->getWidgetB()->x())
-						{
-							ordered.insert(counter, assocwidget);
-							out = true;
-						}
-						break;
-					case East:
-					case West:
-						if (assocwidget2->getWidgetA()->y() >
-						    assocwidget->getWidgetB()->y())
-						{
-							ordered.insert(counter, assocwidget);
-							out = true;
-						}
-						break;
-					default:
-						break;
-					} // switch (region)
-					if (out == true)
-						break;
-					counter++;
-				} // for (assocwidget2 = ordered.first(); assocwidget2; ...
-				if (out == false)
-					ordered.append(assocwidget);
-			} else if (m_pWidgetB == assocwidget -> getWidgetB() &&
-				   region == assocwidget -> getWidgetBRegion()) {
-				counter = 0;
-				out = false;
-
-				// now we go through all allready known associations and insert
-				// assocwidget at the right position, so that the lines don't cross
-				for (assocwidget2 = ordered.first(); assocwidget2;
-				     assocwidget2 = ordered.next())
-				{
-					switch (region)
+						ordered.insert(counter, assocwidget);
+						out = true;
+					}
+					break;
+				case East:
+				case West:
+					if ( (inWidgetARegion &&
+					      assocwidget2->getWidgetA()->y() >
+					      assocwidget->getWidgetB()->y()) ||
+					     (inWidgetBRegion &&
+					      assocwidget2->getWidgetA()->y() >
+					      assocwidget->getWidgetA()->y()) )
 					{
-					case North:
-					case South:
-						if (assocwidget2->getWidgetA()->x() >
-						    assocwidget->getWidgetA()->x())
-						{
-							ordered.insert(counter, assocwidget);
-							out = true;
-						}
-						break;
-					case East:
-					case West:
-						if (assocwidget2->getWidgetA()->y() >
-						    assocwidget->getWidgetA()->y())
-						{
-							ordered.insert(counter, assocwidget);
-							out = true;
-						}
-						break;
-					default:
-						break;
-					} // switch (region)
-					if (out == true)
-						break;
-					counter++;
-				} // for (assocwidget2 = ordered.first(); assocwidget2; ...
-				if (out == false)
-					ordered.append(assocwidget);
-			} // if (m_pWidgetB == assocwidget -> getWidgetA() && region == ...
+						ordered.insert(counter, assocwidget);
+						out = true;
+					}
+					break;
+				default:
+					break;
+				} // switch (region)
+				if (out == true)
+					break;
+				counter++;
+			} // for (assocwidget2 = ordered.first(); assocwidget2; ...
+			if (out == false)
+				ordered.append(assocwidget);
 		} // if (widgetA)
-		++assoc_it;
 	} // while ( (assocwidget = assoc_it.current()) )
 
 	// we now have an ordered list and we only have to call updateRegionLineCount
@@ -3154,6 +3099,16 @@ void AssociationWidget::init (QWidget *parent)
 
 	m_LinePath.setAssociation( this );
 
+	// Initialize local members.
+	// These are only used if we don't have a UMLAssociation attached.
+	m_VisibilityA = Public;
+	m_VisibilityB = Public;
+	m_ChangeabilityA = chg_Changeable;
+	m_ChangeabilityB = chg_Changeable;
+	m_nWidgetAID = -1;
+	m_nWidgetBID = -1;
+	m_AssocType = Uml::at_Association;
+
 	connect(m_pView, SIGNAL(sigRemovePopupMenu()), this, SLOT(slotRemovePopupMenu()));
 	connect(m_pView, SIGNAL( sigClearAllSelected() ), this, SLOT( slotClearAllSelected() ) );
 }
@@ -3204,8 +3159,20 @@ bool AssociationWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 	QDomElement assocElement = qDoc.createElement( "UML:AssocWidget" );
 	bool status = true;
 
-	if (m_pAssociation)
+	if (m_pAssociation) {
 		assocElement.setAttribute( "xmi.id", m_pAssociation->getID() );
+	} else {
+		assocElement.setAttribute( "type", m_AssocType );
+		assocElement.setAttribute( "widgetaid", m_nWidgetAID );
+		assocElement.setAttribute( "widgetbid", m_nWidgetBID );
+		assocElement.setAttribute( "visibilityA", m_VisibilityA);
+		assocElement.setAttribute( "visibilityB", m_VisibilityB);
+		assocElement.setAttribute( "changeabilityA", m_ChangeabilityA);
+		assocElement.setAttribute( "changeabilityB", m_ChangeabilityB);
+		assocElement.setAttribute( "roleAdoc", m_RoleADoc);
+		assocElement.setAttribute( "roleBdoc", m_RoleBDoc);
+		// assocElement.setAttribute( "documentation", m_Doc );
+	}
 	assocElement.setAttribute( "indexa", m_nIndexA );
 	assocElement.setAttribute( "indexb", m_nIndexB );
 	assocElement.setAttribute( "totalcounta", m_nTotalCountA );

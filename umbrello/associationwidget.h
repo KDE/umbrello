@@ -37,6 +37,7 @@ using namespace Uml;
  *
  * @author Gustavo Madrigal
  * @short This class represents an association inside a diagram.
+ * @version $Revision$
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class AssociationWidget : public QObject {
@@ -784,13 +785,14 @@ private:
 	 * The following items are only used if m_pAssociation is not set.
 	 */
 	Uml::Association_Type m_AssocType;
-	int m_RoleAId;
-	int m_RoleBId;
+	int m_nWidgetAID;
+	int m_nWidgetBID;
+	Scope m_VisibilityA, m_VisibilityB;
+	Changeability_Type m_ChangeabilityA, m_ChangeabilityB;
 	QString m_RoleADoc, m_RoleBDoc;
 	QString m_RoleNameA, m_RoleNameB;
 	QString m_MultiA, m_MultiB;
-	Scope m_VisibilityA, m_VisibilityB;
-	Changeability_Type m_ChangeabilityA, m_ChangeabilityB;
+	QString m_Doc;
 
 public slots:
 	/**
