@@ -32,9 +32,10 @@ ClassAttributesPage::ClassAttributesPage(UMLClass *c, UMLDoc *doc, QWidget *pare
 	loadPixmaps();
 	loadData();
 	connect(m_umlObject,SIGNAL(modified()),this,SLOT(loadData()));
+	connect(this,SIGNAL(pageModified()),this,SLOT(pageContentsModified()));
 }
 
-
+ClassAttributesPage::~ClassAttributesPage() {}
 
 void ClassAttributesPage::apply()
 {
@@ -52,6 +53,7 @@ void ClassAttributesPage::pageContentsModified()
 }
 void ClassAttributesPage::loadData()
 {
+disconnect(this,SIGNAL(pageModified()),this,SLOT(pageContentsModified()));
 	QPtrList<UMLAttribute> *attList = m_umlObject->getAttList();
 	QListViewItem *item;
 	for( UMLAttribute *att = attList->last(); att; att = attList->prev() )
@@ -61,10 +63,12 @@ void ClassAttributesPage::loadData()
 				    (att->getScope() == Uml::Protected ? m_pixmaps.Protected :
 				    m_pixmaps.Private)));
 	}
+connect(this,SIGNAL(pageModified()),this,SLOT(pageContentsModified()));
 }
 
 void ClassAttributesPage::saveData()
 {
+disconnect(m_umlObject,SIGNAL(modified()),this,SLOT(loadData()));
 
 	UMLAttribute *att;
 	for( att = m_deletedAtts.first() ; att; att = m_deletedAtts.next() )
@@ -86,6 +90,7 @@ void ClassAttributesPage::saveData()
 	m_umlObject->setDoc(m_documentation->text());*/
 
 //	blockSignals(false);
+connect(m_umlObject,SIGNAL(modified()),this,SLOT(loadData()));
 }
 
 void ClassAttributesPage::moveUp( )
