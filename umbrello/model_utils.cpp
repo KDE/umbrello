@@ -209,7 +209,7 @@ QString scopeToString(Uml::Scope scope, bool mnemonic) {
 	}
 }
 
-Parse_Status parseTemplate(QString t, NameAndType& nmTpPair, UMLPackage *owningScope) {
+Parse_Status parseTemplate(QString t, NameAndType& nmTpPair, UMLClassifier *owningScope) {
 
 	UMLDoc *pDoc = UMLApp::app()->getDocument();
 
@@ -219,17 +219,20 @@ Parse_Status parseTemplate(QString t, NameAndType& nmTpPair, UMLPackage *owningS
 
 	QStringList nameAndType = QStringList::split( QRegExp("\\s*:\\s*"), t);
 	if (nameAndType.count() == 2) {
-		UMLObject *pType = pDoc->findUMLObject(nameAndType[1], Uml::ot_UMLObject, owningScope);
-		if (pType == NULL)
-			return PS_Unknown_ArgType;
-		nmTpPair = NameAndType(nameAndType[0], dynamic_cast<UMLClassifier*>(pType));
+		UMLObject *pType = NULL;
+		if (nameAndType[1] != "class") {
+			pType = pDoc->findUMLObject(nameAndType[1], Uml::ot_UMLObject, owningScope);
+			if (pType == NULL)
+				return PS_Unknown_ArgType;
+		}
+		nmTpPair = NameAndType(nameAndType[0], pType);
 	} else {
 		nmTpPair = NameAndType(t, NULL);
 	}
 	return PS_OK;
 }
 
-Parse_Status parseAttribute(QString a, NameAndType& nmTpPair, UMLPackage *owningScope) {
+Parse_Status parseAttribute(QString a, NameAndType& nmTpPair, UMLClassifier *owningScope) {
 	UMLDoc *pDoc = UMLApp::app()->getDocument();
 
 	a = a.stripWhiteSpace();
@@ -247,7 +250,7 @@ Parse_Status parseAttribute(QString a, NameAndType& nmTpPair, UMLPackage *owning
 	return PS_OK;
 }
 
-Parse_Status parseOperation(QString m, OpDescriptor& desc, UMLPackage *owningScope) {
+Parse_Status parseOperation(QString m, OpDescriptor& desc, UMLClassifier *owningScope) {
 	UMLDoc *pDoc = UMLApp::app()->getDocument();
 
 	m = m.stripWhiteSpace();

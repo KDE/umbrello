@@ -30,7 +30,6 @@
 
 
 // forward declarations
-class UMLPackage;
 class UMLClassifier;
 
 namespace Umbrello {
@@ -103,7 +102,7 @@ namespace Umbrello {
 	/**
 	 * Data structure filled by parseAttribute()
 	 */
-	typedef QPair<QString, UMLClassifier*> NameAndType;
+	typedef QPair<QString, UMLObject*> NameAndType;
 
 	/**
 	 * Auxiliary type for OpDescriptor
@@ -117,7 +116,7 @@ namespace Umbrello {
 	struct OpDescriptor {
 		QString m_name;
 		NameAndType_List m_args;
-		UMLClassifier *m_pReturnType;
+		UMLObject *m_pReturnType;
 	};
 
 	/**
@@ -130,7 +129,7 @@ namespace Umbrello {
 	 * @param owningScope	Pointer to the owning scope of the template param.
 	 * @return	Error status of the parse, PS_OK for success.
 	 */
-	Parse_Status parseTemplate(QString t, NameAndType& nmTpPair, UMLPackage *owningScope);
+	Parse_Status parseTemplate(QString t, NameAndType& nmTpPair, UMLClassifier *owningScope);
 
 	/**
 	 * Parses an attribute given in UML syntax.
@@ -141,7 +140,7 @@ namespace Umbrello {
 	 * @param owningScope	Pointer to the owning scope of the attribute.
 	 * @return	Error status of the parse, PS_OK for success.
 	 */
-	Parse_Status parseAttribute(QString a, NameAndType& nmTpPair, UMLPackage *owningScope);
+	Parse_Status parseAttribute(QString a, NameAndType& nmTpPair, UMLClassifier *owningScope);
 
 	/**
 	 * Parses an operation given in UML syntax.
@@ -153,7 +152,7 @@ namespace Umbrello {
 	 * @param owningScope	Pointer to the owning scope of the operation.
 	 * @return	Error status of the parse, PS_OK for success.
 	 */
-	Parse_Status parseOperation(QString m, OpDescriptor& desc, UMLPackage *owningScope);
+	Parse_Status parseOperation(QString m, OpDescriptor& desc, UMLClassifier *owningScope);
 
 	/**
 	 * Returns the Parse_Status as a text.
