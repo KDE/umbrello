@@ -70,7 +70,7 @@ public:
 	 *
 	 * @return	Returns the ID of the object.
 	 */
-	int getID() const;
+	virtual int getID() const;
 
 	/**
 	 * Sets the documentation for the object.
@@ -131,7 +131,7 @@ public:
 	/**
 	 * Assigns a new Id to the object
 	 */
-	void setID(int NewID);
+	virtual void setID(int NewID);
 
 	/**
 	 * Returns a copy of m_Name
