@@ -54,7 +54,6 @@ class QSplitter;
 
 class KPrinter;
 
-class ClassImport;
 class CodeGenerator;
 class DocWindow;
 class IDChangeLog;
@@ -841,14 +840,12 @@ public:
 	/**
 	 * Returns true when loading a document file.
 	 */
-	bool loading() const {
-		return m_bLoading;
-	}
+	bool loading() const;
 
 	/**
-	 * Return the ClassImport object.
+	 * Sets loading boolean flag to the value given.
 	 */
-	ClassImport * classImport();
+	void setLoading(bool state = true);
 
 	/**
 	 * Find a code generator by the given language.
@@ -944,7 +941,6 @@ private:
 	 */
 	void initSaveTimer();
 
-	ClassImport * m_classImporter;
 	CodeGenerator * m_currentcodegenerator;
 	UMLObjectList m_objectList;
 

@@ -48,7 +48,6 @@
 #include "package.h"
 #include "component.h"
 #include "codegenerator.h"
-#include "classimport.h"
 #include "node.h"
 #include "artifact.h"
 #include "interface.h"
@@ -92,7 +91,6 @@ UMLDoc::UMLDoc() {
 	m_currentView = 0;
 	m_uniqueID = 0;
 	m_count = 0;
-	m_classImporter = 0;
 	m_currentcodegenerator = 0;
 	m_objectList.clear();
 	m_objectList.setAutoDelete(false); // DONT autodelete
@@ -738,12 +736,6 @@ bool UMLDoc::removeCodeGenerator ( CodeGenerator * remove_object ) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 CodeGenerator * UMLDoc::findCodeGeneratorByLanguage (const QString &lang) {
 	return m_codeGeneratorDictionary.find(lang);
-}
-
-ClassImport * UMLDoc::classImport() {
-	if (m_classImporter == NULL)
-		m_classImporter = new ClassImport(this);
-	return m_classImporter;
 }
 
 UMLView * UMLDoc::findView(Uml::IDType id) {
@@ -1424,8 +1416,14 @@ QString UMLDoc::uniqViewName(const Diagram_Type type) {
 	return name;
 }
 
+bool UMLDoc::loading() const {
+	return m_bLoading;
+}
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
+void UMLDoc::setLoading(bool state /* = true */) {
+	m_bLoading = state;
+}
+
 void UMLDoc::createDiagram(Diagram_Type type, bool askForName /*= true */) {
 	bool ok = true;
 	QString	name,

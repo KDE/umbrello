@@ -314,7 +314,7 @@ void UMLListView::popupMenuSel(int sel) {
 		break;
 
 	case ListPopupMenu::mt_Import_Classes:
-		m_doc->classImport()->importCPP(
+		UMLApp::app()->classImport()->importCPP(
 			KFileDialog::getOpenFileNames(":import-classes",
 						      i18n("*.h|Header Files (*.h)\n*|All Files"),
 						      this, i18n("Select Classes to Import") ));
@@ -432,7 +432,7 @@ void UMLListView::popupMenuSel(int sel) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLListView::slotDiagramCreated( Uml::IDType id ) {
-	if( loading )
+	if( m_doc->loading() )
 		return;
 	UMLListViewItem * temp = 0, *p = 0;
 	UMLView *v = m_doc -> findView( id );
@@ -596,7 +596,7 @@ void UMLListView::connectNewObjectsSlots(UMLObject* object) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLListView::slotObjectChanged() {
-	if (loading) { //needed for class wizard
+	if (m_doc->loading()) { //needed for class wizard
 		return;
 	}
 	UMLObject* obj = const_cast<UMLObject*>( dynamic_cast<const UMLObject*>(sender()) );
@@ -672,7 +672,7 @@ void UMLListView::setDocument(UMLDoc *d) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLListView::slotObjectRemoved(UMLObject* object) {
-	if (loading) { //needed for class wizard
+	if (m_doc->loading()) { //needed for class wizard
 		return;
 	}
 	disconnect(object,SIGNAL(modified()),this,SLOT(slotObjectChanged()));
@@ -847,7 +847,6 @@ void UMLListView::init() {
 	delete m_pMenu;
 	m_pMenu = 0;
 	m_bStartedCut = m_bStartedCopy = false;
-	loading = false;
 	m_bIgnoreCancelRename = true;
 	m_bCreatingChildObject = false;
 }
@@ -858,10 +857,6 @@ void UMLListView::setView(UMLView * v) {
 	UMLListViewItem * temp = findView(v);
 	if(temp)
 		setSelected(temp, true);
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////
-void UMLListView::setLoading(bool state) {
-	loading = state;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLListView::contentsMouseDoubleClickEvent(QMouseEvent * me) {

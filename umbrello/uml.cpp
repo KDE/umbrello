@@ -86,7 +86,8 @@ UMLApp::UMLApp(QWidget* , const char* name):KDockMainWindow(0, name) {
 	///////////////////////////////////////////////////////////////////
 	// call inits to invoke all other construction parts
 	readOptionState();
-	initDocument();
+	m_doc = new UMLDoc();
+	m_classImporter = new ClassImport(m_doc);
 	initActions(); //now calls initStatusBar() because it is affected by setupGUI()
 	initView();
 	initClip();
@@ -382,10 +383,6 @@ void UMLApp::initStatusBar() {
 	*/
 
 	connect(m_doc, SIGNAL( sigWriteToStatusBar(const QString &) ), this, SLOT( slotStatusMsg(const QString &) ));
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////
-void UMLApp::initDocument() {
-	m_doc = new UMLDoc();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLApp::initView() {
@@ -1359,10 +1356,16 @@ void UMLApp::slotUpdateViews() {
 
 }
 
+ClassImport * UMLApp::classImport() {
+	return m_classImporter;
+}
+
 void UMLApp::slotImportClasses() {
 	QStringList fileList = KFileDialog::getOpenFileNames(":import-classes",
 	                       i18n("*.h *.hpp *.hxx|Header Files (*.h *.hpp *.hxx)\n*|All Files"), this, i18n("Select Classes to Import") );
-	m_doc->classImport()->importCPP( fileList );
+	m_doc->setLoading(true);
+	m_classImporter->importCPP( fileList );
+	m_doc->setLoading(false);
 }
 
 void UMLApp::slotClassWizard() {

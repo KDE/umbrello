@@ -119,11 +119,6 @@ class UMLListView : public KListView {
 	 */
 	void setView(UMLView* v);
 
-	/**
-	 * Sets loading boolean flag to the value given.
-	 */
-	void setLoading(bool state);
-
 	bool getSelectedItems(UMLListViewItemList &ItemList);
 
 	/**
@@ -299,7 +294,7 @@ class UMLListView : public KListView {
 	ListPopupMenu * m_pMenu;
 	QString oldText, message;
 	UMLDoc *m_doc;
-	bool loading, m_bStartedCut, m_bStartedCopy, m_bIgnoreCancelRename;
+	bool m_bStartedCut, m_bStartedCopy, m_bIgnoreCancelRename;
 
 	/**
 	 * Used when creating an attribute or an operation to stop it adding a second listViewItem
