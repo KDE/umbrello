@@ -85,9 +85,17 @@ public:
 	    mt_Template_Selected,
 	    mt_Association_Selected,          //ASSOCSEL
 	    mt_Show_Attributes,               //SHOWATTS
+	    mt_Show_Attributes_Selection,     //SHOWATTS, multiple items
 	    mt_Show_Operations,               //SHOWOPS
+	    mt_Show_Operations_Selection,     //SHOWOPS, multiple items
+	    mt_Show_Packages,                 //SHOWPACKAGE
+	    mt_Show_Packages_Selection,       //SHOWPACKAGE, multiple items
+	    mt_Show_Stereotypes,              //SHOWSTEREOTYPE
+	    mt_Show_Stereotypes_Selection,    //SHOWSTEREOTYPE, multiple items
 	    mt_Scope,                         //SCOPE
-	    mt_DrawAsCircle,
+	    mt_Scope_Selection,               //SCOPE, multiple items
+	    mt_DrawAsCircle,                  //DRAWASCIRCLE
+	    mt_DrawAsCircle_Selection,        //DRAWASCIRCLE, multiple items
 	    mt_Rename_Object,                 //ROBJECT
 	    mt_Select_Operation,              //SOPERATION
 	    mt_Anchor,                        //ANCHOR
@@ -106,8 +114,9 @@ public:
 	    mt_Link_Docs,                     //LINKDOCS
 	    mt_Delete_Message,                //DELETEMESSAGE
 	    mt_Show_Operation_Signature,      //SHOWOPSIG
-
+	    mt_Show_Operation_Signature_Selection, //SHOWOPSIG, multiple items
 	    mt_Show_Attribute_Signature,      //SHOWATTSIG
+	    mt_Show_Attribute_Signature_Selection, //SHOWATTSIG, multiple items
 	    mt_Message_Text,                  //MESSAGET
 	    mt_Collaboration_Message,         //COLLMESSAGE
 	    mt_FloatText,                     //FLOATTEXT
@@ -171,8 +180,12 @@ public:
 	 *
 	 *	@param	parent		The parent to ListPopupMenu.
 	 *	@param	object		The UMLWidget to represent a menu for.
+	 *	@param	multi			True, if multiple items are selected.
+	 *	@param	unique		True, if multiple selected items all have the same
+	 *								type (e.g. Class, Interface)
 	 */
-	ListPopupMenu(QWidget * parent, UMLWidget * object, bool multi = false);
+	ListPopupMenu(QWidget * parent, UMLWidget * object, bool multi = false,
+						 													bool unique = false);
 
 	/**
 	 *	Standard	deconstructor.
