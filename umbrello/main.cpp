@@ -35,10 +35,10 @@ int main(int argc, char *argv[]) {
 
 	KAboutData aboutData( "umbrello", I18N_NOOP("Umbrello UML Modeller"),
 	                      VERSION, description, KAboutData::License_GPL,
-	                      "(c) 2001 Paul Hensgen, (c) 2002 Umbrello UML Modeller Authors", 0,
+	                      i18n("(c) 2001 Paul Hensgen, (c) 2002 Umbrello UML Modeller Authors"), 0,
 	                      "http://uml.sf.net/");
 	aboutData.addAuthor("Paul Hensgen",0, "phensgen@users.sourceforge.net");
-	aboutData.addAuthor("Umbrello UML Modeller Authors",0, "uml-devel@lists.sourceforge.net");
+	aboutData.addAuthor(i18n("Umbrello UML Modeller Authors",0, "uml-devel@lists.sourceforge.net"));
 	KCmdLineArgs::init( argc, argv, &aboutData );
 	KCmdLineArgs::addCmdLineOptions( options ); // Add our own options.
 
