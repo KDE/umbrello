@@ -65,7 +65,7 @@ AssociationWidget::AssociationWidget(UMLView *view, UMLWidget* pWidgetA,
 			// output is shown, in case there is a collision with code elsewhere.
 			UMLAssociation * testAssoc = umldoc->findAssociation( assocType, umlRoleA, umlRoleB, &swap );
 			if (testAssoc != NULL)
-				kdDebug() << " constructing a similar or exact same assoc " << 
+				kdDebug() << " constructing a similar or exact same assoc " <<
 					"as an already existing assoc (swap=" << swap << ")" << endl;
 
 			// now, just create a new association anyways
@@ -101,7 +101,7 @@ AssociationWidget::AssociationWidget(UMLView *view, UMLWidget* pWidgetA,
 	}
 }
 
-AssociationWidget::~AssociationWidget() { 
+AssociationWidget::~AssociationWidget() {
 	cleanup();
 }
 
@@ -695,7 +695,7 @@ void AssociationWidget::cleanup() {
 `
 			IF we are cut n pasting, why are we handling this association as a pointer?
 			We should be using the XMI representation for a cut and paste. This
-			allows us to be clean here, AND a choice of recreating the object 
+			allows us to be clean here, AND a choice of recreating the object
 			w/ same id IF its a "cut", or a new object if its a "copy" operation
 			(in which case we wouldnt be here, in cleanup()).
 		 */
@@ -705,7 +705,7 @@ void AssociationWidget::cleanup() {
 	m_LinePath.cleanup();
 }
 
-void AssociationWidget::setUMLAssociation (UMLAssociation * assoc) 
+void AssociationWidget::setUMLAssociation (UMLAssociation * assoc)
 {
 	if (m_pObject && m_pObject->getBaseType() == ot_Association) {
 		UMLAssociation *umla = getAssociation();
@@ -742,7 +742,7 @@ void AssociationWidget::setUMLAssociation (UMLAssociation * assoc)
 		//    is fundamentally flawed. Widgets are pure presentation - they can
 		//    come and go at a whim. If at all, the widgets could be considered
 		//    children of the corresponding UML object.
-		//   
+		//
 		// ANSWER: This is the wrong treatment of cut and paste. Associations that
 		// are being cut/n pasted should be serialized to XMI, then reconstituted
 		// (IF a paste operation) rather than passing around object pointers. Its
@@ -751,14 +751,14 @@ void AssociationWidget::setUMLAssociation (UMLAssociation * assoc)
 		if (umla->nrof_parent_widgets == 0) {
 			//umla->deleteLater();
 		}
-	
+
 		m_pObject = NULL;
 	}
 
 	if(assoc) {
 		m_pObject = assoc;
-	
-		// move counter to "0" from "-1" (which means, no assocwidgets) 
+
+		// move counter to "0" from "-1" (which means, no assocwidgets)
 		if(assoc->nrof_parent_widgets < 0)
 			assoc->nrof_parent_widgets = 0;
 
@@ -1077,12 +1077,6 @@ void AssociationWidget::doUpdates(int otherX, int otherY, Role_Type role) {
 	}
 	int regionCount = getRegionCount(region, role) + 2;//+2 = (1 for this one and one to halve it)
 	int totalCount = m_role[role].m_nTotalCount;
-#ifdef DEBUG_ASSOCLINES
-	kdDebug() << endl;
-	kdDebug() << "doUpdates (role=" << role << "): widget=" << pWidget->getName()
-		  << " region=" << region << " regionCount=" << regionCount
-		  << " totalCount=" << totalCount << endl;
-#endif
 	if( oldRegion != region ) {
 		updateRegionLineCount( regionCount - 1, regionCount, region, role );
 		updateAssociations( totalCount - 1, oldRegion, role );
@@ -2420,12 +2414,6 @@ void AssociationWidget::updateAssociations(int totalCount,
 	AssociationWidgetListIt assoc_it(list);
 	AssociationWidget* assocwidget = 0;
 	UMLWidget *ownWidget = m_role[role].m_pWidget;
-#ifdef DEBUG_ASSOCLINES
-	Role_Type other = (role == A ? B : A);
-	kdDebug() << "looking at assoc type " << getAssocType()
-	    << ";  own widget: " << ownWidget->getName() << ", other end: "
-	    << m_role[other].m_pWidget->getName() << endl;
-#endif
 	m_positions_len = 0;
 	m_ordered.clear();
 	// we order the AssociationWidget list by region and x/y value
