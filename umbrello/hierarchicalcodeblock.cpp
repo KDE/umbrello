@@ -394,6 +394,8 @@ TextBlock * HierarchicalCodeBlock::findCodeClassFieldTextBlockByTag (QString tag
 	ClassifierCodeDocument * cdoc = dynamic_cast<ClassifierCodeDocument*>(getParentDocument());
 	if(cdoc)
 		return cdoc->findCodeClassFieldTextBlockByTag(tag);
+	else
+		kdError()<<" HierarchicalCodeBlock: findCodeClassFieldTextBlockByTag() finds NO parent document! Badly constructed textblock?!?"<<endl;
 
         // if we get here, we failed.
         return (TextBlock*) NULL;
