@@ -40,6 +40,7 @@
 #include "umlviewlist.h"
 #include "umlattributelist.h"
 #include "umlstereotypelist.h"
+#include "model_utils.h"
 
 #define ENC_UNKNOWN 0
 #define ENC_UNICODE 1
@@ -253,13 +254,22 @@ public:
 	 * The operation's signature is checked for validity within the parent
 	 * classifier.
 	 *
+	 * @param parent	The parent classifier.
+	 * @param name		The operation name (will be chosen internally if
+	 *			none given.)
+	 * @param isExistingOp	Optional pointer to bool. If supplied, the bool is
+	 *			set to true if an existing operation is returned.
+	 * @param params	Optional list of parameter names and types.
+	 *			If supplied, new operation parameters are
+	 *			constructed using this list.
 	 * @return The new operation, or NULL if the operation could not be
 	 *         created because for example, the user canceled the dialog
 	 *         or no appropriate name can be found.
 	*/
 	UMLOperation* createOperation( UMLClassifier *parent,
 				       const QString &name = QString::null,
-				       UMLAttributeList *params = NULL);
+				       bool *isExistingOp = NULL,
+				       Umbrello::NameAndType_List *params = NULL);
 
 	/**
 	 * Creates an attribute for the parent concept.

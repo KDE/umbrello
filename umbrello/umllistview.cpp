@@ -1879,11 +1879,11 @@ bool UMLListView::slotItemRenamed( QListViewItem * item , int /*col*/ ) {
 	break;
 
 	case Uml::lvt_Attribute:
-		createChildUMLObject( renamedItem, Uml::ot_Attribute );
+		return createChildUMLObject( renamedItem, Uml::ot_Attribute );
 		break;
 
 	case Uml::lvt_Operation:
-		createChildUMLObject( renamedItem, Uml::ot_Operation );
+		return createChildUMLObject( renamedItem, Uml::ot_Operation );
 		break;
 
 	case Uml::lvt_Class_Diagram:
@@ -1985,7 +1985,7 @@ void UMLListView::createUMLObject( UMLListViewItem * item, Uml::Object_Type type
 	item -> setText( name );
 }
 
-void UMLListView::createChildUMLObject( UMLListViewItem * item, Uml::Object_Type type ) {
+bool UMLListView::createChildUMLObject( UMLListViewItem * item, Uml::Object_Type type ) {
 	m_bCreatingChildObject = true;
 	QString text = item->text( 0 );
 	UMLObject* parent = static_cast<UMLListViewItem *>( item->parent() )->getUMLObject();
@@ -1994,54 +1994,61 @@ void UMLListView::createChildUMLObject( UMLListViewItem * item, Uml::Object_Type
 			  << endl;
 		delete item;
 		m_bCreatingChildObject = false;
-		return;
+		return false;
 	}
 
 	//kdDebug() << "UMLListView::createChildUMLObject (" << text << ")" << endl;
-	UMLObject* newObject;
+	UMLObject* newObject = NULL;
 	if ( type == Uml::ot_Attribute )  {
 		UMLClass *owningClass = static_cast<UMLClass*>(parent);
 		Umbrello::NameAndType nt;
 		Umbrello::Parse_Status st = Umbrello::parseAttribute(text, nt, owningClass);
 		if (st) {
-			kdError() << "UMLListView::createChildUMLObject(" << text << "): "
-				  << "Umbrello::parseAttribute returns " << st << endl;
+			KMessageBox::error( kapp->mainWidget(),
+					    Umbrello::psText(st),
+					    i18n("Creation canceled") );
 			delete item;
 			m_bCreatingChildObject = false;
-			return;
+			return false;
 		}
 		newObject = m_doc->createAttribute( owningClass, nt.first );
 		UMLAttribute *att = static_cast<UMLAttribute*>(newObject);
 		att->setType(nt.second);
+		text = att->toString(Uml::st_SigNoScope);
 	} else if ( type == Uml::ot_Operation ) {
 		UMLClassifier *owningClassifier = static_cast<UMLClassifier*>(parent);
 		Umbrello::OpDescriptor od;
 		Umbrello::Parse_Status st = Umbrello::parseOperation(text, od, owningClassifier);
 		if (st) {
-			kdError() << "UMLListView::createChildUMLObject(" << text << "): "
-				  << "Umbrello::parseOperation returns " << st << endl;
+			KMessageBox::error( kapp->mainWidget(),
+					    Umbrello::psText(st),
+					    i18n("Creation canceled") );
 			delete item;
 			m_bCreatingChildObject = false;
-			return;
+			return false;
 		}
-		newObject = m_doc->createOperation( owningClassifier, od.m_name );
+		bool isExistingOp = false;
+		newObject = m_doc->createOperation(owningClassifier, od.m_name,
+						   &isExistingOp, &od.m_args);
+		if (isExistingOp) {
+			KMessageBox::error(
+			    kapp -> mainWidget(),
+			    i18n( "The name you entered was not unique!\nCreation process has been canceled." ),
+			    i18n( "Name Not Unique" ) );
+			delete item;
+			m_bCreatingChildObject = false;
+			return false;
+		}
 		UMLOperation *op = static_cast<UMLOperation*>(newObject);
-		for (Umbrello::OpDescriptor::NameAndType_ListIt lit = od.m_args.begin();
-		     lit != od.m_args.end(); ++lit) {
-			const Umbrello::NameAndType& nm_tp = *lit;
-			UMLAttribute *a = new UMLAttribute(op, nm_tp.first);
-			a->setType(nm_tp.second);
-			op->addParm(a);
-		}
 		if (od.m_pReturnType) {
-			UMLOperation *op = static_cast<UMLOperation*>(newObject);
 			op->setType(od.m_pReturnType);
 		}
+		text = op->toString(Uml::st_SigNoScope);
 	} else {
 		kdError() << "UMLListView::createChildUMLObject called for type "
 			  << type << " (ignored)" << endl;
 		m_bCreatingChildObject = false;
-		return;
+		return false;
 	}
 
 	item->setUMLObject( newObject );
@@ -2049,6 +2056,7 @@ void UMLListView::createChildUMLObject( UMLListViewItem * item, Uml::Object_Type
 	m_bCreatingChildObject = false;
 
 	//m_doc->setModified();
+	return true;
 }
 
 void UMLListView::createDiagram( UMLListViewItem * item, Uml::Diagram_Type type ) {

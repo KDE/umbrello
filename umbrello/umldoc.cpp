@@ -1193,7 +1193,8 @@ UMLStereotype* UMLDoc::findOrCreateStereotype(const QString &name) {
 
 UMLOperation* UMLDoc::createOperation(UMLClassifier* classifier,
 				      const QString &name /*=null*/,
-				      UMLAttributeList *params  /*=NULL*/)
+				      bool *isExistingOp  /*=NULL*/,
+				      Umbrello::NameAndType_List *params  /*=NULL*/)
 {
 	if(!classifier)
 	{
@@ -1203,18 +1204,51 @@ UMLOperation* UMLDoc::createOperation(UMLClassifier* classifier,
 	}
 	bool nameNotSet = (name.isNull() || name.isEmpty());
 	if (! nameNotSet) {
-		UMLOperation *existingOp = classifier->checkOperationSignature(name, params);
-		if (existingOp)
-			return existingOp;
+		UMLObjectList list = classifier->findChildObject(Uml::ot_Operation, name);
+		// If there are operation(s) with the same name then compare the parameter list
+		if (list.count()) {
+			const int inputParmCount = (params ? params->count() : 0);
+			for (UMLObjectListIt oit(list); oit.current(); ++oit) {
+				UMLOperation* test = dynamic_cast<UMLOperation*>(oit.current());
+				if (test == NULL)
+					continue;
+				UMLAttributeList *testParams = test->getParmList();
+				if (params == NULL) {
+					if (testParams->count() == 0) {
+						if (isExistingOp != NULL)
+							*isExistingOp = true;
+						return test;
+					}
+					continue;
+				}
+				const int pCount = testParams->count();
+				if (pCount != inputParmCount)
+					continue;
+				int i = 0;
+				for (; i < pCount; ++i) {
+					Umbrello::NameAndType_ListIt nt(params->at(i));
+					UMLClassifier *c = (*nt).second;
+					if (testParams->at(i)->getTypeName() != c->getName())
+						break;
+				}
+				if (i == pCount) {
+					//all parameters matched -> the signature is not unique
+					if (isExistingOp != NULL)
+						*isExistingOp = true;
+					return test;
+				}
+			}
+			// we did not find an exact match, so the signature is unique ( acceptable )
+		}
 	}
 	UMLOperation *op = new UMLOperation(classifier, name);
 	if (params)
 	{
-		UMLAttributeListIt it(*params);
-		for( ; it.current(); ++it ) {
-			UMLAttribute *par = it.current();
-			if (par->getID() == Uml::id_None)
-				par->setID(getUniqueID());
+		
+		for (Umbrello::NameAndType_ListIt it = params->begin(); it != params->end(); ++it ) {
+			const Umbrello::NameAndType &nt = *it;
+			UMLAttribute *par = new UMLAttribute(op, nt.first);
+			par->setType(nt.second);
 			op->addParm(par);
 		}
 	}

@@ -96,12 +96,16 @@ namespace Umbrello {
 	typedef QPair<QString, UMLClassifier*> NameAndType;
 
 	/**
+	 * Auxiliary type for OpDescriptor
+	 */
+	typedef QValueList<NameAndType> NameAndType_List;
+	typedef QValueListIterator<NameAndType> NameAndType_ListIt;
+
+	/**
 	 * Data structure filled by parseOperation()
 	 */
 	struct OpDescriptor {
 		QString m_name;
-		typedef QValueList<NameAndType> NameAndType_List;
-		typedef QValueListIterator<NameAndType> NameAndType_ListIt;
 		NameAndType_List m_args;
 		UMLClassifier *m_pReturnType;
 	};

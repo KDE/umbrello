@@ -267,33 +267,35 @@ void UMLListViewItem::updateFolder() {
 	switch( m_Type ) {
 		case Uml::lvt_UseCase_View:
 		case Uml::lvt_UseCase_Folder:
-			icon = (UMLListView::Icon_Type)((int)UMLListView::it_Folder_Grey + (int)isOpen());
+			icon = UMLListView::it_Folder_Grey;
 			break;
 
 		case Uml::lvt_Logical_View:
 		case Uml::lvt_Logical_Folder:
-			icon = (UMLListView::Icon_Type)((int)UMLListView::it_Folder_Green + (int)isOpen());
+			icon = UMLListView::it_Folder_Green;
 			break;
 
 		case Uml::lvt_Datatype_Folder:
-			icon = (UMLListView::Icon_Type)((int)UMLListView::it_Folder_Orange + (int)isOpen());
+			icon = UMLListView::it_Folder_Orange;
 			break;
 
 		case Uml::lvt_Component_View:
 		case Uml::lvt_Component_Folder:
-			icon = (UMLListView::Icon_Type)((int)UMLListView::it_Folder_Red + (int)isOpen());
+			icon = UMLListView::it_Folder_Red;
 			break;
 
 		case Uml::lvt_Deployment_View:
 		case Uml::lvt_Deployment_Folder:
-			icon = (UMLListView::Icon_Type)((int)UMLListView::it_Folder_Violet + (int)isOpen());
+			icon = UMLListView::it_Folder_Violet;
 			break;
 
 		default:
 			break;
 	}
-	if (icon)
+	if (icon) {
+		icon = (UMLListView::Icon_Type)((int)icon + (int)isOpen());
 		setPixmap(0, s_pListView->getPixmap(icon) );
+	}
 }
 
 void UMLListViewItem::setOpen( bool open ) {
@@ -368,8 +370,8 @@ void UMLListViewItem::okRename( int col ) {
 					}
 					i = 0;
 				}
-				for (Umbrello::OpDescriptor::NameAndType_ListIt lit =
-				     od.m_args.begin(); lit != od.m_args.end(); ++lit, ++i) {
+				for (Umbrello::NameAndType_ListIt lit = od.m_args.begin();
+				     lit != od.m_args.end(); ++lit, ++i) {
 					const Umbrello::NameAndType& nm_tp = *lit;
 					UMLAttribute *a;
 					if (i < parmList->count()) {

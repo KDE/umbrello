@@ -213,7 +213,7 @@ class UMLListView : public KListView {
 	/**
 	 * Creates a child UMLObject out of the given list view item.
 	 */
-	void createChildUMLObject( UMLListViewItem * item, Uml::Object_Type type );
+	bool createChildUMLObject( UMLListViewItem * item, Uml::Object_Type type );
 
 	/**
 	 * Creates a diagram out of the given list view item.
