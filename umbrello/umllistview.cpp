@@ -668,9 +668,11 @@ UMLListViewItem * UMLListView::findUMLObjectInFolder(UMLListViewItem* folder, UM
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLListViewItem * UMLListView::findUMLObject(UMLObject *p) const {
 	UMLListViewItem *item = static_cast<UMLListViewItem*>(firstChild());
-	while( item && item->getUMLObject() != p )
-	{
-		item = static_cast<UMLListViewItem*>(item->itemBelow());
+	while (item) {
+		UMLListViewItem *testItem = item->findUMLObject(p);
+		if (testItem)
+			return testItem;
+		item = static_cast<UMLListViewItem*>(item->nextSibling());
 	}
 	return item;
 }
@@ -905,9 +907,6 @@ void UMLListView::slotDropped(QDropEvent* de, QListViewItem* parent, QListViewIt
 		if(!move)
 			continue;
 		UMLListViewItem *newItem = NULL;
-		QString nm = move->getText();
-		Uml::ListView_Type t = move->getType();
-		UMLObject *o = move->getUMLObject();
 
 		//make sure trying to place in correct location
 		switch (srcType) {
@@ -917,7 +916,7 @@ void UMLListView::slotDropped(QDropEvent* de, QListViewItem* parent, QListViewIt
 			case Uml::lvt_UseCase_Diagram:
 				if (itemType == Uml::lvt_UseCase_Folder ||
 				    itemType == Uml::lvt_UseCase_View) {
-					newItem = new UMLListViewItem(newParent, nm, t, o);
+					newItem = move->deepCopy(newParent);
 					delete move;
 				}
 				break;
@@ -927,7 +926,7 @@ void UMLListView::slotDropped(QDropEvent* de, QListViewItem* parent, QListViewIt
 			case Uml::lvt_Component_Diagram:
 				if (itemType == Uml::lvt_Component_Folder ||
 				    itemType == Uml::lvt_Component_View) {
-					newItem = new UMLListViewItem(newParent, nm, t, o);
+					newItem = move->deepCopy(newParent);
 					delete move;
 				}
 				break;
@@ -936,7 +935,7 @@ void UMLListView::slotDropped(QDropEvent* de, QListViewItem* parent, QListViewIt
 			case Uml::lvt_Deployment_Diagram:
 				if (itemType == Uml::lvt_Deployment_Folder ||
 				    itemType == Uml::lvt_Deployment_View) {
-					newItem = new UMLListViewItem(newParent, nm, t, o);
+					newItem = move->deepCopy(newParent);
 					delete move;
 				}
 				break;
@@ -947,7 +946,7 @@ void UMLListView::slotDropped(QDropEvent* de, QListViewItem* parent, QListViewIt
 			case Uml::lvt_Sequence_Diagram:
 				if (itemType == Uml::lvt_Logical_Folder ||
 				    itemType == Uml::lvt_Logical_View) {
-					newItem = new UMLListViewItem(newParent, nm, t, o);
+					newItem = move->deepCopy(newParent);
 					delete move;
 				}
 				break;
@@ -957,7 +956,7 @@ void UMLListView::slotDropped(QDropEvent* de, QListViewItem* parent, QListViewIt
 				if (itemType == Uml::lvt_Logical_Folder ||
 				    itemType == Uml::lvt_Logical_View ||
 				    itemType == Uml::lvt_Package) {
-					newItem = new UMLListViewItem(newParent, nm, t, o);
+					newItem = move->deepCopy(newParent);
 					delete move;
 				}
 				break;
