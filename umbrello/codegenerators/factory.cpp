@@ -21,6 +21,7 @@
 #include "javawriter.h"
 #include "phpwriter.h"
 #include "perlwriter.h"
+#include "pythonwriter.h"
 #include "adawriter.h"
 #include "qstringlist.h"
 
@@ -45,6 +46,7 @@ QStringList WriterFactory::languagesAvailable() {
 	l.append("Java");
  	l.append("Perl");
 	l.append("PHP");
+	l.append("Python");
 	return l;
 }
 
@@ -60,6 +62,8 @@ QString WriterFactory::generatorName(const QString &l) {
 		return "AdaWriter";
  	if (l == "Perl")
  		return "PerlWriter";
+ 	if (l == "Python")
+ 		return "PythonWriter";
 	//else...
 	kdDebug()<<"WriterFactory::Error: no generator for language "<<l<<endl;
 	return "";
@@ -72,24 +76,21 @@ QObject* WriterFactory::createObject( QObject* parent, const char* name, const c
 	kdDebug()<<"Trying to create object of type "<<n<<endl;
 
 	QObject *obj = 0;
-	if(n == "CppWriter")
+	if(n == "CppWriter") {
 		obj = new CppWriter( parent, name );
-
-	else if(n =="JavaWriter")
+	} else if(n =="JavaWriter") {
 		obj = new JavaWriter(parent, name);
-
-	else if (n == "PHPWriter")
+	} else if (n == "PHPWriter") {
 		obj = new PhpWriter(parent, name);
-
-	else if (n == "AdaWriter")
+	} else if (n == "AdaWriter") {
 		obj = new AdaWriter(parent, name);
-
- 	else if (n == "PerlWriter")
- 		obj = new PerlWriter(parent, name);
-	// add other languages provides by this lib
-
-	else
+ 	} else if (n == "PerlWriter") {
+		obj = new PerlWriter(parent, name);
+ 	} else if (n == "PythonWriter") {
+		obj = new PythonWriter(parent, name);
+	} else {
 		kdDebug()<<"WriterFactory:: cannot create object of type "<<n<<". Type unknown"<<endl;
+	}
 
 	return obj;
 }
