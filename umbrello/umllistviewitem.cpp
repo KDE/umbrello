@@ -290,7 +290,7 @@ void UMLListViewItem::okRename( int col ) {
 	}
 	QString newText = text( col );
 	UMLDoc * doc = s_pListView -> getDocument();
-	if( newText.length() == 0 ) {
+	if( newText.isEmpty() ) {
 		KMessageBox::error( kapp->mainWidget() ,
 				    i18n("The name you entered was invalid.\nRenaming process has been canceled."),
 				    i18n("Name Not Valid") );
