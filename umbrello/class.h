@@ -14,8 +14,8 @@
 #include "classifier.h"
 #include "umlobjectlist.h"
 #include "umlattributelist.h"
+#include "umltemplatelist.h"
 
-class UMLTemplate;
 class UMLClassifierListItem;
 
 // This class performs the functionality of the old UMLClassifier class
@@ -159,7 +159,7 @@ public:
 	/**
 	 * Returns the entries in m_pTemplatesList that are actually templates
 	 */
-	QPtrList<UMLTemplate>* getFilteredTemplateList();
+	UMLTemplateList* getFilteredTemplateList();
 
 	/**
 	 *      Find a list of attributes, operations, associations or

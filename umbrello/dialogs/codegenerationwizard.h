@@ -23,9 +23,9 @@
 #include <qptrlist.h>
 #include "codegenerationwizardbase.h"
 #include "settingsdlg.h"
+#include "../umlclassifierlist.h"
 
 class UMLApp;
-class UMLClassifier;
 class UMLDoc;
 class CodeGenerator;
 class CodeGenerationOptionsPage;
@@ -38,7 +38,7 @@ class CodeGenerationOptionsPage;
 class CodeGenerationWizard : public CodeGenerationWizardBase {
 	Q_OBJECT
 public:
-	CodeGenerationWizard(UMLDoc *doc, QPtrList<UMLClassifier> *classList,
+	CodeGenerationWizard(UMLDoc *doc, UMLClassifierList *classList,
 	                     QDict<GeneratorInfo> ldict, 
 			     QString activeLanguage, UMLApp *parent,
 			     const char *name=0);

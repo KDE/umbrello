@@ -102,7 +102,7 @@ void OperationPropertiesPage::loadData()
 			m_private->setChecked(true);
 	}
 	m_paramList.clear();
-	QPtrList<UMLAttribute> *list = m_pOperation->getParmList();
+	UMLAttributeList *list = m_pOperation->getParmList();
 	QListViewItem *item;
 	UMLAttribute *copy;
 	// create list view and working-copy of attributes
@@ -136,7 +136,7 @@ void OperationPropertiesPage::saveData()
 	///////////////////////////
 	 //remove deleted attributes
 	{
-	QPtrList<UMLAttribute> list;
+	UMLAttributeList list;
 	list = *(m_pOperation->getParmList());
 	list.setAutoDelete(false);
 	kdDebug()<<"removing deleted atts"<<endl;
@@ -156,7 +156,7 @@ void OperationPropertiesPage::saveData()
 	}
 	{
 	// add/update attributes
-	QPtrList<UMLAttribute> *pList = m_pOperation->getParmList();
+	UMLAttributeList *pList = m_pOperation->getParmList();
 	UMLAttribute *att;
 	int index,old_index;
 	kdDebug()<<"updating params"<<endl;

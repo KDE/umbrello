@@ -56,7 +56,7 @@ void ClassifierInfo::init(UMLClassifier *c, UMLDoc *doc) {
 	// sort attributes by Scope
 	if(!isInterface) {
 		UMLClass * myClass = dynamic_cast<UMLClass *>(c);
-		QPtrList <UMLAttribute> *atl = myClass->getFilteredAttributeList();
+		UMLAttributeList *atl = myClass->getFilteredAttributeList();
 		for(UMLAttribute *at=atl->first(); at ; at=atl->next()) {
 			switch(at->getScope())
 			{
@@ -128,23 +128,23 @@ void ClassifierInfo::init(UMLClassifier *c, UMLDoc *doc) {
 
 }
 
-QPtrList<UMLClassifier> ClassifierInfo::getPlainAssocChildClassifierList() {
+UMLClassifierList ClassifierInfo::getPlainAssocChildClassifierList() {
 	return findAssocClassifierObjsInRoles(&plainAssociations);
 }
 
-QPtrList<UMLClassifier> ClassifierInfo::getAggregateChildClassifierList() {
+UMLClassifierList ClassifierInfo::getAggregateChildClassifierList() {
 	return findAssocClassifierObjsInRoles(&aggregations);
 }
 
-QPtrList<UMLClassifier> ClassifierInfo::getCompositionChildClassifierList() {
+UMLClassifierList ClassifierInfo::getCompositionChildClassifierList() {
 	return findAssocClassifierObjsInRoles(&compositions);
 }
 
-QPtrList<UMLClassifier> ClassifierInfo::findAssocClassifierObjsInRoles (QPtrList<UMLAssociation> * list)
+UMLClassifierList ClassifierInfo::findAssocClassifierObjsInRoles (UMLAssociationList * list)
 {
 
 
-	QPtrList<UMLClassifier> classifiers;
+	UMLClassifierList classifiers;
 	classifiers.setAutoDelete(false);
 
 	for (UMLAssociation *a = list->first(); a; a = list->next()) {
@@ -167,7 +167,7 @@ QPtrList<UMLClassifier> ClassifierInfo::findAssocClassifierObjsInRoles (QPtrList
 	return classifiers;
 }
 
-QPtrList<UMLAttribute>* ClassifierInfo::getAttList() {
+UMLAttributeList* ClassifierInfo::getAttList() {
 	        return &m_AttsList;
 }
 

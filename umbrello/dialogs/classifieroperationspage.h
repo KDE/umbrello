@@ -21,9 +21,9 @@
 #include <qmap.h>
 #include <qpixmap.h>
 #include "dialogpage.h"
+#include "../umloperationlist.h"
 
 class UMLClassifier;
-class UMLOperation;
 class UMLDoc;
 class QListViewItem;
 
@@ -87,7 +87,7 @@ protected:
 	void syncParams( UMLOperation *src, UMLOperation *dest );
 	UMLClassifier *m_umlObject;
 	UMLDoc   *m_doc;
-	QPtrList<UMLOperation> m_opsList;
+	UMLOperationList m_opsList;
 	QMap<QListViewItem*,UMLOperation*> m_opsMap;
 };
 

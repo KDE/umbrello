@@ -19,13 +19,11 @@
 #define SQLWRITER_H
 
 #include "../codegenerator.h"
+#include "../umlattributelist.h"
 
 #include <qptrlist.h>
 #include <qstringlist.h>
 
-
-class UMLOperation;
-class UMLAttribute;
 
 /**
   * class SQLWriter is a code generator for UMLClassifier objects.
@@ -56,7 +54,7 @@ private:
 	/**
 	 * Prints out attributes as columns in the table
 	 */
-	void printAttributes(QTextStream& sql, QPtrList<UMLAttribute> attributeList, bool first);
+	void printAttributes(QTextStream& sql, UMLAttributeList attributeList, bool first);
 };
 
 

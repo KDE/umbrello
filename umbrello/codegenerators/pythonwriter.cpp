@@ -60,9 +60,9 @@ void PythonWriter::writeClass(UMLClassifier *c) {
 	QString classname = cleanName(c->getName());
 	QString fileName = c->getName();
 
-	QPtrList<UMLAssociation> generalizations = c->getGeneralizations();
-	QPtrList<UMLAssociation> aggregations = c->getAggregations();
-	QPtrList<UMLAssociation> compositions = c->getCompositions();
+	UMLAssociationList generalizations = c->getGeneralizations();
+	UMLAssociationList aggregations = c->getAggregations();
+	UMLAssociationList compositions = c->getCompositions();
 	UMLAssociation *a;
 
 	//find an appropriate name for our file
@@ -102,7 +102,7 @@ void PythonWriter::writeClass(UMLClassifier *c) {
 
 
 	//write includes and take namespaces into account
-	QPtrList<UMLClassifier> includes;
+	UMLClassifierList includes;
 	findObjectsRelated(c,includes);
 	UMLClassifier* conc;
 	for(conc = includes.first(); conc ;conc = includes.next()) {
@@ -155,8 +155,8 @@ void PythonWriter::writeClass(UMLClassifier *c) {
 void PythonWriter::writeOperations(UMLClassifier *c,QTextStream &h) {
 
 	//Lists to store operations  sorted by scope
-	QPtrList<UMLOperation> *opl;
-	QPtrList<UMLOperation> oppub,opprot,oppriv;
+	UMLOperationList *opl;
+	UMLOperationList oppub,opprot,oppriv;
 
 	oppub.setAutoDelete(false);
 	opprot.setAutoDelete(false);
@@ -195,10 +195,10 @@ void PythonWriter::writeOperations(UMLClassifier *c,QTextStream &h) {
 
 }
 
-void PythonWriter::writeOperations(QString /*classname*/, QPtrList<UMLOperation> &opList,
+void PythonWriter::writeOperations(QString /*classname*/, UMLOperationList &opList,
 				   QTextStream &h, Access access) {
 	UMLOperation *op;
-	QPtrList<UMLAttribute> *atl;
+	UMLAttributeList *atl;
 	UMLAttribute *at;
 
 	QString sAccess;

@@ -64,7 +64,7 @@ void ClassifierOperationsPage::loadData()
 // disconnect(this,SIGNAL(pageModified()),this,SLOT(pageContentsModified()));
 	/*FIXME, sorry don't have time to fix this just now
 	m_opsList.clear();
-	QPtrList<UMLClassifierListItem>* list = m_umlObject->getOpList();
+	UMLClassifierListItemList* list = m_umlObject->getOpList();
 	QListViewItem* item;
 	UMLOperation* copy;
 	// create list view and working-copy of operations
@@ -78,7 +78,7 @@ void ClassifierOperationsPage::loadData()
 				    m_pixmaps.Private)));
 		m_opsMap[item] = copy;
 
-		QPtrList<UMLAttribute> *prmList = op->getParmList();
+		UMLAttributeList *prmList = op->getParmList();
 		for( UMLAttribute *p = prmList->first(); p ; p = prmList->next() )
 		{
 			copy->addParm( new UMLAttribute(this,p->getName(),p->getID(),p->getTypeName(), p->getScope(),p->getInitialValue()));
@@ -94,7 +94,7 @@ void ClassifierOperationsPage::saveData()
 	m_umlObject->blockSignals( true );
 	{
 	 //remove deleted operations
-	QPtrList<UMLOperation> list;
+	UMLOperationList list;
 	list = *(m_umlObject->getOpList());
 	list.setAutoDelete(false);
 	for( UMLOperation *op = list.first(); op ; op = list.next() )
@@ -115,7 +115,7 @@ void ClassifierOperationsPage::saveData()
 
 	{
 	// add/update operations
-	QPtrList<UMLOperation> *pList = m_umlObject->getOpList();
+	UMLOperationList *pList = m_umlObject->getOpList();
 	UMLOperation *op;
 	int index,old_index;
 	for( op = m_opsList.first(), index = 0; op ; op = m_opsList.next(), ++index )
@@ -261,9 +261,9 @@ void ClassifierOperationsPage::deleteSelected( )
 ////////////////////////////////////
 void ClassifierOperationsPage::syncParams( UMLOperation *src, UMLOperation *dest )
 {
-	QPtrList<UMLAttribute> *srcList = src->getParmList();
+	UMLAttributeList *srcList = src->getParmList();
 	{
-	QPtrList<UMLAttribute> list = *(dest->getParmList());
+	UMLAttributeList list = *(dest->getParmList());
 	list.setAutoDelete(false);
 
 	kdDebug()<<"removing deleted params"<<endl;
@@ -284,7 +284,7 @@ void ClassifierOperationsPage::syncParams( UMLOperation *src, UMLOperation *dest
 	}
 	{
 	// add/update attributes
-	QPtrList<UMLAttribute> *destList = dest->getParmList();
+	UMLAttributeList *destList = dest->getParmList();
 	UMLAttribute *att;
 	int index,old_index;
 	for( att = srcList->first(), index = 0; att ; att = srcList->next(), ++index )

@@ -175,7 +175,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 	}
 
 	// Import referenced classes.
-	QPtrList<UMLClassifier> imports;
+	UMLClassifierList imports;
 	findObjectsRelated(c, imports);
 	if (imports.count()) {
 		for (UMLClassifier *con = imports.first(); con; con = imports.next())
@@ -191,7 +191,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 		if (stype == "CORBAConstant") {
 			ada << spc() << "-- " << stype << " is Not Yet Implemented\n\n";
 		} else if (myClass && myClass->isEnumeration()) {
-			QPtrList<UMLAttribute> *atl = myClass->getFilteredAttributeList();
+			UMLAttributeList *atl = myClass->getFilteredAttributeList();
 			UMLAttribute *at;
 			ada << spc() << "type " << classname << " is (\n";
 			indentlevel++;
@@ -206,7 +206,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 			ada << ");\n\n";
 		} else if(stype == "CORBAStruct") {
 			if(myClass) {
-				QPtrList<UMLAttribute> *atl = myClass->getFilteredAttributeList();
+				UMLAttributeList *atl = myClass->getFilteredAttributeList();
 				UMLAttribute *at;
 				ada << spc() << "type " << classname << " is record\n";
 				indentlevel++;
@@ -242,7 +242,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 		ada << "\n";
 	}
 
-	QPtrList<UMLAssociation> generalizations = c->getGeneralizations();
+	UMLAssociationList generalizations = c->getGeneralizations();
 	generalizations.setAutoDelete(false);
 
 	ada << spc() << "type Object is ";
@@ -260,9 +260,9 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 	ada << spc() << "type Object_Ptr is access all Object'Class;\n\n";
 
 	// Generate accessors for public attributes.
-	QPtrList<UMLAttribute> *atl;
+	UMLAttributeList *atl;
         if(myClass) {
-		QPtrList<UMLAttribute> atpub;
+		UMLAttributeList atpub;
 		atpub.setAutoDelete(false);
 
 		atl = myClass->getFilteredAttributeList();
@@ -291,8 +291,8 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 	}
 
 	// Generate public operations.
-	QPtrList<UMLOperation> *opl = c->getFilteredOperationsList();
-	QPtrList<UMLOperation> oppub;
+	UMLOperationList *opl = c->getFilteredOperationsList();
+	UMLOperationList oppub;
 	oppub.setAutoDelete(false);
 	UMLOperation *op;
 	for (op = opl->first(); op; op = opl->next()) {
@@ -309,7 +309,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 	indentlevel++;
 
 	// Generate auxiliary declarations for multiplicity of associations
-	QPtrList<UMLAssociation> aggregations = c->getAggregations();
+	UMLAssociationList aggregations = c->getAggregations();
 	if (!aggregations.isEmpty()) {
 		for (UMLAssociation *a = aggregations.first(); a; a = aggregations.next()) {
 			if (a->getMultiA().isEmpty())
@@ -324,7 +324,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 			    << member << "_array;\n\n";
 		}
 	}
-	QPtrList<UMLAssociation> compositions = c->getCompositions();
+	UMLAssociationList compositions = c->getCompositions();
 	if (!compositions.isEmpty()) {
 		for (UMLAssociation *a = compositions.first(); a; a = compositions.next()) {
 			if (a->getMultiA().isEmpty())
@@ -412,7 +412,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 		ada << "\n";
 
 	// Generate protected operations.
-	QPtrList<UMLOperation> opprot;
+	UMLOperationList opprot;
 	opprot.setAutoDelete(false);
 	for (op = opl->first(); op; op = opl->next()) {
 		if (op->getScope() == Uml::Protected)
@@ -429,7 +429,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 	// Once umbrello supports the merging of automatically generated and
 	// hand written code sections, private operations should be generated
 	// into the package body.
-	QPtrList<UMLOperation> oppriv;
+	UMLOperationList oppriv;
 	oppriv.setAutoDelete(false);
 	for (op = opl->first(); op; op = opl->next()) {
 		if (op->getScope() == Uml::Private)
@@ -448,7 +448,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 
 
 void AdaWriter::writeOperation(UMLOperation *op, QTextStream &ada, bool is_comment) {
-	QPtrList<UMLAttribute> *atl = op->getParmList();
+	UMLAttributeList *atl = op->getParmList();
 	QString rettype = op->getReturnType();
 	bool use_procedure = (rettype.isEmpty() || rettype == "void");
 

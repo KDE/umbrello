@@ -87,7 +87,7 @@ void CPPHeaderClassDeclarationBlock::updateContent ( )
 
         // write inheritances out
         UMLClassifier *concept;
-        QPtrList<UMLClassifier> superclasses =
+        UMLClassifierList superclasses =
                         c->findSuperClassConcepts(parentDoc->getParentGenerator()->getDocument());
 
         if(superclasses.count()>0)

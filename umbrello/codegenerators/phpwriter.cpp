@@ -73,7 +73,7 @@ void PhpWriter::writeClass(UMLClassifier *c) {
 
 
 	//write includes
-	QPtrList<UMLClassifier> includes;
+	UMLClassifierList includes;
 	findObjectsRelated(c,includes);
 	UMLClassifier *conc;
 	for(conc = includes.first(); conc ;conc = includes.next()) {
@@ -92,9 +92,9 @@ void PhpWriter::writeClass(UMLClassifier *c) {
 		php << "  */" << endl << endl;
 	}
 
-	QPtrList<UMLAssociation> generalizations = c->getGeneralizations();
-	QPtrList<UMLAssociation> aggregations = c->getAggregations();
-	QPtrList<UMLAssociation> compositions = c->getCompositions();
+	UMLAssociationList generalizations = c->getGeneralizations();
+	UMLAssociationList aggregations = c->getAggregations();
+	UMLAssociationList compositions = c->getCompositions();
 	UMLAssociation *a;
 
 	//check if class is abstract and / or has abstract methods
@@ -155,7 +155,7 @@ void PhpWriter::writeClass(UMLClassifier *c) {
 	writeOperations(c,php);
 
 	if(myClass && hasDefaultValueAttr(myClass)) {
-		QPtrList<UMLAttribute> *atl = myClass->getFilteredAttributeList();
+		UMLAttributeList *atl = myClass->getFilteredAttributeList();
 		php << endl;
 
 		php << endl << "  /**" << endl;
@@ -188,8 +188,8 @@ void PhpWriter::writeClass(UMLClassifier *c) {
 void PhpWriter::writeOperations(UMLClassifier *c, QTextStream &php) {
 
 	//Lists to store operations  sorted by scope
-	QPtrList<UMLOperation> *opl;
-	QPtrList<UMLOperation> oppub,opprot,oppriv;
+	UMLOperationList *opl;
+	UMLOperationList oppub,opprot,oppriv;
 
 	oppub.setAutoDelete(false);
 	opprot.setAutoDelete(false);
@@ -230,9 +230,9 @@ void PhpWriter::writeOperations(UMLClassifier *c, QTextStream &php) {
 	}
 }
 
-void PhpWriter::writeOperations(QString /* classname */, QPtrList<UMLOperation> &opList, QTextStream &php) {
+void PhpWriter::writeOperations(QString /* classname */, UMLOperationList &opList, QTextStream &php) {
 	UMLOperation *op;
-	QPtrList<UMLAttribute> *atl;
+	UMLAttributeList *atl;
 	UMLAttribute *at;
 
 	for(op=opList.first(); op ; op=opList.next()) {
@@ -274,9 +274,9 @@ void PhpWriter::writeOperations(QString /* classname */, QPtrList<UMLOperation> 
 }
 
 void PhpWriter::writeAttributes(UMLClass *c, QTextStream &php) {
-	QPtrList<UMLAttribute> *atl;
+	UMLAttributeList *atl;
 
-	QPtrList <UMLAttribute>  atpub, atprot, atpriv, atdefval;
+	UMLAttributeList  atpub, atprot, atpriv, atdefval;
 	atpub.setAutoDelete(false);
 	atprot.setAutoDelete(false);
 	atpriv.setAutoDelete(false);
@@ -318,7 +318,7 @@ void PhpWriter::writeAttributes(UMLClass *c, QTextStream &php) {
 }
 
 
-void PhpWriter::writeAttributes(QPtrList<UMLAttribute> &atList, QTextStream &php) {
+void PhpWriter::writeAttributes(UMLAttributeList &atList, QTextStream &php) {
 	for (UMLAttribute *at = atList.first(); at ; at = atList.next()) {
 		if (forceDoc() || !at->getDoc().isEmpty()) {
 			php << "    /**" << endl

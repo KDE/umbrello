@@ -66,7 +66,7 @@ void UMLObjectAssociationsPage::loadData()
 {
 // 	disconnect(this,SIGNAL(pageModified()),this,SLOT(pageContentsModified()));
 	m_associationList->clear();
-	QPtrList<UMLAssociation> list = m_umlObject->getAssociations();
+	UMLAssociationList list = m_umlObject->getAssociations();
 	list.setAutoDelete(false);
 	QListViewItem *item;
 	for( UMLAssociation *a = list.first(); a ; a = list.next() )

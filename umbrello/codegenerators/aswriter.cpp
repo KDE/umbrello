@@ -76,7 +76,7 @@ void ASWriter::writeClass(UMLClassifier *c)
 
 
 	//write includes
-	QPtrList<UMLClassifier> includes;
+	UMLClassifierList includes;
 	findObjectsRelated(c,includes);
 	UMLClassifier *conc;
 	for(conc = includes.first(); conc ;conc = includes.next())
@@ -98,9 +98,9 @@ void ASWriter::writeClass(UMLClassifier *c)
 		as << "  */" << endl << endl;
 	}
 
-	QPtrList<UMLAssociation> generalizations = c->getGeneralizations();
-	QPtrList<UMLAssociation> aggregations = c->getAggregations();
-	QPtrList<UMLAssociation> compositions = c->getCompositions();
+	UMLAssociationList generalizations = c->getGeneralizations();
+	UMLAssociationList aggregations = c->getAggregations();
+	UMLAssociationList compositions = c->getCompositions();
 
 	//check if class is abstract and / or has abstract methods
 	if(c->getAbstract() && !hasAbstractOps(c))
@@ -129,7 +129,7 @@ void ASWriter::writeClass(UMLClassifier *c)
 	UMLClass *myClass = dynamic_cast<UMLClass*>(c);
 	if(myClass) {
 
-		QPtrList<UMLAttribute> *atl = myClass->getFilteredAttributeList();
+		UMLAttributeList *atl = myClass->getFilteredAttributeList();
 
 	 	as << "/**" << endl;
 		QString temp = "_init sets all " + classname + " attributes to its default\
@@ -184,7 +184,7 @@ void ASWriter::writeClass(UMLClassifier *c)
 
 	as << "\t/**Protected: */\n";
 	if(myClass) {
-		QPtrList<UMLAttribute> *atl = myClass->getFilteredAttributeList();
+		UMLAttributeList *atl = myClass->getFilteredAttributeList();
 		for (UMLAttribute *at = atl->first(); at ; at = atl->next())
 		{
 			if (at->getScope() == Uml::Protected)
@@ -194,7 +194,7 @@ void ASWriter::writeClass(UMLClassifier *c)
 		}
 	}
 
- 	QPtrList<UMLOperation> *opList = c->getFilteredOperationsList();
+ 	UMLOperationList *opList = c->getFilteredOperationsList();
 	for (UMLOperation *op = opList->first(); op; op = opList->next())
 	{
 		if (op->getScope() == Uml::Protected)
@@ -205,7 +205,7 @@ void ASWriter::writeClass(UMLClassifier *c)
 	as << endl;
 	as << "\t/**Private: */\n";
 	if(myClass) {
-		QPtrList<UMLAttribute> *atl = myClass->getFilteredAttributeList();
+		UMLAttributeList *atl = myClass->getFilteredAttributeList();
 		for (UMLAttribute *at = atl->first(); at; at = atl->next())
 		{
 			if (at->getScope() == Uml::Private)
@@ -241,10 +241,10 @@ void ASWriter::writeClass(UMLClassifier *c)
 ////////////////////////////////////////////////////////////////////////////////////
 //  Helper Methods
 
-void ASWriter::writeOperations(QString classname, QPtrList<UMLOperation> *opList, QTextStream &as)
+void ASWriter::writeOperations(QString classname, UMLOperationList *opList, QTextStream &as)
 {
 	UMLOperation *op;
-	QPtrList<UMLAttribute> *atl;
+	UMLAttributeList *atl;
 	UMLAttribute *at;
 
 	for(op = opList->first(); op; op = opList->next())

@@ -22,8 +22,7 @@
 
 #include <qptrlist.h>
 #include <qstringlist.h>
-class UMLOperation;
-class UMLAttribute;
+#include "../umloperationlist.h"
 
 /**
   * class JSWriter is a JavaScript code generator for UMLClassifier objects
@@ -55,7 +54,7 @@ private:
 	  * @param opList the list of operations
 	  * @param js output stream for the JS file
 	  */
-	void writeOperations(QString classname, QPtrList<UMLOperation> *opList,
+	void writeOperations(QString classname, UMLOperationList *opList,
 	                     QTextStream &js);
 
 };

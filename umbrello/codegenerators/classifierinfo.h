@@ -20,6 +20,9 @@
 #include "../umldoc.h"
 #include "../attribute.h"
 #include "../association.h"
+#include "../umlclassifierlist.h"
+#include "../umlassociationlist.h"
+#include "../umlattributelist.h"
 
 #include <qptrlist.h>
 #include <qstring.h>
@@ -48,30 +51,30 @@ public:
 	 * Lists of attributes of this classifier (if a class)
 	 * Sorted by scope.
 	 */
-	QPtrList <UMLAttribute> atpub;
-	QPtrList <UMLAttribute> atprot;
-	QPtrList <UMLAttribute> atpriv;
+	UMLAttributeList atpub;
+	UMLAttributeList atprot;
+	UMLAttributeList atpriv;
 
 	/**
 	 * Lists of static attributes of this classifier (if a class)
 	 */
-	QPtrList <UMLAttribute> static_atpub; 
-	QPtrList <UMLAttribute> static_atprot; 
-	QPtrList <UMLAttribute> static_atpriv; 
+	UMLAttributeList static_atpub; 
+	UMLAttributeList static_atprot; 
+	UMLAttributeList static_atpriv; 
 
 	/**
 	 * Lists of types of associations this classifier has
 	 */
-	QPtrList<UMLAssociation> plainAssociations;
-	QPtrList<UMLAssociation> aggregations;
-	QPtrList<UMLAssociation> compositions;
-	QPtrList<UMLAssociation> generalizations;
+	UMLAssociationList plainAssociations;
+	UMLAssociationList aggregations;
+	UMLAssociationList compositions;
+	UMLAssociationList generalizations;
 
 	/**
 	 * what sub and super classifiers are related to this class
 	 */
-	QPtrList<UMLClassifier> superclasses;
-	QPtrList<UMLClassifier> subclasses;
+	UMLClassifierList superclasses;
+	UMLClassifierList subclasses;
 
 	/**
 	 * Various conditional information about our classifier.
@@ -96,15 +99,15 @@ public:
 	 * are "owned" by the current one via named association type (e.g. 
 	 * plain, aggregate or compositions).
 	 */
-	QPtrList<UMLClassifier> getPlainAssocChildClassifierList();
-	QPtrList<UMLClassifier> getAggregateChildClassifierList();
-	QPtrList<UMLClassifier> getCompositionChildClassifierList();
+	UMLClassifierList getPlainAssocChildClassifierList();
+	UMLClassifierList getAggregateChildClassifierList();
+	UMLClassifierList getCompositionChildClassifierList();
 
 	/**
 	 * Utility method to obtain list of attributes, if they exist, for
 	 * the current classfier.
 	 */
-	QPtrList<UMLAttribute>* getAttList();
+	UMLAttributeList* getAttList();
 
 
 protected:
@@ -120,12 +123,12 @@ private:
 	 * which arent the current one. Usefull for finding which classifiers are "owned" by the 
 	 * current one via declared associations such as in aggregations/compositions.
 	 */
-	QPtrList<UMLClassifier> findAssocClassifierObjsInRoles (QPtrList<UMLAssociation> * list); 
+	UMLClassifierList findAssocClassifierObjsInRoles (UMLAssociationList * list); 
 
 	/**
 	 *      List of all the attributes in this class.
 	 */
-	QPtrList<UMLAttribute> m_AttsList;
+	UMLAttributeList m_AttsList;
 
 };
 

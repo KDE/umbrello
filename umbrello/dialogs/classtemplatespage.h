@@ -20,9 +20,9 @@
 #include <qptrlist.h>
 #include <qmap.h>
 #include "dialogpage.h"
+#include "../umltemplatelist.h"
 
 class UMLClass;
-class UMLTemplate;
 class UMLDoc;
 class QListViewItem;
 
@@ -78,7 +78,7 @@ protected:
 	
 	UMLClass *m_umlObject;
 	UMLDoc   *m_doc;
-	QPtrList<UMLTemplate> m_tempsList;
+	UMLTemplateList m_tempsList;
 	QMap<QListViewItem*,UMLTemplate*> m_tempMap;
 };
 

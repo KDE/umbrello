@@ -19,11 +19,10 @@
 #define ASWRITER_H
 
 #include "../codegenerator.h"
+#include "../umloperationlist.h"
 
 #include <qptrlist.h>
 #include <qstringlist.h>
-class UMLOperation;
-class UMLAttribute;
 
 /**
   * class ASWriter is a ActionScript code generator for UMLClassifier objects
@@ -55,7 +54,7 @@ private:
 	  * @param opList the list of operations
 	  * @param as output stream for the AS file
 	  */
-	void writeOperations(QString classname, QPtrList<UMLOperation> *opList,
+	void writeOperations(QString classname, UMLOperationList *opList,
 	                     QTextStream &as);
 
 };

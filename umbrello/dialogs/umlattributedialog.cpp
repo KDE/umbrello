@@ -104,12 +104,12 @@ void UMLAttributeDialog::setupDialog() {
 	m_pTypeCB->setDuplicatesEnabled(false);//only allow one of each type in box
 
 	//now add the Concepts
-	QPtrList<UMLClassifier> namesList( pDoc->getConcepts() );
+	UMLClassifierList namesList( pDoc->getConcepts() );
 	UMLClassifier* obj;
 	for (obj=namesList.first(); obj!=0; obj=namesList.next()) {
 		insertType( obj->getName() );
 	}
-	QPtrList<UMLInterface> interfaceList( pDoc->getInterfaces() );
+	UMLInterfaceList interfaceList( pDoc->getInterfaces() );
 	UMLInterface* pInterface = 0;
 	for(pInterface=interfaceList.first(); pInterface!=0 ;pInterface=interfaceList.next()) {
 		insertType( pInterface->getName() );
@@ -157,7 +157,7 @@ bool UMLAttributeDialog::apply() {
 		return false;
 	}
 
-	QPtrList<UMLObject> list= pConcept->findChildObject(Uml::ot_Attribute, name);
+	UMLObjectList list= pConcept->findChildObject(Uml::ot_Attribute, name);
 	if( list.count() != 0 && list.findRef( m_pAttribute ) ) {
 		KMessageBox::error(this, i18n("The attribute name you have chosen is already being used in this operation."),
 		                   i18n("Attribute Name Not Unique"), false);

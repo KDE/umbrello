@@ -163,7 +163,7 @@ void CppWriter::writeHeaderFile (UMLClassifier *c, QFile &fileh) {
 	h << "#ifndef "<< hashDefine + "_H" << endl;
 	h << "#define "<< hashDefine + "_H" << endl;
 
-	QPtrList<UMLClassifier> superclasses = classifierInfo->superclasses;
+	UMLClassifierList superclasses = classifierInfo->superclasses;
 	for(UMLClassifier *classifier = superclasses.first(); classifier ;classifier = superclasses.next()) {
 		QString headerName = findFileName(classifier, ".h");
 		if (headerName.isEmpty()) {
@@ -222,7 +222,7 @@ void CppWriter::writeHeaderFile (UMLClassifier *c, QFile &fileh) {
 		UMLClass* k = dynamic_cast<UMLClass*>(c);
 		if (k->isEnumeration()) {
 			h << "enum " << classifierInfo->className << " {" << endl;
-			QPtrList<UMLAttribute>* atl = k->getFilteredAttributeList();
+			UMLAttributeList* atl = k->getFilteredAttributeList();
 			for (UMLAttribute *at=atl->first(); at ; ) {
 				QString attrName = cleanName(at->getName());
 				h << getIndent() << attrName;
@@ -451,7 +451,7 @@ void CppWriter::writeSourceFile (UMLClassifier *c, QFile &filecpp ) {
 void CppWriter::writeClassDecl(UMLClassifier *c, QTextStream &cpp)
 {
 
-	QPtrList<UMLAssociation> generalizations = c->getGeneralizations(); // list of what we inherit from
+	UMLAssociationList generalizations = c->getGeneralizations(); // list of what we inherit from
 	QString classname = cleanName(c->getName()); // our class name
 
 	// write documentation for class, if any, first
@@ -487,7 +487,7 @@ void CppWriter::writeClassDecl(UMLClassifier *c, QTextStream &cpp)
 
 	// write inheritances out
 	UMLClassifier *concept;
-	QPtrList<UMLClassifier> superclasses = c->findSuperClassConcepts(m_doc);
+	UMLClassifierList superclasses = c->findSuperClassConcepts(m_doc);
 
 	int i = 0;
 	for (concept= superclasses.first(); concept; concept = superclasses.next())
@@ -504,7 +504,7 @@ void CppWriter::writeAttributeDecls (Scope visibility, bool writeStatic, QTextSt
 	if(classifierInfo->isInterface)
 		return;
 
-	QPtrList <UMLAttribute> * list;
+	UMLAttributeList * list;
         switch (visibility)
         {
                 case Uml::Private:
@@ -582,7 +582,7 @@ void CppWriter::writeAttributeDecls (Scope visibility, bool writeStatic, QTextSt
 void CppWriter::writeHeaderAttributeAccessorMethods (Scope visibility, bool writeStatic, QTextStream &stream )
 {
 
-        QPtrList <UMLAttribute> * list;
+        UMLAttributeList * list;
         switch (visibility)
         {
                 case Uml::Private:
@@ -615,7 +615,7 @@ void CppWriter::writeHeaderAttributeAccessorMethods (Scope visibility, bool writ
 
 // this is for writing *source* or *header* file attribute methods
 //
-void CppWriter::writeAttributeMethods(QPtrList <UMLAttribute> *attribs,
+void CppWriter::writeAttributeMethods(UMLAttributeList *attribs,
 					Scope visibility, bool isHeaderMethod,
  					bool isStatic,
 					bool writeMethodBody, QTextStream &stream)
@@ -696,7 +696,7 @@ void CppWriter::writeDocumentation(QString header, QString body, QString end, QT
 	cpp<<indent<<" */"<<endl;
 }
 
-void CppWriter::writeAssociationDecls(QPtrList<UMLAssociation> associations, Scope permitScope, int id, QTextStream &h)
+void CppWriter::writeAssociationDecls(UMLAssociationList associations, Scope permitScope, int id, QTextStream &h)
 {
 
 	if( forceSections() || !associations.isEmpty() )
@@ -790,7 +790,7 @@ void CppWriter::writeAssociationRoleDecl(QString fieldClassName, QString roleNam
 }
 
 // for either source or header files
-void CppWriter::writeAssociationMethods (QPtrList<UMLAssociation> associations,
+void CppWriter::writeAssociationMethods (UMLAssociationList associations,
 					Scope permitVisib,
 					bool isHeaderMethod,
 					bool writeMethodBody,
@@ -1043,7 +1043,7 @@ void CppWriter::writeInitAttibuteMethod (QTextStream &stream)
 
 		IndentLevel++;
 		// first, initiation of fields derived from attributes
-		QPtrList<UMLAttribute>* atl = classifierInfo->getAttList();
+		UMLAttributeList* atl = classifierInfo->getAttList();
 		for(UMLAttribute *at = atl->first(); at ; at = atl->next()) {
 			if(!at->getInitialValue().isEmpty()) {
 				QString varName = getAttributeVariableName(at);
@@ -1128,8 +1128,8 @@ QString CppWriter::fixTypeName(QString string)
 
 void CppWriter::writeOperations(UMLClassifier *c, bool isHeaderMethod, Scope permitScope, QTextStream &cpp) {
 
-	QPtrList<UMLOperation> *opl;
-	QPtrList <UMLOperation> oplist;
+	UMLOperationList *opl;
+	UMLOperationList oplist;
 	oplist.setAutoDelete(false);
 
 	UMLOperation *op;
@@ -1167,7 +1167,7 @@ void CppWriter::writeOperations(UMLClassifier *c, bool isHeaderMethod, Scope per
 
 // write operation in either header or
 // a source file
-void CppWriter::writeOperations(QPtrList<UMLOperation> &oplist, bool isHeaderMethod, QTextStream &cpp) {
+void CppWriter::writeOperations(UMLOperationList &oplist, bool isHeaderMethod, QTextStream &cpp) {
 	UMLOperation *op;
 	UMLAttribute *at;
 	int i,j;
@@ -1207,7 +1207,7 @@ void CppWriter::writeOperations(QPtrList<UMLOperation> &oplist, bool isHeaderMet
 		str += cleanName(op->getName()) + " (";
 
 		// method parameters
-		QPtrList<UMLAttribute> *atl = op->getParmList();
+		UMLAttributeList *atl = op->getParmList();
 		i= atl->count();
 		j=0;
 		for( at = atl->first(); at ;at = atl->next(),j++) {
@@ -1239,7 +1239,7 @@ void CppWriter::writeOperations(QPtrList<UMLOperation> &oplist, bool isHeaderMet
 // of an association have roles we need to have forward declaration of
 // the other class...but only IF its not THIS class (as could happen
 // in self-association relationship).
-void CppWriter::printAssociationIncludeDecl (QPtrList<UMLAssociation> list, int myId, QTextStream &stream)
+void CppWriter::printAssociationIncludeDecl (UMLAssociationList list, int myId, QTextStream &stream)
 {
 
 	for (UMLAssociation *a = list.first(); a; a = list.next()) {

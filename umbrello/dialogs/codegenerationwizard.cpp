@@ -31,7 +31,7 @@
 #include "../umldoc.h"
 
 CodeGenerationWizard::CodeGenerationWizard(UMLDoc *doc,
-					   QPtrList<UMLClassifier> *classList,
+					   UMLClassifierList *classList,
 					   QDict<GeneratorInfo> ldict,
 					   QString activeLanguage,
 					   UMLApp *parent, const char *name)
@@ -51,7 +51,7 @@ CodeGenerationWizard::CodeGenerationWizard(UMLDoc *doc,
 
 	insertPage(m_CodeGenerationOptionsPage, i18n("Code Generation Options"), 1);
 
-	QPtrList<UMLClassifier> cList = m_doc->getConcepts();
+	UMLClassifierList cList = m_doc->getConcepts();
 
 	if(classList) {
 		for(UMLClassifier *c = classList->first(); c ; c = classList->next()) {
@@ -114,7 +114,7 @@ cerr<<" WIZARD: gets generator:"<<codeGenerator<<endl;
 		connect( codeGenerator, SIGNAL(codeGenerated(UMLClassifier*, bool)),
 			 this, SLOT(classGenerated(UMLClassifier*, bool)) );
 
-		QPtrList<UMLClassifier> cList;
+		UMLClassifierList cList;
 		cList.setAutoDelete(false);
 
 		for(QListViewItem *item = m_statusList->firstChild(); item;

@@ -85,12 +85,12 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a) : KDi
 	m_pTypeCB->setAutoCompletion(true);
 
 	//now add the Concepts
-	QPtrList<UMLClassifier> namesList( m_pUmldoc->getConcepts() );
+	UMLClassifierList namesList( m_pUmldoc->getConcepts() );
 	UMLClassifier * obj;
 	for(obj=namesList.first(); obj!=0 ;obj=namesList.next()) {
 		m_pTypeCB->insertItem( obj->getName() );
 	}
-	QPtrList<UMLInterface> interfaceList( m_pUmldoc->getInterfaces() );
+	UMLInterfaceList interfaceList( m_pUmldoc->getInterfaces() );
 	UMLInterface* pInterface = 0;
 	for(pInterface=interfaceList.first(); pInterface!=0 ;pInterface=interfaceList.next()) {
 		m_pTypeCB->insertItem( pInterface->getName() );

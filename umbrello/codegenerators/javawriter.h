@@ -19,6 +19,9 @@
 #include "../codegenerator.h"
 #include "../attribute.h"
 #include "../association.h"
+#include "../umloperationlist.h"
+#include "../umlattributelist.h"
+#include "../umlassociationlist.h"
 
 #include <qptrlist.h>
 #include <qstringlist.h>
@@ -76,7 +79,7 @@ private:
 	 * @param list the list of operations you want to write
 	 * @param j the stream associated with the output file
 	 */
-	void writeOperations(QPtrList<UMLOperation> &list, QTextStream &j);
+	void writeOperations(UMLOperationList &list, QTextStream &j);
 
 	/**
 	 * write all attributes for a given class
@@ -92,13 +95,13 @@ private:
 	 * @param atpriv list of private attributes
 	 * @param java text stream
 	 */
-	void writeAttributeDecls(QPtrList<UMLAttribute> &atpub, QPtrList<UMLAttribute> &atprot,
-				 QPtrList<UMLAttribute> &atpriv, QTextStream &java ); 
+	void writeAttributeDecls(UMLAttributeList &atpub, UMLAttributeList &atprot,
+				 UMLAttributeList &atpriv, QTextStream &java ); 
 
 	/**
 	 * Searches a list of associations for appropriate ones to write out as attributes
 	 */
-	void writeAssociationDecls(QPtrList<UMLAssociation> associations, int id, QTextStream &java);
+	void writeAssociationDecls(UMLAssociationList associations, int id, QTextStream &java);
 
 	/**
 	 * Writes out an association as an attribute using Vector
@@ -109,12 +112,12 @@ private:
 	/**
 	 * calls @ref writeSingleAttributeAccessorMethods() on each of the attributes in atpub
 	 */
-	void writeAttributeMethods(QPtrList<UMLAttribute> &atpub, Scope visibility, QTextStream &java);
+	void writeAttributeMethods(UMLAttributeList &atpub, Scope visibility, QTextStream &java);
 
 	/**
 	 * calls @ref writeAssociationRoleMethod() on each of the associations in the given list
 	 */
-	void writeAssociationMethods(QPtrList<UMLAssociation> associations, UMLClassifier *thisClass,
+	void writeAssociationMethods(UMLAssociationList associations, UMLClassifier *thisClass,
 				     QTextStream &java); 
 	
 	/**

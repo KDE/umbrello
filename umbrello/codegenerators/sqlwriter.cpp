@@ -86,7 +86,7 @@ void SQLWriter::writeClass(UMLClassifier *c) {
 	if(myClass)
 		writeAttributes(myClass,sql);
 
-	QPtrList<UMLAssociation> aggregations = c->getAggregations();
+	UMLAssociationList aggregations = c->getAggregations();
 	if( forceSections() || !aggregations.isEmpty() ) {
 		for(UMLAssociation* a = aggregations.first(); a; a = aggregations.next()) {
 			sql << ",\n\tCONSTRAINT " << a->getName() << " FOREIGN KEY (" << a->getMultiB() <<
@@ -102,8 +102,8 @@ void SQLWriter::writeClass(UMLClassifier *c) {
 
 
 void SQLWriter::writeAttributes(UMLClass *c, QTextStream &sql) {
-	QPtrList<UMLAttribute>* atl;
-	QPtrList<UMLAttribute> atpub, atprot, atpriv;
+	UMLAttributeList* atl;
+	UMLAttributeList atpub, atprot, atpriv;
 	atpub.setAutoDelete(false);
 	atprot.setAutoDelete(false);
 	atpriv.setAutoDelete(false);
@@ -130,7 +130,7 @@ void SQLWriter::writeAttributes(UMLClass *c, QTextStream &sql) {
 	printAttributes(sql, atpriv, first);
 }
 
-void SQLWriter::printAttributes(QTextStream& sql, QPtrList<UMLAttribute> attributeList, bool first) {
+void SQLWriter::printAttributes(QTextStream& sql, UMLAttributeList attributeList, bool first) {
 	UMLAttribute* at;
 	for (at=attributeList.first();at;at=attributeList.next()) {
 		if (!first) {

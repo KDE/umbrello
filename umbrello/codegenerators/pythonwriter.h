@@ -18,11 +18,10 @@
 #define PYTHONWRITER_H
 
 #include "../codegenerator.h"
+#include "../umloperationlist.h"
 
 #include <qptrlist.h>
 #include <qstringlist.h>
-class UMLOperation;
-class UMLAttribute;
 
 enum Access {PRIVATE, PUBLIC, PROTECTED};
 
@@ -64,7 +63,7 @@ private:
 	  * @param opList the list of operations
 	  * @param h output stream for the header file
 	  */
-	void writeOperations(QString classname, QPtrList<UMLOperation> &opList,
+	void writeOperations(QString classname, UMLOperationList &opList,
 	                     QTextStream &h, Access access);
 
 

@@ -166,7 +166,7 @@ cerr<<" CPP INITTOPARENT called"<<endl;
 
         // Walk through the document converting classifiers into
         // classifier code documents as needed (e.g only if doesnt exist)
-        QPtrList<UMLClassifier> concepts = getDocument()->getConcepts();
+        UMLClassifierList concepts = getDocument()->getConcepts();
         for (UMLClassifier *c = concepts.first(); c; c = concepts.next())
         {
 

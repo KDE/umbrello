@@ -340,7 +340,7 @@ void JavaClassifierCodeDocument::updateContent( )
        		importStatement.append("import java.util.*;"+endLine);
 
    	//only import classes in a different package from this class
-       	QPtrList<UMLClassifier> imports;
+       	UMLClassifierList imports;
        	QMap<UMLClassifier *,QString> *packageMap = new QMap<UMLClassifier*,QString>; // so we dont repeat packages
 
 	gen->findObjectsRelated(c,imports);

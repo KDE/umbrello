@@ -100,7 +100,7 @@ void PerlWriter::writeClass(UMLClassifier *c) {
 	}
 
 	//write includes
-	QPtrList<UMLClassifier> includes;//ca existe en perl??
+	UMLClassifierList includes;//ca existe en perl??
 	findObjectsRelated(c,includes);
 	UMLClassifier *conc;
 	for(conc = includes.first(); conc ;conc = includes.next()) {
@@ -108,9 +108,9 @@ void PerlWriter::writeClass(UMLClassifier *c) {
 	}
 	perl << endl;
 
-	QPtrList<UMLAssociation> generalizations = c->getGeneralizations();
-	QPtrList<UMLAssociation> aggregations = c->getAggregations();
-	QPtrList<UMLAssociation> compositions = c->getCompositions();
+	UMLAssociationList generalizations = c->getGeneralizations();
+	UMLAssociationList aggregations = c->getAggregations();
+	UMLAssociationList compositions = c->getCompositions();
 	UMLAssociation *a;
 
 	if (generalizations.count()) {
@@ -161,8 +161,8 @@ void PerlWriter::writeClass(UMLClassifier *c) {
 void PerlWriter::writeOperations(UMLClassifier *c, QTextStream &perl) {
 
 	//Lists to store operations  sorted by scope
-	QPtrList<UMLOperation> *opl;
-	QPtrList<UMLOperation> oppub,opprot,oppriv;
+	UMLOperationList *opl;
+	UMLOperationList oppub,opprot,oppriv;
 
 	oppub.setAutoDelete(false);
 	opprot.setAutoDelete(false);
@@ -213,7 +213,7 @@ void PerlWriter::writeOperations(UMLClassifier *c, QTextStream &perl) {
 	UMLClass *myClass = dynamic_cast<UMLClass*>(c);
 
 	if(myClass && hasDefaultValueAttr(myClass)) {
-		QPtrList<UMLAttribute> *atl = myClass->getFilteredAttributeList();
+		UMLAttributeList *atl = myClass->getFilteredAttributeList();
 
 		perl << endl;
 		perl << endl << "=item _init\n\n" << endl;
@@ -234,9 +234,9 @@ void PerlWriter::writeOperations(UMLClassifier *c, QTextStream &perl) {
 	perl << "\n=back\n\n";
 }
 
-void PerlWriter::writeOperations(QString /* classname */, QPtrList<UMLOperation> &opList, QTextStream &perl) {
+void PerlWriter::writeOperations(QString /* classname */, UMLOperationList &opList, QTextStream &perl) {
 	UMLOperation *op;
-	QPtrList<UMLAttribute> *atl;
+	UMLAttributeList *atl;
 	UMLAttribute *at;
 
 	for(op=opList.first(); op ; op=opList.next()) {
@@ -274,9 +274,9 @@ void PerlWriter::writeOperations(QString /* classname */, QPtrList<UMLOperation>
 
 
 void PerlWriter::writeAttributes(UMLClass *c, QTextStream &perl) {
-	QPtrList<UMLAttribute> *atl;
+	UMLAttributeList *atl;
 
-	QPtrList <UMLAttribute>  atpub, atprot, atpriv, atdefval;
+	UMLAttributeList  atpub, atprot, atpriv, atdefval;
 	atpub.setAutoDelete(false);
 	atprot.setAutoDelete(false);
 	atpriv.setAutoDelete(false);
@@ -317,7 +317,7 @@ void PerlWriter::writeAttributes(UMLClass *c, QTextStream &perl) {
 }
 
 
-void PerlWriter::writeAttributes(QPtrList<UMLAttribute> &atList, QTextStream &perl) {
+void PerlWriter::writeAttributes(UMLAttributeList &atList, QTextStream &perl) {
     perl << "\n=head1 PUBLIC ATTRIBUTES\n\n=over 4\n";
 
 	for (UMLAttribute *at = atList.first(); at ; at = atList.next()) {

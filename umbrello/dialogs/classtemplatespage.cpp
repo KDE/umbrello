@@ -62,7 +62,7 @@ void ClassTemplatesPage::loadData()
 // disconnect(this,SIGNAL(pageModified()),this,SLOT(pageContentsModified()));
 	/*FIXME sorry too busy to fix this
 	m_tempsList.clear();
-	QPtrList<UMLTemplate> *list = m_umlObject->getTemplateList();
+	UMLTemplateList *list = m_umlObject->getTemplateList();
 	QListViewItem *item;
 	UMLTemplate *copy;
 	// create list view and working-copy of templates
@@ -83,7 +83,7 @@ void ClassTemplatesPage::saveData()
 	m_umlObject->blockSignals( true );
 	{
 	 //remove deleted templates
-	QPtrList<UMLTemplate> list;
+	UMLTemplateList list;
 	list = *(m_umlObject->getTemplateList());
 	list.setAutoDelete(false);
 	for( UMLTemplate *temp = list.first(); temp ; temp = list.next() )
@@ -104,7 +104,7 @@ void ClassTemplatesPage::saveData()
 
 	{
 	// add/update templates
-	QPtrList<UMLTemplate> *pList = m_umlObject->getTemplateList();
+	UMLTemplateList *pList = m_umlObject->getTemplateList();
 	UMLTemplate *temp;
 	int index,old_index;
 	for( temp = m_tempsList.first(), index = 0; temp ; temp = m_tempsList.next(), ++index )

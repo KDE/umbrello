@@ -104,7 +104,7 @@ void CPPHeaderCodeOperation::updateMethodDeclaration()
 	QString paramStr = QString("");
 
 	// assemble parameters
-        QPtrList<UMLAttribute> * list = getParentOperation()->getParmList();
+        UMLAttributeList * list = getParentOperation()->getParmList();
 	int nrofParam = list->count();
 	int paramNum = 0;
 	for(UMLAttribute* parm = list->first(); parm; parm=list->next())

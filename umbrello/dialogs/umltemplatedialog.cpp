@@ -103,7 +103,7 @@ bool UMLTemplateDialog::apply() {
 		return false;
 	}
 
-	QPtrList<UMLObject> list= pClass->findChildObject(Uml::ot_Attribute, name);
+	UMLObjectList list= pClass->findChildObject(Uml::ot_Attribute, name);
 	if( list.count() != 0 && list.findRef( m_pTemplate ) ) {
 		KMessageBox::error(this, i18n("The attribute name you have chosen is already being used in this operation."),
 		                   i18n("Attribute Name Not Unique"), false);

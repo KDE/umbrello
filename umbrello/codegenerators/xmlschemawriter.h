@@ -19,12 +19,14 @@
 #include "../codegenerator.h"
 #include "../attribute.h"
 #include "../association.h"
+#include "../umlclassifierlist.h"
+#include "../umlattributelist.h"
+#include "../umlobjectlist.h"
+#include "../umlassociationlist.h"
 
 #include <qptrlist.h>
 #include <qstringlist.h>
 
-
-class UMLOperation;
 
 /**
   * Class XMLSchemaWriter is a code generator for UMLClassifier objects.
@@ -71,10 +73,10 @@ private:
 	 * write a <complexType> declaration for this classifier
 	 */
 	void writeComplexTypeClassifierDecl(UMLClassifier *c, 
-				QPtrList<UMLAssociation> associations, 
-				QPtrList<UMLAssociation> aggregations, 
-				QPtrList<UMLAssociation> compositions, 
-				QPtrList<UMLClassifier> superclassifiers, 
+				UMLAssociationList associations, 
+				UMLAssociationList aggregations, 
+				UMLAssociationList compositions, 
+				UMLClassifierList superclassifiers, 
 				QTextStream &XMLSchema); 
 
 	/**
@@ -82,7 +84,7 @@ private:
 	 * inheriting children. 
 	 */
 	void writeGroupClassifierDecl(UMLClassifier *c, 
-				QPtrList<UMLClassifier> superclassifiers, 
+				UMLClassifierList superclassifiers, 
 				QTextStream &XMLSchema); 
 
 	/**
@@ -107,7 +109,7 @@ private:
 	 * @param attribs List of attributes
 	 * @param XMLschema text stream
 	 */
-	void writeAttributeDecls(QPtrList<UMLAttribute> &attribs, QTextStream &XMLschema ); 
+	void writeAttributeDecls(UMLAttributeList &attribs, QTextStream &XMLschema ); 
 
 	/**
 	 * write an element attribute.
@@ -117,7 +119,7 @@ private:
 	/**
 	 * Find all attributes for this concept.
 	 */
-	QPtrList <UMLAttribute> findAttributes (UMLClassifier *c); 
+	UMLAttributeList findAttributes (UMLClassifier *c); 
 
 	/**
 	 * Discover the string name of all the attribute groups (which are child nodes)
@@ -130,12 +132,12 @@ private:
 	 * This works well for compositions, aggregations and self-associations but will 
 	 * not work right for plain associations between 2 different classes.
 	 */
-	bool writeAssociationDecls(QPtrList<UMLAssociation> associations, bool noRoleOK, bool didOne, int id, QTextStream &XMLschema);
+	bool writeAssociationDecls(UMLAssociationList associations, bool noRoleOK, bool didOne, int id, QTextStream &XMLschema);
 
 	/**
 	 * Find all attributes that  belong in group
 	 */
-	void writeAttributeGroupDecl(QString elementName, QPtrList<UMLAttribute> &attribs, QTextStream &XMLschema ); 
+	void writeAttributeGroupDecl(QString elementName, UMLAttributeList &attribs, QTextStream &XMLschema ); 
 
 	/**
 	 * Writes out an association as an attribute using Vector
@@ -161,7 +163,7 @@ private:
 	 * Find and return a list of child UMLObjects pointed to by the associations 
 	 * in this UMLClassifier.
 	 */
-	QPtrList<UMLObject> findChildObjsInAssociations (UMLClassifier *c, QPtrList<UMLAssociation> associations);
+	UMLObjectList findChildObjsInAssociations (UMLClassifier *c, UMLAssociationList associations);
 
 	/**
 	 * Returns the current indent string
@@ -204,7 +206,7 @@ private:
 	 * Find all the child objects in this association and make sure they get 
 	 * written out (if they havent already been)
 	 */
-	void writeChildObjsInAssociation (UMLClassifier *c, QPtrList<UMLAssociation> assoc, QTextStream &s); 
+	void writeChildObjsInAssociation (UMLClassifier *c, UMLAssociationList assoc, QTextStream &s); 
 
 	/**
 	 * Quick check to see if we have written the declaration for this concept yet.
@@ -254,7 +256,7 @@ private:
 	/**
 	 * a list of UMLClassifiers we have already written
 	 */
-	QPtrList <UMLClassifier> writtenClassifiers;
+	UMLClassifierList writtenClassifiers;
 
 };
 

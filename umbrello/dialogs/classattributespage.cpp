@@ -63,7 +63,7 @@ void ClassAttributesPage::loadData()
 // disconnect(this,SIGNAL(pageModified()),this,SLOT(pageContentsModified()));
 	/*FIXME sorry, too busy to fix this
 	m_attList.clear();
-	QPtrList<UMLAttribute> *list = m_umlObject->getAttList();
+	UMLAttributeList *list = m_umlObject->getAttList();
 	QListViewItem *item;
 	UMLAttribute *copy;
 	// create list view and working-copy of attributes
@@ -87,7 +87,7 @@ void ClassAttributesPage::saveData()
 	m_umlObject->blockSignals( true );
 	{
 	 //remove deleted attributes
-	QPtrList<UMLAttribute> list;
+	UMLAttributeList list;
 	list = *(m_umlObject->getAttList());
 	list.setAutoDelete(false);
 	kdDebug()<<"removing deleted atts"<<endl;
@@ -109,7 +109,7 @@ void ClassAttributesPage::saveData()
 
 	{
 	// add/update attributes
-	QPtrList<UMLAttribute> *pList = m_umlObject->getAttList();
+	UMLAttributeList *pList = m_umlObject->getAttList();
 	UMLAttribute *att;
 	int index,old_index;
 	for( att = m_attList.first(), index = 0; att ; att = m_attList.next(), ++index )

@@ -127,7 +127,7 @@ void IDLWriter::writeClass(UMLClassifier *c) {
 	}
 
 	// Write includes.
-	QPtrList<UMLClassifier> includes;
+	UMLClassifierList includes;
 	findObjectsRelated(c, includes);
 	if (includes.count()) {
 		for (UMLClassifier *conc = includes.first(); conc; conc = includes.next()) {
@@ -158,7 +158,7 @@ void IDLWriter::writeClass(UMLClassifier *c) {
 			idl << spc() << "// " << stype << " is Not Yet Implemented\n\n";
 		} else if(stype == "CORBAEnum") {
 			if(myClass) {
-				QPtrList<UMLAttribute> *atl = myClass->getFilteredAttributeList();
+				UMLAttributeList *atl = myClass->getFilteredAttributeList();
 				UMLAttribute *at;
 				idl << spc() << "enum " << classname << " {\n";
 				indentlevel++;
@@ -175,7 +175,7 @@ void IDLWriter::writeClass(UMLClassifier *c) {
 			}
 		} else if(stype == "CORBAStruct") {
 			if(myClass) {
-				QPtrList<UMLAttribute> *atl = myClass->getFilteredAttributeList();
+				UMLAttributeList *atl = myClass->getFilteredAttributeList();
 				UMLAttribute *at;
 				idl << spc() << "struct " << classname << " {\n";
 				indentlevel++;
@@ -201,9 +201,9 @@ void IDLWriter::writeClass(UMLClassifier *c) {
 		return;
 	}
 
-	QPtrList<UMLAssociation> generalizations = c->getGeneralizations();
-	QPtrList<UMLAssociation> aggregations = c->getAggregations();
-	QPtrList<UMLAssociation> compositions = c->getCompositions();
+	UMLAssociationList generalizations = c->getGeneralizations();
+	UMLAssociationList aggregations = c->getAggregations();
+	UMLAssociationList compositions = c->getCompositions();
 	UMLAssociation *a;
 
 	idl << spc();
@@ -256,8 +256,8 @@ void IDLWriter::writeClass(UMLClassifier *c) {
 
 	// Generate public attributes.
 	if(myClass) {
-		QPtrList<UMLAttribute> *atl = myClass->getFilteredAttributeList();
-		QPtrList<UMLAttribute> atpub;
+		UMLAttributeList *atl = myClass->getFilteredAttributeList();
+		UMLAttributeList atpub;
 		UMLAttribute *at;
 		for (at = atl->first(); at; at = atl->next()) {
 			if (at->getScope() == Uml::Public)
@@ -274,8 +274,8 @@ void IDLWriter::writeClass(UMLClassifier *c) {
 	}
 
 	// Generate public operations.
-	QPtrList<UMLOperation> *opl = c->getFilteredOperationsList();
-	QPtrList<UMLOperation> oppub;
+	UMLOperationList *opl = c->getFilteredOperationsList();
+	UMLOperationList oppub;
 	UMLOperation *op;
 	for (op = opl->first(); op; op = opl->next()) {
 		if (op->getScope() == Uml::Public)
@@ -321,7 +321,7 @@ void IDLWriter::writeClass(UMLClassifier *c) {
 
 
 void IDLWriter::writeOperation(UMLOperation *op, QTextStream &idl, bool is_comment) {
-	QPtrList<UMLAttribute> *atl = op->getParmList();
+	UMLAttributeList *atl = op->getParmList();
 	QString rettype = op->getReturnType();
 
 	idl << spc();

@@ -224,7 +224,7 @@ void RefactoringAssistant::addClassifier( UMLClassifier *classifier, QListViewIt
 		attsFolder = new KListViewItem( classifierItem, i18n("Attributes"), "attributes" );
 		attsFolder->setPixmap(0,SmallIcon("folder_green_open"));
 		attsFolder->setExpandable( true );
-		QPtrList<UMLAttribute>* atts = static_cast<UMLClass*>(classifier)->getFilteredAttributeList();
+		UMLAttributeList* atts = static_cast<UMLClass*>(classifier)->getFilteredAttributeList();
 		for( UMLAttribute *att = atts->first(); att ; att = atts->next() )
 		{
 			item = new KListViewItem( attsFolder, att->getName() );
@@ -252,7 +252,7 @@ void RefactoringAssistant::addClassifier( UMLClassifier *classifier, QListViewIt
 	opsFolder = new KListViewItem( classifierItem, i18n("Operations"), "operations" );
 	opsFolder->setPixmap(0,SmallIcon("folder_blue_open"));
 	attsFolder->setExpandable( true );
-	QPtrList<UMLOperation> *ops = classifier->getFilteredOperationsList();
+	UMLOperationList *ops = classifier->getFilteredOperationsList();
 	for( UMLOperation *op = ops->first(); op ; op = ops->next() )
 	{
 		item = new KListViewItem( opsFolder, op->getName() );
@@ -276,7 +276,7 @@ void RefactoringAssistant::addClassifier( UMLClassifier *classifier, QListViewIt
 	{
 	superFolder = new KListViewItem( classifierItem, i18n("Super") );
 	superFolder->setExpandable( true );
-	QPtrList<UMLClassifier> super = classifier->findSuperClassConcepts( m_doc );
+	UMLClassifierList super = classifier->findSuperClassConcepts( m_doc );
 	for( UMLClassifier *cl = super.first(); cl ; cl = super.next() )
 	{
 		item = new KListViewItem( superFolder, cl->getName() );
@@ -295,7 +295,7 @@ void RefactoringAssistant::addClassifier( UMLClassifier *classifier, QListViewIt
 	//add derived classifiers
 	derivedFolder = new KListViewItem( classifierItem, i18n("Derived") );
 	derivedFolder->setExpandable( true );
-	QPtrList<UMLClassifier> derived = classifier->findSubClassConcepts ( m_doc );
+	UMLClassifierList derived = classifier->findSubClassConcepts ( m_doc );
 	for( UMLClassifier *d = derived.first(); d ; d = derived.next() )
 	{
 		item = new KListViewItem( derivedFolder, d->getName() );

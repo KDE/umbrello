@@ -29,6 +29,7 @@
 #include "../interface.h"
 #include "../umldoc.h"
 #include "../listpopupmenu.h"
+#include "../umlattributelist.h"
 #include "parmpropdlg.h"
 #include "umloperationdialog.h"
 
@@ -120,7 +121,7 @@ void UMLOperationDialog::setupDialog() {
 	m_pRtypeCB->setDuplicatesEnabled(false);//only allow one of each type in box
 
 	//now add the Classes and Interfaces (both are Concepts)
-	QPtrList<UMLClassifier> namesList( pDoc->getConcepts() );
+	UMLClassifierList namesList( pDoc->getConcepts() );
 	UMLClassifier* pConcept = 0;
 	for(pConcept=namesList.first(); pConcept!=0 ;pConcept=namesList.next()) {
 		insertType( pConcept->getName() );
@@ -145,7 +146,7 @@ void UMLOperationDialog::setupDialog() {
 	}
 
 	//fill in parm list box
-	QPtrList<UMLAttribute> * list = m_pOperation -> getParmList();
+	UMLAttributeList * list = m_pOperation -> getParmList();
 	UMLAttribute * pAtt = 0;
 	for( pAtt = list -> first(); pAtt != 0; pAtt = list -> next() )
 		m_pParmsLB -> insertItem( pAtt -> getName() );
@@ -325,7 +326,7 @@ bool UMLOperationDialog::apply() {
 	m_pOperation -> setAbstract( m_pAbstractCB -> isChecked() );
 	m_pOperation -> setStatic( m_pStaticCB -> isChecked() );
 
-	QPtrList<UMLObject> list;
+	UMLObjectList list;
 	if (static_cast<UMLObject*>(m_pOperation->parent())->getBaseType() == Uml::ot_Class
 	    || static_cast<UMLObject*>(m_pOperation->parent())->getBaseType() == Uml::ot_Interface
 	) {

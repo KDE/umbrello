@@ -19,11 +19,11 @@
 #define PERLWRITER_H
 
 #include "../codegenerator.h"
+#include "../umlattributelist.h"
+#include "../umloperationlist.h"
 
 #include <qptrlist.h>
 #include <qstringlist.h>
-class UMLOperation;
-class UMLAttribute;
 
 /**
   * class PerlWriter is a Perl code generator for UMLClassifier objects
@@ -66,7 +66,7 @@ private:
 	  * @param opList the list of operations
 	  * @param perl output stream for the Perl file
 	  */
-	void writeOperations(QString classname, QPtrList<UMLOperation> &opList,
+	void writeOperations(QString classname, UMLOperationList &opList,
 	                     QTextStream &perl);
 
 	/** write all the attributes of a class
@@ -79,7 +79,7 @@ private:
 	  * @param atList the list of attributes
 	  * @param perl output stream for the Perl file
 	  */
-	void writeAttributes(QPtrList<UMLAttribute> &atList, QTextStream &perl);
+	void writeAttributes(UMLAttributeList &atList, QTextStream &perl);
 
 
 };

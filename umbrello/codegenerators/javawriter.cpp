@@ -70,9 +70,9 @@ void JavaWriter::writeClass(UMLClassifier *c)
 
 	// sort attributes by Scope
         UMLAttribute *at;
-        QPtrList <UMLAttribute> *atl;
-        QPtrList <UMLAttribute>  atpub, atprot, atpriv;
-        QPtrList <UMLAttribute>  final_atpub, final_atprot, final_atpriv;
+        UMLAttributeList *atl;
+        UMLAttributeList  atpub, atprot, atpriv;
+        UMLAttributeList  final_atpub, final_atprot, final_atpriv;
         atpub.setAutoDelete(false);
         final_atpub.setAutoDelete(false);
         atprot.setAutoDelete(false);
@@ -110,9 +110,9 @@ void JavaWriter::writeClass(UMLClassifier *c)
 	}
 
 	// another preparation, determine what we have
-	QPtrList <UMLAssociation> associations = c->getSpecificAssocs(Uml::at_Association); // BAD! only way to get "general" associations.
-	QPtrList <UMLAssociation> aggregations = c->getAggregations();
-	QPtrList <UMLAssociation> compositions = c->getCompositions();
+	UMLAssociationList associations = c->getSpecificAssocs(Uml::at_Association); // BAD! only way to get "general" associations.
+	UMLAssociationList aggregations = c->getAggregations();
+	UMLAssociationList compositions = c->getCompositions();
 
 	bool hasAssociations = aggregations.count() > 0 || associations.count() > 0 || compositions.count() > 0;
 	bool hasAttributes = atpub.count() > 0 || atprot.count() > 0 || atpriv.count() > 0
@@ -152,7 +152,7 @@ void JavaWriter::writeClass(UMLClassifier *c)
 	}
 
 	//only import classes in a different package as this class
-	QPtrList<UMLClassifier> imports;
+	UMLClassifierList imports;
 	findObjectsRelated(c,imports);
 	for(UMLClassifier *con = imports.first(); con ; con = imports.next())
 		if(con->getPackage() != c->getPackage())
@@ -252,7 +252,7 @@ void JavaWriter::writeClass(UMLClassifier *c)
 void JavaWriter::writeClassDecl(UMLClassifier *c, QTextStream &java)
 {
 
-	QPtrList<UMLAssociation> generalizations = c->getGeneralizations(); // list of what we inherit from
+	UMLAssociationList generalizations = c->getGeneralizations(); // list of what we inherit from
 	QString classname = cleanName(c->getName()); // our class name
 
 	// write documentation for class, if any, first
@@ -288,7 +288,7 @@ void JavaWriter::writeClassDecl(UMLClassifier *c, QTextStream &java)
 
 	// write inheritances out
 	UMLClassifier *concept;
-	QPtrList<UMLClassifier> superclasses = c->findSuperClassConcepts(m_doc);
+	UMLClassifierList superclasses = c->findSuperClassConcepts(m_doc);
 
 	if(superclasses.count()>0)
 		java<<" extends ";
@@ -304,8 +304,8 @@ void JavaWriter::writeClassDecl(UMLClassifier *c, QTextStream &java)
 
 }
 
-void JavaWriter::writeAttributeDecls(QPtrList<UMLAttribute> &atpub, QPtrList<UMLAttribute> &atprot,
-				     QPtrList<UMLAttribute> &atpriv, QTextStream &java )
+void JavaWriter::writeAttributeDecls(UMLAttributeList &atpub, UMLAttributeList &atprot,
+				     UMLAttributeList &atpriv, QTextStream &java )
 {
 	UMLAttribute *at;
 
@@ -347,7 +347,7 @@ void JavaWriter::writeAttributeDecls(QPtrList<UMLAttribute> &atpub, QPtrList<UML
 
 }
 
-void JavaWriter::writeAttributeMethods(QPtrList <UMLAttribute> &atpub, Scope visibility, QTextStream &java)
+void JavaWriter::writeAttributeMethods(UMLAttributeList &atpub, Scope visibility, QTextStream &java)
 {
 
 	UMLAttribute *at;
@@ -422,7 +422,7 @@ void JavaWriter::writeDocumentation(QString header, QString body, QString end, Q
 	java<<indent<<" */";
 }
 
-void JavaWriter::writeAssociationDecls(QPtrList<UMLAssociation> associations, int id, QTextStream &java)
+void JavaWriter::writeAssociationDecls(UMLAssociationList associations, int id, QTextStream &java)
 {
 
 	if( forceSections() || !associations.isEmpty() )
@@ -494,7 +494,7 @@ void JavaWriter::writeAssociationRoleDecl(QString fieldClassName,
 
 }
 
-void JavaWriter::writeAssociationMethods (QPtrList<UMLAssociation> associations, UMLClassifier *thisClass, QTextStream &java)
+void JavaWriter::writeAssociationMethods (UMLAssociationList associations, UMLClassifier *thisClass, QTextStream &java)
 {
 	if( forceSections() || !associations.isEmpty() )
 	{
@@ -645,8 +645,8 @@ QString JavaWriter::fixTypeName(QString string)
 }
 
 void JavaWriter::writeOperations(UMLClassifier *c, QTextStream &java) {
-	QPtrList<UMLOperation> *opl;
-	QPtrList <UMLOperation> oppub,opprot,oppriv;
+	UMLOperationList *opl;
+	UMLOperationList oppub,opprot,oppriv;
 	oppub.setAutoDelete(false);
 	opprot.setAutoDelete(false);
 	oppriv.setAutoDelete(false);
@@ -698,9 +698,9 @@ void JavaWriter::writeOperations(UMLClassifier *c, QTextStream &java) {
 
 }
 
-void JavaWriter::writeOperations(QPtrList<UMLOperation> &oplist, QTextStream &java) {
+void JavaWriter::writeOperations(UMLOperationList &oplist, QTextStream &java) {
 	UMLOperation *op;
-	QPtrList<UMLAttribute> *atl;
+	UMLAttributeList *atl;
 	UMLAttribute *at;
 	int i,j;
 	QString str;

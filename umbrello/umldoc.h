@@ -20,6 +20,7 @@
 #include "dialogs/settingsdlg.h"
 #include "umlviewlist.h"
 #include "umlobjectlist.h"
+#include "umlinterfacelist.h"
 #include "umlnamespace.h"
 #include <qdatastream.h>
 #include <qdict.h>
@@ -51,7 +52,6 @@ class UMLListView;
 class UMLView;
 class UMLWidget;
 class UMLClassifier;
-class UMLInterface;
 class UMLApp;
 
 using namespace Uml;
@@ -523,7 +523,7 @@ public:
 	 *
 	 *	@return	Returns a list of interfaces
 	 */
-	QPtrList<UMLInterface> getInterfaces();
+	UMLInterfaceList getInterfaces();
 
 	/**
 	 *	Returns a list of associations

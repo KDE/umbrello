@@ -103,7 +103,7 @@ void XMLSchemaWriter::writeClass(UMLClassifier *c)
 	// the correct import statements. Leave that for later at this time.
         /*
         //only import classes in a different package as this class
-        QPtrList<UMLClassifier> imports;
+        UMLClassifierList imports;
         findObjectsRelated(c,imports);
         for(UMLClassifier *con = imports.first(); con ; con = imports.next())
                 if(con->getPackage() != c->getPackage())
@@ -167,15 +167,15 @@ void XMLSchemaWriter::writeClassifier (UMLClassifier *c, QTextStream &XMLschema)
 
 }
 
-QPtrList <UMLAttribute> XMLSchemaWriter::findAttributes (UMLClassifier *c)
+UMLAttributeList XMLSchemaWriter::findAttributes (UMLClassifier *c)
 {
         // sort attributes by Scope
-        QPtrList <UMLAttribute> attribs;
+        UMLAttributeList attribs;
         attribs.setAutoDelete(false);
 
 	UMLClass * myClass = dynamic_cast<UMLClass*>(c);
 	if(myClass) {
-	        QPtrList <UMLAttribute> *atl = myClass->getFilteredAttributeList();
+	        UMLAttributeList *atl = myClass->getFilteredAttributeList();
 	        for(UMLAttribute *at=atl->first(); at ; at=atl->next()) {
 	                switch(at->getScope())
 	                {
@@ -206,8 +206,8 @@ void XMLSchemaWriter::writeAbstractClassifier (UMLClassifier *c, QTextStream &XM
 {
 
 	// preparations
-	QPtrList <UMLClassifier> subclasses = c->findSubClassConcepts(m_doc); // list of what inherits from us
-	QPtrList<UMLClassifier> superclasses = c->findSuperClassConcepts(m_doc); // list of what inherits from us
+	UMLClassifierList subclasses = c->findSubClassConcepts(m_doc); // list of what inherits from us
+	UMLClassifierList superclasses = c->findSuperClassConcepts(m_doc); // list of what inherits from us
 
 	// write the main declaration
 	writeConcreteClassifier (c, XMLschema);
@@ -220,7 +220,7 @@ void XMLSchemaWriter::writeAbstractClassifier (UMLClassifier *c, QTextStream &XM
 	{
 
 		QString elementName = getElementName(c);
-        	QPtrList <UMLAttribute> attribs = findAttributes(c);
+        	UMLAttributeList attribs = findAttributes(c);
 		QStringList attribGroups = findAttributeGroups(c);
 
 		writeAttributeGroupDecl(elementName, attribs, XMLschema);
@@ -237,7 +237,7 @@ void XMLSchemaWriter::writeAbstractClassifier (UMLClassifier *c, QTextStream &XM
 }
 
 void XMLSchemaWriter::writeGroupClassifierDecl (UMLClassifier *c,
-						QPtrList <UMLClassifier> subclasses,
+						UMLClassifierList subclasses,
 						QTextStream &XMLschema)
 {
 
@@ -266,10 +266,10 @@ void XMLSchemaWriter::writeGroupClassifierDecl (UMLClassifier *c,
 }
 
 void XMLSchemaWriter::writeComplexTypeClassifierDecl (UMLClassifier *c,
-							QPtrList<UMLAssociation> associations,
-							QPtrList<UMLAssociation> aggregations,
-							QPtrList<UMLAssociation> compositions,
-							QPtrList<UMLClassifier> superclasses,
+							UMLAssociationList associations,
+							UMLAssociationList aggregations,
+							UMLAssociationList compositions,
+							UMLClassifierList superclasses,
 							QTextStream &XMLschema)
 {
 
@@ -277,7 +277,7 @@ void XMLSchemaWriter::writeComplexTypeClassifierDecl (UMLClassifier *c,
 	//
 
 	// sort attributes by Scope
-	QPtrList <UMLAttribute> attribs = findAttributes(c);
+	UMLAttributeList attribs = findAttributes(c);
 	QStringList attribGroups = findAttributeGroups(c);
 
 	// test for relevant associations
@@ -366,11 +366,11 @@ void XMLSchemaWriter::writeConcreteClassifier (UMLClassifier *c, QTextStream &XM
 
 	// preparations.. gather information about this classifier
 	//
-	QPtrList<UMLClassifier> superclasses = c->findSuperClassConcepts(m_doc); // list of what inherits from us
-	QPtrList <UMLAssociation> aggregations = c->getAggregations();
-	QPtrList <UMLAssociation> compositions = c->getCompositions();
+	UMLClassifierList superclasses = c->findSuperClassConcepts(m_doc); // list of what inherits from us
+	UMLAssociationList aggregations = c->getAggregations();
+	UMLAssociationList compositions = c->getCompositions();
 	// BAD! only way to get "general" associations.
-	QPtrList <UMLAssociation> associations = c->getSpecificAssocs(Uml::at_Association);
+	UMLAssociationList associations = c->getSpecificAssocs(Uml::at_Association);
 
 	// write the main declaration
 	writeComplexTypeClassifierDecl(c, associations, aggregations, compositions, superclasses, XMLschema);
@@ -393,7 +393,7 @@ QStringList XMLSchemaWriter::findAttributeGroups (UMLClassifier *c)
 	// we need to look for any class we inherit from. IF these
 	// have attributes, then we need to notice
 	QStringList list;
-	QPtrList<UMLClassifier> superclasses = c->findSuperClassConcepts(m_doc); // list of what inherits from us
+	UMLClassifierList superclasses = c->findSuperClassConcepts(m_doc); // list of what inherits from us
 	for(UMLClassifier *classifier = superclasses.first(); classifier; classifier = superclasses.next())
 	{
 		if(classifier->getAbstract())
@@ -401,7 +401,7 @@ QStringList XMLSchemaWriter::findAttributeGroups (UMLClassifier *c)
 			// only classes have attributes..
 			UMLClass * myClass = dynamic_cast<UMLClass*>(classifier);
 			if(myClass) {
-				QPtrList<UMLAttribute>* attribs = myClass->getFilteredAttributeList();
+				UMLAttributeList* attribs = myClass->getFilteredAttributeList();
 				if (attribs->count() > 0)
 					list.append(getElementName(classifier)+"AttribGroupType");
 			}
@@ -412,19 +412,19 @@ QStringList XMLSchemaWriter::findAttributeGroups (UMLClassifier *c)
 
 bool XMLSchemaWriter::determineIfHasChildNodes( UMLClassifier *c)
 {
-	QPtrList<UMLObject> aggList = findChildObjsInAssociations (c, c->getAggregations());
-	QPtrList<UMLObject> compList = findChildObjsInAssociations (c, c->getCompositions());
-	QPtrList <UMLAssociation> associations = c->getSpecificAssocs(Uml::at_Association); // BAD! only way to get "general" associations.
-	QPtrList<UMLObject> assocList = findChildObjsInAssociations (c, associations);
+	UMLObjectList aggList = findChildObjsInAssociations (c, c->getAggregations());
+	UMLObjectList compList = findChildObjsInAssociations (c, c->getCompositions());
+	UMLAssociationList associations = c->getSpecificAssocs(Uml::at_Association); // BAD! only way to get "general" associations.
+	UMLObjectList assocList = findChildObjsInAssociations (c, associations);
 	return aggList.count() > 0 || compList.count() > 0 || assocList.count() > 0;
 }
 
 void XMLSchemaWriter::writeChildObjsInAssociation (UMLClassifier *c,
-		QPtrList<UMLAssociation> assoc,
+		UMLAssociationList assoc,
 		QTextStream &XMLschema)
 {
 
-	QPtrList<UMLObject> list = findChildObjsInAssociations (c, assoc);
+	UMLObjectList list = findChildObjsInAssociations (c, assoc);
 	for(UMLObject * obj = list.first(); obj; obj = list.next())
 	{
 		UMLClassifier * thisClassifier = dynamic_cast<UMLClassifier*>(obj);
@@ -444,7 +444,7 @@ void XMLSchemaWriter::markAsWritten(UMLClassifier *c) {
 	writtenClassifiers.append(c);
 }
 
-void XMLSchemaWriter::writeAttributeDecls(QPtrList<UMLAttribute> &attribs, QTextStream &XMLschema )
+void XMLSchemaWriter::writeAttributeDecls(UMLAttributeList &attribs, QTextStream &XMLschema )
 {
 
 	UMLAttribute *at;
@@ -486,7 +486,7 @@ void XMLSchemaWriter::writeAttributeDecl(UMLAttribute *attrib, QTextStream &XMLs
 
 }
 
-void XMLSchemaWriter::writeAttributeGroupDecl (QString elementName, QPtrList<UMLAttribute> &attribs, QTextStream &XMLschema )
+void XMLSchemaWriter::writeAttributeGroupDecl (QString elementName, UMLAttributeList &attribs, QTextStream &XMLschema )
 {
 
 	if (attribs.count()> 0) {
@@ -538,7 +538,7 @@ void XMLSchemaWriter::writeComment(QString comment, QTextStream &XMLschema)
 // B to find the child class as long as we dont use BOTH roles. I bet this will fail
 // badly for someone using a plain association between 2 different classes. THAT should
 // be done, but isnt yet (this is why I have left role b code in for now). -b.t.
-bool XMLSchemaWriter::writeAssociationDecls(QPtrList<UMLAssociation> associations,
+bool XMLSchemaWriter::writeAssociationDecls(UMLAssociationList associations,
 		bool noRoleNameOK, bool didFirstOne, int id, QTextStream &XMLschema)
 {
 
@@ -605,10 +605,10 @@ bool XMLSchemaWriter::writeAssociationDecls(QPtrList<UMLAssociation> association
 	return didFirstOne;
 }
 
-QPtrList<UMLObject> XMLSchemaWriter::findChildObjsInAssociations (UMLClassifier *c, QPtrList<UMLAssociation> associations)
+UMLObjectList XMLSchemaWriter::findChildObjsInAssociations (UMLClassifier *c, UMLAssociationList associations)
 {
 	int id = c->getID();
-	QPtrList<UMLObject> list;
+	UMLObjectList list;
 	for(UMLAssociation *a = associations.first(); a; a = associations.next())
 	{
 		if (a->getRoleAId() == id

@@ -21,9 +21,9 @@
 #include <qmap.h>
 #include <qpixmap.h>
 #include "dialogpage.h"
+#include "../umlattributelist.h"
 
 class UMLClass;
-class UMLAttribute;
 class UMLDoc;
 class QListViewItem;
 
@@ -85,7 +85,7 @@ protected:
 	
 	UMLClass *m_umlObject;
 	UMLDoc   *m_doc;
-	QPtrList<UMLAttribute> m_attList;
+	UMLAttributeList m_attList;
 	QMap<QListViewItem*,UMLAttribute*> m_attMap;
 };
 

@@ -18,9 +18,9 @@
 
 #include "dialogpage.h"
 #include "operationpropertiesbase.h"
+#include "../umlattributelist.h"
 
 class UMLOperation;
-class UMLAttribute;
 class UMLDoc;
 
 /** 
@@ -75,7 +75,7 @@ protected:
 	
 	UMLOperation *m_pOperation;
 	UMLDoc *m_doc;
-	QPtrList<UMLAttribute> m_paramList;
+	UMLAttributeList m_paramList;
 	QMap<QListViewItem*,UMLAttribute*> m_paramMap;
 };
 

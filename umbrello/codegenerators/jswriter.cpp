@@ -77,7 +77,7 @@ void JSWriter::writeClass(UMLClassifier *c)
 
 
 	//write includes
-	QPtrList<UMLClassifier> includes;
+	UMLClassifierList includes;
 	findObjectsRelated(c,includes);
 	UMLClassifier *conc;
 	for(conc = includes.first(); conc ;conc = includes.next())
@@ -100,9 +100,9 @@ void JSWriter::writeClass(UMLClassifier *c)
 	}
 
 
-	QPtrList<UMLAssociation> generalizations = c->getGeneralizations();
-	QPtrList<UMLAssociation> aggregations = c->getAggregations();
-	QPtrList<UMLAssociation> compositions = c->getCompositions();
+	UMLAssociationList generalizations = c->getGeneralizations();
+	UMLAssociationList aggregations = c->getAggregations();
+	UMLAssociationList compositions = c->getCompositions();
 
 	//check if class is abstract and / or has abstract methods
 	if(c->getAbstract() && !hasAbstractOps(c))
@@ -130,7 +130,7 @@ void JSWriter::writeClass(UMLClassifier *c)
 
 	UMLClass *myClass = dynamic_cast<UMLClass*>(c);
 	if(myClass) {
-		QPtrList<UMLAttribute> *atl = myClass->getFilteredAttributeList();
+		UMLAttributeList *atl = myClass->getFilteredAttributeList();
 
 	 	js << "/**" << endl;
 		QString temp = "_init sets all " + classname + " attributes to its default\
@@ -200,10 +200,10 @@ void JSWriter::writeClass(UMLClassifier *c)
 ////////////////////////////////////////////////////////////////////////////////////
 //  Helper Methods
 
-void JSWriter::writeOperations(QString classname, QPtrList<UMLOperation> *opList, QTextStream &js)
+void JSWriter::writeOperations(QString classname, UMLOperationList *opList, QTextStream &js)
 {
 	UMLOperation *op;
-	QPtrList<UMLAttribute> *atl;
+	UMLAttributeList *atl;
 	UMLAttribute *at;
 
 	for(op = opList->first(); op; op = opList->next())

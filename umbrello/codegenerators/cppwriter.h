@@ -18,7 +18,9 @@
 
 #include "../codegenerator.h"
 #include "../attribute.h"
+#include "../umlattributelist.h"
 #include "../association.h"
+#include "../umlassociationlist.h"
 #include "classifierinfo.h"
 
 #include <qptrlist.h>
@@ -92,7 +94,7 @@ private:
 	 * @param i whether or not we are writing this to a source or header file
 	 * @param j the stream associated with the output file
 	 */
-	void writeOperations(QPtrList<UMLOperation> &list, bool isHeaderMethod, QTextStream &j);
+	void writeOperations(UMLOperationList &list, bool isHeaderMethod, QTextStream &j);
 
 	/**
 	 * write all attributes for a given class
@@ -124,7 +126,7 @@ private:
 	/**
 	 * Searches a list of associations for appropriate ones to write out as attributes
 	 */
-	void writeAssociationDecls(QPtrList<UMLAssociation> associations, Scope permit, int id, QTextStream &stream);
+	void writeAssociationDecls(UMLAssociationList associations, Scope permit, int id, QTextStream &stream);
 
 	/**
 	 * Writes out an association as an attribute using Vector
@@ -135,14 +137,14 @@ private:
 	/**
 	 * calls @ref writeSingleAttributeAccessorMethods() on each of the attributes in attribs list.
 	 */
-	void writeAttributeMethods(QPtrList<UMLAttribute> *attribs, Scope visib, bool isHeaderMethod, 
+	void writeAttributeMethods(UMLAttributeList *attribs, Scope visib, bool isHeaderMethod, 
 				bool isStatic,
 				bool writeMethodBody, QTextStream &stream);
 
 	/**
 	 * calls @ref writeAssociationRoleMethod() on each of the associations in the given list
 	 */
-	void writeAssociationMethods(QPtrList<UMLAssociation> associations, Scope permitVisib, 
+	void writeAssociationMethods(UMLAssociationList associations, Scope permitVisib, 
 					bool isHeaderMethod,
 					bool writeMethodBody, bool writePointerVar, int id, QTextStream &stream); 
 	
@@ -204,7 +206,7 @@ private:
 	/**
 	 * Intellegently print out header include/forward decl. for associated classes.
 	 */
-	void printAssociationIncludeDecl (QPtrList<UMLAssociation> list, int this_id, QTextStream &stream); 
+	void printAssociationIncludeDecl (UMLAssociationList list, int this_id, QTextStream &stream); 
 
 	/**
 	 * If needed, write out the method to initialize attributes of our class.

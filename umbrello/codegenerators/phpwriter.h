@@ -19,11 +19,11 @@
 #define PHPWRITER_H
 
 #include "../codegenerator.h"
+#include "../umlattributelist.h"
+#include "../umloperationlist.h"
 
 #include <qptrlist.h>
 #include <qstringlist.h>
-class UMLOperation;
-class UMLAttribute;
 
 /**
   * class PhpWriter is a PHP code generator for UMLClassifier objects
@@ -63,7 +63,7 @@ private:
 	  * @param opList the list of operations
 	  * @param php output stream for the PHP file
 	  */
-	void writeOperations(QString classname, QPtrList<UMLOperation> &opList,
+	void writeOperations(QString classname, UMLOperationList &opList,
 	                     QTextStream &php);
 
 	/** write all the attributes of a class
@@ -76,7 +76,7 @@ private:
 	  * @param atList the list of attributes
 	  * @param php output stream for the PHP file
 	  */
-	void writeAttributes(QPtrList<UMLAttribute> &atList, QTextStream &php);
+	void writeAttributes(UMLAttributeList &atList, QTextStream &php);
 
 
 };
