@@ -120,11 +120,6 @@ private:
 	                 pt_Widget         //Shows pages needed for any other widget
 	              };
 	Page_Type m_Type;
-public slots:
-        /**
-	 * FIXME not honestly sure what this does
-	 */
-	void slotUpdateChildObject(Uml::IDType id);
 };
 
 #endif
