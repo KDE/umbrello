@@ -140,17 +140,19 @@ public:
 
 	// bool loadFromXMI(QDomElement& element);
 
-protected:
+private:
 
 	/** do some initialization at construction time */
 	void init (UMLAssociation * parent, UMLObject * parentObj);
 
 	QString m_Doc;
 	UMLObject* m_pObject;
+	UMLAssociation * m_pAssoc;
 	QString m_Name;
 	QString m_Multi;
 	Scope m_Visibility;
 	Changeability_Type m_Changeability;
+
 
 };
 

@@ -31,8 +31,7 @@ bool UMLRole::operator==(UMLRole &rhs) {
 }
 
 UMLAssociation * UMLRole::getParentAssociation () {
-	UMLAssociation * assoc = dynamic_cast<UMLAssociation*>(this->parent());
-	return assoc;
+	return m_pAssoc;
 }
 
 UMLObject* UMLRole::getObject() {
@@ -121,6 +120,7 @@ void UMLRole::setDoc(QString doc) {
 
 void UMLRole::init(UMLAssociation * parent, UMLObject * parentObj) {
 
+	m_pAssoc = parent;
 	m_pObject = parentObj;
 	m_Multi = "";
 	m_Name = "";
