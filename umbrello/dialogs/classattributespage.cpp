@@ -126,7 +126,7 @@ void ClassAttributesPage::saveData()
 			UMLAttribute *a = new UMLAttribute( m_umlObject, att->getName(),m_doc->getUniqueID(),
                                                             att->getTypeName(),att->getScope(),att->getInitialValue());
 			a->setDoc( att->getDoc() );
-			m_umlObject->addAttribute(a,index);
+			m_umlObject->addAttribute(a, NULL, index);
 		}
 		else
 		{//update attribute
@@ -138,7 +138,7 @@ void ClassAttributesPage::saveData()
 			if( old_index != index )
 			{kdDebug()<<"reordering"<<endl;
 				m_umlObject->removeAttribute(old);
-				m_umlObject->addAttribute(old,index);
+				m_umlObject->addAttribute(old, NULL, index);
 			}
 		}
 	}

@@ -32,7 +32,7 @@ UMLClass::~UMLClass() {
 	// already gives us clear()ed lists.)
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLObject* UMLClass::addAttribute(QString name, int id) {
+UMLAttribute* UMLClass::addAttribute(QString name, int id) {
 	Uml::Scope scope = ((UMLDoc*) parent())->getOptionState().classState.defaultAttributeScope;
   	UMLAttribute *a = new UMLAttribute(this, name, id, "int", scope);
   	m_AttsList.append(a);
@@ -42,27 +42,10 @@ UMLObject* UMLClass::addAttribute(QString name, int id) {
 	return a;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-bool UMLClass::addAttribute(UMLAttribute* Att, IDChangeLog* Log /* = 0*/) {
+bool UMLClass::addAttribute(UMLAttribute* Att, IDChangeLog* Log /* = 0 */,
+			    int position /* = -1 */) {
 	QString name = (QString)Att->getName();
 	if( findChildObject( Uml::ot_Attribute, name).count() == 0 ) {
-		Att -> parent() -> removeChild( Att );
-		this -> insertChild( Att );
-		m_AttsList.append( Att );
-		emit modified();
-		connect(Att,SIGNAL(modified()),this,SIGNAL(modified()));
-		emit attributeAdded(Att);
-		return true;
-	} else if( Log ) {
-		Log->removeChangeByNewID( Att -> getID() );
-		delete Att;
-	}
-	return false;
-}
-bool UMLClass::addAttribute(UMLAttribute* Att, int position )
-{
-	QString name = (QString)Att->getName();
-	if( findChildObject( Uml::ot_Attribute, name).count() == 0 )
-	{
 		Att -> parent() -> removeChild( Att );
 		this -> insertChild( Att );
 		if( position >= 0 && position <= (int)m_AttsList.count() )
@@ -73,10 +56,12 @@ bool UMLClass::addAttribute(UMLAttribute* Att, int position )
 		connect(Att,SIGNAL(modified()),this,SIGNAL(modified()));
 		emit attributeAdded(Att);
 		return true;
+	} else if( Log ) {
+		Log->removeChangeByNewID( Att -> getID() );
+		delete Att;
 	}
 	return false;
 }
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 int UMLClass::removeAttribute(UMLObject* a) {
 	if(!m_AttsList.remove((UMLAttribute *)a)) {

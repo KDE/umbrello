@@ -62,29 +62,22 @@ public:
 	 * @param id		The id of the attribute.
 	 * @return	Pointer to the UMLAttribute created.
 	 */
-	UMLObject* addAttribute(QString name, int id);
+	UMLAttribute* addAttribute(QString name, int id);
 
 	/**
 	 * Adds an already created attribute.
 	 * The attribute object must not belong to any other concept.
   	 *
   	 * @param Att		Pointer to the UMLAttribute.
-	 * @param Log		Pointer to the IDChangeLog.
+	 * @param Log		Pointer to the IDChangeLog (optional.)
+	 * @param position	Position index for the insertion (optional.)
+	 *			If the position is omitted, or if it is
+	 *			negative or too large, the attribute is added
+	 *			to the end of the list.
 	 * @return	True if the attribute was sucessfully added.
 	 */
-	bool addAttribute(UMLAttribute* Att, IDChangeLog* Log = 0);
-	
-	/**
-	 * Adds an attribute to the class, at the given position.
-	 * If position is negative or too large, the attribute is added
-	 * to the end of the list.
-  	 *
-  	 * @param Att		Pointer to the UMLAttribute.
-	 * @param position	Position index for the insertion.
-	 * @return	True if the attribute was sucessfully added.
-	 */
-	 //TODO:  give default value -1 to position (append) - now it conflicts with the method above..
-	bool addAttribute(UMLAttribute* Att, int position );
+	bool addAttribute(UMLAttribute* Att, IDChangeLog* Log = 0,
+			  int position = -1);
 
 	/**
 	 * Removes an attribute from the class.
