@@ -3311,11 +3311,15 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement )
 
 	} else {
 
+		// we should disconnect any prior association (can this happen??)
+		if(m_pAssociation)
+			m_pAssociation->disconnect(this); 
+
 		// New style: The xmi.id is a reference to the UMLAssociation.
 		UMLDoc* umldoc = m_pView->getDocument();
 		m_pAssociation = (UMLAssociation*)umldoc->findUMLObject(nId);
 		if (m_pAssociation == NULL) {
-			kdDebug() << " cannot find UML:Association " << nId << endl;
+			kdError() << " AssociationWidget cannot find UML:Association " << nId << " for loadFromXMI"<< endl;
 			return false;
 		} else
 			connect(m_pAssociation, SIGNAL(modified()), this,
