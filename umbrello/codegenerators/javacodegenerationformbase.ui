@@ -1,0 +1,138 @@
+<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
+<class>JavaCodeGenerationFormBase</class>
+<widget class="QWidget">
+    <property name="name">
+        <cstring>Form1</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>461</width>
+            <height>443</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Form1</string>
+    </property>
+    <widget class="QLayoutWidget">
+        <property name="name">
+            <cstring>layout2</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>10</x>
+                <y>20</y>
+                <width>400</width>
+                <height>300</height>
+            </rect>
+        </property>
+        <vbox>
+            <property name="name">
+                <cstring>unnamed</cstring>
+            </property>
+            <widget class="QLabel">
+                <property name="name">
+                    <cstring>textLabel1_2</cstring>
+                </property>
+                <property name="text">
+                    <string>&lt;p align="center"&gt;Java Code Generation&lt;/p&gt;</string>
+                </property>
+            </widget>
+            <widget class="QGroupBox">
+                <property name="name">
+                    <cstring>groupBox1</cstring>
+                </property>
+                <property name="title">
+                    <string>Documentation</string>
+                </property>
+                <hbox>
+                    <property name="name">
+                        <cstring>unnamed</cstring>
+                    </property>
+                    <widget class="QLabel">
+                        <property name="name">
+                            <cstring>textLabel1</cstring>
+                        </property>
+                        <property name="text">
+                            <string>Style:</string>
+                        </property>
+                    </widget>
+                    <widget class="QComboBox">
+                        <item>
+                            <property name="text">
+                                <string>Slash-Star (/**  */)</string>
+                            </property>
+                        </item>
+                        <item>
+                            <property name="text">
+                                <string>Slash-Slash (//)</string>
+                            </property>
+                        </item>
+                        <property name="name">
+                            <cstring>m_SelectCommentStyle</cstring>
+                        </property>
+                    </widget>
+                </hbox>
+            </widget>
+            <widget class="QGroupBox">
+                <property name="name">
+                    <cstring>groupBox2</cstring>
+                </property>
+                <property name="title">
+                    <string>Auto-Generate Methods</string>
+                </property>
+                <vbox>
+                    <property name="name">
+                        <cstring>unnamed</cstring>
+                    </property>
+                    <widget class="QCheckBox">
+                        <property name="name">
+                            <cstring>m_generateConstructors</cstring>
+                        </property>
+                        <property name="text">
+                            <string>Empty Constructors</string>
+                        </property>
+                        <property name="checked">
+                            <bool>false</bool>
+                        </property>
+                    </widget>
+                    <widget class="QCheckBox">
+                        <property name="name">
+                            <cstring>m_generateAccessors</cstring>
+                        </property>
+                        <property name="text">
+                            <string>Accessor Methods</string>
+                        </property>
+                        <property name="checked">
+                            <bool>true</bool>
+                        </property>
+                    </widget>
+                </vbox>
+            </widget>
+            <widget class="QGroupBox">
+                <property name="name">
+                    <cstring>groupBox3</cstring>
+                </property>
+                <property name="title">
+                    <string>Project Generation</string>
+                </property>
+                <vbox>
+                    <property name="name">
+                        <cstring>unnamed</cstring>
+                    </property>
+                    <widget class="QCheckBox">
+                        <property name="name">
+                            <cstring>m_makeANTDocumentCheckBox</cstring>
+                        </property>
+                        <property name="text">
+                            <string>Create ANT build document</string>
+                        </property>
+                    </widget>
+                </vbox>
+            </widget>
+        </vbox>
+    </widget>
+</widget>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>
