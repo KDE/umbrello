@@ -90,29 +90,15 @@ void FloatingText::setLinePos(int x, int y) {
 void FloatingText::setLinePositionRelatively(int newX, int newY, int oldX, int oldY) {
 	int myNewX = getX() + (newX-oldX);
 	int myNewY = getY() + (newY-oldY);
-	if ( myNewX >= restrictPositionMin && myNewX <= restrictPositionMax )
-	{ // fine
+	bool xIsValid = (myNewX >= restrictPositionMin && myNewX <= restrictPositionMax);
+	bool yIsValid = (myNewY >= restrictPositionMin && myNewY <= restrictPositionMax);
+	if (xIsValid && yIsValid) { // fine
+		bool oldIgnoreSnapToGrid = m_bIgnoreSnapToGrid;
+		m_bIgnoreSnapToGrid = true;
 		setX(myNewX);
-	}
-	else
-	{ // something is broken
-		kdDebug() << "FloatingText::setLinePositionRelatively( " << myNewX
-			<< " , " << myNewY << " ) - was Blocked because at least one value is out of bounds: ["
-			<< restrictPositionMin << "..." << restrictPositionMax << "]\n"
-			<< "ToX: " << newX << ", ToY: " << newY
-			<< "FromX: " << oldX << ", FromY: " << oldY
-			<< "CurrentPointX: " << getX() << ", CurrentPointY: " << getY()
-			<< endl;
-		// set to 0
-		setX( 0 );
-	}
-
-	if ( myNewY >= restrictPositionMin && myNewY <= restrictPositionMax )
-	{ // fine
 		setY(myNewY);
-	}
-	else
-	{ // something is broken
+		m_bIgnoreSnapToGrid = oldIgnoreSnapToGrid;
+	} else { // something is broken
 		kdDebug() << "FloatingText::setLinePositionRelatively( " << myNewX
 			<< " , " << myNewY << " ) - was Blocked because at least one value is out of bounds: ["
 			<< restrictPositionMin << "..." << restrictPositionMax << "]\n"
@@ -120,8 +106,7 @@ void FloatingText::setLinePositionRelatively(int newX, int newY, int oldX, int o
 			<< "FromX: " << oldX << ", FromY: " << oldY
 			<< "CurrentPointX: " << getX() << ", CurrentPointY: " << getY()
 			<< endl;
-		// set to 0
-		setY( 0 );
+		// Let's just leave them at their original values.
 	}
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
