@@ -3532,8 +3532,8 @@ bool UMLView::loadMessagesFromXMI( QDomElement & qElement ) {
 			FloatingText *ft = message->getFloatingText();
 			if (ft)
 				m_WidgetList.append( ft );
-			else
-				kdError() << "UMLView::loadMessagesFromXMI: ft is NULL"
+			else if (message->getSequenceMessageType() != sequence_message_creation)
+				kdDebug() << "UMLView::loadMessagesFromXMI: ft is NULL"
 					  << " for message " << ID2STR(message->getID())
 					  << endl;
 		}
