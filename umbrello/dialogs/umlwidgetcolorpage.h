@@ -11,6 +11,8 @@
 #define UMLWIDGETCOLORPAGE_H
 
 #include <qwidget.h>
+#include "settingsdlg.h"
+
 /**
  * @author Paul Hensgen
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
@@ -28,30 +30,25 @@ class UMLWidgetColorPage : public QWidget {
 public:
 
 	/**
-	* 	Constructor
+	* 	Constructor - Observe a UMLWidget
 	*/
 	UMLWidgetColorPage( QWidget * pParent, UMLWidget * pWidget );
+	
+	/**
+	* 	Constructor - Observe an OptionState structure
+	*/
+	UMLWidgetColorPage( QWidget * pParent, SettingsDlg::OptionState *options );
 
 	/**
-	*	Deconstructor
+	*	destructor
 	*/
-	~UMLWidgetColorPage();
+	virtual ~UMLWidgetColorPage();
 
 	/**
 	* 	Updates the @ref UMLWidget with the dialog properties.
 	*/
 	void updateUMLWidget();
-protected:
-	/**
-	* 	The widget to set the color for.
-	*/
-	UMLWidget * m_pUMLWidget;
-	//GUI widgets
-	QGroupBox * m_pColorGB;
-	QLabel * m_pLineColorL, * m_pFillColorL;
-	QCheckBox * m_pUseFillColorCB;
-	QPushButton * m_pLineDefaultB, * m_pFillDefaultB;
-	KColorButton * m_pLineColorB, * m_pFillColorB;
+	
 public slots:
 	/**
 	*	Sets the default line color when default line button
@@ -64,6 +61,24 @@ public slots:
 	*	clicked.
 	*/
 	void slotFillButtonClicked();
+		
+protected:
+	/**
+	* 	The widget to set the color for.
+	*/
+	UMLWidget * m_pUMLWidget;
+	
+	SettingsDlg::OptionState *m_options;
+	
+	//GUI widgets
+	QGroupBox * m_pColorGB;
+	QLabel * m_pLineColorL, * m_pFillColorL;
+	QCheckBox * m_pUseFillColorCB;
+	QPushButton * m_pLineDefaultB, * m_pFillDefaultB;
+	KColorButton * m_pLineColorB, * m_pFillColorB;
+private:
+	void init();
+
 };
 
 #endif

@@ -14,6 +14,7 @@
 //app includes
 #include "classoptionspage.h"
 #include "umlwidgetcolorpage.h"
+#include "settingsdlg.h"
 
 /**
  * @author Paul Hensgen
@@ -93,10 +94,7 @@ protected:
 	*/
 	UMLView * m_pView;
 
-	/**
-	*	Used to setup widget defaults.
-	*/
-	ClassWidget * m_pTempWidget;
+	SettingsDlg::OptionState m_options;
 
 	KFontChooser * m_pChooser;
 	DiagramPropertiesPage *m_diagramProperties;

@@ -16,6 +16,7 @@
 #include <qcheckbox.h>
 
 #include "../classwidget.h"
+#include "settingsdlg.h"
 
 class ClassWidget;
 class InterfaceWidget;
@@ -33,14 +34,19 @@ class InterfaceWidget;
 class ClassOptionsPage : public QWidget {
 public:
 	/**
-	*	Constructor
+	*	Constructor - observe and modify a Widget
 	*/
 	ClassOptionsPage(QWidget* pParent, UMLWidget* pWidget, UMLWidget_Type type);
+	
+	/**
+	*	Constructor - observe and modify an OptionState structure
+	*/
+	ClassOptionsPage(QWidget* pParent, SettingsDlg::OptionState *options );
 
 	/**
-	*	Deconstructor
+	*	destructor
 	*/
-	~ClassOptionsPage();
+	virtual ~ClassOptionsPage();
 
 	/**
 	*	Updates the widget with the dialog page properties.
@@ -65,6 +71,11 @@ protected:
 	 * Creates the page with the correct options for an interface
 	 */
 	void setupInterfacePage();
+	
+	/**
+	 * Creates the page base on de OptionState
+	 */
+	void setupClassPageOption();
 
 	/**
 	 * Sets the class's properties to those selected in this dialogue page.
@@ -75,6 +86,11 @@ protected:
 	 * Sets the interface's properties to those selected in this dialogue page.
 	 */
 	void updateInterfaceWidget();
+	
+	/**
+	 * Sets the OptionState to the values selected in this dialogue page.
+	 */
+	void updateOptionState();
 
 	//GUI widgets
 	QGroupBox * m_pVisibilityGB;
@@ -87,10 +103,13 @@ protected:
 	*	The class widget to represent in the dialog page.
 	*/
 	ClassWidget* m_pClassWidget;
-
 	/**
 	*	The interface widget to represent in the dialog page.
 	*/
 	InterfaceWidget* m_pInterfaceWidget;
+	/**
+	*	The OptionState structure to represent in the dialog page.
+	*/
+	SettingsDlg::OptionState *m_options;
 };
 #endif

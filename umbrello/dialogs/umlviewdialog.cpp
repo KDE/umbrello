@@ -30,13 +30,11 @@
 UMLViewDialog::UMLViewDialog( QWidget * pParent, UMLView * pView ) : KDialogBase(IconList, i18n("Properties"), Ok | Apply | Cancel | Help,
         Ok, pParent, "_VIEWDLG_", true, true) {
 	m_pView = pView;
-	m_pTempWidget = new ClassWidget( m_pView );
+	m_options = m_pView -> getOptionState();
 	setupPages();
 }
 
 UMLViewDialog::~UMLViewDialog() {
-	m_pTempWidget -> cleanup();
-	delete m_pTempWidget;
 }
 
 void UMLViewDialog::slotOk() {
@@ -81,24 +79,17 @@ void UMLViewDialog::setupClassPage() {
 	if( m_pView -> getType() != Uml::dt_Class ) {
 		return;
 	}
-	SettingsDlg::OptionState options = m_pView -> getOptionState();
-	m_pTempWidget -> setShowAtts( options.classState.showAtts );
-	m_pTempWidget -> setShowOps( options.classState.showOps );
-	m_pTempWidget -> setShowPackage( options.classState.showPackage );
-	m_pTempWidget -> setShowScope( options.classState.showScope );
-	m_pTempWidget -> setShowStereotype( options.classState.showStereoType );
-	m_pTempWidget -> setShowOpSigs( options.classState.showOpSig );
-	m_pTempWidget -> setShowAttSigs( options.classState.showAttSig );
+
 	QFrame * newPage = addPage( i18n("Display"), i18n("Classes Display Options"), DesktopIcon( "info") );
 	QHBoxLayout * m_pOptionsLayout = new QHBoxLayout( newPage );
-	m_pOptionsPage = new ClassOptionsPage( newPage, m_pTempWidget, m_pTempWidget->getBaseType() );
+	m_pOptionsPage = new ClassOptionsPage( newPage, &m_options );
 	m_pOptionsLayout -> addWidget( m_pOptionsPage );
 }
 
 void UMLViewDialog::setupColorPage() {
 	QFrame * colorPage = addPage( i18n("Color"), i18n("Diagram Colors"), DesktopIcon( "colors") );
 	QHBoxLayout * m_pColorLayout = new QHBoxLayout(colorPage);
-	m_pColorPage = new UMLWidgetColorPage( colorPage, m_pTempWidget );
+	m_pColorPage = new UMLWidgetColorPage( colorPage, &m_options );
 	m_pColorLayout -> addWidget(m_pColorPage);
 }
 
@@ -109,7 +100,7 @@ void UMLViewDialog::setupFontPage() {
 }
 
 void UMLViewDialog::applyPage( Page page ) {
-	SettingsDlg::OptionState options = m_pView->getOptionState();
+
 	Uml::Signature_Type sig;
 	bool showSig = false;
 
@@ -128,9 +119,9 @@ void UMLViewDialog::applyPage( Page page ) {
 			}
 		case Color:
 			m_pColorPage->updateUMLWidget();
-			m_pView->setUseFillColor( m_pTempWidget->getUseFillColour() );
-			m_pView->setLineColor( m_pTempWidget->getLineColour() );
-			m_pView->setFillColor( m_pTempWidget->getFillColour() );
+			m_pView->setUseFillColor( m_options.uiState.useFillColor );
+			m_pView->setLineColor( m_options.uiState.lineColor );
+			m_pView->setFillColor( m_options.uiState.fillColor );
 			break;
 
 		case Font:
@@ -142,20 +133,14 @@ void UMLViewDialog::applyPage( Page page ) {
 				return;
 			}
 			m_pOptionsPage->updateUMLWidget();
-			//m_pView->setClassWidgetOptions( m_pOptionsPage );
-			m_pOptionsPage->setWidget( m_pTempWidget );
-			options.classState.showAtts = m_pTempWidget->getShowAtts();
-			options.classState.showOps = m_pTempWidget->getShowOps();
-			options.classState.showPackage = m_pTempWidget->getShowPackage();
-			options.classState.showScope = m_pTempWidget->getShowScope();
-			options.classState.showStereoType = m_pTempWidget->getShowStereotype();
-			sig = m_pTempWidget->getShowOpSigs();
-			showSig = !( sig == Uml::st_NoSig || sig == Uml::st_NoSigNoScope );
-			options.classState.showOpSig = showSig;
-			sig = m_pTempWidget->getShowAttSigs();
-			showSig = !( sig == Uml::st_NoSig || sig == Uml::st_NoSigNoScope );
-			options.classState.showAttSig = showSig;
-			m_pView->setOptionState( options );
+			m_pView->setClassWidgetOptions( m_pOptionsPage );
+// 			sig = m_pTempWidget->getShowOpSigs();
+// 			showSig = !( sig == Uml::st_NoSig || sig == Uml::st_NoSigNoScope );
+// 			options.classState.showOpSig = showSig;
+//			sig = m_pTempWidget->getShowAttSigs();
+// 			showSig = !( sig == Uml::st_NoSig || sig == Uml::st_NoSigNoScope );
+// 			options.classState.showAttSig = showSig;
+			m_pView->setOptionState( m_options );
 			break;
 	}
 }
