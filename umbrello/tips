@@ -21,13 +21,6 @@ installed you may need to initialise it from Code menu->Add/Remove Languages.</p
 
 <tip category="Umbrello">
 <html>
-<p>Turning off the splash screen in Settings->Configure Umbrello->Startup Logo 
-saves 2 seconds off the startup time.</p>
-</html>
-</tip>
-
-<tip category="Umbrello">
-<html>
 <p>The vertical lines in sequence diagrams can be resized.  Just click at the bottom of
 one and drag up or down.</p>
 </html>

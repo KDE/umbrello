@@ -30,12 +30,16 @@ class KStartupLogo : public QWidget  {
 public:
 	KStartupLogo(QWidget *parent=0, const char *name=0);
 	~KStartupLogo();
-	void setHideEnabled(bool bEnabled) {
-		m_bReadyToHide = bEnabled;
-	};
+	void setHideEnabled(bool bEnabled);
+
 protected:
 	virtual void mousePressEvent( QMouseEvent*);
 	bool m_bReadyToHide;
+	QTimer* timer;
+
+public slots:
+	void timerDone();
+
 };
 
 #endif

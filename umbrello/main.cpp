@@ -50,14 +50,12 @@ int main(int argc, char *argv[]) {
 		//see if we want a logo shown
 		cfg -> setGroup( "General Options" );
 		bool showLogo = cfg -> readBoolEntry( "logo", true );
-		if( showLogo ) {
+		if (showLogo) {
 			start_logo = new KStartupLogo();
-			start_logo -> setHideEnabled( true );
+			start_logo->setHideEnabled(true);
 			start_logo->show();
 			start_logo->raise();
 			QApplication::flushX();
-			sleep(2);
-			delete start_logo;
 		}
 		uml->show();
 		uml->initLibraries();
@@ -78,6 +76,9 @@ int main(int argc, char *argv[]) {
 			} else {
 				uml->newDocument();
 			}
+		}
+		if (showLogo) {
+			start_logo->raise();
 		}
 	}
 	return app.exec();
