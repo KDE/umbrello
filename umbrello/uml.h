@@ -445,17 +445,19 @@ public slots:
 	 */
 	void slotEditPaste();
 
-#if KDE_VERSION < 0x030190
+// #if !KDE_IS_VERSION(3,1,90)
 	/**
 	 * Toggles the toolbar.
+	 * Deprecated. For compatibility with KDE 3.1, remove if we stop supporting KDE 3.1
 	 */
 	void slotViewToolBar();
 
 	/**
 	 * Toggles the statusbar.
+	 * Deprecated. For compatibility with KDE 3.1, remove if we stop supporting KDE 3.1
 	 */
 	void slotViewStatusBar();
-#endif
+// #endif
 
 	/**
 	 * Changes the statusbar contents for the standard label
@@ -802,10 +804,11 @@ private:
 	KAction* classWizard;
 	KAction* deleteSelectedWidget;
 	KAction* deleteDiagram;
-#if KDE_VERSION < 0x030190
+//Remove these once we stop supporting KDE 3.1
+// #if !KDE_IS_VERSION(3,1,90)
 	KToggleAction* viewToolBar;
 	KToggleAction* viewStatusBar;
-#endif
+// #endif
 	WorkToolBar* toolsbar;
 	QTimer* m_clipTimer;
 	QTimer* m_copyTimer;
