@@ -61,7 +61,7 @@ void DatatypeWidget::draw(QPainter& p, int offsetX, int offsetY) {
 	p.setFont(font);
 	p.drawText(offsetX + DATATYPE_MARGIN, offsetY,
 		   w - DATATYPE_MARGIN* 2,fontHeight,
-		   AlignCenter, "<< " + m_pObject->getStereotype() + " >>");
+		   AlignCenter, "«" + m_pObject->getStereotype() + "»");
 
 	font.setItalic( m_pObject->getAbstract() );
 	p.setFont(font);
@@ -91,7 +91,7 @@ void DatatypeWidget::calculateSize() {
 	//set width to name to start with
 	//set width to name to start with
 	width = getFontMetrics(FT_BOLD_ITALIC).boundingRect(m_pObject->getPackage() + "::" + getName()).width();
-	int w = getFontMetrics(FT_BOLD).boundingRect("<< " + m_pObject->getStereotype() + " >>").width();
+	int w = getFontMetrics(FT_BOLD).boundingRect("«" + m_pObject->getStereotype() + "»").width();
 
 	width = w > width?w:width;
 

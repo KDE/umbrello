@@ -120,7 +120,7 @@ void ClassWidget::draw(QPainter & p, int offsetX, int offsetY) {
 			QFont f( UMLWidget::getFont() );
 			f.setBold( true );
 			p.setFont( f );
-			p.drawText(offsetX + MARGIN, bodyOffsetY, w-MARGIN * 2,fontHeight,AlignCenter, "<< " + m_pObject -> getStereotype() + " >>");
+			p.drawText(offsetX + MARGIN, bodyOffsetY, w-MARGIN * 2,fontHeight,AlignCenter, "«" + m_pObject -> getStereotype() + "»");
 			f.setItalic( m_pObject -> getAbstract() );
 			p.setFont( f );
 			p.drawText(offsetX + MARGIN, bodyOffsetY + fontHeight,w-MARGIN * 2,fontHeight,AlignCenter, name);
@@ -290,7 +290,7 @@ void ClassWidget::calculateSize() {
 	/* if no stereotype is given, this line has a width of 0 */
 	int w = 0;
 	if (m_pObject->getStereotype().isEmpty() == false ) {
-		w = getFontMetrics(FT_BOLD).boundingRect("<< " + m_pObject -> getStereotype() + " >>").width();
+		w = getFontMetrics(FT_BOLD).boundingRect("«" + m_pObject -> getStereotype() + "»").width();
 	}
 
 	width = w > width?w:width;
@@ -335,7 +335,7 @@ void ClassWidget::calculateSize() {
 	}
 
 	setSize(width, height);
-//	adjustAssocs( getX(), getY() );//adjust assoc lines. Doesnt appear to be needed. -b.t. 
+//	adjustAssocs( getX(), getY() );//adjust assoc lines. Doesnt appear to be needed. -b.t.
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void ClassWidget::slotMenuSelection(int sel) {
@@ -364,7 +364,7 @@ void ClassWidget::slotMenuSelection(int sel) {
 		case ListPopupMenu::mt_Scope:
 			toggleShowScope();
 			break;
-		
+
 		case ListPopupMenu::mt_Show_Packages:
 			toggleShowPackage();
 			break;
@@ -542,7 +542,7 @@ void ClassWidget::toggleShowOps()
 	calculateSize();
 
 	update();
-	
+
 	return;
 }
 
