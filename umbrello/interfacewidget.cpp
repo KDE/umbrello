@@ -48,6 +48,12 @@ void InterfaceWidget::setUMLObject(UMLObject* object)
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 void InterfaceWidget::draw(QPainter& p, int offsetX, int offsetY) {
+	UMLWidget::draw(p, offsetX, offsetY);
+	if (UMLWidget::getUseFillColour())
+		p.setBrush(UMLWidget::getFillColour());
+	else
+		p.setBrush(m_pView -> viewport() -> backgroundColor());
+
 	if ( getDrawAsCircle() ) {
 		drawAsCircle(p, offsetX, offsetY);
 	} else {
@@ -56,14 +62,6 @@ void InterfaceWidget::draw(QPainter& p, int offsetX, int offsetY) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void InterfaceWidget::drawAsCircle(QPainter& p, int offsetX, int offsetY) {
-	p.setPen( QPen( UMLWidget::getLineColour(), UMLWidget::getLineWidth() ) );
-
-	if ( UMLWidget::getUseFillColour() ) {
-		p.setBrush( UMLWidget::getFillColour() );
-	} else {
-		p.setBrush( m_pView->viewport()->backgroundColor() );
-	}
-
 	int w = width();
 
 	QFontMetrics &fm = getFontMetrics(FT_NORMAL);
@@ -89,12 +87,6 @@ void InterfaceWidget::drawAsCircle(QPainter& p, int offsetX, int offsetY) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void InterfaceWidget::drawAsConcept(QPainter& p, int offsetX, int offsetY) {
-	p.setPen( QPen( UMLWidget::getLineColour(), UMLWidget::getLineWidth() ) );
-	if(UMLWidget::getUseFillColour())
-		p.setBrush(UMLWidget::getFillColour());
-	else
-		p.setBrush(m_pView -> viewport() -> backgroundColor());
-
 	int w = width();
 	int h = height();
 
@@ -141,7 +133,7 @@ void InterfaceWidget::drawAsConcept(QPainter& p, int offsetX, int offsetY) {
 		font.setBold(false);
 
 		y = operationsStart;
-		p.setPen( QPen( UMLWidget::getLineColour(), UMLWidget::getLineWidth() ) );
+		UMLWidget::draw(p, offsetX, offsetY);
 
 		p.drawLine(offsetX, offsetY + y, offsetX + w - 1, offsetY + y);
 

@@ -49,7 +49,7 @@ void ClassWidget::draw(QPainter & p, int offsetX, int offsetY) {
 		kdDebug() << "ClassWidget::draw(): m_pObject is NULL" << endl;
 		return;
 	}
-	p.setPen( QPen( UMLWidget::getLineColour(), UMLWidget::getLineWidth() ) );
+	UMLWidget::draw(p, offsetX, offsetY);
 	if ( UMLWidget::getUseFillColour() )
 		p.setBrush( UMLWidget::getFillColour() );
 	else
@@ -100,7 +100,7 @@ void ClassWidget::draw(QPainter & p, int offsetX, int offsetY) {
 			f.setItalic( false );
 			f.setBold( false );
 			p.setFont( f );
-			p.setPen( QPen( UMLWidget::getLineColour(), UMLWidget::getLineWidth() ) );
+			UMLWidget::draw(p, offsetX, offsetY);
 			p.drawLine(offsetX, bodyOffsetY + fontHeight * 2, offsetX + w - 1,
 				   bodyOffsetY + fontHeight * 2);
 		} else {
@@ -113,7 +113,7 @@ void ClassWidget::draw(QPainter & p, int offsetX, int offsetY) {
 			f.setItalic( false );
 			f.setBold( false );
 			p.setFont( f );
-			p.setPen( QPen( UMLWidget::getLineColour(), UMLWidget::getLineWidth() ) );
+			UMLWidget::draw(p, offsetX, offsetY);
 			p.drawLine(offsetX, bodyOffsetY + fontHeight, offsetX + w - 1, bodyOffsetY + fontHeight);
 		}
 	}
@@ -159,7 +159,7 @@ void ClassWidget::draw(QPainter & p, int offsetX, int offsetY) {
 	if (m_bShowOperations) {
 		QFont f = UMLWidget::getFont();
 		int y = oStart;
-		p.setPen( QPen( UMLWidget::getLineColour(), UMLWidget::getLineWidth() ) );
+		UMLWidget::draw(p, offsetX, offsetY);
 		if (m_bShowAttributes)
 			p.drawLine(offsetX, bodyOffsetY + y, offsetX + w - 1, bodyOffsetY + y);
 		else
@@ -187,7 +187,7 @@ void ClassWidget::draw(QPainter & p, int offsetX, int offsetY) {
 	if ( ((UMLClass*)m_pObject)->getTemplateList()->count() > 0 ) {
 
 		QFont font = UMLWidget::getFont();
-		p.setPen( QPen(UMLWidget::getLineColour(), UMLWidget::getLineWidth(), Qt::DotLine) );
+		UMLWidget::draw(p, offsetX, offsetY);
 		p.drawRect( offsetX + width() - templatesBoxSize.width(), offsetY,
 			    templatesBoxSize.width(), templatesBoxSize.height() );
 

@@ -40,7 +40,7 @@ void PackageWidget::init() {
 PackageWidget::~PackageWidget() {}
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void PackageWidget::draw(QPainter & p, int offsetX, int offsetY) {
-	p.setPen( QPen( UMLWidget::getLineColour(), UMLWidget::getLineWidth() ) );
+	UMLWidget::draw(p, offsetX, offsetY);
 	if ( UMLWidget::getUseFillColour() )
 		p.setBrush( UMLWidget::getFillColour() );
 	else

@@ -41,7 +41,7 @@ void EnumWidget::init() {
 EnumWidget::~EnumWidget() {}
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 void EnumWidget::draw(QPainter& p, int offsetX, int offsetY) {
-	p.setPen( QPen( UMLWidget::getLineColour(), UMLWidget::getLineWidth() ) );
+	UMLWidget::draw(p, offsetX, offsetY);
 	if(UMLWidget::getUseFillColour())
 		p.setBrush(UMLWidget::getFillColour());
 	else
@@ -79,7 +79,7 @@ void EnumWidget::draw(QPainter& p, int offsetX, int offsetY) {
 
 	int y = fontHeight * 2;
 
-	p.setPen( QPen( UMLWidget::getLineColour(), UMLWidget::getLineWidth() ) );
+	UMLWidget::draw(p, offsetX, offsetY);
 
 	p.drawLine(offsetX, offsetY + y, offsetX + w - 1, offsetY + y);
 

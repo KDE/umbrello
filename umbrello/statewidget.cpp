@@ -28,12 +28,12 @@ StateWidget::StateWidget(UMLView * view, StateType stateType, int id)
 StateWidget::~StateWidget() {}
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void StateWidget::draw(QPainter & p, int offsetX, int offsetY) {
+	UMLWidget::draw(p, offsetX, offsetY);
 	int w = width();
 	int h = height();
 	switch (m_StateType)
 	{
 		case Normal :
-			p.setPen( QPen( UMLWidget::getLineColour(), UMLWidget::getLineWidth() ) );
 			if(UMLWidget::getUseFillColour())
 				p.setBrush(UMLWidget::getFillColour());
 			{
@@ -48,7 +48,7 @@ void StateWidget::draw(QPainter & p, int offsetX, int offsetY) {
 					font.setBold( false );
 					p.setFont( font );
 					p.drawText(offsetX + STATE_MARGIN, offsetY + textStartY, w - STATE_MARGIN * 2, fontHeight, AlignCenter, getName());
-					p.setPen( QPen( UMLWidget::getLineColour(), UMLWidget::getLineWidth() ) );
+					UMLWidget::draw(p, offsetX, offsetY);
 				} else {
 					p.drawRoundRect(offsetX, offsetY, w, h, (h*40)/w, (w*40)/h);
 					textStartY = offsetY + STATE_MARGIN;
@@ -60,7 +60,7 @@ void StateWidget::draw(QPainter & p, int offsetX, int offsetY) {
 						   fontHeight, AlignCenter, getName());
 					font.setBold( false );
 					p.setFont( font );
-					p.setPen( QPen( UMLWidget::getLineColour(), UMLWidget::getLineWidth() ) );
+					UMLWidget::draw(p, offsetX, offsetY);
 					int linePosY = textStartY + fontHeight;
 					for( QStringList::Iterator it = m_Activities.begin(); it != m_Activities.end(); ++it ) {
 						textStartY += fontHeight;
@@ -68,19 +68,17 @@ void StateWidget::draw(QPainter & p, int offsetX, int offsetY) {
 						p.setPen(black);
 						p.drawText(offsetX + STATE_MARGIN, textStartY, w - STATE_MARGIN * 2 - 1,
 							   fontHeight, AlignCenter, *it);
-						p.setPen( QPen( UMLWidget::getLineColour(), UMLWidget::getLineWidth() ) );
+						UMLWidget::draw(p, offsetX, offsetY);
 						linePosY += fontHeight;
 					}//end for
 				}//end else
 			}
 			break;
 		case Initial :
-			p.setPen( QPen( UMLWidget::getLineColour(), UMLWidget::getLineWidth() ) );
 			p.setBrush( UMLWidget::getLineColour() );
 			p.drawEllipse( offsetX, offsetY, w, h );
 			break;
 		default :
-			p.setPen( QPen( UMLWidget::getLineColour(), UMLWidget::getLineWidth() ) );
 			p.setBrush( UMLWidget::getLineColour() );
 			p.drawEllipse( offsetX, offsetY, w, h );
 			p.setBrush( white );

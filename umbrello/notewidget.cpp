@@ -48,7 +48,7 @@ void NoteWidget::draw(QPainter & p, int offsetX, int offsetY) {
 	poly.setPoint(3, offsetX + w, offsetY + margin);
 	poly.setPoint(4, offsetX + w - margin, offsetY);
 	poly.setPoint(5, offsetX, offsetY);
-	p.setPen( QPen( UMLWidget::getLineColour(), UMLWidget::getLineWidth() ) );
+	UMLWidget::draw(p, offsetX, offsetY);
 	if ( UMLWidget::getUseFillColour() ) {
 		p.setBrush( UMLWidget::getFillColour() );
 		p.drawPolygon(poly);

@@ -836,8 +836,8 @@ bool UMLWidget::onWidget(const QPoint & p) {
 
 }
 
-void UMLWidget::draw( QPainter & /*p*/, int /*offsetX*/, int /*offsetY*/ ) {
-
+void UMLWidget::draw( QPainter & p, int /*offsetX*/, int /*offsetY*/ ) {
+	p.setPen( QPen(m_LineColour, m_LineWidth) );
 	//override this function in child classes and paint to the painter
 }
 

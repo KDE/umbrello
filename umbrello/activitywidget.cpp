@@ -33,7 +33,7 @@ void ActivityWidget::draw(QPainter & p, int offsetX, int offsetY) {
 	switch ( m_ActivityType )
 	{
 		case Normal :
-			p.setPen( QPen( UMLWidget::getLineColour(), UMLWidget::getLineWidth() ) );
+			UMLWidget::draw(p, offsetX, offsetY);
 			if ( UMLWidget::getUseFillColour() ) {
 				p.setBrush( UMLWidget::getFillColour() );
 			}
@@ -47,15 +47,15 @@ void ActivityWidget::draw(QPainter & p, int offsetX, int offsetY) {
 				p.setFont( UMLWidget::getFont() );
 				p.drawText(offsetX + ACTIVITY_MARGIN, offsetY + textStartY, w - ACTIVITY_MARGIN * 2, fontHeight, AlignCenter, getName());
 			}
-			p.setPen( QPen( UMLWidget::getLineColour(), UMLWidget::getLineWidth() ) );
+			UMLWidget::draw(p, offsetX, offsetY);
 			break;
 		case Initial :
-			p.setPen( QPen( UMLWidget::getLineColour(), UMLWidget::getLineWidth() ) );
+			UMLWidget::draw(p, offsetX, offsetY);
 			p.setBrush( UMLWidget::getLineColour() );
 			p.drawEllipse( offsetX, offsetY, w, h );
 			break;
 		case End :
-			p.setPen( QPen( UMLWidget::getLineColour(), UMLWidget::getLineWidth() ) );
+			UMLWidget::draw(p, offsetX, offsetY);
 			p.setBrush( UMLWidget::getLineColour() );
 			p.drawEllipse( offsetX, offsetY, w, h );
 			p.setBrush( white );
@@ -64,7 +64,7 @@ void ActivityWidget::draw(QPainter & p, int offsetX, int offsetY) {
 			p.drawEllipse( offsetX + 3, offsetY + 3, w - 6, h - 6 );
 			break;
 		case Branch :
-			p.setPen( QPen( UMLWidget::getLineColour(), UMLWidget::getLineWidth() ) );
+			UMLWidget::draw(p, offsetX, offsetY);
 			p.setBrush( UMLWidget::getFillColour() );
 			{
 				QPointArray array( 4 );

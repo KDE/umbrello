@@ -34,13 +34,6 @@ void ArtifactWidget::init() {
 ArtifactWidget::~ArtifactWidget() {}
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void ArtifactWidget::drawAsNormal(QPainter& p, int offsetX, int offsetY) {
-	p.setPen( QPen( UMLWidget::getLineColour(), UMLWidget::getLineWidth() ) );
-	if ( UMLWidget::getUseFillColour() ) {
-		p.setBrush( UMLWidget::getFillColour() );
-	} else {
-		p.setBrush( m_pView->viewport()->backgroundColor() );
-	}
-
 	int w = width();
 	int h = height();
 	QFont font = UMLWidget::getFont();
@@ -81,13 +74,6 @@ void ArtifactWidget::drawAsNormal(QPainter& p, int offsetX, int offsetY) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void ArtifactWidget::drawAsFile(QPainter& p, int offsetX, int offsetY) {
-	p.setPen( QPen( UMLWidget::getLineColour(), UMLWidget::getLineWidth() ) );
-	if ( UMLWidget::getUseFillColour() ) {
-		p.setBrush( UMLWidget::getFillColour() );
-	} else {
-		p.setBrush( m_pView->viewport()->backgroundColor() );
-	}
-
 	int w = width();
 	int h = height();
 	QFont font = UMLWidget::getFont();
@@ -122,13 +108,6 @@ void ArtifactWidget::drawAsFile(QPainter& p, int offsetX, int offsetY) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void ArtifactWidget::drawAsLibrary(QPainter& p, int offsetX, int offsetY) {
 	//FIXME this should have gears on it
-	p.setPen( QPen( UMLWidget::getLineColour(), UMLWidget::getLineWidth() ) );
-	if ( UMLWidget::getUseFillColour() ) {
-		p.setBrush( UMLWidget::getFillColour() );
-	} else {
-		p.setBrush( m_pView->viewport()->backgroundColor() );
-	}
-
 	int w = width();
 	int h = height();
 	QFont font = UMLWidget::getFont();
@@ -162,13 +141,6 @@ void ArtifactWidget::drawAsLibrary(QPainter& p, int offsetX, int offsetY) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void ArtifactWidget::drawAsTable(QPainter& p, int offsetX, int offsetY) {
-	p.setPen( QPen( UMLWidget::getLineColour(), UMLWidget::getLineWidth() ) );
-	if ( UMLWidget::getUseFillColour() ) {
-		p.setBrush( UMLWidget::getFillColour() );
-	} else {
-		p.setBrush( m_pView->viewport()->backgroundColor() );
-	}
-
 	int w = width();
 	int h = height();
 	QFont font = UMLWidget::getFont();
@@ -205,6 +177,13 @@ void ArtifactWidget::drawAsTable(QPainter& p, int offsetX, int offsetY) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void ArtifactWidget::draw(QPainter& p, int offsetX, int offsetY) {
+	UMLWidget::draw(p, offsetX, offsetY);
+	if ( UMLWidget::getUseFillColour() ) {
+		p.setBrush( UMLWidget::getFillColour() );
+	} else {
+		p.setBrush( m_pView->viewport()->backgroundColor() );
+	}
+
 	UMLArtifact *umlart = static_cast<UMLArtifact*>(m_pObject);
 	UMLArtifact::Draw_Type drawType = umlart->getDrawAsType();
 	switch (drawType) {

@@ -71,11 +71,10 @@ MessageWidget::~MessageWidget() {
 }
 
 void MessageWidget::draw(QPainter& p, int offsetX, int offsetY) {
-
 	if(!m_pOw[A] || !m_pOw[B]) {
 		return;
 	}
-
+	UMLWidget::draw(p, offsetX, offsetY);
 	if (m_sequenceMessageType == sequence_message_synchronous) {
 		drawSynchronous(p, offsetX, offsetY);
 	} else if (m_sequenceMessageType == sequence_message_asynchronous) {
@@ -86,7 +85,6 @@ void MessageWidget::draw(QPainter& p, int offsetX, int offsetY) {
 }
 
 void MessageWidget::drawSynchronous(QPainter& p, int offsetX, int offsetY) {
-	p.setPen( QPen( UMLWidget::getLineColour(), UMLWidget::getLineWidth() ) );
 	int x1 = m_pOw[A]->getX();
 	int x2 = m_pOw[B]->getX();
 	int w = getWidth() - 1;
@@ -156,7 +154,6 @@ void MessageWidget::drawSynchronous(QPainter& p, int offsetX, int offsetY) {
 }
 
 void MessageWidget::drawAsynchronous(QPainter& p, int offsetX, int offsetY) {
-	p.setPen( QPen( UMLWidget::getLineColour(), UMLWidget::getLineWidth() ) );
 	int x1 = m_pOw[A]->getX();
 	int x2 = m_pOw[B]->getX();
 	int w = getWidth() - 1;

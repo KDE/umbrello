@@ -60,7 +60,7 @@ void ObjectWidget::draw(QPainter & p , int offsetX, int offsetY) {
 	else
 		drawObject( p, offsetX, offsetY );
 
-	p.setPen( QPen( UMLWidget::getLineColour(), UMLWidget::getLineWidth() ) );
+	UMLWidget::draw(p, offsetX, offsetY);
 	if(m_bSelected)
 		drawSelected(&p, offsetX, offsetY);
 }
@@ -198,7 +198,7 @@ void ObjectWidget::drawObject(QPainter & p, int offsetX, int offsetY) {
 	font.setUnderline( true );
 	p.setFont( font );
 
-	p.setPen( QPen( UMLWidget::getLineColour(), UMLWidget::getLineWidth() ) );
+	UMLWidget::draw(p, offsetX, offsetY);
 	if(UMLWidget::getUseFillColour())
 		p.setBrush(UMLWidget::getFillColour());
 	else
@@ -226,7 +226,7 @@ void ObjectWidget::drawObject(QPainter & p, int offsetX, int offsetY) {
 void ObjectWidget::drawActor(QPainter & p, int offsetX, int offsetY) {
 	QFontMetrics &fm = getFontMetrics(FT_UNDERLINE);
 
-	p.setPen( QPen( UMLWidget::getLineColour(), UMLWidget::getLineWidth() ) );
+	UMLWidget::draw(p, offsetX, offsetY);
 	if ( UMLWidget::getUseFillColour() )
 		p.setBrush( UMLWidget::getFillColour() );
 	int w = width();
