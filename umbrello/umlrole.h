@@ -166,7 +166,6 @@ private:
 	int m_roleID;
 	QString m_Name;
 	QString m_Multi;
-	Scope m_Visibility;
 	Changeability_Type m_Changeability;
 
 

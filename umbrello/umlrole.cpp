@@ -28,7 +28,6 @@ bool UMLRole::operator==(UMLRole &rhs) {
 	}
 	return( UMLObject::operator==( rhs ) &&
 		m_Changeability == rhs.m_Changeability &&
-		m_Visibility == rhs.m_Visibility &&
 		m_Multi == rhs.m_Multi &&
 		m_Name == rhs.m_Name
               );
@@ -57,7 +56,7 @@ Changeability_Type UMLRole::getChangeability() const {
 }
 
 Scope UMLRole::getVisibility() const {
-	return m_Visibility;
+	return getScope();
 }
 
 QString UMLRole::getMultiplicity() const {
@@ -98,8 +97,7 @@ void UMLRole::setObject (UMLObject *obj) {
 }
 
 void UMLRole::setVisibility (Scope value) {
-	m_Visibility = value;
-	emit modified();
+	setScope(value);
 }
 
 void UMLRole::setChangeability (Changeability_Type value) {
@@ -133,7 +131,6 @@ void UMLRole::init(UMLAssociation * parent, UMLObject * parentObj, int id) {
 	m_pObject = parentObj;
 	m_Multi = "";
 	m_Name = "";
-	m_Visibility = Public;
 	m_Changeability = chg_Changeable;
 
 	// connect this up to parent 
@@ -166,13 +163,14 @@ bool UMLRole::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 		if (m_pAssoc->getAssocType() == Uml::at_UniAssociation)
 			roleElement.setAttribute("isNavigable", "true");
 	}
-	switch (m_Visibility) {
+	switch (getScope()) {
 		case Uml::Private:
 			roleElement.setAttribute("visibility", "private");
 			break;
 		case Uml::Protected:
 			roleElement.setAttribute("visibility", "protected");
 			break;
+		default:
 		case Uml::Public:
 			roleElement.setAttribute("visibility", "public");
 			break;
@@ -195,6 +193,7 @@ bool UMLRole::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 }
 
 bool UMLRole::loadFromXMI( QDomElement & element ) {
+
 	UMLDoc * doc = (UMLDoc*)(m_pAssoc->parent());
 	if (doc == NULL) {
 		kdError() << "UMLRole::loadFromXMI failed to retrieve the UMLDoc"
@@ -218,6 +217,8 @@ bool UMLRole::loadFromXMI( QDomElement & element ) {
 	}
 	m_pObject = obj;
 
+	// block signals to prevent needless updating
+	blockSignals(true);
 	// Here comes the handling of the association type.
 	// This is open for discussion - I'm pretty sure there are better ways..
 
@@ -261,12 +262,11 @@ bool UMLRole::loadFromXMI( QDomElement & element ) {
 		m_Doc = element.attribute("comment", "");
 
 	// visibilty defaults to Public if it cant set it here..
-        m_Visibility = Uml::Public;
         QString vis = element.attribute("visibility", "public");
 	if (vis == "private")
-		m_Visibility = Uml::Private;
+		setScope(Uml::Private);
 	else if (vis == "protected")
-		m_Visibility = Uml::Protected;
+		setScope(Uml::Protected);
 
 	// Changeability defaults to Changeable if it cant set it here..
 	m_Changeability = Uml::chg_Changeable;
@@ -276,6 +276,8 @@ bool UMLRole::loadFromXMI( QDomElement & element ) {
         else if (changeable == "addOnly")
 		m_Changeability = Uml::chg_AddOnly;
 
+	// finished config, now unblock
+	blockSignals(false);
 	return true;
 }
 
