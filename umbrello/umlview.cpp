@@ -100,6 +100,8 @@
 // static members
 const int UMLView::defaultCanvasSize = 1300;
 
+using namespace Uml;
+
 
 // constructor
 UMLView::UMLView() : QCanvasView(UMLApp::app()->getMainViewWidget(), "AnUMLView") {
@@ -586,7 +588,7 @@ void UMLView::contentsDragEnterEvent(QDragEnterEvent *e) {
 	//make sure dragging item onto correct diagram
 	// concept - class,seq,coll diagram
 	// actor,usecase - usecase diagram
-	UMLObject_Type ot = temp->getBaseType();
+	Object_Type ot = temp->getBaseType();
 	if(diagramType == dt_UseCase && (ot != ot_Actor && ot != ot_UseCase) ) {
 		e->accept(false);
 		return;
@@ -779,7 +781,7 @@ void UMLView::removeWidget(UMLWidget * o) {
 		return;
 	removeAssociations(o);
 
-	UMLWidget_Type t = o->getBaseType();
+	Widget_Type t = o->getBaseType();
 	if(getType() == dt_Sequence && t == wt_Object)
 		checkMessages( static_cast<ObjectWidget*>(o) );
 
@@ -981,7 +983,7 @@ void UMLView::selectionToggleShow(int sel)
 	// loop through all selected items
 	for(UMLWidget *temp = (UMLWidget *)m_SelectedList.first();
 			temp; temp=(UMLWidget *)m_SelectedList.next()) {
-		UMLWidget_Type type = temp->getBaseType();
+		Widget_Type type = temp->getBaseType();
 		ClassifierWidget *cw = NULL;
 		if (type == wt_Class || type == wt_Interface)
 			cw = static_cast<ClassWidget *>(temp);
@@ -1600,7 +1602,7 @@ bool UMLView::addWidget( UMLWidget * pWidget , bool isPasteOperation ) {
 			  << ") because it's already there" << endl;
 		return false;
 	}
-	UMLWidget_Type type = pWidget->getBaseType();
+	Widget_Type type = pWidget->getBaseType();
 	//kdDebug() << "UMLView::addWidget called for basetype " << type << endl;
 	IDChangeLog * log = m_pDoc -> getChangeLog();
 	if( isPasteOperation && (!log || !m_pIDChangesLog)) {
@@ -1979,7 +1981,7 @@ bool UMLView::setAssoc(UMLWidget *pWidget) {
 	// The following reassignment is just to make things clearer.
 	UMLWidget* widgetA = m_pFirstSelectedWidget;
 	UMLWidget* widgetB = pWidget;
-	UMLWidget_Type at = widgetA -> getBaseType();
+	Widget_Type at = widgetA -> getBaseType();
 	bool valid = true;
 	if (type == at_Generalization)
 		type = AssocRules::isGeneralisationOrRealisation(widgetA, widgetB);
@@ -2002,7 +2004,7 @@ bool UMLView::setAssoc(UMLWidget *pWidget) {
 			UMLObject *objToBeMoved = widgetB->getUMLObject();
 			if (newContainer && objToBeMoved) {
 				UMLListViewItem *newLVParent = lv->findUMLObject(newContainer);
-				UMLObject_Type ot = objToBeMoved->getBaseType();
+				Object_Type ot = objToBeMoved->getBaseType();
 				lv->moveObject( objToBeMoved->getID(),
 						UMLListView::convert_OT_LVT(ot),
 						newLVParent );
@@ -2296,7 +2298,7 @@ void UMLView::createAutoAssociations( UMLWidget * widget ) {
 	}
 	createAutoAttributeAssociations(widget);
 	// if this object is capable of containing nested objects then
-	Uml::UMLObject_Type t = umlObj->getBaseType();
+	Uml::Object_Type t = umlObj->getBaseType();
 	if (t == ot_Package || t == ot_Class || t == ot_Interface) {
 		// for each of the object's containedObjects
 		UMLPackage *umlPkg = static_cast<UMLPackage*>(umlObj);
@@ -2908,7 +2910,7 @@ bool UMLView::checkUniqueSelection()
 
 	// get the first item and its base type
 	UMLWidget * pTemp = (UMLWidget *) m_SelectedList.first();
-	UMLWidget_Type tmpType = pTemp -> getBaseType();
+	Widget_Type tmpType = pTemp -> getBaseType();
 
 	// check all selected items, if they have the same BaseType
 	for ( pTemp = (UMLWidget *) m_SelectedList.first();

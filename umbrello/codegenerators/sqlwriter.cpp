@@ -91,12 +91,13 @@ void SQLWriter::writeClass(UMLClassifier *c) {
 	UMLAssociationList aggregations = c->getAggregations();
 	if( forceSections() || !aggregations.isEmpty() ) {
 		for(UMLAssociation* a = aggregations.first(); a; a = aggregations.next()) {
-			if( a->getObject(A)->getID() != c->getID() ) {
+			if( a->getObject(Uml::A)->getID() != c->getID() ) {
 
 				sql << m_indentation << "," << m_newLineEndingChars << m_indentation
 					 << "CONSTRAINT " << a->getName() << " FOREIGN KEY ("
-					 << a->getRoleName(B) << ") REFERENCES "
-					 << a->getObject(A)->getName() << " (" << a->getRoleName(A) << ")";
+					 << a->getRoleName(Uml::B) << ") REFERENCES "
+					 << a->getObject(Uml::A)->getName()
+					 << " (" << a->getRoleName(Uml::A) << ")";
 			}
 		}
 	}

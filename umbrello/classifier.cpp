@@ -18,6 +18,8 @@
 #include <kdebug.h>
 #include <klocale.h>
 
+using namespace Uml;
+
 UMLClassifier::UMLClassifier(const QString & name, int id)
   : UMLPackage(name, id)
 {
@@ -131,7 +133,7 @@ UMLOperation* UMLClassifier::takeOperation(UMLOperation* o) {
 	return 0;
 }
 
-UMLObjectList UMLClassifier::findChildObject(UMLObject_Type t , QString n) {
+UMLObjectList UMLClassifier::findChildObject(Object_Type t , QString n) {
 	if (t == ot_Association) {
 		return UMLCanvasObject::findChildObject(t, n);
 	}
@@ -317,7 +319,7 @@ UMLOperationList UMLClassifier::getOpList(bool includeInherited) {
 	return ops;
 }
 
-UMLClassifierListItemList UMLClassifier::getFilteredList(UMLObject_Type ot) {
+UMLClassifierListItemList UMLClassifier::getFilteredList(Object_Type ot) {
 	UMLClassifierListItemList resultList;
 	for (UMLClassifierListItemListIt lit(m_List); lit.current(); ++lit) {
 		UMLClassifierListItem *listItem = lit.current();

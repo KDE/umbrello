@@ -131,7 +131,7 @@ public:
 	 * @param n		The name of the object to find.
 	 * @return	List of objects found.  Will be empty if none found.
 	 */
-	 virtual UMLObjectList findChildObject(UMLObject_Type t, QString n);
+	 virtual UMLObjectList findChildObject(Uml::Object_Type t, QString n);
 
 	/**
 	 * Find an enumliteral

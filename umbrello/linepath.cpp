@@ -74,7 +74,7 @@ void LinePath::setAssociation(AssociationWidget * association ) {
 	cleanup();
 	m_pAssociation = association;
 	createHeadLines();
-	if( getAssocType() == at_Coll_Message )
+	if( getAssocType() == Uml::at_Coll_Message )
 		setupParallelLine();
 	UMLView * view =  (UMLView *)m_pAssociation -> parent();
 	connect( view, SIGNAL( sigLineColorChanged( int ) ), this, SLOT( slotLineColorChanged( int ) ) );
@@ -311,7 +311,7 @@ void LinePath::setAssocType( Uml::Association_Type type ) {
 		m_pClearPoly = 0;
 	}
 	createHeadLines();
-	if( type == at_Coll_Message )
+	if( type == Uml::at_Coll_Message )
 		setupParallelLine();
 	update();
 }
@@ -324,7 +324,7 @@ void LinePath::update() {
 		createHeadLines();
 	}
 
-	if( getAssocType() == at_Coll_Message ) {
+	if( getAssocType() == Uml::at_Coll_Message ) {
 		if( m_bParallelLineCreated ) {
 			calculateParallelLine();
 			updateParallelLine();
@@ -364,9 +364,9 @@ void LinePath::setLineColor( QColor color ) {
 		++pit;
 	}
 
-	if( getAssocType() == at_Aggregation )
+	if( getAssocType() == Uml::at_Aggregation )
 		if (m_pClearPoly) m_pClearPoly -> setBrush( QBrush( white ) );
-	else if( getAssocType() == at_Composition )
+	else if( getAssocType() == Uml::at_Composition )
 		if (m_pClearPoly) m_pClearPoly -> setBrush( QBrush( color ) );
 
 	if( m_pCircle ) {
@@ -463,7 +463,7 @@ void LinePath::setupSelected() {
 
 QPen LinePath::getPen() {
 	Uml::Association_Type type = getAssocType();
-	if( type == at_Dependency || type == at_Realization || type == at_Anchor )
+	if( type == Uml::at_Dependency || type == Uml::at_Realization || type == Uml::at_Anchor )
 		return QPen( getLineColor(), getLineWidth(), DashLine );
 	return QPen( getLineColor(), getLineWidth() );
 }
@@ -480,9 +480,9 @@ void LinePath::calculateHead() {
 	QPoint farPoint;
 	int halfLength = 10;
 	double arrowAngle = 0.2618;   // 0.5 * atan(sqrt(3.0) / 3.0) = 0.2618
-	Association_Type at = getAssocType();
-	bool diamond = (at == at_Aggregation || at == at_Composition);
-	if (diamond || at == at_Containment) {
+	Uml::Association_Type at = getAssocType();
+	bool diamond = (at == Uml::at_Aggregation || at == Uml::at_Composition);
+	if (diamond || at == Uml::at_Containment) {
 		farPoint = getPoint(1);
 		m_EgdePoint = getPoint(0);
 		if (diamond) {
@@ -543,8 +543,8 @@ void LinePath::calculateHead() {
 
 	m_PointArray.setPoint(0, m_EgdePoint);
 	m_PointArray.setPoint(1, m_ArrowPointA);
-	if( getAssocType() == at_Realization ||
-	    getAssocType() == at_Generalization ) {
+	if( getAssocType() == Uml::at_Realization ||
+	    getAssocType() == Uml::at_Generalization ) {
 		m_PointArray.setPoint( 2, m_ArrowPointB );
 		m_PointArray.setPoint( 3, m_EgdePoint );
 	} else {
@@ -560,10 +560,10 @@ void LinePath::updateHead() {
 	int count = m_HeadList.count();
 	QCanvasLine * line = 0;
 	switch( getAssocType() ) {
-		case at_State:
-		case at_Activity:
-		case at_UniAssociation:
-		case at_Dependency:
+		case Uml::at_State:
+		case Uml::at_Activity:
+		case Uml::at_UniAssociation:
+		case Uml::at_Dependency:
 			if( count < 2)
 				return;
 			line = m_HeadList.at( 0 );
@@ -573,8 +573,8 @@ void LinePath::updateHead() {
 			line -> setPoints( m_EgdePoint.x(), m_EgdePoint.y(), m_ArrowPointB.x(), m_ArrowPointB.y() );
 			break;
 
-		case at_Generalization:
-		case at_Realization:
+		case Uml::at_Generalization:
+		case Uml::at_Realization:
 			if( count < 3)
 				return;
 			line = m_HeadList.at( 0 );
@@ -588,8 +588,8 @@ void LinePath::updateHead() {
 			m_pClearPoly -> setPoints( m_PointArray );
 			break;
 
-		case at_Composition:
-		case at_Aggregation:
+		case Uml::at_Composition:
+		case Uml::at_Aggregation:
 			if( count < 4)
 				return;
 			line = m_HeadList.at( 0 );
@@ -606,7 +606,7 @@ void LinePath::updateHead() {
 			m_pClearPoly -> setPoints( m_PointArray );
 			break;
 
-		case at_Containment:
+		case Uml::at_Containment:
 			if (count < 1)
 				return;
 			line = m_HeadList.at( 0 );
@@ -635,15 +635,15 @@ void LinePath::createHeadLines() {
 	m_HeadList.clear();
 	QCanvas * canvas = getCanvas();
 	switch( getAssocType() ) {
-		case at_Activity:
-		case at_State:
-		case at_Dependency:
-		case at_UniAssociation:
+		case Uml::at_Activity:
+		case Uml::at_State:
+		case Uml::at_Dependency:
+		case Uml::at_UniAssociation:
 			growHeadList( 2 );
 			break;
 
-		case at_Generalization:
-		case at_Realization:
+		case Uml::at_Generalization:
+		case Uml::at_Realization:
 			growHeadList( 3 );
 			m_pClearPoly = new QCanvasPolygon( canvas );
 			m_pClearPoly -> setVisible( true );
@@ -651,19 +651,19 @@ void LinePath::createHeadLines() {
 			m_pClearPoly -> setZ( -1 );
 			break;
 
-		case at_Composition:
-		case at_Aggregation:
+		case Uml::at_Composition:
+		case Uml::at_Aggregation:
 			growHeadList( 4 );
 			m_pClearPoly = new QCanvasPolygon( canvas );
 			m_pClearPoly -> setVisible( true );
-			if( getAssocType() == at_Aggregation )
+			if( getAssocType() == Uml::at_Aggregation )
 				m_pClearPoly -> setBrush( QBrush( white ) );
 			else
 				m_pClearPoly -> setBrush( QBrush( getLineColor() ) );
 			m_pClearPoly -> setZ( -1 );
 			break;
 
-		case at_Containment:
+		case Uml::at_Containment:
 			growHeadList( 1 );
 			if (!m_pCircle) {
 				m_pCircle = new Circle( canvas, 6 );

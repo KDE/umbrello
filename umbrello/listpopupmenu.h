@@ -202,9 +202,9 @@ public:
 	~ListPopupMenu();
 
 	/**
-	 * Utility: Convert a Menu_Type value to an UMLObject_Type value.
+	 * Utility: Convert a Menu_Type value to an Object_Type value.
 	 */
-	static Uml::UMLObject_Type convert_MT_OT(Menu_Type mt);
+	static Uml::Object_Type convert_MT_OT(Menu_Type mt);
 
 	/**
 	 * Utility: Convert a Menu_Type value to a Diagram_Type value.
@@ -234,12 +234,12 @@ private:
 	 *
 	 * @param insertLeadingSeparator  Set this true if the group shall
 	 *				  start with a separator.
-	 * @param type	The UMLWidget_Type for which to insert the menu items.
+	 * @param type	The Widget_Type for which to insert the menu items.
 	 *		If no argument is supplied then a Rename item will be
 	 *		included.
 	 */
 	void insertStdItems(bool insertLeadingSeparator = true,
-			    Uml::UMLWidget_Type type = Uml::wt_UMLWidget);
+			    Uml::Widget_Type type = Uml::wt_UMLWidget);
 
 	/**
 	 * Shortcut for inserting standard model items (Class, Interface,

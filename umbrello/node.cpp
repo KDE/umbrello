@@ -20,7 +20,7 @@ UMLNode::~UMLNode() {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLNode::init() {
-	m_BaseType = ot_Node;
+	m_BaseType = Uml::ot_Node;
 }
 
 UMLObject* UMLNode::clone() const {

@@ -16,11 +16,11 @@ LinkWidget::LinkWidget(UMLView *view)
   : QObject(view), m_Type(Uml::wt_UMLWidget), m_pView(view), m_pObject(NULL) {
 }
 
-void LinkWidget::setBaseType( UMLWidget_Type type ) {
+void LinkWidget::setBaseType( Uml::Widget_Type type ) {
 	m_Type = type;
 }
 
-UMLWidget_Type LinkWidget::getBaseType() const {
+Uml::Widget_Type LinkWidget::getBaseType() const {
 	return m_Type;
 }
 

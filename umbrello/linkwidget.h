@@ -21,8 +21,6 @@ class UMLObject;
 class UMLClassifier;
 class FloatingText;
 
-using namespace Uml;
-
 /**
  * This is the base class for the AssociationWidget and MessageWidget.
  * Initially, the design of this class was driven by the requirements of
@@ -54,12 +52,12 @@ public:
 	/**
 	 * Write property of m_Type.
 	 */
-	void setBaseType(UMLWidget_Type type);
+	void setBaseType(Uml::Widget_Type type);
 
 	/**
 	 * Read property of m_Type.
 	 */
-	UMLWidget_Type getBaseType() const;
+	Uml::Widget_Type getBaseType() const;
 
 	/**
 	 * Returns the @ref UMLObject set to represent.
@@ -175,7 +173,7 @@ protected:
 	/**
 	 * Type of widget.
 	 */
-	UMLWidget_Type m_Type;
+	Uml::Widget_Type m_Type;
 
 	UMLView   *m_pView;
 	UMLObject *m_pObject;

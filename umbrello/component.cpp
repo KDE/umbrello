@@ -22,7 +22,7 @@ UMLComponent::~UMLComponent() {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLComponent::init() {
-	m_BaseType = ot_Component;
+	m_BaseType = Uml::ot_Component;
 	m_executable = false;
 }
 

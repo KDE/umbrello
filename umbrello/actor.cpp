@@ -16,7 +16,7 @@ UMLActor::UMLActor(const QString & name, int id) : UMLCanvasObject(name, id) {
 UMLActor::~UMLActor() {}
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLActor::init() {
-	m_BaseType = ot_Actor;
+	m_BaseType = Uml::ot_Actor;
 }
 
 UMLObject* UMLActor::clone() const {

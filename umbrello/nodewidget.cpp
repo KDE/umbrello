@@ -20,7 +20,7 @@ NodeWidget::NodeWidget(UMLView * view, UMLNode *n ) : UMLWidget(view, n) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void NodeWidget::init() {
-	UMLWidget::setBaseType(wt_Node);
+	UMLWidget::setBaseType(Uml::wt_Node);
 	m_pMenu = 0;
 
 	const Settings::OptionState& ops = m_pView->getOptionState();

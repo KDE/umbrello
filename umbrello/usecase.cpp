@@ -17,7 +17,7 @@ UMLUseCase::UMLUseCase(const QString & name, int id)
 UMLUseCase::~UMLUseCase() {}
 
 void UMLUseCase::init() {
-	m_BaseType = ot_UseCase;
+	m_BaseType = Uml::ot_UseCase;
 }
 
 UMLObject* UMLUseCase::clone() const {

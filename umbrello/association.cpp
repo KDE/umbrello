@@ -16,6 +16,8 @@
 #include "umldoc.h"
 #include "umlrole.h"
 
+using namespace Uml;
+
 // static members
 const Uml::Association_Type UMLAssociation::atypeFirst = Uml::at_Generalization;
 const Uml::Association_Type UMLAssociation::atypeLast = Uml::at_Activity;

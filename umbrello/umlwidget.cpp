@@ -38,6 +38,8 @@
 
 #include "clipboard/idchangelog.h"
 
+using namespace Uml;
+
 
 UMLWidget::UMLWidget( UMLView * view, UMLObject * o )
 	: LinkWidget(view), QCanvasRectangle( view->canvas() ),
@@ -435,7 +437,7 @@ void UMLWidget::init() {
 void UMLWidget::slotMenuSelection(int sel) {
 	QFont font;
 	QColor newColour;
-	const Uml::UMLWidget_Type wt = m_Type;
+	const Uml::Widget_Type wt = m_Type;
 	switch(sel) {
 		case ListPopupMenu::mt_Rename:
 			m_pDoc -> renameUMLObject(m_pObject);
@@ -588,7 +590,7 @@ void UMLWidget::mouseDoubleClickEvent( QMouseEvent * me ) {
 	    m_pView->getCurrentCursor() != WorkToolBar::tbb_Arrow)
 		return;
 
-	const Uml::UMLWidget_Type wt = m_Type;
+	const Uml::Widget_Type wt = m_Type;
 	if( (wt >= wt_Actor && wt <= wt_Object) ||
 	    wt == wt_Component || wt == wt_Node || wt == wt_Artifact) {
 		slotMenuSelection(ListPopupMenu::mt_Properties);
@@ -823,7 +825,7 @@ void UMLWidget::drawShape(QPainter &p ) {
 }
 
 void UMLWidget::setSelected(bool _select) {
-	const Uml::UMLWidget_Type wt = m_Type;
+	const Uml::Widget_Type wt = m_Type;
 	if( _select ) {
 		if( m_pView -> getSelectCount() == 0 ) {
 			if ( widgetHasUMLObject(wt) ) {
@@ -904,7 +906,7 @@ void UMLWidget::slotSnapToGrid( ) {
 	setY( getY() );
 }
 
-bool UMLWidget::widgetHasUMLObject(Uml::UMLWidget_Type type) {
+bool UMLWidget::widgetHasUMLObject(Uml::Widget_Type type) {
 	if (type == wt_Actor ||
 	    type == wt_UseCase ||
 	    type == wt_Class ||

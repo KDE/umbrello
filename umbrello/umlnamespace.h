@@ -18,7 +18,7 @@
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 namespace Uml {
-	enum UMLObject_Type
+	enum Object_Type
 	{
 	    ot_UMLObject  = 100,
 	    ot_Actor,
@@ -46,7 +46,7 @@ namespace Uml {
 	    Protected
 	};
 
-	enum UMLWidget_Type
+	enum Widget_Type
 	{
 	    wt_UMLWidget  =  300,	// does not have UMLObject representation
 	    wt_Actor,			// has UMLObject representation

@@ -63,8 +63,6 @@ class UMLPackage;
 class UMLEnum;
 class UMLApp;
 
-using namespace Uml;
-
 /**
   * UMLDoc provides a document object for a document-view model.
   *
@@ -219,14 +217,14 @@ public:
 	 * @param n		A name to give to the object (optional.)
 	 * @param parentPkg	The object's parent package (optional.)
 	 */
-	UMLObject* createUMLObject(UMLObject_Type type,
+	UMLObject* createUMLObject(Uml::Object_Type type,
 				   const QString &n = QString::null,
 				   UMLPackage *parentPkg = NULL);
 	/**
 	 * Creates a @ref UMLObject of the given type.
 	 *
 	 * @param type	The type of @ref UMLObject to create.
-	 *		The type_info is translated to a UMLObject_Type and the
+	 *		The type_info is translated to a Object_Type and the
 	 *		other createUMLObject method is invoked.
 	 */
 	UMLObject* createUMLObject(const std::type_info &type);
@@ -238,7 +236,7 @@ public:
 	 * @param type	The type to create, either an operation or attribute.
 	 * @return	The UMLObject created
 	 */
-	UMLObject* createChildObject(UMLObject* o, UMLObject_Type type);
+	UMLObject* createChildObject(UMLObject* o, Uml::Object_Type type);
 
 	/**
 	 * Creates an operation in the current document.
@@ -318,30 +316,6 @@ public:
 	void addAssocToConcepts(UMLAssociation* assoc);
 
 	/**
-	 * Creates an association.
-	 *
-	 * @param name		The name of the association
-	 * @param assocType	The type of the association
-	 * @param AId		The ID of the role A concept
-	 * @param BID		The ID of the role B concept
-	 * @param nameA		The name given to role A (optional)
-	 * @param nameB		The name given to role B (optional)
-	 * @param multiA	The multiplicity at role A (optional)
-	 * @param multiB	The multiplicity at role B (optional)
-	 * @param visibilityA	The visibility of role A (optional)
-	 * @param visibilityB	The visibility of role B (optional)
-	 */
-	/*
-	void addAssociation(QString name, Association_Type assocType,
-			int AId, int BId,
-			QString nameA = "", QString nameB = "",
-			QString multiA = "", QString multiB = "",
-			Scope visibilityA = Public, Scope visibilityB = Public,
-			Changeability_Type changeA = chg_Changeable,
-			Changeability_Type changeb = chg_Changeable
-			);
-			*/
-	/**
 	 * Adds an association.
 	 *
 	 * @param pAssoc	Pointer to the UMLAssociation to add.
@@ -379,7 +353,7 @@ public:
 	 * @param askForName	If true shows a dialog box asking for name,
 	 *			else uses a default name.
 	 */
-	void createDiagram(Diagram_Type type, bool askForName = true);
+	void createDiagram(Uml::Diagram_Type type, bool askForName = true);
 
 	/**
 	 * Removes an @ref UMLObject from the current file.  If this object
@@ -451,14 +425,14 @@ public:
 	 * Used to find a @ref UMLObject by its type and name.
 	 *
 	 * @param name		The name of the @ref UMLObject to find.
-	 * @param type		UMLObject_Type of the object to find (optional.)
+	 * @param type		Object_Type of the object to find (optional.)
 	 *			When the given type is ot_UMLObject the type is
 	 *			disregarded, i.e. the given name is the only
 	 *			search criterion.
 	 * @return	Pointer to the UMLObject found, or NULL if not found.
 	 */
 	UMLObject* findUMLObject(QString name,
-				 UMLObject_Type type = Uml::ot_UMLObject);
+				 Uml::Object_Type type = Uml::ot_UMLObject);
 
 	/**
 	 * Used to find a reference to a @ref UMLObject given its non-numeric
@@ -501,7 +475,7 @@ public:
 	 * @param name		The name of the view to find.
 	 * @return	Pointer to the view found, or NULL if not found.
 	 */
-	UMLView * findView(Diagram_Type type, QString name);
+	UMLView * findView(Uml::Diagram_Type type, QString name);
 
 
 	/**
@@ -834,7 +808,7 @@ public:
 	 * if the default name is taken e.g. class diagram, class
 	 * diagram_1 etc
 	 */
-	QString uniqViewName(const Diagram_Type type);
+	QString uniqViewName(const Uml::Diagram_Type type);
 
 	/**
 	 * Returns true when loading a document file.
@@ -912,7 +886,7 @@ public:
 	 *			If no prefix is given then a type related
 	 *			prefix will be chosen internally.
 	 */
-	QString uniqObjectName(const UMLObject_Type type, QString prefix = "");
+	QString uniqObjectName(const Uml::Object_Type type, QString prefix = "");
 
 	/**
 	 * Write text to the status bar.
@@ -935,14 +909,14 @@ private:
 	 *
 	 * @param inList	List in which to seek the object.
 	 * @param name		Name of the object to find.
-	 * @param type		UMLObject_Type of the object to find (optional.)
+	 * @param type		Object_Type of the object to find (optional.)
 	 *			When the given type is ot_UMLObject the type is
 	 *			disregarded, i.e. the given name is the only
 	 *			search criterion.
 	 * @return	Pointer to the UMLObject found, or NULL if not found.
 	 */
 	static UMLObject* findUMLObject( UMLObjectList inList, QString name,
-					 UMLObject_Type type = Uml::ot_UMLObject);
+					 Uml::Object_Type type = Uml::ot_UMLObject);
 
 	/**
 	 * Sets up the autosave timer.
@@ -953,7 +927,7 @@ private:
 	 * Returns whether the given type is a classifierListItem
 	 * (attribute, operation, template, enumliteral or stereotype)
 	 */
-	bool objectTypeIsClassifierListItem(UMLObject_Type type);
+	bool objectTypeIsClassifierListItem(Uml::Object_Type type);
 
 	ClassImport * m_classImporter;
 	CodeGenerator * m_currentcodegenerator;

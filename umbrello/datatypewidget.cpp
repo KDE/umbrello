@@ -30,7 +30,7 @@ DatatypeWidget::~DatatypeWidget() {}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void DatatypeWidget::init() {
-	UMLWidget::setBaseType(wt_Datatype);
+	UMLWidget::setBaseType(Uml::wt_Datatype);
 	m_pMenu = 0;
 }
 

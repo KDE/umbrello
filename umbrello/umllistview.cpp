@@ -140,7 +140,7 @@ void UMLListView::contentsMousePressEvent(QMouseEvent *me) {
 	}
 
 	Uml::ListView_Type type;
-	type = item ? item->getType() : lvt_Unknown;
+	type = item ? item->getType() : Uml::lvt_Unknown;
 	if (me->button() == LeftButton) {
 		switch( type ) {
 			//If is necesary activate the view
@@ -213,40 +213,40 @@ void UMLListView::popupMenuSel(int sel) {
 	int id = temp -> getID();
 	UMLObject * object = temp -> getUMLObject();
 	Uml::ListView_Type lvtType = temp -> getType();
-	Uml::UMLObject_Type umlType = Uml::ot_UMLObject;
+	Uml::Object_Type umlType = Uml::ot_UMLObject;
 	QString name;
 
 	switch(sel) {
 	case ListPopupMenu::mt_Activity_Diagram:
-		m_doc->createDiagram(dt_Activity);
+		m_doc->createDiagram(Uml::dt_Activity);
 		break;
 
 	case ListPopupMenu::mt_UseCase_Diagram:
-		m_doc->createDiagram(dt_UseCase);
+		m_doc->createDiagram(Uml::dt_UseCase);
 		break;
 
 	case ListPopupMenu::mt_Sequence_Diagram:
-		m_doc->createDiagram(dt_Sequence);
+		m_doc->createDiagram(Uml::dt_Sequence);
 		break;
 
 	case ListPopupMenu::mt_Collaboration_Diagram:
-		m_doc->createDiagram(dt_Collaboration);
+		m_doc->createDiagram(Uml::dt_Collaboration);
 		break;
 
 	case ListPopupMenu::mt_Class_Diagram:
-		m_doc->createDiagram(dt_Class);
+		m_doc->createDiagram(Uml::dt_Class);
 		break;
 
 	case ListPopupMenu::mt_State_Diagram:
-		m_doc->createDiagram(dt_State);
+		m_doc->createDiagram(Uml::dt_State);
 		break;
 
 	case ListPopupMenu::mt_Component_Diagram:
-		m_doc->createDiagram(dt_Component);
+		m_doc->createDiagram(Uml::dt_Component);
 		break;
 
 	case ListPopupMenu::mt_Deployment_Diagram:
-		m_doc->createDiagram(dt_Deployment);
+		m_doc->createDiagram(Uml::dt_Deployment);
 		break;
 
 	case ListPopupMenu::mt_Class:
@@ -451,7 +451,7 @@ void UMLListView::slotObjectCreated(UMLObject* object) {
 	UMLListViewItem* newItem = 0;
 	UMLListViewItem* parentItem = 0;
 	UMLListViewItem* current = (UMLListViewItem*) currentItem();
-	Uml::UMLObject_Type type = object->getBaseType();
+	Uml::Object_Type type = object->getBaseType();
 	Uml::ListView_Type lvt = Uml::lvt_Unknown;
 	if (current)
 		lvt = current->getType();
@@ -534,7 +534,7 @@ void UMLListView::slotObjectCreated(UMLObject* object) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLListView::connectNewObjectsSlots(UMLObject* object) {
-	Uml::UMLObject_Type type = object->getBaseType();
+	Uml::Object_Type type = object->getBaseType();
 	switch( type )
 	{
 	case Uml::ot_Class:
@@ -600,11 +600,11 @@ void UMLListView::childObjectAdded(UMLObject* obj) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLListView::childObjectAdded(UMLObject* obj, UMLObject* parent) {
-	Uml::UMLObject_Type ot = obj->getBaseType();
+	Uml::Object_Type ot = obj->getBaseType();
 	/* kdDebug() << "UMLListView::childObjectAdded(" << obj->getName()
  		  << ", type " << ot << "): ID is " << obj->getID() << endl;
 	 */
-	if (ot == ot_Stereotype) {
+	if (ot == Uml::ot_Stereotype) {
 		return;
 	}
 	if (!m_bCreatingChildObject) {
@@ -873,7 +873,7 @@ void UMLListView::contentsMouseDoubleClickEvent(QMouseEvent * me) {
 		return;
 
 
-	Uml::UMLObject_Type type = object -> getBaseType();
+	Uml::Object_Type type = object -> getBaseType();
 	int page = ClassPropDlg::page_gen;
 	if(type == Uml::ot_Attribute || type == Uml::ot_Operation)
 		object = (UMLObject *)object -> parent();
@@ -1273,7 +1273,7 @@ Uml::ListView_Type UMLListView::convert_DT_LVT(Uml::Diagram_Type dt) {
 	return type;
 }
 
-Uml::ListView_Type UMLListView::convert_OT_LVT(Uml::UMLObject_Type ot) {
+Uml::ListView_Type UMLListView::convert_OT_LVT(Uml::Object_Type ot) {
 	Uml::ListView_Type type =  Uml::lvt_Unknown;
 	switch(ot) {
 	case Uml::ot_UseCase:
@@ -1333,8 +1333,8 @@ Uml::ListView_Type UMLListView::convert_OT_LVT(Uml::UMLObject_Type ot) {
 	return type;
 }
 
-Uml::UMLObject_Type UMLListView::convert_LVT_OT(Uml::ListView_Type lvt) {
-	Uml::UMLObject_Type ot = (Uml::UMLObject_Type)0;
+Uml::Object_Type UMLListView::convert_LVT_OT(Uml::ListView_Type lvt) {
+	Uml::Object_Type ot = (Uml::Object_Type)0;
 	switch (lvt) {
 	case Uml::lvt_UseCase:
 		ot = Uml::ot_UseCase;
@@ -1646,7 +1646,7 @@ void UMLListView::slotCutSuccessful() {
 
 void UMLListView::addNewItem( QListViewItem * parent, Uml::ListView_Type type ) {
 	QString name = i18n("folder");
-	if (type == lvt_Datatype)  {
+	if (type == Uml::lvt_Datatype)  {
 		parent = datatypeFolder;
 	}
 	UMLListViewItem * parentItem = static_cast<UMLListViewItem *>( parent );
@@ -1848,7 +1848,7 @@ bool UMLListView::slotItemRenamed( QListViewItem * item , int /*col*/ ) {
 	case Uml::lvt_Enum:
 	case Uml::lvt_UseCase:
 	{
-		Uml::UMLObject_Type ot = convert_LVT_OT(type);
+		Uml::Object_Type ot = convert_LVT_OT(type);
 		if (! ot) {
 			kdError() << "UMLListView::slotItemRenamed() internal" << endl;
 			return false;
@@ -1903,7 +1903,7 @@ bool UMLListView::slotItemRenamed( QListViewItem * item , int /*col*/ ) {
 	return true;
 }
 
-void UMLListView::createUMLObject( UMLListViewItem * item, Uml::UMLObject_Type type ) {
+void UMLListView::createUMLObject( UMLListViewItem * item, Uml::Object_Type type ) {
 	QString name = item -> text( 0 );
 	UMLObject * object = NULL;
 	switch( type ) {
@@ -1953,7 +1953,7 @@ void UMLListView::createUMLObject( UMLListViewItem * item, Uml::UMLObject_Type t
 	}
 
 	UMLListViewItem * parentItem = static_cast<UMLListViewItem *>(item->parent());
-	if (parentItem->getType() == lvt_Package) {
+	if (parentItem->getType() == Uml::lvt_Package) {
 		UMLPackage *pkg = static_cast<UMLPackage*>(parentItem->getUMLObject());
 		object->setUMLPackage(pkg);
 		pkg->addObject(object);
@@ -1964,7 +1964,7 @@ void UMLListView::createUMLObject( UMLListViewItem * item, Uml::UMLObject_Type t
 	item -> setText( name );
 }
 
-void UMLListView::createChildUMLObject( UMLListViewItem * item, Uml::UMLObject_Type type ) {
+void UMLListView::createChildUMLObject( UMLListViewItem * item, Uml::Object_Type type ) {
 	m_bCreatingChildObject = true;
 	QString name = item->text( 0 );
 	UMLObject* parent = static_cast<UMLListViewItem *>( item->parent() )->getUMLObject();
@@ -2013,7 +2013,7 @@ void UMLListView::createDiagram( UMLListViewItem * item, Uml::Diagram_Type type 
 	m_doc -> changeCurrentView( view -> getID() );
 }
 
-QString UMLListView::getUniqueUMLObjectName( Uml::UMLObject_Type type ) {
+QString UMLListView::getUniqueUMLObjectName( Uml::Object_Type type ) {
 	//FIXME try using UMLDoc::uniqObjectName()
 	QString temp = "";
 	QString name = "";
@@ -2066,7 +2066,7 @@ QString UMLListView::getUniqueUMLObjectName( Uml::UMLObject_Type type ) {
 	return temp;
 }
 
-QString UMLListView::getUniqueChildUMLObjectName( UMLClassifier * parent, Uml::UMLObject_Type type ) {
+QString UMLListView::getUniqueChildUMLObjectName( UMLClassifier * parent, Uml::Object_Type type ) {
 	QString name = "";
 	QString temp = "";
 	QString newAtt = i18n("new_attribute");
@@ -2144,7 +2144,7 @@ bool UMLListView::isUnique( UMLListViewItem * item, QString name ) {
 	case Uml::lvt_Datatype:
 	case Uml::lvt_Enum:
 	{
-		if (parentItem->getType() != lvt_Package)
+		if (parentItem->getType() != Uml::lvt_Package)
 			return (m_doc->findUMLObject(name) == NULL);
 		UMLPackage *pkg = static_cast<UMLPackage*>(parentItem->getUMLObject());
 		if (pkg == NULL) {
@@ -2410,16 +2410,16 @@ bool UMLListView::startedCopy() const {
 }
 
 bool UMLListView::typeIsCanvasWidget(Uml::ListView_Type type) {
-	if (type == lvt_Actor ||
-	    type == lvt_UseCase ||
-	    type == lvt_Class ||
-	    type == lvt_Package ||
-	    type == lvt_Component ||
-	    type == lvt_Node ||
-	    type == lvt_Artifact ||
-	    type == lvt_Interface ||
-	    type == lvt_Datatype ||
-	    type == lvt_Enum) {
+	if (type == Uml::lvt_Actor ||
+	    type == Uml::lvt_UseCase ||
+	    type == Uml::lvt_Class ||
+	    type == Uml::lvt_Package ||
+	    type == Uml::lvt_Component ||
+	    type == Uml::lvt_Node ||
+	    type == Uml::lvt_Artifact ||
+	    type == Uml::lvt_Interface ||
+	    type == Uml::lvt_Datatype ||
+	    type == Uml::lvt_Enum) {
 		return true;
 	} else {
 		return false;

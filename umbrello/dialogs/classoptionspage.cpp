@@ -16,12 +16,13 @@
 #include "../interfacewidget.h"
 #include "classoptionspage.h"
 
-ClassOptionsPage::ClassOptionsPage(QWidget* pParent, UMLWidget* pWidget, UMLWidget_Type type) : QWidget( pParent ) {
-	if (type == wt_Class) {
+ClassOptionsPage::ClassOptionsPage(QWidget* pParent, UMLWidget* pWidget, Uml::Widget_Type type)
+  : QWidget( pParent ) {
+	if (type == Uml::wt_Class) {
 		m_pClassWidget = static_cast<ClassWidget*>(pWidget);
 		m_pInterfaceWidget = 0;
 		setupClassPage();
-	} else if (type == wt_Interface) {
+	} else if (type == Uml::wt_Interface) {
 		m_pInterfaceWidget = static_cast<InterfaceWidget*>(pWidget);
 		m_pClassWidget = 0;
 		setupInterfacePage();

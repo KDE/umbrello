@@ -78,9 +78,9 @@ void ToolBarStateMessages::mouseRelease(QMouseEvent* ome)
 		else
 		{
 			//clicked on second sequence line to create message
-			Uml::Text_Role tr = tr_Seq_Message;
+			Uml::Text_Role tr = Uml::tr_Seq_Message;
 			if (m_pSelectedWidget == clickedOnWidget)
-				tr = tr_Seq_Message_Self;
+				tr = Uml::tr_Seq_Message_Self;
 			FloatingText* messageText = new FloatingText(m_pUMLView, tr, "");
 			messageText->setFont( m_pUMLView->getFont() );
 
@@ -140,12 +140,12 @@ void ToolBarStateMessages::mouseMove(QMouseEvent* ome)
 	}
 }
 
-Sequence_Message_Type ToolBarStateMessages::getMessageType ()
+Uml::Sequence_Message_Type ToolBarStateMessages::getMessageType ()
 {
 	if (getButton() == WorkToolBar::tbb_Seq_Message_Synchronous)
-		return sequence_message_synchronous; 
+		return Uml::sequence_message_synchronous; 
 
-	return sequence_message_asynchronous;
+	return Uml::sequence_message_asynchronous;
 } 
 
 

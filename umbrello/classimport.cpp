@@ -58,14 +58,14 @@ QString ClassImport::doxyComment(QString comment) {
 
 /*
 UMLObject* ClassImport::findUMLObject(QString name,
-				      Uml::UMLObject_Type type) {
+				      Uml::Object_Type type) {
 	// Why an extra wrapper? See comment at addMethodParameter()
 	UMLObject * o = m_umldoc->findUMLObject(name, type);
 	return o;
 }
  */
 
-UMLObject *ClassImport::createUMLObject(Uml::UMLObject_Type type,
+UMLObject *ClassImport::createUMLObject(Uml::Object_Type type,
 					QString name,
 					QString stereotype,
 					QString comment,
@@ -79,8 +79,8 @@ UMLObject *ClassImport::createUMLObject(Uml::UMLObject_Type type,
 		if (isPointer) {
 			UMLObject *origType = m_umldoc->findUMLObject(typeName);
 			if (origType == NULL)
-				origType = m_umldoc->createUMLObject(ot_Class, typeName, parentPkg);
-			o = m_umldoc->createUMLObject(ot_Datatype, name, parentPkg);
+				origType = m_umldoc->createUMLObject(Uml::ot_Class, typeName, parentPkg);
+			o = m_umldoc->createUMLObject(Uml::ot_Datatype, name, parentPkg);
 			UMLDatatype *dt = static_cast<UMLDatatype*>(o);
 			UMLClassifier *c = dynamic_cast<UMLClassifier*>(origType);
 			if (c)
@@ -113,7 +113,7 @@ UMLOperation* ClassImport::makeOperation(UMLClass *parent, QString name) {
 UMLObject* ClassImport::insertAttribute(UMLClass *o, Uml::Scope scope, QString name,
 					QString type, QString comment /* ="" */,
 					bool isStatic /* =false */) {
-	Uml::UMLObject_Type ot = o->getBaseType();
+	Uml::Object_Type ot = o->getBaseType();
 	if (ot != Uml::ot_Class) {
 		kdDebug() << "ClassImport::insertAttribute: Don't know what to do with "
 			  << o->getName() << " (object type " << ot << ")" << endl;
@@ -134,17 +134,17 @@ UMLObject* ClassImport::insertAttribute(UMLClass *o, Uml::Scope scope, QString n
 		typeName.replace(QRegExp("^const\\s+"), "");
 		typeName.replace(QRegExp("[^:\\w].*$"), "");
 		if (type == typeName) {
-			obj = m_umldoc->createUMLObject(ot_Class, type);
+			obj = m_umldoc->createUMLObject(Uml::ot_Class, type);
 			classifier = static_cast<UMLClassifier*>(obj);
 		} else {
 			obj = m_umldoc->findUMLObject(typeName);
 			classifier = dynamic_cast<UMLClassifier*>(obj);
 			if (classifier == NULL) {
-				obj = m_umldoc->createUMLObject(ot_Class, typeName);
+				obj = m_umldoc->createUMLObject(Uml::ot_Class, typeName);
 				classifier = static_cast<UMLClassifier*>(obj);
 			}
 			if (isPointer) {
-				UMLObject *pointerDecl = m_umldoc->createUMLObject(ot_Datatype, type);
+				UMLObject *pointerDecl = m_umldoc->createUMLObject(Uml::ot_Datatype, type);
 				UMLDatatype *dt = static_cast<UMLDatatype*>(pointerDecl);
 				dt->setOriginType(classifier);
 				dt->setIsReference();
@@ -202,7 +202,7 @@ void ClassImport::createGeneralization(UMLClass *child, QString parentName) {
 	if (parent == NULL) {
 	    kdDebug() << "ClassImport::createGeneralization: Could not find UML object for "
 		      << parentName << endl;
-	    parent = m_umldoc->createUMLObject(ot_Class, parentName);
+	    parent = m_umldoc->createUMLObject(Uml::ot_Class, parentName);
 	}
 	UMLAssociation *assoc = new UMLAssociation( Uml::at_Generalization,
 						    child, parent );

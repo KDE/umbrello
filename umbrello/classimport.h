@@ -43,7 +43,7 @@ public:
 	/**
 	 * Find or create a document object.
 	 */
-	UMLObject* createUMLObject(Uml::UMLObject_Type type,
+	UMLObject* createUMLObject(Uml::Object_Type type,
 				   QString name,
 				   QString stereotype = "",
 				   QString comment = "",

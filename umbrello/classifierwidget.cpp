@@ -14,14 +14,14 @@
 #include "operation.h"
 #include "umlview.h"
 
-ClassifierWidget::ClassifierWidget(UMLView * view, UMLClassifier *c, Uml::UMLWidget_Type wt)
+ClassifierWidget::ClassifierWidget(UMLView * view, UMLClassifier *c, Uml::Widget_Type wt)
   : UMLWidget(view, c) {
 	init(wt);
 }
 
 ClassifierWidget::~ClassifierWidget() {}
 
-void ClassifierWidget::init(Uml::UMLWidget_Type wt) {
+void ClassifierWidget::init(Uml::Widget_Type wt) {
 	UMLWidget::setBaseType(wt);
 
 	const Settings::OptionState& ops = m_pView->getOptionState();
@@ -167,7 +167,7 @@ void ClassifierWidget::toggleShowPackage() {
 	update();
 }
 
-void ClassifierWidget::setOpSignature(Signature_Type sig) {
+void ClassifierWidget::setOpSignature(Uml::Signature_Type sig) {
 	m_ShowOpSigs = sig;
 	updateSigs();
 	calculateSize();

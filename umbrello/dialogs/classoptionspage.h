@@ -36,7 +36,7 @@ public:
 	/**
 	*	Constructor - observe and modify a Widget
 	*/
-	ClassOptionsPage(QWidget* pParent, UMLWidget* pWidget, UMLWidget_Type type);
+	ClassOptionsPage(QWidget* pParent, UMLWidget* pWidget, Uml::Widget_Type type);
 	
 	/**
 	*	Constructor - observe and modify an OptionState structure

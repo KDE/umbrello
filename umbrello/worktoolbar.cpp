@@ -350,7 +350,7 @@ void WorkToolBar::loadPixmaps() {
 
 void WorkToolBar::insertBasicAssociations()  {
 	insertHotBtn(tbb_Association, i18n("Association"));
-	if (m_Type == dt_Class || m_Type == dt_UseCase)  {
+	if (m_Type == Uml::dt_Class || m_Type == Uml::dt_UseCase)  {
 		insertHotBtn(tbb_UniAssociation, i18n("Directional Association"));
 	}
 	insertHotBtn(tbb_Dependency, i18n("Dependency"));

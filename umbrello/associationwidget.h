@@ -28,8 +28,6 @@ class UMLView;
 class UMLAssociation;
 class UMLAttribute;
 
-using namespace Uml;
-
 /**
  * This class represents an association inside a diagram.
  *
@@ -79,7 +77,7 @@ public:
 	 * @param WidgetB	Pointer the role B widget for the association.
 	 */
 	AssociationWidget(UMLView *view, UMLWidget* WidgetA,
-			  Association_Type Type, UMLWidget* WidgetB);
+			  Uml::Association_Type Type, UMLWidget* WidgetB);
 
 	/**
 	 * Deconstructor.
@@ -113,21 +111,21 @@ public:
 	 *
 	 * @param widget	Pointer to the UMLWidget.
 	 */
-	void setWidget(UMLWidget* widget, Role_Type role);
+	void setWidget(UMLWidget* widget, Uml::Role_Type role);
 
 	/**
 	 * Return the multiplicity FloatingText widget of the given role.
 	 *
 	 * @return	Pointer to the multiplicity FloatingText object.
 	 */
-	FloatingText* getMultiWidget(Role_Type role);
+	FloatingText* getMultiWidget(Uml::Role_Type role);
 
 	/**
 	 * Return the given role's multiplicity text.
 	 *
 	 * @return	Text of the given role's multiplicity widget.
 	 */
-	QString getMulti(Role_Type role) const;
+	QString getMulti(Uml::Role_Type role) const;
 
 	/**
 	 * Read property of FloatingText* m_pName.
@@ -148,7 +146,7 @@ public:
 	 *
 	 * @return	Pointer to the role's FloatingText widget.
 	 */
-	FloatingText* getRoleWidget(Role_Type role);
+	FloatingText* getRoleWidget(Uml::Role_Type role);
 
 	/**
 	 * Returns the documentation about this association.
@@ -162,12 +160,12 @@ public:
 	 *
 	 * @return	The name set at the FloatingText.
 	 */
-	QString getRoleName(Role_Type role) const;
+	QString getRoleName(Uml::Role_Type role) const;
 
 	/**
 	 * Returns the given role's documentation.
 	 */
-	QString getRoleDoc(Role_Type role) const;
+	QString getRoleDoc(Uml::Role_Type role) const;
 
 	/**
 	 * Sets the text in the FloatingText widget representing the Name
@@ -179,39 +177,39 @@ public:
 	 * Sets the text in the FloatingText representing the multiplicity
 	 * at the given side of the association.
 	 */
-	void setMulti(QString strMulti, Role_Type role);
+	void setMulti(QString strMulti, Uml::Role_Type role);
 
 	/**
 	 * Gets the visibility on the given role of the association.
 	 */
-	Scope getVisibility (Role_Type role) const;
+	Uml::Scope getVisibility (Uml::Role_Type role) const;
 
 	/**
 	 * Sets the visibility on the given role of the association.
 	 */
-	void setVisibility (Scope visibility, Role_Type role );
+	void setVisibility (Uml::Scope visibility, Uml::Role_Type role );
 
 	/**
 	 * Gets the changeability on the the given end of the Association.
 	 */
-	Changeability_Type getChangeability(Role_Type role) const;
+	Uml::Changeability_Type getChangeability(Uml::Role_Type role) const;
 
 	/**
 	 * Sets the changeability on the the given end of the Association.
 	 */
-	void setChangeability (Changeability_Type value, Role_Type role);
+	void setChangeability (Uml::Changeability_Type value, Uml::Role_Type role);
 
 	/**
 	 * Gets the ID of the given role widget.
 	 */
-	int getWidgetID(Role_Type role) const;
+	int getWidgetID(Uml::Role_Type role) const;
 
 	/**
 	 * Gets the given role widget.
 	 *
 	 * @return	Pointer to the role's UMLWidget.
 	 */
-	UMLWidget* getWidget(Role_Type role);
+	UMLWidget* getWidget(Uml::Role_Type role);
 
 	/**
 	 * Sets the associated widgets.
@@ -220,7 +218,7 @@ public:
 	 * @param assocType	The Association_Type for this association.
 	 * @param widgetB	Pointer the role B widget for the association.
 	 */
-	bool setWidgets( UMLWidget* widgetA, Association_Type assocType, UMLWidget* widgetB);
+	bool setWidgets( UMLWidget* widgetA, Uml::Association_Type assocType, UMLWidget* widgetB);
 
 	/**
 	 * Returns true if this association associates widgetA to widgetB,
@@ -245,14 +243,14 @@ public:
 	 *
 	 * @return	This AssociationWidget's Association_Type.
 	 */
-	Association_Type getAssocType() const;
+	Uml::Association_Type getAssocType() const;
 
 	/**
 	 * Sets the association's type.
 	 *
 	 * @param type		The Association_Type to set.
 	 */
-	void setAssocType(Association_Type type);
+	void setAssocType(Uml::Association_Type type);
 
 	/**
 	 * Returns a QString object representing this AssociationWidget.
@@ -377,7 +375,7 @@ public:
 	/**
 	 * Return the given role's changeability FloatingText widget.
 	 */
-	FloatingText* getChangeWidget(Role_Type role);
+	FloatingText* getChangeWidget(Uml::Role_Type role);
 
 	/**
 	 * Sets the text to the FloatingText that display the Role text of this
@@ -385,7 +383,7 @@ public:
 	 * For this function to work properly, the associated widget
 	 *  should already be set.
 	 */
-	bool setRoleName(QString strRole, Role_Type role);
+	bool setRoleName(QString strRole, Uml::Role_Type role);
 
 	/**
 	 * Set the documentation on this association.
@@ -395,7 +393,7 @@ public:
 	/**
 	 * Set the documentation on the given role.
 	 */
-	void setRoleDoc(QString doc, Role_Type role);
+	void setRoleDoc(QString doc, Uml::Role_Type role);
 
 	/**
 	 * Overrides operation from LinkWidget.
@@ -456,22 +454,22 @@ public:
 	/**
 	 * Sets the Association line index for the given role.
 	 */
-	void setIndex(int index, Role_Type role);
+	void setIndex(int index, Uml::Role_Type role);
 
 	/**
 	 * Returns the Association line index for the given role.
 	 */
-	int getIndex(Role_Type role) const;
+	int getIndex(Uml::Role_Type role) const;
 
 	/**
 	 * Sets the total count on the Association region.
 	 */
-	void setTotalCount(int count, Role_Type role);
+	void setTotalCount(int count, Uml::Role_Type role);
 
 	/**
 	 * Returns the total count on the Association region.
 	 */
-	int getTotalCount(Role_Type role) const;
+	int getTotalCount(Uml::Role_Type role) const;
 
 	/**
 	 * Sets the total count on the Association region for widgetB.
@@ -610,7 +608,7 @@ private:
 	 * This function calculates which role should be set for the m_pName
 	 * FloatingText.
 	 */
-	Text_Role CalculateNameType(Text_Role defaultRoleType);
+	Uml::Text_Role CalculateNameType(Uml::Text_Role defaultRoleType);
 
 	/**
 	 * Returns true if point (PosX, PosY) is close enough to any of the
@@ -661,13 +659,13 @@ private:
 	 * that widget is playing.
 	 * Returns the point at which to put the widget.
 	 */
-	QPoint calculateTextPosition(Text_Role role);
+	QPoint calculateTextPosition(Uml::Text_Role role);
 
 	/**
 	 * Returns the FloatingText identified by the given text role.
 	 * Returns NULL if there is no FloatingText active for the text role.
 	 */
-	FloatingText* AssociationWidget::floatingText(Text_Role role);
+	FloatingText* AssociationWidget::floatingText(Uml::Text_Role role);
 
 	/**
 	 * Puts the text widget with the given role at the given position.
@@ -677,13 +675,13 @@ private:
 	 * I.e. the line segment it is on has moved and it should move the same
 	 * amount as the line.
 	 */
-	void setTextPosition(Text_Role role, QPoint pos);
+	void setTextPosition(Uml::Text_Role role, QPoint pos);
 
 	/**
 	 * Moves the text widget with the given role by the difference between
 	 * the two points.
 	 */
-	void setTextPositionRelatively(Text_Role role, QPoint pos, QPoint oldPosition);
+	void setTextPositionRelatively(Uml::Text_Role role, QPoint pos, QPoint oldPosition);
 
 	/**
 	 * Returns the Region the widget to line intersection is for the given
@@ -756,8 +754,8 @@ private:
 		int m_nTotalCount;
 
 		// The following items are only used if m_pObject is not set.
-		Scope m_Visibility;
-		Changeability_Type m_Changeability;
+		Uml::Scope m_Visibility;
+		Uml::Changeability_Type m_Changeability;
 		QString m_RoleDoc;
 		QString m_RoleName;
 		QString m_Multi;
@@ -773,19 +771,19 @@ private:
 	 * @ref calculateEndingPoints when required.
 	 */
 	void updateRegionLineCount(int index, int totalCount,
-				   AssociationWidget::Region region, Role_Type role);
+				   AssociationWidget::Region region, Uml::Role_Type role);
 
 	/**
 	 * Tells all the other view associations the new count for the
 	 * given widget on a certain region. And also what index they should be.
 	 */
-	void updateAssociations(int totalCount, Region region, Role_Type role);
+	void updateAssociations(int totalCount, Region region, Uml::Role_Type role);
 
 	/**
 	 * Returns the number of lines there are on the given region for
 	 * either widget A or B of the association.
 	 */
-	int getRegionCount(Region region, Role_Type role);
+	int getRegionCount(Region region, Uml::Role_Type role);
 
 	/**
 	 * Initialize attributes of this class at construction time.
@@ -795,13 +793,13 @@ private:
 	/**
 	 * Auxiliary method for calculateEndingPoints().
 	 */
-	void doUpdates(int otherX, int otherY, Role_Type role);
+	void doUpdates(int otherX, int otherY, Uml::Role_Type role);
 
 	/**
 	 * For internal purposes only.
 	 * Other classes/users should use setChangeability() instead.
 	 */
-	void setChangeWidget(QString strChangeWidget, Role_Type role);
+	void setChangeWidget(QString strChangeWidget, Uml::Role_Type role);
 
 	/**
 	 * Checks to see if the given point is one of the points of the line.

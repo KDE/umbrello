@@ -42,8 +42,6 @@ class UMLCanvasObject;
 class KPrinter;
 class ToolBarStateFactory;
 
-using namespace Uml;
-
 /** The UMLView class provides the view widget for the UMLApp
  * instance.  The View instance inherits QWidget as a base class and
  * represents the view object of a KMainWindow. As UMLView is part of
@@ -412,7 +410,7 @@ public:
 	 *
 	 * @return	Returns the widget found, returns 0 if no widget found.
 	 */
-	AssociationWidget * findAssocWidget(Association_Type at,
+	AssociationWidget * findAssocWidget(Uml::Association_Type at,
 					    UMLWidget *pWidgetA, UMLWidget *pWidgetB);
 	/**
 	 * Remove a widget from view.
@@ -867,7 +865,7 @@ protected:
 	/**
 	 * The type of diagram to represent.
 	 */
-	Diagram_Type m_Type;
+	Uml::Diagram_Type m_Type;
 
 	/**
 	 * The name of the diagram.

@@ -83,7 +83,7 @@ public:
 	 * @param sig		Currently unused.
 	 * @return	Returns a string representation of the UMLTemplate.
 	 */
-	QString toString(Signature_Type sig = st_NoSig);
+	QString toString(Uml::Signature_Type sig = Uml::st_NoSig);
 
 	/**
 	 * Display the properties configuration dialogue for the template.

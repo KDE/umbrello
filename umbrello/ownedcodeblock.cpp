@@ -128,18 +128,18 @@ void OwnedCodeBlock::setAttributesFromNode ( QDomElement & elem) {
 			// compatibility w/ older save files, make go away soon
 			if(role_id > 1) 
 			{
-	                	if(assoc->getUMLRole(A)->getID() == role_id)
-	                        	role = assoc->getUMLRole(A);
-	                	else if(assoc->getUMLRole(B)->getID() == role_id)
-	                        	role = assoc->getUMLRole(B);
+	                	if(assoc->getUMLRole(Uml::A)->getID() == role_id)
+	                        	role = assoc->getUMLRole(Uml::A);
+	                	else if(assoc->getUMLRole(Uml::B)->getID() == role_id)
+	                        	role = assoc->getUMLRole(Uml::B);
 	                	else // this will cause a crash
 	                        	kdError()<<"corrupt (old) save file? cant get proper UMLRole for ownedcodeblock uml id:"<<id<<" w/role_id:"<<role_id<<endl;
 			} else {
 
 	                	if(role_id == 1) 
-	                        	role = assoc->getUMLRole(A);
+	                        	role = assoc->getUMLRole(Uml::A);
 	                	else if(role_id == 0) 
-	                        	role = assoc->getUMLRole(B);
+	                        	role = assoc->getUMLRole(Uml::B);
 	                	else // this will cause a crash
 	                        	kdError()<<"corrupt save file? cant get proper UMLRole for ownedcodeblock uml id:"<<id<<" w/role_id:"<<role_id<<endl;
 			}

@@ -21,8 +21,10 @@
 #include <klocale.h>
 #include <qlayout.h>
 
+using namespace Uml;
+
 ClassifierListPage::ClassifierListPage(QWidget* parent, UMLClassifier* classifier,
-				       UMLDoc* doc, UMLObject_Type type) : QWidget(parent) {
+				       UMLDoc* doc, Object_Type type) : QWidget(parent) {
 	itemType = type;
 	QString typeName("");
 	QString newItemType("");

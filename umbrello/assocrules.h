@@ -16,8 +16,6 @@ namespace std
 
 class UMLWidget;
 
-using namespace Uml;
-
 /**
  * Used to determine rules for associations.
  *
@@ -40,40 +38,40 @@ public:
 	 * Returns whether an association is going to be allowed for the given
 	 * values. This method is used to test if you can start an association.
 	 */
-	static bool allowAssociation( Association_Type assocType, UMLWidget * widget );
+	static bool allowAssociation( Uml::Association_Type assocType, UMLWidget * widget );
 	
-	static bool allowAssociation( Association_Type assocType, const std::type_info & );
+	static bool allowAssociation( Uml::Association_Type assocType, const std::type_info & );
 
 	/**
 	 * Returns whether an association is valid with the given variables.
 	 * This method is used to finish an association.
 	 */
-	static bool allowAssociation( Association_Type assocType,
+	static bool allowAssociation( Uml::Association_Type assocType,
 				      UMLWidget * widgetA, UMLWidget * widgetB,
 				      bool extendedCheck = true );
 
 	/**
 	 * Returns whether to allow a role text for the given association type.
 	 */
-	static bool allowRole( Association_Type assocType );
+	static bool allowRole( Uml::Association_Type assocType );
 
 	/**
 	 * Returns whether to allow a multiplicity text for the given
 	 * association and widget type.
 	 */
-	static bool allowMultiplicity( Association_Type assocType, UMLWidget_Type widgetType );
+	static bool allowMultiplicity( Uml::Association_Type assocType, Uml::Widget_Type widgetType );
 
 	/**
 	 * Returns whether to allow an association to self for given variables.
 	 */
-	static bool allowSelf( Association_Type assocType, UMLWidget_Type widgetType );
+	static bool allowSelf( Uml::Association_Type assocType, Uml::Widget_Type widgetType );
 
 	/**
 	 * Returns whether an implements association should be a Realisation or
 	 * a Generalisation.
 	 * as defined in m_AssocRules.
 	 */
-	static Association_Type isGeneralisationOrRealisation(UMLWidget* widgetA, UMLWidget* widgetB);
+	static Uml::Association_Type isGeneralisationOrRealisation(UMLWidget* widgetA, UMLWidget* widgetB);
 
 private:
 
@@ -81,9 +79,9 @@ private:
 	 * Structure to help determine association rules.
 	 */
 	struct Assoc_Rule {
-		Association_Type assoc_type; ///< association type
-		UMLWidget_Type widgetA_type; ///< type of role A widget
-		UMLWidget_Type widgetB_type; ///< type of role B widget
+		Uml::Association_Type assoc_type; ///< association type
+		Uml::Widget_Type widgetA_type; ///< type of role A widget
+		Uml::Widget_Type widgetB_type; ///< type of role B widget
 		bool role;                   ///< role text
 		bool multiplicity;           ///< multipliciy text on association
 		/// can have an association of same type going between widget each way

@@ -15,7 +15,7 @@
 #include "umlview.h"
 
 ActorWidget::ActorWidget(UMLView * view, UMLActor *a) : UMLWidget(view, a) {
-	UMLWidget::setBaseType( wt_Actor );
+	UMLWidget::setBaseType( Uml::wt_Actor );
 	//calculateSize();  Doing this during loadFromXMI() gives futile updates.
 	//                  Instead, it is done afterwards by UMLWidget::activate()
 }

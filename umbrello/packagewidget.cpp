@@ -22,7 +22,7 @@ PackageWidget::PackageWidget(UMLView * view, UMLPackage *o) : UMLWidget(view, o)
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void PackageWidget::init() {
-	UMLWidget::setBaseType(wt_Package);
+	UMLWidget::setBaseType(Uml::wt_Package);
 	m_pMenu = 0;
 	//set defaults from m_pView
 	if (m_pView) {

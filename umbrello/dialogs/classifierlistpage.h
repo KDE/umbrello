@@ -43,7 +43,7 @@ public:
 	 *      @param doc The UMLDoc document
 	 *      @param type The type of listItem this handles
 	 */
-	ClassifierListPage(QWidget* parent, UMLClassifier* classifier, UMLDoc* doc, UMLObject_Type type);
+	ClassifierListPage(QWidget* parent, UMLClassifier* classifier, UMLDoc* doc, Uml::Object_Type type);
 
 	/**
 	 *	Standard deconstructor.
@@ -104,7 +104,7 @@ private:
 	QGroupBox* m_pItemListGB;
 	QListBox* m_pItemListLB;
 	QTextEdit* m_pDocTE;
-	UMLObject_Type itemType;
+	Uml::Object_Type itemType;
 
 	KArrowButton* m_pUpArrowB;
 	KArrowButton* m_pDownArrowB;

@@ -32,7 +32,7 @@ EnumWidget::EnumWidget(UMLView* view, UMLObject* o) : UMLWidget(view, o) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void EnumWidget::init() {
-	UMLWidget::setBaseType(wt_Enum);
+	UMLWidget::setBaseType(Uml::wt_Enum);
 	m_pMenu = 0;
 	//set defaults from m_pView
 	if (m_pView) {
@@ -166,7 +166,7 @@ void EnumWidget::calculateSize() {
 void EnumWidget::slotMenuSelection(int sel) {
 	switch(sel) {
 		case ListPopupMenu::mt_EnumLiteral:
-			if ( UMLApp::app()->getDocument()->createChildObject(m_pObject, ot_EnumLiteral) )  {
+			if ( UMLApp::app()->getDocument()->createChildObject(m_pObject, Uml::ot_EnumLiteral) )  {
 				UMLApp::app()->getDocument()->setModified();
 			}
 			break;

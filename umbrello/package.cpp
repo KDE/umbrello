@@ -22,6 +22,8 @@
 #include "interface.h"
 #include "model_utils.h"
 
+using namespace Uml;
+
 UMLPackage::UMLPackage(const QString & name, int id)
   : UMLCanvasObject(name, id) {
 	init();
@@ -99,7 +101,7 @@ UMLObject* UMLPackage::findObjectByIdStr(QString idStr) {
 void UMLPackage::appendClassifiers(UMLClassifierList& classifiers,
 				   bool includeNested /* = true */) {
 	for (UMLObject *o = m_objects.first(); o; o = m_objects.next()) {
-		UMLObject_Type ot = o->getBaseType();
+		Object_Type ot = o->getBaseType();
 		if (ot == ot_Class || ot == ot_Interface ||
 		    ot == ot_Datatype || ot == ot_Enum) {
 			classifiers.append((UMLClassifier *)o);
@@ -113,7 +115,7 @@ void UMLPackage::appendClassifiers(UMLClassifierList& classifiers,
 void UMLPackage::appendClasses(UMLClassList& classes,
 			      bool includeNested /* = true */) {
 	for (UMLObject *o = m_objects.first(); o; o = m_objects.next()) {
-		UMLObject_Type ot = o->getBaseType();
+		Object_Type ot = o->getBaseType();
 		if (ot == ot_Class) {
 			classes.append((UMLClass *)o);
 		} else if (includeNested && ot == ot_Package) {
@@ -126,7 +128,7 @@ void UMLPackage::appendClasses(UMLClassList& classes,
 void UMLPackage::appendClassesAndInterfaces(UMLClassifierList& classifiers,
 				 	    bool includeNested /* = true */) {
 	for (UMLObject *o = m_objects.first(); o; o = m_objects.next()) {
-		UMLObject_Type ot = o->getBaseType();
+		Object_Type ot = o->getBaseType();
 		if (ot == ot_Class || ot == ot_Interface) {
 			classifiers.append((UMLClassifier *)o);
 		} else if (includeNested && ot == ot_Package) {
@@ -139,7 +141,7 @@ void UMLPackage::appendClassesAndInterfaces(UMLClassifierList& classifiers,
 void UMLPackage::appendInterfaces( UMLInterfaceList& interfaces,
 				   bool includeNested /* = true */) {
 	for (UMLObject *o = m_objects.first(); o; o = m_objects.next()) {
-		UMLObject_Type ot = o->getBaseType();
+		Object_Type ot = o->getBaseType();
 		if (ot == ot_Interface) {
 			interfaces.append((UMLInterface *)o);
 		} else if (includeNested && ot == ot_Package) {

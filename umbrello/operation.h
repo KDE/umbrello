@@ -36,7 +36,8 @@ public:
 	 * @param s		The scope of the operation.
 	 * @param rt		The return type of the operation.
 	 */
-	UMLOperation(const UMLClassifier * parent, QString Name, int id, Scope s = Public, QString rt = "void");
+	UMLOperation(const UMLClassifier * parent, QString Name, int id,
+		     Uml::Scope s = Uml::Public, QString rt = "void");
 
 	/**
 	 * Constructs an UMLOperation.
@@ -132,7 +133,7 @@ public:
 	 * @param sig	What type of operation string to show.
 	 * @return	The string representation of the operation.
 	 */
-	QString toString(Signature_Type sig = st_NoSig);
+	QString toString(Uml::Signature_Type sig = Uml::st_NoSig);
 
 	/**
 	 * Add a parameter to the operation.

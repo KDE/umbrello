@@ -24,7 +24,7 @@ UMLWidget* findWidget(int id,
 	UMLWidget * obj = NULL;
 	while ( (obj = it.current()) != NULL ) {
 		++it;
-		if (obj->getBaseType() == wt_Object) {
+		if (obj->getBaseType() == Uml::wt_Object) {
 			if (static_cast<ObjectWidget *>(obj)->getLocalID() == id)
 				return obj;
 		} else if (obj->getID() == id) {

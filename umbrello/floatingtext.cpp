@@ -28,7 +28,7 @@
 #include "dialogs/assocpropdlg.h"
 #include "dialogs/selectopdlg.h"
 
-FloatingText::FloatingText(UMLView * view, Text_Role role, QString text, int id)
+FloatingText::FloatingText(UMLView * view, Uml::Text_Role role, QString text, int id)
   : UMLWidget(view, id)
 {
 	init();
@@ -141,13 +141,13 @@ void FloatingText::slotMenuSelection(int sel) {
 			  << " is called" << endl;
 		if (m_pLink == NULL)
 			return;
-		if (m_Role == tr_Seq_Message || m_Role == tr_Seq_Message_Self) {
+		if (m_Role == Uml::tr_Seq_Message || m_Role == Uml::tr_Seq_Message_Self) {
 			//here to delete this from a seq. diagram.
 			kdDebug() << "  --- for Seq_Message." << endl;
 			MessageWidget *m = static_cast<MessageWidget*>(m_pLink);
 			m_pView->removeWidget( m );
 		} else {
-			if (m_pView->getType() != dt_Collaboration)
+			if (m_pView->getType() != Uml::dt_Collaboration)
 				return;
 			kdDebug() << "  --- for association." << endl;
 			//here to delete assoc. on collab diagram.
@@ -181,7 +181,7 @@ void FloatingText::slotMenuSelection(int sel) {
 				// It should perhaps be configurable whether the
 				// operation is displayed with or without its signature.
 				// For the time being, we don't display the signature.
-				QString opText = newOperation->toString(st_NoSigNoScope);
+				QString opText = newOperation->toString(Uml::st_NoSigNoScope);
 				m_pLink->setOperationText(this, opText);
 			}
 		}
@@ -199,7 +199,7 @@ void FloatingText::slotMenuSelection(int sel) {
 		{
 			QFont font = getFont();
 			if( KFontDialog::getFont( font, false, m_pView ) ) {
-				if( m_Role == tr_Floating || m_Role == tr_Seq_Message ) {
+				if( m_Role == Uml::tr_Floating || m_Role == Uml::tr_Seq_Message ) {
 					setFont( font );
 				} else if (m_pLink) {
 					m_pLink->setFont(font);
@@ -221,18 +221,18 @@ void FloatingText::slotMenuSelection(int sel) {
 
 void FloatingText::handleRename() {
 	QString t;
-	if( m_Role == tr_RoleAName || m_Role == tr_RoleBName ) {
+	if( m_Role == Uml::tr_RoleAName || m_Role == Uml::tr_RoleBName ) {
 		t = i18n("Enter role name:");
-	} else if (m_Role == tr_MultiA || m_Role == tr_MultiB) {
+	} else if (m_Role == Uml::tr_MultiA || m_Role == Uml::tr_MultiB) {
 		t = i18n("Enter multiplicity:");
 		/*
 		// NO! shouldnt be allowed
-		} else if( m_Role == tr_ChangeA || m_Role == tr_ChangeB ) {
+		} else if( m_Role == Uml::tr_ChangeA || m_Role == Uml::tr_ChangeB ) {
 		t = i18n("Enter changeability");
 		*/
-	} else if (m_Role == tr_Name) {
+	} else if (m_Role == Uml::tr_Name) {
 		t = i18n("Enter association name:");
-	} else if (m_Role == tr_Floating) {
+	} else if (m_Role == Uml::tr_Floating) {
 		t = i18n("Enter new text:");
 	} else {
 		t = i18n("ERROR");
@@ -243,13 +243,13 @@ void FloatingText::handleRename() {
 		return;
 	bool valid = isTextValid(newText);
 	if (!valid || newText == getText()) {
-		if (!valid && m_Role == tr_Floating)
+		if (!valid && m_Role == Uml::tr_Floating)
 			m_pView -> removeWidget(this);
 		calculateSize();
 		update();
 		return;
 	}
-	if (m_pLink && m_Role != tr_Seq_Message && m_Role != tr_Seq_Message_Self) {
+	if (m_pLink && m_Role != Uml::tr_Seq_Message && m_Role != Uml::tr_Seq_Message_Self) {
 		m_pLink->setText(this, newText);
 	} else {
 		setText( newText );
@@ -261,7 +261,7 @@ void FloatingText::handleRename() {
 }
 
 void FloatingText::setText(QString t) {
-	if (m_Role == tr_Seq_Message || m_Role == tr_Seq_Message_Self) {
+	if (m_Role == Uml::tr_Seq_Message || m_Role == Uml::tr_Seq_Message_Self) {
 		QString seqNum, op;
 		m_pLink->getSeqNumAndOp(this, seqNum, op);
 		if (seqNum.length() > 0 || op.length() > 0)
@@ -304,10 +304,10 @@ void FloatingText::changeTextDlg() {
 void FloatingText::mouseDoubleClickEvent(QMouseEvent * /* me*/) {
 	if(m_pView -> getCurrentCursor() != WorkToolBar::tbb_Arrow)
 		return;
-	if (m_Role == tr_Coll_Message || m_Role == tr_Coll_Message_Self ||
-	    m_Role == tr_Seq_Message || m_Role == tr_Seq_Message_Self) {
+	if (m_Role == Uml::tr_Coll_Message || m_Role == Uml::tr_Coll_Message_Self ||
+	    m_Role == Uml::tr_Seq_Message || m_Role == Uml::tr_Seq_Message_Self) {
 		showOpDlg();
-	} else if (m_Role == tr_Floating) {
+	} else if (m_Role == Uml::tr_Floating) {
 		// double clicking on a text line opens the dialog to change the text
 		handleRename();
 	} else if (m_pLink) {
@@ -349,14 +349,14 @@ void FloatingText::showOpDlg() {
 void FloatingText::mouseMoveEvent(QMouseEvent* me) {
 	if (!m_bMouseDown && me->button() != LeftButton)
 		return;
-	if (m_Role == tr_Seq_Message_Self)
+	if (m_Role == Uml::tr_Seq_Message_Self)
 		return;
 	QPoint newPosition = doMouseMove(me);
 	int newX = newPosition.x();
 	int newY = newPosition.y();
 
 	//implement specific rules for a sequence diagram
-	if (m_Role == tr_Seq_Message) {
+	if (m_Role == Uml::tr_Seq_Message) {
 		MessageWidget *pMessage = static_cast<MessageWidget*>(m_pLink);
 		const int minHeight = pMessage->getMinHeight();
 		newY = newY < minHeight ? minHeight : newY;
@@ -386,8 +386,8 @@ QString FloatingText::getText() const {
 	//and the actual message widget
 	// hmm. this section looks like it could have been avoided by using pre-, post- text
 	// instead of storing in the main body of the text -b.t.
-	if(m_Role == tr_Seq_Message || m_Role == tr_Seq_Message_Self ||
-	   m_Role == tr_Coll_Message || m_Role == tr_Coll_Message_Self) {
+	if(m_Role == Uml::tr_Seq_Message || m_Role == Uml::tr_Seq_Message_Self ||
+	   m_Role == Uml::tr_Coll_Message || m_Role == Uml::tr_Coll_Message_Self) {
 		if( m_Text.length() <= 1 || m_Text == ": " )
 			return "";
 	}
@@ -427,7 +427,7 @@ LinkWidget * FloatingText::getLink() {
 	return m_pLink;
 }
 
-void FloatingText::setRole(Text_Role role) {
+void FloatingText::setRole(Uml::Text_Role role) {
 	m_Role = role;
 }
 

@@ -121,7 +121,7 @@ void ClassWidget::draw(QPainter & p, int offsetX, int offsetY) {
 	int aStart = fontHeight;
 	int numAtts = 0;
 	if (m_bShowAttributes) {
-		UMLClassifierListItemList list = ((UMLClass*)m_pObject)->getFilteredList(ot_Attribute);
+		UMLClassifierListItemList list = ((UMLClass*)m_pObject)->getFilteredList(Uml::ot_Attribute);
 		for(UMLClassifierListItem *obj = list.first(); obj; obj = list.next()) {
 			if (!(m_bShowPublicOnly && obj->getScope() != Uml::Public))
 				numAtts++;
@@ -140,7 +140,7 @@ void ClassWidget::draw(QPainter & p, int offsetX, int offsetY) {
 	if (m_bShowAttributes) {
 		QFont f = UMLWidget::getFont();
 		int y = aStart;
-		UMLClassifierListItemList list = ((UMLClass*)m_pObject)->getFilteredList(ot_Attribute);
+		UMLClassifierListItemList list = ((UMLClass*)m_pObject)->getFilteredList(Uml::ot_Attribute);
 		for(UMLClassifierListItem *obj = list.first(); obj; obj = list.next()) {
 			if (m_bShowPublicOnly && obj->getScope() != Uml::Public)
 				continue;
@@ -185,7 +185,7 @@ void ClassWidget::draw(QPainter & p, int offsetX, int offsetY) {
 	}//end if op
 
 	//If there are any templates then draw them
-	UMLClassifierListItemList tlist = ((UMLClass*)m_pObject)->getFilteredList(ot_Template);
+	UMLClassifierListItemList tlist = ((UMLClass*)m_pObject)->getFilteredList(Uml::ot_Template);
 	if ( tlist.count() > 0 ) {
 
 		QFont font = UMLWidget::getFont();
@@ -229,7 +229,7 @@ QSize ClassWidget::calculateTemplatesBoxSize() {
 
 	height = count * fm.lineSpacing() + (MARGIN*2);
 
-	UMLClassifierListItemList list = ((UMLClass *)m_pObject)->getFilteredList(ot_Template);
+	UMLClassifierListItemList list = ((UMLClass *)m_pObject)->getFilteredList(Uml::ot_Template);
 	UMLClassifierListItem* theTemplate = 0;
 	for ( theTemplate=list.first(); theTemplate != 0; theTemplate=list.next() ) {
 		int textWidth = fm.width( theTemplate->toString() );
@@ -258,7 +258,7 @@ void ClassWidget::calculateSize() {
 	height = width = 0;
 	//set the height of the concept
 	if (m_bShowAttributes) {
-		UMLClassifierListItemList list = ((UMLClass*)m_pObject)->getFilteredList(ot_Attribute);
+		UMLClassifierListItemList list = ((UMLClass*)m_pObject)->getFilteredList(Uml::ot_Attribute);
 		for (UMLClassifierListItem *obj = list.first(); obj; obj = list.next()) {
 			if (!(m_bShowPublicOnly && obj->getScope() != Uml::Public))
 				numAtts++;
@@ -301,7 +301,7 @@ void ClassWidget::calculateSize() {
 
 	/* calculate width of the attributes */
 	if (m_bShowAttributes) {
-		UMLClassifierListItemList list = ((UMLClass *)m_pObject)->getFilteredList(ot_Attribute);
+		UMLClassifierListItemList list = ((UMLClass *)m_pObject)->getFilteredList(Uml::ot_Attribute);
 		UMLClassifierListItem* a = 0;
 		for (a = list.first(); a; a = list.next()) {
 			if (m_bShowPublicOnly && a->getScope() != Uml::Public)
@@ -359,7 +359,7 @@ void ClassWidget::slotMenuSelection(int sel) {
 		case ListPopupMenu::mt_Operation:
 		{
 			UMLDoc *doc = UMLApp::app()->getDocument();
-			Uml::UMLObject_Type ot = ListPopupMenu::convert_MT_OT(mt);
+			Uml::Object_Type ot = ListPopupMenu::convert_MT_OT(mt);
 			if (doc->createChildObject(m_pObject, ot))
 				doc->setModified();
 			calculateSize();
@@ -428,7 +428,7 @@ void ClassWidget::setShowAtts(bool _show) {
 	update();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void ClassWidget::setAttSignature(Signature_Type sig) {
+void ClassWidget::setAttSignature(Uml::Signature_Type sig) {
 	m_ShowAttSigs = sig;
 	updateSigs();
 	calculateSize();

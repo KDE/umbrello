@@ -24,7 +24,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o) : QWidget(p
 	m_pInstanceWidget = 0;
 	QString name;
 	int margin = fontMetrics().height();
-	Uml::UMLObject_Type t = o -> getBaseType();
+	Uml::Object_Type t = o -> getBaseType();
 	m_pUmldoc = d;
 	if (t == Uml::ot_Class) {
 		name = i18n("Class &name:");
@@ -265,9 +265,9 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLWidget* widget) : QWid
 	QGridLayout* m_pNameLayout = new QGridLayout(topLayout, 3, 2);
 	m_pNameLayout->setSpacing(6);
 	m_pNameL = new QLabel(this);
-	if (widget->getBaseType() == wt_Component) {
+	if (widget->getBaseType() == Uml::wt_Component) {
 		m_pNameL->setText(i18n("Component name:"));
-	} else if (widget->getBaseType() == wt_Node) {
+	} else if (widget->getBaseType() == Uml::wt_Node) {
 		m_pNameL->setText(i18n("Node name:"));
 	} else {
 		kdWarning() << "ClassGenPage called on unknown widget type" << endl;

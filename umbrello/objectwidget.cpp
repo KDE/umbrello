@@ -38,7 +38,7 @@ ObjectWidget::ObjectWidget(UMLView * view, UMLObject *o, int lid) : UMLWidget(vi
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void ObjectWidget::init() {
-	UMLWidget::setBaseType(wt_Object);
+	UMLWidget::setBaseType(Uml::wt_Object);
 	m_Doc = "";
 	m_nLocalID = -1;
 	m_InstanceName = "";
@@ -46,7 +46,7 @@ void ObjectWidget::init() {
 	m_bDrawAsActor = false;
 	m_bShowDestruction = false;
 	messageWidgetList.setAutoDelete(false);
-	if( m_pView != NULL && m_pView -> getType() == dt_Sequence ) {
+	if( m_pView != NULL && m_pView -> getType() == Uml::dt_Sequence ) {
 		m_pLine = new SeqLineWidget( m_pView, this );
 	} else {
 		m_pLine = NULL;
@@ -152,7 +152,7 @@ void ObjectWidget::setDrawAsActor( bool drawAsActor ) {
 
 void ObjectWidget::setMultipleInstance(bool multiple) {
 	//make sure only calling this in relation to an object on a collab. diagram
-	if(m_pView -> getType() != dt_Collaboration)
+	if(m_pView -> getType() != Uml::dt_Collaboration)
 		return;
 	m_bMultipleInstance = multiple;
 	calculateSize();
@@ -267,7 +267,7 @@ void ObjectWidget::mouseMoveEvent(QMouseEvent* me) {
 		int newY = newPosition.y();
 
 		//implement rule for sequence diagram
-		if( m_pView -> getType() == dt_Sequence ) {
+		if( m_pView->getType() == Uml::dt_Sequence ) {
 			newY = this -> getY();
 		}
 		m_nOldX = newX;

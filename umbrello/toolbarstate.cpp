@@ -173,13 +173,13 @@ bool ToolBarState::setSelectedWidget(QMouseEvent * me)
 		//you can't touch them.
 		//Give Boxes lowest priority, we want to be able to move things that
 		//are on top of them.
-		if( obj -> getBaseType() == wt_Text ) 
+		if (obj->getBaseType() == Uml::wt_Text) 
 		{
 			m_pUMLView->m_pOnWidget = obj;
 			obj ->  mousePressEvent( me );
 			m_bWidgetSelected = true;
 			return true;
-		} else if (obj->getBaseType() == wt_Box) {
+		} else if (obj->getBaseType() == Uml::wt_Box) {
 			boxBackup = obj;
 		} else {
 			backup = obj;

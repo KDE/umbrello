@@ -17,7 +17,7 @@
 
 namespace Umbrello {
 
-bool isCloneable(Uml::UMLWidget_Type type) {
+bool isCloneable(Uml::Widget_Type type) {
 	switch (type) {
 		case Uml::wt_Actor:
 		case Uml::wt_UseCase:
@@ -41,7 +41,7 @@ UMLObject * findObjectInList(int id, UMLObjectList inList) {
 		if (obj->getID() == id)
 			return obj;
 		UMLObject *o;
-		UMLObject_Type t = obj->getBaseType();
+		Uml::Object_Type t = obj->getBaseType();
 		switch (t) {
 			case Uml::ot_Package:
 				o = ((UMLPackage*)obj)->findObject(id);
@@ -54,7 +54,7 @@ UMLObject * findObjectInList(int id, UMLObjectList inList) {
 				o = ((UMLClassifier*)obj)->findChildObject(id);
 				if (o)
 					return o;
-				if (t == ot_Interface || t == ot_Class)
+				if (t == Uml::ot_Interface || t == Uml::ot_Class)
 					o = ((UMLPackage*)obj)->findObject(id);
 				break;
 			default:

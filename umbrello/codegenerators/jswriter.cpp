@@ -161,8 +161,8 @@ void JSWriter::writeClass(UMLClassifier *c)
 		js << m_newLineEndingChars << m_indentation << "/**Aggregations: */" << m_newLineEndingChars;
 		for (UMLAssociation* a = aggregations.first(); a; a = aggregations.next())
 		{
-			QString nm(cleanName(a->getObject(A)->getName()));
-			if (a->getMulti(A).isEmpty())
+			QString nm(cleanName(a->getObject(Uml::A)->getName()));
+			if (a->getMulti(Uml::A).isEmpty())
 				js << m_indentation << "this.m_" << nm << " = new " << nm << " ();" << m_newLineEndingChars;
 			else
 				js << m_indentation << "this.m_" << nm.lower() << " = new Array ();" << m_newLineEndingChars;
@@ -174,8 +174,8 @@ void JSWriter::writeClass(UMLClassifier *c)
 		js << m_newLineEndingChars << m_indentation << "/**Compositions: */" << m_newLineEndingChars;
 		for (UMLAssociation *a = compositions.first(); a; a = compositions.next())
 		{
-			QString nm(cleanName(a->getObject(A)->getName()));
-			if(a->getMulti(A).isEmpty())
+			QString nm(cleanName(a->getObject(Uml::A)->getName()));
+			if(a->getMulti(Uml::A).isEmpty())
 				js << m_indentation << "this.m_" << nm << " = new "<< nm << " ();" << m_newLineEndingChars;
 			else
 				js << m_indentation << "this.m_" << nm.lower() << " = new Array ();" << m_newLineEndingChars;

@@ -15,11 +15,11 @@
 
 UMLEnumLiteral::UMLEnumLiteral(const UMLObject *parent, QString name, int id)
 	: UMLClassifierListItem(parent, name, id) {
-	m_BaseType = ot_EnumLiteral;
+	m_BaseType = Uml::ot_EnumLiteral;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLEnumLiteral::UMLEnumLiteral(const UMLObject *parent) : UMLClassifierListItem(parent) {
-	m_BaseType = ot_EnumLiteral;
+	m_BaseType = Uml::ot_EnumLiteral;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLEnumLiteral::~UMLEnumLiteral() { }

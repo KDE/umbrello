@@ -52,11 +52,11 @@ void ClassWizard::setupPages() {
 	setHelpEnabled(m_pGenPage, false);
 
 	//Setup Attribute Page
-	m_pAttPage = new ClassifierListPage(this, m_pClass, m_pDoc, ot_Attribute);
+	m_pAttPage = new ClassifierListPage(this, m_pClass, m_pDoc, Uml::ot_Attribute);
 	addPage( m_pAttPage, i18n("Class Attributes") );
 
 	//Setup Operation Page
-	m_pOpPage = new ClassifierListPage(this, m_pClass, m_pDoc, ot_Operation);
+	m_pOpPage = new ClassifierListPage(this, m_pClass, m_pDoc, Uml::ot_Operation);
 	addPage( m_pOpPage, i18n("Class Operations") );
 }
 
@@ -91,7 +91,7 @@ void ClassWizard::accept() {
 	m_pDoc->signalUMLObjectCreated(m_pClass);
 
 	UMLListView *listView = UMLApp::app()->getListView();
-	UMLClassifierListItemList attributes = m_pClass->getFilteredList(ot_Attribute);
+	UMLClassifierListItemList attributes = m_pClass->getFilteredList(Uml::ot_Attribute);
 	for ( UMLClassifierListItem* attribute = attributes.first(); attribute; attribute = attributes.next() )  {
 		listView->childObjectAdded(attribute, m_pClass);
 	}

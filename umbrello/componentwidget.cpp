@@ -17,7 +17,7 @@ ComponentWidget::ComponentWidget(UMLView * view, UMLComponent *c) : UMLWidget(vi
 	init();
 	setSize(100, 30);
 	calculateSize();
-	UMLWidget::setBaseType(wt_Component);
+	UMLWidget::setBaseType(Uml::wt_Component);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

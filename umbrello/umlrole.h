@@ -53,14 +53,14 @@ public:
 	 *
 	 * @return	Changeability_Type of role.
 	 */
-	Changeability_Type getChangeability() const;
+	Uml::Changeability_Type getChangeability() const;
 
 	/**
 	 * Returns the Visibility of the role.
 	 *
 	 * @return	Scope of role.
 	 */
-	Scope getVisibility() const;
+	Uml::Scope getVisibility() const;
 
 	/**
 	 * Returns the multiplicity assigned to the role.
@@ -95,14 +95,14 @@ public:
 	 *
 	 * @param value 	Scope of role visibility.
 	 */
-	void setVisibility(Scope value);
+	void setVisibility(Uml::Scope value);
 
 	/**
 	 * Sets the changeability of the role.
 	 *
 	 * @param value 	Changeability_Type of role changeability.
 	 */
-	void setChangeability (Changeability_Type value);
+	void setChangeability (Uml::Changeability_Type value);
 
 	/**
 	 * Sets the multiplicity of the role.
@@ -185,7 +185,7 @@ private:
 	int m_roleID;
 	QString m_Name;
 	QString m_Multi;
-	Changeability_Type m_Changeability;
+	Uml::Changeability_Type m_Changeability;
 	QString m_idStr;
 
 };

@@ -196,12 +196,12 @@ void ClassifierCodeDocument::removeAssociationClassField (UMLAssociation *assoc 
 
 	// the object could be either (or both!) role a or b. We should check
 	// both parts of the association.
-	CodeClassField * remove_object = (*m_classFieldMap)[assoc->getUMLRole(A)];
+	CodeClassField * remove_object = (*m_classFieldMap)[assoc->getUMLRole(Uml::A)];
 	if(remove_object)
 		removeCodeClassField(remove_object);
 
 	// check role b
-	remove_object = (*m_classFieldMap)[assoc->getUMLRole(B)];
+	remove_object = (*m_classFieldMap)[assoc->getUMLRole(Uml::B)];
 	if(remove_object)
 			removeCodeClassField(remove_object);
 
@@ -343,11 +343,11 @@ void ClassifierCodeDocument::declareClassFields (QPtrList<CodeClassField> & list
 }
 
 bool ClassifierCodeDocument::parentIsClass() {
-	return (m_parentclassifier->getBaseType() == ot_Class);
+	return (m_parentclassifier->getBaseType() == Uml::ot_Class);
 }
 
 bool ClassifierCodeDocument::parentIsInterface() {
-	return (m_parentclassifier->getBaseType() == ot_Interface);
+	return (m_parentclassifier->getBaseType() == Uml::ot_Interface);
 }
 
 /**
@@ -485,17 +485,17 @@ void ClassifierCodeDocument::addAssociationClassField (UMLAssociation * a, bool 
 	bool printRoleA = false, printRoleB = false, shouldSync = false;
 	// it may seem counter intuitive, but you want to insert the role of the
 	// *other* class into *this* class.
-	if (a->getRoleId(A) == cid)
+	if (a->getRoleId(Uml::A) == cid)
 		printRoleB = true;
 
-	if (a->getRoleId(B) == cid)
+	if (a->getRoleId(Uml::B) == cid)
 		printRoleA = true;
 
 	// grab RoleB decl
 	if (printRoleB)
 	{
 
-		UMLRole * role = a->getUMLRole(B);
+		UMLRole * role = a->getUMLRole(Uml::B);
 		if(!(m_classFieldMap->contains((UMLObject*)role)))
 		{
 			CodeClassField * classfield = newCodeClassField(role);
@@ -507,7 +507,7 @@ void ClassifierCodeDocument::addAssociationClassField (UMLAssociation * a, bool 
 	// print RoleA decl
 	if (printRoleA)
 	{
-		UMLRole * role = a->getUMLRole(A);
+		UMLRole * role = a->getUMLRole(Uml::A);
 		if(!(m_classFieldMap->contains((UMLObject*)role)))
 		{
 			CodeClassField * classfield = newCodeClassField(role);

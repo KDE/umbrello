@@ -27,8 +27,6 @@ class QPainter;
 class QFont;
 class QFontMetrics;
 
-using namespace Uml;
-
 /**
  * This is the base class for nearly all graphical widgets.
  *
@@ -501,7 +499,7 @@ public:
 	/**
 	 * Returns whether the widget type has an associated UMLObject
 	 */
-	static bool widgetHasUMLObject(Uml::UMLWidget_Type type);
+	static bool widgetHasUMLObject(Uml::Widget_Type type);
 
 	/**
 	 * Update the size of this widget.

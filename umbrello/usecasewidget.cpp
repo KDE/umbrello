@@ -16,7 +16,7 @@
 #include "umlview.h"
 
 UseCaseWidget::UseCaseWidget(UMLView * view, UMLUseCase *o) : UMLWidget(view, o) {
-	UMLWidget::setBaseType(wt_UseCase);
+	UMLWidget::setBaseType(Uml::wt_UseCase);
 	//calculateSize();  Doing this during loadFromXMI() gives futile updates.
 	//                  Instead, it is done afterwards by UMLWidget::activate()
 }

@@ -43,8 +43,8 @@ AssocRolePage::~AssocRolePage() {}
 void AssocRolePage::constructWidget() {
 
 	// underlying roles and objects
-	QString nameA = m_pAssociationWidget->getRoleName(A);
-	QString nameB = m_pAssociationWidget->getRoleName(B);
+	QString nameA = m_pAssociationWidget->getRoleName(Uml::A);
+	QString nameB = m_pAssociationWidget->getRoleName(Uml::B);
 	QString titleA = i18n("Role A Properties");
 	QString titleB = i18n("Role B Properties"); 
 	if(!nameA.isEmpty())
@@ -101,7 +101,7 @@ void AssocRolePage::constructWidget() {
 	QLabel *pMultiAL = NULL;
 	Umbrello::makeLabeledEditField( propsAGB, propsALayout, 1,
 					pMultiAL, i18n("Multiplicity:"),
-					m_pMultiALE, m_pAssociationWidget->getMulti(A) );
+					m_pMultiALE, m_pAssociationWidget->getMulti(Uml::A) );
 
 	// Visibility A
         QHBoxLayout * scopeALayout = new QHBoxLayout(scopeABG);
@@ -116,7 +116,7 @@ void AssocRolePage::constructWidget() {
         m_ProtectedARB = new QRadioButton(i18n("Protected"), scopeABG);
         scopeALayout -> addWidget(m_ProtectedARB);
 
-        Uml::Scope scope = m_pAssociationWidget->getVisibility(A);
+        Uml::Scope scope = m_pAssociationWidget->getVisibility(Uml::A);
         if( scope == Uml::Public )
                 m_PublicARB -> setChecked( true );
         else if( scope == Uml::Private )
@@ -137,7 +137,7 @@ void AssocRolePage::constructWidget() {
 	m_AddOnlyARB = new QRadioButton(i18n("Add only"), changeABG);
 	changeALayout -> addWidget(m_AddOnlyARB);
 
-	Uml::Changeability_Type changeability = m_pAssociationWidget->getChangeability(A);
+	Uml::Changeability_Type changeability = m_pAssociationWidget->getChangeability(Uml::A);
 	if( changeability == Uml::chg_Changeable )
 		m_ChangeableARB -> setChecked( true );
 	else if( changeability == Uml::chg_Frozen )
@@ -155,7 +155,7 @@ void AssocRolePage::constructWidget() {
 	QLabel * pMultiBL = NULL;
 	Umbrello::makeLabeledEditField( propsBGB, propsBLayout, 1,
 					pMultiBL, i18n("Multiplicity:"),
-					m_pMultiBLE, m_pAssociationWidget->getMulti(B) );
+					m_pMultiBLE, m_pAssociationWidget->getMulti(Uml::B) );
 
 	// Visibility B
 
@@ -171,7 +171,7 @@ void AssocRolePage::constructWidget() {
 	m_ProtectedBRB = new QRadioButton(i18n("Protected"), scopeBBG);
 	scopeBLayout -> addWidget(m_ProtectedBRB);
 
-	scope = m_pAssociationWidget->getVisibility(B);
+	scope = m_pAssociationWidget->getVisibility(Uml::B);
 	if( scope == Uml::Public )
 		m_PublicBRB -> setChecked( true );
 	else if( scope == Uml::Private )
@@ -192,7 +192,7 @@ void AssocRolePage::constructWidget() {
 	m_AddOnlyBRB = new QRadioButton(i18n("Add only"), changeBBG);
 	changeBLayout -> addWidget(m_AddOnlyBRB);
 
-	changeability = m_pAssociationWidget->getChangeability(B);
+	changeability = m_pAssociationWidget->getChangeability(Uml::B);
 	if( changeability == Uml::chg_Changeable )
 		m_ChangeableBRB -> setChecked( true );
 	else if( changeability == Uml::chg_Frozen )
@@ -208,7 +208,7 @@ void AssocRolePage::constructWidget() {
 	docALayout -> setMargin(margin);
 	m_pDocA = new QMultiLineEdit(docAGB);
 	docALayout -> addWidget(m_pDocA);
-	m_pDocA-> setText(m_pAssociationWidget-> getRoleDoc(A));
+	m_pDocA-> setText(m_pAssociationWidget-> getRoleDoc(Uml::A));
 	// m_pDocA-> setText("<<not implemented yet>>");
 	// m_pDocA-> setEnabled(false);
 	m_pDocA->setWordWrap(QMultiLineEdit::WidgetWidth);
@@ -218,7 +218,7 @@ void AssocRolePage::constructWidget() {
 	docBLayout -> setMargin(margin);
 	m_pDocB = new QMultiLineEdit(docBGB);
 	docBLayout -> addWidget(m_pDocB);
-	m_pDocB-> setText(m_pAssociationWidget-> getRoleDoc(B));
+	m_pDocB-> setText(m_pAssociationWidget-> getRoleDoc(Uml::B));
 	// m_pDocB-> setEnabled(false);
 	m_pDocB->setWordWrap(QMultiLineEdit::WidgetWidth);
 
@@ -230,41 +230,41 @@ void AssocRolePage::updateObject() {
 	if(m_pAssociationWidget) {
 
 		// set props
-		m_pAssociationWidget->setRoleName(m_pRoleALE->text(), A);
-		m_pAssociationWidget->setRoleName(m_pRoleBLE->text(), B);
-		m_pAssociationWidget->setMulti(m_pMultiALE->text(), A);
-		m_pAssociationWidget->setMulti(m_pMultiBLE->text(), B);
+		m_pAssociationWidget->setRoleName(m_pRoleALE->text(), Uml::A);
+		m_pAssociationWidget->setRoleName(m_pRoleBLE->text(), Uml::B);
+		m_pAssociationWidget->setMulti(m_pMultiALE->text(), Uml::A);
+		m_pAssociationWidget->setMulti(m_pMultiBLE->text(), Uml::B);
 
 		if(m_PrivateARB->isChecked())
-			m_pAssociationWidget->setVisibility(Uml::Private, A);
+			m_pAssociationWidget->setVisibility(Uml::Private, Uml::A);
 		else if(m_ProtectedARB->isChecked())
-			m_pAssociationWidget->setVisibility(Uml::Protected, A);
+			m_pAssociationWidget->setVisibility(Uml::Protected, Uml::A);
 		else
-			m_pAssociationWidget->setVisibility(Uml::Public, A);
+			m_pAssociationWidget->setVisibility(Uml::Public, Uml::A);
 
 		if(m_PrivateBRB->isChecked())
-			m_pAssociationWidget->setVisibility(Uml::Private, B);
+			m_pAssociationWidget->setVisibility(Uml::Private, Uml::B);
 		else if(m_ProtectedBRB->isChecked())
-			m_pAssociationWidget->setVisibility(Uml::Protected, B);
+			m_pAssociationWidget->setVisibility(Uml::Protected, Uml::B);
 		else
-			m_pAssociationWidget->setVisibility(Uml::Public, B);
+			m_pAssociationWidget->setVisibility(Uml::Public, Uml::B);
 
 		if(m_FrozenARB->isChecked())
-			m_pAssociationWidget->setChangeability(Uml::chg_Frozen, A);
+			m_pAssociationWidget->setChangeability(Uml::chg_Frozen, Uml::A);
 		else if(m_AddOnlyARB->isChecked())
-			m_pAssociationWidget->setChangeability(Uml::chg_AddOnly, A);
+			m_pAssociationWidget->setChangeability(Uml::chg_AddOnly, Uml::A);
 		else
-			m_pAssociationWidget->setChangeability(Uml::chg_Changeable, A);
+			m_pAssociationWidget->setChangeability(Uml::chg_Changeable, Uml::A);
 
 		if(m_FrozenBRB->isChecked())
-			m_pAssociationWidget->setChangeability(Uml::chg_Frozen, B);
+			m_pAssociationWidget->setChangeability(Uml::chg_Frozen, Uml::B);
 		else if(m_AddOnlyBRB->isChecked())
-			m_pAssociationWidget->setChangeability(Uml::chg_AddOnly, B);
+			m_pAssociationWidget->setChangeability(Uml::chg_AddOnly, Uml::B);
 		else
-			m_pAssociationWidget->setChangeability(Uml::chg_Changeable, B);
+			m_pAssociationWidget->setChangeability(Uml::chg_Changeable, Uml::B);
 
-		m_pAssociationWidget->setRoleDoc(m_pDocA->text(), A);
-		m_pAssociationWidget->setRoleDoc(m_pDocB->text(), B);
+		m_pAssociationWidget->setRoleDoc(m_pDocA->text(), Uml::A);
+		m_pAssociationWidget->setRoleDoc(m_pDocB->text(), Uml::B);
 
 	} //end if m_pAssociationWidget
 

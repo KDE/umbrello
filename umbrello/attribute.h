@@ -35,7 +35,7 @@ public:
 	 * @param iv		The initial value of the attribute.
 	 */
 	UMLAttribute(const UMLObject *parent, QString name, int id,
-		     Scope s = Private, QString type = "int", QString iv = 0);
+		     Uml::Scope s = Uml::Private, QString type = "int", QString iv = 0);
 
 	/**
 	 * Sets up an attribute.
@@ -86,7 +86,7 @@ public:
 	 *			inital value.
 	 * @return	Returns a string representation of the UMLAttribute.
 	 */
-	QString toString(Signature_Type sig);
+	QString toString(Uml::Signature_Type sig);
 
 	/**
 	 * This needs to be called after all UML objects have been loaded.

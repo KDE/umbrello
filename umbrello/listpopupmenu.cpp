@@ -169,7 +169,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
 	//make menu for logical view
 	if(!object)
 		return;
-	Uml::UMLWidget_Type type = object -> getBaseType();
+	Uml::Widget_Type type = object -> getBaseType();
 
 	if(multi) {
 		if (unique && (type == Uml::wt_Class || type == Uml::wt_Interface)) {
@@ -491,7 +491,7 @@ void ListPopupMenu::insertStdItem(Menu_Type m)
 }
 
 void ListPopupMenu::insertStdItems(bool insertLeadingSeparator /* = true */,
-				   Uml::UMLWidget_Type type /* = wt_UMLWidget */)
+				   Uml::Widget_Type type /* = wt_UMLWidget */)
 {
 	if (insertLeadingSeparator)
 		insertSeparator();
@@ -499,7 +499,7 @@ void ListPopupMenu::insertStdItems(bool insertLeadingSeparator /* = true */,
 	insertStdItem(mt_Copy);
 	insertStdItem(mt_Paste);
 	insertSeparator();
-	if (type == wt_UMLWidget)
+	if (type == Uml::wt_UMLWidget)
 		insertStdItem(mt_Rename);
 	else if (Umbrello::isCloneable(type))
 		insertStdItem(mt_Clone);
@@ -526,7 +526,7 @@ void ListPopupMenu::insertContainerItems(bool folderAndDiagrams) {
 
 void ListPopupMenu::makeMultiClassifierPopup(ClassifierWidget *c)
 {
-	Uml::UMLWidget_Type type = c->getBaseType();
+	Uml::Widget_Type type = c->getBaseType();
 	ClassWidget *cls = NULL;
 
 	m_pShow = new KPopupMenu(this, "Show");
@@ -567,7 +567,7 @@ void ListPopupMenu::makeMultiClassifierPopup(ClassifierWidget *c)
 
 void ListPopupMenu::makeClassifierPopup(ClassifierWidget *c)
 {
-	Uml::UMLWidget_Type type = c->getBaseType();
+	Uml::Widget_Type type = c->getBaseType();
 	m_pInsert = new KPopupMenu(this,"New");
 	if (type == Uml::wt_Class)
 		m_pInsert->insertItem(SmallIcon( "CVpublic_var" ), i18n("Attribute..."), mt_Attribute);
@@ -641,8 +641,8 @@ Uml::Diagram_Type ListPopupMenu::convert_MT_DT(Menu_Type mt) {
 	return type;
 }
 
-Uml::UMLObject_Type ListPopupMenu::convert_MT_OT(Menu_Type mt) {
-	Uml::UMLObject_Type type =  Uml::ot_UMLObject;
+Uml::Object_Type ListPopupMenu::convert_MT_OT(Menu_Type mt) {
+	Uml::Object_Type type =  Uml::ot_UMLObject;
 
 	switch(mt) {
 		case mt_UseCase:

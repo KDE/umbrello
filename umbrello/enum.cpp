@@ -58,8 +58,8 @@ bool UMLEnum::load(QDomElement& element) {
 	QDomElement tempElement = node.toElement();
 	while( !tempElement.isNull() ) {
 		QString tag = tempElement.tagName();
-		if (tagEq(tag, "EnumerationLiteral") ||
-		    tagEq(tag, "EnumLiteral")) {   // for backward compatibility
+		if (Uml::tagEq(tag, "EnumerationLiteral") ||
+		    Uml::tagEq(tag, "EnumLiteral")) {   // for backward compatibility
 			UMLEnumLiteral* pEnumLiteral = new UMLEnumLiteral(this);
 			if( !pEnumLiteral->loadFromXMI(tempElement) ) {
 				return false;
@@ -80,7 +80,7 @@ bool UMLEnum::load(QDomElement& element) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLEnum::init() {
-	m_BaseType = ot_Enum;
+	m_BaseType = Uml::ot_Enum;
 	setStereotype( i18n("enum") );
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -152,11 +152,11 @@ UMLEnumLiteral* UMLEnum::takeEnumLiteral(UMLEnumLiteral* el) {
 	return el;
 }
 
-UMLObjectList UMLEnum::findChildObject(UMLObject_Type t, QString n) {
+UMLObjectList UMLEnum::findChildObject(Uml::Object_Type t, QString n) {
 	UMLObjectList list;
-	if (t == ot_Association) {
+	if (t == Uml::ot_Association) {
 		return UMLClassifier::findChildObject(t, n);
-	} else if (t == ot_EnumLiteral) {
+	} else if (t == Uml::ot_EnumLiteral) {
 		UMLClassifierListItem * obj=0;
 		for (obj = m_List.first(); obj != 0; obj = m_List.next()) {
 			if (obj->getBaseType() != t)

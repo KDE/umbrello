@@ -18,19 +18,19 @@
 #include "dialogs/umloperationdialog.h"
 
 UMLOperation::UMLOperation(const UMLClassifier *parent, QString Name, int id,
-			   Scope s, QString rt)
+			   Uml::Scope s, QString rt)
     : UMLClassifierListItem(parent, Name, id)
 {
 	m_TypeName = rt;   // FIXME: Change to use true model object.
 	m_Scope = s;
-	m_BaseType = ot_Operation;
+	m_BaseType = Uml::ot_Operation;
 	m_List.setAutoDelete(false);
 }
 
 UMLOperation::UMLOperation(const UMLClassifier * parent)
     : UMLClassifierListItem (parent)
 {
-	m_BaseType = ot_Operation;
+	m_BaseType = Uml::ot_Operation;
 	m_List.setAutoDelete(true);
 }
 
@@ -73,22 +73,22 @@ UMLAttribute* UMLOperation::findParm(QString name) {
 	return 0;
 }
 
-QString UMLOperation::toString(Signature_Type sig) {
+QString UMLOperation::toString(Uml::Signature_Type sig) {
 	QString s = "";
 
-	if(sig == st_ShowSig || sig == st_NoSig) {
-		if(m_Scope == Public)
+	if(sig == Uml::st_ShowSig || sig == Uml::st_NoSig) {
+		if(m_Scope == Uml::Public)
 			s = "+ ";
-		else if(m_Scope == Private)
+		else if(m_Scope == Uml::Private)
 			s = "- ";
-		else if(m_Scope == Protected)
+		else if(m_Scope == Uml::Protected)
 			s = "# ";
 	}
 
 	s += getName();
 	s.append("(");
 
-	if(sig == st_NoSig || sig == st_NoSigNoScope) {
+	if(sig == Uml::st_NoSig || sig == Uml::st_NoSigNoScope) {
 		s.append(")");
 		return s;
 	}
@@ -96,7 +96,7 @@ QString UMLOperation::toString(Signature_Type sig) {
 	int last = m_List.count(), i = 0;
 	for(obj=m_List.first();obj != 0;obj=m_List.next()) {
 		i++;
-		s.append(obj -> toString(st_SigNoScope));
+		s.append(obj -> toString(Uml::st_SigNoScope));
 		if(i < last)
 			s.append(", ");
 	}
@@ -215,10 +215,10 @@ bool UMLOperation::load( QDomElement & element ) {
 	QDomElement attElement = node.toElement();
 	while( !attElement.isNull() ) {
 		QString tag = attElement.tagName();
-		if (tagEq(tag, "BehavioralFeature.parameter")) {
+		if (Uml::tagEq(tag, "BehavioralFeature.parameter")) {
 			if (! load(attElement))
 				return false;
-		} else if (tagEq(tag, "Parameter")) {
+		} else if (Uml::tagEq(tag, "Parameter")) {
 			UMLAttribute * pAtt = new UMLAttribute( this );
 			if( !pAtt->loadFromXMI(attElement) ) {
 				delete pAtt;

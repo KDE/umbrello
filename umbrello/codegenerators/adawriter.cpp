@@ -79,7 +79,7 @@ bool AdaWriter::isType (QString & type)
 
 
 bool AdaWriter::isOOClass(UMLClassifier *c) {
-	Uml::UMLObject_Type ot = c->getBaseType();
+	Uml::Object_Type ot = c->getBaseType();
 	if (ot == Uml::ot_Interface)
 		return true;
 	if (ot == Uml::ot_Enum)
@@ -132,13 +132,13 @@ QString AdaWriter::qualifiedName(UMLClassifier *c, bool withType, bool byValue) 
 
 void AdaWriter::computeAssocTypeAndRole
        (UMLAssociation *a, QString& typeName, QString& roleName) {
-	UMLClassifier* c = (UMLClassifier*) m_doc->findUMLObject(a->getRoleId(A));
+	UMLClassifier* c = (UMLClassifier*) m_doc->findUMLObject(a->getRoleId(Uml::A));
 	typeName = cleanName(c->getName());
-	if (! a->getMulti(A).isEmpty())
+	if (! a->getMulti(Uml::A).isEmpty())
 		typeName.append("_Array_Access");
-	roleName = a->getRoleName(A);
+	roleName = a->getRoleName(Uml::A);
 	if (roleName.isEmpty()) {
-		if (a->getMulti(A).isEmpty()) {
+		if (a->getMulti(Uml::A).isEmpty()) {
 			roleName = "M_";
 			roleName.append(typeName);
 		} else {
@@ -338,9 +338,9 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 	UMLAssociationList aggregations = c->getAggregations();
 	if (!aggregations.isEmpty()) {
 		for (UMLAssociation *a = aggregations.first(); a; a = aggregations.next()) {
-			if (a->getMulti(A).isEmpty())
+			if (a->getMulti(Uml::A).isEmpty())
 				continue;
-			UMLClassifier* other = (UMLClassifier*) m_doc->findUMLObject(a->getRoleId(A));
+			UMLClassifier* other = (UMLClassifier*) m_doc->findUMLObject(a->getRoleId(Uml::A));
 			QString member = cleanName(other->getName());
 			// Handling of packages is missing here
 			// A test and error action is missing here for !isOOClass()
@@ -353,9 +353,9 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 	UMLAssociationList compositions = c->getCompositions();
 	if (!compositions.isEmpty()) {
 		for (UMLAssociation *a = compositions.first(); a; a = compositions.next()) {
-			if (a->getMulti(A).isEmpty())
+			if (a->getMulti(Uml::A).isEmpty())
 				continue;
-			UMLObject *other = m_doc->findUMLObject(a->getRoleId(A));
+			UMLObject *other = m_doc->findUMLObject(a->getRoleId(Uml::A));
 			QString member = cleanName(other->getName());
 			// Handling of packages is missing here
 			// Treatment of !isOOClass() is missing here

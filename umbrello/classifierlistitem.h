@@ -85,7 +85,7 @@ public:
 	 * @param sig		What type of operation string to show.
 	 * @return	The string representation of the operation.
 	 */
-	virtual QString toString(Signature_Type sig = st_NoSig);
+	virtual QString toString(Uml::Signature_Type sig = Uml::st_NoSig);
 
 	/**
 	 * Display the properties configuration dialogue for the list item.

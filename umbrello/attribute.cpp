@@ -17,28 +17,28 @@
 #include <kdebug.h>
 
 UMLAttribute::UMLAttribute( const UMLObject *parent, QString Name, int id,
-			    Scope s, QString type, QString iv )
+			    Uml::Scope s, QString type, QString iv )
   : UMLClassifierListItem(parent, Name, id) {
 	m_InitialValue = iv;
-	m_BaseType = ot_Attribute;
+	m_BaseType = Uml::ot_Attribute;
 	m_Scope = s;
-	m_ParmKind = pk_In;
+	m_ParmKind = Uml::pk_In;
 	m_TypeName = type;
 	UMLDoc *pDoc = UMLApp::app()->getDocument();
 	UMLObject *typeObj = pDoc->findUMLObject(type);
 	if (typeObj == NULL) {
 		if (type.contains( QRegExp("\\W") ))
-			typeObj = pDoc->createUMLObject(ot_Datatype, type);
+			typeObj = pDoc->createUMLObject(Uml::ot_Datatype, type);
 		else
-			typeObj = pDoc->createUMLObject(ot_Class, type);
+			typeObj = pDoc->createUMLObject(Uml::ot_Class, type);
 	}
 	UMLClassifierListItem::m_pType = static_cast<UMLClassifier*>(typeObj);
 }
 
 UMLAttribute::UMLAttribute(const UMLObject *parent) : UMLClassifierListItem(parent) {
-	m_BaseType = ot_Attribute;
-	m_Scope = Private;
-	m_ParmKind = pk_In;
+	m_BaseType = Uml::ot_Attribute;
+	m_Scope = Uml::Private;
+	m_ParmKind = Uml::pk_In;
 }
 
 UMLAttribute::~UMLAttribute() { }
@@ -62,20 +62,20 @@ Uml::Parameter_Kind UMLAttribute::getParmKind () const {
 	return m_ParmKind;
 }
 
-QString UMLAttribute::toString(Signature_Type sig) {
+QString UMLAttribute::toString(Uml::Signature_Type sig) {
 	QString s;
 
-	if(sig == st_ShowSig || sig == st_NoSig) {
-		if(m_Scope == Public)
+	if(sig == Uml::st_ShowSig || sig == Uml::st_NoSig) {
+		if(m_Scope == Uml::Public)
 			s = "+ ";
-		else if(m_Scope == Private)
+		else if(m_Scope == Uml::Private)
 			s = "- ";
-		else if(m_Scope == Protected)
+		else if(m_Scope == Uml::Protected)
 			s= "# ";
 	} else
 		s = "";
 
-	if(sig == st_ShowSig || sig == st_SigNoScope) {
+	if(sig == Uml::st_ShowSig || sig == Uml::st_SigNoScope) {
 		QString string = s + getName() + " : " + getTypeName();
 		if(m_InitialValue.length() > 0)
 			string += " = " + m_InitialValue;
@@ -157,9 +157,9 @@ bool UMLAttribute::resolveType() {
 				//       some '*' or '&' to decide it's a ref type.
 				if ( m_TypeName.contains('*') ||
 				     m_TypeName.contains('&') )
-					typeObj = pDoc->createUMLObject(ot_Datatype, m_TypeName);
+					typeObj = pDoc->createUMLObject(Uml::ot_Datatype, m_TypeName);
 				else
-					typeObj = pDoc->createUMLObject(ot_Class, m_TypeName);
+					typeObj = pDoc->createUMLObject(Uml::ot_Class, m_TypeName);
 			}
 		} else {
 			// It's not an Umbrello format.

@@ -50,7 +50,7 @@ public:
 	 * @param text	The main text to display.
 	 * @param id	The ID to assign (-1 will prompt a new ID.)
 	 */
-	FloatingText(UMLView * view, Text_Role role = Uml::tr_Floating,
+	FloatingText(UMLView * view, Uml::Text_Role role = Uml::tr_Floating,
 		     QString text = "", int id = -1);
 
 	/**
@@ -210,7 +210,7 @@ public:
 	 *
 	 * @param role		The Text_Role of this FloatingText.
 	 */
-	void setRole(Text_Role role);
+	void setRole(Uml::Text_Role role);
 
 	/**
 	 * Return the role of the text widget

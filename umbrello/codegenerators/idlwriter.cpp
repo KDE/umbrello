@@ -105,25 +105,25 @@ void IDLWriter::computeAssocTypeAndRole
 {
 	// Determine which is the "remote" end of the association:
 	bool IAmRoleA = true;
-	UMLObject *other = a->getObject(B);
+	UMLObject *other = a->getObject(Uml::B);
 	if (c->getName() == other->getName()) {
 		IAmRoleA = false;
-		other = a->getObject(A);
+		other = a->getObject(Uml::A);
 	}
 	// Construct the type name:
 	typeName = cleanName(other->getName());
 	QString multiplicity;
 	if (IAmRoleA)
-		multiplicity = a->getMulti(B);
+		multiplicity = a->getMulti(Uml::B);
 	else
-		multiplicity = a->getMulti(A);
+		multiplicity = a->getMulti(Uml::A);
 	if (!multiplicity.isEmpty() && multiplicity != "1")
 		typeName.append("Vector");
 	// Construct the member name:
 	if (IAmRoleA)
-		roleName = a->getRoleName(B);
+		roleName = a->getRoleName(Uml::B);
 	else
-		roleName = a->getRoleName(A);
+		roleName = a->getRoleName(Uml::A);
 	if (roleName.isEmpty()) {
 		roleName = a->getName();
 		if (roleName.isEmpty()) {
@@ -320,14 +320,14 @@ void IDLWriter::writeClass(UMLClassifier *c) {
 	bool didComment = false;
 	UMLAssociationList aggregations = c->getAggregations();
 	for (a = aggregations.first(); a; a = aggregations.next()) {
-		QString multiplicity = a->getMulti(A);
+		QString multiplicity = a->getMulti(Uml::A);
 		if (multiplicity.isEmpty() || multiplicity == "1")
 			continue;
 		if (!didComment) {
 			idl << spc() << "// Types for association multiplicities" << m_newLineEndingChars << m_newLineEndingChars;
 			didComment = true;
 		}
-		UMLClassifier* other = (UMLClassifier*)m_doc->findUMLObject(a->getRoleId(A));
+		UMLClassifier* other = (UMLClassifier*)m_doc->findUMLObject(a->getRoleId(Uml::A));
 		QString bareName = cleanName(other->getName());
 		idl << spc() << "typedef sequence<" << qualifiedName(other) << "> "
 		    << bareName << "Vector;" << m_newLineEndingChars << m_newLineEndingChars;
@@ -335,14 +335,14 @@ void IDLWriter::writeClass(UMLClassifier *c) {
 
 	UMLAssociationList compositions = c->getCompositions();
 	for (a = compositions.first(); a; a = compositions.next()) {
-		QString multiplicity = a->getMulti(A);
+		QString multiplicity = a->getMulti(Uml::A);
 		if (multiplicity.isEmpty() || multiplicity == "1")
 			continue;
 		if (!didComment) {
 			idl << spc() << "// Types for association multiplicities" << m_newLineEndingChars << m_newLineEndingChars;
 			didComment = true;
 		}
-		UMLClassifier* other = (UMLClassifier*)m_doc->findUMLObject(a->getRoleId(A));
+		UMLClassifier* other = (UMLClassifier*)m_doc->findUMLObject(a->getRoleId(Uml::A));
 		QString bareName = cleanName(other->getName());
 		idl << spc() << "typedef sequence<" << qualifiedName(other) << "> "
 		    << bareName << "Vector;" << m_newLineEndingChars << m_newLineEndingChars;

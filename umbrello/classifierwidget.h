@@ -32,7 +32,7 @@ public:
 	 * @param view	The parent of this ClassifierWidget.
 	 * @param o	The UMLObject to represent.
 	 */
-	ClassifierWidget(UMLView * view, UMLClassifier * o, Uml::UMLWidget_Type wt);
+	ClassifierWidget(UMLView * view, UMLClassifier * o, Uml::Widget_Type wt);
 
 	/**
 	 * Destructor.
@@ -147,7 +147,7 @@ protected:
 	/**
 	 * Initializes key variables of the class.
 	 */
-	virtual void init(Uml::UMLWidget_Type wt);
+	virtual void init(Uml::Widget_Type wt);
 
 	/**
 	 * Abstract method for automatically computing the size of the object.

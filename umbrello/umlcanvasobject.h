@@ -154,7 +154,7 @@ public:
 	 * @param n		The name of the object to find.
 	 * @return	List of objects found (empty if none found.)
 	 */
-	virtual UMLObjectList findChildObject(UMLObject_Type t, QString n);
+	virtual UMLObjectList findChildObject(Uml::Object_Type t, QString n);
 
 	/**
 	 * Find an association.
@@ -172,9 +172,9 @@ public:
 	 * @param type		The object type for which to make a name.
 	 * @param seekStereo	Set this true if we should look at the object's
 	 *			stereotype instead of its name.
-	 * @return	Unique name string for the UMLObject_Type given.
+	 * @return	Unique name string for the Object_Type given.
 	 */
-	virtual QString uniqChildName(const UMLObject_Type type,
+	virtual QString uniqChildName(const Uml::Object_Type type,
 				      bool seekStereo = false);
 
 	// The abstract method UMLObject::saveToXMI() is implemented

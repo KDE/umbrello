@@ -18,12 +18,12 @@
 
 UMLStereotype::UMLStereotype(QString name, int id /* = -1 */)
   : UMLObject( name, id ) {
-	m_BaseType = ot_Stereotype;
+	m_BaseType = Uml::ot_Stereotype;
 	m_refCount = 0;
 }
 
 UMLStereotype::UMLStereotype() : UMLObject() {
-	m_BaseType = ot_Stereotype;
+	m_BaseType = Uml::ot_Stereotype;
 	m_refCount = 0;
 }
 

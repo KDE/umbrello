@@ -49,7 +49,7 @@ public:
 	 *              The default (-1) will prompt generation of a new ID.
 	 */
 	MessageWidget(UMLView * view, ObjectWidget* a, ObjectWidget* b, FloatingText* ft, 
-		      int y, Sequence_Message_Type sequenceMessageType, int id = -1);
+		      int y, Uml::Sequence_Message_Type sequenceMessageType, int id = -1);
 
 	/**
 	 * Constructs a MessageWidget.
@@ -57,7 +57,7 @@ public:
 	 * @param view		The parent to this class.
 	 * @param id		The ID to assign (-1 will prompt a new ID.)
 	 */
-	MessageWidget(UMLView * view, Sequence_Message_Type sequenceMessageType, int id = -1);
+	MessageWidget(UMLView * view, Uml::Sequence_Message_Type sequenceMessageType, int id = -1);
 
 	/**
 	 * Initializes key variables of the class.
@@ -92,7 +92,7 @@ public:
 	/**
 	 * Returns whether the message is synchronous or asynchronous
 	 */
-	Sequence_Message_Type getSequenceMessageType() const {
+	Uml::Sequence_Message_Type getSequenceMessageType() const {
 		return m_sequenceMessageType;
 	}
 
@@ -109,14 +109,14 @@ public:
 	 *
 	 * @return	The ObjectWidget we are related to.
 	 */
-	ObjectWidget* getWidget(Role_Type role);
+	ObjectWidget* getWidget(Uml::Role_Type role);
 
 	/**
 	 * Sets the related widget on the given side.
 	 *
 	 * @param ow	The ObjectWidget we are related to.
 	 */
-	void setWidget(ObjectWidget * ow, Role_Type role) ;
+	void setWidget(ObjectWidget * ow, Uml::Role_Type role) ;
 
 	/**
 	 * Returns the text widget it is related to.
@@ -306,7 +306,7 @@ protected:
 	/**
 	 * Whether the message is synchronous or asynchronous
 	 */
-        Sequence_Message_Type m_sequenceMessageType;
+        Uml::Sequence_Message_Type m_sequenceMessageType;
 
 private:
 	void moveEvent(QMoveEvent */*m*/);

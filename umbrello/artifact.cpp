@@ -22,7 +22,7 @@ UMLArtifact::~UMLArtifact() {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLArtifact::init() {
-	m_BaseType = ot_Artifact;
+	m_BaseType = Uml::ot_Artifact;
 	m_drawAsType = defaultDraw;
 }
 

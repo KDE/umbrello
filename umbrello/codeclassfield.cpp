@@ -496,7 +496,7 @@ void CodeClassField::updateContent()
 	{
 
 		UMLRole * role = dynamic_cast<UMLRole*>(getParentObject());
-		Changeability_Type changeType = role->getChangeability();
+		Uml::Changeability_Type changeType = role->getChangeability();
 		bool isSingleValue = fieldIsSingleValue();
 		bool isEmptyRole = role->getName().isEmpty() ? true : false;
 
@@ -525,7 +525,7 @@ void CodeClassField::updateContent()
 				switch(type) {
 					case CodeAccessorMethod::SET:
 						// SET method true ONLY IF changeability is NOT Frozen
-						if (changeType != chg_Frozen)
+						if (changeType != Uml::chg_Frozen)
 							method->setWriteOutText(true);
 						else
 							method->setWriteOutText(false);
@@ -551,14 +551,14 @@ void CodeClassField::updateContent()
 						break;
 					case CodeAccessorMethod::ADD:
 						// ADD method true ONLY IF changeability is NOT Frozen
-						if (changeType != chg_Frozen)
+						if (changeType != Uml::chg_Frozen)
 							method->setWriteOutText(true);
 						else
 							method->setWriteOutText(false);
 						break;
 					case CodeAccessorMethod::REMOVE:
 						// Remove methods ONLY IF changeability is Changeable
-						if (changeType == chg_Changeable)
+						if (changeType == Uml::chg_Changeable)
 							method->setWriteOutText(true);
 						else
 							method->setWriteOutText(false);

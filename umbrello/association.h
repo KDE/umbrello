@@ -17,8 +17,6 @@
 class UMLDoc;
 class UMLRole;
 
-using namespace Uml;
-
 /**
  * This class contains the non-graphic representation of an association.
  * An association can be a generalization, aggregation, or composition.
@@ -40,7 +38,7 @@ public:
 	 * @param roleA		Pointer to the UMLObject in role A.
 	 * @param roleB		Pointer to the UMLObject in role B.
 	 */
-	UMLAssociation(Association_Type type, UMLObject *roleA = 0, UMLObject *roleB = 0);
+	UMLAssociation(Uml::Association_Type type, UMLObject *roleA = 0, UMLObject *roleB = 0);
 
 	/**
 	 * Overloaded '==' operator
@@ -83,49 +81,49 @@ public:
 	 *
 	 * @return	Pointer to the UMLObject in the given role.
 	 */
-	UMLObject* getObject(Role_Type role);
+	UMLObject* getObject(Uml::Role_Type role);
 
 	/**
 	 * Returns the ID of the UMLObject assigned to the given role.
 	 *
 	 * @return	ID of the UMLObject of the given role.
 	 */
-	int getRoleId(Role_Type role) const;
+	int getRoleId(Uml::Role_Type role) const;
 
 	/**
 	 * Returns the Changeablity of the given role.
 	 *
 	 * @return	Changeability_Type of the given role.
 	 */
-	Changeability_Type getChangeability(Role_Type role) const;
+	Uml::Changeability_Type getChangeability(Uml::Role_Type role) const;
 
 	/**
 	 * Returns the Visibility of the given role.
 	 *
 	 * @return	Scope of the given role.
 	 */
-	Scope getVisibility(Role_Type role) const;
+	Uml::Scope getVisibility(Uml::Role_Type role) const;
 
 	/**
 	 * Returns the multiplicity assigned to the given role.
 	 *
 	 * @return	The multiplicity assigned to the given role.
 	 */
-	QString getMulti(Role_Type role) const;
+	QString getMulti(Uml::Role_Type role) const;
 
 	/**
 	 * Returns the name assigned to the role A.
 	 *
 	 * @return	The name assigned to the given role.
 	 */
-	QString getRoleName(Role_Type role) const;
+	QString getRoleName(Uml::Role_Type role) const;
 
 	/**
 	 * Returns the documentation assigned to the given role.
 	 *
 	 * @return	Documentation text of given role.
 	 */
-	QString getRoleDoc(Role_Type role) const;
+	QString getRoleDoc(Uml::Role_Type role) const;
 
 	/**
 	 * Sets the assocType of the UMLAssociation.
@@ -139,42 +137,42 @@ public:
 	 *
 	 * @param obj		Pointer to the UMLObject of the given role.
 	 */
-	void setObject(UMLObject *obj, Role_Type role);
+	void setObject(UMLObject *obj, Uml::Role_Type role);
 
 	/**
 	 * Sets the visibility of the given role of the UMLAssociation.
 	 *
 	 * @param value 	Scope of role A visibility.
 	 */
-	void setVisibility(Scope value, Role_Type role);
+	void setVisibility(Uml::Scope value, Uml::Role_Type role);
 
 	/**
 	 * Sets the changeability of the given role of the UMLAssociation.
 	 *
 	 * @param value 	Changeability_Type of the given role.
 	 */
-	void setChangeability(Changeability_Type value, Role_Type role);
+	void setChangeability(Uml::Changeability_Type value, Uml::Role_Type role);
 
 	/**
 	 * Sets the multiplicity of the given role of the UMLAssociation.
 	 *
 	 * @param multiA	The multiplicity of the given role.
 	 */
-	void setMulti(QString multi, Role_Type role);
+	void setMulti(QString multi, Uml::Role_Type role);
 
 	/**
 	 * Sets the name of the given role of the UMLAssociation.
 	 *
 	 * @param roleNameA	The name of the given role.
 	 */
-	void setRoleName(QString roleName, Role_Type role);
+	void setRoleName(QString roleName, Uml::Role_Type role);
 
 	/**
 	 * Sets the documentation on the given role in the association.
 	 *
 	 * @param doc		The string with the documentation.
 	 */
-	void setRoleDoc(QString doc, Role_Type role);
+	void setRoleDoc(QString doc, Uml::Role_Type role);
 
 	/**
          * Convert Changeability_Type value into QString representation.
@@ -195,7 +193,7 @@ public:
 	 *
 	 * @return	Pointer to the UMLRole object for the given role.
 	 */
-	UMLRole * getUMLRole(Role_Type role);
+	UMLRole * getUMLRole(Uml::Role_Type role);
 
 	/**
 	 * Make a clone of this object.
@@ -236,7 +234,7 @@ protected:
 	 * @param roleAObj	Pointer to the role A UMLObject.
 	 * @param roleBObj	Pointer to the role B UMLObject.
 	 */
-	void init(Association_Type type, UMLObject *roleAObj, UMLObject *roleBObj);
+	void init(Uml::Association_Type type, UMLObject *roleAObj, UMLObject *roleBObj);
 
 	/* If the type Uml::Association_Type is changed then also the following
 	   must be changed accordingly:

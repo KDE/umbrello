@@ -64,20 +64,20 @@ int UMLCanvasObject::removeAssociation(UMLAssociation * assoc) {
 	return m_AssocsList.count();
 }
 
-QString UMLCanvasObject::uniqChildName( const UMLObject_Type type,
+QString UMLCanvasObject::uniqChildName( const Uml::Object_Type type,
 					bool seekStereo /* = false */ ) {
 	QString currentName;
 	if (seekStereo) {
 		currentName = i18n("new_stereotype");
-	} else if (type == ot_Association) {
+	} else if (type == Uml::ot_Association) {
 		currentName = i18n("new_association");
-	} else if (type == ot_Attribute) {
+	} else if (type == Uml::ot_Attribute) {
 		currentName = i18n("new_attribute");
-	} else if (type == ot_Template) {
+	} else if (type == Uml::ot_Template) {
 		currentName = i18n("new_template");
-	} else if (type == ot_Operation) {
+	} else if (type == Uml::ot_Operation) {
 		currentName = i18n("new_operation");
-	} else if (type == ot_EnumLiteral) {
+	} else if (type == Uml::ot_EnumLiteral) {
 		currentName = i18n("new_literal");
 	} else {
 		kdWarning() << "uniqChildName() called for unknown child type " << type << endl;
@@ -91,9 +91,9 @@ QString UMLCanvasObject::uniqChildName( const UMLObject_Type type,
 	return name;
 }
 
-UMLObjectList UMLCanvasObject::findChildObject(UMLObject_Type t, QString n) {
+UMLObjectList UMLCanvasObject::findChildObject(Uml::Object_Type t, QString n) {
 	UMLObjectList list;
-	if (t == ot_Association) {
+	if (t == Uml::ot_Association) {
 		UMLAssociation * obj=0;
 		for (obj = m_AssocsList.first(); obj != 0; obj = m_AssocsList.next()) {
 			if (obj->getBaseType() != t)
@@ -158,15 +158,15 @@ UMLClassifierList UMLCanvasObject::getSuperClasses() {
 	UMLClassifierList list;
 	for (UMLAssociation* a = m_AssocsList.first(); a; a = m_AssocsList.next()) {
 		if ( a->getAssocType() != Uml::at_Generalization ||
-		     a->getRoleId(A) != this->getID() )
+		     a->getRoleId(Uml::A) != this->getID() )
 			continue;
-		UMLClassifier *c = dynamic_cast<UMLClassifier*>(a->getObject(B));
+		UMLClassifier *c = dynamic_cast<UMLClassifier*>(a->getObject(Uml::B));
 		if (c)
 			list.append(c);
 		else
 			kdDebug() << "UMLCanvasObject::getSuperClasses(" << m_Name
 				  << "): generalization's other end is not a "
-				  << "UMLClassifier (id= " << a->getRoleId(B) << ")"
+				  << "UMLClassifier (id= " << a->getRoleId(Uml::B) << ")"
 				  << endl;
 	}
 	return list;
@@ -177,15 +177,15 @@ UMLClassifierList UMLCanvasObject::getSubClasses() {
 	// WARNING: See remark at getSuperClasses()
 	for (UMLAssociation* a = m_AssocsList.first(); a; a = m_AssocsList.next()) {
 		if ( a->getAssocType() != Uml::at_Generalization ||
-		     a->getRoleId(B) != this->getID() )
+		     a->getRoleId(Uml::B) != this->getID() )
 			continue;
-		UMLClassifier *c = dynamic_cast<UMLClassifier*>(a->getObject(A));
+		UMLClassifier *c = dynamic_cast<UMLClassifier*>(a->getObject(Uml::A));
 		if (c)
 			list.append(c);
 		else
 			kdDebug() << "UMLCanvasObject::getSubClasses: specialization's"
 				  << " other end is not a UMLClassifier"
-				  << " (id=" << a->getRoleId(A) << ")" << endl;
+				  << " (id=" << a->getRoleId(Uml::A) << ")" << endl;
 	}
 	return list;
 }

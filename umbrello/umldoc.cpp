@@ -67,10 +67,12 @@
 #include "dialogs/umloperationdialog.h"
 #include "inputdialog.h"
 
-#define XMI_FILE_VERSION "1.2.90"
+#define XMI_FILE_VERSION "1.3.90"
 // Hmm, if the XMI_FILE_VERSION is meant to reflect the umbrello version
 // then the version number "1.3" is prone to create confusion with the UML
 // DTD version...
+
+using namespace Uml;
 
 static const uint undoMax = 30;
 
@@ -743,12 +745,12 @@ UMLStereotype * UMLDoc::findStereotype(int id) {
 	return NULL;
 }
 
-UMLObject* UMLDoc::findUMLObject(QString name, UMLObject_Type type /* = ot_UMLObject */) {
+UMLObject* UMLDoc::findUMLObject(QString name, Object_Type type /* = ot_UMLObject */) {
 	return findUMLObject(m_objectList, name, type);
 }
 
 UMLObject* UMLDoc::findUMLObject(UMLObjectList inList, QString name,
-				 UMLObject_Type type /* = ot_UMLObject */) {
+				 Object_Type type /* = ot_UMLObject */) {
 	QStringList components = QStringList::split("::", name);
 	QString nameWithoutFirstPrefix;
 	if (components.size() > 1) {
@@ -760,7 +762,7 @@ UMLObject* UMLDoc::findUMLObject(UMLObjectList inList, QString name,
 		UMLObject *obj = oit.current();
 		if (obj->getName() != name)
 			continue;
-		UMLObject_Type foundType = obj->getBaseType();
+		Object_Type foundType = obj->getBaseType();
 		if (nameWithoutFirstPrefix.isEmpty()) {
 			if (type != ot_UMLObject && type != foundType) {
 				kdDebug() << "findUMLObject: type mismatch for "
@@ -816,7 +818,7 @@ UMLClassifier* UMLDoc::findUMLClassifier(QString name) {
 	return dynamic_cast<UMLClassifier*>(obj);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-QString	UMLDoc::uniqObjectName(const UMLObject_Type type, QString prefix) {
+QString	UMLDoc::uniqObjectName(const Object_Type type, QString prefix) {
 	QString	currentName = prefix;
 	if (currentName.isEmpty()) {
 		if(type == ot_Class)
@@ -857,7 +859,7 @@ QString	UMLDoc::uniqObjectName(const UMLObject_Type type, QString prefix) {
   *   AddUMLObjectPaste if pasting.
   */
 void UMLDoc::addUMLObject(UMLObject* object) {
-	UMLObject_Type ot = object->getBaseType();
+	Object_Type ot = object->getBaseType();
 	if (ot == ot_Attribute || ot == ot_Operation || ot == ot_EnumLiteral ||
 	    ot == ot_Stereotype) {
 		kdDebug() << "UMLDoc::addUMLObject(" << object->getName()
@@ -960,7 +962,7 @@ bool UMLDoc::isUnique(QString name, UMLPackage *package)
 UMLObject* UMLDoc::createUMLObject(const std::type_info &type)
 {
 //adapter.. just transform and forward request
-	UMLObject_Type t;
+	Object_Type t;
 	if ( type == typeid(UMLClass) ) {
 		t = ot_Class;
 	} else if ( type == typeid(UMLUseCase) ) {
@@ -987,7 +989,7 @@ UMLObject* UMLDoc::createUMLObject(const std::type_info &type)
 	return createUMLObject(t);
 }
 
-UMLObject* UMLDoc::createUMLObject(UMLObject_Type type, const QString &n,
+UMLObject* UMLDoc::createUMLObject(Object_Type type, const QString &n,
 				   UMLPackage *parentPkg /* = NULL */) {
 	bool ok = false;
 	int id;
@@ -1058,7 +1060,7 @@ UMLObject* UMLDoc::createUMLObject(UMLObject_Type type, const QString &n,
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLObject* UMLDoc::createChildObject(UMLObject* umlobject, UMLObject_Type type) {
+UMLObject* UMLDoc::createChildObject(UMLObject* umlobject, Object_Type type) {
 	UMLObject* returnObject = NULL;
 	if(type == ot_Attribute) {
 		UMLClass *umlclass = dynamic_cast<UMLClass *>(umlobject);
@@ -1293,9 +1295,9 @@ UMLAssociation * UMLDoc::findAssociation(Uml::Association_Type assocType,
 	for (a = assocs.first(); a; a = assocs.next()) {
 		if (a->getAssocType() != assocType)
 			continue;
-		if (a->getObject(A) == roleAObj && a->getObject(B) == roleBObj)
+		if (a->getObject(Uml::A) == roleAObj && a->getObject(Uml::B) == roleBObj)
 			return a;
-		if (a->getObject(A) == roleBObj && a->getObject(B) == roleAObj) {
+		if (a->getObject(Uml::A) == roleBObj && a->getObject(Uml::B) == roleAObj) {
 			ret = a;
 		}
 	}
@@ -1358,8 +1360,8 @@ void UMLDoc::addAssociation(UMLAssociation *Assoc)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLDoc::addAssocToConcepts(UMLAssociation* a) {
 
-	int AId = a->getRoleId(A);
-	int BId = a->getRoleId(B);
+	int AId = a->getRoleId(Uml::A);
+	int BId = a->getRoleId(Uml::B);
 	UMLClassifierList concepts = getConcepts();
 	for (UMLClassifier *c = concepts.first(); c; c = concepts.next()) {
 		switch (a->getAssocType()) {
@@ -1559,7 +1561,7 @@ void UMLDoc::removeDiagram(int id) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLDoc::removeUMLObject(UMLObject* umlobject) {
 	UMLApp::app()->getDocWindow()->updateDocumentation(true);
-	UMLObject_Type type = umlobject->getBaseType();
+	Object_Type type = umlobject->getBaseType();
 
 	umlobject->setUMLStereotype(NULL);  // triggers possible cleanup of UMLStereotype
 	if (objectTypeIsClassifierListItem(type))  {
@@ -1738,7 +1740,7 @@ void UMLDoc::saveToXMI(QIODevice& file) {
 	// This simplifies the establishing of cross reference links from
 	// contained objects to their containing package.
 	for (UMLObject *p = m_objectList.first(); p; p = m_objectList.next() ) {
-		UMLObject_Type t = p->getBaseType();
+		Object_Type t = p->getBaseType();
 		if (t != ot_Package)
 			continue;
 		p->saveToXMI(doc, objectsElement);
@@ -1755,7 +1757,7 @@ void UMLDoc::saveToXMI(QIODevice& file) {
 	// as their child nodes.
 	// Associations are saved in an extra step (see below.)
 	for (UMLObject *o = m_objectList.first(); o; o = m_objectList.next() ) {
-		UMLObject_Type t = o->getBaseType();
+		Object_Type t = o->getBaseType();
 #if defined (XMI_FLAT_PACKAGES)
 		if (t == ot_Package)
 			continue;
@@ -2328,7 +2330,7 @@ QStringList UMLDoc::getModelTypes()
 UMLClassifierList UMLDoc::getConcepts(bool includeNested /* =true */) {
 	UMLClassifierList conceptList;
 	for(UMLObject *obj = m_objectList.first(); obj ; obj = m_objectList.next()) {
-		Uml::UMLObject_Type ot = obj->getBaseType();
+		Uml::Object_Type ot = obj->getBaseType();
 		if(ot == ot_Class || ot == ot_Interface || ot == ot_Datatype || ot == ot_Enum)  {
 			conceptList.append((UMLClassifier *)obj);
 		} else if (includeNested && ot == ot_Package) {
@@ -2342,7 +2344,7 @@ UMLClassifierList UMLDoc::getConcepts(bool includeNested /* =true */) {
 UMLClassList UMLDoc::getClasses(bool includeNested /* =true */) {
 	UMLClassList conceptList;
 	for(UMLObject* obj = m_objectList.first(); obj ; obj = m_objectList.next()) {
-		Uml::UMLObject_Type ot = obj->getBaseType();
+		Uml::Object_Type ot = obj->getBaseType();
 		if (ot == ot_Class)  {
 			conceptList.append((UMLClass *)obj);
 		} else if (includeNested && ot == ot_Package) {
@@ -2356,7 +2358,7 @@ UMLClassList UMLDoc::getClasses(bool includeNested /* =true */) {
 UMLClassifierList UMLDoc::getClassesAndInterfaces(bool includeNested /* =true */) {
 	UMLClassifierList conceptList;
 	for(UMLObject* obj = m_objectList.first(); obj ; obj = m_objectList.next()) {
-		Uml::UMLObject_Type ot = obj->getBaseType();
+		Uml::Object_Type ot = obj->getBaseType();
 		if(ot == ot_Class || ot == ot_Interface || ot == ot_Enum)  {
 			conceptList.append((UMLClassifier *)obj);
 		} else if (includeNested && ot == ot_Package) {
@@ -2370,7 +2372,7 @@ UMLClassifierList UMLDoc::getClassesAndInterfaces(bool includeNested /* =true */
 UMLInterfaceList UMLDoc::getInterfaces(bool includeNested /* =true */) {
 	UMLInterfaceList interfaceList;
 	for(UMLObject* obj = m_objectList.first(); obj ; obj = m_objectList.next()) {
-		Uml::UMLObject_Type ot = obj->getBaseType();
+		Uml::Object_Type ot = obj->getBaseType();
 		if (ot == ot_Interface) {
 			interfaceList.append((UMLInterface*)obj);
 		} else if (includeNested && ot == ot_Package) {
@@ -2748,7 +2750,7 @@ void UMLDoc::createDatatype(QString name)  {
 	UMLApp::app()->getListView()->closeDatatypesFolder();
 }
 
-bool UMLDoc::objectTypeIsClassifierListItem(UMLObject_Type type)  {
+bool UMLDoc::objectTypeIsClassifierListItem(Object_Type type)  {
 	if (type == ot_Attribute || type == ot_Operation || type == ot_Template
 	    || type == ot_EnumLiteral)  {
 		return true;

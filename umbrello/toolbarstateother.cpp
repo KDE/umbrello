@@ -23,6 +23,8 @@
 #include "inputdialog.h"
 #include "uml.h"
 
+using namespace Uml;
+
 ToolBarStateOther::ToolBarStateOther(UMLView *umlView) : ToolBarStatePool(umlView)
 {
 }
@@ -31,9 +33,9 @@ ToolBarStateOther::~ToolBarStateOther()
 {
 }
 
-Uml::UMLObject_Type ToolBarStateOther::getObjectType(WorkToolBar::ToolBar_Buttons tbb)
+Uml::Object_Type ToolBarStateOther::getObjectType(WorkToolBar::ToolBar_Buttons tbb)
 {
-	UMLObject_Type ot;
+	Object_Type ot;
 
 	switch(tbb)
 	{

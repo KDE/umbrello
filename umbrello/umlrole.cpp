@@ -58,11 +58,11 @@ QString UMLRole::getAuxId() const {
 	return m_idStr;
 }
 
-Changeability_Type UMLRole::getChangeability() const {
+Uml::Changeability_Type UMLRole::getChangeability() const {
 	return m_Changeability;
 }
 
-Scope UMLRole::getVisibility() const {
+Uml::Scope UMLRole::getVisibility() const {
 	return getScope();
 }
 
@@ -94,11 +94,11 @@ void UMLRole::setObject (UMLObject *obj) {
 	emit modified();
 }
 
-void UMLRole::setVisibility (Scope value) {
+void UMLRole::setVisibility (Uml::Scope value) {
 	setScope(value);
 }
 
-void UMLRole::setChangeability (Changeability_Type value) {
+void UMLRole::setChangeability (Uml::Changeability_Type value) {
 	m_Changeability = value;
 	emit modified();
 }
@@ -137,7 +137,7 @@ void UMLRole::init(UMLAssociation * parent, UMLObject * parentObj, int id) {
 	m_pObject = parentObj;
 	m_Multi = "";
 	m_Name = "";
-	m_Changeability = chg_Changeable;
+	m_Changeability = Uml::chg_Changeable;
 
 	// connect this up to parent 
 	connect(this,SIGNAL(modified()),parent,SIGNAL(modified()));

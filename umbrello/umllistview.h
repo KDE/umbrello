@@ -202,12 +202,12 @@ class UMLListView : public KListView {
 	/**
 	 * Creates a UMLObject out of the given list view item.
 	 */
-	void createUMLObject( UMLListViewItem * item, Uml::UMLObject_Type type );
+	void createUMLObject( UMLListViewItem * item, Uml::Object_Type type );
 
 	/**
 	 * Creates a child UMLObject out of the given list view item.
 	 */
-	void createChildUMLObject( UMLListViewItem * item, Uml::UMLObject_Type type );
+	void createChildUMLObject( UMLListViewItem * item, Uml::Object_Type type );
 
 	/**
 	 * Creates a diagram out of the given list view item.
@@ -222,12 +222,12 @@ class UMLListView : public KListView {
 	/**
 	 * Returns a unique name for a child umlobject.
 	 */
-	QString getUniqueChildUMLObjectName( UMLClassifier * parent, Uml::UMLObject_Type type );
+	QString getUniqueChildUMLObjectName( UMLClassifier * parent, Uml::Object_Type type );
 
 	/**
 	 * Returns a unique name for an object.
 	 */
-	QString getUniqueUMLObjectName( Uml::UMLObject_Type type );
+	QString getUniqueUMLObjectName( Uml::Object_Type type );
 
 	/**
 	 * Returns if the given name is unique for the given items type.
@@ -261,7 +261,7 @@ class UMLListView : public KListView {
 	/**
 	 * Converts an object type enum to the equivalent list view type
 	 */
-	static Uml::ListView_Type convert_OT_LVT(Uml::UMLObject_Type ot);
+	static Uml::ListView_Type convert_OT_LVT(Uml::Object_Type ot);
 
 	/**
 	 * Moves an object given is unique ID and listview type into an
@@ -372,10 +372,10 @@ class UMLListView : public KListView {
 	 * Converts a list view type enum to the equivalent object type.
 	 *
 	 * @param lvt		The ListView_Type to convert.
-	 * @return	The converted UMLObject_Type if the listview type
-	 *		has a UMLObject_Type representation, else 0.
+	 * @return	The converted Object_Type if the listview type
+	 *		has a Object_Type representation, else 0.
 	 */
-	static Uml::UMLObject_Type convert_LVT_OT(Uml::ListView_Type lvt);
+	static Uml::Object_Type convert_LVT_OT(Uml::ListView_Type lvt);
 
 	/**
 	 * 	Loads the pixmaps to use in the list items.

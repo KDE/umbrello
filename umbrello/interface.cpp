@@ -40,7 +40,7 @@ UMLObject* UMLInterface::clone() const
 }
 
 void UMLInterface::init() {
-	m_BaseType = ot_Interface;
+	m_BaseType = Uml::ot_Interface;
 	setStereotype( i18n("interface") );
 }
 

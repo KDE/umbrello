@@ -35,7 +35,7 @@ public:
 	
 private:
 
-	Uml::UMLObject_Type getObjectType(WorkToolBar::ToolBar_Buttons tbb);
+	Uml::Object_Type getObjectType(WorkToolBar::ToolBar_Buttons tbb);
 	bool newWidget();
 
 	void floatingTextSetup(UMLWidget* umlWidget);

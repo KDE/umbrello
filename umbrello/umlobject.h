@@ -17,7 +17,6 @@
 
 #include "umlnamespace.h"
 #include "umlpackagelist.h"
-using namespace Uml;
 
 class kdbgstream;
 class UMLStereotype;
@@ -86,7 +85,7 @@ public:
 	 *
 	 * @return	Returns the type of the object.
 	 */
-	UMLObject_Type getBaseType() const;
+	Uml::Object_Type getBaseType() const;
 
 	/**
 	 * Returns the ID of the object.
@@ -114,14 +113,14 @@ public:
 	 *
 	 * @return	Returns the scope of the object.
 	 */
-	Scope getScope() const;
+	Uml::Scope getScope() const;
 
 	/**
 	 * Sets the scope of the object.
 	 *
 	 * @param s	The scope of the object.
 	 */
-	void setScope(Scope s);
+	void setScope(Uml::Scope s);
 
 	/**
 	 * Sets the classes stereotype name.
@@ -386,12 +385,12 @@ protected:
 	/**
 	 * The objects type.
 	 */
-	UMLObject_Type m_BaseType;
+	Uml::Object_Type m_BaseType;
 
 	/**
 	 * The objects scope.
 	 */
-	Scope m_Scope;
+	Uml::Scope m_Scope;
 
 	/**
 	 * The state of whether the object is abstract or not.

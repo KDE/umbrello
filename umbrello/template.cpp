@@ -14,12 +14,12 @@
 UMLTemplate::UMLTemplate(const UMLObject *parent, QString name, int id, QString type)
   : UMLClassifierListItem( parent, name, id ) {
 	m_TypeName = type;
-	m_BaseType = ot_Template;
+	m_BaseType = Uml::ot_Template;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLTemplate::UMLTemplate(const UMLObject *parent)
   : UMLClassifierListItem( parent ) {
-	m_BaseType = ot_Template;
+	m_BaseType = Uml::ot_Template;
 	m_TypeName = "";
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -33,7 +33,7 @@ void UMLTemplate::setTypeName(QString type) {
 	m_TypeName = type;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-QString UMLTemplate::toString(Signature_Type /*sig = st_NoSig*/) {
+QString UMLTemplate::toString(Uml::Signature_Type /*sig = st_NoSig*/) {
 	if (m_TypeName == "" || m_TypeName == "class") {
 		return getName();
 	} else {

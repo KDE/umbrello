@@ -23,10 +23,10 @@ namespace Umbrello {
 	/**
 	 * Determines whether the given widget type is cloneable.
 	 *
-	 * @param type		The input UMLWidget_Type.
+	 * @param type		The input Widget_Type.
 	 * @return	True if the given type is cloneable.
 	 */
-	bool isCloneable(Uml::UMLWidget_Type type);
+	bool isCloneable(Uml::Widget_Type type);
 
 	/**
 	 * Seek the given id in the object hierarchy rooted at rootObj.

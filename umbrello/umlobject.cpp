@@ -42,11 +42,11 @@ UMLObject::~UMLObject() {
 }
 
 void UMLObject::init() {
-	m_BaseType = ot_UMLObject;
+	m_BaseType = Uml::ot_UMLObject;
 	m_nId = -1;
 	m_pUMLPackage = NULL;
 	m_Name = "";
-	m_Scope = Public;
+	m_Scope = Uml::Public;
 	m_pStereotype = NULL;
 	m_Doc = "";
 	m_bAbstract = false;
@@ -200,7 +200,7 @@ void UMLObject::setDoc(QString d) {
 	emit modified();
 }
 
-UMLObject_Type UMLObject::getBaseType() const {
+Uml::Object_Type UMLObject::getBaseType() const {
 	return m_BaseType;
 }
 
@@ -212,11 +212,11 @@ QString UMLObject::getDoc() const {
 	return m_Doc;
 }
 
-Scope UMLObject::getScope() const {
+Uml::Scope UMLObject::getScope() const {
 	return m_Scope;
 }
 
-void UMLObject::setScope(Scope s) {
+void UMLObject::setScope(Uml::Scope s) {
 	m_Scope = s;
 	emit modified();
 }
@@ -259,11 +259,11 @@ void UMLObject::setPackage(QString _name) {
 				  << m_Name << endl;
 			return;
 		}
-		pkgObj = umldoc->findUMLObject(_name, ot_Package);
+		pkgObj = umldoc->findUMLObject(_name, Uml::ot_Package);
 		if (pkgObj == NULL) {
 			kdDebug() << "UMLObject::setPackage: creating UMLPackage "
 				  << _name << " for " << m_Name << endl;
-			pkgObj = umldoc->createUMLObject(ot_Package, _name);
+			pkgObj = umldoc->createUMLObject(Uml::ot_Package, _name);
 		}
 	}
 	setUMLPackage( static_cast<UMLPackage *>(pkgObj) );
@@ -409,7 +409,7 @@ bool UMLObject::loadFromXMI( QDomElement & element, bool loadID /* =true */) {
 		else {
 			int nScope = scope.toInt();
 			if (nScope >= Uml::Public && nScope <= Uml::Protected)
-				m_Scope = (Scope)nScope;
+				m_Scope = (Uml::Scope)nScope;
 			else
 				kdError() << "UMLObject::loadFromXMI(" << m_Name
 					<< "): illegal scope" << endl;  // soft error
@@ -500,11 +500,11 @@ bool UMLObject::loadFromXMI( QDomElement & element, bool loadID /* =true */) {
 		QDomElement elem = node.toElement();
 		while( !elem.isNull() ) {
 			QString tag = elem.tagName();
-			if (tagEq(tag, "name")) {
+			if (Uml::tagEq(tag, "name")) {
 				m_Name = elem.attribute("xmi.value", "");
 				if (m_Name.isEmpty())
 					m_Name = elem.text();
-			} else if (tagEq(tag, "visibility")) {
+			} else if (Uml::tagEq(tag, "visibility")) {
 				QString vis = elem.attribute("xmi.value", "");
 				if (vis.isEmpty())
 					vis = elem.text();
@@ -512,12 +512,12 @@ bool UMLObject::loadFromXMI( QDomElement & element, bool loadID /* =true */) {
 					m_Scope = Uml::Private;
 				else if (vis == "protected" || vis == "protected_vis")
 					m_Scope = Uml::Protected;
-			} else if (tagEq(tag, "isAbstract")) {
+			} else if (Uml::tagEq(tag, "isAbstract")) {
 				QString isAbstract = elem.attribute("xmi.value", "");
 				if (isAbstract.isEmpty())
 					isAbstract = elem.text();
 				m_bAbstract = (isAbstract == "true");
-			} else if (tagEq(tag, "ownerScope")) {
+			} else if (Uml::tagEq(tag, "ownerScope")) {
 				QString ownerScope = elem.attribute("xmi.value", "");
 				if (ownerScope.isEmpty())
 					ownerScope = elem.text();
@@ -532,18 +532,18 @@ bool UMLObject::loadFromXMI( QDomElement & element, bool loadID /* =true */) {
 
 	// Operations, attributes, enum literals, stereotypes, associations,
 	// and association role objects get added and signaled elsewhere.
-	if (m_BaseType != ot_Operation && m_BaseType != ot_Attribute &&
-	    m_BaseType != ot_EnumLiteral && m_BaseType != ot_Stereotype &&
-	    m_BaseType != ot_Association && m_BaseType != ot_UMLObject) {
+	if (m_BaseType != Uml::ot_Operation && m_BaseType != Uml::ot_Attribute &&
+	    m_BaseType != Uml::ot_EnumLiteral && m_BaseType != Uml::ot_Stereotype &&
+	    m_BaseType != Uml::ot_Association && m_BaseType != Uml::ot_UMLObject) {
 		if (m_bInPaste) {
 			m_pUMLPackage = NULL;  // forget any old parent
 			UMLListView *listView = UMLApp::app()->getListView();
 			UMLListViewItem *parentItem = (UMLListViewItem*)listView->currentItem();
 			if (parentItem) {
-				ListView_Type lvt = parentItem->getType();
-				if (lvt == lvt_Package ||
-				    lvt == lvt_Class ||
-				    lvt == lvt_Interface) {
+				Uml::ListView_Type lvt = parentItem->getType();
+				if (lvt == Uml::lvt_Package ||
+				    lvt == Uml::lvt_Class ||
+				    lvt == Uml::lvt_Interface) {
 					UMLObject *o = parentItem->getUMLObject();
 					m_pUMLPackage = static_cast<UMLPackage*>( o );
 				}
