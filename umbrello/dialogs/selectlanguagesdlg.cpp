@@ -15,6 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <iostream.h>
 #include "selectlanguagesdlg.h"
 
 #include <qlistview.h>
@@ -57,12 +58,12 @@ void SelectLanguagesDlg::offerLanguages(const QStringList & libraries, const Gen
 	KLibLoader *loader = KLibLoader::self();
 	if(!loader)
 		return;
-	WriterFactory *fact;
+	CodeGeneratorFactory *fact;
 	QStringList languages;
 	QCheckListItem *item;
 	bool check;
 	for(QStringList::ConstIterator libit = libraries.begin(); libit!= libraries.end(); ++libit) {
-		fact =(WriterFactory*) loader ->factory( (*libit).latin1() );
+		fact =(CodeGeneratorFactory*) loader ->factory( (*libit).latin1() );
 		if(!fact) {
 			kdDebug() << "Error getting factory: error msg :" << loader->lastErrorMessage() << endl;
 			continue;
@@ -86,7 +87,10 @@ void SelectLanguagesDlg::offerLanguages(const QStringList & libraries, const Gen
 				for(dicit.toFirst() ; dicit.current(); ++dicit ) {
 					if(dicit.current()->library == *libit &&
 					        dicit.current()->object == fact->generatorName(*langit))
+{
+cerr<<"Check on generator object selected: "<<dicit.current()->object.ascii()<<endl;
 						check = true;
+}
 
 				}//end for dicit.toFirst()
 			}//end else

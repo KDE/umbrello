@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <iostream.h>
+#include <qdir.h>
 #include <qlistview.h>
 #include <qfileinfo.h>
 #include <kdebug.h>
@@ -25,16 +27,17 @@
 #include "codegenerationoptionspage.h"
 #include "../classifier.h"
 #include "../codegenerator.h"
+#include "../uml.h"
 #include "../umldoc.h"
 
 CodeGenerationWizard::CodeGenerationWizard(UMLDoc *doc,
 					   QPtrList<UMLClassifier> *classList,
-					   SettingsDlg::CodeGenState codegenState,
 					   QDict<GeneratorInfo> ldict,
 					   QString activeLanguage,
-					   QWidget *parent, const char *name)
-		:CodeGenerationWizardBase(parent,name) {
+					   UMLApp *parent, const char *name)
+		:CodeGenerationWizardBase((QWidget*)parent,name) {
 	m_doc = doc;
+	m_app = parent;
 	m_ldict = ldict;
 	m_availableList -> setAllColumnsShowFocus(true);
 	m_availableList -> setResizeMode(QListView::AllColumns);
@@ -43,7 +46,7 @@ CodeGenerationWizard::CodeGenerationWizard(UMLDoc *doc,
 	m_statusList    -> setAllColumnsShowFocus(true);
 	m_statusList    -> setResizeMode(QListView::AllColumns);
 
-	m_CodeGenerationOptionsPage = new CodeGenerationOptionsPage(codegenState, ldict,
+	m_CodeGenerationOptionsPage = new CodeGenerationOptionsPage(doc->getCurrentCodeGenerator(), ldict,
 								    activeLanguage, this);
 
 	insertPage(m_CodeGenerationOptionsPage, i18n("Code Generation Options"), 1);
@@ -100,22 +103,13 @@ void CodeGenerationWizard::deselectClass() {
 void CodeGenerationWizard::generateCode() {
 	backButton()->setEnabled(false);
 
-	CodeGenerator* codeGenerator = generator();
+	CodeGenerator* codeGenerator = m_app->getGenerator();
+
+cerr<<" WIZARD: gets generator:"<<codeGenerator<<endl;
 
 	if (codeGenerator) {
-		cancelButton()->setEnabled(false);
-		//get current Code Generation Options...
-		SettingsDlg::CodeGenState codegenState;
-		((CodeGenerationOptionsPage*)page(1))->state(codegenState);
 
-		codeGenerator->setForceDoc(codegenState.forceDoc);
-		codeGenerator->setForceSections(codegenState.forceSections);
-		codeGenerator->setIncludeHeadings(codegenState.includeHeadings);
-		codeGenerator->setHeadingFileDir(codegenState.headingsDir);
-		//modname isn't (yet) user configurable so we just use this value
-		codeGenerator->setModifyNamePolicy(CodeGenerator::Capitalise);
-		codeGenerator->setOutputDirectory(codegenState.outputDir);
-		codeGenerator->setOverwritePolicy(codegenState.overwritePolicy);
+		cancelButton()->setEnabled(false);
 
 		connect( codeGenerator, SIGNAL(codeGenerated(UMLClassifier*, bool)),
 			 this, SLOT(classGenerated(UMLClassifier*, bool)) );
@@ -128,12 +122,12 @@ void CodeGenerationWizard::generateCode() {
 			UMLClassifier *concept =  m_doc->findUMLClassifier(item->text(0));
 			cList.append(concept);
 		}
-		codeGenerator->generateCode(cList);
+cerr<<" WIZARD: Writing code to CFile"<<endl;
+		codeGenerator->writeCodeToFile(cList);
 		finishButton()->setText(i18n("Finish"));
 		finishButton()->disconnect();
 		connect(finishButton(),SIGNAL(clicked()),this,SLOT(accept()));
 
-		delete codeGenerator; codeGenerator = NULL;
 	}
 }
 
@@ -159,6 +153,8 @@ void CodeGenerationWizard::showPage(QWidget *page) {
 	if (indexOf(page) == 2)
 	{//before advancint to the final page, check that the output directory exists and is
 	 //writtable
+/*
+// FIX, needed? 
 		SettingsDlg::CodeGenState codegenState;
 		((CodeGenerationOptionsPage*)QWizard::page(1))->state(codegenState);
 		QFileInfo info(codegenState.outputDir);
@@ -200,12 +196,15 @@ void CodeGenerationWizard::showPage(QWidget *page) {
 				return;
 			}
 		}
+*/
 	}
 		populateStatusList();
 	QWizard::showPage(page);
 }
 
 CodeGenerator* CodeGenerationWizard::generator() {
+// FIX
+/*
 	GeneratorInfo* info;
 	if( m_CodeGenerationOptionsPage->getCodeGenerationLanguage().isEmpty() ) {
 		KMessageBox::sorry(this,i18n("There is no Active Language defined.\nPlease select\
@@ -231,15 +230,17 @@ CodeGenerator* CodeGenerationWizard::generator() {
 		return 0;
 	}
 
-	QObject* o=fact->create(0,0,info->object.latin1());
+	QObject* o=fact->create(m_doc, 0, info->object.latin1());
 	if(!o) {
 		kdDebug()<<"could not create object"<<endl;
 		return 0;
 	}
 
 	CodeGenerator* g = (CodeGenerator*)o;
-	g->setDocument(m_doc);
+	// g->setDocument(m_doc);
 	return g;
+*/
+	return (CodeGenerator*) NULL;
 }
 
 #include "codegenerationwizard.moc"

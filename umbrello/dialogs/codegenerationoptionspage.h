@@ -25,20 +25,45 @@
 
 /**
  * @author Luis De la Parra
+ * @author Brian Thomas
  */
+
+// 2003-07-30 : Updated for new code generation system. No longer need Yucky codegenstate
+// structure.
 
 class CodeGenerationOptionsPage : public CodeGenerationOptionsBase  {
 	Q_OBJECT
 public:
-	CodeGenerationOptionsPage(const SettingsDlg::CodeGenState &state, QDict<GeneratorInfo> ldict,
+	CodeGenerationOptionsPage(CodeGenerator * gen, QDict<GeneratorInfo> ldict,
 	                          QString activeLanguage, QWidget *parent=0, const char *name=0);
 	~CodeGenerationOptionsPage();
 	void setDefaults();
-	void setState(const SettingsDlg::CodeGenState &state);
-	void state(SettingsDlg::CodeGenState &state);
 	QString getCodeGenerationLanguage();
+	void updateCodeGenerationPolicyTab(CodeGenerator * gen);
+	void apply();
+
+protected:
+	CodeGenerationPolicy * m_parentPolicy;
+
+private:
+
+	CodeGenerationPolicyPage * m_pCodePolicyPage;
+	void init (CodeGenerator * gen, QDict<GeneratorInfo> ldict, QString activeLanguage);
+	int overwriteToInteger(CodeGenerationPolicy::OverwritePolicy value);
+	int newLineToInteger(CodeGenerationPolicy::NewLineType value);
+	int indentTypeToInteger(CodeGenerationPolicy::IndentationType value);
+	void setupActiveLanguageBox(QDict<GeneratorInfo> ldict, QString activeLanguage); 
+
 protected slots:
 	void browseClicked();
+	void activeLanguageChanged (int id); 
+
+signals:
+	void applyClicked();
+	void languageChanged();
+	void syncCodeDocumentsToParent();
+
+
 };
 
 #endif

@@ -36,7 +36,7 @@ using Umbrello::ParameterPropertiesPage;
 
 OperationPropertiesPage::OperationPropertiesPage(UMLOperation *c, UMLDoc *doc, QWidget *parent, const char *name)
 	: OperationPropertiesBase( parent, name ),DialogPage( parent == 0 ),
-	  m_umlObject(c), m_doc(doc)
+	  m_pOperation(c), m_doc(doc)
 {
 	loadData();
 	connect(m_name,SIGNAL(textChanged(const QString&)),this,SIGNAL(pageModified()));
@@ -48,7 +48,14 @@ OperationPropertiesPage::OperationPropertiesPage(UMLOperation *c, UMLDoc *doc, Q
 	connect(m_private,SIGNAL(toggled(bool)),this,SIGNAL(pageModified()));
 	//parameter list
 
-	connect(m_umlObject,SIGNAL(modified()),this,SLOT(loadData()));
+	// is this next connection really needed? The dialog will be blocking
+	// all other input from the user, so it doesnt seem possible that the
+	// object could be modified by anything else while the dialog is open.
+	// furthermore, this seemingly sets up an in finite loop where by the
+	// set method of the operation object sends a modified signal which 
+	// triggers the loadData() slot here, which modifies the operation, which
+	// then sends out a modified() signal which then...
+//	connect(m_pOperation,SIGNAL(modified()),this,SLOT(loadData()));
 	connect(this,SIGNAL(pageModified()),this,SLOT(pageContentsModified()));
 }
 
@@ -77,12 +84,12 @@ void OperationPropertiesPage::loadData()
 {
 	disconnect(this,SIGNAL(pageModified()),this,SLOT(pageContentsModified()));
 
-	m_name->setText(m_umlObject->getName());
+	m_name->setText(m_pOperation->getName());
 	m_type->insertStringList(m_doc->getModelTypes() );
-	m_type->setCurrentText(m_umlObject->getReturnType());
-	m_abstract->setChecked(m_umlObject->getAbstract());
-	m_static->setChecked(m_umlObject->getStatic());
-	switch(m_umlObject->getScope())
+	m_type->setCurrentText(m_pOperation->getReturnType());
+	m_abstract->setChecked(m_pOperation->getAbstract());
+	m_static->setChecked(m_pOperation->getStatic());
+	switch(m_pOperation->getScope())
 	{
 		case Uml::Public:
 			m_public->setChecked(true);
@@ -95,7 +102,7 @@ void OperationPropertiesPage::loadData()
 			m_private->setChecked(true);
 	}
 	m_paramList.clear();
-	QPtrList<UMLAttribute> *list = m_umlObject->getParmList();
+	QPtrList<UMLAttribute> *list = m_pOperation->getParmList();
 	QListViewItem *item;
 	UMLAttribute *copy;
 	// create list view and working-copy of attributes
@@ -113,24 +120,24 @@ void OperationPropertiesPage::loadData()
 
 void OperationPropertiesPage::saveData()
 {
-	disconnect(m_umlObject,SIGNAL(modified()),this,SLOT(loadData()));
+	disconnect(m_pOperation,SIGNAL(modified()),this,SLOT(loadData()));
 
-	m_umlObject->setName(m_name->text());
-	m_umlObject->setReturnType(m_type->currentText());
-	m_umlObject->setAbstract(m_abstract->isChecked());
-	m_umlObject->setStatic(m_static->isChecked());
+	m_pOperation->setName(m_name->text());
+	m_pOperation->setReturnType(m_type->currentText());
+	m_pOperation->setAbstract(m_abstract->isChecked());
+	m_pOperation->setStatic(m_static->isChecked());
 	if (m_public->isChecked())
-		m_umlObject->setScope(Uml::Public);
+		m_pOperation->setScope(Uml::Public);
 	else if (m_protected->isChecked())
-		m_umlObject->setScope(Uml::Protected);
+		m_pOperation->setScope(Uml::Protected);
 	else
-		m_umlObject->setScope(Uml::Private);
+		m_pOperation->setScope(Uml::Private);
 
 	///////////////////////////
 	 //remove deleted attributes
 	{
 	QPtrList<UMLAttribute> list;
-	list = *(m_umlObject->getParmList());
+	list = *(m_pOperation->getParmList());
 	list.setAutoDelete(false);
 	kdDebug()<<"removing deleted atts"<<endl;
 	for( UMLAttribute *att = list.first(); att ; att = list.next() )
@@ -143,13 +150,13 @@ void OperationPropertiesPage::saveData()
 		}
 		if(!old)
 		{
-			 m_umlObject->removeParm( att );
+			 m_pOperation->removeParm( att );
 		}
 	}
 	}
 	{
 	// add/update attributes
-	QPtrList<UMLAttribute> *pList = m_umlObject->getParmList();
+	QPtrList<UMLAttribute> *pList = m_pOperation->getParmList();
 	UMLAttribute *att;
 	int index,old_index;
 	kdDebug()<<"updating params"<<endl;
@@ -164,10 +171,10 @@ void OperationPropertiesPage::saveData()
 		if( !old )
 		{//add new attribute
 		kdDebug()<<"new attribute!"<<endl;
-			UMLAttribute *a = new UMLAttribute( m_umlObject, att->getName(),m_doc->getUniqueID(),
+			UMLAttribute *a = new UMLAttribute( m_pOperation, att->getName(),m_doc->getUniqueID(),
                                                             att->getTypeName(),att->getScope(),att->getInitialValue());
 			a->setDoc( att->getDoc() );
-			m_umlObject->addParm(a,index);
+			m_pOperation->addParm(a,index);
 		}
 		else
 		{//update attribute
@@ -178,15 +185,15 @@ void OperationPropertiesPage::saveData()
 			old->setInitialValue(att->getInitialValue());
 			if( old_index != index )
 			{kdDebug()<<"reordering"<<endl;
-				m_umlObject->removeParm(old);
-				m_umlObject->addParm(old,index);
+				m_pOperation->removeParm(old);
+				m_pOperation->addParm(old,index);
 			}
 		}
 	}
 	}
 	kdDebug()<<"done"<<endl;
 	//////////////////////////////
-	connect(m_umlObject,SIGNAL(modified()),this,SLOT(loadData()));	
+	connect(m_pOperation,SIGNAL(modified()),this,SLOT(loadData()));	
 }
 
 
@@ -237,7 +244,8 @@ void OperationPropertiesPage::moveDown( )
 
 void OperationPropertiesPage::createParameter( )
 {
-	UMLAttribute *a = new UMLAttribute(this,"new_parameter",-1);
+	QString newName = m_pOperation->getUniqueParameterName();
+	UMLAttribute *a = new UMLAttribute(0,newName,0);
 	UmbrelloDialog dialog(this, UmbrelloDialog::Swallow, "edit_attribute", true, i18n("Attribute properties"), 
 	                       UmbrelloDialog::Ok | UmbrelloDialog::Cancel );
 	ParameterPropertiesPage *page = new ParameterPropertiesPage(a,&dialog,0);

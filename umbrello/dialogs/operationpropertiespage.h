@@ -73,7 +73,7 @@ protected:
 			 Private;
 		} m_pixmaps;
 	
-	UMLOperation *m_umlObject;
+	UMLOperation *m_pOperation;
 	UMLDoc *m_doc;
 	QPtrList<UMLAttribute> m_paramList;
 	QMap<QListViewItem*,UMLAttribute*> m_paramMap;

@@ -24,6 +24,7 @@
 #include "codegenerationwizardbase.h"
 #include "settingsdlg.h"
 
+class UMLApp;
 class UMLClassifier;
 class UMLDoc;
 class CodeGenerator;
@@ -38,8 +39,8 @@ class CodeGenerationWizard : public CodeGenerationWizardBase {
 	Q_OBJECT
 public:
 	CodeGenerationWizard(UMLDoc *doc, QPtrList<UMLClassifier> *classList,
-	                     SettingsDlg::CodeGenState codegenState, QDict<GeneratorInfo> ldict, 
-			     QString activeLanguage, QWidget *parent=0,
+	                     QDict<GeneratorInfo> ldict, 
+			     QString activeLanguage, UMLApp *parent,
 			     const char *name=0);
 	~CodeGenerationWizard();
 
@@ -58,6 +59,7 @@ protected slots:
 private:
 	CodeGenerator* generator();
 
+	UMLApp* m_app;
 	UMLDoc* m_doc;
 	CodeGenerationOptionsPage* m_CodeGenerationOptionsPage;
 	QDict<GeneratorInfo> m_ldict;
