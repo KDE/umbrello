@@ -426,8 +426,7 @@ QDomElement UMLObject::save( const QString &tag, QDomDocument & qDoc ) {
 	qElement.setAttribute( "isRoot", "false" );
 	qElement.setAttribute( "isSpecification", "false" );
 	qElement.setAttribute( "xmi.id", ID2STR(m_nId) );
-	if (!m_Name.isEmpty())
-		qElement.setAttribute( "name", m_Name );
+	qElement.setAttribute( "name", m_Name );
 	if (! m_Doc.isEmpty())
 		qElement.setAttribute( "comment", m_Doc );  //CHECK: uml13.dtd compliance
 #ifdef XMI_FLAT_PACKAGES
