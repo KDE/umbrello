@@ -34,53 +34,61 @@ class UMLDoc;
 class ParmPropDlg : public KDialogBase {
 public:
 	/**
-	 *	Constructs a ParmPropDlg.
+	 * Constructs a ParmPropDlg.
 	 *
-	 *	@param	parent	The parent of the dialog.
-	 *	@param	a	The parameter to represent.
+	 * @param parent	The parent of the dialog.
+	 * @param a	The parameter to represent.
 	 */
 	ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a);
 
 	/**
-	 *	Standard deconstructor.
+	 * Standard deconstructor.
 	 */
 	~ParmPropDlg();
 
 	/**
-	 *	Returns the documentation.
+	 * Returns the documentation.
 	 *
-	 *	@return	Returns the documentation.
+	 * @return	Returns the documentation.
 	 */
 	QString getDoc() {
 		return m_pDoc -> text();
 	}
 
 	/**
-	 *	Return the name of the parameter.
+	 * Return the name of the parameter.
 	 *
-	 *	@return	Return the name of the parameter.
+	 * @return	Return the name of the parameter.
 	 */
 	QString getName() {
 		return m_pNameLE -> text();
 	}
 
 	/**
-	 *	Return the initial value of the parameter.
+	 * Return the initial value of the parameter.
 	 *
-	 *	@return	Return the initial value of the parameter.
+	 * @return	Return the initial value of the parameter.
 	 */
 	QString getInitialValue() {
 		return m_pInitialLE -> text();
 	}
 
 	/**
-	 *	Return the type name of the parameter.
+	 * Return the type name of the parameter.
 	 *
-	 *	@return Return the type name of the parameter.
+	 * @return Return the type name of the parameter.
 	 */
 	QString getTypeName() {
 		return m_pTypeCB -> currentText();
 	}
+
+	/**
+	 * Return the kind of the parameter (in, out, or inout).
+	 *
+	 * @return	The Uml::Parameter_Kind corresponding to
+	 *		the selected "Kind" radiobutton.
+	 */
+	Uml::Parameter_Kind getParmKind();
 
 public slots:
 	void slotOk();

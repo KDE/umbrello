@@ -153,15 +153,18 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a)
 	m_pNameLE->setFocus();
 }
 
+Uml::Parameter_Kind ParmPropDlg::getParmKind() {
+	Uml::Parameter_Kind pk = Uml::pk_In;
+	if (m_pOut->isChecked())
+		pk = Uml::pk_Out;
+	else if (m_pInOut->isChecked())
+		pk = Uml::pk_InOut;
+	return pk;
+}
+
 void ParmPropDlg::slotOk() {
-	if (m_pAtt != NULL) {
-		if (m_pOut->isChecked())
-			m_pAtt->setParmKind(Uml::pk_Out);
-		else if (m_pInOut->isChecked())
-			m_pAtt->setParmKind(Uml::pk_InOut);
-		else
-			m_pAtt->setParmKind(Uml::pk_In);
-	}
+	if (m_pAtt != NULL)
+		m_pAtt->setParmKind( getParmKind() );
 	accept();
 }
 
