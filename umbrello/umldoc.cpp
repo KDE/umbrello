@@ -2299,7 +2299,7 @@ UMLObject* UMLDoc::makeNewUMLObject(const QString &type) {
 		pObject = new UMLArtifact();
 	} else if (tagEq(type, "Interface")) {
 		pObject = new UMLInterface();
-	} else if (tagEq(type, "DataType")
+	} else if (tagEq(type, "DataType") || tagEq(type, "Primitive")
 		|| tagEq(type, "Datatype")) {	// for bkwd compat.
 		pObject = new UMLDatatype();
 	} else if (tagEq(type, "Enumeration") ||
