@@ -203,7 +203,7 @@ CodeDocument * SimpleCodeGenerator::newClassifierCodeDocument(UMLClassifier* /*c
 // write all concepts in project to file
 void SimpleCodeGenerator::writeCodeToFile ( ) {
         m_fileMap->clear(); // yeah, need to do this, if not, just keep getting same damn directory to write to.
-        UMLClassifierList concepts = m_doc->getConcepts();
+        UMLClassifierList concepts = m_doc->getClassesAndInterfaces();
         for (UMLClassifier *c = concepts.first(); c; c = concepts.next())
 		this->writeClass(c); // call the writer for each class.
 }

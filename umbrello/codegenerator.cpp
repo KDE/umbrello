@@ -124,7 +124,6 @@ CodeDocument * CodeGenerator::findCodeDocumentByID(QString tag) {
 
 bool CodeGenerator::addCodeDocument ( CodeDocument * doc )
 {
-
         QString tag = doc->getID();
 
     // assign a tag if one doesnt already exist
@@ -289,7 +288,7 @@ kdWarning()<<"INITTOPARENT called"<<endl;
 
         // Walk through the document converting classifiers into
         // classifier code documents as needed (e.g only if doesnt exist)
-        UMLClassifierList concepts = getDocument()->getConcepts();
+        UMLClassifierList concepts = getDocument()->getClassesAndInterfaces();
         for (UMLClassifier *c = concepts.first(); c; c = concepts.next())
         {
 

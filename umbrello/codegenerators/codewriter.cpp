@@ -369,7 +369,7 @@ void CodeWriter::generateAllClasses() {
 		return;
 	}
 	m_fileMap->clear();
-	QPtrList<UMLClassifier> cList = m_doc->getConcepts();
+	QPtrList<UMLClassifier> cList = m_doc->getClassesAndInterfaces();
 	generateCode(cList);
 }
 
