@@ -1183,7 +1183,7 @@ UMLOperation* UMLDoc::createOperation(UMLClassifier* classifier,
 		UMLAttributeListIt it(*params);
 		for( ; it.current(); ++it ) {
 			UMLAttribute *par = it.current();
-			if (par->getID() <= 0)
+			if (par->getID() != Uml::id_None)
 				par->setID(getUniqueID());
 			op->addParm(par);
 		}
