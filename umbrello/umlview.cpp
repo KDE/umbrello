@@ -933,7 +933,12 @@ void UMLView::moveSelected(UMLWidget * w, int x, int y) {
 			assocwidget->moveEntireAssoc(x, y);
 	}
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void UMLView::moveSelectedBy(int dX, int dY) {
+	for (UMLWidget *w = m_SelectedList.first(); w; w = m_SelectedList.next())
+		w->moveBy(dX, dY);
+}
+
 void UMLView::selectionUseFillColor(bool useFC) {
 	UMLWidget * temp = 0;
 	for(temp=(UMLWidget *)m_SelectedList.first();temp;temp=(UMLWidget *)m_SelectedList.next())

@@ -442,6 +442,14 @@ public:
 	void moveSelected(UMLWidget * w, int x, int y);
 
 	/**
+	 * Move all the selected widgets by a relative X and Y offset.
+	 *
+	 * @param dX	The distance to move horizontally.
+	 * @param dY	The distance to move vertically.
+	 */
+	void moveSelectedBy(int dX, int dY);
+
+	/**
 	 * Return the amount of widgets selected.
 	 *
 	 * @return Return the amount of widgets selected.
