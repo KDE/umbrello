@@ -648,6 +648,12 @@ private:
 	void calculateEndingPoints();
 
 	/**
+	 * Auxiliary method for calculateEndingPoints().
+	 */
+	void doUpdates(Region& region, Region oldRegion,
+		       int index, int totalCount, bool isWidgetA);
+
+	/**
 	 * Returns true if point (PosX, PosY) is close enough to any of the
 	 * association's segments.
 	 */

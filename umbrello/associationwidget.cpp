@@ -1255,41 +1255,10 @@ void AssociationWidget::calculateEndingPoints() {
 		yB = p.y();
 	}
 	//find widgetA region
-	int oldCountA = m_nTotalCountA;
 	Region oldRegionA = m_WidgetARegion;
 	m_WidgetARegion = findPointRegion( rc, xB, yB );
-	//move some regions to the standard ones
-	switch( m_WidgetARegion ) {
-	case NorthWest:
-		m_WidgetARegion = North;
-		break;
-	case NorthEast:
-		m_WidgetARegion = East;
-		break;
-	case SouthEast:
-		m_WidgetARegion = South;
-		break;
-	case SouthWest:
-	case Center:
-		m_WidgetARegion = West;
-		break;
-	default:
-		break;
-	}
+	doUpdates( m_WidgetARegion, oldRegionA, m_nIndexA, m_nTotalCountA, true);
 
-	int regionCountA = getRegionCount( m_WidgetARegion, true ) + 2;//+2 = (1 for this one and one to halve it)
-	//updateRegionLineCount( regionCountA - 1, regionCountA, m_WidgetARegion, true );
-	if( oldRegionA != m_WidgetARegion ) {
-		updateRegionLineCount( regionCountA - 1, regionCountA, m_WidgetARegion, true );
-		updateAssociations( oldCountA - 1, oldRegionA, true );//tell the old region this ones left
-		updateAssociations( regionCountA, m_WidgetARegion, true );
-	} else if( oldCountA != regionCountA ) {
-		updateRegionLineCount( regionCountA - 1, regionCountA, m_WidgetARegion, true );
-		updateAssociations( regionCountA, m_WidgetARegion, true );
-	} else {
-		updateRegionLineCount( m_nIndexA, m_nTotalCountA, m_WidgetARegion, true );
-		updateAssociations( m_nTotalCountA, m_WidgetARegion, true );
-	}
 	//now do the same for widgetB
 	//if the line has more than one segment change the values to calculate
 	//from widgetB to point the last point away from it
@@ -1306,39 +1275,45 @@ void AssociationWidget::calculateEndingPoints() {
 	rc.setY( yB );
 	rc.setWidth( m_pWidgetB->width() );
 	rc.setHeight( m_pWidgetB->height() );
-	int oldCountB = m_nTotalCountB;
+
 	Region oldRegionB = m_WidgetBRegion;
 	m_WidgetBRegion = findPointRegion( rc, xA, yA );
+	doUpdates( m_WidgetBRegion, oldRegionB, m_nIndexB, m_nTotalCountB, false);
+}
 
+void AssociationWidget::doUpdates(Region& region, Region oldRegion,
+				  int index, int totalCount,
+				  bool isWidgetA) {
 	//move some regions to the standard ones
-	switch( m_WidgetBRegion ) {
+	switch( region ) {
 	case NorthWest:
-		m_WidgetBRegion = North;
+		region = North;
 		break;
 	case NorthEast:
-		m_WidgetBRegion = East;
+		region = East;
 		break;
 	case SouthEast:
-		m_WidgetBRegion = South;
+		region = South;
 		break;
 	case SouthWest:
 	case Center:
-		m_WidgetBRegion = West;
+		region = West;
 		break;
 	default:
 		break;
 	}
-	int regionCountB = getRegionCount( m_WidgetBRegion, false ) + 2;//+2 = (1 for this one and one to halve it)
-	if( oldRegionB != m_WidgetBRegion ) {
-		updateRegionLineCount( regionCountB - 1, regionCountB, m_WidgetBRegion, false );
-		updateAssociations( oldCountB - 1, oldRegionB, false );
-		updateAssociations( regionCountB, m_WidgetBRegion, false );
-	} else if( oldCountB != regionCountB ) {
-		updateRegionLineCount( regionCountB - 1, regionCountB, m_WidgetBRegion, false );
-		updateAssociations( regionCountB, m_WidgetBRegion, false );
+	int regionCount = getRegionCount( region, isWidgetA ) + 2;//+2 = (1 for this one and one to halve it)
+	if( oldRegion != region ) {
+		int oldCount = totalCount;
+		updateRegionLineCount( regionCount - 1, regionCount, region, isWidgetA );
+		updateAssociations( oldCount - 1, oldRegion, isWidgetA );
+		updateAssociations( regionCount, region, isWidgetA );
+	} else if( totalCount != regionCount ) {
+		updateRegionLineCount( regionCount - 1, regionCount, region, isWidgetA );
+		updateAssociations( regionCount, region, isWidgetA );
 	} else {
-		updateRegionLineCount( m_nIndexB, m_nTotalCountB, m_WidgetBRegion, false );
-		updateAssociations( m_nTotalCountB, m_WidgetBRegion, false );
+		updateRegionLineCount( index, totalCount, region, isWidgetA );
+		updateAssociations( totalCount, region, isWidgetA );
 	}
 }
 
