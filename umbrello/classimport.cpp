@@ -200,12 +200,16 @@ void ClassImport::importCPP(QStringList headerFileList) {
 	for (QStringList::Iterator fileIT = headerFileList.begin();
 				   fileIT != headerFileList.end(); ++fileIT) {
 		QString fileName = (*fileIT);
+		m_umldoc->writeToStatusBar("Importing file: " + fileName);
 		m_driver->parseFile( fileName );
 		TranslationUnitAST *ast = m_driver->translationUnit( fileName );
+		if (ast == NULL)
+			continue;
 		CppTree2Uml modelFeeder( fileName, this );
 		kdDebug() << "Now calling modelFeeder.parseTranslationUnit for file "
 			  << fileName << endl;
 		modelFeeder.parseTranslationUnit( ast );
 	}
+	m_umldoc->writeToStatusBar("Ready.");
 }
 

@@ -945,6 +945,11 @@ public:
 	 */
 	QString uniqObjectName(const UMLObject_Type type, QString prefix = "");
 
+	/**
+	 * Write text to the status bar.
+	 */
+	void writeToStatusBar(const QString &text);
+
 private:
 
 	/**

@@ -809,8 +809,7 @@ void UMLApp::slotStatusMsg(const QString &text) {
 	statusBar()->clear();
 	m_statusLabel->setText( text );
 
-	if ( loading )
-		m_statusLabel->repaint();
+	m_statusLabel->repaint();
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -616,8 +616,12 @@ void UMLDoc::addUMLObject(UMLObject* object) {
 		objectList.append( object );
 	}
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
-// a simple removeal of an object
+
+void UMLDoc::writeToStatusBar(const QString &text) {
+	emit sigWriteToStatusBar(text);
+}
+
+// simple removal of an object
 void UMLDoc::slotRemoveUMLObject(UMLObject* object)  {
 	objectList.remove(object);
 }
