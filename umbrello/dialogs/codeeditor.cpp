@@ -648,22 +648,26 @@ QPopupMenu * CodeEditor::createPopupMenu ( const QPoint & pos )
 	TextBlock * tb = m_selectedTextBlock;
 	m_lastPara = paragraphAt(pos);
 
-//  	return QTextEdit::createPopupMenu ( pos );
 	QPopupMenu * menu = new QPopupMenu(this);
+	// ugh. A bug in the Qt interaction between QTextEdit and Menu
+	// can sometimes trigger a clear() call of the text area after
+	// the popup menu is destroyed. The workaround is to disable
+	// the behavior by blocking the destroy signal from the menu.
+	menu->blockSignals(true);
 
 	if (m_selectedTextBlock)
 	{
 		if(tb->getWriteOutText())
-			menu->insertItem("Hide",this,SLOT(slotChangeSelectedBlockView()), Key_H , 0);
+			menu->insertItem("Hide",this,SLOT(slotChangeSelectedBlockView()), Key_H, 0);
 		else
-			menu->insertItem("Show",this,SLOT(slotChangeSelectedBlockView()), Key_H , 0);
+			menu->insertItem("Show",this,SLOT(slotChangeSelectedBlockView()), Key_S, 0);
 
 		CodeBlockWithComments * cb = dynamic_cast<CodeBlockWithComments*>(tb);
 		if(cb)
 			if(cb->getComment()->getWriteOutText())
 				menu->insertItem("Hide Comment",this,SLOT(slotChangeSelectedBlockCommentView()), CTRL+Key_H, 1);
 			else
-				menu->insertItem("Show Comment",this,SLOT(slotChangeSelectedBlockCommentView()), CTRL+Key_H, 1);
+				menu->insertItem("Show Comment",this,SLOT(slotChangeSelectedBlockCommentView()), CTRL+Key_S, 1);
 		menu->insertSeparator();
 
 		menu->insertItem("Insert Code Block Before",this,SLOT(slotInsertCodeBlockBeforeSelected()), CTRL+Key_B, 2);
