@@ -58,3 +58,5 @@ void UMLRoleDialog::slotOk() {
 	}
 }
 
+
+#include "umlroledialog.moc"

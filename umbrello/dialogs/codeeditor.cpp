@@ -74,3 +74,5 @@ void CodeEditor::init () {
 	setReadOnly (true);
 }
 
+
+#include "codeeditor.moc"

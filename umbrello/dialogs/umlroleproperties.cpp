@@ -104,3 +104,5 @@ void UMLRoleProperties::updateObject() {
 
 }
 
+
+#include "umlroleproperties.moc"
