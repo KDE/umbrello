@@ -67,3 +67,6 @@ DiagramElement* WidgetFactory::createCustomWidget(int t, Diagram *parent)
 
 } // end of namespace Umbrello
 
+#include "widgetfactory.moc"
+
+
