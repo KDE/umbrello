@@ -106,7 +106,7 @@ public:
 	 *	@return Returns the id of the A widget it is related to..
 	 */
 	int getCopyIDA() {
-		return ((MessageWidgetData*)m_pData)->m_nWidgetAID;
+		return ((MessageWidgetData*)m_pData)->getWidgetAID();
 	}
 
 	/**
@@ -115,7 +115,7 @@ public:
 	 *	@return Returns the id of the B widget it is related to..
 	 */
 	int getCopyIDB() {
-		return ((MessageWidgetData*)m_pData)->m_nWidgetBID;
+		return ((MessageWidgetData*)m_pData)->getWidgetBID();
 	}
 
 	/**

@@ -42,7 +42,7 @@ void NodeWidget::init() {
 		//check to see if correct
 		SettingsDlg::OptionState ops = m_pView->getOptionState();
 
-		( (NodeWidgetData*)m_pData ) -> m_bShowStereotype = ops.classState.showStereoType;
+		( (NodeWidgetData*)m_pData ) -> setShowStereotype( ops.classState.showStereoType );
 	}
 	//maybe loading and this may not be set.
 	if (m_pObject) {
@@ -148,7 +148,7 @@ void NodeWidget::calculateSize() {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void NodeWidget::setShowStereotype(bool _status) {
-	((NodeWidgetData*)m_pData)->m_bShowStereotype = _status;
+	((NodeWidgetData*)m_pData)->setShowStereotype( _status );
 	calculateSize();
 	update();
 }
@@ -162,5 +162,5 @@ bool NodeWidget::activate(IDChangeLog* ChangeLog /* = 0 */) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool NodeWidget::getShowStereotype() {
-	return ((NodeWidgetData*)m_pData)->m_bShowStereotype;
+	return ((NodeWidgetData*)m_pData)->getShowStereotype();
 }

@@ -41,7 +41,7 @@ public:
 	 *	Constructs a ClassWidget.
 	 *
 	 *	@param	view		The parent of this ClassWidget.
-	 *	@param	o				The UMLObject is will be representing.
+	 *	@param	o		The UMLObject to represent.
 	 */
 	ClassWidget(UMLView * view, UMLObject *o);
 
@@ -68,7 +68,7 @@ public:
 	 *	@return	Returns the status of showing attributes.
 	 */
 	bool getShowAtts() {
-		return ((ClassWidgetData*)m_pData)->m_bShowAttributes;
+		return ((ClassWidgetData*)m_pData)->getShowAttributes();
 	}
 
 	/**
@@ -77,7 +77,7 @@ public:
 	 *	@return	Return the status of showing operations.
 	 */
 	bool getShowOps() {
-		return ((ClassWidgetData*)m_pData)->m_bShowOperations;
+		return ((ClassWidgetData*)m_pData)->getShowOperations();
 	}
 
 	/**
@@ -86,7 +86,7 @@ public:
 	 *	@return Returns the status of showing operation signatures.
 	 */
 	Uml::Signature_Type getShowOpSigs() {
-		return ((ClassWidgetData*)m_pData)->m_ShowOpSigs;
+		return ((ClassWidgetData*)m_pData)->getShowOpSigs();
 	}
 
 	/**
@@ -95,7 +95,7 @@ public:
 	 *	@return	Returns the status of showing attribute signatures.
 	 */
 	Uml::Signature_Type getShowAttSigs() {
-		return ((ClassWidgetData*)m_pData)->m_ShowAttSigs;
+		return ((ClassWidgetData*)m_pData)->getShowAttSigs();
 	}
 
 	/**
@@ -104,7 +104,7 @@ public:
 	 *	@return  Returns the status of whether to show scope.
 	 */
 	bool getShowScope() {
-		return ((ClassWidgetData*)m_pData)->m_bShowScope;
+		return ((ClassWidgetData*)m_pData)->getShowScope();
 	}
 
 	/**
@@ -162,7 +162,7 @@ public:
 	 *	@return  Returns the status of whether to show StereoType.
 	 */
 	bool getShowStereotype() {
-		return ((ClassWidgetData*)m_pData)->m_bShowStereotype;
+		return ((ClassWidgetData*)m_pData)->getShowStereotype();
 	}
 
 	/**
@@ -171,7 +171,7 @@ public:
 	 *	@return  Returns the status of whether to show Package.
 	 */
 	bool getShowPackage() {
-		return ((ClassWidgetData*)m_pData)->m_bShowPackage;
+		return ((ClassWidgetData*)m_pData)->getShowPackage();
 	}
 
 	/**

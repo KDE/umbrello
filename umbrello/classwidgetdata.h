@@ -21,7 +21,6 @@
  * @author Gustavo Madrigal
  */
 class ClassWidgetData : public UMLWidgetData {
-	friend class ClassWidget;
 public:
 	ClassWidgetData(SettingsDlg::OptionState optionState);
 	ClassWidgetData(ClassWidgetData & Other);

@@ -21,7 +21,6 @@
  * @author Jonathan Riddell
  */
 class ComponentWidgetData : public UMLWidgetData {
-	friend class ComponentWidget;
 public:
 
 	/**

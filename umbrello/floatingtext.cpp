@@ -415,7 +415,7 @@ QString FloatingText::getText() {
 	QString text = "";
 	if( !m_pData )
 		return text;
-	text = ( ( FloatingTextData *)m_pData ) -> m_Text; // why not use method?
+	text = ( ( FloatingTextData *)m_pData ) -> getText();
 
 	// hmm. this section looks like it could have been avoided by using pre-, post- text
 	// instead of storing in the main body of the text -b.t.

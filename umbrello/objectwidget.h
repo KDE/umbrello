@@ -79,7 +79,7 @@ public:
 	 *	@return Returns the local ID.
 	 */
 	int getLocalID() {
-		return ((ObjectWidgetData*)m_pData)->m_nLocalID;
+		return ((ObjectWidgetData*)m_pData)->getLocalID();
 	}
 
 	/**
@@ -88,7 +88,7 @@ public:
 	 *	@return Returns the instance name.
 	 */
 	QString getInstanceName() {
-		return ((ObjectWidgetData*)m_pData)->m_InstanceName;
+		return ((ObjectWidgetData*)m_pData)->getInstanceName();
 	}
 
 	/**
@@ -97,7 +97,7 @@ public:
 	 *	@param	name	The name to set the instance name to.
 	 */
 	void setInstanceName(QString name) {
-		((ObjectWidgetData*)m_pData)->m_InstanceName = name;
+		((ObjectWidgetData*)m_pData)->setInstanceName( name );
 	}
 
 	/**
@@ -122,7 +122,7 @@ public:
 	 *	@return	Returns whether object is representing a multi-object.
 	 */
 	bool getMultipleInstance() {
-		return ((ObjectWidgetData*)m_pData)->m_bMultipleInstance;
+		return ((ObjectWidgetData*)m_pData)->getMultipleInstance();
 	}
 
 	/**
@@ -138,7 +138,7 @@ public:
 	 * 	@param id the local id of the object.
 	 */
 	void setLocalID(int id) {
-		((ObjectWidgetData*)m_pData)->m_nLocalID = id;
+		((ObjectWidgetData*)m_pData)->setLocalID( id );
 	}
 
 	/**
@@ -180,14 +180,14 @@ public:
 	 * 		Returns whether to draw as an object or not.
 	 */
 	bool getDrawAsActor() {
-		return ( ( ObjectWidgetData *)m_pData ) -> m_bDrawAsActor;
+		return ( ( ObjectWidgetData *)m_pData ) -> getDrawAsActor();
 	}
 
 	/**
 	 * 		Sets whether to draw as an Actor.
 	 */
 	void setDrawAsActor( bool drawAsActor ) {
-		( ( ObjectWidgetData *)m_pData ) -> m_bDrawAsActor = drawAsActor;
+		( ( ObjectWidgetData *)m_pData ) -> setDrawAsActor( drawAsActor );
 		calculateSize();
 	}
 

@@ -21,7 +21,6 @@
  * @author Jonathan Riddell
  */
 class NodeWidgetData : public UMLWidgetData {
-	friend class NodeWidget;
 public:
 
 	/**

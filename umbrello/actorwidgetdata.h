@@ -21,7 +21,6 @@
  */
 
 class ActorWidgetData : public UMLWidgetData {
-	friend class ActorWidget;
 public:
 	ActorWidgetData(SettingsDlg::OptionState optionState);
 	ActorWidgetData(ActorWidgetData & Other);

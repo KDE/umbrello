@@ -36,8 +36,8 @@ MessageWidget::MessageWidget(UMLView* view, UMLWidget* a, UMLWidget* b, Floating
 	m_pWB = b;
 	m_nY = y;
 	m_pData->setType(wt_Message);
-	((MessageWidgetData*)m_pData)->m_nWidgetAID= ((ObjectWidget *)m_pWA)-> getLocalID();
-	((MessageWidgetData*)m_pData)->m_nWidgetBID = ((ObjectWidget *)m_pWB)-> getLocalID();
+	((MessageWidgetData*)m_pData)->setWidgetAID( ((ObjectWidget *)m_pWA)-> getLocalID() );
+	((MessageWidgetData*)m_pData)->setWidgetBID( ((ObjectWidget *)m_pWB)-> getLocalID() );
 	ft->setUMLObject(b->getUMLObject());
 	ft -> setMessage(this);
 	connect(m_pWA, SIGNAL(sigWidgetMoved(int)), this, SLOT(slotWidgetMoved(int)));
@@ -239,24 +239,24 @@ bool MessageWidget::activate(IDChangeLog * Log /*= 0*/) {
 		m_pFText = new FloatingText( m_pView, tr_Seq_Message, "" );
 		m_pFText->getData()->setFont(widgetdata->getFont());
 	}
-	if(widgetdata->m_nTextID != -1)
+	if(widgetdata->getTextID() != -1)
 	{
-		m_pFText -> setID(widgetdata->m_nTextID);   //this is wrong//change when anchors back
+		m_pFText -> setID( widgetdata->getTextID() );   //this is wrong//change when anchors back
 	}                                                                     //need to assign new id
 	else {
 		int newid = m_pView->getDocument()->getUniqueID();
 		m_pFText -> setID(newid);
-		widgetdata->m_nTextID = newid;
+		widgetdata->setTextID( newid );
 	}
-	QString seq = widgetdata->m_SequenceNumber;
+	QString seq = widgetdata->getSequenceNumber();
 	m_pFText -> setSeqNum(seq);
-	m_pFText -> setOperation(widgetdata->m_Operation);
+	m_pFText -> setOperation( widgetdata->getOperation() );
 	QString messageText = m_pFText->getText();
 	m_pFText->setActivated();
 	m_pFText->setVisible( messageText.length() > 1 );
 
-	m_pWA = m_pView -> findWidget( widgetdata -> m_nWidgetAID);
-	m_pWB = m_pView -> findWidget( widgetdata -> m_nWidgetBID );
+	m_pWA = m_pView -> findWidget( widgetdata -> getWidgetAID() );
+	m_pWB = m_pView -> findWidget( widgetdata -> getWidgetBID() );
 
 	if(!m_pWA || !m_pWB) {
 		kdDebug() << "Can't make message" << endl;
@@ -532,12 +532,12 @@ void MessageWidget::mouseReleaseEvent( QMouseEvent * me ) {
 
 void MessageWidget::setWidgetA(UMLWidget * wa) {
 	m_pWA = wa;
-	((MessageWidgetData*)m_pData)->m_nWidgetAID = ((ObjectWidget *)wa) -> getLocalID();
+	((MessageWidgetData*)m_pData)->setWidgetAID( ((ObjectWidget *)wa) -> getLocalID() );
 }
 
 void MessageWidget::setWidgetB(UMLWidget * wb) {
 	m_pWB = wb;
-	((MessageWidgetData*)m_pData)->m_nWidgetBID = ((ObjectWidget *)wb) -> getLocalID();
+	((MessageWidgetData*)m_pData)->setWidgetBID( ((ObjectWidget *)wb) -> getLocalID() );
 }
 
 #include "messagewidget.moc"

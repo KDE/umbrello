@@ -24,7 +24,6 @@ class QDataStream;
  * @author Gustavo Madrigal
  */
 class MessageWidgetData : public UMLWidgetData {
-	friend class MessageWidget;
 public:
 	/**
 	 * Constructor.  Sets message type to sequenceMessageType.

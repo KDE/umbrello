@@ -44,7 +44,7 @@ void PackageWidget::init() {
 		//check to see if correct
 		SettingsDlg::OptionState ops = m_pView->getOptionState();
 
-		( (PackageWidgetData*)m_pData ) -> m_bShowStereotype = ops.classState.showStereoType;
+		( (PackageWidgetData*)m_pData ) -> setShowStereotype( ops.classState.showStereoType );
 	}
 	//maybe loading and this may not be set.
 	if (m_pObject) {
@@ -130,7 +130,7 @@ void PackageWidget::calculateSize() {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void PackageWidget::setShowStereotype(bool _status) {
-	((PackageWidgetData*)m_pData)->m_bShowStereotype = _status;
+	((PackageWidgetData*)m_pData)->setShowStereotype( _status );
 	calculateSize();
 	update();
 }
@@ -144,5 +144,5 @@ bool PackageWidget::activate(IDChangeLog* ChangeLog /* = 0 */) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool PackageWidget::getShowStereotype() {
-	return ((PackageWidgetData*)m_pData)->m_bShowStereotype;
+	return ((PackageWidgetData*)m_pData)->getShowStereotype();
 }

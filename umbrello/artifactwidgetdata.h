@@ -21,7 +21,6 @@
  * @author Jonathan Riddell
  */
 class ArtifactWidgetData : public UMLWidgetData {
-	friend class ArtifactWidget;
 public:
 
 	/**

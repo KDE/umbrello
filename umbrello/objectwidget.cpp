@@ -36,20 +36,22 @@ ObjectWidget::ObjectWidget(UMLView * view,  UMLObject *o, UMLWidgetData *pData) 
 }
 
 ObjectWidget::ObjectWidget(UMLView * view, UMLObject *o, int lid) : UMLWidget(view, o, new ObjectWidgetData(view->getOptionState() )) {
+	ObjectWidgetData* data = (ObjectWidgetData*)m_pData;
 	m_pLine = 0;
-	((ObjectWidgetData*)m_pData)->m_nLocalID = lid;
-	((ObjectWidgetData*)m_pData)->m_InstanceName = "";
-	((ObjectWidgetData*)m_pData)->m_bMultipleInstance = false;
+	data->setLocalID( lid );
+	data->setInstanceName( "" );
+	data->setMultipleInstance( false );
 	m_pData->setType(wt_Object);
 	calculateSize();
 	init();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ObjectWidget::ObjectWidget(UMLView * view) : UMLWidget(view, new ObjectWidgetData(view->getOptionState() )) {
+	ObjectWidgetData* data = (ObjectWidgetData*)m_pData;
 	m_pLine = 0;
-	((ObjectWidgetData*)m_pData)->m_nLocalID = -1;
-	((ObjectWidgetData*)m_pData)->m_InstanceName = "";
-	((ObjectWidgetData*)m_pData)->m_bMultipleInstance = false;
+	data->setLocalID( -1 );
+	data->setInstanceName( "" );
+	data->setMultipleInstance( false );
 	init();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -82,9 +84,9 @@ void ObjectWidget::slotMenuSelection(int sel) {
 		{
 			bool ok;
 			QRegExpValidator* validator = new QRegExpValidator(QRegExp(".*"), 0);
-			name = KLineEditDlg::getText(i18n("Enter object name:"), ((ObjectWidgetData*)m_pData)->m_InstanceName, &ok, m_pView, validator);
+			name = KLineEditDlg::getText(i18n("Enter object name:"), ((ObjectWidgetData*)m_pData)->getInstanceName(), &ok, m_pView, validator);
 			if (ok) {
-				((ObjectWidgetData*)m_pData)->m_InstanceName = name;
+				((ObjectWidgetData*)m_pData)->setInstanceName( name );
 				calculateSize();
 				moveEvent( 0 );
 				update();
@@ -118,19 +120,20 @@ void ObjectWidget::calculateSize() {
 	int width, height, textWidth;
 	QFontMetrics &fm = getFontMetrics(FT_UNDERLINE);
 	int fontHeight  = fm.lineSpacing();
-	if( ( (ObjectWidgetData *)m_pData ) -> getDrawAsActor() ) {
-		QString t = ((ObjectWidgetData*)m_pData)->m_InstanceName + " : " + m_pObject -> getName();
+	ObjectWidgetData *data = (ObjectWidgetData *)m_pData;
+	if ( data -> getDrawAsActor() ) {
+		QString t = data->getInstanceName() + " : " + m_pObject -> getName();
 		textWidth = fm.width( t );
 		width = textWidth > A_WIDTH?textWidth:A_WIDTH;
 		height = A_HEIGHT + fontHeight + A_MARGIN;
 		width += A_MARGIN * 2;
 	} else {
-		QString t = ((ObjectWidgetData*)m_pData)->m_InstanceName + " : " + m_pObject -> getName();
+		QString t = data->getInstanceName() + " : " + m_pObject -> getName();
 		textWidth = fm.width(t);
 		width = textWidth > O_WIDTH?textWidth:O_WIDTH;
 		height = fontHeight + O_MARGIN * 2;
 		width += O_MARGIN * 2;
-		if(((ObjectWidgetData*)m_pData)->m_bMultipleInstance) {
+		if (data->getMultipleInstance()) {
 			width += 10;
 			height += 10;
 		}
@@ -140,7 +143,7 @@ void ObjectWidget::calculateSize() {
 //FIXME not quite sure what this did, but it broke paste
 //		setY( (int)y() + (oldHeight - height ) );
 	}
-	emit sigWidgetMoved(((ObjectWidgetData*)m_pData)->m_nLocalID);//makes any message widgets connected resize themselves
+	emit sigWidgetMoved( data->getLocalID() );//makes any message widgets connected resize themselves
 	adjustAssocs( (int)x(), (int)y() );//adjust assoc lines
 	moveEvent( 0 );
 }
@@ -154,7 +157,7 @@ void ObjectWidget::setMultipleInstance(bool multiple) {
 	//make sure only calling this in relation to an object on a collab. diagram
 	if(m_pView -> getType() != dt_Collaboration)
 		return;
-	((ObjectWidgetData*)m_pData)->m_bMultipleInstance = multiple;
+	((ObjectWidgetData*)m_pData)->setMultipleInstance( multiple );
 	calculateSize();
 	update();
 }
@@ -215,8 +218,9 @@ void ObjectWidget::drawObject(QPainter & p, int offsetX, int offsetY) {
 	int w = width();
 	int h= height();
 
-	QString t = ((ObjectWidgetData*)m_pData)->m_InstanceName + " : " + m_pObject -> getName();
-	if(((ObjectWidgetData*)m_pData)->m_bMultipleInstance) {
+	ObjectWidgetData* data = (ObjectWidgetData*)m_pData;
+	QString t = data->getInstanceName() + " : " + m_pObject -> getName();
+	if ( data->getMultipleInstance() ) {
 		p.drawRect(offsetX + 10, offsetY + 10, w - 10, h - 10);
 		p.drawRect(offsetX + 5, offsetY + 5, w - 10, h - 10);
 		p.drawRect(offsetX, offsetY, w - 10, h - 10);
@@ -254,7 +258,7 @@ void ObjectWidget::drawActor(QPainter & p, int offsetX, int offsetY) {
 	p.drawLine(offsetX + middleX - A_WIDTH / 2, offsetY + thirdY + thirdY / 2, offsetX + middleX + A_WIDTH / 2, offsetY + thirdY + thirdY / 2);//arms
 	//draw text
 	p.setPen(QPen(black));
-	QString t = ((ObjectWidgetData*)m_pData)->m_InstanceName + " : " + m_pObject -> getName();
+	QString t = ((ObjectWidgetData*)m_pData)->getInstanceName() + " : " + m_pObject -> getName();
 	p.drawText(offsetX + A_MARGIN, offsetY + textStartY, w - A_MARGIN * 2, fontHeight, AlignCenter, t);
 }
 

@@ -28,14 +28,14 @@ NoteWidget::NoteWidget(UMLView * view, int id)  : UMLWidget(view, id, new NoteWi
 	init();
 	setSize(100,80);
 	m_pData->setType(wt_Note);
-	((NoteWidgetData*)m_pData)->m_bLinkDocumentation = false;
+	((NoteWidgetData*)m_pData)->setLinkDocumentation( false );
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 NoteWidget::NoteWidget(UMLView * view) : UMLWidget(view, new NoteWidgetData(view->getOptionState() )) {
 	init();
 	setSize(100,80);
 	m_pData->setType(wt_Note);
-	((NoteWidgetData*)m_pData)->m_bLinkDocumentation = false;
+	((NoteWidgetData*)m_pData)->setLinkDocumentation( false );
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void NoteWidget::init() {

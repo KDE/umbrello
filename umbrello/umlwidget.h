@@ -87,12 +87,12 @@ public:
 	virtual int getID();
 
 	/**
-	 * Sets the id og the UMLWidget.
+	 * Sets the id of the UMLWidget.
 	 *
 	 * @param id The id to set the widget to.
 	 */
 	virtual void setID(int Id) {
-		m_pData->m_nId = Id;
+		m_pData->setID( Id );
 	}
 
 	/**
@@ -152,7 +152,7 @@ public:
 	 * @return	Return the status of using fill color.
 	 */
 	bool getUseFillColor() {
-		return m_pData->m_bUseFillColor;
+		return m_pData->getUseFillColor();
 	}
 
 	/**

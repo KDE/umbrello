@@ -50,9 +50,10 @@ void InterfaceWidget::init() {
 
 		setShowOpSigs( ops.classState.showOpSig );
 
-		( (InterfaceWidgetData*) m_pData ) -> m_bShowOperations = ops.classState.showOps;
-		( (InterfaceWidgetData*) m_pData ) -> m_bShowPackage = ops.classState.showPackage ;
-		( (InterfaceWidgetData*) m_pData ) -> m_bShowScope = ops.classState.showScope ;
+		InterfaceWidgetData* data = (InterfaceWidgetData*) m_pData;
+		data -> setShowOperations( ops.classState.showOps );
+		data -> setShowPackage( ops.classState.showPackage );
+		data -> setShowScope( ops.classState.showScope  );
 		updateSigs();
 	}
 	//maybe loading and this may not be set.
@@ -99,7 +100,7 @@ void InterfaceWidget::drawAsCircle(QPainter& p, int offsetX, int offsetY) {
 	QFontMetrics &fm = getFontMetrics(FT_NORMAL);
 	int fontHeight  = fm.lineSpacing();
 	QString name;
-	if ( ((InterfaceWidgetData*)m_pData)->m_bShowPackage ) {
+	if ( ((InterfaceWidgetData*)m_pData)->getShowPackage() ) {
 		name = m_pObject -> getPackage() + "::" + this -> getName();
 	} else {
 		name = this -> getName();
@@ -131,7 +132,7 @@ void InterfaceWidget::drawAsConcept(QPainter& p, int offsetX, int offsetY) {
 	QFontMetrics &fm = getFontMetrics(FT_NORMAL);
 	int fontHeight  = fm.lineSpacing();
 	QString name;
-	if ( ((InterfaceWidgetData*)m_pData)->m_bShowPackage ) {
+	if ( ((InterfaceWidgetData*)m_pData)->getShowPackage() ) {
 		name = m_pObject -> getPackage() + "::" + this -> getName();
 	} else {
 		name = this -> getName();
@@ -159,7 +160,7 @@ void InterfaceWidget::drawAsConcept(QPainter& p, int offsetX, int offsetY) {
 	int operationsStart = fontHeight * 2;
 	int y;
 
-	if(((InterfaceWidgetData*)m_pData)->m_bShowOperations) {
+	if( ((InterfaceWidgetData*)m_pData)->getShowOperations() ) {
 		QFont font( p.font() );
 		y = operationsStart;
 		p.setPen( m_pData->getLineColour() );
@@ -169,7 +170,7 @@ void InterfaceWidget::drawAsConcept(QPainter& p, int offsetX, int offsetY) {
 		UMLOperation* obj = 0;
 		QPtrList<UMLOperation>* list = ((UMLInterface*)m_pObject)->getOpList();
 		for(obj=list->first();obj != 0;obj=list->next()) {
-			QString op = obj->toString(((InterfaceWidgetData*)m_pData)->m_ShowOpSigs);
+			QString op = obj->toString(((InterfaceWidgetData*)m_pData)->getShowOpSigs());
 			p.setPen( QPen(black) );
 			font.setUnderline( obj->getStatic() );
 			font.setItalic( obj->getAbstract() );
@@ -203,7 +204,7 @@ void InterfaceWidget::calculateAsCircleSize() {
 	int height = CIRCLE_SIZE + fontHeight;
 
 	int width;
-	if(((InterfaceWidgetData*)m_pData)->m_bShowPackage) {
+	if( ((InterfaceWidgetData*)m_pData)->getShowPackage() ) {
 		width = fm.width(m_pObject->getPackage() + "::" + getName());
 	} else {
 		width = fm.width(getName());
@@ -224,11 +225,13 @@ void InterfaceWidget::calculateAsConceptSize() {
 	int lines = 1;//always have one line - for name
 	int numOps = ((UMLInterface*)m_pObject)->operations();
 
+	InterfaceWidgetData* data = (InterfaceWidgetData*)m_pData;
+
 	lines++; //for the stereotype
 
 	height = width = 0;
 	//set the height of the concept
-	if(((InterfaceWidgetData*)m_pData)->m_bShowOperations) {
+	if(data->getShowOperations()) {
 		lines += numOps;
 		if(numOps == 0) {
 			height += fontHeight / 2;//no ops, so just add a but of space
@@ -237,7 +240,7 @@ void InterfaceWidget::calculateAsConceptSize() {
 	height += lines * fontHeight;
 	//now set the width of the concept
 	//set width to name to start with
-	if(((InterfaceWidgetData*)m_pData)->m_bShowPackage)
+	if(data->getShowPackage())
 		width = getFontMetrics(FT_BOLD_ITALIC).boundingRect(m_pObject->getPackage() + "::" + getName()).width();
 	else
 		width = getFontMetrics(FT_BOLD_ITALIC).boundingRect(getName()).width();
@@ -246,7 +249,7 @@ void InterfaceWidget::calculateAsConceptSize() {
 
 	width = w > width?w:width;
 
-	if(((InterfaceWidgetData*)m_pData)->m_bShowOperations) {
+	if(data->getShowOperations()) {
 		QPtrList<UMLOperation>* list = ((UMLInterface*)m_pObject)->getOpList();
 		UMLOperation * o = 0;
 		for(o = list->first();o != 0; o = list->next()) {
@@ -257,7 +260,7 @@ void InterfaceWidget::calculateAsConceptSize() {
 				: isAbstract
 					? FT_ITALIC
 					: FT_UNDERLINE);
-			int w = fm.boundingRect(o -> toString(((InterfaceWidgetData*)m_pData)->m_ShowOpSigs)).width();
+			int w = fm.boundingRect(o -> toString(data->getShowOpSigs())).width();
 			width = w > width?w:width;
 		}
 	}
@@ -269,6 +272,7 @@ void InterfaceWidget::calculateAsConceptSize() {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void InterfaceWidget::slotMenuSelection(int sel) {
+	InterfaceWidgetData* data = (InterfaceWidgetData*)m_pData;
 
 	switch(sel) {
 		case ListPopupMenu::mt_Operation:
@@ -276,7 +280,7 @@ void InterfaceWidget::slotMenuSelection(int sel) {
 			break;
 
 		case ListPopupMenu::mt_Show_Operations:
-			((InterfaceWidgetData*)m_pData)->m_bShowOperations = ((InterfaceWidgetData*)m_pData)->m_bShowOperations?false:true;
+			data->setShowOperations( !data->getShowOperations() );
 			updateSigs();
 			calculateSize();
 
@@ -284,29 +288,29 @@ void InterfaceWidget::slotMenuSelection(int sel) {
 			break;
 
 		case ListPopupMenu::mt_Show_Operation_Signature:
-			if(((InterfaceWidgetData*)m_pData)->m_ShowOpSigs == Uml::st_ShowSig || ((InterfaceWidgetData*)m_pData)->m_ShowOpSigs == Uml::st_SigNoScope) {
-				if(((InterfaceWidgetData*)m_pData)->m_bShowScope)
-					((InterfaceWidgetData*)m_pData)->m_ShowOpSigs = Uml::st_NoSig;
+			if(data->getShowOpSigs() == Uml::st_ShowSig || data->getShowOpSigs() == Uml::st_SigNoScope) {
+				if(data->getShowScope())
+					data->setShowOpSigs( Uml::st_NoSig );
 				else
-					((InterfaceWidgetData*)m_pData)->m_ShowOpSigs = Uml::st_NoSigNoScope;
-			} else if(((InterfaceWidgetData*)m_pData)->m_bShowScope)
-				((InterfaceWidgetData*)m_pData)->m_ShowOpSigs = Uml::st_ShowSig;
+					data->setShowOpSigs( Uml::st_NoSigNoScope );
+			} else if(data->getShowScope())
+				data->setShowOpSigs( Uml::st_ShowSig );
 
 			else
-				((InterfaceWidgetData*)m_pData)->m_ShowOpSigs =	Uml::st_SigNoScope;
+				data->setShowOpSigs( Uml::st_SigNoScope );
 			calculateSize();
 			update();
 			break;
 
 		case ListPopupMenu::mt_Scope:
-			((InterfaceWidgetData*)m_pData)->m_bShowScope = ((InterfaceWidgetData*)m_pData)->m_bShowScope?false:true;
+			data->setShowScope( !data->getShowScope() );
 			updateSigs();
 			calculateSize();
 			update();
 			break;
 
 		case ListPopupMenu::mt_DrawAsCircle:
-			((InterfaceWidgetData*)m_pData)->setDrawAsCircle( !((InterfaceWidgetData*)m_pData)->getDrawAsCircle() );
+			data->setDrawAsCircle( !data->getDrawAsCircle() );
 			updateSigs();
 			calculateSize();
 			update();
@@ -316,18 +320,19 @@ void InterfaceWidget::slotMenuSelection(int sel) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void InterfaceWidget::updateSigs() {
+	InterfaceWidgetData* data = (InterfaceWidgetData*)m_pData;
 	//turn on scope
-	if(((InterfaceWidgetData*)m_pData)->m_bShowScope) {
-		if(((InterfaceWidgetData*)m_pData)->m_ShowOpSigs == Uml::st_NoSigNoScope) {
-			((InterfaceWidgetData*)m_pData)->m_ShowOpSigs = Uml::st_NoSig;
-		} else if(((InterfaceWidgetData*)m_pData)->m_ShowOpSigs == Uml::st_SigNoScope) {
-			((InterfaceWidgetData*)m_pData)->m_ShowOpSigs = Uml::st_ShowSig;
+	if(data->getShowScope()) {
+		if(data->getShowOpSigs() == Uml::st_NoSigNoScope) {
+			data->setShowOpSigs( Uml::st_NoSig );
+		} else if(data->getShowOpSigs() == Uml::st_SigNoScope) {
+			data->setShowOpSigs( Uml::st_ShowSig );
 		}
 	} else { //turn off scope
-		if(((InterfaceWidgetData*)m_pData)->m_ShowOpSigs == Uml::st_ShowSig) {
-			((InterfaceWidgetData*)m_pData)->m_ShowOpSigs = Uml::st_SigNoScope;
-		} else if(((InterfaceWidgetData*)m_pData)->m_ShowOpSigs == Uml::st_NoSig) {
-			((InterfaceWidgetData*)m_pData)->m_ShowOpSigs = Uml::st_NoSigNoScope;
+		if(data->getShowOpSigs() == Uml::st_ShowSig) {
+			data->setShowOpSigs( Uml::st_SigNoScope );
+		} else if(data->getShowOpSigs() == Uml::st_NoSig) {
+			data->setShowOpSigs( Uml::st_NoSigNoScope );
 		}
 	}
 	calculateSize();
@@ -335,44 +340,44 @@ void InterfaceWidget::updateSigs() {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void InterfaceWidget::setShowScope(bool _scope) {
-	((InterfaceWidgetData*)m_pData)->m_bShowScope = _scope;
+	((InterfaceWidgetData*)m_pData)->setShowScope( _scope );
 	updateSigs();
 	calculateSize();
 	update();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void InterfaceWidget::setShowOps(bool _show) {
-	((InterfaceWidgetData*)m_pData)->m_bShowOperations = _show;
+	((InterfaceWidgetData*)m_pData)->setShowOperations( _show );
 	updateSigs();
 	calculateSize();
 	update();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void InterfaceWidget::setOpSignature(Signature_Type sig) {
-	((InterfaceWidgetData*)m_pData)->m_ShowOpSigs = sig;
+	((InterfaceWidgetData*)m_pData)->setShowOpSigs( sig );
 	updateSigs();
 	calculateSize();
 	update();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void InterfaceWidget::setShowPackage(bool _status) {
-	((InterfaceWidgetData*)m_pData)->m_bShowPackage = _status;
+	((InterfaceWidgetData*)m_pData)->setShowPackage( _status );
 	calculateSize();
 	update();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool InterfaceWidget::getShowPackage() {
-	return ((InterfaceWidgetData*)m_pData)->m_bShowPackage;
+	return ((InterfaceWidgetData*)m_pData)->getShowPackage();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void InterfaceWidget::setDrawAsCircle(bool drawAsCircle) {
-	((InterfaceWidgetData*)m_pData)->m_bDrawAsCircle = drawAsCircle;
+	((InterfaceWidgetData*)m_pData)->setDrawAsCircle( drawAsCircle );
 	calculateSize();
 	update();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool InterfaceWidget::getDrawAsCircle() {
-	return ((InterfaceWidgetData*)m_pData)->m_bDrawAsCircle;
+	return ((InterfaceWidgetData*)m_pData)->getDrawAsCircle();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool InterfaceWidget::activate(IDChangeLog* ChangeLog /* = 0 */) {
@@ -384,28 +389,29 @@ bool InterfaceWidget::activate(IDChangeLog* ChangeLog /* = 0 */) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void InterfaceWidget::setShowOpSigs(bool _status) {
+	InterfaceWidgetData* data = (InterfaceWidgetData*)m_pData;
 	if( !_status ) {
-		if(((InterfaceWidgetData*)m_pData)->m_bShowScope)
-			((InterfaceWidgetData*)m_pData)->m_ShowOpSigs = Uml::st_NoSig;
+		if(data->getShowScope())
+			data->setShowOpSigs( Uml::st_NoSig );
 		else
-			((InterfaceWidgetData*)m_pData)->m_ShowOpSigs = Uml::st_NoSigNoScope;
+			data->setShowOpSigs( Uml::st_NoSigNoScope );
 
-	} else if(((InterfaceWidgetData*)m_pData)->m_bShowScope)
-		((InterfaceWidgetData*)m_pData)->m_ShowOpSigs = Uml::st_ShowSig;
+	} else if(data->getShowScope())
+		data->setShowOpSigs( Uml::st_ShowSig );
 	else
-		((InterfaceWidgetData*)m_pData)->m_ShowOpSigs =	Uml::st_SigNoScope;
+		data->setShowOpSigs( Uml::st_SigNoScope );
 	calculateSize();
 	update();
 }
 
 bool InterfaceWidget::getShowOps() {
-	return ((InterfaceWidgetData*)m_pData)->m_bShowOperations;
+	return ((InterfaceWidgetData*)m_pData)->getShowOperations();
 }
 
 Uml::Signature_Type InterfaceWidget::getShowOpSigs() {
-	return ((InterfaceWidgetData*)m_pData)->m_ShowOpSigs;
+	return ((InterfaceWidgetData*)m_pData)->getShowOpSigs();
 }
 
 bool InterfaceWidget::getShowScope() {
-	return ((InterfaceWidgetData*)m_pData)->m_bShowScope;
+	return ((InterfaceWidgetData*)m_pData)->getShowScope();
 }

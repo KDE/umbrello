@@ -24,7 +24,6 @@
  *	@author Gustavo Madrigal
  */
 class FloatingTextData : public UMLWidgetData {
-	friend class FloatingText;
 public:
 	/**
 	* 		Constructor

@@ -25,7 +25,6 @@ class QDataStream;
  */
 
 class BoxWidgetData : public UMLWidgetData {
-	friend class BoxWidget;
 public:
 	/**
 	 *  Standard constructor sets the base type

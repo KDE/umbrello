@@ -101,7 +101,7 @@ public:
 	}
 
 	bool getLinkState() {
-		return ((NoteWidgetData*)m_pData)->m_bLinkDocumentation;
+		return ((NoteWidgetData*)m_pData)->getLinkDocumentation();
 	}
 
 	/**

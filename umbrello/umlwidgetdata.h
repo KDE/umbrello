@@ -30,7 +30,6 @@ using namespace Uml;
  *      @author Gustavo Madrigal
  */
 class UMLWidgetData {
-	friend class UMLWidget;
 public:
 	/**
 	 * Constructor
@@ -66,14 +65,24 @@ public:
 	virtual bool		operator==(const UMLWidgetData & Other);
 
 	/**
-	*	 Write property of int m_Type.
+	*	 Write property of m_Type.
 	*/
 	virtual void setType( UMLWidget_Type Type);
 
 	/**
-	*	 Read property of int m_Type.
+	*	 Read property of m_Type.
 	*/
 	virtual UMLWidget_Type getType();
+
+	/**
+	*	 Write property of m_nId.
+	*/
+	virtual void setID( int id ) { m_nId = id; }
+
+	/**
+	*	 Read property of m_nId.
+	*/
+	virtual int getID() { return m_nId; }
 
 	/**
 	*	 Write property of int m_nX.

@@ -21,7 +21,6 @@
  * @author Jonathan Riddell
  */
 class InterfaceWidgetData : public UMLWidgetData {
-	friend class InterfaceWidget;
 public:
 	/**
 	 * creates an InterfaceWidgetData object

@@ -68,9 +68,6 @@ class RefactoringAssistant;
 
 class UMLApp : public KDockMainWindow {
 	Q_OBJECT
-
-	friend class UMLView;
-
 public:
 	/**
 	 * 	construtor of UMLApp, calls all init functions to create the application.

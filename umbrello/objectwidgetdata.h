@@ -23,7 +23,6 @@
  */
 
 class ObjectWidgetData : public UMLWidgetData {
-	friend class ObjectWidget;
 public:
 
 	/**
