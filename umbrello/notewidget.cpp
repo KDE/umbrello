@@ -12,10 +12,13 @@
  *                                                                         *
  ***************************************************************************/
 
+// own header
+#include "notewidget.h"
 //qt includes
 #include <qpointarray.h>
 #include <qpainter.h>
-
+#include <qtextedit.h>
+#include <qframe.h>
 //kde includes
 #include <kcursor.h>
 #include <kcolordialog.h>
@@ -24,24 +27,52 @@
 #include "umldoc.h"
 #include "umlview.h"
 #include "uml.h"
-#include "notewidget.h"
 #include "listpopupmenu.h"
 
 NoteWidget::NoteWidget(UMLView * view, Uml::IDType id) : UMLWidget(view, id) {
 	init();
 	setSize(100,80);
+	m_pEditor = new QTextEdit(view);
+	m_pEditor->setFrameStyle(QFrame::NoFrame | QFrame::Plain);
+	setEditorGeometry();
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
 void NoteWidget::init() {
 	UMLWidget::setBaseType(Uml::wt_Note);
 	m_bLinkDocumentation = false;
+	m_pEditor = NULL;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 NoteWidget::~NoteWidget() {
 
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void NoteWidget::setEditorGeometry() {
+	const QRect editorGeometry( UMLWidget::getX() + 10,
+				    UMLWidget::getY() + 10,
+				    UMLWidget::getWidth() - 20,
+				    UMLWidget::getHeight() - 20 );
+	m_pEditor->setGeometry( editorGeometry );
+}
+
+void NoteWidget::setX( int x ) {
+	UMLWidget::setX(x);
+	setEditorGeometry();
+}
+
+void NoteWidget::setY( int y ) {
+	UMLWidget::setY(y);
+	setEditorGeometry();
+}
+
+QString NoteWidget::getDoc() const {
+	return m_pEditor->text();
+}
+
+void NoteWidget::setDoc(const QString &newText) {
+	m_pEditor->setText(newText);
+}
+
 void NoteWidget::draw(QPainter & p, int offsetX, int offsetY) {
 	int margin = 10;
 	int w = width()-1;
@@ -56,8 +87,10 @@ void NoteWidget::draw(QPainter & p, int offsetX, int offsetY) {
 	poly.setPoint(5, offsetX, offsetY);
 	UMLWidget::draw(p, offsetX, offsetY);
 	if ( UMLWidget::getUseFillColour() ) {
-		p.setBrush( UMLWidget::getFillColour() );
+		QBrush brush( UMLWidget::getFillColour() );
+		p.setBrush(brush);
 		p.drawPolygon(poly);
+		m_pEditor->setPaper(brush);
 	} else
 		p.drawPolyline(poly);
 	p.drawLine(offsetX + w - margin, offsetY, offsetX + w - margin, offsetY + margin);
@@ -69,7 +102,6 @@ void NoteWidget::draw(QPainter & p, int offsetX, int offsetY) {
 	drawText( p, offsetX, offsetY );
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
 void NoteWidget::mouseMoveEvent(QMouseEvent *me) {
 	if(!m_bResizing) {
 		UMLWidget::mouseMoveEvent(me);
@@ -88,9 +120,10 @@ void NoteWidget::mouseMoveEvent(QMouseEvent *me) {
 	newW = newW < 50?50:newW;
 	newH = newH < 50?50:newH;
 	setSize( newW, newH );
+	setEditorGeometry();
 	adjustAssocs( getX(), getY() );
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void NoteWidget::mousePressEvent(QMouseEvent *me) {
 	UMLWidget::mousePressEvent(me);
 	m_nOldW = getWidth();
@@ -104,7 +137,7 @@ void NoteWidget::mousePressEvent(QMouseEvent *me) {
 		m_pView -> setCursor(KCursor::sizeFDiagCursor());
 	}
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void NoteWidget::slotMenuSelection(int sel) {
 	NoteDialog * dlg = 0;
 	UMLDoc *doc = UMLApp::app()->getDocument();
@@ -151,111 +184,21 @@ void NoteWidget::mouseDoubleClickEvent( QMouseEvent * me ) {
 	slotMenuSelection( ListPopupMenu::mt_Rename );
 }
 
-void NoteWidget::drawText(QPainter & p, int offsetX, int offsetY) {
-	/*
-	Implement word wrap for text as follows:
-	wrap at width on whole words.
-	if word is wider than width then clip word
-	if reach height exit and don't print anymore
-	start new line on \n character
-	*/
-	p.setPen( black );
-	QFont font = UMLWidget::getFont();
-	p.setFont( font );
-	QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-	int fontHeight  = fm.lineSpacing();
-	QString text = getDoc();
-	if( text.length() == 0 )
-		return;
-	uint i = 0;
-	QString word = "";
-	int margin = fm.width( "W" );
-	int textY = fontHeight / 2;
-	int textX = margin;
-	int width = this -> width() - margin * 2;
-	int height = this -> height() - fontHeight;
-	QChar returnChar('\n');
-	while( i <= text.length() ) {
-		QChar c = text[ i++ ];
-		if( c == returnChar ) {
-			if( word.length() > 0 ) {
-				int textWidth = fm.width( word );
-				if( ( textX + textWidth ) > width )//wrap word
-				{
-					textWidth = textWidth < width ? textWidth: width;
-					textX = margin;
-					textY += fontHeight;
-					if( textY > height )
-						return;
-					p.drawText( offsetX + textX, offsetY + textY , textWidth, fontHeight, AlignLeft, word );
-				}//end if
-				else
-				{
-					if ( textY > height )
-						return;
-					p.drawText( offsetX + textX, offsetY + textY , textWidth, fontHeight, AlignLeft, word );
-				}
-			}//end if
-			textX = margin;
-			textY += fontHeight;
-			word = "";
-		} else if( c.isSpace() ) {
-			if( word.length() > 0 ) {
-				int textWidth = fm.width( word );
-				if( ( textX + textWidth ) > width )//wrap word
-				{
-					textWidth = textWidth < width ? textWidth: width;
-					if( textX != margin )
-						textY += fontHeight;
-					textX = margin;
-					if( textY > height )
-						return;
-					p.drawText( offsetX + textX, offsetY + textY , textWidth, fontHeight, AlignLeft, word );
-				}//end if
-				else
-				{
-					if ( textY > height )
-						return;
-					p.drawText( offsetX + textX, offsetY + textY , textWidth, fontHeight, AlignLeft, word );
-				}
-				textX += textWidth;
-			}//end if
-			textX += fm.width( " " );
-			word = "";
-		} else {
-			if (c!='\0') word += c;
-		}
-	}//end while
-	if( word.length() > 0 ) {
-		int textWidth = fm.width( word );
-		if( ( textWidth + textX ) > width )//wrap word
-		{
-			textX = margin;
-			textY += fontHeight;
-			if( textY > height )
-				return;
-			p.drawText( offsetX + textX, offsetY + textY , textWidth, fontHeight, AlignLeft, word );
-		}//end if
-		else
-		{
-			if ( textY > height )
-				return;
-			p.drawText( offsetX + textX, offsetY + textY , textWidth, fontHeight, AlignLeft, word );
-		}
-	}//end if
+void NoteWidget::drawText(QPainter &, int, int) {
+	m_pEditor->setText( getDoc() );
 }
 
 void NoteWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement noteElement = qDoc.createElement( "notewidget" );
 	UMLWidget::saveToXMI( qDoc, noteElement );
-	noteElement.setAttribute( "text", m_Text );
+	noteElement.setAttribute( "text", m_pEditor->text() );
 	qElement.appendChild( noteElement );
 }
 
 bool NoteWidget::loadFromXMI( QDomElement & qElement ) {
 	if( !UMLWidget::loadFromXMI( qElement ) )
 		return false;
-	m_Text = qElement.attribute( "text", "" );
+	m_pEditor->setText( qElement.attribute("text", ""));
 	return true;
 }
 

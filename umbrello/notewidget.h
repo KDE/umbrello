@@ -22,6 +22,7 @@
 
 // Qt forward declarations
 class QPainter;
+class QTextEdit;
 
 /**
  * Displays a note box to allow multiple lines of text to be displayed.
@@ -75,18 +76,14 @@ public:
 	 *
 	 * @return	The text in the box.
 	 */
-	QString getDoc() const {
-		return m_Text;
-	}
+	QString getDoc() const;
 
 	/**
 	 * Sets the note documentation.
 	 *
 	 * @param newText	The text to set the documentation to.
 	 */
-	void setDoc(const QString &newText) {
-		m_Text = newText;
-	}
+	void setDoc(const QString &newText);
 
 	/**
 	 * Read property of bool m_bLinkDocumentation.
@@ -113,6 +110,16 @@ public:
 	void draw(QPainter & p, int offsetX, int offsetY);
 
 	/**
+	 * Override method from UMLWidget.
+	 */
+	void setX(int x);
+
+	/**
+	 * Override method from UMLWidget.
+	 */
+	void setY(int y);
+
+	/**
 	 * Saves to the <notewidget> XMI element.
 	 */
 	void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
@@ -126,7 +133,6 @@ public slots:
 
 protected:
 	// Data loaded/saved
-	QString m_Text;
 	bool m_bLinkDocumentation;
 
 	/**
@@ -138,7 +144,9 @@ private:
 	 * Initializes key variables for the class.
 	 */
 	void init();
-	
+
+	void setEditorGeometry();
+	QTextEdit *m_pEditor;
 };
 
 #endif
