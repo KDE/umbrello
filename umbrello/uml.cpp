@@ -159,7 +159,7 @@ void UMLApp::initActions() {
 	editCut->setStatusText(i18n("Cuts the selected section and puts it to the clipboard"));
 	editCopy->setStatusText(i18n("Copies the selected section to the clipboard"));
 	editPaste->setStatusText(i18n("Pastes the clipboard contents to actual position"));
-#ifndef KDE_VERSION_MAJOR >= 3 && KDE_VERSION_MINOR > 1
+#if KDE_VERSION < 0x030190
 	viewToolBar->setStatusText(i18n("Enables/disables the toolbar"));
 	viewStatusBar->setStatusText(i18n("Enables/disables the statusbar"));
 #endif
@@ -1370,6 +1370,7 @@ QWidget* UMLApp::getMainViewWidget() {
 void UMLApp::setCurrentView(UMLView* view /*=0*/) {
 	if (view) {
 		viewStack->raiseWidget(view);
+		slotStatusMsg(view->getData()->getName());
 	} else {
 		viewStack->raiseWidget(blankWidget);
 	}
