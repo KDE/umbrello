@@ -979,23 +979,35 @@ Association_Type AssociationWidget::getAssocType() const {
 
 /** Sets the association's type */
 void AssociationWidget::setAssocType(Association_Type type) {
-	//if the association new type is not supposed to have Multiplicity FloatingTexts and a Role
-	//FloatingText then set the internl floating text pointers to null
-	if( !AssocRules::allowMultiplicity( type, getWidgetA() -> getBaseType() ) ) {
-		setMultiA( 0 ); setMultiA("");
-		setMultiB( 0 ); setMultiB("");
-	}
-	if( !AssocRules::allowRole( type ) )
-	{
-		setRoleNameA("");
-		setRoleADoc("");
-		setRoleNameB("");
-		setRoleBDoc("");
-	}
 	if (m_pAssociation)
 		m_pAssociation->setAssocType(type);
 	m_AssocType = type;
 	m_LinePath.setAssocType(type);
+	// If the association new type is not supposed to have Multiplicity
+	// FloatingTexts and a Role FloatingText then set the internal
+	// floating text pointers to null.
+	if( !AssocRules::allowMultiplicity(type, getWidgetA()->getBaseType()) ) {
+		if (m_pMultiA) {
+			delete m_pMultiA;
+			m_pMultiA = NULL;
+		}
+		if (m_pMultiB) {
+			delete m_pMultiB;
+			m_pMultiB = NULL;
+		}
+	}
+	if( !AssocRules::allowRole( type ) ) {
+		if (m_pRoleA) {
+			delete m_pRoleA;
+			m_pRoleA = NULL;
+		}
+		if (m_pRoleB) {
+			delete m_pRoleB;
+			m_pRoleB = NULL;
+		}
+		setRoleADoc("");
+		setRoleBDoc("");
+	}
 }
 
 int AssociationWidget::getWidgetAID() const {
