@@ -65,6 +65,7 @@
 #include "stereotype.h"
 #include "classifierlistitem.h"
 #include "model_utils.h"
+#include "widget_utils.h"
 #include "uml.h"
 #include "umllistview.h"
 #include "umllistviewitem.h"
@@ -139,35 +140,23 @@ void UMLDoc::addView(UMLView *view) {
 	}
 
 	Settings::OptionState optionState = UMLApp::app()->getOptionState();
-	if (! optionState.generalState.tabdiagrams)
-		return;
-	KTabWidget* tabWidget = UMLApp::app()->tabWidget();
-	tabWidget->addTab(view, view->getName());
-	//set title again to adjust tabs to window width
-	//FIXMEnowTAB not sure why this is required, need to check my ktabwidget code
-	tabWidget->setTabLabel(view, view->getName());
+	KTabWidget* tabWidget = NULL;
+	if (optionState.generalState.tabdiagrams) {
+		tabWidget = UMLApp::app()->tabWidget();
+		tabWidget->addTab(view, view->getName());
+		//set title again to adjust tabs to window width
+		//FIXMEnowTAB not sure why this is required, need to check my ktabwidget code
+		tabWidget->setTabLabel(view, view->getName());
 
-	QIconSet diagramIconSet;
-	switch ( view->getType() ) {
-		case dt_UseCase: diagramIconSet = BarIconSet("umbrello_diagram_usecase"); break;
-		case dt_Collaboration: diagramIconSet = BarIconSet("umbrello_diagram_collaboration"); break;
-		case dt_Class: diagramIconSet = BarIconSet("umbrello_diagram_class"); break;
-		case dt_Sequence: diagramIconSet = BarIconSet("umbrello_diagram_sequence"); break;
-		case dt_State: diagramIconSet = BarIconSet("umbrello_diagram_state"); break;
-		case dt_Activity: diagramIconSet = BarIconSet("umbrello_diagram_activity"); break;
-		case dt_Component: diagramIconSet = BarIconSet("umbrello_diagram_component"); break;
-		case dt_Deployment: diagramIconSet = BarIconSet("umbrello_diagram_deployment"); break;
-		case dt_EntityRelationship: diagramIconSet = BarIconSet("umbrello_diagram_entityrelationship"); break;
-		default:
-			kdDebug() << "unknown diagram type in addView()" << endl;
-			diagramIconSet = BarIconSet("unknown");
+		tabWidget->setTabIconSet(view, Umbrello::iconSet(view->getType()));
 	}
-	tabWidget->setTabIconSet(view, diagramIconSet);
 	pApp->setDiagramMenuItemsState(true);
 	pApp->slotUpdateViews();
 	pApp->setCurrentView(view);
-	tabWidget->showPage(view);
-	tabWidget->setCurrentPage(tabWidget->currentPageIndex());
+	if (tabWidget) {
+		tabWidget->showPage(view);
+		tabWidget->setCurrentPage(tabWidget->currentPageIndex());
+	}
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLDoc::removeView(UMLView *view , bool enforceCurrentView ) {
