@@ -24,6 +24,7 @@
 #include <qmap.h>
 #include <qstringlist.h>
 #include <qobject.h>
+#include <kinstance.h>
 
 class UMLDoc;
 class UMLClassifier;
