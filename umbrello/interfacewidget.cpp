@@ -73,7 +73,7 @@ void InterfaceWidget::drawAsCircle(QPainter& p, int offsetX, int offsetY) {
 	int fontHeight  = fm.lineSpacing();
 	QString name;
 	if ( m_bShowPackage ) {
-		name = m_pObject -> getPackage() + "::" + this -> getName();
+		name = m_pObject -> getPackage() + "." + this -> getName();
 	} else {
 		name = this -> getName();
 	}
@@ -102,7 +102,7 @@ void InterfaceWidget::drawAsConcept(QPainter& p, int offsetX, int offsetY) {
 	int fontHeight = fontMetrics.lineSpacing();
 	QString name;
 	if ( m_bShowPackage ) {
-		name = m_pObject -> getPackage() + "::" + this -> getName();
+		name = m_pObject -> getPackage() + "." + this -> getName();
 	} else {
 		name = this -> getName();
 	}
@@ -162,7 +162,7 @@ void InterfaceWidget::calculateAsCircleSize() {
 
 	int width;
 	if ( m_bShowPackage ) {
-		width = fm.width(m_pObject->getPackage() + "::" + getName());
+		width = fm.width(m_pObject->getPackage() + "." + getName());
 	} else {
 		width = fm.width(getName());
 	}

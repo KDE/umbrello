@@ -325,7 +325,7 @@ void ClassifierWidget::computeBasicSize(int &width, int &height,
 		// set width to name to start with
 		QString displayName = getName();
 		if (m_bShowPackage)
-			displayName.prepend( m_pObject->getPackage() + "::" );
+			displayName.prepend( m_pObject->getPackage() + "." );
 
 		UMLClassifier *uc = static_cast<UMLClassifier*>(m_pObject);
 		const UMLWidget::FontType f(uc->getAbstract() ? FT_BOLD_ITALIC : FT_BOLD);

@@ -54,9 +54,12 @@ UMLClassifier * UMLClassifierListItem::getType() {
 }
 
 QString UMLClassifierListItem::getTypeName() {
-	if (m_pSecondary != NULL)
-		return m_pSecondary->getName();
-	return m_SecondaryId;
+	if (m_pSecondary == NULL)
+		return m_SecondaryId;
+	const UMLPackage *typePkg = m_pSecondary->getUMLPackage();
+	if (typePkg != NULL && typePkg != m_pUMLPackage)
+		return m_pSecondary->getFullyQualifiedName();
+	return m_pSecondary->getName();
 }
 
 void UMLClassifierListItem::setType(UMLObject *type) {

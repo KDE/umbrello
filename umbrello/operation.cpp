@@ -159,7 +159,7 @@ QString UMLOperation::toString(Uml::Signature_Type sig) {
 	if (retType) {
 		UMLPackage *retScope = retType->getUMLPackage();
 		if (retScope != ownParent && retScope != ownParent->getUMLPackage())
-			returnType = retType->getFullyQualifiedName(".");
+			returnType = retType->getFullyQualifiedName();
 		else
 			returnType = retType->getName();
 	}
