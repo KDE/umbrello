@@ -141,6 +141,8 @@ public:
 
 			mt_Expand_All,                     //Expand all items in the list
 			mt_Collapse_All,                   //Collapse all items in the list
+			
+		mt_Refactoring,
 
 	    mt_Undefined  =  - 1
 	};

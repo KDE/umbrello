@@ -16,6 +16,7 @@
 #include <kfontdialog.h>
 
 #include "umlobject.h"
+#include "class.h"
 #include "umlwidget.h"
 #include "uml.h"
 #include "umllistview.h"
@@ -30,6 +31,9 @@
 #include "messagewidget.h"
 
 #include "clipboard/idchangelog.h"
+
+#include "refactoring/refactoringassistant.h"
+using Umbrello::RefactoringAssistant;
 
 UMLWidget::UMLWidget( UMLView * view, UMLObject * o, UMLWidgetData * pData ) 
 	: QObject( view), QCanvasRectangle( view -> canvas() ), 
@@ -373,6 +377,14 @@ void UMLWidget::slotMenuSelection(int sel) {
 		case ListPopupMenu::mt_Paste:
 			m_pView -> getDocument() -> editPaste();
 			break;
+		case ListPopupMenu::mt_Refactoring:
+			//check if we are operating on a classifier, or some other kind of UMLObject
+			if(dynamic_cast<UMLClass*>(m_pObject))
+			{
+				RefactoringAssistant *r = new RefactoringAssistant(m_pView -> getDocument(),
+								 dynamic_cast<UMLClass*>(m_pObject));
+				r->show( );
+			}
 	}
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////

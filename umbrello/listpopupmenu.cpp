@@ -228,6 +228,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object, bool multi) :
 			insertItem( SmallIcon( "editdelete"), i18n("Delete"), mt_Delete);
 			insertItem( SmallIcon( "charset"), i18n("Rename..."), mt_Rename);
 			insertItem( SmallIcon( "fonts"),  i18n( "Change Font..." ), mt_Change_Font );
+			insertItem( SmallIcon( "unknown"), i18n("Refactor"),mt_Refactoring);
 			insertItem(SmallIcon( "info"), i18n("Properties"), mt_Properties);
 			break;
 
