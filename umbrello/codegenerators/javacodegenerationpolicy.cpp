@@ -47,6 +47,18 @@ JavaCodeGenerationPolicy::~JavaCodeGenerationPolicy ( ) { }
 // Public attribute accessor methods
 //
 
+/** Get the default scope for new accessor methods.
+ */
+JavaCodeGenerationPolicy::AccessorScope JavaCodeGenerationPolicy::getAccessorScope () {
+	return m_defaultAccessorScope;
+}
+
+/** Set the default scope for new accessor methods.
+ */
+void JavaCodeGenerationPolicy::setAccessorScope (AccessorScope scope) {
+	m_defaultAccessorScope = scope;
+	emit modifiedCodeContent();
+}
 
 /**
  * Set the value of m_commentStyle
@@ -123,6 +135,7 @@ void JavaCodeGenerationPolicy::writeConfig ( KConfig * config )
 	// write ONLY the Java specific stuff
 	config->setGroup("Java Code Generation");
 
+	config->writeEntry("defaultAccessorScope",getAccessorScope());
 	config->writeEntry("commentStyle",getCommentStyle());
 	config->writeEntry("autoGenEmptyConstructors",getAutoGenerateConstructors());
 	config->writeEntry("autoGenAccessors",getAutoGenerateAccessors());
@@ -149,6 +162,7 @@ void JavaCodeGenerationPolicy::setDefaults ( CodeGenerationPolicy * clone, bool 
 	// now do java-specific stuff IF our clone is also a JavaCodeGenerationPolicy object
  	if((jclone = dynamic_cast<JavaCodeGenerationPolicy*>(clone)))
 	{
+		setAccessorScope(jclone->getAccessorScope());
 		setCommentStyle(jclone->getCommentStyle());
 		setAutoGenerateConstructors(jclone->getAutoGenerateConstructors());
 		setAutoGenerateAccessors(jclone->getAutoGenerateAccessors());
@@ -179,6 +193,7 @@ void JavaCodeGenerationPolicy::setDefaults( KConfig * config, bool emitUpdateSig
 	// now do java specific stuff
         config -> setGroup("Java Code Generation");
 
+	setAccessorScope((AccessorScope)config->readNumEntry("defaultAccessorScope",DEFAULT_ACCESSOR_SCOPE));
 	setCommentStyle((JavaCommentStyle)config->readNumEntry("commentStyle",DEFAULT_COMMENT));
 	setAutoGenerateConstructors(config->readBoolEntry("autoGenEmptyConstructors",DEFAULT_AUTO_GEN_EMPTY_CONSTRUCTORS));
 	setAutoGenerateAccessors(config->readBoolEntry("autoGenAccessors",DEFAULT_AUTO_GEN_ACCESSORS));
@@ -199,14 +214,11 @@ CodeGenerationPolicyPage * JavaCodeGenerationPolicy::createPage ( QWidget *paren
         return new JavaCodeGenerationPolicyPage ( parent, name, this );
 }
 
-void JavaCodeGenerationPolicy::loadFromXMI (QDomElement & /*element*/ ) {
-	// FIXME
-}
-
 void JavaCodeGenerationPolicy::initFields ( JavaCodeGenerator * parent ) {
 
         m_parentCodeGenerator = parent;
 
+	m_defaultAccessorScope = DEFAULT_ACCESSOR_SCOPE;
 	m_commentStyle = DEFAULT_COMMENT;
 	m_autoGenerateConstructors = DEFAULT_AUTO_GEN_EMPTY_CONSTRUCTORS;
         m_autoGenerateAccessors = DEFAULT_AUTO_GEN_ACCESSORS;

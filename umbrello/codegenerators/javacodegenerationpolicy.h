@@ -28,8 +28,10 @@ class JavaCodeGenerationPolicy : public CodeGenerationPolicy
 	Q_OBJECT
 public:
 
+	enum AccessorScope { Public=200, Private, Protected, FromParent };
 	enum JavaCommentStyle { SlashStar=0, DoubleSlash };
 
+	static const AccessorScope DEFAULT_ACCESSOR_SCOPE = FromParent;
 	static const JavaCommentStyle DEFAULT_COMMENT = SlashStar;
         static const bool DEFAULT_AUTO_GEN_EMPTY_CONSTRUCTORS = false;
         static const bool DEFAULT_AUTO_GEN_ACCESSORS = true;
@@ -54,6 +56,14 @@ public:
 
 	// Public attribute accessor methods
 	//  
+
+	/** Get the default scope for new accessor methods. 
+	 */
+	AccessorScope getAccessorScope ();
+
+	/** Set the default scope for new accessor methods. 
+	*/
+	void setAccessorScope (AccessorScope scope);
 
        /**
          * Set the value of m_autoGenerateAccessors
@@ -113,8 +123,6 @@ public:
          */
         virtual void writeConfig (KConfig * config);
 
-	void loadFromXMI (QDomElement & element );
-
 	/**
          * Create a new dialog interface for this object.
          * @return dialog object
@@ -131,6 +139,7 @@ private:
 
         JavaCodeGenerator * m_parentCodeGenerator;
 
+	AccessorScope m_defaultAccessorScope;
 	JavaCommentStyle m_commentStyle;
 	bool m_autoGenerateConstructors;
         bool m_autoGenerateAccessors;
