@@ -349,7 +349,7 @@ public:
 	 */
 	UMLView * findView(Diagram_Type type, QString name);
 	
-	Umbrello::Diagram* UMLDoc::findDiagram(int id);
+	Umbrello::Diagram* findDiagram(int id);
 
 	/**
 	 *	Used to give a unique ID to any sort of object.
