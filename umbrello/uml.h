@@ -34,6 +34,8 @@ class UMLView;
 class WorkToolBar;
 class InfoWidget;
 
+class KPlayerPopupSliderAction;
+
 // KDE forward declarations
 class KActionMenu;
 class KRecentFilesAction;
@@ -45,7 +47,6 @@ class KDockWidget;
 class QWidgetStack;
 class QMenuData;
 class QClipboard;
-class QSplitter;
 
 namespace Umbrello
 {
@@ -618,21 +619,24 @@ public slots:
 	void slotDeleteDiagram();
 
 	/**
-	 * Zooms in the current diagram.
-	 */
-	void slotZoomIn();
-
-	/**
-	 * Zooms out of the current diagram.
-	 */
-	void slotZoomOut();
-	
-	/**
 	 * Set the zoom factor of the current diagram.
 	 *
-	 * @param z		Zoom factor in percentage.
+	 * @param zoom		Zoom factor in percentage.
 	 */
-	void setZoom(int z);
+	void setZoom(int zoom);
+
+	/**
+	 * Connected to by the KPlayerSliderAction zoomAction, a value of between 300
+	 * and 2200 is scaled to zoom to between 9% and 525%.
+	 * The min and max values of the slider are hard coded in KPlayerSliderAction for now.
+	 * @param value         Zoom factor before scaleing
+	 */
+	void slotZoomSliderMoved(int value);
+
+	/**
+	 * Set zoom to 100%
+	 */
+	void slotZoom100();
 	
 	/**
 	 * Prepares the zoom menu for display.
@@ -792,9 +796,9 @@ private:
 	KToggleAction* viewShowGrid;
 	KAction* viewExportImage;
 	KAction* viewProperties;
-	
-	KAction* zoomInAction;
-	KAction* zoomOutAction;
+
+	KAction* zoom100Action;
+	KPlayerPopupSliderAction* zoomAction;
 
 	KAction* genAll;
 	KAction* genWizard;

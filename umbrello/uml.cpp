@@ -32,6 +32,8 @@
 #include "refactoring/refactoringassistant.h"
 #include "codegenerators/simplecodegenerator.h"
 
+#include "kplayerslideraction.h"
+
 #include <kaction.h>
 #include <kapplication.h>
 #include <kconfig.h>
@@ -50,9 +52,9 @@
 #include <qpopupmenu.h>
 #include <qtimer.h>
 #include <qwidgetstack.h>
+#include <qslider.h>
 
 #include "configurable.h"
-
 
 ////FIXME - remove when dialog linking problems are solved
 #include "interface.h"
@@ -192,9 +194,6 @@ void UMLApp::initActions() {
 #endif
 	selectAll = KStdAction::selectAll(this,  SLOT( slotSelectAll() ), actionCollection());
 
-	zoomInAction = KStdAction::zoomIn(this,  SLOT( slotZoomIn() ), actionCollection(), "umbrello_zoom_in");
-	zoomOutAction = KStdAction::zoomOut(this,  SLOT( slotZoomOut() ), actionCollection(), "umbrello_zoom_out");
-
 	classWizard = new KAction(i18n("&New Class Wizard..."),0,this,SLOT(slotClassWizard()),
 	                          actionCollection(),"class_wizard");
 
@@ -297,21 +296,36 @@ void UMLApp::initActions() {
 	viewExportImage->setEnabled(false);
 	viewProperties->setEnabled(false);
 
+	zoomAction = new KPlayerPopupSliderAction(i18n("&Volume Popup"), "viewmag", Key_F9,
+						  this, SLOT(slotZoomSliderMoved(int)),
+						  actionCollection(), "popup_zoom");
+	zoom100Action = new KAction(i18n( "&Zoom to 100%" ), "viewmag1", 0,
+	                            this, SLOT( slotZoom100() ), actionCollection(),
+				    "zoom100");
+
 	// use the absolute path to your umbrelloui.rc file for testing purpose in createGUI();
 	createGUI();
 
 	QPopupMenu* menu = findMenu( menuBar(), QString("settings") );
 	menu->insertItem(i18n("Windows"), dockHideShowMenu(), -1, 0);
+
+
 }
 //////////////////////////////////////////////////////////////////////////////////////////////
-
-void UMLApp::setZoom(int z)
-{
-	doc->getCurrentView()->setZoom(z);
+void UMLApp::slotZoomSliderMoved(int value) {
+	int zoom = (int)(value*0.01);
+	doc->getCurrentView()->setZoom(zoom*zoom);
 }
 
-void UMLApp::setupZoomMenu()
-{
+void UMLApp::slotZoom100()  {
+	setZoom(100);
+}
+
+void UMLApp::setZoom(int zoom) {
+	doc->getCurrentView()->setZoom(zoom);
+}
+
+void UMLApp::setupZoomMenu() {
 	zoomSelect->clear();
 
 	//IMPORTANT: The ID's must match the zoom value (text)
@@ -341,16 +355,6 @@ void UMLApp::setupZoomMenu()
 			zoomSelect->insertItem(QString::number(zoom)+" %",zoom);
 	}
 	zoomSelect->setItemChecked(zoom, true);
-}
-
-void UMLApp::slotZoomIn()
-{
-	doc->getCurrentView()->zoomIn();
-}
-
-void UMLApp::slotZoomOut()
-{
-	doc->getCurrentView()->zoomOut();
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

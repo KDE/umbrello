@@ -313,12 +313,10 @@ void ObjectWidget::messageRemoved(MessageWidget* message) {
 }
 
 void ObjectWidget::slotMessageMoved() {
-	kdDebug() << k_funcinfo << endl;
 	MessageWidgetListIt iterator(messageWidgetList);
 	MessageWidget* message;
 	int lowestMessage = 0;
 	while ( (message = iterator.current()) != 0 ) {
-		kdDebug() << k_funcinfo << endl;
 		++iterator;
 		int messageHeight = message->getY() + message->getHeight();
 		if (lowestMessage < messageHeight) {

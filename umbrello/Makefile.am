@@ -25,7 +25,8 @@ umbrello_SOURCES = activitywidget.cpp actor.cpp actorwidget.cpp \
 	uml.cpp umlcanvasobject.cpp umldoc.cpp umllistview.cpp \
 	umllistviewitem.cpp umlnamespace.cpp umlobject.cpp \
 	umlrole.cpp umlview.cpp umlviewcanvas.cpp umlwidget.cpp \
-	usecase.cpp usecasewidget.cpp worktoolbar.cpp
+	usecase.cpp usecasewidget.cpp worktoolbar.cpp \
+	kplayerslideraction.cpp
 
 umbrello_LDADD   = ./refactoring/librefactoring.la ./diagram/libdiagram.la ./classparser/libclassparser.la ./clipboard/libclipboard.la ./dialogs/libdialogs.la ./codegenerators/libcodegenerator.la -lfl $(LIB_KDEPRINT) $(LIB_KIO)
 

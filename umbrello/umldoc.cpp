@@ -946,7 +946,6 @@ void UMLDoc::createDiagram(Diagram_Type type, bool askForName /*= true */) {
 
 	while(true) {
 		if (askForName)  {
-			kdDebug() << k_funcinfo << endl;
 			name = KInputDialog::getText(i18n("Name"), i18n("Enter name:"), dname, &ok, (QWidget*)parent());
 		} else {
 			name = dname;

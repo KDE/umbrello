@@ -47,8 +47,8 @@
   </Menu>
 </MenuBar>
 <ToolBar name="mainToolBar">
-  <Action name="umbrello_zoom_in"/>
-  <Action name="umbrello_zoom_out"/>
+  <Action name="popup_zoom"/>
+  <Action name="zoom100"/>
   <Action name="umbrello_configure"/>
 </ToolBar>
 </kpartgui>
