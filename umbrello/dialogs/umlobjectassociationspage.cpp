@@ -11,7 +11,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
- 
+
 
 #include "umlobjectassociationspage.h"
 
@@ -35,8 +35,8 @@ UMLObjectAssociationsPage::UMLObjectAssociationsPage(UMLCanvasObject *c, QWidget
 {
 	loadData();
 }
-                         
-	
+
+
 
 UMLObjectAssociationsPage::~UMLObjectAssociationsPage( )
 {
@@ -81,13 +81,12 @@ void UMLObjectAssociationsPage::loadData()
 void UMLObjectAssociationsPage::saveData()
 {
 // 	m_umlObject->blockSignals( true );
-	
+
 /*	m_umlObject->blockSignals( false );
 	m_umlObject->emitModified( );*/
 }
 
 } // namespace Umbrello
 
- #include "umlobjectassociationspage.moc"
-
+#include "umlobjectassociationspage.moc"
 
