@@ -11,6 +11,7 @@
 
 // include files for Qt
 #include <qpixmap.h>
+#include <qpicture.h>
 #include <qprinter.h>
 #include <qpainter.h>
 #include <qstring.h>
@@ -155,7 +156,7 @@ void UMLView::init() {
 	connect( UMLApp::app(), SIGNAL( sigCutSuccessful() ),
 	         this, SLOT( slotCutSuccessful() ) );
 
-	// Create the ToolBarState factory. This class is not a singleton, because it 
+	// Create the ToolBarState factory. This class is not a singleton, because it
 	// needs a pointer to this object.
 	m_pToolBarStateFactory = new ToolBarStateFactory(this);
 	m_pToolBarState = m_pToolBarStateFactory->getState(WorkToolBar::tbb_Arrow);
@@ -169,7 +170,7 @@ UMLView::~UMLView() {
 		m_pIDChangesLog = 0;
 	}
 
-	if( m_pAssocLine ) 
+	if( m_pAssocLine )
 	{
 		delete m_pAssocLine;
 		m_pAssocLine = NULL;
@@ -351,12 +352,12 @@ void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void UMLView::slotToolBarChanged(int c) 
+void UMLView::slotToolBarChanged(int c)
 {
 	m_pToolBarState = m_pToolBarStateFactory->getState((WorkToolBar::ToolBar_Buttons)c);
 	m_pToolBarState->init();
 
-	// TODO This should be deleted once. 
+	// TODO This should be deleted once.
 	m_CurrentCursor = (WorkToolBar::ToolBar_Buttons)c;
 
 	m_pFirstSelectedWidget = 0;
@@ -664,7 +665,7 @@ bool UMLView::widgetOnDiagram(int id) {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void UMLView::contentsMouseMoveEvent(QMouseEvent* ome) 
+void UMLView::contentsMouseMoveEvent(QMouseEvent* ome)
 {
 	m_pToolBarState->mouseMove(ome);
 }
@@ -781,7 +782,7 @@ void UMLView::setLineWidth(uint width) {
 	canvas() -> setAllChanged();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void UMLView::contentsMouseDoubleClickEvent(QMouseEvent* ome) 
+void UMLView::contentsMouseDoubleClickEvent(QMouseEvent* ome)
 {
 	m_pToolBarState->mouseDoubleClick(ome);
 }
@@ -1047,13 +1048,13 @@ void UMLView::deleteSelection()
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void UMLView::selectAll() 
+void UMLView::selectAll()
 {
 	selectWidgets(0, 0, canvas()->width(), canvas()->height());
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void UMLView::contentsMousePressEvent(QMouseEvent* ome) 
+void UMLView::contentsMousePressEvent(QMouseEvent* ome)
 {
 	m_pToolBarState->mousePress(ome);
 }
@@ -1238,6 +1239,7 @@ QString imageTypeToMimeType(QString imagetype) {
 	if (QString("XBM") == imagetype) return "image/x-xbm";
 	if (QString("XPM") == imagetype) return "image/x-xpm";
 	if (QString("EPS") == imagetype) return "image/x-eps";
+	if (QString("SVG") == imagetype) return "image/svg+xml";
 	return QString::null;
 }
 
@@ -1251,6 +1253,7 @@ QString mimeTypeToImageType(QString mimetype) {
 	if (QString("image/x-xbm") == mimetype) return "XBM";
 	if (QString("image/x-xpm") == mimetype) return "XPM";
 	if (QString("image/x-eps") == mimetype) return "EPS";
+	if (QString("image/svg+xml") == mimetype) return "SVG";
 	return QString::null;
 }
 
@@ -1325,6 +1328,7 @@ void UMLView::exportImage() {
 	QStringList mimetypes;
 	// special image types that are handled separately
 	mimetypes.append("image/x-eps");
+	mimetypes.append("image/svg+xml");
 	// "normal" image types that are present
 	QString m;
 	QStringList::Iterator it;
@@ -1392,7 +1396,31 @@ void UMLView::exportImage() {
 		//  eps requested
 		if (imageMimetype == "image/x-eps") {
 			printToFile(s,true);
-		}else{
+		} else if (imageMimetype == "image/svg+xml") {
+			QPicture* diagram = new QPicture();
+
+			// do not call printer.setup(); because we want no user
+			// interaction here
+			QPainter* painter = new QPainter();
+			painter->begin( diagram );
+
+			// make sure the widget sizes will be according to the
+			// actually used printer font, important for getDiagramRect()
+			// and the actual painting
+			forceUpdateWidgetFontMetrics(painter);
+
+			QRect rect = getDiagramRect();
+			painter->translate(-rect.x(),-rect.y());
+			getDiagram(rect,*painter);
+			painter->end();
+			diagram->save(s, mimeTypeToImageType(imageMimetype).ascii());
+
+			// delete painter and printer before we try to open and fix the file
+			delete painter;
+			delete diagram;
+			// next painting will most probably be to a different device (i.e. the screen)
+			forceUpdateWidgetFontMetrics(0);
+		} else {
 			QPixmap diagram(rect.width(), rect.height());
 			getDiagram(rect, diagram);
 			diagram.save(s, mimeTypeToImageType(imageMimetype).ascii());
@@ -1895,7 +1923,7 @@ bool UMLView::setAssoc(UMLWidget *pWidget) {
 		viewport() -> setMouseTracking( true );
 
 		// TODO Reachable?
-		if( m_pAssocLine ) 
+		if( m_pAssocLine )
 		{
 			kdDebug() << "delete m_pAssocLine is reachable" << endl;
 			delete m_pAssocLine;
