@@ -215,13 +215,31 @@ bool UMLObject::saveToXMI( QDomDocument & /*qDoc*/, QDomElement & qElement ) {
 	*/
 	qElement.setAttribute( "xmi.id", m_nId );
 	qElement.setAttribute( "name", m_Name );
-	qElement.setAttribute( "documentation", m_Doc );
+	if (! m_Doc.isEmpty())
+		qElement.setAttribute( "documentation", m_Doc );
 	if (m_pUMLPackage)
 		qElement.setAttribute( "packageid", m_pUMLPackage->getID() );
-	qElement.setAttribute( "scope", m_Scope );
-	qElement.setAttribute( "stereotype", m_Stereotype );
-	qElement.setAttribute( "abstract", m_bAbstract );
- 	qElement.setAttribute( "static", m_bStatic );
+	switch (m_Scope) {
+		case Uml::Public:
+			qElement.setAttribute( "visibility", "public" );
+			break;
+		case Uml::Protected:
+			qElement.setAttribute( "visibility", "protected" );
+			break;
+		case Uml::Private:
+			qElement.setAttribute( "visibility", "private" );
+			break;
+	}
+	if (! m_Stereotype.isEmpty())
+		qElement.setAttribute( "stereotype", m_Stereotype );
+	if (m_bAbstract)
+		qElement.setAttribute( "isAbstract", "true" );
+	else
+		qElement.setAttribute( "isAbstract", "false" );
+	if (m_bStatic)
+ 		qElement.setAttribute( "ownerScope", "classifier" );
+	else
+ 		qElement.setAttribute( "ownerScope", "instance" );
 	return true;
 }
 
@@ -229,15 +247,39 @@ bool UMLObject::loadFromXMI( QDomElement & element ) {
 	QString id = element.attribute( "xmi.id", "-1" );
 	m_Name = element.attribute( "name", "" );
 	m_Doc = element.attribute( "documentation", "" );
-	QString scope = element.attribute( "scope", "-1" );
+
+	if (element.hasAttribute("scope")) {        // for bkwd compat.
+		QString scope = element.attribute( "scope", "200" );
+		m_Scope = (Scope)scope.toInt();
+	} else {
+		QString visibility = element.attribute( "visibility", "public" );
+		if (visibility == "private")
+			m_Scope = Uml::Private;
+		else if (visibility == "protected")
+			m_Scope = Uml::Protected;
+		else
+			m_Scope = Uml::Public;
+	}
+
 	m_Stereotype = element.attribute( "stereotype", "" );
-	QString abstract = element.attribute( "abstract", "0" );
-	QString staticScope = element.attribute( "static", "0" );
+
+	if( element.hasAttribute("abstract") ) {     // for bkwd compat.
+		QString abstract = element.attribute( "abstract", "0" );
+		m_bAbstract = (bool)abstract.toInt();
+	} else {
+		QString isAbstract = element.attribute( "isAbstract", "false" );
+		m_bAbstract = (isAbstract == "true");
+	}
+
+	if( element.hasAttribute("static") ) {       // for bkwd compat.
+		QString staticScope = element.attribute( "static", "0" );
+		m_bStatic = (bool)staticScope.toInt();
+	} else {
+		QString ownerScope = element.attribute( "ownerScope", "instance" );
+		m_bStatic = (ownerScope == "classifier");
+	}
 
 	m_nId = id.toInt();
-	m_Scope = (Scope)scope.toInt();
-	m_bAbstract = (bool)abstract.toInt();
-	m_bStatic = (bool)staticScope.toInt();
 	if( m_nId == -1 || m_Scope == -1 )
 		return false;
 
