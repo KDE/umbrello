@@ -542,21 +542,6 @@ QString UMLAssociation::ChangeabilityToString(Uml::Changeability_Type type) {
 	}
 }
 
-QString UMLAssociation::ScopeToString(Uml::Scope scope) {
-	switch (scope) {
-	case Uml::Protected:
-		return "#";
-		break;
-	case Uml::Private:
-		return "-";
-		break;
-	case Uml::Public:
-	default:
-		return "+";
-		break;
-	}
-}
-
 void UMLAssociation::init(Association_Type type, UMLObject *roleAObj, UMLObject *roleBObj) {
 	m_AssocType = type;
 	m_BaseType = ot_Association;

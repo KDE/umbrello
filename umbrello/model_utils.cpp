@@ -194,6 +194,21 @@ bool isCommonXMIAttribute( const QString &tag ) {
 	return retval;
 }
 
+QString scopeToString(Uml::Scope scope, bool mnemonic) {
+	switch (scope) {
+	case Uml::Protected:
+		return (mnemonic ? "#" : "protected");
+		break;
+	case Uml::Private:
+		return (mnemonic ? "-" : "private");
+		break;
+	case Uml::Public:
+	default:
+		return (mnemonic ? "+" : "public");
+		break;
+	}
+}
+
 Parse_Status parseAttribute(QString a, NameAndType& nmTpPair, UMLPackage *owningScope) {
 	UMLDoc *pDoc = UMLApp::app()->getDocument();
 

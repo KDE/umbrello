@@ -21,6 +21,7 @@
 #include "umllistviewitem.h"
 #include "package.h"
 #include "stereotype.h"
+#include "model_utils.h"
 
 UMLObject::UMLObject(const UMLObject * parent, const QString &name, Uml::IDType id)
   : QObject(const_cast<UMLObject*>(parent), "UMLObject" ) {
@@ -64,23 +65,22 @@ void UMLObject::init() {
 	m_pSecondary = NULL;
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
 
 bool UMLObject::acceptAssociationType(Uml::Association_Type)
 {// A UMLObject accepts nothing. This should be reimplemented by the subclasses
 	return false;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void UMLObject::setID(Uml::IDType NewID) {
 	m_nId = NewID;
 	emit modified();
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void UMLObject::setName(const QString &strName) {
 	m_Name = strName;
 	emit modified();
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 QString UMLObject::getName() const {
 	return m_Name;
 }
@@ -95,7 +95,6 @@ QString UMLObject::getFullyQualifiedName(const QString &separator /* = "::" */) 
 	return fqn;
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
 bool UMLObject::operator==(UMLObject & rhs ) {
 	if( this == &rhs )
 		return true;
@@ -433,17 +432,8 @@ QDomElement UMLObject::save( const QString &tag, QDomDocument & qDoc ) {
 	if (m_pUMLPackage)             //FIXME: uml13.dtd compliance
 		qElement.setAttribute( "package", m_pUMLPackage->getID() );
 #endif
-	switch (m_Scope) {
-		case Uml::Public:
-			qElement.setAttribute( "visibility", "public" );
-			break;
-		case Uml::Protected:
-			qElement.setAttribute( "visibility", "protected" );
-			break;
-		case Uml::Private:
-			qElement.setAttribute( "visibility", "private" );
-			break;
-	}
+        QString visibility = Umbrello::scopeToString(m_Scope, false);
+	qElement.setAttribute( "visibility", visibility);
 	if (m_pStereotype != NULL)
 		qElement.setAttribute( "stereotype", ID2STR(m_pStereotype->getID()) );
 	if (m_bAbstract)

@@ -205,13 +205,6 @@ public:
 	 */
 	static QString ChangeabilityToString(Uml::Changeability_Type type);
 
-        /**
-         * Convert Scope value into QString representation.
-	 *
-	 * @param scope		The Scope enum value to convert.
-         */
-	static QString ScopeToString(Uml::Scope scope);
-
 	/**
 	 * Get the underlying UMLRole object for the given role.
 	 *

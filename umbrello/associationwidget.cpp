@@ -35,6 +35,7 @@
 #include "assocrules.h"
 #include "floatingtext.h"
 #include "objectwidget.h"
+#include "model_utils.h"
 #include "widget_utils.h"
 #include "dialogs/assocpropdlg.h"
 #include "inputdialog.h"
@@ -371,7 +372,7 @@ bool AssociationWidget::setRoleName (const QString &strRole, Role_Type role) {
 		m_role[role].m_pRole->setLink(this);
 		m_pView->addWidget(m_role[role].m_pRole);
 		Scope scope = getVisibility(role);
-		m_role[role].m_pRole->setPreText(UMLAssociation::ScopeToString(scope));
+		m_role[role].m_pRole->setPreText(Umbrello::scopeToString(scope));
 	} else {
 		if (m_role[role].m_pRole->getText().isEmpty()) {
 			newLabel = true;
@@ -431,7 +432,7 @@ void AssociationWidget::setVisibility (Scope value, Role_Type role)
 	m_role[role].m_Visibility = value;
 	// update role pre-text attribute as appropriate
 	if (m_role[role].m_pRole) {
-		QString scopeString = UMLAssociation::ScopeToString(value);
+		QString scopeString = Umbrello::scopeToString(value);
 		m_role[role].m_pRole->setPreText(scopeString);
 	}
 }
@@ -554,7 +555,7 @@ bool AssociationWidget::activate() {
 			Text_Role tr = (r == A ? tr_RoleAName : tr_RoleBName);
 			robj.m_pRole->setRole(tr);
 			Scope scope = getVisibility((Role_Type)r);
-			robj.m_pRole->setPreText(UMLAssociation::ScopeToString(scope));
+			robj.m_pRole->setPreText(Umbrello::scopeToString(scope));
 
 			if (FloatingText::isTextValid(robj.m_pRole->getText()))
 				robj.m_pRole -> show();
@@ -984,17 +985,17 @@ void AssociationWidget::calculateEndingPoints() {
 	/*
 	 * For each UMLWidget the diagram is divided in four regions by its diagonals
 	 * as indicated below
-	 *					 Region 2
-	 *				    \		/
-	 *				      \	    /
-	 *					+--------+
-	 *					| \    / |
-	 *			   Region 1     |   ><   |    Region 3
-	 *					| /    \ |
-	 *					+--------+
-	 *				      /	    \
-	 *				    /		\
-	 *					 Region 4
+	 *                              Region 2
+	 *                         \                /
+	 *                           \            /
+	 *                             +--------+
+	 *                             | \    / |
+	 *                Region 1     |   ><   |    Region 3
+	 *                             | /    \ |
+	 *                             +--------+
+	 *                           /            \
+	 *                         /                \
+	 *                              Region 4
 	 *
 	 * Each diagonal is defined by two corners of the bounding rectangle
 	 *

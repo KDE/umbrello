@@ -65,6 +65,11 @@ bool IDLWriter::isOOClass(UMLClassifier *c) {
 	return true;
 }
 
+bool IDLWriter::assocTypeIsMappableToAttribute(Uml::Association_Type at) {
+	return (at == Uml::at_Aggregation || at == Uml::at_Association ||
+		at == Uml::at_Composition || at == Uml::at_UniAssociation);
+}
+
 QString IDLWriter::qualifiedName(UMLClassifier *c) {
 	UMLPackage *umlPkg = c->getUMLPackage();
 	QString className = cleanName(c->getName());
@@ -103,7 +108,17 @@ void IDLWriter::computeAssocTypeAndRole
 	// Determine which is the "remote" end of the association:
 	bool IAmRoleA = true;
 	UMLObject *other = a->getObject(Uml::B);
+	Uml::Association_Type at = a->getAssocType();
 	if (c->getName() == other->getName()) {
+		if (at == Uml::at_Aggregation || at == Uml::at_Composition ||
+		    at == Uml::at_UniAssociation) {
+			// Assuming unidirectional association, and we are
+			// at the "wrong" side.
+			// Returning roleName = QString::null tells caller to
+			// skip this association at this side.
+			roleName = QString::null;
+			return;
+		}
 		IAmRoleA = false;
 		other = a->getObject(Uml::A);
 	}
@@ -160,7 +175,7 @@ void IDLWriter::writeClass(UMLClassifier *c) {
 	if (!str.isEmpty()) {
 		str.replace(QRegExp("%filename%"), fileName);
 		str.replace(QRegExp("%filepath%"), file.name());
-		idl << str << endl;
+		idl << str << m_newLineEndingChars;
 	}
 
 	// Write includes.
@@ -189,7 +204,7 @@ void IDLWriter::writeClass(UMLClassifier *c) {
 	// Write class Documentation if non-empty or if force option set.
 	if (forceDoc() || !c->getDoc().isEmpty()) {
 		idl << "//" << m_newLineEndingChars;
-		idl << "// class " << classname << endl;
+		idl << "// class " << classname << m_newLineEndingChars;
 		idl << formatDoc(c->getDoc(), "// ");
 		idl << m_newLineEndingChars;
 	}
@@ -205,7 +220,7 @@ void IDLWriter::writeClass(UMLClassifier *c) {
 			idl << spc() << enumLiteral;
 			if (++i < litList.count())
 				idl << ",";
-			idl << endl;
+			idl << m_newLineEndingChars;
 		}
 		indentlevel--;
 		idl << spc() << "};" << m_newLineEndingChars << m_newLineEndingChars;
@@ -240,7 +255,7 @@ void IDLWriter::writeClass(UMLClassifier *c) {
 				idl << spc() << enumLiteral;
 				if (++i < atl.count())
 					idl << ",";
-				idl << endl;
+				idl << m_newLineEndingChars;
 			}
 			indentlevel--;
 			idl << spc() << "};" << m_newLineEndingChars << m_newLineEndingChars;
@@ -296,7 +311,12 @@ void IDLWriter::writeClass(UMLClassifier *c) {
 	idl << spc();
 	if (c->getAbstract())
 		idl << "abstract ";
-	idl << "interface " << c->getName();
+	bool isValuetype = (c->getStereotype(false) == "CORBAValue");
+	if (isValuetype)
+		idl << "valuetype ";
+	else
+		idl << "interface ";
+        idl << c->getName();
 	UMLClassifierList superclasses = c->getSuperClasses();
 	if (! superclasses.isEmpty()) {
 		idl << " : ";
@@ -315,23 +335,10 @@ void IDLWriter::writeClass(UMLClassifier *c) {
 	// Generate auxiliary declarations for multiplicity of associations
 	UMLAssociation *a;
 	bool didComment = false;
-	UMLAssociationList aggregations = c->getAggregations();
-	for (a = aggregations.first(); a; a = aggregations.next()) {
-		QString multiplicity = a->getMulti(Uml::A);
-		if (multiplicity.isEmpty() || multiplicity == "1")
+	UMLAssociationList assocs = c->getAssociations();
+	for (a = assocs.first(); a; a = assocs.next()) {
+		if (! assocTypeIsMappableToAttribute(a->getAssocType()))
 			continue;
-		if (!didComment) {
-			idl << spc() << "// Types for association multiplicities" << m_newLineEndingChars << m_newLineEndingChars;
-			didComment = true;
-		}
-		UMLClassifier* other = (UMLClassifier*)m_doc->findObjectById(a->getRoleId(Uml::A));
-		QString bareName = cleanName(other->getName());
-		idl << spc() << "typedef sequence<" << qualifiedName(other) << "> "
-		    << bareName << "Vector;" << m_newLineEndingChars << m_newLineEndingChars;
-	}
-
-	UMLAssociationList compositions = c->getCompositions();
-	for (a = compositions.first(); a; a = compositions.next()) {
 		QString multiplicity = a->getMulti(Uml::A);
 		if (multiplicity.isEmpty() || multiplicity == "1")
 			continue;
@@ -348,18 +355,28 @@ void IDLWriter::writeClass(UMLClassifier *c) {
 	// Generate public attributes.
 	if(myClass) {
 		UMLAttributeList atl = myClass->getFilteredAttributeList();
-		UMLAttributeList atpub;
-		UMLAttribute *at;
-		for (at = atl.first(); at; at = atl.next()) {
-			if (at->getScope() == Uml::Public)
-				atpub.append(at);
-		}
-		if (forceSections() || atpub.count()) {
-			idl << spc() << "// Public attributes:" << m_newLineEndingChars << m_newLineEndingChars;
-			for (at = atpub.first(); at; at = atpub.next()) {
+		if (forceSections() || atl.count()) {
+			idl << spc() << "// Attributes:" << m_newLineEndingChars << m_newLineEndingChars;
+			for (UMLAttribute *at = atl.first(); at; at = atl.next()) {
 				QString attName = cleanName(at->getName());
-				idl << spc() << "attribute " << at->getTypeName()
-				    << " " << attName << ";" << m_newLineEndingChars << m_newLineEndingChars;
+				Uml::Scope scope = at->getScope();
+				idl << spc();
+				if (isValuetype) {
+					if (scope == Uml::Public)
+						idl << "public ";
+					else
+						idl << "private ";
+				} else {
+					if (scope != Uml::Public) {
+						idl << "// visibility should be: "
+						    << Umbrello::scopeToString(scope, false)
+						    << m_newLineEndingChars;
+						idl << spc();
+					}
+					idl << "attribute ";
+				}
+				idl << at->getTypeName() << " " << attName << ";"
+				    << m_newLineEndingChars << m_newLineEndingChars;
 			}
 		}
 	}
@@ -380,23 +397,25 @@ void IDLWriter::writeClass(UMLClassifier *c) {
 	}
 
 
-	if (forceSections() || !aggregations.isEmpty()) {
-		idl << spc() << "// Aggregations:" << m_newLineEndingChars;
-		for (UMLAssociation *a = aggregations.first(); a; a = aggregations.next()) {
+	if (forceSections() || !assocs.isEmpty()) {
+		idl << spc() << "// Associations:" << m_newLineEndingChars << m_newLineEndingChars;
+		for (a = assocs.first(); a; a = assocs.next()) {
+			Uml::Association_Type at = a->getAssocType();
+			if (! assocTypeIsMappableToAttribute(at))
+				continue;
 			QString typeName, roleName;
 			computeAssocTypeAndRole(a, c, typeName, roleName);
-			idl << spc() << "// " << typeName << " " << roleName << ";" << m_newLineEndingChars;
+			if (roleName.isEmpty())  // presumably because we are at the "wrong" end
+				continue;
+			idl << spc() << "// " << UMLAssociation::typeAsString(at) << m_newLineEndingChars;
+			idl << spc();
+			if (isValuetype)
+				idl << "public ";
+			else
+				idl << "attribute ";
+			idl << typeName << " " << roleName << ";" << m_newLineEndingChars;
 		}
-		idl << endl;
-	}
-	if (forceSections() || !compositions.isEmpty()) {
-		idl << spc() << "// Compositions:" << m_newLineEndingChars;
-		for (UMLAssociation *a = compositions.first(); a; a = compositions.next()) {
-			QString typeName, roleName;
-			computeAssocTypeAndRole(a, c, typeName, roleName);
-			idl << spc() << "// " << typeName << " " << roleName << ";" << m_newLineEndingChars;
-		}
-		idl << endl;
+		idl << m_newLineEndingChars;
 	}
 
 	indentlevel--;

@@ -81,6 +81,16 @@ namespace Umbrello {
 	 */
 	bool isCommonXMIAttribute(const QString &tag);
 
+        /**
+         * Convert Scope value into QString representation.
+	 *
+	 * @param scope		The Scope enum value to convert.
+	 * @param mnemonic	If true then return a single character:
+	 *                      "+" for public, "-" for private, or
+	 *                      "#" for protected.
+	 */
+	QString scopeToString(Uml::Scope scope, bool mnemonic = true);
+
 
 	/**
 	 * Return type of parseOperation()

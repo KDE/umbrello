@@ -42,11 +42,11 @@ public:
 	 */
 	virtual void writeClass (UMLClassifier *c);
 
-  /**
-   * checks whether type is "IDLWriter"
-   *
-   * @param type
-   */
+	/**
+	 * checks whether type is "IDLWriter"
+	 *
+	 * @param type
+	 */
 	virtual bool isType (QString & type);
 
 	/**
@@ -73,7 +73,9 @@ private:
 	void computeAssocTypeAndRole(UMLAssociation* a, UMLClassifier *c,
 				     QString& typeName, QString& roleName);
 
-	bool isOOClass(UMLClassifier* c);
+	static bool isOOClass(UMLClassifier* c);
+
+	static bool assocTypeIsMappableToAttribute(Uml::Association_Type at);
 
 	QString qualifiedName(UMLClassifier* c);
 
