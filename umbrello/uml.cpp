@@ -251,10 +251,10 @@ void UMLApp::initActions() {
 	viewExportImage->setEnabled(false);
 	viewProperties->setEnabled(false);
 
-	zoomAction = new KPlayerPopupSliderAction(i18n("&Volume Popup"), "viewmag", Key_F9,
+	zoomAction = new KPlayerPopupSliderAction(i18n("&Zoom Slider"), "viewmag", Key_F9,
 						  this, SLOT(slotZoomSliderMoved(int)),
 						  actionCollection(), "popup_zoom");
-	zoom100Action = new KAction(i18n( "&Zoom to 100%" ), "viewmag1", 0,
+	zoom100Action = new KAction(i18n( "Z&oom to 100%" ), "viewmag1", 0,
 	                            this, SLOT( slotZoom100() ), actionCollection(),
 				    "zoom100");
 
