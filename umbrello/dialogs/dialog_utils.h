@@ -17,8 +17,24 @@ class QGridLayout;
 class QLabel;
 class QLineEdit;
 
-namespace Dialog_Utils {
+/**
+ * Dialog utilities.
+ * @author Oliver Kellogg
+ * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
+ */
+namespace Umbrello {
 
+	/**
+	 * Create a labeled text lineedit widget.
+	 *
+	 * @param containingBox		The containing QGroupBox.
+	 * @param layout		The QGridLayout to use.
+	 * @param row			The row number within the QGridLayout.
+	 * @param label			The QLabel object allocated (return value)
+	 * @param labelText		The label text.
+	 * @param editField		The QLineEdit object allocated (return value)
+	 * @param editFieldText		Initialization text in the editField (optional.)
+	 */
 	void makeLabeledEditField(QGroupBox *containingBox, QGridLayout *layout, int row,
 				  QLabel * &label, QString labelText, 
 				  QLineEdit * &editField, QString editFieldText = QString::null);
