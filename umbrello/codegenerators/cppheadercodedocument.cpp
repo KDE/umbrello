@@ -355,6 +355,7 @@ void CPPHeaderCodeDocument::updateContent( )
 		QString enumStatement;
                 QString indent = policy->getIndentation();
                 UMLClass* k = dynamic_cast<UMLClass*>(c);
+/*
                 if (k->isEnumeration()) {
                         enumStatement.append(indent + "enum "+cppClassName+" {"+endLine);
 
@@ -372,6 +373,7 @@ void CPPHeaderCodeDocument::updateContent( )
                         enumStatement.append(indent+"};");
 			isEnumeration = true;
                 }
+*/
 		namespaceBlock->addOrUpdateTaggedCodeBlockWithComments("enums", enumStatement, "", 0, false);
          }
 
