@@ -12,9 +12,9 @@
 
 #include "classifierlistitem.h"
 
-/**FIXMEnow doc
- * This class is used to set up information for an attribute.  This is like
- * a programming attribute.  It has a type, name, scope and initial value.
+/**
+ * This class is used to set up information for an enum literal.  Enum
+ * literals are the values that enums can be set to.
  *
  * @short Sets up attribute information.
  * @author Paul Hensgen <phensgen@techie.com>
@@ -25,19 +25,16 @@
 class UMLEnumLiteral : public UMLClassifierListItem {
 public:
 	/**
-	 * Sets up an attribute.
+	 * Sets up an enum literal.
 	 *
 	 * @param parent	The parent of this UMLEnumLiteral.
 	 * @param name		The name of this UMLEnumLiteral.
 	 * @param id		The unique id given to this UMLEnumLiteral.
-	 * @param type		The type of this UMLEnumLiteral.
-	 * @param s		The scope of the UMLEnumLiteral.
-	 * @param iv		The initial value of the attribute.
 	 */
 	UMLEnumLiteral(UMLObject* parent, QString name, int id);
 
 	/**
-	 * Sets up an attribute.
+	 * Sets up an enum literal.
 	 *
 	 * @param parent	The parent of this UMLEnumLiteral.
 	 */
@@ -63,7 +60,7 @@ public:
 	/**
 	 * Returns a string representation of the UMLEnumLiteral.
 	 *
-	 * @param sig		If true will show the attribute type and
+	 * @param sig		If true will show the enum literal type and
 	 *			inital value.
 	 * @return	Returns a string representation of the UMLEnumLiteral.
 	 */
@@ -72,15 +69,15 @@ public:
 	/**
 	 * Creates the <UML:EnumLiteral> XMI element.
 	 */
-	bool saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+	bool saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
 	/**
 	 * Loads the <UML:EnumLiteral> XMI element.
 	 */
-	bool loadFromXMI( QDomElement & element );
+	bool loadFromXMI(QDomElement& element);
 
 	/**
-	 * Display the properties configuration dialogue for the attribute.
+	 * Display the properties configuration dialogue for the enum literal.
 	 */
 	bool showPropertiesDialogue(QWidget* parent);
 
