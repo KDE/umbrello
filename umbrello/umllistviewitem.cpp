@@ -99,6 +99,10 @@ void UMLListViewItem::updateObject() {
 			setPixmap( 0, m_pListView -> getPixmap( UMLListView::it_Class ) );
 			break;
 
+		case Uml::ot_Template:
+			setPixmap( 0, m_pListView->getPixmap(UMLListView::it_Template) );
+			break;
+
 		case Uml::ot_Package:
 			setPixmap( 0, m_pListView -> getPixmap( UMLListView::it_Package ) );
 			break;

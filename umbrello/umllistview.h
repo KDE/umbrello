@@ -45,6 +45,7 @@ public:
 	    it_Folder_Grey_Open,
 	    it_Diagram, //change to have different one for each type of diagram
 	    it_Class,
+	    it_Template,
 	    it_Package,
 	    it_Interface,
 	    it_Actor,
@@ -225,6 +226,7 @@ protected:
 		QPixmap Folder_Grey_Open;
 		QPixmap Diagram; //change to have different one for each type of diagram
 		QPixmap Class;
+		QPixmap Template;
 		QPixmap Package;
 		QPixmap Interface;
 		QPixmap Actor;

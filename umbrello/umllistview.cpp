@@ -1241,6 +1241,10 @@ QPixmap & UMLListView::getPixmap( Icon_Type type ) {
 			return m_Pixmaps.Class;
 			break;
 
+		case it_Template:
+			return m_Pixmaps.Template;
+			break;
+
 		case it_Package:
 			return m_Pixmaps.Package;
 			break;
@@ -1296,6 +1300,7 @@ void UMLListView::loadPixmaps() {
 	m_Pixmaps.Folder_Grey_Open.load( dataDir + "folder_grey_open.png" );
 	m_Pixmaps.Diagram.load( dataDir + "CVnamespace.png" ); //change to have different one for each type of diagram
 	m_Pixmaps.Class.load( dataDir + "umlclass.xpm" );
+	m_Pixmaps.Template.load( dataDir + "umlclass_template.xpm" );
 	m_Pixmaps.Package.load( dataDir + "package.xpm" );
 	m_Pixmaps.Interface.load( dataDir + "interface.xpm" );
 	m_Pixmaps.Actor.load( dataDir + "actor.xpm" );
