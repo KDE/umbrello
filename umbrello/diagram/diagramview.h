@@ -62,9 +62,21 @@ protected:
 	QPtrList<QCanvasLine> *m_linePath;
 	
 	long m_currentAction;
-	static std::map<WorkToolBar::EditTool, const std::type_info*> toolMap;
+	
+	/** Map WorkToolBar::EditTool to a UML type - which can then be inserted
+	  * in a diagram */
+	static std::map<WorkToolBar::EditTool, const std::type_info*> umlTypeMap;
+	
+	/** Map WorkToolBar::EditTool to Association types - used for creating associations
+	 * between the UMLObjects*/
+	static std::map<WorkToolBar::EditTool, Uml::Association_Type> associationTypeMap;
+	
+	/** Map WorkToolBar::EditTool to generic/custome widgets -> that is, widgets wich
+	 * have no real value in the model and used only in the diagram for visual purposes
+	 * examples are boxes, lines ( line != AssociationWidget ), texts, etc*/
+	static std::map<WorkToolBar::EditTool, int> customWidgetMap;
 private:
-	void initToolMap();
+	void initMaps();
 };
 
 

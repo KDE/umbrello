@@ -48,9 +48,9 @@ DiagramView::DiagramView( Diagram *diagram, WorkToolBar *toolbar,
 			QWidget *parent, const char *name, WFlags f) :
              QCanvasView( diagram, parent, name, f ),toolBar(toolbar),m_selectionRect(0L)
 {
-	if(toolMap.empty())
+	if(umlTypeMap.empty())
 	{
-		initToolMap();
+		initMaps();
 	}
 	
 	m_contextMenu = new QPopupMenu(this);
@@ -95,30 +95,39 @@ kdDebug()<<"setting current tool to : "<<tool<<endl;
 			setCursor(Qt::ArrowCursor);
 
 	}
+	m_currentAction = None;
+	m_linePath->clear();
+	if(m_selectionRect) 
+	{
+		delete m_selectionRect;
+		m_selectionRect = 0L;
+		canvas()->update();
+ 	}
+	
 }
 
 void DiagramView::contentsMousePressEvent( QMouseEvent *e )
 {
-if(e->button() == RightButton && m_currentAction == CreatingAssociation )
-{	kdDebug()<<"aborting association"<<endl;
+	if(e->button() == RightButton && m_currentAction == CreatingAssociation )
+	{	kdDebug()<<"aborting association"<<endl;
 	
-	viewport()->setMouseTracking(false);
-	m_currentAction = None;
-	m_linePath->clear();
-	diagram()->update();
-	e->accept();
-	return;
-}
-if(e->button() != LeftButton)
-{
-	kdDebug()<<"button not handled in pressevent: "<<e->button()<<endl;
-	e->ignore();
-	return;
-}
+		viewport()->setMouseTracking(false);
+		m_currentAction = None;
+		m_linePath->clear();
+		diagram()->update();
+		e->accept();
+		return;
+	}
+	if(e->button() != LeftButton)
+	{
+		kdDebug()<<"button not handled in pressevent: "<<e->button()<<endl;
+		e->ignore();
+		return;
+	}
 
-m_savedPosition = e->pos();
-QPoint diagramPos = e->pos(); //translate FIXME
-QCanvasItemList list = diagram()->collisions(diagramPos);
+	m_savedPosition = e->pos();
+	QPoint diagramPos = e->pos(); //translate FIXME
+	QCanvasItemList list = diagram()->collisions(diagramPos);
 
 
 	switch( m_tool )
@@ -151,42 +160,50 @@ QCanvasItemList list = diagram()->collisions(diagramPos);
 			return;
 		}
 		break;
+	//Try to add an UML Object to the diagram
 	case WorkToolBar::Class:
+	case WorkToolBar::Interface:
+	case WorkToolBar::Package:
+	case WorkToolBar::Component:
+	case WorkToolBar::Object:
+	case WorkToolBar::State:
+	case WorkToolBar::Activity:
 	case WorkToolBar::UseCase:
 	case WorkToolBar::Actor:
 		if(!list.isEmpty())
 		{//cannot create an object on top of other object
-		//maybe create the UMLObject but not the Widget??
 			return;
 		}
-		if( diagram()->acceptType(*(toolMap[m_tool])))
+		if( diagram()->acceptType(*(umlTypeMap[m_tool])))
 		{
-			UMLObject *obj = diagram()->document()->createUMLObject(*(toolMap[m_tool]));
+			UMLObject *obj = diagram()->document()->createUMLObject(*(umlTypeMap[m_tool]));
 			diagram()->createUMLWidget(obj, diagramPos);
 			return;
 		}
 		break;
 ////////////////////////////////////////////////////////
-//FIXME this should be similar to the "UMLObjects" above	
-	case WorkToolBar::InitialActivity:
-	case WorkToolBar::EndActivity:
-	case WorkToolBar::Branch:
-	case WorkToolBar::Fork:
-	case WorkToolBar::Activity:
-	case WorkToolBar::State:
-	case WorkToolBar::InitialState:
+//FIXME	
+	case WorkToolBar::InitialActivity: //initial/end activities and states are just
+	case WorkToolBar::EndActivity:	  //roles of states/activites, not sub classes. how should we
+	case WorkToolBar::Branch:	//handle this? create a state/activity, and then call setRole(type)?
+	case WorkToolBar::Fork:		//what are fork/branches in the model?
 			break;
-/////////////////////////////////////////////////			
+/////////////////////////////////////////////////
+
+	//Try to create an association between two UMLObjects.
 	case WorkToolBar::Generalization:
 	case WorkToolBar::Aggregation:
 	case WorkToolBar::Association:
-		kdDebug()<<"association: tool is "<<m_tool<<endl;
+	case WorkToolBar::Dependency:
+	case WorkToolBar::CollMessage:
+//	case WorkToolBar::Implementation:
+	case WorkToolBar::Composition:
+		//we need to remove the path line from the list of collisions first
 		list.remove(m_linePath->last());
 		if( m_currentAction == CreatingAssociation )
-		{
-		
+		{//association creation is already in progres...
 			if(list.isEmpty())
-			{//make an anchor point
+			{//make an anchor point / create a path
 				kdDebug()<<"anchor point here.."<<endl;
 				kdDebug()<<"check for shift/ctl to make orthogonal lines"<<endl;
 				QCanvasLine *line = m_linePath->last();
@@ -200,7 +217,11 @@ QCanvasItemList list = diagram()->collisions(diagramPos);
 			}
 			else
 			{//check if assoc ok, create association and widget
-			kdDebug()<<"create association here, then create widget, and then set widget's path to linePath."<<endl;
+			kdDebug()<<"create association here, then create assocWidget, and then set widget's path to linePath."<<endl;
+			// FIXME:
+			//UMLAssociation *a = diagram()->document()->createAssociation(from,to,type);
+			//AssociationWidget *w = diagram()->createAssociationWidget(a);
+			// w->setPath( m_linePath )
 				viewport()->setMouseTracking(false);
 				m_linePath->clear();
 				canvas()->update();
@@ -209,17 +230,27 @@ QCanvasItemList list = diagram()->collisions(diagramPos);
 			}
 		}
 		//else, start creating association
-		kdDebug()<<"start creating association"<<endl;
+		//first check if the "source" objects accepts the association type at all
 		if(list.isEmpty())
 		{
-			
-			kdDebug()<<"cannot create an association without a object/widget"<<endl;
 			return;
 		}
 		else
 		{
 			m_currentAction = CreatingAssociation;
 			kdDebug()<<"starting association. first ask if object can accept this association"<<endl;
+			UMLWidget *w = dynamic_cast<UMLWidget*>(list.first());
+			if(!w)
+			{//we hit something but it was not a UMLWidget (maybe a customwidget or another kind of 
+			// DiagramElement or CanvasItem
+				return;
+			}
+			if(!(w->umlObject()->acceptAssociationType(associationTypeMap[m_tool])))
+			{
+				kdDebug()<<"Uml Object type does not accept association type (int)"<<(int)associationTypeMap[m_tool]<<endl;
+				return;
+			}
+			// ok, association in progress.. create the path
 			QCanvasLine *line = new QCanvasLine(canvas());
 			line->setPoints(diagramPos.x(),diagramPos.y(),diagramPos.x(),diagramPos.y());
 			m_linePath->append(line);
@@ -230,11 +261,10 @@ QCanvasItemList list = diagram()->collisions(diagramPos);
 		}
 		break;
 	
-	//////
+	//create Generic / Custom Widgets
 	case WorkToolBar::Note:
 	case WorkToolBar::Text:
-			//FIXME - place holder only!!
-		diagram()->createCustomWidget( 1, diagramPos);
+		diagram()->createCustomWidget( customWidgetMap[m_tool], diagramPos);
 		break;
 	default:
 		kdDebug()<<"tool "<<m_tool<<" not handled in MousePressEvent"<<endl;
@@ -358,36 +388,40 @@ kdDebug()<<"telling toolbar to change icons"<<endl;
 }
 
 //////////////////////////////////////////////////////////
-map<WorkToolBar::EditTool, const std::type_info*> DiagramView::toolMap;
-void DiagramView::initToolMap()
+map<WorkToolBar::EditTool, const std::type_info*> DiagramView::umlTypeMap;
+map<WorkToolBar::EditTool, Uml::Association_Type> DiagramView::associationTypeMap;
+map<WorkToolBar::EditTool, int> DiagramView::customWidgetMap;
+void DiagramView::initMaps()
 {
-
-/*	toolMap[WorkToolBar::Generalization] = typeid( ;
-	toolMap[WorkToolBar::Aggregation] = rtti::UMLAssociation  ;
-	toolMap[WorkToolBar::Dependency] = rtti::UMLAssociation  ;
-	toolMap[WorkToolBar::Association] = rtti::UMLAssociation ;
-	toolMap[WorkToolBar::CollMessage] = rtti::UMLAssociation ;
-	toolMap[WorkToolBar::SeqMessage] = rtti::UMLAssociation ;
-	toolMap[WorkToolBar::Composition] = rtti::UMLAssociation ;
-	toolMap[WorkToolBar::UniAssociation] = rtti::UMLAssociation ;
-	toolMap[WorkToolBar::StateTransition] = rtti::UMLAssociation ;
-	toolMap[WorkToolBar::ActivityTransition] = rtti::UMLAssociation ;
-//	toolMap[WorkToolBar::Anchor] = AnchorWidget ;
-*/	//toolMap[WorkToolBar::Text] = TextWidget ;
-	toolMap[WorkToolBar::Actor] = &typeid(UMLActor);
-	toolMap[WorkToolBar::UseCase] = &typeid(UMLUseCase);
+// UMLObject type map
+	umlTypeMap[WorkToolBar::Actor] = &typeid(UMLActor);
+	umlTypeMap[WorkToolBar::UseCase] = &typeid(UMLUseCase);
 	
-	toolMap[WorkToolBar::Class] = &typeid(UMLClass);
-	toolMap[WorkToolBar::Package] = &typeid(UMLPackage);
-	toolMap[WorkToolBar::Interface] = &typeid(UMLInterface);
-	//toolMap[WorkToolBar::Template] = &typeid(UMLTemplate);
-/*	toolMap[WorkToolBar::InitialState] = rtti::UMLState ;
-	toolMap[WorkToolBar::EndState] = rtti::UMLState ;
-	toolMap[WorkToolBar::InitialActivity] = rtti::UMLActivity ;
-	toolMap[WorkToolBar::EndActivity] = rtti::UMLActivity ;
-	toolMap[WorkToolBar::Branch] = BranchWidget ;
-	toolMap[WorkToolBar::Fork] = ForkWidget ;
-*/
+	umlTypeMap[WorkToolBar::Class] = &typeid(UMLClass);
+	umlTypeMap[WorkToolBar::Package] = &typeid(UMLPackage);
+	umlTypeMap[WorkToolBar::Interface] = &typeid(UMLInterface);
+	
+	//FIXME missing: template, activity, state..
+	
+// Association type map
+
+	associationTypeMap[WorkToolBar::Generalization] = Uml::at_Generalization;
+	associationTypeMap[WorkToolBar::Aggregation] = Uml::at_Aggregation;
+	associationTypeMap[WorkToolBar::Dependency] = Uml::at_Dependency;
+	associationTypeMap[WorkToolBar::Association] = Uml::at_Association;
+	associationTypeMap[WorkToolBar::CollMessage] = Uml::at_Coll_Message;
+	associationTypeMap[WorkToolBar::SeqMessage] = Uml::at_Seq_Message;
+	associationTypeMap[WorkToolBar::Composition] = Uml::at_Generalization;
+	associationTypeMap[WorkToolBar::UniAssociation] = Uml::at_UniAssociation;
+	associationTypeMap[WorkToolBar::StateTransition] = Uml::at_State;
+	associationTypeMap[WorkToolBar::ActivityTransition] = Uml::at_Activity;
+	
+// custom widget map
+	customWidgetMap[WorkToolBar::Note] = (int)Uml::wt_Note;
+	customWidgetMap[WorkToolBar::Text] = (int)Uml::wt_Text;
+	
+	 /** self-msgs?, at_Implementation,
+	    at_Composition, at_Anchor*/
 }
 
 }
