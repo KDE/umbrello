@@ -73,9 +73,9 @@ void CppTree2Uml::parseNamespace( NamespaceAST* ast )
 #ifdef DEBUG_CPPTREE2UML
     kdDebug() << "CppTree2Uml::parseNamespace: " << nsName << endl;
 #endif
-    UMLObject * o = m_importer->createUMLObject( Uml::ot_Package, nsName, "" /*stereotype*/,
-						 ast->comment(),
-						 m_currentNamespace[m_nsCnt] );
+    UMLObject * o = m_importer->createUMLObject( Uml::ot_Package, nsName,
+						 m_currentNamespace[m_nsCnt],
+						 ast->comment());
     UMLPackage *ns = (UMLPackage *)o;
     m_currentScope.push_back( nsName );
     m_currentNamespace[++m_nsCnt] = ns;
@@ -138,22 +138,18 @@ void CppTree2Uml::parseTypedef( TypedefAST* ast )
 	    if (type.contains('*')) {
 		UMLObject *inner =
 	        m_importer->createUMLObject( Uml::ot_Class, typeId,
-					     "" /* stereotype */,
-	 				     "" /* doc */,
 					     m_currentNamespace[m_nsCnt] );
 	        UMLObject *typedefObj =
 		m_importer->createUMLObject( Uml::ot_Datatype, id,
-					     "" /* stereotype */,
-	 				     "" /* doc */,
 					     m_currentNamespace[m_nsCnt] );
 	        UMLDatatype *dt = static_cast<UMLDatatype*>(typedefObj);
 		dt->setIsReference();
 		dt->setOriginType(static_cast<UMLClassifier*>(inner));
 	    } else {
 	        m_importer->createUMLObject( Uml::ot_Class, id,
-					     "typedef" /* stereotype */,
+					     m_currentNamespace[m_nsCnt],
 	 				     "" /* doc */,
-					     m_currentNamespace[m_nsCnt] );
+					     "typedef" /* stereotype */);
 	    }
 	    ++it;
 	}
@@ -243,7 +239,8 @@ void CppTree2Uml::parseFunctionDefinition( FunctionDefinitionAST* ast )
     QString returnType = typeOfDeclaration( typeSpec, d );
     UMLOperation *m = m_importer->makeOperation(c, id);
     m_importer->insertMethod( c, m, (Uml::Scope)m_currentAccess, returnType,
-			      isStatic, false /*isAbstract*/, m_comment );
+			      isStatic, false /*isAbstract*/, m_comment,
+			      m_currentNamespace[m_nsCnt]);
     m_comment = "";
     parseFunctionArguments( d, m );
 
@@ -291,9 +288,9 @@ void CppTree2Uml::parseClassSpecifier( ClassSpecifierAST* ast )
     if (className.isEmpty()) {
 	className = "anon_" + QString::number(++m_anonTypeCnt);
     }
-    UMLObject * o = m_importer->createUMLObject( Uml::ot_Class, className, "" /*stereotype*/,
-						 ast->comment(),
-						 m_currentNamespace[m_nsCnt] );
+    UMLObject * o = m_importer->createUMLObject( Uml::ot_Class, className,
+						 m_currentNamespace[m_nsCnt],
+						 ast->comment() );
     UMLClass *klass = (UMLClass *)o;
 
     if ( ast->baseClause() )
@@ -324,9 +321,8 @@ void CppTree2Uml::parseEnumSpecifier( EnumSpecifierAST* ast )
     if (typeName.isEmpty())
 	return;  // skip constants
     UMLObject *o = m_importer->createUMLObject( Uml::ot_Enum, typeName,
-						"" /* stereotype */,
-						ast->comment(),
-						m_currentNamespace[m_nsCnt] );
+						m_currentNamespace[m_nsCnt],
+						ast->comment() );
 
     QPtrList<EnumeratorAST> l = ast->enumeratorList();
     QPtrListIterator<EnumeratorAST> it( l );
@@ -389,7 +385,8 @@ void CppTree2Uml::parseDeclaration( GroupAST* funSpec, GroupAST* storageSpec,
     }
 
     m_importer->insertAttribute( c, (Uml::Scope)m_currentAccess, id, typeName,
-				 m_comment, isStatic);
+				 m_comment, isStatic,
+				 m_currentNamespace[m_nsCnt]);
     m_comment = "";
 }
 
@@ -458,7 +455,8 @@ void CppTree2Uml::parseFunctionDeclaration(  GroupAST* funSpec, GroupAST* storag
     UMLOperation *m = m_importer->makeOperation(c, id);
     parseFunctionArguments( d, m );
     m_importer->insertMethod( c, m, (Uml::Scope)m_currentAccess, returnType,
-			      isStatic, isPure, m_comment );
+			      isStatic, isPure, m_comment,
+			      m_currentNamespace[m_nsCnt]);
     m_comment = "";
 }
 
@@ -481,8 +479,7 @@ void CppTree2Uml::parseFunctionArguments(DeclaratorAST* declarator,
 
 	    QString tp = typeOfDeclaration( param->typeSpec(), param->declarator() );
 
-	    m_importer->addMethodParameter( method, tp, name, "" /*initialValue*/,
-	    							 "" /*doc*/);
+	    m_importer->addMethodParameter( method, tp, name, m_currentNamespace[m_nsCnt] );
 	}
     }
 }

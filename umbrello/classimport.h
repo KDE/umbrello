@@ -45,16 +45,19 @@ public:
 	 */
 	UMLObject* createUMLObject(Uml::Object_Type type,
 				   QString name,
-				   QString stereotype = "",
-				   QString comment = "",
-				   UMLPackage *parentPkg = NULL);
+				   UMLPackage *parentPkg = NULL,
+				   QString comment = QString::null,
+				   QString stereotype = QString::null);
 
 	/**
 	 * Create a UMLAttribute and insert it into the document.
+	 * The parentPkg arg is only used for resolving possible scope
+	 * prefixes in the `type'.
 	 */
 	UMLObject* insertAttribute(UMLClass *klass, Uml::Scope scope, QString name,
-				   QString type, QString comment = "",
-				   bool isStatic = false);
+				   QString type, QString comment = QString::null,
+				   bool isStatic = false,
+				   UMLPackage *parentPkg = NULL);
 
 	/**
 	 * Create a UMLOperation.
@@ -69,19 +72,23 @@ public:
 
 	/**
 	 * Insert the UMLOperation into the document.
+	 * The parentPkg arg is only used for resolving possible scope
+	 * prefixes in the `type'.
 	 */
 	void insertMethod(UMLClass *klass, UMLOperation *op,
 			  Uml::Scope scope, QString type,
 			  bool isStatic, bool isAbstract,
-			  QString comment = "");
+			  QString comment = QString::null,
+			  UMLPackage *parentPkg = NULL);
 
 	/**
 	 * Add an argument to a UMLOperation.
+	 * The parentPkg arg is only used for resolving possible scope
+	 * prefixes in the `type'.
 	 */
 	UMLAttribute* addMethodParameter(UMLOperation *method,
 					 QString type, QString name,
-					 QString initialValue, QString doc,
-					 Uml::Parameter_Direction kind = Uml::pd_In);
+					 UMLPackage *parentPkg = NULL);
 
 	/**
 	 * Add an enum literal to an UMLEnum.
@@ -104,6 +111,20 @@ public:
 private:
 	UMLDoc * m_umldoc;  // just a shorthand for UMLApp::app()->getDocument()
 	CppDriver * m_driver;
+	/**
+	 * On encountering a scoped typename string where the scopes
+	 * have not yet been seen, we synthesize UML objects for the
+	 * unknown scopes (using a question dialog to the user to decide
+	 * whether to treat a scope as a class or as a package.)
+	 * However, such an unknown scope is put at the global level.
+	 * I.e. before calling createUMLObject() we set this flag to true.
+	 * FIXME: Find a better solution.
+	 *   Oftentimes the scope is misplaced to a wrong level.
+	 *   The whole thing should be less of a problem once
+	 *   included files are translated to model objects prior
+	 *   to the main header file.
+	 */
+	bool m_putAtGlobalScope;
 };
 
 #endif

@@ -74,9 +74,9 @@ UMLObject* ClassImport::findUMLObject(QString name,
 
 UMLObject *ClassImport::createUMLObject(Uml::Object_Type type,
 					QString name,
-					QString stereotype,
+					UMLPackage *parentPkg,
 					QString comment,
-					UMLPackage *parentPkg) {
+					QString stereotype) {
 	UMLObject * o = m_umldoc->findUMLObject(name);
 	if (o == NULL) {
 		int isConst = name.contains(QRegExp("^const "));
@@ -89,6 +89,8 @@ UMLObject *ClassImport::createUMLObject(Uml::Object_Type type,
 					    Uml::ot_UMLObject,
 					    parentPkg);
 		if (o == NULL) {
+			if (m_putAtGlobalScope)
+				parentPkg = NULL;
 			if (typeName.contains("::")) {
 				QStringList components = QStringList::split("::", typeName);
 				typeName = components.back();
@@ -111,26 +113,35 @@ UMLObject *ClassImport::createUMLObject(Uml::Object_Type type,
 				}
 				name.remove(QRegExp("^.*::"));  // may also zap "const "
 			}
+			UMLObject *origType = NULL;
 			if (isPointer || isRef) {
-				m_umldoc->createUMLObject(Uml::ot_Class, typeName, parentPkg);
+				origType = m_umldoc->createUMLObject(Uml::ot_Class, typeName, parentPkg);
 				type = Uml::ot_Datatype;
 			} else if (type == Uml::ot_UMLObject)
 				type = Uml::ot_Class;
 			if (isConst)
 				name.prepend("const ");
 			o = m_umldoc->createUMLObject(type, name, parentPkg);
+			if (origType) {
+				UMLDatatype *dt = static_cast<UMLDatatype*>(o);
+				UMLClassifier *c = dynamic_cast<UMLClassifier*>(origType);
+				if (c)
+					dt->setOriginType(c);
+				else
+					kdError() << "ClassImport::createUMLObject(" << name << "): "
+						  << "origType " << typeName << " is not a UMLClassifier"
+						  << endl;
+				dt->setIsReference();
+				/*
+				if (isPointer) {
+					UMLObject *pointerDecl = m_umldoc->createUMLObject(Uml::ot_Datatype, type);
+					UMLDatatype *dt = static_cast<UMLDatatype*>(pointerDecl);
+					dt->setOriginType(classifier);
+					dt->setIsReference();
+					classifier = dt;
+				}  */
+			}
 		}
-		/* if (isPointer) {
-			UMLDatatype *dt = static_cast<UMLDatatype*>(o);
-			UMLClassifier *c = dynamic_cast<UMLClassifier*>(origType);
-			if (c)
-				dt->setOriginType(c);
-			else
-				kdError() << "ClassImport::createUMLObject(" << name << "): "
-					  << "origType " << typeName << " is not a UMLClassifier"
-					  << endl;
-			dt->setIsReference();
-		}  */
 	} else if (parentPkg) {
 		o->setUMLPackage(parentPkg);
 	}
@@ -152,7 +163,8 @@ UMLOperation* ClassImport::makeOperation(UMLClass *parent, const QString &name) 
 
 UMLObject* ClassImport::insertAttribute(UMLClass *o, Uml::Scope scope, QString name,
 					QString type, QString comment /* ="" */,
-					bool isStatic /* =false */) {
+					bool isStatic /* =false */,
+					UMLPackage *parentPkg /* = NULL */) {
 	Uml::Object_Type ot = o->getBaseType();
 	if (ot != Uml::ot_Class) {
 		kdDebug() << "ClassImport::insertAttribute: Don't know what to do with "
@@ -163,35 +175,10 @@ UMLObject* ClassImport::insertAttribute(UMLClass *o, Uml::Scope scope, QString n
 	UMLAttribute *attr = ((UMLClass*)o)->addAttribute(name);
 	attr->setScope(scope);
 	attr->setStatic(isStatic);
-	UMLObject *obj = createUMLObject(Uml::ot_UMLObject, type);
+	m_putAtGlobalScope = true;
+	UMLObject *obj = createUMLObject(Uml::ot_UMLObject, type, parentPkg);
+	m_putAtGlobalScope = false;
 	UMLClassifier *classifier = dynamic_cast<UMLClassifier*>(obj);
-	if (classifier == NULL) {
-		kdDebug() << "ClassImport::insertAttribute(" << name
-			  << "): Attribute type " << type
-			  << " has no model representation" << endl;
-		QString typeName(type);
-		int isPointer = typeName.contains('*');
-		typeName.replace(QRegExp("^const\\s+"), "");
-		typeName.replace(QRegExp("[^:\\w].*$"), "");
-		if (type == typeName) {
-			obj = m_umldoc->createUMLObject(Uml::ot_Class, type);
-			classifier = static_cast<UMLClassifier*>(obj);
-		} else {
-			obj = m_umldoc->findUMLObject(typeName, Uml::ot_UMLObject, o);
-			classifier = dynamic_cast<UMLClassifier*>(obj);
-			if (classifier == NULL) {
-				obj = m_umldoc->createUMLObject(Uml::ot_Class, typeName);
-				classifier = static_cast<UMLClassifier*>(obj);
-			}
-			if (isPointer) {
-				UMLObject *pointerDecl = m_umldoc->createUMLObject(Uml::ot_Datatype, type);
-				UMLDatatype *dt = static_cast<UMLDatatype*>(pointerDecl);
-				dt->setOriginType(classifier);
-				dt->setIsReference();
-				classifier = dt;
-			}
-		}
-	}
 	attr->setType(classifier);
 	if (! strippedComment.isEmpty()) {
 		attr->setDoc(strippedComment);
@@ -205,10 +192,13 @@ UMLObject* ClassImport::insertAttribute(UMLClass *o, Uml::Scope scope, QString n
 void ClassImport::insertMethod(UMLClass *klass, UMLOperation *op,
 					 Uml::Scope scope, QString type,
 					 bool isStatic, bool isAbstract,
-					 QString comment /* = "" */) {
+					 QString comment,
+					 UMLPackage *parentPkg) {
 	op->setScope(scope);
-	if (!type.isEmpty()) {
-		UMLObject *typeObj = createUMLObject(Uml::ot_UMLObject, type);
+	if (!type.isEmpty()) {  // return type may be missing (constructor/destructor)
+		m_putAtGlobalScope = true;
+		UMLObject *typeObj = createUMLObject(Uml::ot_UMLObject, type, parentPkg);
+		m_putAtGlobalScope = false;
 		op->setType(dynamic_cast<UMLClassifier*>(typeObj));
 	}
 	op->setStatic(isStatic);
@@ -225,15 +215,16 @@ void ClassImport::insertMethod(UMLClass *klass, UMLOperation *op,
 
 UMLAttribute* ClassImport::addMethodParameter(UMLOperation *method,
 					      QString type, QString name,
-					      QString initialValue, QString doc,
-					      Uml::Parameter_Direction kind) {
-	UMLObject *typeObj = createUMLObject(Uml::ot_UMLObject, type);
+					      UMLPackage *parentPkg) {
+	m_putAtGlobalScope = true;
+	UMLObject *typeObj = createUMLObject(Uml::ot_UMLObject, type, parentPkg);
+	m_putAtGlobalScope = false;
 	UMLAttribute *attr = new UMLAttribute(method);
 	attr->setName(name);
 	attr->setType(dynamic_cast<UMLClassifier*>(typeObj));
-	attr->setInitialValue(initialValue);
-	attr->setDoc(doc);
-	attr->setParmKind(kind);
+	//attr->setInitialValue(initialValue);
+	//attr->setDoc(doc);
+	//attr->setParmKind(kind);
 	method->addParm(attr);
 	return attr;
 }
@@ -253,6 +244,11 @@ void ClassImport::createGeneralization(UMLClass *child, const QString &parentNam
 void ClassImport::importCPP(QStringList headerFileList) {
 	// Reset the driver
 	m_driver->reset();
+	// The driver shall attempt to parse included files.
+	// TODO: Although the include files do get parsed, they do not get
+	//       generated into UML.
+	//       We need to look into the Driver's mechanism for handling that.
+	m_driver->setResolveDependencesEnabled( true );
 	// Add some standard include paths
 	m_driver->addIncludePath( "/usr/include" );
 	m_driver->addIncludePath( "/usr/include/c++" );
