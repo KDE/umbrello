@@ -367,9 +367,6 @@ bool UMLClass::loadSpecialized(QDomElement & element) {
 		} else {
 			kdWarning() << "unknown listtype with stereotype:" << listType << endl;
 		}
-	} else {
-		kdWarning() << "UMLClass::load(" << getName()
-			    << "): unknown child type " << tag << endl;
 	}
 	return true;
 }

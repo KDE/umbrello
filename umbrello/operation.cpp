@@ -191,9 +191,11 @@ bool UMLOperation::load( QDomElement & element ) {
 	QDomNode node = element.firstChild();
 	QDomElement attElement = node.toElement();
 	while( !attElement.isNull() ) {
-		// Should be UML:Parameter tag name but check anyway.
 		QString tag = attElement.tagName();
-		if (tagEq(tag, "Parameter")) {
+		if (tagEq(tag, "BehavioralFeature.parameter")) {
+			if (! load(attElement))
+				return false;
+		} else if (tagEq(tag, "Parameter")) {
 			UMLAttribute * pAtt = new UMLAttribute( this );
 			if( !pAtt -> UMLObject::loadFromXMI( attElement ) )
 				return false;
@@ -207,9 +209,6 @@ bool UMLOperation::load( QDomElement & element ) {
 			pAtt -> setTypeName( attElement.attribute( "type", "" ) );
 			pAtt -> setInitialValue( attElement.attribute( "value", "" ) );
 			m_List.append( pAtt );
-		} else {
-			kdDebug() << "UMLOperation::loadFromXMI: Ignoring unknown tag "
-				  << tag << endl;
 		}
 		node = node.nextSibling();
 		attElement = node.toElement();
