@@ -12,9 +12,7 @@
 
 #include <qptrlist.h>
 #include "umldoc.h"
-
-// forward declarations
-class UMLAttribute;
+#include "umlattributelist.h"
 
 /**
  * Interfaces classparser library to uml models
@@ -45,7 +43,7 @@ public:
 	/**
 	 *
 	 */
-	void insertMethod(UMLObject *o, Uml::Scope scope, QString name, QString type, QPtrList<UMLAttribute> *parList = NULL);
+	void insertMethod(UMLObject *o, Uml::Scope scope, QString name, QString type, UMLAttributeList *parList = NULL);
 
 	/**
 	 *

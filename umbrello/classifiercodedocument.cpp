@@ -23,6 +23,8 @@
 #include "class.h"
 #include "interface.h"
 #include "umlrole.h"
+#include "umlattributelist.h"
+#include "umloperationlist.h"
 
 // Constructors/Destructors
 //  
@@ -364,7 +366,7 @@ kdWarning()<<" Syncronize classifier code doc:"<<this<<endl;
 
 void ClassifierCodeDocument::updateOperations( ) {
 
-        QPtrList<UMLOperation> *opList = getParentClassifier()->getFilteredOperationsList();
+        UMLOperationList *opList = getParentClassifier()->getFilteredOperationsList();
 	for (UMLOperation *op = opList->first(); op; op = opList->next())
         {
 		QString tag = CodeOperation::findTag(op);
@@ -392,7 +394,7 @@ kdWarning()<<" INIT CODE CLASSFIELDS IN CLASSIFIER DOC"<<endl;
 	// first, do the code classifields that arise from attributes
         if (!parentIsInterface()) {
                 UMLClass * mclass = dynamic_cast<UMLClass*>(c);
-                QPtrList<UMLAttribute>* alist = mclass->getFilteredAttributeList();
+                UMLAttributeList* alist = mclass->getFilteredAttributeList();
                 for(UMLAttribute * at = alist->first(); at; at = alist->next())
                 {
                         CodeClassField * field = newCodeClassField(at);

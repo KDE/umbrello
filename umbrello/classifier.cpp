@@ -218,8 +218,8 @@ QPtrList<UMLClassifierListItem>* UMLClassifier::getOpList() {
 	return &m_OpsList;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-QPtrList<UMLOperation>* UMLClassifier::getFilteredOperationsList()  {
-	QPtrList<UMLOperation>* operationList = new QPtrList<UMLOperation>;
+UMLOperationList* UMLClassifier::getFilteredOperationsList()  {
+	UMLOperationList* operationList = new UMLOperationList;
 	for(UMLClassifierListItem* listItem = m_OpsList.first(); listItem;
 	    listItem = m_OpsList.next())  {
 		if (listItem->getBaseType() == ot_Operation) {

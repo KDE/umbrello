@@ -39,6 +39,8 @@
 #include "umldoc.h" 
 #include "umlobject.h"
 #include "umlview.h"
+#include "umlattributelist.h"
+#include "umloperationlist.h"
 
 // Constructors/Destructors
 //  
@@ -332,7 +334,7 @@ kdWarning()<<"CODE GEN writes code for:"<<filename.latin1()<<endl;
 			}
 /*
 	//operations
-	QPtrList<UMLOperation> *opl = c->getFilteredOperationsList();
+	UMLOperationList *opl = c->getFilteredOperationsList();
 	for(UMLOperation *op = opl->first(); op ; op = opl->next()) {
 		temp =0;
 		//check return value
@@ -525,7 +527,7 @@ QString CodeGenerator::findFileName ( CodeDocument * codeDocument ) {
 }
 /*
 bool CodeGenerator::hasDefaultValueAttr(UMLClass *c) {
-	QPtrList<UMLAttribute> *atl = c->getFilteredAttributeList();
+	UMLAttributeList *atl = c->getFilteredAttributeList();
 	for(UMLAttribute *at = atl->first(); at; at = atl->next())
 		if(!at->getInitialValue().isEmpty())
 			return true;
@@ -533,7 +535,7 @@ bool CodeGenerator::hasDefaultValueAttr(UMLClass *c) {
 }
 
 bool CodeGenerator::hasAbstractOps(UMLClassifier *c) {
-	QPtrList<UMLOperation> *opl = c->getFilteredOperationsList();
+	UMLOperationList *opl = c->getFilteredOperationsList();
 	for(UMLOperation *op = opl->first(); op ; op = opl->next())
 		if(op->getAbstract())
 			return true;
@@ -564,7 +566,7 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLClassifierList &cLis
         associations.setAutoDelete(false);
         view->getWidgetAssocs(c,associations);
 
-        QPtrList<UMLAttribute> *atl;
+        UMLAttributeList *atl;
         UMLAttribute *at;
 
 
@@ -591,7 +593,7 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLClassifierList &cLis
         }
 
         //operations
-	QPtrList<UMLOperation> *opl = c->getFilteredOperationsList();
+	UMLOperationList *opl = c->getFilteredOperationsList();
         for(UMLOperation *op = opl->first(); op ; op = opl->next()) {
                 temp =0;
                 //check return value

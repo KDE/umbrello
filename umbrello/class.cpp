@@ -357,8 +357,8 @@ QPtrList<UMLClassifierListItem>* UMLClass::getAttList() {
 	return &m_AttsList;
 }
 
-QPtrList<UMLAttribute>* UMLClass::getFilteredAttributeList() {
-	QPtrList<UMLAttribute>* attributeList = new QPtrList<UMLAttribute>;
+UMLAttributeList* UMLClass::getFilteredAttributeList() {
+	UMLAttributeList* attributeList = new UMLAttributeList;
 	for(UMLClassifierListItem* listItem = m_AttsList.first(); listItem;
 	    listItem = m_AttsList.next())  {
 		if (listItem->getBaseType() == ot_Attribute) {

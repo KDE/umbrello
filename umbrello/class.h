@@ -13,8 +13,8 @@
 
 #include "classifier.h"
 #include "umlobjectlist.h"
+#include "umlattributelist.h"
 
-class UMLAttribute;
 class UMLTemplate;
 class UMLClassifierListItem;
 
@@ -147,7 +147,7 @@ public:
 	/**
 	 * Returns the entries in m_pAttList that are actually attributes
 	 */
-	QPtrList<UMLAttribute>* getFilteredAttributeList();
+	UMLAttributeList* getFilteredAttributeList();
 
 	/**
 	 *	Return the list of templates for the Concept.

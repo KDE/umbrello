@@ -13,11 +13,11 @@
 #include "umlcanvasobject.h"
 #include "umlobjectlist.h"
 #include "umlclassifierlist.h"
+#include "umloperationlist.h"
 #include <qptrlist.h>
 
 class IDChangeLog;
 class UMLClassifierListItem;
-class UMLOperation;
 class UMLStereotype;
 class UMLDoc;
 

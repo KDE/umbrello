@@ -59,14 +59,14 @@ void ClassImport::insertAttribute(UMLObject *o, Uml::Scope scope, QString name, 
 }
 
 /** No descriptions */
-void ClassImport::insertMethod(UMLObject *o, Uml::Scope scope, QString name, QString type, QPtrList<UMLAttribute> *parList /*= NULL*/) {
+void ClassImport::insertMethod(UMLObject *o, Uml::Scope scope, QString name, QString type, UMLAttributeList *parList /*= NULL*/) {
 	int attID = ++uniqueID;
 
 	UMLOperation *temp = reinterpret_cast<UMLOperation *>(((UMLClass*)o)->addOperation(name , attID));
 	temp->setReturnType(type);
 
 	if(parList != NULL) {
-		QPtrListIterator<UMLAttribute> it(*parList);
+		UMLAttributeListIt it(*parList);
 		for( ; it.current(); ++it ) {
 			UMLAttribute *par = it.current();
 			int parID = ++uniqueID;
@@ -154,7 +154,7 @@ void ClassImport::importCPP(QStringList headerFileList) {
 					break;
 			} //switch
 
-			QPtrList<UMLAttribute> parList;
+			UMLAttributeList parList;
 
 			for( ; argsIt.current(); ++argsIt) {
 				CParsedArgument *parg = argsIt.current();
