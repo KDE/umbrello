@@ -7,7 +7,15 @@
  *                                                                         *
  ***************************************************************************/
 
+// own header
 #include "classimport.h"
+// qt/kde includes
+#include <qregexp.h>
+#include <kapplication.h>
+#include <kmessagebox.h>
+#include <kdebug.h>
+#include <klocale.h>
+// app includes
 #include "uml.h"
 #include "umldoc.h"
 #include "umlobject.h"
@@ -22,10 +30,6 @@
 #include "classparser/lexer.h"
 #include "classparser/driver.h"
 #include "classparser/cpptree2uml.h"
-#include <kmessagebox.h>
-#include <kdebug.h>
-#include <klocale.h>
-#include <qregexp.h>
 
 class CppDriver : public Driver {
 public:
@@ -212,16 +216,18 @@ UMLAttribute* ClassImport::addMethodParameter(UMLOperation *method,
 					      QString type, QString name,
 					      QString initialValue, QString doc,
 					      Uml::Parameter_Direction kind) {
-	// We don't necessarily expose the full declaration of UMLOperation
-	// to clients of ClassImport.  I.e. if clients only see a pointer
-	// to the forward declaration of UMLOperation, they can't call any
-	// methods on that pointer.
-	// That's the raison d'etre for these thin wrappers.
-	return method->addParm(type, name, initialValue, doc, kind);
+	UMLObject *typeObj = createUMLObject(Uml::ot_UMLObject, type);
+	UMLAttribute *attr = new UMLAttribute(method);
+	attr->setName(name);
+	attr->setType(dynamic_cast<UMLClassifier*>(typeObj));
+	attr->setInitialValue(initialValue);
+	attr->setDoc(doc);
+	attr->setParmKind(kind);
+	method->addParm(attr);
+	return attr;
 }
 
 void ClassImport::addEnumLiteral(UMLEnum *enumType, const QString &literal) {
-	// Why an extra wrapper? See comment at addMethodParameter()
 	enumType->addEnumLiteral( literal );
 }
 
@@ -262,6 +268,7 @@ void ClassImport::importCPP(QStringList headerFileList) {
 				   fileIT != headerFileList.end(); ++fileIT) {
 		QString fileName = (*fileIT);
 		m_umldoc->writeToStatusBar(i18n("Importing file: %1").arg(fileName));
+		kapp->processEvents();
 		m_driver->parseFile( fileName );
 		TranslationUnitAST *ast = m_driver->translationUnit( fileName );
 		if (ast == NULL)
