@@ -285,7 +285,7 @@ UMLClassifierListItemList* UMLClassifier::getOpList() {
 UMLOperationList* UMLClassifier::getFilteredOperationsList()  {
 	UMLOperationList* operationList = new UMLOperationList;
 	for(UMLClassifierListItem* listItem = m_OpsList.first(); listItem;
-		listItem = classifierList.next())  {
+	    listItem = m_OpsList.next())  {
 		if (listItem->getBaseType() == ot_Operation) {
 			operationList->append(static_cast<UMLOperation*>(listItem));
 		}
