@@ -22,7 +22,6 @@
   * class declaration
   *   guts of the class (e.g. field decl, accessor methods, operations, dependant classes)
 */
-
 #include <kdebug.h>
 #include <kdebug.h>
 #include <qregexp.h>
@@ -280,8 +279,10 @@ void JavaClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & roo
                                 if( name == "javaclassdeclarationblock" ) {
 					JavaClassDeclarationBlock * classDeclBlock = getClassDecl(); 
 					if(!classDeclBlock || !addTextBlock(classDeclBlock))
+					{
                                                 kdError()<<"Unable to add javaclassdeclaration block to :"<<this<<endl;
-					else { 
+						classDeclBlock->deleteLater();
+					} else { 
  						classDeclBlock->loadFromXMI(element);
                                                 gotChildren= true;
 					}
@@ -290,8 +291,10 @@ void JavaClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & roo
                                         CodeComment * block = newCodeComment();
                                         block->loadFromXMI(element);
                                         if(!addTextBlock(block))
+					{
                                                 kdError()<<"Unable to add codeComment to :"<<this<<endl;
-                                        else
+						block->deleteLater();
+                                        } else
                                                 gotChildren= true;
                                 } else
                                 if( name == "codeaccessormethod" ||
@@ -301,8 +304,10 @@ void JavaClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & roo
                                         // search for our method in the
                                         TextBlock * tb = findCodeClassFieldTextBlockByTag(acctag);
                                         if(!tb || !addTextBlock(tb, true))
-                                                kdWarning()<<"Unable to add codeaccessormethod to:"<<this<<endl;
-                                        else
+					{
+                                                kdError()<<"Unable to add codeaccessormethod to:"<<this<<endl;
+						// DONT delete
+                                        } else
                                                 gotChildren= true;
 
                                 } else
@@ -310,16 +315,20 @@ void JavaClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & roo
                                         CodeBlock * block = newCodeBlock();
                                         block->loadFromXMI(element);
                                         if(!addTextBlock(block))
+					{
                                                 kdError()<<"Unable to add codeBlock to :"<<this<<endl;
-                                        else
+						block->deleteLater();
+                                        } else
                                                 gotChildren= true;
                                 } else
                                 if( name == "codeblockwithcomments" ) {
                                         CodeBlockWithComments * block = newCodeBlockWithComments();
                                         block->loadFromXMI(element);
                                         if(!addTextBlock(block))
+					{
                                                 kdError()<<"Unable to add codeBlockwithcomments to:"<<this<<endl;
-                                        else
+						block->deleteLater();
+                                        } else
                                                 gotChildren= true;
                                 } else
                                 if( name == "header" ) {
@@ -329,8 +338,10 @@ void JavaClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & roo
                                         HierarchicalCodeBlock * block = newHierarchicalCodeBlock();
                                         block->loadFromXMI(element);
                                         if(!addTextBlock(block))
+					{
                                                 kdError()<<"Unable to add hierarchicalcodeBlock to:"<<this<<endl;
-                                        else
+						block->deleteLater();
+                                        } else
                                                 gotChildren= true;
                                 } else
                                 if( name == "codeoperation" ) {
@@ -343,10 +354,15 @@ void JavaClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & roo
                                                 block->loadFromXMI(element);
                                                 if(addTextBlock(block))
                                                         gotChildren= true;
+						else
+						{
+                                              		kdError()<<"Unable to add codeoperation to:"<<this<<endl;
+							block->deleteLater();
+						}
                                         } else
-                                              kdWarning()<<"Unable to add codeoperation to:"<<this<<endl;
+                                              kdError()<<"Unable to find operation create codeoperation for:"<<this<<endl;
                                 } else
-                                        kdError()<<" LoadFromXMI: Got strange tag in text block stack:"<<name<<endl;
+                                        kdWarning()<<" LoadFromXMI: Got strange tag in text block stack:"<<name<<", ignorning"<<endl;
 
                                 node = element.nextSibling();
                                 element = node.toElement();
