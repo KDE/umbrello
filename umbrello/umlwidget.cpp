@@ -450,13 +450,6 @@ void UMLWidget::slotMenuSelection(int sel) {
 			break;
 
 		case ListPopupMenu::mt_Line_Color:
-			if( KColorDialog::getColor(newColour) ) {
-				m_LineColour = newColour;
-				m_bUsesDiagramLineColour = false;
-
-			}
-			break;
-
 		case ListPopupMenu::mt_Line_Color_Selection:
 			if( KColorDialog::getColor(newColour) ) {
 				m_pView -> selectionSetLineColor( newColour );
@@ -465,12 +458,6 @@ void UMLWidget::slotMenuSelection(int sel) {
 			break;
 
 		case ListPopupMenu::mt_Fill_Color:
-			if ( KColorDialog::getColor(newColour) ) {
-				m_FillColour = newColour;
-				m_bUsesDiagramFillColour = false;
-			}
-			break;
-
 		case ListPopupMenu::mt_Fill_Color_Selection:
 			if ( KColorDialog::getColor(newColour) ) {
 				m_pView -> selectionSetFillColor( newColour );
