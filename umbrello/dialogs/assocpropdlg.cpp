@@ -113,3 +113,5 @@ void AssocPropDlg::setupFontPage()
  	m_pChooser->setFont( m_pAssoc->getFont());
  	m_pChooser->setSampleText(i18n("Association font"));
 }
+
+#include "assocpropdlg.moc"

@@ -211,3 +211,5 @@ void AssocGenPage::updateObject() {
 	} //end if m_pAssociationWidget
 }
 
+
+#include "assocgenpage.moc"

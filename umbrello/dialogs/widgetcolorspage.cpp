@@ -11,14 +11,14 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
- 
+
 
  #include "widgetcolorspage.h"
  #include "../diagram/diagramelement.h"
- 
+
  namespace Umbrello{
- 
- 
+
+
 WidgetColorsPage::WidgetColorsPage( DiagramElement *e, QWidget *parent, const char *name ):
 	WidgetColorsBase( parent, name ), m_element( e )
 {
@@ -37,7 +37,6 @@ void WidgetColorsPage::cancel()
 }
 
  }
- 
- 
- #include "widgetcolorspage.moc"
- 
+
+
+#include "widgetcolorspage.moc"

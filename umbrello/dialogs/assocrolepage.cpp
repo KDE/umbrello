@@ -258,3 +258,5 @@ void AssocRolePage::updateObject() {
 
 }
 
+
+#include "assocrolepage.moc"
