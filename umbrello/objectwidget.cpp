@@ -28,9 +28,10 @@
  */
 static const int sequenceLineMargin = 20;
 
-ObjectWidget::ObjectWidget(UMLView * view, UMLObject *o, Uml::IDType lid) : UMLWidget(view, o) {
+ObjectWidget::ObjectWidget(UMLView * view, UMLObject *o, Uml::IDType lid)
+  : UMLWidget(view, o) {
 	init();
-	if( lid >= 0 )
+	if( lid != Uml::id_None )
 		m_nLocalID = lid;
 	//calculateSize();  Doing this during loadFromXMI() gives futile updates.
 	//                  Instead, it is done afterwards by UMLWidget::activate()
