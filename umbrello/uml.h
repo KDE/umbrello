@@ -292,6 +292,11 @@ public:
 protected:
 	virtual void keyPressEvent(QKeyEvent* e);
 	virtual void keyReleaseEvent(QKeyEvent* e);
+	
+	/**
+	 * Helper method for handling cursor key release events (refactoring).
+	 */
+	 void handleCursorKeyReleaseEvent(QKeyEvent* e);
 
 	/**
 	 * Save general Options like all bar positions and status
