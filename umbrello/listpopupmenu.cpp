@@ -960,10 +960,11 @@ void ListPopupMenu::setupDiagramMenu(UMLView* view) {
 	insertItem(SmallIcon("editpaste"), i18n("Paste"), mt_Paste);
 	insertSeparator();
 	insertItem(SmallIcon("editclear"), i18n("Clear Diagram"), mt_Clear);
+	insertItem(SmallIcon("image"), i18n("Export as Picture..."), mt_Export_Image);
+	insertSeparator();
 	insertItem(i18n("Snap to Grid"), mt_SnapToGrid);
 	setItemChecked(mt_SnapToGrid, view->getSnapToGrid() );
 	insertItem(i18n("Show Grid"), mt_ShowSnapGrid );
 	setItemChecked(mt_ShowSnapGrid, view->getShowSnapGrid() );
-	insertItem(SmallIcon("image"), i18n("Export as Picture..."), mt_Export_Image);
 	insertItem(SmallIcon("info"), i18n("Properties"), mt_Properties);
 }
