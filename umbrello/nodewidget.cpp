@@ -108,7 +108,8 @@ void NodeWidget::draw(QPainter & p, int offsetX, int offsetY) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void NodeWidget::calculateSize() {
-	int width, height;
+	if (m_pObject == NULL)
+		return;
 
 	QFontMetrics &fm = getFontMetrics(FT_BOLD_ITALIC);
 	int fontHeight  = fm.lineSpacing();
@@ -118,7 +119,7 @@ void NodeWidget::calculateSize() {
 		name = UMLWidget::getInstanceName() + " : " + name;
 	}
 
-	width = fm.width(name);
+	int width = fm.width(name);
 
 	int tempWidth = 0;
 	if(m_pObject->getStereotype() != "") {
@@ -127,7 +128,7 @@ void NodeWidget::calculateSize() {
 	width = tempWidth>width ? tempWidth : width;
 	width += NODE_MARGIN * 2;
 
-	height = (2*fontHeight) + (NODE_MARGIN * 2);
+	int height = (2*fontHeight) + (NODE_MARGIN * 2);
 
 	width = static_cast<int>(width * 1.5);
 	height = static_cast<int>(height * 1.5);
