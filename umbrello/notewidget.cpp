@@ -45,7 +45,7 @@ void NoteWidget::init() {
 }
 
 NoteWidget::~NoteWidget() {
-
+	delete m_pEditor;
 }
 
 void NoteWidget::setEditorGeometry() {
