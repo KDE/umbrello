@@ -827,19 +827,16 @@ bool LinePath::loadFromXMI( QDomElement & qElement ) {
 
 void LinePath::activate() {
 	int count = m_LineList.count();
-	if( count == 0 )
+	if (count == 0)
 		return;
-
-	LineList orphants = m_LineList;
-	m_LineList.clear();
-	//setup start end points
-	setStartEndPoints( orphants.at(0) -> startPoint(), orphants.last() -> endPoint() );
-	//now insert the rest
-	for( int i = 1; i < count ; i++ ) {
-		insertPoint( i, orphants.at( i ) -> startPoint() );
+	QCanvas * canvas = getCanvas();
+	if (canvas == NULL)
+		return;
+	for (int i = 0; i < count ; i++) {
+		QCanvasLine *line = m_LineList.at(i);
+		line -> setCanvas( canvas );
+		line -> setPen( getPen() );
 	}
-
-	orphants.clear();
 }
 
 
