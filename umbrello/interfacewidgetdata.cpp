@@ -18,6 +18,7 @@ InterfaceWidgetData::InterfaceWidgetData(SettingsDlg::OptionState optionState):U
 	m_bShowPackage = false;
 	m_ShowOpSigs = Uml::st_ShowSig;
 	m_bShowScope = true;
+	m_bDrawAsCircle = false;
 	m_Type = Uml::wt_Interface;
 }
 
