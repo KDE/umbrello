@@ -1,0 +1,303 @@
+/***************************************************************************
+                          cswriter.h  -  description
+                             -------------------
+    copyright            : (C) 2003 Sebastian Stein
+    								based on work by Brian Thomas
+ ***************************************************************************/
+
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
+
+#ifndef CSWRITER_H
+#define CSWRITER_H
+
+#include "../codegenerator.h"
+#include "../attribute.h"
+#include "../association.h"
+#include "classifierinfo.h"
+
+#include <qptrlist.h>
+#include <qfile.h>
+
+class UMLOperation;
+
+/**
+  * class CsWriter is a code generator for UMLClassifier objects.
+  * Create an instance of this class, and feed it a UMLClassifier when
+  * calling writeClass and it will generate a source (.cs) file for that
+  * classifier.
+  */
+class CsWriter : public CodeGenerator {
+public:
+
+	/**
+	 * Constructor, initialises a couple of variables
+	 */
+	CsWriter(QObject* parent = 0, const char* name = 0);
+
+	/**
+	 * Destructor, empty
+	 */
+	virtual ~CsWriter();
+
+	/**
+	 * call this method to generate cs code for a UMLClassifier
+	 * @param c the class to generate code for
+	 */
+	virtual void writeClass(UMLClassifier *c);
+
+private:
+
+	/**
+	 * Writes class's documentation then the class header
+	 * public abstract class Foo extents {
+	 */
+	void writeClassDecl(UMLClassifier *c, QTextStream &cs); 
+
+	/**
+	 * Writes the comment and class constructor declaration or methods 
+	 */
+	void writeConstructorDecls(QTextStream &h); 
+	void writeConstructorMethods(QTextStream &cs); 
+
+	/**
+	 * write all operations for a given class
+	 * @param c the class for which we are generating code
+	 * @param j the stream associated with the output file
+	 */
+	void writeOperations(UMLClassifier *c, QTextStream &j);
+
+	/**
+	 * write a list of operations for a given class
+	 * @param list the list of operations you want to write
+	 * @param j the stream associated with the output file
+	 */
+	void writeOperations(QPtrList<UMLOperation> &list, QTextStream &j);
+
+	/**
+	 * write all attributes for a given class
+	 * @param c the class for which we are generating code
+	 * @param j the stream associated with the output file
+	 */
+	void writeAttributes(UMLClassifier *c, QTextStream &j);
+
+	/**
+	 * writes the Attribute declarations
+	 * @param visibility the visibility of the attribs to print out
+	 * @param writeStatic whether to write static or non-static attributes out
+	 * @param stream text stream
+	 */
+	void writeAttributeDecls (Scope visibility, bool writeStatic, QTextStream &stream ); 
+
+	/**
+	 * Write out fields and operations for this class selected on a particular
+	 * visibility.
+	 */
+	void writeFieldAndOperationDecl(UMLClassifier *c, Scope permitVisibility, QTextStream &stream); 
+
+	/**
+	 * Searches a list of associations for appropriate ones to write out as attributes
+	 */
+	void writeAssociationDecls(QPtrList<UMLAssociation> associations, Scope permit, int id, QTextStream &stream);
+
+	/**
+	 * Writes out an association as an attribute using Vector
+	 */
+	void writeAssociationRoleDecl(QString fieldClassName, QString roleName, QString multi, 
+				      QString doc, QTextStream &stream); 
+
+	/**
+	 * calls @ref writeSingleAttributeAccessorMethods() on each of the attributes in attribs list.
+	 */
+	void writeAttributeMethods(QPtrList<UMLAttribute> *attribs, Scope visib, bool isHeaderMethod, 
+				bool writeMethodBody, QTextStream &stream);
+
+	/**
+	 * calls @ref writeAssociationRoleMethod() on each of the associations in the given list
+	 */
+	void writeAssociationMethods(QPtrList<UMLAssociation> associations, Scope permitVisib, 
+					bool isHeaderMethod,
+					bool writeMethodBody, bool writePointerVar, int id, QTextStream &stream); 
+	
+	/**
+	 * calls @ref writeSingleAttributeAccessorMethods() or @ref
+	 * writeVectorAttributeAccessorMethods() on the assocaition
+	 * role
+	 */
+	void writeAssociationRoleMethod(QString fieldClassName, bool isHeaderMethod, bool writeMethodBody, QString roleName, QString multi, 
+					QString description, Changeability_Type change,  
+					QTextStream &stream); 
+
+	/**
+	 * Writes getFoo() and setFoo() accessor methods for the attribute
+	 */
+	void writeSingleAttributeAccessorMethods(QString fieldClassName, QString fieldVarName,
+						 QString fieldName, QString description, 
+						 Changeability_Type change,
+						 bool isHeaderMethod,
+						 bool isStatic, bool writeMethodBody, QTextStream &cs);
+
+	/**
+	 * Writes addFoo() and removeFoo() accessor methods for the Vector attribute
+	 */
+	void writeVectorAttributeAccessorMethods(QString fieldClassName, QString fieldVarName,
+						 QString fieldName, QString description, 
+						 Changeability_Type change,
+						 bool isHeaderMethod,
+						 bool writeMethodBody,
+						 QTextStream &cs); 
+
+	/**
+	 * Writes a // style comment
+	 */
+	void writeComment(QString text, QString indent, QTextStream &cs); 
+
+	/**
+	 * Writes a documentation comment
+	 */
+	void writeDocumentation(QString header, QString body, QString end, QTextStream &cs); 
+
+
+	/**
+	 * write the header file for this classifier.
+	 */
+//	void writeHeaderFile (UMLClassifier *c, QFile &file);
+
+	/**
+	 * write the source code file for this classifier.
+	 */
+	void writeSourceFile (UMLClassifier *c, QFile &file);
+
+	/**
+	 * utility method to break up a block of text, which has embedded newline chars,
+	 * and print them to a stream as separate lines of text, indented as directed.
+	 */
+	void printTextAsSeparateLinesWithIndent (QString text, QString indent, QTextStream &stream); 
+
+	/**
+	 * Intellegently print out header include/forward decl. for associated classes.
+	 */
+	void printAssociationIncludeDecl (QPtrList<UMLAssociation> list, int this_id, QTextStream &stream); 
+
+	/**
+	 * If needed, write out the method to initialize attributes of our class.
+	 */
+	void writeInitAttibuteMethod (QTextStream &stream); 
+
+	/**
+	 * If needed, write out the declaration for the method to initialize attributes of our class.
+	 */
+	void writeInitAttibuteDecl (QTextStream &stream); 
+
+	/**
+	 * How much indent to use (current, based on amount of indentLevel).
+	 */
+	QString getIndent (); 
+
+	/**
+	 * current level of indentation for code
+	 */
+	int indentLevel;
+
+	/**
+	 * Returns the name of the given object (if it exists)
+	 */
+	QString getUMLObjectName(UMLObject *obj);
+
+	/**
+	 * Raises the case of the first letter in the given string
+	 */
+	QString capitalizeFirstLetter(QString string); 
+
+	/**
+	 * Replaces `string' with STRING_TYPENAME.
+	 */
+	QString fixTypeName(QString string); 
+
+	/**
+	 * check that initial values of strings have quotes around them
+	 */
+	QString fixInitialStringDeclValue(QString value, QString type);
+
+	/**
+	 * Determine what the variable name of this attribute should be.
+	 */
+	QString getAttributeVariableName (UMLAttribute *at); 
+
+	/**
+	 * Write a blank line
+	 */
+	void writeBlankLine(QTextStream &stream); 
+
+	/**
+	 * a little method for converting scope to string value
+	 */
+	QString scopeToCPPDecl(Uml::Scope scope); 
+	
+	/**
+	 * Basic "unit" of indentation 
+	 */
+	QString INDENT;
+
+	/**
+	 * A \n, used at the end of each line
+	 */
+	QString startline;
+
+	/**
+	 * Summary information about current classifier.
+	 */
+	ClassifierInfo * classifierInfo;
+
+	/**
+	 * When we create a string variable, what do we use? this is the default..
+	 */
+	QString STRING_TYPENAME;
+	QString STRING_TYPENAME_INCLUDE;
+
+	/**
+	 * When we create a 'vector' variable, what do we use? this is the default..
+	 */
+	QString VECTOR_TYPENAME;
+	QString VECTOR_TYPENAME_INCLUDE;
+	QString VECTOR_METHOD_APPEND;
+	QString VECTOR_METHOD_REMOVE;
+
+	/**
+	 * Create accessor methods for class attributes/associations as inline decl in header.
+	 */
+	bool INLINE_ATTRIBUTE_METHODS;
+	bool INLINE_ASSOCIATION_METHODS;
+
+	/**
+	 * Constrol whether or not we want to have a constructor/destructor written
+	 */
+	bool WRITE_EMPTY_CONSTRUCTOR;
+	bool WRITE_EMPTY_DESTRUCTOR;
+
+	/**
+	 * Control whether we want accessor methods generated for attributes.
+	 */
+	bool WRITE_ATTRIBUTE_ACCESSOR_METHODS;
+
+	/**
+	 * Should destuctors be declared as virtual?
+	 */
+	bool WRITE_VIRTUAL_DESTRUCTORS;
+
+	/**
+	 * Do we declare our member fields to be virtual?
+	 */
+	bool FieldIsVirtual;
+
+};
+
+
+
+#endif // CSWRITER_H
