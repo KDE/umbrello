@@ -126,7 +126,10 @@ bool NoteWidget::activate ( IDChangeLog* ChangeLog /*= 0*/ ) {
 
 void NoteWidget::mouseReleaseEvent( QMouseEvent * me ) {
 	UMLWidget::mouseReleaseEvent( me );
-	m_bResizing = false;
+	if ( m_bResizing ) {
+		m_bResizing = false;
+		m_pView -> setCursor( KCursor::arrowCursor() );
+	}
 }
 
 void NoteWidget::mouseDoubleClickEvent( QMouseEvent * me ) {
