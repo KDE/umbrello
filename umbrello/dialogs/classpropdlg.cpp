@@ -16,6 +16,7 @@
 #include "classpropdlg.h"
 #include "classgenpage.h"
 #include "classifierlistpage.h"
+#include "pkgcontentspage.h"
 #include "assocpage.h"
 #include "classoptionspage.h"
 #include "umlwidgetcolorpage.h"
@@ -26,8 +27,9 @@
 #include "../uml.h"
 #include "../umlview.h"
 
-ClassPropDlg::ClassPropDlg(QWidget *parent, UMLObject * c, int pageNum, bool assoc) : KDialogBase(IconList, i18n("Properties"), Ok | Apply | Cancel | Help,
-        Ok, parent, "_CLASSDLG_", true, true) {
+ClassPropDlg::ClassPropDlg(QWidget *parent, UMLObject * c, int pageNum, bool assoc)
+  : KDialogBase(IconList, i18n("Properties"), Ok | Apply | Cancel | Help,
+		Ok, parent, "_CLASSDLG_", true, true) {
 	m_pWidget = 0;
 	m_pGenPage = 0;
 	m_pAttPage = 0;
@@ -43,8 +45,9 @@ ClassPropDlg::ClassPropDlg(QWidget *parent, UMLObject * c, int pageNum, bool ass
 	showPage(pageNum);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-ClassPropDlg::ClassPropDlg(QWidget *parent, ObjectWidget * o) : KDialogBase(IconList, i18n("Properties"), Ok | Apply | Cancel | Help,
-        Ok, parent, "_CLASSDLG_", true, true) {
+ClassPropDlg::ClassPropDlg(QWidget *parent, ObjectWidget * o)
+  : KDialogBase(IconList, i18n("Properties"), Ok | Apply | Cancel | Help,
+		Ok, parent, "_CLASSDLG_", true, true) {
 	m_pWidget = o;
 	m_pGenPage = 0;
 	m_pAttPage = 0;
@@ -71,8 +74,9 @@ ClassPropDlg::ClassPropDlg(QWidget *parent, ObjectWidget * o) : KDialogBase(Icon
 	setMinimumSize(340,420);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-ClassPropDlg::ClassPropDlg(QWidget *parent, UMLWidget * w) : KDialogBase(IconList, i18n("Properties"), Ok | Apply | Cancel | Help,
-        Ok, parent, "_CLASSDLG_", true, true) {
+ClassPropDlg::ClassPropDlg(QWidget *parent, UMLWidget * w)
+  : KDialogBase(IconList, i18n("Properties"), Ok | Apply | Cancel | Help,
+		Ok, parent, "_CLASSDLG_", true, true) {
 	m_pWidget = w;
 	m_pGenPage = 0;
 	m_pAttPage = 0;
@@ -204,6 +208,13 @@ void ClassPropDlg::setupPages(UMLObject * c, bool assoc) {
 		enumLiteralsLayout->addWidget(m_pEnumLiteralPage);
 		connect(m_pEnumLiteralPage, SIGNAL(sigUpdateChildObject(int)),
 			this, SLOT(slotUpdateChildObject(int)));
+	}
+	if (c->getBaseType() == Uml::ot_Package ) {
+		// Set up containment page.
+		QFrame* newPage = addPage( i18n("Contents"), i18n("Contents Settings"), DesktopIcon("misc") );
+		m_pPkgContentsPage = new PkgContentsPage(newPage, (UMLPackage*)(c));
+		QHBoxLayout* contentsLayout = new QHBoxLayout(newPage);
+		contentsLayout->addWidget(m_pPkgContentsPage);
 	}
 	if (assoc) {
 		QFrame* newPage = addPage(i18n("Associations"), i18n("Class Associations"), DesktopIcon( "misc") );

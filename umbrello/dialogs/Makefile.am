@@ -42,6 +42,7 @@ interfacepropertiespage.cpp \
 notedialog.cpp \
 overwritedialogue.cpp \
 packagepropertiespage.cpp \
+pkgcontentspage.cpp \
 parameterpropertiespage.cpp \
 parmpropdlg.cpp \
 selectopdlg.cpp \

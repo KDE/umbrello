@@ -18,6 +18,7 @@ class ClassGenPage;
 class ClassifierListPage;
 class ClassOpsPage;
 class ClassTemplatePage;
+class PkgContentsPage;
 class AssocPage;
 class ClassOptionsPage;
 class UMLWidgetColorPage;
@@ -103,6 +104,7 @@ private:
 	ClassifierListPage* m_pOpsPage;
 	ClassifierListPage* m_pTemplatePage;
 	ClassifierListPage* m_pEnumLiteralPage;
+	PkgContentsPage * m_pPkgContentsPage;
 	AssocPage * m_pAssocPage;
 	ClassOptionsPage * m_pOptionsPage;
 	UMLWidgetColorPage * m_pColorPage;
