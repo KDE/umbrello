@@ -255,11 +255,6 @@ public:
 	virtual CodeGenerationPolicyPage * createPage ( QWidget *parent = 0, const char * name = 0);
 
 	/**
-	 * @return	QString
-	 */
-	virtual QString toXML ( );
-
-	/**
 	 * @param	element 
 	 */
 	virtual void loadFromXMI (QDomElement & element );

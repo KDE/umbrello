@@ -43,11 +43,6 @@ public:
 	 */
 	virtual ~CPPCodeClassField ( );
 
-	/**
-	 * @return	QString
-	 */
-	QString toXML ( );
-
 	QString fixTypeName(QString string); 
 	QString getFieldType();
 	QString getFieldName();

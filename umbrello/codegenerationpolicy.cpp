@@ -393,14 +393,6 @@ void CodeGenerationPolicy::loadFromXMI (QDomElement & element ) {
 
 }
 
-/**
- * Generate XML representation of this object
- * @return      QString
- */
-QString CodeGenerationPolicy::toXML ( ) {
-        return "<codegenerationpolicy/>";
-}
-
 // return the actual text
 QString CodeGenerationPolicy::getHeadingFile(QString str) {
 

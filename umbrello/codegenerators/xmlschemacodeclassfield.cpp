@@ -49,13 +49,6 @@ XMLSchemaCodeClassField::~XMLSchemaCodeClassField ( ) { };
 // Other methods
 //  
 
-/**
- * @return	QString
- */
-QString XMLSchemaCodeClassField::toXML ( ) {
-	return "<xmlschemacodeclassfield/>";
-}
-
 // IF the type is "string" we need to declare it as
 // the XMLSchema Object "String" (there is no string primative in XMLSchema).
 // Same thing again for "bool" to "boolean"

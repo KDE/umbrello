@@ -206,14 +206,6 @@ void JavaCodeGenerationPolicy::loadFromXMI (QDomElement & element ) {
 	// FIX ME
 }
 
-/**
- * @return	QString
- */
-QString JavaCodeGenerationPolicy::toXML ( ) {
-	return "<javacodegenerationpolicy/>";
-}
-
-
 void JavaCodeGenerationPolicy::initFields ( JavaCodeGenerator * parent ) {
 
         m_parentCodeGenerator = parent;

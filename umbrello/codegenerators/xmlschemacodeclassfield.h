@@ -41,11 +41,6 @@ public:
 	 */
 	virtual ~XMLSchemaCodeClassField ( );
 
-	/**
-	 * @return	QString
-	 */
-	QString toXML ( );
-
 protected:
 
 	QString fixTypeName(QString string); 

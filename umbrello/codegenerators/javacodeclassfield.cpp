@@ -55,13 +55,6 @@ JavaCodeClassField::~JavaCodeClassField ( ) { };
 // Other methods
 //  
 
-/**
- * @return	QString
- */
-QString JavaCodeClassField::toXML ( ) {
-	return "<javacodeclassfield/>";
-}
-
 // IF the type is "string" we need to declare it as
 // the Java Object "String" (there is no string primative in Java).
 // Same thing again for "bool" to "boolean"

@@ -113,12 +113,6 @@ public:
          */
         virtual void writeConfig (KConfig * config);
 
-	/**
-	 * @return	QString
-	 */
-	QString toXML ( );
-
-
 	void loadFromXMI (QDomElement & element );
 
 	/**
