@@ -586,7 +586,6 @@ void UMLApp::slotFileNew() {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLApp::slotFileOpen() {
-	kdDebug() << k_funcinfo << "start" << endl;
 	slotStatusMsg(i18n("Opening file..."));
 	loading = true;
 
@@ -609,7 +608,6 @@ void UMLApp::slotFileOpen() {
 	slotUpdateViews();
 	loading = false;
 	slotStatusMsg(i18n("Ready."));
-	kdDebug() << k_funcinfo << "end" << endl;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLApp::slotFileOpenRecent(const KURL& url) {
@@ -862,12 +860,8 @@ void UMLApp::setModified(bool modified) {
 	}
 
 	if (loading == false)  {
-		kdDebug() << k_funcinfo << "loading is false, modified:" << modified << endl;
 		setCaption(doc->URL().fileName(), modified); //add disk icon to taskbar if modified
-	} else { //FIXMEnow
-		kdDebug() << k_funcinfo << "loading is true, modified:" << modified << endl;
 	}
-	kdDebug() << k_funcinfo << kdBacktrace() << endl;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLApp::enablePrint(bool enable) {

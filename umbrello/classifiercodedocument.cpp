@@ -37,11 +37,9 @@ ClassifierCodeDocument::ClassifierCodeDocument ( UMLClassifier * parent , CodeGe
 
 ClassifierCodeDocument::~ClassifierCodeDocument ( )
 {
-	kdDebug() << k_funcinfo << "count:" << m_classfieldVector.count() << endl;
+	//FIXME this causes a crash sometimes
         for (CodeClassField * cf = m_classfieldVector.first(); cf; cf = m_classfieldVector.next())  {
-		if (cf)  { //FIXMEnow
-//			delete cf;
-		}
+               delete cf;
 	}
 }
 
@@ -170,7 +168,6 @@ void ClassifierCodeDocument::addAttributeClassField (UMLObject *obj, bool syncTo
  * Remove a CodeClassField object from m_classfieldVector List
  */
 bool ClassifierCodeDocument::removeCodeClassField ( CodeClassField * remove_object ) {
-	kdDebug() << k_funcinfo << "!!!!!!!!!" << endl;
 	UMLObject * umlobj = remove_object->getParentObject();
         if(m_classFieldMap->contains(umlobj))
 	{
