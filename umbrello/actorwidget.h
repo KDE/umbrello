@@ -10,6 +10,7 @@
 #ifndef ACTORWIDGET_H
 #define ACTORWIDGET_H
 
+#include <qdom.h>
 #include "umlwidget.h"
 
 #define A_WIDTH 20
@@ -37,7 +38,7 @@ class ActorWidget : public UMLWidget {
 public:
 
 	/**
-	 *	Constructs an ActorWidget.
+	 * Constructs an ActorWidget.
 	 *
 	 * @param view 	The parent of this ActorWidget.
 	 * @param o 	The Actor class this ActorWidget will display.
@@ -45,25 +46,31 @@ public:
 	ActorWidget(UMLView * view, UMLObject *o);
 
 	/**
-	 *	Constructs an ActorWidget.
+	 * Constructs an ActorWidget.
 	 *
 	 * @param parent The parent of this ActorWidget.
 	 */
 	ActorWidget(UMLView * view);
 
 	/**
-	 *	Standard deconstructor.
+	 * Standard deconstructor.
 	 */
 	~ActorWidget();
 
 	/**
-	 *	Overrides the standard paint event.
+	 * Overrides the standard paint event.
 	 */
 	void draw(QPainter & p, int offsetX, int offsetY);
 
+	/**
+	 * Saves the widget to XMI.
+	 * Note: for loadFromXMI(), the inherited parent method is used.
+	 */
+	bool saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+
 protected:
 	/**
-	 *	Calculates the size of the widget.
+	 * Calculates the size of the widget.
 	 */
 	void calculateSize();
 };
