@@ -51,17 +51,14 @@ protected:
 
 	bool close ( bool alsoDelete ); 
 
-        void insert (const QString & text, TextBlock * parent, bool editable = false, const QColor & fgcolor = QColor("black"), 
-                     const QColor & bgcolor = QColor("white"), UMLObject * umlobj = 0, const QString & displayName = "");
-
-        void insertText (TextBlock * tblock);
-        void insertText (HierarchicalCodeBlock * hblock);
-        void insertText (CodeClassFieldDeclarationBlock * db );
-        void insertText (QPtrList<TextBlock> * items);
-        void insertText (CodeMethodBlock * mb);
-        void insertText (CodeComment * comment, TextBlock * parent, UMLObject * umlObj = 0, const QString & compName="");
-
-        void editTextBlock(TextBlock * tBlock, int para);
+	// various methods for appending various types of text blocks in the editor.
+        void appendText (TextBlock * tblock);
+        void appendText (HierarchicalCodeBlock * hblock);
+        void appendText (CodeClassFieldDeclarationBlock * db );
+        void appendText (QPtrList<TextBlock> * items);
+        void appendText (CodeMethodBlock * mb);
+        void appendText (CodeComment * comment, TextBlock * parent, UMLObject * umlObj = 0, const QString & compName="");
+	void appendText (CodeBlockWithComments * cb );
 
         // Rebuild our view of the document. Happens whenever we change
         // some field/aspect of an underlying UML object used to create
@@ -73,6 +70,7 @@ protected:
         // after the dialog disappears
         void rebuildView( int startCursorPos );
 
+	// override the QT event so we can do appropriate things
 	void contentsMouseMoveEvent ( QMouseEvent * e );
 
 	// implemented so we may capture certain key presses, namely backspace
@@ -91,13 +89,33 @@ private:
 	CodeDocument * m_parentDoc;
 	CodeViewerDialog * m_parentDlg;
 
-	void clearText();
+	int m_lastPara;
+        int m_lastPos;
+
+        bool m_newLinePressed;
+        bool m_backspacePressed;
+        bool m_isHighlighted;
+        bool m_showHiddenBlocks;
+
 	TextBlock * m_textBlockToPaste;
+        TextBlock * m_selectedTextBlock;
+        TextBlock * m_lastTextBlockToBeEdited;
+
+        QMap<TextBlock*, TextBlockInfo*> *m_tbInfoMap;
+        QPtrList<TextBlock> m_textBlockList;
+
+	// main insert routine. Will append if startline is not supplied. 
+        void insert (const QString & text, TextBlock * parent, bool isEditable = false,
+                     const QColor & fgcolor = QColor("black"), const QColor & bgcolor = QColor("white"),
+                     UMLObject * umlobj = 0, const QString & displayName = "", int startLine = -1);
+
+        void editTextBlock(TextBlock * tBlock, int para);
+	void clearText();
 	QLabel * getComponentLabel();
 	bool paraIsNotSingleLine (int para);
         void expandSelectedParagraph( int where );
         void contractSelectedParagraph( int where );
-        void updateMethodBlockBody (TextBlock * block);
+        void updateTextBlockFromText (TextBlock * block);
 
         void initText ( CodeDocument * doc );
 	void init ( CodeViewerDialog * parentDlg, CodeDocument * parentDoc );
@@ -105,19 +123,6 @@ private:
         void changeTextBlockHighlighting(TextBlock * tb, bool selected);
         bool isParaEditable (int para);
         bool textBlockIsClickable(UMLObject * obj);
-
-        int m_lastPara;
-        int m_lastPos;
-        bool m_newLinePressed;
-        bool m_backspacePressed;
-        bool m_isHighlighted;
-	bool m_showHiddenBlocks;
-        TextBlock * m_selectedTextBlock;
-        TextBlock * m_lastTextBlockToBeEdited;
-
-        QMap<int, TextBlock*> *m_paraInfoMap;
-        QMap<TextBlock*, TextBlockInfo*> *m_tbInfoMap;
-        QPtrList<TextBlock> m_textBlockList;
 
 	// return whether or not the passed string is empty or 
 	// contains nothing but whitespace
@@ -169,8 +174,9 @@ public:
         UMLObject * m_parent;
         QString displayName;
         bool isClickable;
+	bool isCodeAccessorMethod;
 
-        TextBlockInfo () { m_parent = 0; isClickable = false; }
+        TextBlockInfo () { m_parent = 0; isClickable = false; isCodeAccessorMethod = false; }
         void setParent(UMLObject *p = 0) { m_parent = p; }
         UMLObject * getParent() { return m_parent; }
 
