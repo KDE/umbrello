@@ -255,9 +255,6 @@ public:
 	 */
 	QString const & getImageMimetype()const{return m_imageMimetype;};
 
-protected:
-	virtual void keyPressEvent(QKeyEvent* e);
-	virtual void keyReleaseEvent(QKeyEvent* e);
 	/**
 	 * Carries out the cut/copy command with different action performed
 	 * depending on if from view or list view.
@@ -268,6 +265,10 @@ protected:
 	 * Callers should connect to this signal to know what to do next.
 	 */
 	bool editCutCopy( bool bFromView );
+
+protected:
+	virtual void keyPressEvent(QKeyEvent* e);
+	virtual void keyReleaseEvent(QKeyEvent* e);
 
 	/**
 	 * Save general Options like all bar positions and status
