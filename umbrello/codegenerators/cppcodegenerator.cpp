@@ -126,13 +126,19 @@ CodeViewerDialog * CPPCodeGenerator::getCodeViewerDialog ( QWidget* parent, Code
 		return CodeGenerator::getCodeViewerDialog(parent,doc,state);
 	else {
 		// build with passed (source) code document
-        	CodeViewerDialog *dialog = new CodeViewerDialog(parent, doc, state);
+        	CodeViewerDialog *dialog;
 
 		// use classifier to find appropriate header document
 		UMLClassifier * c = cdoc->getParentClassifier();
 		CPPHeaderCodeDocument * hdoc = findHeaderCodeDocumentByClassifier(c);
 		if(hdoc)
-			dialog->addCodeDocument(hdoc);
+		{
+			// if we have a header document..build with that
+        		dialog = new CodeViewerDialog(parent, hdoc, state);
+			dialog->addCodeDocument(doc);
+		} else
+			// shouldnt happen, but lets try to gracefully deliver something.
+        		dialog = new CodeViewerDialog(parent, doc, state);
 
 		// add in makefile if available and desired
         	if(getCreateProjectMakefile())
