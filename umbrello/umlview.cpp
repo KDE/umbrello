@@ -2555,10 +2555,12 @@ void UMLView::slotMenuSelection(int sel) {
 	QString name = "";
 
 	switch( (ListPopupMenu::Menu_Type)sel ) {
-		case ListPopupMenu::mt_Redo:
+		case ListPopupMenu::mt_Undo:
+			getDocument()->loadUndoData();
 			break;
 
-		case ListPopupMenu::mt_Undo :
+		case ListPopupMenu::mt_Redo:
+			getDocument()->loadRedoData();
 			break;
 
 		case ListPopupMenu::mt_Clear:

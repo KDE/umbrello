@@ -898,6 +898,14 @@ void UMLApp::slotApplyPrefs() {
 	}
 }
 
+bool UMLApp::getUndoEnabled() {
+	return editUndo->isEnabled();
+}
+
+bool UMLApp::getRedoEnabled() {
+	return editRedo->isEnabled();
+}
+
 bool UMLApp::getPasteState() {
 	return editPaste -> isEnabled();
 }

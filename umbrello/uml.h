@@ -130,6 +130,16 @@ public:
 	}
 
 	/**
+	 *	Returns the undo state
+	 */
+	bool getUndoEnabled();
+
+	/**
+	 *	Returns the redo state
+	 */
+	bool getRedoEnabled();
+
+	/**
 	 *	Returns the paste state
 	 */
 	bool getPasteState();

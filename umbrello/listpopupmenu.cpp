@@ -403,7 +403,7 @@ Uml::UMLObject_Type ListPopupMenu::convert_MT_OT(Menu_Type mt)
 	return type;
 }
 
-void ListPopupMenu::setupMenu( Menu_Type type, UMLView * view) {
+void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 	//make the right menu for the type
 	//make menu for logical view
 	m_pInsert = 0;
@@ -529,21 +529,8 @@ void ListPopupMenu::setupMenu( Menu_Type type, UMLView * view) {
 			m_pInsert -> insertItem(usecasePixmap, i18n( "Use Case..."), mt_UseCase );
 			m_pInsert -> insertItem(SmallIcon( "text"), i18n( "Text Line..." ), mt_FloatText );
 			insertItem(SmallIcon( "filenew"), i18n("New"), m_pInsert);
-//			insertSeparator();
-//			insertItem(SmallIcon( "undo"),  i18n( "Undo" ), mt_Undo );
-//			insertItem(SmallIcon( "redo"),  i18n( "Redo" ), mt_Redo );
 			insertSeparator();
-			insertItem(SmallIcon( "editcut"), i18n("Cut"), mt_Cut);
-			insertItem(SmallIcon( "editcopy"), i18n("Copy"), mt_Copy);
-			insertItem(SmallIcon( "editpaste"), i18n("Paste"), mt_Paste);
-			insertSeparator();
-			insertItem(SmallIcon( "editclear"), i18n("Clear Diagram"), mt_Clear);
-			insertItem( i18n("Snap to Grid"), mt_SnapToGrid);
-			setItemChecked( mt_SnapToGrid, view -> getSnapToGrid() );
-			insertItem( i18n("Show Grid"), mt_ShowSnapGrid );
-			setItemChecked( mt_ShowSnapGrid, view -> getShowSnapGrid() );
-			insertItem(SmallIcon( "image"), i18n( "Export as Picture..."), mt_Export_Image );
-			insertItem(SmallIcon( "info"), i18n("Properties"), mt_Properties);
+			setupDiagramMenu(view);
 			break;
 
 		case mt_On_Class_Diagram:
@@ -551,21 +538,8 @@ void ListPopupMenu::setupMenu( Menu_Type type, UMLView * view) {
 			m_pInsert -> insertItem(classPixmap, i18n("Class..."), mt_Concept);
 			m_pInsert -> insertItem(SmallIcon( "text"), i18n( "Text Line..." ), mt_FloatText );
 			insertItem(SmallIcon( "filenew"), i18n("New"), m_pInsert);
-//			insertSeparator();
-//			insertItem(SmallIcon( "undo"),  i18n( "Undo" ), mt_Undo );
-//			insertItem(SmallIcon( "redo"),  i18n( "Redo" ), mt_Redo );
 			insertSeparator();
-			insertItem(SmallIcon( "editcut"), i18n("Cut"), mt_Cut);
-			insertItem(SmallIcon( "editcopy"), i18n("Copy"), mt_Copy);
-			insertItem(SmallIcon( "editpaste"), i18n("Paste"), mt_Paste);
-			insertSeparator();
-			insertItem(SmallIcon( "editclear"), i18n("Clear Diagram"), mt_Clear);
-			insertItem( i18n("Snap to Grid"), mt_SnapToGrid);
-			setItemChecked( mt_SnapToGrid, view -> getSnapToGrid() );
-			insertItem( i18n("Show Grid"), mt_ShowSnapGrid );
-			setItemChecked( mt_ShowSnapGrid, view -> getShowSnapGrid() );
-			insertItem(SmallIcon( "image"), i18n("Export as Picture..."), mt_Export_Image);
-			insertItem(SmallIcon( "info"), i18n("Properties"), mt_Properties);
+			setupDiagramMenu(view);
 			break;
 
 		case mt_On_State_Diagram:
@@ -575,21 +549,8 @@ void ListPopupMenu::setupMenu( Menu_Type type, UMLView * view) {
 			m_pInsert -> insertItem(usecasePixmap, i18n("State..."), mt_State );
 			m_pInsert -> insertItem(SmallIcon( "text"), i18n( "Text Line..." ), mt_FloatText );
 			insertItem(SmallIcon( "filenew"), i18n("New"), m_pInsert);
-//			insertSeparator();
-//			insertItem(SmallIcon( "undo"),  i18n( "Undo" ), mt_Undo );
-//			insertItem(SmallIcon( "redo"),  i18n( "Redo" ), mt_Redo );
 			insertSeparator();
-			insertItem(SmallIcon( "editcut"), i18n("Cut"), mt_Cut);
-			insertItem(SmallIcon( "editcopy"), i18n("Copy"), mt_Copy);
-			insertItem(SmallIcon( "editpaste"), i18n("Paste"), mt_Paste);
-			insertSeparator();
-			insertItem(SmallIcon( "editclear"), i18n("Clear Diagram"), mt_Clear);
-			insertItem( i18n("Snap to Grid"), mt_SnapToGrid );
-			setItemChecked( mt_SnapToGrid, view -> getSnapToGrid() );
-			insertItem( i18n("Show Grid"), mt_ShowSnapGrid );
-			setItemChecked( mt_ShowSnapGrid, view -> getShowSnapGrid() );
-			insertItem(SmallIcon( "image"), i18n("Export as Picture..."), mt_Export_Image);
-			insertItem(SmallIcon( "info"), i18n("Properties"), mt_Properties);
+			setupDiagramMenu(view);
 			break;
 
 		case mt_On_Activity_Diagram:
@@ -600,21 +561,8 @@ void ListPopupMenu::setupMenu( Menu_Type type, UMLView * view) {
 			m_pInsert -> insertItem(branchPixmap, i18n("Branch/Merge"), mt_Branch );
 			m_pInsert -> insertItem(SmallIcon( "text"), i18n( "Text Line..." ), mt_FloatText );
 			insertItem(SmallIcon( "filenew"), i18n("New"), m_pInsert);
-//			insertSeparator();
-//			insertItem(SmallIcon( "undo"),  i18n( "Undo" ), mt_Undo );
-//			insertItem(SmallIcon( "redo"),  i18n( "Redo" ), mt_Redo );
 			insertSeparator();
-			insertItem(SmallIcon( "editcut"), i18n("Cut"), mt_Cut);
-			insertItem(SmallIcon( "editcopy"), i18n("Copy"), mt_Copy);
-			insertItem(SmallIcon( "editpaste"), i18n("Paste"), mt_Paste);
-			insertSeparator();
-			insertItem(SmallIcon( "editclear"), i18n("Clear Diagram"), mt_Clear);
-			insertItem( i18n("Snap to Grid"), mt_SnapToGrid );
-			setItemChecked( mt_SnapToGrid, view -> getSnapToGrid() );
-			insertItem( i18n("Show Grid"), mt_ShowSnapGrid );
-			setItemChecked( mt_ShowSnapGrid, view -> getShowSnapGrid() );
-			insertItem(SmallIcon( "image"), i18n("Export as Picture..."), mt_Export_Image);
-			insertItem(SmallIcon( "info"), i18n("Properties"), mt_Properties);
+			setupDiagramMenu(view);
 			break;
 
 		case mt_On_Sequence_Diagram:
@@ -622,22 +570,9 @@ void ListPopupMenu::setupMenu( Menu_Type type, UMLView * view) {
 			m_pInsert = new KPopupMenu( this, "New" );
 			m_pInsert -> insertItem(objectPixmap, i18n("Object..."), mt_Object);
 			m_pInsert -> insertItem( SmallIcon( "text"),i18n( "Text Line..." ), mt_FloatText );
-
-
 			insertItem(SmallIcon( "filenew"), i18n("New"), m_pInsert);
 			insertSeparator();
-			insertItem(SmallIcon( "editcut"), i18n("Cut"), mt_Cut);
-//			insertItem(SmallIcon( "editcopy"), i18n("Copy"), mt_Copy);
-			insertItem(SmallIcon( "editpaste"), i18n("Paste"), mt_Paste);
-			insertSeparator();
-			insertItem(SmallIcon( "editclear"), i18n("Clear Diagram"), mt_Clear);
-
-			insertItem( i18n("Snap to Grid"), mt_SnapToGrid);
-			setItemChecked( mt_SnapToGrid, view -> getSnapToGrid() );
-			insertItem( i18n("Show Grid"), mt_ShowSnapGrid );
-			setItemChecked( mt_ShowSnapGrid, view -> getShowSnapGrid() );
-			insertItem(SmallIcon( "image"), i18n("Export as Picture..."), mt_Export_Image);
-			insertItem(SmallIcon( "info"), i18n("Properties"), mt_Properties);
+			setupDiagramMenu(view);
 			break;
 
 		case mt_Concept:
@@ -795,8 +730,8 @@ void ListPopupMenu::setupMenu( Menu_Type type, UMLView * view) {
 
 	if( view ) {
 		bool bCutState = view -> getDocument() -> getCutCopyState();
-//		setItemEnabled( mt_Undo, false );
-//		setItemEnabled( mt_Redo, false );
+		setItemEnabled( mt_Undo, view->getUMLApp()->getUndoEnabled() );
+		setItemEnabled( mt_Redo, view->getUMLApp()->getRedoEnabled() );
 		setItemEnabled( mt_Cut, bCutState );
 		setItemEnabled( mt_Copy, bCutState );
 		setItemEnabled( mt_Paste, view -> getDocument() -> getPasteState() );
@@ -809,3 +744,19 @@ void ListPopupMenu::setupMenu( Menu_Type type, UMLView * view) {
 		connect(m_pColor, SIGNAL(activated(int)), this, SIGNAL(activated(int)));
 }
 
+void ListPopupMenu::setupDiagramMenu(UMLView* view) {
+	insertItem(SmallIcon("undo"), i18n("Undo"), mt_Undo);
+	insertItem(SmallIcon("redo"), i18n("Redo"), mt_Redo);
+	insertSeparator();
+	insertItem(SmallIcon("editcut"), i18n("Cut"), mt_Cut);
+	insertItem(SmallIcon("editcopy"), i18n("Copy"), mt_Copy);
+	insertItem(SmallIcon("editpaste"), i18n("Paste"), mt_Paste);
+	insertSeparator();
+	insertItem(SmallIcon("editclear"), i18n("Clear Diagram"), mt_Clear);
+	insertItem(i18n("Snap to Grid"), mt_SnapToGrid);
+	setItemChecked(mt_SnapToGrid, view->getSnapToGrid() );
+	insertItem(i18n("Show Grid"), mt_ShowSnapGrid );
+	setItemChecked(mt_ShowSnapGrid, view->getShowSnapGrid() );
+	insertItem(SmallIcon("image"), i18n("Export as Picture..."), mt_Export_Image);
+	insertItem(SmallIcon("info"), i18n("Properties"), mt_Properties);
+}

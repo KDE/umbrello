@@ -163,6 +163,7 @@ private:
 	void setupMenu(Menu_Type type, UMLView * view  = 0);
 	KPopupMenu * m_pInsert, * m_pShow, * m_pColor;
 	void setupColor(bool fc);
+	void setupDiagramMenu(UMLView* view);
 };
 
 #endif
