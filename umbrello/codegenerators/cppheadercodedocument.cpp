@@ -126,7 +126,7 @@ void CPPHeaderCodeDocument::setAttributesFromNode ( QDomElement & root)
 // Initialize this cpp classifier code document
 void CPPHeaderCodeDocument::init ( ) {
 
-	setFileExtension(".cpp");
+	setFileExtension(".h");
 
 	initCodeClassFields(); // we have to call here as .newCodeClassField is pure virtual in parent class 
 
