@@ -455,7 +455,11 @@ void UMLApp::saveOptions() {
 	if( doc->URL().fileName() == i18n( "Untitled" ) ) {
 		config -> writeEntry( "lastFile", "" );
 	} else {
+#if KDE_IS_VERSION(3,1,3)
+		config -> writePathEntry( "lastFile", doc -> URL().prettyURL() );
+#else
 		config -> writeEntry( "lastFile", doc -> URL().prettyURL() );
+#endif
 	}
 	config->writeEntry( "imageMimetype", getImageMimetype() );
 
@@ -482,8 +486,13 @@ void UMLApp::saveOptions() {
 	config->setGroup("Code Generation");
 	config->writeEntry("forceDoc",optionState.codegenState.forceDoc);
 	config->writeEntry("forceSections",optionState.codegenState.forceSections);
+#if KDE_IS_VERSION(3,1,3)
+	config->writePathEntry("outputDirectory",optionState.codegenState.outputDir);
+	config->writePathEntry("headingsDirectory",optionState.codegenState.headingsDir);
+#else
 	config->writeEntry("outputDirectory",optionState.codegenState.outputDir);
 	config->writeEntry("headingsDirectory",optionState.codegenState.headingsDir);
+#endif
 	config->writeEntry("includeHeadings",optionState.codegenState.includeHeadings);
 	config->writeEntry("overwritePolicy",optionState.codegenState.overwritePolicy);
 	config->writeEntry("modnamePolicy",  optionState.codegenState.modname);
@@ -529,7 +538,11 @@ void UMLApp::saveProperties(KConfig *_config) {
 
 	} else {
 		KURL url=doc->URL();
+#if KDE_IS_VERSION(3,1,3)
+		_config->writePathEntry("filename", url.url());
+#else
 		_config->writeEntry("filename", url.url());
+#endif
 		_config->writeEntry("modified", doc->isModified());
 		QString tempname = kapp->tempSaveName(url.url());
 		QString tempurl= KURL::encode_string(tempname);
@@ -540,7 +553,7 @@ void UMLApp::saveProperties(KConfig *_config) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLApp::readProperties(KConfig* _config) {
-	QString filename = _config->readEntry("filename", "");
+	QString filename = _config->readPathEntry("filename");
 	KURL url(filename);
 	bool modified = _config->readBoolEntry("modified", false);
 	if(modified) {
@@ -1041,13 +1054,12 @@ void UMLApp::readOptionState() {
 	config -> setGroup("Code Generation");
 	optionState.codegenState.forceDoc = config -> readBoolEntry("forceDoc",true);
 	optionState.codegenState.forceSections = config -> readBoolEntry("forceSections",false);
-	QString temp = config -> readEntry("outputDirectory","");
+	QString temp = config -> readPathEntry("outputDirectory");
 	if(temp.isEmpty())
 		temp = QDir::homeDirPath() + "/uml-generated-code/";
 	optionState.codegenState.outputDir = temp;
 	optionState.codegenState.includeHeadings = config->readBoolEntry("includeHeadings",true);
-	temp = "";
-	temp = config -> readEntry("headingsDirectory","");
+	temp = config -> readPathEntry("headingsDirectory");
 	if(temp.isEmpty()) {
 		KStandardDirs stddirs;
 		temp =  stddirs.findDirs("data","umbrello/headings").first();
@@ -1252,7 +1264,7 @@ void UMLApp::initLibraries() {
 	QStringList libsKnown, libsFound, libsMissing,strlist;
 	QString str;
 	config -> setGroup("Code Generation");
-	activeLanguage = config->readEntry("activeLanguage","");
+	activeLanguage = config->readEntry("activeLanguage");
 	//first search for libraries in all "codegenerators" directoris, and then
 	//see which of them are already known and which are new
 	libsFound = stdDirs.findAllResources("data","umbrello/codegenerators/*.la",false,true);
