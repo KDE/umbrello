@@ -283,8 +283,6 @@ void UMLListViewItem::okRename( int col ) {
 		m_bCreating = false;
 		if ( s_pListView -> slotItemRenamed( this, col ) ) {
 			m_Label = text(col);
-		} else {
-			startRename(col);
 		}
 		return;
 	}
