@@ -2820,7 +2820,7 @@ void UMLView::synchronizeData() {
 				obj->synchronizeData();
 				m_pData->m_WidgetList.append( obj->getData() );
 			}
-		} else {
+		} else if (type != wt_Message) {
 			obj->synchronizeData();
 			m_pData->m_WidgetList.append(obj->getData() );
 		}

@@ -391,7 +391,7 @@ bool UMLViewData::serializeWidgets( QDataStream * stream, bool bArchive, int fil
 				} else if( stype == "ACTOR" ) {
 					ActorWidgetData * a = new ActorWidgetData(m_Options);
 					widgetData = static_cast<UMLWidgetData *>( a );
-				} else if( stype == "CLASS" || stype == "CONCEPT" ) { // Have "CONCEPT" for backwards compatability 
+				} else if( stype == "CLASS" || stype == "CONCEPT" ) { // Have "CONCEPT" for backwards compatability
 					ClassWidgetData * c = new ClassWidgetData(m_Options);
 					widgetData = static_cast<UMLWidgetData *>( c );
 				} else if( stype == "OBJECT" ) {
@@ -627,6 +627,7 @@ bool UMLViewData::loadFromXMI( QDomElement & qElement ) {
 	if( !element.isNull() && element.tagName() != "widgets" )
 		return false;
 	if( !loadWidgetsFromXMI( element ) ) {
+		kdWarning() << "failed umlviewdata load on widgets" << endl;
 		return false;
 	}
 
@@ -635,16 +636,20 @@ bool UMLViewData::loadFromXMI( QDomElement & qElement ) {
 	element = node.toElement();
 	if( !element.isNull() && element.tagName() != "messages" )
 		return false;
-	if( !loadMessagesFromXMI( element ) )
+	if( !loadMessagesFromXMI( element ) ) {
+		kdWarning() << "failed umlviewdata load on messages" << endl;
 		return false;
+	}
 
 	//load the associations
 	node = element.nextSibling();
 	element = node.toElement();
 	if( !element.isNull() && element.tagName() != "associations" )
 		return false;
-	if( !loadAssociationsFromXMI( element ) )
+	if( !loadAssociationsFromXMI( element ) ) {
+		kdWarning() << "failed umlviewdata load on associations" << endl;
 		return false;
+	}
 	return true;
 }
 
@@ -658,7 +663,7 @@ bool UMLViewData::loadWidgetsFromXMI( QDomElement & qElement ) {
 			widgetData = new ActorWidgetData(getOptionState());
 		} else if( tag == "UML:UseCaseWidget" ) {
 			widgetData = new UseCaseWidgetData(getOptionState());
-		} else if( tag == "UML:ClassWidget" || tag == "UML:ConceptWidget" ) { // Have ConceptWidget for backwards compatability 
+		} else if( tag == "UML:ClassWidget" || tag == "UML:ConceptWidget" ) { // Have ConceptWidget for backwards compatability
 			widgetData = new ClassWidgetData(getOptionState());
 		} else if( tag == "packagewidget" ) {
 			widgetData = new PackageWidgetData(getOptionState());
@@ -683,7 +688,7 @@ bool UMLViewData::loadWidgetsFromXMI( QDomElement & qElement ) {
 		} else if( tag == "UML:ActivityWidget" ) {
 			widgetData = new ActivityWidgetData(getOptionState());
 		} else {
-			kdWarning()<<"Trying to create an unknown widget"<<endl;
+			kdWarning() << "Trying to create an unknown widget:" << tag << endl;
 			return false;
 		}
 		if( !widgetData -> loadFromXMI( widgetElement ) )

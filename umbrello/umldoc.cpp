@@ -1423,16 +1423,19 @@ bool UMLDoc::loadFromXMI( QIODevice & file ) {
 				} else if( tag == "umlobjects" ) {
 					QDomNode objectNode = node.firstChild();
 					if( !loadUMLObjectsFromXMI( objectNode ) ) {
+						kdWarning() << "failed load on objects" << endl;
 						return false;
 					}
 				} else if( tag == "diagrams" ) {
 					QDomNode diagramNode = node.firstChild();
 
 					if( !loadDiagramsFromXMI( diagramNode ) ) {
+						kdWarning() << "failed load on diagrams" << endl;
 						return false;
 					}
 				} else if( tag == "listview" ) {
 					if( !listView -> loadFromXMI( element ) ) {
+						kdWarning() << "failed load on listview" << endl;
 						return false;
 					}
 				}
@@ -1550,6 +1553,7 @@ bool UMLDoc::loadDiagramsFromXMI( QDomNode & node ) {
 			pView -> hide();
 			pView -> setOptionState( state );
 			if( !pView -> getData() -> loadFromXMI( element ) ) {
+				kdWarning() << "failed load on viewdata loadfromXMI" << endl;
 				return false;
 			}
 			addView( pView );
