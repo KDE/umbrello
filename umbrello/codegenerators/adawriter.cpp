@@ -28,6 +28,8 @@
 #include "../umldoc.h"
 #include "../class.h"
 #include "../enum.h"
+#include "../enumliteral.h"
+#include "../umlenumliterallist.h"
 #include "../package.h"
 #include "../association.h"
 #include "../attribute.h"
@@ -90,17 +92,21 @@ bool AdaWriter::isType (QString & type)
 
 
 bool AdaWriter::isOOClass(UMLClassifier *c) {
-	QString stype = c->getStereotype();
-	if (stype == "CORBAConstant" ||
-	        stype == "CORBAStruct" || stype == "CORBAUnion" ||
-	        stype == "CORBATypedef")
-		return false;
-	if (dynamic_cast<UMLEnum*>(c))
-		return false;
-	if (! dynamic_cast<UMLClass*>(c))
+	Uml::UMLObject_Type ot = c->getBaseType();
+	if (ot == Uml::ot_Interface)
 		return true;
-	UMLClass *cl = dynamic_cast<UMLClass *>(c);
-	if (cl && cl->isEnumeration())
+	if (ot == Uml::ot_Enum)
+		return false;
+	if (ot != Uml::ot_Class) {
+		kdWarning() << "AdaWriter::isOOClass: unknown object type " << ot << endl;
+		return false;
+	}
+	QString stype = c->getStereotype();
+	if (stype == "CORBAConstant" || stype == "CORBATypedef" ||
+	    stype == "CORBAStruct" || stype == "CORBAUnion")
+		return false;
+	UMLClass *cl = static_cast<UMLClass *>(c);
+	if (cl->isEnumeration())
 		return false;
 
 	// CORBAValue, CORBAInterface, and all empty/unknown stereotypes are
@@ -203,6 +209,24 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 	QString pkg = qualifiedName(c);
 	ada << spc() << "package " << pkg << " is\n\n";
 	indentlevel++;
+	if (c->getBaseType() == Uml::ot_Enum) {
+		UMLEnum *ue = static_cast<UMLEnum*>(c);
+		UMLEnumLiteralList litList = ue->getFilteredEnumLiteralList();
+		uint i = 0;
+		ada << spc() << "type " << classname << " is (\n";
+		indentlevel++;
+		for (UMLEnumLiteral *lit = litList.first(); lit; lit = litList.next()) {
+			QString enumLiteral = cleanName(lit->getName());
+			ada << spc() << enumLiteral;
+			if (++i < litList.count())
+				ada << ",\n";
+		}
+		indentlevel--;
+		ada << ");\n\n";
+		indentlevel--;
+		ada << spc() << "end " << pkg << ";\n\n";
+		return;
+	}
 	if (! isOOClass(c)) {
 		QString stype = c->getStereotype();
 		if (stype == "CORBAConstant") {
@@ -216,7 +240,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 			for (at = atl->first(); at; at = atl->next()) {
 				QString enumLiteral = cleanName(at->getName());
 				ada << spc() << enumLiteral;
-				if (++i < atl->count()) //FIXME warning
+				if (++i < atl->count())
 					ada << ",\n";
 			}
 			indentlevel--;
