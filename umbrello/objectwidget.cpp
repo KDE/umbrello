@@ -309,7 +309,7 @@ void ObjectWidget::messageRemoved(MessageWidget* message) {
 }
 
 void ObjectWidget::slotMessageMoved() {
-	QPtrListIterator<MessageWidget> iterator(messageWidgetList);
+	MessageWidgetListIt iterator(messageWidgetList);
 	MessageWidget* message;
 	int lowestMessage = 0;
 	while ( (message = iterator.current()) != 0 ) {
@@ -323,7 +323,7 @@ void ObjectWidget::slotMessageMoved() {
 }
 
 bool ObjectWidget::messageOverlap(int y, MessageWidget* messageWidget) {
-	QPtrListIterator<MessageWidget> iterator(messageWidgetList);
+	MessageWidgetListIt iterator(messageWidgetList);
 	MessageWidget* message;
 	int lowestMessage = 0;
 	while ( (message = iterator.current()) != 0 ) {
