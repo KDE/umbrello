@@ -52,7 +52,8 @@
 static const uint undoMax = 30;
 
 //#include "diagram/diagram.h"
-using namespace Umbrello;
+using Umbrello::Diagram;
+using Umbrello::DiagramView;
 
 
 
@@ -742,6 +743,15 @@ void UMLDoc::removeAssocFromConcepts(UMLAssociation *assoc)
 			c->removeAssociation(assoc);
 }
 
+UMLAssociation* UMLDoc::createUMLAssociation(UMLObject *a, UMLObject *b, Uml::Association_Type type)
+{
+	UMLAssociation *assoc = new UMLAssociation( this );
+	assoc->setAssocType(type);
+	assoc->setObjectA(a);
+	assoc->setObjectB(b);
+	addAssociation(assoc);
+	return assoc;
+}
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLDoc::addAssociation(UMLAssociation *Assoc)
 {

@@ -207,6 +207,16 @@ public:
   	 */
   	UMLObject* createOperation(UMLObject* o);
   
+	/**
+	 * Creates an association between two UMLObjects.
+	 * NOTE: this method does not check if the association is valid / legal
+	 *  
+	 * @param a	The UMLObject "A" for the association (source)
+	 * @param b	The UMLObject "B" for the association (destination)
+	 * @param type	The association's type
+	 * @return	The Association created
+	 */
+	UMLAssociation* createUMLAssociation(UMLObject *a, UMLObject *b, Uml::Association_Type type);
   	/**
  	 *  Adds an existing association to the matching concept in the list of concepts.
  	 *  The selection of the matching concept depends on the association type:
