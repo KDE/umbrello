@@ -10,7 +10,6 @@
 #ifndef DIALOG_PAGE
 #define DIALOG_PAGE
 
-#include <qwidget.h>
 
 /** @short A basic interface for all Dialog Pages in Umbrello. */
 
@@ -19,7 +18,6 @@ class DialogPage
 public:
 	DialogPage( bool autoApply) 
 		: m_autoApply(autoApply) {}
-	//{ if(!parent) setAutoApply( true ); }
 	
 	/** 
 	 * If auto apply is true, the observed object will be modified

@@ -1,4 +1,9 @@
 /***************************************************************************
+                          classpropertiespage.cpp
+                             -------------------
+    copyright            : (C) 2003 Luis De la Parra
+ ***************************************************************************/
+/***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -34,12 +39,11 @@ ClassPropertiesPage::ClassPropertiesPage(UMLClass *c, QWidget *parent, const cha
 	connect(m_private,SIGNAL(toggled(bool)),this,SIGNAL(pageModified()));
 	connect(m_documentation,SIGNAL(textChanged()),this,SIGNAL(pageModified()));
 
-
 	connect(m_umlObject,SIGNAL(modified()),this,SLOT(loadData()));
 	connect(this,SIGNAL(pageModified()),this,SLOT(pageContentsModified()));
 }
 
-
+ClassPropertiesPage::~ClassPropertiesPage() {}
 
 void ClassPropertiesPage::apply()
 {
@@ -61,7 +65,7 @@ void ClassPropertiesPage::pageContentsModified()
 
 
 void ClassPropertiesPage::loadData()
-{kdDebug()<<"ClassPropertiesPage::loadData() : disconnecting signal pageModified()"<<endl;
+{//kdDebug()<<"ClassPropertiesPage::loadData() : disconnecting signal pageModified()"<<endl;
 	disconnect(this,SIGNAL(pageModified()),this,SLOT(pageContentsModified()));
 
 	m_className->setText(m_umlObject->getName());
@@ -83,11 +87,11 @@ void ClassPropertiesPage::loadData()
 	m_documentation->setText(m_umlObject->getDoc());
 
 	connect(this,SIGNAL(pageModified()),this,SLOT(pageContentsModified()));
-kdDebug()<<"reconnecting singal"<<endl;
+//kdDebug()<<"reconnecting singal"<<endl;
 }
 
 void ClassPropertiesPage::saveData()
-{kdDebug()<<"ClassPropertiesPage::loadData() : disconnecting signal UMLObject::modified()"<<endl;
+{//kdDebug()<<"ClassPropertiesPage::loadData() : disconnecting signal UMLObject::modified()"<<endl;
 	disconnect(m_umlObject,SIGNAL(modified()),this,SLOT(loadData()));
 
 	m_umlObject->setName(m_className->text());
@@ -102,7 +106,7 @@ void ClassPropertiesPage::saveData()
 	m_umlObject->setDoc(m_documentation->text());
 
 	connect(m_umlObject,SIGNAL(modified()),this,SLOT(loadData()));
-kdDebug()<<"reconnecting singal"<<endl;
+//kdDebug()<<"reconnecting singal"<<endl;
 }
 
 #include "classpropertiespage.moc"
