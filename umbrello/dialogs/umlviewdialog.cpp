@@ -61,8 +61,7 @@ void UMLViewDialog::setupDiagramPropertiesPage()
 	m_diagramProperties = new DiagramPropertiesPage(page);
 
 	m_diagramProperties->diagramName->setText( m_pView->getName() );
-	m_diagramProperties->width->setValue(m_pView->canvas()->width());
-	m_diagramProperties->height->setValue(m_pView->canvas()->height());
+	m_diagramProperties->zoom->setValue(m_pView->currentZoom());
 
 	m_diagramProperties->showGrid->setChecked(m_pView -> getShowSnapGrid());
 	m_diagramProperties->snapToGrid->setChecked(m_pView-> getSnapToGrid());
@@ -114,21 +113,7 @@ void UMLViewDialog::applyPage( Page page ) {
 		case General:
 			{
 			checkName();
-			// resizing a canvas is a very expensive operation, so we first
-			// check if the size has changed
-			int w = m_diagramProperties->width->value();
-			int h = m_diagramProperties->height->value();
-			if (( w != m_pView->canvas()->width()) || ( h != m_pView->canvas()->height()) ) {
-				//the input fields in the dialog page are set to only allow reasonable values
-				//but we check here again just to be on the safe side. 500 < size < 5000
-				if(h<500) h = 500;
-				if(h>5000) h = 5000;
-				if(w<500) w = 500;
-				if(w>5000) w = 5000;
-				m_pView->setCanvasSize(w,h);
-			}
-			m_diagramProperties->width->setValue( m_pView->canvas()->width() );
-			m_diagramProperties->height->setValue( m_pView->canvas()->height() );
+			m_pView->setZoom( m_diagramProperties->zoom->value() );
 			m_pView->setDoc( m_diagramProperties->documentation->text() );
 			m_pView->setSnapX( m_diagramProperties->gridSpaceX->value() );
 			m_pView->setSnapY( m_diagramProperties->gridSpaceY->value() );

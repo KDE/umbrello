@@ -681,6 +681,11 @@ public:
 	 */
 	void setCanvasSize(int width, int height);
 
+	/**
+	 * Sets the size of the canvas to just fit on all the items
+	 */
+	void resizeCanvasToItems();
+
 	/**                                                                                
 	 *      the width and height of a diagram canvas in pixels                         
 	 */	

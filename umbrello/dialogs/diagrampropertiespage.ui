@@ -147,53 +147,26 @@
                                 <cstring>TextLabel4</cstring>
                             </property>
                             <property name="text">
-                                <string>Width</string>
+                                <string>Zoom</string>
                             </property>
                         </widget>
                         <widget class="QSpinBox">
                             <property name="name">
-                                <cstring>width</cstring>
+                                <cstring>zoom</cstring>
                             </property>
                             <property name="sizePolicy">
                                 <sizepolicy>
-                                    <hsizetype>7</hsizetype>
+                                    <hsizetype>0</hsizetype>
                                     <vsizetype>0</vsizetype>
                                     <horstretch>0</horstretch>
                                     <verstretch>0</verstretch>
                                 </sizepolicy>
                             </property>
                             <property name="maxValue">
-                                <number>5000</number>
-                            </property>
-                            <property name="minValue">
                                 <number>500</number>
                             </property>
-                        </widget>
-                        <widget class="QLabel">
-                            <property name="name">
-                                <cstring>TextLabel5</cstring>
-                            </property>
-                            <property name="text">
-                                <string>Height</string>
-                            </property>
-                        </widget>
-                        <widget class="QSpinBox">
-                            <property name="name">
-                                <cstring>height</cstring>
-                            </property>
-                            <property name="sizePolicy">
-                                <sizepolicy>
-                                    <hsizetype>7</hsizetype>
-                                    <vsizetype>0</vsizetype>
-                                    <horstretch>0</horstretch>
-                                    <verstretch>0</verstretch>
-                                </sizepolicy>
-                            </property>
-                            <property name="maxValue">
-                                <number>5000</number>
-                            </property>
                             <property name="minValue">
-                                <number>500</number>
+                                <number>10</number>
                             </property>
                         </widget>
                     </hbox>

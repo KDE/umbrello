@@ -21,11 +21,11 @@
 #include <klineeditdlg.h>
 #include <klocale.h>
 
-AssociationWidget::AssociationWidget(QWidget *parent, AssociationWidgetData * pData) 
-	: QObject(parent),m_pMultiA(0), m_pMultiB(0), m_pRole(0), m_pWidgetA(0), m_pWidgetB(0), 
-	  m_nCornerARegion(-1), m_nCornerBRegion(-1), 
-	  m_pView((UMLView *)parent), m_pData(pData),m_WidgetARegion(Error), m_WidgetBRegion(Error), m_bActivated(false), 
-	  m_unRoleLineSegment(0), m_pMenu(0), m_bSelected(false), m_nMovingPoint(-1) 
+AssociationWidget::AssociationWidget(QWidget *parent, AssociationWidgetData * pData)
+	: QObject(parent),m_pMultiA(0), m_pMultiB(0), m_pRole(0), m_pWidgetA(0), m_pWidgetB(0),
+	  m_nCornerARegion(-1), m_nCornerBRegion(-1),
+	  m_pView((UMLView *)parent), m_pData(pData),m_WidgetARegion(Error), m_WidgetBRegion(Error), m_bActivated(false),
+	  m_unRoleLineSegment(0), m_pMenu(0), m_bSelected(false), m_nMovingPoint(-1)
 {
 	if (!m_pData)
 	{
@@ -38,11 +38,11 @@ AssociationWidget::AssociationWidget(QWidget *parent, AssociationWidgetData * pD
 }
 
 AssociationWidget::AssociationWidget(QWidget *parent, UMLWidget* WidgetA,
-                                       Association_Type Type, UMLWidget* WidgetB)  
-	: QObject(parent), m_pMultiA(0), m_pMultiB(0), m_pRole(0), m_pWidgetA(WidgetA), m_pWidgetB(WidgetB), 
-	  m_nCornerARegion(-1), m_nCornerBRegion(-1), 
-	  m_pView((UMLView *)parent), m_WidgetARegion(Error), m_WidgetBRegion(Error), m_bActivated(false), 
-	  m_unRoleLineSegment(0), m_pMenu(0), m_bSelected(false), m_nMovingPoint(-1) 
+                                       Association_Type Type, UMLWidget* WidgetB)
+	: QObject(parent), m_pMultiA(0), m_pMultiB(0), m_pRole(0), m_pWidgetA(WidgetA), m_pWidgetB(WidgetB),
+	  m_nCornerARegion(-1), m_nCornerBRegion(-1),
+	  m_pView((UMLView *)parent), m_WidgetARegion(Error), m_WidgetBRegion(Error), m_bActivated(false),
+	  m_unRoleLineSegment(0), m_pMenu(0), m_bSelected(false), m_nMovingPoint(-1)
 {
 	m_pData = new AssociationWidgetData();
 	m_pData -> m_LinePath.setAssociation( this );
@@ -1900,6 +1900,7 @@ void AssociationWidget::mouseMoveEvent(QMouseEvent* me) {
 	//move event called now
 	QMoveEvent m(p, oldp);
 	moveEvent(&m);
+	m_pView->resizeCanvasToItems();
 }
 AssociationWidget::Region AssociationWidget::getWidgetRegion(AssociationWidget * widget) {
 	if(widget  -> getWidgetA()== m_pWidgetA)
@@ -2167,7 +2168,7 @@ void AssociationWidget::updateAssociations(int totalCount,
 			} else if( m_pWidgetA == assocwidget -> getWidgetB() ) {
 					assocwidget -> updateRegionLineCount(index++, totalCount, region, false);
 			}
-		} else { //end widgetA 
+		} else { //end widgetA
 			if(m_pWidgetB == assocwidget -> getWidgetA() )
 			{
 					assocwidget -> updateRegionLineCount(index++, totalCount, region, true);

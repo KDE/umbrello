@@ -77,14 +77,10 @@ void SeqLineWidget::mouseMoveEvent( QMouseEvent *me ) {
 			newY = m_nMinY;
 		}
 
-		int maxY = m_pView->canvas()->height();
-		if (newY > maxY - 10) {
-			newY = maxY - 10;
-		}
-
 		setPoints( sp.x(), sp.y(), sp.x(), newY );
 		m_nLengthY = newY - (int)m_pObject->y() - m_pObject->height();
 		moveDeconBox();
+		m_pView->resizeCanvasToItems();
 	}
 }
 

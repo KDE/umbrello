@@ -105,7 +105,6 @@ void UMLView::init() {
 	connect( this, SIGNAL(sigRemovePopupMenu()), this, SLOT(slotRemovePopupMenu() ) );
 	connect( (UMLApp *)getDocument() -> parent() , SIGNAL( sigCutSuccessful() ),
 	         this, SLOT( slotCutSuccessful() ) );
-
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -239,6 +238,7 @@ void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome) {
 		temp->setActivated();
 		temp->setFont( m_pData -> getFont() );
 		temp->slotColorChanged( m_pData->getID() );
+		resizeCanvasToItems();
 		return;
 	}
 	//create end activity
@@ -251,6 +251,7 @@ void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome) {
 		temp->setActivated();
 		temp -> setFont( m_pData -> getFont() );
 		temp->slotColorChanged( m_pData->getID() );
+		resizeCanvasToItems();
 		return;
 	}
 	//create branch/merge activity
@@ -263,6 +264,7 @@ void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome) {
 		temp->setActivated();
 		temp -> setFont( m_pData -> getFont() );
 		temp->slotColorChanged( m_pData->getID() );
+		resizeCanvasToItems();
 		return;
 	}
 	//create fork/join activity
@@ -275,6 +277,7 @@ void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome) {
 		temp->setActivated();
 		temp -> setFont( m_pData -> getFont() );
 		temp->slotColorChanged( m_pData->getID() );
+		resizeCanvasToItems();
 		return;
 	}
 	//create a activity widget
@@ -294,6 +297,7 @@ void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome) {
 			temp->setFont( m_pData -> getFont() );
 			temp->slotColorChanged( m_pData->getID() );
 		}
+		resizeCanvasToItems();
 		return;
 	}
 	//create a state widget
@@ -311,6 +315,7 @@ void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome) {
 			temp -> setFont( m_pData -> getFont() );
 			temp->slotColorChanged( m_pData->getID() );
 		}
+		resizeCanvasToItems();
 		return;
 	}
 	//create an initial state widget
@@ -323,6 +328,7 @@ void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome) {
 		temp->setActivated();
 		temp -> setFont( m_pData -> getFont() );
 		temp->slotColorChanged( m_pData->getID() );
+		resizeCanvasToItems();
 		return;
 	}
 	//create end state
@@ -335,6 +341,7 @@ void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome) {
 		temp->setActivated();
 		temp -> setFont( m_pData -> getFont() );
 		temp->slotColorChanged( m_pData->getID() );
+		resizeCanvasToItems();
 		return;
 	}
 	//Create a NoteBox widget
@@ -348,6 +355,7 @@ void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome) {
 		temp->setActivated();
 		temp -> setFont( m_pData -> getFont() );
 		temp->slotColorChanged( m_pData->getID() );
+		resizeCanvasToItems();
 		return;
 	}
 	//Create a Floating Text widget
@@ -366,6 +374,7 @@ void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome) {
 			ft -> setFont( m_pData -> getFont() );
 			ft->slotColorChanged( m_pData->getID() );
 		}
+		resizeCanvasToItems();
 		return;
 	}
 	//Create a Message on a Sequence diagram
@@ -392,6 +401,7 @@ void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome) {
 				messageText->setActivated();
 				message->setActivated();
 				m_pFirstSelectedWidget = 0;
+				resizeCanvasToItems();
 				return;
 			}
 		} else { //did not click on widget line, clear the half made message
@@ -409,6 +419,7 @@ void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome) {
 	}
 	m_bCreateObject = true;
 	getDocument()->createUMLObject(convert_TBB_OT(m_CurrentCursor));
+	resizeCanvasToItems();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLView::slotToolBarChanged(int c) {
@@ -2729,15 +2740,13 @@ int UMLView::currentZoom() {
 void UMLView::zoomIn() {
 	QWMatrix wm = worldMatrix();
 	wm.scale(1.5,1.5); // adjust zooming step here
-	setWorldMatrix(wm);
-	m_pData->setZoom( currentZoom() );
+	setZoom( (int)(wm.m11()*100.0) );
 }
 
 void UMLView::zoomOut() {
 	QWMatrix wm = worldMatrix();
 	wm.scale(2.0/3.0, 2.0/3.0); //adjust zooming step here
-	setWorldMatrix(wm);
-	m_pData->setZoom( currentZoom() );
+	setZoom( (int)(wm.m11()*100.0) );
 }
 
 void UMLView::fileLoaded() {
@@ -2749,6 +2758,22 @@ void UMLView::setCanvasSize(int width, int height) {
 	m_pData->setCanvasWidth(width);
 	m_pData->setCanvasHeight(height);
 	canvas()->resize(width, height);
+}
+
+void UMLView::resizeCanvasToItems() {
+	QRect canvasSize = getDiagramRect();
+	int canvasWidth = canvasSize.right() + 5;
+	int canvasHeight = canvasSize.bottom() + 5;
+
+	if ( canvasWidth < width() ) {
+		canvasWidth = width();
+	}
+
+	if ( canvasHeight < height() ) {
+		canvasHeight = height();
+	}
+
+	setCanvasSize(canvasWidth, canvasHeight);
 }
 
 #include "umlview.moc"

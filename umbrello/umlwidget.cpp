@@ -87,12 +87,6 @@ QPoint UMLWidget::doMouseMove(QMouseEvent* me) {
 		if( ((int)y() + moveY) < 0 ) {
 			moveY = moveY - (int)y();
 		}
-		if( ((int)x() + moveX) > (maxX - width()) ) {
-			moveX = maxX - (int)x() - width();
-		}
-		if( ((int)y() + moveY) > (maxY - height()) ) {
-			moveY = maxY - (int)y() - height();
-		}
 
 		if( count > 1 ) {
 			if( m_pView -> getType() == dt_Sequence ) {
@@ -127,6 +121,7 @@ void UMLWidget::mouseMoveEvent(QMouseEvent* me) {
 		setX( newX );
 		setY( newY );
 		adjustAssocs(newX, newY);
+		m_pView->resizeCanvasToItems();
 	}
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////

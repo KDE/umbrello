@@ -264,6 +264,7 @@ void ObjectWidget::mouseMoveEvent(QMouseEvent* me) {
 		setX( newX );
 		setY( newY );
 		adjustAssocs(newX, newY);
+		m_pView->resizeCanvasToItems();
 		moveEvent(0);
 	}
 }

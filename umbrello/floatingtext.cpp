@@ -327,6 +327,7 @@ void FloatingText::mouseMoveEvent(QMouseEvent* me) {
 		if(m_pAssoc) {
 			m_pAssoc->calculateRoleTextSegment();
 		}
+		m_pView->resizeCanvasToItems();
 		moveEvent(0);
 	}
 }
