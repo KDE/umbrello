@@ -384,6 +384,15 @@ public:
 	UMLWidget * findWidget(int id);
 
 	/**
+	 * Finds an association widget with the given ID.
+	 *
+	 * @param	id	The ID of the widget to find.
+	 *
+	 * @return	Returns the widget found, returns 0 if no widget found.
+	 */
+	AssociationWidget * findAssocWidget(int id);
+
+	/**
 	 * Remove a widget from view.
 	 *
 	 * @param	o	The widget to remove.

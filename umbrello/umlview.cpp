@@ -73,6 +73,7 @@
 #include "umllistviewitemdatalist.h"
 #include "umllistviewitemdata.h"
 #include "umlobjectlist.h"
+#include "association.h"
 
 #include "umlwidget.h"
 
@@ -378,7 +379,6 @@ void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome) {
 		//clicked on second sequence line to create message
 		FloatingText* messageText = new FloatingText(this, tr_Seq_Message, "");
 		messageText->setFont( getFont() );
-		messageText->setID(m_pDoc -> getUniqueID());
 
 		Sequence_Message_Type msgType = (isSyncMsg ? sequence_message_synchronous :
 							     sequence_message_asynchronous);
@@ -390,6 +390,12 @@ void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome) {
 		connect(this, SIGNAL(sigColorChanged(int)),
 			message, SLOT(slotColorChanged(int)));
 
+		// WAS:
+		//	messageText->setID(m_pDoc -> getUniqueID());
+		// EXPERIMENTALLY CHANGED TO:
+			messageText->setID( message->getID() );
+
+		messageText->setMessage( message );
 		messageText->setActivated();
 		message->setActivated();
 		m_pFirstSelectedWidget = 0;
@@ -780,6 +786,19 @@ UMLWidget * UMLView::findWidget( int id ) {
 			return obj;
 	}
 
+	return 0;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+AssociationWidget * UMLView::findAssocWidget( int id ) {
+	AssociationWidget *obj;
+	AssociationWidgetListIt it( m_AssociationList );
+	while ( (obj = it.current()) != 0 ) {
+		++it;
+		UMLAssociation* umlassoc = obj -> getAssociation();
+		if ( umlassoc && umlassoc->getID() == id ) {
+			return obj;
+		}
+	}
 	return 0;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
