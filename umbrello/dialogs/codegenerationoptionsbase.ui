@@ -1,0 +1,293 @@
+<!DOCTYPE UI><UI version="3.0" stdsetdef="1">
+<class>CodeGenerationOptionsBase</class>
+<widget class="QWidget">
+    <property name="name">
+        <cstring>CodeGenerationOptionsBase</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>380</width>
+            <height>363</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Code Generation Options</string>
+    </property>
+    <vbox>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <property name="margin">
+            <number>0</number>
+        </property>
+        <property name="spacing">
+            <number>6</number>
+        </property>
+        <widget class="QGroupBox">
+            <property name="name">
+                <cstring>GroupBox3</cstring>
+            </property>
+            <property name="title">
+                <string>Code Verbosity</string>
+            </property>
+            <vbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
+                    <number>11</number>
+                </property>
+                <property name="spacing">
+                    <number>6</number>
+                </property>
+                <widget class="QCheckBox">
+                    <property name="name">
+                        <cstring>m_forceDoc</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Write documentation comments even if empty</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Write comments for class and method documentation even if empty</string>
+                    </property>
+                </widget>
+                <widget class="QCheckBox">
+                    <property name="name">
+                        <cstring>m_forceSections</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Write comments for sections even if section is empty</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Writes comments to indicate the different sections (public, private etc) in a class, even if the sections are empty</string>
+                    </property>
+                </widget>
+            </vbox>
+        </widget>
+        <widget class="QGroupBox">
+            <property name="name">
+                <cstring>GroupBox1</cstring>
+            </property>
+            <property name="title">
+                <string>Directories</string>
+            </property>
+            <grid>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
+                    <number>11</number>
+                </property>
+                <property name="spacing">
+                    <number>6</number>
+                </property>
+                <widget class="QLabel" row="0" column="0" rowspan="1" colspan="2">
+                    <property name="name">
+                        <cstring>TextLabel2</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Write all generated files to directory</string>
+                    </property>
+                </widget>
+                <widget class="QPushButton" row="1" column="2">
+                    <property name="name">
+                        <cstring>m_browseOutput</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Browse</string>
+                    </property>
+                </widget>
+                <widget class="QPushButton" row="3" column="2">
+                    <property name="name">
+                        <cstring>m_browseHeadings</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Browse</string>
+                    </property>
+                </widget>
+                <widget class="QCheckBox" row="2" column="0" rowspan="1" colspan="2">
+                    <property name="name">
+                        <cstring>m_includeHeadings</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Include heading files from directory:</string>
+                    </property>
+                    <property name="checked">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+                <widget class="QLineEdit" row="1" column="1">
+                    <property name="name">
+                        <cstring>m_outputDir</cstring>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Files generated by Code Generator will be written to this directory</string>
+                    </property>
+                </widget>
+                <widget class="QLineEdit" row="3" column="1">
+                    <property name="name">
+                        <cstring>m_headingsDir</cstring>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Files in this directory will be used as heading files in the generated code</string>
+                    </property>
+                </widget>
+                <spacer row="1" column="0">
+                    <property name="name" stdset="0">
+                        <cstring>Spacer1</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Fixed</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>30</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+                <spacer row="3" column="0">
+                    <property name="name" stdset="0">
+                        <cstring>Spacer1_2</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Fixed</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>30</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+            </grid>
+        </widget>
+        <widget class="QButtonGroup">
+            <property name="name">
+                <cstring>m_overwriteGroup</cstring>
+            </property>
+            <property name="title">
+                <string>Overwrite Policy</string>
+            </property>
+            <vbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
+                    <number>11</number>
+                </property>
+                <property name="spacing">
+                    <number>6</number>
+                </property>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>TextLabel1</cstring>
+                    </property>
+                    <property name="text">
+                        <string>If a file with the same name as the name Code Generator
+wants to use as output file already exists:</string>
+                    </property>
+                </widget>
+                <widget class="QRadioButton">
+                    <property name="name">
+                        <cstring>m_overwrite</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Overwrite</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Overwrite existing files if they exist in the destination directory</string>
+                    </property>
+                </widget>
+                <widget class="QRadioButton">
+                    <property name="name">
+                        <cstring>m_ask</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Ask</string>
+                    </property>
+                    <property name="checked">
+                        <bool>true</bool>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>If a file with the same name alreay exists, ask what to do</string>
+                    </property>
+                </widget>
+                <widget class="QRadioButton">
+                    <property name="name">
+                        <cstring>m_changeName</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Use a different name</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>If a file already exists in the destination directory, select a different name to use by adding a suffix to the file name</string>
+                    </property>
+                </widget>
+            </vbox>
+        </widget>
+        <widget class="QGroupBox">
+            <property name="name">
+                <cstring>m_SelectLanguageGroup</cstring>
+            </property>
+            <property name="title">
+                <string>Language</string>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
+                    <number>11</number>
+                </property>
+                <property name="spacing">
+                    <number>6</number>
+                </property>
+        	<widget class="QComboBox">
+                    <property name="name">
+                       <cstring>m_SelectLanguageBox</cstring>
+                    </property>
+                </widget>
+            </hbox>
+    	</widget>
+    </vbox>
+</widget>
+<connections>
+    <connection>
+        <sender>m_includeHeadings</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>m_browseHeadings</receiver>
+        <slot>setEnabled(bool)</slot>
+    </connection>
+    <connection>
+        <sender>m_includeHeadings</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>m_headingsDir</receiver>
+        <slot>setEnabled(bool)</slot>
+    </connection>
+    <connection>
+        <sender>m_browseOutput</sender>
+        <signal>clicked()</signal>
+        <receiver>CodeGenerationOptionsBase</receiver>
+        <slot>browseClicked()</slot>
+    </connection>
+    <connection>
+        <sender>m_browseHeadings</sender>
+        <signal>clicked()</signal>
+        <receiver>CodeGenerationOptionsBase</receiver>
+        <slot>browseClicked()</slot>
+    </connection>
+</connections>
+<slots>
+    <slot access="protected">browseClicked()</slot>
+</slots>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

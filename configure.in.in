@@ -1,0 +1,23 @@
+AC_LANG_SAVE
+AC_LANG_CPLUSPLUS
+AC_CHECK_HEADER(FlexLexer.h,
+  [kde_have_flex=yes],
+  [kde_have_flex=no])
+
+if test "$kde_have_flex" = "no"; then
+  DO_NOT_COMPILE="$DO_NOT_COMPILE umbrello"
+fi
+AC_LANG_RESTORE
+
+
+AC_CHECK_FUNCS(setenv)
+
+dnl AH_BOTTOM(
+dnl [#if !defined(HAVE_SETENV)
+dnl #ifdef __cplusplus
+dnl extern "C"
+dnl #endif
+dnl int setenv(const char *name, const char *value, int overwrite);
+dnl #endif
+dnl ])
+

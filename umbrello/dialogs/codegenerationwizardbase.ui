@@ -1,0 +1,303 @@
+<!DOCTYPE UI><UI version="3.0" stdsetdef="1">
+<class>CodeGenerationWizardBase</class>
+<widget class="QWizard">
+    <property name="name">
+        <cstring>CodeGenerationWizardBase</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>396</width>
+            <height>386</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Code Generation Wizard</string>
+    </property>
+    <widget class="QWidget">
+        <property name="name">
+            <cstring>select</cstring>
+        </property>
+        <attribute name="title">
+            <string>Select Classes</string>
+        </attribute>
+        <vbox>
+            <property name="name">
+                <cstring>unnamed</cstring>
+            </property>
+            <property name="margin">
+                <number>0</number>
+            </property>
+            <property name="spacing">
+                <number>10</number>
+            </property>
+            <widget class="QLabel">
+                <property name="name">
+                    <cstring>TextLabel1</cstring>
+                </property>
+                <property name="text">
+                    <string>Place all the classes you want to generate code
+for in the right hand side list</string>
+                </property>
+            </widget>
+            <widget class="QFrame">
+                <property name="name">
+                    <cstring>Frame4</cstring>
+                </property>
+                <property name="frameShape">
+                    <enum>Box</enum>
+                </property>
+                <property name="frameShadow">
+                    <enum>Plain</enum>
+                </property>
+                <property name="margin">
+                    <number>10</number>
+                </property>
+                <grid>
+                    <property name="name">
+                        <cstring>unnamed</cstring>
+                    </property>
+                    <property name="margin">
+                        <number>20</number>
+                    </property>
+                    <property name="spacing">
+                        <number>10</number>
+                    </property>
+                    <widget class="QPushButton" row="1" column="1">
+                        <property name="name">
+                            <cstring>m_addButton</cstring>
+                        </property>
+                        <property name="text">
+                            <string></string>
+                        </property>
+                        <property name="pixmap">
+                            <pixmap>image0</pixmap>
+                        </property>
+                        <property name="toolTip" stdset="0">
+                            <string>Add class for code generation</string>
+                        </property>
+                    </widget>
+                    <spacer row="0" column="1">
+                        <property name="name" stdset="0">
+                            <cstring>Spacer1</cstring>
+                        </property>
+                        <property name="orientation">
+                            <enum>Vertical</enum>
+                        </property>
+                        <property name="sizeType">
+                            <enum>Expanding</enum>
+                        </property>
+                        <property name="sizeHint">
+                            <size>
+                                <width>20</width>
+                                <height>20</height>
+                            </size>
+                        </property>
+                    </spacer>
+                    <widget class="QListView" row="0" column="2" rowspan="5" colspan="1">
+                        <column>
+                            <property name="text">
+                                <string>Classes Selected</string>
+                            </property>
+                            <property name="clickable">
+                                <bool>true</bool>
+                            </property>
+                            <property name="resizeable">
+                                <bool>true</bool>
+                            </property>
+                        </column>
+                        <property name="name">
+                            <cstring>m_selectedList</cstring>
+                        </property>
+                        <property name="sizePolicy">
+                            <sizepolicy>
+                                <hsizetype>7</hsizetype>
+                                <vsizetype>7</vsizetype>
+                                <horstretch>1</horstretch>
+                                <verstretch>0</verstretch>
+                            </sizepolicy>
+                        </property>
+                    </widget>
+                    <widget class="QPushButton" row="3" column="1">
+                        <property name="name">
+                            <cstring>m_removeButton</cstring>
+                        </property>
+                        <property name="text">
+                            <string></string>
+                        </property>
+                        <property name="pixmap">
+                            <pixmap>image1</pixmap>
+                        </property>
+                        <property name="toolTip" stdset="0">
+                            <string>Remove class from Code Generation</string>
+                        </property>
+                    </widget>
+                    <spacer row="2" column="1">
+                        <property name="name" stdset="0">
+                            <cstring>Spacer3</cstring>
+                        </property>
+                        <property name="orientation">
+                            <enum>Vertical</enum>
+                        </property>
+                        <property name="sizeType">
+                            <enum>Fixed</enum>
+                        </property>
+                        <property name="sizeHint">
+                            <size>
+                                <width>20</width>
+                                <height>20</height>
+                            </size>
+                        </property>
+                    </spacer>
+                    <widget class="QListView" row="0" column="0" rowspan="5" colspan="1">
+                        <column>
+                            <property name="text">
+                                <string>Classes Available</string>
+                            </property>
+                            <property name="clickable">
+                                <bool>true</bool>
+                            </property>
+                            <property name="resizeable">
+                                <bool>true</bool>
+                            </property>
+                        </column>
+                        <property name="name">
+                            <cstring>m_availableList</cstring>
+                        </property>
+                        <property name="sizePolicy">
+                            <sizepolicy>
+                                <hsizetype>7</hsizetype>
+                                <vsizetype>7</vsizetype>
+                                <horstretch>1</horstretch>
+                                <verstretch>0</verstretch>
+                            </sizepolicy>
+                        </property>
+                    </widget>
+                    <spacer row="4" column="1">
+                        <property name="name" stdset="0">
+                            <cstring>Spacer1_2</cstring>
+                        </property>
+                        <property name="orientation">
+                            <enum>Vertical</enum>
+                        </property>
+                        <property name="sizeType">
+                            <enum>Expanding</enum>
+                        </property>
+                        <property name="sizeHint">
+                            <size>
+                                <width>20</width>
+                                <height>20</height>
+                            </size>
+                        </property>
+                    </spacer>
+                </grid>
+            </widget>
+        </vbox>
+    </widget>
+    <widget class="QWidget">
+        <property name="name">
+            <cstring>status</cstring>
+        </property>
+        <attribute name="title">
+            <string>Code Generation Status</string>
+        </attribute>
+        <vbox>
+            <property name="name">
+                <cstring>unnamed</cstring>
+            </property>
+            <property name="margin">
+                <number>0</number>
+            </property>
+            <property name="spacing">
+                <number>10</number>
+            </property>
+            <widget class="QLabel">
+                <property name="name">
+                    <cstring>m_label</cstring>
+                </property>
+                <property name="text">
+                    <string>Press the Generation button to start the Code Generation</string>
+                </property>
+            </widget>
+            <widget class="QGroupBox">
+                <property name="name">
+                    <cstring>GroupBox2</cstring>
+                </property>
+                <property name="title">
+                    <string>Generation Status</string>
+                </property>
+                <vbox>
+                    <property name="name">
+                        <cstring>unnamed</cstring>
+                    </property>
+                    <property name="margin">
+                        <number>20</number>
+                    </property>
+                    <property name="spacing">
+                        <number>10</number>
+                    </property>
+                    <widget class="QListView">
+                        <column>
+                            <property name="text">
+                                <string>Class</string>
+                            </property>
+                            <property name="clickable">
+                                <bool>true</bool>
+                            </property>
+                            <property name="resizeable">
+                                <bool>true</bool>
+                            </property>
+                        </column>
+                        <column>
+                            <property name="text">
+                                <string>Generation Status</string>
+                            </property>
+                            <property name="clickable">
+                                <bool>true</bool>
+                            </property>
+                            <property name="resizeable">
+                                <bool>true</bool>
+                            </property>
+                        </column>
+                        <property name="name">
+                            <cstring>m_statusList</cstring>
+                        </property>
+                    </widget>
+                </vbox>
+            </widget>
+        </vbox>
+    </widget>
+</widget>
+<images>
+    <image name="image0">
+        <data format="XPM.GZ" length="915">789c65d1c96ec2301006e03b4f61c10d5580431262553db0158ad4aac74a550f633bec5b21a4d0aaefdecc8c1395605ffc79fe71e2a459176fafcfa2deac1c1348164698391c44dd9e369bcbfbc7c34fa52a432103d18e84acde55aa0d61c4cb6e1be35a67eb5aabe5b7420f592b08c8d8d1670231ca3941ca28b091463e21bd5628958f1c1355a8988f050d72e4689903645b762473e81800f5f689aaa3983d47cbec227d1949a0de8b63c0fc2642a4986764e04556536fca5492f955d022132228c53c395ae611197a109800792042ce9d63ccdc233bed8cd4fb49d43a64ae1d81b9ca69a977838cda39e74ce33117449d917ee814a97c13c721724b3406b8ba44826f3daece88c6424c55eb18330d52fb391b386ad0c847bea7b386f21e98a981726e365fe4c922b75cad372e59e4b6bbfd6ecfc922f7793866939245ee909c70eaffb9244dbfd234bdca9d2fdfd9bc3eafdbed757ba5e7f607c341f9fd1e47e39b7b3c4d6eee7bf55d7eef2b7f4698d01d</data>
+    </image>
+    <image name="image1">
+        <data format="XPM.GZ" length="915">789c65d1c76e83401006e0bb9f62656e56147b316056510eee454a9463a428872db81b775ca2bc7b9899c502c21cd86fe71f6abdc63e3fde58ad5e399ee469a1999ecb03ab99f36673fbfa7efda95479c0b8cf9a21e3d5a74af59969f6be8d235847e9da6934bc46e002e58312a82c3da2830c338e813cf44da88013a0db08b8f08003a4080471f4a0060e2d0db10b6cf21627f62c7d89b37da4680962dbd2103b408f875ce2ecd5d227de903214c43bd07743a37036210a4ebc3c688067a4148278b234c4033070a5af7de01e29336e2d23620c6c3553e2ec11a954405c594ae232a3c1d935306c669c13b54b9c21554afca153a0f0741405c01d526b49dd0d507ac6a5ee02a98d8cb0ab2d23a2012a2fe3b33d1c49e7dc9e4a674a7b8e991aa7b8a7f46cbe28e61cb35cad37859cd2f1368e77f99c63f687b48ef95c743a43ed0bb9e49224c9e55cbcdef596d6bd74df76a7dde9949fafdbebf6ffbdc760382ae5d2e47852cee5becbef4be50f94aacd35</data>
+    </image>
+</images>
+<connections>
+    <connection>
+        <sender>m_addButton</sender>
+        <signal>clicked()</signal>
+        <receiver>CodeGenerationWizardBase</receiver>
+        <slot>selectClass()</slot>
+    </connection>
+    <connection>
+        <sender>m_removeButton</sender>
+        <signal>clicked()</signal>
+        <receiver>CodeGenerationWizardBase</receiver>
+        <slot>deselectClass()</slot>
+    </connection>
+</connections>
+<forwards>
+    <forward>class UMLConcept</forward>
+</forwards>
+<slots>
+    <slot>selectClass()</slot>
+    <slot access="protected">deselectClass()</slot>
+    <slot>classGenerated( UMLConcept * /* c */ )</slot>
+</slots>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

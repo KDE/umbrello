@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=MimeType
+MimeType=application/x-uml
+Icon=umbrello
+DefaultApp=umbrello
+Patterns=*.xmi;*.XMI;
+Comment=UML file

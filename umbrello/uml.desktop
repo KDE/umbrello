@@ -1,0 +1,12 @@
+# KDE Config File  
+[Desktop Entry]
+Type=Application
+Exec=umbrello -caption "%c" %i %m
+Icon=umbrello.png
+MiniIcon=umbrello.png
+DocPath=umbrello/index.html
+Comment=
+Terminal=false
+Name=Umbrello UML Modeller
+MimeType=application/x-uml
+

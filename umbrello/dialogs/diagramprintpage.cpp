@@ -1,0 +1,192 @@
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
+
+#include <klocale.h>
+
+#include <qlayout.h>
+#include <qlist.h>
+
+#include "diagramprintpage.h"
+#include "../umldoc.h"
+#include "../umlview.h"
+#include "../umlnamespace.h"
+
+DiagramPrintPage::DiagramPrintPage(QWidget * parent, UMLDoc * m_pDoc) : KPrintDialogPage(parent), m_pDoc(m_pDoc) {
+	int margin = fontMetrics().height();
+	setTitle(i18n("Diagrams"));
+	QHBoxLayout * mainLayout = new QHBoxLayout(this);
+	mainLayout -> setSpacing(10);
+	mainLayout -> setMargin(margin);
+
+	m_pFilterBG = new QButtonGroup(i18n("Filter"), this);
+	mainLayout -> addWidget(m_pFilterBG);
+	m_pFilterBG -> setExclusive(true);
+
+	QVBoxLayout * filter = new QVBoxLayout(m_pFilterBG);
+	filter -> setSpacing(10);
+	filter-> setMargin(margin);
+
+	m_pCurrentRB = new QRadioButton(i18n("Current diagram"), m_pFilterBG);
+	filter -> addWidget(m_pCurrentRB);
+	m_pCurrentRB -> setChecked(true);
+	m_pFilterBG -> insert(m_pCurrentRB, Current);
+
+	m_pAllRB = new QRadioButton(i18n("All diagrams"), m_pFilterBG);
+	filter -> addWidget(m_pAllRB);
+	m_pFilterBG -> insert(m_pAllRB, All);
+
+	m_pSelectRB = new QRadioButton(i18n("Select diagrams"), m_pFilterBG);
+	filter -> addWidget(m_pSelectRB);
+	m_pFilterBG -> insert(m_pSelectRB, Select);
+
+	m_pTypeRB = new QRadioButton(i18n("Type of diagram"), m_pFilterBG);
+	filter -> addWidget(m_pTypeRB);
+	m_pFilterBG -> insert(m_pTypeRB, Type);
+
+	m_pSelectGB = new QGroupBox(i18n("Selection"), this);
+	mainLayout -> addWidget(m_pSelectGB);
+
+	QVBoxLayout * select = new QVBoxLayout(m_pSelectGB);
+	select -> setSpacing(10);
+	select-> setMargin(margin);
+
+	m_pTypeCB = new QComboBox(m_pSelectGB);
+	select -> addWidget(m_pTypeCB);
+	m_pTypeCB -> setEnabled(false);
+
+	m_pSelectLB = new QListBox(m_pSelectGB);
+	select -> addWidget(m_pSelectLB);
+	m_pSelectLB -> setEnabled(false);
+	m_pSelectLB -> setSelectionMode(QListBox::Multi);
+	m_pSelectLB -> insertItem(m_pDoc->getCurrentView()->getName());
+	m_pSelectLB -> setSelected(0, true);
+	m_nIdList[0] = ((UMLView*)m_pDoc->getCurrentView())->getID();
+
+
+
+	m_ViewType = Uml::dt_Class;
+	connect(m_pFilterBG, SIGNAL(clicked(int)), this, SLOT(slotClicked(int)));
+	connect(m_pTypeCB, SIGNAL(activated(const QString&)), this, SLOT(slotActivated(const QString&)));
+	QString diagrams[] = {i18n("Class") , i18n("Sequence"), i18n("Use Case"), i18n("Collaboration")};
+	for(int i=0;i<4;i++)
+		m_pTypeCB -> insertItem(diagrams[i]);
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+DiagramPrintPage::~DiagramPrintPage()
+{
+	disconnect(m_pFilterBG, SIGNAL(clicked(int)), this, SLOT(slotClicked(int)));
+	disconnect(m_pTypeCB, SIGNAL(activated(const QString&)), this, SLOT(slotActivated(const QString&)));
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+void DiagramPrintPage::getOptions( QMap<QString,QString>& opts, bool /*incldef = false*/ ) {
+	int listCount = m_pSelectLB -> count();
+	int count = 0;
+
+	QString diagram(i18n("kde-uml-Diagram"));
+	for(int	i=0;i<listCount;i++) {
+		if(m_pSelectLB -> isSelected(i)) {
+			UMLView *view = (UMLView *)m_pDoc -> findView(m_nIdList[i]);
+			QString sCount = QString("%1").arg(count);
+			QString sID = QString("%1").arg(view -> getID());
+			opts.insert(diagram + sCount, sID);
+			count++;
+		}
+	}
+	opts.insert("kde-uml-count", QString("%1").arg(count));
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+void DiagramPrintPage::setOptions( const QMap<QString,QString>& /*opts*/ ) {}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+bool DiagramPrintPage::isValid( QString& msg ) {
+	int listCount = m_pSelectLB -> count();
+	bool sel = false;
+	for(int i =0;i<listCount;i++) {
+		if(m_pSelectLB -> isSelected(i)) {
+			sel = true;
+			i = listCount;
+		}
+	}
+	msg = i18n("No diagrams selected.");
+	return sel;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void DiagramPrintPage::slotClicked(int id) {
+	QList<UMLView> *list = m_pDoc ->  pViewList;
+	UMLView * view = 0;
+	int count = 0;
+	QString type;
+
+	switch(id) {
+		case Current:
+			m_pTypeCB -> setEnabled(false);
+			m_pSelectLB -> setEnabled(false);
+			m_pSelectLB -> clear();
+			m_pSelectLB -> insertItem(m_pDoc -> getCurrentView() -> getName());
+			m_pSelectLB -> setSelected(0, true);
+			m_nIdList[count] = ((UMLView*)m_pDoc -> getCurrentView()) -> getID();
+			break;
+
+		case All:
+
+			m_pTypeCB -> setEnabled(false);
+			m_pSelectLB -> setEnabled(false);
+			m_pSelectLB -> clear();
+			for(view = list -> first();view;view = list -> next()) {
+				m_pSelectLB -> insertItem(view -> getName());
+				m_nIdList[count++] = view -> getID();
+			}
+			m_pSelectLB -> selectAll(true);
+			break;
+
+		case Select:
+			m_pTypeCB -> setEnabled(false);
+			m_pSelectLB -> setEnabled(true);
+			m_pSelectLB -> clear();
+			for(view = list -> first();view;view = list -> next()) {
+				m_pSelectLB -> insertItem(view -> getName());
+				m_nIdList[count++] = view -> getID();
+			}
+			break;
+
+		case Type:
+			m_pTypeCB -> setEnabled(true);
+			m_pSelectLB -> setEnabled(true);
+			m_pSelectLB -> clear();
+			for(view = list -> first();view;view = list -> next()) {
+				if(view -> getType() == m_ViewType) {
+					m_pSelectLB -> insertItem(view -> getName());
+					m_nIdList[count++] = view -> getID();
+				}
+			}
+			break;
+	}
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+void DiagramPrintPage::slotActivated(const QString & text) {
+	QList<UMLView> *list = m_pDoc ->  pViewList;
+	UMLView * view = 0;
+	int count = 0;
+
+	if(text == i18n("Class"))
+		m_ViewType = Uml::dt_Class;
+	else if(text == i18n("Sequence"))
+		m_ViewType = Uml::dt_Sequence;
+	else if(text == i18n("Use Case"))
+		m_ViewType = Uml::dt_UseCase;
+	else if(text == i18n("Collaboration"))
+		m_ViewType = Uml::dt_Collaboration;
+	m_pSelectLB -> clear();
+	for(view = list -> first();view;view = list -> next()) {
+		if(view -> getType() == m_ViewType) {
+			m_pSelectLB -> insertItem(view -> getName());
+			m_nIdList[count++] = view -> getID();
+		}
+	}
+}

@@ -1,0 +1,202 @@
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
+
+#ifndef CONCEPT_H
+#define CONCEPT_H
+
+#include "attribute.h"
+#include "umlobject.h"
+#include <qptrlist.h>
+
+class IDChangeLog;
+class UMLAttribute;
+class UMLOperation;
+
+/**
+ *	This class contains the non-graphical information required for a UML Concept (ie a class).
+ *	This class inherits from @ref UMLObject which contains most of the information.
+ *	The @ref UMLDoc class creates instances of this type.  All Concepts will need a unique
+ *	id.  This will be given by the @ref UMLDoc class.  If you don't leave it up to the @ref UMLDoc
+ *	class then call the method @ref UMLDoc::getUniqueID to get a unique id.
+ *
+ *	@short	Information for a non-graphical Concept/Class.
+ *	@author Paul Hensgen	<phensgen@techie.com>
+ *	@version 1.0
+ *	@see	UMLObject
+ */
+
+class UMLConcept : public UMLObject {
+public:
+	/**
+	 *	Sets up a Concept.
+	 *
+	 *	@param	parent	The parent to this Concept.
+	 *	@param	name	The name of the Concept.
+	 *	@param	id	The unique id of the Concept.
+	 */
+	UMLConcept(QObject * parent, QString Name, int id);
+
+	/**
+	 *	Sets up a Concept.
+	 *
+	 *	@param	parent		The parent to this Concept.
+	 */
+	UMLConcept(QObject * parent);
+
+	/**
+	 *	Standard deconstructor.
+	 */
+	virtual ~UMLConcept();
+
+	/**
+	 * 		Overloaded '==' operator
+	 */
+	bool operator==( UMLConcept & rhs );
+
+	/**
+	 *	Adds an attribute to the Concept.
+	 *
+	 *	@param	name	The name of the Attribute.
+	 *	@param	id			The id of the Attribute.
+	 */
+	UMLObject* addAttribute(QString name, int id);
+
+	/**
+	 * Adds an already created attribute, the attribute object must not belong to any other
+	 *	concept
+	 */
+	bool addAttribute(UMLAttribute* Att, IDChangeLog* Log = 0);
+
+	/**
+	 *	Removes an attribute from the Concept.
+	 *
+	 *	@param	a	The attribute to remove.
+	 */
+	int removeAttribute(UMLObject *a);
+
+	/**
+	 *	Adds an operation to the Concept.
+	 *
+	 *	@param	name	The name of the operation.
+	 *	@param	id			The id of the operation.
+	 */
+	UMLObject* addOperation(QString name, int id);
+
+	/**
+	 *	Adds an already created Operation. The Operation must not belong to any other
+	 *	concept
+	 */
+	bool addOperation(UMLOperation* Op, IDChangeLog* Log = 0);
+
+	/**
+	 *	Remove an operation from the Concept.
+	 *
+	 *	@param	o	The operation to remove.
+	 */
+	int removeOperation(UMLObject *o);
+
+	/**
+	 *	Returns the number of attributes for the Concept.
+	 *
+	 *	@return	The number of attributes for the Concept.
+	 */
+	int attributes() {
+		return m_AttsList.count();
+	}
+
+	/**
+	 *	Returns the number of operations for the Concept.
+	 *
+	 *	@return	The number of operations for the Concept.
+	 */
+	int operations() {
+		return m_OpsList.count();
+	}
+
+	/**
+	 *	Return the list of attributes for the Concept.
+	 *
+	 *	@return The list of attributes for the Concept.
+	 */
+	QPtrList<UMLAttribute>* getAttList() {
+		return &m_AttsList;
+	}
+
+	/**
+	 *	Return the list of operations for the Concept.
+	 *
+	 *	@return The list of operation for the Concept.
+	 */
+	QPtrList<UMLOperation>* getOpList() {
+		return &m_OpsList;
+	}
+
+	/**
+	 *	Find a list of  attributes or operations with the given name.
+	 *
+	 *	@param	t	The type to find.
+	 *	@param	n	The name of the attribute or operation to find.
+	 *
+	 *	@return	The operation or attribute found.  Will return 0 if none found.
+	 */
+	QPtrList<UMLObject> findChildObject(UMLObject_Type t, QString n);
+
+	/**
+	 *	Find an attribute or operation.
+	 *
+	 *	@param	id	The id of the attribute or operation to find.
+	 *
+	 *	@return	The operation or attribute found.  Will return 0 if none found.
+	 */
+	UMLObject * findChildObject(int id);
+
+	/**
+	 * Use to save or load this classes information
+	 *
+	 *	@param	s	Pointer to the datastream (file) to save/load from.
+	 *	@param	archive	If true will save the classes information, else will
+	 * load the information.
+	 *	@param	fileversion	the version of the serialize format
+	 *
+	 *	@return	Returns the result of the operation.
+	 */
+	virtual bool serialize(QDataStream *s, bool archive, int fileversion);
+
+	/**
+	 * Returns the amount of bytes needed to serialize an instance object to the clipboard
+	 */
+	virtual long getClipSizeOf();
+
+	/**
+	 *	Initializes key variables of the class.
+	 */
+	void init();
+
+	bool saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+
+	bool loadFromXMI( QDomElement & element );
+	/**
+	 * Returns a name for the new attribute or operation,
+	 * appended with a number if the default name is taken
+	 * e.g. new attribute, new attribute_1 etc
+	 */
+	QString uniqChildName(const UMLObject_Type type);
+private:
+	/**
+	 * 	List of all the operations in this class.
+	 */
+	QPtrList<UMLOperation> m_OpsList;
+
+	/**
+	 * 	List of all the attributes in this class.
+	 */
+	QPtrList<UMLAttribute> m_AttsList;
+};
+
+#endif
