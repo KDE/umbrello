@@ -1225,7 +1225,7 @@ void  UMLView::getDiagram(const QRect &rect, QPixmap & diagram) {
 	QPainter painter;
 
 	painter.begin(&pixmap);
-	canvas()->drawArea( QRect( 0, 0, pixmap.width(), pixmap.height() ), &painter );
+	canvas()->drawArea(rect, &painter);
 	painter.end();
 
 	bitBlt(&diagram, QPoint(0, 0), &pixmap, rect);
