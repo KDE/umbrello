@@ -417,7 +417,17 @@ void AssociationWidget::setRoleDoc (const QString &doc, Role_Type role) {
 }
 
 void AssociationWidget::setMessageText(FloatingText *ft) {
-	ft->setText( getName() );
+	QString message;
+	if (getAssocType() == at_Coll_Message) {
+		if (m_pOperation != NULL) {
+			message = getMulti(A) + ": " + getOperationText(m_pView);
+		} else {
+			message = getMulti(A) + ": " + getName();
+		}
+	} else {
+		message = getName();
+	}
+	ft->setText(message);
 }
 
 Scope AssociationWidget::getVisibility(Role_Type role) const {
@@ -2821,7 +2831,8 @@ UMLClassifier *AssociationWidget::getOperationOwner() {
 }
 
 void AssociationWidget::setSeqNumAndOp(const QString &seqNum, const QString &op) {
-	setName(op);
+	if (! op.isEmpty())
+		setName(op);
 	setMulti(seqNum, A);
 }
 
