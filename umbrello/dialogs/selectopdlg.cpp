@@ -35,7 +35,7 @@ SelectOpDlg::SelectOpDlg(QWidget * parent, UMLClassifier * c)
 	mainLayout -> setSpacing(spacingHint());
 	mainLayout -> setMargin(fontMetrics().height());
 
-	Dialog_Utils::makeLabeledEditField( m_pOpGB, mainLayout, 0,
+	Umbrello::makeLabeledEditField( m_pOpGB, mainLayout, 0,
 					    m_pSeqL, i18n("Sequence number:"),
 					    m_pSeqLE );
 

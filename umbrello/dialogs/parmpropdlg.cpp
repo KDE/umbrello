@@ -59,15 +59,15 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a)
 	propLayout -> addWidget(m_pTypeCB, 0, 1);
 	m_pTypeL->setBuddy(m_pTypeCB);
 
-	Dialog_Utils::makeLabeledEditField( m_pParmGB, propLayout, 1,
+	Umbrello::makeLabeledEditField( m_pParmGB, propLayout, 1,
 					    m_pNameL, i18n("&Name:"),
 					    m_pNameLE, name );
 
-	Dialog_Utils::makeLabeledEditField( m_pParmGB, propLayout, 2,
+	Umbrello::makeLabeledEditField( m_pParmGB, propLayout, 2,
 					    m_pInitialL, i18n("&Initial value:"),
 					    m_pInitialLE, initialValue );
 
-	Dialog_Utils::makeLabeledEditField( m_pParmGB, propLayout, 3,
+	Umbrello::makeLabeledEditField( m_pParmGB, propLayout, 3,
 					    m_pStereoTypeL, i18n("&Stereotype name:"),
 					    m_pStereoTypeLE, m_pAtt->getStereotype() );
 

@@ -59,7 +59,7 @@ void UMLOperationDialog::setupDialog() {
 	genLayout -> setMargin(margin);
 	genLayout -> setSpacing(10);
 
-	Dialog_Utils::makeLabeledEditField( m_pGenGB, genLayout, 0,
+	Umbrello::makeLabeledEditField( m_pGenGB, genLayout, 0,
 					    m_pNameL, i18n("&Name:"),
 					    m_pNameLE, m_pOperation->getName() );
 
@@ -70,7 +70,7 @@ void UMLOperationDialog::setupDialog() {
 	genLayout -> addWidget(m_pRtypeCB, 0, 3);
 	m_pRtypeL->setBuddy(m_pRtypeCB);
 
-	Dialog_Utils::makeLabeledEditField( m_pGenGB, genLayout, 1,
+	Umbrello::makeLabeledEditField( m_pGenGB, genLayout, 1,
 					    m_pStereoTypeL, i18n("Stereotype name:"),
 					    m_pStereoTypeLE, m_pOperation->getStereotype() );
 

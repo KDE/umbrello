@@ -90,12 +90,12 @@ void StateDialog::setupGeneralPage() {
 	generalLayout -> setSpacing( spacingHint() );
 	generalLayout -> setMargin(  fontMetrics().height()  );
 
-	Dialog_Utils::makeLabeledEditField( m_GenPageWidgets.generalGB, generalLayout, 0,
+	Umbrello::makeLabeledEditField( m_GenPageWidgets.generalGB, generalLayout, 0,
 					    m_GenPageWidgets.typeL, i18n("State type:"),
 					    m_GenPageWidgets.typeLE, types[ (int)type ] );
 	m_GenPageWidgets.typeLE -> setEnabled( false );
 
-	Dialog_Utils::makeLabeledEditField( m_GenPageWidgets.generalGB, generalLayout, 1,
+	Umbrello::makeLabeledEditField( m_GenPageWidgets.generalGB, generalLayout, 1,
 					    m_GenPageWidgets.nameL, i18n("State name:"),
 					    m_GenPageWidgets.nameLE );
 

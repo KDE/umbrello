@@ -93,13 +93,13 @@ void AssocRolePage::constructWidget() {
 
 	// Rolename A
 	QLabel *pRoleAL = NULL;
-	Dialog_Utils::makeLabeledEditField( propsAGB, propsALayout, 0,
+	Umbrello::makeLabeledEditField( propsAGB, propsALayout, 0,
 					    pRoleAL, i18n("Rolename:"),
 					    m_pRoleALE, nameA );
 
 	// Multi A
 	QLabel *pMultiAL = NULL;
-	Dialog_Utils::makeLabeledEditField( propsAGB, propsALayout, 1,
+	Umbrello::makeLabeledEditField( propsAGB, propsALayout, 1,
 					    pMultiAL, i18n("Multiplicity:"),
 					    m_pMultiALE, m_pAssociationWidget->getMulti(A) );
 
@@ -147,13 +147,13 @@ void AssocRolePage::constructWidget() {
 
 	// Rolename B
 	QLabel * pRoleBL = NULL;
-	Dialog_Utils::makeLabeledEditField( propsBGB, propsBLayout, 0,
+	Umbrello::makeLabeledEditField( propsBGB, propsBLayout, 0,
 					    pRoleBL, i18n("Rolename:"),
 					    m_pRoleBLE, nameB );
 
 	// Multi B
 	QLabel * pMultiBL = NULL;
-	Dialog_Utils::makeLabeledEditField( propsBGB, propsBLayout, 1,
+	Umbrello::makeLabeledEditField( propsBGB, propsBLayout, 1,
 					    pMultiBL, i18n("Multiplicity:"),
 					    m_pMultiBLE, m_pAssociationWidget->getMulti(B) );
 
