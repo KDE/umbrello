@@ -1,0 +1,16 @@
+Umbrello UML Modeller is the work of many people.
+Some of the contributors are listed at:
+ http://uml.sourceforge.net/developers.php
+
+If you find any problems or want features added please request or vote
+for them at http://bugs.kde.org and consider implementing the feature
+yourself, all contributions are very welcome.
+
+Some ideas for people wanting to contribute to Umbrello:
+ http://uml.sourceforge.net/junior-jobs.php
+
+---
+
+People who have contributed to Umbrello 1.4
+
+ * Tobias Koenig - fix crashes caused by lack of code generator
