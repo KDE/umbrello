@@ -92,7 +92,7 @@ QString JavaCodeClassField::getInitialValue() {
 		if(fieldIsSingleValue()) {
 // FIX : IF the multiplicity is "1" then we should init a new object here, if its 0 or 1,
 //       then we can just return 'empty' string (minor problem).
-			return "";
+			return QString("");
 		} else {
 			return " new "+getListFieldClassName()+"( )";
 		}
