@@ -3396,7 +3396,8 @@ bool UMLView::loadMessagesFromXMI( QDomElement & qElement ) {
 		QString tag = messageElement.tagName();
 		if (tag == "messagewidget" ||
 		    tag == "UML:MessageWidget" ) {  // for bkwd compatibility
-			message = new MessageWidget(this, sequence_message_asynchronous, 0);
+			message = new MessageWidget(this, sequence_message_asynchronous,
+						    Uml::id_Reserved);
 			if( !message -> loadFromXMI( messageElement ) ) {
 				delete message;
 				return false;
