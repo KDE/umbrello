@@ -586,6 +586,8 @@ bool UMLListViewItem::loadFromXMI(QDomElement& qElement) {
 	if (m_nId != Uml::id_None)
 		m_pObject = s_pListView->getDocument()->findObjectById( m_nId );
 	m_Type = (Uml::ListView_Type)(type.toInt());
+	if (m_pObject)
+		updateObject();
 	setOpen( (bool)open.toInt() );
 	return true;
 }

@@ -376,10 +376,17 @@ bool UMLDrag::decodeClip1(const QMimeSource* mimeSource, UMLObjectList& objects,
 		return false;
 	}
 	UMLListView *listView = UMLApp::app()->getListView();
+	UMLListViewItem *currentItem = (UMLListViewItem*)listView->currentItem();
 	while ( !listItemElement.isNull() ) {
-		UMLListViewItem* itemData = new UMLListViewItem( listView );
-		itemData->loadFromXMI(listItemElement);
-		umlListViewItems.append(itemData);
+		UMLListViewItem* itemData;
+		if (currentItem)
+			itemData = new UMLListViewItem( currentItem );
+		else
+			itemData = new UMLListViewItem( listView );
+		if ( itemData->loadFromXMI(listItemElement) )
+			umlListViewItems.append(itemData);
+		else
+			delete itemData;
 		listItems = listItems.nextSibling();
 		listItemElement = listItems.toElement();
 	}
@@ -467,10 +474,17 @@ bool UMLDrag::decodeClip2(const QMimeSource* mimeSource, UMLObjectList& objects,
 		return false;
 	}
 	UMLListView *listView = UMLApp::app()->getListView();
+	UMLListViewItem *currentItem = (UMLListViewItem*)listView->currentItem();
 	while ( !listItemElement.isNull() ) {
-		UMLListViewItem* itemData = new UMLListViewItem( listView );
-		itemData->loadFromXMI(listItemElement);
-		umlListViewItems.append(itemData);
+		UMLListViewItem* itemData;
+		if (currentItem)
+			itemData = new UMLListViewItem( currentItem );
+		else
+			itemData = new UMLListViewItem( listView );
+		if ( itemData->loadFromXMI(listItemElement) )
+			umlListViewItems.append(itemData);
+		else
+			delete itemData;
 		listItems = listItems.nextSibling();
 		listItemElement = listItems.toElement();
 	}
@@ -583,9 +597,11 @@ bool UMLDrag::decodeClip3(const QMimeSource* mimeSource,
 		}
 		Uml::ListView_Type t = (Uml::ListView_Type)(type.toInt());
 		UMLListViewItem* parent = parentListView->determineParentItem(t);
-		UMLListViewItem* item = new UMLListViewItem(parent);
-		item->loadFromXMI(listItemElement);
-		umlListViewItems.append(item);
+		UMLListViewItem* itemData = new UMLListViewItem(parent);
+		if ( itemData->loadFromXMI(listItemElement) )
+			umlListViewItems.append(itemData);
+		else
+			delete itemData;
 		listItems = listItems.nextSibling();
 		listItemElement = listItems.toElement();
 	}
@@ -682,13 +698,20 @@ bool UMLDrag::decodeClip4(const QMimeSource* mimeSource, UMLObjectList& objects,
 
 	//listviewitems
 	UMLListView *listView = UMLApp::app()->getListView();
+	UMLListViewItem *currentItem = (UMLListViewItem*)listView->currentItem();
 	QDomNode listItemNode = associationWidgetsNode.nextSibling();
 	QDomNode listItems = listItemNode.firstChild();
 	QDomElement listItemElement = listItems.toElement();
 	while ( !listItemElement.isNull() ) {
-		UMLListViewItem* itemData = new UMLListViewItem( listView );
-		itemData->loadFromXMI(listItemElement);
-		umlListViewItems.append(itemData);
+		UMLListViewItem* itemData;
+		if (currentItem)
+			itemData = new UMLListViewItem( currentItem );
+		else
+			itemData = new UMLListViewItem( listView );
+		if ( itemData->loadFromXMI(listItemElement) )
+			umlListViewItems.append(itemData);
+		else
+			delete itemData;
 		listItems = listItems.nextSibling();
 		listItemElement = listItems.toElement();
 	}
@@ -763,10 +786,17 @@ bool UMLDrag::decodeClip5(const QMimeSource* mimeSource, UMLObjectList& /* objec
 		return false;
 	}
 	UMLListView *listView = UMLApp::app()->getListView();
+	UMLListViewItem *currentItem = (UMLListViewItem*)listView->currentItem();
 	while ( !listItemElement.isNull() ) {
-		UMLListViewItem* itemData = new UMLListViewItem( listView );
-		itemData->loadFromXMI(listItemElement);
-		umlListViewItems.append(itemData);
+		UMLListViewItem* itemData;
+		if (currentItem)
+			itemData = new UMLListViewItem( currentItem );
+		else
+			itemData = new UMLListViewItem( listView );
+		if ( itemData->loadFromXMI(listItemElement) )
+			umlListViewItems.append(itemData);
+		else
+			delete itemData;
 		listItems = listItems.nextSibling();
 		listItemElement = listItems.toElement();
 	}
