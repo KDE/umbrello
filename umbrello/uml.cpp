@@ -46,6 +46,9 @@
 #include <qtimer.h>
 #include <qwidgetstack.h>
 
+#include "refactoring/refactoringassistant.h"
+
+
 using Umbrello::Diagram;
 
 UMLApp::UMLApp(QWidget* , const char* name):KDockMainWindow(0, name) {
@@ -102,6 +105,13 @@ UMLApp::UMLApp(QWidget* , const char* name):KDockMainWindow(0, name) {
 	zoomSelect->setCheckable(true);
 	connect(zoomSelect,SIGNAL(aboutToShow()),this,SLOT(setupZoomMenu()));
 	connect(zoomSelect,SIGNAL(activated(int)),this,SLOT(setZoom(int)));
+
+	//FIXME
+	// for some reason the build system will not link the refactoring into the app unless it
+	// detects its needed. Adding this for now
+	Umbrello::RefactoringAssistant *r = new Umbrello::RefactoringAssistant( doc );
+	delete r;
+	//FIXME
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLApp::~UMLApp() {
