@@ -102,7 +102,6 @@ UMLWidget& UMLWidget::operator=(const UMLWidget& other) {
 	m_nOldX = other.m_nOldX;
 	m_nOldY = other.m_nOldY;
 	m_nPosX = other.m_nPosX;
-	m_nOldID = other.m_nOldID;
 	m_pObject = other.m_pObject;
 	m_pView = other.m_pView;
 	m_pMenu = other.m_pMenu;
@@ -381,7 +380,7 @@ void UMLWidget::mouseReleaseEvent(QMouseEvent *me) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLWidget::init() {
-	m_nId = m_nOldID = Uml::id_None;
+	m_nId = Uml::id_None;
 	m_bIsInstance = false;
 	if (m_pView) {
 		m_bUseFillColour = true;
@@ -421,7 +420,6 @@ void UMLWidget::init() {
 	m_pMenu = 0;
 	m_pDoc = UMLApp::app()->getDocument();
 	m_nPosX = m_nOldX = m_nOldY = 0;
-	m_nOldID = Uml::id_None;
 	m_nOldH = m_nOldW = 0;
 	connect( m_pView, SIGNAL( sigRemovePopupMenu() ), this, SLOT( slotRemovePopupMenu() ) );
 	connect( m_pView, SIGNAL( sigClearAllSelected() ), this, SLOT( slotClearAllSelected() ) );

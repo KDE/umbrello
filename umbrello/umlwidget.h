@@ -208,24 +208,6 @@ public:
 	void setView(UMLView * v);
 
 	/**
-	 * Returns the old id of the widget.  Used for copy/cut operations.
-	 *
-	 * @return Returns the old id of the widget.
-	 */
-	virtual Uml::IDType getOldID() const {
-		return m_nOldID;
-	}
-
-	/**
-	 * Sets the old id of the widget.  Used for copy/cut operations.
-	 *
-	 * @param _id Sets the old id of the widget.
-	 */
-	virtual void setOldID(Uml::IDType _id) {
-		m_nOldID = _id;
-	}
-
-	/**
 	 * Activate the object after serializing it from a QDataStream
 	 *
 	 * @param ChangeLog
@@ -661,7 +643,6 @@ protected:
 	int  		m_nOldX,
 			m_nOldY,
 			m_nPosX;
-	Uml::IDType	m_nOldID;
 	ListPopupMenu 	*m_pMenu;
 	UMLDoc		*m_pDoc;  ///< shortcut for UMLApp::app()->getDocument()
 	bool 		m_bResizing;
