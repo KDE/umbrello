@@ -32,6 +32,7 @@ ObjectWidget::ObjectWidget(UMLView * view, UMLObject *o, int lid) : UMLWidget(vi
 	m_nLocalID = lid;
 	m_InstanceName = "";
 	m_bMultipleInstance = false;
+	m_bDrawAsActor = false;
 	calculateSize();
 	init();
 }
@@ -41,6 +42,7 @@ ObjectWidget::ObjectWidget(UMLView *view) : UMLWidget(view) {
 	m_nLocalID = -1;
 	m_InstanceName = "";
 	m_bMultipleInstance = false;
+	m_bDrawAsActor = false;
 	init();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
