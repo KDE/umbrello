@@ -99,6 +99,9 @@ bool UMLViewData::serialize( QDataStream * stream, bool bArchive, int fileversio
 		<<	(int)m_Options.uiState.useFillColor
 		<< m_nSnapX
 		<< m_nSnapY
+		<< m_nZoom
+		<< m_nCanvasWidth
+		<< m_nCanvasHeight
 		<< (int)m_bShowSnapGrid
 		<< (int)m_bUseSnapToGrid
 		<< (int)m_Options.classState.showAttSig
@@ -119,13 +122,17 @@ bool UMLViewData::serialize( QDataStream * stream, bool bArchive, int fileversio
 		*stream >> m_nLocalID
 		>>	m_Options.uiState.fillColor
 		>>	m_Options.uiState.lineColor;
-		if (fileversion > 4)
+		if (fileversion > 4) {
 			*stream	>> m_Options.uiState.font
 			>> nUseFC
 			>> m_nSnapX
 			>> m_nSnapY
+			>> m_nZoom
+			>> m_nCanvasWidth
+			>> m_nCanvasHeight
 			>> nShowsnap
 			>> nSnapgrid;
+		}
 		*stream >> nTemp;
 		if (fileversion < 5)
 			nTemp = 0;
@@ -151,7 +158,6 @@ bool UMLViewData::serialize( QDataStream * stream, bool bArchive, int fileversio
 		m_Options.uiState.useFillColor = nUseFC;
 		m_bUseSnapToGrid = nSnapgrid;
 		m_bShowSnapGrid = nShowsnap;
-		//FIXME serialise zoom, canvas height & width
 
 		if (fileversion > 4)
 			m_Type = (Uml::Diagram_Type)nType;
@@ -196,6 +202,9 @@ long UMLViewData::getClipSizeOf() {
 	l_size += sizeof( int ) * 7;//m_Options.uiState
 	l_size += sizeof( m_nSnapX );
 	l_size += sizeof( m_nSnapY );
+	l_size += sizeof( m_nZoom );
+	l_size += sizeof( m_nCanvasWidth );
+	l_size += sizeof( m_nCanvasHeight );
 	l_size += sizeof( int) * 2; //m_bUseSnapToGrid m_bShowSnapGrid
 
 	if( m_Documentation.length() == 0 )

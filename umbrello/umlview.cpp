@@ -1749,6 +1749,8 @@ bool UMLView::activateAfterSerialize( bool bUseLog ) {
 		if( bUseLog ) {
 			endPartialWidgetPaste();
 		}
+		resizeCanvasToItems();
+		setZoom( m_pData->getZoom() );
 	}//end if active
 	if(status) {
 		m_bActivated = true;
