@@ -216,7 +216,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
 											mt_Show_Stereotypes_Selection);
 					m_pShow->setItemChecked(mt_Show_Stereotypes_Selection,
 											c -> getShowStereotype());
-					insertItem(SmallIcon( "info"),i18n("Show"), m_pShow);
+					insertItem(i18n("Show"), m_pShow);
 					break;
 				case Uml::wt_Interface:
 					interfaceWidget = static_cast<InterfaceWidget*>(object);
@@ -242,7 +242,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
 					m_pShow->insertItem(i18n("Package"), mt_Show_Packages_Selection);
 					m_pShow->setItemChecked(mt_Show_Packages_Selection,
 											interfaceWidget->getShowPackage());
-					insertItem(SmallIcon("info"),i18n("Show"), m_pShow);
+					insertItem(i18n("Show"), m_pShow);
 				default: break;
 			} // switch (type)
 		} // if (unique == true)
@@ -317,7 +317,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
 			m_pShow->setItemChecked(mt_Show_Packages, c -> getShowPackage());
 			m_pShow->insertItem(i18n("Stereotype"), mt_Show_Stereotypes);
 			m_pShow->setItemChecked(mt_Show_Stereotypes, c -> getShowStereotype());
-			insertItem(SmallIcon( "info"),i18n("Show"), m_pShow);
+			insertItem(i18n("Show"), m_pShow);
 
 			setupColor(object -> getUseFillColour());
 			insertSeparator();
@@ -355,7 +355,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
 			m_pShow->setItemChecked(mt_Show_Operation_Signature, sig);
 			m_pShow->insertItem(i18n("Package"), mt_Show_Packages);
 			m_pShow->setItemChecked(mt_Show_Packages, interfaceWidget->getShowPackage());
-			insertItem(SmallIcon("info"),i18n("Show"), m_pShow);
+			insertItem(i18n("Show"), m_pShow);
 
 			setupColor(object->getUseFillColour());
 			insertSeparator();
@@ -423,8 +423,8 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
 			insertStdItem(mt_Paste);
 			insertSeparator();
 			insertStdItem(mt_Delete);
-			insertItem( SmallIcon( "charset"), i18n("Rename Class..."), mt_Rename);
-			insertItem(SmallIcon( "charset"), i18n("Rename Object..."), mt_Rename_Object);
+			insertItem( i18n("Rename Class..."), mt_Rename);
+			insertItem(i18n("Rename Object..."), mt_Rename_Object);
 			insertStdItem(mt_Change_Font);
 			insertStdItem(mt_Properties);
 			break;
@@ -437,7 +437,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
 			insertStdItem(mt_Delete);
 			insertStdItem(mt_Change_Font);
 			insertItem(SmallIcon( "filenew"), i18n("New Operation..."), mt_Operation);
-			insertItem(SmallIcon( "charset"), i18n("Select Operation..."), mt_Select_Operation);
+			insertItem(i18n("Select Operation..."), mt_Select_Operation);
 			break;
 
 		case Uml::wt_Note:
@@ -448,7 +448,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
 			insertStdItem(mt_Paste);
 			insertItem(SmallIcon( "editdelete"), i18n("Clear"), mt_Clear);
 			insertSeparator();
-			insertItem(SmallIcon( "charset"), i18n("Change Text..."), mt_Rename);
+			insertItem(i18n("Change Text..."), mt_Rename);
 			insertStdItem(mt_Delete);
 			insertStdItem(mt_Change_Font);
 			//insertItem(i18n("Link Documentation"), mt_Link_Docs);
@@ -477,7 +477,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
 			insertSeparator();
 			insertStdItem(mt_Delete);
 			if( pState -> getStateType() == StateWidget::Normal ) {
-				insertItem(SmallIcon( "charset"), i18n("Change State Name..."), mt_Rename);
+				insertItem(i18n("Change State Name..."), mt_Rename);
 				insertStdItem(mt_Change_Font);
 				insertStdItem(mt_Properties);
 			}
@@ -493,7 +493,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
 			insertSeparator();
 			insertStdItem(mt_Delete);
 			if( pActivity -> getActivityType() == ActivityWidget::Normal ) {
-				insertItem(SmallIcon( "charset"), i18n("Change Activity Name..."), mt_Rename);
+				insertItem(i18n("Change Activity Name..."), mt_Rename);
 				insertStdItem(mt_Change_Font);
 				insertStdItem(mt_Properties);
 			}
@@ -525,7 +525,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
 					insertItem(SmallIcon( "editdelete"), i18n("Delete"), mt_Delete_Message);
 					insertStdItem(mt_Change_Font);
 					insertItem(SmallIcon( "filenew"), i18n("New Operation..."), mt_Operation);
-					insertItem(SmallIcon( "charset"), i18n("Select Operation..."), mt_Select_Operation);
+					insertItem(i18n("Select Operation..."), mt_Select_Operation);
 					break;
 
 				case Uml::tr_Floating:
@@ -535,7 +535,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
 					insertStdItem(mt_Paste);
 					insertSeparator();
 					insertStdItem(mt_Delete);
-					insertItem(SmallIcon( "charset"), i18n("Change Text..."), mt_Rename);
+					insertItem(i18n("Change Text..."), mt_Rename);
 					insertStdItem(mt_Change_Font);
 					break;
 			}
@@ -566,7 +566,7 @@ void ListPopupMenu::insertStdItem(Menu_Type m)
 		insertItem(SmallIcon("info"), i18n("Properties"), mt_Properties);
 		break;
 	case mt_Rename:
-		insertItem(SmallIcon("charset"), i18n("Rename..."), mt_Rename);
+		insertItem(i18n("Rename..."), mt_Rename);
 		break;
 	case mt_Delete:
 		insertItem(SmallIcon("editdelete"), i18n("Delete"), mt_Delete);
@@ -1099,7 +1099,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 
 		case mt_MultiB:
 			insertItem(SmallIcon( "editdelete"),i18n("Delete Association"), mt_Delete_Association);
-			insertItem(SmallIcon( "charset"),i18n("Change Multiplicity..."), mt_Rename_MultiB);
+			insertItem(i18n("Change Multiplicity..."), mt_Rename_MultiB);
 			insertStdItem(mt_Change_Font);
 			insertItem(i18n("Reset Label Positions"), mt_Reset_Label_Positions);
 			insertStdItem(mt_Properties);
@@ -1107,7 +1107,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 
 		case mt_MultiA:
 			insertItem(SmallIcon( "editdelete"),i18n("Delete Association"), mt_Delete_Association);
-			insertItem(SmallIcon( "charset"),i18n("Change Multiplicity..."), mt_Rename_MultiA);
+			insertItem(i18n("Change Multiplicity..."), mt_Rename_MultiA);
 			insertStdItem(mt_Change_Font);
 			insertItem(i18n("Reset Label Positions"), mt_Reset_Label_Positions);
 			insertItem(SmallIcon( "info"),i18n("Properties"), mt_Properties);
@@ -1115,7 +1115,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 
 		case mt_Name:
 			insertItem(SmallIcon( "editdelete"),i18n("Delete Association"), mt_Delete_Association);
-			insertItem(SmallIcon( "charset"), i18n("Change Name"), mt_Rename_Name);
+			insertItem(i18n("Change Name"), mt_Rename_Name);
 			insertItem(SmallIcon( "fonts"), i18n( "Change Font" ), mt_Change_Font );
 			insertItem(i18n("Reset Label Positions"), mt_Reset_Label_Positions);
 			insertItem(SmallIcon( "info"),i18n("Properties"), mt_Properties);
@@ -1123,9 +1123,9 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 
 		case mt_RoleName:
 			insertItem(SmallIcon( "editdelete"),i18n("Delete Association"), mt_Delete_Association);
-			insertItem(SmallIcon( "charset"), i18n("Change Association Name..."), mt_Rename_Name);
-			insertItem(SmallIcon( "charset"), i18n("Change Role A Name..."), mt_Rename_RoleAName);
-			insertItem(SmallIcon( "charset"), i18n("Change Role B Name..."), mt_Rename_RoleBName);
+			insertItem(i18n("Change Association Name..."), mt_Rename_Name);
+			insertItem(i18n("Change Role A Name..."), mt_Rename_RoleAName);
+			insertItem(i18n("Change Role B Name..."), mt_Rename_RoleBName);
 			insertItem(SmallIcon( "fonts"), i18n( "Change Font..." ), mt_Change_Font );
 			insertItem(i18n("Reset Label Positions"), mt_Reset_Label_Positions);
 			insertItem(SmallIcon( "info"),i18n("Properties"), mt_Properties);
@@ -1139,7 +1139,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 			insertStdItem(mt_Delete);
 			insertStdItem(mt_Change_Font);
 			insertItem(SmallIcon( "filenew"), i18n("New Operation..."), mt_Operation);
-			insertItem(SmallIcon( "charset"), i18n("Select Operation..."), mt_Select_Operation);
+			insertItem(i18n("Select Operation..."), mt_Select_Operation);
 			break;
 		default:
 			insertStdItem(mt_Expand_All);
