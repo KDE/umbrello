@@ -152,7 +152,7 @@ public:
 	UMLOperationList getOpList(bool includeInherited = false);
 
 	/**
-	 * Adds a template to the class.
+	 * Adds a template to the class if it is not there yet.
 	 *
 	 * @param name		The name of the template.
 	 * @param id		The id of the template.

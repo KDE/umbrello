@@ -330,12 +330,15 @@ UMLClassifierListItemList UMLClassifier::getFilteredList(Object_Type ot) {
 }
 
 UMLTemplate* UMLClassifier::addTemplate(const QString &name, Uml::IDType id) {
-	UMLTemplate* newTemplate = new UMLTemplate(this, name, id);
-	m_List.append(newTemplate);
+	UMLTemplate *t = findTemplate(name);
+	if (t)
+		return t;
+	t = new UMLTemplate(this, name, id);
+	m_List.append(t);
 	emit modified();
-	connect(newTemplate,SIGNAL(modified()),this,SIGNAL(modified()));
-	emit templateAdded(newTemplate);
-	return newTemplate;
+	connect(t, SIGNAL(modified()), this, SIGNAL(modified()));
+	emit templateAdded(t);
+	return t;
 }
 
 bool UMLClassifier::addTemplate(UMLTemplate* newTemplate, IDChangeLog* log /* = 0*/) {
