@@ -1,5 +1,7 @@
 Version 1.4
 
+* Move canvas items using the keyboard	
+	
 * PHP 5 code generator
 	
 * fixed many issues in Perl code generator 
