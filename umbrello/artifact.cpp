@@ -10,14 +10,12 @@
 #include "artifact.h"
 #include "association.h"
 #include "clipboard/idchangelog.h"
+#include "umldoc.h"
+
 #include <kdebug.h>
 #include <klocale.h>
 
-UMLArtifact::UMLArtifact(QObject* parent, QString name, int id) : UMLCanvasObject(parent, name, id) {
-	init();
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLArtifact::UMLArtifact(QObject* parent) : UMLCanvasObject(parent) {
+UMLArtifact::UMLArtifact(UMLDoc * parent, const QString & name, int id) : UMLCanvasObject(parent, name, id) {
 	init();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////

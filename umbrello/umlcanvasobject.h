@@ -15,6 +15,7 @@
 #include "umlassociationlist.h"
 #include <qptrlist.h>
 
+class UMLDoc;
 class IDChangeLog;
 
 /**
@@ -39,14 +40,7 @@ public:
 	 *	@param	name	The name of the Concept.
 	 *	@param	id	The unique id of the Concept.
 	 */
-	UMLCanvasObject(QObject* parent, QString Name, int id);
-
-	/**
-	 *	Sets up a UMLCanvasObject.
-	 *
-	 *	@param	parent		The parent to this Concept.
-	 */
-	UMLCanvasObject(QObject* parent);
+	UMLCanvasObject(UMLDoc * doc, const QString & name = "", int id = -1);
 
 	/**
 	 *	Standard deconstructor.
@@ -151,11 +145,11 @@ public:
 	 */
 	virtual QString uniqChildName(const UMLObject_Type type);
 
-protected:
-	/**
-	 *	Initialises key variables of the class.
+	/** Return the parent UMLDoc for this object.
 	 */
-	void init();
+	UMLDoc * getParentUMLDoc ( );
+
+protected:
 
 	/**
 	 * 	List of all the associations in this class.
@@ -168,8 +162,17 @@ protected:
 	 */
 	UMLAssociationList m_TmpAssocs;
 
+private:
+
+        /**
+         *      Initialises key variables of the class.
+         */
+        void init(UMLDoc * parentDoc);
+
+	UMLDoc * m_parentDoc;
 
 signals:
+
         /**
          * Emit when new association is added.
          * @param assoc Pointer to the association which has been added.

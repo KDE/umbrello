@@ -14,6 +14,7 @@
 
 class IDChangeLog;
 class UMLAssociation;
+class UMLDoc;
 
 /**
  *	This class contains the non-graphical information required for a UML Node.
@@ -28,6 +29,7 @@ class UMLAssociation;
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class UMLNode : public UMLCanvasObject {
+	Q_OBJECT
 public:
 	/**
 	 *	Sets up a Node.
@@ -36,7 +38,7 @@ public:
 	 *	@param	name	The name of the Concept.
 	 *	@param	id	The unique id of the Concept.
 	 */
-	UMLNode(QObject* parent, QString Name, int id);
+	UMLNode(UMLDoc * parent, const QString & name = "", int id = -1);
 
 	/**
 	 *	Sets up a Node.

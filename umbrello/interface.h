@@ -12,6 +12,8 @@
 
 #include "classifier.h"
 
+class UMLDoc;
+
 /**
  *	This class contains the non-graphical information required for a UML Interface.
  *	This class inherits from @ref UMLClassifier which contains most of the information.
@@ -32,14 +34,7 @@ public:
 	 *	@param	name	The name of the Concept.
 	 *	@param	id	The unique id of the Concept.
 	 */
-	UMLInterface(QObject* parent, QString Name, int id);
-
-	/**
-	 *	Sets up an interface.
-	 *
-	 *	@param	parent		The parent to this Concept.
-	 */
-	UMLInterface(QObject * parent);
+	UMLInterface(UMLDoc * parent, const QString & name = "", int id = -1);
 
 	/**
 	 *	Standard deconstructor.

@@ -15,6 +15,7 @@
 
 class IDChangeLog;
 class UMLAssociation;
+class UMLDoc;
 
 /**
  *	This class contains the non-graphical information required for a UML Package.
@@ -30,6 +31,7 @@ class UMLAssociation;
  */
 
 class UMLPackage : public UMLCanvasObject {
+	Q_OBJECT
 public:
 	/**
 	 *	Sets up a Package.
@@ -38,14 +40,7 @@ public:
 	 *	@param	name	The name of the Concept.
 	 *	@param	id	The unique id of the Concept.
 	 */
-	UMLPackage(QObject* parent, QString Name, int id);
-
-	/**
-	 *	Sets up a Package.
-	 *
-	 *	@param	parent		The parent to this Concept.
-	 */
-	UMLPackage(QObject* parent);
+	UMLPackage(UMLDoc * parent, const QString & Name = "", int id = -1);
 
 	/**
 	 *	Empty deconstructor.

@@ -12,16 +12,15 @@
 #include "attribute.h"
 #include "operation.h"
 #include "template.h"
+#include "umldoc.h"
 #include "clipboard/idchangelog.h"
 #include <kdebug.h>
 #include <klocale.h>
 
-UMLCanvasObject::UMLCanvasObject(QObject* parent, QString name, int id) : UMLObject(parent, name, id) {
-	init();
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLCanvasObject::UMLCanvasObject(QObject* parent) : UMLObject(parent) {
-	init();
+UMLCanvasObject::UMLCanvasObject(UMLDoc * parent, const QString & name, int id) 
+   : UMLObject((QObject*) parent, name, id) 
+{
+	init(parent);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLCanvasObject::~UMLCanvasObject() {
@@ -98,7 +97,14 @@ UMLObject* UMLCanvasObject::findChildObject(int id) {
 	return 0;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void UMLCanvasObject::init() {
+UMLDoc * UMLCanvasObject::getParentUMLDoc ( ) 
+{
+	return m_parentDoc;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+void UMLCanvasObject::init( UMLDoc * parentDoc ) {
+	
+	m_parentDoc = parentDoc;
 	m_AssocsList.clear();
 	m_AssocsList.setAutoDelete(false);
 	m_TmpAssocs.clear();

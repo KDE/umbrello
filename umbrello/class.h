@@ -12,6 +12,7 @@
 #define UMLCLASS_H
 
 #include "classifier.h"
+#include "umldoc.h"
 #include "umlobjectlist.h"
 #include "umlattributelist.h"
 #include "umltemplatelist.h"
@@ -32,7 +33,7 @@ class UMLClassifierListItem;
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class UMLClass : public UMLClassifier {
-Q_OBJECT
+	Q_OBJECT
 public:
 	/**
 	 *	Sets up a Class.
@@ -41,14 +42,7 @@ public:
 	 *	@param	name	The name of the Concept.
 	 *	@param	id	The unique id of the Concept.
 	 */
-	UMLClass(QObject* parent, QString Name, int id);
-
-	/**
-	 *	Sets up a Concept.
-	 *
-	 *	@param	parent		The parent to this Concept.
-	 */
-	UMLClass(QObject* parent);
+	UMLClass(UMLDoc * parent, const QString & Name = "", int id = -1);
 
 	/**
 	 *	Standard deconstructor.
@@ -210,14 +204,13 @@ signals:
 	void templateAdded(UMLObject*);
 	void templateRemoved(UMLObject*);
 
-protected:
+private:
 
 	/**
 	 *	Initializes key variables of the class.
 	 */
-	virtual void init(); 
+	void init(); 
 
-private:
 
 	/**
 	 * 	List of all the attributes in this class.

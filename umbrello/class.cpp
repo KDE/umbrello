@@ -18,11 +18,9 @@
 #include <kdebug.h>
 #include <klocale.h>
 
-UMLClass::UMLClass(QObject * parent, QString Name, int id) : UMLClassifier (parent,Name, id) {
-	init();
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLClass::UMLClass(QObject * parent) : UMLClassifier (parent) {
+UMLClass::UMLClass(UMLDoc * parent, const QString & name, int id) 
+   : UMLClassifier (parent,name, id) 
+{
 	init();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -246,8 +244,6 @@ bool UMLClass::isEnumeration() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLClass::init() {
 
-	UMLClassifier::init(); // call super-class init
-
 	m_BaseType = ot_Class;
 	setStereotype( i18n("class") );
 
@@ -255,6 +251,10 @@ void UMLClass::init() {
 	m_AttsList.setAutoDelete(false);
 	m_TemplateList.clear();
 	m_TemplateList.setAutoDelete(false);
+
+	UMLDoc * parent = getParentUMLDoc();
+	connect(this,SIGNAL(attributeAdded(UMLObject*)),parent,SLOT(addUMLObject(UMLObject*)));
+	connect(this,SIGNAL(attributeRemoved(UMLObject*)),parent,SLOT(slotRemoveUMLObject(UMLObject*)));
 }
 
 bool UMLClass::operator==( UMLClass & rhs ) {
@@ -307,13 +307,15 @@ bool UMLClass::loadFromXMI( QDomElement & element ) {
 			UMLOperation * pOp = new UMLOperation( this );
 			if( !pOp -> loadFromXMI( tempElement ) )
 				return false;
-			m_OpsList.append( pOp );
+			// m_OpsList.append( pOp );
+			addOperation(pOp);
 		} else if( tag == "UML:Attribute" ) {
 			UMLAttribute * pAtt = new UMLAttribute( this );
 			if( !pAtt -> loadFromXMI( tempElement ) )
 				return false;
-			m_AttsList.append( pAtt );
-			connect( pAtt,SIGNAL(modified()),this,SIGNAL(modified()));
+			addAttribute(pAtt);
+			// connect( pAtt,SIGNAL(modified()),this,SIGNAL(modified()));
+			// m_AttsList.append( pAtt );
 		} else if (tag == "template") {
 			UMLTemplate* newTemplate = new UMLTemplate(this);
 			if ( !newTemplate->loadFromXMI(tempElement) ) {

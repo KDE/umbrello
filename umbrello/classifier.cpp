@@ -17,13 +17,12 @@
 #include <kdebug.h>
 #include <klocale.h>
 
-UMLClassifier::UMLClassifier(QObject * parent, QString Name, int id) : UMLCanvasObject(parent,Name, id) {
+UMLClassifier::UMLClassifier(UMLDoc * parent, const QString & name, int id) 
+   : UMLCanvasObject(parent,name, id) 
+{
 	init();
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLClassifier::UMLClassifier(QObject * parent) : UMLCanvasObject(parent) {
-	init();
-}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLClassifier::~UMLClassifier() {
   	m_OpsList.clear();
@@ -233,6 +232,10 @@ void UMLClassifier::init() {
 	m_BaseType = ot_UMLObject;
 	m_OpsList.clear();
 	m_OpsList.setAutoDelete(false);
+
+        connect (this, SIGNAL(operationAdded(UMLObject*)), getParentUMLDoc(), SLOT (addUMLObject(UMLObject*)));
+        connect (this, SIGNAL(operationRemoved(UMLObject*)), getParentUMLDoc(), SLOT (slotRemoveUMLObject(UMLObject*)));
+
 }
 
 #include "classifier.moc"

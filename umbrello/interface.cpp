@@ -13,11 +13,9 @@
 #include <kdebug.h>
 #include <klocale.h>
 
-UMLInterface::UMLInterface(QObject* parent, QString name, int id) : UMLClassifier(parent, name, id) {
-	init();
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLInterface::UMLInterface(QObject* parent) : UMLClassifier(parent) {
+UMLInterface::UMLInterface(UMLDoc * parent, const QString & name, int id) 
+   : UMLClassifier(parent, name, id) 
+{
 	init();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -93,7 +91,6 @@ bool UMLInterface::loadFromXMI( QDomElement & element ) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLInterface::init() {
 
-	UMLClassifier::init();
 	m_BaseType = ot_Interface;
 	setStereotype( i18n("interface") );
 }

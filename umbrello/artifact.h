@@ -14,6 +14,7 @@
 
 class IDChangeLog;
 class UMLAssociation;
+class UMLDoc;
 
 /**
  * Artifacts can be drawn using one of several icons
@@ -39,6 +40,7 @@ enum Artifact_draw_type {
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class UMLArtifact : public UMLCanvasObject {
+	Q_OBJECT
 public:
 	/**
 	 *	Sets up a Artifact.
@@ -47,14 +49,7 @@ public:
 	 *	@param	name	The name of the Concept.
 	 *	@param	id	The unique id of the Concept.
 	 */
-	UMLArtifact(QObject* parent, QString Name, int id);
-
-	/**
-	 *	Sets up a Artifact.
-	 *
-	 *	@param	parent		The parent to this Concept.
-	 */
-	UMLArtifact(QObject* parent);
+	UMLArtifact(UMLDoc * parent, const QString & Name = "", int id = -1);
 
 	/**
 	 *	Empty deconstructor.

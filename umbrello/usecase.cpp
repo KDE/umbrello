@@ -10,11 +10,7 @@
 #include "usecase.h"
 #include "umldoc.h"
 
-UMLUseCase::UMLUseCase(QObject* parent, QString name, int id) : UMLCanvasObject(parent, name, id) {
-	init();
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLUseCase::UMLUseCase(QObject* parent) : UMLCanvasObject(parent) {
+UMLUseCase::UMLUseCase(UMLDoc * parent, const QString & name, int id) : UMLCanvasObject(parent, name, id) {
 	init();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////

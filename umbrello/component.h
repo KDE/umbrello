@@ -14,6 +14,7 @@
 
 class IDChangeLog;
 class UMLAssociation;
+class UMLDoc;
 
 /**
  *	This class contains the non-graphical information required for a UML Component.
@@ -29,6 +30,7 @@ class UMLAssociation;
  */
 
 class UMLComponent : public UMLCanvasObject {
+	Q_OBJECT
 public:
 	/**
 	 *	Sets up a Component.
@@ -37,14 +39,7 @@ public:
 	 *	@param	name	The name of the Concept.
 	 *	@param	id	The unique id of the Concept.
 	 */
-	UMLComponent(QObject* parent, QString Name, int id);
-
-	/**
-	 *	Sets up a Component.
-	 *
-	 *	@param	parent		The parent to this Concept.
-	 */
-	UMLComponent(QObject* parent);
+	UMLComponent(UMLDoc* parent, const QString & name = "", int id = -1);
 
 	/**
 	 *	Empty deconstructor.

@@ -44,14 +44,7 @@ public:
 	 *	@param	name	The name of the Concept.
 	 *	@param	id	The unique id of the Concept.
 	 */
-	UMLClassifier(QObject* parent, QString Name, int id);
-
-	/**
-	 *	Sets up a Concept.
-	 *
-	 *	@param	parent		The parent to this Concept.
-	 */
-	UMLClassifier(QObject* parent);
+	UMLClassifier(UMLDoc * doc, const QString & name = "", int id = -1);
 
 	/**
 	 *	Standard deconstructor.
@@ -174,18 +167,21 @@ public:
 signals:
 	void operationAdded(UMLObject *);
 	void operationRemoved(UMLObject*);
+
 protected:
+
+	/**
+	 * 	List of all the operations in this classifier.
+	 */
+	QPtrList<UMLClassifierListItem> m_OpsList;
+
+private:
 
 	/**
 	 *	Initializes key variables of the class.
 	 */ 
-	virtual void init(); // doesnt seem to be any reason for this to be public 
+	void init(); // doesnt seem to be any reason for this to be public 
 
-
-	/**
-	 * 	List of all the operations in this class.
-	 */
-	QPtrList<UMLClassifierListItem> m_OpsList;
 
 };
 

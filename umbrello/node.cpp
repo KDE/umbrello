@@ -10,14 +10,11 @@
 #include "node.h"
 #include "association.h"
 #include "clipboard/idchangelog.h"
+#include "umldoc.h"
 #include <kdebug.h>
 #include <klocale.h>
 
-UMLNode::UMLNode(QObject* parent, QString name, int id) : UMLCanvasObject(parent, name, id) {
-	init();
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLNode::UMLNode(QObject* parent) : UMLCanvasObject(parent) {
+UMLNode::UMLNode(UMLDoc * parent, const QString & name, int id) : UMLCanvasObject(parent, name, id) {
 	init();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -12,6 +12,8 @@
 
 #include "umlcanvasobject.h"
 
+class UMLDoc;
+
 /**
  * This class contains the non-graphical information required for a UML UseCase.
  * This class inherits from @ref UMLCanvasObject which contains most of the information.
@@ -33,14 +35,7 @@ public:
 	 *	@param name		The name of the object.
 	 *	@param	id				The id of the object.
 	 */
-	UMLUseCase(QObject* parent, QString Name, int id);
-
-	/**
-	 *	Creates a UseCase object
-	 *
-	 *	@param	parent		The parent of the object.
-	 */
-	UMLUseCase(QObject* parent);
+	UMLUseCase(UMLDoc * parent, const QString & name = "", int id = -1);
 
 	/**
 	 *	Standard deconstructor

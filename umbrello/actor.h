@@ -25,6 +25,7 @@
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class UMLActor : public UMLCanvasObject {
+	Q_OBJECT
 public:
 	/**
 	 * Constructs an Actor.
@@ -32,13 +33,7 @@ public:
 	 * @param name		The name of the Actor.
 	 * @param id				The unique id to assign to this Actor.
 	 */
-	UMLActor(QObject* parent, QString Name, int id);
-
-	/**
-	 * Constructs an Actor.
-	 * @param parent	The parent of this Actor.
-	 */
-	UMLActor(QObject* parent);
+	UMLActor(UMLDoc * parent, const QString & name = "", int id = -1);
 
 	/**
 	 *	Standard deconstructor.
