@@ -1118,9 +1118,10 @@ bool UMLWidget::loadFromXMI( QDomElement & qElement ) {
 	QString usesDiagramUseFillColour = qElement.attribute( "usesdiagramusefillcolour", "1" );
 
 	if (m_pObject) {
-		kdDebug() << "UMLWidget::loadFromXMI(id=" << id << "): "
-			  << "m_pObject is already set (" << m_pObject->getName() << ")"
-			  << endl;
+		if (m_Type != wt_Actor && m_Type != wt_UseCase)
+			kdDebug() << "UMLWidget::loadFromXMI(id=" << id << "): "
+				  << "m_pObject is already set (" << m_pObject->getName() << ")"
+				  << endl;
 		if (id.toInt() != m_pObject->getID())
 			kdError() << "Loading from XMI Error - id = " << id.toInt()
 				  << " but the UMLObject's id is " << m_pObject->getID()
