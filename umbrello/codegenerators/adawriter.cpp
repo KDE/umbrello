@@ -132,7 +132,7 @@ QString AdaWriter::qualifiedName(UMLClassifier *c, bool withType, bool byValue) 
 
 void AdaWriter::computeAssocTypeAndRole
        (UMLAssociation *a, QString& typeName, QString& roleName) {
-	UMLClassifier* c = (UMLClassifier*) m_doc->findUMLObject(a->getRoleId(Uml::A));
+	UMLClassifier* c = (UMLClassifier*) m_doc->findObjectById(a->getRoleId(Uml::A));
 	typeName = cleanName(c->getName());
 	if (! a->getMulti(Uml::A).isEmpty())
 		typeName.append("_Array_Access");
@@ -340,7 +340,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 		for (UMLAssociation *a = aggregations.first(); a; a = aggregations.next()) {
 			if (a->getMulti(Uml::A).isEmpty())
 				continue;
-			UMLClassifier* other = (UMLClassifier*) m_doc->findUMLObject(a->getRoleId(Uml::A));
+			UMLClassifier* other = (UMLClassifier*) m_doc->findObjectById(a->getRoleId(Uml::A));
 			QString member = cleanName(other->getName());
 			// Handling of packages is missing here
 			// A test and error action is missing here for !isOOClass()
@@ -355,7 +355,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 		for (UMLAssociation *a = compositions.first(); a; a = compositions.next()) {
 			if (a->getMulti(Uml::A).isEmpty())
 				continue;
-			UMLObject *other = m_doc->findUMLObject(a->getRoleId(Uml::A));
+			UMLObject *other = m_doc->findObjectById(a->getRoleId(Uml::A));
 			QString member = cleanName(other->getName());
 			// Handling of packages is missing here
 			// Treatment of !isOOClass() is missing here

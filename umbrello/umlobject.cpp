@@ -318,62 +318,15 @@ QString UMLObject::getAuxId() const {
 	return m_AuxId;
 }
 
+QString UMLObject::getSecondaryId() const {
+	return m_SecondaryId;
+}
+
 bool UMLObject::resolveRef() {
 	if (m_pSecondary || m_SecondaryId.isEmpty())
 		return true;
 	UMLDoc *pDoc = UMLApp::app()->getDocument();
-	if (m_SecondaryId.contains(QRegExp("\\D"))) {
-		// Check whether this is a foreign XMI file.
-		m_pSecondary = pDoc->findObjectByIdStr( m_SecondaryId );
-		if (m_pSecondary == NULL) {
-			// Assume we're dealing with the older Umbrello format where
-			// the type name was saved in the "type" attribute rather
-			// than the xmi.id of the model object of the attribute type.
-
-			// Hack: Replace "::" because UMLDoc::findUMLObject() is
-			// sensitive to "::".
-			// FIXME: Implement proper namespace resolution.
-			m_SecondaryId.replace( "::", "." );
-			m_pSecondary = pDoc->findUMLObject( m_SecondaryId );
-			if (m_pSecondary == NULL) {
-				kdDebug() << "UMLObject::resolveRef: Creating new type for "
-					  << m_SecondaryId << endl;
-				// This is very C++ specific - we rely on  some '*' or
-				// '&' to decide it's a ref type. Plus, we don't recognize
-				// typedefs of ref types.
-				bool isReferenceType = ( m_SecondaryId.contains('*') ||
-							 m_SecondaryId.contains('&') );
-				Uml::Object_Type ot = Uml::ot_Class;
-				if (isReferenceType) {
-					ot = Uml::ot_Datatype;
-				} else {
-					// Make data type for easily identified cases
-					const int n_types = 12;
-					const char *types[] = {
-						"void", "bool",
-						"char", "unsigned char",
-						"short", "unsigned short",
-						"int", "unsigned int",
-						"long", "unsigned long",
-						"float", "double"
-					};
-					int i = 0;
-					for (; i < n_types; i++) {
-						if (m_SecondaryId == types[i])
-							break;
-					}
-					if (i < n_types)
-						ot = Uml::ot_Datatype;
-				}
-				m_pSecondary = pDoc->createUMLObject(ot, m_SecondaryId);
-				// Need to move the newly created item to before the
-				// current item in UMLDoc::m_ObjectList.
-				// This can be dropped when the deferred type resolution
-				// is generalized to also cover native ID resolution.
-				pDoc->moveTailToHead();
-			}
-		}
-	} else {
+	if (!m_SecondaryId.contains(QRegExp("\\D"))) {
 		// New, XMI standard compliant save format:
 		// The type is the xmi.id of a UMLClassifier.
 		int id = m_SecondaryId.toInt();
@@ -384,7 +337,67 @@ bool UMLObject::resolveRef() {
 				  << id << endl;
 			return false;
 		}
+		m_SecondaryId = "";
+		return true;
 	}
+	// Check whether this is a foreign XMI file.
+	m_pSecondary = pDoc->findObjectByIdStr( m_SecondaryId );
+	if (m_pSecondary) {
+		m_SecondaryId = "";
+		return true;
+	}
+	// Assume we're dealing with the older Umbrello format where
+	// the type name was saved in the "type" attribute rather
+	// than the xmi.id of the model object of the attribute type.
+	m_pSecondary = pDoc->findUMLObject( m_SecondaryId, Uml::ot_UMLObject, this );
+	if (m_pSecondary) {
+		m_SecondaryId = "";
+		return true;
+	}
+	// Work around UMLDoc::createUMLObject()'s incapability
+	// of on-the-fly scope creation:
+	m_SecondaryId.replace("::", ".");
+	m_pSecondary = pDoc->findUMLObject( m_SecondaryId, Uml::ot_UMLObject, this );
+	if (m_pSecondary) {
+		m_SecondaryId = "";
+		return true;
+	}
+	kdDebug() << "UMLObject::resolveRef: Creating new type for "
+		  << m_SecondaryId << endl;
+	// This is very C++ specific - we rely on  some '*' or
+	// '&' to decide it's a ref type. Plus, we don't recognize
+	// typedefs of ref types.
+	bool isReferenceType = ( m_SecondaryId.contains('*') ||
+				 m_SecondaryId.contains('&') );
+	Uml::Object_Type ot = Uml::ot_Class;
+	if (isReferenceType) {
+		ot = Uml::ot_Datatype;
+	} else {
+		// Make data type for easily identified cases
+		const int n_types = 12;
+		const char *types[] = {
+			"void", "bool",
+			"char", "unsigned char",
+			"short", "unsigned short",
+			"int", "unsigned int",
+			"long", "unsigned long",
+			"float", "double"
+		};
+		int i = 0;
+		for (; i < n_types; i++) {
+			if (m_SecondaryId == types[i])
+				break;
+		}
+		if (i < n_types)
+			ot = Uml::ot_Datatype;
+	}
+	m_pSecondary = pDoc->createUMLObject(ot, m_SecondaryId, NULL, true);
+	// The `prepend' flag is set true because we need to move the
+	// newly created item to before the current item in UMLDoc's
+	// object list.  This can be dropped when the deferred type
+	// resolution is generalized to also cover native ID resolution.
+	if (m_pSecondary == NULL)
+		return false;
 	m_SecondaryId = "";
 	return true;
 }

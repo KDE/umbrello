@@ -569,7 +569,7 @@ void XMLSchemaWriter::writeComment(QString comment, QTextStream &XMLschema)
 // badly for someone using a plain association between 2 different classes. THAT should
 // be done, but isnt yet (this is why I have left role b code in for now). -b.t.
 bool XMLSchemaWriter::writeAssociationDecls(UMLAssociationList associations,
-		bool noRoleNameOK, bool didFirstOne, int id, QTextStream &XMLschema)
+		bool noRoleNameOK, bool didFirstOne, Uml::IDType id, QTextStream &XMLschema)
 {
 
 	if( !associations.isEmpty() )
@@ -637,7 +637,7 @@ bool XMLSchemaWriter::writeAssociationDecls(UMLAssociationList associations,
 
 UMLObjectList XMLSchemaWriter::findChildObjsInAssociations (UMLClassifier *c, UMLAssociationList associations)
 {
-	int id = c->getID();
+	Uml::IDType id = c->getID();
 	UMLObjectList list;
 	for(UMLAssociation *a = associations.first(); a; a = associations.next())
 	{

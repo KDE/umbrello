@@ -77,7 +77,9 @@ UMLObject *ClassImport::createUMLObject(Uml::Object_Type type,
 		typeName.replace(QRegExp("^const\\s+"), "");
 		typeName.replace(QRegExp("[^:\\w].*$"), "");
 		if (isPointer) {
-			UMLObject *origType = m_umldoc->findUMLObject(typeName);
+			UMLObject *origType = m_umldoc->findUMLObject(typeName,
+								      Uml::ot_UMLObject,
+								      parentPkg);
 			if (origType == NULL)
 				origType = m_umldoc->createUMLObject(Uml::ot_Class, typeName, parentPkg);
 			o = m_umldoc->createUMLObject(Uml::ot_Datatype, name, parentPkg);
@@ -123,7 +125,7 @@ UMLObject* ClassImport::insertAttribute(UMLClass *o, Uml::Scope scope, QString n
 	UMLAttribute *attr = ((UMLClass*)o)->addAttribute(name);
 	attr->setScope(scope);
 	attr->setStatic(isStatic);
-	UMLObject *obj = m_umldoc->findUMLObject(type);
+	UMLObject *obj = m_umldoc->findUMLObject(type, Uml::ot_UMLObject, o);
 	UMLClassifier *classifier = dynamic_cast<UMLClassifier*>(obj);
 	if (classifier == NULL) {
 		kdDebug() << "ClassImport::insertAttribute(" << name
@@ -137,7 +139,7 @@ UMLObject* ClassImport::insertAttribute(UMLClass *o, Uml::Scope scope, QString n
 			obj = m_umldoc->createUMLObject(Uml::ot_Class, type);
 			classifier = static_cast<UMLClassifier*>(obj);
 		} else {
-			obj = m_umldoc->findUMLObject(typeName);
+			obj = m_umldoc->findUMLObject(typeName, Uml::ot_UMLObject, o);
 			classifier = dynamic_cast<UMLClassifier*>(obj);
 			if (classifier == NULL) {
 				obj = m_umldoc->createUMLObject(Uml::ot_Class, typeName);

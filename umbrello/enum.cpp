@@ -53,10 +53,12 @@ void UMLEnum::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool UMLEnum::load(QDomElement& element) {
 	QDomNode node = element.firstChild();
-	if (node.isComment())
-		node = node.nextSibling();
-	QDomElement tempElement = node.toElement();
-	while( !tempElement.isNull() ) {
+	while( !node.isNull() ) {
+		if (node.isComment()) {
+			node = node.nextSibling();
+			continue;
+		}
+		QDomElement tempElement = node.toElement();
 		QString tag = tempElement.tagName();
 		if (Uml::tagEq(tag, "EnumerationLiteral") ||
 		    Uml::tagEq(tag, "EnumLiteral")) {   // for backward compatibility
@@ -72,9 +74,6 @@ bool UMLEnum::load(QDomElement& element) {
 			kdWarning() << "unknown child type in UMLEnum::load" << endl;
 		}
 		node = node.nextSibling();
-		if (node.isComment())
-			node = node.nextSibling();
-		tempElement = node.toElement();
 	}//end while
 	return true;
 }

@@ -10,6 +10,10 @@
 // own header
 #include "model_utils.h"
 
+// qt/kde includes
+#include <qstringlist.h>
+#include <kdebug.h>
+
 // app includes
 #include "umlobject.h"
 #include "package.h"
@@ -65,6 +69,135 @@ UMLObject * findObjectInList(int id, UMLObjectList inList) {
 	return NULL;
 }
 
+UMLObject* findObjectByIdStr(QString idStr, UMLObjectList inList) {
+	for (UMLObjectListIt oit(inList); oit.current(); ++oit) {
+		UMLObject *o = oit.current();
+		if (o->getAuxId() == idStr)
+			return o;
+		UMLObject *inner = NULL;
+		switch (o->getBaseType()) {
+			case Uml::ot_Package:
+				inner = ((UMLPackage*)o)->findObjectByIdStr(idStr);
+				if (inner)
+					return inner;
+				break;
+			case Uml::ot_Interface:
+			case Uml::ot_Class:
+			case Uml::ot_Enum:
+				inner = ((UMLClassifier*)o)->findChildObjectByIdStr(idStr);
+				if (inner == NULL)
+					inner = ((UMLPackage*)o)->findObjectByIdStr(idStr);
+				if (inner)
+					return inner;
+				break;
+			default:
+				break;
+		}
+	}
+	return NULL;
+}
+
+UMLObject* findUMLObject(UMLObjectList inList, QString name,
+			 Uml::Object_Type type /* = ot_UMLObject */,
+			 UMLObject *currentObj /* = NULL */) {
+	QStringList components = QStringList::split("::", name);
+	QString nameWithoutFirstPrefix;
+	if (components.size() > 1) {
+		name = components.front();
+		components.pop_front();
+		nameWithoutFirstPrefix = components.join("::");
+	}
+	if (currentObj) {
+		UMLPackage *pkg = NULL;
+		if (dynamic_cast<UMLClassifierListItem*>(currentObj)) {
+			// FIXME: This is ugly. It is non-obvious what the
+			// currentObj->parent() is. In particular, UMLObject
+			// has a constructor that makes UMLDoc the parent()
+			// - pray we're not dealing with an object that was
+			// constructed like that :(
+			pkg = dynamic_cast<UMLPackage*>(currentObj->parent());
+		} else {
+			pkg = dynamic_cast<UMLPackage*>(currentObj);
+			if (pkg == NULL)
+				pkg = currentObj->getUMLPackage();
+		}
+		for (; pkg; pkg = currentObj->getUMLPackage()) {
+			UMLObjectList objectsInCurrentScope = pkg->containedObjects();
+			for (UMLObjectListIt oit(objectsInCurrentScope); oit.current(); ++oit) {
+				UMLObject *obj = oit.current();
+				if (obj->getName() != name)
+					continue;
+				Uml::Object_Type foundType = obj->getBaseType();
+				if (nameWithoutFirstPrefix.isEmpty()) {
+					if (type != Uml::ot_UMLObject && type != foundType) {
+						kdDebug() << "findUMLObject: type mismatch for "
+							  << name << " (seeking type: "
+							  << type << ", found type: "
+							  << foundType << ")" << endl;
+						continue;
+					}
+					return obj;
+				}
+				if (foundType != Uml::ot_Package &&
+				    foundType != Uml::ot_Class &&
+				    foundType != Uml::ot_Interface) {
+					kdDebug() << "findUMLObject: found \"" << name
+						  << "\" is not a package (?)" << endl;
+					continue;
+				}
+				UMLPackage *pkg = static_cast<UMLPackage*>(obj);
+				return findUMLObject( pkg->containedObjects(),
+						      nameWithoutFirstPrefix, type );
+			}
+			currentObj = pkg;
+		}
+	}
+	for (UMLObjectListIt oit(inList); oit.current(); ++oit) {
+		UMLObject *obj = oit.current();
+		if (obj->getName() != name)
+			continue;
+		Uml::Object_Type foundType = obj->getBaseType();
+		if (nameWithoutFirstPrefix.isEmpty()) {
+			if (type != Uml::ot_UMLObject && type != foundType) {
+				kdDebug() << "findUMLObject: type mismatch for "
+					  << name << " (seeking type: "
+					  << type << ", found type: "
+					  << foundType << ")" << endl;
+				continue;
+			}
+			return obj;
+		}
+		if (foundType != Uml::ot_Package &&
+		    foundType != Uml::ot_Class &&
+		    foundType != Uml::ot_Interface) {
+			kdDebug() << "findUMLObject: found \"" << name
+				  << "\" is not a package (?)" << endl;
+			continue;
+		}
+		UMLPackage *pkg = static_cast<UMLPackage*>(obj);
+		return findUMLObject( pkg->containedObjects(),
+				      nameWithoutFirstPrefix, type );
+	}
+	return NULL;
+}
+
+bool isCommonXMIAttribute(QString tag) {
+	bool retval = (Uml::tagEq(tag, "name") ||
+		       Uml::tagEq(tag, "visibility") ||
+		       Uml::tagEq(tag, "isRoot") ||
+		       Uml::tagEq(tag, "isLeaf") ||
+		       Uml::tagEq(tag, "isAbstract") ||
+		       Uml::tagEq(tag, "isSpecification") ||
+		       Uml::tagEq(tag, "isActive") ||
+		       Uml::tagEq(tag, "namespace") ||
+		       Uml::tagEq(tag, "ownerScope") ||
+		       Uml::tagEq(tag, "GeneralizableElement.generalization") ||
+		       Uml::tagEq(tag, "specialization") ||   //NYI
+		       Uml::tagEq(tag, "clientDependency") || //NYI
+		       Uml::tagEq(tag, "supplierDependency")  //NYI
+		      );
+	return retval;
+}
 
 }  // namespace Umbrello
 

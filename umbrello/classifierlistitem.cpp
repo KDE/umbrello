@@ -54,6 +54,11 @@ void UMLClassifierListItem::setType(UMLClassifier *type) {
 }
 
 void UMLClassifierListItem::setTypeName(QString type) {
+	if (type.isEmpty()) {
+		m_pSecondary = NULL;
+		m_SecondaryId = type;
+		return;
+	}
 	UMLDoc *pDoc = UMLApp::app()->getDocument();
 	m_pSecondary = pDoc->findUMLObject(type);
 	if (m_pSecondary == NULL) {

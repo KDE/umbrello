@@ -29,14 +29,49 @@ namespace Umbrello {
 	bool isCloneable(Uml::Widget_Type type);
 
 	/**
-	 * Seek the given id in the object hierarchy rooted at rootObj.
+	 * Seek the given id in the given list of objects.
+	 * Each list element may itself contain other objects
+	 * and the search is done recursively.
 	 *
 	 * @param id		The unique ID to seek.
-	 * @param inList	The UMLObjectList in wihch to search.
+	 * @param inList	The UMLObjectList in which to search.
 	 * @return	Pointer to the UMLObject that matches the ID
 	 *		(NULL if none matches.)
 	 */
 	UMLObject * findObjectInList(int id, UMLObjectList inList);
+
+	/**
+	 * Seek the given auxiliary id in the given list of objects.
+	 * See findObjectInList().
+	 */
+	UMLObject* findObjectByIdStr(QString idStr, UMLObjectList inList);
+
+	/**
+	 * Find the UML object of the given type and name in the passed-in list.
+	 *
+	 * @param inList	List in which to seek the object.
+	 * @param name		Name of the object to find.
+	 * @param type		Object_Type of the object to find (optional.)
+	 *			When the given type is ot_UMLObject the type is
+	 *			disregarded, i.e. the given name is the only
+	 *			search criterion.
+	 * @param currentObj	Object relative to which to search (optional.)
+	 *			If given then the enclosing scope(s) of this
+	 *			object are searched before the global scope.
+	 * @return	Pointer to the UMLObject found, or NULL if not found.
+	 */
+	UMLObject* findUMLObject( UMLObjectList inList, QString name,
+				  Uml::Object_Type type = Uml::ot_UMLObject,
+				  UMLObject *currentObj = NULL);
+
+	/**
+	 * Return true if the given tag is a one of the common XMI
+	 * attributes, such as:
+	 * "name" | "visibility" | "isRoot" | "isLeaf" | "isAbstract" |
+	 * "isActive" | "ownerScope"
+	 */
+	bool isCommonXMIAttribute(QString tag);
+
 }
 
 #endif

@@ -23,13 +23,15 @@ UMLAttribute::UMLAttribute( const UMLObject *parent, QString Name, int id,
 	m_BaseType = Uml::ot_Attribute;
 	m_Scope = s;
 	m_ParmKind = Uml::pd_In;
-	UMLDoc *pDoc = UMLApp::app()->getDocument();
-	m_pSecondary = pDoc->findUMLObject(type);
-	if (m_pSecondary == NULL) {
-		if (type.contains( QRegExp("\\W") ))
-			m_pSecondary = pDoc->createUMLObject(Uml::ot_Datatype, type);
-		else
-			m_pSecondary = pDoc->createUMLObject(Uml::ot_Class, type);
+	if (!type.isEmpty()) {
+		UMLDoc *pDoc = UMLApp::app()->getDocument();
+		m_pSecondary = pDoc->findUMLObject(type);
+		if (m_pSecondary == NULL) {
+			if (type.contains( QRegExp("\\W") ))
+				m_pSecondary = pDoc->createUMLObject(Uml::ot_Datatype, type);
+			else
+				m_pSecondary = pDoc->createUMLObject(Uml::ot_Class, type);
+		}
 	}
 }
 
@@ -140,7 +142,38 @@ bool UMLAttribute::load( QDomElement & element ) {
 	// This deferred resolution is required because the xmi.id may
 	// be a forward reference, i.e. it may identify a model object
 	// that has not yet been loaded.
-
+	if (m_SecondaryId.isEmpty()) {
+		// Perhaps the type is stored in a child node:
+		QDomNode node = element.firstChild();
+		while (!node.isNull()) {
+			if (node.isComment()) {
+				node = node.nextSibling();
+				continue;
+			}
+			QDomElement tempElement = node.toElement();
+			QString tag = tempElement.tagName();
+			if (!Uml::tagEq(tag, "type")) {
+				node = node.nextSibling();
+				continue;
+			}
+			m_SecondaryId = tempElement.attribute( "xmi.id", "" );
+			if (m_SecondaryId.isEmpty())
+				m_SecondaryId = tempElement.attribute( "xmi.idref", "" );
+			if (m_SecondaryId.isEmpty()) {
+				QDomNode inner = node.firstChild();
+				QDomElement tmpElem = inner.toElement();
+				m_SecondaryId = tmpElem.attribute( "xmi.id", "" );
+				if (m_SecondaryId.isEmpty())
+					m_SecondaryId = tmpElem.attribute( "xmi.idref", "" );
+			}
+			break;
+		}
+		if (m_SecondaryId.isEmpty()) {
+			kdError() << "UMLAttribute::load(" << m_Name << "): "
+				  << "cannot find type." << endl;
+			return false;
+		}
+	}
 	m_InitialValue = element.attribute( "initialValue", "" );
 	if (m_InitialValue.isEmpty()) {
 		// for backward compatibility

@@ -192,7 +192,7 @@ void Diagram::dropEvent(QDropEvent *e)
 	UMLListViewItemListIt it(list);
 	UMLListViewItem* data = it.current();
 	UMLObject* o = 0;
-	o = m_doc->findUMLObject(data->getID());
+	o = m_doc->findObjectById(data->getID());
 	if(!o)
 	{
 		kdWarning()<<"object with id = "<<data->getID()<<" not found in document"<<endl;
@@ -219,7 +219,7 @@ bool Diagram::canAcceptDrop(QDropEvent *e)
 	UMLListViewItemListIt it(list);
 	UMLListViewItem* data = it.current();
 	UMLObject* o = 0;
-	if( !(o = m_doc->findUMLObject(data->getID())) )
+	if( !(o = m_doc->findObjectById(data->getID())) )
 	{
 		kdWarning()<<"object with id = "<<data->getID()<<" not found in document"<<endl;
  		return false;

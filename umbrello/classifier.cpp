@@ -15,6 +15,7 @@
 #include "clipboard/idchangelog.h"
 #include "umldoc.h"
 #include "uml.h"
+#include "model_utils.h"
 #include <kdebug.h>
 #include <klocale.h>
 
@@ -332,11 +333,12 @@ void UMLClassifier::init() {
 }
 
 bool UMLClassifier::load(QDomElement& element) {
-	QDomNode node = element.firstChild();
-	if (node.isComment())
-		node = node.nextSibling();
-	element = node.toElement();
-	while( !element.isNull() ) {
+	
+	for (QDomNode node = element.firstChild(); !node.isNull();
+	     node = node.nextSibling()) {
+		if (node.isComment())
+			continue;
+		element = node.toElement();
 		QString tag = element.tagName();
 		if (tagEq(tag, "Classifier.feature") ||
 		    tagEq(tag, "Namespace.ownedElement") ||
@@ -364,19 +366,12 @@ bool UMLClassifier::load(QDomElement& element) {
 				// that something went wrong so let's still try
 				// our best effort.
 			}
-		} else if (!loadSpecialized(element)) {
+		} else if (!Umbrello::isCommonXMIAttribute(tag) &&
+			   !loadSpecialized(element)) {
 			UMLDoc *umldoc = UMLApp::app()->getDocument();
 			UMLObject *pObject = umldoc->makeNewUMLObject(tag);
-			if( !pObject ) {
-				kdWarning() << "UMLClassifier::load: "
-					    << "Unknown type of umlobject to create: "
-					    << tag << endl;
-				node = node.nextSibling();
-				if (node.isComment())
-					node = node.nextSibling();
-				element = node.toElement();
+			if( !pObject )
 				continue;
-			}
 			pObject->setUMLPackage(this);
 			if (pObject->loadFromXMI(element)) {
 				addObject(pObject);
@@ -386,11 +381,7 @@ bool UMLClassifier::load(QDomElement& element) {
 				delete pObject;
 			}
 		}
-		node = node.nextSibling();
-		if (node.isComment())
-			node = node.nextSibling();
-		element = node.toElement();
-	}//end while
+	}
 	return true;
 }
 

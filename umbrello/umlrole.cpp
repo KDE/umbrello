@@ -197,8 +197,33 @@ void UMLRole::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 
 bool UMLRole::load( QDomElement & element ) {
 	UMLDoc * doc = UMLApp::app()->getDocument();
-	m_SecondaryId = element.attribute("type", "-1");
-	if (m_SecondaryId == "-1") {
+	m_SecondaryId = element.attribute("type", "");
+	if (m_SecondaryId.isEmpty()) {
+		// Check if type is saved in a child node.
+		QDomNode node = element.firstChild();
+		while (!node.isNull()) {
+			if (node.isComment()) {
+				node = node.nextSibling();
+				continue;
+			}
+			QDomElement tempElement = node.toElement();
+			QString tag = tempElement.tagName();
+			if (Uml::tagEq(tag, "type") || Uml::tagEq(tag, "participant")) {
+				m_SecondaryId = tempElement.attribute("xmi.id", "");
+				if (m_SecondaryId.isEmpty())
+					m_SecondaryId = tempElement.attribute("xmi.idref", "");
+				if (m_SecondaryId.isEmpty()) {
+					QDomNode inner = tempElement.firstChild();
+					QDomElement innerElem = inner.toElement();
+					m_SecondaryId = innerElem.attribute("xmi.id", "");
+					if (m_SecondaryId.isEmpty())
+						m_SecondaryId = innerElem.attribute("xmi.idref", "");
+				}
+			}
+			node = node.nextSibling();
+		}
+	}
+	if (m_SecondaryId.isEmpty()) {
 		kdError() << "UMLRole::load: type not given or illegal" << endl;
 		return false;
 	}

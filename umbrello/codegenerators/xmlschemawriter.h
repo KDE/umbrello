@@ -152,7 +152,8 @@ private:
 	 * This works well for compositions, aggregations and self-associations but will 
 	 * not work right for plain associations between 2 different classes.
 	 */
-	bool writeAssociationDecls(UMLAssociationList associations, bool noRoleOK, bool didOne, int id, QTextStream &XMLschema);
+	bool writeAssociationDecls(UMLAssociationList associations, bool noRoleOK, bool didOne,
+				   Uml::IDType id, QTextStream &XMLschema);
 
 	/**
 	 * Find all attributes that  belong in group

@@ -149,7 +149,7 @@ void JavaANTCodeDocument::loadChildTextBlocksFromNode ( QDomElement & root)
 				if( name == "codeoperation" ) {
 				       // find the code operation by id
 					QString id = element.attribute("parent_id","-1");
-					UMLObject * obj = getParentGenerator()->getDocument()->findUMLObject(id.toInt());
+					UMLObject * obj = getParentGenerator()->getDocument()->findObjectById(STR2ID(id));
 					UMLOperation * op = dynamic_cast<UMLOperation*>(obj);
 					if(op) {
 						CodeOperation * block = newCodeOperation(op);

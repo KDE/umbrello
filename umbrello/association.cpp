@@ -15,6 +15,7 @@
 #include "uml.h"
 #include "umldoc.h"
 #include "umlrole.h"
+#include "model_utils.h"
 
 using namespace Uml;
 
@@ -146,51 +147,70 @@ bool UMLAssociation::load( QDomElement & element ) {
 		return false; // old style XMI file. No real info in this association.
 
 	UMLDoc * doc = UMLApp::app()->getDocument();
+	UMLObject * obj[2] = { NULL, NULL };
 	if (m_AssocType == Uml::at_Generalization ||
 	    m_AssocType == Uml::at_Dependency) {
-		QString roleAIdStr;
-		if (m_AssocType == Uml::at_Generalization)
-			roleAIdStr = element.attribute( "child", "-1" );
-		else
-			roleAIdStr = element.attribute( "client", "-1" );
-		if (roleAIdStr == "-1") {
-			kdError() << "UMLAssociation::load (type " << m_AssocType
-				  << ", id " << getID() << "): "
-				  << "client not given or illegal" << endl;
-			return false;
-		}
-		QString roleBIdStr;
-		if (m_AssocType == Uml::at_Generalization)
-			roleBIdStr = element.attribute( "parent", "-1" );
-		else
-			roleBIdStr = element.attribute( "supplier", "-1" );
-		if (roleBIdStr == "-1") {
-			kdError() << "UMLAssociation::load (type " << m_AssocType
-				  << ", id " << getID() << "): "
-				  << "supplier not given or illegal" << endl;
-			return false;
-		}
+		for (unsigned r = Uml::A; r <= Uml::B; r++) {
+			const QString fetch = (m_AssocType == Uml::at_Generalization ?
+						 r == Uml::A ? "child" : "parent"
+					       : r == Uml::A ? "client" : "supplier");
+			QString roleIdStr = element.attribute(fetch, "");
+			if (roleIdStr.isEmpty()) {
+				// Might be given as a child node instead - see below.
+				continue;
+			}
 
-		// set umlobjects of roles
-		UMLObject *objA, *objB;
-		if (roleAIdStr.contains(QRegExp("\\D")))
-			objA = doc->findObjectByIdStr(roleAIdStr);
-		else
-			objA = doc->findUMLObject(roleAIdStr.toInt());
-		if (objA == NULL) {
-			getUMLRole(A)->setIdStr(roleAIdStr);  // defer to resolveRef()
-		} else {
-			getUMLRole(A)->setObject(objA);
+			// set umlobject of role if possible (else defer resolution)
+			if (roleIdStr.contains(QRegExp("\\D")))
+				obj[r] = doc->findObjectByIdStr(roleIdStr);
+			else
+				obj[r] = doc->findUMLObject(roleIdStr.toInt());
+			Uml::Role_Type role = (Uml::Role_Type)r;
+			if (obj[r] == NULL) {
+				getUMLRole(role)->setIdStr(roleIdStr);  // defer to resolveRef()
+			} else {
+				getUMLRole(role)->setObject(obj[r]);
+			}
 		}
-
-		if (roleBIdStr.contains(QRegExp("\\D")))
-			objB = doc->findObjectByIdStr(roleBIdStr);
-		else
-			objB = doc->findUMLObject(roleBIdStr.toInt());
-		if (objB == NULL) {
-			getUMLRole(B)->setIdStr(roleBIdStr);  // defer to resolveRef()
-		} else {
-			getUMLRole(B)->setObject(objB);
+		if (obj[A] == NULL || obj[B] == NULL) {
+			for (QDomNode node = element.firstChild(); !node.isNull();
+			     node = node.nextSibling()) {
+				if (node.isComment())
+					continue;
+				QDomElement tempElement = node.toElement();
+				QString tag = tempElement.tagName();
+				if (Umbrello::isCommonXMIAttribute(tag))
+					continue;
+				bool isGeneralization = (m_AssocType == Uml::at_Generalization &&
+							 (tagEq(tag, "child") || tagEq(tag, "parent")));
+				bool isDependency = (m_AssocType == Uml::at_Dependency &&
+						     (tagEq(tag, "client") || tagEq(tag, "supplier")));
+				if (!isGeneralization && !isDependency)
+					continue;
+				QString idStr = tempElement.attribute( "xmi.id", "" );
+				if (idStr.isEmpty())
+					idStr = tempElement.attribute( "xmi.idref", "" );
+				if (idStr.isEmpty()) {
+					QDomNode inner = node.firstChild();
+					QDomElement tmpElem = inner.toElement();
+					idStr = tmpElem.attribute( "xmi.id", "" );
+					if (idStr.isEmpty())
+						idStr = tmpElem.attribute( "xmi.idref", "" );
+				}
+				if (idStr.isEmpty()) {
+					kdError() << "UMLAssociation::load (type " << m_AssocType
+					  << ", id " << getID() << "): "
+					  << "xmi id not given for " << tag << endl;
+					continue;
+				}
+				// Since we know for sure that we're dealing with a non
+				// umbrello file, use deferred resolution unconditionally.
+				if (tagEq(tag, "child") || tagEq(tag, "client")) {
+					getUMLRole(A)->setIdStr(idStr);
+				} else {
+					getUMLRole(B)->setIdStr(idStr);
+				}
+			}
 		}
 
 		// setting the association type:
@@ -203,25 +223,22 @@ bool UMLAssociation::load( QDomElement & element ) {
                 // is not complete, so we need to finish the analysis here.
 
 		// its a realization if either endpoint is an interface
-		if (objA && objA->getBaseType() == Uml::ot_Interface ||
-		    objB && objB->getBaseType() == Uml::ot_Interface)
+		if (obj[A] && obj[A]->getBaseType() == Uml::ot_Interface ||
+		    obj[B] && obj[B]->getBaseType() == Uml::ot_Interface)
 			m_AssocType = Uml::at_Realization;
 
 		return true;
 	}
 
-	QDomNode node = element.firstChild();
-	if (node.isComment())
-		node = node.nextSibling();
-	if (!node.isNull()) {
-		QDomElement tempElement = node.toElement();
+	for (QDomNode node = element.firstChild(); !node.isNull();
+	     node = node.nextSibling()) {
 		// uml13.dtd compliant format (new style)
-		if (tempElement.isNull()) {
-			kdWarning() << "UMLAssociation::load: "
-				<< "expecting UML:Association.connection" << endl;
-			return false;
-		}
+		if (node.isComment())
+			continue;
+		QDomElement tempElement = node.toElement();
 		QString tag = tempElement.tagName();
+		if (Umbrello::isCommonXMIAttribute(tag))
+			continue;
 		if (!tagEq(tag, "Association.connection") &&
 		    !tagEq(tag, "Namespace.ownedElement") &&
 		    !tagEq(tag, "Namespace.contents")) {
@@ -231,7 +248,7 @@ bool UMLAssociation::load( QDomElement & element ) {
 		}
 		// Load role A.
 		node = tempElement.firstChild();
-		if (node.isComment())
+		while (node.isComment())
 			node = node.nextSibling();
 		tempElement = node.toElement();
 		if (tempElement.isNull()) {
@@ -249,7 +266,7 @@ bool UMLAssociation::load( QDomElement & element ) {
 			return false;
 		// Load role B.
 		node = node.nextSibling();
-		if (node.isComment())
+		while (node.isComment())
 			node = node.nextSibling();
 		tempElement = node.toElement();
 		if (tempElement.isNull()) {

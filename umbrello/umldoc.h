@@ -216,10 +216,14 @@ public:
 	 *			Used to create Actors, Use Cases and concepts.
 	 * @param n		A name to give to the object (optional.)
 	 * @param parentPkg	The object's parent package (optional.)
+	 * @param prepend	Set true if it is desired to prepend the new
+	 *			object to the list of objects.
+	 *			The default is to append.
 	 */
 	UMLObject* createUMLObject(Uml::Object_Type type,
 				   const QString &n = QString::null,
-				   UMLPackage *parentPkg = NULL);
+				   UMLPackage *parentPkg = NULL,
+				   bool prepend = false);
 	/**
 	 * Creates a @ref UMLObject of the given type.
 	 *
@@ -365,11 +369,6 @@ public:
 	void removeUMLObject(UMLObject*o);
 
 	/**
-	 * Moves the last entry in m_ObjectList to the start of the list.
-	 */
-	void moveTailToHead();
-
-	/**
 	 * Used to rename a document.  This method takes care of everything.
 	 * You just need to give the ID of the diagram to the method.
 	 *
@@ -433,10 +432,14 @@ public:
 	 *			When the given type is ot_UMLObject the type is
 	 *			disregarded, i.e. the given name is the only
 	 *			search criterion.
+	 * @param currentObj	Object relative to which to search (optional.)
+	 *			If given then the enclosing scope(s) of this
+	 *			object are searched before the global scope.
 	 * @return	Pointer to the UMLObject found, or NULL if not found.
 	 */
 	UMLObject* findUMLObject(QString name,
-				 Uml::Object_Type type = Uml::ot_UMLObject);
+				 Uml::Object_Type type = Uml::ot_UMLObject,
+				 UMLObject *currentObj = NULL);
 
 	/**
 	 * Used to find a reference to a @ref UMLObject given its non-numeric
@@ -904,23 +907,6 @@ private:
 	 * a public method if removeAssociation is removed.
 	 */
 	void removeAssocFromConcepts(UMLAssociation *assoc);
-
-	/**
-	 * Utility method for the public findUMLObject() method: Find the
-	 * UML object of the given type and name in the passed-in list.
-	 * There is nothing that binds this method to UMLDoc thus it is easily
-	 * relocated if need be.
-	 *
-	 * @param inList	List in which to seek the object.
-	 * @param name		Name of the object to find.
-	 * @param type		Object_Type of the object to find (optional.)
-	 *			When the given type is ot_UMLObject the type is
-	 *			disregarded, i.e. the given name is the only
-	 *			search criterion.
-	 * @return	Pointer to the UMLObject found, or NULL if not found.
-	 */
-	static UMLObject* findUMLObject( UMLObjectList inList, QString name,
-					 Uml::Object_Type type = Uml::ot_UMLObject);
 
 	/**
 	 * Sets up the autosave timer.

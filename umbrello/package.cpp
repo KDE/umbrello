@@ -86,16 +86,7 @@ UMLObject * UMLPackage::findObject(int id) {
 }
 
 UMLObject* UMLPackage::findObjectByIdStr(QString idStr) {
-	for (UMLObject * o = m_objects.first(); o; o = m_objects.next()) {
-		if (o->getAuxId() == idStr)
-			return o;
-		if (o->getBaseType() == Uml::ot_Package) {
-			UMLObject *inner = ((UMLPackage*)o)->findObjectByIdStr(idStr);
-			if (inner)
-				return inner;
-		}
-	}
-	return NULL;
+	return Umbrello::findObjectByIdStr(idStr, m_objects);
 }
 
 void UMLPackage::appendClassifiers(UMLClassifierList& classifiers,
@@ -181,12 +172,14 @@ void UMLPackage::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
 
 bool UMLPackage::load(QDomElement& element) {
 	UMLDoc *umldoc = UMLApp::app()->getDocument();
-	QDomNode node = element.firstChild();
-	if (node.isComment())
-		node = node.nextSibling();
-	QDomElement tempElement = node.toElement();
-	while (!tempElement.isNull()) {
+	for (QDomNode node = element.firstChild(); !node.isNull();
+	     node = node.nextSibling()) {
+		if (node.isComment())
+			continue;
+		QDomElement tempElement = node.toElement();
 		QString type = tempElement.tagName();
+		if (Umbrello::isCommonXMIAttribute(type))
+			continue;
 		if (tagEq(type, "Namespace.ownedElement") ||
 		    tagEq(type, "Namespace.contents")) {
 			//CHECK: Umbrello currently assumes that nested elements
@@ -194,10 +187,6 @@ bool UMLPackage::load(QDomElement& element) {
 			// Therefore these tags are not further interpreted.
 			if (! load(tempElement))
 				return false;
-			node = node.nextSibling();
-			if (node.isComment())
-				node = node.nextSibling();
-			tempElement = node.toElement();
 			continue;
 		}
 		UMLObject *pObject = umldoc->makeNewUMLObject(type);
@@ -205,10 +194,6 @@ bool UMLPackage::load(QDomElement& element) {
 			kdWarning() << "UMLPackage::load: "
 				    << "Unknown type of umlobject to create: "
 				    << type << endl;
-			node = node.nextSibling();
-			if (node.isComment())
-				node = node.nextSibling();
-			tempElement = node.toElement();
 			continue;
 		}
 		pObject->setUMLPackage(this);
@@ -219,10 +204,6 @@ bool UMLPackage::load(QDomElement& element) {
 		} else {
 			delete pObject;
 		}
-		node = node.nextSibling();
-		if (node.isComment())
-			node = node.nextSibling();
-		tempElement = node.toElement();
 	}
 	return true;
 }

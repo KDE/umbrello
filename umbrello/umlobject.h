@@ -304,6 +304,11 @@ public:
 	virtual QString getAuxId() const;
 
 	/**
+	 * Return secondary ID. Required by resolveRef().
+	 */
+	QString getSecondaryId() const;
+
+	/**
 	 * Auxiliary to saveToXMI.
 	 * Create a QDomElement with the given tag, and save the XMI attributes
 	 * that are common to all child classes to the newly created element.

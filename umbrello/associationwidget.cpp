@@ -1105,15 +1105,7 @@ void AssociationWidget::setActivated(bool active /*=true*/) {
 	m_bActivated = active;
 }
 
-// ugly. but its what we are forced into by having the ugly association
-// widget data NOT be stored in the UMLAssociation. *sigh*.
-//   Yes, but there's a reason for this separation:
-//   A single UMLAssociation can be represented in different
-//   diagrams. Each graphical representation requires its own
-//   AssociationWidget.
-//   Besides, it's a good idea to separate the document objects
-//   from their graphical representations. That's the way all
-//   the rest of umbrello is structured.  --okellogg
+// CHECK: Can we get rid of this
 void AssociationWidget::mergeUMLRepresentationIntoAssociationData()
 {
 	UMLAssociation *uml = getAssociation();
@@ -2696,6 +2688,14 @@ void AssociationWidget::init (UMLView *view)
 	// associationwidget attributes
 	m_role[A].m_WidgetRegion = Error;
 	m_role[B].m_WidgetRegion = Error;
+	m_role[A].m_nIndex = 0;
+	m_role[B].m_nIndex = 0;
+	m_role[A].m_nTotalCount = 0;
+	m_role[B].m_nTotalCount = 0;
+	m_role[A].m_Visibility = Uml::Public;
+	m_role[B].m_Visibility = Uml::Public;
+	m_role[A].m_Changeability = Uml::chg_Changeable;
+	m_role[B].m_Changeability = Uml::chg_Changeable;
 	m_bActivated = false;
 	m_unNameLineSegment = 0;
 	m_pMenu = 0;

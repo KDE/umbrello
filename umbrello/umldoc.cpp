@@ -606,11 +606,6 @@ CodeGenerator* UMLDoc::getCurrentCodeGenerator() {
 	return m_currentcodegenerator;
 }
 
-void UMLDoc::moveTailToHead() {
-	UMLObject *o = m_objectList.take(m_objectList.count() - 1);
-	m_objectList.prepend(o);
-}
-
 void UMLDoc::deleteContents() {
 
 	m_Doc = "";
@@ -752,70 +747,14 @@ UMLStereotype * UMLDoc::findStereotype(int id) {
 	return NULL;
 }
 
-UMLObject* UMLDoc::findUMLObject(QString name, Object_Type type /* = ot_UMLObject */) {
-	return findUMLObject(m_objectList, name, type);
-}
-
-UMLObject* UMLDoc::findUMLObject(UMLObjectList inList, QString name,
-				 Object_Type type /* = ot_UMLObject */) {
-	QStringList components = QStringList::split("::", name);
-	QString nameWithoutFirstPrefix;
-	if (components.size() > 1) {
-		name = components.front();
-		components.pop_front();
-		nameWithoutFirstPrefix = components.join("::");
-	}
-	for (UMLObjectListIt oit(inList); oit.current(); ++oit) {
-		UMLObject *obj = oit.current();
-		if (obj->getName() != name)
-			continue;
-		Object_Type foundType = obj->getBaseType();
-		if (nameWithoutFirstPrefix.isEmpty()) {
-			if (type != ot_UMLObject && type != foundType) {
-				kdDebug() << "findUMLObject: type mismatch for "
-					  << name << " (seeking type: "
-					  << type << ", found type: "
-					  << foundType << ")" << endl;
-				continue;
-			}
-			return obj;
-		}
-		if (foundType != Uml::ot_Package) {
-			kdDebug() << "findUMLObject: found \"" << name
-				  << "\" is not a package (?)" << endl;
-			continue;
-		}
-		UMLPackage *pkg = static_cast<UMLPackage*>(obj);
-		return findUMLObject( pkg->containedObjects(),
-				      nameWithoutFirstPrefix, type );
-	}
-	return NULL;
+UMLObject* UMLDoc::findUMLObject(QString name,
+				 Object_Type type /* = ot_UMLObject */,
+				 UMLObject *currentObj /* = NULL */) {
+	return Umbrello::findUMLObject(m_objectList, name, type, currentObj);
 }
 
 UMLObject* UMLDoc::findObjectByIdStr(QString idStr) {
-	for (UMLObjectListIt oit(m_objectList); oit.current(); ++oit) {
-		UMLObject *o = oit.current();
-		if (o->getAuxId() == idStr)
-			return o;
-		UMLObject *inner = NULL;
-		switch (o->getBaseType()) {
-			case Uml::ot_Package:
-				inner = ((UMLPackage*)o)->findObjectByIdStr(idStr);
-				if (inner)
-					return inner;
-				break;
-			case Uml::ot_Interface:
-			case Uml::ot_Class:
-			case Uml::ot_Enum:
-				inner = ((UMLClassifier*)o)->findChildObjectByIdStr(idStr);
-				if (inner)
-					return inner;
-				break;
-			default:
-				break;
-		}
-	}
-	return NULL;
+	return Umbrello::findObjectByIdStr(idStr, m_objectList);
 }
 
 UMLClassifier* UMLDoc::findUMLClassifier(QString name) {
@@ -997,7 +936,8 @@ UMLObject* UMLDoc::createUMLObject(const std::type_info &type)
 }
 
 UMLObject* UMLDoc::createUMLObject(Object_Type type, const QString &n,
-				   UMLPackage *parentPkg /* = NULL */) {
+				   UMLPackage *parentPkg /* = NULL */,
+				   bool prepend /* = false */) {
 	bool ok = false;
 	int id;
 	QString name;
@@ -1060,7 +1000,10 @@ UMLObject* UMLDoc::createUMLObject(Object_Type type, const QString &n,
 		return (UMLObject*)0L;
 	}
 	o->setUMLPackage(parentPkg);
-	m_objectList.append(o);
+	if (prepend)
+		m_objectList.prepend(o);
+	else
+		m_objectList.append(o);
 	emit sigObjectCreated(o);
 	setModified(true);
 	return o;
@@ -1882,52 +1825,46 @@ short UMLDoc::getEncoding(QIODevice & file)
 	}
 	node = node.firstChild();
 
-	if ( !node.isNull() )
-	{
-		QDomElement element = node.toElement();
-
-		// check header
-		if( !element.isNull() && element.tagName() == "XMI.header" )
-		{
-			QDomNode headerNode = node.firstChild();
-			QDomElement headerElement = headerNode.toElement();
-			while ( !headerNode.isNull() )
-			{
-				// the information if Unicode was used is now stored in the
-				// XMI.documenation section of the header
-				if (! headerElement.isNull() && headerElement.tagName() ==
-							"XMI.documentation")
-				{
-					QDomNode docuNode = headerNode.firstChild();
-					QDomElement docuElement = docuNode.toElement();
-					while ( !docuNode.isNull() )
-					{
-						// a tag XMI.exporterEncoding was added since version 1.2 to
-						// mark a file as saved with Unicode
-						if (! docuElement.isNull() && docuElement.tagName() ==
-									"XMI.exporterEncoding")
-						{
-							// at the moment this if isn't really neccesary, but maybe
-							// later we will have other encoding standards
-							if (docuElement.text() == QString("UnicodeUTF8"))
-							{
-								return ENC_UNICODE; // stop here
-							}
-						}
-						docuNode = docuNode.nextSibling();
-						docuElement = docuNode.toElement();
-					}
-					return ENC_OLD_ENC;
-				}
-				headerNode = headerNode.nextSibling();
-				headerElement = headerNode.toElement();
-			}
-			return ENC_OLD_ENC;
-		}
-	} else {
+	if ( node.isNull() )
 		return ENC_UNKNOWN;
+
+	QDomElement element = node.toElement();
+	// check header
+	if( element.isNull() || element.tagName() != "XMI.header" )
+		return ENC_UNKNOWN;
+
+	QDomNode headerNode = node.firstChild();
+	while ( !headerNode.isNull() )
+	{
+		QDomElement headerElement = headerNode.toElement();
+		// the information if Unicode was used is now stored in the
+		// XMI.documentation section of the header
+		if (headerElement.isNull() ||
+		    headerElement.tagName() != "XMI.documentation") {
+			headerNode = headerNode.nextSibling();
+			continue;
+		}
+		QDomNode docuNode = headerNode.firstChild();
+		while ( !docuNode.isNull() )
+		{
+			QDomElement docuElement = docuNode.toElement();
+			// a tag XMI.exporterEncoding was added since version 1.2 to
+			// mark a file as saved with Unicode
+			if (! docuElement.isNull() &&
+			    docuElement.tagName() == "XMI.exporterEncoding")
+			{
+				// at the moment this if isn't really neccesary, but maybe
+				// later we will have other encoding standards
+				if (docuElement.text() == QString("UnicodeUTF8"))
+				{
+					return ENC_UNICODE; // stop here
+				}
+			}
+			docuNode = docuNode.nextSibling();
+		}
+		break;
 	}
-	return ENC_OLD_ENC; // never reached
+	return ENC_OLD_ENC;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
@@ -1971,20 +1908,15 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
 	if( root.tagName() != "XMI" ) {
 		return false;
 	}
-	node = node.firstChild();
 
 	m_nViewID = -1;
 	m_highestIDforForeignFile = 0;
-	while( !node.isNull() ) {
-		if (node.isComment()) {
-			node = node.nextSibling();
+	for (node = node.firstChild(); !node.isNull(); node = node.nextSibling()) {
+		if (node.isComment())
 			continue;
-		}
 		QDomElement element = node.toElement();
-
 		if (element.isNull()) {
 			kdDebug() << "loadFromXMI: skip empty elem" << endl;
-			node = node.nextSibling();
 			continue;
 		}
 		bool recognized = false;
@@ -2008,15 +1940,14 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
 			if (!recognized)
 				kdDebug() << "UMLDoc::loadFromXMI: skipping <"
 					  << outerTag << ">" << endl;
-			node = node.nextSibling();
 			continue;
 		}
 		//process content
-		QDomNode child = node.firstChild();
-		if (child.isComment())
-			child = child.nextSibling();
-		element = child.toElement();
-		while( !element.isNull() ) {
+		for (QDomNode child = node.firstChild(); !child.isNull();
+		     child = child.nextSibling()) {
+			if (child.isComment())
+				continue;
+			element = child.toElement();
 			QString tag = element.tagName();
 			if (tag == "umlobjects"  // for bkwd compat.
 				 || tagEq(tag, "Model") ) {
@@ -2039,13 +1970,8 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
 				// for backward compatibility
 				loadExtensionsFromXMI(child);
 			}
-			child = child.nextSibling();
-			if (child.isComment())
-				child = child.nextSibling();
-			element = child.toElement();
-		}//end while
-		node = node.nextSibling();
-	}//end while
+		}
+	}
 
 	if (m_nViewID == -1) {
 		m_uniqueID = m_highestIDforForeignFile;
@@ -2101,12 +2027,11 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element) {
 	 */
 	emit sigWriteToStatusBar( i18n("Loading UML elements...") );
 
-	QDomNode node = element.firstChild();
-	if (node.isComment())
-		node = node.nextSibling();
-	QDomElement tempElement = node.toElement();
-
-	while ( !tempElement.isNull() ) {
+	for (QDomNode node = element.firstChild(); !node.isNull();
+	     node = node.nextSibling()) {
+		if (node.isComment())
+			continue;
+		QDomElement tempElement = node.toElement();
 		QString type = tempElement.tagName();
 		if (tagEq(type, "Namespace.ownedElement") ||
 		    tagEq(type, "Namespace.contents")) {
@@ -2118,33 +2043,20 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element) {
 				kdWarning() << "failed load on " << type << endl;
 				return false;
 			}
-			node = node.nextSibling();
-			tempElement = node.toElement();
-			continue;
-		} else if (tagEq(type, "name") || tagEq(type, "isSpecification") ||
-			   tagEq(type, "isRoot") || tagEq(type, "isLeaf") ||
-			   tagEq(type, "isAbstract")) {
-			kdDebug() << "UMLDoc::loadUMLObjectsFromXMI: skipping tag "
-				  << type << endl;
-			node = node.nextSibling();
-			if (node.isComment())
-				node = node.nextSibling();
-			tempElement = node.toElement();
 			continue;
 		}
+		if (Umbrello::isCommonXMIAttribute(type))
+			continue;
 		UMLObject *pObject = makeNewUMLObject(type);
 		if( !pObject ) {
 			kdWarning() << "Unknown type of umlobject to create: " << type << endl;
 			// We want a best effort, therefore this is handled as a
 			// soft error.
-			node = node.nextSibling();
-			if (node.isComment())
-				node = node.nextSibling();
-			tempElement = node.toElement();
 			continue;
 		}
 		bool status = pObject -> loadFromXMI( tempElement );
 		if (tagEq(type, "Association") ||
+		    tagEq(type, "AssociationClass") ||
 		    tagEq(type, "Generalization") ||
 		    tagEq(type, "Dependency")) {
 			if ( !status ) {
@@ -2169,11 +2081,7 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element) {
 		/* FIXME see comment at loadUMLObjectsFromXMI
 		emit sigSetStatusbarProgress( ++m_count );
 		 */
-		node = node.nextSibling();
-		if (node.isComment())
-			node = node.nextSibling();
-		tempElement = node.toElement();
-	}//end while
+	}
 
 #ifdef VERBOSE_DEBUGGING
 	kdDebug() << "UMLDoc::m_objectList.count() is " << m_objectList.count() << endl;
@@ -2188,7 +2096,14 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element) {
 #endif
 		obj->resolveRef();
 	}
-
+#ifdef VERBOSE_DEBUGGING
+	kdDebug() << "UMLDoc object list after resolveRef():" << endl;
+	for (UMLObjectListIt it(m_objectList); it.current(); ++it) {
+		UMLObject *obj = it.current();
+		kdDebug() << obj->getName() << "  (id " << obj->getID()
+			  << ")" << endl;
+	}
+#endif
 	return true;
 }
 
@@ -2257,7 +2172,8 @@ UMLObject* UMLDoc::makeNewUMLObject(QString type) {
 		pObject = new UMLEnum();
 	} else if (tagEq(type, "Stereotype")) {
 		pObject = new UMLStereotype();
-	} else if (tagEq(type, "Association")) {
+	} else if (tagEq(type, "Association") ||
+		   tagEq(type, "AssociationClass")) {
 		pObject = new UMLAssociation(Uml::at_Unknown, (UMLObject*)NULL, (UMLObject*) NULL);
 	} else if (tagEq(type, "Generalization")) {
 		pObject = new UMLAssociation(Uml::at_Generalization, NULL, NULL);
@@ -2345,7 +2261,8 @@ QStringList UMLDoc::getModelTypes()
 
 UMLClassifierList UMLDoc::getConcepts(bool includeNested /* =true */) {
 	UMLClassifierList conceptList;
-	for(UMLObject *obj = m_objectList.first(); obj ; obj = m_objectList.next()) {
+	for (UMLObjectListIt oit(m_objectList); oit.current(); ++oit) {
+		UMLObject *obj = oit.current();
 		Uml::Object_Type ot = obj->getBaseType();
 		if(ot == ot_Class || ot == ot_Interface || ot == ot_Datatype || ot == ot_Enum)  {
 			conceptList.append((UMLClassifier *)obj);
@@ -2359,7 +2276,8 @@ UMLClassifierList UMLDoc::getConcepts(bool includeNested /* =true */) {
 
 UMLClassList UMLDoc::getClasses(bool includeNested /* =true */) {
 	UMLClassList conceptList;
-	for(UMLObject* obj = m_objectList.first(); obj ; obj = m_objectList.next()) {
+	for (UMLObjectListIt oit(m_objectList); oit.current(); ++oit) {
+		UMLObject *obj = oit.current();
 		Uml::Object_Type ot = obj->getBaseType();
 		if (ot == ot_Class)  {
 			conceptList.append((UMLClass *)obj);
@@ -2373,7 +2291,8 @@ UMLClassList UMLDoc::getClasses(bool includeNested /* =true */) {
 
 UMLClassifierList UMLDoc::getClassesAndInterfaces(bool includeNested /* =true */) {
 	UMLClassifierList conceptList;
-	for(UMLObject* obj = m_objectList.first(); obj ; obj = m_objectList.next()) {
+	for (UMLObjectListIt oit(m_objectList); oit.current(); ++oit) {
+		UMLObject *obj = oit.current();
 		Uml::Object_Type ot = obj->getBaseType();
 		if(ot == ot_Class || ot == ot_Interface || ot == ot_Enum)  {
 			conceptList.append((UMLClassifier *)obj);
@@ -2387,7 +2306,8 @@ UMLClassifierList UMLDoc::getClassesAndInterfaces(bool includeNested /* =true */
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLInterfaceList UMLDoc::getInterfaces(bool includeNested /* =true */) {
 	UMLInterfaceList interfaceList;
-	for(UMLObject* obj = m_objectList.first(); obj ; obj = m_objectList.next()) {
+	for (UMLObjectListIt oit(m_objectList); oit.current(); ++oit) {
+		UMLObject *obj = oit.current();
 		Uml::Object_Type ot = obj->getBaseType();
 		if (ot == ot_Interface) {
 			interfaceList.append((UMLInterface*)obj);
@@ -2401,7 +2321,8 @@ UMLInterfaceList UMLDoc::getInterfaces(bool includeNested /* =true */) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 QPtrList<UMLDatatype> UMLDoc::getDatatypes() {
 	QPtrList<UMLDatatype> datatypeList;
-	for(UMLObject* obj = m_objectList.first(); obj ; obj = m_objectList.next()) {
+	for (UMLObjectListIt oit(m_objectList); oit.current(); ++oit) {
+		UMLObject *obj = oit.current();
 		if(obj->getBaseType() == ot_Datatype) {
 			datatypeList.append((UMLDatatype*)obj);
 		}
@@ -2411,9 +2332,11 @@ QPtrList<UMLDatatype> UMLDoc::getDatatypes() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLAssociationList UMLDoc::getAssociations() {
 	UMLAssociationList associationList;
-	for(UMLObject *obj = m_objectList.first(); obj ; obj = m_objectList.next())
+	for (UMLObjectListIt oit(m_objectList); oit.current(); ++oit) {
+		UMLObject *obj = oit.current();
 		if(obj -> getBaseType() == ot_Association)
 			associationList.append((UMLAssociation *)obj);
+	}
 	return associationList;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////

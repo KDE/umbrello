@@ -216,14 +216,17 @@ bool UMLClass::loadSpecialized(QDomElement & element) {
 	QString tag = element.tagName();
 	if (Uml::tagEq(tag, "Attribute")) {
 		UMLAttribute * pAtt = new UMLAttribute( this );
-		if( !pAtt -> loadFromXMI( element ) )
+		if (!pAtt -> loadFromXMI( element )) {
+			delete pAtt;
 			return false;
+		}
 		addAttribute(pAtt);
 		return true;
 	} else if (tag == "template") {
 		//FIXME: Make UML DTD compliant.
 		UMLTemplate* newTemplate = new UMLTemplate(this);
 		if ( !newTemplate->loadFromXMI(element) ) {
+			delete newTemplate;
 			return false;
 		}
 		addTemplate(newTemplate);

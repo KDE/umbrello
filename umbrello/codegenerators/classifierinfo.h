@@ -114,7 +114,7 @@ protected:
 
 private:
 
-	int m_nID; // id of the classifier
+	Uml::IDType m_nID; // id of the classifier
 
 	/**
 	 * Utility method called by "get*ChildClassfierList()" methods. It basically 

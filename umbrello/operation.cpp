@@ -188,6 +188,8 @@ void UMLOperation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement operationElement = UMLObject::save("UML:Operation", qDoc);
 	if (m_pSecondary) {
 		operationElement.setAttribute( "type", m_pSecondary->getID() );
+	} else {
+		operationElement.setAttribute( "type", m_SecondaryId );
 	}
 	//save each attribute here, type different
 	UMLAttribute* pAtt = 0;
@@ -215,17 +217,17 @@ void UMLOperation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 
 bool UMLOperation::load( QDomElement & element ) {
 	QString type = element.attribute( "type", "" );
-	UMLDoc *pDoc = UMLApp::app()->getDocument();
-	if (type.isEmpty()) {
-		UMLClassifierListItem::setTypeName( "void" );
-	} else if (type.contains( QRegExp("\\D") )) {
-		m_SecondaryId = type;  // defer type resolution
-	} else {
-		m_pSecondary = pDoc->findUMLObject( type.toInt() );
-		if (m_pSecondary == NULL) {
-			kdError() << "UMLOperation::load: Cannot find UML object"
-				  << " for type " << type << endl;
-			UMLClassifierListItem::setTypeName( "void" );
+	if (!type.isEmpty()) {
+		if (type.contains( QRegExp("\\D") )) {
+			m_SecondaryId = type;  // defer type resolution
+		} else {
+			UMLDoc *pDoc = UMLApp::app()->getDocument();
+			m_pSecondary = pDoc->findUMLObject( type.toInt() );
+			if (m_pSecondary == NULL) {
+				kdError() << "UMLOperation::load: Cannot find UML object"
+					  << " for type " << type << endl;
+				UMLClassifierListItem::setTypeName( "void" );
+			}
 		}
 	}
 	QDomNode node = element.firstChild();
@@ -244,13 +246,22 @@ bool UMLOperation::load( QDomElement & element ) {
 				return false;
 			}
 			QString kind = attElement.attribute("kind", "in");
-			if (kind == "out")
-				pAtt->setParmKind(Uml::pd_Out);
-			else if (kind == "inout")
-				pAtt->setParmKind(Uml::pd_InOut);
-			else
-				pAtt->setParmKind(Uml::pd_In);
-			m_List.append( pAtt );
+			if (kind == "return") {
+				// TEMPORARY: For the time being we are sure
+				// this is a foreign XMI file.
+				// Use deferred xmi.id resolution.
+				m_pSecondary = NULL;
+				m_SecondaryId = pAtt->getSecondaryId();
+				delete pAtt;
+			} else {
+				if (kind == "out")
+					pAtt->setParmKind(Uml::pd_Out);
+				else if (kind == "inout")
+					pAtt->setParmKind(Uml::pd_InOut);
+				else
+					pAtt->setParmKind(Uml::pd_In);
+				m_List.append( pAtt );
+			}
 		}
 		node = node.nextSibling();
 		if (node.isComment())

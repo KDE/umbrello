@@ -2391,6 +2391,12 @@ void UMLView::createAutoAttributeAssociations(UMLWidget *widget) {
 	for (UMLAttributeListIt ait(attrList); ait.current(); ++ait) {
 		UMLAttribute *attr = ait.current();
 		UMLClassifier *attrType = attr->getType();
+		if (attrType == NULL) {
+			kdError() << "UMLView::createAutoAttributeAssociations("
+				  << klass->getName() << "): type is NULL for "
+				  << "attribute " << attr->getName() << endl;
+			continue;
+		}
 		UMLWidget *w = findWidget( attrType->getID() );
 		// if the attribute type has a widget representation on this view
 		if (w &&
@@ -3314,8 +3320,9 @@ UMLWidget* UMLView::loadWidgetFromXMI(QDomElement& widgetElement) {
 		UMLObject *o(0);
 		if( id < 0 || !( o = m_pDoc->findUMLObject(id)) )
 		{
-			kdWarning()<<"UMLView::loadWidgetFromXMI( ) - ERROR - cannot find Object with id "<<id<<endl;
-			return 0L;
+			kdError() << "UMLView::loadWidgetFromXMI: cannot find object with id "
+				  << id << endl;
+			return NULL;
 		}
 
 		if (tag == "actorwidget"

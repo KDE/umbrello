@@ -122,7 +122,7 @@ void PhpWriter::writeClass(UMLClassifier *c) {
 			php<< m_newLineEndingChars;
 			//maybe we should parse the string here and take multiplicity into account to decide
 			//which container to use.
-			UMLObject *o = m_doc->findUMLObject(a->getRoleId(Uml::A));
+			UMLObject *o = m_doc->findObjectById(a->getRoleId(Uml::A));
 			QString typeName = cleanName(o->getName());
 			if (a->getMulti(Uml::A).isEmpty())  {
 				php << m_indentation << "var $m_" << ";" << endl;
@@ -136,7 +136,7 @@ void PhpWriter::writeClass(UMLClassifier *c) {
 		php<< m_newLineEndingChars << m_indentation << "/** Compositions: */" << m_newLineEndingChars;
 		for (a = compositions.first(); a ; a = compositions.next()) {
 			// see comment on Aggregation about multiplicity...
-			UMLObject *o = m_doc->findUMLObject(a->getRoleId(Uml::A));
+			UMLObject *o = m_doc->findObjectById(a->getRoleId(Uml::A));
 			QString typeName = cleanName(o->getName());
 			if (a->getMulti(Uml::A).isEmpty())  {
 				php << m_indentation << "var $m_" << ";" << endl;

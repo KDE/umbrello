@@ -327,7 +327,7 @@ void IDLWriter::writeClass(UMLClassifier *c) {
 			idl << spc() << "// Types for association multiplicities" << m_newLineEndingChars << m_newLineEndingChars;
 			didComment = true;
 		}
-		UMLClassifier* other = (UMLClassifier*)m_doc->findUMLObject(a->getRoleId(Uml::A));
+		UMLClassifier* other = (UMLClassifier*)m_doc->findObjectById(a->getRoleId(Uml::A));
 		QString bareName = cleanName(other->getName());
 		idl << spc() << "typedef sequence<" << qualifiedName(other) << "> "
 		    << bareName << "Vector;" << m_newLineEndingChars << m_newLineEndingChars;
@@ -342,7 +342,7 @@ void IDLWriter::writeClass(UMLClassifier *c) {
 			idl << spc() << "// Types for association multiplicities" << m_newLineEndingChars << m_newLineEndingChars;
 			didComment = true;
 		}
-		UMLClassifier* other = (UMLClassifier*)m_doc->findUMLObject(a->getRoleId(Uml::A));
+		UMLClassifier* other = (UMLClassifier*)m_doc->findObjectById(a->getRoleId(Uml::A));
 		QString bareName = cleanName(other->getName());
 		idl << spc() << "typedef sequence<" << qualifiedName(other) << "> "
 		    << bareName << "Vector;" << m_newLineEndingChars << m_newLineEndingChars;
