@@ -143,7 +143,8 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, Uml::ListView_Type type) : KPopupM
 	setupMenu(mt);
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object, bool multi) : KPopupMenu(parent)
+ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object, bool multi,
+bool unique) : KPopupMenu(parent)
 {
 	//make the right menu for the type
 	//make menu for logical view
@@ -161,6 +162,73 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object, bool multi) :
 	Uml::UMLWidget_Type type = object -> getBaseType();
 
 	if(multi) {
+		if (unique == true) {
+			switch (type) {
+				case Uml::wt_Class:
+					m_pShow = new KPopupMenu(this, "Show");
+					m_pShow -> setCheckable(true);
+					m_pShow -> insertItem( i18n("Attributes"),
+											mt_Show_Attributes_Selection);
+					m_pShow -> setItemChecked(mt_Show_Attributes_Selection,
+											c -> getShowAtts());
+					m_pShow -> insertItem( i18n("Operations"),
+											mt_Show_Operations_Selection);
+					m_pShow -> setItemChecked(mt_Show_Operations_Selection,
+											c -> getShowOps());
+					m_pShow -> insertItem(i18n("Visibility"), mt_Scope_Selection);
+					m_pShow -> setItemChecked(mt_Scope_Selection,
+											c -> getShowScope());
+					m_pShow -> insertItem(i18n("Operation Signature"),
+											mt_Show_Operation_Signature_Selection);
+					sig = false;
+					if( c -> getShowOpSigs() == Uml::st_SigNoScope ||
+					        c -> getShowOpSigs() == Uml::st_ShowSig)
+						sig = true;
+					m_pShow -> setItemChecked(mt_Show_Operation_Signature_Selection,
+											sig);
+					m_pShow -> insertItem(i18n("Attribute Signature"),
+											mt_Show_Attribute_Signature_Selection);
+					sig = false;
+					if( c -> getShowAttSigs() == Uml::st_SigNoScope ||
+					        c -> getShowAttSigs() == Uml::st_ShowSig)
+						sig = true;
+					m_pShow -> setItemChecked(mt_Show_Attribute_Signature_Selection,
+											sig);
+					m_pShow->insertItem(i18n("Package"), mt_Show_Packages_Selection);
+					m_pShow->setItemChecked(mt_Show_Packages_Selection,
+											c -> getShowPackage());
+					m_pShow->insertItem(i18n("Stereotype"),
+											mt_Show_Stereotypes_Selection);
+					m_pShow->setItemChecked(mt_Show_Stereotypes_Selection,
+											c -> getShowStereotype());
+					insertItem(SmallIcon( "info"),i18n("Show"), m_pShow);
+					break;
+				case Uml::wt_Interface:
+					m_pShow = new KPopupMenu(this, "Show");
+					m_pShow->setCheckable(true);
+					m_pShow->insertItem(i18n("Operations"),
+											mt_Show_Operations_Selection);
+					m_pShow->setItemChecked(mt_Show_Operations_Selection,
+											interfaceWidget->getShowOps());
+					m_pShow->insertItem(i18n("Visibility"), mt_Scope_Selection);
+					m_pShow->setItemChecked(mt_Scope_Selection,
+											interfaceWidget->getShowScope());
+					m_pShow->insertItem(i18n("Operation Signature"),
+											mt_Show_Operation_Signature_Selection);
+					sig = false;
+					if( interfaceWidget->getShowOpSigs() == Uml::st_SigNoScope ||
+					        interfaceWidget->getShowOpSigs() == Uml::st_ShowSig)
+						sig = true;
+					m_pShow->setItemChecked(mt_Show_Operation_Signature_Selection,
+											sig);
+					m_pShow->insertItem(i18n("Package"), mt_Show_Packages_Selection);
+					m_pShow->setItemChecked(mt_Show_Packages_Selection,
+											interfaceWidget->getShowPackage());
+					insertItem(SmallIcon("info"),i18n("Show"), m_pShow);
+					break;
+				default: break;
+			} // switch (type)
+		} // if (unique == true)
 		setupColorSelection(object -> getUseFillColour());
 		insertSeparator();
 		insrtItm(mt_Cut);
@@ -169,6 +237,15 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object, bool multi) :
 		insertSeparator();
 		insertItem(SmallIcon( "fonts" ), i18n( "Change Font..." ), mt_Change_Font_Selection );
 		insertItem(SmallIcon( "editdelete" ), i18n("Delete Selected Items"), mt_Delete_Selection);
+
+		// add this here and not above with the other stuff of the interface
+		// user might expect it at this position of the context menu
+		if (unique == true && type == Uml::wt_Interface) {
+			insertItem(i18n("Draw as Circle"), mt_DrawAsCircle_Selection);
+			setItemChecked( mt_DrawAsCircle_Selection,
+											interfaceWidget->getDrawAsCircle() );
+		}
+
 		if(m_pInsert)
 			connect(m_pInsert, SIGNAL(activated(int)), this, SIGNAL(activated(int)));
 		if(m_pShow)
@@ -219,6 +296,10 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object, bool multi) :
 			        c -> getShowAttSigs() == Uml::st_ShowSig)
 				sig = true;
 			m_pShow -> setItemChecked(mt_Show_Attribute_Signature, sig);
+			m_pShow->insertItem(i18n("Package"), mt_Show_Packages);
+			m_pShow->setItemChecked(mt_Show_Packages, c -> getShowPackage());
+			m_pShow->insertItem(i18n("Stereotype"), mt_Show_Stereotypes);
+			m_pShow->setItemChecked(mt_Show_Stereotypes, c -> getShowStereotype());
 			insertItem(SmallIcon( "info"),i18n("Show"), m_pShow);
 
 			setupColor(object -> getUseFillColour());
@@ -252,6 +333,8 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object, bool multi) :
 			        interfaceWidget->getShowOpSigs() == Uml::st_ShowSig)
 				sig = true;
 			m_pShow->setItemChecked(mt_Show_Operation_Signature, sig);
+			m_pShow->insertItem(i18n("Package"), mt_Show_Packages);
+			m_pShow->setItemChecked(mt_Show_Packages, interfaceWidget->getShowPackage());
 			insertItem(SmallIcon("info"),i18n("Show"), m_pShow);
 
 			setupColor(object->getUseFillColour());
