@@ -1866,6 +1866,8 @@ void UMLListView::createChildUMLObject( UMLListViewItem * item, Uml::UMLObject_T
 	item->setUMLObject( newObject );
 	item->setText( name );
 	m_bCreatingChildObject = false;
+
+	m_doc->setModified();
 }
 
 void UMLListView::createDiagram( UMLListViewItem * item, Uml::Diagram_Type type ) {

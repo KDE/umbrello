@@ -682,26 +682,28 @@ UMLObject* UMLDoc::createUMLObject(UMLObject_Type type, const QString &n) {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLObject* UMLDoc::createUMLObject(UMLObject* umlobject, UMLObject_Type type) {
+	UMLObject* returnObject = NULL;
 	if(type == ot_Attribute) {
 		UMLClass *umlclass = dynamic_cast<UMLClass *>(umlobject);
 		if (umlclass)
-			return createAttribute(umlclass);
+			returnObject = createAttribute(umlclass);
 	} else if(type == ot_Operation) {
 		UMLClassifier *umlclassifier = dynamic_cast<UMLClassifier *>(umlobject);
 		if (umlclassifier)
-			return createOperation(umlclassifier);
+			returnObject = createOperation(umlclassifier);
 	} else if(type == ot_Template) {
 		UMLClass *umlclass = dynamic_cast<UMLClass *>(umlobject);
 		if (umlclass)
-			return createTemplate(umlclass);
+			returnObject = createTemplate(umlclass);
 	} else if(type == ot_EnumLiteral) {
 		UMLEnum* umlenum = dynamic_cast<UMLEnum*>(umlobject);
-		if (umlenum)  {
-			return createEnumLiteral(umlenum);
+		if (umlenum) {
+			returnObject = createEnumLiteral(umlenum);
 		}
+	} else {
+		kdDebug() << "ERROR _CREATEUMLOBJECT type:" << type << endl;
 	}
-	kdDebug() << "ERROR _CREATEUMLOBJECT type:" << type << endl;
-	return NULL;
+	return returnObject;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLObject* UMLDoc::createAttribute(UMLClass* umlclass, const QString &name /*=null*/) {
@@ -742,7 +744,6 @@ UMLObject* UMLDoc::createAttribute(UMLClass* umlclass, const QString &name /*=nu
 
 	// addUMLObject(newAttribute);
 
-	setModified(true);
 	emit sigObjectCreated(newAttribute);
 	return newAttribute;
 }
@@ -775,7 +776,6 @@ UMLObject* UMLDoc::createTemplate(UMLClass* umlclass) {
 
 	umlclass->addTemplate(newTemplate);
 
-	setModified(true);
 	emit sigObjectCreated(newTemplate);
 	return newTemplate;
 }
@@ -805,7 +805,6 @@ UMLObject* UMLDoc::createEnumLiteral(UMLEnum* umlenum) {
 
 	umlenum->addEnumLiteral(newEnumLiteral);
 
-	setModified(true);
 	emit sigObjectCreated(newEnumLiteral);
 	return newEnumLiteral;
 }
@@ -835,7 +834,6 @@ UMLObject* UMLDoc::createStereotype(UMLClassifier* classifier, UMLObject_Type li
 
 	classifier->addStereotype(newStereotype, list);
 
-	setModified(true);
 	emit sigObjectCreated(newStereotype);
 	return newStereotype;
 }
@@ -877,7 +875,6 @@ UMLOperation* UMLDoc::createOperation(UMLClassifier* classifier, const QString &
 	classifier->addOperation( op );
 
 	// addUMLObject(newOperation);
-	setModified(true);
 	sigObjectCreated(op);
 	return op;
 }
@@ -1966,7 +1963,6 @@ bool UMLDoc::showProperties(UMLWidget * o) {
 }
 
 void UMLDoc::setModified(bool modified /*=true*/, bool addToUndo /*=true*/) {
-
 	if(!m_bLoading) {
 		m_modified = modified;
 		((UMLApp *) parent())->setModified(modified);

@@ -157,7 +157,9 @@ void EnumWidget::calculateSize() {
 void EnumWidget::slotMenuSelection(int sel) {
 	switch(sel) {
 		case ListPopupMenu::mt_EnumLiteral:
-			m_pView->getDocument()->createUMLObject(m_pObject, ot_EnumLiteral);
+			if ( m_pView->getDocument()->createUMLObject(m_pObject, ot_EnumLiteral) )  {
+				m_pView->getDocument()->setModified();
+			}
 			break;
 	}
 	UMLWidget::slotMenuSelection(sel);

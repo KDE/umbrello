@@ -342,11 +342,14 @@ void ClassWidget::slotMenuSelection(int sel) {
 	switch(sel) {
 		case ListPopupMenu::mt_Attribute:
 		case ListPopupMenu::mt_Operation:
-			m_pView->getDocument()->createUMLObject(m_pObject, ListPopupMenu::convert_MT_OT( (ListPopupMenu::Menu_Type)sel) );
+		{
+			if ( m_pView->getDocument()->createUMLObject(m_pObject, ListPopupMenu::convert_MT_OT( (ListPopupMenu::Menu_Type)sel) ) )  {
+				m_pView->getDocument()->setModified();
+			}
 			calculateSize();
 			update();
 			break;
-
+		}
 		case ListPopupMenu::mt_Show_Operations:
 			toggleShowOps();
 			break;
