@@ -121,6 +121,18 @@ namespace Umbrello {
 	};
 
 	/**
+	 * Parses a template parameter given in UML syntax.
+	 *
+	 * @param t		Input text of the template parameter.
+	 *			Example:  parname : partype
+	 *			or just:  parname          (for class type)
+	 * @param nmTpPair	NameAndType returned by this method.
+	 * @param owningScope	Pointer to the owning scope of the template param.
+	 * @return	Error status of the parse, PS_OK for success.
+	 */
+	Parse_Status parseTemplate(QString t, NameAndType& nmTpPair, UMLPackage *owningScope);
+
+	/**
 	 * Parses an attribute given in UML syntax.
 	 *
 	 * @param a		Input text of the attribute in UML syntax.

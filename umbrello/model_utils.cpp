@@ -209,6 +209,26 @@ QString scopeToString(Uml::Scope scope, bool mnemonic) {
 	}
 }
 
+Parse_Status parseTemplate(QString t, NameAndType& nmTpPair, UMLPackage *owningScope) {
+
+	UMLDoc *pDoc = UMLApp::app()->getDocument();
+
+	t = t.stripWhiteSpace();
+	if (t.isEmpty())
+		return PS_Empty;
+
+	QStringList nameAndType = QStringList::split( QRegExp("\\s*:\\s*"), t);
+	if (nameAndType.count() == 2) {
+		UMLObject *pType = pDoc->findUMLObject(nameAndType[1], Uml::ot_UMLObject, owningScope);
+		if (pType == NULL)
+			return PS_Unknown_ArgType;
+		nmTpPair = NameAndType(nameAndType[0], dynamic_cast<UMLClassifier*>(pType));
+	} else {
+		nmTpPair = NameAndType(t, NULL);
+	}
+	return PS_OK;
+}
+
 Parse_Status parseAttribute(QString a, NameAndType& nmTpPair, UMLPackage *owningScope) {
 	UMLDoc *pDoc = UMLApp::app()->getDocument();
 
