@@ -1883,7 +1883,7 @@ void UMLListView::createChildUMLObject( UMLListViewItem * item, Uml::UMLObject_T
 	item->setText( name );
 	m_bCreatingChildObject = false;
 
-	m_doc->setModified();
+	//m_doc->setModified();
 }
 
 void UMLListView::createDiagram( UMLListViewItem * item, Uml::Diagram_Type type ) {
@@ -2156,9 +2156,19 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
 				  // by the slot event triggered by creation of corresponding
 					// object -> delete wrong created item, as only _now_ all
 					// relevant information is accessible for insertion in UMLListView
+					/* This is still under construction - I'm not too happy
+					   with the current code.
+					   The overall goal is to not rely on the non-standard
+					   <listview> tag in the XMI files at all. It should be
+					   a purely optional item. (The only information
+					   conveyed is the isOpen state of the listview items -
+					   not terribly important.)
+					   In the interest of XMI interoperabiliy, the list
+					   view *should* be constructed entirely while loading
+					   the UML model objects.   2004-04-19 okellogg  */
 					kdDebug()
-						<< "UMLListView::loadChildrenFromXMI() Delete UMLListViewItem instance which was created\
-						    before the corresponding loadChildrenFromXMI() call"
+						<< "UMLListView::loadChildrenFromXMI() Delete UMLListViewItem instance which was created "
+						<< "before the corresponding loadChildrenFromXMI() call"
 						<< endl;
 					delete item;
 				}
