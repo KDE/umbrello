@@ -76,7 +76,7 @@ QString UMLAttribute::toString(Signature_Type sig) {
 		s = "";
 
 	if(sig == st_ShowSig || sig == st_SigNoScope) {
-		QString string = s + getName() + " : " + m_TypeName;
+		QString string = s + getName() + " : " + getTypeName();
 		if(m_InitialValue.length() > 0)
 			string += " = " + m_InitialValue;
 		return string;
@@ -94,8 +94,6 @@ bool UMLAttribute::operator==( UMLAttribute &rhs) {
 	// The type name is the only distinguishing criterion.
 	// (Some programming languages might support more, but others don't.)
 	if (m_pType != rhs.m_pType)
-		return false;
-	if( m_TypeName != rhs.m_TypeName )
 		return false;
 
 	return true;
