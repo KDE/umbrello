@@ -894,8 +894,12 @@ UMLOperation* UMLDoc::createOperation(UMLClassifier* classifier,
 		if( operationDialogue.exec() != QDialog::Accepted ) {
 			delete op;
 			return NULL;
+		} else if (classifier->checkOperationSignature(op->getName(), op->getParmList())) {
+			KMessageBox::information(0, i18n("An operation with the same name and signature already exists. You can not add it again."));
+		} else {
+			break;
 		}
-	} while (classifier->checkOperationSignature(op->getName(), op->getParmList()));
+	} while(1);
 
 	// operation name is ok, formally add it to the classifier
 	classifier->addOperation( op );
