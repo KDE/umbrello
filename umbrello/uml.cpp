@@ -704,7 +704,7 @@ void UMLApp::slotFilePrint()
 	DiagramPrintPage * selectPage = new DiagramPrintPage(0, doc);
 	printer.addDialogPage(selectPage);
 	QString msg;
-	if (printer.setup(this, i18n("Print %1").arg(doc->URL()->prettyURL()))) {
+	if (printer.setup(this, i18n("Print %1").arg(doc->URL().prettyURL()))) {
 
 		doc -> print(&printer);
 	}
