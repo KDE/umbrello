@@ -358,7 +358,7 @@ void UMLView::print(KPrinter *pPrinter, QPainter & pPainter) {
 	// next painting will most probably be to a different device (i.e. the screen)
 	forceUpdateWidgetFontMetrics(0);
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void UMLView::setupNewWidget(UMLWidget *w) {
 	w->setX( m_Pos.x() );
 	w->setY( m_Pos.y() );
@@ -371,7 +371,7 @@ void UMLView::setupNewWidget(UMLWidget *w) {
 	m_WidgetList.append( w );
 	m_pDoc->setModified();
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome) {
 	m_pToolBarState->mouseRelease(ome);
 
@@ -388,7 +388,6 @@ void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome) {
 	*/
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLView::slotToolBarChanged(int c)
 {
 	m_pToolBarState = m_pToolBarStateFactory->getState((WorkToolBar::ToolBar_Buttons)c);
@@ -400,7 +399,7 @@ void UMLView::slotToolBarChanged(int c)
 	m_pFirstSelectedWidget = 0;
 	m_bPaste = false;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void UMLView::showEvent(QShowEvent* /*se*/) {
 
 #	ifdef MANUAL_CONTROL_DOUBLE_BUFFERING
@@ -548,7 +547,7 @@ void UMLView::slotObjectCreated(UMLObject* o) {
 	}
 	resizeCanvasToItems();
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void UMLView::slotObjectRemoved(UMLObject * o) {
 	m_bPaste = false;
 	Uml::IDType id = o->getID();
@@ -562,7 +561,7 @@ void UMLView::slotObjectRemoved(UMLObject * o) {
 		removeWidget(obj);
 	}
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void UMLView::contentsDragEnterEvent(QDragEnterEvent *e) {
 	UMLDrag::LvTypeAndID_List tidList;
 	if(!UMLDrag::getClip3TypeAndID(e, tidList)) {
@@ -638,7 +637,7 @@ void UMLView::contentsDragEnterEvent(QDragEnterEvent *e) {
 	}
 	e->accept(true);
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void UMLView::contentsDropEvent(QDropEvent *e) {
 	UMLDrag::LvTypeAndID_List tidList;
 	if( !UMLDrag::getClip3TypeAndID(e, tidList) ) {
@@ -679,7 +678,7 @@ void UMLView::contentsDropEvent(QDropEvent *e) {
 
 	m_pDoc -> setModified(true);
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 ObjectWidget * UMLView::onWidgetLine( const QPoint &point ) {
 	SeqLineWidget * pLine = 0;
 	for( pLine = m_SeqLineList.first(); pLine; pLine = m_SeqLineList.next() ) {
@@ -689,7 +688,7 @@ ObjectWidget * UMLView::onWidgetLine( const QPoint &point ) {
 	}
 	return 0;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void UMLView::checkMessages(ObjectWidget * w) {
 	if(getType() != dt_Sequence)
 		return;
@@ -709,7 +708,7 @@ void UMLView::checkMessages(ObjectWidget * w) {
 		delete obj;
 	}
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool UMLView::widgetOnDiagram(Uml::IDType id) {
 	UMLWidget *obj;
 
@@ -730,14 +729,11 @@ bool UMLView::widgetOnDiagram(Uml::IDType id) {
 	return false;
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
 void UMLView::contentsMouseMoveEvent(QMouseEvent* ome)
 {
 	m_pToolBarState->mouseMove(ome);
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
 // search both our UMLWidget AND MessageWidget lists
 UMLWidget * UMLView::findWidget( Uml::IDType id ) {
 
@@ -764,7 +760,6 @@ UMLWidget * UMLView::findWidget( Uml::IDType id ) {
 	return 0;
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
 AssociationWidget * UMLView::findAssocWidget( Uml::IDType id ) {
 	AssociationWidget *obj;
 	AssociationWidgetListIt it( m_AssociationList );
@@ -777,7 +772,7 @@ AssociationWidget * UMLView::findAssocWidget( Uml::IDType id ) {
 	}
 	return 0;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 AssociationWidget * UMLView::findAssocWidget(Association_Type at,
 					     UMLWidget *pWidgetA, UMLWidget *pWidgetB) {
 	AssociationWidget *assoc;
@@ -802,7 +797,7 @@ AssociationWidget * UMLView::findAssocWidget(Association_Type at,
 	}
 	return 0;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void UMLView::removeWidget(UMLWidget * o) {
 	if(!o)
 		return;
@@ -829,31 +824,51 @@ void UMLView::removeWidget(UMLWidget * o) {
 	m_pDoc->setModified();
 	delete o;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
+bool UMLView::getUseFillColor() const {
+	return m_Options.uiState.useFillColor;
+}
+
+void UMLView::setUseFillColor(bool ufc) {
+	m_Options.uiState.useFillColor = ufc;
+}
+
+QColor UMLView::getFillColor() const {
+	return m_Options.uiState.fillColor;
+}
+
 void UMLView::setFillColor(const QColor &color) {
 	m_Options.uiState.fillColor = color;
 	emit sigColorChanged( getID() );
 	canvas()->setAllChanged();
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
+QColor UMLView::getLineColor() const {
+	return m_Options.uiState.lineColor;
+}
+
 void UMLView::setLineColor(const QColor &color) {
 	m_Options.uiState.lineColor = color;
 	emit sigColorChanged( getID() );
 	emit sigLineColorChanged( getID() );
 	canvas() -> setAllChanged();
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
+uint UMLView::getLineWidth() const {
+	return m_Options.uiState.lineWidth;
+}
+
 void UMLView::setLineWidth(uint width) {
 	m_Options.uiState.lineWidth = width;
 	emit sigLineWidthChanged( getID() );
 	canvas() -> setAllChanged();
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void UMLView::contentsMouseDoubleClickEvent(QMouseEvent* ome)
 {
 	m_pToolBarState->mouseDoubleClick(ome);
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 QRect UMLView::getDiagramRect() {
 	int startx, starty, endx, endy;
 	startx = starty = INT_MAX;
@@ -919,7 +934,7 @@ QRect UMLView::getDiagramRect() {
 
 	return QRect(startx, starty,  endx - startx, endy - starty);
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void UMLView::setSelected(UMLWidget * w, QMouseEvent * /*me*/) {
 	//only add if wasn't in list
 	if(!m_SelectedList.remove(w))
@@ -935,13 +950,13 @@ void UMLView::setSelected(UMLWidget * w, QMouseEvent * /*me*/) {
 	 * are correctly enabled/disabled */
 	UMLApp::app()->slotCopyChanged();
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void UMLView::clearSelected() {
 	m_SelectedList.clear();
 	emit sigClearAllSelected();
 	//m_pDoc -> enableCutCopy(false);
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void UMLView::moveSelected(UMLWidget * w, int x, int y) {
 	QMouseEvent me(QMouseEvent::MouseMove, QPoint(x,y), LeftButton, ShiftButton);
 	UMLWidget * temp = 0;
@@ -971,14 +986,14 @@ void UMLView::selectionUseFillColor(bool useFC) {
 	for(temp=(UMLWidget *)m_SelectedList.first();temp;temp=(UMLWidget *)m_SelectedList.next())
 		temp -> setUseFillColour(useFC);
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void UMLView::selectionSetFont( const QFont &font )
 {
 	UMLWidget * temp = 0;
 	for(temp=(UMLWidget *)m_SelectedList.first();temp;temp=(UMLWidget *)m_SelectedList.next())
 		temp -> setFont( font );
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void UMLView::selectionSetLineColor( const QColor &color )
 {
 	UMLWidget * temp = 0;
@@ -989,7 +1004,7 @@ void UMLView::selectionSetLineColor( const QColor &color )
 		temp -> setUsesDiagramLineColour(false);
 	}
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void UMLView::selectionSetLineWidth( uint width )
 {
 	UMLWidget * temp = 0;
@@ -1000,7 +1015,7 @@ void UMLView::selectionSetLineWidth( uint width )
 		temp -> setUsesDiagramLineWidth(false);
 	}
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void UMLView::selectionSetFillColor( const QColor &color )
 {
 	UMLWidget * temp = 0;
@@ -1011,7 +1026,7 @@ void UMLView::selectionSetFillColor( const QColor &color )
 		temp -> setUsesDiagramFillColour(false);
 	}
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void UMLView::selectionToggleShow(int sel)
 {
 	// loop through all selected items
@@ -1068,7 +1083,7 @@ void UMLView::selectionToggleShow(int sel)
 		} // switch (sel)
 	}
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void UMLView::deleteSelection()
 {
 	/*
@@ -2958,6 +2973,10 @@ bool UMLView::showPropDialog() {
 }
 
 
+QFont UMLView::getFont() const {
+	return m_Options.uiState.font;
+}
+
 void UMLView::setFont( QFont font ) {
 	m_Options.uiState.font = font;
 }
@@ -3067,10 +3086,22 @@ void UMLView::setSnapComponentSizeToGrid(bool bSnap) {
 	emit sigSnapComponentSizeToGridToggled( getSnapComponentSizeToGrid() );
 }
 
+bool UMLView::getShowSnapGrid() const {
+	return m_bShowSnapGrid;
+}
+
 void UMLView::setShowSnapGrid(bool bShow) {
 	m_bShowSnapGrid = bShow;
 	canvas()->setAllChanged();
 	emit sigShowGridToggled( getShowSnapGrid() );
+}
+
+bool UMLView::getShowOpSig() const {
+	return m_Options.classState.showOpSig;
+}
+
+void UMLView::setShowOpSig(bool bShowOpSig) {
+	m_Options.classState.showOpSig = bShowOpSig;
 }
 
 void UMLView::setZoom(int zoom) {

@@ -12,6 +12,9 @@
             <height>388</height>
         </rect>
     </property>
+    <property name="caption">
+        <string>DiagramPropertiesPage</string>
+    </property>
     <vbox>
         <property name="name">
             <cstring>unnamed</cstring>
@@ -70,7 +73,7 @@
                 </widget>
                 <widget class="QLayoutWidget">
                     <property name="name">
-                        <cstring>layout9</cstring>
+                        <cstring>layout20</cstring>
                     </property>
                     <hbox>
                         <property name="name">
@@ -133,11 +136,19 @@
                             </property>
                             <property name="sizeHint">
                                 <size>
-                                    <width>210</width>
+                                    <width>50</width>
                                     <height>20</height>
                                 </size>
                             </property>
                         </spacer>
+                        <widget class="QCheckBox">
+                            <property name="name">
+                                <cstring>showOpSigs</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Show operation signature</string>
+                            </property>
+                        </widget>
                     </hbox>
                 </widget>
                 <widget class="Line">

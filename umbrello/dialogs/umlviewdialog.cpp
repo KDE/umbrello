@@ -71,6 +71,7 @@ void UMLViewDialog::setupDiagramPropertiesPage()
 
 	m_diagramProperties->diagramName->setText( m_pView->getName() );
 	m_diagramProperties->zoom->setValue(m_pView->currentZoom());
+	m_diagramProperties->showOpSigs->setChecked( m_pView->getShowOpSig() );
 
 	m_diagramProperties->showGrid->setChecked(m_pView -> getShowSnapGrid());
 	m_diagramProperties->snapToGrid->setChecked(m_pView-> getSnapToGrid());
@@ -121,6 +122,7 @@ void UMLViewDialog::applyPage( Page page ) {
 			m_pView->setSnapToGrid( m_diagramProperties->snapToGrid->isChecked() );
 			m_pView->setSnapComponentSizeToGrid( m_diagramProperties->snapComponentSizeToGrid->isChecked() );
 			m_pView->setShowSnapGrid( m_diagramProperties->showGrid->isChecked() );
+			m_pView->setShowOpSig( m_diagramProperties->showOpSigs->isChecked() );
 			break;
 			}
 		case Color:

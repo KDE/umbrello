@@ -26,6 +26,7 @@
 #include <qlabel.h>
 #include "../classifier.h"
 
+class UMLView;
 
 #define OP 				0
 #define CUSTOM 	1
@@ -48,7 +49,7 @@ public:
 	 *	@param	parent	The parent to this instance.
 	 *	@param	c	The concept to get the operations from.
 	 */
-	SelectOpDlg(QWidget * parent, UMLClassifier * c);
+	SelectOpDlg(UMLView * parent, UMLClassifier * c);
 
 	/**
 	 *	Standard deconstructor.
@@ -91,6 +92,7 @@ private:
 	QButtonGroup * m_pOpBG, * m_pDocGB;
 	QString m_Text;
 	int m_nOpCount;
+	UMLView *m_pView;
 public slots:
 	void slotSelected(int id);
 };

@@ -13,6 +13,7 @@
 #include <qcanvas.h>
 #include <qdom.h>
 #include <qdatetime.h>
+#include <qfont.h>
 
 #include "umlnamespace.h"
 #include "widgetbase.h"

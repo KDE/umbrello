@@ -26,11 +26,13 @@
 #include "../attribute.h"
 #include "../operation.h"
 #include "../umlclassifierlistitemlist.h"
+#include "../umlview.h"
 #include "../dialog_utils.h"
 
-SelectOpDlg::SelectOpDlg(QWidget * parent, UMLClassifier * c)
+SelectOpDlg::SelectOpDlg(UMLView * parent, UMLClassifier * c)
   : KDialogBase(Plain, i18n("Select Operation"), Ok | Cancel , Ok, parent, "_SELOPDLG_", true, true)
 {
+	m_pView = parent;
 	QVBoxLayout * topLayout = new QVBoxLayout(plainPage());
 
 	m_pOpGB = new QGroupBox(i18n("Select Operation"), plainPage());
@@ -62,10 +64,15 @@ SelectOpDlg::SelectOpDlg(QWidget * parent, UMLClassifier * c)
 	m_pOpBG -> setExclusive(true);
 	m_pOpBG -> setButton(OP);
 
+	Uml::Signature_Type sigType;
+	if (m_pView->getShowOpSig())
+		sigType = Uml::st_SigNoScope;
+	else
+		sigType = Uml::st_NoSigNoScope;
 	UMLOperationList list = c -> getOpList(true);
 	UMLOperation* obj=0;
 	for(obj=list.first();obj != 0;obj=list.next()) {
-		m_pOpCB -> insertItem(obj -> toString(Uml::st_SigNoScope));
+		m_pOpCB->insertItem( obj->toString(sigType) );
 	}
 	//disableResize();
 	connect(m_pOpBG, SIGNAL(clicked(int)), this, SLOT(slotSelected(int)));

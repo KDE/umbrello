@@ -112,10 +112,12 @@ void FloatingText::slotMenuSelection(int sel) {
 			UMLObject* umlObj = UMLApp::app()->getDocument()->createChildObject(c, Uml::ot_Operation);
 			if (umlObj) {
 				UMLOperation* newOperation = static_cast<UMLOperation*>( umlObj );
-				// It should perhaps be configurable whether the
-				// operation is displayed with or without its signature.
-				// For the time being, we don't display the signature.
-				QString opText = newOperation->toString(Uml::st_NoSigNoScope);
+				Uml::Signature_Type sigType;
+				if (m_pView->getShowOpSig())
+					sigType = Uml::st_SigNoScope;
+				else
+					sigType = Uml::st_NoSigNoScope;
+				QString opText = newOperation->toString(sigType);
 				m_pLink->setOperationText(this, opText);
 			}
 		}
@@ -263,7 +265,7 @@ void FloatingText::showOpDlg() {
 		return;
 	}
 
-	SelectOpDlg selectDlg((QWidget*)m_pView, c);
+	SelectOpDlg selectDlg(m_pView, c);
 	selectDlg.setSeqNumber( seqNum );
 	selectDlg.setCustomOp( op );
 	int result = selectDlg.exec();
@@ -271,11 +273,7 @@ void FloatingText::showOpDlg() {
 		return;
 	}
 	seqNum = selectDlg.getSeqNumber();
-	// It should perhaps be configurable whether the operation
-	// is displayed with or without its signature.
-	// Here, we just discard the signature.
 	op = selectDlg.getOpText();
-	op.replace( QRegExp("\\(.*\\)"), "()" );
 	m_pLink->setSeqNumAndOp(seqNum, op);
 	setMessageText();
 }

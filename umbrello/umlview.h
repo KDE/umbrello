@@ -113,9 +113,7 @@ public:
 	/**
 	 * Returns the fill color to use.
 	 */
-	QColor getFillColor() const {
-		return m_Options.uiState.fillColor;
-	}
+	QColor getFillColor() const;
 
 	/**
 	 * Set the background color.
@@ -127,16 +125,7 @@ public:
 	/**
 	 * Returns the line color to use.
 	 */
-	QColor getLineColor() const {
-		return m_Options.uiState.lineColor;
-	}
-
-	/**
-	 * Returns the line width to use.
-	 */
-	uint getLineWidth() const {
-		return m_Options.uiState.lineWidth;
-	}
+	QColor getLineColor() const;
 
 	/**
 	 * Sets the line color.
@@ -144,6 +133,11 @@ public:
 	 * @param color		The color to use.
 	 */
 	void setLineColor( const QColor &color );
+
+	/**
+	 * Returns the line width to use.
+	 */
+	uint getLineWidth() const;
 
 	/**
 	 * Sets the line width.
@@ -214,6 +208,11 @@ public:
 	}
 
 	/**
+	 *  Sets whether to snap to grid.
+	 */
+	void setSnapToGrid( bool bSnap );
+
+	/**
 	 * Return whether to use snap to grid for component size.
 	 */
 	bool getSnapComponentSizeToGrid() const {
@@ -247,9 +246,7 @@ public:
 	/**
 	 *  Returns whether to show snap grid or not.
 	 */
-	bool getShowSnapGrid() const {
-		return m_bShowSnapGrid;
-	}
+	bool getShowSnapGrid() const;
 
 	/**
 	 * Sets whether to show snap grid.
@@ -257,29 +254,24 @@ public:
 	void setShowSnapGrid( bool bShow );
 
 	/**
-	 *  Sets whether to snap to grid.
-	 */
-	void setSnapToGrid( bool bSnap );
-
-	/**
 	 * Sets whether to snap to grid for component size.
 	 */
 	void setSnapComponentSizeToGrid( bool bSnap );
 
 	/**
-	 * Sets whether to use the fill/background color
-	 */
-
-	void setUseFillColor( bool ufc ) {
-		m_Options.uiState.useFillColor = ufc;
-	}
-
-	/**
 	 * Returns whether to use the fill/background color
 	 */
-	bool getUseFillColor() const {
-		return m_Options.uiState.useFillColor;
-	}
+	bool getUseFillColor() const;
+
+	/**
+	 * Sets whether to use the fill/background color
+	 */
+	void setUseFillColor(bool ufc);
+
+	/**
+	 * Returns the font to use
+	 */
+	QFont getFont() const;
 
 	/**
 	 * Sets the font for the view and all the widgets on the view.
@@ -287,11 +279,14 @@ public:
 	void setFont( QFont font );
 
 	/**
-	 * Returns the font to use
+	 * Returns whether to show operation signatures.
 	 */
-	QFont getFont() const {
-		return m_Options.uiState.font;
-	}
+	bool getShowOpSig() const;
+
+	/**
+	 * Sets whether to show operation signatures.
+	 */
+	void setShowOpSig(bool bShowOpSig);
 
 	/**
 	 * Returns the options being used.
@@ -332,8 +327,8 @@ public:
 	////////////////////////////////////////////////////////////////////////
 
 	/**
-	* return the current zoom factor
-	*/
+	 * return the current zoom factor
+	 */
 	int currentZoom();
 
 	/**
