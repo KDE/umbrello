@@ -108,6 +108,8 @@ void ToolBarStateMessages::mouseRelease(QMouseEvent* ome)
 	{
 		m_pSelectedWidget = 0;
 	}
+
+	m_pUMLView->getDocument()->setModified();
 }
 
 // Override the ToolBarState::setSelectedWidget method.

@@ -340,7 +340,6 @@ void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome) {
 
 	// TODO: Move to the toolbar states.
 	resizeCanvasToItems();
-	m_pDoc->setModified();
 
 
 	// TODO: Not inserted into the toolbar state. Is this really needed?
