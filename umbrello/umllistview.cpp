@@ -706,11 +706,12 @@ void UMLListView::setDocument(UMLDoc *d) {
 	}
 	m_doc = d;
 
-//commented out jr, don't need diagrams in list view with tabbed diagrams
-//	connect(m_doc, SIGNAL(sigDiagramCreated(Uml::IDType)), this, SLOT(slotDiagramCreated(Uml::IDType)));
-//	connect(m_doc, SIGNAL(sigDiagramRemoved(Uml::IDType)), this, SLOT(slotDiagramRemoved(Uml::IDType)));
-//	connect(m_doc, SIGNAL(sigDiagramRenamed(Uml::IDType)), this, SLOT(slotDiagramRenamed(Uml::IDType)));
-
+	Settings::OptionState optionState = UMLApp::app()->getOptionState();
+	if (! optionState.generalState.tabdiagrams) {
+		connect(m_doc, SIGNAL(sigDiagramCreated(Uml::IDType)), this, SLOT(slotDiagramCreated(Uml::IDType)));
+		connect(m_doc, SIGNAL(sigDiagramRemoved(Uml::IDType)), this, SLOT(slotDiagramRemoved(Uml::IDType)));
+		connect(m_doc, SIGNAL(sigDiagramRenamed(Uml::IDType)), this, SLOT(slotDiagramRenamed(Uml::IDType)));
+	}
 	connect(m_doc, SIGNAL(sigObjectCreated(UMLObject *)), this, SLOT(slotObjectCreated(UMLObject *)));
 	connect(m_doc, SIGNAL(sigObjectRemoved(UMLObject *)), this, SLOT(slotObjectRemoved(UMLObject *)));
 }
@@ -2198,7 +2199,7 @@ void UMLListView::createDiagram( UMLListViewItem * item, Uml::Diagram_Type type 
 	view->setType( type );
 	view->setID( m_doc -> getUniqueID() );
 	m_doc -> addView( view );
-	view  -> setOptionState( ((UMLApp *) m_doc -> parent()) -> getOptionState() );
+	view -> setOptionState( UMLApp::app()->getOptionState() );
 	item -> setID( view -> getID() );
 	item -> setText( name );
 	view->activate();
@@ -2569,9 +2570,12 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
 //				item = diagramFolder;
 				break;
 			default:
-				//don't load diagrams any more, tabbed diagrams
-				if ( !typeIsDiagram(lvType) ) {
-					item = new UMLListViewItem( parent, label, lvType, nID );
+				{
+					Settings::OptionState optionState = UMLApp::app()->getOptionState();
+					if (!optionState.generalState.tabdiagrams ||
+					    //don't load diagrams any more, tabbed diagrams
+					    !typeIsDiagram(lvType) )
+						item = new UMLListViewItem( parent, label, lvType, nID );
 				}
 				break;
 		}//end switch

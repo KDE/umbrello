@@ -140,7 +140,10 @@ void UMLDoc::addView(UMLView *view) {
 		}
 	}
 
-	KTabWidget* tabWidget = ( KTabWidget* )UMLApp::app()->getMainViewWidget();
+	Settings::OptionState optionState = UMLApp::app()->getOptionState();
+	if (! optionState.generalState.tabdiagrams)
+		return;
+	KTabWidget* tabWidget = UMLApp::app()->tabWidget();
 	tabWidget->addTab(view, view->getName());
 	//set title again to adjust tabs to window width
 	//FIXMEnowTAB not sure why this is required, need to check my ktabwidget code
@@ -2167,7 +2170,11 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
 	if (m_nViewID != Uml::id_None)
 		viewToBeSet = findView( m_nViewID );
 	if (viewToBeSet) {
-		UMLApp::app()->tabWidget()->showPage(viewToBeSet);
+		Settings::OptionState optionState = UMLApp::app()->getOptionState();
+		if (optionState.generalState.tabdiagrams)
+			UMLApp::app()->tabWidget()->showPage(viewToBeSet);
+		else
+			changeCurrentView( m_nViewID );
 	} else {
 		createDiagram( Uml::dt_Class, false );
 	}
@@ -2802,8 +2809,9 @@ void UMLDoc::slotAutoSave() {
 }
 
 void UMLDoc::signalDiagramRenamed(UMLView* pView ) {
-        KTabWidget* tabWidget = ( KTabWidget* )UMLApp::app()->getMainViewWidget();
-	tabWidget->setTabLabel( pView, pView->getName() );
+	Settings::OptionState optionState = UMLApp::app()->getOptionState();
+	if (optionState.generalState.tabdiagrams)
+        	UMLApp::app()->tabWidget()->setTabLabel( pView, pView->getName() );
 	emit sigDiagramRenamed( pView -> getID() );
 	return;
 }
@@ -2947,6 +2955,9 @@ void UMLDoc::slotDiagramPopupMenu(QWidget* umlview, const QPoint& point) {
 		delete m_pTabPopupMenu;
 		m_pTabPopupMenu = 0;
 	}
+	Settings::OptionState optionState = UMLApp::app()->getOptionState();
+	if (! optionState.generalState.tabdiagrams)
+		return;
 
 	Uml::ListView_Type type = lvt_Unknown;
 	switch( view->getType() ) {
@@ -2991,7 +3002,7 @@ void UMLDoc::slotDiagramPopupMenu(QWidget* umlview, const QPoint& point) {
 			break;
 	}//end switch
 
-	m_pTabPopupMenu = new ListPopupMenu(UMLApp::app()->getMainViewWidget(), type);
+	m_pTabPopupMenu = new ListPopupMenu(UMLApp::app()->tabWidget(), type);
 	m_pTabPopupMenu->popup(point);
 	connect(m_pTabPopupMenu, SIGNAL(activated(int)), view, SLOT(slotMenuSelection(int)));
 }

@@ -404,43 +404,50 @@ void UMLApp::initView() {
 	addToolBar(m_alignToolBar, Qt::DockTop, false);
 
 	m_mainDock = createDockWidget("maindock", 0L, 0L, "main dock");
-	m_tabWidget = new KTabWidget(m_mainDock, "tab_widget");
+	if (optionState.generalState.tabdiagrams) {
+		m_viewStack = NULL;
+		m_tabWidget = new KTabWidget(m_mainDock, "tab_widget");
 
 #if KDE_IS_VERSION(3,3,89)
-	m_tabWidget->setAutomaticResizeTabs( true );
+		m_tabWidget->setAutomaticResizeTabs( true );
 #endif
 
-	KToolBarButton* m_newSessionButton = new KToolBarButton("tab_new", 0, m_tabWidget);
-	m_newSessionButton->setIconSet( SmallIcon( "tab_new" ) );
-	m_newSessionButton->adjustSize();
-	m_newSessionButton->setAutoRaise(true);
-	KPopupMenu* m_diagramMenu = new KPopupMenu(m_newSessionButton);
+		KToolBarButton* m_newSessionButton = new KToolBarButton("tab_new", 0, m_tabWidget);
+		m_newSessionButton->setIconSet( SmallIcon( "tab_new" ) );
+		m_newSessionButton->adjustSize();
+		m_newSessionButton->setAutoRaise(true);
+		KPopupMenu* m_diagramMenu = new KPopupMenu(m_newSessionButton);
 
-	m_diagramMenu->insertItem( BarIconSet("umbrello_diagram_class"), i18n("Class Diagram..."), this, SLOT(slotClassDiagram()) );
-	m_diagramMenu->insertItem(BarIconSet("umbrello_diagram_sequence"), i18n("Sequence Diagram..."), this, SLOT(slotSequenceDiagram()) );
-	m_diagramMenu->insertItem(BarIconSet("umbrello_diagram_collaboration"), i18n("Collaboration Diagram..."), this, SLOT(slotCollaborationDiagram()) );
-	m_diagramMenu->insertItem(BarIconSet("umbrello_diagram_usecase"), i18n("Use Case Diagram..."), this, SLOT(slotUseCaseDiagram()) );
-	m_diagramMenu->insertItem(BarIconSet("umbrello_diagram_state"), i18n("State Diagram..."), this, SLOT(slotStateDiagram()) );
-	m_diagramMenu->insertItem(BarIconSet("umbrello_diagram_activity"), i18n("Activity Diagram..."), this, SLOT(slotActivityDiagram()) );
-	m_diagramMenu->insertItem(BarIconSet("umbrello_diagram_component"), i18n("Component Diagram..."), this, SLOT(slotComponentDiagram()) );
-	m_diagramMenu->insertItem(BarIconSet("umbrello_diagram_deployment"), i18n("Deployment Diagram..."), this, SLOT(slotDeploymentDiagram()) );
-	m_diagramMenu->insertItem(BarIconSet("umbrello_diagram_entityrelationship"), i18n("Entity Relationship Diagram..."), this, SLOT(slotEntityRelationshipDiagram()) );
-	m_newSessionButton->setPopup(m_diagramMenu);
-	//FIXME why doesn't this work?
-	//m_newSessionButton->setPopup(newDiagram->popupMenu());
+		m_diagramMenu->insertItem( BarIconSet("umbrello_diagram_class"), i18n("Class Diagram..."), this, SLOT(slotClassDiagram()) );
+		m_diagramMenu->insertItem(BarIconSet("umbrello_diagram_sequence"), i18n("Sequence Diagram..."), this, SLOT(slotSequenceDiagram()) );
+		m_diagramMenu->insertItem(BarIconSet("umbrello_diagram_collaboration"), i18n("Collaboration Diagram..."), this, SLOT(slotCollaborationDiagram()) );
+		m_diagramMenu->insertItem(BarIconSet("umbrello_diagram_usecase"), i18n("Use Case Diagram..."), this, SLOT(slotUseCaseDiagram()) );
+		m_diagramMenu->insertItem(BarIconSet("umbrello_diagram_state"), i18n("State Diagram..."), this, SLOT(slotStateDiagram()) );
+		m_diagramMenu->insertItem(BarIconSet("umbrello_diagram_activity"), i18n("Activity Diagram..."), this, SLOT(slotActivityDiagram()) );
+		m_diagramMenu->insertItem(BarIconSet("umbrello_diagram_component"), i18n("Component Diagram..."), this, SLOT(slotComponentDiagram()) );
+		m_diagramMenu->insertItem(BarIconSet("umbrello_diagram_deployment"), i18n("Deployment Diagram..."), this, SLOT(slotDeploymentDiagram()) );
+		m_diagramMenu->insertItem(BarIconSet("umbrello_diagram_entityrelationship"), i18n("Entity Relationship Diagram..."), this, SLOT(slotEntityRelationshipDiagram()) );
+		m_newSessionButton->setPopup(m_diagramMenu);
+		//FIXME why doesn't this work?
+		//m_newSessionButton->setPopup(newDiagram->popupMenu());
 
-	KToolBarButton* m_closeDiagramButton = new KToolBarButton("tab_remove", 0, m_tabWidget);
-	m_closeDiagramButton->setIconSet( SmallIcon("tab_remove") );
-	m_closeDiagramButton->adjustSize();
+		KToolBarButton* m_closeDiagramButton = new KToolBarButton("tab_remove", 0, m_tabWidget);
+		m_closeDiagramButton->setIconSet( SmallIcon("tab_remove") );
+		m_closeDiagramButton->adjustSize();
 
-	connect(m_closeDiagramButton, SIGNAL(clicked()), SLOT(slotDeleteDiagram()));
-	connect(m_tabWidget, SIGNAL(currentChanged(QWidget*)), SLOT(slotTabChanged(QWidget*)));
-	connect(m_tabWidget, SIGNAL(contextMenu(QWidget*,const QPoint&)), m_doc, SLOT(slotDiagramPopupMenu(QWidget*,const QPoint&)));
-	m_tabWidget->setCornerWidget( m_newSessionButton, TopLeft );
-	m_tabWidget->setCornerWidget( m_closeDiagramButton, TopRight );
-	m_newSessionButton->installEventFilter(this);
+		connect(m_closeDiagramButton, SIGNAL(clicked()), SLOT(slotDeleteDiagram()));
+		connect(m_tabWidget, SIGNAL(currentChanged(QWidget*)), SLOT(slotTabChanged(QWidget*)));
+		connect(m_tabWidget, SIGNAL(contextMenu(QWidget*,const QPoint&)), m_doc, SLOT(slotDiagramPopupMenu(QWidget*,const QPoint&)));
+		m_tabWidget->setCornerWidget( m_newSessionButton, TopLeft );
+		m_tabWidget->setCornerWidget( m_closeDiagramButton, TopRight );
+		m_newSessionButton->installEventFilter(this);
 
-	m_mainDock->setWidget(m_tabWidget);
+		m_mainDock->setWidget(m_tabWidget);
+	} else {
+		m_tabWidget = NULL;
+		m_viewStack = new QWidgetStack(m_mainDock, "viewstack");
+		m_mainDock->setWidget(m_viewStack);
+	}
 	m_mainDock->setDockSite(KDockWidget::DockCorner);
 	m_mainDock->setEnableDocking(KDockWidget::DockNone);
 	setView(m_mainDock);
@@ -501,6 +508,7 @@ void UMLApp::saveOptions() {
 	config->writeEntry( "Geometry", size() );
 
 	config->writeEntry( "undo", optionState.generalState.undo );
+	config->writeEntry( "tabdiagrams", optionState.generalState.tabdiagrams );
 	config->writeEntry( "autosave", optionState.generalState.autosave );
 	config->writeEntry( "time", optionState.generalState.time );
 	config->writeEntry( "autosavetime", optionState.generalState.autosavetime );
@@ -1066,6 +1074,7 @@ bool UMLApp::editCutCopy( bool bFromView ) {
 void UMLApp::readOptionState() {
 	config -> setGroup( "General Options" );
 	optionState.generalState.undo = config -> readBoolEntry( "undo", true );
+	optionState.generalState.tabdiagrams = config -> readBoolEntry( "tabdiagrams", true );
 	optionState.generalState.autosave = config -> readBoolEntry( "autosave", true );
 	optionState.generalState.time = config -> readNumEntry( "time", 0 ); //old autosavetime value kept for compatibility
 	optionState.generalState.autosavetime = config -> readNumEntry( "autosavetime", 0 );
@@ -1575,11 +1584,21 @@ void UMLApp::initSavedCodeGenerators() {
 }
 
 QWidget* UMLApp::getMainViewWidget() {
-	return m_tabWidget;
+	if (optionState.generalState.tabdiagrams)
+		return m_tabWidget;
+	return m_viewStack;
 }
 
 void UMLApp::setCurrentView(UMLView* view /*=0*/) {
 	m_view = view;
+	if (m_viewStack == NULL)
+		return;
+	if (view) {
+		m_viewStack->raiseWidget(view);
+		slotStatusMsg(view->getName());
+	} else {
+		m_viewStack->raiseWidget(blankWidget);
+	}
 }
 
 UMLView* UMLApp::getCurrentView() {

@@ -91,6 +91,7 @@ private:
 		KComboBox * diagramKB;
 
 		QCheckBox * undoCB;
+		QCheckBox * tabdiagramsCB;
 		QCheckBox * autosaveCB;
 		QCheckBox * logoCB;
 		QCheckBox * tipCB;

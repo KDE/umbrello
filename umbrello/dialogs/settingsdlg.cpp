@@ -104,13 +104,17 @@ void SettingsDlg::setupGeneralPage() {
 	// Set up undo setting
 	m_GeneralWidgets.miscGB = new QGroupBox( i18n("Miscellaneous"), page );
 
-	QGridLayout * miscLayout = new QGridLayout( m_GeneralWidgets.miscGB, 1, 1 );
+	QGridLayout * miscLayout = new QGridLayout( m_GeneralWidgets.miscGB, 1, 2 );
 	miscLayout -> setSpacing( spacingHint() );
 	miscLayout -> setMargin( fontMetrics().height() );
 
 	m_GeneralWidgets.undoCB = new QCheckBox( i18n("Enable undo"), m_GeneralWidgets.miscGB );
 	m_GeneralWidgets.undoCB -> setChecked( m_pOptionState->generalState.undo );
 	miscLayout -> addWidget( m_GeneralWidgets.undoCB, 0, 0 );
+
+	m_GeneralWidgets.tabdiagramsCB = new QCheckBox( i18n("Use tabbed diagrams"), m_GeneralWidgets.miscGB );
+	m_GeneralWidgets.tabdiagramsCB -> setChecked( m_pOptionState->generalState.tabdiagrams );
+	miscLayout -> addWidget( m_GeneralWidgets.tabdiagramsCB, 0, 1 );
 
 	//setup autosave settings
 
@@ -332,6 +336,7 @@ void SettingsDlg::applyPage( Settings::Page page ) {
 	switch( page ) {
 		case Settings::page_general:
 			m_pOptionState->generalState.undo = m_GeneralWidgets.undoCB -> isChecked();
+			m_pOptionState->generalState.tabdiagrams = m_GeneralWidgets.tabdiagramsCB->isChecked();
 			m_pOptionState->generalState.autosave = m_GeneralWidgets.autosaveCB -> isChecked();
 			m_pOptionState->generalState.autosavetime = m_GeneralWidgets.timeISB -> value();
 			// 2004-05-17 Achim Spangler: retrieve Suffix setting from dialog entry

@@ -247,7 +247,9 @@ public:
 
 	/**
 	 * Returns the widget used as the parent for UMLViews.
-	 *
+	 * @fixme DEPRECATED -
+	 *	will disappear by resolving the contorted
+	 *	widget parenthood between UMLView and UMLViewCanvas.
 	 * @return	The main view widget.
 	 */
 	QWidget* getMainViewWidget();
@@ -907,7 +909,14 @@ private:
 	InfoWidget* blankWidget;
 
 	/**
-	 * Shows, and is parent of, all the UMLViews (diagrams).
+	 * Shows, and is parent of, all the UMLViews (diagrams)
+	 * if tabbed diagrams are not enabled.
+	 */
+	QWidgetStack* m_viewStack;
+
+	/**
+	 * Shows, and is parent of, all the UMLViews (diagrams)
+	 * if tabbed diagrams are enabled.
 	 */
 	KTabWidget* m_tabWidget;
 		
