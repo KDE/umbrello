@@ -1953,8 +1953,22 @@ void UMLView::removeAssocInViewAndDoc(AssociationWidget* a) {
 	//    on the association and select Delete
 	if(!a)
 		return;
-	// Remove assoc in doc.
-	m_pDoc->removeAssociation(a->getAssociation());
+	if (a->getAssocType() == at_Containment) {
+		UMLObject *objToBeMoved = a->getWidget(B)->getUMLObject();
+		if (objToBeMoved != NULL) {
+			UMLListView *lv = UMLApp::app()->getListView();
+			Object_Type ot = objToBeMoved->getBaseType();
+			lv->moveObject( objToBeMoved->getID(),
+					UMLListView::convert_OT_LVT(ot),
+					lv->theLogicalView() );
+		} else {
+			kdDebug() << "UMLDoc::removeAssociation(containment): "
+				  << "objB is NULL" << endl;
+		}
+	} else {
+		// Remove assoc in doc.
+		m_pDoc->removeAssociation(a->getAssociation());
+	}
 	// Remove assoc in view.
 	removeAssoc(a);
 }
