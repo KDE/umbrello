@@ -2797,7 +2797,7 @@ int AssociationWidget::getTotalCount(Role_Type role) const {
 	return  m_role[role].m_nTotalCount;
 }
 
-UMLClassifier *AssociationWidget::getOperationOwner(FloatingText *) {
+UMLClassifier *AssociationWidget::getOperationOwner() {
 	Association_Type atype = getAssocType();
 	Role_Type role = (atype == at_Coll_Message ? B : A);
 	UMLObject *o = getWidget(role)->getUMLObject();
@@ -2825,8 +2825,12 @@ UMLClassifier *AssociationWidget::getSeqNumAndOp(FloatingText *,
 	return c;
 }
 
-void AssociationWidget::setOperationText(FloatingText *, const QString &opText) {
+void AssociationWidget::setCustomOpText(const QString &opText) {
 	setName(opText);
+}
+
+QString AssociationWidget::getCustomOpText() {
+	return getName();
 }
 
 void AssociationWidget::setWidget( UMLWidget* widget, Role_Type role) {

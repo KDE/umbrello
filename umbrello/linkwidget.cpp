@@ -16,50 +16,56 @@
 #include <kdebug.h>
 #include "umlview.h"
 #include "umlobject.h"
+#include "classifier.h"
+#include "operation.h"
+#include "uml.h"
 
-UMLClassifier *LinkWidget::getOperationOwner(FloatingText *) {
-	// Only applicable to MessageWidget and AssociationWidget.
-	return NULL;
+LinkWidget::LinkWidget() : m_pOperation(NULL) {
 }
 
-void LinkWidget::setOperationText(FloatingText *, const QString &) {
-	// Only applicable to MessageWidget and AssociationWidget.
+LinkWidget::~LinkWidget() {
+}
+
+UMLClassifier *LinkWidget::getOperationOwner() {
+	if (m_pOperation == NULL)
+		return NULL;
+	return static_cast<UMLClassifier*>(m_pOperation->parent());
+}
+
+UMLOperation *LinkWidget::getOperation() {
+	return m_pOperation;
+}
+
+void LinkWidget::setOperation(UMLOperation *op) {
+	m_pOperation = op;
+}
+
+QString LinkWidget::getOperationText() {
+	if (m_pOperation == NULL)
+		return getCustomOpText();
+	UMLView *view = UMLApp::app()->getCurrentView();
+	Uml::Signature_Type sigType;
+	if (view->getShowOpSig())
+		sigType = Uml::st_SigNoScope;
+	else
+		sigType = Uml::st_NoSigNoScope;
+	QString opText = m_pOperation->toString(sigType);
+	return opText;
 }
 
 void LinkWidget::resetTextPositions() {
-	// Only applicable to MessageWidget and AssociationWidget.
-}
-
-void LinkWidget::setMessageText(FloatingText *) {
-	// Only applicable to MessageWidget and AssociationWidget.
-}
-
-void LinkWidget::setText(FloatingText *, const QString &) {
-	// Only applicable to MessageWidget and AssociationWidget.
 }
 
 bool LinkWidget::showDialog() {
-	// Only applicable to MessageWidget and AssociationWidget.
 	return true;
-}
-
-UMLClassifier *LinkWidget::getSeqNumAndOp(FloatingText *, QString&, QString&) {
-	// Only applicable to MessageWidget and AssociationWidget.
-	return NULL;
-}
-
-void LinkWidget::setSeqNumAndOp(const QString &/*seqNum*/, const QString &/*op*/) {
-	// Only applicable to MessageWidget and AssociationWidget.
 }
 
 void LinkWidget::constrainTextPos(int & /*textX*/, int & /*textY*/,
 				  int /*textWidth*/, int /*textHeight*/,
 				  Uml::Text_Role /*tr*/) {
-	// Only applicable to MessageWidget.
 }
 
 void LinkWidget::calculateNameTextSegment() {
-	// Only applicable to MessageWidget and AssociationWidget.
 }
 
 

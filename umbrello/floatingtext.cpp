@@ -97,26 +97,20 @@ void FloatingText::slotMenuSelection(int sel) {
 					  << "m_pLink is NULL" << endl;
 				return;
 			}
-			UMLClassifier* c = m_pLink->getOperationOwner(this);
+			UMLClassifier* c = m_pLink->getOperationOwner();
 			if (c == NULL) {
 				bool ok = false;
 				QString opText = KInputDialog::getText(i18n("Name"),
 								       i18n("Enter operation name:"),
 								       getText(), &ok, m_pView);
 				if (ok)
-					m_pLink->setOperationText(this, opText);
+					m_pLink->setCustomOpText(opText);
 				return;
 			}
 			UMLObject* umlObj = UMLApp::app()->getDocument()->createChildObject(c, Uml::ot_Operation);
 			if (umlObj) {
 				UMLOperation* newOperation = static_cast<UMLOperation*>( umlObj );
-				Uml::Signature_Type sigType;
-				if (m_pView->getShowOpSig())
-					sigType = Uml::st_SigNoScope;
-				else
-					sigType = Uml::st_NoSigNoScope;
-				QString opText = newOperation->toString(sigType);
-				m_pLink->setOperationText(this, opText);
+				m_pLink->setOperation(newOperation);
 			}
 		}
 		break;
