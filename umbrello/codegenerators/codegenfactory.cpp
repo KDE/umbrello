@@ -30,6 +30,7 @@
 // #include "cswriter.h" // missing in action?!?
 #include "idlwriter.h"
 #include "phpwriter.h"
+#include "php5writer.h"
 #include "perlwriter.h"
 #include "pythonwriter.h"
 #include "sqlwriter.h"
@@ -59,6 +60,7 @@ QStringList CodeGeneratorFactory::languagesAvailable() {
 	l.append("JavaScript");
  	l.append("Perl");
 	l.append("PHP");
+	l.append("PHP5");
 	l.append("Python");
 	l.append("SQL");
 	l.append("XMLSchema");
@@ -85,6 +87,8 @@ QString CodeGeneratorFactory::generatorName(const QString &l) {
 		return "JSWriter";
 	if (l == "PHP")
 		return "PHPWriter";
+	if (l == "PHP5")
+		return "PHP5Writer";
  	if (l == "Perl")
  		return "PerlWriter";
  	if (l == "Python")
@@ -120,6 +124,8 @@ CodeGenerator* CodeGeneratorFactory::createObject(UMLDoc* doc, const char* name)
 			obj = new JSWriter( doc, name );
 		} else if (cname == "PHPWriter") {
 			obj = new PhpWriter( doc, name);
+		} else if (cname == "PHP5Writer") {
+			obj = new Php5Writer( doc, name);
  		} else if (cname == "PerlWriter") {
 			obj = new PerlWriter( doc, name);
  		} else if (cname == "PythonWriter") {
