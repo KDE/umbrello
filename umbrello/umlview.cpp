@@ -373,10 +373,10 @@ void UMLView::slotToolBarChanged(int c)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLView::showEvent(QShowEvent* /*se*/) {
 
-	#ifdef MANUAL_CONTROL_DOUBLE_BUFFERING
+#	ifdef MANUAL_CONTROL_DOUBLE_BUFFERING
 	kdWarning() << "Show Event for " << getName() << endl;
 	canvas()->setDoubleBuffering( true );
-	#endif
+#	endif
 
 	UMLApp* theApp = UMLApp::app();
 	WorkToolBar* tb = theApp->getWorkToolBar();
@@ -395,10 +395,10 @@ void UMLView::hideEvent(QHideEvent* /*he*/) {
 	disconnect(this,SIGNAL(sigResetToolBar()), tb, SLOT(slotResetToolBar()));
 	disconnect(m_pDoc, SIGNAL(sigObjectCreated(UMLObject *)), this, SLOT(slotObjectCreated(UMLObject *)));
 
-	#ifdef MANUAL_CONTROL_DOUBLE_BUFFERING
+#	ifdef MANUAL_CONTROL_DOUBLE_BUFFERING
 	kdWarning() << "Hide Event for " << getName() << endl;
 	canvas()->setDoubleBuffering( false );
-	#endif
+#	endif
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLListView * UMLView::getListView() {
@@ -414,11 +414,15 @@ void UMLView::slotObjectCreated(UMLObject* o) {
 		return;
 	}
 
+	int y = m_Pos.y();
+
 	UMLWidget* newWidget = 0;
 	if(type == ot_Actor) {
 		if (getType() == dt_Sequence) {
 			ObjectWidget *ow = new ObjectWidget(this, o, getLocalID() );
 			ow->setDrawAsActor(true);
+			if (m_Type == dt_Sequence)
+				y = ow->topMargin();
 			newWidget = ow;
 		} else
 			newWidget = new ActorWidget(this, static_cast<UMLActor*>(o));
@@ -461,11 +465,7 @@ void UMLView::slotObjectCreated(UMLObject* o) {
 		kdWarning() << "trying to create an invalid widget" << endl;
 		return;
 	}
-	int y=m_Pos.y();
 
-	if (newWidget->getBaseType() == wt_Object && this->getType() == dt_Sequence) {
-		y = 80 - newWidget->height();
-	}
 	newWidget->setX( m_Pos.x() );
 	newWidget->setY( y );
 	newWidget->moveEvent( 0 );//needed for ObjectWidget to set seq. line properly

@@ -151,9 +151,7 @@ public:
 	 *
 	 * @param drawAsActor	True if widget shall be drawn as an actor.
 	 */
-	void setDrawAsActor( bool drawAsActor ) {
-		m_bDrawAsActor = drawAsActor;
-	}
+	void setDrawAsActor( bool drawAsActor );
 
 	/**
 	 * Overrides the standard operation keeping it at the correct height
@@ -175,6 +173,14 @@ public:
 	bool getShowDestruction() const {
 		return m_bShowDestruction;
 	}
+
+	/**
+	 * Returns the top margin constant (Y axis value)
+	 *
+	 * @return	Y coordinate of the space between the diagram top
+	 *		and the upper edge of the ObjectWidget.
+	 */
+	int topMargin();
 
 	/**
 	 * Returns the end Y co-ord of the seq. line.

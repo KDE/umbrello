@@ -148,7 +148,12 @@ void ObjectWidget::calculateSize() {
 QString ObjectWidget::getDoc() const {
 	return m_Doc;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void ObjectWidget::setDrawAsActor( bool drawAsActor ) {
+	m_bDrawAsActor = drawAsActor;
+	calculateSize();
+}
+
 void ObjectWidget::setMultipleInstance(bool multiple) {
 	//make sure only calling this in relation to an object on a collab. diagram
 	if(m_pView -> getType() != dt_Collaboration)
@@ -271,7 +276,8 @@ void ObjectWidget::mouseMoveEvent(QMouseEvent* me) {
 
 void ObjectWidget::tabUp() {
 	int newY = getY() - height();
-	newY = ( newY + height() ) < 80?80 - height():newY;
+	if (newY < topMargin())
+		newY = topMargin();
 	setY( newY );
 	moveEvent( 0 );
 	adjustAssocs( getX(), newY);
@@ -284,8 +290,14 @@ void ObjectWidget::tabDown() {
 	adjustAssocs( getX(), newY);
 }
 
+int ObjectWidget::topMargin() {
+	return 80 - height();
+}
+
 bool ObjectWidget::canTabUp() {
-	return getY() >= 80;
+	int y = getY();
+	//kdDebug() << "ObjectWidget::canTabUp: y is " << y << endl;
+	return (y > topMargin());
 }
 
 void ObjectWidget::setShowDestruction( bool bShow ) {
