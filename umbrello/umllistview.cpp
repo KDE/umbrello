@@ -310,16 +310,12 @@ void UMLListView::popupMenuSel(int sel) {
 			// show the attribute dialogue
 			UMLAttribute* selectedAttribute = (UMLAttribute*)object;
 			UMLAttributeDialog dialogue( this, selectedAttribute );
-			if (dialogue.exec()) {
-//FIXME			m_doc->signalChildUMLObjectUpdate(selectedAttribute);
-			}
+			dialogue.exec();
 		} else if(umlType == Uml::ot_Operation) {
 			// show the operation dialogue
 			UMLOperation* selectedOperation = (UMLOperation*)object;
 			UMLOperationDialog dialogue( this, selectedOperation );
-			if (dialogue.exec()) {
-//FIXME			m_doc->signalChildUMLObjectUpdate(selectedOperation);
-			}
+			dialogue.exec();
 		} else {
 			kdWarning() << "calling properties on unknown type" << endl;
 		}
@@ -490,6 +486,9 @@ void UMLListView::connectNewObjectsSlots(UMLObject* object) {
 			this,SLOT(childObjectRemoved(UMLObject*)));
 		connect(object,SIGNAL(modified()),this,SLOT(slotObjectChanged()));
 		break;
+	case Uml::ot_Attribute:
+	case Uml::ot_Operation:
+	case Uml::ot_Template:
 	case Uml::ot_Package:
 	case Uml::ot_Actor:
 	case Uml::ot_UseCase:
@@ -500,9 +499,6 @@ void UMLListView::connectNewObjectsSlots(UMLObject* object) {
 		break;
 	case Uml::ot_UMLObject:
 	case Uml::ot_Association:
-	case Uml::ot_Attribute:
-	case Uml::ot_Operation:
-	case Uml::ot_Template:
 		break;
 	default:
 		kdWarning() << "unknown type in connectNewObjectsSlots" << endl;
@@ -533,7 +529,7 @@ void UMLListView::childObjectAdded(UMLObject* obj) {
 		setSelected(newItem, true);
 		m_doc->getDocWindow()->showDocumentation(obj, false);
 	}
-	connect(obj,SIGNAL(modified()),this,SLOT(slotObjectChanged()));
+	connectNewObjectsSlots(obj);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLListView::childObjectRemoved(UMLObject* obj) {
@@ -1896,24 +1892,16 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
 				break;
 			case Uml::lvt_Attribute:
 			case Uml::lvt_Template:
-			{
-				UMLObject* umlObject = parent->getUMLObject();
-				if (!umlObject)
-					return false;
-				umlObject = static_cast<UMLClass *>(umlObject)->findChildObject(nID);
-				item = new UMLListViewItem( parent, label, lvType, umlObject);
-				break;
-			}
 			case Uml::lvt_Operation:
 			{
 				UMLObject* umlObject = parent->getUMLObject();
 				if (!umlObject)
 					return false;
-				umlObject = static_cast<UMLClassifier*>(umlObject)->findChildObject(nID);
+				umlObject = static_cast<UMLClass *>(umlObject)->findChildObject(nID);
+				connectNewObjectsSlots(umlObject);
 				item = new UMLListViewItem( parent, label, lvType, umlObject);
 				break;
 			}
-
 			case Uml::lvt_Logical_View:
 				item = lv;
 				break;
