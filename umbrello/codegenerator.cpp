@@ -40,9 +40,6 @@
 
 #define MAXLINES 100
 
-// static members
-KInstance* CodeGenerator::s_instance;
-
 // constructor
 CodeGenerator::CodeGenerator(QObject *parent, const char *name)
 		:QObject(parent, name) {
