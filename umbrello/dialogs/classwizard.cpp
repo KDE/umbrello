@@ -82,14 +82,6 @@ void ClassWizard::accept() {
 	m_pDoc -> addUMLObject( m_pClass );
 	//add signal code here for list view
 	m_pDoc -> getListView() -> setLoading( false );
-	m_pDoc -> signalUMLObjectCreated( m_pClass );
-	UMLObject * pObject = 0;
-	QPtrList <UMLAttribute> * attList = m_pClass -> getAttList();
-	for( pObject = attList -> first(); pObject; pObject = attList -> next() )
-		m_pDoc -> signalChildUMLObjectCreated( pObject );
-	QPtrList <UMLOperation> * opList = m_pClass -> getOpList();
-	for( pObject = opList -> first(); pObject; pObject = opList -> next() )
-		m_pDoc -> signalChildUMLObjectCreated( pObject );
 	QWizard::accept();
 }
 

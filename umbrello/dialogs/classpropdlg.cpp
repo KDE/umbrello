@@ -133,11 +133,6 @@ void ClassPropDlg::slotUpdateChildObject(int id) {
 	else
 		o = ((UMLClassifier *)m_pObject) -> findChildObject(id);
 
-	if(o)
-	{
-		m_pDoc -> signalChildUMLObjectUpdate(o);
-	} else
-		kdDebug() << "slot dlg: can't find child" << endl;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void ClassPropDlg::slotApply() {
@@ -162,7 +157,6 @@ void ClassPropDlg::slotApply() {
 	if (m_pWidget) {
 		m_pWidget->setFont( m_pChooser->font() );
 	}
-	m_pDoc->signalUMLObjectChanged(m_pObject);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void ClassPropDlg::setupPages(UMLObject * c, bool assoc) {

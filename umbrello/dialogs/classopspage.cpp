@@ -71,8 +71,8 @@ ClassOpsPage::ClassOpsPage(QWidget *parent, UMLClassifier * c, UMLDoc * doc) : Q
 	connect(m_pOpsLB, SIGNAL(rightButtonPressed(QListBoxItem *, const QPoint &)),
 	        this, SLOT(slotOpRightButtonPressed(QListBoxItem *, const QPoint &)));
 	enableWidgets(false);
-	connect(m_pDoc, SIGNAL(sigChildObjectCreated(UMLObject *)), this, SLOT(slotOperationCreated(UMLObject *)));
-	connect(m_pDoc, SIGNAL(sigChildObjectChanged(UMLObject *)), this, SLOT(slotOperationRenamed(UMLObject *)));
+	connect(m_pDoc, SIGNAL(sigObjectCreated(UMLObject *)), this, SLOT(slotOperationCreated(UMLObject *)));
+//FIXME	connect( c, SIGNAL(modified( )), this, SLOT(slotOperationRenamed(UMLObject *)));
 	connect( m_pUpArrowB, SIGNAL( clicked() ), this, SLOT( slotUpClicked() ) );
 	connect( m_pDownArrowB, SIGNAL( clicked() ), this, SLOT( slotDownClicked() ) );
 	connect( m_pOpsLB, SIGNAL( doubleClicked( QListBoxItem * ) ), this, SLOT( slotDoubleClick( QListBoxItem * ) ) );
@@ -205,6 +205,11 @@ void ClassOpsPage::slotOpPopupMenuSel(int id) {
 void ClassOpsPage::slotOperationCreated(UMLObject * object) {
 	if(!m_bSigWaiting)
 		return;
+	if( object->getBaseType() != Uml::ot_Operation || 
+	    dynamic_cast<UMLClassifier*>(object->parent()) != m_pConcept)
+	{
+		return;
+	}
 	int index = m_pOpsLB -> count();
 	m_pOpsLB ->insertItem(object -> getName(), index);
 	m_bSigWaiting = false;
@@ -274,7 +279,7 @@ void ClassOpsPage::slotDoubleClick( QListBoxItem * item ) {
 	UMLOperationDialog dlg( this, pOp );
 	if( dlg.exec() ) {
 		m_pOpsLB->changeItem( pOp->getName(), m_pOpsLB->index(item) );
-		m_pDoc->signalChildUMLObjectUpdate(pOp);
+//FIXME		m_pDoc->signalChildUMLObjectUpdate(pOp);
 	}
 }
 

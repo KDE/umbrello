@@ -65,7 +65,10 @@ ClassAttPage::ClassAttPage(QWidget *parent, UMLClass * c, UMLDoc * doc) : QWidge
 	UMLAttribute *a;
 	m_pAttList = c -> getAttList();
 	for(a=m_pAttList->first();a != 0;a=m_pAttList->next())
+	{
 		m_pAttsLB -> insertItem(a->getName());
+		connect( a, SIGNAL(modified()),this,SLOT(attributeModified()));
+	}
 
 	enableWidgets(false);//disable widgets until an att is chosen
 	m_pOldAtt = 0;
@@ -76,8 +79,7 @@ ClassAttPage::ClassAttPage(QWidget *parent, UMLClass * c, UMLDoc * doc) : QWidge
 
 	connect(m_pAttsLB, SIGNAL(rightButtonClicked(QListBoxItem *, const QPoint &)),
 	        this, SLOT(slotRightButtonClicked(QListBoxItem *, const QPoint &)));
-	connect(m_pDoc, SIGNAL(sigChildObjectCreated(UMLObject *)), this, SLOT(slotAttributeCreated(UMLObject *)));
-	connect(m_pDoc, SIGNAL(sigChildObjectChanged(UMLObject *)), this, SLOT(slotAttributeRenamed(UMLObject *)));
+	connect(m_pDoc, SIGNAL(sigObjectCreated(UMLObject *)), this, SLOT(slotAttributeCreated(UMLObject *)));
 
 	connect( m_pUpArrowB, SIGNAL( clicked() ), this, SLOT( slotUpClicked() ) );
 	connect( m_pDownArrowB, SIGNAL( clicked() ), this, SLOT( slotDownClicked() ) );
@@ -160,16 +162,23 @@ void ClassAttPage::slotAttributeCreated(UMLObject * object) {
 	if(!m_bSigWaiting) {
 		return;
 	}
+	if( object->getBaseType() != Uml::ot_Attribute ||
+	    parent() != m_pClass )
+	{
+		return;
+	}
 	int index = m_pAttsLB -> count();
 	m_pAttsLB ->insertItem(object -> getName(), index);
 	m_bSigWaiting = false;
 	slotClicked(0);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void ClassAttPage::slotAttributeRenamed(UMLObject * object) {
+void ClassAttPage::attributeModified( ) {
 	if(!m_bSigWaiting) {
 		return;
 	}
+	//is this safe???
+	UMLObject *object = const_cast<UMLObject*>(dynamic_cast<const UMLObject*>(sender()));
 	int index = m_pAttsLB -> currentItem();
 	m_pAttsLB -> changeItem(object -> getName(), index);
 	m_bSigWaiting = false;
@@ -289,7 +298,7 @@ void ClassAttPage::slotDoubleClick( QListBoxItem * item ) {
 	UMLAttributeDialog dlg( this, pAtt );
 	if( dlg.exec() ) {
 		m_pAttsLB->changeItem( pAtt->getName(), m_pAttsLB->index(item) );
-		m_pDoc->signalChildUMLObjectUpdate(pAtt);
+
 	}
 }
 

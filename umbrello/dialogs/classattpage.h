@@ -86,7 +86,7 @@ public slots:
 
 	void slotPopupMenuSel(int id);
 	void slotAttributeCreated(UMLObject * object);
-	void slotAttributeRenamed(UMLObject * object);
+	void attributeModified( );
 	void slotRightButtonClicked(QListBoxItem * item, const QPoint & p);
 	void slotRightButtonPressed(QListBoxItem * item, const QPoint & p);
 

@@ -61,11 +61,12 @@ ClassTemplatePage::ClassTemplatePage(QWidget* parent, UMLClass * myclass , UMLDo
 	docLayout->addWidget(m_pDocTE);
 	mainLayout->addWidget(m_pDocGB);
 
-	//add attributes to list
+	//add templates to list
 	UMLTemplate* theTemplate;
 	m_pTemplateList = myclass->getTemplateList();
 	for (theTemplate=m_pTemplateList->first();theTemplate != 0;theTemplate=m_pTemplateList->next()) {
 		m_pTemplateLB->insertItem( theTemplate->getName() );
+		connect( theTemplate, SIGNAL(modified()),this,SLOT(slotTemplateRenamed()));
 	}
 
 	enableWidgets(false);//disable widgets until an att is chosen
@@ -77,10 +78,8 @@ ClassTemplatePage::ClassTemplatePage(QWidget* parent, UMLClass * myclass , UMLDo
 
 	connect( m_pTemplateLB, SIGNAL(rightButtonClicked(QListBoxItem*, const QPoint&)),
 	         this, SLOT(slotRightButtonClicked(QListBoxItem*, const QPoint&)) );
-	connect( m_pDoc, SIGNAL(sigChildObjectCreated(UMLObject*)),
+	connect( m_pDoc, SIGNAL(sigObjectCreated(UMLObject*)),
 		 this, SLOT(slotTemplateCreated(UMLObject*)) );
-	connect( m_pDoc, SIGNAL(sigChildObjectChanged(UMLObject*)),
-		 this, SLOT(slotTemplateRenamed(UMLObject*)) );
 
 	connect( m_pUpArrowB, SIGNAL( clicked() ), this, SLOT( slotUpClicked() ) );
 	connect( m_pDownArrowB, SIGNAL( clicked() ), this, SLOT( slotDownClicked() ) );
@@ -163,14 +162,25 @@ void ClassTemplatePage::slotTemplateCreated(UMLObject* object) {
 	if (!m_bSigWaiting) {
 		return;
 	}
+	if( object->getBaseType() != Uml::ot_Template ||
+	    object->parent() != m_pClass )
+	{
+		return;
+	}
 	int index = m_pTemplateLB->count();
 	m_pTemplateLB->insertItem(object->getName(), index);
+	connect(object,SIGNAL(modified()),this,SLOT(slotTemplateRenamed()));
 	m_bSigWaiting = false;
 	slotClicked(0);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void ClassTemplatePage::slotTemplateRenamed(UMLObject* object) {
+void ClassTemplatePage::slotTemplateRenamed( ) {
 	if (!m_bSigWaiting) {
+		return;
+	}
+	const UMLObject *object = dynamic_cast<const UMLObject*>(sender());
+	if( object->getBaseType() != Uml::ot_Template )
+	{
 		return;
 	}
 	int index = m_pTemplateLB->currentItem();
@@ -291,7 +301,7 @@ void ClassTemplatePage::slotDoubleClick(QListBoxItem* item) {
 	UMLTemplateDialog dialogue(this, pTemplate);
 	if ( dialogue.exec() ) {
 		m_pTemplateLB->changeItem( pTemplate->getName(), m_pTemplateLB->index(item) );
-		m_pDoc->signalChildUMLObjectUpdate(pTemplate);
+//FIXME		m_pDoc->signalChildUMLObjectUpdate(pTemplate);
 	}
 }
 

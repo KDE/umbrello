@@ -98,7 +98,7 @@ public slots:
 	/**
 	 * Called when a template has been renamed to update the list box
 	 */
-	void slotTemplateRenamed(UMLObject* object);
+	void slotTemplateRenamed( );
 
 	/**
 	 * Removes the right mouse button menu
