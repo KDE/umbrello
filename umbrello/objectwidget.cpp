@@ -252,7 +252,8 @@ void ObjectWidget::drawActor(QPainter & p, int offsetX, int offsetY) {
 void ObjectWidget::mouseMoveEvent(QMouseEvent *me) {
 	int newX = 0, newY = 0, count;
 	int moveX, moveY;
-	int canvasSize = UMLView::getCanvasSize();
+	int maxX = m_pView->canvas()->width();
+	int maxY = m_pView->canvas()->height();
 
 	if( !m_bSelected ) {
 		m_pView->setSelected( this, me );
@@ -281,11 +282,11 @@ void ObjectWidget::mouseMoveEvent(QMouseEvent *me) {
 		if( ((int)y() + moveY) < 0 ) {
 			moveY = moveY - (int)y();
 		}
-		if( ((int)x() + moveX) > (canvasSize - width()) ) {
-			moveX = canvasSize - (int)x() - width();
+		if( ((int)x() + moveX) > (maxX - width()) ) {
+			moveX = maxX - (int)x() - width();
 		}
-		if( ((int)y() + moveY) > (canvasSize - height()) ) {
-			moveY = canvasSize - (int)y() - height();
+		if( ((int)y() + moveY) > (maxY - height()) ) {
+			moveY = maxY - (int)y() - height();
 		}
 
 		if( count > 1 ) {
@@ -301,8 +302,8 @@ void ObjectWidget::mouseMoveEvent(QMouseEvent *me) {
 
 	newX = newX<0 ? 0 : newX;
 	newY = newY<0 ? 0 : newY;
-	newX = newX>canvasSize ? canvasSize : newX;
-	newY = newY>canvasSize ? canvasSize : newY;
+	newX = newX>maxX ? maxX : newX;
+	newY = newY>maxY ? maxY : newY;
 
 	//implement rule for sequence diagram
 	if( m_pView -> getType() == dt_Sequence ) {

@@ -29,6 +29,7 @@ class QGroupBox;
 class QTextEdit;
 class QSpinBox;
 class KFontChooser;
+class DiagramPropertiesPage;
 
 
 class UMLViewDialog : public KDialogBase {
@@ -56,6 +57,11 @@ protected:
 	* 	Sets up the dialog pages.
 	*/
 	void setupPages();
+	
+	/**
+	*	Sets up the general Diagram Properties Page
+	*/
+	void setupDiagramPropertiesPage();
 
 	/**
 	*	Sets up the Class page
@@ -93,6 +99,7 @@ protected:
 	ConceptWidget * m_pTempWidget;
 
 	KFontChooser * m_pChooser;
+	DiagramPropertiesPage *m_diagramProperties;
 	ClassOptionsPage * m_pOptionsPage;
 	UMLWidgetColorPage * m_pColorPage;
 

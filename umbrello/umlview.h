@@ -643,13 +643,6 @@ public:
 	QPtrList<MessageWidget> getMessageWidgetList();
 
 	/**
-	 *	static method to return the width/height of canvas in pixels
-	 */
-	static int getCanvasSize() {
-		return canvasSize;
-	}
-
-	/**
 	 *	Asks for confirmation and clears everything on the diagram.
 	 *	Called from menus.
 	 */
@@ -864,10 +857,6 @@ private:
 	 */
 	QPtrList<SeqLineWidget> m_SeqLineList;
 
-	/**
-	 *	the width and height of a diagram canvas in pixels
-	 */
-	static const int canvasSize = 1300;
 public slots:
 	void slotToolBarChanged(int c);
 	void slotObjectCreated(UMLObject * o);

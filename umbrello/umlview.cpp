@@ -21,6 +21,7 @@
 #include <qlist.h>
 #include <qpixmap.h>
 #include <qcolor.h>
+#include <qwmatrix.h>
 
 //kde include files
 #include <ktempfile.h>
@@ -66,6 +67,8 @@
 #include "umlwidgetdata.h"
 #include "floatingtextdata.h"
 
+static const int defaultCanvasSize = 1300;
+
 UMLView::UMLView( QWidget * parent, UMLViewData * pData ) : QCanvasView(  parent,  "AnUMLView" ) {
 	m_pData = pData;
 	init();
@@ -92,8 +95,8 @@ void UMLView::init() {
 	viewport() -> setBackgroundMode( NoBackground );
 	setCanvas( new UMLViewCanvas( this ) );
 	canvas() -> setUpdatePeriod( 20 );
-	resizeContents(canvasSize, canvasSize);
-	canvas() -> resize(canvasSize, canvasSize);
+	resizeContents(defaultCanvasSize, defaultCanvasSize);
+	canvas() -> resize(defaultCanvasSize, defaultCanvasSize);
 	setAcceptDrops(TRUE);
 	viewport() -> setAcceptDrops(TRUE);
 	setDragAutoScroll(false);
@@ -908,8 +911,8 @@ void UMLView::deleteSelection()
 void UMLView::selectAll() {
 	m_Pos.setX(0);
 	m_Pos.setY(0);
-	m_LineToPos.setX(canvasSize);
-	m_LineToPos.setY(canvasSize);
+	m_LineToPos.setX(canvas()->width());
+	m_LineToPos.setY(canvas()->height());
 	selectWidgets();
 }
 

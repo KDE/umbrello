@@ -8,6 +8,7 @@
  ***************************************************************************/
 
 #include "umlviewdialog.h"
+#include "diagrampropertiespage.h"
 #include <kiconloader.h>
 #include <klocale.h>
 #include <kmessagebox.h>
@@ -20,6 +21,7 @@
 #include <qspinbox.h>
 //kde includes
 #include <kfontdialog.h>
+#include <qvbox.h>
 
 
 UMLViewDialog::UMLViewDialog( QWidget * pParent, UMLView * pView ) : KDialogBase(IconList, i18n("Properties"), Ok | Apply | Cancel | Help,
@@ -46,60 +48,30 @@ void UMLViewDialog::slotApply() {
 	applyPage( (Page)activePageIndex() );
 }
 
-void UMLViewDialog::setupPages() {
-	//setup the general page
-	QFrame *page = addPage( i18n("General"), i18n("General Settings"), DesktopIcon( "misc") );
-	QVBoxLayout * topLayout = new QVBoxLayout(page);
-	m_pValuesGB = new QGroupBox( i18n( "Diagram Settings" ), page );
-
-	QGridLayout * valueLayout = new QGridLayout( m_pValuesGB, 3, 4 );
-	valueLayout -> setSpacing( 10 );
-	valueLayout -> setMargin( fontMetrics().height() );
-
-	m_pNameL = new QLabel( i18n( "Name:" ), m_pValuesGB);
-	valueLayout -> addWidget( m_pNameL, 0, 0 );
-	valueLayout -> setColStretch( 0, 1);
-
-	m_pNameLE = new QLineEdit( m_pView->getName(), m_pValuesGB );
-	valueLayout -> addWidget( m_pNameLE, 0, 2 );
-	valueLayout -> setColStretch( 2, 1);
-
-	m_pShowSnapCB = new QCheckBox( i18n( "Show grid" ), m_pValuesGB );
-	m_pShowSnapCB -> setChecked( m_pView -> getShowSnapGrid() );
-	valueLayout -> addWidget( m_pShowSnapCB, 1, 0 );
-
-	m_pSnapToGridCB = new QCheckBox( i18n( "Snap to grid" ), m_pValuesGB );
-	m_pSnapToGridCB -> setChecked( m_pView -> getSnapToGrid() );
-	valueLayout -> addWidget( m_pSnapToGridCB, 1, 2 );
-
-	m_pSpinXL = new QLabel( i18n( "X value:" ), m_pValuesGB );
-	valueLayout -> addWidget( m_pSpinXL, 2, 0 );
-
-	m_pSnapXSB = new QSpinBox( 2, 50, 1, m_pValuesGB );
-	m_pSnapXSB -> setValue( m_pView -> getSnapX() );
-	valueLayout -> addWidget( m_pSnapXSB, 2, 1 );
-
-	m_pSpinYL = new QLabel( i18n( "Y value:" ), m_pValuesGB );
-	valueLayout -> addWidget( m_pSpinYL, 2, 2 );
-
-	m_pSnapYSB = new QSpinBox( 2, 50, 1, m_pValuesGB );
-	m_pSnapYSB -> setValue( m_pView -> getSnapY() );
-	valueLayout -> addWidget( m_pSnapYSB, 2, 3 );
-
-	topLayout -> addWidget( m_pValuesGB );
-
-	m_pDocGB = new QGroupBox( i18n( "Documentation" ), page );
-	QHBoxLayout * docLayout = new QHBoxLayout( m_pDocGB );
-	docLayout -> setSpacing( 10 );
-	docLayout -> setMargin( fontMetrics().height() );
-	m_pDocTE = new QTextEdit( m_pDocGB );
-	m_pDocTE -> setText( m_pView -> getDoc() );
-	docLayout -> addWidget( m_pDocTE );
-	topLayout -> addWidget( m_pDocGB );
-	//setup the rest of the pages
+void UMLViewDialog::setupPages()
+{
+	setupDiagramPropertiesPage();
 	setupColorPage();
 	setupFontPage();
 	setupClassPage();
+}
+
+void UMLViewDialog::setupDiagramPropertiesPage()
+{
+	QVBox *page = addVBoxPage( i18n("General"), i18n("General settings"), DesktopIcon( "misc") );
+	m_diagramProperties = new DiagramPropertiesPage(page);
+
+	m_diagramProperties->diagramName->setText( m_pView->getName() );
+	m_diagramProperties->width->setValue(m_pView->canvas()->width());
+	m_diagramProperties->height->setValue(m_pView->canvas()->height());
+
+	m_diagramProperties->showGrid->setChecked(m_pView -> getShowSnapGrid());
+	m_diagramProperties->snapToGrid->setChecked(m_pView-> getSnapToGrid());
+	
+	m_diagramProperties->gridSpaceX->setValue( m_pView -> getSnapX());
+	m_diagramProperties->gridSpaceY->setValue( m_pView -> getSnapY());
+	m_diagramProperties->documentation->setText(m_pView -> getDoc());
+
 }
 
 void UMLViewDialog::setupClassPage() {
@@ -142,11 +114,30 @@ void UMLViewDialog::applyPage( Page page ) {
 	switch (page) {
 		case General:
 			checkName();
-			m_pView -> setDoc( m_pDocTE->text() );
-			m_pView -> setSnapX( m_pSnapXSB->value() );
-			m_pView -> setSnapY( m_pSnapYSB->value() );
-			m_pView -> setSnapToGrid( m_pSnapToGridCB->isChecked() );
-			m_pView -> setShowSnapGrid( m_pShowSnapCB->isChecked() );
+	// resizing a canvas is a very expensive operation, so we first
+	// check if the size has changed
+	{
+	int w = m_diagramProperties->width->value();
+	int h = m_diagramProperties->height->value();
+	if (( w != m_pView->canvas()->width()) ||
+			( h != m_pView->canvas()->height()) )
+	{ //the input fields in the dialog page are set to only allow reasonable values
+		//but we check here again just to be on the safe side. 500 < size < 5000
+		if(h<500) h = 500;
+		if(h>5000) h = 5000;
+		if(w<500) w = 500;
+		if(w>5000) w = 5000;
+		m_pView->canvas()->resize(w,h);
+	}
+	}
+	m_diagramProperties->width->setValue(m_pView->canvas()->width());
+	m_diagramProperties->height->setValue(m_pView->canvas()->height());
+//
+			m_pView -> setDoc( m_diagramProperties->documentation->text() );
+			m_pView -> setSnapX(  m_diagramProperties->gridSpaceX->value() );
+			m_pView -> setSnapY( m_diagramProperties->gridSpaceY->value() );
+			m_pView -> setSnapToGrid( m_diagramProperties->snapToGrid->isChecked() );
+			m_pView -> setShowSnapGrid( m_diagramProperties->showGrid->isChecked() );
 			break;
 
 		case Color:
@@ -184,19 +175,19 @@ void UMLViewDialog::applyPage( Page page ) {
 }
 
 void UMLViewDialog::checkName() {
-	QString name = m_pNameLE -> text();
+	QString name = m_diagramProperties->diagramName-> text();
 	UMLDoc * pDoc = m_pView -> getDocument();
 	UMLView * pView = pDoc -> findView( m_pView -> getType(), name );
 	if( name.length() == 0 ) {
 		KMessageBox::sorry(this, i18n("The name you have entered is invalid."),
-		                   i18n("Invalid Name"), false);
-		m_pNameLE->setText( m_pView->getName() );
+		                   i18n("Invalid Name."), false);
+		m_diagramProperties->diagramName->setText( m_pView->getName() );
 		return;
 	}
 	if( pView && pView != m_pView ) {
 		KMessageBox::sorry(this, i18n("The name you have entered is not unique."),
-		                   i18n("Name Not Unique"), false);
-		m_pNameLE->setText( m_pView->getName() );
+		                   i18n("Name Not Unique."), false);
+		m_diagramProperties->diagramName->setText( m_pView->getName() );
 		return;
 	}
 	m_pView->setName( name );
