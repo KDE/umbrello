@@ -29,8 +29,8 @@ public:
 
 enum EditTool {Select = 0, Generalization, Aggregation, Dependency, Association,
 CollMessage, SeqMessage, Composition, UniAssociation, StateTransition, ActivityTransition,
- Anchor, Note, Text, Actor, UseCase, Class, Interface, Package, Component, Artifact, Object,
-InitialState, State, EndState, InitialActivity, Activity, EndActivity, Branch, Fork, Box };	
+ Anchor, Note, Box, Text, Actor, UseCase, Class, Interface, Package, Component, Artifact, Object,
+InitialState, State, EndState, InitialActivity, Activity, EndActivity, Branch, Fork };	
 
 	/**
 	 *	Creates a work tool bar
