@@ -23,7 +23,8 @@ class Tool;
  * the basic functions like moving DiagramElement's around and selecting them
  */
 class DefaultWidgetSet :  public WidgetSet
-{Q_OBJECT
+{
+    Q_OBJECT
 public:
 	DefaultWidgetSet(QObject *parent, const QStringList &args);
 	virtual ~DefaultWidgetSet();
