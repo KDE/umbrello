@@ -20,19 +20,19 @@
 ClassifierListPage::ClassifierListPage(QWidget* parent, UMLClassifier* classifier,
 				       UMLDoc* doc, UMLObject_Type type) : QWidget(parent) {
 	itemType = type;
-	QString itemTypes("");
+	QString typeName("");
 	QString newItemType("");
 	if (type == ot_Attribute) {
-		itemTypes = i18n("Attributes");
+		typeName = i18n("Attributes");
 		newItemType = i18n("N&ew Attribute...");
 	} else if (type == ot_Operation) {
-		itemTypes = i18n("Operations");
+		typeName = i18n("Operations");
 		newItemType = i18n("N&ew Operation...");
 	} else if (type == ot_Template) {
-		itemTypes = i18n("Templates");
+		typeName = i18n("Templates");
 		newItemType = i18n("N&ew Template...");
 	} else if (type == ot_EnumLiteral) {
-		itemTypes = i18n("Enum Literals");
+		typeName = i18n("Enum Literals");
 		newItemType = i18n("N&ew Enum Literal...");
 	} else {
 		kdWarning() << "unknown listItem type in ClassifierListPage" << endl;
@@ -45,18 +45,23 @@ ClassifierListPage::ClassifierListPage(QWidget* parent, UMLClassifier* classifie
 	int margin = fontMetrics().height();
 	setMinimumSize(310,330);
 
+	//main layout contains our two group boxes, the list and the documentation
 	QVBoxLayout* mainLayout = new QVBoxLayout( this );
 	mainLayout->setSpacing(10);
 
-	m_pItemListGB = new QGroupBox(itemTypes, this );
-	QGridLayout* attsLayout = new QGridLayout( m_pItemListGB, 2, 2 );
-	attsLayout->setMargin(margin);
-	attsLayout->setSpacing ( 10 );
+	//top group box, contains a vertical layout with list box above and buttons below
+	m_pItemListGB = new QGroupBox(typeName, this );
+	QVBoxLayout* listVBoxLayout = new QVBoxLayout( m_pItemListGB );
+	listVBoxLayout->setMargin(margin);
+	listVBoxLayout->setSpacing ( 10 );
 
-	m_pItemListLB = new QListBox(m_pItemListGB );
-	attsLayout->addWidget(m_pItemListLB, 0, 0);
+	//horizontal box contains the list box and the move up/down buttons
+	QHBoxLayout* listHBoxLayout = new QHBoxLayout( listVBoxLayout );
+	m_pItemListLB = new QListBox(m_pItemListGB);
+	listHBoxLayout->addWidget(m_pItemListLB);
 
-	QVBoxLayout* buttonLayout = new QVBoxLayout( attsLayout );
+	//the move up/down buttons (another vertical box)
+	QVBoxLayout* buttonLayout = new QVBoxLayout( listHBoxLayout );
 	m_pUpArrowB = new KArrowButton( m_pItemListGB );
 	m_pUpArrowB->setEnabled( false );
 	buttonLayout->addWidget( m_pUpArrowB );
@@ -65,13 +70,14 @@ ClassifierListPage::ClassifierListPage(QWidget* parent, UMLClassifier* classifie
 	m_pDownArrowB->setEnabled( false );
 	buttonLayout->addWidget( m_pDownArrowB );
 
+	//the action buttons
 	KButtonBox* buttonBox = new KButtonBox(m_pItemListGB);
 	buttonBox->addButton( newItemType, this, SLOT(slotNewListItem()) );
 	m_pDeleteListItemButton = buttonBox->addButton( i18n("&Delete"),
 							  this, SLOT(slotDelete()) );
 	m_pPropertiesButton = buttonBox->addButton( i18n("&Properties"), this, SLOT(slotProperties()) );
 	buttonBox->addButton( i18n("Ne&w Stereotype..."), this, SLOT(slotNewStereotype()) );
-	attsLayout->addMultiCellWidget(buttonBox, 1, 1, 0, 1);
+	listVBoxLayout->addWidget(buttonBox);
 
 	mainLayout->addWidget(m_pItemListGB);
 
