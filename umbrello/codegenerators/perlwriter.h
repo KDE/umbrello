@@ -63,13 +63,15 @@ public:
 	 */
 	virtual const char **getReservedKeywords();
 
+	void createDefaultDatatypes();	 
+
 private:
 
-        /**
-          * we do not want to write the comment "Private methods" twice
-          * not sure whether this is php specific
-          */
-        bool bPrivateSectionCommentIsWritten;
+	/**
+	 * we do not want to write the comment "Private methods" twice
+	 * not sure whether this is php specific
+	 */
+	bool bPrivateSectionCommentIsWritten;
 
 	/**
 	  * write all operations for a given class
@@ -103,6 +105,5 @@ private:
 
 
 };
-
 
 #endif //PERLWRITER

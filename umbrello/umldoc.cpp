@@ -2295,6 +2295,11 @@ QStringList UMLDoc::getModelTypes()
 	types.append("float");
 	types.append("date");
 
+	// adding for perl The 3 base type (SV,AV,HV)
+	types.append("$");
+	types.append("@");
+	types.append("%");
+
 	//now add the Classes and Interfaces (both are Concepts)
 	UMLClassifierList namesList( getConcepts() );
 	UMLClassifier* pConcept = 0;

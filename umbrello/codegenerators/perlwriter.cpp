@@ -37,11 +37,11 @@ PerlWriter::~PerlWriter() {}
 
 
 void PerlWriter::writeClass(UMLClassifier *c) {
-	if(!c) {
+/*	if(!c) {
 		kdDebug()<<"Cannot write class of NULL concept!" << endl;
 		return;
 	}
-
+*/
 	QString classname = cleanName(c->getName());// this is fine: cleanName is "::-clean"
 	QString fileName;
 
@@ -92,23 +92,32 @@ void PerlWriter::writeClass(UMLClassifier *c) {
 	//Start generating the code!!
 	/////////////////////////////
 
-	perl << m_newLineEndingChars << m_newLineEndingChars << "package " << classname << ";" << m_newLineEndingChars << m_newLineEndingChars;
+
 	//try to find a heading file (license, coments, etc)
 	QString str;
+	QString AV = "@";
+	QString SV = "$";
+	QString HV = "%";
 	str = getHeadingFile(".pm");   // what this mean?
 	if(!str.isEmpty()) {
 		str.replace(QRegExp("%filename%"),fileName+".pm");
 		str.replace(QRegExp("%filepath%"),fileperl.name());
+		str.replace(QRegExp("%date%"),QDate::currentDate().toString());
+		str.replace(QRegExp("%time%"),QTime::currentTime().toString());
 		perl<<str<<m_newLineEndingChars;
 	}
-
+	perl << m_newLineEndingChars << m_newLineEndingChars << "package " << classname << ";" << m_newLineEndingChars << m_newLineEndingChars;
 	//write includes
+	perl << m_newLineEndingChars << "#UML_MODELER_BEGIN_PERSONAL_VARS_" << classname << m_newLineEndingChars ;
+	perl << m_newLineEndingChars << "#UML_MODELER_END_PERSONAL_VARS_" << classname << m_newLineEndingChars << m_newLineEndingChars ;
 	UMLClassifierList includes;//ca existe en perl??
 	findObjectsRelated(c,includes);
 	UMLClassifier *conc;
 	for(conc = includes.first(); conc ;conc = includes.next()) {
-			perl << "use " << cleanName(conc->getName()) << ";" <<
-m_newLineEndingChars; // seems OK
+			if ((cleanName(conc->getName()) != AV) && (cleanName(conc->getName()) != SV ) && (cleanName(conc->getName()) != HV))
+			{
+				perl << "use " << cleanName(conc->getName()) << ";" << m_newLineEndingChars; // seems OK
+			}
 	}
 	perl << m_newLineEndingChars;
 
@@ -128,16 +137,14 @@ m_newLineEndingChars; // seems OK
 	//Write class Documentation
 	if(forceDoc() || !c->getDoc().isEmpty()) {
 		perl << m_newLineEndingChars << "=head1";
-		perl << " " << classname.upper() << m_newLineEndingChars;
+		perl << " " << classname.upper() << m_newLineEndingChars << m_newLineEndingChars;
 		perl << formatDoc(c->getDoc(),"");
-		perl << m_newLineEndingChars << "=cut" << m_newLineEndingChars <<
-m_newLineEndingChars;
+		perl << m_newLineEndingChars << m_newLineEndingChars << "=cut" << m_newLineEndingChars << m_newLineEndingChars;
 	}
 
 	//check if class is abstract and / or has abstract methods
 	if(c->getAbstract())
-        perl << "=head1 ABSTRACT CLASS" << m_newLineEndingChars <<
-m_newLineEndingChars << "=cut" << m_newLineEndingChars;
+        perl << "=head1 ABSTRACT CLASS" << m_newLineEndingChars << m_newLineEndingChars << "=cut" << m_newLineEndingChars;
 
 	//attributes
 	UMLClass *myClass = dynamic_cast<UMLClass*>(c);
@@ -150,8 +157,8 @@ m_newLineEndingChars << "=cut" << m_newLineEndingChars;
 	perl << m_newLineEndingChars;
 
 	//finish file
-	perl << m_newLineEndingChars << m_newLineEndingChars << "1;" <<
-m_newLineEndingChars;
+	//perl << m_newLineEndingChars << m_newLineEndingChars << "=cut" << m_newLineEndingChars; 
+	perl << m_newLineEndingChars << m_newLineEndingChars << "return 1;" << m_newLineEndingChars;
 
 	//close files and notify we are done
 	fileperl.close();
@@ -210,40 +217,35 @@ void PerlWriter::writeOperations(UMLClassifier *c, QTextStream &perl) {
 
 	//write operations to file
 	if(forceSections() || !oppub.isEmpty()) {
-		perl << m_newLineEndingChars << "=head1 PUBLIC METHODS"
-			<< m_newLineEndingChars << m_newLineEndingChars << "=over 4" <<
-m_newLineEndingChars;
+		perl << m_newLineEndingChars << "=head1 PUBLIC METHODS" << m_newLineEndingChars << m_newLineEndingChars ;
 		writeOperations(classname,oppub,perl);
-		perl << m_newLineEndingChars << "=back" << m_newLineEndingChars;
+		perl << m_newLineEndingChars << m_newLineEndingChars << "=cut" << m_newLineEndingChars << m_newLineEndingChars;
 	}
 
 	if(forceSections() || !opprot.isEmpty()) {
-		perl << m_newLineEndingChars << "=head1 METHODS FOR SUBCLASSING"
-			<< m_newLineEndingChars << m_newLineEndingChars << "=over 4" <<
-m_newLineEndingChars;
+		perl << m_newLineEndingChars << "=head1 METHODS FOR SUBCLASSING" << m_newLineEndingChars << m_newLineEndingChars ;
+		//perl << "=pod "  << m_newLineEndingChars << m_newLineEndingChars << "=head3 " ;		
 		writeOperations(classname,opprot,perl);
-		perl << m_newLineEndingChars << "=back" << m_newLineEndingChars;
+		perl << m_newLineEndingChars << m_newLineEndingChars << "=cut" << m_newLineEndingChars << m_newLineEndingChars;
 	}
 
 	if(forceSections() || !oppriv.isEmpty()) {
-		perl << m_newLineEndingChars << "=head1 PRIVATE METHODS"
-			<< m_newLineEndingChars << m_newLineEndingChars << "=over 4"  <<
-m_newLineEndingChars ;
+		perl << m_newLineEndingChars << "=head1 PRIVATE METHODS" << m_newLineEndingChars << m_newLineEndingChars ;
+		//perl << "=pod "  << m_newLineEndingChars << m_newLineEndingChars << "=head3 " ;
 		writeOperations(classname,oppriv,perl);
-
+		perl << m_newLineEndingChars << m_newLineEndingChars << "=cut" << m_newLineEndingChars << m_newLineEndingChars;
 	}
 
     // moved here for perl
 	UMLClass *myClass = dynamic_cast<UMLClass*>(c);
 
 	if(myClass && hasDefaultValueAttr(myClass)) {
-		UMLAttributeList *atl = myClass->getFilteredAttributeList();
+		UMLAttributeList * atl = myClass->getFilteredAttributeList();
 
 		perl << m_newLineEndingChars;
-		perl << m_newLineEndingChars << "=item _init" << m_newLineEndingChars << m_newLineEndingChars << m_newLineEndingChars;
+		perl << m_newLineEndingChars << "=head2 _init" << m_newLineEndingChars << m_newLineEndingChars << m_newLineEndingChars;
 		perl << "_init sets all " + classname + " attributes to their default \
-		               values unless already set" << m_newLineEndingChars << "=cut" << m_newLineEndingChars <<
-m_newLineEndingChars;
+		               values unless already set" << m_newLineEndingChars << m_newLineEndingChars << "=cut" << m_newLineEndingChars << m_newLineEndingChars;
 		perl << "sub _init {" << m_newLineEndingChars << m_indentation << "my $self = shift;" << m_newLineEndingChars<<m_newLineEndingChars;
 
 		for(UMLAttribute *at = atl->first(); at ; at = atl->next()) {
@@ -256,7 +258,7 @@ m_newLineEndingChars;
 	    perl << " }" << m_newLineEndingChars;
 	}
 
-	perl << m_newLineEndingChars << "=back" << m_newLineEndingChars << m_newLineEndingChars;
+	perl << m_newLineEndingChars << m_newLineEndingChars;
 }
 
 void PerlWriter::writeOperations(QString /* classname */, UMLOperationList &opList, QTextStream &perl) {
@@ -264,7 +266,8 @@ void PerlWriter::writeOperations(QString /* classname */, UMLOperationList &opLi
 	UMLAttributeList *atl;
 	UMLAttribute *at;
 
-	for(op=opList.first(); op ; op=opList.next()) {
+	for(op=opList.first(); op ; op=opList.next()) 
+	{
 		atl = op -> getParmList();
 		//write method doc if we have doc || if at least one of the params has doc
 		bool writeDoc = forceDoc() || !op->getDoc().isEmpty();
@@ -273,39 +276,37 @@ void PerlWriter::writeOperations(QString /* classname */, UMLOperationList &opLi
 
 		if( writeDoc )  //write method documentation
 		{
-			perl << "=item " << cleanName(op->getName()) << m_newLineEndingChars << m_newLineEndingChars;
+			perl << "=pod "  << m_newLineEndingChars << m_newLineEndingChars << "=head3 " ;
+			perl << cleanName(op->getName()) << m_newLineEndingChars << m_newLineEndingChars;
 
-            perl << "Parameters:" << m_newLineEndingChars <<
-m_newLineEndingChars << "=over 8" << m_newLineEndingChars <<
-m_newLineEndingChars;
+            		perl << "   Parameters :" << m_newLineEndingChars ;
 			for(at = atl->first(); at ; at = atl -> next())  //write parameter documentation
 			{
-				if(forceDoc() || !at->getDoc().isEmpty()) {
-                    perl << m_newLineEndingChars << "=item ";
-
-					perl << cleanName(at->getName()) + " : ";
-					perl << at->getDoc();
-                    perl << m_newLineEndingChars;
+				if(forceDoc() || !at->getDoc().isEmpty()) 
+				{
+					perl << "      " << cleanName(at->getName()) << "  " << at->getDoc();
+					perl << m_newLineEndingChars;
 				}
 			}//end for : write parameter documentation
-            perl << "=back" << m_newLineEndingChars << m_newLineEndingChars;
-            perl << "Description:" << m_newLineEndingChars <<
-m_newLineEndingChars;
-	        perl << formatDoc(op->getDoc(),"");
-			perl <<m_newLineEndingChars << "=cut" << m_newLineEndingChars;
+			perl << m_newLineEndingChars;
+            		perl << "   Return : " << m_newLineEndingChars ;
+	        	perl << "      " << op->getReturnType() ;
+			perl << m_newLineEndingChars 
+			<< m_newLineEndingChars ;            		
+            		perl << "   Description : " << m_newLineEndingChars ;
+	        	perl << "      " << formatDoc(op->getDoc(),"");
+			perl << m_newLineEndingChars << m_newLineEndingChars << "=cut" << m_newLineEndingChars << m_newLineEndingChars;
 		}//end if : write method documentation
-
-		perl <<  "sub " << cleanName(op->getName()) << " {" <<
-m_newLineEndingChars << m_newLineEndingChars << "}"
-<< m_newLineEndingChars;
+		perl <<  "sub " << cleanName(op->getName()) <<	m_newLineEndingChars << "{" <<	m_newLineEndingChars ;
+		perl << "#UML_MODELER_BEGIN_PERSONAL_CODE_" << cleanName(op->getName());
+		perl << m_newLineEndingChars << "#UML_MODELER_END_PERSONAL_CODE_" << cleanName(op->getName()) << m_newLineEndingChars ;
+		perl << "}" << m_newLineEndingChars;
 		perl << m_newLineEndingChars << m_newLineEndingChars;
 	}//end for
 }
 
 
 void PerlWriter::writeAttributes(UMLClass *c, QTextStream &perl) {
-	UMLAttributeList *atl;
-
 	UMLAttributeList  atpub, atprot, atpriv, atdefval;
 	atpub.setAutoDelete(false);
 	atprot.setAutoDelete(false);
@@ -313,7 +314,7 @@ void PerlWriter::writeAttributes(UMLClass *c, QTextStream &perl) {
 	atdefval.setAutoDelete(false);
 
 	//sort attributes by scope and see if they have a default value
-	atl = c->getFilteredAttributeList();
+	UMLAttributeList *atl = c->getFilteredAttributeList();
 	UMLAttribute *at;
 	for(at = atl->first(); at ; at = atl->next()) {
 		if(!at->getInitialValue().isEmpty())
@@ -347,18 +348,26 @@ void PerlWriter::writeAttributes(UMLClass *c, QTextStream &perl) {
 }
 
 
-void PerlWriter::writeAttributes(UMLAttributeList &atList, QTextStream &perl) {
-    perl << m_newLineEndingChars << "=head1 PUBLIC ATTRIBUTES" << m_newLineEndingChars <<
-m_newLineEndingChars << "=over 4" << m_newLineEndingChars;
-
-	for (UMLAttribute *at = atList.first(); at ; at = atList.next()) {
-		if (forceDoc() || !at->getDoc().isEmpty()) {
-            perl  << m_newLineEndingChars << "=item " << cleanName(at->getName()) << m_newLineEndingChars << m_newLineEndingChars
-			     << at->getDoc() << m_newLineEndingChars;
+void PerlWriter::writeAttributes(UMLAttributeList &atList, QTextStream &perl) 
+{
+    	perl << m_newLineEndingChars << "=head1 PUBLIC ATTRIBUTES" << m_newLineEndingChars << m_newLineEndingChars;
+	perl << "=pod "  << m_newLineEndingChars << m_newLineEndingChars ;
+	for (UMLAttribute *at = atList.first(); at ; at = atList.next()) 
+	{
+		if (forceDoc() || !at->getDoc().isEmpty()) 
+		{
+	            perl  << "=head3 " << cleanName(at->getName()) << m_newLineEndingChars << m_newLineEndingChars ;
+		    perl  << "   Description : " << at->getDoc() << m_newLineEndingChars << m_newLineEndingChars;
 		}
 	} // end for
-    perl << m_newLineEndingChars << "=cut" << m_newLineEndingChars;
+    	perl << m_newLineEndingChars << m_newLineEndingChars << "=cut" << m_newLineEndingChars << m_newLineEndingChars;
 	return;
+}
+
+void PerlWriter::createDefaultDatatypes() {
+	m_doc->createDatatype("$");
+	m_doc->createDatatype("@");
+	m_doc->createDatatype("%");
 }
 
 /**
@@ -619,6 +628,4 @@ PerlWriter::getReservedKeywords() {
   return ReservedWords;
 }
 
-
 #include "perlwriter.moc"
-
