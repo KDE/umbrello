@@ -14,7 +14,6 @@ KDE_ICON=AUTO
 appdir=$(kde_datadir)/umbrello
 app_DATA = tips umbrelloui.rc
 
-xdg_appsdir = $(kde_mimedir)/application
 xdg_apps_DATA = umbrello.desktop
 
 mimedir = $(kde_mimedir)/application
