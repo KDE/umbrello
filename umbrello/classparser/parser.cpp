@@ -564,7 +564,7 @@ bool Parser::parseLinkageSpecification( DeclarationAST::Node& node )
     } else {
         DeclarationAST::Node decl;
 	if( !parseDeclaration(decl) ){
-	    reportError( i18n("Declaration syntax error") );
+	    reportError( i18n("Declaration-syntax error") );
 	}
 	ast->setDeclaration( decl );
     }
