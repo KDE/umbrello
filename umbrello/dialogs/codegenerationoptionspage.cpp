@@ -12,8 +12,12 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include <kdebug.h>
+// own header
 #include "codegenerationoptionspage.h"
+// qt/kde includes
+#include <qcheckbox.h>
+#include <kdebug.h>
+// app includes
 #include "codegenerationpolicypage.h"
 #include "defaultcodegenpolicypage.h"
 #include "../generatorinfo.h"

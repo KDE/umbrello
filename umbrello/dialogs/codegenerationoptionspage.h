@@ -21,7 +21,7 @@
 
 #include <qwidget.h>
 #include "codegenerationoptionsbase.h"
-#include "settingsdlg.h"
+#include "../codegenerator.h"
 
 /**
  * @author Luis De la Parra
