@@ -10,8 +10,8 @@ libcodegenerator_la_SOURCES = phpwriter.cpp javawriter.cpp factory.cpp classifie
                               aswriter.cpp jswriter.cpp xmlschemawriter.cpp
 
 install-data-local:
-	$(mkinstalldirs) $(kde_datadir)/umbrello/codegenerators/
-	$(INSTALL_DATA) libcodegenerator.la $(kde_datadir)/umbrello/codegenerators/libcodegenerator.la
+	$(mkinstalldirs) $(DESTDIR)$(kde_datadir)/umbrello/codegenerators/
+	$(INSTALL_DATA) libcodegenerator.la $(DESTDIR)$(kde_datadir)/umbrello/codegenerators/libcodegenerator.la
 
 uninstall-local:
-	-rm -f $(kde_datadir)/umbrello/codegenerators/libcodegenerator.la
+	-rm -f $(DESTDIR)$(kde_datadir)/umbrello/codegenerators/libcodegenerator.la
