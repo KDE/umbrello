@@ -60,9 +60,10 @@ void AssocGenPage::constructWidget() {
 
 	//Association name
 	QLabel *pAssocNameL = NULL;
-	Umbrello::makeLabeledEditField( nameGB, nameLayout, 0,
-					pAssocNameL, i18n("Name:"),
-					m_pAssocNameLE, m_pAssociationWidget->getName() );
+	QLineEdit* nameField = Umbrello::makeLabeledEditField( nameGB, nameLayout, 0,
+							       pAssocNameL, i18n("Name:"),
+							       m_pAssocNameLE, m_pAssociationWidget->getName() );
+	nameField->setFocus();
 
 	// document
 	QHBoxLayout * docLayout = new QHBoxLayout(docGB);

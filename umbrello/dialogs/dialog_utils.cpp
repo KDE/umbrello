@@ -15,8 +15,8 @@
 
 namespace Umbrello {
 
-void makeLabeledEditField(QGroupBox *containingBox, QGridLayout *layout, int row,
-			  QLabel * &label, QString labelText, 
+QLineEdit* makeLabeledEditField(QGroupBox *containingBox, QGridLayout *layout, int row,
+			  QLabel * &label, QString labelText,
 			  QLineEdit * &editField, QString editFieldText /* = QString::null */)
 {
 	label = new QLabel(labelText, containingBox);
@@ -24,6 +24,7 @@ void makeLabeledEditField(QGroupBox *containingBox, QGridLayout *layout, int row
 	editField = new QLineEdit(editFieldText, containingBox);
 	layout->addWidget(editField, row, 1 );
 	label->setBuddy(editField);
+	return editField;
 }
 
 

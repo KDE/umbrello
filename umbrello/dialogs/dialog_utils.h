@@ -34,8 +34,9 @@ namespace Umbrello {
 	 * @param labelText		The label text.
 	 * @param editField		The QLineEdit object allocated (return value)
 	 * @param editFieldText		Initialization text in the editField (optional.)
+	 * @return a pointer to the QLineEdit so you can setFocus() if necessary
 	 */
-	void makeLabeledEditField(QGroupBox *containingBox, QGridLayout *layout, int row,
+	QLineEdit* makeLabeledEditField(QGroupBox *containingBox, QGridLayout *layout, int row,
 				  QLabel * &label, QString labelText, 
 				  QLineEdit * &editField, QString editFieldText = QString::null);
 

@@ -282,13 +282,17 @@ void WorkToolBar::setDefaultTool() {
 	if(b)
 		b -> animateClick();
 }
+//FIXMEnow
+#include <kicontheme.h>
+#include <kiconloader.h>
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void WorkToolBar::loadPixmaps() {
 	KStandardDirs * dirs = KGlobal::dirs();
 	QString dataDir = dirs -> findResourceDir( "data", "umbrello/pics/object.png" );
 	dataDir += "/umbrello/pics/";
 
-	m_Pixmaps[tbb_Object].load( dataDir + "object.png" );
+//FIXMEnow	m_Pixmaps[tbb_Object].load( dataDir + "object.png" );
+	m_Pixmaps[tbb_Object] = BarIcon( "folder_green_open" );
 	m_Pixmaps[tbb_Seq_Message_Synchronous].load( dataDir + "message-synchronous.png" );
 	m_Pixmaps[tbb_Seq_Message_Asynchronous].load( dataDir + "message-asynchronous.png" );
 	m_Pixmaps[tbb_Arrow].load( dataDir + "arrow.png" );
