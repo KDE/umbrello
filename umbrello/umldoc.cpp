@@ -1101,11 +1101,11 @@ void UMLDoc::createDiagram(Diagram_Type type, bool askForName /*= true */) {
 			KMessageBox::error(0, i18n("That is an invalid name for a diagram."), i18n("Invalid Name"));
 		} else if(!findView(type, name)) {
 			UMLView* temp = new UMLView(UMLApp::app()->getMainViewWidget(), this);
+			temp -> setOptionState( getOptionState() );
 			temp->setName( name );
 			temp->setType( type );
 			temp->setID( getUniqueID() );
 			addView(temp);
-			temp -> setOptionState( getOptionState() );
 			emit sigDiagramCreated(uniqueID);
 			setModified(true);
 			((UMLApp*)parent())->enablePrint(true);
@@ -1909,13 +1909,17 @@ bool UMLDoc::loadDiagramsFromXMI( QDomNode & node ) {
 	while( !element.isNull() ) {
 		if( element.tagName() == "diagram" ) {
 			pView = new UMLView(UMLApp::app()->getMainViewWidget(), this);
+			// IMPORTANT: Set OptionState of new UMLView _BEFORE_
+			// reading the corresponding diagram:
+			// + allow using per-diagram color and line-width settings
+			// + avoid crashes due to uninitialized values for lineWidth
+			pView -> setOptionState( state );
 			if( !pView->loadFromXMI( element ) ) {
 				kdWarning() << "failed load on viewdata loadfromXMI" << endl;
 				delete pView;
 				return false;
 			}
 			pView -> hide();
-			pView -> setOptionState( state );
 			addView( pView );
 			emit sigSetStatusbarProgress( ++count );
 		}
