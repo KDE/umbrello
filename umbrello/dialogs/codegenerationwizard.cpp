@@ -177,7 +177,7 @@ void CodeGenerationWizard::showPage(QWidget *page) {
 				QDir dir;
 				if(!dir.mkdir(info.filePath()))
 				{
-					KMessageBox::sorry(this,i18n("The directory could not be created.\nPlease make sure you have write access to its parent directory or select valid directory."),
+					KMessageBox::sorry(this,i18n("The directory could not be created.\nPlease make sure you have write access to its parent directory or select another, valid, directory."),
 					i18n("Error Creating Directory"));
 					return;
 				}
