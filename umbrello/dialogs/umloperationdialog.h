@@ -11,15 +11,6 @@
 #ifndef UMLOPERATIONDIALOG_H
 #define UMLOPERATIONDIALOG_H
 
-//qt includes
-#include <qgroupbox.h>
-#include <qlistbox.h>
-#include <qbuttongroup.h>
-#include <qradiobutton.h>
-#include <qlabel.h>
-#include <qcombobox.h>
-#include <qlineedit.h>
-#include <qcheckbox.h>
 //kde includes
 #include <kdialogbase.h>
 
@@ -29,6 +20,14 @@
 
 class UMLOperation;
 class ListPopupMenu;
+class QGroupBox;
+class QListBox;
+class QButtonGroup;
+class QRadioButton;
+class QLabel;
+class QComboBox;
+class QLineEdit;
+class QCheckBox;
 
 class UMLOperationDialog : public KDialogBase {
 	Q_OBJECT
@@ -78,7 +77,7 @@ protected:
 	QCheckBox * m_pStaticCB;
 	QPushButton* m_pDeleteButton;
 	QPushButton* m_pPropertiesButton;
-	
+
 public slots:
 	void slotParmRightButtonPressed(QListBoxItem *item, const QPoint &p);
 	void slotParmRightButtonClicked(QListBoxItem *item, const QPoint &p);

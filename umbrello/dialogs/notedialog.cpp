@@ -15,6 +15,10 @@
 #include <kmessagebox.h>
 //app includes
 #include "notedialog.h"
+//qt includes
+#include <qlineedit.h>
+#include <qgroupbox.h>
+#include <qtextedit.h>
 
 
 NoteDialog::NoteDialog( QWidget * parent, NoteWidget * pNote ) : KDialogBase(Plain, i18n("Note Documentation"), Help | Ok | Cancel , Ok, parent, "_NOTEDIALOG_", true, true) {

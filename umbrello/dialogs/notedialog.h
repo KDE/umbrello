@@ -9,10 +9,6 @@
 
 #ifndef NOTEDIALOG_H
 #define NOTEDIALOG_H
-//qt includes
-#include <qlineedit.h>
-#include <qgroupbox.h>
-#include <qtextedit.h>
 //kde includes
 #include <kdialogbase.h>
 //app includes
@@ -21,6 +17,9 @@
 /**
  * @author Paul Hensgen
  */
+class QGroupBox;
+class QLineEdit;
+class QTextEdit;
 
 class NoteDialog : public KDialogBase {
 public:

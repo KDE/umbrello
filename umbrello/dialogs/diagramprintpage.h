@@ -10,12 +10,13 @@
 #ifndef DIAGRAMPRINTPAGE_H
 #define DIAGRAMPRINTPAGE_H
 
+class QListBox;
+class QRadioButton;
+class QComboBox;
+class QButtonGroup;
+class QGroupBox;
+
 #include <kdeprint/kprintdialogpage.h>
-#include <qlistbox.h>
-#include <qradiobutton.h>
-#include <qcombobox.h>
-#include <qbuttongroup.h>
-#include <qgroupbox.h>
 
 #include "../umldoc.h"
 #include "../umlview.h"

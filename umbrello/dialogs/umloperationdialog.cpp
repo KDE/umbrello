@@ -9,6 +9,15 @@
 
 //qt includes
 #include <qlayout.h>
+#include <qgroupbox.h>
+#include <qlistbox.h>
+#include <qbuttongroup.h>
+#include <qradiobutton.h>
+#include <qlabel.h>
+#include <qcombobox.h>
+#include <qlineedit.h>
+#include <qcheckbox.h>
+
 //kde includes
 #include <kdebug.h>
 #include <klocale.h>

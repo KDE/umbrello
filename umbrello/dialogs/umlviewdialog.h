@@ -9,16 +9,8 @@
 
 #ifndef UMLVIEWDIALOG_H
 #define UMLVIEWDIALOG_H
-//qt includes
-#include <qcheckbox.h>
-#include <qlabel.h>
-#include <qlineedit.h>
-#include <qgroupbox.h>
-#include <qtextedit.h>
-#include <qspinbox.h>
 //kde includes
 #include <kdialogbase.h>
-#include <kfontdialog.h>
 //app includes
 #include "classoptionspage.h"
 #include "umlwidgetcolorpage.h"
@@ -29,6 +21,15 @@
  */
 class UMLView;
 class ConceptWidget;
+
+class QCheckBox;
+class QLabel;
+class QLineEdit;
+class QGroupBox;
+class QTextEdit;
+class QSpinBox;
+class KFontChooser;
+
 
 class UMLViewDialog : public KDialogBase {
 	Q_OBJECT

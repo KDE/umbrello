@@ -12,6 +12,15 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <qlayout.h>
+#include <qcheckbox.h>
+#include <qlabel.h>
+#include <qlineedit.h>
+#include <qgroupbox.h>
+#include <qtextedit.h>
+#include <qspinbox.h>
+//kde includes
+#include <kfontdialog.h>
+
 
 UMLViewDialog::UMLViewDialog( QWidget * pParent, UMLView * pView ) : KDialogBase(IconList, i18n("Properties"), Ok | Apply | Cancel | Help,
         Ok, pParent, "_VIEWDLG_", true, true) {

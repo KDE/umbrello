@@ -9,10 +9,15 @@
 
 //qt includes
 #include <qlayout.h>
+#include <qlabel.h>
+#include <qlineedit.h>
+#include <qmultilineedit.h>
+#include <qgroupbox.h>
 
 //kde includes
 #include <kiconloader.h>
 #include <klocale.h>
+#include <kfontdialog.h>
 
 //local includes
 #include "../umlview.h"

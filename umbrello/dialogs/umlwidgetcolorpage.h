@@ -11,17 +11,16 @@
 #define UMLWIDGETCOLORPAGE_H
 
 #include <qwidget.h>
-#include <qgroupbox.h>
-#include <qlabel.h>
-#include <qpushbutton.h>
-#include <qcheckbox.h>
-
-#include <kcolorbutton.h>
 /**
  * @author Paul Hensgen
  */
 class UMLWidget;
 class UMLView;
+class KColorButton;
+class QLabel;
+class QPushButton;
+class QCheckBox;
+class QGroupBox;
 
 class UMLWidgetColorPage : public QWidget {
 	Q_OBJECT

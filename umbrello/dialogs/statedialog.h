@@ -10,15 +10,8 @@
 #ifndef STATEDIALOG_H
 #define STATEDIALOG_H
 
-//qt class includes
-#include <qlabel.h>
-#include <qlineedit.h>
-#include <qmultilineedit.h>
-#include <qgroupbox.h>
-
 //kde class includes
 #include <kdialogbase.h>
-#include <kfontdialog.h>
 
 //local class includes
 #include "umlwidgetcolorpage.h"
@@ -27,6 +20,11 @@
 //forward declarations
 class UMLView;
 class StateWidget;
+class QLabel;
+class QLineEdit;
+class QMultiLineEdit;
+class QGroupBox;
+class KFontChooser;
 
 /**
  *   Displays the properties for a @ref StateWidget

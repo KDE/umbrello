@@ -11,6 +11,11 @@
 
 #include <qlayout.h>
 #include <qlist.h>
+#include <qlistbox.h>
+#include <qradiobutton.h>
+#include <qcombobox.h>
+#include <qbuttongroup.h>
+#include <qgroupbox.h>
 
 #include "diagramprintpage.h"
 #include "../umldoc.h"

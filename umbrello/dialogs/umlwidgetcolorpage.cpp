@@ -12,6 +12,12 @@
 #include "../umlwidget.h"
 #include <klocale.h>
 #include <qlayout.h>
+#include <qgroupbox.h>
+#include <qlabel.h>
+#include <qpushbutton.h>
+#include <qcheckbox.h>
+
+#include <kcolorbutton.h>
 
 UMLWidgetColorPage::UMLWidgetColorPage( QWidget * pParent, UMLWidget * pWidget ) : QWidget( pParent ) {
 	m_pUMLWidget = pWidget;
