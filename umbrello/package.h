@@ -14,7 +14,6 @@
 #include "umlcanvasobject.h"
 
 class IDChangeLog;
-class UMLAssociation;
 class UMLDoc;
 
 /**
