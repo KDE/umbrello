@@ -68,6 +68,8 @@ void ClassWidget::draw(QPainter & p, int offsetX, int offsetY) {
 		kdDebug() << "ClassWidget::draw(): m_pObject is NULL" << endl;
 		return;
 	}
+#warning calculateSize() should be removed from ClassWidget::draw(...) because: see bug #65410
+	calculateSize();
 	p.setPen( UMLWidget::getLineColour() );
 	if ( UMLWidget::getUseFillColour() )
 		p.setBrush( UMLWidget::getFillColour() );
@@ -343,6 +345,8 @@ void ClassWidget::slotMenuSelection(int sel) {
 		case ListPopupMenu::mt_Attribute:
 		case ListPopupMenu::mt_Operation:
 			m_pView->getDocument()->createUMLObject(m_pObject, ListPopupMenu::convert_MT_OT( (ListPopupMenu::Menu_Type)sel) );
+			calculateSize();
+			update();
 			break;
 
 		case ListPopupMenu::mt_Show_Operations:
