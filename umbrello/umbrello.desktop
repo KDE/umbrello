@@ -3,7 +3,6 @@
 Type=Application
 Exec=umbrello -caption "%c" %i %m
 Icon=umbrello
-MiniIcon=umbrello
 DocPath=umbrello/index.html
 Terminal=false
 Name=Umbrello
@@ -40,4 +39,4 @@ GenericName[ta]=UML மோடெல்லார்
 GenericName[xx]=xxUML Modellerxx
 GenericName[zh_CN]=UML 建模工具
 MimeType=application/x-uml
-Categories=Qt;KDE;Development
+Categories=Qt;KDE;Development;
