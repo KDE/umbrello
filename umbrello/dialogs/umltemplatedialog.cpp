@@ -7,19 +7,25 @@
  *                                                                         *
  ***************************************************************************/
 
+// own header
 #include "umltemplatedialog.h"
-#include "../template.h"
-#include "../class.h"
 
+// qt includes
 #include <qlayout.h>
 #include <qgroupbox.h>
 #include <qcombobox.h>
 #include <qlabel.h>
 #include <qlineedit.h>
 
+// kde includes
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kdebug.h>
+
+// app includes
+#include "../template.h"
+#include "../class.h"
+#include "dialog_utils.h"
 
 UMLTemplateDialog::UMLTemplateDialog(QWidget* pParent, UMLTemplate* pTemplate)
   : KDialogBase( Plain, i18n("Template Properties"), Help | Ok | Cancel , Ok, pParent, "_UMLTemplateDLG_", true, true) {
@@ -46,23 +52,13 @@ void UMLTemplateDialog::setupDialog() {
 	valuesLayout->addWidget(m_pTypeCB, 0, 1);
 	m_pTypeL->setBuddy(m_pTypeCB);
 
-	m_pNameL = new QLabel(i18n("&Name:"), m_pValuesGB);
-	valuesLayout->addWidget(m_pNameL, 1, 0);
+	Dialog_Utils::makeLabeledEditField( m_pValuesGB, valuesLayout, 1,
+					    m_pNameL, i18n("&Name:"),
+					    m_pNameLE, m_pTemplate->getName() );
 
-	m_pNameLE = new QLineEdit(m_pValuesGB);
-	valuesLayout->addWidget(m_pNameLE, 1, 1);
-
-	m_pNameLE->setText( m_pTemplate->getName() );
-	m_pNameL->setBuddy(m_pNameLE);
-
-	m_pStereoTypeL = new QLabel(i18n("&Stereotype name:"), m_pValuesGB);
-	valuesLayout -> addWidget(m_pStereoTypeL, 2, 0);
-
-	m_pStereoTypeLE = new QLineEdit(m_pValuesGB);
-	valuesLayout -> addWidget(m_pStereoTypeLE, 2, 1);
-
-	m_pStereoTypeLE -> setText(m_pTemplate -> getStereotype());
-	m_pStereoTypeL->setBuddy(m_pStereoTypeLE);
+	Dialog_Utils::makeLabeledEditField( m_pValuesGB, valuesLayout, 2,
+					    m_pStereoTypeL, i18n("&Stereotype name:"),
+					    m_pStereoTypeLE, m_pTemplate->getStereotype() );
 
 	mainLayout->addWidget(m_pValuesGB);
 

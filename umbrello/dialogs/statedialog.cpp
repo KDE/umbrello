@@ -7,6 +7,9 @@
  *                                                                         *
  ***************************************************************************/
 
+// own header
+#include "statedialog.h"
+
 //qt includes
 #include <qlayout.h>
 #include <qlabel.h>
@@ -22,9 +25,10 @@
 //local includes
 #include "../umlview.h"
 #include "../statewidget.h"
-#include "statedialog.h"
+#include "dialog_utils.h"
 
-StateDialog::StateDialog( UMLView * pView, StateWidget * pWidget ) : KDialogBase(IconList, i18n("Properties"), Ok | Apply | Cancel | Help, Ok, pView, "_STATEDIALOG_", true, true) {
+StateDialog::StateDialog( UMLView * pView, StateWidget * pWidget )
+  : KDialogBase(IconList, i18n("Properties"), Ok | Apply | Cancel | Help, Ok, pView, "_STATEDIALOG_", true, true) {
 	m_pActivityPage = 0;
 	m_pView = pView;
 	m_pStateWidget = pWidget;
@@ -86,18 +90,14 @@ void StateDialog::setupGeneralPage() {
 	generalLayout -> setSpacing( spacingHint() );
 	generalLayout -> setMargin(  fontMetrics().height()  );
 
-	m_GenPageWidgets.typeL = new QLabel( i18n("State type:"), m_GenPageWidgets.generalGB );
-	generalLayout -> addWidget( m_GenPageWidgets.typeL, 0, 0 );
-
-	m_GenPageWidgets.typeLE = new QLineEdit( types[ (int)type ], m_GenPageWidgets.generalGB );
-	generalLayout -> addWidget( m_GenPageWidgets.typeLE, 0, 1 );
+	Dialog_Utils::makeLabeledEditField( m_GenPageWidgets.generalGB, generalLayout, 0,
+					    m_GenPageWidgets.typeL, i18n("State type:"),
+					    m_GenPageWidgets.typeLE, types[ (int)type ] );
 	m_GenPageWidgets.typeLE -> setEnabled( false );
 
-	m_GenPageWidgets.nameL = new QLabel( i18n("State name:"), m_GenPageWidgets.generalGB );
-	generalLayout -> addWidget( m_GenPageWidgets.nameL, 1, 0 );
-
-	m_GenPageWidgets.nameLE = new QLineEdit( m_GenPageWidgets.generalGB );
-	generalLayout -> addWidget( m_GenPageWidgets.nameLE, 1, 1 );
+	Dialog_Utils::makeLabeledEditField( m_GenPageWidgets.generalGB, generalLayout, 1,
+					    m_GenPageWidgets.nameL, i18n("State name:"),
+					    m_GenPageWidgets.nameLE );
 
 	m_GenPageWidgets.docGB = new QGroupBox( i18n( "Documentation"), (QWidget *)page );
 

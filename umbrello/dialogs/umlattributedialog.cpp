@@ -7,24 +7,32 @@
  *                                                                         *
  ***************************************************************************/
 
+// own header
 #include "umlattributedialog.h"
-#include "../attribute.h"
-#include "../interface.h"
-#include "../classifier.h"
-#include "../umldoc.h"
-#include "../uml.h"
-#include <kcombobox.h>
-#include <kcompletion.h>
-#include <klineedit.h>
-#include <klocale.h>
-#include <kmessagebox.h>
-#include <kdebug.h>
+
+// qt includes
 #include <qlayout.h>
+#include <qlineedit.h>
 #include <qcheckbox.h>
 #include <qgroupbox.h>
 #include <qbuttongroup.h>
 #include <qradiobutton.h>
 #include <qlabel.h>
+
+// kde includes
+#include <kcombobox.h>
+#include <kcompletion.h>
+#include <klocale.h>
+#include <kmessagebox.h>
+#include <kdebug.h>
+
+// app includes
+#include "../attribute.h"
+#include "../interface.h"
+#include "../classifier.h"
+#include "../umldoc.h"
+#include "../uml.h"
+#include "dialog_utils.h"
 
 UMLAttributeDialog::UMLAttributeDialog( QWidget * pParent, UMLAttribute * pAttribute )
   : KDialogBase( Plain, i18n("Attribute Properties"), Help | Ok | Cancel , Ok, pParent, "_UMLATTRIBUTEDLG_", true, true) {
@@ -48,41 +56,28 @@ void UMLAttributeDialog::setupDialog() {
 	m_pTypeL = new QLabel(i18n("&Type:"), m_pValuesGB);
 	valuesLayout -> addWidget(m_pTypeL, 0, 0);
 
-	m_pNameL = new QLabel(i18n("&Name:"), m_pValuesGB);
-	valuesLayout -> addWidget(m_pNameL, 1, 0);
-
-	m_pInitialL = new QLabel(i18n("&Initial value:"), m_pValuesGB);
-	valuesLayout -> addWidget(m_pInitialL, 2, 0);
-
 	m_pTypeCB = new KComboBox(true, m_pValuesGB);
 	valuesLayout -> addWidget(m_pTypeCB, 0, 1);
+	m_pTypeL->setBuddy(m_pTypeCB);
 
-	m_pNameLE = new KLineEdit(m_pValuesGB);
-	valuesLayout -> addWidget(m_pNameLE, 1, 1);
-	m_pNameLE -> setText( m_pAttribute -> getName() );
+	Dialog_Utils::makeLabeledEditField( m_pValuesGB, valuesLayout, 1,
+					    m_pNameL, i18n("&Name:"),
+					    m_pNameLE, m_pAttribute->getName() );
 
-	m_pInitialLE = new KLineEdit(m_pValuesGB);
-	valuesLayout -> addWidget(m_pInitialLE, 2, 1);
+	Dialog_Utils::makeLabeledEditField( m_pValuesGB, valuesLayout, 2,
+					    m_pInitialL, i18n("&Initial value:"),
+					    m_pInitialLE, m_pAttribute->getInitialValue() );
 
-	m_pStereoTypeL = new QLabel(i18n("Stereotype name:"), m_pValuesGB);
-	valuesLayout -> addWidget(m_pStereoTypeL, 3, 0);
-
-	m_pStereoTypeLE = new KLineEdit(m_pValuesGB);
-	valuesLayout -> addWidget(m_pStereoTypeLE, 3, 1);
-
-	m_pStereoTypeLE -> setText(m_pAttribute -> getStereotype());
-	m_pStereoTypeL->setBuddy(m_pStereoTypeLE);
+	Dialog_Utils::makeLabeledEditField( m_pValuesGB, valuesLayout, 3,
+					    m_pStereoTypeL, i18n("Stereotype name:"),
+					    m_pStereoTypeLE, m_pAttribute->getStereotype() );
 
 	m_pStaticCB = new QCheckBox( i18n("Classifier &scope (\"static\")"), m_pValuesGB );
 	m_pStaticCB -> setChecked( m_pAttribute -> getStatic() );
 	valuesLayout -> addWidget(m_pStaticCB, 4, 0);
 
-	m_pTypeL->setBuddy(m_pTypeCB);
-	m_pNameL->setBuddy(m_pNameLE);
-	m_pInitialL->setBuddy(m_pInitialLE);
 
 	mainLayout -> addWidget(m_pValuesGB);
-	m_pInitialLE -> setText( m_pAttribute -> getInitialValue() );
 
 
 	m_pScopeBG = new QButtonGroup(i18n("Visibility"), plainPage() );

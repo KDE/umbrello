@@ -7,13 +7,21 @@
  *                                                                         *
  ***************************************************************************/
 
+// own header
 #include "parmpropdlg.h"
+
+// qt includes
+#include <qlayout.h>
+
+// kde includes
+#include <klocale.h>
+#include <kdebug.h>
+
+// local includes
 #include "../classifier.h"
 #include "../interface.h"
 #include "../umldoc.h"
-#include <klocale.h>
-#include <kdebug.h>
-#include <qlayout.h>
+#include "dialog_utils.h"
 
 ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a)
   : KDialogBase(Plain, i18n("Parameter Properties"), Help | Ok | Cancel , Ok, parent, "_PARMPROPDLG_", true, true)
@@ -50,30 +58,17 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a)
 	propLayout -> addWidget(m_pTypeCB, 0, 1);
 	m_pTypeL->setBuddy(m_pTypeCB);
 
-	m_pNameL = new QLabel(i18n("&Name:"), m_pParmGB);
-	propLayout -> addWidget(m_pNameL, 1, 0);
+	Dialog_Utils::makeLabeledEditField( m_pParmGB, propLayout, 1,
+					    m_pNameL, i18n("&Name:"),
+					    m_pNameLE, name );
 
-	m_pNameLE = new QLineEdit(m_pParmGB);
-	m_pNameLE -> setText(name);
-	propLayout -> addWidget(m_pNameLE, 1, 1);
-	m_pNameL->setBuddy(m_pNameLE);
+	Dialog_Utils::makeLabeledEditField( m_pParmGB, propLayout, 2,
+					    m_pInitialL, i18n("&Initial value:"),
+					    m_pInitialLE, initialValue );
 
-	m_pInitialL = new QLabel(i18n("&Initial value:"), m_pParmGB);
-	propLayout -> addWidget(m_pInitialL, 2, 0);
-
-	m_pInitialLE = new QLineEdit(m_pParmGB);
-	m_pInitialLE -> setText(initialValue);
-	propLayout -> addWidget(m_pInitialLE, 2, 1);
-	m_pInitialL->setBuddy(m_pInitialLE);
-
-	m_pStereoTypeL = new QLabel(i18n("&Stereotype name:"), m_pParmGB);
-	propLayout -> addWidget(m_pStereoTypeL, 3, 0);
-
-	m_pStereoTypeLE = new QLineEdit(m_pParmGB);
-	propLayout -> addWidget(m_pStereoTypeLE, 3, 1);
-
-	m_pStereoTypeLE -> setText( m_pAtt->getStereotype() );
-	m_pStereoTypeL->setBuddy(m_pStereoTypeLE);
+	Dialog_Utils::makeLabeledEditField( m_pParmGB, propLayout, 3,
+					    m_pStereoTypeL, i18n("&Stereotype name:"),
+					    m_pStereoTypeLE, m_pAtt->getStereotype() );
 
 	m_pKind =  new QButtonGroup(i18n("Kind"), plainPage());
 	m_pKind->setExclusive(true);

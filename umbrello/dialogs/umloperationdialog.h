@@ -29,7 +29,7 @@ class QPushButton;
 class QLabel;
 class QCheckBox;
 class KComboBox;
-class KLineEdit;
+class QLineEdit;
 class UMLDoc;
 
 class UMLOperationDialog : public KDialogBase {
@@ -85,7 +85,7 @@ protected:
 	QRadioButton * m_pPublicRB, * m_pPrivateRB,  * m_pProtectedRB;
 	QLabel * m_pRtypeL, * m_pNameL, * m_pStereoTypeL;
 	KComboBox * m_pRtypeCB;
-	KLineEdit * m_pNameLE, * m_pStereoTypeLE;
+	QLineEdit * m_pNameLE, * m_pStereoTypeLE;
 	QCheckBox * m_pAbstractCB;
 	QCheckBox * m_pStaticCB;
 	QPushButton* m_pDeleteButton;

@@ -7,6 +7,9 @@
  *                                                                         *
  ***************************************************************************/
 
+// own header
+#include "umloperationdialog.h"
+
 //qt includes
 #include <qlayout.h>
 #include <qgroupbox.h>
@@ -16,14 +19,15 @@
 #include <qradiobutton.h>
 #include <qlabel.h>
 #include <qcheckbox.h>
+#include <qlineedit.h>
 
 //kde includes
 #include <kcombobox.h>
 #include <kdebug.h>
-#include <klineedit.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kbuttonbox.h>
+
 //app includes
 #include "../uml.h"
 #include "../operation.h"
@@ -33,7 +37,7 @@
 #include "../listpopupmenu.h"
 #include "../umlattributelist.h"
 #include "parmpropdlg.h"
-#include "umloperationdialog.h"
+#include "dialog_utils.h"
 
 UMLOperationDialog::UMLOperationDialog( QWidget * parent, UMLOperation * pOperation )
   : KDialogBase( Plain, i18n("Operation Properties"), Help | Ok | Cancel , Ok, parent, "_UMLOPERATIONDLG_", true, true) {
@@ -55,13 +59,9 @@ void UMLOperationDialog::setupDialog() {
 	genLayout -> setMargin(margin);
 	genLayout -> setSpacing(10);
 
-	m_pNameL = new QLabel(i18n("&Name:"), m_pGenGB);
-	genLayout -> addWidget(m_pNameL, 0, 0 );
-
-	m_pNameLE = new KLineEdit(m_pGenGB );
-	m_pNameLE -> setText( m_pOperation -> getName() );
-	genLayout -> addWidget(m_pNameLE, 0, 1);
-	m_pNameL->setBuddy(m_pNameLE);
+	Dialog_Utils::makeLabeledEditField( m_pGenGB, genLayout, 0,
+					    m_pNameL, i18n("&Name:"),
+					    m_pNameLE, m_pOperation->getName() );
 
 	m_pRtypeL = new QLabel(i18n("&Type:"), m_pGenGB );
 	genLayout -> addWidget(m_pRtypeL, 0, 2);
@@ -70,14 +70,9 @@ void UMLOperationDialog::setupDialog() {
 	genLayout -> addWidget(m_pRtypeCB, 0, 3);
 	m_pRtypeL->setBuddy(m_pRtypeCB);
 
-	m_pStereoTypeL = new QLabel(i18n("Stereotype name:"), m_pGenGB);
-	genLayout -> addWidget(m_pStereoTypeL, 1, 0);
-
-	m_pStereoTypeLE = new KLineEdit(m_pGenGB);
-	genLayout -> addWidget(m_pStereoTypeLE, 1, 1);
-
-	m_pStereoTypeLE -> setText(m_pOperation -> getStereotype());
-	m_pStereoTypeL->setBuddy(m_pStereoTypeLE);
+	Dialog_Utils::makeLabeledEditField( m_pGenGB, genLayout, 1,
+					    m_pStereoTypeL, i18n("Stereotype name:"),
+					    m_pStereoTypeLE, m_pOperation->getStereotype() );
 
 	m_pAbstractCB = new QCheckBox( i18n("&Abstract operation"), m_pGenGB );
 	m_pAbstractCB -> setChecked( m_pOperation -> getAbstract() );

@@ -7,6 +7,9 @@
  *                                                                         *
  ***************************************************************************/
 
+// own header
+#include "activitydialog.h"
+
 //qt includes
 #include <qlayout.h>
 
@@ -17,9 +20,10 @@
 //local includes
 #include "../umlview.h"
 #include "../activitywidget.h"
-#include "activitydialog.h"
+#include "dialog_utils.h"
 
-ActivityDialog::ActivityDialog( UMLView * pView, ActivityWidget * pWidget ) : KDialogBase(IconList, i18n("Properties"), Ok | Apply | Cancel | Help, Ok, pView, "_STATEDIALOG_", true, true) {
+ActivityDialog::ActivityDialog( UMLView * pView, ActivityWidget * pWidget )
+  : KDialogBase(IconList, i18n("Properties"), Ok | Apply | Cancel | Help, Ok, pView, "_STATEDIALOG_", true, true) {
 	m_pView = pView;
 	m_pActivityWidget = pWidget;
 	m_bChangesMade = false;
@@ -71,18 +75,15 @@ void ActivityDialog::setupGeneralPage() {
 	generalLayout -> setSpacing( spacingHint() );
 	generalLayout -> setMargin(  fontMetrics().height()  );
 
-	m_GenPageWidgets.typeL = new QLabel( i18n("Activity type:"), m_GenPageWidgets.generalGB );
-	generalLayout -> addWidget( m_GenPageWidgets.typeL, 0, 0 );
-
-	m_GenPageWidgets.typeLE = new QLineEdit( types[ (int)type ], m_GenPageWidgets.generalGB );
-	generalLayout -> addWidget( m_GenPageWidgets.typeLE, 0, 1 );
+	QString actType ( types[ (int)type ] );
+	Dialog_Utils::makeLabeledEditField( m_GenPageWidgets.generalGB, generalLayout, 0,
+					    m_GenPageWidgets.typeL, i18n("Activity type:"),
+					    m_GenPageWidgets.typeLE, actType );
 	m_GenPageWidgets.typeLE -> setEnabled( false );
 
-	m_GenPageWidgets.nameL = new QLabel( i18n("Activity name:"), m_GenPageWidgets.generalGB );
-	generalLayout -> addWidget( m_GenPageWidgets.nameL, 1, 0 );
-
-	m_GenPageWidgets.nameLE = new QLineEdit( m_GenPageWidgets.generalGB );
-	generalLayout -> addWidget( m_GenPageWidgets.nameLE, 1, 1 );
+	Dialog_Utils::makeLabeledEditField( m_GenPageWidgets.generalGB, generalLayout, 1,
+					    m_GenPageWidgets.nameL, i18n("Activity name:"),
+					    m_GenPageWidgets.nameLE );
 
 	m_GenPageWidgets.docGB = new QGroupBox( i18n( "Documentation"), (QWidget *)page );
 

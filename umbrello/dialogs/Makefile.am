@@ -34,6 +34,7 @@ codeviewerdialog.cpp \
 codevieweroptionspage.cpp \
 defaultcodegenpolicypage.cpp \
 diagramprintpage.cpp \
+dialog_utils.cpp \
 interfacepropertiespage.cpp \
 notedialog.cpp \
 overwritedialogue.cpp \

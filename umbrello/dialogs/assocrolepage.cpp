@@ -7,13 +7,19 @@
  *                                                                         *
  ***************************************************************************/
 
+// own header
+#include "assocrolepage.h"
+
+// qt includes
 #include <qlayout.h>
 
+// kde includes
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kdebug.h>
 
-#include "assocrolepage.h"
+// local includes
+#include "dialog_utils.h"
 
 AssocRolePage::AssocRolePage (UMLDoc *d, QWidget *parent, AssociationWidget *assoc)
 	: QWidget(parent)
@@ -86,16 +92,16 @@ void AssocRolePage::constructWidget() {
 	//
 
 	// Rolename A
-	propsALayout -> addWidget(new QLabel(i18n("Rolename:"),propsAGB), 0, 0);
-	m_pRoleALE = new QLineEdit(propsAGB);
-	propsALayout -> addWidget(m_pRoleALE, 0, 1);
-	m_pRoleALE -> setText(nameA);
+	QLabel *pRoleAL = NULL;
+	Dialog_Utils::makeLabeledEditField( propsAGB, propsALayout, 0,
+					    pRoleAL, i18n("Rolename:"),
+					    m_pRoleALE, nameA );
 
 	// Multi A
-	propsALayout -> addWidget(new QLabel(i18n("Multiplicity:"),propsAGB), 1, 0);
-	m_pMultiALE = new QLineEdit(propsAGB);
-	propsALayout -> addWidget(m_pMultiALE, 1, 1);
-	m_pMultiALE -> setText(m_pAssociationWidget->getMulti(A));
+	QLabel *pMultiAL = NULL;
+	Dialog_Utils::makeLabeledEditField( propsAGB, propsALayout, 1,
+					    pMultiAL, i18n("Multiplicity:"),
+					    m_pMultiALE, m_pAssociationWidget->getMulti(A) );
 
 	// Visibility A
         QHBoxLayout * scopeALayout = new QHBoxLayout(scopeABG);
@@ -140,16 +146,16 @@ void AssocRolePage::constructWidget() {
 		m_AddOnlyARB -> setChecked( true );
 
 	// Rolename B
-        propsBLayout -> addWidget(new QLabel(i18n("Rolename:"),propsBGB), 0, 0);
-	m_pRoleBLE = new QLineEdit(propsBGB);
-	propsBLayout -> addWidget(m_pRoleBLE, 0, 1);
-	m_pRoleBLE -> setText(nameB);
+	QLabel * pRoleBL = NULL;
+	Dialog_Utils::makeLabeledEditField( propsBGB, propsBLayout, 0,
+					    pRoleBL, i18n("Rolename:"),
+					    m_pRoleBLE, nameB );
 
 	// Multi B
-        propsBLayout -> addWidget(new QLabel(i18n("Multiplicity:"),propsBGB), 1, 0);
-	m_pMultiBLE = new QLineEdit(propsBGB);
-	propsBLayout -> addWidget(m_pMultiBLE, 1, 1);
-	m_pMultiBLE -> setText( m_pAssociationWidget->getMulti(B) );
+	QLabel * pMultiBL = NULL;
+	Dialog_Utils::makeLabeledEditField( propsBGB, propsBLayout, 1,
+					    pMultiBL, i18n("Multiplicity:"),
+					    m_pMultiBLE, m_pAssociationWidget->getMulti(B) );
 
 	// Visibility B
 

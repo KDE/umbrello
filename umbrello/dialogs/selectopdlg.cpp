@@ -7,13 +7,21 @@
  *                                                                         *
  ***************************************************************************/
 
+// own header
 #include "selectopdlg.h"
+
+// qt includes
+#include <qlayout.h>
+
+// kde includes
+#include <klocale.h>
+#include <kdebug.h>
+
+// local includes
 #include "../attribute.h"
 #include "../operation.h"
 #include "../umlclassifierlistitemlist.h"
-#include <klocale.h>
-#include <kdebug.h>
-#include <qlayout.h>
+#include "dialog_utils.h"
 
 SelectOpDlg::SelectOpDlg(QWidget * parent, UMLClassifier * c)
   : KDialogBase(Plain, i18n("Select Operation"), Ok | Cancel , Ok, parent, "_SELOPDLG_", true, true)
@@ -27,11 +35,9 @@ SelectOpDlg::SelectOpDlg(QWidget * parent, UMLClassifier * c)
 	mainLayout -> setSpacing(spacingHint());
 	mainLayout -> setMargin(fontMetrics().height());
 
-	m_pSeqL = new QLabel(i18n("Sequence number:"), m_pOpGB);
-	mainLayout -> addWidget(m_pSeqL, 0, 0);
-
-	m_pSeqLE = new QLineEdit(m_pOpGB);
-	mainLayout -> addWidget(m_pSeqLE, 0, 1);
+	Dialog_Utils::makeLabeledEditField( m_pOpGB, mainLayout, 0,
+					    m_pSeqL, i18n("Sequence number:"),
+					    m_pSeqLE );
 
 	m_pOpRB = new QRadioButton(i18n("Class operation:"), m_pOpGB);
 	mainLayout -> addWidget(m_pOpRB, 1, 0);

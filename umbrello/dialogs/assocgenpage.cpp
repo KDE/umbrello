@@ -7,14 +7,20 @@
  *                                                                         *
  ***************************************************************************/
 
+// own header
+#include "assocgenpage.h"
+
+// qt includes
 #include <qlayout.h>
 
+// kde includes
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kdebug.h>
 
-#include "assocgenpage.h"
+// local includes
 #include "../association.h"
+#include "dialog_utils.h"
 
 AssocGenPage::AssocGenPage (UMLDoc *d, QWidget *parent, AssociationWidget *assoc)
 	: QWidget(parent)
@@ -53,10 +59,10 @@ void AssocGenPage::constructWidget() {
 	nameLayout -> setMargin(margin);
 
 	//Association name
-	nameLayout -> addWidget(new QLabel(i18n("Name:"),nameGB), 0, 0);
-	m_pAssocNameLE = new QLineEdit(nameGB);
-	nameLayout -> addWidget(m_pAssocNameLE, 0, 1);
-	m_pAssocNameLE->setText( m_pAssociationWidget->getName() );
+	QLabel *pAssocNameL = NULL;
+	Dialog_Utils::makeLabeledEditField( nameGB, nameLayout, 0,
+					    pAssocNameL, i18n("Name:"),
+					    m_pAssocNameLE, m_pAssociationWidget->getName() );
 
 	// document
 	QHBoxLayout * docLayout = new QHBoxLayout(docGB);
@@ -66,15 +72,12 @@ void AssocGenPage::constructWidget() {
 	docLayout -> addWidget(m_pDoc);
 	m_pDoc-> setText(m_pAssociationWidget-> getDoc());
 
-
 	// Association Type
-	nameLayout -> addWidget(new QLabel(i18n("Type:"), nameGB), 1, 0);
-	m_pTypeLE = new QLineEdit(nameGB);
+	QLabel *pTypeL = NULL;
+	Dialog_Utils::makeLabeledEditField( nameGB, nameLayout, 1,
+					    pTypeL, i18n("Type:"),
+					    m_pTypeLE, UMLAssociation::typeAsString(m_pAssociationWidget->getAssocType()) );
 	m_pTypeLE->setEnabled(false);
-	nameLayout -> addWidget(m_pTypeLE, 1, 1);
-
-	// set value in association type
-	m_pTypeLE->setText(UMLAssociation::typeAsString(m_pAssociationWidget->getAssocType()));
 
 	m_pDoc->setWordWrap(QMultiLineEdit::WidgetWidth);
 

@@ -6,18 +6,22 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+
+// own header
+#include "settingsdlg.h"
+
+// qt includes
+#include <qlayout.h>
+#include <qvbox.h>
+// kde includes
 #include <kdebug.h>
-//kde includes
 #include <kiconloader.h>
 #include <klocale.h>
 #include <kfiledialog.h>
-//qt includes
-#include <qlayout.h>
-#include <qvbox.h>
-//app includes
-#include "settingsdlg.h"
+// app includes
 #include "codegenerationoptionspage.h"
 #include "codevieweroptionspage.h"
+#include "dialog_utils.h"
 
 SettingsDlg::SettingsDlg( QWidget * parent, Settings::OptionState *state,
 			  QDict<GeneratorInfo> ldict, QString activeLanguage, CodeGenerator * gen)
@@ -124,11 +128,9 @@ void SettingsDlg::setupGeneralPage() {
 
 	// 2004-05-17 Achim Spangler: Allow definition of Suffix for autosave
 	// ( default: ".xmi" )
-	m_GeneralWidgets.autosaveSuffixL = new QLabel( i18n("Set autosave suffix:"), m_GeneralWidgets.autosaveGB );
-	autosaveLayout -> addWidget( m_GeneralWidgets.autosaveSuffixL, 2, 0 );
-	m_GeneralWidgets.autosaveSuffixT = new QLineEdit( ".xmi", m_GeneralWidgets.autosaveGB );
-	m_GeneralWidgets.autosaveSuffixT->setText( m_pOptionState->generalState.autosavesuffix );
-	autosaveLayout -> addWidget( m_GeneralWidgets.autosaveSuffixT, 2, 1 );
+	Dialog_Utils::makeLabeledEditField( m_GeneralWidgets.autosaveGB, autosaveLayout, 2,
+					    m_GeneralWidgets.autosaveSuffixL, i18n("Set autosave suffix:"),
+					    m_GeneralWidgets.autosaveSuffixT, m_pOptionState->generalState.autosavesuffix );
 
 	//setup startup settings
 	m_GeneralWidgets.startupGB = new QGroupBox( i18n("Startup"), page );
