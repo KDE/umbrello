@@ -1052,6 +1052,15 @@ void CClassParser::fillInParsedMethod(CParsedMethod *aMethod, bool isOperator)
     getNextLexem( );
   }
 
+  // Abstractness
+  if (lexem == '=') {
+    getNextLexem();
+    if (lexem == NUM) {
+      aMethod->setIsPure(true);
+      getNextLexem();
+    }
+  }
+
   // Other initializers
   if( lexem == ':' )
     while( lexem != 0 && lexem != '{' )
