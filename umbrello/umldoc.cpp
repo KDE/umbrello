@@ -565,14 +565,12 @@ QString	UMLDoc::uniqObjectName(const UMLObject_Type type) {
   *   any ids or signal.  Used by the list view.  Use
   *   AddUMLObjectPaste if pasting.
   */
-void UMLDoc::addUMLObject( UMLObject * object )
-{
+void UMLDoc::addUMLObject(UMLObject* object) {
 	objectList.append( object );
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // a simple removeal of an object
-void UMLDoc::slotRemoveUMLObject( UMLObject * object )
-{
+void UMLDoc::slotRemoveUMLObject(UMLObject* object)  {
 	objectList.remove(object);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1206,6 +1204,7 @@ void UMLDoc::removeUMLObject(UMLObject *o) {
 		setModified(true);
 		return;
 	}
+
 	//must be att or op
 	UMLClassifier *p = (UMLClassifier*)o->parent();
 	emit sigObjectRemoved(o);
@@ -1220,8 +1219,8 @@ void UMLDoc::removeUMLObject(UMLObject *o) {
 		if(pClass)
 			pClass->removeTemplate((UMLTemplate*)o);
 	}
-	setModified(true);
 
+	setModified(true);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool UMLDoc::showProperties(UMLObject* object, int page, bool assoc) {
@@ -1353,12 +1352,23 @@ bool UMLDoc::saveToXMI(QIODevice& file) {
 	// Associations are saved in an extra step (see below.)
 	for (UMLObject *o = objectList.first(); o; o = objectList.next() ) {
 		UMLObject_Type t = o->getBaseType();
+
 		if (t == ot_Package)
 			continue;
 		if (t == ot_Attribute || t == ot_Operation || t == ot_Association)
 			continue;
-		if (! o->saveToXMI(doc, objectsElement))
+		if (t != ot_Actor && t != ot_UseCase && t != ot_Interface && t != ot_Datatype
+		    && t != ot_Enum && t != ot_Class && t != ot_EnumLiteral && t != ot_Template
+		    && t != ot_Component && t != ot_Artifact && t != ot_Node
+		    && t != ot_Stereotype) {
+			kdWarning() << "UMLDoc::saveToXMI() trying to save a non-existant object from objectList"
+				    << endl;
+			continue;
+		}
+		if (! o->saveToXMI(doc, objectsElement))  {
 			status = false;
+		}
+
 	}
 
 	// Save the UMLAssociations.
@@ -1945,6 +1955,7 @@ bool UMLDoc::showProperties(UMLWidget * o) {
 }
 
 void UMLDoc::setModified(bool modified /*=true*/, bool addToUndo /*=true*/) {
+
 	if(!m_bLoading) {
 		m_modified = modified;
 		((UMLApp *) parent())->setModified(modified);
