@@ -349,9 +349,18 @@ void CPPHeaderCodeDocument::updateContent( )
        	// A: doesn't matter at all; its more readable to just include '*' and cpp compilers
        	//    don't slow down or anything. (TZ)
        	QString includeStatement = "";
-       	includeStatement.append("include "+policy->getStringClassNameInclude()+";"+endLine);
+	bool stringGlobal = policy->stringIncludeIsGlobal();
+	QString sStartBrak = stringGlobal ? "<" : "\"";
+	QString sEndBrak = stringGlobal ? ">" : "\"";
+       	includeStatement.append("include "+sStartBrak+policy->getStringClassNameInclude()+sEndBrak+";"+endLine);
        	if ( hasObjectVectorClassFields() )
-       		includeStatement.append("include "+policy->getVectorClassNameInclude()+";"+endLine);
+	{
+		bool vecGlobal = policy->vectorIncludeIsGlobal();
+		QString vStartBrak = vecGlobal ? "<" : "\"";
+		QString vEndBrak = vecGlobal ? ">" : "\"";
+		QString value ="include "+vStartBrak+policy->getVectorClassNameInclude()+vEndBrak+";";
+       		includeStatement.append(value+endLine);
+	}
 
    	//only include classes in a different package from this class
        	UMLClassifierList includes;
