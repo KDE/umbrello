@@ -157,7 +157,7 @@ public:
 	/**
 	 * Motivated by FloatingText::mouseMoveEvent()
 	 */
-	void constrainY(int &y, int height);
+	virtual void constrainY(int &y, int height);
  
 	/**
 	 * Motivated by FloatingText::setLink(). Bad.
