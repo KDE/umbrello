@@ -44,7 +44,6 @@ using Umbrello::DiagramView;
 
 class UMLListView : public KListView {
 	Q_OBJECT
-		friend class UMLClipboard;
  public:
 
 	enum Icon_Type	{
@@ -161,6 +160,42 @@ class UMLListView : public KListView {
 	 * e.g. UMLDoc if an UMLObject is created.
 	 */
 	void addNewItem( QListViewItem * parent, Uml::ListView_Type type );
+
+	/**
+	 * Find an UMLObject in the listview.
+	 *
+	 * @param p		Pointer to the object to find in the list view.
+	 * @return	Pointer to the UMLObject found or NULL if not found.
+	 */
+	UMLListViewItem * findUMLObject(UMLObject *p) const;
+
+	/**
+	 * Searches through the tree for the item with the given ID.
+	 *
+	 * @param id		The ID to search for.
+	 * @return	The item with the given ID or -1 if not found.
+	 */
+	UMLListViewItem * findItem(int id);
+
+	/**
+	 * Returns true if the listview type also has a widget representation in diagrams.
+	 */
+	static bool typeIsCanvasWidget(ListView_Type type);
+
+	/**
+	 * Returns true if the listview type is a logical, usecase or component folder.
+	 */
+	static bool typeIsFolder(ListView_Type type);
+
+	/**
+	 * Returns true if the listview type is a diagram.
+	 */
+	static bool typeIsDiagram(ListView_Type type);
+
+	/**
+	 * Returns true if the listview type is an attribute, operation, or template.
+	 */
+	static bool typeIsClassifierList(ListView_Type type);
 
 	/**
 	 * Creates a UMLObject out of the given list view item.
@@ -280,12 +315,6 @@ class UMLListView : public KListView {
 	bool acceptDrag (QDropEvent* event) const;
 
 	/**
-	 *
-	 * @param c The object to be find in the list view
-	 */
-	UMLListViewItem * findUMLObject(UMLObject *p) const;
-
-	/**
 	 * This methods looks for a object in a folder an its subfolders recursive.
 	 * @param item The folder entry of the list view.
 	 * @param o The object to be find in the folder.
@@ -302,13 +331,6 @@ class UMLListView : public KListView {
 	UMLListViewItem * findView(UMLView *v);
 
 	/**
-	 * Searches through the tree for the item with the given id
-	 * @param the id to search for
-	 * @return the item with the given id
-	 */
-	UMLListViewItem * findItem(int id);
-
-	/**
 	 * Converts a diagram type enum to the equivalent list view type
 	 */
 	Uml::ListView_Type convert_DT_LVT(Uml::Diagram_Type dt);
@@ -322,26 +344,6 @@ class UMLListView : public KListView {
 	 * 	Loads the pixmaps to use in the list items.
 	 */
 	void loadPixmaps();
-
-	/**
-	 * returns true if the listview type is also has widget representation in diagrams
-	 */
-	static bool typeIsCanvasWidget(ListView_Type type);
-
-	/**
-	 * returns true if the listview type is logical, usecase or component folder
-	 */
-	static bool typeIsFolder(ListView_Type type);
-
-	/**
-	 * returns true if the listview type is a diagram
-	 */
-	static bool typeIsDiagram(ListView_Type type);
-
-	/**
-	 * returns true if the listview type is an attribute, operation or template
-	 */
-	static bool typeIsClassifierList(ListView_Type type);
 
 	/**
 	 * Deletes all child-items of @p parent.
