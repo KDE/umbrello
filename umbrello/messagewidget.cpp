@@ -207,11 +207,12 @@ void MessageWidget::setTextPosition() {
 			  << endl;
 		return;
 	}
+	if (m_pFText->getText().isEmpty())
+		return;
 	m_pFText->calculateSize();
 	const int xLowerBound = getX() + 5;
 	int ftX = m_pFText->getX();
-	if (ftX < xLowerBound ||
-	    m_sequenceMessageType == sequence_message_synchronous)
+	if (ftX < xLowerBound || m_pFText->getRole() == tr_Seq_Message_Self)
 		ftX = xLowerBound;
 	else {
 		const int objB_seqLineX = m_pOw[B]->getX() + m_pOw[B]->getWidth() / 2;
@@ -305,7 +306,10 @@ bool MessageWidget::activate(IDChangeLog * Log /*= 0*/) {
 		return false;
 	}
 	if( !m_pFText ) {
-		m_pFText = new FloatingText( m_pView, tr_Seq_Message, "" );
+		Text_Role tr = tr_Seq_Message;
+		if (m_pOw[A] ==m_pOw[B])
+			tr = tr_Seq_Message_Self;
+		m_pFText = new FloatingText( m_pView, tr, "" );
 		m_pFText->setFont(UMLWidget::getFont());
 	} else if (m_pFText->getID() == -1) {
 		int newid = m_pView->getDocument()->getUniqueID();
@@ -482,7 +486,7 @@ void MessageWidget::cleanup() {
 }
 
 void MessageWidget::mouseMoveEvent(QMouseEvent *me) {
-	int newX = 0, newY = 0, count;
+	int newX = 0, newY = 0;
 	int moveX, moveY;
 	if( m_bResizing ) {
 		int heightA = (int)((ObjectWidget*)m_pOw[A]) -> getEndLineY();
@@ -501,11 +505,11 @@ void MessageWidget::mouseMoveEvent(QMouseEvent *me) {
 	if( !m_bSelected )
 		m_pView -> setSelected( this, me );
 	m_bSelected = true;
-	count = m_pView -> getSelectCount();
-
 	if( !m_bMouseDown )
 		if( me -> button() != LeftButton )
 			return;
+	int count = m_pView -> getSelectCount();
+
 	//If not m_bStartMove means moving as part of selection
 	//me->pos() will have the amount we need to move.
 	if(!m_bStartMove) {
@@ -523,14 +527,10 @@ void MessageWidget::mouseMoveEvent(QMouseEvent *me) {
 		if( count > 2 )
 			m_pView -> moveSelected( this, moveX, 0 );
 	}
-	newX = getX() + moveX;
 	newY = getY() + moveY;
-
-	newX = newX < 0?0:newX;
 	newY = newY < 0?0:newY;
 	if( count > 2 )
-		newY = this -> getY();
-	//only change y if not selected
+		newY = this -> getY();  //only change y if not selected
 	newX = m_nPosX;
 	newY = newY < getMinHeight() ? getMinHeight() : newY;
 	newY = newY > getMaxHeight() ? getMaxHeight() : newY;
