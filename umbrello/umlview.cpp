@@ -1141,11 +1141,6 @@ void UMLView::selectWidgets(int px, int py, int qx, int qy) {
 	clearSelected();
 
 	QRect rect;
-	/*int px = m_Pos.x();
-	int py = m_Pos.y();
-	int qx = m_LineToPos.x();
-	int qy = m_LineToPos.y();
-	*/
 	if(px <= qx) {
 		rect.setLeft(px);
 		rect.setRight(qx);
@@ -1984,7 +1979,6 @@ bool UMLView::setAssoc(UMLWidget *pWidget) {
 
 		pos.setY(pWidget -> getY() + (pWidget->getHeight() / 2));
 		setPos(pos);
-		m_LineToPos = pos;
 		m_pFirstSelectedWidget = pWidget;
 		viewport() -> setMouseTracking( true );
 
