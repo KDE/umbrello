@@ -51,7 +51,7 @@ QString UMLClassifierListItem::getTypeName() {
 	return m_SecondaryId;
 }
 
-void UMLClassifierListItem::setType(UMLClassifier *type) {
+void UMLClassifierListItem::setType(UMLObject *type) {
 	if (m_pSecondary != type) {
 		m_pSecondary = type;
 		emit modified();

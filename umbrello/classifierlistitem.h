@@ -80,9 +80,9 @@ public:
 	/**
 	 * Sets the type of the UMLAttribute.
 	 *
-	 * @param type	Pointer to the UMLClassifier of the type.
+	 * @param type	Pointer to the UMLObject of the type.
 	 */
-	void setType(UMLClassifier *type);
+	void setType(UMLObject *type);
 
 	/**
 	 * Returns a string representation of the list item.
