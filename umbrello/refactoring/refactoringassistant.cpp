@@ -683,14 +683,14 @@ void RefactoringAssistant::movableDropEvent (QListViewItem* parentItem, QListVie
 void RefactoringAssistant::loadPixmaps()
 {
 	KStandardDirs *dirs = KGlobal::dirs();
-	QString dataDir = dirs -> findResourceDir( "data", "umbrello/pics/public.png" );
+	QString dataDir = dirs -> findResourceDir( "data", "umbrello/pics/object.png" );
 	dataDir += "/umbrello/pics/";
 
-	m_pixmaps.Public.load( dataDir + "public.png" );
-	m_pixmaps.Protected.load( dataDir + "protected.png" );
-	m_pixmaps.Private.load( dataDir + "private.png" );
-	m_pixmaps.Generalization.load( dataDir + "generalization.xpm" );
-	m_pixmaps.Subclass.load( dataDir + "uniassoc.xpm" );
+	m_pixmaps.Public.load( dataDir + "CVpublic_var.png" );
+	m_pixmaps.Protected.load( dataDir + "CVprotected_var.png" );
+	m_pixmaps.Private.load( dataDir + "CVprivate_var.png" );
+	m_pixmaps.Generalization.load( dataDir + "generalisation.png" );
+	m_pixmaps.Subclass.load( dataDir + "uniassociation.png" );
 
 
 }

@@ -17,7 +17,7 @@ KStartupLogo::KStartupLogo(QWidget * parent, const char *name)
 ,m_bReadyToHide(false) {
 	//pm.load(locate("appdata", "pics/startlogo.png"));
 	KStandardDirs * dirs = KGlobal::dirs();
-	QString dataDir = dirs -> findResourceDir("data", "umbrello/pics/object.xpm");
+	QString dataDir = dirs -> findResourceDir("data", "umbrello/pics/object.png");
 	dataDir += "/umbrello/pics/";
 	QPixmap pm(dataDir + "startlogo.png");
 	setBackgroundPixmap(pm);

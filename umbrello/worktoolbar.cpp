@@ -183,7 +183,7 @@ void WorkToolBar::buttonChanged(int b) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 QCursor WorkToolBar::currentCursor() {
 	KStandardDirs* dirs = KGlobal::dirs();
-	QString dataDir = dirs->findResourceDir("data", "umbrello/pics/object.xpm");
+	QString dataDir = dirs->findResourceDir("data", "umbrello/pics/object.png");
 	dataDir += "/umbrello/pics/";
 
 	if (m_CurrentButtonID == tbb_Actor)  {
@@ -285,7 +285,7 @@ void WorkToolBar::setDefaultTool() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void WorkToolBar::loadPixmaps() {
 	KStandardDirs * dirs = KGlobal::dirs();
-	QString dataDir = dirs -> findResourceDir( "data", "umbrello/pics/object.xpm" );
+	QString dataDir = dirs -> findResourceDir( "data", "umbrello/pics/object.png" );
 	dataDir += "/umbrello/pics/";
 
 	m_Pixmaps[tbb_Object].load( dataDir + "object.png" );

@@ -1499,29 +1499,30 @@ QPixmap & UMLListView::getPixmap( Icon_Type type ) {
 
 void UMLListView::loadPixmaps() {
 	KStandardDirs * dirs = KGlobal::dirs();
-	QString dataDir = dirs -> findResourceDir("data", "umbrello/pics/object.xpm");
+	QString dataDir = dirs -> findResourceDir("data", "umbrello/pics/object.png");
+	kdDebug() << "datadir: " + dataDir << endl;
 	dataDir += "/umbrello/pics/";
 
-	m_Pixmaps.Home = SmallIcon("folder_home");
-	m_Pixmaps.Folder_Green = SmallIcon("folder_green");
-	m_Pixmaps.Folder_Green_Open = SmallIcon("folder_green_open");
-	m_Pixmaps.Folder_Orange = SmallIcon("folder_orange");
-	m_Pixmaps.Folder_Orange_Open = SmallIcon("folder_orange_open");
-	m_Pixmaps.Folder_Grey = SmallIcon("folder_grey");
-	m_Pixmaps.Folder_Grey_Open = SmallIcon("folder_grey_open");
-	m_Pixmaps.Folder_Red = SmallIcon("folder_red");
-	m_Pixmaps.Folder_Red_Open = SmallIcon("folder_red_open");
-	m_Pixmaps.Folder_Violet = SmallIcon("folder_violet");
-	m_Pixmaps.Folder_Violet_Open = SmallIcon("folder_violet_open");
+	m_Pixmaps.Home = BarIcon("folder_home");
+	m_Pixmaps.Folder_Green = BarIcon("folder_green");
+	m_Pixmaps.Folder_Green_Open = BarIcon("folder_green_open");
+	m_Pixmaps.Folder_Orange = BarIcon("folder_orange");
+	m_Pixmaps.Folder_Orange_Open = BarIcon("folder_orange_open");
+	m_Pixmaps.Folder_Grey = BarIcon("folder_grey");
+	m_Pixmaps.Folder_Grey_Open = BarIcon("folder_grey_open");
+	m_Pixmaps.Folder_Red = BarIcon("folder_red");
+	m_Pixmaps.Folder_Red_Open = BarIcon("folder_red_open");
+	m_Pixmaps.Folder_Violet = BarIcon("folder_violet");
+	m_Pixmaps.Folder_Violet_Open = BarIcon("folder_violet_open");
 
-	m_Pixmaps.Diagram_Activity = SmallIcon("umbrello_diagram_activity");
-	m_Pixmaps.Diagram_Class = SmallIcon("umbrello_diagram_class");
-	m_Pixmaps.Diagram_Component = SmallIcon("umbrello_diagram_component");
-	m_Pixmaps.Diagram_State = SmallIcon("umbrello_diagram_state");
-	m_Pixmaps.Diagram_Sequence = SmallIcon("umbrello_diagram_sequence");
-	m_Pixmaps.Diagram_Deployment = SmallIcon("umbrello_diagram_deployment");
-	m_Pixmaps.Diagram_Usecase = SmallIcon("umbrello_diagram_usecase");
-	m_Pixmaps.Diagram_Collaboration = SmallIcon("umbrello_diagram_collaboration");
+	m_Pixmaps.Diagram_Activity = BarIcon("umbrello_diagram_activity");
+	m_Pixmaps.Diagram_Class = BarIcon("umbrello_diagram_class");
+	m_Pixmaps.Diagram_Component = BarIcon("umbrello_diagram_component");
+	m_Pixmaps.Diagram_State = BarIcon("umbrello_diagram_state");
+	m_Pixmaps.Diagram_Sequence = BarIcon("umbrello_diagram_sequence");
+	m_Pixmaps.Diagram_Deployment = BarIcon("umbrello_diagram_deployment");
+	m_Pixmaps.Diagram_Usecase = BarIcon("umbrello_diagram_usecase");
+	m_Pixmaps.Diagram_Collaboration = BarIcon("umbrello_diagram_collaboration");
 
 	m_Pixmaps.Diagram.load( dataDir + "CVnamespace.png" );
 	m_Pixmaps.Class.load( dataDir + "class.png" );
