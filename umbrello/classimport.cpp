@@ -79,10 +79,12 @@ UMLObject *ClassImport::createUMLObject(Uml::Object_Type type,
 					UMLPackage *parentPkg) {
 	UMLObject * o = m_umldoc->findUMLObject(name);
 	if (o == NULL) {
+		int isConst = name.contains(QRegExp("^const "));
+		name.remove(QRegExp("^const\\s+"));
 		QString typeName(name);
 		int isPointer = typeName.contains('*');
-		typeName.replace(QRegExp("^const\\s+"), "");
-		typeName.replace(QRegExp("[^:\\w].*$"), "");
+		int isRef = typeName.contains('&');
+		typeName.remove(QRegExp("[^:\\w].*$"));
 		o = m_umldoc->findUMLObject(typeName,
 					    Uml::ot_UMLObject,
 					    parentPkg);
@@ -94,20 +96,29 @@ UMLObject *ClassImport::createUMLObject(Uml::Object_Type type,
 				while ( components.count() ) {
 					QString scopeName = components.front();
 					components.pop_front();
+					o = m_umldoc->findUMLObject(scopeName, Uml::ot_UMLObject, parentPkg);
+					if (o) {
+						parentPkg = static_cast<UMLPackage*>(o);
+						continue;
+					}
 					int wantNamespace = KMessageBox::questionYesNo(NULL,
 						i18n("Is the scope %1 a namespace or a class?").arg(scopeName),
 						i18n("C++ import requests your help"),
 						i18n("namespace"), i18n("class"));
 					Uml::Object_Type ot = (wantNamespace == KMessageBox::Yes ? Uml::ot_Package : Uml::ot_Class);
 					o = m_umldoc->createUMLObject(ot, scopeName, parentPkg);
-					parentPkg = dynamic_cast<UMLPackage*>(o);  //static_cast?
+					parentPkg = static_cast<UMLPackage*>(o);
 				}
+				name.remove(QRegExp("^.*::"));  // may also zap "const "
 			}
-			if (isPointer)
+			if (isPointer || isRef) {
+				m_umldoc->createUMLObject(Uml::ot_Class, typeName, parentPkg);
 				type = Uml::ot_Datatype;
-			else if (type == Uml::ot_UMLObject)
+			} else if (type == Uml::ot_UMLObject)
 				type = Uml::ot_Class;
-			o = m_umldoc->createUMLObject(type, typeName, parentPkg);
+			if (isConst)
+				name.prepend("const ");
+			o = m_umldoc->createUMLObject(type, name, parentPkg);
 		}
 		/* if (isPointer) {
 			UMLDatatype *dt = static_cast<UMLDatatype*>(o);
@@ -232,12 +243,8 @@ void ClassImport::addEnumLiteral(UMLEnum *enumType, const QString &literal) {
 }
 
 void ClassImport::createGeneralization(UMLClass *child, const QString &parentName) {
-	UMLObject *parent = m_umldoc->findUMLObject( parentName, Uml::ot_Class );
-	if (parent == NULL) {
-	    kdDebug() << "ClassImport::createGeneralization: Could not find UML object for "
-		      << parentName << endl;
-	    parent = m_umldoc->createUMLObject(Uml::ot_Class, parentName);
-	}
+	UMLObject *parentObj = createUMLObject( Uml::ot_Class, parentName );
+	UMLClass *parent = static_cast<UMLClass*>(parentObj);
 	UMLAssociation *assoc = new UMLAssociation( Uml::at_Generalization,
 						    child, parent );
 	m_umldoc->addAssociation(assoc);
