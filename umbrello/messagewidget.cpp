@@ -664,16 +664,13 @@ void MessageWidget::mouseMoveEvent(QMouseEvent *me) {
 	newY = newY < 0?0:newY;
 	if( count > 2 )
 		newY = getY();  //only change y if not selected
-	newX = m_nPosX;
 	newY = newY < getMinHeight() ? getMinHeight() : newY;
 	newY = newY > getMaxHeight() ? getMaxHeight() : newY;
 
 	if (m_nOldX != newX || m_nOldY != newY) {
 		m_bMoved = true;
 	}
-	m_nOldX = newX;
 	m_nOldY = newY;
-	setX( newX );
 	setY( newY );
 	adjustAssocs(newX, newY);
 	if (m_sequenceMessageType == Uml::sequence_message_creation) {
