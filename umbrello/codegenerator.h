@@ -154,7 +154,10 @@ protected:
 	 *  %filepath%
 	 */
 	QString getHeadingFile(QString file);
-
+	
+	/**
+	 * Replaces spaces with underscores and capitalises as defined in m_modname
+	 */
 	QString cleanName(QString);
 
 	/** Format documentation for output in source files

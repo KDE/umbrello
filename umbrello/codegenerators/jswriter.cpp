@@ -119,7 +119,8 @@ void JSWriter::writeClass(UMLConcept *c)
 
 	for (association = generalizations.first(), i = generalizations.count();
 	     association && i; association = generalizations.next(), i--) {
-		js << classname << ".prototype = new " << cleanName(association->getName()) << " ();" << endl;
+		UMLObject* obj = m_doc->findUMLObject(association->getRoleBId());
+		js << classname << ".prototype = new " << cleanName(obj->getName()) << " ();" << endl;
 	}
 
 	js << endl;

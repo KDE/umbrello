@@ -118,7 +118,8 @@ void ASWriter::writeClass(UMLConcept *c)
 
 	for(association = generalizations.first(), i = generalizations.count();
 	    association && i; association = generalizations.next(), i--) {
-		as << classname << ".prototype = new " << cleanName(association->getName()) << " ();" << endl;
+		UMLObject* obj = m_doc->findUMLObject(association->getRoleBId());
+		as << classname << ".prototype = new " << cleanName(obj->getName()) << " ();" << endl;
 	}
 
 	as << endl;
