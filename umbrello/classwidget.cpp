@@ -29,6 +29,8 @@ ClassWidget::ClassWidget(UMLView * view, UMLClass *o) : UMLWidget(view, o)
 void ClassWidget::init() {
 	UMLWidget::setBaseType(wt_Class);
 	m_pMenu = 0;
+	m_ShowAttSigs = Uml::st_ShowSig;
+	m_ShowOpSigs = Uml::st_ShowSig;
 	//set defaults from m_pView
 	if ( m_pView ) {
 		const SettingsDlg::OptionState& ops = m_pView -> getOptionState();
@@ -45,8 +47,6 @@ void ClassWidget::init() {
 		m_bShowOperations = true;
 		m_bShowPackage = false;
 		m_bShowStereotype = false;
-		m_ShowOpSigs = Uml::st_ShowSig;
-		m_ShowAttSigs = Uml::st_ShowSig;
 		m_bShowScope = true;
 	}
 	//maybe loading and this may not be set.
