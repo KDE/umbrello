@@ -239,15 +239,8 @@ void CodeClassField::loadFromXMI ( QDomElement & root ) {
 void CodeClassField::setAttributesOnNode ( QDomDocument & doc, QDomElement & cfElem)
 {
 
-	// always disconnect
-	getParentObject()->disconnect(this);
-
-        // superclass call.. may reset the parent object
+	// super class
         CodeParameter::setAttributesOnNode(doc,cfElem);
-
-	// make AFTER super-class call. This will reconnect to the parent 
-	// and re-check we have all needed child accessor methods and decl blocks
- 	initFields( );
 
         // now set local attributes/fields
         cfElem.setAttribute("field_type",m_classFieldType);
@@ -272,8 +265,15 @@ void CodeClassField::setAttributesOnNode ( QDomDocument & doc, QDomElement & cfE
  */
 void CodeClassField::setAttributesFromNode ( QDomElement & root) {
 
-	// super class
+	// always disconnect
+	getParentObject()->disconnect(this);
+
+        // superclass call.. may reset the parent object
         CodeParameter::setAttributesFromNode(root);
+
+	// make AFTER super-class call. This will reconnect to the parent 
+	// and re-check we have all needed child accessor methods and decl blocks
+ 	initFields( );
 
         setWriteOutMethods(root.attribute("writeOutMethods","true") == "true" ? true : false);
         m_listClassName = root.attribute("listClassName","");
