@@ -137,13 +137,20 @@ void scan(QString line) {
 		if (tmp.isEmpty())
 			continue;
 		QString word;
-		for (uint i = 0; i < tmp.length(); i++) {
+		const uint len = tmp.length();
+		for (uint i = 0; i < len; i++) {
 			QChar c = tmp[i];
 			if (c.isLetterOrNumber() || c == '_') {
 				word += c;
 			} else if (c == ':' && tmp[i + 1] == ':') {
+				// compress scoped name into word
 				word += "::";
 				i++;
+			} else if (c == '<') {
+				// compress sequence or bounded string into word
+				do {
+					word += tmp[i];
+				} while (tmp[i] != '>' && ++i < len);
 			} else {
 				if (!word.isEmpty()) {
 					source.append(word);
@@ -270,7 +277,12 @@ void parseFile(QString filename) {
 			continue;
 		}
 		if (keyword == "typedef") {
-			skipStmt();  // TBD.
+			const QString& existingType = source[++srcIndex];
+			const QString& newType = source[++srcIndex];
+	        	importer->createUMLObject(Uml::ot_Class, newType, scope[scopeIndex],
+	 					  comment, "CORBATypedef" /* stereotype */);
+			// @todo How do we convey the existingType ?
+			skipStmt();
 			continue;
 		}
 		if (keyword == "const") {
