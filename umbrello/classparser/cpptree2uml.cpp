@@ -312,7 +312,10 @@ void CppTree2Uml::parseClassSpecifier( ClassSpecifierAST* ast )
 
 void CppTree2Uml::parseEnumSpecifier( EnumSpecifierAST* ast )
 {
-    QString typeName = ast->name()->unqualifiedName()->text().stripWhiteSpace();
+    NameAST *nameNode = ast->name();
+    if (nameNode == NULL)
+    	return;
+    QString typeName = nameNode->unqualifiedName()->text().stripWhiteSpace();
     UMLObject *o = m_importer->createUMLObject( Uml::ot_Enum, typeName,
 						"" /* stereotype */,
 						ast->comment(),
