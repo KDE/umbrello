@@ -199,6 +199,7 @@ void MessageWidget::calculateWidget() {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void MessageWidget::slotWidgetMoved(int id) {
+	kdDebug() << k_funcinfo << endl;
 	if(m_pWA -> getID() == id || m_pWB -> getID() == id) {
 		m_nY = (int)y();
 		m_nY = m_nY < getMinHeight()?getMinHeight():m_nY;
@@ -400,13 +401,14 @@ void MessageWidget::mouseMoveEvent(QMouseEvent *me) {
 		int heightA = (int)((ObjectWidget*)m_pWA) -> getEndLineY();
 		int heightB = (int)((ObjectWidget*)m_pWB) -> getEndLineY();
 		int height = heightA;
-		if( heightA > heightB )
+		if ( heightA > heightB )  {
 			height = heightB;
+		}
 		moveY = (int)me -> y() - m_nPressOffsetY - m_nOldY;
 		newY = m_nOldH + moveY;
 		newY = newY < 20 ? 20 : newY;
-		newY = newY > height - (int)y()? height - (int)y() : newY;
 		setSize( width(), newY );
+		emit sigMessageMoved();
 		return;
 	}
 	if( !m_bSelected )
