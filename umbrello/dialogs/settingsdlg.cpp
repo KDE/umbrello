@@ -124,7 +124,7 @@ void SettingsDlg::setupGeneralPage() {
 
 	// 2004-05-17 Achim Spangler: Allow definition of Suffix for autosave
 	// ( default: ".xmi" )
-	m_GeneralWidgets.autosaveSuffixL = new QLabel( i18n("Set Autosave suffix:"), m_GeneralWidgets.autosaveGB );
+	m_GeneralWidgets.autosaveSuffixL = new QLabel( i18n("Set autosave suffix:"), m_GeneralWidgets.autosaveGB );
 	autosaveLayout -> addWidget( m_GeneralWidgets.autosaveSuffixL, 2, 0 );
 	m_GeneralWidgets.autosaveSuffixT = new QLineEdit( ".xmi", m_GeneralWidgets.autosaveGB );
 	m_GeneralWidgets.autosaveSuffixT->setText( m_pOptionState->generalState.autosavesuffix );
