@@ -37,7 +37,6 @@ MessageWidget::MessageWidget(UMLView * view, ObjectWidget* a, ObjectWidget* b,
 	//CHECK: This is contorted - it should be in the caller's responsibility:
 	ft->setUMLObject(b->getUMLObject());
 	ft -> setLink(this);
-	ft -> setID( UMLWidget::getID() );
 
 	connect(m_pOw[A], SIGNAL(sigWidgetMoved(int)), this, SLOT(slotWidgetMoved(int)));
 	connect(m_pOw[B], SIGNAL(sigWidgetMoved(int)), this, SLOT(slotWidgetMoved(int)));
@@ -212,7 +211,15 @@ void MessageWidget::setTextPosition() {
 		return;
 	}
 	m_pFText->calculateSize();
-	m_pFText->setLinePos(getX() + 5, getY() - m_pFText->getHeight());
+	const int xLowerBound = getX() + 5;
+	const int xUpperBound = m_pOw[B]->getX() - m_pFText->getWidth();
+	int ftX = m_pFText->getX();
+	if (ftX < xLowerBound ||
+	    m_sequenceMessageType == sequence_message_synchronous)
+		ftX = xLowerBound;
+	else if (ftX > xUpperBound)
+		ftX = xUpperBound;
+	m_pFText->setLinePos(ftX, getY() - m_pFText->getHeight());
 }
 
 void MessageWidget::updateMessagePos(int textHeight, int& newX, int& newY) {
@@ -227,25 +234,11 @@ void MessageWidget::updateMessagePos(int textHeight, int& newX, int& newY) {
 	setY( newY + textHeight );
 }
 
-void MessageWidget::setupAfterFTsetLink(FloatingText *ft) {
-	if (ft->getID() > 0) {
-		kdDebug() << "MessageWidget::setupAfterFTsetLink: "
-			  << "overriding FloatingText id " << ft->getID()
-			  << " with new value " << getID()
-			  << endl;
-	}
-	ft->setID( getID() );
+void MessageWidget::setupAfterFTsetLink(FloatingText* /*ft*/) {
 	setTextPosition();
 }
 
-void MessageWidget::setFTselected(FloatingText *ft) {
-	if (ft->getSelected() && getSelected())
-		return;
-	if (!ft->getSelected() && !getSelected())
-		return;
-	// in FloatingText:  m_nOldID = -10;
-	m_pView -> setSelected( this, /*QMouseEvent*/ NULL );
-	setSelected( ft->getSelected() );
+void MessageWidget::setFTselected(FloatingText* /*ft*/) {
 }
 
 void MessageWidget::moveEvent(QMoveEvent* /*m*/) {
@@ -315,9 +308,7 @@ bool MessageWidget::activate(IDChangeLog * Log /*= 0*/) {
 		return false;
 	}
 	if( !m_pFText ) {
-		// Do not generate new ID because it will be slaved to the
-		// MessageWidget ID in the m_pFText->setLink() call below.
-		m_pFText = new FloatingText( m_pView, tr_Seq_Message, "", 0 );
+		m_pFText = new FloatingText( m_pView, tr_Seq_Message, "" );
 		m_pFText->setFont(UMLWidget::getFont());
 	} else if (m_pFText->getID() == -1) {
 		int newid = m_pView->getDocument()->getUniqueID();
@@ -646,7 +637,7 @@ ObjectWidget* MessageWidget::getWidget(Role_Type role) {
 void MessageWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement messageElement = qDoc.createElement( "messagewidget" );
 	UMLWidget::saveToXMI( qDoc, messageElement );
-	//messageElement.setAttribute( "textid", m_nTextID );
+	messageElement.setAttribute( "textid", m_pFText->getID() );
 	messageElement.setAttribute( "widgetaid", m_pOw[A]->getLocalID() );
 	messageElement.setAttribute( "widgetbid", m_pOw[B]->getLocalID() );
 	messageElement.setAttribute( "operation", m_Operation );
@@ -659,13 +650,18 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement) {
 	if ( !UMLWidget::loadFromXMI(qElement) ) {
 		return false;
 	}
-	//QString textid = qElement.attribute( "textid", "-1" );
+	QString textid = qElement.attribute( "textid", "-1" );
 	QString widgetaid = qElement.attribute( "widgetaid", "-1" );
 	QString widgetbid = qElement.attribute( "widgetbid", "-1" );
 	m_Operation = qElement.attribute( "operation", "" );
 	m_SequenceNumber = qElement.attribute( "seqnum", "" );
 	QString sequenceMessageType = qElement.attribute( "sequencemessagetype", "1001" );
 	m_sequenceMessageType = (Sequence_Message_Type)sequenceMessageType.toInt();
+
+	int textId = textid.toInt();
+	UMLWidget *flotext = m_pView -> findWidget( textId );
+	if (flotext != NULL)
+		m_pFText = static_cast<FloatingText*>(flotext);
 
 	int aId = widgetaid.toInt();
 	int bId = widgetbid.toInt();

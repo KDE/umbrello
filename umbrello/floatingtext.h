@@ -274,11 +274,6 @@ private:
 	/**
 	 * Override default method
 	 */
-	void moveEvent(QMoveEvent* /*m*/);
-
-	/**
-	 * Override default method
-	 */
 	void resizeEvent(QResizeEvent* /*re*/);
 
 	/**

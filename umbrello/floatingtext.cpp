@@ -66,10 +66,6 @@ void FloatingText::draw(QPainter & p, int offsetX, int offsetY) {
 		drawSelected(&p, offsetX, offsetY);
 }
 
-void FloatingText::moveEvent(QMoveEvent * /*m*/) {
-	// adjustAssocs(getX(), getY()); // NO, I dont think so. This can create major problems.
-}
-
 void FloatingText::resizeEvent(QResizeEvent * /*re*/) {}
 
 void FloatingText::setLinePos(int x, int y) {
@@ -331,24 +327,22 @@ void FloatingText::showOpDlg() {
 }
 
 void FloatingText::mouseMoveEvent(QMouseEvent* me) {
-	if( m_bMouseDown || me->button() == LeftButton ) {
-		QPoint newPosition = doMouseMove(me);
-		int newX = newPosition.x();
-		int newY = newPosition.y();
+	if (m_Role == tr_Seq_Message_Self ||
+	    (!m_bMouseDown && me->button() != LeftButton) )
+		return;
+	QPoint newPosition = doMouseMove(me);
+	int newX = newPosition.x();
+	int newY = newPosition.y();
 
-		//implement specific rules for a sequence diagram
-		if( m_Role == tr_Seq_Message || m_Role == tr_Seq_Message_Self) {
-			m_pLink->updateMessagePos(getHeight(), newX, newY);
-		}
-		m_nOldX = newX;
+	m_nOldX = newX;
+	setX( newX );
+	if (m_Role != tr_Seq_Message) {
 		m_nOldY = newY;
-		setX( newX );
 		setY( newY );
-		if (m_pLink)
-			m_pLink->calculateNameTextSegment();
-		m_pView->resizeCanvasToItems();
-		moveEvent(0);
 	}
+	if (m_pLink)
+		m_pLink->calculateNameTextSegment();
+	m_pView->resizeCanvasToItems();
 }
 
 QString FloatingText::getPreText() const {
