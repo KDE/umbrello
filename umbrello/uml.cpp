@@ -658,7 +658,7 @@ void UMLApp::slotFileSave() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool UMLApp::slotFileSaveAs()
 {
-	slotStatusMsg(i18n("Saving file with a new filename..."));
+	slotStatusMsg(i18n("Saving file with a new file name..."));
 	bool cont = true;
 	KURL url;
 	QString ext;
