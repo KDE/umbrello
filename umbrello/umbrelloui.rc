@@ -35,7 +35,6 @@
     <Action name="import_class"/>
     <Action name="generation_wizard"/>
     <Action name="generate_all"/>
-    <Action name="configure_languages"/>
     <Menu name="active_lang_menu"><text>Active &amp;Language</text>
     </Menu>
     <Separator/>

@@ -62,12 +62,12 @@ AssocPage::~AssocPage() {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void AssocPage::slotDoubleClick(QListBoxItem * i) {
-	
+
 	int item = m_pAssocLB -> currentItem();
 	UMLAssociation *a = m_associations.at(item);
 	if(!i || !a)
 		return;
-	
+
 	AssocPropDlg dlg(this, a);
 	int result = dlg.exec();
 	if(result) {
@@ -84,7 +84,7 @@ void AssocPage::fillListBox() {
 
 	m_pAssocLB->clear();
 	m_associations.clear();
-	
+
 	UMLAssociation *a;
 	UMLAssociationList list;
 	UMLCanvasObject *c = dynamic_cast<UMLCanvasObject*>(m_pObject);
@@ -93,7 +93,7 @@ void AssocPage::fillListBox() {
 		kdWarning()<<"AssocPage created for an object which is not a UMLCanvasObject!"<<endl;
 		return;
 	}
-	int i = 0; 
+	int i = 0;
 	list = c->getGeneralizations();
 	for( a = list.first(); a; a = list.next() )
 	{
@@ -150,7 +150,7 @@ void AssocPage::slotRightButtonPressed(QListBoxItem * item, const QPoint & p) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void AssocPage::slotPopupMenuSel(int id) {
-	UMLAssociation *a = m_associations.at(m_pAssocLB -> currentItem());
+//	UMLAssociation *a = m_associations.at(m_pAssocLB -> currentItem());
 	switch(id) {
 		case ListPopupMenu::mt_Delete:
 			kdWarning()<<"FIXME - change m_pView->removeAssocInViewAndDoc(a) to use a UMLAssociation"<<endl;

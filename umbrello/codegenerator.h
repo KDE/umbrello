@@ -428,76 +428,14 @@ signals:
 
 };
 
-/**
- * CodeGeneratorFactory is the Factory class for the library.
- * see the documentation of KLibFactory.
- * see the example implementation in "factory.cpp" by Luis De la Parra
- *
- * This class creates Objects and returns them to be used by the application.
- *
- * If you want to write a library containing Code Generators, you have
- * to implement the generators you want by subclassing CodeGenerator
- * (see the doc for CodeGenerator) and implement CodeGeneratorFactory. Then
- * build the library as "shared library" with the option "module" so
- * that it can be dlopened, and distribute it.
- *
- * Your implementation of CodeGeneratorFactory should behave like this:
- *
- * languagesAvailable() must return a QStringList of all the languages
- * offered by this library. For example, if in your library you
- * implement generators for C++, Python, and "PseudoCode", then you
- * should return a list containing this names.
- *
- * generatorName(const QString &l) must return the Class name of the
- * object implementing the language "l". Remember that you can name
- * your generators what you want, so if you subclased CodeGenerator
- * and created a class named "MyFirstCodeGenerator", which outputs
- * Java code, then you should return a QString "MyFirstCodeGenerator"
- * when l = "Java" If your library doesnt recognize /does not
- * implement the language "l", then return an empty string.
- *
- * createObject (...) receives a object name in "name". you should
- * check what this is and then return a object of that type. For
- * example, if name = "MyFirstCodeGenerator", then you should create
- * an object of that type and return a pointer to it. If you did not
- * write any class named "name" in your library, return NULL
- */
-
-class CodeGeneratorFactory : public KLibFactory {
-        Q_OBJECT
-public:
-
-        CodeGeneratorFactory( QObject *parent = 0, const char *name = 0 );
-        virtual ~CodeGeneratorFactory();
-
-        /**
-         * Returns a QStringList containing the languages offered by this library
-         */
-        QStringList languagesAvailable();
-
-        /**
-         * Returns the name of the generator which implements language l
-         */
-        QString generatorName(const QString &l);
-
-        virtual QObject* createObject ( QObject* parent = 0,
-                                        const char* pname = 0,
-                                        const char* name = "QObject",
-                                        const QStringList &args = QStringList()
-                                      );
-
-private:
-
-        static KInstance* s_instance;
-
-};
-
-
+//FIXME
 // is this class really needed still??
+//
+// not really, it's just too much effort to replace it with a QStringList
+// (needs editing uml.cpp in various places) -- jr
 class GeneratorInfo {
 public:
         QString language;
-        QString library;
         QString object;
 
 };

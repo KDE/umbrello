@@ -14,6 +14,7 @@
 #include "docwindow.h"
 #include "codegenerator.h"
 #include "codegenerationpolicy.h"
+#include "codegenerators/codegenfactory.h"
 
 #include "umldoc.h"
 #include "umllistview.h"
@@ -25,9 +26,7 @@
 #include "dialogs/classwizard.h"
 #include "dialogs/codegenerationwizard.h"
 #include "dialogs/codeviewerdialog.h"
-#include "dialogs/configcodegenerators.h"
 #include "dialogs/diagramprintpage.h"
-#include "dialogs/selectlanguagesdlg.h"
 
 #include "refactoring/refactoringassistant.h"
 #include "codegenerators/simplecodegenerator.h"
@@ -65,7 +64,7 @@ UMLApp::UMLApp(QWidget* , const char* name):KDockMainWindow(0, name) {
 	m_pDocWindow = 0;
 	config=kapp->config();
 	listView = 0;
-	ldict.setAutoDelete(true);
+	generatorDict.setAutoDelete(true);
 	langSelect = 0L;
 	zoomSelect = 0L;
 	loading = false;
@@ -173,9 +172,6 @@ void UMLApp::initActions() {
 
 	importClasses = new KAction(i18n("&Import Classes..."), SmallIconSet("source_cpp"), 0,
 				    this,SLOT(slotImportClasses()), actionCollection(),"import_class");
-
-	confLanguages = new KAction(i18n("&Add/Remove Generation Languages..."),0,this,
-	                            SLOT(configureLanguages()),actionCollection(),"configure_languages");
 
 	fileNew->setStatusText(i18n("Creates a new document"));
 	fileOpen->setStatusText(i18n("Opens an existing document"));
@@ -478,7 +474,7 @@ void UMLApp::saveOptions() {
 	      m_defaultcodegenerationpolicy->setDefaults(gen->getPolicy());
 
 	// write the config for each language-specific code gen policies
-	QDictIterator<GeneratorInfo> it( ldict );
+	QDictIterator<GeneratorInfo> it( generatorDict );
 	for(it.toFirst() ; it.current(); ++it )
 	{
 		CodeGenerator * gen = doc->findCodeGeneratorByLanguage(it.current()->language);
@@ -491,28 +487,7 @@ void UMLApp::saveOptions() {
 
 	// next, we record the activeLanguage in the Code Generation Group
 	config->setGroup("Code Generation");
-	config->writeEntry("activeLanguage",activeLanguage);
-
-	//now, we save library information
-	QStringList libsknown;
-	QDict<QStringList> llist;
-	llist.setAutoDelete(true);
-//	QDictIterator<GeneratorInfo> it( ldict );
-	QStringList templ;
-	for(it.toFirst() ; it.current(); ++it ) {
-		if(!libsknown.contains(it.current()->library))
-			libsknown.append(it.current()->library);
-		if(!llist.find(it.current()->library))
-			llist.insert(it.current()->library,new QStringList());
-
-		llist[it.current()->library]->append(it.current()->language);
-		llist[it.current()->library]->append(it.current()->object);
-	}
-
-	config -> writeEntry("libsKnown",libsknown);
-	QDictIterator<QStringList> sit(llist);
-	for(sit.toFirst();sit.current();++sit)
-		config -> writeEntry(sit.currentKey(),**sit);
+	config->writeEntry("activeLanguage", activeLanguage);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLApp::readOptions() {
@@ -931,13 +906,13 @@ void UMLApp::slotCopyChanged() {
 
 void UMLApp::slotPrefs() {
 	/* the KTipDialog may have changed the value */
-	config -> setGroup( "TipOfDay");
-	optionState.generalState.tip = config -> readBoolEntry( "RunOnStart", true );
+	config->setGroup("TipOfDay");
+	optionState.generalState.tip = config->readBoolEntry( "RunOnStart", true );
 
-	dlg = new SettingsDlg(this, optionState, ldict, activeLanguage, getGenerator());
+	dlg = new SettingsDlg(this, optionState, generatorDict, activeLanguage, getGenerator());
 	connect(dlg, SIGNAL( applyClicked() ), this, SLOT( slotApplyPrefs() ) );
 
-	if( dlg->exec() == QDialog::Accepted && dlg->getChangesApplied() ) {
+	if ( dlg->exec() == QDialog::Accepted && dlg->getChangesApplied() ) {
 		slotApplyPrefs();
 	}
 
@@ -1045,15 +1020,13 @@ void UMLApp::readOptionState() {
 
 
 /** Call the code viewing assistant on a code document */
-void UMLApp::viewCodeDocument ( UMLClassifier * c)
-{
+void UMLApp::viewCodeDocument(UMLClassifier* classifier) {
 
 	CodeGenerator * currentGen = getGenerator();
-        if(currentGen && c)
-        {
- 		if(!dynamic_cast<SimpleCodeGenerator*>(currentGen))
+	if(currentGen && classifier) {
+		if(!dynamic_cast<SimpleCodeGenerator*>(currentGen))
 		{
-		   CodeDocument *cdoc = currentGen->findCodeDocumentByClassifier(c);
+		   CodeDocument *cdoc = currentGen->findCodeDocumentByClassifier(classifier);
 
 		   if (cdoc) {
 			CodeViewerDialog * dialog = currentGen->getCodeViewerDialog(this,cdoc,optionState.codeViewerState);
@@ -1072,22 +1045,21 @@ void UMLApp::viewCodeDocument ( UMLClassifier * c)
 
 }
 
-void UMLApp::refactor( UMLClassifier *c ){
- if(! m_refactoringAssist )
- {
-	m_refactoringAssist = new RefactoringAssistant( doc, 0, 0, "refactoring_assistant" );
- }
- m_refactoringAssist->refactor( c );
- m_refactoringAssist->show();
+void UMLApp::refactor(UMLClassifier* classifier) {
+	if (!m_refactoringAssist) {
+		m_refactoringAssist = new RefactoringAssistant( doc, 0, 0, "refactoring_assistant" );
+	}
+	m_refactoringAssist->refactor(classifier);
+	m_refactoringAssist->show();
 }
 
-void UMLApp::setGenerator ( CodeGenerator * gen, bool giveWarning ) {
+void UMLApp::setGenerator(CodeGenerator* gen, bool giveWarning) {
 
-	if(!gen )
-	{
-		if(giveWarning)
-			KMessageBox::sorry(this,i18n("Could not find a code generator. Is the code generation library out of date?\n Please (re-)install libcodegenerator."),i18n("No Code Generation Library"));
-
+	if (!gen) {
+		if(giveWarning)  {
+			KMessageBox::sorry(this, i18n("Could not find a code generator."),
+					   i18n("No Code Generator"));
+		}
 		return;
 	}
 
@@ -1097,15 +1069,15 @@ void UMLApp::setGenerator ( CodeGenerator * gen, bool giveWarning ) {
         // existing policies to the default policy via callbacks, but it
         // is more work and harder to implment. THis simple solution is ugly
         // but works. -b.t.
-        CodeGenerator * current = getDocument()->getCurrentCodeGenerator();
-        if (current)
+        CodeGenerator* current = getDocument()->getCurrentCodeGenerator();
+        if (current)  {
                 m_defaultcodegenerationpolicy->setDefaults(current->getPolicy(), false);
+	}
 
         // now set defaults on the new generator policy from the default policy
         gen->getPolicy()->setDefaults(m_defaultcodegenerationpolicy, true);
 
 	getDocument()->setCurrentCodeGenerator(gen);
-
 }
 
 CodeGenerator* UMLApp::getGenerator(bool warnMissing ) {
@@ -1122,15 +1094,15 @@ CodeGenerator* UMLApp::getGenerator(bool warnMissing ) {
 }
 
 CodeGenerator* UMLApp::createGenerator() {
-	GeneratorInfo *info;
-	CodeGenerator *g = 0;
+	GeneratorInfo* info;
+	CodeGenerator* g = 0;
 
 	if(activeLanguage.isEmpty()) {
 		KMessageBox::sorry(this,i18n("There is no active language defined.\nPlease select\
 		                             one of the installed languages to generate the code with."),i18n("No Language Selected"));
 		return 0;
 	}
-	info = ldict.find(activeLanguage);
+	info = generatorDict.find(activeLanguage);
 	if(!info) {
 		KMessageBox::sorry(this,i18n("Could not find active language.\nPlease select\
 		                             one of the installed languages to generate the code with."),i18n("No Language Selected"));
@@ -1144,28 +1116,11 @@ CodeGenerator* UMLApp::createGenerator() {
 		return g;
 	}
 
-	KLibLoader *loader = KLibLoader::self();
-	if(!loader) {
-		kdDebug()<<"error getting KLibLoader!"<<endl;
-		return 0;
-	}
+	CodeGeneratorFactory codeGeneratorFactory;
+	QString generatorName = codeGeneratorFactory.generatorName(activeLanguage);
+	g = codeGeneratorFactory.createObject(getDocument(), generatorName.latin1());
 
-	KLibFactory *fact = loader->factory(info->library.latin1());
-	if(!fact) {
-		kdDebug()<<"error getting the Factory"<<endl;
-		return 0;
-	}
-
-	QObject *o=fact->create(doc,0,info->object.latin1());
-	if(!o) {
-		kdDebug()<<"could not create object"<<endl;
-		return 0;
-	}
-
-	//g = static_cast<CodeGenerator*>(o);
-	g = dynamic_cast<CodeGenerator*>(o);
-
-        // now set defaults on the new policy from the the configuration
+        // now set defaults on the new policy from the configuration
         // file and THEN the default policy, which may have been updated
 	// since it was first created. In both cases, DONT emit the modifiedCodeContent
 	// signal as we will be doing that later.
@@ -1181,15 +1136,7 @@ CodeGenerator* UMLApp::createGenerator() {
 	getDocument()->addCodeGenerator(g);
 
 	return g;
-}
 
-void UMLApp::configureLanguages() {
-	ConfigCodeGenerators d(ldict,this);
-	if(d.exec()) {
-		ldict.clear();
-		ldict = d.configDictionary();
-		updateLangSelectMenu();
-	}
 }
 
 void UMLApp::generateAllCode() {
@@ -1200,7 +1147,7 @@ void UMLApp::generateAllCode() {
 }
 
 void UMLApp::generationWizard() {
-	CodeGenerationWizard wizard(doc, 0, ldict, activeLanguage, this);
+	CodeGenerationWizard wizard(doc, 0, generatorDict, activeLanguage, this);
 	wizard.exec();
 }
 
@@ -1349,128 +1296,29 @@ void UMLApp::slotDeleteDiagram() {
 	doc->removeDiagram( doc->getCurrentView()->getID() );
 }
 
-void UMLApp::initLibraries() {
-	KStandardDirs stdDirs;
-	QStringList libsKnown, libsFound, libsMissing,strlist;
-	QString str;
-	config -> setGroup("Code Generation");
-	activeLanguage = config->readEntry("activeLanguage");
-	//first search for libraries in all "codegenerators" directoris, and then
-	//see which of them are already known and which are new
-	libsFound = stdDirs.findAllResources("data","umbrello/codegenerators/*.la",false,true);
+void UMLApp::initGenerators() {
+	config->setGroup("Code Generation");
+	activeLanguage = config->readEntry("activeLanguage", "Cpp");
 
-	QFileInfo fi;
-	for ( QStringList::Iterator it = libsFound.begin(); it != libsFound.end(); ++it ) {
-		fi.setFile(*it);        //leav only filename (no path, no extension)
-		*it = fi.fileName().left(fi.fileName().length()-3);
+	CodeGeneratorFactory codeGeneratorFactory;
+	QStringList languages = codeGeneratorFactory.languagesAvailable();
+	for ( QStringList::Iterator langit = languages.begin(); langit != languages.end(); ++langit ) {
+		GeneratorInfo* info;
+		info = new GeneratorInfo;
+		info->language = *langit;  //language name
+		info->object = codeGeneratorFactory.generatorName(*langit);
+		generatorDict.insert(info->language,info);
 	}
 
-
-	libsKnown = config->readListEntry("libsKnown",':');
-
-	for ( QStringList::Iterator it = libsKnown.begin(); it != libsKnown.end(); ++it )
-		if(libsFound.contains(*it))
-			libsFound.remove(*it);
-		else
-			libsMissing.append(*it); //it was registered and now is gone,
-	// add to missing libs.
-
-
-	for ( QStringList::Iterator it = libsMissing.begin(); it != libsMissing.end(); ++it )
-		libsKnown.remove(*it);
-
-
-	//debug output..
-	for ( QStringList::Iterator it = libsKnown.begin(); it != libsKnown.end(); ++it )
-		kdDebug()<<"Known lib: "<<*it<<endl;
-	for ( QStringList::Iterator it = libsFound.begin(); it != libsFound.end(); ++it )
-		kdDebug()<<"New lib: "<<*it<<endl;
-	for ( QStringList::Iterator it = libsMissing.begin(); it != libsMissing.end(); ++it )
-		kdDebug()<<"Missing lib: "<<*it<<endl;
-	///////////////
-
-	//add paths for the library loader.
-	QString ld_path = getenv("LD_LIBRARY_PATH");
-	if(!ld_path.isEmpty())
-		ld_path +=":";
-
-	QStringList dirs = stdDirs.findDirs("data","umbrello/codegenerators/");
-	for ( QStringList::Iterator it = dirs.begin(); it != dirs.end(); ++it )
-		ld_path+=*it+":";
-
-	setenv("LD_LIBRARY_PATH",ld_path.latin1(),1);
-
-
-
-	QStringList languages;
-	GeneratorInfo *info;
-
-	//////// Load information for already registered libraries.
-	for ( QStringList::Iterator it = libsKnown.begin(); it != libsKnown.end(); ++it ) {
-		languages = config->readListEntry(*it);
-		for ( QStringList::Iterator lit = languages.begin(); lit != languages.end(); ++lit ) {
-			info = new GeneratorInfo;
-			info -> language = *lit;  //language name
-			info->library = *it ;
-			++lit;                 //go to next entry list (object)
-			info->object = *lit;
-			ldict.insert(info->language,info);
-		}
-	}
-
-
-
-	//////// Register new libraries
-	if(!libsFound.isEmpty()) {
-
-		KMessageBox::information(this,i18n("Umbrello UML Modeller found new code generation libraries.\nPlease select the languages you want to use."),
-		                         i18n("New Libraries Found"));
-
-		SelectLanguagesDlg d(this);
-		d.offerLanguages(libsFound);
-		if(d.exec()) {
-			GeneratorInfoDict tempdict;
-			tempdict = d.selectedLanguages();
-			tempdict.setAutoDelete(false);
-			QDictIterator<GeneratorInfo> dictit( tempdict );
-			for( dictit.toFirst(); dictit.current(); ++dictit ) { //check if there is another language with the same name in other lib...
-				info = dictit.current();
-				int suffix=2;
-				if(ldict.find(info->language)) {
-					while(ldict.find(info->language+":"+QString::number(suffix)))
-						suffix++;
-					info->language+=":" + QString::number(suffix);
-				}
-				ldict.insert(info->language,info);
-			}
-		}
-
-	} //endif (!libFound.isEmpty())
-
-	////////// Discard deleted libraries
-	if(!libsMissing.isEmpty()) {
-		for ( QStringList::Iterator it = libsMissing.begin(); it != libsMissing.end(); ++it )
-			str += *it + "\n";
-
-
-		KMessageBox::information(this,i18n("The following libraries are registered in Umbrello UML Modeller\
-		                                   for code generation but can not be found. They will be removed from the configuration.\n")+ str);
-		//maybe show the path were the libs were looked for?
-
-	}
-
-
-	///////// Finaly done... just update the language selection menu.
 	updateLangSelectMenu();
 }
-
 
 void UMLApp::updateLangSelectMenu() {
 	langSelect->clear();
 	langSelect->setCheckable(true);
 	int id;
 	bool foundActive = false;
-	QDictIterator<GeneratorInfo> it( ldict );
+	QDictIterator<GeneratorInfo> it( generatorDict );
 	for(it.toFirst() ; it.current(); ++it ) {
 		id = langSelect->insertItem(it.current()->language,this,SLOT(setActiveLanguage(int)));
 		if(activeLanguage == it.current()->language) {
@@ -1483,13 +1331,13 @@ void UMLApp::updateLangSelectMenu() {
 	//if we could not find the active language, we try to fall back to C++
 	if(!foundActive) {
 		for(uint index=0; index <langSelect->count(); index++)
-			if (langSelect->text(langSelect->idAt(index)) =="Cpp" ) {
+			if ( langSelect->text(langSelect->idAt(index)) == "Cpp" ) {
 				langSelect->setItemChecked(langSelect->idAt(index),true);
 				activeLanguage = langSelect->text(langSelect->idAt(index));
 				break;
 			}
 	}
-	//last try... if we dont have a activeLanguage and we have no Cpp installed we just
+	//last try... if we dont have an activeLanguage and we have no Cpp installed we just
 	//take the first language we find as "active"
 	if(activeLanguage.isEmpty() && langSelect->count() > 0) {
 		langSelect -> setItemChecked(langSelect->idAt(0),true);
@@ -1537,7 +1385,7 @@ void UMLApp::newDocument() {
 
 void UMLApp::initSavedCodeGenerators() {
 	QString activeLang = activeLanguage;
-        QDictIterator<GeneratorInfo> it( ldict );
+        QDictIterator<GeneratorInfo> it( generatorDict );
         for(it.toFirst() ; it.current(); ++it )
 	{
 		activeLanguage = it.current()->language;

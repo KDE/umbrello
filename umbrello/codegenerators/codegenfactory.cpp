@@ -16,16 +16,18 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "codegenfactory.h"
 #include "../codegenerator.h"
+#include "../umldoc.h"
 
-// the new 
+// the new
 #include "cppcodegenerator.h"
 #include "javacodegenerator.h"
 #include "xmlschemawriter.h"
 
 // the old
 #include "adawriter.h"
-// #include "cswriter.h" // missing in action?!? 
+// #include "cswriter.h" // missing in action?!?
 #include "idlwriter.h"
 #include "phpwriter.h"
 #include "perlwriter.h"
@@ -37,14 +39,11 @@
 #include "qstringlist.h"
 #include <kdebug.h>
 
-CodeGeneratorFactory::CodeGeneratorFactory( QObject* parent, const char* name )
-		:KLibFactory( parent, name ) {
-	s_instance = new KInstance("CodeGeneratorFactory");
+CodeGeneratorFactory::CodeGeneratorFactory()  {
 	kdDebug()<<"CodeGeneratorFactory created"<<endl;
 }
 
 CodeGeneratorFactory::~CodeGeneratorFactory() {
-	delete s_instance;
 }
 
 QStringList CodeGeneratorFactory::languagesAvailable() {
@@ -93,69 +92,49 @@ QString CodeGeneratorFactory::generatorName(const QString &l) {
  	if (l == "SQL")
  		return "SQLWriter";
  	if (l == "XMLSchema")
- 		//return "XMLSchemaCodeGenerator";
  		return "XMLSchemaWriter";
 	//else...
 	kdDebug()<<"CodeGeneratorFactory::Error: no generator for language "<<l<<endl;
 	return "";
 }
 
-QObject* CodeGeneratorFactory::createObject ( QObject* parent, const char* name, 
-                                                 const char *cname, const QStringList & 
-                                            ) 
-{
+CodeGenerator* CodeGeneratorFactory::createObject(UMLDoc* doc, const char* name)  {
+	CodeGenerator* obj = 0;
+	QString cname(name);
 
-	QString n(cname);
+	if (doc) {
 
-	kdDebug()<<"Trying to create object of type "<<n<<endl;
-
-	QObject *obj = 0;
-	UMLDoc * doc = dynamic_cast<UMLDoc *>(parent);
-
-	if(doc) {
-
-		if(n =="JavaCodeGenerator") {
+		if(cname =="JavaCodeGenerator") {
 			obj = new JavaCodeGenerator(doc, name);
-		} else if( n == "CppCodeGenerator") {
+		} else if(cname == "CppCodeGenerator") {
 			obj = new CPPCodeGenerator(doc, name);
- 		} else if (n == "XMLSchemaCodeGenerator") {
-			//obj = new XMLSchemaCodeGenerator(doc, name);
+ 		} else if (cname == "XMLSchemaCodeGenerator") {
 			obj = new XMLSchemaWriter(doc, name);
-		} else if (n == "AdaWriter") {
+		} else if (cname == "AdaWriter") {
 			obj = new AdaWriter(doc, name);
-		} else if(n == "ASWriter") {
+		} else if(cname == "ASWriter") {
 			obj = new ASWriter( doc, name );
-//		} else if(n == "C#Writer") {
+//		} else if(cname == "C#Writer") {
 //			obj = new CsWriter( doc, name );
-		} else if(n == "IDLWriter") {
+		} else if(cname == "IDLWriter") {
 			obj = new IDLWriter( doc, name );
-		} else if(n == "JSWriter") {
+		} else if(cname == "JSWriter") {
 			obj = new JSWriter( doc, name );
-		} else if (n == "PHPWriter") {
+		} else if (cname == "PHPWriter") {
 			obj = new PhpWriter( doc, name);
- 		} else if (n == "PerlWriter") {
+ 		} else if (cname == "PerlWriter") {
 			obj = new PerlWriter( doc, name);
- 		} else if (n == "PythonWriter") {
+ 		} else if (cname == "PythonWriter") {
 			obj = new PythonWriter( doc, name);
- 		} else if (n == "SQLWriter") {
+ 		} else if (cname == "SQLWriter") {
 			obj = new SQLWriter( doc, name);
 		} else {
-			kdDebug()<<"CodeGeneratorFactory:: cannot create object of type "<<n<<". Type unknown"<<endl;
+			kdWarning() << "cannot create object of type " << name <<
+				". Type unknown" << endl;
 		}
 
 	} else {
-		kdDebug()<<"CodeGeneratorFactory:: cannot create parent UML document"<<endl;
+		kdWarning() << "cannot create parent UML document" << endl;
 	}
 	return obj;
 }
-
-//this function should be named after the library name
-extern "C" {
-	void* init_libcodegenerator() {
-		return new CodeGeneratorFactory;
-	}
-
-}
-
-KInstance* CodeGeneratorFactory::s_instance = 0L;
-

@@ -29,8 +29,8 @@ Boxes, notes and sequence diagram messages can be resized just click and drag on
 
 <tip category="Umbrello">
 <html>
-<p>Many new code generators have been added in this release.  If you had an earlier version
-installed you may need to initialize it from Code menu->Add/Remove Languages.</p>
+<p>Many new code generators have been added in this release.  You can now generate code for
+JavaScript, ActionScript, XMLSchema, Perl, Python, SQL, IDL and Ada.</p>
 </html>
 </tip>
 

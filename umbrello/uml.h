@@ -181,7 +181,7 @@ public:
 	 *
 	 * @return	Pointer to the CodeGenerator.
 	 */
-	CodeGenerator * getGenerator(bool warnMissing = true);
+	CodeGenerator* getGenerator(bool warnMissing = true);
 
 	/**
 	 * Set the current generator for this app.
@@ -192,7 +192,7 @@ public:
 	 * @param gen		Pointer to the CodeGenerator to set.
 	 * @param giveWarning	True to enable out-of-date warning.
          */
-	void setGenerator( CodeGenerator * gen , bool giveWarning = true );
+	void setGenerator(CodeGenerator* gen, bool giveWarning = true);
 
 	/**
 	 * Creates a new code generator for the given active language.
@@ -207,14 +207,14 @@ public:
 	 *
 	 * @param	Pointer to the classifier to refactor.
 	 */
-	void refactor( UMLClassifier* );
+	void refactor(UMLClassifier* classifier);
 
 	/**
 	 * Call the code viewing assistant on a given UMLClassifier.
 	 *
 	 * @param	Pointer to the classifier to view.
 	 */
-	void viewCodeDocument ( UMLClassifier * c);
+	void viewCodeDocument(UMLClassifier* classifier);
 
 	/**
 	 * Sets the state of the view properties menu item.
@@ -367,11 +367,10 @@ public slots:
 	
 
 	/**
-	 * Sets up information for dinamically loaded libraries. It
-	 * scans directories looking for new libraries and registers
-	 * them, and deregister the libraries that are not found
+	 * Sets up generatorDict with all the available code
+	 * generators and calls updateLangSelectMenu()
 	 */
-	void initLibraries();
+	void initGenerators();
 
 	/**
 	 * Runs the code generation wizard.
@@ -546,11 +545,6 @@ public slots:
 	void setActiveLanguage(QString activeLanguage);
 
 	/**
-	 * Shows a dialog to add or remove Generators (languages)
-	 */
-	void configureLanguages();
-
-	/**
 	 * Menu selection for clear current view.
 	 */
 	void slotCurrentViewClearDiagram();
@@ -688,7 +682,7 @@ private:
 	 * at run time:
 	 * Language (so that the user can choose), library and object name.
 	 */
-	QDict<GeneratorInfo> ldict;
+	QDict<GeneratorInfo> generatorDict;
 
 	/**
 	 * Reads from the config file the options state.
@@ -798,7 +792,6 @@ private:
 
 	KAction* genAll;
 	KAction* genWizard;
-	KAction* confLanguages;
 	KAction* importClasses;
 	KAction* classWizard;
 	KAction* deleteSelectedWidget;

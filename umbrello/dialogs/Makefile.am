@@ -36,7 +36,6 @@ codegenerationpolicypage.cpp \
 codegenerationwizard.cpp \
 codeviewerdialog.cpp \
 codevieweroptionspage.cpp \
-configcodegenerators.cpp \
 defaultcodegenpolicypage.cpp \
 diagramprintpage.cpp \
 interfacepropertiespage.cpp \
@@ -45,7 +44,6 @@ overwritedialogue.cpp \
 packagepropertiespage.cpp \
 parameterpropertiespage.cpp \
 parmpropdlg.cpp \
-selectlanguagesdlg.cpp \
 selectopdlg.cpp \
 settingsdlg.cpp \
 statedialog.cpp \

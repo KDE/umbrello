@@ -1,4 +1,4 @@
-lib_LTLIBRARIES = libcodegenerator.la
+noinst_LTLIBRARIES = libcodegenerator.la
 
 INCLUDES = -I../dialogs $(all_includes)
 
@@ -26,10 +26,3 @@ libcodegenerator_la_SOURCES = codegenfactory.cpp classifierinfo.cpp \
 				phpwriter.cpp pythonwriter.cpp sqlwriter.cpp xmlschemawriter.cpp \
 				xmlelementcodeblock.cpp xmlcodecomment.cpp
 libcodegenerator_la_COMPILE_FIRST = ../dialogs/codegenerationpolicybase.h
-
-install-data-local:
-	$(mkinstalldirs) $(DESTDIR)$(kde_datadir)/umbrello/codegenerators/
-	$(INSTALL_DATA) libcodegenerator.la $(DESTDIR)$(kde_datadir)/umbrello/codegenerators/libcodegenerator.la
-
-uninstall-local:
-	-rm -f $(DESTDIR)$(kde_datadir)/umbrello/codegenerators/libcodegenerator.la
