@@ -189,7 +189,7 @@ void AdaWriter::writeClass(UMLConcept *c) {
 			UMLAttribute *at;
 			ada << spc() << "type " << classname << " is(\n";
 			indentlevel++;
-			int i = 0;
+			uint i = 0;
 			for (at = atl->first(); at; at = atl->next()) {
 				QString enumLiteral = cleanName(at->getName());
 				ada << spc() << enumLiteral;
@@ -450,7 +450,7 @@ void AdaWriter::writeOperation(UMLOperation *op, QTextStream &ada, bool is_comme
 			ada << ";\n";
 	}
 	if (atl->count()) {
-		int i = 0;
+		uint i = 0;
 		indentlevel++;
 		for (UMLAttribute *at = atl->first(); at; at = atl->next()) {
 			ada << spc();
