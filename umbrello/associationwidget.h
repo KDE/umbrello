@@ -836,8 +836,7 @@ private:
 	/**
 	 * Auxiliary method for calculateEndingPoints().
 	 */
-	void doUpdates(Region& region, Region oldRegion,
-		       int index, int totalCount, Role_Type role);
+	void doUpdates(int otherX, int otherY, Role_Type role);
 
 	/**
 	 * Auxiliary to setMulti{A,B}.

@@ -1046,34 +1046,29 @@ void AssociationWidget::calculateEndingPoints() {
 	 * in the opposite direction (from widgetB to WidgetA)
 	 */
 
-
-	if(!m_role[A].m_pWidget || !m_role[B].m_pWidget)
+	UMLWidget *pWidgetA = m_role[A].m_pWidget;
+	UMLWidget *pWidgetB = m_role[B].m_pWidget;
+	if (!pWidgetA || !pWidgetB)
 		return;
-	int xA =  m_role[A].m_pWidget -> getX();
-	int yA = m_role[A].m_pWidget -> getY();
-	int xB = m_role[B].m_pWidget -> getX();
-	int yB = m_role[B].m_pWidget -> getY();
-	m_role[A].m_OldCorner.setX(xA);
-	m_role[A].m_OldCorner.setY(yA);
-	m_role[B].m_OldCorner.setX(xB);
-	m_role[B].m_OldCorner.setY(yB);
+	m_role[A].m_OldCorner.setX( pWidgetA->getX() );
+	m_role[A].m_OldCorner.setY( pWidgetA->getY() );
+	m_role[B].m_OldCorner.setX( pWidgetB->getX() );
+	m_role[B].m_OldCorner.setY( pWidgetB->getY() );
 	uint size = m_LinePath.count();
-	uint pos = size - 1;
 	if(size < 2)
 		m_LinePath.setStartEndPoints( m_role[A].m_OldCorner, m_role[B].m_OldCorner );
 
-	QRect rc(xA, yA, m_role[A].m_pWidget->width(), m_role[A].m_pWidget->height());
-	//see if an association to self
-	//see if it needs to be set up before we continue
-	//if self association/message and doesn't have the minimum
-	//4 points then create it.  Make sure no points are out of bounds of viewing area
-	//this only happens on first time through that we are worried about.
-	if( m_role[A].m_pWidget == m_role[B].m_pWidget  && size < 4 ) {
+	// See if an association to self.
+	// See if it needs to be set up before we continue:
+	// If self association/message and doesn't have the minimum 4 points
+	// then create it.  Make sure no points are out of bounds of viewing area.
+	// This only happens on first time through that we are worried about.
+	if (pWidgetA == pWidgetB && size < 4) {
 		const int DISTANCE = 50;
-		int x = m_role[A].m_pWidget -> getX();
-		int y = m_role[A].m_pWidget -> getY();
-		int h = m_role[A].m_pWidget -> getHeight();
-		int w = m_role[A].m_pWidget -> getWidth();
+		int x = pWidgetA -> getX();
+		int y = pWidgetA -> getY();
+		int h = pWidgetA -> getHeight();
+		int w = pWidgetA -> getWidth();
 		//see if above widget ok to start
 		if( y - DISTANCE > 0 ) {
 			m_LinePath.setStartEndPoints( QPoint( x + w / 4, y ) , QPoint( x + w * 3 / 4, y ) );
@@ -1088,44 +1083,40 @@ void AssociationWidget::calculateEndingPoints() {
 		}
 		return;
 	}//end a == b
-	//if the line has more than one segment change the values to calculate
-	//from widget to point 1
-	size = m_LinePath.count();
+
+	// If the line has more than one segment change the values to calculate
+	// from widget to point 1.
+	int xB = pWidgetB->getX();
+	int yB = pWidgetB->getY();
 	if( size > 2 ) {
 		QPoint p = m_LinePath.getPoint( 1 );
 		xB = p.x();
 		yB = p.y();
 	}
-	//find widgetA region
-	Region oldRegionA = m_role[A].m_WidgetRegion;
-	m_role[A].m_WidgetRegion = findPointRegion( rc, xB, yB );
-	doUpdates( m_role[A].m_WidgetRegion, oldRegionA, m_role[A].m_nIndex, m_role[A].m_nTotalCount, A);
+	doUpdates(xB, yB, A);
 
-	//now do the same for widgetB
-	//if the line has more than one segment change the values to calculate
-	//from widgetB to point the last point away from it
-	xA =  m_role[A].m_pWidget -> getX();
-	yA = m_role[A].m_pWidget -> getY();
-	xB = m_role[B].m_pWidget -> getX();
-	yB = m_role[B].m_pWidget -> getY();
+	// Now do the same for widgetB.
+	// If the line has more than one segment change the values to calculate
+	// from widgetB to the last point away from it.
+	int xA = pWidgetA->getX();
+	int yA = pWidgetA->getY();
 	if (size > 2 ) {
-		QPoint p = m_LinePath.getPoint( pos - 1 );
+		QPoint p = m_LinePath.getPoint( size - 2 );
 		xA = p.x();
 		yA = p.y();
 	}
-	rc.setX( xB );
-	rc.setY( yB );
-	rc.setWidth( m_role[B].m_pWidget->width() );
-	rc.setHeight( m_role[B].m_pWidget->height() );
-
-	Region oldRegionB = m_role[B].m_WidgetRegion;
-	m_role[B].m_WidgetRegion = findPointRegion( rc, xA, yA );
-	doUpdates( m_role[B].m_WidgetRegion, oldRegionB, m_role[B].m_nIndex, m_role[B].m_nTotalCount, B);
+	doUpdates( xA, yA, B );
 }
 
-void AssociationWidget::doUpdates(Region& region, Region oldRegion,
-				  int index, int totalCount, Role_Type role) {
-	//move some regions to the standard ones
+void AssociationWidget::doUpdates(int otherX, int otherY, Role_Type role) {
+	// Find widget region.
+	Region oldRegion = m_role[role].m_WidgetRegion;
+	UMLWidget *pWidget = m_role[role].m_pWidget;
+	QRect rc(pWidget->getX(), pWidget->getY(),
+		 pWidget->getWidth(), pWidget->getHeight());
+	Region region = findPointRegion( rc, otherX, otherY);
+	m_role[role].m_WidgetRegion = region;
+	// Move some regions to the standard ones.
 	switch( region ) {
 	case NorthWest:
 		region = North;
@@ -1144,6 +1135,7 @@ void AssociationWidget::doUpdates(Region& region, Region oldRegion,
 		break;
 	}
 	int regionCount = getRegionCount(region, role) + 2;//+2 = (1 for this one and one to halve it)
+	int totalCount = m_role[role].m_nTotalCount;
 	if( oldRegion != region ) {
 		int oldCount = totalCount;
 		updateRegionLineCount( regionCount - 1, regionCount, region, role );
@@ -1153,7 +1145,7 @@ void AssociationWidget::doUpdates(Region& region, Region oldRegion,
 		updateRegionLineCount( regionCount - 1, regionCount, region, role );
 		updateAssociations( regionCount, region, role );
 	} else {
-		updateRegionLineCount( index, totalCount, region, role );
+		updateRegionLineCount( m_role[role].m_nIndex, totalCount, region, role );
 		/*
 		 * This update does not seem to be required after all.
 		 * Nevertheless, if you experience strange crossed lines,
@@ -2559,8 +2551,8 @@ void AssociationWidget::updateAssociations(int totalCount,
 		}
 		UMLWidget *wA = roleA->m_pWidget;
 		UMLWidget *wB = roleB->m_pWidget;
-		// Now we must find out with which end of assocwidget connects to
-		// the input widget (ownWidget).
+		// Now we must find out with which end the assocwidget connects
+		// to the input widget (ownWidget).
 		bool inWidgetARegion = ( ownWidget == wA &&
 					 region == roleA->m_WidgetRegion );
 		bool inWidgetBRegion = ( ownWidget == wB &&
@@ -2579,6 +2571,9 @@ void AssociationWidget::updateAssociations(int totalCount,
 			else
 				otherWidget = assocwidget2->m_role[other].m_pWidget;
 			if (ownWidget == otherWidget) {
+#ifdef DEBUG_ASSOCLINES
+				kdDebug() << "skipping (ownWidget == otherWidget)" << endl;
+#endif
 				counter++;
 				continue;
 			}
@@ -2639,6 +2634,9 @@ void AssociationWidget::updateAssociations(int totalCount,
 					ordered.insert(counter, assocwidget);
 				}
 			} // end if (region)
+#ifdef DEBUG_ASSOCLINES
+			else kdDebug() << "not considering region " << region << endl;
+#endif
 			if (aCond || bCond)
 				break;
 			counter++;
