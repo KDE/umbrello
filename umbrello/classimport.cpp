@@ -129,7 +129,7 @@ UMLObject *ClassImport::createUMLObject(Uml::Object_Type type,
 				name.prepend("const ");
 			if (m_putAtGlobalScope)
 				parentPkg = NULL;
-			o = m_umldoc->createUMLObject(Uml::ot_Datatype, name);
+			o = m_umldoc->createUMLObject(Uml::ot_Datatype, name, parentPkg);
 			UMLDatatype *dt = static_cast<UMLDatatype*>(o);
 			UMLClassifier *c = dynamic_cast<UMLClassifier*>(origType);
 			if (c)
