@@ -188,12 +188,9 @@ bool UMLRole::load( QDomElement & element ) {
 		m_SecondaryId = type;
 	}
 	// Inspect child nodes - for multiplicity (and type if not set above.)
-	QDomNode node = element.firstChild();
-	while (!node.isNull()) {
-		if (node.isComment()) {
-			node = node.nextSibling();
+	for (QDomNode node = element.firstChild(); !node.isNull(); node = node.nextSibling()) {
+		if (node.isComment())
 			continue;
-		}
 		QDomElement tempElement = node.toElement();
 		QString tag = tempElement.tagName();
 		if (Uml::tagEq(tag, "name")) {
@@ -206,40 +203,29 @@ bool UMLRole::load( QDomElement & element ) {
 			 *  - direct value in subordinate <MultiplicityRange.lower> and
 			 *    <MultiplicityRange.upper> tags
 			 */
-			m_Multi = tempElement.text().stripWhiteSpace();
-			if (!m_Multi.isEmpty()) {
-				kdDebug() << "UMLRole::load: m_Multi is " << m_Multi << endl;
-				node = node.nextSibling();
+			QDomNode n = tempElement.firstChild();
+			if (node.isNull() || tempElement.isNull() || n.isNull() ||
+			    n.toElement().isNull()) {
+				m_Multi = tempElement.text().stripWhiteSpace();
 				continue;
 			}
-			QDomNode n = tempElement.firstChild();
-			tempElement = n.toElement();
 			tag = tempElement.tagName();
 			if (!Uml::tagEq(tag, "Multiplicity")) {
-				kdDebug() << "UMLRole::load: "
-					  << "expecting Multiplicity in AssociationEnd.multiplicity"
-					  << endl;
-				node = node.nextSibling();
+				m_Multi = tempElement.text().stripWhiteSpace();
 				continue;
 			}
 			n = tempElement.firstChild();
 			tempElement = n.toElement();
 			tag = tempElement.tagName();
 			if (!Uml::tagEq(tag, "Multiplicity.range")) {
-				kdDebug() << "UMLRole::load: "
-					  << "expecting Multiplicity.range in Multiplicity"
-					  << endl;
-				node = node.nextSibling();
+				m_Multi = tempElement.text().stripWhiteSpace();
 				continue;
 			}
 			n = tempElement.firstChild();
 			tempElement = n.toElement();
 			tag = tempElement.tagName();
 			if (!Uml::tagEq(tag, "MultiplicityRange")) {
-				kdDebug() << "UMLRole::load: "
-					  << "expecting MultiplicityRange in Multiplicity.range"
-					  << endl;
-				node = node.nextSibling();
+				m_Multi = tempElement.text().stripWhiteSpace();
 				continue;
 			}
 			QString multiUpper;
@@ -251,7 +237,6 @@ bool UMLRole::load( QDomElement & element ) {
 						m_Multi.append("..");
 					m_Multi.append(multiUpper);
 				}
-				node = node.nextSibling();
 				continue;
 			}
 			n = tempElement.firstChild();
@@ -285,8 +270,9 @@ bool UMLRole::load( QDomElement & element ) {
 					m_SecondaryId = innerElem.attribute("xmi.idref", "");
 			}
 		}
-		node = node.nextSibling();
 	}
+	if (!m_Multi.isEmpty())
+		kdDebug() << "UMLRole::load(" << m_Name << "): m_Multi is " << m_Multi << endl;
 	if (m_SecondaryId.isEmpty()) {
 		kdError() << "UMLRole::load: type not given or illegal" << endl;
 		return false;
@@ -335,7 +321,8 @@ bool UMLRole::load( QDomElement & element ) {
 			m_pAssoc->setAssocType(Uml::at_UniAssociation);
 	}
 
-	m_Multi = element.attribute("multiplicity", "");
+	if (m_Multi.isEmpty())
+		m_Multi = element.attribute("multiplicity", "");
 
 	// Changeability defaults to Changeable if it cant set it here..
 	m_Changeability = Uml::chg_Changeable;
