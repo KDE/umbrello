@@ -33,6 +33,10 @@ AssociationWidget::AssociationWidget(QWidget *parent, AssociationWidgetData& aDa
 
  	init(parent);
 
+ 	// sync UML meta-data to settings in associationwidgetdata
+    	// (e.g. that thing we just grew out of) alongside of our UMLAssociation
+ 	mergeAssociationDataIntoUMLRepresentation();
+
   	connect(m_pView, SIGNAL(sigRemovePopupMenu()), this, SLOT(slotRemovePopupMenu()));
   	connect(m_pView, SIGNAL( sigClearAllSelected() ), this, SLOT( slotClearAllSelected() ) );
 
