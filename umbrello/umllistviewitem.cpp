@@ -278,7 +278,7 @@ void UMLListViewItem::okRename( int col ) {
 	UMLDoc * doc = s_pListView -> getDocument();
 	if( newText.length() == 0 ) {
 		KMessageBox::error( kapp->mainWidget() ,
-				    i18n("The name you entered was invalid!\nRenaming process has been canceled."),
+				    i18n("The name you entered was invalid.\nRenaming process has been canceled."),
 		                    i18n("Name Not Valid") );
 		setText( m_Label );
 		return;
@@ -312,7 +312,7 @@ void UMLListViewItem::okRename( int col ) {
 				//then give a warning about the name being the same
 				UMLObjectList list = parent -> findChildObject( object -> getBaseType(), newText );
 				if(list.isEmpty() || (!list.isEmpty() && KMessageBox::warningYesNo( kapp -> mainWidget() ,
-				                      i18n( "The name you entered was not unique!\nIs this what you wanted?" ),
+				                      i18n( "The name you entered was not unique.\nIs this what you wanted?" ),
 				                      i18n( "Name Not Unique" ) ) == KMessageBox::Yes )) {
 					object -> setName( newText );
 					m_Label = newText;
@@ -368,7 +368,7 @@ void UMLListViewItem::okRename( int col ) {
 			break;
 	}
 	KMessageBox::error( kapp->mainWidget() ,
-			    i18n("The name you entered was invalid!\nRenaming process has been canceled."),
+			    i18n("The name you entered was invalid.\nRenaming process has been canceled."),
 	                    i18n("Name Not Valid") );
 	QListViewItem::setText(0, m_Label);
 }

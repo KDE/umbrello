@@ -1164,7 +1164,7 @@ void UMLDoc::renameChildUMLObject(UMLObject *o) {
 			if((dynamic_cast<UMLClassifier *>(p)->findChildObject(o->getBaseType(), name)
 			        .count() == 0)
 			        || ((o->getBaseType() == Uml::ot_Operation) && KMessageBox::warningYesNo( kapp -> mainWidget() ,
-			                i18n( "The name you entered was not unique!\nIs this what you wanted?" ),
+			                i18n( "The name you entered was not unique.\nIs this what you wanted?" ),
 			                i18n( "Name Not Unique")) == KMessageBox::Yes) ) {
 				o->setName(name);
 				setModified(true);
@@ -1833,10 +1833,10 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element) {
 		}
 
 		// Now, we need to add all the UMLObjects held by the package
-		// should it have any. 
+		// should it have any.
 		if (type == "UML:Package") {
 			UMLObjectList oList = ((UMLPackage*) pObject)->containedObjects();
-			for (UMLObject * obj = oList.first(); obj != 0; obj = oList.next()) 
+			for (UMLObject * obj = oList.first(); obj != 0; obj = oList.next())
 				objectList.append(obj);
 		}
 

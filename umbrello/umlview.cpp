@@ -1565,7 +1565,7 @@ void UMLView::exportImage() {
 	QRect rect = getDiagramRect();
 	if (rect.isEmpty()) {
 		KMessageBox::sorry(0, i18n("Can not save an empty diagram"),
-		                   i18n("Diagram Save Error!"));
+		                   i18n("Diagram Save Error."));
 	} else {
 		//  eps requested
 		if (imageMimetype == "image/x-eps") {
