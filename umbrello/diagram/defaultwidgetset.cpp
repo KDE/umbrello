@@ -105,3 +105,5 @@ DiagramWidget* DefaultWidgetSet::createWidget( UMLObject  *obj, Diagram *diagram
 
 }
 
+
+#include "defaultwidgetset.moc"

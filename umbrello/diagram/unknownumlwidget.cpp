@@ -103,3 +103,5 @@ void UnknownUMLWidget::calculateSize()
 
 
 
+
+#include "unknownumlwidget.moc"
