@@ -23,6 +23,7 @@
 
 #include "umlviewdialog.h"
 #include "../umlview.h"
+#include "../umldoc.h"
 #include "../classwidget.h"
 #include "diagrampropertiespage.h"
 
