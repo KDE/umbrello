@@ -479,9 +479,13 @@ void UMLListView::slotObjectCreated(UMLObject* object) {
 		parentItem = deploymentView;
 		break;
 	default:
-		kdWarning() << "UMLListView: no appropriate parent found for " << object->getName()
+		kdWarning() << "UMLListView::slotObjectCreated("<< object->getName()
+			    << ") : no appropriate parent found for type " << type
 			    << ", using default" << endl;
-		parentItem = ucv;
+		if (current)
+			parentItem = current;
+		else
+			parentItem = ucv;
 	}
 
 	connectNewObjectsSlots(object);

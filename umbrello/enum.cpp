@@ -81,7 +81,7 @@ bool UMLEnum::load(QDomElement& element) {
 	QDomElement tempElement = node.toElement();
 	while( !tempElement.isNull() ) {
 		QString tag = tempElement.tagName();
-		if (tag == "UML:EnumLiteral") {
+		if (tagEq(tag, "EnumLiteral")) {
 			UMLEnumLiteral* pEnumLiteral = new UMLEnumLiteral(this);
 			if( !pEnumLiteral->loadFromXMI(tempElement) ) {
 				return false;

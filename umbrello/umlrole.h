@@ -136,6 +136,7 @@ public:
 	 */
 	virtual int getID() const;
 	virtual void setID ( int id);
+	virtual QString getAuxId() const;
 
 	/** get the 'id' of the role (NOT the parent object). This could be
 	 * either a '1' (roleA) or '0' (roleB). Yes, it would be better if we
@@ -156,12 +157,12 @@ public:
 	 */
 	void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
+protected:
 	/**
 	 * Loads the <UML:AssociationEnd> XMI element.
-	 * Since we need some special attributes, we override the UMLObject
-	 * method here.
+	 * Auxiliary to UMLObject::loadFromXMI.
 	 */
-	bool loadFromXMI(QDomElement& element);
+	bool load(QDomElement& element);
 
 private:
 

@@ -327,59 +327,43 @@ void UMLClass::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	qElement.appendChild( classElement );
 }
 
-bool UMLClass::load(QDomElement & element) {
-	if( !UMLClassifier::load( element ) ) {
-		return false;
-	}
-	QDomNode node = element.firstChild();
-	QDomElement tempElement = node.toElement();
-	while( !tempElement.isNull() ) {
-		QString tag = tempElement.tagName();
-		if (tag == "UML:Classifier.feature") {
-			//CHECK: Umbrello currently assumes that nested elements
-			// are features anyway.
-			// Therefore the <UML:Classifier.feature> tag is of no
-			// significance.
-			if (! load(tempElement))
-				return false;
-		} else if (tag == "UML:Attribute") {
-			UMLAttribute * pAtt = new UMLAttribute( this );
-			if( !pAtt -> loadFromXMI( tempElement ) )
-				return false;
-			addAttribute(pAtt);
-			// connect( pAtt,SIGNAL(modified()),this,SIGNAL(modified()));
-			// m_AttsList.append( pAtt );
-		} else if (tag == "template") {
-			//FIXME: Make UML DTD compliant.
-			UMLTemplate* newTemplate = new UMLTemplate(this);
-			if ( !newTemplate->loadFromXMI(tempElement) ) {
-				return false;
-			}
-			m_TemplateList.append(newTemplate);
-		} else if (tag == "stereotype") {
-			//FIXME: Make UML DTD compliant.
-			UMLStereotype* newStereotype = new UMLStereotype(this);
-			if ( !newStereotype->loadFromXMI(tempElement) ) {
-				return false;
-			}
-			QString listTypeString = tempElement.attribute("listtype", "-1");
-			UMLObject_Type listType = (UMLObject_Type)listTypeString.toInt();
-			if (listType == ot_Attribute) {
-				m_AttsList.append(newStereotype);
-			} else if (listType == ot_Operation) {
-				m_OpsList.append(newStereotype);
-			} else if (listType == ot_Template) {
-				m_TemplateList.append(newStereotype);
-			} else {
-				kdWarning() << "unknown listtype with stereotype:" << listType << endl;
-			}
-		} else if (tag != "UML:Operation") {
-			kdWarning() << "UMLClass::loadFromXMI(" << getName()
-				    << "): unknown child type " << tag << endl;
+bool UMLClass::loadSpecialized(QDomElement & element) {
+	QString tag = element.tagName();
+	if (tagEq(tag, "Attribute")) {
+		UMLAttribute * pAtt = new UMLAttribute( this );
+		if( !pAtt -> loadFromXMI( element ) )
+			return false;
+		addAttribute(pAtt);
+		// connect( pAtt,SIGNAL(modified()),this,SIGNAL(modified()));
+		// m_AttsList.append( pAtt );
+	} else if (tag == "template") {
+		//FIXME: Make UML DTD compliant.
+		UMLTemplate* newTemplate = new UMLTemplate(this);
+		if ( !newTemplate->loadFromXMI(element) ) {
+			return false;
 		}
-		node = node.nextSibling();
-		tempElement = node.toElement();
-	}//end while
+		m_TemplateList.append(newTemplate);
+	} else if (tag == "stereotype") {
+		//FIXME: Make UML DTD compliant.
+		UMLStereotype* newStereotype = new UMLStereotype(this);
+		if ( !newStereotype->loadFromXMI(element) ) {
+			return false;
+		}
+		QString listTypeString = element.attribute("listtype", "-1");
+		UMLObject_Type listType = (UMLObject_Type)listTypeString.toInt();
+		if (listType == ot_Attribute) {
+			m_AttsList.append(newStereotype);
+		} else if (listType == ot_Operation) {
+			m_OpsList.append(newStereotype);
+		} else if (listType == ot_Template) {
+			m_TemplateList.append(newStereotype);
+		} else {
+			kdWarning() << "unknown listtype with stereotype:" << listType << endl;
+		}
+	} else {
+		kdWarning() << "UMLClass::load(" << getName()
+			    << "): unknown child type " << tag << endl;
+	}
 	return true;
 }
 

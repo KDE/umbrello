@@ -96,6 +96,9 @@ bool UMLObject::operator==(UMLObject & rhs ) {
 
 	//don't compare IDs, these are program specific and
 	//don't mean the objects are the same
+	//***** CHECK: Who put in this comment? What was the reason?
+	//***** Currently some operator== in umbrello compare the IDs
+	//***** while others don't.
 
 	if( m_Name != rhs.m_Name )
 		return false;
@@ -314,7 +317,7 @@ bool UMLObject::load( QDomElement& ) {
 	return true;
 }
 
-bool UMLObject::loadFromXMI( QDomElement & element ) {
+bool UMLObject::loadFromXMI( QDomElement & element, bool loadID /* =true */) {
 	UMLDoc* umldoc = UMLApp::app()->getDocument();
 	if (umldoc == NULL) {
 		kdError() << "UMLObject::loadFromXMI: umldoc is NULL" << endl;
@@ -323,17 +326,19 @@ bool UMLObject::loadFromXMI( QDomElement & element ) {
 	// Read the name first so that if we encounter a problem, the error
 	// message can say the name.
 	m_Name = element.attribute( "name", "" );
-	QString id = element.attribute( "xmi.id", "" );
-	if (id.isEmpty() || id == "-1") {
-		kdError() << "UMLObject::loadFromXMI(" << m_Name
-			  << "): nonexistent or illegal xmi.id" << endl;
-		return false;
-	}
-	if (id.contains(QRegExp("\\D"))) {
-		m_AuxId = id;
-		m_nId = umldoc->getUniqueID();
-	} else {
-		m_nId = id.toInt();
+	if (loadID) {
+		QString id = element.attribute( "xmi.id", "" );
+		if (id.isEmpty() || id == "-1") {
+			kdError() << "UMLObject::loadFromXMI(" << m_Name
+				  << "): nonexistent or illegal xmi.id" << endl;
+			return false;
+		}
+		if (id.contains(QRegExp("\\D"))) {
+			m_AuxId = id;
+			m_nId = umldoc->getUniqueID();
+		} else {
+			m_nId = id.toInt();
+		}
 	}
 
 	if (element.hasAttribute("documentation"))  // for bkwd compat.
@@ -343,13 +348,19 @@ bool UMLObject::loadFromXMI( QDomElement & element ) {
 
 	m_Scope = Uml::Public;
 	if (element.hasAttribute("scope")) {        // for bkwd compat.
-		QString scope = element.attribute( "scope", "200" );
-		int nScope = scope.toInt();
-		if (nScope >= Uml::Public && nScope <= Uml::Protected)
-			m_Scope = (Scope)nScope;
-		else
-			kdError() << "UMLObject::loadFromXMI(" << m_Name
-				  << "): illegal scope" << endl;  // soft error
+		QString scope = element.attribute( "scope", "" );
+		if (scope == "instance_level")         // nsuml compat.
+			m_bStatic = false;
+		else if (scope == "classifier_level")  // nsuml compat.
+			m_bStatic = true;
+		else {
+			int nScope = scope.toInt();
+			if (nScope >= Uml::Public && nScope <= Uml::Protected)
+				m_Scope = (Scope)nScope;
+			else
+				kdError() << "UMLObject::loadFromXMI(" << m_Name
+					<< "): illegal scope" << endl;  // soft error
+		}
 	} else {
 		QString visibility = element.attribute( "visibility", "public" );
 		if (visibility == "private"
@@ -412,7 +423,9 @@ bool UMLObject::loadFromXMI( QDomElement & element ) {
 
 	// If the name is not set, let's check whether the attributes are saved
 	// as child nodes.
-	if (m_Name.isEmpty()) {
+	// We only do this for the regular loadFromXMI call (when the loading
+	// of the xmi.id is done.)
+	if (loadID && m_Name.isEmpty()) {
 		QDomNode node = element.firstChild();
 		QDomElement elem = node.toElement();
 		while( !elem.isNull() ) {
@@ -447,7 +460,13 @@ bool UMLObject::loadFromXMI( QDomElement & element ) {
 
 	if (m_pUMLPackage)
 		m_pUMLPackage->addObject(this);
-	umldoc->signalUMLObjectCreated(this);
+	// Associations and their role objects do not have a listview
+	// representation yet, therefore they do not prompt the
+	// sigObjectCreated.
+	if (m_BaseType != ot_Association && m_BaseType != ot_UMLObject) {
+		umldoc->addUMLObject(this);
+		umldoc->signalUMLObjectCreated(this);
+	}
 	return load(element);
 }
 

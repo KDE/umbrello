@@ -270,11 +270,10 @@ signals:
 
 protected:
 	/**
-	 * Loads the <UML:Class> XMI element including its operations,
-	 * attributes and templates.
-	 * Auxiliary to loadFromXMI.
+	 * Called by UMLClassifier::load().
+	 * We read the <UML:Attribute>s here.
 	 */
-	bool load( QDomElement & element );
+	bool loadSpecialized(QDomElement& element);
 
 private:
 

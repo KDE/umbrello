@@ -31,7 +31,7 @@ bool UMLRole::operator==(UMLRole &rhs) {
 		m_Changeability == rhs.m_Changeability &&
 		m_Multi == rhs.m_Multi &&
 		m_Name == rhs.m_Name
-              );
+	      );
 }
 
 UMLAssociation * UMLRole::getParentAssociation () {
@@ -43,13 +43,19 @@ UMLObject* UMLRole::getObject() {
 }
 
 int UMLRole::getID() const {
-        if(m_pObject)
+	if(m_pObject)
 		return m_pObject->getID();
 	return -1;
 }
 
 void UMLRole::setID( int id) {
 	kdError()<<"ERROR: not allowed to setID("<<id<<") for UMLRole (id is derived from parent UMLObject), ignoring set request"<<endl; 
+}
+
+QString UMLRole::getAuxId() const {
+	if (m_pObject)
+		return m_pObject->getAuxId();
+	return "";
 }
 
 Changeability_Type UMLRole::getChangeability() const {
@@ -75,7 +81,7 @@ QString UMLRole::getDoc() const {
 /*
 void UMLRole::setId(int id) {
 	m_Id = id;
-        if(m_pObject)
+	if(m_pObject)
 		m_pObject->setID(id);
 	emit modified();
 }
@@ -87,7 +93,7 @@ void UMLRole::setObject (UMLObject *obj) {
 	// parent objects. In fact, there is probably good reason
 	// to only take UMLClassifiers here, but I'll leave it more open
 	// for the time being. -b.t. 
-        if(obj && dynamic_cast<UMLRole*>(obj))
+	if(obj && dynamic_cast<UMLRole*>(obj))
 	{
 		kdError()<<"ERROR: UMLRole cant setObject() to another UMLRole!, ignoring"<<endl;
 		return;
@@ -139,6 +145,8 @@ void UMLRole::init(UMLAssociation * parent, UMLObject * parentObj, int id) {
 }
 
 void UMLRole::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
+	//CHECK: What should the tag be, "AssociationEnd" or "AssociationEndRole" ?
+	// We use AssociationEndRole, other products use AssociationEnd.
 	QDomElement roleElement = qDoc.createElement( "UML:AssociationEndRole" );
 	roleElement.setAttribute( "type", getID() );
 	if (m_Multi != "")
@@ -191,17 +199,16 @@ void UMLRole::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	qElement.appendChild( roleElement );
 }
 
-bool UMLRole::loadFromXMI( QDomElement & element ) {
-	// Special case: Override the UMLObject::loadFromXMI method.
+bool UMLRole::load( QDomElement & element ) {
 	UMLDoc * doc = UMLApp::app()->getDocument();
 	if (doc == NULL) {
-		kdError() << "UMLRole::loadFromXMI failed to retrieve the UMLDoc"
+		kdError() << "UMLRole::load failed to retrieve the UMLDoc"
 			  << endl;
 		return false;
 	}
 	QString idStr = element.attribute("type", "-1");
 	if (idStr == "-1") {
-		kdError() << "UMLRole::loadFromXMI: type not given or illegal" << endl;
+		kdError() << "UMLRole::load: type not given or illegal" << endl;
 		return false;
 	}
 	UMLObject * obj;
@@ -209,8 +216,8 @@ bool UMLRole::loadFromXMI( QDomElement & element ) {
 		obj = doc->findObjectByIdStr(idStr);
 	else
 		obj = doc->findUMLObject(idStr.toInt());
-	if (obj == NULL) {
-		kdError() << "UMLRole::loadFromXMI: cannot find object of ID "
+	if (obj ==NULL) {
+		kdError() << "UMLRole::load: cannot find object of ID "
 			  << idStr << endl;
 		return false;
 	}
@@ -254,25 +261,13 @@ bool UMLRole::loadFromXMI( QDomElement & element ) {
 	}
 
 	m_Multi = element.attribute("multiplicity", "");
-	m_Name = element.attribute("name", "");
-	if (element.hasAttribute("documentation"))  // for bkwd compat.
-		m_Doc = element.attribute("documentation", "");
-	else
-		m_Doc = element.attribute("comment", "");
-
-	// visibilty defaults to Public if it cant set it here..
-        QString vis = element.attribute("visibility", "public");
-	if (vis == "private")
-		setScope(Uml::Private);
-	else if (vis == "protected")
-		setScope(Uml::Protected);
 
 	// Changeability defaults to Changeable if it cant set it here..
 	m_Changeability = Uml::chg_Changeable;
-        QString changeable = element.attribute("changeable", "none");
-        if (changeable == "frozen")
+	QString changeable = element.attribute("changeable", "none");
+	if (changeable == "frozen")
 		m_Changeability = Uml::chg_Frozen;
-        else if (changeable == "addOnly")
+	else if (changeable == "addOnly")
 		m_Changeability = Uml::chg_AddOnly;
 
 	// finished config, now unblock

@@ -291,9 +291,21 @@ private:
 
 protected:
 	/**
-	 * Auxiliary to loadFromXMI.
+	 * Auxiliary to loadFromXMI:
+	 * The loading of operations is implemented here.
+	 * Calls loadSpecialized() for any other tag.
+	 * Child classes can override the loadSpecialized method
+	 * to load its additional tags.
 	 */
 	virtual bool load(QDomElement& element);
+
+	/**
+	 * Auxiliary to load().
+	 * The implementation is empty here.
+	 * Child classes can override this method to implement
+	 * the loading of additional tags.
+	 */
+	virtual bool loadSpecialized(QDomElement& element);
 
 };
 

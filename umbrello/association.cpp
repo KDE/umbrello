@@ -125,28 +125,6 @@ void UMLAssociation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	qElement.appendChild( associationElement );
 }
 
-/*
-bool UMLAssociation::load(QDomElement& element) {
-	UMLDoc *umldoc = UMLApp::app()->getDocument();
-	QDomNode node = element.firstChild();
-	element = node.toElement();
-	while (!element.isNull()) {
-		QString type = element.tagName();
-		QDomElement tempElement = element;
-		if (type == "UML:Namespace.ownedElement" ||
-		    type == "UML:Namespace.contents") {
-			//CHECK: Umbrello currently assumes that nested elements
-			// are ownedElements anyway.
-			// Therefore the <UML:Namespace.ownedElement> tag is of no
-			// significance.
-			if (! load(tempElement))
-				return false;
-			node = node.nextSibling();
-			element = node.toElement();
-			continue;
-		}
- */
-
 bool UMLAssociation::load( QDomElement & element ) {
 	if (getID() == -1)
 		return false; // old style XMI file. No real info in this association.
@@ -214,18 +192,17 @@ bool UMLAssociation::load( QDomElement & element ) {
 
 	QDomNode node = element.firstChild();
 	if (!node.isNull()) {
+		QDomElement tempElement = node.toElement();
 		// uml13.dtd compliant format (new style)
-		QDomElement tempElement;
-		QString tag;
-		tempElement = node.toElement();
 		if (tempElement.isNull()) {
 			kdWarning() << "UMLAssociation::load: "
 				<< "expecting UML:Association.connection" << endl;
 			return false;
 		}
-		tag = tempElement.tagName();
-		if (tag != "UML:Association.connection" &&
-		    tag != "UML:Namespace.contents") {
+		QString tag = tempElement.tagName();
+		if (!tagEq(tag, "Association.connection") &&
+		    !tagEq(tag, "Namespace.ownedElement") &&
+		    !tagEq(tag, "Namespace.contents")) {
 			kdWarning() << "UMLAssociation::load: "
 				    << "unknown child node " << tag << endl;
 			return false;
@@ -238,12 +215,13 @@ bool UMLAssociation::load( QDomElement & element ) {
 			return false;
 		}
 		tag = tempElement.tagName();
-		if (tag != "UML:AssociationEndRole" && tag != "UML:AssociationEnd") {
+		if (!tagEq(tag, "AssociationEndRole") &&
+		    !tagEq(tag, "AssociationEnd")) {
 			kdWarning() << "UMLAssociation::load: "
 				    << "unknown child (A) tag " << tag << endl;
 			return false;
 		}
-		if (! getUMLRoleA()->loadFromXMI(tempElement))
+		if (! getUMLRoleA()->loadFromXMI(tempElement, false)) // do not load xmi.id
 			return false;
 		// Load role B.
 		node = node.nextSibling();
@@ -253,12 +231,13 @@ bool UMLAssociation::load( QDomElement & element ) {
 			return false;
 		}
 		tag = tempElement.tagName();
-		if (tag != "UML:AssociationEndRole" && tag != "UML:AssociationEnd") {
+		if (!tagEq(tag, "AssociationEndRole") &&
+		    !tagEq(tag, "AssociationEnd")) {
 			kdWarning() << "UMLAssociation::load: "
 				    << "unknown child (B) tag " << tag << endl;
 			return false;
 		}
-		if (! getUMLRoleB()->loadFromXMI(tempElement))
+		if (! getUMLRoleB()->loadFromXMI(tempElement, false)) // do not load xmi.id
 			return false;
 
 		// setting the association type:

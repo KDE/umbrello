@@ -559,6 +559,11 @@ UMLObject* UMLDoc::findObjectByIdStr(QString idStr) {
 	for (UMLObject * o = objectList.first(); o; o = objectList.next()) {
 		if (o->getAuxId() == idStr)
 			return o;
+		if (o->getBaseType() == Uml::ot_Package) {
+			UMLObject *inner = ((UMLPackage*)o)->findObjectByIdStr(idStr);
+			if (inner)
+				return inner;
+		}
 	}
 	return NULL;
 }
@@ -1821,6 +1826,8 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
 
 	if( findView( nViewID ) ) {
 		changeCurrentView( nViewID );
+	} else {
+		createDiagram( Uml::dt_Class );
 	}
 	emit sigResetStatusbarProgress();
 	return true;
@@ -1897,6 +1904,17 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element) {
 			objectList.append( pObject );
 		}
 
+		/** CHECK ***********************************************
+		 *  Hi Brian,
+		 *  Could you please clarify why this was (or still is?)
+		 *  necessary.
+		 *  The containments should be hierarchical:
+		 *  The UMLDoc only contains the "global" objects.
+		 *  Each package contains its own objects.
+		 *  However, adding a package's contained objects at the
+		 *  UMLDoc breaks the hierarchy. If there is any code that
+		 *  relies on this then that code needs fixing.
+		 *
 		// Now, we need to add all the UMLObjects held by the package
 		// should it have any.
 		if (tagEq(type, "Package")) {
@@ -1904,6 +1922,7 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element) {
 			for (UMLObject * obj = oList.first(); obj != 0; obj = oList.next())
 				objectList.append(obj);
 		}
+		 */
 
 		emit sigSetStatusbarProgress( ++m_count );
 		node = node.nextSibling();

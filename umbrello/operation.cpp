@@ -193,7 +193,7 @@ bool UMLOperation::load( QDomElement & element ) {
 	while( !attElement.isNull() ) {
 		// Should be UML:Parameter tag name but check anyway.
 		QString tag = attElement.tagName();
-		if (tag == "UML:Parameter" ) {
+		if (tagEq(tag, "Parameter")) {
 			UMLAttribute * pAtt = new UMLAttribute( this );
 			if( !pAtt -> UMLObject::loadFromXMI( attElement ) )
 				return false;

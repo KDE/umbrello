@@ -101,6 +101,17 @@ public:
 	UMLObject * findObject(int id);
 
 	/**
+	 * Find the object of the given (non-numeric) auxiliary ID
+	 * in the list of contained objects. The auxiliary ID is the
+	 * ID returned by UMLObject::getAuxId() and is currently
+	 * only used for loading foreign XMI files.
+	 *
+	 * @param idStr		The ID to seek.
+	 * @return	Pointer to the UMLObject found or NULL if not found.
+	 */
+	UMLObject* findObjectByIdStr(QString idStr);
+
+	/**
 	 * Creates the <UML:Package> XMI element.
 	 */
 	void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);

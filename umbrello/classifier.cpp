@@ -345,29 +345,36 @@ void UMLClassifier::init() {
 
 bool UMLClassifier::load(QDomElement& element) {
 	QDomNode node = element.firstChild();
-	QDomElement tempElement = node.toElement();
-	while( !tempElement.isNull() ) {
-		QString tag = tempElement.tagName();
-		if (tag == "UML:Classifier.feature") {
+	element = node.toElement();
+	while( !element.isNull() ) {
+		QString tag = element.tagName();
+		if (tagEq(tag, "Classifier.feature") ||
+		    tagEq(tag, "Namespace.ownedElement") ||
+		    tagEq(tag, "Namespace.contents")) {
 			//CHECK: Umbrello currently assumes that nested elements
-			// are features anyway.
-			// Therefore the <UML:Classifier.feature> tag is of no
-			// significance.
-			if (! load(tempElement))
+			// are features/ownedElements anyway.
+			// Therefore these tags are not further interpreted.
+			if (! load(element))
 				return false;
-		} else if (tag == "UML:Operation") {
+		} else if (tagEq(tag, "Operation")) {
 			UMLOperation* op = new UMLOperation(NULL);
-			if( !op->loadFromXMI(tempElement) ||
+			if( !op->loadFromXMI(element) ||
 			    !this->addOperation(op) ) {
 				delete op;
 				return false;
 			}
+		} else if (!loadSpecialized(element)) {
+			return false;
 		}
 		node = node.nextSibling();
-		tempElement = node.toElement();
+		element = node.toElement();
 	}//end while
 	return true;
 }
 
+bool UMLClassifier::loadSpecialized(QDomElement& ) {
+	// The UMLClass will override this for reading UMLAttributes.
+	return true;
+}
 
 #include "classifier.moc"

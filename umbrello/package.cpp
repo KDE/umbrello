@@ -49,6 +49,9 @@ void UMLPackage::addObject(const UMLObject *pObject) {
 			break;
 		}
 	}
+	// kdDebug() << "UMLPackage::addObject(" << pObject->getName() <<
+	//   "): id=" << id << ", auxid=" << pObject->getAuxId() <<
+	//   ", alreadyThere=" << alreadyThere << endl;
 	if (! alreadyThere)
 		m_objects.append( pObject );
 }
@@ -82,6 +85,19 @@ UMLObject * UMLPackage::findObject(int id) {
 	return NULL;
 }
 
+UMLObject* UMLPackage::findObjectByIdStr(QString idStr) {
+	for (UMLObject * o = m_objects.first(); o; o = m_objects.next()) {
+		if (o->getAuxId() == idStr)
+			return o;
+		if (o->getBaseType() == Uml::ot_Package) {
+			UMLObject *inner = ((UMLPackage*)o)->findObjectByIdStr(idStr);
+			if (inner)
+				return inner;
+		}
+	}
+	return NULL;
+}
+
 void UMLPackage::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
 	QDomElement packageElement = UMLObject::save("UML:Package", qDoc);
 
@@ -98,14 +114,12 @@ bool UMLPackage::load(QDomElement& element) {
 	element = node.toElement();
 	while (!element.isNull()) {
 		QString type = element.tagName();
-		QDomElement tempElement = element;
-		if (type == "UML:Namespace.ownedElement" ||
-		    type == "UML:Namespace.contents") {
+		if (tagEq(type, "Namespace.ownedElement") ||
+		    tagEq(type, "Namespace.contents")) {
 			//CHECK: Umbrello currently assumes that nested elements
 			// are ownedElements anyway.
-			// Therefore the <UML:Namespace.ownedElement> tag is of no
-			// significance.
-			if (! load(tempElement))
+			// Therefore these tags are not further interpreted.
+			if (! load(element))
 				return false;
 			node = node.nextSibling();
 			element = node.toElement();
@@ -121,9 +135,9 @@ bool UMLPackage::load(QDomElement& element) {
 			continue;
 		}
 		pObject->setUMLPackage(this);
-		if (pObject->loadFromXMI(tempElement)) {
+		if (pObject->loadFromXMI(element)) {
 			addObject(pObject);
-			if (type == "UML:Generalization")
+			if (tagEq(type, "Generalization"))
 				umldoc->addAssocToConcepts((UMLAssociation *) pObject);
 		} else {
 			delete pObject;

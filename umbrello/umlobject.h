@@ -211,8 +211,12 @@ public:
 	 * classes.  It is not usually reimplemented by child classes.
 	 * Instead, it invokes the load() method which implements the loading
 	 * of the specifics of each child class.
+	 *
+	 * @param element	The QDomElement from which to load.
+	 * @param loadID	Optional: When set to false, the xmi.id
+	 *			is not loaded.
 	 */
-	virtual bool loadFromXMI( QDomElement & element );
+	virtual bool loadFromXMI( QDomElement & element, bool loadID = true );
 
 	/**
 	 * Returns true if this UMLObject has classifier scope,
@@ -245,7 +249,7 @@ public:
 	 * Only used for resolving non-numeric xmi.id's during loading.
 	 * All other code should use getID() instead.
 	 */
-	QString getAuxId() const;
+	virtual QString getAuxId() const;
 
 	/**
 	 * Auxiliary to saveToXMI.
