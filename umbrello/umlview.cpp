@@ -2641,14 +2641,17 @@ void UMLView::slotMenuSelection(int sel) {
 
 		case ListPopupMenu::mt_SnapToGrid:
 			toggleSnapToGrid();
+			m_pDoc->setModified();
 			break;
 
 		case ListPopupMenu::mt_ShowSnapGrid:
 			toggleShowGrid();
+			m_pDoc->setModified();
 			break;
 
 		case ListPopupMenu::mt_Properties:
-			showPropDialog();
+			if (showPropDialog() == true)
+				m_pDoc->setModified();
 			break;
 
 		default:
