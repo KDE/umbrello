@@ -603,8 +603,7 @@ void UMLApp::slotFileOpen() {
 
 	} else {
 		KURL url=KFileDialog::getOpenURL(":open-umbrello-file",
-						 i18n("*.xmi|Umbrello XMI Files\n*|All Files"),
-				this, i18n("Open File"));
+						 i18n("*.xmi *.xmi.tgz *.xmi.tar.bz2|All Supported Files (*.xmi, *.xmi.tgz, *.xmi.tar.bz2)\n*.xmi|Uncompressed XMI Files (*.xmi)\n*.xmi.tgz|Gzip Compressed XMI Files (*.xmi.tgz)\n*.xmi.tar.bz2|Bzip2 Compressed XMI Files (*.xmi.tar.bz2)"), this, i18n("Open File"));
 		if(!url.isEmpty()) {
 			if(doc->openDocument(url))
 				fileOpenRecent->addURL( url );
@@ -657,17 +656,20 @@ bool UMLApp::slotFileSaveAs()
 	KURL url;
 	QString ext;
 	while(cont) {
-		url=KFileDialog::getSaveURL(":save-umbrello-file", i18n("*.xmi|XMI Files\n*|All Files"), this, i18n("Save As"));
+		url=KFileDialog::getSaveURL(":save-umbrello-file", i18n("*.xmi|XMI File\n*.xmi.tgz|Gzip Compressed XMI File\n*.xmi.tar.bz2|Bzip2 Compressed XMI File\n*|All Files"), this, i18n("Save As"));
 
 		if(url.isEmpty())
 			cont = false;
 		else {
-
+			// now check that we have a file extension; standard will be plain xmi
 			QString file = url.path(-1);
 			QFileInfo info(file);
-			ext = info.extension(false);
-			if(ext != "xmi")
+			ext = info.extension();
+			if (ext != "xmi" && ext != "xmi.tgz" && ext != "xmi.tar.bz2")
+			{
 				url.setFileName(url.fileName() + ".xmi");
+				ext = "xmi";
+			}
 			QDir d = url.path(-1);
 
 			if(QFile::exists(d.path())) {

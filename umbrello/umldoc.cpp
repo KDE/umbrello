@@ -43,6 +43,7 @@
 #include <qtimer.h>
 #include <qbuffer.h>
 #include <qdir.h>
+#include <qregexp.h>
 
 #include <kapplication.h>
 #include <kdeversion.h>
@@ -50,7 +51,10 @@
 #include <kio/netaccess.h>
 #include <klocale.h>
 #include <kmessagebox.h>
+#include <kmimetype.h>
 #include <kprinter.h>
+#include <ktar.h>
+#include <ktempdir.h>
 #include <ktempfile.h>
 
 #define XMI_FILE_VERSION "1.2.90"
@@ -298,17 +302,120 @@ bool UMLDoc::openDocument(const KURL& url, const char* /*format =0*/) {
 		return false;
 	}
 
-	if( !file.open( IO_ReadOnly ) ) {
-		KMessageBox::error(0, i18n("There was a problem loading file: %1").arg(d.path()), i18n("Load Error"));
-		m_doc_url.setFileName(i18n("Untitled"));
-		m_bLoading = false;
-		newDocument();
-		return false;
+	// status of XMI loading
+	bool status = false;
+
+	// check if the xmi file is a compressed archive like tar.bzip2 or tar.gz
+	QString mimetype = KMimeType::findByPath(m_doc_url.path(0), 0, true)->name();
+	if (mimetype == "application/x-tgz" || mimetype == "application/x-tbz" || mimetype == "application/x-bzip2")
+	{
+		KTar archive(tmpfile, mimetype);
+		if (archive.open(IO_ReadOnly) == false)
+		{
+			KMessageBox::error(0, i18n("The file %1 seems to be corrupted.").arg(d.path()), i18n("Load Error"));
+			m_doc_url.setFileName(i18n("Untitled"));
+			m_bLoading = false;
+			newDocument();
+			return false;
+		}
+
+		// get the root directory and all entries in
+		const KArchiveDirectory * rootDir = archive.directory();
+		QStringList entries = rootDir->entries();
+		QString entryMimeType;
+		bool foundXMI = false;
+		QStringList::Iterator it;
+
+		// now go through all entries till we find an xmi file
+		for (it = entries.begin(); it != entries.end(); it++)
+		{
+			// only check files, we do not go in subdirectories
+			if (rootDir->entry(*it)->isFile() == true)
+			{
+				// we found a file, check the mimetype
+				entryMimeType = KMimeType::findByPath(*it, 0, true)->name();
+				if (entryMimeType == "application/x-uml")
+				{
+					foundXMI = true;
+					break;
+				}
+			}
+		}
+
+		// if we found an XMI file, we have to extract it to a temporary file
+		if (foundXMI == true)
+		{
+			KTempDir tmp_dir;
+			KArchiveEntry * entry;
+			KArchiveFile * fileEntry;
+
+			// try to cast the file entry in the archive to an archive entry
+			entry = const_cast<KArchiveEntry*>(rootDir->entry(*it));
+			if (entry == 0)
+			{
+				KMessageBox::error(0, i18n("There was no XMI file found in the compressed file %1.").arg(d.path()), i18n("Load Error"));
+				m_doc_url.setFileName(i18n("Untitled"));
+				m_bLoading = false;
+				newDocument();
+				return false;
+			}
+
+			// now try to cast the archive entry to a file entry, so that we can
+			// extract the file
+			fileEntry = dynamic_cast<KArchiveFile*>(entry);
+			if (fileEntry == 0)
+			{
+				KMessageBox::error(0, i18n("There was no XMI file found in the compressed file %1.").arg(d.path()), i18n("Load Error"));
+				m_doc_url.setFileName(i18n("Untitled"));
+				m_bLoading = false;
+				newDocument();
+				return false;
+			}
+
+			// now we can extract the file to the temporary directory
+			fileEntry->copyTo(tmp_dir.name());
+
+			// now open the extracted file for reading
+			QFile xmi_file(tmp_dir.name() + *it);
+			if( !xmi_file.open( IO_ReadOnly ) )
+			{
+				KMessageBox::error(0, i18n("There was a problem loading the extracted file: %1").arg(d.path()), i18n("Load Error"));
+				m_doc_url.setFileName(i18n("Untitled"));
+				m_bLoading = false;
+				newDocument();
+				return false;
+			}
+			status = loadFromXMI( xmi_file, ENC_UNKNOWN );
+	
+			// close the extracted file and the temporary directory
+			xmi_file.close();
+			tmp_dir.unlink();
+
+		} else {
+			KMessageBox::error(0, i18n("There was no XMI file found in the compressed file %1.").arg(d.path()), i18n("Load Error"));
+			m_doc_url.setFileName(i18n("Untitled"));
+			m_bLoading = false;
+			newDocument();
+			return false;
+		}
+
+		archive.close();
+	} else {
+		// no, it seems to be an ordinary file
+		if( !file.open( IO_ReadOnly ) ) {
+			KMessageBox::error(0, i18n("There was a problem loading file: %1").arg(d.path()), i18n("Load Error"));
+			m_doc_url.setFileName(i18n("Untitled"));
+			m_bLoading = false;
+			newDocument();
+			return false;
+		}
+		status = loadFromXMI( file, ENC_UNKNOWN );
 	}
-	bool status = loadFromXMI( file, ENC_UNKNOWN );
+
 	file.close();
 	KIO::NetAccess::removeTempFile( tmpfile );
-	if( !status ) {
+	if( !status )
+	{
 		KMessageBox::error(0, i18n("There was a problem loading file: %1").arg(d.path()), i18n("Load Error"));
 		m_bLoading = false;
 		newDocument();
@@ -325,34 +432,136 @@ bool UMLDoc::openDocument(const KURL& url, const char* /*format =0*/) {
 	return true;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-bool UMLDoc::saveDocument(const KURL& url, const char * /*format =0*/) {
+bool UMLDoc::saveDocument(const KURL& url, const char * /* format */) {
 	m_doc_url = url;
 	QDir d = m_doc_url.path(1);
 	QFile file;
-	KTempFile tmpfile;
 	bool uploaded = true;
-	initSaveTimer();
-	if ( url.isLocalFile() )
-		file.setName( d.path() );
-	else
-		file.setName( tmpfile.name() );
 
-	if( !file.open( IO_WriteOnly ) ) {
-		KMessageBox::error(0, i18n("There was a problem saving file: %1").arg(d.path()),
-				   i18n("Save Error"));
-		return false;
+	// first, we have to find out which format to use
+	QString strFileName = url.path(-1);
+	QFileInfo fileInfo(strFileName);
+	QString fileExt = fileInfo.extension();
+	QString fileFormat = "xmi";
+	if (fileExt == "xmi")
+	{
+		fileFormat = "xmi";
+	} else if (fileExt == "xmi.tgz") { 
+		fileFormat = "tgz";
+	} else if (fileExt == "xmi.tar.bz2") {
+		fileFormat = "bz2";
+	} else {
+		fileFormat = "xmi";
 	}
-	saveToXMI( file );
-	file.close();
-	if ( !url.isLocalFile() ) {
-		uploaded = KIO::NetAccess::upload( tmpfile.name(), m_doc_url
-#if KDE_IS_VERSION(3,1,90)
-								, UMLApp::app()
-#endif
-						 );
+
+	initSaveTimer();
+
+	if (fileFormat == "tgz" || fileFormat == "bz2")
+	{
+		KTar * archive;
+		KTempFile tmp_tgz_file;
+
+		// first we have to check if we are saving to a local or remote file
+		if (url.isLocalFile())
+		{
+			if (fileFormat == "tgz") // check tgz or bzip2
+			{
+				archive = new KTar(d.path(), "application/x-gzip");
+			} else {
+				archive = new KTar(d.path(), "application/x-bzip2");
+			}
+		} else {
+			if (fileFormat == "tgz") // check tgz or bzip2
+			{
+				archive = new KTar(tmp_tgz_file.name(), "application/x-gzip");
+			} else {
+				archive = new KTar(tmp_tgz_file.name(), "application/x-bzip2");
+			}
+		}
+
+		// now check if we can write to the file
+		if (archive->open(IO_WriteOnly) == false)
+		{
+			KMessageBox::error(0, i18n("There was a problem saving file: %1").arg(d.path()), i18n("Save Error"));
+			return false;
+		}
+
+		// we have to create a temporary xmi file
+		// we will add this file later to the archive
+		KTempFile tmp_xmi_file;
+		file.setName(tmp_xmi_file.name());
+		if( !file.open( IO_WriteOnly ) ) {
+			KMessageBox::error(0, i18n("There was a problem saving file: %1").arg(d.path()), i18n("Save Error"));
+			return false;
+		}
+		saveToXMI(file); // save XMI to this file...
+		file.close(); // ...and close it
+
+		// now add this file to the archive, but without the extension
+		QString tmpQString = url.filename();
+		if (fileFormat == "tgz")
+		{
+			tmpQString.replace(QRegExp("\\.tgz$"), "");
+		} else {
+			tmpQString.replace(QRegExp("\\.tar\\.bz2$"), "");
+		}
+		archive->addLocalFile(tmp_xmi_file.name(), tmpQString);
+		archive->close();
+
+		// now the xmi file was added to the archive, so we can delete it
+		tmp_xmi_file.close();
+		tmp_xmi_file.unlink();
+		
+		// now we have to check, if we have to upload the file
+		if ( !url.isLocalFile() ) {
+			uploaded = KIO::NetAccess::upload( tmp_tgz_file.name(), m_doc_url
+	#if KDE_IS_VERSION(3,1,90)
+									, UMLApp::app()
+	#endif
+							 );
+		}
+
+		// now the archive was written to disk (or remote) so we can delete the
+		// objects
+		tmp_tgz_file.close();
+		tmp_tgz_file.unlink();
+		delete archive;
+
+	} else {
+		// save as normal uncompressed XMI
+
+		KTempFile tmpfile; // we need this tmp file if we are writing to a remote file
+
+		// now check if we are writting to a local file
+		if ( url.isLocalFile() )
+		{
+			file.setName( d.path() );
+		} else {
+			file.setName( tmpfile.name() );
+		}
+	
+		// lets open the file for writing
+		if( !file.open( IO_WriteOnly ) ) {
+			KMessageBox::error(0, i18n("There was a problem saving file: %1").arg(d.path()), i18n("Save Error"));
+			return false;
+		}
+		saveToXMI( file ); // save the xmi stuff to it
+		file.close();
+
+		// if it is a remote file, we have to upload the tmp file
+		if ( !url.isLocalFile() ) {
+			uploaded = KIO::NetAccess::upload( tmpfile.name(), m_doc_url
+	#if KDE_IS_VERSION(3,1,90)
+									, UMLApp::app()
+	#endif
+							 );
+		}
+
+		tmpfile.close();
 		tmpfile.unlink();
 	}
-	if( !uploaded ) {
+	if( !uploaded )
+	{
 		KMessageBox::error(0, i18n("There was a problem uploading file: %1").arg(d.path()), i18n("Save Error"));
 		m_doc_url.setFileName(i18n("Untitled"));
 	}
