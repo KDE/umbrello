@@ -773,6 +773,8 @@ UMLObject* UMLDoc::createOperation(UMLClassifier* classifier) {
 	}
 
 	if (button != QDialog::Accepted) {
+		if (newOperation)
+			classifier->removeOperation(newOperation);
 		return NULL;
 	}
 
