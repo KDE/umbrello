@@ -337,6 +337,26 @@ bool UMLConcept::loadFromXMI( QDomElement & element ) {
 	return true;
 }
 
+bool UMLConcept::acceptAssociationType(Uml::Association_Type type)
+{
+	switch(type)
+	{
+	case at_Generalization:
+	case at_Aggregation:
+	case at_Dependency:
+	case at_Association:
+//	    at_Association_Self,
+	case at_Implementation:
+	case at_Composition:
+	case at_Realization:
+	case at_UniAssociation:
+	 	return true;
+	default: return false;
+	}
+return false; //shutup compiler warning
+
+}
+
 int UMLConcept::templates() {
 	return m_TemplateList.count();
 }

@@ -224,6 +224,9 @@ public:
 	 * attributes and templates
 	 */
 	bool loadFromXMI( QDomElement & element );
+	
+	/** reimplemented from UMLObject*/
+	virtual bool acceptAssociationType(Uml::Association_Type);
 
 private:
 

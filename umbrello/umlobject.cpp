@@ -33,6 +33,11 @@ UMLObject::UMLObject(QObject * parent) : QObject(parent) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLObject::~UMLObject() {
 }
+
+bool UMLObject::acceptAssociationType(Uml::Association_Type)
+{// A UMLObject accepts nothing. This should be reimplemented by the subclasses
+	return false;
+}
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool UMLObject::serialize(QDataStream *s, bool archive, int fileversion) {
 	bool status = true;
