@@ -1868,11 +1868,14 @@ void UMLListView::createChildUMLObject( UMLListViewItem * item, Uml::UMLObject_T
 		return;
 	}
 
+	//kdDebug() << "UMLListView::createChildUMLObject (" << name << ")" << endl;
 	UMLObject* newObject;
 	if ( type == Uml::ot_Attribute )  {
 		newObject = m_doc->createAttribute( static_cast<UMLClass*>(parent), name );
 	} else {
-		newObject = m_doc->createOperation( static_cast<UMLClassifier*>(parent), name );
+		UMLAttributeList dummyAttList;
+		newObject = m_doc->createOperation( static_cast<UMLClassifier*>(parent),
+						   name, &dummyAttList );
 	}
 
 	//FIXME actually this seems to be unnecessary, when creating by other ways
