@@ -139,43 +139,14 @@ void UMLAttributeDialog::slotNameChanged( const QString &_text )
 }
 
 bool UMLAttributeDialog::apply() {
-	UMLClassifier * pConcept = dynamic_cast<UMLClassifier *>( m_pAttribute->parent() );
-
-	if ( m_pPublicRB->isChecked() ) {
-		m_pAttribute->setScope(Uml::Public);
-	} else if ( m_pPrivateRB -> isChecked() ) {
-		m_pAttribute->setScope(Uml::Private);
-	} else {
-		m_pAttribute->setScope(Uml::Protected);
-	}
-
-	QString typeName = m_pTypeCB->currentText();
-	UMLDoc * pDoc = UMLApp::app()->getDocument();
-	UMLClassifierList namesList( pDoc->getConcepts() );
-	UMLClassifier* obj = NULL;
-	for (obj=namesList.first(); obj!=0; obj=namesList.next()) {
-		if (typeName == obj->getName()) {
-			m_pAttribute->setType( obj );
-			break;
-		}
-	}
-	if (obj == NULL) {
-		// Nothing found: set type name directly. Bad.
-		kdDebug() << "UMLAttributeDialog::apply: " << typeName << " not found."
-			  << endl;
-		m_pAttribute->setTypeName( typeName );
-	}
-	m_pAttribute->setInitialValue( m_pInitialLE->text() );
 	QString name = m_pNameLE->text();
-	if( name.length() == 0 ) {
+	if (name.isEmpty()) {
 		KMessageBox::error(this, i18n("You have entered an invalid attribute name."),
 		                   i18n("Attribute Name Invalid"), false);
 		m_pNameLE->setText( m_pAttribute->getName() );
 		return false;
 	}
-
-	m_pAttribute->setStereotype( m_pStereoTypeLE->text() );
-
+	UMLClassifier * pConcept = dynamic_cast<UMLClassifier *>( m_pAttribute->parent() );
 	UMLObjectList list= pConcept->findChildObject(Uml::ot_Attribute, name);
 	if( list.count() != 0 && list.findRef( m_pAttribute ) ) {
 		KMessageBox::error(this, i18n("The attribute name you have chosen is already being used in this operation."),
@@ -184,12 +155,32 @@ bool UMLAttributeDialog::apply() {
 		return false;
 	}
 	m_pAttribute->setName(name);
+	if ( m_pPublicRB->isChecked() ) {
+		m_pAttribute->setScope(Uml::Public);
+	} else if ( m_pPrivateRB -> isChecked() ) {
+		m_pAttribute->setScope(Uml::Private);
+	} else {
+		m_pAttribute->setScope(Uml::Protected);
+	}
+	m_pAttribute->setInitialValue( m_pInitialLE->text() );
+	m_pAttribute->setStereotype( m_pStereoTypeLE->text() );
 	m_pAttribute->setStatic( m_pStaticCB->isChecked() );
 
-	UMLDoc *umldoc = UMLApp::app()->getDocument();
-	if (umldoc->findUMLObject(typeName) == NULL)
-		umldoc->createDatatype( m_pTypeCB->currentText() );
-
+	QString typeName = m_pTypeCB->currentText();
+	UMLDoc * pDoc = UMLApp::app()->getDocument();
+	UMLObject *obj = pDoc->findUMLObject(typeName);
+	UMLClassifier *classifier = dynamic_cast<UMLClassifier*>(obj);
+	if (classifier == NULL) {
+		// If it's obviously a pointer type (C++) then create a datatype.
+		// Else we don't know what it is so as a compromise create a class.
+		Uml::Object_Type ot = (typeName.contains('*') ? Uml::ot_Datatype
+							      : Uml::ot_Class);
+		obj = pDoc->createUMLObject(ot, typeName);
+		if (obj == NULL)
+			return false;
+		classifier = static_cast<UMLClassifier*>(obj);
+	}
+	m_pAttribute->setType( classifier );
 	return true;
 }
 
