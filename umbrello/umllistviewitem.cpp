@@ -477,6 +477,14 @@ void UMLListViewItem::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 		kdDebug() << "FIXME: UMLListViewItem::saveToXMI(): saving local label "
 			  << m_Label << " because stereotype/template loading "
 			  << "does not yet generate the appropriate signals" << endl;
+	} else if (m_pObject->getID() == -1) {
+		if (m_Label.isEmpty()) {
+			kdDebug() << "UMLListViewItem::saveToXMI(): Skipping empty item"
+				  << endl;
+			return;
+		}
+		kdDebug() << "UMLListViewItem::saveToXMI(): saving local label "
+			  << m_Label << " because umlobject ID is not set" << endl;
 		itemElement.setAttribute( "label", m_Label );
 	}
 	itemElement.setAttribute( "open", isOpen() );
@@ -491,8 +499,15 @@ void UMLListViewItem::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 bool UMLListViewItem::loadFromXMI(QDomElement& qElement) {
 	QString id = qElement.attribute( "id", "-1" );
 	QString type = qElement.attribute( "type", "-1" );
-	setText( qElement.attribute( "label", "" ) );
+	QString label = qElement.attribute( "label", "" );
 	QString open = qElement.attribute( "open", "1" );
+	if (!label.isEmpty())
+		setText( label );
+	else if (id == "-1") {
+		kdError() << "UMLListViewItem::loadFromXMI: Item of type "
+			  << type << " has neither ID nor label" << endl;
+		return false;
+	}
 
 	m_nChildren = qElement.childNodes().count();
 

@@ -895,6 +895,7 @@ bool UMLListView::acceptDrag(QDropEvent* event) const {
 			case Uml::lvt_Enum:
 				accept = (dstType == Uml::lvt_Logical_Folder ||
 					  dstType == Uml::lvt_Logical_View ||
+					  dstType == Uml::lvt_Class ||
 					  dstType == Uml::lvt_Package);
 				break;
 			case Uml::lvt_Class_Diagram:
@@ -1011,6 +1012,7 @@ void UMLListView::slotDropped(QDropEvent* de, QListViewItem* /* parent */, QList
 			case Uml::lvt_Enum:
 				if (itemType == Uml::lvt_Logical_Folder ||
 				    itemType == Uml::lvt_Logical_View ||
+				    itemType == Uml::lvt_Class ||
 				    itemType == Uml::lvt_Package) {
 					newItem = move->deepCopy(newParent);
 					delete move;
@@ -2195,6 +2197,12 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
 			// Pre-1.2 format: Folders did not have their ID set.
 			// Pull a new ID now.
 			nID = m_doc->getUniqueID();
+		} else if (type != "801" && type != "802" &&
+			   type != "821" && type != "827") {
+			kdError() << "UMLListView::loadChildrenFromXMI: item of type "
+				  << type << " has no ID, skipping." << endl;
+			domElement = node.toElement();
+			continue;
 		}
 
 		switch( lvType ) {
@@ -2304,9 +2312,8 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
 //				item = diagramFolder;
 				break;
 			default:
-				if (nID != -1) {
-					item = new UMLListViewItem( parent, label, lvType, nID );
-				}
+				item = new UMLListViewItem( parent, label, lvType, nID );
+				break;
 		}//end switch
 
 		if (item)  {
