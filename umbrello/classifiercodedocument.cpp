@@ -290,8 +290,7 @@ void ClassifierCodeDocument::addCodeClassFieldMethods(QPtrList<CodeClassField> &
 }
 
 bool ClassifierCodeDocument::parentIsInterface () {
-	UMLClassifier * c = getParentClassifier();
-	return dynamic_cast<UMLInterface*>(c) ? true : false; 
+	return m_isInterface;
 }
 
 /**
@@ -323,6 +322,7 @@ void ClassifierCodeDocument::init (UMLClassifier * c )
 {
 
   	m_parentclassifier = c;
+	m_isInterface = dynamic_cast<UMLInterface*>(c) ? true : false; 
 	m_classfieldVector.setAutoDelete(true);
         m_classFieldMap = new QMap<UMLObject *, CodeClassField*>;
 
@@ -331,8 +331,12 @@ void ClassifierCodeDocument::init (UMLClassifier * c )
 	// initCodeClassFields(); // cant call here?..newCodeClassField is pure virtual 
 
 	// slots
-	connect(c,SIGNAL(attributeAdded(UMLObject*)),this,SLOT(addAttributeClassField(UMLObject*)));
-	connect(c,SIGNAL(attributeRemoved(UMLObject*)),this,SLOT(removeAttributeClassField(UMLObject*)));
+	if(!parentIsInterface())
+	{
+	    connect(c,SIGNAL(attributeAdded(UMLObject*)),this,SLOT(addAttributeClassField(UMLObject*)));
+	    connect(c,SIGNAL(attributeRemoved(UMLObject*)),this,SLOT(removeAttributeClassField(UMLObject*)));
+	}
+
 	connect(c,SIGNAL(sigAssociationAdded(UMLAssociation*)),this,SLOT(addAssociationClassField(UMLAssociation*)));
 	connect(c,SIGNAL(sigAssociationRemoved(UMLAssociation*)),this,SLOT(removeAssociationClassField(UMLAssociation*)));
 	connect(c,SIGNAL(operationAdded(UMLObject*)),this,SLOT(addOperation(UMLObject*)));

@@ -209,6 +209,7 @@ private:
 
 	QPtrList<CodeClassField> m_classfieldVector;
 	UMLClassifier * m_parentclassifier;
+	bool m_isInterface;
 
 	// using the passed list, update our inventory of CodeClassFields which are
 	// based on UMLRoles (e.g. dervied from associations with other classifiers).
