@@ -37,13 +37,6 @@ public:
 	EnumWidget(UMLView* view, UMLObject* o);
 
 	/**
-	 * Constructs an EnumWidget.
-	 *
-	 * @param view		The parent of this EnumWidget.
-	 */
-	EnumWidget(UMLView* view);
-
-	/**
 	 * Standard deconstructor.
 	 */
 	~EnumWidget();
