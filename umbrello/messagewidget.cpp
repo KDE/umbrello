@@ -212,13 +212,16 @@ void MessageWidget::setTextPosition() {
 	}
 	m_pFText->calculateSize();
 	const int xLowerBound = getX() + 5;
-	const int xUpperBound = m_pOw[B]->getX() - m_pFText->getWidth();
 	int ftX = m_pFText->getX();
 	if (ftX < xLowerBound ||
 	    m_sequenceMessageType == sequence_message_synchronous)
 		ftX = xLowerBound;
-	else if (ftX > xUpperBound)
-		ftX = xUpperBound;
+	else {
+		const int objB_seqLineX = m_pOw[B]->getX() + m_pOw[B]->getWidth() / 2;
+		const int xUpperBound = objB_seqLineX - m_pFText->getWidth() - 5;
+		if (ftX > xUpperBound)
+			ftX = xUpperBound;
+	}
 	m_pFText->setLinePos(ftX, getY() - m_pFText->getHeight());
 }
 
