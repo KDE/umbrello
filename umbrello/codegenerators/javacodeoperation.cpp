@@ -17,6 +17,7 @@
 
 #include "javaclassifiercodedocument.h"
 #include "javacodedocumentation.h"
+#include "javacodegenerator.h"
 
 // Constructors/Destructors
 //
@@ -39,6 +40,7 @@ void JavaCodeOperation::updateMethodDeclaration()
         CodeDocument * doc = getParentDocument();
         JavaClassifierCodeDocument * javadoc = dynamic_cast<JavaClassifierCodeDocument*>(doc);
 	UMLOperation * o = getParentOperation();
+	JavaCodeGenerator * gen = dynamic_cast<JavaCodeGenerator*>(doc->getParentGenerator());
 	bool isInterface = javadoc->getParentClassifier()->isInterface();
 	QString endLine = getNewLineEndingChars();
 
@@ -54,7 +56,8 @@ void JavaCodeOperation::updateMethodDeclaration()
 	// now, the starting text.
 	QString strVis = javadoc->scopeToJavaDecl(o->getScope());
 	// no return type for constructors
-	QString returnType = o->isConstructorOperation() ? QString("") : (o->getReturnType() + QString(" "));
+        QString fixedReturn = gen->fixTypeName(o->getReturnType());
+	QString returnType = o->isConstructorOperation() ? QString("") : (fixedReturn + QString(" "));
 	QString methodName = o->getName();
 	QString paramStr = QString("");
 

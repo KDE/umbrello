@@ -43,7 +43,6 @@ public:
 	 */
 	virtual ~JavaCodeClassField ( );
 
-	QString fixTypeName(QString string); 
 	QString getFieldType();
 	QString getFieldName();
 	QString getInitialValue();

@@ -125,6 +125,13 @@ public:
 	 */
 	virtual void createDefaultDatatypes();
 
+	/**
+	 * IF the type is "string" we need to declare it as
+	 * the Java Object "String" (there is no string primative in Java).
+	 * Same thing again for "bool" to "boolean". 
+	 */
+	QString fixTypeName(QString string); 
+
 protected:
 
 	/** create the codeblock that will represent the class declaration 

@@ -19,6 +19,7 @@
 
 #include "javacodeclassfield.h"
 #include "javacodecomment.h"
+#include "javacodegenerator.h"
 
 #include "../attribute.h"
 #include "../umlobject.h"
@@ -50,16 +51,6 @@ JavaCodeClassField::~JavaCodeClassField ( ) { }
 
 // Other methods
 //  
-
-// IF the type is "string" we need to declare it as
-// the Java Object "String" (there is no string primative in Java).
-// Same thing again for "bool" to "boolean"
-QString JavaCodeClassField::fixTypeName(QString string)
-{
-        string.replace(QRegExp("^string$"),"String");
-        string.replace(QRegExp("^bool$"),"boolean");
-        return cleanName(string);
-}
 
 QString JavaCodeClassField::getFieldName() {
         if (parentIsAttribute()) 
@@ -102,7 +93,8 @@ QString JavaCodeClassField::getInitialValue() {
 
 QString JavaCodeClassField::getTypeName ( ) 
 {
-	return fixTypeName(CodeClassField::getTypeName());
+	JavaCodeGenerator * gen = dynamic_cast<JavaCodeGenerator*>(getParentGenerator());
+	return gen->fixTypeName(CodeClassField::getTypeName());
 }
 
 #include "javacodeclassfield.moc"

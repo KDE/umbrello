@@ -133,6 +133,16 @@ QString JavaCodeGenerator::capitalizeFirstLetter(QString string)
         return string;
 }
 
+// IF the type is "string" we need to declare it as
+// the Java Object "String" (there is no string primative in Java).
+// Same thing again for "bool" to "boolean"
+QString JavaCodeGenerator::fixTypeName(QString string)
+{
+        string.replace(QRegExp("^string$"),"String");
+        string.replace(QRegExp("^bool$"),"boolean");
+        return cleanName(string);
+}
+
 /**
  * @return      JavaANTCodeDocument
  */
