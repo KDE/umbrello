@@ -16,51 +16,69 @@
 #include <qmap.h>
 
 /**
- *	This is the toolbar that is displayed on the right-hand side of the program
- *	window.  For each type of diagram it will change to suit that document.
+ * This is the toolbar that is displayed on the right-hand side of the program
+ * window.  For each type of diagram it will change to suit that document.
  *
- *	@short	The toolbar that is different for each type of diagram.
- *	@author Paul Hensgen <phensgen@techie.com>
+ * @short The toolbar that is different for each type of diagram.
+ * @author Paul Hensgen <phensgen@techie.com>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class WorkToolBar : public KToolBar {
 	Q_OBJECT
 public:
 
-enum EditTool {Select = 0, Generalization, Aggregation, Dependency, Association,
-CollMessage, SeqMessage, Composition, UniAssociation, StateTransition, ActivityTransition,
- Anchor, Note, Box, Text, Actor, UseCase, Class, Interface, Package, Component, Artifact, Object,
-InitialState, State, EndState, InitialActivity, Activity, EndActivity, Branch, Fork };	
+	/**
+	 * Enumeration of all available edit tools.
+	 */
+	enum EditTool {
+		Select = 0,
+		Generalization, Aggregation, Dependency, Association,
+		CollMessage, SeqMessage,
+		Composition, UniAssociation,
+		StateTransition, ActivityTransition,
+		Anchor, Note, Box, Text,
+		Actor, UseCase, Class, Interface,
+		Package, Component, Artifact, Object,
+		InitialState, State, EndState,
+		InitialActivity, Activity, EndActivity, Branch, Fork
+	};
 
 	/**
-	 *	Creates a work tool bar
+	 * Creates a work tool bar.
 	 *
-	 *	@param	parentWindow	The parent of the toolbar.
-	 *	@param	name					The name of the toolbar.
+	 * @param parentWindow	The parent of the toolbar.
+	 * @param name		The name of the toolbar.
 	 */
 	WorkToolBar(QMainWindow *parentWindow,const char*name);
 
 	/**
-	 * Sets the current tool to the previously used Tool, this is just
-	 * as if the user had pressed the button for the other tool
+	 * Sets the current tool to the previously used Tool. This is just
+	 * as if the user had pressed the button for the other tool.
 	 */
 	void setOldTool();
 
 	/**
 	 * Sets the current tool to the default tool. (select tool)
-	 * calling this function is as if the user had pressed the "arrow"
-	 * button on the toolbar
+	 * Calling this function is as if the user had pressed the "arrow"
+	 * button on the toolbar.
 	 */
 	void setDefaultTool();
-	
+
+	/**
+	 * Returns the currently selected EditTool.
+	 *
+	 * @return	The currently selected EditTool.
+	 */
 	EditTool currentTool();
 
 	/**
-	 *	Standard deconstructor
+	 * Standard deconstructor.
 	 */
 	~WorkToolBar();
-	
 
+	/**
+	 * Enumeration of all available toolbar buttons.
+	 */
 	enum ToolBar_Buttons
 	{
 	    tbb_Undefined = -1,
