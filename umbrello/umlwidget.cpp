@@ -293,7 +293,7 @@ void UMLWidget::mousePressEvent(QMouseEvent *me) {
 		//anything else needed??
 		return;
 	}
-	if( me -> state() == ShiftButton )
+	if( me -> state() == ShiftButton || me -> state() == ControlButton )
 	{
 		/* we have to save the shift state, because in ReleaseEvent it is lost */
 		m_bShiftPressed = true;
@@ -378,7 +378,9 @@ void UMLWidget::mouseReleaseEvent(QMouseEvent *me) {
 		m_pView->getDocument()->setModified(true);
 	}
 
-	if ( me->button() == LeftButton && me->stateAfter() != ShiftButton ) {
+	if ( me->button() == LeftButton && (me->stateAfter() != ShiftButton
+																|| me->stateAfter() != ControlButton) )
+	{
 		m_pView->setAssoc(this);
 	}
 }

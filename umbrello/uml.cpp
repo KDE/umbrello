@@ -1514,7 +1514,7 @@ void UMLApp::keyPressEvent(QKeyEvent *e) {
 
 void UMLApp::keyReleaseEvent(QKeyEvent *e) {
 	switch(e->key()) {
-		case Qt::Key_Shift:
+		case Qt::Key_Backspace:
 			toolsbar->setOldTool();
 			e->accept();
 			break;
