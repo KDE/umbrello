@@ -115,7 +115,8 @@ void ClassWidget::draw(QPainter & p, int offsetX, int offsetY) {
 		font.setItalic( false );
 		p.setFont( font );
 	} else {
-		if (m_bShowStereotype) {
+		/* if no stereotype is given, we don't want to show the empty << >> */
+		if (m_bShowStereotype && m_pObject->getStereotype().isEmpty() == false ) {
 			QFont f( UMLWidget::getFont() );
 			f.setBold( true );
 			p.setFont( f );
@@ -285,8 +286,12 @@ void ClassWidget::calculateSize() {
 		width = getFontMetrics(m_pObject && m_pObject-> getAbstract()
 			? FT_BOLD_ITALIC
 			: FT_BOLD).boundingRect(getName()).width();
-	int w = getFontMetrics(FT_BOLD).boundingRect("<< " + m_pObject -> getStereotype() + " >>").width();
 
+	/* if no stereotype is given, this line has a width of 0 */
+	int w = 0;
+	if (m_pObject->getStereotype().isEmpty() == false ) {
+		w = getFontMetrics(FT_BOLD).boundingRect("<< " + m_pObject -> getStereotype() + " >>").width();
+	}
 
 	width = w > width?w:width;
 
