@@ -455,6 +455,7 @@ void ClassifierCodeDocument::initCodeClassFields ( ) {
 			CodeClassField * field = newCodeClassField(at);
 			addCodeClassField(field);
 		}
+		delete alist;
 
 	}
 

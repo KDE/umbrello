@@ -27,10 +27,14 @@
 CodeParameter::CodeParameter ( ClassifierCodeDocument * parentDoc, UMLObject * parentObject )
     : QObject ( (QObject*) parentObject, "ACodeParam") 
 {
+	m_comment = 0;
 	initFields( parentDoc, parentObject );
 }
 
-CodeParameter::~CodeParameter ( ) { }
+CodeParameter::~CodeParameter ( ) {
+	if (m_comment != 0)
+		delete m_comment;
+}
 
 //  
 // Methods
@@ -108,7 +112,12 @@ QString CodeParameter::getInitialValue ( ) {
  * Set a Comment object.
  */
 void CodeParameter::setComment ( CodeComment * object ) {
+	if (m_comment != 0)
+		delete m_comment;
+
 	m_comment = object;
+
+	return;
 }
 
 /**
@@ -281,6 +290,8 @@ void CodeParameter::initFields ( ClassifierCodeDocument * doc, UMLObject * obj) 
 	m_parentDocument = doc;
 	m_initialValue = QString("");
 
+	if (m_comment != 0)
+		delete m_comment;
 	m_comment = m_parentDocument->newCodeComment();
 	m_comment->setText(getParentObject()->getDoc());
 

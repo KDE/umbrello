@@ -652,6 +652,7 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLClassifierList &cLis
 			if(temp && !cList.containsRef(temp))
 				cList.append(temp);
 		}
+		delete atl;
 	}
 
 
