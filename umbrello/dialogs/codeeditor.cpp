@@ -696,7 +696,8 @@ QPopupMenu * CodeEditor::createPopupMenu ( const QPoint & pos )
 			dynamic_cast<HierarchicalCodeBlock*>(m_selectedTextBlock))
 			menu->setItemEnabled (4, false);
 		
-		m_selectedTextBlock->insertCodeEditMenuItems(menu);
+		// TBD
+		// m_selectedTextBlock->insertCodeEditMenuItems(menu, this);
 	}
 
 	return menu;
@@ -758,6 +759,10 @@ void CodeEditor::slotPasteTextBlock ( ) {
 		rebuildView(m_lastPara);
 	}
 
+}
+
+void CodeEditor::slotRedrawText() {
+	rebuildView(m_lastPara);
 }
 
 void CodeEditor::init ( CodeViewerDialog * parentDlg, CodeDocument * parentDoc ) {

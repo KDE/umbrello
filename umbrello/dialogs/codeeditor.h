@@ -21,6 +21,7 @@
 
 #include <qpopupmenu.h>
 #include <qstring.h>
+#include <qlabel.h>
 #include <qtextedit.h>
 #include "../codeviewerstate.h"
 
@@ -137,6 +138,7 @@ public slots:
 	void removeParagraph ( int para );
         void changeHighlighting(int signal);
 	void changeShowHidden (int signal);
+	void slotRedrawText();
 
 protected slots:
 
