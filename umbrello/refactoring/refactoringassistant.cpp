@@ -23,6 +23,8 @@
 #include "../operation.h"
 
 #include "../dialogs/operationpropertiespage.h"
+#include "../dialogs/attributepropertiespage.h"
+#include "../dialogs/umbrellodialog.h"
 
 #include <qpoint.h>
 #include <qpopupmenu.h>
@@ -86,17 +88,34 @@ void RefactoringAssistant::itemExecuted( QListViewItem *item )
 	UMLObject *obj = m_umlObjectMap[item];
 	if(typeid(*obj) == typeid(UMLOperation))
 	{
-		page = new OperationPropertiesPage( static_cast<UMLOperation*>(obj), 0, "operation properties");
+		UMLOperation *o = static_cast<UMLOperation*>(obj);
+		UmbrelloDialog dialog(this, UmbrelloDialog::Swallow, "edit_operation", true, i18n("Operation properties"), 
+	                       UmbrelloDialog::Ok | UmbrelloDialog::Cancel );
+		OperationPropertiesPage *page = new OperationPropertiesPage(o,m_doc,&dialog,0);
+		dialog.setMainWidget(page);
+		if(dialog.exec())
+		{
+			item->setText(0,o->getName());
+			item->setPixmap(0, (o->getScope() == Uml::Public ? m_pixmaps.Public :
+					(o->getScope() == Uml::Protected ? m_pixmaps.Protected :
+					m_pixmaps.Private)));
+		}
 	}
 	if(typeid(*obj) == typeid(UMLAttribute))
 	{
-		//page = new AttributePropertiesPage( static_cast<UMLAttribute*>(obj), 0, "attribute properties");
+		UMLAttribute *a = static_cast<UMLAttribute*>(obj);
+		UmbrelloDialog dialog(this, UmbrelloDialog::Swallow, "edit_attribute", true, i18n("Attribute properties"), 
+	                       UmbrelloDialog::Ok | UmbrelloDialog::Cancel );
+		AttributePropertiesPage *page = new AttributePropertiesPage(a,&dialog,0);
+		dialog.setMainWidget(page);
+		if(dialog.exec())
+		{
+			item->setText(0,a->getName());
+			item->setPixmap(0, (a->getScope() == Uml::Public ? m_pixmaps.Public :
+					(a->getScope() == Uml::Protected ? m_pixmaps.Protected :
+					m_pixmaps.Private)));
+		}
 	}
-	if( page )
-	{
-		page->show();
-	}
-	
 }
 
 void RefactoringAssistant::showContextMenu(KListView *v,QListViewItem *item, const QPoint &p)
