@@ -191,9 +191,9 @@ void CPPSourceCodeDocument::updateContent( )
         // A: doesn't matter at all; its more readable to just include '*' and cpp compilers
         //    don't slow down or anything. (TZ)
         QString includeStatement = "";
-        includeStatement.append("include "+policy->getStringClassNameInclude()+";"+endLine);
+        includeStatement.append("#include \""+policy->getStringClassNameInclude()+"\""+endLine);
         if ( hasObjectVectorClassFields() )
-                includeStatement.append("include "+policy->getVectorClassNameInclude()+";"+endLine);
+                includeStatement.append("#include "+policy->getVectorClassNameInclude()+"\""+endLine);
 
         //only include classes in a different package from this class
         UMLClassifierList includes;
@@ -204,7 +204,7 @@ void CPPSourceCodeDocument::updateContent( )
         if (!(packageMap->contains(con)))
         {
                 packageMap->insert(con,con->getPackage());
-                includeStatement.append("include "+gen->cleanName(con->getName().lower())+".h;"+endLine);
+                includeStatement.append("#include \""+gen->cleanName(con->getName().lower())+".h\""+endLine);
         }
         // now, add/update the includes codeblock
         CodeBlockWithComments * iblock = addOrUpdateTaggedCodeBlockWithComments("includes", includeStatement, "", 0, false);

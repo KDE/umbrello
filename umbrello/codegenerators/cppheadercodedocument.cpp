@@ -431,13 +431,13 @@ void CPPHeaderCodeDocument::updateContent( )
 	bool stringGlobal = policy->stringIncludeIsGlobal();
 	QString sStartBrak = stringGlobal ? "<" : "\"";
 	QString sEndBrak = stringGlobal ? ">" : "\"";
-       	includeStatement.append("include "+sStartBrak+policy->getStringClassNameInclude()+sEndBrak+";"+endLine);
+       	includeStatement.append("#include "+sStartBrak+policy->getStringClassNameInclude()+sEndBrak+endLine);
        	if ( hasObjectVectorClassFields() )
 	{
 		bool vecGlobal = policy->vectorIncludeIsGlobal();
 		QString vStartBrak = vecGlobal ? "<" : "\"";
 		QString vEndBrak = vecGlobal ? ">" : "\"";
-		QString value ="include "+vStartBrak+policy->getVectorClassNameInclude()+vEndBrak+";";
+		QString value ="#include "+vStartBrak+policy->getVectorClassNameInclude()+vEndBrak;
        		includeStatement.append(value+endLine);
 	}
 
@@ -451,7 +451,7 @@ void CPPHeaderCodeDocument::updateContent( )
 	{
        		packageMap->insert(con,con->getPackage());
 		if(con != getParentClassifier())
-               		includeStatement.append("include "+gen->cleanName(con->getName().lower())+".h;"+endLine);
+               		includeStatement.append("#include \""+gen->cleanName(con->getName().lower())+".h\""+endLine);
 	}
         // now, add/update the includes codeblock
 	CodeBlockWithComments * inclBlock = addOrUpdateTaggedCodeBlockWithComments("includes", includeStatement, "", 0, false);
