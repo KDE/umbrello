@@ -492,9 +492,11 @@ public:
 	 *
 	 * @param type		The type of view to find.
 	 * @param name		The name of the view to find.
+	 * @param searchAllScopes Search in all subfolders (default: false.)
 	 * @return	Pointer to the view found, or NULL if not found.
 	 */
-	UMLView * findView(Uml::Diagram_Type type, const QString &name);
+	UMLView * findView(Uml::Diagram_Type type, const QString &name,
+			   bool searchAllScopes = false);
 
 
 	/**

@@ -371,7 +371,7 @@ class UMLListView : public KListView {
 	/**
 	 * This methods looks for a object in a folder an its subfolders recursive.
 	 * @param item The folder entry of the list view.
-	 * @param o The object to be find in the folder.
+	 * @param o The object to be found in the folder.
 	 *
 	 * @return The object if found else a NULL pointer.
 	 */

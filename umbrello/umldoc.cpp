@@ -171,7 +171,7 @@ void UMLDoc::removeView(UMLView *view , bool enforceCurrentView ) {
 	view->hide();
 	//remove all widgets before deleting view
 	view->removeAllWidgets();
-	// m_ViewLiset is set to autodelete!!
+	// m_ViewList is set to autodelete!!
 	m_ViewList.remove(view);
 	if (m_currentView == view)
 	{
@@ -742,7 +742,8 @@ CodeGenerator * UMLDoc::findCodeGeneratorByLanguage (const QString &lang) {
 }
 
 UMLView * UMLDoc::findView(Uml::IDType id) {
-	for(UMLView *w = m_ViewList.first(); w; w = m_ViewList.next()) {
+	for (UMLViewListIt vit(m_ViewList); vit.current(); ++vit) {
+		UMLView *w = vit.current();
 		if(w->getID() ==id) {
 			return w;
 		}
@@ -751,13 +752,27 @@ UMLView * UMLDoc::findView(Uml::IDType id) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLView * UMLDoc::findView(Diagram_Type type, const QString &name) {
-	for(UMLView *w = m_ViewList.first(); w; w = m_ViewList.next()) {
-		if( (w->getType() == type) && ( w->getName() == name) ) {
-			return w;
+UMLView * UMLDoc::findView(Diagram_Type type, const QString &name,
+			   bool searchAllScopes /* =false */) {
+	UMLListView *listView = UMLApp::app()->getListView();
+	UMLListViewItem *currentItem = static_cast<UMLListViewItem*>(listView->currentItem());
+	if (searchAllScopes || ! UMLListView::typeIsFolder(currentItem->getType())) {
+		for (UMLViewListIt vit(m_ViewList); vit.current(); ++vit) {
+			UMLView *w = vit.current();
+			if( (w->getType() == type) && ( w->getName() == name) ) {
+				return w;
+			}
 		}
+		return NULL;
 	}
-	return 0;
+	for (QListViewItemIterator it(currentItem); it.current(); ++it) {
+		UMLListViewItem *item = static_cast<UMLListViewItem*>(it.current());
+		if (! UMLListView::typeIsDiagram(item->getType()))
+			continue;
+		if (item->getText() == name)
+			return findView(item->getID());
+	}
+	return NULL;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLObject* UMLDoc::findObjectById(Uml::IDType id) {
@@ -1522,7 +1537,6 @@ void UMLDoc::renameDiagram(Uml::IDType id) {
 		} else
 			KMessageBox::error(0, i18n("A diagram is already using that name."), i18n("Not a Unique Name"));
 	}
-	return;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLDoc::renameUMLObject(UMLObject *o) {
