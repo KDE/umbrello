@@ -914,7 +914,7 @@ void UMLDoc::removeAssociation (UMLAssociation * assoc) {
 	// I dont believe this appropriate, UMLAssociations ARENT UMLWidgets -b.t.
 	// emit sigObjectRemoved(object);
 
-	setModified(true, false);
+	//setModified(true, false);
 
 }
 
@@ -1373,6 +1373,7 @@ bool UMLDoc::saveToXMI(QIODevice& file) {
 
 	QDomElement objectsElement = doc.createElement( "UML:Model" );
 
+#ifndef XMI_NEST_PACKAGES
 	// Save packages first so that when loading they are known first.
 	// This simplifies the establishing of cross reference links from
 	// contained objects to their containing package.
@@ -1383,27 +1384,26 @@ bool UMLDoc::saveToXMI(QIODevice& file) {
 		if (! p->saveToXMI(doc, objectsElement))
 			status = false;
 	}
+#endif
 
-	// Save everything else, but excluding operations, attributes, and
-	// associations.
+	// Save everything except operations, attributes, and associations.
 	// Operations and attributes are owned by classifiers and will show up
 	// as their child nodes.
 	// Associations are saved in an extra step (see below.)
 	for (UMLObject *o = objectList.first(); o; o = objectList.next() ) {
 		UMLObject_Type t = o->getBaseType();
-
+#if defined (XMI_NEST_PACKAGES)
+		// Under construction:
+		// Objects contained in a package are already saved by
+		// UMLPackage::saveToXMI().
+		if (o->getUMLPackage())
+			continue;
+#else
 		if (t == ot_Package)
 			continue;
+#endif
 		if (t == ot_Attribute || t == ot_Operation || t == ot_Association)
 			continue;
-		if (t != ot_Actor && t != ot_UseCase && t != ot_Interface && t != ot_Datatype
-		    && t != ot_Enum && t != ot_Class && t != ot_EnumLiteral && t != ot_Template
-		    && t != ot_Component && t != ot_Artifact && t != ot_Node
-		    && t != ot_Stereotype) {
-			kdWarning() << "UMLDoc::saveToXMI() trying to save a non-existant object from objectList"
-				    << endl;
-			continue;
-		}
 		if (! o->saveToXMI(doc, objectsElement))  {
 			status = false;
 		}
@@ -1777,13 +1777,11 @@ bool UMLDoc::loadUMLObjectsFromXMI( QDomNode & node ) {
 	                                         //how much of the file has been loaded rather than just
 	                                         //counting to 10 (an arbitrary number)
 	emit sigWriteToStatusBar( i18n("Loading UML elements...") );
-	UMLObject * pObject = 0;
 	int count = 0;
 
 	while ( !element.isNull() ) {
-		pObject = 0;
 		QString type = element.tagName();
-		pObject = makeNewUMLObject(type);
+		UMLObject *pObject = makeNewUMLObject(type);
 		if( !pObject ) {
 			kdWarning() << "Given wrong type of umlobject to create: " << type << endl;
 			return false;
@@ -1813,6 +1811,8 @@ bool UMLDoc::loadUMLObjectsFromXMI( QDomNode & node ) {
 				umlpkg->addObjRef( pObject );
 				// Add the method addObjRef() to UMLPackage.
 			 */
+			if (type == "UML:Generalization")
+				addAssocToConcepts((UMLAssociation *) pObject);
 			objectList.append( pObject );
 		}
 		emit sigSetStatusbarProgress( ++count );
