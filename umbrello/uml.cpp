@@ -7,12 +7,14 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <iostream.h>
 #include "uml.h"
 
 #include "infowidget.h"
 #include "classimport.h"
 #include "docwindow.h"
 #include "codegenerator.h"
+#include "codegenerationpolicy.h"
 
 #include "umldoc.h"
 #include "umllistview.h"
@@ -22,6 +24,7 @@
 #include "clipboard/umldrag.h"
 #include "dialogs/classwizard.h"
 #include "dialogs/codegenerationwizard.h"
+#include "dialogs/codeviewerdialog.h"
 #include "dialogs/configcodegenerators.h"
 #include "dialogs/diagramprintpage.h"
 #include "dialogs/selectlanguagesdlg.h"
@@ -80,6 +83,7 @@ UMLApp::UMLApp(QWidget* , const char* name):KDockMainWindow(0, name) {
 	loading = false;
 	m_clipTimer = 0;
 	m_copyTimer = 0;
+	m_defaultcodegenerationpolicy = 0;
 
 	///////////////////////////////////////////////////////////////////
 	// call inits to invoke all other construction parts
@@ -127,6 +131,7 @@ UMLApp::UMLApp(QWidget* , const char* name):KDockMainWindow(0, name) {
 
 	m_refactoringAssist = 0L;
 
+	m_defaultcodegenerationpolicy = new CodeGenerationPolicy(this,config);
 
 ////FIXME - remove when dialog linking problems are solved
 	UMLClass *dummyc = new UMLClass(this, "dummy", 9999);
@@ -146,7 +151,6 @@ UMLApp::UMLApp(QWidget* , const char* name):KDockMainWindow(0, name) {
 	delete dummyi;
 	delete dummyp;
 ////////////////////////////////////////
-
 
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -388,6 +392,7 @@ void UMLApp::initStatusBar() {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLApp::initDocument() {
+cerr <<" NEW DOC CALLED "<<endl;
 	doc = new UMLDoc(this);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -428,6 +433,7 @@ void UMLApp::initView() {
 void UMLApp::openDocumentFile(const KURL& url) {
 	slotStatusMsg(i18n("Opening file..."));
 
+cerr<<"OPEN FILE"<<endl;
 	doc->openDocument( url);
 	fileOpenRecent->addURL( url );
 	slotStatusMsg(i18n("Ready."));
@@ -485,26 +491,41 @@ void UMLApp::saveOptions() {
 	config->writeEntry( "ShowOpSig", optionState.classState.showOpSig );
 	config->writeEntry( "showPackage", optionState.classState.showPackage );
 
+	config -> setGroup( "Code Viewer Options" );
+	config->writeEntry( "height", optionState.codeViewerState.height );
+	config->writeEntry( "width", optionState.codeViewerState.width);
+	config->writeEntry( "font", optionState.codeViewerState.font);
+	config->writeEntry( "fontColor", optionState.codeViewerState.fontColor);
+	config->writeEntry( "paperColor", optionState.codeViewerState.paperColor);
+	config->writeEntry( "highlightColor", optionState.codeViewerState.highlightColor);
+
+	// merge current defaults into the default policy, just in case they
+	// are out of sync (yes, yes, we could have a callback do this).
+	CodeGenerator* gen = getGenerator(false);
+	if(gen && gen->getPolicy())
+	      m_defaultcodegenerationpolicy->setDefaults(gen->getPolicy());
+
+	// write the config for each language-specific code gen policies 
+	QDictIterator<GeneratorInfo> it( ldict );
+	for(it.toFirst() ; it.current(); ++it ) 
+	{
+		CodeGenerator * gen = doc->findCodeGeneratorByLanguage(it.current()->language);
+		if (gen) 
+                	gen->getPolicy()->writeConfig(config);
+	}
+
+	// now write the basic defaults to the config file
+	m_defaultcodegenerationpolicy->writeConfig(config);
+
+	// next, we record the activeLanguage in the Code Generation Group 
 	config->setGroup("Code Generation");
-	config->writeEntry("forceDoc",optionState.codegenState.forceDoc);
-	config->writeEntry("forceSections",optionState.codegenState.forceSections);
-#if KDE_IS_VERSION(3,1,3)
-	config->writePathEntry("outputDirectory",optionState.codegenState.outputDir);
-	config->writePathEntry("headingsDirectory",optionState.codegenState.headingsDir);
-#else
-	config->writeEntry("outputDirectory",optionState.codegenState.outputDir);
-	config->writeEntry("headingsDirectory",optionState.codegenState.headingsDir);
-#endif
-	config->writeEntry("includeHeadings",optionState.codegenState.includeHeadings);
-	config->writeEntry("overwritePolicy",optionState.codegenState.overwritePolicy);
-	config->writeEntry("modnamePolicy",  optionState.codegenState.modname);
 	config->writeEntry("activeLanguage",activeLanguage);
 
-	//save library information
+	//now, we save library information
 	QStringList libsknown;
 	QDict<QStringList> llist;
 	llist.setAutoDelete(true);
-	QDictIterator<GeneratorInfo> it( ldict );
+//	QDictIterator<GeneratorInfo> it( ldict );
 	QStringList templ;
 	for(it.toFirst() ; it.current(); ++it ) {
 		if(!libsknown.contains(it.current()->library))
@@ -616,6 +637,8 @@ void UMLApp::slotFileOpen() {
 	slotStatusMsg(i18n("Opening file..."));
 	loading = true;
 
+cerr<<"OPEN FILE (SLOT)"<<endl;
+
 	if(!doc->saveModified()) {
 
 		// here saving wasn't successful
@@ -640,6 +663,8 @@ void UMLApp::slotFileOpen() {
 void UMLApp::slotFileOpenRecent(const KURL& url) {
 	slotStatusMsg(i18n("Opening file..."));
 	loading = true;
+
+cerr<<"OPEN FILE (SLOT RECENT)"<<endl;
 
 	KURL oldURL = doc->URL();
 
@@ -975,7 +1000,7 @@ void UMLApp::slotPrefs() {
 	config -> setGroup( "TipOfDay");
 	optionState.generalState.tip = config -> readBoolEntry( "RunOnStart", true );
 
-	dlg = new SettingsDlg(this, optionState, ldict, activeLanguage);
+	dlg = new SettingsDlg(this, optionState, ldict, activeLanguage, getGenerator());
 	connect(dlg, SIGNAL( applyClicked() ), this, SLOT( slotApplyPrefs() ) );
 
 	if( dlg->exec() == QDialog::Accepted && dlg->getChangesApplied() ) {
@@ -1060,22 +1085,37 @@ void UMLApp::readOptionState() {
 	optionState.classState.showOpSig = config -> readBoolEntry("ShowOpSig", true);
 	optionState.classState.showPackage = config -> readBoolEntry("showPackage", false);
 
-	config -> setGroup("Code Generation");
-	optionState.codegenState.forceDoc = config -> readBoolEntry("forceDoc",true);
-	optionState.codegenState.forceSections = config -> readBoolEntry("forceSections",false);
-	QString temp = config -> readPathEntry("outputDirectory");
-	if(temp.isEmpty())
-		temp = QDir::homeDirPath() + "/uml-generated-code/";
-	optionState.codegenState.outputDir = temp;
-	optionState.codegenState.includeHeadings = config->readBoolEntry("includeHeadings",true);
-	temp = config -> readPathEntry("headingsDirectory");
-	if(temp.isEmpty()) {
-		KStandardDirs stddirs;
-		temp =  stddirs.findDirs("data","umbrello/headings").first();
+	config -> setGroup( "Code Viewer Options" );
+	optionState.codeViewerState.height = config -> readNumEntry( "height", 40 );
+	optionState.codeViewerState.width = config -> readNumEntry( "width", 80 );
+	optionState.codeViewerState.font = config -> readFontEntry("font", &font );
+	QColor defaultWhite = QColor( "white" );
+	QColor defaultBlack = QColor( "black" );
+	optionState.codeViewerState.highlightColor = config -> readColorEntry( "highlightColor", &defaultYellow );
+	optionState.codeViewerState.paperColor = config -> readColorEntry( "paperColor", &defaultWhite);
+	optionState.codeViewerState.fontColor = config -> readColorEntry( "fontColor", &defaultBlack);
+
+}
+
+
+/** Call the code viewing assistant on a code document */
+void UMLApp::viewCodeDocument ( UMLClassifier * c) 
+{
+
+	CodeGenerator * currentGen = getGenerator();
+        if(currentGen && c)
+        {
+		CodeDocument *cdoc = currentGen->findCodeDocumentByClassifier(c);
+
+		if (cdoc) {
+			CodeViewerDialog * dialog = new CodeViewerDialog(this,cdoc,optionState.codeViewerState);
+			dialog->exec();
+			optionState.codeViewerState = dialog->getState();
+		} else {
+			KMessageBox::sorry(0, i18n("Cannot view code until you generate some first!"),i18n("Cannot View Code"));
+		}
 	}
-	optionState.codegenState.headingsDir = temp;
-	optionState.codegenState.overwritePolicy = (CodeGenerator::OverwritePolicy)config -> readNumEntry("overwritePolicy",CodeGenerator::Ask);
-	optionState.codegenState.modname = (CodeGenerator::ModifyNamePolicy)config -> readNumEntry("modnamePolicy",CodeGenerator::Capitalise);
+
 }
 
 void UMLApp::refactor( UMLClassifier *c ){
@@ -1087,8 +1127,50 @@ void UMLApp::refactor( UMLClassifier *c ){
  m_refactoringAssist->show();
 }
 
-CodeGenerator* UMLApp::generator() {
+void UMLApp::setGenerator ( CodeGenerator * gen, bool giveWarning ) {
+
+	if(!gen )
+	{
+		if(giveWarning)
+			KMessageBox::sorry(this,i18n("Could not find a code generator. Is the code generation library out of date?\n Please (re-)install libcodegenerator."),i18n("No Code Generation Library"));
+
+		return;
+	}
+
+        // IF there is a current generator, it has a policy that MAY have
+        // been changed. IF so, we should merge it back with our 'default'
+        // policy. Yes, it would be better if we simply sync'd up all the
+        // existing policies to the default policy via callbacks, but it
+        // is more work and harder to implment. THis simple solution is ugly
+        // but works. -b.t.
+        CodeGenerator * current = getDocument()->getCurrentCodeGenerator();
+        if (current)
+                m_defaultcodegenerationpolicy->setDefaults(current->getPolicy(), false);
+
+        // now set defaults on the new generator policy from the default policy
+        gen->getPolicy()->setDefaults(m_defaultcodegenerationpolicy, true);
+
+	getDocument()->setCurrentCodeGenerator(gen);
+
+}
+
+CodeGenerator* UMLApp::getGenerator(bool warnMissing ) {
+
+	CodeGenerator * gen = getDocument()->getCurrentCodeGenerator();
+
+	if( !gen) 
+	{
+		gen = createGenerator();
+		setGenerator(gen, warnMissing);
+	}
+
+        return gen;
+}
+
+CodeGenerator* UMLApp::createGenerator() {
 	GeneratorInfo *info;
+	CodeGenerator *g = 0;
+
 	if(activeLanguage.isEmpty()) {
 		KMessageBox::sorry(this,i18n("There is no active language defined.\nPlease select\
 		                             one of the installed languages to generate the code with."),i18n("No Language Selected"));
@@ -1099,6 +1181,13 @@ CodeGenerator* UMLApp::generator() {
 		KMessageBox::sorry(this,i18n("Could not find active language.\nPlease select\
 		                             one of the installed languages to generate the code with."),i18n("No Language Selected"));
 		return 0;
+	}
+
+	// does the code generator for our activeLanguage already exist? 
+	// then simply return that 
+	g = getDocument()->findCodeGeneratorByLanguage(activeLanguage);
+	if(g) {
+		return g;
 	}
 
 	KLibLoader *loader = KLibLoader::self();
@@ -1113,14 +1202,30 @@ CodeGenerator* UMLApp::generator() {
 		return 0;
 	}
 
-	QObject *o=fact->create(0,0,info->object.latin1());
+	QObject *o=fact->create(doc,0,info->object.latin1());
 	if(!o) {
 		kdDebug()<<"could not create object"<<endl;
 		return 0;
 	}
 
-	CodeGenerator *g = (CodeGenerator*)o;
-	g->setDocument(doc);
+	//g = static_cast<CodeGenerator*>(o);
+	g = dynamic_cast<CodeGenerator*>(o);
+
+        // now set defaults on the new policy from the the configuration
+        // file and THEN the default policy, which may have been updated
+	// since it was first created. In both cases, DONT emit the modifiedCodeContent
+	// signal as we will be doing that later. 
+	// 
+	g->getPolicy()->setDefaults(config, false); // picks up language specific stuff
+	g->getPolicy()->setDefaults(m_defaultcodegenerationpolicy, false);
+
+	// configure it from XMI
+	QDomElement elem = getDocument()->getCodeGeneratorXMIParams();
+	g->loadFromXMI(elem);
+
+	// add to our UML document
+	getDocument()->addCodeGenerator(g);
+
 	return g;
 }
 
@@ -1134,34 +1239,50 @@ void UMLApp::configureLanguages() {
 }
 
 void UMLApp::generateAllCode() {
-	CodeGenerator* gen = generator();
+	CodeGenerator* gen = getGenerator();
 	if (gen) {
-		gen->setForceDoc(optionState.codegenState.forceDoc);
-		gen->setForceSections(optionState.codegenState.forceSections);
-		gen->setIncludeHeadings(optionState.codegenState.includeHeadings);
-		gen->setHeadingFileDir(optionState.codegenState.headingsDir);
-		gen->setModifyNamePolicy(optionState.codegenState.modname);
-		gen->setOutputDirectory(optionState.codegenState.outputDir);
-		gen->setOverwritePolicy(optionState.codegenState.overwritePolicy);
-		gen->generateAllClasses();
-		delete gen;
+		gen->writeCodeToFile();
 	}
 }
 
 void UMLApp::generationWizard() {
-	CodeGenerationWizard wizard(doc, 0, optionState.codegenState, ldict, activeLanguage, this);
+	CodeGenerationWizard wizard(doc, 0, ldict, activeLanguage, this);
 	wizard.exec();
 }
 
 void UMLApp::setActiveLanguage(int id) {
-	for(unsigned int i=0; i < langSelect->count(); i++) {
-		langSelect->setItemChecked(langSelect->idAt(i),false);  //uncheck everything
+
+cerr<<"select active language(id) called"<<endl;
+
+	// only change the active language IF different from one we currently have
+	if (!langSelect->isItemChecked(id)) 
+	{
+
+		for(unsigned int i=0; i < langSelect->count(); i++) {
+			langSelect->setItemChecked(langSelect->idAt(i),false);  //uncheck everything
+		}
+
+
+		langSelect->setItemChecked(id,true);
+		activeLanguage = langSelect->text(id);
+
+		// update the generator
+		setGenerator(createGenerator());
 	}
-	langSelect->setItemChecked(id,true);
-	activeLanguage = langSelect->text(id);
 }
 
 void UMLApp::setActiveLanguage(QString activeLanguage) {
+
+cerr<<"select active language(activeLanguage) called"<<endl;
+
+	for(unsigned int j=0; j < langSelect->count(); j++) {
+		int id = langSelect->idAt(j);
+   
+		if (langSelect->text(id) == activeLanguage && 
+		      langSelect->isItemChecked(id)) 
+			return; // already set.. no need to do anything
+	}
+
 	for(unsigned int i=0; i < langSelect->count(); i++) {
 		if (langSelect->text(langSelect->idAt(i)) == activeLanguage) {
 			langSelect->setItemChecked(langSelect->idAt(i),true);
@@ -1170,6 +1291,8 @@ void UMLApp::setActiveLanguage(QString activeLanguage) {
 		}
 	}
 	this->activeLanguage = activeLanguage;
+
+	setGenerator(createGenerator());
 }
 
 void UMLApp::slotCurrentViewClearDiagram() {
@@ -1454,7 +1577,9 @@ void UMLApp::keyReleaseEvent(QKeyEvent *e) {
 }
 
 void UMLApp::newDocument() {
+
 	doc->newDocument();
+	setGenerator(createGenerator());
 	slotUpdateViews();
 }
 

@@ -24,7 +24,9 @@
 #include <kurl.h>
 
 // forward declaration of the UML classes
+class CodeDocument;
 class CodeGenerator;
+class CodeGenerationPolicy;
 class DocWindow;
 class UMLDoc;
 class UMLListView;
@@ -163,10 +165,26 @@ public:
 	/**
 	 *	gets the appropriate CodeGenerator
 	 */
-	CodeGenerator* generator();
+	CodeGenerator * getGenerator(bool warnMissing = true);
+
+	/** set the current generator for this app.
+	 * if giveWarning is true, then a popup box warning that the
+	 * code generation library is out-of-date will show if you
+	 * attempt to set the generator to NULL.
+         */
+	void setGenerator( CodeGenerator * gen , bool giveWarning = true );
+
+	/**
+	 * creates a new code generator for the given active language.
+  	 */
+	CodeGenerator* createGenerator();
 	
+
 	/** Call the refactoring assistant on a classifier */
 	void refactor( UMLClassifier* );
+
+	/** Call the code viewing assistant on a given UMLClassifier*/
+	void viewCodeDocument ( UMLClassifier * c);
 
 	/**
 	 *	Sets the state of the view properties menu item.
@@ -279,6 +297,9 @@ protected:
 	 * @see KTMainWindow#readProperties
 	 */
 	virtual void readProperties(KConfig *_cfg);
+
+	CodeGenerationPolicy * m_defaultcodegenerationpolicy;
+
 protected slots:
 
 	/** Updates the Menu for language selection and sets the
