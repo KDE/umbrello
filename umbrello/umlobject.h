@@ -257,9 +257,10 @@ protected:
 	bool m_bAbstract;
 
 	/**
-     * This attribute holds whether the UMLObject has instance scope (false - the default) or classifier scope (true).
-     */
-     bool m_bStatic;
+	 * This attribute holds whether the UMLObject has instance scope
+	 * (false - the default) or classifier scope (true).
+	 */
+	bool m_bStatic;
 };
 
 #endif

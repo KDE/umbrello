@@ -13,9 +13,8 @@
 #include <kmessagebox.h>
 #include <kdebug.h>
 
+#include "../artifact.h"
 #include "classgenpage.h"
-
-
 
 ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o) : QWidget(parent) {
 	m_pWidget = 0;
@@ -35,6 +34,8 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o) : QWidget(p
 		name = i18n("Interface name:");
 	} else if (t == Uml::ot_Component) {
 		name = i18n("Component name:");
+	} else if (t == Uml::ot_Artifact) {
+		name = i18n("Artifact name:");
 	} else {
 		kdWarning() << "creating class gen page for unknown widget type" << endl;
 	}
@@ -58,7 +59,8 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o) : QWidget(p
 	m_pAbstractCB = 0;
 	m_pDeconCB = 0;
 
-	if (t == Uml::ot_Concept || t == Uml::ot_Package || t == Uml::ot_Interface || t == Uml::ot_Component) {
+	if (t == Uml::ot_Concept || t == Uml::ot_Package
+	    || t == Uml::ot_Interface || t == Uml::ot_Component || t == Uml::ot_Artifact) {
 		m_pStereoTypeL = new QLabel(i18n("Stereotype name:"), this);
 		m_pNameLayout -> addWidget(m_pStereoTypeL, 1, 0);
 
@@ -87,7 +89,41 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o) : QWidget(p
 		m_pNameLayout -> addWidget( m_pAbstractCB, 3, 0 );
 	}
 
-	//setup scope
+	if (t == Uml::ot_Artifact) {
+		//setup artifact draw as
+		m_pDrawAsBG = new QButtonGroup(i18n("Draw As"), this);
+		QHBoxLayout* drawAsLayout = new QHBoxLayout(m_pDrawAsBG);
+		drawAsLayout->setMargin(margin);
+		m_pDrawAsBG->setExclusive(true);
+
+		m_pDefaultRB = new QRadioButton(i18n("&Default"), m_pDrawAsBG);
+		drawAsLayout->addWidget(m_pDefaultRB);
+
+		m_pFileRB = new QRadioButton(i18n("&File"), m_pDrawAsBG);
+		drawAsLayout->addWidget(m_pFileRB);
+
+		m_pLibraryRB = new QRadioButton(i18n("&Library"), m_pDrawAsBG);
+		drawAsLayout->addWidget(m_pLibraryRB);
+
+		m_pTableRB = new QRadioButton(i18n("&Table"), m_pDrawAsBG);
+		drawAsLayout->addWidget(m_pTableRB);
+
+		topLayout->addWidget(m_pDrawAsBG);
+
+		Artifact_draw_type drawAs = (static_cast<UMLArtifact*>(o))->getDrawAsType();
+
+		if (drawAs == file) {
+			m_pFileRB->setChecked(true);
+		} else if (drawAs == library) {
+			m_pLibraryRB->setChecked(true);
+		} else if (drawAs == table) {
+			m_pTableRB->setChecked(true);
+		} else {
+			m_pDefaultRB->setChecked(true);
+		}
+	}
+
+        //setup scope
 	m_pButtonBG = new QButtonGroup(i18n("Visibility"), this);
 	QHBoxLayout * scopeLayout = new QHBoxLayout(m_pButtonBG);
 	scopeLayout -> setMargin(margin);
@@ -224,6 +260,19 @@ void ClassGenPage::updateObject() {
 		else
 			s = Uml::Protected;
 		m_pObject -> setScope(s);
+		if (m_pObject->getBaseType() == Uml::ot_Artifact) {
+			Artifact_draw_type drawAsType;
+			if ( m_pFileRB->isChecked() ) {
+				drawAsType = file;
+			} else if ( m_pLibraryRB->isChecked() ) {
+				drawAsType = library;
+			} else if (m_pTableRB->isChecked() ) {
+				drawAsType = table;
+			} else {
+				drawAsType = defaultDraw;
+			}
+			(static_cast<UMLArtifact*>(m_pObject))->setDrawAsType(drawAsType);
+		}
 	}//end if m_pObject
 	else if(m_pWidget) {
 		m_pWidget -> setInstanceName(m_pInstanceLE -> text());

@@ -29,7 +29,7 @@ public:
 
 enum EditTool {Select = 0, Generalization, Aggregation, Dependency, Association,
 CollMessage, SeqMessage, Composition, UniAssociation, StateTransition, ActivityTransition,
- Anchor, Note, Text, Actor, UseCase, Class, Interface, Package, Component, Object,
+ Anchor, Note, Text, Actor, UseCase, Class, Interface, Package, Component, Artifact, Object,
 InitialState, State, EndState, InitialActivity, Activity, EndActivity, Branch, Fork };	
 
 	/**
@@ -84,6 +84,7 @@ InitialState, State, EndState, InitialActivity, Activity, EndActivity, Branch, F
 	    tbb_Interface,
 	    tbb_Package,
 	    tbb_Component,
+	    tbb_Artifact,
 	    tbb_Object,
 	    tbb_Initial_State,
 	    tbb_State,
@@ -126,6 +127,7 @@ private:
 		Fork,
 		Package,
 		Component,
+		Artifact,
 		Interface;
 	}
 	m_Pixmaps;

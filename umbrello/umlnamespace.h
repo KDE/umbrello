@@ -33,7 +33,8 @@ namespace Uml {
 	    ot_Attribute,
 	    ot_Operation,
 	    ot_Template,
-	    ot_Component
+	    ot_Component,
+	    ot_Artifact
 	};
 
 	enum Scope
@@ -57,7 +58,8 @@ namespace Uml {
 	    wt_Text,
 	    wt_State,
 	    wt_Activity,
-	    wt_Component
+	    wt_Component,
+	    wt_Artifact
 	};
 
 	enum Diagram_Type
@@ -146,6 +148,7 @@ namespace Uml {
 	    lvt_Component_View,
 	    lvt_Component,
 	    lvt_Diagrams,
+	    lvt_Artifact,
   	    lvt_Unknown = -1
   	};
  

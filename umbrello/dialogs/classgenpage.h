@@ -76,6 +76,8 @@ private:
 	UMLObject * m_pObject;
 	UMLDoc * m_pUmldoc;
 	ObjectWidget * m_pWidget;
+	QButtonGroup* m_pDrawAsBG;
+	QRadioButton* m_pDefaultRB,* m_pFileRB,* m_pLibraryRB,* m_pTableRB;
 
 public slots:
 	/**

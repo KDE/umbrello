@@ -102,6 +102,10 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, Uml::ListView_Type type) : KPopupM
 			mt = mt_Component;
 			break;
 
+		case Uml::lvt_Artifact:
+			mt = mt_Artifact;
+			break;
+
 		case Uml::lvt_Interface:
 			mt = mt_Interface;
 			break;
@@ -244,6 +248,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object, bool multi) :
 
 		case Uml::wt_Package:
 		case Uml::wt_Component:
+		case Uml::wt_Artifact:
 			setupColor(object->getUseFillColor());
 			insertItem(SmallIcon("editcut"), i18n("Cut"), mt_Cut);
 			insertItem(SmallIcon("editcopy"), i18n("Copy"), mt_Copy);
@@ -494,6 +499,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 	QPixmap branchPixmap(dataDir+"branch.xpm");
 	QPixmap objectPixmap(dataDir+"object.xpm");
 	QPixmap componentPixmap(dataDir+"component.xpm");
+	QPixmap artifactPixmap(dataDir+"artifact.xpm");
 
 	switch(type) {
 		case mt_Logical_View:
@@ -525,6 +531,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 			m_pInsert = new KPopupMenu(this, "New");
 			m_pInsert->insertItem(SmallIcon("folder_new"), i18n("Folder"), mt_Component_Folder);
 			m_pInsert->insertItem(componentPixmap, i18n("Component..."), mt_Component);
+			m_pInsert->insertItem(artifactPixmap, i18n("Artifact..."), mt_Artifact);
 			m_pInsert->insertItem(SmallIcon("folder_red"),i18n("Component Diagram"),
 					      mt_Component_Diagram);
 			insertItem(SmallIcon("filenew"), i18n("New"), m_pInsert);
@@ -582,6 +589,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 			m_pInsert = new KPopupMenu(this, "New");
 			m_pInsert->insertItem(SmallIcon("folder_new"),i18n("Folder"), mt_Component_Folder);
 			m_pInsert->insertItem(componentPixmap, i18n("Component..."), mt_Component);
+			m_pInsert->insertItem(artifactPixmap, i18n("Artifact..."), mt_Artifact);
 			m_pInsert->insertItem(SmallIcon("folder_red"),i18n("Component Diagram"),
 					      mt_Component_Diagram);
 			insertItem(SmallIcon("filenew"), i18n("New"), m_pInsert);
@@ -680,6 +688,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 		case mt_On_Component_Diagram:
 			m_pInsert = new KPopupMenu(this, "New");
 			m_pInsert->insertItem(componentPixmap, i18n("Component..."), mt_Component);
+			m_pInsert->insertItem(artifactPixmap, i18n("Artifact..."), mt_Artifact);
 			insertItem(SmallIcon("filenew"), i18n("New"), m_pInsert);
 			insertSeparator();
 			setupDiagramMenu(view);
@@ -712,7 +721,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 
 		case mt_Interface:
 			m_pInsert = new KPopupMenu(this,"New");
-			m_pInsert->insertItem(SmallIcon( "source"), i18n("Operation"), mt_Operation);
+			m_pInsert->insertItem(SmallIcon("source"), i18n("Operation"), mt_Operation);
 			insertItem(SmallIcon("filenew"), i18n("New"), m_pInsert);
 			insertSeparator();
 			insertItem(SmallIcon("editcut"), i18n("Cut"), mt_Cut);
@@ -725,6 +734,12 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 			break;
 
 		case mt_Package:
+		case mt_Component:
+		case mt_Artifact:
+		case mt_Actor:
+		case mt_UseCase:
+		case mt_Attribute:
+		case mt_Operation:
 			insertItem(SmallIcon("editcut"), i18n("Cut"), mt_Cut);
 			insertItem(SmallIcon("editcopy"), i18n("Copy"), mt_Copy);
 			insertItem(SmallIcon("editpaste"), i18n("Paste"), mt_Paste);
@@ -734,47 +749,16 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 			insertItem(SmallIcon("info"), i18n("Properties"), mt_Properties);
 			break;
 
-		case mt_Actor:
-		case mt_UseCase:
-			insertItem(SmallIcon( "editcut"), i18n("Cut"), mt_Cut);
-			insertItem(SmallIcon( "editcopy"), i18n("Copy"), mt_Copy);
-			insertItem(SmallIcon( "editpaste"), i18n("Paste"), mt_Paste);
-			insertSeparator();
-			insertItem(SmallIcon( "charset"), i18n("Rename..."), mt_Rename);
-			insertItem(SmallIcon( "editdelete"), i18n("Delete"), mt_Delete);
-			insertItem(SmallIcon( "info"), i18n("Properties"), mt_Properties);
-			break;
-
-		case mt_Attribute:
-			insertItem(SmallIcon( "editcut"), i18n("Cut"), mt_Cut);
-			insertItem(SmallIcon( "editcopy"), i18n("Copy"), mt_Copy);
-			insertItem(SmallIcon( "editpaste"), i18n("Paste"), mt_Paste);
-			insertSeparator();
-			insertItem(SmallIcon( "charset"), i18n("Rename..."), mt_Rename);
-			insertItem(SmallIcon( "editdelete"), i18n("Delete"), mt_Delete);
-			insertItem(SmallIcon( "info"), i18n("Properties"), mt_Properties);
-			break;
-
-		case mt_Operation:
-			insertItem(SmallIcon( "editcut"), i18n("Cut"), mt_Cut);
-			insertItem(SmallIcon( "editcopy"), i18n("Copy"), mt_Copy);
-			insertItem(SmallIcon( "editpaste"), i18n("Paste"), mt_Paste);
-			insertSeparator();
-			insertItem(SmallIcon( "charset"), i18n("Rename..."), mt_Rename);
-			insertItem(SmallIcon( "editdelete"), i18n("Delete"), mt_Delete);
-			insertItem(SmallIcon( "info"), i18n("Properties"), mt_Properties);
-			break;
-
 		case mt_New_Parameter:
-			insertItem(SmallIcon( "source"),i18n("New Parameter..."), mt_New_Parameter);
+			insertItem(SmallIcon("source"),i18n("New Parameter..."), mt_New_Parameter);
 			break;
 
 		case mt_New_Operation:
-		insertItem(SmallIcon( "source"),i18n("New Operation..."), mt_New_Operation);
+		insertItem(SmallIcon("source"),i18n("New Operation..."), mt_New_Operation);
 			break;
 
 		case mt_New_Attribute:
-			insertItem(SmallIcon( "source"), i18n("New Attribute..."), mt_New_Attribute);
+			insertItem(SmallIcon("source"), i18n("New Attribute..."), mt_New_Attribute);
 			break;
 
 		case mt_New_Template:

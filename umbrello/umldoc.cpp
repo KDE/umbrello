@@ -13,6 +13,7 @@
 #include "concept.h"
 #include "package.h"
 #include "component.h"
+#include "artifact.h"
 #include "interface.h"
 #include "docwindow.h"
 #include "objectwidget.h"
@@ -64,7 +65,7 @@ UMLDoc::UMLDoc(QWidget *parent, const char *name) : QObject(parent, name) {
 	objectList.clear();
 	objectList.setAutoDelete(true);
 	diagrams.setAutoDelete(true);
-	
+
 	pViewList->setAutoDelete(true);
 	m_pChangeLog = 0;
 	m_Doc = "";
@@ -444,6 +445,8 @@ QString	UMLDoc::uniqObjectName(const UMLObject_Type type) {
 		currentName = i18n("new_package");
 	else if(type == ot_Component)
 		currentName = i18n("new_component");
+	else if(type == ot_Artifact)
+		currentName = i18n("new_artifact");
 	else if(type == ot_Interface)
 		currentName = i18n("new_interface");
 	else
@@ -471,7 +474,6 @@ UMLObject* UMLDoc::createUMLObject(const std::type_info &type)
 	else if ( type == typeid(UMLActor) )
 	{
 		t = ot_Actor;
-	
 	}
 	else if ( type == typeid(UMLPackage) )
 	{
@@ -480,6 +482,10 @@ UMLObject* UMLDoc::createUMLObject(const std::type_info &type)
 	else if ( type == typeid(UMLComponent) )
 	{
 		t = ot_Component;
+	}
+	else if ( type == typeid(UMLArtifact) )
+	{
+		t = ot_Artifact;
 	}
 	else if ( type == typeid(UMLInterface) )
 	{
@@ -523,6 +529,8 @@ UMLObject* UMLDoc::createUMLObject(UMLObject_Type type) {
 				o = new UMLPackage(this, name, id);
 			} else if(type == ot_Component) {
 				o = new UMLComponent(this, name, id);
+			} else if(type == ot_Artifact) {
+				o = new UMLArtifact(this, name, id);
 			} else if(type == ot_Interface) {
 				o = new UMLInterface(this, name, id);
 			} else {
@@ -806,7 +814,7 @@ QString UMLDoc::uniqViewName(const Diagram_Type type) {
 
 
 Umbrello::Diagram* UMLDoc::UcreateDiagram(Diagram::DiagramType dType, const QString& name)
-{	
+{
 	int id = getUniqueID();
 	Diagram *diagram = new Diagram(dType, this, id, name);
 	diagrams.append(diagram);
@@ -1027,13 +1035,13 @@ void UMLDoc::showProperties(UMLObject* object, int page, bool assoc) {
 	{
 	kdDebug()<<"showing props for class"<<endl;
 	ClassPropertiesPage *p = new ClassPropertiesPage(dynamic_cast<UMLConcept*>(object),0L,"class page" );
-	p->show();	
+	p->show();
 	}
 	else
 	{
 	kdDebug()<<"object is of type "<<typeid(*object).name()<<" and not of type "<<typeid(UMLConcept).name()<<endl;
 	}
-*/	
+*/
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1456,6 +1464,8 @@ bool UMLDoc::loadUMLObjectsFromXMI( QDomNode & node ) {
 			pObject = new UMLPackage(this);
 		} else if (type == "UML:Component") {
 			pObject = new UMLComponent(this);
+		} else if (type == "UML:Artifact") {
+			pObject = new UMLArtifact(this);
 		} else if (type == "UML:Interface") {
 			pObject = new UMLInterface(this);
 		} else if( type == "UML:Association" ) {

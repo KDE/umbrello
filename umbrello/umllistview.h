@@ -60,6 +60,7 @@ public:
 	    it_Template,
 	    it_Package,
 	    it_Component,
+	    it_Artifact,
 	    it_Interface,
 	    it_Actor,
 	    it_UseCase,
@@ -244,6 +245,7 @@ protected:
 		QPixmap Template;
 		QPixmap Package;
 		QPixmap Component;
+		QPixmap Artifact;
 		QPixmap Interface;
 		QPixmap Actor;
 		QPixmap UseCase;
