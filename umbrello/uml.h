@@ -249,6 +249,14 @@ public:
 	void setCurrentView(UMLView* view = 0);
 
 	/**
+	 * Get the current view.
+	 * This may return a null pointer (when no view was previously
+	 * specified.)
+	 *
+	 */
+	UMLView* getCurrentView();
+
+	/**
 	 * Sets the default mimetype for all diagrams that are exported as 
 	 * images.
 	 *
@@ -733,14 +741,14 @@ private:
 	 * according to your application's needs by changing the view
 	 * class.
 	 */
-	UMLView* view;
+	UMLView* m_view;
 
 	/**
 	 * doc represents your actual document and is created only once.
 	 * It keeps information such as filename and does the loading and
 	 * saving of your files.
 	 */
-	UMLDoc* doc;
+	UMLDoc* m_doc;
 
 	/**
 	 * Listview shows the current open file.

@@ -269,7 +269,7 @@ void UMLApp::initActions() {
 //////////////////////////////////////////////////////////////////////////////////////////////
 void UMLApp::slotZoomSliderMoved(int value) {
 	int zoom = (int)(value*0.01);
-	doc->getCurrentView()->setZoom(zoom*zoom);
+	m_doc->getCurrentView()->setZoom(zoom*zoom);
 }
 
 void UMLApp::slotZoom100()  {
@@ -277,7 +277,7 @@ void UMLApp::slotZoom100()  {
 }
 
 void UMLApp::setZoom(int zoom) {
-	doc->getCurrentView()->setZoom(zoom);
+	m_doc->getCurrentView()->setZoom(zoom);
 }
 
 void UMLApp::setupZoomMenu() {
@@ -293,7 +293,7 @@ void UMLApp::setupZoomMenu() {
 	zoomSelect->insertItem(i18n("3&00%"),300);
 
 
-	int zoom = doc->getCurrentView()->currentZoom();
+	int zoom = m_doc->getCurrentView()->currentZoom();
 	//if current zoom is not a "standard zoom" (because of zoom in / zoom out step
 	//we add it for information
 	switch(zoom){
@@ -341,22 +341,22 @@ void UMLApp::initStatusBar() {
 	m_statusLabel->setAlignment(AlignLeft|AlignVCenter);
 
 	/*
-	connect(doc,SIGNAL(sigSetStatusbarProgressSteps(int)),statProg,SLOT(setTotalSteps(int)));
-	connect(doc,SIGNAL(sigSetStatusbarProgress(int)),statProg,SLOT(setProgress(int)));
-	connect(doc,SIGNAL(sigResetStatusbarProgress()),statProg,SLOT(reset()));
+	connect(m_doc,SIGNAL(sigSetStatusbarProgressSteps(int)),statProg,SLOT(setTotalSteps(int)));
+	connect(m_doc,SIGNAL(sigSetStatusbarProgress(int)),statProg,SLOT(setProgress(int)));
+	connect(m_doc,SIGNAL(sigResetStatusbarProgress()),statProg,SLOT(reset()));
 	*/
 
-	connect(doc, SIGNAL( sigWriteToStatusBar(const QString &) ), this, SLOT( slotStatusMsg(const QString &) ));
+	connect(m_doc, SIGNAL( sigWriteToStatusBar(const QString &) ), this, SLOT( slotStatusMsg(const QString &) ));
 	statusBar()->show(); //needs to be forced to show when on first ever startup for some reason
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLApp::initDocument() {
-	doc = new UMLDoc();
+	m_doc = new UMLDoc();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLApp::initView() {
-	setCaption(doc->URL().fileName(),false);
-
+	setCaption(m_doc->URL().fileName(),false);
+	m_view = NULL;
 	toolsbar = new WorkToolBar(this, "");
 	toolsbar->setLabel(i18n("Diagram Toolbar"));
 	addToolBar(toolsbar, Qt::DockTop, false);
@@ -381,14 +381,14 @@ void UMLApp::initView() {
 	m_listDock->manualDock(m_mainDock, KDockWidget::DockLeft, 20);
 
 	m_documentationDock = createDockWidget( "Documentation", 0L, 0L, i18n("&Documentation") );
-	m_pDocWindow = new DocWindow(doc, m_documentationDock, "DOCWINDOW");
+	m_pDocWindow = new DocWindow(m_doc, m_documentationDock, "DOCWINDOW");
 	m_documentationDock->setWidget(m_pDocWindow);
 	m_documentationDock->setDockSite(KDockWidget::DockCorner);
 	m_documentationDock->manualDock(m_listDock, KDockWidget::DockBottom, 80);
 
-	m_listView->setDocument(doc);
-	//doc->setupListView(listView);//make sure has a link to list view and add info widget
-	doc->setupSignals();//make sure gets signal from list view
+	m_listView->setDocument(m_doc);
+	//m_doc->setupListView(listView);//make sure has a link to list view and add info widget
+	m_doc->setupSignals();//make sure gets signal from list view
 
 	readDockConfig(); //reposition all the DockWindows to their saved positions
 }
@@ -396,10 +396,10 @@ void UMLApp::initView() {
 void UMLApp::openDocumentFile(const KURL& url) {
 	slotStatusMsg(i18n("Opening file..."));
 
-	doc->openDocument( url);
+	m_doc->openDocument( url);
 	fileOpenRecent->addURL( url );
 	slotStatusMsg(i18n("Ready."));
-	setCaption(doc->URL().fileName(), false);
+	setCaption(m_doc->URL().fileName(), false);
 	enablePrint(true);
 
 	// restore any saved code generators to memory.
@@ -411,7 +411,7 @@ void UMLApp::openDocumentFile(const KURL& url) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLDoc *UMLApp::getDocument() const {
-	return doc;
+	return m_doc;
 }
 
 UMLListView* UMLApp::getListView() {
@@ -438,13 +438,13 @@ void UMLApp::saveOptions() {
 	config->writeEntry( "loadlast", optionState.generalState.loadlast );
 
 	config->writeEntry( "diagram", optionState.generalState.diagram );
-	if( doc->URL().fileName() == i18n( "Untitled" ) ) {
+	if( m_doc->URL().fileName() == i18n( "Untitled" ) ) {
 		config -> writeEntry( "lastFile", "" );
 	} else {
 #if KDE_IS_VERSION(3,1,3)
-		config -> writePathEntry( "lastFile", doc -> URL().prettyURL() );
+		config -> writePathEntry( "lastFile", m_doc -> URL().prettyURL() );
 #else
-		config -> writeEntry( "lastFile", doc -> URL().prettyURL() );
+		config -> writeEntry( "lastFile", m_doc -> URL().prettyURL() );
 #endif
 	}
 	config->writeEntry( "imageMimetype", getImageMimetype() );
@@ -496,7 +496,7 @@ void UMLApp::saveOptions() {
 	QDictIterator<GeneratorInfo> it( generatorDict );
 	for(it.toFirst() ; it.current(); ++it )
 	{
-		CodeGenerator * gen = doc->findCodeGeneratorByLanguage(it.current()->language);
+		CodeGenerator * gen = m_doc->findCodeGeneratorByLanguage(it.current()->language);
 		if (gen)
 			gen->getPolicy()->writeConfig(config);
 	}
@@ -524,22 +524,22 @@ void UMLApp::readOptions() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void UMLApp::saveProperties(KConfig *_config) {
-	if(doc->URL().fileName()!=i18n("Untitled") && !doc->isModified()) {
+	if(m_doc->URL().fileName()!=i18n("Untitled") && !m_doc->isModified()) {
 		// saving to tempfile not necessary
 
 	} else {
-		KURL url=doc->URL();
+		KURL url=m_doc->URL();
 #if KDE_IS_VERSION(3,1,3)
 		_config->writePathEntry("filename", url.url());
 #else
 		_config->writeEntry("filename", url.url());
 #endif
-		_config->writeEntry("modified", doc->isModified());
+		_config->writeEntry("modified", m_doc->isModified());
 		QString tempname = kapp->tempSaveName(url.url());
 		QString tempurl= KURL::encode_string(tempname);
 
 		KURL _url(tempurl);
-		doc->saveDocument(_url);
+		m_doc->saveDocument(_url);
 	}
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -554,8 +554,8 @@ void UMLApp::readProperties(KConfig* _config) {
 
 
 		if(canRecover) {
-			doc->openDocument(_url);
-			doc->setModified();
+			m_doc->openDocument(_url);
+			m_doc->setModified();
 			enablePrint(true);
 			setCaption(_url.fileName(),true);
 			QFile::remove
@@ -565,7 +565,7 @@ void UMLApp::readProperties(KConfig* _config) {
 		}
 	} else {
 		if(!filename.isEmpty()) {
-			doc->openDocument(url);
+			m_doc->openDocument(url);
 			enablePrint(true);
 			setCaption(url.fileName(),false);
 
@@ -578,21 +578,21 @@ void UMLApp::readProperties(KConfig* _config) {
 
 bool UMLApp::queryClose() {
 	writeDockConfig();
-	return doc->saveModified();
+	return m_doc->saveModified();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool UMLApp::queryExit() {
 	saveOptions();
-	doc -> deleteContents();
+	m_doc -> deleteContents();
 	return true;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLApp::slotFileNew() {
 	slotStatusMsg(i18n("Creating new document..."));
-	if(doc->saveModified()) {
+	if(m_doc->saveModified()) {
 		setDiagramMenuItemsState(false);
-		doc->newDocument();
-		setCaption(doc->URL().fileName(), false);
+		m_doc->newDocument();
+		setCaption(m_doc->URL().fileName(), false);
 		fileOpenRecent->setCurrentItem( -1 );
 		setModified(false);
 		enablePrint(false);
@@ -606,7 +606,7 @@ void UMLApp::slotFileOpen() {
 	slotStatusMsg(i18n("Opening file..."));
 	loading = true;
 
-	if(!doc->saveModified()) {
+	if(!m_doc->saveModified()) {
 
 		// here saving wasn't successful
 
@@ -614,10 +614,10 @@ void UMLApp::slotFileOpen() {
 		KURL url=KFileDialog::getOpenURL(":open-umbrello-file",
 						 i18n("*.xmi *.xmi.tgz *.xmi.tar.bz2|All Supported Files (*.xmi, *.xmi.tgz, *.xmi.tar.bz2)\n*.xmi|Uncompressed XMI Files (*.xmi)\n*.xmi.tgz|Gzip Compressed XMI Files (*.xmi.tgz)\n*.xmi.tar.bz2|Bzip2 Compressed XMI Files (*.xmi.tar.bz2)"), this, i18n("Open File"));
 		if(!url.isEmpty()) {
-			if(doc->openDocument(url))
+			if(m_doc->openDocument(url))
 				fileOpenRecent->addURL( url );
 			enablePrint(true);
-			setCaption(doc->URL().fileName(), false);
+			setCaption(m_doc->URL().fileName(), false);
 		}
 
 	}
@@ -630,17 +630,17 @@ void UMLApp::slotFileOpenRecent(const KURL& url) {
 	slotStatusMsg(i18n("Opening file..."));
 	loading = true;
 
-	KURL oldURL = doc->URL();
+	KURL oldURL = m_doc->URL();
 
-	if(!doc->saveModified()) {
+	if(!m_doc->saveModified()) {
 		// here saving wasn't successful
 	} else {
-		if(!doc->openDocument(url)) {
+		if(!m_doc->openDocument(url)) {
 			fileOpenRecent->removeURL(url);
 			fileOpenRecent->setCurrentItem( -1 );
 		}
 		enablePrint(true);
-		setCaption(doc->URL().fileName(), false);
+		setCaption(m_doc->URL().fileName(), false);
 	}
 
 	loading = false;
@@ -650,10 +650,10 @@ void UMLApp::slotFileOpenRecent(const KURL& url) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLApp::slotFileSave() {
 	slotStatusMsg(i18n("Saving file..."));
-	if(doc->URL().fileName() == i18n("Untitled"))
+	if(m_doc->URL().fileName() == i18n("Untitled"))
 		slotFileSaveAs();
 	else
-		doc->saveDocument(doc -> URL());
+		m_doc->saveDocument(m_doc -> URL());
 
 	slotStatusMsg(i18n("Ready."));
 }
@@ -691,9 +691,9 @@ bool UMLApp::slotFileSaveAs()
 		}
 	}
 	if(!url.isEmpty()) {
-		doc->saveDocument(url);
+		m_doc->saveDocument(url);
 		fileOpenRecent->addURL(url);
-		setCaption(url.fileName(),doc->isModified());
+		setCaption(url.fileName(),m_doc->isModified());
 		slotStatusMsg(i18n("Ready."));
 		return true;
 
@@ -716,19 +716,19 @@ void UMLApp::slotFilePrint()
 
 	KPrinter printer;
 	printer.setFullPage(true);
-	DiagramPrintPage * selectPage = new DiagramPrintPage(0, doc);
+	DiagramPrintPage * selectPage = new DiagramPrintPage(0, m_doc);
 	printer.addDialogPage(selectPage);
 	QString msg;
-	if (printer.setup(this, i18n("Print %1").arg(doc->URL().prettyURL()))) {
+	if (printer.setup(this, i18n("Print %1").arg(m_doc->URL().prettyURL()))) {
 
-		doc -> print(&printer);
+		m_doc -> print(&printer);
 	}
 	slotStatusMsg(i18n("Ready."));
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLApp::slotFileQuit() {
 	slotStatusMsg(i18n("Exiting..."));
-	if(doc->saveModified()) {
+	if(m_doc->saveModified()) {
 		writeDockConfig();
 		saveOptions();
 		kapp->quit();
@@ -737,12 +737,12 @@ void UMLApp::slotFileQuit() {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLApp::slotEditUndo() {
-	doc->loadUndoData();
+	m_doc->loadUndoData();
 	slotStatusMsg(i18n("Ready."));
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLApp::slotEditRedo() {
-	doc->loadRedoData();
+	m_doc->loadRedoData();
 	slotStatusMsg(i18n("Ready."));
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -750,21 +750,21 @@ void UMLApp::slotEditCut() {
 	slotStatusMsg(i18n("Cutting selection..."));
 	//FIXME bug 59774 this fromview isn't very reliable.
 	//when cutting diagrams it is set to true even though it shouldn't be
-	bool fromview = (doc->getCurrentView() && doc->getCurrentView()->getSelectCount());
+	bool fromview = (m_doc->getCurrentView() && m_doc->getCurrentView()->getSelectCount());
 	if ( editCutCopy(fromview) ) {
 		emit sigCutSuccessful();
 		slotDeleteSelectedWidget();
-		doc->setModified(true);
+		m_doc->setModified(true);
 	}
 	slotStatusMsg(i18n("Ready."));
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLApp::slotEditCopy() {
 	slotStatusMsg(i18n("Copying selection to clipboard..."));
-	bool  fromview = (doc->getCurrentView() && doc->getCurrentView()->getSelectCount());
+	bool  fromview = (m_doc->getCurrentView() && m_doc->getCurrentView()->getSelectCount());
 	editCutCopy( fromview );
 	slotStatusMsg(i18n("Ready."));
-	doc -> setModified( true );
+	m_doc -> setModified( true );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -773,7 +773,7 @@ void UMLApp::slotEditPaste() {
 	QMimeSource* data = QApplication::clipboard()->data();
 	UMLClipboard clipboard;
 	setCursor(KCursor::waitCursor());
-	if(!clipboard.paste(doc, data)) {
+	if(!clipboard.paste(m_doc, data)) {
 		KMessageBox::sorry( this, i18n("Umbrello could not paste the clipboard contents.  "
 					       "The objects in the clipboard may be of the wrong "
 					       "type to be pasted here."), i18n("Paste Error") );
@@ -781,7 +781,7 @@ void UMLApp::slotEditPaste() {
 	slotStatusMsg(i18n("Ready."));
 	setCursor(KCursor::arrowCursor());
 	editPaste->setEnabled(false);
-	doc -> setModified( true );
+	m_doc -> setModified( true );
 }
 
 //Remove these once we stop supporting KDE 3.1
@@ -870,12 +870,12 @@ void UMLApp::setModified(bool modified) {
 	//if anything else needs to be done on a mofication, put it here
 
 	// printing should be possible whenever there is something to print
-	if ( loading == false && modified == true && doc->getCurrentView() )  {
+	if ( loading == false && modified == true && m_doc->getCurrentView() )  {
 		enablePrint(true);
 	}
 
 	if (loading == false)  {
-		setCaption(doc->URL().fileName(), modified); //add disk icon to taskbar if modified
+		setCaption(m_doc->URL().fileName(), modified); //add disk icon to taskbar if modified
 	}
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -919,7 +919,7 @@ void UMLApp::slotClipDataChanged() {
 }
 
 void UMLApp::slotCopyChanged() {
-	if(m_listView->getSelectedCount() || (doc->getCurrentView() && doc->getCurrentView()->getSelectCount())) {
+	if(m_listView->getSelectedCount() || (m_doc->getCurrentView() && m_doc->getCurrentView()->getSelectCount())) {
 		editCopy->setEnabled(true);
 		editCut->setEnabled(true);
 	} else {
@@ -950,7 +950,7 @@ void UMLApp::slotApplyPrefs() {
 		config -> setGroup( "TipOfDay");
 		config -> writeEntry( "RunOnStart", optionState.generalState.tip );
 
-		doc -> settingsChanged( optionState );
+		m_doc -> settingsChanged( optionState );
 		setActiveLanguage( dlg->getCodeGenerationLanguage() );
 		dlg->setCodeGenerator(getDocument()->getCurrentCodeGenerator()); // do this AFTER setActiveLanguage;
 	}
@@ -976,7 +976,7 @@ bool UMLApp::editCutCopy( bool bFromView ) {
 	UMLClipboard clipboard;
 	QMimeSource * clipdata = 0;
 
-	if((clipdata = clipboard.copy(doc, bFromView)) != 0) {
+	if((clipdata = clipboard.copy(m_doc, bFromView)) != 0) {
 		QClipboard* clip = QApplication::clipboard();
 		clip->setData(clipdata);//the global clipboard takes ownership of the clipdata memory
 		connect(clip, SIGNAL(dataChanged()), this, SLOT(slotClipDataChanged()));
@@ -1086,7 +1086,7 @@ void UMLApp::viewCodeDocument(UMLClassifier* classifier) {
 
 void UMLApp::refactor(UMLClassifier* classifier) {
 	if (!m_refactoringAssist) {
-		m_refactoringAssist = new RefactoringAssistant( doc, 0, 0, "refactoring_assistant" );
+		m_refactoringAssist = new RefactoringAssistant( m_doc, 0, 0, "refactoring_assistant" );
 	}
 	m_refactoringAssist->refactor(classifier);
 	m_refactoringAssist->show();
@@ -1188,7 +1188,7 @@ void UMLApp::generateAllCode() {
 }
 
 void UMLApp::generationWizard() {
-	CodeGenerationWizard wizard(doc, 0, generatorDict, activeLanguage, this);
+	CodeGenerationWizard wizard(m_doc, 0, generatorDict, activeLanguage, this);
 	wizard.exec();
 }
 
@@ -1232,25 +1232,25 @@ void UMLApp::setActiveLanguage(QString activeLanguage) {
 }
 
 void UMLApp::slotCurrentViewClearDiagram() {
-	doc->getCurrentView()->clearDiagram();
+	m_doc->getCurrentView()->clearDiagram();
 }
 
 void UMLApp::slotCurrentViewToggleSnapToGrid() {
-	doc->getCurrentView()->toggleSnapToGrid();
-	viewSnapToGrid->setChecked( doc->getCurrentView()->getSnapToGrid() );
+	m_doc->getCurrentView()->toggleSnapToGrid();
+	viewSnapToGrid->setChecked( m_doc->getCurrentView()->getSnapToGrid() );
 }
 
 void UMLApp::slotCurrentViewToggleShowGrid() {
-	doc->getCurrentView()->toggleShowGrid();
-	viewShowGrid->setChecked( doc->getCurrentView()->getShowSnapGrid() );
+	m_doc->getCurrentView()->toggleShowGrid();
+	viewShowGrid->setChecked( m_doc->getCurrentView()->getShowSnapGrid() );
 }
 
 void UMLApp::slotCurrentViewExportImage() {
-	doc->getCurrentView()->exportImage();
+	m_doc->getCurrentView()->exportImage();
 }
 
 void UMLApp::slotCurrentViewProperties() {
-	doc->getCurrentView()->showPropDialog();
+	m_doc->getCurrentView()->showPropDialog();
 }
 
 void UMLApp::setDiagramMenuItemsState(bool bState) {
@@ -1261,9 +1261,9 @@ void UMLApp::setDiagramMenuItemsState(bool bState) {
 	viewExportImage->setEnabled( bState );
 	viewProperties->setEnabled( bState );
 	filePrint->setEnabled( bState );
-	if ( doc->getCurrentView() ) {
-		viewSnapToGrid->setChecked( doc->getCurrentView()->getSnapToGrid() );
-		viewShowGrid->setChecked( doc->getCurrentView()->getShowSnapGrid() );
+	if ( m_doc->getCurrentView() ) {
+		viewSnapToGrid->setChecked( m_doc->getCurrentView()->getSnapToGrid() );
+		viewShowGrid->setChecked( m_doc->getCurrentView()->getShowSnapGrid() );
 	}
 }
 
@@ -1293,23 +1293,23 @@ void UMLApp::slotUpdateViews() {
 void UMLApp::slotImportClasses() {
 	QStringList fileList = KFileDialog::getOpenFileNames(":import-classes",
 	                       i18n("*.h *.hpp *.hxx|Header Files (*.h *.hpp *.hxx)\n*|All Files"), this, i18n("Select Classes to Import") );
-	doc->classImport()->importCPP( fileList );
+	m_doc->classImport()->importCPP( fileList );
 }
 
 void UMLApp::slotClassWizard() {
-	ClassWizard dlg( doc );
+	ClassWizard dlg( m_doc );
 	dlg.exec();
 }
 
 void UMLApp::slotAddDefaultDatatypes() {
-	doc->addDefaultDatatypes();
+	m_doc->addDefaultDatatypes();
 }
 
 void UMLApp::slotCurrentViewChanged() {
-	if ( doc->getCurrentView() ) {
-		connect(doc->getCurrentView(), SIGNAL( sigShowGridToggled(bool) ),
+	if ( m_doc->getCurrentView() ) {
+		connect(m_doc->getCurrentView(), SIGNAL( sigShowGridToggled(bool) ),
 			this, SLOT( slotShowGridToggled(bool) ) );
-		connect(doc->getCurrentView(), SIGNAL( sigSnapToGridToggled(bool) ),
+		connect(m_doc->getCurrentView(), SIGNAL( sigSnapToGridToggled(bool) ),
 			this, SLOT( slotSnapToGridToggled(bool) ) );
 	}
 }
@@ -1322,19 +1322,19 @@ void UMLApp::slotShowGridToggled(bool gridOn) {
 }
 
 void UMLApp::slotSelectAll() {
-        doc->getCurrentView()->selectAll();
+        m_doc->getCurrentView()->selectAll();
 }
 
 void UMLApp::slotDeleteSelectedWidget() {
-	if ( doc->getCurrentView() ) {
-		doc->getCurrentView()->deleteSelection();
+	if ( m_doc->getCurrentView() ) {
+		m_doc->getCurrentView()->deleteSelection();
 	} else {
 		kdWarning() << " trying to delete widgets when there is no current view (see bug 59774)" << endl;
 	}
 }
 
 void UMLApp::slotDeleteDiagram() {
-	doc->removeDiagram( doc->getCurrentView()->getID() );
+	m_doc->removeDiagram( m_doc->getCurrentView()->getID() );
 }
 
 void UMLApp::initGenerators() {
@@ -1423,7 +1423,7 @@ void UMLApp::keyReleaseEvent(QKeyEvent *e) {
 }
 
 void UMLApp::newDocument() {
-	doc->newDocument();
+	m_doc->newDocument();
 	setGenerator(createGenerator());
 	slotUpdateViews();
 }
@@ -1434,7 +1434,7 @@ void UMLApp::initSavedCodeGenerators() {
         for(it.toFirst() ; it.current(); ++it )
 	{
 		activeLanguage = it.current()->language;
-		if( doc->hasCodeGeneratorXMIParams(activeLanguage))
+		if( m_doc->hasCodeGeneratorXMIParams(activeLanguage))
 			createGenerator();
 	}
 
@@ -1448,12 +1448,17 @@ QWidget* UMLApp::getMainViewWidget() {
 }
 
 void UMLApp::setCurrentView(UMLView* view /*=0*/) {
+	m_view = view;
 	if (view) {
 		viewStack->raiseWidget(view);
 		slotStatusMsg(view->getName());
 	} else {
 		viewStack->raiseWidget(blankWidget);
 	}
+}
+
+UMLView* UMLApp::getCurrentView() {
+	return m_view;
 }
 
 QPopupMenu* UMLApp::findMenu(QMenuData* menu, QString name) {
