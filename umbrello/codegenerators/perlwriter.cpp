@@ -237,7 +237,7 @@ m_newLineEndingChars ;
 	UMLClass *myClass = dynamic_cast<UMLClass*>(c);
 
 	if(myClass && hasDefaultValueAttr(myClass)) {
-		UMLAttributeList *atl = myClass->getFilteredAttributeList();
+		UMLAttributeList atl = myClass->getFilteredAttributeList();
 
 		perl << m_newLineEndingChars;
 		perl << m_newLineEndingChars << "=item _init" << m_newLineEndingChars << m_newLineEndingChars << m_newLineEndingChars;
@@ -246,7 +246,7 @@ m_newLineEndingChars ;
 m_newLineEndingChars;
 		perl << "sub _init {" << m_newLineEndingChars << m_indentation << "my $self = shift;" << m_newLineEndingChars<<m_newLineEndingChars;
 
-		for(UMLAttribute *at = atl->first(); at ; at = atl->next()) {
+		for(UMLAttribute *at = atl.first(); at ; at = atl.next()) {
 			if(!at->getInitialValue().isEmpty())
 				perl << m_indentation << "defined $self->{" << cleanName(at->getName())<<"}"
                 		<< " or $self->{" << cleanName(at->getName()) << "} = "
@@ -304,8 +304,6 @@ m_newLineEndingChars << m_newLineEndingChars << "}"
 
 
 void PerlWriter::writeAttributes(UMLClass *c, QTextStream &perl) {
-	UMLAttributeList *atl;
-
 	UMLAttributeList  atpub, atprot, atpriv, atdefval;
 	atpub.setAutoDelete(false);
 	atprot.setAutoDelete(false);
@@ -313,9 +311,9 @@ void PerlWriter::writeAttributes(UMLClass *c, QTextStream &perl) {
 	atdefval.setAutoDelete(false);
 
 	//sort attributes by scope and see if they have a default value
-	atl = c->getFilteredAttributeList();
+	UMLAttributeList atl = c->getFilteredAttributeList();
 	UMLAttribute *at;
-	for(at = atl->first(); at ; at = atl->next()) {
+	for(at = atl.first(); at ; at = atl.next()) {
 		if(!at->getInitialValue().isEmpty())
 			atdefval.append(at);
 		switch(at->getScope()) {

@@ -21,55 +21,58 @@ UMLOperation::UMLOperation(const UMLClassifier *parent, QString Name, int id,
 			   Scope s, QString rt)
     : UMLClassifierListItem(parent, Name, id)
 {
-	m_ReturnType = rt;
+	m_TypeName = rt;   // FIXME: Change to use true model object.
 	m_Scope = s;
 	m_BaseType = ot_Operation;
-	m_List.clear();
 	m_List.setAutoDelete(false);
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 UMLOperation::UMLOperation(const UMLClassifier * parent)
     : UMLClassifierListItem (parent)
 {
-	m_ReturnType = "";
 	m_BaseType = ot_Operation;
-	m_List.clear();
 	m_List.setAutoDelete(true);
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 UMLOperation::~UMLOperation() {
-	m_List.clear();
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 UMLAttribute * UMLOperation::addParm(QString type, QString name, QString initialValue,
 				     QString doc, Uml::Parameter_Kind kind) {
 	// make the new parameter (attribute) public, just to be safe
 	UMLDoc *umldoc = UMLApp::app()->getDocument();
-	UMLAttribute * a = new UMLAttribute(this, name, umldoc->getUniqueID(), type, Uml::Public);
+	UMLAttribute * a = new UMLAttribute(this, name, umldoc->getUniqueID(), Uml::Public, type);
 	a -> setDoc(doc);
 	a -> setInitialValue(initialValue);
 	a -> setParmKind(kind);
 	addParm(a);
 	return a;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void UMLOperation::removeParm(UMLAttribute * a) {
+	if (a == NULL) {
+		kdDebug() << "UMLOperation::removeParm called on NULL attribute"
+			  << endl;
+		return;
+	}
+	kdDebug() << "UMLOperation::removeParm(" << a->getName() << ") called"
+		  << endl;
 	disconnect(a,SIGNAL(modified()),this,SIGNAL(modified()));
 	if(!m_List.remove(a))
-		kdDebug() << "Error removing parm" << endl;
+		kdDebug() << "Error removing parm " << a->getName() << endl;
 
 	emit modified();
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 UMLAttribute* UMLOperation::findParm(QString name) {
 	UMLAttribute * obj=0;
-	for(obj=m_List.first();obj != 0;obj=m_List.next()) {
-		if(obj -> getName() == name)
+	for (obj = m_List.first(); obj; obj = m_List.next()) {
+		if (obj->getName() == name)
 			return obj;
 	}
 	return 0;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 QString UMLOperation::toString(Signature_Type sig) {
 	QString s = "";
 
@@ -98,18 +101,19 @@ QString UMLOperation::toString(Signature_Type sig) {
 			s.append(", ");
 	}
 	s.append(")");
-	if (m_ReturnType.length() > 0 ) {
+	QString returnType = UMLClassifierListItem::getTypeName();
+	if (returnType.length() > 0 ) {
 		s.append(" : ");
 
-		if (m_ReturnType.startsWith("virtual ")) {
-			s += m_ReturnType.mid(8);
+		if (returnType.startsWith("virtual ")) {
+			s += returnType.mid(8);
 		} else {
-			s += m_ReturnType;
+			s += returnType;
 		}
 	}
 	return s;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void UMLOperation::addParm(UMLAttribute *parameter, int position) {
 	if( position >= 0 && position <= (int)m_List.count() )
 		m_List.insert(position,parameter);
@@ -118,7 +122,7 @@ void UMLOperation::addParm(UMLAttribute *parameter, int position) {
 	emit modified();
 	connect(parameter,SIGNAL(modified()),this,SIGNAL(modified()));
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 QString UMLOperation::getUniqueParameterName() {
 	QString currentName = i18n("new_parameter");
 	QString name = currentName;
@@ -127,7 +131,7 @@ QString UMLOperation::getUniqueParameterName() {
 	}
 	return name;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool UMLOperation::operator==( UMLOperation & rhs ) {
 	if( this == &rhs )
 		return true;
@@ -135,7 +139,7 @@ bool UMLOperation::operator==( UMLOperation & rhs ) {
 	if( !UMLObject::operator==( rhs ) )
 		return false;
 
-	if( m_ReturnType != rhs.m_ReturnType )
+	if( getTypeName() != rhs.getTypeName() )
 		return false;
 
 	if( m_List.count() != rhs.m_List.count() )
@@ -151,28 +155,42 @@ void UMLOperation::copyInto(UMLOperation *rhs) const
 {
 	UMLClassifierListItem::copyInto(rhs);
 
-	rhs->m_ReturnType = m_ReturnType;
 	m_List.copyInto(&(rhs->m_List));
 }
 
 UMLObject* UMLOperation::clone() const
 {
 	// TODO Why is this a UMLClassifier?
+	// -- Huh? I don't understand this TODO   --okellogg
 	UMLOperation *clone = new UMLOperation( (UMLClassifier *) parent());
 	copyInto(clone);
 
 	return clone;
 }
 
+bool UMLOperation::resolveParmTypes() {
+	UMLAttribute *pAtt;
+	bool overallSuccess = true;
+	for (pAtt = m_List.first(); pAtt; pAtt = m_List.next()) {
+		if (! pAtt->resolveType())
+			overallSuccess = false;
+	}
+	return overallSuccess;
+}
 
 void UMLOperation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement operationElement = UMLObject::save("UML:Operation", qDoc);
-	operationElement.setAttribute( "type", m_ReturnType );
+	operationElement.setAttribute( "type", getTypeName() );  // FIXME use model obj.
 	//save each attribute here, type different
 	UMLAttribute* pAtt = 0;
 	for( pAtt = m_List.first(); pAtt != 0; pAtt = m_List.next() ) {
 		QDomElement attElement = pAtt->UMLObject::save("UML:Parameter", qDoc);
-		attElement.setAttribute( "type", pAtt -> getTypeName() );
+		UMLClassifier *attrType = pAtt->getType();
+		if (attrType) {
+			attElement.setAttribute( "type", attrType->getID() );
+		} else {
+			attElement.setAttribute( "type", pAtt -> getTypeName() );
+		}
 		attElement.setAttribute( "value", pAtt -> getInitialValue() );
 
 		Uml::Parameter_Kind kind = pAtt->getParmKind();
@@ -188,7 +206,8 @@ void UMLOperation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 }
 
 bool UMLOperation::load( QDomElement & element ) {
-	m_ReturnType = element.attribute( "type", "" );
+	QString typeName = element.attribute( "type", "" );
+	UMLClassifierListItem::setTypeName( typeName );  // FIXME use model obj.
 	QDomNode node = element.firstChild();
 	QDomElement attElement = node.toElement();
 	while( !attElement.isNull() ) {
@@ -198,8 +217,10 @@ bool UMLOperation::load( QDomElement & element ) {
 				return false;
 		} else if (tagEq(tag, "Parameter")) {
 			UMLAttribute * pAtt = new UMLAttribute( this );
-			if( !pAtt -> UMLObject::loadFromXMI( attElement ) )
+			if( !pAtt->loadFromXMI(attElement) ) {
+				delete pAtt;
 				return false;
+			}
 			QString kind = attElement.attribute("kind", "in");
 			if (kind == "out")
 				pAtt->setParmKind(Uml::pk_Out);
@@ -207,8 +228,6 @@ bool UMLOperation::load( QDomElement & element ) {
 				pAtt->setParmKind(Uml::pk_InOut);
 			else
 				pAtt->setParmKind(Uml::pk_In);
-			pAtt -> setTypeName( attElement.attribute( "type", "" ) );
-			pAtt -> setInitialValue( attElement.attribute( "value", "" ) );
 			m_List.append( pAtt );
 		}
 		node = node.nextSibling();
@@ -217,7 +236,7 @@ bool UMLOperation::load( QDomElement & element ) {
 	return true;
 }
 
-bool UMLOperation::isConstructorOperation ( ) const {
+bool UMLOperation::isConstructorOperation() {
 	UMLClassifier * c = dynamic_cast<UMLClassifier*>(this->parent());
 
 	QString cName = c->getName();

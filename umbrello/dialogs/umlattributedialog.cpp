@@ -109,11 +109,6 @@ void UMLAttributeDialog::setupDialog() {
 	for (obj=namesList.first(); obj!=0; obj=namesList.next()) {
 		insertType( obj->getName() );
 	}
-	UMLInterfaceList interfaceList( pDoc->getInterfaces() );
-	UMLInterface* pInterface = 0;
-	for(pInterface=interfaceList.first(); pInterface!=0 ;pInterface=interfaceList.next()) {
-		insertType( pInterface->getName() );
-	}
 
 	//work out which one to select
 	int typeBoxCount = 0;
@@ -155,10 +150,21 @@ bool UMLAttributeDialog::apply() {
 	}
 
 	QString typeName = m_pTypeCB->currentText();
-	// TODO: The type of UMLAttributes is just a "passive" string.
-	// UMLAttribute should be enhanced to give the user the choice
-	// of referencing existing UMLClassifiers instead.
-	m_pAttribute->setTypeName( typeName );
+	UMLDoc * pDoc = UMLApp::app()->getDocument();
+	UMLClassifierList namesList( pDoc->getConcepts() );
+	UMLClassifier* obj = NULL;
+	for (obj=namesList.first(); obj!=0; obj=namesList.next()) {
+		if (typeName == obj->getName()) {
+			m_pAttribute->setType( obj );
+			break;
+		}
+	}
+	if (obj == NULL) {
+		// Nothing found: set type name directly. Bad.
+		kdDebug() << "UMLAttributeDialog::apply: " << typeName << " not found."
+			  << endl;
+		m_pAttribute->setTypeName( typeName );
+	}
 	m_pAttribute->setInitialValue( m_pInitialLE->text() );
 	QString name = m_pNameLE->text();
 	if( name.length() == 0 ) {

@@ -449,8 +449,8 @@ void ClassifierCodeDocument::initCodeClassFields ( ) {
 	// first, do the code classifields that arise from attributes
 	if (parentIsClass()) {
 		UMLClass * mclass = dynamic_cast<UMLClass*>(c);
-		UMLAttributeList* alist = mclass->getFilteredAttributeList();
-		for(UMLAttribute * at = alist->first(); at; at = alist->next())
+		UMLAttributeList alist = mclass->getFilteredAttributeList();
+		for(UMLAttribute * at = alist.first(); at; at = alist.next())
 		{
 			CodeClassField * field = newCodeClassField(at);
 			addCodeClassField(field);

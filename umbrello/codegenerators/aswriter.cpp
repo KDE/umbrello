@@ -126,7 +126,7 @@ void ASWriter::writeClass(UMLClassifier *c)
 	UMLClass *myClass = dynamic_cast<UMLClass*>(c);
 	if(myClass) {
 
-		UMLAttributeList *atl = myClass->getFilteredAttributeList();
+		UMLAttributeList atl = myClass->getFilteredAttributeList();
 
 	 	as << "/**" << endl;
 		QString temp = "_init sets all " + classname + " attributes to its default\
@@ -135,7 +135,7 @@ void ASWriter::writeClass(UMLClassifier *c)
 		as << " */" << endl;
 		as << classname << ".prototype._init = function ()" << endl;
 		as << "{" << endl;
-		for(UMLAttribute *at = atl->first(); at ; at = atl->next())
+		for(UMLAttribute *at = atl.first(); at ; at = atl.next())
 		{
 			if (forceDoc() || !at->getDoc().isEmpty())
 			{
@@ -183,8 +183,8 @@ void ASWriter::writeClass(UMLClassifier *c)
 
 	as << m_indentation << "/**Protected: */" << m_newLineEndingChars;
 	if(myClass) {
-		UMLAttributeList *atl = myClass->getFilteredAttributeList();
-		for (UMLAttribute *at = atl->first(); at ; at = atl->next())
+		UMLAttributeList atl = myClass->getFilteredAttributeList();
+		for (UMLAttribute *at = atl.first(); at ; at = atl.next())
 		{
 			if (at->getScope() == Uml::Protected)
 			{
@@ -204,8 +204,8 @@ void ASWriter::writeClass(UMLClassifier *c)
 	as << endl;
 	as << m_indentation << "/**Private: */" << m_newLineEndingChars;
 	if(myClass) {
-		UMLAttributeList *atl = myClass->getFilteredAttributeList();
-		for (UMLAttribute *at = atl->first(); at; at = atl->next())
+		UMLAttributeList atl = myClass->getFilteredAttributeList();
+		for (UMLAttribute *at = atl.first(); at; at = atl.next())
 		{
 			if (at->getScope() == Uml::Private)
 			{

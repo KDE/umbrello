@@ -232,26 +232,26 @@ void IDLWriter::writeClass(UMLClassifier *c) {
 			return;
 		}
 		if (stype == "CORBAEnum") {
-			UMLAttributeList *atl = myClass->getFilteredAttributeList();
+			UMLAttributeList atl = myClass->getFilteredAttributeList();
 			UMLAttribute *at;
 			idl << spc() << "enum " << classname << " {" << m_newLineEndingChars;
 			indentlevel++;
 			uint i = 0;
-			for (at = atl->first(); at; at = atl->next()) {
+			for (at = atl.first(); at; at = atl.next()) {
 				QString enumLiteral = cleanName(at->getName());
 				idl << spc() << enumLiteral;
-				if (++i < atl->count())
+				if (++i < atl.count())
 					idl << ",";
 				idl << endl;
 			}
 			indentlevel--;
 			idl << spc() << "};" << m_newLineEndingChars << m_newLineEndingChars;
 		} else if (stype == "CORBAStruct") {
-			UMLAttributeList *atl = myClass->getFilteredAttributeList();
+			UMLAttributeList atl = myClass->getFilteredAttributeList();
 			UMLAttribute *at;
 			idl << spc() << "struct " << classname << " {" << m_newLineEndingChars;
 			indentlevel++;
-			for (at = atl->first(); at; at = atl->next()) {
+			for (at = atl.first(); at; at = atl.next()) {
 				QString name = cleanName(at->getName());
 				idl << spc() << at->getTypeName() << " " << name << ";" << m_newLineEndingChars;
 				// Initial value not possible in IDL.
@@ -349,10 +349,10 @@ void IDLWriter::writeClass(UMLClassifier *c) {
 
 	// Generate public attributes.
 	if(myClass) {
-		UMLAttributeList *atl = myClass->getFilteredAttributeList();
+		UMLAttributeList atl = myClass->getFilteredAttributeList();
 		UMLAttributeList atpub;
 		UMLAttribute *at;
-		for (at = atl->first(); at; at = atl->next()) {
+		for (at = atl.first(); at; at = atl.next()) {
 			if (at->getScope() == Uml::Public)
 				atpub.append(at);
 		}

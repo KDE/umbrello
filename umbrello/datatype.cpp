@@ -42,6 +42,22 @@ UMLObject* UMLDatatype::clone() const
 	return clone;
 }
 
+void UMLDatatype::setOriginType(UMLObject *origType) {
+	m_pOrigType = origType;
+}
+
+UMLObject * UMLDatatype::originType() {
+	return m_pOrigType;
+}
+
+void UMLDatatype::setIsReference(bool isRef) {
+	m_isRef = isRef;
+}
+
+bool UMLDatatype::isReference() {
+	return m_isRef;
+}
+
 void UMLDatatype::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
 	QDomElement classElement = UMLObject::save("UML:DataType", qDoc);
 	qElement.appendChild( classElement );
@@ -54,6 +70,8 @@ bool UMLDatatype::load(QDomElement&) {
 void UMLDatatype::init() {
 	m_BaseType = ot_Datatype;
 	setStereotype( i18n("datatype") );
+	m_pOrigType = NULL;
+	m_isRef = false;
 }
 
 bool UMLDatatype::isInterface() {

@@ -529,11 +529,11 @@ void CPPHeaderCodeDocument::updateContent( )
 			enumStatement.append(indent + "enum "+cppClassName+" {"+endLine);
 
 			// populate 
-			UMLAttributeList* atl = k->getFilteredAttributeList();
-			for (UMLAttribute *at=atl->first(); at ; ) {
+			UMLAttributeList atl = k->getFilteredAttributeList();
+			for (UMLAttribute *at=atl.first(); at ; ) {
 				enumStatement.append(indent+indent);
 				enumStatement.append(gen->cleanName(at->getName()));
-				if ((at=atl->next()) != 0)
+				if ((at=atl.next()) != 0)
 					enumStatement.append(", "+endLine);
 				else
 					break;

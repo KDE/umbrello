@@ -12,6 +12,7 @@
 
 #include "umlcanvasobject.h"
 #include "umlclassifierlist.h"
+#include "umlclasslist.h"
 #include "umlinterfacelist.h"
 
 /**
@@ -119,6 +120,16 @@ public:
 	 */
 	void appendClassifiers( UMLClassifierList& classifiers,
 				bool includeNested = true );
+
+	/**
+	 * Append all classes from this package (and those from
+	 * nested packages) to the given UMLClassList.
+	 *
+	 * @param classes		The list to append to.
+	 * @param includeNested		Whether to include the classes from
+	 *				nested packages (default: true.)
+	 */
+	void appendClasses( UMLClassList& classes, bool includeNested = true );
 
 	/**
 	 * Append all classes and interfaces from this package (and those

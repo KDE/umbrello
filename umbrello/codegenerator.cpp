@@ -578,10 +578,6 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLClassifierList &cLis
 	associations.setAutoDelete(false);
 	view->getWidgetAssocs(c,associations);
 
-	UMLAttributeList *atl;
-	UMLAttribute *at;
-
-
 	//associations
 	for(AssociationWidget *a = associations.first(); a ; a = associations.next()) {
 		temp = 0;
@@ -633,8 +629,8 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLClassifierList &cLis
 		if(temp && !cList.containsRef(temp))
 			cList.append(temp);
 		//check parameters
-		atl = op->getParmList();
-		for(at = atl->first(); at; at = atl->next()) {
+		UMLAttributeList *atl = op->getParmList();
+		for (UMLAttribute *at = atl->first(); at; at = atl->next()) {
 			temp = (UMLClassifier*)m_document->findUMLClassifier(at->getTypeName());
 			if(temp && !cList.containsRef(temp))
 				cList.append(temp);
@@ -645,8 +641,8 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLClassifierList &cLis
 	//attributes
 	UMLClass * myClass = dynamic_cast<UMLClass*>(c);
 	if(myClass) {
-		atl = myClass->getFilteredAttributeList();
-		for(at = atl->first(); at; at = atl->next()) {
+		UMLAttributeList atl = myClass->getFilteredAttributeList();
+		for (UMLAttribute *at = atl.first(); at; at = atl.next()) {
 			temp=0;
 			temp =(UMLClassifier*) m_document->findUMLClassifier(at->getTypeName());
 			if(temp && !cList.containsRef(temp))

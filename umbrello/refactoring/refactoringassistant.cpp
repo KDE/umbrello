@@ -464,7 +464,8 @@ void RefactoringAssistant::addClassifier( UMLClassifier *classifier, QListViewIt
 
 	connect( classifier, SIGNAL( modified() ), this, SLOT( umlObjectModified() ) );
 	
-	if( dynamic_cast<UMLClass*>(classifier) )
+	UMLClass *klass = dynamic_cast<UMLClass*>(classifier);
+	if( klass )
 	{// only Classes have attributes...
 		connect( classifier, SIGNAL(attributeAdded(UMLAttribute*)),
 			this,SLOT( attributeAdded(UMLAttribute*)));
@@ -474,8 +475,8 @@ void RefactoringAssistant::addClassifier( UMLClassifier *classifier, QListViewIt
 		QListViewItem *attsFolder = new KListViewItem( classifierItem, i18n("Attributes"), "attributes" );
 		attsFolder->setPixmap(0,SmallIcon("folder_green_open"));
 		attsFolder->setExpandable( true );
-		UMLAttributeList* atts = static_cast<UMLClass*>(classifier)->getFilteredAttributeList();
-		for( UMLAttribute *att = atts->first(); att; att = atts->next() )
+		UMLAttributeList atts = klass->getFilteredAttributeList();
+		for( UMLAttribute *att = atts.first(); att; att = atts.next() )
 		{
 			attributeAdded( att );
 		}

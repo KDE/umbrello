@@ -22,7 +22,6 @@
  * @see UMLObject
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-
 class UMLAttribute : public UMLClassifierListItem {
 public:
 	/**
@@ -31,12 +30,12 @@ public:
 	 * @param parent	The parent of this UMLAttribute.
 	 * @param name		The name of this UMLAttribute.
 	 * @param id		The unique id given to this UMLAttribute.
-	 * @param type		The type of this UMLAttribute.
 	 * @param s		The scope of the UMLAttribute.
+	 * @param type		The type of this UMLAttribute.
 	 * @param iv		The initial value of the attribute.
 	 */
-	UMLAttribute(const UMLObject *parent, QString name, int id, QString type = "int",
-		     Scope s = Private, QString iv = 0);
+	UMLAttribute(const UMLObject *parent, QString name, int id,
+		     Scope s = Private, QString type = "int", QString iv = 0);
 
 	/**
 	 * Sets up an attribute.
@@ -67,25 +66,11 @@ public:
 	virtual UMLObject* clone() const;
 
 	/**
-	 * Returns the type of the UMLAttribute.
-	 *
-	 * @return	The type of the UMLAttribute.
-	 */
-	QString getTypeName();
-
-	/**
 	 * Returns The initial value of the UMLAttribute.
 	 *
 	 * @return	The inital value of the Atrtibute.
 	 */
 	QString getInitialValue();
-
-	/**
-	 * Sets the type of the UMLAttribute.
-	 *
-	 * @param type		The type of the UMLAttribute.
-	 */
-	void setTypeName(QString type);
 
 	/**
 	 * Sets the initial value of the UMLAttribute.
@@ -102,6 +87,15 @@ public:
 	 * @return	Returns a string representation of the UMLAttribute.
 	 */
 	QString toString(Signature_Type sig);
+
+	/**
+	 * This needs to be called after all UML objects have been loaded.
+	 * It resolves the xmi.id of the UML:Attribute "type".
+	 * This needs to be done after all classifiers are loaded because
+	 * the xmi.id might be a "forward reference", i.e. it may identify
+	 * a classifier which was not yet loaded at that point.
+	 */
+	bool resolveType();
 
 	/**
 	 * Creates the <UML:Attribute> XMI element.
@@ -123,7 +117,6 @@ protected:
 	bool load( QDomElement & element );
 
 private:
-	QString m_TypeName;     ///< text for the attribute type.
 	QString m_InitialValue; ///< text for the attribute's initial value.
 	Uml::Parameter_Kind m_ParmKind;
 };

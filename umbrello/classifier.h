@@ -14,6 +14,7 @@
 #include "umlattributelist.h"
 #include "umloperationlist.h"
 #include "umlclassifierlistitemlist.h"
+#include "classifierlistitem.h"
 
 class IDChangeLog;
 
@@ -155,6 +156,14 @@ public:
 	 * @return	The list of true operations for the Concept.
 	 */
 	UMLOperationList getFilteredOperationsList(bool includeInherited = false);
+
+	/**
+	 * Required for resolving the xmi.id's of operation parameters.
+	 * Calls UMLOperation::resolveParmTypes() on all operations.
+	 *
+	 * @return 	true for success.
+	 */
+	bool resolveOpParmTypes();
 
 	/**
 	 * Find a list of attributes, operations, associations or

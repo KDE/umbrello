@@ -191,8 +191,8 @@ UMLAttributeList XMLSchemaWriter::findAttributes (UMLClassifier *c)
 
 	UMLClass * myClass = dynamic_cast<UMLClass*>(c);
 	if(myClass) {
-	        UMLAttributeList *atl = myClass->getFilteredAttributeList();
-	        for(UMLAttribute *at=atl->first(); at ; at=atl->next()) {
+	        UMLAttributeList atl = myClass->getFilteredAttributeList();
+	        for(UMLAttribute *at=atl.first(); at ; at=atl.next()) {
 	                switch(at->getScope())
 	                {
 	                        case Uml::Public:
@@ -422,8 +422,8 @@ QStringList XMLSchemaWriter::findAttributeGroups (UMLClassifier *c)
 			// only classes have attributes..
 			UMLClass * myClass = dynamic_cast<UMLClass*>(classifier);
 			if(myClass) {
-				UMLAttributeList* attribs = myClass->getFilteredAttributeList();
-				if (attribs->count() > 0)
+				UMLAttributeList attribs = myClass->getFilteredAttributeList();
+				if (attribs.count() > 0)
 					list.append(getElementName(classifier)+"AttribGroupType");
 			}
 		}

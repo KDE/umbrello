@@ -14,31 +14,38 @@
 #include <config.h>
 #endif
 
-#include "umlclassifierlist.h"
-#include "umlassociationlist.h"
-#include "optionstate.h"
-#include "umlviewlist.h"
-#include "umlobjectlist.h"
-#include "umlinterfacelist.h"
-#include "umldatatypelist.h"
-#include "umlnamespace.h"
-#include "umlattributelist.h"
-#include "umlstereotypelist.h"
+// system includes
+#include <typeinfo>
+
+// qt includes
 #include <qdatastream.h>
 #include <qmap.h>
 #include <qdict.h>
 #include <qptrstack.h>
+
+// kde includes
 #include <kurl.h>
 #include <kdockwidget.h>
 
-#include <typeinfo>
+// app includes
+#include "umlnamespace.h"
+#include "optionstate.h"
+#include "umlobjectlist.h"
+#include "umlassociationlist.h"
+#include "umlclassifierlist.h"
+#include "umlclasslist.h"
+#include "umlinterfacelist.h"
+#include "umldatatypelist.h"
+#include "umlviewlist.h"
+#include "umlattributelist.h"
+#include "umlstereotypelist.h"
 
 #define ENC_UNKNOWN 0
 #define ENC_UNICODE 1
 #define ENC_OLD_ENC 2
 
 
-// forward declaration of the UML classes
+// forward declarations
 class QDomNode;
 class QFile;
 class QSplitter;
@@ -50,10 +57,7 @@ class CodeGenerator;
 class DocWindow;
 class IDChangeLog;
 class ObjectWidget;
-class UMLView;
 class UMLWidget;
-class UMLClass;
-class UMLClassifier;
 class UMLOperation;
 class UMLPackage;
 class UMLEnum;
@@ -636,6 +640,15 @@ public:
 	 * @return	List of UML concepts.
 	 */
 	UMLClassifierList getConcepts(bool includeNested = true);
+
+	/**
+	 * Returns a list of the classes in this UMLDoc.
+	 *
+	 * @param includeNested		Whether to include the concepts from
+	 *				nested packages (default: true.)
+	 * @return	List of UML classes.
+	 */
+	UMLClassList getClasses(bool includeNested = true);
 
 	/**
 	 * Returns a list of the classes and interfaces in this UMLDoc.

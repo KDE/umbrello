@@ -42,7 +42,7 @@ UMLAttribute* UMLClass::addAttribute(QString name, int id /* = -1 */) {
 	if (id == -1)
 		id = app->getDocument()->getUniqueID();
 	Uml::Scope scope = app->getOptionState().classState.defaultAttributeScope;
-	UMLAttribute *a = new UMLAttribute(this, name, id, "int", scope);
+	UMLAttribute *a = new UMLAttribute(this, name, id, scope);
 	m_AttsList.append(a);
 	emit modified();
 	connect(a,SIGNAL(modified()),this,SIGNAL(modified()));
@@ -278,6 +278,18 @@ UMLObject* UMLClass::clone() const
 	return clone;
 }
 
+bool UMLClass::resolveTypes() {
+	UMLAttributeList attributes = getFilteredAttributeList();
+	UMLAttribute *pAtt;
+	bool attribSuccess = true;
+	for (pAtt = attributes.first(); pAtt; pAtt = attributes.next()) {
+		if (! pAtt->resolveType())
+			attribSuccess = false;
+	}
+	bool parmSuccess = UMLClassifier::resolveOpParmTypes();
+	return attribSuccess && parmSuccess;
+}
+
 void UMLClass::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement classElement = UMLObject::save("UML:Class", qDoc);
 	//save operations
@@ -336,12 +348,12 @@ UMLClassifierListItemList* UMLClass::getAttList() {
 	return &m_AttsList;
 }
 
-UMLAttributeList* UMLClass::getFilteredAttributeList() {
-	UMLAttributeList* attributeList = new UMLAttributeList;
+UMLAttributeList UMLClass::getFilteredAttributeList() {
+	UMLAttributeList attributeList;
 	for(UMLClassifierListItem* listItem = m_AttsList.first(); listItem;
 	    listItem = m_AttsList.next())  {
 		if (listItem->getBaseType() == ot_Attribute) {
-			attributeList->append(static_cast<UMLAttribute*>(listItem));
+			attributeList.append(static_cast<UMLAttribute*>(listItem));
 		}
 	}
 	return attributeList;

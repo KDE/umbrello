@@ -72,11 +72,12 @@ public:
 
 	/**
 	 * Sets the return type of the operation.
+	 * DEPRECATED - The return type should be managed as a model object.
 	 *
 	 * @param rt	The return type to set the operation to.
 	 */
 	void setReturnType(QString rt) {
-		m_ReturnType = rt;
+		UMLClassifierListItem::m_TypeName = rt;
 	}
 
 	/**
@@ -84,8 +85,8 @@ public:
 	 *
 	 * @return	The return type.
 	 */
-	QString getReturnType() const {
-		return m_ReturnType;
+	QString getReturnType() {
+		return UMLClassifierListItem::getTypeName();
 	}
 
 	/**
@@ -144,6 +145,14 @@ public:
 	void addParm(UMLAttribute *parameter, int position = -1);
 
 	/**
+	 * Calls resolveType() on all attributes.
+	 * Needs to be called after all UML objects are loaded from file.
+	 *
+	 * @return	True for success.
+	 */
+	bool resolveParmTypes();
+
+	/**
 	 * Returns an unused parameter name for a new parameter.
 	 */
 	QString getUniqueParameterName();
@@ -163,7 +172,7 @@ public:
 	 *
 	 * @return	True if this operation is a constructor.
 	 */
-	bool isConstructorOperation ( ) const;
+	bool isConstructorOperation();
 
 protected:
 	/**
@@ -172,7 +181,6 @@ protected:
 	bool load( QDomElement & element );
 
 private:
-	QString m_ReturnType;
 	UMLAttributeList m_List;
 };
 

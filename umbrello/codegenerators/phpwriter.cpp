@@ -154,7 +154,7 @@ void PhpWriter::writeClass(UMLClassifier *c) {
 	writeOperations(c,php);
 
 	if(myClass && hasDefaultValueAttr(myClass)) {
-		UMLAttributeList *atl = myClass->getFilteredAttributeList();
+		UMLAttributeList atl = myClass->getFilteredAttributeList();
 		php << endl;
 
 		php << m_indentation << "/**" << endl;
@@ -164,7 +164,7 @@ void PhpWriter::writeClass(UMLClassifier *c) {
 		php << m_indentation << " */" << endl;
 		php << m_indentation << "function "<<"initAttributes( )" << endl;
 		php << m_indentation << "{" << endl;
-		for(UMLAttribute* at = atl->first(); at; at = atl->next())  {
+		for(UMLAttribute* at = atl.first(); at; at = atl.next())  {
 			if(!at->getInitialValue().isEmpty())  {
 				php << m_indentation << m_indentation << "$this->" << cleanName(at->getName()) << " = " <<
 					at->getInitialValue() << ";" << endl;
@@ -289,8 +289,6 @@ void PhpWriter::writeOperations(QString /* classname */, UMLOperationList &opLis
 }
 
 void PhpWriter::writeAttributes(UMLClass *c, QTextStream &php) {
-	UMLAttributeList *atl;
-
 	UMLAttributeList  atpub, atprot, atpriv, atdefval;
 	atpub.setAutoDelete(false);
 	atprot.setAutoDelete(false);
@@ -298,9 +296,9 @@ void PhpWriter::writeAttributes(UMLClass *c, QTextStream &php) {
 	atdefval.setAutoDelete(false);
 
 	//sort attributes by scope and see if they have a default value
-	atl = c->getFilteredAttributeList();
+	UMLAttributeList atl = c->getFilteredAttributeList();
 	UMLAttribute *at;
-	for(at = atl->first(); at ; at = atl->next()) {
+	for(at = atl.first(); at ; at = atl.next()) {
 		if(!at->getInitialValue().isEmpty())
 			atdefval.append(at);
 		switch(at->getScope()) {
@@ -316,7 +314,7 @@ void PhpWriter::writeAttributes(UMLClass *c, QTextStream &php) {
 		}
 	}
 
-	if(forceSections() || atl->count())
+	if(forceSections() || atl.count())
 		php<< m_newLineEndingChars << m_indentation << " /*** Attributes: ***/" << m_newLineEndingChars <<endl;
 
 	if(forceSections() || atpub.count()) {

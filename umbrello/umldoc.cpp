@@ -1110,7 +1110,7 @@ UMLObject* UMLDoc::createAttribute(UMLClass* umlclass, const QString &name /*=nu
 	}
 	const Settings::OptionState optionState = UMLApp::app()->getOptionState();
 	Uml::Scope scope = optionState.classState.defaultAttributeScope;
-	UMLAttribute* newAttribute = new UMLAttribute(umlclass, currentName, id, "int", scope);
+	UMLAttribute* newAttribute = new UMLAttribute(umlclass, currentName, id, scope);
 
 	int button = QDialog::Accepted;
 	bool goodName = false;
@@ -1696,7 +1696,7 @@ void UMLDoc::saveToXMI(QIODevice& file) {
 	root.setAttribute( "xmi.version", "1.2" );
 	root.setAttribute( "timestamp", "");
 	root.setAttribute( "verified", "false");
-	root.setAttribute( "xmlns:UML", "org.omg/standards/UML");
+	root.setAttribute( "xmlns:UML", "omg.org/UML/1.3");
 	doc.appendChild( root );
 
 	QDomElement header = doc.createElement( "XMI.header" );
@@ -1748,6 +1748,8 @@ void UMLDoc::saveToXMI(QIODevice& file) {
 	root.appendChild( header );
 
 	QDomElement content = doc.createElement( "XMI.content" );
+
+	QDomElement contentNS = doc.createElement( "UML:Namespace.contents" );
 
 	QDomElement objectsElement = doc.createElement( "UML:Model" );
 
@@ -2158,6 +2160,11 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element) {
 		tempElement = node.toElement();
 	}//end while
 
+	// Resolve the attribute types of all classes.
+	UMLClassList classes = getClasses();
+	for (UMLClass* c = classes.first(); c ; c = classes.next())
+		c->resolveTypes();
+
 	return true;
 }
 
@@ -2314,6 +2321,20 @@ UMLClassifierList UMLDoc::getConcepts(bool includeNested /* =true */) {
 		} else if (includeNested && ot == ot_Package) {
 			UMLPackage *pkg = static_cast<UMLPackage *>(obj);
 			pkg->appendClassifiers(conceptList);
+		}
+	}
+	return conceptList;
+}
+
+UMLClassList UMLDoc::getClasses(bool includeNested /* =true */) {
+	UMLClassList conceptList;
+	for(UMLObject* obj = m_objectList.first(); obj ; obj = m_objectList.next()) {
+		Uml::UMLObject_Type ot = obj->getBaseType();
+		if (ot == ot_Class)  {
+			conceptList.append((UMLClass *)obj);
+		} else if (includeNested && ot == ot_Package) {
+			UMLPackage *pkg = static_cast<UMLPackage *>(obj);
+			pkg->appendClasses(conceptList);
 		}
 	}
 	return conceptList;

@@ -124,7 +124,7 @@ void JSWriter::writeClass(UMLClassifier *c)
 
 	UMLClass *myClass = dynamic_cast<UMLClass*>(c);
 	if(myClass) {
-		UMLAttributeList *atl = myClass->getFilteredAttributeList();
+		UMLAttributeList atl = myClass->getFilteredAttributeList();
 
 	 	js << "/**" << endl;
 		QString temp = "_init sets all " + classname + " attributes to its default\
@@ -133,7 +133,7 @@ void JSWriter::writeClass(UMLClassifier *c)
 		js << " */" << endl;
 		js << classname << ".prototype._init = function ()" << endl;
 		js << "{" << endl;
-		for(UMLAttribute *at = atl->first(); at ; at = atl->next())
+		for(UMLAttribute *at = atl.first(); at ; at = atl.next())
 		{
 			if (forceDoc() || !at->getDoc().isEmpty())
 			{

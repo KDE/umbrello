@@ -111,12 +111,6 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a)
 	} else
 		m_pIn->setChecked(true);
 
-	//add some standard attribute types to combo box
-	QString types[] ={i18n("int"), i18n("long"), i18n("bool"), i18n("string"), i18n("double"), i18n("float"), i18n("date")};
-	for (int i=0; i<7; i++) {
-		m_pTypeCB->insertItem(types[i]);
-	}
-
 	m_pTypeCB->setDuplicatesEnabled(false);//only allow one of each type in box
 	m_pTypeCB->setEditable(true);
 	m_pTypeCB->setAutoCompletion(false);
@@ -126,11 +120,6 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a)
 	UMLClassifier * obj;
 	for(obj=namesList.first(); obj!=0 ;obj=namesList.next()) {
 		m_pTypeCB->insertItem( obj->getName() );
-	}
-	UMLInterfaceList interfaceList( m_pUmldoc->getInterfaces() );
-	UMLInterface* pInterface = 0;
-	for(pInterface=interfaceList.first(); pInterface!=0 ;pInterface=interfaceList.next()) {
-		m_pTypeCB->insertItem( pInterface->getName() );
 	}
 
 	//work out which one to select
@@ -167,6 +156,22 @@ void ParmPropDlg::slotOk() {
 	if (m_pAtt != NULL) {
 		m_pAtt->setParmKind( getParmKind() );
 		m_pAtt->setStereotype( m_pStereoTypeLE->text() );
+		QString typeName = m_pTypeCB->currentText();
+		UMLClassifierList namesList( m_pUmldoc->getConcepts() );
+		UMLClassifier * obj;
+		for (obj = namesList.first(); obj; obj = namesList.next()) {
+			if (obj->getName() == typeName) {
+				m_pAtt->setType( obj );
+				break;
+			}
+		}
+		if (obj == NULL) {
+			// Nothing found: set type name directly. Bad.
+			kdDebug() << "ParmPropDlg::slotOk: " << typeName << " not found."
+				  << endl;
+			m_pAtt->setTypeName( typeName );
+		}
+
 	}
 	accept();
 }

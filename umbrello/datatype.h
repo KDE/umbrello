@@ -12,6 +12,8 @@
 
 #include "classifier.h"
 
+class UMLObject;
+
 /**
  * This class contains the non-graphical information required for a UML
  * Datatype.
@@ -68,6 +70,26 @@ public:
 	 */
 	virtual bool isInterface();
 
+	/**
+	 * Set the origin type (in case of e.g. typedef)
+	 */
+	void setOriginType(UMLObject *origType);
+
+	/**
+	 * Get the origin type (in case of e.g. typedef)
+	 */
+	UMLObject * originType();
+
+	/**
+	 * Set the m_isRef flag (true when dealing with a pointer type)
+	 */
+	void setIsReference(bool isRef = true);
+
+	/**
+	 * Get the m_isRef flag.
+	 */
+	bool isReference();
+
 protected:
 	/**
 	 * Loads the <UML:DataType> XMI element (empty.)
@@ -78,6 +100,9 @@ protected:
 	 * Initializes key variables of the class.
 	 */
 	virtual void init(); // doesnt seem to be any reason for this to be public
+
+	UMLObject *m_pOrigType;
+	bool m_isRef;
 };
 
 #endif // DATATYPE_H

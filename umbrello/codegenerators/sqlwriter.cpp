@@ -107,15 +107,14 @@ void SQLWriter::writeClass(UMLClassifier *c) {
 
 
 void SQLWriter::writeAttributes(UMLClass *c, QTextStream &sql) {
-	UMLAttributeList* atl;
 	UMLAttributeList atpub, atprot, atpriv;
 	atpub.setAutoDelete(false);
 	atprot.setAutoDelete(false);
 	atpriv.setAutoDelete(false);
 
 	//sort attributes by scope and see if they have a default value
-	atl = c->getFilteredAttributeList();
-	for(UMLAttribute* at=atl->first(); at ; at=atl->next()) {
+	UMLAttributeList atl = c->getFilteredAttributeList();
+	for(UMLAttribute* at=atl.first(); at ; at=atl.next()) {
 		switch(at->getScope()) {
 		case Uml::Public:
 			atpub.append(at);

@@ -202,6 +202,8 @@ bool AssociationWidget::operator!=(AssociationWidget & Other) {
 }
 
 UMLAssociation * AssociationWidget::getAssociation () {
+	if (m_pObject == NULL || m_pObject->getBaseType() != ot_Association)
+		return NULL;
 	return static_cast<UMLAssociation*>(m_pObject);
 }
 
@@ -248,7 +250,7 @@ QString AssociationWidget::getRoleName(Role_Type role) const {
 }
 
 QString AssociationWidget::getRoleDoc(Role_Type role) const {
-	if (m_pObject == NULL)
+	if (m_pObject == NULL || m_pObject->getBaseType() != ot_Association)
 		return "";
 	UMLAssociation *umla = static_cast<UMLAssociation*>(m_pObject);
 	return umla->getRoleDoc(role);
@@ -317,7 +319,7 @@ void AssociationWidget::setMulti(QString strMulti, Role_Type role) {
 	else
 		m_role[role].m_pMulti -> hide();
 
-	if (m_pObject)
+	if (m_pObject && m_pObject->getBaseType() == ot_Association)
 		getAssociation()->setMulti(strMulti, role);
 }
 
@@ -349,7 +351,7 @@ bool AssociationWidget::setRoleName (QString strRole, Role_Type role) {
 	}
 
 	// set attribute of UMLAssociation associated with this associationwidget
-	if (m_pObject)
+	if (m_pObject && m_pObject->getBaseType() == ot_Association)
 		getAssociation()->setRoleName(strRole, role);
 	m_role[role].m_RoleName = strRole;
 
@@ -374,7 +376,7 @@ void AssociationWidget::setDoc (QString doc) {
 }
 
 void AssociationWidget::setRoleDoc (QString doc, Role_Type role) {
-	if (m_pObject)
+	if (m_pObject && m_pObject->getBaseType() == ot_Association)
 		getAssociation()->setRoleDoc(doc, role);
 	else
 		m_role[role].m_RoleDoc = doc;
@@ -385,7 +387,7 @@ void AssociationWidget::setMessageText(FloatingText *ft) {
 }
 
 Scope AssociationWidget::getVisibility(Role_Type role) const {
-	if (m_pObject == NULL)
+	if (m_pObject == NULL || m_pObject->getBaseType() != ot_Association)
 		return m_role[role].m_Visibility;
 	UMLAssociation *umla = static_cast<UMLAssociation*>(m_pObject);
 	return umla->getVisibility(role);
@@ -395,7 +397,7 @@ void AssociationWidget::setVisibility (Scope value, Role_Type role)
 {
 	if (value == getVisibility(role))
 		return;
-	if (m_pObject)  // update our model object
+	if (m_pObject && m_pObject->getBaseType() == ot_Association)  // update our model object
 		getAssociation()->setVisibility(value, role);
 	m_role[role].m_Visibility = value;
 	// update role pre-text attribute as appropriate
@@ -407,7 +409,7 @@ void AssociationWidget::setVisibility (Scope value, Role_Type role)
 
 Changeability_Type AssociationWidget::getChangeability(Role_Type role) const
 {
-	if (m_pObject == NULL)
+	if (m_pObject == NULL || m_pObject->getBaseType() != ot_Association)
 		return m_role[role].m_Changeability;
 	UMLAssociation *umla = static_cast<UMLAssociation*>(m_pObject);
 	return umla->getChangeability(role);
@@ -418,7 +420,7 @@ void AssociationWidget::setChangeability (Changeability_Type value, Role_Type ro
 	if (value == getChangeability(role))
 		return;
 	QString changeString = UMLAssociation::ChangeabilityToString(value);
-	if (m_pObject)  // update our model object
+	if (m_pObject && m_pObject->getBaseType() == ot_Association)  // update our model object
 		getAssociation()->setChangeability(value, role);
 	m_role[role].m_Changeability = value;
 	// update our string representation
@@ -672,7 +674,7 @@ void AssociationWidget::cleanup() {
 		m_pName = 0;
 	}
 
-	if (m_pObject) {
+	if (m_pObject && m_pObject->getBaseType() == ot_Association) {
 		/*
 		   We do not remove the UMLAssociation from the document.
 		   Why? - Well, for example we might be in the middle of
@@ -696,7 +698,7 @@ void AssociationWidget::cleanup() {
 
 void AssociationWidget::setUMLAssociation (UMLAssociation * assoc) 
 {
-	if (m_pObject) {
+	if (m_pObject && m_pObject->getBaseType() == ot_Association) {
 		UMLAssociation *umla = getAssociation();
 
 		// safety check. Did some num-nuts try to set the existing
@@ -765,7 +767,7 @@ bool AssociationWidget::contains(UMLWidget* widget) {
 }
 
 Association_Type AssociationWidget::getAssocType() const {
-	if (m_pObject == NULL)
+	if (m_pObject == NULL || m_pObject->getBaseType() != ot_Association)
 		return m_AssocType;
 	UMLAssociation *umla = static_cast<UMLAssociation*>(m_pObject);
 	return umla->getAssocType();
@@ -773,7 +775,7 @@ Association_Type AssociationWidget::getAssocType() const {
 
 /** Sets the association's type */
 void AssociationWidget::setAssocType(Association_Type type) {
-	if (m_pObject)
+	if (m_pObject && m_pObject->getBaseType() == ot_Association)
 		getAssociation()->setAssocType(type);
 	m_AssocType = type;
 	m_LinePath.setAssocType(type);
@@ -806,7 +808,7 @@ void AssociationWidget::setAssocType(Association_Type type) {
 
 int AssociationWidget::getWidgetID(Role_Type role) const {
 	if (m_role[role].m_pWidget == NULL) {
-		if (m_pObject) {
+		if (m_pObject && m_pObject->getBaseType() == ot_Association) {
 			UMLAssociation *umla = static_cast<UMLAssociation*>(m_pObject);
 			return umla->getRoleId(role);
 		}
@@ -2788,7 +2790,7 @@ void AssociationWidget::setWidget( UMLWidget* widget, Role_Type role) {
 	m_role[role].m_pWidget = widget;
 	if (widget) {
 		m_role[role].m_pWidget->addAssoc(this);
-		if (m_pObject)
+		if (m_pObject && m_pObject->getBaseType() == ot_Association)
 			getAssociation()->setObject(widget->getUMLObject(), role);
 	}
 }
@@ -2824,7 +2826,7 @@ void AssociationWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 	QDomElement assocElement = qDoc.createElement( "assocwidget" );
 
 	if (m_pObject) {
-		assocElement.setAttribute( "xmi.id", getAssociation()->getID() );
+		assocElement.setAttribute( "xmi.id", m_pObject->getID() );
 	} else {
 		assocElement.setAttribute( "type", m_AssocType );
 		assocElement.setAttribute( "visibilityA", m_role[A].m_Visibility);
@@ -2970,7 +2972,7 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
 	} else {
 
 		// we should disconnect any prior association (can this happen??)
-		if (m_pObject)
+		if (m_pObject && m_pObject->getBaseType() == ot_Association)
 		{
 			UMLAssociation *umla = getAssociation();
 			umla->disconnect(this);
@@ -2979,17 +2981,18 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
 
 		// New style: The xmi.id is a reference to the UMLAssociation.
 		UMLDoc* umldoc = UMLApp::app()->getDocument();
-		UMLAssociation * myAssoc = (UMLAssociation*)umldoc->findUMLObject(nId);
-		if (myAssoc == NULL) {
-			kdError() << " AssociationWidget cannot find UML:Association " << nId << " for loadFromXMI"<< endl;
+		UMLObject *myObj = umldoc->findUMLObject(nId);
+		if (myObj == NULL) {
+			kdError() << "AssociationWidget::loadFromXMI: cannot find UMLObject "
+				  << nId << endl;
 			return false;
-		} else
-		{
+		} else if (myObj->getBaseType() == ot_Attribute) {
+			m_pObject = myObj;
+		} else {
+			UMLAssociation * myAssoc = (UMLAssociation*)myObj;
 			setUMLAssociation(myAssoc);
+			m_LinePath.setAssocType( myAssoc->getAssocType() );
 		}
-
-		m_LinePath.setAssocType( getAssociation()->getAssocType() );
-
 	}
 
 	QString indexa = qElement.attribute( "indexa", "0" );

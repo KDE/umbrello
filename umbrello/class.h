@@ -182,9 +182,9 @@ public:
 	/**
 	 * Returns the entries in m_pAttList that are actually attributes.
 	 *
-	 * @return	Pointer to the list of true attributes for the class.
+	 * @return	List of true attributes for the class.
 	 */
-	UMLAttributeList* getFilteredAttributeList();
+	UMLAttributeList getFilteredAttributeList();
 
 	/**
 	 * Return the list of templates for the class.
@@ -243,6 +243,14 @@ public:
 	 * @return	True if this class has an enumeration stereotype.
 	 */
 	bool isEnumeration();
+
+	/**
+	 * Calls resolveType() on all attributes and operations.
+	 * Needs to be called after all UML objects are loaded from file.
+	 *
+	 * @return	True for success.
+	 */
+	bool resolveTypes();
 
 	/**
 	 * Creates the <UML:Class> XMI element including its operations,

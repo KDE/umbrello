@@ -11,13 +11,18 @@
 #include <klocale.h>
 
 #include "classifierlistitem.h"
+#include "classifier.h"
+#include "uml.h"
+#include "umldoc.h"
 
 UMLClassifierListItem::UMLClassifierListItem(const UMLObject *parent, QString Name, int id)
   : UMLObject(parent, Name, id) {
+	m_pType = NULL;
 }
 
 UMLClassifierListItem::UMLClassifierListItem(const UMLObject *parent)
   : UMLObject(parent) {
+	m_pType = NULL;
 }
 
 UMLClassifierListItem::~UMLClassifierListItem() {
@@ -31,6 +36,30 @@ void UMLClassifierListItem::copyInto(UMLClassifierListItem *rhs) const
 {
 	// Call the parent.
 	UMLObject::copyInto(rhs);
+}
+
+UMLClassifier * UMLClassifierListItem::getType() {
+	return m_pType;
+}
+
+QString UMLClassifierListItem::getTypeName() {
+	if (m_pType != NULL)
+		return m_pType->getName();
+	return m_TypeName;
+}
+
+void UMLClassifierListItem::setType(UMLClassifier *type) {
+	if (m_pType != type) {
+		m_pType = type;
+		emit modified();
+	}
+}
+
+void UMLClassifierListItem::setTypeName(QString type) {
+	if(m_TypeName != type) {
+		m_TypeName = type;
+		emit modified();
+	}
 }
 
 

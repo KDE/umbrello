@@ -118,13 +118,12 @@ void UMLOperationDialog::setupDialog() {
 	m_pDeleteButton->setEnabled(false);
 	m_pPropertiesButton->setEnabled(false);
 
-	//add some standard return types to combo box
-	QString types[] = {"void", "int", "long", "bool", "string", "double",
-	                   "float", "date"};
-
-	for (int i=0; i<6; i++) {
-		insertType(types[i]);
-	}
+	// Add "void". We use this for denoting "no return type" independent
+	// of the programming language.
+	// For example, the Ada generator would interpret the return type
+	// "void" as an instruction to generate a procedure instead of a
+	// function.
+	insertType( "void" );
 
 	m_pRtypeCB->setDuplicatesEnabled(false);//only allow one of each type in box
 
@@ -246,7 +245,7 @@ void UMLOperationDialog::slotNewParameter() {
 	UMLAttribute* pAtt = 0;
 
 	QString currentName = m_pOperation->getUniqueParameterName();
-	UMLAttribute* newAttribute = new UMLAttribute(0, currentName, 0);
+	UMLAttribute* newAttribute = new UMLAttribute(m_pOperation, currentName, 0);
 
 	ParmPropDlg dlg(this, m_doc, newAttribute);
 	result = dlg.exec();
@@ -256,19 +255,26 @@ void UMLOperationDialog::slotNewParameter() {
 		if( name.length() == 0 ) {
 			KMessageBox::error(this, i18n("You have entered an invalid parameter name."),
 					   i18n("Parameter Name Invalid"), false);
+			delete newAttribute;
 			return;
 		}
 		if( !pAtt ) {
+			/*
 			m_pOperation->addParm( dlg.getTypeName(), name, dlg.getInitialValue(),
 					       dlg.getDoc(), dlg.getParmKind() );
+			 */
+			newAttribute->setID( m_doc->getUniqueID() );
+			m_pOperation->addParm( newAttribute );
 			m_pParmsLB -> insertItem( dlg.getName() );
 			m_doc -> setModified( true );
 		} else {
 			KMessageBox::sorry(this, i18n("The parameter name you have chosen\nis already being used in this operation."),
 					   i18n("Parameter Name Not Unique"), false);
+			delete newAttribute;
 		}
-	}//end if result
-	delete newAttribute;
+	} else {
+		delete newAttribute;
+	}
 }
 
 void UMLOperationDialog::slotDeleteParameter() {
@@ -305,7 +311,23 @@ void UMLOperationDialog::slotParameterProperties() {
 		     pOldAtt->getDoc() != dlg.getDoc() ||
 		     pOldAtt->getInitialValue() != dlg.getInitialValue() ) {
 			pOldAtt->setName( name );
-			pOldAtt->setTypeName( dlg.getTypeName() );
+			QString typeName = dlg.getTypeName();
+			if (pOldAtt->getTypeName() != typeName) {
+				UMLClassifierList namesList( m_doc->getConcepts() );
+				UMLClassifier* obj = NULL;
+				for (obj=namesList.first(); obj!=0; obj=namesList.next()) {
+					if (typeName == obj->getName()) {
+						pOldAtt->setType( obj );
+						break;
+					}
+				}
+				if (obj == NULL) {
+					// Nothing found: set type name directly. Bad.
+					kdDebug() << "UMLOperationDialog::slotParameterProperties: "
+						  << typeName << " not found." << endl;
+					pOldAtt->setTypeName( typeName );  // Bad.
+				}
+			}
 			m_pParmsLB->changeItem( dlg.getName(), m_pParmsLB -> currentItem() );
 			pOldAtt->setDoc( dlg.getDoc() );
 			pOldAtt->setInitialValue( dlg.getInitialValue() );

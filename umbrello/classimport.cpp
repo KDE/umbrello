@@ -14,6 +14,7 @@
 #include "docwindow.h"
 #include "package.h"
 #include "enum.h"
+#include "datatype.h"
 #include "class.h"
 #include "operation.h"
 #include "attribute.h"
@@ -61,9 +62,22 @@ UMLObject *ClassImport::createUMLObject(Uml::UMLObject_Type type,
 					QString comment,
 					UMLPackage *parentPkg) {
 	UMLObject * o = m_umldoc->findUMLObject(name);
-	if (o == NULL)
-		o = m_umldoc->createUMLObject(type, name, parentPkg);
-	else
+	if (o == NULL) {
+		QString typeName(name);
+		int isPointer = typeName.contains('*');
+		typeName.replace(QRegExp("^const\\s+"), "");
+		typeName.replace(QRegExp("[^:\\w].*$"), "");
+		if (isPointer) {
+			UMLObject *origType = m_umldoc->findUMLObject(typeName);
+			if (origType == NULL)
+				origType = m_umldoc->createUMLObject(ot_Class, typeName, parentPkg);
+			o = m_umldoc->createUMLObject(ot_Datatype, name, parentPkg);
+			UMLDatatype *dt = static_cast<UMLDatatype*>(o);
+			dt->setOriginType(origType);
+			dt->setIsReference();
+		} else
+			o = m_umldoc->createUMLObject(type, name, parentPkg);
+	} else
 		o->setUMLPackage(parentPkg);
 	QString strippedComment = doxyComment(comment);
 	if (! strippedComment.isEmpty()) {
@@ -84,46 +98,53 @@ UMLOperation* ClassImport::makeOperation(UMLClass *parent, QString name) {
 UMLObject* ClassImport::insertAttribute(UMLClass *o, Uml::Scope scope, QString name,
 					QString type, QString comment /* ="" */,
 					bool isStatic /* =false */) {
-	QString strippedComment = doxyComment(comment);
-	QString typeName(type);
-	int isPointer = typeName.contains('*');
-	typeName.replace(QRegExp("^const\\s+"), "");
-	typeName.replace(QRegExp("[^:\\w].*$"), "");
-	UMLObject *newObj = NULL;
-	UMLObject *other = m_umldoc->findUMLObject(typeName);
-	if (other != NULL && other->getBaseType() != Uml::ot_Datatype) {
-		kdDebug() << "ClassImport::insertAttribute: creating assoc for "
-			  << name << endl;
-		Uml::Association_Type assocType;
-		if (isPointer)
-			assocType = Uml::at_Aggregation;
-		else
-			assocType = Uml::at_Composition;
-		UMLAssociation *assoc = new UMLAssociation(assocType, o, other);
-		assoc->setRoleName(name, B);
-		assoc->setVisibility(scope, B);
-		m_umldoc->addAssociation(assoc);
-		newObj = assoc;
-	} else {
-		Uml::UMLObject_Type ot = o->getBaseType();
-		if (ot != Uml::ot_Class) {
-			kdDebug() << "ClassImport::insertAttribute: Don't know what to do with "
-				  << o->getName() << " (object type " << ot << ")" << endl;
-			return NULL;
-		}
-		UMLAttribute *attr = ((UMLClass*)o)->addAttribute(name);
-		attr->setTypeName(type);
-		attr->setScope(scope);
-		attr->setStatic(isStatic);
-		newObj = attr;
+	Uml::UMLObject_Type ot = o->getBaseType();
+	if (ot != Uml::ot_Class) {
+		kdDebug() << "ClassImport::insertAttribute: Don't know what to do with "
+			  << o->getName() << " (object type " << ot << ")" << endl;
+		return NULL;
 	}
+	QString strippedComment = doxyComment(comment);
+	UMLAttribute *attr = ((UMLClass*)o)->addAttribute(name);
+	attr->setScope(scope);
+	attr->setStatic(isStatic);
+	UMLObject *obj = m_umldoc->findUMLObject(type);
+	UMLClassifier *classifier = dynamic_cast<UMLClassifier*>(obj);
+	if (classifier == NULL) {
+		kdDebug() << "ClassImport::insertAttribute(" << name
+			  << "): Attribute type " << type
+			  << " has no model representation" << endl;
+		QString typeName(type);
+		int isPointer = typeName.contains('*');
+		typeName.replace(QRegExp("^const\\s+"), "");
+		typeName.replace(QRegExp("[^:\\w].*$"), "");
+		if (type == typeName) {
+			obj = m_umldoc->createUMLObject(ot_Class, type);
+			classifier = static_cast<UMLClassifier*>(obj);
+		} else {
+			obj = m_umldoc->findUMLObject(typeName);
+			classifier = dynamic_cast<UMLClassifier*>(obj);
+			if (classifier == NULL) {
+				obj = m_umldoc->createUMLObject(ot_Class, typeName);
+				classifier = static_cast<UMLClassifier*>(obj);
+			}
+			if (isPointer) {
+				UMLObject *pointerDecl = m_umldoc->createUMLObject(ot_Datatype, type);
+				UMLDatatype *dt = static_cast<UMLDatatype*>(pointerDecl);
+				dt->setOriginType(obj);
+				dt->setIsReference();
+				classifier = dt;
+			}
+		}
+	}
+	attr->setType(classifier);
 	if (! strippedComment.isEmpty()) {
-		newObj->setDoc(strippedComment);
-		UMLApp::app()->getDocWindow()->showDocumentation(newObj, true);
+		attr->setDoc(strippedComment);
+		UMLApp::app()->getDocWindow()->showDocumentation(attr, true);
 	}
 
 	m_umldoc->setModified(true);
-	return newObj;
+	return attr;
 }
 
 void ClassImport::insertMethod(UMLClass *klass, UMLOperation *op,
@@ -166,7 +187,7 @@ void ClassImport::createGeneralization(UMLClass *child, QString parentName) {
 	if (parent == NULL) {
 	    kdDebug() << "ClassImport::createGeneralization: Could not find UML object for "
 		      << parentName << endl;
-	    return;
+	    parent = m_umldoc->createUMLObject(ot_Class, parentName);
 	}
 	UMLAssociation *assoc = new UMLAssociation( Uml::at_Generalization,
 						    child, parent );
@@ -199,7 +220,7 @@ void ClassImport::importCPP(QStringList headerFileList) {
 			continue;
 		CppTree2Uml modelFeeder( fileName, this );
 		// kdDebug() << "Now calling modelFeeder.parseTranslationUnit for file "
-		//           << fileName << endl;
+		//	   << fileName << endl;
 		modelFeeder.parseTranslationUnit( ast );
 	}
 	m_umldoc->writeToStatusBar("Ready.");

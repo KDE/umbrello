@@ -56,8 +56,8 @@ void ClassifierInfo::init(UMLClassifier *c) {
 	// sort attributes by Scope
 	if(!isInterface) {
 		UMLClass * myClass = dynamic_cast<UMLClass *>(c);
-		UMLAttributeList *atl = myClass->getFilteredAttributeList();
-		for(UMLAttribute *at=atl->first(); at ; at=atl->next()) {
+		UMLAttributeList atl = myClass->getFilteredAttributeList();
+		for(UMLAttribute *at=atl.first(); at ; at=atl.next()) {
 			switch(at->getScope())
 			{
 			case Uml::Public:

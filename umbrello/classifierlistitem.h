@@ -12,6 +12,9 @@
 
 #include "umlobject.h"
 
+// forward declaration
+class UMLClassifier;
+
 /**
  * Classifiers (classes, interfaces) have lists of operations,
  * attributes, templates and others.  This is a base class for
@@ -48,6 +51,35 @@ public:
 	virtual ~UMLClassifierListItem();
 
 	/**
+	 * Returns the type of the UMLClassifierListItem.
+	 *
+	 * @return	The type of the UMLClassifierListItem.
+	 */
+	UMLClassifier * getType();
+
+	/**
+	 * Returns the type name of the UMLClassifierListItem.
+	 *
+	 * @return	The type name of the UMLClassifierListItem.
+	 */
+	QString getTypeName();
+
+	/**
+	 * Sets the type name of the UMLClassifierListItem.
+	 * DEPRECATED - use setType() instead.
+	 *
+	 * @param type	The type name of the UMLClassifierListItem.
+	 */
+	void setTypeName(QString type);
+
+	/**
+	 * Sets the type of the UMLAttribute.
+	 *
+	 * @param type	Pointer to the UMLClassifier of the type.
+	 */
+	void setType(UMLClassifier *type);
+
+	/**
 	 * Returns a string representation of the operation.
 	 *
 	 * @param sig		What type of operation string to show.
@@ -82,6 +114,14 @@ public:
 	 */
 	virtual UMLObject* clone() const = 0;
 
+protected:
+	UMLClassifier *m_pType;
+	/**
+	 * Text for the type - DEPRECATED.
+	 * Only used if m_pType is NULL.
+	 * FIXME: Change all usages of setTypeName() to setType().
+	 */
+	QString m_TypeName;
 };
 
 #endif

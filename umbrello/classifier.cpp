@@ -25,7 +25,6 @@ UMLClassifier::UMLClassifier(const QString & name, int id)
 }
 
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLClassifier::~UMLClassifier() {
 }
 
@@ -78,15 +77,13 @@ bool UMLClassifier::addOperation(UMLOperation* op, int position )
 			  << op->getName() << ") finds op (bad)"
 			  << endl;
 		return false;
-	} else if (checkOperationSignature(op->getName(), op->getParmList()) ) {
+	}
+	if (checkOperationSignature(op->getName(), op->getParmList()) ) {
 		kdDebug() << "UMLClassifier::addOperation: checkOperationSignature("
 			  << op->getName() << ") op is non-unique" << endl;
 		return false;
 	}
 
-	if( op -> parent() )
-		op -> parent() -> removeChild( op );
-	this -> insertChild( op );
 	if( position >= 0 && position <= (int)m_OpsList.count() )
 		m_OpsList.insert(position,op);
 	else
@@ -97,7 +94,7 @@ bool UMLClassifier::addOperation(UMLOperation* op, int position )
 	connect(op,SIGNAL(modified()),this,SIGNAL(modified()));
 	return true;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool UMLClassifier::addOperation(UMLOperation* Op, IDChangeLog* Log) {
 	if( addOperation( Op, -1 ) )
 		return true;
@@ -107,10 +104,15 @@ bool UMLClassifier::addOperation(UMLOperation* Op, IDChangeLog* Log) {
 	return false;
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
 int UMLClassifier::removeOperation(UMLOperation *op) {
+	if (op == NULL) {
+		kdDebug() << "UMLClassifier::removeOperation called on NULL op"
+			 << endl;
+		return -1;
+	}
 	if(!m_OpsList.remove(op)) {
-		kdDebug() << "can't find opp given in list" << endl;
+		kdDebug() << "UMLClassifier::removeOperation: can't find op "
+			  << op->getName() << " in list" << endl;
 		return -1;
 	}
 	// disconnection needed.
@@ -121,7 +123,7 @@ int UMLClassifier::removeOperation(UMLOperation *op) {
 	emit modified();
 	return m_OpsList.count();
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 UMLOperation* UMLClassifier::takeOperation(UMLOperation* o) {
 	if (removeOperation(o) >= 0) {
 		return o;
@@ -151,7 +153,7 @@ UMLObjectList UMLClassifier::findChildObject(UMLObject_Type t , QString n,
 
 	return list;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 UMLObject* UMLClassifier::findChildObject(int id) {
 	UMLClassifierListItem * o=0;
 	for(o=m_OpsList.first();o != 0;o=m_OpsList.next()) {
@@ -169,7 +171,7 @@ UMLObject* UMLClassifier::findChildObjectByIdStr(QString idStr) {
 	}
 	return NULL;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 UMLClassifierList UMLClassifier::findSubClassConcepts (ClassifierType type) {
 	UMLClassifierList list = this->getSubClasses();
 	UMLAssociationList rlist = this->getRealizations();
@@ -197,7 +199,7 @@ UMLClassifierList UMLClassifier::findSubClassConcepts (ClassifierType type) {
 
 	return inheritingConcepts;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 UMLClassifierList UMLClassifier::findSuperClassConcepts (ClassifierType type) {
 	UMLClassifierList list = this->getSuperClasses();
 	UMLAssociationList rlist = this->getRealizations();
@@ -225,7 +227,7 @@ UMLClassifierList UMLClassifier::findSuperClassConcepts (ClassifierType type) {
 
 	return parentConcepts;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool UMLClassifier::operator==( UMLClassifier & rhs ) {
 	if ( m_OpsList.count() != rhs.m_OpsList.count() ) {
 		return false;
@@ -245,7 +247,25 @@ void UMLClassifier::copyInto(UMLClassifier *rhs) const
 }
 
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
+bool UMLClassifier::resolveOpParmTypes() {
+	bool success = true;
+	/**** Mysterious. The following loop does not work:
+	for (UMLClassifierListItem *obj = m_OpsList.first(); obj; obj = m_OpsList.next())
+	 {  ....  }
+	 It will only iterate exactly once, and then the obj pointer becomes NULL.
+	 Here's the replacement: ****/
+	for (UMLClassifierListItemListIt oit(m_OpsList); oit.current(); ++oit) {
+		UMLClassifierListItem* obj = oit.current();
+	/**** End of replacement ****/
+		if (obj->getBaseType() != ot_Operation)
+			continue;
+		UMLOperation *op = static_cast<UMLOperation*>(obj);
+		if (! op->resolveParmTypes())
+			success = false;
+	}
+	return success;
+}
+
 // this perhaps should be in UMLClass/UMLInterface classes instead.
 bool UMLClassifier::acceptAssociationType(Uml::Association_Type type)
 {
@@ -275,12 +295,10 @@ bool UMLClassifier::hasAbstractOps () {
 	return false;
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
 int UMLClassifier::operations() {
 	return m_OpsList.count();
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLClassifierListItemList UMLClassifier::getOpList(bool includeInherited) {
 	UMLClassifierListItemList ops(m_OpsList);
 	if (includeInherited) {
@@ -302,7 +320,6 @@ UMLClassifierListItemList UMLClassifier::getOpList(bool includeInherited) {
 	return ops;
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLOperationList UMLClassifier::getFilteredOperationsList(bool includeInherited)  {
 	UMLClassifierListItemList classifierList(getOpList(includeInherited));
 	UMLOperationList operationList;
@@ -314,21 +331,10 @@ UMLOperationList UMLClassifier::getFilteredOperationsList(bool includeInherited)
 	}
 	return operationList;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void UMLClassifier::init() {
 	m_BaseType = ot_UMLObject;
 	m_OpsList.setAutoDelete(false);
-
-	// make connections so that parent document is updated of list of uml objects
-
-/* CHECK: Can we remove this code:
-#ifdef __GNUC__
-#warning "Cheap add/removeOperation fix for slot add/RemoveUMLObject calls. Need long-term solution"
-#endif
-	UMLDoc * parent = UMLApp::app()->getDocument();
-	connect(this,SIGNAL(childObjectAdded(UMLObject *)),parent,SLOT(addUMLObject(UMLObject*)));
-	connect(this,SIGNAL(childObjectRemoved(UMLObject *)),parent,SLOT(slotRemoveUMLObject(UMLObject*)));
- */
 }
 
 bool UMLClassifier::load(QDomElement& element) {
@@ -345,15 +351,17 @@ bool UMLClassifier::load(QDomElement& element) {
 			if (! load(element))
 				return false;
 		} else if (tagEq(tag, "Operation")) {
-			UMLOperation* op = new UMLOperation(NULL);
+			UMLOperation* op = new UMLOperation(this);
 			if (!op->loadFromXMI(element)) {
 				kdError() << "UMLClassifier::load: error from op->loadFromXMI()"
 					  << endl;
 				delete op;
 				return false;
-			} else if (!this->addOperation(op) ) {
+			}
+			if (!this->addOperation(op) ) {
 				kdError() << "UMLClassifier::load: error from this->addOperation(op)"
 					  << endl;
+				delete op;
 				//return false;
 				// Returning false here will spoil the entire
 				// load. At this point the user has been warned

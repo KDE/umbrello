@@ -25,6 +25,8 @@
 // app includes
 #include "../template.h"
 #include "../class.h"
+#include "../umldoc.h"
+#include "../uml.h"
 #include "dialog_utils.h"
 
 UMLTemplateDialog::UMLTemplateDialog(QWidget* pParent, UMLTemplate* pTemplate)
@@ -62,14 +64,14 @@ void UMLTemplateDialog::setupDialog() {
 
 	mainLayout->addWidget(m_pValuesGB);
 
-	//add some standard attribute types to combo box
-	QString types[] = {
-	                      i18n("class"), i18n("int"), i18n("long"), i18n("bool"),
-			      i18n("string"), i18n("double"), i18n("float"), i18n("date")
-	                  };
-
-	for (int i=0; i<8; i++) {
-		m_pTypeCB->insertItem(types[i]);
+	// "class" is the nominal type of template parameter
+	m_pTypeCB->insertItem( "class" );
+	// Add the active data types to combo box
+	UMLDoc *pDoc = UMLApp::app()->getDocument();
+	UMLClassifierList namesList( pDoc->getConcepts() );
+	UMLClassifier* obj = 0;
+	for (obj = namesList.first(); obj; obj = namesList.next()) {
+		m_pTypeCB->insertItem( obj->getName() );
 	}
 
 	m_pTypeCB->setEditable(true);
@@ -100,7 +102,19 @@ void UMLTemplateDialog::setupDialog() {
 bool UMLTemplateDialog::apply() {
 	UMLClass * pClass = dynamic_cast<UMLClass *>( m_pTemplate->parent() );
 
-	m_pTemplate->setTypeName( m_pTypeCB->currentText() );
+	QString typeName = m_pTypeCB->currentText();
+	UMLDoc *pDoc = UMLApp::app()->getDocument();
+	UMLClassifierList namesList( pDoc->getConcepts() );
+	UMLClassifier* obj = 0;
+	for (obj = namesList.first(); obj; obj = namesList.next()) {
+		if (typeName == obj->getName()) {
+			m_pTemplate->setType( obj );
+		}
+	}
+	if (obj == NULL) { // not found.
+		// FIXME: This implementation is not good yet.
+		m_pTemplate->setTypeName( typeName );
+	}
 	QString name = m_pNameLE->text();
 	if( name.length() == 0 ) {
 		KMessageBox::error(this, i18n("You have entered an invalid template name."),

@@ -18,6 +18,7 @@
 #include "uml.h"
 #include "umldoc.h"
 #include "classifier.h"
+#include "class.h"
 #include "interface.h"
 
 UMLPackage::UMLPackage(const QString & name, int id)
@@ -116,6 +117,19 @@ void UMLPackage::appendClassifiers(UMLClassifierList& classifiers,
 		} else if (includeNested && ot == ot_Package) {
 			UMLPackage *inner = static_cast<UMLPackage *>(o);
 			inner->appendClassifiers(classifiers);
+		}
+	}
+}
+
+void UMLPackage::appendClasses(UMLClassList& classes,
+			      bool includeNested /* = true */) {
+	for (UMLObject *o = m_objects.first(); o; o = m_objects.next()) {
+		UMLObject_Type ot = o->getBaseType();
+		if (ot == ot_Class) {
+			classes.append((UMLClass *)o);
+		} else if (includeNested && ot == ot_Package) {
+			UMLPackage *inner = static_cast<UMLPackage *>(o);
+			inner->appendClasses(classes);
 		}
 	}
 }

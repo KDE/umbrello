@@ -220,26 +220,26 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 		if (stype == "CORBAConstant") {
 			ada << spc() << "-- " << stype << " is Not Yet Implemented" << m_newLineEndingChars << m_newLineEndingChars;
 		} else if (myClass && myClass->isEnumeration()) {
-			UMLAttributeList *atl = myClass->getFilteredAttributeList();
+			UMLAttributeList atl = myClass->getFilteredAttributeList();
 			UMLAttribute *at;
 			ada << spc() << "type " << classname << " is (" << m_newLineEndingChars;
 			indentlevel++;
 			uint i = 0;
-			for (at = atl->first(); at; at = atl->next()) {
+			for (at = atl.first(); at; at = atl.next()) {
 				QString enumLiteral = cleanName(at->getName());
 				ada << spc() << enumLiteral;
-				if (++i < atl->count())
+				if (++i < atl.count())
 					ada << "," << m_newLineEndingChars;
 			}
 			indentlevel--;
 			ada << ");" << m_newLineEndingChars << m_newLineEndingChars;
 		} else if(stype == "CORBAStruct") {
 			if(myClass) {
-				UMLAttributeList *atl = myClass->getFilteredAttributeList();
+				UMLAttributeList atl = myClass->getFilteredAttributeList();
 				UMLAttribute *at;
 				ada << spc() << "type " << classname << " is record" << m_newLineEndingChars;
 				indentlevel++;
-				for (at = atl->first(); at; at = atl->next()) {
+				for (at = atl.first(); at; at = atl.next()) {
 					QString name = cleanName(at->getName());
 					QString typeName = at->getTypeName();
 					ada << spc() << name << " : " << typeName;
@@ -287,7 +287,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 	ada << spc() << "type Object_Ptr is access all Object'Class;" << m_newLineEndingChars << m_newLineEndingChars;
 
 	// Generate accessors for public attributes.
-	UMLAttributeList *atl = NULL;
+	UMLAttributeList atl;
         if(myClass) {
 		UMLAttributeList atpub;
 		atpub.setAutoDelete(false);
@@ -295,7 +295,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 		atl = myClass->getFilteredAttributeList();
 
 		UMLAttribute *at;
-		for (at = atl->first(); at; at = atl->next()) {
+		for (at = atl.first(); at; at = atl.next()) {
 			if (at->getScope() == Uml::Public)
 				atpub.append(at);
 		}
@@ -397,10 +397,10 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 		ada << endl;
 	}
 
-	if (myClass && (forceSections() || atl->count())) {
+	if (myClass && (forceSections() || atl.count())) {
 		ada << spc() << "-- Attributes:" << m_newLineEndingChars;
 		UMLAttribute *at;
-		for (at = atl->first(); at; at = atl->next()) {
+		for (at = atl.first(); at; at = atl.next()) {
 			if (at->getStatic())
 				continue;
 			ada << spc() << cleanName(at->getName()) << " : "
@@ -410,14 +410,14 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 			ada << ";" << m_newLineEndingChars;
 		}
 	}
-	bool haveAttrs = (myClass && atl->count());
+	bool haveAttrs = (myClass && atl.count());
 	if (aggregations.isEmpty() && compositions.isEmpty() && !haveAttrs)
 		ada << spc() << "null;" << m_newLineEndingChars;
 	indentlevel--;
 	ada << spc() << "end record;" << m_newLineEndingChars << m_newLineEndingChars;
 	if (haveAttrs) {
 		bool seen_static_attr = false;
-		for (UMLAttribute *at = atl->first(); at; at = atl->next()) {
+		for (UMLAttribute *at = atl.first(); at; at = atl.next()) {
 			if (! at->getStatic())
 				continue;
 			if (! seen_static_attr) {
