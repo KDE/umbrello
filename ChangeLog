@@ -1,12 +1,13 @@
 Version 1.4
 
+* PHP 5 code generator
+	
 * fixed many issues in Perl code generator 
 
 * added code generator for PHP5
 
 * Bugs fixed / wishes implemented (see http://bugs.kde.org)
 86083 86952 86958 87111 87537 88152 88245 89553 89699
-
 
 Version 1.3
 
