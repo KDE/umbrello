@@ -24,9 +24,9 @@ OwnedHierarchicalCodeBlock::OwnedHierarchicalCodeBlock ( UMLObject *parent, Code
    : HierarchicalCodeBlock ( doc, start, end, comment), OwnedCodeBlock(parent)
 {
 	initFields ( parent);
-}; 
+} 
 
-OwnedHierarchicalCodeBlock::~OwnedHierarchicalCodeBlock ( ) { };
+OwnedHierarchicalCodeBlock::~OwnedHierarchicalCodeBlock ( ) { }
 
 //  
 // Methods
@@ -89,3 +89,4 @@ void OwnedHierarchicalCodeBlock::initFields ( UMLObject * parent) {
 }
 
 
+#include "ownedhierarchicalcodeblock.moc"

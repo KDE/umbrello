@@ -23,15 +23,15 @@ CodeMethodBlock::CodeMethodBlock ( ClassifierCodeDocument * doc, QString body, Q
         : CodeBlockWithComments ((CodeDocument*)doc, body, comment), OwnedCodeBlock ((UMLObject*) doc->getParentClassifier()) 
 {
         initFields();
-};
+}
 
 CodeMethodBlock::CodeMethodBlock ( ClassifierCodeDocument * doc) 
     : CodeBlockWithComments ((CodeDocument*)doc), OwnedCodeBlock ((UMLObject*) doc->getParentClassifier()) 
 {
 	initFields();
-};
+}
 
-CodeMethodBlock::~CodeMethodBlock ( ) { };
+CodeMethodBlock::~CodeMethodBlock ( ) { }
 
 //  
 // Methods
@@ -161,3 +161,4 @@ void CodeMethodBlock::syncToParent ( )
         updateContent();
 }
 
+#include "codemethodblock.moc"

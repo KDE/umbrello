@@ -48,7 +48,7 @@ CodeGenerator::CodeGenerator ( UMLDoc * doc , const char *name )
     : QObject ( (QObject*) doc, name ) 
 {
 	initFields( doc);
-};
+}
 
 // FIX
 // hmm. this should be pure virtual so that implemented in sub-class
@@ -62,7 +62,7 @@ CodeGenerator::~CodeGenerator ( ) {
 	// destroy all owned codedocuments
  	for (CodeDocument *doc = m_codedocumentVector.first(); doc; doc=m_codedocumentVector.next())
                 delete doc;
-};
+}
 
 //  
 // Methods
@@ -755,3 +755,4 @@ bool CodeGenerator::forceSections() const {
 }
 
 
+#include "codegenerator.moc"

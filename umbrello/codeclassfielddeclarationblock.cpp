@@ -30,9 +30,9 @@ CodeClassFieldDeclarationBlock::CodeClassFieldDeclarationBlock ( CodeClassField 
 {
 	m_parentclassfield = parentCF;
 	connect(m_parentclassfield,SIGNAL(modified()),this,SLOT(syncToParent()));
-};
+}
 
-CodeClassFieldDeclarationBlock::~CodeClassFieldDeclarationBlock ( ) { };
+CodeClassFieldDeclarationBlock::~CodeClassFieldDeclarationBlock ( ) { }
 
 //  
 // Methods
@@ -103,3 +103,4 @@ void CodeClassFieldDeclarationBlock::syncToParent () {
 	updateContent();
 
 }
+#include "codeclassfielddeclarationblock.moc"

@@ -27,9 +27,9 @@ TextBlock::TextBlock ( CodeDocument * parent, const QString & text )
 {
 	initFields(parent);
 	setText(text);
-}; 
+} 
 
-TextBlock::~TextBlock ( ) { };
+TextBlock::~TextBlock ( ) { }
 
 //  
 // Methods
@@ -245,3 +245,4 @@ void TextBlock::initFields ( CodeDocument * parent ) {
 	m_indentationLevel = 0;
 }
 
+#include "textblock.moc"

@@ -24,15 +24,15 @@ CodeComment::CodeComment (CodeDocument * doc, QString comment )
     : TextBlock ( doc, comment )
 {
 
-};
+}
 
 CodeComment::CodeComment ( CodeDocument * doc ) 
     : TextBlock ( doc, "")
 {
 
-};
+}
 
-CodeComment::~CodeComment ( ) { };
+CodeComment::~CodeComment ( ) { }
 
 //  
 // Methods
@@ -69,3 +69,4 @@ void CodeComment::loadFromXMI ( QDomElement & root ) {
 }
 
 
+#include "codecomment.moc"

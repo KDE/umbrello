@@ -27,9 +27,9 @@ CodeParameter::CodeParameter ( ClassifierCodeDocument * parentDoc, UMLObject * p
     : QObject ( (QObject*) parentObject, "ACodeParam") 
 {
 	initFields( parentDoc, parentObject );
-};
+}
 
-CodeParameter::~CodeParameter ( ) { };
+CodeParameter::~CodeParameter ( ) { }
 
 //  
 // Methods
@@ -211,3 +211,4 @@ void CodeParameter::initFields ( ClassifierCodeDocument * doc, UMLObject * obj) 
 	connect(m_parentObject,SIGNAL(modified()),this,SLOT(syncToParent()));
 }
 
+#include "codeparameter.moc"

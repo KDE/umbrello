@@ -21,9 +21,9 @@
 
 CodeGenPolicy::CodeGenPolicy ( ) {
 	initFields();
-};
+}
 
-CodeGenPolicy::~CodeGenPolicy ( ) { };
+CodeGenPolicy::~CodeGenPolicy ( ) { }
 
 //  
 // Methods

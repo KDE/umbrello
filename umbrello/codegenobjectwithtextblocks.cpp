@@ -26,7 +26,7 @@
 CodeGenObjectWithTextBlocks::CodeGenObjectWithTextBlocks ( )
 {
 	initFields();
-};
+}
 
 CodeGenObjectWithTextBlocks::~CodeGenObjectWithTextBlocks ( ) { 
 
@@ -34,7 +34,7 @@ CodeGenObjectWithTextBlocks::~CodeGenObjectWithTextBlocks ( ) {
         for (TextBlock *tb = m_textblockVector.first(); tb; tb=m_textblockVector.next())
                 delete tb;
 
-};
+}
 
 //  
 // Methods

@@ -31,9 +31,9 @@ ClassifierCodeDocument::ClassifierCodeDocument ( UMLClassifier * parent , CodeGe
        CodeDocument ( gen ) 
 {
 	init (parent); 
-};
+}
 
-ClassifierCodeDocument::~ClassifierCodeDocument ( ) { };
+ClassifierCodeDocument::~ClassifierCodeDocument ( ) { }
 
 //  
 // Methods
@@ -489,3 +489,4 @@ void ClassifierCodeDocument::setAttributesOnNode ( QDomDocument & doc, QDomEleme
 }
 
 
+#include "classifiercodedocument.moc"

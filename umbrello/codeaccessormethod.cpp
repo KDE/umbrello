@@ -27,9 +27,9 @@ CodeAccessorMethod::CodeAccessorMethod ( CodeClassField * parentCF )
     : CodeMethodBlock ( (ClassifierCodeDocument*) parentCF->getParentDocument() ) 
 {
 	initFields(parentCF);
-};
+}
 
-CodeAccessorMethod::~CodeAccessorMethod ( ) { };
+CodeAccessorMethod::~CodeAccessorMethod ( ) { }
 
 //  
 // Methods
@@ -115,3 +115,4 @@ void CodeAccessorMethod::initFields(CodeClassField * parentClassField ) {
         connect(m_parentclassfield,SIGNAL(modified()),this,SLOT(syncToParent()));
 }
 
+#include "codeaccessormethod.moc"

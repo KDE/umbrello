@@ -31,9 +31,9 @@ CodeBlock::CodeBlock ( CodeDocument * doc, const QString & body )
    : TextBlock ( doc, body ) 
 {
 	initFields( );
-}; 
+} 
 
-CodeBlock::~CodeBlock ( ) { };
+CodeBlock::~CodeBlock ( ) { }
 
 //  
 // Methods
@@ -133,3 +133,4 @@ void CodeBlock::initFields ( ) {
 //	m_dialog = new CodeBlockDialog( );
 }
 
+#include "codeblock.moc"

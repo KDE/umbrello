@@ -43,11 +43,11 @@ CodeClassField::CodeClassField ( ClassifierCodeDocument * doc , UMLAttribute * a
 	setParentUMLObject(attrib);
 	initFields( );
 
-};
+}
 
 CodeClassField::~CodeClassField ( ) { 
 	this->disconnect();
-};
+}
 
 //  
 // Methods
@@ -511,3 +511,4 @@ void CodeClassField::initFields ( ) {
 	// m_dialog = new CodeClassFieldDialog( );
 }
 
+#include "codeclassfield.moc"

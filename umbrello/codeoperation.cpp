@@ -23,15 +23,15 @@ CodeOperation::CodeOperation ( ClassifierCodeDocument * doc , UMLOperation * par
     : CodeMethodBlock ( doc, body, comment)
 {
 	init(parentOp);
-};
+}
 
 CodeOperation::CodeOperation ( ClassifierCodeDocument * doc, UMLOperation * parentOp )
     : CodeMethodBlock ( doc )
 {
 	init(parentOp);
-};
+}
 
-CodeOperation::~CodeOperation ( ) { };
+CodeOperation::~CodeOperation ( ) { }
 
 //  
 // Methods
@@ -131,3 +131,4 @@ void CodeOperation::init (UMLOperation * parentOp)
 
 }
 
+#include "codeoperation.moc"

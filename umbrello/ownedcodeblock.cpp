@@ -28,9 +28,9 @@ OwnedCodeBlock::OwnedCodeBlock ( UMLObject * parent )
 	// signals a change has been made, we automatically update
 	// ourselves
 	connect(parent,SIGNAL(modified()),this,SLOT(syncToParent()));
-};
+}
 
-OwnedCodeBlock::~OwnedCodeBlock ( ) { };
+OwnedCodeBlock::~OwnedCodeBlock ( ) { }
 
 //  
 // Methods
@@ -68,3 +68,4 @@ void OwnedCodeBlock::syncToParent ( ) {
 	updateContent();
 }
 
+#include "ownedcodeblock.moc"

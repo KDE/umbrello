@@ -28,9 +28,9 @@ HierarchicalCodeBlock::HierarchicalCodeBlock ( CodeDocument * doc , QString star
 {
 	setEndText(endString);
 	initAttributes();
-};
+}
 
-HierarchicalCodeBlock::~HierarchicalCodeBlock ( ) { };
+HierarchicalCodeBlock::~HierarchicalCodeBlock ( ) { }
 
 //  
 // Methods
@@ -307,3 +307,4 @@ void HierarchicalCodeBlock::initAttributes ( ) {
 	m_endText = "";
 }
 
+#include "hierarchicalcodeblock.moc"

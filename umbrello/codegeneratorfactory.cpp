@@ -21,9 +21,9 @@
 //  
 
 CodeGeneratorFactory::CodeGeneratorFactory ( ) {
-};
+}
 
-CodeGeneratorFactory::~CodeGeneratorFactory ( ) { };
+CodeGeneratorFactory::~CodeGeneratorFactory ( ) { }
 
 //  
 // Methods

@@ -49,7 +49,7 @@ CodeDocument::~CodeDocument ( ) {
 //		delete tb;
 
 	kdWarning()<<"DESTROYED CODE DOCUMENT name:"<<getFileName().latin1()<<" id:"<<this<<endl;
-};
+}
 
 //  
 // Methods
@@ -555,3 +555,4 @@ kdWarning()<<"INIT CODE DOCUMENT"<<endl;
 kdWarning()<<"INIT CODE DOCUMENT - FINISHED "<<endl;
 }
 
+#include "codedocument.moc"

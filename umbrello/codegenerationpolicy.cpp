@@ -38,7 +38,7 @@ CodeGenerationPolicy::CodeGenerationPolicy ( QObject * parent, CodeGenerationPol
 
 	initFields();
 	setDefaults(clone,false);
-};
+}
 
 CodeGenerationPolicy::CodeGenerationPolicy ( QObject * parent, KConfig * config )
     : QObject ( parent, "ACodeGenPolicyDoc")
@@ -47,7 +47,7 @@ CodeGenerationPolicy::CodeGenerationPolicy ( QObject * parent, KConfig * config 
 	setDefaults(config,false);
 }
 
-CodeGenerationPolicy::~CodeGenerationPolicy ( ) { };
+CodeGenerationPolicy::~CodeGenerationPolicy ( ) { }
 
 //  
 // Methods
@@ -470,3 +470,4 @@ void CodeGenerationPolicy::initFields ( ) {
 	blockSignals(false);
 }
 
+#include "codegenerationpolicy.moc"

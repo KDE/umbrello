@@ -38,9 +38,9 @@ CodeBlockWithComments::CodeBlockWithComments ( CodeDocument * parent , const QSt
 	CodeComment * codecomment = parent->newCodeComment();
 	codecomment->setText(comment);
 	setComment(codecomment);
-};
+}
 
-CodeBlockWithComments::~CodeBlockWithComments ( ) { };
+CodeBlockWithComments::~CodeBlockWithComments ( ) { }
 
 //  
 // Methods
@@ -169,3 +169,4 @@ void CodeBlockWithComments::initFields ( ) {
 	m_comment = getParentDocument()->newCodeComment();
 }
 
+#include "codeblockwithcomments.moc"
