@@ -34,7 +34,7 @@ static KCmdLineOptions options[] =
 int main(int argc, char *argv[]) {
 
 	KAboutData aboutData( "umbrello", I18N_NOOP("Umbrello UML Modeller"),
-	                      VERSION, description, KAboutData::License_GPL,
+	                      UMBRELLO_VERSION, description, KAboutData::License_GPL,
 	                      I18N_NOOP("(c) 2001 Paul Hensgen, (c) 2002 Umbrello UML Modeller Authors"), 0,
 	                      "http://uml.sf.net/");
 	aboutData.addAuthor("Paul Hensgen",0, "phensgen@users.sourceforge.net");

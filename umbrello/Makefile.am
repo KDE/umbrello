@@ -1,5 +1,6 @@
 bin_PROGRAMS = umbrello
 
+umbrello_COMPILE_FIRST = version.h
 umbrello_SOURCES = activitywidget.cpp actor.cpp actorwidget.cpp \
 	artifact.cpp artifactwidget.cpp \
 	association.cpp associationwidget.cpp assocrules.cpp \
@@ -60,9 +61,6 @@ messages: rc.cpp
 	rm -f tips.cpp
 
 version.h: $(top_srcdir)/umbrello/VERSION
-	printf "#undef VERSION\n#define VERSION \"`cat $(top_srcdir)/umbrello/VERSION`\"\n" > version.h
+	printf "#undef UMBRELLO_VERSION\n#define UMBRELLO_VERSION \"`cat $(top_srcdir)/umbrello/VERSION`\"\n" > version.h
 
 noinst_HEADERS = version.h
-
-main.o: version.h
-
