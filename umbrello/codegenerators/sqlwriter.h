@@ -59,7 +59,7 @@ private:
 	/**
 	 * Prints out attributes as columns in the table
 	 */
-	void printAttributes(QTextStream& sql, UMLAttributeList attributeList, bool first);
+	void printAttributes(QTextStream& sql, UMLAttributeList attributeList);
 };
 
 

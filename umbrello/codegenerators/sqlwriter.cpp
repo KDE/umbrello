@@ -129,24 +129,50 @@ void SQLWriter::writeAttributes(UMLClass *c, QTextStream &sql) {
 		}
 	}
 
-	bool first = true;
-	printAttributes(sql, atpub, first);
-	printAttributes(sql, atprot, first);
-	printAttributes(sql, atpriv, first);
+	printAttributes(sql, atpub);
+	printAttributes(sql, atprot);
+	printAttributes(sql, atpriv);
 }
 
-void SQLWriter::printAttributes(QTextStream& sql, UMLAttributeList attributeList, bool first) {
+void SQLWriter::printAttributes(QTextStream& sql, UMLAttributeList attributeList) {
+	bool first = true;
+	QString attrDoc = "";
 	UMLAttribute* at;
-	for (at=attributeList.first();at;at=attributeList.next()) {
-		if (!first) {
-			sql <<","<<endl;
+
+	for (at=attributeList.first();at;at=attributeList.next())
+	{
+		// print , after attribute
+		if (first == false) {
+			sql <<",";
 		} else {
 			first = false;
 		}
+
+		// print documentation/comment of last attribute at end of line
+		if (attrDoc.isEmpty() == false)
+		{
+			sql << " -- " << attrDoc << endl;
+		} else {
+			sql << endl;
+		}
+
+		// write the attribute
 		sql << "\t" << cleanName(at->getName()) << " " << at->getTypeName() << " "
-		    << (at->getDoc().isEmpty()?QString(""):at->getDoc())
 		    << (at->getInitialValue().isEmpty()?QString(""):QString(" DEFAULT ")+at->getInitialValue());
+
+		// now get documentation/comment of current attribute
+		attrDoc = at->getDoc();
 	}
+
+	// print documentation/comment at end of line
+	if (attrDoc.isEmpty() == false)
+	{
+		sql << " -- " << attrDoc << endl;
+	} else {
+		sql << endl;
+	}
+
+	return;
 }
 
 QString SQLWriter::getLanguage() {
