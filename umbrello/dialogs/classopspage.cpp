@@ -183,7 +183,7 @@ void ClassOpsPage::slotOpRightButtonClicked(QListBoxItem * /*item*/, const QPoin
 void ClassOpsPage::slotOpPopupMenuSel(int id) {
 	UMLOperation * o = m_pOpList -> at( m_pOpsLB -> currentItem() );
 	if(!o && id != ListPopupMenu::mt_New_Operation) {
-		kdDebug() << "can't find op from selection" << endl;
+		kdWarning() << "can't find op from selection" << endl;
 		return;
 	}
 	switch(id) {

@@ -2332,8 +2332,8 @@ bool UMLView::allocateMouseReleaseEvent(QMouseEvent * me) {
 	//cursor tests are to stop this being wrongly used when
 	//adding a message to a sequence diagram when the object is selected
 	if( m_pOnWidget &&
-	    (m_CurrentCursor == WorkToolBar::tbb_Seq_Message_Synchronous ||
-	     m_CurrentCursor == WorkToolBar::tbb_Seq_Message_Asynchronous) ) {
+	    !(m_CurrentCursor == WorkToolBar::tbb_Seq_Message_Synchronous ||
+	      m_CurrentCursor == WorkToolBar::tbb_Seq_Message_Asynchronous) ) {
 		m_pOnWidget -> mouseReleaseEvent( me );
 		return true;
 	}
