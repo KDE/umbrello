@@ -25,6 +25,8 @@
 #include "perlwriter.h"
 #include "pythonwriter.h"
 #include "sqlwriter.h"
+#include "aswriter.h"
+#include "jswriter.h"
 #include "qstringlist.h"
 
 #include <kdebug.h>
@@ -44,9 +46,11 @@ QStringList WriterFactory::languagesAvailable() {
 	kdDebug()<<"Querying languages available"<<endl;
 	QStringList l;
 	l.append("Ada");
+	l.append("ActionScript");
 	l.append("Cpp");
 	l.append("IDL");
 	l.append("Java");
+	l.append("JavaScript");
  	l.append("Perl");
 	l.append("PHP");
 	l.append("Python");
@@ -56,16 +60,20 @@ QStringList WriterFactory::languagesAvailable() {
 
 QString WriterFactory::generatorName(const QString &l) {
 	kdDebug()<<"Looking up generator for language "<<l<<endl;
-	if(l=="Cpp")
-		return "CppWriter";
-	if(l=="IDL")
-		return "IDLWriter";
-	if(l=="Java")
-		return "JavaWriter";
-	if (l == "PHP")
-		return "PHPWriter";
 	if (l == "Ada")
 		return "AdaWriter";
+	if (l == "ActionScript")
+		return "ASWriter";
+	if (l=="Cpp")
+		return "CppWriter";
+	if (l=="IDL")
+		return "IDLWriter";
+	if (l=="Java")
+		return "JavaWriter";
+	if (l == "JavaScript")
+		return "JSWriter";
+	if (l == "PHP")
+		return "PHPWriter";
  	if (l == "Perl")
  		return "PerlWriter";
  	if (l == "Python")
@@ -84,16 +92,20 @@ QObject* WriterFactory::createObject( QObject* parent, const char* name, const c
 	kdDebug()<<"Trying to create object of type "<<n<<endl;
 
 	QObject *obj = 0;
-	if(n == "CppWriter") {
+	if (n == "AdaWriter") {
+		obj = new AdaWriter(parent, name);
+	} else if(n == "ASWriter") {
+		obj = new ASWriter( parent, name );
+	} else if(n == "CppWriter") {
 		obj = new CppWriter( parent, name );
 	} else if(n == "IDLWriter") {
 		obj = new IDLWriter( parent, name );
 	} else if(n =="JavaWriter") {
 		obj = new JavaWriter(parent, name);
+	} else if(n == "JSWriter") {
+		obj = new JSWriter( parent, name );
 	} else if (n == "PHPWriter") {
 		obj = new PhpWriter(parent, name);
-	} else if (n == "AdaWriter") {
-		obj = new AdaWriter(parent, name);
  	} else if (n == "PerlWriter") {
 		obj = new PerlWriter(parent, name);
  	} else if (n == "PythonWriter") {
