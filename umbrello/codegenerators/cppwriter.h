@@ -160,7 +160,7 @@ private:
 	void writeAssociationMethods(UMLAssociationList associations, Uml::Scope permitVisib, 
 					bool isHeaderMethod,
 					bool writeMethodBody, bool writePointerVar, Uml::IDType id, QTextStream &stream); 
-	
+
 	/**
 	 * calls @ref writeSingleAttributeAccessorMethods() or @ref
 	 * writeVectorAttributeAccessorMethods() on the assocaition
@@ -265,7 +265,7 @@ private:
 	 * a little method for converting scope to string value
 	 */
 	QString scopeToCPPDecl(Uml::Scope scope); 
-	
+
 	/**
 	 * Basic "unit" of indentation 
 	 */

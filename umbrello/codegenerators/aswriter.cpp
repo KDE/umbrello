@@ -127,7 +127,7 @@ void ASWriter::writeClass(UMLClassifier *c)
 
 		UMLAttributeList atl = myClass->getFilteredAttributeList();
 
-	 	as << "/**" << m_endl;
+		as << "/**" << m_endl;
 		QString temp = "_init sets all " + classname + " attributes to its default\
 	 value make sure to call this method within your class constructor";
 		as << formatDoc(temp, " * ");
@@ -148,7 +148,7 @@ void ASWriter::writeClass(UMLClassifier *c)
 			}
 			else
 			{
-	 			as << m_indentation << "this.m_" << cleanName(at->getName()) << " = \"\";" << m_endl;
+				as << m_indentation << "this.m_" << cleanName(at->getName()) << " = \"\";" << m_endl;
 			}
 		}
 	}

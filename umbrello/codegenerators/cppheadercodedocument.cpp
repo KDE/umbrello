@@ -464,7 +464,7 @@ void CPPHeaderCodeDocument::updateContent( )
 	{
        		packageMap->insert(con,con->getPackage());
 		if(con != getParentClassifier())
-	       		includeStatement.append("#include \""+gen->cleanName(con->getName().lower())+".h\""+endLine);
+			includeStatement.append("#include \""+gen->cleanName(con->getName().lower())+".h\""+endLine);
 	}
 	// now, add/update the includes codeblock
 	CodeBlockWithComments * inclBlock = addOrUpdateTaggedCodeBlockWithComments("includes", includeStatement, QString::null, 0, false);

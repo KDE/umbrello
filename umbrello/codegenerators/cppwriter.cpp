@@ -820,7 +820,7 @@ void CppWriter::writeAssociationRoleDecl(QString fieldClassName, QString roleNam
                 	VectorFieldVariables.append(fieldVarName);
 
 		stream << indent << VECTOR_TYPENAME <<"<" << fieldClassName << "*";
-	       	stream << "> " << fieldVarName << ";" << m_endl;
+		stream << "> " << fieldVarName << ";" << m_endl;
 	}
 }
 

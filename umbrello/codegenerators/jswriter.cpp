@@ -125,7 +125,7 @@ void JSWriter::writeClass(UMLClassifier *c)
 	if(myClass) {
 		UMLAttributeList atl = myClass->getFilteredAttributeList();
 
-	 	js << "/**" << m_endl;
+		js << "/**" << m_endl;
 		QString temp = "_init sets all " + classname + " attributes to their default value."
 				" Make sure to call this method within your class constructor";
 		js << formatDoc(temp, " * ");
@@ -146,7 +146,7 @@ void JSWriter::writeClass(UMLClassifier *c)
 			}
 			else
 			{
-	 			js << m_indentation << "this.m_" << cleanName(at->getName()) << " = \"\";" << m_endl;
+				js << m_indentation << "this.m_" << cleanName(at->getName()) << " = \"\";" << m_endl;
 			}
 		}
 	}
