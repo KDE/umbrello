@@ -652,7 +652,7 @@ void CodeEditor::slotPasteTextBlock ( ) {
 
 	if(m_textBlockToPaste) 
 	{
-		m_parentDoc->insertTextBlock(m_textBlockToPaste, m_selectedTextBlock)
+		m_parentDoc->insertTextBlock(m_textBlockToPaste, m_selectedTextBlock); 
 		m_textBlockToPaste = 0;
 		rebuildView(m_lastPara);
 	}
