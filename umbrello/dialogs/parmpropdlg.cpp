@@ -138,7 +138,7 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a)
 	UMLClassifierList namesList( m_pUmldoc->getConcepts() );
 	UMLClassifier * obj;
 	for(obj=namesList.first(); obj!=0 ;obj=namesList.next()) {
-		m_pTypeCB->insertItem( obj->getFullyQualifiedName() );
+		m_pTypeCB->insertItem( obj->getFullyQualifiedName(".") );
 	}
 
 	//work out which one to select
@@ -199,7 +199,7 @@ void ParmPropDlg::slotOk() {
 		UMLClassifierList namesList( m_pUmldoc->getConcepts() );
 		UMLClassifier * obj;
 		for (obj = namesList.first(); obj; obj = namesList.next()) {
-			if (obj->getFullyQualifiedName() == typeName) {
+			if (obj->getFullyQualifiedName(".") == typeName) {
 				m_pAtt->setType( obj );
 				break;
 			}
