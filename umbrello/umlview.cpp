@@ -3099,8 +3099,6 @@ UMLWidget* UMLView::loadWidgetFromXMI(QDomElement& widgetElement) {
 	UMLObject *o = m_pDoc->findUMLObject(widget -> getID());
 	if (o)
 		widget->setUMLObject( o );
-	else
-		kdDebug() << "UMLView::loadWidgetFromXMI(): object " << widget->getID() << " is a pure widget" << endl;
 	return widget;
 }
 
