@@ -170,6 +170,20 @@ public:
 	}
 
 	/**
+	 * Create a deep copy of this UMLListViewItem, but using the
+	 * given parent instead of the parent of this UMLListViewItem.
+	 * Return the new UMLListViewItem created.
+	 */
+	UMLListViewItem* deepCopy(UMLListViewItem *newParent);
+
+	/**
+	 * Find the UMLListViewItem that is related to the given UMLObject
+	 * in the tree rooted at the current UMLListViewItem.
+	 * Return a pointer to the item or NULL if not found.
+	 */
+	UMLListViewItem* findUMLObject(UMLObject *o);
+
+	/**
 	 * saves the listview item to a <listitem> tag
 	 */
 	bool saveToXMI(QDomDocument& qDoc, QDomElement& qElement );

@@ -392,6 +392,36 @@ int UMLListViewItem::compare(QListViewItem *other, int col, bool ascending) cons
 	return 0;
 }
 
+UMLListViewItem* UMLListViewItem::deepCopy(UMLListViewItem *newParent) {
+	QString nm = getText();
+	Uml::ListView_Type t = getType();
+	UMLObject *o = getUMLObject();
+	UMLListViewItem* newItem;
+	if (o)
+		newItem = new UMLListViewItem(newParent, nm, t, o);
+	else
+		newItem = new UMLListViewItem(newParent, nm, t, m_nId);
+	UMLListViewItem *childItem = static_cast<UMLListViewItem*>(firstChild());
+	while (childItem) {
+		childItem->deepCopy(newItem);
+		childItem = static_cast<UMLListViewItem*>(childItem->nextSibling());
+	}
+	return newItem;
+}
+
+UMLListViewItem* UMLListViewItem::findUMLObject(UMLObject *o) {
+	if (m_pObject == o)
+		return this;
+	UMLListViewItem *childItem = static_cast<UMLListViewItem*>(firstChild());
+	while (childItem) {
+		UMLListViewItem *inner = childItem->findUMLObject(o);
+		if (inner)
+			return inner;
+		childItem = static_cast<UMLListViewItem*>(childItem->nextSibling());
+	}
+	return NULL;
+}
+
 bool UMLListViewItem::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement itemElement = qDoc.createElement( "listitem" );
 	itemElement.setAttribute( "id", getID() );
