@@ -1926,19 +1926,17 @@ void UMLView::removeAssoc(AssociationWidget* pAssoc) {
 void UMLView::removeAssocInViewAndDoc(AssociationWidget* a, bool /* deleteLater */) {
 	if(!a)
 		return;
-	// Remove the association from the UMLDoc.
-	// NO! now done by the association->cleanup.
-	// m_pDoc->removeAssociation(a->getAssociation());
+
+	// Ah, its back. Apparently cut-n-paste ops crash if 
+	// we delete associations from within the association widget
+	// cleanup method (below)
+	m_pDoc->removeAssociation(a->getAssociation()); // Remove the association from the UMLDoc.
 
 	// Remove the association in this view.
 	a->cleanup();
+
 	m_AssociationList.remove(a);
-/*	if (deleteLater) {
-		a->deleteLater();
-	}
-	else
-		delete a;
- */
+
 }
 
 bool UMLView::setAssoc(UMLWidget *pWidget) {
