@@ -510,7 +510,7 @@ bool UMLDrag::getClip3TypeAndID(const QMimeSource* mimeSource,
 		}
 		QString idStr = listItemElement.attribute( "id", "-1" );
 		if (idStr == "-1") {
-			kdDebug() << "getClip3Type: bad type" << endl;
+			kdDebug() << "getClip3Type: bad id" << endl;
 			return false;
 		}
 		LvTypeAndID * pData = new LvTypeAndID;
