@@ -665,10 +665,10 @@ bool UMLView::widgetOnDiagram(int id) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLView::contentsMouseMoveEvent(QMouseEvent *ome)
 {
-	{//Autoscroll -- First try. 
+	{//Autoscroll -- First try.
 	//
 	//This is the first experiment with autoscroll. will be fixed soon.
-	
+
 	//FIXME: we need to keep scrolling while we are close to the border and not only
 	//when we get mouseMoveEvents. ->that means if the user leaves the cursor near to a border
 	//auto-resize could grow the canvas to infinite
@@ -702,8 +702,8 @@ void UMLView::contentsMouseMoveEvent(QMouseEvent *ome)
 	if(dtl < 30 ) scrollBy(-(30-dtl),0);
 	if(dtt < 30 ) scrollBy(0,-(30-dtt));
 	}
-	
-	
+
+
 	QMouseEvent *me = new QMouseEvent(QEvent::MouseMove,
 					inverseWorldMatrix().map(ome->pos()),
 					ome->button(),
@@ -2771,6 +2771,7 @@ void UMLView::setZoom(int zoom) {
 	setWorldMatrix(wm);
 
 	m_pData->setZoom( currentZoom() );
+	resizeCanvasToItems();
 }
 
 int UMLView::currentZoom() {
@@ -2805,12 +2806,18 @@ void UMLView::resizeCanvasToItems() {
 	int canvasWidth = canvasSize.right() + 5;
 	int canvasHeight = canvasSize.bottom() + 5;
 
-	if ( canvasWidth < width() ) {
-		canvasWidth = width();
+	//Find out the bottom right visible pixel and size to at least that
+	int contentsX, contentsY;
+	int contentsWMX, contentsWMY;
+	viewportToContents(viewport()->width(), viewport()->height(), contentsX, contentsY);
+	inverseWorldMatrix().map(contentsX, contentsY, &contentsWMX, &contentsWMY);
+
+	if (canvasWidth < contentsWMX) {
+		canvasWidth = contentsWMX;
 	}
 
-	if ( canvasHeight < height() ) {
-		canvasHeight = height();
+	if (canvasHeight < contentsWMY) {
+		canvasHeight = contentsWMY;
 	}
 
 	setCanvasSize(canvasWidth, canvasHeight);
