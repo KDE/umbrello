@@ -135,9 +135,7 @@ void FloatingText::slotMenuSelection(int sel) {
 		break;
 
 	case ListPopupMenu::mt_Operation:
-		if (m_pMessage == NULL)
-			kdDebug() << "FloatingText::slotMenuSelection: m_pMessage is NULL" << endl;
-		else {
+		{
 			UMLClassifier * c = (UMLClassifier *)getUMLObject();
 			Uml::UMLObject_Type ot = ListPopupMenu::convert_MT_OT((ListPopupMenu::Menu_Type)sel);
 			UMLObject* umlObj = m_pView->getDocument()->createUMLObject(c, ot);
@@ -152,14 +150,23 @@ void FloatingText::slotMenuSelection(int sel) {
 		break;
 
 	case ListPopupMenu::mt_Sequence_Number:
-		if (m_pMessage == NULL)
-			kdDebug() << "FloatingText::slotMenuSelection: m_pMessage is NULL" << endl;
-		else {
+		{
+			QString seqNum;
+			if (m_pMessage)
+				seqNum = m_pMessage->getSequenceNumber();
 			bool ok;
 			QString msg = i18n("Enter sequence number:");
-			QString t = KLineEditDlg::getText(msg , m_pMessage->getSequenceNumber(), &ok, (QWidget*)m_pView);
+			QString t = KLineEditDlg::getText(msg, seqNum, &ok, (QWidget*)m_pView);
 			if(ok) {
-				m_pMessage->setSequenceNumber( t );
+				if (m_pMessage) {
+					m_pMessage->setSequenceNumber( t );
+				} else if (m_pAssoc) {
+					m_pAssoc->setName( t );
+				} else {
+					kdDebug() << "FloatingText::slotMenuSelection: no associated widget"
+						  << endl;
+				}
+				setText( t );
 				calculateSize();
 				setVisible( true );
 			}
@@ -336,25 +343,30 @@ void FloatingText::mouseDoubleClickEvent(QMouseEvent * /* me*/) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void FloatingText::showOpDlg() {
-	if (m_pMessage == NULL) {
-		kdDebug() << "FloatingText::slotMenuSelection: m_pMessage is NULL" << endl;
-		return;
+	QString seqNum, op;
+	if (m_pMessage) {
+		seqNum = m_pMessage->getSequenceNumber();
+		op = m_pMessage->getOperation();
 	}
 	UMLClassifier* c = (UMLClassifier*)getUMLObject();
 	SelectOpDlg selectDlg((QWidget*)m_pView, c);
-	selectDlg.setSeqNumber( m_pMessage->getSequenceNumber() );
-	selectDlg.setCustomOp( m_pMessage->getOperation() );
+	selectDlg.setSeqNumber( seqNum );
+	selectDlg.setCustomOp( op );
 	int result = selectDlg.exec();
 	if(!result) {
 		return;
 	}
-	m_pMessage->setSequenceNumber( selectDlg.getSeqNumber() );
-	m_pMessage->setOperation( selectDlg.getOpText() );
-
-	/**** FIXME: this handling should probably only be done in getDisplayText().
-	      Right now it does not work at all.  --okellogg    ****/
+	seqNum = selectDlg.getSeqNumber();
+	op = selectDlg.getOpText();
+	QString displayText = seqNum.append(": ").append(op);
+	if (m_pMessage) {
+		m_pMessage->setSequenceNumber( seqNum );
+		m_pMessage->setOperation( op );
+	} else if (m_pAssoc) {
+		m_pAssoc->setName( displayText );
+	}
 	if( m_Role == tr_Coll_Message || m_Role == tr_Seq_Message ) {
-		setText( m_pMessage->getSequenceNumber().append(": ").append( m_pMessage->getOperation() ) );
+		setText( displayText );
 	}
 	setVisible(getText().length() > 0);
 	calculateSize();
@@ -428,7 +440,19 @@ bool FloatingText::activate( IDChangeLog* ChangeLog /*= 0 */) {
 
 void FloatingText::setMessage(MessageWidget* m) {
 	m_pMessage = m;
+	if (m != NULL && getID() == -1) {
+		setID( m->getID() );
+	}
 	setPositionFromMessage();
+}
+
+void FloatingText::setAssoc(AssociationWidget * a) {
+	m_pAssoc = a;
+	if (a != NULL) {
+		UMLAssociation *umla = a->getAssociation();
+		if (umla != NULL && getID() == -1)
+			setID( umla->getID() );
+	}
 }
 
 void FloatingText::setRole(Text_Role role) {
@@ -514,6 +538,8 @@ bool FloatingText::playsAssocRole() const {
 		case tr_RoleBName:
 		case tr_ChangeA:
 		case tr_ChangeB:
+		case tr_Coll_Message:
+		case tr_Coll_Message_Self:
 			return true;
 			break;
 		default:
@@ -526,8 +552,6 @@ bool FloatingText::playsMessageRole() const {
 	switch (m_Role) {
 		case tr_Seq_Message:
 		case tr_Seq_Message_Self:
-		case tr_Coll_Message:
-		case tr_Coll_Message_Self:
 			return true;
 			break;
 		default:
@@ -547,11 +571,11 @@ bool FloatingText::loadFromXMI( QDomElement & qElement ) {
 	m_PreText = qElement.attribute( "pretext", "" );
 	m_PostText = qElement.attribute( "posttext", "" );
 	m_Text = qElement.attribute( "text", "" );
-
+/*
 	int id = UMLWidget::getID();
 	if (id == -1)
 		return true;
-	if (playsAssocRole()) {
+	if ( playsAssocRole() ) {
 		m_pAssoc = m_pView->findAssocWidget( id );
 		if (m_pAssoc == NULL) {
 			kdDebug() << "FloatingText::loadFromXMI: "
@@ -596,7 +620,7 @@ bool FloatingText::loadFromXMI( QDomElement & qElement ) {
 			return false;
 		}
 	}
-
+ */
 	return true;
 }
 

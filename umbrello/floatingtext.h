@@ -190,9 +190,7 @@ public:
 	 *
 	 * @param	a	The Association to represent.
 	 */
-	void setAssoc(AssociationWidget * a) {
-		m_pAssoc = a;
-	}
+	void setAssoc(AssociationWidget * a);
 
 	/**
 	 * Returns whether this is a line of text.

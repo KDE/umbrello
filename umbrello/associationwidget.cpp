@@ -70,9 +70,10 @@ AssociationWidget::AssociationWidget(UMLView *view, UMLWidget* WidgetA,
 	//which handles the right click menu options
 	if (getAssocType() == at_Coll_Message) {
 		setName("");
-		/* TBC: Should a collaboration message create an implicit UMLAssociation?
-		   Currently it doesn't.  --okellogg  */
-		// m_pName->setUMLObject( m_pWidgetB->getUMLObject() );
+		if (m_pAssociation)
+			m_pName->setUMLObject( m_pAssociation );
+		else
+			m_pName->setUMLObject( m_pWidgetB->getUMLObject() );
 	}
 }
 
@@ -920,7 +921,7 @@ void AssociationWidget::cleanup() {
 	// from the existence of the widgets. Someday...)
 	if (m_pAssociation) {
 		m_pView->getDocument()->removeAssociation(m_pAssociation);
-	        m_pAssociation = 0;
+		m_pAssociation = 0;
 	}
 
 	m_LinePath.cleanup();
@@ -2132,10 +2133,10 @@ QPoint AssociationWidget::calculateTextPosition(Text_Role role) {
 	} else if(role == tr_Name) {
 
 		x = (int)( ( m_LinePath.getPoint(m_unNameLineSegment).x() +
-		             m_LinePath.getPoint(m_unNameLineSegment + 1).x() ) / 2 );
+			     m_LinePath.getPoint(m_unNameLineSegment + 1).x() ) / 2 );
 
 		y = (int)( ( m_LinePath.getPoint(m_unNameLineSegment).y() +
-		             m_LinePath.getPoint(m_unNameLineSegment + 1).y() ) / 2 );
+			     m_LinePath.getPoint(m_unNameLineSegment + 1).y() ) / 2 );
 
 	} else if(role == tr_ChangeA) {
 
@@ -2396,9 +2397,9 @@ void AssociationWidget::mouseReleaseEvent(QMouseEvent * me) {
 	int pos = m_LinePath.count() - 1;
 	int DISTANCE = 40;//must be within this many pixels for it to be a multi menu
 	float lengthMAP = sqrt( pow( double(m_LinePath.getPoint(0).x() - p.x()), 2.0) +
-	                        pow( double(m_LinePath.getPoint(0).y() - p.y()), 2.0) );
+				pow( double(m_LinePath.getPoint(0).y() - p.y()), 2.0) );
 	float lengthMBP = sqrt( pow( double(m_LinePath.getPoint(pos).x() - p.x()), 2.0) +
-	                        pow( double(m_LinePath.getPoint(pos).y() - p.y()), 2.0) );
+				pow( double(m_LinePath.getPoint(pos).y() - p.y()), 2.0) );
 	Association_Type type = getAssocType();
 	//allow multiplicity
 	if( AssocRules::allowMultiplicity( type, getWidgetA() -> getBaseType() ) ) {
@@ -3359,9 +3360,20 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement )
 					break;
 
 				case Uml::tr_Name:
-				case Uml::tr_Coll_Message:
 					m_pName = ft;
 					break;
+
+				case Uml::tr_Coll_Message:
+					m_pName = ft;
+					ft->setAssoc(this);
+					ft->setActivated();
+					setTextPosition( tr_Name, calculateTextPosition(tr_Name) );
+        				if(FloatingText::isTextValid(ft->getText()))
+						ft -> show();
+					else
+						ft -> hide();
+					break;
+
 				case Uml::tr_RoleAName:
 					m_pRoleA = ft;
 					break;

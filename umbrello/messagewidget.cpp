@@ -400,6 +400,7 @@ void MessageWidget::cleanup() {
 	UMLWidget::cleanup();
 	if (m_pFText) {
 		m_pView->removeWidget(m_pFText);
+		m_pFText = NULL;
 	}
 }
 
