@@ -14,15 +14,6 @@
 namespace Umbrello
 {
 enum Visibility {Public = 200, Private, Protected };
-/*
-namespace rtti{
-enum type{ UMLObject=100, UMLActor, UMLUseCase, UMLPackage, UMLInterface,
-	 UMLClass, UMLAssociation, UMLAttribute, UMLOperation, UMLTemplate,
-	 UMLComponent,
-	UMLState, UMLActivity,
-	UMLWidget = 300, ActorWidget, UseCaseWidget, ClassWidget, ObjectWidget, NoteWidget, MessageWidget, ActivityWidget,
-	Diagram, DiagramView };}
-*/
 }
 
 
