@@ -142,6 +142,14 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a)
 		m_pTypeCB->setCurrentItem(0);
 	}
 
+	// set tab order
+	setTabOrder(m_pKind, m_pTypeCB);
+	setTabOrder(m_pTypeCB, m_pNameLE);
+	setTabOrder(m_pNameLE, m_pInitialLE);
+	setTabOrder(m_pInitialLE, m_pStereoTypeLE);
+	setTabOrder(m_pStereoTypeLE, m_pIn);
+	setTabOrder(m_pIn, m_pDoc);
+
 	m_pNameLE->setFocus();
 }
 
