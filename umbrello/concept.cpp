@@ -43,6 +43,7 @@ QPtrList<UMLAssociation> UMLConcept::getSpecificAssocs(Uml::Association_Type ass
 bool UMLConcept::addAssociation(UMLAssociation* assoc) {
  	m_AssocsList.append( assoc );
 	return true;
+	emit modified();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool UMLConcept::hasAssociation(UMLAssociation *a) {
@@ -56,12 +57,14 @@ int UMLConcept::removeAssociation(UMLObject *a) {
  		kdDebug() << "can't find assoc given in list" << endl;
  		return -1;
  	}
+	emit modified();
  	return m_AssocsList.count();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLObject* UMLConcept::addAttribute(QString name, int id) {
   	UMLAttribute *a = new UMLAttribute(this, name, id);
   	m_AttsList.append(a);
+	emit modified();
 	return a;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -71,6 +74,7 @@ bool UMLConcept::addAttribute(UMLAttribute* Att, IDChangeLog* Log /* = 0*/) {
 		Att -> parent() -> removeChild( Att );
 		this -> insertChild( Att );
 		m_AttsList.append( Att );
+		emit modified();
 		return true;
 	} else if( Log ) {
 		Log->removeChangeByNewID( Att -> getID() );
@@ -84,6 +88,7 @@ int UMLConcept::removeAttribute(UMLObject* a) {
 		kdDebug() << "can't find att given in list" << endl;
 		return -1;
 	}
+	emit modified();
 	return m_AttsList.count();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -118,11 +123,13 @@ int UMLConcept::removeTemplate(UMLTemplate* newTemplate) {
 UMLObject* UMLConcept::addOperation(QString name, int id) {
 	UMLOperation *o = new UMLOperation(this, name, id);
 	m_OpsList.append(o);
+	emit modified();
 	return o;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool UMLConcept::addOperation(UMLOperation* Op) {
 	m_OpsList.append( Op );
+	emit modified();
 	return true;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -132,6 +139,7 @@ bool UMLConcept::addOperation(UMLOperation* Op, IDChangeLog* Log) {
 		Op -> parent() -> removeChild( Op );
 		this -> insertChild( Op );
 		m_OpsList.append( Op );
+		emit modified();
 		return true;
 	} else if( Log ) {
 		Log->removeChangeByNewID( Op -> getID() );
@@ -145,6 +153,7 @@ int UMLConcept::removeOperation(UMLObject *o) {
 		kdDebug() << "can't find opp given in list" << endl;
 		return -1;
 	}
+	emit modified();
 	return m_OpsList.count();
 }
 

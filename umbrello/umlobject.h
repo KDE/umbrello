@@ -199,6 +199,9 @@ public:
   bool getStatic() const;
   /** Sets the value for m_bStatic. */
   void setStatic(const bool bStatic);
+  
+signals:
+	void modified();  
 
 protected:
 	/**
