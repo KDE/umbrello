@@ -819,6 +819,8 @@ UMLAssociation* UMLDoc::createUMLAssociation(UMLObject *a, UMLObject *b, Uml::As
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLDoc::addAssociation(UMLAssociation *Assoc)
 {
+	if (Assoc == NULL)
+		return;
 	// First, check that this association has not already been added.
 	// This may happen as long as we are still in transition from the old
 	// widget based association fabrication. (See explanation at method
