@@ -27,29 +27,20 @@ ClassImport::~ClassImport() {}
 /** No descriptions */
 
 UMLObject *ClassImport::createUMLObject(QString className, Uml::UMLObject_Type type) {
+	if (type != Uml::ot_Class) {
+		kdDebug() << "CreateUMLObject(int) error" << endl;
+		return NULL;
+	}
 
 	UMLObject * o = findUMLObject(type, className);
-
-	if(!o) {
-		if(type == Uml::ot_Class) {
-			UMLClass *c = new UMLClass(this, className, ++uniqueID);
-			o = (UMLObject*)c;
-		} else {
-			kdDebug() << "CreateUMLObject(int) error" << endl;
-			return o;
-		}
-
-		objectList.append(o);
-		emit sigObjectCreated(o);
-		setModified(true);
-		return o;
-	}
-	return o;//gustavo - I put it here after compiler warning
+	if (o == NULL)
+		o = UMLDoc::createUMLObject( type, className );
+	return o;
 }
 
 /** No descriptions */
 void ClassImport::insertAttribute(UMLObject *o, Uml::Scope scope, QString name, QString type, QString value /*= ""*/) {
-	int attID = ++uniqueID;
+	int attID = getUniqueID();
 
 	UMLAttribute *temp = reinterpret_cast<UMLAttribute *>(((UMLClass*)o)->addAttribute(name , attID));
 
@@ -62,7 +53,7 @@ void ClassImport::insertAttribute(UMLObject *o, Uml::Scope scope, QString name, 
 
 /** No descriptions */
 void ClassImport::insertMethod(UMLObject *o, Uml::Scope scope, QString name, QString type, UMLAttributeList *parList /*= NULL*/) {
-	int attID = ++uniqueID;
+	int attID = getUniqueID();
 	UMLClassifier *classifier = dynamic_cast<UMLClassifier*>(o);
 	if(!classifier)
 	{
@@ -77,7 +68,7 @@ void ClassImport::insertMethod(UMLObject *o, Uml::Scope scope, QString name, QSt
 		UMLAttributeListIt it(*parList);
 		for( ; it.current(); ++it ) {
 			UMLAttribute *par = it.current();
-			int parID = ++uniqueID;
+			int parID = getUniqueID();
 			par->setID(parID);
 			op->addParm(par);
 		}

@@ -20,7 +20,7 @@
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
-class ClassImport : private UMLDoc {
+class ClassImport : public UMLDoc {
 public:
 	ClassImport(QWidget *parent, const char *name);
 	~ClassImport();

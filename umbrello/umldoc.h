@@ -77,9 +77,6 @@ using namespace Uml;
 class UMLDoc : public QObject {
 	Q_OBJECT
 public:
-	friend class ClassImport;
-	friend class UMLDrag;
-
 	/**
 	 * Constructor for the fileclass of the application
 	 */
