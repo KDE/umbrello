@@ -125,38 +125,9 @@ private:
 	OldToolMap m_map;
 	Uml::Diagram_Type m_Type;
 
-	struct Pixmaps {
-		QPixmap Arrow,
-		Generalization,
-		Aggregation,
-		Dependency,
-		Association,
-		MessageSynchronous,
-		MessageAsynchronous,
-		Implementation,
-		Composition,
-		UniAssociation,
-		Realization,
-		Anchor,//keep anchor as last association until code uses better algorithm for testing
-		Note,
-		Box,
-		Text,
-		Actor,
-		UseCase,
-		Concept,
-		Object,
-		Initial_State,
-		End_State,
-		Branch,
-		Fork,
-		Package,
-		Component,
-		Node,
-		Artifact,
-		Interface,
-		Datatype;
-	}
-	m_Pixmaps;
+	static const unsigned nToolbarButtons = (unsigned)tbb_Fork -
+						(unsigned)tbb_Arrow + 1;
+	QPixmap m_Pixmaps[nToolbarButtons];
 
 	/**
 	 * These are loaded by loadPixmaps() and contain the images used
@@ -201,6 +172,13 @@ private:
 	 * Returns the current cursor depending on m_CurrentButtonID
 	 */
 	QCursor currentCursor();
+
+	/**
+	 * Inserts the button corresponding to the tbb value given
+	 * and activates the toggle.
+	 */
+	void insertHotBtn(ToolBar_Buttons tbb, const char *label);
+
 signals:
 	void sigButtonChanged(int);
 	void toolSelected(WorkToolBar::EditTool);

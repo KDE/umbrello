@@ -17,10 +17,12 @@
 #include <ktoolbarbutton.h>
 #include <qcursor.h>
 
-WorkToolBar::WorkToolBar(QMainWindow *parentWindow, const char*name) : KToolBar(parentWindow,Qt::DockRight,true,name) {
+WorkToolBar::WorkToolBar(QMainWindow *parentWindow, const char*name)
+  : KToolBar(parentWindow,Qt::DockRight,true,name) {
 	m_CurrentButtonID = tbb_Undefined;
 	loadPixmaps();
-	m_Type = Uml::dt_Class;//first time in just want it to load arrow, needs anything but dt_Undefined
+	m_Type = Uml::dt_Class; /* first time in just want it to load arrow,
+				   needs anything but dt_Undefined  */
 	setOrientation( Vertical );
 	setVerticalStretchable( true );
 	//intialize old tool map, everything starts with select tool (arrow)
@@ -35,14 +37,15 @@ WorkToolBar::WorkToolBar(QMainWindow *parentWindow, const char*name) : KToolBar(
 	slotCheckToolBar( Uml::dt_Undefined );
 	connect( this, SIGNAL( released( int ) ), this, SLOT( buttonChanged (int ) ) );
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 WorkToolBar::~WorkToolBar() {
 	disconnect(this, SIGNAL(released(int)),this,SLOT(buttonChanged(int)));
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
-#define BTN(name, label)  \
-	insertButton(m_Pixmaps . name, tbb_ ## name, true, i18n(label)); \
-	setToggle( tbb_ ## name, true )
+
+void WorkToolBar::insertHotBtn(ToolBar_Buttons tbb, const char *label) {
+	insertButton(m_Pixmaps[tbb], tbb, true, i18n(label));
+	setToggle( tbb, true );
+}
 
 void WorkToolBar::slotCheckToolBar(Uml::Diagram_Type dt) {
 	if( dt == m_Type )
@@ -54,108 +57,113 @@ void WorkToolBar::slotCheckToolBar(Uml::Diagram_Type dt) {
 		return;
 
 	//insert note, anchor and lines of text on all diagrams
-	insertButton( m_Pixmaps.Arrow, tbb_Arrow );
-	setToggle( tbb_Arrow,true );
+	insertButton( m_Pixmaps[tbb_Arrow], tbb_Arrow );
+	setToggle( tbb_Arrow, true );
 	toggleButton( tbb_Arrow );
 	m_CurrentButtonID = tbb_Arrow;
 
-	BTN(Note, "Note");
-	BTN(Anchor, "Anchor");
-	BTN(Text, "Line of text");
-	BTN(Box, "Box");
+	insertHotBtn(tbb_Note, "Note");
+	insertHotBtn(tbb_Anchor, "Anchor");
+	insertHotBtn(tbb_Text, "Line of text");
+	insertHotBtn(tbb_Box, "Box");
 
 	//insert diagram specific tools
-	if( m_Type == Uml::dt_UseCase ) {
-		BTN(Actor, "Actor");
-		BTN(UseCase, "Use case");
-		BTN(Generalization, "Implements (Generalisation/Realisation)");
-		BTN(Dependency, "Dependency");
-		BTN(Association, "Association");
-		BTN(UniAssociation, "Unidirectional association");
+	switch (m_Type) {
+	case Uml::dt_UseCase:
+		insertHotBtn(tbb_Actor, "Actor");
+		insertHotBtn(tbb_UseCase, "Use case");
+		insertHotBtn(tbb_Generalization, "Implements (Generalisation/Realisation)");
+		insertHotBtn(tbb_Dependency, "Dependency");
+		insertHotBtn(tbb_Association, "Association");
+		insertHotBtn(tbb_UniAssociation, "Unidirectional association");
+		break;
 
-	} else if( m_Type == Uml::dt_Class ) {
-		insertButton( m_Pixmaps.Concept, tbb_Class, true, i18n("Class"));
-		setToggle( tbb_Class,true );
+	case Uml::dt_Class:
+		insertHotBtn(tbb_Class, "Class");
+		insertHotBtn(tbb_Interface, "Interface");
+		insertHotBtn(tbb_Datatype, "Datatype");
+		insertHotBtn(tbb_Package, "Package");
+		insertHotBtn(tbb_Composition, "Composition");
+		insertHotBtn(tbb_Generalization,
+			     "Implements (Generalisation/Realisation)");
+		insertHotBtn(tbb_Aggregation, "Aggregation");
+		insertHotBtn(tbb_Dependency, "Dependency");
+		insertHotBtn(tbb_Association, "Association");
+		insertHotBtn(tbb_UniAssociation, "Unidirectional association");
+		break;
 
-		BTN(Interface, "Interface");
-		BTN(Datatype, "Datatype");
-		BTN(Package, "Package");
-		BTN(Composition, "Composition");
-		BTN(Generalization, "Implements (Generalisation/Realisation)");
-		BTN(Aggregation, "Aggregation");
-		BTN(Dependency, "Dependency");
-		BTN(Association, "Association");
-		BTN(UniAssociation, "Unidirectional association");
+	case Uml::dt_Sequence:
+		insertHotBtn(tbb_Object, "Object");
 
-	} else if( m_Type == Uml::dt_Sequence ) {
-		BTN(Object, "Object");
+		insertHotBtn(tbb_Seq_Message_Synchronous, "Synchronous Message");
+		insertHotBtn(tbb_Seq_Message_Asynchronous, "Asynchronous Message");
+		break;
 
-		insertButton( m_Pixmaps.MessageSynchronous, tbb_Seq_Message_Synchronous, true,
-			      i18n("Synchronous Message"));
-		setToggle( tbb_Seq_Message_Synchronous, true );
-
-		insertButton( m_Pixmaps.MessageAsynchronous, tbb_Seq_Message_Asynchronous, true,
-			      i18n("Asynchronous Message"));
-		setToggle( tbb_Seq_Message_Asynchronous, true );
-
-	} else if( m_Type == Uml::dt_Collaboration ) {
-		BTN(Object, "Object");
-
-		insertButton( m_Pixmaps.MessageAsynchronous, tbb_Coll_Message, true, i18n("Message"));
+	case Uml::dt_Collaboration:
+		insertHotBtn(tbb_Object, "Object");
+		insertButton( m_Pixmaps[tbb_Seq_Message_Asynchronous], tbb_Coll_Message,
+			      true, i18n("Message"));
 		setToggle( tbb_Coll_Message, true );
+		break;
 
-	} else if( m_Type == Uml::dt_State ) {
-		BTN(Initial_State, "Initial state");
-
-		insertButton( m_Pixmaps.UseCase, tbb_State, true, i18n("State"));
+	case Uml::dt_State:
+		insertHotBtn(tbb_Initial_State, "Initial state");
+		insertButton( m_Pixmaps[tbb_UseCase], tbb_State,
+			      true, i18n("State"));
 		setToggle( tbb_State, true );
-
-		BTN(End_State, "End state");
-
-		insertButton( m_Pixmaps.UniAssociation, tbb_State_Transition, true, i18n("State transition"));
+		insertHotBtn(tbb_End_State, "End state");
+		insertButton( m_Pixmaps[tbb_UniAssociation], tbb_State_Transition,
+			      true, i18n("State transition"));
 		setToggle( tbb_State_Transition, true );
+		break;
 
-	} else if( m_Type == Uml::dt_Activity ) {
-		insertButton( m_Pixmaps.Initial_State, tbb_Initial_Activity, true, i18n("Initial activity"));
+	case Uml::dt_Activity:
+		insertButton( m_Pixmaps[tbb_Initial_State], tbb_Initial_Activity,
+			      true, i18n("Initial activity"));
 		setToggle( tbb_Initial_Activity, true );
-
-		insertButton( m_Pixmaps.UseCase, tbb_Activity, true, i18n("Activity"));
+		insertButton( m_Pixmaps[tbb_UseCase], tbb_Activity,
+			      true, i18n("Activity"));
 		setToggle( tbb_Activity, true );
-
-		insertButton( m_Pixmaps.End_State, tbb_End_Activity, true, i18n("End activity"));
+		insertButton( m_Pixmaps[tbb_End_State], tbb_End_Activity,
+			      true, i18n("End activity"));
 		setToggle( tbb_End_Activity, true );
 
-		BTN(Branch, "Branch/merge");
+		insertHotBtn(tbb_Branch, "Branch/merge");
 
-		BTN(Fork, "Fork/join");
+		insertHotBtn(tbb_Fork, "Fork/join");
 
-		insertButton( m_Pixmaps.UniAssociation, tbb_Activity_Transition, true, i18n("Activity transition"));
+		insertButton( m_Pixmaps[tbb_UniAssociation], tbb_Activity_Transition,
+			      true, i18n("Activity transition"));
 		setToggle( tbb_Activity_Transition, true );
+		break;
 
-	} else if (m_Type == Uml::dt_Component) {
-		BTN(Interface, "Interface");
-		BTN(Component, "Component");
-		BTN(Artifact, "Artifact");
-		BTN(Generalization, "Implements (Generalisation/Realisation)");
-		BTN(Dependency, "Dependency");
-		BTN(Association, "Association");
+	case Uml::dt_Component:
+		insertHotBtn(tbb_Interface, "Interface");
+		insertHotBtn(tbb_Component, "Component");
+		insertHotBtn(tbb_Artifact, "Artifact");
+		insertHotBtn(tbb_Generalization, "Implements (Generalisation/Realisation)");
+		insertHotBtn(tbb_Dependency, "Dependency");
+		insertHotBtn(tbb_Association, "Association");
+		break;
 
-	} else if (m_Type == Uml::dt_Deployment) {
-		BTN(Object, "Object");
-		BTN(Interface, "Interface");
-		BTN(Component, "Component");
-		BTN(Node, "Node");
-		BTN(Generalization, "Implements (Generalisation/Realisation)");
-		BTN(Dependency, "Dependency");
-		BTN(Association, "Association");
+	case Uml::dt_Deployment:
+		insertHotBtn(tbb_Object, "Object");
+		insertHotBtn(tbb_Interface, "Interface");
+		insertHotBtn(tbb_Component, "Component");
+		insertHotBtn(tbb_Node, "Node");
+		insertHotBtn(tbb_Generalization, "Implements (Generalisation/Realisation)");
+		insertHotBtn(tbb_Dependency, "Dependency");
+		insertHotBtn(tbb_Association, "Association");
 
-	} else {
-		kdWarning() << "slotCheckToolBar() on unknown diagram type:" << m_Type << endl;
+		break;
+
+	default:
+		kdWarning() << "slotCheckToolBar() on unknown diagram type:"
+			    << m_Type << endl;
+		break;
 	}
 }
-#undef BTN
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
 void WorkToolBar::buttonChanged(int b) {
 	UMLView* view = UMLApp::app()->getDocument()->getCurrentView();
 
@@ -295,34 +303,34 @@ void WorkToolBar::loadPixmaps() {
 	QString dataDir = dirs -> findResourceDir( "data", "umbrello/pics/object.xpm" );
 	dataDir += "/umbrello/pics/";
 
-	m_Pixmaps.Object.load( dataDir + "object.xpm" );
-	m_Pixmaps.MessageSynchronous.load( dataDir + "message-synchronous.xpm" );
-	m_Pixmaps.MessageAsynchronous.load( dataDir + "message-asynchronous.xpm" );
-	m_Pixmaps.Arrow.load( dataDir + "arrow.png" );
-	m_Pixmaps.Association.load( dataDir + "line.xpm" );
-	m_Pixmaps.Anchor.load( dataDir + "anchor.xpm" );
-	m_Pixmaps.Text.load( dataDir + "text.xpm" );
-	m_Pixmaps.Note.load( dataDir + "note.xpm" );
-	m_Pixmaps.Box.load( dataDir + "box.xpm" );
-	m_Pixmaps.Actor.load( dataDir + "actor.xpm" );
-	m_Pixmaps.Dependency.load( dataDir + "dependency.xpm" );
-	m_Pixmaps.Aggregation.load( dataDir + "aggregation.xpm" );
-	m_Pixmaps.UniAssociation.load( dataDir + "uniassoc.xpm" );
-	m_Pixmaps.Generalization.load( dataDir + "generalization.xpm" );
-	m_Pixmaps.Composition.load( dataDir + "composition.xpm" );
-	m_Pixmaps.Implementation.load( dataDir + "implements.xpm" );
-	m_Pixmaps.UseCase.load( dataDir + "case.xpm" );
-	m_Pixmaps.Concept.load( dataDir + "umlclass.xpm" );
-	m_Pixmaps.Initial_State.load( dataDir + "initial_state.xpm" );
-	m_Pixmaps.End_State.load( dataDir + "end_state.xpm" );
-	m_Pixmaps.Branch.load( dataDir + "branch.xpm" );
-	m_Pixmaps.Fork.load( dataDir + "fork.xpm" );
-	m_Pixmaps.Package.load( dataDir + "package.xpm" );
-	m_Pixmaps.Component.load( dataDir + "component.xpm" );
-	m_Pixmaps.Node.load( dataDir + "node.xpm" );
-	m_Pixmaps.Artifact.load( dataDir + "artifact.xpm" );
-	m_Pixmaps.Interface.load( dataDir + "interface.xpm" );
-	m_Pixmaps.Datatype.load( dataDir + "datatype.xpm" );
+	m_Pixmaps[tbb_Object].load( dataDir + "object.xpm" );
+	m_Pixmaps[tbb_Seq_Message_Synchronous].load( dataDir + "message-synchronous.xpm" );
+	m_Pixmaps[tbb_Seq_Message_Asynchronous].load( dataDir + "message-asynchronous.xpm" );
+	m_Pixmaps[tbb_Arrow].load( dataDir + "arrow.png" );
+	m_Pixmaps[tbb_Association].load( dataDir + "line.xpm" );
+	m_Pixmaps[tbb_Anchor].load( dataDir + "anchor.xpm" );
+	m_Pixmaps[tbb_Text].load( dataDir + "text.xpm" );
+	m_Pixmaps[tbb_Note].load( dataDir + "note.xpm" );
+	m_Pixmaps[tbb_Box].load( dataDir + "box.xpm" );
+	m_Pixmaps[tbb_Actor].load( dataDir + "actor.xpm" );
+	m_Pixmaps[tbb_Dependency].load( dataDir + "dependency.xpm" );
+	m_Pixmaps[tbb_Aggregation].load( dataDir + "aggregation.xpm" );
+	m_Pixmaps[tbb_UniAssociation].load( dataDir + "uniassoc.xpm" );
+	m_Pixmaps[tbb_Generalization].load( dataDir + "generalization.xpm" );
+	m_Pixmaps[tbb_Composition].load( dataDir + "composition.xpm" );
+	//m_Pixmaps[tbb_Implementation].load( dataDir + "implements.xpm" );
+	m_Pixmaps[tbb_UseCase].load( dataDir + "case.xpm" );
+	m_Pixmaps[tbb_Class].load( dataDir + "umlclass.xpm" );
+	m_Pixmaps[tbb_Initial_State].load( dataDir + "initial_state.xpm" );
+	m_Pixmaps[tbb_End_State].load( dataDir + "end_state.xpm" );
+	m_Pixmaps[tbb_Branch].load( dataDir + "branch.xpm" );
+	m_Pixmaps[tbb_Fork].load( dataDir + "fork.xpm" );
+	m_Pixmaps[tbb_Package].load( dataDir + "package.xpm" );
+	m_Pixmaps[tbb_Component].load( dataDir + "component.xpm" );
+	m_Pixmaps[tbb_Node].load( dataDir + "node.xpm" );
+	m_Pixmaps[tbb_Artifact].load( dataDir + "artifact.xpm" );
+	m_Pixmaps[tbb_Interface].load( dataDir + "interface.xpm" );
+	m_Pixmaps[tbb_Datatype].load( dataDir + "datatype.xpm" );
 
 	m_CursorPixmaps.Actor.load( dataDir + "cursor-actor.xpm");
 	m_CursorPixmaps.Aggregation.load( dataDir + "cursor-aggregation.xpm");
