@@ -50,11 +50,11 @@ void UMLOperation::addParm(QString type, QString name, QString initialValue, QSt
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLOperation::removeParm(UMLAttribute * a) {
+	disconnect(a,SIGNAL(modified()),this,SIGNAL(modified()));
 	if(!m_List.remove(a))
 		kdDebug() << "Error removing parm" << endl;
 
 	emit modified();
-	disconnect(a,SIGNAL(modified()),this,SIGNAL(modified()));
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLAttribute* UMLOperation::findParm(QString name) {
