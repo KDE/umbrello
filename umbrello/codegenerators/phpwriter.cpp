@@ -43,7 +43,7 @@ void PhpWriter::writeClass(UMLClassifier *c) {
 	QString classname = cleanName(c->getName());
 	QString fileName = c->getName().lower();
 
-	//find an appropiate name for our file
+	//find an appropriate name for our file
 	fileName = findFileName(c,".php");
 	if (!fileName) {
 		emit codeGenerated(c, false);

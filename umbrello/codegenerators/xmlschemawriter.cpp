@@ -53,7 +53,7 @@ void XMLSchemaWriter::writeClass(UMLClassifier *c)
 		return;
 	}
 
-	// find an appropiate name for our file
+	// find an appropriate name for our file
 	QString fileName = findFileName(c,".xsd");
 
 	if (!fileName) {

@@ -51,7 +51,7 @@ void JavaWriter::writeClass(UMLClassifier *c)
 
 	QString fileName = cleanName(c->getName().lower());
 
-	//find an appropiate name for our file
+	//find an appropriate name for our file
 	fileName = findFileName(c,".java");
 	if (!fileName) {
 		emit codeGenerated(c, false);

@@ -164,7 +164,7 @@ public:
 	bool getCutCopyState();
 
 	/**
-	 *	gets the appropiate CodeGenerator
+	 *	gets the appropriate CodeGenerator
 	 */
 	CodeGenerator* generator();
 	

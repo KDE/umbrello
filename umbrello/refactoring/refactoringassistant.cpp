@@ -405,7 +405,7 @@ bool RefactoringAssistant::acceptDrag(QDropEvent *event) const
 
 void RefactoringAssistant::movableDropEvent (QListViewItem* parentItem, QListViewItem* afterme)
 {
-//when dropping on a class, we have to put the item in the appropiate folder!
+//when dropping on a class, we have to put the item in the appropriate folder!
 	UMLObject *movingObject, *parentObject, *oldParent;
 	QListViewItem *movingItem;
 
@@ -434,7 +434,7 @@ void RefactoringAssistant::movableDropEvent (QListViewItem* parentItem, QListVie
 		}
 	}
 	else
-	{	//we are trying to drop on a classifier, reparent the item to the appropiate folder
+	{	//we are trying to drop on a classifier, reparent the item to the appropriate folder
 		parentObject = m_umlObjectMap[parentItem];
 		QString lookfor = (typeid(*movingObject) == typeid(UMLOperation) ? "operations" : "attributes" );
 		kdDebug()<<"looking for folder "<<lookfor<<"in item "<<parentItem->text(0)<<endl;

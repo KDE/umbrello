@@ -94,7 +94,7 @@ void CppWriter::writeClass(UMLClassifier *c)
 
 	QFile fileh, filecpp;
 
-	// find an appropiate name for our file
+	// find an appropriate name for our file
 	QString fileName = findFileName(c,".cpp");
 	if (!fileName) {
 		emit codeGenerated(c, false);

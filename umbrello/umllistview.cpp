@@ -452,7 +452,7 @@ void UMLListView::slotObjectCreated(UMLObject* object) {
 		parentItem = deploymentView;
 		break;
 	default:
-		kdWarning() << "UMLListView: no appropiate parent found for " << object->getName()
+		kdWarning() << "UMLListView: no appropriate parent found for " << object->getName()
 			    << ", using default" << endl;
 		parentItem = ucv;
 	}

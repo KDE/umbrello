@@ -51,7 +51,7 @@ class UMLClass;
  *
  * The code you generate should be output to "outputDirectory" and you
  * should respect the OverwritePolicy specified. You should call
- * findFileName(..) to get an appropiate file name, and then you can
+ * findFileName(..) to get an appropriate file name, and then you can
  * call openFile if you want, but if you want to do it yourself you
  * must check the overwrite policy :
  *
@@ -62,7 +62,7 @@ class UMLClass;
  *        you should ask the User what to do, and give him the option to overwrite the file
  *        write the code to a different file, or to abort the generation of this class.
  *  - Never: you cannot overwrite any files. Generates a new file name like "fileName1.h", "fileName2.h"
- *        until you find an appropiate name.
+ *        until you find an appropriate name.
  *  - Cancel: Do not output anything.  This is only set if the user chooses Apply to All Remaining Files
  * 	      and clicks on Do not Output  in the Ask dialogue
  *
@@ -122,7 +122,7 @@ protected:
 	virtual void writeClass(UMLClassifier *) {};
 
 	/**
-	 * Finds an appropiate file name for class c, taking into account the Overwrite
+	 * Finds an appropriate file name for class c, taking into account the Overwrite
 	 * Policy and asking the user what to do if need be. (if policy == Ask)
 	 *
 	 * @param concept the class for which an output file name is desired.
