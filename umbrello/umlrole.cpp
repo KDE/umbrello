@@ -141,9 +141,7 @@ void UMLRole::init(UMLAssociation * parent, UMLObject * parentObj, Uml::Role_Typ
 }
 
 void UMLRole::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
-	//CHECK: What should the tag be, "AssociationEnd" or "AssociationEndRole" ?
-	// We use AssociationEndRole, other products use AssociationEnd.
-	QDomElement roleElement = qDoc.createElement( "UML:AssociationEndRole" );
+	QDomElement roleElement = qDoc.createElement( "UML:AssociationEnd" );
 	roleElement.setAttribute( "type", ID2STR(getID()) );
 	if (!m_Multi.isEmpty())
 		roleElement.setAttribute("multiplicity", m_Multi);
