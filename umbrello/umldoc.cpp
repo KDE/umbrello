@@ -1269,8 +1269,12 @@ UMLOperation* UMLDoc::createOperation(UMLClassifier* classifier,
 				int i = 0;
 				for (; i < pCount; ++i) {
 					Umbrello::NameAndType_ListIt nt(params->at(i));
-					UMLClassifier *c = (*nt).second;
-					if (testParams->at(i)->getTypeName() != c->getName())
+					UMLObject *c = (*nt).second;
+					QString typeName = testParams->at(i)->getTypeName();
+					if (c == NULL) {       //template parameter
+						if (typeName != "class")
+							break;
+					} else if (typeName != c->getName())
 						break;
 				}
 				if (i == pCount) {
