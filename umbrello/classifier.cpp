@@ -190,6 +190,15 @@ UMLObject* UMLClassifier::findChildObject(int id) {
 	}
 	return UMLCanvasObject::findChildObject(id);
 }
+
+UMLObject* UMLClassifier::findChildObjectByIdStr(QString idStr) {
+	UMLClassifierListItem *o = NULL;
+	for (o = m_OpsList.first(); o; o = m_OpsList.next()) {
+		if (o->getAuxId() == idStr)
+			return o;
+	}
+	return NULL;
+}
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLClassifierList UMLClassifier::findSubClassConcepts (ClassifierType type) {
 	UMLClassifierList list = this->getSubClasses();
@@ -341,13 +350,15 @@ void UMLClassifier::init() {
 	m_OpsList.setAutoDelete(false);
 
 	// make connections so that parent document is updated of list of uml objects
+
+/* CHECK: Can we remove this code:
 #ifdef __GNUC__
 #warning "Cheap add/removeOperation fix for slot add/RemoveUMLObject calls. Need long-term solution"
 #endif
 	UMLDoc * parent = UMLApp::app()->getDocument();
 	connect(this,SIGNAL(childObjectAdded(UMLObject *)),parent,SLOT(addUMLObject(UMLObject*)));
 	connect(this,SIGNAL(childObjectRemoved(UMLObject *)),parent,SLOT(slotRemoveUMLObject(UMLObject*)));
-
+ */
 }
 
 bool UMLClassifier::load(QDomElement& element) {

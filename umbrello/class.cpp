@@ -259,6 +259,15 @@ UMLObject* UMLClass::findChildObject(int id) {
 	}
 	return UMLClassifier::findChildObject(id);
 }
+
+UMLObject* UMLClass::findChildObjectByIdStr(QString idStr) {
+	UMLClassifierListItem *a = NULL;
+	for (a = m_AttsList.first(); a; a = m_AttsList.next()) {
+		if (a->getAuxId() == idStr)
+			return a;
+	}
+	return UMLClassifier::findChildObjectByIdStr(idStr);
+}
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool UMLClass::isEnumeration() {
 	QString st = getStereotype();
@@ -278,9 +287,11 @@ void UMLClass::init() {
 	m_AttsList.setAutoDelete(false);
 	m_TemplateList.setAutoDelete(false);
 
+/* CHECK: Can we remove this code:
 	UMLDoc * parent = UMLApp::app()->getDocument();
 	connect(this,SIGNAL(attributeAdded(UMLObject*)),parent,SLOT(addUMLObject(UMLObject*)));
 	connect(this,SIGNAL(attributeRemoved(UMLObject*)),parent,SLOT(slotRemoveUMLObject(UMLObject*)));
+ */
 }
 
 bool UMLClass::operator==( UMLClass & rhs ) {

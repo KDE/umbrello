@@ -233,6 +233,17 @@ public:
 	virtual UMLObject* findChildObject(int id);
 
 	/**
+	 * Find the object of the given (non-numeric) auxiliary ID in
+	 * the lists of contained objects.  The auxiliary ID is the ID
+	 * returned by UMLObject::getAuxId() and is currently only used
+	 * for loading foreign XMI files.
+	 *
+	 * @param idStr		The ID to seek.
+	 * @return	Pointer to the UMLObject found or NULL if not found.
+	 */
+	UMLObject* findChildObjectByIdStr(QString idStr);
+
+	/**
 	 * Return true if this class has an enumeration stereotype.
 	 * Notice that since Umbrello now has a proper Enum construct,
 	 * it is no longer necessary to use stereotypes to produce
