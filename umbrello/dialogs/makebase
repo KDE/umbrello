@@ -1,0 +1,11 @@
+
+
+
+base_files="classpropertiesbase classattributesbase classoperationsbase"
+
+for f in $base_files
+do
+echo "generating $f"
+uic $f.ui | sed -e s/public\ QWidget/public\ DialogPage/ -e s/\<qwidget.h\>/\"dialogpage.h\"/ > $f.h
+uic -impl $f.h $f.ui | sed -e s/QWidget\(/DialogPage\(/ > $f.cpp
+done
