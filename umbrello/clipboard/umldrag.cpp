@@ -310,7 +310,7 @@ bool UMLDrag::decodeClip1(const QMimeSource* mimeSource, UMLObjectList& objects,
 	if ( !payload.size() ) {
 		return false;
 	}
-	QString xmiClip(payload);
+	QString xmiClip = QString::fromUtf8(payload);
 
 	QString error;
 	int line;
@@ -384,7 +384,7 @@ bool UMLDrag::decodeClip2(const QMimeSource* mimeSource, UMLObjectList& objects,
 	if ( !payload.size() ) {
 		return false;
 	}
-	QString xmiClip(payload);
+	QString xmiClip = QString::fromUtf8(payload);
 
 	QString error;
 	int line;
@@ -476,7 +476,7 @@ bool UMLDrag::getClip3TypeAndID(const QMimeSource* mimeSource,
 		return false;
 	}
 	QTextStream clipdata(payload, IO_ReadOnly);
-	QString xmiClip(payload);
+	QString xmiClip = QString::fromUtf8(payload);
 
 	QString error;
 	int line;
@@ -534,7 +534,7 @@ bool UMLDrag::decodeClip3(const QMimeSource* mimeSource,
 		return false;
 	}
 	QTextStream clipdata(payload, IO_ReadOnly);
-	QString xmiClip(payload);
+	QString xmiClip = QString::fromUtf8(payload);
 
 	QString error;
 	int line;
@@ -591,7 +591,8 @@ bool UMLDrag::decodeClip4(const QMimeSource* mimeSource, UMLObjectList& objects,
 	if ( !payload.size() ) {
 		return false;
 	}
-	QString xmiClip(payload);
+
+	QString xmiClip = QString::fromUtf8(payload);
 
 	QString error;
 	int line;
@@ -681,7 +682,7 @@ bool UMLDrag::decodeClip4(const QMimeSource* mimeSource, UMLObjectList& objects,
 	return true;
 }
 
-#warning "decodeClip5 needs fixing" 
+#warning "decodeClip5 needs fixing"
 bool UMLDrag::decodeClip5(const QMimeSource* mimeSource, UMLObjectList& /* objects */,
 			  UMLListViewItemList& umlListViewItems, UMLDoc* doc) {
 	if ( !mimeSource->provides("application/x-uml-clip5") ) {
@@ -691,7 +692,7 @@ bool UMLDrag::decodeClip5(const QMimeSource* mimeSource, UMLObjectList& /* objec
 	if ( !payload.size() ) {
 		return false;
 	}
-	QString xmiClip(payload);
+	QString xmiClip = QString::fromUtf8(payload);
 
 	QString error;
 	int line;
