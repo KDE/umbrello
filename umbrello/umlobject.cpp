@@ -47,6 +47,11 @@ void UMLObject::init() {
 	m_Doc = "";
 	m_bAbstract = false;
 	m_bStatic = false;
+
+        UMLDoc * parent = UMLApp::app()->getDocument();
+        connect(this,SIGNAL(childObjectAdded(UMLObject*)),parent,SLOT(addUMLObject(UMLObject*)));
+        connect(this,SIGNAL(childObjectRemoved(UMLObject*)),parent,SLOT(slotRemoveUMLObject(UMLObject*)));
+
 }
 
 
