@@ -129,7 +129,7 @@ UMLApp::UMLApp(QWidget* , const char* name):KDockMainWindow(0, name) {
 
 	m_refactoringAssist = 0L;
 
-	m_defaultcodegenerationpolicy = new CodeGenerationPolicy(this,config);
+	m_defaultcodegenerationpolicy = new CodeGenerationPolicy(config);
 
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////

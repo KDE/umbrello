@@ -42,16 +42,14 @@ const CodeGenerationPolicy::ModifyNamePolicy CodeGenerationPolicy::DEFAULT_MODIF
 // Constructors/Destructors
 //
 
-CodeGenerationPolicy::CodeGenerationPolicy ( QObject * parent, CodeGenerationPolicy * clone )
-    : QObject ( parent , "ACodeGenPolicyDoc" )
+CodeGenerationPolicy::CodeGenerationPolicy(CodeGenerationPolicy * clone)
 {
 
 	initFields();
 	setDefaults(clone,false);
 }
 
-CodeGenerationPolicy::CodeGenerationPolicy ( QObject * parent, KConfig * config )
-    : QObject ( parent, "ACodeGenPolicyDoc")
+CodeGenerationPolicy::CodeGenerationPolicy(KConfig * config)
 {
 	initFields();
 	setDefaults(config,false);
@@ -70,6 +68,17 @@ CodeGenerationPolicy::~CodeGenerationPolicy ( ) { }
 
 // Public attribute accessor methods
 //
+
+/*
+void CodeGenerationPolicy::setNewCodegen (bool new_var) {
+	m_newCodegen = new_var;
+	emit modifiedCodeContent();
+}
+
+bool CodeGenerationPolicy::getNewCodegen () const {
+	return m_newCodegen;
+}
+*/
 
 /**
  * Set the value of m_overwritePolicy
@@ -350,6 +359,7 @@ void CodeGenerationPolicy::setDefaults( KConfig * config, bool emitUpdateSignal)
 			    // needlessly (we can just make one call at the end).
 
         config -> setGroup("Code Generation");
+	//setNewCodegen ( config->readBoolEntry("newCodegen", true) );
 	setCodeVerboseDocumentComments ( config-> readBoolEntry("forceDoc",DEFAULT_VERBOSE_DOCUMENT_COMMENTS) );
 	setCodeVerboseSectionComments ( config -> readBoolEntry("forceSections",DEFAULT_VERBOSE_SECTION_COMMENTS) );
 
@@ -384,6 +394,7 @@ void CodeGenerationPolicy::writeConfig (KConfig * config) {
 
 	config->setGroup("Code Generation");
 
+	//config->writeEntry("newCodegen", getNewCodegen());
         config->writeEntry("forceDoc",getCodeVerboseDocumentComments());
         config->writeEntry("forceSections",getCodeVerboseSectionComments());
 

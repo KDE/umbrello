@@ -12,13 +12,18 @@
  *      Date   : Wed Jul 30 2003
  */
 
+// own header
+#include "cppcodegenerationpolicypage.h"
+// qt/kde includes
 #include <kdebug.h>
 #include <klocale.h>
 #include <qlabel.h>
 #include <kcombobox.h>
 #include <qcheckbox.h>
-#include "cppcodegenerationpolicypage.h"
+// app includes
 #include "cppcodegenerationformbase.h"
+#include "cppcodegenerator.h"
+#include "../uml.h"
 
 CPPCodeGenerationPolicyPage::CPPCodeGenerationPolicyPage( QWidget *parent, const char *name, CPPCodeGenerationPolicy * policy )
 	:CodeGenerationPolicyPage(parent,name,(CodeGenerationPolicy*)policy) 
@@ -31,7 +36,11 @@ CPPCodeGenerationPolicyPage::CPPCodeGenerationPolicyPage( QWidget *parent, const
 	form->setGenerateEmptyConstructors(policy->getAutoGenerateConstructors());
 	form->setOperationsAreInline(policy->getOperationsAreInline());
 	form->setAccessorsAreInline(policy->getAccessorsAreInline());
-	form->setGenerateMakefileDocument(policy->getBuildMakefile());
+
+	CodeGenerator *codegen = UMLApp::app()->getGenerator();
+	CPPCodeGenerator *cppcodegen = dynamic_cast<CPPCodeGenerator*>(codegen);
+	if (cppcodegen)
+		form->setGenerateMakefileDocument(cppcodegen->getCreateProjectMakefile());
 
 	form->m_stringClassHCombo->setCurrentItem(policy->getStringClassName(),true);
 	form->m_listClassHCombo->setCurrentItem(policy->getVectorClassName(),true);
@@ -76,7 +85,10 @@ void CPPCodeGenerationPolicyPage::apply()
 	parent->setAccessorsAreInline(form->getAccessorsAreInline());
 	parent->setOperationsAreInline(form->getOperationsAreInline());
 
-	parent->setBuildMakefile(form->getGenerateMakefileDocument());
+	CodeGenerator *codegen = UMLApp::app()->getGenerator();
+	CPPCodeGenerator *cppcodegen = dynamic_cast<CPPCodeGenerator*>(codegen);
+	if (cppcodegen)
+		cppcodegen->setCreateProjectMakefile(form->getGenerateMakefileDocument());
 
 	parent->setStringClassName(form->m_stringClassHCombo->currentText());
 	parent->setStringClassNameInclude(form->m_stringIncludeFileHistoryCombo->currentText());

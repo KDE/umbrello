@@ -13,14 +13,16 @@
  *      Date   : Mon Jun 23 2003
  */
 
-#include <kdebug.h>
-
-#include <kconfig.h>
-#include <qregexp.h>
-
+// own header
 #include "cppcodegenerationpolicy.h"
+// qt/kde includes
+#include <qregexp.h>
+#include <kdebug.h>
+#include <kconfig.h>
+// app includes
 #include "cppcodegenerationpolicypage.h"
 #include "cppcodegenerator.h"
+#include "../uml.h"
 
 const CPPCodeGenerationPolicy::CPPCommentStyle CPPCodeGenerationPolicy::DEFAULT_COMMENT = SlashStar;
 const bool CPPCodeGenerationPolicy::DEFAULT_AUTO_GEN_EMPTY_CONSTRUCTORS = false;
@@ -44,17 +46,17 @@ const bool CPPCodeGenerationPolicy::DEFAULT_VECTOR_INCLUDE_GLOBAL = true;
 // Constructors/Destructors
 //
 
-CPPCodeGenerationPolicy::CPPCodeGenerationPolicy ( CPPCodeGenerator * parent, CodeGenerationPolicy *defaults )
-    : CodeGenerationPolicy ( (QObject*) parent, defaults )
+CPPCodeGenerationPolicy::CPPCodeGenerationPolicy(CodeGenerationPolicy *defaults)
+    : CodeGenerationPolicy(defaults)
 {
-	initFields(parent);
+	init();
 	setDefaults(defaults,false);
 }
 
-CPPCodeGenerationPolicy::CPPCodeGenerationPolicy ( CPPCodeGenerator * parent, KConfig *config)
-    : CodeGenerationPolicy ( (QObject*) parent, config)
+CPPCodeGenerationPolicy::CPPCodeGenerationPolicy(KConfig *config)
+    : CodeGenerationPolicy(config)
 {
-	initFields(parent);
+	init();
 	setDefaults(config,false);
 }
 
@@ -192,21 +194,6 @@ bool CPPCodeGenerationPolicy::getAutoGenerateAccessors( ){
         return m_autoGenerateAccessors;
 }
 
-// a little utility method so we can have our codegenerationpolicy page know what
-// the status of the ant document build is
-bool CPPCodeGenerationPolicy::getBuildMakefile()
-{
-        return m_parentCodeGenerator->getCreateProjectMakefile();
-}
-
-// a little utility method so we can have our codegenerationpolicy page can change
-// the status of the Makefile document build is
-void CPPCodeGenerationPolicy::setBuildMakefile( bool buildIt )
-{
-        m_parentCodeGenerator->setCreateProjectMakefile(buildIt);
-	emit modifiedCodeContent();
-}
-
 QString CPPCodeGenerationPolicy::getStringClassName() {
 	return m_stringClassName;
 }
@@ -314,7 +301,11 @@ void CPPCodeGenerationPolicy::writeConfig ( KConfig * config )
 	config->writeEntry("commentStyle",getCommentStyle());
 	config->writeEntry("autoGenEmptyConstructors",getAutoGenerateConstructors());
 	config->writeEntry("autoGenAccessors",getAutoGenerateAccessors());
-	config->writeEntry("buildMakefile",getBuildMakefile());
+
+	CodeGenerator *codegen = UMLApp::app()->getGenerator();
+	CPPCodeGenerator *cppcodegen = dynamic_cast<CPPCodeGenerator*>(codegen);
+	if (cppcodegen)
+		config->writeEntry("buildMakefile", cppcodegen->getCreateProjectMakefile());
 
 	config->writeEntry("inlineAccessors",getAccessorsAreInline());
 	config->writeEntry("inlineOps",getOperationsAreInline());
@@ -353,7 +344,6 @@ void CPPCodeGenerationPolicy::setDefaults ( CodeGenerationPolicy * clone, bool e
 		setCommentStyle(cppclone->getCommentStyle());
 		setAutoGenerateConstructors(cppclone->getAutoGenerateConstructors());
 		setAutoGenerateAccessors(cppclone->getAutoGenerateAccessors());
-		setBuildMakefile(cppclone->getBuildMakefile());
 
 		setAccessorsAreInline(cppclone->getAccessorsAreInline());
         	setOperationsAreInline(cppclone->getOperationsAreInline());
@@ -397,8 +387,23 @@ void CPPCodeGenerationPolicy::setDefaults( KConfig * config, bool emitUpdateSign
 	setCommentStyle((CPPCommentStyle)config->readNumEntry("commentStyle",DEFAULT_COMMENT));
 	setAutoGenerateConstructors(config->readBoolEntry("autoGenEmptyConstructors",DEFAULT_AUTO_GEN_EMPTY_CONSTRUCTORS));
 	setAutoGenerateAccessors(config->readBoolEntry("autoGenAccessors",DEFAULT_AUTO_GEN_ACCESSORS));
-	setBuildMakefile(config->readBoolEntry("buildMakefile",CPPCodeGenerator::DEFAULT_BUILD_MAKEFILE));
+/**** Temporarily commented because of following endless recursion:
+ #0  UMLApp::createGenerator() (this=0x841f0f8) at uml.cpp:1250
+ #1  0x0818a5f9 in UMLApp::getGenerator(bool) (this=0x841f0f8, warnMissing=true) at uml.cpp:1216
+ #2  0x0829c481 in CPPCodeGenerationPolicy::setDefaults(KConfig*, bool) (this=0x8508db8, config=0x83f3ac8, 
+     emitUpdateSignal=false) at cppcodegenerationpolicy.cpp:391
+ #3  0x0818a7ea in UMLApp::createGenerator() (this=0x841f0f8) at uml.cpp:1257
+ #4  0x0818a5f9 in UMLApp::getGenerator(bool) (this=0x841f0f8, warnMissing=true) at uml.cpp:1216
+ #5  0x0819fe6d in UMLDoc::addDefaultDatatypes() (this=0x8428cb0) at umldoc.cpp:2943
+ #6  0x0819018e in UMLDoc::newDocument() (this=0x8428cb0) at umldoc.cpp:346
 
+	CodeGenerator *codegen = UMLApp::app()->getGenerator();
+	CPPCodeGenerator *cppcodegen = dynamic_cast<CPPCodeGenerator*>(codegen);
+	if (cppcodegen) {
+		bool mkmf = config->readBoolEntry("buildMakefile", CPPCodeGenerator::DEFAULT_BUILD_MAKEFILE);
+		cppcodegen->setCreateProjectMakefile(mkmf);
+	}
+*************************************************************************************************/
 	setAccessorsAreInline(config->readBoolEntry("inlineAccessors",DEFAULT_INLINE_ACCESSORS));
 	setOperationsAreInline(config->readBoolEntry("inlineOps",DEFAULT_INLINE_OPERATIONS));
 	setDestructorsAreVirtual(config->readBoolEntry("virtualDestructors",DEFAULT_VIRTUAL_DESTRUCTORS));
@@ -427,9 +432,7 @@ CodeGenerationPolicyPage * CPPCodeGenerationPolicy::createPage ( QWidget *parent
         return new CPPCodeGenerationPolicyPage ( parent, name, this );
 }
 
-void CPPCodeGenerationPolicy::initFields ( CPPCodeGenerator * parent ) {
-
-        m_parentCodeGenerator = parent;
+void CPPCodeGenerationPolicy::init() {
 
 	m_commentStyle = DEFAULT_COMMENT;
 	m_autoGenerateConstructors = DEFAULT_AUTO_GEN_EMPTY_CONSTRUCTORS;

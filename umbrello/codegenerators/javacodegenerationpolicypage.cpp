@@ -12,13 +12,18 @@
  *      Date   : Wed Jul 30 2003
  */
 
-#include <kdebug.h>
-#include <klocale.h>
+// own header
+#include "javacodegenerationpolicypage.h"
+// qt/kde includes
 #include <qlabel.h>
 #include <qcombobox.h>
 #include <qcheckbox.h>
-#include "javacodegenerationpolicypage.h"
+#include <kdebug.h>
+#include <klocale.h>
+// app includes
 #include "javacodegenerationformbase.h"
+#include "javacodegenerator.h"
+#include "../uml.h"
 
 JavaCodeGenerationPolicyPage::JavaCodeGenerationPolicyPage( QWidget *parent, const char *name, JavaCodeGenerationPolicy * policy )
 	:CodeGenerationPolicyPage(parent,name,(CodeGenerationPolicy*)policy) 
@@ -28,10 +33,13 @@ JavaCodeGenerationPolicyPage::JavaCodeGenerationPolicyPage( QWidget *parent, con
 	form->m_generateConstructors->setChecked(policy->getAutoGenerateConstructors());
 	form->m_generateAttribAccessors->setChecked(policy->getAutoGenerateAttribAccessors());
 	form->m_generateAssocAccessors->setChecked(policy->getAutoGenerateAssocAccessors());
-    	form->m_makeANTDocumentCheckBox->setChecked(policy->getBuildANTCodeDocument());
 	form->m_accessorScopeCB->setCurrentItem((policy->getAttributeAccessorScope() - 200));
 	form->m_assocFieldScopeCB->setCurrentItem((policy->getAssociationFieldScope() - 200));
 
+	CodeGenerator *codegen = UMLApp::app()->getGenerator();
+	JavaCodeGenerator *javacodegen = dynamic_cast<JavaCodeGenerator*>(codegen);
+	if (javacodegen)
+    		form->m_makeANTDocumentCheckBox->setChecked(javacodegen->getCreateANTBuildFile());
 }
 
 JavaCodeGenerationPolicyPage::~JavaCodeGenerationPolicyPage()
@@ -63,7 +71,11 @@ void JavaCodeGenerationPolicyPage::apply()
 	parent->setAutoGenerateConstructors(form->m_generateConstructors->isChecked());
 	parent->setAutoGenerateAttribAccessors(form->m_generateAttribAccessors->isChecked());
 	parent->setAutoGenerateAssocAccessors(form->m_generateAssocAccessors->isChecked());
-    	parent->setBuildANTCodeDocument(form->m_makeANTDocumentCheckBox->isChecked());
+
+	CodeGenerator *codegen = UMLApp::app()->getGenerator();
+	JavaCodeGenerator *javacodegen = dynamic_cast<JavaCodeGenerator*>(codegen);
+	if (javacodegen)
+    		javacodegen->setCreateANTBuildFile(form->m_makeANTDocumentCheckBox->isChecked());
 
         parent->blockSignals(false);
 

@@ -21,7 +21,6 @@
 
 class KConfig;
 class CodeGenerationPolicyPage;
-class JavaCodeGenerator;
 
 class JavaCodeGenerationPolicy : public CodeGenerationPolicy
 {
@@ -44,8 +43,8 @@ public:
 	/**
 	 * Constructors 
 	 */
-	JavaCodeGenerationPolicy ( JavaCodeGenerator * parent, CodeGenerationPolicy * defaults = 0 );
-	JavaCodeGenerationPolicy ( JavaCodeGenerator * parent, KConfig * config = 0 );
+	JavaCodeGenerationPolicy (CodeGenerationPolicy * defaults = 0);
+	JavaCodeGenerationPolicy (KConfig * config = 0);
 
 	/**
 	 * Empty Destructor
@@ -124,13 +123,6 @@ public:
 	 */
 	JavaCommentStyle getCommentStyle ( );
 
-        // a little utiltity method to call getParentGenerator()->getBuildANTCodeDocument()
-        bool getBuildANTCodeDocument();
-
-        // a little utility method so we can have our codegenerationpolicy page can change
-        // the status of the ANT document build is
-        void setBuildANTCodeDocument(bool buildIt);
-
         /**
          * set the defaults for this code generator from the passed generator.
          */
@@ -160,16 +152,12 @@ protected:
 
 private:
 
-        JavaCodeGenerator * m_parentCodeGenerator;
-
 	ScopePolicy m_defaultAttributeAccessorScope;
 	ScopePolicy m_defaultAssociationFieldScope;
 	JavaCommentStyle m_commentStyle;
 	bool m_autoGenerateConstructors;
         bool m_autoGenerateAttribAccessors;
         bool m_autoGenerateAssocAccessors;
-
-	void initFields( JavaCodeGenerator * parent) ;
 
 };
 

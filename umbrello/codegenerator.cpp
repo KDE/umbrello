@@ -403,7 +403,7 @@ CodeDocument * CodeGenerator::newCodeDocument ( ) {
 }
 
 CodeGenerationPolicy * CodeGenerator::newCodeGenerationPolicy ( KConfig * config) {
-	return new CodeGenerationPolicy(this, config);
+	return new CodeGenerationPolicy(config);
 }
 
 /**
@@ -690,7 +690,7 @@ QString CodeGenerator::formatDoc(const QString &text, const QString &linePrefix,
 void CodeGenerator::initFields ( UMLDoc * doc ) {
 
 	m_document = doc;
-	setPolicy(new CodeGenerationPolicy(this)); // use just vannila a policy
+	setPolicy(new CodeGenerationPolicy()); // use just vannila a policy
 
 	m_codeDocumentDictionary.setAutoDelete(false);
 	m_codedocumentVector.setAutoDelete(false);

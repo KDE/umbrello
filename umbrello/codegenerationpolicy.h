@@ -70,12 +70,9 @@ public:
 	 * Constructor
 	 */
 	// note that as the code gen policy may be the 'default' policy, it may
-	// not be coupled with a code generator. That is why we can build it with
-	// any old QObject. ON the other hand, we DO need the QObject so that IF
-	// this policy IS coupled with a specific code generator, it may use the
-	// QObject connection call back mechanism for updateAllCodeDOcuments.
-	CodeGenerationPolicy ( QObject * parent, CodeGenerationPolicy * clone = 0);
-	CodeGenerationPolicy ( QObject * parent, KConfig * config );
+	// not be coupled with a code generator.
+	CodeGenerationPolicy (CodeGenerationPolicy * clone = 0);
+	CodeGenerationPolicy (KConfig * config );
 
 	/**
 	 * Empty Destructor

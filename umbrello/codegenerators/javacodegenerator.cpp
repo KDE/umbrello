@@ -158,7 +158,7 @@ JavaANTCodeDocument * JavaCodeGenerator::newANTCodeDocument ( ) {
 
 CodeGenerationPolicy * JavaCodeGenerator::newCodeGenerationPolicy( KConfig * config)
 {
-	CodeGenerationPolicy * myPolicy = new JavaCodeGenerationPolicy(this,config);
+	CodeGenerationPolicy * myPolicy = new JavaCodeGenerationPolicy(config);
 	return myPolicy;
 }
 
@@ -176,9 +176,9 @@ CodeComment * JavaCodeGenerator::newCodeComment ( CodeDocument * doc) {
         return new JavaCodeComment(doc);
 }
 
-void JavaCodeGenerator::initFields ( ) {
+void JavaCodeGenerator::initFields() {
 
-	setPolicy ( new JavaCodeGenerationPolicy(this, getPolicy()) );
+	setPolicy ( new JavaCodeGenerationPolicy(getPolicy()) );
 
 	// load Classifier documents from parent document
 	initFromParentDocument();

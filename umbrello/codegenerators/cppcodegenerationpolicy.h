@@ -21,7 +21,6 @@
 
 class KConfig;
 class CodeGenerationPolicyPage;
-class CPPCodeGenerator;
 
 class CPPCodeGenerationPolicy : public CodeGenerationPolicy
 {
@@ -56,8 +55,8 @@ public:
 	/**
 	 * Constructors 
 	 */
-	CPPCodeGenerationPolicy ( CPPCodeGenerator * parent, CodeGenerationPolicy * defaults = 0 );
-	CPPCodeGenerationPolicy ( CPPCodeGenerator * parent, KConfig * config = 0 );
+	CPPCodeGenerationPolicy ( CodeGenerationPolicy * defaults = 0 );
+	CPPCodeGenerationPolicy ( KConfig * config = 0 );
 
 	/**
 	 * Empty Destructor
@@ -152,13 +151,6 @@ public:
 	 */
 	CPPCommentStyle getCommentStyle ( );
 
-        // a little utiltity method to call getParentGenerator()->getBuildMakefile()
-        bool getBuildMakefile();
-
-        // a little utility method so we can have our codegenerationpolicy page can change
-        // the status of the building the Makefile document 
-        void setBuildMakefile(bool buildIt);
-
 	/** We want to be flexible about which classes are allowed for generation
 	 * of the CPP code. In the next 4 methods, we give accessors that allow getting
 	 * the names of the classes, and their include files for string and vectors.
@@ -223,8 +215,6 @@ protected:
 
 private:
 
-        CPPCodeGenerator * m_parentCodeGenerator;
-
 	CPPCommentStyle m_commentStyle;
 	bool m_autoGenerateConstructors;
         bool m_autoGenerateAccessors;
@@ -245,8 +235,6 @@ private:
 	QString m_vectorMethodRemoveBase;
 	QString m_vectorMethodInitBase;
 	QString m_objectMethodInitBase;
-
-	void initFields( CPPCodeGenerator * parent) ;
 
 };
 

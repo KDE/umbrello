@@ -12,11 +12,14 @@
  *      Date   : Mon Jun 23 2003
  */
 
-#include <kconfig.h>
-
+// own header
 #include "javacodegenerationpolicy.h"
+// qt/kde includes
+#include <kconfig.h>
+// app includes
 #include "javacodegenerationpolicypage.h"
 #include "javacodegenerator.h"
+#include "../uml.h"
 
 const JavaCodeGenerationPolicy::ScopePolicy JavaCodeGenerationPolicy::DEFAULT_ATTRIB_ACCESSOR_SCOPE = FromParent;
 const JavaCodeGenerationPolicy::ScopePolicy JavaCodeGenerationPolicy::DEFAULT_ASSOC_FIELD_SCOPE = FromParent;
@@ -28,17 +31,17 @@ const bool JavaCodeGenerationPolicy::DEFAULT_AUTO_GEN_ASSOC_ACCESSORS = true;
 // Constructors/Destructors
 //
 
-JavaCodeGenerationPolicy::JavaCodeGenerationPolicy ( JavaCodeGenerator * parent, CodeGenerationPolicy *defaults )
-    : CodeGenerationPolicy ( (QObject*) parent, defaults )
+JavaCodeGenerationPolicy::JavaCodeGenerationPolicy(CodeGenerationPolicy *defaults)
+    : CodeGenerationPolicy(defaults)
 {
-	initFields(parent);
+	init();
 	setDefaults(defaults,false);
 }
 
-JavaCodeGenerationPolicy::JavaCodeGenerationPolicy ( JavaCodeGenerator * parent, KConfig *config)
-    : CodeGenerationPolicy ( (QObject*) parent, config)
+JavaCodeGenerationPolicy::JavaCodeGenerationPolicy(KConfig *config)
+    : CodeGenerationPolicy(config)
 {
-	initFields(parent);
+	init();
 	setDefaults(config,false);
 }
 
@@ -148,21 +151,6 @@ bool JavaCodeGenerationPolicy::getAutoGenerateAssocAccessors( ){
         return m_autoGenerateAssocAccessors;
 }
 
-// a little utility method so we can have our codegenerationpolicy page know what
-// the status of the ant document build is
-bool JavaCodeGenerationPolicy::getBuildANTCodeDocument()
-{
-        return m_parentCodeGenerator->getCreateANTBuildFile();
-}
-
-// a little utility method so we can have our codegenerationpolicy page can change
-// the status of the ANT document build is
-void JavaCodeGenerationPolicy::setBuildANTCodeDocument( bool buildIt )
-{
-        m_parentCodeGenerator->setCreateANTBuildFile(buildIt);
-	emit modifiedCodeContent();
-}
-
 // Other methods
 //
 
@@ -178,7 +166,11 @@ void JavaCodeGenerationPolicy::writeConfig ( KConfig * config )
 	config->writeEntry("autoGenEmptyConstructors",getAutoGenerateConstructors());
 	config->writeEntry("autoGenAccessors",getAutoGenerateAttribAccessors());
 	config->writeEntry("autoGenAssocAccessors",getAutoGenerateAssocAccessors());
-	config->writeEntry("buildANTDocument",getBuildANTCodeDocument());
+
+	CodeGenerator *codegen = UMLApp::app()->getGenerator();
+	JavaCodeGenerator *javacodegen = dynamic_cast<JavaCodeGenerator*>(codegen);
+	if (javacodegen)
+		config->writeEntry("buildANTDocument", javacodegen->getCreateANTBuildFile());
 
 }
 
@@ -207,7 +199,6 @@ void JavaCodeGenerationPolicy::setDefaults ( CodeGenerationPolicy * clone, bool 
 		setAutoGenerateConstructors(jclone->getAutoGenerateConstructors());
 		setAutoGenerateAttribAccessors(jclone->getAutoGenerateAttribAccessors());
 		setAutoGenerateAssocAccessors(jclone->getAutoGenerateAssocAccessors());
-		setBuildANTCodeDocument(jclone->getBuildANTCodeDocument());
 	}
 
         blockSignals(false); // "as you were citizen"
@@ -240,7 +231,13 @@ void JavaCodeGenerationPolicy::setDefaults( KConfig * config, bool emitUpdateSig
 	setAutoGenerateConstructors(config->readBoolEntry("autoGenEmptyConstructors",DEFAULT_AUTO_GEN_EMPTY_CONSTRUCTORS));
 	setAutoGenerateAttribAccessors(config->readBoolEntry("autoGenAccessors",DEFAULT_AUTO_GEN_ATTRIB_ACCESSORS));
 	setAutoGenerateAssocAccessors(config->readBoolEntry("autoGenAssocAccessors",DEFAULT_AUTO_GEN_ASSOC_ACCESSORS));
-	setBuildANTCodeDocument(config->readBoolEntry("buildANTDocument",JavaCodeGenerator::DEFAULT_BUILD_ANT_DOC));
+
+	CodeGenerator *codegen = UMLApp::app()->getGenerator();
+	JavaCodeGenerator *javacodegen = dynamic_cast<JavaCodeGenerator*>(codegen);
+	if (javacodegen) {
+		bool mkant = config->readBoolEntry("buildANTDocument", JavaCodeGenerator::DEFAULT_BUILD_ANT_DOC);
+		javacodegen->setCreateANTBuildFile(mkant);
+	}
 
         blockSignals(false); // "as you were citizen"
 
@@ -257,9 +254,7 @@ CodeGenerationPolicyPage * JavaCodeGenerationPolicy::createPage ( QWidget *paren
         return new JavaCodeGenerationPolicyPage ( parent, name, this );
 }
 
-void JavaCodeGenerationPolicy::initFields ( JavaCodeGenerator * parent ) {
-
-        m_parentCodeGenerator = parent;
+void JavaCodeGenerationPolicy::init() {
 
 	m_defaultAttributeAccessorScope = DEFAULT_ATTRIB_ACCESSOR_SCOPE;
 	m_defaultAssociationFieldScope = DEFAULT_ASSOC_FIELD_SCOPE;

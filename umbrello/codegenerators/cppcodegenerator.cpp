@@ -371,7 +371,7 @@ void CPPCodeGenerator::checkRemoveUMLObject (UMLObject * obj)
 void CPPCodeGenerator::initAttributes ( )
 {
 
-	setPolicy ( new CPPCodeGenerationPolicy(this, getPolicy()) );
+	setPolicy ( new CPPCodeGenerationPolicy(getPolicy()) );
 
        // load Classifier documents from parent document
 	initFromParentDocument();
