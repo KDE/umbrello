@@ -26,6 +26,7 @@
 #include "interface.h"
 #include "class.h"
 #include "enum.h"
+#include "operation.h"
 
 namespace IDLImport {
 
@@ -35,11 +36,11 @@ UMLPackage *scope[32];
 int scopeIndex = 0;  // index 0 is reserved for global scope
 UMLClassifier *classifier = NULL;
 bool isAbstract = false, isOneway = false, isReadonly = false, isAttribute = false;
-Uml::Scope currentAccess = Uml::Public;
+Uml::Scope currentAccess = Uml::Protected;  // Protected is used as the undefined value.
 
 void skipStmt() {
 	const int srcLength = source.count();
-	while (srcIndex < srcLength && !source[srcIndex].contains(";"))
+	while (srcIndex < srcLength && source[srcIndex] != ";")
 		srcIndex++;
 }
 
@@ -80,24 +81,33 @@ void parseFile(QString filename) {
 		// instead:
 		QStringList tmpList = QStringList::split( QRegExp("\\s+"), line );
 		for (QStringList::Iterator tmpIt = tmpList.begin(); tmpIt != tmpList.end(); ++tmpIt) {
-			QString tmp = *tmpIt;
-			kdDebug() << '"' << tmp << '"' << endl;
-			tmp = tmp.stripWhiteSpace();
+			QString tmp = (*tmpIt).stripWhiteSpace();
 			if (tmp.isEmpty())
 				continue;
-			while (tmp == "::") {
-				source.last() += tmp;   // append "::"
-				tmp = *++tmpIt;
-				source.last() += tmp;   // append the following identifier
-				tmp = *++tmpIt;
+			QString word;
+			for (uint i = 0; i < tmp.length(); i++) {
+				QChar c = tmp[i];
+				if (c.isLetterOrNumber() || c == '_') {
+					word += c;
+				} else if (c == ':' && tmp[i + 1] == ':') {
+					word += "::";
+					i++;
+				} else {
+					if (!word.isEmpty()) {
+						source.append(word);
+						word = QString::null;
+					}
+					source.append(c);
+				}
 			}
-			source.append(tmp);
+			if (!word.isEmpty())
+				source.append(word);
 		}
-		kdDebug() << "------------------" << endl;
 	}
 	const int srcLength = source.count();
 	for (srcIndex = 0; srcIndex < srcLength; srcIndex++) {
 		const QString& keyword = source[srcIndex];
+		kdDebug() << '"' << keyword << '"' << endl;
 		if (keyword == "module") {
 			UMLObject *ns = importer->createUMLObject(Uml::ot_Package,
 						  source[++srcIndex], scope[scopeIndex]);
@@ -123,9 +133,12 @@ void parseFile(QString filename) {
 		}
 		if (keyword == "union" || keyword == "exception") {
 			// TBD. <gulp>
-			while (++srcIndex < srcLength)
-				if (source[srcIndex].contains("}"))
+			while (++srcIndex < srcLength) {
+				if (source[srcIndex] == "}") {
+					srcIndex++;  // skip ';'
 					break;
+				}
+			}
 			continue;
 		}
 		if (keyword == "enum") {
@@ -134,8 +147,10 @@ void parseFile(QString filename) {
 			UMLEnum *enumType = static_cast<UMLEnum*>(ns);
 			classifier = enumType;
 			while (++srcIndex < srcLength) {
-				if (source[srcIndex].contains("}"))
+				if (source[srcIndex] == "}") {
+					srcIndex++;  // skip ';'
 					break;
+				}
 				if (source[srcIndex] == ",")
 					srcIndex++;
 				importer->addEnumLiteral(enumType, source[srcIndex]);
@@ -185,16 +200,80 @@ void parseFile(QString filename) {
 			isOneway = true;
 			continue;
 		}
-		if (keyword.contains("}")) {
+		if (keyword == "}") {
 			if (scopeIndex)
 				scopeIndex--;
 			else
 				kdError() << "importIDL: too many }" << endl;
+			srcIndex++;  // skip ';'
 			continue;
 		}
+		if (keyword == ";")
+			continue;
 		// At this point, we expect a type name (of a member of struct
 		// or valuetype, or return type of an operation.)
-		skipStmt();  // TBD
+		if (! keyword.contains( QRegExp("^\\w") )) {
+			kdError() << "importIDL: ignoring " << keyword << endl;
+			skipStmt();
+			continue;
+		}
+		//UMLObject *type = NULL;
+		//if (keyword != "void")
+		//	type = importer->createUMLObject(Uml::ot_UMLObject,
+		//					 keyword, scope[scopeIndex]);
+		const QString& name = source[++srcIndex];
+		if (name.contains( QRegExp("\\W") )) {
+			kdError() << "importIDL: expecting name in " << name << endl;
+			skipStmt();
+			continue;
+		}
+		const QString& nxttok = source[++srcIndex];
+		if (nxttok == "(") {
+			// operation
+			if (classifier == NULL) {
+				kdError() << "importIDL: no classifier set for operation "
+					  << name << endl;
+				continue;
+			}
+    			UMLOperation *op = importer->makeOperation(classifier, name);
+			if (nxttok == "(")
+				srcIndex++;
+			while (srcIndex < srcLength && source[srcIndex] != ")") {
+				const QString &direction = source[srcIndex];
+				const QString &typeName = source[++srcIndex];
+				if (typeName == ")")
+					break;
+				const QString &parName = source[++srcIndex];
+				importer->addMethodParameter( op, typeName, parName );
+				if (source[++srcIndex] == ",")
+					srcIndex++;
+			}
+    			importer->insertMethod( classifier, op, currentAccess, keyword, false, false);
+			continue;
+		}
+		// At this point we know it's some kind of attribute declaration.
+		if (currentAccess != Uml::Protected) {
+			// state member of valuetype
+			// TBD
+			// fill in the code here...
+
+
+			currentAccess = Uml::Protected;
+		} else if (isAttribute) {
+			// attribute of an interface
+			// TBD
+			// fill in the code here...
+
+
+			isAttribute = false;
+		} else {
+			// data member of a struct
+			// TBD
+		}
+		if (nxttok != ";") {
+			kdError() << "importIDL: ignoring trailing items in " << nxttok << endl;
+			skipStmt();
+		}
 	}
 	pclose(fp);
 }
