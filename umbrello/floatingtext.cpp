@@ -66,7 +66,7 @@ void FloatingText::draw(QPainter & p, int offsetX, int offsetY) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void FloatingText::moveEvent(QMoveEvent * /*m*/) {
-	// adjustAssocs(getX(), getY()); // NO, I dont think so. This can create major problems. 
+	// adjustAssocs(getX(), getY()); // NO, I dont think so. This can create major problems.
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void FloatingText::resizeEvent(QResizeEvent * /*re*/) {}
@@ -94,7 +94,7 @@ void FloatingText::calculateSize() {
 	int h = fm.lineSpacing();
 	int w = fm.width( getDisplayText() );
 	setSize( w + 8, h + 4 );//give a small margin
-	// adjustAssocs( getX(), getY() );//adjust assoc lines, why? Let em be. The user can do the adjustment.  
+	// adjustAssocs( getX(), getY() );//adjust assoc lines, why? Let em be. The user can do the adjustment.
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void FloatingText::slotMenuSelection(int sel) {
@@ -352,7 +352,7 @@ void FloatingText::showOpDlg() {
 	}
 	seqNum = selectDlg.getSeqNumber();
 	op = selectDlg.getOpText();
-	QString displayText = seqNum.append(": ").append(op);
+	QString displayText = seqNum + ": " + op;
 	if (m_pMessage) {
 		m_pMessage->setSequenceNumber( seqNum );
 		m_pMessage->setOperation( op );
@@ -440,7 +440,7 @@ void FloatingText::setMessage(MessageWidget* m) {
 	setPositionFromMessage();
 }
 
-// God this is bad. Why not use the assocList in the 
+// God this is bad. Why not use the assocList in the
 // parent umlwidget class? At the very least, we should
 // keep them synced.
 // Also, there seems to be some issues with setting id to the association
@@ -454,7 +454,7 @@ void FloatingText::setAssoc(AssociationWidget * a) {
 	m_pAssoc = a;
 	if (a != NULL) {
 		UMLAssociation *umla = a->getAssociation();
-		if (umla != NULL ) // *always* sync id to association id.  
+		if (umla != NULL ) // *always* sync id to association id.
 			// && getID() == -1)
 			setID( umla->getID() );
 
