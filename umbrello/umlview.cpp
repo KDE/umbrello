@@ -974,6 +974,18 @@ void UMLView::selectionSetFont( QFont font )
 		temp -> setFont( font );
 }
 
+void UMLView::selectionSetLineColor( QColor color )
+{
+	UMLWidget * temp = 0;
+	for(temp=(UMLWidget *) m_SelectedList.first();
+				temp;
+					temp=(UMLWidget *)m_SelectedList.next()) {
+		temp -> setLineColour( color );
+		temp -> getData() -> setUsesDiagramLineColour(false);
+	}
+
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLView::deleteSelection()
 {

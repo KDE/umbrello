@@ -226,6 +226,11 @@ public:
 	void selectionSetFont( QFont font );
 
 	/**
+	 * 	Set the line color for all the currently selected items.
+	 */
+	void selectionSetLineColor( QColor color );
+
+	/**
 	 *	Delete the selected widgets list and the widgets in it.
 	 */
 	void deleteSelection();

@@ -121,6 +121,7 @@ public:
 
 	    mt_Multi_Selection,               //MULTISELECTION
 	    mt_Line_Color,                    //LINECOLOR
+	    mt_Line_Color_Selection,          //LINECOLOR, multiple Items
 	    mt_Fill_Color,                    //FILLCOLOR
 	    mt_Use_Fill_Color,                //USEFCOLOR
 	    mt_Default_Properties,            //DEFAULTPROPERTIES
@@ -181,6 +182,7 @@ private:
 	void setupMenu(Menu_Type type, UMLView * view  = 0);
 	KPopupMenu * m_pInsert, * m_pShow, * m_pColor;
 	void setupColor(bool fc);
+	void setupColorSelection(bool fc);
 	void setupDiagramMenu(UMLView* view);
 };
 

@@ -333,6 +333,13 @@ void UMLWidget::slotMenuSelection(int sel) {
 				}
 				break;
 
+			case ListPopupMenu::mt_Line_Color_Selection:
+				if( KColorDialog::getColor(newColour) ) {
+					m_pView -> selectionSetLineColor( newColour );
+					m_pView->getDocument()->setModified(true);
+				}
+				break;
+
 			case ListPopupMenu::mt_Fill_Color:
 				if ( KColorDialog::getColor(newColour) ) {
 					m_pData->setFillColour(newColour);
@@ -359,7 +366,10 @@ void UMLWidget::slotMenuSelection(int sel) {
 			case ListPopupMenu::mt_Change_Font_Selection:
 				font = getFont();
 				if( KFontDialog::getFont( font, false, m_pView ) )
+				{
 					m_pView -> selectionSetFont( font );
+					m_pView->getDocument()->setModified(true);
+				}
 				break;
 
 			case ListPopupMenu::mt_Cut:

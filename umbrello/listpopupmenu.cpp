@@ -161,7 +161,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object, bool multi) :
 	Uml::UMLWidget_Type type = object -> getBaseType();
 
 	if(multi) {
-		setupColor(object -> getUseFillColor());
+		setupColorSelection(object -> getUseFillColor());
 		insertSeparator();
 		insertItem(SmallIcon( "editcut" ) , i18n("Cut"), mt_Cut);
 		insertItem(SmallIcon( "editcopy" ), i18n("Copy"), mt_Copy);
@@ -440,6 +440,17 @@ void ListPopupMenu::setupColor(bool fc)
 {
 	m_pColor = new KPopupMenu( this, "Colour");
 	m_pColor -> insertItem(SmallIcon( "color_line"), i18n("Line Color"), mt_Line_Color);
+	m_pColor -> insertItem(SmallIcon( "color_fill"), i18n("Fill Color"), mt_Fill_Color);
+	m_pColor -> insertItem( i18n("Use Fill Color"), mt_Use_Fill_Color);
+
+	m_pColor -> setItemChecked(mt_Use_Fill_Color, fc);
+	insertItem(SmallIcon( "colorize"), i18n("Color"), m_pColor);
+}
+
+void ListPopupMenu::setupColorSelection(bool fc)
+{
+	m_pColor = new KPopupMenu( this, "Colour");
+	m_pColor -> insertItem(SmallIcon( "color_line"), i18n("Line Color"), mt_Line_Color_Selection);
 	m_pColor -> insertItem(SmallIcon( "color_fill"), i18n("Fill Color"), mt_Fill_Color);
 	m_pColor -> insertItem( i18n("Use Fill Color"), mt_Use_Fill_Color);
 
