@@ -118,7 +118,7 @@ void UMLView::init() {
 	m_Documentation = "";
 	m_Name = "umlview";
 	m_Type = dt_Undefined;
-	m_nLocalID = 30000;
+	m_nLocalID = 900000;
 	m_bUseSnapToGrid = false;
 	m_bUseSnapComponentSizeToGrid = false;
 	m_bShowSnapGrid = false;
@@ -3552,6 +3552,7 @@ bool UMLView::loadUisDiagramPresentation(QDomElement & qElement) {
 			}
 		}
 	}
+	return true;
 }
 
 bool UMLView::loadUISDiagram(QDomElement & qElement) {
