@@ -8,6 +8,7 @@
  ***************************************************************************/
 
 #include <kdebug.h>
+#include <typeinfo>
 
 #include "assocrules.h"
 #include "umlwidget.h"
@@ -18,6 +19,12 @@
 AssocRules::AssocRules() {}
 
 AssocRules::~AssocRules() {}
+
+bool allowAssociation( Association_Type assocType, const std::type_info &type )
+{
+	return false;
+
+}
 
 bool AssocRules::allowAssociation( Association_Type assocType, UMLWidget * widget ) {
 	UMLWidget_Type widgetType = widget -> getBaseType();

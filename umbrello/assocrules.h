@@ -11,6 +11,8 @@
 #define ASSOCRULES_H
 
 #include "umlnamespace.h"
+namespace std
+{ class type_info; }
 
 class UMLWidget;
 
@@ -38,6 +40,8 @@ public:
 	*	This method is used to test if you can start an association.
 	*/
 	static bool allowAssociation( Association_Type assocType, UMLWidget * widget );
+	
+	static bool allowAssociation( Association_Type assocType, const std::type_info & );
 
 	/**
 	* 	Returns whether an association is valid with the given variables.
