@@ -96,7 +96,7 @@
                                         <cstring>m_generateAssocAccessors</cstring>
                                     </property>
                                     <property name="text">
-                                        <string>Association Accessor methods</string>
+                                        <string>Association accessor methods</string>
                                     </property>
                                     <property name="checked">
                                         <bool>true</bool>
@@ -107,7 +107,7 @@
                                         <cstring>m_generateAttribAccessors</cstring>
                                     </property>
                                     <property name="text">
-                                        <string>Attribute Accessor methods</string>
+                                        <string>Attribute accessor methods</string>
                                     </property>
                                     <property name="checked">
                                         <bool>true</bool>
