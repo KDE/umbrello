@@ -155,9 +155,7 @@ bool UMLDoc::saveModified() {
 		return completed;
 
 	UMLApp *win=(UMLApp *) parent();
-	int want_save = KMessageBox::warningYesNoCancel( win,
-				i18n("The current file has been modified.\n"
-				     "Do you want to save it?"), i18n("Warning"));
+	int want_save = KMessageBox::warningYesNoCancel(win, i18n("The current file has been modified.\nDo you want to save it?"), i18n("Warning"));
 	switch(want_save) {
 		case KMessageBox::Yes:
 			if (doc_url.fileName() == i18n("Untitled")) {
