@@ -38,6 +38,7 @@ hline.xpm \
 implements.xpm \
 initial_state.xpm \
 interface.xpm \
+datatype.xpm \
 largepackage.xpm \
 lifeline.xpm \
 line.xpm \
@@ -73,6 +74,7 @@ cursor-package.xpm \
 cursor-aggregation.xpm \
 cursor-component.xpm \
 cursor-interface.xpm \
+cursor-datatype.xpm \
 cursor-text.xpm \
 cursor-anchor.xpm \
 cursor-composition.xpm \
@@ -90,6 +92,5 @@ cursor-fork.xpm \
 cursor-note.xpm \
 cursor-branch.xpm \
 cursor-generalisation.xpm \
-cursor-object.xpm \
-datatype.xpm
+cursor-object.xpm
 
