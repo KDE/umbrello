@@ -1248,6 +1248,8 @@ CodeGenerator* UMLApp::createGenerator() {
 	CodeGeneratorFactory codeGeneratorFactory;
 	QString generatorName = codeGeneratorFactory.generatorName(activeLanguage);
 	g = codeGeneratorFactory.createObject(getDocument(), generatorName.latin1());
+	if (getDocument()->getCurrentCodeGenerator() == NULL)
+		getDocument()->setCurrentCodeGenerator(g);
 
         // now set defaults on the new policy from the configuration
         // file and THEN the default policy, which may have been updated
