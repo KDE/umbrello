@@ -692,4 +692,19 @@ bool UMLWidget::widgetHasUMLObject(Uml::UMLWidget_Type type) {
 	}
 }
 
+void UMLWidget::setSize(int width,int height) {
+	// snap to the next larger size that is a multiple of the grid 
+	if (m_pView -> getSnapComponentSizeToGrid() ) {
+		// integer divisions
+		int numX = width / m_pView->getSnapX();
+		int numY = height / m_pView->getSnapY();
+		// snap to the next larger valid value
+		if (width > numX * m_pView->getSnapX())
+			width = (numX + 1) * m_pView->getSnapX();
+		if (height > numY * m_pView->getSnapY())
+			height = (numY + 1) * m_pView->getSnapY();
+	}
+
+	QCanvasRectangle::setSize(width,height);
+}
 #include "umlwidget.moc"

@@ -65,6 +65,7 @@ void UMLViewDialog::setupDiagramPropertiesPage()
 
 	m_diagramProperties->showGrid->setChecked(m_pView -> getShowSnapGrid());
 	m_diagramProperties->snapToGrid->setChecked(m_pView-> getSnapToGrid());
+	m_diagramProperties->snapComponentSizeToGrid->setChecked(m_pView-> getSnapComponentSizeToGrid());
 
 	m_diagramProperties->gridSpaceX->setValue( m_pView -> getSnapX());
 	m_diagramProperties->gridSpaceY->setValue( m_pView -> getSnapY());
@@ -118,6 +119,7 @@ void UMLViewDialog::applyPage( Page page ) {
 			m_pView->setSnapX( m_diagramProperties->gridSpaceX->value() );
 			m_pView->setSnapY( m_diagramProperties->gridSpaceY->value() );
 			m_pView->setSnapToGrid( m_diagramProperties->snapToGrid->isChecked() );
+			m_pView->setSnapComponentSizeToGrid( m_diagramProperties->snapComponentSizeToGrid->isChecked() );
 			m_pView->setShowSnapGrid( m_diagramProperties->showGrid->isChecked() );
 			break;
 			}

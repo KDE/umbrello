@@ -40,6 +40,7 @@ UMLViewData::UMLViewData() {
 	m_Type = dt_Undefined;
 	m_nLocalID = 30000;
 	m_bUseSnapToGrid = false;
+	m_bUseSnapComponentSizeToGrid = false;
 	m_bShowSnapGrid = false;
 	m_nSnapX = 10;
 	m_nSnapY = 10;
@@ -110,6 +111,7 @@ bool UMLViewData::serialize( QDataStream * stream, bool bArchive, int fileversio
 		<< m_nCanvasHeight
 		<< (int)m_bShowSnapGrid
 		<< (int)m_bUseSnapToGrid
+		<< (int)m_bUseSnapComponentSizeToGrid
 		<< (int)m_Options.classState.showAttSig
 		<< (int)m_Options.classState.showAtts
 		<< (int)m_Options.classState.showOpSig
@@ -119,7 +121,7 @@ bool UMLViewData::serialize( QDataStream * stream, bool bArchive, int fileversio
 		<< (int)m_Options.classState.showStereoType;
 	} else {
 		int nType = 0;
-		int nSnapgrid = 0, nShowsnap = 0, nUseFC = 1, nTemp = 0;
+		int nSnapgrid = 0, nSnapCSG = 0, nShowsnap = 0, nUseFC = 1, nTemp = 0;
 		*stream	>>	nType
 		>>	m_Name
 		>>	m_nID;
@@ -137,7 +139,8 @@ bool UMLViewData::serialize( QDataStream * stream, bool bArchive, int fileversio
 			>> m_nCanvasWidth
 			>> m_nCanvasHeight
 			>> nShowsnap
-			>> nSnapgrid;
+			>> nSnapgrid
+		        >> nSnapCSG;
 		}
 		*stream >> nTemp;
 		if (fileversion < 5)
@@ -163,6 +166,7 @@ bool UMLViewData::serialize( QDataStream * stream, bool bArchive, int fileversio
 		m_Options.classState.showStereoType = nTemp;
 		m_Options.uiState.useFillColor = nUseFC;
 		m_bUseSnapToGrid = nSnapgrid;
+		m_bUseSnapComponentSizeToGrid = nSnapCSG;
 		m_bShowSnapGrid = nShowsnap;
 
 		if (fileversion > 4)
@@ -526,6 +530,7 @@ bool UMLViewData::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	viewElement.setAttribute( "localid", m_nLocalID );
 	viewElement.setAttribute( "showgrid", m_bShowSnapGrid );
 	viewElement.setAttribute( "snapgrid", m_bUseSnapToGrid );
+	viewElement.setAttribute( "snapcsgrid", m_bUseSnapComponentSizeToGrid );
 	viewElement.setAttribute( "snapx", m_nSnapX );
 	viewElement.setAttribute( "snapy", m_nSnapY );
 	viewElement.setAttribute( "zoom", m_nZoom );
@@ -599,6 +604,9 @@ bool UMLViewData::loadFromXMI( QDomElement & qElement ) {
 
 	QString snapgrid = qElement.attribute( "snapgrid", "0" );
 	m_bUseSnapToGrid = (bool)snapgrid.toInt();
+
+	QString snapcsgrid = qElement.attribute( "snapcsgrid", "0" );
+	m_bUseSnapComponentSizeToGrid = (bool)snapcsgrid.toInt();
 
 	QString snapx = qElement.attribute( "snapx", "10" );
 	m_nSnapX = snapx.toInt();

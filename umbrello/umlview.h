@@ -598,6 +598,13 @@ public:
 	}
 
 	/**
+	 * 		Return whether to use snap to grid for component size.
+	 */
+	bool getSnapComponentSizeToGrid() {
+		return m_pData -> getSnapComponentSizeToGrid();
+	}
+
+	/**
 	 * 		Returns whether to show snap grid.
 	 */
 	bool getShowSnapGrid() {
@@ -638,6 +645,11 @@ public:
 	 *		Sets whether to use snap to grid.
 	 */
 	void setSnapToGrid( bool bSnap );
+
+	/**
+	 *		Sets whether to use snap to grid for component sizes.
+	 */
+	void setSnapComponentSizeToGrid( bool bSnap );
 
 	/**
 	 *		Sets whether to to show snap grid.
@@ -697,6 +709,12 @@ public:
 	 *	Called from menus.
 	 */
 	void toggleSnapToGrid();
+
+	/**
+	 *	Changes snap to grid for component size boolean in m_pData.
+	 *	Called from menus.
+	 */
+	void toggleSnapComponentSizeToGrid();
 
 	/**
 	 * 	Changed show grid boolean in m_pData
@@ -802,6 +820,11 @@ protected:
 	 *	Selects all the widgets within an internally kept rectangle.
 	 */
 	void selectWidgets();
+
+	/**
+	 *	Updates the size of all components in this view.
+	 */
+	void updateComponentSizes();
 
 	QPoint m_Pos, m_LineToPos;
 	bool m_bCreateObject, m_bDrawRect, m_bDrawSelectedOnly, m_bPaste;
@@ -993,6 +1016,7 @@ signals:
 	void sigClearAllSelected();
 	void sigLineColorChanged( QColor );
 	void sigSnapToGridToggled(bool);
+	void sigSnapComponentSizeToGridToggled(bool);
 	void sigShowGridToggled(bool);
 };
 

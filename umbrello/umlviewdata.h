@@ -183,6 +183,13 @@ public:
 	}
 
 	/**
+	 * 		Return whether to use snap to grid for component size.
+	 */
+	bool getSnapComponentSizeToGrid() {
+		return m_bUseSnapComponentSizeToGrid;
+	}
+
+	/**
 	 *		Returns the x grid size.
 	 */
 	int getSnapX() {
@@ -229,6 +236,13 @@ public:
 	 */
 	void setSnapToGrid( bool bSnap ) {
 		m_bUseSnapToGrid = bSnap;
+	}
+
+	/**
+	 * 		Sets whether to snap to grid for component size.
+	 */
+	void setSnapComponentSizeToGrid( bool bSnap ) {
+		m_bUseSnapComponentSizeToGrid = bSnap;
 	}
 
 	/**
@@ -346,6 +360,12 @@ protected:
 	 * 		Determines whether to use snap to grid.  The default is off.
 	 */
 	bool m_bUseSnapToGrid;
+
+	/**
+	 * 		Determines whether to use snap to grid for component 
+	 * 		size.  The default is off.
+	 */
+	bool m_bUseSnapComponentSizeToGrid;
 
 	/**
 	 * 		Determines whether to show the snap grid.  The default will be on if the grid is on.

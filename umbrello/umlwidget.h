@@ -344,6 +344,13 @@ public:
 	 */
 	void setY( int y );
 
+	/** 
+	 * Sets the size.
+	 * If m_pView->getSnapComponentSizeToGrid() is true, then 
+	 * set the next larger size that snaps to the grid.
+	 */
+	void setSize(int width,int height);
+
 	/**
 	 * Used by some child classes to get documentation.
 	 *
@@ -424,6 +431,11 @@ public:
 	 * Used by child classes.  This should be called before deleting a widget of a diagram.
 	 */
 	virtual void cleanup();
+
+	/**
+	 * Update the size of this widget.
+	 */
+	void updateComponentSize(){calculateSize();};
 
 protected:
 	/**

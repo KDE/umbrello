@@ -3056,6 +3056,10 @@ void UMLView::toggleSnapToGrid() {
 	setSnapToGrid( (m_pData->getSnapToGrid()?false:true) );
 }
 
+void UMLView::toggleSnapComponentSizeToGrid() {
+	setSnapComponentSizeToGrid( !m_pData->getSnapComponentSizeToGrid() );
+}
+
 void UMLView::toggleShowGrid() {
 	setShowSnapGrid( (m_pData->getShowSnapGrid()?false:true) );
 }
@@ -3063,6 +3067,12 @@ void UMLView::toggleShowGrid() {
 void UMLView::setSnapToGrid(bool bSnap) {
 	m_pData->setSnapToGrid( bSnap );
 	emit sigSnapToGridToggled( m_pData->getSnapToGrid() );
+}
+
+void UMLView::setSnapComponentSizeToGrid(bool bSnap) {
+	m_pData->setSnapComponentSizeToGrid( bSnap );
+	updateComponentSizes();
+	emit sigSnapComponentSizeToGridToggled( m_pData->getSnapComponentSizeToGrid() );
 }
 
 void UMLView::setShowSnapGrid(bool bShow) {
@@ -3140,5 +3150,16 @@ void UMLView::show() {
 	resizeCanvasToItems();
 }
 
+void UMLView::updateComponentSizes() {
+	// update sizes of all components
+	QObjectList * l = queryList( "UMLWidget");
+	QObjectListIt it( *l );
+	UMLWidget *obj;
+	while ( (obj=(UMLWidget*)it.current()) != 0 ) {
+		++it;
+		obj->updateComponentSize();
+	}
+	delete l;
+}
 
 #include "umlview.moc"
