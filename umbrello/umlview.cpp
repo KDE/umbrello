@@ -429,8 +429,9 @@ void UMLView::slotObjectCreated(UMLObject* o) {
 		if (getType() == dt_Sequence) {
 			ObjectWidget *ow = new ObjectWidget(this, o, getLocalID() );
 			ow->setDrawAsActor(true);
-			if (m_Type == dt_Sequence)
+			if (m_Type == dt_Sequence) {
 				y = ow->topMargin();
+			}
 			newWidget = ow;
 		} else
 			newWidget = new ActorWidget(this, static_cast<UMLActor*>(o));
@@ -467,7 +468,11 @@ void UMLView::slotObjectCreated(UMLObject* o) {
 		if(getType() == dt_Class) {
 			newWidget = new ClassWidget(this, static_cast<UMLClass*>(o));
 		} else {
-			newWidget = new ObjectWidget(this, o, getLocalID() );
+			ObjectWidget *ow = new ObjectWidget(this, o, getLocalID() );
+			if (m_Type == dt_Sequence) {
+				y = ow->topMargin();
+			}
+			newWidget = ow;
 		}
 	} else {
 		kdWarning() << "trying to create an invalid widget" << endl;
