@@ -16,23 +16,15 @@ UMLTemplate::UMLTemplate(const UMLObject *parent, QString name, int id, QString 
 	m_TypeName = type;
 	m_BaseType = Uml::ot_Template;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 UMLTemplate::UMLTemplate(const UMLObject *parent)
   : UMLClassifierListItem( parent ) {
 	m_BaseType = Uml::ot_Template;
 	m_TypeName = "";
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 UMLTemplate::~UMLTemplate() {}
-////////////////////////////////////////////////////////////////////////////////////////////////////
-QString UMLTemplate::getTypeName() {
-	return m_TypeName;
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////
-void UMLTemplate::setTypeName(QString type) {
-	m_TypeName = type;
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 QString UMLTemplate::toString(Uml::Signature_Type /*sig = st_NoSig*/) {
 	if (m_TypeName == "" || m_TypeName == "class") {
 		return getName();
@@ -40,7 +32,7 @@ QString UMLTemplate::toString(Uml::Signature_Type /*sig = st_NoSig*/) {
 		return getName() + " : " + m_TypeName;
 	}
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool UMLTemplate::operator==(UMLTemplate &rhs) {
 	if (this == &rhs) {
 		return true;
@@ -68,7 +60,6 @@ UMLObject* UMLTemplate::clone() const
 
 	return clone;
 }
-
 
 
 void UMLTemplate::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {

@@ -64,20 +64,6 @@ public:
 	virtual ~UMLTemplate();
 
 	/**
-	 * Returns the type of the UMLTemplate.
-	 *
-	 * @return	The type of the UMLTemplate.
-	 */
-	QString getTypeName();
-
-	/**
-	 * Sets the type of the UMLTemplate.
-	 *
-	 * @param type		The type of the UMLTemplate.
-	 */
-	void setTypeName(QString type);
-
-	/**
 	 * Returns a string representation of the UMLTemplate.
 	 *
 	 * @param sig		Currently unused.
