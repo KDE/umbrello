@@ -1665,7 +1665,6 @@ bool UMLDoc::loadDiagramsFromXMI( QDomNode & node ) {
 	QDomElement element = node.toElement();
 	if( element.isNull() )
 		return true;//return ok as it means there is no umlobjects
-	UMLApp* app = (UMLApp*)parent();
 	SettingsDlg::OptionState state =  getOptionState();
 	UMLView * pView = 0;
 	int count = 0;
