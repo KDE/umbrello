@@ -104,20 +104,18 @@ CodeGenerator* CodeGeneratorFactory::createObject(UMLDoc* doc, const char* name)
 
 	if (doc) {
 
-		if(cname =="JavaCodeGenerator") {
-			obj = new JavaCodeGenerator(doc, name);
-		} else if(cname == "CppCodeGenerator") {
-			obj = new CPPCodeGenerator(doc, name);
- 		} else if (cname == "XMLSchemaCodeGenerator") {
-			obj = new XMLSchemaWriter(doc, name);
-		} else if (cname == "AdaWriter") {
+		if (cname == "AdaWriter") {
 			obj = new AdaWriter(doc, name);
 		} else if(cname == "ASWriter") {
 			obj = new ASWriter( doc, name );
+		} else if(cname == "CppCodeGenerator") {
+			obj = new CPPCodeGenerator(doc, name);
 //		} else if(cname == "C#Writer") {
 //			obj = new CsWriter( doc, name );
 		} else if(cname == "IDLWriter") {
 			obj = new IDLWriter( doc, name );
+		} else if(cname =="JavaCodeGenerator") {
+			obj = new JavaCodeGenerator(doc, name);
 		} else if(cname == "JSWriter") {
 			obj = new JSWriter( doc, name );
 		} else if (cname == "PHPWriter") {
@@ -128,6 +126,8 @@ CodeGenerator* CodeGeneratorFactory::createObject(UMLDoc* doc, const char* name)
 			obj = new PythonWriter( doc, name);
  		} else if (cname == "SQLWriter") {
 			obj = new SQLWriter( doc, name);
+		} else if (cname == "XMLSchemaWriter") {
+			obj = new XMLSchemaWriter( doc, name);
 		} else {
 			kdWarning() << "cannot create object of type " << name <<
 				". Type unknown" << endl;

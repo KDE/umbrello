@@ -33,6 +33,8 @@ class CPPMakefileCodeDocument : public CodeDocument
 	Q_OBJECT
 public:
 
+        static const char * DOCUMENT_ID_VALUE;
+
 	// Constructors/Destructors
 	//  
 

@@ -67,7 +67,7 @@ bool CPPCodeGenerator::isType (QString & type)
  */
 void CPPCodeGenerator::setCreateProjectMakefile ( bool buildIt) {
         m_createMakefile = buildIt;
-        CodeDocument * antDoc = findCodeDocumentByID("MAKE_DOC");
+        CodeDocument * antDoc = findCodeDocumentByID(CPPMakefileCodeDocument::DOCUMENT_ID_VALUE);
         if (antDoc)
                 antDoc->setWriteOutCode(buildIt);
 }
@@ -143,7 +143,7 @@ CodeViewerDialog * CPPCodeGenerator::getCodeViewerDialog ( QWidget* parent, Code
 
 		// add in makefile if available and desired
         	if(getCreateProjectMakefile())
-                	dialog->addCodeDocument(findCodeDocumentByID("MAKE_DOC"));
+                	dialog->addCodeDocument(findCodeDocumentByID(CPPMakefileCodeDocument::DOCUMENT_ID_VALUE));
 
         	return dialog;
 	}

@@ -17,6 +17,8 @@
 
 #include <qregexp.h>
 
+const char * CPPMakefileCodeDocument::DOCUMENT_ID_VALUE = "Makefile_DOC";
+
 // Constructors/Destructors
 //  
 
@@ -25,7 +27,7 @@ CPPMakefileCodeDocument::CPPMakefileCodeDocument ( CPPCodeGenerator * gen )
 {
 	setFileName("Makefile"); // default name
 	setFileExtension("");
-	setID("Makefile_DOC"); // default id tag for this type of document
+	setID(DOCUMENT_ID_VALUE); // default id tag for this type of document
 }
 
 CPPMakefileCodeDocument::~CPPMakefileCodeDocument ( ) { }
