@@ -54,7 +54,7 @@ using Umbrello::Diagram;
 using Umbrello::RefactoringAssistant;
 
 UMLApp::UMLApp(QWidget* , const char* name):KDockMainWindow(0, name) {
-	_instance = this;
+	s_instance = this;
 	m_pDocWindow = 0;
 	config=kapp->config();
 	listView = 0;
@@ -108,9 +108,9 @@ UMLApp::UMLApp(QWidget* , const char* name):KDockMainWindow(0, name) {
 	zoomSelect->setCheckable(true);
 	connect(zoomSelect,SIGNAL(aboutToShow()),this,SLOT(setupZoomMenu()));
 	connect(zoomSelect,SIGNAL(activated(int)),this,SLOT(setZoom(int)));
-	
+
 	m_refactoringAssist = 0L;
-	
+
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLApp::~UMLApp() {
@@ -124,7 +124,7 @@ UMLApp::~UMLApp() {
 
 UMLApp* UMLApp::app()
 {
-	return _instance;
+	return s_instance;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLApp::initActions() {
@@ -1427,6 +1427,6 @@ QPopupMenu* UMLApp::findMenu(QMenuData* menu, QString name) {
 }
 
 //static pointer, holding the unique instance
-UMLApp* UMLApp::_instance;
+UMLApp* UMLApp::s_instance;
 
 #include "uml.moc"

@@ -582,7 +582,7 @@ public slots:
 	QPopupMenu* findMenu(QMenuData* menu, QString name);
 private:
 
-	static UMLApp* _instance;
+	static UMLApp* s_instance;
 	/**
 	 * to slect the active language
 	 */

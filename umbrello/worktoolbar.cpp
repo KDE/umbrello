@@ -205,7 +205,7 @@ void WorkToolBar::slotCheckToolBar(Uml::Diagram_Type dt) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void WorkToolBar::buttonChanged(int b) {
 
-	UMLView *view = ((UMLApp*) parent()->parent())->getDocument()->getCurrentView();
+	UMLView* view = UMLApp::app()->getDocument()->getCurrentView();
 	QCursor curs;
 	//if trying to turn off arrow - stop it
 	ToolBar_Buttons tbb = (ToolBar_Buttons)b;
@@ -251,7 +251,7 @@ void WorkToolBar::slotResetToolBar() {
 	QCursor curs;
 	curs.setShape(Qt::ArrowCursor);
 
-	UMLView *view = ((UMLApp*) parent()->parent())->getDocument()->getCurrentView();
+	UMLView* view = UMLApp::app()->getDocument()->getCurrentView();
 	if (view != NULL) {
 		view -> setCursor(curs);
 	}
