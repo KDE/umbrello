@@ -3087,7 +3087,6 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
 					m_pName = ft;
 					ft->setLink(this);
 					ft->setActivated();
-					setTextPosition( tr_Name, calculateTextPosition(tr_Name) );
 					if(FloatingText::isTextValid(ft->getText()))
 						ft -> show();
 					else
