@@ -65,7 +65,7 @@ CsWriter::CsWriter( QObject *parent, const char *name ) : CodeGenerator(parent, 
 
 	INLINE_ATTRIBUTE_METHODS = true;
 	INLINE_ASSOCIATION_METHODS = true;
-	WRITE_EMPTY_CONSTRUCTOR = false;
+	WRITE_EMPTY_CONSTRUCTOR = true;
 	WRITE_EMPTY_DESTRUCTOR = false;
 	WRITE_VIRTUAL_DESTRUCTORS = false;
 	WRITE_ATTRIBUTE_ACCESSOR_METHODS = true;
@@ -433,6 +433,19 @@ void CsWriter::writeSourceFile (UMLClassifier *c, QFile &filecs ) {
 		writeBlankLine(cs);
 	}
 	writeOperations(c,cs);
+
+	// write the attributes
+	cs<<scopeToCPPDecl(Uml::Public)<<":"<<endl<<endl; // print visibility decl.
+	writeAttributeDecls(Uml::Public, true, cs); // write static attributes first 
+	writeAttributeDecls(Uml::Public, false, cs);
+
+	cs<<scopeToCPPDecl(Uml::Protected)<<":"<<endl<<endl; // print visibility decl.
+	writeAttributeDecls(Uml::Protected, true, cs); // write static attributes first 
+	writeAttributeDecls(Uml::Protected, false, cs);
+
+	cs<<scopeToCPPDecl(Uml::Private)<<":"<<endl<<endl; // print visibility decl.
+	writeAttributeDecls(Uml::Private, true, cs); // write static attributes first 
+	writeAttributeDecls(Uml::Private, false, cs);
 
 	// Yep, bringing up the back of the bus, our initialization method for attributes
 	writeInitAttibuteMethod (cs); 
@@ -961,7 +974,7 @@ void CsWriter::writeInitAttibuteMethod (QTextStream &stream)
 		QString className = classifierInfo->className;
 		QString indent = getIndent();
 
-		stream<<indent<<"void "<<className<<"::"<<" initAttributes ( ) {"<<endl;
+		stream<<indent<<"void "<<" initAttributes ( ) {"<<endl;
 
 		QPtrList<UMLAttribute> *atl = classifierInfo->getAttList();
 		for(UMLAttribute *at = atl->first(); at ; at = atl->next())
@@ -992,7 +1005,7 @@ void CsWriter::writeConstructorMethods(QTextStream &stream)
 	if(WRITE_EMPTY_CONSTRUCTOR)
 	{
 		QString indent = getIndent();
-		stream<<indent<<className<<"::"<<className<<" ( ) {"<<endl;
+		stream<<indent<<"public "<<className<<" ( ) {"<<endl;
 		if(classifierInfo->hasAttributes)
 			stream<<indent<<INDENT<<"initAttributes();"<<endl;
 		stream<<indent<<"}"<<endl;
