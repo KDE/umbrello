@@ -29,8 +29,6 @@ class ClassifierWidget;
 class ListPopupMenu : public KPopupMenu {
 public:
 
-//FIXME needs renumbering
-
 	/// This type hosts all possible menu types.
 	enum Menu_Type
 	{
@@ -49,7 +47,6 @@ public:
 	    mt_Component_Diagram,
 	    mt_Deployment_Diagram,
 	    mt_EntityRelationship_Diagram,
-
 	    mt_On_UseCase_Diagram,
 	    mt_On_Sequence_Diagram,
 	    mt_On_Class_Diagram,
@@ -59,13 +56,11 @@ public:
 	    mt_On_Component_Diagram,
 	    mt_On_Deployment_Diagram,
 	    mt_On_EntityRelationship_Diagram,
-
 	    mt_Logical_Folder,
 	    mt_UseCase_Folder,
 	    mt_Component_Folder,
 	    mt_Deployment_Folder,
 	    mt_EntityRelationship_Folder,
-
 	    mt_Class,
 	    mt_Package,
 	    mt_Component,
