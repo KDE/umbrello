@@ -1607,7 +1607,7 @@ void UMLListView::addNewItem( QListViewItem * parent, Uml::ListView_Type type ) 
 		UMLClass * childParent = static_cast<UMLClass*>( parentItem->getUMLObject() );
 		name = getUniqueChildUMLObjectName( childParent, Uml::ot_Attribute );
 		newItem = new UMLListViewItem( parentItem, name, type, (UMLObject *)0 );
-		newItem -> setPixmap( 0, getPixmap( it_Public_Attribute ) );
+		newItem -> setPixmap( 0, getPixmap( it_Private_Attribute ) );
 		break;
 	}
 	case Uml::lvt_Operation:
