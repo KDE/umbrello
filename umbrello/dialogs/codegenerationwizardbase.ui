@@ -217,7 +217,7 @@ for in the right hand side list</string>
                     <cstring>m_label</cstring>
                 </property>
                 <property name="text">
-                    <string>Press the Generation button to start the Code Generation</string>
+                    <string>Press the Generation button to start the code generation</string>
                 </property>
             </widget>
             <widget class="QGroupBox">
