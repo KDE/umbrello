@@ -9,6 +9,7 @@
 
 #include "umlattributedialog.h"
 #include "../attribute.h"
+#include "../interface.h"
 #include "../concept.h"
 #include "../umldoc.h"
 #include <klocale.h>
@@ -102,6 +103,11 @@ void UMLAttributeDialog::setupDialog() {
 	UMLConcept* obj;
 	for (obj=namesList.first(); obj!=0; obj=namesList.next()) {
 		m_pTypeCB->insertItem( obj->getName() );
+	}
+	QPtrList<UMLInterface> interfaceList( pDoc->getInterfaces() );
+	UMLInterface* pInterface = 0;
+	for(pInterface=interfaceList.first(); pInterface!=0 ;pInterface=interfaceList.next()) {
+		m_pTypeCB->insertItem( pInterface->getName() );
 	}
 
 	//work out which one to select
