@@ -209,16 +209,24 @@ void ArtifactWidget::drawAsTable(QPainter& p, int offsetX, int offsetY) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void ArtifactWidget::draw(QPainter& p, int offsetX, int offsetY) {
-	if ((static_cast<UMLArtifact*>(m_pObject))->getDrawAsType() == defaultDraw) {
-		return drawAsNormal(p, offsetX, offsetY);
-	} else if ((static_cast<UMLArtifact*>(m_pObject))->getDrawAsType() == file) {
-		return drawAsFile(p, offsetX, offsetY);
-	} else if ((static_cast<UMLArtifact*>(m_pObject))->getDrawAsType() == library) {
-		return drawAsLibrary(p, offsetX, offsetY);
-	} else if ((static_cast<UMLArtifact*>(m_pObject))->getDrawAsType() == table) {
-		return drawAsTable(p, offsetX, offsetY);
-	} else {
-		kdWarning() << "Artifact drawn as unknown type" << endl;
+	UMLArtifact *umlart = static_cast<UMLArtifact*>(m_pObject);
+	UMLArtifact::Draw_Type drawType = umlart->getDrawAsType();
+	switch (drawType) {
+		case UMLArtifact::defaultDraw:
+			return drawAsNormal(p, offsetX, offsetY);
+			break;
+		case UMLArtifact::file:
+			return drawAsFile(p, offsetX, offsetY);
+			break;
+		case UMLArtifact::library:
+			return drawAsLibrary(p, offsetX, offsetY);
+			break;
+		case UMLArtifact::table:
+			return drawAsTable(p, offsetX, offsetY);
+			break;
+		default:
+			kdWarning() << "Artifact drawn as unknown type" << endl;
+			break;
 	}
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -265,7 +273,8 @@ void ArtifactWidget::calculateSize() {
 	if ( !m_pObject) {
 		return;
 	}
-	if ((static_cast<UMLArtifact*>(m_pObject))->getDrawAsType() == defaultDraw) {
+	UMLArtifact *umlart = static_cast<UMLArtifact*>(m_pObject);
+	if (umlart->getDrawAsType() == UMLArtifact::defaultDraw) {
 		calculateNormalSize();
 	} else {
 		calculateIconSize();
