@@ -86,6 +86,11 @@ public:
 	int removeAssociation(UMLAssociation *assoc);
 
 	/**
+	 * Remove all associations from the CanvasObject.
+	 */
+	void removeAllAssociations();
+
+	/**
 	 * Returns the number of associations for the CanvasObject.
 	 * This is the sum of the aggregations and compositions.
 	 *
