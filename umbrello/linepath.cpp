@@ -389,7 +389,14 @@ QPen LinePath::getPen() {
 	return QPen( getLineColor() );
 }
 
+#ifdef DEBUG_ASSOCLINES
+extern int calls_to_calc_head;
+#endif
+
 void LinePath::calculateHead() {
+#ifdef DEBUG_ASSOCLINES
+	calls_to_calc_head++;
+#endif
 	uint size = count();
 	int xa = getPoint(size - 2).x();
 	int ya = getPoint(size - 2).y();
