@@ -11,7 +11,7 @@
 #include "classimport.h"
 // qt/kde includes
 #include <qregexp.h>
-#include <kapplication.h>
+//#include <kapplication.h>
 #include <kmessagebox.h>
 #include <kdebug.h>
 #include <klocale.h>
@@ -270,7 +270,12 @@ void ClassImport::importCPP(QStringList headerFileList) {
 				   fileIT != headerFileList.end(); ++fileIT) {
 		QString fileName = (*fileIT);
 		m_umldoc->writeToStatusBar(i18n("Importing file: %1").arg(fileName));
-		kapp->processEvents();
+
+		/// kapp->processEvents();
+		// Invoking kapp->processEvents() improves responsiveness when importing
+		// many large header files but slows down import because the list view is
+		// intermittently updated.
+
 		m_driver->parseFile( fileName );
 		TranslationUnitAST *ast = m_driver->translationUnit( fileName );
 		if (ast == NULL)
