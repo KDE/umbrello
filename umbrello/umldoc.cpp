@@ -1748,7 +1748,7 @@ void UMLDoc::saveToXMI(QIODevice& file) {
 	root.setAttribute( "xmi.version", "1.2" );
 	root.setAttribute( "timestamp", "");
 	root.setAttribute( "verified", "false");
-	root.setAttribute( "xmlns:UML", "omg.org/UML/1.3");
+	root.setAttribute( "xmlns:UML", "http://schema.omg.org/spec/UML/1.3");
 	doc.appendChild( root );
 
 	QDomElement header = doc.createElement( "XMI.header" );
@@ -1758,6 +1758,10 @@ void UMLDoc::saveToXMI(QIODevice& file) {
 	meta.setAttribute( "href", "UML.xml" );
 	header.appendChild( meta );
 
+	/**
+	 * bugs.kde.org/56184 comment by M. Alanen 2004-12-19:
+	 * " XMI.model requires xmi.version. (or leave the whole XMI.model out,
+	 *   it's not required) "
 	QDomElement model = doc.createElement( "XMI.model" );
 	QFile* qfile = dynamic_cast<QFile*>(&file);
 	if (qfile) {
@@ -1767,6 +1771,7 @@ void UMLDoc::saveToXMI(QIODevice& file) {
 		model.setAttribute( "xmi.name", modelName );
 		model.setAttribute( "href", qfile->name() );
 	}
+	 */
 
 	QDomElement documentation = doc.createElement( "XMI.documentation" );
 
@@ -1795,7 +1800,10 @@ void UMLDoc::saveToXMI(QIODevice& file) {
 
 	header.appendChild( documentation );
 
+	/**
+	 * See comment on <XMI.model> above
 	header.appendChild( model );
+	 */
 	header.appendChild( meta );
 	root.appendChild( header );
 
