@@ -10,9 +10,7 @@
 #ifndef PACKAGE_H
 #define PACKAGE_H
 
-#include <qptrlist.h>
 #include "umlcanvasobject.h"
-#include "umlobjectlist.h"
 
 class IDChangeLog;
 

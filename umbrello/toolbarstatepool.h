@@ -12,7 +12,6 @@
 
 #include "toolbarstate.h"
 
-#include "umlnamespace.h"
 #include "worktoolbar.h"
 
 class QMouseEvent;

@@ -18,9 +18,6 @@
 #ifndef CODEPARAMETER_H
 #define CODEPARAMETER_H
 
-#include <qobject.h>
-#include <qstring.h>
-#include <qptrlist.h>
 
 #include "umlnamespace.h"
 #include "codecomment.h"

@@ -18,8 +18,6 @@
 #ifndef CODEBLOCK_H
 #define CODEBLOCK_H
 
-#include <qstring.h>
-#include <qptrlist.h>
 
 #include "textblock.h"
 // #include "codeblockdialog.h"

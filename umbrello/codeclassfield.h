@@ -18,9 +18,6 @@
 #ifndef CODECLASSFIELD_H
 #define CODECLASSFIELD_H
 
-#include <qstring.h>
-#include <qptrlist.h>
-#include <qmap.h>
 
 #include "codeclassfielddeclarationblock.h"
 #include "codeparameter.h"

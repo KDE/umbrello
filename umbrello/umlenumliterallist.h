@@ -10,7 +10,6 @@
 #ifndef UMLENUMLITERALLIST_H
 #define UMLENUMLITERALLIST_H
 
-#include <qptrlist.h>
 
 // forward declaration
 class UMLEnumLiteral;

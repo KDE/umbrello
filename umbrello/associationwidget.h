@@ -10,14 +10,12 @@
 #ifndef ASSOCIATIONWIDGET_H
 #define ASSOCIATIONWIDGET_H
 
-#include "umlnamespace.h"
 #include "umlwidgetlist.h"
 #include "messagewidgetlist.h"
 #include "associationwidgetlist.h"
 #include "linepath.h"
 
 // qt includes
-#include <qobject.h>
 
 class FloatingText;
 class IDChangeLog;

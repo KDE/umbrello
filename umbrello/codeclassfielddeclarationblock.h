@@ -16,8 +16,6 @@
 #ifndef CODECLASSFIELDDECLARATIONBLOCK_H
 #define CODECLASSFIELDDECLARATIONBLOCK_H
 
-#include <qstring.h>
-#include <qptrlist.h>
 
 class UMLObject;
 class CodeClassField; 

@@ -10,7 +10,6 @@
 #ifndef CLASSIFIERLISTITEM_H
 #define CLASSIFIERLISTITEM_H
 
-#include <qptrlist.h>
 #include "umlobject.h"
 
 /**

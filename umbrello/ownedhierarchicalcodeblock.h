@@ -17,7 +17,6 @@
 #define OWNEDHIERARCHICALCODEBLOCK_H
 
 #include "hierarchicalcodeblock.h"
-#include "ownedcodeblock.h"
 
 class UMLObject;
 class CodeDocument;

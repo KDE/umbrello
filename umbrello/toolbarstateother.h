@@ -12,8 +12,6 @@
 
 #include "toolbarstatepool.h"
 
-#include "umlnamespace.h"
-#include "worktoolbar.h"
 
 class QMouseEvent;
 class UMLView;

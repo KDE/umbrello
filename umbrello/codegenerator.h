@@ -19,19 +19,10 @@
 #ifndef CODEGENERATOR_H
 #define CODEGENERATOR_H
 
-#include <klibloader.h>
 
-#include <qstring.h>
-#include <qstringlist.h>
 #include <qdict.h>
-#include <qdom.h>
-#include <qptrlist.h>
-#include <qfile.h>
-#include <qobject.h>
-#include <kinstance.h>
 
 #include "codegenerationpolicy.h"
-#include "codeaccessormethod.h"
 #include "umlclassifierlist.h"
 
 class UMLAttribute;

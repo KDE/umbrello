@@ -10,7 +10,6 @@
 #ifndef ACTORWIDGET_H
 #define ACTORWIDGET_H
 
-#include <qdom.h>
 #include "umlwidget.h"
 
 #define A_WIDTH 20

@@ -20,9 +20,6 @@
 #define UMBRELLO_PLUGINLOADER_H
 
 // Qt includes
-#include <qobject.h>
-#include <qmap.h>
-#include <qvaluelist.h>
 
 // forward declarations
 class QString;

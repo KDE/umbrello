@@ -9,13 +9,10 @@
 
 #ifndef UMLWIDGET_H
 #define UMLWIDGET_H
-#include <qobject.h>
-#include <qstring.h>
 #include <qcanvas.h>
 #include <qdom.h>
 #include <qdatetime.h>
 
-#include "umlnamespace.h"
 #include "associationwidgetlist.h"
 #include "optionstate.h"
 

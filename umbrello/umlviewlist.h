@@ -20,7 +20,6 @@
 #define UMLVIEWLIST_H
 
 //#include "umlview.h"
-#include <qptrlist.h>
 
 class UMLView;
 

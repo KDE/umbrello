@@ -10,10 +10,8 @@
 #ifndef OPERATION_H
 #define OPERATION_H
 
-#include <qptrlist.h>
 #include "umldoc.h"
 #include "classifierlistitem.h"
-#include "umlattributelist.h"
 
 /**
  * This class represents an operation in the UML model.

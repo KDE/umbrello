@@ -11,7 +11,6 @@
 #ifndef SEQLINEWIDGET_H
 #define SEQLINEWIDGET_H
 //app includes
-#include <qcanvas.h>
 
 class UMLView;
 class ObjectWidget;

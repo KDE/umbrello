@@ -17,17 +17,12 @@
 #include "umlobjectlist.h"
 #include "umlwidgetlist.h"
 #include "messagewidgetlist.h"
-#include "associationwidgetlist.h"
 
-#include "umlnamespace.h"
 #include "worktoolbar.h"
 #include "floatingtext.h"
-#include "optionstate.h"
 
-#include "toolbarstate.h"
 
 // QT includes
-#include <qcanvas.h>
 
 // KDE includes
 #include <kurl.h>

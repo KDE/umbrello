@@ -10,7 +10,6 @@
 #ifndef UMLDATATYPELIST_H
 #define UMLDATATYPELIST_H
 
-#include <qptrlist.h>
 
 // forward declaration
 class UMLDatatype;

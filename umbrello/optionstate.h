@@ -10,9 +10,6 @@
 #ifndef OPTIONSTATE_H
 #define OPTIONSTATE_H
 
-#include <qstring.h>
-#include <qcolor.h>
-#include <qfont.h>
 
 #include "umlnamespace.h"
 #include "codeviewerstate.h"

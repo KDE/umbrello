@@ -10,8 +10,6 @@
 #ifndef UMLROLE_H
 #define UMLROLE_H
 
-#include <qdom.h>
-#include "umlnamespace.h"
 #include "umlobject.h"
 
 class UMLAssociation;

@@ -18,8 +18,6 @@
 #ifndef CODEBLOCKWITHCOMMENTS_H
 #define CODEBLOCKWITHCOMMENTS_H
 
-#include <qstring.h>
-#include <qptrlist.h>
 
 #include "codeblock.h"
 #include "codecomment.h"

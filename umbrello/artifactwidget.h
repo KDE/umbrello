@@ -10,7 +10,6 @@
 #ifndef ARTIFACTWIDGET_H
 #define ARTIFACTWIDGET_H
 
-#include <qsize.h>
 
 #include "umlwidget.h"
 

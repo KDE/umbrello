@@ -10,11 +10,9 @@
 #ifndef TOOLBARSTATEARROW_H
 #define TOOLBARSTATEARROW_H
 
-#include <qnamespace.h>
 
 #include "toolbarstate.h"
 
-#include "umlnamespace.h"
 #include "worktoolbar.h"
 
 class QMouseEvent;

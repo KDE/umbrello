@@ -19,9 +19,7 @@
 #define CODEGENERATIONPOLICY_H
 
 #include <qobject.h>
-#include <qstring.h>
 #include <qdir.h>
-#include <qptrlist.h>
 #include <qdom.h>
 
 class QWidget;

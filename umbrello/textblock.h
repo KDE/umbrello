@@ -20,7 +20,6 @@
 
 #include <qdom.h>
 #include <qobject.h>
-#include <qstring.h>
 
 class CodeDocument;
 

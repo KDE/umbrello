@@ -17,10 +17,6 @@
 #ifndef CODEGENOBJECTWITHTEXTBLOCKS_H
 #define CODEGENOBJECTWITHTEXTBLOCKS_H
 
-#include <qdom.h>
-#include <qstring.h>
-#include <qptrlist.h>
-#include <qmap.h>
 
 #include "codeaccessormethod.h"
 

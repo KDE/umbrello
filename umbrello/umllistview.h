@@ -13,7 +13,6 @@
 #include "umllistviewitemlist.h"
 #include "umllistviewitem.h"
 #include <klistview.h>
-#include <qpixmap.h>
 
 /**
  *	This is one of the main classes used in this program.

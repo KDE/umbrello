@@ -10,7 +10,6 @@
 #ifndef UMLINTERFACELIST_H
 #define UMLINTERFACELIST_H
 
-#include <qptrlist.h>
 
 // forward declaration
 class UMLInterface;

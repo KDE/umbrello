@@ -13,7 +13,6 @@
 #include <ktoolbar.h>
 #include "umlnamespace.h"
 
-#include <qmap.h>
 
 /**
  * This is the toolbar that is displayed on the right-hand side of the program

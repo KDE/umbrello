@@ -11,12 +11,9 @@
 #define CONCEPT_H
 
 #include "umlcanvasobject.h"
-#include "umlobjectlist.h"
-#include "umlclassifierlist.h"
 #include "umlattributelist.h"
 #include "umloperationlist.h"
 #include "umlclassifierlistitemlist.h"
-#include <qptrlist.h>
 
 class IDChangeLog;
 class UMLStereotype;

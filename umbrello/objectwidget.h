@@ -16,12 +16,9 @@
 #define A_HEIGHT 40
 #define A_MARGIN 5
 
-#include "umlwidget.h"
 #include "messagewidgetlist.h"
 #include "messagewidget.h"
 
-#include <qptrlist.h>
-#include <qfont.h>
 
 class SeqLineWidget;
 

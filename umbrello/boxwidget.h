@@ -12,7 +12,6 @@
 //qt includes
 #include <qpainter.h>
 //app includes
-#include "umlwidget.h"
 
 /**
  * Displays a rectangular box.

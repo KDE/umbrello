@@ -11,10 +11,7 @@
 #define UMLCLASS_H
 
 #include "classifier.h"
-#include "umlobjectlist.h"
-#include "umlattributelist.h"
 #include "umltemplatelist.h"
-#include "umlclassifierlistitemlist.h"
 
 /**
  * This class contains the non-graphical information required for a UML Class.
