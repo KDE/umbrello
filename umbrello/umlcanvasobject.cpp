@@ -62,7 +62,7 @@ int UMLCanvasObject::removeAssociation(UMLAssociation * assoc) {
 	return m_AssocsList.count();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-QString UMLCanvasObject::uniqChildName(UMLObject_Type type) {
+QString UMLCanvasObject::uniqChildName(const UMLObject_Type type) {
 	QString currentName;
 	if (type == ot_Association) {
 		currentName = i18n("new_association");

@@ -31,7 +31,7 @@ bool UMLInterface::operator==( UMLInterface & rhs ) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-QString UMLInterface::uniqChildName(UMLObject_Type type) {
+QString UMLInterface::uniqChildName(const UMLObject_Type type) {
 	QString currentName;
 	if (type == ot_Association) {
 		return UMLCanvasObject::uniqChildName(type);
