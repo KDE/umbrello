@@ -231,7 +231,9 @@ void UMLApp::initActions() {
 	                        this, SLOT( slotCurrentViewToggleSnapToGrid() ), actionCollection(), "view_snap_to_grid");
 	viewShowGrid = new KToggleAction(i18n("S&how Grid"), 0,
 	                        this, SLOT( slotCurrentViewToggleShowGrid() ), actionCollection(), "view_show_grid");
+#if (KDE_VERSION_MINOR>=3) && (KDE_VERSION_MAJOR>=3)
 	viewShowGrid->setCheckedState(i18n("&Hide Grid"));
+#endif
 	deleteDiagram = new KAction(i18n("&Delete"), SmallIconSet("editdelete"), 0,
 				    this, SLOT( slotDeleteDiagram() ), actionCollection(), "view_delete");
 	viewExportImage = new KAction(i18n("&Export as Picture..."), SmallIconSet("image"), 0,
