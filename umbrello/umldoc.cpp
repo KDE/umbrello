@@ -864,7 +864,7 @@ UMLObject* UMLDoc::createStereotype(UMLClassifier* classifier, UMLObject_Type li
 
 UMLOperation* UMLDoc::createOperation(UMLClassifier* classifier,
 				      const QString &name /*=null*/,
-				      UMLAttributeList *params )
+				      UMLAttributeList *params  /*=NULL*/)
 {
 	if(!classifier)
 	{
@@ -872,13 +872,13 @@ UMLOperation* UMLDoc::createOperation(UMLClassifier* classifier,
 			    << endl;
 		return NULL;
 	}
-	if (name != QString::null && !name.isEmpty()) {
+	bool nameNotSet = (name == QString::null || name.isEmpty());
+	if (! nameNotSet) {
 		UMLOperation *existingOp = classifier->checkOperationSignature(name, params);
 		if (existingOp)
 			return existingOp;
 	}
 	UMLOperation *op = new UMLOperation(NULL, name, getUniqueID());
-	op->setName( classifier->uniqChildName(Uml::ot_Operation) );
 	if (params)
 	{
 		UMLAttributeListIt it(*params);
@@ -889,17 +889,22 @@ UMLOperation* UMLDoc::createOperation(UMLClassifier* classifier,
 			op->addParm(par);
 		}
 	}
-	do {
-		UMLOperationDialog operationDialogue(0, op);
-		if( operationDialogue.exec() != QDialog::Accepted ) {
-			delete op;
-			return NULL;
-		} else if (classifier->checkOperationSignature(op->getName(), op->getParmList())) {
-			KMessageBox::information(0, i18n("An operation with the same name and signature already exists. You can not add it again."));
-		} else {
-			break;
-		}
-	} while(1);
+	if (nameNotSet || params == NULL) {
+		if (nameNotSet)
+			op->setName( classifier->uniqChildName(Uml::ot_Operation) );
+		do {
+			UMLOperationDialog operationDialogue(0, op);
+			if( operationDialogue.exec() != QDialog::Accepted ) {
+				delete op;
+				return NULL;
+			} else if (classifier->checkOperationSignature(op->getName(), op->getParmList())) {
+				KMessageBox::information(0,
+				 i18n("An operation with the same name and signature already exists. You can not add it again."));
+			} else {
+				break;
+			}
+		} while(1);
+	}
 
 	// operation name is ok, formally add it to the classifier
 	classifier->addOperation( op );
