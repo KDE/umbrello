@@ -49,12 +49,17 @@ public:
 	virtual ~UMLAssociation();
 
 	/**
+	 * Returns a String representation of this UMLAssociation.
+	 */
+	QString toString( ) const;
+
+	/**
 	 * Converts a Uml::Association_Type to its string representation.
 	 *
 	 * @param atype		The Association_Type enum value to convert.
 	 * @return	The string representation of the Association_Type.
 	 */
-	QString toString(Uml::Association_Type atype);
+	static QString typeAsString(Uml::Association_Type atype);
 
 	/**
 	 * Converts an association type string to the corresponding
@@ -65,7 +70,13 @@ public:
 	 *		This is set to at_Unknown if the string is not a valid
 	 *		Association_Type.
 	 */
-	Uml::Association_Type toAssocType(QString atype);
+	static Uml::Association_Type toAssocType(QString atype);
+
+	/**
+	 * Returns true if the given Association_Type has a representation as a
+	 * UMLAssociation.
+	 */
+	static bool assocTypeHasUMLRepresentation(Uml::Association_Type atype);
 
 	/**
 	 * Returns the Association_Type of the UMLAssociation.

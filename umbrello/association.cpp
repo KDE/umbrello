@@ -75,12 +75,75 @@ Uml::Association_Type UMLAssociation::getAssocType() const {
 	return m_AssocType;
 }
 
-QString UMLAssociation::toString (Uml::Association_Type atype) {
+QString UMLAssociation::toString ( ) const
+{
+	QString string;
+	if(m_pRoleA) 
+	{
+		string += m_pRoleA->getObject( )->getName();
+		string += ":";
+		string += m_pRoleA->getName();
+	}
+	string += ":";
+	switch(m_AssocType)
+	{
+	case at_Generalization:
+		string += i18n("Generalization");
+		break;
+	case at_Aggregation:
+		string += i18n("Aggregation");
+		break;
+	case at_Dependency:
+		string += i18n("Dependency");
+		break;
+	case at_Association:
+		string += i18n("Association");
+		break;
+	case at_Anchor:
+		string += i18n("Anchor");
+		break;
+	case at_Realization:
+		string += i18n("Realization");
+		break;
+	case at_Composition:
+		string += i18n("Composition");
+		break;
+	case at_UniAssociation:
+		string += i18n("Uni Association");
+		break;
+	case at_Implementation:
+		string += i18n("Implementation");
+		break;
+	case at_State:
+		string += i18n("State Transition");
+		break;
+	default:
+		string += i18n("Other Type");
+		break;
+	} //end switch
+	string += ":";
+	if(m_pRoleB) 
+	{
+		string += m_pRoleB->getObject( )->getName();
+		string += ":";
+		string += m_pRoleB->getName();
+	}
+	return string;
+}
+
+QString UMLAssociation::typeAsString (Uml::Association_Type atype)
+{
 	if (atype < atypeFirst || atype > atypeLast)
 		return "";
 	return assocTypeStr[(unsigned)atype - (unsigned)atypeFirst];
 }
 
+bool UMLAssociation::assocTypeHasUMLRepresentation(Uml::Association_Type atype)
+{
+	return (atype == Uml::at_Generalization ||
+		atype == Uml::at_Aggregation ||
+		atype == Uml::at_Composition);
+}
 
 bool UMLAssociation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement associationElement = qDoc.createElement( "UML:Association" );
