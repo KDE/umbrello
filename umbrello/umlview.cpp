@@ -2318,6 +2318,7 @@ void UMLView::createAutoAssociations( UMLWidget * widget ) {
 		assocwidget->setWidget(widgetA, A);
 		assocwidget->setWidget(widgetB, B);
 		assocwidget->setAssocType(assocType);
+		assocwidget->setUMLObject(assoc);
 		// Call calculateEndingPoints() before setting the FloatingTexts
 		// because their positions are computed according to the
 		// assocwidget line positions.
@@ -3555,7 +3556,7 @@ bool UMLView::loadUisDiagramPresentation(QDomElement & qElement) {
 					UMLWidget *wB = findWidget(objB->getID());
 					if (wA != NULL && wB != NULL) {
 						AssociationWidget *aw =
-						    new AssociationWidget(this, wA, at, wB);
+						    new AssociationWidget(this, wA, at, wB, umla);
 						QString multiA = umla->getMulti(Uml::A);
 						if (!multiA.isEmpty())
 							aw->setMulti(multiA, Uml::A);
