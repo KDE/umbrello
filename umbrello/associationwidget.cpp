@@ -1154,7 +1154,12 @@ void AssociationWidget::doUpdates(Region& region, Region oldRegion,
 		updateAssociations( regionCount, region, role );
 	} else {
 		updateRegionLineCount( index, totalCount, region, role );
-		updateAssociations( totalCount, region, role );
+		/*
+		 * This update does not seem to be required after all.
+		 * Nevertheless, if you experience strange crossed lines,
+		 * try uncommenting the following:
+		 */
+		// updateAssociations( totalCount, region, role );
 	}
 }
 
@@ -2580,7 +2585,6 @@ void AssociationWidget::updateAssociations(int totalCount,
 			if (region == North || region == South) {
 				aCond = (inWidgetARegion && otherWidget->x() > wB->x());
 				bCond = (inWidgetBRegion && otherWidget->x() > wA->x());
-				if (bCond)
 				if ( aCond || bCond ) {
 #ifdef DEBUG_ASSOCLINES
 					QString s;
