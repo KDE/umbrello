@@ -81,8 +81,9 @@ private:
     QString m_comment;
 
     DeclaratorAST* m_currentDeclarator;
-    UMLPackage* m_currentNamespace[32];  ///< stack
-    UMLClass* m_currentClass[32];  ///< stack
+#   define STACKSIZE 30
+    UMLPackage* m_currentNamespace[STACKSIZE+1];  ///< stack
+    UMLClass* m_currentClass[STACKSIZE+1];  ///< stack
     int m_nsCnt;  ///< stack top for m_currentNamespace
     int m_clsCnt;  ///< stack top for m_currentClass
 

@@ -78,7 +78,11 @@ void CppTree2Uml::parseNamespace( NamespaceAST* ast )
 						 ast->comment());
     UMLPackage *ns = (UMLPackage *)o;
     m_currentScope.push_back( nsName );
-    m_currentNamespace[++m_nsCnt] = ns;
+    if (++m_nsCnt > STACKSIZE) {
+	kdError() << "CppTree2Uml::parseNamespace: excessive namespace nesting" << endl;
+	m_nsCnt = STACKSIZE;
+    }
+    m_currentNamespace[m_nsCnt] = ns;
 
     TreeParser::parseNamespace( ast );
 
@@ -298,8 +302,16 @@ void CppTree2Uml::parseClassSpecifier( ClassSpecifierAST* ast )
 	parseBaseClause( ast->baseClause(), klass );
 
     m_currentScope.push_back( className );
-    m_currentClass[++m_clsCnt] = klass;
-    m_currentNamespace[++m_nsCnt] = (UMLPackage*)klass;
+    if (++m_clsCnt > STACKSIZE) {
+	kdError() << "CppTree2Uml::parseNamespace: excessive class nesting" << endl;
+	m_clsCnt = STACKSIZE;
+    }
+    m_currentClass[m_clsCnt] = klass;
+    if (++m_nsCnt > STACKSIZE) {
+	kdError() << "CppTree2Uml::parseNamespace: excessive namespace nesting" << endl;
+	m_nsCnt = STACKSIZE;
+    }
+    m_currentNamespace[m_nsCnt] = (UMLPackage*)klass;
 
     TreeParser::parseClassSpecifier( ast );
 
