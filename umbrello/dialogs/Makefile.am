@@ -13,8 +13,6 @@ libdialogs_la_SOURCES = classpropertiesbase.ui \
 			diagrampropertiespage.ui \
 			interfacepropertiesbase.ui \
 			packagepropertiesbase.ui \
-			parameterpropertiesbase.ui \
-			umlobjectassociationsbase.ui \
 			umlrolepropertiesbase.ui \
 activitydialog.cpp \
 activitypage.cpp \
@@ -41,13 +39,11 @@ notedialog.cpp \
 overwritedialogue.cpp \
 packagepropertiespage.cpp \
 pkgcontentspage.cpp \
-parameterpropertiespage.cpp \
 parmpropdlg.cpp \
 selectopdlg.cpp \
 settingsdlg.cpp \
 statedialog.cpp \
 umlattributedialog.cpp \
-umlobjectassociationspage.cpp \
 umloperationdialog.cpp \
 umltemplatedialog.cpp \
 umlroledialog.cpp \
