@@ -183,6 +183,7 @@ public:
 	 */
   	virtual bool acceptAssociationType(Uml::Association_Type);
 	
+public slots:
 	/** 
 	 * Forces the emition of the modified signal.  Usefull when
 	 * updating several attributes at a time: you can block the
