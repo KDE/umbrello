@@ -234,7 +234,7 @@ void CppWriter::writeHeaderFile (UMLClassifier *c, QFile &fileh) {
 			}
 			h << endl << "};" << endl;	// end of class header
 	                if(!c->getPackage().isEmpty() && WRITE_PACKAGE_NAMESPACE)
-				h << "};  // end of package namespace" << endl;
+				h << "}  // end of package namespace" << endl;
 			h << endl << "#endif // " << hashDefine + "_H" << endl;
 			return;
 		}

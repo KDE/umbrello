@@ -487,7 +487,7 @@ void CPPHeaderCodeDocument::updateContent( )
 	namespaceBlock = getHierarchicalCodeBlock("namespace", "Namespace", 0);
 	if(hasNamespace) {
 		namespaceBlock->setStartText("namespace "+gen->cleanName(c->getPackage())+" {");
-		namespaceBlock->setEndText("};");
+		namespaceBlock->setEndText("}");
 		namespaceBlock->getComment()->setWriteOutText(true);
 	} else {
 		namespaceBlock->setStartText("");
