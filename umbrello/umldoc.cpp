@@ -457,7 +457,7 @@ QString	UMLDoc::uniqObjectName(const UMLObject_Type type) {
 	return name;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLObject* UMLDoc::createUMLObject(const type_info &type)
+UMLObject* UMLDoc::createUMLObject(const std::type_info &type)
 {
 //adapter.. just transform and forward request
 	UMLObject_Type t;

@@ -43,7 +43,10 @@ class UMLConcept;
 class UMLInterface;
 class UMLAssociation;
 class UMLApp;
-class type_info;
+
+namespace std {
+	class type_info;
+}
 
 using namespace Uml;
 
@@ -171,7 +174,7 @@ public:
 	 * create Actors, Use Cases and concepts.
 	 */
 	UMLObject* createUMLObject(UMLObject_Type type);
-	UMLObject* createUMLObject(const type_info &type);
+	UMLObject* createUMLObject(const std::type_info &type);
 
   	/**
   	 *  Creates either an operation or attribute for the parent concept.
