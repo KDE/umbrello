@@ -251,6 +251,19 @@ class UMLListView : public KListView {
 	 */
 	void setStartedCut(bool startedCut);
 
+	/**
+	 * Converts an object type enum to the equivalent list view type
+	 */
+	static Uml::ListView_Type convert_OT_LVT(Uml::UMLObject_Type ot);
+
+	/**
+	 * Moves an object given is unique ID and listview type into an
+	 * other listview parent item.
+	 * Also takes care of the corresponding move in the model.
+	 */
+	UMLListViewItem * moveObject(int srcId, Uml::ListView_Type srcType,
+				     UMLListViewItem *newParent);
+
 	void closeDatatypesFolder();
 
 	void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
@@ -258,8 +271,6 @@ class UMLListView : public KListView {
 	bool loadFromXMI( QDomElement & element );
 
 	bool loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & element );
-
-	
 
  protected:
 	UMLListViewItem* rv;//root view
@@ -349,11 +360,6 @@ class UMLListView : public KListView {
 	 * Converts a diagram type enum to the equivalent list view type
 	 */
 	static Uml::ListView_Type convert_DT_LVT(Uml::Diagram_Type dt);
-
-	/**
-	 * Converts an object type enum to the equivalent list view type
-	 */
-	static Uml::ListView_Type convert_OT_LVT(Uml::UMLObject_Type ot);
 
 	/**
 	 * Converts a list view type enum to the equivalent object type.

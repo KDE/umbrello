@@ -82,6 +82,7 @@
 
 #include "umllistviewitemlist.h"
 #include "umllistviewitem.h"
+#include "umllistview.h"
 #include "umlobjectlist.h"
 #include "association.h"
 
@@ -1976,6 +1977,18 @@ bool UMLView::setAssoc(UMLWidget *pWidget) {
 	if( valid ) {
 		AssociationWidget *temp = new AssociationWidget(this, widgetA, type, widgetB);
 		addAssocInViewAndDoc(temp);
+		if (type == at_Containment) {
+			UMLListView *lv = getListView();
+			UMLObject *newContainer = widgetA->getUMLObject();
+			UMLObject *objToBeMoved = widgetB->getUMLObject();
+			if (newContainer && objToBeMoved) {
+				UMLListViewItem *newLVParent = lv->findUMLObject(newContainer);
+				UMLObject_Type ot = objToBeMoved->getBaseType();
+				lv->moveObject( objToBeMoved->getID(),
+						UMLListView::convert_OT_LVT(ot),
+						newLVParent );
+			}
+		}
 		m_pDoc->setModified();
 	} else {
 		KMessageBox::error(0, i18n("Incorrect use of associations."), i18n("Association Error"));

@@ -875,8 +875,7 @@ bool UMLListView::acceptDrag(QDropEvent* event) const {
 	((QListView*)this)->setCurrentItem( (QListViewItem*)item );
 	UMLDrag::LvTypeAndID_List list;
 
-	bool status = UMLDrag::getClip3TypeAndID(event, list);
-	if(!status) {
+	if (! UMLDrag::getClip3TypeAndID(event, list)) {
 		return false;
 	}
 
@@ -931,111 +930,116 @@ bool UMLListView::acceptDrag(QDropEvent* event) const {
 	return accept;
 }
 
+UMLListViewItem * UMLListView::moveObject(int srcId, Uml::ListView_Type srcType,
+					  UMLListViewItem *newParent) {
+	if (newParent == NULL)
+		return NULL;
+	UMLListViewItem * move = findItem( srcId );
+	if (move == NULL)
+		return NULL;
+
+	// Remove the source object at the old parent package.
+	UMLObject *srcObj = m_doc->findUMLObject(srcId);
+	if (srcObj) {
+		UMLPackage *srcPkg = srcObj->getUMLPackage();
+		if (srcPkg)
+			srcPkg->removeObject(srcObj);
+	}
+
+	Uml::ListView_Type newParentType = newParent->getType();
+	kdDebug() << "UMLListView::moveObject: newParentType is " << newParentType << endl;
+	UMLListViewItem *newItem = NULL;
+
+	//make sure trying to place in correct location
+	switch (srcType) {
+		case Uml::lvt_UseCase_Folder:
+		case Uml::lvt_Actor:
+		case Uml::lvt_UseCase:
+		case Uml::lvt_UseCase_Diagram:
+			if (newParentType == Uml::lvt_UseCase_Folder ||
+			    newParentType == Uml::lvt_UseCase_View) {
+				newItem = move->deepCopy(newParent);
+				delete move;
+			}
+			break;
+		case Uml::lvt_Component_Folder:
+		case Uml::lvt_Component:
+		case Uml::lvt_Artifact:
+		case Uml::lvt_Component_Diagram:
+			if (newParentType == Uml::lvt_Component_Folder ||
+			    newParentType == Uml::lvt_Component_View) {
+				newItem = move->deepCopy(newParent);
+				delete move;
+			}
+			break;
+		case Uml::lvt_Deployment_Folder:
+		case Uml::lvt_Node:
+		case Uml::lvt_Deployment_Diagram:
+			if (newParentType == Uml::lvt_Deployment_Folder ||
+			    newParentType == Uml::lvt_Deployment_View) {
+				newItem = move->deepCopy(newParent);
+				delete move;
+			}
+			break;
+		case Uml::lvt_Collaboration_Diagram:
+		case Uml::lvt_Class_Diagram:
+		case Uml::lvt_State_Diagram:
+		case Uml::lvt_Activity_Diagram:
+		case Uml::lvt_Sequence_Diagram:
+		case Uml::lvt_Logical_Folder:
+			if (newParentType == Uml::lvt_Logical_Folder ||
+			    newParentType == Uml::lvt_Logical_View) {
+				newItem = move->deepCopy(newParent);
+				delete move;
+			}
+			break;
+		case Uml::lvt_Class:
+		case Uml::lvt_Package:
+		case Uml::lvt_Interface:
+		case Uml::lvt_Enum:
+			if (newParentType == Uml::lvt_Logical_Folder ||
+			    newParentType == Uml::lvt_Logical_View ||
+			    newParentType == Uml::lvt_Class ||
+			    newParentType == Uml::lvt_Interface ||
+			    newParentType == Uml::lvt_Package) {
+				newItem = move->deepCopy(newParent);
+				delete move;
+				UMLObject *o = newItem->getUMLObject();
+				if (o == NULL) {
+					kdDebug() << "slotDropped: newItem's UMLObject is NULL"
+						  << endl;
+				} else if (newParentType == Uml::lvt_Package ||
+					   newParentType == Uml::lvt_Interface ||
+					   newParentType == Uml::lvt_Class) {
+					UMLPackage *pkg = static_cast<UMLPackage*>(
+							   newParent->getUMLObject() );
+					o->setUMLPackage( pkg );
+					pkg->addObject( o );
+				} else {
+					o->setUMLPackage( NULL );
+				}
+			}
+			break;
+		default:
+			break;
+	}
+	return newItem;
+}
+
 void UMLListView::slotDropped(QDropEvent* de, QListViewItem* /* parent */, QListViewItem* item) {
 	if(!item) {
 		return;
 	}
 	UMLDrag::LvTypeAndID_List srcList;
-	bool status = UMLDrag::getClip3TypeAndID(de, srcList);
-
-	if(!status) {
+	if (! UMLDrag::getClip3TypeAndID(de, srcList)) {
 		return;
 	}
 	UMLListViewItem *newParent = (UMLListViewItem*)item;
-	Uml::ListView_Type itemType = newParent -> getType();
-	kdDebug() << "UMLListView::slotDropped: item type is " << itemType << endl;
 	UMLDrag::LvTypeAndID_It it(srcList);
 	UMLDrag::LvTypeAndID * src = 0;
 	while((src = it.current()) != 0) {
 		++it;
-		UMLListViewItem * move = findItem( src->id );
-		if(!move)
-			continue;
-
-		// Remove the source object at the old parent package.
-		UMLObject *srcObj = m_doc->findUMLObject(src->id);
-		if (srcObj) {
-			UMLPackage *srcPkg = srcObj->getUMLPackage();
-			if (srcPkg)
-				srcPkg->removeObject(srcObj);
-		}
-
-		UMLListViewItem *newItem = NULL;
-		Uml::ListView_Type srcType = src->type;
-
-		//make sure trying to place in correct location
-		switch (srcType) {
-			case Uml::lvt_UseCase_Folder:
-			case Uml::lvt_Actor:
-			case Uml::lvt_UseCase:
-			case Uml::lvt_UseCase_Diagram:
-				if (itemType == Uml::lvt_UseCase_Folder ||
-				    itemType == Uml::lvt_UseCase_View) {
-					newItem = move->deepCopy(newParent);
-					delete move;
-				}
-				break;
-			case Uml::lvt_Component_Folder:
-			case Uml::lvt_Component:
-			case Uml::lvt_Artifact:
-			case Uml::lvt_Component_Diagram:
-				if (itemType == Uml::lvt_Component_Folder ||
-				    itemType == Uml::lvt_Component_View) {
-					newItem = move->deepCopy(newParent);
-					delete move;
-				}
-				break;
-			case Uml::lvt_Deployment_Folder:
-			case Uml::lvt_Node:
-			case Uml::lvt_Deployment_Diagram:
-				if (itemType == Uml::lvt_Deployment_Folder ||
-				    itemType == Uml::lvt_Deployment_View) {
-					newItem = move->deepCopy(newParent);
-					delete move;
-				}
-				break;
-			case Uml::lvt_Collaboration_Diagram:
-			case Uml::lvt_Class_Diagram:
-			case Uml::lvt_State_Diagram:
-			case Uml::lvt_Activity_Diagram:
-			case Uml::lvt_Sequence_Diagram:
-			case Uml::lvt_Logical_Folder:
-				if (itemType == Uml::lvt_Logical_Folder ||
-				    itemType == Uml::lvt_Logical_View) {
-					newItem = move->deepCopy(newParent);
-					delete move;
-				}
-				break;
-			case Uml::lvt_Class:
-			case Uml::lvt_Package:
-			case Uml::lvt_Interface:
-			case Uml::lvt_Enum:
-				if (itemType == Uml::lvt_Logical_Folder ||
-				    itemType == Uml::lvt_Logical_View ||
-				    itemType == Uml::lvt_Class ||
-				    itemType == Uml::lvt_Interface ||
-				    itemType == Uml::lvt_Package) {
-					newItem = move->deepCopy(newParent);
-					delete move;
-					UMLObject *o = newItem->getUMLObject();
-					if (o == NULL) {
-						kdDebug() << "slotDropped: newItem's UMLObject is NULL"
-							  << endl;
-					} else if (itemType == Uml::lvt_Package ||
-						   itemType == Uml::lvt_Interface ||
-						   itemType == Uml::lvt_Class) {
-						UMLPackage *pkg = static_cast<UMLPackage*>(
-								   newParent->getUMLObject() );
-						o->setUMLPackage( pkg );
-						pkg->addObject( o );
-					} else {
-						o->setUMLPackage( NULL );
-					}
-				}
-				break;
-			default:
-				break;
-		}
+		moveObject(src->id, src->type, newParent);
 	}
 }
 

@@ -73,6 +73,7 @@ int ToolBarStateFactory::getKey(const WorkToolBar::ToolBar_Buttons &toolbarButto
 		case WorkToolBar::tbb_Association:         return 1;
 	    	case WorkToolBar::tbb_UniAssociation:      return 1;
 	    	case WorkToolBar::tbb_Composition:         return 1;
+		case WorkToolBar::tbb_Containment:         return 1;
 	    	case WorkToolBar::tbb_Anchor:              return 1;
 	    	case WorkToolBar::tbb_Coll_Message:        return 1;
 	    	case WorkToolBar::tbb_State_Transition:    return 1;
