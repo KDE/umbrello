@@ -22,10 +22,18 @@
 
 UMLClassifierListItem::UMLClassifierListItem(const UMLObject *parent, QString Name, Uml::IDType id)
   : UMLObject(parent, Name, id) {
+	UMLObject *parentObj = const_cast<UMLObject*>(parent);
+	UMLClassifier *pc = dynamic_cast<UMLClassifier*>(parentObj);
+	if (pc)
+		UMLObject::setUMLPackage(pc);
 }
 
 UMLClassifierListItem::UMLClassifierListItem(const UMLObject *parent)
   : UMLObject(parent) {
+	UMLObject *parentObj = const_cast<UMLObject*>(parent);
+	UMLClassifier *pc = dynamic_cast<UMLClassifier*>(parentObj);
+	if (pc)
+		UMLObject::setUMLPackage(pc);
 }
 
 UMLClassifierListItem::~UMLClassifierListItem() {
