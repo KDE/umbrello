@@ -1042,7 +1042,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 //			insertSeparator();
 			insertStdItem(mt_Delete);
 			insertStdItem(mt_Change_Font);
-			insertStdItem(mt_Operation);
+			insertStdItem(mt_New_Operation);
 			insertItem(i18n("Select Operation..."), mt_Select_Operation);
 			break;
 		default:
