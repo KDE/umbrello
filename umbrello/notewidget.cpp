@@ -209,7 +209,7 @@ void NoteWidget::drawText(QPainter & p, int offsetX, int offsetY) {
 			textX += fm.width( " " );
 			word = "";
 		} else {
-			word += c;
+			if (c!='\0') word += c;
 		}
 	}//end while
 	if( word.length() > 0 ) {
