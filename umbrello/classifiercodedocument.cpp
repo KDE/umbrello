@@ -294,26 +294,6 @@ bool ClassifierCodeDocument::parentIsInterface () {
 }
 
 /**
- * @return	CodeClassField
- * @param	attribute attribute which is parent of this class field.
- */
-/*
-CodeClassField * ClassifierCodeDocument::newCodeClassField ( UMLAttribute * attribute ) {
-	return getParentGenerator()->newCodeClassField(this,attribute);
-}
-*/
-
-/**
- * @return	CodeClassField
- * @param	role 
- */
-/*
-CodeClassField * ClassifierCodeDocument::newCodeClassField (UMLRole * role ) {
-	return getParentGenerator()->newCodeClassField(this,role);
-}
-*/
-
-/**
  * Init from a UMLClassifier object.
  * @param	classifier 
  * @param	package 
