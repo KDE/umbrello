@@ -52,10 +52,18 @@ CPPCodeGenerator::~CPPCodeGenerator ( ) {
 // Accessor methods
 //
 
+/**
+ * returns "Cpp"
+ */
 QString CPPCodeGenerator::getLanguage() {
 	return "Cpp";
 }
 
+/**
+ * checks whether type is "CPPCodeGenerator"
+ *
+ * @param type
+ */
 bool CPPCodeGenerator::isType (QString & type)
 {
    if(type == "CPPCodeGenerator")
@@ -763,31 +771,17 @@ static const char *ReservedWords[] = {
 	"WINT_MIN",
 	"wint_t",
 	"xor",
-	"xor_eq"
+	"xor_eq",
+  NULL
 };
 
 /**
- * Check whether the given string is a reserved word for the
- * language of this code generator
- *
- * @param rPossiblyReservedKeyword  The string to check.
+ * get list of reserved keywords
  */
-bool CPPCodeGenerator::isReservedKeyword(const QString & rPossiblyReservedKeyword) {
-	unsigned int uiNumberOfReservedKeywords = sizeof(ReservedWords) / sizeof(char *);
-
-	unsigned int uiKeywordIndex = 0;
-
-	for (uiKeywordIndex = 0;
-	     uiKeywordIndex < uiNumberOfReservedKeywords;
-	     uiKeywordIndex++) {
-		QString keyword(ReservedWords[uiKeywordIndex]);
-
-		if (keyword == rPossiblyReservedKeyword) {
-			return true;
-		}
-	}
-
-	return false;
+const char **
+CPPCodeGenerator::getReservedKeywords() {
+  return ReservedWords;
 }
 
 #include "cppcodegenerator.moc"
+

@@ -42,21 +42,22 @@ public:
 	  */
 	virtual void writeClass(UMLClassifier *c);
 
-  /**
-   * checks whether type is "PhpWriter"
-   *
-   * @param type
-   */
+	/**
+	 * checks whether type is "PhpWriter"
+	 *
+	 * @param type
+	 */
 	virtual bool isType (QString & type);
-        virtual QString getLanguage();
 
 	/**
-	 * Check whether the given string is a reserved word for the
-	 * language of this code generator
-	 *
-	 * @param rPossiblyReservedKeyword  The string to check.
+	 * returns "PHP"
 	 */
-	virtual bool isReservedKeyword(const QString & rPossiblyReservedWord);
+	virtual QString getLanguage();
+
+	/**
+	 * get list of reserved keywords
+	 */
+	virtual const char **getReservedKeywords();
 
 private:
 
@@ -95,8 +96,7 @@ private:
 	  */
 	void writeAttributes(UMLAttributeList &atList, QTextStream &php);
 
-
 };
 
-
 #endif //PHPWRITER
+

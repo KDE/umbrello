@@ -96,8 +96,16 @@ public:
  	 */
 	bool removeHeaderCodeDocument ( CPPHeaderCodeDocument * remove_object );
 
+	/**
+	 * checks whether type is "CPPCodeGenerator"
+	 *
+	 * @param type
+	 */
 	virtual bool isType (QString & type);
 
+	/**
+	 * returns "Cpp"
+	 */
 	QString getLanguage(); 
 
 	// should be 'static' method
@@ -108,12 +116,12 @@ public:
 	CodeComment * newCodeComment ( CodeDocument * doc);
 	CPPHeaderCodeDocument * newHeaderClassifierCodeDocument (UMLClassifier * classifier);
 
-       /** Get the editing dialog for this code document
+	/** Get the editing dialog for this code document
 	 */
 	virtual CodeViewerDialog * getCodeViewerDialog( QWidget* parent, CodeDocument * doc,
 							Settings::CodeViewerState state);
 
-       /**
+	/**
 	 * Write out all code documents to file as appropriate.
 	 */
 	virtual void writeCodeToFile ( );
@@ -134,12 +142,9 @@ public:
 	virtual void saveToXMI ( QDomDocument & doc, QDomElement & root );
 
 	/**
-	 * Check whether the given string is a reserved word for the
-	 * language of this code generator
-	 *
-	 * @param rPossiblyReservedKeyword  The string to check.
+	 * get list of reserved keywords
 	 */
-	virtual bool isReservedKeyword(const QString & rPossiblyReservedWord);
+	virtual const char **getReservedKeywords();
 
 protected:
 

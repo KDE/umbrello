@@ -46,8 +46,22 @@ public:
 	  */
 	virtual void writeClass(UMLClassifier *c);
 
+	/**
+	 * checks whether type is "PerlWriter"
+	 *
+	 * @param type
+	 */
 	virtual bool isType (QString & type); 
+
+	/**
+	 * returns "Perl"
+	 */
 	virtual QString getLanguage();
+
+	/**
+	 * get list of reserved keywords
+	 */
+	virtual const char **getReservedKeywords();
 
 private:
 

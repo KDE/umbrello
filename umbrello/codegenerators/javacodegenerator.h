@@ -141,12 +141,9 @@ public:
 	QString fixTypeName(QString string); 
 
 	/**
-	 * Check whether the given string is a reserved word for the
-	 * language of this code generator
-	 *
-	 * @param rPossiblyReservedKeyword  The string to check.
+	 * get list of reserved keywords
 	 */
-	virtual bool isReservedKeyword(const QString & rPossiblyReservedWord);
+	virtual const char **getReservedKeywords();
 
 protected:
 
@@ -175,7 +172,7 @@ private:
 
 	bool m_createANTBuildFile;
 
-
 };
 
 #endif // JAVACODEGENERATOR_H
+

@@ -179,6 +179,11 @@ QString SQLWriter::getLanguage() {
         return "SQL";
 }
 
+/**
+ * checks whether type is "SQLWriter"
+ *
+ * @param type
+ */
 bool SQLWriter::isType (QString & type)
 {
    if(type == "SQLWriter")
@@ -186,5 +191,159 @@ bool SQLWriter::isType (QString & type)
    return false;
 }
 
+/**
+ * List of reserved keywords for this code generator.
+ *
+ * Just add new keywords, then mark all lines and
+ * pipe it through the external 'sort' program.
+ */
+static const char *ReservedWords[] = {
+  "access",
+  "add",
+  "all",
+  "alter",
+  "analyze",
+  "and",
+  "any",
+  "as",
+  "asc",
+  "audit",
+  "begin",
+  "between",
+  "boolean",
+  "by",
+  "char",
+  "character",
+  "check",
+  "cluster",
+  "column",
+  "comment",
+  "commit",
+  "compress",
+  "connect",
+  "create",
+  "current",
+  "cursor",
+  "date",
+  "decimal",
+  "default",
+  "delete",
+  "desc",
+  "distinct",
+  "drop",
+  "else",
+  "elsif",
+  "end",
+  "escape",
+  "exception",
+  "exclusive",
+  "execute",
+  "exists",
+  "explain",
+  "false",
+  "file",
+  "float",
+  "for",
+  "from",
+  "function",
+  "grant",
+  "group",
+  "having",
+  "identified",
+  "if",
+  "immediate",
+  "in",
+  "increment",
+  "index",
+  "initial",
+  "insert",
+  "integer",
+  "intersect",
+  "into",
+  "is",
+  "level",
+  "like",
+  "lock",
+  "long",
+  "loop",
+  "maxextents",
+  "minus",
+  "mlslabel",
+  "mode",
+  "modify",
+  "noaudit",
+  "nocompress",
+  "not",
+  "nowait",
+  "null",
+  "number",
+  "of",
+  "offline",
+  "on",
+  "online",
+  "option",
+  "or",
+  "order",
+  "out",
+  "pctfree",
+  "prior",
+  "privileges",
+  "procedure",
+  "public",
+  "raw",
+  "rename",
+  "resource",
+  "return",
+  "revoke",
+  "rollback",
+  "row",
+  "rowid",
+  "rowlabel",
+  "rownum",
+  "rows",
+  "savepoint",
+  "select",
+  "session",
+  "set",
+  "share",
+  "size",
+  "smallint",
+  "some",
+  "start",
+  "successful",
+  "synonym",
+  "sysdate",
+  "table",
+  "then",
+  "to",
+  "trigger",
+  "true",
+  "truncate",
+  "type",
+  "uid",
+  "union",
+  "unique",
+  "update",
+  "user",
+  "using",
+  "validate",
+  "values",
+  "varchar",
+  "varchar2",
+  "varray",
+  "view",
+  "whenever",
+  "where",
+  "with",
+  NULL
+};
+
+/**
+ * get list of reserved keywords
+ */
+const char **
+SQLWriter::getReservedKeywords() {
+  return ReservedWords;
+}
 
 #include "sqlwriter.moc"

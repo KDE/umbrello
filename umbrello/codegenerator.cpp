@@ -780,8 +780,26 @@ void CodeGenerator::createDefaultDatatypes()  {
  * @param rPossiblyReservedKeyword is the string to check
  *
  */
-bool CodeGenerator::isReservedKeyword(const QString & /* rPossiblyReservedKeyword*/) {
+bool CodeGenerator::isReservedKeyword(const QString & rPossiblyReservedKeyword) {
+  const char **tmpReservedWords = getReservedKeywords();
+
+  if (tmpReservedWords == NULL)
+  {
+    return false;
+  }
+
+  while (tmpReservedWords[0] != NULL) {
+		QString keyword(tmpReservedWords[0]);
+
+		if (keyword == rPossiblyReservedKeyword) {
+			return true;
+		}
+
+    tmpReservedWords++;
+	}
+
 	return false;
 }
 
 #include "codegenerator.moc"
+

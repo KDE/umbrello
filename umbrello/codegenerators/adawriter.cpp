@@ -657,7 +657,8 @@ static const char *ReservedWords[] = {
   "Wide_Character",
   "Wide_String",
   "with",
-  "xor"
+  "xor",
+  NULL
 };
 
 /**
@@ -667,25 +668,33 @@ static const char *ReservedWords[] = {
  * @param rPossiblyReservedKeyword  The string to check.
  */
 bool AdaWriter::isReservedKeyword(const QString & rPossiblyReservedKeyword) {
-	unsigned int uiNumberOfReservedKeywords = sizeof(ReservedWords) / sizeof(char *);
+  const char **tmpReservedWords = getReservedKeywords();
 
-	unsigned int uiKeywordIndex = 0;
+  if (tmpReservedWords == NULL)
+  {
+    return false;
+  }
 
-	for (uiKeywordIndex = 0;
-	     uiKeywordIndex < uiNumberOfReservedKeywords;
-	     uiKeywordIndex++) {
-		QString keyword(ReservedWords[uiKeywordIndex]);
+  while (tmpReservedWords[0] != NULL) {
+		QString keyword(tmpReservedWords[0]);
 
-    /*
-     * Ada is entirely case insensitive
-     */
-		if (keyword == rPossiblyReservedKeyword.lower()) {
+		if (keyword.lower() == rPossiblyReservedKeyword.lower()) {
 			return true;
 		}
+
+    tmpReservedWords++;
 	}
 
 	return false;
 }
 
+/**
+ * get list of reserved keywords
+ */
+const char **
+AdaWriter::getReservedKeywords() {
+  return ReservedWords;
+}
 
 #include "adawriter.moc"
+

@@ -257,7 +257,6 @@ static const char *ReservedWords[] = {
   "final",
   "finalize",
   "finally",
-  "FIXME",
   "float",
   "Float",
   "for",
@@ -350,7 +349,6 @@ static const char *ReservedWords[] = {
   "throw",
   "Throwable",
   "throws",
-  "TODO",
   "toString",
   "transient",
   "true",
@@ -369,31 +367,16 @@ static const char *ReservedWords[] = {
   "volatile",
   "wait",
   "while",
-  "XXX"
+  NULL
 };
 
 /**
- * Check whether the given string is a reserved word for the
- * language of this code generator
- *
- * @param rPossiblyReservedKeyword  The string to check.
+ * get list of reserved keywords
  */
-bool JavaCodeGenerator::isReservedKeyword(const QString & rPossiblyReservedKeyword) {
-	unsigned int uiNumberOfReservedKeywords = sizeof(ReservedWords) / sizeof(char *);
-
-	unsigned int uiKeywordIndex = 0;
-
-	for (uiKeywordIndex = 0;
-	     uiKeywordIndex < uiNumberOfReservedKeywords;
-	     uiKeywordIndex++) {
-		QString keyword(ReservedWords[uiKeywordIndex]);
-
-		if (keyword == rPossiblyReservedKeyword) {
-			return true;
-		}
-	}
-
-	return false;
+const char **
+JavaCodeGenerator::getReservedKeywords() {
+  return ReservedWords;
 }
 
 #include "javacodegenerator.moc"
+

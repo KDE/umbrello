@@ -357,10 +357,18 @@ void PhpWriter::writeAttributes(UMLAttributeList &atList, QTextStream &php) {
 	return;
 }
 
+/**
+ * returns "PHP"
+ */
 QString PhpWriter::getLanguage() {
 	return "PHP";
 }
 
+/**
+ * checks whether type is "PhpWriter"
+ *
+ * @param type
+ */
 bool PhpWriter::isType (QString & type)
 {
    if(type == "PhpWriter")
@@ -3327,32 +3335,16 @@ static const char *ReservedWords[] = {
   "zip_entry_read",
   "zip_open",
   "zip_read",
+  NULL
 };
 
 /**
- * Check whether the given string is a reserved word for the
- * language of this code generator
- *
- * @param rPossiblyReservedKeyword  The string to check.
+ * get list of reserved keywords
  */
-bool PhpWriter::isReservedKeyword(const QString & rPossiblyReservedKeyword) {
-	unsigned int uiNumberOfReservedKeywords = sizeof(ReservedWords) / sizeof(char *);
-
-	unsigned int uiKeywordIndex = 0;
-
-	for (uiKeywordIndex = 0;
-	     uiKeywordIndex < uiNumberOfReservedKeywords;
-	     uiKeywordIndex++) {
-		QString keyword(ReservedWords[uiKeywordIndex]);
-
-		if (keyword == rPossiblyReservedKeyword) {
-			return true;
-		}
-	}
-
-	return false;
+const char **
+PhpWriter::getReservedKeywords() {
+  return ReservedWords;
 }
 
-
-
 #include "phpwriter.moc"
+

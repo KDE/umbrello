@@ -73,6 +73,11 @@ public:
 	 */
 	virtual bool isReservedKeyword(const QString & rPossiblyReservedWord);
 
+  /**
+   * get list of reserved keywords
+   */
+  virtual const char **getReservedKeywords();
+
 private:
 
 	/**

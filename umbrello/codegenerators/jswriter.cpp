@@ -244,10 +244,18 @@ void JSWriter::writeOperations(QString classname, UMLOperationList *opList, QTex
 	}//end for
 }
 
+/**
+ * returns "JavaScript"
+ */
 QString JSWriter::getLanguage() {
         return "JavaScript";
 }
 
+/**
+ * checks whether type is "JSWriter"
+ *
+ * @param type
+ */
 bool JSWriter::isType (QString & type)
 {
    if(type == "JSWriter")
@@ -255,5 +263,42 @@ bool JSWriter::isType (QString & type)
    return false;
 }
 
+/**
+ * List of reserved keywords for this code generator.
+ *
+ * Just add new keywords, then mark all lines and
+ * pipe it through the external 'sort' program.
+ */
+static const char *ReservedWords[] = {
+  "break",
+  "case",
+  "const",
+  "continue",
+  "default",
+  "else",
+  "false",
+  "for",
+  "function",
+  "if",
+  "in",
+  "new",
+  "return",
+  "switch",
+  "this",
+  "true",
+  "var",
+  "while",
+  "with",
+  NULL
+};
+
+/**
+ * get list of reserved keywords
+ */
+const char **
+JSWriter::getReservedKeywords() {
+  return ReservedWords;
+}
 
 #include "jswriter.moc"
+
