@@ -58,7 +58,8 @@ UMLObject* UMLPackage::clone() const
 
 void UMLPackage::addObject(const UMLObject *pObject) {
 	Uml::IDType id = pObject->getID();
-	for (UMLObject *o = m_objects.first(); o; o = m_objects.next()) {
+	for (UMLObjectListIt oit(m_objects); oit.current(); ++oit) {
+		UMLObject *o = oit.current();
 		if (o->getID() == id) {
 #ifdef VERBOSE_DEBUGGING
 			kdDebug() << "UMLPackage::addObject: "
@@ -80,9 +81,11 @@ UMLObjectList& UMLPackage::containedObjects() {
 }
 
 UMLObject * UMLPackage::findObject(const QString &name) {
-	for (UMLObject *obj = m_objects.first(); obj; obj = m_objects.next())
+	for (UMLObjectListIt oit(m_objects); oit.current(); ++oit) {
+		UMLObject *obj = oit.current();
 		if (obj->getName() == name)
 			return obj;
+	}
 	return NULL;
 }
 
@@ -92,7 +95,8 @@ UMLObject * UMLPackage::findObjectById(Uml::IDType id) {
 
 void UMLPackage::appendClassifiers(UMLClassifierList& classifiers,
 				   bool includeNested /* = true */) {
-	for (UMLObject *o = m_objects.first(); o; o = m_objects.next()) {
+	for (UMLObjectListIt oit(m_objects); oit.current(); ++oit) {
+		UMLObject *o = oit.current();
 		Object_Type ot = o->getBaseType();
 		if (ot == ot_Class || ot == ot_Interface ||
 		    ot == ot_Datatype || ot == ot_Enum) {
@@ -106,7 +110,8 @@ void UMLPackage::appendClassifiers(UMLClassifierList& classifiers,
 
 void UMLPackage::appendClasses(UMLClassList& classes,
 			      bool includeNested /* = true */) {
-	for (UMLObject *o = m_objects.first(); o; o = m_objects.next()) {
+	for (UMLObjectListIt oit(m_objects); oit.current(); ++oit) {
+		UMLObject *o = oit.current();
 		Object_Type ot = o->getBaseType();
 		if (ot == ot_Class) {
 			classes.append((UMLClass *)o);
@@ -119,7 +124,8 @@ void UMLPackage::appendClasses(UMLClassList& classes,
 
 void UMLPackage::appendClassesAndInterfaces(UMLClassifierList& classifiers,
 				 	    bool includeNested /* = true */) {
-	for (UMLObject *o = m_objects.first(); o; o = m_objects.next()) {
+	for (UMLObjectListIt oit(m_objects); oit.current(); ++oit) {
+		UMLObject *o = oit.current();
 		Object_Type ot = o->getBaseType();
 		if (ot == ot_Class || ot == ot_Interface) {
 			classifiers.append((UMLClassifier *)o);
@@ -132,7 +138,8 @@ void UMLPackage::appendClassesAndInterfaces(UMLClassifierList& classifiers,
 
 void UMLPackage::appendInterfaces( UMLInterfaceList& interfaces,
 				   bool includeNested /* = true */) {
-	for (UMLObject *o = m_objects.first(); o; o = m_objects.next()) {
+	for (UMLObjectListIt oit(m_objects); oit.current(); ++oit) {
+		UMLObject *o = oit.current();
 		Object_Type ot = o->getBaseType();
 		if (ot == ot_Interface) {
 			interfaces.append((UMLInterface *)o);

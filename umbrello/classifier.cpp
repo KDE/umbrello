@@ -41,11 +41,10 @@ UMLOperation * UMLClassifier::checkOperationSignature( QString name,
 	int inputParmCount = (opParams ? opParams->count() : 0);
 
 	// there is at least one operation with the same name... compare the parameter list
-	for( UMLOperation *test = dynamic_cast<UMLOperation*>(list.first());
-	     test != 0;
-	     test = dynamic_cast<UMLOperation*>(list.next()) )
+	for (UMLObjectListIt oit(list); oit.current(); ++oit)
 	{
-		if (test == exemptOp)
+		UMLOperation* test = dynamic_cast<UMLOperation*>( oit.current() );
+		if (test == NULL || test == exemptOp)
 			continue;
 		UMLAttributeList *testParams = test->getParmList( );
 		if (!opParams) {
@@ -139,8 +138,8 @@ UMLObjectList UMLClassifier::findChildObject(Object_Type t , const QString &n) {
 		return UMLCanvasObject::findChildObject(t, n);
 	}
 	UMLObjectList list;
-	UMLClassifierListItem* obj=0;
-	for(obj=m_List.first();obj != 0;obj=m_List.next()) {
+	for (UMLClassifierListItemListIt lit(m_List); lit.current(); ++lit) {
+		UMLClassifierListItem* obj = lit.current();
 		if (obj->getBaseType() != t)
 			continue;
 		if (obj->getName() == n)
@@ -150,8 +149,9 @@ UMLObjectList UMLClassifier::findChildObject(Object_Type t , const QString &n) {
 }
 
 UMLObject* UMLClassifier::findChildObject(Uml::IDType id) {
-	for (UMLClassifierListItem *o = m_List.first(); o; o = m_List.next()) {
-		if(o->getID() == id)
+	for (UMLClassifierListItemListIt lit(m_List); lit.current(); ++lit) {
+		UMLClassifierListItem* o = lit.current();
+		if (o->getID() == id)
 			return o;
 	}
 	return UMLCanvasObject::findChildObject(id);

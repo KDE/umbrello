@@ -30,9 +30,11 @@ UMLCanvasObject::~UMLCanvasObject() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLAssociationList UMLCanvasObject::getSpecificAssocs(Uml::Association_Type assocType) {
 	UMLAssociationList list;
-	for (UMLAssociation* a = m_AssocsList.first(); a; a = m_AssocsList.next())
+	for (UMLAssociationListIt ait(m_AssocsList); ait.current(); ++ait) {
+		UMLAssociation *a = ait.current();
 		if (a->getAssocType() == assocType)
 			list.append(a);
+	}
 	return list;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -94,8 +96,8 @@ QString UMLCanvasObject::uniqChildName( const Uml::Object_Type type,
 UMLObjectList UMLCanvasObject::findChildObject(Uml::Object_Type t, const QString &n) {
 	UMLObjectList list;
 	if (t == Uml::ot_Association) {
-		UMLAssociation * obj=0;
-		for (obj = m_AssocsList.first(); obj != 0; obj = m_AssocsList.next()) {
+		for (UMLAssociationListIt ait(m_AssocsList); ait.current(); ++ait) {
+			UMLAssociation *obj = ait.current();
 			if (obj->getBaseType() != t)
 				continue;
 			if (obj->getName() == n)
@@ -108,8 +110,8 @@ UMLObjectList UMLCanvasObject::findChildObject(Uml::Object_Type t, const QString
 }
 
 UMLObject* UMLCanvasObject::findChildObject(Uml::IDType id) {
-	UMLAssociation * asso = 0;
-	for (asso = m_AssocsList.first(); asso != 0; asso = m_AssocsList.next()) {
+	for (UMLAssociationListIt ait(m_AssocsList); ait.current(); ++ait) {
+		UMLAssociation *asso = ait.current();
 		if (asso->getID() == id)
 			return asso;
 	}

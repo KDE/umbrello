@@ -38,8 +38,8 @@ UMLClass::~UMLClass() {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLAttribute* UMLClass::addAttribute(const QString &name, Uml::IDType id /* = Uml::id_None */) {
-	UMLClassifierListItem *obj = NULL;
-	for (obj = m_List.first(); obj; obj = m_List.next()) {
+	for (UMLClassifierListItemListIt lit(m_List); lit.current(); ++lit) {
+		UMLClassifierListItem *obj = lit.current();
 		if (obj->getBaseType() == Uml::ot_Attribute && obj->getName() == name)
 			return static_cast<UMLAttribute*>(obj);
 	}
@@ -210,8 +210,10 @@ void UMLClass::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 		newTemplate->saveToXMI(qDoc, featureElement);
 	}
 	//save contained objects
-	for (UMLObject *obj = m_objects.first(); obj; obj = m_objects.next())
+	for (UMLObjectListIt oit(m_objects); oit.current(); ++oit) {
+		UMLObject *obj = oit.current();
 		obj->saveToXMI (qDoc, featureElement);
+	}
 	if (featureElement.hasChildNodes())
 		classElement.appendChild( featureElement );
 	qElement.appendChild( classElement );
@@ -267,8 +269,8 @@ UMLAttributeList UMLClass::getFilteredAttributeList() {
 
 UMLTemplateList UMLClass::getFilteredTemplateList() {
 	UMLTemplateList templateList;
-	for(UMLClassifierListItem* listItem = m_List.first(); listItem;
-	    listItem = m_List.next())  {
+	for (UMLClassifierListItemListIt lit(m_List); lit.current(); ++lit) {
+		UMLClassifierListItem *listItem = lit.current();
 		if (listItem->getBaseType() == Uml::ot_Template) {
 			templateList.append(static_cast<UMLTemplate*>(listItem));
 		}

@@ -504,8 +504,11 @@ UMLListViewItem * UMLListViewItem::findItem(Uml::IDType id) {
 void UMLListViewItem::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement itemElement = qDoc.createElement( "listitem" );
 	Uml::IDType id = getID();
+	QString idStr = ID2STR(id);
+	kdDebug() << "UMLListViewItem::saveToXMI: id = " << idStr
+		  << ", type = " << m_Type << endl;
 	if (id != Uml::id_None)
-		itemElement.setAttribute( "id", ID2STR(id) );
+		itemElement.setAttribute( "id", idStr );
 	itemElement.setAttribute( "type", m_Type );
 	if (m_pObject == NULL) {
 		// The predefined listview items such as "Logical View" etc. do
@@ -525,7 +528,7 @@ void UMLListViewItem::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	UMLListViewItem * childItem = static_cast<UMLListViewItem *> ( firstChild() );
 	while( childItem ) {
 		childItem -> saveToXMI( qDoc, itemElement );
-		childItem = static_cast<UMLListViewItem *> ( childItem -> nextSibling() );
+		childItem = dynamic_cast<UMLListViewItem *> ( childItem -> nextSibling() );
 	}
 	qElement.appendChild( itemElement );
 }

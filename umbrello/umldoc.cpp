@@ -898,9 +898,11 @@ bool UMLDoc::isUnique(const QString &name)
 
 	// Not currently in a package:
 	// Check against all objects that _dont_ have a parent package.
-	for (UMLObject *obj = m_objectList.first(); obj; obj = m_objectList.next())
+	for (UMLObjectListIt oit(m_objectList); oit.current(); ++oit) {
+		UMLObject *obj = oit.current();
 		if (obj->getUMLPackage() == NULL && obj->getName() == name)
 			return false;
+	}
 	return true;
 }
 
@@ -913,11 +915,12 @@ bool UMLDoc::isUnique(const QString &name, UMLPackage *package)
 
 	// Not currently in a package:
 	// Check against all objects that _dont_ have a parent package.
-	for (UMLObject *obj = m_objectList.first(); obj; obj = m_objectList.next())
+	for (UMLObjectListIt oit(m_objectList); oit.current(); ++oit) {
+		UMLObject *obj = oit.current();
 		if (obj->getUMLPackage() == NULL && obj->getName() == name)
 			return false;
+	}
 	return true;
-
 }
 
 UMLObject* UMLDoc::createUMLObject(const std::type_info &type)
@@ -1717,7 +1720,8 @@ void UMLDoc::saveToXMI(QIODevice& file) {
 	// Operations and attributes are owned by classifiers and will show up
 	// as their child nodes.
 	// Associations are saved in an extra step (see below.)
-	for (UMLObject *o = m_objectList.first(); o; o = m_objectList.next() ) {
+	for (UMLObjectListIt oit(m_objectList); oit.current(); ++oit) {
+		UMLObject *o = oit.current();
 		Object_Type t = o->getBaseType();
 #if defined (XMI_FLAT_PACKAGES)
 		if (t == ot_Package)
