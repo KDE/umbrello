@@ -597,7 +597,7 @@ bool UMLDoc::saveDocument(const KURL& url, const char * /* format */) {
 		file.close(); // ...and close it
 
 		// now add this file to the archive, but without the extension
-		QString tmpQString = url.filename();
+		QString tmpQString = url.fileName();
 		if (fileFormat == "tgz")
 		{
 			tmpQString.replace(QRegExp("\\.tgz$"), "");

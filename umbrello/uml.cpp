@@ -188,22 +188,22 @@ void UMLApp::initActions() {
 	importClasses = new KAction(i18n("&Import Classes..."), SmallIconSet("source_cpp"), 0,
 				    this,SLOT(slotImportClasses()), actionCollection(),"import_class");
 
-	fileNew->setStatusText(i18n("Creates a new document"));
-	fileOpen->setStatusText(i18n("Opens an existing document"));
-	fileOpenRecent->setStatusText(i18n("Opens a recently used file"));
-	fileSave->setStatusText(i18n("Saves the document"));
-	fileSaveAs->setStatusText(i18n("Saves the document as..."));
-	fileClose->setStatusText(i18n("Closes the document"));
-	filePrint ->setStatusText(i18n("Prints out the document"));
-	fileQuit->setStatusText(i18n("Quits the application"));
-	editCut->setStatusText(i18n("Cuts the selected section and puts it to the clipboard"));
-	editCopy->setStatusText(i18n("Copies the selected section to the clipboard"));
-	editPaste->setStatusText(i18n("Pastes the contents of the clipboard"));
+	fileNew->setToolTip(i18n("Creates a new document"));
+	fileOpen->setToolTip(i18n("Opens an existing document"));
+	fileOpenRecent->setToolTip(i18n("Opens a recently used file"));
+	fileSave->setToolTip(i18n("Saves the document"));
+	fileSaveAs->setToolTip(i18n("Saves the document as..."));
+	fileClose->setToolTip(i18n("Closes the document"));
+	filePrint ->setToolTip(i18n("Prints out the document"));
+	fileQuit->setToolTip(i18n("Quits the application"));
+	editCut->setToolTip(i18n("Cuts the selected section and puts it to the clipboard"));
+	editCopy->setToolTip(i18n("Copies the selected section to the clipboard"));
+	editPaste->setToolTip(i18n("Pastes the contents of the clipboard"));
 #if !KDE_IS_VERSION(3,1,90)
-	viewToolBar->setStatusText(i18n("Enables/disables the toolbar"));
-	viewStatusBar->setStatusText(i18n("Enables/disables the statusbar"));
+	viewToolBar->setToolTip(i18n("Enables/disables the toolbar"));
+	viewStatusBar->setToolTip(i18n("Enables/disables the statusbar"));
 #endif
-	preferences->setStatusText( i18n( "Set the default program preferences") );
+	preferences->setToolTip( i18n( "Set the default program preferences") );
 
 	deleteSelectedWidget = new KAction( i18n("Delete &Selected"),
 					    SmallIconSet("editdelete"),
