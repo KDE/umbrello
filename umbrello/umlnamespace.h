@@ -10,11 +10,11 @@
 #ifndef UMLNAMESPACE_H
 #define UMLNAMESPACE_H
 
-
-namespace Umbrello
-{
-enum Visibility {Public = 200, Private, Protected };
-}
+//uncomment for use with Luis' diagram code
+//namespace Umbrello
+//{
+//enum Visibility {Public = 200, Private, Protected };
+//}
 
 
 /**

@@ -66,5 +66,3 @@ noinst_HEADERS = version.h
 
 main.o: version.h
 
-# TODO: fix the problem
-KDE_OPTIONS = nofinal
