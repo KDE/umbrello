@@ -1,6 +1,4 @@
 /***************************************************************************
-                          codegenerationpolicypage.cpp  -  description
-                             -------------------
     begin                : Tue Jul 29 2003
     copyright            : (C) 2003 by Brian Thomas
     email                : brian.thomas@gsfc.nasa.gov

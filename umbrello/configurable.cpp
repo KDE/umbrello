@@ -1,6 +1,4 @@
 /***************************************************************************
-                          configurable.cpp
-                             -------------------
     begin                : Mon Jan 13 2003
     copyright            : (C) 2003 by Andrew Sutton
     email                : ansutton@kent.edu

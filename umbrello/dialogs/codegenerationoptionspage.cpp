@@ -1,6 +1,4 @@
 /***************************************************************************
-                          codegenerationoptionspage.cpp  -  description
-                             -------------------
     begin                : Thu Jul 25 2002
     copyright            : (C) 2002 by Luis De la Parra
     email                : luis@delaparra.org
@@ -31,11 +29,11 @@
 #include <qlistview.h>
 #include <qbuttongroup.h>
 
-CodeGenerationOptionsPage::CodeGenerationOptionsPage( CodeGenerator * gen, 
+CodeGenerationOptionsPage::CodeGenerationOptionsPage( CodeGenerator * gen,
 						     QString activeLanguage,
-						     QWidget *parent, 
+						     QWidget *parent,
 						     const char *name )
-	:CodeGenerationOptionsBase(parent,name) 
+	:CodeGenerationOptionsBase(parent,name)
 {
 	init (gen, activeLanguage);
 }
@@ -54,7 +52,7 @@ void CodeGenerationOptionsPage::init( CodeGenerator * gen,
 	if(gen)
 		setCodeGenerator(gen);
 
-	setupActiveLanguageBox(activeLanguage); 
+	setupActiveLanguageBox(activeLanguage);
 }
 
 void CodeGenerationOptionsPage::setCodeGenerator ( CodeGenerator * gen) {
@@ -166,7 +164,7 @@ int CodeGenerationOptionsPage::overwriteToInteger(CodeGenerationPolicy::Overwrit
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void CodeGenerationOptionsPage::updateCodeGenerationPolicyTab(CodeGenerator * gen) {
 
-	if(m_pCodePolicyPage) 
+	if(m_pCodePolicyPage)
 	{
 		m_pCodePolicyPage->disconnect();
 		m_pCodePolicyPage = 0;
@@ -190,7 +188,7 @@ void CodeGenerationOptionsPage::apply() {
 		m_parentPolicy->setOutputDirectory(QDir(m_outputDir->text()));
 		m_parentPolicy->setIncludeHeadings(m_includeHeadings->isChecked());
 		m_parentPolicy->setHeadingFileDir(m_headingsDir->text());
-		m_parentPolicy->setOverwritePolicy((CodeGenerationPolicy::OverwritePolicy)m_overwriteGroup->id(m_overwriteGroup->selected())); 
+		m_parentPolicy->setOverwritePolicy((CodeGenerationPolicy::OverwritePolicy)m_overwriteGroup->id(m_overwriteGroup->selected()));
 		m_parentPolicy->setLineEndingType((CodeGenerationPolicy::NewLineType) m_SelectEndLineCharsBox->currentItem());
 		m_parentPolicy->setIndentationType((CodeGenerationPolicy::IndentationType) m_SelectIndentationTypeBox->currentItem());
 		m_parentPolicy->setIndentationAmount(m_SelectIndentationNumber->value());

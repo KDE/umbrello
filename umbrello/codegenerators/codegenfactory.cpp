@@ -1,6 +1,4 @@
 /***************************************************************************
-                          codegenfactory.cpp  -  description
-                             -------------------
     begin                : Mon Jun 17 2002
     copyright            : (C) 2002 by Luis De la Parra Blum
 					and Brian Thomas

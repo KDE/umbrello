@@ -1,6 +1,4 @@
 /***************************************************************************
-                          aswriter.cpp  -  description
-                             -------------------
     begin                : Sat Feb 08 2003
     copyright            : (C) 2003 by Alexander Blum
     email                : blum@kewbee.de

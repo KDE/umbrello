@@ -1,6 +1,4 @@
  /***************************************************************************
-                               unknownumlwidget.cpp
-                             -------------------
     copyright            : (C) 2003 Luis De la Parra
  ***************************************************************************/
 /***************************************************************************
@@ -11,7 +9,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
- 
+
 
 #include "unknownumlwidget.h"
 #include "diagram.h"
@@ -42,16 +40,16 @@ UnknownUMLWidget::~UnknownUMLWidget()
 	hide();
 	diagram()->update();
 }
-	
+
 
 void UnknownUMLWidget::umlObjectModified()
 {
 	calculateSize();
 	update();
 	diagram()->update();
-	
+
 }
-	
+
 
 void UnknownUMLWidget::drawShape(QPainter &p)
 {
@@ -66,10 +64,10 @@ void UnknownUMLWidget::drawShape(QPainter &p)
 	p.setPen(drawPen);
 	p.setBrush(drawBrush);
 	p.drawRect(currentX, currentY, width(), height());
-	
+
 	p.setPen(textPen);
 	p.drawText(currentX, currentY, width(), height(), Qt::AlignCenter, m_name);
-	
+
 	if(isSelected())
 	{
 		p.setPen(Qt::blue);
@@ -90,10 +88,10 @@ void UnknownUMLWidget::drawShape(QPainter &p)
 
 void UnknownUMLWidget::calculateSize()
 {
-	
+
 	m_name += m_umlObject->getName();
 
-	QFont font; 	
+	QFont font;
 	QFontMetrics fm(font);
 
 	uint width  = fm.width(m_name) + (2 * hMargin);
@@ -107,7 +105,7 @@ void UnknownUMLWidget::editProperties()
 	WidgetColorsPage *page = new WidgetColorsPage(this,&dialog);
 	dialog.addPage(page, i18n("Colors"));
 	dialog.exec();
-	
+
 }
 
 } //end of namespace Umbrello

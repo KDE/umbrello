@@ -1,6 +1,4 @@
   /***************************************************************************
-                               tool.cpp
-                             -------------------
     copyright            : (C) 2003 Luis De la Parra
  ***************************************************************************/
  /***************************************************************************
@@ -44,11 +42,11 @@ Tool::~Tool()
 { }
 
 void Tool::activate()
-{ 
+{
 }
 
 void Tool::deactivate()
-{ 
+{
 }
 
 bool Tool::mouseEvent( QMouseEvent *event, const QPoint& diagramPos)
@@ -57,11 +55,11 @@ bool Tool::mouseEvent( QMouseEvent *event, const QPoint& diagramPos)
 		return false;
 	m_savedPos = m_currentPos;
 	m_currentPos = diagramPos;
-	
+
 	m_altPressed = event->state() & Qt::AltButton;
 	m_shiftPressed = event->state() & Qt::ShiftButton;
 	m_ctrlPressed = event->state() & Qt::ControlButton;
-		
+
 	bool consumed = false;
 	switch( event->type() )
 	{

@@ -1,6 +1,4 @@
 /***************************************************************************
-                          kplayerslideraction.cpp
-                          -----------------------
     begin                : Sat Jan 11 2003
     copyright            : (C) 2003 by kiriuja
     email                : kplayer-dev@en-directo.net

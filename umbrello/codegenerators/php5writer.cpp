@@ -1,6 +1,4 @@
 /***************************************************************************
-			  php5writer.cpp  -  description
-			     -------------------
     begin		: Thu Oct 17 2002
     copyright	        : (C) 2002 by Heiko Nardmann
     email		: h.nardmann@secunet.de

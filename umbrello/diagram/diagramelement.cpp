@@ -1,6 +1,4 @@
 /***************************************************************************
-                               diagramelement.cpp
-                             -------------------
     copyright            : (C) 2003 Luis De la Parra
  ***************************************************************************/
 /***************************************************************************
@@ -219,7 +217,7 @@ void DiagramElement::fillContextMenu(QPopupMenu &menu)
 void DiagramElement::moveToForeground()
 {
 	QCanvasItemList l = collisions(false);
-	if(l.empty()) 
+	if(l.empty())
 		return; // nothing to do
 
 	double maxZ = z();

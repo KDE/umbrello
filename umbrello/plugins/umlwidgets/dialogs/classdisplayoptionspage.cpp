@@ -1,6 +1,4 @@
 /***************************************************************************
-                          classdisplayoptionspage.cpp
-                             -------------------
     copyright            : (C) 2003 Luis De la Parra
  ***************************************************************************/
 /***************************************************************************
@@ -11,7 +9,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
- 
+
 
 #include "classdisplayoptionspage.h"
 #include "../classwidget.h"
@@ -53,11 +51,11 @@ void ClassDisplayOptionsPage::loadData()
 	int ops = m_widget->nameDisplayOptions();
 	m_showStereotype->setChecked( ops & ClassWidget::ShowStereotype );
 	m_showPackage->setChecked( ops & ClassWidget::ShowPackage );
-	
+
 	ops = m_widget->opsDisplayOptions();
 	m_showOperations->setChecked( ops & ClassWidget::ShowOps );
 	m_showParameters->setChecked( ops & ClassWidget::ShowParameterList );
-	
+
 	ops = m_widget->attsDisplayOptions();
 	m_showAttributes->setChecked( ops & ClassWidget::ShowAtts );
 	m_showInitialValue->setChecked( ops & ClassWidget::ShowInitialValue );
@@ -73,21 +71,21 @@ void ClassDisplayOptionsPage::saveData()
 	if(m_showPackage->isChecked())
 		ops |= ClassWidget::ShowPackage;
 	m_widget->setNameDisplayOptions( ops );
-	
+
 	ops = 0;
 	if(m_showOperations->isChecked())
 		ops |= ClassWidget::ShowOps;
 	if(m_showParameters->isChecked())
 		ops |= ClassWidget::ShowParameterList;
 	m_widget->setOpsDisplayOptions( ops );
-	
+
 	ops = 0L;
 	if(m_showAttributes->isChecked())
 		ops |= ClassWidget::ShowAtts;
 	if(m_showInitialValue->isChecked())
 		ops |= ClassWidget::ShowInitialValue;
 	m_widget->setAttsDisplayOptions( ops );
-	
+
 }
 
 }

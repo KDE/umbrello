@@ -1,6 +1,4 @@
 /***************************************************************************
-                          xmlschemawriter.cpp  -  description
-                             -------------------
     copyright            : (C) 2003 Brian Thomas brian.thomas@gsfc.nasa.gov
 ***************************************************************************/
 
@@ -30,7 +28,7 @@
 #include "../umlnamespace.h"
 
 // Constructor
-XMLSchemaWriter::XMLSchemaWriter( UMLDoc *doc, const char *name ) 
+XMLSchemaWriter::XMLSchemaWriter( UMLDoc *doc, const char *name )
    : SimpleCodeGenerator ( doc, name )
 {
 

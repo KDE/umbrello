@@ -1,6 +1,4 @@
 /***************************************************************************
-                          sqlwriter.cpp  -  description
-                             -------------------
     begin                : 10.02.2003
     copyright            : (C) 2003 Nikolaus Gradwohl
     email                : guru@local-guru.net

@@ -1,7 +1,4 @@
-
 /***************************************************************************
-                          codeviewerdialog.cpp  -  description
-                             -------------------
     begin                : Fri Aug 1 2003
     copyright            : (C) 2003 by Brian Thomas
     email                : brian.thomas@gsfc.nasa.gov
@@ -29,7 +26,7 @@
 #include "codeeditor.h"
 
 CodeViewerDialog::CodeViewerDialog ( QWidget* parent, CodeDocument * doc,
-                                     Settings::CodeViewerState state, 
+                                     Settings::CodeViewerState state,
                                      const char* name, bool modal, WFlags fl )
     : CodeViewerDialogBase ( parent, name, modal, fl )
 

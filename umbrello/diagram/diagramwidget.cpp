@@ -1,6 +1,4 @@
 /***************************************************************************
-                               diagramwidget.cpp
-                             -------------------
     copyright            : (C) 2003 Luis De la Parra
  ***************************************************************************/
 /***************************************************************************
@@ -78,7 +76,7 @@ void DiagramWidget::createHotSpots( )
 	m_hotSpots.append(p);
 	p = new QPoint(m_width,m_height);
 	m_hotSpots.append(p);
-	
+
 	int i = 3;
 	for( int j = 1; j <= i ; j++ )
 	{
@@ -86,7 +84,7 @@ void DiagramWidget::createHotSpots( )
 		m_hotSpots.append(p);
 		p = new QPoint( (m_width / (i+1))*j, m_height );
 		m_hotSpots.append(p);
-		
+
 		p = new QPoint( 0 , (m_height / (i+1))*j );
 		m_hotSpots.append(p);
 		p = new QPoint( m_width, (m_height / (i+1))*j );

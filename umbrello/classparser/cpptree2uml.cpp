@@ -1,5 +1,5 @@
 /***************************************************************************
- *   cpptree2uml.cpp - based on kdevelop/languages/cpp/store_walker.cpp,   *
+ *                     based on kdevelop/languages/cpp/store_walker.cpp,   *
  *		     Copyright (C) 2003 by Roberto Raggi		 *
  *   Copyright (C) 2004 by Oliver Kellogg <okellogg@users.sourceforge.net> *
  *									 *

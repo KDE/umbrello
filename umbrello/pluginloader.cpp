@@ -1,6 +1,4 @@
 /***************************************************************************
-                          pluginloader.cpp
-                             -------------------
     begin                : Mon Jan 13 2003
     copyright            : (C) 2003 by Andrew Sutton
     email                : ansutton@kent.edu
@@ -99,7 +97,7 @@ PluginLoader::loadPlugin(const QString &name)
       _categories[plugin->category()].append(plugin);
     }
   }
-  
+
   // initialize the plugin
   if(success && plugin) {
     success = plugin->init();

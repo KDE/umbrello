@@ -1,6 +1,4 @@
   /***************************************************************************
-                               selecttool.cpp
-                             -------------------
     copyright            : (C) 2003 Luis De la Parra
  ***************************************************************************/
  /***************************************************************************
@@ -40,7 +38,7 @@ SelectTool::~SelectTool()
 { }
 
 void SelectTool::activate()
-{ 
+{
 	setCursor( );
 	view()->setMouseTracking(false);
 	kdDebug()<<"Select tool is now active"<<endl;
@@ -62,7 +60,7 @@ bool SelectTool::mousePressEvent( )
 	{
 		return false;
 	}
-	
+
 	DiagramElement *element = diagram()->firstDiagramElement(currentPos());
 	if( !element )
 	{
@@ -84,7 +82,7 @@ bool SelectTool::mousePressEvent( )
 	return true;
 }
 
-bool SelectTool::mouseReleaseEvent( ) 
+bool SelectTool::mouseReleaseEvent( )
 {kdDebug()<<"SelectTool::mouseReleaseEvent"<<endl;
 	if(m_selectionRect)
 	{
@@ -109,7 +107,7 @@ bool SelectTool::mouseDragEvent( )
 		diagram()->update();
 		return true;
 	}
-		
+
 	if(m_selectionRect)
 	{
 		QPoint diff(currentPos( ) - m_selectFrom);
@@ -126,7 +124,7 @@ bool SelectTool::mouseDragEvent( )
 		int spot = element->isHotSpot( savedPos( ) );
 		kdDebug()<<"hotspot number = "<<spot<<endl;
 		if( spot >= 0 )
-		{ 
+		{
 			element->moveHotSpotBy( spot, diff.x(), diff.y() );
 		}
 		else
@@ -159,7 +157,7 @@ bool SelectTool::mouseDragReleaseEvent( )
 	return true;
 }
 
-bool SelectTool::mouseDblClickEvent( ) 
+bool SelectTool::mouseDblClickEvent( )
 {
 	DiagramElement *element = diagram()->firstDiagramElement( currentPos( ));
 	if( !element )
@@ -173,7 +171,7 @@ bool SelectTool::mouseDblClickEvent( )
 
 // void SelectTool::contextMenu( )
 // {
-// 	
+//
 // }
 
 //all interesting movments are handled by mouseDragEvent -

@@ -1,6 +1,4 @@
 /***************************************************************************
-                          perlwriter.cpp  -  description
-                             -------------------
     begin                : Wed Jan 22 2003
     copyright            : (C) 2003 by David Hugh-Jones
     email                : hughjonesd@yahoo.co.uk
@@ -157,7 +155,7 @@ void PerlWriter::writeClass(UMLClassifier *c) {
 	perl << m_newLineEndingChars;
 
 	//finish file
-	//perl << m_newLineEndingChars << m_newLineEndingChars << "=cut" << m_newLineEndingChars; 
+	//perl << m_newLineEndingChars << m_newLineEndingChars << "=cut" << m_newLineEndingChars;
 	perl << m_newLineEndingChars << m_newLineEndingChars << "return 1;" << m_newLineEndingChars;
 
 	//close files and notify we are done
@@ -224,7 +222,7 @@ void PerlWriter::writeOperations(UMLClassifier *c, QTextStream &perl) {
 
 	if(forceSections() || !opprot.isEmpty()) {
 		perl << m_newLineEndingChars << "=head1 METHODS FOR SUBCLASSING" << m_newLineEndingChars << m_newLineEndingChars ;
-		//perl << "=pod "  << m_newLineEndingChars << m_newLineEndingChars << "=head3 " ;		
+		//perl << "=pod "  << m_newLineEndingChars << m_newLineEndingChars << "=head3 " ;
 		writeOperations(classname,opprot,perl);
 		perl << m_newLineEndingChars << m_newLineEndingChars << "=cut" << m_newLineEndingChars << m_newLineEndingChars;
 	}
@@ -266,7 +264,7 @@ void PerlWriter::writeOperations(QString /* classname */, UMLOperationList &opLi
 	UMLAttributeList *atl;
 	UMLAttribute *at;
 
-	for(op=opList.first(); op ; op=opList.next()) 
+	for(op=opList.first(); op ; op=opList.next())
 	{
 		atl = op -> getParmList();
 		//write method doc if we have doc || if at least one of the params has doc
@@ -282,7 +280,7 @@ void PerlWriter::writeOperations(QString /* classname */, UMLOperationList &opLi
             		perl << "   Parameters :" << m_newLineEndingChars ;
 			for(at = atl->first(); at ; at = atl -> next())  //write parameter documentation
 			{
-				if(forceDoc() || !at->getDoc().isEmpty()) 
+				if(forceDoc() || !at->getDoc().isEmpty())
 				{
 					perl << "      " << at->getTypeName() <<cleanName(at->getName()) << "  " << at->getDoc();
 					perl << m_newLineEndingChars;
@@ -348,13 +346,13 @@ void PerlWriter::writeAttributes(UMLClass *c, QTextStream &perl) {
 }
 
 
-void PerlWriter::writeAttributes(UMLAttributeList &atList, QTextStream &perl) 
+void PerlWriter::writeAttributes(UMLAttributeList &atList, QTextStream &perl)
 {
     	perl << m_newLineEndingChars << "=head1 PUBLIC ATTRIBUTES" << m_newLineEndingChars << m_newLineEndingChars;
 	perl << "=pod "  << m_newLineEndingChars << m_newLineEndingChars ;
-	for (UMLAttribute *at = atList.first(); at ; at = atList.next()) 
+	for (UMLAttribute *at = atList.first(); at ; at = atList.next())
 	{
-		if (forceDoc() || !at->getDoc().isEmpty()) 
+		if (forceDoc() || !at->getDoc().isEmpty())
 		{
 	            perl  << "=head3 " << cleanName(at->getName()) << m_newLineEndingChars << m_newLineEndingChars ;
 		    perl  << "   Description : " << at->getDoc() << m_newLineEndingChars << m_newLineEndingChars;
@@ -628,7 +626,7 @@ const QPtrList<const char *> * PerlWriter::getReservedKeywords() {
   {
     pListOfReservedKeywords = convertListOfReservedKeywords(ReservedKeywords);
   }
- 
+
   return pListOfReservedKeywords;
 }
 

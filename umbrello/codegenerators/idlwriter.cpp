@@ -1,6 +1,4 @@
 /***************************************************************************
-                          idlwriter.cpp  -  description
-                             -------------------
     begin                : Sat Jan 4 2003
     copyright            : (C) 2003 by Oliver Kellogg
     email                : okellogg@users.sourceforge.net
