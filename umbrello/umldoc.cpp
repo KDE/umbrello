@@ -17,6 +17,7 @@
 // qt includes
 #include <qpainter.h>
 #include <qtimer.h>
+#include <qdatetime.h>
 #include <qbuffer.h>
 #include <qdir.h>
 #include <qregexp.h>
@@ -1746,7 +1747,8 @@ void UMLDoc::saveToXMI(QIODevice& file) {
 
 	QDomElement root = doc.createElement( "XMI" );
 	root.setAttribute( "xmi.version", "1.2" );
-	root.setAttribute( "timestamp", "");
+	QDateTime now = QDateTime::currentDateTime();
+	root.setAttribute( "timestamp", now.toString(Qt::ISODate));
 	root.setAttribute( "verified", "false");
 	root.setAttribute( "xmlns:UML", "http://schema.omg.org/spec/UML/1.3");
 	doc.appendChild( root );
