@@ -824,6 +824,11 @@ public:
 	 * Loads the <diagram> tag.
 	 */
 	virtual bool loadFromXMI( QDomElement & qElement );
+ 
+	/**
+	 * Loads the <UISDiagram> tag of Unisys.JCR.1 generated files.
+	 */
+ 	bool uisLoadFromXMI(QDomElement & qElement);
 
 	/**
 	 * Loads a <widget> element such as <UML:Class>, used by loadFromXMI() and the clipboard.

@@ -110,6 +110,11 @@ public:
 	void removeView(UMLView *view , bool enforceOneView = true );
 
 	/**
+	 * Sets m_nViewID.
+	 */
+	void setMainViewID(Uml::IDType viewID);
+
+	/**
 	 * Sets the modified flag for the document after a modifying
 	 * action on the view connected to the document.
 	 *

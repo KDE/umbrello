@@ -2158,6 +2158,10 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element) {
 	return true;
 }
 
+void UMLDoc::setMainViewID(Uml::IDType viewID) {
+	m_nViewID = viewID;
+}
+
 void UMLDoc::loadExtensionsFromXMI(QDomNode& node) {
 	QDomElement element = node.toElement();
 	QString tag = element.tagName();
@@ -2171,8 +2175,12 @@ void UMLDoc::loadExtensionsFromXMI(QDomNode& node) {
 		m_uniqueID = uniqueid.toInt();
 		UMLApp::app()->getDocWindow() -> newDocumentation();
 
-	} else if (tag == "diagrams") {
+	} else if (tag == "diagrams" || tag == "UISModelElement") {
 		QDomNode diagramNode = node.firstChild();
+		if (tag == "UISModelElement") {                  // Unisys.JCR.1
+			kdDebug() << "encountering a UISModelElement" << endl;
+			diagramNode = diagramNode.firstChild();  // uisOwnedDiagram
+		}
 		if( !loadDiagramsFromXMI( diagramNode ) ) {
 			kdWarning() << "failed load on diagrams" << endl;
 		}
@@ -2246,14 +2254,21 @@ bool UMLDoc::loadDiagramsFromXMI( QDomNode & node ) {
 	UMLView * pView = 0;
 	int count = 0;
 	while( !element.isNull() ) {
-		if( element.tagName() == "diagram" ) {
+		QString tag = element.tagName();
+		if (tag == "diagram" || tag == "UISDiagram") {
 			pView = new UMLView();
 			// IMPORTANT: Set OptionState of new UMLView _BEFORE_
 			// reading the corresponding diagram:
 			// + allow using per-diagram color and line-width settings
 			// + avoid crashes due to uninitialized values for lineWidth
 			pView -> setOptionState( state );
-			if( !pView->loadFromXMI( element ) ) {
+			bool success = false;
+			if (tag == "UISDiagram") {
+				success = pView->uisLoadFromXMI(element);
+			} else {
+				success = pView->loadFromXMI(element);
+			}
+			if (!success) {
 				kdWarning() << "failed load on viewdata loadfromXMI" << endl;
 				delete pView;
 				return false;
