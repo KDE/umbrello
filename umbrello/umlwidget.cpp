@@ -692,6 +692,7 @@ void UMLWidget::adjustAssocs(int x, int y)
 
 void UMLWidget::startPopupMenu(QPoint At) {
 	slotRemovePopupMenu();
+
 	//if in a multi- selection to a specific m_pMenu for that
 	int count = m_pView -> getSelectCount();
 	//a MessageWidget when selected will select its text widget and vice versa
@@ -785,6 +786,10 @@ void UMLWidget::setSelected(bool _select) {
 	}
 	m_bSelected = _select;
 	update();
+
+	/* selection changed, we have to make sure the copy and paste items
+	 * are correctly enabled/disabled */
+	UMLApp::app()->slotCopyChanged();
 }
 
 void UMLWidget::slotClearAllSelected()

@@ -967,6 +967,10 @@ void UMLView::setSelected(UMLWidget * w, QMouseEvent * /*me*/) {
 	// if count == 1, widget will update the doc window with their data when selected
 	if( count == 2 )
 		updateDocumentation( true );//clear doc window
+
+	/* selection changed, we have to make sure the copy and paste items
+	 * are correctly enabled/disabled */
+	UMLApp::app()->slotCopyChanged();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLView::clearSelected() {
