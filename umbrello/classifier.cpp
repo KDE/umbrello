@@ -73,9 +73,12 @@ int UMLClassifier::removeOperation(UMLObject *o) {
 		kdDebug() << "can't find opp given in list" << endl;
 		return -1;
 	}
+	// disconnection needed? operationRemoved signal will triggler UMLDoc to delete it
+	// which will also (naturally) disconnect the operation from this object) -b.t. 
+	// disconnect(o,SIGNAL(modified()),this,SIGNAL(modified()));
 	emit operationRemoved(o);
 	emit modified();
-	disconnect(o,SIGNAL(modified()),this,SIGNAL(modified()));
+	delete o;
 	return m_OpsList.count();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////

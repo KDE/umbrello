@@ -63,7 +63,7 @@ UMLDoc::UMLDoc(QWidget *parent, const char *name) : QObject(parent, name) {
 	uniqueID = 0;
 	m_currentcodegenerator = 0;
 	objectList.clear();
-	objectList.setAutoDelete(true);
+	objectList.setAutoDelete(false); // DONT autodelete
 	diagrams.setAutoDelete(true);
 	m_ViewList.setAutoDelete(true);
 
@@ -768,9 +768,13 @@ UMLObject* UMLDoc::createOperation(UMLClassifier* classifier) {
 		kdWarning() << "creating operation for something which isn't a class or an interface" << endl;
 		return NULL;
 	}
+
 	int id = getUniqueID();
 	QString currentName = classifier->uniqChildName(Uml::ot_Operation);
+/*
 	newOperation = new UMLOperation(classifier, currentName, id);
+*/
+	newOperation = (UMLOperation*) classifier->addOperation(currentName, id);
 
 	int button = QDialog::Accepted;
 	bool goodName = false;
@@ -791,12 +795,14 @@ UMLObject* UMLDoc::createOperation(UMLClassifier* classifier) {
 		return NULL;
 	}
 
-	classifier->addOperation(newOperation);
+	//classifier->addOperation(newOperation);
 
 	// addUMLObject(newOperation);
 
-	setModified(true);
-	emit sigObjectCreated(newOperation);
+	if(newOperation) {
+		setModified(true);
+		emit sigObjectCreated(newOperation);
+	}
 
 	return newOperation;
 }
@@ -1122,7 +1128,6 @@ void UMLDoc::removeUMLObject(UMLObject *o) {
 	emit sigObjectRemoved(o);
 	if (type == ot_Operation) {
 		p->removeOperation(o);
-		delete o;
 	} else if (type == ot_Attribute) {
 		UMLClass *pClass = dynamic_cast<UMLClass *>(p);
 		if(pClass)

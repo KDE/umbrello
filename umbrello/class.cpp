@@ -83,7 +83,10 @@ int UMLClass::removeAttribute(UMLObject* a) {
 	}
 	emit attributeRemoved(a);
 	emit modified();
-	disconnect(a,SIGNAL(modified()),this,SIGNAL(modified()));
+	// If we are deleteing the object, then we dont need to disconnect..this is done auto-magically
+	// for us by QObject. -b.t.
+	// disconnect(a,SIGNAL(modified()),this,SIGNAL(modified()));
+	delete a;
 	return m_AttsList.count();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
