@@ -150,10 +150,17 @@ void UMLRole::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 				roleElement.setAttribute("aggregation", "none");
 				break;
 		}
-	} else {
 		if (m_pAssoc->getAssocType() == Uml::at_UniAssociation) {
+			// Normally the isNavigable attribute is "true".
+			// We set it to false on role A to indicate that
+			// role B gets an explicit arrowhead.
+			roleElement.setAttribute("isNavigable", "false");
+		} else {
 			roleElement.setAttribute("isNavigable", "true");
 		}
+	} else {
+		roleElement.setAttribute("aggregation", "none");
+		roleElement.setAttribute("isNavigable", "true");
 		//FIXME obviously this isn't standard XMI
 		if (m_pAssoc->getAssocType() == Uml::at_Relationship) {
 			roleElement.setAttribute("relationship", "true");
@@ -314,19 +321,28 @@ bool UMLRole::load( QDomElement & element ) {
 			m_pAssoc->setAssocType(Uml::at_Association);  */
 	}
 
-	if (element.hasAttribute("isNavigable")) {
-		/* Role B:
-		   If isNavigable is not given, we make no change to the
-		   association type.
-		   If isNavigable is given, and is "true", then we assume that
-		   the association's other end (role A) is not navigable, and
-		   therefore we change the association type to UniAssociation.
-		   The case that isNavigable is given as "false" is ignored.
-		   Combined with the association type logic for role A, this
-		   allows us to support at_Association and at_UniAssociation.
+	if (!element.hasAttribute("isNavigable")) {
+		/* Backward compatibility mode: In Umbrello version 1.3.x the
+		   logic for saving the isNavigable flag was wrong.
+		   May happen on loading role A.
+		 */
+		m_pAssoc->setOldLoadMode(true);
+	} else if (m_pAssoc->getOldLoadMode() == true) {
+		/* Here is the original logic:
+		   " Role B:
+		     If isNavigable is not given, we make no change to the
+		     association type.
+		     If isNavigable is given, and is "true", then we assume that
+		     the association's other end (role A) is not navigable, and
+		     therefore we change the association type to UniAssociation.
+		     The case that isNavigable is given as "false" is ignored.
+		     Combined with the association type logic for role A, this
+		     allows us to support at_Association and at_UniAssociation. "
 		 */
 		if (element.attribute("isNavigable") == "true")
 			m_pAssoc->setAssocType(Uml::at_UniAssociation);
+	} else if (element.attribute("isNavigable") == "false") {
+		m_pAssoc->setAssocType(Uml::at_UniAssociation);
 	}
 
 	//FIXME not standard XMI

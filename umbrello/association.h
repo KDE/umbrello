@@ -24,7 +24,8 @@ class UMLRole;
 
 /**
  * This class contains the non-graphic representation of an association.
- * An association can be a generalization, aggregation, or composition.
+ * An association can be a generalization, realization, simple association,
+ * directed association, aggregation, or composition.
  *
  * @short Sets up association information.
  * @author Oliver Kellogg <okellogg@users.sourceforge.net>
@@ -213,6 +214,18 @@ public:
 	UMLRole * getUMLRole(Uml::Role_Type role);
 
 	/**
+	 * Set backward compatibility flag for loading version 1.3.x files.
+	 * This flag is necessary because the handling of the isNavigable
+	 * attribute of <AssociationEnd> was incorrect.
+	 */
+	void setOldLoadMode(bool value = true);
+
+	/**
+	 * Return the backward compatibility flag for loading files.
+	 */
+	bool getOldLoadMode() const;
+
+	/**
 	 * Make a clone of this object.
 	 * Cloning associations is not supported yet.
 	 */
@@ -268,7 +281,7 @@ protected:
 
 	Uml::Association_Type m_AssocType;
 	QString m_Name;
-
+	bool m_bOldLoadMode;
 };
 
 #endif

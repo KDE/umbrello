@@ -162,6 +162,7 @@ void UMLAssociation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	if (m_AssocType == Uml::at_Generalization ||
 	    m_AssocType == Uml::at_Realization) {
 		QDomElement assocElement = UMLObject::save("UML:Generalization", qDoc);
+		assocElement.setAttribute( "discriminator", "" );
 		assocElement.setAttribute( "child", ID2STR(getObjectId(A)) );
 		assocElement.setAttribute( "parent", ID2STR(getObjectId(B)) );
 		qElement.appendChild( assocElement );
@@ -490,6 +491,14 @@ UMLRole * UMLAssociation::getUMLRole(Role_Type role) {
 	return m_pRole[role];
 }
 
+void UMLAssociation::setOldLoadMode(bool value /* = true */) {
+	m_bOldLoadMode = value;
+}
+
+bool UMLAssociation::getOldLoadMode() const {
+	return m_bOldLoadMode;
+}
+
 void UMLAssociation::setAssocType(Uml::Association_Type assocType) {
 	m_AssocType = assocType;
 	if(m_AssocType == at_UniAssociation)
@@ -546,6 +555,7 @@ void UMLAssociation::init(Association_Type type, UMLObject *roleAObj, UMLObject 
 	m_AssocType = type;
 	m_BaseType = ot_Association;
 	m_Name = "";
+	m_bOldLoadMode = false;
 	nrof_parent_widgets = -1;
 
 	m_pRole[Uml::A] = new UMLRole (this, roleAObj, Uml::A);
