@@ -83,9 +83,9 @@ protected:
 	QListBox * m_pParmsLB;
 	QButtonGroup * m_pScopeBG;
 	QRadioButton * m_pPublicRB, * m_pPrivateRB,  * m_pProtectedRB;
-	QLabel * m_pRtypeL, * m_pNameL;
+	QLabel * m_pRtypeL, * m_pNameL, * m_pStereoTypeL;
 	KComboBox * m_pRtypeCB;
-	KLineEdit * m_pNameLE;
+	KLineEdit * m_pNameLE, * m_pStereoTypeLE;
 	QCheckBox * m_pAbstractCB;
 	QCheckBox * m_pStaticCB;
 	QPushButton* m_pDeleteButton;

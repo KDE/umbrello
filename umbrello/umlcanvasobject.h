@@ -152,9 +152,12 @@ public:
 	 *
 	 * @param t		The type to find.
 	 * @param n		The name of the object to find.
+	 * @param seekStereo	Set this true if we should look at the object's
+	 *			stereotype instead of its name.
 	 * @return	List of objects found (empty if none found.)
 	 */
-	virtual UMLObjectList findChildObject(UMLObject_Type t, QString n);
+	virtual UMLObjectList findChildObject(UMLObject_Type t, QString n,
+					      bool seekStereo = false);
 
 	/**
 	 * Find an association.
@@ -170,9 +173,12 @@ public:
 	 * taken e.g. new_association, new_association_1 etc.
 	 *
 	 * @param type		The object type for which to make a name.
+	 * @param seekStereo	Set this true if we should look at the object's
+	 *			stereotype instead of its name.
 	 * @return	Unique name string for the UMLObject_Type given.
 	 */
-	virtual QString uniqChildName(const UMLObject_Type type);
+	virtual QString uniqChildName(const UMLObject_Type type,
+				      bool seekStereo = false);
 
 	// The abstract method UMLObject::saveToXMI() is implemented
 	// in the classes inheriting from UMLCanvasObject.

@@ -37,10 +37,12 @@ ClassifierCodeDocument::ClassifierCodeDocument ( UMLClassifier * parent , CodeGe
 
 ClassifierCodeDocument::~ClassifierCodeDocument ( )
 {
-	//FIXME this causes a crash sometimes
+	/*FIXME this causes a crash sometimes
 	for (CodeClassField * cf = m_classfieldVector.first(); cf; cf = m_classfieldVector.next())  {
 	       delete cf;
 	}
+	 **** TEMPORARY workaround: */
+	m_classfieldVector.clear();
 }
 
 //

@@ -16,7 +16,6 @@
 #include "umlclassifierlistitemlist.h"
 
 class IDChangeLog;
-class UMLStereotype;
 
 /**
  * This is an abstract class which defines the non-graphical information/
@@ -136,41 +135,11 @@ public:
 	UMLOperation* takeOperation(UMLOperation* o);
 
 	/**
-	 * Add an already created stereotype to the list identified by the
-	 * UMLObject_Type.
-	 *
-	 * @param newStereotype	Pointer to the UMLStereotype to add.
-	 * @param list		Object type giving the list on which to add.
-	 * @param log		Pointer to the IDChangeLog.
-	 * @return	True if the stereotype was successfully added.
-	 */
-	virtual bool addStereotype(UMLStereotype* newStereotype, UMLObject_Type list, IDChangeLog* log = 0);
-
-
-	/**
-	 * Remove a stereotype from the Classifier.
-	 * The stereotype is not deleted so the caller is responsible for what
-	 * happens to it after this.
-	 *
-	 * @param stype    The stereotype to remove.
-	 * @return      Count of the remaining stereotypes after removal, or
-	 *              -1 if the given operation was not found.
-	 */
-	int removeStereotype (UMLStereotype *stype);
-
-	/**
 	 * counts the number of operations in the Classifier.
 	 *
 	 * @return	The number of operations for the Classifier.
 	 */
 	int operations();
-
-	/**
-	 * counts the number of stereotypes in the Classifier.
-	 *
-	 * @return	The number of stereotypes for the Classifier.
-	 */
-	int stereotypes();
 
 	/**
 	 * Return a list of operations for the Classifier.
@@ -188,25 +157,17 @@ public:
 	UMLOperationList getFilteredOperationsList(bool includeInherited = false);
 
 	/**
-	 * Returns a name for the new association, operation, template
-	 * or attribute appended with a number if the default name is
-	 * taken e.g. new_association, new_association_1 etc.
-	 * The classes inheriting from UMLClassifier must implement this method.
-	 *
-	 * @param type		The object type for which to generate a name.
-	 * @return	Unique name for the UMLObject_Type given.
-	 */
-	virtual QString uniqChildName(const UMLObject_Type type) = 0;
-
-	/**
 	 * Find a list of attributes, operations, associations or
 	 * templates with the given name.
 	 *
 	 * @param t		The type to find.
 	 * @param n		The name of the object to find.
+	 * @param seekStereo	Set this true if we should look at the object's
+	 *			stereotype instead of its name.
 	 * @return	The list of objects found; will be empty if none found.
 	 */
-	virtual UMLObjectList findChildObject(UMLObject_Type t, QString n);
+	virtual UMLObjectList findChildObject(UMLObject_Type t, QString n,
+					      bool seekStereo = false);
 
 	/**
 	 * Find an attribute, operation, association or template.
@@ -272,16 +233,6 @@ signals:
 	 * The signal is emitted in addition to the generic childObjectRemoved()
 	 */
 	void operationRemoved(UMLOperation *);
-
-	/** Signals that a new UMLStereotype has been added to the classifer.
-	 * The signal is emitted in addition to the generic childObjectAdded()
-	 */
-	void stereotypeAdded (UMLStereotype *);
-
-	/** Signals that a UMLStereotype has been removed from the classifer.
-	 * The signal is emitted in addition to the generic childObjectRemoved()
-	 */
-	void stereotypeRemoved(UMLStereotype *);
 
 protected:
 

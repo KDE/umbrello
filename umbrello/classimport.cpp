@@ -70,7 +70,9 @@ UMLObject *ClassImport::createUMLObject(Uml::UMLObject_Type type,
 		o->setDoc(strippedComment);
 		UMLApp::app()->getDocWindow()->showDocumentation(o, true);
 	}
-	o->setStereotype(stereotype);
+	if (!stereotype.isEmpty()) {
+		o->setStereotype(stereotype);
+	}
 	return o;
 }
 

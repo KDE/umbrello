@@ -97,9 +97,9 @@ private:
 	QGroupBox * m_pParmGB, * m_pDocGB;
 	QButtonGroup *m_pKind;
 	QRadioButton * m_pIn, * m_pOut, *m_pInOut;
-	QLabel * m_pTypeL, * m_pNameL, * m_pInitialL;
+	QLabel * m_pTypeL, * m_pNameL, * m_pInitialL, * m_pStereoTypeL;
 	QComboBox * m_pTypeCB;
-	QLineEdit * m_pNameLE, * m_pInitialLE;
+	QLineEdit * m_pNameLE, * m_pInitialLE, * m_pStereoTypeLE;
 	QMultiLineEdit * m_pDoc;
 	UMLDoc * m_pUmldoc;
 	UMLAttribute * m_pAtt;

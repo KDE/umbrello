@@ -128,52 +128,21 @@ UMLOperation* UMLClassifier::takeOperation(UMLOperation* o) {
 	}
 	return 0;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
-bool UMLClassifier::addStereotype(UMLStereotype* newStereotype, UMLObject_Type list, IDChangeLog* log /* = 0*/) {
-	QString name = newStereotype->getName();
-	if (findChildObject(Uml::ot_Template, name).count() == 0) {
-		if(newStereotype->parent())
-			newStereotype->parent()->removeChild(newStereotype);
-		this->insertChild(newStereotype);
-		// What is this?? do we really want to store stereotypes in opsList?!?? -b.t.
-#ifdef __GNUC__
-#warning "addStereotype method needs review..conflicts with set/getStereoType in umlobject aswell as opList storage issues"
-#endif
-		if (list == ot_Operation) {
-			m_OpsList.append(newStereotype);
-			emit modified();
-			emit childObjectAdded(newStereotype);
-			emit stereotypeAdded(newStereotype);
-			connect(newStereotype, SIGNAL(modified()), this, SIGNAL(modified()));
-		} else {
-			kdWarning() << "unknown list type in addStereotype()" << endl;
-		}
-		return true;
-	} else if (log) {
-		log->removeChangeByNewID( newStereotype->getID() );
-		delete newStereotype;
-	}
-	return false;
-}
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
-int UMLClassifier::removeStereotype(UMLStereotype * /* stype*/) {
-#ifdef __GNUC__
-#warning "removeStereotype method not implemented yet"
-#endif
-	kdError() << "can't find stereotype given in list" << endl;
-	return -1;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLObjectList UMLClassifier::findChildObject(UMLObject_Type t , QString n) {
+UMLObjectList UMLClassifier::findChildObject(UMLObject_Type t , QString n,
+					     bool seekStereo /* = false */) {
 	UMLObjectList list;
 	if (t == ot_Association) {
 		return UMLCanvasObject::findChildObject(t, n);
 	} else if (t == ot_Operation) {
 		UMLClassifierListItem* obj=0;
 		for(obj=m_OpsList.first();obj != 0;obj=m_OpsList.next()) {
-			if(obj->getBaseType() == t && obj -> getName() == n)
+			if (obj->getBaseType() != t)
+				continue;
+			if (seekStereo) {
+				if (obj->getStereotype() == n)
+					list.append( obj );
+			} else if (obj->getName() == n)
 				list.append( obj );
 		}
 	} else {

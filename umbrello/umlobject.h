@@ -20,6 +20,7 @@
 using namespace Uml;
 
 class kdbgstream;
+class UMLStereotype;
 
 /**
  * This class is the non-graphical version of @ref UMLWidget.  These are
@@ -41,14 +42,14 @@ public:
 	 * @param name		The name of the object.
 	 * @param id		The ID of the object.
 	 */
-	UMLObject(UMLObject * parent, const QString &name, int id);
+	UMLObject(const UMLObject * parent, const QString &name, int id);
 
 	/**
 	 * Creates a UMLObject.
 	 *
 	 * @param	parent		The parent of the object.
 	 */
-	UMLObject(UMLObject * parent);
+	UMLObject(const UMLObject * parent);
 
 	/**
 	 * Creates a UMLObject with a given name and unique ID.
@@ -123,11 +124,23 @@ public:
 	void setScope(Scope s);
 
 	/**
-	 * Sets the classes Stereotype.
+	 * Sets the classes stereotype name.
+	 * Internally uses setUMLStereotype().
 	 *
-	 * @param _name	Sets the classes Stereotype name.
+	 * @param _name	Sets the classes stereotype name.
 	 */
 	void setStereotype(QString _name);
+
+	/**
+	 * Sets the class' UMLStereotype. Adjusts the reference counts
+	 * at the previously set stereotype and at the new stereotype.
+	 * If the previously set UMLStereotype's reference count drops
+	 * to zero then the UMLStereotype is removed at the UMLDoc and
+	 * it is then physically deleted.
+	 *
+	 * @param s	Sets the classes UMLStereotype.
+	 */
+	void setUMLStereotype(UMLStereotype *s);
 
 	/**
 	 * Sets the classes Package.
@@ -145,9 +158,17 @@ public:
 	void setUMLPackage(UMLPackage* pPkg);
 
 	/**
-	 * Returns the classes Stereotype.
+	 * Returns the classes UMLStereotype object.
 	 *
-	 * @return	Returns the classes Stereotype.
+	 * @return	Returns the classes UMLStereotype object.
+	 */
+	const UMLStereotype * getUMLStereotype();
+
+	/**
+	 * Returns the classes stereotype name.
+	 * Returns an empty string if no stereotype object is set.
+	 *
+	 * @return	Returns the classes stereotype name.
 	 */
 	QString getStereotype();
 
@@ -344,7 +365,7 @@ protected:
 	/**
 	 * The stereotype of the object if applicable.
 	 */
-	QString m_Stereotype;
+	UMLStereotype* m_pStereotype;
 
 	/**
 	 * The objects name.

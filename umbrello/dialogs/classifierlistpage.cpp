@@ -80,7 +80,6 @@ ClassifierListPage::ClassifierListPage(QWidget* parent, UMLClassifier* classifie
 	m_pDeleteListItemButton = buttonBox->addButton( i18n("&Delete"),
 							  this, SLOT(slotDelete()) );
 	m_pPropertiesButton = buttonBox->addButton( i18n("&Properties"), this, SLOT(slotProperties()) );
-	buttonBox->addButton( i18n("Ne&w Stereotype..."), this, SLOT(slotNewStereotype()) );
 	listVBoxLayout->addWidget(buttonBox);
 
 	mainLayout->addWidget(m_pItemListGB);
@@ -387,12 +386,6 @@ void ClassifierListPage::slotNewListItem() {
 	saveCurrentItemDocumentation();
 	m_bSigWaiting = true;
 	m_pDoc->createChildObject(m_pClassifier, itemType);
-}
-
-void ClassifierListPage::slotNewStereotype() {
-	saveCurrentItemDocumentation();
-	m_bSigWaiting = true;
-	m_pDoc->createStereotype(m_pClassifier, itemType);
 }
 
 void ClassifierListPage::saveCurrentItemDocumentation() {

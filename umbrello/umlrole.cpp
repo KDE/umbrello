@@ -16,7 +16,7 @@
 
 // constructor
 UMLRole::UMLRole(UMLAssociation * parent, UMLObject * parentObj, int roleID)
-    : UMLObject((UMLObject *)parent)
+    : UMLObject(const_cast<UMLAssociation*>(parent))
 {
 	init(parent, parentObj, roleID);
 }

@@ -26,7 +26,8 @@
 #include <qradiobutton.h>
 #include <qlabel.h>
 
-UMLAttributeDialog::UMLAttributeDialog( QWidget * pParent, UMLAttribute * pAttribute ) : KDialogBase( Plain, i18n("Attribute Properties"), Help | Ok | Cancel , Ok, pParent, "_UMLATTRIBUTEDLG_", true, true) {
+UMLAttributeDialog::UMLAttributeDialog( QWidget * pParent, UMLAttribute * pAttribute )
+  : KDialogBase( Plain, i18n("Attribute Properties"), Help | Ok | Cancel , Ok, pParent, "_UMLATTRIBUTEDLG_", true, true) {
 	m_pAttribute = pAttribute;
 	setupDialog();
 }
@@ -34,14 +35,13 @@ UMLAttributeDialog::UMLAttributeDialog( QWidget * pParent, UMLAttribute * pAttri
 UMLAttributeDialog::~UMLAttributeDialog() {}
 
 void UMLAttributeDialog::setupDialog() {
-	UMLClassifier * pConcept = dynamic_cast<UMLClassifier *>( m_pAttribute -> parent() );
-	UMLDoc * pDoc = dynamic_cast<UMLDoc *>( pConcept -> parent() );
+	UMLDoc * pDoc = UMLApp::app()->getDocument();
 	int margin = fontMetrics().height();
 
 	QVBoxLayout * mainLayout = new QVBoxLayout( plainPage() );
 
 	m_pValuesGB = new QGroupBox(i18n("General Properties"), plainPage() );
-	QGridLayout * valuesLayout = new QGridLayout(m_pValuesGB, 4, 2);
+	QGridLayout * valuesLayout = new QGridLayout(m_pValuesGB, 5, 2);
 	valuesLayout -> setMargin(margin);
 	valuesLayout -> setSpacing(10);
 
@@ -64,9 +64,18 @@ void UMLAttributeDialog::setupDialog() {
 	m_pInitialLE = new KLineEdit(m_pValuesGB);
 	valuesLayout -> addWidget(m_pInitialLE, 2, 1);
 
+	m_pStereoTypeL = new QLabel(i18n("Stereotype name:"), m_pValuesGB);
+	valuesLayout -> addWidget(m_pStereoTypeL, 3, 0);
+
+	m_pStereoTypeLE = new KLineEdit(m_pValuesGB);
+	valuesLayout -> addWidget(m_pStereoTypeLE, 3, 1);
+
+	m_pStereoTypeLE -> setText(m_pAttribute -> getStereotype());
+	m_pStereoTypeL->setBuddy(m_pStereoTypeLE);
+
 	m_pStaticCB = new QCheckBox( i18n("Classifier &scope (\"static\")"), m_pValuesGB );
 	m_pStaticCB -> setChecked( m_pAttribute -> getStatic() );
-	valuesLayout -> addWidget(m_pStaticCB, 3, 0);
+	valuesLayout -> addWidget(m_pStaticCB, 4, 0);
 
 	m_pTypeL->setBuddy(m_pTypeCB);
 	m_pNameL->setBuddy(m_pNameLE);
@@ -163,6 +172,8 @@ bool UMLAttributeDialog::apply() {
 		m_pNameLE->setText( m_pAttribute->getName() );
 		return false;
 	}
+
+	m_pAttribute->setStereotype( m_pStereoTypeLE->text() );
 
 	UMLObjectList list= pConcept->findChildObject(Uml::ot_Attribute, name);
 	if( list.count() != 0 && list.findRef( m_pAttribute ) ) {

@@ -59,11 +59,6 @@ public:
 	virtual UMLObject* clone() const;
 
 	/**
-	 * Empty, just calls parent method
-	 */
-	virtual QString uniqChildName(const UMLObject_Type type);
-
-	/**
 	 * Creates the <UML:DataType> XMI element.
 	 */
 	void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);

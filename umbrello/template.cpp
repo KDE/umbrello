@@ -11,13 +11,13 @@
 #include "dialogs/umltemplatedialog.h"
 #include <kdebug.h>
 
-UMLTemplate::UMLTemplate(UMLObject *parent, QString name, int id, QString type)
+UMLTemplate::UMLTemplate(const UMLObject *parent, QString name, int id, QString type)
   : UMLClassifierListItem( parent, name, id ) {
 	m_TypeName = type;
 	m_BaseType = ot_Template;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLTemplate::UMLTemplate(UMLObject *parent)
+UMLTemplate::UMLTemplate(const UMLObject *parent)
   : UMLClassifierListItem( parent ) {
 	m_BaseType = ot_Template;
 	m_TypeName = "";

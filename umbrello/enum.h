@@ -62,13 +62,6 @@ public:
 	virtual UMLObject* clone() const;
 
 	/**
-	 * Returns a name for the new enumliteral
-	 * appended with a number if the default name is
-	 * taken e.g. new_literal, new_literal_1 etc
-	 */
-	virtual QString uniqChildName(const UMLObject_Type type);
-
-	/**
 	 * Creates the <UML:Enum> element including its enumliterals.
 	 */
 	virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
@@ -150,9 +143,12 @@ public:
 	 *
 	 * @param t		The type to find.
 	 * @param n		The name of the object to find.
+	 * @param seekStereo	Set this true if we should look at the object's
+	 *			stereotype instead of its name.
 	 * @return	List of objects found.  Will be empty if none found.
 	 */
-	 virtual UMLObjectList findChildObject(UMLObject_Type t, QString n);
+	 virtual UMLObjectList findChildObject(UMLObject_Type t, QString n,
+	 				       bool seekStereo = false);
 
 	/**
 	 * Find an enumliteral
@@ -161,17 +157,6 @@ public:
 	 * @return	Pointer to the object found; NULL if not found.
 	 */
 	virtual UMLObject* findChildObject(int id);
-
-	/**
-	 * Add an already created stereotype to the list identified by the
-	 * given UMLObject_type.
-	 *
-	 * @param newStereotype	Pointer to the UMLStereotype to add.
-	 * @param list		The object type for the list on which to add.
-	 * @param log		Pointer to the IDChangeLog.
-	 * @return	True if the newStereotype was successfully added.
-	 */
-	virtual bool addStereotype(UMLStereotype* newStereotype, UMLObject_Type list, IDChangeLog* log = 0);
 
 signals:
 	void enumLiteralAdded(UMLObject*);

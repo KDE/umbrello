@@ -13,6 +13,7 @@
 #include "attribute.h"
 #include "operation.h"
 #include "template.h"
+#include "stereotype.h"
 #include "clipboard/idchangelog.h"
 #include <kdebug.h>
 #include <klocale.h>
@@ -62,13 +63,25 @@ int UMLCanvasObject::removeAssociation(UMLAssociation * assoc) {
 	emit sigAssociationRemoved(assoc);
 	return m_AssocsList.count();
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
-QString UMLCanvasObject::uniqChildName(const UMLObject_Type type) {
+
+QString UMLCanvasObject::uniqChildName( const UMLObject_Type type,
+					bool seekStereo /* = false */ ) {
 	QString currentName;
-	if (type == ot_Association) {
+	if (seekStereo) {
+		currentName = i18n("new_stereotype");
+	} else if (type == ot_Association) {
 		currentName = i18n("new_association");
+	} else if (type == ot_Attribute) {
+		currentName = i18n("new_attribute");
+	} else if (type == ot_Template) {
+		currentName = i18n("new_template");
+	} else if (type == ot_Operation) {
+		currentName = i18n("new_operation");
+	} else if (type == ot_EnumLiteral) {
+		currentName = i18n("new_literal");
 	} else {
-		kdWarning() << "uniqChildName() called for unknown child type" << endl;
+		kdWarning() << "uniqChildName() called for unknown child type " << type << endl;
+		return "ERROR_in_UMLCanvasObject_uniqChildName";
 	}
 
 	QString name = currentName;
@@ -77,13 +90,19 @@ QString UMLCanvasObject::uniqChildName(const UMLObject_Type type) {
 	}
 	return name;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLObjectList UMLCanvasObject::findChildObject(UMLObject_Type t, QString n) {
+
+UMLObjectList UMLCanvasObject::findChildObject(UMLObject_Type t, QString n,
+					       bool seekStereo /* = false */) {
 	UMLObjectList list;
 	if (t == ot_Association) {
 		UMLAssociation * obj=0;
 		for (obj = m_AssocsList.first(); obj != 0; obj = m_AssocsList.next()) {
-			if (obj->getBaseType() == t && obj -> getName() == n)
+			if (obj->getBaseType() != t)
+				continue;
+			if (seekStereo) {
+				if (obj->getStereotype() == n)
+					list.append( obj );
+			} else if (obj->getName() == n)
 				list.append( obj );
 		}
 	} else {
@@ -91,7 +110,7 @@ UMLObjectList UMLCanvasObject::findChildObject(UMLObject_Type t, QString n) {
 	}
 	return list;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 UMLObject* UMLCanvasObject::findChildObject(int id) {
 	UMLAssociation * asso = 0;
 	for (asso = m_AssocsList.first(); asso != 0; asso = m_AssocsList.next()) {

@@ -39,7 +39,7 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a)
 	m_pParmGB = new QGroupBox(i18n("Properties"), plainPage());
 	topLayout -> addWidget(m_pParmGB);
 
-	QGridLayout * propLayout = new QGridLayout(m_pParmGB, 3, 2);
+	QGridLayout * propLayout = new QGridLayout(m_pParmGB, 4, 2);
 	propLayout -> setSpacing(10);
 	propLayout -> setMargin(margin);
 
@@ -65,6 +65,15 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a)
 	m_pInitialLE -> setText(initialValue);
 	propLayout -> addWidget(m_pInitialLE, 2, 1);
 	m_pInitialL->setBuddy(m_pInitialLE);
+
+	m_pStereoTypeL = new QLabel(i18n("&Stereotype name:"), m_pParmGB);
+	propLayout -> addWidget(m_pStereoTypeL, 3, 0);
+
+	m_pStereoTypeLE = new QLineEdit(m_pParmGB);
+	propLayout -> addWidget(m_pStereoTypeLE, 3, 1);
+
+	m_pStereoTypeLE -> setText( m_pAtt->getStereotype() );
+	m_pStereoTypeL->setBuddy(m_pStereoTypeLE);
 
 	m_pKind =  new QButtonGroup(i18n("Kind"), plainPage());
 	m_pKind->setExclusive(true);
@@ -160,8 +169,10 @@ Uml::Parameter_Kind ParmPropDlg::getParmKind() {
 }
 
 void ParmPropDlg::slotOk() {
-	if (m_pAtt != NULL)
+	if (m_pAtt != NULL) {
 		m_pAtt->setParmKind( getParmKind() );
+		m_pAtt->setStereotype( m_pStereoTypeLE->text() );
+	}
 	accept();
 }
 

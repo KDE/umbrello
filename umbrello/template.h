@@ -33,14 +33,14 @@ public:
 	 * @param id		The unique id given to this UMLTemplate.
 	 * @param type		The type of this UMLTemplate.
 	 */
-	UMLTemplate(UMLObject *parent, QString name, int id, QString type = "class");
+	UMLTemplate(const UMLObject *parent, QString name, int id, QString type = "class");
 
 	/**
 	 * Sets up a template.
 	 *
 	 * @param parent	The parent of this UMLTemplate (i.e. its concept).
 	 */
-	UMLTemplate(UMLObject *parent);
+	UMLTemplate(const UMLObject *parent);
 
 	/**
 	 * Overloaded '==' operator

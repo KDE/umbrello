@@ -57,9 +57,9 @@ protected:
 	QGroupBox * m_pAttsGB, * m_pValuesGB;
 	QButtonGroup * m_pScopeBG;
 	QRadioButton * m_pPublicRB, * m_pPrivateRB,  * m_pProtectedRB;
-	QLabel * m_pTypeL, * m_pNameL, * m_pInitialL;
+	QLabel * m_pTypeL, * m_pNameL, * m_pInitialL, * m_pStereoTypeL;
 	KComboBox * m_pTypeCB;
-	KLineEdit * m_pNameLE, * m_pInitialLE;
+	KLineEdit * m_pNameLE, * m_pInitialLE, * m_pStereoTypeLE;
 	QCheckBox* m_pStaticCB;
 
 public slots:

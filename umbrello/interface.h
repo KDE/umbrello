@@ -60,13 +60,6 @@ public:
 	virtual UMLObject* clone() const;
 
 
-	/**
-	 * Returns a name for the new association, operation, template
-	 * or attribute appended with a number if the default name is
-	 * taken e.g. new_association, new_association_1 etc
-	 */
-	virtual QString uniqChildName(const UMLObject_Type type);
-
 	virtual bool isInterface () { return true; }
 
 	void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );

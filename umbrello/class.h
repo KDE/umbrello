@@ -159,17 +159,6 @@ public:
 	UMLTemplate* takeTemplate(UMLTemplate* t);
 
 	/**
-	 * Add an already created stereotype to the list identified by the
-	 * given UMLObject_type.
-	 *
-	 * @param newStereotype	Pointer to the UMLStereotype to add.
-	 * @param list		The object type for the list on which to add.
-	 * @param log		Pointer to the IDChangeLog.
-	 * @return	True if the newStereotype was successfully added.
-	 */
-	virtual bool addStereotype(UMLStereotype* newStereotype, UMLObject_Type list, IDChangeLog* log = 0);
-
-	/**
 	 * Returns the number of attributes for the class.
 	 *
 	 * @return	The number of attributes for the class.
@@ -217,9 +206,12 @@ public:
 	 *
 	 * @param t		The type to find.
 	 * @param n		The name of the object to find.
+	 * @param seekStereo	Set this true if we should look at the object's
+	 *			stereotype instead of its name.
 	 * @return	List of objects found.  Will be empty if none found.
 	 */
-	 virtual UMLObjectList findChildObject(UMLObject_Type t, QString n);
+	 virtual UMLObjectList findChildObject(UMLObject_Type t, QString n,
+					       bool seekStereo = false);
 
 	/**
 	 * Find an attribute, operation, association or template.
@@ -251,16 +243,6 @@ public:
 	 * @return	True if this class has an enumeration stereotype.
 	 */
 	bool isEnumeration();
-
-	/**
-	 * Returns a name for the new association, operation, template
-	 * or attribute appended with a number if the default name is
-	 * taken e.g. new_association, new_association_1 etc.
-	 *
-	 * @param type		The object type for which to generate the name.
-	 * @return	Unique name string for the type.
-	 */
-	virtual QString uniqChildName(const UMLObject_Type type);
 
 	/**
 	 * Creates the <UML:Class> XMI element including its operations,

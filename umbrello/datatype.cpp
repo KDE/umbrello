@@ -8,10 +8,14 @@
  ***************************************************************************/
 
 #include "datatype.h"
-#include "operation.h"
-#include "clipboard/idchangelog.h"
+
 #include <kdebug.h>
 #include <klocale.h>
+#include "operation.h"
+#include "clipboard/idchangelog.h"
+#include "umldoc.h"
+#include "uml.h"
+#include "stereotype.h"
 
 UMLDatatype::UMLDatatype(const QString& name, int id)
   : UMLClassifier(name, id) {
@@ -36,10 +40,6 @@ UMLObject* UMLDatatype::clone() const
 	copyInto(clone);
 
 	return clone;
-}
-
-QString UMLDatatype::uniqChildName(UMLObject_Type type) {
-	return UMLCanvasObject::uniqChildName(type);
 }
 
 void UMLDatatype::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {

@@ -10,11 +10,11 @@
 #ifndef STEREOTYPE_H
 #define STEREOTYPE_H
 
-#include "classifierlistitem.h"
+#include "umlobject.h"
 
 /**
  * This class is used to set up information for a stereotype.
- * Stereotypes are used essentially as comments to class together
+ * Stereotypes are used essentially as properties of
  * attributes and operations etc.
  *
  * @short Sets up stereotype information.
@@ -22,25 +22,24 @@
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
-class UMLStereotype : public UMLClassifierListItem {
+class UMLStereotype : public UMLObject {
 public:
 	/**
 	 * Sets up a stereotype.
 	 *
-	 * @param parent	The parent of this UMLStereotype.
 	 * @param name		The name of this UMLStereotype.
 	 * @param id		The unique id given to this UMLStereotype.
 	 * @param listType	The list which this stereotype is part of
 	 *			(attribute, operation etc)
 	 */
-	UMLStereotype(UMLObject* parent, QString name, int id, UMLObject_Type listType);
+	UMLStereotype(QString name, int id = -1);
 
 	/**
 	 * Sets up a stereotype.
 	 *
 	 * @param parent	The parent of this UMLStereotype.
 	 */
-	UMLStereotype(UMLObject* parent);
+	UMLStereotype();
 
 	/**
 	 * Overloaded '==' operator
@@ -65,11 +64,25 @@ public:
 
 	/**
 	 * Returns a string representation of the UMLStereotype.
-	 * @param sig	If true will show the stereotype type and inital value.
 	 *
 	 * @return	Returns a string representation of the UMLStereotype.
 	 */
-	QString toString(Signature_Type sig);
+	QString toString(Signature_Type sig = st_NoSig);
+
+	/**
+	 * Increments the reference count for this stereotype.
+	 */
+	void incrRefCount();
+
+	/**
+	 * Decrements the reference count for this stereotype.
+	 */
+	void decrRefCount();
+
+	/**
+	 * Returns the reference count for this stereotype.
+	 */
+	int refCount() const;
 
 	/**
 	 * Saves to the <UML:StereoType> XMI element.
@@ -93,11 +106,7 @@ protected:
 	 */
 	bool load(QDomElement& element);
 
-private:
-	/**
-	 * The list this stereotype is part of (operation, attribute etc)
-	 */
-	UMLObject_Type m_listType;
+	int m_refCount;
 };
 
 #endif

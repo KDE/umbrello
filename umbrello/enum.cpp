@@ -45,26 +45,6 @@ UMLObject* UMLEnum::clone() const
 }
 
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
-QString UMLEnum::uniqChildName(UMLObject_Type type) {
-	QString currentName;
-	if (type == ot_Association) {
-		return UMLCanvasObject::uniqChildName(type);
-	} else if (type == ot_EnumLiteral) {
-		currentName = i18n("new_literal");
-	} else if (type == ot_Stereotype) {
-		currentName = i18n("new_stereotype");
-	} else {
-		kdWarning() << "uniqChildName() called for unknown child type" << endl;
-	}
-
-	QString name = currentName;
-	for (int number = 1; findChildObject(type, name).count(); ++number) {
-		name = currentName + "_" + QString::number(number);
-	}
-	return name;
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLEnum::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
 	QDomElement enumElement = UMLObject::save("UML:Enumeration", qDoc);
 	//save operations
@@ -89,17 +69,8 @@ bool UMLEnum::load(QDomElement& element) {
 			}
 			m_EnumLiteralList.append(pEnumLiteral);
 		} else if (tag == "stereotype") {
-			UMLStereotype* newStereotype = new UMLStereotype(this);
-			if ( !newStereotype->loadFromXMI(tempElement) ) {
-				return false;
-			}
-			QString listTypeString = tempElement.attribute("listtype", "-1");
-			UMLObject_Type listType = (UMLObject_Type)listTypeString.toInt();
-			if (listType == ot_EnumLiteral) {
-				m_EnumLiteralList.append(newStereotype);
-			} else {
-				kdWarning() << "unknown listtype with stereotype:" << listType << endl;
-			}
+			kdDebug() << "UMLEnum::load(" << m_Name
+				  << "): losing old-format stereotype." << endl;
 		} else {
 			kdWarning() << "unknown child type in UMLEnum::load" << endl;
 		}
@@ -181,35 +152,21 @@ UMLEnumLiteral* UMLEnum::takeEnumLiteral(UMLEnumLiteral* el) {
 	}
 	return el;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
-bool UMLEnum::addStereotype(UMLStereotype* newStereotype, UMLObject_Type list, IDChangeLog* log /* = 0*/) {
-	QString name = newStereotype->getName();
-	if (findChildObject(Uml::ot_Template, name).count() == 0) {
-		newStereotype->parent()->removeChild(newStereotype);
-		this->insertChild(newStereotype);
-		if (list == ot_EnumLiteral) {
-			m_EnumLiteralList.append(newStereotype);
-			emit modified();
-			connect(newStereotype, SIGNAL(modified()), this, SIGNAL(modified()));
-		} else {
-			kdWarning() << "unknown list type in addStereotype()" << endl;
-		}
-		return true;
-	} else if (log) {
-		log->removeChangeByNewID( newStereotype->getID() );
-		delete newStereotype;
-	}
-	return false;
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLObjectList UMLEnum::findChildObject(UMLObject_Type t, QString n) {
+
+UMLObjectList UMLEnum::findChildObject(UMLObject_Type t, QString n,
+				       bool seekStereo /* = false */) {
 	UMLObjectList list;
 	if (t == ot_Association) {
-		return UMLClassifier::findChildObject(t, n);
-	} else if (t == ot_EnumLiteral || t == ot_Stereotype) {
+		return UMLClassifier::findChildObject(t, n, seekStereo);
+	} else if (t == ot_EnumLiteral) {
 		UMLClassifierListItem * obj=0;
 		for(obj=m_EnumLiteralList.first();obj != 0;obj=m_EnumLiteralList.next()) {
-			if(obj->getBaseType() == t && obj -> getName() == n)
+			if (obj->getBaseType() != t)
+				continue;
+			if (seekStereo) {
+				if (obj->getStereotype() == n)
+					list.append( obj );
+			} else if (obj->getName() == n)
 				list.append( obj );
 		}
 	} else {

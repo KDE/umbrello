@@ -76,6 +76,7 @@ UMLDoc::UMLDoc() {
 	m_currentcodegenerator = 0;
 	m_objectList.clear();
 	m_objectList.setAutoDelete(false); // DONT autodelete
+	m_stereoList.setAutoDelete(false);
 	m_ViewList.setAutoDelete(true);
 
 	m_codeGenerationXMIParamMap = new QMap<QString, QDomElement>;
@@ -630,6 +631,11 @@ void UMLDoc::deleteContents() {
 				obj->deleteLater();
 			m_objectList.clear();
 		}
+		if (m_stereoList.count() > 0) {
+			for (UMLStereotype *s = m_stereoList.first(); s; s = m_stereoList.next())
+				s->deleteLater();
+			m_stereoList.clear();
+		}
 	}
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -749,7 +755,15 @@ UMLObject* UMLDoc::findUMLObject(int id) {
 	}
 	return 0;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
+UMLStereotype * UMLDoc::findStereotype(int id) {
+	for (UMLStereotype *s = m_stereoList.first(); s; s = m_stereoList.next() ) {
+		if (s->getID() == id)
+			return s;
+	}
+	return NULL;
+}
+
 UMLObject* UMLDoc::findUMLObject(QString name, UMLObject_Type type /* = ot_UMLObject */) {
 	return findUMLObject(m_objectList, name, type);
 }
@@ -863,7 +877,8 @@ QString	UMLDoc::uniqObjectName(const UMLObject_Type type, QString prefix) {
   */
 void UMLDoc::addUMLObject(UMLObject* object) {
 	UMLObject_Type ot = object->getBaseType();
-	if (ot == ot_Attribute || ot == ot_Operation || ot == ot_EnumLiteral) {
+	if (ot == ot_Attribute || ot == ot_Operation || ot == ot_EnumLiteral ||
+	    ot == ot_Stereotype) {
 		kdDebug() << "UMLDoc::addUMLObject(" << object->getName()
 			<< "): not adding type " << ot << endl;
 		return;
@@ -890,6 +905,16 @@ void UMLDoc::addUMLObject(UMLObject* object) {
 		kdDebug() << "UMLDoc::addUMLObject: not adding " << object->getName()
 			  << " because already there." << endl;
 	}
+}
+
+void UMLDoc::addStereotype(const UMLStereotype *s) {
+	if (! m_stereoList.contains(s))
+		m_stereoList.append(s);
+}
+
+void UMLDoc::removeStereotype(const UMLStereotype *s) {
+	if (m_stereoList.contains(s))
+		m_stereoList.remove(s);
 }
 
 void UMLDoc::writeToStatusBar(const QString &text) {
@@ -1178,34 +1203,25 @@ UMLObject* UMLDoc::createEnumLiteral(UMLEnum* umlenum) {
 	emit sigObjectCreated(newEnumLiteral);
 	return newEnumLiteral;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLObject* UMLDoc::createStereotype(UMLClassifier* classifier, UMLObject_Type list) {
+
+UMLStereotype* UMLDoc::findStereotype(QString name) {
+	for (UMLStereotype *s = m_stereoList.first(); s; s = m_stereoList.next() ) {
+		if (s->getName() == name)
+			return s;
+	}
+	return NULL;
+}
+
+UMLStereotype* UMLDoc::findOrCreateStereotype(QString name) {
+	UMLStereotype *s = findStereotype(name);
+	if (s != NULL) {
+		return s;
+	}
 	int id = getUniqueID();
-	QString currentName = classifier->uniqChildName(Uml::ot_Stereotype);
-	UMLStereotype* newStereotype = new UMLStereotype(classifier, currentName, id, list);
-
-	bool ok = true;
-	bool goodName = false;
-
-	while (ok && !goodName) {
-		ok = newStereotype->showPropertiesDialogue( UMLApp::app() );
-		QString name = newStereotype->getName();
-
-		if(name.length() == 0) {
-			KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
-		} else {
-			goodName = true;
-		}
-	}
-
-	if (!ok) {
-		return NULL;
-	}
-
-	classifier->addStereotype(newStereotype, list);
-
-	emit sigObjectCreated(newStereotype);
-	return newStereotype;
+	s = new UMLStereotype(name, id);
+	addStereotype(s);
+	//emit modified();
+	return s;
 }
 
 UMLOperation* UMLDoc::createOperation(UMLClassifier* classifier,
@@ -1288,8 +1304,8 @@ void UMLDoc::removeAssocFromConcepts(UMLAssociation *assoc)
 }
 
 UMLAssociation * UMLDoc::findAssociation(Uml::Association_Type assocType,
-					 UMLObject *roleAObj,
-					 UMLObject *roleBObj,
+					 const UMLObject *roleAObj,
+					 const UMLObject *roleBObj,
 					 bool *swap)
 {
 	UMLAssociationList assocs = getAssociations();
@@ -1565,6 +1581,7 @@ void UMLDoc::removeUMLObject(UMLObject* umlobject) {
 	UMLApp::app()->getDocWindow()->updateDocumentation(true);
 	UMLObject_Type type = umlobject->getBaseType();
 
+	umlobject->setUMLStereotype(NULL);  // triggers possible cleanup of UMLStereotype
 	if (objectTypeIsClassifierListItem(type))  {
 		UMLClassifier* parent = (UMLClassifier*)umlobject->parent();
 		if (parent == NULL) {
@@ -1586,8 +1603,6 @@ void UMLDoc::removeUMLObject(UMLObject* umlobject) {
 				pClass->removeAttribute(umlobject);
 			} else if (type == ot_Template) {
 				pClass->removeTemplate(static_cast<UMLTemplate*>(umlobject));
-			} else if (type == ot_Stereotype) {
-				pClass->removeStereotype(static_cast<UMLStereotype*>(umlobject));
 			} else {
 				kdError() << "UMLDoc::removeUMLObject: umlobject has "
 					  << "unexpected type " << type << endl;
@@ -1747,6 +1762,11 @@ void UMLDoc::saveToXMI(QIODevice& file) {
 		p->saveToXMI(doc, objectsElement);
 	}
 #endif
+
+	// Save stereotypes first so that upon loading they are known first.
+	for (UMLStereotype *s = m_stereoList.first(); s; s = m_stereoList.next() ) {
+		s->saveToXMI(doc, objectsElement);
+	}
 
 	// Save everything except operations, attributes, and associations.
 	// Operations and attributes are owned by classifiers and will show up
@@ -2126,6 +2146,9 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element) {
 		} else if ( !status ) {
 			delete pObject;
 			return false;
+		} else if (pObject->getBaseType() == ot_Stereotype) {
+			UMLStereotype *s = static_cast<UMLStereotype*>(pObject);
+			addStereotype(s);
 		}
 
 		/* FIXME see comment at loadUMLObjectsFromXMI
@@ -2201,6 +2224,8 @@ UMLObject* UMLDoc::makeNewUMLObject(QString type) {
 	} else if (tagEq(type, "Enumeration") ||
 		   tagEq(type, "Enum")) {	// for bkwd compat.
 		pObject = new UMLEnum();
+	} else if (tagEq(type, "Stereotype")) {
+		pObject = new UMLStereotype();
 	} else if (tagEq(type, "Association")) {
 		pObject = new UMLAssociation(Uml::at_Unknown, (UMLObject*)NULL, (UMLObject*) NULL);
 	} else if (tagEq(type, "Generalization")) {
@@ -2691,7 +2716,7 @@ void UMLDoc::createDatatype(QString name)  {
 
 bool UMLDoc::objectTypeIsClassifierListItem(UMLObject_Type type)  {
 	if (type == ot_Attribute || type == ot_Operation || type == ot_Template
-	    || type == ot_EnumLiteral || type == ot_Stereotype)  {
+	    || type == ot_EnumLiteral)  {
 		return true;
 	} else {
 		return false;

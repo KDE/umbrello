@@ -35,14 +35,15 @@ public:
 	 * @param s		The scope of the UMLAttribute.
 	 * @param iv		The initial value of the attribute.
 	 */
-	UMLAttribute(UMLObject *parent, QString name, int id, QString type = "int", Scope s = Private, QString iv = 0);
+	UMLAttribute(const UMLObject *parent, QString name, int id, QString type = "int",
+		     Scope s = Private, QString iv = 0);
 
 	/**
 	 * Sets up an attribute.
 	 *
 	 * @param parent	The parent of this UMLAttribute.
 	 */
-	UMLAttribute(UMLObject *parent);
+	UMLAttribute(const UMLObject *parent);
 
 	/**
 	 * Overloaded '==' operator

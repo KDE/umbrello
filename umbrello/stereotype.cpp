@@ -10,24 +10,25 @@
 
 #include "stereotype.h"
 #include "inputdialog.h"
+#include "umldoc.h"
+#include "uml.h"
 
 #include <klocale.h>
 #include <kdebug.h>
 
-UMLStereotype::UMLStereotype( UMLObject *parent, QString name, int id,
-			      UMLObject_Type listType)
-  : UMLClassifierListItem( parent, name, id ) {
+UMLStereotype::UMLStereotype(QString name, int id /* = -1 */)
+  : UMLObject( name, id ) {
 	m_BaseType = ot_Stereotype;
-	m_listType = listType;
+	m_refCount = 0;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLStereotype::UMLStereotype(UMLObject *parent)
-  : UMLClassifierListItem( parent ) {
+
+UMLStereotype::UMLStereotype() : UMLObject() {
 	m_BaseType = ot_Stereotype;
+	m_refCount = 0;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 UMLStereotype::~UMLStereotype() {}
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 QString UMLStereotype::toString(Signature_Type /*sig*/) {
 	return "«" + getName() + "»";
 }
@@ -46,15 +47,12 @@ bool UMLStereotype::operator==( UMLStereotype &rhs) {
 
 void UMLStereotype::copyInto(UMLStereotype *rhs) const
 {
-	UMLClassifierListItem::copyInto(rhs);
-
-	// is an enum
-	rhs->m_listType = m_listType;
+	UMLObject::copyInto(rhs);
 }
 
 UMLObject* UMLStereotype::clone() const
 {
-	UMLStereotype *clone = new UMLStereotype( (UMLStereotype *) parent());
+	UMLStereotype *clone = new UMLStereotype();
 	copyInto(clone);
 
 	return clone;
@@ -63,18 +61,11 @@ UMLObject* UMLStereotype::clone() const
 
 void UMLStereotype::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
 	//FIXME: uml13.dtd compliance
-	QDomElement stereotypeElement = UMLObject::save("stereotype", qDoc);
-	stereotypeElement.setAttribute("listtype", m_listType);
+	QDomElement stereotypeElement = UMLObject::save("UML:Stereotype", qDoc);
 	qElement.appendChild( stereotypeElement );
 }
 
-bool UMLStereotype::load(QDomElement& element) {
-	QString listType = element.attribute("listtype", "-1");
-	m_listType = (UMLObject_Type)listType.toInt();
-	if (m_listType == -1) {
-		kdWarning() << "<stereotype> without a listtype" << endl;
-		return false;
-	}
+bool UMLStereotype::load(QDomElement& /*element*/) {
 	return true;
 }
 
@@ -91,4 +82,15 @@ QString UMLStereotype::getShortName() {
 	return "«" + getName() + "»";
 }
 
+void UMLStereotype::incrRefCount() {
+	m_refCount++;
+}
+
+void UMLStereotype::decrRefCount() {
+	m_refCount--;
+}
+
+int UMLStereotype::refCount() const {
+	return m_refCount;
+}
 

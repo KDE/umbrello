@@ -35,7 +35,8 @@
 #include "parmpropdlg.h"
 #include "umloperationdialog.h"
 
-UMLOperationDialog::UMLOperationDialog( QWidget * parent, UMLOperation * pOperation ) : KDialogBase( Plain, i18n("Operation Properties"), Help | Ok | Cancel , Ok, parent, "_UMLOPERATIONDLG_", true, true) {
+UMLOperationDialog::UMLOperationDialog( QWidget * parent, UMLOperation * pOperation )
+  : KDialogBase( Plain, i18n("Operation Properties"), Help | Ok | Cancel , Ok, parent, "_UMLOPERATIONDLG_", true, true) {
 	m_pOperation = pOperation;
 	m_doc = UMLApp::app()->getDocument();
 	m_pMenu = 0;
@@ -50,7 +51,7 @@ void UMLOperationDialog::setupDialog() {
 	QVBoxLayout * topLayout = new QVBoxLayout( plainPage() );
 
 	m_pGenGB = new QGroupBox(i18n("General Properties"), plainPage() );
-	QGridLayout * genLayout = new QGridLayout(m_pGenGB, 2, 4 );
+	QGridLayout * genLayout = new QGridLayout(m_pGenGB, 3, 4 );
 	genLayout -> setMargin(margin);
 	genLayout -> setSpacing(10);
 
@@ -69,14 +70,23 @@ void UMLOperationDialog::setupDialog() {
 	genLayout -> addWidget(m_pRtypeCB, 0, 3);
 	m_pRtypeL->setBuddy(m_pRtypeCB);
 
+	m_pStereoTypeL = new QLabel(i18n("Stereotype name:"), m_pGenGB);
+	genLayout -> addWidget(m_pStereoTypeL, 1, 0);
+
+	m_pStereoTypeLE = new KLineEdit(m_pGenGB);
+	genLayout -> addWidget(m_pStereoTypeLE, 1, 1);
+
+	m_pStereoTypeLE -> setText(m_pOperation -> getStereotype());
+	m_pStereoTypeL->setBuddy(m_pStereoTypeLE);
+
 	m_pAbstractCB = new QCheckBox( i18n("&Abstract operation"), m_pGenGB );
 	m_pAbstractCB -> setChecked( m_pOperation -> getAbstract() );
 	m_pStaticCB = new QCheckBox( i18n("Classifier &scope (\"static\")"), m_pGenGB );
 	m_pStaticCB -> setChecked( m_pOperation -> getStatic() );
-	genLayout -> addWidget( m_pAbstractCB, 1, 0 );
-	genLayout -> addWidget( m_pStaticCB, 1, 1 );
-	topLayout -> addWidget( m_pGenGB );
+	genLayout -> addWidget( m_pAbstractCB, 2, 0 );
+	genLayout -> addWidget( m_pStaticCB, 2, 1 );
 
+	topLayout -> addWidget( m_pGenGB );
 
 	m_pScopeBG = new QButtonGroup(i18n("Visibility"), plainPage() );
 
@@ -353,6 +363,8 @@ bool UMLOperationDialog::apply()
 	m_pOperation -> setReturnType( m_pRtypeCB -> currentText() );
 	m_pOperation -> setAbstract( m_pAbstractCB -> isChecked() );
 	m_pOperation -> setStatic( m_pStaticCB -> isChecked() );
+	m_pOperation -> setStereotype( m_pStereoTypeLE->text() );
+
 	return true;
 }
 

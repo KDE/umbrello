@@ -23,6 +23,7 @@
 #include "umldatatypelist.h"
 #include "umlnamespace.h"
 #include "umlattributelist.h"
+#include "umlstereotypelist.h"
 #include <qdatastream.h>
 #include <qmap.h>
 #include <qdict.h>
@@ -274,17 +275,14 @@ public:
 	 * Creates an enum literal for the parent enum.
 	 *
 	 * @param o	The parent enum
-	 * @return	The UMLEmun created
+	 * @return	The UMLEnum created
 	 */
 	UMLObject* createEnumLiteral(UMLEnum* umlenum);
 
 	/**
-	 * Creates a stereotype for the parent classifier.
-	 *
-	 * @param o	The parent concept
-	 * @return	The UMLStereotype created
+	 * Finds or creates a stereotype for the parent object.
 	 */
-	UMLObject* createStereotype(UMLClassifier* classifier, UMLObject_Type list);
+	UMLStereotype* UMLDoc::findOrCreateStereotype(QString name);
 
 	/**
 	 * Creates an operation for the parent concept.
@@ -366,8 +364,8 @@ public:
 	 * @return	Pointer to the UMLAssociation found or NULL if not found.
 	 */
 	UMLAssociation * findAssociation(Uml::Association_Type assocType,
-					 UMLObject *roleAObj,
-					 UMLObject *roleBObj,
+					 const UMLObject *roleAObj,
+					 const UMLObject *roleBObj,
 					 bool *swap = NULL);
 
 	/**
@@ -475,6 +473,14 @@ public:
 	 * @param name		The name of the @ref UMLObject to find.
 	 */
 	UMLClassifier * findUMLClassifier (QString name);
+
+	/**
+	 * Finds a UMLStereotype by its name.
+	 *
+	 * @param name		The name of the UMLStereotype to find.
+	 * @return	Pointer to the UMLStereotype found, or NULL if not found.
+	 */
+	UMLStereotype * findStereotype(QString name);
 
 	/**
 	 * Finds a view (diagram) by the ID given to method.
@@ -870,6 +876,21 @@ public:
 	void addObject(UMLObject *o);
 
 	/**
+	 * Find a UMLStereotype by its unique ID.
+	 */
+	UMLStereotype * findStereotype(int id);
+
+	/**
+	 * Add a UMLStereotype to the application.
+	 */
+	void addStereotype(const UMLStereotype *s);
+
+	/**
+	 * Remove a UMLStereotype from the application.
+	 */
+	void removeStereotype(const UMLStereotype *s);
+
+	/**
 	 * Returns a name for the new object, appended with a number
 	 * if the default name is taken e.g. new_actor, new_actor_1
 	 * etc.
@@ -924,6 +945,16 @@ private:
 	ClassImport * m_classImporter;
 	CodeGenerator * m_currentcodegenerator;
 	UMLObjectList m_objectList;
+
+	/**
+	 * The UMLDoc is the sole owner of all stereotypes.
+	 * UMLStereotype instances are reference counted.
+	 * When an UMLStereotype is no longer referenced anywhere,
+	 * its refcount drops to zero. It is then removed from the
+	 * m_stereoList and it is physically deleted.
+	 */
+	UMLStereotypeList m_stereoList;
+
 	int m_uniqueID;
 	int m_count;   ///< auxiliary counter for the progress bar
 	bool m_modified;

@@ -164,10 +164,6 @@ public slots:
 	 */
 	void slotProperties();
 
-	/**
-	 * Give dialogue box to add a new stereotype
-	 */
-	void slotNewStereotype();
 signals:
 	/**
 	 * slots into classpropdlg::slotUpdateChildObject() whatever that does

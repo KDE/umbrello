@@ -7,31 +7,15 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <kdebug.h>
-#include <klocale.h>
+#ifndef UMLSTEREOTYPELIST_H
+#define UMLSTEREOTYPELIST_H
 
-#include "classifierlistitem.h"
+#include <qptrlist.h>
 
-UMLClassifierListItem::UMLClassifierListItem(const UMLObject *parent, QString Name, int id)
-  : UMLObject(parent, Name, id) {
-}
+// forward declaration
+class UMLStereotype;
 
-UMLClassifierListItem::UMLClassifierListItem(const UMLObject *parent)
-  : UMLObject(parent) {
-}
+typedef QPtrList<UMLStereotype> UMLStereotypeList;
+typedef QPtrListIterator<UMLStereotype> UMLStereotypeListIt;
 
-UMLClassifierListItem::~UMLClassifierListItem() {
-}
-
-QString UMLClassifierListItem::getShortName() {
-	return getName();
-}
-
-void UMLClassifierListItem::copyInto(UMLClassifierListItem *rhs) const
-{
-	// Call the parent.
-	UMLObject::copyInto(rhs);
-}
-
-
-#include "classifierlistitem.moc"
+#endif

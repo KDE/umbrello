@@ -15,9 +15,10 @@
 #include "umllistview.h"
 #include "umllistviewitem.h"
 #include "package.h"
+#include "stereotype.h"
 
-UMLObject::UMLObject(UMLObject * parent, const QString &name, int id)
-  : QObject(parent, "UMLObject" ) {
+UMLObject::UMLObject(const UMLObject * parent, const QString &name, int id)
+  : QObject(const_cast<UMLObject*>(parent), "UMLObject" ) {
 	init();
 	m_nId = id;
 	m_Name = name;
@@ -31,7 +32,8 @@ UMLObject::UMLObject(const QString &name, int id)
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLObject::UMLObject(UMLObject * parent) : QObject(parent) {
+UMLObject::UMLObject(const UMLObject * parent)
+  : QObject(const_cast<UMLObject*>(parent)) {
 	init();
 }
 
@@ -45,20 +47,11 @@ void UMLObject::init() {
 	m_pUMLPackage = NULL;
 	m_Name = "";
 	m_Scope = Public;
-	m_Stereotype = "";
+	m_pStereotype = NULL;
 	m_Doc = "";
 	m_bAbstract = false;
 	m_bStatic = false;
 	m_bInPaste = false;
-
-/*
-// not sure this is correct... umllistview is making slot/signal connections
-// for objects (!!) Seems wrong..-b.t.
-        UMLDoc * parent = UMLApp::app()->getDocument();
-        connect(this,SIGNAL(childObjectAdded(UMLObject*)),parent,SLOT(addUMLObject(UMLObject*)));
-        connect(this,SIGNAL(childObjectRemoved(UMLObject*)),parent,SLOT(slotRemoveUMLObject(UMLObject*)));
-*/
-
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -133,7 +126,7 @@ bool UMLObject::operator==(UMLObject & rhs ) {
 	//	return false;
 
 	// See comments above
-	//if( m_Stereotype != rhs.m_Stereotype )
+	//if( m_pStereotype != rhs.m_pStereotype )
 	//	return false;
 
 	// See comments above
@@ -153,7 +146,7 @@ void UMLObject::copyInto(UMLObject *rhs) const
 
 	// Data members with copy constructor
 	rhs->m_Doc = m_Doc;
-	rhs->m_Stereotype = m_Stereotype;
+	rhs->m_pStereotype = m_pStereotype;
 	rhs->m_bAbstract = m_bAbstract;
 	rhs->m_bStatic = m_bStatic;
 	rhs->m_BaseType = m_BaseType;
@@ -228,9 +221,32 @@ void UMLObject::setScope(Scope s) {
 	emit modified();
 }
 
-void UMLObject::setStereotype(QString _name) {
-	m_Stereotype = _name;
+void UMLObject::setUMLStereotype(UMLStereotype *stereo) {
+	if (stereo == m_pStereotype)
+		return;
+	if (stereo) {
+		stereo->incrRefCount();
+	}
+	if (m_pStereotype) {
+		m_pStereotype->decrRefCount();
+		if (m_pStereotype->refCount() == 0) {
+			UMLDoc *pDoc = UMLApp::app()->getDocument();
+			pDoc->removeStereotype(m_pStereotype);
+			delete m_pStereotype;
+		}
+	}
+	m_pStereotype = stereo;
 	emit modified();
+}
+
+void UMLObject::setStereotype(QString _name) {
+	if (_name.isEmpty()) {
+		setUMLStereotype(NULL);
+		return;
+	}
+	UMLDoc *pDoc = UMLApp::app()->getDocument();
+	UMLStereotype *s = pDoc->findOrCreateStereotype(_name);
+	setUMLStereotype(s);
 }
 
 void UMLObject::setPackage(QString _name) {
@@ -258,8 +274,14 @@ void UMLObject::setUMLPackage(UMLPackage* pPkg) {
 	emit modified();
 }
 
+const UMLStereotype * UMLObject::getUMLStereotype() {
+	return m_pStereotype;
+}
+
 QString UMLObject::getStereotype() {
-	return m_Stereotype;
+	if (m_pStereotype == NULL)
+		return "";
+	return m_pStereotype->getName();
 }
 
 QString UMLObject::getPackage(QString separator /* ="::" */) {
@@ -319,8 +341,8 @@ QDomElement UMLObject::save( QString tag, QDomDocument & qDoc ) {
 			qElement.setAttribute( "visibility", "private" );
 			break;
 	}
-	if (! m_Stereotype.isEmpty())
-		qElement.setAttribute( "stereotype", m_Stereotype );
+	if (m_pStereotype != NULL)
+		qElement.setAttribute( "stereotype", m_pStereotype->getID() );
 	if (m_bAbstract)
 		qElement.setAttribute( "isAbstract", "true" );
 	/* else
@@ -394,7 +416,22 @@ bool UMLObject::loadFromXMI( QDomElement & element, bool loadID /* =true */) {
 			m_Scope = Uml::Protected;
 	}
 
-	m_Stereotype = element.attribute( "stereotype", "" );
+	QString stereo = element.attribute( "stereotype", "" );
+	if (!stereo.isEmpty() && stereo != "-1") {
+		if (stereo.contains(QRegExp("\\D"))) {
+			// Old versions saved the stereotype name instead of the xmi.id.
+			setStereotype( stereo );
+		} else {
+			int stereoID = stereo.toInt();
+			m_pStereotype = umldoc->findStereotype(stereoID);
+			if (m_pStereotype)
+				m_pStereotype->incrRefCount();
+			else
+				kdError() << "UMLObject::loadFromXMI(" << m_Name << "): "
+					  << "UMLStereotype " << stereoID << " not found"
+					  << endl;
+		}
+	}
 
 	if( element.hasAttribute("abstract") ) {     // for bkwd compat.
 		QString abstract = element.attribute( "abstract", "0" );
@@ -481,11 +518,11 @@ bool UMLObject::loadFromXMI( QDomElement & element, bool loadID /* =true */) {
 		}
 	}
 
-	// Operations, attributes, enum literals, associations, and
-	// association role objects get added and signaled elsewhere.
+	// Operations, attributes, enum literals, stereotypes, associations,
+	// and association role objects get added and signaled elsewhere.
 	if (m_BaseType != ot_Operation && m_BaseType != ot_Attribute &&
-	    m_BaseType != ot_EnumLiteral && m_BaseType != ot_Association &&
-	    m_BaseType != ot_UMLObject) {
+	    m_BaseType != ot_EnumLiteral && m_BaseType != ot_Stereotype &&
+	    m_BaseType != ot_Association && m_BaseType != ot_UMLObject) {
 		if (m_bInPaste) {
 			m_pUMLPackage = NULL;  // forget any old parent
 			UMLListView *listView = UMLApp::app()->getListView();

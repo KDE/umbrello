@@ -21,7 +21,8 @@
 #include <kmessagebox.h>
 #include <kdebug.h>
 
-UMLTemplateDialog::UMLTemplateDialog(QWidget* pParent, UMLTemplate* pTemplate) : KDialogBase( Plain, i18n("Template Properties"), Help | Ok | Cancel , Ok, pParent, "_UMLTemplateDLG_", true, true) {
+UMLTemplateDialog::UMLTemplateDialog(QWidget* pParent, UMLTemplate* pTemplate)
+  : KDialogBase( Plain, i18n("Template Properties"), Help | Ok | Cancel , Ok, pParent, "_UMLTemplateDLG_", true, true) {
 	m_pTemplate = pTemplate;
 	setupDialog();
 }
@@ -34,25 +35,34 @@ void UMLTemplateDialog::setupDialog() {
 	QVBoxLayout* mainLayout = new QVBoxLayout( plainPage() );
 
 	m_pValuesGB = new QGroupBox(i18n("General Properties"), plainPage() );
-	QGridLayout* valuesLayout = new QGridLayout(m_pValuesGB, 2, 2);
+	QGridLayout* valuesLayout = new QGridLayout(m_pValuesGB, 3, 2);
 	valuesLayout->setMargin(margin);
 	valuesLayout->setSpacing(10);
 
 	m_pTypeL = new QLabel(i18n("&Type:"), m_pValuesGB);
 	valuesLayout->addWidget(m_pTypeL, 0, 0);
 
+	m_pTypeCB = new QComboBox(m_pValuesGB);
+	valuesLayout->addWidget(m_pTypeCB, 0, 1);
+	m_pTypeL->setBuddy(m_pTypeCB);
+
 	m_pNameL = new QLabel(i18n("&Name:"), m_pValuesGB);
 	valuesLayout->addWidget(m_pNameL, 1, 0);
 
-	m_pTypeCB = new QComboBox(m_pValuesGB);
-	valuesLayout->addWidget(m_pTypeCB, 0, 1);
-
 	m_pNameLE = new QLineEdit(m_pValuesGB);
 	valuesLayout->addWidget(m_pNameLE, 1, 1);
-	m_pNameLE->setText( m_pTemplate->getName() );
 
-	m_pTypeL->setBuddy(m_pTypeCB);
+	m_pNameLE->setText( m_pTemplate->getName() );
 	m_pNameL->setBuddy(m_pNameLE);
+
+	m_pStereoTypeL = new QLabel(i18n("&Stereotype name:"), m_pValuesGB);
+	valuesLayout -> addWidget(m_pStereoTypeL, 2, 0);
+
+	m_pStereoTypeLE = new QLineEdit(m_pValuesGB);
+	valuesLayout -> addWidget(m_pStereoTypeLE, 2, 1);
+
+	m_pStereoTypeLE -> setText(m_pTemplate -> getStereotype());
+	m_pStereoTypeL->setBuddy(m_pStereoTypeLE);
 
 	mainLayout->addWidget(m_pValuesGB);
 
@@ -111,6 +121,9 @@ bool UMLTemplateDialog::apply() {
 		return false;
 	}
 	m_pTemplate->setName(name);
+
+	m_pTemplate->setStereotype( m_pStereoTypeLE->text() );
+
 	return true;
 }
 

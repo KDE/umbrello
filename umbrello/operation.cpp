@@ -17,8 +17,9 @@
 #include "umldoc.h"
 #include "dialogs/umloperationdialog.h"
 
-UMLOperation::UMLOperation(UMLClassifier *parent, QString Name, int id, Scope s, QString rt)
-    : UMLClassifierListItem((UMLObject*)parent,Name, id)
+UMLOperation::UMLOperation(const UMLClassifier *parent, QString Name, int id,
+			   Scope s, QString rt)
+    : UMLClassifierListItem(parent, Name, id)
 {
 	m_ReturnType = rt;
 	m_Scope = s;
@@ -27,8 +28,8 @@ UMLOperation::UMLOperation(UMLClassifier *parent, QString Name, int id, Scope s,
 	m_List.setAutoDelete(false);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLOperation::UMLOperation(UMLClassifier * parent)
-    : UMLClassifierListItem ((UMLObject*) parent)
+UMLOperation::UMLOperation(const UMLClassifier * parent)
+    : UMLClassifierListItem (parent)
 {
 	m_ReturnType = "";
 	m_BaseType = ot_Operation;

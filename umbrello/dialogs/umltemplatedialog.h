@@ -53,9 +53,9 @@ protected:
 	//GUI Widgets
 	QGroupBox* m_pTemplateGB;
 	QGroupBox* m_pValuesGB;
-	QLabel* m_pTypeL, * m_pNameL;
+	QLabel *m_pTypeL, *m_pNameL, *m_pStereoTypeL;
 	QComboBox* m_pTypeCB;
-	QLineEdit* m_pNameLE;
+	QLineEdit *m_pNameLE, *m_pStereoTypeLE;
 
 public slots:
 	/**

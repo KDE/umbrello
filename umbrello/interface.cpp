@@ -43,29 +43,7 @@ UMLObject* UMLInterface::clone() const
 	return clone;
 }
 
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-QString UMLInterface::uniqChildName(const UMLObject_Type type) {
-	QString currentName;
-	if (type == ot_Association) {
-		return UMLCanvasObject::uniqChildName(type);
-	} else if (type == ot_Operation) {
-		currentName = i18n("new_operation");
-	} else if (type == ot_Stereotype) {
-		currentName = i18n("new_stereotype");
-	} else {
-		kdWarning() << "uniqChildName() called for unknown child type" << endl;
-	}
-
-	QString name = currentName;
-	for (int number = 1; findChildObject(type, name).count(); ++number) {
-		name = currentName + "_" + QString::number(number);
-	}
-	return name;
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLInterface::init() {
-
 	m_BaseType = ot_Interface;
 	setStereotype( i18n("interface") );
 }

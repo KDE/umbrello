@@ -12,7 +12,7 @@
 
 #include <kdebug.h>
 
-UMLAttribute::UMLAttribute( UMLObject *parent, QString Name, int id, QString type,
+UMLAttribute::UMLAttribute( const UMLObject *parent, QString Name, int id, QString type,
 			    Scope s, QString iv )
   : UMLClassifierListItem(parent, Name, id) {
 	m_TypeName = type;
@@ -22,7 +22,7 @@ UMLAttribute::UMLAttribute( UMLObject *parent, QString Name, int id, QString typ
 	m_ParmKind = pk_In;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLAttribute::UMLAttribute(UMLObject *parent) : UMLClassifierListItem(parent) {
+UMLAttribute::UMLAttribute(const UMLObject *parent) : UMLClassifierListItem(parent) {
 	m_BaseType = ot_Attribute;
 	m_TypeName = m_InitialValue = "";
 }

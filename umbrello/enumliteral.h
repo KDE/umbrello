@@ -31,14 +31,14 @@ public:
 	 * @param name		The name of this UMLEnumLiteral.
 	 * @param id		The unique id given to this UMLEnumLiteral.
 	 */
-	UMLEnumLiteral(UMLObject* parent, QString name, int id);
+	UMLEnumLiteral(const UMLObject* parent, QString name, int id);
 
 	/**
 	 * Sets up an enum literal.
 	 *
 	 * @param parent	The parent of this UMLEnumLiteral.
 	 */
-	UMLEnumLiteral(UMLObject* parent);
+	UMLEnumLiteral(const UMLObject* parent);
 
 	/**
 	 * Overloaded '==' operator
