@@ -20,7 +20,8 @@ UmbrelloDialog::~UmbrelloDialog()
 
 void UmbrelloDialog::addPage( QWidget *page, const QString &title, const QPixmap &pixmap )
 {
-	//page->setAutoApply(false);
+	DialogPage *dpage = dynamic_cast<DialogPage*>(page);
+	if (dpage) dpage->setAutoApply(false);
 	connect(this,SIGNAL(cancelClicked()),page,SLOT(cancel()));
 	connect(this,SIGNAL(applyClicked()),page,SLOT(apply()));
 	connect(this,SIGNAL(okClicked()),page,SLOT(apply()));
