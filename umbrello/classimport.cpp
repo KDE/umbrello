@@ -108,8 +108,8 @@ UMLObject *ClassImport::createUMLObject(Uml::Object_Type type,
 					}
 					int wantNamespace = KMessageBox::questionYesNo(NULL,
 						i18n("Is the scope %1 a namespace or a class?").arg(scopeName),
-						i18n("C++ import requests your help"),
-						i18n("namespace"), i18n("class"));
+						i18n("C++ Import Requests Your Help"),
+						i18n("Namespace"), i18n("Class"));
 					Uml::Object_Type ot = (wantNamespace == KMessageBox::Yes ? Uml::ot_Package : Uml::ot_Class);
 					o = m_umldoc->createUMLObject(ot, scopeName, parentPkg);
 					parentPkg = static_cast<UMLPackage*>(o);

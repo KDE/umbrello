@@ -253,7 +253,7 @@ void UMLApp::initActions() {
 				    this, SLOT( slotDeleteDiagram() ), actionCollection(), "view_delete");
 	viewExportImage = new KAction(i18n("&Export as Picture..."), SmallIconSet("image"), 0,
 	                        this, SLOT( slotCurrentViewExportImage() ), actionCollection(), "view_export_image");
-	viewProperties = new KAction(i18n("&Properties..."), SmallIconSet("info"), 0,
+	viewProperties = new KAction(i18n("&Properties"), SmallIconSet("info"), 0,
 				     this, SLOT( slotCurrentViewProperties() ), actionCollection(), "view_properties");
 
 	viewSnapToGrid->setChecked(false);

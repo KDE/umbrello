@@ -81,11 +81,11 @@ void UMLEntityAttributeDialog::setupDialog() {
 					m_pValuesL, i18n("Length/Values:"),
 					m_pValuesLE, m_pEntityAttribute->getValues() );
 
-	m_pAutoIncrementCB = new QCheckBox( i18n("&Auto Increment"), m_pValuesGB );
+	m_pAutoIncrementCB = new QCheckBox( i18n("&Auto increment"), m_pValuesGB );
 	m_pAutoIncrementCB->setChecked( m_pEntityAttribute->getAutoIncrement() );
 	valuesLayout->addWidget(m_pAutoIncrementCB, 5, 0);
 
-	m_pNullCB = new QCheckBox( i18n("Allow &Null"), m_pValuesGB );
+	m_pNullCB = new QCheckBox( i18n("Allow &null"), m_pValuesGB );
 	m_pNullCB->setChecked( m_pEntityAttribute->getNull() );
 	valuesLayout->addWidget(m_pNullCB, 6, 0);
 
