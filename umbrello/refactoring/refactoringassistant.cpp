@@ -471,7 +471,7 @@ void RefactoringAssistant::addClassifier( UMLClassifier *classifier, QListViewIt
 		QListViewItem *attsFolder = new KListViewItem( classifierItem, i18n("Attributes"), "attributes" );
 		attsFolder->setPixmap(0,SmallIcon("folder_green_open"));
 		attsFolder->setExpandable( true );
-		UMLAttributeList atts = klass->getFilteredAttributeList();
+		UMLAttributeList atts = klass->getAttributeList();
 		for( UMLAttribute *att = atts.first(); att; att = atts.next() )
 		{
 			attributeAdded( att );

@@ -96,7 +96,7 @@ void JavaWriter::writeClass(UMLClassifier *c)
 	UMLClass * myClass = dynamic_cast<UMLClass *>(c);
 
 	if(myClass) {
-		UMLAttributeList atl = myClass->getFilteredAttributeList();
+		UMLAttributeList atl = myClass->getAttributeList();
 		for (UMLAttribute *at = atl.first(); at ; at = atl.next()) {
 			switch(at->getScope())
 			{

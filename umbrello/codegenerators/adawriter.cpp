@@ -242,7 +242,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 		if (stype == "CORBAConstant") {
 			ada << getIndent() << "-- " << stype << " is Not Yet Implemented" << m_endl << m_endl;
 		} else if (myClass && myClass->isEnumeration()) {
-			UMLAttributeList atl = myClass->getFilteredAttributeList();
+			UMLAttributeList atl = myClass->getAttributeList();
 			UMLAttribute *at;
 			ada << getIndent() << "type " << classname << " is (" << m_endl;
 			m_indentLevel++;
@@ -257,7 +257,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 			ada << ");" << m_endl << m_endl;
 		} else if(stype == "CORBAStruct") {
 			if(myClass) {
-				UMLAttributeList atl = myClass->getFilteredAttributeList();
+				UMLAttributeList atl = myClass->getAttributeList();
 				UMLAttribute *at;
 				ada << getIndent() << "type " << classname << " is record" << m_endl;
 				m_indentLevel++;
@@ -314,7 +314,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 		UMLAttributeList atpub;
 		atpub.setAutoDelete(false);
 
-		atl = myClass->getFilteredAttributeList();
+		atl = myClass->getAttributeList();
 
 		UMLAttribute *at;
 		for (at = atl.first(); at; at = atl.next()) {

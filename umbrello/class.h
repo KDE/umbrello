@@ -127,7 +127,7 @@ public:
 	 *
 	 * @return	List of true attributes for the class.
 	 */
-	UMLAttributeList getFilteredAttributeList();
+	UMLAttributeList getAttributeList();
 
 	/**
 	 * Return true if this class has an enumeration stereotype.

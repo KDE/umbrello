@@ -326,7 +326,7 @@ void Php5Writer::writeAttributes(UMLClass *c, QTextStream &php) {
 	atdefval.setAutoDelete(false);
 
 	//sort attributes by scope and see if they have a default value
-	UMLAttributeList atl = c->getFilteredAttributeList();
+	UMLAttributeList atl = c->getAttributeList();
 	UMLAttribute *at;
 	for(at = atl.first(); at ; at = atl.next()) {
 		if(!at->getInitialValue().isEmpty())

@@ -153,7 +153,7 @@ void PhpWriter::writeClass(UMLClassifier *c) {
 	writeOperations(c,php);
 
 	if(myClass && hasDefaultValueAttr(myClass)) {
-		UMLAttributeList atl = myClass->getFilteredAttributeList();
+		UMLAttributeList atl = myClass->getAttributeList();
 		php << m_endl;
 
 		php << m_indentation << "/**" << m_endl;
@@ -295,7 +295,7 @@ void PhpWriter::writeAttributes(UMLClass *c, QTextStream &php) {
 	atdefval.setAutoDelete(false);
 
 	//sort attributes by scope and see if they have a default value
-	UMLAttributeList atl = c->getFilteredAttributeList();
+	UMLAttributeList atl = c->getAttributeList();
 	UMLAttribute *at;
 	for(at = atl.first(); at ; at = atl.next()) {
 		if(!at->getInitialValue().isEmpty())

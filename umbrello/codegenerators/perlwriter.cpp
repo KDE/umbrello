@@ -237,7 +237,7 @@ void PerlWriter::writeOperations(UMLClassifier *c, QTextStream &perl) {
 	UMLClass *myClass = dynamic_cast<UMLClass*>(c);
 
 	if(myClass && hasDefaultValueAttr(myClass)) {
-		UMLAttributeList atl = myClass->getFilteredAttributeList();
+		UMLAttributeList atl = myClass->getAttributeList();
 
 		perl << m_endl;
 		perl << m_endl << "=head2 _init" << m_endl << m_endl << m_endl;
@@ -310,7 +310,7 @@ void PerlWriter::writeAttributes(UMLClass *c, QTextStream &perl) {
 	atdefval.setAutoDelete(false);
 
 	//sort attributes by scope and see if they have a default value
-	UMLAttributeList atl = c->getFilteredAttributeList();
+	UMLAttributeList atl = c->getAttributeList();
 	UMLAttribute *at;
 	for(at = atl.first(); at ; at = atl.next()) {
 		if(!at->getInitialValue().isEmpty())

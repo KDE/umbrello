@@ -2410,7 +2410,7 @@ void UMLView::createAutoAttributeAssociations(UMLWidget *widget) {
 		return;
 	UMLClass * klass = static_cast<UMLClass*>(tmpUmlObj);
 	// for each of the UMLClass's UMLAttributes
-	UMLAttributeList attrList = klass->getFilteredAttributeList();
+	UMLAttributeList attrList = klass->getAttributeList();
 	for (UMLAttributeListIt ait(attrList); ait.current(); ++ait) {
 		UMLAttribute *attr = ait.current();
 		UMLClassifier *attrType = attr->getType();

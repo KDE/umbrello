@@ -196,7 +196,7 @@ int UMLClass::attributes() {
 	return atts.count();
 }
 
-UMLAttributeList UMLClass::getFilteredAttributeList() {
+UMLAttributeList UMLClass::getAttributeList() {
 	UMLAttributeList attributeList;
 	for (UMLClassifierListItemListIt lit(m_List); lit.current(); ++lit) {
 		UMLClassifierListItem *listItem = lit.current();

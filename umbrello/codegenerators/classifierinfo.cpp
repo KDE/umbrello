@@ -53,7 +53,7 @@ void ClassifierInfo::init(UMLClassifier *c) {
 	// sort attributes by Scope
 	if(!isInterface) {
 		UMLClass * myClass = dynamic_cast<UMLClass *>(c);
-		UMLAttributeList atl = myClass->getFilteredAttributeList();
+		UMLAttributeList atl = myClass->getAttributeList();
 		for(UMLAttribute *at=atl.first(); at ; at=atl.next()) {
 			switch(at->getScope())
 			{

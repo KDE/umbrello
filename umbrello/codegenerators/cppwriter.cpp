@@ -234,7 +234,7 @@ void CppWriter::writeHeaderFile (UMLClassifier *c, QFile &fileh) {
 		UMLClass* k = dynamic_cast<UMLClass*>(c);
 		if (k->isEnumeration()) {
 			h << "enum " << classifierInfo->className << " {" << m_endl;
-			UMLAttributeList atl = k->getFilteredAttributeList();
+			UMLAttributeList atl = k->getAttributeList();
 			UMLAttribute *at = atl.first();
 			while (at) {
 				QString attrName = cleanName(at->getName());

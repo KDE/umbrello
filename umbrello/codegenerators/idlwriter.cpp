@@ -231,7 +231,7 @@ void IDLWriter::writeClass(UMLClassifier *c) {
 			return;
 		}
 		if (stype == "CORBAEnum") {
-			UMLAttributeList atl = myClass->getFilteredAttributeList();
+			UMLAttributeList atl = myClass->getAttributeList();
 			UMLAttribute *at;
 			idl << getIndent() << "enum " << classname << " {" << m_endl;
 			m_indentLevel++;
@@ -246,7 +246,7 @@ void IDLWriter::writeClass(UMLClassifier *c) {
 			m_indentLevel--;
 			idl << getIndent() << "};" << m_endl << m_endl;
 		} else if (stype == "CORBAStruct") {
-			UMLAttributeList atl = myClass->getFilteredAttributeList();
+			UMLAttributeList atl = myClass->getAttributeList();
 			UMLAttribute *at;
 			idl << getIndent() << "struct " << classname << " {" << m_endl;
 			m_indentLevel++;
@@ -340,7 +340,7 @@ void IDLWriter::writeClass(UMLClassifier *c) {
 
 	// Generate public attributes.
 	if(myClass) {
-		UMLAttributeList atl = myClass->getFilteredAttributeList();
+		UMLAttributeList atl = myClass->getAttributeList();
 		if (forceSections() || atl.count()) {
 			idl << getIndent() << "// Attributes:" << m_endl << m_endl;
 			for (UMLAttribute *at = atl.first(); at; at = atl.next()) {

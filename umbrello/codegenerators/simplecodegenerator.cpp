@@ -205,7 +205,7 @@ QString SimpleCodeGenerator::overwritableName(UMLClassifier* concept, QString na
 
 
 bool SimpleCodeGenerator::hasDefaultValueAttr(UMLClass *c) {
-        UMLAttributeList atl = c->getFilteredAttributeList();
+        UMLAttributeList atl = c->getAttributeList();
         for(UMLAttribute *at = atl.first(); at; at = atl.next())
                 if(!at->getInitialValue().isEmpty())
                         return true;
