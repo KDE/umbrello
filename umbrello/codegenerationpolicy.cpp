@@ -26,6 +26,8 @@
 #include "dialogs/codegenerationpolicypage.h"
 #include "codegenerationpolicy.h"
 
+using namespace std;
+
 #define MAXLINES 256
 
 const CodeGenerationPolicy::OverwritePolicy CodeGenerationPolicy::DEFAULT_OVERWRITE_POLICY = Ask;

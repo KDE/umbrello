@@ -27,6 +27,8 @@
 #include <kdebug.h>
 #include <klocale.h>
 
+using namespace std;
+
 // this constructor really only for loading from XMI, otherwise it
 // is bad..and shouldnt be allowed as it creates an incomplete
 // associationwidget.
