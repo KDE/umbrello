@@ -22,6 +22,8 @@
 #include "ParsedClass.h"
 #include "ParsedMethod.h"
 #include "ParsedStruct.h"
+#include "ParsedEnum.h"
+#include "ParsedTypedef.h"
 #include "ProgrammingByContract.h"
 #include <kdebug.h>
 #include <qregexp.h>
@@ -699,6 +701,38 @@ QPtrList<CParsedStruct> *CClassStore::getSortedStructList()
     // Only append global structs.
     if( globalContainer.structIterator.current()->declaredInScope.isEmpty() )
       retVal->append( globalContainer.structIterator.current() );
+  }
+
+  return retVal;
+}
+
+QPtrList<CParsedEnum> *CClassStore::getSortedEnumList()
+{
+  QPtrList<CParsedEnum> *retVal = new QPtrList<CParsedEnum>();
+
+  // Iterate over all enums in the scope.
+  for( globalContainer.enumIterator.toFirst();
+       globalContainer.enumIterator.current();
+       ++globalContainer.enumIterator )
+  {
+    //if( globalContainer.enumIterator.current()->declaredInScope.isEmpty() )
+      retVal->append( globalContainer.enumIterator.current() );
+  }
+
+  return retVal;
+}
+
+QPtrList<CParsedTypedef> *CClassStore::getSortedTypedefList()
+{
+  QPtrList<CParsedTypedef> *retVal = new QPtrList<CParsedTypedef>();
+
+  // Iterate over all enums in the scope.
+  for( globalContainer.typedefIterator.toFirst();
+       globalContainer.typedefIterator.current();
+       ++globalContainer.typedefIterator )
+  {
+    //if( globalContainer.typedefIterator.current()->declaredInScope.isEmpty() )
+      retVal->append( globalContainer.typedefIterator.current() );
   }
 
   return retVal;

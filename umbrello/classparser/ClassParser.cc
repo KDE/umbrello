@@ -23,6 +23,8 @@
 #include "ParsedClass.h"
 #include "ParsedMethod.h"
 #include "ParsedStruct.h"
+#include "ParsedEnum.h"
+#include "ParsedTypedef.h"
 #include "ProgrammingByContract.h"
 #include "tokenizer.h"
 #include <kapplication.h>
@@ -326,10 +328,130 @@ void CClassParser::parseStruct( CParsedContainer *aContainer )
  * Returns:
  *   -
  *-----------------------------------------------------------------*/
-void CClassParser::parseEnum()
+void CClassParser::parseEnum( CParsedContainer *aContainer /* =NULL */)
 {
-  while( lexem != 0 && lexem != ';' )
+  if (aContainer == NULL)
+  {
+    while (lexem != 0 && lexem != ';')
+      getNextLexem();
+    return;
+  }
+  if (lexem != CPENUM)
+    return;
+  getNextLexem();
+
+  QString typeName;
+
+  if (lexem != '{')
+  {
+    if (lexem != IDEN)
+      return;
+    typeName = getText();
     getNextLexem();
+    if (lexem != '{')
+      return;
+  }
+
+  CParsedEnum *anEnum = new CParsedEnum();
+  // Set some info about the enum.
+  anEnum->setDeclaredOnLine( declStart );
+  anEnum->setDeclaredInFile( currentFile );
+  anEnum->setDefinedInFile( currentFile );
+  if( !aContainer->path().isEmpty() )
+    anEnum->setDeclaredInScope( aContainer->path() );
+
+  // Jump to first literal.
+  getNextLexem();
+
+  while (lexem != 0 && lexem !='}')
+  {
+    if (lexem == IDEN)
+      anEnum->literals.append( getText() );
+    getNextLexem();
+  }
+
+  if (lexem == 0)
+  {
+    kdWarning() << "syntax error at enum" << endl;
+    delete anEnum;
+    return;
+  }
+  getNextLexem();
+  if (lexem == IDEN)   // old C (typedef) syntax: name is at the end.
+  {
+    typeName = getText();
+    getNextLexem();
+  }
+
+  anEnum->setName(typeName);
+
+  // Set the point where the enum ends.
+  anEnum->setDeclarationEndsOnLine( getLineno() );
+
+  if (commentInRange(anEnum))
+    anEnum->setComment( comment );
+
+  aContainer->addEnum( anEnum );
+
+  // Always add enums to the global container.
+  if (aContainer != &store.globalContainer)
+    store.globalContainer.addEnum( anEnum );
+}
+
+/*---------------------------------------- CClassParser::parseEnum()
+ * parseTypedef()
+ *   Parse a typedef.
+ *   Assumes that `lexem' is positioned on the first token after
+ *   `typedef'.
+ *
+ * Parameters:
+ *   -
+ * Returns:
+ *   -
+ *-----------------------------------------------------------------*/
+void CClassParser::parseTypedef( CParsedContainer *aContainer /* =NULL */)
+{
+  if (aContainer == NULL || lexem != IDEN)
+  {
+    if (lexem != IDEN)
+      kdWarning() << "CClassParser::parseTypedef: cannot parse typedef" << endl;
+    while( lexem != 0 && lexem != ';' )
+      getNextLexem();
+    return;
+  }
+
+  CParsedTypedef *aTypedef = new CParsedTypedef();
+
+  while (lexem != 0 && lexem != ';' )
+  {
+    QString text = getText();
+    getNextLexem();
+    if (lexem == ';')
+    {
+      aTypedef->setName(text);
+      break;
+    }
+    else
+      aTypedef->implementation.append(text);
+  }
+
+  // Set some info about the typedef.
+  aTypedef->setDeclaredOnLine( declStart );
+  aTypedef->setDeclaredInFile( currentFile );
+  aTypedef->setDefinedInFile( currentFile );
+  if( !aContainer->path().isEmpty() )
+    aTypedef->setDeclaredInScope( aContainer->path() );
+  // Set the point where the typedef ends.
+  aTypedef->setDeclarationEndsOnLine( getLineno() );
+
+  if( commentInRange( aTypedef ) )
+    aTypedef->setComment( comment );
+
+  aContainer->addTypedef( aTypedef );
+
+  // Always add typedefs to the global container.
+  if( aContainer != &store.globalContainer )
+    store.globalContainer.addTypedef( aTypedef );
 }
 
 /*----------------------------------- CClassParser::parseNamespace()
@@ -1819,7 +1941,7 @@ void CClassParser::parseGenericLexem(  CParsedContainer *aContainer )
   switch( lexem )
   {
     case CPENUM:
-      parseEnum();
+      parseEnum( aContainer );
       break;
     case CPUNION:
       parseUnion();
@@ -1840,9 +1962,12 @@ void CClassParser::parseGenericLexem(  CParsedContainer *aContainer )
         case CPUNION:
           parseUnion();
           break;
+	default:
+          parseTypedef( aContainer );
+	  break;
       }
 
-      // Skip the typedef name.
+      // Skip any unprocessed remainder of the typedef.
       while( lexem != ';' && lexem != 0)
         getNextLexem();
 

@@ -163,7 +163,10 @@ private: // Private methods
   void parseStruct( CParsedContainer *aContainer );
 
   /** Parse an enumeration. */
-  void parseEnum();
+  void parseEnum( CParsedContainer *aContainer = NULL );
+
+  /** Parse an enumeration. */
+  void parseTypedef( CParsedContainer *aContainer = NULL );
 
   /** Parse an union. */
   void parseUnion();

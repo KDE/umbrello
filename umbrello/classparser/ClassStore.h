@@ -22,6 +22,9 @@
 #include "PersistantClassStore.h"
 
 class CClassTreeNode;
+class CParsedStruct;
+class CParsedEnum;
+class CParsedTypedef;
 
 /** This class has the ability to store and fetch parsed items. 
  *
@@ -126,6 +129,20 @@ public: // Public queries
    * @return A sorted list of global structures.
    */
   QPtrList<CParsedStruct> *getSortedStructList();
+
+  /**
+   * Get all enums regardless of the scope they are declared in.
+   * 
+   * @return A sorted list of enum types.
+   */
+  QPtrList<CParsedEnum> *getSortedEnumList();
+
+  /**
+   * Get all typedefs regardless of the scope they are declared in.
+   * 
+   * @return A sorted list of typedefs.
+   */
+  QPtrList<CParsedTypedef> *getSortedTypedefList();
 
 public: // Public Methods
 

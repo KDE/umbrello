@@ -40,7 +40,9 @@ CParsedContainer::CParsedContainer()
   : useFullPath( false ),
     methodIterator( methods ),
     attributeIterator( attributes ),
-    structIterator( structs )
+    structIterator( structs ),
+    enumIterator( enums ),
+    typedefIterator( typedefs )
 {
   attributes.setAutoDelete( true );
   methods.setAutoDelete( true );
@@ -64,6 +66,49 @@ CParsedContainer::~CParsedContainer()
  *                    METHODS TO SET ATTRIBUTE VALUES                *
  *                                                                   *
  ********************************************************************/
+
+/*----------------------------------------- CParsedContainer::addEnum()
+ * addEnum()
+ *   Add an enumeration.
+ *
+ * Parameters:
+ *   anEnum          Pointer to the CParsedEnum instance.
+ *
+ * Returns:
+ *   -
+ *-----------------------------------------------------------------*/
+void CParsedContainer::addEnum( CParsedEnum *anEnum )
+{
+  REQUIRE( "Valid enum", anEnum != NULL );
+  REQUIRE( "Valid enum type name", !anEnum->name.isEmpty() );
+
+  if( !path().isEmpty() )
+    anEnum->setDeclaredInScope( path() );
+
+  enums.insert( ( useFullPath ? anEnum->path().latin1() : anEnum->name.latin1() ), anEnum );
+}
+
+/*----------------------------------------- CParsedContainer::addTypedef()
+ * addTypedef()
+ *   Add an enumeration.
+ *
+ * Parameters:
+ *   aTypedef          Pointer to the CParsedTypedef instance.
+ *
+ * Returns:
+ *   -
+ *-----------------------------------------------------------------*/
+void CParsedContainer::addTypedef( CParsedTypedef *aTypedef )
+{
+  REQUIRE( "Valid typedef", aTypedef != NULL );
+  REQUIRE( "Valid typedef type name", !aTypedef->name.isEmpty() );
+
+  if( !path().isEmpty() )
+    aTypedef->setDeclaredInScope( path() );
+
+  typedefs.insert( ( useFullPath ? aTypedef->path().latin1() :
+                                   aTypedef->name.latin1() ), aTypedef );
+}
 
 /*----------------------------------------- CParsedContainer::addStruct()
  * addStruct()
@@ -353,6 +398,34 @@ QPtrList<CParsedStruct> *CParsedContainer::getSortedStructList()
   return getSortedDictList<CParsedStruct>( structs, useFullPath );
 }
 
+/*---------------------------- CParsedContainer::getSortedEnumList()
+ * getSortedEnumList()
+ *   Get all enums in sorted order.
+ *
+ * Parameters:
+ *   -
+ * Returns:
+ *   QPtrList<CParsedEnum> *  The sorted list.
+ *-----------------------------------------------------------------*/
+QPtrList<CParsedEnum> *CParsedContainer::getSortedEnumList()
+{
+  return getSortedDictList<CParsedEnum>( enums, useFullPath );
+}
+
+/*---------------------------- CParsedContainer::getSortedTypedefList()
+ * getSortedTypedefList()
+ *   Get all typedefs in sorted order.
+ *
+ * Parameters:
+ *   -
+ * Returns:
+ *   QPtrList<CParsedTypedef> *  The sorted list.
+ *-----------------------------------------------------------------*/
+QPtrList<CParsedTypedef> *CParsedContainer::getSortedTypedefList()
+{
+  return getSortedDictList<CParsedTypedef>( typedefs, useFullPath );
+}
+
 /*--------------------------- CParsedContainer::removeWithReferences()
  * removeWithReferences()
  *   Remove all items in the store with references to the file.
@@ -432,6 +505,24 @@ void CParsedContainer::removeStruct( const char *aName )
   structs.remove( aName );
 }
 
+/*----------------------------------- CParsedContainer::removeEnum()
+ * removeEnum()
+ *   Remove an enum with a specified name.
+ *
+ * Parameters:
+ *   aName          Name of the enum to remove.
+ *
+ * Returns:
+ *   -
+ *-----------------------------------------------------------------*/
+void CParsedContainer::removeEnum( const char *aName )
+{
+  REQUIRE( "Valid enum name", aName != NULL );
+  REQUIRE( "Valid enum name length", strlen( aName ) > 0 );
+
+  enums.remove( aName );
+}
+
 /*------------------------------------------ CParsedContainer::clear()
  * clear()
  *   Clear the internal state.
@@ -447,4 +538,6 @@ void CParsedContainer::clear()
   methods.clear();
   methodsByNameAndArg.clear();
   structs.clear();
+  enums.clear();
+  typedefs.clear();
 }

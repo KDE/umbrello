@@ -20,6 +20,8 @@
 
 #include "ParsedMethod.h"
 #include "ParsedItem.h"
+#include "ParsedEnum.h"
+#include "ParsedTypedef.h"
 #include <qdict.h>
 #include <qstrlist.h>
 
@@ -92,7 +94,7 @@ QPtrList<T> *getSortedDictList( QDict<T> &dict, bool usePath )
 }
 
 /** Represents a parsed object that can store other objects.
- *  The objects can be variables, functions or structures. 
+ *  The objects can be variables, functions, structures, typedefs, or enums. 
  *  Since this is a special case of a parsed item, the container
  *  inherits CParsedItem.
  *
@@ -119,6 +121,12 @@ protected: // Private attributes
   /** All structures declared in this class. */
   QDict<CParsedStruct> structs;
 
+  /** All enumerations declared in this class. */
+  QDict<CParsedEnum> enums;
+
+  /** All typedefs declared in this class. */
+  QDict<CParsedTypedef> typedefs;
+
   /** Tells if objects stored in the container should use the 
    * full path as the key(default is no). */
   bool useFullPath;
@@ -134,7 +142,23 @@ public: // Public attributes
   /** Iterator for the structures. */
   QDictIterator<CParsedStruct> structIterator;
 
+  /** Iterator for the enumerations. */
+  QDictIterator<CParsedEnum> enumIterator;
+
+  /** Iterator for the typedefs. */
+  QDictIterator<CParsedTypedef> typedefIterator;
+
 public: // Metods to set attribute values
+
+  /** Add a typedef.
+   * @param aTypedef The typedef to add to the container.
+   */
+  void addTypedef( CParsedTypedef *aTypedef );
+
+  /** Add an enum. 
+   * @param anEnum The enum type to add to the container.
+   */
+  void addEnum( CParsedEnum *anEnum );
 
   /** Add a struct. 
    * @param aStruct The structure to add to the container.
@@ -208,6 +232,12 @@ public: // Public queries
   /** Get all structs in sorted order. */
   QPtrList<CParsedStruct> *getSortedStructList();
 
+  /** Get all enums in sorted order. */
+  QPtrList<CParsedEnum> *getSortedEnumList();
+
+  /** Get all typedefs in sorted order. */
+  QPtrList<CParsedTypedef> *getSortedTypedefList();
+
   /** Does a attribute exist in the store? 
    * @param aName Name of the attribute to check if it exists.
    * @return Does the attribute exist in the container.
@@ -240,6 +270,11 @@ public: // Public methods
    * @param aName Name of the struct to remove.
    */
   void removeStruct( const char *aName );
+
+  /** Remove an enum with a specified name. 
+   * @param aName Name of the enum to remove.
+   */
+  void removeEnum( const char *aName );
 
   /** Clear the internal state. */
   void clear();
