@@ -213,6 +213,11 @@ public:
 
 private:
 	/**
+	 * Basic initialization - common to all constructors.
+	 */
+	void init();
+
+	/**
 	 * Shortcut for the most frequently used insertItem() calls.
 	 *
 	 * @param m	The Menu_Type for which to insert a menu item.
@@ -222,9 +227,23 @@ private:
 	/**
 	 * Shortcut for the most frequently used insertStdItem() calls.
 	 *
+	 * @param insertLeadingSeparator  Set this true if the group shall
+	 *				  start with a separator.
 	 * @param type	The UMLWidget_Type for which to insert the menu items.
+	 *		If no argument is supplied then a Rename item will be
+	 *		included.
 	 */
-	void insertStdItems(Uml::UMLWidget_Type type);
+	void insertStdItems(bool insertLeadingSeparator = true,
+			    Uml::UMLWidget_Type type = Uml::wt_UMLWidget);
+
+	/**
+	 * Shortcut for inserting standard model items (Class, Interface,
+	 * Datatype, Enum, Package) as well as diagram choices.
+	 *
+	 * @param folderAndDiagrams	Set this true if folders and diagram
+	 *				types shall be included as choices.
+	 */
+	void insertContainerItems(bool folderAndDiagrams);
 
 	/**
 	 * Utility: Determines whether the given widget type is cloneable.
@@ -252,6 +271,25 @@ private:
 	 */
 	void setupMenu(Menu_Type type, UMLView * view = 0);
 
+	enum PixMap_Type {
+		pm_Class,
+		pm_Package,
+		pm_Interface,
+		pm_Datatype,
+		pm_Enum,
+		pm_Actor,
+		pm_Usecase,
+		pm_InitialState,
+		pm_EndState,
+		pm_Branch,
+		pm_Object,
+		pm_Component,
+		pm_Node,
+		pm_Artifact,
+		pm_Text,
+		pm_NUMBER_OF_PIXMAPS
+	};
+	QPixmap m_pixmap[pm_NUMBER_OF_PIXMAPS];
 	KPopupMenu * m_pInsert, * m_pShow, * m_pColor;
 	void setupColor(bool fc);
 	void setupColorSelection(bool fc);
