@@ -36,9 +36,14 @@ public:
 	~ClassImport();
 
 	/**
-	 *
+	 * Import C++ files.
 	 */
 	void importCPP( QStringList headerFiles );
+
+	/**
+	 * Import IDL files.
+	 */
+	void importIDL( QStringList idlFiles );
 
 	/**
 	 * Find or create a document object.
@@ -101,6 +106,13 @@ public:
 	 */
 	QString formatComment(const QString &comment);
 
+	/**
+	 * Return the list of paths set by the environment variable UBRELLO_INCPATH.
+	 */
+	QStringList includePathList() {
+		return m_includePathList;
+	}
+
 private:
 	/**
 	 * Auxiliary method for recursively traversing the #include dependencies
@@ -113,6 +125,7 @@ private:
 
 	UMLDoc * m_umldoc;  ///< just a shorthand for UMLApp::app()->getDocument()
 	CppDriver * m_driver;
+	QStringList m_includePathList;  ///< splits the UMBRELLO_INCPATH env var.
 	QStringList m_seenFiles;  ///< auxiliary buffer for feedTheModel()
 	/**
 	 * On encountering a scoped typename string where the scopes

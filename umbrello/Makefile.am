@@ -48,6 +48,7 @@ enumwidget.cpp \
 floatingtext.cpp \
 kplayerslideraction.cpp \
 hierarchicalcodeblock.cpp \
+idlimport.cpp \
 infowidget.cpp \
 interface.cpp \
 interfacewidget.cpp \

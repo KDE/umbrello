@@ -29,6 +29,7 @@
 #include "attribute.h"
 #include "template.h"
 #include "association.h"
+#include "idlimport.h"
 #include "classparser/lexer.h"
 #include "classparser/driver.h"
 #include "classparser/cpptree2uml.h"
@@ -288,6 +289,19 @@ void ClassImport::feedTheModel(QString fileName) {
 	modelFeeder.parseTranslationUnit( ast );
 }
 
+void ClassImport::importIDL(QStringList idlFileList) {
+	char *umbrello_incpath = getenv( "UMBRELLO_INCPATH" );
+	if (umbrello_incpath) {
+		m_includePathList = QStringList::split( ':', umbrello_incpath );
+	}
+	for (QStringList::Iterator fileIT = idlFileList.begin();
+				   fileIT != idlFileList.end(); ++fileIT) {
+		QString fileName = (*fileIT);
+		m_umldoc->writeToStatusBar(i18n("Importing file: %1").arg(fileName));
+		IDLImport::parseFile(fileName);
+	}
+}
+
 void ClassImport::importCPP(QStringList headerFileList) {
 	// Reset the driver
 	m_driver->reset();
@@ -303,10 +317,10 @@ void ClassImport::importCPP(QStringList headerFileList) {
 
 	if (umbrello_incpath) {
 
-		QStringList includes = QStringList::split( ':', umbrello_incpath );
+		m_includePathList = QStringList::split( ':', umbrello_incpath );
 
-		QStringList::Iterator end(includes.end());
-		for (QStringList::Iterator i(includes.begin()); i != end; ++i) {
+		QStringList::Iterator end(m_includePathList.end());
+		for (QStringList::Iterator i(m_includePathList.begin()); i != end; ++i) {
 			m_driver->addIncludePath( *i );
                 }
 

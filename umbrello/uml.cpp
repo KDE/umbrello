@@ -1388,10 +1388,17 @@ ClassImport * UMLApp::classImport() {
 }
 
 void UMLApp::slotImportClasses() {
-	QStringList fileList = KFileDialog::getOpenFileNames(":import-classes",
-	                       i18n("*.h *.hpp *.hxx|Header Files (*.h *.hpp *.hxx)\n*|All Files"), this, i18n("Select Classes to Import") );
+	QStringList fileList;
 	m_doc->setLoading(true);
-	m_classImporter->importCPP( fileList );
+	if (m_activeLanguage == "IDL") {
+		fileList = KFileDialog::getOpenFileNames(":import-classes",
+	                       i18n("*.idl|IDL Files (*.idl)"), this, i18n("Select Code to Import") );
+		m_classImporter->importIDL( fileList );
+	} else {
+		fileList = KFileDialog::getOpenFileNames(":import-classes",
+	                       i18n("*.h *.hpp *.hxx|Header Files (*.h *.hpp *.hxx)\n*|All Files"), this, i18n("Select Classes to Import") );
+		m_classImporter->importCPP( fileList );
+	}
 	m_doc->setLoading(false);
 }
 
