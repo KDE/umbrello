@@ -19,9 +19,6 @@
 #include <qpoint.h>
 #include <qpopupmenu.h>
 
-//anonymous namespace for file-only data
-float min( float a, float b ) { return a < b ? a: b;}
-float max( float a, float b ) { return a > b ? a: b;}
 
 
 namespace Umbrello{
@@ -90,7 +87,7 @@ void DiagramElement::moveToForeground()
 	QCanvasItemList::iterator it;
 	for( it = l.begin() ; it != l.end() ; ++it )
 	{
-		maxZ = max(maxZ, (*it)->z());
+		maxZ = kMax(maxZ, (*it)->z());
 	}
 	kdDebug()<<"max z is "<<maxZ<<endl;
 	if( z() < maxZ )
@@ -116,7 +113,7 @@ void DiagramElement::moveToBackground()
 	QCanvasItemList::iterator it;
 	for( it = l.begin() ; it != l.end() ; ++it )
 	{
-		minZ = min(minZ, (*it)->z());
+		minZ = kMin(minZ, (*it)->z());
 	}
 	kdDebug()<<"min z is "<<minZ<<endl;
 	if( z() > minZ )
@@ -144,7 +141,7 @@ void DiagramElement::raise()
 	{
 		if((*it)->z() > z() )
 		{
-			next = min(next, (*it)->z());
+			next = kMin(next, (*it)->z());
 		}
 	}
 	kdDebug()<<"next z is "<<next<<endl;
@@ -173,7 +170,7 @@ void DiagramElement::lower()
 	{
 		if((*it)->z() < z() )
 		{
-			prev = max(prev, (*it)->z());
+			prev = kMax(prev, (*it)->z());
 		}
 	}
 	kdDebug()<<"prev z is "<<prev<<endl;

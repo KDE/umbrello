@@ -36,8 +36,6 @@ namespace
 {	const long None = 0;
 	const long Selecting = 0x01;
 	const long CreatingAssociation = 0x01<<1;
-	int min(int a, int b) { return (a<b?a:b);}
-	int max(int a, int b) { return (a>b?a:b);}
 }
 
 

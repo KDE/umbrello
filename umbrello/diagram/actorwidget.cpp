@@ -2,6 +2,7 @@
 
 #include "actorwidget.h"
 #include <qapplication.h>
+#include <kglobal.h>
 #include <kdebug.h>
 #include <qpainter.h>
 
@@ -10,9 +11,6 @@
 
 // unnamed namespace : data for this file only
 namespace{
- 
- int max(int a, int b) { return a>b?a:b; };
- 
  //vertical and horizontal margins
  int vMargin = 10;
  int hMargin = 10;
@@ -104,8 +102,8 @@ int maxWidth = 0;
 int currentWidth = 0;
 	
 currentWidth = fm.width(m_name);
-maxWidth = max(maxWidth,currentWidth);	
-maxWidth = max(maxWidth, actorWidth);
+maxWidth = kMax(maxWidth,currentWidth);	
+maxWidth = kMax(maxWidth, actorWidth);
 
 m_width = maxWidth + (2*hMargin);
 	

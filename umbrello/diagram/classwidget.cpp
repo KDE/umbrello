@@ -37,7 +37,6 @@
 
 // unnamed namespace : data for this file only
 namespace{
- int max(int a, int b) { return a>b?a:b; }
  //vertical and horizontal margins
  int vMargin = 10;
  int hMargin = 10;
