@@ -24,6 +24,8 @@ public:
 	AssociationWidget(Diagram *diagram, uint id, UMLAssociation *assoc, UMLWidget *start, UMLWidget *end);
 	virtual ~AssociationWidget();
 	
+	virtual void setPath( QPointArray path );
+	
 	virtual QPointArray areaPoints() const;
 	
 public slots:
@@ -32,7 +34,7 @@ public slots:
 protected:
 	virtual void drawShape(QPainter &);
 	void calculateSize();
-	UMLWidget *m_widgetA, *m_widgetB;	
+	UMLWidget *m_widgetA, *m_widgetB;
 	QPointArray m_path;
 	PathStyle m_style;
 	
