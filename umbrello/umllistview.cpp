@@ -1182,6 +1182,13 @@ bool UMLListView::getSelectedItems(UMLListViewItemList &ItemList) {
 	return true;
 }
 
+UMLListViewItem* UMLListView::createDiagramItem(UMLView *v) {
+	Uml::ListView_Type lvt = convert_DT_LVT(v->getType());
+	UMLListViewItem *parent = determineParentItem(lvt);
+	UMLListViewItem *item = new UMLListViewItem(parent, v->getName(), lvt, v->getID());
+	return item;
+}
+
 /** Creates a new UMLListViewItem from a UMLListViewItem,
     if parent is null the ListView Decides who is going to be
     the parent */

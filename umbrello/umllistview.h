@@ -126,6 +126,13 @@ class UMLListView : public KListView {
 	bool getSelectedItems(UMLListViewItemList &ItemList);
 
 	/**
+	 * Create a listview item for an existing diagram.
+	 *
+	 * @param v		The existing diagram.
+	 */
+	UMLListViewItem* createDiagramItem(UMLView *v);
+
+	/**
 	 * CHECK - This is perhaps redundant since the
 	 *         UMLListViewItemData => UMLListViewItem merge.
 	 * Creates a new UMLListViewItem from a UMLListViewItem, if
