@@ -15,7 +15,7 @@
 #include <kfontdialog.h>
 
 class ClassGenPage;
-class ClassAttPage;
+class ClassifierListPage;
 class ClassOpsPage;
 class ClassTemplatePage;
 class AssocPage;
@@ -99,9 +99,9 @@ protected:
 private:
 	KFontChooser * m_pChooser;
 	ClassGenPage * m_pGenPage;
-	ClassAttPage *	m_pAttPage;
-	ClassOpsPage * m_pOpsPage;
-	ClassTemplatePage* m_pTemplatePage;
+	ClassifierListPage* m_pAttPage;
+	ClassifierListPage* m_pOpsPage;
+	ClassifierListPage* m_pTemplatePage;
 	AssocPage * m_pAssocPage;
 	ClassOptionsPage * m_pOptionsPage;
 	UMLWidgetColorPage * m_pColorPage;
@@ -116,6 +116,9 @@ private:
 	              };
 	Page_Type m_Type;
 public slots:
+        /**
+	 * FIXME not honestly sure what this does
+	 */
 	void slotUpdateChildObject(int id);
 };
 

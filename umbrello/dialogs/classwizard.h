@@ -13,9 +13,8 @@
 #include <kwizard.h>
 //app includes
 #include "classgenpage.h"
-#include "classopspage.h"
-#include "classattpage.h"
 
+class ClassifierListPage;
 class UMLClass;
 class UMLDoc;
 
@@ -75,12 +74,12 @@ protected:
 	/**
 	*	Page 2 - Class Attributes
 	*/
-	ClassAttPage * m_pAttPage;
+	ClassifierListPage* m_pAttPage;
 
 	/**
 	*	Page 3 - Class Operations
 	*/
-	ClassOpsPage * m_pOpPage;
+	ClassifierListPage* m_pOpPage;
 
 	/**
 	*	Document currently opened

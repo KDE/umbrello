@@ -53,6 +53,7 @@
 ////FIXME - remove when dialog linking problems are solved
 #include "interface.h"
 #include "package.h"
+#include "class.h"
 #include "dialogs/umbrellodialog.h"
 #include "dialogs/classpropertiespage.h"
 #include "dialogs/classattributespage.h"

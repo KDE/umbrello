@@ -7,6 +7,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "classifierlistpage.h"
 #include "classwizard.h"
 #include "../attribute.h"
 #include "../operation.h"
@@ -44,11 +45,11 @@ void ClassWizard::setupPages() {
 	setHelpEnabled(m_pGenPage, false);
 
 	//Setup Attribute Page
-	m_pAttPage = new ClassAttPage( this, m_pClass, m_pDoc );
+	m_pAttPage = new ClassifierListPage(this, m_pClass, m_pDoc, ot_Attribute);
 	addPage( m_pAttPage, i18n("Class Attributes") );
 
 	//Setup Operation Page
-	m_pOpPage = new ClassOpsPage( this, m_pClass, m_pDoc );
+	m_pOpPage = new ClassifierListPage(this, m_pClass, m_pDoc, ot_Operation);
 	addPage( m_pOpPage, i18n("Class Operations") );
 }
 

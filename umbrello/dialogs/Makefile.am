@@ -9,9 +9,9 @@ libdialogs_la_SOURCES = overwritedialogue.cpp codegenerationwizard.cpp codegener
                         configgeneratorsbase.ui configcodegenerators.cpp notedialog.cpp activitydialog.cpp activitypage.cpp \
                         umlwidgetcolorpage.cpp umlviewdialog.cpp umloperationdialog.cpp umlattributedialog.cpp \
                         statedialog.cpp settingsdlg.cpp selectopdlg.cpp parmpropdlg.cpp diagramprintpage.cpp \
-                        classpropdlg.cpp classoptionspage.cpp classopspage.cpp classgenpage.cpp classattpage.cpp \
+                        classpropdlg.cpp classoptionspage.cpp classgenpage.cpp \
                         assocpropdlg.cpp assocpage.cpp diagrampropertiespage.ui assocrolepage.cpp assocgenpage.cpp \
-                        umltemplatedialog.cpp classtemplatepage.cpp umbrellodialog.cpp \
+                        umltemplatedialog.cpp umbrellodialog.cpp \
                         classpropertiesbase.ui classpropertiespage.cpp interfacepropertiesbase.ui interfacepropertiespage.cpp \
                         packagepropertiesbase.ui packagepropertiespage.cpp \
                         classattributesbase.ui classattributespage.cpp classifieroperationsbase.ui classifieroperationspage.cpp \
@@ -19,7 +19,8 @@ libdialogs_la_SOURCES = overwritedialogue.cpp codegenerationwizard.cpp codegener
                         parameterpropertiesbase.ui parameterpropertiespage.cpp \
                         classtemplatesbase.ui classtemplatespage.cpp templatepropertiesbase.ui templatepropertiespage.cpp \
                         umlobjectassociationsbase.ui umlobjectassociationspage.cpp \
-                        widgetcolorsbase.ui widgetcolorspage.cpp
+                        widgetcolorsbase.ui widgetcolorspage.cpp \
+			classifierlistpage.cpp
 
 libdialogs_la_LDFLAGS = $(all_libraries) $(KDE_RPATH) -export-dynamic
 

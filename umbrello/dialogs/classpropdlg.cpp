@@ -15,9 +15,7 @@
 
 #include "classpropdlg.h"
 #include "classgenpage.h"
-#include "classattpage.h"
-#include "classopspage.h"
-#include "classtemplatepage.h"
+#include "classifierlistpage.h"
 #include "assocpage.h"
 #include "classoptionspage.h"
 #include "umlwidgetcolorpage.h"
@@ -169,7 +167,7 @@ void ClassPropDlg::setupPages(UMLObject * c, bool assoc) {
 	if (c->getBaseType() == Uml::ot_Class ) {
 		//setup attributes page
 		QFrame* newPage = addPage( i18n("Attributes"), i18n("Attribute Settings"), DesktopIcon("misc") );
-		m_pAttPage = new ClassAttPage(newPage, (UMLClass *)c, m_pDoc);
+		m_pAttPage = new ClassifierListPage(newPage, (UMLClassifier *)c, m_pDoc, ot_Attribute);
 		QHBoxLayout * attLayout = new QHBoxLayout(newPage);
 		attLayout -> addWidget(m_pAttPage);
 		connect(m_pAttPage, SIGNAL(sigUpdateChildObject(int)), this, SLOT(slotUpdateChildObject(int)));
@@ -179,7 +177,7 @@ void ClassPropDlg::setupPages(UMLObject * c, bool assoc) {
 
 		//setup operations page
 		QFrame* newPage = addPage( i18n("Operations"), i18n("Operation Settings"), DesktopIcon("misc") );
-		m_pOpsPage = new ClassOpsPage(newPage, (UMLClassifier*)c, m_pDoc);
+		m_pOpsPage = new ClassifierListPage(newPage, (UMLClassifier*)c, m_pDoc, ot_Operation);
 		QHBoxLayout* pOpsLayout = new QHBoxLayout(newPage);
 		pOpsLayout -> addWidget(m_pOpsPage);
 		connect(m_pOpsPage, SIGNAL(sigUpdateChildObject(int)), this, SLOT(slotUpdateChildObject(int)));
@@ -188,7 +186,7 @@ void ClassPropDlg::setupPages(UMLObject * c, bool assoc) {
 	if (c->getBaseType() == Uml::ot_Class ) {
 		//setup templates page
 		QFrame* newPage = addPage( i18n("Templates"), i18n("Templates Settings"), DesktopIcon("misc") );
-		m_pTemplatePage = new ClassTemplatePage(newPage, (UMLClass *)c, m_pDoc);
+		m_pTemplatePage = new ClassifierListPage(newPage, (UMLClassifier *)c, m_pDoc, ot_Template);
 		QHBoxLayout* templatesLayout = new QHBoxLayout(newPage);
 		templatesLayout->addWidget(m_pTemplatePage);
 		connect(m_pTemplatePage, SIGNAL(sigUpdateChildObject(int)), this, SLOT(slotUpdateChildObject(int)));

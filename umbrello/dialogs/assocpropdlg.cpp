@@ -22,9 +22,6 @@
 
 #include "classpropdlg.h"
 #include "classgenpage.h"
-#include "classattpage.h"
-#include "classopspage.h"
-#include "classoptionspage.h"
 #include "umlwidgetcolorpage.h"
 
 #include "../umlobject.h"

@@ -841,7 +841,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 			break;
 
 		case mt_New_Operation:
-		insertItem(SmallIcon("source"),i18n("New Operation..."), mt_New_Operation);
+			insertItem(SmallIcon("source"),i18n("New Operation..."), mt_New_Operation);
 			break;
 
 		case mt_New_Attribute:
@@ -861,35 +861,32 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 		case mt_Activity_Selected:
 			m_pInsert = new KPopupMenu(this,"New");
 			m_pInsert -> insertItem(SmallIcon( "source"),i18n("Activity..."), mt_New_Activity);
-			insertItem(SmallIcon( "filenew"), i18n("New"), m_pInsert);
-			insertItem(SmallIcon( "charset"), i18n("Rename..."), mt_Rename);
-			insertItem(SmallIcon( "editdelete"), i18n("Delete"), mt_Delete);
+			insertItem(SmallIcon("filenew"), i18n("New"), m_pInsert);
+			insertItem(SmallIcon("charset"), i18n("Rename..."), mt_Rename);
+			insertItem(SmallIcon("editdelete"), i18n("Delete"), mt_Delete);
 			break;
 
 		case mt_Parameter_Selected:
-			insertItem(SmallIcon( "source"),i18n("New Parameter..."), mt_New_Parameter);
-			insertItem(SmallIcon( "charset"), i18n("Rename..."), mt_Rename);
-			insertItem(SmallIcon( "editdelete"), i18n("Delete"), mt_Delete);
-			insertItem(SmallIcon( "info"), i18n("Properties"), mt_Properties);
+			insertItem(SmallIcon("source"),i18n("New Parameter..."), mt_New_Parameter);
+			insertItem(SmallIcon("charset"), i18n("Rename..."), mt_Rename);
+			insertItem(SmallIcon("editdelete"), i18n("Delete"), mt_Delete);
+			insertItem(SmallIcon("info"), i18n("Properties"), mt_Properties);
 			break;
 
 		case mt_Operation_Selected:
-			insertItem(SmallIcon( "source"),i18n("New Operation..."), mt_New_Operation);
-			insertItem(SmallIcon( "charset"), i18n("Rename..."), mt_Rename);
-			insertItem(SmallIcon( "editdelete"), i18n("Delete"), mt_Delete);
-			insertItem(SmallIcon( "info"), i18n("Properties"), mt_Properties);
+			insertItem(SmallIcon("source"),i18n("New Operation..."), mt_New_Operation);
+			insertItem(SmallIcon("editdelete"), i18n("Delete"), mt_Delete);
+			insertItem(SmallIcon("info"), i18n("Properties"), mt_Properties);
 			break;
 
 		case mt_Attribute_Selected:
-			insertItem(SmallIcon( "source"),i18n("New Attribute..."), mt_New_Attribute);
-			insertItem(SmallIcon( "charset"), i18n("Rename..."), mt_Rename);
-			insertItem(SmallIcon( "editdelete"), i18n("Delete"), mt_Delete);
-			insertItem(SmallIcon( "info"), i18n("Properties"), mt_Properties);
+			insertItem(SmallIcon("source"),i18n("New Attribute..."), mt_New_Attribute);
+			insertItem(SmallIcon("editdelete"), i18n("Delete"), mt_Delete);
+			insertItem(SmallIcon("info"), i18n("Properties"), mt_Properties);
 			break;
 
 		case mt_Template_Selected:
 			insertItem(SmallIcon("source"),i18n("New Template..."), mt_New_Attribute);
-			insertItem(SmallIcon("charset"), i18n("Rename..."), mt_Rename);
 			insertItem(SmallIcon("editdelete"), i18n("Delete"), mt_Delete);
 			insertItem(SmallIcon("info"), i18n("Properties"), mt_Properties);
 			break;
