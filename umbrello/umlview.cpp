@@ -954,14 +954,14 @@ void UMLView::selectionUseFillColor(bool useFC) {
 	for(temp=(UMLWidget *)m_SelectedList.first();temp;temp=(UMLWidget *)m_SelectedList.next())
 		temp -> setUseFillColour(useFC);
 }
-
+////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLView::selectionSetFont( QFont font )
 {
 	UMLWidget * temp = 0;
 	for(temp=(UMLWidget *)m_SelectedList.first();temp;temp=(UMLWidget *)m_SelectedList.next())
 		temp -> setFont( font );
 }
-
+////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLView::selectionSetLineColor( QColor color )
 {
 	UMLWidget * temp = 0;
@@ -972,7 +972,7 @@ void UMLView::selectionSetLineColor( QColor color )
 		temp -> setUsesDiagramLineColour(false);
 	}
 }
-
+////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLView::selectionSetFillColor( QColor color )
 {
 	UMLWidget * temp = 0;
@@ -983,7 +983,72 @@ void UMLView::selectionSetFillColor( QColor color )
 		temp -> setUsesDiagramFillColour(false);
 	}
 }
+////////////////////////////////////////////////////////////////////////////////////////////////////
+void UMLView::selectionToggleShow(int sel)
+{
+	UMLWidget * temp = 0;
 
+	// loop through all selected items
+	for(temp=(UMLWidget *) m_SelectedList.first();
+				temp;
+					temp=(UMLWidget *)m_SelectedList.next()) {
+		// toggle the show setting sel
+		switch (sel)
+		{
+			// some setting are only avaible for class, some for interface and some
+			// for both
+		   case ListPopupMenu::mt_Show_Attributes_Selection:
+				if (temp -> getBaseType() == wt_Class) {
+					(static_cast<ClassWidget *> (temp)) -> toggleShowAtts();
+				}
+				break;
+		   case ListPopupMenu::mt_Show_Operations_Selection:
+				if (temp -> getBaseType() == wt_Class) {
+					(static_cast<ClassWidget*> (temp)) -> toggleShowOps();
+				} else if (temp -> getBaseType() == wt_Interface) {
+					(static_cast<InterfaceWidget*> (temp)) -> toggleShowOps();
+				}
+				break;
+		   case ListPopupMenu::mt_Scope_Selection:
+				if (temp -> getBaseType() == wt_Class) {
+					(static_cast<ClassWidget *> (temp)) -> toggleShowScope();
+				} else if (temp -> getBaseType() == wt_Interface) {
+					(static_cast<InterfaceWidget *> (temp)) -> toggleShowScope();
+				}
+				break;
+		   case ListPopupMenu::mt_DrawAsCircle_Selection:
+				if (temp -> getBaseType() == wt_Interface) {
+					(static_cast<InterfaceWidget *> (temp)) -> toggleDrawAsCircle();
+				}
+				break;
+		   case ListPopupMenu::mt_Show_Operation_Signature_Selection:
+				if (temp -> getBaseType() == wt_Class) {
+					(static_cast<ClassWidget *> (temp)) -> toggleShowOpSigs();
+				} else if (temp -> getBaseType() == wt_Interface) {
+					(static_cast<InterfaceWidget *> (temp)) -> toggleShowOpSigs();
+				}
+				break;
+		   case ListPopupMenu::mt_Show_Attribute_Signature_Selection:
+				if (temp -> getBaseType() == wt_Class) {
+					(static_cast<ClassWidget *> (temp)) -> toggleShowAttSigs();
+				}
+				break;
+	    	case ListPopupMenu::mt_Show_Packages_Selection:
+				if (temp -> getBaseType() == wt_Class) {
+					(static_cast<ClassWidget *> (temp)) -> toggleShowPackage();
+				} else if (temp -> getBaseType() == wt_Interface) {
+					(static_cast<InterfaceWidget *> (temp)) -> toggleShowPackage();
+				}
+				break;
+	    	case ListPopupMenu::mt_Show_Stereotypes_Selection:
+				if (temp -> getBaseType() == wt_Class) {
+					(static_cast<ClassWidget *> (temp)) -> toggleShowStereotype();
+				}
+				break;
+			default: break;
+		} // switch (sel)
+	}
+}
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLView::deleteSelection()
 {
@@ -2734,6 +2799,29 @@ void UMLView::checkSelections() {
 			}
 		}//end if
 	}//end while
+}
+
+bool UMLView::checkUniqueSelection()
+{
+	// if there are no selected items, we return true
+	if (m_SelectedList.count() <= 0)
+		return true;
+
+	// get the first item and its base type
+	UMLWidget * pTemp = (UMLWidget *) m_SelectedList.first();
+	UMLWidget_Type tmpType = pTemp -> getBaseType();
+
+	// check all selected items, if they have the same BaseType
+	for ( pTemp = (UMLWidget *) m_SelectedList.first();
+				pTemp;
+					pTemp = (UMLWidget *) m_SelectedList.next() ) {
+		if( pTemp->getBaseType() != tmpType)
+		{
+			return false; // the base types are different, the list is not unique
+		}
+	} // for ( through all selected items )
+
+	return true; // selected items are unique
 }
 
 void UMLView::clearDiagram() {

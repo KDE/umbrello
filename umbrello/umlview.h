@@ -454,6 +454,11 @@ public:
 	void selectionSetFillColor( QColor color );
 
 	/**
+	 * Toggles the show setting sel of all selected items.
+	 */
+	void selectionToggleShow(int sel);
+
+	/**
 	 * Delete the selected widgets list and the widgets in it.
 	 */
 	void deleteSelection();
@@ -700,6 +705,14 @@ public:
 	* widgets they are connected to are selected.
 	*/
 	void checkSelections();
+
+	/**
+	 * This function checks if the currently selected items have all the same
+	 * type (class, interface, ...). If true, the selection is unique and true
+	 * will be returned.
+	 * If there are no items selected, the function will return always true.
+	 */
+	bool checkUniqueSelection();
 
 	/**
 	* Adds a sequence line to the list.
