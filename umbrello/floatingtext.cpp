@@ -76,8 +76,13 @@ void FloatingText::moveEvent(QMoveEvent * /*m*/) {
 void FloatingText::resizeEvent(QResizeEvent * /*re*/) {}
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void FloatingText::setLinePos(int x, int y) {
-	setX( x );
-	setY( y );
+	setX(x);
+	setY(y);
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+void FloatingText::setLinePositionRelatively(int newX, int newY, int oldX, int oldY) {
+	setX( x() + (newX-oldX) );
+	setY( y() + (newY-oldY) );
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void FloatingText::setPositionFromMessage() {
@@ -377,6 +382,7 @@ void FloatingText::mouseMoveEvent(QMouseEvent* me) {
 		setY( newY );
 		if(m_pAssoc)
 			m_pAssoc->calculateNameTextSegment();
+		m_pView->resizeCanvasToItems();
 		moveEvent(0);
 	}
 }

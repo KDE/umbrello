@@ -73,12 +73,6 @@ public:
 	bool operator!=(AssociationWidget & Other);
 
 	/**
-	*  Write property of FloatingText* m_pMultiA.
-	*/
-	virtual bool setMultiA( FloatingText* pMultiA);
-
-	/**
-
 	*   activates an associationwidget after a serialize function
 	*/
 	bool activate();
@@ -86,26 +80,12 @@ public:
   	/**
  	 * Write property of m_pWidgetA
  	 */
- 	void setWidgetA( UMLWidget* WidgetA) {
- 		if (!WidgetA)
- 			m_pWidgetA = 0;
- 		else {
- 			m_pWidgetA = WidgetA;
- 			m_pWidgetA->addAssoc(this);
- 		}
- 	}
+ 	void setWidgetA(UMLWidget* WidgetA);
  
  	/**
  	 * Write property of m_pWidgetB
  	 */ 
- 	void setWidgetB( UMLWidget* WidgetB) {
- 		if (!WidgetB)
- 			m_pWidgetB = 0;
- 		else {
- 			m_pWidgetB = WidgetB;
- 			m_pWidgetB->addAssoc(this);
- 		}
- 	}
+ 	void setWidgetB(UMLWidget* WidgetB);
  
 	/**
 	* Read property of FloatingText* m_pMultiA.
@@ -118,11 +98,6 @@ public:
 	virtual  QString getMultiA();
 
 	/**
-	* Write property of FloatingText* m_pMultiB.
-	*/
-	virtual bool setMultiB( FloatingText* pMultiB);
-
-	/**
 	* Read property of FloatingText* m_pMultiB.
 	*/
 	virtual  FloatingText* getMultiBWidget();
@@ -131,11 +106,6 @@ public:
 	* Returns the m_pMultiB's text.
 	*/
 	virtual  QString getMultiB();
-
-	/**
-	 * Write property of CFloatingText* m_pName
-	 */
-	virtual void setName ( FloatingText* pName);
 
 	/**
 	 * Read property of CFloatingText* m_pRoleA.
@@ -537,6 +507,11 @@ private:
 	void setTextPosition(Text_Role role, QPoint pos);
 
 	/**
+	 * Moves the text widget with the given role by the difference between the two points
+	 */
+	void setTextPositionRelatively(Text_Role role, QPoint pos, QPoint oldPosition);
+
+	/**
 	 * Shows the select operation dialog.
 	 */
 	void showOpDlg();
@@ -647,12 +622,6 @@ private:
 	void updateRegionLineCount(int index, int totalCount, AssociationWidget::Region region , bool widgetA);
 
 protected:
-
-	/**
-	 *  Write property of CFloatingText* m_pRoleA and m_pRoleB.
-	 */
-	virtual bool setRoleAWidget( FloatingText* pRole);
-	virtual bool setRoleBWidget( FloatingText* pRole);
 
 	/**
 	 * Tells all the other view associations the new count for the

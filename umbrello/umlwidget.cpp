@@ -522,8 +522,6 @@ void UMLWidget::adjustAssocs(int x, int y)
 	}
 }
 
-
-
 void UMLWidget::startPopupMenu(QPoint At) {
 	slotRemovePopupMenu();
 	//if in a multi- selection to a specific m_pMenu for that

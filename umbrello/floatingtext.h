@@ -69,6 +69,11 @@ public:
 	void setLinePos(int x, int y);
 
 	/**
+	 * Called to set the position of the FloatingText by the difference between the two points
+	 */
+	void setLinePositionRelatively(int newX, int newY, int oldX, int oldY);
+
+	/**
 	 *	Set the main body of text to display.
 	 *	@param	t	The text to display.
 	 */
