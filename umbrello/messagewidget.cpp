@@ -205,6 +205,27 @@ void MessageWidget::drawAsynchronous(QPainter& p, int offsetX, int offsetY) {
 	}
 }
 
+bool MessageWidget::onWidget(const QPoint & p) {
+	if (m_sequenceMessageType == Uml::sequence_message_asynchronous) {
+		return UMLWidget::onWidget(p);
+	}
+	// Synchronous message:
+	// Consists of top arrow (call) and bottom arrow (return.)
+	if (p.x() < getX() || p.x() > getX() + getWidth())
+		return false;
+	const int tolerance = 4;  // pixels
+	if (getHeight() <= 2 * tolerance)
+		return true;
+	const int pY = p.y();
+	const int topArrowY = getY();
+	const int bottomArrowY = topArrowY + getHeight();
+	if (pY < topArrowY - tolerance || pY > bottomArrowY + tolerance)
+		return false;
+	if (pY > topArrowY + tolerance && pY < bottomArrowY - tolerance)
+		return false;
+	return true;
+}
+
 void MessageWidget::setTextPosition() {
 	if (m_pFText == NULL) {
 		kdDebug() << "MessageWidget::setTextPosition: m_pFText is NULL"

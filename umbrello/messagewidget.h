@@ -280,6 +280,15 @@ public:
 	int getMaxHeight();
 
 	/**
+	 * Overrides operation from UMLWidget.
+	 *
+	 * @param p Point to be checked.
+	 *
+	 * @return True if the point is on a visual part of the MessageWidget
+	 */
+	bool onWidget(const QPoint & p);
+
+	/**
 	 * Overrides the standard operation.
 	 */
 	virtual void mouseReleaseEvent(QMouseEvent * me);
