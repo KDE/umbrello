@@ -218,6 +218,11 @@ private:
 	void init();
 
 	/**
+	 * Shortcut for inserting a "File->New" choice.
+	 */
+	void insertFileNew();
+
+	/**
 	 * Shortcut for the most frequently used insertItem() calls.
 	 *
 	 * @param m	The Menu_Type for which to insert a menu item.
