@@ -286,7 +286,6 @@ void UMLListView::popupMenuSel(int sel) {
 		break;
 
 	case ListPopupMenu::mt_Delete:
-		kdDebug() << k_funcinfo << "deleteing with type:" << lvtType << endl;
 		if ( typeIsDiagram(lvtType) ) {
 			m_doc->removeDiagram(id);
 		} else if( typeIsFolder(lvtType) ) {
