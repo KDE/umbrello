@@ -50,6 +50,8 @@ MessageWidget::MessageWidget(UMLView * view) : UMLWidget(view, new MessageWidget
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void MessageWidget::init() {
+	m_bIgnoreSnapToGrid = true;
+	m_bIgnoreSnapComponentSizeToGrid = true;
 	m_pWA = m_pWB = m_pFText = 0;
 	m_nY = 0;
 	setVisible(true);

@@ -523,6 +523,12 @@ protected:
 	 */
 	QString m_Name;
 
+	/**
+	 * Change Widget Behaviour
+	 */
+	bool m_bIgnoreSnapToGrid;
+	bool m_bIgnoreSnapComponentSizeToGrid;
+
 public slots:
 
 	/**

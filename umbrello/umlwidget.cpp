@@ -254,6 +254,8 @@ void UMLWidget::init() {
 	m_bMoved = false;
 	m_bShiftPressed = false;
 	m_bActivated = false;
+	m_bIgnoreSnapToGrid = false;
+	m_bIgnoreSnapComponentSizeToGrid = false;
 	m_nPressOffsetX = m_nPressOffsetY = 0;
 	m_pMenu = 0;
 	m_nPosX = m_nOldX = m_nOldY = m_nOldID = 0;
@@ -635,7 +637,7 @@ void UMLWidget::setView(UMLView * v) {
 
 void UMLWidget::setX( int x ) {
 	m_pData -> setX( x );
-	if( m_pView -> getSnapToGrid() ) {
+	if( !m_bIgnoreSnapToGrid && m_pView -> getSnapToGrid() ) {
 		int gridX = m_pView -> getSnapX();
 
 		int modX = m_pData -> getX() % gridX;
@@ -648,7 +650,7 @@ void UMLWidget::setX( int x ) {
 
 void UMLWidget::setY( int y ) {
 	m_pData -> setY( y );
-	if( m_pView -> getSnapToGrid() ) {
+	if( !m_bIgnoreSnapToGrid && m_pView -> getSnapToGrid() ) {
 		int gridY = m_pView -> getSnapY();
 		int modY = m_pData -> getY() % gridY;
 		y -= modY;
@@ -694,7 +696,9 @@ bool UMLWidget::widgetHasUMLObject(Uml::UMLWidget_Type type) {
 
 void UMLWidget::setSize(int width,int height) {
 	// snap to the next larger size that is a multiple of the grid
-	if (m_pView -> getSnapComponentSizeToGrid() ) {
+	if (!m_bIgnoreSnapComponentSizeToGrid 
+	    && m_pView -> getSnapComponentSizeToGrid() )
+	{
 		// integer divisions
 		int numX = width / m_pView->getSnapX();
 		int numY = height / m_pView->getSnapY();
