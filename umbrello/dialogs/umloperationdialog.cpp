@@ -429,7 +429,16 @@ bool UMLOperationDialog::apply()
 	else
 		m_pOperation -> setScope( Uml::Protected );
 	m_pOperation -> setTypeName( m_pRtypeCB -> currentText() );
-	m_pOperation -> setAbstract( m_pAbstractCB -> isChecked() );
+	bool isAbstract = m_pAbstractCB->isChecked();
+	m_pOperation -> setAbstract( isAbstract );
+	if (isAbstract) {
+		/* If any operation is abstract then the owning class needs
+		   to be made abstract.
+		   The inverse is not true: The fact that no operation is
+		   abstract does not mean that the class must be non-abstract.
+		 */
+		classifier->setAbstract(true);
+	}
 	m_pOperation -> setStatic( m_pStaticCB -> isChecked() );
 	m_pOperation -> setStereotype( m_pStereoTypeLE->text() );
 
