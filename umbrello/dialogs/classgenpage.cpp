@@ -23,12 +23,17 @@ ClassGenPage::ClassGenPage(UMLDoc *d, QWidget *parent, UMLObject * o) : QWidget(
 	int margin = fontMetrics().height();
 	Uml::UMLObject_Type t = o -> getBaseType();
 	m_pUmldoc = d;
-	if(t == Uml::ot_Concept)
+	if (t == Uml::ot_Concept) {
 		name = i18n("Class name:");
-	else if(t == Uml::ot_Actor)
+	} else if (t == Uml::ot_Actor) {
 		name = i18n("Actor name:");
-	else
+	} else if (t == Uml::ot_Package) {
+		name = i18n("Package name:");
+	} else if (t == Uml::ot_UseCase) {
 		name = i18n("Use case name:");
+	} else {
+		kdWarning() << "creating class gen page for unknown widget type" << endl;
+	}
 	setMinimumSize(310,330);
 	QVBoxLayout * topLayout = new QVBoxLayout(this);
 	topLayout -> setSpacing(6);
