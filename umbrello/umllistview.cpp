@@ -1,4 +1,3 @@
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -8,6 +7,22 @@
  *                                                                         *
  ***************************************************************************/
 
+// own header
+#include "umllistview.h"
+
+// qt/kde includes
+#include <qpoint.h>
+#include <qrect.h>
+#include <qtooltip.h>
+#include <kiconloader.h>
+#include <kapplication.h>
+#include <kdebug.h>
+#include <kfiledialog.h>
+#include <klocale.h>
+#include <kmessagebox.h>
+#include <kstandarddirs.h>
+
+// app includes
 #include "actor.h"
 #include "classimport.h"
 #include "class.h"
@@ -24,7 +39,6 @@
 #include "attribute.h"
 #include "uml.h"
 #include "umldoc.h"
-#include "umllistview.h"
 #include "umllistviewitemlist.h"
 #include "umllistviewitem.h"
 #include "umlview.h"
@@ -34,13 +48,33 @@
 #include "dialogs/classpropdlg.h"
 #include "dialogs/umlattributedialog.h"
 #include "dialogs/umloperationdialog.h"
-#include <kiconloader.h>
-#include <kapplication.h>
-#include <kdebug.h>
-#include <kfiledialog.h>
-#include <klocale.h>
-#include <kmessagebox.h>
-#include <kstandarddirs.h>
+
+class LVToolTip : public QToolTip
+{
+ public:
+	LVToolTip (QWidget* parent) : QToolTip (parent) {}
+	virtual ~LVToolTip () {}
+ protected:
+	/**
+	 * Reimplemented from QToolTip for internal reasons.
+	 * At classifiers, only the method names are shown in the list view -
+	 * we use a tooltip for the full signature display.
+	 * Once KListView's tooltip overriding mechanism works, we can kick
+	 * this class out.
+	 */
+	virtual void maybeTip (const QPoint& pos) {
+		UMLListView *lv = UMLApp::app()->getListView();
+		UMLListViewItem * item = (UMLListViewItem*)lv->itemAt(pos);
+		UMLObject *obj = item->getUMLObject();
+		if (obj == NULL || obj->getBaseType() != Uml::ot_Operation)
+			return;
+		UMLOperation *op = static_cast<UMLOperation*>(obj);
+		QString text = op->toString(Uml::st_ShowSig);
+		QRect rect = lv->itemRect(item);
+		tip(rect, text);
+	}
+};
+
 
 UMLListView::UMLListView(QWidget *parent, const char *name)
   : KListView(parent,name), m_pMenu(0), m_doc(0)
@@ -54,8 +88,11 @@ UMLListView::UMLListView(QWidget *parent, const char *name)
 	setItemsMovable(true);
 	setItemsRenameable( true );
 	setSelectionModeExt(FileManager);
+	/* In KDE-3.3, we cannot use KListView's builtin mechanism for
+	   overriding the tooltips. Instead, see the above class LVToolTip.
 	setShowToolTips( true );
 	setTooltipColumn( 0 );
+	 */
 	setFocusPolicy(QWidget::StrongFocus);
 	setDragEnabled(TRUE);
 	setColumnWidthMode( 0, Manual );
@@ -71,8 +108,7 @@ UMLListView::UMLListView(QWidget *parent, const char *name)
 	deploymentView = new UMLListViewItem(rv, i18n("Deployment View"), Uml::lvt_Deployment_View);
 	datatypeFolder = new UMLListViewItem(lv, i18n("Datatypes"), Uml::lvt_Datatype_Folder);
 
-
-
+	(void) new LVToolTip(viewport());
 	init();
 
 	//setup slots/signals
@@ -287,7 +323,10 @@ void UMLListView::popupMenuSel(int sel) {
 			m_doc->removeDiagram(id);
 		} else if( typeIsFolder(lvtType) ) {
 			if ( temp->firstChild() ) {
-				KMessageBox::error(kapp->mainWidget(), i18n("The folder must be emptied before it can be deleted."), i18n("Folder Not Empty"));
+				KMessageBox::error(
+				    kapp->mainWidget(),
+				    i18n("The folder must be emptied before it can be deleted."),
+				    i18n("Folder Not Empty"));
 				return;
 			}
 			delete temp;
@@ -554,33 +593,22 @@ void UMLListView::slotObjectChanged() {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLListView::childObjectAdded(UMLObject* obj) {
-	if (obj->getBaseType() == ot_Stereotype) {
-		return;
-	}
-	/* kdDebug() << "UMLListView::childObjectAdded(" << obj->getName()
- 		  << "): ID is " << obj->getID() << endl;
-	 */
-	if (!m_bCreatingChildObject) {
-		UMLObject *parent = const_cast<UMLObject*>(dynamic_cast<const UMLObject*>(sender()));
-
-		UMLListViewItem *parentItem = findUMLObject(parent);
-		UMLListViewItem *newItem = new UMLListViewItem(parentItem, obj->getName(), convert_OT_LVT(obj->getBaseType()), obj);
-
-		ensureItemVisible(newItem);
-		clearSelection();
-		setSelected(newItem, true);
-	}
-	connectNewObjectsSlots(obj);
+	UMLObject *parent = const_cast<UMLObject*>(dynamic_cast<const UMLObject*>(sender()));
+	childObjectAdded(obj, parent);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLListView::childObjectAdded(UMLObject* obj, UMLObject* parent) {
-	if (obj->getBaseType() == ot_Stereotype) {
+	Uml::UMLObject_Type ot = obj->getBaseType();
+	/* kdDebug() << "UMLListView::childObjectAdded(" << obj->getName()
+ 		  << ", type " << ot << "): ID is " << obj->getID() << endl;
+	 */
+	if (ot == ot_Stereotype) {
 		return;
 	}
 	if (!m_bCreatingChildObject) {
 		UMLListViewItem *parentItem = findUMLObject(parent);
-		UMLListViewItem *newItem = new UMLListViewItem(parentItem, obj->getName(), convert_OT_LVT(obj->getBaseType()), obj);
-
+		UMLListViewItem *newItem = new UMLListViewItem(parentItem, obj->getName(),
+							       convert_OT_LVT(obj->getBaseType()), obj);
 		ensureItemVisible(newItem);
 		clearSelection();
 		setSelected(newItem, true);
@@ -748,7 +776,8 @@ UMLListViewItem* UMLListView::findView(UMLView* v) {
 	return foundItem;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLListViewItem* UMLListView::recursiveSearchForView(UMLListViewItem* listViewItem, ListView_Type type, int id) {
+UMLListViewItem* UMLListView::recursiveSearchForView(UMLListViewItem* listViewItem,
+						     Uml::ListView_Type type, int id) {
 	while (listViewItem) {
 		if ( typeIsFolder(listViewItem->getType()) ) {
 			UMLListViewItem* child = (UMLListViewItem *)listViewItem->firstChild();
@@ -1773,8 +1802,10 @@ bool UMLListView::slotItemRenamed( QListViewItem * item , int /*col*/ ) {
 
 	//if the length of any type then delete it.
 	if( newText.length() == 0 ) {
-		KMessageBox::error( kapp -> mainWidget() , i18n( "The name you entered was invalid.\nCreation process has been canceled." ),
-				    i18n( "Name Not Valid" ) );
+		KMessageBox::error(
+		    kapp -> mainWidget(),
+		    i18n( "The name you entered was invalid.\nCreation process has been canceled." ),
+		    i18n( "Name Not Valid" ) );
 		delete item;
 		return false;
 	}
@@ -1786,14 +1817,18 @@ bool UMLListView::slotItemRenamed( QListViewItem * item , int /*col*/ ) {
 	if( !isUnique( renamedItem, newText ) ) {
 		//if operation ask if ok not to be unique i.e overloading
 		if( type == Uml::lvt_Operation ) {
-			if( KMessageBox::warningYesNo( kapp -> mainWidget() , i18n( "The name you entered was not unique.\nIs this what you wanted?" ),
-						       i18n( "Name Not Unique" ) ) == KMessageBox::No ) {
+			if( KMessageBox::warningYesNo(
+			    kapp -> mainWidget(),
+			    i18n( "The name you entered was not unique.\nIs this what you wanted?" ),
+			    i18n( "Name Not Unique" ) ) == KMessageBox::No ) {
 				delete item;
 				return false;
 			}
 		} else {
-			KMessageBox::error( kapp -> mainWidget() , i18n( "The name you entered was not unique!\nCreation process has been canceled." ),
-					    i18n( "Name Not Unique" ) );
+			KMessageBox::error(
+			    kapp -> mainWidget(),
+			    i18n( "The name you entered was not unique!\nCreation process has been canceled." ),
+			    i18n( "Name Not Unique" ) );
 			delete item;
 			return false;
 		}
@@ -2372,7 +2407,7 @@ bool UMLListView::startedCopy() const {
 	return m_bStartedCopy;
 }
 
-bool UMLListView::typeIsCanvasWidget(ListView_Type type) {
+bool UMLListView::typeIsCanvasWidget(Uml::ListView_Type type) {
 	if (type == lvt_Actor ||
 	    type == lvt_UseCase ||
 	    type == lvt_Class ||
@@ -2389,7 +2424,7 @@ bool UMLListView::typeIsCanvasWidget(ListView_Type type) {
 	}
 }
 
-bool UMLListView::typeIsFolder(ListView_Type type) {
+bool UMLListView::typeIsFolder(Uml::ListView_Type type) {
 	if (type == Uml::lvt_Logical_Folder ||
 	    type == Uml::lvt_UseCase_Folder ||
 	    type == Uml::lvt_Component_Folder ||
@@ -2401,7 +2436,7 @@ bool UMLListView::typeIsFolder(ListView_Type type) {
 	}
 }
 
-bool UMLListView::typeIsClassifierList(ListView_Type type) {
+bool UMLListView::typeIsClassifierList(Uml::ListView_Type type) {
 	if (type == Uml::lvt_Attribute ||
 	    type == Uml::lvt_Operation ||
 	    type == Uml::lvt_Template) {
@@ -2411,7 +2446,7 @@ bool UMLListView::typeIsClassifierList(ListView_Type type) {
 	}
 }
 
-bool UMLListView::typeIsDiagram(ListView_Type type) {
+bool UMLListView::typeIsDiagram(Uml::ListView_Type type) {
 	if (type == Uml::lvt_Class_Diagram ||
 	    type == Uml::lvt_Collaboration_Diagram ||
 	    type == Uml::lvt_State_Diagram ||
