@@ -14,24 +14,24 @@
 #include <config.h>
 #endif
 
+// system includes
+#include <kurl.h>
+#include <qdom.h>
+#include <qcanvas.h>
+
+//local includes
 #include "umlobjectlist.h"
 #include "umlwidgetlist.h"
+#include "associationwidgetlist.h"
 #include "messagewidgetlist.h"
-
+#include "optionstate.h"
 #include "worktoolbar.h"
-#include "floatingtext.h"
 
-
-// QT includes
-
-// KDE includes
-#include <kurl.h>
-
-// #define OFFSET		50
-
+// forward declarations
 class ClassOptionsPage;
 class IDChangeLog;
 class ListPopupMenu;
+class FloatingText;
 class SeqLineWidget;
 class ObjectWidget;
 

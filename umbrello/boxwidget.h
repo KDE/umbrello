@@ -12,6 +12,10 @@
 //qt includes
 #include <qpainter.h>
 //app includes
+#include "umlwidget.h"
+
+// fwd decl.
+class UMLView;
 
 /**
  * Displays a rectangular box.

@@ -49,7 +49,7 @@
 #include "inputdialog.h"
 #include "clipboard/idchangelog.h"
 #include "clipboard/umldrag.h"
-
+#include "floatingtext.h"
 #include "classwidget.h"
 #include "class.h"
 #include "packagewidget.h"
@@ -1122,24 +1122,22 @@ void UMLView::selectWidgets(int px, int py, int qx, int qy) {
 			continue;
 		//if it is text that is part of an association then select the association
 		//and the objects that are connected to it.
-		if(temp -> getBaseType() == wt_Text && ((FloatingText *)temp) -> getRole() != tr_Floating ) {
-
-			int t = ((FloatingText *)temp) -> getRole();
-			if( t == tr_Seq_Message ) {
-				MessageWidget * mw = (MessageWidget *)((FloatingText *)temp) -> getMessage();
+		if (temp -> getBaseType() == wt_Text) {
+			FloatingText *ft = static_cast<FloatingText*>(temp);
+			Text_Role t = ft -> getRole();
+			if (t == tr_Seq_Message ) {
+				MessageWidget * mw = ft -> getMessage();
 				makeSelected( mw );
 				makeSelected( mw->getWidgetA() );
 				makeSelected( mw->getWidgetB() );
-			} else {
-				AssociationWidget * a = static_cast<AssociationWidget *>( (static_cast<FloatingText *>(temp)) -> getAssoc() );
+			} else if (t != tr_Floating) {
+				AssociationWidget * a = ft -> getAssoc();
 				selectWidgetsOfAssoc( a );
-			}//end else
-		}//end if text
-		else if(temp -> getBaseType() == wt_Message) {
-			UMLWidget * ow = ((MessageWidget *)temp) -> getWidgetA();
-			makeSelected( ow );
-			ow = ((MessageWidget *)temp) -> getWidgetB();
-			makeSelected( ow );
+			}
+		} else if(temp -> getBaseType() == wt_Message) {
+			MessageWidget *mw = static_cast<MessageWidget*>(temp);
+			makeSelected( mw -> getWidgetA() );
+			makeSelected( mw -> getWidgetB() );
 		}
 		if(temp -> isVisible()) {
 			makeSelected( temp );

@@ -6,12 +6,12 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+#include <qwmatrix.h> // need for inverseWorldMatrix.map
+
 #include "toolbarstate.h"
 #include "umlview.h"
-
-#include <qwmatrix.h> // need for inverseWorldMatrix.map
+#include "umlwidget.h"
 #include "associationwidget.h"
-
 #include "uml.h"
 
 ToolBarState::ToolBarState(UMLView *umlView) : m_pUMLView(umlView)
