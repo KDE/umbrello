@@ -67,7 +67,7 @@ public:
 	void draw(QPainter & p, int offsetX, int offsetY);
 
 	/**
-	 * Saves the widget to the <UML:BoxWidget> XMI element.
+	 * Saves the widget to the <boxwidget> XMI element.
 	 * Note: For loading from XMI, the inherited parent method is used.
 	 */
 	void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);

@@ -66,7 +66,7 @@ public:
 	void draw(QPainter& p, int offsetX, int offsetY);
 
 	/**
-	 * Saves to the <UML:NodeWidget> XMI element.
+	 * Saves to the <nodewidget> XMI element.
 	 * Note: For loading we use the method inherited from the parent.
 	 */
 	void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);

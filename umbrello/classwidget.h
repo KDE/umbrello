@@ -119,12 +119,12 @@ public:
 	void draw(QPainter & p, int offsetX, int offsetY);
 
 	/**
-	 * Creates the <UML:ClassWidget> XML element.
+	 * Creates the <classwidget> XML element.
 	 */
 	void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 	/**
-	 * Loads the <UML:ClassWidget> XML element.
+	 * Loads the <classwidget> XML element.
 	 */
 	bool loadFromXMI( QDomElement & qElement );
 	

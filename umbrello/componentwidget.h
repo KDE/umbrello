@@ -66,12 +66,12 @@ public:
 	void draw(QPainter& p, int offsetX, int offsetY);
 
 	/**
-	 * Saves to the <UML:ComponentWidget> XMI element.
+	 * Saves to the <componentwidget> XMI element.
 	 */
 	void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
 	/**
-	 * Loads from a <UML:ComponentWidget> XMI element.
+	 * Loads from a <componentwidget> XMI element.
 	 */
 	bool loadFromXMI(QDomElement& qElement);
 

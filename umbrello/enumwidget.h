@@ -76,12 +76,12 @@ public:
 	void draw(QPainter& p, int offsetX, int offsetY);
 
 	/**
-	 * Saves to the <UML:EnumWidget> XMI element.
+	 * Saves to the <enumwidget> XMI element.
 	 */
 	void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
 	/**
-	 * Loads from an <UML:EnumWidget> XMI element.
+	 * Loads from an <enumwidget> XMI element.
 	 */
 	bool loadFromXMI(QDomElement& qElement);
 

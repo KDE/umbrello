@@ -108,12 +108,12 @@ public:
 	void draw(QPainter & p, int offsetX, int offsetY);
 
 	/**
-	 * Saves to the <UML:NoteWidget> XMI element.
+	 * Saves to the <notewidget> XMI element.
 	 */
 	void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 	/**
-	 * Loads a <UML:NoteWidget> XMI element.
+	 * Loads a <notewidget> XMI element.
 	 */
 	bool loadFromXMI( QDomElement & qElement );
 public slots:

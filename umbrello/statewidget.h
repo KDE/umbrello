@@ -135,12 +135,12 @@ public:
 			     StateType& resultType );
 
 	/**
-	 * Creates the <UML:StateWidget> XMI element.
+	 * Creates the <statewidget> XMI element.
 	 */
 	void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 	/**
-	 * Loads a <UML:StateWidget> XMI element.
+	 * Loads a <statewidget> XMI element.
 	 */
 	bool loadFromXMI( QDomElement & qElement );
 

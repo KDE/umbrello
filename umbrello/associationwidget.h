@@ -504,12 +504,12 @@ public:
 	void calculateEndingPoints();
 
 	/**
-	 * Saves this widget to the <UML:AssociationWidget> XMI element.
+	 * Saves this widget to the <assocwidget> XMI element.
 	 */
 	void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 	/**
-	 * Loads this widget from the <UML:AssociationWidget> XMI element.
+	 * Loads this widget from the <assocwidget> XMI element.
 	 */
 	bool loadFromXMI( QDomElement & qElement );
 

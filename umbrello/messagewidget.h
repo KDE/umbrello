@@ -306,12 +306,12 @@ public:
 	virtual void mousePressEvent(QMouseEvent *me);
 
 	/**
-	 * Saves to the <UML:MessageWidget> XMI element.
+	 * Saves to the <messagewidget> XMI element.
 	 */
 	void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 	/**
-	 * Loads from the <UML:MessageWidget> XMI element.
+	 * Loads from the <messagewidget> XMI element.
 	 */
 	bool loadFromXMI( QDomElement & qElement );
 

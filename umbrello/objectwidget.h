@@ -237,12 +237,12 @@ public:
 	bool messageOverlap(int y, MessageWidget* messageWidget);
 
 	/**
-	 * Saves to the <UML:ObjectWidget> XMI element.
+	 * Saves to the <objectwidget> XMI element.
 	 */
 	void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 	/**
-	 * Loads from a <UML:ObjectWidget> XMI element.
+	 * Loads from a <objectwidget> XMI element.
 	 */
 	bool loadFromXMI( QDomElement & qElement );
 	

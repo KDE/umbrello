@@ -52,12 +52,12 @@ public:
 	void draw(QPainter& p, int offsetX, int offsetY);
 
 	/**
-	 * Saves to the <UML:DatatypeWidget> XMI element.
+	 * Saves to the <datatypewidget> XMI element.
 	 */
 	void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
 	/**
-	 * Loads from an <UML:DatatypeWidget> XMI element.
+	 * Loads from an <datatypewidget> XMI element.
 	 */
 	bool loadFromXMI(QDomElement& qElement);
 
