@@ -179,7 +179,14 @@ void UMLRole::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 
 bool UMLRole::load( QDomElement & element ) {
 	UMLDoc * doc = UMLApp::app()->getDocument();
-	m_SecondaryId = element.attribute("type", "");
+	QString type = element.attribute("type", "");
+	if (!type.isEmpty()) {
+		if (!m_SecondaryId.isEmpty())
+			kdWarning() << "UMLRole::load: overwriting old m_SecondaryId \""
+				    << m_SecondaryId << " with new value \""
+				    << type << "\"" << endl;
+		m_SecondaryId = type;
+	}
 	// Inspect child nodes - for multiplicity (and type if not set above.)
 	QDomNode node = element.firstChild();
 	while (!node.isNull()) {
@@ -264,7 +271,9 @@ bool UMLRole::load( QDomElement & element ) {
 				m_Multi.append(multiUpper);
 			}
 		} else if (m_SecondaryId.isEmpty() &&
-			   Uml::tagEq(tag, "type") || Uml::tagEq(tag, "participant")) {
+			   (Uml::tagEq(tag, "type") ||
+			    Uml::tagEq(tag, "participant") ||
+			    Uml::tagEq(tag, "association"))) {
 			m_SecondaryId = tempElement.attribute("xmi.id", "");
 			if (m_SecondaryId.isEmpty())
 				m_SecondaryId = tempElement.attribute("xmi.idref", "");
