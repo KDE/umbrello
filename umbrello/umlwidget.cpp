@@ -39,31 +39,18 @@
 #include "clipboard/idchangelog.h"
 
 
-// Jeez. Look at all these constructors each with its own initialzation
-// conditions. bad bad bad. Very easy to mess up a code change.
 UMLWidget::UMLWidget( UMLView * view, UMLObject * o )
 	: LinkWidget(view), QCanvasRectangle( view->canvas() ),
 	  m_pMenu(0)
 {
-	m_pObject = o;
 	init();
+	m_pObject = o;
 	if(m_pObject) {
+		connect( m_pObject, SIGNAL(modified()), this, SLOT(updateWidget()) );
 		m_nId = m_pObject->getID();
 	}
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLWidget::UMLWidget( UMLView * view, UMLObject * o, Settings::OptionState optionState )
-	: LinkWidget(view), QCanvasRectangle( view->canvas() ),
-	  m_pMenu(0)
-{
-	m_pObject = o;
-	init();
-	m_FillColour = optionState.uiState.fillColor;
-	m_LineColour = optionState.uiState.lineColor;
-	m_LineWidth  = optionState.uiState.lineWidth;
-	m_Font       = optionState.uiState.font;
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 UMLWidget::UMLWidget(UMLView * view, int id /* = -1 */)
 	: LinkWidget(view), QCanvasRectangle( view->canvas() ),
 	  m_pMenu(0)
@@ -74,24 +61,12 @@ UMLWidget::UMLWidget(UMLView * view, int id /* = -1 */)
 	else
 		m_nId = id;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLWidget::UMLWidget( UMLView * view, Settings::OptionState optionState )
-	: LinkWidget(view), QCanvasRectangle( view->canvas() ),
-	  m_pMenu(0)
-{
-	init();
-	m_FillColour = optionState.uiState.fillColor;
-	m_LineColour = optionState.uiState.lineColor;
-	m_LineWidth  = optionState.uiState.lineWidth;
-	m_Font       = optionState.uiState.font;
-}
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLWidget::~UMLWidget() {
 	//slotRemovePopupMenu();
 	cleanup();
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 UMLWidget& UMLWidget::operator=(const UMLWidget& other) {
 	if (this == &other)
 		return *this;
@@ -452,10 +427,7 @@ void UMLWidget::init() {
 
 
 //	connect( m_pView, SIGNAL(sigColorChanged(int)), this, SLOT(slotColorChanged(int)));
-	if( m_pObject )
-	{
-		connect( m_pObject,SIGNAL(modified()),this,SLOT(updateWidget()));
-	}
+	m_pObject = NULL;
 	setZ( 1 );
 }
 
@@ -1117,16 +1089,6 @@ bool UMLWidget::loadFromXMI( QDomElement & qElement ) {
 	QString usesDiagramLineWidth  = qElement.attribute( "usesdiagramlinewidth", "1" );
 	QString usesDiagramUseFillColour = qElement.attribute( "usesdiagramusefillcolour", "1" );
 
-	if (m_pObject) {
-		if (m_Type != wt_Actor && m_Type != wt_UseCase)
-			kdDebug() << "UMLWidget::loadFromXMI(id=" << id << "): "
-				  << "m_pObject is already set (" << m_pObject->getName() << ")"
-				  << endl;
-		if (id.toInt() != m_pObject->getID())
-			kdError() << "Loading from XMI Error - id = " << id.toInt()
-				  << " but the UMLObject's id is " << m_pObject->getID()
-				  << endl;
-	}
 	m_nId = id.toInt();
 
 	if( !font.isEmpty() ) {

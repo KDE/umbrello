@@ -48,15 +48,6 @@ public:
 	UMLWidget( UMLView * view, UMLObject * o );
 
 	/**
-	 * Constructor
-	 *
-	 * @param view		The view to be displayed on.
-	 * @param o		The UMLObject to represent.
-	 * @param optionState	The optionState of the diagram.  Used to set the initial colours.
-	 */
-	UMLWidget( UMLView * view, UMLObject * o, Settings::OptionState optionState );
-
-	/**
 	 * Creates a UMLWidget object.
 	 *
 	 * @param view	The view to be displayed on.
@@ -64,14 +55,6 @@ public:
 	 *		The default value (-1) will prompt generation of a new ID.
 	 */
 	UMLWidget( UMLView * view, int id = -1 );
-
-	/**
-	 * Constructor
-	 *
-	 * @param view		The view to be displayed on.
-	 * @param optionState	The optionState of the diagram.  Used to set the initial colours.
-	 */
-	UMLWidget( UMLView * view, Settings::OptionState optionState );
 
 	/**
 	 * Standard deconstructor
