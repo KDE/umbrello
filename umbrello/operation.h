@@ -125,7 +125,7 @@ public:
 	 * @param name	The parameter name to search for.
 	 * @return	The found parameter, 0 if not found.
 	 */
-	UMLAttribute * findParm(QString name);
+	UMLAttribute * findParm(const QString &name);
 
 	/**
 	 * Returns a string representation of the operation.

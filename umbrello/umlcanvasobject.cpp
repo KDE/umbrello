@@ -91,7 +91,7 @@ QString UMLCanvasObject::uniqChildName( const Uml::Object_Type type,
 	return name;
 }
 
-UMLObjectList UMLCanvasObject::findChildObject(Uml::Object_Type t, QString n) {
+UMLObjectList UMLCanvasObject::findChildObject(Uml::Object_Type t, const QString &n) {
 	UMLObjectList list;
 	if (t == Uml::ot_Association) {
 		UMLAssociation * obj=0;

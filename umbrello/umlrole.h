@@ -114,21 +114,21 @@ public:
 	 *
 	 * @param multi		The multiplicity of role.
 	 */
-	void setMultiplicity (QString multi);
+	void setMultiplicity ( const QString &multi );
 
 	/**
 	 * Sets the name of the role.
 	 *
 	 * @param roleName	The name of role.
 	 */
-	void setName(QString roleName);
+	void setName( const QString &roleName );
 
 	/**
 	 *  Sets the documentation on the role.
 	 *
 	 *  @param doc		The string with the documentation.
 	 */
-	void setDoc(QString doc);
+	void setDoc( const QString &doc );
 
 	UMLAssociation * getParentAssociation ();
 
@@ -138,9 +138,9 @@ public:
 	 * of a UMLRole, got it?
 	 */
 	virtual Uml::IDType getID() const;
-	virtual void setID ( Uml::IDType id);
+	virtual void setID ( Uml::IDType id );
 
-	void setIdStr(QString idStr);
+	void setIdStr( const QString &idStr );
 
 	/** get the 'id' of the role (NOT the parent object). This could be
 	 * either Uml::A or Uml::B. Yes, it would be better if we

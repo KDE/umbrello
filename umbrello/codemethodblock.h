@@ -88,12 +88,12 @@ protected:
         /**
          * Set the starting text that begins this method before the body is printed.
          */
-        void setStartMethodText (QString value);
+        void setStartMethodText (const QString &value);
 
         /**
          * Set the ending text that finishes this method after the body is printed.
          */
-        void setEndMethodText (QString value);
+        void setEndMethodText (const QString &value);
 
 	/** this is the method called from within syncToparent().
 	  * to update the start and end Method text. It is called

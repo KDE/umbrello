@@ -58,7 +58,7 @@ void UMLClassifierListItem::setType(UMLClassifier *type) {
 	}
 }
 
-void UMLClassifierListItem::setTypeName(QString type) {
+void UMLClassifierListItem::setTypeName(const QString &type) {
 	if (type.isEmpty()) {
 		m_pSecondary = NULL;
 		m_SecondaryId = type;

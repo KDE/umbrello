@@ -173,7 +173,7 @@ void CodeEditor::editTextBlock(TextBlock * tBlock, int para) {
 }
 
 // return whether is empty or just whitespace
-bool CodeEditor::StringIsBlank(QString str)
+bool CodeEditor::StringIsBlank(const QString &str)
 {
 	if(str.isEmpty() || str.stripWhiteSpace().isEmpty())
 		return true;

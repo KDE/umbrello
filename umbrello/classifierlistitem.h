@@ -75,7 +75,7 @@ public:
 	 *
 	 * @param type	The type name of the UMLClassifierListItem.
 	 */
-	void setTypeName(QString type);
+	void setTypeName( const QString &type );
 
 	/**
 	 * Sets the type of the UMLAttribute.

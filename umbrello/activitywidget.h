@@ -71,7 +71,7 @@ public:
 	/**
 	 * Sets the name of the Activity.
 	 */
-	virtual void setName(QString strName);
+	virtual void setName(const QString &strName);
 
 	/**
 	 * Returns the name of the Activity.
@@ -86,7 +86,7 @@ public:
 	/**
 	 * Sets the documenation of the activity.
 	 */
-	void setDoc( QString doc );
+	void setDoc( const QString &doc );
 
 	/**
 	 * Returns the type of activity.

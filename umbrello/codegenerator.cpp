@@ -107,7 +107,7 @@ QString CodeGenerator::getUniqueID(CodeDocument * codeDoc)
 	return id;
 }
 
-CodeDocument * CodeGenerator::findCodeDocumentByID(QString tag) {
+CodeDocument * CodeGenerator::findCodeDocumentByID( const QString &tag ) {
 	//if we already know to which file this class was written/should be written, just return it.
 	CodeDocument * doc = (CodeDocument*)NULL;
 	if((doc = m_codeDocumentDictionary.find(tag)))
@@ -407,7 +407,7 @@ CodeGenerationPolicy * CodeGenerator::newCodeGenerationPolicy ( KConfig * config
  * @param	file
  */
 
-QString CodeGenerator::getHeadingFile(QString file) {
+QString CodeGenerator::getHeadingFile( const QString &file ) {
 	return m_codegeneratorpolicy->getHeadingFile(file);
 }
 
@@ -416,11 +416,11 @@ QString CodeGenerator::getHeadingFile(QString file) {
  * @param	codeDoc
  * @param	name
  */
-QString CodeGenerator::overwritableName(QString name, QString extention) {
+QString CodeGenerator::overwritableName( QString name, const QString &extention ) {
 
 	QDir outputDirectory = m_codegeneratorpolicy->getOutputDirectory();
 
-	if (!outputDirectory.exists(name+extention)) {
+	if (!outputDirectory.exists(name + extention)) {
 		return name + extention;
 	}
 
@@ -485,7 +485,7 @@ QString CodeGenerator::overwritableName(QString name, QString extention) {
  * @param	file
  * @param	name
  */
-bool CodeGenerator::openFile (QFile & file, QString fileName ) {
+bool CodeGenerator::openFile (QFile & file, const QString &fileName ) {
 	//open files for writing.
 	if(fileName.isEmpty()) {
 		kdWarning() << "cannot find a file name" << endl;
@@ -507,7 +507,7 @@ bool CodeGenerator::openFile (QFile & file, QString fileName ) {
  * @return	QString
  * @param	name
  */
-QString CodeGenerator::cleanName (QString name ) {
+QString CodeGenerator::cleanName ( const QString &name ) {
 	return name;
 }
 
@@ -708,7 +708,7 @@ QString CodeGenerator::getNewLineEndingChars ( ) {
 	return getPolicy()->getNewLineEndingChars( );
 }
 
-void CodeGenerator::setOutputDirectory(QString d) {
+void CodeGenerator::setOutputDirectory( const QString &d ) {
 	getPolicy()->setOutputDirectory(d);
 }
 

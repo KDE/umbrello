@@ -175,7 +175,7 @@ public:
 	 * @param n		The name of the object to find.
 	 * @return	The list of objects found; will be empty if none found.
 	 */
-	virtual UMLObjectList findChildObject(Uml::Object_Type t, QString n);
+	virtual UMLObjectList findChildObject(Uml::Object_Type t, const QString &n);
 
 	/**
 	 * Find an attribute, operation, association or template.

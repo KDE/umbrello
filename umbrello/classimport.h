@@ -38,7 +38,7 @@ public:
 	/**
 	 *
 	 */
-	void importCPP(QStringList headerFiles);
+	void importCPP( QStringList headerFiles );
 
 	/**
 	 * Find or create a document object.
@@ -65,7 +65,7 @@ public:
 	 * a conflict with a pre-existing parameterless method of the same
 	 * name.)
 	 */
-	UMLOperation* makeOperation(UMLClass *parent, QString name);
+	UMLOperation* makeOperation(UMLClass *parent, const QString &name);
 
 	/**
 	 * Insert the UMLOperation into the document.
@@ -86,20 +86,20 @@ public:
 	/**
 	 * Add an enum literal to an UMLEnum.
 	 */
-	void addEnumLiteral(UMLEnum *enumType, QString literal);
+	void addEnumLiteral(UMLEnum *enumType, const QString &literal);
 
 	/**
 	 * Create a generalization from the existing child UMLObject to the given
 	 * parent class name.
 	 */
-	void createGeneralization(UMLClass *child, QString parentName);
+	void createGeneralization(UMLClass *child, const QString &parentName);
 
 	/**
 	 * Check that a given comment conforms to the Doxygen convention, i.e.
 	 * check that it begins with slash-star-star.
 	 * Strip the comment lines of leading whitespace and stars.
 	 */
-	QString doxyComment(QString comment);
+	QString doxyComment(const QString &comment);
 
 private:
 	UMLDoc * m_umldoc;  // just a shorthand for UMLApp::app()->getDocument()

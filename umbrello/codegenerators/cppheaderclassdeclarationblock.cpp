@@ -21,7 +21,7 @@
 // Constructors/Destructors
 //  
 
-CPPHeaderClassDeclarationBlock::CPPHeaderClassDeclarationBlock ( CPPHeaderCodeDocument * parentDoc, QString startText, QString endText, QString comment)
+CPPHeaderClassDeclarationBlock::CPPHeaderClassDeclarationBlock ( CPPHeaderCodeDocument * parentDoc, const QString &startText, const QString &endText, const QString &comment)
     : OwnedHierarchicalCodeBlock((UMLObject*) parentDoc->getParentClassifier(), (CodeDocument*)parentDoc, startText, endText, comment)
 {
 	init(parentDoc, comment);
@@ -140,7 +140,7 @@ void CPPHeaderClassDeclarationBlock::updateContent ( )
 
 }
 
-void CPPHeaderClassDeclarationBlock::init (CPPHeaderCodeDocument *parentDoc, QString comment) 
+void CPPHeaderClassDeclarationBlock::init (CPPHeaderCodeDocument *parentDoc, const QString &comment) 
 {
 
 	setComment(new CPPCodeDocumentation(parentDoc));

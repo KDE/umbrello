@@ -54,7 +54,7 @@ bool UMLAssociation::operator==(UMLAssociation &rhs) {
 	if (this == &rhs) {
 			return true;
 	}
-	return( UMLObject::operator== ( rhs ) &&
+	return ( UMLObject::operator== ( rhs ) &&
 		m_AssocType == rhs.m_AssocType &&
 		m_Name == rhs.m_Name &&
 		m_pRole[A] == rhs.m_pRole[A] &&
@@ -466,15 +466,15 @@ void UMLAssociation::setChangeability(Changeability_Type value, Role_Type role) 
 	m_pRole[role]->setChangeability(value);
 }
 
-void UMLAssociation::setMulti(QString value, Role_Type role) {
+void UMLAssociation::setMulti(const QString &value, Role_Type role) {
 	m_pRole[role]->setMultiplicity(value);
 }
 
-void UMLAssociation::setRoleName(QString value, Role_Type role) {
+void UMLAssociation::setRoleName(const QString &value, Role_Type role) {
 	m_pRole[role]->setName(value);
 }
 
-void UMLAssociation::setRoleDoc(QString doc, Role_Type role) {
+void UMLAssociation::setRoleDoc(const QString &doc, Role_Type role) {
 	m_pRole[role]->setDoc(doc);
 }
 

@@ -173,10 +173,10 @@ public:
 	bool vectorIncludeIsGlobal ();
 
          /** also allow setting these parameters! */
-        void setStringClassName(QString value);
-        void setStringClassNameInclude(QString value);
-        void setVectorClassName(QString value);
-        void setVectorClassNameInclude(QString value);
+        void setStringClassName(const QString &value);
+        void setStringClassNameInclude(const QString &value);
+        void setVectorClassName(const QString &value);
+        void setVectorClassNameInclude(const QString &value);
 
 	/** allow setting of these params */
 	void setStringIncludeIsGlobal (bool value);

@@ -122,7 +122,7 @@ private:
 	/**
 	 * write an element declaration.
 	 */
-	void writeElementDecl(QString elementName, QString elementTypeName, QTextStream &XMLschema); 
+	void writeElementDecl( const QString &elementName, const QString &elementTypeName, QTextStream &XMLschema); 
 
 	/**
 	 * writes the Attribute declarations
@@ -158,27 +158,27 @@ private:
 	/**
 	 * Find all attributes that  belong in group
 	 */
-	void writeAttributeGroupDecl(QString elementName, UMLAttributeList &attribs, QTextStream &XMLschema ); 
+	void writeAttributeGroupDecl(const QString &elementName, UMLAttributeList &attribs, QTextStream &XMLschema ); 
 
 	/**
 	 * Writes out an association as an attribute using Vector
 	 */
-	void writeAssociationRoleDecl(UMLClassifier *c, QString multi, QTextStream &XMLschema); 
+	void writeAssociationRoleDecl(UMLClassifier *c, const QString &multi, QTextStream &XMLschema); 
 
 	/**
 	 * Construct an element tag with the schema namespace 
 	 */
-	QString makeSchemaTag (QString tagName);
+	QString makeSchemaTag ( QString tagName );
 
 	/**
 	 * Construct an element tag with the package namespace 
 	 */
-	QString makePackageTag (QString tagName);
+	QString makePackageTag ( QString tagName );
 
 	/**
 	 * Writes a comment
 	 */
-	void writeComment(QString text, QTextStream &XMLschema); 
+	void writeComment(const QString &text, QTextStream &XMLschema); 
 
 	/**
 	 * Find and return a list of child UMLObjects pointed to by the associations 
@@ -194,18 +194,18 @@ private:
 	/**
 	 * Lowers the case of the first letter in the given string
 	 */
-	QString lowerFirstLetterCase(QString string); 
+	QString lowerFirstLetterCase( QString string ); 
 
 	/**
 	 * Replaces `string' with `String' and `bool' with `boolean'
 	 */
-	QString fixTypeName(QString string); 
+	QString fixTypeName( QString string ); 
 
 	/**
 	 * check that initial values of strings DONT have quotes around them
 	 * (we get double quoting then!!
 	 */
-	QString fixInitialStringDeclValue(QString value, QString type);
+	QString fixInitialStringDeclValue( QString value, const QString &type);
 
 	/**
 	 * Find the element node name for this concept.

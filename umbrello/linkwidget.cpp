@@ -17,7 +17,7 @@ UMLClassifier *LinkWidget::getOperationOwner(FloatingText *) {
 	return NULL;
 }
 
-void LinkWidget::setOperationText(FloatingText *, QString) {
+void LinkWidget::setOperationText(FloatingText *, const QString &) {
 	// Only applicable to MessageWidget and AssociationWidget.
 }
 
@@ -29,7 +29,7 @@ void LinkWidget::setMessageText(FloatingText *) {
 	// Only applicable to MessageWidget and AssociationWidget.
 }
 
-void LinkWidget::setText(FloatingText *, QString) {
+void LinkWidget::setText(FloatingText *, const QString &) {
 	// Only applicable to MessageWidget and AssociationWidget.
 }
 
@@ -43,7 +43,7 @@ UMLClassifier *LinkWidget::getSeqNumAndOp(FloatingText *, QString&, QString&) {
 	return NULL;
 }
 
-void LinkWidget::setSeqNumAndOp(QString /*seqNum*/, QString /*op*/) {
+void LinkWidget::setSeqNumAndOp(const QString &/*seqNum*/, const QString &/*op*/) {
 	// Only applicable to MessageWidget and AssociationWidget.
 }
 

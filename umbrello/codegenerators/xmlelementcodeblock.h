@@ -55,7 +55,7 @@ public:
 
 	virtual QPtrList<UMLAttribute> * getAttributeList();
 
-	virtual void setNodeName (QString name);
+	virtual void setNodeName (const QString &name);
 	virtual QString getNodeName ();
 
 	void addAttribute (UMLAttribute * at);
@@ -81,7 +81,7 @@ private:
 
 	QPtrList<UMLAttribute> m_attList;
 	QString m_nodeName; 
-	void init (CodeDocument * parent, QString nodeName, QString comment);
+	void init (CodeDocument * parent, const QString &nodeName, const QString &comment);
 
 };
 

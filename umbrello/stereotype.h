@@ -37,7 +37,7 @@ public:
 	 * @param listType	The list which this stereotype is part of
 	 *			(attribute, operation etc)
 	 */
-	UMLStereotype(QString name, Uml::IDType id = Uml::id_None);
+	UMLStereotype(const QString &name, Uml::IDType id = Uml::id_None);
 
 	/**
 	 * Sets up a stereotype.

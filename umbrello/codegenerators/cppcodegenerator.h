@@ -89,7 +89,7 @@ public:
 
 	/** Converts the passed name into an acceptable class name for CPP code.
 	 */
-	QString getCPPClassName (QString name); 
+	QString getCPPClassName (const QString &name); 
 
 	/**
 	 * Remove a header CodeDocument object from m_headercodedocumentVector List

@@ -21,7 +21,7 @@
 #include <klocale.h>
 #include <kdebug.h>
 
-UMLStereotype::UMLStereotype(QString name, Uml::IDType id /* = Uml::id_None */)
+UMLStereotype::UMLStereotype(const QString &name, Uml::IDType id /* = Uml::id_None */)
   : UMLObject( name, id ) {
 	m_BaseType = Uml::ot_Stereotype;
 	m_refCount = 0;

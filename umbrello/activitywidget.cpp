@@ -109,7 +109,7 @@ void ActivityWidget::calculateSize() {
 	setSize(width, height);
 }
 
-void ActivityWidget::setName(QString strName) {
+void ActivityWidget::setName( const QString &strName ) {
 	m_Name = strName;
 	calculateSize();
 	adjustAssocs( getX(), getY() );
@@ -123,7 +123,7 @@ QString ActivityWidget::getDoc() const {
 	return m_Doc;
 }
 
-void ActivityWidget::setDoc( QString doc ) {
+void ActivityWidget::setDoc( const QString &doc ) {
 	m_Doc = doc;
 }
 

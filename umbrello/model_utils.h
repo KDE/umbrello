@@ -69,7 +69,7 @@ namespace Umbrello {
 	 * "name" | "visibility" | "isRoot" | "isLeaf" | "isAbstract" |
 	 * "isActive" | "ownerScope"
 	 */
-	bool isCommonXMIAttribute(QString tag);
+	bool isCommonXMIAttribute(const QString &tag);
 
 }
 

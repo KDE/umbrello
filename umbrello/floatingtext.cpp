@@ -194,7 +194,7 @@ void FloatingText::handleRename() {
 	update();
 }
 
-void FloatingText::setText(QString t) {
+void FloatingText::setText(const QString &t) {
 	if (m_Role == Uml::tr_Seq_Message || m_Role == Uml::tr_Seq_Message_Self) {
 		QString seqNum, op;
 		m_pLink->getSeqNumAndOp(this, seqNum, op);
@@ -208,14 +208,14 @@ void FloatingText::setText(QString t) {
 	update();
 }
 
-void FloatingText::setPreText (QString t)
+void FloatingText::setPreText (const QString &t)
 {
 	m_PreText = t;
 	calculateSize();
 	update();
 }
 
-void FloatingText::setPostText(QString t) {
+void FloatingText::setPostText(const QString &t) {
 	m_PostText = t;
 	calculateSize();
 	update();
@@ -354,7 +354,7 @@ Uml::Text_Role FloatingText::getRole() const {
 	return m_Role;
 }
 
-bool FloatingText::isTextValid(QString text) {
+bool FloatingText::isTextValid( const QString &text ) {
 	int length = text.length();
 	if(length < 1)
 		return false;

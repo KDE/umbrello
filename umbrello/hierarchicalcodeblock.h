@@ -38,7 +38,7 @@ public:
 	/**
 	 * Constructor
 	 */
-	HierarchicalCodeBlock ( CodeDocument * doc , QString startString = "", QString endString = "", QString comment = "");
+	HierarchicalCodeBlock ( CodeDocument * doc , const QString &startString = "", const QString &endString = "", const QString &comment = "");
 
 	/**
 	 * Empty Destructor
@@ -55,7 +55,7 @@ public:
 	 * Set the value of m_endText
 	 * @param new_var the new value of m_endText
 	 */
-	void setEndText ( QString new_var );
+	void setEndText ( const QString &new_var );
 
 	/**
 	 * Get the value of m_endText
@@ -83,7 +83,7 @@ public:
 	/**
 	 * @param	text 
 	 */
-	void setStartText (QString text );
+	void setStartText ( const QString &text );
 
 	/**
 	 * @return	QString
@@ -107,7 +107,7 @@ public:
 
 	// return a unique, and currently unallocated, text block tag for this hblock
 	QString getUniqueTag(); 
-	QString getUniqueTag(QString prefix); 
+	QString getUniqueTag( QString prefix ); 
 
 	/** 
 	 * Utility method to add accessormethods in this object
@@ -163,7 +163,7 @@ protected:
 	CodeDocument * getCodeDocument();
 
 	// look for specific text blocks which belong to code classfields
-	TextBlock * findCodeClassFieldTextBlockByTag (QString tag);
+	TextBlock * findCodeClassFieldTextBlockByTag ( const QString &tag );
 
 private:
 

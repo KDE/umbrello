@@ -55,7 +55,7 @@ CPPHeaderCodeDocument::~CPPHeaderCodeDocument ( ) { }
 // Accessor methods
 //
 
-QString CPPHeaderCodeDocument::getCPPClassName (QString name) {
+QString CPPHeaderCodeDocument::getCPPClassName (const QString &name) {
 	CPPCodeGenerator *g = (CPPCodeGenerator*) getParentGenerator();
 	return g->getCPPClassName(name);
 }

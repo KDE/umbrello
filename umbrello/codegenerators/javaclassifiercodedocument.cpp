@@ -96,14 +96,14 @@ QString JavaClassifierCodeDocument::getPath ( )
 // Other methods
 //
 
-QString JavaClassifierCodeDocument::capitalizeFirstLetter(QString string)
+QString JavaClassifierCodeDocument::capitalizeFirstLetter(const QString &string)
 {
 	CodeGenerator *g = getParentGenerator();
 	JavaCodeGenerator * gen = dynamic_cast<JavaCodeGenerator *>(g);
 	return gen->capitalizeFirstLetter(string);
 }
 
-QString JavaClassifierCodeDocument::getJavaClassName (QString name) {
+QString JavaClassifierCodeDocument::getJavaClassName (const QString &name) {
 	CodeGenerator *g = getParentGenerator();
 	return capitalizeFirstLetter(g->cleanName(name));
 }

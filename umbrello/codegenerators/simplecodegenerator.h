@@ -78,7 +78,7 @@ protected:
 
 	// compatability methods..
 	QString findFileName(UMLClassifier* concept, QString ext);
-	QString overwritableName(UMLClassifier* concept, QString name, QString ext);
+	QString overwritableName(UMLClassifier* concept, QString name, const QString &ext);
         bool hasDefaultValueAttr(UMLClass *c);
         bool hasAbstractOps(UMLClassifier *c);
 

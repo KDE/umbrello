@@ -87,7 +87,7 @@ protected:
         CodeComment * newCodeComment ( );
 
 	// a little utility method to save us some work
-	QString getCPPClassName (QString name);
+	QString getCPPClassName (const QString &name);
 
        // IF the classifier object is modified, this will get called.
         // Possible mods include changing the filename and package

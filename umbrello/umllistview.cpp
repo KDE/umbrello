@@ -2119,7 +2119,7 @@ QString UMLListView::getUniqueDiagramName(Uml::Diagram_Type type) {
 	return m_doc->uniqViewName(type);
 }
 
-bool UMLListView::isUnique( UMLListViewItem * item, QString name ) {
+bool UMLListView::isUnique( UMLListViewItem * item, const QString &name ) {
 	UMLListViewItem * parentItem = static_cast<UMLListViewItem *>( item -> parent() );
 	Uml::ListView_Type type = item -> getType();
 	switch( type ) {

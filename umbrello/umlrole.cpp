@@ -32,7 +32,7 @@ bool UMLRole::operator==(UMLRole &rhs) {
 	if (this == &rhs) {
 			return true;
 	}
-	return( UMLObject::operator==( rhs ) &&
+	return ( UMLObject::operator==( rhs ) &&
 		m_Changeability == rhs.m_Changeability &&
 		m_Multi == rhs.m_Multi &&
 		m_Name == rhs.m_Name
@@ -104,17 +104,17 @@ void UMLRole::setChangeability (Uml::Changeability_Type value) {
 	emit modified();
 }
 
-void UMLRole::setMultiplicity (QString multi) {
+void UMLRole::setMultiplicity ( const QString &multi ) {
 	m_Multi = multi;
 	emit modified();
 }
 
-void UMLRole::setName(QString roleName) {
+void UMLRole::setName( const QString &roleName ) {
 	m_Name = roleName;
 	emit modified();
 }
 
-void UMLRole::setDoc(QString doc) {
+void UMLRole::setDoc( const QString &doc ) {
 	m_Doc = doc;
 	emit modified();
 }
@@ -123,7 +123,7 @@ Uml::Role_Type UMLRole::getRoleID() {
 	return m_roleID;
 }
 
-void UMLRole::setIdStr(QString idStr) {
+void UMLRole::setIdStr( const QString &idStr ) {
 	m_SecondaryId = idStr;
 }
 

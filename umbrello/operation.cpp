@@ -117,7 +117,7 @@ void UMLOperation::removeParm(UMLAttribute * a) {
 	emit modified();
 }
 
-UMLAttribute* UMLOperation::findParm(QString name) {
+UMLAttribute* UMLOperation::findParm(const QString &name) {
 	UMLAttribute * obj=0;
 	for (obj = m_List.first(); obj; obj = m_List.next()) {
 		if (obj->getName() == name)

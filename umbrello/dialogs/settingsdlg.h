@@ -138,7 +138,7 @@ private:
 	void setupUIPage();
 	void setupGeneralPage();
 	void setupClassPage();
-  	void setupCodeGenPage( CodeGenerator *gen, QString activeLanguage);
+  	void setupCodeGenPage( CodeGenerator *gen, const QString &activeLanguage);
 	void setupCodeViewerPage(Settings::CodeViewerState options);
 	void applyPage( Settings::Page page );
 

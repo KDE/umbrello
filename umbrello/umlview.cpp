@@ -655,7 +655,7 @@ void UMLView::contentsDropEvent(QDropEvent *e) {
 	m_pDoc -> setModified(true);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-ObjectWidget * UMLView::onWidgetLine( QPoint point ) {
+ObjectWidget * UMLView::onWidgetLine( const QPoint &point ) {
 	SeqLineWidget * pLine = 0;
 	for( pLine = m_SeqLineList.first(); pLine; pLine = m_SeqLineList.next() ) {
 		if( pLine -> onWidget( point ) ) {
@@ -805,13 +805,13 @@ void UMLView::removeWidget(UMLWidget * o) {
 	delete o;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void UMLView::setFillColor(QColor color) {
+void UMLView::setFillColor(const QColor &color) {
 	m_Options.uiState.fillColor = color;
 	emit sigColorChanged( getID() );
 	canvas()->setAllChanged();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void UMLView::setLineColor(QColor color) {
+void UMLView::setLineColor(const QColor &color) {
 	m_Options.uiState.lineColor = color;
 	emit sigColorChanged( getID() );
 	emit sigLineColorChanged( getID() );
@@ -947,14 +947,14 @@ void UMLView::selectionUseFillColor(bool useFC) {
 		temp -> setUseFillColour(useFC);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void UMLView::selectionSetFont( QFont font )
+void UMLView::selectionSetFont( const QFont &font )
 {
 	UMLWidget * temp = 0;
 	for(temp=(UMLWidget *)m_SelectedList.first();temp;temp=(UMLWidget *)m_SelectedList.next())
 		temp -> setFont( font );
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void UMLView::selectionSetLineColor( QColor color )
+void UMLView::selectionSetLineColor( const QColor &color )
 {
 	UMLWidget * temp = 0;
 	for(temp=(UMLWidget *) m_SelectedList.first();
@@ -976,7 +976,7 @@ void UMLView::selectionSetLineWidth( uint width )
 	}
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void UMLView::selectionSetFillColor( QColor color )
+void UMLView::selectionSetFillColor( const QColor &color )
 {
 	UMLWidget * temp = 0;
 	for(temp=(UMLWidget *) m_SelectedList.first();
@@ -1308,7 +1308,7 @@ QString mimeTypeToImageType(QString mimetype) {
 	return QString::null;
 }
 
-void UMLView::fixEPS(QString filename, QRect rect) {
+void UMLView::fixEPS(const QString &filename, QRect rect) {
 	// now open the file and make a correct eps out of it
 	QFile epsfile(filename);
 	QString fileContent;
@@ -1336,7 +1336,7 @@ void UMLView::fixEPS(QString filename, QRect rect) {
 	}
 }
 
-void UMLView::printToFile(QString filename,bool isEPS) {
+void UMLView::printToFile(const QString &filename,bool isEPS) {
 	// print the image to a normal postscript file,
 	// do not clip so that everything ends up in the file
 	// regardless of "paper size"

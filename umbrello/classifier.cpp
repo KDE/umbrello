@@ -134,7 +134,7 @@ UMLOperation* UMLClassifier::takeOperation(UMLOperation* o) {
 	return 0;
 }
 
-UMLObjectList UMLClassifier::findChildObject(Object_Type t , QString n) {
+UMLObjectList UMLClassifier::findChildObject(Object_Type t , const QString &n) {
 	if (t == ot_Association) {
 		return UMLCanvasObject::findChildObject(t, n);
 	}

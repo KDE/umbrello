@@ -119,7 +119,7 @@ public:
 	 *
 	 * @param colour the new line colour
 	 */
-	void setLineColour(QColor colour);
+	void setLineColour(const QColor &colour);
 
 	/**
 	 * Sets the line width
@@ -147,7 +147,7 @@ public:
 	 *
 	 * @param colour the new fill colour
 	 */
-	void setFillColour(QColor colour);
+	void setFillColour(const QColor &colour);
 
 	/**
 	 * Read property of QColor m_FillColour.
@@ -422,7 +422,7 @@ public:
 	/**
 	 * Write property of m_instanceName
 	 */
-	void setInstanceName(QString instanceName) {
+	void setInstanceName(const QString &instanceName) {
 		m_instanceName = instanceName;
 	}
 
@@ -450,7 +450,7 @@ public:
 	 *
 	 * @param strName The name to be set.
 	 */
-	virtual void setName(QString strName);
+	virtual void setName(const QString &strName);
 
 	/**
 	 * Gets the name from the corresponding UMLObject.
@@ -465,7 +465,7 @@ public:
 	 *
 	 * @param At The Point where the diagram is to be coming up.
 	 */
-	void startPopupMenu(QPoint At);
+	void startPopupMenu( const QPoint &At );
 
 	/**
 	 * Adjusts associations with the given co-ordinates

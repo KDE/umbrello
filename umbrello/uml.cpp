@@ -1225,7 +1225,7 @@ void UMLApp::setActiveLanguage(int id) {
 	}
 }
 
-void UMLApp::setActiveLanguage(QString activeLanguage) {
+void UMLApp::setActiveLanguage( const QString &activeLanguage ) {
 
 	for(unsigned int j=0; j < langSelect->count(); j++) {
 		int id = langSelect->idAt(j);
@@ -1519,7 +1519,7 @@ UMLView* UMLApp::getCurrentView() {
 	return m_view;
 }
 
-QPopupMenu* UMLApp::findMenu(QMenuData* menu, QString name) {
+QPopupMenu* UMLApp::findMenu(QMenuData* menu, const QString &name) {
 
         if (menu) {
 		int menuCount = menu->count();

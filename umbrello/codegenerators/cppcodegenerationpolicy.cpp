@@ -223,22 +223,22 @@ QString CPPCodeGenerationPolicy::getVectorClassNameInclude() {
 	return m_vectorClassNameInclude;
 }
 
-void CPPCodeGenerationPolicy::setStringClassName(QString value) {
+void CPPCodeGenerationPolicy::setStringClassName(const QString &value) {
 	m_stringClassName = value;
 	emit modifiedCodeContent();
 }
 
-void CPPCodeGenerationPolicy::setStringClassNameInclude(QString value) {
+void CPPCodeGenerationPolicy::setStringClassNameInclude(const QString &value) {
 	m_stringClassNameInclude = value;
 	emit modifiedCodeContent();
 }
 
-void CPPCodeGenerationPolicy::setVectorClassName(QString value) {
+void CPPCodeGenerationPolicy::setVectorClassName(const QString &value) {
 	m_vectorClassName = value;
 	emit modifiedCodeContent();
 }
 
-void CPPCodeGenerationPolicy::setVectorClassNameInclude(QString value) {
+void CPPCodeGenerationPolicy::setVectorClassNameInclude(const QString &value) {
 	m_vectorClassNameInclude = value;
 	emit modifiedCodeContent();
 }

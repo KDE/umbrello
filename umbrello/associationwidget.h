@@ -174,13 +174,13 @@ public:
 	 * Sets the text in the FloatingText widget representing the Name
 	 * of this association.
 	 */
-	void setName (QString strRole);
+	void setName (const QString &strRole);
 
 	/**
 	 * Sets the text in the FloatingText representing the multiplicity
 	 * at the given side of the association.
 	 */
-	void setMulti(QString strMulti, Uml::Role_Type role);
+	void setMulti(const QString &strMulti, Uml::Role_Type role);
 
 	/**
 	 * Gets the visibility on the given role of the association.
@@ -386,17 +386,17 @@ public:
 	 * For this function to work properly, the associated widget
 	 *  should already be set.
 	 */
-	bool setRoleName(QString strRole, Uml::Role_Type role);
+	bool setRoleName(const QString &strRole, Uml::Role_Type role);
 
 	/**
 	 * Set the documentation on this association.
 	 */
-	void setDoc(QString doc);
+	void setDoc(const QString &doc);
 
 	/**
 	 * Set the documentation on the given role.
 	 */
-	void setRoleDoc(QString doc, Uml::Role_Type role);
+	void setRoleDoc(const QString &doc, Uml::Role_Type role);
 
 	/**
 	 * Overrides operation from LinkWidget.
@@ -408,7 +408,7 @@ public:
 	 * Overrides operation from LinkWidget.
 	 * Required by FloatingText.
 	 */
-	void setOperationText(FloatingText *ft, QString opText);
+	void setOperationText(FloatingText *ft, const QString &opText);
 
 	/**
 	 * Overrides operation from LinkWidget.
@@ -439,7 +439,7 @@ public:
 	 * Overrides operation from LinkWidget.
 	 * Required by FloatingText.
 	 */
-	void setText(FloatingText *ft, QString text);
+	void setText(FloatingText *ft, const QString &text);
 
 	/**
 	 * Calls @ref setTextPosition() on all the labels.
@@ -486,7 +486,7 @@ public:
 	 * @param seqNum	The new sequence number string to set.
 	 * @param op		The new operation string to set.
 	 */
-	void setSeqNumAndOp(QString seqNum, QString op);
+	void setSeqNumAndOp(const QString &seqNum, const QString &op);
 
 	/**
 	 * Overrides operation from LinkWidget.
@@ -588,7 +588,7 @@ private:
 	 * When the region is East or West, the Y value is returned (X is
 	 * constant.)
 	 */
-	static int findInterceptOnEdge(QRect rect, Region region, QPoint point);
+	static int findInterceptOnEdge(const QRect &rect, Region region, const QPoint &point);
 
 	/**
 	 * Overrides moveEvent.
@@ -611,7 +611,7 @@ private:
 	/**
 	 * Returns a point with interchanged X and Y coordinates.
 	 */
-	static QPoint swapXY(QPoint p);
+	static QPoint swapXY(const QPoint &p);
 
 	/**
 	 * Returns the total length of the association's LinePath:
@@ -626,7 +626,7 @@ private:
 	 * to Distance and if PX is not a point of the segment P1P2 then the
 	 * function returns (-1,-1).
 	 */
-	static QPoint calculatePointAtDistance(QPoint P1, QPoint P2, float Distance);
+	static QPoint calculatePointAtDistance(const QPoint &P1, const QPoint &P2, float Distance);
 
 	/**
 	 * Calculates which point of a perpendicular line to segment P1P2 that
@@ -634,7 +634,7 @@ private:
 	 * Let's say such point is PX, the distance from P2 to PX must be equal
 	 * to Distance.
 	 */
-	static QPoint calculatePointAtDistanceOnPerpendicular(QPoint P1, QPoint P2, float Distance);
+	static QPoint calculatePointAtDistanceOnPerpendicular(const QPoint &P1, const QPoint &P2, float Distance);
 
 	/**
 	 * Calculates the intersection between line P1P2 and a perpendicular
@@ -670,7 +670,7 @@ private:
 	 * Moves the text widget with the given role by the difference between
 	 * the two points.
 	 */
-	void setTextPositionRelatively(Uml::Text_Role role, QPoint oldPosition);
+	void setTextPositionRelatively(Uml::Text_Role role, const QPoint &oldPosition);
 
 	/**
 	 * Returns the Region the widget to line intersection is for the given
@@ -788,7 +788,7 @@ private:
 	 * For internal purposes only.
 	 * Other classes/users should use setChangeability() instead.
 	 */
-	void setChangeWidget(QString strChangeWidget, Uml::Role_Type role);
+	void setChangeWidget(const QString &strChangeWidget, Uml::Role_Type role);
 
 	/**
 	 * Checks to see if the given point is one of the points of the line.
@@ -796,7 +796,7 @@ private:
 	 * This is only valid if no other point id being moved and only
 	 * while the left mouse button is down.
 	 */
-	void checkPoints(QPoint p);
+	void checkPoints(const QPoint &p);
 
 	/**
 	 * Returns true if the line path starts at the given widget.

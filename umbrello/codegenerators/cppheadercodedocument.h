@@ -76,7 +76,7 @@ public:
 	//virtual void saveToXMI ( QDomDocument & doc, QDomElement & root );
 
 	// a little utility method to save us some work
-	QString getCPPClassName (QString name);
+	QString getCPPClassName (const QString &name);
 
 protected:
 

@@ -601,7 +601,7 @@ void UMLWidget::setUseFillColour(bool fc) {
 	update();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void UMLWidget::setLineColour(QColor colour) {
+void UMLWidget::setLineColour(const QColor &colour) {
 	m_LineColour = colour;
 	m_bUsesDiagramLineColour = false;
 	update();
@@ -613,7 +613,7 @@ void UMLWidget::setLineWidth(uint width) {
 	update();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void UMLWidget::setFillColour(QColor colour) {
+void UMLWidget::setFillColour(const QColor &colour) {
 	m_FillColour = colour;
 	m_bUsesDiagramFillColour = false;
 	update();
@@ -748,7 +748,7 @@ void UMLWidget::adjustUnselectedAssocs(int x, int y)
 	}
 }
 
-void UMLWidget::startPopupMenu(QPoint At) {
+void UMLWidget::startPopupMenu( const QPoint &At) {
 	slotRemovePopupMenu();
 
 	//if in a multi- selection to a specific m_pMenu for that
@@ -889,7 +889,7 @@ void UMLWidget::setY( int y ) {
 	QCanvasItem::setY( (double)y );
 }
 
-void UMLWidget::setName(QString strName) {
+void UMLWidget::setName(const QString &strName) {
 	if (m_pObject)
 		m_pObject->setName(strName);
 	calculateSize();

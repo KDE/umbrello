@@ -69,26 +69,26 @@ public:
 	 *
 	 * @param t	The text to display.
 	 */
-	void setText(QString t);
+	void setText(const QString &t);
 
 	/**
 	 * Set some text to be prepended to the main body of text.
 	 * @param t	The text to prepend to main body which is displayed.
 	 */
-	void setPreText(QString t);
+	void setPreText(const QString &t);
 
 	/**
 	 * Set some text to be appended to the main body of text.
 	 * @param t	The text to append to main body which is displayed.
 	 */
-	void setPostText(QString t);
+	void setPostText(const QString &t);
 
 	/**
 	 * Set the sequence number to display.
 	 *
 	 * @param sn	The sequence number to display.
 	 */
-	void setSeqNum(QString sn);
+	void setSeqNum(const QString &sn);
 
 	/**
 	 * Return the sequence number.
@@ -102,7 +102,7 @@ public:
 	 *
 	 * @param op	The operation to display.
 	 */
-	void setOperation(QString op);
+	void setOperation(const QString &op);
 
 	/**
 	 * Sets the text for this label if it is acting as a sequence
@@ -213,7 +213,7 @@ public:
 	 * @param text	The string to analyze.
 	 * @return	True if the given text is valid.
 	 */
-	static bool isTextValid(QString text);
+	static bool isTextValid(const QString &text);
 
 	/**
 	 * Calculates the size of the widget.

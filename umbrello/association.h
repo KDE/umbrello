@@ -174,21 +174,21 @@ public:
 	 *
 	 * @param multiA	The multiplicity of the given role.
 	 */
-	void setMulti(QString multi, Uml::Role_Type role);
+	void setMulti(const QString &multi, Uml::Role_Type role);
 
 	/**
 	 * Sets the name of the given role of the UMLAssociation.
 	 *
 	 * @param roleNameA	The name of the given role.
 	 */
-	void setRoleName(QString roleName, Uml::Role_Type role);
+	void setRoleName(const QString &roleName, Uml::Role_Type role);
 
 	/**
 	 * Sets the documentation on the given role in the association.
 	 *
 	 * @param doc		The string with the documentation.
 	 */
-	void setRoleDoc(QString doc, Uml::Role_Type role);
+	void setRoleDoc(const QString &doc, Uml::Role_Type role);
 
 	/**
          * Convert Changeability_Type value into QString representation.

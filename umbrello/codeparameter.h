@@ -104,7 +104,7 @@ public:
 	 * The initial value of this code parameter
 	 * @param new_var the new value of m_initialValue
 	 */
-	virtual void setInitialValue ( QString new_var );
+	virtual void setInitialValue ( const QString &new_var );
 
 	/**
 	 * Get the value of m_initialValue

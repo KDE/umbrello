@@ -25,7 +25,7 @@
 // Constructors/Destructors
 //  
 
-OwnedHierarchicalCodeBlock::OwnedHierarchicalCodeBlock ( UMLObject *parent, CodeDocument * doc, QString start, QString end, QString comment) 
+OwnedHierarchicalCodeBlock::OwnedHierarchicalCodeBlock ( UMLObject *parent, CodeDocument * doc, const QString &start, const QString &end, const QString &comment) 
    : HierarchicalCodeBlock ( doc, start, end, comment), OwnedCodeBlock(parent)
 {
 

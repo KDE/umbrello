@@ -154,7 +154,7 @@ public:
 	 * @param n		The name of the object to find.
 	 * @return	List of objects found (empty if none found.)
 	 */
-	virtual UMLObjectList findChildObject(Uml::Object_Type t, QString n);
+	virtual UMLObjectList findChildObject(Uml::Object_Type t, const QString &n);
 
 	/**
 	 * Find an association.

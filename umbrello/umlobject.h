@@ -106,7 +106,7 @@ public:
 	 *
 	 * @param d	The documentation for the object.
 	 */
-	void setDoc(QString d);
+	void setDoc(const QString &d);
 
 	/**
 	 * Returns the documentation for the object.
@@ -135,7 +135,7 @@ public:
 	 *
 	 * @param _name	Sets the classes stereotype name.
 	 */
-	void setStereotype(QString _name);
+	void setStereotype(const QString &_name);
 
 	/**
 	 * Sets the class' UMLStereotype. Adjusts the reference counts
@@ -154,7 +154,7 @@ public:
 	 *
 	 * @param _name	The classes Package name.
 	 */
-	void setPackage(QString _name);
+	void setPackage(const QString &_name);
 
 	/**
 	 * Sets the UMLPackage in which this class is located.
@@ -188,7 +188,7 @@ public:
 	 *			individual package prefixes (optional.)
 	 * @return	The UMLObject's enclosing package(s) as a text.
 	 */
-	QString getPackage(QString separator = "::");
+	QString getPackage(const QString &separator = "::");
 
 	/**
 	 * Return a list of the packages in which this class is embedded.
@@ -218,7 +218,7 @@ public:
 	/**
 	 * Set the UMLObject's name
 	 */
-	void setName(QString strName);
+	void setName(const QString &strName);
 
 	/**
 	 * Returns the fully qualified name, i.e. all package prefixes and then m_Name.
@@ -226,7 +226,7 @@ public:
 	 * @param separator	The separator string to use.
 	 * @return	The fully qualified name of this UMLObject.
 	 */
-	QString getFullyQualifiedName(QString separator = "::") const;
+	QString getFullyQualifiedName(const QString &separator = "::") const;
 
 	/**
 	 * Returns the abstract state of the object.
@@ -313,7 +313,7 @@ public:
 	 * that are common to all child classes to the newly created element.
 	 * This method does not need to be overridden by child classes.
 	 */
-	QDomElement save( QString tag, QDomDocument & qDoc );
+	QDomElement save( const QString &tag, QDomDocument & qDoc );
 
 public slots:
 	/**

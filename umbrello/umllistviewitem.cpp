@@ -32,7 +32,7 @@
 
 UMLListView* UMLListViewItem::s_pListView = 0;
 
-UMLListViewItem::UMLListViewItem( UMLListView * parent, QString name,
+UMLListViewItem::UMLListViewItem( UMLListView * parent, const QString &name,
 				  Uml::ListView_Type t, UMLObject* o)
   : QListViewItem(parent, name) {
 	init();
@@ -60,7 +60,7 @@ UMLListViewItem::UMLListViewItem(UMLListViewItem * parent)
 	init();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLListViewItem::UMLListViewItem(UMLListViewItem * parent, QString name, Uml::ListView_Type t,UMLObject*o)
+UMLListViewItem::UMLListViewItem(UMLListViewItem * parent, const QString &name, Uml::ListView_Type t,UMLObject*o)
   : QListViewItem(parent, name) {
 	if (s_pListView == NULL) {
 		kdDebug() << "UMLListViewItem internal error 1: s_pListView is NULL" << endl;
@@ -86,7 +86,7 @@ UMLListViewItem::UMLListViewItem(UMLListViewItem * parent, QString name, Uml::Li
 	setText( name );
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLListViewItem::UMLListViewItem(UMLListViewItem * parent, QString name, Uml::ListView_Type t,Uml::IDType id)
+UMLListViewItem::UMLListViewItem(UMLListViewItem * parent, const QString &name, Uml::ListView_Type t,Uml::IDType id)
   : QListViewItem(parent, name) {
 	if (s_pListView == NULL) {
 		kdDebug() << "UMLListViewItem internal error 2: s_pListView is NULL" << endl;
@@ -305,7 +305,7 @@ void UMLListViewItem::setOpen( bool open ) {
 	updateFolder();
 }
 
-void UMLListViewItem::setText(QString newText) {
+void UMLListViewItem::setText(const QString &newText) {
 	m_Label = newText;
 	QListViewItem::setText(0, newText);
 }

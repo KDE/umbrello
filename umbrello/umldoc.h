@@ -204,7 +204,7 @@ public:
 	 * @param name		The name to check.
 	 * @return	True if name is unique.
 	 */
-	bool isUnique(QString name);
+	bool isUnique(const QString &name);
 
        /**
          * Returns true if the given name is unique within its scope of given package.
@@ -212,7 +212,7 @@ public:
          * @param name          The name to check.
          * @return      True if name is unique.
          */
-	bool isUnique(QString name, UMLPackage *package); 
+	bool isUnique(const QString &name, UMLPackage *package); 
 
 	/**
 	 * Creates a @ref UMLObject of the given type.
@@ -293,7 +293,7 @@ public:
 	/**
 	 * Finds or creates a stereotype for the parent object.
 	 */
-	UMLStereotype* findOrCreateStereotype(QString name);
+	UMLStereotype* findOrCreateStereotype(const QString &name);
 
 	/**
 	 * Creates an association between two UMLObjects.
@@ -434,7 +434,7 @@ public:
 	 *			object are searched before the global scope.
 	 * @return	Pointer to the UMLObject found, or NULL if not found.
 	 */
-	UMLObject* findUMLObject(QString name,
+	UMLObject* findUMLObject(const QString &name,
 				 Uml::Object_Type type = Uml::ot_UMLObject,
 				 UMLObject *currentObj = NULL);
 
@@ -447,14 +447,14 @@ public:
 	 * @param idStr		The AuxId for the @ref UMLObject to find.
 	 * @return	Pointer to the UMLObject found, or NULL if not found.
 	 */
-	UMLObject* findObjectByAuxId(QString idStr);
+	UMLObject* findObjectByAuxId(const QString &idStr);
 
 	/**
 	 * Used to find a @ref UMLClassifier by its name.
 	 *
 	 * @param name		The name of the @ref UMLObject to find.
 	 */
-	UMLClassifier * findUMLClassifier (QString name);
+	UMLClassifier * findUMLClassifier (const QString &name);
 
 	/**
 	 * Finds a UMLStereotype by its name.
@@ -462,7 +462,7 @@ public:
 	 * @param name		The name of the UMLStereotype to find.
 	 * @return	Pointer to the UMLStereotype found, or NULL if not found.
 	 */
-	UMLStereotype * findStereotype(QString name);
+	UMLStereotype * findStereotype(const QString &name);
 
 	/**
 	 * Finds a view (diagram) by the ID given to method.
@@ -479,7 +479,7 @@ public:
 	 * @param name		The name of the view to find.
 	 * @return	Pointer to the view found, or NULL if not found.
 	 */
-	UMLView * findView(Uml::Diagram_Type type, QString name);
+	UMLView * findView(Uml::Diagram_Type type, const QString &name);
 
 
 	/**
@@ -547,7 +547,7 @@ public:
 	 *			xmi.id's are composed of only digits.
 	 * @return	True if nativity could be determied.
 	 */
-	bool determineNativity(QString xmiId);
+	bool determineNativity(const QString &xmiId);
 
 	/**
 	 * Return the m_bNativeXMIFile flag.
@@ -579,12 +579,12 @@ public:
 	 * Creates a new Classifier UMLObject (attribute, operation, template).
 	 * Used by the clipboard when pasteing them.
 	 */
-//	UMLObject* makeNewClassifierObject(QString type, QDomElement& element);
+//	UMLObject* makeNewClassifierObject(cost QString &type, QDomElement& element);
 
 	/**
 	 * Make a new UMLObject, used by loadFromXMI and clipboard paste.
 	 */
-	UMLObject* makeNewUMLObject(QString type);
+	UMLObject* makeNewUMLObject(const QString &type);
 
 	/**
 	 * Signal a view/diagram has been renamed.
@@ -757,7 +757,7 @@ public:
 	 *
 	 * @param doc		The documentation to set for this UMLDoc.
 	 */
-	void setDoc( QString doc ) {
+	void setDoc( const QString &doc ) {
 		m_Doc = doc;
 	}
 
@@ -813,12 +813,12 @@ public:
 	/**
 	 * Get the root node for the code generation parameters.
 	 */
-	QDomElement getCodeGeneratorXMIParams ( QString lang );
+	QDomElement getCodeGeneratorXMIParams ( const QString &lang );
 
 	/**
 	 * Allow checking to see if saved XMI parameters exist already.
 	 */
-	bool hasCodeGeneratorXMIParams ( QString lang );
+	bool hasCodeGeneratorXMIParams ( const QString &lang );
 
 	/**
 	 * All the UMLViews (i.e. diagrams)
@@ -847,7 +847,7 @@ public:
 	/**
 	 * Find a code generator by the given language.
 	 */
-	CodeGenerator * findCodeGeneratorByLanguage (QString lang);
+	CodeGenerator * findCodeGeneratorByLanguage (const QString &lang);
 
 	/**
 	 * Add a CodeGenerator object to this UMLDoc
@@ -877,7 +877,7 @@ public:
 	 * Add a datatype if it doesn't already exist.
 	 * Used by code generators and attribute dialogue.
 	 */
-	void createDatatype(QString name);
+	void createDatatype(const QString &name);
 
 	/**
 	 * Add a UMLObject to the application.

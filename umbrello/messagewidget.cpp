@@ -395,17 +395,17 @@ void MessageWidget::setMessageText(FloatingText *ft) {
 	setTextPosition();
 }
 
-void MessageWidget::setText(FloatingText *ft, QString newText) {
+void MessageWidget::setText(FloatingText *ft, const QString &newText) {
 	ft->setText(newText);
 	UMLApp::app()->getDocument()->setModified(true);
 }
 
-void MessageWidget::setSeqNumAndOp(QString seqNum, QString op) {
+void MessageWidget::setSeqNumAndOp(const QString &seqNum, const QString &op) {
 	setSequenceNumber( seqNum );
 	setOperation( op );
 }
 
-void MessageWidget::setSequenceNumber( QString sequenceNumber ) {
+void MessageWidget::setSequenceNumber( const QString &sequenceNumber ) {
 	m_SequenceNumber = sequenceNumber;
 }
 
@@ -413,7 +413,7 @@ QString MessageWidget::getSequenceNumber() const {
 	return m_SequenceNumber;
 }
 
-void MessageWidget::setOperation( QString operation ) {
+void MessageWidget::setOperation( const QString &operation ) {
 	m_Operation = operation;
 }
 
@@ -433,7 +433,7 @@ UMLClassifier *MessageWidget::getOperationOwner(FloatingText *ft) {
 	return c;
 }
 
-void MessageWidget::setOperationText(FloatingText *ft, QString opText) {
+void MessageWidget::setOperationText(FloatingText *ft, const QString &opText) {
 	setOperation(opText);
 	ft->setMessageText();
 }

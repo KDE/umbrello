@@ -74,14 +74,14 @@ public:
 	 *
 	 *	@param	num	The number to set the sequence to.
 	 */
-	void setSeqNumber(QString num);
+	void setSeqNumber(const QString &num);
 
 	/**
 	 * Set the custom operation text.
 	 *
 	 *	@param op The operation to set as the custom operation.
 	 */
-	void setCustomOp(QString op);
+	void setCustomOp(const QString &op);
 private:
 	QGroupBox * m_pOpGB;
 	QComboBox *	m_pOpCB;

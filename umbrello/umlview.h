@@ -82,7 +82,7 @@ public:
 	/**
 	 * Set the documentation of the diagram.
 	 */
-	void setDoc( QString doc ) {
+	void setDoc( const QString &doc ) {
 		m_Documentation = doc;
 	}
 
@@ -96,7 +96,7 @@ public:
 	/**
 	 * Set the name of the diagram.
 	 */
-	void setName( QString name ) {
+	void setName( const QString &name ) {
 		m_Name = name;
 	}
 
@@ -126,7 +126,7 @@ public:
 	 *
 	 * @param color		The color to use.
 	 */
-	void setFillColor( QColor color );
+	void setFillColor( const QColor &color );
 
 	/**
 	 * Returns the line color to use.
@@ -147,7 +147,7 @@ public:
 	 *
 	 * @param color		The color to use.
 	 */
-	void setLineColor( QColor color );
+	void setLineColor( const QColor &color );
 
 	/**
 	 * Sets the line width.
@@ -350,14 +350,14 @@ public:
 	 * @param isEPS		The file is an eps file and needs adjusting
 	 *			of the eps bounding box values.
 	 */
-	void printToFile(QString filename, bool isEPS);
+	void printToFile(const QString &filename, bool isEPS);
 
 	/**
 	 * Fix the file 'filename' to be a valid EPS containing the
 	 * specified area (rect) of the diagram.
 	 * Corrects the bounding box.
 	 */
-	void fixEPS(QString filename, QRect rect);
+	void fixEPS(const QString &filename, QRect rect);
 
 	/**
 	 * Overrides the standard operation.
@@ -468,12 +468,12 @@ public:
 	/**
 	 * Set the font for all the currently selected items.
 	 */
-	void selectionSetFont( QFont font );
+	void selectionSetFont( const QFont &font );
 
 	/**
 	 * Set the line color for all the currently selected items.
 	 */
-	void selectionSetLineColor( QColor color );
+	void selectionSetLineColor( const QColor &color );
 
 	/**
 	 * Set the line width for all the currently selected items.
@@ -483,7 +483,7 @@ public:
 	/**
 	 * Set the fill color for all the currently selected items.
 	 */
-	void selectionSetFillColor( QColor color );
+	void selectionSetFillColor( const QColor &color );
 
 	/**
 	 * Toggles the show setting sel of all selected items.
@@ -522,7 +522,7 @@ public:
 	 *
 	 * @param _pos	The position to set to.
 	 */
-	void setPos(QPoint _pos) {
+	void setPos(const QPoint &_pos) {
 		m_Pos = _pos;
 	}
 
@@ -850,7 +850,7 @@ public:
 	 *
 	 * @returns	Returns the widget thats line was clicked on.  Returns 0 if no line was clicked on.
 	 */
-	ObjectWidget * onWidgetLine( QPoint point );
+	ObjectWidget * onWidgetLine( const QPoint &point );
 
 protected:
 

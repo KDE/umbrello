@@ -663,7 +663,7 @@ void ClassifierCodeDocument::setAttributesOnNode ( QDomDocument & doc, QDomEleme
 
 }
 
-TextBlock * ClassifierCodeDocument::findCodeClassFieldTextBlockByTag (QString tag)
+TextBlock * ClassifierCodeDocument::findCodeClassFieldTextBlockByTag (const QString &tag)
 {
 
 	QPtrList<CodeClassField> * list = getCodeClassFieldList();

@@ -41,7 +41,7 @@ ClassImport::ClassImport(UMLDoc * parentDoc) {
 
 ClassImport::~ClassImport() {}
 
-QString ClassImport::doxyComment(QString comment) {
+QString ClassImport::doxyComment(const QString &comment) {
 	QStringList lines = QStringList::split("\n", comment);
 	if (lines.first() != "/**")
 		return "";
@@ -109,7 +109,7 @@ UMLObject *ClassImport::createUMLObject(Uml::Object_Type type,
 	return o;
 }
 
-UMLOperation* ClassImport::makeOperation(UMLClass *parent, QString name) {
+UMLOperation* ClassImport::makeOperation(UMLClass *parent, const QString &name) {
 	UMLOperation *op = new UMLOperation(parent, name);
 	return op;
 }
@@ -196,12 +196,12 @@ UMLAttribute* ClassImport::addMethodParameter(UMLOperation *method,
 	return method->addParm(type, name, initialValue, doc, kind);
 }
 
-void ClassImport::addEnumLiteral(UMLEnum *enumType, QString literal) {
+void ClassImport::addEnumLiteral(UMLEnum *enumType, const QString &literal) {
 	// Why an extra wrapper? See comment at addMethodParameter()
 	enumType->addEnumLiteral( literal );
 }
 
-void ClassImport::createGeneralization(UMLClass *child, QString parentName) {
+void ClassImport::createGeneralization(UMLClass *child, const QString &parentName) {
 	UMLObject *parent = m_umldoc->findUMLObject( parentName, Uml::ot_Class );
 	if (parent == NULL) {
 	    kdDebug() << "ClassImport::createGeneralization: Could not find UML object for "

@@ -93,7 +93,7 @@ public:
 	 *
 	 * @param name		The name to set the instance name to.
 	 */
-	void setInstanceName(QString name) {
+	void setInstanceName(const QString &name) {
 		m_InstanceName = name;
 	}
 
@@ -109,7 +109,7 @@ public:
 	 *
 	 * @param _doc		The documentation to set to.
 	 */
-	void setDoc(QString _doc) {
+	void setDoc(const QString &_doc) {
 		m_Doc = _doc;
 	}
 

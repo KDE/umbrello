@@ -166,16 +166,16 @@ protected:
 
 	/** a little utility method to make life easier for code document programmers
 	 */
-	QString cleanName(QString name);
+	QString cleanName(const QString &name);
 
 	/** another utility method to make life easier for code document programmers
 	 * this one fixes the initial declared value of string attributes so that if
 	 * its empty or lacking quotations, it comes out as ""
 	 */
-	QString fixInitialStringDeclValue(QString value, QString type); 
+	QString fixInitialStringDeclValue(QString value, const QString &type); 
 
 	// set the list class name 
-	void setListClassName (QString className);
+	void setListClassName ( const QString &className );
 
 	/**
 	 * Add a Method object to the m_methodVector List

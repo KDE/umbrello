@@ -270,7 +270,7 @@ QString AssociationWidget::getRoleDoc(Role_Type role) const {
 	return umla->getRoleDoc(role);
 }
 
-void AssociationWidget::setName(QString strName) {
+void AssociationWidget::setName(const QString &strName) {
 	bool newLabel = false;
 	if(!m_pName) {
 		// Don't construct the FloatingText if the string is empty.
@@ -302,7 +302,7 @@ void AssociationWidget::setName(QString strName) {
 
 }
 
-void AssociationWidget::setMulti(QString strMulti, Role_Type role) {
+void AssociationWidget::setMulti(const QString &strMulti, Role_Type role) {
 	bool newLabel = false;
 	Text_Role tr = (role == A ? tr_MultiA : tr_MultiB);
 
@@ -337,7 +337,7 @@ void AssociationWidget::setMulti(QString strMulti, Role_Type role) {
 		getAssociation()->setMulti(strMulti, role);
 }
 
-bool AssociationWidget::setRoleName (QString strRole, Role_Type role) {
+bool AssociationWidget::setRoleName (const QString &strRole, Role_Type role) {
 	bool newLabel = false;
 	Association_Type type = getAssocType();
 	//if the association is not supposed to have a Role FloatingText
@@ -382,14 +382,14 @@ bool AssociationWidget::setRoleName (QString strRole, Role_Type role) {
 	return true;
 }
 
-void AssociationWidget::setDoc (QString doc) {
+void AssociationWidget::setDoc (const QString &doc) {
 	if (m_pObject)
 		m_pObject->setDoc(doc);
 	else
 		m_Doc = doc;
 }
 
-void AssociationWidget::setRoleDoc (QString doc, Role_Type role) {
+void AssociationWidget::setRoleDoc (const QString &doc, Role_Type role) {
 	if (m_pObject && m_pObject->getBaseType() == ot_Association)
 		getAssociation()->setRoleDoc(doc, role);
 	else
@@ -441,7 +441,7 @@ void AssociationWidget::setChangeability (Changeability_Type value, Role_Type ro
 	setChangeWidget(changeString, role);
 }
 
-void AssociationWidget::setChangeWidget(QString strChangeWidget, Role_Type role) {
+void AssociationWidget::setChangeWidget(const QString &strChangeWidget, Role_Type role) {
 	bool newLabel = false;
 	Text_Role tr = (role == A ? tr_ChangeA : tr_ChangeB);
 
@@ -487,7 +487,7 @@ bool AssociationWidget::linePathStartsAt(const UMLWidget* widget) {
 	return result;
 }
 
-void AssociationWidget::setText(FloatingText *ft, QString text) {
+void AssociationWidget::setText(FloatingText *ft, const QString &text) {
 	Uml::Text_Role role = ft->getRole();
 	switch (role) {
 		case tr_Name:
@@ -1342,7 +1342,7 @@ AssociationWidget::Region AssociationWidget::findPointRegion(QRect Rect, int Pos
 	return result;
 }
 
-QPoint AssociationWidget::swapXY(QPoint p) {
+QPoint AssociationWidget::swapXY(const QPoint &p) {
 	QPoint swapped( p.y(), p.x() );
 	return swapped;
 }
@@ -1372,7 +1372,7 @@ float AssociationWidget::totalLength() {
     Lets say such point is P3,  the distance from P1 to P3 must be equal to Distance
     and if P3 is not a point of the segment P1P2 then the function returns (-1,-1)
 */
-QPoint AssociationWidget::calculatePointAtDistance(QPoint P1, QPoint P2, float Distance) {
+QPoint AssociationWidget::calculatePointAtDistance(const QPoint &P1, const QPoint &P2, float Distance) {
 	/*
 	  the distance D between points (x1, y1) and (x3, y3) has the following formula:
 	      ---     ------------------------------
@@ -1490,7 +1490,7 @@ QPoint AssociationWidget::calculatePointAtDistance(QPoint P1, QPoint P2, float D
     has a distance equal to Distance from P2,
     Lets say such point is P3,  the distance from P2 to P3 must be equal to Distance
 */
-QPoint AssociationWidget::calculatePointAtDistanceOnPerpendicular(QPoint P1, QPoint P2, float Distance) {
+QPoint AssociationWidget::calculatePointAtDistanceOnPerpendicular(const QPoint &P1, const QPoint &P2, float Distance) {
 	/*
 	  the distance D between points (x2, y2) and (x3, y3) has the following formula:
 
@@ -1928,7 +1928,7 @@ void AssociationWidget::setTextPosition(Text_Role role) {
 	ft->setY( y );
 }
 
-void AssociationWidget::setTextPositionRelatively(Text_Role role, QPoint oldPosition) {
+void AssociationWidget::setTextPositionRelatively(Text_Role role, const QPoint &oldPosition) {
 	bool startMove = false;
 	if( m_role[A].m_pMulti && m_role[A].m_pMulti->getStartMove() )
 		startMove = true;
@@ -2238,7 +2238,7 @@ QFont AssociationWidget::getFont() const {
 	return font;
 }
 
-void AssociationWidget::checkPoints(QPoint p) {
+void AssociationWidget::checkPoints(const QPoint &p) {
 	m_nMovingPoint = -1;
 	//only check if more than the two endpoints
 	int size = m_LinePath.count();
@@ -2322,9 +2322,9 @@ int AssociationWidget::getRegionCount(AssociationWidget::Region region, Role_Typ
 	return widgetCount;
 }
 
-int AssociationWidget::findInterceptOnEdge(QRect rect,
+int AssociationWidget::findInterceptOnEdge(const QRect &rect,
 					   AssociationWidget::Region region,
-					   QPoint point)
+					   const QPoint &point)
 {
 	// The Qt coordinate system has (0,0) in the top left corner.
 	// In order to go to the regular XY coordinate system with (0,0)
@@ -2798,7 +2798,7 @@ UMLClassifier *AssociationWidget::getOperationOwner(FloatingText *) {
 	return c;
 }
 
-void AssociationWidget::setSeqNumAndOp(QString seqNum, QString op) {
+void AssociationWidget::setSeqNumAndOp(const QString &seqNum, const QString &op) {
 	setName(op);
 	setMulti(seqNum, A);
 }
@@ -2812,7 +2812,7 @@ UMLClassifier *AssociationWidget::getSeqNumAndOp(FloatingText *,
 	return c;
 }
 
-void AssociationWidget::setOperationText(FloatingText *, QString opText) {
+void AssociationWidget::setOperationText(FloatingText *, const QString &opText) {
 	setName(opText);
 }
 

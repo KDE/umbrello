@@ -255,7 +255,7 @@ private:
 	 * @param label		The menu text.
 	 * @param mt		The menu type.
 	 */
-	void insertAssocItem(QString label, Menu_Type mt);
+	void insertAssocItem(const QString &label, Menu_Type mt);
 
 	/**
 	 * Creates a popup menu for a multiple selection of class and

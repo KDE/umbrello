@@ -256,7 +256,7 @@ public:
     inline void setText(const QString &text)
     { setSlice(text, 0, text.length()); }
 
-    void setComment( QString comment )
+    void setComment( const QString &comment )
     { m_comment = comment; }
 
 private:

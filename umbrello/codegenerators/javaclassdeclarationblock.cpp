@@ -19,7 +19,7 @@
 // Constructors/Destructors
 //  
 
-JavaClassDeclarationBlock::JavaClassDeclarationBlock ( JavaClassifierCodeDocument * parentDoc, QString startText, QString endText, QString comment)
+JavaClassDeclarationBlock::JavaClassDeclarationBlock ( JavaClassifierCodeDocument * parentDoc, const QString &startText, const QString &endText, const QString &comment)
     : OwnedHierarchicalCodeBlock((UMLObject*) parentDoc->getParentClassifier(), (CodeDocument*)parentDoc, startText, endText, comment)
 {
 	init(parentDoc, comment);
@@ -148,7 +148,7 @@ void JavaClassDeclarationBlock::updateContent ( )
 
 }
 
-void JavaClassDeclarationBlock::init (JavaClassifierCodeDocument *parentDoc, QString comment) 
+void JavaClassDeclarationBlock::init (JavaClassifierCodeDocument *parentDoc, const QString &comment) 
 {
 
 	setComment(new JavaCodeDocumentation(parentDoc));

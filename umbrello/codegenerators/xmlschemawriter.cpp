@@ -160,7 +160,7 @@ void XMLSchemaWriter::writeClass(UMLClassifier *c)
 	writtenClassifiers.clear();
 }
 
-void XMLSchemaWriter::writeElementDecl( QString elementName, QString elementTypeName, QTextStream &XMLschema)
+void XMLSchemaWriter::writeElementDecl( const QString &elementName, const QString &elementTypeName, QTextStream &XMLschema)
 {
         if(forceDoc())
 		writeComment(elementName+" is the root element, declared here.", XMLschema);
@@ -516,7 +516,7 @@ void XMLSchemaWriter::writeAttributeDecl(UMLAttribute *attrib, QTextStream &XMLs
 
 }
 
-void XMLSchemaWriter::writeAttributeGroupDecl (QString elementName, UMLAttributeList &attribs, QTextStream &XMLschema )
+void XMLSchemaWriter::writeAttributeGroupDecl (const QString &elementName, UMLAttributeList &attribs, QTextStream &XMLschema )
 {
 
 	if (attribs.count()> 0) {
@@ -541,7 +541,7 @@ void XMLSchemaWriter::writeAttributeGroupDecl (QString elementName, UMLAttribute
 	}
 }
 
-void XMLSchemaWriter::writeComment(QString comment, QTextStream &XMLschema)
+void XMLSchemaWriter::writeComment( const QString &comment, QTextStream &XMLschema )
 {
 	// in the case we have several line comment..
 	// NOTE: this part of the method has the problem of adopting UNIX newline,
@@ -656,7 +656,7 @@ UMLObjectList XMLSchemaWriter::findChildObjsInAssociations (UMLClassifier *c, UM
 	return list;
 }
 
-void XMLSchemaWriter::writeAssociationRoleDecl( UMLClassifier *c, QString multi, QTextStream &XMLschema)
+void XMLSchemaWriter::writeAssociationRoleDecl( UMLClassifier *c, const QString &multi, QTextStream &XMLschema)
 {
 
 	bool isAbstract = c->getAbstract();
@@ -761,7 +761,7 @@ QString XMLSchemaWriter::fixTypeName(QString string)
 	return string;
 }
 
-QString XMLSchemaWriter::fixInitialStringDeclValue(QString value, QString type)
+QString XMLSchemaWriter::fixInitialStringDeclValue(QString value, const QString &type)
 {
 	// check for strings only
 	if (!value.isEmpty() && type == "xs:string") {

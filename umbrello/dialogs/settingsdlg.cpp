@@ -241,7 +241,7 @@ void SettingsDlg::setupClassPage() {
 
 }
 
-void SettingsDlg::setupCodeGenPage(CodeGenerator *gen, QString activeLanguage) {
+void SettingsDlg::setupCodeGenPage(CodeGenerator *gen, const QString &activeLanguage) {
 	//setup code generation settings page
 	QVBox * page = addVBoxPage( i18n("Code Generation"), i18n("Code Generation Settings"), DesktopIcon( "source") );
 	m_pCodeGenPage = new CodeGenerationOptionsPage(gen, activeLanguage, page);

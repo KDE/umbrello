@@ -77,7 +77,7 @@ public:
 	 * Set the value of m_fileExtension
 	 * @param new_var the new value of m_fileExtension
 	 */
-	void setFileExtension ( QString new_var );
+	void setFileExtension ( const QString &new_var );
 
 	/**
 	 * Get the value of m_fileExtension
@@ -89,7 +89,7 @@ public:
 	 * Set the complete value (name plus any extension) of m_filename
 	 * @param new_var the new value of m_filename
 	 */
-	void setFileName ( QString new_var );
+	void setFileName ( const QString &new_var );
 
 	/**
 	 * Get the value of m_filename. This name is the "complete" filename,
@@ -102,7 +102,7 @@ public:
 	 * Set the value of m_packageName
 	 * @param new_var the new value of m_packageName
 	 */
-	void setPackage ( QString new_var );
+	void setPackage ( const QString &new_var );
 
 	/**
 	 * Get the value of the package of this codedocument.
@@ -120,7 +120,7 @@ public:
 	 * Set the value of m_ID
 	 * @param new_var the new value of m_ID
 	 */
-	void setID ( QString new_id);
+	void setID ( const QString &new_id);
 
 	/**
 	 * Get the value of m_ID
@@ -175,7 +175,7 @@ public:
 	 * find the TextBlock with such a tag. If descendIntoChildren is true, then
  	 * any child hierarchical textblocks will also be searched for a match.
    	 */
-	TextBlock * findTextBlockByTag( QString tag , bool descendIntoChildren = false);
+	TextBlock * findTextBlockByTag( const QString &tag , bool descendIntoChildren = false);
 
 	/**
 	 * create the string representation of this object.
@@ -244,7 +244,7 @@ public:
 	QString getNewLineEndingChars ( );
 
 	// return a unique, and currently unallocated, text block tag for this document 
-	virtual QString getUniqueTag(QString prefix = QString(""));
+	virtual QString getUniqueTag( QString prefix = QString("") );
 
        /**
 	 * Get the value of m_parentgenerator
@@ -254,7 +254,7 @@ public:
 
 	/** a little utility method to make life easier for the code document programmer
 	 */
-	QString cleanName (QString name);
+	QString cleanName ( const QString &name );
 
 	// Cause this code document to synchronize to current generator policy
 	virtual void synchronize();
@@ -277,8 +277,8 @@ protected:
 	// Also, it allows 'findTextBlockByTag' To find any tagged text block
 	// anywhere in the document, whether directly owned by the document OR
 	// by some child hierarchical textblock
-	void addChildTagToMap ( QString tag, TextBlock * tb);
-	void removeChildTagFromMap ( QString tag );
+	void addChildTagToMap ( const QString &tag, TextBlock * tb);
+	void removeChildTagFromMap ( const QString &tag );
 
 	// update the header text of this codedocument
 	void updateHeader ();
@@ -297,7 +297,7 @@ protected:
 
 	// have to implement this for CodeObjectWithTextBlocks
 	// doenst actually do anythying fo ra vannilla code document
-	virtual TextBlock * findCodeClassFieldTextBlockByTag(QString tag);
+	virtual TextBlock * findCodeClassFieldTextBlockByTag( const QString &tag );
 
 private:
 

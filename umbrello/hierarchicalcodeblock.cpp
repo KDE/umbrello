@@ -23,7 +23,7 @@
 // Constructors/Destructors
 //
 
-HierarchicalCodeBlock::HierarchicalCodeBlock ( CodeDocument * doc , QString start , QString endString, QString comment )
+HierarchicalCodeBlock::HierarchicalCodeBlock ( CodeDocument * doc , const QString &start, const QString &endString, const QString &comment )
     : CodeBlockWithComments (doc, start, comment), CodeGenObjectWithTextBlocks()
 {
 	setEndText(endString);
@@ -49,7 +49,7 @@ CodeDocument * HierarchicalCodeBlock::getCodeDocument() {
  * Set the value of m_endText
  * @param new_var the new value of m_endText
  */
-void HierarchicalCodeBlock::setEndText ( QString new_var ) {
+void HierarchicalCodeBlock::setEndText ( const QString &new_var ) {
 	m_endText = new_var;
 }
 
@@ -66,7 +66,7 @@ QString HierarchicalCodeBlock::getUniqueTag()
 	return getUniqueTag("hblock_tag");
 }
 
-QString HierarchicalCodeBlock::getUniqueTag(QString prefix)
+QString HierarchicalCodeBlock::getUniqueTag( QString prefix )
 {
 	return getParentDocument()->getUniqueTag(prefix);
 }
@@ -225,7 +225,7 @@ bool HierarchicalCodeBlock::removeTextBlock ( TextBlock * remove_object ) {
 /**
  * @param	text
  */
-void HierarchicalCodeBlock::setStartText (QString text ) {
+void HierarchicalCodeBlock::setStartText ( const QString &text ) {
 	m_startText = text;
 }
 
@@ -383,7 +383,7 @@ QString  HierarchicalCodeBlock::childTextBlocksToString() {
 	return retString;
 }
 
-TextBlock * HierarchicalCodeBlock::findCodeClassFieldTextBlockByTag (QString tag)
+TextBlock * HierarchicalCodeBlock::findCodeClassFieldTextBlockByTag ( const QString &tag )
 {
 
 	ClassifierCodeDocument * cdoc = dynamic_cast<ClassifierCodeDocument*>(getParentDocument());

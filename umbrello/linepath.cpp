@@ -99,7 +99,7 @@ QPoint LinePath::getPoint( int pointIndex ) {
 	return line -> startPoint();
 }
 
-bool LinePath::setPoint( int pointIndex, QPoint point ) {
+bool LinePath::setPoint( int pointIndex, const QPoint &point ) {
 	int count = m_LineList.count();
 	if( count == 0 || pointIndex > count  || pointIndex < 0)
 		return false;
@@ -131,7 +131,7 @@ bool LinePath::setPoint( int pointIndex, QPoint point ) {
 	return true;
 }
 
-bool LinePath::isPoint( int pointIndex, QPoint point, unsigned short delta) {
+bool LinePath::isPoint( int pointIndex, const QPoint &point, unsigned short delta) {
 	/* onLinePath doesn't return the index number we mean */
 	pointIndex--;
 	int count = m_LineList.count();
@@ -156,7 +156,7 @@ bool LinePath::isPoint( int pointIndex, QPoint point, unsigned short delta) {
 	return false;
 }
 
-bool LinePath::insertPoint( int pointIndex, QPoint point ) {
+bool LinePath::insertPoint( int pointIndex, const QPoint &point ) {
 	int count = m_LineList.count();
 	if( count == 0 )
 		return false;
@@ -203,7 +203,7 @@ bool LinePath::insertPoint( int pointIndex, QPoint point ) {
 	return true;
 }
 
-bool LinePath::removePoint( int pointIndex, QPoint point, unsigned short delta )
+bool LinePath::removePoint( int pointIndex, const QPoint &point, unsigned short delta )
 {
 	/* get the number of line segments */
 	int count = m_LineList.count();
@@ -263,7 +263,7 @@ bool LinePath::removePoint( int pointIndex, QPoint point, unsigned short delta )
 	return true;
 }
 
-bool LinePath::setStartEndPoints( QPoint start, QPoint end ) {
+bool LinePath::setStartEndPoints( const QPoint &start, const QPoint &end ) {
 	int count = m_LineList.count();
 
 	if( count == 0 ) {
@@ -285,7 +285,7 @@ int LinePath::count() {
 	return m_LineList.count() + 1;
 }
 
-int LinePath::onLinePath( QPoint position ) {
+int LinePath::onLinePath( const QPoint &position ) {
 	QCanvasItemList list = getCanvas() -> collisions( position );
 	int index = 0;
 
@@ -347,7 +347,7 @@ void LinePath::slotLineColorChanged( Uml::IDType viewID ) {
 }
 
 
-void LinePath::setLineColor( QColor color ) {
+void LinePath::setLineColor( const QColor &color ) {
 	QCanvasLine * line = 0;
 	uint linewidth = 0;
 	LineListIt it( m_LineList );

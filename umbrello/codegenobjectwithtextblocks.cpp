@@ -147,7 +147,7 @@ CodeOperation * CodeGenObjectWithTextBlocks::newCodeOperation( UMLOperation *op)
 }
 
 
-TextBlock * CodeGenObjectWithTextBlocks::findTextBlockByTag( QString tag )
+TextBlock * CodeGenObjectWithTextBlocks::findTextBlockByTag( const QString &tag )
 {
         //if we already know to which file this class was written/should be written, just return it.
         if(m_textBlockTagMap->contains(tag))
@@ -194,7 +194,7 @@ CodeGenObjectWithTextBlocks * CodeGenObjectWithTextBlocks::findParentObjectForTa
  * @param	comment
  * @param	indentLevel
  */
-HierarchicalCodeBlock * CodeGenObjectWithTextBlocks::getHierarchicalCodeBlock (QString tag, QString comment, int indentLevel ) {
+HierarchicalCodeBlock * CodeGenObjectWithTextBlocks::getHierarchicalCodeBlock ( const QString &tag, const QString &comment, int indentLevel ) {
 
         // now actually declare the fields
         HierarchicalCodeBlock * codeBlock = (HierarchicalCodeBlock*) findTextBlockByTag(tag);
@@ -226,7 +226,7 @@ HierarchicalCodeBlock * CodeGenObjectWithTextBlocks::getHierarchicalCodeBlock (Q
  * @param	comment
  * @param	indentLevel
  */
-CodeBlockWithComments * CodeGenObjectWithTextBlocks::getCodeBlockWithComments (QString tag, QString comment, int indentLevel ) {
+CodeBlockWithComments * CodeGenObjectWithTextBlocks::getCodeBlockWithComments ( const QString &tag, const QString &comment, int indentLevel ) {
 
         // now actually declare the fields
         CodeBlockWithComments * codeBlock = (CodeBlockWithComments *) findTextBlockByTag(tag);
@@ -254,7 +254,7 @@ CodeBlockWithComments * CodeGenObjectWithTextBlocks::getCodeBlockWithComments (Q
  * @param	text
  * @param	indentationLevel
  */
-CodeComment * CodeGenObjectWithTextBlocks::addOrUpdateTaggedCodeComment (QString tag, QString text, int indentationLevel)
+CodeComment * CodeGenObjectWithTextBlocks::addOrUpdateTaggedCodeComment ( const QString &tag, const QString &text, int indentationLevel)
 {
 
         TextBlock * tBlock = findTextBlockByTag(tag);
@@ -293,7 +293,7 @@ CodeComment * CodeGenObjectWithTextBlocks::addOrUpdateTaggedCodeComment (QString
  * @param	indentLevel
  * @param	forceUserBlockUpdate
  */
-CodeBlockWithComments * CodeGenObjectWithTextBlocks::addOrUpdateTaggedCodeBlockWithComments (QString tag, QString text, QString ctext, int indentLevel, bool forceUserBlockUpdate )
+CodeBlockWithComments * CodeGenObjectWithTextBlocks::addOrUpdateTaggedCodeBlockWithComments (const QString &tag, const QString &text, const QString &ctext, int indentLevel, bool forceUserBlockUpdate )
 {
 
         TextBlock * tBlock = findTextBlockByTag(tag);

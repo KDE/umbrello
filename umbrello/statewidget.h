@@ -72,7 +72,7 @@ public:
 	/**
 	 * Sets the name of the State.
 	 */
-	virtual void setName(QString strName);
+	virtual void setName(const QString &strName);
 
 	/**
 	 * Returns the name of the State.
@@ -87,7 +87,7 @@ public:
 	/**
 	 * Sets the documenation of the state.
 	 */
-	void setDoc( QString doc );
+	void setDoc( const QString &doc );
 
 	/**
 	 * Returns the type of state.
@@ -107,17 +107,17 @@ public:
 	/**
 	 * Adds the given activity to the state.
 	 */
-	bool addActivity( QString activity );
+	bool addActivity( const QString &activity );
 
 	/**
 	 * Removes the given activity from the state.
 	 */
-	bool removeActivity( QString activity );
+	bool removeActivity( const QString &activity );
 
 	/**
 	 * Renames the given activity.
 	 */
-	bool renameActivity( QString activity, QString newName );
+	bool renameActivity( const QString &activity, const QString &newName );
 
 	/**
 	 * Sets the states activities to the ones given.

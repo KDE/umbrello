@@ -96,7 +96,7 @@ void SelectOpDlg::slotSelected(int id) {
 	}
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void SelectOpDlg::setCustomOp(QString op) {
+void SelectOpDlg::setCustomOp(const QString &op) {
 	m_pOpLE -> setText(op);
 	if(op.length() > 0) {
 		slotSelected(CUSTOM);
@@ -108,7 +108,7 @@ QString SelectOpDlg::getSeqNumber() {
 	return m_pSeqLE->text();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void SelectOpDlg::setSeqNumber(QString num) {
+void SelectOpDlg::setSeqNumber(const QString &num) {
 	m_pSeqLE->setText(num);
 }
 

@@ -88,7 +88,7 @@ void UMLEnum::init() {
 	setStereotype( i18n("enum") );
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLObject* UMLEnum::addEnumLiteral(QString name, Uml::IDType id) {
+UMLObject* UMLEnum::addEnumLiteral(const QString &name, Uml::IDType id) {
 	UMLEnumLiteral* literal = new UMLEnumLiteral(this, name, id);
 	m_List.append(literal);
 	emit modified();
@@ -156,7 +156,7 @@ UMLEnumLiteral* UMLEnum::takeEnumLiteral(UMLEnumLiteral* el) {
 	return el;
 }
 
-UMLObjectList UMLEnum::findChildObject(Uml::Object_Type t, QString n) {
+UMLObjectList UMLEnum::findChildObject(Uml::Object_Type t, const QString &n) {
 	UMLObjectList list;
 	if (t == Uml::ot_Association) {
 		return UMLClassifier::findChildObject(t, n);

@@ -84,7 +84,7 @@ void XMLElementCodeBlock::setAttributesFromNode ( QDomElement & root) {
 // Accessor methods
 //  
 
-void XMLElementCodeBlock::setNodeName (QString name) {
+void XMLElementCodeBlock::setNodeName (const QString &name) {
 	m_nodeName = name;
 }
 
@@ -144,7 +144,7 @@ void XMLElementCodeBlock::updateContent ( )
 
 }
 
-void XMLElementCodeBlock::init (CodeDocument *parentDoc, QString nodeName, QString comment) 
+void XMLElementCodeBlock::init (CodeDocument *parentDoc, const QString &nodeName, const QString &comment) 
 {
 
 	setComment(new XMLCodeComment(parentDoc));

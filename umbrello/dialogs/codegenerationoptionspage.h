@@ -50,7 +50,7 @@ private:
 
 	CodeGenerator * m_pCodeGenerator;
 	CodeGenerationPolicyPage * m_pCodePolicyPage;
-	void init (CodeGenerator * gen, QString activeLanguage);
+	void init (CodeGenerator * gen, const QString &activeLanguage);
 	int overwriteToInteger(CodeGenerationPolicy::OverwritePolicy value);
 	int newLineToInteger(CodeGenerationPolicy::NewLineType value);
 	int indentTypeToInteger(CodeGenerationPolicy::IndentationType value);

@@ -33,7 +33,7 @@ public:
 	/**
 	 * Empty Constructor
 	 */
-	JavaClassDeclarationBlock ( JavaClassifierCodeDocument * parentDoc, QString start = "", QString endText = "}", QString comment = "");
+	JavaClassDeclarationBlock ( JavaClassifierCodeDocument * parentDoc, const QString &start = "", const QString &endText = "}", const QString &comment = "");
 
 	/**
 	 * Empty Destructor
@@ -59,7 +59,7 @@ protected:
 
 private:
 
-	void init (JavaClassifierCodeDocument * parent, QString comment);
+	void init (JavaClassifierCodeDocument * parent, const QString &comment);
 
 };
 

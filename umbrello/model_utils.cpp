@@ -158,7 +158,7 @@ UMLObject* findUMLObject(UMLObjectList inList, QString name,
 	return NULL;
 }
 
-bool isCommonXMIAttribute(QString tag) {
+bool isCommonXMIAttribute( const QString &tag ) {
 	bool retval = (Uml::tagEq(tag, "name") ||
 		       Uml::tagEq(tag, "visibility") ||
 		       Uml::tagEq(tag, "isRoot") ||

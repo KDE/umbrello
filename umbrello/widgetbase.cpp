@@ -43,7 +43,7 @@ QString WidgetBase::getDoc() const {
 	return "";
 }
 
-void WidgetBase::setDoc( QString doc ) {
+void WidgetBase::setDoc( const QString &doc ) {
 	if (m_pObject != NULL)
 		m_pObject->setDoc( doc );
 }

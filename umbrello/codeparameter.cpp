@@ -91,7 +91,7 @@ Uml::Scope CodeParameter::getVisibility ( ) const {
  * The initial value of this code parameter
  * @param new_var the new value of m_initialValue
  */
-void CodeParameter::setInitialValue ( QString new_var ) {
+void CodeParameter::setInitialValue ( const QString &new_var ) {
 	m_initialValue = new_var;
 }
 

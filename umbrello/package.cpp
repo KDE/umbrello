@@ -74,7 +74,7 @@ UMLObjectList& UMLPackage::containedObjects() {
 	return m_objects;
 }
 
-UMLObject * UMLPackage::findObject(QString name) {
+UMLObject * UMLPackage::findObject(const QString &name) {
 	for (UMLObject *obj = m_objects.first(); obj; obj = m_objects.next())
 		if (obj->getName() == name)
 			return obj;

@@ -130,7 +130,7 @@ private:
 
 	// return whether or not the passed string is empty or 
 	// contains nothing but whitespace
-	static bool StringIsBlank(QString str); 
+	static bool StringIsBlank( const QString &str ); 
 
 public slots:
 

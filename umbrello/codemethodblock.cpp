@@ -65,14 +65,14 @@ QString CodeMethodBlock::getEndMethodText() const {
 /**
  * Set the starting text that begins this method before the body is printed.
  */
-void CodeMethodBlock::setStartMethodText (QString value) {
+void CodeMethodBlock::setStartMethodText (const QString &value) {
         m_startMethod = value;
 }
 
 /**
  * Set the ending text that finishes this method after the body is printed.
  */
-void CodeMethodBlock::setEndMethodText (QString value) {
+void CodeMethodBlock::setEndMethodText (const QString &value) {
         m_endMethod = value;
 }
 

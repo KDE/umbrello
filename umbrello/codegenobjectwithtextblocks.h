@@ -88,7 +88,7 @@ public:
 	 * @param	comment 
 	 * @param	indentLevel 
 	 */
-	virtual HierarchicalCodeBlock * getHierarchicalCodeBlock (QString tag, QString comment, int indentLevel );
+	virtual HierarchicalCodeBlock * getHierarchicalCodeBlock ( const QString &tag, const QString &comment, int indentLevel );
 
 	/**
          * Will get a codeblockwithcomments from the document with given tag. IF the codeblock
@@ -99,7 +99,7 @@ public:
 	 * @param	comment 
 	 * @param	indentLevel 
 	 */
-	virtual CodeBlockWithComments * getCodeBlockWithComments (QString tag, QString comment, int indentLevel );
+	virtual CodeBlockWithComments * getCodeBlockWithComments ( const QString &tag, const QString &comment, int indentLevel );
 
         /** allows the user to add a code comment to the end of the list
          * of text blocks in this document OR, if a text block already exists
@@ -110,7 +110,7 @@ public:
 	 * @param	text 
 	 * @param	indentationLevel 
 	 */
-	CodeComment * addOrUpdateTaggedCodeComment (QString tag = "", QString text = "", int indentationLevel = 0 );
+	CodeComment * addOrUpdateTaggedCodeComment (const QString &tag = "", const QString &text = "", int indentationLevel = 0 );
 
      	/** allows the user to either add a code block with comments to the end of the list
          * of text blocks in this document OR, if a text block already exists
@@ -123,14 +123,14 @@ public:
 	 * @param	indentLevel 
 	 * @param	forceUserBlockUpdate 
 	 */
-	CodeBlockWithComments * addOrUpdateTaggedCodeBlockWithComments (QString tag, QString text, QString comment, int indentLevel, bool forceUserBlockUpdate );
+	CodeBlockWithComments * addOrUpdateTaggedCodeBlockWithComments (const QString &tag, const QString &text, const QString &comment, int indentLevel, bool forceUserBlockUpdate );
 
 	/**
 	 * @return	TextBlock
 	 * @param	tag 
 	 * @param	descendIntoChildren 
 	 */
-	virtual TextBlock * findTextBlockByTag ( QString tag );
+	virtual TextBlock * findTextBlockByTag ( const QString &tag );
 
 	/**
 	 * @return	QString
@@ -191,7 +191,7 @@ protected:
 
 	// find specific text block belonging to code classfields.
 	// block may not presently be alocated t othe textblock list.
-	virtual TextBlock * findCodeClassFieldTextBlockByTag(QString tag) = 0;
+	virtual TextBlock * findCodeClassFieldTextBlockByTag( const QString &tag) = 0;
 
 private:
 

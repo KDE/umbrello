@@ -76,7 +76,7 @@ public:
 	 *                      will internally assign a new ID.
 	 * @return	Pointer to the UMLAttribute created or found.
 	 */
-	UMLAttribute* addAttribute(QString name, Uml::IDType id = Uml::id_None);
+	UMLAttribute* addAttribute(const QString &name, Uml::IDType id = Uml::id_None);
 
 	/**
 	 * Adds an already created attribute.
@@ -119,7 +119,7 @@ public:
 	 * @param id		The id of the template.
 	 * @return	Pointer to the UMLTemplate object created.
 	 */
-	UMLObject* addTemplate(QString name, Uml::IDType id = Uml::id_None);
+	UMLObject* addTemplate(const QString &name, Uml::IDType id = Uml::id_None);
 
 	/**
 	 * Adds an already created template.

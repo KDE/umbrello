@@ -86,7 +86,7 @@ public:
 	 * @param doc	The documentation to be set in the UMLObject
 	 *		(if m_pObject is set.)
 	 */
-	virtual void setDoc( QString doc );
+	virtual void setDoc( const QString &doc );
 
 protected:
 	/**

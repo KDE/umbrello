@@ -94,7 +94,7 @@ public:
 	 * @param name		The name to seek.
 	 * @return	Pointer to the UMLObject found or NULL if not found.
 	 */
-	UMLObject * findObject(QString name);
+	UMLObject * findObject(const QString &name);
 
 	/**
 	 * Find the object of the given ID in the list of contained objects.

@@ -583,7 +583,7 @@ public slots:
 	 *
 	 * @param activeLanguage The name of the language to set
 	 */
-	void setActiveLanguage(QString activeLanguage);
+	void setActiveLanguage( const QString &activeLanguage );
 
 	/**
 	 * Menu selection for clear current view.
@@ -698,7 +698,7 @@ public slots:
 	 * @param menu	The QPopupMenu or QMenuBar to search through.
 	 * @param name	The name of the menu to search for (name, not text)
 	 */
-	QPopupMenu* findMenu(QMenuData* menu, QString name);
+	QPopupMenu* findMenu(QMenuData* menu, const QString &name);
 
 private:
 	static UMLApp* s_instance;

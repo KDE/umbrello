@@ -171,7 +171,7 @@ public:
 	 * Find a code document by the given id string.
 	 * @return	CodeDocument
    	 */
-	CodeDocument * findCodeDocumentByID(QString id);
+	CodeDocument * findCodeDocumentByID (const QString &id );
 
 	/**
 	 * Write out all code documents to file as appropriate.
@@ -188,7 +188,7 @@ public:
 	// finally implement the CodeGenDialog class -b.t. 
 	QString getNewLineEndingChars ( );
 
-	void setOutputDirectory(QString d);
+	void setOutputDirectory(const QString &d);
 	QString outputDirectory() const;
 
 	void setOverwritePolicy(CodeGenerationPolicy::OverwritePolicy p);
@@ -228,7 +228,7 @@ public:
 	 * @return      QString
 	 * @param       file 
 	 */
-	virtual QString getHeadingFile (QString file );
+	virtual QString getHeadingFile (const QString &file );
 
 	/**
 	 * Finds an appropriate file name for class c, taking into account the Overwrite
@@ -245,7 +245,7 @@ public:
 	 * @return      QString
 	 * @param       name 
 	 */
-	QString cleanName (QString name );
+	QString cleanName ( const QString &name );
 
        /** Format documentation for output in source files
 	 *
@@ -354,7 +354,7 @@ protected:
 	 * @return the real file name that should be used. (with extension?) or 
 	 *      NULL if none to be used
 	 */
-	QString overwritableName (QString name, QString extention);
+	QString overwritableName ( QString name, const QString &extention );
 
 	/** Opens a file named "name" for writing in the outputDirectory.
 	 * If something goes wrong, it informs the user
@@ -363,7 +363,7 @@ protected:
 	 * @param       file 
 	 * @param       name 
 	 */
-	bool openFile (QFile& file, QString name);
+	bool openFile (QFile& file, const QString &name);
 
        /**
 	 * Initialize this code generator from its parent UMLDoc. When this is called, it will

@@ -238,7 +238,7 @@ class UMLListView : public KListView {
 	/**
 	 * Returns if the given name is unique for the given items type.
 	 */
-	bool isUnique( UMLListViewItem * item, QString name );
+	bool isUnique( UMLListViewItem * item, const QString &name );
 
 	/**
 	 * Cancel rename event has occurred for the given item.

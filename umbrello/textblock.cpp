@@ -65,7 +65,7 @@ CodeDocument * TextBlock::getParentDocument ( ) {
  * The actual text of this code block.
  * @param new_var the new value of m_text
  */
-void TextBlock::setText ( QString new_var ) {
+void TextBlock::setText ( const QString &new_var ) {
 	m_text = new_var;
 }
 
@@ -73,7 +73,7 @@ void TextBlock::setText ( QString new_var ) {
  * Add text to this object.
  *
  */
-void TextBlock::appendText ( QString new_text ) {
+void TextBlock::appendText ( const QString &new_text ) {
 	m_text = m_text + new_text;
 }
 
@@ -100,7 +100,7 @@ QString TextBlock::getTag( ) const {
  * may be used to find this text block in the code document
  * to which it belongs.
  */
-void TextBlock::setTag ( QString value ) {
+void TextBlock::setTag ( const QString &value ) {
 	m_tag = value;
 }
 
@@ -270,7 +270,7 @@ void TextBlock::setAttributesFromNode (QDomElement & root ) {
 // encode text for XML storage
 // we simply convert all types of newLines to the "\n" or &#010;
 // entity.
-QString TextBlock::encodeText( QString text , QString endLine) {
+QString TextBlock::encodeText( QString text, const QString &endLine) {
 	QString encoded = text.replace(QRegExp(endLine),"&#010;");
 	return encoded;
 }
@@ -278,7 +278,7 @@ QString TextBlock::encodeText( QString text , QString endLine) {
 // encode text for XML storage
 // we simply convert all types of newLines to the "\n" or &#010;
 // entity.
-QString TextBlock::decodeText( QString text , QString endLine) {
+QString TextBlock::decodeText( QString text, const QString &endLine) {
 	QString decoded = text.replace(QRegExp("&#010;"),endLine);
 	return decoded;
 }

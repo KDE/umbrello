@@ -66,7 +66,7 @@ CodeDocument::~CodeDocument ( ) {
  * Set the value of m_filename
  * @param new_var the new value of m_filename
  */
-void CodeDocument::setFileName ( QString new_var ) {
+void CodeDocument::setFileName ( const QString &new_var ) {
 	m_filename = new_var;
 }
 
@@ -82,7 +82,7 @@ QString CodeDocument::getFileName ( ) const {
  * Set the value of m_filename
  * @param new_var the new value of m_filename
  */
-void CodeDocument::setFileExtension ( QString new_var ) {
+void CodeDocument::setFileExtension ( const QString &new_var ) {
 	m_fileExtension = new_var;
 	updateHeader(); // because we are using new heading file
 }
@@ -99,7 +99,7 @@ QString CodeDocument::getFileExtension( ) const {
  * Set the value of the package.
  * @param new_var the new value of m_packageName
  */
-void CodeDocument::setPackage ( QString new_var ) {
+void CodeDocument::setPackage ( const QString &new_var ) {
 	m_packageName = new_var;
 }
 
@@ -137,7 +137,7 @@ QString CodeDocument::getPackage ( ) const {
  * Set the value of m_ID
  * @param new_var the new value of m_ID
  */
-void CodeDocument::setID ( QString new_var ) {
+void CodeDocument::setID ( const QString &new_var ) {
 	m_ID = new_var;
 }
 
@@ -294,7 +294,7 @@ CodeDocumentDialog * CodeDocument::getDialog ( ) {
 // Other methods
 //
 
-QString CodeDocument::cleanName (QString name) {
+QString CodeDocument::cleanName ( const QString &name ) {
 	CodeGenerator *g = getParentGenerator();
 	return g->cleanName(name);
 }
@@ -509,17 +509,17 @@ QString CodeDocument::getNewLineEndingChars ( ) {
 	return getPolicy()->getNewLineEndingChars( );
 }
 
-void CodeDocument::removeChildTagFromMap ( QString tag )
+void CodeDocument::removeChildTagFromMap ( const QString &tag )
 {
 	m_childTextBlockTagMap->erase(tag);
 }
 
-void CodeDocument::addChildTagToMap ( QString tag, TextBlock * tb)
+void CodeDocument::addChildTagToMap ( const QString &tag, TextBlock * tb)
 {
 	m_childTextBlockTagMap->insert(tag, tb);
 }
 
-TextBlock * CodeDocument::findTextBlockByTag( QString tag , bool descendIntoChildren)
+TextBlock * CodeDocument::findTextBlockByTag( const QString &tag , bool descendIntoChildren)
 {
 	//if we already know to which file this class was written/should be written, just return it.
 	if(m_textBlockTagMap->contains(tag))
@@ -554,7 +554,7 @@ void CodeDocument::initDoc ( CodeGenerator * gen ) {
 
 }
 
-TextBlock * CodeDocument::findCodeClassFieldTextBlockByTag (QString tag) {
+TextBlock * CodeDocument::findCodeClassFieldTextBlockByTag ( const QString &tag ) {
 	kdWarning()<<"Called findCodeClassFieldMethodByTag("<<tag<<") for a regular CodeDocument"<<endl;
 	return (TextBlock *) NULL;
 }

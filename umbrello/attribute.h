@@ -82,7 +82,7 @@ public:
 	 *
 	 * @param iv		The inital value of the UMLAttribute.
 	 */
-	void setInitialValue(QString iv);
+	void setInitialValue( const QString &iv );
 
 	/**
 	 * Returns a string representation of the UMLAttribute.

@@ -43,7 +43,7 @@ CodeGenerationOptionsPage::CodeGenerationOptionsPage( CodeGenerator * gen,
 CodeGenerationOptionsPage::~CodeGenerationOptionsPage() { }
 
 void CodeGenerationOptionsPage::init( CodeGenerator * gen,
-                                      QString activeLanguage
+                                      const QString &activeLanguage
                                     )
 {
 

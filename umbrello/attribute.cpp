@@ -52,7 +52,7 @@ QString UMLAttribute::getInitialValue() {
 	return m_InitialValue;
 }
 
-void UMLAttribute::setInitialValue(QString iv) {
+void UMLAttribute::setInitialValue(const QString &iv) {
 	if(m_InitialValue != iv) {
 		m_InitialValue = iv;
 		emit modified();

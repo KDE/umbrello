@@ -81,7 +81,7 @@ public:
 	 *			If omitted a new ID is assigned internally.
 	 * @return	Pointer to the UMLEnumliteral created.
 	 */
-	UMLObject* addEnumLiteral(QString name, Uml::IDType id = Uml::id_None);
+	UMLObject* addEnumLiteral(const QString &name, Uml::IDType id = Uml::id_None);
 
 	/**
 	 * Adds an already created enumliteral.
@@ -137,7 +137,7 @@ public:
 	 * @param n		The name of the object to find.
 	 * @return	List of objects found.  Will be empty if none found.
 	 */
-	 virtual UMLObjectList findChildObject(Uml::Object_Type t, QString n);
+	 virtual UMLObjectList findChildObject(Uml::Object_Type t, const QString &n);
 
 signals:
 	void enumLiteralAdded(UMLObject*);

@@ -525,7 +525,7 @@ void ListPopupMenu::insertContainerItems(bool folderAndDiagrams) {
 	insertFileNew();
 }
 
-void ListPopupMenu::insertAssocItem(QString label, Menu_Type mt) {
+void ListPopupMenu::insertAssocItem(const QString &label, Menu_Type mt) {
 	insertItem(label, mt);
 	insertStdItem(mt_Change_Font);
 	insertStdItem(mt_Reset_Label_Positions);

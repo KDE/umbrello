@@ -204,7 +204,7 @@ protected:
 
 	// find a specific textblock held by any code class field in this document 
 	// by its tag
-	TextBlock * findCodeClassFieldTextBlockByTag (QString tag);
+	TextBlock * findCodeClassFieldTextBlockByTag (const QString &tag);
 
 	// add the declaration text blocks for various classfields
 	void declareClassFields (QPtrList<CodeClassField> & list , CodeGenObjectWithTextBlocks * parent);

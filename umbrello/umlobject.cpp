@@ -76,7 +76,7 @@ void UMLObject::setID(Uml::IDType NewID) {
 	emit modified();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void UMLObject::setName(QString strName) {
+void UMLObject::setName(const QString &strName) {
 	m_Name = strName;
 	emit modified();
 }
@@ -85,7 +85,7 @@ QString UMLObject::getName() const {
 	return m_Name;
 }
 
-QString UMLObject::getFullyQualifiedName(QString separator /* = "::" */) const {
+QString UMLObject::getFullyQualifiedName(const QString &separator /* = "::" */) const {
 	QString fqn;
 	if (m_pUMLPackage) {
 		fqn = m_pUMLPackage->getFullyQualifiedName(separator);
@@ -205,7 +205,7 @@ void UMLObject::emitModified()
 	emit modified();
 }
 
-void UMLObject::setDoc(QString d) {
+void UMLObject::setDoc(const QString &d) {
 	m_Doc = d;
 	emit modified();
 }
@@ -249,7 +249,7 @@ void UMLObject::setUMLStereotype(UMLStereotype *stereo) {
 	emit modified();
 }
 
-void UMLObject::setStereotype(QString _name) {
+void UMLObject::setStereotype(const QString &_name) {
 	if (_name.isEmpty()) {
 		setUMLStereotype(NULL);
 		return;
@@ -259,7 +259,7 @@ void UMLObject::setStereotype(QString _name) {
 	setUMLStereotype(s);
 }
 
-void UMLObject::setPackage(QString _name) {
+void UMLObject::setPackage(const QString &_name) {
 	// TBD: Resolve nested packages given in _name (e.g. A::B::C)
 	UMLObject *pkgObj = NULL;
 	if (!_name.isEmpty()) {
@@ -297,7 +297,7 @@ QString UMLObject::getStereotype(bool includeAdornments /* = true */) {
 	return name;
 }
 
-QString UMLObject::getPackage(QString separator /* ="::" */) {
+QString UMLObject::getPackage(const QString &separator /* ="::" */) {
 	if (m_pUMLPackage == NULL)
 		return "";
 	QStringList pkgList;
@@ -401,7 +401,7 @@ bool UMLObject::resolveRef() {
 	return true;
 }
 
-QDomElement UMLObject::save( QString tag, QDomDocument & qDoc ) {
+QDomElement UMLObject::save( const QString &tag, QDomDocument & qDoc ) {
 	/*
 	  Call as the first action of saveToXMI() in child class:
 	  This creates the QDomElement with which to work.

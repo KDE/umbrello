@@ -43,7 +43,7 @@ public:
 	 * @param t		The type of this instance.
 	 * @param o		The object it represents.
 	 */
-	UMLListViewItem(UMLListView * parent, QString name, Uml::ListView_Type t, UMLObject*o=0);
+	UMLListViewItem(UMLListView * parent, const QString &name, Uml::ListView_Type t, UMLObject*o=0);
 
 	/**
 	 * Sets up an instance for subsequent loadFromXMI().
@@ -67,7 +67,7 @@ public:
 	 * @param t		The type of this instance.
 	 * @param o		The object it represents.
 	 */
-	UMLListViewItem(UMLListViewItem * parent, QString name, Uml::ListView_Type t, UMLObject*o=0);
+	UMLListViewItem(UMLListViewItem * parent, const QString &name, Uml::ListView_Type t, UMLObject*o=0);
 
 	/**
 	 * Sets up an instance.
@@ -77,7 +77,7 @@ public:
 	 * @param t		The type of this instance.
 	 * @param id		The id of this instance.
 	 */
-	UMLListViewItem(UMLListViewItem * parent, QString name, Uml::ListView_Type t, Uml::IDType id);
+	UMLListViewItem(UMLListViewItem * parent, const QString &name, Uml::ListView_Type t, Uml::IDType id);
 
 	/**
 	 * Standard deconstructor.
@@ -150,7 +150,7 @@ public:
 	/**
 	 * Changes the current text and updates the tooltip.
 	 */
-	void setText( QString text );
+	void setText( const QString &text );
 
 	/**
 	 * Returns the current text.

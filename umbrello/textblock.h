@@ -56,13 +56,13 @@ public:
 	 * The actual text of this code block.
 	 * @param new_var the new value of m_text
 	 */
-	void setText ( QString new_var );
+	void setText ( const QString &new_var );
 
 	/**
 	 * Add text to this object.
   	 *
  	 */
-	void appendText ( QString new_text );
+	void appendText ( const QString &new_text );
 
 	/**
 	 * Get the value of m_text
@@ -83,7 +83,7 @@ public:
 	 * may be used to find this text block in the code document
 	 * to which it belongs.
 	 */
-	void setTag( QString value );
+	void setTag( const QString &value );
  
 	/**
 	 * Get the value of m_parentDoc
@@ -148,13 +148,13 @@ public:
 	 * we simply convert all types of newLines to the "\n" or &#010;
 	 * entity.
 	 */
-	static QString encodeText( QString text , QString endChars);
+	static QString encodeText( QString text , const QString &endChars);
 
 
 	/** decode text from XML storage
 	 * We simply convert all newLine entity &#010; to chosen line ending.
 	 */
-	static QString decodeText( QString text ,QString endChars);
+	static QString decodeText( QString text, const QString &endChars);
 
 	/**
 	 * Save the XMI representation of this object

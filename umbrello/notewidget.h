@@ -84,7 +84,7 @@ public:
 	 *
 	 * @param newText	The text to set the documentation to.
 	 */
-	void setDoc(QString newText) {
+	void setDoc(const QString &newText) {
 		m_Text = newText;
 	}
 

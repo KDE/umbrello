@@ -55,7 +55,7 @@ public:
 	/**
 	 * Motivated by FloatingText::slotMenuSelection(mt_Operation)
 	 */
-	virtual void setOperationText(FloatingText *ft, QString opText);
+	virtual void setOperationText(FloatingText *ft, const QString &opText);
 
 	/**
 	 * Motivated by FloatingText::slotMenuSelection(mt_Reset_Label_Positions)
@@ -70,7 +70,7 @@ public:
 	/**
 	 * Motivated by FloatingText::handleRename()
 	 */
-	virtual void setText(FloatingText *ft, QString newText);
+	virtual void setText(FloatingText *ft, const QString &newText);
 
 	/**
 	 * Motivated by FloatingText::mouseDoubleClickEvent()
@@ -85,7 +85,7 @@ public:
 	/**
 	 * Motivated by FloatingText::showOpDlg()
 	 */
-	virtual void setSeqNumAndOp(QString seqNum, QString op);
+	virtual void setSeqNumAndOp(const QString &seqNum, const QString &op);
 
 	/**
 	 * Motivated by FloatingText::mouseMoveEvent()

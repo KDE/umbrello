@@ -54,7 +54,7 @@ CPPSourceCodeDocument::~CPPSourceCodeDocument ( ) { }
 // Other methods
 //
 
-QString CPPSourceCodeDocument::getCPPClassName (QString name) {
+QString CPPSourceCodeDocument::getCPPClassName (const QString &name) {
         CPPCodeGenerator *g = (CPPCodeGenerator*) getParentGenerator();
         return g->getCPPClassName(name);
 }

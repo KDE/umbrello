@@ -38,7 +38,7 @@ public:
 	/** constructor with QString so we can create & populate it in
 	 * one step.
 	 */
-	OwnedHierarchicalCodeBlock ( UMLObject * parent, CodeDocument * parentDoc, QString start="", QString end="", QString comment="" );
+	OwnedHierarchicalCodeBlock ( UMLObject * parent, CodeDocument * parentDoc, const QString &start="", const QString &end="", const QString &comment="" );
 
 	/**
 	 * Empty Destructor

@@ -685,14 +685,14 @@ bool UMLDoc::addCodeGenerator ( CodeGenerator * gen)
 	return true;
 }
 
-bool UMLDoc::hasCodeGeneratorXMIParams ( QString lang )
+bool UMLDoc::hasCodeGeneratorXMIParams ( const QString &lang )
 {
 	if (m_codeGenerationXMIParamMap->contains(lang))
 		return true;
 	return false;
 }
 
-QDomElement UMLDoc::getCodeGeneratorXMIParams ( QString lang )
+QDomElement UMLDoc::getCodeGeneratorXMIParams ( const QString &lang )
 {
 	return ((*m_codeGenerationXMIParamMap)[lang]);
 }
@@ -715,7 +715,7 @@ bool UMLDoc::removeCodeGenerator ( CodeGenerator * remove_object ) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-CodeGenerator * UMLDoc::findCodeGeneratorByLanguage (QString lang) {
+CodeGenerator * UMLDoc::findCodeGeneratorByLanguage (const QString &lang) {
 	return m_codeGeneratorDictionary.find(lang);
 }
 
@@ -735,7 +735,7 @@ UMLView * UMLDoc::findView(Uml::IDType id) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLView * UMLDoc::findView(Diagram_Type type, QString name) {
+UMLView * UMLDoc::findView(Diagram_Type type, const QString &name) {
 	for(UMLView *w = m_ViewList.first(); w; w = m_ViewList.next()) {
 		if( (w->getType() == type) && ( w->getName() == name) ) {
 			return w;
@@ -756,13 +756,13 @@ UMLStereotype * UMLDoc::findStereotypeById(Uml::IDType id) {
 	return NULL;
 }
 
-UMLObject* UMLDoc::findUMLObject(QString name,
+UMLObject* UMLDoc::findUMLObject(const QString &name,
 				 Object_Type type /* = ot_UMLObject */,
 				 UMLObject *currentObj /* = NULL */) {
 	return Umbrello::findUMLObject(m_objectList, name, type, currentObj);
 }
 
-UMLClassifier* UMLDoc::findUMLClassifier(QString name) {
+UMLClassifier* UMLDoc::findUMLClassifier(const QString &name) {
 	// could be either UMLClass or UMLInterface..
 	//this is used only by code generator so we don't need to look at Datatypes
 	UMLObject * obj = findUMLObject(name);
@@ -872,7 +872,7 @@ void UMLDoc::slotRemoveUMLObject(UMLObject* object)  {
 	m_objectList.remove(object);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-bool UMLDoc::isUnique(QString name)
+bool UMLDoc::isUnique(const QString &name)
 {
 	UMLListView *listView = UMLApp::app()->getListView();
 	UMLListViewItem *currentItem = (UMLListViewItem*)listView->currentItem();
@@ -904,7 +904,7 @@ bool UMLDoc::isUnique(QString name)
 	return true;
 }
 
-bool UMLDoc::isUnique(QString name, UMLPackage *package)
+bool UMLDoc::isUnique(const QString &name, UMLPackage *package)
 {
 
 	// if a package, then only do check in that
@@ -1148,7 +1148,7 @@ UMLObject* UMLDoc::createEnumLiteral(UMLEnum* umlenum) {
 	return newEnumLiteral;
 }
 
-UMLStereotype* UMLDoc::findStereotype(QString name) {
+UMLStereotype* UMLDoc::findStereotype(const QString &name) {
 	for (UMLStereotype *s = m_stereoList.first(); s; s = m_stereoList.next() ) {
 		if (s->getName() == name)
 			return s;
@@ -1156,7 +1156,7 @@ UMLStereotype* UMLDoc::findStereotype(QString name) {
 	return NULL;
 }
 
-UMLStereotype* UMLDoc::findOrCreateStereotype(QString name) {
+UMLStereotype* UMLDoc::findOrCreateStereotype(const QString &name) {
 	UMLStereotype *s = findStereotype(name);
 	if (s != NULL) {
 		return s;
@@ -2050,7 +2050,7 @@ bool UMLDoc::validateXMIHeader(QDomNode& headerNode) {
 	return true;
 }
 
-bool UMLDoc::determineNativity(QString xmiId) {
+bool UMLDoc::determineNativity(const QString &xmiId) {
 	if (xmiId.isEmpty())
 		return false;
 	m_bNativeXMIFile = xmiId.contains( QRegExp("^\\d+$") );
@@ -2205,7 +2205,7 @@ void UMLDoc::loadExtensionsFromXMI(QDomNode& node) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLObject* UMLDoc::makeNewUMLObject(QString type) {
+UMLObject* UMLDoc::makeNewUMLObject(const QString &type) {
 	UMLObject* pObject = 0;
 	if (tagEq(type, "UseCase")) {
 		pObject = new UMLUseCase();
@@ -2747,7 +2747,7 @@ void UMLDoc::addDefaultDatatypes() {
 	UMLApp::app()->getGenerator()->createDefaultDatatypes();
 }
 
-void UMLDoc::createDatatype(QString name)  {
+void UMLDoc::createDatatype(const QString &name)  {
 	UMLObject* umlobject = findUMLObject(name, ot_Datatype);
 	if (!umlobject) {
 		createUMLObject(ot_Datatype, name);

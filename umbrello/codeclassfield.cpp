@@ -158,7 +158,7 @@ CodeClassFieldDialog * CodeClassField::getDialog ( ) {
 // methods like this _shouldnt_ be needed IF we properly did things thruought the code.
 QString CodeClassField::getUMLObjectName(UMLObject *obj)
 {
-	return(obj!=0)?obj->getName():QString("NULL");
+	return (obj!=0)?obj->getName():QString("NULL");
 }
 
 /**
@@ -368,11 +368,11 @@ int CodeClassField::maximumListOccurances( ) {
 	return 1;
 }
 
-QString CodeClassField::cleanName (QString name) {
+QString CodeClassField::cleanName ( const QString &name ) {
 	return getParentDocument()->cleanName(name);
 }
 
-QString CodeClassField::fixInitialStringDeclValue(QString value, QString type)
+QString CodeClassField::fixInitialStringDeclValue(QString value, const QString &type)
 {
 	// check for strings only
 	if (!value.isEmpty() && type == "String") {

@@ -81,30 +81,30 @@ public:
 	/**
 	*   Sets the position of an already set point.
 	*/
-	bool setPoint( int pointIndex, QPoint point );
+	bool setPoint( int pointIndex, const QPoint &point );
 
 	/**
 	*   Checks, if we are at an end of the segment or somewhere in the middle.
 	*   We use the delta, because with the mouse it is hard to find the
 	*   exactly point.
 	*/
-	bool isPoint( int pointIndex, QPoint point, unsigned short delta = 0 );
+	bool isPoint( int pointIndex, const QPoint &point, unsigned short delta = 0 );
 
 	/**
 	*   Inserts a point at the given index.
 	*/
-	bool insertPoint( int pointIndex, QPoint point );
+	bool insertPoint( int pointIndex, const QPoint &point );
 
 	/**
 	*   Removes the point on the line given by the index, at the coordinates
 	*   given by point with a fuzzy of delta
 	*/
-	bool removePoint( int pointIndex, QPoint point, unsigned short delta = 0 );
+	bool removePoint( int pointIndex, const QPoint &point, unsigned short delta = 0 );
 
 	/**
 	*   Sets the start and end points.
 	*/
-	bool setStartEndPoints( QPoint start, QPoint end );
+	bool setStartEndPoints( const QPoint &start, const QPoint &end );
 
 	/**
 	*   Returns the amount of POINTS on the line.
@@ -117,7 +117,7 @@ public:
 	*   else returns the line segment the point is on.
 	*   Use the value to insert points at the point position.
 	*/
-	int onLinePath( QPoint position );
+	int onLinePath( const QPoint &position );
 
 	/**
 	*   Sets the canvas to be used.
@@ -347,7 +347,7 @@ public slots:
 	/**
 	*   Sets the line color used by the line.
 	*/
-	void setLineColor( QColor color );
+	void setLineColor( const QColor &color );
 	/**
 	*   Sets the line width used by the line.
 	*/

@@ -61,12 +61,12 @@ public:
 	//CodeDocumentDialog getDialog ( );
 
 	QString scopeToJavaDecl(Uml::Scope scope); 
-	QString capitalizeFirstLetter(QString string);
+	QString capitalizeFirstLetter(const QString &string);
 
 	// Make it easier on ourselves 
 	JavaCodeGenerationPolicy * getJavaPolicy();
 
-	QString getJavaClassName (QString name);
+	QString getJavaClassName (const QString &name);
 
 	QString getPath();
 

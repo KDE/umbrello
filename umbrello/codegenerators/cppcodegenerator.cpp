@@ -161,7 +161,7 @@ CodeViewerDialog * CPPCodeGenerator::getCodeViewerDialog ( QWidget* parent, Code
 	}
 }
 
-QString CPPCodeGenerator::getCPPClassName (QString name) {
+QString CPPCodeGenerator::getCPPClassName (const QString &name) {
 	return cleanName(name);
 }
 

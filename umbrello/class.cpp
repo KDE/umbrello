@@ -37,7 +37,7 @@ UMLClass::~UMLClass() {
 	// already gives us clear()ed lists.)
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLAttribute* UMLClass::addAttribute(QString name, Uml::IDType id /* = Uml::id_None */) {
+UMLAttribute* UMLClass::addAttribute(const QString &name, Uml::IDType id /* = Uml::id_None */) {
 	UMLClassifierListItem *obj = NULL;
 	for (obj = m_List.first(); obj; obj = m_List.next()) {
 		if (obj->getBaseType() == Uml::ot_Attribute && obj->getName() == name)
@@ -98,7 +98,7 @@ UMLAttribute* UMLClass::takeAttribute(UMLAttribute* a) {
 	return a;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-UMLObject* UMLClass::addTemplate(QString name, Uml::IDType id) {
+UMLObject* UMLClass::addTemplate(const QString &name, Uml::IDType id) {
 	UMLTemplate* newTemplate = new UMLTemplate(this, name, id);
 	m_List.append(newTemplate);
 	emit modified();

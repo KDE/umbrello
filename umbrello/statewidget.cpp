@@ -124,7 +124,7 @@ void StateWidget::calculateSize() {
 	setSize(width, height);
 }
 
-void StateWidget::setName(QString strName) {
+void StateWidget::setName(const QString &strName) {
 	m_Name = strName;
 	calculateSize();
 	adjustAssocs( getX(), getY() );
@@ -138,7 +138,7 @@ QString StateWidget::getDoc() const {
 	return m_Doc;
 }
 
-void StateWidget::setDoc( QString doc ) {
+void StateWidget::setDoc( const QString &doc ) {
 	m_Doc = doc;
 }
 
@@ -189,13 +189,13 @@ void StateWidget::mouseDoubleClickEvent(QMouseEvent * /*me*/) {
 	m_pView -> showDocumentation( this, true );
 }
 
-bool StateWidget::addActivity( QString activity ) {
+bool StateWidget::addActivity( const QString &activity ) {
 	m_Activities.append( activity );
 	calculateSize();
 	return true;
 }
 
-bool StateWidget::removeActivity( QString activity ) {
+bool StateWidget::removeActivity( const QString &activity ) {
 	int index = - 1;
 	if( ( index = m_Activities.findIndex( activity ) ) == -1 )
 		return false;
@@ -213,7 +213,7 @@ QStringList & StateWidget::getActivityList() {
 	return m_Activities;
 }
 
-bool StateWidget::renameActivity( QString activity, QString newName ) {
+bool StateWidget::renameActivity( const QString &activity, const QString &newName ) {
 	int index = - 1;
 	if( ( index = m_Activities.findIndex( activity ) ) == -1 )
 		return false;

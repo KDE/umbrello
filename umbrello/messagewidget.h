@@ -78,7 +78,7 @@ public:
 	/**
 	 * Write property of QString m_SequenceNumber.
 	 */
-	void setSequenceNumber( QString sequenceNumber );
+	void setSequenceNumber( const QString &sequenceNumber );
 
 	/**
 	 * Read property of QString m_SequenceNumber.
@@ -88,7 +88,7 @@ public:
 	/**
 	 * Write property of QString m_Operation.
 	 */
-	void setOperation( QString operation );
+	void setOperation( const QString &operation );
 
 	/**
 	 * Read property of QString m_Operation.
@@ -158,7 +158,7 @@ public:
 	 * Overrides operation from LinkWidget.
 	 * Required by FloatingText.
 	 */
-	void setOperationText(FloatingText *ft, QString opText);
+	void setOperationText(FloatingText *ft, const QString &opText);
 
 	/**
 	 * Overrides operation from LinkWidget.
@@ -175,7 +175,7 @@ public:
 	 * @param ft	The text widget which to update.
 	 * @param newText	The new text to set.
 	 */
-	void setText(FloatingText *ft, QString newText);
+	void setText(FloatingText *ft, const QString &newText);
 
 	/**
 	 * Overrides operation from LinkWidget.
@@ -184,7 +184,7 @@ public:
 	 * @param seqNum	The new sequence number string to set.
 	 * @param op		The new operation string to set.
 	 */
-	void setSeqNumAndOp(QString seqNum, QString op);
+	void setSeqNumAndOp(const QString &seqNum, const QString &op);
 
 	/**
 	 * Overrides operation from LinkWidget.
