@@ -34,7 +34,7 @@
 #include <typeinfo>
 #include <algorithm>
 #include <list>
-
+#include <qpointarray.h>
 #include <qpopupmenu.h>
 #include <qcolor.h>
 
@@ -152,15 +152,17 @@ void Diagram::createUMLWidget( UMLObject *obj, const QPoint &pos)
 	}
 }
 
-void Diagram::createAssociationWidget( UMLAssociation *assoc,UMLWidget *wA, UMLWidget *wB, const QPtrList<QPoint> &path )
+void Diagram::createAssociationWidget( UMLAssociation *assoc,UMLWidget *wA, UMLWidget *wB, const QPointArray &path )
 {
-	DiagramElement *w;
-	if( ( w = WidgetFactory::createAssociationWidget( assoc, wA, wB, path, this ) ) )
-	{
+	DiagramElement *w = WidgetFactory::createAssociationWidget( assoc, wA, wB, path, this );
+	if( w )
+	{kdDebug()<<"showing association"<<endl;
+		w->moveAbs(wA->x(), wA->y());
 		w->show();
 		update();
 		emit modified( );
 	}
+	else kdDebug()<<"widget factory regturned null assoc widget"<<endl;
 
 }
 
@@ -181,7 +183,7 @@ void Diagram::createCustomWidget( int type, const QPoint &pos )
 
 
 bool Diagram::acceptType(const std::type_info &type)
-{kdDebug()<<"accept? "<<type.name()<<endl;
+{//kdDebug()<<"accept? "<<type.name()<<endl;
 return (find((allowedTypes[m_type]).begin(),
 		     (allowedTypes[m_type]).end(),
 		     &type) != allowedTypes[m_type].end());
@@ -206,7 +208,7 @@ void Diagram::dropEvent(QDropEvent *e)
 	o = m_doc->findUMLObject(data->getID());
 	if(!o)
 	{
-		kdDebug()<<"object with id = "<<data->getID()<<" not found in document"<<endl;
+		kdWarning()<<"object with id = "<<data->getID()<<" not found in document"<<endl;
  		return;
 	}
 	createUMLWidget(o,e->pos());

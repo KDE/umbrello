@@ -24,6 +24,7 @@ class UMLAssociation;
 class QDropEvent;
 class QDragEnterEvent;
 class QPopupMenu;
+class QPointArray;
 
 namespace Umbrello{
 
@@ -76,7 +77,7 @@ public:
 	 * @param path  List of points making the path between wA and wB
 	 * 
 	 */
-	void createAssociationWidget( UMLAssociation *assoc, UMLWidget *wA, UMLWidget *wB, const QPtrList<QPoint> &path );
+	void createAssociationWidget( UMLAssociation *assoc, UMLWidget *wA, UMLWidget *wB, const QPointArray &path );
 	
 	void fillContextMenu(QPopupMenu &menu) const;
 	
