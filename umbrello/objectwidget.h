@@ -21,6 +21,7 @@
 #include "messagewidget.h"
 
 #include <qptrlist.h>
+#include <qfont.h>
 
 class SeqLineWidget;
 

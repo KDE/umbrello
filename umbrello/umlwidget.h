@@ -23,6 +23,8 @@ class ListPopupMenu;
 class IDChangeLog;
 
 class QPainter;
+class QFont;
+class QFontMetrics;
 
 using namespace Uml;
 
@@ -289,11 +291,7 @@ public:
 	 * @param font Font to be set.
 	 */
 
-	virtual void setFont( QFont font ) {
-		m_pData -> setFont( font );
-		calculateSize();
-		update();
-	}
+	virtual void setFont( QFont font );
 
 	/**
 	 * Returns the font the widget is too use.
@@ -426,6 +424,14 @@ public:
 	 */
 	void updateComponentSize();
 
+	/**
+	 * @note For performance Reasons, only FontMetrics for already used
+	 *  font types are updated. Not yet used font types will not get a font metric
+	 *  and will get the same font metric as if painter was zero.
+	 *  This behaviour is acceptable, because diagrams will always be showed on Display
+	 *  first before a special painter like a printer device is used.
+	 */
+	void forceUpdateFontMetrics(QPainter *painter);
 protected:
 	/**
 	 * Draws that the widget is selected.
@@ -438,40 +444,64 @@ protected:
 
 	/**
 	 * Overrides default method.
-	 * 
+	 *
 	 * @param p Device on which the shape has to be drawn.^
 	 */
 	virtual void drawShape(QPainter &p );
 
 	/**
 	 * Overrides the standard operation.
-	 * 
+	 *
 	 * @param me The mouse event.
 	 */
 	virtual void mousePressEvent(QMouseEvent *me);
 
 	/**
 	 * Overrides the standard operation.
-	 * 
+	 *
 	 * @param me The move event.
 	 */
-	virtual void moveEvent(QMoveEvent *) { } 
+	virtual void moveEvent(QMoveEvent *) { }
 
 	/**
 	 * Calculates the size of the widget.
 	 */
 	virtual void calculateSize() {}
 
+	typedef enum {
+		FT_NORMAL = 0,
+		FT_BOLD  = 1,
+		FT_ITALIC = 2,
+		FT_UNDERLINE = 3,
+		FT_BOLD_ITALIC = 4,
+		FT_BOLD_UNDERLINE = 5,
+		FT_ITALIC_UNDERLINE = 6,
+		FT_BOLD_ITALIC_UNDERLINE = 7,
+		FT_INVALID = 8
+	} FontType;
+
+	/** Template Method, override this to set the default
+	 *  font metric.
+	 */
+	virtual void setDefaultFontMetrics(UMLWidget::FontType fontType);
+	virtual void setDefaultFontMetrics(UMLWidget::FontType fontType, QPainter &painter);
+
+	/** Returns the font metric used by this object for Text which uses bold/italic fonts*/
+	QFontMetrics &getFontMetrics(UMLWidget::FontType fontType);
+	/** set the font metric to use */
+	void setFontMetrics(UMLWidget::FontType fontType, QFontMetrics &fm);
+ 	void setFontMetrics(UMLWidget::FontType fontType, QFontMetrics fm);
+	void setupFontType(QFont &font, UMLWidget::FontType fontType);
 	/**
 	 * Initializes key attributes of the class.
 	 */
 	void init();
 
-	bool 		m_bMouseDown, 
-			m_bMouseOver, 
-			m_bSelected, 
+	bool 		m_bMouseDown,
+			m_bMouseOver,
+			m_bSelected,
 			m_bStartMove;
-	
+
 	/**
 	 * It is true, if the object was moved during mouseMoveEvent
 	 */
@@ -482,26 +512,25 @@ protected:
 	 */
 	bool m_bShiftPressed;
 
-	int  		m_nOldX, 
-			m_nOldY, 
-			m_nPosX, 
+	int  		m_nOldX,
+			m_nOldY,
+			m_nPosX,
 			m_nOldID;
 	UMLObject 	*m_pObject;
 	UMLView 	*m_pView;
 	ListPopupMenu 	*m_pMenu;
 	bool 		m_bResizing;
 	UMLWidgetData	*m_pData;
-	int 		m_nPressOffsetX, 
+	int 		m_nPressOffsetX,
 			m_nPressOffsetY;
-	int 		m_nOldH, 
+	int 		m_nOldH,
 			m_nOldW;
-
+	QFontMetrics	*m_pFontMetrics[FT_INVALID];
 	/**
 	 * It is true if the Activate Function has been called for this
 	 * class instance
 	 */
 	bool m_bActivated;
-
 	/**
 	 * UMLWidget's name property
 	 */
@@ -529,7 +558,7 @@ public slots:
 	 * @param o The changed UMLobject
 	 */
 	virtual void updateWidget();
-	
+
 
 	/**
 	 * Captures any popup menu signals for menus it created.

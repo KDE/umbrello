@@ -33,7 +33,7 @@ void UseCaseWidget::draw(QPainter & p, int offsetX, int offsetY) {
 	if(m_pData->getUseFillColor())
 		p.setBrush(m_pData->getFillColour());
 	p.setFont( m_pData -> getFont() );
-	QFontMetrics fm = QFontMetrics( m_pData -> getFont() );
+	QFontMetrics &fm = getFontMetrics(FT_NORMAL);
 	int fontHeight  = fm.lineSpacing();
 	int w = width();
 	int h = height();
@@ -54,7 +54,7 @@ void UseCaseWidget::draw(QPainter & p, int offsetX, int offsetY) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UseCaseWidget::calculateSize()
 {
-	QFontMetrics fm = QFontMetrics( m_pData -> getFont() );
+	QFontMetrics &fm = getFontMetrics(FT_NORMAL);
 	int fontHeight  = fm.lineSpacing();
 	int textWidth = fm.width(getName());
 	int width = textWidth > UC_WIDTH?textWidth:UC_WIDTH;

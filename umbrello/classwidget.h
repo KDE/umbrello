@@ -203,6 +203,7 @@ public:
 	 *	Overrides standards method
 	 */
 	void draw(QPainter & p, int offsetX, int offsetY);
+
 private:
 
 	/**

@@ -262,6 +262,9 @@ void UMLWidget::mouseReleaseEvent(QMouseEvent *me) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLWidget::init() {
+	for (int i = 0; i < (int)FT_INVALID; ++i)
+		m_pFontMetrics[(UMLWidget::FontType)i] = 0;
+
 	m_bResizing = false;
 	m_bMouseOver = false;
 
@@ -714,4 +717,100 @@ void UMLWidget::updateComponentSize(){
 	calculateSize();
 }
 
+void UMLWidget::setDefaultFontMetrics(UMLWidget::FontType fontType) {
+	QFont font = m_pData -> getFont();
+	setupFontType(font, fontType);
+	setFontMetrics(fontType, QFontMetrics(font));
+}
+
+void UMLWidget::setupFontType(QFont &font, UMLWidget::FontType fontType) {
+ 	switch(fontType){
+		case FT_NORMAL:
+			font.setBold(false);
+			font.setItalic(false);
+   			font.setUnderline(false);
+		break;
+		case FT_BOLD:
+			font.setBold(true);
+			font.setItalic(false);
+			font.setUnderline(false);
+		break;
+		case FT_ITALIC:
+			font.setBold(false);
+			font.setItalic(true);
+			font.setUnderline(false);
+		break;
+		case FT_UNDERLINE:
+			font.setBold(false);
+			font.setItalic(false);
+   			font.setUnderline(true);
+		break;
+		case FT_BOLD_ITALIC:
+			font.setBold(true);
+			font.setItalic(true);
+			font.setUnderline(false);
+		break;
+		case FT_BOLD_UNDERLINE:
+			font.setBold(true);
+			font.setItalic(false);
+   			font.setUnderline(true);
+		break;
+		case FT_ITALIC_UNDERLINE:
+			font.setBold(false);
+			font.setItalic(true);
+   			font.setUnderline(true);
+		break;
+		case FT_BOLD_ITALIC_UNDERLINE:
+			font.setBold(true);
+			font.setItalic(true);
+   			font.setUnderline(true);
+		break;
+		default: return;
+	}
+}
+
+void UMLWidget::setDefaultFontMetrics(UMLWidget::FontType fontType, QPainter &painter) {
+	QFont font = m_pData -> getFont();
+	setupFontType(font, fontType);
+	painter.setFont(font);
+	setFontMetrics(fontType,painter.fontMetrics());
+}
+
+QFontMetrics &UMLWidget::getFontMetrics(UMLWidget::FontType fontType) {
+	if (m_pFontMetrics[fontType] == 0) {
+		setDefaultFontMetrics(fontType);
+	}
+	return *m_pFontMetrics[fontType];
+}
+
+void UMLWidget::setFontMetrics(UMLWidget::FontType fontType, QFontMetrics &fm) {
+	delete m_pFontMetrics[fontType];
+	m_pFontMetrics[fontType] = new QFontMetrics(fm);
+}
+void UMLWidget::setFontMetrics(UMLWidget::FontType fontType, QFontMetrics fm) {
+	delete m_pFontMetrics[fontType];
+	m_pFontMetrics[fontType] = new QFontMetrics(fm);
+}
+
+void UMLWidget::setFont( QFont font ) {
+	m_pData -> setFont( font );
+	forceUpdateFontMetrics(0);
+	update();
+}
+
+void UMLWidget::forceUpdateFontMetrics(QPainter *painter) {
+	if (painter == 0) {
+		for (int i = 0; i < (int)UMLWidget::FT_INVALID; ++i) {
+			if (m_pFontMetrics[(UMLWidget::FontType)i]!=0)
+				setDefaultFontMetrics((UMLWidget::FontType)i);
+		}
+	} else {
+		for (int i2 = 0; i2 < (int)UMLWidget::FT_INVALID; ++i2) {
+			if (m_pFontMetrics[(UMLWidget::FontType)i2]!=0)
+				setDefaultFontMetrics((UMLWidget::FontType)i2,*painter);
+		}
+	}
+	// calculate the size, based on the new font metric
+	calculateSize();
+}
 #include "umlwidget.moc"

@@ -146,10 +146,14 @@ void UMLView::print(KPrinter *pPrinter, QPainter & pPainter) {
 	int offsetX = 0, offsetY = 0, widthX = 0, heightY = 0;
 	//get the size of the page
 	QPaintDeviceMetrics metrics(pPrinter);
-	QFontMetrics fm = fontMetrics();
+	QFontMetrics fm = pPainter.fontMetrics(); // use the painter font metrics, not the screen fm!
 	int fontHeight  = fm.lineSpacing();
 	int marginX = pPrinter->margins().width();
 	int marginY = pPrinter->margins().height();
+
+	// The printer will probably use a different font with different font metrics,
+	// force the widgets to update accordingly on paint
+	forceUpdateWidgetFontMetrics(&pPainter);
 
 	//double margin at botton of page as it doesn't print down there
 	//on my printer, so play safe as default.
@@ -213,6 +217,8 @@ void UMLView::print(KPrinter *pPrinter, QPainter & pPainter) {
 			}
 		}
 	}
+	// next painting will most probably be to a different device (i.e. the screen)
+	forceUpdateWidgetFontMetrics(0);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome) {
@@ -1355,7 +1361,7 @@ void UMLView::fixEPS(QString filename, QRect rect) {
 	}
 }
 
-void UMLView::printToFile(QString filename, QRect rect) {
+void UMLView::printToFile(QString filename,bool isEPS) {
 	// print the image to a normal postscript file,
 	// do not clip so that everything ends up in the file
 	// regardless of "paper size"
@@ -1363,14 +1369,30 @@ void UMLView::printToFile(QString filename, QRect rect) {
 	// because we want to work with postscript
 	// user-coordinates, set to the resolution
 	// of the printer (which should be 72dpi here)
-	QPrinter printer(QPrinter::PrinterResolution);
-	printer.setOutputToFile(true);
-	printer.setOutputFileName(filename);
+	QPrinter *printer = new QPrinter(QPrinter::PrinterResolution);
+	printer->setOutputToFile(true);
+	printer->setOutputFileName(filename);
+
 	// do not call printer.setup(); because we want no user
 	// interaction here
-	QPainter painter(&printer);
-	painter.translate(-rect.x(),-rect.y());
-	getDiagram(rect,painter);
+	QPainter *painter = new QPainter(printer);
+
+	// make sure the widget sizes will be according to the
+	// actually used printer font, important for getDiagramRect()
+	// and the actual painting
+	forceUpdateWidgetFontMetrics(painter);
+
+	QRect rect = getDiagramRect();
+	painter->translate(-rect.x(),-rect.y());
+	getDiagram(rect,*painter);
+
+	// delete painter and printer before we try to open and fix the file
+	delete painter;
+	delete printer;
+	if (isEPS) fixEPS(filename,rect);
+	// next painting will most probably be to a different device (i.e. the screen)
+	forceUpdateWidgetFontMetrics(0);
+
 }
 
 void UMLView::exportImage() {
@@ -1448,8 +1470,7 @@ void UMLView::exportImage() {
 		} else {
 			//  eps requested
 			if (imageMimetype == "image/x-eps") {
-				printToFile(s,rect);
-				fixEPS(s,rect);
+				printToFile(s,true);
 			}else{
 				QPixmap diagram(rect.width(), rect.height());
 				getDiagram(rect, diagram);
@@ -3134,6 +3155,26 @@ void UMLView::updateComponentSizes() {
 		obj->updateComponentSize();
 	}
 	delete l;
+}
+
+/**
+ * Force the widget font metrics to be updated next time
+ * the widgets are drawn.
+ * This is necessary because the widget size might depend on the
+ * font metrics and the font metrics might change for different
+ * QPainter, i.e. font metrics for Display font and Printer font are
+ * usually different.
+ * Call this when you change the QPainter.
+ */
+void UMLView::forceUpdateWidgetFontMetrics(QPainter * painter) {
+	QObjectList * l = queryList( "UMLWidget");
+	QObjectListIt it( *l );
+	UMLWidget *obj;
+
+	while ((obj=(UMLWidget*)it.current()) != 0 ) {
+		++it;
+		obj->forceUpdateFontMetrics(painter);
+	}
 }
 
 #include "umlview.moc"

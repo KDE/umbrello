@@ -43,7 +43,7 @@ void StateWidget::draw(QPainter & p, int offsetX, int offsetY) {
 			if(m_pData->getUseFillColor())
 				p.setBrush(m_pData->getFillColour());
 			{
-				QFontMetrics fm = QFontMetrics( m_pData -> getFont() );
+				QFontMetrics &fm = getFontMetrics(FT_NORMAL);
 				int fontHeight  = fm.lineSpacing();
 				int textStartY = (h / 2) - (fontHeight / 2);
 				QStringList list = static_cast<StateWidgetData *>( m_pData ) -> getActivityList();
@@ -101,9 +101,7 @@ void StateWidget::draw(QPainter & p, int offsetX, int offsetY) {
 void StateWidget::calculateSize() {
 	int width = 10, height = 10;
 	if( static_cast<StateWidgetData*>(m_pData)->getStateType() == Normal ) {
-		QFont font = m_pData -> getFont();
-		font.setBold( true );//use bold for all calculations
-		QFontMetrics fm = QFontMetrics( font );
+		QFontMetrics &fm = getFontMetrics(FT_BOLD);
 		int fontHeight  = fm.lineSpacing();
 		int textWidth = fm.width(getName());
 		QStringList list = static_cast<StateWidgetData *>( m_pData ) -> getActivityList();

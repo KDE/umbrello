@@ -156,7 +156,7 @@ void NoteWidget::drawText(QPainter & p, int offsetX, int offsetY) {
 	p.setPen( black );
 	QFont font = m_pData -> getFont();
 	p.setFont( font );
-	QFontMetrics fm = QFontMetrics( font );
+	QFontMetrics &fm = getFontMetrics(FT_NORMAL);
 	int fontHeight  = fm.lineSpacing();
 	QString text = getDoc();
 	if( text.length() == 0 )

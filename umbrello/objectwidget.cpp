@@ -112,9 +112,7 @@ void ObjectWidget::slotMenuSelection(int sel) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void ObjectWidget::calculateSize() {
 	int width, height, textWidth;
-	QFont font = m_pData -> getFont();
-	font.setUnderline( true );
-	QFontMetrics fm = QFontMetrics( font );
+	QFontMetrics &fm = getFontMetrics(FT_UNDERLINE);
 	int fontHeight  = fm.lineSpacing();
 	if( ( (ObjectWidgetData *)m_pData ) -> getDrawAsActor() ) {
 		QString t = ((ObjectWidgetData*)m_pData)->m_InstanceName + " : " + m_pObject -> getName();
@@ -197,6 +195,7 @@ void ObjectWidget::cleanup() {
 	}
 }
 
+
 void ObjectWidget::drawObject(QPainter & p, int offsetX, int offsetY) {
 
 	p.setPen(m_pData->getLineColour());
@@ -206,11 +205,7 @@ void ObjectWidget::drawObject(QPainter & p, int offsetX, int offsetY) {
 		p.setBrush(m_pView -> viewport() -> backgroundColor());
 	int w = width();
 	int h= height();
-	QFont font = m_pData -> getFont();
 
-
-	font.setUnderline( true );
-	p.setFont( font );
 	QString t = ((ObjectWidgetData*)m_pData)->m_InstanceName + " : " + m_pObject -> getName();
 	if(((ObjectWidgetData*)m_pData)->m_bMultipleInstance) {
 		p.drawRect(offsetX + 10, offsetY + 10, w - 10, h - 10);
@@ -227,15 +222,13 @@ void ObjectWidget::drawObject(QPainter & p, int offsetX, int offsetY) {
 }
 
 void ObjectWidget::drawActor(QPainter & p, int offsetX, int offsetY) {
+	QFontMetrics &fm = getFontMetrics(FT_UNDERLINE);
+
 	p.setPen(m_pData->getLineColour());
 	if(m_pData->getUseFillColor())
 		p.setBrush(m_pData->getFillColour());
 	int w = width();
 	int textStartY = A_HEIGHT + A_MARGIN;
-	QFont font = m_pData -> getFont();
-	font.setUnderline( true );
-	p.setFont( font );
-	QFontMetrics fm = QFontMetrics( m_pData -> getFont() );
 	int fontHeight  = fm.lineSpacing();
 
 	int middleX = w / 2;

@@ -66,7 +66,7 @@ void PackageWidget::draw(QPainter & p, int offsetX, int offsetY) {
 	int h = height();
 	QFont font = m_pData->getFont();
 	font.setBold(true);
-	QFontMetrics fm = QFontMetrics(font);
+	QFontMetrics &fm = getFontMetrics(FT_BOLD);
 	int fontHeight  = fm.lineSpacing();
 	QString name = getName();
 	QString stereotype = m_pObject->getStereotype();
@@ -103,10 +103,7 @@ void PackageWidget::calculateSize() {
 	}
 	int width, height;
 
-	QFont font = m_pData->getFont();
-	font.setBold(true);   //use bold for all calculations
-	font.setItalic(true);
-	QFontMetrics fm = QFontMetrics( font );
+	QFontMetrics &fm = getFontMetrics(FT_BOLD_ITALIC);
 	int fontHeight  = fm.lineSpacing();
 
 	int lines;

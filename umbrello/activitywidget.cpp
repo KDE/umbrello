@@ -47,7 +47,7 @@ void ActivityWidget::draw(QPainter & p, int offsetX, int offsetY) {
 				p.setBrush(m_pData->getFillColour());
 			}
 			{
-				QFontMetrics fm = QFontMetrics( m_pData->getFont() );
+				QFontMetrics &fm = getFontMetrics(FT_NORMAL);
 				int fontHeight  = fm.lineSpacing();
 				//int middleX = w / 2;
 				int textStartY = (h / 2) - (fontHeight / 2);
@@ -97,8 +97,7 @@ void ActivityWidget::calculateSize() {
 	int width = 10, height = 10;
 	ActivityType type = static_cast<ActivityWidgetData *>( m_pData ) -> getActivityType();
 	if( type == Normal ) {
-		QFont font = m_pData -> getFont();
-		QFontMetrics fm = QFontMetrics( font );
+		QFontMetrics &fm = getFontMetrics(FT_NORMAL);
 		int fontHeight  = fm.lineSpacing();
 		int textWidth = fm.width(getName());
 		height = fontHeight;

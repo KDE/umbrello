@@ -96,7 +96,7 @@ void InterfaceWidget::drawAsCircle(QPainter& p, int offsetX, int offsetY) {
 
 	int w = width();
 
-	QFontMetrics fm = QFontMetrics( m_pData->getFont() );
+	QFontMetrics &fm = getFontMetrics(FT_NORMAL);
 	int fontHeight  = fm.lineSpacing();
 	QString name;
 	if ( ((InterfaceWidgetData*)m_pData)->m_bShowPackage ) {
@@ -128,7 +128,7 @@ void InterfaceWidget::drawAsConcept(QPainter& p, int offsetX, int offsetY) {
 	int w = width();
 	int h = height();
 
-	QFontMetrics fm = QFontMetrics( m_pData->getFont() );
+	QFontMetrics &fm = getFontMetrics(FT_NORMAL);
 	int fontHeight  = fm.lineSpacing();
 	QString name;
 	if ( ((InterfaceWidgetData*)m_pData)->m_bShowPackage ) {
@@ -197,10 +197,7 @@ void InterfaceWidget::calculateSize() {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void InterfaceWidget::calculateAsCircleSize() {
-	QFont font = m_pData->getFont();
-	font.setBold(true);//use bold for all calculations
-	font.setItalic(true);
-	QFontMetrics fm = QFontMetrics(font);
+	QFontMetrics &fm = getFontMetrics(FT_NORMAL);
 	int fontHeight = fm.lineSpacing();
 
 	int height = CIRCLE_SIZE + fontHeight;
@@ -221,10 +218,7 @@ void InterfaceWidget::calculateAsConceptSize() {
 	if( !m_pData || !m_pObject)
 		return;
 	int width, height;
-	QFont font = m_pData->getFont();
-	font.setBold(true);//use bold for all calculations
-	font.setItalic(true);
-	QFontMetrics fm = QFontMetrics(font);
+	QFontMetrics &fm = getFontMetrics(FT_NORMAL);
 	int fontHeight = fm.lineSpacing();
 
 	int lines = 1;//always have one line - for name
@@ -244,10 +238,10 @@ void InterfaceWidget::calculateAsConceptSize() {
 	//now set the width of the concept
 	//set width to name to start with
 	if(((InterfaceWidgetData*)m_pData)->m_bShowPackage)
-		width = fm.width(m_pObject->getPackage() + "::" + getName());
+		width = getFontMetrics(FT_BOLD_ITALIC).boundingRect(m_pObject->getPackage() + "::" + getName()).width();
 	else
-		width = fm.width(getName());
-	int w = fm.width("<< " + m_pObject->getStereotype() + " >>");
+		width = getFontMetrics(FT_BOLD_ITALIC).boundingRect(getName()).width();
+	int w = getFontMetrics(FT_BOLD).boundingRect("<< " + m_pObject->getStereotype() + " >>").width();
 
 
 	width = w > width?w:width;
@@ -256,15 +250,19 @@ void InterfaceWidget::calculateAsConceptSize() {
 		QPtrList<UMLOperation>* list = ((UMLInterface*)m_pObject)->getOpList();
 		UMLOperation * o = 0;
 		for(o = list->first();o != 0; o = list->next()) {
-			int w = fm.width(o -> toString(((InterfaceWidgetData*)m_pData)->m_ShowOpSigs));
+			bool isAbstract = o -> getAbstract();
+			bool isStatic = o -> getStatic();
+			fm = getFontMetrics(isAbstract && isStatic
+				? FT_ITALIC_UNDERLINE
+				: isAbstract
+					? FT_ITALIC
+					: FT_UNDERLINE);
+			int w = fm.boundingRect(o -> toString(((InterfaceWidgetData*)m_pData)->m_ShowOpSigs)).width();
 			width = w > width?w:width;
 		}
 	}
 	//allow for width margin
 	width += INTERFACE_MARGIN * 2;
-	//add some more for luck
-	//this prevents the edge pixels not being displayed when using some font/fontservers
-	width += 4;
 
 	setSize(width, height);
 	adjustAssocs( (int)x(), (int)y() );//adjust assoc lines

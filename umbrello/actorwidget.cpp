@@ -33,7 +33,7 @@ void ActorWidget::draw(QPainter & p, int offsetX, int offsetY) {
 	int w = width();
 	int textStartY = A_HEIGHT + A_MARGIN;
 	p.setFont( m_pData -> getFont() );
-	QFontMetrics fm = QFontMetrics( m_pData -> getFont() );
+	QFontMetrics &fm = getFontMetrics(FT_NORMAL);
 	int fontHeight  = fm.lineSpacing();
 
 	int middleX = w / 2;
@@ -53,7 +53,7 @@ void ActorWidget::draw(QPainter & p, int offsetX, int offsetY) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void ActorWidget::calculateSize() {
-	QFontMetrics fm = QFontMetrics( m_pData -> getFont() );
+	QFontMetrics &fm = getFontMetrics(FT_NORMAL);
 	int fontHeight  = fm.lineSpacing();
 	int textWidth = fm.width(getName());
 	int width = textWidth > A_WIDTH?textWidth:A_WIDTH;

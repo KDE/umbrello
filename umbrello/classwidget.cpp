@@ -17,8 +17,8 @@
 #include <kdebug.h>
 #include <qpainter.h>
 
-ClassWidget::ClassWidget(UMLView * view, UMLObject *o, UMLWidgetData *pData) 
-	: UMLWidget(view,  o, pData) 
+ClassWidget::ClassWidget(UMLView * view, UMLObject *o, UMLWidgetData *pData)
+	: UMLWidget(view,  o, pData)
 {
 	if( m_pObject ) {
 		calculateSize();
@@ -96,7 +96,7 @@ void ClassWidget::draw(QPainter & p, int offsetX, int offsetY) {
 	} else {
 		h = height() - (templatesBoxSize.height() - MARGIN);
 	}
-	QFontMetrics fm = QFontMetrics( m_pData -> getFont() );
+	QFontMetrics &fm = getFontMetrics(UMLWidget::FT_NORMAL);
 	int fontHeight  = fm.lineSpacing();
 	QString name;
 	if ( ((ClassWidgetData*)m_pData)->m_bShowPackage ) {
@@ -235,32 +235,27 @@ QSize ClassWidget::calculateTemplatesBoxSize() {
 	int width, height;
 	height = width = 0;
 
-	QFont font = m_pData->getFont();
-	font.setBold(true);//use bold for all calculations
-	font.setItalic(true);
-	QFontMetrics fm = QFontMetrics(font);
+	QFontMetrics &fm = getFontMetrics(UMLWidget::FT_NORMAL);
 
 	height = count * fm.lineSpacing() + (MARGIN*2);
 
 	QPtrList<UMLTemplate>* list = ((UMLClass *)m_pObject)->getTemplateList();
 	UMLTemplate* theTemplate = 0;
 	for ( theTemplate=list->first(); theTemplate != 0; theTemplate=list->next() ) {
-		int textWidth = fm.width( theTemplate->toString() );
+		int textWidth = fm.boundingRect( theTemplate->toString() ).width();
 		width = textWidth>width ? textWidth : width;
 	}
 
 	width += (MARGIN*2);
 	return QSize(width, height);
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void ClassWidget::calculateSize() {
 	if( !m_pData || !m_pObject)
 		return;
 	int width, height;
-	QFont font = m_pData -> getFont();
-	font.setBold( true );//use bold for all calculations
-	font.setItalic( true );
-	QFontMetrics fm = QFontMetrics( font );
+	QFontMetrics &fm = getFontMetrics(UMLWidget::FT_NORMAL);
 	int fontHeight  = fm.lineSpacing();
 
 	int lines = 1;//always have one line - for name
@@ -288,10 +283,14 @@ void ClassWidget::calculateSize() {
 	//now set the width of the concept
 	//set width to name to start with
 	if(((ClassWidgetData*)m_pData)->m_bShowPackage)
-		width = fm.width(m_pObject -> getPackage() + "::" + getName());
+		width = getFontMetrics(m_pObject && m_pObject-> getAbstract()
+			? FT_BOLD_ITALIC
+			: FT_BOLD).boundingRect(m_pObject -> getPackage() + "::" + getName()).width();
 	else
-		width = fm.width(getName());
-	int w = fm.width("<< " + m_pObject -> getStereotype() + " >>");
+		width = getFontMetrics(m_pObject && m_pObject-> getAbstract()
+			? FT_BOLD_ITALIC
+			: FT_BOLD).boundingRect(getName()).width();
+	int w = getFontMetrics(FT_BOLD).boundingRect("<< " + m_pObject -> getStereotype() + " >>").width();
 
 
 	width = w > width?w:width;
@@ -300,7 +299,7 @@ void ClassWidget::calculateSize() {
 		QPtrList<UMLAttribute> * list = ((UMLClass *)m_pObject)->getAttList();
 		UMLAttribute * a = 0;
 		for(a = list->first();a != 0; a = list->next()) {
-			int w = fm.width(a -> toString(((ClassWidgetData*)m_pData)->m_ShowAttSigs));
+			int w = getFontMetrics(a->getStatic() ? FT_UNDERLINE : FT_NORMAL).boundingRect(a -> toString(((ClassWidgetData*)m_pData)->m_ShowAttSigs)).width();
 			width = w > width?w:width;
 		}
 	}
@@ -308,15 +307,21 @@ void ClassWidget::calculateSize() {
 		QPtrList<UMLOperation> * list = ((UMLClass *)m_pObject)->getOpList();
 		UMLOperation * o = 0;
 		for(o = list->first();o != 0; o = list->next()) {
-			int w = fm.width(o -> toString(((ClassWidgetData*)m_pData)->m_ShowOpSigs));
+			bool isAbstract = o -> getAbstract();
+			bool isStatic = o -> getStatic();
+			fm = getFontMetrics(isAbstract && isStatic
+				? FT_ITALIC_UNDERLINE
+				: isAbstract
+					? FT_ITALIC
+					: FT_UNDERLINE);
+
+			int w = fm.boundingRect(o -> toString(((ClassWidgetData*)m_pData)->m_ShowOpSigs)).width();
 			width = w > width?w:width;
 		}
 	}
 	//allow for width margin
 	width += MARGIN * 2;
-	//add some more for luck
-	//this prevents the edge pixels not being displayed when using some font/fontservers
-	width += 4;
+
 	if(!((ClassWidgetData*)m_pData)->m_bShowOperations &&
 	        !((ClassWidgetData*)m_pData)->m_bShowAttributes &&
 	        !((ClassWidgetData*)m_pData)->m_bShowStereotype) {

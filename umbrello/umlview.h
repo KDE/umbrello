@@ -101,10 +101,12 @@ public:
 	 */
 	void print(KPrinter *pPrinter, QPainter & pPainter);
 
-	/** 
-	 * Print the specified area (rect) of the diagram to the file 'filename'
+	/**
+	 * Print the entire diagram in this view to the file 'filename'
+	 * @param isEPS The file is an eps file and needs adjusting
+	 *   of the eps bounding box values
 	 */
-	void printToFile(QString filename, QRect rect);
+	void printToFile(QString filename, bool isEPS);
 
 	/** 
 	 * Fix the file 'filename' to be a valid EPS containing the 
@@ -806,6 +808,8 @@ protected:
 	 *	Updates the size of all components in this view.
 	 */
 	void updateComponentSizes();
+
+	void forceUpdateWidgetFontMetrics(QPainter *painter);
 
 	QPoint m_Pos, m_LineToPos;
 	bool m_bCreateObject, m_bDrawRect, m_bDrawSelectedOnly, m_bPaste;

@@ -64,7 +64,7 @@ void ArtifactWidget::drawAsNormal(QPainter& p, int offsetX, int offsetY) {
 	int h = height();
 	QFont font = m_pData->getFont();
 	font.setBold(true);
-	QFontMetrics fm = QFontMetrics(font);
+	QFontMetrics &fm = getFontMetrics(FT_BOLD);
 	int fontHeight  = fm.lineSpacing();
 	QString name = getName();
 	QString stereotype = m_pObject->getStereotype();
@@ -110,7 +110,7 @@ void ArtifactWidget::drawAsFile(QPainter& p, int offsetX, int offsetY) {
 	int w = width();
 	int h = height();
 	QFont font = m_pData->getFont();
-	QFontMetrics fm = QFontMetrics(font);
+	QFontMetrics &fm = getFontMetrics(FT_NORMAL);
 	int fontHeight  = fm.lineSpacing();
 	QString name = getName();
 
@@ -151,7 +151,7 @@ void ArtifactWidget::drawAsLibrary(QPainter& p, int offsetX, int offsetY) {
 	int w = width();
 	int h = height();
 	QFont font = m_pData->getFont();
-	QFontMetrics fm = QFontMetrics(font);
+	QFontMetrics &fm = getFontMetrics(FT_NORMAL);
 	int fontHeight  = fm.lineSpacing();
 	QString name = getName();
 
@@ -191,7 +191,7 @@ void ArtifactWidget::drawAsTable(QPainter& p, int offsetX, int offsetY) {
 	int w = width();
 	int h = height();
 	QFont font = m_pData->getFont();
-	QFontMetrics fm = QFontMetrics(font);
+	QFontMetrics &fm = getFontMetrics(FT_NORMAL);
 	int fontHeight  = fm.lineSpacing();
 	QString name = getName();
 
@@ -240,10 +240,7 @@ void ArtifactWidget::draw(QPainter& p, int offsetX, int offsetY) {
 QSize ArtifactWidget::calculateIconSize() {
 	int width, height;
 
-	QFont font = m_pData->getFont();
-	font.setBold(true);   //use bold for all calculations
-	font.setItalic(true);
-	QFontMetrics fm = QFontMetrics( font );
+	QFontMetrics &fm = getFontMetrics(FT_BOLD_ITALIC);
 	int fontHeight  = fm.lineSpacing();
 
 	width = fm.width( m_pObject->getName() );
@@ -260,10 +257,7 @@ QSize ArtifactWidget::calculateIconSize() {
 QSize ArtifactWidget::calculateNormalSize() {
 	int width, height;
 
-	QFont font = m_pData->getFont();
-	font.setBold(true);   //use bold for all calculations
-	font.setItalic(true);
-	QFontMetrics fm = QFontMetrics( font );
+	QFontMetrics &fm = getFontMetrics(FT_BOLD_ITALIC);
 	int fontHeight  = fm.lineSpacing();
 
 	width = fm.width( m_pObject->getName() );

@@ -98,7 +98,7 @@ void FloatingText::setPositionFromMessage() {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void FloatingText::calculateSize() {
-	QFontMetrics fm = QFontMetrics( m_pData -> getFont() );
+	QFontMetrics &fm = getFontMetrics(FT_NORMAL);
 	int h  = fm.lineSpacing();
 	int w = fm.width( getDisplayText() );
 	setSize( w + 8, h + 4 );//give a small margin
