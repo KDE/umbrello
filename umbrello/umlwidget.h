@@ -13,6 +13,7 @@
 #include <qstring.h>
 #include <qcanvas.h>
 #include <qdom.h>
+#include <qdatetime.h>
 
 #include "umlnamespace.h"
 #include "associationwidgetlist.h"
@@ -701,6 +702,11 @@ protected:
 	 */
 	bool m_bIgnoreSnapToGrid;
 	bool m_bIgnoreSnapComponentSizeToGrid;
+
+	/**
+	 * Timer that prevents excessive updates (be easy on the CPU)
+	 */
+	QTime lastUpdate;
 
 public slots:
 

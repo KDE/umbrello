@@ -270,8 +270,11 @@ void UMLWidget::mouseMoveEvent(QMouseEvent* me) {
 		m_nOldY = newY;
 		setX( newX );
 		setY( newY );
-		adjustAssocs(newX, newY);
-		m_pView->resizeCanvasToItems();
+		if (lastUpdate.elapsed() > 25) {
+			adjustAssocs(newX, newY);
+			m_pView->resizeCanvasToItems();
+			lastUpdate.restart();
+		}
 	}
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -357,7 +360,7 @@ void UMLWidget::mouseReleaseEvent(QMouseEvent *me) {
 	if (me->button() == LeftButton) {
 		/* if multiple elements were not moved with the left mouse button,
 		 * deselect all and select only the current */
-		if ((m_bMoved == false) && (count > 1) && (m_bShiftPressed == false))
+		if (!m_bMoved && count > 1 && !m_bShiftPressed)
 		{
 			m_pView -> clearSelected();
 			m_bSelected = true;
@@ -828,7 +831,6 @@ void UMLWidget::setName(QString strName) {
 	if (m_pObject)
 		m_pObject->setName(strName);
 	calculateSize();
-	// adjustAssocs( getX(), getY() ); // no. Let the user do the adjustment, besides this causes screwly looking lines if done here
 }
 
 QString UMLWidget::getName() const {
