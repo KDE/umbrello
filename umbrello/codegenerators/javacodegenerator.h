@@ -125,6 +125,20 @@ public:
 	 */
 	virtual void createDefaultDatatypes();
 
+        /**
+         * Finds an appropiate file name for class c, taking into account the Overwrite
+         * Policy and asking the user what to do if need be. (if policy == Ask)
+         *
+	 * Note: we override the parent method because we can have package names that create
+	 * nested directory structure from their names, e.g. "dude.org" package has
+	 * classes which go into "org/dude" directory.
+	 *
+         * @param concept the class for which an output file name is desired.
+         * @return the file name that should be used. (with extension) or
+         *      NULL if none to be used
+         */
+	virtual QString findFileName(CodeDocument * doc);
+
 
 protected:
 

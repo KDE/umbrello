@@ -531,13 +531,25 @@ QString CodeGenerator::findFileName ( CodeDocument * codeDocument ) {
         }
 
         // Convert all "." to "/" : Platform-specific path separator
-	// What UNIX platform has '.' for path separator?? -b.t.
+	// What UNIX platform has '.' for path separator?? Its usefull for
+	// Java, but we can treat that within the javacodegenerator. -b.t.
         // name.replace(QRegExp("\\."),"/"); // Simple hack!
 
         // if a path name exists check the existence of the path directory
         if (!path.isEmpty()) {
 		QDir outputDirectory = getPolicy()->getOutputDirectory();
                 QDir pathDir(outputDirectory.absPath() + path);
+
+		// does our general output directory exist yet? if not, try to create it
+		if (!outputDirectory.exists() && outputDirectory.exists())
+		{
+			QStringList dirs = QStringList::split("/",outputDirectory.absPath());
+			QString existingDir = "";
+			for (QStringList::iterator dir = dirs.begin(); dir != dirs.end(); ++dir)
+				existingDir += "/" + *dir;
+		}
+
+		// now, the final check, are we ready to write yet?
                 if (! (pathDir.exists() || pathDir.mkdir(pathDir.absPath()) ) ) {
                         KMessageBox::error(0, i18n("Cannot create the folder:\n") +
                                            pathDir.absPath() + i18n("\nPlease check the access rights"),
@@ -551,33 +563,6 @@ QString CodeGenerator::findFileName ( CodeDocument * codeDocument ) {
 
         return overwritableName( name);
 }
-/*
-bool CodeGenerator::hasDefaultValueAttr(UMLClass *c) {
-	UMLAttributeList *atl = c->getFilteredAttributeList();
-	for(UMLAttribute *at = atl->first(); at; at = atl->next())
-		if(!at->getInitialValue().isEmpty())
-			return true;
-	return false;
-}
-
-bool CodeGenerator::hasAbstractOps(UMLClassifier *c) {
-	UMLOperationList *opl = c->getFilteredOperationsList();
-	for(UMLOperation *op = opl->first(); op ; op = opl->next())
-		if(op->getAbstract())
-			return true;
-	return false;
-}
-
-void CodeGenerator::generateAllClasses() {
-	if(!m_doc) {
-		kdWarning() << "generateAllClasses::Error: doc is NULL!" << endl;
-		return;
-	}
-	m_fileMap->clear();
-	UMLClassifierList cList = m_doc->getConcepts();
-	generateCode(cList);
-}
-*/
 
 void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLClassifierList &cList) {
         UMLClassifier *temp;

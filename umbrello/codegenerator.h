@@ -247,7 +247,7 @@ public:
          * @return the file name that should be used. (with extension) or 
          *      NULL if none to be used
          */
-        QString findFileName(CodeDocument * doc);
+        virtual QString findFileName(CodeDocument * doc);
 
         /**
          * Replaces spaces with underscores and capitalises as defined in m_modname
