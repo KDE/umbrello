@@ -395,10 +395,31 @@ public:
 	 */
 	void showProperties(UMLObject *o, int page = 0, bool assoc = false);
 
+	/**
+	 * This method is called for saving the given modell as a XMI file. It is
+	 * virtual and calls the corresponding saveToXMI() functions of the derived
+	 * classes
+	 *
+	 * @param file The file to be saved to.
+	 */
 	virtual bool saveToXMI(QIODevice& file);
 
+	/**
+	 * Checks the given XMI file if it was saved with correct Unicode encoding
+	 * set or not
+	 *
+	 * @param file The file to be checked.
+	 */
 	short getEncoding(QIODevice & file);
 
+	/**
+	 * Load a given XMI modell from a file. If the encoding of the file is
+	 * already known it can be passed to the function. If this information isn't
+	 * given, loadFromXMI will check which encoding was used
+	 *
+	 * @param file The file to be loaded.
+	 * @param encode The used encoding.
+	 */
 	virtual bool loadFromXMI(QIODevice& file, short encode = ENC_UNKNOWN);
 
 	/**
