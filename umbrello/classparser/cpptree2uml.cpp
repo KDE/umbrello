@@ -401,7 +401,7 @@ void CppTree2Uml::parseElaboratedTypeSpecifier( ElaboratedTypeSpecifierAST* type
     QString text = typeSpec->text();
     kdDebug() << "CppTree2Uml::parseElaboratedTypeSpecifier: text is " << text << endl;
     text.remove(QRegExp("^class\\s+"));
-    UMLObject *o = m_importer->createUMLObject( Uml::ot_Class, text, m_currentNamespace[m_nsCnt] );
+    UMLObject *o = m_importer->createUMLObject( Uml::ot_Class, text );
     flushTemplateParams( static_cast<UMLClass*>(o) );
 }
 
