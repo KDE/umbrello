@@ -41,6 +41,7 @@ NoteWidget::NoteWidget(UMLView * view, Uml::IDType id) : UMLWidget(view, id) {
 	m_pEditor->setFrameStyle(QFrame::NoFrame | QFrame::Plain);
 	m_pEditor->setHScrollBarMode(QScrollView::AlwaysOff);
 	m_pEditor->setVScrollBarMode(QScrollView::AlwaysOff);
+	m_pEditor->setTextFormat(Qt::RichText);
 	m_pEditor->setShown(true);
 	setEditorGeometry();
 	connect(m_pView, SIGNAL(contentsMoving(int, int)),
@@ -66,8 +67,8 @@ void NoteWidget::setDiagramLink(Uml::IDType viewID) {
 		return;
 	}
 	m_pEditor->setUnderline(true);
-	m_pEditor->insertAt("Diagram: " + view->getName(),
-			  0 /*para*/,  0 /*index*/);
+	m_pEditor->insert("Diagram: " + view->getName());
+	m_pEditor->setUnderline(false);
 	m_DiagramLink = viewID;
 }
 
@@ -210,8 +211,6 @@ bool NoteWidget::activate ( IDChangeLog* ChangeLog /*= 0*/ ) {
 
 void NoteWidget::mouseReleaseEvent( QMouseEvent * me ) {
 	UMLWidget::mouseReleaseEvent( me );
-	kdDebug() << "NoteWidget::mouseReleaseEvent: m_bResizing="
-		  << m_bResizing << endl;
 	if ( m_bResizing ) {
 		m_bResizing = false;
 		m_pView -> setCursor( KCursor::arrowCursor() );
