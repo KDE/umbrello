@@ -807,9 +807,12 @@ uint LinePath::getLineWidth() {
 	if( !m_pAssociation )
 		return 0;
 	UMLView * view =  (UMLView *)m_pAssociation -> parent();
-	if ( view -> getLineWidth() < 3 ) return view -> getLineWidth();
+	int viewLineWidth = view->getLineWidth();
+	if ( viewLineWidth >= 0 && viewLineWidth <= 10 )
+		return viewLineWidth;
 	else {
-		kdWarning() << "Ignore wrong LineWidth of " << view -> getLineWidth() << " in LinePath::getLineWidth" << endl;
+		kdWarning() << "Ignore wrong LineWidth of " << viewLineWidth
+			    << " in LinePath::getLineWidth" << endl;
 		return 0;
 	}
 }
