@@ -373,6 +373,7 @@ void AssociationWidget::setName(QString strName) {
                 m_pName -> show();
         else
                 m_pName -> hide();
+
 }
 
 bool AssociationWidget::setMultiA(QString strMultiA) {
@@ -3268,6 +3269,7 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement )
         setWidgetB(pWidgetB);
 
 	QString id = qElement.attribute( "xmi.id", "-1" );
+	bool oldStyleLoad = false;
 	int nId = id.toInt();
 	if (nId == -1) {
 
@@ -3279,12 +3281,29 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement )
 		// else load the info locally.
 
                 QString type = qElement.attribute( "type", "-1" );
+		Uml::Association_Type aType = (Uml::Association_Type) type.toInt(); 
+
+		// lack of an association in our widget AND presence of 
+		// both uml objects for each role clearly identifies this 
+		// as reading in an old-school file. Note it as such, and 
+		// create, and add, the UMLassociation ot this widget. 
+        	// Remove this special code when backwards compatability 
+		// with older files isnt important anymore. -b.t.
+        	UMLObject* umlRoleA = pWidgetA->getUMLObject();
+        	UMLObject* umlRoleB = pWidgetB->getUMLObject();
+		if(!m_pAssociation && umlRoleA && umlRoleB)
+		{
+			oldStyleLoad = true; // will flag code for further special config below 
+			m_pAssociation = m_pView->getDocument()->createUMLAssociation(umlRoleA, umlRoleB, aType);
+                	connect(m_pAssociation, SIGNAL(modified()), this,
+                        	SLOT(mergeUMLRepresentationIntoAssociationData()));
+        	}
 
 		setDoc( qElement.attribute("documentation", "") );
 		setRoleADoc( qElement.attribute("roleAdoc", "") );
 		setRoleBDoc( qElement.attribute("roleBdoc", "") );
 
-                setAssocType( (Uml::Association_Type)type.toInt() );
+                setAssocType(aType);
 
 		// visibilty defaults to Public if it cant set it here..
 		QString visibilityA = qElement.attribute( "visibilityA", "0");
@@ -3342,13 +3361,30 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement )
 			FloatingText *ft = new FloatingText(m_pView, role);
 			if( ! ft->loadFromXMI(element) )
 				return false;
+
+			// In old files we are missing UMLassociation declarations so
+			// much data in our underlying association will be missing w/o this
+			// for oldStyle loads, we need to make a connection between 
+			// the floating widget with the info, and this assoc widget.
+			// (apparently not done by loadFromXMI (Oliver, can you check?) -b.t.
+			if(oldStyleLoad)
+			{
+				ft->setAssoc(this);
+				// these next 2 things dont appear to be needed..
+				// ft->setActivated();
+				// ft->show();
+			}
 			switch( role ) {
 				case Uml::tr_MultiA:
 					m_pMultiA = ft;
+					if(oldStyleLoad)
+						setMultiA(m_pMultiA->getText());
 					break;
 
 				case Uml::tr_MultiB:
 					m_pMultiB = ft;
+					if(oldStyleLoad)
+						setMultiB(m_pMultiB->getText());
 					break;
 
 				case Uml::tr_ChangeA:
@@ -3361,6 +3397,8 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement )
 
 				case Uml::tr_Name:
 					m_pName = ft;
+					if(oldStyleLoad)
+						setName(m_pName->getText());
 					break;
 
 				case Uml::tr_Coll_Message:
@@ -3376,9 +3414,19 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement )
 
 				case Uml::tr_RoleAName:
 					m_pRoleA = ft;
+					if(oldStyleLoad)
+					{
+						setRoleNameA(m_pRoleA->getText());
+						m_pRoleA->setPreText(UMLAssociation::ScopeToString(getVisibilityA()));
+					}
 					break;
 				case Uml::tr_RoleBName:
 					m_pRoleB = ft;
+					if(oldStyleLoad)
+					{
+						setRoleNameB(m_pRoleB->getText());
+						m_pRoleB->setPreText(UMLAssociation::ScopeToString(getVisibilityB()));
+					}
 					break;
 				default:
 					kdDebug() << "AssociationWidget::loadFromXMI(): "
@@ -3391,6 +3439,7 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement )
 		node = element.nextSibling();
 		element = node.toElement();
 	}
+	
 	return true;
 }
 
