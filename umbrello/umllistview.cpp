@@ -1055,12 +1055,25 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type 
 	if (move == NULL)
 		return NULL;
 
+	UMLObject *newParentObj = NULL;
 	// Remove the source object at the old parent package.
 	UMLObject *srcObj = m_doc->findObjectById(srcId);
 	if (srcObj) {
+		newParentObj = newParent->getUMLObject();
+		if (srcObj == newParentObj) {
+			kdError() << "UMLListView::moveObject(" << srcObj->getName()
+				  << "): Cannot move onto self" << endl;
+			return NULL;
+		}
 		UMLPackage *srcPkg = srcObj->getUMLPackage();
-		if (srcPkg)
+		if (srcPkg) {
+			if (srcPkg == newParentObj) {
+				kdError() << "UMLListView::moveObject(" << srcObj->getName()
+					  << "): Object is already in target package" << endl;
+				return NULL;
+			}
 			srcPkg->removeObject(srcObj);
+		}
 	}
 
 	Uml::ListView_Type newParentType = newParent->getType();
@@ -1139,12 +1152,12 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type 
 				} else if (newParentType == Uml::lvt_Package ||
 					   newParentType == Uml::lvt_Interface ||
 					   newParentType == Uml::lvt_Class) {
-					UMLPackage *pkg = static_cast<UMLPackage*>(
-							   newParent->getUMLObject() );
+					UMLPackage *pkg = static_cast<UMLPackage*>(newParentObj);
 					o->setUMLPackage( pkg );
 					pkg->addObject( o );
 				} else {
 					o->setUMLPackage( NULL );
+					m_doc->addUMLObject( o );
 				}
 			}
 			break;
@@ -1158,7 +1171,7 @@ void UMLListView::slotDropped(QDropEvent* de, QListViewItem* /* parent */, QList
 	if(!item) {
 		//kdDebug() << "UMLListView::slotDropped: item is NULL - setting to currentItem()"
 		//	  << endl;
-		item = (UMLListViewItem *)currentItem();
+		item = currentItem();
 	}
 	UMLDrag::LvTypeAndID_List srcList;
 	if (! UMLDrag::getClip3TypeAndID(de, srcList)) {
