@@ -586,16 +586,34 @@ void UMLView::slotObjectCreated(UMLObject* o) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLView::slotObjectRemoved(UMLObject * o) {
 	m_bPaste = false;
-	int id = o -> getID();
-	QObjectList * l = queryList( "UMLWidget");
-	QObjectListIt it( *l );
+	int id = o->getID();
+	QObjectList * l = queryList("UMLWidget");
+	QObjectListIt it(*l);
 	UMLWidget *obj;
 
-	while ((obj=(UMLWidget*)it.current()) != 0 ) {
+	while ((obj=(UMLWidget*)it.current()) != 0) {
 		++it;
 		if(obj -> getID() == id)
 		{
 			removeWidget(obj);
+
+			/* Update list; removing a widget will also delete the associations
+			 * connected to it; so we have to update the list, because other
+			 * widgets might be already deleted
+			 */
+			QObjectList * currentList = queryList("UMLWidget");
+			QObjectListIt OldListIt(*l);
+			
+			while ((obj = (UMLWidget*)OldListIt.current()) != 0)
+			{
+				++OldListIt;
+				if (!currentList->contains(obj))
+				{
+					l->remove(obj);
+				}
+			}
+			it.toFirst();
+			delete currentList;
 		}
 	}
 	delete l;
