@@ -1558,23 +1558,33 @@ void UMLDoc::removeUMLObject(UMLObject* umlobject) {
 	UMLObject_Type type = umlobject->getBaseType();
 
 	if (objectTypeIsClassifierListItem(type))  {
-
 		UMLClassifier* parent = (UMLClassifier*)umlobject->parent();
+		if (parent == NULL) {
+			kdError() << "UMLDoc::removeUMLObject: parent of umlobject is NULL"
+				  << endl;
+			return;
+		}
 		emit sigObjectRemoved(umlobject);
 		if (type == ot_Operation) {
-			parent->removeOperation(dynamic_cast<UMLOperation*>(umlobject));
-		} else if (type == ot_Attribute) {
+			parent->removeOperation(static_cast<UMLOperation*>(umlobject));
+		} else {
 			UMLClass* pClass = dynamic_cast<UMLClass*>(parent);
-			if (pClass)  {
-				pClass->removeAttribute(umlobject);
+			if (pClass == NULL)  {
+				kdError() << "UMLDoc::removeUMLObject: parent of umlobject has "
+					  << "unexpected type " << parent->getBaseType() << endl;
+				return;
 			}
-		} else if (type == ot_Template) {
-			UMLClass* pClass = dynamic_cast<UMLClass*>(parent);
-			if (pClass)  {
-				pClass->removeTemplate((UMLTemplate*)umlobject);
+			if (type == ot_Attribute) {
+				pClass->removeAttribute(umlobject);
+			} else if (type == ot_Template) {
+				pClass->removeTemplate(static_cast<UMLTemplate*>(umlobject));
+			} else if (type == ot_Stereotype) {
+				pClass->removeStereotype(static_cast<UMLStereotype*>(umlobject));
+			} else {
+				kdError() << "UMLDoc::removeUMLObject: umlobject has "
+					  << "unexpected type " << type << endl;
 			}
 		}
-
 	} else {
 		if (type == ot_Association) {
 			// Remove the UMLAssociation at the concept that plays role B.
