@@ -70,6 +70,9 @@ public:
 	*/
 	LinePath & operator=( LinePath & rhs );
 
+	bool hasPoints ();
+	void dumpPoints ();
+
 	/**
 	*   Returns the point at the point index.
 	*/

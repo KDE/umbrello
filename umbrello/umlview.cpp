@@ -784,26 +784,54 @@ void UMLView::contentsMouseMoveEvent(QMouseEvent* ome) {
 	allocateMouseMoveEvent(me);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+/*
 UMLWidget * UMLView::findWidget( int id, bool allowClassForObject ) {
-	UMLWidget *obj, *objWidget = NULL;
+        UMLWidget *obj, *objWidget = NULL;
+
+        UMLWidgetListIt it( m_WidgetList );
+        while ( (obj = it.current()) != 0 ) {
+                ++it;
+                if( obj -> getBaseType() == wt_Object ) {
+                        if( static_cast<ObjectWidget *>( obj ) ->
+                                getLocalID() == id ) {
+
+                                return obj;
+                        }
+                        if (allowClassForObject && obj->getID() == id)
+                                objWidget = (UMLWidget*) obj;
+                } else if( obj -> getID() == id ) {
+                        return obj;
+                }
+        }
+        if (objWidget)
+                return objWidget;
+
+        MessageWidgetListIt mit( m_MessageList );
+        while ( (obj = (UMLWidget*)mit.current()) != 0 ) {
+                ++mit;
+                if( obj -> getID() == id )
+                        return obj;
+        }
+
+        return 0;
+}
+*/
+
+// search both our UMLWidget AND MessageWidget lists
+UMLWidget * UMLView::findWidget( int id ) {
 
 	UMLWidgetListIt it( m_WidgetList );
+	UMLWidget * obj = NULL;
 	while ( (obj = it.current()) != 0 ) {
 		++it;
+		// object widgets are special..the widget id is held by 'localId' attribute (crappy!) 
 		if( obj -> getBaseType() == wt_Object ) {
-			if( static_cast<ObjectWidget *>( obj ) ->
-			        getLocalID() == id ) {
-
+			if( static_cast<ObjectWidget *>( obj ) -> getLocalID() == id ) 
 				return obj;
-			}
-			if (allowClassForObject && obj->getID() == id)
-				objWidget = (UMLWidget*) obj;
 		} else if( obj -> getID() == id ) {
 			return obj;
 		}
 	}
-	if (objWidget)
-		return objWidget;
 
 	MessageWidgetListIt mit( m_MessageList );
 	while ( (obj = (UMLWidget*)mit.current()) != 0 ) {
@@ -814,6 +842,7 @@ UMLWidget * UMLView::findWidget( int id, bool allowClassForObject ) {
 
 	return 0;
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 AssociationWidget * UMLView::findAssocWidget( int id ) {
 	AssociationWidget *obj;
@@ -1766,6 +1795,7 @@ bool UMLView::addWidget( UMLWidget * pWidget , bool isPasteOperation ) {
 
 // Add the association, and its child widgets to this view
 bool UMLView::addAssociation( AssociationWidget* pAssoc , bool isPasteOperation) {
+
 	if(!pAssoc)
 		return false;
 
@@ -1820,10 +1850,10 @@ bool UMLView::addAssociation( AssociationWidget* pAssoc , bool isPasteOperation)
 	while((assocwidget=assoc_it.current())) {
 		++assoc_it;
 		if( *pAssoc == *assocwidget )
-			return true;
+			// this is nuts. Paste operation wants to know if 'true'
+			// for duplicate, but loadFromXMI needs 'false' value
+			return (isPasteOperation? true: false);
 	}
-
-//	addAssocInViewAndDoc(pAssoc);
 
 	m_AssociationList.append(pAssoc);
 
@@ -1832,10 +1862,7 @@ bool UMLView::addAssociation( AssociationWidget* pAssoc , bool isPasteOperation)
 	FloatingText *pRoleBWidget = pAssoc->getRoleBWidget();
 	FloatingText *pMultiAWidget = pAssoc->getMultiAWidget();
 	FloatingText *pMultiBWidget = pAssoc->getMultiBWidget();
-        if (pNameWidget != NULL && pNameWidget->getID() == -1) {
-                pNameWidget->setID( pAssoc->getAssociation()->getID() );
-        }
-
+	
 	if(pNameWidget)
 		addWidget(pNameWidget);
 	if(pRoleAWidget)
@@ -1853,10 +1880,12 @@ bool UMLView::addAssociation( AssociationWidget* pAssoc , bool isPasteOperation)
 void UMLView::addAssocInViewAndDoc(AssociationWidget* a) {
 
 	// append in view
-	addAssociation(a, false);
-
-	// append in document
-	getDocument() -> addAssociation (a->getAssociation());
+	if(addAssociation(a, false))
+	{
+		// if view went ok, then append in document
+		getDocument() -> addAssociation (a->getAssociation());
+	} else 
+		kdError()<<" ERROR: cannot addAssocInViewAndDoc()"<<endl;
 
 }
 
@@ -3175,10 +3204,13 @@ bool UMLView::loadMessagesFromXMI( QDomElement & qElement ) {
 bool UMLView::loadAssociationsFromXMI( QDomElement & qElement ) {
 	QDomNode node = qElement.firstChild();
 	QDomElement assocElement = node.toElement();
+int countr = 0;
 	while( !assocElement.isNull() ) {
 		if( assocElement.tagName() == "UML:AssocWidget" ) {
+countr++;
 			AssociationWidget *assoc = new AssociationWidget(this);
 			if( !assoc->loadFromXMI( assocElement ) ) {
+				kdError()<<"ERROR: couldnt loadFromXMI association widget:"<<assoc<<", bad XMI file? Deleting from umlview."<<endl;
 				assoc->cleanup();
 				delete assoc;
 				/* return false;
@@ -3187,7 +3219,12 @@ bool UMLView::loadAssociationsFromXMI( QDomElement & qElement ) {
 				 */
 			} else {
 				if(!addAssociation(assoc, false))
-					return false;
+				{
+					kdError()<<"COULDNT addAssociation("<<assoc<<") to umlview, deleting."<<endl;
+					assoc->cleanup();
+					delete assoc;
+					//return false; // soften error.. may not be that bad 
+				}
 			}
 		}
 		node = assocElement.nextSibling();

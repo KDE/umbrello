@@ -78,9 +78,7 @@ AssociationWidget::AssociationWidget(UMLView *view, UMLWidget* WidgetA,
 	}
 }
 
-AssociationWidget::~AssociationWidget() {
-	// CHECK : associations removed from umldocument
-}
+AssociationWidget::~AssociationWidget() { }
 
 AssociationWidget& AssociationWidget::operator=(AssociationWidget & Other) {
 	m_LinePath = Other.m_LinePath;
@@ -162,6 +160,14 @@ AssociationWidget& AssociationWidget::operator=(AssociationWidget & Other) {
 bool AssociationWidget::operator==(AssociationWidget & Other) {
 	if( this == &Other )
 		return true;
+
+	if( !m_pAssociation || !Other.m_pAssociation ) {
+		if( !Other.m_pAssociation && m_pAssociation )
+			return false;
+		if( Other.m_pAssociation && !m_pAssociation )
+			return false;
+	} else if( m_pAssociation != Other.m_pAssociation )
+		return false;
 
 	if( !m_pName || !Other.m_pName ) {
 		if( !Other.m_pName && m_pName )
@@ -1434,6 +1440,12 @@ void AssociationWidget::widgetMoved(UMLWidget* widget, int x, int y ) {
 			QPoint p = m_LinePath.getPoint( i );
 			int newX = p.x() - dx;
 			int newY = p.y() - dy;
+			// safety. We DONT want to go off the screen
+			if(newX < 0) 
+				newX = 0;
+			// safety. We DONT want to go off the screen
+			if(newY < 0) 
+				newY = 0;
 			if( m_pView -> getSnapToGrid() ) {
 				int gridX = m_pView -> getSnapX();
 				int gridY = m_pView -> getSnapY();
@@ -3345,6 +3357,15 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement )
 		if( tag == "linepath" ) {
 			if( !m_LinePath.loadFromXMI( element ) )
 				return false;
+			else {
+				// set up 'old' corner from first point in line
+				// as IF this ISNT done, then the subsequent call to
+				// widgetMoved will inadvertantly think we have made a 
+				// big move in the position of hte assocition when we havent.
+				QPoint p = m_LinePath.getPoint(0);
+				m_OldCornerA.setX(p.x()); 
+				m_OldCornerA.setY(p.y());
+			}
 		} else if( tag == "UML:FloatingTextWidget" ) {
 			QString r = element.attribute( "role", "-1");
 			if( r == "-1" )
@@ -3398,18 +3419,24 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement )
 				case Uml::tr_RoleAName:
 					m_pRoleA = ft;
 					if(oldStyleLoad)
-					{
-						setRoleNameA(m_pRoleA->getText());
-						m_pRoleA->setPreText(UMLAssociation::ScopeToString(getVisibilityA()));
-					}
+						if( AssocRules::allowRole( getAssocType()) )
+							setRoleNameA(m_pRoleA->getText());
+						else { 
+							m_pView->removeWidget(m_pRoleA);
+							m_pRoleA = 0; 
+							delete ft;
+						}
 					break;
 				case Uml::tr_RoleBName:
 					m_pRoleB = ft;
 					if(oldStyleLoad)
-					{
-						setRoleNameB(m_pRoleB->getText());
-						m_pRoleB->setPreText(UMLAssociation::ScopeToString(getVisibilityB()));
-					}
+						if( AssocRules::allowRole( getAssocType()) )
+							setRoleNameB(m_pRoleB->getText());
+						else { 
+							m_pView->removeWidget(m_pRoleB);
+							m_pRoleB = 0; 
+							delete ft;
+						}
 					break;
 				default:
 					kdDebug() << "AssociationWidget::loadFromXMI(): "

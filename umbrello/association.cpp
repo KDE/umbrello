@@ -30,7 +30,7 @@ bool UMLAssociation::operator==(UMLAssociation &rhs) {
 	if (this == &rhs) {
 			return true;
 	}
-       return( UMLObject::operator==( rhs ) &&
+       return( UMLObject::operator== ( rhs ) &&
                 m_AssocType == rhs.m_AssocType &&
                 m_Name == rhs.m_Name &&
                 m_pRoleA == rhs.m_pRoleA &&
@@ -119,6 +119,9 @@ bool UMLAssociation::loadFromXMI( QDomElement & element ) {
 	if( !UMLObject::loadFromXMI( element ) )
 		return false;
 
+	if (getID() == -1)
+		return false; // old style XMI file. No real info in this association.
+
 	QString assocTypeStr = element.attribute( "assoctype", "-1" );
 	Uml::Association_Type assocType = Uml::at_Unknown;
 	if (assocTypeStr[0] >= 'a' && assocTypeStr[0] <= 'z') {
@@ -176,7 +179,6 @@ bool UMLAssociation::loadFromXMI( QDomElement & element ) {
         if (changeabilityB.toInt() > 0)
                 setChangeabilityB ( (Changeability_Type) changeabilityB.toInt());
 
-	// ((UMLDoc*)parent())->addAssocToConcepts(this); // NO! this is handled by the parent
 	return true;
 }
 

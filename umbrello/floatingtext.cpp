@@ -70,7 +70,7 @@ void FloatingText::draw(QPainter & p, int offsetX, int offsetY) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void FloatingText::moveEvent(QMoveEvent * /*m*/) {
-	adjustAssocs(getX(), getY());
+	// adjustAssocs(getX(), getY()); // NO, I dont think so. This can create major problems. 
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void FloatingText::resizeEvent(QResizeEvent * /*re*/) {}
@@ -98,7 +98,7 @@ void FloatingText::calculateSize() {
 	int h = fm.lineSpacing();
 	int w = fm.width( getDisplayText() );
 	setSize( w + 8, h + 4 );//give a small margin
-	adjustAssocs( getX(), getY() );//adjust assoc lines
+	// adjustAssocs( getX(), getY() );//adjust assoc lines, why? Let em be. The user can do the adjustment.  
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void FloatingText::slotMenuSelection(int sel) {
@@ -447,6 +447,9 @@ void FloatingText::setMessage(MessageWidget* m) {
 // God this is bad. Why not use the assocList in the 
 // parent umlwidget class? At the very least, we should
 // keep them synced.
+// Also, there seems to be some issues with setting id to the association
+// XMI id. There CAN be more than one floating text widget with this id
+// but a findWidget will come up with only the first one.
 void FloatingText::setAssoc(AssociationWidget * a) {
 	// rmeove pre-existing associatino from our umlwidget assoc list
 	if(m_pAssoc)
@@ -455,8 +458,10 @@ void FloatingText::setAssoc(AssociationWidget * a) {
 	m_pAssoc = a;
 	if (a != NULL) {
 		UMLAssociation *umla = a->getAssociation();
-		if (umla != NULL && getID() == -1)
+		if (umla != NULL ) // *always* sync id to association id.  
+			// && getID() == -1)
 			setID( umla->getID() );
+
 		addAssoc(m_pAssoc);
 	}
 }
@@ -577,10 +582,12 @@ bool FloatingText::loadFromXMI( QDomElement & qElement ) {
 	m_PreText = qElement.attribute( "pretext", "" );
 	m_PostText = qElement.attribute( "posttext", "" );
 	m_Text = qElement.attribute( "text", "" );
+
 /*
 	int id = UMLWidget::getID();
 	if (id == -1)
 		return true;
+
 	if ( playsAssocRole() ) {
 		m_pAssoc = m_pView->findAssocWidget( id );
 		if (m_pAssoc == NULL) {
@@ -626,7 +633,8 @@ bool FloatingText::loadFromXMI( QDomElement & qElement ) {
 			return false;
 		}
 	}
- */
+*/
+
 	return true;
 }
 

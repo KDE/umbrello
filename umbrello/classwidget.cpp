@@ -335,7 +335,7 @@ void ClassWidget::calculateSize() {
 	}
 
 	setSize(width, height);
-	adjustAssocs( getX(), getY() );//adjust assoc lines
+//	adjustAssocs( getX(), getY() );//adjust assoc lines. Doesnt appear to be needed. -b.t. 
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void ClassWidget::slotMenuSelection(int sel) {

@@ -645,7 +645,6 @@ UMLObject* UMLDoc::createUMLObject(UMLObject_Type type, const QString &n) {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLObject* UMLDoc::createUMLObject(UMLObject* umlobject, UMLObject_Type type) {
-
 	if(type == ot_Attribute) {
 		return createAttribute(umlobject);
 	} else if(type == ot_Operation) {
@@ -816,6 +815,7 @@ void UMLDoc::removeAssociation (UMLAssociation * assoc) {
 	// emit sigObjectRemoved(object);
 
 	setModified(true, false);
+
 }
 
 void UMLDoc::removeAssocFromConcepts(UMLAssociation *assoc)
@@ -1639,7 +1639,7 @@ bool UMLDoc::loadUMLObjectsFromXMI( QDomNode & node ) {
 				// May happen when dealing with the pre-1.2 file format.
 				// In this case all association info is given in the
 				// UML:AssocWidget section.  --okellogg
-				removeAssociation((UMLAssociation*)pObject);
+				// removeAssociation((UMLAssociation*)pObject);
 				delete pObject;
 			} else {
 				addAssociation((UMLAssociation*) pObject);

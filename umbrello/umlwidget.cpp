@@ -39,7 +39,8 @@
 #include "clipboard/idchangelog.h"
 
 
-
+// Jeez. Look at all these constructors each with its own initialzation
+// conditions. bad bad bad. Very easy to mess up a code change. 
 UMLWidget::UMLWidget( UMLView * view, UMLObject * o )
 	: QObject(view), QCanvasRectangle( view->canvas() ),
 	  m_pObject(o),
@@ -160,14 +161,17 @@ bool UMLWidget::operator==(const UMLWidget& other) {
 		return false;
 	}
 
-	AssociationWidgetListIt assoc_it( m_Assocs );
-	AssociationWidgetListIt assoc_it2( other.m_Assocs );
-	AssociationWidget * assoc = 0, *assoc2 = 0;
-	while ( ((assoc=assoc_it.current()) != 0) &&  ((assoc2=assoc_it2.current()) != 0)) {
-		++assoc_it;
-		++assoc_it2;
-		if(!(*assoc == *assoc2)) {
-			return false;
+	if(getBaseType() != wt_Text) // DONT do this for floatingtext widgets, an infinite loop will result
+	{
+		AssociationWidgetListIt assoc_it( m_Assocs );
+		AssociationWidgetListIt assoc_it2( other.m_Assocs );
+		AssociationWidget * assoc = 0, *assoc2 = 0;
+		while ( ((assoc=assoc_it.current()) != 0) &&  ((assoc2=assoc_it2.current()) != 0)) {
+			++assoc_it;
+			++assoc_it2;
+			if(!(*assoc == *assoc2)) {
+				return false;
+			}
 		}
 	}
 	return true;
@@ -332,7 +336,7 @@ void UMLWidget::mousePressEvent(QMouseEvent *me) {
 void UMLWidget::updateWidget()
 {
 	calculateSize();
-	adjustAssocs( getX(), getY() ); //adjust assoc lines
+	adjustAssocs( getX(), getY() ); //adjust assoc lines. 
 	if(isVisible())
 		update();
 }
@@ -428,7 +432,7 @@ void UMLWidget::slotMenuSelection(int sel) {
 	switch(sel) {
 		case ListPopupMenu::mt_Rename:
 			m_pView -> getDocument() -> renameUMLObject(m_pObject);
-			adjustAssocs( getX(), getY() );//adjust assoc lines
+			// adjustAssocs( getX(), getY() );//adjust assoc lines
 			break;
 
 		case ListPopupMenu::mt_Delete:
@@ -448,7 +452,7 @@ void UMLWidget::slotMenuSelection(int sel) {
 			} else {
 				kdWarning() << "making properties dialogue for unknown widget type" << endl;
 			}
-			adjustAssocs( getX(), getY() );//adjust assoc lines
+			// adjustAssocs( getX(), getY() );//adjust assoc lines
 			break;
 
 		case ListPopupMenu::mt_Line_Color:
@@ -823,7 +827,7 @@ void UMLWidget::setName(QString strName) {
 	if (m_pObject)
 		m_pObject->setName(strName);
 	calculateSize();
-	adjustAssocs( getX(), getY() );
+	// adjustAssocs( getX(), getY() ); // no. Let the user do the adjustment, besides this causes screwly looking lines if done here 
 }
 
 QString UMLWidget::getName() const {

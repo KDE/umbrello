@@ -6,6 +6,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+#include <iostream.h>
 #include <cmath>
 
 // qt includes
@@ -788,6 +789,21 @@ void LinePath::cleanup() {
 	}
 }
 
+bool LinePath::hasPoints () {
+	int count = m_LineList.count();
+	if (count>1)
+		return true;
+	return false;
+}
+void LinePath::dumpPoints () {
+	int count = m_LineList.count();
+	for( int i = 1; i < count; i++ ) {
+		QPoint point = getPoint( i );
+		cerr<<" * point x:"<<point.x()<<" y:"<<point.y()<<endl;
+	}
+
+}
+ 
 bool LinePath::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	int count = m_LineList.count();
 	QPoint point = getPoint( 0 );
