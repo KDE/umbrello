@@ -1057,7 +1057,7 @@ UMLObject* UMLDoc::createAttribute(UMLClass* umlclass, const QString &name /*=nu
 	int button = QDialog::Accepted;
 	bool goodName = false;
 
-	//check for name == QString::null stops dialogue being shown
+	//check for name.isNull() stops dialogue being shown
 	//when creating attribute via list view
 	while (button==QDialog::Accepted && !goodName && name.isNull()) {
 		UMLAttributeDialog attributeDialogue(0, newAttribute);
