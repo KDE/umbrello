@@ -17,20 +17,22 @@
 #define A_HEIGHT 40
 #define A_MARGIN 5
 /**
- *	This class is the graphical version of a UML Actor.  An ActorWidget is created
- *	by a @ref UMLView.  An ActorWidget belongs to only one @ref UMLView instance.
- *	When the @ref UMLView instance that this class belongs to, it will be automatically deleted.
+ * This class is the graphical version of a UML Actor.
+ * An ActorWidget is created by a @ref UMLView.  An ActorWidget belongs to only
+ * one @ref UMLView instance.
+ * When the @ref UMLView instance that this class belongs to is destroyed, the
+ * ActorWidget will be automatically deleted.
  *
- *	If the @ref Actor class that this ActorWidget is displaying is deleted, the @ref UMLView will
- *	make sure that this instance is also deleted.
+ * If the @ref Actor class that this ActorWidget is displaying is deleted, the
+ * @ref UMLView will make sure that this instance is also deleted.
  *
- *	The ActorWidget class inherits from the @ref UMLWidget class which adds most of the functionality
- *	 to this class.
+ * The ActorWidget class inherits from the @ref UMLWidget class which adds most
+ * of the functionality to this class.
  *
- *	@short	A graphical version of a UML Actor.
- *	@author Paul Hensgen <phensgen@techie.com>
- *	@see	UMLWidget
- *	@see	UMLView
+ * @short A graphical version of a UML Actor.
+ * @author Paul Hensgen <phensgen@techie.com>
+ * @see	UMLWidget
+ * @see	UMLView
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
@@ -63,8 +65,8 @@ public:
 	void draw(QPainter & p, int offsetX, int offsetY);
 
 	/**
-	 * Saves the widget to XMI.
-	 * Note: for loadFromXMI(), the inherited parent method is used.
+	 * Saves the widget to the <UML:ActorWidget> XMI element.
+	 * Note: For loading from XMI, the inherited parent method is used.
 	 */
 	bool saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 

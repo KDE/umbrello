@@ -19,39 +19,39 @@ class UMLView;
 #define ARTIFACT_MARGIN 5
 
 /**
- *	Defines a graphical version of the Artifact.  Most of the functionality
- *	will come from the @ref UMLArtifact class.
+ * Defines a graphical version of the Artifact.
+ * Most of the functionality will come from the @ref UMLArtifact class.
  *
- *	@short	A graphical version of a Artifact.
- *	@author Jonathan Riddell
- *	@see	UMLWidget
+ * @short A graphical version of a Artifact.
+ * @author Jonathan Riddell
+ * @see	UMLWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class ArtifactWidget : public UMLWidget {
 public:
 
 	/**
-	 *	Constructs a ArtifactWidget.
+	 * Constructs a ArtifactWidget.
 	 *
-	 *	@param	view	The parent of this ArtifactWidget.
-	 *	@param	o	The UMLObject this will be representing.
+	 * @param view		The parent of this ArtifactWidget.
+	 * @param o		The UMLObject this will be representing.
 	 */
 	ArtifactWidget(UMLView * view, UMLObject * o);
 
 	/**
-	 *	Constructs a ArtifactWidget.
+	 * Constructs a ArtifactWidget.
 	 *
-	 *	@param	view	The parent of this ArtifactWidget.
+	 * @param view		The parent of this ArtifactWidget.
 	 */
 	ArtifactWidget(UMLView * view);
 
 	/**
-	 *	Standard deconstructor.
+	 * Standard deconstructor.
 	 */
 	~ArtifactWidget();
 
 	/**
-	 *	Initializes key variables of the class.
+	 * Initializes key variables of the class.
 	 */
 	void init();
 
@@ -61,21 +61,20 @@ public:
 	virtual bool activate(IDChangeLog* ChangeLog  = 0 );
 
 	/**
-	 *	Overrides standard method
+	 * Overrides standard method
 	 */
 	void draw(QPainter& p, int offsetX, int offsetY);
 
 	/**
-	 * Saves to the <artifactwidget> element
+	 * Saves the widget to the <UML:ArtifactWidget> XMI element.
+	 * Note: For loading from XMI, the inherited parent method is used.
 	 */
 	bool saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
-
-	// For loadFromXMI we can use the UMLWidgetData inherited method.
 
 private:
 
 	/**
-	 *	Automatically calculates the size of the object.
+	 * Automatically calculates the size of the object.
 	 */
 	void calculateSize();
 
