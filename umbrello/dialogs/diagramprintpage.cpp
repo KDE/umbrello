@@ -72,16 +72,23 @@ DiagramPrintPage::DiagramPrintPage(QWidget * parent, UMLDoc * m_pDoc) : KPrintDi
 	m_pSelectLB -> setSelectionMode(QListBox::Multi);
 	m_pSelectLB -> insertItem(m_pDoc->getCurrentView()->getName());
 	m_pSelectLB -> setSelected(0, true);
-	m_nIdList[0] = ((UMLView*)m_pDoc->getCurrentView())->getID();
+	m_nIdList.clear();
+	m_nIdList.append(((UMLView*)m_pDoc->getCurrentView())->getID());
 
 
 
 	m_ViewType = Uml::dt_Class;
 	connect(m_pFilterBG, SIGNAL(clicked(int)), this, SLOT(slotClicked(int)));
 	connect(m_pTypeCB, SIGNAL(activated(const QString&)), this, SLOT(slotActivated(const QString&)));
-	QString diagrams[] = {i18n("Class") , i18n("Sequence"), i18n("Use Case"), i18n("Collaboration")};
-	for(int i=0;i<4;i++)
-		m_pTypeCB -> insertItem(diagrams[i]);
+
+	m_pTypeCB -> insertItem(i18n("Class"));
+	m_pTypeCB -> insertItem(i18n("Use Case"));
+	m_pTypeCB -> insertItem(i18n("Collaboration"));
+	m_pTypeCB -> insertItem(i18n("Sequence"));
+	m_pTypeCB -> insertItem(i18n("State"));
+	m_pTypeCB -> insertItem(i18n("Activity"));
+	m_pTypeCB -> insertItem(i18n("Component"));
+	m_pTypeCB -> insertItem(i18n("Deployment"));
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 DiagramPrintPage::~DiagramPrintPage()
@@ -126,8 +133,10 @@ bool DiagramPrintPage::isValid( QString& msg ) {
 void DiagramPrintPage::slotClicked(int id) {
 	UMLViewList list = m_pDoc -> getViewIterator();
 	UMLView * view = 0;
-	int count = 0;
 	QString type;
+
+	// clear list with diagrams to print
+	m_nIdList.clear();
 
 	switch(id) {
 		case Current:
@@ -136,7 +145,7 @@ void DiagramPrintPage::slotClicked(int id) {
 			m_pSelectLB -> clear();
 			m_pSelectLB -> insertItem(m_pDoc -> getCurrentView() -> getName());
 			m_pSelectLB -> setSelected(0, true);
-			m_nIdList[count] = ((UMLView*)m_pDoc -> getCurrentView()) -> getID();
+			m_nIdList.append(((UMLView*)m_pDoc -> getCurrentView()) -> getID());
 			break;
 
 		case All:
@@ -146,7 +155,7 @@ void DiagramPrintPage::slotClicked(int id) {
 			m_pSelectLB -> clear();
 			for(view = list.first(); view; view = list.next()) {
 				m_pSelectLB -> insertItem(view -> getName());
-				m_nIdList[count++] = view -> getID();
+				m_nIdList.append(view -> getID());
 			}
 			m_pSelectLB -> selectAll(true);
 			break;
@@ -157,7 +166,7 @@ void DiagramPrintPage::slotClicked(int id) {
 			m_pSelectLB -> clear();
 			for(view = list.first(); view; view = list.next()) {
 				m_pSelectLB -> insertItem(view -> getName());
-				m_nIdList[count++] = view -> getID();
+				m_nIdList.append(view -> getID());
 			}
 			break;
 
@@ -168,9 +177,10 @@ void DiagramPrintPage::slotClicked(int id) {
 			for(view = list.first(); view; view = list.next()) {
 				if(view -> getType() == m_ViewType) {
 					m_pSelectLB -> insertItem(view -> getName());
-					m_nIdList[count++] = view -> getID();
+					m_nIdList.append(view -> getID());
 				}
 			}
+			m_pSelectLB -> selectAll(true);
 			break;
 	}
 }
@@ -178,7 +188,6 @@ void DiagramPrintPage::slotClicked(int id) {
 void DiagramPrintPage::slotActivated(const QString & text) {
 	UMLViewList list = m_pDoc -> getViewIterator();
 	UMLView * view = 0;
-	int count = 0;
 
 	if(text == i18n("Class"))
 		m_ViewType = Uml::dt_Class;
@@ -188,13 +197,23 @@ void DiagramPrintPage::slotActivated(const QString & text) {
 		m_ViewType = Uml::dt_UseCase;
 	else if(text == i18n("Collaboration"))
 		m_ViewType = Uml::dt_Collaboration;
+	else if(text == i18n("State"))
+		m_ViewType = Uml::dt_State;
+	else if(text == i18n("Activity"))
+		m_ViewType = Uml::dt_Activity;
+	else if(text == i18n("Component"))
+		m_ViewType = Uml::dt_Component;
+	else if(text == i18n("Deployment"))
+		m_ViewType = Uml::dt_Deployment;
 	m_pSelectLB -> clear();
+	m_nIdList.clear();
 	for(view = list.first(); view; view = list.next()) {
 		if(view -> getType() == m_ViewType) {
 			m_pSelectLB -> insertItem(view -> getName());
-			m_nIdList[count++] = view -> getID();
+			m_nIdList.append(view -> getID());
 		}
 	}
+	m_pSelectLB -> selectAll(true);
 }
 
 #include "diagramprintpage.moc"
