@@ -2510,7 +2510,7 @@ void AssociationWidget::slotMenuSelection(int sel) {
 	case ListPopupMenu::mt_Delete://for anchor
 	case ListPopupMenu::mt_Delete_Association:
 	case ListPopupMenu::mt_Delete_Message:
-		m_pView->removeAssoc(this);
+		m_pView->removeAssocInViewAndDoc(this);
 		done = true;
 		break;
 
@@ -3468,10 +3468,6 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
 						else { 
 							m_pView->removeWidget(m_pRoleA);
 							m_pRoleA = 0; 
-							/* delete ft;
-							   Strangely, we get a crash here.
-							   To be investigated further.
-							  */
 						}
 					break;
 				case Uml::tr_RoleBName:
@@ -3482,10 +3478,6 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
 						else { 
 							m_pView->removeWidget(m_pRoleB);
 							m_pRoleB = 0; 
-							/* delete ft;
-							   Strangely, we get a crash here.
-							   To be investigated further.
-							  */
 						}
 					break;
 				default:
