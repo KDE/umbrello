@@ -352,7 +352,7 @@ void ClassifierListPage::slotDownClicked() {
 	//now change around in the list
 	UMLClassifierListItem* currentAtt = getItemList().at( index );
 	takeClassifier(currentAtt);
-	addClassifier(currentAtt, index + 2);
+	addClassifier(currentAtt, index + 1);
 	slotClicked( item );
 }
 
