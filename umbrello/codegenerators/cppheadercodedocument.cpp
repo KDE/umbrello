@@ -76,6 +76,10 @@ bool CPPHeaderCodeDocument::forceDoc () {
         return getParentGenerator()->forceDoc();
 }
 
+// Sigh. NOT optimal. The only reason that we need to have this
+// is so we can create the CPPHeaderClassDeclarationBlock.
+// would be better if we could create a handler interface that each
+// codeblock used so all we have to do here is add the handler
 void CPPHeaderCodeDocument::loadChildTextBlocksFromNode ( QDomElement & root)
 {
 
@@ -93,13 +97,89 @@ void CPPHeaderCodeDocument::loadChildTextBlocksFromNode ( QDomElement & root)
                         while( !element.isNull() ) {
                                 QString name = element.tagName();
 
+                               if( name == "codecomment" ) {
+                                        CodeComment * block = newCodeComment();
+                                        block->loadFromXMI(element);
+                                        if(!addTextBlock(block))
+                                        {
+                                                kdError()<<"Unable to add codeComment to :"<<this<<endl;
+                                                block->deleteLater();
+                                        } else
+                                                gotChildren= true;
+                                } else
+                                if( name == "codeaccessormethod" ||
+                                    name == "ccfdeclarationcodeblock"
+                                  ) {
+                                        QString acctag = element.attribute("tag","");
+                                        // search for our method in the
+                                        TextBlock * tb = findCodeClassFieldTextBlockByTag(acctag);
+                                        if(!tb || !addTextBlock(tb))
+                                        {
+                                                kdError()<<"Unable to add codeclassfield child method to:"<<this<<endl;
+                                                // DONT delete
+                                        } else
+                                                gotChildren= true;
+
+                                } else
+                                if( name == "codeblock" ) {
+                                        CodeBlock * block = newCodeBlock();
+                                        block->loadFromXMI(element);
+                                        if(!addTextBlock(block))
+                                        {
+                                                kdError()<<"Unable to add codeBlock to :"<<this<<endl;
+                                                block->deleteLater();
+                                        } else
+                                                gotChildren= true;
+                                } else
+                                if( name == "codeblockwithcomments" ) {
+                                        CodeBlockWithComments * block = newCodeBlockWithComments();
+                                        block->loadFromXMI(element);
+                                        if(!addTextBlock(block))
+                                        {
+                                                kdError()<<"Unable to add codeBlockwithcomments to:"<<this<<endl;
+                                                block->deleteLater();
+                                        } else
+                                                gotChildren= true;
+                                } else
+                                if( name == "header" ) {
+                                       // do nothing.. this is treated elsewhere
+                                } else
+                                if( name == "hierarchicalcodeblock" ) {
+                                        HierarchicalCodeBlock * block = newHierarchicalCodeBlock();
+                                        block->loadFromXMI(element);
+                                        if(!addTextBlock(block))
+                                        {
+                                                kdError()<<"Unable to add hierarchicalcodeBlock to:"<<this<<endl;
+                                                block->deleteLater();
+                                        } else
+                                                gotChildren= true;
+                                } else
+                                if( name == "codeoperation" ) {
+                                       // find the code operation by id
+                                        QString id = element.attribute("parent_op","-1");
+                                        UMLObject * obj = getParentGenerator()->getDocument()->findUMLObject(id.toInt());
+                                        UMLOperation * op = dynamic_cast<UMLOperation*>(obj);
+                                        if(op) {
+                                                CodeOperation * block = newCodeOperation(op);
+                                                block->loadFromXMI(element);
+                                                if(addTextBlock(block))
+                                                        gotChildren= true;
+                                                else
+                                                {
+                                                        kdError()<<"Unable to add codeoperation to:"<<this<<endl;
+                                                        block->deleteLater();
+                                                }
+                                        } else
+                                              kdError()<<"Unable to find operation create codeoperation for:"<<this<<endl;
+                                }
+                                else
                                 if( name == "cppheaderclassdeclarationblock" )
                                 {
                                                 CPPHeaderClassDeclarationBlock * block = getClassDecl();
                                                 block->loadFromXMI(element);
 						// normally this would be populated by the following syncToparent
 						// call, but we cant wait for it, so lets just do it now.
-						namespaceBlock = getHierarchicalCodeBlock("namespace", "Namespace", 1);
+						namespaceBlock = getHierarchicalCodeBlock("namespace", "Namespace", 0);
 
 						if(!namespaceBlock || !namespaceBlock->addTextBlock(block))
 						{
@@ -109,8 +189,10 @@ void CPPHeaderCodeDocument::loadChildTextBlocksFromNode ( QDomElement & root)
 						} else
                                                 	gotChildren= true;
 
-                                                break; // its the only node we are looking for
                                 }
+                                // only needed for extreme debuging conditions (E.g. making new codeclassdocument loader)
+                                //else
+                                        //kdDebug()<<" LoadFromXMI: Got strange tag in text block stack:"<<name<<", ignorning"<<endl;
 
                                 node = element.nextSibling();
                                 element = node.toElement();
@@ -124,9 +206,6 @@ void CPPHeaderCodeDocument::loadChildTextBlocksFromNode ( QDomElement & root)
 
         if(!gotChildren)
                 kdWarning()<<" loadFromXMI : Warning: unable to initialize class declaration blocks in cpp header document:"<<this<<endl;
-
-        // now make the super-class call
-        CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( root );
 
 }
 
@@ -397,9 +476,9 @@ void CPPHeaderCodeDocument::updateContent( )
 		hasNamespace = false;
 
 	// set start/end text of namespace block
-	namespaceBlock = getHierarchicalCodeBlock("namespace", "Namespace", 1);
+	namespaceBlock = getHierarchicalCodeBlock("namespace", "Namespace", 0);
 	if(hasNamespace) {
-		namespaceBlock->setStartText("namespace "+gen->cleanName(c->getPackage()));
+		namespaceBlock->setStartText("namespace "+gen->cleanName(c->getPackage())+" {");
 		namespaceBlock->setEndText("};");
 		namespaceBlock->getComment()->setWriteOutText(true);
 	} else {

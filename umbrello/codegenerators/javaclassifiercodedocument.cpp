@@ -195,6 +195,81 @@ void JavaClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & roo
                         while( !element.isNull() ) {
                                 QString name = element.tagName();
 
+                               if( name == "codecomment" ) {
+                                        CodeComment * block = newCodeComment();
+                                        block->loadFromXMI(element);
+                                        if(!addTextBlock(block))
+                                        {
+                                                kdError()<<"Unable to add codeComment to :"<<this<<endl;
+                                                block->deleteLater();
+                                        } else
+                                                gotChildren= true;
+                                } else
+                                if( name == "codeaccessormethod" ||
+                                    name == "ccfdeclarationcodeblock"
+                                  ) {
+                                        QString acctag = element.attribute("tag","");
+                                        // search for our method in the
+                                        TextBlock * tb = findCodeClassFieldTextBlockByTag(acctag);
+                                        if(!tb || !addTextBlock(tb))
+                                        {
+                                                kdError()<<"Unable to add codeclassfield child method to:"<<this<<endl;
+                                                // DONT delete
+                                        } else
+                                                gotChildren= true;
+
+                                } else
+                                if( name == "codeblock" ) {
+                                        CodeBlock * block = newCodeBlock();
+                                        block->loadFromXMI(element);
+                                        if(!addTextBlock(block))
+                                        {
+                                                kdError()<<"Unable to add codeBlock to :"<<this<<endl;
+                                                block->deleteLater();
+                                        } else
+                                                gotChildren= true;
+                                } else
+                                if( name == "codeblockwithcomments" ) {
+                                        CodeBlockWithComments * block = newCodeBlockWithComments();
+                                        block->loadFromXMI(element);
+                                        if(!addTextBlock(block))
+                                        {
+                                                kdError()<<"Unable to add codeBlockwithcomments to:"<<this<<endl;
+                                                block->deleteLater();
+                                        } else
+                                                gotChildren= true;
+                                } else
+                                if( name == "header" ) {
+                                       // do nothing.. this is treated elsewhere
+                                } else
+                                if( name == "hierarchicalcodeblock" ) {
+                                        HierarchicalCodeBlock * block = newHierarchicalCodeBlock();
+                                        block->loadFromXMI(element);
+                                        if(!addTextBlock(block))
+                                        {
+                                                kdError()<<"Unable to add hierarchicalcodeBlock to:"<<this<<endl;
+                                                block->deleteLater();
+                                        } else
+                                                gotChildren= true;
+                                } else
+                                if( name == "codeoperation" ) {
+                                       // find the code operation by id
+                                        QString id = element.attribute("parent_op","-1");
+                                        UMLObject * obj = getParentGenerator()->getDocument()->findUMLObject(id.toInt());
+                                        UMLOperation * op = dynamic_cast<UMLOperation*>(obj);
+                                        if(op) {
+                                                CodeOperation * block = newCodeOperation(op);
+                                                block->loadFromXMI(element);
+                                                if(addTextBlock(block))
+                                                        gotChildren= true;
+                                                else
+                                                {
+                                                        kdError()<<"Unable to add codeoperation to:"<<this<<endl;
+                                                        block->deleteLater();
+                                                }
+                                        } else
+                                              kdError()<<"Unable to find operation create codeoperation for:"<<this<<endl;
+                                } else
                                 if( name == "javaclassdeclarationblock" ) 
 				{
 						JavaClassDeclarationBlock * block = getClassDecl();
@@ -206,8 +281,11 @@ void JavaClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & roo
 							// block->deleteLater();
 						} else
                                                 	gotChildren= true;
-                        			break; // its the only node we are looking for
                                 } 
+                                // This last item is only needed for extreme debuging conditions 
+				// (E.g. making new codeclassdocument loader)
+                                // else
+                                //        kdDebug()<<" LoadFromXMI: Got strange tag in text block stack:"<<name<<", ignorning"<<endl;
 
                                 node = element.nextSibling();
                                 element = node.toElement();
@@ -221,9 +299,6 @@ void JavaClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & roo
 
         if(!gotChildren)
                 kdWarning()<<" loadFromXMI : Warning: unable to initialize class declaration blocks in java document:"<<this<<endl;
-
-	// now make the super-class call
-	CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( root );
 
 }
 
