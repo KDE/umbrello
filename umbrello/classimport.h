@@ -35,19 +35,24 @@ public:
 	/**
 	 * Find or create a document object.
 	 */
-	UMLObject *createUMLObject(QString name, Uml::UMLObject_Type type,
+	UMLObject *createUMLObject(Uml::UMLObject_Type type,
+				   QString name,
+				   QString comment = "",
 				   UMLPackage *parentPkg = NULL);
 
 	/**
-	 *
+	 * Create a UMLAttribute and insert it into the document.
 	 */
-	void insertAttribute(UMLObject *o, Uml::Scope scope, QString name, QString type, QString value = "");
+	void insertAttribute(UMLObject *o, Uml::Scope scope, QString name,
+			     QString type, QString comment = "");
 
 	/**
-	 *
+	 * Create a UMLOperation and insert it into the document.
 	 */
-	void insertMethod(UMLObject *o, Uml::Scope scope, QString name, QString type, UMLAttributeList *parList = NULL);
+	void insertMethod(UMLObject *o, Uml::Scope scope, QString name, QString type,
+			  QString comment = "", UMLAttributeList *parList = NULL);
 
+	QString doxyComment(QString comment);
 };
 
 #endif

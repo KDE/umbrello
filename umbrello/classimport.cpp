@@ -10,6 +10,7 @@
 #include "classimport.h"
 #include "uml.h"
 #include "umldoc.h"
+#include "docwindow.h"
 #include "package.h"
 #include "class.h"
 #include "operation.h"
@@ -21,53 +22,83 @@
 #include "classparser/ParsedClass.h"
 #include "classparser/ParsedMethod.h"
 #include <kdebug.h>
+#include <qregexp.h>
 
 ClassImport::ClassImport(QWidget *parent, const char *name) : UMLDoc(parent, name) {
 }
 
 ClassImport::~ClassImport() {}
-/** No descriptions */
 
-UMLObject *ClassImport::createUMLObject(QString name, Uml::UMLObject_Type type,
+QString ClassImport::doxyComment(QString comment) {
+	QStringList lines = QStringList::split("\n", comment);
+	if (lines.first() != "/**")
+		return "";
+	lines.pop_front();  // remove comment start
+	lines.pop_back();   // remove comment end
+	if (! lines.count())
+		return "";
+	for (QStringList::Iterator lit = lines.begin(); lit != lines.end(); ++lit) {
+		(*lit).remove(QRegExp("^\\s+"));
+		(*lit).remove(QRegExp("^\\*+\\s?"));
+	}
+	return lines.join("\n");
+}
+
+UMLObject *ClassImport::createUMLObject(Uml::UMLObject_Type type,
+					QString name,
+					QString comment,
 					UMLPackage *parentPkg) {
 	UMLObject * o = findUMLObject(name);
-	if (o == NULL)
+	if (o == NULL) {
 		o = UMLDoc::createUMLObject( type, name, parentPkg );
+		QString strippedComment = doxyComment(comment);
+		if (! strippedComment.isEmpty()) {
+			o->setDoc(strippedComment);
+			UMLDoc::getDocWindow()->showDocumentation(o, true);
+		}
+	}
 	return o;
 }
 
-/** No descriptions */
-void ClassImport::insertAttribute(UMLObject *o, Uml::Scope scope, QString name, QString type, QString value /*= ""*/) {
+void ClassImport::insertAttribute(UMLObject *o, Uml::Scope scope, QString name,
+				  QString type, QString comment /* = "" */) {
 	int attID = getUniqueID();
 
-	UMLAttribute *temp = reinterpret_cast<UMLAttribute *>(((UMLClass*)o)->addAttribute(name , attID));
+	UMLAttribute *temp = ((UMLClass*)o)->addAttribute(name , attID);
 
 	temp->setTypeName(type);
-	temp->setInitialValue(value);
 	temp->setScope(scope);
+	QString strippedComment = doxyComment(comment);
+	if (! strippedComment.isEmpty()) {
+		temp->setDoc(strippedComment);
+		UMLDoc::getDocWindow()->showDocumentation(temp, true);
+	}
 
 	setModified(true);
 }
 
-/** No descriptions */
-void ClassImport::insertMethod(UMLObject *o, Uml::Scope scope, QString name, QString type, UMLAttributeList *parList /*= NULL*/) {
+void ClassImport::insertMethod(UMLObject *o, Uml::Scope scope, QString name,
+			       QString type, QString comment /* = "" */,
+			       UMLAttributeList *parList /*= NULL*/) {
 	UMLClassifier *classifier = dynamic_cast<UMLClassifier*>(o);
 	if(!classifier)
 	{
 		kdWarning()<<"ClassImport::insertMethod(..) called for a non-classifier!"<<endl;
 		return;
 	}
-	//UMLOperation *op = UMLApp::app()->getDocument()->createOperation( classifier, name );
 	UMLOperation *op = UMLDoc::createOperation( classifier, name, parList );
 	if(!op)
 	{
 		kdError()<<"Could not create operation with name "<<name<<endl;
 		return;
 	}
-	//op->setName( name );
 	op->setReturnType(type);
-
 	op->setScope(scope);
+	QString strippedComment = doxyComment(comment);
+	if (! strippedComment.isEmpty()) {
+		op->setDoc(strippedComment);
+		UMLDoc::getDocWindow()->showDocumentation(op, true);
+	}
 	//setModified(true);
 }
 
@@ -92,8 +123,11 @@ void ClassImport::importCPP(QStringList headerFileList) {
 		QString pkgName( currentParsedClass->declaredInScope );
 		UMLPackage *pkg = NULL;
 		if( ! pkgName.isEmpty() )
-			pkg = (UMLPackage *)createUMLObject(pkgName, Uml::ot_Package);
-		currentClass = createUMLObject(currentParsedClass->name, Uml::ot_Class, pkg);
+			pkg = (UMLPackage *)createUMLObject(Uml::ot_Package, pkgName);
+		currentClass = createUMLObject(Uml::ot_Class,
+					       currentParsedClass->name,
+					       currentParsedClass->comment,
+					       pkg);
 		if (pkg)
 			pkg->addObject( currentClass );
 
@@ -113,7 +147,6 @@ void ClassImport::importCPP(QStringList headerFileList) {
 
 					break;
 
-
 				case PIE_PRIVATE:
 					scope = "private";
 					attrScope = Uml::Private;
@@ -121,7 +154,7 @@ void ClassImport::importCPP(QStringList headerFileList) {
 				case PIE_GLOBAL:
 					break;
 			} //switch
-			this->insertAttribute(currentClass, attrScope, attr->name, attr->type, "");
+			this->insertAttribute(currentClass, attrScope, attr->name, attr->type, attr->comment);
 		} // attribute for() loop
 
 		//CParsedMethod *aMethod;
@@ -167,7 +200,8 @@ void ClassImport::importCPP(QStringList headerFileList) {
 			} else {
 				methodType = "virtual "+pMethod->type;
 			}
-			this->insertMethod(currentClass, attrScope, pMethod->name, methodType, &parList);
+			this->insertMethod(currentClass, attrScope, pMethod->name,
+					   methodType, pMethod->comment, &parList);
 		} // method for() loop
 	} // 	class for() loop
 
