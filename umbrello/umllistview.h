@@ -27,8 +27,8 @@
  
 namespace Umbrello
 {
-class Diagram;
-class DiagramView;
+	class Diagram;
+	class DiagramView;
 } 
 class IDChangeLog;
 class ListPopupMenu;
@@ -43,37 +43,37 @@ using Umbrello::DiagramView;
 
 class UMLListView : public KListView {
 	Q_OBJECT
-	friend class UMLClipboard;
-public:
+		friend class UMLClipboard;
+ public:
 
-	enum Icon_Type
-	{
-	    it_Home = 0,
-	    it_Folder_Green,
-	    it_Folder_Green_Open,
-	    it_Folder_Grey,
-	    it_Folder_Grey_Open,
-	    it_Folder_Red,
-	    it_Folder_Red_Open,
-	    it_Folder_Violet,
-	    it_Folder_Violet_Open,
-	    it_Diagram, //change to have different one for each type of diagram
-	    it_Class,
-	    it_Template,
-	    it_Package,
-	    it_Component,
-	    it_Node,
-	    it_Artifact,
-	    it_Interface,
-	    it_Actor,
-	    it_UseCase,
-	    it_Public_Method,
-	    it_Private_Method,
-	    it_Protected_Method,
-	    it_Public_Attribute,
-	    it_Private_Attribute,
-	    it_Protected_Attribute
+	enum Icon_Type	{
+		it_Home = 0,
+		it_Folder_Green,
+		it_Folder_Green_Open,
+		it_Folder_Grey,
+		it_Folder_Grey_Open,
+		it_Folder_Red,
+		it_Folder_Red_Open,
+		it_Folder_Violet,
+		it_Folder_Violet_Open,
+		it_Diagram, //change to have different one for each type of diagram
+		it_Class,
+		it_Template,
+		it_Package,
+		it_Component,
+		it_Node,
+		it_Artifact,
+		it_Interface,
+		it_Actor,
+		it_UseCase,
+		it_Public_Method,
+		it_Private_Method,
+		it_Protected_Method,
+		it_Public_Attribute,
+		it_Private_Attribute,
+		it_Protected_Attribute
 	};
+
 	/**
 	 *	Constructs the tree view.
 	 *
@@ -118,7 +118,10 @@ public:
 	 */
 	virtual bool serialize(QDataStream *s, bool archive, int fileversion);
 
-	bool ReadChilds( UMLListViewItem* parent, QDataStream *s);
+	/**
+	 * used by serialise()
+	 */
+	bool readChilds( UMLListViewItem* parent, QDataStream *s);
 
 	long getClipSizeOf();
 
@@ -127,6 +130,7 @@ public:
 	}
 
 	bool getSelectedItems(UMLListViewItemList &ItemList);
+
 	/**
 	 * Returns the amount of bytes needed to serialize Item to the clipboard
 	 */
@@ -143,70 +147,70 @@ public:
 	 * parent
 	 */
 	UMLListViewItem* createItem(UMLListViewItemData& Data, IDChangeLog& IDChanges,
-	                           UMLListViewItem* parent = 0);
+				    UMLListViewItem* parent = 0);
 
 	/**
-	* 	Return the amount of items selected.
-	*/
+	 * 	Return the amount of items selected.
+	 */
 	int getSelectedCount();
 
 	/**
-	*   Returns the correct pixmap for the given type.
-	*/
+	 *   Returns the correct pixmap for the given type.
+	 */
 	QPixmap & getPixmap( Icon_Type type );
 
 	/**
-	*     Returns the document pointer.  Called by the UMLListViewItem class.
-	*/
+	 *     Returns the document pointer.  Called by the UMLListViewItem class.
+	 */
 	UMLDoc * getDocument() {
 		return m_doc;
 	}
 
 	/**
-	*     Adds a new item to the tree of the given type under the given parent.
-	*     Method will take care of signalling anyone needed on creation of new item.
-	*     e.g. UMLDoc if an UMLObject is created.
-	*/
+	 *     Adds a new item to the tree of the given type under the given parent.
+	 *     Method will take care of signalling anyone needed on creation of new item.
+	 *     e.g. UMLDoc if an UMLObject is created.
+	 */
 	void addNewItem( QListViewItem * parent, Uml::ListView_Type type );
 
 	/**
-	*   Creates a UMLObject out of the given list view item.
-	*/
+	 *   Creates a UMLObject out of the given list view item.
+	 */
 	void createUMLObject( UMLListViewItem * item, Uml::UMLObject_Type type );
 
 	/**
-	*   Creates a child UMLObject out of the given list view item.
-	*/
+	 *   Creates a child UMLObject out of the given list view item.
+	 */
 	void createChildUMLObject( UMLListViewItem * item, Uml::UMLObject_Type type );
 
 	/**
-	*   Creates a diagram out of the given list view item.
-	*/
+	 *   Creates a diagram out of the given list view item.
+	 */
 	void createDiagram( UMLListViewItem * item, Uml::Diagram_Type type );
 
 	/**
-	*     Returns a unique name for a diagram.
-	*/
+	 *     Returns a unique name for a diagram.
+	 */
 	QString getUniqueDiagramName( Uml::Diagram_Type type );
 
 	/**
-	*     Returns a unique name for a child umlobject.
-	*/
+	 *     Returns a unique name for a child umlobject.
+	 */
 	QString getUniqueChildUMLObjectName( UMLClassifier * parent, Uml::UMLObject_Type type );
 
 	/**
-	*     Returns a unique name for an object.
-	*/
+	 *     Returns a unique name for an object.
+	 */
 	QString getUniqueUMLObjectName( Uml::UMLObject_Type type );
 
 	/**
-	*     Returns if the given name is unique for the given items type.
-	*/
+	 *     Returns if the given name is unique for the given items type.
+	 */
 	bool isUnique( UMLListViewItem * item, QString name );
 
 	/**
-	*   Cancel rename event has occurred for the given item.
-	*/
+	 *   Cancel rename event has occurred for the given item.
+	 */
 	void  cancelRename( QListViewItem * item );
 
 	/**
@@ -224,13 +228,13 @@ public:
 
 	
 
-protected:
+ protected:
 	UMLListViewItem* rv;//root view
 	UMLListViewItem* ucv;//use case view item
 	UMLListViewItem* lv;//logical view item
 	UMLListViewItem* componentView;//component view item
 	UMLListViewItem* deploymentView;//deployment view item
-	UMLListViewItem *diagramFolder;
+	UMLListViewItem* diagramFolder;
 	ListPopupMenu * menu;
 	QString oldText, message;
 	UMLDoc *m_doc;
@@ -273,6 +277,7 @@ protected:
 	void startDrag();
 	void tidyChangeItem();
 	bool acceptDrag (QDropEvent* event) const;
+
 	/**
 	 *
 	 * @param c The object to be find in the list view
@@ -288,14 +293,33 @@ protected:
 	 */
 	UMLListViewItem * findUMLObjectInFolder(UMLListViewItem *item, UMLObject *o);
 
+	/**
+	 * Searches through the tree for the item which represents the diagram given
+	 * @param the diagram to search for
+	 * @return the item which represents the diagram
+	 */
 	UMLListViewItem * findView(UMLView *v);
+
+	/**
+	 * Searches through the tree for the item with the given id
+	 * @param the id to search for
+	 * @return the item with the given id
+	 */
 	UMLListViewItem * findItem(int id);
+
+	/**
+	 * Converts a diagram type enum to the equivalent list view type
+	 */
 	Uml::ListView_Type convert_DT_LVT(Uml::Diagram_Type dt);
+
+	/**
+	 * Converts an object type enum to the equivalent list view type
+	 */
 	Uml::ListView_Type convert_OT_LVT(Uml::UMLObject_Type ot);
 
 	/**
-	* 	Loads the pixmaps to use in the list items.
-	*/
+	 * 	Loads the pixmaps to use in the list items.
+	 */
 	void loadPixmaps();
 
 	/**
@@ -323,29 +347,90 @@ protected:
 	 */
 	static void deleteChildrenOf( QListViewItem *parent );
 
-public slots:
-	void slotDiagramCreated(int id);
-	void diagramCreated(Umbrello::Diagram*);
-	void slotDiagramRenamed(int id);
-	
-	void slotObjectCreated(UMLObject * o);
-	void childObjectAdded( UMLObject *obj);
-	void slotObjectRemoved(UMLObject * o);
-	void childObjectRemoved( UMLObject *obj);
-	void slotObjectChanged( );
-	
+	public slots:
 
+		/**
+		 * Creates a new item to represent a new diagram
+		 * @param id the id of the new diagram
+		 */
+		void slotDiagramCreated(int id);
+
+	/**
+	 * Creates a new item to represent a new diagram
+	 * @param d pointer to the new diagram
+	 */
+	void diagramCreated(Umbrello::Diagram* d);
+
+	/**
+	 * renames a diagram in the list view
+	 * @param the id of the renamed diagram
+	 */
+	void slotDiagramRenamed(int id);
+
+	/**
+	 * Creates a new list view item and connects the appropriate signals/slots
+	 * @param object the newly created object
+	 */
+	void slotObjectCreated(UMLObject* object);
+
+	/**
+	 * Adds a new operation, attribute or template item to a classifier
+	 * @param obj the parent object 
+	 */
+	void childObjectAdded(UMLObject* obj);
+
+	/**
+	 * disconnects signals and removes the list view item
+	 * @param object the object about to be removed
+	 */
+	void slotObjectRemoved(UMLObject* object);
+
+	/**
+	 * deletes the list view item
+	 * @param obj the object to remove
+	 */
+	void childObjectRemoved(UMLObject* obj);
+
+	/**
+	 * calls updateObject() on the item representing the sending object
+	 * no parameters, uses sender() to work out which object called the slot
+	 */
+	void slotObjectChanged();
+	
+	/**
+	 * removes the item representing a diagram
+	 * @param id the id of the diagram
+	 */
 	void slotDiagramRemoved(int id);
+
+	/**
+	 * Called when a right mouse button menu has an item selected
+	 */
 	void popupMenuSel(int sel);
 
-	
-	void slotDropped(QDropEvent * de, QListViewItem * parent, QListViewItem * item);
-	void slotExpanded( QListViewItem * item );
-	void slotCollapsed( QListViewItem * item );
+	/**
+	 * Something has been dragged and dropped onto the list view
+	 */
+	void slotDropped(QDropEvent* de, QListViewItem* parent, QListViewItem* item);
 
-	/** Open all items in the list view*/
+	/**
+	 * calls updateFolder() on the item to update the icon to open
+	 */
+	void slotExpanded(QListViewItem* item);
+
+	/**
+	 * calls updateFolder() on the item to update the icon to closed
+	 */
+	void slotCollapsed(QListViewItem* item);
+
+	/** 
+	 * Open all items in the list view
+	 */
 	void expandAll(QListViewItem *item);
-	/** Close all items in the list view*/
+
+	/** 
+	 * Close all items in the list view
+	 */
 	void collapseAll(QListViewItem *item);
 
 	/**
@@ -355,34 +440,37 @@ public slots:
 	void slotCutSuccessful();
 
 	/**
-	*     When a user requests a new item we wait for the signal
-	*     to then verify the item.  The class only connects to the
-	*     rename signal while needed.
-	*/
+	 *     When a user requests a new item we wait for the signal
+	 *     to then verify the item.  The class only connects to the
+	 *     rename signal while needed.
+	 */
 	bool slotItemRenamed(QListViewItem* item , int col);
 
-signals:
+ signals:
 	/**
 	 *   Reset the status bar
 	 */
 	void sigResetStatusbarProgress();
-	
-	void diagramSelected( int );
+
+	/**
+	 * change the current view
+	 */
+	void diagramSelected(int);
 
 	/*
-	*
-	* Set the total range of the progressbar
-	*
-	* @param totalSteps Total range of the progressbar (0..totalSteps)
-	*/
+	 *
+	 * Set the total range of the progressbar
+	 *
+	 * @param totalSteps Total range of the progressbar (0..totalSteps)
+	 */
 	void sigSetStatusbarProgressSteps(int totalSteps);
 
 	/*
-	*
-	* Set the total range of the progressbar
-	*
-	* @param totalSteps Total range of the progressbar (0..totalStep
-	*/
+	 *
+	 * Set the total range of the progressbar
+	 *
+	 * @param totalSteps Total range of the progressbar (0..totalStep
+	 */
 	void sigSetStatusbarProgress(int stepPosition);
 
 };
