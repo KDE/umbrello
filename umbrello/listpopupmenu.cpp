@@ -338,7 +338,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
 			if (! interfaceWidget)
 				break;
 			m_pInsert = new KPopupMenu(this,"New");
-			m_pInsert->insertItem(SmallIcon("source"), i18n("Operation"), mt_Operation);
+			m_pInsert->insertItem(SmallIcon("source"), i18n("Operation..."), mt_Operation);
 			insertItem(SmallIcon("filenew"),i18n("New"), m_pInsert);
 
 			m_pShow = new KPopupMenu(this, "Show");
@@ -374,7 +374,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
 
 		case Uml::wt_Enum:
 			m_pInsert = new KPopupMenu(this,"New");
-			m_pInsert->insertItem(SmallIcon("source"), i18n("Enum Literal"), mt_EnumLiteral);
+			m_pInsert->insertItem(SmallIcon("source"), i18n("Enum Literal..."), mt_EnumLiteral);
 			insertItem(SmallIcon("filenew"),i18n("New"), m_pInsert);
 
 			setupColor(object->getUseFillColour());

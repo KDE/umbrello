@@ -2454,7 +2454,7 @@ void AssociationWidget::slotMenuSelection(int sel) {
 		else
 			oldText = "";
 
-		newText = KInputDialog::getText(i18n("Association Name"), i18n("Enter association name"), oldText, 0, m_pView);
+		newText = KInputDialog::getText(i18n("Association Name"), i18n("Enter association name:"), oldText, 0, m_pView);
 		if( result && newText != oldText && FloatingText::isTextValid(newText) )
 			setName(newText);
 
