@@ -12,6 +12,7 @@
 
 #include "umbrello/umbrello/dialogs/classattributesbase.h"
 #include <qptrlist.h>
+#include <qpixmap.h>
 #include "dialogpage.h"
 
 class UMLClass;
