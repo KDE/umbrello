@@ -35,61 +35,61 @@ public:
 	    //new type on left which replaces listed on right
 	    mt_Logical_View = 1900,           //LVIEW
 	    mt_UseCase_View,                  //UCVIEW
-	    mt_Component_View,
-	    mt_Deployment_View,
+	    mt_Component_View,			// 1902
+	    mt_Deployment_View,			// 1903
 	    mt_UseCase_Diagram,               //UCDIAGRAM
 	    mt_Sequence_Diagram,              //SEQDIAGRAM
 	    mt_Class_Diagram,                 //CONDIAGRAM
 	    mt_Collaboration_Diagram,         //COLLDIAGRAM
-	    mt_State_Diagram,
-	    mt_Activity_Diagram,
-	    mt_Component_Diagram,
-	    mt_Deployment_Diagram,
+	    mt_State_Diagram,			// 1908
+	    mt_Activity_Diagram,		// 1909
+	    mt_Component_Diagram,		// 1910
+	    mt_Deployment_Diagram,		// 1911
 
 	    mt_On_UseCase_Diagram,            //UCDIAGRAM
 	    mt_On_Sequence_Diagram,           //SEQDIAGRAM
 	    mt_On_Class_Diagram,              //CONDIAGRAM
 	    mt_On_Collaboration_Diagram,      //COLLDIAGRAM
-	    mt_On_State_Diagram,
-	    mt_On_Activity_Diagram,
-	    mt_On_Component_Diagram,
-	    mt_On_Deployment_Diagram,
+	    mt_On_State_Diagram,		// 1916
+	    mt_On_Activity_Diagram,		// 1917
+	    mt_On_Component_Diagram,		// 1918
+	    mt_On_Deployment_Diagram,		// 1919
 
 	    mt_Logical_Folder,                //LFOLDER
 	    mt_UseCase_Folder,                //UCFOLDER
-	    mt_Component_Folder,
-	    mt_Deployment_Folder,
+	    mt_Component_Folder,		// 1922
+	    mt_Deployment_Folder,		// 1923
 
 	    mt_Class,                       //CLASS
-	    mt_Package,
-	    mt_Component,
-	    mt_Node,
-	    mt_Artifact,
-	    mt_Interface,
-	    mt_Enum,
-	    mt_Datatype,
+	    mt_Package,				// 1925
+	    mt_Component,			// 1926
+	    mt_Node,				// 1927
+	    mt_Artifact,			// 1928
+	    mt_Interface,			// 1929
+	    mt_Enum,				// 1930
+	    mt_Datatype,			// 1931
 	    mt_Actor,                         //ACTOR
 	    mt_UseCase,                       //USECASE
 	    mt_Attribute,                     //ATTRIBUTE
-	    mt_EnumLiteral,
-	    mt_Object,
-	    mt_Initial_State,
-	    mt_End_State,
-	    mt_State,
-	    mt_Activity,
-	    mt_Initial_Activity,
-	    mt_End_Activity,
+	    mt_EnumLiteral,			// 1935
+	    mt_Object,				// 1936
+	    mt_Initial_State,			// 1937
+	    mt_End_State,			// 1938
+	    mt_State,				// 1939
+	    mt_Activity,			// 1940
+	    mt_Initial_Activity,		// 1941
+	    mt_End_Activity,			// 1942
 	    mt_Operation,                     //OPERATION
 	    mt_New_Parameter,                 //PARM  and PARMNEW
 	    mt_New_Operation,                 //NEWOP
 	    mt_New_Attribute,                 //NEWATT
-	    mt_New_Template,
-	    mt_New_EnumLiteral,
+	    mt_New_Template,			// 1947
+	    mt_New_EnumLiteral,			// 1948
 	    mt_Parameter_Selected,            //PARMSEL
 	    mt_Operation_Selected,            //OPSEL
 	    mt_Attribute_Selected,            //ATTSEL
-	    mt_Template_Selected,
-	    mt_EnumLiteral_Selected,
+	    mt_Template_Selected,		// 1952
+	    mt_EnumLiteral_Selected,		// 1953
 	    mt_Association_Selected,          //ASSOCSEL
 	    mt_Show_Attributes,               //SHOWATTS
 	    mt_Show_Attributes_Selection,     //SHOWATTS, multiple items
@@ -116,8 +116,8 @@ public:
 	    mt_Copy,                          //COPY
 	    mt_Paste,                         //PASTE
 	    mt_Clear,                         //CLEAR
-	    mt_Redo,
-	    mt_Undo,
+	    mt_Redo,				// 1980
+	    mt_Undo,				// 1981
 	    mt_Link_Docs,                     //LINKDOCS
 	    mt_Delete_Message,                //DELETEMESSAGE
 	    mt_Show_Operation_Signature,      //SHOWOPSIG
@@ -133,7 +133,7 @@ public:
 	    mt_RoleName,                      //ROLENAME
 	    mt_Delete_Association,            //DELETEASSOC
 	    mt_Delete_Selection,              //DELETESELECTION
-	    mt_Reset_Label_Positions,
+	    mt_Reset_Label_Positions,		// 1997
 
 	    mt_Multi_Selection,               //MULTISELECTION
 	    mt_Line_Color,                    //LINECOLOR
@@ -142,12 +142,12 @@ public:
 	    mt_Fill_Color_Selection,          //FILLCOLOR, multiple items
 	    mt_Use_Fill_Color,                //USEFCOLOR
 	    mt_Default_Properties,            //DEFAULTPROPERTIES
-	    mt_Rename_MultiA,
+	    mt_Rename_MultiA,			// 2005
 	    mt_Rename_MultiB,
 	    mt_Rename_Name,
 	    mt_Rename_RoleAName,
 	    mt_Rename_RoleBName,
-	    mt_Change_Font,
+	    mt_Change_Font,			// 2010
 	    mt_Change_Font_Selection,
 	    mt_SnapToGrid,
 	    mt_ShowSnapGrid,
@@ -155,12 +155,12 @@ public:
 	    mt_New_Activity,
 	    mt_Up,
 	    mt_Down,
-	    mt_Branch,
+	    mt_Branch,				// 2018
 
 		mt_Expand_All,                     //Expand all items in the list
 		mt_Collapse_All,                   //Collapse all items in the list
 
-		mt_Refactoring,
+		mt_Refactoring,			// 2021
 		mt_ViewCode, // view code document contents
 		mt_Clone, // Create a deep copy of the object.
 		mt_Show_Public_Only, // (not currently used)
