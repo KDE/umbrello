@@ -549,7 +549,8 @@ void CppTree2Uml::parseFunctionArguments(DeclaratorAST* declarator,
 
 	    QString tp = typeOfDeclaration( param->typeSpec(), param->declarator() );
 
-	    m_importer->addMethodParameter( method, tp, name, m_currentNamespace[m_nsCnt] );
+	    if (tp != "void")
+		m_importer->addMethodParameter( method, tp, name );
 	}
     }
 }

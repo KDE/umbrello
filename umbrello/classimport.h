@@ -83,8 +83,7 @@ public:
 	 * prefixes in the `type'.
 	 */
 	UMLAttribute* addMethodParameter(UMLOperation *method,
-					 QString type, QString name,
-					 UMLPackage *parentPkg = NULL);
+					 QString type, QString name);
 
 	/**
 	 * Add an enum literal to an UMLEnum.
