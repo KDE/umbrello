@@ -81,10 +81,12 @@ bool UMLObject::serialize(QDataStream *s, bool archive, int fileversion) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLObject::setID(int NewID) {
 	m_nId = NewID;
+	emit modified();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLObject::setName(QString strName) {
 	m_Name = strName;
+	emit modified();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 QString UMLObject::getName() {
@@ -180,6 +182,7 @@ bool UMLObject::getAbstract() {
 
 void UMLObject::setAbstract(bool bAbstract) {
 	m_bAbstract = bAbstract;
+	emit modified();
 }
 
 bool UMLObject::saveToXMI( QDomDocument & /*qDoc*/, QDomElement & qElement ) {
@@ -226,5 +229,6 @@ bool UMLObject::getStatic() const
 void UMLObject::setStatic(const bool bStatic)
 {
 	m_bStatic = bStatic;
+	emit modified();
 }
 #include "umlobject.moc"
