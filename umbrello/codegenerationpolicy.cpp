@@ -389,11 +389,6 @@ void CodeGenerationPolicy::writeConfig (KConfig * config) {
 
 }
 
-//FIXME should this be empty?  delete it if it should (e.g. make abstract)
-void CodeGenerationPolicy::loadFromXMI(QDomElement& /*element*/) {
-
-}
-
 // return the actual text
 QString CodeGenerationPolicy::getHeadingFile(QString str) {
 

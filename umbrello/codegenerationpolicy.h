@@ -254,15 +254,6 @@ public:
 	 */
 	virtual CodeGenerationPolicyPage * createPage ( QWidget *parent = 0, const char * name = 0);
 
-	/**
-	 * @param	element 
-	 */
-	virtual void loadFromXMI (QDomElement & element );
-
-	/** Make a deep copy of this object.
-	 */
-	// CodeGenerationPolicy * clone ();
-
        /**
          *  Gets the heading file (as a string) to be inserted at the
          *  begining of the generated file. you give the file type as
