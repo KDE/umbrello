@@ -38,7 +38,8 @@ CPPCodeGenerator::CPPCodeGenerator ( UMLDoc * parentDoc , const char * name)
 
 CPPCodeGenerator::~CPPCodeGenerator ( ) {
 	// destroy all separately owned codedocuments (e.g. header docs)
-        for (CodeDocument *doc = m_headercodedocumentVector.first(); doc; doc=m_headercodedocumentVector.next())
+	QPtrList<CodeDocument> * list = &m_headercodedocumentVector;
+        for (CodeDocument *doc = list->first(); doc; doc=list->next())
                 delete doc;
 }
 
@@ -169,6 +170,25 @@ bool CPPCodeGenerator::getAutoGenerateAccessors ( )
 
 // Other methods
 //
+
+// special method needed so that we write out the header code documents
+bool CPPCodeGenerator::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
+        QString langType = getLanguage();
+        QDomElement docElement = doc.createElement( "codegenerator" );
+        docElement.setAttribute("language",langType);
+        bool status = true;
+
+        QPtrList<CodeDocument> * docList = getCodeDocumentList();
+        for (CodeDocument * codeDoc = docList->first(); codeDoc; codeDoc= docList->next())
+                status = codeDoc->saveToXMI(doc, docElement) ? status : false;
+
+	for (CodeDocument * hcodeDoc = m_headercodedocumentVector.first(); hcodeDoc; hcodeDoc=m_headercodedocumentVector.next())
+                status = hcodeDoc->saveToXMI(doc, docElement) ? status : false;
+
+        root.appendChild( docElement );
+
+        return status;
+}
 
 /**
  * Write out all code documents to file as appropriate.

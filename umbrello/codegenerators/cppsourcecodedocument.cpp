@@ -64,49 +64,6 @@ bool CPPSourceCodeDocument::forceDoc () {
         return getParentGenerator()->forceDoc();
 }
 
-/**
- * Save the XMI representation of this object
- * @return      bool    status of save
- */
-bool CPPSourceCodeDocument::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
-        bool status = true;
-
-        QDomElement docElement = doc.createElement( "cppsourcecodedocument" );
-
-        setAttributesOnNode(doc, docElement);
-
-        root.appendChild( docElement );
-
-        return status;
-}
-
-/** set attributes of the node that represents this class
- * in the XMI document.
- */
-void CPPSourceCodeDocument::setAttributesOnNode ( QDomDocument & doc, QDomElement & docElement)
-{
-
-        // superclass call
-        ClassifierCodeDocument::setAttributesOnNode(doc,docElement);
-
-        // now set local attributes/fields
-// FIX
-}
-
-/** set the class attributes of this object from
- * the passed element node.
- */
-void CPPSourceCodeDocument::setAttributesFromNode ( QDomElement & root)
-{
-
-        // superclass save
-        ClassifierCodeDocument::setAttributesFromNode(root);
-
-        // now set local attributes
-// FIX
-
-}
-
 // IF the classifier object is modified, this will get called.
 // Possible mods include changing the filename and package
 // the classifier has.

@@ -216,7 +216,6 @@ void CodeGenerator::loadFromXMI (QDomElement & qElement ) {
         QDomElement element = node.toElement();
         QString langType = getLanguage();
 
-kdDebug()<<" **** LOAD FROM XMI CALLED for "<<langType.latin1()<<" CODE GENERATOR **** "<<endl;
 	if( qElement.tagName() == "codegenerator"
                    && qElement.attribute( "language", "UNKNOWN" ) == langType )
         {
@@ -227,7 +226,6 @@ kdDebug()<<" **** LOAD FROM XMI CALLED for "<<langType.latin1()<<" CODE GENERATO
                 while( !codeDocElement.isNull() ) {
 
 			QString docTag = codeDocElement.tagName();
-kdDebug()<<" XMI LOAD: GOT CODE DOCUMENT W/ tag:"<<docTag.latin1()<<endl;
 			if( docTag == "codedocument" ||
                                     docTag == "classifiercodedocument"
 			) {
@@ -236,14 +234,9 @@ kdDebug()<<" XMI LOAD: GOT CODE DOCUMENT W/ tag:"<<docTag.latin1()<<endl;
 				if(codeDoc)
 					codeDoc->loadFromXMI(codeDocElement);
 				else {
-					kdError()<<" LOAD FROM XMI: MISSING CODE DOCUMENT, create a new one or ignore and throw a warning?"<<endl;
+					kdWarning()<<" LOAD FROM XMI: MISSING CODE DOCUMENT, plowing ahead with pre-generated one."<<endl;
 				}
 			} else
-/*
-                        if( docTag == "codegenpolicy" ) {
-				getPolicy()->loadFromXMI(codeDocElement);
-                        } else
-*/
 				kdWarning()<<" XMI WARNING: got strange codegenerator child node:"<<docTag<<", ignoring."<<endl;
 
 			codeDocNode = codeDocElement.nextSibling();

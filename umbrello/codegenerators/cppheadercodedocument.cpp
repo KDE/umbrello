@@ -264,10 +264,11 @@ CodeClassFieldDeclarationBlock * CPPHeaderCodeDocument::newDeclarationCodeBlock 
  * Save the XMI representation of this object
  * @return      bool    status of save
  */
+/*
 bool CPPHeaderCodeDocument::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
         bool status = true;
 
-        QDomElement docElement = doc.createElement( "cppheadercodedocument" );
+        QDomElement docElement = doc.createElement( "" );
 
         setAttributesOnNode(doc, docElement);
 
@@ -275,6 +276,7 @@ bool CPPHeaderCodeDocument::saveToXMI ( QDomDocument & doc, QDomElement & root )
 
         return status;
 }
+*/
 
 // This method will cause the class to rebuild its text representation.
 // based on the parent classifier object.

@@ -37,49 +37,6 @@ CPPMakefileCodeDocument::~CPPMakefileCodeDocument ( ) { }
 // Other methods
 //  
 
-/** set the class attributes of this object from
- * the passed element node.
- */
-void CPPMakefileCodeDocument::setAttributesFromNode ( QDomElement & root)
-{
-
-        // superclass save
-        CodeDocument::setAttributesFromNode(root);
-
-        // now set local attributes
-// setPackage(root.attribute("package",""));
-
-}
-
-/** set attributes of the node that represents this class
- * in the XMI document.
- */
-void CPPMakefileCodeDocument::setAttributesOnNode ( QDomDocument & doc, QDomElement & docElement)
-{
-
-        // superclass call
-        CodeDocument::setAttributesOnNode(doc,docElement);
-
-        // now set local attributes/fields
-//FIX 
-}
-
-/**
- * Save the XMI representation of this object
- * @return      bool    status of save
- */
-bool CPPMakefileCodeDocument::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
-        bool status = true;
-
-        QDomElement docElement = doc.createElement( "cppmakecodedocument" );
-
-        setAttributesOnNode(doc, docElement);
-
-        root.appendChild( docElement );
-
-        return status;
-}
-
 // we add in our code blocks that describe how to generate
 // the project here...
 void CPPMakefileCodeDocument::updateContent( ) {

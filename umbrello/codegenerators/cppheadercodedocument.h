@@ -74,7 +74,7 @@ public:
          * Save the XMI representation of this object
          * @return      bool    status of save
          */
-        virtual bool saveToXMI ( QDomDocument & doc, QDomElement & root );
+        //virtual bool saveToXMI ( QDomDocument & doc, QDomElement & root );
 
 	// a little utility method to save us some work
 	QString getCPPClassName (QString name);

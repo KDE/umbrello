@@ -71,12 +71,6 @@ public:
 	 */
 	virtual CodeClassFieldDeclarationBlock * newDeclarationCodeBlock (CodeClassField * cf );
 
-       /**
-         * Save the XMI representation of this object
-         * @return      bool    status of save
-         */
-        virtual bool saveToXMI ( QDomDocument & doc, QDomElement & root );
-
 protected:
 
         // reset/clear our inventory of textblocks in this document
@@ -94,16 +88,6 @@ protected:
 
 	// a little utility method to save us some work
 	QString getCPPClassName (QString name);
-
-       /** set attributes of the node that represents this class
-         * in the XMI document.
-         */
-        virtual void setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement);
-
-        /** set the class attributes of this object from
-         * the passed element node.
-         */
-        virtual void setAttributesFromNode ( QDomElement & element);
 
        // IF the classifier object is modified, this will get called.
         // Possible mods include changing the filename and package

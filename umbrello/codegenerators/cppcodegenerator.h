@@ -124,6 +124,11 @@ public:
 	 */
 	void createDefaultDatatypes();
 
+	/**
+         * @return      QString
+         */
+        virtual bool saveToXMI ( QDomDocument & doc, QDomElement & root );
+
 protected:
 
 
