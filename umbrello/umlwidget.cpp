@@ -242,8 +242,12 @@ QPoint UMLWidget::doMouseMove(QMouseEvent* me) {
 			}
 		}
 	}
-	newX = snappedX( getX() + moveX );
-	newY = snappedY( getY() + moveY );
+	newX = getX() + moveX;
+	if (! m_bIgnoreSnapToGrid)
+		newX = m_pView->snappedX( newX );
+	newY = getY() + moveY;
+	if (! m_bIgnoreSnapToGrid)
+		newY = m_pView->snappedY( newY );
 
 	newX = newX<0 ? 0 : newX;
 	newY = newY<0 ? 0 : newY;
@@ -809,33 +813,15 @@ void UMLWidget::setView(UMLView * v) {
 }
 
 void UMLWidget::setX( int x ) {
-	QCanvasItem::setX( (double)snappedX(x) );
+	if (!m_bIgnoreSnapToGrid)
+		x = m_pView->snappedX(x);
+	QCanvasItem::setX( (double)x );
 }
 
 void UMLWidget::setY( int y ) {
-	QCanvasItem::setY( (double)snappedY(y) );
-}
-
-int UMLWidget::snappedX( int x ) {
-	if( !m_bIgnoreSnapToGrid && m_pView -> getSnapToGrid() ) {
-		int gridX = m_pView -> getSnapX();
-		int modX = x % gridX;
-		x -= modX;
-		if( modX >= ( gridX / 2 ) )
-			x += gridX;
-	}
-	return x;
-}
-
-int UMLWidget::snappedY( int y ) {
-	if( !m_bIgnoreSnapToGrid && m_pView -> getSnapToGrid() ) {
-		int gridY = m_pView -> getSnapY();
-		int modY = y % gridY;
-		y -= modY;
-		if( modY >= ( gridY / 2 ) )
-			y += gridY;
-	}
-	return y;
+	if (!m_bIgnoreSnapToGrid)
+		y = m_pView->snappedX(y);
+	QCanvasItem::setY( (double)y );
 }
 
 void UMLWidget::setName(QString strName) {

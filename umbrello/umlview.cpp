@@ -987,6 +987,15 @@ void UMLView::moveSelected(UMLWidget * w, int x, int y) {
 	for(temp=(UMLWidget *)m_SelectedList.first();temp;temp=(UMLWidget *)m_SelectedList.next())
 		if(temp != w)
 			temp -> mouseMoveEvent(&me);
+
+	// Move any selected associations.
+	AssociationWidgetListIt assoc_it( m_AssociationList );
+	AssociationWidget* assocwidget = NULL;
+	while ((assocwidget = assoc_it.current()) != NULL) {
+		++assoc_it;
+		if (assocwidget->getSelected())
+			assocwidget->moveEntireAssoc(x, y);
+	}
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLView::selectionUseFillColor(bool useFC) {
@@ -2794,6 +2803,28 @@ QPoint UMLView::getPastePoint() {
 	point.setX( point.x() - m_Pos.x() );
 	point.setY( point.y() - m_Pos.y() );
 	return point;
+}
+
+int UMLView::snappedX (int x) {
+	if (getSnapToGrid()) {
+		int gridX = getSnapX();
+		int modX = x % gridX;
+		x -= modX;
+		if (modX >= gridX / 2)
+			x += gridX;
+	}
+	return x;
+}
+
+int UMLView::snappedY (int y) {
+	if (getSnapToGrid()) {
+		int gridY = getSnapY();
+		int modY = y % gridY;
+		y -= modY;
+		if (modY >= gridY / 2)
+			y += gridY;
+	}
+	return y;
 }
 
 bool UMLView::showPropDialog() {

@@ -224,6 +224,16 @@ public:
 	}
 
 	/**
+	 * Returns the input coordinate with possible grid-snap applied.
+	 */
+	int snappedX(int x);
+
+	/**
+	 * Returns the input coordinate with possible grid-snap applied.
+	 */
+	int snappedY(int y);
+
+	/**
 	 *  Returns whether to show snap grid or not.
 	 */
 	bool getShowSnapGrid() const {

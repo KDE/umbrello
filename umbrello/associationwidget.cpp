@@ -1503,18 +1503,8 @@ void AssociationWidget::widgetMoved(UMLWidget* widget, int x, int y ) {
 			// safety. We DONT want to go off the screen
 			if(newY < 0)
 				newY = 0;
-			if( m_pView -> getSnapToGrid() ) {
-				int gridX = m_pView -> getSnapX();
-				int gridY = m_pView -> getSnapY();
-				int modX = newX % gridX;
-				int modY = newY % gridY;
-				newX -= modX;
-				newY -= modY;
-				if( modX >= ( gridX / 2 ) )
-					newX += gridX;
-				if( modY >= ( gridY / 2 ) )
-					newY += gridY;
-			}
+			newX = m_pView -> snappedX( newX );
+			newY = m_pView -> snappedY( newY );
 			p.setX( newX );
 			p.setY( newY );
 			m_LinePath.setPoint( i, p );
@@ -2696,20 +2686,8 @@ void AssociationWidget::mouseMoveEvent(QMouseEvent* me) {
 	QPoint oldp = m_LinePath.getPoint(m_nMovingPoint);
 
 	if( m_pView -> getSnapToGrid() ) {
-		int newX = p.x();
-		int newY = p.y();
-		int gridX = m_pView -> getSnapX();
-		int gridY = m_pView -> getSnapY();
-		int modX = newX % gridX;
-		int modY = newY % gridY;
-		newX -= modX;
-		newY -= modY;
-		if( modX >= ( gridX / 2 ) ) {
-			newX += gridX;
-		}
-		if( modY >= ( gridY / 2 ) ) {
-			newY += gridY;
-		}
+		int newX = m_pView->snappedX( p.x() );
+		int newY = m_pView->snappedY( p.y() );
 		p.setX(newX);
 		p.setY(newY);
 	}
@@ -3053,18 +3031,8 @@ void AssociationWidget::moveMidPointsBy( int x, int y ) {
 		QPoint p = m_LinePath.getPoint( i );
 		int newX = p.x() + x;
 		int newY = p.y() + y;
-		if( m_pView -> getSnapToGrid() ) {
-			int gridX = m_pView -> getSnapX();
-			int gridY = m_pView -> getSnapY();
-			int modX = newX % gridX;
-			int modY = newY % gridY;
-			newX -= modX;
-			newY -= modY;
-			if( modX >= ( gridX / 2 ) )
-				newX += gridX;
-			if( modY >= ( gridY / 2 ) )
-				newY += gridY;
-		}
+		newX = m_pView -> snappedX( newX );
+		newY = m_pView -> snappedY( newY );
 		p.setX( newX );
 		p.setY( newY );
 		m_LinePath.setPoint( i, p );
