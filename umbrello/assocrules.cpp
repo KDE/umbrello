@@ -114,13 +114,18 @@ bool AssocRules::allowAssociation( Association_Type assocType, UMLWidget * widge
 			break;
 
 		case at_Realization: // can only connect to abstract (interface) classes
-			while( ( assoc = it.current() ) ) {
-				if( ( widgetA == assoc -> getWidgetA() || widgetA == assoc -> getWidgetB() )
-				        && assoc -> getAssocType() == at_Realization )
+			while( assoc = it.current() ) {
+				if( ( widgetA == assoc->getWidgetA() || widgetA == assoc->getWidgetB() )
+				    && assoc->getAssocType() == at_Realization ) {
 					return false;
+				}
 				++it;
 			}
-			return widgetB->getUMLObject()->getAbstract();
+			if (widgetA->getBaseType() == wt_Class) {
+				return widgetB->getUMLObject()->getAbstract();
+			} else if (widgetA->getBaseType() == wt_Interface) {
+				return true;
+			}
 			break;
 
 		case at_Implementation://one connected to widget only (a or b)
@@ -210,9 +215,6 @@ bool AssocRules::allowSelf( Association_Type assocType, UMLWidget_Type widgetTyp
 AssocRules::Assoc_Rule AssocRules::m_AssocRules []= {
             //	Association	widgetA		widgetB		role	multiplicity	directional	self
             { at_Association,	wt_Class,	wt_Class,	true,	true,	true,	true  },
-            { at_Association,	wt_Package,	wt_Package,	true,	true,	true,	true  },
-            { at_Association,	wt_Package,	wt_Class,	true,	true,	true,	true  },
-            { at_Association,	wt_Class,	wt_Package,	true,	true,	true,	true  },
             { at_Association,	wt_Interface,	wt_Interface,	true,	true,	true,	true  },
             { at_Association,	wt_Interface,	wt_Class,	true,	true,	true,	true  },
             { at_Association,	wt_Class,	wt_Interface,	true,	true,	true,	true  },
@@ -221,9 +223,6 @@ AssocRules::Assoc_Rule AssocRules::m_AssocRules []= {
             { at_Association,	wt_Actor,	wt_Actor,	true,	false,	false,	false },
             { at_Association,	wt_Actor,	wt_UseCase,	true,	false,	false,	false },
             { at_UniAssociation,wt_Class,	wt_Class,	true,	true,	true,	true  },
-            { at_UniAssociation,wt_Package,	wt_Package,	true,	true,	true,	true  },
-            { at_UniAssociation,wt_Package,	wt_Class,	true,	true,	true,	true  },
-            { at_UniAssociation,wt_Class,	wt_Package,	true,	true,	true,	true  },
             { at_UniAssociation,wt_Interface,	wt_Interface,	true,	true,	true,	true  },
             { at_UniAssociation,wt_Interface,	wt_Class,	true,	true,	true,	true  },
             { at_UniAssociation,wt_Class,	wt_Interface,	true,	true,	true,	true  },
@@ -231,9 +230,13 @@ AssocRules::Assoc_Rule AssocRules::m_AssocRules []= {
             { at_UniAssociation,wt_UseCase,	wt_UseCase,	true,	false,	false,	false },
             { at_UniAssociation,wt_UseCase,	wt_Actor,	true,	false,	false,	false },
             { at_Generalization,wt_Class,	wt_Class,	false,	false,	false,	false },
+            { at_Generalization,wt_Package,	wt_Package,	false,	false,	false,	false },
+            { at_Generalization,wt_Interface,	wt_Interface,	false,	false,	false,	false },
+            { at_Generalization,wt_Class,	wt_Interface,	false,	false,	false,	false },
             { at_Generalization,wt_UseCase,	wt_UseCase,	false,	false,	false,	false },
             { at_Generalization,wt_Actor,	wt_Actor,	false,	false,	false,	false },
             { at_Aggregation,	wt_Class,	wt_Class,	true,	true,	false,	false },
+            { at_Aggregation,	wt_Class,	wt_Interface,	true,	true,	false,	false },
             { at_Dependency,	wt_Class,	wt_Class,	false,	false,	false,	false },
             { at_Dependency,	wt_UseCase,	wt_UseCase,	false,	false,	false,	false },
             { at_Dependency,	wt_Actor,	wt_Actor,	false,	false,	false,	false },
@@ -241,11 +244,17 @@ AssocRules::Assoc_Rule AssocRules::m_AssocRules []= {
             { at_Dependency,	wt_Package,	wt_Package,	true,	true,	true,	true  },
             { at_Dependency,	wt_Package,	wt_Class,	true,	true,	true,	true  },
             { at_Dependency,	wt_Class,	wt_Package,	true,	true,	true,	true  },
+            { at_Dependency,	wt_Package,	wt_Interface,	true,	true,	true,	true  },
+            { at_Dependency,	wt_Interface,	wt_Package,	true,	true,	true,	true  },
             { at_Dependency,	wt_Interface,	wt_Interface,	true,	true,	true,	true  },
             { at_Dependency,	wt_Interface,	wt_Class,	true,	true,	true,	true  },
             { at_Dependency,	wt_Class,	wt_Interface,	true,	true,	true,	true  },
             { at_Realization,	wt_Class,	wt_Class,	false,	false,	false,	false },
+            { at_Realization,	wt_Class,	wt_Interface,	false,	false,	false,	false },
+            { at_Realization,	wt_Interface,	wt_Package,	false,	false,	false,	false },
+            { at_Realization,	wt_Interface,	wt_Interface,	false,	false,	false,	false },
             { at_Composition,	wt_Class,	wt_Class,	true,	true,	false,	false },
+            { at_Composition,	wt_Class,	wt_Interface,	true,	true,	false,	false },
             { at_Implementation,wt_Class,	wt_Class,	false,	false,	false,	false },
             { at_Coll_Message,	wt_Object,	wt_Object,	true,	false,	true,	true  },
             { at_State,		wt_State,	wt_State,	true,	false,	true,	true  },
