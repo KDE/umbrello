@@ -16,12 +16,12 @@
 
 namespace Umbrello{
 
-WidgetSet::WidgetSet(QObject *parent, const char *name, const QStringList &args): 
-           Plugin(parent,name,args) 
+WidgetSet::WidgetSet(QObject *parent, const char *name, const QStringList &args):
+           Plugin(parent,name,args)
 {
-	
+
 }
- 
+
 WidgetSet::~WidgetSet()
 {
 }
@@ -47,7 +47,7 @@ bool WidgetSet::providesTool( const QString & )
 }
 
 
-Tool* WidgetSet::createTool( const QString &tool, DiagramView *view )
+Tool* WidgetSet::createTool(const QString& /*tool*/, DiagramView* /*view*/)
 {
 	kdWarning()<<"WidgetSet::createTool( ) called - "
 	           <<"This method should be reimplemented in WidgetSet's derived calsses"<<endl;
@@ -55,7 +55,7 @@ Tool* WidgetSet::createTool( const QString &tool, DiagramView *view )
 }
 
 bool WidgetSet::canCreateWidget( UMLObject *)
-{ 
+{
 	return false;
 }
 

@@ -42,7 +42,7 @@
 #include <kapplication.h>
 #include <kdebug.h>
 #include <kio/netaccess.h>
-#include <klineeditdlg.h>
+#include <kinputdialog.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kprinter.h>
@@ -261,7 +261,7 @@ bool UMLDoc::openDocument(const KURL& url, const char* /*format =0*/) {
 	QDir d = url.path(1);
 	deleteContents();
 	QString tmpfile;
-	KIO::NetAccess::download( url, tmpfile );
+	KIO::NetAccess::download( url, tmpfile, UMLApp::app() );
 	QFile file( tmpfile );
 	if ( !file.exists() ) {
 		KMessageBox::error(0, i18n("The file %1 does not exist.").arg(d.path()), i18n("Load Error"));
@@ -318,7 +318,7 @@ bool UMLDoc::saveDocument(const KURL& url, const char * /*format =0*/) {
 	bool status = saveToXMI( file );
 	file.close();
 	if ( !url.isLocalFile() ) {
-		uploaded = KIO::NetAccess::upload( tmpfile.name(), doc_url );
+		uploaded = KIO::NetAccess::upload( tmpfile.name(), doc_url, UMLApp::app() );
 		tmpfile.unlink();
 	}
 	if (!status ) {
@@ -526,13 +526,13 @@ QString	UMLDoc::uniqObjectName(const UMLObject_Type type) {
   *   any ids or signal.  Used by the list view.  Use
   *   AddUMLObjectPaste if pasting.
   */
-void UMLDoc::addUMLObject( UMLObject * object ) 
+void UMLDoc::addUMLObject( UMLObject * object )
 {
 	objectList.append( object );
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // a simple removeal of an object
-void UMLDoc::slotRemoveUMLObject( UMLObject * object ) 
+void UMLDoc::slotRemoveUMLObject( UMLObject * object )
 {
 	objectList.remove(object);
 }
@@ -592,7 +592,7 @@ UMLObject* UMLDoc::createUMLObject(UMLObject_Type type, const QString &n) {
 	{
 		name = uniqObjectName(type);
 		do {
-                name = KLineEditDlg::getText(i18n("Enter name:"), name, &ok, (QWidget*)parent());
+                name = KInputDialog::getText(i18n("Name"), i18n("Enter name:"), name, &ok, (QWidget*)parent());
 		if (!ok) {
 			return 0;
 		}
@@ -919,7 +919,7 @@ QString UMLDoc::uniqViewName(const Diagram_Type type) {
 Umbrello::Diagram* UMLDoc::UcreateDiagram(Diagram::DiagramType dType)
 {
 	bool ok = true;
-	QString name = KLineEditDlg::getText(i18n("Enter name:"), i18n("new_diagram"), &ok, UMLApp::app() );
+	QString name = KInputDialog::getText(i18n("Name"), i18n("Enter name:"), i18n("new_diagram"), &ok, UMLApp::app() );
 	if(!ok)
 		return (Umbrello::Diagram*)0L;
 	int id = getUniqueID();
@@ -937,7 +937,7 @@ void UMLDoc::createDiagram(Diagram_Type type, bool askForName /*= true */) {
 
 	while(true) {
 		if( askForName )
-			name = KLineEditDlg::getText(i18n("Enter name:"), dname, &ok, (QWidget*)parent());
+			name = KInputDialog::getText(i18n("Name"), i18n("Enter name:"), dname, &ok, (QWidget*)parent());
 		else
 			name = dname;
 		if(!ok)
@@ -969,7 +969,7 @@ void UMLDoc::renameDiagram(int id) {
 
 	QString oldName= temp->getName();
 	while(true) {
-		QString name = KLineEditDlg::getText(i18n("Enter name:"), oldName, &ok, (QWidget*)parent());
+		QString name = KInputDialog::getText(i18n("Name"), i18n("Enter name:"), oldName, &ok, (QWidget*)parent());
 
 		if(!ok)
 			break;
@@ -991,7 +991,7 @@ void UMLDoc::renameUMLObject(UMLObject *o) {
 	bool ok = false;
 	QString oldName= o->getName();
 	while(true) {
-		QString name = KLineEditDlg::getText(i18n("Enter name:"), oldName, &ok, (QWidget*)parent());
+		QString name = KInputDialog::getText(i18n("Name"), i18n("Enter name:"), oldName, &ok, (QWidget*)parent());
 		if(!ok)
 			break;
 		if(name.length() == 0)
@@ -1017,7 +1017,7 @@ void UMLDoc::renameChildUMLObject(UMLObject *o) {
 
 	QString oldName= o->getName();
 	while(true) {
-		QString name = KLineEditDlg::getText(i18n("Enter name:"), oldName, &ok, (QWidget*)parent());
+		QString name = KInputDialog::getText(i18n("Name"), i18n("Enter name:"), oldName, &ok, (QWidget*)parent());
 		if(!ok)
 			break;
 		if(name.length() == 0)
@@ -1251,7 +1251,7 @@ bool UMLDoc::saveToXMI(QIODevice& file) {
 			status = false;
 	}
         UMLAssociationList alist = getAssociations();
-	for (UMLAssociation * a = alist.first(); a; a = alist.next()) 
+	for (UMLAssociation * a = alist.first(); a; a = alist.next())
 		a->saveToXMI(doc, objectsElement);
 	content.appendChild( objectsElement );
 
@@ -1631,7 +1631,7 @@ bool UMLDoc::loadUMLObjectsFromXMI( QDomNode & node ) {
 				delete pObject;
 			} else {
 				addAssociation((UMLAssociation*) pObject);
-			} 
+			}
 		} else if ( !status ) {
 			delete pObject;
 			return false;

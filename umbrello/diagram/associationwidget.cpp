@@ -27,12 +27,12 @@ AssociationWidget::AssociationWidget( Diagram *diagram, uint id, DiagramWidget *
                    Path( diagram, id ), m_startWidget(start), m_endWidget(end), m_autoAdjust(true)
 {
 	//we start with a reasonable default
-	m_startSpot = m_startWidget->closestHotSpot(QPoint((m_endWidget->x() + m_endWidget->width())/2 ,
-	                                                  (m_endWidget->y() + m_endWidget->height())/2 ));
+	m_startSpot = m_startWidget->closestHotSpot( QPoint( (int)(( m_endWidget->x()+m_endWidget->width() )*0.5) ,
+							     (int)(( m_endWidget->y()+m_endWidget->height() )*0.5) ) );
 	QPoint startPoint = m_startWidget->hotSpotPosition( m_startSpot );
 
-	m_endSpot = m_endWidget->closestHotSpot(QPoint((m_startWidget->x() + m_startWidget->width())/2 ,
-	                                                  (m_startWidget->y() + m_startWidget->height())/2 ));
+	m_endSpot = m_endWidget->closestHotSpot(QPoint( (int)(( m_startWidget->x() + m_startWidget->width())*0.5) ,
+							(int)(( m_startWidget->y() + m_startWidget->height())*0.5) ) );
 	QPoint endPoint = m_endWidget->hotSpotPosition( m_endSpot );
 	QPointArray a(2);
 	a[0] = startPoint;

@@ -11,7 +11,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
- 
+
 #include "pathsegment.h"
 #include "path.h"
 
@@ -32,8 +32,8 @@ PathSegment::~PathSegment()
 
 void PathSegment::moveBy( double dx, double dy)
 {
-	setPoints( startPoint().x() + dx, startPoint().y() + dy,
-	             endPoint().x() + dx,   endPoint().y() + dy );
+	setPoints( startPoint().x() + (int)dx, startPoint().y() + (int)dy,
+	             endPoint().x() + (int)dx,   endPoint().y() + (int)dy );
 }
 
 
@@ -41,7 +41,7 @@ void PathSegment::drawShape(QPainter &p )
 {
 	QCanvasLine::drawShape(p);
 /*	QPen  pen(p.pen());
-	QBrush brush(p.brush()); 
+	QBrush brush(p.brush());
  	if(m_path->isSelected())
 	{
 		p.setPen(Qt::blue);
@@ -101,7 +101,7 @@ QPointArray PathSegment::areaPoints() const
 	p[3] = QPoint(x1+xi-px,y1+yi+py);
     }
     return p;
-	
+
 }
 
 

@@ -608,6 +608,7 @@ bool UMLDrag::decodeClip4(const QMimeSource* mimeSource, UMLObjectList& objects,
 	return true;
 }
 
+//FIXME this needs fixing
 bool UMLDrag::decodeClip5(const QMimeSource* mimeSource, UMLObjectList& objects,
 			  UMLListViewItemList& umlListViewItems, UMLDoc* doc) {
 kdDebug()<<"DECODE CLIP 5 CALLED"<<endl;

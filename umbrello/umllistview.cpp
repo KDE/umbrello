@@ -888,20 +888,23 @@ void UMLListView::slotDropped(QDropEvent* de, QListViewItem* parent, QListViewIt
 		     || lvType == Uml::lvt_UseCase
 		     || lvType == Uml::lvt_UseCase_Diagram)
 		    && (itemType == Uml::lvt_UseCase_Folder || itemType == Uml::lvt_UseCase_View) ) {
-			moveItem(move, item, item);
+			takeItem(move);
+			item->insertItem(move);
 		}
 		if( (lvType == Uml::lvt_Component_Folder
 		     || lvType == Uml::lvt_Component
 		     || lvType == Uml::lvt_Artifact
 		     || lvType == Uml::lvt_Component_Diagram)
 		    && (itemType == Uml::lvt_Component_Folder || itemType == Uml::lvt_Component_View) ) {
-			moveItem(move, item, item);
+			takeItem(move);
+			item->insertItem(move);
 		}
 		if( (lvType == Uml::lvt_Deployment_Folder
 		     || lvType == Uml::lvt_Node
 		     || lvType == Uml::lvt_Deployment_Diagram)
 		    && (itemType == Uml::lvt_Deployment_Folder || itemType == Uml::lvt_Deployment_View) ) {
-			moveItem(move, item, item);
+			takeItem(move);
+			item->insertItem(move);
 		}
 		if( ((lvType >= Uml::lvt_Collaboration_Diagram
 		      && lvType <= Uml::lvt_Sequence_Diagram)
@@ -909,7 +912,8 @@ void UMLListView::slotDropped(QDropEvent* de, QListViewItem* parent, QListViewIt
 		     || lvType == Uml::lvt_Package
 		     || lvType == Uml::lvt_Interface)
 		    && (itemType == Uml::lvt_Logical_Folder || itemType == Uml::lvt_Logical_View)) {
-			moveItem(move, item, item);
+			takeItem(move);
+			item->insertItem(move);
 		}
 	}
 }

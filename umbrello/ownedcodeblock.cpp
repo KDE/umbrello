@@ -25,28 +25,28 @@
 #include "codegenerator.h"
 
 // Constructors/Destructors
-//  
+//
 
-OwnedCodeBlock::OwnedCodeBlock ( UMLObject * parent ) 
-	: QObject ( (QObject*)parent, "anOwnedCodeBlock" ) 
+OwnedCodeBlock::OwnedCodeBlock ( UMLObject * parent )
+	: QObject ( (QObject*)parent, "anOwnedCodeBlock" )
 {
 	initFields(parent);
 }
 
 OwnedCodeBlock::~OwnedCodeBlock ( ) { }
 
-//  
+//
 // Methods
-//  
+//
 
 // Other methods
-//  
+//
 
 
 /** set attributes of the node that represents this class
   * in the XMI document.
   */
-void OwnedCodeBlock::setAttributesOnNode ( QDomDocument & doc, QDomElement & elem) {
+void OwnedCodeBlock::setAttributesOnNode(QDomDocument& /*doc*/, QDomElement& elem) {
 
         // set local class attributes
         elem.setAttribute("parent_id",QString::number(getParentObject()->getID()));

@@ -1,4 +1,4 @@
-  /***************************************************************************
+/***************************************************************************
                                toolbar.cpp
                              -------------------
     copyright            : (C) 2003 Luis De la Parra
@@ -27,7 +27,7 @@ namespace Umbrello
 {
 
 
-ToolBar::ToolBar( QMainWindow *parentWindow, DiagramView *view, bool newLine, 
+ToolBar::ToolBar( QMainWindow *parentWindow, DiagramView *view, bool newLine,
 		const char *name, bool honor_style, bool readConfig):
 		KToolBar( parentWindow, view , newLine, name, honor_style, readConfig ),
 		m_view(view),m_currentTool(0)
@@ -35,8 +35,8 @@ ToolBar::ToolBar( QMainWindow *parentWindow, DiagramView *view, bool newLine,
 	init();
 }
 
-ToolBar::ToolBar( QMainWindow *parentWindow, DiagramView *view, QMainWindow::Dock dock, bool newLine, 
-		const char *name, bool honor_style, bool readConfig): 
+ToolBar::ToolBar( QMainWindow *parentWindow, DiagramView *view, QMainWindow::Dock dock, bool newLine,
+		const char *name, bool honor_style, bool readConfig):
 		KToolBar( parentWindow, dock , newLine, name, honor_style, readConfig ),
 		m_view(view),m_currentTool(0)
 {
@@ -47,8 +47,7 @@ void ToolBar::init()
 {
 	m_nextID = 1;
 	connect(this,SIGNAL(released(int)),this,SLOT(buttonClicked(int)));
-	enableMoving(true);
-	enableFloating(true);
+	setMovingEnabled(true);
 }
 
 
@@ -86,9 +85,9 @@ void ToolBar::buttonClicked(int t)
 		setButton(m_currentTool,true);
 		return; //the only way to deselect the current tool is by selecting another tool
 	}
-		
-	setButton(m_currentTool,false); 
-	
+
+	setButton(m_currentTool,false);
+
 	m_currentTool = t;
 	emit toolChanged(m_toolMap[t]);
 }
@@ -116,7 +115,7 @@ void ToolBar::showTools( const QString &category, bool exclusive )
 	}
 }
 
-void ToolBar::hideTools( const QString &category )
+void ToolBar::hideTools(const QString& /*category*/)
 {
 	kdWarning()<<"hideTools -  not implemented"<<endl;
 }

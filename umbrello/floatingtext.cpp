@@ -20,7 +20,7 @@
 #include "dialogs/selectopdlg.h"
 
 #include <kdebug.h>
-#include <klineeditdlg.h>
+#include <kinputdialog.h>
 #include <klocale.h>
 #include <qpainter.h>
 
@@ -156,7 +156,7 @@ void FloatingText::slotMenuSelection(int sel) {
 				seqNum = m_pMessage->getSequenceNumber();
 			bool ok;
 			QString msg = i18n("Enter sequence number:");
-			QString t = KLineEditDlg::getText(msg, seqNum, &ok, (QWidget*)m_pView);
+			QString t = KInputDialog::getText(i18n("Sequence Number"), msg, seqNum, &ok, (QWidget*)m_pView);
 			if(ok) {
 				if (m_pMessage) {
 					m_pMessage->setSequenceNumber( t );
@@ -225,11 +225,11 @@ void FloatingText::handleRename() {
 	} else {
 		t = i18n("ERROR");
 	}
-	KLineEditDlg dlg(t, getText(), m_pView);
-	if (! dlg.exec()) {
+	bool ok = false;
+	QString newText = KInputDialog::getText(i18n("Rename"), t, getText(), &ok, m_pView);
+	if (!ok)  {
 		return;
 	}
-	QString newText = dlg.text();
 	bool valid = isTextValid(newText);
 	if (!valid || newText == getText()) {
 		if (!valid && m_Role == tr_Floating)
@@ -300,11 +300,10 @@ void FloatingText::startMenu(AssociationWidget * a, QPoint p) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void FloatingText::changeTextDlg() {
-	KLineEditDlg dlg(i18n("Enter new text:"), getText(), m_pView);
-	int result = dlg.exec();
-	QString newText = dlg.text();
+	bool ok = false;
+	QString newText = KInputDialog::getText(i18n("Change Text"), i18n("Enter new text:"), getText(), &ok, m_pView);
 
-	if(result && newText != getText() && isTextValid(newText)) {
+	if(ok && newText != getText() && isTextValid(newText)) {
 		setText( newText );
 		setVisible( ( getText().length() > 0 ) );
 		calculateSize();
@@ -603,7 +602,7 @@ bool FloatingText::loadFromXMI( QDomElement & qElement ) {
 			case tr_ChangeA:
 				changeType = m_pAssoc->getChangeabilityA();
 				m_Text = UMLAssociation::ChangeabilityToString( changeType );
-						
+
 				break;
 			case tr_ChangeB:
 				changeType = m_pAssoc->getChangeabilityB();

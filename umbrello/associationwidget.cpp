@@ -24,12 +24,12 @@
 #include "dialogs/selectopdlg.h"
 
 #include <kdebug.h>
-#include <klineeditdlg.h>
+#include <kinputdialog.h>
 #include <klocale.h>
 
 // this constructor really only for loading from XMI, otherwise it
-// is bad..and shouldnt be allowed as it creates an incomplete 
-// associationwidget. 
+// is bad..and shouldnt be allowed as it creates an incomplete
+// associationwidget.
 AssociationWidget::AssociationWidget(UMLView *view)
 	: QObject(view)
 {
@@ -1079,7 +1079,7 @@ void AssociationWidget::mouseDoubleClickEvent(QMouseEvent * me) {
 		} else {
 			/* deselect the line path */
 			m_LinePath.setSelected( false );
-		
+
 			/* there was a point so we remove the point */
 			m_LinePath.removePoint(i, me -> pos(), POINT_DELTA );
 
@@ -1861,7 +1861,7 @@ QPoint AssociationWidget::calculatePointAtDistance(QPoint P1, QPoint P2, float D
 		} else {
 			if(x2 <= sol_2 && sol_2 <= x1)
 				return sol2Point;
-		} 
+		}
 	} else if(sol_1 >= 0 && sol_2 < 0) {
 		if(x2 > x1) {
 			if(x1 <= sol_1 && sol_1 <= x2)
@@ -2431,9 +2431,8 @@ void AssociationWidget::mouseReleaseEvent(QMouseEvent * me) {
 
 void AssociationWidget::slotMenuSelection(int sel) {
 	QString oldText, newText;
-	int result;
+	int result = 0;
 	bool done = false;
-	KLineEditDlg* dlg = 0;
 	QFont font;
 	Uml::Association_Type atype = getAssocType();
 
@@ -2494,10 +2493,7 @@ void AssociationWidget::slotMenuSelection(int sel) {
 			oldText = m_pMultiA -> getText();
 		else
 			oldText = "";
-		dlg = new KLineEditDlg( i18n("Enter multiplicity:") , oldText, m_pView);
-		result = dlg ->exec();
-		newText = dlg -> text();
-		delete dlg;
+		newText = KInputDialog::getText(i18n("Multiplicity"), i18n("Enter multiplicity:") , oldText, 0, m_pView);
 		if( result && newText != oldText && FloatingText::isTextValid(newText) ) {
 			setMultiA(newText);
 		}
@@ -2509,11 +2505,7 @@ void AssociationWidget::slotMenuSelection(int sel) {
 			oldText = m_pMultiB -> getText();
 		else
 			oldText = "";
-		dlg = new KLineEditDlg( i18n("Enter multiplicity:") , oldText, m_pView);
-		result = dlg ->exec();
-
-		newText = dlg -> text();
-		delete dlg;
+		newText = KInputDialog::getText(i18n("Multiplicity"), i18n("Enter multiplicity:"), oldText, 0, m_pView);
 		if( result && newText != oldText && FloatingText::isTextValid(newText) ) {
 			setMultiB(newText);
 		}
@@ -2525,10 +2517,7 @@ void AssociationWidget::slotMenuSelection(int sel) {
 		else
 			oldText = "";
 
-		dlg = new KLineEditDlg( i18n("Enter association name") , oldText, m_pView);
-		result = dlg ->exec();
-		newText = dlg -> text();
-		delete dlg;
+		newText = KInputDialog::getText(i18n("Association Name"), i18n("Enter association name"), oldText, 0, m_pView);
 		if( result && newText != oldText && FloatingText::isTextValid(newText) )
 			setName(newText);
 
@@ -2539,10 +2528,7 @@ void AssociationWidget::slotMenuSelection(int sel) {
 			oldText = m_pRoleA -> getText();
 		else
 			oldText = "";
-		dlg = new KLineEditDlg( i18n("Enter role name:") , oldText, m_pView);
-		result = dlg ->exec();
-		newText = dlg -> text();
-		delete dlg;
+		newText = KInputDialog::getText(i18n("Role Name"), i18n("Enter role name:"), oldText, 0, m_pView);
 		if( result && newText != oldText && FloatingText::isTextValid(newText) ) {
 			setRoleNameA(newText);
 		}
@@ -2553,10 +2539,7 @@ void AssociationWidget::slotMenuSelection(int sel) {
 			oldText = m_pRoleB -> getText();
 		else
 			oldText = "";
-		dlg = new KLineEditDlg( i18n("Enter role name") , oldText, m_pView);
-		result = dlg ->exec();
-		newText = dlg -> text();
-		delete dlg;
+		newText = KInputDialog::getText(i18n("Role Name"), i18n("Enter role name"), oldText, 0, m_pView);
 		if( result && newText != oldText && FloatingText::isTextValid(newText) ) {
 			setRoleNameB(newText);
 		}
@@ -3248,7 +3231,7 @@ bool AssociationWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 	return status;
 }
 
-bool AssociationWidget::loadFromXMI( QDomElement & qElement ) 
+bool AssociationWidget::loadFromXMI( QDomElement & qElement )
 {
 
 	// load child widgets first
@@ -3284,19 +3267,19 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement )
 		// else load the info locally.
 
                 QString type = qElement.attribute( "type", "-1" );
-		Uml::Association_Type aType = (Uml::Association_Type) type.toInt(); 
+		Uml::Association_Type aType = (Uml::Association_Type) type.toInt();
 
-		// lack of an association in our widget AND presence of 
-		// both uml objects for each role clearly identifies this 
-		// as reading in an old-school file. Note it as such, and 
-		// create, and add, the UMLassociation ot this widget. 
-        	// Remove this special code when backwards compatability 
+		// lack of an association in our widget AND presence of
+		// both uml objects for each role clearly identifies this
+		// as reading in an old-school file. Note it as such, and
+		// create, and add, the UMLassociation ot this widget.
+        	// Remove this special code when backwards compatability
 		// with older files isnt important anymore. -b.t.
         	UMLObject* umlRoleA = pWidgetA->getUMLObject();
         	UMLObject* umlRoleB = pWidgetB->getUMLObject();
 		if(!m_pAssociation && umlRoleA && umlRoleB)
 		{
-			oldStyleLoad = true; // will flag code for further special config below 
+			oldStyleLoad = true; // will flag code for further special config below
 			m_pAssociation = m_pView->getDocument()->createUMLAssociation(umlRoleA, umlRoleB, aType);
                 	connect(m_pAssociation, SIGNAL(modified()), this,
                         	SLOT(mergeUMLRepresentationIntoAssociationData()));
@@ -3334,7 +3317,7 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement )
 		if (m_pAssociation == NULL) {
 			kdDebug() << " cannot find UML:Association " << nId << endl;
 			return false;
-		} else 
+		} else
 			connect(m_pAssociation, SIGNAL(modified()), this,
 				SLOT(mergeUMLRepresentationIntoAssociationData()));
 
@@ -3370,7 +3353,7 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement )
 
 			// In old files we are missing UMLassociation declarations so
 			// much data in our underlying association will be missing w/o this
-			// for oldStyle loads, we need to make a connection between 
+			// for oldStyle loads, we need to make a connection between
 			// the floating widget with the info, and this assoc widget.
 			// (apparently not done by loadFromXMI (Oliver, can you check?) -b.t.
 			if(oldStyleLoad)
@@ -3445,7 +3428,7 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement )
 		node = element.nextSibling();
 		element = node.toElement();
 	}
-	
+
 	return true;
 }
 

@@ -32,7 +32,7 @@
 #include <kprinter.h>
 #include <kcursor.h>
 #include <kfiledialog.h>
-#include <klineeditdlg.h>
+#include <kinputdialog.h>
 #include <klocale.h>
 #include <kdebug.h>
 
@@ -281,7 +281,7 @@ void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome) {
 			 * in any other case the right click menu will be shown */
 			if ( m_CurrentCursor != WorkToolBar::tbb_Arrow )
 				UMLApp::app()->getWorkToolBar()->setDefaultTool();
-			else		
+			else
 				setMenu();
 		}
 		return;
@@ -293,9 +293,9 @@ void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome) {
 		ActivityWidget * temp = new ActivityWidget( this , actType );
 		if( m_CurrentCursor == WorkToolBar::tbb_Activity ) {
 			bool ok = false;
-			QString name = KLineEditDlg::getText( i18n("Enter Activity Name"),
+			QString name = KInputDialog::getText( i18n("Enter Activity Name"),
 							      i18n("Enter the name of the new activity:"),
-							      i18n("new activity"), &ok );
+							      i18n("new activity"), &ok, UMLApp::app() );
 			if( !ok ) {
 				temp->cleanup();
 				delete temp;
@@ -315,9 +315,9 @@ void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome) {
 		StateWidget * temp = new StateWidget( this , stateType );
 		if( m_CurrentCursor == WorkToolBar::tbb_State ) {
 			bool ok = false;
-			QString name = KLineEditDlg::getText( i18n("Enter State Name"),
+			QString name = KInputDialog::getText( i18n("Enter State Name"),
 							      i18n("Enter the name of the new state:"),
-							      i18n("new state"), &ok );
+							      i18n("new state"), &ok, UMLApp::app() );
 			if( !ok ) {
 				temp->cleanup();
 				delete temp;
@@ -1503,7 +1503,7 @@ void UMLView::exportImage() {
 			diagram.save(s, mimeTypeToImageType(imageMimetype).ascii());
 		}
 		if (!m_ImageURL.isLocalFile()) {
-			if(!KIO::NetAccess::upload(tmpfile.name(), m_ImageURL)) {
+			if (!KIO::NetAccess::upload( tmpfile.name(), m_ImageURL, UMLApp::app() )) {
 				KMessageBox::error(0,
 				                   i18n("There was a problem saving file: %1").arg(m_ImageURL.path()),
 				                   i18n("Save Error"));
@@ -1591,6 +1591,10 @@ bool UMLView::activate() {
 			assocwidget -> moveEntireAssoc( x, y );
 		}
 	}//end while
+
+	UMLWidgetListIt iterator( m_WidgetList );
+	UMLWidget* object;
+
 	return true;
 }
 
@@ -2566,7 +2570,7 @@ void UMLView::slotMenuSelection(int sel) {
 			break;
 
 		case ListPopupMenu::mt_State:
-			name = KLineEditDlg::getText( i18n("Enter State Name"), i18n("Enter the name of the new state:"), i18n("new state"), &ok );
+			name = KInputDialog::getText( i18n("Enter State Name"), i18n("Enter the name of the new state:"), i18n("new state"), &ok, UMLApp::app() );
 			if( ok ) {
 				state = new StateWidget( this , StateWidget::Normal );
 				state -> setName( name );
@@ -2607,7 +2611,8 @@ void UMLView::slotMenuSelection(int sel) {
 			break;
 
 		case ListPopupMenu::mt_Activity:
-			name = KLineEditDlg::getText( i18n("Enter Activity Name"), i18n("Enter the name of the new activity:"), i18n("new activity"), &ok );
+			name = KInputDialog::getText( i18n("Enter Activity Name"), i18n("Enter the name of the new activity:"),
+						      i18n("new activity"), &ok, UMLApp::app() );
 			if( ok ) {
 				activity = new ActivityWidget( this , ActivityWidget::Normal );
 				activity -> setName( name );

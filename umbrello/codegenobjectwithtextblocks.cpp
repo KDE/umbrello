@@ -22,14 +22,14 @@
 #include "hierarchicalcodeblock.h"
 
 // Constructors/Destructors
-//  
+//
 
 CodeGenObjectWithTextBlocks::CodeGenObjectWithTextBlocks ( )
 {
 	initFields();
 }
 
-CodeGenObjectWithTextBlocks::~CodeGenObjectWithTextBlocks ( ) { 
+CodeGenObjectWithTextBlocks::~CodeGenObjectWithTextBlocks ( ) {
 
         // delete all the text blocks we have
         for (TextBlock *tb = m_textblockVector.first(); tb; tb=m_textblockVector.next())
@@ -38,13 +38,13 @@ CodeGenObjectWithTextBlocks::~CodeGenObjectWithTextBlocks ( ) {
 	m_textblockVector.clear();
 }
 
-//  
+//
 // Methods
-//  
+//
 
 
 // Accessor methods
-//  
+//
 
 /**
  * Get the list of TextBlock objects held by m_textblockVector
@@ -56,7 +56,7 @@ QPtrList<TextBlock> * CodeGenObjectWithTextBlocks::getTextBlockList ( ) {
 }
 
 // Other methods
-//  
+//
 
 /**
  * create a new CodeAccesorMethod object belonging to this object.
@@ -92,9 +92,9 @@ TextBlock * CodeGenObjectWithTextBlocks::findTextBlockByTag( QString tag )
 
 /**
  * @return	HierarchicalCodeBlock
- * @param	tag 
- * @param	comment 
- * @param	indentLevel 
+ * @param	tag
+ * @param	comment
+ * @param	indentLevel
  */
 HierarchicalCodeBlock * CodeGenObjectWithTextBlocks::getHierarchicalCodeBlock (QString tag, QString comment, int indentLevel ) {
 
@@ -117,9 +117,9 @@ HierarchicalCodeBlock * CodeGenObjectWithTextBlocks::getHierarchicalCodeBlock (Q
 
 /**
  * @return	CodeBlockWithComments
- * @param	tag 
- * @param	comment 
- * @param	indentLevel 
+ * @param	tag
+ * @param	comment
+ * @param	indentLevel
  */
 CodeBlockWithComments * CodeGenObjectWithTextBlocks::getCodeBlockWithComments (QString tag, QString comment, int indentLevel ) {
 
@@ -142,11 +142,11 @@ CodeBlockWithComments * CodeGenObjectWithTextBlocks::getCodeBlockWithComments (Q
 
 /**
  * @return	CodeComment
- * @param	tag 
- * @param	text 
- * @param	indentationLevel 
+ * @param	tag
+ * @param	text
+ * @param	indentationLevel
  */
-CodeComment * CodeGenObjectWithTextBlocks::addOrUpdateTaggedCodeComment (QString tag, QString text, int indentationLevel) 
+CodeComment * CodeGenObjectWithTextBlocks::addOrUpdateTaggedCodeComment (QString tag, QString text, int indentationLevel)
 {
 
         TextBlock * tBlock = findTextBlockByTag(tag);
@@ -173,13 +173,13 @@ CodeComment * CodeGenObjectWithTextBlocks::addOrUpdateTaggedCodeComment (QString
 
 /**
  * @return	CodeBlockWithComments
- * @param	tag 
- * @param	text 
- * @param	comment 
- * @param	indentLevel 
- * @param	forceUserBlockUpdate 
+ * @param	tag
+ * @param	text
+ * @param	comment
+ * @param	indentLevel
+ * @param	forceUserBlockUpdate
  */
-CodeBlockWithComments * CodeGenObjectWithTextBlocks::addOrUpdateTaggedCodeBlockWithComments (QString tag, QString text, QString ctext, int indentLevel, bool forceUserBlockUpdate ) 
+CodeBlockWithComments * CodeGenObjectWithTextBlocks::addOrUpdateTaggedCodeBlockWithComments (QString tag, QString text, QString ctext, int indentLevel, bool forceUserBlockUpdate )
 {
 
         TextBlock * tBlock = findTextBlockByTag(tag);
@@ -237,7 +237,7 @@ void CodeGenObjectWithTextBlocks::setAttributesOnNode (QDomDocument & doc, QDomE
 /** set the class attributes of this object from
  * the passed element node.
  */
-void CodeGenObjectWithTextBlocks::setAttributesFromNode ( QDomElement & root) 
+void CodeGenObjectWithTextBlocks::setAttributesFromNode ( QDomElement & root)
 {
 
         // clear existing codeblocks
@@ -254,7 +254,7 @@ void CodeGenObjectWithTextBlocks::setAttributesFromNode ( QDomElement & root)
 // this method should be overridden if this class is inherited
 // by some other class that is concrete and takes children
 // derived from codeblock/codecomment
-void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( QDomElement & root) 
+void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( QDomElement & root)
 {
 
         QDomNode tnode = root.firstChild();
@@ -284,8 +284,8 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( QDomElement & ro
                                 kdWarning()<<"Unable to add "<<name<<"to obj:"<<this<<endl;
 			else
                         	gotChildren= true;
-		} else { 
-			cerr<<" Got strange tag in text block stacK:"<<name.latin1()<<", ignoring"<<endl;
+		} else {
+			kdDebug() <<" Got strange tag in text block stacK:"<<name.latin1()<<", ignoring";
 		}
 */
 		                if( name == "codecomment" ) {
@@ -297,12 +297,12 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( QDomElement & ro
 						block->deleteLater();
 		                        } else
 		                        	gotChildren= true;
-		                } else 
-		                if( name == "codeaccessormethod" || 
-		                    name == "declarationcodeblock" 
+		                } else
+		                if( name == "codeaccessormethod" ||
+		                    name == "declarationcodeblock"
                                   ) {
-					QString acctag = element.attribute("tag",""); 
-					// search for our method in the 
+					QString acctag = element.attribute("tag","");
+					// search for our method in the
 		                        TextBlock * tb = findCodeClassFieldTextBlockByTag(acctag);
 		                        if(!tb || !addTextBlock(tb, true))
 		                                kdError()<<"Unable to add codeaccessormethod to:"<<this<<endl;
@@ -318,7 +318,7 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( QDomElement & ro
 						block->deleteLater();
 		                        } else
 		                                gotChildren= true;
-		                } else 
+		                } else
 		                if( name == "codeblockwithcomments" ) {
 		                        CodeBlockWithComments * block = newCodeBlockWithComments();
 		                        block->loadFromXMI(element);
@@ -328,10 +328,10 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( QDomElement & ro
 						block->deleteLater();
 		                        } else
 		                                gotChildren= true;
-		                } else 
+		                } else
 		                if( name == "header" ) {
 					// do nothing.. this is treated elsewhere
-		                } else 
+		                } else
 		                if( name == "hierarchicalcodeblock" ) {
 		                        HierarchicalCodeBlock * block = newHierarchicalCodeBlock();
 		                        block->loadFromXMI(element);
@@ -341,7 +341,7 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( QDomElement & ro
 						block->deleteLater();
 					} else
 		                                gotChildren= true;
-		                } else 
+		                } else
 		               	if( name == "codeoperation" ) {
                                         // search for our operation in this parent
 					QString optag = element.attribute("tag","");
@@ -355,11 +355,11 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( QDomElement & ro
 		                                	gotChildren= true;
 						else
 							block->deleteLater();
-					} else 
+					} else
 		                              kdError()<<"Unable to add codeoperation to:"<<this<<endl;
 		                } else
 					kdError()<<" ERROR: Got strange tag in text block stack:"<<name<<" ignoring."<<endl;
-			
+
                 		node = element.nextSibling();
                 		element = node.toElement();
 			}

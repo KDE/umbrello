@@ -33,7 +33,7 @@
 #include <kstandarddirs.h>
 #include <kiconloader.h>
 #include <klocale.h>
-#include <klineeditdlg.h>
+#include <kinputdialog.h>
 #include <kdebug.h>
 
 using std::type_info;
@@ -176,7 +176,7 @@ void RefactoringAssistant::addSuperClassifier()
 		kdWarning() << "unknown typeid" << endl;
 		type = ot_Class;
 	}
-	name = KLineEditDlg::getText(text, QString::null ,&inputOk,this);
+	name = KInputDialog::getText(i18n("Class Name"), text, QString::null, &inputOk, this);
 	if(!inputOk)
 	{
 		return;
@@ -467,7 +467,9 @@ void RefactoringAssistant::movableDropEvent (QListViewItem* parentItem, QListVie
 	{
 		return;
 	}
-	moveItem(movingItem, parentItem, afterme);
+	takeItem(movingItem);
+	parentItem->insertItem(movingItem);
+	parentItem->moveItem(afterme);
 	kdDebug()<<"move uml object "<<movingObject->getName()<<" from "<<oldParent->getName()<<" to "<<parentObject->getName()<<endl;
 	if( typeid(*movingObject) == typeid(UMLOperation) )
 	{//kdDebug()<<"moving operation"<<endl;

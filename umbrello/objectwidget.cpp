@@ -10,9 +10,9 @@
 #include <qpainter.h>
 #include <qvalidator.h>
 
-#include <klineeditdlg.h>
 #include <klocale.h>
 #include <kdebug.h>
+#include <kinputdialog.h>
 
 #include "seqlinewidget.h"
 #include "umlview.h"
@@ -73,7 +73,7 @@ void ObjectWidget::slotMenuSelection(int sel) {
 		{
 			bool ok;
 			QRegExpValidator* validator = new QRegExpValidator(QRegExp(".*"), 0);
-			name = KLineEditDlg::getText(i18n("Enter object name:"), m_InstanceName, &ok, m_pView, validator);
+			name = KInputDialog::getText(i18n("Rename Object"), i18n("Enter object name:"), m_InstanceName, &ok, m_pView, "renameobject", validator);
 			if (ok) {
 				m_InstanceName = name;
 				calculateSize();
@@ -150,14 +150,12 @@ void ObjectWidget::setMultipleInstance(bool multiple) {
 	update();
 }
 
-/** Activate the object after serializing it from a QDataStream */
-
 bool ObjectWidget::activate(IDChangeLog* ChangeLog /*= 0*/) {
 	bool status = UMLWidget::activate(ChangeLog);
-	if(status) {
+	if (status) {
 		calculateSize();
 	}
-	moveEvent( 0 );
+	moveEvent(0);
 	return status;
 }
 
@@ -306,10 +304,12 @@ void ObjectWidget::messageRemoved(MessageWidget* message) {
 }
 
 void ObjectWidget::slotMessageMoved() {
+	kdDebug() << k_funcinfo << endl;
 	MessageWidgetListIt iterator(messageWidgetList);
 	MessageWidget* message;
 	int lowestMessage = 0;
 	while ( (message = iterator.current()) != 0 ) {
+		kdDebug() << k_funcinfo << endl;
 		++iterator;
 		int messageHeight = message->getY() + message->getHeight();
 		if (lowestMessage < messageHeight) {
@@ -322,7 +322,6 @@ void ObjectWidget::slotMessageMoved() {
 bool ObjectWidget::messageOverlap(int y, MessageWidget* messageWidget) {
 	MessageWidgetListIt iterator(messageWidgetList);
 	MessageWidget* message;
-	int lowestMessage = 0;
 	while ( (message = iterator.current()) != 0 ) {
 		++iterator;
 		int messageHeight = message->getY() + message->getHeight();

@@ -10,8 +10,9 @@
 #include "activitypage.h"
 #include "../statewidget.h"
 #include "../listpopupmenu.h"
+#include "../uml.h"
 
-#include <klineeditdlg.h>
+#include <kinputdialog.h>
 #include <klocale.h>
 #include <kbuttonbox.h>
 #include <kdebug.h>
@@ -105,8 +106,8 @@ void ActivityPage::slotMenuSelection( int sel ) {
 void ActivityPage::slotNewActivity() {
 	bool ok = false;
 	QString name = m_pActivityLB->currentText();
-	name = KLineEditDlg::getText( i18n("New Activity"), i18n("Enter the name of the new activity:"),
-				      i18n("new activity"), &ok );
+	name = KInputDialog::getText( i18n("New Activity"), i18n("Enter the name of the new activity:"),
+				      i18n("new activity"), &ok, UMLApp::app() );
 	if( ok && name.length() > 0 ) {
 		m_pActivityLB->insertItem( name );
 		m_pStateWidget->addActivity( name );
@@ -124,7 +125,7 @@ void ActivityPage::slotRename() {
 	bool ok = false;
 	QString name = m_pActivityLB -> currentText();
 	QString oldName = name;
-	name = KLineEditDlg::getText( i18n("Rename Activity"), i18n("Enter the new name of the activity:"), name, &ok );
+	name = KInputDialog::getText( i18n("Rename Activity"), i18n("Enter the new name of the activity:"), name, &ok, UMLApp::app() );
 	if( ok && name.length() > 0 ) {
 		m_pActivityLB -> changeItem( name, m_pActivityLB -> currentItem());
 		m_pStateWidget -> renameActivity( oldName, name );
