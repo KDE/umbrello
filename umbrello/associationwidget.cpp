@@ -46,21 +46,23 @@ AssociationWidget::AssociationWidget(UMLView *view, UMLWidget* pWidgetA,
 
 	UMLDoc *umldoc = m_pView->getDocument();
 
-	// set up UMLAssociation obj if both roles are UML objects
-	UMLObject* umlRoleA = pWidgetA->getUMLObject();
-	UMLObject* umlRoleB = pWidgetB->getUMLObject();
-	if (umlRoleA != NULL && umlRoleB != NULL) {
-		bool swap;
-		m_pAssociation = umldoc->findAssociation( assocType, umlRoleA, umlRoleB, &swap );
-		if (m_pAssociation == NULL) {
-			m_pAssociation = new UMLAssociation( umldoc, assocType, umlRoleA, umlRoleB );
-		} else if (swap) {
-			UMLWidget *tmp = pWidgetA;
-			pWidgetA = pWidgetB;
-			pWidgetB = tmp;
+	// set up UMLAssociation obj if assoc is represented and both roles are UML objects
+	if (UMLAssociation::assocTypeHasUMLRepresentation(assocType)) {
+		UMLObject* umlRoleA = pWidgetA->getUMLObject();
+		UMLObject* umlRoleB = pWidgetB->getUMLObject();
+		if (umlRoleA != NULL && umlRoleB != NULL) {
+			bool swap;
+			m_pAssociation = umldoc->findAssociation( assocType, umlRoleA, umlRoleB, &swap );
+			if (m_pAssociation == NULL) {
+				m_pAssociation = new UMLAssociation( umldoc, assocType, umlRoleA, umlRoleB );
+			} else if (swap) {
+				UMLWidget *tmp = pWidgetA;
+				pWidgetA = pWidgetB;
+				pWidgetB = tmp;
+			}
+			connect(m_pAssociation, SIGNAL(modified()), this,
+				SLOT(mergeUMLRepresentationIntoAssociationData()));
 		}
-		connect(m_pAssociation, SIGNAL(modified()), this,
-			SLOT(mergeUMLRepresentationIntoAssociationData()));
 	}
 
 	setWidgetA(pWidgetA);
