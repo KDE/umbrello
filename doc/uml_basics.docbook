@@ -585,8 +585,8 @@ Notes are useful to add more detailed information about an object or a specific 
 advantage that notes can be anchored to &UML; Elements to show that the note <quote>belongs</quote> to a specific
 object or situation
 </para>    
-<para>Boxes are free-standing rectanges which can be used to group items together to make diagrams more readable.  They
-have no logcal meaning in the model.</para>
+<para>Boxes are free-standing rectangles which can be used to group items together to make diagrams more readable.  They
+have no logical meaning in the model.</para>
 
 <!-- FIXME, screenshot -->
 </sect2> <!-- helper elements -->
