@@ -66,10 +66,10 @@ protected:
 	*	The operation to represent.
 	*/
 	UMLOperation * m_pOperation;
-	
+
 	/**
 	  * The UMLDocument where all objects live
-	 */ 
+	 */
 	 UMLDoc *m_doc;
 
 	/**
@@ -114,6 +114,8 @@ public slots:
 	 * Used when the OK button is clicked.  Calls apply()
 	 */
 	void slotOk();
+    void slotNameChanged( const QString & );
+
 };
 
 #endif

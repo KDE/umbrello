@@ -73,6 +73,7 @@ public slots:
 	 * Used when the OK button is clicked.  Calls apply()
 	 */
 	void slotOk();
+    void slotNameChanged( const QString & );
 };
 
 #endif

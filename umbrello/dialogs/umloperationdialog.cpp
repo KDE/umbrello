@@ -177,7 +177,16 @@ void UMLOperationDialog::setupDialog() {
 	        this, SLOT(slotParmDoubleClick(QListBoxItem *)));
 
 	m_pNameLE->setFocus();
+        connect( m_pNameLE, SIGNAL( textChanged ( const QString & ) ), SLOT( slotNameChanged( const QString & ) ) );
+        slotNameChanged(m_pNameLE->text() );
+
 }
+
+void UMLOperationDialog::slotNameChanged( const QString &_text )
+{
+    enableButtonOK( !_text.isEmpty() );
+}
+
 
 void UMLOperationDialog::slotParmRightButtonPressed(QListBoxItem *item, const QPoint &p) {
 	ListPopupMenu::Menu_Type type = ListPopupMenu::mt_Undefined;
@@ -312,7 +321,7 @@ void UMLOperationDialog::slotParamsBoxClicked(QListBoxItem* parameterItem) {
 	}
 }
 
-bool UMLOperationDialog::apply() 
+bool UMLOperationDialog::apply()
 {
 	QString name = m_pNameLE -> text();
 	if( name.length() == 0 ) {
@@ -321,7 +330,7 @@ bool UMLOperationDialog::apply()
 		m_pNameLE -> setText( m_pOperation -> getName() );
 		return false;
 	}
-	
+
 	UMLClassifier *classifier = dynamic_cast<UMLClassifier*>( m_pOperation->parent() );
 	QString oldName = m_pOperation->getName();
 	m_pOperation -> setName( name );
