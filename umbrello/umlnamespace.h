@@ -125,11 +125,11 @@ namespace Uml {
 	    lvt_Actor,
 	    lvt_UseCase,
 	    lvt_Class,
-	    lvt_Interface,
-	    lvt_Package,
 	    lvt_Attribute,
   	    lvt_Operation,
   	    lvt_Template,
+	    lvt_Interface,
+	    lvt_Package,
   	    lvt_Unknown = -1
   	};
  

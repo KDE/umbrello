@@ -272,6 +272,11 @@ protected:
 	*/
 	void loadPixmaps();
 
+	/**
+	 * returns true if the listview type is actor, usecase, class, package or interface
+	 */
+	bool typeIsCanvasWidget(ListView_Type type);
+
 public slots:
 	void slotDiagramCreated(int id);
 	void slotChildObjectCreated(UMLObject * o);

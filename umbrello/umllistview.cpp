@@ -402,7 +402,7 @@ QDragObject* UMLListView::dragObject() {
 	while((item=it.current()) != 0) {
 		++it;
 		type = item->getType();
-		if((type < Uml::lvt_Actor || type > Uml::lvt_Package) && (type < Uml::lvt_UseCase_Diagram || type > Uml::lvt_Sequence_Diagram) &&
+		if(typeIsCanvasWidget(type) && (type < Uml::lvt_UseCase_Diagram || type > Uml::lvt_Sequence_Diagram) &&
 		        (type != Uml::lvt_UseCase_Folder) && (type != Uml::lvt_Logical_Folder)) {
 			return 0;
 		}
@@ -467,7 +467,7 @@ UMLListViewItem * UMLListView::findUMLObject(UMLObject *p) {
 			if (item) {
 				return item;
 			}
-		} else if(type >= Uml::lvt_Actor && type <= Uml::lvt_Package) {
+		} else if( typeIsCanvasWidget(type) ) {
 			if(temp->getUMLObject() == p) {
 				return temp;
 			}
@@ -1895,5 +1895,14 @@ void UMLListView::collapseAll(QListViewItem *item)
 
 void UMLListView::setStartedCut(bool startedCut) {
 	m_bStartedCut = startedCut;
+}
+
+bool UMLListView::typeIsCanvasWidget(ListView_Type type) {
+	if (type == lvt_Actor || type == lvt_UseCase || type == lvt_Class
+	    || type == lvt_Package || type == lvt_Interface) {
+		return true;
+	} else {
+		return false;
+	}
 }
 #include "umllistview.moc"
