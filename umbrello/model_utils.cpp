@@ -25,6 +25,7 @@
 #include "umlobject.h"
 #include "package.h"
 #include "classifier.h"
+#include "template.h"
 #include "association.h"
 #include "umlrole.h"
 #include "umldoc.h"
@@ -243,10 +244,13 @@ Parse_Status parseAttribute(QString a, NameAndType& nmTpPair, UMLClassifier *own
 	if (nameAndType.count() != 2)
 		return PS_Malformed_Arg;
 
-	UMLObject *pType = pDoc->findUMLObject(nameAndType[1], Uml::ot_UMLObject, owningScope);
-	if (pType == NULL)
-		return PS_Unknown_ArgType;
-	nmTpPair = NameAndType(nameAndType[0], dynamic_cast<UMLClassifier*>(pType));
+	UMLObject *pType = owningScope->findTemplate(nameAndType[1]);
+	if (pType == NULL) {
+		pType = pDoc->findUMLObject(nameAndType[1], Uml::ot_UMLObject, owningScope);
+		if (pType == NULL)
+			return PS_Unknown_ArgType;
+	}
+	nmTpPair = NameAndType(nameAndType[0], pType);
 	return PS_OK;
 }
 
@@ -267,10 +271,13 @@ Parse_Status parseOperation(QString m, OpDescriptor& desc, UMLClassifier *owning
 	if (pos != -1) {  // return type is optional
 		QString retType = pat.cap(1);
 		if (retType != "void") {
-			UMLObject *pRetType = pDoc->findUMLObject(retType, Uml::ot_UMLObject, owningScope);
-			if (pRetType == NULL)
-				return PS_Unknown_ReturnType;
-			desc.m_pReturnType = dynamic_cast<UMLClassifier*>(pRetType);
+			UMLObject *pRetType = owningScope->findTemplate(retType);
+			if (pRetType == NULL) {
+				pRetType = pDoc->findUMLObject(retType, Uml::ot_UMLObject, owningScope);
+				if (pRetType == NULL)
+					return PS_Unknown_ReturnType;
+			}
+			desc.m_pReturnType = pRetType;
 		}
 	}
 	desc.m_args.clear();
