@@ -24,11 +24,7 @@
 #include "../umlobject.h"
 #include "../umlrole.h"
 
-#include "javagetaccessormethod.h"
-#include "javasetaccessormethod.h"
-#include "javaaddaccessormethod.h"
-#include "javaremoveaccessormethod.h"
-#include "javalistaccessormethod.h"
+// #include "javacodeaccessormethod.h"
 #include "javaclassifiercodedocument.h"
 
 // Constructors/Destructors

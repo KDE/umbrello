@@ -23,7 +23,6 @@
   *   guts of the class (e.g. field decl, accessor methods, operations, dependant classes)
 */
 #include <kdebug.h>
-#include <kdebug.h>
 #include <qregexp.h>
 
 #include "javaclassifiercodedocument.h"
@@ -31,11 +30,7 @@
 #include "javacodecomment.h"
 #include "javaclassdeclarationblock.h"
 #include "javacodeclassfielddeclarationblock.h"
-#include "javagetaccessormethod.h"
-#include "javasetaccessormethod.h"
-#include "javaaddaccessormethod.h"
-#include "javaremoveaccessormethod.h"
-#include "javalistaccessormethod.h"
+#include "javacodeaccessormethod.h"
 #include "javacodeoperation.h"
 
 // Constructors/Destructors
@@ -182,33 +177,8 @@ CodeComment * JavaClassifierCodeDocument::newCodeComment ( ) {
  * @return      CodeAccessorMethod
  */
 CodeAccessorMethod * JavaClassifierCodeDocument::newCodeAccessorMethod( CodeClassField *cf, CodeAccessorMethod::AccessorType type ) {
-        CodeAccessorMethod * method = (CodeAccessorMethod*) NULL;
-        switch (type) {
-                case CodeAccessorMethod::GET:
-                        method = new JavaGetAccessorMethod((JavaCodeClassField*)cf);
-                        method->setOverallIndentationLevel(1);
-                        break;
-                case CodeAccessorMethod::SET:
-                        method = new JavaSetAccessorMethod((JavaCodeClassField*)cf);
-                        method->setOverallIndentationLevel(1);
-                        break;
-                case CodeAccessorMethod::LIST:
-                        method = new JavaListAccessorMethod((JavaCodeClassField*)cf);
-                        method->setOverallIndentationLevel(1);
-                        break;
-                case CodeAccessorMethod::REMOVE:
-                        method = new JavaRemoveAccessorMethod((JavaCodeClassField*)cf);
-                        method->setOverallIndentationLevel(1);
-                        break;
-                case CodeAccessorMethod::ADD:
-                        method = new JavaAddAccessorMethod((JavaCodeClassField*)cf);
-                        method->setOverallIndentationLevel(1);
-                        break;
-                default:
-                        // perhaps this is a fatal condition??
-                        kdWarning()<<"Error: cannot make accessor method with type:"<<type<<endl;
-                        break;
-        }
+	CodeAccessorMethod * method = new JavaCodeAccessorMethod((JavaCodeClassField*)cf, type);
+	method->setOverallIndentationLevel(1);
         return method;
 }
 
