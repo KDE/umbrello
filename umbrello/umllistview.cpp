@@ -2197,32 +2197,21 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
 		switch( lvType ) {
 			case Uml::lvt_Actor:
 			case Uml::lvt_UseCase:
-			  // check if UMLListViewItem with same nID is already created by
+			  /* check if UMLListViewItem with same nID is already created by
 				// SLOT-EVENT from creation of corresponding UMLObject
 				item = findItem(nID);
-				if ( item != NULL )
-				{ // this item shouldn't exist right now - maybe it is created
-				  // by the slot event triggered by creation of corresponding
-					// object -> delete wrong created item, as only _now_ all
-					// relevant information is accessible for insertion in UMLListView
-					/* This is still under construction - I'm not too happy
-					   with the current code.
-					   The overall goal is to not rely on the non-standard
-					   <listview> tag in the XMI files at all. It should be
-					   a purely optional item. (The only information
-					   conveyed is the isOpen state of the listview items -
-					   not terribly important.)
-					   In the interest of XMI interoperabiliy, the list
-					   view *should* be constructed entirely while loading
-					   the UML model objects.   2004-04-19 okellogg  */
-					kdDebug()
-						<< "UMLListView::loadChildrenFromXMI() Delete UMLListViewItem instance which was created "
-						<< "before the corresponding loadChildrenFromXMI() call"
-						<< endl;
-					delete item;
+				if (item == NULL)
+				{ // All items should already exist - they should have been created
+				  // by the slot event triggered by creation of corresponding object.
+				  // This is done so that we can load foreign XMI files which do not
+				  // have the umbrello specific <listview> info.
+					//FIXME: Item does not exist yet? It should.
+					kdDebug() << "UMLListView::loadChildrenFromXMI(): item "
+						  << label << " does not exist yet (?)" << endl;
+					item = new UMLListViewItem(parent, label, lvType, pObject);
 				}
-				item = new UMLListViewItem(parent, label, lvType, pObject);
 				break;
+			   */
 			case Uml::lvt_Class:
 			case Uml::lvt_Interface:
 			case Uml::lvt_Datatype:
