@@ -226,7 +226,7 @@ public:
 	 * @param separator	The separator string to use.
 	 * @return	The fully qualified name of this UMLObject.
 	 */
-	QString getFullyQualifiedName(const QString &separator = "::") const;
+	virtual QString getFullyQualifiedName(const QString &separator = "::") const;
 
 	/**
 	 * Returns the abstract state of the object.
