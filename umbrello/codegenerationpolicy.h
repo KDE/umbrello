@@ -52,7 +52,7 @@ public:
         enum OverwritePolicy {Ok=0, Ask, Never, Cancel};
         enum ModifyNamePolicy {No=0, Underscore, Capitalise};
         enum NewLineType {UNIX=0, DOS, MAC};
-        enum IndentationType {SPACE=0, TAB, NONE};
+        enum IndentationType {NONE=0, TAB, SPACE};
 
        // set some reasonable defaults
         static const OverwritePolicy DEFAULT_OVERWRITE_POLICY = Ask;
