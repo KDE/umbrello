@@ -915,8 +915,9 @@ void UMLApp::setModified(bool _m) {
 	//if anything else needs to be done on a mofication, put it here
 
 	// printing should be possible whenever there is something to print
-	if (_m == true)
+	if ( _m == true && doc->getCurrentView() )  {
 		enablePrint(true);
+	}
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLApp::enablePrint(bool enable) {
@@ -1199,6 +1200,7 @@ void UMLApp::setDiagramMenuItemsState(bool bState) {
 	deleteDiagram->setEnabled(bState);
 	viewExportImage->setEnabled( bState );
 	viewProperties->setEnabled( bState );
+	filePrint->setEnabled( bState );
 	if ( doc->getCurrentView() ) {
 		viewSnapToGrid->setChecked( doc->getCurrentView()->getSnapToGrid() );
 		viewShowGrid->setChecked( doc->getCurrentView()->getShowSnapGrid() );
