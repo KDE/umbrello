@@ -62,9 +62,9 @@ AssociationWidget::AssociationWidget(UMLView *view, UMLWidget* pWidgetA,
 			// But lets leave check in here for the time being so that debugging
 			// output is shown, in case there is a collision with code elsewhere.
 			UMLAssociation * testAssoc = umldoc->findAssociation( assocType, umlRoleA, umlRoleB, &swap );
-			if (testAssoc != NULL) 
-				kdWarning()<< " constructing a similar or exact same assoc " << 
-					"as an already exiting assoc!" << endl;
+			if (testAssoc != NULL)
+				kdDebug() << " constructing a similar or exact same assoc " << 
+					"as an already existing assoc (swap=" << swap << ")" << endl;
 
 			// now, just create a new association anyways
 			UMLAssociation * myAssoc = new UMLAssociation( umldoc, assocType, umlRoleA, umlRoleB );
@@ -557,6 +557,19 @@ void AssociationWidget::setChangeabilityB(Changeability_Type value) {
 	m_role[B].m_Changeability = value;
 	// update our string representation
 	setChangeWidget(changeString, B);
+}
+
+bool AssociationWidget::linePathStartsAt(const UMLWidget* widget) {
+	QPoint lpStart = m_LinePath.getPoint(0);
+	int startX = lpStart.x();
+	int startY = lpStart.y();
+	int wX = widget->getX();
+	int wY = widget->getY();
+	int wWidth = widget->getWidth();
+	int wHeight = widget->getHeight();
+	bool result = (startX >= wX && startX <= wX + wWidth &&
+			startY >= wY && startY <= wY + wHeight);
+	return result;
 }
 
 bool AssociationWidget::activate() {
@@ -1055,7 +1068,7 @@ void AssociationWidget::calculateEndingPoints() {
 	 * Each diagonal is defined by two corners of the bounding rectangle
 	 *
 	 * To calculate the first point in the LinePath we have to find out in which
-	 * Region (defined by WidgetA's diagonals) is WidgetB's TopLeft corner
+	 * Region (defined by WidgetA's diagonals) is WidgetB's center
 	 * (let's call it Region M.) After that the first point will be the middle
 	 * point of the rectangle's side contained in Region M.
 	 *
@@ -1103,8 +1116,8 @@ void AssociationWidget::calculateEndingPoints() {
 
 	// If the line has more than one segment change the values to calculate
 	// from widget to point 1.
-	int xB = pWidgetB->getX();
-	int yB = pWidgetB->getY();
+	int xB = pWidgetB->getX() + pWidgetB->getWidth() / 2;
+	int yB = pWidgetB->getY() + pWidgetB->getHeight() / 2;
 	if( size > 2 ) {
 		QPoint p = m_LinePath.getPoint( 1 );
 		xB = p.x();
@@ -1115,8 +1128,8 @@ void AssociationWidget::calculateEndingPoints() {
 	// Now do the same for widgetB.
 	// If the line has more than one segment change the values to calculate
 	// from widgetB to the last point away from it.
-	int xA = pWidgetA->getX();
-	int yA = pWidgetA->getY();
+	int xA = pWidgetA->getX() + pWidgetA->getWidth() / 2;
+	int yA = pWidgetA->getY() + pWidgetA->getHeight() / 2;
 	if (size > 2 ) {
 		QPoint p = m_LinePath.getPoint( size - 2 );
 		xA = p.x();
@@ -1153,6 +1166,12 @@ void AssociationWidget::doUpdates(int otherX, int otherY, Role_Type role) {
 	}
 	int regionCount = getRegionCount(region, role) + 2;//+2 = (1 for this one and one to halve it)
 	int totalCount = m_role[role].m_nTotalCount;
+#ifdef DEBUG_ASSOCLINES
+	kdDebug() << endl;
+	kdDebug() << "doUpdates (role=" << role << "): widget=" << pWidget->getName()
+		  << " region=" << region << " regionCount=" << regionCount
+		  << " totalCount=" << totalCount << endl;
+#endif
 	if( oldRegion != region ) {
 		updateRegionLineCount( regionCount - 1, regionCount, region, role );
 		updateAssociations( totalCount - 1, oldRegion, role );
@@ -1348,7 +1367,7 @@ void AssociationWidget::widgetMoved(UMLWidget* widget, int x, int y ) {
     5 = On diagonal 2 between Region 1 and 2
     6 = On diagonal 1 between Region 2 and 3
     7 = On diagonal 2 between Region 3 and 4
-    8	= On diagonal 1 between Region4 and 1
+    8 = On diagonal 1 between Region 4 and 1
     9 = On diagonal 1 and On diagonal 2 (the center)
 */
 AssociationWidget::Region AssociationWidget::findPointRegion(QRect Rect, int PosX, int PosY) {
@@ -1401,7 +1420,6 @@ AssociationWidget::Region AssociationWidget::findPointRegion(QRect Rect, int Pos
 	else if (eval1 == PosX && eval2 == PosX) {
 		result = Center;
 	}
-
 	return result;
 }
 
@@ -2091,7 +2109,8 @@ void AssociationWidget::calculateNameTextSegment() {
 		xj = pj.x();
 		yi = pi.y();
 		yj = pj.y();
-		total_length =  sqrt( pow( double(xt - xi), 2.0 ) + pow( double(yt - yi), 2. ) ) + sqrt( pow( double(xt - xj), 2.0) + pow( double(yt - yj), 2.0) );
+		total_length =  sqrt( pow(double(xt - xi), 2.0) + pow(double(yt - yi), 2.0) )
+			      + sqrt( pow(double(xt - xj), 2.0) + pow(double(yt - yj), 2.0) );
 		//this gives the closest point
 		if( total_length < smallest_length || i == 0) {
 			smallest_length = total_length;
@@ -2525,6 +2544,93 @@ int AssociationWidget::getRegionCount(AssociationWidget::Region region, Role_Typ
 	return widgetCount;
 }
 
+int AssociationWidget::findInterceptOnEdge(QRect rect,
+					   AssociationWidget::Region region,
+					   QPoint point)
+{
+	// The Qt coordinate system has (0,0) in the top left corner.
+	// In order to go to the regular XY coordinate system, we swap
+	// the X and Y axis (see also explanations at findIntersection().)
+	// That's why the following assignments look twisted.
+	const int rectHalfWidth = rect.height() / 2;
+	const int rectHalfHeight = rect.width() / 2;
+	const int rectMidX = rect.y() + rectHalfWidth;
+	const int rectMidY = rect.x() + rectHalfHeight;
+	const int dX = rectMidX - point.y();
+	const int dY = rectMidY - point.x();
+	switch (region) {
+		case West:
+			region = South;
+			break;
+		case North:
+			region = West;
+			break;
+		case East:
+			region = North;
+			break;
+		case South:
+			region = East;
+			break;
+		default:
+			break;
+	}
+	// Now we have regular coordinates with the point (0,0) in the
+	// bottom left corner.
+	if (region == North || region == South) {
+		if (dX == 0)
+			return rectMidY;
+			// should be rectMidX, but we go back to Qt coord.sys.
+		if (dY == 0) {
+			kdError() << "AssociationWidget::findInterceptOnEdge usage error: "
+				  << "North/South (dY == 0)" << endl;
+			return -1;
+		}
+		const float m = (float)dY / (float)dX;
+		float relativeX;
+		if (region == North)
+			relativeX = (float)rectHalfHeight / m;
+		else
+			relativeX = -(float)rectHalfHeight / m;
+		return (rectMidY + (int)relativeX);
+		// should be rectMidX, but we go back to Qt coord.sys.
+	} else {
+		if (dY == 0)
+			return rectMidX;
+			// should be rectMidY, but we go back to Qt coord.sys.
+		if (dX == 0) {
+			kdError() << "AssociationWidget::findInterceptOnEdge usage error: "
+				  << "East/West (dX == 0)" << endl;
+			return -1;
+		}
+		const float m = (float)dY / (float)dX;
+		float relativeY = m * (float)rectHalfWidth;
+		if (region == West)
+			relativeY = -relativeY;
+		return (rectMidX + (int)relativeY);
+		// should be rectMidY, but we go back to Qt coord.sys.
+	}
+}
+
+void AssociationWidget::insertIntoLists(int position, const AssociationWidget* assoc)
+{
+	bool did_insertion = false;
+	for (int index = 0; index < m_positions_len; index++) {
+		if (position < m_positions[index]) {
+			for (int moveback = m_positions_len; moveback > index; moveback--)
+				m_positions[moveback] = m_positions[moveback - 1];
+			m_positions[index] = position;
+			m_ordered.insert(index, assoc);
+			did_insertion = true;
+			break;
+		}
+	}
+	if (! did_insertion) {
+		m_positions[m_positions_len] = position;
+		m_ordered.append(assoc);
+	}
+	m_positions_len++;
+}
+
 void AssociationWidget::updateAssociations(int totalCount,
 					   AssociationWidget::Region region,
 					   Role_Type role)
@@ -2534,8 +2640,6 @@ void AssociationWidget::updateAssociations(int totalCount,
 	AssociationWidgetList list = m_pView -> getAssociationList();
 	AssociationWidgetListIt assoc_it(list);
 	AssociationWidget* assocwidget = 0;
-
-	AssociationWidgetList ordered;
 	Role_Type other = (role == A ? B : A);
 	UMLWidget *ownWidget = m_role[role].m_pWidget;
 #ifdef DEBUG_ASSOCLINES
@@ -2543,6 +2647,8 @@ void AssociationWidget::updateAssociations(int totalCount,
 	    << ";  own widget: " << ownWidget->getName() << ", other end: "
 	    << m_role[other].m_pWidget->getName() << endl;
 #endif
+	m_positions_len = 0;
+	m_ordered.clear();
 	// we order the AssociationWidget list by region and x/y value
 	while ( (assocwidget = assoc_it.current()) ) {
 		++assoc_it;
@@ -2550,6 +2656,9 @@ void AssociationWidget::updateAssociations(int totalCount,
 		WidgetRole *roleB = &assocwidget->m_role[B];
 		UMLWidget *wA = roleA->m_pWidget;
 		UMLWidget *wB = roleB->m_pWidget;
+		// Skip self associations.
+		if (wA == wB)
+			continue;
 		// Now we must find out with which end the assocwidget connects
 		// to the input widget (ownWidget).
 		bool inWidgetARegion = ( ownWidget == wA &&
@@ -2558,91 +2667,37 @@ void AssociationWidget::updateAssociations(int totalCount,
 					 region == roleB->m_WidgetRegion);
 		if ( !inWidgetARegion && !inWidgetBRegion )
 			continue;
-		uint counter = 0;
-		bool aCond = false, bCond = false;
-		// now we go through all already known associations and insert
-		// assocwidget at the right position so that the lines don't cross
-		for (AssociationWidget* assocwidget2 = ordered.first(); assocwidget2;
-		     assocwidget2 = ordered.next()) {
-			UMLWidget * otherWidget = assocwidget2->m_role[other].m_pWidget;
-			if (ownWidget == otherWidget) {
-#ifdef DEBUG_ASSOCLINES
-				kdDebug() << "skipping (ownWidget == otherWidget)" << endl;
-#endif
-				counter++;
-				continue;
-			}
-			if (region == North || region == South) {
-				aCond = (inWidgetARegion && otherWidget->x() > wB->x());
-				bCond = (inWidgetBRegion && otherWidget->x() > wA->x());
-				if ( aCond || bCond ) {
-#ifdef DEBUG_ASSOCLINES
-					QString s;
-					if (region == North)
-						s = "North";
-					else
-						s = "South";
-					s.append(" insert because ");
-					if (aCond) {
-						s.append("inWidgetARegion and ");
-						s.append(otherWidget->getName());
-						s.append("->x > ");
-						s.append(wB->getName());
-						s.append("->x");
-					} else {
-						s.append("inWidgetBRegion and ");
-						s.append(otherWidget->getName());
-						s.append("->x > ");
-						s.append(wA->getName());
-						s.append("->x");
-					}
-					kdDebug() << s << endl;
-#endif
-					ordered.insert(counter, assocwidget);
-				}
-			} else if (region == East || region == West) {
-				aCond = (inWidgetARegion && otherWidget->y() > wB->y());
-				bCond = (inWidgetBRegion && otherWidget->y() > wA->y());
-				if ( aCond || bCond ) {
-#ifdef DEBUG_ASSOCLINES
-					QString s;
-					if (region == East)
-						s = "East";
-					else
-						s = "West";
-					s.append(" insert because ");
-					if (aCond) {
-						s.append("inWidgetARegion and ");
-						s.append(otherWidget->getName());
-						s.append("->y > ");
-						s.append(wB->getName());
-						s.append("->y");
-					} else {
-						s.append("inWidgetBRegion and ");
-						s.append(otherWidget->getName());
-						s.append("->y > ");
-						s.append(wA->getName());
-						s.append("->y");
-					}
-					kdDebug() << s << endl;
-#endif
-					ordered.insert(counter, assocwidget);
-				}
-			} // end if (region)
-#ifdef DEBUG_ASSOCLINES
-			else kdDebug() << "not considering region " << region << endl;
-#endif
-			if (aCond || bCond)
-				break;
-			counter++;
-		} // for (assocwidget2 = ordered.first(); assocwidget2; ...
-		if (!aCond && !bCond)
-			ordered.append(assocwidget);
+		// Determine intercept position on the edge indicated by `region'.
+		UMLWidget * otherWidget = (inWidgetARegion ? wB : wA);
+		LinePath *linepath = assocwidget->getLinePath();
+		QPoint refpoint;
+		if (assocwidget->linePathStartsAt(otherWidget))
+			refpoint = linepath->getPoint(linepath->count() - 2);
+		else
+			refpoint = linepath->getPoint(1);
+		// The point is authoritative if we're called for the second time
+		// (i.e. role==B) or it is a waypoint on the line path.
+		bool pointIsAuthoritative = (role == B || linepath->count() > 2);
+		if (! pointIsAuthoritative) {
+			// If the point is not authoritative then we use the other
+			// widget's center.
+			refpoint.setX(otherWidget->getX() + otherWidget->getWidth() / 2);
+			refpoint.setY(otherWidget->getY() + otherWidget->getHeight() / 2);
+		}
+		int intercept = findInterceptOnEdge(ownWidget->rect(), region, refpoint);
+		if (intercept < 0) {
+			kdDebug() << "updateAssociations: error from findInterceptOnEdge for"
+				  << " assocType=" << assocwidget->getAssocType()
+				  << " ownWidget=" << ownWidget->getName()
+				  << " otherWidget=" << otherWidget->getName() << endl;
+			continue;
+		}
+		insertIntoLists(intercept, assocwidget);
 	} // while ( (assocwidget = assoc_it.current()) )
 
 	// we now have an ordered list and we only have to call updateRegionLineCount
 	int index = 1;
-	for (assocwidget = ordered.first(); assocwidget; assocwidget = ordered.next()) {
+	for (assocwidget = m_ordered.first(); assocwidget; assocwidget = m_ordered.next()) {
 		if (ownWidget == assocwidget->getWidgetA()) {
 			assocwidget->updateRegionLineCount(index++, totalCount, region, A);
 		} else if (ownWidget == assocwidget->getWidgetB()) {

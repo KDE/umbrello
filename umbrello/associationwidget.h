@@ -13,6 +13,7 @@
 #include "umlnamespace.h"
 #include "umlwidgetlist.h"
 #include "messagewidgetlist.h"
+#include "associationwidgetlist.h"
 #include "linepath.h"
 
 // qt includes
@@ -623,6 +624,18 @@ private:
 	static Region findPointRegion(QRect Rect, int PosX, int PosY);
 
 	/**
+	 * Given a rectangle and a point, findInterceptOnEdge computes the
+	 * connecting line between the middle point of the rectangle and
+	 * the point, and returns the intercept of this line with the
+	 * the edge of the rectangle identified by `region'.
+	 * When the region is North or South, the X value is returned (Y is
+	 * constant.)
+	 * When the region is East or West, the Y value is returned (X is
+	 * constant.)
+	 */
+	static int findInterceptOnEdge(QRect rect, Region region, QPoint point);
+
+	/**
 	 * Overrides moveEvent.
 	 */
 	void moveEvent(QMoveEvent *me);
@@ -876,6 +889,11 @@ private:
 	void checkPoints(QPoint p);
 
 	/**
+	 * Returns true if the line path starts at the given widget.
+	 */
+	bool linePathStartsAt(const UMLWidget* widget);
+
+	/**
 	 * Utility: Find the widget identified by the given ID in the given
 	 * widget or message list.
 	 * It's somewhat arbitrary that this utility is here as it has no
@@ -885,6 +903,19 @@ private:
 	 */
 	static UMLWidget* findWidget(int id, const UMLWidgetList& widgets,
 					     const MessageWidgetList* pMessages = NULL);
+
+	/**
+	 * Auxiliary method for updateAssociations():
+	 * Put position into m_positions and assoc into m_ordered at the
+	 * correct index.
+	 * m_positions and m_ordered move in parallel and are sorted by
+	 * ascending position.
+	 */
+	void insertIntoLists(int position, const AssociationWidget* assoc);
+
+	int m_positions[100];             ///< auxiliary variable for updateAssociations()
+	int m_positions_len;              ///< auxiliary variable for updateAssociations()
+	AssociationWidgetList m_ordered;  ///< auxiliary variable for updateAssociations()
 
 	/*QPixmap 	*m_pPix;
 	QBitmap 	*m_pMask;*/
