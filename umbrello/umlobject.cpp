@@ -68,6 +68,17 @@ void UMLObject::setName(QString strName) {
 QString UMLObject::getName() const {
 	return m_Name;
 }
+
+QString UMLObject::getFullyQualifiedName(QString separator /* = "::" */) const {
+	QString fqn;
+	if (m_pUMLPackage) {
+		fqn = m_pUMLPackage->getFullyQualifiedName(separator);
+		fqn.append(separator);
+	}
+	fqn.append(m_Name);
+	return fqn;
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool UMLObject::operator==(UMLObject & rhs ) {
 	if( this == &rhs )

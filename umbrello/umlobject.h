@@ -163,6 +163,14 @@ public:
 	void setName(QString strName);
 
 	/**
+	 * Returns the fully qualified name, i.e. all package prefixes and then m_Name.
+	 *
+	 * @param separator	The separator string to use.
+	 * @return	The fully qualified name of this UMLObject.
+	 */
+	QString getFullyQualifiedName(QString separator = "::") const;
+
+	/**
 	 * Returns the abstract state of the object.
 	 */
 	bool getAbstract() const;
