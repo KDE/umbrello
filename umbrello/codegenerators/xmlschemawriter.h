@@ -27,16 +27,16 @@
 class UMLOperation;
 
 /**
-  * class XMLSchemaWriter is a code generator for UMLClassifier objects.
+  * Class XMLSchemaWriter is a code generator for UMLClassifier objects.
   * Create an instance of this class, and feed it a UMLClassifier when
   * calling writeClass and it will generate a XMLschema source file for
   * that concept
   *
-  * Our basic approach is to map UMLClassifiers (classes) in to XML elements (or 
-  * nodes). We declare these element in the schema either as complexType or
-  * as groups based on whether they are concrete or abstract in nature.
-  * This is not a perfect decision, but thats life with XML Schema... you 
-  * cant fully represent Objects in the XML world ..yet. -b.t.
+  * Our basic approach is to map UMLClassifiers (classes/interfaces) into 
+  * XML elements (or nodes). We declare these element in the schema either 
+  * as complexType or as groups based on whether they are concrete or abstract 
+  * in nature. This is not a perfect decision, but thats life with XML Schema... 
+  * you cant fully represent Objects in the XML world ..yet. -b.t.
   */
 
 class XMLSchemaWriter : public CodeGenerator {
@@ -63,10 +63,31 @@ private:
 	/**
 	 * Writes concept's documentation then  guts
 	 */
-	void writeConcept(UMLClassifier *c, QTextStream &XMLSchema); 
-	void writeAbstractConcept(UMLClassifier *c, QTextStream &XMLSchema); 
-	void writeConcreteConcept(UMLClassifier *c, QTextStream &XMLSchema); 
+	void writeClassifier(UMLClassifier *c, QTextStream &XMLSchema); 
+	void writeAbstractClassifier(UMLClassifier *c, QTextStream &XMLSchema); 
+	void writeConcreteClassifier(UMLClassifier *c, QTextStream &XMLSchema); 
 
+	/**
+	 * write a <complexType> declaration for this classifier
+	 */
+	void writeComplexTypeClassifierDecl(UMLClassifier *c, 
+				QPtrList<UMLAssociation> associations, 
+				QPtrList<UMLAssociation> aggregations, 
+				QPtrList<UMLAssociation> compositions, 
+				QPtrList<UMLClassifier> superclassifiers, 
+				QTextStream &XMLSchema); 
+
+	/**
+	 * write a <group> declaration for this classifier. Used for interfaces to classes with
+	 * inheriting children. 
+	 */
+	void writeGroupClassifierDecl(UMLClassifier *c, 
+				QPtrList<UMLClassifier> superclassifiers, 
+				QTextStream &XMLSchema); 
+
+	/**
+	 * find if the classifier would have any Child elements.
+	 */
 	bool determineIfHasChildNodes( UMLClassifier *c); 
 
 	/**
@@ -136,6 +157,10 @@ private:
 	 */
 	void writeComment(QString text, QTextStream &XMLschema); 
 
+	/**
+	 * Find and return a list of child UMLObjects pointed to by the associations 
+	 * in this UMLClassifier.
+	 */
 	QPtrList<UMLObject> findChildObjsInAssociations (UMLClassifier *c, QPtrList<UMLAssociation> associations);
 
 	/**
@@ -169,6 +194,11 @@ private:
 	 * might define that element node.
 	 */
 	QString getElementTypeName(UMLClassifier *c);
+
+	/**
+	 * Find the group node "type" name. Used for elements which define an interface/are abstract. 
+	 */
+	QString getElementGroupTypeName(UMLClassifier *c);
 
 	/**
 	 * Find all the child objects in this association and make sure they get 
@@ -224,7 +254,7 @@ private:
 	/**
 	 * a list of UMLClassifiers we have already written
 	 */
-	QPtrList <UMLClassifier> writtenConcepts;
+	QPtrList <UMLClassifier> writtenClassifiers;
 
 };
 

@@ -25,11 +25,13 @@
 
 #include "../umldoc.h"
 #include "../class.h"
+#include "../interface.h"
 #include "../operation.h"
 #include "../umlnamespace.h"
 
 // Constructor
 XMLSchemaWriter::XMLSchemaWriter( QObject *parent, const char *name ) : CodeGenerator(parent, name) {
+
 	packageNamespaceTag = "tns";
 	packageNamespaceURI = "http://change.this.value/";
 	schemaNamespaceTag = "xs";
@@ -37,17 +39,19 @@ XMLSchemaWriter::XMLSchemaWriter( QObject *parent, const char *name ) : CodeGene
 	indent = "\t";
 	indentLevel = 0;
 	startline = "\n" + indent; // using UNIX newLine standard.. bad
+
 }
 
 // form of..."the Destructor"!!
-XMLSchemaWriter::~XMLSchemaWriter() {}
+XMLSchemaWriter::~XMLSchemaWriter() {
+}
 
 // main method for invoking..
 void XMLSchemaWriter::writeClass(UMLClassifier *c)
 {
 
 	if (!c) {
-		kdDebug()<<"Cannot write class of NULL concept!\n";
+		kdDebug()<<"Cannot write class of NULL classifier!\n";
 		return;
 	}
 
@@ -98,12 +102,13 @@ void XMLSchemaWriter::writeClass(UMLClassifier *c)
         */
 
 	// 3. BODY of the schema.
-	// start the writing by sending this concept, the "root" for this particular
-	// schema, to writeConcept method, which will subsequently call itself on all
-	// related concepts and thus populate the schema.
-	writeConcept(c, XMLschema);
+	// start the writing by sending this classifier, the "root" for this particular
+	// schema, to writeClassifier method, which will subsequently call itself on all
+	// related classifiers and thus populate the schema.
+	writeClassifier(c, XMLschema);
 
 	// 4. What remains is to make the root node declaration
+	XMLschema<<endl;
 	writeElementDecl(getElementName(c), getElementTypeName(c), XMLschema);
 
 	// 5. Finished: now we may close schema decl
@@ -115,6 +120,10 @@ void XMLSchemaWriter::writeClass(UMLClassifier *c)
 
 	// tidy up. no dangling open files please..
 	file.close();
+
+	// need to clear HERE, NOT in the destructor because we want each
+	// schema that we write to have all related classes.
+	writtenClassifiers.clear();
 }
 
 void XMLSchemaWriter::writeElementDecl( QString elementName, QString elementTypeName, QTextStream &XMLschema)
@@ -129,18 +138,23 @@ void XMLSchemaWriter::writeElementDecl( QString elementName, QString elementType
 
 }
 
-void XMLSchemaWriter::writeConcept (UMLClassifier *c, QTextStream &XMLschema)
+void XMLSchemaWriter::writeClassifier (UMLClassifier *c, QTextStream &XMLschema)
 {
+
+	// NO doing this 2 or more times.
+	if(hasBeenWritten(c))
+		return;
+
 	XMLschema<<endl;
 
 	// write documentation for class, if any, first
         if(forceDoc() || !c->getDoc().isEmpty())
 		writeComment(c->getDoc(),XMLschema);
 
-	if(c->getAbstract())
-		writeAbstractConcept(c,XMLschema);
+	if(c->getAbstract() || dynamic_cast<UMLInterface*>(c) )
+		writeAbstractClassifier(c,XMLschema); // if its an interface or abstract class
 	else
-		writeConcreteConcept(c,XMLschema);
+		writeConcreteClassifier(c,XMLschema);
 
 }
 
@@ -169,45 +183,26 @@ QPtrList <UMLAttribute> XMLSchemaWriter::findAttributes (UMLClassifier *c)
 	return attribs;
 }
 
-void XMLSchemaWriter::writeAbstractConcept (UMLClassifier *c, QTextStream &XMLschema)
+// We have to do 2 things with abstract classifiers (e.g. abstract classes and interfaces)
+// which is to:
+// 1) declare it as a complexType so it may be inherited (I can see an option here: to NOT write
+//    this complexType declaration IF the classifier itself isnt inherited by or is inheriting
+//    from anything because no other element will use this complexType).
+// 2) Create a group so that elements, which obey the abstract class /interface may be placed in
+//    aggregation with other elements (again, and option here to NOT write the group if no other
+//    element use the interface in element aggregation)
+//
+
+void XMLSchemaWriter::writeAbstractClassifier (UMLClassifier *c, QTextStream &XMLschema)
 {
 
-	UMLClassifier * concept;
-        QPtrList <UMLAttribute> attribs = findAttributes(c);
-	QStringList attribGroups = findAttributeGroups(c);
+	// preparations
+	QPtrList <UMLClassifier> subclasses = c->findSubClassConcepts(m_doc); // list of what inherits from us
+	QPtrList<UMLClassifier> superclasses = c->findSuperClassConcepts(m_doc); // list of what inherits from us
 
-	// name of class, subclassing concepts
-	QString elementName = getElementName(c);
-	QString elementTypeName = getElementTypeName(c);
-	QPtrList<UMLClassifier> subclasses = c->findSubClassConcepts(m_doc); // list of what inherits from us
-
-	// start Writing node
-	if(subclasses.count() > 0)
-	{
-		XMLschema<<getIndent()<<"<"<<makeSchemaTag("group")<<" name=\""<<elementTypeName<<"\">"<<endl;
-		indentLevel++;
-
-		XMLschema<<getIndent()<<"<"<<makeSchemaTag("choice")<<">"<<endl;
-		indentLevel++;
-
-		for(concept = subclasses.first(); concept; concept = subclasses.next())
-		{
-	       		writeAssociationRoleDecl(concept, "1", XMLschema);
-		}
-
-		indentLevel--;
-		XMLschema<<getIndent()<<"</"<<makeSchemaTag("choice")<<">"<<endl;
-
-
-		indentLevel--;
-
-		// finish node
-		XMLschema<<getIndent()<<"</"<<makeSchemaTag("group")<<">"<<endl;
-
-	} else
-		// bah, nothing in our abstract class.. just declare it as a concrete class then
-		// (it will be a complexType node)
-		writeConcreteConcept(c, XMLschema);
+	// write the main declaration
+	writeConcreteClassifier (c, XMLschema);
+	writeGroupClassifierDecl (c, subclasses, XMLschema);
 
 	markAsWritten(c);
 
@@ -215,33 +210,70 @@ void XMLSchemaWriter::writeAbstractConcept (UMLClassifier *c, QTextStream &XMLsc
 	if(subclasses.count() > 0)
 	{
 
+		QString elementName = getElementName(c);
+        	QPtrList <UMLAttribute> attribs = findAttributes(c);
+		QStringList attribGroups = findAttributeGroups(c);
+
 		writeAttributeGroupDecl(elementName, attribs, XMLschema);
 
 		// now write out inheriting classes, as needed
-		for(concept = subclasses.first(); concept; concept = subclasses.next())
-	        	if(!hasBeenWritten(concept))
-				writeConcept(concept, XMLschema);
+		for(UMLClassifier * classifier = subclasses.first(); classifier; classifier = subclasses.next())
+			writeClassifier(classifier, XMLschema);
 	}
+
+	// write out any superclasses as needed
+	for(UMLClassifier *classifier = superclasses.first(); classifier; classifier = superclasses.next())
+		writeClassifier(classifier, XMLschema);
 
 }
 
-void XMLSchemaWriter::writeConcreteConcept (UMLClassifier *c, QTextStream &XMLschema)
+void XMLSchemaWriter::writeGroupClassifierDecl (UMLClassifier *c,
+						QPtrList <UMLClassifier> subclasses,
+						QTextStream &XMLschema)
+{
+
+	// name of class, subclassing classifiers
+	QString elementTypeName = getElementGroupTypeName(c);
+
+	// start Writing node but only if it has subclasses? Nah..right now put in empty group
+	XMLschema<<getIndent()<<"<"<<makeSchemaTag("group")<<" name=\""<<elementTypeName<<"\">"<<endl;
+	indentLevel++;
+
+	XMLschema<<getIndent()<<"<"<<makeSchemaTag("choice")<<">"<<endl;
+	indentLevel++;
+
+	for(UMLClassifier *classifier = subclasses.first(); classifier; classifier = subclasses.next()) {
+		writeAssociationRoleDecl(classifier, "1", XMLschema);
+	}
+
+	indentLevel--;
+	XMLschema<<getIndent()<<"</"<<makeSchemaTag("choice")<<">"<<endl;
+
+	indentLevel--;
+
+	// finish node
+	XMLschema<<getIndent()<<"</"<<makeSchemaTag("group")<<">"<<endl;
+
+}
+
+void XMLSchemaWriter::writeComplexTypeClassifierDecl (UMLClassifier *c,
+							QPtrList<UMLAssociation> associations,
+							QPtrList<UMLAssociation> aggregations,
+							QPtrList<UMLAssociation> compositions,
+							QPtrList<UMLClassifier> superclasses,
+							QTextStream &XMLschema)
 {
 
 	// Preparations
 	//
 
 	// sort attributes by Scope
-        QPtrList <UMLAttribute> attribs = findAttributes(c);
+	QPtrList <UMLAttribute> attribs = findAttributes(c);
 	QStringList attribGroups = findAttributeGroups(c);
-
-	// another preparation, determine what we have
-	QPtrList <UMLAssociation> associations = c->getSpecificAssocs(Uml::at_Association); // BAD! only way to get "general" associations.
-	QPtrList <UMLAssociation> aggregations = c->getAggregations();
-	QPtrList <UMLAssociation> compositions = c->getCompositions();
 
 	// test for relevant associations
 	bool hasAssociations = determineIfHasChildNodes(c);
+	bool hasSuperclass = superclasses.count()> 0;
 	bool hasAttributes = attribs.count() > 0 || attribGroups.count() > 0;
 
 	// START WRITING
@@ -251,12 +283,30 @@ void XMLSchemaWriter::writeConcreteConcept (UMLClassifier *c, QTextStream &XMLsc
 
 	XMLschema<<getIndent()<<"<"<<makeSchemaTag("complexType")<<" name=\""<<elementTypeName<<"\"";
 
-	if(hasAssociations || hasAttributes)
+	if(hasAssociations || hasAttributes || hasSuperclass)
 	{
 
 		XMLschema<<">"<<endl;
 
 		indentLevel++;
+
+		if(hasSuperclass)
+		{
+			QString superClassName = getElementTypeName(superclasses.first());
+			XMLschema<<getIndent()<<"<"<<makeSchemaTag("complexContent")<<">"<<endl;
+
+			//PROBLEM: we only treat ONE superclass for inheritence.. bah.
+			indentLevel++;
+			XMLschema<<getIndent()<<"<"<<makeSchemaTag("extension")<<" base=\""<<makePackageTag(superClassName)
+				<<"\"";
+			if(hasAssociations || hasAttributes )
+				XMLschema<<">"<<endl;
+			else
+				XMLschema<<"/>"<<endl;
+
+			indentLevel++;
+		}
+
 		if(hasAssociations)
 		{
 			// Child Elements (from most associations)
@@ -274,9 +324,24 @@ void XMLSchemaWriter::writeConcreteConcept (UMLClassifier *c, QTextStream &XMLsc
 
 		// ATTRIBUTES
 		//
-		writeAttributeDecls(attribs, XMLschema);
-		for(uint i= 0; i < attribGroups.count(); i++)
-			XMLschema<<getIndent()<<"<"<<makeSchemaTag("attributeGroup")<<" ref=\""<<makePackageTag(attribGroups[i])<<"\"/>"<<endl;
+		if(hasAttributes)
+		{
+			writeAttributeDecls(attribs, XMLschema);
+			for(uint i= 0; i < attribGroups.count(); i++)
+				XMLschema<<getIndent()<<"<"<<makeSchemaTag("attributeGroup")<<" ref=\""
+					<<makePackageTag(attribGroups[i])<<"\"/>"<<endl;
+		}
+
+		if(hasSuperclass)
+		{
+			indentLevel--;
+
+			if(hasAssociations || hasAttributes )
+				XMLschema<<getIndent()<<"</"<<makeSchemaTag("extension")<<">"<<endl;
+
+			indentLevel--;
+			XMLschema<<getIndent()<<"</"<<makeSchemaTag("complexContent")<<">"<<endl;
+		}
 
 		// close this element decl
 		indentLevel--;
@@ -285,6 +350,22 @@ void XMLSchemaWriter::writeConcreteConcept (UMLClassifier *c, QTextStream &XMLsc
 	} else
 		XMLschema<<"/>"<<endl; // empty node. just close this element decl
 
+}
+
+void XMLSchemaWriter::writeConcreteClassifier (UMLClassifier *c, QTextStream &XMLschema)
+{
+
+	// preparations.. gather information about this classifier
+	//
+	QPtrList<UMLClassifier> superclasses = c->findSuperClassConcepts(m_doc); // list of what inherits from us
+	QPtrList <UMLAssociation> aggregations = c->getAggregations();
+	QPtrList <UMLAssociation> compositions = c->getCompositions();
+	// BAD! only way to get "general" associations.
+	QPtrList <UMLAssociation> associations = c->getSpecificAssocs(Uml::at_Association);
+
+	// write the main declaration
+	writeComplexTypeClassifierDecl(c, associations, aggregations, compositions, superclasses, XMLschema);
+
 	markAsWritten(c);
 
 	// Now write out any child def's
@@ -292,65 +373,29 @@ void XMLSchemaWriter::writeConcreteConcept (UMLClassifier *c, QTextStream &XMLsc
 	writeChildObjsInAssociation(c, aggregations, XMLschema);
 	writeChildObjsInAssociation(c, compositions, XMLschema);
 
+	// write out any superclasses as needed
+	for(UMLClassifier *classifier = superclasses.first(); classifier; classifier = superclasses.next())
+		writeClassifier(classifier, XMLschema);
 }
 
-/*
-void XMLSchemaWriter::writeNodeWithoutChildren ( QString elementTypeName,
-				QPtrList<UMLAttribute> &attribs,
-				QStringList attribGroups,
-				QTextStream &XMLschema)
-{
-
-	bool hasAttributes = attribs.count() > 0 || attribGroups.count() > 0;
-
-	// the complexContent section. IF we have some attributes, then its got child nodes, otherwise,
-	// we just close it off now.
-	XMLschema<<getIndent()<<"<"<<makeSchemaTag("complexType")<<" name=\""<<elementTypeName<<"\"";
-
-	if (hasAttributes) {
-
-		XMLschema<<">"<<endl;
-
-		indentLevel++;
-		XMLschema<<getIndent()<<"<"<<makeSchemaTag("complexContent")<<">"<<endl;
-
-		indentLevel++;
-		XMLschema<<getIndent()<<"<"<<makeSchemaTag("restriction")<<" base=\""<<schemaNamespaceTag<<":anyType\">"<<endl;
-
-		indentLevel++;
-		writeAttributeDecls(attribs, XMLschema);
-		for(uint i= 0; i < attribGroups.count(); i++)
-			XMLschema<<getIndent()<<"<"<<makeSchemaTag("attributeGroup")<<" ref=\""<<makePackageTag(attribGroups[i])<<"\"/>"<<endl;
-
-		indentLevel--;
-
-		XMLschema<<getIndent()<<"</"<<makeSchemaTag("restriction")<<">"<<endl;
-		indentLevel--;
-
-		XMLschema<<getIndent()<<"</"<<makeSchemaTag("complexContent")<<">"<<endl;
-		indentLevel--;
-
-		XMLschema<<getIndent()<<"</"<<makeSchemaTag("complexType")<<">"<<endl;
-
-	} else
-		XMLschema<<"/>"<<endl;
-
-}
-*/
-
+// these exist for abstract classes only (which become xs:group nodes)
 QStringList XMLSchemaWriter::findAttributeGroups (UMLClassifier *c)
 {
 	// we need to look for any class we inherit from. IF these
 	// have attributes, then we need to notice
 	QStringList list;
 	QPtrList<UMLClassifier> superclasses = c->findSuperClassConcepts(m_doc); // list of what inherits from us
-	for(UMLClassifier *concept = superclasses.first(); concept; concept = superclasses.next())
+	for(UMLClassifier *classifier = superclasses.first(); classifier; classifier = superclasses.next())
 	{
-		UMLClass * myClass = dynamic_cast<UMLClass*>(concept);
-		if(myClass) {
-			QPtrList<UMLAttribute>* attribs = myClass->getAttList();
-			if (attribs->count() > 0)
-				list.append(getElementName(concept)+"AttribGroupType");
+		if(classifier->getAbstract())
+		{
+			// only classes have attributes..
+			UMLClass * myClass = dynamic_cast<UMLClass*>(classifier);
+			if(myClass) {
+				QPtrList<UMLAttribute>* attribs = myClass->getAttList();
+				if (attribs->count() > 0)
+					list.append(getElementName(classifier)+"AttribGroupType");
+			}
 		}
 	}
 	return list;
@@ -369,24 +414,25 @@ void XMLSchemaWriter::writeChildObjsInAssociation (UMLClassifier *c,
 		QPtrList<UMLAssociation> assoc,
 		QTextStream &XMLschema)
 {
+
 	QPtrList<UMLObject> list = findChildObjsInAssociations (c, assoc);
 	for(UMLObject * obj = list.first(); obj; obj = list.next())
 	{
-		UMLClassifier * thisConcept = dynamic_cast<UMLClassifier*>(obj);
-		if(thisConcept && !hasBeenWritten(thisConcept))
-			writeConcept(thisConcept, XMLschema);
+		UMLClassifier * thisClassifier = dynamic_cast<UMLClassifier*>(obj);
+		if(thisClassifier)
+			writeClassifier(thisClassifier, XMLschema);
 	}
 }
 
 bool XMLSchemaWriter::hasBeenWritten(UMLClassifier *c) {
-	if (writtenConcepts.contains(c))
+	if (writtenClassifiers.contains(c))
 	       return true;
 	else
 		return false;
 }
 
 void XMLSchemaWriter::markAsWritten(UMLClassifier *c) {
-	writtenConcepts.append(c);
+	writtenClassifiers.append(c);
 }
 
 void XMLSchemaWriter::writeAttributeDecls(QPtrList<UMLAttribute> &attribs, QTextStream &XMLschema )
@@ -522,12 +568,12 @@ bool XMLSchemaWriter::writeAssociationDecls(QPtrList<UMLAssociation> association
 // between different classes are to be treated
 			if (printRoleB)
 			{
-				UMLClassifier *classB = dynamic_cast<UMLClassifier*>(a->getObjectB());
-				if (classB) {
+				UMLClassifier *classifierB = dynamic_cast<UMLClassifier*>(a->getObjectB());
+				if (classifierB) {
 					// ONLY write out IF there is a rolename given
 					// otherwise its not meant to be declared
 					if (!a->getRoleNameB().isEmpty() || noRoleNameOK)
-						writeAssociationRoleDecl(classB, a->getMultiB(), XMLschema);
+						writeAssociationRoleDecl(classifierB, a->getMultiB(), XMLschema);
 				}
 			}
 			*/
@@ -535,12 +581,12 @@ bool XMLSchemaWriter::writeAssociationDecls(QPtrList<UMLAssociation> association
 			// print RoleA decl
 			if (printRoleA)
 			{
-				UMLClassifier *classA = dynamic_cast<UMLClassifier*>(a->getObjectA());
-				if (classA) {
+				UMLClassifier *classifierA = dynamic_cast<UMLClassifier*>(a->getObjectA());
+				if (classifierA) {
 					// ONLY write out IF there is a rolename given
 					// otherwise its not meant to be declared
 					if (!a->getRoleNameA().isEmpty() || noRoleNameOK )
-						writeAssociationRoleDecl(classA, a->getMultiA(), XMLschema);
+						writeAssociationRoleDecl(classifierA, a->getMultiA(), XMLschema);
 				}
 			}
 		}
@@ -575,6 +621,8 @@ void XMLSchemaWriter::writeAssociationRoleDecl( UMLClassifier *c, QString multi,
 {
 
 	bool isAbstract = c->getAbstract();
+	bool isInterface = dynamic_cast<UMLInterface*>(c) ? true : false;
+
 	QString elementName = getElementName(c);
 	QString doc = c->getDoc();
 
@@ -640,13 +688,16 @@ void XMLSchemaWriter::writeAssociationRoleDecl( UMLClassifier *c, QString multi,
 	// or complexTypes. Thus we have taken a middle rode. If someone wants to key me into a
 	// better way to represent this, I'd be happy to listen. =b.t.
 	//
-	if (isAbstract && c->findSubClassConcepts(m_doc).count() > 0)
+	// UPDATE: partial solution to the above: as of 13-Mar-2003 we now write BOTH a complexType
+	//         AND a group declaration for interfaces AND classes which are inherited from.
+	//
+	if ((isAbstract || isInterface ) && c->findSubClassConcepts(m_doc).count() > 0)
 		XMLschema<<getIndent()<<"<"<<makeSchemaTag("group")
-			<<" ref=\""<<makePackageTag(elementName+"Type")<<"\"";
+			<<" ref=\""<<makePackageTag(getElementGroupTypeName(c))<<"\"";
 	else
 		XMLschema<<getIndent()<<"<"<<makeSchemaTag("element")
-			<<" name=\""<<elementName<<"\""
-			<<" type=\""<<makePackageTag(elementName+"Type")<<"\"";
+			<<" name=\""<<getElementName(c)<<"\""
+			<<" type=\""<<makePackageTag(getElementTypeName(c))<<"\"";
 
 	// min/max occurs
 	if (minOccurs != "1")
@@ -708,6 +759,12 @@ QString XMLSchemaWriter::getElementTypeName(UMLClassifier *c)
 {
 	QString elementName = getElementName(c);
 	return elementName + "Type";
+}
+
+QString XMLSchemaWriter::getElementGroupTypeName(UMLClassifier *c)
+{
+	QString elementName = getElementName(c);
+	return elementName + "InterfaceType";
 }
 
 QString XMLSchemaWriter::makePackageTag (QString tagName) {
