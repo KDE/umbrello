@@ -28,6 +28,7 @@
 
 // #include "codeclassfielddialog.h"
 
+
 class CodeGenerator;
 class ClassifierCodeDocument;
 class UMLAttribute;
@@ -183,7 +184,6 @@ private:
 	ClassFieldType m_classFieldType;
 	CodeClassFieldDeclarationBlock * m_declCodeBlock;
 	QPtrList<CodeAccessorMethod> m_methodVector; // the list of methods related to this codeclassfield
-        QMap<CodeAccessorMethod::AccessorType, CodeAccessorMethod*> * m_methodMap; // map of what accessor methods we currently have in this object.
 
 	// these are just some utility functions 
 	CodeAccessorMethod * newCodeAccessorMethod (CodeAccessorMethod::AccessorType type);

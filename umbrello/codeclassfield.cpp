@@ -12,6 +12,7 @@
  *      Author : thomas
  *      Date   : Fri Jun 20 2003
  */
+
 #include <qregexp.h>
 #include <kdebug.h>
 
@@ -160,13 +161,17 @@ QString CodeClassField::getUMLObjectName(UMLObject *obj)
  */
 bool CodeClassField::addMethod ( CodeAccessorMethod * add_object ) {
 
-        // not allowed to add if no tag
 	CodeAccessorMethod::AccessorType type = add_object->getType();
 
+  	if(findMethodByType(type))
+		return false;
+/*
+	// this wont work as the key for QMap needs to inherit from QObject
   	if(m_methodMap->contains(type))
                 return false; // return false, we already have some object with this tag in the list
         else
                 m_methodMap->insert(type, add_object);
+*/
 
 	m_methodVector.append(add_object);
         return true;
@@ -176,7 +181,7 @@ bool CodeClassField::addMethod ( CodeAccessorMethod * add_object ) {
  * Remove a Method object from m_methodVector List
  */
 bool CodeClassField::removeMethod ( CodeAccessorMethod * remove_object ) {
-        m_methodMap->erase(remove_object->getType());
+        // m_methodMap->erase(remove_object->getType());
 	m_methodVector.removeRef(remove_object);
 	getParentDocument()->removeTextBlock(remove_object);
 	return true;
@@ -343,17 +348,25 @@ QString CodeClassField::fixInitialStringDeclValue(QString value, QString type)
 CodeAccessorMethod * CodeClassField::findMethodByType ( CodeAccessorMethod::AccessorType type )
 {
         //if we already know to which file this class was written/should be written, just return it.
+/*
+	// argh. this wont work because "accessorType' doesnt inherit from QObject.
         if(m_methodMap->contains(type))
                 return ((*m_methodMap)[type]);
+*/
+        CodeAccessorMethod * obj = NULL;
+	for (CodeAccessorMethod * m = m_methodVector.first(); m ; m= m_methodVector.next())
+		if( m->getType() == type)
+			return m;
 
-        return (CodeAccessorMethod*) NULL;
+        return (CodeAccessorMethod *) NULL;
 }
 
 void CodeClassField::initAccessorMethods()
 {
 
 	// everything gets potential get/set method
-  	if(!m_methodMap->contains(CodeAccessorMethod::GET))
+  	//if(!m_methodMap->contains(CodeAccessorMethod::GET))
+  	if(!findMethodByType(CodeAccessorMethod::GET))
 	{
                 CodeAccessorMethod * method = newCodeAccessorMethod (CodeAccessorMethod::GET);
 		if(method)
@@ -363,7 +376,7 @@ void CodeClassField::initAccessorMethods()
 		}
 	}
 
-  	if(!m_methodMap->contains(CodeAccessorMethod::SET))
+  	if(!findMethodByType(CodeAccessorMethod::SET))
 	{
                 CodeAccessorMethod * method = newCodeAccessorMethod (CodeAccessorMethod::SET);
 		if(method) {
@@ -376,7 +389,7 @@ void CodeClassField::initAccessorMethods()
 	// (and only used if the role specifies a 'list' type object
         if (!parentIsAttribute()) {
 
-  		if(!m_methodMap->contains(CodeAccessorMethod::ADD))
+  		if(!findMethodByType(CodeAccessorMethod::ADD))
 		{
                 	CodeAccessorMethod * method = newCodeAccessorMethod (CodeAccessorMethod::ADD);
 			if(method) {
@@ -385,7 +398,7 @@ void CodeClassField::initAccessorMethods()
 			}
 		}
 
-  		if(!m_methodMap->contains(CodeAccessorMethod::REMOVE))
+  		if(!findMethodByType(CodeAccessorMethod::REMOVE))
 		{
                 	CodeAccessorMethod * method = newCodeAccessorMethod (CodeAccessorMethod::REMOVE);
 			if(method) {
@@ -394,7 +407,7 @@ void CodeClassField::initAccessorMethods()
 			}
 		}
 
-  		if(!m_methodMap->contains(CodeAccessorMethod::LIST))
+  		if(!findMethodByType(CodeAccessorMethod::LIST))
 		{
                 	CodeAccessorMethod * method = newCodeAccessorMethod (CodeAccessorMethod::LIST);
 			if(method) {
@@ -523,7 +536,7 @@ void CodeClassField::initFields ( ) {
 	m_declCodeBlock = newDeclarationCodeBlock();
 
 	m_methodVector.setAutoDelete(false);
-	m_methodMap = new QMap<CodeAccessorMethod::AccessorType, CodeAccessorMethod *>;
+	// m_methodMap = new QMap<CodeAccessorMethod::AccessorType, CodeAccessorMethod *>;
 
 	initAccessorMethods();
 	updateContent();
