@@ -156,18 +156,23 @@ void CodeGenerationWizard::populateStatusList() {
 
 void CodeGenerationWizard::showPage(QWidget *page) {
 	if (indexOf(page) == 2)
-	{//before advancint to the final page, check that the output directory exists and is
-	 //writtable
-/*
-// FIX, needed?
-		SettingsDlg::CodeGenState codegenState;
-		((CodeGenerationOptionsPage*)QWizard::page(1))->state(codegenState);
-		QFileInfo info(codegenState.outputDir);
+	{
+		// first save the settings to the selected generator policy
+		((CodeGenerationOptionsPage*)QWizard::page(1))->apply();
+
+		// before going on to the final page, check that the output directory exists and is
+		// writable
+
+		// get the policy for the current code generator
+		CodeGenerationPolicy *policy = m_doc->getCurrentCodeGenerator()->getPolicy();
+		
+		// get the output directory path
+		QFileInfo info(policy->getOutputDirectory().absPath());
 		if(!info.exists())
 		{
-			if(KMessageBox::questionYesNo(this,
-			i18n("The directory %1 does not exist. Do you want to create it now?").arg(info.filePath()),
-			i18n("Output Directoy Does Not Exist")) == KMessageBox::Yes)
+			if (KMessageBox::questionYesNo(this,
+					i18n("The directory %1 does not exist. Do you want to create it now?").arg(info.filePath()),
+					i18n("Output Directoy Does Not Exist")) == KMessageBox::Yes)
 			{
 				QDir dir;
 				if(!dir.mkdir(info.filePath()))
@@ -184,8 +189,8 @@ void CodeGenerationWizard::showPage(QWidget *page) {
 				i18n("Output Directory Does Not Exist"));
 				return;
 			}
-		}
-		{//directory exists.. make sure we can write to it
+		} else {
+		//directory exists.. make sure we can write to it
 			if(!info.isWritable())
 			{
       	KMessageBox::sorry(this,i18n("The output directory exists, but it is not writable.\nPlease set\
@@ -201,9 +206,8 @@ void CodeGenerationWizard::showPage(QWidget *page) {
 				return;
 			}
 		}
-*/
 	}
-		populateStatusList();
+	populateStatusList();
 	QWizard::showPage(page);
 }
 

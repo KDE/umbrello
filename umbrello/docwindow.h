@@ -90,6 +90,10 @@ public:
 	 */
 	void newDocumentation( );
 
+	/**
+	 * Checks if the user is typing in the documentation edit window
+	 */
+	bool isTyping();
 private:
 	/**
 	 * Used internally to know which type of object we are showing

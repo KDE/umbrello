@@ -86,7 +86,7 @@ void ClassImport::insertAttribute(CClassStore& store,
 			assocType = Uml::at_Aggregation;
 		else
 			assocType = Uml::at_Composition;
-		UMLAssociation *assoc = new UMLAssociation(assocType, o, other);
+		UMLAssociation *assoc = new UMLAssociation(this, assocType, o, other);
 		assoc->setRoleNameB(name);
 		assoc->setVisibilityB(scope);
 		UMLDoc::addAssociation(assoc);
@@ -156,13 +156,17 @@ void ClassImport::importCPP(QStringList headerFileList) {
 
 	for(; it.current();++it ) {
 		CParsedClass* currentParsedClass =  classParser.store.getClassByName(it);
-		QPtrList<CParsedAttribute> *attributes = currentParsedClass->getSortedAttributeList();
-		QPtrListIterator<CParsedAttribute> aIt(*attributes);
 
-		QString pkgName( currentParsedClass->declaredInScope );
+		QStringList parentPkgs = QStringList::split('.', currentParsedClass->declaredInScope);
 		UMLPackage *pkg = NULL;
-		if( ! pkgName.isEmpty() )
-			pkg = (UMLPackage *)createUMLObject(Uml::ot_Package, pkgName);
+		while (! parentPkgs.isEmpty()) {
+			QString pkgName = parentPkgs.front();
+			parentPkgs.pop_front();
+			UMLPackage *parentPkg = pkg;
+			pkg = (UMLPackage *)createUMLObject(Uml::ot_Package, pkgName, "", parentPkg);
+			if (parentPkg)
+				parentPkg->addObject( pkg );
+		}
 		UMLObject *currentClass = createUMLObject(Uml::ot_Class,
 							  currentParsedClass->name,
 							  currentParsedClass->comment,
@@ -170,7 +174,8 @@ void ClassImport::importCPP(QStringList headerFileList) {
 		if (pkg)
 			pkg->addObject( currentClass );
 
-		for( ; aIt.current() ; ++aIt) {
+		QPtrList<CParsedAttribute> *attributes = currentParsedClass->getSortedAttributeList();
+		for (QPtrListIterator<CParsedAttribute> aIt(*attributes); aIt.current() ; ++aIt) {
 			CParsedAttribute *attr = aIt.current();
 			QString scope;
 			Uml::Scope attrScope = Uml::Public;
@@ -268,7 +273,7 @@ void ClassImport::importCPP(QStringList headerFileList) {
 					  << parsedParent->name << endl;
 				continue;
 			}
-			UMLAssociation *assoc = new UMLAssociation( Uml::at_Generalization,
+			UMLAssociation *assoc = new UMLAssociation( this, Uml::at_Generalization,
 								    classObj, parentObj );
 			addAssociation(assoc);
 		}

@@ -26,6 +26,8 @@
 #include "dialogs/codegenerationpolicypage.h"
 #include "codegenerationpolicy.h"
 
+using namespace std;
+
 #define MAXLINES 256
 
 const CodeGenerationPolicy::OverwritePolicy CodeGenerationPolicy::DEFAULT_OVERWRITE_POLICY = Ask;
@@ -423,7 +425,7 @@ QString CodeGenerationPolicy::getHeadingFile(QString str) {
                         m_headingFiles.setNameFilter(str);
                         //if there is more than one match we just take the first one
                         filename = m_headingFiles.absFilePath(m_headingFiles.entryList().first());
-                        kdWarning() << "header file name set to " << filename << " because it was *" << endl;
+                       // kdWarning() << "header file name set to " << filename << " because it was *" << endl;
                 }
         } else {   //we got a file name (not only extension)
                 filename = m_headingFiles.absFilePath(str);
@@ -431,8 +433,8 @@ QString CodeGenerationPolicy::getHeadingFile(QString str) {
 
         QFile f(filename);
         if(!f.open(IO_ReadOnly)) {
-                kdWarning() << "Error opening heading file: " << f.name() << endl;
-                kdWarning() << "Headings directory was " << m_headingFiles.absPath() << endl;
+//                kdWarning() << "Error opening heading file: " << f.name() << endl;
+//                kdWarning() << "Headings directory was " << m_headingFiles.absPath() << endl;
                 return QString("");
         }
 

@@ -52,16 +52,17 @@ CodeClassField::~CodeClassField ( ) {
 	QPtrList<CodeAccessorMethod> list = m_methodVector;
 	for(CodeAccessorMethod * m = list.first(); m ; m=list.next())
 	{
-		//removeMethod(m);
-		m->release(); 
+		getParentDocument()->removeTextBlock(m);
+		m->forceRelease(); 
 	}
 	list.clear();
 
 	// clear the decl block from parent text block list too
 	if(m_declCodeBlock)
 	{
-		//getParentDocument()->removeTextBlock(m_declCodeBlock);
-		m_declCodeBlock->release(); 
+		getParentDocument()->removeTextBlock(m_declCodeBlock);
+		m_declCodeBlock->forceRelease(); 
+		m_declCodeBlock = 0;
 	}
 
 }
@@ -299,11 +300,13 @@ void CodeClassField::setAttributesFromNode ( QDomElement & root) {
                 } else 
                 if( tag == "codeaccessormethod" ) {
 			int type = element.attribute("accessType","0").toInt();
-			CodeAccessorMethod * method = findMethodByType((CodeAccessorMethod::AccessorType) type);
+                        int role_id = element.attribute("role_id","-1").toInt();
+			CodeAccessorMethod * method = findMethodByType((CodeAccessorMethod::AccessorType) type, role_id);
 			if(method)
 				method->loadFromXMI(element);
 			else
-				kdError()<<" ERROR: cant load code accessor method for type:"<<type<<" which doesnt exist in this codeclassfield. Outdated codegen library that doesnt have this type of accessor method?"<<endl;
+				kdError()<<"Cant load code accessor method for type:"<<type<<" which doesnt exist in this codeclassfield. Is XMI out-dated or corrupt?"<<endl;
+
 		} else
                 if( tag == "header" ) {
 			// this is treated in parent.. skip over here
@@ -396,7 +399,7 @@ void CodeClassField::synchronize ()
 		m_declCodeBlock->syncToParent();
 }
 
-CodeAccessorMethod * CodeClassField::findMethodByType ( CodeAccessorMethod::AccessorType type )
+CodeAccessorMethod * CodeClassField::findMethodByType ( CodeAccessorMethod::AccessorType type, int role_id)
 {
         //if we already know to which file this class was written/should be written, just return it.
 /*
@@ -405,9 +408,24 @@ CodeAccessorMethod * CodeClassField::findMethodByType ( CodeAccessorMethod::Acce
                 return ((*m_methodMap)[type]);
         CodeAccessorMethod * obj = NULL;
 */
+	if(role_id > 1 || role_id < 0)
+	{
 	for (CodeAccessorMethod * m = m_methodVector.first(); m ; m= m_methodVector.next())
 		if( m->getType() == type)
 			return m;
+	} else {
+		// ugh. forced into this underperforming algorithm because of bad association
+		// design.
+		for (CodeAccessorMethod * m = m_methodVector.first(); m ; m= m_methodVector.next())
+		{
+			UMLRole * role = dynamic_cast<UMLRole*>(m->getParentObject());
+			if(!role)
+				kdError()<<"    FindMethodByType()  cant create role for method type:"<<m->getType()<<endl;
+			if( role && m->getType() == type && role->getRoleID() == role_id)
+				return m;
+		}
+
+	}
 
         return (CodeAccessorMethod *) NULL;
 }
@@ -508,6 +526,7 @@ void CodeClassField::updateContent()
                         // first off, some accessor methods wont appear if its a singleValue 
 			// role and vice-versa
                         if(isSingleValue)
+			{
 				switch(type) {
 					case CodeAccessorMethod::SET:
                         			// SET method true ONLY IF changeability is NOT Frozen
@@ -526,7 +545,9 @@ void CodeClassField::updateContent()
 						method->setWriteOutText(false);
 						break;
 				}
+			}
 			else
+			{
 				switch(type) {
 					// get/set always false
 					case CodeAccessorMethod::GET:
@@ -552,6 +573,7 @@ void CodeClassField::updateContent()
 						method->setWriteOutText(true);
 						break;
 				}
+			}
 
 
                 }
@@ -594,7 +616,7 @@ void CodeClassField::initFields ( ) {
 	updateContent();
 
 	connect(getParentObject(),SIGNAL(modified()),this,SIGNAL(modified())); // child objects will trigger off this signal
-	// m_dialog = new CodeClassFieldDialog( );
+
 }
 
 #include "codeclassfield.moc"

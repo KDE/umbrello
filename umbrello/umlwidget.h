@@ -509,6 +509,14 @@ public:
 	void adjustAssocs(int x, int y);
 
 	/**
+	 * Adjusts all unselected associations with the given co-ordinates
+	 *
+	 * @param x The x-coordinate.
+	 * @param y The y-coordinate.
+	 */
+	void adjustUnselectedAssocs(int x, int y); 
+
+	/**
 	 * Set the m_bActivated flag of a widget but does not perform the Activate method
 	 *
 	 * @param Active Status of activation is to be set.
@@ -597,7 +605,6 @@ protected:
 	/** Returns the font metric used by this object for Text which uses bold/italic fonts*/
 	QFontMetrics &getFontMetrics(UMLWidget::FontType fontType);
 	/** set the font metric to use */
-	void setFontMetrics(UMLWidget::FontType fontType, QFontMetrics &fm);
 	void setFontMetrics(UMLWidget::FontType fontType, QFontMetrics fm);
 	void setupFontType(QFont &font, UMLWidget::FontType fontType);
 	/**

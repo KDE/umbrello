@@ -22,6 +22,8 @@
 #include "umlview.h"
 #include "linepath.h"
 
+using namespace std;
+
 LinePath::LinePath() {
 	m_RectList.setAutoDelete( true );
 	m_LineList.setAutoDelete( true );

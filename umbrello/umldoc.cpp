@@ -267,11 +267,14 @@ bool UMLDoc::openDocument(const KURL& url, const char* /*format =0*/) {
 		return false;
 	}
 
-	m_bLoading = true;
-
 	doc_url = url;
 	QDir d = url.path(1);
 	deleteContents();
+	// IMPORTANT: set m_bLoading to true
+	// _AFTER_ the call of UMLDoc::deleteContents()
+	// as it sets m_bLoading to false afer it was temporarely
+	// changed to true to block recording of changes in redo-buffer
+	m_bLoading = true;
 	QString tmpfile;
 	KIO::NetAccess::download( url, tmpfile
 #if KDE_IS_VERSION(3,1,90)
@@ -380,7 +383,18 @@ void UMLDoc::deleteContents() {
 
 	if (listView) {
 		listView->init();
+		// store old setting - for restore of last setting
+		bool m_bLoading_old = m_bLoading;
+		m_bLoading = true; // This is to prevent document becoming modified.
+		// For reference, here is an example of a call sequence that would
+		// otherwise result in futile addToUndoStack() calls:
+		//  removeAllViews()  =>
+		//   UMLView::removeAllAssociations()  =>
+		//    UMLView::removeAssoc()  =>
+		//     UMLDoc::setModified(true, true)  =>
+		//      addToUndoStack().
 		removeAllViews();
+		m_bLoading = m_bLoading_old;
 		if(objectList.count() > 0) {
 			// clear our object list. We do this explicitly since setAutoDelete is false for the objectList now.
 			for(UMLObject * obj = objectList.first(); obj != 0; obj = objectList.next())
@@ -864,7 +878,7 @@ UMLObject* UMLDoc::createStereotype(UMLClassifier* classifier, UMLObject_Type li
 
 UMLOperation* UMLDoc::createOperation(UMLClassifier* classifier,
 				      const QString &name /*=null*/,
-				      UMLAttributeList *params )
+				      UMLAttributeList *params  /*=NULL*/)
 {
 	if(!classifier)
 	{
@@ -872,28 +886,14 @@ UMLOperation* UMLDoc::createOperation(UMLClassifier* classifier,
 			    << endl;
 		return NULL;
 	}
-	UMLOperation *op = NULL;
-	if (name == QString::null || name.isEmpty()) {
-		op = new UMLOperation( NULL, "", getUniqueID());
-		op->setName( classifier->uniqChildName(Uml::ot_Operation) );
-		//hack, make op a child of classifier without really adding it as operation
-		//this makes the Op.Dialog smoother in case of name conflicts
-		// classifier->insertChild( op );
-		do {
-			UMLOperationDialog operationDialogue(0, op);
-			if( operationDialogue.exec() != QDialog::Accepted ) {
-				delete op;
-				return NULL;
-			}
-		} while (classifier->checkOperationSignature(op->getName(), params));
-	} else {
+	bool nameNotSet = (name == QString::null || name.isEmpty());
+	if (! nameNotSet) {
 		UMLOperation *existingOp = classifier->checkOperationSignature(name, params);
 		if (existingOp)
 			return existingOp;
-		op = new UMLOperation( 0L, name, getUniqueID());
 	}
-
-	if(params)
+	UMLOperation *op = new UMLOperation(NULL, name, getUniqueID());
+	if (params)
 	{
 		UMLAttributeListIt it(*params);
 		for( ; it.current(); ++it ) {
@@ -903,6 +903,34 @@ UMLOperation* UMLDoc::createOperation(UMLClassifier* classifier,
 			op->addParm(par);
 		}
 	}
+	/*
+	do {
+		UMLOperationDialog operationDialogue(0, op);
+		if( operationDialogue.exec() != QDialog::Accepted ) {
+			delete op;
+			return NULL;
+		}
+	} while (classifier->checkOperationSignature(op->getName(), op->getParmList()));
+	*/
+	if (nameNotSet || params == NULL) {
+		if (nameNotSet)
+			op->setName( classifier->uniqChildName(Uml::ot_Operation) );
+		do {
+			UMLOperationDialog operationDialogue(0, op);
+			if( operationDialogue.exec() != QDialog::Accepted ) {
+				delete op;
+				return NULL;
+			} else if (classifier->checkOperationSignature(op->getName(), op->getParmList())) {
+				KMessageBox::information(0,
+//no new i18n							 i18n("An operation with the same name and signature already exists. "
+//							      "You can not add it again.")
+							 "");
+			} else {
+				break;
+			}
+		} while(1);
+	}
+//FIXMEnow
 
 	// operation name is ok, formally add it to the classifier
 	classifier->addOperation( op );
@@ -913,6 +941,7 @@ UMLOperation* UMLDoc::createOperation(UMLClassifier* classifier,
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLDoc::removeAssociation (UMLAssociation * assoc) {
+
 	if(!assoc)
 		return;
 
@@ -925,7 +954,8 @@ void UMLDoc::removeAssociation (UMLAssociation * assoc) {
 	// I dont believe this appropriate, UMLAssociations ARENT UMLWidgets -b.t.
 	// emit sigObjectRemoved(object);
 
-	//setModified(true, false);
+	// so we will save our document
+	setModified(true, false);
 
 }
 
@@ -958,17 +988,18 @@ UMLAssociation * UMLDoc::findAssociation(Uml::Association_Type assocType,
 	return ret;
 }
 
-// create AND add an association. Not currently used by anything.. remove? -b.t.
+// create AND add an association. Used by refactoring assistant.
 UMLAssociation* UMLDoc::createUMLAssociation(UMLObject *a, UMLObject *b, Uml::Association_Type type)
 {
 	bool swap;
 	UMLAssociation *assoc = findAssociation(type, a, b, &swap);
 	if (assoc == NULL) {
-		assoc = new UMLAssociation( type, a, b );
+		assoc = new UMLAssociation(this, type, a, b );
 		addAssociation(assoc);
 	}
 	return assoc;
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLDoc::addAssociation(UMLAssociation *Assoc)
 {
@@ -1010,6 +1041,7 @@ void UMLDoc::addAssociation(UMLAssociation *Assoc)
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLDoc::addAssocToConcepts(UMLAssociation* a) {
+
 	int AId = a->getRoleAId();
 	int BId = a->getRoleBId();
 	UMLClassifierList concepts = getConcepts();
@@ -1810,7 +1842,7 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element) {
 			continue;
 		}
 		bool status = pObject -> loadFromXMI( tempElement );
-		if (type == "UML:Association") {
+		if (type == "UML:Association" || type == "UML:Generalization") {
 			if ( !status ) {
 				// Some interim umbrello versions saved empty UML:Associations,
 				// thus we tolerate problems loading them.
@@ -1826,10 +1858,17 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element) {
 			delete pObject;
 			return false;
 		} else {
-			if (type == "UML:Generalization")
-				addAssocToConcepts((UMLAssociation *) pObject);
 			objectList.append( pObject );
 		}
+
+		// Now, we need to add all the UMLObjects held by the package
+		// should it have any.
+		if (type == "UML:Package") {
+			UMLObjectList oList = ((UMLPackage*) pObject)->containedObjects();
+			for (UMLObject * obj = oList.first(); obj != 0; obj = oList.next())
+				objectList.append(obj);
+		}
+
 		emit sigSetStatusbarProgress( ++m_count );
 		node = node.nextSibling();
 		tempElement = node.toElement();
@@ -1861,9 +1900,9 @@ UMLObject* UMLDoc::makeNewUMLObject(QString type) {
 	} else if (type == "UML:Enum") {
 		pObject = new UMLEnum();
 	} else if (type == "UML:Association") {
-		pObject = new UMLAssociation(Uml::at_Unknown, (UMLObject*)NULL, (UMLObject*) NULL);
+		pObject = new UMLAssociation(this, Uml::at_Unknown, (UMLObject*)NULL, (UMLObject*) NULL);
 	} else if (type == "UML:Generalization") {
-		pObject = new UMLAssociation(Uml::at_Generalization, NULL, NULL);
+		pObject = new UMLAssociation(this, Uml::at_Generalization, NULL, NULL);
 	}
 	return pObject;
 }
@@ -2161,11 +2200,13 @@ bool UMLDoc::activateView ( int viewID ) {
 
 bool UMLDoc::activateAllViews() {
 	bool status = true;
+	// store old setting - for restore of last setting
+	bool m_bLoading_old = m_bLoading;
 	m_bLoading = true; //this is to prevent document becoming modified when activating a view
 
 	for(UMLView *v = m_ViewList.first(); v; v = m_ViewList.next() )
 		status = status && v->activateAfterLoad();
-	m_bLoading = false;
+	m_bLoading = m_bLoading_old;
 	viewsNotActivated.clear();
 	return status;
 }
@@ -2248,7 +2289,6 @@ void UMLDoc::signalDiagramRenamed(UMLView * pView ) {
 
 void UMLDoc::addToUndoStack() {
 	if (!m_bLoading) {
-
 		QBuffer* buffer = new QBuffer();
 		buffer->open(IO_WriteOnly);
 		QDataStream* undoData = new QDataStream();
@@ -2281,6 +2321,8 @@ void UMLDoc::clearRedoStack() {
 void UMLDoc::loadUndoData() {
 	if (undoStack.count() > 1) {
 		int currentViewID = currentView->getID();
+		// store old setting - for restore of last setting
+		bool m_bLoading_old = m_bLoading;
 		m_bLoading = true;
 		deleteContents();
 		redoStack.prepend( undoStack.getFirst() );
@@ -2293,7 +2335,7 @@ void UMLDoc::loadUndoData() {
 
 		setModified(true, false);
 		getCurrentView()->resizeCanvasToItems();
-		m_bLoading = false;
+		m_bLoading = m_bLoading_old;
 
 		undoStack.setAutoDelete(true);
 		if (undoStack.count() <= 1) {
@@ -2317,6 +2359,8 @@ void UMLDoc::loadUndoData() {
 void UMLDoc::loadRedoData() {
 	if (redoStack.count() >= 1) {
 		int currentViewID = currentView->getID();
+		// store old setting - for restore of last setting
+		bool m_bLoading_old = m_bLoading;
 		m_bLoading = true;
 		deleteContents();
 		undoStack.prepend( redoStack.getFirst() );
@@ -2329,7 +2373,7 @@ void UMLDoc::loadRedoData() {
 
 		setModified(true, false);
 		getCurrentView()->resizeCanvasToItems();
-		m_bLoading = false;
+		m_bLoading = m_bLoading_old;
 
 		redoStack.setAutoDelete(true);
 		if (redoStack.count() < 1) {
