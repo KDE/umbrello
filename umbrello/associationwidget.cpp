@@ -291,6 +291,10 @@ QString AssociationWidget::getRoleBDoc() const {
 void AssociationWidget::setName(QString strName) {
 	bool newLabel = false;
         if(!m_pName) {
+		// Don't construct the FloatingText if the string is empty.
+		if (strName.isEmpty())
+			return;
+
 		newLabel = true;
                 m_pName = new FloatingText(m_pView, CalculateNameType(tr_Name), strName);
                 m_pName->setAssoc(this);
@@ -319,11 +323,15 @@ void AssociationWidget::setName(QString strName) {
 
 }
 
-bool AssociationWidget::setMulti(QString strMulti, Role_Type role) {
+void AssociationWidget::setMulti(QString strMulti, Role_Type role) {
 	bool newLabel = false;
 	Text_Role tr = (role == A ? tr_MultiA : tr_MultiB);
 
 	if(!m_role[role].m_pMulti) {
+		// Don't construct the FloatingText if the string is empty.
+		if (strMulti.isEmpty())
+			return;
+
 		newLabel = true;
 		m_role[role].m_pMulti = new FloatingText(m_pView, tr, strMulti);
 		m_role[role].m_pMulti->setAssoc(this);
@@ -345,7 +353,6 @@ bool AssociationWidget::setMulti(QString strMulti, Role_Type role) {
 		m_role[role].m_pMulti -> show();
 	else
 		m_role[role].m_pMulti -> hide();
-	return true;
 }
 
 bool AssociationWidget::setMultiA(QString strMultiA) {
@@ -355,11 +362,11 @@ bool AssociationWidget::setMultiA(QString strMultiA) {
 		type != at_Coll_Message && type != at_Coll_Message_Self) {
 		return false;
 	}
-	bool status = setMulti(strMultiA, A);
+	setMulti(strMultiA, A);
 	// set attribute of UMLAssociation associated with this associationwidget
 	if (m_pAssociation)
 		m_pAssociation->setMultiA(strMultiA);
-	return status;
+	return true;
 }
 
 bool AssociationWidget::setMultiB(QString strMultiB) {
@@ -367,11 +374,11 @@ bool AssociationWidget::setMultiB(QString strMultiB) {
 	//if the association is not supposed to have a Multiplicity FloatingText
 	if( !AssocRules::allowMultiplicity( type, getWidgetB() -> getBaseType() ) )
 		return false;
-	bool status = setMulti(strMultiB, B);
+	setMulti(strMultiB, B);
 	// set attribute of UMLAssociation associated with this associationwidget
 	if (m_pAssociation)
 		m_pAssociation->setMultiB(strMultiB);
-	return status;
+	return true;
 }
 
 
@@ -385,6 +392,10 @@ bool AssociationWidget::setRoleName (QString strRole, Role_Type role) {
 
 	Text_Role tr = (role == A ? tr_RoleAName : tr_RoleBName);
 	if(!m_role[role].m_pRole) {
+		// Don't construct the FloatingText if the string is empty.
+		if (strRole.isEmpty())
+			return true;
+
 		newLabel = true;
 		m_role[role].m_pRole = new FloatingText(m_pView, tr, strRole);
 		m_role[role].m_pRole->setAssoc(this);
@@ -511,11 +522,15 @@ void AssociationWidget::setChangeabilityA (Changeability_Type value)
 	setChangeWidget(changeString, A);
 }
 
-bool AssociationWidget::setChangeWidget(QString strChangeWidget, Role_Type role) {
+void AssociationWidget::setChangeWidget(QString strChangeWidget, Role_Type role) {
 	bool newLabel = false;
 	Text_Role tr = (role == A ? tr_ChangeA : tr_ChangeB);
 
         if(!m_role[role].m_pChangeWidget) {
+		// Don't construct the FloatingText if the string is empty.
+		if (strChangeWidget.isEmpty())
+			return;
+
 		newLabel = true;
                 m_role[role].m_pChangeWidget = new FloatingText(m_pView, tr, strChangeWidget);
                 m_role[role].m_pChangeWidget->setAssoc(this);
@@ -538,8 +553,6 @@ bool AssociationWidget::setChangeWidget(QString strChangeWidget, Role_Type role)
                 m_role[role].m_pChangeWidget -> show();
         else
                 m_role[role].m_pChangeWidget -> hide();
-
-        return true;
 }
 
 Changeability_Type AssociationWidget::getChangeabilityB() const

@@ -833,7 +833,7 @@ private:
 	/**
 	 * Auxiliary to setMulti{A,B}.
 	 */
-	bool setMulti(QString strMulti, Role_Type role);
+	void setMulti(QString strMulti, Role_Type role);
 
 	/**
 	 * Auxiliary to setRoleName{A,B}.
@@ -854,7 +854,7 @@ private:
 	 * For internal purposes only.
 	 * Other classes/users should use setChangeability[AB] instead.
 	 */
-	bool setChangeWidget(QString strChangeWidget, Role_Type role);
+	void setChangeWidget(QString strChangeWidget, Role_Type role);
 
 	/**
 	 * Auxiliary to getWidget{A,B}ID.
