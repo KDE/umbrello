@@ -695,7 +695,8 @@ QPopupMenu * CodeEditor::createPopupMenu ( const QPoint & pos )
 		if(dynamic_cast<OwnedCodeBlock*>(m_selectedTextBlock) ||
 			dynamic_cast<HierarchicalCodeBlock*>(m_selectedTextBlock))
 			menu->setItemEnabled (4, false);
-
+		
+		m_selectedTextBlock->insertCodeEditMenuItems(menu);
 	}
 
 	return menu;
@@ -813,7 +814,8 @@ void CodeEditor::updateTextBlockFromText (TextBlock * block) {
         if (block) {
 
 		CodeMethodBlock * cmb = dynamic_cast<CodeMethodBlock*>(block);
-		QString baseIndent = block->getNewEditorLine(block->getIndentationLevel()+(cmb ? 1 : 0));
+		//QString baseIndent = block->getNewEditorLine(block->getIndentationLevel()+(cmb ? 1 : 0));
+		QString baseIndent = block->getIndentationString(block->getIndentationLevel()+(cmb ? 1 : 0));
 
                 TextBlockInfo *info = (*m_tbInfoMap)[block];
   		UMLObject * parentObj = info->getParent();
@@ -893,7 +895,7 @@ void CodeEditor::cursorPositionChanged(int para, int pos)
                 // auto-indent new lines
                 QString currentParaText = text(para);
 		QString baseIndent = tBlock->getNewEditorLine(tBlock->getIndentationLevel()+(cmb ? 1 : 0));
-//cerr<<"AUTO INDENT:["<<baseIndent.latin1()<<"] isMethod?"<<(cmb?"true":"false")<<endl;
+// cerr<<"AUTO INDENT:["<<baseIndent.latin1()<<"] isMethod?"<<(cmb?"true":"false")<<endl;
                 int minPos = baseIndent.length();
 
                 // add indent chars to the current line, if missing
@@ -959,7 +961,7 @@ void CodeEditor::cursorPositionChanged(int para, int pos)
 
         // look for changes in editability, if they occur, we need to record
         // the edits which have been made
-        if((editPara && !lastParaIsEditable) || (!editPara && lastParaIsEditable)) {
+        if((editPara && !m_lastTextBlockToBeEdited) || (!editPara && m_lastTextBlockToBeEdited)) {
 
                 setReadOnly(editPara ? false : true);
 
