@@ -875,18 +875,20 @@ QRect UMLView::getDiagramRect() {
 	QObjectListIt it( *l );
 	UMLWidget *obj;
 	while ( (obj=(UMLWidget*)it.current()) != 0 ) {
-		int objEndX = static_cast<int>(obj -> x()) + obj -> width();
-		int objEndY = static_cast<int>(obj -> y()) + obj -> height();
-		int objStartX = static_cast<int>(obj -> x());
-		int objStartY = static_cast<int>(obj -> y());
-		if (startx >= objStartX)
-			startx = objStartX;
-		if (starty >= objStartY)
-			starty = objStartY;
-		if(endx <= objEndX)
-			endx = objEndX;
-		if(endy <= objEndY)
-			endy = objEndY;
+		if (obj->isVisible()) {
+			int objEndX = static_cast<int>(obj -> x()) + obj -> width();
+			int objEndY = static_cast<int>(obj -> y()) + obj -> height();
+			int objStartX = static_cast<int>(obj -> x());
+			int objStartY = static_cast<int>(obj -> y());
+			if (startx >= objStartX)
+				startx = objStartX;
+			if (starty >= objStartY)
+				starty = objStartY;
+			if(endx <= objEndX)
+				endx = objEndX;
+			if(endy <= objEndY)
+				endy = objEndY;
+		}
 		++it;
 	}
 	//if seq. diagram, make sure print all of the lines
