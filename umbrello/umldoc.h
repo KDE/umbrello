@@ -426,22 +426,7 @@ public:
 	 */
 	UMLObject* makeNewUMLObject(QString type);
 
-	/**
-	 * This method is called when a child @ref UMLObject has been updated.
-	 *	This will cause the document to emit the relevant signals.
-	 *
-	 *	@param	o	The object that has been updated.
-	 */
-	void signalChildUMLObjectUpdate(UMLObject *o);
-
-	/**
-	 * This method is called when a child @ref UMLObject has been created.
-	 *	This will cause the document to emit the relevant signals.
-	 *
-	 *	@param	o	The object that has been created.
-	 */
-	void signalChildUMLObjectCreated(UMLObject *o);
-
+	
 	/**
 	 *		Signal a view/diagram has been renamed.
 	 */
@@ -460,13 +445,7 @@ public:
 	 */
 	void signalUMLObjectCreated(UMLObject * o);
 
-	/**
-	 *	Signal that a UMLObject has been changed.
-	 *
-	 *	@param	o	The object that has been changed.
-	 */
-	void signalUMLObjectChanged(UMLObject * o);
-
+	
 	/**
 	 *	Show a properties dialog for an @ref ObjectWidget.
 	 *
@@ -803,21 +782,16 @@ public slots:
 	void slotAutoSave();
 
 signals:
-	void sigChildObjectChanged(UMLObject *);
-	void sigObjectChanged(UMLObject *);
-	void sigDiagramRenamed(int t);
-	void sigDiagramChanged(Uml::Diagram_Type);
 	void sigUpdateItem(int id);
 
-	void sigChildObjectCreated(UMLObject *);
-	void sigDiagramRemoved(int id);
-
-	void sigObjectRemoved(UMLObject *);
 	void sigDiagramCreated(int id);
 	void diagramCreated(Umbrello::Diagram*);
+	void sigDiagramRemoved(int id);
+	void sigDiagramRenamed(int t);
+	void sigDiagramChanged(Uml::Diagram_Type);
 
 	void sigObjectCreated(UMLObject *);
-	void sigWidgetUpdated(UMLObject *);
+	void sigObjectRemoved(UMLObject *);
 
 	/**
 	 * Reset the status bar

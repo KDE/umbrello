@@ -364,19 +364,11 @@ void UMLDoc::deleteContents() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLDoc::setupSignals() {
 	WorkToolBar *tb = ((UMLApp*)parent()) -> getWorkToolBar();
-	connect(this, SIGNAL(sigDiagramCreated(int)), listView, SLOT(slotDiagramCreated(int)));
-	connect(this, SIGNAL(diagramCreated(Umbrello::Diagram*)), listView, SLOT( diagramCreated(Umbrello::Diagram*)));
-	connect(this, SIGNAL(sigDiagramRemoved(int)), listView, SLOT(slotDiagramRemoved(int)));
-	connect(this, SIGNAL(sigChildObjectCreated(UMLObject *)), listView, SLOT(slotChildObjectCreated(UMLObject *)));
-
-	connect(this, SIGNAL(sigDiagramRenamed(int)), listView, SLOT(slotDiagramRenamed(int)));
-	connect(this, SIGNAL(sigObjectChanged(UMLObject *)), listView, SLOT(slotObjectChanged(UMLObject *)));
-	connect(this, SIGNAL(sigChildObjectChanged(UMLObject *)), listView, SLOT(slotChildObjectChanged(UMLObject *)));
-	connect(this, SIGNAL(sigObjectRemoved(UMLObject *)), listView, SLOT(slotObjectRemoved(UMLObject *)));
-
+	
+	
 	connect(this, SIGNAL(sigDiagramChanged(Uml::Diagram_Type)), tb, SLOT(slotCheckToolBar(Uml::Diagram_Type)));
 	//new signals below
-	connect(this, SIGNAL(sigObjectCreated(UMLObject *)), listView, SLOT(slotObjectCreated(UMLObject *)));
+	
 	return;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -616,8 +608,7 @@ UMLObject* UMLDoc::createAttribute(UMLObject* umlobject) {
 	((UMLClass*)umlobject)->addAttribute((UMLAttribute*)newAttribute);
 
 	setModified(true);
-	emit sigChildObjectCreated(newAttribute);
-	emit sigWidgetUpdated(umlobject);
+	emit sigObjectCreated(newAttribute);
 	return newAttribute;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -650,8 +641,7 @@ UMLObject* UMLDoc::createTemplate(UMLObject* umlobject) {
 	((UMLClass*)umlobject)->addTemplate((UMLTemplate*)newTemplate);
 
 	setModified(true);
-	emit sigChildObjectCreated(newTemplate);
-	emit sigWidgetUpdated(umlobject);
+	emit sigObjectCreated(newTemplate);
 	return newTemplate;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -692,8 +682,7 @@ UMLObject* UMLDoc::createOperation(UMLObject* umlobject) {
 	}
 
 	setModified(true);
-	emit sigChildObjectCreated(newOperation);
-	emit sigWidgetUpdated(umlobject);
+	emit sigObjectCreated(newOperation);
 	return newOperation;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -922,8 +911,6 @@ void UMLDoc::renameUMLObject(UMLObject *o) {
 			KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
 		else if(!findUMLObject(o->getBaseType(), name)) {
 			o->setName(name);
-			emit sigObjectChanged(o);
-			emit sigWidgetUpdated(o);
 			setModified(true);
 			break;
 		} else {
@@ -955,8 +942,6 @@ void UMLDoc::renameChildUMLObject(UMLObject *o) {
 			                i18n( "The name you entered was not unique!\nIs this what you wanted?" ),
 			                i18n( "Name Not Unique")) == KMessageBox::Yes) ) {
 				o->setName(name);
-				emit sigChildObjectChanged(o);
-				emit sigWidgetUpdated(p);
 				setModified(true);
 				break;
 			} else {
@@ -1047,8 +1032,6 @@ void UMLDoc::removeUMLObject(UMLObject *o) {
 		if(pClass)
 			pClass->removeTemplate((UMLTemplate*)o);
 	}
-	emit sigWidgetUpdated(p);
-
 	setModified(true);
 
 }
@@ -1059,8 +1042,6 @@ void UMLDoc::showProperties(UMLObject* object, int page, bool assoc) {
 
 	if ( dialogue->exec() ) {
 		getDocWindow()->showDocumentation(object, true);
-		emit sigWidgetUpdated(object);
-		emit sigObjectChanged(object);
 		setModified(true);
 	}
 	dialogue->close(true);//wipe from memory
@@ -1086,40 +1067,18 @@ void UMLDoc::showProperties(ObjectWidget *o) {
 	if(dlg->exec()) {
 		getDocWindow() -> showDocumentation( o, true );
 		UMLObject * object = o -> getUMLObject();
-		emit sigWidgetUpdated(object);
-		emit sigObjectChanged(object);
 		setModified(true);
 	}
 	dlg -> close(true);//wipe from memory
 	return;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
-void UMLDoc::signalChildUMLObjectUpdate(UMLObject *o) {
-	UMLObject *p = (UMLObject *)o->parent();
-	emit sigChildObjectChanged(o);
-	emit sigWidgetUpdated(p);
-	setModified(true);
-	return;
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////
-void UMLDoc::signalChildUMLObjectCreated(UMLObject *o) {
-	UMLObject *p = (UMLObject *)o->parent();
-	emit sigChildObjectCreated(o);
-	emit sigWidgetUpdated(p);
-	setModified(true);
-	return;
-}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLDoc::signalUMLObjectCreated(UMLObject * o) {
 	emit sigObjectCreated(o);
 	setModified(true);
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
-void UMLDoc::signalUMLObjectChanged(UMLObject * o) {
-	emit sigObjectChanged(o);
-	emit sigWidgetUpdated(o);
-	setModified(true);
-}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool UMLDoc::serialize(QDataStream *s, bool archive, int fileversion) {
 	bool status = true;
@@ -1254,21 +1213,6 @@ bool UMLDoc::serialize(QDataStream *s, bool archive, int fileversion) {
 			for(UMLObject *o = objectList.first(); o ; o = objectList.next())
 			{
 				emit sigObjectCreated(o);
-				if (o->getBaseType() == Uml::ot_Class)
-				{
-					QPtrList<UMLOperation> *opList = dynamic_cast<UMLClassifier *>(o)->getOpList();
-					for (UMLOperation *op = opList->first(); op; op = opList->next())
-						emit sigChildObjectCreated(op);
-
-					QPtrList<UMLAttribute> *attList = dynamic_cast<UMLClass *>(o)->getAttList();
-					for (UMLAttribute *att = attList->first(); att; att = attList->next())
-						emit sigChildObjectCreated(att);
-
-					QPtrList<UMLTemplate>* templateList = dynamic_cast<UMLClass *>(o)->getTemplateList();
-					for (UMLTemplate* theTemplate = templateList->first(); theTemplate;
-					     theTemplate = templateList->next())
-						emit sigChildObjectCreated(theTemplate);
-				}
 			}
 		}
 
@@ -1681,8 +1625,6 @@ void UMLDoc::showProperties(UMLWidget * o) {
 
 	if(dlg->exec()) {
 		getDocWindow() -> showDocumentation( o -> getUMLObject() , true );
-		emit sigWidgetUpdated(o -> getUMLObject());
-		emit sigObjectChanged(o -> getUMLObject());
 		setModified(true);
 	}
 	dlg -> close(true);//wipe from memory
