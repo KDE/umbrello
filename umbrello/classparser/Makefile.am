@@ -1,5 +1,5 @@
 tokenizer.cc: $(srcdir)/tokenizer.l
-	@LEX@ -+ -o$@ $<
+	flex -+ -o$@ $<
 
 CLEANFILES = tokenizer.cc
 
