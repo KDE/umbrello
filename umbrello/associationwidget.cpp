@@ -696,9 +696,9 @@ void AssociationWidget::cleanup() {
 
 	//let any other associations know we are going so they can tidy their positions up
 	if(m_role[A].m_nTotalCount > 2)
-		updateAssociations(m_role[A].m_nTotalCount - 1, m_role[A].m_WidgetRegion, true);
+		updateAssociations(m_role[A].m_nTotalCount - 1, m_role[A].m_WidgetRegion, A);
 	if(m_role[B].m_nTotalCount > 2)
-		updateAssociations(m_role[B].m_nTotalCount - 1, m_role[B].m_WidgetRegion, false);
+		updateAssociations(m_role[B].m_nTotalCount - 1, m_role[B].m_WidgetRegion, B);
 
 	for (unsigned r = A; r <= B; r++) {
 		WidgetRole& robj = m_role[r];
@@ -1099,7 +1099,7 @@ void AssociationWidget::calculateEndingPoints() {
 	//find widgetA region
 	Region oldRegionA = m_role[A].m_WidgetRegion;
 	m_role[A].m_WidgetRegion = findPointRegion( rc, xB, yB );
-	doUpdates( m_role[A].m_WidgetRegion, oldRegionA, m_role[A].m_nIndex, m_role[A].m_nTotalCount, true);
+	doUpdates( m_role[A].m_WidgetRegion, oldRegionA, m_role[A].m_nIndex, m_role[A].m_nTotalCount, A);
 
 	//now do the same for widgetB
 	//if the line has more than one segment change the values to calculate
@@ -1120,12 +1120,11 @@ void AssociationWidget::calculateEndingPoints() {
 
 	Region oldRegionB = m_role[B].m_WidgetRegion;
 	m_role[B].m_WidgetRegion = findPointRegion( rc, xA, yA );
-	doUpdates( m_role[B].m_WidgetRegion, oldRegionB, m_role[B].m_nIndex, m_role[B].m_nTotalCount, false);
+	doUpdates( m_role[B].m_WidgetRegion, oldRegionB, m_role[B].m_nIndex, m_role[B].m_nTotalCount, B);
 }
 
 void AssociationWidget::doUpdates(Region& region, Region oldRegion,
-				  int index, int totalCount,
-				  bool isWidgetA) {
+				  int index, int totalCount, Role_Type role) {
 	//move some regions to the standard ones
 	switch( region ) {
 	case NorthWest:
@@ -1144,18 +1143,18 @@ void AssociationWidget::doUpdates(Region& region, Region oldRegion,
 	default:
 		break;
 	}
-	int regionCount = getRegionCount( region, isWidgetA ) + 2;//+2 = (1 for this one and one to halve it)
+	int regionCount = getRegionCount(region, role) + 2;//+2 = (1 for this one and one to halve it)
 	if( oldRegion != region ) {
 		int oldCount = totalCount;
-		updateRegionLineCount( regionCount - 1, regionCount, region, isWidgetA );
-		updateAssociations( oldCount - 1, oldRegion, isWidgetA );
-		updateAssociations( regionCount, region, isWidgetA );
+		updateRegionLineCount( regionCount - 1, regionCount, region, role );
+		updateAssociations( oldCount - 1, oldRegion, role );
+		updateAssociations( regionCount, region, role );
 	} else if( totalCount != regionCount ) {
-		updateRegionLineCount( regionCount - 1, regionCount, region, isWidgetA );
-		updateAssociations( regionCount, region, isWidgetA );
+		updateRegionLineCount( regionCount - 1, regionCount, region, role );
+		updateAssociations( regionCount, region, role );
 	} else {
-		updateRegionLineCount( index, totalCount, region, isWidgetA );
-		updateAssociations( totalCount, region, isWidgetA );
+		updateRegionLineCount( index, totalCount, region, role );
+		updateAssociations( totalCount, region, role );
 	}
 }
 
@@ -2490,7 +2489,7 @@ AssociationWidget::Region AssociationWidget::getWidgetRegion(AssociationWidget *
 	return Error;
 }
 
-int AssociationWidget::getRegionCount(AssociationWidget::Region region, bool widgetA) {
+int AssociationWidget::getRegionCount(AssociationWidget::Region region, Role_Type role) {
 	if(region == Error)
 		return 0;
 	int widgetCount = 0;
@@ -2502,31 +2501,27 @@ int AssociationWidget::getRegionCount(AssociationWidget::Region region, bool wid
 		//don't count this association
 		if (assocwidget == this)
 			continue;
-		UMLWidget *a = assocwidget -> getWidgetA();
-		UMLWidget *b = assocwidget -> getWidgetB();
+		const WidgetRole& otherA = assocwidget->m_role[A];
+		const WidgetRole& otherB = assocwidget->m_role[B];
+		const UMLWidget *a = otherA.m_pWidget;
+		const UMLWidget *b = otherB.m_pWidget;
 		/*
 		//don't count associations to self if both of their end points are on the same region
 		//they are different and placement won't interfere with them
-		if( a == b && assocwidget -> m_role[A].m_WidgetRegion == assocwidget -> m_role[B].m_WidgetRegion )
+		if( a == b && otherA.m_WidgetRegion == otherB.m_WidgetRegion )
 			continue;
 		 */
-		if (widgetA) {	// counting for widgetA
-			if (m_role[A].m_pWidget == a && region == assocwidget->m_role[A].m_WidgetRegion)
-				widgetCount++;
-			else if (m_role[A].m_pWidget == b && region == assocwidget->m_role[B].m_WidgetRegion)
-				widgetCount++;
-		} else {	// counting for widgetB
-			if (m_role[B].m_pWidget == a && region == assocwidget->m_role[A].m_WidgetRegion)
-				widgetCount++;
-			else if (m_role[B].m_pWidget == b && region == assocwidget->m_role[B].m_WidgetRegion)
-				widgetCount++;
-		}
+		if (m_role[role].m_pWidget == a && region == otherA.m_WidgetRegion)
+			widgetCount++;
+		else if (m_role[role].m_pWidget == b && region == otherB.m_WidgetRegion)
+			widgetCount++;
 	}//end while
 	return widgetCount;
 }
 
 void AssociationWidget::updateAssociations(int totalCount,
-					   AssociationWidget::Region region, bool widgetA)
+					   AssociationWidget::Region region,
+					   Role_Type role)
 {
 	if( region == Error )
 		return;
@@ -2536,157 +2531,86 @@ void AssociationWidget::updateAssociations(int totalCount,
 	AssociationWidget* assocwidget2 = 0;
 
 	AssociationWidgetList ordered;
+	Role_Type other = (role == A ? B : A);
 
 	// we order the AssociationWidget list by region and x/y value
 	while ( (assocwidget = assoc_it.current()) ) {
 		++assoc_it;
-		// widgetA is given as function parameter!
-		if (widgetA) {
-			// so we have to look at m_role[A].m_pWidget
-			// now we must find out with which end assocwidget connects to
-			// m_role[A].m_pWidget
-			bool inWidgetARegion = ( m_role[A].m_pWidget == assocwidget -> getWidgetA() &&
-						 region == assocwidget -> m_role[A].m_WidgetRegion );
-			bool inWidgetBRegion = ( m_role[A].m_pWidget == assocwidget -> getWidgetB() &&
-						 region == assocwidget -> m_role[B].m_WidgetRegion);
-			if ( !inWidgetARegion && !inWidgetBRegion )
-				continue;
-			uint counter = 0;
-			bool out = false;
-			// now we go through all already known associations and insert
-			// assocwidget at the right position so that the lines don't cross
-			for (assocwidget2 = ordered.first(); assocwidget2;
-			     assocwidget2 = ordered.next()) {
-				switch (region) {
-				case North:
-				case South:
-					if ( (inWidgetARegion &&
-					      assocwidget2->getWidgetB()->x() >
-					      assocwidget->getWidgetB()->x()) ||
-					     (inWidgetBRegion &&
-					      assocwidget2->getWidgetB()->x() >
-					      assocwidget->getWidgetA()->x()) ) {
-						ordered.insert(counter, assocwidget);
-						out = true;
-					}
-					break;
-				case East:
-				case West:
-					if ( (inWidgetARegion &&
-					      assocwidget2->getWidgetB()->y() >
-					      assocwidget->getWidgetB()->y()) ||
-					     (inWidgetBRegion &&
-					      assocwidget2->getWidgetB()->y() >
-					      assocwidget->getWidgetA()->y()) ) {
-						ordered.insert(counter, assocwidget);
-						out = true;
-					}
-					break;
-				default:
-					break;
-				} // switch (region)
-				if (out)
-					break;
-				counter++;
-			} // for (assocwidget2 = ordered.first(); assocwidget2; ...
-			if (out == false)
-				ordered.append(assocwidget);
-		} else {
-			// so we have to look at m_role[B].m_pWidget
-			// now we must find out with which end assocwidget connects to
-			// m_role[B].m_pWidget
-			bool inWidgetARegion = ( m_role[B].m_pWidget == assocwidget -> getWidgetA() &&
-						 region == assocwidget -> m_role[A].m_WidgetRegion );
-			bool inWidgetBRegion = ( m_role[B].m_pWidget == assocwidget -> getWidgetB() &&
-						 region == assocwidget -> m_role[B].m_WidgetRegion );
-			if ( !inWidgetARegion && !inWidgetBRegion )
-				continue;
-			uint counter = 0;
-			bool out = false;
-
-			// now we go through all already known associations and insert
-			// assocwidget at the right position so that the lines don't cross
-			for (assocwidget2 = ordered.first(); assocwidget2;
-			     assocwidget2 = ordered.next()) {
-				switch (region) {
-				case North:
-				case South:
-					if ( (inWidgetARegion &&
-					      assocwidget2->getWidgetA()->x() >
-					      assocwidget->getWidgetB()->x()) ||
-					     (inWidgetBRegion &&
-					      assocwidget2->getWidgetA()->x() >
-					      assocwidget->getWidgetA()->x()) ) {
-						ordered.insert(counter, assocwidget);
-						out = true;
-					}
-					break;
-				case East:
-				case West:
-					if ( (inWidgetARegion &&
-					      assocwidget2->getWidgetA()->y() >
-					      assocwidget->getWidgetB()->y()) ||
-					     (inWidgetBRegion &&
-					      assocwidget2->getWidgetA()->y() >
-					      assocwidget->getWidgetA()->y()) ) {
-						ordered.insert(counter, assocwidget);
-						out = true;
-					}
-					break;
-				default:
-					break;
-				} // switch (region)
-				if (out)
-					break;
-				counter++;
-			} // for (assocwidget2 = ordered.first(); assocwidget2; ...
-			if (out == false)
-				ordered.append(assocwidget);
-		} // if (widgetA)
+		// Now we must find out with which end assocwidget connects to
+		// m_role[role].m_pWidget
+		bool inWidgetARegion = ( m_role[role].m_pWidget == assocwidget->getWidgetA() &&
+					 region == assocwidget->m_role[A].m_WidgetRegion );
+		bool inWidgetBRegion = ( m_role[role].m_pWidget == assocwidget->getWidgetB() &&
+					 region == assocwidget->m_role[B].m_WidgetRegion);
+		if ( !inWidgetARegion && !inWidgetBRegion )
+			continue;
+		uint counter = 0;
+		bool out = false;
+		// now we go through all already known associations and insert
+		// assocwidget at the right position so that the lines don't cross
+		for (assocwidget2 = ordered.first(); assocwidget2;
+		     assocwidget2 = ordered.next()) {
+			UMLWidget * otherWidget = assocwidget2->m_role[other].m_pWidget;
+			switch (region) {
+			case North:
+			case South:
+				if ( (inWidgetARegion &&
+				      otherWidget->x() > assocwidget->getWidgetB()->x()) ||
+				     (inWidgetBRegion &&
+				      otherWidget->x() > assocwidget->getWidgetA()->x()) ) {
+					ordered.insert(counter, assocwidget);
+					out = true;
+				}
+				break;
+			case East:
+			case West:
+				if ( (inWidgetARegion &&
+				      otherWidget->y() > assocwidget->getWidgetB()->y()) ||
+				     (inWidgetBRegion &&
+				      otherWidget->y() > assocwidget->getWidgetA()->y()) ) {
+					ordered.insert(counter, assocwidget);
+					out = true;
+				}
+				break;
+			default:
+				break;
+			} // switch (region)
+			if (out)
+				break;
+			counter++;
+		} // for (assocwidget2 = ordered.first(); assocwidget2; ...
+		if (out == false)
+			ordered.append(assocwidget);
 	} // while ( (assocwidget = assoc_it.current()) )
 
 	// we now have an ordered list and we only have to call updateRegionLineCount
 	int index = 1;
 	for (assocwidget = ordered.first(); assocwidget; assocwidget = ordered.next()) {
-		if(widgetA) {
-			if( m_role[A].m_pWidget == assocwidget -> getWidgetA() ) {
-				assocwidget -> updateRegionLineCount(index++, totalCount, region, true);
-			} else if( m_role[A].m_pWidget == assocwidget -> getWidgetB() ) {
-				assocwidget -> updateRegionLineCount(index++, totalCount, region, false);
-			}
-		} else { //end widgetA
-			if(m_role[B].m_pWidget == assocwidget -> getWidgetA() ) {
-				assocwidget -> updateRegionLineCount(index++, totalCount, region, true);
-			} else if(m_role[B].m_pWidget == assocwidget -> getWidgetB() ) {
-				assocwidget -> updateRegionLineCount(index++, totalCount, region, false);
-			}
+		UMLWidget *pWidget = m_role[role].m_pWidget;
+		if (pWidget == assocwidget->getWidgetA()) {
+			assocwidget->updateRegionLineCount(index++, totalCount, region, A);
+		} else if (pWidget == assocwidget->getWidgetB()) {
+			assocwidget->updateRegionLineCount(index++, totalCount, region, B);
 		}
 	} // for (assocwidget = ordered.first(); ...)
 }
 
-void AssociationWidget::updateRegionLineCount(int index, int totalCount, AssociationWidget::Region region , bool widgetA) {
+void AssociationWidget::updateRegionLineCount(int index, int totalCount,
+					      AssociationWidget::Region region,
+					      Role_Type role) {
 	if( region == Error )
 		return;
-	QPoint pt;
-	int x, y, cw, ch, ww, wh;
-	UMLWidget * pWidget = m_role[A].m_pWidget;
-	if( !widgetA )
-		pWidget = m_role[B].m_pWidget;
-	//if a fork (ActivityWidget) for widget B then all associations should meet in the middle
-	if( pWidget -> getBaseType() == Uml::wt_Activity) {
-		if( static_cast<ActivityWidget*>(pWidget)->getActivityType() == ActivityWidget::Fork ) {
-			totalCount = 2;
-			index = 1;
-		}
-	}
-	//if the association is to self and the line ends are on the same region  use a different calculation
-	if(m_role[A].m_pWidget == m_role[B].m_pWidget && m_role[A].m_WidgetRegion == m_role[B].m_WidgetRegion) {
-		x = m_role[A].m_pWidget -> getX();
-		y = m_role[A].m_pWidget -> getY();
-		wh = m_role[A].m_pWidget -> height();
-		ww = m_role[A].m_pWidget -> width();
+	// If the association is to self and the line ends are on the same region then
+	// use a different calculation.
+	if (m_role[A].m_pWidget == m_role[B].m_pWidget &&
+	    m_role[A].m_WidgetRegion == m_role[B].m_WidgetRegion) {
+		UMLWidget * pWidget = m_role[A].m_pWidget;
+		int x = pWidget -> getX();
+		int y = pWidget -> getY();
+		int wh = pWidget -> height();
+		int ww = pWidget -> width();
 		int size = m_LinePath.count();
-		//see if above widget ok to place assoc.
+		// See if above widget ok to place assoc.
 		switch( m_role[A].m_WidgetRegion ) {
 		case North:
 			m_LinePath.setPoint( 0, QPoint( x + ( ww / 4 ), y ) );
@@ -2717,29 +2641,31 @@ void AssociationWidget::updateRegionLineCount(int index, int totalCount, Associa
 
 		return;
 	}
-	else if(widgetA) {
-		m_role[A].m_nIndex = index;
-		m_role[A].m_nTotalCount = totalCount;
-		x =  m_role[A].m_pWidget -> getX();
-		y = m_role[A].m_pWidget -> getY();
-		ww = m_role[A].m_pWidget->width();
-		wh = m_role[A].m_pWidget->height();
-		ch = wh * index / totalCount;
-		cw = ww * index / totalCount;
-		m_role[A].m_OldCorner.setX(x);
-		m_role[A].m_OldCorner.setY(y);
-	} else {
-		m_role[B].m_nIndex = index;
-		m_role[B].m_nTotalCount = totalCount;
-		x = m_role[B].m_pWidget -> getX();
-		y = m_role[B].m_pWidget -> getY();
-		ww = m_role[B].m_pWidget->getWidth();
-		wh = m_role[B].m_pWidget->getHeight();
-		ch = wh * index / totalCount;
-		cw = ww * index / totalCount;
-		m_role[B].m_OldCorner.setX(x);
-		m_role[B].m_OldCorner.setY(y);
+
+	WidgetRole& robj = m_role[role];
+	UMLWidget * pWidget = robj.m_pWidget;
+
+	// If a fork (ActivityWidget) for widget B then all associations should
+	// meet in the middle.
+	if (pWidget->getBaseType() == Uml::wt_Activity) {
+		ActivityWidget *act = static_cast<ActivityWidget*>(pWidget);
+		if (act->getActivityType() == ActivityWidget::Fork) {
+			totalCount = 2;
+			index = 1;
+		}
 	}
+	robj.m_nIndex = index;
+	robj.m_nTotalCount = totalCount;
+	int x = pWidget->getX();
+	int y = pWidget->getY();
+	int ww = pWidget->getWidth();
+	int wh = pWidget->getHeight();
+	int ch = wh * index / totalCount;
+	int cw = ww * index / totalCount;
+	robj.m_OldCorner.setX(x);
+	robj.m_OldCorner.setY(y);
+
+	QPoint pt;
 
 	switch(region) {
 	case West:
@@ -2762,7 +2688,7 @@ void AssociationWidget::updateRegionLineCount(int index, int totalCount, Associa
 	default:
 		break;
 	}
-	if(widgetA)
+	if (role == A)
 		m_LinePath.setPoint( 0, pt );
 	else
 		m_LinePath.setPoint( m_LinePath.count() - 1, pt );

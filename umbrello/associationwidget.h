@@ -636,12 +636,6 @@ private:
 	void calculateEndingPoints();
 
 	/**
-	 * Auxiliary method for calculateEndingPoints().
-	 */
-	void doUpdates(Region& region, Region oldRegion,
-		       int index, int totalCount, bool isWidgetA);
-
-	/**
 	 * Returns true if point (PosX, PosY) is close enough to any of the
 	 * association's segments.
 	 */
@@ -807,37 +801,43 @@ private:
 	} m_role[2];
 
 	/**
-	 * Constants used for indexing the roles.
+	 * Constants used for indexing the roles. 
 	 */
 	enum Role_Type { A, B };
 
 	/**
 	 * Called to tell the association that another association has added
-	 * a line to the region of one of its' widgets. true - widgetA
-	 * false - widgetB.
+	 * a line to the region of one of its widgets. The widget is identified
+	 * by its role (A or B).
 	 *
 	 * Called by @ref updateAssociations which is called by
 	 * @ref calculateEndingPoints when required.
 	 */
-	void updateRegionLineCount(int index, int totalCount, AssociationWidget::Region region , bool widgetA);
+	void updateRegionLineCount(int index, int totalCount,
+				   AssociationWidget::Region region, Role_Type role);
 
 	/**
 	 * Tells all the other view associations the new count for the
 	 * given widget on a certain region. And also what index they should be.
 	 */
-	void updateAssociations(int totalCount, Region region, bool widgetA);
+	void updateAssociations(int totalCount, Region region, Role_Type role);
 
 	/**
 	 * Returns the number of lines there are on the given region for
-	 * either widget a or b of the association.  Setting the boolean value
-	 * to true will give a count for widgetA and false for widgetB.
+	 * either widget A or B of the association.
 	 */
-	int getRegionCount(Region region, bool widgetA);
+	int getRegionCount(Region region, Role_Type role);
 
 	/**
 	 * Initialize attributes of this class at construction time.
 	 */
 	void init (UMLView *view);
+
+	/**
+	 * Auxiliary method for calculateEndingPoints().
+	 */
+	void doUpdates(Region& region, Region oldRegion,
+		       int index, int totalCount, Role_Type role);
 
 	/**
 	 * Auxiliary to setMulti{A,B}.
