@@ -88,7 +88,7 @@ void NodeWidget::draw(QPainter & p, int offsetX, int offsetY) {
 	p.setFont(font);
 
 	if (stereotype != "") {
-		p.drawText(offsetX, bodyOffsetY + (bodyHeight*0.5) - fontHeight,
+		p.drawText(offsetX, (int)(bodyOffsetY + (bodyHeight*0.5) - fontHeight),
 			   bodyWidth, fontHeight, AlignCenter, "<< " + stereotype + " >>");
 	}
 
@@ -106,10 +106,10 @@ void NodeWidget::draw(QPainter & p, int offsetX, int offsetY) {
 	}
 
 	if (lines == 1) {
-		p.drawText(offsetX, bodyOffsetY + (bodyHeight*0.5) - (fontHeight*0.5),
+		p.drawText(offsetX, (int)(bodyOffsetY + (bodyHeight*0.5) - (fontHeight*0.5)),
 			   bodyWidth, fontHeight, AlignCenter, name);
 	} else {
-		p.drawText(offsetX, bodyOffsetY + (bodyHeight*0.5),
+		p.drawText(offsetX, (int)(bodyOffsetY + (bodyHeight*0.5)),
 			   bodyWidth, fontHeight, AlignCenter, name);
 	}
 
