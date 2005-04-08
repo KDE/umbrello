@@ -357,6 +357,21 @@ protected:
 	 */
 	int constrainX(int textX, int textWidth, Uml::Text_Role tr);
 
+	/**
+	 * Draw an arrow pointing in the given direction.
+	 * The arrow head is not solid, i.e. it is made up of two lines
+	 * like so:  --->
+	 * The direction can be either Qt::LeftArrow or Qt::RightArrow.
+	 */
+	static void drawArrow( QPainter& p, int x, int y, int w,
+			Qt::ArrowType direction, bool useDottedLine = false );
+
+	/**
+	 * Draw a solid (triangular) arrowhead pointing in the given direction.
+	 * The direction can be either Qt::LeftArrow or Qt::RightArrow.
+	 */
+	static void drawSolidArrowhead(QPainter& p, int x, int y, Qt::ArrowType direction);
+
 	// Data loaded/saved
 	QString m_SequenceNumber;
 	QString m_CustomOp;

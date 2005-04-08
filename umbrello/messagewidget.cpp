@@ -92,6 +92,38 @@ void MessageWidget::draw(QPainter& p, int offsetX, int offsetY) {
 	}
 }
 
+void MessageWidget::drawSolidArrowhead(QPainter& p, int x, int y, Qt::ArrowType direction) {
+	int arrowheadExtentX = 4;
+	if (direction == Qt::RightArrow) {
+		arrowheadExtentX = -arrowheadExtentX;
+	}
+	QPointArray points;
+	points.putPoints(0, 3, x, y, x + arrowheadExtentX, y - 3, x + arrowheadExtentX, y + 3);
+	p.setBrush( QBrush(p.pen().color()) );
+	p.drawPolygon(points);
+}
+
+void MessageWidget::drawArrow(QPainter& p, int x, int y, int w,
+			      Qt::ArrowType direction, bool useDottedLine /* = false */) {
+	int arrowheadStartX = x;
+	int arrowheadExtentX = 4;
+	if (direction == Qt::RightArrow) {
+		arrowheadStartX += w;
+		arrowheadExtentX = -arrowheadExtentX;
+	}
+	// draw upper half of arrowhead
+	p.drawLine(arrowheadStartX, y, arrowheadStartX + arrowheadExtentX, y - 3);
+	// draw lower half of arrowhead
+	p.drawLine(arrowheadStartX, y, arrowheadStartX + arrowheadExtentX, y + 3);
+	// draw arrow line
+	if (useDottedLine) {
+		QPen pen = p.pen();
+		pen.setStyle(Qt::DotLine);
+		p.setPen(pen);
+	}
+	p.drawLine(x, y, x + w, y);
+}
+
 void MessageWidget::drawSynchronous(QPainter& p, int offsetX, int offsetY) {
 	int x1 = m_pOw[Uml::A]->getX();
 	int x2 = m_pOw[Uml::B]->getX();
@@ -103,33 +135,30 @@ void MessageWidget::drawSynchronous(QPainter& p, int offsetX, int offsetY) {
 	if(m_pOw[Uml::A] == m_pOw[Uml::B]) {
 		p.fillRect( offsetX, offsetY, 17, h,  QBrush(white) );			//box
 		p.drawRect(offsetX, offsetY, 17, h);					//box
-		p.drawLine(offsetX + 17, offsetY + 3, offsetX + w, offsetY + 3);	//arrow body lines
-		p.drawLine(offsetX + w, offsetY + 3, offsetX + w, offsetY + h - 3);
-		p.drawLine(offsetX + w, offsetY + h - 3, offsetX + 17, offsetY + h - 3);
-		p.drawLine(offsetX + 17, offsetY + h - 3, offsetX + 17 + 4, offsetY + h);	//arrow head
-		p.drawLine(offsetX + 17, offsetY + h - 3, offsetX + 17 + 4, offsetY + h - 6);
+		offsetX += 17;
+		w -= 17;
+		offsetY += 3;
+		const int lowerLineY = offsetY + h - 6;
+		// draw upper line segment (leaving the life line)
+		p.drawLine(offsetX, offsetY, offsetX + w, offsetY);
+		// draw line segment parallel to (and at the right of) the life line
+		p.drawLine(offsetX + w, offsetY, offsetX + w, lowerLineY);
+		// draw lower line segment (back to the life line)
+		drawArrow(p, offsetX, lowerLineY, w, Qt::LeftArrow);
+		offsetX -= 17;
+		offsetY -= 3;
 	} else if(x1 < x2) {
 		if (messageOverlaps)  {
 			offsetX += 8;
 			w -= 8;
 		}
 		QPen pen = p.pen();
-		p.fillRect( offsetX + w - 16, offsetY, 17, h,  QBrush(white) );		//box
-		p.drawRect(offsetX + w - 16, offsetY, 17, h);				//box
-		p.drawLine(offsetX, offsetY + 4, offsetX + w - 16, offsetY + 4);	//arrow line
-		QPointArray points;
-		points.putPoints(0, 3, offsetX + w - 17,offsetY + 4, offsetX + w - 17 - 4,   //arrow head
-				 offsetY + 1, offsetX + w - 17 - 4,offsetY + 7);
-		p.setBrush( QBrush(pen.color()) );
-		p.drawPolygon(points);
-
-		p.drawLine(offsetX, offsetY + h - 3, offsetX + 4, offsetY + h);		 //return arrow
-		p.drawLine(offsetX, offsetY + h - 3, offsetX + 4, offsetY + h - 6);	 //return arrow
-
-		pen.setStyle(Qt::DotLine);
-		p.setPen(pen);
-
-		p.drawLine(offsetX, offsetY + h - 3, offsetX + w - 16, offsetY + h - 3);  //return line
+		int startX = offsetX + w - 16;
+		p.fillRect(startX, offsetY, 17, h,  QBrush(white));		//box
+		p.drawRect(startX, offsetY, 17, h);				//box
+		p.drawLine(offsetX, offsetY + 4, startX, offsetY + 4);		//arrow line
+		drawSolidArrowhead(p, startX - 1, offsetY + 4, Qt::RightArrow);
+		drawArrow(p, offsetX, offsetY + h - 3, w - 16, Qt::LeftArrow, true); // return arrow
 		if (messageOverlaps)  {
 			offsetX -= 8; //reset for drawSelected()
 		}
@@ -141,19 +170,8 @@ void MessageWidget::drawSynchronous(QPainter& p, int offsetX, int offsetY) {
 		p.fillRect( offsetX, offsetY, 17, h,  QBrush(white) );			//box
 		p.drawRect(offsetX, offsetY, 17, h);					//box
 		p.drawLine(offsetX + 18, offsetY + 4, offsetX + w, offsetY + 4);	//arrow line
-		QPointArray points;
-		points.putPoints(0, 3, offsetX + 17,offsetY + 4, offsetX + 17 + 4,offsetY + 1,  //arrow head
-				 offsetX + 17 + 4,offsetY + 7);
-		p.setBrush( QBrush(pen.color()) );
-		p.drawPolygon(points);
-
-		p.drawLine(offsetX + w, offsetY + h - 3, offsetX + w - 4, offsetY + h);		 //return arrow
-		p.drawLine(offsetX + w, offsetY + h - 3, offsetX + w - 4, offsetY + h - 6);	 //return arrow
-
-		pen.setStyle(Qt::DotLine);
-		p.setPen(pen);
-
-		p.drawLine(offsetX + 18, offsetY + h - 3, offsetX + w, offsetY + h - 3);  //return line
+		drawSolidArrowhead(p, offsetX + 17, offsetY + 4, Qt::LeftArrow);
+		drawArrow(p, offsetX + 18, offsetY + h - 3, w - 18, Qt::RightArrow, true); // return arrow
 	}
 
 	if(m_bSelected) {
@@ -174,11 +192,13 @@ void MessageWidget::drawAsynchronous(QPainter& p, int offsetX, int offsetY) {
 			offsetX += 7;
 			w -= 7;
 		}
+		const int lowerLineY = offsetY + h - 3;
+		// draw upper line segment (leaving the life line)
 		p.drawLine(offsetX, offsetY, offsetX + w, offsetY);
-		p.drawLine(offsetX + w, offsetY, offsetX + w, offsetY + h - 3);
-		p.drawLine(offsetX + w, offsetY + h - 3, offsetX, offsetY + h - 3);
-		p.drawLine(offsetX, offsetY + h - 3, offsetX + 4, offsetY + h);
-		p.drawLine(offsetX, offsetY + h - 3, offsetX + 4, offsetY + h - 6);
+		// draw line segment parallel to (and at the right of) the life line
+		p.drawLine(offsetX + w, offsetY, offsetX + w, lowerLineY);
+		// draw lower line segment (back to the life line)
+		drawArrow(p, offsetX, lowerLineY, w, Qt::LeftArrow);
 		if (messageOverlapsA)  {
 			offsetX -= 7; //reset for drawSelected()
 		}
@@ -187,9 +207,7 @@ void MessageWidget::drawAsynchronous(QPainter& p, int offsetX, int offsetY) {
 			offsetX += 7;
 			w -= 7;
 		}
-		p.drawLine(offsetX, offsetY + 4, offsetX + w, offsetY + 4);
-		p.drawLine(offsetX + w, offsetY + 4, offsetX + w - 4, offsetY + 1);
-		p.drawLine(offsetX + w, offsetY + 4, offsetX + w - 4, offsetY + 7);
+		drawArrow(p, offsetX, offsetY + 4, w, Qt::RightArrow);
 		if (messageOverlapsA)  {
 			offsetX -= 7;
 		}
@@ -197,9 +215,7 @@ void MessageWidget::drawAsynchronous(QPainter& p, int offsetX, int offsetY) {
 		if (messageOverlapsA)  {
 			w -= 7;
 		}
-		p.drawLine(offsetX, offsetY + 4, offsetX + w, offsetY + 4);
-		p.drawLine(offsetX, offsetY + 4, offsetX + 4, offsetY + 1);
-		p.drawLine(offsetX, offsetY + 4, offsetX + 4, offsetY + 7);
+		drawArrow(p, offsetX, offsetY + 4, w, Qt::LeftArrow);
 	}
 
 	if (m_bSelected && m_pOw[Uml::A] == m_pOw[Uml::B]) {
@@ -217,14 +233,13 @@ void MessageWidget::drawCreation(QPainter& p, int offsetX, int offsetY) {
 	bool messageOverlapsA = m_pOw[Uml::A] -> messageOverlap( getY(), this );
 	//bool messageOverlapsB = m_pOw[Uml::B] -> messageOverlap( getY(), this );
 
+	const int lineY = offsetY + 4;
 	if (x1 < x2) {
 		if (messageOverlapsA)  {
 			offsetX += 7;
 			w -= 7;
 		}
-		p.drawLine(offsetX, offsetY + 4, offsetX + w, offsetY + 4);
-		p.drawLine(offsetX + w, offsetY + 4, offsetX + w - 4, offsetY + 1);
-		p.drawLine(offsetX + w, offsetY + 4, offsetX + w - 4, offsetY + 7);
+		drawArrow(p, offsetX, lineY, w, Qt::RightArrow);
 		if (messageOverlapsA)  {
 			offsetX -= 7;
 		}
@@ -232,9 +247,7 @@ void MessageWidget::drawCreation(QPainter& p, int offsetX, int offsetY) {
 		if (messageOverlapsA)  {
 			w -= 7;
 		}
-		p.drawLine(offsetX, offsetY + 4, offsetX + w, offsetY + 4);
-		p.drawLine(offsetX, offsetY + 4, offsetX + 4, offsetY + 1);
-		p.drawLine(offsetX, offsetY + 4, offsetX + 4, offsetY + 7);
+		drawArrow(p, offsetX, lineY, w, Qt::LeftArrow);
 	}
 
 	if (m_bSelected && m_pOw[Uml::A] == m_pOw[Uml::B]) {
@@ -286,8 +299,13 @@ int MessageWidget::constrainX(int textX, int textWidth, Uml::Text_Role tr) {
 	if (textX < minTextX || tr == Uml::tr_Seq_Message_Self) {
 		result = minTextX;
 	} else {
-		const int objB_seqLineX = m_pOw[Uml::B]->getX() + m_pOw[Uml::B]->getWidth() / 2;
-		const int maxTextX = objB_seqLineX - textWidth - 5;
+		ObjectWidget *objectAtRight = NULL;
+		if (m_pOw[Uml::B]->getX() > m_pOw[Uml::A]->getX())
+			objectAtRight = m_pOw[Uml::B];
+		else
+			objectAtRight = m_pOw[Uml::A];
+		const int objRight_seqLineX = objectAtRight->getX() + objectAtRight->getWidth() / 2;
+		const int maxTextX = objRight_seqLineX - textWidth - 5;
 		if (maxTextX <= minTextX)
 			result = minTextX;
 		else if (textX > maxTextX)
@@ -375,8 +393,7 @@ void MessageWidget::slotMenuSelection(int sel) {
 			m_pFText = new FloatingText( m_pView, tr );
 			m_pFText->setFont(UMLWidget::getFont());
 			setLinkAndTextPos();
-			m_pFText->setText("");
-			m_pFText->setActivated();
+			m_pView->getWidgetList().append(m_pFText);
 
 			//CHECK: Do we need this?
 			m_pFText->setUMLObject( m_pOw[Uml::B]->getUMLObject() );
