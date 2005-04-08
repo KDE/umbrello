@@ -308,7 +308,7 @@ public:
 	/**
 	 * Returns a reference to the widget list.
 	 */
-	const UMLWidgetList& getWidgetList() const {
+	UMLWidgetList& getWidgetList() {
 		return m_WidgetList;
 	}
 
