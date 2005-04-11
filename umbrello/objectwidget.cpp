@@ -42,7 +42,6 @@ ObjectWidget::ObjectWidget(UMLView * view, UMLObject *o, Uml::IDType lid)
 	//                  Instead, it is done afterwards by UMLWidget::activate()
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
 void ObjectWidget::init() {
 	UMLWidget::setBaseType(Uml::wt_Object);
 	m_Doc = "";
@@ -58,9 +57,9 @@ void ObjectWidget::init() {
 		m_pLine = NULL;
 	}
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 ObjectWidget::~ObjectWidget() {}
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void ObjectWidget::draw(QPainter & p , int offsetX, int offsetY) {
 	if ( m_bDrawAsActor )
 		drawActor( p, offsetX, offsetY );
@@ -71,7 +70,7 @@ void ObjectWidget::draw(QPainter & p , int offsetX, int offsetY) {
 	if(m_bSelected)
 		drawSelected(&p, offsetX, offsetY);
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void ObjectWidget::slotMenuSelection(int sel) {
 	QString name = "";
 	switch(sel) {
@@ -119,7 +118,7 @@ void ObjectWidget::slotMenuSelection(int sel) {
 			break;
 	}
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void ObjectWidget::calculateSize() {
 	int width, height, textWidth;
 	QFontMetrics &fm = getFontMetrics(FT_UNDERLINE);
@@ -145,7 +144,6 @@ void ObjectWidget::calculateSize() {
 	adjustAssocs( getX(), getY() );//adjust assoc lines
 	moveEvent( 0 );
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
 
 QString ObjectWidget::getDoc() const {
 	return m_Doc;
@@ -220,22 +218,21 @@ void ObjectWidget::drawObject(QPainter & p, int offsetX, int offsetY) {
 		p.setBrush(UMLWidget::getFillColour());
 	else
 		p.setBrush(m_pView -> viewport() -> backgroundColor());
-	int w = width();
-	int h= height();
+	const int w = width();
+	const int h = height();
 
-	QString t = m_InstanceName + " : " + m_pObject -> getName();
+	const QString t = m_InstanceName + " : " + m_pObject -> getName();
+	int multiInstOfst = 0;
 	if ( m_bMultipleInstance ) {
 		p.drawRect(offsetX + 10, offsetY + 10, w - 10, h - 10);
 		p.drawRect(offsetX + 5, offsetY + 5, w - 10, h - 10);
-		p.drawRect(offsetX, offsetY, w - 10, h - 10);
-		p.setPen(QPen(black));
-
-		p.drawText(offsetX + O_MARGIN, offsetY + O_MARGIN, w - O_MARGIN * 2 - 10, h - O_MARGIN * 2 - 10, AlignCenter, t);
-	} else {
-		p.drawRect(offsetX, offsetY, w, h);
-		p.setPen(QPen(black));
-		p.drawText(offsetX + O_MARGIN, offsetY + O_MARGIN, w - O_MARGIN * 2, h - O_MARGIN * 2, AlignCenter, t);
+		multiInstOfst = 10;
 	}
+	p.drawRect(offsetX, offsetY, w - multiInstOfst, h - multiInstOfst);
+	p.setPen(QPen(black));
+	p.drawText(offsetX + O_MARGIN, offsetY + O_MARGIN,
+		   w - O_MARGIN * 2 - multiInstOfst, h - O_MARGIN * 2 - multiInstOfst,
+		   AlignCenter, t);
 
 	p.setFont( oldFont );
 }
@@ -246,43 +243,46 @@ void ObjectWidget::drawActor(QPainter & p, int offsetX, int offsetY) {
 	UMLWidget::draw(p, offsetX, offsetY);
 	if ( UMLWidget::getUseFillColour() )
 		p.setBrush( UMLWidget::getFillColour() );
-	int w = width();
-	int textStartY = A_HEIGHT + A_MARGIN;
-	int fontHeight  = fm.lineSpacing();
+	const int w = width();
+	const int textStartY = A_HEIGHT + A_MARGIN;
+	const int fontHeight  = fm.lineSpacing();
 
-	int middleX = w / 2;
-	int thirdY = A_HEIGHT / 3;
+	const int middleX = offsetX + w / 2;
+	const int thirdH = A_HEIGHT / 3;
 
 	//draw actor
-	p.drawEllipse(offsetX + middleX - A_WIDTH / 2, offsetY,  A_WIDTH, thirdY);//head
-	p.drawLine(offsetX + middleX, offsetY + thirdY, offsetX + middleX, offsetY + thirdY * 2);//body
-	p.drawLine(offsetX + middleX, offsetY + 2 * thirdY, offsetX + middleX - A_WIDTH / 2, offsetY + A_HEIGHT);//left leg
-
-	p.drawLine(offsetX + middleX, offsetY +  2 * thirdY, offsetX + middleX + A_WIDTH / 2, offsetY + A_HEIGHT);//right leg
-	p.drawLine(offsetX + middleX - A_WIDTH / 2, offsetY + thirdY + thirdY / 2, offsetX + middleX + A_WIDTH / 2, offsetY + thirdY + thirdY / 2);//arms
+	p.drawEllipse(middleX - A_WIDTH / 2, offsetY,  A_WIDTH, thirdH);//head
+	p.drawLine(middleX, offsetY + thirdH, middleX, offsetY + thirdH * 2);//body
+	p.drawLine(middleX, offsetY + 2 * thirdH,
+		   middleX - A_WIDTH / 2, offsetY + A_HEIGHT);//left leg
+	p.drawLine(middleX, offsetY +  2 * thirdH,
+		   middleX + A_WIDTH / 2, offsetY + A_HEIGHT);//right leg
+	p.drawLine(middleX - A_WIDTH / 2, offsetY + thirdH + thirdH / 2,
+		   middleX + A_WIDTH / 2, offsetY + thirdH + thirdH / 2);//arms
 	//draw text
 	p.setPen(QPen(black));
 	QString t = m_InstanceName + " : " + m_pObject -> getName();
-	p.drawText(offsetX + A_MARGIN, offsetY + textStartY, w - A_MARGIN * 2, fontHeight, AlignCenter, t);
+	p.drawText(offsetX + A_MARGIN, offsetY + textStartY,
+		   w - A_MARGIN * 2, fontHeight, AlignCenter, t);
 }
 
 void ObjectWidget::mouseMoveEvent(QMouseEvent* me) {
-	if( m_bMouseDown || me->button() == LeftButton ) {
-		QPoint newPosition = doMouseMove(me);
-		int newX = newPosition.x();
-		int newY = newPosition.y();
+	if (!m_bMouseDown && me->button() != LeftButton)
+		return;
+	QPoint newPosition = doMouseMove(me);
+	int newX = newPosition.x();
+	int newY = newPosition.y();
 
-		//implement rule for sequence diagram
-		if( m_pView->getType() == Uml::dt_Sequence ) {
-			newY = this -> getY();
-		}
-		m_nOldX = newX;
-		m_nOldY = newY;
-		setX( newX );
-		setY( newY );
-		adjustAssocs(newX, newY);
-		m_pView->resizeCanvasToItems();
+	//implement rule for sequence diagram
+	if( m_pView->getType() == Uml::dt_Sequence ) {
+		newY = this -> getY();
 	}
+	m_nOldX = newX;
+	m_nOldY = newY;
+	setX( newX );
+	setY( newY );
+	adjustAssocs(newX, newY);
+	m_pView->resizeCanvasToItems();
 }
 
 void ObjectWidget::tabUp() {
@@ -353,8 +353,9 @@ bool ObjectWidget::messageOverlap(int y, MessageWidget* messageWidget) {
 	MessageWidget* message;
 	while ( (message = iterator.current()) != 0 ) {
 		++iterator;
-		int messageHeight = message->getY() + message->getHeight();
-		if (y >= message->getY() && y <= messageHeight && message != messageWidget) {
+		const int msgY = message->getY();
+		const int msgHeight = msgY + message->getHeight();
+		if (y >= msgY && y <= msgHeight && message != messageWidget) {
 			return true;
 		}
 	}
