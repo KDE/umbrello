@@ -85,13 +85,16 @@ void StateWidget::draw(QPainter & p, int offsetX, int offsetY) {
 			p.setBrush( UMLWidget::getLineColour() );
 			p.drawEllipse( offsetX, offsetY, w, h );
 			break;
-		default :
+		case End :
 			p.setBrush( UMLWidget::getLineColour() );
 			p.drawEllipse( offsetX, offsetY, w, h );
 			p.setBrush( white );
 			p.drawEllipse( offsetX + 1, offsetY + 1, w - 2, h - 2 );
 			p.setBrush( UMLWidget::getLineColour() );
 			p.drawEllipse( offsetX + 3, offsetY + 3, w - 6, h - 6 );
+			break;
+		default:
+			kdWarning() << "Unknown state type:" << m_StateType << endl;
 			break;
 	}
 	if(m_bSelected)
