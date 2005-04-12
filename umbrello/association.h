@@ -108,12 +108,13 @@ public:
 	 */
 	Uml::IDType getObjectId(Uml::Role_Type role);
 
-	/**
+	/*
 	 * Returns the ID of the UMLObject assigned to the given role.
+	 * CURRENTLY UNUSED.
 	 *
 	 * @return	ID of the UMLObject of the given role.
-	 */
 	Uml::IDType getRoleId(Uml::Role_Type role) const;
+	 */
 
 	/**
 	 * Returns the Changeablity of the given role.

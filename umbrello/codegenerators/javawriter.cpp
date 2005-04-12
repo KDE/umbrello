@@ -446,10 +446,10 @@ void JavaWriter::writeAssociationDecls(UMLAssociationList associations, Uml::IDT
 		{
 			// it may seem counter intuitive, but you want to insert the role of the
 			// *other* class into *this* class.
-			if (a->getRoleId(Uml::A) == id)
+			if (a->getObjectId(Uml::A) == id)
 				printRoleB = true;
 
-			if (a->getRoleId(Uml::B) == id)
+			if (a->getObjectId(Uml::B) == id)
 				printRoleA = true;
 
 			// First: we insert documentaion for association IF it has either role AND some documentation (!)
@@ -517,7 +517,7 @@ void JavaWriter::writeAssociationMethods (UMLAssociationList associations, UMLCl
 
 			// insert the methods to access the role of the other
 			// class in the code of this one
-			if (a->getRoleId(Uml::A) == thisClass->getID())
+			if (a->getObjectId(Uml::A) == thisClass->getID())
 			{
 				// only write out IF there is a rolename given
 				if(!a->getRoleName(Uml::B).isEmpty()) {
@@ -530,7 +530,7 @@ void JavaWriter::writeAssociationMethods (UMLAssociationList associations, UMLCl
 				}
 			}
 
-			if (a->getRoleId(Uml::B) == thisClass->getID())
+			if (a->getObjectId(Uml::B) == thisClass->getID())
 			{
 				// only write out IF there is a rolename given
 				if(!a->getRoleName(Uml::A).isEmpty()) {

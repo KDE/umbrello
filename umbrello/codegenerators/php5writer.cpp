@@ -3081,7 +3081,7 @@ void Php5Writer::writeClass(UMLClassifier *c) {
 	    int rc = realizations.count();
 	    int ri = rc;
 	    for (a = realizations.first(); a; a = realizations.next()) {
-		UMLObject *o = m_doc->findObjectById(a->getRoleId(Uml::B));
+		UMLObject *o = a->getObject(Uml::B);
 		QString typeName = cleanName(o->getName());
 		if(ri == rc)
 		  php << m_endl << m_indentation << m_indentation << m_indentation <<  "implements ";
@@ -3098,11 +3098,9 @@ void Php5Writer::writeClass(UMLClassifier *c) {
 			php<< m_endl;
 			//maybe we should parse the string here and take multiplicity into account to decide
 			//which container to use.
-			Uml::IDType id = a->getRoleId(Uml::A);
-			UMLObject *o = m_doc->findObjectById(id);
+			UMLObject *o = a->getObject(Uml::A);
 			if (o == NULL) {
-				kdError() << "Cannot find aggregation role A object with ID "
-					  << ID2STR(id) << endl;
+				kdError() << "aggregation role A object is NULL" << endl;
 				continue;
 			}
 			QString typeName = cleanName(o->getName());
@@ -3118,11 +3116,9 @@ void Php5Writer::writeClass(UMLClassifier *c) {
 		php<< m_endl << m_indentation << "/** Compositions: */" << m_endl;
 		for (a = compositions.first(); a ; a = compositions.next()) {
 			// see comment on Aggregation about multiplicity...
-			Uml::IDType id = a->getRoleId(Uml::A);
-			UMLObject *o = m_doc->findObjectById(id);
+			UMLObject *o = a->getObject(Uml::A);
 			if (o == NULL) {
-				kdError() << "Cannot find composition role A object with ID "
-					  << ID2STR(id) << endl;
+				kdError() << "composition role A object is NULL" << endl;
 				continue;
 			}
 			QString typeName = cleanName(o->getName());

@@ -147,11 +147,11 @@ UMLClassifierList ClassifierInfo::findAssocClassifierObjsInRoles (UMLAssociation
 		// the association.
 		// We also ignore classifiers which are the same as the current one
 		// (e.g. id matches), we only want the "other" classifiers
-		if ((a->getRoleId(Uml::A) == m_nID) && (!a->getRoleName(Uml::B).isEmpty())) {
+		if (a->getObjectId(Uml::A) == m_nID && !a->getRoleName(Uml::B).isEmpty()) {
 			UMLClassifier *c = dynamic_cast<UMLClassifier*>(a->getObject(Uml::B));
 			if(c)
 				classifiers.append(c);
-		} else if ((a->getRoleId(Uml::B) == m_nID) && (!a->getRoleName(Uml::A).isEmpty())) {
+		} else if (a->getObjectId(Uml::B) == m_nID && !a->getRoleName(Uml::A).isEmpty()) {
 			UMLClassifier *c = dynamic_cast<UMLClassifier*>(a->getObject(Uml::A));
 			if(c)
 				classifiers.append(c);
