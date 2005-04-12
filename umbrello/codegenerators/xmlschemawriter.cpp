@@ -575,10 +575,10 @@ bool XMLSchemaWriter::writeAssociationDecls(UMLAssociationList associations,
 			// it may seem counter intuitive, but you want to insert the role of the
 			// *other* class into *this* class.
 
-			if (a->getRoleId(Uml::A) == id && a->getVisibility(Uml::B) != Uml::Private)
+			if (a->getObjectId(Uml::A) == id && a->getVisibility(Uml::B) != Uml::Private)
 				printRoleB = true;
 
-			if (a->getRoleId(Uml::B) == id && a->getVisibility(Uml::A) != Uml::Private)
+			if (a->getObjectId(Uml::B) == id && a->getVisibility(Uml::A) != Uml::Private)
 				printRoleA = true;
 
 			// First: we insert documentaion for association IF it has either role
@@ -635,13 +635,13 @@ UMLObjectList XMLSchemaWriter::findChildObjsInAssociations (UMLClassifier *c, UM
 	UMLObjectList list;
 	for(UMLAssociation *a = associations.first(); a; a = associations.next())
 	{
-		if (a->getRoleId(Uml::A) == id
+		if (a->getObjectId(Uml::A) == id
 				&& a->getVisibility(Uml::B) != Uml::Private
 				&& !a->getRoleName(Uml::B).isEmpty()
 		   )
 			list.append(a->getObject(Uml::B));
 
-		if (a->getRoleId(Uml::B) == id
+		if (a->getObjectId(Uml::B) == id
 				&& a->getVisibility(Uml::A) != Uml::Private
 				&& !a->getRoleName(Uml::A).isEmpty()
 		   )

@@ -736,10 +736,10 @@ void CppWriter::writeAssociationDecls(UMLAssociationList associations, Uml::Scop
 
 			// it may seem counter intuitive, but you want to insert the role of the
 			// *other* class into *this* class.
-			if (a->getRoleId(Uml::A) == id && a->getRoleName(Uml::B) != "")
+			if (a->getObjectId(Uml::A) == id && !a->getRoleName(Uml::B).isEmpty())
 				printRoleB = true;
 
-			if (a->getRoleId(Uml::B) == id && a->getRoleName(Uml::A) != "")
+			if (a->getObjectId(Uml::B) == id && !a->getRoleName(Uml::A).isEmpty())
 				printRoleA = true;
 
 			// First: we insert documentaion for association IF it has either role AND some documentation (!)
@@ -833,7 +833,7 @@ void CppWriter::writeAssociationMethods (UMLAssociationList associations,
 
 			// insert the methods to access the role of the other
 			// class in the code of this one
-			if (a->getRoleId(Uml::A) == myID && a->getVisibility(Uml::B) == permitVisib)
+			if (a->getObjectId(Uml::A) == myID && a->getVisibility(Uml::B) == permitVisib)
 			{
 				// only write out IF there is a rolename given
 				if(!a->getRoleName(Uml::B).isEmpty()) {
@@ -847,7 +847,7 @@ void CppWriter::writeAssociationMethods (UMLAssociationList associations,
 				}
 			}
 
-			if (a->getRoleId(Uml::B) == myID && a->getVisibility(Uml::A) == permitVisib)
+			if (a->getObjectId(Uml::B) == myID && a->getVisibility(Uml::A) == permitVisib)
 			{
 				// only write out IF there is a rolename given
 				if(!a->getRoleName(Uml::A).isEmpty()) {
@@ -1276,9 +1276,9 @@ void CppWriter::printAssociationIncludeDecl (UMLAssociationList list, Uml::IDTyp
 
 		// only use OTHER classes (e.g. we dont need to write includes for ourselves!!
 		// AND only IF the roleName is defined, otherwise, its not meant to be noticed.
-		if (a->getRoleId(Uml::A) == myId && a->getRoleName(Uml::B) != "") {
+		if (a->getObjectId(Uml::A) == myId && !a->getRoleName(Uml::B).isEmpty()) {
 			current = dynamic_cast<UMLClassifier*>(a->getObject(Uml::B));
-		} else if (a->getRoleId(Uml::B) == myId && a->getRoleName(Uml::A) != "") {
+		} else if (a->getObjectId(Uml::B) == myId && !a->getRoleName(Uml::A).isEmpty()) {
 			current = dynamic_cast<UMLClassifier*>(a->getObject(Uml::A));
 			isFirstClass = false;
 		}

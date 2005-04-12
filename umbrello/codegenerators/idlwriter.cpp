@@ -319,7 +319,7 @@ void IDLWriter::writeClass(UMLClassifier *c) {
 			idl << getIndent() << "// Types for association multiplicities" << m_endl << m_endl;
 			didComment = true;
 		}
-		UMLClassifier* other = (UMLClassifier*)m_doc->findObjectById(a->getRoleId(Uml::A));
+		UMLClassifier* other = (UMLClassifier*)a->getObject(Uml::A);
 		QString bareName = cleanName(other->getName());
 		idl << getIndent() << "typedef sequence<" << other->getFullyQualifiedName("::")
 		    << "> " << bareName << "Vector;" << m_endl << m_endl;

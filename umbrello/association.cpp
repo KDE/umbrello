@@ -463,9 +463,11 @@ Uml::IDType UMLAssociation::getObjectId(Role_Type role) {
 	return o->getID();
 }
 
+/* CURRENTLY UNUSED
 Uml::IDType UMLAssociation::getRoleId(Role_Type role) const {
 	return m_pRole[role]->getID();
 }
+ */
 
 Changeability_Type UMLAssociation::getChangeability(Role_Type role) const {
 	return m_pRole[role]->getChangeability();
