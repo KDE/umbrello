@@ -15,15 +15,18 @@
 #include "uml.h"
 #include "version.h"
 
+#include "kstartuplogo.h"
+
 #include <kaboutdata.h>
 #include <kapplication.h>
 #include <kcmdlineargs.h>
 #include <kconfig.h>
 #include <klocale.h>
-#include "kstartuplogo.h"
 #include <ktip.h>
-#include <unistd.h>
 #include <kdebug.h>
+#include <kwin.h>
+
+#include <unistd.h>
 
 static const char description[] =
     I18N_NOOP("Umbrello UML Modeller");
@@ -58,10 +61,11 @@ int main(int argc, char *argv[]) {
 		cfg -> setGroup( "General Options" );
 		bool showLogo = cfg -> readBoolEntry( "logo", true );
 		if (showLogo) {
-			start_logo = new KStartupLogo(uml);
+			start_logo = new KStartupLogo(0);
 			start_logo->setHideEnabled(true);
+			KWin::setMainWindow(start_logo, uml->winId());
+			KWin::setState(start_logo->winId(), NET::KeepAbove);
 			start_logo->show();
-			start_logo->raise();
 			QApplication::flushX();
 		}
 		uml->show();
