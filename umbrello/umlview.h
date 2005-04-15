@@ -700,6 +700,11 @@ public:
 	QPoint getPastePoint();
 
 	/**
+	 * Reset the paste point.
+	 */
+	void resetPastePoint();
+
+	/**
 	 * Called by the view or any of its children when they start a cut
 	 * operation.
 	 */

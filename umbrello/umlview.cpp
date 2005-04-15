@@ -2976,6 +2976,10 @@ QPoint UMLView::getPastePoint() {
 	return point;
 }
 
+void UMLView::resetPastePoint() {
+	m_PastePoint = m_Pos;
+}
+
 int UMLView::snappedX (int x) {
 	if (getSnapToGrid()) {
 		int gridX = getSnapX();
