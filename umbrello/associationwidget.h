@@ -514,12 +514,10 @@ public:
 	 * Overrides operation from LinkWidget.
 	 * Required by FloatingText.
 	 *
-	 * @param ft		The calling FloatingText (unused here.)
 	 * @param seqNum	Return this AssociationWidget's sequence number string.
 	 * @param op		Return this AssociationWidget's operation string.
 	 */
-	UMLClassifier * getSeqNumAndOp(FloatingText *ft, QString& seqNum,
-							 QString& op);
+	UMLClassifier * getSeqNumAndOp(QString& seqNum, QString& op);
 
 	/**
 	 * Calculates and sets the first and last point in the association's

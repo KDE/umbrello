@@ -2840,8 +2840,7 @@ void AssociationWidget::setSeqNumAndOp(const QString &seqNum, const QString &op)
 	setMulti(seqNum, A);
 }
 
-UMLClassifier *AssociationWidget::getSeqNumAndOp(FloatingText *,
-						 QString& seqNum, QString& op) {
+UMLClassifier *AssociationWidget::getSeqNumAndOp(QString& seqNum, QString& op) {
 	seqNum = getMulti(A);
 	op = getName();
 	UMLObject *o = getWidget(B)->getUMLObject();

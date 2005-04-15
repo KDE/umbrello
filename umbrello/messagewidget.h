@@ -201,12 +201,10 @@ public:
 	 * Overrides operation from LinkWidget.
 	 * Required by FloatingText.
 	 *
-	 * @param ft		The calling FloatingText.
 	 * @param seqNum	Return this MessageWidget's sequence number string.
 	 * @param op		Return this MessageWidget's operation string.
 	 */
-	UMLClassifier * getSeqNumAndOp(FloatingText *ft, QString& seqNum,
-							 QString& op);
+	UMLClassifier * getSeqNumAndOp(QString& seqNum, QString& op);
 
 	/**
 	 * Calculate the geometry of the widget.

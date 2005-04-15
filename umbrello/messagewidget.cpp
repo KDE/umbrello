@@ -394,9 +394,6 @@ void MessageWidget::slotMenuSelection(int sel) {
 			m_pFText->setFont(UMLWidget::getFont());
 			setLinkAndTextPos();
 			m_pView->getWidgetList().append(m_pFText);
-
-			//CHECK: Do we need this?
-			m_pFText->setUMLObject( m_pOw[Uml::B]->getUMLObject() );
 		}
 		m_pFText -> slotMenuSelection(sel);
 	}
@@ -409,6 +406,7 @@ void MessageWidget::mouseDoubleClickEvent(QMouseEvent * /*me*/) {
 }
 
 bool MessageWidget::activate(IDChangeLog * Log /*= 0*/) {
+	m_pView->resetPastePoint();
 	bool status = UMLWidget::activate(Log);
 	if(!status)
 		return false;
@@ -428,9 +426,6 @@ bool MessageWidget::activate(IDChangeLog * Log /*= 0*/) {
 	m_pFText->setActivated();
 	QString messageText = m_pFText->getText();
 	m_pFText->setVisible( messageText.length() > 1 );
-
-	//CHECK: Do we need this?
-	m_pFText -> setUMLObject( m_pOw[Uml::B] -> getUMLObject() );
 
 	connect(m_pOw[Uml::A], SIGNAL(sigWidgetMoved(Uml::IDType)), this, SLOT(slotWidgetMoved(Uml::IDType)));
 	connect(m_pOw[Uml::B], SIGNAL(sigWidgetMoved(Uml::IDType)), this, SLOT(slotWidgetMoved(Uml::IDType)));
@@ -507,8 +502,7 @@ void MessageWidget::setCustomOpText(const QString &opText) {
 	m_pFText->setMessageText();
 }
 
-UMLClassifier * MessageWidget::getSeqNumAndOp(FloatingText *ft, QString& seqNum,
-							        QString& op) {
+UMLClassifier * MessageWidget::getSeqNumAndOp(QString& seqNum, QString& op) {
 	seqNum = m_SequenceNumber;
 	UMLOperation *pOperation = getOperation();
 	if (pOperation != NULL) {
@@ -521,8 +515,7 @@ UMLClassifier * MessageWidget::getSeqNumAndOp(FloatingText *ft, QString& seqNum,
 	} else {
 		op = m_CustomOp;
 	}
-	//CHECK: I believe we should retrieve the UMLObject from m_pOw[A|B]
-	UMLObject *o = ft->getUMLObject();
+	UMLObject *o = m_pOw[Uml::B]->getUMLObject();
 	UMLClassifier *c = dynamic_cast<UMLClassifier*>(o);
 	return c;
 }

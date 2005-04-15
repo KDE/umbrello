@@ -105,7 +105,7 @@ public:
 	/**
 	 * Motivated by FloatingText::showOpDlg()
 	 */
-	virtual UMLClassifier *getSeqNumAndOp(FloatingText *ft, QString& seqNum, QString& op) = 0;
+	virtual UMLClassifier *getSeqNumAndOp(QString& seqNum, QString& op) = 0;
 
 	/**
 	 * Motivated by FloatingText::showOpDlg()

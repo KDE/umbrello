@@ -192,7 +192,7 @@ void FloatingText::handleRename() {
 void FloatingText::setText(const QString &t) {
 	if (m_Role == Uml::tr_Seq_Message || m_Role == Uml::tr_Seq_Message_Self) {
 		QString seqNum, op;
-		m_pLink->getSeqNumAndOp(this, seqNum, op);
+		m_pLink->getSeqNumAndOp(seqNum, op);
 		if (seqNum.length() > 0 || op.length() > 0)
 			m_Text = seqNum.append(": ").append( op );
 		else
@@ -250,7 +250,7 @@ void FloatingText::showOpDlg() {
 		return;
 	}
 	QString seqNum, opText;
-	UMLClassifier* c = m_pLink->getSeqNumAndOp(this, seqNum, opText);
+	UMLClassifier* c = m_pLink->getSeqNumAndOp(seqNum, opText);
 	if (c == NULL) {
 		kdError() << "FloatingText::showOpDlg: "
 			  << "m_pLink->getSeqNumAndOp() returns a NULL classifier"
