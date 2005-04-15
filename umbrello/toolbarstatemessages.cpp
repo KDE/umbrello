@@ -117,10 +117,14 @@ void ToolBarStateMessages::mouseRelease(QMouseEvent* ome)
 			// TODO Do we really need a connect? It makes the code so hard to read.
 			m_pUMLView->connect(m_pUMLView, SIGNAL(sigColorChanged(Uml::IDType)), message, SLOT(slotColorChanged(Uml::IDType)));
 
-			message->setActivated();
+			message->activate();
 
 			m_pSelectedWidget = 0;
 			m_pUMLView->getMessageList().append(message);
+			FloatingText *ft = message->getFloatingText();
+			ft->showOpDlg();
+			message->setTextPosition();
+			m_pUMLView->getWidgetList().append(ft);
 		}
 	}
 	else
