@@ -234,6 +234,11 @@ public:
 	void handleRename();
 
 	/**
+	 * Shows an operation dialog box.
+	 */
+	void showOpDlg();
+
+	/**
 	 * Creates the <floatingtext> XMI element.
 	 */
 	void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
@@ -269,11 +274,6 @@ private:
 	 * Override default method
 	 */
 	void resizeEvent(QResizeEvent* /*re*/);
-
-	/**
-	 * Shows an operation dialog box.
-	 */
-	void showOpDlg();
 
 	/**
 	 * Override default method and keeps position in sync with
