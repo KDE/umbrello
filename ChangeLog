@@ -1,15 +1,18 @@
 Version 1.5
 
 * Externalization of folders (i.e. submodel files)
-  http://bugs.kde.org/87252
 
+* Bugs fixed / wishes implemented (see http://bugs.kde.org)
+87252 
 
 Version 1.4.1 (maintenance release)
+
 Bugs fixed:
 * Crash on deleting attributes / enum literals
 * Crash in UMLView::createAutoAttributeAssociations()
 * Bugs from http://bugs.kde.org :
 53376 57667 57875 95353 100290 100307 101148 103123 103133 103728
+101541
 
 Version 1.4
 

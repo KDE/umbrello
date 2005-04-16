@@ -265,10 +265,10 @@ bool MessageWidget::onWidget(const QPoint & p) {
 	// Consists of top arrow (call) and bottom arrow (return.)
 	if (p.x() < getX() || p.x() > getX() + getWidth())
 		return false;
-	const int tolerance = 4;  // pixels
+	const int tolerance = 5;  // pixels
 	const int pY = p.y();
-	const int topArrowY = getY();
-	const int bottomArrowY = topArrowY + getHeight();
+	const int topArrowY = getY() + 3;
+	const int bottomArrowY = getY() + getHeight() - 3;
 	if (pY < topArrowY - tolerance || pY > bottomArrowY + tolerance)
 		return false;
 	if (getHeight() <= 2 * tolerance)
