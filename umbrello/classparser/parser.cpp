@@ -1444,6 +1444,8 @@ bool Parser::parseEnumSpecifier( TypeSpecifierAST::Node& node )
 	}
     }
 
+    if( lex->lookAhead(0) == Token_comment )
+	lex->nextToken();
     if( lex->lookAhead(0) != '}' )
 	reportError( i18n("} missing") );
     else
