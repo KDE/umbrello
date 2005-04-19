@@ -142,8 +142,8 @@ void ToolBarState::mouseMove(QMouseEvent* ome)
 
 	if (m_bIsButtonPressed)
 	{
-		int vx = m_pMouseEvent->x();
-		int vy = m_pMouseEvent->y();
+		int vx = ome->x();
+		int vy = ome->y();
 		int contsX = m_pUMLView->contentsX();
 		int contsY = m_pUMLView->contentsY();
 		int visw = m_pUMLView->visibleWidth();
