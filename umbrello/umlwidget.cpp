@@ -244,6 +244,9 @@ void UMLWidget::mouseMoveEvent(QMouseEvent* me) {
 		QPoint newPosition = doMouseMove(me);
 		int newX = newPosition.x();
 		int newY = newPosition.y();
+		// kdDebug() << "UMLWidget::mouseMoveEvent(" << me->pos().x()
+		// 	  << "," << me->pos().y() << "): newPoint=("
+		// 	  << newX << "," << newY << ")" << endl;
 
 		m_nOldX = newX;
 		m_nOldY = newY;
@@ -273,6 +276,12 @@ void UMLWidget::mousePressEvent(QMouseEvent *me) {
 		//anything else needed??
 		return;
 	}
+	if (me->button() != LeftButton && me->button() != RightButton) {
+		m_pView->clearSelected();
+		m_pView->resetToolbar();
+		setSelected(false);
+		return;
+	}
 	if( me -> state() == ShiftButton || me -> state() == ControlButton )
 	{
 		/* we have to save the shift state, because in ReleaseEvent it is lost */
@@ -280,19 +289,17 @@ void UMLWidget::mousePressEvent(QMouseEvent *me) {
 		if( me -> button() == LeftButton ) {
 			m_bMouseDown = true;
 			m_bStartMove = true;
-			setSelected( ( m_bSelected?false:true ) );
+			setSelected( !m_bSelected );
 			m_pView -> setSelected( this, me );
-			return;
-		} else if( me -> button() == RightButton ) {
+		} else {
 			if( !m_bSelected)
 				m_pView -> setSelected( this, me );
 			setSelected( true );
-			return;
 		}
-	} else {
-		/* we have to save the shift state, because in ReleaseEvent it is lost */
-		m_bShiftPressed = false;
-	}//end shift
+		return;
+	}
+	m_bShiftPressed = false;
+	bool _select;
 	if( me -> button() == LeftButton ) {
 		m_bMouseDown = true;
 		m_bStartMove = true;
@@ -300,28 +307,17 @@ void UMLWidget::mousePressEvent(QMouseEvent *me) {
 		/* we want multiple selected objects be moved without pressing shift */
 		if (count > 1 && m_bSelected == true)
 			return;
-
-		bool _select = m_bSelected?false:true;
-		m_pView -> clearSelected();
-		m_bSelected = _select;
-		setSelected( m_bSelected );
-		m_pView -> setSelected( this, me );
-	} else if( me -> button() == RightButton ) {
-
+		_select = !m_bSelected;
+	} else {
 		/* Right click on one element without holding any shift or ctrl key
 		 * deselects all items and selects the current one. It will show the
 		 * context menu for the selected item. This is common behaviour. */
-		m_pView -> clearSelected();
-		m_bSelected = true;
-		setSelected( m_bSelected );
-		m_pView -> setSelected( this, me );
-		return;
-	} else {
-
-		m_pView -> clearSelected();
-		m_pView -> resetToolbar();
-		setSelected( false );
+		_select = true;
 	}
+	m_pView->clearSelected();
+	m_bSelected = _select;
+	setSelected(m_bSelected);
+	m_pView->setSelected(this, me);
 }
 
 void UMLWidget::updateWidget()
