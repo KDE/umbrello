@@ -628,7 +628,7 @@ bool UMLClassifier::load(QDomElement& element) {
 		} else if (!Umbrello::isCommonXMIAttribute(tag) &&
 			   !loadSpecialized(element)) {
 			UMLDoc *umldoc = UMLApp::app()->getDocument();
-			UMLObject *pObject = umldoc->makeNewUMLObject(tag);
+			UMLObject *pObject = UMLDoc::makeNewUMLObject(tag);
 			if( !pObject )
 				continue;
 			pObject->setUMLPackage(this);

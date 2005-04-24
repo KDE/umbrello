@@ -177,7 +177,6 @@ void UMLListView::contentsMousePressEvent(QMouseEvent *me) {
 		}
 	}
 	if(me->button() == RightButton) {
-		//setSelected( item, true);
 		if(m_pMenu != 0) {
 			m_pMenu->hide();
 			disconnect(m_pMenu, SIGNAL(activated(int)), this, SLOT(popupMenuSel(int)));
@@ -1244,7 +1243,7 @@ void UMLListView::slotDropped(QDropEvent* de, QListViewItem* /* parent */, QList
 	}
 }
 
-bool UMLListView::getSelectedItems(UMLListViewItemList &ItemList) {
+int UMLListView::getSelectedItems(UMLListViewItemList &ItemList) {
 	ItemList.setAutoDelete( FALSE );
 	QListViewItemIterator it(this);
 	// iterate through all items of the list view
@@ -1254,8 +1253,10 @@ bool UMLListView::getSelectedItems(UMLListViewItemList &ItemList) {
 			ItemList.append(item);
 		}
 	}
+	kdDebug() << "UMLListView::getSelectedItems: selItems = "
+		  << ItemList.count() << endl;
 
-	return true;
+	return (int)ItemList.count();
 }
 
 UMLListViewItem* UMLListView::createDiagramItem(UMLView *v) {
@@ -1402,8 +1403,11 @@ int UMLListView::getSelectedCount() {
 }
 
 void UMLListView::focusOutEvent ( QFocusEvent * fe) {
-	clearSelection();
-	triggerUpdate();
+	QFocusEvent::Reason reason = fe->reason();
+	if (reason != QFocusEvent::Popup) {
+		clearSelection();
+		triggerUpdate();
+	}
 	//repaint();
 
 	QListView::focusOutEvent(fe);

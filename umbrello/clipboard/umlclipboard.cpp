@@ -380,7 +380,7 @@ bool UMLClipboard::pasteClip2(UMLDoc* doc, QMimeSource* data) {
 	UMLViewList		views;
 	IDChangeLog* idchanges = 0;
 
-	bool result = UMLDrag::decodeClip2(data, objects, itemdatalist, views, doc);
+	bool result = UMLDrag::decodeClip2(data, objects, itemdatalist, views);
 	if(!result) {
 		return false;
 	}
@@ -570,14 +570,22 @@ Pastes the data from the clipboard into the current Doc */
 bool UMLClipboard::pasteClip5(UMLDoc* doc, QMimeSource* data) {
 	UMLListView *listView = UMLApp::app()->getListView();
 	UMLListViewItem* lvitem = dynamic_cast<UMLListViewItem *>( listView->currentItem() );
-	if(!lvitem || (lvitem->getType() != Uml::lvt_Class)) {
+	if (!lvitem ||
+	    (lvitem->getType() != Uml::lvt_Class && lvitem->getType() != Uml::lvt_Interface)) {
+		return false;
+	}
+	UMLClassifier *parent = dynamic_cast<UMLClassifier *>(lvitem->getUMLObject());
+	if (parent == NULL) {
+		kdError() << "UMLClipboard::pasteClip5: parent is not a UMLClassifier"
+			  << endl;
 		return false;
 	}
 	UMLListViewItemList itemdatalist;
 	UMLObjectList objects;
 	objects.setAutoDelete(false);
 	IDChangeLog* idchanges = 0;
-	bool result = UMLDrag::decodeClip5(data, objects, itemdatalist, doc);
+	bool result = UMLDrag::decodeClip5(data, objects, itemdatalist, parent);
+
 	if(!result) {
 		return false;
 	}
@@ -593,8 +601,8 @@ bool UMLClipboard::pasteClip5(UMLDoc* doc, QMimeSource* data) {
 		switch(obj->getBaseType()) {
 			case Uml::ot_Attribute :
 			{
-				UMLClass * parent = dynamic_cast<UMLClass *>(lvitem -> getUMLObject());
-				if (parent -> addAttribute(dynamic_cast<UMLAttribute*>(obj), idchanges)) {
+				UMLClass *pClass = (UMLClass *)parent;
+				if (pClass->addAttribute(dynamic_cast<UMLAttribute*>(obj), idchanges)) {
 //FIXME					doc -> signalChildUMLObjectCreated(obj);
 				} else {
 					objectAlreadyExists = true;

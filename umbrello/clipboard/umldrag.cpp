@@ -20,6 +20,7 @@
 #include "../umldoc.h"
 #include "../umlview.h"
 #include "../umlobject.h"
+#include "../class.h"
 #include "../umlwidget.h"
 #include "../umllistview.h"
 #include "../umllistviewitem.h"
@@ -353,7 +354,7 @@ bool UMLDrag::decodeClip1(const QMimeSource* mimeSource, UMLObjectList& objects,
 			element = objectElement.toElement();
 			continue;
 		}
-		pObject = doc->makeNewUMLObject(type);
+		pObject = UMLDoc::makeNewUMLObject(type);
 
 		if( !pObject ) {
 			kdWarning() << "UMLDrag::decodeClip1: Given wrong type of umlobject to create: "
@@ -445,7 +446,7 @@ bool UMLDrag::decodeClip1(const QMimeSource* mimeSource, UMLObjectList& objects,
 }
 
 bool UMLDrag::decodeClip2(const QMimeSource* mimeSource, UMLObjectList& objects,
-			  UMLListViewItemList& umlListViewItems, UMLViewList& diagrams, UMLDoc* doc) {
+			  UMLListViewItemList& umlListViewItems, UMLViewList& diagrams) {
 	if ( !mimeSource->provides("application/x-uml-clip2") ) {
 		return false;
 	}
@@ -484,7 +485,7 @@ bool UMLDrag::decodeClip2(const QMimeSource* mimeSource, UMLObjectList& objects,
 		pObject = 0;
 		QString type = element.tagName();
 		if (type != "UML:Association") {
-			pObject = doc->makeNewUMLObject(type);
+			pObject = UMLDoc::makeNewUMLObject(type);
 
 			if( !pObject ) {
 				kdWarning() << "Given wrong type of umlobject to create:" << type << endl;
@@ -702,7 +703,7 @@ bool UMLDrag::decodeClip4(const QMimeSource* mimeSource, UMLObjectList& objects,
 		//FIXME associations don't load
 		if (type == "UML:Association")
 			continue;
-		pObject = doc->makeNewUMLObject(type);
+		pObject = UMLDoc::makeNewUMLObject(type);
 
 		if ( !pObject ) {
 			kdWarning() << "Given wrong type of umlobject to create: " << type << endl;
@@ -769,11 +770,8 @@ bool UMLDrag::decodeClip4(const QMimeSource* mimeSource, UMLObjectList& objects,
 	return true;
 }
 
-#ifdef __GNUC__
-#warning "decodeClip5 needs fixing"
-#endif
-bool UMLDrag::decodeClip5(const QMimeSource* mimeSource, UMLObjectList& /* objects */,
-			  UMLListViewItemList& umlListViewItems, UMLDoc* /*doc*/) {
+bool UMLDrag::decodeClip5(const QMimeSource* mimeSource, UMLObjectList& objects,
+			  UMLListViewItemList& umlListViewItems, UMLClassifier* newParent) {
 	if ( !mimeSource->provides("application/x-uml-clip5") ) {
 		return false;
 	}
@@ -807,12 +805,11 @@ bool UMLDrag::decodeClip5(const QMimeSource* mimeSource, UMLObjectList& /* objec
 	if ( element.isNull() ) {
 		return false;//return ok as it means there is no umlobjects
 	}
-/*
 	UMLObject* pObject = 0;
 	while ( !element.isNull() ) {
 		pObject = 0;
 		QString type = element.tagName();
-		pObject = doc->makeNewClassifierObject(type, element);
+		pObject = UMLDoc::makeNewClassifierObject(type, newParent);
 
 		if( !pObject ) {
 			kdWarning() << "Given wrong type of umlobject to create:" << type << endl;
@@ -826,8 +823,7 @@ bool UMLDrag::decodeClip5(const QMimeSource* mimeSource, UMLObjectList& /* objec
 		objectElement = objectElement.nextSibling();
 		element = objectElement.toElement();
 	}
-*/
-
+/*
 	//listviewitems
 	QDomNode listItemNode = objectsNode.nextSibling();
 	QDomNode listItems = listItemNode.firstChild();
@@ -851,6 +847,7 @@ bool UMLDrag::decodeClip5(const QMimeSource* mimeSource, UMLObjectList& /* objec
 		listItems = listItems.nextSibling();
 		listItemElement = listItems.toElement();
 	}
+ */
 	return true;
 }
 
