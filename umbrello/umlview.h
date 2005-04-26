@@ -558,7 +558,7 @@ public:
 	/**
 	 * Returns a List of all the UMLObjects(Use Cases, Concepts and Actors) in the View
 	 */
-	UMLObjectList* getUMLObjects();
+	UMLObjectList getUMLObjects();
 
 	/**
 	 * Activate all the objects and associations after a load from the clipboard

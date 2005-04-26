@@ -35,7 +35,6 @@
  */
 
 class UMLListView;
-class UMLDoc;
 class UMLDragPrivate;
 class UMLClassifier;
 
@@ -169,7 +168,7 @@ public:
 	 * "application/x-uml-clip1
 	 */
 	static bool decodeClip1(const QMimeSource* mimeSource, UMLObjectList& objects,
-				UMLListViewItemList& umlListViewItems, UMLDoc* doc);
+				UMLListViewItemList& umlListViewItems);
 
 	/**
 	 * For use when the user selects UML Object and Diagrams
@@ -217,7 +216,7 @@ public:
 				UMLListViewItemList& umlListViewItems,
 				UMLWidgetList& widgets,
 				AssociationWidgetList& associations,
-				Uml::Diagram_Type & dType, UMLDoc* doc);
+				Uml::Diagram_Type & dType);
 
 	/**
 	 * For use when the user selects only Attributes and/or

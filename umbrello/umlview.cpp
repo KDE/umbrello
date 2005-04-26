@@ -1549,18 +1549,11 @@ void UMLView::slotActivate() {
 	m_pDoc->changeCurrentView(getID());
 }
 
-UMLObjectList* UMLView::getUMLObjects() {
-	int type;
-	UMLObjectList* list = new UMLObjectList;
-	list->setAutoDelete(FALSE);
-
-	UMLWidgetListIt it( m_WidgetList );
-
-	UMLWidget *obj;
-	while ( (obj = it.current()) != 0 ) {
-		++it;
-		type = obj -> getBaseType();
-		switch( type ) //use switch for easy future expansion
+UMLObjectList UMLView::getUMLObjects() {
+	UMLObjectList list;
+	for (UMLWidgetListIt it(m_WidgetList); it.current(); ++it) {
+		UMLWidget *w = it.current();
+		switch (w->getBaseType()) //use switch for easy future expansion
 		{
 			case wt_Actor:
 			case wt_Class:
@@ -1571,7 +1564,9 @@ UMLObjectList* UMLView::getUMLObjects() {
 			case wt_Artifact:
 			case wt_UseCase:
 			case wt_Object:
-				list->append( obj->getUMLObject() );
+				list.append( w->getUMLObject() );
+				break;
+			default:
 				break;
 		}
 	}

@@ -309,7 +309,8 @@ bool UMLDrag::canDecode(const QMimeSource* mimeSource) {
 }
 
 bool UMLDrag::decodeClip1(const QMimeSource* mimeSource, UMLObjectList& objects,
-			  UMLListViewItemList& umlListViewItems, UMLDoc* doc) {
+			  UMLListViewItemList& umlListViewItems) {
+	UMLDoc* doc = UMLApp::app()->getDocument();
 	if ( !mimeSource->provides("application/x-uml-clip1") ) {
 		return false;
 	}
@@ -662,8 +663,8 @@ bool UMLDrag::decodeClip3(const QMimeSource* mimeSource,
 
 bool UMLDrag::decodeClip4(const QMimeSource* mimeSource, UMLObjectList& objects,
 			  UMLListViewItemList& umlListViewItems, UMLWidgetList& widgets,
-			  AssociationWidgetList& associations, Uml::Diagram_Type & dType,
-			  UMLDoc* doc) {
+			  AssociationWidgetList& associations, Uml::Diagram_Type & dType) {
+	UMLDoc* doc = UMLApp::app()->getDocument();
 	if ( !mimeSource->provides("application/x-uml-clip4") ) {
 		return false;
 	}
@@ -737,7 +738,8 @@ bool UMLDrag::decodeClip4(const QMimeSource* mimeSource, UMLObjectList& objects,
 	QDomNode associationWidgetNode = associationWidgetsNode.firstChild();
 	QDomElement associationWidgetElement = associationWidgetNode.toElement();
 	while ( !associationWidgetElement.isNull() ) {
-		AssociationWidget* associationWidget = new AssociationWidget(doc->getCurrentView());
+		UMLView *view = UMLApp::app()->getCurrentView();
+		AssociationWidget* associationWidget = new AssociationWidget(view);
 		if (associationWidget->loadFromXMI(associationWidgetElement, widgets))
 			associations.append(associationWidget);
 		else {
@@ -819,6 +821,7 @@ bool UMLDrag::decodeClip5(const QMimeSource* mimeSource, UMLObjectList& objects,
 			kdWarning() << "failed to load object from XMI" << endl;
 			return false;
 		}
+		pObject->resolveRef();
 		objects.append(pObject);
 		objectElement = objectElement.nextSibling();
 		element = objectElement.toElement();
