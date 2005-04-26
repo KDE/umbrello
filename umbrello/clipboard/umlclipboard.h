@@ -24,7 +24,6 @@
 
 class IDChangeLog;
 class QMimeSource;
-class UMLDoc;
 class UMLDrag;
 
 /**
@@ -49,22 +48,20 @@ public:
 	virtual ~UMLClipboard();
 
 	/**
-	 * Inserts the clipboard's contents into an UML Document.
+	 * Inserts the clipboard's contents.
 	 *
-	 * @param Doc		Pointer to the UMLDoc to insert into.
 	 * @param Data		Pointer to the MIME format clipboard data.
 	 * @return	True for successful operation.
 	 */
-	bool paste(UMLDoc * Doc, QMimeSource* Data);
+	bool paste(QMimeSource* Data);
 
 	/**
-	 * Copies the selected stuff from an UMLDocument to a
-	 * QMimeSource ready to be put in the clipboard.
+	 * Copies the selected stuff from the list view or current diagram
+	 * to a QMimeSource ready to be put in the clipboard.
 	 *
-	 * @param Doc		Pointer to the source UMLDoc.
 	 * @return	Pointer to the created clipboard data.
 	 */
-	QMimeSource* copy(UMLDoc * Doc, bool fromView = false);
+	QMimeSource* copy(bool fromView = false);
 
 	/// Enumeration that codes the different types of UML clips.
 	enum UMLCopyType
@@ -87,53 +84,48 @@ private:
 
 	/**
 	 * If clipboard has mime type application/x-uml-clip1,
-	 * pastes the data from the clipboard into the given Doc.
+	 * pastes the data from the clipboard.
 	 *
-	 * @param doc		Pointer to the target UMLDoc.
 	 * @param data		Pointer to the source clip.
 	 * @return	True for successful operation.
 	 */
-	bool pasteClip1(UMLDoc* doc, QMimeSource* data);
+	bool pasteClip1(QMimeSource* data);
 
 	/**
 	 * If clipboard has mime type application/x-uml-clip2,
-	 * pastes the data from the clipboard into the given Doc.
+	 * pastes the data from the clipboard.
 	 *
-	 * @param doc		Pointer to the target UMLDoc.
 	 * @param data		Pointer to the source clip.
 	 * @return	True for successful operation.
 	 */
-	bool pasteClip2(UMLDoc* doc, QMimeSource* data);
+	bool pasteClip2(QMimeSource* data);
 
 	/**
 	 * If clipboard has mime type application/x-uml-clip3,
-	 * pastes the data from the clipboard into the given Doc.
+	 * pastes the data from the clipboard.
 	 *
-	 * @param doc		Pointer to the target UMLDoc.
 	 * @param data		Pointer to the source clip.
 	 * @return	True for successful operation.
 	 */
-	bool pasteClip3(UMLDoc* doc, QMimeSource* data);
+	bool pasteClip3(QMimeSource* data);
 
 	/**
 	 * If clipboard has mime type application/x-uml-clip4,
-	 * pastes the data from the clipboard into the given Doc.
+	 * pastes the data from the clipboard.
 	 *
-	 * @param doc		Pointer to the target UMLDoc.
 	 * @param data		Pointer to the source clip.
 	 * @return	True for successful operation.
 	 */
-	bool pasteClip4(UMLDoc* doc, QMimeSource* data);
+	bool pasteClip4(QMimeSource* data);
 
 	/**
 	 * If clipboard has mime type application/x-uml-clip5,
-	 * pastes the data from the clipboard into the given Doc.
+	 * pastes the data from the clipboard.
 	 *
-	 * @param doc		Pointer to the target UMLDoc.
 	 * @param data		Pointer to the source clip.
 	 * @return	True for successful operation.
 	 */
-	bool pasteClip5(UMLDoc* doc, QMimeSource* data);
+	bool pasteClip5(QMimeSource* data);
 
 	/**
 	 * When pasting widgets see if they can be pasted on
@@ -165,7 +157,7 @@ private:
 	 * type to be * performed, sets the type in the m_type
 	 * member variable.
 	 */
-	void setCopyType(UMLListViewItemList& SelectedItems, UMLDoc* Doc);
+	void setCopyType(UMLListViewItemList& SelectedItems);
 
 	/**
 	 * Searches the child items of a UMLListViewItem to
@@ -174,8 +166,7 @@ private:
 	void checkItemForCopyType(UMLListViewItem* Item,
 				  bool& WithDiagrams,
 				  bool& WithObjects,
-				  bool& OnlyAttsOps,
-				  UMLDoc* Doc);
+				  bool& OnlyAttsOps);
 
 	/**
 	 * Adds the children of a UMLListViewItem to m_ItemList.
@@ -194,13 +185,13 @@ private:
 	/**
 	 * Pastes the children of a UMLListViewItem (The Parent)
 	 */
-	bool pasteChildren(UMLListViewItem* parent, IDChangeLog *chgLog, UMLDoc *doc);
+	bool pasteChildren(UMLListViewItem* parent, IDChangeLog *chgLog);
 
 	/**
 	 * Gives a `sorry' message box if you're pasting an item which
 	 * already exists and can't be duplicated.
 	 */
-	void pasteItemAlreadyExists(UMLDoc* doc);
+	void pasteItemAlreadyExists();
 };
 
 #endif

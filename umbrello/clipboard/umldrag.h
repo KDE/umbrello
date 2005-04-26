@@ -35,8 +35,8 @@
  */
 
 class UMLListView;
-class UMLDoc;
 class UMLDragPrivate;
+class UMLClassifier;
 
 class Q_EXPORT UMLDrag : public QDragObject  {
 	Q_OBJECT
@@ -168,7 +168,7 @@ public:
 	 * "application/x-uml-clip1
 	 */
 	static bool decodeClip1(const QMimeSource* mimeSource, UMLObjectList& objects,
-				UMLListViewItemList& umlListViewItems, UMLDoc* doc);
+				UMLListViewItemList& umlListViewItems);
 
 	/**
 	 * For use when the user selects UML Object and Diagrams
@@ -177,7 +177,7 @@ public:
 	 */
 	static bool decodeClip2(const QMimeSource* mimeSource, UMLObjectList& objects,
 				UMLListViewItemList& umlListViewItems,
-				UMLViewList& diagrams, UMLDoc* doc);
+				UMLViewList& diagrams);
 
 	/**
 	 * For use when the user selects UMLObjects from
@@ -216,7 +216,7 @@ public:
 				UMLListViewItemList& umlListViewItems,
 				UMLWidgetList& widgets,
 				AssociationWidgetList& associations,
-				Uml::Diagram_Type & dType, UMLDoc* doc);
+				Uml::Diagram_Type & dType);
 
 	/**
 	 * For use when the user selects only Attributes and/or
@@ -224,7 +224,7 @@ public:
 	 * type = "application/x-uml-clip5
 	 */
 	static bool decodeClip5(const QMimeSource* mimeSource, UMLObjectList& objects,
-				UMLListViewItemList& umlListViewItems, UMLDoc* doc);
+				UMLListViewItemList& umlListViewItems, UMLClassifier *newParent);
 
 	/**
 	 * Converts application/x-uml-clip[1-5] clip type to an integer

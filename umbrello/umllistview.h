@@ -123,7 +123,13 @@ class UMLListView : public KListView {
 	 */
 	void setView(UMLView* v);
 
-	bool getSelectedItems(UMLListViewItemList &ItemList);
+	/**
+	 * Get selected items.
+	 *
+	 * @param ItemList	List of UMLListViewItems returned.
+	 * @return		The number of selected items.
+	 */
+	int getSelectedItems(UMLListViewItemList &ItemList);
 
 	/**
 	 * Create a listview item for an existing diagram.

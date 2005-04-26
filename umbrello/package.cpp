@@ -199,7 +199,7 @@ bool UMLPackage::load(QDomElement& element) {
 				return false;
 			continue;
 		}
-		UMLObject *pObject = umldoc->makeNewUMLObject(type);
+		UMLObject *pObject = UMLDoc::makeNewUMLObject(type);
 		if( !pObject ) {
 			kdWarning() << "UMLPackage::load: "
 				    << "Unknown type of umlobject to create: "

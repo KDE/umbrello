@@ -40,10 +40,7 @@ UMLClipboard::UMLClipboard() {
 UMLClipboard::~UMLClipboard() {
 }
 
-QMimeSource* UMLClipboard::copy(UMLDoc* Doc, bool fromView/*=false*/) {
-	if (!Doc) {
-		return 0;
-	}
+QMimeSource* UMLClipboard::copy(bool fromView/*=false*/) {
 	//Clear previous copied data
 	m_AssociationList.clear();
 	m_ItemList.clear();
@@ -59,25 +56,26 @@ QMimeSource* UMLClipboard::copy(UMLDoc* Doc, bool fromView/*=false*/) {
 
 	if(fromView) {
 		m_type = clip4;
-		Doc->getCurrentView() -> checkSelections();
-		if(!Doc->getCurrentView()->getSelectedWidgets(m_WidgetList)) {
+		UMLView *view = UMLApp::app()->getCurrentView();
+		view->checkSelections();
+		if(!view->getSelectedWidgets(m_WidgetList)) {
 			return 0;
 		}
 		//if there is no selected widget then there is no copy action
 		if(!m_WidgetList.count()) {
 			return 0;
 		}
-		if(!Doc->getCurrentView()->getSelectedAssocs(m_AssociationList)) {
+		if(!view->getSelectedAssocs(m_AssociationList)) {
 			return 0;
 		}
-		Doc->getCurrentView()->copyAsImage(png);
+		view->copyAsImage(png);
 	} else { //if the copy action is being performed from the ListView
 		if(!listView->getSelectedItems(selectedItems)) {
 			return 0;
 		}
 		//Set What type of copy operation are we performing and
 		//also fill m_ViewList with all the selected Diagrams
-		setCopyType(selectedItems, Doc);
+		setCopyType(selectedItems);
 
 		//if we are copying a diagram or part of a diagram, select the items
 		//on the ListView that correspond to a UseCase, Actor or Concept
@@ -86,22 +84,17 @@ QMimeSource* UMLClipboard::copy(UMLDoc* Doc, bool fromView/*=false*/) {
 			//Fill the member lists with all the object and stuff to be copied
 			//to the clipboard
 			selectedItems.clear();
-			UMLListViewItem* item = 0;
-			UMLViewListIt view_it(m_ViewList);
 			//For each selected view select all the Actors, USe Cases and Concepts
 			//widgets in the ListView
-			UMLObjectList* objects = 0;
-			for( ; view_it.current(); ++view_it) {
-				objects = Doc -> findView( view_it.current()->getID() ) -> getUMLObjects();
-				UMLObjectListIt object_it(*objects);
-				for( ; object_it.current(); ++object_it) {
-					item = listView->findUMLObject(object_it.current());
+			for (UMLViewListIt vit(m_ViewList); vit.current(); ++vit) {
+				UMLObjectList objects = vit.current()->getUMLObjects();
+				for (UMLObjectListIt oit(objects); oit.current(); ++oit) {
+					UMLObject *o = oit.current();
+					UMLListViewItem *item = listView->findUMLObject(o);
 					if(item) {
 						listView->setSelected(item, true);
 					}
 				}
-				delete objects;
-				objects = 0;
 			}
 			if(!listView->getSelectedItems(selectedItems)) {
 				return 0;
@@ -124,8 +117,9 @@ QMimeSource* UMLClipboard::copy(UMLDoc* Doc, bool fromView/*=false*/) {
 			break;
 		case clip4:
 			if(png) {
+				UMLView *view = UMLApp::app()->getCurrentView();
 				data = new UMLDrag(m_ObjectList, m_ItemList, m_WidgetList,
-				                    m_AssociationList, *png, Doc -> getCurrentView() -> getType() );
+				                    m_AssociationList, *png, view->getType());
 			} else {
 				return 0;
 			}
@@ -140,32 +134,30 @@ QMimeSource* UMLClipboard::copy(UMLDoc* Doc, bool fromView/*=false*/) {
 	return (QMimeSource*)data;
 }
 
-bool UMLClipboard::paste(UMLDoc * Doc, QMimeSource* Data) {
-	if(!Doc) {
-		return false;
-	}
+bool UMLClipboard::paste(QMimeSource* data) {
+	UMLDoc *doc = UMLApp::app()->getDocument();
 	bool result = false;
-	Doc->beginPaste();
-	switch(UMLDrag::getCodingType(Data)) {
+	doc->beginPaste();
+	switch(UMLDrag::getCodingType(data)) {
 		case 1:
-			result = pasteClip1(Doc, Data);
+			result = pasteClip1(data);
 			break;
 		case 2:
-			result = pasteClip2(Doc, Data);
+			result = pasteClip2(data);
 			break;
 		case 3:
-			result = pasteClip3(Doc, Data);
+			result = pasteClip3(data);
 			break;
 		case 4:
-			result = pasteClip4(Doc, Data);
+			result = pasteClip4(data);
 			break;
 		case 5:
-			result = pasteClip5(Doc, Data);
+			result = pasteClip5(data);
 			break;
 		default:
 			break;
 	}
-	Doc->endPaste();
+	doc->endPaste();
 	return result;
 }
 
@@ -226,13 +218,13 @@ bool UMLClipboard::fillSelectionLists(UMLListViewItemList& SelectedItems) {
 	return true;
 }
 
-void UMLClipboard::setCopyType(UMLListViewItemList& SelectedItems, UMLDoc* Doc) {
+void UMLClipboard::setCopyType(UMLListViewItemList& SelectedItems) {
 	bool withDiagrams = false; //If the selection includes diagrams
 	bool withObjects = false; //If the selection includes objects
 	bool onlyAttsOps = false; //If the selection only includes Attributes and/or Operations
 	UMLListViewItemListIt it(SelectedItems);
 	for ( ; it.current(); ++it ) {
-		checkItemForCopyType(it.current(), withDiagrams, withObjects, onlyAttsOps, Doc);
+		checkItemForCopyType(it.current(), withDiagrams, withObjects, onlyAttsOps);
 	}
 	if(onlyAttsOps) {
 		m_type = clip5;
@@ -246,10 +238,11 @@ void UMLClipboard::setCopyType(UMLListViewItemList& SelectedItems, UMLDoc* Doc) 
 }
 
 void UMLClipboard::checkItemForCopyType(UMLListViewItem* Item, bool & WithDiagrams, bool &WithObjects,
-        bool &OnlyAttsOps, UMLDoc* Doc) {
+        bool &OnlyAttsOps) {
 	if(!Item) {
 		return;
 	}
+	UMLDoc *doc = UMLApp::app()->getDocument();
 	OnlyAttsOps = true;
 	UMLView * view = 0;
 	UMLListViewItem * child = 0;
@@ -260,14 +253,14 @@ void UMLClipboard::checkItemForCopyType(UMLListViewItem* Item, bool & WithDiagra
 	} else if ( UMLListView::typeIsDiagram(type) ) {
 			WithDiagrams = true;
 			OnlyAttsOps = false;
-			view = Doc->findView( Item->getID() );
+			view = doc->findView( Item->getID() );
 			m_ViewList.append( view );
 	} else if ( UMLListView::typeIsFolder(type) ) {
 			OnlyAttsOps = false;
 			if(Item->childCount()) {
 				child = (UMLListViewItem*)Item->firstChild();
 				while(child) {
-					checkItemForCopyType(child, WithDiagrams, WithObjects, OnlyAttsOps, Doc);
+					checkItemForCopyType(child, WithDiagrams, WithObjects, OnlyAttsOps);
 					child = (UMLListViewItem*)child->nextSibling();
 				}
 			}
@@ -297,11 +290,12 @@ bool UMLClipboard::insertItemChildren(UMLListViewItem * Item, UMLListViewItemLis
 	return true;
 }
 
-bool UMLClipboard::pasteChildren(UMLListViewItem *parent, IDChangeLog *chgLog, UMLDoc *doc) {
-	if (!parent || !doc) {
-		kdWarning() << "Paste Children Error, parent or doc missing" << endl;
+bool UMLClipboard::pasteChildren(UMLListViewItem *parent, IDChangeLog *chgLog) {
+	if (!parent) {
+		kdWarning() << "Paste Children Error, parent missing" << endl;
 		return false;
 	}
+	UMLDoc *doc = UMLApp::app()->getDocument();
 	UMLListView *listView = UMLApp::app()->getListView();
 	UMLListViewItem *childItem = static_cast<UMLListViewItem*>(parent->firstChild());
 	while (childItem) {
@@ -343,11 +337,12 @@ void UMLClipboard::CleanAssociations(AssociationWidgetList& associations) {
 
 /** If clipboard has mime type application/x-uml-clip1,
 Pastes the data from the clipboard into the current Doc */
-bool UMLClipboard::pasteClip1(UMLDoc* doc, QMimeSource* data) {
+bool UMLClipboard::pasteClip1(QMimeSource* data) {
+	UMLDoc *doc = UMLApp::app()->getDocument();
 	UMLListViewItemList itemdatalist;
 	UMLObjectList objects;
 	IDChangeLog* idchanges = doc->getChangeLog();
-	if (! UMLDrag::decodeClip1(data, objects, itemdatalist, doc)) {
+	if (! UMLDrag::decodeClip1(data, objects, itemdatalist)) {
 		return false;
 	}
 	UMLListView *lv = UMLApp::app()->getListView();
@@ -360,7 +355,7 @@ bool UMLClipboard::pasteClip1(UMLDoc* doc, QMimeSource* data) {
 	UMLListViewItemListIt it(itemdatalist);
 	while ( (itemdata=it.current()) != 0 ) {
 		if(itemdata -> childCount()) {
-			if(!pasteChildren(itemdata, idchanges, doc)) {
+			if(!pasteChildren(itemdata, idchanges)) {
 				return false;
 			}
 		}
@@ -372,15 +367,15 @@ bool UMLClipboard::pasteClip1(UMLDoc* doc, QMimeSource* data) {
 
 /** If clipboard has mime type application/x-uml-clip2,
 Pastes the data from the clipboard into the current Doc */
-bool UMLClipboard::pasteClip2(UMLDoc* doc, QMimeSource* data) {
-
+bool UMLClipboard::pasteClip2(QMimeSource* data) {
+	UMLDoc *doc = UMLApp::app()->getDocument();
 	UMLListViewItemList itemdatalist;
 	UMLObjectList objects;
 	objects.setAutoDelete(false);
 	UMLViewList		views;
 	IDChangeLog* idchanges = 0;
 
-	bool result = UMLDrag::decodeClip2(data, objects, itemdatalist, views, doc);
+	bool result = UMLDrag::decodeClip2(data, objects, itemdatalist, views);
 	if(!result) {
 		return false;
 	}
@@ -417,7 +412,7 @@ bool UMLClipboard::pasteClip2(UMLDoc* doc, QMimeSource* data) {
 			return false;
 		}
 		if(itemdata -> childCount()) {
-			if(!pasteChildren(item, idchanges, doc)) {
+			if(!pasteChildren(item, idchanges)) {
 				return false;
 			}
 		}
@@ -429,8 +424,8 @@ bool UMLClipboard::pasteClip2(UMLDoc* doc, QMimeSource* data) {
 
 /** If clipboard has mime type application/x-uml-clip3,
 Pastes the data from the clipboard into the current Doc */
-bool UMLClipboard::pasteClip3(UMLDoc* doc, QMimeSource* data) {
-
+bool UMLClipboard::pasteClip3(QMimeSource* data) {
+	UMLDoc *doc = UMLApp::app()->getDocument();
 	UMLListViewItemList itemdatalist;
 	UMLListViewItem* item = 0;
 	UMLListViewItem* itemdata = 0;
@@ -449,7 +444,7 @@ bool UMLClipboard::pasteClip3(UMLDoc* doc, QMimeSource* data) {
 	while ( (itemdata=it.current()) != 0 ) {
 		item = listView->createItem(*itemdata, *idchanges);
 		if(itemdata -> childCount()) {
-			if(!pasteChildren(item, idchanges, doc)) {
+			if(!pasteChildren(item, idchanges)) {
 				return false;
 			}
 		}
@@ -461,10 +456,8 @@ bool UMLClipboard::pasteClip3(UMLDoc* doc, QMimeSource* data) {
 
 /** If clipboard has mime type application/x-uml-clip4,
 Pastes the data from the clipboard into the current Doc */
-bool UMLClipboard::pasteClip4(UMLDoc* doc, QMimeSource* data) {
-	if(!doc->getCurrentView()) {
-		return false;
-	}
+bool UMLClipboard::pasteClip4(QMimeSource* data) {
+	UMLDoc *doc = UMLApp::app()->getDocument();
 	UMLListViewItemList itemdatalist;
 	itemdatalist.setAutoDelete(false);
 
@@ -482,7 +475,7 @@ bool UMLClipboard::pasteClip4(UMLDoc* doc, QMimeSource* data) {
 
 	Uml::Diagram_Type diagramType;
 
-	if( !UMLDrag::decodeClip4(data, objects, itemdatalist, widgets, assocs, diagramType, doc) ) {
+	if( !UMLDrag::decodeClip4(data, objects, itemdatalist, widgets, assocs, diagramType) ) {
 		return false;
 	}
 
@@ -552,7 +545,7 @@ bool UMLClipboard::pasteClip4(UMLDoc* doc, QMimeSource* data) {
 			return false;
 		}
 		if(itemdata -> childCount()) {
-			if(!pasteChildren(item, idchanges, doc)) {
+			if(!pasteChildren(item, idchanges)) {
 				return false;
 			}
 		}
@@ -560,24 +553,33 @@ bool UMLClipboard::pasteClip4(UMLDoc* doc, QMimeSource* data) {
 	}
 
 	if (objectAlreadyExists) {
-		pasteItemAlreadyExists(doc);
+		pasteItemAlreadyExists();
 	}
 	return true;
 }
 
 /** If clipboard has mime type application/x-uml-clip5,
 Pastes the data from the clipboard into the current Doc */
-bool UMLClipboard::pasteClip5(UMLDoc* doc, QMimeSource* data) {
+bool UMLClipboard::pasteClip5(QMimeSource* data) {
+	UMLDoc *doc = UMLApp::app()->getDocument();
 	UMLListView *listView = UMLApp::app()->getListView();
 	UMLListViewItem* lvitem = dynamic_cast<UMLListViewItem *>( listView->currentItem() );
-	if(!lvitem || (lvitem->getType() != Uml::lvt_Class)) {
+	if (!lvitem ||
+	    (lvitem->getType() != Uml::lvt_Class && lvitem->getType() != Uml::lvt_Interface)) {
+		return false;
+	}
+	UMLClassifier *parent = dynamic_cast<UMLClassifier *>(lvitem->getUMLObject());
+	if (parent == NULL) {
+		kdError() << "UMLClipboard::pasteClip5: parent is not a UMLClassifier"
+			  << endl;
 		return false;
 	}
 	UMLListViewItemList itemdatalist;
 	UMLObjectList objects;
 	objects.setAutoDelete(false);
 	IDChangeLog* idchanges = 0;
-	bool result = UMLDrag::decodeClip5(data, objects, itemdatalist, doc);
+	bool result = UMLDrag::decodeClip5(data, objects, itemdatalist, parent);
+
 	if(!result) {
 		return false;
 	}
@@ -593,8 +595,8 @@ bool UMLClipboard::pasteClip5(UMLDoc* doc, QMimeSource* data) {
 		switch(obj->getBaseType()) {
 			case Uml::ot_Attribute :
 			{
-				UMLClass * parent = dynamic_cast<UMLClass *>(lvitem -> getUMLObject());
-				if (parent -> addAttribute(dynamic_cast<UMLAttribute*>(obj), idchanges)) {
+				UMLClass *pClass = (UMLClass *)parent;
+				if (pClass->addAttribute(dynamic_cast<UMLAttribute*>(obj), idchanges)) {
 //FIXME					doc -> signalChildUMLObjectCreated(obj);
 				} else {
 					objectAlreadyExists = true;
@@ -619,7 +621,7 @@ bool UMLClipboard::pasteClip5(UMLDoc* doc, QMimeSource* data) {
 	}
 
 	if (objectAlreadyExists) {
-		pasteItemAlreadyExists(doc);
+		pasteItemAlreadyExists();
 	}
 
 	return result;
@@ -660,7 +662,8 @@ bool UMLClipboard::checkPasteWidgets( UMLWidgetList & widgetList ) {
 	return true;
 }
 
-void UMLClipboard::pasteItemAlreadyExists(UMLDoc* doc) {
+void UMLClipboard::pasteItemAlreadyExists() {
+	UMLDoc *doc = UMLApp::app()->getDocument();
 	KMessageBox::sorry( doc->getCurrentView(), i18n("At least one of the items in the clipboard "
 							"could not be pasted because an item of the "
 							"same name already exists.  Any other items "

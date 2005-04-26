@@ -2160,7 +2160,23 @@ void UMLDoc::loadExtensionsFromXMI(QDomNode& node) {
 	}
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
+UMLObject* UMLDoc::makeNewClassifierObject(QString type, UMLClassifier *parent) {
+	if (parent == NULL)
+		return NULL;
+	UMLObject* pObject = NULL;
+	if (tagEq(type, "Operation")) {
+		pObject = new UMLOperation(parent);
+	} else if (tagEq(type, "Attribute")) {
+		if (parent->getBaseType() != Uml::ot_Class)
+			return NULL;
+		UMLClass *pClass = static_cast<UMLClass*>(parent);
+		pObject = new UMLAttribute(pClass);
+	} else if (tagEq(type, "Template")) {
+		pObject = new UMLTemplate(parent);
+	}
+	return pObject;
+}
+
 UMLObject* UMLDoc::makeNewUMLObject(const QString &type) {
 	UMLObject* pObject = 0;
 	if (tagEq(type, "UseCase")) {

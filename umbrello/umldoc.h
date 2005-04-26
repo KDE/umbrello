@@ -529,12 +529,12 @@ public:
 	 * Creates a new Classifier UMLObject (attribute, operation, template).
 	 * Used by the clipboard when pasteing them.
 	 */
-//	UMLObject* makeNewClassifierObject(cost QString &type, QDomElement& element);
+	static UMLObject* makeNewClassifierObject(QString type, UMLClassifier *parent);
 
 	/**
 	 * Make a new UMLObject, used by loadFromXMI and clipboard paste.
 	 */
-	UMLObject* makeNewUMLObject(const QString &type);
+	static UMLObject* makeNewUMLObject(const QString &type);
 
 	/**
 	 * Signal a view/diagram has been renamed.
