@@ -214,11 +214,11 @@ UMLView::~UMLView() {
 }
 
 QString UMLView::getName() const {
-	return QString( QObject::name() );
+	return m_Name;
 }
 
 void UMLView::setName(const QString &name) {
-	QObject::setName( name.latin1() );
+	m_Name = name;
 }
 
 int UMLView::generateCollaborationId() {
