@@ -983,6 +983,11 @@ protected:
 	 * The type of diagram to represent.
 	 */
 	Uml::Diagram_Type m_Type;
+ 
+ 	/**
+	 * The name of the diagram.
+	 */
+	QString m_Name;
 
 	/**
 	 * The documentation of the diagram.
