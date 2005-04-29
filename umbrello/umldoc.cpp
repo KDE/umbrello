@@ -603,6 +603,13 @@ bool UMLDoc::saveDocument(const KURL& url, const char * /* format */) {
 		archive->addLocalFile(tmp_xmi_file.name(), tmpQString);
 		archive->close();
 
+#if KDE_IS_VERSION(3,4,89)
+		if (!archive->closeSucceeded())
+		{
+			KMessageBox::error(0, i18n("There was a problem saving file: %1").arg(d.path()), i18n("Save Error"));
+			return false;
+		}
+#endif
 		// now the xmi file was added to the archive, so we can delete it
 		tmp_xmi_file.close();
 		tmp_xmi_file.unlink();
