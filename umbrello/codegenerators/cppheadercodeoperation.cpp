@@ -101,6 +101,8 @@ void CPPHeaderCodeOperation::updateMethodDeclaration()
 	// write as an abstract operation if explicitly stated OR if child of interface
 	if((isInterface || o->getAbstract()) && !isInlineMethod)
 		startText = "virtual " + startText + " = 0";
+	else if (o->getStatic())                // prefix with "static" if required
+		startText = "static "  + startText;
  	startText += (isInlineMethod ? " {" : ";");
 
         QString endText = (isInlineMethod ? "}" : "");
