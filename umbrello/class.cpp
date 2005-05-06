@@ -170,8 +170,17 @@ bool UMLClass::isEnumeration() {
 	return st.contains("enum", false);
 }
 
+void UMLClass::setClassAssoc(UMLAssociation *assoc) {
+	m_pClassAssoc = assoc;
+}
+
+UMLAssociation *UMLClass::getClassAssoc() {
+	return m_pClassAssoc;
+}
+
 void UMLClass::init() {
 	m_BaseType = Uml::ot_Class;
+	m_pClassAssoc = NULL;
 }
 
 bool UMLClass::operator==( UMLClass & rhs ) {

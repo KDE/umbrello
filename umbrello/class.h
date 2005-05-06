@@ -17,6 +17,9 @@
 
 #include "classifier.h"
 
+// forward declaration
+class UMLAssociation;
+
 /**
  * This class contains the non-graphical information required for a UML Class.
  * This class inherits from @ref UMLClassifier which contains most of the
@@ -151,6 +154,9 @@ public:
 	 */
 	bool isEnumeration();
 
+	void setClassAssoc(UMLAssociation *assoc);
+	UMLAssociation *getClassAssoc();
+
 	/**
 	 * Creates the <UML:Class> XMI element including its operations,
 	 * attributes and templates.
@@ -182,6 +188,7 @@ private:
 	 */
 	void init();
 
+	UMLAssociation *m_pClassAssoc;
 };
 
 #endif // UMLCLASS_H

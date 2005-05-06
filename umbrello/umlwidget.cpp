@@ -333,32 +333,30 @@ void UMLWidget::mouseReleaseEvent(QMouseEvent *me) {
 	m_bStartMove = false;
 	m_bMouseDown = false;
 
-	if (me->button() == LeftButton) {
-		/* if multiple elements were not moved with the left mouse button,
-		 * deselect all and select only the current */
-		if (!m_bMoved && count > 1 && !m_bShiftPressed)
-		{
-			m_pView -> clearSelected();
-			m_bSelected = true;
-			setSelected( m_bSelected );
-			m_pView -> setSelected( this, me );
-		}
-		m_bShiftPressed = false; // reset the state
-	}
 	if( me->button() == RightButton ) {
 		if (m_pMenu) {
 			return;
 		}
 		startPopupMenu( me->globalPos() );
 		return;
-	}//end if right button
+	} else if (me->button() !=  LeftButton) {
+		return;
+	}
+	/* if multiple elements were not moved with the left mouse button,
+	 * deselect all and select only the current */
+	if (!m_bMoved && count > 1 && !m_bShiftPressed) {
+		m_pView -> clearSelected();
+		m_bSelected = true;
+		setSelected( m_bSelected );
+		m_pView -> setSelected( this, me );
+	}
+	m_bShiftPressed = false; // reset the state
 
 	if (m_bMoved) {
 		m_pDoc->setModified(true);
 	}
 
-	if ( me->button() == LeftButton &&
-	     (me->stateAfter() != ShiftButton || me->stateAfter() != ControlButton) )  {
+	if (me->stateAfter() != ShiftButton || me->stateAfter() != ControlButton) {
 		m_pView->setAssoc(this);
 	}
 }

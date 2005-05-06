@@ -27,6 +27,7 @@ class ListPopupMenu;
 class QBitmap;
 class QPixmap;
 class QDataStream;
+class QCanvasLine;
 class UMLDoc;
 class UMLView;
 class UMLAssociation;
@@ -858,6 +859,7 @@ private:
 	ListPopupMenu 	*m_pMenu;
 	bool 		m_bSelected;
 	int 		m_nMovingPoint;
+	QCanvasLine	*m_pAssocClassLine;
 
 	/**
 	 * The definition points for the association line.

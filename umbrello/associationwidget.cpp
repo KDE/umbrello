@@ -18,6 +18,7 @@
 #include <cstdlib>
 #include <cmath>
 // qt/kde includes
+#include <qcanvas.h>
 #include <kdebug.h>
 #include <klocale.h>
 // app includes
@@ -29,7 +30,7 @@
 #include "messagewidget.h"
 #include "umlrole.h"
 #include "listpopupmenu.h"
-#include "classifier.h"
+#include "class.h"
 #include "attribute.h"
 #include "operation.h"
 #include "association.h"
@@ -904,7 +905,7 @@ void AssociationWidget::mouseDoubleClickEvent(QMouseEvent * me) {
 	if(me->button() == LeftButton) {
 		/* if there is no point around the mouse pointer, we insert a new one */
 		if (! m_LinePath.isPoint(i, me -> pos(), POINT_DELTA )) {
-			m_LinePath.insertPoint( i, me -> pos() );
+			m_LinePath.insertPoint( i + 1, me -> pos() );
 		} else {
 			/* deselect the line path */
 			m_LinePath.setSelected( false );
@@ -2009,14 +2010,42 @@ void AssociationWidget::mouseReleaseEvent(QMouseEvent * me) {
 		return;
 	}
 	m_nMovingPoint = -1;
-	if(me->button() != RightButton) {
+	const QPoint p = me->pos();
+	if (me->button() == LeftButton) {
+		UMLWidget *otherWidget = m_pView->getFirstSelectedWidget();
+		if (otherWidget == NULL)
+			return;
+		UMLObject *otherObj = otherWidget->getUMLObject();
+		if (otherObj == NULL || otherObj->getBaseType() != Uml::ot_Class)
+			return;
+		UMLClass *theClass = static_cast<UMLClass*>(otherObj);
+		int lineSegmentIndex = m_LinePath.onLinePath(p);
+		kdDebug() << "AssociationWidget::mouseReleaseEvent: theClass is "
+			  << theClass->getName() << ", lineSegmentIndex "
+			  << lineSegmentIndex << endl;
+		if (lineSegmentIndex < 0)
+			return;
+		UMLAssociation *umlassoc = getAssociation();
+		if (umlassoc == NULL) {
+			kdError() << "AssociationWidget::mouseReleaseEvent: "
+				  << "cannot setClassAssoc() because UMLAssociation is NULL"
+				  << endl;
+			return;
+		}
+		theClass->setClassAssoc(umlassoc);
+		if (m_pAssocClassLine)
+			delete m_pAssocClassLine;
+		m_pAssocClassLine = new QCanvasLine(m_pView->canvas());
+		m_pAssocClassLine->setPoints(otherWidget->getX(), otherWidget->getY(), p.x(), p.y());
+		QPen pen(m_pView->getLineColor(), m_pView->getLineWidth(), DashLine);
+		m_pAssocClassLine->setPen(pen);
+		m_pAssocClassLine->setVisible(true);
 		return;
 	}
 	// right button action:
 	//work out the type of menu we want
 	//work out if the association allows rolenames, multiplicity, etc
 	//also must be within a certain distance to be a multiplicity menu
-	QPoint p = me -> pos();
 	ListPopupMenu::Menu_Type menuType = ListPopupMenu::mt_Undefined;
 	int pos = m_LinePath.count() - 1;
 	int DISTANCE = 40;//must be within this many pixels for it to be a multi menu
@@ -2753,6 +2782,7 @@ void AssociationWidget::init (UMLView *view)
 	m_pMenu = 0;
 	m_bSelected = false;
 	m_nMovingPoint = -1;
+	m_pAssocClassLine = NULL;
 
 	// Initialize local members.
 	// These are only used if we don't have a UMLAssociation attached.

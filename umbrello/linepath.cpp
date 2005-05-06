@@ -132,8 +132,6 @@ bool LinePath::setPoint( int pointIndex, const QPoint &point ) {
 }
 
 bool LinePath::isPoint( int pointIndex, const QPoint &point, unsigned short delta) {
-	/* onLinePath doesn't return the index number we mean */
-	pointIndex--;
 	int count = m_LineList.count();
 	if ( pointIndex >= count )
 		return false;
@@ -207,11 +205,8 @@ bool LinePath::removePoint( int pointIndex, const QPoint &point, unsigned short 
 {
 	/* get the number of line segments */
 	int count = m_LineList.count();
-
-	/* we have to reduce the pointIndex, because it is always 1 too high returned
-	 * by LinePath::onLinePath */
-	if (pointIndex != 0)
-		pointIndex--;
+	if ( pointIndex >= count )
+		return false;
 
 	/* we don't know if the user clicked on the start- or endpoint of a
 	 * line segment */
@@ -287,14 +282,14 @@ int LinePath::count() {
 
 int LinePath::onLinePath( const QPoint &position ) {
 	QCanvasItemList list = getCanvas() -> collisions( position );
-	int index = 0;
+	int index = -1;
 
 	QCanvasItemList::iterator end(list.end());
 	for(QCanvasItemList::iterator item_it(list.begin()); item_it != end; ++item_it ) {
 		if( ( index = m_LineList.findRef( (QCanvasLine*)*item_it ) ) != -1 )
-			return index + 1;
+			break;
 	}//end for
-	return -1;
+	return index;
 }
 
 void LinePath::setSelected( bool select ) {
