@@ -28,6 +28,7 @@ class QBitmap;
 class QPixmap;
 class QDataStream;
 class QCanvasLine;
+class ClassWidget;
 class UMLDoc;
 class UMLView;
 class UMLAssociation;
@@ -530,6 +531,12 @@ public:
 	void calculateEndingPoints();
 
 	/**
+	 * Compute the end points of m_pAssocClassLine in case this
+	 * association has an attached association class.
+	 */
+	void computeAssocClassLine();
+
+	/**
 	 * Saves this widget to the <assocwidget> XMI element.
 	 */
 	void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
@@ -608,8 +615,11 @@ private:
 	 * constant.)
 	 * When the region is East or West, the Y value is returned (X is
 	 * constant.)
+	 * @todo This is buggy. Try replacing by findIntercept()
 	 */
 	static int findInterceptOnEdge(const QRect &rect, Region region, const QPoint &point);
+
+	static QPoint findIntercept(const QRect &rect, const QPoint &point);
 
 	/**
 	 * Overrides moveEvent.
@@ -837,9 +847,6 @@ private:
 	int m_positions_len;              ///< auxiliary variable for updateAssociations()
 	AssociationWidgetList m_ordered;  ///< auxiliary variable for updateAssociations()
 
-	/*QPixmap 	*m_pPix;
-	QBitmap 	*m_pMask;*/
-
 	/**
 	 * Flag which is true if the activate method has been called for this
 	 * class instance.
@@ -859,7 +866,9 @@ private:
 	ListPopupMenu 	*m_pMenu;
 	bool 		m_bSelected;
 	int 		m_nMovingPoint;
-	QCanvasLine	*m_pAssocClassLine;
+	int		m_nLinePathSegmentIndex; ///< anchor for m_pAssocClassLine
+	QCanvasLine	*m_pAssocClassLine;  ///< used for connecting assoc. class
+	ClassWidget	*m_pAssocClassWidget;  ///< used if we have an assoc. class
 
 	/**
 	 * The definition points for the association line.

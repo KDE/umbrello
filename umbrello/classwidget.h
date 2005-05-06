@@ -20,6 +20,7 @@
 
 class UMLView;
 class UMLClass;
+class AssociationWidget;
 
 /**
  * Defines a graphical version of the Class.  Most of the functionality
@@ -122,6 +123,18 @@ public:
 	int displayedAttributes();
 
 	/**
+	 * Set the AssociationWidget when this ClassWidget acts as
+	 * an association class.
+	 */
+	void setClassAssocWidget(AssociationWidget *assocwidget);
+
+	/**
+	 * Return the AssociationWidget when this ClassWidget acts as
+	 * an association class (else return NULL.)
+	 */
+	AssociationWidget *getClassAssocWidget();
+
+	/**
 	 * Overrides standard method.
 	 */
 	void draw(QPainter & p, int offsetX, int offsetY);
@@ -164,6 +177,7 @@ private:
 	bool m_bShowStereotype;             ///< Loaded/saved item.
 	Uml::Signature_Type m_ShowAttSigs;  ///< Loaded/saved item.
 
+	AssociationWidget *m_pAssocWidget;
 };
 
 #endif

@@ -16,6 +16,7 @@
 #include "class.h"
 #include "operation.h"
 #include "attribute.h"
+#include "associationwidget.h"
 #include "listpopupmenu.h"
 #include "template.h"
 #include "umlview.h"
@@ -32,8 +33,8 @@ ClassWidget::ClassWidget(UMLView * view, UMLClass *o)
 	calculateSize();
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
 void ClassWidget::init() {
+	m_pAssocWidget = NULL;
 	m_ShowAttSigs = Uml::st_ShowSig;
 	//set defaults from m_pView
 	const Settings::OptionState& ops = m_pView -> getOptionState();
@@ -47,9 +48,8 @@ void ClassWidget::init() {
 		update();
 	}
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 ClassWidget::~ClassWidget() {}
-////////////////////////////////////////////////////////////////////////////////////////////////////
 
 int ClassWidget::displayedAttributes() {
 	if (!m_bShowAttributes)
@@ -235,7 +235,7 @@ void ClassWidget::slotMenuSelection(int sel) {
 	}
 	UMLWidget::slotMenuSelection(sel);
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void ClassWidget::updateSigs() {
 	ClassifierWidget::updateSigs();
 	if (m_bShowScope) {
@@ -252,7 +252,7 @@ void ClassWidget::updateSigs() {
 	calculateSize();
 	update();
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void ClassWidget::setShowAtts(bool _show) {
 	m_bShowAttributes = _show;
 	updateSigs();
@@ -260,14 +260,14 @@ void ClassWidget::setShowAtts(bool _show) {
 	calculateSize();
 	update();
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void ClassWidget::setAttSignature(Uml::Signature_Type sig) {
 	m_ShowAttSigs = sig;
 	updateSigs();
 	calculateSize();
 	update();
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void ClassWidget::setShowStereotype(bool _status) {
 	m_bShowStereotype = _status;
 	calculateSize();
@@ -287,6 +287,59 @@ void ClassWidget::setShowAttSigs(bool _status) {
 		m_ShowAttSigs = Uml::st_SigNoScope;
 	calculateSize();
 	update();
+}
+
+void ClassWidget::toggleShowAtts()
+{
+	m_bShowAttributes = !m_bShowAttributes;
+	updateSigs();
+	calculateSize();
+	update();
+}
+
+void ClassWidget::toggleShowAttSigs()
+{
+	if (m_ShowAttSigs == Uml::st_ShowSig ||
+	m_ShowAttSigs == Uml::st_SigNoScope) {
+		if (m_bShowScope) {
+			m_ShowAttSigs = Uml::st_NoSig;
+		} else {
+			m_ShowAttSigs = Uml::st_NoSigNoScope;
+		}
+	} else if (m_bShowScope) {
+				m_ShowAttSigs = Uml::st_ShowSig;
+	} else {
+		m_ShowAttSigs = Uml::st_SigNoScope;
+	}
+	calculateSize();
+	update();
+}
+
+void ClassWidget::toggleShowStereotype()
+{
+	m_bShowStereotype = !m_bShowStereotype;
+	updateSigs();
+	calculateSize();
+	update();
+}
+
+void ClassWidget::setClassAssocWidget(AssociationWidget *assocwidget) {
+	m_pAssocWidget = assocwidget;
+	if (m_pAssocWidget == NULL)
+		return;
+	UMLClass *umlclass = static_cast<UMLClass*>(m_pObject);
+	UMLAssociation *umlassoc = assocwidget->getAssociation();
+	if (umlassoc == NULL) {
+		kdError() << "ClassWidget::setClassAssocWidget: "
+			  << "cannot setClassAssoc() because UMLAssociation is NULL"
+			  << endl;
+		return;
+	}
+	umlclass->setClassAssoc(umlassoc);
+}
+
+AssociationWidget *ClassWidget::getClassAssocWidget() {
+	return m_pAssocWidget;
 }
 
 void ClassWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
@@ -327,36 +380,3 @@ bool ClassWidget::loadFromXMI( QDomElement & qElement ) {
 	return true;
 }
 
-void ClassWidget::toggleShowAtts()
-{
-	m_bShowAttributes = !m_bShowAttributes;
-	updateSigs();
-	calculateSize();
-	update();
-}
-
-void ClassWidget::toggleShowAttSigs()
-{
-	if (m_ShowAttSigs == Uml::st_ShowSig ||
-	m_ShowAttSigs == Uml::st_SigNoScope) {
-		if (m_bShowScope) {
-			m_ShowAttSigs = Uml::st_NoSig;
-		} else {
-			m_ShowAttSigs = Uml::st_NoSigNoScope;
-		}
-	} else if (m_bShowScope) {
-				m_ShowAttSigs = Uml::st_ShowSig;
-	} else {
-		m_ShowAttSigs = Uml::st_SigNoScope;
-	}
-	calculateSize();
-	update();
-}
-
-void ClassWidget::toggleShowStereotype()
-{
-	m_bShowStereotype = !m_bShowStereotype;
-	updateSigs();
-	calculateSize();
-	update();
-}

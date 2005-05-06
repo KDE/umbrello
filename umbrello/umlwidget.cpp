@@ -30,6 +30,7 @@
 #include "listpopupmenu.h"
 #include "classifier.h"
 #include "associationwidget.h"
+#include "classwidget.h"
 #include "dialogs/settingsdlg.h"
 #include "codedocument.h"
 #include "floatingtext.h"
@@ -255,6 +256,12 @@ void UMLWidget::mouseMoveEvent(QMouseEvent* me) {
 		if (lastUpdate.elapsed() > 25) {
 			//adjustAssocs(newX, newY);
 			adjustUnselectedAssocs(newX, newY);
+			if (m_Type == Uml::wt_Class) {
+				ClassWidget *cw = static_cast<ClassWidget*>(this);
+				AssociationWidget *clAssocW = cw->getClassAssocWidget();
+				if (clAssocW)
+					clAssocW->computeAssocClassLine();
+			}
 			m_pView->resizeCanvasToItems();
 			lastUpdate.restart();
 		}

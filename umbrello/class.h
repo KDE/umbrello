@@ -154,7 +154,17 @@ public:
 	 */
 	bool isEnumeration();
 
+	/**
+	 * Sets the UMLAssociation for which this class shall act as an
+	 * association class.
+	 */
 	void setClassAssoc(UMLAssociation *assoc);
+
+	/**
+	 * Returns the UMLAssociation for which this class acts as an
+	 * association class. Returns NULL if this class does not act
+	 * as an association class.
+	 */
 	UMLAssociation *getClassAssoc();
 
 	/**

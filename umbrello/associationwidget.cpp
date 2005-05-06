@@ -30,6 +30,7 @@
 #include "messagewidget.h"
 #include "umlrole.h"
 #include "listpopupmenu.h"
+#include "classwidget.h"
 #include "class.h"
 #include "attribute.h"
 #include "operation.h"
@@ -125,6 +126,8 @@ AssociationWidget::AssociationWidget(UMLView *view, UMLWidget* pWidgetA,
 
 AssociationWidget::~AssociationWidget() {
 	cleanup();
+	if (m_pAssocClassLine)
+		delete m_pAssocClassLine;
 }
 
 AssociationWidget& AssociationWidget::operator=(AssociationWidget & Other) {
@@ -1084,6 +1087,8 @@ void AssociationWidget::calculateEndingPoints() {
 		yA = p.y();
 	}
 	doUpdates( xA, yA, B );
+
+	computeAssocClassLine();
 }
 
 void AssociationWidget::doUpdates(int otherX, int otherY, Role_Type role) {
@@ -1301,7 +1306,7 @@ void AssociationWidget::widgetMoved(UMLWidget* widget, int x, int y ) {
 AssociationWidget::Region AssociationWidget::findPointRegion(QRect Rect, int PosX, int PosY) {
 	float w = (float)Rect.width();
 	float h = (float)Rect.height();
-	float x =  (float)Rect.x();
+	float x = (float)Rect.x();
 	float y = (float)Rect.y();
 	float Slope2 = w / h;
 	float Slope1 = Slope2*(float)(-1);
@@ -1990,6 +1995,28 @@ void AssociationWidget::setTextPositionRelatively(Text_Role role, const QPoint &
 	ft->setIgnoreSnapToGrid( oldIgnoreSnapToGrid );
 }
 
+void AssociationWidget::computeAssocClassLine() {
+	if (m_pAssocClassWidget == NULL || m_pAssocClassLine == NULL)
+		return;
+	if (m_nLinePathSegmentIndex < 0) {
+		kdError() << "AssociationWidget::computeAssocClassLine: "
+			  << "m_nLinePathSegmentIndex is not set" << endl;
+		return;
+	}
+	QPoint segStart = m_LinePath.getPoint(m_nLinePathSegmentIndex);
+	QPoint segEnd = m_LinePath.getPoint(m_nLinePathSegmentIndex + 1);
+	const int midSegX = segStart.x() + (segEnd.x() - segStart.x()) / 2;
+	const int midSegY = segStart.y() + (segEnd.y() - segStart.y()) / 2;
+
+	QPoint segmentMidPoint(midSegX, midSegY);
+	QRect classRectangle = m_pAssocClassWidget->rect();
+	QPoint cwEdgePoint = findIntercept(classRectangle, segmentMidPoint);
+	int acwMinX = cwEdgePoint.x();
+	int acwMinY = cwEdgePoint.y();
+
+	m_pAssocClassLine->setPoints(midSegX, midSegY, acwMinX, acwMinY);
+}
+
 void AssociationWidget::mousePressEvent(QMouseEvent * me) {
 	m_nMovingPoint = -1;
 	//make sure we should be here depending on the button
@@ -2013,30 +2040,17 @@ void AssociationWidget::mouseReleaseEvent(QMouseEvent * me) {
 	const QPoint p = me->pos();
 	if (me->button() == LeftButton) {
 		UMLWidget *otherWidget = m_pView->getFirstSelectedWidget();
-		if (otherWidget == NULL)
+		if (otherWidget == NULL || otherWidget->getBaseType() != Uml::wt_Class)
 			return;
-		UMLObject *otherObj = otherWidget->getUMLObject();
-		if (otherObj == NULL || otherObj->getBaseType() != Uml::ot_Class)
+		m_nLinePathSegmentIndex = m_LinePath.onLinePath(p);
+		if (m_nLinePathSegmentIndex < 0)
 			return;
-		UMLClass *theClass = static_cast<UMLClass*>(otherObj);
-		int lineSegmentIndex = m_LinePath.onLinePath(p);
-		kdDebug() << "AssociationWidget::mouseReleaseEvent: theClass is "
-			  << theClass->getName() << ", lineSegmentIndex "
-			  << lineSegmentIndex << endl;
-		if (lineSegmentIndex < 0)
-			return;
-		UMLAssociation *umlassoc = getAssociation();
-		if (umlassoc == NULL) {
-			kdError() << "AssociationWidget::mouseReleaseEvent: "
-				  << "cannot setClassAssoc() because UMLAssociation is NULL"
-				  << endl;
-			return;
-		}
-		theClass->setClassAssoc(umlassoc);
+		m_pAssocClassWidget = static_cast<ClassWidget*>(otherWidget);
+		m_pAssocClassWidget->setClassAssocWidget(this);
 		if (m_pAssocClassLine)
 			delete m_pAssocClassLine;
 		m_pAssocClassLine = new QCanvasLine(m_pView->canvas());
-		m_pAssocClassLine->setPoints(otherWidget->getX(), otherWidget->getY(), p.x(), p.y());
+		computeAssocClassLine();
 		QPen pen(m_pView->getLineColor(), m_pView->getLineWidth(), DashLine);
 		m_pAssocClassLine->setPen(pen);
 		m_pAssocClassLine->setVisible(true);
@@ -2359,6 +2373,103 @@ int AssociationWidget::getRegionCount(AssociationWidget::Region region, Role_Typ
 			widgetCount++;
 	}//end while
 	return widgetCount;
+}
+
+QPoint AssociationWidget::findIntercept(const QRect &rect, const QPoint &point) {
+	Region region = findPointRegion(rect, point.x(), point.y());
+	/*
+	const char *regionStr[] = { "Error",
+		"West", "North", "East", "South",
+		"NorthWest", "NorthEast", "SouthEast", "SouthWest",
+		"Center"
+	};
+	kdDebug() << "findPointRegion(rect(" << rect.x() << "," << rect.y()
+		  << "," << rect.width() << "," << rect.height() << "), p("
+		  << point.x() << "," << point.y() << ")) = " << regionStr[region]
+		  << endl;
+	 */
+	// Move some regions to the standard ones.
+	switch (region) {
+	case NorthWest:
+		region = North;
+		break;
+	case NorthEast:
+		region = East;
+		break;
+	case SouthEast:
+		region = South;
+		break;
+	case SouthWest:
+	case Center:
+		region = West;
+		break;
+	default:
+		break;
+	}
+	// The Qt coordinate system has (0,0) in the top left corner.
+	// In order to go to the regular XY coordinate system with (0,0)
+	// in the bottom left corner, we swap the X and Y axis.
+	// That's why the following assignments look twisted.
+	const int rectHalfWidth = rect.height() / 2;
+	const int rectHalfHeight = rect.width() / 2;
+	const int rectMidX = rect.y() + rectHalfWidth;
+	const int rectMidY = rect.x() + rectHalfHeight;
+	const int pX = point.y();
+	const int pY = point.x();
+	const int dX = rectMidX - pX;
+	const int dY = rectMidY - pY;
+	switch (region) {
+		case West:
+			region = South;
+			break;
+		case North:
+			region = East;
+			break;
+		case East:
+			region = North;
+			break;
+		case South:
+			region = West;
+			break;
+		default:
+			break;
+	}
+	// Now we have regular coordinates with the point (0,0) in the
+	// bottom left corner.
+	if (region == North || region == South) {
+		int yoff = rectHalfHeight;
+		if (region == North)
+			yoff = -yoff;
+		if (dX == 0) {
+			return QPoint(rectMidY + yoff, rectMidX);  // swap back X and Y
+		}
+		if (dY == 0) {
+			kdError() << "AssociationWidget::findIntercept usage error: "
+				  << "North/South (dY == 0)" << endl;
+			return QPoint(0,0);
+		}
+		const float m = (float)dY / (float)dX;
+		const float b = (float)pY - m * pX;
+		const int inputY = rectMidY + yoff;
+		const float outputX = ((float)inputY - b) / m;
+		return QPoint(inputY, (int)outputX);  // swap back X and Y
+	} else {
+		int xoff = rectHalfWidth;
+		if (region == East)
+			xoff = -xoff;
+		if (dY == 0)
+			return QPoint(rectMidY, rectMidX + xoff);  // swap back X and Y
+		if (dX == 0) {
+			kdError() << "AssociationWidget::findIntercept usage error: "
+				  << "East/West (dX == 0)" << endl;
+			return QPoint(0,0);
+		}
+		const float m = (float)dY / (float)dX;
+		const float b = (float)pY - m * pX;
+		const int inputX = rectMidX + xoff;
+		const float outputY = m * (float)inputX + b;
+		return QPoint((int)outputY, inputX);  // swap back X and Y
+	}
 }
 
 int AssociationWidget::findInterceptOnEdge(const QRect &rect,
@@ -2782,7 +2893,9 @@ void AssociationWidget::init (UMLView *view)
 	m_pMenu = 0;
 	m_bSelected = false;
 	m_nMovingPoint = -1;
+	m_nLinePathSegmentIndex = -1;
 	m_pAssocClassLine = NULL;
+	m_pAssocClassWidget = NULL;
 
 	// Initialize local members.
 	// These are only used if we don't have a UMLAssociation attached.
