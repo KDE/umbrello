@@ -175,7 +175,6 @@ AssociationWidget& AssociationWidget::operator=(AssociationWidget & Other) {
 
 	m_bActivated = Other.m_bActivated;
 	m_unNameLineSegment = Other.m_unNameLineSegment;
-	m_bFocus = Other.m_bFocus;
 	m_pMenu = Other.m_pMenu;
 	setUMLAssociation(Other.getAssociation());
 	m_bSelected = Other.m_bSelected;
@@ -2024,9 +2023,14 @@ void AssociationWidget::setTextPositionRelatively(Text_Role role, const QPoint &
 }
 
 void AssociationWidget::removeAssocClassLine() {
+	selectAssocClassLine(false);
 	if (m_pAssocClassLine) {
 		delete m_pAssocClassLine;
 		m_pAssocClassLine = NULL;
+	}
+	if (m_pAssocClassWidget) {
+		m_pAssocClassWidget->setClassAssocWidget(NULL);
+		m_pAssocClassWidget = NULL;
 	}
 }
 
@@ -2052,12 +2056,44 @@ void AssociationWidget::computeAssocClassLine() {
 	m_pAssocClassLine->setPoints(midSegX, midSegY, acwMinX, acwMinY);
 }
 
+void AssociationWidget::selectAssocClassLine(bool sel /* =true */) {
+	if (!sel) {
+		if (m_pAssocClassLineSel0) {
+			delete m_pAssocClassLineSel0;
+			m_pAssocClassLineSel0 = NULL;
+		}
+		if (m_pAssocClassLineSel1) {
+			delete m_pAssocClassLineSel1;
+			m_pAssocClassLineSel1 = NULL;
+		}
+		return;
+	}
+	if (m_pAssocClassLine == NULL) {
+		kdError() << "AssociationWidget::selectAssocClassLine: "
+			  << "cannot select because m_pAssocClassLine is NULL"
+			  << endl;
+		return;
+	}
+	if (m_pAssocClassLineSel0)
+		delete m_pAssocClassLineSel0;
+	m_pAssocClassLineSel0 = Umbrello::decoratePoint(m_pAssocClassLine->startPoint());
+	if (m_pAssocClassLineSel1)
+		delete m_pAssocClassLineSel1;
+	m_pAssocClassLineSel1 = Umbrello::decoratePoint(m_pAssocClassLine->endPoint());
+}
+
 void AssociationWidget::mousePressEvent(QMouseEvent * me) {
 	m_nMovingPoint = -1;
 	//make sure we should be here depending on the button
 	if(me -> button() != RightButton && me->button() != LeftButton)
 		return;
 	QPoint mep = me->pos();
+	// See if `mep' is on the connecting line to the association class
+	if (onAssocClassLine(mep)) {
+		m_bSelected = true;
+		selectAssocClassLine();
+		return;
+	}
 	// See if the user has clicked on a point to start moving the line segment
 	// from that point
 	checkPoints(mep);
@@ -2114,7 +2150,7 @@ void AssociationWidget::mouseReleaseEvent(QMouseEvent * me) {
 			menuType = ListPopupMenu::mt_MultiB;
 	}
 	if( menuType == ListPopupMenu::mt_Undefined ) {
-		if( type == at_Anchor )
+		if (type == at_Anchor || onAssocClassLine(p))
 			menuType = ListPopupMenu::mt_Anchor;
 		else if( type == at_Coll_Message )
 			menuType = ListPopupMenu::mt_Collaboration_Message;
@@ -2185,7 +2221,10 @@ void AssociationWidget::slotMenuSelection(int sel) {
 		break;
 
 	case ListPopupMenu::mt_Delete:
-		m_pView->removeAssocInViewAndDoc(this);
+		if (m_pAssocClassLineSel0)
+			removeAssocClassLine();
+		else
+			m_pView->removeAssocInViewAndDoc(this);
 		break;
 
 	case ListPopupMenu::mt_Rename_MultiA:
@@ -2334,13 +2373,13 @@ void AssociationWidget::checkPoints(const QPoint &p) {
 	//check all points except the end points to se if we clicked on one of them
 	QPoint tempPoint;
 	int x, y;
-	const int BOUNDRY = 4; //echeck for pixels around the point
+	const int BOUNDARY = 4; // check for pixels around the point
 	for(int i=1;i<size-1;i++) {
 		tempPoint = m_LinePath.getPoint( i );
 		x = tempPoint.x();
 		y = tempPoint.y();
-		if( x - BOUNDRY <= p.x() && x + BOUNDRY >= p.x() &&
-		    y - BOUNDRY <= p.y() && y + BOUNDRY >= p.y() ) {
+		if( x - BOUNDARY <= p.x() && x + BOUNDARY >= p.x() &&
+		    y - BOUNDARY <= p.y() && y + BOUNDARY >= p.y() ) {
 			m_nMovingPoint = i;
 			i = size; //no need to check the rest
 		}//end if
@@ -2812,10 +2851,31 @@ void AssociationWidget::setSelected(bool _select /* = true */) {
 	 *         when selecting collaboration messages.
 	 */
 	m_LinePath.setSelected( _select );
+	if (! _select) {
+		// For now, if _select is true we don't make the assoc class line
+		// selected. But that's certainly open for discussion.
+		// At any rate, we need to deselect the assoc class line
+		// if _select is false.
+		selectAssocClassLine(false);
+	}
+}
+
+bool AssociationWidget::onAssocClassLine(const QPoint &point) {
+	if (m_pAssocClassLine == NULL)
+		return false;
+	QCanvasItemList list = m_pView->canvas()->collisions(point);
+	QCanvasItemList::iterator end(list.end());
+	for (QCanvasItemList::iterator item_it(list.begin()); item_it != end; ++item_it) {
+		if (*item_it == m_pAssocClassLine)
+			return true;
+	}
+	return false;
 }
 
 bool AssociationWidget::onAssociation(const QPoint & point) {
-	return ( m_LinePath.onLinePath( point ) != -1 );
+	if (m_LinePath.onLinePath(point) != -1)
+		return true;
+	return onAssocClassLine(point);
 }
 
 void AssociationWidget::slotRemovePopupMenu()
@@ -2928,8 +2988,9 @@ void AssociationWidget::init (UMLView *view)
 	m_bSelected = false;
 	m_nMovingPoint = -1;
 	m_nLinePathSegmentIndex = -1;
-	m_pAssocClassLine = NULL;
 	m_pAssocClassWidget = NULL;
+	m_pAssocClassLine = NULL;
+	m_pAssocClassLineSel0 = m_pAssocClassLineSel1 = NULL;
 
 	// Initialize local members.
 	// These are only used if we don't have a UMLAssociation attached.

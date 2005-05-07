@@ -350,9 +350,22 @@ public:
 	void mouseMoveEvent(QMouseEvent * me);
 
 	/**
-	 *  Returns true if the given point is on the Association.
+	 * Returns true if the given point is on the Association.
 	 */
 	bool onAssociation(const QPoint & point);
+
+	/**
+	 * Returns true if the given point is on the connecting line to
+	 * the association class. Returns false if there is no association
+	 * class attached, or if the given point is not on the connecting
+	 * line.
+	 */
+	bool onAssocClassLine(const QPoint & point);
+
+	/**
+	 * Renders the association class connecting line selected.
+	 */
+	void selectAssocClassLine(bool sel = true);
 
 	/**
 	 * Moves all the mid points (all expcept start /end ) by the given amount.
@@ -867,12 +880,14 @@ private:
 	 */
 	uint 		m_unNameLineSegment;
 	UMLDoc * m_umldoc;  ///< just a shorthand for UMLApp::app()->getDocument()
-	bool 		m_bFocus;
 	ListPopupMenu 	*m_pMenu;
 	bool 		m_bSelected;
 	int 		m_nMovingPoint;
 	int		m_nLinePathSegmentIndex; ///< anchor for m_pAssocClassLine
 	QCanvasLine	*m_pAssocClassLine;  ///< used for connecting assoc. class
+	/// selection adornment for the endpoints of the assoc. class connecting line
+	QCanvasRectangle *m_pAssocClassLineSel0, *m_pAssocClassLineSel1;
+
 	ClassWidget	*m_pAssocClassWidget;  ///< used if we have an assoc. class
 
 	/**
