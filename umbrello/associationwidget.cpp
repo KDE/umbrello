@@ -126,8 +126,7 @@ AssociationWidget::AssociationWidget(UMLView *view, UMLWidget* pWidgetA,
 
 AssociationWidget::~AssociationWidget() {
 	cleanup();
-	if (m_pAssocClassLine)
-		delete m_pAssocClassLine;
+	removeAssocClassLine();
 }
 
 AssociationWidget& AssociationWidget::operator=(AssociationWidget & Other) {
@@ -897,34 +896,63 @@ QString AssociationWidget::toString() {
 }
 
 void AssociationWidget::mouseDoubleClickEvent(QMouseEvent * me) {
-	if(me -> button() != RightButton && me->button() != LeftButton)
+	if (me->button() != RightButton && me->button() != LeftButton)
 		return;
-	int i = 0;
-	if( ( i = m_LinePath.onLinePath( me -> pos() ) ) == -1 )
-	{
+	int i = m_LinePath.onLinePath(me->pos());
+	if (i == -1) {
 		m_LinePath.setSelected(false);
 		return;
 	}
-	if(me->button() == LeftButton) {
-		/* if there is no point around the mouse pointer, we insert a new one */
-		if (! m_LinePath.isPoint(i, me -> pos(), POINT_DELTA )) {
-			m_LinePath.insertPoint( i + 1, me -> pos() );
-		} else {
-			/* deselect the line path */
-			m_LinePath.setSelected( false );
+	if (me->button() != LeftButton)
+		return;
+	const QPoint mp(me->pos());
+	/* if there is no point around the mouse pointer, we insert a new one */
+	if (! m_LinePath.isPoint(i, mp, POINT_DELTA)) {
+		m_LinePath.insertPoint(i + 1, mp);
+		if (m_nLinePathSegmentIndex == i) {
+			QPoint segStart = m_LinePath.getPoint(i);
+			QPoint segEnd = m_LinePath.getPoint(i + 2);
+			const int midSegX = segStart.x() + (segEnd.x() - segStart.x()) / 2;
+			const int midSegY = segStart.y() + (segEnd.y() - segStart.y()) / 2;
+			/*
+			kdDebug() << "AssociationWidget::mouseDoubleClickEvent: "
+				  << "segStart=(" << segStart.x() << "," << segStart.y()
+				  << "), segEnd=(" << segEnd.x() << "," << segEnd.y()
+				  << "), midSeg=(" << midSegX << "," << midSegY
+				  << "), mp=(" << mp.x() << "," << mp.y() << ")"
+				  << endl;
+			 */
+			if (midSegX > mp.x() || midSegY < mp.y()) {
+				m_nLinePathSegmentIndex++;
+				kdDebug() << "AssociationWidget::mouseDoubleClickEvent: "
+					  << "setting m_nLinePathSegmentIndex to "
+					  << m_nLinePathSegmentIndex << endl;
+				computeAssocClassLine();
+			}
+		}
+	} else {
+		/* deselect the line path */
+		m_LinePath.setSelected( false );
 
-			/* there was a point so we remove the point */
-			m_LinePath.removePoint(i, me -> pos(), POINT_DELTA );
-
-			/* select the line path */
-			m_LinePath.setSelected( true );
+		/* there was a point so we remove the point */
+		if (m_LinePath.removePoint(i, mp, POINT_DELTA)) {
+			/* Maybe reattach association class connecting line
+			   to different association linepath segment.  */
+			const int numberOfLines = m_LinePath.count() - 1;
+			if (m_nLinePathSegmentIndex >= numberOfLines) {
+				m_nLinePathSegmentIndex = numberOfLines - 1;
+				computeAssocClassLine();
+			}
 		}
 
-		m_LinePath.update();
-
-		calculateNameTextSegment();
-		m_umldoc->setModified(true);
+		/* select the line path */
+		m_LinePath.setSelected( true );
 	}
+
+	m_LinePath.update();
+
+	calculateNameTextSegment();
+	m_umldoc->setModified(true);
 }
 
 void AssociationWidget::moveEvent(QMoveEvent* me) {
@@ -1995,6 +2023,13 @@ void AssociationWidget::setTextPositionRelatively(Text_Role role, const QPoint &
 	ft->setIgnoreSnapToGrid( oldIgnoreSnapToGrid );
 }
 
+void AssociationWidget::removeAssocClassLine() {
+	if (m_pAssocClassLine) {
+		delete m_pAssocClassLine;
+		m_pAssocClassLine = NULL;
+	}
+}
+
 void AssociationWidget::computeAssocClassLine() {
 	if (m_pAssocClassWidget == NULL || m_pAssocClassLine == NULL)
 		return;
@@ -2047,9 +2082,8 @@ void AssociationWidget::mouseReleaseEvent(QMouseEvent * me) {
 			return;
 		m_pAssocClassWidget = static_cast<ClassWidget*>(otherWidget);
 		m_pAssocClassWidget->setClassAssocWidget(this);
-		if (m_pAssocClassLine)
-			delete m_pAssocClassLine;
-		m_pAssocClassLine = new QCanvasLine(m_pView->canvas());
+		if (m_pAssocClassLine == NULL)
+			m_pAssocClassLine = new QCanvasLine(m_pView->canvas());
 		computeAssocClassLine();
 		QPen pen(m_pView->getLineColor(), m_pView->getLineWidth(), DashLine);
 		m_pAssocClassLine->setPen(pen);

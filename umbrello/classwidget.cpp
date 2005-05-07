@@ -49,7 +49,10 @@ void ClassWidget::init() {
 	}
 }
 
-ClassWidget::~ClassWidget() {}
+ClassWidget::~ClassWidget() {
+	if (m_pAssocWidget)
+		m_pAssocWidget->removeAssocClassLine();
+}
 
 int ClassWidget::displayedAttributes() {
 	if (!m_bShowAttributes)

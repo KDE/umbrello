@@ -531,6 +531,11 @@ public:
 	void calculateEndingPoints();
 
 	/**
+	 * Remove dashed connecting line for association class.
+	 */
+	void removeAssocClassLine();
+
+	/**
 	 * Compute the end points of m_pAssocClassLine in case this
 	 * association has an attached association class.
 	 */
