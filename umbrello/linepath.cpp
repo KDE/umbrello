@@ -25,6 +25,7 @@
 // application includes
 #include "associationwidget.h"
 #include "activitywidget.h"
+#include "widget_utils.h"
 #include "umlview.h"
 #include "linepath.h"
 
@@ -437,25 +438,18 @@ void LinePath::moveSelected( int pointIndex ) {
 
 void LinePath::setupSelected() {
 	m_RectList.clear();
-	const int SIZE = 4;
 	QCanvasLine * line = 0;
 	LineListIt it( m_LineList );
 	while( ( line = it.current() ) ) {
 		QPoint sp = line -> startPoint();
-		QCanvasRectangle * rect = new QCanvasRectangle( sp.x() - SIZE / 2, sp.y() - SIZE / 2, SIZE, SIZE, getCanvas() );
-		rect -> setBrush( QBrush( blue ) );
-		rect -> setPen( QPen( blue ) );
-		rect -> setVisible( true );
+		QCanvasRectangle *rect = Umbrello::decoratePoint(sp);
 		m_RectList.append( rect );
 		++it;
 	}
 	//special case for last point
 	line = m_LineList.last();
 	QPoint p = line -> endPoint();
-	QCanvasRectangle * rect = new QCanvasRectangle( p.x() - SIZE / 2, p.y() - SIZE / 2, SIZE, SIZE, getCanvas() );
-	rect -> setBrush( QBrush( blue ) );
-	rect -> setPen( QPen( blue ) );
-	rect -> setVisible( true );
+	QCanvasRectangle *rect = Umbrello::decoratePoint(p);
 	m_RectList.append( rect );
 	update();
 }

@@ -16,9 +16,13 @@
 #define WIDGET_UTILS_H
 
 #include <qiconset.h>
+#include <qpoint.h>
 #include "umlnamespace.h"
 #include "umlwidgetlist.h"
 #include "messagewidgetlist.h"
+
+// forward declarations
+class QCanvasRectangle;
 
 /**
  * General purpose widget utilities.
@@ -39,11 +43,12 @@ namespace Umbrello {
 			      const UMLWidgetList& widgets,
 			      const MessageWidgetList* pMessages = NULL);
 
-
 	/**
 	 * Return the icon corresponding to the given Diagram_Type.
 	 */
 	QIconSet iconSet(Uml::Diagram_Type dt);
+
+	QCanvasRectangle *decoratePoint(QPoint p);
 
 }
 
