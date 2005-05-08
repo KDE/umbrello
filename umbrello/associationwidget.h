@@ -363,6 +363,11 @@ public:
 	bool onAssocClassLine(const QPoint & point);
 
 	/**
+	 * Creates the association class connecting line.
+	 */
+	void createAssocClassLine();
+
+	/**
 	 * Renders the association class connecting line selected.
 	 */
 	void selectAssocClassLine(bool sel = true);

@@ -629,8 +629,11 @@ bool AssociationWidget::activate() {
 		}
 	}
 
-	// CHECK
-	// m_LinePath.setAssocType( getAssocType() );
+	// Prepare the association class line if needed.
+	if (m_pAssocClassWidget && !m_pAssocClassLine) {
+		createAssocClassLine();
+	}
+
 	if(status) {
 		m_bActivated = true;
 	}
@@ -2034,6 +2037,15 @@ void AssociationWidget::removeAssocClassLine() {
 	}
 }
 
+void AssociationWidget::createAssocClassLine() {
+	if (m_pAssocClassLine == NULL)
+		m_pAssocClassLine = new QCanvasLine(m_pView->canvas());
+	computeAssocClassLine();
+	QPen pen(m_pView->getLineColor(), m_pView->getLineWidth(), DashLine);
+	m_pAssocClassLine->setPen(pen);
+	m_pAssocClassLine->setVisible(true);
+}
+
 void AssociationWidget::computeAssocClassLine() {
 	if (m_pAssocClassWidget == NULL || m_pAssocClassLine == NULL)
 		return;
@@ -2118,12 +2130,7 @@ void AssociationWidget::mouseReleaseEvent(QMouseEvent * me) {
 			return;
 		m_pAssocClassWidget = static_cast<ClassWidget*>(otherWidget);
 		m_pAssocClassWidget->setClassAssocWidget(this);
-		if (m_pAssocClassLine == NULL)
-			m_pAssocClassLine = new QCanvasLine(m_pView->canvas());
-		computeAssocClassLine();
-		QPen pen(m_pView->getLineColor(), m_pView->getLineWidth(), DashLine);
-		m_pAssocClassLine->setPen(pen);
-		m_pAssocClassLine->setVisible(true);
+		createAssocClassLine();
 		return;
 	}
 	// right button action:
@@ -3150,6 +3157,12 @@ void AssociationWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 	if( m_role[B].m_pChangeWidget )
 		m_role[B].m_pChangeWidget -> saveToXMI( qDoc, assocElement );
 
+	if (m_pAssocClassWidget) {
+		QString acid = ID2STR(m_pAssocClassWidget->getID());
+		assocElement.setAttribute("assocclass", acid);
+		assocElement.setAttribute("aclsegindex", m_nLinePathSegmentIndex);
+	}
+
 	qElement.appendChild( assocElement );
 }
 
@@ -3291,6 +3304,23 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
 	m_role[B].m_nIndex = indexb.toInt();
 	m_role[A].m_nTotalCount = totalcounta.toInt();
 	m_role[B].m_nTotalCount = totalcountb.toInt();
+
+	QString assocclassid = qElement.attribute("assocclass", "");
+	if (! assocclassid.isEmpty()) {
+		Uml::IDType acid = STR2ID(assocclassid);
+		UMLWidget *w = Umbrello::findWidget(acid, widgets);
+		if (w) {
+			m_pAssocClassWidget = static_cast<ClassWidget*>(w);
+			m_pAssocClassWidget->setClassAssocWidget(this);
+			// Preparation of the assoc class line is done in activate()
+			QString aclsegindex = qElement.attribute("aclsegindex", "0");
+			m_nLinePathSegmentIndex = aclsegindex.toInt();
+		} else {
+			kdError() << "AssociationWidget::loadFromXMI: "
+				  << "cannot find assocclass " << assocclassid
+				  << endl;
+		}
+	}
 
 	//now load child elements
 	QDomNode node = qElement.firstChild();
