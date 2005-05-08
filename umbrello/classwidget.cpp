@@ -328,16 +328,10 @@ void ClassWidget::toggleShowStereotype()
 
 void ClassWidget::setClassAssocWidget(AssociationWidget *assocwidget) {
 	m_pAssocWidget = assocwidget;
-	if (m_pAssocWidget == NULL)
-		return;
 	UMLClass *umlclass = static_cast<UMLClass*>(m_pObject);
-	UMLAssociation *umlassoc = assocwidget->getAssociation();
-	if (umlassoc == NULL) {
-		kdError() << "ClassWidget::setClassAssocWidget: "
-			  << "cannot setClassAssoc() because UMLAssociation is NULL"
-			  << endl;
-		return;
-	}
+	UMLAssociation *umlassoc = NULL;
+	if (assocwidget)
+		umlassoc = assocwidget->getAssociation();
 	umlclass->setClassAssoc(umlassoc);
 }
 
