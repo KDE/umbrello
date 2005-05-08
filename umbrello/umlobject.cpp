@@ -436,11 +436,7 @@ bool UMLObject::resolveRef() {
 		if (i < n_types)
 			ot = Uml::ot_Datatype;
 	}
-	m_pSecondary = pDoc->createUMLObject(ot, m_SecondaryId, NULL, true);
-	// The `prepend' flag is set true because we need to move the
-	// newly created item to before the current item in UMLDoc's
-	// object list.  This can be dropped when the deferred type
-	// resolution is generalized to also cover native ID resolution.
+	m_pSecondary = pDoc->createUMLObject(ot, m_SecondaryId, NULL);
 	if (m_pSecondary == NULL)
 		return false;
 	m_SecondaryId = "";
