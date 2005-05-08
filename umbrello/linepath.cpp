@@ -27,6 +27,8 @@
 #include "activitywidget.h"
 #include "widget_utils.h"
 #include "umlview.h"
+#include "umldoc.h"
+#include "uml.h"
 #include "linepath.h"
 
 // using namespace std;  CHECK: strange... it compiles without this for me.
@@ -159,6 +161,7 @@ bool LinePath::insertPoint( int pointIndex, const QPoint &point ) {
 	int count = m_LineList.count();
 	if( count == 0 )
 		return false;
+	const bool bLoading = UMLApp::app()->getDocument()->loading();
 
 	if( count == 1 || pointIndex == 1) {
 		QCanvasLine * first = m_LineList.first();
@@ -171,7 +174,8 @@ bool LinePath::insertPoint( int pointIndex, const QPoint &point ) {
 		line -> setPen( getPen() );
 		line -> setVisible( true );
 		m_LineList.insert( 1, line );
-		setupSelected();
+		if (!bLoading)
+			setupSelected();
 		return true;
 	}
 	if( count + 1 == pointIndex ) {
@@ -185,7 +189,8 @@ bool LinePath::insertPoint( int pointIndex, const QPoint &point ) {
 		line -> setPen( getPen() );
 		line -> setVisible( true );
 		m_LineList.append( line );
-		setupSelected();
+		if (!bLoading)
+			setupSelected();
 		return true;
 	}
 	QCanvasLine * before = m_LineList.at( pointIndex - 1 );
@@ -198,7 +203,8 @@ bool LinePath::insertPoint( int pointIndex, const QPoint &point ) {
 	line -> setPen( getPen() );
 	line -> setVisible( true );
 	m_LineList.insert( pointIndex, line );
-	setupSelected();
+	if (!bLoading)
+		setupSelected();
 	return true;
 }
 
