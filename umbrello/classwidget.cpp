@@ -78,42 +78,32 @@ void ClassWidget::draw(QPainter & p, int offsetX, int offsetY) {
 	p.setPen(QPen(black));
 	const int textX = offsetX + MARGIN;
 	const int textWidth = m_w - MARGIN * 2;
-	if ( !m_bShowOperations && !m_bShowAttributes && !m_bShowStereotype ) {
-		QFont font = UMLWidget::getFont();
-		font.setBold( true );
-		font.setItalic( m_pObject-> getAbstract() );
-		p.setFont( font );
-		p.drawText(textX, m_bodyOffsetY, textWidth, m_h, AlignCenter, name);
-		font.setBold( false );
-		font.setItalic( false );
-		p.setFont( font );
-	} else {
-		QFont f( UMLWidget::getFont() );
-		f.setBold( true );
-		//FIXME why is underline sometimes true
-		f.setUnderline( false );
-		/* if no stereotype is given, we don't want to show the empty << >> */
-		QString firstLine = m_pObject->getStereotype();
-		bool showStereotype = (m_bShowStereotype && !firstLine.isEmpty() );
-		if (!showStereotype) {
-			firstLine = name;
-			f.setItalic( m_pObject->getAbstract() );
-		}
+	QFont f = UMLWidget::getFont();
+	f.setBold( true );
+	f.setUnderline( false );
+	QString stereo = m_pObject->getStereotype();
+	/* if no stereotype is given, we don't want to show the empty << >> */
+	const bool showStereotype = (m_bShowStereotype && !stereo.isEmpty() );
+	const bool showNameOnly = (!m_bShowOperations && !m_bShowAttributes && !showStereotype);
+	int nameHeight = fontHeight;
+	if (showNameOnly) {
+		nameHeight = m_h;
+	} else if (showStereotype) {
 		p.setFont( f );
-		p.drawText(textX, m_bodyOffsetY, textWidth, fontHeight, AlignCenter, firstLine);
-		if (showStereotype) {
-			f.setItalic( m_pObject -> getAbstract() );
-			p.setFont( f );
-			m_bodyOffsetY += fontHeight;
-			p.drawText(textX, m_bodyOffsetY, textWidth, fontHeight, AlignCenter, name);
-		}
+		p.drawText(textX, m_bodyOffsetY, textWidth, fontHeight, AlignCenter, stereo);
 		m_bodyOffsetY += fontHeight;
-		f.setItalic( false );
-		f.setBold( false );
-		p.setFont( f );
+	}
+	f.setItalic( m_pObject->getAbstract() );
+	p.setFont( f );
+	p.drawText(textX, m_bodyOffsetY, textWidth, nameHeight, AlignCenter, name);
+	if (!showNameOnly) {
+		m_bodyOffsetY += fontHeight;
 		UMLWidget::setPen(p);
 		p.drawLine(offsetX, m_bodyOffsetY, offsetX + m_w - 1, m_bodyOffsetY);
 	}
+	f.setBold( false );
+	f.setItalic( false );
+	p.setFont( f );
 
 	p.setPen(QPen(black));
 
