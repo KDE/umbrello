@@ -92,53 +92,52 @@ void InterfaceWidget::drawAsCircle(QPainter& p, int offsetX, int offsetY) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void InterfaceWidget::drawAsConcept(QPainter& p, int offsetX, int offsetY) {
-	ClassifierWidget::draw(p, offsetX, offsetY);
+	ClassifierWidget::draw(p, offsetX, offsetY);  // draw templates
 
 	QFont font = UMLWidget::getFont();
 	font.setItalic(false);
 	font.setUnderline(false);
 	font.setBold(false);
-	QFontMetrics fontMetrics(font);
-	int fontHeight = fontMetrics.lineSpacing();
+	QFontMetrics fontMetrics = UMLWidget::getFontMetrics(UMLWidget::FT_NORMAL);
+	const int fontHeight = fontMetrics.lineSpacing();
+	const int w = m_w - ClassifierWidget::MARGIN * 2;
+	const int x = offsetX + ClassifierWidget::MARGIN;
+	int y = m_bodyOffsetY;
+
+	p.setPen(QPen(black));
+
+	// draw stereotype
+	font.setBold(true);
+	p.setFont(font);
+	p.drawText(x, y, w, fontHeight, AlignCenter, m_pObject->getStereotype());
+	y += fontHeight;
+
+	// draw name
 	QString name;
 	if ( m_bShowPackage ) {
 		name = m_pObject -> getPackage() + "." + this -> getName();
 	} else {
 		name = this -> getName();
 	}
-
-	p.setPen(QPen(black));
-
-	font.setBold(true);
-	p.setFont(font);
-	p.drawText(offsetX + ClassifierWidget::MARGIN, m_bodyOffsetY,
-		   m_w - ClassifierWidget::MARGIN * 2,fontHeight,
-		   AlignCenter, m_pObject->getStereotype());
-
 	font.setItalic( m_pObject -> getAbstract() );
 	//FIXME why is underline sometimes true
 	font.setUnderline( false );
 	p.setFont(font);
-	p.drawText(offsetX + ClassifierWidget::MARGIN, m_bodyOffsetY + fontHeight,
-		   m_w - ClassifierWidget::MARGIN * 2, fontHeight, AlignCenter, name);
+	p.drawText(x, y, w, fontHeight, AlignCenter, name);
 	font.setBold(false);
 	font.setItalic(false);
 	p.setFont(font);
+	y += fontHeight;
 
 	if ( m_bShowOperations ) {
 		QFont font = UMLWidget::getFont();
 		font.setItalic(false);
 		font.setUnderline(false);
 		font.setBold(false);
-
-		UMLWidget::draw(p, offsetX, m_bodyOffsetY);
-
-		const int operationsStart = fontHeight * 2;
-		const int y = m_bodyOffsetY + operationsStart;
+		UMLWidget::draw(p, offsetX, m_bodyOffsetY);  // sets the pen
 		p.drawLine(offsetX, y, offsetX + m_w - 1, y);
 		p.setPen( QPen(black) );
-		drawMembers(p, Uml::ot_Operation, m_ShowOpSigs,
-			    offsetX + ClassifierWidget::MARGIN, y, fontHeight);
+		drawMembers(p, Uml::ot_Operation, m_ShowOpSigs, x, y, fontHeight);
 	}//end if op
 
 	if (m_bSelected) {
