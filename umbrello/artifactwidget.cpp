@@ -25,7 +25,7 @@ ArtifactWidget::ArtifactWidget(UMLView *view, UMLArtifact *a) : UMLWidget(view, 
 	calculateSize();
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void ArtifactWidget::init() {
 	UMLWidget::setBaseType( Uml::wt_Artifact );
 	m_pMenu = 0;
@@ -35,9 +35,9 @@ void ArtifactWidget::init() {
 		update();
 // 	}
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 ArtifactWidget::~ArtifactWidget() {}
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void ArtifactWidget::drawAsNormal(QPainter& p, int offsetX, int offsetY) {
 	int w = width();
 	int h = height();
@@ -77,7 +77,7 @@ void ArtifactWidget::drawAsNormal(QPainter& p, int offsetX, int offsetY) {
 		drawSelected(&p, offsetX, offsetY);
 	}
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void ArtifactWidget::drawAsFile(QPainter& p, int offsetX, int offsetY) {
 	int w = width();
 	int h = height();
@@ -110,7 +110,7 @@ void ArtifactWidget::drawAsFile(QPainter& p, int offsetX, int offsetY) {
 		drawSelected(&p, offsetX, offsetY);
 	}
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void ArtifactWidget::drawAsLibrary(QPainter& p, int offsetX, int offsetY) {
 	//FIXME this should have gears on it
 	int w = width();
@@ -144,7 +144,7 @@ void ArtifactWidget::drawAsLibrary(QPainter& p, int offsetX, int offsetY) {
 		drawSelected(&p, offsetX, offsetY);
 	}
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void ArtifactWidget::drawAsTable(QPainter& p, int offsetX, int offsetY) {
 	int w = width();
 	int h = height();
@@ -180,9 +180,9 @@ void ArtifactWidget::drawAsTable(QPainter& p, int offsetX, int offsetY) {
 		drawSelected(&p, offsetX, offsetY);
 	}
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void ArtifactWidget::draw(QPainter& p, int offsetX, int offsetY) {
-	UMLWidget::draw(p, offsetX, offsetY);
+	UMLWidget::setPen(p);
 	if ( UMLWidget::getUseFillColour() ) {
 		p.setBrush( UMLWidget::getFillColour() );
 	} else {
@@ -209,7 +209,7 @@ void ArtifactWidget::draw(QPainter& p, int offsetX, int offsetY) {
 			break;
 	}
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 QSize ArtifactWidget::calculateIconSize() {
 	int width, height;
 
@@ -226,7 +226,7 @@ QSize ArtifactWidget::calculateIconSize() {
 	adjustAssocs( getX(), getY() );//adjust assoc lines
 	return QSize(width, height);
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 QSize ArtifactWidget::calculateNormalSize() {
 	int width, height;
 
@@ -248,7 +248,7 @@ QSize ArtifactWidget::calculateNormalSize() {
 	adjustAssocs( getX(), getY() );//adjust assoc lines
 	return QSize(width, height);
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void ArtifactWidget::calculateSize() {
 	if ( !m_pObject) {
 		return;
@@ -260,7 +260,7 @@ void ArtifactWidget::calculateSize() {
 		calculateIconSize();
 	}
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool ArtifactWidget::activate(IDChangeLog* ChangeLog /* = 0 */) {
 	bool status = UMLWidget::activate(ChangeLog);
 	if(status) {

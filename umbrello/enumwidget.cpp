@@ -35,7 +35,7 @@ EnumWidget::EnumWidget(UMLView* view, UMLObject* o) : UMLWidget(view, o) {
 		calculateSize();
 	}
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void EnumWidget::init() {
 	UMLWidget::setBaseType(Uml::wt_Enum);
 	m_pMenu = 0;
@@ -49,11 +49,11 @@ void EnumWidget::init() {
 		m_bShowPackage = false;
 	}
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 EnumWidget::~EnumWidget() {}
-/////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void EnumWidget::draw(QPainter& p, int offsetX, int offsetY) {
-	UMLWidget::draw(p, offsetX, offsetY);
+	UMLWidget::setPen(p);
 	if(UMLWidget::getUseFillColour())
 		p.setBrush(UMLWidget::getFillColour());
 	else
@@ -91,7 +91,7 @@ void EnumWidget::draw(QPainter& p, int offsetX, int offsetY) {
 
 	int y = fontHeight * 2;
 
-	UMLWidget::draw(p, offsetX, offsetY);
+	UMLWidget::setPen(p);
 
 	p.drawLine(offsetX, offsetY + y, offsetX + w - 1, offsetY + y);
 
@@ -111,7 +111,7 @@ void EnumWidget::draw(QPainter& p, int offsetX, int offsetY) {
 		drawSelected(&p, offsetX, offsetY);
 	}
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void EnumWidget::calculateSize() {
 	if (!m_pObject)  {
 		return;
@@ -167,7 +167,7 @@ void EnumWidget::calculateSize() {
 	setSize(width, height);
 	adjustAssocs( getX(), getY() );//adjust assoc lines
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void EnumWidget::slotMenuSelection(int sel) {
 	switch(sel) {
 		case ListPopupMenu::mt_EnumLiteral:
@@ -178,17 +178,17 @@ void EnumWidget::slotMenuSelection(int sel) {
 	}
 	UMLWidget::slotMenuSelection(sel);
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void EnumWidget::setShowPackage(bool _status) {
 	m_bShowPackage = _status;
 	calculateSize();
 	update();
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool EnumWidget::getShowPackage() const {
 	return m_bShowPackage;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool EnumWidget::activate(IDChangeLog* ChangeLog /* = 0 */) {
 	bool status = UMLWidget::activate(ChangeLog);
 	if (status) {
@@ -223,3 +223,4 @@ void EnumWidget::toggleShowPackage() {
 
 	return;
 }
+

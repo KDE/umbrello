@@ -821,9 +821,8 @@ void UMLWidget::moveBy(int dx, int dy) {
 	adjustAssocs(newX, newY);
 }
 
-void UMLWidget::draw( QPainter & p, int /*offsetX*/, int /*offsetY*/ ) {
+void UMLWidget::setPen(QPainter & p) {
 	p.setPen( QPen(m_LineColour, m_LineWidth) );
-	//override this function in child classes and paint to the painter
 }
 
 void UMLWidget::drawShape(QPainter &p ) {

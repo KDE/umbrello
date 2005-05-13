@@ -80,7 +80,7 @@ void MessageWidget::draw(QPainter& p, int offsetX, int offsetY) {
 	if(!m_pOw[Uml::A] || !m_pOw[Uml::B]) {
 		return;
 	}
-	UMLWidget::draw(p, offsetX, offsetY);
+	UMLWidget::setPen(p);
 	if (m_sequenceMessageType == Uml::sequence_message_synchronous) {
 		drawSynchronous(p, offsetX, offsetY);
 	} else if (m_sequenceMessageType == Uml::sequence_message_asynchronous) {

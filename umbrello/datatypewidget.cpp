@@ -30,18 +30,16 @@ DatatypeWidget::DatatypeWidget(UMLView* view, UMLDatatype *d) : UMLWidget(view, 
 	setSize(100,30);
 	calculateSize();
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 DatatypeWidget::~DatatypeWidget() {}
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
 void DatatypeWidget::init() {
 	UMLWidget::setBaseType(Uml::wt_Datatype);
 	m_pMenu = 0;
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
 void DatatypeWidget::draw(QPainter& p, int offsetX, int offsetY) {
-	UMLWidget::draw(p, offsetX, offsetY);
+	UMLWidget::setPen(p);
 	if (UMLWidget::getUseFillColour())  {
 		p.setBrush(UMLWidget::getFillColour());
 	} else {
@@ -74,7 +72,7 @@ void DatatypeWidget::draw(QPainter& p, int offsetX, int offsetY) {
 		drawSelected(&p, offsetX, offsetY);
 	}
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void DatatypeWidget::calculateSize() {
 	if (!m_pObject)  {
 		return;
@@ -103,7 +101,7 @@ void DatatypeWidget::calculateSize() {
 	setSize(width, height);
 	adjustAssocs( getX(), getY() );//adjust assoc lines
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool DatatypeWidget::activate(IDChangeLog* ChangeLog /* = 0*/) {
 	bool status = UMLWidget::activate(ChangeLog);
 	if (status) {
@@ -111,13 +109,14 @@ bool DatatypeWidget::activate(IDChangeLog* ChangeLog /* = 0*/) {
 	}
 	return status;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void DatatypeWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement conceptElement = qDoc.createElement("datatypewidget");
 	UMLWidget::saveToXMI(qDoc, conceptElement);
 	qElement.appendChild(conceptElement);
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool DatatypeWidget::loadFromXMI( QDomElement & qElement ) {
 	return UMLWidget::loadFromXMI(qElement);
 }
+

@@ -29,11 +29,11 @@ StateWidget::StateWidget(UMLView * view, StateType stateType, Uml::IDType id)
 	m_Name = "State";
 	calculateSize();
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 StateWidget::~StateWidget() {}
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void StateWidget::draw(QPainter & p, int offsetX, int offsetY) {
-	UMLWidget::draw(p, offsetX, offsetY);
+	UMLWidget::setPen(p);
 	int w = width();
 	int h = height();
 	switch (m_StateType)
@@ -53,7 +53,7 @@ void StateWidget::draw(QPainter & p, int offsetX, int offsetY) {
 					font.setBold( false );
 					p.setFont( font );
 					p.drawText(offsetX + STATE_MARGIN, offsetY + textStartY, w - STATE_MARGIN * 2, fontHeight, AlignCenter, getName());
-					UMLWidget::draw(p, offsetX, offsetY);
+					UMLWidget::setPen(p);
 				} else {
 					p.drawRoundRect(offsetX, offsetY, w, h, (h*40)/w, (w*40)/h);
 					textStartY = offsetY + STATE_MARGIN;
@@ -65,7 +65,7 @@ void StateWidget::draw(QPainter & p, int offsetX, int offsetY) {
 						   fontHeight, AlignCenter, getName());
 					font.setBold( false );
 					p.setFont( font );
-					UMLWidget::draw(p, offsetX, offsetY);
+					UMLWidget::setPen(p);
 					int linePosY = textStartY + fontHeight;
 
 					QStringList::Iterator end(m_Activities.end());
@@ -75,7 +75,7 @@ void StateWidget::draw(QPainter & p, int offsetX, int offsetY) {
 						p.setPen(black);
 						p.drawText(offsetX + STATE_MARGIN, textStartY, w - STATE_MARGIN * 2 - 1,
 							   fontHeight, AlignCenter, *it);
-						UMLWidget::draw(p, offsetX, offsetY);
+						UMLWidget::setPen(p);
 						linePosY += fontHeight;
 					}//end for
 				}//end else
@@ -100,7 +100,7 @@ void StateWidget::draw(QPainter & p, int offsetX, int offsetY) {
 	if(m_bSelected)
 		drawSelected(&p, offsetX, offsetY);
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void StateWidget::calculateSize() {
 	int width = 10, height = 10;
 	if ( m_StateType == Normal ) {
@@ -290,8 +290,5 @@ bool StateWidget::loadFromXMI( QDomElement & qElement ) {
 }
 
 
-
-
-
-
 #include "statewidget.moc"
+

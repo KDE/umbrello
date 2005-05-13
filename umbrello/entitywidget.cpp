@@ -35,7 +35,7 @@ EntityWidget::EntityWidget(UMLView* view, UMLObject* o): UMLWidget(view, o) {
 		calculateSize();
 	}
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void EntityWidget::init() {
 	UMLWidget::setBaseType(Uml::wt_Entity);
 	m_pMenu = 0;
@@ -45,11 +45,11 @@ void EntityWidget::init() {
 		const Settings::OptionState& ops = m_pView->getOptionState();
 	}
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 EntityWidget::~EntityWidget() {}
-/////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void EntityWidget::draw(QPainter& p, int offsetX, int offsetY) {
-	UMLWidget::draw(p, offsetX, offsetY);
+	UMLWidget::setPen(p);
 	if(UMLWidget::getUseFillColour())
 		p.setBrush(UMLWidget::getFillColour());
 	else
@@ -93,7 +93,7 @@ void EntityWidget::draw(QPainter& p, int offsetX, int offsetY) {
 		y = fontHeight;
 	}
 
-	UMLWidget::draw(p, offsetX, offsetY);
+	UMLWidget::setPen(p);
 
 	p.drawLine(offsetX, offsetY + y, offsetX + w - 1, offsetY + y);
 
@@ -113,7 +113,7 @@ void EntityWidget::draw(QPainter& p, int offsetX, int offsetY) {
 		drawSelected(&p, offsetX, offsetY);
 	}
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void EntityWidget::calculateSize() {
 	if (!m_pObject)  {
 		return;
@@ -169,7 +169,7 @@ void EntityWidget::calculateSize() {
 	setSize(width, height);
 	adjustAssocs( getX(), getY() );//adjust assoc lines
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void EntityWidget::slotMenuSelection(int sel) {
 	switch(sel) {
 		case ListPopupMenu::mt_EntityAttribute:
@@ -180,7 +180,7 @@ void EntityWidget::slotMenuSelection(int sel) {
 	}
 	UMLWidget::slotMenuSelection(sel);
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool EntityWidget::activate(IDChangeLog* ChangeLog /* = 0 */) {
 	bool status = UMLWidget::activate(ChangeLog);
 	if (status) {

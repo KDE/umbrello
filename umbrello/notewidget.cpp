@@ -149,7 +149,7 @@ void NoteWidget::draw(QPainter & p, int offsetX, int offsetY) {
 	poly.setPoint(3, offsetX + w, offsetY + margin);
 	poly.setPoint(4, offsetX + w - margin, offsetY);
 	poly.setPoint(5, offsetX, offsetY);
-	UMLWidget::draw(p, offsetX, offsetY);
+	UMLWidget::setPen(p);
 	if ( UMLWidget::getUseFillColour() ) {
 		QBrush brush( UMLWidget::getFillColour() );
 		p.setBrush(brush);

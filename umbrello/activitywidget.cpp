@@ -29,16 +29,15 @@ ActivityWidget::ActivityWidget(UMLView * view, ActivityType activityType, Uml::I
 	calculateSize();
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
 ActivityWidget::~ActivityWidget() {}
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void ActivityWidget::draw(QPainter & p, int offsetX, int offsetY) {
 	int w = width();
 	int h = height();
 	switch ( m_ActivityType )
 	{
 		case Normal :
-			UMLWidget::draw(p, offsetX, offsetY);
+			UMLWidget::setPen(p);
 			if ( UMLWidget::getUseFillColour() ) {
 				p.setBrush( UMLWidget::getFillColour() );
 			}
@@ -52,15 +51,15 @@ void ActivityWidget::draw(QPainter & p, int offsetX, int offsetY) {
 				p.setFont( UMLWidget::getFont() );
 				p.drawText(offsetX + ACTIVITY_MARGIN, offsetY + textStartY, w - ACTIVITY_MARGIN * 2, fontHeight, AlignCenter, getName());
 			}
-			UMLWidget::draw(p, offsetX, offsetY);
+			UMLWidget::setPen(p);
 			break;
 		case Initial :
-			UMLWidget::draw(p, offsetX, offsetY);
+			UMLWidget::setPen(p);
 			p.setBrush( UMLWidget::getLineColour() );
 			p.drawEllipse( offsetX, offsetY, w, h );
 			break;
 		case End :
-			UMLWidget::draw(p, offsetX, offsetY);
+			UMLWidget::setPen(p);
 			p.setBrush( UMLWidget::getLineColour() );
 			p.drawEllipse( offsetX, offsetY, w, h );
 			p.setBrush( white );
@@ -69,7 +68,7 @@ void ActivityWidget::draw(QPainter & p, int offsetX, int offsetY) {
 			p.drawEllipse( offsetX + 3, offsetY + 3, w - 6, h - 6 );
 			break;
 		case Branch :
-			UMLWidget::draw(p, offsetX, offsetY);
+			UMLWidget::setPen(p);
 			p.setBrush( UMLWidget::getFillColour() );
 			{
 				QPointArray array( 4 );
@@ -88,7 +87,7 @@ void ActivityWidget::draw(QPainter & p, int offsetX, int offsetY) {
 	if(m_bSelected)
 		drawSelected(&p, offsetX, offsetY);
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void ActivityWidget::calculateSize() {
 	int width = 10, height = 10;
 	if ( m_ActivityType == Normal ) {
@@ -218,3 +217,4 @@ bool ActivityWidget::loadFromXMI( QDomElement & qElement ) {
 
 
 #include "activitywidget.moc"
+

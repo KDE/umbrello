@@ -25,7 +25,6 @@ PackageWidget::PackageWidget(UMLView * view, UMLPackage *o) : UMLWidget(view, o)
 	calculateSize();
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
 void PackageWidget::init() {
 	UMLWidget::setBaseType(Uml::wt_Package);
 	m_pMenu = 0;
@@ -41,11 +40,11 @@ void PackageWidget::init() {
 		update();
 	}
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 PackageWidget::~PackageWidget() {}
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void PackageWidget::draw(QPainter & p, int offsetX, int offsetY) {
-	UMLWidget::draw(p, offsetX, offsetY);
+	UMLWidget::setPen(p);
 	if ( UMLWidget::getUseFillColour() )
 		p.setBrush( UMLWidget::getFillColour() );
 	else
@@ -84,7 +83,7 @@ void PackageWidget::draw(QPainter & p, int offsetX, int offsetY) {
 		drawSelected(&p, offsetX, offsetY);
 	}
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void PackageWidget::calculateSize() {
 	if ( !m_pObject ) {
 		return;
@@ -116,13 +115,13 @@ void PackageWidget::calculateSize() {
 	setSize(width, height);
 	adjustAssocs( getX(), getY() );//adjust assoc lines
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void PackageWidget::setShowStereotype(bool _status) {
 	m_bShowStereotype = _status;
 	calculateSize();
 	update();
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool PackageWidget::activate(IDChangeLog* ChangeLog /* = 0 */) {
 	bool status = UMLWidget::activate(ChangeLog);
 	if(status) {
@@ -130,11 +129,11 @@ bool PackageWidget::activate(IDChangeLog* ChangeLog /* = 0 */) {
 	}
 	return status;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool PackageWidget::getShowStereotype() {
 	return m_bShowStereotype;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void PackageWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
 	QDomElement conceptElement = qDoc.createElement("packagewidget");
 	UMLWidget::saveToXMI(qDoc, conceptElement);

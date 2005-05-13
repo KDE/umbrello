@@ -232,7 +232,7 @@ QSize ClassifierWidget::calculateTemplatesBoxSize() {
 }
 
 void ClassifierWidget::draw(QPainter & p, int offsetX, int offsetY) {
-	UMLWidget::draw(p, offsetX, offsetY);
+	UMLWidget::setPen(p);
 	if ( UMLWidget::getUseFillColour() )
 		p.setBrush( UMLWidget::getFillColour() );
 	else
@@ -257,7 +257,7 @@ void ClassifierWidget::draw(QPainter & p, int offsetX, int offsetY) {
 		QFont font = UMLWidget::getFont();
 		QFontMetrics fm(font);
 		int fontHeight = fm.lineSpacing();
-		UMLWidget::draw(p, offsetX, offsetY);
+		UMLWidget::setPen(p);
 		QPen pen = p.pen();
 		pen.setStyle(DotLine);
 		p.setPen(pen);

@@ -23,7 +23,7 @@ NodeWidget::NodeWidget(UMLView * view, UMLNode *n ) : UMLWidget(view, n) {
 	setSize(100, 30);
 	calculateSize();
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void NodeWidget::init() {
 	UMLWidget::setBaseType(Uml::wt_Node);
 	m_pMenu = 0;
@@ -34,11 +34,11 @@ void NodeWidget::init() {
 	calculateSize();
 	update();
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 NodeWidget::~NodeWidget() {}
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void NodeWidget::draw(QPainter & p, int offsetX, int offsetY) {
-	UMLWidget::draw(p, offsetX, offsetY);
+	UMLWidget::setPen(p);
 	if ( UMLWidget::getUseFillColour() ) {
 		p.setBrush( UMLWidget::getFillColour() );
 	} else {
@@ -98,7 +98,7 @@ void NodeWidget::draw(QPainter & p, int offsetX, int offsetY) {
 		drawSelected(&p, offsetX, offsetY);
 	}
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void NodeWidget::calculateSize() {
 	if (m_pObject == NULL)
 		return;
@@ -128,13 +128,13 @@ void NodeWidget::calculateSize() {
 	setSize(width, height);
 	adjustAssocs( getX(), getY() );//adjust assoc lines
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void NodeWidget::setShowStereotype(bool _status) {
 	m_bShowStereotype = _status;
 	calculateSize();
 	update();
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool NodeWidget::activate(IDChangeLog* ChangeLog /* = 0 */) {
 	bool status = UMLWidget::activate(ChangeLog);
 	if(status) {
@@ -142,11 +142,11 @@ bool NodeWidget::activate(IDChangeLog* ChangeLog /* = 0 */) {
 	}
 	return status;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool NodeWidget::getShowStereotype() const {
 	return m_bShowStereotype;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void NodeWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
 	QDomElement conceptElement = qDoc.createElement("nodewidget");
 	UMLWidget::saveToXMI(qDoc, conceptElement);

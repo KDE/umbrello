@@ -32,30 +32,30 @@ InterfaceWidget::InterfaceWidget(UMLView * view, UMLInterface *i)
 	setSize(100,30);
 	calculateSize();
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 InterfaceWidget::~InterfaceWidget() {}
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void InterfaceWidget::init() {
 	m_bDrawAsCircle = false;
 
 	updateSigs();
 	initUMLObject( m_pObject );
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void InterfaceWidget::initUMLObject(UMLObject* object)
 {
 	object -> setAbstract( true ); // interfaces are by definition abstract
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void InterfaceWidget::setUMLObject(UMLObject* object)
 {
 	initUMLObject(object);
 	UMLWidget::setUMLObject(object);
 }
-///////////////////////////////////////////////////////////////////////////////////////////////////
+
 void InterfaceWidget::draw(QPainter& p, int offsetX, int offsetY) {
 	if ( getDrawAsCircle() ) {
-		UMLWidget::draw(p, offsetX, offsetY);
+		UMLWidget::setPen(p);
 		if (UMLWidget::getUseFillColour())
 			p.setBrush(UMLWidget::getFillColour());
 		else
@@ -65,7 +65,7 @@ void InterfaceWidget::draw(QPainter& p, int offsetX, int offsetY) {
 		drawAsConcept(p, offsetX, offsetY);
 	}
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void InterfaceWidget::drawAsCircle(QPainter& p, int offsetX, int offsetY) {
 	int w = width();
 
@@ -90,7 +90,7 @@ void InterfaceWidget::drawAsCircle(QPainter& p, int offsetX, int offsetY) {
 		drawSelected(&p, offsetX, offsetY);
 	}
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void InterfaceWidget::drawAsConcept(QPainter& p, int offsetX, int offsetY) {
 	ClassifierWidget::draw(p, offsetX, offsetY);  // draw templates
 
@@ -134,7 +134,7 @@ void InterfaceWidget::drawAsConcept(QPainter& p, int offsetX, int offsetY) {
 		font.setItalic(false);
 		font.setUnderline(false);
 		font.setBold(false);
-		UMLWidget::draw(p, offsetX, m_bodyOffsetY);  // sets the pen
+		UMLWidget::setPen(p);
 		p.drawLine(offsetX, y, offsetX + m_w - 1, y);
 		p.setPen( QPen(black) );
 		drawMembers(p, Uml::ot_Operation, m_ShowOpSigs, x, y, fontHeight);
@@ -144,7 +144,7 @@ void InterfaceWidget::drawAsConcept(QPainter& p, int offsetX, int offsetY) {
 		drawSelected(&p, offsetX, m_bodyOffsetY);
 	}
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void InterfaceWidget::calculateSize() {
 	if ( getDrawAsCircle() ) {
 		calculateAsCircleSize();
@@ -152,7 +152,7 @@ void InterfaceWidget::calculateSize() {
 		calculateAsConceptSize();
 	}
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void InterfaceWidget::calculateAsCircleSize() {
 	QFontMetrics &fm = getFontMetrics(FT_ITALIC_UNDERLINE);
 	int fontHeight = fm.lineSpacing();
@@ -170,7 +170,7 @@ void InterfaceWidget::calculateAsCircleSize() {
 	setSize(width, height);
 	adjustAssocs( getX(), getY() );//adjust assoc lines
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void InterfaceWidget::calculateAsConceptSize() {
 	if( !m_pObject)
 		return;
@@ -186,7 +186,7 @@ void InterfaceWidget::calculateAsConceptSize() {
 	setSize(width, height);
 	adjustAssocs( getX(), getY() );//adjust assoc lines
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void InterfaceWidget::slotMenuSelection(int sel) {
 	switch(sel) {
 		case ListPopupMenu::mt_Operation:
@@ -215,23 +215,23 @@ void InterfaceWidget::slotMenuSelection(int sel) {
 	}
 	UMLWidget::slotMenuSelection(sel);
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void InterfaceWidget::updateSigs() {
 	ClassifierWidget::updateSigs();
 	calculateSize();
 	update();
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void InterfaceWidget::setDrawAsCircle(bool drawAsCircle) {
 	m_bDrawAsCircle = drawAsCircle;
 	calculateSize();
 	update();
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool InterfaceWidget::getDrawAsCircle() const {
 	return m_bDrawAsCircle;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void InterfaceWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement conceptElement = qDoc.createElement("interfacewidget");
 	UMLWidget::saveToXMI(qDoc, conceptElement);

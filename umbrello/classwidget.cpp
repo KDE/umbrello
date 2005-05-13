@@ -67,7 +67,7 @@ void ClassWidget::draw(QPainter & p, int offsetX, int offsetY) {
 	}
 	ClassifierWidget::draw(p, offsetX, offsetY);
 	QFontMetrics &fm = getFontMetrics(UMLWidget::FT_NORMAL);
-	int fontHeight  = fm.lineSpacing();
+	const int fontHeight = fm.lineSpacing();
 	QString name;
 	if ( m_bShowPackage ) {
 		name = m_pObject->getFullyQualifiedName();
@@ -111,7 +111,7 @@ void ClassWidget::draw(QPainter & p, int offsetX, int offsetY) {
 		f.setItalic( false );
 		f.setBold( false );
 		p.setFont( f );
-		UMLWidget::draw(p, offsetX, offsetY);
+		UMLWidget::setPen(p);
 		p.drawLine(offsetX, m_bodyOffsetY, offsetX + m_w - 1, m_bodyOffsetY);
 	}
 
@@ -128,7 +128,7 @@ void ClassWidget::draw(QPainter & p, int offsetX, int offsetY) {
 		int oStart = numAtts * fontHeight;
 		m_bodyOffsetY += oStart;
 		if (m_bShowAttributes) {
-			UMLWidget::draw(p, offsetX, offsetY);
+			UMLWidget::setPen(p);
 			p.drawLine(offsetX, m_bodyOffsetY, offsetX + m_w - 1, m_bodyOffsetY);
 			p.setPen(QPen(black));
 		}

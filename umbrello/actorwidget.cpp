@@ -24,11 +24,11 @@ ActorWidget::ActorWidget(UMLView * view, UMLActor *a) : UMLWidget(view, a) {
 	//calculateSize();  Doing this during loadFromXMI() gives futile updates.
 	//                  Instead, it is done afterwards by UMLWidget::activate()
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 ActorWidget::~ActorWidget() {}
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void ActorWidget::draw(QPainter & p, int offsetX, int offsetY) {
-	UMLWidget::draw(p, offsetX, offsetY);
+	UMLWidget::setPen(p);
 	if( UMLWidget::getUseFillColour() )
 		p.setBrush( UMLWidget::getFillColour() );
 	int w = width();
@@ -52,7 +52,7 @@ void ActorWidget::draw(QPainter & p, int offsetX, int offsetY) {
 	if(m_bSelected)
 		drawSelected(&p, offsetX, offsetY);
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void ActorWidget::calculateSize() {
 	QFontMetrics &fm = getFontMetrics(FT_NORMAL);
 	int fontHeight  = fm.lineSpacing();
@@ -64,7 +64,7 @@ void ActorWidget::calculateSize() {
 	setSize(width, height);
 	adjustAssocs( getX(), getY() );//adjust assoc lines
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void ActorWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	QDomElement actorElement = qDoc.createElement( "actorwidget" );
 	UMLWidget::saveToXMI( qDoc, actorElement );

@@ -25,7 +25,6 @@ ComponentWidget::ComponentWidget(UMLView * view, UMLComponent *c) : UMLWidget(vi
 	UMLWidget::setBaseType(Uml::wt_Component);
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
 void ComponentWidget::init() {
 	m_pMenu = 0;
 	//set defaults from m_pView
@@ -40,14 +39,14 @@ void ComponentWidget::init() {
 		update();
 	}
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 ComponentWidget::~ComponentWidget() {}
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void ComponentWidget::draw(QPainter & p, int offsetX, int offsetY) {
 	UMLComponent *umlcomp = static_cast<UMLComponent*>(m_pObject);
 	if (umlcomp == NULL)
 		return;
-	UMLWidget::draw(p, offsetX, offsetY);
+	UMLWidget::setPen(p);
 	if ( umlcomp->getExecutable() ) {
 		QPen thickerPen = p.pen();
 		thickerPen.setWidth(2);
@@ -107,7 +106,7 @@ void ComponentWidget::draw(QPainter & p, int offsetX, int offsetY) {
 		drawSelected(&p, offsetX, offsetY);
 	}
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void ComponentWidget::calculateSize() {
 	if ( !m_pObject) {
 		return;
@@ -137,13 +136,13 @@ void ComponentWidget::calculateSize() {
 	setSize(width, height);
 	adjustAssocs( getX(), getY() );//adjust assoc lines
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void ComponentWidget::setShowStereotype(bool _status) {
 	m_bShowStereotype = _status;
 	calculateSize();
 	update();
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool ComponentWidget::activate(IDChangeLog* ChangeLog /* = 0 */) {
 	bool status = UMLWidget::activate(ChangeLog);
 	if(status) {
@@ -151,11 +150,11 @@ bool ComponentWidget::activate(IDChangeLog* ChangeLog /* = 0 */) {
 	}
 	return status;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool ComponentWidget::getShowStereotype() const {
 	return m_bShowStereotype;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void ComponentWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
 	QDomElement conceptElement = qDoc.createElement("componentwidget");
 	UMLWidget::saveToXMI(qDoc, conceptElement);

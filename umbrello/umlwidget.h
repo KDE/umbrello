@@ -236,7 +236,12 @@ public:
 	 * @param offsetY y position to start the drawing.
 	 *
 	 */
-	virtual void draw( QPainter & p, int offsetX, int offsetY );
+	virtual void draw(QPainter & p, int offsetX, int offsetY) = 0;
+
+	/**
+	 * Set the pen.
+	 */
+	void setPen(QPainter & p);
 
 	/**
 	 * Sets the font the widget is to use.
