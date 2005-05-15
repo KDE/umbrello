@@ -383,6 +383,7 @@ void UMLWidget::init() {
 		m_LineWidth  = optionState.uiState.lineWidth;
 		m_Font       = optionState.uiState.font;
 	} else {
+		kdError() << "UMLWidget::init: SERIOUS PROBLEM - m_pView is NULL" << endl;
 		m_bUseFillColour = false;
 		m_bUsesDiagramFillColour = false;
 		m_bUsesDiagramLineColour = false;
@@ -1027,6 +1028,10 @@ QFontMetrics &UMLWidget::getFontMetrics(UMLWidget::FontType fontType) {
 void UMLWidget::setFontMetrics(UMLWidget::FontType fontType, QFontMetrics fm) {
 	delete m_pFontMetrics[fontType];
 	m_pFontMetrics[fontType] = new QFontMetrics(fm);
+}
+
+QFont UMLWidget::getFont() const {
+	return m_Font;
 }
 
 void UMLWidget::setFont( QFont font ) {

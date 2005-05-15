@@ -253,9 +253,7 @@ public:
 	/**
 	 *  Returns the font the widget is to use.
 	 */
-	virtual QFont getFont() const {
-		return m_Font;
-	}
+	virtual QFont getFont() const;
 
 	/**
 	 * Returns whether we triggered the update of position movement.
