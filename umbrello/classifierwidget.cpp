@@ -36,20 +36,21 @@ void ClassifierWidget::init(Uml::Widget_Type wt) {
 	UMLWidget::setBaseType(wt);
 
 	const Settings::OptionState& ops = m_pView->getOptionState();
-	m_bShowScope = ops.classState.showScope;
+	m_bShowAccess = ops.classState.showScope;
 	m_bShowOperations = ops.classState.showOps;
 	m_bShowPublicOnly = false;
 	m_bShowPackage = ops.classState.showPackage;
+	m_ShowAttSigs = Uml::st_ShowSig;
 	/* setShowOpSigs( ops.classState.showOpSig );
 	  Cannot do that because we get "pure virtual method called". Open code:
 	 */
 	if( !ops.classState.showOpSig ) {
-		if (m_bShowScope)
+		if (m_bShowAccess)
 			m_ShowOpSigs = Uml::st_NoSig;
 		else
 			m_ShowOpSigs = Uml::st_NoSigNoScope;
 
-	} else if (m_bShowScope)
+	} else if (m_bShowAccess)
 		m_ShowOpSigs = Uml::st_ShowSig;
 	else
 		m_ShowOpSigs = Uml::st_SigNoScope;
@@ -57,7 +58,7 @@ void ClassifierWidget::init(Uml::Widget_Type wt) {
 
 void ClassifierWidget::updateSigs() {
 	//turn on scope
-	if (m_bShowScope) {
+	if (m_bShowAccess) {
 		if (m_ShowOpSigs == Uml::st_NoSigNoScope) {
 			m_ShowOpSigs = Uml::st_NoSig;
 		} else if (m_ShowOpSigs == Uml::st_SigNoScope) {
@@ -110,18 +111,18 @@ void ClassifierWidget::toggleShowPublicOnly() {
 }
 
 bool ClassifierWidget::getShowScope() const {
-	return m_bShowScope;
+	return m_bShowAccess;
 }
 
 void ClassifierWidget::setShowScope(bool _scope) {
-	m_bShowScope = _scope;
+	m_bShowAccess = _scope;
 	updateSigs();
 	calculateSize();
 	update();
 }
 
 void ClassifierWidget::toggleShowScope() {
-	m_bShowScope = !m_bShowScope;
+	m_bShowAccess = !m_bShowAccess;
 	updateSigs();
 	calculateSize();
 	update();
@@ -133,11 +134,11 @@ Uml::Signature_Type ClassifierWidget::getShowOpSigs() const {
 
 void ClassifierWidget::setShowOpSigs(bool _status) {
 	if( !_status ) {
-		if (m_bShowScope)
+		if (m_bShowAccess)
 			m_ShowOpSigs = Uml::st_NoSig;
 		else
 			m_ShowOpSigs = Uml::st_NoSigNoScope;
-	} else if (m_bShowScope)
+	} else if (m_bShowAccess)
 		m_ShowOpSigs = Uml::st_ShowSig;
 	else
 		m_ShowOpSigs = Uml::st_SigNoScope;
@@ -147,12 +148,12 @@ void ClassifierWidget::setShowOpSigs(bool _status) {
 
 void ClassifierWidget::toggleShowOpSigs() {
 	if (m_ShowOpSigs == Uml::st_ShowSig || m_ShowOpSigs == Uml::st_SigNoScope) {
-		if (m_bShowScope) {
+		if (m_bShowAccess) {
 			m_ShowOpSigs = Uml::st_NoSig;
 		} else {
 			m_ShowOpSigs = Uml::st_NoSigNoScope;
 		}
-	} else if (m_bShowScope) {
+	} else if (m_bShowAccess) {
 		m_ShowOpSigs = Uml::st_ShowSig;
 	} else {
 		m_ShowOpSigs = Uml::st_SigNoScope;
@@ -231,6 +232,12 @@ QSize ClassifierWidget::calculateTemplatesBoxSize() {
 	return QSize(width, height);
 }
 
+int ClassifierWidget::displayedAttributes() {
+	if (!m_bShowAttributes)
+		return 0;
+	return displayedMembers(Uml::ot_Attribute);
+}
+
 void ClassifierWidget::draw(QPainter & p, int offsetX, int offsetY) {
 	UMLWidget::setPen(p);
 	if ( UMLWidget::getUseFillColour() )
@@ -250,13 +257,16 @@ void ClassifierWidget::draw(QPainter & p, int offsetX, int offsetY) {
 		m_h -= templatesBoxSize.height() - MARGIN;
 	p.drawRect(offsetX, m_bodyOffsetY, m_w, m_h);
 
+	QFont font = UMLWidget::getFont();
+	font.setUnderline(false);
+	font.setItalic(false);
+	QFontMetrics fm(font);
+	const int fontHeight = fm.lineSpacing();
+
 	//If there are any templates then draw them
 	UMLClassifier *c = static_cast<UMLClassifier*>(m_pObject);
 	UMLTemplateList tlist = c->getTemplateList();
 	if ( tlist.count() > 0 ) {
-		QFont font = UMLWidget::getFont();
-		QFontMetrics fm(font);
-		int fontHeight = fm.lineSpacing();
 		UMLWidget::setPen(p);
 		QPen pen = p.pen();
 		pen.setStyle(DotLine);
@@ -264,8 +274,6 @@ void ClassifierWidget::draw(QPainter & p, int offsetX, int offsetY) {
 		p.drawRect( offsetX + width() - templatesBoxSize.width(), offsetY,
 			    templatesBoxSize.width(), templatesBoxSize.height() );
 		p.setPen( QPen(black) );
-		font.setItalic(false);
-		font.setUnderline(false);
 		font.setBold(false);
 		p.setFont(font);
 		QFontMetrics fontMetrics(font);
@@ -277,6 +285,69 @@ void ClassifierWidget::draw(QPainter & p, int offsetX, int offsetY) {
 			y += fontHeight;
 		}
 	}
+
+	const int textX = offsetX + MARGIN;
+	const int textWidth = m_w - MARGIN * 2;
+
+	p.setPen(QPen(black));
+
+	// draw stereotype
+	font.setBold(true);
+	QString stereo = m_pObject->getStereotype();
+	/* if no stereotype is given we don't want to show the empty << >> */
+	const bool showStereotype = (m_bShowStereotype && !stereo.isEmpty());
+	const bool showNameOnly = (!m_bShowOperations && !m_bShowAttributes && !showStereotype);
+	int nameHeight = fontHeight;
+	if (showNameOnly) {
+		nameHeight = m_h;
+	} else if (showStereotype) {
+		p.setFont(font);
+		p.drawText(textX, m_bodyOffsetY, textWidth, fontHeight, AlignCenter, stereo);
+		m_bodyOffsetY += fontHeight;
+	}
+
+	// draw name
+	QString name;
+	if (m_bShowPackage) {
+		name = m_pObject->getFullyQualifiedName();
+	} else {
+		name = this->getName();
+	}
+	font.setItalic( m_pObject->getAbstract() );
+	p.setFont(font);
+	p.drawText(textX, m_bodyOffsetY, textWidth, nameHeight, AlignCenter, name);
+	if (!showNameOnly) {
+		m_bodyOffsetY += fontHeight;
+		UMLWidget::setPen(p);
+		p.drawLine(offsetX, m_bodyOffsetY, offsetX + m_w - 1, m_bodyOffsetY);
+		p.setPen(QPen(black));
+	}
+	font.setBold(false);
+	font.setItalic(false);
+	p.setFont(font);
+
+	// draw attributes
+	if (m_bShowAttributes) {
+		drawMembers(p, Uml::ot_Attribute, m_ShowAttSigs, textX,
+			    m_bodyOffsetY, fontHeight);
+	}
+
+	// draw operations
+	int numAtts = displayedAttributes();
+	if (m_bShowOperations) {
+		int oStart = numAtts * fontHeight;
+		m_bodyOffsetY += oStart;
+		if (m_bShowAttributes) {
+			UMLWidget::setPen(p);
+			p.drawLine(offsetX, m_bodyOffsetY, offsetX + m_w - 1, m_bodyOffsetY);
+			p.setPen(QPen(black));
+		}
+		drawMembers(p, Uml::ot_Operation, m_ShowOpSigs, textX,
+			    m_bodyOffsetY, fontHeight);
+	}
+
+	if (m_bSelected)
+		drawSelected(&p, offsetX, offsetY);
 }
 
 void ClassifierWidget::drawMembers(QPainter & p, Uml::Object_Type ot, Uml::Signature_Type sigType,

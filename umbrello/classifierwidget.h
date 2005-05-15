@@ -144,6 +144,11 @@ public:
 	virtual void setOpSignature(Uml::Signature_Type sig);
 
 	/**
+	 * Return the number of displayed attributes.
+	 */
+	int displayedAttributes();
+
+	/**
 	 * Return the number of displayed operations.
 	 */
 	int displayedOperations();
@@ -218,8 +223,11 @@ protected:
 
 	bool m_bShowOperations;            ///< Loaded/saved item.
 	bool m_bShowPublicOnly;            ///< Loaded/saved item.
-	bool m_bShowScope;                 ///< Loaded/saved item.
+	bool m_bShowAccess;                ///< Loaded/saved item.
 	bool m_bShowPackage;               ///< Loaded/saved item.
+	bool m_bShowStereotype;            ///< Loaded/saved item.
+	bool m_bShowAttributes;            ///< Loaded/saved item.
+	Uml::Signature_Type m_ShowAttSigs; ///< Loaded/saved item.
 	Uml::Signature_Type m_ShowOpSigs;  ///< Loaded/saved item.
 
 	/**

@@ -35,7 +35,6 @@ ClassWidget::ClassWidget(UMLView * view, UMLClass *o)
 
 void ClassWidget::init() {
 	m_pAssocWidget = NULL;
-	m_ShowAttSigs = Uml::st_ShowSig;
 	//set defaults from m_pView
 	const Settings::OptionState& ops = m_pView -> getOptionState();
 	m_bShowAttributes = ops.classState.showAtts;
@@ -52,82 +51,6 @@ void ClassWidget::init() {
 ClassWidget::~ClassWidget() {
 	if (m_pAssocWidget)
 		m_pAssocWidget->removeAssocClassLine();
-}
-
-int ClassWidget::displayedAttributes() {
-	if (!m_bShowAttributes)
-		return 0;
-	return ClassifierWidget::displayedMembers(Uml::ot_Attribute);
-}
-
-void ClassWidget::draw(QPainter & p, int offsetX, int offsetY) {
-	if (!m_pObject) {
-		kdDebug() << "ClassWidget::draw(): m_pObject is NULL" << endl;
-		return;
-	}
-	ClassifierWidget::draw(p, offsetX, offsetY);
-	QFontMetrics &fm = getFontMetrics(UMLWidget::FT_NORMAL);
-	const int fontHeight = fm.lineSpacing();
-	QString name;
-	if ( m_bShowPackage ) {
-		name = m_pObject->getFullyQualifiedName();
-	} else {
-		name = this -> getName();
-	}
-
-	p.setPen(QPen(black));
-	const int textX = offsetX + MARGIN;
-	const int textWidth = m_w - MARGIN * 2;
-	QFont f = UMLWidget::getFont();
-	f.setBold( true );
-	f.setUnderline( false );
-	QString stereo = m_pObject->getStereotype();
-	/* if no stereotype is given, we don't want to show the empty << >> */
-	const bool showStereotype = (m_bShowStereotype && !stereo.isEmpty() );
-	const bool showNameOnly = (!m_bShowOperations && !m_bShowAttributes && !showStereotype);
-	int nameHeight = fontHeight;
-	if (showNameOnly) {
-		nameHeight = m_h;
-	} else if (showStereotype) {
-		p.setFont( f );
-		p.drawText(textX, m_bodyOffsetY, textWidth, fontHeight, AlignCenter, stereo);
-		m_bodyOffsetY += fontHeight;
-	}
-	f.setItalic( m_pObject->getAbstract() );
-	p.setFont( f );
-	p.drawText(textX, m_bodyOffsetY, textWidth, nameHeight, AlignCenter, name);
-	if (!showNameOnly) {
-		m_bodyOffsetY += fontHeight;
-		UMLWidget::setPen(p);
-		p.drawLine(offsetX, m_bodyOffsetY, offsetX + m_w - 1, m_bodyOffsetY);
-	}
-	f.setBold( false );
-	f.setItalic( false );
-	p.setFont( f );
-
-	p.setPen(QPen(black));
-
-	if (m_bShowAttributes) {
-		drawMembers(p, Uml::ot_Attribute, m_ShowAttSigs, textX,
-			    m_bodyOffsetY, fontHeight);
-	}//end if att
-
-	int numAtts = displayedAttributes();
-	if (m_bShowOperations) {
-		QFont f = UMLWidget::getFont();
-		int oStart = numAtts * fontHeight;
-		m_bodyOffsetY += oStart;
-		if (m_bShowAttributes) {
-			UMLWidget::setPen(p);
-			p.drawLine(offsetX, m_bodyOffsetY, offsetX + m_w - 1, m_bodyOffsetY);
-			p.setPen(QPen(black));
-		}
-		drawMembers(p, Uml::ot_Operation, m_ShowOpSigs, textX,
-			    m_bodyOffsetY, fontHeight);
-	}//end if op
-
-	if(m_bSelected)
-		drawSelected(&p, offsetX, offsetY);
 }
 
 void ClassWidget::calculateSize() {
@@ -231,7 +154,7 @@ void ClassWidget::slotMenuSelection(int sel) {
 
 void ClassWidget::updateSigs() {
 	ClassifierWidget::updateSigs();
-	if (m_bShowScope) {
+	if (m_bShowAccess) {
 		if (m_ShowAttSigs == Uml::st_NoSigNoScope)
 			m_ShowAttSigs = Uml::st_NoSig;
 		else if (m_ShowAttSigs == Uml::st_SigNoScope)
@@ -269,12 +192,12 @@ void ClassWidget::setShowStereotype(bool _status) {
 
 void ClassWidget::setShowAttSigs(bool _status) {
 	if( !_status ) {
-		if (m_bShowScope)
+		if (m_bShowAccess)
 			m_ShowAttSigs = Uml::st_NoSig;
 		else
 			m_ShowAttSigs = Uml::st_NoSigNoScope;
 	}
-	else if (m_bShowScope)
+	else if (m_bShowAccess)
 		m_ShowAttSigs = Uml::st_ShowSig;
 	else
 		m_ShowAttSigs = Uml::st_SigNoScope;
@@ -294,12 +217,12 @@ void ClassWidget::toggleShowAttSigs()
 {
 	if (m_ShowAttSigs == Uml::st_ShowSig ||
 	m_ShowAttSigs == Uml::st_SigNoScope) {
-		if (m_bShowScope) {
+		if (m_bShowAccess) {
 			m_ShowAttSigs = Uml::st_NoSig;
 		} else {
 			m_ShowAttSigs = Uml::st_NoSigNoScope;
 		}
-	} else if (m_bShowScope) {
+	} else if (m_bShowAccess) {
 				m_ShowAttSigs = Uml::st_ShowSig;
 	} else {
 		m_ShowAttSigs = Uml::st_SigNoScope;
@@ -339,7 +262,7 @@ void ClassWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	conceptElement.setAttribute( "showopsigs", m_ShowOpSigs );
 	conceptElement.setAttribute( "showpackage", m_bShowPackage );
 	conceptElement.setAttribute( "showstereotype", m_bShowStereotype );
-	conceptElement.setAttribute( "showscope", m_bShowScope );
+	conceptElement.setAttribute( "showscope", m_bShowAccess );
 	qElement.appendChild( conceptElement );
 }
 
@@ -362,7 +285,7 @@ bool ClassWidget::loadFromXMI( QDomElement & qElement ) {
 	m_ShowOpSigs = (Uml::Signature_Type)showopsigs.toInt();
 	m_bShowPackage = (bool)showpackage.toInt();
 	m_bShowStereotype = (bool)showstereo.toInt();
-	m_bShowScope = (bool)showscope.toInt();
+	m_bShowAccess = (bool)showscope.toInt();
 
 	return true;
 }

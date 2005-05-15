@@ -96,19 +96,9 @@ private:
 	void init();
 
 	/**
-	 * Sets e.g. the abstract attribute.
-	 */
-	void initUMLObject(UMLObject* object);
-
-	/**
 	 * draws the interface as a circle with name underneath.
 	 */
 	void drawAsCircle(QPainter& p, int offsetX, int offsetY);
-
-	/**
-	 * Draws the interface as a concept, in a box with operations.
-	 */
-	void drawAsConcept(QPainter& p, int offsetX, int offsetY);
 
 	/**
 	 * Automatically calculates the size of the object.

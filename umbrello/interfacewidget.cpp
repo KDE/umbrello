@@ -37,19 +37,15 @@ InterfaceWidget::~InterfaceWidget() {}
 
 void InterfaceWidget::init() {
 	m_bDrawAsCircle = false;
-
+	m_bShowStereotype = true;
+	m_bShowAttributes = false;
 	updateSigs();
-	initUMLObject( m_pObject );
-}
-
-void InterfaceWidget::initUMLObject(UMLObject* object)
-{
-	object -> setAbstract( true ); // interfaces are by definition abstract
+	m_pObject->setAbstract(true); // interfaces are by definition abstract
 }
 
 void InterfaceWidget::setUMLObject(UMLObject* object)
 {
-	initUMLObject(object);
+	object->setAbstract(true);    // interfaces are by definition abstract
 	UMLWidget::setUMLObject(object);
 }
 
@@ -62,15 +58,15 @@ void InterfaceWidget::draw(QPainter& p, int offsetX, int offsetY) {
 			p.setBrush(m_pView -> viewport() -> backgroundColor());
 		drawAsCircle(p, offsetX, offsetY);
 	} else {
-		drawAsConcept(p, offsetX, offsetY);
+		ClassifierWidget::draw(p, offsetX, offsetY);
 	}
 }
 
 void InterfaceWidget::drawAsCircle(QPainter& p, int offsetX, int offsetY) {
 	int w = width();
 
-	QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-	int fontHeight  = fm.lineSpacing();
+	const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
+	const int fontHeight  = fm.lineSpacing();
 	QString name;
 	if ( m_bShowPackage ) {
 		name = m_pObject -> getPackage() + "." + this -> getName();
@@ -88,60 +84,6 @@ void InterfaceWidget::drawAsCircle(QPainter& p, int offsetX, int offsetY) {
 
 	if (m_bSelected) {
 		drawSelected(&p, offsetX, offsetY);
-	}
-}
-
-void InterfaceWidget::drawAsConcept(QPainter& p, int offsetX, int offsetY) {
-	ClassifierWidget::draw(p, offsetX, offsetY);  // draw templates
-
-	QFont font = UMLWidget::getFont();
-	font.setItalic(false);
-	font.setUnderline(false);
-	font.setBold(false);
-	QFontMetrics fontMetrics = UMLWidget::getFontMetrics(UMLWidget::FT_NORMAL);
-	const int fontHeight = fontMetrics.lineSpacing();
-	const int w = m_w - ClassifierWidget::MARGIN * 2;
-	const int x = offsetX + ClassifierWidget::MARGIN;
-	int y = m_bodyOffsetY;
-
-	p.setPen(QPen(black));
-
-	// draw stereotype
-	font.setBold(true);
-	p.setFont(font);
-	p.drawText(x, y, w, fontHeight, AlignCenter, m_pObject->getStereotype());
-	y += fontHeight;
-
-	// draw name
-	QString name;
-	if ( m_bShowPackage ) {
-		name = m_pObject -> getPackage() + "." + this -> getName();
-	} else {
-		name = this -> getName();
-	}
-	font.setItalic( m_pObject -> getAbstract() );
-	//FIXME why is underline sometimes true
-	font.setUnderline( false );
-	p.setFont(font);
-	p.drawText(x, y, w, fontHeight, AlignCenter, name);
-	font.setBold(false);
-	font.setItalic(false);
-	p.setFont(font);
-	y += fontHeight;
-
-	if ( m_bShowOperations ) {
-		QFont font = UMLWidget::getFont();
-		font.setItalic(false);
-		font.setUnderline(false);
-		font.setBold(false);
-		UMLWidget::setPen(p);
-		p.drawLine(offsetX, y, offsetX + m_w - 1, y);
-		p.setPen( QPen(black) );
-		drawMembers(p, Uml::ot_Operation, m_ShowOpSigs, x, y, fontHeight);
-	}//end if op
-
-	if (m_bSelected) {
-		drawSelected(&p, offsetX, m_bodyOffsetY);
 	}
 }
 
@@ -239,7 +181,7 @@ void InterfaceWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 	conceptElement.setAttribute("showoperations", m_bShowOperations);
 	conceptElement.setAttribute("showopsigs", m_ShowOpSigs);
 	conceptElement.setAttribute("showpackage", m_bShowPackage);
-	conceptElement.setAttribute("showscope", m_bShowScope);
+	conceptElement.setAttribute("showscope", m_bShowAccess);
 	conceptElement.setAttribute("drawascircle", m_bDrawAsCircle);
 	qElement.appendChild(conceptElement);
 }
@@ -257,7 +199,7 @@ bool InterfaceWidget::loadFromXMI( QDomElement & qElement ) {
 	m_bShowOperations = (bool)showops.toInt();
 	m_ShowOpSigs = (Uml::Signature_Type)showopsigs.toInt();
 	m_bShowPackage = (bool)showpackage.toInt();
-	m_bShowScope = (bool)showscope.toInt();
+	m_bShowAccess = (bool)showscope.toInt();
 	m_bDrawAsCircle = (bool)drawascircle.toInt();
 
 	return true;

@@ -118,11 +118,6 @@ public:
 	void toggleShowStereotype();
 
 	/**
-	 * Return the number of displayed attributes.
-	 */
-	int displayedAttributes();
-
-	/**
 	 * Set the AssociationWidget when this ClassWidget acts as
 	 * an association class.
 	 */
@@ -133,11 +128,6 @@ public:
 	 * an association class (else return NULL.)
 	 */
 	AssociationWidget *getClassAssocWidget();
-
-	/**
-	 * Overrides standard method.
-	 */
-	void draw(QPainter & p, int offsetX, int offsetY);
 
 	/**
 	 * Creates the <classwidget> XML element.
@@ -172,10 +162,6 @@ private:
 	 * Updates m_ShowOpSigs and m_ShowAttSigs to match m_bShowScope.
 	 */
 	void updateSigs();
-
-	bool m_bShowAttributes;             ///< Loaded/saved item.
-	bool m_bShowStereotype;             ///< Loaded/saved item.
-	Uml::Signature_Type m_ShowAttSigs;  ///< Loaded/saved item.
 
 	AssociationWidget *m_pAssocWidget;
 };
