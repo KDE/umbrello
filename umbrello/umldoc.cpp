@@ -91,6 +91,7 @@ using namespace Uml;
 static const uint undoMax = 30;
 
 UMLDoc::UMLDoc() {
+	m_Name = i18n("UML Model");
 	m_currentView = 0;
 	m_uniqueID = 0;
 	m_count = 0;
@@ -117,12 +118,12 @@ UMLDoc::UMLDoc() {
 	connect(this, SIGNAL(sigDiagramRenamed(Uml::IDType)), pApp, SLOT(slotUpdateViews()));
 	connect(this, SIGNAL( sigCurrentViewChanged() ), pApp, SLOT( slotCurrentViewChanged() ) );
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 UMLDoc::~UMLDoc() {
 	delete m_pChangeLog;
 	m_pChangeLog = 0;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void UMLDoc::addView(UMLView *view) {
 	UMLApp * pApp = UMLApp::app();
 	if ( pApp->getListView() )
@@ -158,7 +159,7 @@ void UMLDoc::addView(UMLView *view) {
 	}
 #endif
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void UMLDoc::removeView(UMLView *view , bool enforceCurrentView ) {
 	if(!view)
 	{
@@ -192,16 +193,15 @@ void UMLDoc::removeView(UMLView *view , bool enforceCurrentView ) {
 	}
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLDoc::setURL(const KURL &url) {
 	m_doc_url = url;
 	return;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 const KURL& UMLDoc::URL() const {
 	return m_doc_url;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void UMLDoc::slotUpdateAllViews(UMLView *sender) {
 	for(UMLView *w = m_ViewList.first(); w; w = m_ViewList.next()) {
 		if(w != sender) {
@@ -210,7 +210,7 @@ void UMLDoc::slotUpdateAllViews(UMLView *sender) {
 	}
 	return;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool UMLDoc::saveModified() {
 	bool completed(true);
 	if (!m_modified)
@@ -250,7 +250,7 @@ bool UMLDoc::saveModified() {
 	}
 	return completed;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void UMLDoc::closeDocument() {
 	m_Doc = "";
 	DocWindow* dw = UMLApp::app()->getDocWindow();
@@ -354,7 +354,7 @@ bool UMLDoc::newDocument() {
 
 	return true;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool UMLDoc::openDocument(const KURL& url, const char* /*format =0*/) {
 	if(url.fileName().length() == 0) {
 		newDocument();
@@ -525,7 +525,7 @@ bool UMLDoc::openDocument(const KURL& url, const char* /*format =0*/) {
 
 	return true;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool UMLDoc::saveDocument(const KURL& url, const char * /* format */) {
 	m_doc_url = url;
 	QDir d = m_doc_url.path(1);
@@ -698,7 +698,6 @@ void UMLDoc::setupSignals() {
 	return;
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
 bool UMLDoc::addCodeGenerator ( CodeGenerator * gen)
 {
 	if(!gen)
@@ -726,7 +725,6 @@ QDomElement UMLDoc::getCodeGeneratorXMIParams ( const QString &lang )
 	return ((*m_codeGenerationXMIParamMap)[lang]);
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
 /**
  * Remove a CodeGenerator object
  */
@@ -743,7 +741,6 @@ bool UMLDoc::removeCodeGenerator ( CodeGenerator * remove_object ) {
 	return true;
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
 CodeGenerator * UMLDoc::findCodeGeneratorByLanguage (const QString &lang) {
 	return m_codeGeneratorDictionary.find(lang);
 }
@@ -758,7 +755,6 @@ UMLView * UMLDoc::findView(Uml::IDType id) {
 	return 0;
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLView * UMLDoc::findView(Diagram_Type type, const QString &name,
 			   bool searchAllScopes /* =false */) {
 	UMLListView *listView = UMLApp::app()->getListView();
@@ -781,7 +777,7 @@ UMLView * UMLDoc::findView(Diagram_Type type, const QString &name,
 	}
 	return NULL;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 UMLObject* UMLDoc::findObjectById(Uml::IDType id) {
 	return Umbrello::findObjectInList(id, m_objectList);
 }
@@ -1289,7 +1285,7 @@ void UMLDoc::createDiagram(Diagram_Type type, bool askForName /*= true */) {
 		}
 	}//end while
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void UMLDoc::renameDiagram(Uml::IDType id) {
 	bool ok = false;
 
@@ -1314,7 +1310,7 @@ void UMLDoc::renameDiagram(Uml::IDType id) {
 			KMessageBox::error(0, i18n("A diagram is already using that name."), i18n("Not a Unique Name"));
 	}
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void UMLDoc::renameUMLObject(UMLObject *o) {
 	bool ok = false;
 	QString oldName= o->getName();
@@ -1336,7 +1332,7 @@ void UMLDoc::renameUMLObject(UMLObject *o) {
 	}
 	return;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void UMLDoc::renameChildUMLObject(UMLObject *o) {
 	bool ok = false;
 	UMLObject* p = (UMLObject *)o->parent();
@@ -1367,7 +1363,7 @@ void UMLDoc::renameChildUMLObject(UMLObject *o) {
 		}
 	}
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void UMLDoc::changeCurrentView(Uml::IDType id) {
 	UMLView* w = findView(id);
 	if (w != m_currentView && w) {
@@ -1380,7 +1376,7 @@ void UMLDoc::changeCurrentView(Uml::IDType id) {
 	}
 	emit sigCurrentViewChanged();
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void UMLDoc::removeDiagram(Uml::IDType id) {
 	UMLApp::app()->getDocWindow()->updateDocumentation(true);
 	UMLView* umlview = findView(id);
@@ -1401,7 +1397,7 @@ void UMLDoc::removeDiagram(Uml::IDType id) {
    //also remove the buttons from the WorkToolBar, then get rid of infowidget
 	}
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void UMLDoc::removeUMLObject(UMLObject* umlobject) {
 	UMLApp::app()->getDocWindow()->updateDocumentation(true);
 	Object_Type type = umlobject->getBaseType();
@@ -1479,7 +1475,7 @@ void UMLDoc::removeUMLObject(UMLObject* umlobject) {
 	}
 	setModified(true);
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool UMLDoc::showProperties(UMLObject* object, int page, bool assoc) {
 	UMLApp::app()->getDocWindow()->updateDocumentation( false );
 	ClassPropDlg* dialogue = new ClassPropDlg((QWidget*)UMLApp::app(), object, page, assoc);
@@ -1494,7 +1490,6 @@ bool UMLDoc::showProperties(UMLObject* object, int page, bool assoc) {
 	return modified;
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
 bool UMLDoc::showProperties(ObjectWidget *o) {
 	UMLApp::app()->getDocWindow() -> updateDocumentation( false );
 	ClassPropDlg *dlg = new ClassPropDlg((QWidget*)UMLApp::app(), o);
@@ -1509,13 +1504,20 @@ bool UMLDoc::showProperties(ObjectWidget *o) {
 	return modified;
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLDoc::signalUMLObjectCreated(UMLObject * o) {
 	emit sigObjectCreated(o);
 	if (!m_bLoading)
 		setModified(true);
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void UMLDoc::setName(QString name) {
+	m_Name = name;
+}
+
+QString UMLDoc::getName() const {
+	return m_Name;
+}
+
 void UMLDoc::saveToXMI(QIODevice& file, bool saveSubmodelFiles /* = false */) {
 	QDomDocument doc;
 
@@ -1592,6 +1594,7 @@ void UMLDoc::saveToXMI(QIODevice& file, bool saveSubmodelFiles /* = false */) {
 	QDomElement contentNS = doc.createElement( "UML:Namespace.contents" );
 
 	QDomElement objectsElement = doc.createElement( "UML:Model" );
+	objectsElement.setAttribute( "name", m_Name );
 	objectsElement.setAttribute( "isSpecification", "false" );
 	objectsElement.setAttribute( "isAbstract", "false" );
 	objectsElement.setAttribute( "isRoot", "false" );
@@ -1952,6 +1955,9 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
 					kdWarning() << "failed load on objects" << endl;
 					return false;
 				}
+				m_Name = element.attribute( "name", i18n("UML Model") );
+				UMLListView *lv = UMLApp::app()->getListView();
+				lv->setColumnText(0, m_Name);
 				seen_UMLObjects = true;
 			} else if (tagEq(tag, "Package") ||
 				   tagEq(tag, "Class") ||
@@ -2294,7 +2300,7 @@ UMLObject* UMLDoc::makeNewUMLObject(const QString &type) {
 	}
 	return pObject;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool UMLDoc::loadDiagramsFromXMI( QDomNode & node ) {
 	emit sigWriteToStatusBar( i18n("Loading diagrams...") );
 	emit sigResetStatusbarProgress();
@@ -2336,7 +2342,7 @@ bool UMLDoc::loadDiagramsFromXMI( QDomNode & node ) {
 	}
 	return true;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void UMLDoc::removeAllViews() {
 	for(UMLView *v = m_ViewList.first(); v; v = m_ViewList.next()) {
 		v->removeAllAssociations(); // note : It may not be apparent, but when we remove all associations
@@ -2350,7 +2356,7 @@ void UMLDoc::removeAllViews() {
 	emit sigDiagramChanged(dt_Undefined);
 	UMLApp::app()->setDiagramMenuItemsState(false);
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 QStringList UMLDoc::getModelTypes()
 {
 	QStringList types;
@@ -2424,7 +2430,7 @@ UMLClassifierList UMLDoc::getClassesAndInterfaces(bool includeNested /* =true */
 	}
 	return conceptList;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 UMLInterfaceList UMLDoc::getInterfaces(bool includeNested /* =true */) {
 	UMLInterfaceList interfaceList;
 	for (UMLObjectListIt oit(m_objectList); oit.current(); ++oit) {
@@ -2439,7 +2445,7 @@ UMLInterfaceList UMLDoc::getInterfaces(bool includeNested /* =true */) {
 	}
 	return interfaceList;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 QPtrList<UMLDatatype> UMLDoc::getDatatypes() {
 	QPtrList<UMLDatatype> datatypeList;
 	for (UMLObjectListIt oit(m_objectList); oit.current(); ++oit) {
@@ -2450,7 +2456,7 @@ QPtrList<UMLDatatype> UMLDoc::getDatatypes() {
 	}
 	return datatypeList;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 UMLAssociationList UMLDoc::getAssociations() {
 	UMLAssociationList associationList;
 	for (UMLObjectListIt oit(m_objectList); oit.current(); ++oit) {
@@ -2460,7 +2466,7 @@ UMLAssociationList UMLDoc::getAssociations() {
 	}
 	return associationList;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void UMLDoc::print(KPrinter * pPrinter) {
 	UMLView * printView = 0;
 	int count = QString(pPrinter -> option("kde-uml-count")).toInt();
@@ -2479,7 +2485,6 @@ void UMLDoc::print(KPrinter * pPrinter) {
 	}
 	painter.end();
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
 
 bool UMLDoc::showProperties(UMLWidget * o) {
 	// will already be selected so make sure docWindow updates the doc

@@ -431,6 +431,15 @@ public:
 	UMLView * findView(Uml::Diagram_Type type, const QString &name,
 			   bool searchAllScopes = false);
 
+	/**
+	 * Set the name of this model.
+	 */
+	void setName(QString name);
+
+	/**
+	 * Return the name of this model.
+	 */
+	QString getName() const;
 
 	/**
 	 * Used to give a unique ID to any sort of object.
@@ -911,6 +920,7 @@ private:
 	 */
 	int m_uniqueID;
 
+	QString m_Name; ///< name of this model as stored in the <UML:Model> tag
 	int m_count;   ///< auxiliary counter for the progress bar
 	bool m_modified;
 	KURL m_doc_url;
