@@ -31,8 +31,6 @@
 #include "uml.h"
 #include "linepath.h"
 
-// using namespace std;  CHECK: strange... it compiles without this for me.
-
 LinePath::Circle::Circle(QCanvas * canvas, int radius /* = 0 */)
   : QCanvasEllipse(radius * 2, radius * 2, canvas) {
 }
