@@ -32,8 +32,8 @@ public:
 	/// This type hosts all possible menu types.
 	enum Menu_Type
 	{
-	    //new type on left which replaces listed on right
-	    mt_Logical_View = 1900,
+	    mt_Model,
+	    mt_Logical_View,
 	    mt_UseCase_View,
 	    mt_Component_View,
 	    mt_Deployment_View,

@@ -179,6 +179,10 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, Uml::ListView_Type type)
 			mt = mt_EntityAttribute;
 			break;
 
+		case Uml::lvt_Model:
+			mt = mt_Model;
+			break;
+
 		default:   ;
 			//break;
 	}
@@ -1169,6 +1173,11 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 			insertStdItem(mt_New_Operation);
 			insertItem(i18n("Select Operation..."), mt_Select_Operation);
 			break;
+
+		case mt_Model:
+			insertItem(i18n("Rename..."), mt_Model);
+			break;
+
 		default:
 			insertStdItem(mt_Expand_All);
 			insertStdItem(mt_Collapse_All);

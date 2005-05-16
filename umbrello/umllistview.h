@@ -33,6 +33,7 @@
  */
  
 class QMouseEvent;
+class QContextMenuEvent;
 class QKeyEvent;
 class IDChangeLog;
 class ListPopupMenu;
@@ -354,6 +355,8 @@ class UMLListView : public KListView {
 		QPixmap Diagram_Usecase;
 	}
 	m_Pixmaps;
+
+	bool eventFilter(QObject *o, QEvent *e);
 	void contentsMouseReleaseEvent(QMouseEvent * me);
 	void contentsMousePressEvent(QMouseEvent *me);
 	void contentsMouseDoubleClickEvent(QMouseEvent * me);

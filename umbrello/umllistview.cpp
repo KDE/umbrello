@@ -20,6 +20,7 @@
 #include <qpoint.h>
 #include <qrect.h>
 #include <qevent.h>
+#include <qheader.h>
 #include <qtooltip.h>
 #include <kiconloader.h>
 #include <kapplication.h>
@@ -30,6 +31,7 @@
 #include <kstandarddirs.h>
 
 // app includes
+#include "inputdialog.h"
 #include "actor.h"
 #include "classimport.h"
 #include "class.h"
@@ -90,7 +92,7 @@ class LVToolTip : public QToolTip
 
 
 UMLListView::UMLListView(QWidget *parent, const char *name)
-  : KListView(parent,name), m_pMenu(0), m_doc(0)
+  : KListView(parent,name), m_pMenu(0), m_doc(UMLApp::app()->getDocument())
 {
 	loadPixmaps();
 
@@ -106,8 +108,9 @@ UMLListView::UMLListView(QWidget *parent, const char *name)
 	setColumnWidthMode( 0, Manual );
 	setDefaultRenameAction( Accept );
 	setResizeMode( LastColumn );
+	header()->setClickEnabled(true);
 	//add columns and initial items
-	addColumn(i18n("UML Model"));
+	addColumn(m_doc->getName());
 
 	m_rv =  new UMLListViewItem(this, i18n("Views"), Uml::lvt_View);
 	m_ucv = new UMLListViewItem(m_rv, i18n("Use Case View"), Uml::lvt_UseCase_View);
@@ -136,6 +139,24 @@ UMLListView::UMLListView(QWidget *parent, const char *name)
 }
 
 UMLListView::~UMLListView() {}
+
+bool UMLListView::eventFilter(QObject *o, QEvent *e) {
+	if (e->type() != QEvent::MouseButtonPress || !o->isA("QHeader"))
+		return QListView::eventFilter(o, e);
+	QMouseEvent *me = static_cast<QMouseEvent*>(e);
+	if (me->button() == RightButton) {
+		if (m_pMenu) {
+			m_pMenu->hide();
+			disconnect(m_pMenu, SIGNAL(activated(int)), this, SLOT(popupMenuSel(int)));
+			delete m_pMenu;
+		}
+		m_pMenu = new ListPopupMenu(this, Uml::lvt_Model);
+		m_pMenu->popup(me->globalPos());
+		connect(m_pMenu, SIGNAL(activated(int)), this, SLOT(popupMenuSel(int)));
+		return true;
+	}
+	return QListView::eventFilter(o, e);
+}
 
 void UMLListView::contentsMousePressEvent(QMouseEvent *me) {
 	if( m_doc -> getCurrentView() )
@@ -380,6 +401,19 @@ void UMLListView::popupMenuSel(int sel) {
 		QString folderText = current->getText();
 		folderText.remove( QRegExp("\\s*\\(.*$") );
 		current->setText(folderText);
+		break;
+	}
+
+	case ListPopupMenu::mt_Model:
+	{
+		bool ok = false;
+		QString name = KInputDialog::getText( i18n("Enter Model Name"),
+						  i18n("Enter the new name of the model:"),
+						  m_doc->getName(), &ok, UMLApp::app() );
+		if (ok) {
+			setColumnText(0, name);
+			m_doc->setName(name);
+		}
 		break;
 	}
 
@@ -775,7 +809,7 @@ void UMLListView::setDocument(UMLDoc *d) {
 	connect(m_doc, SIGNAL(sigObjectCreated(UMLObject *)), this, SLOT(slotObjectCreated(UMLObject *)));
 	connect(m_doc, SIGNAL(sigObjectRemoved(UMLObject *)), this, SLOT(slotObjectRemoved(UMLObject *)));
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void UMLListView::slotObjectRemoved(UMLObject* object) {
 	if (m_doc->loading()) { //needed for class wizard
 		return;
@@ -785,13 +819,13 @@ void UMLListView::slotObjectRemoved(UMLObject* object) {
 	delete item;
 	UMLApp::app()->getDocWindow()->updateDocumentation(true);
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void UMLListView::slotDiagramRemoved(Uml::IDType id) {
 	UMLListViewItem* item = findItem(id);
 	delete item;
 	UMLApp::app()->getDocWindow()->updateDocumentation(true);
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 QDragObject* UMLListView::dragObject() {
 	UMLListViewItemList selecteditems;
 	getSelectedItems(selecteditems);
@@ -812,13 +846,13 @@ QDragObject* UMLListView::dragObject() {
 
 	return t;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void UMLListView::startDrag() {
 	QDragObject *o = dragObject();
 	if (o)
 		o->dragCopy();
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 UMLListViewItem * UMLListView::findUMLObjectInFolder(UMLListViewItem* folder, UMLObject* obj) {
 	UMLListViewItem *item = static_cast<UMLListViewItem *>(folder->firstChild());
 	while(item)
@@ -857,7 +891,7 @@ UMLListViewItem * UMLListView::findUMLObjectInFolder(UMLListViewItem* folder, UM
 	}
 	return 0;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 UMLListViewItem * UMLListView::findUMLObject(UMLObject *p) const {
 	UMLListViewItem *item = static_cast<UMLListViewItem*>(firstChild());
 	while (item) {
@@ -869,7 +903,6 @@ UMLListViewItem * UMLListView::findUMLObject(UMLObject *p) const {
 	return item;
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
 UMLListViewItem* UMLListView::findView(UMLView* v) {
 	if (!v) {
 		kdWarning() << "returning 0 from UMLListView::findView()" << endl;
@@ -900,7 +933,7 @@ UMLListViewItem* UMLListView::findView(UMLView* v) {
 	}
 	return foundItem;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 UMLListViewItem* UMLListView::recursiveSearchForView(UMLListViewItem* listViewItem,
 						     Uml::ListView_Type type, Uml::IDType id) {
 	while (listViewItem) {
@@ -919,7 +952,7 @@ UMLListViewItem* UMLListView::recursiveSearchForView(UMLListViewItem* listViewIt
 	}
 	return 0;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 UMLListViewItem* UMLListView::findItem(Uml::IDType id) {
 	UMLListViewItem *temp;
 	QListViewItemIterator it(this);
@@ -930,7 +963,7 @@ UMLListViewItem* UMLListView::findItem(Uml::IDType id) {
 	}
 	return 0;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 //
 // This method is called more than once during an instance's lifetime (by UMLDoc)!
@@ -961,7 +994,7 @@ void UMLListView::init() {
 	m_bIgnoreCancelRename = true;
 	m_bCreatingChildObject = false;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void UMLListView::setView(UMLView * v) {
 	if(!v)
 		return;
@@ -969,7 +1002,7 @@ void UMLListView::setView(UMLView * v) {
 	if(temp)
 		setSelected(temp, true);
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void UMLListView::contentsMouseDoubleClickEvent(QMouseEvent * me) {
 	UMLListViewItem * item = static_cast<UMLListViewItem *>( currentItem() );
 	if( !item || me -> button() != LeftButton )
