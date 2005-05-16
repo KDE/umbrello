@@ -270,9 +270,9 @@ public:
 	QFont getFont() const;
 
 	/**
-	 * Sets the font for the view and all the widgets on the view.
+	 * Sets the font for the view and optionally all the widgets on the view.
 	 */
-	void setFont( QFont font );
+	void setFont(QFont font, bool changeAllWidgets = false);
 
 	/**
 	 * Returns whether to show operation signatures.

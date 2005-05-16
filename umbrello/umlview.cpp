@@ -3010,8 +3010,14 @@ QFont UMLView::getFont() const {
 	return m_Options.uiState.font;
 }
 
-void UMLView::setFont( QFont font ) {
+void UMLView::setFont(QFont font, bool changeAllWidgets /* = false */) {
 	m_Options.uiState.font = font;
+	if (!changeAllWidgets)
+		return;
+	for (UMLWidgetListIt wit(m_WidgetList); wit.current(); ++wit) {
+		UMLWidget *w = wit.current();
+		w->setFont(font);
+	}
 }
 
 void UMLView::setClassWidgetOptions( ClassOptionsPage * page ) {
@@ -3328,8 +3334,10 @@ bool UMLView::loadFromXMI( QDomElement & qElement ) {
 	QString localid = qElement.attribute( "localid", "0" );
 	//optionstate uistate
 	QString font = qElement.attribute( "font", "" );
-	if( !font.isEmpty() )
+	if (!font.isEmpty()) {
 		m_Options.uiState.font.fromString( font );
+		m_Options.uiState.font.setUnderline(false);
+	}
 	QString fillcolor = qElement.attribute( "fillcolor", "" );
 	QString linecolor = qElement.attribute( "linecolor", "" );
 	QString linewidth = qElement.attribute( "linewidth", "" );
