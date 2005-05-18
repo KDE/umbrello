@@ -4,8 +4,8 @@ Bugs fixed:
 * Crash on deleting attributes / enum literals
 * Crash in UMLView::createAutoAttributeAssociations()
 * Bugs from http://bugs.kde.org :
-53376 57667 57875 70924 95353 100290 100307 101148 103123 103133
-103728 101541
+ 53376  57667  57875  70924  80924  89691  95353 100290 100307 101148
+103123 103133 103728 101541 104637
 
 Version 1.4
 
