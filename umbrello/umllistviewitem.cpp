@@ -529,50 +529,50 @@ void UMLListViewItem::cancelRename(int col) {
 	}
 }
 
-// sort the listview items by type and alphabetically
+// Sort the listview items by type and position within the corresponding list
+// of UMLObjects. If the item does not have an UMLObject then sort alphabetically.
 int UMLListViewItem::compare(QListViewItem *other, int col, bool ascending) const
 {
 	UMLListViewItem *ulvi = static_cast<UMLListViewItem*>(other);
 	Uml::ListView_Type ourType = getType();
 	Uml::ListView_Type otherType = ulvi->getType();
 
-	if ( ourType == otherType ) {
-		UMLObject *otherObj = ulvi->getUMLObject();
-		if (m_pObject == NULL || otherObj == NULL)
-			return key( col, ascending ).compare( other->key( col, ascending) );
-		if (ourType == Uml::lvt_Attribute) {
-			UMLClass *ourParent = dynamic_cast<UMLClass*>(m_pObject->parent());
-			UMLClass *otherParent = dynamic_cast<UMLClass*>(otherObj->parent());
-			if (ourParent == NULL || otherParent == NULL || ourParent != otherParent) {
-				kdError() << "UMLListViewItem::compare(UMLAttribute): ourParent="
-					  << ourParent << ", otherParent=" << otherParent << endl;
-				return key( col, ascending ).compare( other->key( col, ascending) );
-			}
-			UMLAttributeList atts = ourParent->getAttributeList();
-			int myIndex = atts.findRef( static_cast<UMLAttribute*>(m_pObject) );
-			int otherIndex = atts.findRef( static_cast<UMLAttribute*>(otherObj) );
-			return (myIndex < otherIndex ? -1 : myIndex > otherIndex ? 1 : 0);
-		} else if (ourType == Uml::lvt_Operation) {
-			UMLClassifier *ourParent = dynamic_cast<UMLClassifier*>(m_pObject->parent());
-			UMLClassifier *otherParent = dynamic_cast<UMLClassifier*>(otherObj->parent());
-			if (ourParent == NULL || otherParent == NULL || ourParent != otherParent) {
-				kdError() << "UMLListViewItem::compare(UMLOperation): ourParent="
-					  << ourParent << ", otherParent=" << otherParent << endl;
-				return key( col, ascending ).compare( other->key( col, ascending) );
-			}
-			UMLOperationList ops = ourParent->getOpList();
-			int myIndex = ops.findRef( static_cast<UMLOperation*>(m_pObject) );
-			int otherIndex = ops.findRef( static_cast<UMLOperation*>(otherObj) );
-			return (myIndex < otherIndex ? -1 : myIndex > otherIndex ? 1 : 0);
-		} else {
-			return key( col, ascending ).compare( other->key( col, ascending) );
-		}
-	}
 	if ( ourType < otherType )
 		return -1;
 	if ( ourType > otherType )
 		return 1;
-
+	// ourType == otherType
+	const int alphaOrder = key(col, ascending).compare(other->key(col, ascending));
+	UMLObject *otherObj = ulvi->getUMLObject();
+	if (m_pObject == NULL || otherObj == NULL)
+		return alphaOrder;
+	if (ourType == Uml::lvt_Attribute) {
+		UMLClass *ourParent = dynamic_cast<UMLClass*>(m_pObject->parent());
+		UMLClass *otherParent = dynamic_cast<UMLClass*>(otherObj->parent());
+		if (ourParent == NULL || otherParent == NULL || ourParent != otherParent) {
+			kdError() << "UMLListViewItem::compare(UMLAttribute): ourParent="
+				  << ourParent << ", otherParent=" << otherParent << endl;
+			return alphaOrder;
+		}
+		UMLAttributeList atts = ourParent->getAttributeList();
+		int myIndex = atts.findRef( static_cast<UMLAttribute*>(m_pObject) );
+		int otherIndex = atts.findRef( static_cast<UMLAttribute*>(otherObj) );
+		return (myIndex < otherIndex ? -1 : myIndex > otherIndex ? 1 : 0);
+	} else if (ourType == Uml::lvt_Operation) {
+		UMLClassifier *ourParent = dynamic_cast<UMLClassifier*>(m_pObject->parent());
+		UMLClassifier *otherParent = dynamic_cast<UMLClassifier*>(otherObj->parent());
+		if (ourParent == NULL || otherParent == NULL || ourParent != otherParent) {
+			kdError() << "UMLListViewItem::compare(UMLOperation): ourParent="
+				  << ourParent << ", otherParent=" << otherParent << endl;
+			return alphaOrder;
+		}
+		UMLOperationList ops = ourParent->getOpList();
+		int myIndex = ops.findRef( static_cast<UMLOperation*>(m_pObject) );
+		int otherIndex = ops.findRef( static_cast<UMLOperation*>(otherObj) );
+		return (myIndex < otherIndex ? -1 : myIndex > otherIndex ? 1 : 0);
+	} else {
+		return alphaOrder;
+	}
 	return 0;
 }
 
