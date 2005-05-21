@@ -260,7 +260,7 @@ void ClassifierWidget::draw(QPainter & p, int offsetX, int offsetY) {
 	QFont font = UMLWidget::getFont();
 	font.setUnderline(false);
 	font.setItalic(false);
-	QFontMetrics fm(font);
+	QFontMetrics fm = UMLWidget::getFontMetrics(UMLWidget::FT_NORMAL);
 	const int fontHeight = fm.lineSpacing();
 
 	//If there are any templates then draw them
@@ -276,12 +276,11 @@ void ClassifierWidget::draw(QPainter & p, int offsetX, int offsetY) {
 		p.setPen( QPen(black) );
 		font.setBold(false);
 		p.setFont(font);
-		QFontMetrics fontMetrics(font);
 		const int x = offsetX + width() - templatesBoxSize.width() + MARGIN;
 		int y = offsetY + MARGIN;
 		for ( UMLTemplate *t = tlist.first(); t; t = tlist.next() ) {
 			QString text = t->toString();
-			p.drawText(x, y, fontMetrics.width(text), fontHeight, AlignVCenter, text);
+			p.drawText(x, y, fm.width(text), fontHeight, AlignVCenter, text);
 			y += fontHeight;
 		}
 	}
