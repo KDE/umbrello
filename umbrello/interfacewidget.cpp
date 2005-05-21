@@ -69,7 +69,7 @@ void InterfaceWidget::drawAsCircle(QPainter& p, int offsetX, int offsetY) {
 	const int fontHeight  = fm.lineSpacing();
 	QString name;
 	if ( m_bShowPackage ) {
-		name = m_pObject -> getPackage() + "." + this -> getName();
+		name = m_pObject->getFullyQualifiedName();
 	} else {
 		name = this -> getName();
 	}
@@ -79,8 +79,7 @@ void InterfaceWidget::drawAsCircle(QPainter& p, int offsetX, int offsetY) {
 
 	QFont font = UMLWidget::getFont();
 	p.setFont(font);
-	p.drawText(offsetX, offsetY + CIRCLE_SIZE,
-		   w, fontHeight, AlignCenter, name);
+	p.drawText(offsetX, offsetY + CIRCLE_SIZE, w, fontHeight, AlignCenter, name);
 
 	if (m_bSelected) {
 		drawSelected(&p, offsetX, offsetY);
