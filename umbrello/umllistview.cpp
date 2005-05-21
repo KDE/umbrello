@@ -2059,10 +2059,11 @@ void UMLListView::addNewItem( QListViewItem * parent, Uml::ListView_Type type ) 
 		return;
 	}
 	m_bIgnoreCancelRename = false;
-	ensureItemVisible(newItem);
 	newItem->setOpen( true );
 	newItem->setCreating( true );
-	newItem->startRename( 0 );
+	newItem->startRename( 0 );  // calls QListView::ensureItemVisible()
+	// When the user accepts the rename operation, UMLListViewItem::okRename()
+	// is called (automatically by QListViewItem.)
 }
 
 bool UMLListView::slotItemRenamed( QListViewItem * item , int /*col*/ ) {
