@@ -22,7 +22,6 @@
 #include <map>
  
  
-class UMLClass;
 class UMLObject;
 class UMLClassifier;
 class UMLAttribute;

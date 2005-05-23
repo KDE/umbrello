@@ -28,7 +28,7 @@ class QBitmap;
 class QPixmap;
 class QDataStream;
 class QCanvasLine;
-class ClassWidget;
+class ClassifierWidget;
 class UMLDoc;
 class UMLView;
 class UMLAssociation;
@@ -893,7 +893,7 @@ private:
 	/// selection adornment for the endpoints of the assoc. class connecting line
 	QCanvasRectangle *m_pAssocClassLineSel0, *m_pAssocClassLineSel1;
 
-	ClassWidget	*m_pAssocClassWidget;  ///< used if we have an assoc. class
+	ClassifierWidget *m_pAssocClassWidget;  ///< used if we have an assoc. class
 
 	/**
 	 * The definition points for the association line.

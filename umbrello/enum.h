@@ -16,8 +16,8 @@
 #define ENUM_H
 
 #include "classifier.h"
-#include "umlenumliterallist.h"
-#include "umlclassifierlistitemlist.h"
+
+class UMLEnumLiteral;
 
 /**
  * This class contains the non-graphical information required for a UML
@@ -65,8 +65,6 @@ public:
 	 * Make a clone of this object.
 	 */
 	virtual UMLObject* clone() const;
-
-	virtual bool isInterface () { return false; }
 
 	/**
 	 * Creates a literal for the enum.

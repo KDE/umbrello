@@ -52,8 +52,8 @@
 #include "clipboard/idchangelog.h"
 #include "clipboard/umldrag.h"
 #include "floatingtext.h"
-#include "classwidget.h"
-#include "class.h"
+#include "classifierwidget.h"
+#include "classifier.h"
 #include "packagewidget.h"
 #include "package.h"
 #include "componentwidget.h"
@@ -62,8 +62,6 @@
 #include "node.h"
 #include "artifactwidget.h"
 #include "artifact.h"
-#include "interfacewidget.h"
-#include "interface.h"
 #include "datatypewidget.h"
 #include "datatype.h"
 #include "enumwidget.h"
@@ -506,7 +504,8 @@ void UMLView::slotObjectCreated(UMLObject* o) {
 				}
 				newWidget = ow;
 			} else {
-				InterfaceWidget* interfaceWidget = new InterfaceWidget(this, static_cast<UMLInterface*>(o));
+				UMLClassifier *c = static_cast<UMLClassifier*>(o);
+				ClassifierWidget* interfaceWidget = new ClassifierWidget(this, c);
 				if (diagramType == dt_Component || diagramType == dt_Deployment) {
 					interfaceWidget->setDrawAsCircle(true);
 				}
@@ -517,7 +516,8 @@ void UMLView::slotObjectCreated(UMLObject* o) {
 	case ot_Class: // CORRECT?
 		//see if we really want an object widget or class widget
 		if(getType() == dt_Class) {
-			newWidget = new ClassWidget(this, static_cast<UMLClass*>(o));
+			UMLClassifier *c = static_cast<UMLClassifier*>(o);
+			newWidget = new ClassifierWidget(this, c);
 		} else {
 			ObjectWidget *ow = new ObjectWidget(this, o, getLocalID() );
 			if (m_Type == dt_Sequence) {
@@ -1051,9 +1051,7 @@ void UMLView::selectionToggleShow(int sel)
 	for(UMLWidget *temp = (UMLWidget *)m_SelectedList.first();
 			temp; temp=(UMLWidget *)m_SelectedList.next()) {
 		Widget_Type type = temp->getBaseType();
-		ClassifierWidget *cw = NULL;
-		if (type == wt_Class || type == wt_Interface)
-			cw = static_cast<ClassWidget *>(temp);
+		ClassifierWidget *cw = dynamic_cast<ClassifierWidget*>(temp);
 
 		// toggle the show setting sel
 		switch (sel)
@@ -1062,7 +1060,7 @@ void UMLView::selectionToggleShow(int sel)
 			// for both
 		   case ListPopupMenu::mt_Show_Attributes_Selection:
 			if (type == wt_Class)
-				(static_cast<ClassWidget*>(temp)) -> toggleShowAtts();
+				cw -> toggleShowAtts();
 			break;
 		   case ListPopupMenu::mt_Show_Operations_Selection:
 			if (cw)
@@ -1074,7 +1072,7 @@ void UMLView::selectionToggleShow(int sel)
 			break;
 		   case ListPopupMenu::mt_DrawAsCircle_Selection:
 			if (type == wt_Interface)
-				(static_cast<InterfaceWidget*>(temp)) -> toggleDrawAsCircle();
+				cw -> toggleDrawAsCircle();
 			break;
 		   case ListPopupMenu::mt_Show_Operation_Signature_Selection:
 			if (cw)
@@ -1082,7 +1080,7 @@ void UMLView::selectionToggleShow(int sel)
 			break;
 		   case ListPopupMenu::mt_Show_Attribute_Signature_Selection:
 			if (type == wt_Class)
-				(static_cast<ClassWidget*>(temp)) -> toggleShowAttSigs();
+				cw -> toggleShowAttSigs();
 			break;
 		   case ListPopupMenu::mt_Show_Packages_Selection:
 			if (cw)
@@ -1090,7 +1088,7 @@ void UMLView::selectionToggleShow(int sel)
 			break;
 		   case ListPopupMenu::mt_Show_Stereotypes_Selection:
 			if (type == wt_Class)
-				(static_cast<ClassWidget*>(temp)) -> toggleShowStereotype();
+				cw -> toggleShowStereotype();
 			break;
 		   case ListPopupMenu::mt_Show_Public_Only_Selection:
 			if (cw)
@@ -2476,8 +2474,8 @@ void UMLView::createAutoAttributeAssociations(UMLWidget *widget) {
 		return;
 
 	// Pseudocode:
-	//   if the underlying model object is really a UMLClass then
-	//     for each of the UMLClass's UMLAttributes
+	//   if the underlying model object is really a UMLClassifier then
+	//     for each of the UMLClassifier's UMLAttributes
 	//       if the attribute type has a widget representation on this view then
 	//         if the AssocWidget does not already exist then
 	//           if the current diagram type permits compositions then
@@ -2490,7 +2488,7 @@ void UMLView::createAutoAttributeAssociations(UMLWidget *widget) {
 	//           if the referenced type has a widget representation on this view then
 	//             if the AssocWidget does not already exist then
 	//               if the current diagram type permits aggregations then
-	//                 create an aggregation AssocWidget from the ClassWidget to the
+	//                 create an aggregation AssocWidget from the ClassifierWidget to the
 	//                                                 widget of the referenced type
 	//               end if
 	//             end if
@@ -2504,7 +2502,7 @@ void UMLView::createAutoAttributeAssociations(UMLWidget *widget) {
 	UMLObject *tmpUmlObj = widget->getUMLObject();
 	if (tmpUmlObj == NULL)
 		return;
-	// if the underlying model object is really a UMLClass then
+	// if the underlying model object is really a UMLClassifier then
 	if (tmpUmlObj->getBaseType() == Uml::ot_Datatype) {
 		UMLDatatype *dt = static_cast<UMLDatatype*>(tmpUmlObj);
 		while (dt->originType() != NULL) {
@@ -2516,8 +2514,8 @@ void UMLView::createAutoAttributeAssociations(UMLWidget *widget) {
 	}
 	if (tmpUmlObj->getBaseType() != Uml::ot_Class)
 		return;
-	UMLClass * klass = static_cast<UMLClass*>(tmpUmlObj);
-	// for each of the UMLClass's UMLAttributes
+	UMLClassifier * klass = static_cast<UMLClassifier*>(tmpUmlObj);
+	// for each of the UMLClassifier's UMLAttributes
 	UMLAttributeList attrList = klass->getAttributeList();
 	for (UMLAttributeListIt ait(attrList); ait.current(); ++ait) {
 		UMLAttribute *attr = ait.current();
@@ -2568,7 +2566,7 @@ void UMLView::createAutoAttributeAssociations(UMLWidget *widget) {
 				    findAssocWidget(at_Aggregation, widget, w) == NULL &&
 				    // if the current diagram type permits aggregations
 				    AssocRules::allowAssociation(at_Aggregation, widget, w, false)) {
-					// create an aggregation AssocWidget from the ClassWidget
+					// create an aggregation AssocWidget from the ClassifierWidget
 					// to the widget of the referenced type
 					AssociationWidget *a = new AssociationWidget
 								(this, widget, at_Aggregation, w);
@@ -3511,7 +3509,7 @@ UMLWidget* UMLView::loadWidgetFromXMI(QDomElement& widgetElement) {
 		} else if (tag == "classwidget"
 			   || tag == "UML:ClassWidget"       // for bkwd compatibility
 			   || tag == "UML:ConceptWidget") {  // for bkwd compatibility
-			widget = new ClassWidget(this, static_cast<UMLClass*>(o));
+			widget = new ClassifierWidget(this, static_cast<UMLClassifier*>(o));
 		} else if (tag == "packagewidget") {
 			widget = new PackageWidget(this, static_cast<UMLPackage*>(o));
 		} else if (tag == "componentwidget") {
@@ -3521,7 +3519,7 @@ UMLWidget* UMLView::loadWidgetFromXMI(QDomElement& widgetElement) {
 		} else if (tag == "artifactwidget") {
 			widget = new ArtifactWidget(this, static_cast<UMLArtifact*>(o));
 		} else if (tag == "interfacewidget") {
-			widget = new InterfaceWidget(this, static_cast<UMLInterface*>(o));
+			widget = new ClassifierWidget(this, static_cast<UMLClassifier*>(o));
 		} else if (tag == "datatypewidget") {
 			widget = new DatatypeWidget(this, static_cast<UMLDatatype*>(o));
 		} else if (tag == "enumwidget") {
@@ -3664,7 +3662,7 @@ bool UMLView::loadUisDiagramPresentation(QDomElement & qElement) {
 			UMLWidget *widget = NULL;
 			switch (ot) {
 				case Uml::ot_Class:
-					widget = new ClassWidget(this, static_cast<UMLClass*>(o));
+					widget = new ClassifierWidget(this, static_cast<UMLClassifier*>(o));
 					break;
 				case Uml::ot_Association:
 				{

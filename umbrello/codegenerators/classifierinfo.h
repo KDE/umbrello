@@ -16,7 +16,7 @@
 #ifndef CLASSIFIERINFO_H
 #define CLASSIFIERINFO_H
 
-#include "../class.h"
+#include "../classifier.h"
 #include "../umldoc.h"
 #include "../attribute.h"
 #include "../association.h"

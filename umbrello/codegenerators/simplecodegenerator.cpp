@@ -32,7 +32,6 @@
 #include "../attribute.h"
 #include "../umloperationlist.h"
 #include "../umlattributelist.h"
-#include "../class.h"
 #include "../classifier.h"
 #include "../codedocument.h"
 #include "../operation.h"
@@ -204,7 +203,7 @@ QString SimpleCodeGenerator::overwritableName(UMLClassifier* concept, QString na
 }
 
 
-bool SimpleCodeGenerator::hasDefaultValueAttr(UMLClass *c) {
+bool SimpleCodeGenerator::hasDefaultValueAttr(UMLClassifier *c) {
         UMLAttributeList atl = c->getAttributeList();
         for(UMLAttribute *at = atl.first(); at; at = atl.next())
                 if(!at->getInitialValue().isEmpty())

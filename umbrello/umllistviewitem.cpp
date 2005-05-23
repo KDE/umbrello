@@ -24,7 +24,7 @@
 #include <kdebug.h>
 
 // app includes
-#include "class.h"
+#include "classifier.h"
 #include "template.h"
 #include "attribute.h"
 #include "operation.h"
@@ -422,7 +422,7 @@ void UMLListViewItem::okRename( int col ) {
 				cancelRenameWithMsg();
 				return;
 			}
-			UMLClass *parent = static_cast<UMLClass*>( m_pObject -> parent() );
+			UMLClassifier *parent = static_cast<UMLClassifier*>(m_pObject->parent());
 			Umbrello::NameAndType nt;
 			Umbrello::Parse_Status st = Umbrello::parseAttribute(newText, nt, parent);
 			if (st == Umbrello::PS_OK) {
@@ -547,8 +547,8 @@ int UMLListViewItem::compare(QListViewItem *other, int col, bool ascending) cons
 	if (m_pObject == NULL || otherObj == NULL)
 		return alphaOrder;
 	if (ourType == Uml::lvt_Attribute) {
-		UMLClass *ourParent = dynamic_cast<UMLClass*>(m_pObject->parent());
-		UMLClass *otherParent = dynamic_cast<UMLClass*>(otherObj->parent());
+		UMLClassifier *ourParent = dynamic_cast<UMLClassifier*>(m_pObject->parent());
+		UMLClassifier *otherParent = dynamic_cast<UMLClassifier*>(otherObj->parent());
 		if (ourParent == NULL || otherParent == NULL || ourParent != otherParent) {
 			kdError() << "UMLListViewItem::compare(UMLAttribute): ourParent="
 				  << ourParent << ", otherParent=" << otherParent << endl;

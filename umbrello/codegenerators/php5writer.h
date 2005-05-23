@@ -91,7 +91,7 @@ private:
 	  * @param c the class we are generating code for
 	  * @param php output stream for the PHP file
 	  */
-	void writeAttributes(UMLClass *c, QTextStream &php);
+	void writeAttributes(UMLClassifier *c, QTextStream &php);
 
 	/** write a list of class attributes
 	  * @param atList the list of attributes

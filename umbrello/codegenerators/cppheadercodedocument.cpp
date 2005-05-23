@@ -37,6 +37,9 @@
 #include "cppheadercodeclassfielddeclarationblock.h"
 #include "../umlpackagelist.h"
 #include "../package.h"
+#include "../umlclassifierlistitemlist.h"
+#include "../classifierlistitem.h"
+#include "../enum.h"
 
 // Constructors/Destructors
 //  
@@ -520,20 +523,18 @@ void CPPHeaderCodeDocument::updateContent( )
 
 	// Enum types for include
 	if (!isInterface) {
-
 		QString enumStatement;
 		QString indent = policy->getIndentation();
-/*
-		UMLClass* k = dynamic_cast<UMLClass*>(c);
-		if (k->isEnumeration()) {
+		UMLEnum* e = dynamic_cast<UMLEnum*>(c);
+		if (e) {
 			enumStatement.append(indent + "enum "+cppClassName+" {"+endLine);
 
 			// populate 
-			UMLAttributeList atl = k->getAttributeList();
-			for (UMLAttribute *at=atl.first(); at ; ) {
+			UMLClassifierListItemList ell = e->getFilteredList(Uml::ot_EnumLiteral);
+			for (UMLClassifierListItem *el=ell.first(); el ; ) {
 				enumStatement.append(indent+indent);
-				enumStatement.append(gen->cleanName(at->getName()));
-				if ((at=atl.next()) != 0)
+				enumStatement.append(gen->cleanName(el->getName()));
+				if ((el=ell.next()) != 0)
 					enumStatement.append(", "+endLine);
 				else
 					break;
@@ -542,9 +543,8 @@ void CPPHeaderCodeDocument::updateContent( )
 			enumStatement.append(indent+"};");
 			isEnumeration = true;
 		}
-*/
 		namespaceBlock->addOrUpdateTaggedCodeBlockWithComments("enums", enumStatement, "", 0, false);
-	 }
+	}
 
 	// CLASS DECLARATION BLOCK
 	//

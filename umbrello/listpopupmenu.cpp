@@ -18,8 +18,6 @@
 #include "umllistview.h"
 #include "umllistviewitem.h"
 #include "classifierwidget.h"
-#include "classwidget.h"
-#include "interfacewidget.h"
 #include "floatingtext.h"
 #include "uml.h"
 #include "model_utils.h"
@@ -222,7 +220,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
 		if (unique == true && type == Uml::wt_Interface) {
 			insertItem(i18n("Draw as Circle"), mt_DrawAsCircle_Selection);
 			setItemChecked( mt_DrawAsCircle_Selection,
-					((InterfaceWidget*)object)->getDrawAsCircle() );
+					((ClassifierWidget*)object)->getDrawAsCircle() );
 		}
 
 		if(m_pInsert)
@@ -599,12 +597,12 @@ void ListPopupMenu::insertSubmodelAction() {
 void ListPopupMenu::makeMultiClassifierPopup(ClassifierWidget *c)
 {
 	Uml::Widget_Type type = c->getBaseType();
-	ClassWidget *cls = NULL;
+	ClassifierWidget *cls = NULL;
 
 	m_pShow = new KPopupMenu(this, "Show");
 	m_pShow->setCheckable(true);
 	if (type == Uml::wt_Class) {
-		cls = static_cast<ClassWidget*>(c);
+		cls = static_cast<ClassifierWidget*>(c);
 		m_pShow->insertItem( i18n("Attributes"), mt_Show_Attributes_Selection);
 		m_pShow->setItemChecked(mt_Show_Attributes_Selection,
 					cls->getShowAtts());
@@ -655,7 +653,7 @@ void ListPopupMenu::makeClassifierPopup(ClassifierWidget *c)
 	if (type == Uml::wt_Interface) {
 		insertItem(i18n("Draw as Circle"), mt_DrawAsCircle);
 		setItemChecked( mt_DrawAsCircle,
-				((InterfaceWidget*)c)->getDrawAsCircle() );
+				c->getDrawAsCircle() );
 	} else {
 		insertItem(i18n("Refactor"), mt_Refactoring);
 		insertItem(i18n("View Code"), mt_ViewCode);

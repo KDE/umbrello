@@ -25,7 +25,6 @@
 
 // local includes
 #include "../classifier.h"
-#include "../interface.h"
 #include "../umltemplatelist.h"
 #include "../template.h"
 #include "../umldoc.h"

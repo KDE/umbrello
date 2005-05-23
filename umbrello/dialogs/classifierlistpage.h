@@ -19,9 +19,11 @@
 #include <karrowbutton.h>
 
 //app includes
-#include "../class.h"
 #include "../listpopupmenu.h"
 #include "../umlclassifierlistitemlist.h"
+
+class UMLObject;
+class UMLClassifier;
 class UMLDoc;
 
 /**

@@ -19,12 +19,10 @@
 
 class QPainter;
 class UMLClassifier;
+class AssociationWidget;
 
 /**
- * Intermediate class that serves as the base class for ClassWidget
- * and InterfaceWidget.  Does not itself appear on diagrams.
- *
- * @short Common base class for ClassWidget and InterfaceWidget
+ * @short Common implementation for class widget and interface widget
  * @author Oliver Kellogg
  * @see	UMLWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
@@ -38,7 +36,7 @@ public:
 	 * @param view	The parent of this ClassifierWidget.
 	 * @param o	The UMLObject to represent.
 	 */
-	ClassifierWidget(UMLView * view, UMLClassifier * o, Uml::Widget_Type wt);
+	ClassifierWidget(UMLView * view, UMLClassifier * o);
 
 	/**
 	 * Destructor.
@@ -46,102 +44,121 @@ public:
 	virtual ~ClassifierWidget();
 
 	/**
+	 * Returns the status of whether to show StereoType.
+	 *
+	 * @return	True if stereotype is shown.
+	 */
+	bool getShowStereotype() const;
+
+	/**
+	 * Set the status of whether to show StereoType
+	 *
+	 * @param _show		True if stereotype shall be shown.
+	 */
+	void setShowStereotype(bool _status);
+
+	/**
+	 * Toggles the status of whether to show StereoType.
+	 */
+	void toggleShowStereotype();
+
+	/**
 	 * Return the status of showing operations.
 	 *
 	 * @return	Return the status of showing operations.
 	 */
-	virtual bool getShowOps() const;
+	bool getShowOps() const;
 
 	/**
 	 *  Set the status of whether to show Operations
 	 *
 	 * @param _show		True if operations shall be shown.
 	 */
-	virtual void setShowOps(bool _show);
+	void setShowOps(bool _show);
 
 	/**
 	 * Toggles the status of showing operations.
 	 */
-	virtual void toggleShowOps();
+	void toggleShowOps();
 
 	/**
 	 * Return true if public operations/attributes are shown only.
 	 */
-	virtual bool getShowPublicOnly() const;
+	bool getShowPublicOnly() const;
 
 	/**
 	 * Set whether to show public operations/attributes only.
 	 */
-	virtual void setShowPublicOnly(bool _status);
+	void setShowPublicOnly(bool _status);
 
 	/**
 	 * Toggle whether to show public operations/attributes only.
 	 */
-	virtual void toggleShowPublicOnly();
+	void toggleShowPublicOnly();
 
 	/**
 	 * Returns the status of whether to show scope.
 	 *
 	 * @return	True if scope is shown.
 	 */
-	virtual bool getShowScope() const;
+	bool getShowScope() const;
 
 	/**
 	 * Set the status of whether to show scope
 	 *
 	 * @param _scope	True if scope shall be shown.
 	 */
-	virtual void setShowScope(bool _scope);
+	void setShowScope(bool _scope);
 
 	/**
 	 * Toggles the status of whether to show scope
 	 */
-	virtual void toggleShowScope();
+	void toggleShowScope();
 
 	/**
 	 * Return the status of showing operation signatures.
 	 *
 	 * @return	Status of showing operation signatures.
 	 */
-	virtual Uml::Signature_Type getShowOpSigs() const;
+	Uml::Signature_Type getShowOpSigs() const;
 
 	/**
 	 * Set the status of whether to show Operation signature
 	 *
 	 * @param _show		True if operation signatures shall be shown.
 	 */
-	virtual void setShowOpSigs(bool _show);
+	void setShowOpSigs(bool _show);
 
 	/**
 	 * Toggles the status of showing operation signatures.
 	 */
-	virtual void toggleShowOpSigs();
+	void toggleShowOpSigs();
 
 	/**
 	 * Returns the status of whether to show Package.
 	 *
 	 * @return	True if package is shown.
 	 */
-	virtual bool getShowPackage() const;
+	bool getShowPackage() const;
 
 	/**
 	 * Set the status of whether to show Package.
 	 *
 	 * @param _show		True if package shall be shown.
 	 */
-	virtual void setShowPackage(bool _status);
+	void setShowPackage(bool _status);
 
 	/**
 	 * Toggles the status of whether to show package.
 	 */
-	virtual void toggleShowPackage();
+	void toggleShowPackage();
 
 	/**
 	 * Set the type of signature to display for an Operation
 	 *
 	 * @param sig	Type of signature to display for an operation.
 	 */
-	virtual void setOpSignature(Uml::Signature_Type sig);
+	void setOpSignature(Uml::Signature_Type sig);
 
 	/**
 	 * Return the number of displayed attributes.
@@ -154,22 +171,137 @@ public:
 	int displayedOperations();
 
 	/**
+	 * Returns whether to show attributes.
+	 * Only applies when m_pObject->getBaseType() is ot_Class.
+	 *
+	 * @return	True if attributes are shown.
+	 */
+	bool getShowAtts() const {
+		return m_bShowAttributes;
+	}
+
+	/**
+	 * Toggles whether to show attributes.
+	 * Only applies when m_pObject->getBaseType() is ot_Class.
+	 */
+	void toggleShowAtts();
+
+	/**
+	 * Returns whether to show attribute signatures.
+	 * Only applies when m_pObject->getBaseType() is ot_Class.
+	 *
+	 * @return	Status of how attribute signatures are shown.
+	 */
+	Uml::Signature_Type getShowAttSigs() {
+		return m_ShowAttSigs;
+	}
+
+	/**
+	 * Toggles whether to show attribute signatures.
+	 * Only applies when m_pObject->getBaseType() is ot_Class.
+	 */
+	void toggleShowAttSigs();
+
+	/**
+	 * Sets whether to show attributes.
+	 * Only applies when m_pObject->getBaseType() is ot_Class.
+	 *
+	 * @param _show		True if attributes shall be shown.
+	 */
+	void setShowAtts(bool _show);
+
+	/**
+	 * Sets whether to show attribute signature
+	 * Only applies when m_pObject->getBaseType() is ot_Class.
+	 *
+	 * @param _show		True if attribute signatures shall be shown.
+	 */
+	void setShowAttSigs(bool _show);
+
+	/**
+	 * Sets the type of signature to display for an attribute.
+	 * Only applies when m_pObject->getBaseType() is ot_Class.
+	 *
+	 * @param sig	Type of signature to display for an attribute.
+	 */
+	void setAttSignature(Uml::Signature_Type sig);
+
+	/**
+	 * Returns whether to draw as circle.
+	 * Only applies when m_pObject->getBaseType() is ot_Interface.
+	 *
+	 * @return	True if widget is drawn as circle.
+	 */
+	bool getDrawAsCircle() const;
+
+	/**
+	 * Toggles whether to draw as circle.
+	 * Only applies when m_pObject->getBaseType() is ot_Interface.
+	 */
+	void toggleDrawAsCircle();
+
+	/**
+	 * Sets whether to draw as circle.
+	 * Only applies when m_pObject->getBaseType() is ot_Interface.
+	 *
+	 * @param _show		True if widget shall be drawn as circle.
+	 */
+	void setDrawAsCircle(bool drawAsCircle);
+
+	/**
+	 * Set the AssociationWidget when this ClassWidget acts as
+	 * an association class.
+	 */
+	void setClassAssocWidget(AssociationWidget *assocwidget);
+
+	/**
+	 * Return the AssociationWidget when this classifier acts as
+	 * an association class (else return NULL.)
+	 */
+	AssociationWidget *getClassAssocWidget();
+
+	/**
+	 * Return the UMLClassifier which this ClassifierWidget
+	 * represents.
+	 */
+	UMLClassifier *getClassifier();
+
+	/**
 	 * Activate the object after serializing it from a QDataStream.
 	 */
-	virtual bool activate(IDChangeLog* ChangeLog  = 0 );
+	bool activate(IDChangeLog* ChangeLog  = 0 );
 
 	/**
 	 * Overrides standard method.
 	 * Auxiliary to reimplementations in the derived classes.
 	 */
-	virtual void draw(QPainter & p, int offsetX, int offsetY);
+	void draw(QPainter & p, int offsetX, int offsetY);
+
+	/**
+	 * Creates the <classwidget> or <interfacewidget >XML element.
+	 */
+	void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
+
+	/**
+	 * Loads the <classwidget> or <interfacewidget> XML element.
+	 */
+	bool loadFromXMI(QDomElement & qElement);
+
+public slots:
+	/**
+	 * Will be called when a menu selection has been made from the
+	 * popup menu.
+	 *
+	 * @param sel	The selection id that has been selected.
+	 */
+	void slotMenuSelection(int sel);
 
 protected:
 
 	/**
 	 * Initializes key variables of the class.
 	 */
-	virtual void init(Uml::Widget_Type wt);
+	void init();
 
 	/**
 	 * Calculcates the size of the templates box in the top left
@@ -180,9 +312,9 @@ protected:
 	QSize calculateTemplatesBoxSize();
 
 	/**
-	 * Abstract method for automatically computing the size of the object.
+	 * Method for automatically computing the size of the object.
 	 */
-	virtual void calculateSize() = 0;
+	void calculateSize();
 
 	/**
 	 * Auxiliary method for calculateSize():
@@ -193,13 +325,31 @@ protected:
 	 * @param height	Return value: the computed height.
 	 * @param showStereotype True to include the stereotype.
 	 */
-	virtual void computeBasicSize(int &width, int &height,
+	void computeBasicSize(int &width, int &height,
 				      bool showStereotype = true);
+
+	/**
+	 * Draws the interface as a circle with name underneath.
+	 * Only applies when m_pObject->getBaseType() is ot_Interface.
+	 */
+	void drawAsCircle(QPainter& p, int offsetX, int offsetY);
+
+	/**
+	 * Calculates the size of the object when drawn as a circle.
+	 * Only applies when m_pObject->getBaseType() is ot_Interface.
+	 */
+	void calculateAsCircleSize();
+
+	/**
+	 * Automatically calculates the size of the object when drawn as
+	 * a concept.
+	 */
+	void calculateAsConceptSize();
 
 	/**
 	 * Updates m_ShowOpSigs to match m_bShowScope.
 	 */
-	virtual void updateSigs();
+	void updateSigs();
 
 	/**
 	 * Return the number of displayed members of the given Object_Type.
@@ -227,6 +377,7 @@ protected:
 	bool m_bShowPackage;               ///< Loaded/saved item.
 	bool m_bShowStereotype;            ///< Loaded/saved item.
 	bool m_bShowAttributes;            ///< Loaded/saved item.
+	bool m_bDrawAsCircle;              ///< Loaded/saved item.
 	Uml::Signature_Type m_ShowAttSigs; ///< Loaded/saved item.
 	Uml::Signature_Type m_ShowOpSigs;  ///< Loaded/saved item.
 
@@ -235,8 +386,20 @@ protected:
 	 */
 	static const int MARGIN;
 
-	// Auxiliary variables for size calculations and drawing
+	/**
+	 * Size of circle when interface is rendered as such
+	 */
+	static const int CIRCLE_SIZE;
+
+	/// Auxiliary variables for size calculations and drawing
 	int m_bodyOffsetY, m_w, m_h;
+
+	/**
+	 * The related AssociationWidget in case this classifier
+	 * acts as an association class
+	 */
+	AssociationWidget *m_pAssocWidget;
+
 };
 
 #endif

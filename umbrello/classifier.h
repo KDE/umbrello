@@ -18,6 +18,8 @@
 #include "umltemplatelist.h"
 #include "model_utils.h"
 
+// forward declarations
+class UMLAssociation;
 class IDChangeLog;
 
 /**
@@ -51,8 +53,10 @@ public:
 	 *
 	 * @param name		The name of the Concept.
 	 * @param id		The unique id of the Concept.
+	 * @param bIsInterface	True if this classifier shall be an interface.
 	 */
-	UMLClassifier(const QString & name = "", Uml::IDType id = Uml::id_None);
+	UMLClassifier(const QString & name = "", Uml::IDType id = Uml::id_None,
+		      bool bIsInterface = false);
 
 	/**
 	 * Standard deconstructor.
@@ -71,11 +75,85 @@ public:
 	virtual void copyInto(UMLClassifier *rhs) const;
 
 	/**
-	 * Make a clone of this object. This function is abstract
-	 * since it is not possible to realise a clone. It has other abstract
-	 * functions. Underlying classes must implement the clone functionality.
+	 * Make a clone of this object.
 	 */
-	virtual UMLObject* clone() const = 0;
+	UMLObject* clone() const;
+
+	/**
+	 * Creates an attribute for the class.
+	 *
+	 * @param name  An optional name, used by when creating through UMLListView
+	 * @return	The UMLAttribute created
+	 */
+	UMLObject* createAttribute(const QString &name = QString::null);
+
+	/**
+	 * Adds an attribute to the class.
+	 * If an attribute of the given name already exists, then
+	 * returns the existing attribute instead of creating a new one.
+	 *
+	 * @param name		The name of the attribute.
+	 * @param id		The id of the attribute (optional.)
+	 *                      If not given, and the attribute name
+	 *                      does not already exist, then the method
+	 *                      will internally assign a new ID.
+	 * @return	Pointer to the UMLAttribute created or found.
+	 */
+	UMLAttribute* addAttribute(const QString &name, Uml::IDType id = Uml::id_None);
+
+	UMLAttribute* addAttribute(const QString &name, UMLObject *type, Uml::Scope scope);
+
+	/**
+	 * Adds an already created attribute.
+	 * The attribute object must not belong to any other concept.
+	 *
+	 * @param Att		Pointer to the UMLAttribute.
+	 * @param Log		Pointer to the IDChangeLog (optional.)
+	 * @param position	Position index for the insertion (optional.)
+	 *			If the position is omitted, or if it is
+	 *			negative or too large, the attribute is added
+	 *			to the end of the list.
+	 * @return	True if the attribute was sucessfully added.
+	 */
+	bool addAttribute(UMLAttribute* Att, IDChangeLog* Log = 0,
+			  int position = -1);
+
+	/**
+	 * Removes an attribute from the class.
+	 *
+	 * @param a		The attribute to remove.
+	 * @return	Count of the remaining attributes after removal.
+	 *		Returns -1 if the given attribute was not found.
+	 */
+	int removeAttribute(UMLObject *a);
+
+	/**
+	 * Take and return an attribute from class.
+	 * It is the callers responsibility to pass on ownership of
+	 * the returned attribute (or to delete the attribute)
+	 *
+	 * @param  a		attribute to take
+	 * @param wasAtIndex	if given, the index in m_List of the item taken
+	 *			is returned in the int pointed-to.
+	 * @return	pointer to the attribute or null if not found.
+	 */
+	UMLAttribute* takeAttribute(UMLAttribute* a, int *wasAtIndex = NULL);
+
+	/**
+	 * Returns the number of attributes for the class.
+	 *
+	 * @return	The number of attributes for the class.
+	 */
+	int attributes();
+
+	/**
+	 * Returns the attributes.
+	 * Same as UMLClassifier::getFilteredList(ot_Attribute) but
+	 * return type is a true UMLAttributeList.
+	 *
+	 * @return	List of true attributes for the class.
+	 */
+	UMLAttributeList getAttributeList();
 
 	/**
 	 * Creates an operation in the current document.
@@ -326,18 +404,31 @@ public:
 	/** reimplemented from UMLObject */
 	virtual bool acceptAssociationType(Uml::Association_Type);
 
-	//
-	// now a number of pure virtual methods..
-	//
+	/**
+	 * Sets the UMLAssociation for which this class shall act as an
+	 * association class.
+	 */
+	void setClassAssoc(UMLAssociation *assoc);
+
+	/**
+	 * Returns the UMLAssociation for which this class acts as an
+	 * association class. Returns NULL if this class does not act
+	 * as an association class.
+	 */
+	UMLAssociation *getClassAssoc();
+
+	/**
+	 * Controls whether this classifier represents an interface.
+	 */
+	void setInterface(bool b = true);
 
 	/**
 	 * Returns true if this classifier represents an interface.
-	 * This method must be implemented by the inheriting classes.
 	 */
-	virtual bool isInterface () = 0;
+	virtual bool isInterface() const;
 
 	/**
-	 * return back whether or not this classfiier has abstract operations in it.
+	 * Return true if this classifier has abstract operations.
 	 */
 	bool hasAbstractOps ();
 
@@ -355,6 +446,10 @@ signals:
 	void templateAdded(UMLObject*);
 	void templateRemoved(UMLObject*);
 
+	// only applies when (m_Type == ot_Class)
+	void attributeAdded(UMLObject*);
+	void attributeRemoved(UMLObject*);
+
 protected:
 
 	/**
@@ -367,7 +462,9 @@ private:
 	/**
 	 * Initializes key variables of the class.
 	 */
-	void init();
+	void init(bool bIsInterface = false);
+
+	UMLAssociation *m_pClassAssoc;
 
 protected:
 
@@ -385,14 +482,6 @@ protected:
 	 * to load its additional tags.
 	 */
 	virtual bool load(QDomElement& element);
-
-	/**
-	 * Auxiliary to load().
-	 * The implementation is empty here.
-	 * Child classes can override this method to implement
-	 * the loading of additional tags.
-	 */
-	virtual bool loadSpecialized(QDomElement& element);
 
 };
 

@@ -461,6 +461,7 @@ void UMLApp::initView() {
 
 	m_listDock = createDockWidget( "Model", 0L, 0L, i18n("&Tree View") );
 	m_listView = new UMLListView(m_listDock ,"LISTVIEW");
+	//m_listView->setSorting(-1);
 	m_listDock->setWidget(m_listView);
 	m_listDock->setDockSite(KDockWidget::DockCorner);
 	m_listDock->manualDock(m_mainDock, KDockWidget::DockLeft, 20);

@@ -36,7 +36,6 @@
 #include "codegenerators/simplecodegenerator.h"
 #include "attribute.h"
 #include "associationwidget.h"
-#include "class.h"
 #include "classifier.h"
 #include "classifiercodedocument.h"
 #include "codedocument.h"
@@ -644,9 +643,8 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLClassifierList &cLis
 	}
 
 	//attributes
-	UMLClass * myClass = dynamic_cast<UMLClass*>(c);
-	if(myClass) {
-		UMLAttributeList atl = myClass->getAttributeList();
+	if (!c->isInterface()) {
+		UMLAttributeList atl = c->getAttributeList();
 		for (UMLAttribute *at = atl.first(); at; at = atl.next()) {
 			temp=0;
 			temp =(UMLClassifier*) m_document->findUMLClassifier(at->getTypeName());

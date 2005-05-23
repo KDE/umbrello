@@ -33,7 +33,6 @@
 
 // app includes
 #include "../entityattribute.h"
-#include "../interface.h"
 #include "../classifier.h"
 #include "../umldoc.h"
 #include "../uml.h"

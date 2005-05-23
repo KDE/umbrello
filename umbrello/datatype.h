@@ -71,11 +71,6 @@ public:
 	void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
 	/**
-	 * returns false
-	 */
-	virtual bool isInterface();
-
-	/**
 	 * Set the origin type (in case of e.g. typedef)
 	 */
 	void setOriginType(UMLClassifier *origType);

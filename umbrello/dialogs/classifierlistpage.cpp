@@ -10,7 +10,7 @@
 #include "classifierlistpage.h"
 #include "../classifierlistitem.h"
 #include "../umldoc.h"
-#include "../class.h"
+#include "../classifier.h"
 #include "../enum.h"
 #include "../entity.h"
 #include "../attribute.h"
@@ -424,20 +424,16 @@ UMLClassifierListItemList ClassifierListPage::getItemList() {
 bool ClassifierListPage::addClassifier(UMLClassifierListItem* listitem, int position) {
 	switch (m_itemType) {
 		case ot_Attribute: {
-			UMLClass* c = dynamic_cast<UMLClass*>(m_pClassifier);
-			if (c) {
-				return c->addAttribute(dynamic_cast<UMLAttribute*>(listitem), NULL, position);
-			}
-			break;
+			UMLAttribute *att = dynamic_cast<UMLAttribute*>(listitem);
+			return m_pClassifier->addAttribute(att, NULL, position);
 		}
 		case ot_Operation: {
-			return m_pClassifier->addOperation(dynamic_cast<UMLOperation*>(listitem), position);
-		case ot_Template:
-			UMLClass* c = dynamic_cast<UMLClass*>(m_pClassifier);
-			if (c) {
-				return c->addTemplate(dynamic_cast<UMLTemplate*>(listitem), position);
-			}
-			break;
+			UMLOperation *op = dynamic_cast<UMLOperation*>(listitem);
+			return m_pClassifier->addOperation(op, position);
+		}
+		case ot_Template: {
+			UMLTemplate* t = dynamic_cast<UMLTemplate*>(listitem);
+			return m_pClassifier->addTemplate(t, position);
 		}
 		case ot_EnumLiteral: {
 			UMLEnum* c = dynamic_cast<UMLEnum*>(m_pClassifier);
@@ -466,21 +462,16 @@ UMLClassifierListItem* ClassifierListPage::takeClassifier(UMLClassifierListItem*
 							  int &wasAtIndex) {
 	switch (m_itemType) {
 		case ot_Attribute: {
-			UMLClass* c = dynamic_cast<UMLClass*>(m_pClassifier);
-			if (c) {
-				return c->takeAttribute(dynamic_cast<UMLAttribute*>(listitem), &wasAtIndex);
-			}
-			break;
+			UMLAttribute *att = dynamic_cast<UMLAttribute*>(listitem);
+			return m_pClassifier->takeAttribute(att, &wasAtIndex);
 		}
 		case ot_Operation: {
-			return m_pClassifier->takeOperation(dynamic_cast<UMLOperation*>(listitem), &wasAtIndex);
+			UMLOperation *op = dynamic_cast<UMLOperation*>(listitem);
+			return m_pClassifier->takeOperation(op, &wasAtIndex);
 		}
 		case ot_Template: {
-			UMLClass* c = dynamic_cast<UMLClass*>(m_pClassifier);
-			if (c) {
-				return c->takeTemplate(dynamic_cast<UMLTemplate*>(listitem), &wasAtIndex);
-			}
-			break;
+			UMLTemplate* t = dynamic_cast<UMLTemplate*>(listitem);
+			return m_pClassifier->takeTemplate(t, &wasAtIndex);
 		}
 		case ot_EnumLiteral: {
 			UMLEnum* c = dynamic_cast<UMLEnum*>(m_pClassifier);

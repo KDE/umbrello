@@ -70,10 +70,6 @@ void UMLDatatype::init() {
 	m_isRef = false;
 }
 
-bool UMLDatatype::isInterface() {
-	return false;
-}
-
 void UMLDatatype::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
 	QDomElement classElement = UMLObject::save("UML:DataType", qDoc);
 	if (m_pSecondary)

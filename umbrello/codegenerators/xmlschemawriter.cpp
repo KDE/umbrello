@@ -22,8 +22,7 @@
 #include <qregexp.h>
 
 #include "../umldoc.h"
-#include "../class.h"
-#include "../interface.h"
+#include "../classifier.h"
 #include "../operation.h"
 #include "../umlnamespace.h"
 
@@ -179,7 +178,7 @@ void XMLSchemaWriter::writeClassifier (UMLClassifier *c, QTextStream &XMLschema)
 	if(forceDoc() || !c->getDoc().isEmpty())
 		writeComment(c->getDoc(),XMLschema);
 
-	if(c->getAbstract() || dynamic_cast<UMLInterface*>(c) )
+	if(c->getAbstract() || c->isInterface() )
 		writeAbstractClassifier(c,XMLschema); // if its an interface or abstract class
 	else
 		writeConcreteClassifier(c,XMLschema);
@@ -192,9 +191,8 @@ UMLAttributeList XMLSchemaWriter::findAttributes (UMLClassifier *c)
 	UMLAttributeList attribs;
 	attribs.setAutoDelete(false);
 
-	UMLClass * myClass = dynamic_cast<UMLClass*>(c);
-	if(myClass) {
-	        UMLAttributeList atl = myClass->getAttributeList();
+	if (!c->isInterface()) {
+	        UMLAttributeList atl = c->getAttributeList();
 	        for(UMLAttribute *at=atl.first(); at ; at=atl.next()) {
 	                switch(at->getScope())
 	                {
@@ -423,9 +421,8 @@ QStringList XMLSchemaWriter::findAttributeGroups (UMLClassifier *c)
 		if(classifier->getAbstract())
 		{
 			// only classes have attributes..
-			UMLClass * myClass = dynamic_cast<UMLClass*>(classifier);
-			if(myClass) {
-				UMLAttributeList attribs = myClass->getAttributeList();
+			if (!classifier->isInterface()) {
+				UMLAttributeList attribs = c->getAttributeList();
 				if (attribs.count() > 0)
 					list.append(getElementName(classifier)+"AttribGroupType");
 			}
@@ -654,7 +651,7 @@ void XMLSchemaWriter::writeAssociationRoleDecl( UMLClassifier *c, const QString 
 {
 
 	bool isAbstract = c->getAbstract();
-	bool isInterface = dynamic_cast<UMLInterface*>(c) ? true : false;
+	bool isInterface = c->isInterface();
 
 	QString elementName = getElementName(c);
 	QString doc = c->getDoc();

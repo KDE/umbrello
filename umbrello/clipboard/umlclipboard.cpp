@@ -21,7 +21,6 @@
 #include "idchangelog.h"
 #include "../associationwidget.h"
 #include "../attribute.h"
-#include "../class.h"
 #include "../classifier.h"
 #include "../floatingtext.h"
 #include "../operation.h"
@@ -595,8 +594,7 @@ bool UMLClipboard::pasteClip5(QMimeSource* data) {
 		switch(obj->getBaseType()) {
 			case Uml::ot_Attribute :
 			{
-				UMLClass *pClass = (UMLClass *)parent;
-				if (pClass->addAttribute(dynamic_cast<UMLAttribute*>(obj), idchanges)) {
+				if (parent->addAttribute(dynamic_cast<UMLAttribute*>(obj), idchanges)) {
 //FIXME					doc -> signalChildUMLObjectCreated(obj);
 				} else {
 					objectAlreadyExists = true;

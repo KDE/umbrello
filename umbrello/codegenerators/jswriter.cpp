@@ -15,7 +15,7 @@
 
 #include "jswriter.h"
 #include "../association.h"
-#include "../class.h"
+#include "../classifier.h"
 #include "../operation.h"
 #include "../umldoc.h"
 #include "../attribute.h"
@@ -121,9 +121,8 @@ void JSWriter::writeClass(UMLClassifier *c)
 
 	js << m_endl;
 
-	UMLClass *myClass = dynamic_cast<UMLClass*>(c);
-	if(myClass) {
-		UMLAttributeList atl = myClass->getAttributeList();
+	if (! c->isInterface()) {
+		UMLAttributeList atl = c->getAttributeList();
 
 		js << "/**" << m_endl;
 		QString temp = "_init sets all " + classname + " attributes to their default value."

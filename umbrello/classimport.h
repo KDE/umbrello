@@ -17,7 +17,6 @@
 
 class UMLDoc;
 class UMLObject;
-class UMLClass;
 class UMLClassifier;
 class UMLPackage;
 class UMLOperation;
@@ -58,7 +57,7 @@ public:
 	/**
 	 * Create a UMLAttribute and insert it into the document.
 	 */
-	static UMLObject* insertAttribute(UMLClass *klass, Uml::Scope scope, QString name,
+	static UMLObject* insertAttribute(UMLClassifier *klass, Uml::Scope scope, QString name,
 				   QString type, QString comment = QString::null,
 				   bool isStatic = false);
 
@@ -100,7 +99,7 @@ public:
 	 * Create a generalization from the existing child UMLObject to the given
 	 * parent class name.
 	 */
-	static void createGeneralization(UMLClass *child, const QString &parentName);
+	static void createGeneralization(UMLClassifier *child, const QString &parentName);
 
 	/**
 	 * Strip comment lines of leading whitespace and stars.

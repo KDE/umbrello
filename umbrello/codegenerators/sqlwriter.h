@@ -68,7 +68,7 @@ private:
 	 * @param c the class for which we are generating code
 	 * @param j the stream associated with the output file
 	 */
-	void writeAttributes(UMLClass *c, QTextStream &j);
+	void writeAttributes(UMLClassifier *c, QTextStream &j);
 
 	/**
 	 * Prints out attributes as columns in the table

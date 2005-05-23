@@ -47,13 +47,11 @@
 #include "actor.h"
 #include "associationwidget.h"
 #include "association.h"
-#include "class.h"
 #include "package.h"
 #include "component.h"
 #include "codegenerator.h"
 #include "node.h"
 #include "artifact.h"
-#include "interface.h"
 #include "datatype.h"
 #include "enum.h"
 #include "entity.h"
@@ -797,7 +795,6 @@ UMLObject* UMLDoc::findUMLObject(const QString &name,
 }
 
 UMLClassifier* UMLDoc::findUMLClassifier(const QString &name) {
-	// could be either UMLClass or UMLInterface..
 	//this is used only by code generator so we don't need to look at Datatypes
 	UMLObject * obj = findUMLObject(name);
 	return dynamic_cast<UMLClassifier*>(obj);
@@ -953,38 +950,6 @@ bool UMLDoc::isUnique(const QString &name, UMLPackage *package)
 	return true;
 }
 
-UMLObject* UMLDoc::createUMLObject(const std::type_info &type)
-{
-//adapter.. just transform and forward request
-	Object_Type t;
-	if ( type == typeid(UMLClass) ) {
-		t = ot_Class;
-	} else if ( type == typeid(UMLUseCase) ) {
-		t = ot_UseCase;
-	} else if ( type == typeid(UMLActor) ) {
-		t = ot_Actor;
-	} else if ( type == typeid(UMLPackage) ) {
-		t = ot_Package;
-	} else if ( type == typeid(UMLComponent) ) {
-		t = ot_Component;
-	} else if ( type == typeid(UMLNode) ) {
-		t = ot_Node;
-	} else if ( type == typeid(UMLArtifact) ) {
-		t = ot_Artifact;
-	} else if ( type == typeid(UMLInterface) )  {
-		t = ot_Interface;
-	} else if ( type == typeid(UMLDatatype) )  {
-		t = ot_Datatype;
-	} else if ( type == typeid(UMLEnum) )  {
-		t = ot_Enum;
-	} else if ( type == typeid(UMLEntity) )  {
-		t = ot_Entity;
-	} else {
-		return static_cast<UMLObject*>(0L);
-	}
-	return createUMLObject(t);
-}
-
 UMLObject* UMLDoc::createUMLObject(Object_Type type, const QString &n,
 				   UMLPackage *parentPkg /* = NULL */,
 				   bool prepend /* = false */) {
@@ -1028,7 +993,7 @@ UMLObject* UMLDoc::createUMLObject(Object_Type type, const QString &n,
 	} else if(type == ot_UseCase) {
 		o = new UMLUseCase(name);
 	} else if(type == ot_Class ) {
-		o = new UMLClass (name);
+		o = new UMLClassifier(name);
 	} else if(type == ot_Package) {
 		o = new UMLPackage(name);
 	} else if(type == ot_Component) {
@@ -1038,7 +1003,9 @@ UMLObject* UMLDoc::createUMLObject(Object_Type type, const QString &n,
 	} else if(type == ot_Artifact) {
 		o = new UMLArtifact(name);
 	} else if(type == ot_Interface) {
-		o = new UMLInterface(name);
+		UMLClassifier *c = new UMLClassifier(name);
+		c->setInterface();
+		o = c;
 	} else if(type == ot_Datatype) {
 		o = new UMLDatatype(name);
 	} else if(type == ot_Enum) {
@@ -1061,30 +1028,41 @@ UMLObject* UMLDoc::createUMLObject(Object_Type type, const QString &n,
 
 UMLObject* UMLDoc::createChildObject(UMLObject* umlobject, Object_Type type) {
 	UMLObject* returnObject = NULL;
-	if(type == ot_Attribute) {
-		UMLClass *umlclass = dynamic_cast<UMLClass *>(umlobject);
-		if (umlclass)
-			returnObject = umlclass->createAttribute();
-	} else if(type == ot_Operation) {
-		UMLClassifier *umlclassifier = dynamic_cast<UMLClassifier *>(umlobject);
-		if (umlclassifier)
-			returnObject = umlclassifier->createOperation();
-	} else if(type == ot_Template) {
-		UMLClassifier *umlclass = dynamic_cast<UMLClassifier *>(umlobject);
-		if (umlclass)
-			returnObject = umlclass->createTemplate();
-	} else if(type == ot_EnumLiteral) {
-		UMLEnum* umlenum = dynamic_cast<UMLEnum*>(umlobject);
-		if (umlenum) {
-			returnObject = umlenum->createEnumLiteral();
+	switch (type) {
+		case ot_Attribute: {
+			UMLClassifier *c = dynamic_cast<UMLClassifier*>(umlobject);
+			if (c && !c->isInterface())
+				returnObject = c->createAttribute();
+			break;
 		}
-	} else if(type == ot_EntityAttribute) {
-		UMLEntity* umlentity = dynamic_cast<UMLEntity*>(umlobject);
-		if (umlentity) {
-			returnObject = umlentity->createEntityAttribute();
+		case ot_Operation: {
+			UMLClassifier *c = dynamic_cast<UMLClassifier*>(umlobject);
+			if (c)
+				returnObject = c->createOperation();
+			break;
 		}
-	} else {
-		kdDebug() << "ERROR UMLDoc::createChildObject type:" << type << endl;
+		case ot_Template: {
+			UMLClassifier *c = dynamic_cast<UMLClassifier*>(umlobject);
+			if (c)
+				returnObject = c->createTemplate();
+			break;
+		}
+		case ot_EnumLiteral: {
+			UMLEnum* umlenum = dynamic_cast<UMLEnum*>(umlobject);
+			if (umlenum) {
+				returnObject = umlenum->createEnumLiteral();
+			}
+			break;
+		}
+		case ot_EntityAttribute: {
+			UMLEntity* umlentity = dynamic_cast<UMLEntity*>(umlobject);
+			if (umlentity) {
+				returnObject = umlentity->createEntityAttribute();
+			}
+			break;
+		}
+		default:
+			kdDebug() << "ERROR UMLDoc::createChildObject type:" << type << endl;
 	}
 	return returnObject;
 }
@@ -1418,7 +1396,7 @@ void UMLDoc::removeUMLObject(UMLObject* umlobject) {
 		} else if (type == ot_EntityAttribute) {
 			static_cast<UMLEntity*>(parent)->removeEntityAttribute(umlobject);
 		} else {
-			UMLClass* pClass = dynamic_cast<UMLClass*>(parent);
+			UMLClassifier* pClass = dynamic_cast<UMLClassifier*>(parent);
 			if (pClass == NULL)  {
 				kdError() << "UMLDoc::removeUMLObject: parent of umlobject has "
 					  << "unexpected type " << parent->getBaseType() << endl;
@@ -2254,7 +2232,7 @@ UMLObject* UMLDoc::makeNewClassifierObject(QString type, UMLClassifier *parent) 
 	} else if (tagEq(type, "Attribute")) {
 		if (parent->getBaseType() != Uml::ot_Class)
 			return NULL;
-		UMLClass *pClass = static_cast<UMLClass*>(parent);
+		UMLClassifier *pClass = static_cast<UMLClassifier*>(parent);
 		pObject = new UMLAttribute(pClass);
 	} else if (tagEq(type, "Template")) {
 		pObject = new UMLTemplate(parent);
@@ -2269,7 +2247,7 @@ UMLObject* UMLDoc::makeNewUMLObject(const QString &type) {
 	} else if (tagEq(type, "Actor")) {
 		pObject = new UMLActor();
 	} else if (tagEq(type, "Class")) {
-		pObject = new UMLClass();
+		pObject = new UMLClassifier();
 	} else if (tagEq(type, "Package")) {
 		pObject = new UMLPackage();
 	} else if (tagEq(type, "Component")) {
@@ -2279,7 +2257,9 @@ UMLObject* UMLDoc::makeNewUMLObject(const QString &type) {
 	} else if (tagEq(type, "Artifact")) {
 		pObject = new UMLArtifact();
 	} else if (tagEq(type, "Interface")) {
-		pObject = new UMLInterface();
+		UMLClassifier *c = new UMLClassifier();
+		c->setInterface();
+		pObject = c;
 	} else if (tagEq(type, "DataType") || tagEq(type, "Primitive")
 		|| tagEq(type, "Datatype")) {	// for bkwd compat.
 		pObject = new UMLDatatype();
@@ -2395,19 +2375,19 @@ UMLClassifierList UMLDoc::getConcepts(bool includeNested /* =true */) {
 			conceptList.append((UMLClassifier *)obj);
 		} else if (includeNested && ot == ot_Package) {
 			UMLPackage *pkg = static_cast<UMLPackage *>(obj);
-			pkg->appendClassifiers(conceptList);
+			pkg->appendInterfaces(conceptList);
 		}
 	}
 	return conceptList;
 }
 
-UMLClassList UMLDoc::getClasses(bool includeNested /* =true */) {
-	UMLClassList conceptList;
+UMLClassifierList UMLDoc::getClasses(bool includeNested /* =true */) {
+	UMLClassifierList conceptList;
 	for (UMLObjectListIt oit(m_objectList); oit.current(); ++oit) {
 		UMLObject *obj = oit.current();
 		Uml::Object_Type ot = obj->getBaseType();
 		if (ot == ot_Class)  {
-			conceptList.append((UMLClass *)obj);
+			conceptList.append((UMLClassifier*)obj);
 		} else if (includeNested && ot == ot_Package) {
 			UMLPackage *pkg = static_cast<UMLPackage *>(obj);
 			pkg->appendClasses(conceptList);
@@ -2431,13 +2411,14 @@ UMLClassifierList UMLDoc::getClassesAndInterfaces(bool includeNested /* =true */
 	return conceptList;
 }
 
-UMLInterfaceList UMLDoc::getInterfaces(bool includeNested /* =true */) {
-	UMLInterfaceList interfaceList;
+UMLClassifierList UMLDoc::getInterfaces(bool includeNested /* =true */) {
+	UMLClassifierList interfaceList;
 	for (UMLObjectListIt oit(m_objectList); oit.current(); ++oit) {
 		UMLObject *obj = oit.current();
 		Uml::Object_Type ot = obj->getBaseType();
 		if (ot == ot_Interface) {
-			interfaceList.append((UMLInterface*)obj);
+			UMLClassifier *c = static_cast<UMLClassifier*>(obj);
+			interfaceList.append(c);
 		} else if (includeNested && ot == ot_Package) {
 			UMLPackage *pkg = static_cast<UMLPackage *>(obj);
 			pkg->appendInterfaces(interfaceList);
@@ -2524,14 +2505,14 @@ bool UMLDoc::assignNewIDs(UMLObject* Obj) {
 
 	//If it is a CONCEPT then change the ids of all its operations and attributes
 	if(Obj->getBaseType() == ot_Class ) {
-
-		UMLClassifierListItemList attributes = ((UMLClass *)Obj)->getFilteredList(ot_Attribute);
+		UMLClassifier *c = static_cast<UMLClassifier*>(Obj);
+		UMLClassifierListItemList attributes = c->getFilteredList(ot_Attribute);
 		for(UMLObject* listItem = attributes.first(); listItem; listItem = attributes.next()) {
 			result = assignNewID(listItem->getID());
 			listItem->setID(result);
 		}
 
-		UMLClassifierListItemList templates = ((UMLClass *)Obj)->getFilteredList(ot_Template);
+		UMLClassifierListItemList templates = c->getFilteredList(ot_Template);
 		for(UMLObject* listItem = templates.first(); listItem; listItem = templates.next()) {
 			result = assignNewID(listItem->getID());
 			listItem->setID(result);

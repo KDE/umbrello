@@ -17,8 +17,6 @@
 
 #include "umlcanvasobject.h"
 #include "umlclassifierlist.h"
-#include "umlclasslist.h"
-#include "umlinterfacelist.h"
 
 /**
  * This class contains the non-graphical information required for a UML
@@ -117,13 +115,13 @@ public:
 
 	/**
 	 * Append all classes from this package (and those from
-	 * nested packages) to the given UMLClassList.
+	 * nested packages) to the given UMLClassifierList.
 	 *
 	 * @param classes		The list to append to.
 	 * @param includeNested		Whether to include the classes from
 	 *				nested packages (default: true.)
 	 */
-	void appendClasses( UMLClassList& classes, bool includeNested = true );
+	void appendClasses( UMLClassifierList& classes, bool includeNested = true );
 
 	/**
 	 * Append all classes and interfaces from this package (and those
@@ -138,13 +136,13 @@ public:
 
 	/**
 	 * Append all interfaces from this package (and those from
-	 * nested packages) to the given UMLInterfaceList.
+	 * nested packages) to the given UMLClassifierList.
 	 *
 	 * @param interfaces		The list to append to.
 	 * @param includeNested		Whether to include the interfaces from
 	 *				nested packages (default: true.)
 	 */
-	void appendInterfaces(UMLInterfaceList& interfaces,
+	void appendInterfaces(UMLClassifierList& interfaces,
 				bool includeNested = true );
 
 	/**

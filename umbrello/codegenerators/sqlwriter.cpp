@@ -23,7 +23,7 @@
 #include <qtextstream.h>
 #include <qregexp.h>
 
-#include "../class.h"
+#include "../classifier.h"
 #include "../operation.h"
 #include "../umlnamespace.h"
 #include "../association.h"
@@ -43,7 +43,7 @@ void SQLWriter::writeClass(UMLClassifier *c) {
 		return;
 	}
 
-	UMLClass * myClass = dynamic_cast<UMLClass*>(c);
+	const bool isClass = !c->isInterface();
 	QString classname = cleanName(c->getName());
 	QString fileName = c->getName().lower();
 
@@ -82,8 +82,8 @@ void SQLWriter::writeClass(UMLClassifier *c) {
 
 	sql << "CREATE TABLE "<< classname << " ( " << m_endl;
 
-	if(myClass)
-		writeAttributes(myClass,sql);
+	if (isClass)
+		writeAttributes(c, sql);
 
 	UMLAssociationList aggregations = c->getAggregations();
 	if( forceSections() || !aggregations.isEmpty() ) {
@@ -106,7 +106,7 @@ void SQLWriter::writeClass(UMLClassifier *c) {
 }
 
 
-void SQLWriter::writeAttributes(UMLClass *c, QTextStream &sql) {
+void SQLWriter::writeAttributes(UMLClassifier *c, QTextStream &sql) {
 	UMLAttributeList atpub, atprot, atpriv;
 	atpub.setAutoDelete(false);
 	atprot.setAutoDelete(false);

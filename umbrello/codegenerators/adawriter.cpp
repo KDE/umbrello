@@ -26,7 +26,7 @@
 #include <qregexp.h>
 
 #include "../umldoc.h"
-#include "../class.h"
+#include "../classifier.h"
 #include "../enum.h"
 #include "../classifierlistitem.h"
 #include "../umlclassifierlistitemlist.h"
@@ -80,10 +80,6 @@ bool AdaWriter::isOOClass(UMLClassifier *c) {
 	if (stype == "CORBAConstant" || stype == "CORBATypedef" ||
 	    stype == "CORBAStruct" || stype == "CORBAUnion")
 		return false;
-	UMLClass *cl = static_cast<UMLClass *>(c);
-	if (cl->isEnumeration())
-		return false;
-
 	// CORBAValue, CORBAInterface, and all empty/unknown stereotypes are
 	// assumed to be OO classes.
 	return true;
@@ -142,7 +138,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 		return;
 	}
 
-	UMLClass * myClass = dynamic_cast<UMLClass*>(c);
+	const bool isClass = !c->isInterface();
 	QString classname = cleanName(c->getName());
 	QString fileName = qualifiedName(c).lower();
 	fileName.replace('.', '-');
@@ -241,23 +237,9 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 		QString stype = c->getStereotype(false);
 		if (stype == "CORBAConstant") {
 			ada << getIndent() << "-- " << stype << " is Not Yet Implemented" << m_endl << m_endl;
-		} else if (myClass && myClass->isEnumeration()) {
-			UMLAttributeList atl = myClass->getAttributeList();
-			UMLAttribute *at;
-			ada << getIndent() << "type " << classname << " is (" << m_endl;
-			m_indentLevel++;
-			uint i = 0;
-			for (at = atl.first(); at; at = atl.next()) {
-				QString enumLiteral = cleanName(at->getName());
-				ada << getIndent() << enumLiteral;
-				if (++i < atl.count())
-					ada << "," << m_endl;
-			}
-			m_indentLevel--;
-			ada << ");" << m_endl << m_endl;
 		} else if(stype == "CORBAStruct") {
-			if(myClass) {
-				UMLAttributeList atl = myClass->getAttributeList();
+			if (isClass) {
+				UMLAttributeList atl = c->getAttributeList();
 				UMLAttribute *at;
 				ada << getIndent() << "type " << classname << " is record" << m_endl;
 				m_indentLevel++;
@@ -310,11 +292,11 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 
 	// Generate accessors for public attributes.
 	UMLAttributeList atl;
-	if(myClass) {
+	if (isClass) {
 		UMLAttributeList atpub;
 		atpub.setAutoDelete(false);
 
-		atl = myClass->getAttributeList();
+		atl = c->getAttributeList();
 
 		UMLAttribute *at;
 		for (at = atl.first(); at; at = atl.next()) {
@@ -419,7 +401,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 		ada << endl;
 	}
 
-	if (myClass && (forceSections() || atl.count())) {
+	if (isClass && (forceSections() || atl.count())) {
 		ada << getIndent() << "-- Attributes:" << m_endl;
 		UMLAttribute *at;
 		for (at = atl.first(); at; at = atl.next()) {
@@ -432,7 +414,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 			ada << ";" << m_endl;
 		}
 	}
-	bool haveAttrs = (myClass && atl.count());
+	bool haveAttrs = (isClass && atl.count());
 	if (aggregations.isEmpty() && compositions.isEmpty() && !haveAttrs)
 		ada << getIndent() << "null;" << m_endl;
 	m_indentLevel--;

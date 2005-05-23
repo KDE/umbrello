@@ -29,7 +29,7 @@
 
 // app includes
 #include "../template.h"
-#include "../class.h"
+#include "../classifier.h"
 #include "../umldoc.h"
 #include "../uml.h"
 #include "../dialog_utils.h"
@@ -126,7 +126,7 @@ bool UMLTemplateDialog::apply() {
 		return false;
 	}
 
-	UMLClass * pClass = dynamic_cast<UMLClass *>( m_pTemplate->parent() );
+	UMLClassifier * pClass = dynamic_cast<UMLClassifier *>( m_pTemplate->parent() );
 	if (pClass) {
 		UMLObjectList list= pClass->findChildObject(Uml::ot_Attribute, name);
 		if( list.count() != 0 && list.findRef( m_pTemplate ) ) {

@@ -19,7 +19,7 @@
 #include <klocale.h>
 // local includes
 #include "umlobject.h"
-#include "class.h"
+#include "classifier.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "umllistview.h"
@@ -30,7 +30,7 @@
 #include "listpopupmenu.h"
 #include "classifier.h"
 #include "associationwidget.h"
-#include "classwidget.h"
+#include "classifierwidget.h"
 #include "dialogs/settingsdlg.h"
 #include "codedocument.h"
 #include "floatingtext.h"
@@ -257,7 +257,7 @@ void UMLWidget::mouseMoveEvent(QMouseEvent* me) {
 			//adjustAssocs(newX, newY);
 			adjustUnselectedAssocs(newX, newY);
 			if (m_Type == Uml::wt_Class) {
-				ClassWidget *cw = static_cast<ClassWidget*>(this);
+				ClassifierWidget *cw = static_cast<ClassifierWidget*>(this);
 				AssociationWidget *clAssocW = cw->getClassAssocWidget();
 				if (clAssocW)
 					clAssocW->computeAssocClassLine();

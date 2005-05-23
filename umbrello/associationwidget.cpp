@@ -30,8 +30,8 @@
 #include "messagewidget.h"
 #include "umlrole.h"
 #include "listpopupmenu.h"
-#include "classwidget.h"
-#include "class.h"
+#include "classifierwidget.h"
+#include "classifier.h"
 #include "attribute.h"
 #include "operation.h"
 #include "association.h"
@@ -2128,7 +2128,7 @@ void AssociationWidget::mouseReleaseEvent(QMouseEvent * me) {
 		m_nLinePathSegmentIndex = m_LinePath.onLinePath(p);
 		if (m_nLinePathSegmentIndex < 0)
 			return;
-		m_pAssocClassWidget = static_cast<ClassWidget*>(otherWidget);
+		m_pAssocClassWidget = static_cast<ClassifierWidget*>(otherWidget);
 		m_pAssocClassWidget->setClassAssocWidget(this);
 		createAssocClassLine();
 		return;
@@ -3310,7 +3310,7 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
 		Uml::IDType acid = STR2ID(assocclassid);
 		UMLWidget *w = Umbrello::findWidget(acid, widgets);
 		if (w) {
-			m_pAssocClassWidget = static_cast<ClassWidget*>(w);
+			m_pAssocClassWidget = static_cast<ClassifierWidget*>(w);
 			m_pAssocClassWidget->setClassAssocWidget(this);
 			// Preparation of the assoc class line is done in activate()
 			QString aclsegindex = qElement.attribute("aclsegindex", "0");

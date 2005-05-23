@@ -31,7 +31,6 @@
 #include "../umlview.h"
 #include "../umldoc.h"
 #include "../uml.h"
-#include "../classwidget.h"
 #include "diagrampropertiespage.h"
 
 UMLViewDialog::UMLViewDialog( QWidget * pParent, UMLView * pView ) : KDialogBase(IconList, i18n("Properties"), Ok | Apply | Cancel | Help,

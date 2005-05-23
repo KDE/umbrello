@@ -27,8 +27,7 @@
 #include <kdebug.h>
 // app includes
 #include "../umldoc.h"
-#include "../class.h"
-#include "../interface.h"
+#include "../classifier.h"
 #include "../operation.h"
 #include "../attribute.h"
 #include "../association.h"
@@ -58,10 +57,7 @@ void JavaWriter::writeClass(UMLClassifier *c)
 		return;
 	}
 
-	if(dynamic_cast<UMLInterface*>(c))
-		isInterface = true;
-	else
-		isInterface = false;
+	isInterface = c->isInterface();
 
 	QString fileName = cleanName(c->getName().lower());
 
@@ -93,10 +89,8 @@ void JavaWriter::writeClass(UMLClassifier *c)
 	atpriv.setAutoDelete(false);
 	final_atpriv.setAutoDelete(false);
 
-	UMLClass * myClass = dynamic_cast<UMLClass *>(c);
-
-	if(myClass) {
-		UMLAttributeList atl = myClass->getAttributeList();
+	if (!isInterface) {
+		UMLAttributeList atl = c->getAttributeList();
 		for (UMLAttribute *at = atl.first(); at ; at = atl.next()) {
 			switch(at->getScope())
 			{

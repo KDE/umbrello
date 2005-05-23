@@ -34,8 +34,6 @@
 #include "umlobjectlist.h"
 #include "umlassociationlist.h"
 #include "umlclassifierlist.h"
-#include "umlclasslist.h"
-#include "umlinterfacelist.h"
 #include "umldatatypelist.h"
 #include "umlviewlist.h"
 #include "umlstereotypelist.h"
@@ -220,14 +218,6 @@ public:
 				   const QString &n = QString::null,
 				   UMLPackage *parentPkg = NULL,
 				   bool prepend = false);
-	/**
-	 * Creates a @ref UMLObject of the given type.
-	 *
-	 * @param type	The type of @ref UMLObject to create.
-	 *		The type_info is translated to a Object_Type and the
-	 *		other createUMLObject method is invoked.
-	 */
-	UMLObject* createUMLObject(const std::type_info &type);
 
 	/**
 	 * Creates either an operation or attribute for the parent concept.
@@ -604,7 +594,7 @@ public:
 	 *				nested packages (default: true.)
 	 * @return	List of UML classes.
 	 */
-	UMLClassList getClasses(bool includeNested = true);
+	UMLClassifierList getClasses(bool includeNested = true);
 
 	/**
 	 * Returns a list of the classes and interfaces in this UMLDoc.
@@ -622,7 +612,7 @@ public:
 	 *				nested packages (default: true.)
 	 * @return	List of UML interfaces.
 	 */
-	UMLInterfaceList getInterfaces(bool includeNested = true);
+	UMLClassifierList getInterfaces(bool includeNested = true);
 
 	/**
 	 * Returns a list of the datatypes in this UMLDoc.

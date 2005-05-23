@@ -20,7 +20,7 @@
 #include "classgenpage.h"
 
 class ClassifierListPage;
-class UMLClass;
+class UMLClassifier;
 class UMLDoc;
 
 /**
@@ -94,7 +94,7 @@ protected:
 	/**
 	*	Class to create
 	*/
-	UMLClass * m_pClass;
+	UMLClassifier * m_pClass;
 
 protected slots:
 	/**

@@ -22,8 +22,7 @@
 #include <qstring.h>
 
 #include "../umldoc.h"
-#include "../class.h"
-#include "../interface.h"
+#include "../classifier.h"
 #include "../association.h"
 #include "../attribute.h"
 #include "../operation.h"
@@ -3059,7 +3058,7 @@ void Php5Writer::writeClass(UMLClassifier *c) {
 	UMLAssociationList compositions = c->getCompositions();
 	UMLAssociationList realizations = c->getRealizations();
 	UMLAssociation *a;
-	bool isInterface = dynamic_cast<UMLInterface*>(c) ? true : false;
+	bool isInterface = c->isInterface();
 
 	//check if it is an interface or regular class
 	if(isInterface) {
@@ -3130,11 +3129,9 @@ void Php5Writer::writeClass(UMLClassifier *c) {
 		}
 	}
 
-	UMLClass * myClass = dynamic_cast<UMLClass *>(c);
-
 	//attributes
-	if(myClass)
-		writeAttributes(myClass, php);
+	if (!isInterface)
+		writeAttributes(c, php);
 
 	//operations
 	writeOperations(c,php);
@@ -3158,7 +3155,7 @@ void Php5Writer::writeOperations(UMLClassifier *c, QTextStream &php) {
 	//Lists to store operations  sorted by scope
 	UMLOperationList oppub,opprot,oppriv;
 
-	bool isInterface = dynamic_cast<UMLInterface*>(c) ? true : false;
+	bool isInterface = c->isInterface();
 
 	oppub.setAutoDelete(false);
 	opprot.setAutoDelete(false);
@@ -3274,7 +3271,7 @@ void Php5Writer::writeOperations(QString /* classname */, UMLOperationList &opLi
 	}//end for
 }
 
-void Php5Writer::writeAttributes(UMLClass *c, QTextStream &php) {
+void Php5Writer::writeAttributes(UMLClassifier *c, QTextStream &php) {
 	UMLAttributeList  atpub, atprot, atpriv, atdefval;
 	atpub.setAutoDelete(false);
 	atprot.setAutoDelete(false);

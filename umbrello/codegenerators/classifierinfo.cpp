@@ -14,8 +14,7 @@
 
 #include "classifierinfo.h"
 
-#include "../class.h"
-#include "../interface.h"
+#include "../classifier.h"
 #include "../operation.h"
 
 ClassifierInfo::ClassifierInfo( UMLClassifier *classifier , UMLDoc */*doc*/)
@@ -42,18 +41,14 @@ void ClassifierInfo::init(UMLClassifier *c) {
 	fileName = c->getName().lower();
 
 	// determine up-front what we are dealing with
-	if(dynamic_cast<UMLInterface*>(c))
-		isInterface = true;
-	else
-		isInterface = false;
+	isInterface = c->isInterface();
 
 	// set id
 	m_nID = c->getID();
 
 	// sort attributes by Scope
 	if(!isInterface) {
-		UMLClass * myClass = dynamic_cast<UMLClass *>(c);
-		UMLAttributeList atl = myClass->getAttributeList();
+		UMLAttributeList atl = c->getAttributeList();
 		for(UMLAttribute *at=atl.first(); at ; at=atl.next()) {
 			switch(at->getScope())
 			{

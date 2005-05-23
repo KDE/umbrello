@@ -20,7 +20,7 @@
 #include <qstring.h>
 
 #include "../umldoc.h"
-#include "../class.h"
+#include "../classifier.h"
 #include "../association.h"
 #include "../attribute.h"
 #include "../operation.h"
@@ -3100,17 +3100,17 @@ void PhpWriter::writeClass(UMLClassifier *c) {
 		}
 	}
 
-	UMLClass * myClass = dynamic_cast<UMLClass *>(c);
+	const bool isClass = !c->isInterface();
 
 	//attributes
-	if(myClass)
-		writeAttributes(myClass, php);
+	if (isClass)
+		writeAttributes(c, php);
 
 	//operations
 	writeOperations(c,php);
 
-	if(myClass && hasDefaultValueAttr(myClass)) {
-		UMLAttributeList atl = myClass->getAttributeList();
+	if (isClass && hasDefaultValueAttr(c)) {
+		UMLAttributeList atl = c->getAttributeList();
 		php << m_endl;
 
 		php << m_indentation << "/**" << m_endl;
@@ -3244,7 +3244,7 @@ void PhpWriter::writeOperations(QString /* classname */, UMLOperationList &opLis
 	}//end for
 }
 
-void PhpWriter::writeAttributes(UMLClass *c, QTextStream &php) {
+void PhpWriter::writeAttributes(UMLClassifier *c, QTextStream &php) {
 	UMLAttributeList  atpub, atprot, atpriv, atdefval;
 	atpub.setAutoDelete(false);
 	atprot.setAutoDelete(false);

@@ -38,7 +38,6 @@
 #include "../uml.h"
 #include "../operation.h"
 #include "../classifier.h"
-#include "../interface.h"
 #include "../template.h"
 #include "../umldoc.h"
 #include "../listpopupmenu.h"

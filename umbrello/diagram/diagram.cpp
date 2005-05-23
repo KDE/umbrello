@@ -22,8 +22,7 @@
 //include declarations of umlobject and subclasses
 //needed for the RTTI
 #include "../umlobject.h"
-#include "../class.h"
-#include "../interface.h"
+#include "../classifier.h"
 #include "../package.h"
 #include "../template.h"
 #include "../actor.h"

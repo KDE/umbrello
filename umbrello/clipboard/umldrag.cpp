@@ -20,7 +20,7 @@
 #include "../umldoc.h"
 #include "../umlview.h"
 #include "../umlobject.h"
-#include "../class.h"
+#include "../classifier.h"
 #include "../umlwidget.h"
 #include "../umllistview.h"
 #include "../umllistviewitem.h"

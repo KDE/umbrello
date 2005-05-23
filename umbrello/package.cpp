@@ -23,8 +23,6 @@
 #include "uml.h"
 #include "umldoc.h"
 #include "classifier.h"
-#include "class.h"
-#include "interface.h"
 #include "model_utils.h"
 
 using namespace Uml;
@@ -108,13 +106,14 @@ void UMLPackage::appendClassifiers(UMLClassifierList& classifiers,
 	}
 }
 
-void UMLPackage::appendClasses(UMLClassList& classes,
+void UMLPackage::appendClasses(UMLClassifierList& classes,
 			      bool includeNested /* = true */) {
 	for (UMLObjectListIt oit(m_objects); oit.current(); ++oit) {
 		UMLObject *o = oit.current();
 		Object_Type ot = o->getBaseType();
 		if (ot == ot_Class) {
-			classes.append((UMLClass *)o);
+			UMLClassifier *c = static_cast<UMLClassifier*>(o);
+			classes.append(c);
 		} else if (includeNested && ot == ot_Package) {
 			UMLPackage *inner = static_cast<UMLPackage *>(o);
 			inner->appendClasses(classes);
@@ -128,7 +127,8 @@ void UMLPackage::appendClassesAndInterfaces(UMLClassifierList& classifiers,
 		UMLObject *o = oit.current();
 		Object_Type ot = o->getBaseType();
 		if (ot == ot_Class || ot == ot_Interface) {
-			classifiers.append((UMLClassifier *)o);
+			UMLClassifier *c = static_cast<UMLClassifier*>(o);
+			classifiers.append(c);
 		} else if (includeNested && ot == ot_Package) {
 			UMLPackage *inner = static_cast<UMLPackage *>(o);
 			inner->appendClassesAndInterfaces(classifiers);
@@ -136,13 +136,14 @@ void UMLPackage::appendClassesAndInterfaces(UMLClassifierList& classifiers,
 	}
 }
 
-void UMLPackage::appendInterfaces( UMLInterfaceList& interfaces,
+void UMLPackage::appendInterfaces( UMLClassifierList& interfaces,
 				   bool includeNested /* = true */) {
 	for (UMLObjectListIt oit(m_objects); oit.current(); ++oit) {
 		UMLObject *o = oit.current();
 		Object_Type ot = o->getBaseType();
 		if (ot == ot_Interface) {
-			interfaces.append((UMLInterface *)o);
+			UMLClassifier *c = static_cast<UMLClassifier*>(o);
+			interfaces.append(c);
 		} else if (includeNested && ot == ot_Package) {
 			UMLPackage *inner = static_cast<UMLPackage *>(o);
 			inner->appendInterfaces(interfaces);

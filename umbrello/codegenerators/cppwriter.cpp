@@ -29,8 +29,6 @@
 #include "codegen_utils.h"
 #include "../umldoc.h"
 #include "../classifier.h"
-#include "../class.h"
-#include "../interface.h"
 #include "../operation.h"
 #include "../template.h"
 #include "../umltemplatelist.h"
@@ -133,10 +131,8 @@ void CppWriter::writeClass(UMLClassifier *c)
 	// Determine whether the implementation file is required.
 	// (It is not required if the class is an enumeration.)
 	bool need_impl = true;
-	if (! classifierInfo->isInterface) {
-		UMLClass* k = dynamic_cast<UMLClass*>(c);
-		if (k->isEnumeration())
-			need_impl = false;
+	if (c->getBaseType() == Uml::ot_Enum) {
+		need_impl = false;
 	}
 	if (need_impl) {
 		if( !openFile(filecpp,fileName+".cpp")) {
@@ -232,41 +228,22 @@ void CppWriter::writeHeaderFile (UMLClassifier *c, QFile &fileh) {
 		<<"  Inherit from it instead and create only objects from the derived classes"<<m_endl
 		<<"*****************************************************************************/"<<m_endl<<m_endl;
 
-	if (!classifierInfo->isInterface) {
-		UMLClass* k = dynamic_cast<UMLClass*>(c);
-		if (k->isEnumeration()) {
-			h << "enum " << classifierInfo->className << " {" << m_endl;
-			UMLAttributeList atl = k->getAttributeList();
-			UMLAttribute *at = atl.first();
-			while (at) {
-				QString attrName = cleanName(at->getName());
-				h << getIndent() << attrName;
-				if ((at = atl.next()) == NULL)
-					break;
-				h << "," << m_endl;
-			}
-			h << m_endl << "};" << m_endl;	// end of class header
-	                if(!c->getPackage().isEmpty() && WRITE_PACKAGE_NAMESPACE)
-				h << "}  // end of package namespace" << m_endl;
-			h << m_endl << "#endif // " << hashDefine + "_H" << m_endl;
-			return;
-		} else if (c->getBaseType() == Uml::ot_Enum) {
-			UMLClassifierListItemList litList = c->getFilteredList(Uml::ot_EnumLiteral);
-			uint i = 0;
-			h << "enum " << classifierInfo->className << " {" << m_endl;
-			for (UMLClassifierListItem *lit = litList.first(); lit; lit = litList.next()) {
-				QString enumLiteral = cleanName(lit->getName());
-				h << getIndent() << enumLiteral;
-				if (++i < litList.count())
-					h << ",";
-				h << m_endl;
-			}
-			h << m_endl << "};" << m_endl;	// end of class header
-	                if(!c->getPackage().isEmpty() && WRITE_PACKAGE_NAMESPACE)
-				h << "}  // end of package namespace" << m_endl;
-			h << m_endl << "#endif // " << hashDefine + "_H" << m_endl;
-			return;
+	if (c->getBaseType() == Uml::ot_Enum) {
+		UMLClassifierListItemList litList = c->getFilteredList(Uml::ot_EnumLiteral);
+		uint i = 0;
+		h << "enum " << classifierInfo->className << " {" << m_endl;
+		for (UMLClassifierListItem *lit = litList.first(); lit; lit = litList.next()) {
+			QString enumLiteral = cleanName(lit->getName());
+			h << getIndent() << enumLiteral;
+			if (++i < litList.count())
+				h << ",";
+			h << m_endl;
 		}
+		h << m_endl << "};" << m_endl;	// end of class header
+                if(!c->getPackage().isEmpty() && WRITE_PACKAGE_NAMESPACE)
+			h << "}  // end of package namespace" << m_endl;
+		h << m_endl << "#endif // " << hashDefine + "_H" << m_endl;
+		return;
 	}
 
 	// Generate template parameters.
@@ -292,7 +269,7 @@ void CppWriter::writeHeaderFile (UMLClassifier *c, QFile &fileh) {
 			superClass ; superClass = classifierInfo->superclasses.next())
 	{
 		i++;
-		if (superClass->getAbstract() || (dynamic_cast<UMLInterface*>(superClass)))
+		if (superClass->getAbstract() || superClass->isInterface())
 			h << "virtual ";
 		h << "public " << cleanName(superClass->getName());
                 if (i < numOfSuperClasses)

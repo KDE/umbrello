@@ -30,8 +30,6 @@
 
 #include "../attribute.h"
 #include "../classifier.h"
-#include "../class.h"
-#include "../interface.h"
 #include "../umldoc.h"
 #include "../umlrole.h"
 
@@ -522,12 +520,17 @@ void CodeEditor::appendText(HierarchicalCodeBlock * hblock)
         if(test)
         {
                 parentObj = test->getParentObject();
-                if((dynamic_cast<UMLClass*>(parentObj)))
-                        componentName = parentDocName + "::Class(" + parentObj->getName() + ")";
-                else if((dynamic_cast<UMLInterface*>(parentObj)))
-                        componentName = parentDocName + "::Interface(" + parentObj->getName() + ")";
-                else
+                UMLClassifier *c = dynamic_cast<UMLClassifier*>(parentObj);
+		if (c) {
+			QString typeStr;
+			if (c->isInterface())
+				typeStr = "Interface";
+			else
+				typeStr = "Class";
+                        componentName = parentDocName + "::" + typeStr + "(" + parentObj->getName() + ")";
+                } else {
                         componentName = parentDocName + "::UNKNOWN(" + parentObj->getName() + ")";
+		}
 
 		paperColor = getState().umlObjectColor;
         }

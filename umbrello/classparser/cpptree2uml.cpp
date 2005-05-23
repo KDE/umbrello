@@ -25,9 +25,8 @@
 // Make capsule methods in ClassImport, and remove these includes.
 #include "../classifier.h"
 #include "../datatype.h"
-// FIXME The next 2 includes are motivated by template params
+// FIXME The next include is motivated by template params
 #include "../template.h"
-#include "../class.h"
 
 CppTree2Uml::CppTree2Uml( const QString& fileName)
     : m_anon( 0 ), m_nsCnt( 0 ), m_clsCnt( 0 )
@@ -281,7 +280,7 @@ void CppTree2Uml::parseFunctionDefinition( FunctionDefinitionAST* ast )
 
     QString id = d->declaratorId()->unqualifiedName()->text().stripWhiteSpace();
 
-    UMLClass *c = m_currentClass[m_clsCnt];
+    UMLClassifier *c = m_currentClass[m_clsCnt];
     if (c == NULL) {
 	kdDebug() << "CppTree2Uml::parseFunctionDefinition (" << id
 		  << "): need a surrounding class." << endl;
@@ -342,7 +341,7 @@ void CppTree2Uml::parseClassSpecifier( ClassSpecifierAST* ast )
     UMLObject * o = ClassImport::createUMLObject( Uml::ot_Class, className,
 						 m_currentNamespace[m_nsCnt],
 						 ast->comment() );
-    UMLClass *klass = (UMLClass *)o;
+    UMLClassifier *klass = static_cast<UMLClassifier*>(o);
     flushTemplateParams(klass);
     if ( ast->baseClause() )
 	parseBaseClause( ast->baseClause(), klass );
@@ -402,7 +401,7 @@ void CppTree2Uml::parseElaboratedTypeSpecifier( ElaboratedTypeSpecifierAST* type
     kdDebug() << "CppTree2Uml::parseElaboratedTypeSpecifier: text is " << text << endl;
     text.remove(QRegExp("^class\\s+"));
     UMLObject *o = ClassImport::createUMLObject( Uml::ot_Class, text );
-    flushTemplateParams( static_cast<UMLClass*>(o) );
+    flushTemplateParams( static_cast<UMLClassifier*>(o) );
 }
 
 void CppTree2Uml::parseDeclaration( GroupAST* funSpec, GroupAST* storageSpec,
@@ -433,7 +432,7 @@ void CppTree2Uml::parseDeclaration( GroupAST* funSpec, GroupAST* storageSpec,
 	return;
     }
 
-    UMLClass *c = m_currentClass[m_clsCnt];
+    UMLClassifier *c = m_currentClass[m_clsCnt];
     if (c == NULL) {
 	kdDebug() << "CppTree2Uml::parseDeclaration (" << id
 		  << "): need a surrounding class." << endl;
@@ -515,7 +514,7 @@ void CppTree2Uml::parseFunctionDeclaration(  GroupAST* funSpec, GroupAST* storag
     DeclaratorAST* d = decl->declarator();
     QString id = d->declaratorId()->unqualifiedName()->text();
 
-    UMLClass *c = m_currentClass[m_clsCnt];
+    UMLClassifier *c = m_currentClass[m_clsCnt];
     if (c == NULL) {
 	kdDebug() << "CppTree2Uml::parseFunctionDeclaration (" << id
 		  << "): need a surrounding class." << endl;
@@ -572,7 +571,7 @@ QString CppTree2Uml::typeOfDeclaration( TypeSpecifierAST* typeSpec, DeclaratorAS
     return text;
 }
 
-void CppTree2Uml::parseBaseClause( BaseClauseAST * baseClause, UMLClass* klass )
+void CppTree2Uml::parseBaseClause( BaseClauseAST * baseClause, UMLClassifier* klass )
 {
     QPtrList<BaseSpecifierAST> l = baseClause->baseSpecifierList();
     QPtrListIterator<BaseSpecifierAST> it( l );
@@ -615,7 +614,7 @@ QStringList CppTree2Uml::scopeOfDeclarator( DeclaratorAST* d, const QStringList&
     return scopeOfName( d->declaratorId(), startScope );
 }
 
-void CppTree2Uml::flushTemplateParams(UMLClass *klass) {
+void CppTree2Uml::flushTemplateParams(UMLClassifier *klass) {
     if (m_templateParams.count()) {
 	Umbrello::NameAndType_ListIt it;
 	for (it = m_templateParams.begin(); it != m_templateParams.end(); ++it) {

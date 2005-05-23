@@ -23,8 +23,7 @@
 #include "uml.h"
 #include "umlpackagelist.h"
 #include "package.h"
-#include "interface.h"
-#include "class.h"
+#include "classifier.h"
 #include "enum.h"
 #include "operation.h"
 #include "attribute.h"
@@ -35,7 +34,7 @@ QStringList source;
 int srcIndex = 0;
 UMLPackage *scope[32];
 int scopeIndex = 0;  // index 0 is reserved for global scope
-UMLClass *klass = NULL;
+UMLClassifier *klass = NULL;
 bool isAbstract = false, isOneway = false, isReadonly = false, isAttribute = false;
 Uml::Scope currentAccess = Uml::Public;
 bool inComment = false;
@@ -216,7 +215,7 @@ void parseFile(QString filename) {
 			const QString& name = source[++srcIndex];
 			UMLObject *ns = ClassImport::createUMLObject(Uml::ot_Class,
 								  name, scope[scopeIndex], comment);
-			scope[++scopeIndex] = klass = static_cast<UMLClass*>(ns);
+			scope[++scopeIndex] = klass = static_cast<UMLClassifier*>(ns);
 			klass->setStereotype("CORBAInterface");
 			klass->setAbstract(isAbstract);
 			isAbstract = false;
@@ -242,7 +241,7 @@ void parseFile(QString filename) {
 			const QString& name = source[++srcIndex];
 			UMLObject *ns = ClassImport::createUMLObject(Uml::ot_Class,
 								  name, scope[scopeIndex], comment);
-			scope[++scopeIndex] = klass = static_cast<UMLClass*>(ns);
+			scope[++scopeIndex] = klass = static_cast<UMLClassifier*>(ns);
 			if (keyword == "struct")
 				klass->setStereotype("CORBAStruct");
 			else
@@ -299,7 +298,7 @@ void parseFile(QString filename) {
 			const QString& name = source[++srcIndex];
 			UMLObject *ns = ClassImport::createUMLObject(Uml::ot_Class,
 								  name, scope[scopeIndex], comment);
-			scope[++scopeIndex] = klass = static_cast<UMLClass*>(ns);
+			scope[++scopeIndex] = klass = static_cast<UMLClassifier*>(ns);
 			klass->setAbstract(isAbstract);
 			isAbstract = false;
 			if (source[++srcIndex] == ";")   // forward declaration
@@ -344,7 +343,7 @@ void parseFile(QString filename) {
 		}
 		if (keyword == "}") {
 			if (scopeIndex)
-				klass = dynamic_cast<UMLClass*>(scope[--scopeIndex]);
+				klass = dynamic_cast<UMLClassifier*>(scope[--scopeIndex]);
 			else
 				kdError() << "importIDL: too many }" << endl;
 			srcIndex++;  // skip ';'

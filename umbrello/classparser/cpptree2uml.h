@@ -18,7 +18,7 @@
 #include "../model_utils.h"
 
 // fwd decls
-class UMLClass;
+class UMLClassifier;
 class UMLOperation;
 class UMLPackage;
 
@@ -58,7 +58,7 @@ public:
     virtual void parseDeclaration( GroupAST* funSpec, GroupAST* storageSpec, TypeSpecifierAST* typeSpec, InitDeclaratorAST* decl );
     virtual void parseFunctionDeclaration( GroupAST* funSpec, GroupAST* storageSpec, TypeSpecifierAST* typeSpec, InitDeclaratorAST* decl );
     void parseFunctionArguments( DeclaratorAST* declarator, UMLOperation* method);
-    virtual void parseBaseClause( BaseClauseAST* baseClause, UMLClass* klass );
+    virtual void parseBaseClause( BaseClauseAST* baseClause, UMLClassifier* klass );
 
 private:
     //NamespaceDom findOrInsertNamespace( NamespaceAST* ast, const QString& name );
@@ -69,7 +69,7 @@ private:
     /**
      * Flush template parameters pending in m_templateParams to the klass.
      */
-    void flushTemplateParams(UMLClass *klass);
+    void flushTemplateParams(UMLClassifier *klass);
 
 private:
     //FileDom m_file;
@@ -87,7 +87,7 @@ private:
     DeclaratorAST* m_currentDeclarator;
 #   define STACKSIZE 30
     UMLPackage* m_currentNamespace[STACKSIZE+1];  ///< stack
-    UMLClass* m_currentClass[STACKSIZE+1];  ///< stack
+    UMLClassifier* m_currentClass[STACKSIZE+1];  ///< stack
     int m_nsCnt;  ///< stack top for m_currentNamespace
     int m_clsCnt;  ///< stack top for m_currentClass
 

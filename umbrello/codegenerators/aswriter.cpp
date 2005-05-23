@@ -15,7 +15,7 @@
 
 #include "aswriter.h"
 #include "../association.h"
-#include "../class.h"
+#include "../classifier.h"
 #include "../operation.h"
 #include "../umldoc.h"
 #include "../attribute.h"
@@ -122,14 +122,15 @@ void ASWriter::writeClass(UMLClassifier *c)
 
 	as << m_endl;
 
-	UMLClass *myClass = dynamic_cast<UMLClass*>(c);
-	if(myClass) {
+	const bool isClass = !c->isInterface();
+	if (isClass) {
 
-		UMLAttributeList atl = myClass->getAttributeList();
+		UMLAttributeList atl = c->getAttributeList();
 
 		as << "/**" << m_endl;
-		QString temp = "_init sets all " + classname + " attributes to its default\
-	 value make sure to call this method within your class constructor";
+		QString temp = "_init sets all " + classname +
+		  " attributes to their default values. " +
+		  "Make sure to call this method within your class constructor";
 		as << formatDoc(temp, " * ");
 		as << " */" << m_endl;
 		as << classname << ".prototype._init = function ()" << m_endl;
@@ -181,8 +182,8 @@ void ASWriter::writeClass(UMLClassifier *c)
 	as << m_endl;
 
 	as << m_indentation << "/**Protected: */" << m_endl;
-	if(myClass) {
-		UMLAttributeList atl = myClass->getAttributeList();
+	if (isClass) {
+		UMLAttributeList atl = c->getAttributeList();
 		for (UMLAttribute *at = atl.first(); at ; at = atl.next())
 		{
 			if (at->getScope() == Uml::Protected)
@@ -202,8 +203,8 @@ void ASWriter::writeClass(UMLClassifier *c)
 	}
 	as << m_endl;
 	as << m_indentation << "/**Private: */" << m_endl;
-	if(myClass) {
-		UMLAttributeList atl = myClass->getAttributeList();
+	if (isClass) {
+		UMLAttributeList atl = c->getAttributeList();
 		for (UMLAttribute *at = atl.first(); at; at = atl.next())
 		{
 			if (at->getScope() == Uml::Private)

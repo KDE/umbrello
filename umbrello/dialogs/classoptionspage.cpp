@@ -17,14 +17,13 @@
 #include <kdebug.h>
 
 #include "../umlview.h"
-#include "../classwidget.h"
-#include "../interfacewidget.h"
+#include "../classifierwidget.h"
 #include "classoptionspage.h"
 
 ClassOptionsPage::ClassOptionsPage(QWidget* pParent, ClassifierWidget* pWidget)
   : QWidget( pParent ) {
 	init();
-	Uml::Widget_Type type = pWidget->getBaseType();
+	//Uml::Widget_Type type = pWidget->getBaseType();
 	m_pWidget = pWidget;
 	setupPage();
 }
@@ -88,18 +87,16 @@ void ClassOptionsPage::setupPage() {
 	Uml::Widget_Type type = m_pWidget->getBaseType();
 
 	if (type == Uml::wt_Class) {
-		ClassWidget *pClassWidget = static_cast<ClassWidget*>(m_pWidget);
-
 		m_pShowAttsCB = new QCheckBox(i18n("Att&ributes"), m_pVisibilityGB);
-		m_pShowAttsCB->setChecked(pClassWidget->getShowAtts());
+		m_pShowAttsCB->setChecked(m_pWidget->getShowAtts());
 		visibilityLayout->addWidget(m_pShowAttsCB, 2, 0);
 
 		m_pShowStereotypeCB = new QCheckBox(i18n("Stereot&ype"), m_pVisibilityGB);
-		m_pShowStereotypeCB->setChecked(pClassWidget->getShowStereotype());
+		m_pShowStereotypeCB->setChecked(m_pWidget->getShowStereotype());
 		visibilityLayout->addWidget(m_pShowStereotypeCB, 2, 1);
 
 		m_pShowAttSigCB = new QCheckBox(i18n("Attr&ibute signature"), m_pVisibilityGB);
-		sigtype = pClassWidget->getShowAttSigs();
+		sigtype = m_pWidget->getShowAttSigs();
 		if(sigtype == Uml::st_NoSig || sigtype == Uml::st_NoSigNoScope)
 			sig = false;
 		else
@@ -108,10 +105,8 @@ void ClassOptionsPage::setupPage() {
 		visibilityLayout->addWidget(m_pShowAttSigCB, 3, 0);
 
 	} else if (type == Uml::wt_Interface) {
-		InterfaceWidget *pInterfaceWidget = static_cast<InterfaceWidget*>(m_pWidget);
-
 		m_pDrawAsCircleCB = new QCheckBox(i18n("Draw as circle"), m_pVisibilityGB);
-		m_pDrawAsCircleCB->setChecked( pInterfaceWidget->getDrawAsCircle() );
+		m_pDrawAsCircleCB->setChecked( m_pWidget->getDrawAsCircle() );
 		visibilityLayout->addWidget(m_pDrawAsCircleCB, 2, 0);
 	}
 }
@@ -174,14 +169,12 @@ void ClassOptionsPage::updateWidget() {
 	m_pWidget->setShowOpSigs( m_pShowOpSigCB->isChecked() );
 	Uml::Widget_Type type = m_pWidget->getBaseType();
 	if (type == Uml::wt_Class) {
-		ClassWidget *pClassWidget = static_cast<ClassWidget*>(m_pWidget);
-		pClassWidget->setShowStereotype( m_pShowStereotypeCB->isChecked() );
-		pClassWidget->setShowAtts( m_pShowAttsCB->isChecked() );
-		pClassWidget->setShowAttSigs( m_pShowAttSigCB->isChecked() );
+		m_pWidget->setShowStereotype( m_pShowStereotypeCB->isChecked() );
+		m_pWidget->setShowAtts( m_pShowAttsCB->isChecked() );
+		m_pWidget->setShowAttSigs( m_pShowAttSigCB->isChecked() );
 	} else if (type == Uml::wt_Interface) {
-		InterfaceWidget *pInterfaceWidget = static_cast<InterfaceWidget*>(m_pWidget);
 		if (m_pDrawAsCircleCB)
-			pInterfaceWidget->setDrawAsCircle( m_pDrawAsCircleCB->isChecked() );
+			m_pWidget->setDrawAsCircle( m_pDrawAsCircleCB->isChecked() );
 	}
 }
 

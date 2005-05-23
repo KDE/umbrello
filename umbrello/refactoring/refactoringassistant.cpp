@@ -15,8 +15,6 @@
 #include "../umlnamespace.h"
 #include "../umldoc.h"
 #include "../classifier.h"
-#include "../class.h"
-#include "../interface.h"
 #include "../attribute.h"
 #include "../operation.h"
 #include "../dialogs/classpropdlg.h"
@@ -195,7 +193,7 @@ void RefactoringAssistant::operationRemoved( UMLOperation *op )
 
 void RefactoringAssistant::attributeAdded( UMLAttribute *att )
 {
-	UMLClass *c = dynamic_cast<UMLClass*>(att->parent());
+	UMLClassifier *c = dynamic_cast<UMLClassifier*>(att->parent());
 	if(!c)
 	{
 		kdWarning()<<"RefactoringAssistant::attributeAdded( UMLAttribute * ) "
@@ -245,15 +243,16 @@ void RefactoringAssistant::editProperties( )
 void RefactoringAssistant::editProperties( UMLObject *obj )
 {
 	KDialogBase *dia(0);
-	if(typeid(*obj) == typeid(UMLClass) || typeid(*obj) == typeid(UMLInterface))
+	Uml::Object_Type t = obj->getBaseType();
+	if (t == Uml::ot_Class || t == Uml::ot_Interface)
 	{
 		dia = new ClassPropDlg(this,obj,0,true);
 	}
-	else if(typeid(*obj) == typeid(UMLOperation))
+	else if (t == Uml::ot_Operation)
 	{
 		dia = new UMLOperationDialog(this,static_cast<UMLOperation*>(obj));
 	}
-	else if(typeid(*obj) == typeid(UMLAttribute))
+	else if (t == Uml::ot_Attribute)
 	{
 		dia = new UMLAttributeDialog(this,static_cast<UMLAttribute*>(obj));
 	}
@@ -275,7 +274,8 @@ void RefactoringAssistant::showContextMenu(KListView* ,QListViewItem *item, cons
 	UMLObject *obj = findUMLObject( item );
 	if(obj)
 	{// Menu for UMLObjects
-		if(typeid(*obj) == typeid(UMLClass))
+		Uml::Object_Type t = obj->getBaseType();
+		if (t == Uml::ot_Class)
 		{
 		m_menu->insertItem(i18n("Add Base Class"),this,SLOT(addBaseClassifier()));
 		m_menu->insertItem(i18n("Add Derived Class"),this,SLOT(addDerivedClassifier()));
@@ -283,7 +283,7 @@ void RefactoringAssistant::showContextMenu(KListView* ,QListViewItem *item, cons
 		m_menu->insertItem(i18n("Add Operation"),this,SLOT(createOperation()));
 		m_menu->insertItem(i18n("Add Attribute"),this,SLOT(createAttribute()));
 		}
-		else if(typeid(*obj) == typeid(UMLInterface))
+		else if (t == Uml::ot_Interface)
 		{
 		m_menu->insertItem(i18n("Add Base Interface"),this,SLOT(addSuperClassifier()));
 		m_menu->insertItem(i18n("Add Derived Interface"),this,SLOT(addDerivedClassifier()));
@@ -335,7 +335,8 @@ void RefactoringAssistant::addBaseClassifier()
 	}
 
 	//classes have classes and interfaces interfaces as super/derived classifiers
-	UMLClassifier *super = static_cast<UMLClassifier*>(m_doc->createUMLObject( typeid(*obj) ) );
+	Uml::Object_Type t = obj->getBaseType();
+	UMLClassifier *super = static_cast<UMLClassifier*>(m_doc->createUMLObject(t));
 	if(!super)
 		return;
 	m_doc->createUMLAssociation( obj, super, Uml::at_Generalization );
@@ -375,7 +376,8 @@ void RefactoringAssistant::addDerivedClassifier()
 	}
 
 	//classes have classes and interfaces interfaces as super/derived classifiers
-	UMLClassifier *derived = static_cast<UMLClassifier*>(m_doc->createUMLObject( typeid(*obj) ));
+	Uml::Object_Type t = obj->getBaseType();
+	UMLClassifier *derived = static_cast<UMLClassifier*>(m_doc->createUMLObject(t));
 	if(!derived)
 		return;
 	m_doc->createUMLAssociation( derived, obj, Uml::at_Generalization );
@@ -407,7 +409,7 @@ void RefactoringAssistant::addInterfaceImplementation()
 // 	UMLObject *obj = findUMLObject( item );
 // 	if( !dynamic_cast<UMLClassifier*>(obj) )
 // 		return;
-// 	UMLObject *n = m_doc->createUMLObject( typeid(UMLInterface) );
+// 	UMLObject *n = m_doc->createUMLObject( Uml::ot_Interface) );
 // 	if(!n)
 // 		return;
 // 	m_doc->createUMLAssociation( n, obj, Uml::at_Realization );
@@ -438,7 +440,7 @@ void RefactoringAssistant::createAttribute()
 			   <<"called with no item selected"<<endl;
 		return;
 	}
-	UMLClass *c = dynamic_cast<UMLClass*>(findUMLObject( item ));
+	UMLClassifier *c = dynamic_cast<UMLClassifier*>(findUMLObject( item ));
 	if( !c )
 		return;
 	c->createAttribute();
@@ -460,7 +462,7 @@ void RefactoringAssistant::addClassifier( UMLClassifier *classifier, QListViewIt
 
 	connect( classifier, SIGNAL( modified() ), this, SLOT( umlObjectModified() ) );
 
-	UMLClass *klass = dynamic_cast<UMLClass*>(classifier);
+	UMLClassifier *klass = dynamic_cast<UMLClassifier*>(classifier);
 	if( klass )
 	{// only Classes have attributes...
 		connect( classifier, SIGNAL(attributeAdded(UMLAttribute*)),
@@ -565,7 +567,8 @@ bool RefactoringAssistant::acceptDrag(QDropEvent *event) const
 		kdDebug()<<"Moving object not found in uml map!"<<movingItem->text(0)<<endl;
 		return false;
 	}
-	if( (typeid(*movingObject) != typeid(UMLAttribute)) && (typeid(*movingObject) != typeid(UMLOperation)) )
+	Uml::Object_Type t = movingObject->getBaseType();
+	if (t != Uml::ot_Attribute && t != Uml::ot_Operation)
 	{
 		kdDebug()<<"only operations and attributes are movable! - return false"<<endl;
 		return false;
@@ -579,8 +582,8 @@ bool RefactoringAssistant::acceptDrag(QDropEvent *event) const
 	}
 	else
 	{//parent is not a classifier, so maybe  it's a folder.. check types
-		if( ( parentItem->text(1) == "operations" && typeid(*movingObject) == typeid(UMLOperation) )
-		    || ( parentItem->text(1) == "attributes" && typeid(*movingObject) == typeid(UMLAttribute)))
+		if( (parentItem->text(1) == "operations" && t == Uml::ot_Operation)
+		    || (parentItem->text(1) == "attributes" && t == Uml::ot_Attribute))
 		{
 			parentObject = me->findUMLObject( parentItem->parent() );
 		}
@@ -590,11 +593,8 @@ bool RefactoringAssistant::acceptDrag(QDropEvent *event) const
 			return false;
 		}
 	}
-	if( (typeid(*movingObject) == typeid(UMLAttribute)) && dynamic_cast<UMLClass*>( parentObject ) )
-	{
-		return true;
-	}
-	if( (typeid(*movingObject) == typeid(UMLOperation)) && dynamic_cast<UMLClassifier*>( parentObject ) )
+	if (dynamic_cast<UMLClassifier*>(parentObject) &&
+	    (t == Uml::ot_Attribute || t == Uml::ot_Operation))
 	{
 		return true;
 	}
@@ -621,11 +621,12 @@ void RefactoringAssistant::movableDropEvent (QListViewItem* parentItem, QListVie
 		kdWarning()<<"Moving item not found or dropping after itself or item not found in uml obj map. aborting. (drop had already been accepted)"<<endl;
 		return;
 	}
+	Uml::Object_Type t = movingObject->getBaseType();
 	newClassifier = dynamic_cast<UMLClassifier*>( findUMLObject( parentItem ) );
 	if(!newClassifier)
 	{
-		if( ( parentItem->text(1) == "operations" && typeid(*movingObject) == typeid(UMLOperation) )
-		    || ( parentItem->text(1) == "attributes" && typeid(*movingObject) == typeid(UMLAttribute)))
+		if ((parentItem->text(1) == "operations" && t == Uml::ot_Operation)
+		    || (parentItem->text(1) == "attributes" && t == Uml::ot_Attribute))
 		{
 			newClassifier = dynamic_cast<UMLClassifier*>( findUMLObject( parentItem->parent() ) );
 		}
@@ -635,7 +636,7 @@ void RefactoringAssistant::movableDropEvent (QListViewItem* parentItem, QListVie
 			return;
 		}
 	}
-	if( typeid(*movingObject) == typeid(UMLOperation) )
+	if (t == Uml::ot_Operation)
 	{kdDebug()<<"moving operation"<<endl;
 		UMLOperation *op = static_cast<UMLOperation*>(movingObject);
 		if(newClassifier->checkOperationSignature(op->getName(), op->getParmList()))
@@ -651,16 +652,10 @@ void RefactoringAssistant::movableDropEvent (QListViewItem* parentItem, QListVie
 			oldClassifier->removeOperation( op );
 		newClassifier->addOperation( op );
 	}
-	else if( typeid(*movingObject) == typeid(UMLAttribute) )
+	else if (t == Uml::ot_Attribute)
 	{kdDebug()<<"moving attribute - not implemented"<<endl;
 // 		UMLAttribute *att = static_cast<UMLAttribute*>(movingObject);
-// 		UMLClass *newClass = dynamic_cast<UMLClass*>(newClassifier);
-// 		if(!newClass)
-// 		{
-// 			kdWarning()<<"ay"<<endl;
-// 			return;
-// 		}
-// 		if(!newClass->checkAttributeSignature(att))
+// 		if(!newClassifier->checkAttributeSignature(att))
 // 		{
 // 			QString msg = QString(i18n("An attribute with that signature already exists in %1.\n")).arg(newClassifier->getName())
 // 				+
@@ -668,10 +663,8 @@ void RefactoringAssistant::movableDropEvent (QListViewItem* parentItem, QListVie
 // 			KMessageBox::error(this, msg, i18n("Operation Name Invalid"), false);
 // 			return;
 // 		}
-// 		UMLClass *oldClass = dynamic_cast<UMLClass*>(att->parent());
-// 		if(oldClass)
-// 			oldClassifier->removeAttribute( att );
-// 		newClass->addAttribute( att );
+// 		oldClassifier->removeAttribute( att );
+// 		newClassifier->addAttribute( att );
 	}
 	//emit moved(moving, afterFirst, afterme);
 	emit moved();

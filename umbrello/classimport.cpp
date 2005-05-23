@@ -24,7 +24,7 @@
 #include "package.h"
 #include "enum.h"
 #include "datatype.h"
-#include "class.h"
+#include "classifier.h"
 #include "operation.h"
 #include "attribute.h"
 #include "template.h"
@@ -188,7 +188,7 @@ UMLOperation* ClassImport::makeOperation(UMLClassifier *parent, const QString &n
 	return op;
 }
 
-UMLObject* ClassImport::insertAttribute(UMLClass *owner, Uml::Scope scope, QString name,
+UMLObject* ClassImport::insertAttribute(UMLClassifier *owner, Uml::Scope scope, QString name,
 					QString type, QString comment /* ="" */,
 					bool isStatic /* =false */) {
 	Uml::Object_Type ot = owner->getBaseType();
@@ -268,9 +268,9 @@ void ClassImport::addEnumLiteral(UMLEnum *enumType, const QString &literal) {
 	enumType->addEnumLiteral( literal );
 }
 
-void ClassImport::createGeneralization(UMLClass *child, const QString &parentName) {
+void ClassImport::createGeneralization(UMLClassifier *child, const QString &parentName) {
 	UMLObject *parentObj = createUMLObject( Uml::ot_Class, parentName );
-	UMLClass *parent = static_cast<UMLClass*>(parentObj);
+	UMLClassifier *parent = static_cast<UMLClassifier*>(parentObj);
 	UMLAssociation *assoc = new UMLAssociation( Uml::at_Generalization,
 						    child, parent );
 	UMLDoc *umldoc = UMLApp::app()->getDocument();

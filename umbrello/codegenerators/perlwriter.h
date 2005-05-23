@@ -27,7 +27,7 @@
 
 class UMLOperation;
 class UMLAttribute;
-class UMLClass;
+class UMLClassifier;
 
 /**
   * class PerlWriter is a Perl code generator for UMLClassifier objects
@@ -95,7 +95,7 @@ private:
 	  * @param c the class we are generating code for
 	  * @param perl output stream for the Perl file
 	  */
-	void writeAttributes(UMLClass *c, QTextStream &perl);
+	void writeAttributes(UMLClassifier *c, QTextStream &perl);
 
 	/** write a list of class attributes
 	  * @param atList the list of attributes

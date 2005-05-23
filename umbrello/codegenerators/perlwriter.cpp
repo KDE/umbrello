@@ -14,7 +14,7 @@
  ***************************************************************************/
 
 #include "perlwriter.h"
-#include "../class.h"
+#include "../classifier.h"
 #include "../operation.h"
 #include "../umldoc.h"
 #include "../association.h"
@@ -144,9 +144,8 @@ void PerlWriter::writeClass(UMLClassifier *c) {
 		perl << "=head1 ABSTRACT CLASS" << m_endl << m_endl << "=cut" << m_endl;
 
 	//attributes
-	UMLClass *myClass = dynamic_cast<UMLClass*>(c);
-	if (myClass)
-		writeAttributes(myClass, perl);      // keep for documentation's sake
+	if (! c->isInterface())
+		writeAttributes(c, perl);      // keep for documentation's sake
 
 	//operations
 	writeOperations(c,perl);
@@ -234,10 +233,8 @@ void PerlWriter::writeOperations(UMLClassifier *c, QTextStream &perl) {
 	}
 
     // moved here for perl
-	UMLClass *myClass = dynamic_cast<UMLClass*>(c);
-
-	if(myClass && hasDefaultValueAttr(myClass)) {
-		UMLAttributeList atl = myClass->getAttributeList();
+	if (!c->isInterface() && hasDefaultValueAttr(c)) {
+		UMLAttributeList atl = c->getAttributeList();
 
 		perl << m_endl;
 		perl << m_endl << "=head2 _init" << m_endl << m_endl << m_endl;
@@ -302,7 +299,7 @@ void PerlWriter::writeOperations(QString /* classname */, UMLOperationList &opLi
 }
 
 
-void PerlWriter::writeAttributes(UMLClass *c, QTextStream &perl) {
+void PerlWriter::writeAttributes(UMLClassifier *c, QTextStream &perl) {
 	UMLAttributeList  atpub, atprot, atpriv, atdefval;
 	atpub.setAutoDelete(false);
 	atprot.setAutoDelete(false);

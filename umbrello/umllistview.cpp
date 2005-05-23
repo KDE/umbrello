@@ -34,12 +34,11 @@
 #include "inputdialog.h"
 #include "actor.h"
 #include "classimport.h"
-#include "class.h"
+#include "classifier.h"
 #include "package.h"
 #include "component.h"
 #include "node.h"
 #include "artifact.h"
-#include "interface.h"
 #include "datatype.h"
 #include "enum.h"
 #include "entity.h"
@@ -1347,7 +1346,7 @@ UMLListViewItem* UMLListView::createItem(UMLListViewItem& Data, IDChangeLog& IDC
 		break;
 	case Uml::lvt_Attribute:
 	{
-		UMLClass * pClass =  (UMLClass *)parent -> getUMLObject();
+		UMLClassifier *pClass =  static_cast<UMLClassifier*>(parent->getUMLObject());
 		Uml::IDType newID = IDChanges.findNewID( Data.getID() );
 		pObject = pClass -> findChildObject( newID );
 		if (pObject) {
@@ -1987,8 +1986,8 @@ void UMLListView::addNewItem( QListViewItem * parent, Uml::ListView_Type type ) 
 	}
 	case Uml::lvt_Attribute:
 	{
-		UMLClass * childParent = static_cast<UMLClass*>( parentItem->getUMLObject() );
-		name = childParent->uniqChildName( Uml::ot_Attribute );
+		UMLClassifier *umlParent = static_cast<UMLClassifier*>(parentItem->getUMLObject());
+		name = umlParent->uniqChildName( Uml::ot_Attribute );
 		newItem = new UMLListViewItem( parentItem, name, type, (UMLObject *)0 );
 		newItem -> setPixmap( 0, getPixmap( it_Private_Attribute ) );
 		break;
@@ -2200,7 +2199,7 @@ void UMLListView::createUMLObject( UMLListViewItem * item, Uml::Object_Type type
 		break;
 
 	case Uml::ot_Class:
-		object = new UMLClass( name );
+		object = new UMLClassifier( name );
 		break;
 
 	case Uml::ot_Package:
@@ -2220,7 +2219,11 @@ void UMLListView::createUMLObject( UMLListViewItem * item, Uml::Object_Type type
 		break;
 
 	case Uml::ot_Interface:
-		object = new UMLInterface( name );
+		{
+			UMLClassifier *c = new UMLClassifier(name);
+			c->setInterface();
+			object = c;
+		}
 		break;
 
 	case Uml::ot_Datatype:
@@ -2283,7 +2286,7 @@ bool UMLListView::createChildUMLObject( UMLListViewItem * item, Uml::Object_Type
 		tmplParm->setType(nt.second);
 		text = tmplParm->toString(Uml::st_SigNoScope);
 	} else if ( type == Uml::ot_Attribute )  {
-		UMLClass *owningClass = static_cast<UMLClass*>(parent);
+		UMLClassifier *owningClass = static_cast<UMLClassifier*>(parent);
 		Umbrello::NameAndType nt;
 		Umbrello::Parse_Status st = Umbrello::parseAttribute(text, nt, owningClass);
 		if (st) {

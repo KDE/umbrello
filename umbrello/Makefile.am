@@ -12,13 +12,11 @@ associationwidget.cpp \
 assocrules.cpp \
 attribute.cpp \
 boxwidget.cpp \
-class.cpp \
 classifier.cpp \
 classifiercodedocument.cpp \
 classifierlistitem.cpp \
 classifierwidget.cpp \
 classimport.cpp \
-classwidget.cpp \
 codeaccessormethod.cpp \
 codeblock.cpp \
 codeblockwithcomments.cpp \
@@ -50,8 +48,6 @@ kplayerslideraction.cpp \
 hierarchicalcodeblock.cpp \
 idlimport.cpp \
 infowidget.cpp \
-interface.cpp \
-interfacewidget.cpp \
 kstartuplogo.cpp \
 linepath.cpp \
 linkwidget.cpp \

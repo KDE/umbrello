@@ -22,6 +22,7 @@
 // local includes
 #include "classifierlistpage.h"
 #include "../uml.h"
+#include "../classifier.h"
 #include "../attribute.h"
 #include "../operation.h"
 #include "../umllistview.h"
@@ -36,7 +37,7 @@ ClassWizard::ClassWizard( UMLDoc * pDoc ) : KWizard( (QWidget*)pDoc -> parent(),
 	QString newName = name;
 	QString num = "";
 	int i = 0;
-	m_pClass = new UMLClass( newName );
+	m_pClass = new UMLClassifier( newName );
 	do {
 		m_pClass -> setName( newName );
 		pTemp = m_pDoc -> findUMLObject( newName );

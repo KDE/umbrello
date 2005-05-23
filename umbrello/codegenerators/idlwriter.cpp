@@ -23,7 +23,7 @@
 #include <qregexp.h>
 
 #include "../umldoc.h"
-#include "../class.h"
+#include "../classifier.h"
 #include "../enum.h"
 #include "../classifierlistitem.h"
 #include "../umlclassifierlistitemlist.h"
@@ -124,7 +124,7 @@ void IDLWriter::writeClass(UMLClassifier *c) {
 		return;
 	}
 
-	UMLClass * myClass = dynamic_cast<UMLClass*>(c);
+	const bool isClass = !c->isInterface();
 	QString classname = cleanName(c->getName());
 
 	//find an appropriate name for our file
@@ -211,14 +211,14 @@ void IDLWriter::writeClass(UMLClassifier *c) {
 				  << c->getName() << ", but only to attributes." << endl;
 			return;
 		}
-		if (myClass == NULL) {
+		if (!isClass) {
 			kdError() << "The stereotype " << stype
 				  << " cannot be applied to " << c->getName()
 				  << ", but only to classes." << endl;
 			return;
 		}
 		if (stype == "CORBAEnum") {
-			UMLAttributeList atl = myClass->getAttributeList();
+			UMLAttributeList atl = c->getAttributeList();
 			UMLAttribute *at;
 			idl << getIndent() << "enum " << classname << " {" << m_endl;
 			m_indentLevel++;
@@ -233,7 +233,7 @@ void IDLWriter::writeClass(UMLClassifier *c) {
 			m_indentLevel--;
 			idl << getIndent() << "};" << m_endl << m_endl;
 		} else if (stype == "CORBAStruct") {
-			UMLAttributeList atl = myClass->getAttributeList();
+			UMLAttributeList atl = c->getAttributeList();
 			UMLAttribute *at;
 			idl << getIndent() << "struct " << classname << " {" << m_endl;
 			m_indentLevel++;
@@ -326,8 +326,8 @@ void IDLWriter::writeClass(UMLClassifier *c) {
 	}
 
 	// Generate public attributes.
-	if(myClass) {
-		UMLAttributeList atl = myClass->getAttributeList();
+	if (isClass) {
+		UMLAttributeList atl = c->getAttributeList();
 		if (forceSections() || atl.count()) {
 			idl << getIndent() << "// Attributes:" << m_endl << m_endl;
 			for (UMLAttribute *at = atl.first(); at; at = atl.next()) {

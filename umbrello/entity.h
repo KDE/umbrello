@@ -66,8 +66,6 @@ public:
 	 */
 	virtual UMLObject* clone() const;
 
-	virtual bool isInterface() { return false; }
-
 	/**
 	 * Creates an entity attribute for the parent concept.
 	 *
