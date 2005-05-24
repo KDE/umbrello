@@ -746,7 +746,7 @@ bool ClassifierWidget::loadFromXMI(QDomElement & qElement) {
 	QString showattsigs = qElement.attribute( "showattsigs", "600" );
 	QString showopsigs = qElement.attribute( "showopsigs", "600" );
 	QString showpackage = qElement.attribute( "showpackage", "0" );
-	QString showstereo = qElement.attribute( "showstereotype", "0" );
+	QString showstereo = qElement.attribute( "showstereotype", "1" );
 	QString showscope = qElement.attribute( "showscope", "0" );
 
 	m_bShowAttributes = (bool)showatts.toInt();
