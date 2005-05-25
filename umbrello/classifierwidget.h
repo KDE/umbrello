@@ -317,18 +317,6 @@ protected:
 	void calculateSize();
 
 	/**
-	 * Auxiliary method for calculateSize():
-	 * Computes the width and height of the classifier widget
-	 * taking into account the name, stereotype, and operations.
-	 *
-	 * @param width		Return value: the computed width.
-	 * @param height	Return value: the computed height.
-	 * @param showStereotype True to include the stereotype.
-	 */
-	void computeBasicSize(int &width, int &height,
-				      bool showStereotype = true);
-
-	/**
 	 * Draws the interface as a circle with name underneath.
 	 * Only applies when m_pObject->getBaseType() is ot_Interface.
 	 */
@@ -391,8 +379,8 @@ protected:
 	 */
 	static const int CIRCLE_SIZE;
 
-	/// Auxiliary variables for size calculations and drawing
-	int m_bodyOffsetY, m_w, m_h;
+	/// Auxiliary variable for size calculations and drawing
+	int m_bodyOffsetY;
 
 	/**
 	 * The related AssociationWidget in case this classifier
