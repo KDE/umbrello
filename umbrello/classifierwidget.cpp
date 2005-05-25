@@ -38,7 +38,10 @@ ClassifierWidget::ClassifierWidget(UMLView * view, UMLClassifier *c)
 	}
 }
 
-ClassifierWidget::~ClassifierWidget() {}
+ClassifierWidget::~ClassifierWidget() {
+	if (m_pAssocWidget)
+		m_pAssocWidget->removeAssocClassLine();
+}
 
 const int ClassifierWidget::MARGIN = 5;
 const int ClassifierWidget::CIRCLE_SIZE = 30;
@@ -321,7 +324,7 @@ void ClassifierWidget::calculateSize() {
 		width += templatesBoxSize.width() / 2;
 	}
 	if (templatesBoxSize.height() != 0) {
-		height += templatesBoxSize.height() - ClassifierWidget::MARGIN;
+		height += templatesBoxSize.height() - MARGIN;
 	}
 
 	// consider stereotype
@@ -387,7 +390,7 @@ void ClassifierWidget::calculateSize() {
 
 	// allow for height margin
 	if (!m_bShowOperations && !m_bShowAttributes && !m_bShowStereotype) {
-		height += ClassifierWidget::MARGIN * 2;
+		height += MARGIN * 2;
 	}
 
 	// allow for width margin
@@ -412,40 +415,54 @@ void ClassifierWidget::slotMenuSelection(int sel) {
 			break;
 		}
 		case ListPopupMenu::mt_Show_Operations:
+		case ListPopupMenu::mt_Show_Operations_Selection:
 			toggleShowOps();
 			break;
 
 		case ListPopupMenu::mt_Show_Attributes:
+		case ListPopupMenu::mt_Show_Attributes_Selection:
 			toggleShowAtts();
 			break;
 
 		case ListPopupMenu::mt_Show_Public_Only:
+		case ListPopupMenu::mt_Show_Public_Only_Selection:
 			toggleShowPublicOnly();
 			break;
 
 		case ListPopupMenu::mt_Show_Operation_Signature:
+		case ListPopupMenu::mt_Show_Operation_Signature_Selection:
 			toggleShowOpSigs();
 			break;
 
 		case ListPopupMenu::mt_Show_Attribute_Signature:
+		case ListPopupMenu::mt_Show_Attribute_Signature_Selection:
 			toggleShowAttSigs();
 			break;
 
 		case ListPopupMenu::mt_Scope:
+		case ListPopupMenu::mt_Scope_Selection:
 			toggleShowScope();
 			break;
 
 		case ListPopupMenu::mt_Show_Packages:
+		case ListPopupMenu::mt_Show_Packages_Selection:
 			toggleShowPackage();
 			break;
 
 		case ListPopupMenu::mt_Show_Stereotypes:
+		case ListPopupMenu::mt_Show_Stereotypes_Selection:
 			toggleShowStereotype();
 			break;
+
+		case ListPopupMenu::mt_DrawAsCircle:
+		case ListPopupMenu::mt_DrawAsCircle_Selection:
+			toggleDrawAsCircle();
+			break;
+
 		default:
+			UMLWidget::slotMenuSelection(sel);
 			break;
 	}
-	UMLWidget::slotMenuSelection(sel);
 }
 
 QSize ClassifierWidget::calculateTemplatesBoxSize() {
@@ -639,18 +656,22 @@ void ClassifierWidget::drawAsCircle(QPainter& p, int offsetX, int offsetY) {
 }
 
 void ClassifierWidget::calculateAsCircleSize() {
-	QFontMetrics &fm = getFontMetrics(FT_ITALIC_UNDERLINE);
-	int fontHeight = fm.lineSpacing();
+	QFontMetrics &fm = UMLWidget::getFontMetrics(UMLWidget::FT_ITALIC_UNDERLINE);
+	const int fontHeight = fm.lineSpacing();
 
 	int height = CIRCLE_SIZE + fontHeight;
 
-	int width;
-	if ( m_bShowPackage ) {
-		width = fm.width(m_pObject->getPackage() + "." + getName());
+	int width = CIRCLE_SIZE;
+	QString displayedName;
+	if (m_bShowPackage) {
+		displayedName = m_pObject->getFullyQualifiedName();
 	} else {
-		width = fm.width(getName());
+		displayedName = m_pObject->getName();
 	}
-	width = width<CIRCLE_SIZE ? CIRCLE_SIZE : width;
+	const int nameWidth = fm.width(displayedName);
+	if (nameWidth > width)
+		width = nameWidth;
+	width += MARGIN * 2;
 
 	setSize(width, height);
 	adjustAssocs( getX(), getY() );//adjust assoc lines
