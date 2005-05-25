@@ -459,6 +459,22 @@ void ClassifierWidget::slotMenuSelection(int sel) {
 			toggleDrawAsCircle();
 			break;
 
+		case ListPopupMenu::mt_ChangeToClass:
+		case ListPopupMenu::mt_ChangeToClass_Selection:
+			WidgetBase::m_Type = Uml::wt_Class;
+			getClassifier()->setInterface(false);
+			calculateSize();
+			update();
+			break;
+
+		case ListPopupMenu::mt_ChangeToInterface:
+		case ListPopupMenu::mt_ChangeToInterface_Selection:
+			WidgetBase::m_Type = Uml::wt_Interface;
+			getClassifier()->setInterface(true);
+			calculateSize();
+			update();
+			break;
+
 		default:
 			UMLWidget::slotMenuSelection(sel);
 			break;
@@ -574,7 +590,7 @@ void ClassifierWidget::draw(QPainter & p, int offsetX, int offsetY) {
 
 	// draw stereotype
 	font.setBold(true);
-	QString stereo = m_pObject->getStereotype();
+	QString stereo = m_pObject->getStereotype(false);
 	/* if no stereotype is given we don't want to show the empty << >> */
 	const bool showStereotype = (m_bShowStereotype && !stereo.isEmpty());
 	const bool showNameOnly = (!m_bShowOperations && !m_bShowAttributes && !showStereotype);
@@ -583,6 +599,7 @@ void ClassifierWidget::draw(QPainter & p, int offsetX, int offsetY) {
 		nameHeight = h;
 	} else if (showStereotype) {
 		p.setFont(font);
+		stereo = m_pObject->getStereotype(true);
 		p.drawText(textX, m_bodyOffsetY, textWidth, fontHeight, AlignCenter, stereo);
 		m_bodyOffsetY += fontHeight;
 	}
@@ -614,8 +631,8 @@ void ClassifierWidget::draw(QPainter & p, int offsetX, int offsetY) {
 			    m_bodyOffsetY, fontHeight);
 	}
 
-	// draw operations
-	if (m_bShowOperations) {
+	// draw dividing line between attributes and operations
+	if (!showNameOnly) {
 		if (numAtts == 0)
 			m_bodyOffsetY += fontHeight / 2;  // no atts, so just add a bit of space
 		else
@@ -623,12 +640,16 @@ void ClassifierWidget::draw(QPainter & p, int offsetX, int offsetY) {
 		UMLWidget::setPen(p);
 		p.drawLine(offsetX, m_bodyOffsetY, offsetX + w - 1, m_bodyOffsetY);
 		p.setPen(QPen(black));
+	}
+
+	// draw operations
+	if (m_bShowOperations) {
 		drawMembers(p, Uml::ot_Operation, m_ShowOpSigs, textX,
 			    m_bodyOffsetY, fontHeight);
 	}
 
-	if (m_bSelected)
-		drawSelected(&p, offsetX, offsetY);
+	if (UMLWidget::m_bSelected)
+		UMLWidget::drawSelected(&p, offsetX, offsetY);
 }
 
 void ClassifierWidget::drawAsCircle(QPainter& p, int offsetX, int offsetY) {

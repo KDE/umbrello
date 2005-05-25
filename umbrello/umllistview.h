@@ -219,6 +219,11 @@ class UMLListView : public KListView {
 	static bool typeIsClassifierList(Uml::ListView_Type type);
 
 	/**
+	 * Changes the icon for the given UMLObject to the given icon.
+	 */
+	void changeIconOf(UMLObject *o, Icon_Type to);
+
+	/**
 	 * Creates a UMLObject out of the given list view item.
 	 */
 	void createUMLObject( UMLListViewItem * item, Uml::Object_Type type );

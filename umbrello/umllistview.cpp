@@ -902,6 +902,13 @@ UMLListViewItem * UMLListView::findUMLObject(UMLObject *p) const {
 	return item;
 }
 
+void UMLListView::changeIconOf(UMLObject *o, Icon_Type to) {
+	UMLListViewItem *item = findUMLObject(o);
+	if (item == NULL)
+		return;
+	item->setPixmap(0, getPixmap(to));
+}
+
 UMLListViewItem* UMLListView::findView(UMLView* v) {
 	if (!v) {
 		kdWarning() << "returning 0 from UMLListView::findView()" << endl;

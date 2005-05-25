@@ -21,6 +21,7 @@
 #include "stereotype.h"
 #include "umldoc.h"
 #include "uml.h"
+#include "umllistview.h"
 #include "model_utils.h"
 #include "clipboard/idchangelog.h"
 #include "dialogs/umloperationdialog.h"
@@ -46,13 +47,18 @@ void UMLClassifier::init(bool bIsInterface /* = false */) {
 }
 
 void UMLClassifier::setInterface(bool b /* = true */) {
+	UMLListView::Icon_Type newIcon;
 	if (b) {
 		m_BaseType = ot_Interface;
 		UMLObject::setStereotype(i18n("interface"));
+		newIcon = UMLListView::it_Interface;
 	} else {
 		m_BaseType = ot_Class;
 		UMLObject::setStereotype(QString::null);
+		newIcon = UMLListView::it_Class;
 	}
+	UMLListView *listView = UMLApp::app()->getListView();
+		listView->changeIconOf(this, newIcon);
 }
 
 bool UMLClassifier::isInterface() const {

@@ -109,6 +109,10 @@ public:
 	    mt_Scope_Selection,               //SCOPE, multiple items
 	    mt_DrawAsCircle,
 	    mt_DrawAsCircle_Selection,        //DRAWASCIRCLE, multiple items
+	    mt_ChangeToClass,
+	    mt_ChangeToClass_Selection,
+	    mt_ChangeToInterface,
+	    mt_ChangeToInterface_Selection,
 	    mt_Rename_Object,
 	    mt_Select_Operation,
 	    mt_Anchor,

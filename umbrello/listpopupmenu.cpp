@@ -18,6 +18,7 @@
 #include "umllistview.h"
 #include "umllistviewitem.h"
 #include "classifierwidget.h"
+#include "classifier.h"
 #include "floatingtext.h"
 #include "uml.h"
 #include "model_utils.h"
@@ -200,8 +201,9 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
 	Uml::Widget_Type type = object -> getBaseType();
 
 	if(multi) {
+		ClassifierWidget *c = NULL;
 		if (unique && (type == Uml::wt_Class || type == Uml::wt_Interface)) {
-			ClassifierWidget *c = static_cast<ClassifierWidget *>( object );
+			c = static_cast<ClassifierWidget *>( object );
 			makeMultiClassifierPopup(c);
 		}
 		setupColorSelection(object -> getUseFillColour());
@@ -217,10 +219,15 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
 
 		// add this here and not above with the other stuff of the interface
 		// user might expect it at this position of the context menu
-		if (unique == true && type == Uml::wt_Interface) {
-			insertItem(i18n("Draw as Circle"), mt_DrawAsCircle_Selection);
-			setItemChecked( mt_DrawAsCircle_Selection,
-					((ClassifierWidget*)object)->getDrawAsCircle() );
+		if (unique) {
+			if (type == Uml::wt_Interface) {
+				insertItem(i18n("Draw as Circle"), mt_DrawAsCircle_Selection);
+				setItemChecked( mt_DrawAsCircle_Selection,
+						((ClassifierWidget*)object)->getDrawAsCircle() );
+				insertItem(i18n("Change into Class"), mt_ChangeToClass_Selection);
+			} else if (type == Uml::wt_Class && c->getClassifier()->attributes() == 0) {
+				insertItem(i18n("Change into Interface"), mt_ChangeToInterface_Selection);
+			}
 		}
 
 		if(m_pInsert)
@@ -652,11 +659,13 @@ void ListPopupMenu::makeClassifierPopup(ClassifierWidget *c)
 	insertStdItem(mt_Change_Font);
 	if (type == Uml::wt_Interface) {
 		insertItem(i18n("Draw as Circle"), mt_DrawAsCircle);
-		setItemChecked( mt_DrawAsCircle,
-				c->getDrawAsCircle() );
+		setItemChecked( mt_DrawAsCircle, c->getDrawAsCircle() );
+		insertItem(i18n("Change into Class"), mt_ChangeToClass);
 	} else {
 		insertItem(i18n("Refactor"), mt_Refactoring);
 		insertItem(i18n("View Code"), mt_ViewCode);
+		if (c->getClassifier()->attributes() == 0)
+			insertItem(i18n("Change into Interface"), mt_ChangeToInterface);
 	}
 	insertStdItem(mt_Properties);
 }

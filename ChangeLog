@@ -2,15 +2,19 @@ Version 1.5
 
 * Association classes
 * Externalization of folders (i.e. submodel files)
+* Change interface into class and vice versa (if no attributes)
 
 * Bugs fixed / wishes implemented (see http://bugs.kde.org)
-57588 87252
+57588 79433 87252 105564
 
 Version 1.4.1 (maintenance release)
 
 Bugs fixed:
 * Crash on deleting attributes / enum literals
 * Crash in UMLView::createAutoAttributeAssociations()
+* Failure to import C++ enum type with comment on last literal
+* Non-Latin1 characters in diagram names
+* Generate missing "static" keyword in new C++ code generator
 * Bugs from http://bugs.kde.org :
  53376  57667  57875  70924  80924  89691  95353 100290 100307 101148
 103123 103133 103728 101541 104637
