@@ -23,8 +23,8 @@ class UMLAssociation;
 class IDChangeLog;
 
 /**
- * This is an abstract class which defines the non-graphical information/
- * interface required for a UML Classifier (ie a class or interface).
+ * This class defines the non-graphical information required for a
+ * UML Classifier (ie a class or interface).
  * This class inherits from @ref UMLPackage which allows classifiers
  * to also act as namespaces, i.e. it allows classifiers to nest.
  *
