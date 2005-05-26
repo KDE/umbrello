@@ -103,8 +103,14 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o) : QWidget(p
 		m_pPackageL->setBuddy(m_pPackageLE);
 	}
 
-	if (t == Uml::ot_Class ) {
-		m_pAbstractCB = new QCheckBox( i18n("A&bstract class"), this );
+	if (t == Uml::ot_Class || t == Uml::ot_UseCase ) {
+		QString abstractCaption;
+		if ( t == Uml::ot_Class  ) {
+			abstractCaption = i18n("A&bstract class");
+		} else {
+			abstractCaption = i18n("A&bstract use case");
+		}
+		m_pAbstractCB = new QCheckBox( abstractCaption, this );
 		m_pAbstractCB -> setChecked( o -> getAbstract() );
 		m_pNameLayout -> addWidget( m_pAbstractCB, 3, 0 );
 	}
