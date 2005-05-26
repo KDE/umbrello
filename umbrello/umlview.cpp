@@ -513,11 +513,14 @@ void UMLView::slotObjectCreated(UMLObject* o) {
 			}
 		}
 		break;
-	case ot_Class: // CORRECT?
+	case ot_Class:
 		//see if we really want an object widget or class widget
-		if(getType() == dt_Class) {
+		if (m_Type == dt_Class || m_Type == dt_Component) {
 			UMLClassifier *c = static_cast<UMLClassifier*>(o);
-			newWidget = new ClassifierWidget(this, c);
+			ClassifierWidget *cw = new ClassifierWidget(this, c);
+			if (m_Type == dt_Component)
+				cw->setDrawAsCircle(true);
+			newWidget = cw;
 		} else {
 			ObjectWidget *ow = new ObjectWidget(this, o, getLocalID() );
 			if (m_Type == dt_Sequence) {
@@ -637,10 +640,15 @@ void UMLView::contentsDragEnterEvent(QDragEnterEvent *e) {
 		e->accept(false);
 		return;
 	}
-	if (diagramType == dt_Component &&
-	    (ot != ot_Interface && ot != ot_Component && ot != ot_Artifact)) {
-		e->accept(false);
-		return;
+	if (diagramType == dt_Component) {
+		if (ot != ot_Interface && ot != ot_Component && ot != ot_Artifact && ot != ot_Class) {
+			e->accept(false);
+			return;
+		}
+		if (ot == ot_Class && !temp->getAbstract()) {
+			e->accept(false);
+			return;
+		}
 	}
 	if (diagramType == dt_EntityRelationship &&
 	    (ot != ot_Entity )) {
