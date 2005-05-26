@@ -225,8 +225,10 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
 				setItemChecked( mt_DrawAsCircle_Selection,
 						((ClassifierWidget*)object)->getDrawAsCircle() );
 				insertItem(i18n("Change into Class"), mt_ChangeToClass_Selection);
-			} else if (type == Uml::wt_Class && c->getClassifier()->attributes() == 0) {
-				insertItem(i18n("Change into Interface"), mt_ChangeToInterface_Selection);
+			} else if (type == Uml::wt_Class) {
+				UMLClassifier *umlc = c->getClassifier();
+				if (umlc->getAbstract() && umlc->attributes() == 0)
+					insertItem(i18n("Change into Interface"), mt_ChangeToInterface_Selection);
 			}
 		}
 
@@ -664,7 +666,8 @@ void ListPopupMenu::makeClassifierPopup(ClassifierWidget *c)
 	} else {
 		insertItem(i18n("Refactor"), mt_Refactoring);
 		insertItem(i18n("View Code"), mt_ViewCode);
-		if (c->getClassifier()->attributes() == 0)
+		UMLClassifier *umlc = c->getClassifier();
+		if (umlc->getAbstract() && umlc->attributes() == 0)
 			insertItem(i18n("Change into Interface"), mt_ChangeToInterface);
 	}
 	insertStdItem(mt_Properties);
