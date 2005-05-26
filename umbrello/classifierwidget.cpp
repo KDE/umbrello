@@ -746,7 +746,8 @@ bool ClassifierWidget::activate(IDChangeLog* ChangeLog /* = 0 */) {
 
 void ClassifierWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement) {
 	QDomElement conceptElement;
-	if (getClassifier()->isInterface())
+	UMLClassifier *umlc = getClassifier();
+	if (umlc->isInterface())
 		conceptElement = qDoc.createElement("interfacewidget");
 	else
 		conceptElement = qDoc.createElement("classwidget");
@@ -757,10 +758,12 @@ void ClassifierWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement) {
 	conceptElement.setAttribute( "showpackage", m_bShowPackage );
 	conceptElement.setAttribute( "showstereotype", m_bShowStereotype );
 	conceptElement.setAttribute( "showscope", m_bShowAccess );
-	if (! getClassifier()->isInterface()) {
+	if (! umlc->isInterface()) {
 		conceptElement.setAttribute("showattributes", m_bShowAttributes);
 		conceptElement.setAttribute("showattsigs", m_ShowAttSigs);
 	}
+	if (umlc->isInterface() || umlc->getAbstract())
+		conceptElement.setAttribute("drawascircle", m_bDrawAsCircle);
 	qElement.appendChild( conceptElement );
 }
 
@@ -775,6 +778,7 @@ bool ClassifierWidget::loadFromXMI(QDomElement & qElement) {
 	QString showpackage = qElement.attribute( "showpackage", "0" );
 	QString showstereo = qElement.attribute( "showstereotype", "1" );
 	QString showscope = qElement.attribute( "showscope", "0" );
+	QString drawascircle = qElement.attribute("drawascircle", "0");
 
 	m_bShowAttributes = (bool)showatts.toInt();
 	m_bShowOperations = (bool)showops.toInt();
@@ -784,6 +788,7 @@ bool ClassifierWidget::loadFromXMI(QDomElement & qElement) {
 	m_bShowPackage = (bool)showpackage.toInt();
 	m_bShowStereotype = (bool)showstereo.toInt();
 	m_bShowAccess = (bool)showscope.toInt();
+	m_bDrawAsCircle = (bool)drawascircle.toInt();
 
 	return true;
 }
