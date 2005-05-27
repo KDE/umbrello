@@ -715,6 +715,16 @@ ObjectWidget * UMLView::onWidgetLine( const QPoint &point ) {
 	return 0;
 }
 
+UMLWidget *UMLView::testOnWidget(QPoint p) {
+	UMLWidget *obj;
+	UMLWidgetListIt it(m_WidgetList);
+	for (UMLWidgetListIt it(m_WidgetList); (obj = it.current()) != NULL; ++it) {
+		if (obj->onWidget(p))
+			return obj;
+	}
+	return NULL;
+}
+
 void UMLView::checkMessages(ObjectWidget * w) {
 	if(getType() != dt_Sequence)
 		return;
