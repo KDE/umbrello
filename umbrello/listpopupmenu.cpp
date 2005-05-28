@@ -223,7 +223,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
 			if (type == Uml::wt_Interface) {
 				insertItem(i18n("Draw as Circle"), mt_DrawAsCircle_Selection);
 				setItemChecked( mt_DrawAsCircle_Selection,
-						((ClassifierWidget*)object)->getDrawAsCircle() );
+						c->getDrawAsCircle() );
 				insertItem(i18n("Change into Class"), mt_ChangeToClass_Selection);
 			} else if (type == Uml::wt_Class) {
 				UMLClassifier *umlc = c->getClassifier();
