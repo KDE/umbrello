@@ -266,8 +266,9 @@ bool UMLAssociation::load( QDomElement & element ) {
                 // is not complete, so we need to finish the analysis here.
 
 		// its a realization if either endpoint is an interface
-		if (obj[A] && obj[A]->getBaseType() == Uml::ot_Interface ||
-		    obj[B] && obj[B]->getBaseType() == Uml::ot_Interface)
+		if (m_AssocType == Uml::at_Generalization &&
+		    (obj[A] && obj[A]->getBaseType() == Uml::ot_Interface ||
+		     obj[B] && obj[B]->getBaseType() == Uml::ot_Interface))
 			m_AssocType = Uml::at_Realization;
 
 		return true;
