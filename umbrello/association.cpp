@@ -148,8 +148,10 @@ bool UMLAssociation::resolveRef() {
 	if (successA && successB) {
 		UMLObject *objA = getUMLRole(A)->getObject();
 		UMLObject *objB = getUMLRole(B)->getObject();
-		if (objA && objA->getBaseType() == Uml::ot_Interface ||
-		    objB && objB->getBaseType() == Uml::ot_Interface)
+		// Check if need to change the assoc type to Realization
+		if (m_AssocType == Uml::at_Generalization &&
+		    (objA && objA->getBaseType() == Uml::ot_Interface ||
+		     objB && objB->getBaseType() == Uml::ot_Interface))
 			m_AssocType = Uml::at_Realization;
 		UMLDoc *doc = UMLApp::app()->getDocument();
 		doc->addAssocToConcepts(this);
