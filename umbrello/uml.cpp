@@ -22,6 +22,7 @@
 #include <qwidgetstack.h>
 #include <qslider.h>
 #include <qregexp.h>
+#include <qtoolbutton.h>
 
 // kde includes
 #include <kaction.h>
@@ -407,6 +408,9 @@ void UMLApp::initView() {
 
 	m_mainDock = createDockWidget("maindock", 0L, 0L, "main dock");
 #if KDE_IS_VERSION(3,1,90)
+	m_newSessionButton = NULL;
+	m_diagramMenu = NULL;
+	m_closeDiagramButton = NULL;
 	if (m_optionState.generalState.tabdiagrams) {
 		m_viewStack = NULL;
 		m_tabWidget = new KTabWidget(m_mainDock, "tab_widget");
@@ -415,11 +419,11 @@ void UMLApp::initView() {
 		m_tabWidget->setAutomaticResizeTabs( true );
 #endif
 
-		KToolBarButton* m_newSessionButton = new KToolBarButton("tab_new", 0, m_tabWidget);
+		m_newSessionButton = new KToolBarButton("tab_new", 0, m_tabWidget);
 		m_newSessionButton->setIconSet( SmallIcon( "tab_new" ) );
 		m_newSessionButton->adjustSize();
 		m_newSessionButton->setAutoRaise(true);
-		KPopupMenu* m_diagramMenu = new KPopupMenu(m_newSessionButton);
+		m_diagramMenu = new KPopupMenu(m_newSessionButton);
 
 		m_diagramMenu->insertItem(Umbrello::iconSet(Uml::dt_Class), i18n("Class Diagram..."), this, SLOT(slotClassDiagram()) );
 		m_diagramMenu->insertItem(Umbrello::iconSet(Uml::dt_Sequence), i18n("Sequence Diagram..."), this, SLOT(slotSequenceDiagram()) );
@@ -434,7 +438,8 @@ void UMLApp::initView() {
 		//FIXME why doesn't this work?
 		//m_newSessionButton->setPopup(newDiagram->popupMenu());
 
-		KToolBarButton* m_closeDiagramButton = new KToolBarButton("tab_remove", 0, m_tabWidget);
+		//m_closeDiagramButton = new KToolBarButton("tab_remove", 0, m_tabWidget);
+		m_closeDiagramButton = new QToolButton(m_tabWidget);
 		m_closeDiagramButton->setIconSet( SmallIcon("tab_remove") );
 		m_closeDiagramButton->adjustSize();
 
