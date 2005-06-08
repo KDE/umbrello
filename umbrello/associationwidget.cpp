@@ -2987,6 +2987,19 @@ QRect AssociationWidget::getAssocLineRectangle()
 	return rectangle;
 }
 
+void AssociationWidget::setUMLObject(UMLObject *obj) {
+	WidgetBase::setUMLObject(obj);
+	if (obj && obj->getBaseType() == Uml::ot_Attribute) {
+		UMLClassifier *klass = static_cast<UMLClassifier*>(obj->parent());
+		connect(klass, SIGNAL(attributeRemoved(UMLObject*)),
+			this, SLOT(slotAttributeRemoved(UMLObject*)));
+	}
+}
+
+void AssociationWidget::slotAttributeRemoved(UMLObject* obj) {
+	kdDebug() << "AssociationWidget::slotAttributeRemoved(" << obj->getName() << ")" << endl;
+	m_pView->removeAssoc(this);
+}
 
 void AssociationWidget::init (UMLView *view)
 {
