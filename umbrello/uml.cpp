@@ -21,6 +21,8 @@
 #include <qtimer.h>
 #include <qwidgetstack.h>
 #include <qslider.h>
+#include <qregexp.h>
+#include <qtoolbutton.h>
 
 // kde includes
 #include <kaction.h>
@@ -406,6 +408,9 @@ void UMLApp::initView() {
 
 	m_mainDock = createDockWidget("maindock", 0L, 0L, "main dock");
 #if KDE_IS_VERSION(3,1,90)
+	m_newSessionButton = NULL;
+	m_diagramMenu = NULL;
+	m_closeDiagramButton = NULL;
 	if (m_optionState.generalState.tabdiagrams) {
 		m_viewStack = NULL;
 		m_tabWidget = new KTabWidget(m_mainDock, "tab_widget");
@@ -414,11 +419,11 @@ void UMLApp::initView() {
 		m_tabWidget->setAutomaticResizeTabs( true );
 #endif
 
-		KToolBarButton* m_newSessionButton = new KToolBarButton("tab_new", 0, m_tabWidget);
+		m_newSessionButton = new KToolBarButton("tab_new", 0, m_tabWidget);
 		m_newSessionButton->setIconSet( SmallIcon( "tab_new" ) );
 		m_newSessionButton->adjustSize();
 		m_newSessionButton->setAutoRaise(true);
-		KPopupMenu* m_diagramMenu = new KPopupMenu(m_newSessionButton);
+		m_diagramMenu = new KPopupMenu(m_newSessionButton);
 
 		m_diagramMenu->insertItem(Umbrello::iconSet(Uml::dt_Class), i18n("Class Diagram..."), this, SLOT(slotClassDiagram()) );
 		m_diagramMenu->insertItem(Umbrello::iconSet(Uml::dt_Sequence), i18n("Sequence Diagram..."), this, SLOT(slotSequenceDiagram()) );
@@ -433,7 +438,8 @@ void UMLApp::initView() {
 		//FIXME why doesn't this work?
 		//m_newSessionButton->setPopup(newDiagram->popupMenu());
 
-		KToolBarButton* m_closeDiagramButton = new KToolBarButton("tab_remove", 0, m_tabWidget);
+		//m_closeDiagramButton = new KToolBarButton("tab_remove", 0, m_tabWidget);
+		m_closeDiagramButton = new QToolButton(m_tabWidget);
 		m_closeDiagramButton->setIconSet( SmallIcon("tab_remove") );
 		m_closeDiagramButton->adjustSize();
 
@@ -576,7 +582,7 @@ void UMLApp::saveOptions() {
 	if(gen && gen->getPolicy())
 	      m_defaultcodegenerationpolicy->setDefaults(gen->getPolicy());
 
-	// write the m_config for each language-specific code gen policies
+	// write the config for each language-specific code gen policies
 	GeneratorDictIt it( m_generatorDict );
 	for(it.toFirst() ; it.current(); ++it )
 	{
@@ -596,7 +602,7 @@ void UMLApp::saveOptions() {
 void UMLApp::readOptions() {
 	// bar status settings
 	toolBar("mainToolBar")->applySettings(m_config, "toolbar");
-	//do m_config for work toolbar
+	//do config for work toolbar
 	toolsbar->applySettings(m_config, "workbar");
 	m_alignToolBar->applySettings(m_config, "aligntoolbar");
 	fileOpenRecent->loadEntries(m_config,"Recent Files");
@@ -1097,7 +1103,7 @@ void UMLApp::readOptionState() {
 			default: m_optionState.generalState.autosavetime = 5; break;
 		}
 	}
-	// 2004-05-17 Achim Spangler: read new m_config entry for autosave sufix
+	// 2004-05-17 Achim Spangler: read new config entry for autosave sufix
 	m_optionState.generalState.autosavesuffix = m_config -> readEntry( "autosavesuffix", ".xmi" );
 
 	m_optionState.generalState.logo = m_config -> readBoolEntry( "logo", true );

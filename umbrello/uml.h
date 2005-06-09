@@ -54,11 +54,14 @@ class KStatusBarLabel;
 class KToggleAction;
 class KDockWidget;
 class KTabWidget;
+class KToolBarButton;
+class KPopupMenu;
 
 // Qt forward declarations
 class QWidgetStack;
 class QMenuData;
 class QClipboard;
+class QToolButton;
 
 class RefactoringAssistant;
 
@@ -880,11 +883,13 @@ private:
 	KAction* changeTabRight;
 	KAction* moveTabLeft;
 	KAction* moveTabRight;
-//Remove these once we stop supporting KDE 3.1
-// #if !KDE_IS_VERSION(3,1,90)
+#if KDE_IS_VERSION(3,1,90)
+	KToolBarButton* m_newSessionButton;
+	KPopupMenu* m_diagramMenu;
+	QToolButton* m_closeDiagramButton;
+#endif
 	KToggleAction* viewToolBar;
 	KToggleAction* viewStatusBar;
-// #endif
 	WorkToolBar* toolsbar;
 	QTimer* m_clipTimer;
 	QTimer* m_copyTimer;
