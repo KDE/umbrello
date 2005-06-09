@@ -907,6 +907,14 @@ public:
 	}
 
 	/**
+	 * Tests the given point against all widgets and returns the
+	 * widget for which the point is within its bounding rectangle.
+	 * Returns NULL if the point is not inside any widget.
+	 * Does not use or modify the m_pOnWidget member.
+	 */
+	UMLWidget *testOnWidget(QPoint p);
+
+	/**
 	 * Initialize and announce a newly created widget.
 	 * Auxiliary to contentsMouseReleaseEvent().
 	 */

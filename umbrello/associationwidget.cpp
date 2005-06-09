@@ -2288,6 +2288,32 @@ void AssociationWidget::mouseMoveEvent(QMouseEvent* me) {
 		p.setY(newY);
 	}
 
+	// Prevent the moving vertex from disappearing underneath a widget
+	// (else there's no way to get it back.)
+	UMLWidget *onW = m_pView->testOnWidget(p);
+	if (onW) {
+		const int pX = p.x();
+		const int pY = p.y();
+		const int wX = onW->getX();
+		const int wY = onW->getY();
+		const int wWidth = onW->getWidth();
+		const int wHeight = onW->getHeight();
+		if (pX > wX && pX < wX + wWidth) {
+			const int midX = wX + wWidth / 2;
+			if (pX <= midX)
+				p.setX(wX);
+			else
+				p.setX(wX + wWidth);
+		}
+		if (pY > wY && pY < wY + wHeight) {
+			const int midY = wY + wHeight / 2;
+			if (pY <= midY)
+				p.setY(wY);
+			else
+				p.setY(wY + wHeight);
+		}
+	}
+
 	//move event called now
 	QMoveEvent m(p, oldp);
 	moveEvent(&m);
