@@ -531,6 +531,13 @@ public:
 	void calculateEndingPoints();
 
 	/**
+	 * Overriding the method from WidgetBase because we need to do
+	 * something extra in case this AssociationWidget represents
+	 * an attribute of a classifier.
+	 */
+	void setUMLObject(UMLObject *obj);
+
+	/**
 	 * Saves this widget to the <assocwidget> XMI element.
 	 */
 	void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
@@ -888,6 +895,14 @@ public slots:
 	 * Handles any signals that tells everyone not to be selected.
 	 */
 	void slotClearAllSelected();
+
+	/**
+	 * Connected to UMLClassifier::attributeRemoved() in case this
+	 * AssociationWidget is linked to a classifer's attribute type.
+	 *
+	 * @param obj		The UMLAttribute removed.
+	 */
+	void slotAttributeRemoved(UMLObject* obj);
 
 	/**
 	 * Synchronize this widget from the UMLAssociation.
