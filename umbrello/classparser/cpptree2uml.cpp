@@ -621,9 +621,9 @@ void CppTree2Uml::flushTemplateParams(UMLClass *klass) {
 	for (it = m_templateParams.begin(); it != m_templateParams.end(); ++it) {
 	    const Umbrello::NameAndType &nt = *it;
 	    kdDebug() << "CppTree2Uml::parseClassSpecifier: adding template param: "
-	    	      << nt.first << endl;
-	    UMLTemplate *tmpl = klass->addTemplate(nt.first);
-	    tmpl->setType(nt.second);
+	    	      << nt.m_name << endl;
+	    UMLTemplate *tmpl = klass->addTemplate(nt.m_name);
+	    tmpl->setType(nt.m_type);
 	}
 	m_templateParams.clear();
     }
