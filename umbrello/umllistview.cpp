@@ -2288,9 +2288,9 @@ bool UMLListView::createChildUMLObject( UMLListViewItem * item, Uml::Object_Type
 			m_bCreatingChildObject = false;
 			return false;
 		}
-		newObject = owningClassifier->createTemplate(nt.first);
+		newObject = owningClassifier->createTemplate(nt.m_name);
 		UMLTemplate *tmplParm = static_cast<UMLTemplate*>(newObject);
-		tmplParm->setType(nt.second);
+		tmplParm->setType(nt.m_type);
 		text = tmplParm->toString(Uml::st_SigNoScope);
 	} else if ( type == Uml::ot_Attribute )  {
 		UMLClassifier *owningClass = static_cast<UMLClassifier*>(parent);
@@ -2304,10 +2304,10 @@ bool UMLListView::createChildUMLObject( UMLListViewItem * item, Uml::Object_Type
 			m_bCreatingChildObject = false;
 			return false;
 		}
-		newObject = owningClass->createAttribute(nt.first);
+		newObject = owningClass->createAttribute(nt.m_name);
 		UMLAttribute *att = static_cast<UMLAttribute*>(newObject);
-                if (nt.second)
-		        att->setType(nt.second);
+		att->setType(nt.m_type);
+		att->setInitialValue(nt.m_initialValue);
 		text = att->toString(Uml::st_SigNoScope);
 	} else if ( type == Uml::ot_Operation ) {
 		UMLClassifier *owningClassifier = static_cast<UMLClassifier*>(parent);

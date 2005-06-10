@@ -16,7 +16,6 @@
 #define MODEL_UTILS_H
 
 #include <qstring.h>
-#include <qpair.h>
 #include <qvaluelist.h>
 
 #include "umlnamespace.h"
@@ -112,7 +111,16 @@ namespace Umbrello {
 	/**
 	 * Data structure filled by parseAttribute()
 	 */
-	typedef QPair<QString, UMLObject*> NameAndType;
+	struct NameAndType {
+		QString m_name;
+		UMLObject *m_type;
+		QString m_initialValue;
+		NameAndType() : m_type(0) {
+		}
+		NameAndType(QString name, UMLObject *type, QString initialValue = QString::null)
+			: m_name(name), m_type(type), m_initialValue(initialValue) {
+		}
+	};
 
 	/**
 	 * Auxiliary type for OpDescriptor
@@ -135,22 +143,22 @@ namespace Umbrello {
 	 * @param t		Input text of the template parameter.
 	 *			Example:  parname : partype
 	 *			or just:  parname          (for class type)
-	 * @param nmTpPair	NameAndType returned by this method.
+	 * @param nmTp		NameAndType returned by this method.
 	 * @param owningScope	Pointer to the owning scope of the template param.
 	 * @return	Error status of the parse, PS_OK for success.
 	 */
-	Parse_Status parseTemplate(QString t, NameAndType& nmTpPair, UMLClassifier *owningScope);
+	Parse_Status parseTemplate(QString t, NameAndType& nmTp, UMLClassifier *owningScope);
 
 	/**
 	 * Parses an attribute given in UML syntax.
 	 *
 	 * @param a		Input text of the attribute in UML syntax.
 	 *			Example:  argname : argtype
-	 * @param nmTpPair	NameAndType returned by this method.
+	 * @param nmTp		NameAndType returned by this method.
 	 * @param owningScope	Pointer to the owning scope of the attribute.
 	 * @return	Error status of the parse, PS_OK for success.
 	 */
-	Parse_Status parseAttribute(QString a, NameAndType& nmTpPair, UMLClassifier *owningScope);
+	Parse_Status parseAttribute(QString a, NameAndType& nmTp, UMLClassifier *owningScope);
 
 	/**
 	 * Parses an operation given in UML syntax.

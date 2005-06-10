@@ -245,7 +245,7 @@ int stringToDirection(QString input, Uml::Parameter_Direction & result) {
 	return dirLen;
 }
 
-Parse_Status parseTemplate(QString t, NameAndType& nmTpPair, UMLClassifier *owningScope) {
+Parse_Status parseTemplate(QString t, NameAndType& nmTp, UMLClassifier *owningScope) {
 
 	UMLDoc *pDoc = UMLApp::app()->getDocument();
 
@@ -261,14 +261,14 @@ Parse_Status parseTemplate(QString t, NameAndType& nmTpPair, UMLClassifier *owni
 			if (pType == NULL)
 				return PS_Unknown_ArgType;
 		}
-		nmTpPair = NameAndType(nameAndType[0], pType);
+		nmTp = NameAndType(nameAndType[0], pType);
 	} else {
-		nmTpPair = NameAndType(t, NULL);
+		nmTp = NameAndType(t, NULL);
 	}
 	return PS_OK;
 }
 
-Parse_Status parseAttribute(QString a, NameAndType& nmTpPair, UMLClassifier *owningScope) {
+Parse_Status parseAttribute(QString a, NameAndType& nmTp, UMLClassifier *owningScope) {
 	UMLDoc *pDoc = UMLApp::app()->getDocument();
 
 	a = a.stripWhiteSpace();
@@ -276,16 +276,20 @@ Parse_Status parseAttribute(QString a, NameAndType& nmTpPair, UMLClassifier *own
 		return PS_Empty;
 
 	QStringList nameAndType = QStringList::split( QRegExp("\\s*:\\s*"), a);
-        UMLObject *pType = NULL;
+	const QString &name = nameAndType[0];
+	UMLObject *pType = NULL;
+	QString initialValue;
 	if (nameAndType.count() == 2) {
-        	pType = owningScope->findTemplate(nameAndType[1]);
-        	if (pType == NULL) {
-        		pType = pDoc->findUMLObject(nameAndType[1], Uml::ot_UMLObject, owningScope);
-        		if (pType == NULL)
-        			return PS_Unknown_ArgType;
-	        }
+		QStringList typeAndInitialValue = QStringList::split( QRegExp("\\s*=\\s*"), nameAndType[1] );
+		const QString &type = typeAndInitialValue[0];
+       		pType = pDoc->findUMLObject(type, Uml::ot_UMLObject, owningScope);
+       		if (pType == NULL)
+       			return PS_Unknown_ArgType;
+		if (typeAndInitialValue.count() == 2) {
+			initialValue = typeAndInitialValue[1];
+		}
 	}
-	nmTpPair = NameAndType(nameAndType[0], pType);
+	nmTp = NameAndType(name, pType, initialValue);
 	return PS_OK;
 }
 
@@ -326,11 +330,11 @@ Parse_Status parseOperation(QString m, OpDescriptor& desc, UMLClassifier *owning
 		return PS_OK;
 	QStringList args = QStringList::split( QRegExp("\\s*,\\s*"), arglist);
 	for (QStringList::Iterator lit = args.begin(); lit != args.end(); ++lit) {
-		NameAndType nmTpPair;
-		Parse_Status ps = parseAttribute(*lit, nmTpPair, owningScope);
+		NameAndType nmTp;
+		Parse_Status ps = parseAttribute(*lit, nmTp, owningScope);
 		if (ps)
 			return ps;
-		desc.m_args.append(nmTpPair);
+		desc.m_args.append(nmTp);
 	}
 	return PS_OK;
 }

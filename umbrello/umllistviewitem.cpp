@@ -396,13 +396,15 @@ void UMLListViewItem::okRename( int col ) {
 					UMLAttribute *a;
 					if (i < parmList->count()) {
 						a = parmList->at(i);
-						a->setName(nm_tp.first);
-						a->setType(nm_tp.second);
+						a->setName(nm_tp.m_name);
+						a->setType(nm_tp.m_type);
+						a->setInitialValue(nm_tp.m_initialValue);
 					} else {
 						a = new UMLAttribute(op);
 						a->setID( doc->getUniqueID() );
-						a->setName(nm_tp.first);
-						a->setType(nm_tp.second);
+						a->setName(nm_tp.m_name);
+						a->setType(nm_tp.m_type);
+						a->setInitialValue(nm_tp.m_initialValue);
 						op->addParm(a);
 					}
 				}
@@ -431,10 +433,10 @@ void UMLListViewItem::okRename( int col ) {
 					cancelRenameWithMsg();
 					return;
 				}
-				m_pObject->setName(nt.first);
+				m_pObject->setName(nt.m_name);
 				UMLAttribute *pAtt = static_cast<UMLAttribute*>(m_pObject);
-                                if (nt.second)
-				        pAtt->setType(nt.second);
+				pAtt->setType(nt.m_type);
+				pAtt->setInitialValue(nt.m_initialValue);
 				m_Label = pAtt->toString(Uml::st_SigNoScope);
 			} else {
 				KMessageBox::error( kapp->mainWidget(),
@@ -460,9 +462,9 @@ void UMLListViewItem::okRename( int col ) {
 					cancelRenameWithMsg();
 					return;
 				}
-				m_pObject->setName(nt.first);
+				m_pObject->setName(nt.m_name);
 				UMLTemplate *tmpl = static_cast<UMLTemplate*>(m_pObject);
-				tmpl->setType(nt.second);
+				tmpl->setType(nt.m_type);
 				m_Label = tmpl->toString(Uml::st_SigNoScope);
 			} else {
 				KMessageBox::error( kapp->mainWidget(),

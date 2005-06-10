@@ -124,7 +124,7 @@ UMLOperation* UMLClassifier::findOperation(QString name, Umbrello::NameAndType_L
 		int i = 0;
 		for (; i < pCount; ++i) {
 			Umbrello::NameAndType_ListIt nt(params.at(i));
-			UMLObject *c = (*nt).second;
+			UMLObject *c = (*nt).m_type;
 			QString typeName = testParams->at(i)->getTypeName();
 			if (c == NULL) {       //template parameter
 				if (typeName != "class")
@@ -159,8 +159,9 @@ UMLOperation* UMLClassifier::createOperation(const QString &name /*=null*/,
 	if (params) {
 		for (Umbrello::NameAndType_ListIt it = params->begin(); it != params->end(); ++it ) {
 			const Umbrello::NameAndType &nt = *it;
-			UMLAttribute *par = new UMLAttribute(op, nt.first);
-			par->setType(nt.second);
+			UMLAttribute *par = new UMLAttribute(op, nt.m_name);
+			par->setType(nt.m_type);
+			par->setInitialValue(nt.m_initialValue);
 			op->addParm(par);
 		}
 	}
