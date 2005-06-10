@@ -341,6 +341,8 @@ public:
 
 	/**
 	 * Returns the entries in m_List that are of the requested type.
+	 * If the requested type is Uml::ot_UMLObject then all entries
+	 * are returned.
 	 *
 	 * @return	The list of true operations for the Concept.
 	 */
@@ -431,6 +433,11 @@ public:
 	 * Return true if this classifier has abstract operations.
 	 */
 	bool hasAbstractOps ();
+
+	/**
+	 * Emit the UMLObject::childObjectAdded signal for the given child object.
+	 */
+	void signalChildObjectAdded(UMLClassifierListItem *childObj);
 
 signals:
 	/** Signals that a new UMLOperation has been added to the classifer.

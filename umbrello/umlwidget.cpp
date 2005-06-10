@@ -24,7 +24,7 @@
 #include "umldoc.h"
 #include "umllistview.h"
 #include "umlview.h"
-
+#include "umlclassifierlistitemlist.h"
 #include "codegenerator.h"
 #include "codegenerators/simplecodegenerator.h"
 #include "listpopupmenu.h"
@@ -542,7 +542,18 @@ void UMLWidget::slotMenuSelection(int sel) {
 
 		case ListPopupMenu::mt_Clone:
 			// In principle we clone all the uml objects.
-			m_pView->addObject(m_pObject->clone());
+			{
+				UMLObject *pClone = m_pObject->clone();
+				m_pView->addObject(pClone);
+				if (dynamic_cast<UMLClassifier*>(pClone)) {
+					UMLClassifier *c = static_cast<UMLClassifier*>(pClone);
+					UMLClassifierListItemList items = c->getFilteredList(Uml::ot_UMLObject);
+					for (UMLClassifierListItemListIt it(items); it.current(); ++it) {
+						UMLClassifierListItem *item = it.current();
+						c->signalChildObjectAdded(item);
+					}
+				}
+			}
 			break;
 
 		case ListPopupMenu::mt_Rename_MultiA:

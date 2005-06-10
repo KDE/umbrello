@@ -65,6 +65,10 @@ bool UMLClassifier::isInterface() const {
 	return (m_BaseType == ot_Interface);
 }
 
+void UMLClassifier::signalChildObjectAdded(UMLClassifierListItem *childObj) {
+	emit childObjectAdded(childObj);
+}
+
 UMLOperation * UMLClassifier::checkOperationSignature( QString name,
 						       UMLAttributeList *opParams,
 						       UMLOperation *exemptOp)
@@ -626,7 +630,7 @@ UMLClassifierListItemList UMLClassifier::getFilteredList(Object_Type ot) {
 	UMLClassifierListItemList resultList;
 	for (UMLClassifierListItemListIt lit(m_List); lit.current(); ++lit) {
 		UMLClassifierListItem *listItem = lit.current();
-		if (listItem->getBaseType() == ot)
+		if (ot == Uml::ot_UMLObject || listItem->getBaseType() == ot)
 			resultList.append(listItem);
 	}
 	return resultList;
