@@ -836,7 +836,8 @@ QDragObject* UMLListView::dragObject() {
 	while((item=it.current()) != 0) {
 		++it;
 		Uml::ListView_Type type = item->getType();
-		if ( !typeIsCanvasWidget(type) && !typeIsDiagram(type) && !typeIsFolder(type) ) {
+		if ( !typeIsCanvasWidget(type) && !typeIsDiagram(type) && !typeIsFolder(type)
+		     && type != Uml::lvt_Attribute && type != Uml::lvt_Operation) {
 			return 0;
 		}
 		list.append(item);
@@ -1087,6 +1088,17 @@ bool UMLListView::acceptDrag(QDropEvent* event) const {
 					accept = (dstType == Uml::lvt_Logical_Folder);
 				}
 				break;
+			case Uml::lvt_Attribute:
+				if (dstType == Uml::lvt_Class) {
+					accept = !item->isOwnParent(data->id);
+				}
+				break;
+			case Uml::lvt_Operation:
+				if (dstType == Uml::lvt_Class ||
+				    dstType == Uml::lvt_Interface) {
+					accept = !item->isOwnParent(data->id);
+				}
+				break;
 			case Uml::lvt_Datatype:
 				accept = (dstType == Uml::lvt_Logical_Folder ||
 					  dstType == Uml::lvt_Datatype_Folder ||
@@ -1252,6 +1264,14 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type 
 					m_doc->addUMLObject( o );
 				}
 				m_doc->getCurrentView()->updateContainment(o);
+			}
+			break;
+		case Uml::lvt_Attribute:
+		case Uml::lvt_Operation:
+			if (newParentType == Uml::lvt_Class ||
+			    newParentType == Uml::lvt_Interface) {
+				newItem = move->deepCopy(newParent);
+				delete move;
 			}
 			break;
 		default:
