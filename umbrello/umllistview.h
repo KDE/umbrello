@@ -309,7 +309,7 @@ class UMLListView : public KListView {
 	ListPopupMenu * m_pMenu;
 	QString oldText, message;
 	UMLDoc *m_doc;
-	bool m_bStartedCut, m_bStartedCopy, m_bIgnoreCancelRename;
+	bool m_bStartedCut, m_bStartedCopy, m_bIgnoreCancelRename, m_bIgnoreChildCreationSignal;
 
 	/**
 	 * Used when creating an attribute or an operation to stop it adding a second listViewItem

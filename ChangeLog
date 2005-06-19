@@ -5,12 +5,12 @@ Version 1.5
 * Change interface into class and vice versa (if abstract and no attributes)
 
 * Bugs fixed / wishes implemented (see http://bugs.kde.org)
-57588 67719 79433 87252 88117 105564
+57588 67719 79433 87252 88117 105564 107551
 
 Version 1.4.2 (maintenance release)
 
 * Bugs fixed from http://bugs.kde.org :
-103170 106632 106673
+72016 103170 106356 106632 106673
 
 Version 1.4.1 (maintenance release)
 

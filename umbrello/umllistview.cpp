@@ -751,7 +751,7 @@ void UMLListView::childObjectAdded(UMLObject* obj, UMLObject* parent) {
 	/* kdDebug() << "UMLListView::childObjectAdded(" << obj->getName()
  		  << ", type " << ot << "): ID is " << obj->getID() << endl;
 	 */
-	if (ot == Uml::ot_Stereotype) {
+	if (ot == Uml::ot_Stereotype || m_bIgnoreChildCreationSignal) {
 		return;
 	}
 	if (!m_bCreatingChildObject) {
@@ -1000,6 +1000,7 @@ void UMLListView::init() {
 	m_bStartedCut = m_bStartedCopy = false;
 	m_bIgnoreCancelRename = true;
 	m_bCreatingChildObject = false;
+	m_bIgnoreChildCreationSignal = false;
 }
 
 void UMLListView::setView(UMLView * v) {
@@ -1270,8 +1271,74 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type 
 		case Uml::lvt_Operation:
 			if (newParentType == Uml::lvt_Class ||
 			    newParentType == Uml::lvt_Interface) {
+				// update list view
 				newItem = move->deepCopy(newParent);
 				delete move;
+				// update model objects
+				m_bIgnoreChildCreationSignal = true;
+				UMLClassifier *oldParentClassifier = dynamic_cast<UMLClassifier*>(srcObj->parent());
+				UMLClassifier *newParentClassifier = dynamic_cast<UMLClassifier*>(newParentObj);
+				if (srcType == Uml::lvt_Attribute) {
+					UMLAttribute *att = dynamic_cast<UMLAttribute*>(srcObj);
+					att = oldParentClassifier->takeAttribute(att);
+					// We can't use the existing 'att' directly
+					// because its parent is fixed to the old classifier
+					// and we have no way of changing that:
+					// QObject does not permit changing the parent().
+					if (att) {
+						UMLAttribute *newAtt = static_cast<UMLAttribute*>(
+							newParentClassifier->createAttribute(
+								att->getName()));
+						newAtt->setType(att->getType());
+						newAtt->setScope(att->getScope());
+						newAtt->setInitialValue(att->getInitialValue());
+						newItem->setUMLObject(newAtt);
+						// Let's not forget to update the DocWindow::m_pObject
+						// because the old one is about to be physically deleted !
+						UMLApp::app()->getDocWindow()->showDocumentation(newAtt, true);
+						delete att;
+						
+					} else {
+						kdError() << "moveObject: oldParentClassifier->takeAttribute returns NULL"
+							  << endl;
+					}
+				} else {
+					UMLOperation *op = dynamic_cast<UMLOperation*>(srcObj);
+					op = oldParentClassifier->takeOperation(op);
+					// We can't use the existing 'op' directly
+					// because its parent is fixed to the old classifier
+					// and we have no way of changing that:
+					// QObject does not permit changing the parent().
+					if (op) {
+						bool isExistingOp;
+						Umbrello::NameAndType_List ntDummyList;
+						// We need to provide a dummy NameAndType_List
+						// else UMLClassifier::createOperation will
+						// bring up an operation dialog.
+						UMLOperation *newOp = newParentClassifier->createOperation(
+							op->getName(), &isExistingOp, &ntDummyList);
+						newOp->setType(op->getType());
+						newOp->setScope(op->getScope());
+						UMLAttributeList *parmList = op->getParmList();
+						for (UMLAttributeListIt plit(*parmList); plit.current(); ++plit) {
+							UMLAttribute *parm = plit.current();
+							UMLAttribute *newParm = new UMLAttribute(newParentClassifier, parm->getName());
+							newParm->setScope(parm->getScope());
+							newParm->setType(parm->getType());
+							newParm->setInitialValue(parm->getInitialValue());
+							newOp->addParm(newParm);
+						}
+						newItem->setUMLObject(newOp);
+						// Let's not forget to update the DocWindow::m_pObject
+						// because the old one is about to be physically deleted !
+						UMLApp::app()->getDocWindow()->showDocumentation(newOp, true);
+						delete op;
+					} else {
+						kdError() << "moveObject: oldParentClassifier->takeOperation returns NULL"
+							  << endl;
+					}
+				}
+				m_bIgnoreChildCreationSignal = false;
 			}
 			break;
 		default:
