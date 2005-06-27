@@ -599,10 +599,15 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLClassifierList &cLis
 				// These typically DONT have a rolename specified. Oh well, we
 				// shall include it. The individual code generators will need to know
 				// what to do with a "role-less" uni-associated classifier. -b.t.
-				if(a->getWidgetID(Uml::A)!=c->getID())
-					temp = (UMLClassifier*)m_document->findObjectById(a->getWidgetID(Uml::A));
-				else if(a->getWidgetID(Uml::B)!=c->getID())
+				/* if(a->getWidgetID(Uml::A)!=c->getID()){
+//					temp = (UMLClassifier*)m_document->findObjectById(a->getWidgetID(Uml::A));
+					// Remove the link from child->base, since it breaks
+					// C++ code generation.
+				}
+				else */
+				if(a->getWidgetID(Uml::B)!=c->getID()){
 					temp = (UMLClassifier*)m_document->findObjectById(a->getWidgetID(Uml::B));
+				}
 				break;
 			case Uml::at_Aggregation:
 			case Uml::at_Composition:

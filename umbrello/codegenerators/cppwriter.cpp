@@ -539,7 +539,7 @@ void CppWriter::writeAttributeDecls (Uml::Scope visibility, bool writeStatic, QT
         //write documentation
         if(forceDoc() || list->count() > 0)
         {
-                QString strVis = capitalizeFirstLetter(Umbrello::scopeToString(visibility));
+                QString strVis = capitalizeFirstLetter(Umbrello::scopeToString(visibility, false));
                 QString strStatic = writeStatic ? "Static ":"";
                 writeComment(strStatic+strVis+" attributes",getIndent(), stream);
                 writeComment(" ",getIndent(), stream);
